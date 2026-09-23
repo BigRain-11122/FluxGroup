@@ -3,12 +3,17 @@
 > governance.md section 10 draft. THIRD-LINE defense input for the weekly
 > evolution round. A claim with NO evidence marker is a hallucination candidate.
 
+- [fluxgroup] 1adcdb34bd files=2 :: M1 参数规格 v1 立项（CEO 令「确定好迭代频率，建筑角色比例，摄像机高度啊什么的」·P-17 转办 DevLoop）：①相机双档=正交 PPU16 像素完美——L0 全景 Size=20（71
+- [fluxgroup] df9f0bcc17 files=4 :: 可视化统一线立法（CEO 令「各个子公司可视化项目准备接入元宇宙项目，统一开发和管理，总控」·T1 职责边界变更）：①governance §1 集团层拥有表加行——各司可视化面统一接入 FluxVe
+- [fluxgroup] 4fe2cc06ed files=2 :: 机队配置分配表立法（CEO令「机器群根据配置合理分给各子公司+空余算力支持调用+云算力未指令前并行全量」·T1委托代决+否决窗7天）：cph4/fleet-allocations.md v1.0=集团
+- [fluxgroup] 8d5c6bd126 files=7 :: 新机器一键部署机制立法（CEO 令「建立好新机器一键部署的能力」）：cph4/onboarding.md 章程=三层模型（CEO 物理件层[SSH 授权/Tuanjie Cowork/Hub 登录·刻
+- [fluxgroup] 67fbec7185 files=1 :: 静默律落档（CEO 令「所有都是静默，不要弹窗到电脑上骚扰我」）：全机 24 集团计划任务审计——FluxVerseTick+FluxGroup-EvolutionTick 两裸 powershell
 - [fluxgroup] b4c467a3f6 files=5 :: 集团调度机制设立（CEO 令：顶层机制·合理分配算力与时间·调度科学·缺资源汇报CEO·云端无限并行最大化·本地化基建优先）：cph4/scheduling.md 章程三原则+verdict 放置+双
 - [fluxgroup] 4d054c0c65 files=1 :: 调研规划令执行完毕落档：五路简报+设定书v3入库（FluxVerse c421bd8+b47cce9·remote 待 CEO 建私库后 push）；呈批仅余风格编号（已决清单按 O-20260923
 - [fluxgroup] 3f4493000a files=2 :: CEO 跨公司令落档：媒体公司开工（用户调研/超体宇宙 build-in-public 人设/自主素材生产）——BigStream O-20260923-1602 已发，账号开通待 CEO 物理件
 - [fluxgroup] 84cb8e6d19 files=6 :: 反馈通道立法（CEO 令「顶层机制务必听子公司反馈·自我迭代·科学决策」）：evolution §7 向上反馈面+SLA+闭环回访条款；§2 委托决策注记（T1 AI 代决+CEO 复查权）；台账反馈
 - [fluxgroup] e3d9fedc42 files=1 :: 总控记忆：远程已接通 FluxGroup（更正 BigRainGround 待接旧记录）
-  -> repo fluxgroup: 5 claim(s), 0 bare
+  -> repo fluxgroup: 10 claim(s), 0 bare
 - [minigame] 9d4c9907ab files=12 :: X771: 人设返工1消费PASS落位U170工单完成+P06#51切片8·wave1d拒收17件静物锚重launch | persona landed u170-closed + p06 ticke
 - [minigame] cb0045d02f files=18 :: X758: P06工单#51切片5·wave1b九卡同id消费全清Cards族15/15收官（九任务零重launch·lanczos 768×1024落位·ArtGateCheck九连fail=0·X
 - [minigame] e6833d48e6 files=1 :: C395: closeout tail TICK_DONE ledger line | c395 done mark
@@ -39,10 +44,20 @@
 - [minigame] eceb1c657f files=1 :: chore: X578台账DONE行收口 | tick ledger done line
 - [minigame] c4b1d9934a files=9 :: X570: G15 U088对标拼板三问PASS评审轮收口 | g15 u088 panel pass
 - [minigame] d966680ee1 files=4 :: X552: 小镇v9.2角色三族批(元帅镇长+单位镇民) | scr character pass
-- [minigame] 6b5ce78b85 files=6 :: X545: 小镇v9.1星际三族美术批+接地修复 | scr three-race pass
-- [minigame] b599c293af files=4 :: X543: U109每天复盘机制+10号归纳重构当场执行 | daily review + induction done now
-- [minigame] 123004821d files=5 :: C296: 推送通道修复收口+矩阵#8刷新簿记合流 | push fix closeout
-  -> repo minigame: 33 claim(s), 0 bare
+  -> repo minigame: 30 claim(s), 0 bare
+- [bigmoney] f928d6831a files=9 :: round 15 bm-a: P-A LHB attention factor IC batch (O-1850 research lane, claim MSG-1910 first) - 3/4 
+- [bigmoney] 8bc2d94520 files=14 :: round 38: R38-a stock panel built+validated (T=2850 x N=5212 x 7 float32, 6 gates PASS, zero engine 
+- [bigmoney] 99821edce9 files=8 :: round 37: P-4 batch2 R37 engine fill_guard (additive, None=byte-identical) + 8 gates ALL PASS (432-d
+- [bigmoney] c0693d99be files=4 :: CEO order O-20260923-1819: 24h continuous parallel backtest mandate - order file + MSG-1819 dispatch
+- [bigmoney] 86faee7665 files=21 :: round 14 bm-a: O-1820 CEO allocation red-lines executed (claimed MSG-1850): legislation verbatim int
+- [bigmoney] cf6bf008cb files=13 :: round 13 bm-a: O-1816 P-5 random-entry live-fire check EXECUTED+closed (prereg-frozen, 17.7s, audit 
+- [bigmoney] 203adeca0e files=1 :: quant-session housekeeping: commit session-owned BACKTEST_READINESS.md v2 (O-1653 deep-audit rewrite
+- [bigmoney] fe2a462b25 files=7 :: round 12 bm-a: P-1c claimed per MSG-1800 (claim MSG-1812 before run) + prereg P1C_STOCK_IC + Stage-A
+- [bigmoney] 30a76a1364 files=10 :: O-1738 compute mobilization executed in-session (GM): P-4 batch1 A-layer screen 124 runs/25w/9s hone
+- [bigmoney] d570db678f files=15 :: round 36: P-4 batch 2 (stock-pool B-layer) claimed + spec-prereg delivered per O-1738 (P4_BATCH2.md 
+- [bigmoney] fc68e952d8 files=15 :: round 35: P-4 zoo batch-1 honest close (0 G1' candidates, sleeve 2 = oversold low-corr), N=1556, bm-
+- [bigmoney] e0d65df2fc files=14 :: round 11 bm-a: P-1b WQ101 batch delivered per O-1738 (prereg'd, vendor-direct polars-stubbed, R9 har
+- [bigmoney] ceb849cdd1 files=10 :: round 10 bm-a: T-01 bars receive leg COMPLETE in-round (clone 12min bandwidth ramp->3.23MiB/s, dual 
 - [bigmoney] c4e0bec81e files=12 :: round 32: P-1a GTJA191 factor screen delivered (0/183 survivors honest, near-miss cluster 081/100/09
 - [bigmoney] 0fa58b7b00 files=13 :: round 31: J18b update_status panel wiring (数据部 dept row + 数据链 events line, pixel-verified); bars pus
 - [bigmoney] 98f1fa076f files=1 :: round 30: HANDOVER 5x check - add J12 town/J13 LLM assistant/Money02 cleanup+bars transfer/fleet ops
@@ -54,13 +69,30 @@
 - [bigmoney] 70e3223e0b files=6 :: round 24: maintenance round - intraday no-op data chain, panel UTF8 verified, heartbeat updated, sta
 - [bigmoney] 34422461f5 files=6 :: round 23: maintenance round - intraday no-op data chain, panel verified, heartbeat updated
 - [bigmoney] 6a09da87ab files=7 :: round 22: 维护轮——机队git通道接通（首推慢传未死已建远端ref、二推撞锁被拒已定性、快进推送成功、仓库改名BigMoney已改URL），盘中no-op数据链+面板核验+心跳更新
-  -> repo bigmoney: 11 claim(s), 0 bare
+  -> repo bigmoney: 24 claim(s), 0 bare
+- [bigstream] 5f3e56e1b5 files=6 :: review panel established (CEO order O-1927: hire experts, 9-point release threshold): review-panel.m
+- [bigstream] db6629dc99 files=6 :: OS loop R17: C-20 loop-health probe machine-checks os-protocol S5 (heartbeat freshness/gap: SLA 20mi
+- [bigstream] 3491a36b8d files=20 :: OS loop R14: publish-readiness probe C-19 live (src/readiness.py + template: accounts lights, draft 
+- [bigstream] cafaf0f462 files=2 :: systems batch: PLAN 7 refreshed as consolidated CEO decision queue (rows 7-9 added: voice pick by ea
+- [bigstream] 233dc65ef0 files=16 :: OS loop R13: weekly report generator C-09 live (src/weekly_report.py + template data file + 12 tests
+- [bigstream] a4cfc728f8 files=15 :: OS loop R11: TTS PoC R-B - edge-tts zh-CN param table + 6 trial samples (3 male candidates per perso
 - [bigstream] 02c653ede6 files=3 :: OS loop R6: user-research v1.1 (WeChat Channels algorithm disclosure + Bilibili algo page snapshot +
 - [bigstream] 9ae240746e files=2 :: mainline sync: persona-alignment-v1.md (all 10 sealed drafts survive, voice-swap small-edits only, B
 - [bigstream] f70794317f files=2 :: mainline-2 delivery: persona-jason.md v1 (Jason real-person build-in-public persona card; 4 content 
 - [bigstream] f2c61f7e99 files=2 :: sync batch: align local-stack and backlog to O-1602 relay (persona=Jason fronting, production resume
 - [bigstream] e3a021ae44 files=10 :: draft batch 2: BS-002..005 mp masters + shipinhao variants (8 files); 432-extinction numbers verifie
-  -> repo bigstream: 5 claim(s), 0 bare
+  -> repo bigstream: 11 claim(s), 0 bare
+- [fluxverse] b8ba8c1ede files=3 :: 大世界 NPC 研究入库+居民心智 v1.6 需求系统落地（CEO 令「重点参考大世界玩法的游戏，他们的NPC智能，好好弄」）：①研究=R-20260923-openworld-npc.md（15 典
+- [fluxverse] f07ee349b5 files=5 :: 居民心智 v1.5：大世界 NPC 智能四件落地（CEO 令「重点参考大世界玩法的游戏，他们的NPC智能，好好弄」）：①作息位置三态（RDR2 日程/Radiant AI 范式——真实状态+真实北京时
+- [fluxverse] bb8128191b files=11 :: 居民 AI 层 v1 落地点火（CEO 令「规划一下整个元宇宙城市居民的人工智能技术，并落地执行，然后开始迭代，真正形成元宇宙城市」）：①规划=R-20260923-resident-ai.md 居民
+- [fluxverse] e2e41ffb78 files=35 :: DevLoop r8: 集团审计转办件 P-15 M1 引擎工程点火首轮——Tuanjie 2D 工程骨架建成（TECH §九 P-15/CEO 署名 P1·自领）：tuanjie-cli proje
+- [fluxverse] 39f05f5f6c files=6 :: DevLoop r7: 集团审计转办件 P-14 小病三件收口（TECH §九 P2/自领）：①scan v0.6 quarantine 7 天生命周期（retention.md R4 两梯——文件 
+- [fluxverse] ec536b439f files=6 :: DevLoop r6: 集团审计转办件 P-10/P-11 收口（TECH §九 P0/自领）：P-10 orders_hq 行数位置游标→内容寻址游标 hqorder:<time>/<quote前3
+- [fluxverse] bfea6b5cc0 files=1 :: 顶层设计总纲 BLUEPRINT v1.0 入库（CEO 令「继续对超体元宇宙城市做顶层设计和规划」·CPH4 Labs 产出）：愿景三定律（对标现实/数字生命/现实链接+核心推论=生活与链接同一件事
+- [fluxverse] 15e1f07a13 files=1 :: 数字生命×现实链接闭环入册（CEO 补令「然后可以和现实产生链接！」）：三层愿景完整定义=对标现实赛博元宇宙→数字生命栖居→现实链接互动；核心推论=数字生命的生活与现实链接是同一件事（硅基生活=真实劳
+- [fluxverse] a63611f770 files=2 :: DevLoop r5: DESIGN 双「十四」编号去重+「秩库」误字修复（TECH §九 自领·r4 呈报债收口）：原「十四、治理挂接」并入城市治理规则章作 14.6——锚点不动（现实链接层仍 §十
+- [fluxverse] 65c6b96606 files=6 :: DevLoop r4: market+calendar 探针落地=五现实探针收口（TECH §九 P0/自领）：market.ps1+market_fetch.py（akshare 链·BigMone
+- [fluxverse] a170140c8a files=3 :: DevLoop r3: jsonl 按日轮转+verify 游标异常自检（TECH §九 修复类/自领）：scan v0.4 写事件前跨日活流整体归档 world/world-events-<YYYY
 - [fluxverse] 3ab7099b51 files=1 :: DevLoop r2: 修红=FluxVerseTick OS 心跳从未点火（修红优先·TECH §九新法）：schtasks /tr 引号残废——动作串被转义成 -File " 路径\ /F"（引号
 - [fluxverse] 16d3fe303c files=7 :: DevLoop r1: 五现实探针首批四针落地+T2 五事件登记（TECH §九 P0/自领）：clock（沪深开闭市相位机·09:30/11:30-13:00/15:00·漏拍按序补钟·周末休市·纯
 - [fluxverse] 0054f4914c files=2 :: 底座四缺陷手术批+双执行体并轨收编（CEO 审计令 F1-F4+S1-S3）：F1 写侧门禁+自愈隔离（未登记/坏JSON当场进隔离区·scan 写 .new→verify PASS 才晋升正本·FA
@@ -68,7 +100,7 @@
 - [fluxverse] b47cce9c97 files=2 :: 设定书v3：现实链接层入册（CEO新令「要和现实产生链接和互动」）——§十五三环模型（现实入城L0/城市令行L1/现实回响）+首批五探针表（clock/weather/market+calendar/
 - [fluxverse] c421bd8b94 files=6 :: 五路并行调研入库（CEO调研规划令·集团台账09-23~16:20行·HQ 100d2b5）：学术25源（构件皆有出处组合确属空白·数字影子→真孪生两阶段判据·Lynch五要素/Jacobs街道芭蕾/
 - [fluxverse] 3dfc0a513a files=13 :: 技术基建四支柱落地（CEO基建令「把超体宇宙城市的整个技术底座基建搞扎实，能拓展，能自我更新和迭代，能自动化」）：TECH.md基建白皮书v1.0；感知器重构v0.2探针插件架构（probes/六探针
-  -> repo fluxverse: 7 claim(s), 0 bare
+  -> repo fluxverse: 18 claim(s), 0 bare
 
-## Summary: claims=61 evidence-backed=61 bare(no-files)=0
+## Summary: claims=93 evidence-backed=93 bare(no-files)=0
 ## Round duty: bare claims and keyword-heavy claims get RE-VERIFIED by the evolution round AI (governance 10.3).
