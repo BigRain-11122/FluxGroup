@@ -6,14 +6,17 @@ Read `/README.md`, `/BRAND.md`, `/docs/philosophy.md`, `/RULES.md`, `/docs/gover
 ## Position
 
 The content universe — the company that ships playable worlds.
+An **AI game company**: the company itself is the engine — self-evolving, AI-empowered,
+automated development (U168). Products are games; the engine is the company.
 Not a dopamine machine. We build games players carry for years.
 Lucy side: a universe with soul.
 WALL-E side: experiences that respect the player, not their wallet.
 
 ## Operating company
 
-本线的运营主体 = **MiniGame 组合（Biggame）**——一家自动化小游戏公司（公司制宪 U139）：
-8 款软著 IP（P01-P08）+ G 系全球线 · 团结引擎 1.10.3 · A 机总控 + B/C 军团分治（08号）· 零预算纯 IAA · 零服务器。
+本线的运营主体 = **MiniGame 组合（Biggame）**——一家 **AI 游戏公司**（AI-native·公司制宪 U139+U168：
+公司本体＝AI 驱动的自动开发机器·**主打进化迭代 / AI 赋能 / 自动化开发**）：
+8 款软著 IP（P01-P08）+ G 系全球线 + 09 独立项目 · 团结引擎 1.10.3 · A 机总控 + B/C 军团分治（08号）· 零预算纯 IAA · 零服务器。
 
 - 仓库地图与落位规则：`MiniGame/README.md`（子公司唯一导航件·五区分区图）
 - 公司组织与治理（组织架构 / 门禁链全图 / 汇报节律 / 流程命名）：`MiniGame/_共享与总控/16_公司组织与治理.md`（16号 · U167）
