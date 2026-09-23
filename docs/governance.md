@@ -51,7 +51,7 @@
 | Gaming | Biggame / MiniGame | `git@github.com:BigRain-11122/MiniGame.git` | active | 团结引擎 1.10.3·多款小游戏组合+G 系·08号多机分治·像素小镇总控；活数据以产品仓为准 |
 | Quant | BigMoney | `git@github.com:BigRain-11122/BigMoney.git` | active | bm-a/bm-b 双节点·fleet 协议·3 交易员在册；活数据以产品仓为准 |
 | Media | BigStream | `git@github.com:BigRain-11122/Bigmedia.git`（remote 已接通·2026-09-23 审计实况） | onboarding | AI 媒体公司·2026-09-23 开线（CEO 点名·令牌=media/BigStream/orders/O-20260923-1450-bm-a.md）：主赛道=集团AI生态·平台=视频号/公众号/B站/YouTube/微博·本地仓已建（root-commit a45fd70）；**GH 仓名实为 Bigmedia（产品名 BigStream 不变·仓名正典待 CEO 一句话确认）** |
-| Gaming | FluxVerse（元宙） | `git@github.com:BigRain-11122/FluxVerse.git`（待 CEO 建仓） | onboarding | FLUX 元宙=集团驾驶舱·AI 行为实时剧场（CEO 第一需求令）；Biggame 承建·团结引擎 1.10.3 原生 2D（CEO 硬约束全 2D）；2026-09-23 CEO 点名·开线五步由集团总控会话走毕·本地仓已建 |
+| Gaming | FluxVerse（元宙） | `git@github.com:BigRain-11122/FluxVerse.git`（待 CEO 建仓） | onboarding | FLUX 元宙=对标现实世界的赛博未来元宇宙·AI 行为实时剧场（CEO 第一需求令+17:44 定位正典）；Biggame 承建·团结引擎 1.10.3 原生 2D（CEO 硬约束全 2D）；**M1 呈现层 2026-09-23 CEO 署名立项点火（集团级最高优先·City 美术资产·进化台账 P-15 转办 DevLoop）** |
 
 ## 3. 开线与收线（生命周期）
 
@@ -178,3 +178,4 @@
 - 2026-09-23: **§10 AI 诚实律与集团自审机制**（CEO 令「建立集团级别的自我审查机制，并严格防止AI幻觉」·T1 委托令代决·否决窗 7 天）：幻觉四分类（虚报/越界宣称/漂移/伪令自证——皆集团实证案例）+五诚实律（证据对/新鲜验证/宣称分级/原话锚定/存疑即标）+三道防线（轮内自审/门禁机核/进化轮抽审·Tools/selfaudit.ps1 底稿·不实宣称点名周报）。
 - 2026-09-23: 集团资源保留与清理机制设立（CEO 令「建立一个整体的资源垃圾清理和保留机制，分级分层，防止误伤，也要防止资源不断膨大」）：章程=`cph4/retention.md`（四级保留制×五面分层+防误伤五闸+防膨大三律），§6 资源协同第 6 条接线；测量工具=`Tools/retention-scan.ps1`（只读周测·进化轮周报「资源健康」节·感知步接线）。
 - 2026-09-23: 新机器一键部署机制设立（CEO 令「建立好新机器一键部署的能力」）：章程=`cph4/onboarding.md`（三层模型：CEO 物理件层/一键脚本层/各司自件层+五条部署纪律），编排器=`Tools/bootstrap-machine.ps1`（六相幂等·角色化·静默律）+集团件 `Tools/InvisibleRunner.vbs`；§8 接线；修正 EvolutionTick 曾跨仓引用 FluxVerse VBS 的耦合。
+- 2026-09-23: FluxVerse M1 呈现层立项点火（CEO 署名 P1 令「立项集团级元宇宙可视化项目，游戏化呈现…优先级最高」）：§2 FluxVerse 行注记；派工=进化台账 P-15 转办@FluxVerse-DevLoop 最高优（Tuanjie 1.10.3 原生 2D 工程+City 美术资产接线+静态城市+事件路由器）；P1 引擎/美术禁区对此件解除。
