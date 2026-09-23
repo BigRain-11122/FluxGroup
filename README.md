@@ -4,6 +4,7 @@
 > Any AI or human opening this file should immediately understand who we are.
 >
 > CEO 宣言（2026-09-23）：**这就是我的 FLUX 集团——创新元宇宙，超体能量。**
+> 运转模式（CEO 定）：**AI 赋能自治** —— CEO 只做决策、发号施令、定方向；子公司自动运作、运转、迭代。
 
 ## Identity at a glance
 
