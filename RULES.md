@@ -24,6 +24,10 @@ Never skip to coding. Never invent context.
 - Use kebab-case for files (`backtest-runner.py`), PascalCase for classes, UPPER for constants.
 - Do NOT name files or folders after people, agents, sessions, or task IDs.
 - Product/sub-brand names must follow `BRAND.md` section 7 and be registered there before use.
+- **Legacy exception (2026-09-23)**: established subsidiaries keep their internal naming systems
+  under their own charters — gaming/MiniGame governs its Chinese doc system by its own
+  09号§7 naming law (grandfathered). English-only naming governs group-layer files and any
+  new line / product / file created inside this repo after this rule.
 
 ---
 
@@ -82,3 +86,4 @@ Create these as needed. Do not nest arbitrary folders without a reason.
 - 2026-09-23: initial rules.
 - 2026-09-23: added §7 CEO order trigger `/CEO` (user order).
 - 2026-09-23: governance reference added (§6).
+- 2026-09-23: added §2 legacy-exception clause — subsidiary internal naming systems (MiniGame Chinese docs per its 09号§7) grandfathered; English-only governs group-layer + new files.
