@@ -60,12 +60,25 @@
 - tag=R1 活账本（档案），**打上即冻结，禁移动重指向**；须改=删旧打新+该司台账记档。
 - tag 随 push 同步上云（`git push --tags` 或显式推 tag）——云端备份三级模型适用于 tag 面。
 
+### 3.4 发布锚律
+- **对外发布物（游戏端/产品端/SaaS 版本）必须先有 tag**——任何对外状态可定位到唯一 commit（诚实律「宣称←证据指针」在发布面的形态）；无 tag 的对外发布=不可追溯=禁。
+- 发布物本身（安装包/小程序包/产物归档）管理=各司自治；集团只统摄「tag 先于发布」这一条。MiniGame G 系 tag=既有范式。
+
 ## 4. 同步与并发协议（统摄引用·不另立）
 - **git=唯一真源**；GitHub 私库=持续增量云备份（FLEET-OPS 三级模型）。
 - 节律：交互会话开工 fetch/收工即推；无人值守轮 10min `pull→干活→定向 add→commit→push`。
 - **push 被拒律（X128-lite 集团版）**：`pull --rebase` 重试一次，再拒=本轮顺延让路——禁强推解决（evolution §5 先例升格全集团）。
 - 脏树纪律、行级追加面、撞写让路、单仓单执行体：全按 `governance.md` §6 执行（引用不复制）。
 - `.git` 水位：单仓 2GB 触发 `git gc`（只压不删）——`retention.md` §4.2。
+
+### 4.1 提交者身份律（产权/执行两层分离·2026-09-23 实测立法）
+- **author 层=所有者身份**：全机队全局 `user.name=junsheng.sun` / `user.email=junsheng.sun@unity.cn`（集团产权归属；新机=bootstrap P3 相写入全局身份；仓库级 override=公司自治存续面不强制，如 MiniGame `sjs20`）。
+- **机器归属层=commit 尾标**：无人值守轮 commit 信息尾部必带 `[via <机器代号>]`（bm-a/bm-b/BG-A/BG-B/BG-C——fleet 令签名 `via <bm-x>` 先例升格）；交互会话推荐携带。编年史（城市档案库）靠尾标回答「哪台机器人干的」。
+- 存量异机对齐=进化台账 P-23 转办（各司循环自领 mandate 尾标纪律+身份对账）。
+
+### 4.2 密钥泄露机核（governance §7 安全律的第二道防线补缺）
+- **`Tools/secret-scan.ps1`**：扫近 N 天（默认 1）各仓 commit diff 的高危密钥模式（API key/私钥块/授权码——P-01 SMTP 授权码入史案为实证教训），报告落 `.codely-cli/secret-scan/`（gitignored·防报告自膨）；夜轮感知面接线（night-round-prompt ①）。
+- 命中分级：P0 高置信模式（AWS key/GitHub PAT/私钥块）=立即台账记档+按泄露流程（轮换+留档·FLEET-OPS L54 同源）；低置信=周轮复核。**执行侧不得自证无泄露——扫出来才算数**（诚实律 10.3 门禁机核）。
 
 ## 5. 保护与回滚
 
@@ -99,7 +112,8 @@
 
 ## 8. 执行面与待办
 
-- **本日已执行**：①BigDomain master→main（e3a08ed 历史完好验证✓）；②HQ 首个治理 tag `gov/v1.0`（打在本批 commit，立国日治理件齐备锚）。
-- **待 CEO 物理件**：FluxVerse / BigDomain 建 remote（§6 参数）。
-- **待 CEO 一句话裁（默认不动）**：MiniGame master→main 迁移工程（须停轮窗口+19 任务群引用切换+多机同步，收益=名统一，风险=活仓扰动——**推荐不动**，存续豁免已覆盖）。
+- **2026-09-23 第一批已执行**：①BigDomain master→main（e3a08ed 历史完好验证✓）；②HQ 首个治理 tag `gov/v1.0`。
+- **2026-09-23 第二批已执行（本批·CEO 令「还有什么相关要建立的，统一这次搞定顶层设计」）**：③发布锚律+身份律+密钥机核立法（§3.4/§4.1/§4.2）；④`Tools/secret-scan.ps1` 落地实测；⑤bootstrap P3 相写全局 git 身份；⑥夜轮感知面接 secret-scan；⑦ledger P-23 转办异机身份对齐。
+- **待 CEO 物理件**：①FluxVerse / BigDomain 建 remote（§6 参数）；②GitHub 各仓开 branch protection（Settings→Branches→main/master：Block force pushes + 禁删主干——把 §5 禁 force-push 从纪律升为远端机核，每仓 2 分钟）。
+- **待 CEO 一句话裁（均有默认）**：①MiniGame master→main 迁移（**默认不动**·存续豁免覆盖）；②**GitHub org vs 个人账号**（**默认维持 BigRain-11122 个人账号**；org 迁移=BigDomain B 端入驻/参观端公众面上线前的一次性工程——涉全机队 deploy key 重授权，届时再裁）；③**HQ 第二远端镜像**（**默认不开**·FLEET-OPS 先例；一句话开=CEO 建 mirror 私库+夜轮加 push --mirror 一行）。
 - **悬置件照旧**（不重复列）：Bigmedia 仓名正典（orders.md 17:50 行）。
