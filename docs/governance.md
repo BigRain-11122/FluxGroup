@@ -12,7 +12,7 @@
     │  .gitignore 隔离 · 互不嵌套 · 各自独立 git 仓与 remote
     ├── gaming/   线工作区 ──> Biggame 产品仓（MiniGame）
     ├── quant/    线工作区 ──> BigMoney 产品仓
-    ├── media/    线工作区（未开线）
+    ├── media/    线工作区 ──> BigStream 产品仓（2026-09-23 开线）
     └── cph4/     CPH4 Labs 集团 AI 研究核心（横切层，非业务线，零产品代码）
 ```
 
@@ -50,7 +50,7 @@
 |---|---|---|---|---|
 | Gaming | Biggame / MiniGame | `git@github.com:BigRain-11122/MiniGame.git` | active | 团结引擎 1.10.3·多款小游戏组合+G 系·08号多机分治·像素小镇总控；活数据以产品仓为准 |
 | Quant | BigMoney | `git@github.com:BigRain-11122/BigMoney.git` | active | bm-a/bm-b 双节点·fleet 协议·3 交易员在册；活数据以产品仓为准 |
-| Media | —（未开线） | — | dormant | 仅线 README |
+| Media | BigStream | `git@github.com:BigRain-11122/BigStream.git`（待 CEO 建仓） | onboarding | AI 媒体公司·2026-09-23 开线（CEO 点名·令牌=media/BigStream/orders/O-20260923-1450-bm-a.md）：主赛道=集团AI生态·平台=视频号/公众号/B站/YouTube/微博·本地仓已建（root-commit a45fd70） |
 
 ## 3. 开线与收线（生命周期）
 
@@ -115,3 +115,4 @@
 - 2026-09-23: cph4/ 横切层入图（CPH4 Labs 地址化）；BRAND.md §8 名称登记簿补档。
 - 2026-09-23: §4 增默认自治态；架构运营原则 #3 立运转模式（CEO 宣言：AI 赋能自治）。
 - 2026-09-23: §8 例外条款——CPH4 进化轮设立（CEO 令：引入 AI 时代自进化治理体系；章程=cph4/evolution.md，台账=cph4/evolution-ledger.md，周轮=FluxGroup-EvolutionTick）。
+- 2026-09-23: 开线 Media/BigStream（CEO 点名 BigStream+主赛道集团AI生态·开线五步走毕·remote 待建·登记簿 Media 行由 dormant→onboarding）。

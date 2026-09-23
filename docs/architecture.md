@@ -44,14 +44,15 @@
     │  .gitignore 隔离 · 互不嵌套 · 各自独立 remote
     ├── gaming/（线工作区）──> Biggame 产品仓 MiniGame.git（master）
     ├── quant/ （线工作区）──> BigMoney 产品仓 BigMoney.git（main）
-    ├── media/ （线工作区，未开线）
+    ├── media/ （线工作区）──> BigStream 产品仓 BigStream.git（main·remote 待 CEO 建）
     └── cph4/  （CPH4 Labs 集团 AI 研究核心 · 横切层）
 ```
 
 - 治理细则与产品登记簿：`docs/governance.md`。
-- 两公司均为「一人 + AI 劳动力 + 机队」形态：
+- 三公司均为「一人 + AI 劳动力 + 机队」形态：
   - Biggame = MiniGame* 任务群（10 分钟 tick 引擎 + 审计/看板/风线/保温），08 号多机分治；
-  - BigMoney = Bigmoney-IterationLoop 10 分钟自迭代（bm-a 开发节点 + bm-b 回测节点，fleet 协议 + 预注册科研范式）。
+  - BigMoney = Bigmoney-IterationLoop 10 分钟自迭代（bm-a 开发节点 + bm-b 回测节点，fleet 协议 + 预注册科研范式）；
+  - BigStream = AI 内容生产线（M0 选题→M6 复盘七段·会话驱动；P0-P2 阶段不建循环，常态后按需装——其 PLAN.md §8）。
 
 ## Machine fleet（机队 = 集团共享基础设施）
 
