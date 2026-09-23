@@ -44,7 +44,7 @@
 
 ## 2. 仓库拓扑与产品登记簿
 
-- 一条业务线一个目录：`gaming/ quant/ media/`。
+- 一条业务线一个目录：`gaming/ quant/ media/ domain/`。
 - 产品仓一律在 `<line>/<Product>/`，独立 git 仓独立 remote。
 - 登记簿（拓扑变更=改此表+changelog）：
 
@@ -54,6 +54,7 @@
 | Quant | BigMoney | `git@github.com:BigRain-11122/BigMoney.git` | active | bm-a/bm-b 双节点·fleet 协议·3 交易员在册；活数据以产品仓为准 |
 | Media | BigStream | `git@github.com:BigRain-11122/Bigmedia.git`（remote 已接通·2026-09-23 审计实况） | onboarding | AI 媒体公司·2026-09-23 开线（CEO 点名·令牌=media/BigStream/orders/O-20260923-1450-bm-a.md）：主赛道=集团AI生态·平台=视频号/公众号/B站/YouTube/微博·本地仓已建（root-commit a45fd70）；**GH 仓名实为 Bigmedia（产品名 BigStream 不变·仓名正典待 CEO 一句话确认）** |
 | Gaming | FluxVerse（元宙） | `git@github.com:BigRain-11122/FluxVerse.git`（待 CEO 建仓） | onboarding | FLUX 元宙=对标现实世界的赛博未来元宇宙·AI 行为实时剧场（CEO 第一需求令+17:44 定位正典）；Biggame 承建·团结引擎 1.10.3 原生 2D（CEO 硬约束全 2D）；**M1 呈现层 2026-09-23 CEO 署名立项点火（集团级最高优先·City 美术资产·进化台账 P-15 转办 DevLoop）** |
+| **Domain** | **BigDomain（硅基域）** | 本地仓已建（remote 待 CEO 建 `BigRain-11122/BigDomain.git`） | onboarding | **商业化子公司·2026-09-23 开线（CEO 全案令授权取名）：全权负责引流/共创/商业化**——运营公众共创元宙平台「硅基域」（用户一句话→AI 造策略/造游戏Demo/造视频·19.9 算力包·代币内循环·B 端入驻）；前台=BigDomain，中台=三司产能（BigMoney 回测引擎/Biggame 生产线/BigStream 发行），底座=FluxVerse world-events 同源驱动；蓝图=domain/BigDomain/BLUEPRINT.md |
 
 ## 3. 开线与收线（生命周期）
 
@@ -180,6 +181,7 @@
 - 2026-09-23: **§10 AI 诚实律与集团自审机制**（CEO 令「建立集团级别的自我审查机制，并严格防止AI幻觉」·T1 委托令代决·否决窗 7 天）：幻觉四分类（虚报/越界宣称/漂移/伪令自证——皆集团实证案例）+五诚实律（证据对/新鲜验证/宣称分级/原话锚定/存疑即标）+三道防线（轮内自审/门禁机核/进化轮抽审·Tools/selfaudit.ps1 底稿·不实宣称点名周报）。
 - 2026-09-23: 集团资源保留与清理机制设立（CEO 令「建立一个整体的资源垃圾清理和保留机制，分级分层，防止误伤，也要防止资源不断膨大」）：章程=`cph4/retention.md`（四级保留制×五面分层+防误伤五闸+防膨大三律），§6 资源协同第 6 条接线；测量工具=`Tools/retention-scan.ps1`（只读周测·进化轮周报「资源健康」节·感知步接线）。
 - 2026-09-23: 新机器一键部署机制设立（CEO 令「建立好新机器一键部署的能力」）：章程=`cph4/onboarding.md`（三层模型：CEO 物理件层/一键脚本层/各司自件层+五条部署纪律），编排器=`Tools/bootstrap-machine.ps1`（六相幂等·角色化·静默律）+集团件 `Tools/InvisibleRunner.vbs`；§8 接线；修正 EvolutionTick 曾跨仓引用 FluxVerse VBS 的耦合。
+- 2026-09-23: 开线 Domain/BigDomain 硅基域（CEO 全案令「增加商业化子公司，全面负责引流，共创，商业化等，并取名」——CEO 授权 AI 取名：BigDomain=Big* 家族第四司+硅基域=CEO 全案定名）：BRAND §8 locked+登记簿 onboarding+domain/ 线工作区+本地仓+gitignore 隔离+architecture 业务线表；蓝图=domain/BigDomain/BLUEPRINT.md（双向互能/六智能体/商业化四层/引流矩阵/合规护栏/零服务器红线修正案待裁/支付通道物理件）。
 - 2026-09-23: FluxVerse M1 呈现层立项点火（CEO 署名 P1 令「立项集团级元宇宙可视化项目，游戏化呈现…优先级最高」）：§2 FluxVerse 行注记；派工=进化台账 P-15 转办@FluxVerse-DevLoop 最高优（Tuanjie 1.10.3 原生 2D 工程+City 美术资产接线+静态城市+事件路由器）；P1 引擎/美术禁区对此件解除。
 - 2026-09-23: **可视化统一线设立**（CEO 令「各个子公司可视化项目准备接入元宇宙项目，统一开发和管理，总控」）：§1 集团层拥有表加行——可视化面统一接入 FluxVerse L1 城区内景（DESIGN §八 升维线正式立项），新可视化项目禁各司另建；接入规范与城市壳层归总控、面板数据面各司自治；派工=进化台账 P-16（M1 自领池扩容：L1 面板内景化）。
 - 2026-09-23: **AI.md 设立**（CEO 令「写一个文档，说明我的元宇宙，子公司等思路和架构什么的，AI 能识别，简单直接」）：根级 AI 识别入口正典——一句话定位/组织表/元宙思路/运转机制/文件地图/AI 行为速记/变更纪律，全部指针不复制；§1 集团层拥有表接线。

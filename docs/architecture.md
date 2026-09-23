@@ -30,11 +30,12 @@
   - FLUX Gaming (超体游戏)
   - FLUX Quant (FLUX 量化)
   - FLUX Media (超体自媒体) — cultural lead by Qiqi
+  - **BigDomain（硅基域）— 元宙商业化子公司（2026-09-23 开线）**：全权负责引流/共创/商业化；运营公众共创元宙平台「硅基域」（19.9 算力包·代币内循环·B 端入驻）；前台=BigDomain，中台=三司产能，底座=FluxVerse
 
 ## Relationships
 - FLUX = the flow (top level).
 - CPH4 Labs = the engine that powers the flow.
-- Three lines run on the engine, each on one kind of flow.
+- Four lines run on the engine: gaming/quant/media produce, BigDomain commercializes to the public.
 - Philosophy is guarded by Qiqi, owned by the family.
 
 ## System architecture（系统三层结构 · 2026-09-23 立）
@@ -42,9 +43,10 @@
 ```
 集团治理层  FluxGroup 仓（品牌/文化/规则/治理契约/线 README/集团记忆）
     │  .gitignore 隔离 · 互不嵌套 · 各自独立 remote
-    ├── gaming/（线工作区）──> Biggame 产品仓 MiniGame.git（master）
+    ├── gaming/（线工作区）──> Biggame 产品仓 MiniGame.git（master）＋ FluxVerse.git（元宙·M1 在建）
     ├── quant/ （线工作区）──> BigMoney 产品仓 BigMoney.git（main）
-    ├── media/ （线工作区）──> BigStream 产品仓 BigStream.git（main·remote 待 CEO 建）
+    ├── media/ （线工作区）──> BigStream 产品仓 BigStream.git（main·remote 已通 Bigmedia）
+    ├── domain/（线工作区）──> BigDomain 产品仓 BigDomain.git（2026-09-23 开线·remote 待 CEO 建）
     └── cph4/  （CPH4 Labs 集团实验室 · 元宙规划 · 横切层）
 ```
 
