@@ -37,6 +37,7 @@
 |---|---|---|
 | OS 循环（各司 tick + DevLoop） | 10 分钟 | 各产品仓 mandate（外置 UTF-8·编码律 ASCII） |
 | 集团进化轮 | 周日 09:17 | `cph4/evolution.md`（感知→提案→裁决→立法·台账 `cph4/evolution-ledger.md`） |
+| 集团夜轮（自我反应） | 每日 03:07 | `cph4/night-round.ps1`（感知/催办/小自愈/夜报——与周轮分工 `cph4/evolution.md` §1） |
 | 令流 | 随时 | CEO 令 → `docs/orders.md` → 感知探针 → 事件流 → 城市动画 → 回执 |
 | 分级立法 | T0 宪法 CEO 签 / T1 治理 CEO 话 / T2 机制 AI+7 天否决窗 / T3 数据 AI 全权 | `cph4/evolution.md` §2 |
 | 诚实律三道防线 | 轮内自审/门禁机核/集团抽审 | `docs/governance.md` §10 |

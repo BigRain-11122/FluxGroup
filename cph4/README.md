@@ -43,7 +43,7 @@
 | 总控面板（**可视化统一线 2026-09-23**） | 像素小镇看板 | bigmoney.html | **统一接入 FluxVerse L1 城区内景**（CEO 令「统一开发和管理，总控」）：新可视化项目禁各司另建·现有面板=内景数据源（引用不复制禁重绘）·城市壳层归总控·数据面各司自治 |
 | 大文件/新机接入 | 08 号传输铁律（git clone） | TRANSFER.md + FLEET-OPS.md | 控制面走 git，数据面择通道 |
 | **新机器一键部署** | MachineBoot.ps1 自举（08 号·2026-09-18 先立） | bootstrap.py+register_loop_task.ps1 | **cph4/onboarding.md**：三层模型（CEO 物理件/一键编排/各司自件引用）·`Tools/bootstrap-machine.ps1` 六相幂等·静默律·重跑=体检 |
-| **治理自进化引擎** | —（产品仓各自循环内自愈） | —（同左） | **cph4/evolution.md**：感知→提案→裁决→立法+瘦法；台账=evolution-ledger.md；周轮=FluxGroup-EvolutionTick |
+| **治理自进化引擎** | MiniGameEvolutionTick（其自治进化轮） | BigStream-OSLoop（src/os/ 范式·R19+） | **cph4/evolution.md**：感知→提案→裁决→立法+瘦法；台账=evolution-ledger.md；周轮=FluxGroup-EvolutionTick+**夜轮=FluxGroup-NightRound 每日 03:07 自我反应**（感知/催办/小自愈/夜报） |
 | **调度机制（算力×时间）** | 08 号机队轮转（B/C 满负荷） | fleet §5 借算 + verdict 心跳 | **cph4/scheduling.md**：云端无限并行优先·verdict 驱动放置·双通道并行·缺资源 P0-Resource→CEO |
 | **本地化算力战略** | token 经济本地优先（U168） | J13 llm_assist 双机整合+token 计量 | **cph4/local-first.md**：L1 确定性→L2 本地 LLM→L3 API 收缩层·路由三问 |
 | **资源保留与清理** | 根级冻结清单法+Housekeeping | fleet 传输批末清临时件（§5 借算范式） | **cph4/retention.md**：四级保留制（R1 永不清/R2 归档优先/R3 定期清/R4 随轮清）×防误伤五闸（隔离区 7 天可恢复）×防膨大三律·`Tools/retention-scan.ps1` 只读周测入进化轮 |
