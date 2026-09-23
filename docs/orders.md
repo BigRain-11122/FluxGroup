@@ -17,10 +17,14 @@
 | 09-23 ~15:05 | 「好好理顺一下集团运作模式和规则，我感觉有问题，心里不放心」 | 本次审计：4 问题修复（本台账/写域并发纪律/溯源条款/法条复核包） | executed |
 | 09-23 ~15:15 | 「你自己决策，我随时会复查和过问」 | T1 决策权委托 AI（台账记档+7 天否决窗），今日法条生效；T0 宪法仍须 CEO 明令 | executed |
 | 09-23 ~15:18 | 「顶层机制务必听子公司的反馈什么的，然后自我迭代，科学决策」 | evolution.md §7 反馈通道（HQ-FEEDBACK 面制+SLA+闭环回访）+进化轮感知面接线+两公司反馈面落地 | executed |
+| 09-23 ~15:36 | 「各公司和集团做好本地化的策略，token可以烧，但要同时建立本地化系统化能力，能自我运算，直到后面减少token的使用」 | cph4/local-first.md 三层阶梯战略（L1 确定性→L2 本地 LLM→L3 API·测量先行·结构性替换）+BigMoney 令牌已发（fleet/orders O-1536） | executed |
+| 09-23 ~15:42 | 「FluxVerse命名同意 执行下去」 | BRAND §8 注册 locked+gaming/FluxVerse 仓建+登记簿+gitignore 隔离——开线五步走毕，产品内容移交元宙会话在 gaming/FluxVerse/ 推进 | executed |
+| 09-23 ~15:42 | 「机器集群要互相协调算力，合理利用所有资源，不要重复建设 重复开工 浪费」 | governance §6 集团资源协同条款（资源互见/跨公司借算合法/禁双建/禁双开工/不建中央调度器） | executed |
 
 ## CEO 待办物理件
 
 - GitHub 建私库 `BigRain-11122/BigStream` → 建好后任一机器 `git remote add origin … && git push -u`
+- GitHub 建私库 `BigRain-11122/FluxVerse`（元宙·可与 BigStream 一并建） → `git remote add origin … && git push -u`
 - 平台账号开通（BigStream 首发：视频号 + 公众号）
 - （悬置）SMTP 授权码轮换——邮件简报恢复时用新码（Biggame U166 暂停令在效）
 
