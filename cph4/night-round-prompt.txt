@@ -3,4 +3,4 @@
 ②收口：当日悬空件梳理——挂起提案/未回执令/文档与实况漂移；T2 域内漂移修正直接落地（改文件+changelog+标注「AI 立法·否决窗 7 天」），T0/T1 只提案入台账待 CEO 禁自行改动。
 ③机制自检：抽验既有自动化面健康（Get-ScheduledTask 关键任务存在且非 Disabled：FluxVerseTick/FluxVerse-DevLoop/Bigmoney-IterationLoop/BigStream-OSLoop/MiniGameEngineTick/FluxGroup-EvolutionTick/FluxGroup-NightRound；缺失或 Disabled=按静默律重建/启用并在夜报注明）。
 ④报告：向 cph4/evolution-ledger.md 报告区追加「夜轮 <日期>」短报四行（水位行+抽验行+点名行+本轮动作行）。
-纪律：产品仓只读禁跨仓写；轮首 git status 脏则只定向 add 本轮产出文件或跳过 commit（防吞并发会话半成品）；集团仓有变更则 commit -m 'night round <日期>: 一句话'，已配远端则 push（被拒=pull --rebase 重试一次，再拒留待下轮）；全静默零弹窗；密钥不入库；单轮不展开立法工程（大件留给周日周轮）。与周轮分工：夜轮=感知+催办+小自愈+夜报；周轮=全流程四步+法熵审视。完成后静默退出，不做总结性闲聊。
+纪律：产品仓只读禁跨仓写；轮首 git status 脏则只定向 add 本轮产出文件或跳过 commit（防吞并发会话半成品）；集团仓有变更则 commit -m 'night round <日期>: 一句话'，已配远端则 push（被拒=pull --rebase 重试一次，再拒留待下轮）；gaming/FluxVerse 仓如已配 origin 远端（CEO 令 2026-09-23「推送出去每台机器可预览」），同样 push 一次同步城市逐轮进度（失败留待下轮，勿重试循环）；全静默零弹窗；密钥不入库；单轮不展开立法工程（大件留给周日周轮）。与周轮分工：夜轮=感知+催办+小自愈+夜报；周轮=全流程四步+法熵审视。完成后静默退出，不做总结性闲聊。
