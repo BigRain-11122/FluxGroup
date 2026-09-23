@@ -36,6 +36,7 @@ These were rejected during naming. The locked names are above.
 - From the film Lucy: the substance that lets a brain reach 100%.
 - In this brand: the origin substance, the AI engine, the explosion point.
 - CPH4 Labs = the research core that builds the engine.
+- CPH4 Labs = the lab that charts FluxVerse's future (2026-09-23).
 
 ### 超体宇宙 (Chinese parent)
 - 超体 = superbody / Lucy

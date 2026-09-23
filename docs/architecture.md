@@ -26,7 +26,7 @@
 
 ## Business lines
 
-- CPH4 Labs (CPH4 实验室) — AI research core, reports to Jason（集团层地址 = `cph4/README.md`，横切研发层）
+- CPH4 Labs (CPH4 实验室) — AI research core + FluxVerse future-planning lab（元宙未来规划与发展·2026-09-23 CEO 令），reports to Jason（集团层地址 = `cph4/README.md`，横切研发层）
   - FLUX Gaming (超体游戏)
   - FLUX Quant (FLUX 量化)
   - FLUX Media (超体自媒体) — cultural lead by Qiqi
@@ -45,7 +45,7 @@
     ├── gaming/（线工作区）──> Biggame 产品仓 MiniGame.git（master）
     ├── quant/ （线工作区）──> BigMoney 产品仓 BigMoney.git（main）
     ├── media/ （线工作区）──> BigStream 产品仓 BigStream.git（main·remote 待 CEO 建）
-    └── cph4/  （CPH4 Labs 集团 AI 研究核心 · 横切层）
+    └── cph4/  （CPH4 Labs 集团实验室 · 元宙规划 · 横切层）
 ```
 
 - 治理细则与产品登记簿：`docs/governance.md`。
