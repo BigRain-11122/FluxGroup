@@ -93,3 +93,17 @@ When naming new products or lines:
 2. May use sci-fi / physics / film references, but no 文绉绉 classical Chinese.
 3. Must connect back to FLUX (flow) or CPH4 (origin/explosion).
 4. Update this file when a name is locked.
+
+---
+
+## 8. Locked name registry（已锁定名称登记簿 · 2026-09-23 补档）
+
+| 层 | 名称 | 状态 |
+|---|---|---|
+| 集团总控仓 | FluxGroup | locked |
+| 游戏公司 | Biggame | locked |
+| 游戏产品仓 | MiniGame | locked |
+| 量化公司 / 产品 | BigMoney | locked |
+| 各产品内部子名（游戏款名、交易员名、面板名等） | — | 各公司自有登记簿管辖，此处引用不复制 |
+
+CEO declaration (2026-09-23): 「这就是我的 FLUX 集团——创新元宇宙，超体能量。」

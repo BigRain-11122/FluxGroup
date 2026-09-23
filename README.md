@@ -2,6 +2,8 @@
 
 > This repository is the brand and project root for the group.
 > Any AI or human opening this file should immediately understand who we are.
+>
+> CEO 宣言（2026-09-23）：**这就是我的 FLUX 集团——创新元宇宙，超体能量。**
 
 ## Identity at a glance
 
@@ -50,7 +52,8 @@ FluxGroup/
 │   └── philosophy.md      <- culture & north star (Lucy + WALL-E)
 ├── gaming/                <- FLUX Gaming / 超体游戏
 ├── quant/                 <- FLUX Quant / FLUX 量化
-└── media/                 <- FLUX Media / 超体自媒体
+├── media/                 <- FLUX Media / 超体自媒体
+└── cph4/                  <- CPH4 Labs 集团 AI 研究核心（横切层）
 ```
 
 When an AI or human joins, read in this order:

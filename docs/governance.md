@@ -12,7 +12,8 @@
     │  .gitignore 隔离 · 互不嵌套 · 各自独立 git 仓与 remote
     ├── gaming/   线工作区 ──> Biggame 产品仓（MiniGame）
     ├── quant/    线工作区 ──> BigMoney 产品仓
-    └── media/    线工作区（未开线）
+    ├── media/    线工作区（未开线）
+    └── cph4/     CPH4 Labs 集团 AI 研究核心（横切层，非业务线，零产品代码）
 ```
 
 ## 1. 职责边界（单一事实来源，引用不复制）
@@ -110,3 +111,4 @@
 
 ### Changelog
 - 2026-09-23: initial governance v1.0——基于 Biggame（08 号体系·MASTER 宪法）与 BigMoney（fleet 协议·PLAN 契约）实测定态立国。
+- 2026-09-23: cph4/ 横切层入图（CPH4 Labs 地址化）；BRAND.md §8 名称登记簿补档。
