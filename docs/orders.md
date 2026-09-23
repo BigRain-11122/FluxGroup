@@ -20,6 +20,7 @@
 | 09-23 ~15:36 | 「各公司和集团做好本地化的策略，token可以烧，但要同时建立本地化系统化能力，能自我运算，直到后面减少token的使用」 | cph4/local-first.md 三层阶梯战略（L1 确定性→L2 本地 LLM→L3 API·测量先行·结构性替换）+BigMoney 令牌已发（fleet/orders O-1536） | executed |
 | 09-23 ~15:42 | 「FluxVerse命名同意 执行下去」 | BRAND §8 注册 locked+gaming/FluxVerse 仓建+登记簿+gitignore 隔离——开线五步走毕，产品内容移交元宙会话在 gaming/FluxVerse/ 推进 | executed |
 | 09-23 ~15:42 | 「机器集群要互相协调算力，合理利用所有资源，不要重复建设 重复开工 浪费」 | governance §6 集团资源协同条款（资源互见/跨公司借算合法/禁双建/禁双开工/不建中央调度器） | executed |
+| 09-23 ~16:02 | 「命令媒体公司，开展用户调研，我要创立一个我做这些超体宇宙的视频号和UP主等等，把数据等夯实，然后立人设开工，自己去生产素材」 | 跨公司令转达 BigStream（O-20260923-1602）：用户调研→Jason build-in-public 人设→内容线开工→素材自主生产；账号开通=CEO 物理件 | executing |
 
 ## CEO 待办物理件
 
