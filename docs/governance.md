@@ -30,6 +30,7 @@
 | 线级 README + 线工作区记忆 | `gaming/README.md`、`gaming/CODELY.md`、`quant/README.md`、`media/README.md` |
 | 集团记忆 | 根 `CODELY.md` |
 | **可视化统一线（2026-09-23 CEO 令「各子公司可视化项目接入元宇宙，统一开发和管理，总控」）** | 各司可视化面统一接入 FluxVerse 呈现层（L1 城区内景）：**新可视化项目一律进 FluxVerse 任务板、禁各司另建**（禁双建律可视化面适用）；现有面板（像素小镇看板/bigmoney.html）=内景数据源保留维护，接入规范与城市壳层归总控；面板数据面各司自治 |
+| **商业化×元宙双螺旋总规划（2026-09-23 CEO 令 ~21:40「在我的基础上替我全面规划商业化和元宇宙化，要和目前现实产生紧密链接，互相赋能」）** | `docs/master-plan.md`——统摄 FluxVerse/BigDomain 两本 BLUEPRINT 的融合总纲（城商一体论/三环商用版/双向赋能 12 机制/双飞轮/双轨路线[资源倾斜态对齐]/风险合规）；细节引用不复制 |
 
 ### 子公司仓拥有（集团不碰）
 产品代码、技术栈、内部文档体系与编号系统、内部规则与台账、OS 自动化任务机队、产品记忆（产品仓根 CODELY.md）、发布节奏。
@@ -195,3 +196,4 @@
 - 2026-09-23: **git 顶层设计第二批收口**（CEO 令「还有什么相关要建立的，统一这次搞定顶层设计」）：versioning 增补 §3.4 发布锚律（对外发布必须先有 tag）+§4.1 提交者身份律（author=所有者身份统一 junsheng.sun·机器归属=[via <机器代号>] commit 尾标）+§4.2 密钥泄露机核（`Tools/secret-scan.ps1` 七仓扫描·P0/P2 分类·夜轮感知接线·注入验证实锤）——异机对齐转办=进化台账 P-24；待裁三件=GitHub branch protection/org 迁移/HQ 镜像（versioning §8）。
 - 2026-09-23: **资源倾斜总部署**（CEO 令 ~23:02「所有资源倾斜超体宇宙城市的搭建，全面配合，分工合作」·T1 直接落地）：fleet-allocations §四 战略倾斜态——FluxVerse 城建系列=集团 P0-Resource 最高优先+空余池优先承接+全面配合分工面表（Biggame 主力/BigLife 居民/BigMoney 数据源/BigStream 内容/CPH4 规划/BigDomain 待机）·主归属保主不变=倾斜非停线·时态条款 M1 判据过后复审；部署=进化台账 P-25。
 - 2026-09-23: **元宙桌面入口层+logo 超体化**（CEO 令 ~21:47「我说了把超体元宇宙城市做一个logo，参考超体，然后发送快捷方式到桌面上面，随时可以进去查看进度，机器群每个机器都一样，都要能从桌面进入」）：FluxVerse logo 补《超体》蜕变蓝晕（DESIGN 正典「超体蓝归脑塔光晕」·FluxVerse c1678fd）；`watch/fluxverse.ico` 多尺寸像素图标+`install-desktop-shortcut.ps1` 幂等安装器（中文名走 UTF-8 数据件=编码律）——本机 bm-a/BG-A 桌面实弹「超体宇宙城.lnk」→CityWatch.bat 双击即看；全机分发=进化台账 P-26 转办（前置=CEO 建 GitHub 私库物理件·随观城台分发批同链）。
+- 2026-09-23: **双螺旋总规划设立**（CEO 令 ~21:40「在我的基础上替我全面规划商业化和元宇宙化，要和目前现实产生紧密链接，互相赋能」）：`docs/master-plan.md` v1.0（CPH4 Labs·统摄 FluxVerse/BigDomain 两 BLUEPRINT 的融合总纲——城商一体/三环商用版/双向赋能 12 机制/双飞轮/双轨路线[资源倾斜态对齐·BigDomain 待机随 M2-M3]/风险合规三条）；§1 集团层拥有表加行+AI.md 总览接线；两本 BLUEPRINT 各加接线节（BigDomain §十二/FluxVerse 商业共生环）。

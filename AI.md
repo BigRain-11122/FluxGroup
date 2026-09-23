@@ -6,7 +6,7 @@
 
 ## 0. 一句话
 
-**FluxGroup = 一人 CEO（Jason）+ AI 劳动力 + 机器机队的控股集团**：三条业务线（游戏/量化/媒体）+ 一个横切实验室（CPH4 Labs）+ 一座元宙城（FluxVerse）。AI 干活、机器 24h 运转、CEO 只做决策和发令。
+**FluxGroup = 一人 CEO（Jason）+ AI 劳动力 + 机器机队的控股集团**：五条业务线（游戏/量化/媒体/商业化/数字生命）+ 一个横切实验室（CPH4 Labs）+ 一座元宙城（FluxVerse）。AI 干活、机器 24h 运转、CEO 只做决策和发令。商业×元宙融合总纲=`docs/master-plan.md`（双螺旋：城商一体·现实链接·互相赋能）。
 
 ## 1. 组织（谁是谁）
 
@@ -16,6 +16,7 @@
 | **Biggame** | 游戏公司：MiniGame 多款小游戏+G 系 | `gaming/MiniGame/`（独立仓） | 产品仓根文档 + `gaming/README.md` |
 | **BigMoney** | 量化公司：沪深 ETF 波段·8 流派 35 策略·双节点机队 | `quant/bigmoney/`（独立仓） | `PLAN.md` + `fleet/` 协议 |
 | **BigStream** | AI 媒体公司：集团 AI 生态内容线（视频号/公众号/B站…） | `media/BigStream/`（独立仓·GH 仓名 Bigmedia） | 产品仓 `PLAN/` + `orders/` |
+| **BigDomain** | 硅基域商业化公司：引流/共创/商业化（19.9 算力包·大厅·身份·B 端·代币内循环） | `domain/BigDomain/`（独立仓·local） | 产品仓 `BLUEPRINT.md` |
 | **CPH4 Labs** | 集团实验室：机制淬炼工厂+元宙规划大脑（零产品代码） | `cph4/` | `cph4/README.md`（能力注册表） |
 | **FluxVerse** | 元宙城：集团的实时驾驶舱与数字生命栖居地（Biggame 承建） | `gaming/FluxVerse/`（独立仓） | `BLUEPRINT.md` + `DESIGN.md` + `TECH.md` |
 | **BigLife（临时代号）** | 数字生命生产公司：超体宇宙城人口与人设资产（万人户籍库·自我进化） | `life/BigLife/`（独立仓） | `docs/CODEX.md` + `BLUEPRINT.md` |
@@ -52,6 +53,7 @@
 |---|---|
 | CEO 令与裁决 | `docs/orders.md` |
 | 治理契约（职责/开线收线/协同/变更控制） | `docs/governance.md` |
+| 商业×元宙双螺旋总规划（融合总纲） | `docs/master-plan.md` |
 | 品牌/文化/红线 | `BRAND.md` / `docs/philosophy.md` / `RULES.md` |
 | 三级记忆 | 根 `CODELY.md`（集团）· `<线>/CODELY.md`（线）· 产品仓 `CODELY.md`（司） |
 | 能力唯一清单 | `cph4/README.md` 注册表 |
