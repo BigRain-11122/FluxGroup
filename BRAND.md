@@ -108,6 +108,7 @@ When naming new products or lines:
 | 媒体公司 / 产品 | BigStream | locked（2026-09-23 CEO 点名·stream=流媒体·连接 FLUX「流即万物」） |
 | 元宙产品（gaming 线） | FluxVerse | locked（2026-09-23 CEO 点名·FLUX 元宙·Biggame 承建·团结引擎原生 2D） |
 | **商业化子公司 / 公众元宙平台** | **BigDomain / 硅基域** | locked（2026-09-23 CEO 全案令授权取名——Big* 家族第四司+硅基域=CEO 全案定名「硅基生命栖居之域」；全权负责引流/共创/商业化；运营公众共创元宙平台） |
+| **数字生命生产子公司** | **BigLife（临时代号）** | codename（2026-09-23 CEO 令成立——CEO 亲选「新设第五子公司」+「CEO 亲自点名」命名权保留；正名后按 life/BigLife/README.md 正名程序全局替换，届时升 locked） |
 | 各产品内部子名（游戏款名、交易员名、面板名等） | — | 各公司自有登记簿管辖，此处引用不复制 |
 
 CEO declaration (2026-09-23): 「这就是我的 FLUX 集团——创新元宇宙，超体能量。」

@@ -18,6 +18,7 @@
 | **BigStream** | AI 媒体公司：集团 AI 生态内容线（视频号/公众号/B站…） | `media/BigStream/`（独立仓·GH 仓名 Bigmedia） | 产品仓 `PLAN/` + `orders/` |
 | **CPH4 Labs** | 集团实验室：机制淬炼工厂+元宙规划大脑（零产品代码） | `cph4/` | `cph4/README.md`（能力注册表） |
 | **FluxVerse** | 元宙城：集团的实时驾驶舱与数字生命栖居地（Biggame 承建） | `gaming/FluxVerse/`（独立仓） | `BLUEPRINT.md` + `DESIGN.md` + `TECH.md` |
+| **BigLife（临时代号）** | 数字生命生产公司：超体宇宙城人口与人设资产（万人户籍库·自我进化） | `life/BigLife/`（独立仓） | `docs/CODEX.md` + `BLUEPRINT.md` |
 
 **机队**：bm-a（DASHENG·32 核·开发机+游戏 A 机）｜bm-b（16 核·回测+大资产宿主）｜BG-A（同盒双角色）｜B/C（游戏分机）。新机接入=一键 `Tools/bootstrap-machine.ps1`（章程 `cph4/onboarding.md`）。
 
@@ -56,6 +57,7 @@
 | 能力唯一清单 | `cph4/README.md` 注册表 |
 | 元宙总纲/设定/技术 | `gaming/FluxVerse/docs/BLUEPRINT.md` / `DESIGN.md` / `TECH.md` |
 | 城市实况数据 | `gaming/FluxVerse/world/` |
+| 城市人口/居民档案 | `life/BigLife/census/`（万人户籍库）+ 人口正典 `life/BigLife/docs/CODEX.md` |
 | 新机部署 | `Tools/bootstrap-machine.ps1` + `cph4/onboarding.md` |
 | 资源水位周测 | `Tools/retention-scan.ps1` + `cph4/retention.md` |
 | 反幻觉自审 | `Tools/selfaudit.ps1`（`docs/governance.md` §10） |

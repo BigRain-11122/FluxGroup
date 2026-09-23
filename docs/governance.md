@@ -55,6 +55,7 @@
 | Media | BigStream | `git@github.com:BigRain-11122/Bigmedia.git`（remote 已接通·2026-09-23 审计实况） | onboarding | AI 媒体公司·2026-09-23 开线（CEO 点名·令牌=media/BigStream/orders/O-20260923-1450-bm-a.md）：主赛道=集团AI生态·平台=视频号/公众号/B站/YouTube/微博·本地仓已建（root-commit a45fd70）；**GH 仓名实为 Bigmedia（产品名 BigStream 不变·仓名正典待 CEO 一句话确认）** |
 | Gaming | FluxVerse（元宙） | `git@github.com:BigRain-11122/FluxVerse.git`（待 CEO 建仓） | onboarding | FLUX 元宙=对标现实世界的赛博未来元宇宙·AI 行为实时剧场（CEO 第一需求令+17:44 定位正典）；Biggame 承建·团结引擎 1.10.3 原生 2D（CEO 硬约束全 2D）；**M1 呈现层 2026-09-23 CEO 署名立项点火（集团级最高优先·City 美术资产·进化台账 P-15 转办 DevLoop）** |
 | **Domain** | **BigDomain（硅基域）** | 本地仓已建（remote 待 CEO 建 `BigRain-11122/BigDomain.git`） | onboarding | **商业化子公司·2026-09-23 开线（CEO 全案令授权取名）：全权负责引流/共创/商业化**——运营公众共创元宙平台「硅基域」（用户一句话→AI 造策略/造游戏Demo/造视频·19.9 算力包·代币内循环·B 端入驻）；前台=BigDomain，中台=三司产能（BigMoney 回测引擎/Biggame 生产线/BigStream 发行），底座=FluxVerse world-events 同源驱动；蓝图=domain/BigDomain/BLUEPRINT.md |
+| **Life** | **BigLife（临时代号·数字生命生产）** | 本地仓已建（remote 待 CEO 建 `BigRain-11122/<正名>.git`） | onboarding | **2026-09-23 CEO 令开线**（「专门生产超体元宇宙城市的所有居民…像别的子公司一样成立」·CEO 亲选新设第五子公司·命名权保留）：超体宇宙城人口与人设资产唯一生产司——万人户籍库（census/·唯一性三查 PASS·QC 0 异常）+人口正典 docs/CODEX.md（三层居民模型诚实律·CEO 保留席）+进化引擎（FluxVerse world 只读→本地 LLM→[锚]定律年轮）+BigLife-OSLoop 10min；服务面=FluxVerse 主客户+BigStream/BigDomain/Biggame 任务单引用（跨仓写禁令保持） |
 
 ## 3. 开线与收线（生命周期）
 
@@ -188,3 +189,4 @@
 - 2026-09-23: **AI.md 设立**（CEO 令「写一个文档，说明我的元宇宙，子公司等思路和架构什么的，AI 能识别，简单直接」）：根级 AI 识别入口正典——一句话定位/组织表/元宙思路/运转机制/文件地图/AI 行为速记/变更纪律，全部指针不复制；§1 集团层拥有表接线。
 - 2026-09-23: **集团夜轮设立**（CEO 令「今晚给我建立元宇宙和集团侧面的各种机制和规则！不断迭代自我反应！自动化任务建立起来！」·§8 进化轮例外条款的加密轮次）：`FluxGroup-NightRound` 每日 03:07 静默跑 `cph4/night-round.ps1`（轻量自我反应：感知[retention-scan+selfaudit]/催办[transferred 超 48h 点名]/小自愈[T2 域内漂移]/夜报入进化台账）——夜轮与周轮分工入 `cph4/evolution.md` §1（节律四源）；BigStream-OSLoop（并行会话建·已验证健康·src/os/ 范式）入 cph4 注册表登记。
 - 2026-09-23: **美术资产库共享池条款**（CEO 令「对了，我的美术资源库好好利用，但要统一风格」）：§6 资源协同第 7 条——Art Assets=集团共享美术资源池（AA-XXX 登记制集团适用·引用不复制），消费走消费链+各司风格正典门禁，L1 永禁入交付链，禁双购双建；派工=进化台账 P-21 转办@FluxVerse-DevLoop（M1 城市美术吃透库+统一风格门禁）。
+- 2026-09-23: **开线 Life/BigLife（临时代号）数字生命生产第五子**（CEO 令「专门生产超体元宇宙城市的所有居民…」+「像别的子公司一样成立」·CEO 亲选新设子公司·命名权 CEO 保留=临时代号不冒进 locked）：BRAND §8 codename 行+登记簿 onboarding+architecture 五线+life/ 线 README/CODELY+本地仓+gitignore 隔离；人口正典=life/BigLife/docs/CODEX.md（三层居民模型·万人户籍·自我进化律）；消费面转办=进化台账 P-22；生产管线+OS 循环=其 BLUEPRINT（十步制）。

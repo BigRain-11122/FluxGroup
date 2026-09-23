@@ -47,6 +47,7 @@
 | **调度机制（算力×时间）** | 08 号机队轮转（B/C 满负荷） | fleet §5 借算 + verdict 心跳 | **cph4/scheduling.md**：云端无限并行优先·verdict 驱动放置·双通道并行·缺资源 P0-Resource→CEO |
 | **本地化算力战略** | token 经济本地优先（U168） | J13 llm_assist 双机整合+token 计量 | **cph4/local-first.md**：L1 确定性→L2 本地 LLM→L3 API 收缩层·路由三问 |
 | **资源保留与清理** | 根级冻结清单法+Housekeeping | fleet 传输批末清临时件（§5 借算范式） | **cph4/retention.md**：四级保留制（R1 永不清/R2 归档优先/R3 定期清/R4 随轮清）×防误伤五闸（隔离区 7 天可恢复）×防膨大三律·`Tools/retention-scan.ps1` 只读周测入进化轮 |
+| **数字人口/人设生产** | 城市叙事居民与游戏人设需求走 BigLife 任务单（M2 NPC 姓名池按 P-22 消费契约） | —（人设面暂无直接需求） | **BigLife（临时代号·`life/BigLife`）=集团唯一人口工厂**（2026-09-23 开线）：万人户籍库 census/+基因库 genes/+进化引擎 evolve_citizen.py（真实事件喂养·[锚]定律）+BigLife-OSLoop 10min——他司禁重建（governance §6 禁双建） |
 
 ## 共享方法论（两公司实证同源，集团法）
 
