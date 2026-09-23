@@ -3,6 +3,15 @@
 > governance.md section 10 draft. THIRD-LINE defense input for the weekly
 > evolution round. A claim with NO evidence marker is a hallucination candidate.
 
+- [fluxgroup] 3c30902511 files=2 :: Ledger P-27 + orders row: audio asset lane batch 1 (36 files CC0/CC-BY3 + 10 self-prod signature SFX
+- [fluxgroup] 2a1b79c578 files=3 :: 治理层 v2 步三收口+方案 v2：三评全「有条件放行」（零 FAIL 零返工）——评审①（架构·评审员核证后中断由 HQ 按手稿代落·标注诚实律）：A1 状态更新语义定稿=append-only 事
+- [fluxgroup] 5b1d45a67e files=1 :: 治理层 v2 专家评审③落件（三司接入成本·独立评审）：verdict=有条件放行（4 PASS/3 CONDITION·3 条件）——条件1=下游消费方影子验证从批1 特例升为批2-5 通用判据（批
+- [fluxgroup] d6d7352240 files=1 :: 治理层 v2 专家评审②落件（安全与故障域·独立评审）：verdict=有条件放行（4 PASS/3 CONDITION/0 FAIL）——C1 切换判据改三条机器判据（令级内容寻址六字段集合相等含窗
+- [fluxgroup] cd8c136351 files=1 :: 审计件 v2 深勘补测（波A 调研员 46 次实测数据·未及写件终止由 HQ 代落）：26 文件 10.4 万 tok（审计窗实时 +5.4k chars）；复述系数升格=5-7 处/4-12 倍（最
+- [fluxgroup] 33cb3a0f5c files=2 :: 治理层 v2 调研双波收口（CEO 令 22:40 四步流程·步一调研完成）：波A 内部审计（治理面 8 万 tok+记忆面 12.5 万 tok·BigMoney 单文件 10.5 万最大项/复述系
+- [fluxgroup] 0af180fe20 files=4 :: git顶层版本与分支治理立法（CEO 令 2026-09-23「建立git顶层版本和分支设计，做好规划，做好万全又合适的准备，把涉及的机制都梳理一次」）：章程=cph4/versioning.md（T
+- [fluxgroup] 3b04b54a8b files=3 :: 美术资产库利用令立法+派工（CEO 令 2026-09-23 ~21:58「对了，我的美术资源库好好利用，但要统一风格」）：governance §6 资源协同第 7 条=Art Assets 集团共
+- [fluxgroup] b1767d9bd5 files=6 :: 开线 Domain/BigDomain 硅基域（CEO 全案令：增加商业化子公司全权负责引流/共创/商业化并授权取名）——开线五步走毕：BRAND §8 locked[BigDomain/硅基域=Bi
 - [fluxgroup] 1adcdb34bd files=2 :: M1 参数规格 v1 立项（CEO 令「确定好迭代频率，建筑角色比例，摄像机高度啊什么的」·P-17 转办 DevLoop）：①相机双档=正交 PPU16 像素完美——L0 全景 Size=20（71
 - [fluxgroup] df9f0bcc17 files=4 :: 可视化统一线立法（CEO 令「各个子公司可视化项目准备接入元宇宙项目，统一开发和管理，总控」·T1 职责边界变更）：①governance §1 集团层拥有表加行——各司可视化面统一接入 FluxVe
 - [fluxgroup] 4fe2cc06ed files=2 :: 机队配置分配表立法（CEO令「机器群根据配置合理分给各子公司+空余算力支持调用+云算力未指令前并行全量」·T1委托代决+否决窗7天）：cph4/fleet-allocations.md v1.0=集团
@@ -13,7 +22,13 @@
 - [fluxgroup] 3f4493000a files=2 :: CEO 跨公司令落档：媒体公司开工（用户调研/超体宇宙 build-in-public 人设/自主素材生产）——BigStream O-20260923-1602 已发，账号开通待 CEO 物理件
 - [fluxgroup] 84cb8e6d19 files=6 :: 反馈通道立法（CEO 令「顶层机制务必听子公司反馈·自我迭代·科学决策」）：evolution §7 向上反馈面+SLA+闭环回访条款；§2 委托决策注记（T1 AI 代决+CEO 复查权）；台账反馈
 - [fluxgroup] e3d9fedc42 files=1 :: 总控记忆：远程已接通 FluxGroup（更正 BigRainGround 待接旧记录）
-  -> repo fluxgroup: 10 claim(s), 0 bare
+  -> repo fluxgroup: 19 claim(s), 0 bare
+- [minigame] aebe220342 files=14 :: X815: X814死班收养收口（P02音频17/17全接线fold+E-062 v4.0.4+build4对账+G11 sweep债清+batchmode调用纪律通告） | x814-adoptio
+- [minigame] 39f185e8b2 files=7 :: C958: G17 S2-T008 收口=S2 CLOSED 8/8→S3 开段（CheckBundle 主包面绿 mainPkg 3.55MB≤4MB+五段新鲜复跑全绿 EM 113/113+U09
+- [minigame] 6daa6ce8e8 files=3 :: 调研席R124：微信小游戏召回通道与回流实操谱（官方系统订阅消息三型=零服务器召回供给侧×巨游工坊三档召回·P02运营态直连→§一F1·C088新增）
+- [minigame] 7aa8f740f9 files=1 :: X805: ME班机队triage dispatch(B/C双断流通告)+E-022配额SKIP注 | me-triage-dispatch
+- [minigame] d5f363c507 files=6 :: C414b: C413 死班收养收口簿记（G17 S2-T006 全收=S2 7/8+G03 D05b b0 落册+state 手术/快照/看板/ledger+g02 sweep 终写 16.2% P
+- [minigame] 4786ea6b5c files=11 :: C412b: G02 U153② 毕业落款（五腿复射全绿 FIVE_LEG_ALL_GREEN·d01 DoD 16.2% PASS·判官六面全 GREEN·深度返工 D01-D05 全链收口·证据全
 - [minigame] 9d4c9907ab files=12 :: X771: 人设返工1消费PASS落位U170工单完成+P06#51切片8·wave1d拒收17件静物锚重launch | persona landed u170-closed + p06 ticke
 - [minigame] cb0045d02f files=18 :: X758: P06工单#51切片5·wave1b九卡同id消费全清Cards族15/15收官（九任务零重launch·lanczos 768×1024落位·ArtGateCheck九连fail=0·X
 - [minigame] e6833d48e6 files=1 :: C395: closeout tail TICK_DONE ledger line | c395 done mark
@@ -31,20 +46,61 @@
 - [minigame] 26dfccc0e4 files=28 :: X629: U133真玩质检直通道+12号测试验收矩阵落地 | real-play quality channel
 - [minigame] e6dd4804ad files=8 :: C328: G09 U099段门面板PASS翻S2+四行债清偿 | g09 s2 migration panel pass
 - [minigame] c3f755a342 files=7 :: X622: U096打回令R1=完成态四款回炉·P02/P06机器面双绿+证伪翻牌 | u096 rework r1
-- [minigame] 5c8f88b5f4 files=4 :: X609: G16create死班根因修复成功+merge复判转档 | g16 create fixed merge defer
-- [minigame] 943f92f858 files=1 :: X608: U128全项目UI/图标先用令通知 | u128 all-project ui icon consume-first
-- [minigame] 46ae277407 files=3 :: X605: U125字体令+U126全速令双通道通知 | u125 fonts u126 fleet fullspeed
-- [minigame] 36c6e33d0d files=15 :: X602: G16疯狂地产U-FAST直通立项批收口 | g16 crazy estate charter
-- [minigame] 9cb85f3426 files=2 :: X600: U123小镇资产消费令通知疯狂系列 | u123 aa016 town kit notify
-- [minigame] 6104a94ed6 files=7 :: X598: U122素材库批12收口+音频直用通道 | artlib cc direct-use closeout
-- [minigame] d7f3856d30 files=4 :: X586-c1: L2直用通道开闸（用户全量确认） | l2 direct-use channel armed
-- [minigame] 5576bd890c files=8 :: B381: G13 U096轮1全过（SKILL审计零红线+簿记收养） | g13 r1 full pass audit zero-redline
-- [minigame] 5bc00f9f09 files=1 :: chore: X581台账DONE行收口 | tick ledger done line
-- [minigame] 85e483336c files=10 :: B379: G13 U096轮1修复复评PASS·rig重跑21/21 | g13 u096 r1 re-review pass rig regen
-- [minigame] eceb1c657f files=1 :: chore: X578台账DONE行收口 | tick ledger done line
-- [minigame] c4b1d9934a files=9 :: X570: G15 U088对标拼板三问PASS评审轮收口 | g15 u088 panel pass
-- [minigame] d966680ee1 files=4 :: X552: 小镇v9.2角色三族批(元帅镇长+单位镇民) | scr character pass
-  -> repo minigame: 30 claim(s), 0 bare
+  -> repo minigame: 23 claim(s), 0 bare
+- [bigmoney] 3c4c147446 files=2 :: IV6 prereg FROZEN + F-04 claim: portfolio risk-budget batch (report-only pass 2, 14 cells, EW6 harne
+- [bigmoney] 6905c9bb0b files=1 :: round 34 bm-a heartbeat: R34 audit done, orders 29/29 double-scanned
+- [bigmoney] 20623ba3fa files=16 :: round 55 bm-b: T-05 part2 calibration delivered honest FAIL (RED+ORANGE 61.6pct vs [2,25] gate, tren
+- [bigmoney] 8b52818087 files=2 :: T-04 F7 + DONE closure: smoke 20->23 items (update_daily/lhb selftest exit-code contract, heartbeat 
+- [bigmoney] 29af463d7e files=1 :: T-04 F4: seg_metrics short-segment honesty (len<20 -> explicit insufficient_data, no fake zeros; anc
+- [bigmoney] d53764f24c files=3 :: T-02 CLOSED (6/7+7/7 landed): PREREG_TEMPLATE.md (D6 mechanism section + corr>=0.7 admission refusal
+- [bigmoney] 4a42b692dd files=17 :: round 53: T-07 P-6 scorecard DONE (6 traders S=3/A=3, data-driven per STRATEGY_EVALUATION v1.0, self
+- [bigmoney] aa2145ecc0 files=13 :: round 32 bm-a (dept:research): orphan-rebase salvage completed S0 (4/4 picks + CODELY union, pushed)
+- [bigmoney] 701e53ea6e files=1 :: round 3 bm-c S7: MSG-20260924-0145 processed (machine/bm-c branch integrated by bm-a r31; no action 
+- [bigmoney] 979bc5472e files=10 :: round 3 bm-c: T-04 F2 delivered (update_lhb store-absent guard + holiday calendar + throttle/atomici
+- [bigmoney] 6e727acb9d files=2 :: T-04 F2: update_lhb robustness batch -- store-absent honest exit 2 guard (sparse-clone nodes, HANDOV
+- [bigmoney] 6088f688f8 files=14 :: round 31 bm-a (dept:eng+fleet): watchdog C4/C5 lane-ownership guard live (first fire had relaunched 
+- [bigmoney] a3a013099a files=2 :: T-04 F6: build_status token step -- data.token block (state/report/mandate ests + deltas, byte/3.5 h
+- [bigmoney] 9145526634 files=1 :: T-04 F1+F8: update_daily single-assembly (exit_code/hook_ok/hook_exit persisted once, atomic .tmp+os
+- [bigmoney] 2f3ffb70e1 files=1 :: watchdog lane-ownership guard: C4 ext-slots pull + C5 P-1c batch restarts restricted to bm-b (lane o
+- [bigmoney] fa7d3c9844 files=11 :: round 2 bm-c: r1 orphan salvage (compute_audit whitelist, verified live-fire) + remote-7 integration
+- [bigmoney] 9ebfdcee2d files=1 :: T-04 (round-1 orphan salvage, bm-c): compute_audit gpu rogue whitelist extended with TENANT_PY_PATHS
+- [bigmoney] 12afc84f91 files=3 :: T-04 F6: build_status token step -- data.token block (state/report/mandate ests + deltas, byte/3.5 h
+- [bigmoney] dca8733112 files=2 :: T-04 F1+F8: update_daily single-assembly (exit_code/hook_ok/hook_exit persisted once, atomic .tmp+os
+- [bigmoney] 328d5c11b5 files=6 :: T-06 DONE (bm-b r52, r51 orphan salvage): EW6 portfolio validated report-only pass 1 -- full Sharpe 
+- [bigmoney] 2aabdb43d1 files=14 :: round 30 bm-a: T-02 5/7 science_audit monthly five-check delivered (prereg-frozen, inaugural run 2 h
+- [bigmoney] a7071f4552 files=2 :: T-02 5/7 first live run + prereg s7 filled: inaugural science audit exit 0 at ledger head 2727 -- C1
+- [bigmoney] 1f01b86718 files=1 :: T-03 closure receipt (CODELY entry): engine-integrity batch done -- F1-F12 delivered, audit P0-2/3/4
+- [bigmoney] 3f9ea5cf22 files=2 :: T-03 part 3 F8 + DONE closure: strategies README 77f/12m header (single-source pointer to STRATEGY_L
+- [bigmoney] 88bfbf450f files=1 :: T-03 part 2a science_gates extension (F3/F6/F9/F10/F11/F12): append_ledger unified dict schema + led
+- [bigmoney] b61869e7ae files=25 :: round 51 bm-b S0: rebase onto bm-a T-02 chain (cost_v2 x T-03 flags 4-block mechanical union in engi
+- [bigmoney] afc44a9c1e files=1 :: round 50 bm-b part-2: P-1c full-batch runner (selftest PASS: op 30/30 + 191 funcs vendor smoke + IC 
+- [bigmoney] ce9e712ca3 files=1 :: round 50 bm-b part-1: P-1c big-panel op layer PASS (30/30 gates vs r32 net-room: MEAN/SUM/STD/CORR/C
+- [bigmoney] 40ef87c18a files=21 :: round 29 bm-a: T-02 4/7 part 2 -- J15/J19 family PBO harnesses in g25_retro.py, 3 pending pbo legs r
+- [bigmoney] 14a0ec03ff files=22 :: round 28 bm-a: G2.5 three-check live-fired + hr.py promotion precondition wired (T-02 4/7 p1, audit 
+- [bigmoney] 0bf455085a files=17 :: round 27 bm-a: T-02 3/7 cost-basis v2 delivered (D5: rules frozen ADV20 tiers 2/5/10bp + 1% ADV cap;
+- [bigmoney] 2627c8c9ae files=18 :: round 49 bm-b: P-1c Stage-B probe PASS (r48 orphan salvage; gates 10/10 streaming-op equivalence, fu
+- [bigmoney] 3a7fd42b0e files=14 :: round 26 bm-a: HANDOVER 5x deferred check delivered (window bm-a R22-25 + bm-b r47 + GM orders O-213
+- [bigmoney] 893685bab7 files=6 :: O-2311 org expansion (CEO order: what more departments and teams -- think then execute): NEW DEPT Po
+- [bigmoney] 0aa2e19302 files=18 :: round 47 bm-b: P-1d batch runner delivered (p1d_ext_slots_ic.py gates/run/selftest 13/13; live gates
+- [bigmoney] 47f7c53caa files=6 :: round 46 bm-b closeout: P-B split-block (push2his recovered / clist still blocked, honest exit-2 fix
+- [bigmoney] dd9f4a271d files=3 :: round 46 bm-b (part1, kill-window checkpoint): pb_heat_pull honest exit-2 at clist stage (verified l
+- [bigmoney] 45a9e478a4 files=8 :: P-5B EXECUTED one-shot + parallel runner PROVEN (12.4s total, pool 9.8s @ 25 workers = ~7x, ledger N
+- [bigmoney] d2b3a54f35 files=2 :: CEO full-mandate order O-20260923-2310 logged + OPERATING_PLAN v1.0 delivered (GM constitutional lan
+- [bigmoney] e3dffe011c files=2 :: O-2210 receipt: max-backtest triple batch closed (3 NEW TRADERS registered, headcount 3->6; queue ba
+- [bigmoney] adb49ead2e files=2 :: Comprehensive sound library delivered (O-2210 item 3): research/STRATEGY_LIBRARY.md v1.0 master cata
+- [bigmoney] c5b19aebf5 files=7 :: G2_FOLK factory gate EXECUTED -> 3 NEW TRADERS REGISTERED (headcount 3->6): PASS engulf_reversal (nb
+- [bigmoney] a2e8084de1 files=4 :: Two preregs frozen BEFORE any run (O-2210 chain): G2_FOLK deepening (9 candidate cells / 5 families,
+- [bigmoney] 2e69269cd1 files=4 :: round 44 bm-b closeout: bookkeeping (state 43->44, ledger line, CODELY entry, heartbeat 21:58 with o
+- [bigmoney] 7a17906693 files=8 :: round 44 bm-b (part1, kill-window checkpoint): S0 salvage+3x rebase races vs bm-a rounds 20/21 lande
+- [bigmoney] 1959278cf8 files=15 :: round 43 closeout (salvaged by round 44 open-probe): killed at 25min cap at 21:25 before closing com
+- [bigmoney] 7cc9361661 files=22 :: round 42 bm-b closeout: r41 truncation salvaged+counted (state 40->42) - R38-b clearance signed (O-1
+- [bigmoney] b10329d685 files=4 :: round 18 bm-a closeout: ledgers + heartbeat (update_lhb wiring done, first 09-23 sweep milestone, se
+- [bigmoney] f878a27c77 files=5 :: round 16 orphan salvaged by round 17 bm-a: O-1820 item3b B-layer pre-filter committed (dept:risk+dat
+- [bigmoney] e499e1affd files=4 :: P-S v2 honest verdict: primary lhb_pair FAIL at V1 (IC 0.0943 < nullA 28-pair p95 0.0957, rank 3/28 
+- [bigmoney] 782c9f8049 files=5 :: P-S (renamed from P-B, yields letter to bm-b r39 heat audit) small-K synthesis batch honest verdict:
+- [bigmoney] 8a3be71141 files=7 :: turnover derivation probe full-universe verdict MISMATCH -> honest correction + 688 volume-unit disc
+- [bigmoney] 631da46664 files=2 :: round 40 bm-b: P-B hot-concept prereg frozen + resumable puller delivered, EM pull honestly parked -
+- [bigmoney] 2aecdef5c2 files=14 :: round 39 bm-b: P-B heat source audit (O-1850 lane, claim MSG-1925) - THS concept boards primary taxo
 - [bigmoney] f928d6831a files=9 :: round 15 bm-a: P-A LHB attention factor IC batch (O-1850 research lane, claim MSG-1910 first) - 3/4 
 - [bigmoney] 8bc2d94520 files=14 :: round 38: R38-a stock panel built+validated (T=2850 x N=5212 x 7 float32, 6 gates PASS, zero engine 
 - [bigmoney] 99821edce9 files=8 :: round 37: P-4 batch2 R37 engine fill_guard (additive, None=byte-identical) + 8 gates ALL PASS (432-d
@@ -69,7 +125,26 @@
 - [bigmoney] 70e3223e0b files=6 :: round 24: maintenance round - intraday no-op data chain, panel UTF8 verified, heartbeat updated, sta
 - [bigmoney] 34422461f5 files=6 :: round 23: maintenance round - intraday no-op data chain, panel verified, heartbeat updated
 - [bigmoney] 6a09da87ab files=7 :: round 22: 维护轮——机队git通道接通（首推慢传未死已建远端ref、二推撞锁被拒已定性、快进推送成功、仓库改名BigMoney已改URL），盘中no-op数据链+面板核验+心跳更新
-  -> repo bigmoney: 24 claim(s), 0 bare
+  -> repo bigmoney: 78 claim(s), 0 bare
+- [bigstream] 049be2f763 files=2 :: OS loop R43: receipts O-2304 top-design + intel dept order, landing verified in full (bm-a commit f2
+- [bigstream] f2deb6eafa files=10 :: O-2304 top design + intel department: BLUEPRINT v1.0 unified top-design (three laws / north star / e
+- [bigstream] 373ef76ebf files=1 :: OS loop R41: receipts O-2245 dept expert review mechanism + O-2248 efficiency balance, landing verif
+- [bigstream] 278f45bd60 files=2 :: OS loop R40: O-2241 token-saving order received and accounted (bm-a 0dd5ae4 verified: mandate fast-p
+- [bigstream] 1fa45b4bfe files=5 :: Platform spec gate (O-2210 autonomous continuation): duration-measured red line finally has a tool -
+- [bigstream] 5ef05a78f8 files=2 :: Ledger hygiene: backlog #12 marked done (v3 rewrite delivered + CEO multi-round review in case, line
+- [bigstream] 8f187a1c91 files=2 :: OS loop R39: ledger round - O-2210 human-feel batch close verified all landed in-batch (a28f40a; v10
+- [bigstream] a28f40a577 files=52 :: O-2210 human-feel batch: bottom-layer anti-AI-feel mechanisms - human-feel-spec v1.0 (four stations 
+- [bigstream] 25f14c77b2 files=2 :: OS loop R37: ledger round - v9 batch close verified all landed (156ec92; renders v9 annotated in-bat
+- [bigstream] 156ec92b8e files=29 :: O-2136 closure: CEO pick locked (light dial + machine narrator) - v9 remediation cut (12 beats, 59.3
+- [bigstream] f6ae66e992 files=2 :: OS loop R36: ledger round - v8 batch close verified (c648612; renders ledger v8 x3 annotated in-batc
+- [bigstream] c6486121d4 files=69 :: O-2136 cyber voice batch: --cyber three-dial TTS engine (light/mid/full, duration-preserving chains)
+- [bigstream] 8948424207 files=1 :: OS loop R33: idle round per no-fabrication rule - v7b check fell empty eleventh time (12/12 renders 
+- [bigstream] 79dd3ced9e files=1 :: OS loop R32: idle round per no-fabrication rule - v7b check fell empty tenth time (12/12 renders ann
+- [bigstream] 6e123224b0 files=1 :: OS loop R31: idle round per no-fabrication rule - v7b check fell empty ninth time (12/12 renders ann
+- [bigstream] 3f898ab390 files=1 :: OS loop R30: idle round per no-fabrication rule - v7b check fell empty eighth time (12/12 renders an
+- [bigstream] edd302ba15 files=1 :: OS loop R29: idle round per no-fabrication rule - v7b check fell empty seventh time (12/12 renders a
+- [bigstream] fc7bcc942a files=3 :: OS loop R25: O-1937 process-side writeback delivered - content-pipeline x4 (M2 visual-spec stage, M3
+- [bigstream] 2c2d99060b files=11 :: visual-spec batch (CEO order O-1937: typography/composition poor - self-review + process + tech base
 - [bigstream] 5f3e56e1b5 files=6 :: review panel established (CEO order O-1927: hire experts, 9-point release threshold): review-panel.m
 - [bigstream] db6629dc99 files=6 :: OS loop R17: C-20 loop-health probe machine-checks os-protocol S5 (heartbeat freshness/gap: SLA 20mi
 - [bigstream] 3491a36b8d files=20 :: OS loop R14: publish-readiness probe C-19 live (src/readiness.py + template: accounts lights, draft 
@@ -81,7 +156,15 @@
 - [bigstream] f70794317f files=2 :: mainline-2 delivery: persona-jason.md v1 (Jason real-person build-in-public persona card; 4 content 
 - [bigstream] f2c61f7e99 files=2 :: sync batch: align local-stack and backlog to O-1602 relay (persona=Jason fronting, production resume
 - [bigstream] e3a021ae44 files=10 :: draft batch 2: BS-002..005 mp masters + shipinhao variants (8 files); 432-extinction numbers verifie
-  -> repo bigstream: 11 claim(s), 0 bare
+  -> repo bigstream: 30 claim(s), 0 bare
+- [fluxverse] ed5dd99da6 files=4 :: DevLoop r29: r27 event-stream debt fixed (sum64 ellipsis helper, snapshot rebuild + population 31/vo
+- [fluxverse] c8aba52657 files=4 :: DevLoop r24: P-18 slice 3 closed - baked CJK text upgraded to 2D bevel look (GDI+ disk-glow + drop s
+- [fluxverse] 739e4afcaa files=5 :: DevLoop r23: P-18 slice 2 closed - interior banner upgraded to GUIAgent canon shell (UiKit.BuildGlas
+- [fluxverse] 5a5f60770d files=6 :: DevLoop r22: P-18 UI shell slice 1 closed - UiKit procedural glass panel + crystal button (GUIAgent 
+- [fluxverse] cb1859e2c1 files=3 :: DevLoop r20: P-16 GAME cheng registration - pixel-town board at source repo (reference-not-copy) + R
+- [fluxverse] f25a7bbcfc files=339 :: City assets batch 2: 6 visual packs (334 files CC0/OGA-BY/CC-BY, neon banners+skyline+residents+robo
+- [fluxverse] 2f4961dd44 files=9 :: DevLoop r12: P-15 ④事件路由器收口——CEO_ORDER→脑塔金色光脉冲全链取证（TECH §九 P-15/CEO 署名 P1·自领）：EventRouter.cs=纯逻辑核心（只读
+- [fluxverse] de09c2252f files=1793 :: DevLoop r10: r9 城市骨架收尸+根因勘明+builder 重构（TECH §九 P-15/CEO 署名 P1·自领）：r9 轮 25min kill 于提交前——844 件 CleanC
 - [fluxverse] b8ba8c1ede files=3 :: 大世界 NPC 研究入库+居民心智 v1.6 需求系统落地（CEO 令「重点参考大世界玩法的游戏，他们的NPC智能，好好弄」）：①研究=R-20260923-openworld-npc.md（15 典
 - [fluxverse] f07ee349b5 files=5 :: 居民心智 v1.5：大世界 NPC 智能四件落地（CEO 令「重点参考大世界玩法的游戏，他们的NPC智能，好好弄」）：①作息位置三态（RDR2 日程/Radiant AI 范式——真实状态+真实北京时
 - [fluxverse] bb8128191b files=11 :: 居民 AI 层 v1 落地点火（CEO 令「规划一下整个元宇宙城市居民的人工智能技术，并落地执行，然后开始迭代，真正形成元宇宙城市」）：①规划=R-20260923-resident-ai.md 居民
@@ -100,7 +183,7 @@
 - [fluxverse] b47cce9c97 files=2 :: 设定书v3：现实链接层入册（CEO新令「要和现实产生链接和互动」）——§十五三环模型（现实入城L0/城市令行L1/现实回响）+首批五探针表（clock/weather/market+calendar/
 - [fluxverse] c421bd8b94 files=6 :: 五路并行调研入库（CEO调研规划令·集团台账09-23~16:20行·HQ 100d2b5）：学术25源（构件皆有出处组合确属空白·数字影子→真孪生两阶段判据·Lynch五要素/Jacobs街道芭蕾/
 - [fluxverse] 3dfc0a513a files=13 :: 技术基建四支柱落地（CEO基建令「把超体宇宙城市的整个技术底座基建搞扎实，能拓展，能自我更新和迭代，能自动化」）：TECH.md基建白皮书v1.0；感知器重构v0.2探针插件架构（probes/六探针
-  -> repo fluxverse: 18 claim(s), 0 bare
+  -> repo fluxverse: 26 claim(s), 0 bare
 
-## Summary: claims=93 evidence-backed=93 bare(no-files)=0
+## Summary: claims=176 evidence-backed=176 bare(no-files)=0
 ## Round duty: bare claims and keyword-heavy claims get RE-VERIFIED by the evolution round AI (governance 10.3).
