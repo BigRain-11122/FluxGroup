@@ -1,0 +1,15 @@
+# Subsidiary product repos — independent git repos, excluded from the HQ governance layer
+gaming/MiniGame/
+quant/bigmoney/
+
+# Secrets (see RULES.md section 3)
+.env
+.env.*
+
+# Codely runtime state
+**/.codely-cli/scheduled_tasks.json
+
+# OS junk
+Thumbs.db
+desktop.ini
+.DS_Store
