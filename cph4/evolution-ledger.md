@@ -17,6 +17,13 @@
 | P-2026-09-23-08 | 09-23 | OS 任务层存在 BigMoney 域孤儿任务 MoneyAutoGuardian（Disabled，产品文档零记载） | Get-ScheduledTask 实测 Disabled；HANDOVER/fleet 台账/轮账本无此名 | 转办@BigMoney：判前代遗产则按其机队协议注销或标记退役留档 | T3 | transferred |
 | P-2026-09-23-09 | 09-23 | 心跳/轮账本写入 git 控制面仓造成脏树卡死 pull --rebase 通道（bm-a R1 卡死→R2 checkout 还原+定向 commit 修复） | state-bm-a.json R2 + round_reports-bm-a.md R1/R2 实录 | 入册机队时代共享坑：控制面仓内机器局部态=定向 commit 或 gitignore 白名单分机（P-04 同源机制） | T3 | applied |
 
+## 反馈区（子公司 → 集团 · 收取与回访 · CEO 令「顶层机制务必听子公司的反馈」）
+
+> 各公司反馈面登记：BigMoney=`quant/bigmoney/HQ-FEEDBACK.md` ✓｜BigStream=`media/BigStream/HQ-FEEDBACK.md` ✓｜Biggame=待其按自治法选定落位（其根级冻结清单法优先；落位前其 CODELY.md 机制类条目为临时反馈面）。收取 SLA=周轮必扫；未处理超两周自动升级 CEO 待办（docs/orders.md）。
+
+| ID | 来源公司 | 反馈（现象/证据） | 建议方向 | 级 | 状态 |
+|---|---|---|---|---|---|
+
 ## 裁决区
 
 | 日期 | 提案 | CEO 裁决原文 |
@@ -24,6 +31,8 @@
 | 2026-09-23 | 体系设立（本章程+周轮） | 「帮我引入AI时代最先进最牛逼最能自我进化的集团化治理体系！」 |
 | 2026-09-23 | Media 线定名 BigStream（BRAND §8 新登记行，跨会话点名、本会话对账核实） | 「是我点的，保留」——T0 合法登记；开线五步由点名会话执行（产品仓脚手架搭建中：README/PLAN/docs×3） |
 | 2026-09-23 | 集团级 GO（全速迭代令） | 「开始全速迭代 规范的情况下，自己发展！」——三产品引擎 + 进化轮全速运转；铁律门禁（预注册/禁未来数据/认领制/反重复/T0-T3 分级立法）照常生效——**全速只加速，不放规范** |
+| 2026-09-23 | 法条复核包 + T1 决策权（本会话呈报） | 「你自己决策，我随时会复查和过问」——今日法条全部生效（委托代批·复查权保留）；T1 由 AI 代决+7 天否决窗；T0 仍须 CEO 明令 |
+| 2026-09-23 | 反馈通道令 + R1 待裁决项清零 | 「顶层机制务必听子公司的反馈什么的，然后自我迭代，科学决策」——§7 反馈通道立法（HQ-FEEDBACK.md 面制+SLA+闭环回访条款）；**P-01 随判**：旧码视为泄露不变，轮换=CEO 物理件且为恢复邮件简报的前置条件（U166 三步之首），集团层不再挂待办；**P-02 依 R1 结案**（settings 在库 clean，本机 override 需要时走 settings.local.json=gitignored） |
 
 ## 进化轮报告区
 
