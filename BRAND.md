@@ -104,6 +104,7 @@ When naming new products or lines:
 | 游戏公司 | Biggame | locked |
 | 游戏产品仓 | MiniGame | locked |
 | 量化公司 / 产品 | BigMoney | locked |
+| 媒体公司 / 产品 | BigStream | locked（2026-09-23 CEO 点名·stream=流媒体·连接 FLUX「流即万物」） |
 | 各产品内部子名（游戏款名、交易员名、面板名等） | — | 各公司自有登记簿管辖，此处引用不复制 |
 
 CEO declaration (2026-09-23): 「这就是我的 FLUX 集团——创新元宇宙，超体能量。」
