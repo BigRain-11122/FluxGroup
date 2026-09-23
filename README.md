@@ -1,4 +1,4 @@
-# BigRainGround — 超体宇宙集团 / FLUX Group
+# FluxGroup — 超体宇宙集团 / FLUX Group
 
 > This repository is the brand and project root for the group.
 > Any AI or human opening this file should immediately understand who we are.
@@ -40,7 +40,7 @@ Mark: a single point (CPH4) radiating outward into flow (FLUX).
 ## Directory layout
 
 ```
-BigRainGround/
+FluxGroup/
 ├── README.md              <- this file (entry point)
 ├── BRAND.md               <- full brand definition (locked naming)
 ├── RULES.md               <- top-level collaboration rules
