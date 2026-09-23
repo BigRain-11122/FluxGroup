@@ -133,6 +133,7 @@
 
 - 品牌名：只能改 `BRAND.md`。文化：只能改 `docs/philosophy.md`。协作规则：改 `RULES.md`。治理：改本文件。架构：改 `docs/architecture.md`。
 - 登记簿/拓扑变动：本文件 §2 表更新 + 带日期 changelog。
+- **版本与分支治理 = `cph4/versioning.md`**（CEO 令 2026-09-23「建立git顶层版本和分支设计，做好规划，做好万全又合适的准备，把涉及的机制都梳理一次」）：trunk-based 主干开发（分支是例外不是默认）·主干名 main 正典（存量 master 存续豁免）·tag=`<scope>/vX.Y.Z` 档案律（不可变·HQ 治理里程碑=`gov/vX.Y`·FluxVerse 里程碑=`M<x>/v1.0`）·禁 force-push（例外面=新仓 stub 覆推须 --force-with-lease+记档）·公共历史禁改写、回滚一律 revert 追加式·新仓接线 checklist——机制交互全景表在该件 §7。
 - **溯源条款**：T0/T1 文件的一切改动，changelog/提交信息必须注明 CEO 令来源（`docs/orders.md` 行 / 公司令台账 / 会话裁决原话）。**无溯源的改动 = 进化轮周报必点名**——假令（AI 伪造 CEO 指令）是本体系的头号敌人，溯源是解药。
 - 本文件与 `RULES.md` 冲突时，以 `RULES.md` 为准。
 
@@ -190,3 +191,4 @@
 - 2026-09-23: **集团夜轮设立**（CEO 令「今晚给我建立元宇宙和集团侧面的各种机制和规则！不断迭代自我反应！自动化任务建立起来！」·§8 进化轮例外条款的加密轮次）：`FluxGroup-NightRound` 每日 03:07 静默跑 `cph4/night-round.ps1`（轻量自我反应：感知[retention-scan+selfaudit]/催办[transferred 超 48h 点名]/小自愈[T2 域内漂移]/夜报入进化台账）——夜轮与周轮分工入 `cph4/evolution.md` §1（节律四源）；BigStream-OSLoop（并行会话建·已验证健康·src/os/ 范式）入 cph4 注册表登记。
 - 2026-09-23: **美术资产库共享池条款**（CEO 令「对了，我的美术资源库好好利用，但要统一风格」）：§6 资源协同第 7 条——Art Assets=集团共享美术资源池（AA-XXX 登记制集团适用·引用不复制），消费走消费链+各司风格正典门禁，L1 永禁入交付链，禁双购双建；派工=进化台账 P-21 转办@FluxVerse-DevLoop（M1 城市美术吃透库+统一风格门禁）。
 - 2026-09-23: **开线 Life/BigLife（临时代号）数字生命生产第五子**（CEO 令「专门生产超体元宇宙城市的所有居民…」+「像别的子公司一样成立」·CEO 亲选新设子公司·命名权 CEO 保留=临时代号不冒进 locked）：BRAND §8 codename 行+登记簿 onboarding+architecture 五线+life/ 线 README/CODELY+本地仓+gitignore 隔离；人口正典=life/BigLife/docs/CODEX.md（三层居民模型·万人户籍·自我进化律）；消费面转办=进化台账 P-22；生产管线+OS 循环=其 BLUEPRINT（十步制）。
+- 2026-09-23: **git 版本与分支治理机制设立**（CEO 令「建立git顶层版本和分支设计，做好规划，做好万全又合适的准备，把涉及的机制都梳理一次」·T2+否决窗至 09-30）：章程=`cph4/versioning.md`——trunk-based 主干开发（合法分支四类：integration/backup/机器面自治/exp）·主干 main 正典+BigDomain 本日对齐（MiniGame master 存续豁免）·tag=`<scope>/vX.Y.Z` 档案律（HQ 首个治理锚 `gov/v1.0` 随本批点火）·禁 force-push 集团律+新仓 stub 覆推例外·公共历史禁改写·回滚=revert 追加式（编年史世界观同源）·新仓接线 checklist+机制交互全景表（§7）；§9 接线。
