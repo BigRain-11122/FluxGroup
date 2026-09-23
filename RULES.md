@@ -68,5 +68,15 @@ Create these as needed. Do not nest arbitrary folders without a reason.
 - Culture: only changed via `/docs/philosophy.md`.
 - These rules: edit this file and note the date in the changelog below.
 
+---
+
+## 7. CEO order trigger (2026-09-23 user order)
+
+- `/CEO` at the start of a user message in any AI session on any machine = a formal CEO order (用户令).
+- The receiving session must treat it as highest priority, record it in that company's order ledger (BigMoney: `quant/bigmoney/fleet/orders/`; MiniGame: 《用户限制登记簿》 U-rows per its own protocol), commit/push, then execute or dispatch, and close the loop with a receipt.
+- Headless loops receive orders through their existing git channels (orders ledger / inbox / task tickets), not this trigger.
+- A CEO order outranks everything: fix-red queues, tasks, and autonomous rounds.
+
 ### Changelog
 - 2026-09-23: initial rules.
+- 2026-09-23: added §7 CEO order trigger `/CEO` (user order).
