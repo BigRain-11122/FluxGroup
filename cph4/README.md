@@ -40,7 +40,7 @@
 | 本地 LLM / GPU 栈 | Ollama 保温（GpuStackBoot） | Ollama 各机自装自用（借算协议预留） | keepwarm.pause 释放阀礼仪 |
 | 知识与记忆 | CODELY.md + 登记簿 + 编号文档 | CODELY.md + 预注册 + 试验账本 N | 三级记忆各归各仓（governance §5） |
 | 质量门禁 | X026Gate + EncodingGate + NameCheck | 门禁链 G1'/G2 + smoke 20 项 | 修红 ＞ 开发 ＞ 优化既有 |
-| 总控面板 | 像素小镇看板 | bigmoney.html | 互见层=只读兄弟心跳 |
+| 总控面板（**可视化统一线 2026-09-23**） | 像素小镇看板 | bigmoney.html | **统一接入 FluxVerse L1 城区内景**（CEO 令「统一开发和管理，总控」）：新可视化项目禁各司另建·现有面板=内景数据源（引用不复制禁重绘）·城市壳层归总控·数据面各司自治 |
 | 大文件/新机接入 | 08 号传输铁律（git clone） | TRANSFER.md + FLEET-OPS.md | 控制面走 git，数据面择通道 |
 | **新机器一键部署** | MachineBoot.ps1 自举（08 号·2026-09-18 先立） | bootstrap.py+register_loop_task.ps1 | **cph4/onboarding.md**：三层模型（CEO 物理件/一键编排/各司自件引用）·`Tools/bootstrap-machine.ps1` 六相幂等·静默律·重跑=体检 |
 | **治理自进化引擎** | —（产品仓各自循环内自愈） | —（同左） | **cph4/evolution.md**：感知→提案→裁决→立法+瘦法；台账=evolution-ledger.md；周轮=FluxGroup-EvolutionTick |
