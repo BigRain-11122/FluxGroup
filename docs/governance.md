@@ -50,7 +50,7 @@
 |---|---|---|---|---|
 | Gaming | Biggame / MiniGame | `git@github.com:BigRain-11122/MiniGame.git` | active | 团结引擎 1.10.3·多款小游戏组合+G 系·08号多机分治·像素小镇总控；活数据以产品仓为准 |
 | Quant | BigMoney | `git@github.com:BigRain-11122/BigMoney.git` | active | bm-a/bm-b 双节点·fleet 协议·3 交易员在册；活数据以产品仓为准 |
-| Media | BigStream | `git@github.com:BigRain-11122/BigStream.git`（待 CEO 建仓） | onboarding | AI 媒体公司·2026-09-23 开线（CEO 点名·令牌=media/BigStream/orders/O-20260923-1450-bm-a.md）：主赛道=集团AI生态·平台=视频号/公众号/B站/YouTube/微博·本地仓已建（root-commit a45fd70） |
+| Media | BigStream | `git@github.com:BigRain-11122/Bigmedia.git`（remote 已接通·2026-09-23 审计实况） | onboarding | AI 媒体公司·2026-09-23 开线（CEO 点名·令牌=media/BigStream/orders/O-20260923-1450-bm-a.md）：主赛道=集团AI生态·平台=视频号/公众号/B站/YouTube/微博·本地仓已建（root-commit a45fd70）；**GH 仓名实为 Bigmedia（产品名 BigStream 不变·仓名正典待 CEO 一句话确认）** |
 | Gaming | FluxVerse（元宙） | `git@github.com:BigRain-11122/FluxVerse.git`（待 CEO 建仓） | onboarding | FLUX 元宙=集团驾驶舱·AI 行为实时剧场（CEO 第一需求令）；Biggame 承建·团结引擎 1.10.3 原生 2D（CEO 硬约束全 2D）；2026-09-23 CEO 点名·开线五步由集团总控会话走毕·本地仓已建 |
 
 ## 3. 开线与收线（生命周期）

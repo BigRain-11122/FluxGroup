@@ -16,6 +16,11 @@
 | P-2026-09-23-07 | 09-23 | 线 README 漂移：旧 gaming/README「19 任务 OS 机队」vs 实况 20 | Get-ScheduledTask 实测 19 个 MiniGame*+GimmeAll-AutoSentinel=20（U165 体检基线同源） | R1 修正 19→20 后旋被并发 CEO 会话 15:03 线 README 重写覆盖：新版移除机队数表述、机队细节归产品仓（引用不复制），漂移面消除无需重做 | T2 | self-healed（并发重写代偿·P-05 探针首轮实证有效） |
 | P-2026-09-23-08 | 09-23 | OS 任务层存在 BigMoney 域孤儿任务 MoneyAutoGuardian（Disabled，产品文档零记载） | Get-ScheduledTask 实测 Disabled；HANDOVER/fleet 台账/轮账本无此名 | 转办@BigMoney：判前代遗产则按其机队协议注销或标记退役留档 | T3 | transferred |
 | P-2026-09-23-09 | 09-23 | 心跳/轮账本写入 git 控制面仓造成脏树卡死 pull --rebase 通道（bm-a R1 卡死→R2 checkout 还原+定向 commit 修复） | state-bm-a.json R2 + round_reports-bm-a.md R1/R2 实录 | 入册机队时代共享坑：控制面仓内机器局部态=定向 commit 或 gitignore 白名单分机（P-04 同源机制） | T3 | applied |
+| P-2026-09-23-10 | 09-23 | 元宙审计（CEO 令「全面审查元宇宙运行机制 流程和子公司」）：orders_hq 探针用行数位置游标，多窗插行位移下今日集团台账 7 新令漏 4（17:05/17:20/17:25/17:30 点向）+17:30 retention 行双发——CEO 令光脉冲有盲区 | world-events.jsonl 实测+perceptor-state.txt `ledger_rows=26`+orders_hq.ps1 位置跳行码 | 转办@FluxVerse-DevLoop：改内容寻址游标（`hqorder:<time>`+`<quote前30字>=1` 键，同仓 fleet/BS 探针范式）+事件去重 | P0 | transferred |
+| P-2026-09-23-11 | 09-23 | 元宙审计：感知器并发面脆弱——scan 双写者无锁（tick :x7 轮×devloop 轮内手动 scan 同窗竞写，17:37/17:42 两批 5 分钟连发实证）+tick 无脏树退避（r4 在飞半成品树=16:57 假 FAIL 同型将复发） | 事件流两批时间戳连发+tick.ps1 全文无 git status 检查+devloop r1 复证记录 | 转办@FluxVerse-DevLoop：scan 加单实例锁（tick S1 同式）+tick 轮首 Tools/perceptor 脏即退避本轮 | P0 | transferred |
+| P-2026-09-23-12 | 09-23 | 元宙审计：DESIGN §七 映射表核心行为零事件源——OS_TICK_START/DONE（呼吸灯）/GATE_PASS/BLOCK（光门）/TASK_CLAIM 存量/TRANSFER（运输带）全零发，城会是静的 | world-events 类型分布仅 4 类活+tick.ps1/verify.ps1 不发轮次与门禁事件+fleet_tasks 首轮回填抑制吞存量 claim | 转办@FluxVerse-DevLoop：tick/verify 补发轮次与门禁事件+fleet_tasks 登记即发+fleet/transfers 面探针 | P1 | transferred |
+| P-2026-09-23-13 | 09-23 | 元宙审计：GAME 城令面盲区——Biggame U 号令散落根级 10+ 文件（AI反馈队列/夜窗工单/STATUS-* 等）无唯一台账面，探针清单（orders/orders_bs/orders_hq）无 Biggame 面 | 探针目录实测+MiniGame U1xx 全文命中清单 | 转办@Biggame：按自治法指定唯一 U 号令台账面；落定后 DevLoop 加 orders_bg 探针 | P1 | transferred |
+| P-2026-09-23-14 | 09-23 | 元宙审计小病三件：quarantine 3 行 F1 注入件无生命周期；github_events zone 正则漏 Bigmedia（media 域事件落 governance 默认）；FluxVerse `.codely-cli/auto-saves` 未 gitignore（`??` 噪音+胀盘） | quarantine 实测 3 行+github_events.ps1 正则+git status `?? .codely-cli/` | 转办@FluxVerse-DevLoop：隔离区 7 天轮转（retention.md R4）+正则加 Bigmedia+gitignore 行 | P2 | transferred |
 
 ## 反馈区（子公司 → 集团 · 收取与回访 · CEO 令「顶层机制务必听子公司的反馈」）
 

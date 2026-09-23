@@ -29,7 +29,7 @@
 
 ## CEO 待办物理件
 
-- GitHub 建私库 `BigRain-11122/BigStream` → 建好后任一机器 `git remote add origin … && git push -u`
+- ~~GitHub 建私库 `BigRain-11122/BigStream`~~ **已建（2026-09-23 审计实况：仓名=Bigmedia·remote 已接通有 push；仓名正典待 CEO 一句话——若定 BigStream 则 GH 改名+登记簿回改）**
 - GitHub 建私库 `BigRain-11122/FluxVerse`（元宙·可与 BigStream 一并建） → `git remote add origin … && git push -u`
 - 平台账号开通（BigStream 首发：视频号 + 公众号）
 - （悬置）SMTP 授权码轮换——邮件简报恢复时用新码（Biggame U166 暂停令在效）
@@ -53,3 +53,4 @@
 | 09-23 ~17:10 | 「ceo 命令，所有都是静默，不要弹窗到电脑上骚扰我！」 | 静默律：全机 24 个集团计划任务审计——22 个本走 InvisibleRunner.vbs 静默包装；2 个裸 powershell 弹窗源（FluxVerseTick 每10分钟 + FluxGroup-EvolutionTick）已改 wscript //B 静默包装（触发器原样·实弹点火验证 gate PASS 零弹窗）；立法=今后一切新计划任务必须静默注册（VBS 包装/-WindowStyle Hidden），注册脚本违反=门禁项 | executed（静默律入册） |
 | 09-23 ~17:30 | 「建立一个整体的资源垃圾清理和保留 机制，分级分层，防止误伤，也要防止资源不断膨大」 | cph4/retention.md 章程：四级保留制（R1 活账本永不清/R2 源资产归档优先/R3 可再生缓存定期清/R4 垃圾随轮清）×五面分层+防误伤五闸（冻结白名单/在途任务引用/隔离区 7 天可恢复/分级执行权/台账审计行）+防膨大三律（轮转/入口/水位）；governance §6 第 6 条接线+Tools/retention-scan.ps1 只读周测工具+进化轮第七类感知信号「资源水位」（周报「资源健康」节）；首测基线=全集团约 56GB（MiniGame 54.1GB 为主，膨胀主源=R2 源资产+R3 可再生缓存，R1 活账本面健康） | executed |
 | 09-23 ~17:40 | 「建立好新机器一键部署的能力」 | cph4/onboarding.md 章程（三层模型：CEO 物理件层[SSH 授权/Tuanjie Cowork/Hub 登录·刻意不自动化]/一键脚本层/各司自件层[引用不复制=bigmoney bootstrap.py·biggame MachineBoot·fluxverse register]）+Tools/bootstrap-machine.ps1 六相幂等编排器（P0 前置→P1 身份→P2 拉仓→P3 环境→P4 任务静默注册→P5 验证报告 READY/PARTIAL+物理件清单）+集团件 Tools/InvisibleRunner.vbs；governance §8 接线；顺手修正 EvolutionTick 跨仓引用 FluxVerse VBS 的耦合（重注册自愈为集团自含） | executed |
+| 09-23 ~17:50 | 「全面审查元宇宙运行机制 流程和子公司，看有什么问题」 | 元宙全面审计（实跑+码级+三司映射）：**P0×2**=①令流漏感 4/7+双发[orders_hq 行数位置游标·多窗插行位移·ledger_rows=26 铁证·17:30 行双发实证]②感知器并发面[scan 双写者无锁·17:37/17:42 两批同窗竞写实证+tick 无脏树退避·r4 在飞半成品树=16:57 假 FAIL 同型将复发]；**P1×2**=③映射表核心行为零事件源[OS_TICK/GATE/TASK_CLAIM/TRANSFER 全零发·城会静]④GAME 城 U 号令面盲区[令散 10+ 文件无唯一台账面·探针无 Biggame 面]；**名实**=BigStream 远端实为 Bigmedia（§2 已按实况改+仓名待裁）；**正例**=17:38 算力动员令入城+回执 5 分钟闭环+心跳 17:19 起真实跳动（r2 修 schtasks 转义事故）+jsonl 按日轮转已落地（r3）——修复批=进化台账 P-10~P-14 转办@FluxVerse-DevLoop+Biggame+HQ 侧顺手三修；**待裁两件**=①Bigmedia 仓名正典 ②M1 引擎工程+城市版概念稿在 DevLoop P1 禁区（引擎/watch/美术）内无人有权点火，需 CEO 一句话放行 | executed（修复已转办·待裁两件） |
