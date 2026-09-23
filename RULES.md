@@ -67,6 +67,7 @@ Create these as needed. Do not nest arbitrary folders without a reason.
 - Brand names: only changed via `BRAND.md`.
 - Culture: only changed via `/docs/philosophy.md`.
 - These rules: edit this file and note the date in the changelog below.
+- Group ↔ subsidiary governance: see `/docs/governance.md`（边界/拓扑/生命周期/指挥/记忆/安全）.
 
 ---
 
@@ -80,3 +81,4 @@ Create these as needed. Do not nest arbitrary folders without a reason.
 ### Changelog
 - 2026-09-23: initial rules.
 - 2026-09-23: added §7 CEO order trigger `/CEO` (user order).
+- 2026-09-23: governance reference added (§6).

@@ -35,3 +35,28 @@
 - CPH4 Labs = the engine that powers the flow.
 - Three lines run on the engine, each on one kind of flow.
 - Philosophy is guarded by Qiqi, owned by the family.
+
+## System architecture（系统三层结构 · 2026-09-23 立）
+
+```
+集团治理层  FluxGroup 仓（品牌/文化/规则/治理契约/线 README/集团记忆）
+    │  .gitignore 隔离 · 互不嵌套 · 各自独立 remote
+    ├── gaming/（线工作区）──> Biggame 产品仓 MiniGame.git（master）
+    ├── quant/ （线工作区）──> BigMoney 产品仓 BigMoney.git（main）
+    └── media/ （线工作区，未开线）
+```
+
+- 治理细则与产品登记簿：`docs/governance.md`。
+- 两公司均为「一人 + AI 劳动力 + 机队」形态：
+  - Biggame = MiniGame* 任务群（10 分钟 tick 引擎 + 审计/看板/风线/保温），08 号多机分治；
+  - BigMoney = Bigmoney-IterationLoop 10 分钟自迭代（bm-a 开发节点 + bm-b 回测节点，fleet 协议 + 预注册科研范式）。
+
+## Machine fleet（机队 = 集团共享基础设施）
+
+| 机 | 角色 |
+|---|---|
+| bm-a（DASHENG·32 核） | BigMoney 开发节点 ∥ Biggame 主机（A 机） |
+| bm-b（16 核） | BigMoney 回测/数据节点（Money02 宿主） |
+| Biggame B/C 机 | 游戏分机（08 号协议：认领制 + X128 机器分支） |
+
+- 双公司同机纪律与互见层：`quant/bigmoney/fleet/README.md` §10（集团层引用，不重复立法）。

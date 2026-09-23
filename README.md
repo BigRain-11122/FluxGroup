@@ -46,6 +46,7 @@ FluxGroup/
 ├── RULES.md               <- top-level collaboration rules
 ├── docs/
 │   ├── architecture.md    <- group business architecture
+│   ├── governance.md      <- group ↔ subsidiary governance charter
 │   └── philosophy.md      <- culture & north star (Lucy + WALL-E)
 ├── gaming/                <- FLUX Gaming / 超体游戏
 ├── quant/                 <- FLUX Quant / FLUX 量化
@@ -58,3 +59,5 @@ When an AI or human joins, read in this order:
 3. `/docs/philosophy.md`
 4. `/RULES.md`
 5. The target line's `README.md`
+
+HQ-layer operators additionally read: `/docs/governance.md`.
