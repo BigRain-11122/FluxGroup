@@ -20,6 +20,7 @@
 | 质量门禁 | X026Gate + EncodingGate + NameCheck | 门禁链 G1'/G2 + smoke 20 项 | 修红 ＞ 开发 ＞ 优化既有 |
 | 总控面板 | 像素小镇看板 | bigmoney.html | 互见层=只读兄弟心跳 |
 | 大文件/新机接入 | 08 号传输铁律（git clone） | TRANSFER.md + FLEET-OPS.md | 控制面走 git，数据面择通道 |
+| **治理自进化引擎** | —（产品仓各自循环内自愈） | —（同左） | **cph4/evolution.md**：感知→提案→裁决→立法+瘦法；台账=evolution-ledger.md；周轮=FluxGroup-EvolutionTick |
 
 ## 共享方法论（两公司实证同源，集团法）
 
@@ -38,4 +39,4 @@
 
 ## 读序
 
-1. `/README.md` 2. `/BRAND.md` 3. `/docs/philosophy.md` 4. `/RULES.md` 5. `/docs/governance.md` 6. 本文件
+1. `/README.md` 2. `/BRAND.md` 3. `/docs/philosophy.md` 4. `/RULES.md` 5. `/docs/governance.md` 6. 本文件 7. `evolution.md`（进化章程）

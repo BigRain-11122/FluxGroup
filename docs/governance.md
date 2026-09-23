@@ -100,7 +100,7 @@
 ## 8. OS 自动化与 AI 劳动力
 
 - 各公司的 OS 循环/任务机队归产品仓自治（Biggame=MiniGame* 任务群；BigMoney=Bigmoney-IterationLoop，bm-a 开发节点 + bm-b 回测节点）。
-- **集团层不建 OS 循环**（治理层低频变更，无需 10 分钟节律）。
+- **集团层不建高频循环**（治理层低频变更，无需 10 分钟节律）；唯一例外 = **CPH4 进化轮**（周频自进化引擎，章程=`cph4/evolution.md`，分级立法权见该章程——T0 宪法 CEO 签/T1 治理 CEO 一句话/T2 机制 AI 落地+7 天否决窗/T3 数据 AI 全权）。
 - 新机器接入某公司=按该公司机队协议（BigMoney 接入 5 步；Biggame=08 号）；同机接入多家公司=共享机纪律（§6）。
 - 无人值守轮的 mandate 外置（中文 UTF-8 数据件），禁止内嵌脚本字面量。
 
@@ -114,3 +114,4 @@
 - 2026-09-23: initial governance v1.0——基于 Biggame（08 号体系·MASTER 宪法）与 BigMoney（fleet 协议·PLAN 契约）实测定态立国。
 - 2026-09-23: cph4/ 横切层入图（CPH4 Labs 地址化）；BRAND.md §8 名称登记簿补档。
 - 2026-09-23: §4 增默认自治态；架构运营原则 #3 立运转模式（CEO 宣言：AI 赋能自治）。
+- 2026-09-23: §8 例外条款——CPH4 进化轮设立（CEO 令：引入 AI 时代自进化治理体系；章程=cph4/evolution.md，台账=cph4/evolution-ledger.md，周轮=FluxGroup-EvolutionTick）。
