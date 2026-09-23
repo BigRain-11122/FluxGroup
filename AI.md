@@ -1,0 +1,76 @@
+# AI.md — FluxGroup 集团与元宙 AI 总览（正典入口）
+
+> 目的：任何 AI 会话 / 新机器 / 新执行体，读本文件 5 分钟建立全局认知，再按指针深潜。
+> 性质：唯一速览正典——**只给指针和结论，细节以目标文件为准**（单一事实来源，引用不复制）。
+> 版本 v1.0 · 2026-09-23 · 结构变更须 changelog+溯源（docs/governance.md §9）
+
+## 0. 一句话
+
+**FluxGroup = 一人 CEO（Jason）+ AI 劳动力 + 机器机队的控股集团**：三条业务线（游戏/量化/媒体）+ 一个横切实验室（CPH4 Labs）+ 一座元宙城（FluxVerse）。AI 干活、机器 24h 运转、CEO 只做决策和发令。
+
+## 1. 组织（谁是谁）
+
+| 名 | 是什么 | 仓/位置 | 正典文件 |
+|---|---|---|---|
+| **Jason（CEO）** | 唯一决策者：方向/P1 署名/红线/资源四输入面 | — | `docs/orders.md`（唯一审计面） |
+| **Biggame** | 游戏公司：MiniGame 多款小游戏+G 系 | `gaming/MiniGame/`（独立仓） | 产品仓根文档 + `gaming/README.md` |
+| **BigMoney** | 量化公司：沪深 ETF 波段·8 流派 35 策略·双节点机队 | `quant/bigmoney/`（独立仓） | `PLAN.md` + `fleet/` 协议 |
+| **BigStream** | AI 媒体公司：集团 AI 生态内容线（视频号/公众号/B站…） | `media/BigStream/`（独立仓·GH 仓名 Bigmedia） | 产品仓 `PLAN/` + `orders/` |
+| **CPH4 Labs** | 集团实验室：机制淬炼工厂+元宙规划大脑（零产品代码） | `cph4/` | `cph4/README.md`（能力注册表） |
+| **FluxVerse** | 元宙城：集团的实时驾驶舱与数字生命栖居地（Biggame 承建） | `gaming/FluxVerse/`（独立仓） | `BLUEPRINT.md` + `DESIGN.md` + `TECH.md` |
+
+**机队**：bm-a（DASHENG·32 核·开发机+游戏 A 机）｜bm-b（16 核·回测+大资产宿主）｜BG-A（同盒双角色）｜B/C（游戏分机）。新机接入=一键 `Tools/bootstrap-machine.ps1`（章程 `cph4/onboarding.md`）。
+
+## 2. 元宙（FluxVerse）思路
+
+- **定义**：对标现实世界的赛博未来元宇宙——「城因现实而活，现实因城而治」。
+- **城即超体**：脑塔（北外滩白玉兰）=集团大脑与中枢；黄浦江=三流数据道（数据青/资金金/流量品红）；陆家嘴三城=四肢（上海中心扭塔=QUANT·明珠双球=MEDIA·方塔群=GAME）；街道机器人=机队 AI；感知探针=神经系统；git 全史=记忆。
+- **AI 行为剧场**（第一需求令）：城里每个动画必须对应一次真实 AI 行为（commit=光点过江、令=光脉冲、认领=机器人出动），**禁装饰性动画**。
+- **驾驶舱**：看（L0 城市全景）→ 查（L1 建筑内景=三司面板）→ 令（L2 台账留痕可审计）。
+- **双层美术**：世界层=高清赛博像素+黄昏目标图+日夜循环（真实北京时间）+真天气；操作层 UI 壳=GUIAgent 展示风（水晶质感/月光调色）。**全 2D，禁一切 3D**。
+- **里程碑**：M0 设定✓ → M1 立骨（引擎工程·建城中）→ M2 神经接通（事件驱动全城活）→ M3 升格真孪生（令行闭环）→ M4 无处不在 → M5 栖居。
+- **数据面**：`world/world-state.json`（快照）+ `world/world-events.jsonl`（事件流·按日归档）——AI 零改造被动直播，引擎只读轮询 10s。
+
+## 3. 运转机制（怎么活）
+
+| 机制 | 节律 | 正典 |
+|---|---|---|
+| OS 循环（各司 tick + DevLoop） | 10 分钟 | 各产品仓 mandate（外置 UTF-8·编码律 ASCII） |
+| 集团进化轮 | 周日 09:17 | `cph4/evolution.md`（感知→提案→裁决→立法·台账 `cph4/evolution-ledger.md`） |
+| 令流 | 随时 | CEO 令 → `docs/orders.md` → 感知探针 → 事件流 → 城市动画 → 回执 |
+| 分级立法 | T0 宪法 CEO 签 / T1 治理 CEO 话 / T2 机制 AI+7 天否决窗 / T3 数据 AI 全权 | `cph4/evolution.md` §2 |
+| 诚实律三道防线 | 轮内自审/门禁机核/集团抽审 | `docs/governance.md` §10 |
+| 资源保留清理 | 周测入进化轮 | `cph4/retention.md`（R1 永不清/R2 归档/R3 定期清/R4 随轮清） |
+| 调度 | verdict 驱动·云端无限并行 | `cph4/scheduling.md` |
+| 本地化算力 | L1 确定性→L2 本地 LLM→L3 API | `cph4/local-first.md` |
+
+## 4. 文件地图（AI 导航）
+
+| 要什么 | 去哪 |
+|---|---|
+| CEO 令与裁决 | `docs/orders.md` |
+| 治理契约（职责/开线收线/协同/变更控制） | `docs/governance.md` |
+| 品牌/文化/红线 | `BRAND.md` / `docs/philosophy.md` / `RULES.md` |
+| 三级记忆 | 根 `CODELY.md`（集团）· `<线>/CODELY.md`（线）· 产品仓 `CODELY.md`（司） |
+| 能力唯一清单 | `cph4/README.md` 注册表 |
+| 元宙总纲/设定/技术 | `gaming/FluxVerse/docs/BLUEPRINT.md` / `DESIGN.md` / `TECH.md` |
+| 城市实况数据 | `gaming/FluxVerse/world/` |
+| 新机部署 | `Tools/bootstrap-machine.ps1` + `cph4/onboarding.md` |
+| 资源水位周测 | `Tools/retention-scan.ps1` + `cph4/retention.md` |
+| 反幻觉自审 | `Tools/selfaudit.ps1`（`docs/governance.md` §10） |
+
+## 5. AI 行为速记（铁律）
+
+1. **先读记忆再动**：开仓先读 `CODELY.md` + 本文件，再按指针深潜；改前必读目标文件。
+2. **宣称带证据**：完成/通过/存在必带 commit/路径/输出指针；无证据=宣称无效（`docs/governance.md` §10）。
+3. **反重复**：新建能力先查 `cph4/README.md` 注册表；复用禁重建；引用不复制。
+4. **禁跨仓写**：不写兄弟公司仓；集团零产品代码；一切新可视化归 FluxVerse 任务板。
+5. **令落台账**：CEO 原话入 `docs/orders.md`；无溯源=假令=T0 最高违规。
+6. **小步快提交**：交互会话禁长脏树；无人值守轮首脏禁 `add -A` 只定向 add。
+7. **静默律**：一切自动化零弹窗（VBS 包装）。
+8. **红线**：元宙禁 3D；零服务器；密钥不入 git；真金永禁全自动；3D/未来数据/跑到达标为止——各司门禁链执法。
+9. **拿不准**：一句问 CEO，带方案不带怨；CEO 三裁决通道=文字令/附图定案/选 A/B/C。
+
+## 6. 变更纪律
+
+本文件=速览+指针：目标文件改了，只改指针不改结论；结论与实况冲突时**实况优先**（先改文档）；结构变更须 `docs/governance.md` changelog+溯源。
