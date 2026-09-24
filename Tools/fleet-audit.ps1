@@ -1,5 +1,5 @@
 # Group fleet utilization audit (CEO order 2026-09-24 ~11:05: unified scheduling + ensure every machine fully used, CPU/GPU/RAM).
-# Read-only aggregation of EXISTING heartbeats (MiniGame fleet + BigMoney fleet) - adds zero collection burden.
+# Read-only aggregation of EXISTING heartbeats (MiniGame fleet + BigMoney fleet + BigStream OS loop + BigCompute OS loop) - adds zero collection burden.
 # New heartbeat source = add one source line below (open-closed). ASCII-only body (encoding law).
 
 param(
@@ -65,6 +65,98 @@ if (Test-Path $bmDir) {
             ram_free_pct = $ramPct; vram_free_gb = $vram; gpu_util_pct = '-'; disk_free_gb = '-'
             task = $task; src = $_.Name
         }
+    }
+}
+
+# --- Source 3: BigStream OS-loop heartbeat (media/BigStream/src/os/state.json + logs/probe-heartbeat.txt) ---
+# P-50 order 2026-09-24. Source has NO resource fields (os-protocol: state.json = loop
+# ledger only) -> ram/vram/gpu/disk stay '-' (honesty law, no invented numbers).
+# Online rule = heartbeat ts freshness <= 20 min (os-protocol S5 fleet comm SLA).
+# Freshness evidence: exact beat ts in logs/probe-heartbeat.txt ("YYYY-MM-DD HH:MM:SS
+# osloop: ..."); state.json log ts minutes may be masked ("14:3x") -> floored to 14:30
+# (age never understated). Freshest of the two wins. current_task = state.json log tail.
+$bsState = Join-Path $root 'media\BigStream\src\os\state.json'
+if (Test-Path $bsState) {
+    $h = Read-JsonSafe $bsState
+    if ($null -ne $h) {
+        $seen = $null
+        $beatPath = Join-Path $root 'media\BigStream\logs\probe-heartbeat.txt'
+        if (Test-Path $beatPath) {
+            foreach ($line in (Get-Content -LiteralPath $beatPath -Encoding UTF8)) {
+                if ($line -match '^(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}) ') {
+                    $d = [DateTime]::MinValue
+                    if ([DateTime]::TryParseExact($Matches[1], 'yyyy-MM-dd HH:mm:ss', [Globalization.CultureInfo]::InvariantCulture, [Globalization.DateTimeStyles]::None, [ref]$d)) { $seen = $d }
+                }
+            }
+        }
+        if ($h.log) {
+            foreach ($e in @($h.log)) {
+                if ([string]$e -match '^(\d{4}-\d{2}-\d{2}) (\d{2}):(\d)([0-9x])') {
+                    $mm = 10 * [int]$Matches[3]
+                    if ($Matches[4] -ne 'x') { $mm = $mm + [int]$Matches[4] }
+                    $d = [DateTime]::MinValue
+                    if ([DateTime]::TryParseExact(($Matches[1] + ' ' + $Matches[2] + ('{0:d2}' -f $mm)), 'yyyy-MM-dd HH:mm', [Globalization.CultureInfo]::InvariantCulture, [Globalization.DateTimeStyles]::None, [ref]$d)) {
+                        if ($null -eq $seen -or $d -gt $seen) { $seen = $d }
+                    }
+                }
+            }
+        }
+        $lastSeen = ''; $mark = 'NO_TS'
+        if ($null -ne $seen) {
+            $lastSeen = $seen.ToString('yyyy-MM-dd HH:mm')
+            $ageMin = [Math]::Round(([DateTime]::Now - $seen).TotalMinutes, 0)
+            if ($ageMin -le 20) { $mark = 'ONLINE(' + $ageMin + 'm)' } else { $mark = 'LATE(' + $ageMin + 'm)' }
+        }
+        $task = '-'
+        if ($h.log) {
+            $task = ([string]@($h.log)[-1] -replace '^\d{4}-\d{2}-\d{2} \d{2}:[0-9x]{2}\s*', '')
+            if ($task.Length -gt 60) { $task = $task.Substring(0, 60) }
+        }
+        $task = $mark + ': ' + $task
+        $rows += [pscustomobject]@{
+            id = 'bigstream'; last_seen = $lastSeen; cores = '-'
+            ram_free_pct = '-'; vram_free_gb = '-'; gpu_util_pct = '-'; disk_free_gb = '-'
+            task = $task; src = 'state.json'
+        }
+    }
+}
+# --- Source 4: BigCompute OS-loop heartbeat (compute/BigCompute/state/heartbeat.txt + state/rounds.log) ---
+# P-50 order 2026-09-24. Same method as Source 3: online rule = beat ts freshness
+# <= 20 min; beat format "YYYY-MM-DD HH:MM:SS os-loop: <msg>" (exact seconds, no
+# masking). No resource fields -> '-'. current_task = state/rounds.log tail
+# "done: ..." summary (beat msg as fallback). If the beat file is absent the source
+# self-skips (open-closed; add a real heartbeat file to appear in this audit).
+$bcBeat = Join-Path $root 'compute\BigCompute\state\heartbeat.txt'
+if (Test-Path $bcBeat) {
+    $seen = $null; $beatMsg = '-'
+    foreach ($line in (Get-Content -LiteralPath $bcBeat -Encoding UTF8)) {
+        if ($line -match '^(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}) (.+)$') {
+            $d = [DateTime]::MinValue
+            if ([DateTime]::TryParseExact($Matches[1], 'yyyy-MM-dd HH:mm:ss', [Globalization.CultureInfo]::InvariantCulture, [Globalization.DateTimeStyles]::None, [ref]$d)) { $seen = $d; $beatMsg = $Matches[2] }
+        }
+    }
+    $task = ([string]$beatMsg -replace '^[A-Za-z0-9._-]+:\s*', '')
+    $bcRounds = Join-Path $root 'compute\BigCompute\state\rounds.log'
+    if (Test-Path $bcRounds) {
+        $rLines = @(Get-Content -LiteralPath $bcRounds -Encoding UTF8 | Where-Object { $_ -match '\S' })
+        if ($rLines.Count -gt 0) {
+            $tail = [string]$rLines[-1]
+            if ($tail -match 'done: (.+)$') { $task = $Matches[1] }
+            elseif ($tail -match '^\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}(:\d{2})?\s*(.*)$') { $task = $Matches[2] }
+        }
+    }
+    if ($task.Length -gt 60) { $task = $task.Substring(0, 60) }
+    $lastSeen = ''; $mark = 'NO_TS'
+    if ($null -ne $seen) {
+        $lastSeen = $seen.ToString('yyyy-MM-dd HH:mm')
+        $ageMin = [Math]::Round(([DateTime]::Now - $seen).TotalMinutes, 0)
+        if ($ageMin -le 20) { $mark = 'ONLINE(' + $ageMin + 'm)' } else { $mark = 'LATE(' + $ageMin + 'm)' }
+    }
+    $task = $mark + ': ' + $task
+    $rows += [pscustomobject]@{
+        id = 'bigcompute'; last_seen = $lastSeen; cores = '-'
+        ram_free_pct = '-'; vram_free_gb = '-'; gpu_util_pct = '-'; disk_free_gb = '-'
+        task = $task; src = 'heartbeat.txt'
     }
 }
 
