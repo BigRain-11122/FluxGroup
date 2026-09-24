@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-# flux-server bootstrap v1.1 — 自建商业后端一键部署（IaC）
+# flux-server bootstrap v1.2 — 自建商业后端一键部署（IaC）
 # 溯源：ledger P-2026-09-24-47 实验室件①·建造书=cph4/research/R-20260924-infra-6-selfhost.md
+# v1.2 (2026-09-24)：citysync 硬化（release-gate 部署律——服务器 sparse-checkout 仅城市公开数据路径·禁见源码与内部数据）。
 # v1.1 (2026-09-24)：城市运行适配扩展（CEO 令「适配硅基生命体城市运行」·架构件=cph4/research/R-20260924-server-city.md §6）
 #   ——城市公开数据 :ro 挂载（结构性禁写=三律①）+ citysync 只读拉取通道（三律②）。
 # 治理：cph4/server-governance.md（最小攻击面/密钥律/备份/监控）
@@ -116,11 +117,14 @@ EOF
 citysync(){
   log "城市只读通道：目录+cron 骨架（首次 clone=runbook 手动段·deploy key 物理件就位后）"
   mkdir -p /opt/fluxcity/fluxverse /opt/fluxcity/biglife
-  # 首次 clone runbook（密钥永禁入 git·走 /etc/fluxvault）：
+  # 首次 clone runbook（密钥永禁入 git·走 /etc/fluxvault·release-gate 部署律 v1.2）：
   #   1) 双仓 deploy key 各一枚（GitHub 同一 deploy key 不可跨仓）→ /etc/fluxvault/id_fluxverse / id_biglife
   #   2) /root/.ssh/config 配 Host 别名（github-fluxverse / github-biglife）指 IdentityFile
-  #   3) git clone git@github-fluxverse:BigRain-11122/FluxVerse.git /opt/fluxcity/fluxverse
-  #      git clone git@github-biglife:BigRain-11122/Biglife.git /opt/fluxcity/biglife
+  #   3) SPARSE-CHECKOUT（release-gate 闸1·服务器禁见源码与内部数据，仅城市公开数据路径落盘）：
+  #      git clone --filter=blob:none --no-checkout git@github-fluxverse:BigRain-11122/FluxVerse.git /opt/fluxcity/fluxverse
+  #      cd /opt/fluxcity/fluxverse && git sparse-checkout set world-public && git checkout main
+  #      git clone --filter=blob:none --no-checkout git@github-biglife:BigRain-11122/Biglife.git /opt/fluxcity/biglife
+  #      cd /opt/fluxcity/biglife && git sparse-checkout set census/export && git checkout main
   # clone 完成前 cron 空转无害（[ -d .git ] 守卫跳过）
   cat > /etc/cron.d/flux-citysync <<'EOF'
 # city read-only sync (server-city §2): 10min guarded pull, never writes back
