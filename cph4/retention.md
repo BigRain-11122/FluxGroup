@@ -110,3 +110,4 @@
 ### Changelog
 - 2026-09-23: initial v1.0（四级保留制×五面+防误伤五闸+防膨大三律+水位表+retention-scan 周测）。
 - 2026-09-24: **§7 分层执行面+§8 工程规模治理+§9 备份预案+§10 周期日历**（CEO 令「建立起分层级的清理优化机制，避免工程不受控的庞大，文件和流程繁琐，并有备份预案和周期清理预案」·T2+否决窗 7 天）——五链同构 L0-L3+CEO；WIP 上限/入口窄化/范围蔓延闸/流程瘦身日；备份三级集团化（堵点=GitHub 私库物理件）；月度恢复演练入提案面。
+- 2026-09-24: **§9.4 恢复演练首试提前实证 ✓**（当日成立当日下午即试·不等下月）：①远端可达盘点=5/7 REACHABLE（FluxGroup/MiniGame/BigMoney/Bigmedia/Biglife ✓·FluxVerse/BigDomain=CEO 建仓物理件在册）；②HQ 全量克隆演练=HEAD 逐位一致（954b62c）+九关键件全在（governance/orders/AI/master-plan/decisions/architecture/philosophy/BRAND/RULES）+docs 7/cph4 20/Tools 6+orders 108 行·decisions 17 行对账+总 59 文件+演练场即清（临时件纪律）——**一级备份=活库持续 push 判据成立**；后续月度演练照 §10 日历。
