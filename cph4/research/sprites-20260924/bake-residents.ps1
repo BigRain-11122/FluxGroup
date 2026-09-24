@@ -22,12 +22,13 @@ function HashInt {
   return ($v % $mod)
 }
 
-$P_SKIN_C = @('#E6B184', '#D8A87A', '#C9986B', '#E8C098', '#DBAF85')
-$P_HAIR_C = @('#6B4A32', '#2E2A26', '#4A3828', '#7A4A2E', '#5A5A5A', '#8A6A3E')
-$P_CLOTH_C = @('#B0552F', '#8A5A44', '#A67C52', '#7A6A52', '#B3824D', '#6E7F5A', '#9C4F4F', '#71564B')
+$P_SKIN_C = @('#E6B184', '#D8A87A', '#C9986B', '#E8C098', '#DBAF85', '#C9A47E')
+# v0.1: perceptually-distinct pools - hex-unique == eye-unique (combo dedupe law)
+$P_HAIR_C = @('#2E2A26', '#6B4A32', '#8A4A32', '#C9A56A', '#5A5A5A', '#D8D8D0', '#6E5A80', '#3E7A72')
+$P_CLOTH_C = @('#A83A3A', '#C07A2E', '#B3A23E', '#4E7A3E', '#3E7A72', '#3E6E9E', '#3A4E7E', '#7A4E9E', '#9E4E7E', '#8A5A3E', '#7A746A', '#5A6E4E')
 $P_SKIN_S = @('#D8C8B0', '#CFC2AC', '#B8AC98')
-$P_HAIR_S = @('#55627A', '#3E4A5E', '#6A7A94', '#4E5E73')
-$P_CLOTH_S = @('#5A7089', '#4A5E78', '#5E7A6E', '#4E6E8E', '#66657A', '#4A6E7A', '#587286', '#3E5E6E')
+$P_HAIR_S = @('#8A9AB8', '#2E6E6E', '#C8D4E8', '#3E4A5E', '#9E7EB8')
+$P_CLOTH_S = @('#2E5E4E', '#3E8E8E', '#3E6E9E', '#2A3A5E', '#6E5E9E', '#9E5E8E', '#6A7484', '#8E7A4E', '#4E6E3E', '#5E8E5E', '#4E4E7E', '#7E4E5E')
 $P_SPRITE = @('#5EEAD4', '#A78BFA', '#60A5FA', '#F472B6', '#4ADE80')
 $P_BADGE = @('#FBBF24', '#5EEAD4', '#A78BFA', '#F472B6', '#4ADE80', '#60A5FA')
 
@@ -61,7 +62,7 @@ function Draw-Humanoid {
   Px $gr 4 1 8 6 $skin
   Px $gr 4 1 8 2 $hair
   Px $gr 3 2 1 2 $hair; Px $gr 12 2 1 2 $hair
-  if ($gcode -eq 0) { Px $gr 3 2 1 5 $hair; Px $gr 12 2 1 5 $hair }  # long hair (F)
+  if ($gcode -eq 0) { Px $gr 3 2 1 7 $hair; Px $gr 12 2 1 7 $hair }  # long hair (F) to shoulders
   Px $gr 5 3 2 2 $eye; Px $gr 9 3 2 2 $eye                          # LED square eyes
   Px $gr 6 5 4 1 $cheek
   Px $gr 4 7 8 5 $cloth
@@ -97,6 +98,7 @@ for ($i = 0; $i -lt $all.Count -and $sel.Count -lt $TAKE; $i += $step) { $sel.Ad
 
 $chNan = [string][char]0x7537
 $chNv = [string][char]0x5973
+$used = New-Object 'System.Collections.Generic.HashSet[string]'
 $manifest = New-Object System.Collections.Generic.List[object]
 $files = New-Object System.Collections.Generic.List[string]
 foreach ($r in $sel) {
@@ -125,6 +127,18 @@ foreach ($r in $sel) {
     $skin = $P_SKIN_C[$iSkin]
     $hair = $P_HAIR_C[$iHair]
     $cloth = $P_CLOTH_C[$iCloth]
+  }
+  if ($sp -ne 'sprite') {
+    $poolC = $P_CLOTH_C; $poolH = $P_HAIR_C
+    if ($sp -eq 'silicon') { $poolC = $P_CLOTH_S; $poolH = $P_HAIR_S }
+    $try = 0
+    while ($used.Contains($hair + '|' + $cloth) -and $try -lt 96) {
+      $iCloth = ($iCloth + 1) % $poolC.Count
+      $cloth = $poolC[$iCloth]
+      if ($try -ge $poolC.Count) { $iHair = ($iHair + 1) % $poolH.Count; $hair = $poolH[$iHair] }
+      $try++
+    }
+    [void]$used.Add($hair + '|' + $cloth)
   }
   $badge = $P_BADGE[$iBadge]
   $core = $P_SPRITE[$iCore]
