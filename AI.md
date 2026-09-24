@@ -43,7 +43,8 @@
 | **集团决策轮** | 每日 23:00 上报截止→00:00 拍板 | `cph4/decision.md`（子公司问题日报→集团统一思考+外部调研+科学拍板→各司执行+审核权驳回再报请→三冲突升级 CEO；**§8 分层级决策**：团队/部门/子公司/集团四层同律五律+底层优先；台账=`docs/decisions.md`） |
 | 令流 | 随时 | CEO 令 → `docs/orders.md` → 感知探针 → 事件流 → 城市动画 → 回执 |
 | 分级立法 | T0 宪法 CEO 签 / T1 治理 CEO 话 / T2 机制 AI+7 天否决窗 / T3 数据 AI 全权 | `cph4/evolution.md` §2 |
-| 诚实律三道防线 | 轮内自审/门禁机核/集团抽审 | `docs/governance.md` §10 |
+| **分层级审查** | L0 团队自审→L1 部门门核→L2 司级独立验收→L3 集团审计（夜轮四器/周轮抽审/决策回访）→CEO 终审位 | `cph4/review.md`（四层表+审查三律：执行审查分离/比例律 B1-B6 集团适用/升级闭环；触发表什么件过哪层）——姊妹件=`cph4/decision.md` |
+| 诚实律三道防线 | 轮内自审/门禁机核/集团抽审 | `docs/governance.md` §10（审查链的诚实律子面） |
 | 资源保留清理 | 周测入进化轮 | `cph4/retention.md`（R1 永不清/R2 归档/R3 定期清/R4 随轮清） |
 | 调度 | verdict 驱动·云端无限并行 | `cph4/scheduling.md` + 机队台账 `cph4/fleet-allocations.md` §五（`Tools/fleet-audit.ps1` 夜轮审计）·物尽其用律 §六 |
 | 本地化算力 | L1 确定性→L2 本地 LLM→L3 API | `cph4/local-first.md` |
