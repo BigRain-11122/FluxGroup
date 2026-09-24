@@ -18,11 +18,12 @@
 
 Full naming rationale and rules: see [BRAND.md](./BRAND.md).
 
-## Core philosophy (from the film Lucy / 超体)
+## Core philosophy (超体 canon · Rain 润泽万物)
 
-- Time is the only unit of measure.
-- Knowledge is unbounded.
-- I am everywhere.
+- Time is our only real currency.
+- Knowledge is unbounded — passed on, never hoarded.
+- 无处不在：超体的完成态是化入日常。
+- Rain 润泽万物：流到之处，万物生长。
 
 FLUX = the flowing process (data flow, capital flow, traffic flow).
 CPH4 = the origin substance that triggers the explosion (our AI engine).
@@ -31,7 +32,7 @@ Narrative: from one drop of CPH4, flow outward into the infinite universe.
 ## Slogans
 
 - Flux is Everything (流即万物)
-- I Am Everywhere (无处不在)
+- Nourish everything (润泽万物 · Rain)
 - From origin to infinity (从原点流向无限)
 
 ## Visual tone
@@ -50,7 +51,7 @@ FluxGroup/
 ├── docs/
 │   ├── architecture.md    <- group business architecture
 │   ├── governance.md      <- group ↔ subsidiary governance charter
-│   └── philosophy.md      <- culture & north star (Lucy + WALL-E)
+│   └── philosophy.md      <- culture & north star (Rain 润泽万物 + WALL-E)
 ├── gaming/                <- FLUX Gaming / 超体游戏
 ├── quant/                 <- FLUX Quant / FLUX 量化
 ├── media/                 <- FLUX Media / 超体自媒体

@@ -20,6 +20,14 @@ External presentation:
 Do NOT use: 扶摇 / 归墟 / 息壤 / 神经元 / 深流 / 无界 / 露西 / Lucy as the group name.
 These were rejected during naming. The locked names are above.
 
+### Founder & family identity（2026-09-24 补档）
+
+| 角色 | 姓名 | English | 职责 |
+|---|---|---|---|
+| 创始人 | 孙君晟 | Jason Sun | Founder & Group CEO——统管全局，战略与最终决策 |
+| 联合创始人 | 许瑛琦 | Qiqi Xu | Chief Brand & Culture Officer——品牌、文化、人文内核 |
+| 原点继承人 | 孙弋杰 | **Rain Sun** | Origin Heir——**英文名正名 2026-09-24 CEO 令：Rain = 润泽万物**（集团之未来与初心·文化外向锚） |
+
 ---
 
 ## 2. Meaning
@@ -33,24 +41,29 @@ These were rejected during naming. The locked names are above.
 - Short, hard, modern. No classical Chinese allusions.
 
 ### CPH4
-- From the film Lucy: the substance that lets a brain reach 100%.
+- Name locked by CEO (2026-09-23)：原点物质——让大脑开发到 100% 的引爆点。
 - In this brand: the origin substance, the AI engine, the explosion point.
 - CPH4 Labs = the research core that builds the engine.
 - CPH4 Labs = the lab that charts FluxVerse's future (2026-09-23).
 
 ### 超体宇宙 (Chinese parent)
-- 超体 = superbody / Lucy
+- 超体 = superbody（大脑开发到 100% 的存在·集团自有正典·2026-09-24 与电影引用解绑）
 - 宇宙 = universe
 - Narrative: from one explosion, a universe of flow.
+
+### Rain（文化外向锚·2026-09-24 CEO 正名）
+- 英文名 Rain，义 = **润泽万物**——流到之处，万物生长。
+- 原点继承人孙弋杰之名；集团文化的外向锚与未来初心（详见 `docs/architecture.md` Roles / `docs/philosophy.md`）。
 
 ---
 
 ## 3. Core philosophy
 
-Taken from Lucy:
-- Time is the only unit of measure.
-- Knowledge is unbounded.
-- I am everywhere.
+Group canon（超体正典 · Rain 润泽万物）:
+- Time is our only real currency.
+- Knowledge is unbounded — passed on, never hoarded.
+- 无处不在：超体的完成态是化入日常。
+- Rain 润泽万物：流到之处，万物生长。
 
 Brand promise: build the origin engine (CPH4), then let it flow everywhere (FLUX).
 
@@ -72,7 +85,7 @@ Primary:
 - Flux is Everything (流即万物)
 
 Alternates:
-- I Am Everywhere (无处不在)
+- Nourish everything (润泽万物 · Rain)
 - From origin to infinity (从原点流向无限)
 
 ---

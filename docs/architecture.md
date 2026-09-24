@@ -21,7 +21,7 @@
 ### Notes
 - Jason owns the whole group. No major move without his sign-off.
 - Qiqi owns the soul of the group: brand voice, culture, media line, and the human side that philosophy.md protects.
-- Rain (Rain = 大雨 = the origin name) is the group's future and its conscience.
+- Rain（英文名正名 2026-09-24 CEO 令：**Rain = 润泽万物**——流到之处，万物生长）is the group's future and its conscience.
   He does not run operations now; he is the reason the group must outlive any quarter.
 
 ## Business lines

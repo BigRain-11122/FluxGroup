@@ -26,7 +26,7 @@
     └── cph4/     CPH4 Labs 集团实验室（横切研发层·非业务线·零产品代码）
 ```
 
-### 1.2 治理哲学（来源：电影《超体 Lucy》+《机器人总动员 WALL-E》）
+### 1.2 治理哲学（来源：Rain 润泽万物 正典 +《机器人总动员 WALL-E》·2026-09-24 撤电影 Lucy 引用）
 
 - **FLUX** = 流（数据流/资金流/流量流）——集团运行三股流。
 - **CPH4** = 原点物质/引爆点——AI 引擎，集团研发核心。
@@ -54,7 +54,7 @@ CEO 只做决策、发号施令、定方向；子公司由各自 OS 循环自动
 | [RULES.md](file:///c:/Users/sjs20/Desktop/FluxGroup/RULES.md) | 顶层协作规则：命名、代码、目录、红线、CEO 令触发器 `/CEO` |
 | [AI.md](file:///c:/Users/sjs20/Desktop/FluxGroup/AI.md) | AI 速览正典：5 分钟全局认知入口（一句话/组织/元宙/机制/文件地图/AI 行为铁律） |
 | [CODELY.md](file:///c:/Users/sjs20/Desktop/FluxGroup/CODELY.md) | 集团记忆文件（行级追加面） |
-| [docs/philosophy.md](file:///c:/Users/sjs20/Desktop/FluxGroup/docs/philosophy.md) | 企业文化与北极星（Lucy + WALL-E） |
+| [docs/philosophy.md](file:///c:/Users/sjs20/Desktop/FluxGroup/docs/philosophy.md) | 企业文化与北极星（Rain 润泽万物 + WALL-E） |
 | [docs/architecture.md](file:///c:/Users/sjs20/Desktop/FluxGroup/docs/architecture.md) | 集团业务架构：角色、业务线、系统三层结构、机队 |
 | [docs/governance.md](file:///c:/Users/sjs20/Desktop/FluxGroup/docs/governance.md) | 集团治理契约：边界/拓扑/生命周期/指挥/记忆/安全/AI 诚实律 |
 | [docs/orders.md](file:///c:/Users/sjs20/Desktop/FluxGroup/docs/orders.md) | CEO 令与跨公司裁决唯一审计台账 |
