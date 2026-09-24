@@ -1,12 +1,12 @@
 # FLUX Media / 超体自媒体 — AI 媒体线
 
-> 超体宇宙集团的知识分发线——Lucy 留下的 U 盘。文化分管：Qiqi（品牌嗓音·人文内核）。
+> 超体宇宙集团的知识分发线——知识是传承的（润泽万物）。文化分管：Qiqi（品牌嗓音·人文内核）。
 > **产品公司 = BigStream**（`BigStream/` · 2026-09-23 CEO 点名开线）——一家 AI 运营的媒体公司。
 > 读序：集团 `/README.md` → `/BRAND.md` → `/docs/philosophy.md` → `/RULES.md` → 本文件 → 产品仓 `BigStream/README.md` → `BigStream/PLAN.md`。
 
 ## Position（集团哲学在本线的落地）
 
-- Lucy 面：knowledge is unbounded and meant to be passed on——知识传递，不设上限。
+- Rain 面（润泽万物）：knowledge is unbounded and meant to be passed on——知识传递，不设上限。
 - WALL-E 面：clean content, not garbage feed——干净内容，不做垃圾信息流。
 
 ## 平台矩阵（CEO 令 2026-09-23）

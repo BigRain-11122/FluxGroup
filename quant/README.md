@@ -6,7 +6,7 @@ Read `/README.md`, `/BRAND.md`, `/docs/philosophy.md`, `/RULES.md` first.
 ## Position
 
 Signal across time. Anti-entropy cognition on the capital flow.
-Lucy side: time is the only measure; we look through the noise.
+Rain side（润泽万物）: time is the only measure; we look through the noise.
 WALL-E side: capital serves people's real futures, not the casino.
 
 ## Stack（实况 2026-09-23）

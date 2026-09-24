@@ -9,7 +9,7 @@ The content universe — the company that ships playable worlds.
 An **AI game company**: the company itself is the engine — self-evolving, AI-empowered,
 automated development (U168). Products are games; the engine is the company.
 Not a dopamine machine. We build games players carry for years.
-Lucy side: a universe with soul.
+Rain side（润泽万物）: a universe with soul.
 WALL-E side: experiences that respect the player, not their wallet.
 
 ## Operating company

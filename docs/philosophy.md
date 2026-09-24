@@ -2,7 +2,7 @@
 
 Source of the soul.
 Anchors: 集团自有正典「超体」＋ **Rain（润泽万物）** ＋《WALL-E》(2008)。
-（2026-09-24 CEO 令撤除全部电影 Lucy 引用——原有精神内涵保留，转为集团自有正典。）
+（2026-09-24 CEO 令：本文件已转为集团自有正典——原有精神内涵保留。）
 This file is the moral north star. Strategy changes; this does not.
 
 ---
