@@ -40,8 +40,9 @@ CEO 两分类**已存在于 BigLife CODEX 宿主披露**（数据层永不混淆
 | 批 | 内容 | 承建 | 依据 |
 |---|---|---|---|
 | 批 0（本批） | 设计语言 v0+程序化样张 5 张（本件 §四+`sprites-20260924/`） | CPH4 自产 | GDI+ 确定性烘焙（r38/r40 范式） |
+| 批 1.5（CEO 令 ~20:35 解锁「不要等待」） | **居民精灵生成器 v0**（`bake-residents.ps1`=census 只读→species/gender/hash(id) 确定性派生）+**生产批 32 只实跑**（`batch1/`·contact-sheet+manifest.json 消费清单）——碳基 23/硅基 7/像素灵 2 比例对齐户籍·长发变体在册·多模态验货通过（「同一座城市居民」归属感） | CPH4 产机制件·资产归消费司（DevLoop/BigLife 按清单自取） | r39 bake 范式·零 LLM·确定性可再生成 |
 | 批 1 | 原生民量产变体：AA-016.04+residents-crowd 族源调色/部件变体+M2 池扩容（12 席→按城区配额） | FluxVerse-DevLoop（M2 NPC 池·P-22 余面） | 用对台账+四闸 |
-| 批 2 | 用户化身基件+CEO Jason 特典件（原创签名面） | 呈 CEO 样张批准→DevLoop 烘焙 | 禁 L2 直用 |
+| 批 2（样张批准门已解除） | 用户化身基件+CEO Jason 特典件（原创签名面·样张级基件已先产） | DevLoop 烘焙量产细节 | 禁 L2 直用 |
 | 批 3 | census 形象派生规则（species/host→palette/眼型确定性烘焙）+户籍卡形象面 | BigLife（CODEX 形象节 T2）+r39 bake 范式 | 宿主披露字段已在册 |
 
 ## 六、结论应用表（research-protocol §二·dogfood）
@@ -50,6 +51,7 @@ CEO 两分类**已存在于 BigLife CODEX 宿主披露**（数据层永不混淆
 |---|---|---|
 | 设计语言 v0 两类特色规则 | 转 BigLife CODEX 形象节（T2+否决窗）+FluxVerse DESIGN 接线 | 接线中（P-68 转办） |
 | 批 1 量产路径 | 任务单 P-68 转办@FluxVerse-DevLoop | 接线中 |
-| CEO 化身特典样张 | 决策呈报：样张批准后批 2 开工 | 待 CEO 一眼认可 |
+| CEO 化身特典样张 | **批准门已解除（CEO 令 ~20:35「不要等待」）**——批 2 全速 | 已闭环 |
 | AA-016.04 主力判定 | ART 用对台账行（已然·引用） | 已闭环 |
-| 样张 5 张 | 本件证据 `sprites-20260924/`（多模态盲测在册） | 接线中 |
+| 样张 5 张 | 本件证据 `sprites-20260924/`（多模态盲测在册） | 已闭环 |
+| 生成器+生产批 32 只 | 交付件 `sprites-20260924/batch1/`（manifest.json=DevLoop/BigLife 消费接线清单） | 已闭环 |
