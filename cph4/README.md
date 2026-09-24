@@ -50,6 +50,7 @@
 | **资源保留与清理** | 根级冻结清单法+Housekeeping | fleet 传输批末清临时件（§5 借算范式） | **cph4/retention.md**：四级保留制（R1 永不清/R2 归档优先/R3 定期清/R4 随轮清）×防误伤五闸（隔离区 7 天可恢复）×防膨大三律·`Tools/retention-scan.ps1` 只读周测入进化轮 |
 | **数字人口/人设生产** | 城市叙事居民与游戏人设需求走 BigLife 任务单（M2 NPC 姓名池按 P-22 消费契约） | —（人设面暂无直接需求） | **BigLife（`life/BigLife`·2026-09-24 定名）=集团唯一人口工厂**（2026-09-23 开线）：万人户籍库 census/+基因库 genes/+进化引擎 evolve_citizen.py（真实事件喂养·[锚]定律）+BigLife-OSLoop 10min——他司禁重建（governance §6 禁双建） |
 | **git 版本与分支治理** | G 系 tag 门禁（51 枚范式）+X128 机器分支自治+master 存续豁免 | fleet 禁 force-push+10min 控制面 git 轮 | **cph4/versioning.md**（CEO 令 2026-09-23「建立git顶层版本和分支设计」）：trunk-based 主干开发·main 正典·`<scope>/vX.Y.Z` tag 档案律（HQ=`gov/vX.Y`·FluxVerse=`M<x>/v1.0`）·revert 追加式回滚·新仓接线 checklist |
+| **分层级决策体系（2026-09-24）** | 专家池+门禁链=L1 部门面典范·U 号批件=L2 司面 | fleet O 号+门禁链 G1'/G2=L1/L2 典范 | **cph4/decision.md**：决策路由总表+决策轮日频环（23:00 上报→00:00 科学拍板→司审核→三冲突升 CEO）+**§8 四层结构**（L0 团队/L1 部门/L2 子公司/L3 集团·同律五律：依据/调研/判据/留痕/升级·底层优先原则）·台账=`docs/decisions.md` |
 
 ## 共享方法论（两公司实证同源，集团法）
 
