@@ -53,8 +53,7 @@ try {
     $rows += ,@($num, $ln)
     if ($num -gt $dayMax) { $dayMax = $num }
   }
-  if ($curDay -ne $today) { $curMax = $dayMax }
-  if ($curMax -eq 0 -and $dayMax -gt 0) { $curMax = $dayMax }
+  if ($curDay -ne $today) { $curMax = 0 }
   $wake = @{}
   foreach ($r in $rows) {
     $num = $r[0]; $ln = $r[1]
