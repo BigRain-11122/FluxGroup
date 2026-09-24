@@ -45,7 +45,7 @@
 | 分级立法 | T0 宪法 CEO 签 / T1 治理 CEO 话 / T2 机制 AI+7 天否决窗 / T3 数据 AI 全权 | `cph4/evolution.md` §2 |
 | 诚实律三道防线 | 轮内自审/门禁机核/集团抽审 | `docs/governance.md` §10 |
 | 资源保留清理 | 周测入进化轮 | `cph4/retention.md`（R1 永不清/R2 归档/R3 定期清/R4 随轮清） |
-| 调度 | verdict 驱动·云端无限并行 | `cph4/scheduling.md` |
+| 调度 | verdict 驱动·云端无限并行 | `cph4/scheduling.md` + 机队台账 `cph4/fleet-allocations.md` §五（`Tools/fleet-audit.ps1` 夜轮审计）·物尽其用律 §六 |
 | 本地化算力 | L1 确定性→L2 本地 LLM→L3 API | `cph4/local-first.md` |
 | Token 经济机制（统摄层） | 轮账本一行+周轮聚合三面 | `cph4/token-economy.md`（三面模型/五律/本地栈 v1·战略=`local-first.md`） |
 
