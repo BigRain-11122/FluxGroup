@@ -8,7 +8,7 @@
 | 层 | 内容 | 归属 |
 |---|---|---|
 | **L0 CEO 物理件层**（刻意不自动化=安全律同源） | SSH key→GitHub 授权（身份/钥匙刻意不备份，FLEET-OPS §4）；Tuanjie Cowork 安装（codely CLI 载体）；Tuanjie Hub 登录+MCP 授权；引擎版本安装；账号域 | CEO/装机人 |
-| **L1 一键脚本层** | `Tools/bootstrap-machine.ps1` 六相：P0 前置检查（git/python/codely/磁盘水位）→ P1 身份（key 生成+GitHub auth 实测）→ P2 拉仓（HQ+各产品仓按角色）→ P3 环境（引用各司自件）→ P4 计划任务（静默律注册）→ P5 验证报告（READY/PARTIAL+物理件清单） | 集团仓 |
+| **L1 一键脚本层** | `Tools/bootstrap-machine.ps1` 六相：P0 前置检查（git/python/codely/磁盘水位）→ P1 身份（key 生成+GitHub auth 实测）→ P2 拉仓（HQ+各产品仓按角色）→ P3 环境（**全局 git 身份写入[versioning §4.1 所有者身份·幂等]**+引用各司自件）→ P4 计划任务（静默律注册）→ P5 验证报告（READY/PARTIAL+物理件清单） | 集团仓 |
 | **L2 各司自件层**（引用不复制） | bigmoney=`bootstrap.py`（依赖+smoke20+仪表盘）+`Tools\register_loop_task.ps1`；biggame=`tools\MachineBoot.ps1`（08 号自举：skills/引擎模块/运行时目录/任务注册，环境全绿才开门禁）+`machine.json`（本机身份，刻意不入库）；fluxverse=`Tools\devloop\register_loop_task.ps1`+FluxVerseTick 直注；fleet 登记=FLEET-OPS §2 接入五步+`TRANSFER.md` 大资产通道 | 各产品仓 |
 
 ## 1. 一键用法（新机三步）

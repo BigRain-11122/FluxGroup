@@ -120,6 +120,16 @@ foreach($role in $repoMap.Keys){
 
 # ---------------- P3 per-repo environment (delegate to their own tools) ----------------
 Write-Host '== P3 environment =='
+# git identity: group owner identity per cph4/versioning.md 4.1 (machine attribution
+# lives in commit trailers [via <machine>]); repo-level overrides stay untouched.
+$curName = git config --global --get user.name
+if($curName -ne 'junsheng.sun'){
+    git config --global user.name 'junsheng.sun'
+    git config --global user.email 'junsheng.sun@unity.cn'
+    Add-Result 'env.git-identity' 'FIXED' 'owner identity set (versioning 4.1)'
+} else {
+    Add-Result 'env.git-identity' 'PASS' 'owner identity already set'
+}
 $bm = Join-Path $Root 'quant\bigmoney'
 if($Roles -contains 'bigmoney' -and (Test-Path (Join-Path $bm '.git'))){
     $marker = Join-Path $bm '.codely-cli\onboarding\bootstrap.done'

@@ -32,6 +32,11 @@ $patterns = [ordered]@{
 }
 $reList = @($patterns.Keys | ForEach-Object { $patterns[$_] })
 
+# known benign anchors: documented test fixtures that live in git history on purpose.
+# AKIAIOSFODNN7EXAMPLE = AWS official docs sample key, kept as the secret-scan E2E
+# probe (commit d606999, reverted 5f6cd36) - permanent scanner fixture, not a secret.
+$allowAnchors = @('AKIAIOSFODNN7EXAMPLE')
+
 $outDir = Join-Path $root '.codely-cli\secret-scan'
 New-Item -ItemType Directory -Path $outDir -Force | Out-Null
 $stamp = Get-Date -Format 'yyyyMMdd-HHmm'
@@ -51,6 +56,7 @@ foreach ($repo in $repos) {
         foreach ($m in $f.Matches) {
             $id = $null
             foreach ($k in $patterns.Keys) { if ($m.Value -match $patterns[$k]) { $id = $k; break } }
+            if ($allowAnchors -contains $m.Value) { continue }   # documented fixture, skip
             $ln = $f.Line
             # long-line / base64 gate: real secrets sit on short lines; megabyte
             # base64 data-URIs cause regex false positives -> classify as P2 review
@@ -66,6 +72,9 @@ foreach ($repo in $repos) {
 $header = "secret-scan $stamp | window=$Days day(s) | repos scanned: $scanned | hits: $($hits.Count) | P0: $(@($hits | Where-Object { $_.StartsWith('[P0]') }).Count) P2: $(@($hits | Where-Object { $_.StartsWith('[P2]') }).Count)"
 $lines = @($header) + $hits
 Set-Content -Path $report -Value $lines -Encoding ascii
+# rotation: keep newest 7 reports (retention 4.1 rotation law, same as FluxVerse logs)
+Get-ChildItem -Path $outDir -Filter 'report-*.txt' | Sort-Object LastWriteTime -Descending |
+    Select-Object -Skip 7 | Remove-Item -Force -ErrorAction SilentlyContinue
 Write-Output $header
 if ($hits.Count -gt 0) {
     # cap stdout at 40 lines to respect silence/effort law; full list always in report file
