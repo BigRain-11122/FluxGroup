@@ -17,7 +17,7 @@
 | **BigMoney** | 量化公司：沪深 ETF 波段·8 流派 35 策略·双节点机队 | `quant/bigmoney/`（独立仓） | `PLAN.md` + `fleet/` 协议 |
 | **BigStream** | AI 媒体公司：集团 AI 生态内容线（视频号/公众号/B站…） | `media/BigStream/`（独立仓·GH 仓名 Bigmedia） | 产品仓 `PLAN/` + `orders/` |
 | **BigDomain** | 硅基域商业化公司：引流/共创/商业化（19.9 算力包·大厅·身份·B 端·代币内循环） | `domain/BigDomain/`（独立仓·local） | 产品仓 `BLUEPRINT.md` |
-| **CPH4 Labs** | 集团实验室：机制淬炼工厂+元宙规划大脑（零产品代码） | `cph4/` | `cph4/README.md`（能力注册表） |
+| **CPH4 Labs** | 集团实验室：机制淬炼工厂+元宙规划大脑+**技术/架构底层全面负责**（2026-09-24 CEO 令·唯一问责面=规格+选型仲裁+验收；实施转办各司·零产品代码不变） | `cph4/` | `cph4/README.md`（能力注册表） |
 | **FluxVerse** | 元宙城：集团的实时驾驶舱与数字生命栖居地（Biggame 承建） | `gaming/FluxVerse/`（独立仓） | `BLUEPRINT.md` + `DESIGN.md` + `TECH.md` |
 | **BigLife** | 数字生命生产公司：超体宇宙城人口与人设资产（万人户籍库·自我进化·2026-09-24 定名转正） | `life/BigLife/`（独立仓） | `docs/CODEX.md` + `docs/SILICON-LIFE.md` + `BLUEPRINT.md` |
 
