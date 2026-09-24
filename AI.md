@@ -46,6 +46,7 @@
 | 资源保留清理 | 周测入进化轮 | `cph4/retention.md`（R1 永不清/R2 归档/R3 定期清/R4 随轮清） |
 | 调度 | verdict 驱动·云端无限并行 | `cph4/scheduling.md` |
 | 本地化算力 | L1 确定性→L2 本地 LLM→L3 API | `cph4/local-first.md` |
+| Token 经济机制（统摄层） | 轮账本一行+周轮聚合三面 | `cph4/token-economy.md`（三面模型/五律/本地栈 v1·战略=`local-first.md`） |
 
 ## 4. 文件地图（AI 导航）
 
