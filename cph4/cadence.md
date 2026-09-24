@@ -10,7 +10,7 @@
 |---|---|---|---|---|
 | **10min 轮族**（错峰车道） | BigStream-OSLoop :x2｜BigLife-OSLoop :x3｜MiniGameOllamaKeepWarm :x3｜**BigDomain-OSLoop :x4**（本批新入·待机司宿主引导）｜FluxVerse-DevLoop :x5｜**FluxVerseTick :x6**（本批自 :x7 迁入·原与 MiniGameEngineTick 同分钟竞写读）｜MiniGameEngineTick :x7｜Bigmoney-IterationLoop :x8｜MiniGameTickWatchdog :x8｜MiniGameEditorSentry :x9 | 每 10 分钟 | 各司 OS 迭代/心跳/保温/看门狗 | 静默律 VBS+单实例锁+轮首脏定向 add+轮账本 |
 | **小时/事件族** | MiniGameCockpitBeat（5min 心跳）｜MiniGameTjcloudSync（时 :13）｜Bigmoney-LoopWatchdog（30min） | 分钟级 | 驾驶舱心跳/云同步/自愈看门狗 | watchdog 车道归属绑定（F-08：非 owner 只观测） |
-| **分钟哨兵族**（2026-09-24 流转提速令新增） | **FluxGroup-OrderSentinel（2min）**：evolution 台账新行含 P0/P1/T0/T1 级+@司标签→即时唤醒目标 OS 循环（令→动工 ≤2-4min·替代等下一 10min 轮） | 每 2 分钟 | **令流加速** | 静默（-WindowStyle Hidden）+单实例锁 2min+ASCII 匹配（编码律·中文标签外置 map）+wake-once 幂等+state 记行数+分机不在 bm-a 不唤醒（其自报节律） |
+| **分钟哨兵族**（2026-09-24 流转提速令新增） | **FluxGroup-OrderSentinel（2min·v1.1）**：evolution 台账新行含 P0/P1/T0/T1 级+@司标签→即时唤醒目标 OS 循环（令→动工 ≤2-4min·替代等下一 10min 轮） | 每 2 分钟 | **令流加速** | 静默（-WindowStyle Hidden）+单实例锁 1min 陈旧接管+ASCII 匹配（编码律·中文标签外置 map·**map 键禁大小写重复变体**）+wake-once 幂等+state 记行数+**try 内用 return 禁 exit**（exit 跳过 finally=锁残留 v1.0 实证）+分机不在 bm-a 不唤醒（其自报节律） |
 | **日轮族** | **决策轮 00:00+12:00 双班**（23:00 上报截止）｜**值守轮 03:07+15:07 双班**（原夜轮·四器审计+熔断自愈+SLA 扫描）｜MiniGameRadarTick 09:52｜PolicyTick 12:52｜GateTick 14:52｜AuditTick 17:52｜**BigCompute-OSLoop 22:43**（硅基算力计划态日轮：日清上报赶 23:00 截止+决策审核+调研消化+风险台账 upkeep·**CEO 令面由哨兵即时唤醒**） | 每日 | 拍板/自反应/巡检/门禁/审计/商业化迭代 | 单轮预算 15-25min+超时优雅收尾 |
 | **周轮族** | MiniGameHousekeeping 日 07:17｜RadarDeepTick 日 08:52｜**集团进化轮 日 09:17** | 周日 | 清理批/深扫/立法四步+考核面 | 轮首脏退避+法熵审视（季） |
 | **登录/常驻族** | MiniGameOllamaServe（登录）｜MiniGamePopupWitness（登录常驻·弹窗见证） | 登录 | 本地模型服务/弹窗证据 | GPU/RAM 纪律 fleet §10 |

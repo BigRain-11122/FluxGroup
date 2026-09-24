@@ -1,10 +1,12 @@
-# order-sentinel.ps1 - FluxGroup Order Sentinel (CEO flow-speed order 2026-09-24 ~21:35)
-# Purpose: wake target OS loops within ~2min when new P0/P1/T0/T1 rows land in the
-#          evolution ledger, instead of waiting for the next 10-min round.
+# order-sentinel.ps1 - FluxGroup Order Sentinel v1.1 (CEO flow-speed order 2026-09-24 ~21:35)
+# v1.1 fix (same night, honest log): v1.0 died silently on duplicate-case JSON keys
+#   (PS5.1 ConvertFrom-Json treats keys case-insensitively -> terminating parse error)
+#   and leaked the instance lock because `exit` inside try skips `finally` in PS5.1.
+#   Fix: single-case map keys + `return` inside try + stale-lock threshold 1min
+#   + map load try/catch that logs a FATAL line instead of dying silently.
 # Laws: silent (schtasks -WindowStyle Hidden per CEO silence law), single-instance
-#       lock 2min, ASCII-only body (encoding law - Chinese company tags live in
-#       order-sentinel-map.json), idempotent wake-once per ledger line count.
-# Level filter: P0/P1/T0/T1 rows only (T2/P2 ride the shift rounds by design).
+#       lock, ASCII-only body (encoding law - company tags live in map json),
+#       idempotent wake-once per ledger line count. Levels P0/P1/T0/T1 only.
 param([string]$Root = "C:\Users\sjs20\Desktop\FluxGroup")
 $ErrorActionPreference = 'SilentlyContinue'
 $Dir    = Join-Path $Root '.codely-cli\sentinel'
@@ -16,13 +18,20 @@ $Ledger = Join-Path $Root 'cph4\evolution-ledger.md'
 if (-not (Test-Path $Dir)) { New-Item -ItemType Directory -Path $Dir | Out-Null }
 if (Test-Path $Lock) {
   $ageMin = ((Get-Date) - (Get-Item $Lock).LastWriteTime).TotalMinutes
-  if ($ageMin -lt 2) { exit 0 }
+  if ($ageMin -lt 1) { exit 0 }
   Remove-Item $Lock -Force
 }
 Set-Content -Path $Lock -Value "pid=$PID ts=$(Get-Date -Format s)" -Encoding ASCII
 try {
-  if (-not (Test-Path $MapF)) { exit 0 }
-  $map = Get-Content -Raw -Encoding UTF8 $MapF | ConvertFrom-Json
+  if (-not (Test-Path $MapF)) {
+    Add-Content -Path $LogF -Value "$(Get-Date -Format s) FATAL map missing" -Encoding UTF8
+    return
+  }
+  try { $map = Get-Content -Raw -Encoding UTF8 $MapF | ConvertFrom-Json }
+  catch {
+    Add-Content -Path $LogF -Value "$(Get-Date -Format s) FATAL map parse: $($_.Exception.Message)" -Encoding UTF8
+    return
+  }
   $lines = [System.IO.File]::ReadAllLines($Ledger, [System.Text.Encoding]::UTF8)
   $n = $lines.Count
   $seen = 0
@@ -30,7 +39,7 @@ try {
   if ($seen -lt 0) { $seen = 0 }
   if ($seen -ge $n) {
     Set-Content -Path $StateF -Value ('{"seen":' + $n + '}') -Encoding ASCII
-    exit 0
+    return
   }
   $wake = @{}
   for ($i = $seen; $i -lt $n; $i++) {
