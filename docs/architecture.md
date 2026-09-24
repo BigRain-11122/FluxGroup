@@ -48,7 +48,7 @@
     ├── quant/ （线工作区）──> BigMoney 产品仓 BigMoney.git（main）
     ├── media/ （线工作区）──> BigStream 产品仓 BigStream.git（main·remote 已通 Bigmedia）
     ├── domain/（线工作区）──> BigDomain 产品仓 BigDomain.git（2026-09-23 开线·remote 待 CEO 建）
-    ├── life/  （线工作区）──> BigLife 产品仓（2026-09-23 开线·2026-09-24 定名·remote 已预接线 BigLife.git 待 CEO 建库·主干 main）
+    ├── life/  （线工作区）──> BigLife 产品仓 Biglife.git（2026-09-23 开线·09-24 定名·**remote 已接通·main**）
     └── cph4/  （CPH4 Labs 集团实验室 · 元宙规划 · 横切层）
 ```
 

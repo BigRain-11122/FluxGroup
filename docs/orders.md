@@ -27,13 +27,24 @@
 | 09-23 ~16:45 | 「ceo指令 cph4升级为实验室，名称是cph4 labs，负责元宇宙城市的未来规划和发展，具体怎么弄你替我规划」 | CPH4 Labs 升格：名称正典已锁（BRAND §2「CPH4 实验室」·无需改名），职能扩容=新增第一职责「元宙未来规划与发展」；运转环五步=研究R-简报→DESIGN/TECH规划入册→进化轮提案→FluxVerse承建→假设回访；分工红线=实验室规划大脑非施工队（零产品代码铁律不变）；章程=cph4/README.md 元宙规划职能节 | executed |
 | 09-23 ~16:40 | 底座技术审计（如实转述）：致命=坏事件先落盘后verify永久FAIL无自愈；CEO令探针漏集团台账与BigStream令（O-1602/O-1609城里无反应）+游戏A/B/C分机不在城；MEDIA状态写死；verify宣传>实际；tick无单实例锁/事件JSON未全转义/jsonl无游标渐慢 | 已修（FluxVerse 7b09f9c+0054f49·双执行体并轨收编）：F1 写侧门禁+隔离区+两阶段晋升（实测注入2坏事件→healed 2恢复PASS）；F2 三台账面探针化（集团台账/BigStream/Biggame真实fleet入城·fleet=5全在线带工单）；F3 状态全派生（7日git活动）；F4 verify内字段对齐TECH；S1 tick锁/S2 全转义/S3 verify游标O(增量)；终验9探针OK+gate PASS | executed |
 
-## CEO 待办物理件
+## CEO 待办物理件（常设提醒面·CEO 指令 2026-09-24「以后需要我手动操作的多提醒一下」——各司呈报+本区集中）
 
-- ~~GitHub 建私库 `BigRain-11122/BigStream`~~ **已建（2026-09-23 审计实况：仓名=Bigmedia·remote 已接通有 push；仓名正典待 CEO 一句话——若定 BigStream 则 GH 改名+登记簿回改）**
-- GitHub 建私库 `BigRain-11122/FluxVerse`（元宙·可与 BigStream 一并建） → `git remote add origin … && git push -u`
-- GitHub 建私库 `BigRain-11122/BigDomain`（商业化）与 `BigRain-11122/<BigLife 正名>`（数字生命生产·正名后建）——可与 FluxVerse 一并建
-- 平台账号开通（BigStream 首发：视频号 + 公众号）
+**① GitHub 建仓三件（阻断面最大：全机观城台分发/元宙备份/商业化接线全堵在此）**
+- ~~`BigRain-11122/BigLife`~~ ✅ **已建已通（2026-09-24·仓名=Biglife·首推 main 毕·整夜 70 轮全史已备份上云）**
+- `BigRain-11122/FluxVerse`（元宙·**观城台全机分发 P-26+城市资产批链全卡在这**·参数=Private·不勾 README → 建好后各循环自动 push）
+- `BigRain-11122/BigDomain`（商业化·参数同上 → 建好后接线六步走毕）
+- （一句话裁）Bigmedia 仓名正典：现仓名=Bigmedia（建仓时名）≠ 产品名 BigStream——要改则 GitHub 一键改名+登记簿回改，不改则 BRAND §8 注记仓名
+- （可选·纯观感）Biglife 仓名大小写=Biglife ≠ BigLife（git 访问不分大小写·功能零影响·GitHub 一键改名可对齐）
+
+**② GitHub 仓设置（一次性两分钟）**
+- 各仓 Branch protection：Block force pushes（versioning §8 物理件——FluxVerse/BigDomain/Biglife/Bigmedia/HQ 五仓各一键）
+
+**③ 平台与账号**
+- 平台账号开通（BigStream 首发：视频号 + 公众号——内容产线零发布墙的唯一钥匙）
+- MiniGame 上线链账号四件（X001a/X002b/X003/X004 已 8 天未动——U177 三维体检判「上线链真正咽喉」；如实呈报不催办）
 - （悬置）SMTP 授权码轮换——邮件简报恢复时用新码（Biggame U166 暂停令在效）
+- BigDomain 支付通道：微信支付商户号（19.9 算力包闭环前置·随 M2-M3）
+
 
 ## AI 代决记录（CEO 委托「你自己决定」2026-09-23 ~16:52）
 
@@ -87,3 +98,4 @@
 | 09-24 ~11:05 | 「居民的智能化要形成本地的能力和算力，不能依靠token云端」 | **本地算力律立法+机器审计**（BigLife·SILICON-LIFE 律三升格「代谢·本地算力律」·94e9019）：①**机器审计实锤**（先审计后立法）：Tools 全目录扫描=唯一 HTTP 端点 `localhost:11434`×3（evolve_citizen/pool_gen/spotlight）——零 API 键·零云端调用·零 token 依赖；`ollama list` 本地实盘三线=快线 qwen2.5:7b-instruct 4.7GB 现役+深度线 qwen2.5:14b 9GB **已在盘**+向量线 bge-m3 1.2GB **已在盘**（宿主 bm-a 4070S·共 15.9GB）；智能面全分级=L1 确定性（池/draw/needs/sync/QC/机审门·零 LLM）→L2 本地 LLM（聚光灯/进化/反思层·11434）——**无任何 L3 面**；②**律三正文**：居民智能算力=本地（L1→L2·Ollama 11434）——**云端 token=禁**（唯一例外=CEO 明令）；深度线 14b 随 V3 点居民问答启用·向量线 bge-m3 随 V3 履历 RAG 启用（禁空转预装律·已在盘=启用即零等待）；③计量先行=OSLoop mandate 收尾加轮账本标准行 `tokens: local=<次数> api=0 api_reason=-`（token-economy 机制五律同源·本件兼 P-31 BigLife 适配面首件回执）；④居民智能本就零云端——本令把既有事实升为法律并接计量 | executed（审计全绿+立法+接线一步到位） |
 | 09-24 ~11:00 | 「ceo命令，建立起集团决策能力，子公司的问题每天晚上11点统一上报，每天晚上12:00，集团对子公司和集团问题进行统一思考，外部调研后，获取关键信息后，科学理性拍板，要站在集团层面，然后各子公司执行，各子公司也需要对决策审核，否则继续下一次报请并说明理由。」 | **集团决策轮立法+点火**（机制五件套·T1 CEO 令直接落地）：①**章程**=cph4/decision.md——节律四拍（23:00 各司上报截止→00:00 集团统一思考+外部调研+科学拍板→各司循环审核执行→驳回写理由次日再报请·两轮驳回=第三轮升级 CEO 终裁防死循环）；②**拍板方法论立法**=外部调研取关键信息禁拍脑袋+决策必带依据列（无依据=无效）+集团层面视角律（司级收益服从集团）+T2/T3 轮内直接拍·T0/T1 拟案呈 CEO 决策轮永不越权；③**载体**=计划任务 FluxGroup-DecisionRound 每日 00:00 静默 VBS（注册实弹点火 State=Running+日志起跑实锤·首版 VBS 参数协议坑当场修复=.ps1 须 powershell.exe 包壳）+台账 docs/decisions.md（唯一决策面·行级追加·CEO 复查入口）+上报复用各司既有 HQ-FEEDBACK.md 零新通道；④**与既有机制分工**=夜轮 03:07 机制健康/周轮立法/决策轮业务拍板/orders=CEO 令——四层节律零重复；⑤派工=P-32 转办全司（mandate 加日清上报步+决策审核步·夜轮消点） | executed（机制已活·首轮在跑·各司自领中） |
 | 09-24 ~11:10 | 「要我决策的，自己调研后 科学理性决策」（对反复呈报的「待 CEO 三件」决策队列的处置令——与 09-23 15:15 委托决策令同源扩展） | **待决队列科学自决三件·BigLife 队列清零**（BigLife c2a9634）：①**BigLife 定名转正**——调研矩阵（Big* 家族同构[BigMoney/Biggame/BigStream/BigDomain]+Life 线+CEO 亲立「硅基生命体」物种正典同词根+诚实律合规[BigSoul 类「灵魂」=T0 禁语名否决]+**零替换成本**[目录与全文件已是 BigLife·同名转正]）→ 临时代号转正：BRAND §8 codename→locked（诚实记录=委托决策定名·非 CEO 亲点名）+全局标记清除（HQ 8 处+产品仓 4 处）+主干 master→main 对齐（versioning §2 零成本窗口）——**T1 否决窗至 2026-10-01·CEO 一句话可翻案走正名程序（成本已证极低）**；商用前商标筛查义务记档（对外商业化归 BigDomain 面·过法务一并审）②**GitHub 私库**——技术探测：本机无 gh CLI/API 凭据（实测）→建库=CEO 唯一剩余物理动作；已完成 remote 预接线（`BigRain-11122/BigLife.git`）——建库后任一台 `git push -u origin main` 即通③**荣誉市民席 C-00001~09**——科学定性=**常设保留不代创**（CODEX §十硬红线·人设权=CEO 创造性保留面·通用决策授权未明示推翻；空席零阻塞·受理程序就绪）——从「待决」改「常设保留」，退出呈报队列 | executed（三件清零：定名落地+预接线待建库+常设保留定性；此后本司呈报只报真物理件与实况，不再停决策队列） |
+| 09-24 ~11:05 | 「建立起集团层面机器群统一调度，合理分配的机制，保证每台机器物尽其用，CPU GPU 内存等。」 | **机队统一调度+物尽其用律**（fleet-allocations.md 扩法 §五统一利用率台账+§六物尽其用律·T2+否决窗 7 天·实弹 2026-09-24 11:05 六机全绿）：①**审计器=Tools/fleet-audit.ps1**（只读聚合既有心跳三源：MiniGame fleet a/b/c.json[RAM%/VRAM/GPU util%/磁盘/verdict]+BigMoney fleet/machines/bm-*.json[RAM/VRAM/cores/任务单]——零新增采集负担·开闭原则新源加一行）；②**旗标判据**=GREEN-IDLE（RAM≥40% 空闲且 VRAM≥6GB 且无在途任务=可借池）/YELLOW-HEAVY（RAM<10% 或 VRAM<1.5GB=过载保护）/STALE>2h/OFFLINE>24h=失联点名（黑灯区律同源）——首夜实弹：bm-c GREEN-IDLE/bm-a YELLOW-HEAVY/BG-B STALE/失联 0；③**三级调度决策面**=机内自调度→跨机借池（verdict 认领制）→CEO 资源调配（四输入面）——统一调度=聚合可见+池化促配+审计点名，**非搬任务守护进程**（scheduling.md 律不变）；④**闲置点名律**=主归属机连续两夜 GREEN-IDLE→夜报点名派活/进借池/声明待机豁免（48h 响应）+过载保护律（fleet §10 让路+P0-Resource 呈报）+失联律（认领超时释放）；⑤**夜轮接线**（night-round-prompt 感知步已加行·每夜审计入夜报）+周轮周报趋势一行+两周进化轮回访（KPI=闲置点名下降+借池认领上升）；⑥**bm-c 新机入分配表**（32 核/RAM 25.7GB/GPU 13GB 级·BigMoney 计算节点·心跳实况入表·配置明细待其机队协议补报）；⑦诚实边界=CPU util% 与 BigMoney total_ram_gb 字段=心跳扩展债（P-33 转办）；⑧接线=AI.md 调度行/README 注册表行/governance changelog | executed（立法+审计器+夜轮接线已落·回访=两周 KPI 回访窗） |
