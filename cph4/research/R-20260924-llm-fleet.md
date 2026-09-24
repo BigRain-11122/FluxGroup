@@ -19,7 +19,7 @@
 
 ## 二、调研结论（最佳方案四条）
 
-1. **拓扑=每机 localhost 独立服务，非中央服务节点**。依据：机队形态=git 控制面+croc 数据面的**跨网松耦合**（无可靠共 LAN 实证）+内部面零服务器红线不变+单点故障面最小；中央 LAN 服务位（OLLAMA_HOST 网络化）=待 Tailscale 组网授权（B1 悬置件）后再评，非本批。每机 11434 本机自用，跨机零依赖。
+1. **拓扑=每机 localhost 独立服务，非中央服务节点**。依据：机队形态=git 控制面+croc 数据面的**跨网松耦合**（无可靠共 LAN 实证）+单点故障面最小；（同日午后注记：原依据「内部面零服务器红线不变」已随 CEO 令废止死命令失效——服务器律 v2=需要就做+最小化最简化；**本拓扑判定不受影响**：localhost 独立=跨网松耦合下的技术最优，非法律强制）；中央 LAN 服务位（OLLAMA_HOST 网络化）=待 Tailscale 组网授权（B1 悬置件）后再评，非本批。每机 11434 本机自用，跨机零依赖。
 2. **模型选型（Ollama 库实抓 2026-09-24）**：qwen3 系在库（37.8M 下载）——qwen3:4b **2.5GB**（256K ctx·2507 刷新版）/qwen3:8b **5.2GB**（40K ctx）/14b 9.3GB；官方 README：🟡「Qwen3-4B 可对标 Qwen2.5-72B-Instruct」「100+ 语言」「thinking/non-thinking 双模」。**判定=升级候选非即换**：12GB 级机→qwen3:8b 对照现役 qwen2.5:7b（足印近似 5.2 vs 4.7GB=drop-in）；8GB 机 bm-b（VRAM free 仅 2.3GB=紧）→qwen3:4b（2.5GB）更合身。判决走 T2+预注册判据（中文摘要质量盲评+时延 p95+VRAM 足印三轴），禁盲换禁空转双驻。
 3. **配置标准全机统一**：infra-3 §3.3 机器级 Ollama 配置律（OLLAMA_KEEP_ALIVE=15m/NUM_PARALLEL=2/MAX_LOADED_MODELS=2/FLASH_ATTENTION=1/KV q8_0/CONTEXT_LENGTH=4096）——新装机照单执行；保温走 MiniGame OllamaServe 栈范式（flash_warm 文件旗·借算时 keepwarm.pause 释放阀=fleet §10 照旧）。
 4. **禁空转预装律执法**：bm-c 装机正当性=其上 BigMoney 轮次在跑（r50 实况）+P-48 上下文管家试点扩面消费+GREEN-IDLE 闲置点名律（两夜绿灯点名）受益面=P3 离峰窗（03:00-07:00）本地批处理（池扩容/UGC 分类/年轮批量）=首选派活——装即有单，非空转。
