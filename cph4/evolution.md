@@ -38,7 +38,12 @@
 
 ## 4. 台账
 
-`cph4/evolution-ledger.md` = 唯一进化台账（提案区 + 裁决区 + 进化轮报告区）。任何机器任何会话皆可追加提案；裁决记录必须带 CEO 原话或日期；状态：open / applied / rejected / transferred / self-healed。
+`cph4/evolution-ledger.md` = 唯一进化台账（提案区 + 裁决区 + 进化轮报告区）。任何机器任何会话皆可追加提案；裁决记录必须带 CEO 原话或日期；状态：open / applied / rejected / transferred / self-healed / **executed（被转办司已回执核销）**。
+
+**转办送达判据（2026-09-24 立法·T2 否决窗 7 天·源=P-51①——「落台账」≠「送达」：BigStream E1 实锤=转办落而循环不扫即不可见）**：
+1. **送达 ≡ 被转办司在 provably-read 面引用转办编号**——司轮 state.json log 行或 git commit 消息含编号（`P-YYYY-MM-DD-NN` 或等价 O/T 号）＝机器可检送达证据；无编号引用的「已处理」宣称＝不算送达。
+2. **回执核销**：被转办司编号回执后，台账状态列 transferred → executed（集团侧或司侧任一改记·回执链在案即可）；48h 无编号引用＝夜轮点名（既有催办律，判据从「台账状态」升级为「编号检索」）。
+3. 现役基础：三司机轮（BigStream R129+/BigDomain R1+/BigLife）均已自然合规（编号回执习惯在案）——本律=实践升格非新约束。
 
 ## 5. 周进化轮（载体）
 
