@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
-# flux-server bootstrap v1.0 — 自建商业后端一键部署（IaC）
+# flux-server bootstrap v1.1 — 自建商业后端一键部署（IaC）
 # 溯源：ledger P-2026-09-24-47 实验室件①·建造书=cph4/research/R-20260924-infra-6-selfhost.md
+# v1.1 (2026-09-24)：城市运行适配扩展（CEO 令「适配硅基生命体城市运行」·架构件=cph4/research/R-20260924-server-city.md §6）
+#   ——城市公开数据 :ro 挂载（结构性禁写=三律①）+ citysync 只读拉取通道（三律②）。
 # 治理：cph4/server-governance.md（最小攻击面/密钥律/备份/监控）
 # 用法：在全新 Ubuntu 22.04/24.04 LTS（腾讯云轻量）以 root 运行：
 #   bash bootstrap-server.sh            # 全量：基线+docker+栈+探针客户端
@@ -82,6 +84,7 @@ services:
     env_file: ["/etc/fluxvault/api.env"]
     volumes:
       - /var/lib/fluxstack/data:/data               # SQLite WAL + jsonl 导出
+      - /opt/fluxcity:/data/city:ro                 # 城市公开数据只读挂载（server-city 三律①：结构性禁写）
   danmaku:
     image: ghcr.io/fluxgroup/flux-danmaku:placeholder # TODO(BigStream/DevLoop): 弹幕回流 worker
     restart: unless-stopped
@@ -107,6 +110,25 @@ EOF
   log "栈骨架就位（镜像占位待业务接入）"
 }
 
+# ---------- citysync：城市公开数据只读拉取通道（R-20260924-server-city §2/§6·三律②） ----------
+# 数据流=单向：bm-a 生成（快照包/日档案/census/pools）→ git push → 本机 10min pull → /data/city 只读投喂。
+# 本机永不回写城市仓（禁写 world/ = P-43 案 2 单写者律；回城走 api 的 inbox 摘要通道）。
+citysync(){
+  log "城市只读通道：目录+cron 骨架（首次 clone=runbook 手动段·deploy key 物理件就位后）"
+  mkdir -p /opt/fluxcity/fluxverse /opt/fluxcity/biglife
+  # 首次 clone runbook（密钥永禁入 git·走 /etc/fluxvault）：
+  #   1) 双仓 deploy key 各一枚（GitHub 同一 deploy key 不可跨仓）→ /etc/fluxvault/id_fluxverse / id_biglife
+  #   2) /root/.ssh/config 配 Host 别名（github-fluxverse / github-biglife）指 IdentityFile
+  #   3) git clone git@github-fluxverse:BigRain-11122/FluxVerse.git /opt/fluxcity/fluxverse
+  #      git clone git@github-biglife:BigRain-11122/Biglife.git /opt/fluxcity/biglife
+  # clone 完成前 cron 空转无害（[ -d .git ] 守卫跳过）
+  cat > /etc/cron.d/flux-citysync <<'EOF'
+# city read-only sync (server-city §2): 10min guarded pull, never writes back
+*/10 * * * * root for d in /opt/fluxcity/fluxverse /opt/fluxcity/biglife; do [ -d "$d/.git" ] && git -C "$d" pull --ff-only -q; done
+EOF
+  log "citysync 就位（/opt/fluxcity 双仓目录 + cron */10 只读拉取）"
+}
+
 # ---------- 探针客户端（monitoring：外部探针打点回 bm-a 的通道留位） ----------
 monitor(){
   log "监控留位（外部探针由 bm-a 侧配置 5min 打点——本机只保健康检查端点）"
@@ -115,6 +137,6 @@ monitor(){
 
 case "$MODE" in
   --baseline-only) baseline ;;
-  *) baseline; stack; monitor ;;
+  *) baseline; stack; citysync; monitor ;;
 esac
-log "完成。验收清单：1) ufw status 应只有 443/SSH  2) sshd -T | grep -E 'permitrootlogin|passwordauth'  3) ls $VAULT"
+log "完成。验收清单：1) ufw status 应只有 443/SSH  2) sshd -T | grep -E 'permitrootlogin|passwordauth'  3) ls $VAULT  4) ls /opt/fluxcity（clone 后 city 面启用）"
