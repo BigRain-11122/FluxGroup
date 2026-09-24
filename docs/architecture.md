@@ -31,7 +31,7 @@
   - FLUX Quant (FLUX 量化)
   - FLUX Media (超体自媒体) — cultural lead by Qiqi
   - **BigDomain（硅基域）— 元宙商业化子公司（2026-09-23 开线）**：全权负责引流/共创/商业化；运营公众共创元宙平台「硅基域」（19.9 算力包·代币内循环·B 端入驻）；前台=BigDomain，中台=三司产能，底座=FluxVerse
-  - **BigLife（临时代号）— 数字生命生产子公司（2026-09-23 开线）**：超体宇宙城人口与人设资产唯一生产司（万人户籍库+进化引擎+BigLife-OSLoop）；正名权保留 CEO
+  - **BigLife — 数字生命生产子公司（2026-09-23 开线·2026-09-24 定名转正）**：超体宇宙城人口与人设资产唯一生产司（万人户籍库+进化引擎+BigLife-OSLoop+硅基生命总纲 SILICON-LIFE）
 
 ## Relationships
 - FLUX = the flow (top level).
@@ -48,7 +48,7 @@
     ├── quant/ （线工作区）──> BigMoney 产品仓 BigMoney.git（main）
     ├── media/ （线工作区）──> BigStream 产品仓 BigStream.git（main·remote 已通 Bigmedia）
     ├── domain/（线工作区）──> BigDomain 产品仓 BigDomain.git（2026-09-23 开线·remote 待 CEO 建）
-    ├── life/  （线工作区）──> BigLife 产品仓（临时代号·2026-09-23 开线·remote 待 CEO 建·正名权 CEO 保留）
+    ├── life/  （线工作区）──> BigLife 产品仓（2026-09-23 开线·2026-09-24 定名·remote 已预接线 BigLife.git 待 CEO 建库·主干 main）
     └── cph4/  （CPH4 Labs 集团实验室 · 元宙规划 · 横切层）
 ```
 

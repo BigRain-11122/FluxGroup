@@ -19,7 +19,7 @@
 | **BigDomain** | 硅基域商业化公司：引流/共创/商业化（19.9 算力包·大厅·身份·B 端·代币内循环） | `domain/BigDomain/`（独立仓·local） | 产品仓 `BLUEPRINT.md` |
 | **CPH4 Labs** | 集团实验室：机制淬炼工厂+元宙规划大脑（零产品代码） | `cph4/` | `cph4/README.md`（能力注册表） |
 | **FluxVerse** | 元宙城：集团的实时驾驶舱与数字生命栖居地（Biggame 承建） | `gaming/FluxVerse/`（独立仓） | `BLUEPRINT.md` + `DESIGN.md` + `TECH.md` |
-| **BigLife（临时代号）** | 数字生命生产公司：超体宇宙城人口与人设资产（万人户籍库·自我进化） | `life/BigLife/`（独立仓） | `docs/CODEX.md` + `BLUEPRINT.md` |
+| **BigLife** | 数字生命生产公司：超体宇宙城人口与人设资产（万人户籍库·自我进化·2026-09-24 定名转正） | `life/BigLife/`（独立仓） | `docs/CODEX.md` + `docs/SILICON-LIFE.md` + `BLUEPRINT.md` |
 
 **机队**：bm-a（DASHENG·32 核·开发机+游戏 A 机）｜bm-b（16 核·回测+大资产宿主）｜BG-A（同盒双角色）｜B/C（游戏分机）。新机接入=一键 `Tools/bootstrap-machine.ps1`（章程 `cph4/onboarding.md`）。
 
@@ -40,6 +40,7 @@
 | OS 循环（各司 tick + DevLoop） | 10 分钟 | 各产品仓 mandate（外置 UTF-8·编码律 ASCII） |
 | 集团进化轮 | 周日 09:17 | `cph4/evolution.md`（感知→提案→裁决→立法·台账 `cph4/evolution-ledger.md`） |
 | 集团夜轮（自我反应） | 每日 03:07 | `cph4/night-round.ps1`（感知/催办/小自愈/夜报——与周轮分工 `cph4/evolution.md` §1） |
+| **集团决策轮** | 每日 23:00 上报截止→00:00 拍板 | `cph4/decision.md`（子公司问题日报→集团统一思考+外部调研+科学拍板→各司执行+审核权驳回再报请→三冲突升级 CEO；台账=`docs/decisions.md`） |
 | 令流 | 随时 | CEO 令 → `docs/orders.md` → 感知探针 → 事件流 → 城市动画 → 回执 |
 | 分级立法 | T0 宪法 CEO 签 / T1 治理 CEO 话 / T2 机制 AI+7 天否决窗 / T3 数据 AI 全权 | `cph4/evolution.md` §2 |
 | 诚实律三道防线 | 轮内自审/门禁机核/集团抽审 | `docs/governance.md` §10 |

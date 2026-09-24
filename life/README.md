@@ -12,4 +12,4 @@
 
 ## 实况
 
-以产品仓为准：`life/BigLife/`（户籍库 census/ + 生产线 Tools/genes + OS 循环 BigLife-OSLoop）。命名状态：**临时代号 BigLife**——正名权保留 CEO，随时一句话替换。
+以产品仓为准：`life/BigLife/`（户籍库 census/ + 生产线 Tools/genes + OS 循环 BigLife-OSLoop）。命名状态：**BigLife 已定名**（2026-09-24 CEO 委托决策令「要我决策的，自己调研后科学理性决策」·T1 否决窗至 2026-10-01·CEO 一句话可翻案走正名程序）。

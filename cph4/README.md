@@ -48,7 +48,7 @@
 | **本地化算力战略** | token 经济本地优先（U168） | J13 llm_assist 双机整合+token 计量 | **cph4/local-first.md**：L1 确定性→L2 本地 LLM→L3 API 收缩层·路由三问 |
 | **Token 经济机制（统摄层 2026-09-24）** | U173 三径+OllamaServe 栈（生成面典范） | token 计量已开·routing 三问待接线（P-31） | **cph4/token-economy.md**：三面模型（上下文/推理/生成·各面有正典归属）+机制五律（计量先行/路由三问/L3 留痕/结构性替换/速度优先）+本地推理栈 v1（qwen2.5:7b 现役·14b/bge-m3/whisper 随消费线）——战略层=`local-first.md`·六司适配=P-31（分板块·两周回执） |
 | **资源保留与清理** | 根级冻结清单法+Housekeeping | fleet 传输批末清临时件（§5 借算范式） | **cph4/retention.md**：四级保留制（R1 永不清/R2 归档优先/R3 定期清/R4 随轮清）×防误伤五闸（隔离区 7 天可恢复）×防膨大三律·`Tools/retention-scan.ps1` 只读周测入进化轮 |
-| **数字人口/人设生产** | 城市叙事居民与游戏人设需求走 BigLife 任务单（M2 NPC 姓名池按 P-22 消费契约） | —（人设面暂无直接需求） | **BigLife（临时代号·`life/BigLife`）=集团唯一人口工厂**（2026-09-23 开线）：万人户籍库 census/+基因库 genes/+进化引擎 evolve_citizen.py（真实事件喂养·[锚]定律）+BigLife-OSLoop 10min——他司禁重建（governance §6 禁双建） |
+| **数字人口/人设生产** | 城市叙事居民与游戏人设需求走 BigLife 任务单（M2 NPC 姓名池按 P-22 消费契约） | —（人设面暂无直接需求） | **BigLife（`life/BigLife`·2026-09-24 定名）=集团唯一人口工厂**（2026-09-23 开线）：万人户籍库 census/+基因库 genes/+进化引擎 evolve_citizen.py（真实事件喂养·[锚]定律）+BigLife-OSLoop 10min——他司禁重建（governance §6 禁双建） |
 | **git 版本与分支治理** | G 系 tag 门禁（51 枚范式）+X128 机器分支自治+master 存续豁免 | fleet 禁 force-push+10min 控制面 git 轮 | **cph4/versioning.md**（CEO 令 2026-09-23「建立git顶层版本和分支设计」）：trunk-based 主干开发·main 正典·`<scope>/vX.Y.Z` tag 档案律（HQ=`gov/vX.Y`·FluxVerse=`M<x>/v1.0`）·revert 追加式回滚·新仓接线 checklist |
 
 ## 共享方法论（两公司实证同源，集团法）
