@@ -51,6 +51,8 @@
 | 调度 | verdict 驱动·云端无限并行 | `cph4/scheduling.md` + 机队台账 `cph4/fleet-allocations.md` §五（`Tools/fleet-audit.ps1` 夜轮审计）·物尽其用律 §六 |
 | 本地化算力 | L1 确定性→L2 本地 LLM→L3 API | `cph4/local-first.md` |
 | Token 经济机制（统摄层） | 轮账本一行+周轮聚合三面 | `cph4/token-economy.md`（三面模型/五律/本地栈 v1·战略=`local-first.md`） |
+| **自动化周期总账** | 全周期登记+错峰车道+提交周期 | `cph4/cadence.md`（10min 轮族分钟位/日周轮族/停用族豁免/防重复防冲突律+提交周期表——实测 35 项底账） |
+| **新公司开线 SOP** | 三阶段判据制+司内九件清单 | `cph4/venture.md`（P1 立项命名→P2 集团五步+触点审计→P3 九件+首火实弹；新司出生即四链层位声明） |
 
 ## 4. 文件地图（AI 导航）
 
