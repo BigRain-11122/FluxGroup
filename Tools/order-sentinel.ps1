@@ -1,12 +1,15 @@
-# order-sentinel.ps1 - FluxGroup Order Sentinel v1.1 (CEO flow-speed order 2026-09-24 ~21:35)
-# v1.1 fix (same night, honest log): v1.0 died silently on duplicate-case JSON keys
-#   (PS5.1 ConvertFrom-Json treats keys case-insensitively -> terminating parse error)
-#   and leaked the instance lock because `exit` inside try skips `finally` in PS5.1.
-#   Fix: single-case map keys + `return` inside try + stale-lock threshold 1min
-#   + map load try/catch that logs a FATAL line instead of dying silently.
-# Laws: silent (schtasks -WindowStyle Hidden per CEO silence law), single-instance
-#       lock, ASCII-only body (encoding law - company tags live in map json),
-#       idempotent wake-once per ledger line count. Levels P0/P1/T0/T1 only.
+# order-sentinel.ps1 - FluxGroup Order Sentinel v1.2 (CEO flow-speed order 2026-09-24 ~21:35)
+# v1.2 fix (same night, honest log): v1.1 used a LINE-COUNT cursor - blind to mid-file
+#   inserts (the ledger grows by inserting P-rows in the table area, so a tail cursor
+#   only ever scanned shifted old lines and never saw new rows). Cursor is now
+#   (day, max-P-number) parsed from row IDs: every tick rescans ALL of today's rows
+#   whose ID number exceeds the cursor - position-independent by design.
+#   New-day rollover: baseline to current max without waking (prevents day-start storm).
+#   Legacy {seen:N} state auto-migrates to the new format as a no-wake baseline.
+# v1.1 fixes (kept): single-case map keys (PS5.1 ConvertFrom-Json keys are
+#   case-insensitive -> duplicate-case keys = terminating parse error), `return`
+#   inside try (PS5.1 `exit` skips finally -> lock leak), stale-lock threshold 1min,
+#   map load try/catch with FATAL log line instead of silent death.
 param([string]$Root = "C:\Users\sjs20\Desktop\FluxGroup")
 $ErrorActionPreference = 'SilentlyContinue'
 $Dir    = Join-Path $Root '.codely-cli\sentinel'
@@ -32,19 +35,30 @@ try {
     Add-Content -Path $LogF -Value "$(Get-Date -Format s) FATAL map parse: $($_.Exception.Message)" -Encoding UTF8
     return
   }
-  $lines = [System.IO.File]::ReadAllLines($Ledger, [System.Text.Encoding]::UTF8)
-  $n = $lines.Count
-  $seen = 0
-  if (Test-Path $StateF) { $seen = [int](Get-Content -Raw $StateF | ConvertFrom-Json).seen }
-  if ($seen -lt 0) { $seen = 0 }
-  if ($seen -ge $n) {
-    Set-Content -Path $StateF -Value ('{"seen":' + $n + '}') -Encoding ASCII
-    return
+  $today = Get-Date -Format 'MMdd'
+  $curDay = ''; $curMax = 0
+  if (Test-Path $StateF) {
+    try {
+      $cur = Get-Content -Raw $StateF | ConvertFrom-Json
+      if ($cur.PSObject.Properties.Name -contains 'day') { $curDay = [string]$cur.day; $curMax = [int]$cur.max }
+      elseif ($cur.PSObject.Properties.Name -contains 'seen') { $curDay = $today; $curMax = 999 }
+    } catch {}
   }
+  $lines = [System.IO.File]::ReadAllLines($Ledger, [System.Text.Encoding]::UTF8)
+  $rows = @(); $dayMax = 0
+  foreach ($ln in $lines) {
+    if ($ln -notmatch '^\| P-2026-(\d{2})-(\d{2})-(\d{1,3})') { continue }
+    if (($Matches[1] + $Matches[2]) -ne $today) { continue }
+    $num = [int]$Matches[3]
+    $rows += ,@($num, $ln)
+    if ($num -gt $dayMax) { $dayMax = $num }
+  }
+  if ($curDay -ne $today) { $curMax = $dayMax }
+  if ($curMax -eq 0 -and $dayMax -gt 0) { $curMax = $dayMax }
   $wake = @{}
-  for ($i = $seen; $i -lt $n; $i++) {
-    $ln = $lines[$i]
-    if ($ln -notlike '| P-20*') { continue }
+  foreach ($r in $rows) {
+    $num = $r[0]; $ln = $r[1]
+    if ($num -le $curMax) { continue }
     if ($ln -notmatch '\| (P[01]|T[01])') { continue }
     foreach ($p in $map.PSObject.Properties) {
       if ($ln -match [regex]::Escape($p.Name)) {
@@ -52,7 +66,7 @@ try {
       }
     }
   }
-  Set-Content -Path $StateF -Value ('{"seen":' + $n + '}') -Encoding ASCII
+  Set-Content -Path $StateF -Value ('{"day":"' + $today + '","max":' + $dayMax + '}') -Encoding ASCII
   $fired = @()
   foreach ($t in $wake.Keys) {
     $task = Get-ScheduledTask -TaskName $t -ErrorAction SilentlyContinue
@@ -62,7 +76,7 @@ try {
     $fired += ($t + ':WAKE')
   }
   if ($fired.Count -gt 0) {
-    $entry = "$(Get-Date -Format s) seen=$n -> $($fired -join ',')"
+    $entry = "$(Get-Date -Format s) seen=day:$today max:$dayMax -> $($fired -join ',')"
     Add-Content -Path $LogF -Value $entry -Encoding UTF8
     if ((Get-Item $LogF -ErrorAction SilentlyContinue).Length -gt 100KB) {
       Set-Content -Path $LogF -Value $entry -Encoding UTF8
