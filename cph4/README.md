@@ -43,6 +43,7 @@
 |---|---|---|---|
 | 10 分钟自迭代循环 | MiniGameEngineTick（tick 引擎 + skills 协议） | Bigmoney-IterationLoop（mandate 外置） | OS 直调脚本 ASCII-only/带 BOM 编码律 |
 | 多机机队 | 08 号分治协议（认领制 · X128 机器分支） | fleet 协议 v1.0（commit 锁认领 · inbox · 心跳） | 共享机纪律（fleet §10，引用不重立） |
+| **机队协议共享层（2026-09-24）** | 08 号三条款（心跳/认领/传输）同构源 | fleet v1.0 三条款同构源（FLEET-OPS/TRANSFER/扩容验收包） | **cph4/fleet-protocol.md**：心跳各自写全队读+认领 commit 即锁+传输 git 唯一通道（governance §6 第 11 条三条款归一·两司改指针引用）+推送策略司自决保留（X128-lite vs X128 禁互换）+借算三缺口补法（fleet-audit 源行开闭/跨司借算工单五字段/机×司占用矩阵随周轮）+新司接入七步 |
 | 本地 LLM / GPU 栈 | Ollama 保温（GpuStackBoot） | Ollama 各机自装自用（借算协议预留） | keepwarm.pause 释放阀礼仪 |
 | 知识与记忆 | CODELY.md + 登记簿 + 编号文档 | CODELY.md + 预注册 + 试验账本 N | 三级记忆各归各仓（governance §5） |
 | 质量门禁 | X026Gate + EncodingGate + NameCheck | 门禁链 G1'/G2 + smoke 20 项 | 修红 ＞ 开发 ＞ 优化既有 |

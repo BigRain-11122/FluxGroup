@@ -50,7 +50,7 @@
 | **分层级错误解决** | E0 红线直呈/E1 当日/E2 轮内~当周/E3 噪音豁免 | `cph4/errors.md`（错误四级定级+分层路径 L0 轮内→L1 门禁→L2 自愈池→L3 集团轮+科学五律：根因/复现先行/修复独立验证/教训入法/熔断——城市 S0-S2 投影已立） |
 | 诚实律三道防线 | 轮内自审/门禁机核/集团抽审 | `docs/governance.md` §10（审查链的诚实律子面） |
 | 资源保留清理 | 周测入进化轮+周期日历（日/周/月/季） | `cph4/retention.md`（R1 永不清/R2 归档/R3 定期清/R4 随轮清；§7 分层执行面+§8 工程规模治理[WIP 上限/入口窄化/范围蔓延闸/流程瘦身]+§9 备份三级预案[堵点=GH 私库]+§10 周期日历） |
-| 调度 | verdict 驱动·云端无限并行 | `cph4/scheduling.md` + 机队台账 `cph4/fleet-allocations.md` §五（`Tools/fleet-audit.ps1` 夜轮审计）·物尽其用律 §六 |
+| 调度 | verdict 驱动·云端无限并行 | `cph4/scheduling.md` + 机队台账 `cph4/fleet-allocations.md` §五（`Tools/fleet-audit.ps1` 夜轮审计）·物尽其用律 §六 + 机队协议共享层 `cph4/fleet-protocol.md`（三条款归一·推送司自决） |
 | 本地化算力 | L1 确定性→L2 本地 LLM→L3 API | `cph4/local-first.md` |
 | Token 经济机制（统摄层） | 轮账本一行+周轮聚合三面 | `cph4/token-economy.md`（三面模型/五律/本地栈 v1·战略=`local-first.md`） |
 | **自动化周期总账** | 全周期登记+错峰车道+提交周期 | `cph4/cadence.md`（10min 轮族分钟位/日周轮族/停用族豁免/防重复防冲突律+提交周期表——实测 35 项底账） |
