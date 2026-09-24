@@ -9,7 +9,7 @@
 
 | 机器 | 配置 | 主归属（配置内优先） | 兼任角色 | 空余可借状态 |
 |---|---|---|---|---|
-| bm-a（DASHENG） | 32 核 · RAM 93.6GB · RTX 4070S 12GB | BigMoney 开发节点 | Biggame A 机（EngineTick 总控）∥ FluxVerse 承建位 | 共享机纪律管（fleet §10·RAM<4GB 禁新重活·GPU 走 keepwarm 释放阀） |
+| bm-a（DASHENG） | 32 核 · RAM 93.6GB · RTX 4070S 12GB（WMI 读 4GB=已知 bug·判据以 nvidia-smi/实况为准·2026-09-24 CEO 参考方案注记） | BigMoney 开发节点 | Biggame A 机（EngineTick 总控）∥ FluxVerse 承建位 | 共享机纪律管（fleet §10·RAM<4GB 禁新重活·GPU 走 keepwarm 释放阀） |
 | bm-b | 16 核 | BigMoney 回测/数据节点（Money02 宿主） | — | 回测批空窗可被借（走 BigMoney fleet §5 借算制） |
 | bm-c | 32 核 · RAM 25.7GB · GPU 13GB 级（型号待报） | BigMoney 计算节点（fleet 任务单认领制） | — | 批间空窗可被借（同 bm-b·**2026-09-24 心跳实况入表**·配置明细待其机队协议补报） |
 | BG-B | 游戏分机（08 号协议） | Biggame 分机（美术/深度批） | — | 满负荷时 verdict=GPU_VRAM_LOW/RAM_LOW 不可借 |
@@ -53,7 +53,7 @@
 - **审计器=`Tools/fleet-audit.ps1`**（只读聚合**既有心跳**·零新增采集负担·实弹 2026-09-24 六机全绿）：MiniGame `Design/configs/GLOBAL/fleet/{a,b,c}.json`（RAM%/VRAM/GPU util%/磁盘/verdict）+ BigMoney `fleet/machines/bm-*.json`（RAM free/VRAM free/cores/当前任务单）——新司机队心跳=加一个源行（开闭原则）。
 - **旗标判据**：**GREEN-IDLE**（RAM 空闲≥40% 且 VRAM≥6GB 且无在途任务）=可借池；**YELLOW-HEAVY**（RAM 空闲<10% 或 VRAM<1.5GB）=过载保护；**STALE**（>2h）/**OFFLINE**（>24h）=心跳失联（城内黑灯区律同源）。
 - **节律**：夜轮每夜跑一次（night-round-prompt 感知步已接线）→ 夜报机队表+旗标；周轮周报汇总趋势一行。
-- **诚实边界**：CPU util% 与 BigMoney 侧 total_ram_gb 字段=心跳扩展债（P-32 各司适配）；首版以 RAM/VRAM/任务单判据为准。
+- **诚实边界**：CPU util% 与 BigMoney 侧 total_ram_gb 字段=心跳扩展债（P-33 心跳字段扩展·各司适配·原文 P-32 系指针错位已修 2026-09-24）；首版以 RAM/VRAM/任务单判据为准；bm-a VRAM 判据注意 WMI 4GB 读数 bug（分配表 bm-a 行注记）。
 
 ## 六、物尽其用律（统一调度执法面）
 
@@ -75,3 +75,4 @@
 - 2026-09-23: initial v1.0（CEO 令「机器群根据配置合理分给各子公司+空余可借+云默认全并行」·scheduling.md 姊妹件）。
 - 2026-09-23: **§四 战略倾斜态**（CEO 令 ~23:02「所有资源倾斜超体宇宙城市的搭建，全面配合，分工合作」）：FluxVerse 城建系列=集团 P0-Resource 最高优先+空余池优先承接+全面配合分工面表（Biggame 主力承建/BigLife 居民消费接线/BigMoney 内景数据源/BigStream 内容素材线/CPH4 规划验收/BigDomain 待机）——主归属保主不变非停线；时态条款：M1 判据过后进化轮复审防战时令变常设法。
 - 2026-09-24: **§五 统一利用率台账+§六 物尽其用律**（CEO 令「建立起集团层面机器群统一调度，合理分配的机制，保证每台机器物尽其用，CPU GPU 内存等」·T2+否决窗 7 天）：审计器 `Tools/fleet-audit.ps1` 三源聚合（实弹六机：bm-c GREEN-IDLE/bm-a YELLOW-HEAVY/BG-B STALE 旗标全出）+夜轮接线；三级调度决策面（非守护进程律保持）+闲置点名律（两夜绿灯闲置点名·48h 响应·声明态豁免）+过载保护律+失联律；bm-c 新机入表（心跳实况·配置明细待其机队协议补报）；「接线」节正名 §七（原编号与 §四 撞号修正）。
+- 2026-09-24: **bm-a 行 WMI 读数 bug 注记+指针修正**（CEO 令「参考一下这个节省token方案，把豆包改成你」·机器判定=不加卡）：bm-a GPU=WMI 读 4GB 已知 bug·实况 12GB（判据以 nvidia-smi/实况为准——VRAM 旗标防误判）；§五诚实边界行 P 号错位修正 P-32→P-33；token 机制面扩法=token-economy §3.4 上下文管家（本表只记机器判定事实）。
