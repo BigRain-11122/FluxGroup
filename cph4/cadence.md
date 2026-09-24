@@ -10,7 +10,7 @@
 |---|---|---|---|---|
 | **10min 轮族**（错峰车道） | BigStream-OSLoop :x2｜BigLife-OSLoop :x3｜MiniGameOllamaKeepWarm :x3｜FluxVerse-DevLoop :x5｜**FluxVerseTick :x6**（本批自 :x7 迁入·原与 MiniGameEngineTick 同分钟竞写读）｜MiniGameEngineTick :x7｜Bigmoney-IterationLoop :x8｜MiniGameTickWatchdog :x8｜MiniGameEditorSentry :x9 | 每 10 分钟 | 各司 OS 迭代/心跳/保温/看门狗 | 静默律 VBS+单实例锁+轮首脏定向 add+轮账本 |
 | **小时/事件族** | MiniGameCockpitBeat（5min 心跳）｜MiniGameTjcloudSync（时 :13）｜Bigmoney-LoopWatchdog（30min） | 分钟级 | 驾驶舱心跳/云同步/自愈看门狗 | watchdog 车道归属绑定（F-08：非 owner 只观测） |
-| **日轮族** | **决策轮 00:00**（23:00 上报截止）｜**夜轮 03:07**（四器审计+熔断自愈）｜MiniGameRadarTick 09:52｜PolicyTick 12:52｜GateTick 14:52｜AuditTick 17:52 | 每日 | 拍板/自反应/巡检/门禁/审计 | 单轮预算 15-25min+超时优雅收尾 |
+| **日轮族** | **决策轮 00:00**（23:00 上报截止）｜**夜轮 03:07**（四器审计+熔断自愈）｜MiniGameRadarTick 09:52｜PolicyTick 12:52｜GateTick 14:52｜AuditTick 17:52｜**BigCompute-OSLoop 22:43**（硅基算力计划态日轮：日清上报赶 23:00 截止+决策审核+调研消化+风险台账 upkeep） | 每日 | 拍板/自反应/巡检/门禁/审计/商业化迭代 | 单轮预算 15-25min+超时优雅收尾 |
 | **周轮族** | MiniGameHousekeeping 日 07:17｜RadarDeepTick 日 08:52｜**集团进化轮 日 09:17** | 周日 | 清理批/深扫/立法四步+考核面 | 轮首脏退避+法熵审视（季） |
 | **登录/常驻族** | MiniGameOllamaServe（登录）｜MiniGamePopupWitness（登录常驻·弹窗见证） | 登录 | 本地模型服务/弹窗证据 | GPU/RAM 纪律 fleet §10 |
 | **停用族（设计内态）** | MiniGameDailyDigest（U166 暂停·禁自愈 Enable）｜MoneyAutoGuardian（转办停用）｜GimmeAll-AutoSentinel｜CarGZH ×9（**CEO 个人域任务·非集团面·2026-09-20 起停用·未经令不动**） | — | — | E3 噪音豁免律：预期内态禁反复修 |
@@ -71,3 +71,4 @@
 ### Changelog
 - 2026-09-24: initial v1.0（35 项实测总账+防重复防冲突双律+提交周期表+错峰修正 :x7→:x6）。
 - 2026-09-24: **§6 监控运行机制**（CEO 令「建立起科学的自动化任务监控和运行机制，确保各项任务正常运转」）：任务健康五信号+产出实据优先律+监控分工+处置路由（设计态豁免/熔断）+`Tools/task-health.ps1` 首扫 27 项实弹（1 设计态旗标+4 观察级码·0 真故障）。
+- 2026-09-24: **BigCompute-OSLoop 入账**（venture.md P3 件 2·第六司开线批）：日轮族 22:43 车道（不占 10min 车道=计划态司禁空转律·10min 无人值守无营收对价=纯 token 成本）；单实例锁+静默 VBS+轮账本 tokens 行全承族律；注册器=compute/BigCompute/Tools/register_loop_task.ps1（异机部署=bootstrap -Roles compute 按其自件层引用）。

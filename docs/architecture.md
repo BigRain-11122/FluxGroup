@@ -32,11 +32,12 @@
   - FLUX Media (超体自媒体) — cultural lead by Qiqi
   - **BigDomain（硅基域）— 元宙商业化子公司（2026-09-23 开线）**：全权负责引流/共创/商业化；运营公众共创元宙平台「硅基域」（19.9 算力包·代币内循环·B 端入驻）；前台=BigDomain，中台=三司产能，底座=FluxVerse
   - **BigLife — 数字生命生产子公司（2026-09-23 开线·2026-09-24 定名转正）**：超体宇宙城人口与人设资产唯一生产司（万人户籍库+进化引擎+BigLife-OSLoop+硅基生命总纲 SILICON-LIFE）
+  - **BigCompute（硅基算力）— 算力商业化引擎子公司（2026-09-24 开线）**：承载集团消耗的算力成本，通过现实世界真实链接（抖音小店/直播 Phase 1）商业化消化成本并盈利；确保所有公司互相赋能产生经济价值；风控+法务部门随司设立（CEO 令「权利第一」）
 
 ## Relationships
 - FLUX = the flow (top level).
 - CPH4 Labs = the engine that powers the flow.
-- Four lines run on the engine: gaming/quant/media produce, BigDomain commercializes to the public.
+- The lines run on the engine: gaming/quant/media produce; BigDomain runs the co-creation platform; BigCompute commercializes compute through real-world channels (store/livestream) and digests group compute costs; BigLife supplies population and minds.
 - Philosophy is guarded by Qiqi, owned by the family.
 
 ## System architecture（系统三层结构 · 2026-09-23 立）
@@ -49,6 +50,7 @@
     ├── media/ （线工作区）──> BigStream 产品仓 BigStream.git（main·remote 已通 Bigmedia）
     ├── domain/（线工作区）──> BigDomain 产品仓 BigDomain.git（2026-09-23 开线·remote 待 CEO 建）
     ├── life/  （线工作区）──> BigLife 产品仓 Biglife.git（2026-09-23 开线·09-24 定名·**remote 已接通·main**）
+    ├── compute/（线工作区）──> BigCompute 产品仓（2026-09-24 开线·硅基算力·remote 待 CEO 建）
     └── cph4/  （CPH4 Labs 集团实验室 · 元宙规划 · 横切层）
 ```
 

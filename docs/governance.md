@@ -58,11 +58,12 @@
 | Gaming | FluxVerse（元宙） | `git@github.com:BigRain-11122/FluxVerse.git`（待 CEO 建仓） | onboarding | FLUX 元宙=对标现实世界的赛博未来元宇宙·AI 行为实时剧场（CEO 第一需求令+17:44 定位正典）；Biggame 承建·团结引擎 1.10.3 原生 2D（CEO 硬约束全 2D）；**M1 呈现层 2026-09-23 CEO 署名立项点火（集团级最高优先·City 美术资产·进化台账 P-15 转办 DevLoop）** |
 | **Domain** | **BigDomain（硅基域）** | 本地仓已建（remote 待 CEO 建 `BigRain-11122/BigDomain.git`） | onboarding | **商业化子公司·2026-09-23 开线（CEO 全案令授权取名）：全权负责引流/共创/商业化**——运营公众共创元宙平台「硅基域」（用户一句话→AI 造策略/造游戏Demo/造视频·19.9 算力包·代币内循环·B 端入驻）；前台=BigDomain，中台=三司产能（BigMoney 回测引擎/Biggame 生产线/BigStream 发行），底座=FluxVerse world-events 同源驱动；蓝图=domain/BigDomain/BLUEPRINT.md |
 | **Life** | **BigLife（数字生命生产）** | **远端已接通**（`BigRain-11122/Biglife.git`·2026-09-24 CEO 建库·首推 main 毕） | active | **2026-09-23 CEO 令开线**（「专门生产超体元宇宙城市的所有居民…像别的子公司一样成立」·CEO 亲选新设第五子公司）+**2026-09-24 定名 BigLife**（CEO 委托决策令·T1 否决窗至 10-01）：超体宇宙城人口与人设资产唯一生产司——万人户籍库（census/·唯一性三查 PASS·QC 0 异常）+人口正典 docs/CODEX.md（三层居民模型诚实律·CEO 保留席）+硅基生命总纲 docs/SILICON-LIFE.md（12 体征+七律·本地算力律）+进化引擎（FluxVerse world 只读→本地 LLM→[锚]定律年轮）+BigLife-OSLoop 10min；服务面=FluxVerse 主客户+BigStream/BigDomain/Biggame 任务单引用（跨仓写禁令保持） |
+| **Compute** | **BigCompute（硅基算力）** | 本地仓已建（remote 待 CEO 建 `BigRain-11122/BigCompute.git`·已预接线） | onboarding | **2026-09-24 开线**（CEO 点名+委托令「自己科学决策」）：算力商业化引擎司——承载集团消耗的算力成本，通过与现实世界真实链接（抖音小店/直播 Phase 1）商业化消化成本并盈利；确保所有公司互相赋能产生经济价值；**首次按 cph4/venture.md SOP 走 P1-P3**（九件齐+OSLoop 日轮 22:43 首火）；**风控部+法务部随司设立**（CEO 令「权利第一」·风险台账=docs/risk-register.md）；CEO 方案与商业面四连批正典=compute/BigCompute/docs/plans/；边界=BigDomain 平台运营/BigStream 引流/本司成交与算力经济（P-42 转办 BigDomain 接线）；蓝图=compute/BigCompute/BLUEPRINT.md（v0.9 调研收敛中→v1.0） |
 
 ## 3. 开线与收线（生命周期）
 
 **开新产品**（五步一提交）：
-1. 命名先在 `BRAND.md` §7 注册锁定——不注册不开工；
+1. 命名先在 `BRAND.md` §8 登记簿注册锁定（命名规则按 §7）——不注册不开工；
 2. 建线目录 + 线 README（结构按 `RULES.md` §4）；
 3. 产品仓建于 `<line>/<Product>/`，配好自己的 remote；
 4. 集团 `.gitignore` 加该产品目录；
@@ -218,3 +219,4 @@
 - 2026-09-24: **实验室职责升格=技术/架构底层全面负责**（CEO 令「实验室全面负责技术底层和架构底层等」）：§1 集团层拥有表加行——技术底层（协议/事件总线/LLM 基建/推流链/工具链等）+架构底层=CPH4 Labs 唯一问责面（规格+选型仲裁+验收·实施仍转办各司·禁双开工不变）；分级执法面=T2 实验室直拍+否决窗/P1 拟案呈 CEO 署名/T0 红线 CEO 保留；首个履职批次=五技术底层问题调研波（cph4/research/R-20260924-infra-{1..5}+infra-0 综合决策备忘录）；AI.md CPH4 行同步。
 - 2026-09-24: **实验区（CPH4 Labs 物理化身）设立**（CEO 令「城市里的实验室承载三件事：策略孵化舱/居民诞生站/城市未来沙盘」+视觉令超体蓝玻璃培养舱=城市白大褂区）：FluxVerse DESIGN §十六（v3.2·T2 否决窗 7 天）——三设施全承既有正典零新机制（孵化舱=UGC 总纲+BigMoney 沙箱·**信任剧场起点**·随 Phase 1 点亮；诞生站=census+genes 基因库+用户注册面·硅基生命同一注册面；沙盘=进化台账 open 提案+R- 研究·三设施中唯一现役活态）+空间落位北岸治理岸脑塔侧（T2 代决：贴塔=脑深层化身·同色系同岸·北岸低伏不变）+§九光色归属更新（超体蓝=脑塔系治理/研究色族）+事件族六型随实施 T2；BLUEPRINT §三/§五+master-plan §三.1 信任剧场起点接线；派工=进化台账 P-39（DevLoop：静态件先入城·事件族随 M2·CityWatch 沙盘面板零引擎依赖先行）。
 - 2026-09-24: **合规三生死线升格**（CEO 令「合规是生死线」）：BigDomain BLUEPRINT §五升格——①非投顾=存在前提（风险提示=界面常驻非折叠·三面全带）②§五.3 msgSecCheck **前置闸**（大厅+直播弹幕先接再开门·未接禁上线）③**新增 §五.7 AI 生成内容标识**（《人工智能生成合成内容标识办法》2025-09-01 施行·直播/UGC/居民台词全呈现面显著标注·标识从源头带=截图入公开素材即合规·SILICON-LIFE M4 判据升格全呈现面律）+§十二节奏行（慢直播随推流链点亮·付费大厅/支付接口 M2-M3 再动）+master-plan §七生死线行+orders 物理件常设面 CEO 重申行；P-40 台词标识接线派 DevLoop（小改搭车·勿抢建城车道）。
+- 2026-09-24: **开线 Compute/BigCompute 硅基算力**（CEO 令 ~12:05「这个公司叫硅基算力，承载消耗的算力成本通过和现实世界链接并商业化消化成本和盈利」+委托「自己科学决策」+抖音小店方案原文+商业面四连批·BigDomain 蓝图侧由并行窗接线）：BRAND §8 locked（CEO 亲点中文·英文名 BigCompute=AI 家族谱系代决·否决窗至 10-01）+登记簿 onboarding+architecture 六线+compute/ 线 README+CODELY+本地仓+gitignore 隔离——**首次按 cph4/venture.md SOP 走 P1-P3**（P3 九件含风控部+法务部设立[CEO 令「权利第一」·风险台账 12 条种子]+BigCompute-OSLoop 日轮 22:43 静默首火）；边界=BigDomain 平台运营/BigStream 引流/BigCompute 成交与算力经济（P-42 转办）；顺手修正 §3 步 1 指针（§7→§8 登记簿·补档后漂移·实况优先）。

@@ -5,6 +5,7 @@ media/BigStream/
 gaming/FluxVerse/
 domain/BigDomain/
 life/BigLife/
+compute/BigCompute/
 
 # Secrets (see RULES.md section 3)
 .env
@@ -17,10 +18,12 @@ life/BigLife/
 **/.codely-cli/evolution-last.log
 **/.codely-cli/night-round.lock
 **/.codely-cli/night-round-last.log
+**/.codely-cli/decision-round-last.log
 **/.codely-cli/settings.local.json
 **/.codely-cli/retention/
 **/.codely-cli/secret-scan/
 **/.codely-cli/onboarding/
+.codely/
 
 # OS junk
 Thumbs.db

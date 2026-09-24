@@ -6,7 +6,7 @@
 
 ## 0. 一句话
 
-**FluxGroup = 一人 CEO（Jason）+ AI 劳动力 + 机器机队的控股集团**：五条业务线（游戏/量化/媒体/商业化/数字生命）+ 一个横切实验室（CPH4 Labs）+ 一座元宙城（FluxVerse）。AI 干活、机器 24h 运转、CEO 只做决策和发令。商业×元宙融合总纲=`docs/master-plan.md`（双螺旋：城商一体·现实链接·互相赋能）。
+**FluxGroup = 一人 CEO（Jason）+ AI 劳动力 + 机器机队的控股集团**：六条业务线（游戏/量化/媒体/商业化/数字生命/算力商业化）+ 一个横切实验室（CPH4 Labs）+ 一座元宙城（FluxVerse）。AI 干活、机器 24h 运转、CEO 只做决策和发令。商业×元宙融合总纲=`docs/master-plan.md`（双螺旋：城商一体·现实链接·互相赋能）。
 
 ## 1. 组织（谁是谁）
 
@@ -20,6 +20,7 @@
 | **CPH4 Labs** | 集团实验室：机制淬炼工厂+元宙规划大脑+**技术/架构底层全面负责**（2026-09-24 CEO 令·唯一问责面=规格+选型仲裁+验收；实施转办各司·零产品代码不变） | `cph4/` | `cph4/README.md`（能力注册表） |
 | **FluxVerse** | 元宙城：集团的实时驾驶舱与数字生命栖居地（Biggame 承建） | `gaming/FluxVerse/`（独立仓） | `BLUEPRINT.md` + `DESIGN.md` + `TECH.md` |
 | **BigLife** | 数字生命生产公司：超体宇宙城人口与人设资产（万人户籍库·自我进化·2026-09-24 定名转正） | `life/BigLife/`（独立仓） | `docs/CODEX.md` + `docs/SILICON-LIFE.md` + `BLUEPRINT.md` |
+| **BigCompute** | 硅基算力公司：算力商业化引擎——承载集团算力成本·现实世界链接变现（抖音小店/直播 Phase 1）·全司互相赋能产生经济价值·风控+法务随司设立（权利第一） | `compute/BigCompute/`（独立仓·local） | 产品仓 `BLUEPRINT.md` + `docs/plans/`（CEO 方案归档）+ `docs/risk-register.md` |
 
 **机队**：bm-a（DASHENG·32 核·开发机+游戏 A 机）｜bm-b（16 核·回测+大资产宿主）｜BG-A（同盒双角色）｜B/C（游戏分机）。新机接入=一键 `Tools/bootstrap-machine.ps1`（章程 `cph4/onboarding.md`）。
 
