@@ -30,8 +30,8 @@
 | 件 | 规格 | 宿主 | 状态 | 建设队列 |
 |---|---|---|---|---|
 | 快线 LLM | qwen2.5:7b-instruct（Ollama·统一端口 11434） | bm-a 4070S（主服务位·MiniGame OllamaServe 保温栈在役） | **✓ 现役**（FluxVerse 居民 224ms/句·BigLife 年轮/城脑·BigMoney llm_assist） | 异机随需求各起（借算走 fleet §5） |
-| 深度线 LLM | qwen2.5:14b（深度问答/复杂一审） | bm-a GPU 分时 | ⬜ 待装 | 随居民 AI v3；显存分时表先行 |
-| 向量线 | bge-m3（RAG 向量记忆） | bm-a | ⬜ 待装 | 随居民记忆 v3（R-20260923-resident-ai 路线） |
+| 深度线 LLM | qwen2.5:14b（深度问答/复杂一审） | bm-a GPU 分时 | ✓ 已装盘（2026-09-24 实况·心跳 stack 字段+BigLife 审计双证） | 启用随居民 AI v3 点居民问答（禁空转预装律） |
+| 向量线 | bge-m3（RAG 向量记忆） | bm-a | ✓ 已装盘（同上） | 启用随居民记忆 v3 履历 RAG（禁空转预装律） |
 | 转录线 | whisper（音频→文稿） | bm-a/bm-b CPU | ⬜ 候选 | BigStream 适配批评估后定（不强上） |
 
 **标准服务律**：Ollama 统一 11434+API 格式；宿主 keep-warm/GPU 纪律照 fleet §10；模型版本变更=T2 登记。建设队列**随消费线走**（有消费再装，禁空转预装）。
