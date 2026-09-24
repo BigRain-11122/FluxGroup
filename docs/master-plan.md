@@ -84,7 +84,7 @@
 
 ## 八、组织分工（一行一司）
 
-FluxVerse/Biggame=造城主力（倾斜态 P0）；BigDomain=平台产品与城内生意（待机 M2-M3·价目目录正典=其 BLUEPRINT §四）；**BigCompute=算力成本变现引擎——外部成交通道（抖音小店/直播）+定价与成本核算+风控法务（2026-09-24 开线·BLUEPRINT v0.9 调研收敛中）**；BigStream=拍城引流；BigLife=人口与城脑供给+消费接线；BigMoney=QUANT 城发动机+策略引擎；CPH4 Labs=本规划+验收判据+假设回访；CEO=裁决面。
+FluxVerse/Biggame=造城主力（倾斜态 P0）；BigDomain=平台产品与城内生意（待机 M2-M3·价目目录正典=其 BLUEPRINT §四）；**BigCompute=算力成本变现引擎——外部成交通道（抖音小店/直播）+定价与成本核算+粉丝经营（私域/会员）+风控法务（九部门全编制·2026-09-24 开线·BLUEPRINT v0.9 调研收敛中）**；BigStream=拍城引流；BigLife=人口与城脑供给+消费接线；BigMoney=QUANT 城发动机+策略引擎；CPH4 Labs=本规划+验收判据+假设回访；CEO=裁决面。
 
 ## 九、待 CEO 裁/物理件（汇总现行）
 
