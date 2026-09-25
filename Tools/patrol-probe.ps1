@@ -95,6 +95,35 @@ try {
     & powershell -NoProfile -ExecutionPolicy Bypass -File (Join-Path $PSScriptRoot 'task-health.ps1') 2>$null | Select-Object -First 12 | ForEach-Object { Write-Output ('  ' + [string]$_) }
 } catch { Write-Output '[SCHED] probe-fail (tool error, fail-open)' }
 
+# ---- task-face inventory (charter section 3 dimension 8, CEO no-idle order) ----
+# Mechanical open-item counts on each entity's canonical task face. The patrol
+# model session re-reads the board and applies the "self-executable" test
+# (blocked-on-physical items excluded there - raw counts only here).
+$taskFaces = @(
+    @{ n = 'FluxVerse';  sub = 'gaming\FluxVerse';       f = @('tasks\TASKS.md', 'docs\TASKS.md') },
+    @{ n = 'BigMoney';   sub = 'quant\bigmoney';        f = @('fleet\orders\TASKS.md', 'fleet\TASKS.md') },
+    @{ n = 'BigStream';  sub = 'media\BigStream';       f = @('tasks\TASKS.md', 'orders\TASKS.md') },
+    @{ n = 'BigLife';    sub = 'life\BigLife';          f = @('tasks\TASKS.md') },
+    @{ n = 'BigDomain';  sub = 'domain\BigDomain';      f = @('tasks\TASKS.md', 'orders.md') },
+    @{ n = 'BigCompute'; sub = 'compute\BigCompute';    f = @('tasks\TASKS.md') }
+)
+foreach ($t in $taskFaces) {
+    $found = $false
+    foreach ($fn in $t.f) {
+        $fp = Join-Path (Join-Path $root $t.sub) $fn
+        if (Test-Path $fp) {
+            $found = $true
+            try {
+                $raw = Get-Content $fp -Raw -Encoding UTF8
+                $open = ([regex]::Matches($raw, '(?m)^- \[ \]')).Count
+                $tblOpen = ([regex]::Matches($raw, '(?im)^\|\s*T-[^|]*\|[^|]*\|[^|]*\|\s*\*{0,2}open')).Count
+                Write-Output ('[TASKS ' + $t.n + '] face=' + ($fn -replace '\\', '/') + ' checkbox_open=' + $open + ' table_open=' + $tblOpen)
+            } catch { Write-Output ('[TASKS ' + $t.n + '] read_err') }
+        }
+    }
+    if (-not $found) { Write-Output ('[TASKS ' + $t.n + '] face=ABSENT (patrol session judges - absence is itself a finding per charter 3.8)') }
+}
+
 # ---- carry-over: open findings from previous patrols -------------------------
 try {
     $led = Join-Path $root 'docs\patrol-ledger.md'
