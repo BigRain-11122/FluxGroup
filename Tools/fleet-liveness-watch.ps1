@@ -61,19 +61,32 @@ try {
 $ErrorActionPreference = 'Continue'
 
 # ---- 3) open PT rows -> entity remediation map ----
+# PT-10: fetch + read origin/main rows too (local HQ clone can lag between
+# patrol rounds), merge-union with wt (wt wins on same id). PT-13: status cells
+# may carry annotations ("OPEN (in-window...)") - prefix-match the cell, do not
+# require a bare OPEN|ESCALATED token.
 $entPT = @{}
 try {
     $led = Join-Path $root 'docs\patrol-ledger.md'
-    if (Test-Path -LiteralPath $led) {
-        foreach ($ln in (Get-Content -LiteralPath $led -Encoding UTF8)) {
-            $ptId = ''
-            if ($ln -match '^\|\s*(PT-\d{8}-\d+)\s*\|') { $ptId = $Matches[1] } else { continue }
-            if ($ln -notmatch '\|\s*(OPEN|ESCALATED)\s*\|') { continue }
-            $cols = $ln -split '\|'
-            if ($cols.Count -ge 4) {
-                $ent = ([string]$cols[3]).Trim()
-                if ($ent) { if (-not $entPT[$ent]) { $entPT[$ent] = @() }; $entPT[$ent] += $ptId }
+    $ledLines = @()
+    if (Test-Path -LiteralPath $led) { $ledLines += @(Get-Content -LiteralPath $led -Encoding UTF8) }
+    try {
+        & git -C $root fetch --quiet 2>$null
+        $ol = & git -C $root show 'origin/main:docs/patrol-ledger.md' 2>$null
+        if ($ol) {
+            foreach ($ln in @($ol)) {
+                if ($ln -match '^\|\s*(PT-\d{8}-\d+)\s*\|' -and $ledLines -notcontains $ln) { $ledLines += $ln }
             }
+        }
+    } catch { }
+    foreach ($ln in $ledLines) {
+        $ptId = ''
+        if ($ln -match '^\|\s*(PT-\d{8}-\d+)\s*\|') { $ptId = $Matches[1] } else { continue }
+        if ($ln -notmatch '\|\s*(OPEN|ESCALATED)\b[^|]*\|') { continue }
+        $cols = $ln -split '\|'
+        if ($cols.Count -ge 4) {
+            $ent = ([string]$cols[3]).Trim()
+            if ($ent) { if (-not $entPT[$ent]) { $entPT[$ent] = @() }; $entPT[$ent] += $ptId }
         }
     }
 } catch { }
