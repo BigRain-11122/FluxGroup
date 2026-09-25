@@ -30,15 +30,35 @@ function DirNewest([string]$p) {
 }
 function GitBlock([string]$p) {
     if (-not (Test-Path (Join-Path $p '.git'))) { return 'git=NO_REPO' }
+    # PT-10 read-before-fetch law: local HEAD lags origin when the clone pull
+    # channel stalls; fetch (refs only, working tree untouched) then judge
+    # liveness by the freshest of local HEAD vs newest origin tip. Machine
+    # branches (MiniGame machine/*) carry writer pushes while master folding lags.
+    try { & git -C $p fetch --quiet 2>$null } catch { }
     $last = ''; $c7 = 0; $dirty = 0
     try { $last = (& git -C $p log -1 '--format=%cI' 2>$null) } catch { $last = '' }
     try { $c7 = @(& git -C $p log '--since=7 days ago' '--format=%h' 2>$null).Count } catch { $c7 = 0 }
     try { $dirty = @(& git -C $p status --porcelain 2>$null).Count } catch { $dirty = -1 }
-    $ageH = '-1'
-    if ($last) {
-        try { $c = [DateTimeOffset]::Parse($last); $ageH = ('{0:F1}h' -f [math]::Round(((Get-Date) - $c.LocalDateTime).TotalHours, 1)) } catch { $ageH = 'ERR' }
+    $tipTs = ''; $tipRef = ''
+    try {
+        $tipTs = [string](& git -C $p for-each-ref 'refs/remotes/origin' '--sort=-committerdate' '--count=1' '--format=%cI' 2>$null)
+        if ($tipTs) {
+            $tipRef = [string](& git -C $p for-each-ref 'refs/remotes/origin' '--sort=-committerdate' '--count=1' '--format=%(refname:short)' 2>$null)
+            if (-not $tipRef) { $tipRef = 'origin-tip' }
+        }
+    } catch { $tipTs = ''; $tipRef = '' }
+    $useTs = $last; $src = 'local'
+    if ($tipTs) {
+        $a = $null; $b2 = $null
+        try { $a = [DateTimeOffset]::Parse($last) } catch { }
+        try { $b2 = [DateTimeOffset]::Parse($tipTs) } catch { }
+        if ($null -ne $b2 -and ($null -eq $a -or $b2 -gt $a)) { $useTs = $tipTs; $src = $tipRef }
     }
-    return ('last_commit=' + $ageH + ' commits7d=' + $c7 + ' dirty=' + $dirty)
+    $ageH = '-1'
+    if ($useTs) {
+        try { $c = [DateTimeOffset]::Parse($useTs); $ageH = ('{0:F1}h' -f [math]::Round(((Get-Date) - $c.LocalDateTime).TotalHours, 1)) } catch { $ageH = 'ERR' }
+    }
+    return ('last_commit=' + $ageH + ' tip=' + $src + ' commits7d=' + $c7 + ' dirty=' + $dirty)
 }
 
 Write-Output ('PROBE ts=' + (Get-Date -Format 'yyyy-MM-dd HH:mm:ss'))
@@ -81,8 +101,10 @@ try {
     $open = 0; $ids = @()
     if (Test-Path $led) {
         foreach ($ln in (Get-Content $led -Encoding UTF8)) {
-            if ($ln -match '^\| (PT-\d{8}-\d+) ' -and $ln -match '\| (OPEN|ESCALATED) \|?\s*$') {
-                $open++; $ids += $Matches[1]
+            if ($ln -match '^\| (PT-\d{8}-\d+) ') {
+                # capture id BEFORE the status match (a second -match overwrites $Matches)
+                $ptId = $Matches[1]
+                if ($ln -match '\| (OPEN|ESCALATED)[^|]*\|\s*$') { $open++; $ids += $ptId }
             }
         }
     }
