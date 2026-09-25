@@ -12,7 +12,7 @@
 | **小时/事件族** | MiniGameCockpitBeat（5min 心跳）｜MiniGameTjcloudSync（时 :13）｜Bigmoney-LoopWatchdog（30min） | 分钟级 | 驾驶舱心跳/云同步/自愈看门狗 | watchdog 车道归属绑定（F-08：非 owner 只观测） |
 | **分钟哨兵族**（2026-09-24 流转提速令新增） | **FluxGroup-OrderSentinel（2min·v1.2.2）**：evolution 台账新行含 P0/P1/T0/T1 级+@司标签→即时唤醒目标 OS 循环（令→动工 ≤2-4min·替代等下一 10min 轮·首战 09-24 22:31 WAKE 实证·09-25 00:50 三唤 busy-skip 幂等实证） | 每 2 分钟 | **令流加速** | 静默（-WindowStyle Hidden）+单实例锁 1min 陈旧接管+ASCII 匹配（编码律·中文标签外置 map·**map 键禁大小写重复变体**）+wake-once 幂等+**ID 游标 day+max 全表重扫**（v1.1 行数游标对中插增长失明→修·正则月日分组 `\d{2}-\d{2}` 禁 `\d{4}`）+**跨日游标归零**（v1.2.2：删零位基线护栏[误伤合法新行]·日滤本身防历史风暴）+try 内 return 禁 exit（exit 跳 finally=锁残留 v1.0 实证）+分机不在 bm-a 不唤醒（其自报节律） |
 | **日轮族** | **决策轮 00:00+12:00 双班**（23:00 上报截止）｜**值守轮 03:07+15:07 双班**（原夜轮·四器审计+熔断自愈+SLA 扫描）｜MiniGameRadarTick 09:52｜PolicyTick 12:52｜GateTick 14:52｜AuditTick 17:52｜**BigCompute-OSLoop 22:43**（硅基算力计划态日轮：日清上报赶 23:00 截止+决策审核+调研消化+风险台账 upkeep·**CEO 令面由哨兵即时唤醒**） | 每日 | 拍板/自反应/巡检/门禁/审计/商业化迭代 | 单轮预算 15-25min+超时优雅收尾 |
-| **周轮族** | MiniGameHousekeeping 日 07:17｜RadarDeepTick 日 08:52｜**集团进化轮 日 09:17** | 周日 | 清理批/深扫/立法四步+考核面 | 轮首脏退避+法熵审视（季） |
+| **周轮族** | MiniGameHousekeeping 日 07:17｜RadarDeepTick 日 08:52｜**集团进化轮 日 09:17**｜**FluxGroup-PatrolRound 周一 09:23**（CEO 令 09-25 巡检机制·9 实体周巡+整改派单闭环·正典=docs/patrol-charter.md·host=C 机〔认领面戳记 .codely-cli/patrol/patrol-stamp.json<20h 即跳·他机可接管〕·手动加开=Start-ScheduledTask 随时） | 周日 | 清理批/深扫/立法四步+考核面/**集团巡检** | 轮首脏退避+法熵审视（季）+巡检戳记认领（F-09） |
 | **登录/常驻族** | MiniGameOllamaServe（登录）｜MiniGamePopupWitness（登录常驻·弹窗见证） | 登录 | 本地模型服务/弹窗证据 | GPU/RAM 纪律 fleet §10 |
 | **停用族（设计内态）** | MiniGameDailyDigest（U166 暂停·禁自愈 Enable）｜MoneyAutoGuardian（转办停用）｜GimmeAll-AutoSentinel｜CarGZH ×9（**CEO 个人域任务·非集团面·2026-09-20 起停用·未经令不动**） | — | — | E3 噪音豁免律：预期内态禁反复修 |
 
