@@ -29,6 +29,7 @@
 
 | 09-25 ~11:02 | 「CEO命令，所有子公司 实验室 集团，全部对标世界头部公司，全面展开调研，并落实改进。」 | U195 落 Biggame 登记簿（游戏公司侧四路并行调研批 09-25 全收：R-20260925-benchmark-01~04 全落盘〔超休闲 164/设计工艺 125/变现发行 124/机制文化 96 行〕+**《对标改进总账》立档 MiniGame Design/configs/GLOBAL（36 改进项编号对标-01~36·七簇分域·全数映射既有机制零新车道·状态列滚动+M5 治理日对账落地率·P1 四件锚 09-30 U178 首跑窗）**）+各司自领域对标（量化=RenTech/Two Sigma/Citadel 族·自媒体=Netflix/MrBeast 族·CPH4 实验室=OpenAI/Anthropic evals 族·集团治理=Amazon 机制/Bridgewater principles/Toyota kaizen 族——04 路报告已含该两域全拆解可直接消费）——改进合同=「他们做什么→我们差距→映射哪个既有机制→落地批次」四列（X068 零新车道·四报告全带）·产出归档各司 research 区 | executing（Biggame 调研面收口✅·改进落实=总账行滚动+各 lane 按批自领+M5 对账；其余子公司自领域对标=各 owner 窗内自领持续） |
 | 09-25 ~11:10 | 「硅基生命城市要各司其职，全面配合，集团负责调度和分配资源」 | U197 落 Biggame 登记簿+《硅基城市分工正典.md》立档（CEO 愿景/HQ=调度资源中枢/CPH4=城市规划/Biggame=主建/BigMoney 数据供给/BigStream 素材联动·全面配合走 O-135 流转通道·调度章承袭 cph4/scheduling.md） | executing（正典随 git 分发·各司按职自领·M5 治理日对账履行率） |
+| 09-25 ~13:05 | 「机队信息要保持通畅，不要看到什么掉线离线，看不到心跳，建立顶层规则和技术」 | U205 落 Biggame 登记簿+《docs/fleet-liveness-charter.md》立档+Tools/fleet-liveness-watch.ps1 5min OS 任务（C 机首宿主·复用 fleet-audit/task-health/patrol 台账零新采集·首跑实证：bm-c STALE/bigstream NO_TS 自动携带 PT 整改注记=光板离线清零·信息链自愈+alerts 限流升级+A/B 机器对称采纳窗=下一巡检轮前） | executed（C 宿主三件套落地✅·A/B 采纳=各机自报〔08 号协议·charter §6〕·看板注记消费=看板车道下迭代窗按 charter §7 契约） |
 ## CEO 待办物理件（常设提醒面·CEO 指令 2026-09-24「以后需要我手动操作的多提醒一下」——各司呈报+本区集中｜**午后追加令「有空再说 别催，先干你们能干的事」=对话内零催办**·仅每份简报尾附一行现状·集团侧全力跑自治面）
 
 - **CEO 重申（2026-09-24 午后）「两个物理件没动，一切商业闭环都是零」：微信支付商户号 + GitHub 私库 `FluxVerse`/`BigDomain` = 当前最高优先物理件**（注：GH 私库已于 13:30 全建毕·此项仅余商户号）
