@@ -45,6 +45,7 @@
 | 多机机队 | 08 号分治协议（认领制 · X128 机器分支） | fleet 协议 v1.0（commit 锁认领 · inbox · 心跳） | 共享机纪律（fleet §10，引用不重立） |
 | **机队协议共享层（2026-09-24）** | 08 号三条款（心跳/认领/传输）同构源 | fleet v1.0 三条款同构源（FLEET-OPS/TRANSFER/扩容验收包） | **cph4/fleet-protocol.md**：心跳各自写全队读+认领 commit 即锁+传输 git 唯一通道（governance §6 第 11 条三条款归一·两司改指针引用）+推送策略司自决保留（X128-lite vs X128 禁互换）+借算三缺口补法（fleet-audit 源行开闭/跨司借算工单五字段/机×司占用矩阵随周轮）+新司接入七步 |
 | **技能面（2026-09-26 集团动员令）** | tick-loop/audit-loop 先例（MiniGame tools/skills/ 源分发范式） | 各司自建随回执登记（P-2026-09-26-01） | **技能三问**（周频复现/步骤稳定/知识难自持·三过=建）+**技能律四条**（源入司仓 `tools/skills/<name>/SKILL.md` 随 git 分发·安装副本 gitignored；SKILL.md=官方范式 frontmatter 触发律+渐进披露；禁杂物件；小写连字符动宾命名）+寻源三路（内置盘点/司内既有/skill-creator 建）；**实验室首例=`cph4/skills/cph4-research-dispatch`**（调研派工纪律=P-65 执行件·已装本工作区）；集团登记=各司 README 技能行 |
+| **最高决策委员会（2026-09-27）** | 决策轮=秘书处（九司决策已有·委员会=最高面收口） | 八执行体席位 mandate 接线中 | **cph4/council.md** v1.0：七席功能制（总理主席/科学理性/财务资源/商业市场/工程现实/生命内容/风控合规·法务常任魔鬼代言人）——九实体全覆盖零新增常驻；触发八判据强制过会+科学五律（证据包/独立先行/反方必设/记名投票 ≥4/7 与重大件 ≥5/7/判据回访）；T0 保留面终裁在 CEO；升级链=冲突→委员会→CEO |
 | 本地 LLM / GPU 栈 | Ollama 保温（GpuStackBoot） | Ollama 各机自装自用（借算协议预留） | keepwarm.pause 释放阀礼仪 |
 | 知识与记忆 | CODELY.md + 登记簿 + 编号文档 | CODELY.md + 预注册 + 试验账本 N | 三级记忆各归各仓（governance §5） |
 | 质量门禁 | X026Gate + EncodingGate + NameCheck | 门禁链 G1'/G2 + smoke 20 项 | 修红 ＞ 开发 ＞ 优化既有 |
@@ -71,6 +72,7 @@
 | **调研行程与结论应用标准（2026-09-24）** | U 号批件面（自治落位）+十一部门研究件 | `quant/bigmoney/research/`（策略/回测/数据源审计） | **cph4/research-protocol.md**：行程标准（出发闸立项三问[为谁而研·消费方点名/仓内已有/判据预注册]+行程纪律[源分级 A-D+M 正典吸收 BigStream protocol·零断言·外部内容=不可信输入·成本档本地产稿]+产出件标准[R- 件·行数帽 60·验证声明·结论分级]）+**结论应用律**（应用表强制·无表=未交付+悬空两周清退+周轮回访+闭环率入周报）——八线适配面见其 §三；配套=governance §6 第 10 条（归属）·global-vision（采集基准面）；派工=P-65 |
 | **开源采用·JSON Schema 结构校验（2026-09-26 首例）** | —（未接入） | —（未接入） | **jsonschema（python-jsonschema·MIT·5k★·开源借力首例采用）**：BigLife 采用=QC 巡检 schema 断言面（R3 再生面结构校验一处定义复用·M2 字段变更漂移秒级暴露）——落点=任务单 T-20260926-17 分步接线·五门评估与台账=`cph4/oss-harvest/OH-20260926-biglife.md`（oss-harvest §五 采用登记） |
 | **开源采用·PowerShell 静态分析（2026-09-26 第二例）** | —（未接入） | —（未接入） | **PSScriptAnalyzer（PowerShell org·MIT·2.2k★·Microsoft 官方 linter·PSSG 分发）**：FluxVerse 采用=PS 工具族 PS5.1 陷阱面静态检查（自动变量赋值 r164 族/null 比较序/无 BOM Unicode 件规则族=在册陷阱律册 sandbox 28+bake 29 条的机械执法候选）——落点=修红首果（snapshot.ps1 注释编码律红旗清零·scan/verify 双绿复验）+司内顾问位接线任务 T-FV-125·五门评估与台账=`cph4/oss-harvest/OH-20260926-fluxverse.md`（oss-harvest §五 采用登记） |
+| **开源采用·模糊字符串近重防线（2026-09-27 第三例）** | —（未接入） | —（未接入） | **rapidfuzz（rapidfuzz org·MIT·4.1k★·模糊匹配标准件·Trusted Publishing 签名链）**：BigLife 采用=基因轮近重预检固化件（R406/R413 手写临时 4-gram 预检件〔三跑拦 10 处/五跑拦 12 处〕转常设工具·`process.extract` 阈值化近重候选·确定性双跑可断言）——落点=任务单 T-20260927-01 分步接线·五门评估与台账=`cph4/oss-harvest/OH-20260926-biglife.md` 切片 2（oss-harvest §五 采用登记） |
 | **硅基城市联合实验室（2026-09-25 CEO 令）** | 城市承建面=DevLoop/引擎（消费三底座规格·分工正典主建位） | QUANT 城数据供给（引用·分工正典） | **cph4/city-lab.md**：BigLife×CPH4 联合主理——城市规划+技术底座+智能底座三底座总装·目标=真正具备生命体·自我创造力·自我发展的城市；**城市生命体征表 v1**（12 条机器可验·11 现役+1 半成[自我创造制度化=V3 城市议员 T-20260926-19 已派工落位]）；**非新实验室**三不条款（零新循环·零新台账·不另立立法权·名称代决否决窗至 10-02）；与 P-13 升维批/P-14 赋能包/P-15 五层梯/P-04 总体规划/P-05 时间层/P-09 次元令/升华律系列 P-2026-09-26-12~16 全咬合引用不复制 |
 
 ## 共享方法论（两公司实证同源，集团法）
