@@ -41,6 +41,7 @@
 | OS 循环（各司 tick + DevLoop） | 10 分钟 | 各产品仓 mandate（外置 UTF-8·编码律 ASCII） |
 | 集团进化轮 | 周日 09:17 | `cph4/evolution.md`（感知→提案→裁决→立法·台账 `cph4/evolution-ledger.md`） |
 | 集团夜轮（自我反应） | 每日 03:07 | `cph4/night-round.ps1`（感知/催办/小自愈/夜报——与周轮分工 `cph4/evolution.md` §1） |
+| **开源收获轮（OSS 借力）** | 每 3 天（72h 滚动窗·值守轮执法） | `cph4/oss-harvest.md`（九实体每窗寻开源能力/系统/插件/模型·三律+五门评估+落点强制·台账 `cph4/oss-harvest/OH-*.md`） |
 | **集团决策轮** | 每日 23:00 上报截止→00:00 拍板 | `cph4/decision.md`（子公司问题日报→集团统一思考+外部调研+科学拍板→各司执行+审核权驳回再报请→三冲突升级 CEO；**§8 分层级决策**：团队/部门/子公司/集团四层同律五律+底层优先；台账=`docs/decisions.md`） |
 | 令流 | 随时 | CEO 令 → `docs/orders.md` → 感知探针 → 事件流 → 城市动画 → 回执 |
 | 分级立法 | T0 宪法 CEO 签 / T1 治理 CEO 话 / T2 机制 AI+7 天否决窗 / T3 数据 AI 全权 | `cph4/evolution.md` §2 |
