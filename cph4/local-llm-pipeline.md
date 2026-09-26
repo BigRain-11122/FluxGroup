@@ -10,7 +10,8 @@
 | BG-C | serve 常驻 ✓ | qwen2.5:7b-instruct + qwen2.5vl:3b（视觉） | **P1 美术预审**（判据 v0.1+工具已建·接线中） |
 | bm-a | ✓（BigLife QA 用） | qwen2.5:7b | **P2 万人城市问答**（citizen_qa·机审门 v0） |
 | bm-c | 装机面已毕 | qwen2.5:7b | 节点瘫痪待修（P0）·**14b/bge-m3 闸已开** |
-| BG-A / BG-B / bm-b / bigstream | 未部署 | — | Phase 1 部署面（显存分档） |
+| BG-A / BG-B / bm-b | 未部署 | — | Phase 1 部署面（显存分档） |
+| bigstream | serve 常驻 ✓（09-24 17:45 起+自启链） | qwen2.5:7b-instruct ✓｜14b=阶梯线外产线在役偏差（S1 门+E4 参考仪判断席·如实记）｜bge-m3 ✓｜VL N/A 零任务缺口 | 09-27 决策轮勘正（BigStream F-20260926-01 回执·D-20260927-01⑤） |
 
 ## 二、模型阶梯（fleet-allocations 增行面）
 
@@ -32,7 +33,7 @@
 
 ## 四、部署与排期
 
-- **Phase 1（本周·09-28 前）**：全机 serve 常驻化（BG-A/B/bm-b/bigstream 各 lane 按其机器面自装）+ P1 接线全通 + bm-c 修复后 14b/bge-m3。
+- **Phase 1（本周·09-28 前）**：全机 serve 常驻化（BG-A/B/bm-b 各 lane 按其机器面自装〔bigstream 已常驻·§一 09-27 勘正〕）+ P1 接线全通 + bm-c 修复后 14b/bge-m3。
 - **Phase 2（09-30 U178 首窗前）**：P3/P4 各机判据先立+最小版自建。
 - **Phase 3（10-07 治理日）**：替代率首报（§五）+管线扩容评审。
 
