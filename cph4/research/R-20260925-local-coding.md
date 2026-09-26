@@ -84,4 +84,4 @@
 - 病灶定位（三批独立收敛）：验证逻辑面=瓶颈（selftest 期望算术错／测副本不测本体／门可被空转 selftest 游戏），实现理解面尚可——「会写不会自证」为该档位在真实工单上的稳定画像。
 - 自修循环净读数：功能严格转化 +1 件；码质 −0.625（循环修验证面不修码质面、反留期望-实现矛盾残痕）——对购买卡无增益证据，**24GB 专用编码机购买卡不呈**（§六.6 判据 A 形态：P0 试点未达线）。
 - 边界注记：本实证只证伪 qwen3-coder:30b 在 bm-a 混合 offload 配置下的产线码质达标性，不证伪 §二 档位物理事实（VRAM/速度数学仍成立）；更强档位（32B dense／100B 级 MoE）是否过产线码质线=未测，如重启须按同范式（判据先立 A/B）新开试点。
-- P-08（P-2026-09-25-17）机队大模型适配矩阵数据就绪：任务-模型-机器映射原始面=BigMoney 仓 results/local_coding_pilot/{ledger.jsonl, blind_eval/, blind_eval_c/}+MIDTERM_DOSSIER-20260926{09}.md；矩阵件落位后按行引用，10-09 中期判读 GM 窗在册。
+- P-08（P-2026-09-25-17）机队大模型适配矩阵数据就绪：任务-模型-机器映射原始面=BigMoney 仓 results/local_coding_pilot/{ledger.jsonl, blind_eval/, blind_eval_c/}+MIDTERM_DOSSIER-20261009.md；矩阵件落位后按行引用，10-09 中期判读 GM 窗在册。
