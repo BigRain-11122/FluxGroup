@@ -10,6 +10,12 @@
 #   case-insensitive -> duplicate-case keys = terminating parse error), `return`
 #   inside try (PS5.1 `exit` skips finally -> lock leak), stale-lock threshold 1min,
 #   map load try/catch with FATAL log line instead of silent death.
+# v1.2.2 note (2026-09-26 multi-writer battle): rows that arrive at line-start
+#   LATE (fused mid-line during rebase churn, then unfused) with a number <= the
+#   cursor max are NEVER woken (cursor only scans num > curMax) - after any
+#   ledger row re-insert/renumber, check row-number vs state.json max and
+#   manually Start-ScheduledTask if below; structural fix (content-hash cursor)
+#   = v1.3 candidate, not yet law.
 param([string]$Root = "C:\Users\sjs20\Desktop\FluxGroup")
 $ErrorActionPreference = 'SilentlyContinue'
 $Dir    = Join-Path $Root '.codely-cli\sentinel'
