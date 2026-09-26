@@ -39,12 +39,14 @@ $stamp = $null
 try { if (Test-Path $stampFile) { $stamp = Get-Content -Raw -Encoding UTF8 $stampFile | ConvertFrom-Json } } catch { $stamp = $null }
 if (-not $Force -and $stamp -and $stamp.ts) {
     try {
-        $sAge = ((Get-Date) - [DateTimeOffset]::Parse([string]$stamp.ts)).TotalHours
+        $sAge = ([DateTimeOffset]::Now - [DateTimeOffset]::Parse([string]$stamp.ts)).TotalHours
         if ($sAge -lt 20) {
             Add-Content -Path $rtLedger -Value ('{0} | SKIP stamp fresh (ts={1} host={2} age {3:F1}h)' -f (Get-Date -Format 'yyyy-MM-dd HH:mm:ss'), $stamp.ts, $stamp.host, $sAge)
             exit 0
         }
-    } catch { }
+    } catch {
+        Add-Content -Path $rtLedger -Value ('{0} | WARN stamp-age check failed: {1}' -f (Get-Date -Format 'yyyy-MM-dd HH:mm:ss'), $_.Exception.Message)
+    }
 }
 Set-Content -Path $lockFile -Value (Get-Date -Format 'o')
 try {

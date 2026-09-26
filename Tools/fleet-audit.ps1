@@ -137,8 +137,13 @@ if (Test-Path $bmDir) {
 # (age never understated). Freshest of the two wins. current_task = state.json log tail.
 function Get-BsStateTs($lines) {
     $h = Parse-JsonLines $lines
-    if ($null -eq $h -or -not $h.log) { return $null }
     $best = $null
+    # PT-07 fix 2026-09-26: consume top-level machine-readable ts (freshest-wins with log)
+    if ($null -ne $h -and $h.ts) {
+        $d0 = [DateTime]::MinValue
+        if ([DateTime]::TryParseExact([string]$h.ts, 'yyyy-MM-dd HH:mm:ss', [Globalization.CultureInfo]::InvariantCulture, [Globalization.DateTimeStyles]::None, [ref]$d0)) { $best = $d0 }
+    }
+    if ($null -eq $h -or -not $h.log) { return $best }
     foreach ($e in @($h.log)) {
         if ([string]$e -match '^(\d{4}-\d{2}-\d{2}) (\d{2}):(\d)([0-9x])') {
             $mm = 10 * [int]$Matches[3]
@@ -207,6 +212,13 @@ if ($null -ne $bsStatePair[0]) {
                 }
             }
         }
+        # PT-07 fix 2026-09-26: top-level ts participates in freshness (freshest-wins)
+        if ($h.ts) {
+            $d1 = [DateTime]::MinValue
+            if ([DateTime]::TryParseExact([string]$h.ts, 'yyyy-MM-dd HH:mm:ss', [Globalization.CultureInfo]::InvariantCulture, [Globalization.DateTimeStyles]::None, [ref]$d1)) {
+                if ($null -eq $seen -or $d1 -gt $seen) { $seen = $d1 }
+            }
+        }
         $lastSeen = ''; $mark = 'NO_TS'
         if ($null -ne $seen) {
             $lastSeen = $seen.ToString('yyyy-MM-dd HH:mm')
@@ -214,7 +226,9 @@ if ($null -ne $bsStatePair[0]) {
             if ($ageMin -le 20) { $mark = 'ONLINE(' + $ageMin + 'm)' } else { $mark = 'LATE(' + $ageMin + 'm)' }
         }
         $task = '-'
-        if ($h.log) {
+        # PT-07 fix 2026-09-26: prefer top-level machine-readable task field
+        if ($h.task) { $task = [string]$h.task }
+        if ($task -eq '-' -and $h.log) {
             $task = ([string]@($h.log)[-1] -replace '^\d{4}-\d{2}-\d{2} \d{2}:[0-9x]{2}\s*', '')
             if ($task.Length -gt 60) { $task = $task.Substring(0, 60) }
         }
