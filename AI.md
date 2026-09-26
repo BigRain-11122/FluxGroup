@@ -17,7 +17,7 @@
 | **BigMoney** | 量化公司：沪深 ETF 波段·8 流派 35 策略·双节点机队 | `quant/bigmoney/`（独立仓） | `PLAN.md` + `fleet/` 协议 |
 | **BigStream** | AI 媒体公司：集团 AI 生态内容线（视频号/公众号/B站…） | `media/BigStream/`（独立仓·GH 仓名 Bigmedia） | 产品仓 `PLAN/` + `orders/` |
 | **BigDomain** | 硅基域商业化公司：引流/共创/商业化（19.9 算力包·大厅·身份·B 端·代币内循环） | `domain/BigDomain/`（独立仓·local） | 产品仓 `BLUEPRINT.md` |
-| **CPH4 Labs** | 集团实验室：机制淬炼工厂+元宙规划大脑+**技术/架构底层全面负责+各司技术底层巡检·随时直优化**（2026-09-24 CEO 令×2·限技术底层面·零产品代码不变·在飞退避+定向提交+ledger 回执） | `cph4/` | `cph4/README.md`（能力注册表） |
+| **CPH4 Labs** | 集团实验室：机制淬炼工厂+元宙规划大脑+**技术/架构底层全面负责+各司技术底层巡检·随时直优化**（2026-09-24 CEO 令×2·限技术底层面·零产品代码不变·在飞退避+定向提交+ledger 回执）+**硅基城市联合实验室**（2026-09-25 设立·BigLife 联合·城市规划+技术底座+智能底座三底座总装·城市生命体征表 v1·`cph4/city-lab.md`） | `cph4/` | `cph4/README.md`（能力注册表） |
 | **FluxVerse** | 元宙城：集团的实时驾驶舱与数字生命栖居地（Biggame 承建） | `gaming/FluxVerse/`（独立仓） | `BLUEPRINT.md` + `DESIGN.md` + `TECH.md` |
 | **BigLife** | 数字生命生产公司：超体宇宙城人口与人设资产（万人户籍库·自我进化·2026-09-24 定名转正） | `life/BigLife/`（独立仓） | `docs/CODEX.md` + `docs/SILICON-LIFE.md` + `BLUEPRINT.md` |
 | **BigCompute** | 硅基算力公司：**集团商业化中枢司（位阶令 09-24：商业化面高于其他司·对外成交/定价/粉丝私域/渠道唯一出口）**·算力商业化引擎——承载集团算力成本·现实世界链接变现（抖音小店/直播 Phase 1）·全司互相赋能产生经济价值·九部门全编制·权利第一（粉丝经营/商品/直播/客服/数据/财务/商务/风控/法务） | `compute/BigCompute/`（独立仓·local） | 产品仓 `BLUEPRINT.md` + `docs/plans/`（CEO 方案归档）+ `docs/risk-register.md` |
