@@ -63,6 +63,6 @@
 | xlcond「非必需」实证 | ②法/文档：web 件 §四该行修订注记（本件 §二已记） | 已闭环 |
 | bm-a 非独立产面裁决 | ③决策呈报：CEO 知悉生产面排程（C 机量产/bm-a 测试台）；净窗补产建议挂值守轮 | 待 CEO 知悉 |
 | 赛博城市 LoRA 四候选侦察轮（web 件） | ③决策呈报：是否批侦察小样轮（四候选全 M 级） | 待 CEO |
-| 测试资产 | 脚本（city_gen_test/finish_grid/pix_post2/repro_test）+样张 test-out/city/ 存档备查 | 已归档 |
+| 测试资产 | 证据样张 5 件（原图×2+后处理链 3 版）=`cph4/research/sdxl-city-20260926/`；脚本（city_gen_test/finish_grid/pix_post2/repro_test）+全例数据 results.jsonl=`.codely-cli/sdxl-test/`（工作区存档） | 已归档 |
 
 **验证声明**：2026-09-26/27 执行——本机实测 13 例生成（results.jsonl 全录·sha256 前 16 位）+多模态盲评 8 次+后处理链 4 版对比；外部 20 读（A6/B4/C16·姊妹件）；防线二直读双验（arXiv 2307.01952 Appendix I bucket 表+huggingface Lightning 卡原文）。**失败面如实**：cfg5/7·sde·euler 臂未逐一盲评（样张存档）；1536×640 未实测（同族 bucket 推断）；净窗完整基准未跑（净窗数据=竞态间隙采样·非受控窗）；C 机 16GB 侧数值未实测（产线机）；中景细节类资产锁版待 v3 链（区域感知 dither）。
