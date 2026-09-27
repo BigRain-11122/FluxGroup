@@ -5,7 +5,11 @@
 
 param(
     # known design-state-disabled tasks (cadence ledger - E3 exempt, never auto-heal back on)
-    [string[]]$ExemptDisabled = @('MiniGameDailyDigest', 'MoneyAutoGuardian', 'GimmeAll-AutoSentinel', 'CarGZH_DailyReview', 'CarGZH_Erchuang', 'CarGZH_HotWatch', 'CarGZH_MaterialBank', 'CarGZH_MechanismWatch', 'CarGZH_Morning', 'CarGZH_WeeklyEvolve', 'CarGZH_YTRadar')
+    [string[]]$ExemptDisabled = @('MiniGameDailyDigest', 'MoneyAutoGuardian', 'GimmeAll-AutoSentinel', 'CarGZH_DailyReview', 'CarGZH_Erchuang', 'CarGZH_HotWatch', 'CarGZH_MaterialBank', 'CarGZH_MechanismWatch', 'CarGZH_Morning', 'CarGZH_WeeklyEvolve', 'CarGZH_YTRadar'),
+    # trading-day-gated tasks (D-20260926-10): STALE outside Mon-Fri 09:25-15:10 session downgrades to INFO (holidays not modeled - honest limit)
+    [string[]]$TradingDayGated = @('Bigmoney-IntradayMarks'),
+    # designed self-dormant tasks (U175 BoardForge empty-queue hibernate): STALE is an E3 design state
+    [string[]]$DesignedStale = @('MiniGameBoardForge')
 )
 
 $ErrorActionPreference = 'Continue'
@@ -77,6 +81,15 @@ Get-ScheduledTask -TaskPath "\" | Where-Object { $_.TaskName -notmatch '^(Micros
     } elseif ($exp -gt 0 -and $ageMin -gt (2 * $exp)) {
         $flag = 'STALE'
     }
+    # D-20260926-10 + U175: classify designed-state STALE as E3 info (register only), not E2 faults
+    if ($flag -eq 'STALE') {
+        if ($DesignedStale -contains $name) { $flag = 'DESIGNED-STALE' }
+        elseif ($TradingDayGated -contains $name) {
+            $dow = $now.DayOfWeek
+            $inSession = ($dow -ge [DayOfWeek]::Monday -and $dow -le [DayOfWeek]::Friday) -and ($now.TimeOfDay -ge (New-Object TimeSpan 9, 25, 0)) -and ($now.TimeOfDay -le (New-Object TimeSpan 15, 10, 0))
+            if (-not $inSession) { $flag = 'GATED-INFO' }
+        }
+    }
     $rows += [pscustomobject]@{
         task = $name; state = [string]$_.State
         cadence_min = $(if ($exp -gt 0) { [string]$exp } else { '-' })
@@ -90,12 +103,16 @@ Get-ScheduledTask -TaskPath "\" | Where-Object { $_.TaskName -notmatch '^(Micros
 Write-Output ('TASK HEALTH ' + $now.ToString('yyyy-MM-dd HH:mm') + ' - tasks audited: ' + $rows.Count)
 $rows | Sort-Object flag, task | Format-Table -AutoSize | Out-String -Width 200 | Write-Output
 
-$bad = @($rows | Where-Object { $_.flag -ne 'OK' -and $_.flag -ne 'EVENT-BOUND' })
+$bad = @($rows | Where-Object { $_.flag -ne 'OK' -and $_.flag -ne 'EVENT-BOUND' -and $_.flag -ne 'DESIGNED-STALE' -and $_.flag -ne 'GATED-INFO' })
 $codes = @($rows | Where-Object { $_.result -like 'CODE-*' })
 Write-Output ('SUMMARY unhealthy=' + $bad.Count + ' (of ' + $rows.Count + ')  odd-result-codes=' + $codes.Count)
 if ($bad.Count -gt 0) {
     Write-Output ('FLAGS: ' + (($bad | ForEach-Object { ($_.flag + '=' + $_.task) }) -join ', '))
     Write-Output 'Routing: UNEXPECTED-DISABLED/NEVER-RAN/STALE -> night report line + E2; two consecutive nights same flag -> E1 (errors.md circuit-breaker).'
+}
+$designed = @($rows | Where-Object { $_.flag -eq 'DESIGNED-STALE' -or $_.flag -eq 'GATED-INFO' })
+if ($designed.Count -gt 0) {
+    Write-Output ('DESIGNED-STATE (E3 exempt, register only): ' + (($designed | ForEach-Object { ($_.task + '=' + $_.flag) }) -join ', '))
 }
 if ($codes.Count -gt 0) {
     Write-Output ('RESULT-CODES: ' + (($codes | ForEach-Object { ($_.task + '=' + $_.result) }) -join ', '))
