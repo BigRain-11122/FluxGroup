@@ -2,7 +2,7 @@
 
 > 目的：任何 AI 会话 / 新机器 / 新执行体，读本文件 5 分钟建立全局认知，再按指针深潜。
 > 性质：唯一速览正典——**只给指针和结论，细节以目标文件为准**（单一事实来源，引用不复制）。
-> 版本 v1.0 · 2026-09-23 · 结构变更须 changelog+溯源（docs/governance.md §9）
+> 版本 v1.1 · 2026-09-27 · 结构变更须 changelog+溯源（docs/governance.md §9）〔v1.1=补 09-24 后新机制族指针（巡检/机队信息流/审计部/四环周期律/调研部建制/本地管线/文化律）+四域架构总览指针·溯源=docs/orders.md 09-27 梳理批〕
 
 ## 0. 一句话
 
@@ -57,12 +57,23 @@
 | **自动化周期总账** | 全周期登记+错峰车道+提交周期 | `cph4/cadence.md`（10min 轮族分钟位/日周轮族/停用族豁免/防重复防冲突律+提交周期表——实测 35 项底账） |
 | **新公司开线 SOP** | 三阶段判据制+司内九件清单 | `cph4/venture.md`（P1 立项命名→P2 集团五步+触点审计→P3 九件+首火实弹；新司出生即四链层位声明） |
 | **记忆梳理机制（第七链）** | 周日窗梳理+入口四问+热冷水位置 | `cph4/memory.md`（实测 326.5KB 基线：BigMoney 247.8KB 重灾即行/HQ 51.5KB 首窗；复述禁令=指针记忆；梳理窗=周日 03:07 夜轮步·update_memory 逐条删≤10 条熔断·归档 research/memory-archive/ 全量留 git） |
+| **集团巡检（Group Patrol）** | 周一 09:23+CEO 随时加开 | `docs/patrol-charter.md`（八维·九实体·P0 24h/P1 72h/P2 7d 整改·台账=patrol-ledger.md·probe 复用三器零 token） |
+| **四环周期律（反思/批评/进化/迭代）** | 日反思[值守轮]·周批评[周日进化轮五议程]·月进化[M5 治理日]·季宪法审 | `cph4/evolution.md` §8（2026-09-26 立·反思落 `cph4/reflection-journal.md`·法熵预算 ≤20 件） |
+| **机队信息流保活** | 5min watch+心跳三源聚合 | `docs/fleet-liveness-charter.md`（光板离线清零·STALE 自动携带整改注记·Tools/fleet-liveness-watch.ps1） |
+| **九司调研部门建制** | 每司一调研部·周轮前沿扫描+即 hot 即报+统计→落地闭环 | `docs/research-dept-charter.md`（U248·防挂名空转/防只学不落/防重复调研三律·无应用表=未完成） |
+| **本地大模型生产管线** | P1-P6 管线目录·Phase1 全机 serve 常驻化 09-28 | `cph4/local-llm-pipeline.md`（美术终稿本地预审/万人 QA/commit 预检/调研摘要/回测增强/语音多声源·L3 保留面禁硬替） |
+| **集团审计部** | 对齐度探针+自我感动+同向无效功审查 | `cph4/audit-office.md`（L3 审计面·与 patrol/夜轮四器咬合） |
 
 ## 4. 文件地图（AI 导航）
 
 | 要什么 | 去哪 |
 |---|---|
 | CEO 令与裁决 | `docs/orders.md` |
+| **四域架构全景+信息流图谱**（城市/集团/子公司/部门） | `docs/audits/group-architecture-review-2026-09-27.md`（统合索引·2026-09-27） |
+| 顶层规则全景+短板+六柱设计 | `docs/audits/top-rules-review-2026-09-26.md` |
+| 集团巡检/整改 | `docs/patrol-charter.md` + `docs/patrol-ledger.md` + `docs/patrol/` |
+| 调研部门建制 | `docs/research-dept-charter.md` |
+| 城市正典族（美学/空间/总规/升华/风格/文化律/生产标杆等 12 件） | `gaming/MiniGame/Design/configs/GLOBAL/硅基城市*.md`（随 git 分发·消费律见总览 §一.城市域） |
 | 治理契约（职责/开线收线/协同/变更控制） | `docs/governance.md` |
 | 商业×元宙双螺旋总规划（融合总纲） | `docs/master-plan.md` |
 | 品牌/文化/红线 | `BRAND.md` / `docs/philosophy.md` / `RULES.md` |
