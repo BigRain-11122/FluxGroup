@@ -12,6 +12,9 @@
 
 1. **心跳条款**：每机**只写自己的心跳文件**（BigMoney=`fleet/machines/<id>.json`·Biggame=`Design/configs/GLOBAL/fleet/<id>.json`），写权分治=零跨机合并冲突；git 同步=全机队只读互见（governance §6 资源互见）。共享最低字段=`last_seen`+资源余量（RAM/GPU）+`verdict`+在途任务；**verdict=INFO 判定非门禁**（语义司自定·须成文于司协议·`|RAM_LOW` 低内存后缀同构）；集团旗标与失联处置=`fleet-allocations.md` §五（GREEN-IDLE/YELLOW-HEAVY/STALE/OFFLINE·夜轮审计）。**身份文件（machine.json）=本机私有永不入库**（X104/#48：tracked 身份必被跨机合并静默覆写）。
 2. **任务认领条款**：任务单=结构化文件落 git；**认领=改 `status=claimed`+`claimed_by`+`claimed_at` 并 commit push——commit 即锁**（U067 同制）；两机同窗撞认领=行级手术按 commit 时间序**后到让路**（排序权威=git %ci）；超时释放（默认 24h·司可调须成文）；**failed 必写死因；done 必带 `result_ref`**（指向产物）。共享核心六字段=`id/priority/status/claimed_by/claimed_at/result_ref`（司可扩禁减）；同款/同车道双开=事故（仲裁=司登记簿或任务板唯一面）。
+4. **批次先占律**（2026-09-27 周轮立法·T2 否决窗至 10-04·BigMoney F-20260923-04 周日法条化）：研究批/跑批/长任务类工作**开工前必先占位使跨机可见**（MSG/fleet/tasks 开单认领+commit push）；playbook/研究队列**按机预切分工优先**（缺口批次才临时认领）；撞车发现后处置=对账合并（双实现交叉验证可升格证据强度）非简单弃一方。
+5. **周期任务轮值律**（2026-09-27 周轮立法·T2 否决窗至 10-04·BigMoney F-20260924-09 周日法条化·D-20260924-02 裁「周日法条化」兑现）：跨机周期性维护任务（N 倍数轮核对/月度简报/月度审计类）三选一防并行双做——①错峰分配到机器（如 3/5/10 倍数轮分机）②固化为 fleet/tasks 常设轮值单（单内写明本周期 owner）③「本周期已核对」机器戳制（做完盖戳·他机见戳即跳）；周期性任务无认领面=双机各烧一轮=违「不要重复开发」铁律。
+6. **自愈层车道归属律**（2026-09-27 周轮立法·T2 否决窗至 10-04·BigMoney F-20260924-08 周轮裁兑现）：凡自愈层（看门狗/重生器）会重启「产出共享 tracked 状态的长任务链」者，**重启权必须绑车道 owner**（机器 id 比对或等价显式归属标识）；车道迁移时归属常量与迁移同 commit 移动；非 owner 对共享车道链**只许观测+发告警、禁本地重启**（gitignored 数据缓存只在 owner 本机=非 owner 的「链死+gates 红」判定结构性永真）。
 3. **传输条款**：跨机传输**唯一合法通道=git clone**（禁文件夹直拷——防锁文件/临时态/被忽略物·两司同源铁律）；大资产=司自建通道选型矩阵（范式=BigMoney `fleet/TRANSFER.md`：A git 分批/B2 croc 直传/B1 组网/C 云中转/D 离线+保险丝+决策顺序）。集团强制最低线三条：①**交付判据=校验锚点双侧一致**（manifest/字节数/文件数——无校验不算 done）；②**收件 `git checkout <分支> -- <path>` 后必 `git restore --staged <path>`**（R90 收件腿坑律：checkout 会把 gitignored 件自动 STAGE 进 main index）；③**常驻网络服务装机=CEO/用户逐次授权**（安全红线·两司同源）。
 
 ## 二、推送策略=司自决保留
@@ -38,3 +41,4 @@
 
 ### Changelog
 - 2026-09-24: v1.0 首版（P-63③ CPH4 自领交付：BigMoney fleet v1.0〔README/FLEET-OPS/TRANSFER/EXPANSION_ACCEPTANCE〕+Biggame 08 号 V1.2 三条款同构归一+推送司自决注记+借算三缺口补法 spec）。
+- 2026-09-27: v1.1（evolution R2·P-2026-09-27-04〔编号勘误：原取 -03 撞远端先占后到让位〕·T2 否决窗至 10-04）：§一 增补三条款扩展——④批次先占律（F-20260923-04）+⑤周期任务轮值律（F-20260924-09·D-20260924-02「周日法条化」兑现）+⑥自愈层车道归属律（F-20260924-08「集团条款周轮裁」兑现）。
