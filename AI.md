@@ -22,7 +22,7 @@
 | **BigLife** | 数字生命生产公司：超体宇宙城人口与人设资产（万人户籍库·自我进化·2026-09-24 定名转正） | `life/BigLife/`（独立仓） | `docs/CODEX.md` + `docs/SILICON-LIFE.md` + `BLUEPRINT.md` |
 | **BigCompute** | 硅基算力公司：**集团商业化中枢司（位阶令 09-24：商业化面高于其他司·对外成交/定价/粉丝私域/渠道唯一出口）**·算力商业化引擎——承载集团算力成本·现实世界链接变现（抖音小店/直播 Phase 1）·全司互相赋能产生经济价值·九部门全编制·权利第一（粉丝经营/商品/直播/客服/数据/财务/商务/风控/法务） | `compute/BigCompute/`（独立仓·local） | 产品仓 `BLUEPRINT.md` + `docs/plans/`（CEO 方案归档）+ `docs/risk-register.md` |
 
-**机队**：bm-a（DASHENG·32 核·开发机+游戏 A 机）｜bm-b（16 核·回测+大资产宿主）｜BG-A（同盒双角色）｜B/C（游戏分机）。新机接入=一键 `Tools/bootstrap-machine.ps1`（章程 `cph4/onboarding.md`）。
+**机队**：bm-a（DASHENG·32 核·开发机+游戏 A 机）｜bm-b（16 核·回测+大资产宿主·Money02 宿主）｜bm-c（32 核·RTX 3070 魔改 16GB·交互会话+云端发射面+ComfyUI 图像产线·兼 Biggame C 机/BigLife 多模态线）｜CEO 笔记本=豁免位（移动办公指令总控·非机队成员·不加入算力池）。配置分配唯一权威=`cph4/fleet-allocations.md`（§一 分配表+§八 产线分工与自领律）；新机接入=一键 `Tools/bootstrap-machine.ps1`（章程 `cph4/onboarding.md`）。
 
 ## 2. 元宙（FluxVerse）思路
 

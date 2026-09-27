@@ -12,7 +12,7 @@
 
 ## 结构与纪律（引用不复制）
 
-- 产品仓：`domain/BigDomain/`（独立 git·remote 待 CEO 建 `BigRain-11122/BigDomain.git`）。
+- 产品仓：`domain/BigDomain/`（独立 git·**远端已接通** `BigRain-11122/BigDomain.git`——2026-09-24 CEO 建库·remote 接线+首推毕〔2026-09-27 梳理收尾批勘误：原记「remote 待 CEO 建」系开线时旧态〕）。
 - 集团纪律全适用：RULES.md/governance.md/诚实律/静默律/单执行体；**商业化特有合规护栏见产品仓 BLUEPRINT.md §合规（非投顾定位/UGC 内容安全/代币内循环/裂变平台规则）**。
 - 蓝图正典：`domain/BigDomain/BLUEPRINT.md`（全案拆解+落地路线+待裁项）。
 - 记忆：`domain/CODELY.md`（本线工作区记忆）。

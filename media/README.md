@@ -27,7 +27,7 @@
 ```
 media/
 ├── README.md      <- 本文件（线章程·集团层拥有）
-└── BigStream/     <- 产品仓（独立 git·集团 .gitignore 隔离·remote 待 CEO 建）
+└── BigStream/     <- 产品仓（独立 git·集团 .gitignore 隔离·remote 已接通=BigRain-11122/Bigmedia〔2026-09-23 实况·仓名正典待 CEO 一句话确认〕）
 ```
 
 ## Red lines（本线红线·全文见 RULES.md §5 与 BigStream/PLAN.md §6）

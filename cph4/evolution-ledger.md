@@ -1,6 +1,7 @@
 # Evolution Ledger — 集团进化台账
 
 > 唯一进化台账（章程=`cph4/evolution.md`）。任何机器任何会话可追加提案；五字段一行。
+> **辨名消歧（2026-09-27 集团梳理批·orders 09-27 梳理令行）**：本件=集团进化台账（**P- 编号**·决策轮/OrderSentinel 哨兵/周进化轮消费·FluxGroup HQ 仓）；与 Biggame 产线假设登记簿 `MiniGame/Design/configs/GLOBAL/evolution_ledger.md`（**E- 编号**·M5 演化日消费·MiniGame 仓）名称近似但编号体系/消费方/写域全不同——两件互不替代，勿混勿并。
 > **P 号先占律（2026-09-24 机制审计 F1·T2 否决窗至 10-01）**：取号前必重读本表尾行取下一顺号；写完**即 commit 先占固化**；后到重号=后让先改号（当日实证：P-41 撞号返工）。
 > 状态：open（待裁决）/ applied（已落地）/ rejected（CEO 驳回）/ transferred（转办@公司）/ self-healed（自愈闭环）。
 

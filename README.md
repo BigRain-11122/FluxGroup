@@ -51,10 +51,18 @@ FluxGroup/
 ├── docs/
 │   ├── architecture.md    <- group business architecture
 │   ├── governance.md      <- group ↔ subsidiary governance charter
-│   └── philosophy.md      <- culture & north star (Rain 润泽万物 + WALL-E)
+│   ├── philosophy.md      <- culture & north star (Rain 润泽万物 + WALL-E)
+│   ├── master-plan.md     <- 商业×元宙双螺旋总规划
+│   ├── orders.md          <- CEO 令与裁决唯一审计面
+│   ├── research-dept-charter.md <- 集团调研部门建制律
+│   ├── patrol-charter.md  <- 集团巡检章程
+│   └── audits/            <- 架构/规则审计件（含 group-architecture-review 四域总览）
 ├── gaming/                <- FLUX Gaming / 超体游戏
 ├── quant/                 <- FLUX Quant / FLUX 量化
 ├── media/                 <- FLUX Media / 超体自媒体
+├── domain/                <- BigDomain / 硅基域（商业化·2026-09-23 开线）
+├── life/                  <- BigLife / 数字生命生产（2026-09-23 开线·09-24 定名）
+├── compute/               <- BigCompute / 硅基算力（商业化中枢·2026-09-24 开线）
 └── cph4/                  <- CPH4 Labs 集团 AI 研究核心（横切层）
 ```
 
