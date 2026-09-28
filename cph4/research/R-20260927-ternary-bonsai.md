@@ -1,4 +1,4 @@
-# R-20260927-ternary-bonsai — Ternary-Bonsai-2-27B 实测报告（CEO 令·P-2026-09-28-04）
+# R-20260927-ternary-bonsai — Ternary-Bonsai-2-27B 实测报告（CEO 令·P-2026-09-28-06〔原取 -04 撞号·先占律改 06〕）
 
 > 溯源：CEO 令 09-27 ~08:1x（截图=公众号文章「HF 趋势榜第一，27B 压到 5.95GB，保留 98.2% 智商」·模型 prism-ml/Ternary-Bonsai-2-27B-gguf）——「去 GitHub 上找这个模型，测一下，告诉我结果。尤其是准确率和速度」。
 > 环境：bm-a·RTX 4070S 12GB（与集团 Ollama 栈共卡·空闲 6.9GB）·PrismML-Eng/llama.cpp fork（prism-b10743·Win CUDA 12.4）·PTQ1_0 档 5.95GB（hf-mirror 下载·**字节级吻合 5,946,648,928**）。
