@@ -1,0 +1,17 @@
+{
+  "servers": {
+    "context7": {
+      "httpUrl": "https://mcp.context7.com/mcp"
+    },
+    "playwright": {
+      "command": "%TOOLS_NODE%",
+      "args": ["%PW_ENTRY%"],
+      "trust": true
+    },
+    "unity-mcp": {
+      "command": "%LOCALBIN%\\mcp-for-unity.exe",
+      "args": ["--transport", "stdio"],
+      "trust": true
+    }
+  }
+}
