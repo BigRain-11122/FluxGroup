@@ -1,7 +1,7 @@
 # Fleet Liveness Charter — 机队信息通畅律（顶层正典 v1.0）
 
 > **溯源**：CEO 令 2026-09-25 U205「机队信息要保持通畅，不要看到什么掉线离线，看不到心跳，建立顶层规则和技术」。
-> **定位**：机队一切心跳/活性/信息链路的**唯一顶层法源**——本件管「心跳必须活着+离线必须带整改注记+谁来修+怎么升级」；在哪跑=scheduling.md；巡检发现与整改闭环=patrol-charter.md（本件是其 L0 常态前置层）；周期总账=cph4/cadence.md。T2+否决窗 7 天。
+> **定位**：机队一切心跳/活性/信息链路的**唯一顶层法源**——本件管「心跳必须活着+离线必须带整改注记+谁来修+怎么升级」；在哪跑=scheduling.md；巡检发现与整改闭环=audit-charter.md Part B（本件是其 L0 常态前置层）；周期总账=cph4/cadence.md。T2+否决窗 7 天。
 
 ## §1 心跳即法线（Heartbeat-is-Lifeline）
 
@@ -35,7 +35,7 @@
 
 ## §5 升级阶梯（Escalation Ladder）
 
-检测→配方内自愈→复探→未愈→**alerts.jsonl 落行+限流触发 FluxGroup-PatrolRound**（巡检官模型会话消费 alerts 正式化 PT 行·P0=24h/P1=72h 时效律）→PT 整改闭环（patrol-charter §7）。限流=同实体 120min 内不重复触发（防风暴）；巡检戳记认领（F-09）照常生效——触发被认领跳过=诚实记录非失败。
+检测→配方内自愈→复探→未愈→**alerts.jsonl 落行+限流触发 FluxGroup-PatrolRound**（巡检官模型会话消费 alerts 正式化 PT 行·P0=24h/P1=72h 时效律）→PT 整改闭环（audit-charter.md Part B §7）。限流=同实体 120min 内不重复触发（防风暴）；巡检戳记认领（F-09）照常生效——触发被认领跳过=诚实记录非失败。
 
 ## §6 机器对称律（Fleet Symmetry）
 
@@ -49,7 +49,7 @@
 
 ## §8 与既有法关系（零新车道·防重复律 #1）
 
-复用三件零新采集：`fleet-audit.ps1`（心跳聚合·-Json）+`task-health.ps1`（调度五信号）+`docs/patrol-ledger.md`（OPEN 行=现成整改注记源）；本件不建新心跳源、不代 owner 修（F-08）、不越认领（F-09）、不停用态复活（U166）、不绕熔断（E1）。变更控制=本件 T2+cadence.md 行变更+changelog。
+复用三件零新采集：`fleet-audit.ps1`（心跳聚合·-Json）+`task-health.ps1`（调度五信号）+`docs/audit-charter.md` Part D（OPEN 行=现成整改注记源）；本件不建新心跳源、不代 owner 修（F-08）、不越认领（F-09）、不停用态复活（U166）、不绕熔断（E1）。变更控制=本件 T2+cadence.md 行变更+changelog。
 
 ### Changelog
 - 2026-09-25: initial v1.0（CEO 令 U205·C 机首宿主：charter+watch 工具+OS 任务+看板注记契约）。

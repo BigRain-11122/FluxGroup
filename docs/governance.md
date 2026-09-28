@@ -184,7 +184,7 @@
 
 ### 10.4 工具与接线
 
-- 集团仓 `Tools/selfaudit.ps1`（治理工具·非产品代码）：扫五仓近 24h commit 宣称词，逐条标记证据可得性，产出 `docs/selfaudit-report.md` 抽审底稿；进化轮周跑或 CEO 随时手跑。
+- 集团仓 `Tools/selfaudit.ps1`（治理工具·非产品代码）：扫五仓近 24h commit 宣称词，逐条标记证据可得性，产出 `docs/audits/selfaudit-report.md` 抽审底稿；进化轮周跑或 CEO 随时手跑。
 - 子公司对等工具与轮内自审落位=各司自治（引用本节，禁复制改写）；进化轮感知接线=`cph4/evolution.md` §1 感知面（T2 接线随本条落地）。
 - 本节与既有法同源不重复：`RULES.md` §3（先跑后宣告）、方法论「诚实判负/实况优先」、evolution §7「禁感觉良好式立法」、CPH4「禁自评自证」——本节为它们的**统摄成文**，冲突时以更严者为准。
 
@@ -260,3 +260,5 @@
 - 2026-09-27: **周轮立法批 R2**（evolution R2·T2 否决窗至 10-04·三源=子公司反馈周日法条化+决策轮 D-20260927-01④）：①review.md §1 审查三律→**四律**（新增第四律「复审锚稳定面律」：复审/回访检查禁锚热票面任何 depth·检查锚=唯一 commit 稳定产物件或 json_field 面——BigMoney post_review 假红二犯实证·与 R256 depth 律互补）②fleet-protocol.md v1.0→**v1.1**（§一 增补三条：批次先占律[F-20260923-04]/周期任务轮值律[F-20260924-09·D-20260924-02 周日法条化兑现]/自愈层车道归属律[F-20260924-08 周轮裁兑现]）；台账=ledger P-2026-09-27-04〔编号勘误：原取 -03 撞远端先占（55f6212 机队全产线动员律）后到让位〕。
 - 2026-09-27: **§0 三层结构图补全**（四域梳理收尾批·CEO 令「系统性梳理一次城市，集团，子公司，部门的架构，规则，信息流转等等，做一次科学的整理和清理，整合等」·orders 09-27 梳理令行+同令收尾行）：diagram 自 09-23 后开线三线（domain/life/compute）未随批入图=结构漂移，本批补全三线对齐 architecture.md 系统三层结构（实况优先律）；配套同批=HQ README 目录树三线+AI.md 机队行补 bm-c+笔记本豁免位+life/media/domain 线 README 勘误三件（细目=`docs/audits/group-architecture-review-2026-09-27.md` §四 第 9-14 行）。
 - 2026-09-28: **自驱力生态机制 v2.1 增补**（CEO 令 ~10:1x「全面建立自驱力生态机制，全面激发创新和主动性，工作任务要拉满，要高效，不能有任何闲置资源，还有空转浪费现象」·ledger P-2026-09-28-02·T1·与同日 v2.0 零空闲令〔docs/self-drive.md·并行窗立档〕同族姊妹批）：①创新提案轨（每司每窗 ≥1 自驱提案·无需 CEO 令·判据先立 ≤3 问·判负留痕合法·两周零提案点名催供）②空转四形态统一定义与禁令（零产出/无消费者/重复造轮/为指标造活——idle-fast 空转路径全司废止·审计部哨兵+深审执法·周报计数归零）③**拉满诚实边界**（利用率指标只许真活填·禁造活凑数=空转第四形态·保护态豁免面不算违规闲置——解 v2.0 硬指标与诚实律的张力）④周报自驱面计量+首回访 10-05 周轮（禁感觉良好式立法）；接线=cph4/README 注册行+AI.md 机制行+orders 台账行；self-drive.md §7 承载面=并行窗在途让路（交互窗并发三律②）后收口，法源行先行生效。
+
+- 2026-09-28: **机队一致性总括批：审查合一+台账分卷+运行面清理**（CEO 令「所有规则，资源，资产，机制，工具等等全量做一次整合，精简，清理等动作后，同步git，分发给机队，做到机队文件一致性」·registry O-2026-0928-013·同日兑现在飞瘦身令#1/#3+安全清理修正令）：①docs/audit-charter.md v2.0 四源合一（Part A 外部审查宪章+Part B 巡检章程+Part C 自审工具面+Part D PT 台账）·patrol-prompt/probe+watch+selfaudit 四工具改线·fleet-liveness/research-dept/cadence/AI/README 指针随批；②orders.md 270KB 分卷（活跃面+docs/orders-archive.md 历史卷·<50KB 判据）；③CODE_WIKI.md→docs/_archive/（速览正典唯一=AI.md）+.gitignore 运行面扩容（labbench/phoneview/sdxl-test/tmp/toolstack/cph4 运行态）+auto-saves 8 仓 7 日隔离（移不删）；④cadence 停用族补 09-28 10:0x 批量停用 as-found 实录（在册无令·待 CEO 裁）。

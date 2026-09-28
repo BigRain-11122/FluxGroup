@@ -1,6 +1,193 @@
-# Patrol Ledger — 集团巡检整改台账
+# Audit Charter — 集团审查合一正典 v2.0
 
-> 集团巡检机制唯一闭环追踪面（patrol-charter.md §7）。行级追加；禁改历史行；状态流转=OPEN→(FIXED)→VERIFIED / OPEN→ESCALATED（逾期）。核验禁轻信状态字段——每次 VERIFIED 必附证据指针。
+> 溯源 1：外部独立审查=CEO 令 2026-09-26「你作为外部审查，对城市和集团子公司方方面面监管，省token，下命令让他们科学执行」。
+> 溯源 2：集团巡检=CEO 令 2026-09-25 ~11:38「集团层面成立巡检机制，周期性巡检各个子公司实验室，并整改他们。」
+> 溯源 3：四源合一=CEO 瘦身令 2026-09-28「审查相关4文件合并成audit-charter.md一个」+ 机队一致性总括令（registry O-2026-0928-013）。
+> 定位：**集团审查族唯一章程件**——Part A 外部独立审查宪章｜Part B 集团巡检章程｜Part C AI 自审工具面｜Part D 巡检整改台账（PT 表·行级追加）。
+> 纪律：Part D 行级追加、禁改历史行（状态流转 OPEN→(FIXED)→VERIFIED / OPEN→ESCALATED 逾期·VERIFIED 必附证据指针）；章程区改动走 governance §9 变更控制+本件 Changelog。
+
+## Part A 外部独立审查宪章（v1.0 原文迁入·执行面=外部审查轮换轮）
+
+> 溯源：CEO 令 2026-09-26「你作为外部审查，对城市和集团子公司方方面面监管，省token，下命令让他们科学执行」
+> 定位：Jason 请来的外部审计员，不是集团内部 AI。只读+下命令，不写产品代码。
+> 执行面：定时任务「FluxGroup外部审查轮换轮」每日 22:17 跑一轮。
+
+### 一、监管总原则
+
+1. **省 token 第一**：每轮 ≤15 分钟，只读本轮块面所需文件，不全仓深读。脚本扫描优先于 AI 读全文。
+2. **外部视角**：不带集团内部滤镜，发现问题直说，不粉饰。
+3. **分级处置**：不是所有发现都下命令——P0 立即报，P1 下整改令，P2 只记录。
+4. **科学理性**：整改令必须带证据+可执行步骤+完成判据；允许各司科学驳回。
+5. **不重复劳动**：先扫 orders.md 最近 3 天，已有同类命令不重复下。
+
+### 二、13 块面轮换（day-of-month % 13）
+
+| mod | 块面 | 审什么（省token读法） |
+|---|---|---|
+| 0 | 自动化健康 | `Get-ScheduledTask` 抽 LastRunTime/LastTaskResult，不读日志全文 |
+| 1 | Token 经济 | `Get-ChildItem` 测 CODELY.md/auto-saves 字节数，超水位即记 |
+| 2 | **美术监管** | 打开最新城市截图 vs art-target-dusk.png，过 11 项 checklist |
+| 3 | 硅基生命体 | tail BigLife state.json + pool_audit 结果，不读全 census |
+| 4 | 本地化能力 | `ollama list` + 各仓轮账本 api 计数行 |
+| 5 | 研发质量 | `git log --oneline -3` + 抽看改动文件是否真在 |
+| 6 | 市场调研闭环 | tail global-benchmarks.md 日期行 |
+| 7 | 诚实律 | `git show --stat -3` 看宣称文件是否真存在 |
+| 8 | 安全红线 | `git log --diff-filter=A -- "*.env"` + grep 密钥模式 |
+| 9 | 商业化进展 | tail BigCompute BLUEPRINT + risk-register |
+| 10 | 内容质量 | 抽 BigStream backlog 顶 3 行状态 |
+| 11 | 机制重复 | grep cph4/README 注册表找同名能力 |
+| 12 | 城市演化 | tail world-events 最新时间戳 + world-state 版本 |
+
+### 三、分级标准
+
+- **P0（自己直接下整改令，不报 Jason）**：密钥泄露/数据丢失/核心任务死停 >24h/城市完全不演化/美术全面偏离正典——直接写 orders.md 派工修，Jason 只看 external-audit.md 周报
+- **P1（下整改令到 orders.md）**：超水位/跑偏/质量差/本地化空转/美术单项不达标/调研断档
+- **P2（只记 external-audit.md）**：轻微/无明确改法/观察项
+
+### 四、整改令格式（写 orders.md 表格）
+
+```
+| 日期 ~时间 | [外部审查·块面] 问题描述（带证据：文件:行号/commit/截图/数值） |
+整改方案：具体步骤 + @某司 + 完成判据（做到什么状态算过） | dispatched |
+```
+
+纪律：
+- 必须引用 art-style-spec.md / token-economy.md / memory.md 等正典条款号
+- 完成判据必须可机器或肉眼验证
+- 允许各司在 HQ-FEEDBACK 写理由驳回，不算违抗
+- OrderSentinel 2 分钟自动唤醒被派工的司
+
+### 五、产出
+
+- `docs/external-audit.md`：所有轮次完整记录（含 P0/P2）
+- `docs/orders.md`：P0/P1 整改令
+- 对话：永不打扰 Jason，所有问题自己下命令处理
+
+### 六、省 token 硬纪律
+
+1. 每轮开头先跑脚本拿数值，不读全文件
+2. 只读 tail/head/最近 N 行，不 Read 整个 md
+3. 无问题轮 = 一行收尾，不写长报告
+4. 发现问题才展开，没问题不凑字数
+5. 美术轮只读 1 张最新截图 + 1 张目标图对比
+
+### 七、多 AI 协调认领机制（防重复审查）
+
+Jason 会部署多个外部审查 AI（auditor-A/B/C…）。所有审查 AI 必须遵守本机制：
+
+#### 7.1 认领表（external-audit.md 顶部维护）
+
+external-audit.md 文件开头必须维护一个认领表，所有 AI 读写同一张表：
+
+```
+## 审查认领表
+| 块面 | 最近审查时间 | 审查AI | 结论摘要 |
+|---|---|---|---|
+| 自动化健康 | 2026-09-26 22:17 | auditor-A | 0异常 |
+| 美术监管 | 2026-09-25 22:17 | auditor-A | 已下整改令 |
+```
+
+#### 7.2 轮首避让
+
+每轮开始前先读认领表：
+- 本轮块面如果最近 **24h** 内已被任何 AI 审过（认领表有记录）= 本轮跳过该块面，记一行「skipped: 已被 auditor-X 于 HH:MM 审过」
+- 如果 >24h 没审过 = 正常审
+- 同一天多个 AI 跑同一时间窗 = 认领表先到先得
+
+#### 7.3 轮尾登记
+
+每轮审完后必须更新认领表对应行：
+- 块面名
+- 当前时间
+- 自己的 AI 标识（auditor-A / auditor-B / …）
+- 一句话结论摘要
+
+#### 7.4 时间错开建议
+
+| AI | 建议触发时间 | 负责侧重 |
+|---|---|---|
+| auditor-A（本件） | 每日 22:17 | 13块面轮换 |
+| auditor-B | 每日 06:17 | 同日错峰，块面按 day+13%13 偏移 |
+| auditor-C | 每日 14:17 | 同日错峰，块面按 day+26%13 偏移 |
+
+这样一天三波但块面不撞。其他 AI 部署时读本宪章即知规则。
+
+#### 7.5 冲突处理
+
+- 两个 AI 同时对同块面下了整改令 = orders.md 里按时间序，后到的发现如果是新问题就追加，重复问题不重复下（先扫 orders.md 最近 3 天）
+- 不互相删除对方的记录
+
+## Part B 集团巡检章程（v1.0 原文迁入·周期=周一 09:23+CEO 随时加开）
+
+> 溯源：CEO 令 2026-09-25 ~11:38「集团层面成立巡检机制，周期性巡检各个子公司实验室，并整改他们。」
+> 定位：**集团层对各子公司 + CPH4 实验室 + HQ 自身的周期性运营体检与整改闭环机制**。与既有面正交不重复（cadence 防重复律#1）：
+> - governance §10（AI 诚实律三道防线）= 管「说的和做的一致」；巡检 = 管「运营健康与整改闭环」，消费 §10 工具面为证据源。
+> - 值守轮（03:07/15:07 四器审计）= 日频点检；巡检 = 周频深度体检+整改派单追踪，覆盖面=全部实体。
+> Part B = 巡检机制唯一正典；巡检官会话（Tools/patrol-prompt.txt）按此执行。
+
+### 1. 周期与触发
+- **常规班**：每周一 09:23（OS 任务 `FluxGroup-PatrolRound`·零窗 InvisibleRunner·当班 host 见 §6 认领面）。
+- **加开班**：CEO 可随时加开——硅基窗点任意卡片「马上办：立即跑一次集团巡检」或 `Start-ScheduledTask FluxGroup-PatrolRound`；同日戳记未过期时跳过（`-Force` 例外由 runner 参数控制）。
+- 单班时间盒 25 分钟；超时先落已核验部分+残面记下轮指针。
+
+### 2. 巡检对象（9 实体）
+HQ（FluxGroup 治理层自身）· MiniGame（游戏）· FluxVerse（元宙）· BigMoney（量化金融·含 BigMoney-data 挂账面）· BigStream（媒体）· BigLife（生命）· BigDomain（域名）· BigCompute（算力）· CPH4 实验室。
+
+### 3. 巡检八维（每实体逐维过）
+1. **活性**：last commit 龄 / 7 日提交数 / 工作树脏度（probe 机械层给出）
+2. **台账健康**：canonical 台账文件存在+新鲜（断更>7 天=YELLOW 起步）
+3. **数据新鲜度**：状态导出（status-export）/ 心跳文件 / 世界数据龄
+4. **证据链抽查**：近 3 批 commit 抽 1-2 条核证据指针真实存在（禁轻信提交信息）
+5. **红线合规**：集团 governance §1-§11 + 各司自身章程红线（禁私建仓/写域越界/台账断更/停用任务复活等）
+6. **整改闭环**：上轮 PT 项逐条核验——读证据指针定谳，禁轻信状态字段
+7. **风险面**：调度健康（task-health）/ 机队心跳（fleet-audit）异常 + 巡检官现场发现
+8. **任务面（2026-09-25 CEO 无闲令「不允许出现无任务情况」新增）**：每实体 canonical 任务板/orders 面的**自可执行开单数**——blocked-on-物理件单不计入自可执行但须单独如实列示；实体无任务板/开单=违例（§4）
+
+### 4. 判色与严重度
+- **GREEN**：八维无异常或仅 P2。
+- **YELLOW**：存在 P1 或台账断更或数据陈旧。
+- **RED**：存在 P0（红线违规/数据面损坏/整改逾期升级/**无任务违例**）。
+- 严重度与整改时限（governance §11 交付时效律）：**P0=24h / P1=72h / P2=7d**。
+- **无任务违例**：自可执行开单=0 → 判 RED·PT 单 P0（24h 内补齐）。「待机司」态不再合法——待机实体必须保有 ≥1 自可执行任务；等 CEO 物理件的司=blocked 项如实列示+另持自可执行件，**禁以 blocked 单充当在岗**。
+
+### 5. 整改派单（核心闭环·禁只巡不改）
+每条发现 → 两处落档：
+1. **本件 Part D（巡检整改台账）** 加行（权威台账·PT-YYYYMMDD-NN 编号·字段：实体/级别/发现/要求动作/证据指针/截止/状态 OPEN）
+2. **派发实体 canonical intake**（加速通道）：
+
+| 实体 | canonical intake（只许写此处·禁碰其他面） |
+|---|---|
+| MiniGame | `Design/configs/GLOBAL/AI反馈队列.md`（FE 条目·C 机 tick 班 10 分钟内自消费） |
+| BigMoney | `fleet/orders/` 新 O-行 |
+| BigStream / BigLife / BigDomain / BigCompute | 各自 `orders/`（或 `orders.md`）区 |
+| FluxVerse | `docs/` 台账面 + `watch/` 反馈面 |
+| CPH4 | `cph4/registry/` + 周进化轮消化 |
+| HQ | 本台账 + governance 变更控制流程 |
+
+- **P0/P1 快唤**：额外在 `cph4/evolution-ledger.md` 追加含 `@司` 标签+级别的行 → FluxGroup-OrderSentinel（2 分钟）即时唤醒该实体 OS 循环（`Tools/order-sentinel-map.json`）。
+- **实体仓写纪律**：派单落实体 intake 后由该实体自己的 lane 收口提交；巡检官会话不代司提交产品面。intake 推送失败→如实记档，HQ 台账行=唯一权威（各司 lane 经 HQ 仓亦可见）。
+
+### 6. 防重复与认领面
+- cadence.md 周轮族已注册本任务（同用途唯一制）。
+- **戳记认领**（F-09 跨机周期任务认领律）：每班开跑写 `.codely-cli/patrol/patrol-stamp.json`（时间+host）；他机 runner 见戳记<20h 即跳过本班。任何机器可按 charter 接管 hosting（cadence 表改注 host）。
+
+### 7. 产出面
+- `docs/patrol/patrol-YYYY-MM-DD.md` 巡检报告（逐司判色+发现+派单指针+总评+闭环率+CEO 需拍板事项）
+- `本件 Part D（巡检整改台账）` 整改台账（唯一闭环追踪面）
+- `.codely-cli/patrol/patrol-ledger.txt` 运行台账（PATROL_DONE 标记·runner 成功 oracle）
+
+### 8. 诚实律
+每句判断带证据指针；probe 未覆盖且巡检官未核验的面如实写「未覆盖」；禁编造；判色禁唯亲（子司自报≠证据）。
+
+## Part C AI 自审（诚实律抽审·工具面）
+
+- 工具=`Tools/selfaudit.ps1`（扫五仓近 24h commit 宣称词·逐条标记证据可得性）。
+- 产出=`docs/audits/selfaudit-report.md`（生成件·随跑随覆写；2026-09-28 起由 docs/ 根改道 audits/·原根级生成件已随合并隔离）。
+- 法源=`docs/governance.md` §10（三道防线之第三道·集团抽审以本工具产出为底稿）；节律=进化轮周跑或 CEO 随时手跑。
+
+## Part D 巡检整改台账（PT 表·唯一闭环追踪面·行级追加）
+
+> 字段：PT-YYYYMMDD-NN 编号｜日期｜实体｜级别｜发现｜要求动作｜证据指针｜截止｜状态——核验禁轻信状态字段（Part B §7）。
 
 ## 整改项台账
 
@@ -34,3 +221,6 @@
 - 四班 2026-09-25 加开（RUN_ID=20260925-155720·host=BG-C/bm-c·15:57-16:2x·**触发=U205 watch escalate-patrol**：BG-B STALE 无 PT 覆盖→watch 判 RED 自动加开）：pt_new=2（**P1×1**=PT-12 MiniGame BG-B 心跳信道假 STALE——写手健在·根因=idle 段无提交+折叠节律+只读 master 三层·B641-643 连发满负荷实证；**P2×1**=PT-13 watch PT 覆盖判定漏检〔bm-c/bigstream 双报 no PT cover 而 PT-01/07 在册〕）+**PT-10 P2→P1 升级**（预测害兑现=watch 假 RED 实锤·bm-a/bm-b origin 双鲜·截止 10-02→09-28）·pt_verified=0（9 OPEN 全在窗）·pt_escalated=0（PT-01 大限 09-26 11:52 在窗）；红黄绿=**6G/2Y/1R**（HQ=YELLOW 首开=PT-10 P1·MiniGame=YELLOW=PT-12 P1·BigMoney=R 维持=PT-01·实体产线 origin 实测九面零新案）；止血=四镜像克隆 pull 对齐 origin（PT-10 处方续用·止血窗 ~2h）。
 - 五班 2026-09-25 加开（RUN_ID=20260925-180720·host=BG-C/bm-c·18:07-18:4x·**触发=U205 watch escalate-patrol 第二次**（18:07:19 liveness 实录 bm-b「no PT cover」——PT-10 伪象+PT-13 cover-miss+PT-15 stamp 闸死三因叠加链本班全定谳））：pt_new=2（**P1×1**=PT-15 escalate 链 stamp 防重复闸 PS5.1 不兼容根因定谳·**P2×1**=PT-14 集团台账并发写入面三实证〔P-04 撞号瞬态自解+83539d6 主题错位残留+orders.md L201/L205 同文重复实存〕）+**PT-13 P2→P1 升级**（复发#2+escalate 闸门角色实锤=自动加开环断路器·截止 10-02→09-28）·pt_verified=0（主检段 13 项 OPEN 全在窗·存史）·pt_escalated=0（PT-01 大限 09-26 11:52 在窗）；红黄绿=6G/2Y/1R（主检段判色：HQ=Y〔PT-10/13/15 三 P1〕·MiniGame=Y〔PT-12 P1〕·BigMoney=R〔PT-01〕·实体产线 origin 九面实测零新案）；止血#2=六克隆 ff-only pull 毕（BigStream/BigLife 网络重置重试后成）；**收口合并增记（18:4x）**=HQ 治本批 f74de62（18:21·同窗竞写）行级并集收编：PT-08/10/13 三行 FIXED（其自测详证在案·五班 diff 实读采信）+PT-12③ 读侧毕（状态=OPEN〔③已毕·①②待 B 机〕）——主检段判色不受影响（治本在主检段后到达）；独立行为面复查点=下轮 probe [CARRY] 计数/probe [FLEET] 读数/watch actions 三对账。
 - 周一班 2026-09-28（RUN_ID=20260928-092301·host=FLUXGROUP/bm-c·常规班 09:23 触发）：pt_new=4（**P1×2**=PT-20260928-01 probe fetch 静默回退六克隆假读/PT-20260928-02 BigDomain 板面零自可执行锚·**P2×2**=PT-20260928-03 probe 管道乱码/PT-20260928-04 BC 心跳宿主独占）·**pt_verified=8**（PT-01 bm-c 归队路 A 兑现/PT-07 Source 3 ts+task/PT-08 CARRY 对账 10=10/PT-10 [FLEET]+watch 双对账/PT-12 B 机 pulse 节律/PT-13 watch 零误报/PT-14 取号纪律三证/PT-15 PS5.1 回归实弹）·pt_escalated=0（PT-12/PT-15 双双当日 VERIFIED 抢在截止内）·余 OPEN=PT-03/04/06/09 四条 P2（10-02 窗内）+新 4 条；红黄绿=**7G/2Y/0R**（HQ=Y〔PT-28-01 P1〕·BigDomain=Y〔PT-28-02 P1〕·余 G——origin 九面全活实测：BM 三机满载/FV r232+板 4 open/BS R630/BL R586/BC 09:29 smoke 在飞/MG 三机+队列当日消费/CPH4 研究三件当日）；**probe 陈旧读数假象已由本班六克隆 fetch 对账作废**（PT-28-01 立案·判色一律按 origin 实测非 probe 机械值）。
+
+### Changelog
+- 2026-09-28: v2.0 四源合一（CEO 瘦身令 #3·机队一致性总括令 O-2026-0928-013）：audit-charter v1.0（外部审查宪章）+ patrol-charter v1.0 + patrol-ledger + selfaudit-report（生成件改道 docs/audits/）并入本件；工具改线=patrol-prompt.txt / patrol-probe.ps1 / fleet-liveness-watch.ps1 / selfaudit.ps1；旧件隔离 docs/_trash/2026-09-28-audit-merge/（git 史全保·7 日观察后清）。

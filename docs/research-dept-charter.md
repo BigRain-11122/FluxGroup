@@ -1,7 +1,7 @@
 # 集团调研部门建制律 v1.0（Research & Frontier Intelligence Charter）
 
 > **委托令**：CEO 令 2026-09-26 ~23:0x「各子公司实验室都要成立有关调研的部门，也可以复用之前组织架构相近的，要敏感的去学习业务前沿技术，统计信息，落地执行等，我说的很凌乱，你们思考后落地」（U247·模糊令三段律：盘点→定谳→立制派发）。
-> **法位**：集团九实体（HQ/MiniGame/FluxVerse/BigMoney/BigStream/BigLife/BigDomain/BigCompute/CPH4）**常设调研建制**的组织律——与《四级条线治理章程》（任务条线）/《patrol-charter》（巡检）/fleet-allocations（资源条线）并立：**巡检查存量健康·调研部盯外部增量**。
+> **法位**：集团九实体（HQ/MiniGame/FluxVerse/BigMoney/BigStream/BigLife/BigDomain/BigCompute/CPH4）**常设调研建制**的组织律——与《四级条线治理章程》（任务条线）/《audit-charter.md Part B》（巡检）/fleet-allocations（资源条线）并立：**巡检查存量健康·调研部盯外部增量**。
 > **CEO 三意图拆解**：①**组织面**=每司有正式调研部门（可复用既有相近架构正名·X068 零新车道）；②**敏感面**=对业务前沿技术保持**定时扫描的敏感度**（不是等派单才调研·是常设雷达）；③**闭环面**=统计信息→调研件→落地执行（只出报告不落地=违例）。
 
 ## 一、组织建制律

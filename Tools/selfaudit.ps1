@@ -1,6 +1,6 @@
 # Group selfaudit scanner v1.0 - anti-hallucination claim sweep (governance §10).
 # Sweeps recent commit messages across the 5 repos for CLAIM words, then marks
-# each claim's evidence availability. Output: docs/selfaudit-report.md draft for
+# each claim's evidence availability. Output: docs/audits/selfaudit-report.md draft for
 # the weekly evolution round (governance §10.3 third line of defense).
 # ASCII-only (encoding law). READ-ONLY against all repos.
 # Usage: powershell -NoProfile -ExecutionPolicy Bypass -File Tools\selfaudit.ps1 [-Days 1]
@@ -57,7 +57,7 @@ foreach ($name in @($repos.Keys)) {
 $report += ''
 $report += ('## Summary: claims=' + $counts.claims + ' evidence-backed=' + $counts.backed + ' bare(no-files)=' + $counts.bare)
 $report += '## Round duty: bare claims and keyword-heavy claims get RE-VERIFIED by the evolution round AI (governance 10.3).'
-$outFile = Join-Path $root 'docs\selfaudit-report.md'
+$outFile = Join-Path $root 'docs\audits\selfaudit-report.md'
 $utf8 = New-Object System.Text.UTF8Encoding($false)
 [System.IO.File]::WriteAllText($outFile, ($report -join "`r`n") + "`r`n", $utf8)
-Write-Output ('selfaudit done: claims=' + $counts.claims + ' backed=' + $counts.backed + ' bare=' + $counts.bare + ' -> docs/selfaudit-report.md')
+Write-Output ('selfaudit done: claims=' + $counts.claims + ' backed=' + $counts.backed + ' bare=' + $counts.bare + ' -> docs/audits/selfaudit-report.md')

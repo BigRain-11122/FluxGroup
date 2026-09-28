@@ -1,6 +1,6 @@
 # patrol-probe.ps1 - Group Patrol mechanical probe v1.0 (CEO order 2026-09-25:
 # periodic group-level inspection of every subsidiary + CPH4 labs + rectify).
-# Zero-token evidence layer for the patrol model session (patrol-charter.md).
+# Zero-token evidence layer for the patrol model session (audit-charter.md Part B).
 # READ-ONLY against every repo. ASCII-only body (encoding law) - all paths here
 # are ASCII; Chinese-named ledger freshness is proxied by directory-newest-file
 # scans so no non-ASCII literals ever enter this script.
@@ -65,7 +65,7 @@ Write-Output ('PROBE ts=' + (Get-Date -Format 'yyyy-MM-dd HH:mm:ss'))
 
 # ---- per-entity blocks -------------------------------------------------------
 $ents = @(
-    @{ n = 'HQ';        sub = '';                     files = @('docs\orders.md', 'docs\decisions.md', 'docs\patrol-ledger.md', 'cph4\evolution-ledger.md'); dirs  = @('docs', 'cph4\registry') },
+    @{ n = 'HQ';        sub = '';                     files = @('docs\orders.md', 'docs\decisions.md', 'docs\audit-charter.md', 'cph4\evolution-ledger.md'); dirs  = @('docs', 'cph4\registry') },
     @{ n = 'MiniGame';  sub = 'gaming\MiniGame';      files = @('STATUS-c.md', 'state-c.json', '.codely-cli\engine-tick\tick-ledger.txt', 'docs\STATUS.md'); dirs  = @('docs', 'Design\configs\GLOBAL') },
     @{ n = 'FluxVerse'; sub = 'gaming\FluxVerse';     files = @('watch\milestones.json', 'world\world-state.json'); dirs  = @('docs', 'watch') },
     @{ n = 'BigMoney';  sub = 'quant\bigmoney';      files = @(); dirs = @('fleet\orders', 'fleet\machines', 'knowledge') },
@@ -121,12 +121,12 @@ foreach ($t in $taskFaces) {
             } catch { Write-Output ('[TASKS ' + $t.n + '] read_err') }
         }
     }
-    if (-not $found) { Write-Output ('[TASKS ' + $t.n + '] face=ABSENT (patrol session judges - absence is itself a finding per charter 3.8)') }
+    if (-not $found) { Write-Output ('[TASKS ' + $t.n + '] face=ABSENT (patrol session judges - absence is itself a finding per audit-charter Part B 3.8)') }
 }
 
 # ---- carry-over: open findings from previous patrols -------------------------
 try {
-    $led = Join-Path $root 'docs\patrol-ledger.md'
+    $led = Join-Path $root 'docs\audit-charter.md'
     $open = 0; $ids = @()
     if (Test-Path $led) {
         foreach ($ln in (Get-Content $led -Encoding UTF8)) {

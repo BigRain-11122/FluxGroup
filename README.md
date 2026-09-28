@@ -53,9 +53,11 @@ FluxGroup/
 │   ├── governance.md      <- group ↔ subsidiary governance charter
 │   ├── philosophy.md      <- culture & north star (Rain 润泽万物 + WALL-E)
 │   ├── master-plan.md     <- 商业×元宙双螺旋总规划
-│   ├── orders.md          <- CEO 令与裁决唯一审计面
+│   ├── orders.md          <- CEO 令与裁决唯一审计面（活跃面）
+│   ├── orders-archive.md  <- 令历史归档（2026-09-28 分卷）
+│   ├── executive-protocol.md <- 极简执行协议（每轮只读 runbook）
 │   ├── research-dept-charter.md <- 集团调研部门建制律
-│   ├── patrol-charter.md  <- 集团巡检章程
+│   ├── audit-charter.md  <- 集团审查合一正典（外部审查+巡检+自审+PT 台账）
 │   └── audits/            <- 架构/规则审计件（含 group-architecture-review 四域总览）
 ├── gaming/                <- FLUX Gaming / 超体游戏
 ├── quant/                 <- FLUX Quant / FLUX 量化

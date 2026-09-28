@@ -3,7 +3,7 @@
 # Charter: docs/fleet-liveness-charter.md. REUSES (anti-dup law #1):
 #   fleet-audit.ps1  - heartbeat aggregation (-Json snapshot)
 #   task-health.ps1  - scheduler five-signal face (SUMMARY/FLAGS stdout lines)
-#   docs/patrol-ledger.md - OPEN/ESCALATED rows = ready-made remediation notes
+#   docs/audit-charter.md Part D - OPEN/ESCALATED rows = ready-made remediation notes
 # Host-scope auto-heal = THIS machine's info-chain tasks only (F-08 law):
 #   MiniGameEngineTick / MiniGameCockpitBeat / MiniGameCeoDeskServer.
 # Cross-host remediation is never attempted here - annotate + escalate.
@@ -67,12 +67,12 @@ $ErrorActionPreference = 'Continue'
 # require a bare OPEN|ESCALATED token.
 $entPT = @{}
 try {
-    $led = Join-Path $root 'docs\patrol-ledger.md'
+    $led = Join-Path $root 'docs\audit-charter.md'
     $ledLines = @()
     if (Test-Path -LiteralPath $led) { $ledLines += @(Get-Content -LiteralPath $led -Encoding UTF8) }
     try {
         & git -C $root fetch --quiet 2>$null
-        $ol = & git -C $root show 'origin/main:docs/patrol-ledger.md' 2>$null
+        $ol = & git -C $root show 'origin/main:docs/audit-charter.md' 2>$null
         if ($ol) {
             foreach ($ln in @($ol)) {
                 if ($ln -match '^\|\s*(PT-\d{8}-\d+)\s*\|' -and $ledLines -notcontains $ln) { $ledLines += $ln }
