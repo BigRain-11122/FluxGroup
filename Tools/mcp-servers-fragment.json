@@ -12,6 +12,10 @@
       "command": "%LOCALBIN%\\mcp-for-unity.exe",
       "args": ["--transport", "stdio"],
       "trust": true
+    },
+    "search": {
+      "command": "%LOCALBIN%\\duckduckgo-mcp-server.exe",
+      "trust": true
     }
   }
 }
