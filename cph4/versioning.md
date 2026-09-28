@@ -69,7 +69,7 @@
 - 节律：交互会话开工 fetch/收工即推；无人值守轮 10min `pull→干活→定向 add→commit→push`。
 - **push 被拒律（X128-lite 集团版）**：`pull --rebase` 重试一次，再拒=本轮顺延让路——禁强推解决（evolution §5 先例升格全集团）。
 - 脏树纪律、行级追加面、撞写让路、单仓单执行体：全按 `governance.md` §6 执行（引用不复制）。
-- `.git` 水位：单仓 2GB 触发 `git gc`（只压不删）——`retention.md` §4.2。
+- `.git` 水位：单仓 2GB 触发 `git gc`（只压不删）——`resource-chain.md` §三 §4.2。
 
 ### 4.1 提交者身份律（产权/执行两层分离·2026-09-23 实测立法）
 - **author 层=所有者身份**：全机队全局 `user.name=junsheng.sun` / `user.email=junsheng.sun@unity.cn`（集团产权归属；新机=bootstrap P3 相写入全局身份；仓库级 override=公司自治存续面不强制，如 MiniGame `sjs20`）。

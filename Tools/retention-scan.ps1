@@ -1,4 +1,4 @@
-# Group retention probe v0.1 - resource watermark scan (cph4/retention.md).
+# Group retention probe v0.1 - resource watermark scan (cph4/resource-chain.md sec 3).
 # READ-ONLY measurement of group tree hotspots: sizes, growth vs last run,
 # watermark checks (age/size per retention.md sec 4 table). Writes local
 # snapshot JSON under .codely-cli\retention\ (gitignored - the report itself
@@ -15,7 +15,7 @@ $outDir = Join-Path $Root '.codely-cli\retention'
 if(-not (Test-Path $outDir)){ New-Item -ItemType Directory -Path $outDir -Force | Out-Null }
 $stamp = Get-Date -Format 'yyyyMMdd-HHmmss'
 
-# hotspot table: relpath + retention tier (cph4/retention.md sec 1/2)
+# hotspot table: relpath + retention tier (cph4/resource-chain.md sec 3 tiers)
 $targets = @(
   @{p='cph4';    t='R1'},
   @{p='docs';    t='R1'},
@@ -55,7 +55,7 @@ foreach($t in $targets){
   $rows += [ordered]@{ path=$t.p; tier=$t.t; mb=$mb; files=$m.Count }
 }
 
-# ---- watermark checks (thresholds mirror cph4/retention.md sec 4 table) ----
+# ---- watermark checks (thresholds mirror cph4/resource-chain.md sec 3 watermark table) ----
 $flags = @()
 $now = Get-Date
 $limit30 = $now.AddDays(-30)

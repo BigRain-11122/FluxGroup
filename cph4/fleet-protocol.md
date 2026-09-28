@@ -2,7 +2,7 @@
 
 > 溯源：governance §6 第 11 条（T2·否决窗至 2026-10-01·组织审计 G7 判决配套）+ ledger P-63③（CEO 令 09-24「全面开工」即时律）。
 > 定位：**心跳/任务认领/传输三条款的集团共享正典**——BigMoney fleet v1.0 与 Biggame 08 号同构归一；共享的是结构不是细节，两司改指针引用随回执（P-51 送达判据）。细节归各司协议（引用不复制）。
-> 关系：本件=三条款结构+推送声明+借算补法；`fleet-allocations.md`=配置分配/借池/台账旗标；`scheduling.md`=在哪跑；`cadence.md`=何时跑；`onboarding.md`=新机部署三层模型。重叠立法禁。
+> 关系：本件=三条款结构+推送声明+借算补法；`resource-chain.md` §二=配置分配/借池/台账旗标；同件 §一=在哪跑；`cadence.md`=何时跑；`onboarding.md`=新机部署三层模型。重叠立法禁。
 
 ## 〇、一句话
 
@@ -10,7 +10,7 @@
 
 ## 一、三条款（集团同构·两司机队既有实践的归一，非新法）
 
-1. **心跳条款**：每机**只写自己的心跳文件**（BigMoney=`fleet/machines/<id>.json`·Biggame=`Design/configs/GLOBAL/fleet/<id>.json`），写权分治=零跨机合并冲突；git 同步=全机队只读互见（governance §6 资源互见）。共享最低字段=`last_seen`+资源余量（RAM/GPU）+`verdict`+在途任务；**verdict=INFO 判定非门禁**（语义司自定·须成文于司协议·`|RAM_LOW` 低内存后缀同构）；集团旗标与失联处置=`fleet-allocations.md` §五（GREEN-IDLE/YELLOW-HEAVY/STALE/OFFLINE·夜轮审计）。**身份文件（machine.json）=本机私有永不入库**（X104/#48：tracked 身份必被跨机合并静默覆写）。
+1. **心跳条款**：每机**只写自己的心跳文件**（BigMoney=`fleet/machines/<id>.json`·Biggame=`Design/configs/GLOBAL/fleet/<id>.json`），写权分治=零跨机合并冲突；git 同步=全机队只读互见（governance §6 资源互见）。共享最低字段=`last_seen`+资源余量（RAM/GPU）+`verdict`+在途任务；**verdict=INFO 判定非门禁**（语义司自定·须成文于司协议·`|RAM_LOW` 低内存后缀同构）；集团旗标与失联处置=`resource-chain.md` §二 §五（GREEN-IDLE/YELLOW-HEAVY/STALE/OFFLINE·夜轮审计）。**身份文件（machine.json）=本机私有永不入库**（X104/#48：tracked 身份必被跨机合并静默覆写）。
 2. **任务认领条款**：任务单=结构化文件落 git；**认领=改 `status=claimed`+`claimed_by`+`claimed_at` 并 commit push——commit 即锁**（U067 同制）；两机同窗撞认领=行级手术按 commit 时间序**后到让路**（排序权威=git %ci）；超时释放（默认 24h·司可调须成文）；**failed 必写死因；done 必带 `result_ref`**（指向产物）。共享核心六字段=`id/priority/status/claimed_by/claimed_at/result_ref`（司可扩禁减）；同款/同车道双开=事故（仲裁=司登记簿或任务板唯一面）。
 4. **批次先占律**（2026-09-27 周轮立法·T2 否决窗至 10-04·BigMoney F-20260923-04 周日法条化）：研究批/跑批/长任务类工作**开工前必先占位使跨机可见**（MSG/fleet/tasks 开单认领+commit push）；playbook/研究队列**按机预切分工优先**（缺口批次才临时认领）；撞车发现后处置=对账合并（双实现交叉验证可升格证据强度）非简单弃一方。
 5. **周期任务轮值律**（2026-09-27 周轮立法·T2 否决窗至 10-04·BigMoney F-20260924-09 周日法条化·D-20260924-02 裁「周日法条化」兑现）：跨机周期性维护任务（N 倍数轮核对/月度简报/月度审计类）三选一防并行双做——①错峰分配到机器（如 3/5/10 倍数轮分机）②固化为 fleet/tasks 常设轮值单（单内写明本周期 owner）③「本周期已核对」机器戳制（做完盖戳·他机见戳即跳）；周期性任务无认领面=双机各烧一轮=违「不要重复开发」铁律。
@@ -31,7 +31,7 @@
 
 ## 四、新司机队接入面（集团级顺序·细节归司）
 
-①司协议落位（三条款结构+推送策略声明+verdict 语义成文）→②机器接入走 `cph4/onboarding.md` 三层模型→③心跳落位（§一.1）→④`fleet-allocations.md` §一表加行（主归属/兼任/可借状态）→⑤fleet-audit 加源行（§三.1）→⑥首单派工（clone 完成即有活干不空转）→⑦新机 48h 内交首条接入踩坑记录（U039 义务制·落司机队经验面）。验收门范式=BigMoney `fleet/EXPANSION_ACCEPTANCE.md` §6（smoke+心跳+循环注册+首单七门）；双角色机参照其 §3 身份模板（`main_owner` 保主）。
+①司协议落位（三条款结构+推送策略声明+verdict 语义成文）→②机器接入走 `cph4/onboarding.md` 三层模型→③心跳落位（§一.1）→④`resource-chain.md` §二机队台账 §一表加行（主归属/兼任/可借状态）→⑤fleet-audit 加源行（§三.1）→⑥首单派工（clone 完成即有活干不空转）→⑦新机 48h 内交首条接入踩坑记录（U039 义务制·落司机队经验面）。验收门范式=BigMoney `fleet/EXPANSION_ACCEPTANCE.md` §6（smoke+心跳+循环注册+首单七门）；双角色机参照其 §3 身份模板（`main_owner` 保主）。
 
 ## 五、接线
 

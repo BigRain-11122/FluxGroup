@@ -2,7 +2,7 @@
 
 > 目的：任何 AI 会话 / 新机器 / 新执行体，读本文件 5 分钟建立全局认知，再按指针深潜。
 > 性质：唯一速览正典——**只给指针和结论，细节以目标文件为准**（单一事实来源，引用不复制）。
-> 版本 v1.2 · 2026-09-28 · 结构变更须 changelog+溯源（docs/governance.md §9）〔v1.2=机队一致性总括批：审查四源合一指针改线（audit-charter.md v2.0）+外部审查轮/Executive Protocol/QA Smoke/CEO 决策日志四新行+orders-archive 分卷·溯源=registry O-2026-0928-013〕
+> 版本 v1.3 · 2026-09-28 · 结构变更须 changelog+溯源（docs/governance.md §9）〔v1.3=委员会牵头全量梳理批（C-20260928-02）：cph4 六件合册为 decision-chain/resource-chain 两合典+全活面改线；承 v1.2 机队一致性总括批（审查四源合一+四新行+orders-archive 分卷）·溯源=O-2026-0928-013/014〕
 
 ## 0. 一句话
 
@@ -22,7 +22,7 @@
 | **BigLife** | 数字生命生产公司：超体宇宙城人口与人设资产（万人户籍库·自我进化·2026-09-24 定名转正） | `life/BigLife/`（独立仓） | `docs/CODEX.md` + `docs/SILICON-LIFE.md` + `BLUEPRINT.md` |
 | **BigCompute** | 硅基算力公司：**集团商业化中枢司（位阶令 09-24：商业化面高于其他司·对外成交/定价/粉丝私域/渠道唯一出口）**·算力商业化引擎——承载集团算力成本·现实世界链接变现（抖音小店/直播 Phase 1）·全司互相赋能产生经济价值·九部门全编制·权利第一（粉丝经营/商品/直播/客服/数据/财务/商务/风控/法务） | `compute/BigCompute/`（独立仓·local） | 产品仓 `BLUEPRINT.md` + `docs/plans/`（CEO 方案归档）+ `docs/risk-register.md` |
 
-**机队**：bm-a（DASHENG·32 核·开发机+游戏 A 机）｜bm-b（16 核·回测+大资产宿主·Money02 宿主）｜bm-c（32 核·RTX 3070 魔改 16GB·交互会话+云端发射面+ComfyUI 图像产线·兼 Biggame C 机/BigLife 多模态线）｜CEO 笔记本=豁免位（移动办公指令总控·非机队成员·不加入算力池）。配置分配唯一权威=`cph4/fleet-allocations.md`（§一 分配表+§八 产线分工与自领律）；新机接入=一键 `Tools/bootstrap-machine.ps1`（章程 `cph4/onboarding.md`）。
+**机队**：bm-a（DASHENG·32 核·开发机+游戏 A 机）｜bm-b（16 核·回测+大资产宿主·Money02 宿主）｜bm-c（32 核·RTX 3070 魔改 16GB·交互会话+云端发射面+ComfyUI 图像产线·兼 Biggame C 机/BigLife 多模态线）｜CEO 笔记本=豁免位（移动办公指令总控·非机队成员·不加入算力池）。配置分配唯一权威=`cph4/resource-chain.md` §二（机队台账·§一 分配表+§八 产线分工与自领律）；新机接入=一键 `Tools/bootstrap-machine.ps1`（章程 `cph4/onboarding.md`）。
 
 ## 2. 元宙（FluxVerse）思路
 
@@ -42,16 +42,16 @@
 | 集团进化轮 | 周日 09:17 | `cph4/evolution.md`（感知→提案→裁决→立法·台账 `cph4/evolution-ledger.md`） |
 | 集团夜轮（自我反应） | 每日 03:07 | `cph4/night-round.ps1`（感知/催办/小自愈/夜报——与周轮分工 `cph4/evolution.md` §1） |
 | **开源收获轮（OSS 借力）** | 每 3 天（72h 滚动窗·值守轮执法） | `cph4/oss-harvest.md`（九实体每窗寻开源能力/系统/插件/模型·三律+五门评估+落点强制·台账 `cph4/oss-harvest/OH-*.md`） |
-| **集团决策轮** | 每日 23:00 上报截止→00:00 拍板 | `cph4/decision.md`（子公司问题日报→集团统一思考+外部调研+科学拍板→各司执行+审核权驳回再报请→三冲突升级 CEO；**§8 分层级决策**：团队/部门/子公司/集团四层同律五律+底层优先；台账=`docs/decisions.md`） |
+| **集团决策轮** | 每日 23:00 上报截止→00:00 拍板 | `cph4/decision-chain.md` §一（子公司问题日报→集团统一思考+外部调研+科学拍板→各司执行+审核权驳回再报请→三冲突升级 CEO；**§8 分层级决策**：团队/部门/子公司/集团四层同律五律+底层优先；台账=`docs/decisions.md`） |
 | 令流 | 随时 | CEO 令 → `docs/orders.md` → 感知探针 → 事件流 → 城市动画 → 回执 |
 | 分级立法 | T0 宪法 CEO 签 / T1 治理 CEO 话 / T2 机制 AI+7 天否决窗 / T3 数据 AI 全权 | `cph4/evolution.md` §2 |
 | **调研行程与结论应用** | 全程（立项→采集→接线→回访） | `cph4/research-protocol.md`（出去=立项三问+源分级 A-D+M+产出件标准；回来=**结论应用表强制·无表=未交付**·悬空两周清退·周轮回访闭环——八线适用；归属面=governance §6 第 10 条） |
-| **分层级审查** | L0 团队自审→L1 部门门核→L2 司级独立验收→L3 集团审计（夜轮四器/周轮抽审/决策回访）→CEO 终审位 | `cph4/review.md`（四层表+审查三律：执行审查分离/比例律 B1-B6 集团适用/升级闭环；触发表什么件过哪层）——姊妹件=`cph4/decision.md` |
-| **分层级考核** | 周报考核面段（四层一行态·✓🟡⬜✗ 记分·未测量=判负如实） | `cph4/assessment.md`（三链闭环最后一环：四层考核表+考核三律实锚/闭环/平衡+六司锚点——考核=既有数据流读取视角·零新增采集·奖惩走既有机制路由） |
+| **分层级审查** | L0 团队自审→L1 部门门核→L2 司级独立验收→L3 集团审计（夜轮四器/周轮抽审/决策回访）→CEO 终审位 | `cph4/decision-chain.md` §二（四层表+审查三律：执行审查分离/比例律 B1-B6 集团适用/升级闭环；触发表什么件过哪层）——同合典 §一（决策）姊妹章 |
+| **分层级考核** | 周报考核面段（四层一行态·✓🟡⬜✗ 记分·未测量=判负如实） | `cph4/decision-chain.md` §三（三链闭环最后一环：四层考核表+考核三律实锚/闭环/平衡+六司锚点——考核=既有数据流读取视角·零新增采集·奖惩走既有机制路由） |
 | **分层级错误解决** | E0 红线直呈/E1 当日/E2 轮内~当周/E3 噪音豁免 | `cph4/errors.md`（错误四级定级+分层路径 L0 轮内→L1 门禁→L2 自愈池→L3 集团轮+科学五律：根因/复现先行/修复独立验证/教训入法/熔断——城市 S0-S2 投影已立） |
 | 诚实律三道防线 | 轮内自审/门禁机核/集团抽审 | `docs/governance.md` §10（审查链的诚实律子面） |
-| 资源保留清理 | 周测入进化轮+周期日历（日/周/月/季） | `cph4/retention.md`（R1 永不清/R2 归档/R3 定期清/R4 随轮清；§7 分层执行面+§8 工程规模治理[WIP 上限/入口窄化/范围蔓延闸/流程瘦身]+§9 备份三级预案[堵点=GH 私库]+§10 周期日历） |
-| 调度 | verdict 驱动·云端无限并行 | `cph4/scheduling.md` + 机队台账 `cph4/fleet-allocations.md` §五（`Tools/fleet-audit.ps1` 夜轮审计）·物尽其用律 §六 + 机队协议共享层 `cph4/fleet-protocol.md`（三条款归一·推送司自决） |
+| 资源保留清理 | 周测入进化轮+周期日历（日/周/月/季） | `cph4/resource-chain.md` §三（R1 永不清/R2 归档/R3 定期清/R4 随轮清；§7 分层执行面+§8 工程规模治理[WIP 上限/入口窄化/范围蔓延闸/流程瘦身]+§9 备份三级预案[堵点=GH 私库]+§10 周期日历） |
+| 调度 | verdict 驱动·云端无限并行 | `cph4/resource-chain.md` §一 + 机队台账（同件 §二）§五（`Tools/fleet-audit.ps1` 夜轮审计）·物尽其用律 §六 + 机队协议共享层 `cph4/fleet-protocol.md`（三条款归一·推送司自决） |
 | 本地化算力 | L1 确定性→L2 本地 LLM→L3 API | `cph4/local-first.md` |
 | Token 经济机制（统摄层） | 轮账本一行+周轮聚合三面 | `cph4/token-economy.md`（三面模型/五律/本地栈 v1·战略=`local-first.md`） |
 | **自动化周期总账** | 全周期登记+错峰车道+提交周期 | `cph4/cadence.md`（10min 轮族分钟位/日周轮族/停用族豁免/防重复防冲突律+提交周期表——实测 35 项底账） |
@@ -88,7 +88,7 @@
 | 城市实况数据 | `gaming/FluxVerse/world/` |
 | 城市人口/居民档案 | `life/BigLife/census/`（万人户籍库）+ 人口正典 `life/BigLife/docs/CODEX.md` |
 | 新机部署 | `Tools/bootstrap-machine.ps1` + `cph4/onboarding.md` |
-| 资源水位周测 | `Tools/retention-scan.ps1` + `cph4/retention.md` |
+| 资源水位周测 | `Tools/retention-scan.ps1` + `cph4/resource-chain.md` §三 |
 | 反幻觉自审 | `Tools/selfaudit.ps1`（`docs/governance.md` §10） |
 
 ## 5. AI 行为速记（铁律）

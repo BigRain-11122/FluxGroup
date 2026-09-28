@@ -40,5 +40,5 @@
 
 - `FLEET-OPS.md` §2 接入五步 = bigmoney 角色的 fleet 登记面；§4 三级备份模型 = 「git clone 即全量重建」的既有依据。
 - MiniGame `tools/AUTOMATION.md`「新机器接入」节 = biggame 角色的权威说明书（其 `MachineBoot.ps1` 2026-09-18 已立，先于本机制）。
-- `scheduling.md` §2 = 部署后算力上工（verdict 驱动）；`retention.md` §2 机队面 = 部署后水位监测。
+- `resource-chain.md` §一 §2 = 部署后算力上工（verdict 驱动）；同件 §三 §2 机队面 = 部署后水位监测。
 - `governance.md` §8 = 本机制接线位；编码律=脚本 ASCII-only 全员适用。
