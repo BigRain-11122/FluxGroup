@@ -157,6 +157,8 @@
 
 | P-2026-09-28-07 | 09-28 | **Ternary-Bonsai 机队分发试用令（CEO 令 ~13:0x 原话「分发给我的机队，适配的业务都尝试这个大模型本地运行」——P-06 实测件承接·全机队波）**：规格件=cph4/research/R-20260928-bonsai-fleet-trial.md（部署配方字节锚 5,946,648,928+PrismML fork b10743+curl.exe 坑律/机队包络准入/业务矩阵/判据预注册四合一·各单引用不复制） | 实况：bm-a CPU 档本窗实弹（GPU 窗被三 Tuanjie 编辑器+7b serve 占满=让路律不抢·GPU 服跑重验排夜窗）——服起 5s·2.7-3.3 tok/s（32 核）·RAM 8.3GB·显存零占用·三探针：台词一次过成品✓/摘要数字全对✓/代码诊断修法全对✓（长码受 token 顶截断）；**弱机要领 enable_thinking:false 实录**（无此参数思考吃满预算零正文）；分发面六通道=BigMoney fleet tasks T-99（bm-b 独占窗）/T-100（bm-c 16GB 档兼验官方 30+ 宣称）+BigLife/BigCompute/BigStream/BigDomain 四司令牌（BG-B 观察位 P3 不派单·CEO 笔记本永禁） | 转办：bm-b/bm-c 认领 ≤24h·全司 **09-30 13:00 前四件套回执**（结论三态·adopt 须过 O-2175+fleet-allocations §8.4 改行·编码产线除外 T-70 判负边界） | T1 | executing（分发面落单毕·回执窗在飞·首轮呈 09-30 13:00） |
 
+| P-2026-09-28-08 | 09-28 | **开源借力·本地提效面强化令（CEO 令 ~13:4x 原话「我需要你们多去找这种开源提效工具或者模型，去赋能本地能力和业务」——Ternary-Bonsai 原型承接·机制补强非重建〔P-2026-09-26-08/-28-01 同源〕）**：oss-harvest.md 增「本地提效面」强化注记（本地可跑优先寻源+每窗候选 ≥1+模型类过 P-17 矩阵·试验走 Bonsai 波范式禁自行占显存） | 实况：CPH4 首轮 dogfood=OH-20260928-cph4 切片 2 三候选——①whisper.cpp（MIT·53.8k★·Win/CPU/NVIDIA/VAD）五门过=**ASR 缺口接线单**（反重复=注册表「随消费线」规划位激活·缺口依据=模型矩阵 §二 有 TTS 无 STT）→@BigStream 字幕转写+@BigLife 语音输入；②EAGLE-3 投机采样=候选（--spec-type eagle3 已随 fork 在盘本窗直读·论文级 bs1 1.4x/吞吐+40%·Ollama 栈侧待直验勿按记忆）→夜窗 Bonsai GPU 复跑同批 A/B；③BitNet b1.58-2B4T=parked 待验（源页两次抓取带偏 arXiv·未验明不用） | 转办：whisper.cpp 接线单认领轮先行（切片内判据预注册）·BitNet 换源直验·各实体=本地提效面入窗常设（值守轮 72h 执法） | T1 | executing（机制注记+切片 2 落账毕·接线单待认领） |
+
 ## 反馈区（子公司 → 集团 · 收取与回访 · CEO 令「顶层机制务必听子公司的反馈」）
 
 > 各公司反馈面登记：BigMoney=`quant/bigmoney/HQ-FEEDBACK.md` ✓｜BigStream=`media/BigStream/HQ-FEEDBACK.md` ✓｜Biggame=待其按自治法选定落位（其根级冻结清单法优先；落位前其 CODELY.md 机制类条目为临时反馈面）。收取 SLA=周轮必扫；未处理超两周自动升级 CEO 待办（docs/orders.md）。
