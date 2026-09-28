@@ -89,7 +89,7 @@ if (-not $SkipPester) {
   $m = Get-Module -ListAvailable -Name Pester | Where-Object { $_.Version.Major -ge 5 } | Select-Object -First 1
   if ($m) { Write-Output ("SKIP Pester (v" + $m.Version + ")") }
   else {
-    try { Install-Module Pester -Scope CurrentUser -Force -MinimumVersion 5.5.0 -AllowClobber -SkipPublisherCheck -ErrorAction Stop; Write-Output 'OK Pester' }
+    try { Install-Module Pester -Scope CurrentUser -Force -MinimumVersion 5.5.0 -MaximumVersion 5.99 -AllowClobber -SkipPublisherCheck -ErrorAction Stop; Write-Output 'OK Pester' }
     catch { Write-Output ("MISS Pester : " + $_.Exception.Message) }
   }
 }

@@ -29,6 +29,22 @@ $patterns = [ordered]@{
     'slack-token'     = 'xox[baprs]-[A-Za-z0-9-]{10,}'
     'telegram-bot'    = '\b[0-9]{8,10}:AA[A-Za-z0-9_-]{33}'
     'private-key-blk' = '-----BEGIN [A-Z ]*PRIVATE KEY-----'
+    # --- P0 additions 2026-09-28: ported from gitleaks default rules (MIT,
+    # https://github.com/gitleaks/gitleaks/blob/master/config/gitleaks.toml)
+    # per OH-20260928-cph4 slice1#2 adoption (CEO order P-2026-09-28-15).
+    # Boundary suffixes simplified for line-mode scanning; allowAnchors + P2
+    # gates unchanged. Regression pairing: Tools\secret-scan.Tests.ps1 ---
+    'anthropic-key'   = 'sk-ant-(admin01|api03)-[A-Za-z0-9_\-]{93}AA'
+    'gcp-api-key'     = 'AIza[0-9A-Za-z_\-]{35}'
+    'stripe-token'    = '\b(?:sk|rk)_(?:test|live|prod)_[a-zA-Z0-9]{10,99}'
+    'hf-token'        = 'hf_[a-zA-Z]{34}'
+    'hf-org-token'    = 'api_org_[a-zA-Z]{34}'
+    'npm-token'       = '(?i)npm_[a-z0-9]{36}'
+    'pypi-token'      = 'pypi-AgEIcHlwaS5vcmc[\w\-]{50,}'
+    'gitlab-pat'      = 'glpat-[\w\-]{20}'
+    'github-fg-pat'   = 'github_pat_\w{82}'
+    'sendgrid-token'  = '(?i)SG\.[a-z0-9=_\-\.]{66}'
+    'twilio-key'      = 'SK[0-9a-fA-F]{32}'
 }
 $reList = @($patterns.Keys | ForEach-Object { $patterns[$_] })
 
