@@ -49,3 +49,37 @@
 | 2 | roguelike-modern-city+rpg-urban-pack（CC0·CleanCity 同族） | 供源径成立 | S 库采集线推荐两行（AA-XXX 由其侧四闸） | S 库线裁定 |
 | 3 | awesome-unity2d 实名不存在·canonical 三仓定位（baba-s 活/RyanNielson archived/Siilwyn 活） | 引擎 2D 能力轴=baba-s 2D 节零过五门件·GDI+ 自擎正典维持 | 清单面勘定入册（OH+TECH r213 行） | baba-s 深潜节=窗内可选 |
 | 4 | 网页抓取正则两坑（单引号属性+绝对 URL）+外壳 $var 剥空第三击 | 新法（工具面） | 板 T-FV-127 律册滚动开单 | 已落地 r214（双律册新条+安装副本 SHA 同步+三门烟测 9/9 复绿·TECH §九 r214 行） |
+
+## 切片 3：baba-s 深潜未扫节（r220·2026-09-27·T-FV-129 收口·下窗指针③兑现·**OH 首窗三切片全闭**）
+
+- **窗**：首窗内（≤09-29 21:40）。
+- **取件通道定谳（SOP 化）**：`raw.githubusercontent.com` 双分支（master/main）本机取件双失败（网络面）→**`api.github.com/repos/<owner>/<repo>/readme`+`Accept: application/vnd.github.raw+json` 头全量取件成功**（189,503B/1319 行·github_events 探针同域每 10min 实证可达）；**r213 本地清单件已随日志轮转灭失**（本轮 glob 实证 0 件）=gitignored logs 非持久证据面教训——通道+头已记本行（方法即台账·未来窗直取不复存）。
+- **实搜面（3 层·全实录）**：①api 端点全量取件 189,503B（同 r213 实测字节同源）；②**109 节 858 项机械 census**（每节 item 计数全录·扫描件=FluxVerse logs/devloop-r220-ossscan.ps1）；③**深读 16 节 122 项逐项判读**（Water 11/Retro 2/Particle 7/Camera 18/UI Utility 19/Text 12/Easing 13/Object Pooling 2/Test 1/Optimization 11/Sound 7/AI 1/UI Script 3/Effect 3/Generator 8/Sample 4）+**余 91 节 710 项按节族轴判**（r213 已消费 Tilemap 2+Sprite 24 不重扫）。
+- **五门评估：零采用（判负 13 轴全带理由）**：
+  1. **Water 11**（water2d-unity/UnityWaveEquation/ToonWater 等）——反重复门（W1-W5 水象线 r203~r209 全交付·census3 蓝紫门真态过 r209）+churn 律（S7 CEO 复验批在飞）+shader 入 fork=P1 兼容面〔r213 parked⑩ 同判复证〕；
+  2. **Camera 18**（PixelCamera2D/UnityPixelArtCamera 族/Game-Eye-2D/Letterboxer 等）——反重复门（CameraRig r14 双档+漂移+clamp·60 断言在册）+pixel-perfect 需求=PPU16 point+整数缩放 r34/r99 律已机械执法（构造性满足）+多 2013-2016 时代件；
+  3. **UI 族**（UI Utility 19+Text 12+UI Script 3+UI Shader 16）——反重复门（UiKit 五原子 r22+GUIAgent 正典 P-18+**GDI+ 预烘焙文字 r24 律=运行时字体零依赖**）+fork uGUI/TMP 集成=P1 面+XCharts=M3 驾驶舱后置（消费驱动律）；
+  4. **Easing 13**——反重复门（RigMath.EaseInOut r14 金对断言+AmbientBlend r156 复用同核·需求面=两条曲线已闭）；
+  5. **Object Pooling 2**——无需求信号（零性能债在册+Release 生命周期族 r146 盘纯度门执法在役）；
+  6. **Test 1**（Gamium）——反重复门（证明文化 30+ 代·批内断言 7000+ 级）+外部 CLI 工具链=成本门；
+  7. **Optimization 11**——graphy/HeapDump/sizeexplorer=无性能/内存/包体债在册（RAM 面 r127 双测已毕）；ProjectAuditor→观察位①；
+  8. **Retro 2**（RetroSuite3D/RetroTVFX）——**风格门禁判负**（正典=清洁 HD-2D 赛博像素·CRT 扫描线非本城美学·art-style-spec 负面清单族）；
+  9. **Generator 8**（wavefunctioncollapse/程序化树花等）——manifest 单一几何源正典（布设沙盒门族=每件必过证明 census·程序化生成与证明文化结构性冲突）+WFC 件=3D 网格向→观察位②；
+  10. **AI 1**（DotRecast navmesh）——居民/机器人动线=固定席位+确定性派生（r99/r124）·零 navmesh 需求在册；
+  11. **Sound 7**（UniBpmAnalyzer/Beat-Detection 等）——P-27 音频线已交付（curated 36 件+synth 签名音）·节拍同步零消费面（M2+ festive 若开重评）；
+  12. **Editor 族**（Scene View/Hierarchy/Inspector/Editor Utility 37/Asset 等节）——Tuanjie fork 编辑器=Bee 构建系差异（r189 竞序坑实证）+证明管线即工具链（30+ 代在役）；
+  13. **3D/Shader/ECS/移动端/粒子族**（Other Shaders 52/Post Effect 42/ECS 25/iOS-Android 36/Particle 7 等）——2D 铁律+shader fork 面+移动端零现役面+**禁装饰动画律**（Flocking 群鸟等无真实数据源=装饰面判负）。
+- **观察位 2（带重评条件）**：①**ProjectAuditor 同型需求=C# 侧静态分析概念位**——fork Roslyn 挂钩风险+实验性件；PS 侧 PSA 顾问位 r212 已役·C# 侧=证明文化在役；**重评条件=C# 债面积阈值开单时**；②**WFC 确定性变奏思想=M3+ 城市生长线概念位**——总规器官宫 plot 面；r207 skyline hash 变奏先例已覆同思想；**重评条件=生长线开线时（需 P1+证明文化调和）**。
+- **三美术缺口注记**：伞/前后视车帧/门 tile 维持原径不变——baba-s=码件清单非资产源·S 库采集线推荐两行（r213 ④）继续有效。
+- **verdict**：**零直接采用**（诚实律：五门无全过件·首窗「各实体 ≥1 切片」已由切片 1 PSA 满足·不造假采用）——引擎轴三闸（Tuanjie fork 兼容风险+P1 署名律+零预算）在本城自有正典（CameraRig/UiKit/GDI+ 烘焙/证明文化/manifest 单一源）面前结构性无过门件。**OH 首窗三切片全闭**：切片 1 PSA 采用落位（r210+r212 顾问位）→切片 2 Kenney/awesome 供源两行（r213）→切片 3 深潜零采用（r220）。
+- 三律自检：①业务契合=引擎轴三闸硬问收口（自有正典全覆盖·无真需求缺口）；②不重复造轮子=反重复门 13 轴全过（自有正典指针逐轴带 r 号）；③科学使用=零采用不造假+观察位带重评条件+取件通道 SOP 化（gitignored 非持久教训内化）。
+- 送达：本文件=r220 切片 3 落账（FluxVerse 仓 commit 含 P-2026-09-26-08·司任务板 T-FV-129 收口+T-FV-135 开单+回执 F-20260927-04·集团仓实体写盘不 commit r210 同态）。
+
+### 结论应用表·切片 3（research-protocol 强制·无表=未交付）
+
+| # | 发现 | 判定 | 落点（工作流变更） | 后续 |
+|---|------|------|------|------|
+| 1 | baba-s 深潜 109 节 858 项（深读 16 节 122+轴判 91 节 710） | 零采用（判负 13 轴全带理由） | 清单面收口入册（OH+TECH r220 行）·引擎轴三闸执法先例固化 | OH 首窗闭·下窗若开=新 OH 件 |
+| 2 | raw 域失败/api.github.com readme 端点成功 | 方法 SOP 化 | 通道+Accept 头记本行（方法即台账·gitignored logs 非持久教训内化） | 后续清单类窗直取 |
+| 3 | ProjectAuditor（C# 静态分析同型需求） | 观察位① | fork Roslyn 挂钩风险注记（PS 侧 PSA 已役） | C# 债面开单时重评 |
+| 4 | wavefunctioncollapse 确定性变奏思想 | 观察位② | M3+ 城市生长线概念位（r207 hash 变奏先例） | 总规 plot 开线时重评（需 P1） |

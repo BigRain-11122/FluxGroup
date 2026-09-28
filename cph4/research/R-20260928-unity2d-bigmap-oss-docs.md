@@ -39,7 +39,7 @@
 | 结论 | 落点 | 状态 |
 |---|---|---|
 | ①RuleTile 在盘直证+精读+许可 PASS（R-1 勘正） | 任务单升级：@FluxVerse 承建位「灰盒三规则资产」（道路 Rotated/江岸 MirrorXY/街区 Random·判据=自动选型截图+断言） | 接线中（待承建轮领） |
-| ②CoplayDev 先 spike 判定+四步判据包 | 决策呈报：@CEO 一句话裁「测」（判据包 §一） | 接线中（待 CEO 裁） |
+| ②CoplayDev spike **四步判据全过**（2026-09-28 15:3x-15:5x 实弹·CEO 裁「这轮一起测」〔P-2026-09-28-10〕）：①git URL 钉版 v10.0.0 解析✓（Tuanjie licensing 发放 com.coplaydev.unity-mcp entitlement）②编译零红✓（MCPForUnity.Editor 全套 InitializeOnLoad 在役）③建 5×5 Tilemap（execute_code·25 真瓦片取自 Assets/Art/TDTiles）+正交相机 RenderTexture 截图回传✓（spike-5x5.png 11804B·多模态验图 5×5 可读零异常·事后清场零残留）④manage_scene get_active/get_hierarchy+read_console 读相为真✓；**坑律=v10 编辑器侧桥不自动启动**（"Start Session"=GUI 钮）→解法已入 City 工程：Assets/Editor/McpSpikeAutostart.cs（[InitializeOnLoadMethod]→StdioBridgeHost.StartAutoConnect()·监听 6400）；证据件=.codely-cli/labbench/unity-mcp-spike/*（客户端脚本×2+日志+PNG） | 已闭环（fork 兼容实证·下步=Codely MCP 面注册随样区轮） |
 | ③A* 三表法（Apache v2 可抄） | 任务单：@FluxVerse 承建位 M2 居民行走线（走路上班回家）算法底座 | 接线中（随转向令居民项） |
 | ④Tiled/LDtk/两导入器功能知识入库 | 参照面入库（本件 §三·重评条件不变 parked） | 已闭环 |
 | ⑤WFC/scenario-skills/wabbajack16 学习注记 | 判负留痕+观察位注记（§四） | 已闭环 |

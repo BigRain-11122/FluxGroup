@@ -6,12 +6,18 @@
     },
     "Playwright": {
       "command": "cmd",
-      "args": ["/c", "npx", "-y", "@playwright/mcp@latest"]
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "@playwright/mcp@latest"
+      ]
     },
     "DDGSearch": {
       "command": "uvx",
-      "args": ["duckduckgo-mcp-server"]
+      "args": [
+        "duckduckgo-mcp-server"
+      ]
     }
-  },
-  "model": "codely-core"
+  }
 }
