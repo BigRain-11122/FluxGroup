@@ -1,4 +1,4 @@
-﻿# Subsidiary product repos 鈥?independent git repos, excluded from the HQ governance layer
+# Subsidiary product repos 鈥?independent git repos, excluded from the HQ governance layer
 gaming/MiniGame/
 quant/bigmoney/
 media/BigStream/
@@ -32,3 +32,18 @@ Thumbs.db
 desktop.ini
 .DS_Store
 .codely-cli/audio-staging/
+
+# Runtime & lab surfaces (2026-09-28 fleet-consistency pass, CEO order O-2026-0928-013)
+.codely-cli/labbench/
+.codely-cli/phoneview/
+.codely-cli/sdxl-test/
+.codely-cli/tmp/
+cph4/.codely-cli/
+cph4/cph4/
+.ecloud_run
+**/.codely-cli/tmp*
+**/.codely-cli/t22-*
+**/.codely-cli/_trash*/
+docs/_trash/
+# BigMoney toolstack runtime (canonical-root task = O-20260928-1755 GM lane; un-ignore in GM closing commit)
+quant/toolstack/
