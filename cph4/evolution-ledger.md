@@ -155,6 +155,8 @@
 
 | P-2026-09-28-06 | 09-28 | **Ternary-Bonsai-2-27B 实测报告（CEO 令 09-27 ~08:1x·隔日会话续跑完成）**：真伪实锤（GitHub org PrismML-Eng+HF 334 万下载·文章数字逐项吻合）+速度实测 4070S（tg128=54.7 tok/s/pp512=1535 tok/s·带宽缩放与官方 4090 值吻合·共卡可跑）+准确率（官方 14 基准 98.2% 保留自洽+本机抽检 3/3：鸡兔同笼/三段论陷阱/回文代码·思考链可见） | 实况：三元压缩真实有效·27B 推理模型 5.95GB 与现役 7B 同速——L2 深度线候选（14b 替代者）；实验台=.codely-cli/labbench/bonsai2（R3）；坑律=PS curl 别名（Invoke-WebRequest 抢占 -C 解析炸·须 curl.exe 显式）；诚实律教训=首版误写未执行结果虚报自纠（实测前零数字入档） | 转办：@CPH4 本地管线维护面=L2 深度线候选提名（O-2175 评估流程走毕后入池·P-19/29 线） | T1 | executed（实测毕·呈 CEO·件=R-20260927-ternary-bonsai） 〔编号勘误 2026-09-28：本行原号 -04 撞号（远端 BigDomain 锚落位令先占·rebase 静默重复落位后手工改号）·先占律改取 06·历史指称「P-2026-09-28-04」仍可全文检索〕 |
 
+| P-2026-09-28-07 | 09-28 | **Ternary-Bonsai 机队分发试用令（CEO 令 ~13:0x 原话「分发给我的机队，适配的业务都尝试这个大模型本地运行」——P-06 实测件承接·全机队波）**：规格件=cph4/research/R-20260928-bonsai-fleet-trial.md（部署配方字节锚 5,946,648,928+PrismML fork b10743+curl.exe 坑律/机队包络准入/业务矩阵/判据预注册四合一·各单引用不复制） | 实况：bm-a CPU 档本窗实弹（GPU 窗被三 Tuanjie 编辑器+7b serve 占满=让路律不抢·GPU 服跑重验排夜窗）——服起 5s·2.7-3.3 tok/s（32 核）·RAM 8.3GB·显存零占用·三探针：台词一次过成品✓/摘要数字全对✓/代码诊断修法全对✓（长码受 token 顶截断）；**弱机要领 enable_thinking:false 实录**（无此参数思考吃满预算零正文）；分发面六通道=BigMoney fleet tasks T-99（bm-b 独占窗）/T-100（bm-c 16GB 档兼验官方 30+ 宣称）+BigLife/BigCompute/BigStream/BigDomain 四司令牌（BG-B 观察位 P3 不派单·CEO 笔记本永禁） | 转办：bm-b/bm-c 认领 ≤24h·全司 **09-30 13:00 前四件套回执**（结论三态·adopt 须过 O-2175+fleet-allocations §8.4 改行·编码产线除外 T-70 判负边界） | T1 | executing（分发面落单毕·回执窗在飞·首轮呈 09-30 13:00） |
+
 ## 反馈区（子公司 → 集团 · 收取与回访 · CEO 令「顶层机制务必听子公司的反馈」）
 
 > 各公司反馈面登记：BigMoney=`quant/bigmoney/HQ-FEEDBACK.md` ✓｜BigStream=`media/BigStream/HQ-FEEDBACK.md` ✓｜Biggame=待其按自治法选定落位（其根级冻结清单法优先；落位前其 CODELY.md 机制类条目为临时反馈面）。收取 SLA=周轮必扫；未处理超两周自动升级 CEO 待办（docs/orders.md）。
