@@ -63,7 +63,7 @@
 | **九司调研部门建制** | 每司一调研部·周轮前沿扫描+即 hot 即报+统计→落地闭环 | `docs/research-dept-charter.md`（U248·防挂名空转/防只学不落/防重复调研三律·无应用表=未完成） |
 | **本地大模型生产管线** | P1-P6 管线目录·Phase1 全机 serve 常驻化 09-28 | `cph4/local-llm-pipeline.md`（美术终稿本地预审/万人 QA/commit 预检/调研摘要/回测增强/语音多声源·L3 保留面禁硬替） |
 | **集团审计部** | 对齐度探针+自我感动+同向无效功审查 | `cph4/audit-office.md`（L3 审计面·与 patrol/夜轮四器咬合） |
-| **自驱力生态（零空闲+创新轨）** | 常设·队列/提案/审计闭环（首回访 10-05） | `docs/self-drive.md`（v2.0 三线并行+零空闲队列+算力跑满+三公共面·CEO 令 2026-09-28；**v2.1 生态闭环四律**=创新提案轨每窗≥1/司+空转四形态禁令+拉满诚实边界+周报自驱面计量·台账 P-2026-09-28-02） |
+| **自驱力生态（零空闲+创新轨）** | 常设·队列/提案/审计闭环（首回访 10-05） | `docs/self-drive.md`（v2.0 三线并行+零空闲队列+算力跑满+三公共面·CEO 令 2026-09-28；**v2.1 生态闭环四律**=创新提案轨每窗≥1/司+空转四形态禁令+拉满诚实边界+周报自驱面计量·台账 P-2026-09-28-02；**§7 本地批活供需对接=C-20260929-02 过会 7/7**〔GPU 30% 唯一点名阈值+lane ≥2 备货+自动派活毕业呈批制·回访 10-07〕） |
 | **外部独立审查轮（auditor-A/B/C）** | 每日 22:17/06:17/14:17 错峰 | `docs/audit-charter.md` Part A（13 块面轮换·省token读法·P0 直派/P1 令/P2 记录·认领表防重）+ 日志 `docs/external-audit.md` |
 | **极简执行协议（Executive Protocol）** | 常设 | `docs/executive-protocol.md`（每轮启动只读 state/runbook.md <2KB·产出=git commit 非 md 文档·各司规则文件上限 5·他档归 docs/_archive/） |
 | **QA Smoke 自验** | 每轮 commit 后 | `docs/qa-smoke-test-charter.md`（Build→Smoke→Screenshot→Log→Self-judge·截图证据存 qa/·缺项=该轮白干·连续两轮不过=CPH4 接管重写） |
