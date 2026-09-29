@@ -139,8 +139,14 @@ switch ($Mode) {
       $o = $ln | ConvertFrom-Json
       $jmap[[string]$o.quote_sig] = $o
     }
+    # L2 readable face = active volume + archive volume (CEO slim order 2026-09-28 split;
+    # registry stays the full L1 record, so shadow folds BOTH volumes as the md-derived set)
     $ordersFile = Join-Path $Root 'docs\orders.md'
-    $rows = @(Get-Content $ordersFile -Encoding UTF8 | Where-Object { $_ -match '^\| 09-' })
+    $archiveFile = Join-Path $Root 'docs\orders-archive.md'
+    $rows = @()
+    foreach ($f in @($ordersFile, $archiveFile)) {
+      if (Test-Path $f) { $rows += @(Get-Content $f -Encoding UTF8 | Where-Object { $_ -match '^\| 09-' }) }
+    }
     $mSigs = @{}
     foreach ($r in $rows) {
       $cells = @($r -split '\|')
