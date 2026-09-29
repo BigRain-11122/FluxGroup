@@ -38,3 +38,12 @@
 1. 每司把当前最关键的信息压缩到 `state/runbook.md`（<2KB）
 2. 其他所有规则文件移到 `docs/_archive/`
 3. 下次启动只准读runbook
+
+## v1.1 接线执法（2026-09-29·CEO 令「产出落地很少，品质也很差」·P-2026-09-29-07）
+
+> v1.0 的病：立了法没接线——OS 轮 prompt 未含本协议，纯簿记轮照跑（BigDomain R581-586 六连 trigger-check 纯记账轮实证）。v1.1 起本协议**已原文入法**七司轮 prompt（BigStream/BigDomain/BigLife/BigCompute/FluxVerse DevLoop/MiniGame EngineTick/BigMoney）——prompt 即执法面。
+
+1. 计分法即执法：能跑/能看/能用=2 分；实际文件改动=1 分；纯 md 与纯记账=0 分。每轮主产出=分值最高一件。
+2. 簿记预算：纯记账动作每轮 ≤5 处；等待态=一行声明收轮（waiting+ETA），禁每轮重扫同一等待对象+重刷 export。
+3. 实况面三行律：各司对外实况面（status-export/自动化快照/协作看板本机行）必含：当前活一行/最近实物（文件或链接+时间戳）/下个里程碑（≤48h）。
+4. 判负线：连续 24h 全部 commit=0 分=空转判负，值守轮点名。回访 2026-10-06：各司 0 分日计数+实况面三行新鲜度首报。
