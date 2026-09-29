@@ -69,7 +69,11 @@ function Decode-Result($code) {
 $rows = @()
 Get-ScheduledTask -TaskPath "\" | Where-Object { $_.TaskName -notmatch '^(Microsoft|OneDrive|Adobe|Google|Edge|NVIDIA|AMD)' } | ForEach-Object {
     $name = $_.TaskName
-    if ($ExemptDisabled -contains $name) { return }   # personal + design-state-disabled: out of scope entirely
+    # v1.1 (2026-09-29 council audit): an exempt-list task that is unexpectedly ENABLED
+    # stays in scope as a register-only EXEMPT-ENABLED row (lesson: MiniGameDailyDigest
+    # fired daily with CODE-2 while invisible to this monitor via the old hard skip).
+    $exemptEnabled = ($ExemptDisabled -contains $name) -and ($_.State -ne 'Disabled')
+    if (($ExemptDisabled -contains $name) -and (-not $exemptEnabled)) { return }
     $info = $_ | Get-ScheduledTaskInfo -ErrorAction SilentlyContinue
     $exp = Get-ExpectedMinutes $_
     $lastRun = $info.LastRunTime
@@ -77,7 +81,9 @@ Get-ScheduledTask -TaskPath "\" | Where-Object { $_.TaskName -notmatch '^(Micros
     $ageMin = -1
     if (-not $neverRan) { $ageMin = [Math]::Floor(($now - $lastRun).TotalMinutes) }
     $flag = 'OK'
-    if ($_.State -eq 'Disabled') {
+    if ($exemptEnabled) {
+        $flag = 'EXEMPT-ENABLED'
+    } elseif ($_.State -eq 'Disabled') {
         if ($KnownDisabled -contains $name) { $flag = 'DESIGNED-DISABLED' } else { $flag = 'UNEXPECTED-DISABLED' }
     } elseif ($neverRan) {
         if ($exp -gt 0) { $flag = 'NEVER-RAN' } else { $flag = 'EVENT-BOUND' }
@@ -106,16 +112,16 @@ Get-ScheduledTask -TaskPath "\" | Where-Object { $_.TaskName -notmatch '^(Micros
 Write-Output ('TASK HEALTH ' + $now.ToString('yyyy-MM-dd HH:mm') + ' - tasks audited: ' + $rows.Count)
 $rows | Sort-Object flag, task | Format-Table -AutoSize | Out-String -Width 200 | Write-Output
 
-$bad = @($rows | Where-Object { $_.flag -ne 'OK' -and $_.flag -ne 'EVENT-BOUND' -and $_.flag -ne 'DESIGNED-STALE' -and $_.flag -ne 'GATED-INFO' -and $_.flag -ne 'DESIGNED-DISABLED' })
+$bad = @($rows | Where-Object { $_.flag -ne 'OK' -and $_.flag -ne 'EVENT-BOUND' -and $_.flag -ne 'DESIGNED-STALE' -and $_.flag -ne 'GATED-INFO' -and $_.flag -ne 'DESIGNED-DISABLED' -and $_.flag -ne 'EXEMPT-ENABLED' })
 $codes = @($rows | Where-Object { $_.result -like 'CODE-*' })
 Write-Output ('SUMMARY unhealthy=' + $bad.Count + ' (of ' + $rows.Count + ')  odd-result-codes=' + $codes.Count)
 if ($bad.Count -gt 0) {
     Write-Output ('FLAGS: ' + (($bad | ForEach-Object { ($_.flag + '=' + $_.task) }) -join ', '))
     Write-Output 'Routing: UNEXPECTED-DISABLED/NEVER-RAN/STALE -> night report line + E2; two consecutive nights same flag -> E1 (errors.md circuit-breaker).'
 }
-$designed = @($rows | Where-Object { $_.flag -eq 'DESIGNED-STALE' -or $_.flag -eq 'GATED-INFO' -or $_.flag -eq 'DESIGNED-DISABLED' })
+$designed = @($rows | Where-Object { $_.flag -eq 'DESIGNED-STALE' -or $_.flag -eq 'GATED-INFO' -or $_.flag -eq 'DESIGNED-DISABLED' -or $_.flag -eq 'EXEMPT-ENABLED' })
 if ($designed.Count -gt 0) {
-    Write-Output ('DESIGNED-STATE (E3 exempt, register only): ' + (($designed | ForEach-Object { ($_.task + '=' + $_.flag) }) -join ', '))
+    Write-Output ('E3-REGISTER (designed/exempt, not faults): ' + (($designed | ForEach-Object { ($_.task + '=' + $_.flag) }) -join ', '))
 }
 if ($codes.Count -gt 0) {
     Write-Output ('RESULT-CODES: ' + (($codes | ForEach-Object { ($_.task + '=' + $_.result) }) -join ', '))
