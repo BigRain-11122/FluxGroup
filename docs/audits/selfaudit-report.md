@@ -3,6 +3,7 @@
 > governance.md section 10 draft. THIRD-LINE defense input for the weekly
 > evolution round. A claim with NO evidence marker is a hallucination candidate.
 
+- [fluxgroup] fec3741e29 files=2 :: BigMoney OSS 首窗切片：Optuna 5.0.0 采定（MIT 原文验·贝叶斯调参骨架执行库·bm-c venv 实装双烟测 PASS）+注册表开源采用第五例行+Qlib parked 平
 - [fluxgroup] 6443ffee85 files=1 :: orders: 居民形象lowpoly全面转向+通知令（CEO 原话 09-28 22:46·通知面五司轮首自领·含 22:05 方向调整行） [via bm-a]
 - [fluxgroup] 5bdc728bab files=2 :: P3D r3.1 快速迭代收口：P-18 过锚 PASS+台账翻面+判决律入册 [via bm-a]
 - [fluxgroup] f2137654e7 files=1 :: 快速迭代卡通渲染令落单（P-18）：环式迭代+参考面定谳（lilToon 显式暗面色=绿块根因参照） [via bm-a]
@@ -10,8 +11,31 @@
 - [fluxgroup] 21b02e6315 files=3 :: 自研卡通渲染定谳令落单（P-14）：Synty资产+SiliconToon自研shader·r2施工在飞 [via bm-a]
 - [fluxgroup] 0678c6aebe files=3 :: P3D_Spike 试点块实弹令落单（P-13）：版权面搁置+卡通城首块施工在飞 [via bm-a]
 - [fluxgroup] 60af212b46 files=4 :: 机队分发试用令落单（P-2026-09-28-07）：规格件+六通道派发+bm-a CPU档实弹锚 [via bm-a]
-  -> repo fluxgroup: 7 claim(s), 0 bare
+  -> repo fluxgroup: 8 claim(s), 0 bare
+- [minigame] 3e3028bcbd files=4 :: 调研席R243：MCP search旁通道解锁+题录三文转正式（Steam供给极化新增C109/竞拍之王暗标竞拍/搜打撤PVE趋势C050/三七财报口径纠偏C026）| research R243
+- [minigame] f86ba97dc5 files=3 :: C1326: G22 CarJam registration (registry section1/4 rows + essence seed flipped + evidence; U100 gat
+- [minigame] ce3b1e73c0 files=4 :: U301: City3D屋顶空调机组AI生成探针首件（缺口清单②地编线屋顶细节补强·俯视主视觉短板·rodin 20k→decimate 2k·669KB·Gate3 29/40 PASS·v2候选格
+- [minigame] 5040a9cb8b files=4 :: U300: City3D街道机器人件AI生成探针首件（缺口清单③角色线AI律主径·rodin 20k→decimate 2k面律·Gate3 28/40 PASS·885KB入仓 street-rob
+- [minigame] e84373e2ed files=5 :: C1323: G21 S1-W1-02 rush view ALL GREEN closeout + G17 fontgate census PASS (state v2 + snapshot vC1
+- [minigame] c250ffe8f7 files=1 :: 调研席R239：streak官方帮助页四通道死路+DDG跨班封禁证+⑬复扫查重拦（空轮如实记）
+- [minigame] ba392789b8 files=6 :: C1319: G21 SkyChef S0-T003 内容全表收口（C1318 崩班收养补完·U129 词典闸预扫 44 词条两段制零命中 PASS·S0 段三行全✅收官→S1 开段） | c1319
+- [minigame] 65218ef748 files=2 :: 调研席R238：Telegram Stars官方支付架构L0核证（数字商品Stars唯一通道+净得分账表锚页）·㉕部分转正·streak三通道负结果组
+- [minigame] 09c60cecc8 files=2 :: C1312: G21 SkyChef 注册入册（登记簿§四+§一行·E4 13/13 承接+U100 五员门 PASS+要件清单 v4 全执行·证据档同收）
+- [minigame] 0efa3a5cba files=9 :: B938: B937死班波收养（G07 ArtGateCheck 39/39绿·F6红转绿·s4gate红=U037包陈旧候autobuild自愈）+BuildDueProbe机制修复（record-
+- [minigame] 3cceba4eba files=4 :: X1372: fold origin/machine/C C1310 (G12 F2 SafeArea seat wiring + two-layer law + gate wave fired) |
+- [minigame] d810df09d6 files=9 :: X1372: fold origin/machine/B (B935 TJ harvest blocker diagnosis + B936 U262 F6 recon BR seats) | pit
+- [minigame] 991389a576 files=13 :: X1372: fold origin/machine/C (C1306-C1309: SkyChef E4 fire + G12 matrix 3/3 closeout + v3.2.1+build5
+- [minigame] bf31615116 files=6 :: X1371: G11 U088盲评三板九分首评——3对比板+3路盲评9分（A/B PASS·C AdCap板FAIL）+证据册+重走台账U088席翻实+手册行 | g11-u088-scoring
+- [minigame] ca77af9d60 files=2 :: X1370: kanban A row + ledger supplement (state surgery done in-round + comma-pit self-record) | clos
+- [minigame] 66e9e4ab9a files=1 :: X1370: state next_round_at comma hotfix (full JSON verified this time) | closeout-fix2
+- [minigame] 0c0c226ce7 files=1 :: X1370: state result-line trailing comma hotfix (JSON verified) | closeout-fix
+- [minigame] 27e96dcff5 files=4 :: X1368: B分支fold收口（state手术+快照X1368版+看板A行+坑#48三发B机通告+ledger） | fleet fold closeout
+- [minigame] 6103d464be files=11 :: B931: G07⑥盲评分落册✅14/18 PASS（G17判据冻结·4件FAIL入U287重产波）+B659两翻案（⑦音频款节B903已毕·bgm任务在飞/G13软著直取建议过时） | b931-g
+- [minigame] b11ecdc63f files=5 :: C1304: G12 猴档复测矩阵 seed2 收养（PASS·复测 2/3·v1.1 逃逸二连实证·maxEventWall 家族 2/2 watch-item）+claims 续期+state手术
+- [minigame] 3d3b7b7ed7 files=9 :: C1302: G12 猴档复测矩阵 seed1 收养（PASS·复测 1/3·v1.1 free-retry 逃逸运行时实证）+旧矩阵报告 4 件覆写前保全+M6 inbox radar 合并（Sky
 - [minigame] 4bd410e4d0 files=2 :: 调研席R232：Appodeal公开eCPM报告通道退役定谳+Discord费率复验路径断+指针族消费前查上轮方法注记律
+- [minigame] 3d8cdcd3e4 files=4 :: B925: 看板fold冲突union手术（X1351③律·kept_A=X1351/kept_B=B923·31通告行保全·工作副本标记零）+fold树分类审计merge配方（49M=36上游收养+
+- [minigame] a634cc55de files=6 :: B923: state-b手术（snapid tick-20260929-0158@18f29fddb+last_round三字段build_ok保留+wip_narrative B923版·五闸复验
 - [minigame] 998536847e files=3 :: 调研席R231：Bongo Cat评价面官方API定谳+Paw Pass通行证争议案
 - [minigame] 30d152a7d1 files=1 :: B921: U074公众号双分扫通道破局（sogou微信搜索2/2活·双tag原始素材staging候研究车道首班直取）+ E盘盘点v3经典式38秒全量（Fluxgroup 148.4GB居首·回收站
 - [minigame] 86eff788ff files=4 :: B920: state-b surgery (snapid tick-20260929-0101@d7890bb9 + last_round flip build_ok preserved, four
@@ -39,40 +63,85 @@
 - [minigame] aca14db56c files=8 :: B867: G13/G14反傻电池侦察件落地——判官AntiDumbGate六律结构全图+G07范式电池骨架schema+两款核心四件API签名面（FarmStage时钟核/守卫盗窃lose-able
 - [minigame] f151e39297 files=20 :: B859: G07-T029双面推进——Face1 F3通道census定谳豁免留痕（矩阵#44 G07面注记+AntiDumbGate F3读法翻新+判官复跑fresh GREEN 6/6同seed
 - [minigame] 4c860057ab files=10 :: C1267: U262 F1 font-chain prefix wave3 C-domain closure (G18/G03/G06 head + G10 addendum: census 478
-- [minigame] a59f2b1914 files=8 :: B850: 矩阵#8好评锚G13切片1a·三锚全闭——Hay Day 650,718评4.6957（Supercell·2012·us域50条20/50低星·疗愈流失族原文「Farming shoul
-- [minigame] 1bdbfb6b55 files=10 :: B848: 矩阵#8好评锚G05切片1a·双锚全闭+母体身份活体面——Go Fish!（Kwalee·iOS 455,308评4.51782·竖甩下钩上行收集=小游戏同构最近缘移动锚）us域50条mo
-- [minigame] 03cad74eeb files=6 :: C1262: U262 F1 字体链扫雷扩面前缀批（G12+G17 census 177/322cp FONTGATE PASS+重铸零 MISSING+落位·工程仓 70bd3d9/af97c5f·
-- [minigame] 89e54f5e51 files=11 :: B847: 矩阵#8好评锚G04切片1a·三源硬数三证齐——iTunes Search API curl直连三锚全命中（Screw Jam 48,704评4.6376 Rollic聚合·RSS三域零e
-- [minigame] 2106dcc41d files=8 :: B846: 矩阵#8好评锚G08切片1d·TPC真appid正名三证齐——storesearch活通道实测appid=1649080（$29.99·metascore 83·DLC族1884560/2
-- [minigame] 3d6453df64 files=16 :: B845: 矩阵#8好评锚G08切片1c·TPC锚appid翻案定谳——1545840验伪=Power Of Slide Demo（steamspy/store/community三通道一致·ABG·
-- [minigame] 542ab35e3a files=17 :: B844: 矩阵#8好评锚G08切片1b双源落地——通道轮换翻案两枚（iTunes curl直连落盘51,629B=BitLife 179.37万评4.7569·web_fetch后端=中国式家长ap
-- [minigame] a0d4adca6d files=5 :: C1260: G09 BR-U262-1 字体链前缀批（census 454cp FONTGATE PASS+G09Main.otf 重铸落位 146KB·工程仓 d14318e）+证据+TRS 行 
-- [minigame] dd1a8153e3 files=10 :: B843: 矩阵#8好评锚B面G08切片启动——采样通道四诊断全灭（store.steampowered经Clash 7897全灭schannel/socks0字节·api.github.com同代理
-- [minigame] 3a050c115a files=8 :: X1304: G16假绿七族扫雷首拉全族打标（6绿1红=F2 safeArea零接线→BR-G16-U262-1提审前必闭·F1 FontGate PASS 1309⊆1461+UiFont单源31处
-- [minigame] c5f9937a2e files=2 :: C1256: Biggame夜窗心跳通道BOM根修 | board-heartbeat-bom-fix
-- [minigame] 9d3b907df0 files=12 :: X1297 closeout chore: state surgery (last_round 3-field byte-level, snapshot tick-2026-09-28-0319@45
-- [minigame] 30e56a1e17 files=6 :: X1294 rider2: G19 red11 same-beat driver reconstruction verified green (compile 0/0 + red11 14/14 + 
-- [minigame] 0f491b5218 files=3 :: X1294: G19 T012g-c1 crashed-round adoption (verified trio only) - qgate reservation+gap-weighted str
-- [minigame] 71f4abace7 files=12 :: X1294 fold machine/C (+6: C1252 Biggame wo30 museum view + harness abbrev fix, C1252c1 wo30 closeout
-- [minigame] 931d389ef7 files=4 :: X1294 pre-merge riders: tick-ledger runner lines (015702 DONE + 020702 TIMEOUT crash note) + fleet p
-- [minigame] 667d2abc2f files=4 :: C1253: G02 font census first-built FONTGATE PASS 504 codepoints + U262-1 prefix ledger row | u262-g0
-- [minigame] 4e32428655 files=2 :: X1287-c1: P08 A0 input-probe prefix - com.unity.inputsystem 1.14.4-t4 (tuanjie-patched, cache-verifi
-- [minigame] ab1a5653ed files=43 :: X1284 fold-C2: second mid-fold push 0e5582a8e camera-fix batch folded per fold-exhaustion law - regi
-- [minigame] d1fad226a4 files=7 :: C1249: 12号v2.0 批次A①输入链真值律盘点C域清零（8款383cs零命中=A批首件收口）+G17 wave3六单落队（4 FAIL缺陷定向+C01R02冷调定谳·阈值复审fork保留CEO
-- [minigame] 8d0d2c899b files=37 :: X1280 fold-B: merge origin/machine/B B808-B812 cognition-anchor doc batches (G04/G07/G08/G13/G14 art
-- [minigame] da7b896de3 files=1 :: U260 决策委员会评估案01簿记：硅基城真跑起来工期三档定谳（今明活气/3-5天居民真跑/1-2周M2完全体+五风险+置信度） | u260-council-assessment-01
-- [minigame] 1313b8bd28 files=1 :: X1274: G16 QG镜像扩位——P22第13host(AboutPanel16入BootSmoke 13/13)+P38 About披露镜像帧律(X1225镜像律执法·built/order14
-- [minigame] 2044f003a7 files=2 :: X1268: G16 T017 material docs - submission privacy policy + operations commitment self-audit (12 mac
-- [minigame] c30e213ea0 files=24 :: X1265: fold machine/C收口——C1239/C1241三件折并（ledger auto-merge零伤定谳[集合差LOST=0/NEW=8零dup=C wrapper一行+GATES
-- [minigame] 056e790ccc files=16 :: X1265: fold machine/B收口——B799/B801/B802三件折并（ledger auto-merge零伤定谳[邻接pin探针3批×START/Step/TICK_DONE各1·集
-- [minigame] 3ee5b380f9 files=11 :: B802: G05 T042-c条目2 adopt前缀件（b802_adopt_prep.ps1首建=adopt预验证工具：done标记探针+out.log/s4_gate_report双解析+预注册
-- [minigame] 09a40832ae files=11 :: X1263: G16 X1256文本截断族修复批——四族面全闭口（hook welcome 600x160@64pt只绘Welcome to→新rect 700x270@(0,307)三行全绘+选项标
-- [minigame] cbfa0718f5 files=15 :: X1262: fold machine/B798增量收口——B798 G05 T042-c zh探针尾巴切片折并（B轮中20:29:06新push即折=折尽律[ledger集合差LOST=0/NEW=
-- [minigame] a0c9906a93 files=7 :: X1262: fold machine/C收口——C1238音频收养链折并（ledger auto-merge零伤定谳[集合差LOST=0/NEW=8=C1238两行+wrapper一行+GATESI
-- [minigame] ba4818bcc4 files=74 :: X1262: fold machine/B收口——B788-B797十四件折并（三冲突面手术：ledger auto-merge纯去重定谳[三面计数LOST=0/NEW=37·历史wrapper与B批
-- [minigame] 2838bd7eb1 files=5 :: B798: G05 T042-c尾巴切片1——ShareCardCheck zh in-check探针扩位30→31全收（Section6新断言zh_flip_probe_share_card_bod
-- [minigame] e2cf9666aa files=6 :: C1238: wave2 音频收养链三仓全闭合（AudioGateCheck 3/3 PASS 零漂移+catalog mp3 出清实证·G12 S4-T003 音频面/G18 S3-T002③ BG
-  -> repo minigame: 61 claim(s), 0 bare
+  -> repo minigame: 51 claim(s), 0 bare
+- [bigmoney] 33a322c0d8 files=44 :: round 433: S6 37-leg receipt (34 rc=0 + 3 trigger-gated legit-skip no new bar; dualrun ZERO-DRIFT st
+- [bigmoney] 1e6165ebff files=10 :: round 433: T-101-V4-A2-PRESCREEN live-fire (RSV dual-gate regime-timing arm cheap pre-screen, supply
+- [bigmoney] 687cdaf1d1 files=67 :: round 222: S6 37-leg all-green receipt (dualrun streak 29/3; REPORT+LIVE 09-29 regen; 4 C-faces stal
+- [bigmoney] b958c3aa84 files=36 :: round 432: S0 pit-93 merge-back landed (29-UU same-day derive-face canon-resolved vs bm-c r221: 6 AL
+- [bigmoney] 2da4ebaeee files=70 :: round 431: T-102 lane-4 FORUMS digest landed = four-lane wave-close (DIGEST-20260929-t102-lane4-foru
+- [bigmoney] 57c3c6f6a9 files=1 :: pool_worker bm-c: pass no-op sweep [claim-by-file O-2210]
+- [bigmoney] 5d6a6f55c1 files=1 :: round 430 addendum: push#2 rejected (bm-c r219+r220 same-window storm) -> escape branch machine/bm-a
+- [bigmoney] fb78ab33dc files=2 :: round 427 close: push-storm receipt (2 UU canon-resolved via _r427bmb_resolve.py: audit rolling-ledg
+- [bigmoney] 9e8ba2dc96 files=57 :: round 427: W8 GENERATE landed+harvested (autofill 13:30:01 pid10608 -> w8_candidates.json n=2834 @13
+- [bigmoney] 3faa9bf843 files=41 :: round 426: S0 double-rebase salvage landed (22+1 UU zero-loss via _r426bmb_resolve.py: snapshots tak
+- [bigmoney] e3fcbde54b files=23 :: round 425: T-120 W8 runner slice-1 BUILT+VERIFIED -- scripts/trial_labor_w8.py (eleven-tuple grammar
+- [bigmoney] 501f772907 files=46 :: round 428 closeout: host-gate wiring landed + S6 37 legs rc=0 (dualrun ZERO-DRIFT 113 streak 9/3; au
+- [bigmoney] 4015a562b1 files=4 :: round 428: MSG-1142 host-gate pre-check landed (autofill _pick claim-before-check skip + pool_worker
+- [bigmoney] fc7b4995f5 files=79 :: round 427: S0 storm-7 stash-pop salvage first-fire (crashed 11:58-round estate: stash push -u -> pul
+- [bigmoney] 3e18061892 files=20 :: pool_worker bm-a: pass no-op sweep [claim-by-file O-2210]
+- [bigmoney] d0875126cc files=44 :: round 424 closeout: S6 37 legs all green (dualrun ZERO-DRIFT streak 9/3 pre-audit, WM py_low_board_c
+- [bigmoney] 1893ff3d26 files=5 :: round 424: W8 prereg FREEZE (TSTATE temporal-state face, T-120 wave ticket, draft-author same-machin
+- [bigmoney] 357bd67989 files=33 :: round 217: W8 prereg draft consumption-verify -> pit-103 lane_owner defect flagged pre-freeze (MSG-1
+- [bigmoney] f76797414b files=56 :: round 423: W8 prereg DRAFT (TSTATE timing-state face, MSG-1158 berth honored) + S0 r422 merge-back -
+- [bigmoney] 23d2c47e52 files=50 :: round 216: pit-104 claim-vs-tree remediation (bm-a r425 PLAN L222 'flipped delivered' claim never la
+- [bigmoney] 5afda83268 files=81 :: round 422: W7-JUDGE harvest closure + minute_feed v1.4 + S0 single-merge 31-UU canon resolve -- (1) 
+- [bigmoney] d1ed6234cd files=25 :: r422 pre-pull: minute_feed v1.4 elapsed-minute law + tail-repair face (5-symbol poisoned tail cured,
+- [bigmoney] 997fb5b3d1 files=32 :: round 215 closeout: W7-JUDGE lane_owner=bm-b amendment LANDED origin ab7b72d9 (escape branch machine
+- [bigmoney] 06882e2d4c files=54 :: round 426: dead-predecessor revival conclude + S0 storm-6 queue-diagnosis first-fire (stale r425 rep
+- [bigmoney] 54b2b56395 files=46 :: Merge remote-tracking branch 'origin/main' (pit-93 merge-back r427 S0: predecessor r426 merge was lo
+- [bigmoney] 2f7b3e1a58 files=40 :: round 426: dead-predecessor merge-back revival conclude (storm-5: 38-UU all resolved+staged by kille
+- [bigmoney] 6fcf710580 files=45 :: round 213: pit-93 merge-back landed (zero-UU auto-merge e5aafd78 pushed, r212 escape content home) +
+- [bigmoney] f9890dfded files=52 :: round 425: dead-predecessor mid-rebase revival (storm-3 17-UU canon-resolved: 6 ALL_FACES merge_lane
+- [bigmoney] 30564da6ad files=48 :: round 421 closeout: state 421 + heartbeat epoch int + round report + S6 37 legs (dualrun ZERO-DRIFT 
+- [bigmoney] 3fc2533e2b files=10 :: r421: W7-SCREEN harvest + dual-face done-flip + pit-95 finalize guard wiring + W7-JUDGE direct-ready
+- [bigmoney] e93d36c6fb files=39 :: round 211: MSG-1038 item-4 INNOVATION-QUOTA-SLOT-2 shard-face closure (three-way verified vs product
+- [bigmoney] 692faa1703 files=47 :: round 420 closeout: state 420 + heartbeat epoch int + S6 37 legs (dualrun ZERO-DRIFT 112, audit FLAG
+- [bigmoney] e7877319a5 files=32 :: round 210: pit-95 finalize idempotency guard (science_gates.finalize_already_landed read-only tripwi
+- [bigmoney] 12f79f2086 files=4 :: round 420: W7-GENERATE harvest done-flip (landed 10:30:07 n=3704 distinct, ledger wave-7 row) + scre
+- [bigmoney] da44b8b113 files=47 :: round 424: r423 escape-branch rider executed = S0 merge-back two-step (pit-93 single merge of origin
+- [bigmoney] b3857ebd3c files=31 :: round 209: T-116 s4 ticket-face done-flip (bookkeeping closure -- s4 substance by r204 dead-window h
+- [bigmoney] f1bb63fea7 files=58 :: round 208 closeout: merge-back landed (pit-93 closed, r207 content on main) + T-117 W6 done-flip + T
+- [bigmoney] bfb66cceb4 files=19 :: r424 S0 merge-back two-step step-1 (pit-93, per r423 escape-branch rider): single merge of origin/ma
+- [bigmoney] 688627e743 files=4 :: round 208 work: T-117 W6 done-flip (full chain consumed: judge 333,432 linear + intake zero-survivor
+- [bigmoney] 24a6995487 files=122 :: r208 bm-c merge-back two-step (pit-93): single merge of origin/main instead of co-located batch reba
+- [bigmoney] 227ee85451 files=2 :: round 417-cont c: W7 runner slice-1a LANDED (ten-tuple grammar 580,608 combos sha16=1fba956c2f21d1d3
+- [bigmoney] ce6e8f23e9 files=12 :: round 417-cont: ticket renumber T-118->T-119 closure rider (successor harvest of dead 417 session: 9
+- [bigmoney] 7ef1525180 files=17 :: round 417b: W1-W5 prereg sec.7/8 five-wave backfill debt CLOSED (T-118: one-shot true-source backfil
+- [bigmoney] 11a7e543bb files=74 :: round 422: W7 collision yield closeout + S6 chain 37 legs all exit-0 -- WM green (py_low_board_clear
+- [bigmoney] 6d718f570e files=8 :: round 422 (interim A): W7 collision YIELD receipt -- bm-a TSTATE r421 freeze yields W7 to bm-c STREA
+- [bigmoney] 18465b1a66 files=41 :: round 421: W7 prereg FROZEN (TSTATE timing-gate ten-tuple wave 580,608 combos, census-sourced, probe
+- [bigmoney] 5de79413b4 files=4 :: round 207: TRIAL_LABOR_W7 prereg FREEZE (STREAK gate ten-tuple 580,608: banner FROZEN + SEED_REGISTR
+- [bigmoney] ba2653539b files=16 :: round 206: TRIAL_LABOR_W7 draft (常供律: STREAK 连涨连跌门新语法面·十元组 580,608·prereg DRAFT 泊位+supply digest PAS
+- [bigmoney] 9a52ce8f44 files=45 :: round 416: W6 48h CEO report landed ~47h early (CEO-REPORT-WAVE6: 5000->3952->293 judged, G1 0/293, 
+- [bigmoney] 5e02c28fdc files=47 :: round 420-cont closeout: harvest dead r420 session S6 products (chain legs landed 08:14-08:20 throug
+- [bigmoney] 14c51c28fe files=24 :: merge origin/main: r420 S7 two-step resolution (r419 closeout faf91c149 vs bm-c r204 dead-window har
+- [bigmoney] 4be24d6f27 files=35 :: round 204 (dead-r204 harvest per pit-88): merge_lane_views _ts_parse parse-first cross-format fix (M
+- [bigmoney] 64abd27c48 files=39 :: round 414: W6-JUDGE judge-0of1 burned 293/293 on bm-b via legal stale-takeover (O-2100 s2.4, bm-c cl
+- [bigmoney] 6eb3da16fa files=92 :: merge origin/main: r419 S0 merge-back (r416 addendum-3 first action, 3x deferred) - 21-face canonica
+- [bigmoney] c8b86571ec files=23 :: round 413: W6-SCREEN chain closed (burn 4152/4152 normal exit + screen-finalize in-round: 3952+200 c
+- [bigmoney] e87246d89b files=56 :: round 416 (r416-cont): dead-r416 window salvage (chain 37/37 rc=0 adopted, S7 closed by successor) +
+- [bigmoney] 969e9c77a1 files=37 :: round 202: V3-TOURNAMENT harvest receipt closed (T-101 done) -- verdict zero-arm-pass verified 3/3 a
+- [bigmoney] fb0ce7fec6 files=46 :: round 201: lane-theft double live-fire closed (bm-c 06:02 + bm-a 06:07 pool_workers both stole lane_
+- [bigmoney] e52d4f3726 files=2 :: r201 fix-first: pool_worker _eligible lane guard (R31/R65 autofill-parity: designated lane_owner hon
+- [bigmoney] eeda442510 files=1 :: round 412: W6-GENERATE harvest flip (r244 landed-marker law, bm-c r200-verified 05:46:27 n=3952 dist
+- [bigmoney] 67f39224ff files=72 :: round 200: green maintenance closed + W6-GENERATE LANDING VERIFIED mid-round (05:46:27: raw 5000 -> 
+- [bigmoney] e808cece74 files=6 :: round 199: interrupted-round recovery closed (rebase 28-UU vs bm-a r414 resolved: 27 regen faces tak
+- [bigmoney] 5a337d91e0 files=75 :: round 414: W4 intake zero-face gap closed (fail-closed generator results/_r414bma_w4_intake_zeroface
+- [bigmoney] b374458426 files=6 :: round 199: T-101 V3-TOURNAMENT runner BUILT (decision_chain_v3_tournament.py run/status/selftest, v2
+- [bigmoney] 560cc880ce files=1 :: r410 bm-b slice-claim: TRIAL_LABOR_W6 runner build slice claimed (F-04 MSG-0450; prereg sec.9 open s
+- [bigmoney] e14911215d files=4 :: round 412: legal-idle maintenance close (orders 122/122 dual-scan; W5-JUDGE harvest confirmed via re
+- [bigmoney] 09f87685e8 files=24 :: round 412 (part 1): S6 36 legs rc=0 (pre-market no-new-bar idempotent set: paper 3 bars/22 prospect 
+- [bigmoney] 89668ed85c files=52 :: round 408: W2-W5 consolidated CEO report landed (four 48h clocks discharged in-window; 14212->1750->
+- [bigmoney] 1afe7c3792 files=3 :: round 197 addendum: 17-UU resolve record (bm-b r407 same-window S6 twins, 16 snapshots take-NEW-by-t
+- [bigmoney] ed454f1f71 files=47 :: round 197: T-116 bm-c dualrun quota MET (streak 3/3, flip gate NOT READY pending bm-a/bm-b adoption)
+- [bigmoney] 0f74da4aa7 files=36 :: round 407: W5-JUDGE judgment-chain full closure harvest -- finalize receipt w5_judge.json verified (
+- [bigmoney] 8cbeb5a053 files=1 :: round 196 addendum: push-storm closeout record (bm-a r406-addendum 28-UU canon resolve window; clean
+- [bigmoney] 0ce0e03d35 files=36 :: round 196: T-116 s3 wave-1 DRAFT DONE (POOL_RETIREMENT_S3_WAVE1_ANALYSIS.md F1-F8 settle-vs-merge re
+- [bigmoney] ac8d110b16 files=69 :: round 406: W5-JUDGE burn harvest -- shard done-flip dual-face (372/372 verified), judge-finalize det
+- [bigmoney] 850816bc1c files=28 :: round 195: T-116 s1 consumer-face census DONE (POOL_RETIREMENT_S1_CENSUS.md: 7 standing readers + s2
+- [bigmoney] af55a69509 files=2 :: round 195: T-116 s1 consumer-face census DONE (research/POOL_RETIREMENT_S1_CENSUS.md: 7 standing rea
+- [bigmoney] 4874b23710 files=34 :: round 405: T-94 umbrella FULL CLOSE (MASS-W1-JUDGE wave-1a harvest 166/166 lawful-zero + gate_attrit
+- [bigmoney] e8477799a5 files=21 :: round 194: T-100 Bonsai GPU trial receipt closed-done (4/4 PASS, tg128=40.52 tok/s claim MET, qualit
 - [bigmoney] 75a93f881d files=7 :: round 404 bm-b addendum: W5-JUDGE pool flip waiting->ready (judge-prep PASS 48-member manifest + RAM
 - [bigmoney] aed31c0436 files=33 :: round 404 bm-b: S0 11-UU canonical resolve (take-NEW side formula fixed vs r402 template inversion, 
 - [bigmoney] 7640a1606b files=5 :: round 409 bm-a: W5 screen-finalize LANDED (3926+200 null p95 0.5164, survivors 372, prereg sec.5-2 b
@@ -177,104 +246,21 @@
 - [bigmoney] 27966af014 files=4 :: round 365 addendum: MSG-0712 judge handoff processed same-round (judge-prep PASS rc=0 deep-panel, JU
 - [bigmoney] 43889bfb9b files=22 :: round 365: S0 divergence closed (two-wave rebase onto origin, Bug1 dup yielded to bm-c canonical e46
 - [bigmoney] 40b7e3ce6e files=39 :: round 389: W2-SCREEN finalized (burn 3124/3124 cells on fixed dispatch; null p95 0.5116 in-band, sur
-- [bigmoney] c8d69e9289 files=46 :: round 365 open: absorb r364 round-end artifacts + bg-lane state baseline (pre-rebase closure; x2_wat
-- [bigmoney] 5aed1d0937 files=1 :: round 388 addendum: tick state dirt close-out (06:50 tick = NEW pool-lane-primary code first product
-- [bigmoney] 35b8b908fb files=36 :: round 388: D-03(1) pool shared-write retirement landed (claim/keepalive lane-primary strict write + 
-- [bigmoney] e463fe9b88 files=3 :: round 142: W2 runner dispatch Bug 1 fix landed (r141 law 1: main() dict-dispatch zero-arg call vs cm
-- [bigmoney] 90a19fed89 files=48 :: round 387: autofill claim Bug 2 double-key fix (r141 law: _claim_shard entry.id+shard.key anchor, fa
-- [bigmoney] a1644a711f files=7 :: round 141 addendum: W2-SCREEN first-burn crash root-caused via probe (TypeError: dispatch table L213
-- [bigmoney] 112cc66ecf files=29 :: round 386: W2-SCREEN flip landed (G-PANEL structural fail diagnosed + bm-b r363 fix cross-validated,
-- [bigmoney] bd0a14dccf files=20 :: round 141: W2 screen-prep co-review receipt MSG-0625 zero-objection early-landed (4-leg: truncated-f
-- [bigmoney] 23e3f8af7b files=3 :: r141 early: W2 screen-prep co-review receipt MSG-0625 = zero-objection (4-leg evidence: Fix1 truncat
-- [bigmoney] 462f202b5e files=24 :: round 363: screen-prep PASS via twin gate fixes (G-PANEL cutoff-frozen + GRAMMAR global, zero cells 
-- [bigmoney] bb7930337b files=6 :: round 386: W2-SCREEN flip waiting->ready (RAM 3-sample 51GB PASS per r354, prep 4/4 gates per bm-b r
-- [bigmoney] c4e938175b files=4 :: r363: T-96 W2 screen-prep PASS (48/48+anchors 6/6+census frozen) via two pre-run gate fixes (G-PANEL
-- [bigmoney] f88e6cc7e6 files=28 :: round 140: inbox 3 receipts landed (MSG-0550 W2-judge six-disclosures zero-objection receipt MSG-062
-- [bigmoney] 3759c68779 files=3 :: round 385 addendum: 3-segment push-storm canon-resolved (9-UU+6-UU resolve/memory-union + CODELY bat
-- [bigmoney] 1ea4fa368a files=3 :: r362 inbox disposition: MSG-0545 zero-objection + MSG-0605 accept-receipt processed->processed (zero
-- [bigmoney] 05a874dcd3 files=1 :: r362 storm-resolve receipt: 3-UU canon-resolved (classifier 2+1-UNKNOWN -> runnable_pool+compute_aud
-- [bigmoney] d7d73d8a5a files=25 :: round 139: post-discharge round-close -- MSG-0531 bmb ACCEPT processed (receipt MSG-0605 posted + mo
-- [bigmoney] 07e48c4ef0 files=3 :: round 138 addendum: MSG-0510 W2 screen 3-disclosures zero-objection replied (MSG-0545; =-operator fr
-- [bigmoney] 67d0d0f45a files=16 :: round 138: W2-GENERATE crash->fix->relaunch->land closed loop harvested (fixed-hash 05:20 fire -> la
-- [bigmoney] 71466d712e files=27 :: round 361: inherited mid-rebase storm canon-completed (CODELY.md memory-union BOM-normalized 9199B z
-- [bigmoney] 8dc888a4f2 files=2 :: round 383 addendum: storm 9-UU canon-resolved two-pass push landed f11e7d88 (ALL_FACES x6 resolve + 
-- [bigmoney] f11e7d8850 files=62 :: round 383: D-03(1) slice-3 compute_audit 17-file read-point switch to face_view (A audit_seg x11 + B
-- [bigmoney] 84f55f4dad files=21 :: round 135: 5x HANDOVER reconciliation (r131-135 window, chain head 294,304 W2A exploration face read
-- [bigmoney] 47b8ca1dd4 files=1 :: bm-a heartbeat refresh post-storm close (epoch int verified)
-- [bigmoney] ad36daa28d files=69 :: round 381: D-03(1) batch-1 writer retirement slice-1 -- autofill_state lane-primary (strict lane sav
-- [bigmoney] 57e7a19329 files=20 :: round 134: green-maintenance pre-market; S6 29/29 no-op family; judge-family flip-gate verified zero
-- [bigmoney] 719de7b14f files=48 :: round 380: 5x HANDOVER R376-380 (lane-migration batch2/3 closeout window) + W2 dual-disclosure indep
-- [bigmoney] 0be6fc416d files=24 :: 孙君晟 round 132: green-maintenance watch (T-95: W2B relaunch verified burning bmb post dual-gate fix p
-- [bigmoney] c0e9e72fc0 files=26 :: round 358: push-storm #3-#6 canon-resolved (r368 3rd live-fire: GIT_EDITOR=true still refused -> r35
-- [bigmoney] 5a3c285f63 files=2 :: round 357 addendum (rebased onto r378): push-storm #3+#5 receipt (15-UU + 14-UU canon-resolved: merg
-- [bigmoney] 573a389afb files=16 :: round 357: W2 prereg frozen (T-96) + census W2A finalized->done + W2B dual-gate fix->relaunched burn
-- [bigmoney] 9af3a8c3aa files=2 :: round 378 heartbeat: epoch int verified, addendum face (catches #4+#5 landed, storm 16-UU resolved, 
-- [bigmoney] 26c07ea1f6 files=2 :: round 129 addendum: push-storm #2 receipt (16-UU canon-resolved: resolve subcommand x8 union faces +
-- [bigmoney] 4dd8b8b87b files=3 :: round 377 addendum: push-storm 1-UU autofill_state resolved via the NEW resolve subcommand itself (f
-- [bigmoney] adcf522db9 files=2 :: r357 bm-b: W2B flip ready (D8 sha verified + W2A finalize done) + TRIAL-W1-JUDGE honest defer note (
-- [bigmoney] cff07511bd files=2 :: r357 bm-b: CENSUS-FUS-S2-W2A flip done (anti-relaunch: no-idempotency runner + full ledger 294304 la
-- [bigmoney] 41846b2b02 files=2 :: round 375 closeout: heartbeat (epoch int verified, round 375) + CODELY pit-law entry (union faces sa
-- [bigmoney] 0f2d02d968 files=3 :: round 375 addendum: observation-window catch #2 -- merger autofill launches whole-row union violated
-- [bigmoney] 9293a68d8c files=5 :: round 356 addendum: S7 push-storm 18-UU canon-resolve receipt (vs bm-c r127 chain: CODELY memory-uni
-- [bigmoney] 916628409a files=45 :: round 375: lane-migration batch-2 B-family slice-1 -- merger B_FACES 8-face recipes (take_new max-cu
-- [bigmoney] 1bd8207ab2 files=55 :: round 356: S0 rebase 1-UU canon-resolve (autofill launches full-row union zero-loss, tie->HEAD bm-c)
-- [bigmoney] 8e8446a3bd files=3 :: round 355 addendum: S7 push-storm 15-UU canon-resolve receipt (vs bm-a r373 chain: CODELY memory-uni
-- [bigmoney] f3b11d5f62 files=25 :: round 355: maintenance round - S0 stash-pop 2-UU canon resolved early-round (autofill_state producer
-- [bigmoney] 63a56680b9 files=66 :: round 373: lane-migration batch-1 closeout -- scattered-writer faces via maintenance-mirror (lane_io
-- [bigmoney] 6ad8635fd1 files=1 :: round 125 addendum: push-storm canon resolve x2 (storm-1 14-UU vs bma-r372 + storm-2 13-UU vs bmb-r3
-- [bigmoney] 6ed08001d2 files=3 :: round 372 closeout: state/heartbeat/round-report bookkeeping (reconcile 6/6 zero-drift dual-track ro
-- [bigmoney] 9595c9f457 files=24 :: round 124: V2-P1 self-yield closure verified at tip (dead claim pre-cleared by bma 7e34a9b3, lane_ow
-- [bigmoney] 7ba22b5105 files=24 :: round 353: maintenance round - V2-P1 crash-fuse false-positive adjudicated (bm-a CRLF-checkout bytes
-- [bigmoney] 83c778399a files=45 :: round 371: lane-migration batch-1 execution pieces -- merge_lane_views.py A-family 6-face determinis
-- [bigmoney] 14e2167888 files=8 :: round 123: swallow#4 forensics closure (attribution corrected to bmb keepalive 10ce4d59 via 4-commit
-- [bigmoney] 83da77778b files=28 :: round 352: wave-1b judge-prep landed (31s PASS census==FROZEN_P5C, judge_state 385KB in-git) + JUDGE
-- [bigmoney] fbc2c26245 files=29 :: round 370: S3 V2-P1 lane pin re-adopt (r348-family 3rd case: r351 resolver union swallowed r369 pin 
-- [bigmoney] 8ea5d0886d files=4 :: wave-1b judge-prep landed (TRIAL_LABOR_W1: 31s PASS, census L/D==FROZEN_P5C live-verified, T18 manif
-- [bigmoney] 79c837f957 files=3 :: r370: hot-cold archive 25th batch (CODELY.md 10,099B>10KB hardline same-window edit per O-20260927-0
-- [bigmoney] db8831bf0b files=23 :: round 351: S5/S7 bookkeeping (round-report closure line + state.json recreated round_no=351 + heartb
-- [bigmoney] 4314637720 files=4 :: round 351 closure: inherited 3-wave rebase storm canon-resolved (resolver _r351bmb_resolve.py: pool 
-- [bigmoney] e726a09371 files=1 :: round 121: T-94 screen survivors 149 + judge entry parked (deep-panel bmb) + T-95 owner watch (main 
-- [bigmoney] a36147ff07 files=7 :: round 121: T-94 screen survivors 149 + judge entry parked (deep-panel bmb) + T-95 owner watch (main 
-- [bigmoney] d154fe504f files=3 :: round 121 memory: r121 spawn-worker pitlaw entry + batch-40 hot/cold fold (5 lines verbatim -> archi
-- [bigmoney] 1a68e4eb9d files=4 :: round 351: mass_trial_w1 judge face built per frozen sec.9.1 (judge-prep/judge/judge-finalize + self
-- [bigmoney] 704c51bdbf files=1 :: pool: MASS-TRIAL-W1-JUDGE 4 shard entries (waiting, RAM flip gate, frozen sec.9.1 CPU ordering behin
-- [bigmoney] acd9de2ed2 files=6 :: round 121: T-94 line-B screen landed bm-c (crash#1 spawn-worker GRAMMAR NoneType fixed via _init_wor
-- [bigmoney] acec6016d3 files=1 :: pool: TRIAL-LABOR-W1-SCREEN claim by bm-c r121 (in-round light-batch run, RAM gate 5.9GB>=4GB pass; 
-- [bigmoney] a995e80604 files=2 :: round 368 addendum: wave-3 17-UU push-storm canon-resolved (classifier 17/0-UNKNOWN, resolver _r368b
-- [bigmoney] fbcc4ac951 files=30 :: round 368: S0 2-wave rebase storm resolved (r312 pool union 81+2swallowed->83, bm-b tick b5be80cd sw
-- [bigmoney] 552abe8613 files=1 :: round 120 addendum: wave-2 rebase resolver evidence (_r120bmc_resolve2.py: my 01:00:02 tick stale sl
-- [bigmoney] 6f322bff51 files=48 :: round 120: r119 14-UU push-storm canon-resolved landed (12 snapshots origin-side + compute_audit uni
-- [bigmoney] 1e0c528985 files=3 :: r368: DECISION-CHAIN-V2-SLEEVE-EXPORT sleeve-0of1 pool done-flip evidence-gated (r312/r203 law) + ar
-- [bigmoney] dfa9d2aeec files=11 :: round 119: S6 27-leg green-maintenance (audit CLEAN / daily 0-new cutoff 09-24 Mid-Autumn no-Friday-
-- [bigmoney] dc9556fe2e files=65 :: round 367: council C-20260927-02 seat-3 (BigMoney) opinion issued via HQ-FEEDBACK F-20260928-01 (app
-- [bigmoney] 8c33656f1a files=6 :: r349 fold+closeout: 38th-batch hot/cold fold (CODELY 10,810->8,729B under 10,240 hard line; 4 flowin
-- [bigmoney] 492757973d files=2 :: pool re-land r349: TRIAL-LABOR-W1-SCREEN restored after r348 tick-race swallow (00:00:01 tick stale-
-- [bigmoney] 2621c87576 files=36 :: round 348 (second session, r341 adoption precedent): r348-A API-dead mid-round legacy adopted after 
-- [bigmoney] 1b785574e1 files=37 :: round 365: 5x HANDOVER check (R361-365 window row, ledger 286,551 flat, pool 80 intact, T-94 yield r
-- [bigmoney] 2c32dd9621 files=56 :: round 117: green-maintenance (S0 stash-pop autofill 1-UU resolved r109 max-ts law; orders 98/98 dual
-- [bigmoney] 9b9025d62e files=1 :: round 364 closeout: heartbeat bm-a r364 epoch int verified (23:43:43+08:00)
-- [bigmoney] 444874ee2a files=67 :: round 363: killed-r362 recovery closed (two-wave 33-UU storm zero-loss resolved per skill canon: wav
-- [bigmoney] c19468d7f7 files=15 :: round 362: T-94 wave-1 s1+s2 executed blind-parallel (975->166, prereg frozen first, bear-gate axis 
-- [bigmoney] d62f7d43bf files=7 :: T-94 s2 DONE: stage-1 screen 975->166 survivors (17.0%, bear-gate axis 36.7% vs 9.0%, null p95 0.533
-- [bigmoney] eae3d4881d files=19 :: round 114: green maintenance + T-94 yield-branch integrity verify PASS (adoption face ready for bm-b
-- [bigmoney] 548d0899cd files=1 :: round 112 addendum-2: second push-storm 2-UU resolved (CODELY+archive double-append collision = same
-- [bigmoney] f25a93dd8b files=2 :: round 112 addendum: push-storm 16-UU resolved per canon (audit union 239+201->240 diverge=0, 15 face
-- [bigmoney] e01db99c5a files=26 :: round 112: green-maintenance Sunday + MSG-2222 abort-ownership receipt (fix in-tree verified) + batc
-- [bigmoney] c7dd53f7d1 files=4 :: round 360 addendum: two-pass push-storm 16-UU+3-UU resolved per canon (12 snapshots deep-probe take-
-- [bigmoney] 96deea98c6 files=13 :: round 345: autofill abort-ownership fix (r344 pitlaw tick-side closure: claim/keepalive legs never a
-- [bigmoney] 1d05757da3 files=4 :: round 359 addendum: two-pass push-storm 18-UU resolved per canon + W2B d8_receipt superset preserved
-- [bigmoney] 1d707d2a5f files=53 :: round 359: W2B pool row silent-loss restored (clobbered by bmb r340 net-dead commit; verbatim f5822d
-- [bigmoney] 3dd1622f84 files=6 :: round 341: UNC runner incremental-flush mirror fix (r341-A killed-session adoption, verify 3/3 PASS)
-- [bigmoney] fbdcc56cfd files=7 :: round 339: S0 autofill_state UU take-ours resolve landed (union==ours byte-identical, last_tick tie-
-- [bigmoney] ea2c6449a2 files=40 :: round 109: green maintenance + CODELY batch-29 hot-cold restructure (9962->3979B zero-loss) + fund_p
-- [bigmoney] 7e714bbc90 files=19 :: round 106: green maintenance + Mon 15:30 fund_premium lane preflight GREEN (first-run branch guarant
-- [bigmoney] fbefd03bb7 files=34 :: round 352: launch-eve maintenance (S6 33/33 rc=0, T-91 armed-verified zero-gap, orders 96/96, smoke 
-- [bigmoney] 834e7e44d0 files=1 :: round 351 addendum: pass-3 closeout storm vs bmc r102 resolved (24-UU S6 face set, unions zero-loss)
-- [bigmoney] 8b67c047a7 files=1 :: round 102 heartbeat: epoch int self-verified + orders 96/96 S7 rescan + resolver evidence in-tree (r
-- [bigmoney] d5fd9c8a34 files=12 :: round 351: bmb-r340 fold-landing complete (2 storm passes, escape valve GC'd) + MSG-2010 executed (W
-- [bigmoney] b58c8670ee files=13 :: round 339: S0 autofill_state UU take-ours resolve landed (union==ours byte-identical, last_tick tie-
-- [bigmoney] 538d31a763 files=58 :: round 346: Sunday maintenance + T-91 Monday s3 readiness verified zero-gap (accounts armed + Intrada
-  -> repo bigmoney: 201 claim(s), 0 bare
+  -> repo bigmoney: 182 claim(s), 0 bare
+- [bigstream] d5224b604a files=9 :: R687: LC-004 Lu Haifeng chaitiao render leg done (interrupted-round absorption): census-card-v16-ver
+- [bigstream] 2bb756d4ec files=10 :: R686: queue E-pool top-up duty done - E4 LC-004 Lu Haifeng card-split batch in-pool + chain-start fi
+- [bigstream] d4083bddd8 files=9 :: R684: LC-003 render leg done (He Yuxin C-00022, D25 slot, queue E1, R680 five-step): F-032 probe -> 
+- [bigstream] 1b71d0ff0a files=13 :: R683: queue E1 LC-003 clip-cut kickoff (He Yuxin C-00022, D25 slot): select verdict, beats v1-v5, S1
+- [bigstream] cbb99dca96 files=88 :: R681 [via bm-a]: LC-002 closure done (F-055 entry + D22 slot gap 2->1; ASR digits 100% alive, 8.4% b
+- [bigstream] 8173abab00 files=8 :: R680 [via bm-a]: LC-002 render leg done (F-027 derive census-card-v8-vertical 13s + 12/12 source-car
+- [bigstream] c17eee2363 files=3 :: R679: P-20260929-01 cloud token economy council bill ack (BigStream share = clause 3 @all-companies,
+- [bigstream] f7cd7a267c files=15 :: R678: LC-002 Archivist-07 split-video chain start (#79 D22 gap fill, R677 claim) - 12-beat script v1
+- [bigstream] 946a757d13 files=78 :: R668: #88 ch2-v4 audio close-out - F-009 pointer v3->v4 (v3 historical, SUPERSEDED). ASR landed 09:0
+- [bigstream] b0f77a3a08 files=6 :: R665-R666 batch window close (activity-round trigger): R665 declared-idle + R666 production round #8
+- [bigstream] ad4a501e7c files=2 :: R659-R664 batch window close (window-full): R663 fast-exit hole absorbed tick662->664 (07:12 round e
+- [bigstream] 5773e8f82d files=2 :: R651+R652 addendum: readout correction (append-only) - codex zone truth = bm-a staged README+3/city-
+- [bigstream] a548635c88 files=5 :: #86 c-leg batch4 anchor-card 2nd-pass deep extraction: +26 humanities entries 56->82 (city-humanitie
+- [bigstream] 1116fab445 files=5 :: R649 #86 codex c-leg batch3 comic-texts harvest: +5 humanities entries 51->56 (SC-002-01/02 texts tr
 - [bigstream] 19c1b24785 files=15 :: R644 #87 whisper.cpp wiring ticket done (P-2026-09-28-08 early claim): GitHub API live read ggml-org
 - [bigstream] f2678cdc24 files=9 :: R643 E4 same-round backfill: landed 02:05:28 (90s hot-load fastest band), verdict 7.0 three-intent u
 - [bigstream] 513456690d files=22 :: R643 #59 REACT-v5 closeout: bilibili #3 cat-roguelike hot x weekend bucket double-axis fit (sprite c
@@ -290,13 +276,9 @@
 - [bigstream] 07a39ab5e5 files=1 :: Tooling survey v1.1: group-research alignment - DDG search MCP adopted (THE search-gap cure for U6-U
 - [bigstream] ed1f18d14a files=2 :: GitHub full tooling batch (O-20260928-1748): survey + curated installs - pip trio (funasr zh-ASR upg
 - [bigstream] 335ecb2710 files=7 :: R632 production round: #67 DIGEST-v9 E4 reference backfill done (R631 flight landed 09:36:47, verdic
-- [bigstream] 0893b47bf3 files=15 :: R577 production: backlog #67 DIGEST v8 council-founding-day digest delivered same-round (council sec
-- [bigstream] 2a939a3888 files=15 :: R576 full task-book: decisions 7 new rows (committee section + C-01/C-02) -> C-02 seat-6 opinion F-2
-- [bigstream] bf0d01ebd4 files=63 :: R571-R575 day-boundary batch: R571-R574 idle-fast quiet + R575 production (daily brief 09-28 per iro
-- [bigstream] 22abde01f5 files=45 :: R565-R570 idle-fast batch: six quiet rounds (orders 35 anchor unchanged; ledger five-mode 31=anchor 
-- [bigstream] 9608c7576c files=42 :: R547-R552 idle-fast batch: six quiet rounds (ledger 31=anchor mtime 15:15:21, decisions 56=anchor mt
-- [bigstream] d0940b5b0b files=42 :: R541-R546 idle-fast batch: six quiet rounds (ledger 31=anchor, decisions 56=anchor, orders 35 none+u
-  -> repo bigstream: 21 claim(s), 0 bare
+  -> repo bigstream: 29 claim(s), 0 bare
+- [fluxverse] c95004b46a files=26 :: 装配城 v2：桥跨连通+水岸+脑塔天线+广场铺装（CEO令 3D库唯一源）[via bm-a]
+  -> repo fluxverse: 1 claim(s), 0 bare
 
-## Summary: claims=290 evidence-backed=290 bare(no-files)=0
+## Summary: claims=271 evidence-backed=271 bare(no-files)=0
 ## Round duty: bare claims and keyword-heavy claims get RE-VERIFIED by the evolution round AI (governance 10.3).
