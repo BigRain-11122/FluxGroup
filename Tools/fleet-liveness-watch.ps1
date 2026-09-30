@@ -1,6 +1,6 @@
 # fleet-liveness-watch.ps1 - Fleet Liveness Watch v1.0 (CEO order U205 2026-09-25:
 # fleet info must stay unobstructed; no silent offline / missing-heartbeat states.
-# Charter: docs/fleet-liveness-charter.md. REUSES (anti-dup law #1):
+# Charter: cph4/resource-chain.md sec5. REUSES (anti-dup law #1):
 #   fleet-audit.ps1  - heartbeat aggregation (-Json snapshot)
 #   task-health.ps1  - scheduler five-signal face (SUMMARY/FLAGS stdout lines)
 #   docs/audit-charter.md Part D - OPEN/ESCALATED rows = ready-made remediation notes

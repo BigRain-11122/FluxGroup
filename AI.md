@@ -53,7 +53,7 @@
 | **分层级错误解决** | E0 红线直呈/E1 当日/E2 轮内~当周/E3 噪音豁免 | `cph4/errors.md`（错误四级定级+分层路径 L0 轮内→L1 门禁→L2 自愈池→L3 集团轮+科学五律：根因/复现先行/修复独立验证/教训入法/熔断——城市 S0-S2 投影已立） |
 | 诚实律三道防线 | 轮内自审/门禁机核/集团抽审 | `docs/governance.md` §10（审查链的诚实律子面） |
 | 资源保留清理 | 周测入进化轮+周期日历（日/周/月/季） | `cph4/resource-chain.md` §三（R1 永不清/R2 归档/R3 定期清/R4 随轮清；§7 分层执行面+§8 工程规模治理[WIP 上限/入口窄化/范围蔓延闸/流程瘦身]+§9 备份三级预案[堵点=GH 私库]+§10 周期日历） |
-| 调度 | verdict 驱动·云端无限并行 | `cph4/resource-chain.md` §一 + 机队台账（同件 §二）§五（`Tools/fleet-audit.ps1` 夜轮审计）·物尽其用律 §六 + 机队协议共享层 `cph4/fleet-protocol.md`（三条款归一·推送司自决） |
+| 调度 | verdict 驱动·云端无限并行 | `cph4/resource-chain.md` §一 + 机队台账（同件 §二）§五（`Tools/fleet-audit.ps1` 夜轮审计）·物尽其用律 §六 + 机队协议共享层 `cph4/resource-chain.md` §四（三条款归一·推送司自决） |
 | 本地化算力 | L1 确定性→L2 本地 LLM→L3 API | `cph4/local-first.md` |
 | Token 经济机制（统摄层 v2.0） | 轮账本一行+周轮聚合三面+云端行 | `cph4/token-economy.md`（三面模型/五律/本地栈 v1+**§八 云端节省机制**〔C-20260929-01 过会 7/7·attribution 记账+三径闸升格+判据回访 10-07〕·战略=`local-first.md`） |
 | **自动化周期总账** | 全周期登记+错峰车道+提交周期 | `cph4/cadence.md`（10min 轮族分钟位/日周轮族/停用族豁免/防重复防冲突律+提交周期表——实测 35 项底账） |
@@ -61,7 +61,7 @@
 | **记忆梳理机制（第七链）** | 周日窗梳理+入口四问+热冷水位置 | `cph4/memory.md`（实测 326.5KB 基线：BigMoney 247.8KB 重灾即行/HQ 51.5KB 首窗；复述禁令=指针记忆；梳理窗=周日 03:07 夜轮步·update_memory 逐条删≤10 条熔断·归档 research/memory-archive/ 全量留 git） |
 | **集团巡检（Group Patrol）** | 周一 09:23+CEO 随时加开 | `docs/audit-charter.md` Part B（审查合一正典 v2.0·八维九实体·P0 24h/P1 72h/P2 7d 整改·PT 台账=同件 Part D·probe 复用三器零 token） |
 | **四环周期律（反思/批评/进化/迭代）** | 日反思[值守轮]·周批评[周日进化轮五议程]·月进化[M5 治理日]·季宪法审 | `cph4/evolution.md` §8（2026-09-26 立·反思落 `cph4/reflection-journal.md`·法熵预算 ≤20 件） |
-| **机队信息流保活** | 5min watch+心跳三源聚合 | `docs/fleet-liveness-charter.md`（光板离线清零·STALE 自动携带整改注记·Tools/fleet-liveness-watch.ps1） |
+| **机队信息流保活** | 5min watch+心跳三源聚合 | `cph4/resource-chain.md` §五（光板离线清零·STALE 自动携带整改注记·Tools/fleet-liveness-watch.ps1） |
 | **九司调研部门建制** | 每司一调研部·周轮前沿扫描+即 hot 即报+统计→落地闭环 | `docs/research-dept-charter.md`（U248·防挂名空转/防只学不落/防重复调研三律·无应用表=未完成） |
 | **本地大模型生产管线** | P1-P6 管线目录·Phase1 全机 serve 常驻化 09-28 | `cph4/local-llm-pipeline.md`（美术终稿本地预审/万人 QA/commit 预检/调研摘要/回测增强/语音多声源·L3 保留面禁硬替） |
 | **集团审计部** | 对齐度探针+自我感动+同向无效功审查 | `cph4/audit-office.md`（L3 审计面·与 patrol/夜轮四器咬合） |

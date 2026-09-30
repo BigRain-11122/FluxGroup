@@ -1,8 +1,8 @@
 # Resource Chain — 调度/机队台账/保留三源合典 v1.0（CPH4 Labs）
 
 > 溯源：C-20260928-02 A6 合册批一（同上·registry O-2026-0928-014）。三源原文全保入章·零删除（git 史全保）。
-> 结构：§一 集团调度（原 cph4/scheduling.md）｜§二 机队台账（原 cph4/fleet-allocations.md·活数据面·机器增减改本节）｜§三 资源保留与清理（原 cph4/retention.md）。
-> 旧路径指针：cph4/scheduling.md→本件 §一｜cph4/fleet-allocations.md→§二｜cph4/retention.md→§三。
+> 结构：§一 集团调度（原 cph4/scheduling.md）｜§二 机队台账（原 cph4/fleet-allocations.md·活数据面·机器增减改本节）｜§三 资源保留与清理（原 cph4/retention.md）｜§四 机队协议共享层（原 cph4/fleet-protocol.md）｜§五 机队保活律（原 docs/fleet-liveness-charter.md）——§四§五 2026-09-30 机队策略统一整合令并入（O-2026-0930-009）。
+> 旧路径指针：cph4/scheduling.md→本件 §一｜cph4/fleet-allocations.md→§二｜cph4/retention.md→§三｜cph4/fleet-protocol.md→§四｜docs/fleet-liveness-charter.md→§五。
 > 席位附款（席7③·章程 §五 token 经济）：本合典单件预算 ≤60KB；一切轮会话引用须带 §章节锚点局部读·禁整文件读。
 
 ## §一 集团调度（原 cph4/scheduling.md v1.0 全文）
@@ -306,5 +306,114 @@
 - 2026-09-30: **§11 执法批 2：CEO 直令免冻结三件（O-20260930-1530「下载的觉得没用的工程零碎，大模型什么的，测试的素材，已经被判断不好的东西，都直接给我清理」）**：30b 判负模型 18GB（原 10-09 窗提前执行·P-13③ 随批收口）+Bonsai 候选权重 7.4GB（重取=HF fork·评估届时重拉）+死亡下载残片 7.6GB+pip cache=**批 2 共 32GB**（连批 1 4.6GB=本令族累计 36.6GB·盘余 769GB）；**在飞保护判例**：2dlive-spike 61.6GB（O-20260930-002 在飞批沙盒）不适用直接清理——批内自清+收口后全区清决=**§11.7 触发首例**（>5GB 收口清决审视）；矩阵内模型四件保留（7b-q8/7b/14b/bge-m3）；排雷正法=清理前三查（脚本回拉引用查+在飞占用查+活性核验）。
 
 
+
+
+## §四 机队协议共享层（原 cph4/fleet-protocol.md v1.1 全文·2026-09-30 并入·原文零删除·T2 否决窗随法不随件至 10-04）
+
+> 原件定位：三条款结构+推送声明+借算补法+新司接入面（v1.1 changelog 全保于本节尾）。
+
+> 溯源：governance §6 第 11 条（T2·否决窗至 2026-10-01·组织审计 G7 判决配套）+ ledger P-63③（CEO 令 09-24「全面开工」即时律）。
+> 定位：**心跳/任务认领/传输三条款的集团共享正典**——BigMoney fleet v1.0 与 Biggame 08 号同构归一；共享的是结构不是细节，两司改指针引用随回执（P-51 送达判据）。细节归各司协议（引用不复制）。
+> 关系：本件=三条款结构+推送声明+借算补法；`resource-chain.md` §二=配置分配/借池/台账旗标；同件 §一=在哪跑；`cadence.md`=何时跑；`onboarding.md`=新机部署三层模型。重叠立法禁。
+
+### 〇、一句话
+
+**心跳各自写全队读、认领 commit 即锁、传输 git 唯一通道——三条款集团同构；推送策略司自决保留（两边实战淬炼，仓库冲突面不同，禁互换强归一）。**
+
+### 一、三条款（集团同构·两司机队既有实践的归一，非新法）
+
+1. **心跳条款**：每机**只写自己的心跳文件**（BigMoney=`fleet/machines/<id>.json`·Biggame=`Design/configs/GLOBAL/fleet/<id>.json`），写权分治=零跨机合并冲突；git 同步=全机队只读互见（governance §6 资源互见）。共享最低字段=`last_seen`+资源余量（RAM/GPU）+`verdict`+在途任务；**verdict=INFO 判定非门禁**（语义司自定·须成文于司协议·`|RAM_LOW` 低内存后缀同构）；集团旗标与失联处置=`resource-chain.md` §二 §五（GREEN-IDLE/YELLOW-HEAVY/STALE/OFFLINE·夜轮审计）。**身份文件（machine.json）=本机私有永不入库**（X104/#48：tracked 身份必被跨机合并静默覆写）。
+2. **任务认领条款**：任务单=结构化文件落 git；**认领=改 `status=claimed`+`claimed_by`+`claimed_at` 并 commit push——commit 即锁**（U067 同制）；两机同窗撞认领=行级手术按 commit 时间序**后到让路**（排序权威=git %ci）；超时释放（默认 24h·司可调须成文）；**failed 必写死因；done 必带 `result_ref`**（指向产物）。共享核心六字段=`id/priority/status/claimed_by/claimed_at/result_ref`（司可扩禁减）；同款/同车道双开=事故（仲裁=司登记簿或任务板唯一面）。
+4. **批次先占律**（2026-09-27 周轮立法·T2 否决窗至 10-04·BigMoney F-20260923-04 周日法条化）：研究批/跑批/长任务类工作**开工前必先占位使跨机可见**（MSG/fleet/tasks 开单认领+commit push）；playbook/研究队列**按机预切分工优先**（缺口批次才临时认领）；撞车发现后处置=对账合并（双实现交叉验证可升格证据强度）非简单弃一方。
+5. **周期任务轮值律**（2026-09-27 周轮立法·T2 否决窗至 10-04·BigMoney F-20260924-09 周日法条化·D-20260924-02 裁「周日法条化」兑现）：跨机周期性维护任务（N 倍数轮核对/月度简报/月度审计类）三选一防并行双做——①错峰分配到机器（如 3/5/10 倍数轮分机）②固化为 fleet/tasks 常设轮值单（单内写明本周期 owner）③「本周期已核对」机器戳制（做完盖戳·他机见戳即跳）；周期性任务无认领面=双机各烧一轮=违「不要重复开发」铁律。
+6. **自愈层车道归属律**（2026-09-27 周轮立法·T2 否决窗至 10-04·BigMoney F-20260924-08 周轮裁兑现）：凡自愈层（看门狗/重生器）会重启「产出共享 tracked 状态的长任务链」者，**重启权必须绑车道 owner**（机器 id 比对或等价显式归属标识）；车道迁移时归属常量与迁移同 commit 移动；非 owner 对共享车道链**只许观测+发告警、禁本地重启**（gitignored 数据缓存只在 owner 本机=非 owner 的「链死+gates 红」判定结构性永真）。
+3. **传输条款**：跨机传输**唯一合法通道=git clone**（禁文件夹直拷——防锁文件/临时态/被忽略物·两司同源铁律）；大资产=司自建通道选型矩阵（范式=BigMoney `fleet/TRANSFER.md`：A git 分批/B2 croc 直传/B1 组网/C 云中转/D 离线+保险丝+决策顺序）。集团强制最低线三条：①**交付判据=校验锚点双侧一致**（manifest/字节数/文件数——无校验不算 done）；②**收件 `git checkout <分支> -- <path>` 后必 `git restore --staged <path>`**（R90 收件腿坑律：checkout 会把 gitignored 件自动 STAGE 进 main index）；③**常驻网络服务装机=CEO/用户逐次授权**（安全红线·两司同源）。
+
+### 二、推送策略=司自决保留
+
+- 现行两制：BigMoney=**X128-lite**（直推 main→被拒 `pull --rebase` 一次→machine/<id> 兜底）；Biggame=**X128 机器分支制**（B/C/D 推 machine/<id>·A 机 :13 fold 收口=master 唯一写手·merge 优于 rebase 坑#45 定案）——仓库冲突面不同，**禁互换禁强归一**。
+- 集团统摄不变（versioning §5）：**禁 force-push**（例外仅新仓 stub 覆推 --force-with-lease+记档）；凭证/密钥永不入库；push 失败禁无限重试（挂起+轮报告）。
+- 新司接入=两制任选或自定，**推送策略声明必写入本司协议头部**（小队直推宜 X128-lite·多机常撞面宜 X128）。
+
+### 三、借算三缺口补法（fleet-allocations 扩法·G7 判决配套）
+
+1. **fleet-audit 心跳源开闭原则**：新司机队心跳上线=`Tools/fleet-audit.ps1` **加一个源行**（零改主逻辑·探针插件同构）——新司接入清单必含此步；未加源行=该司机队对集团审计面不可见。
+2. **跨司借算工单规范**（fleet-allocations §二 扩法）：跨司借算一律**走被借方机队协议认领**（保主律·借方协议优先）；工单五字段强制=`借出方司/借入方司/机器id/归还判据/超时`；归还判据=产出回流 git+**批末当场清本地临时件**（权威副本唯一=git 库内）；护栏三条=借算不抢主归属高优（优先级降档/释放阀让路）+同 stem/同任务禁双机双产+借算域禁入对方核心写域。范式=fleet §5 借算+08 号 §7.9（🤝借算@机id 标记→闲机认领→git 回流→当场清理）。
+3. **机×司占用矩阵**：周轮资源节呈现每机一行——`主归属司(保主)｜借入作业(司/任务)｜空闲旗标`；数据源=各司心跳+任务单（fleet-audit 聚合底账）；判据=接入借池的每机可在此矩阵读出「谁在用/谁借了/闲多少」。
+
+### 四、新司机队接入面（集团级顺序·细节归司）
+
+①司协议落位（三条款结构+推送策略声明+verdict 语义成文）→②机器接入走 `cph4/onboarding.md` 三层模型→③心跳落位（§一.1）→④`resource-chain.md` §二机队台账 §一表加行（主归属/兼任/可借状态）→⑤fleet-audit 加源行（§三.1）→⑥首单派工（clone 完成即有活干不空转）→⑦新机 48h 内交首条接入踩坑记录（U039 义务制·落司机队经验面）。验收门范式=BigMoney `fleet/EXPANSION_ACCEPTANCE.md` §6（smoke+心跳+循环注册+首单七门）；双角色机参照其 §3 身份模板（`main_owner` 保主）。
+
+### 五、接线
+
+- governance §6 第 11 条「建立中」→v1.0 已建（本批）+changelog 行；cph4/README 注册表行+AI.md 调度行+ledger P-63③ 交付注记。
+- **转办 @BigMoney+@Biggame**：各自协议头部加指针引用本件（内容不重写·随回执销单）——夜轮催办口径沿 P-63 转办列。
+- 借算缺口②③ 的实施件（fleet-audit 源行随新司接入滚动；周轮资源节矩阵模板）=周轮立法流程自领（本件只立 spec 禁自建工具）。
+
+#### Changelog
+- 2026-09-24: v1.0 首版（P-63③ CPH4 自领交付：BigMoney fleet v1.0〔README/FLEET-OPS/TRANSFER/EXPANSION_ACCEPTANCE〕+Biggame 08 号 V1.2 三条款同构归一+推送司自决注记+借算三缺口补法 spec）。
+- 2026-09-27: v1.1（evolution R2·P-2026-09-27-04〔编号勘误：原取 -03 撞远端先占后到让位〕·T2 否决窗至 10-04）：§一 增补三条款扩展——④批次先占律（F-20260923-04）+⑤周期任务轮值律（F-20260924-09·D-20260924-02「周日法条化」兑现）+⑥自愈层车道归属律（F-20260924-08「集团条款周轮裁」兑现）。
+
+
+## §五 机队保活律（原 docs/fleet-liveness-charter.md v1.0 全文·2026-09-30 并入·原文零删除）
+
+> 原件定位：心跳即法线+无静默掉线+自愈优先+双通道+升级阶梯+机器对称+liveness.json 数据契约（v1.0 changelog 全保于本节尾）。
+
+> **溯源**：CEO 令 2026-09-25 U205「机队信息要保持通畅，不要看到什么掉线离线，看不到心跳，建立顶层规则和技术」。
+> **定位**：机队一切心跳/活性/信息链路的**唯一顶层法源**——本件管「心跳必须活着+离线必须带整改注记+谁来修+怎么升级」；在哪跑=resource-chain.md §一；巡检发现与整改闭环=audit-charter.md Part B（本件是其 L0 常态前置层）；周期总账=cph4/cadence.md。T2+否决窗 7 天。
+
+### §1 心跳即法线（Heartbeat-is-Lifeline）
+
+1. 机队每个实体（BG-A/B/C 游戏机·BigMoney bm-* 量化机·BigStream·BigCompute·各司 OS 循环）**必须**按其额定周期发布心跳（额定周期=各实体 cadence 自报入账）。
+2. **分级判据**（与 `Tools/fleet-audit.ps1` 实现逐字对齐·诚实律）：`ONLINE`＝心跳龄 ≤2h（10min 级机器实为分钟级新鲜）｜`STALE`＝>2h｜`OFFLINE`＝>24h｜`NO_TS`＝心跳缺时间戳字段＝写手缺陷（永远不可判活）。BigStream/BigCompute 哨兵类按其协议 20min 判活线。
+3. 心跳文件契约：`Design/configs/GLOBAL/fleet/<机>.json`（MiniGame 系）/`fleet/machines/bm-*.json`（BigMoney 系）/各司 state+beat 文件（见 fleet-audit.ps1 源清单）——**新心跳源=在 fleet-audit.ps1 加一行**（开闭原则·禁另起采集面）。
+
+### §2 无静默掉线律（No-Silent-Offline）
+
+1. **CEO 任何可见面（看板/巡检报告/夜报）不得出现光板「离线/无心跳」**——每个非 ONLINE 实体必须携带**整改注记**，三来源任一：①看门器自愈动作记录（liveness.json actions）②巡检 PT OPEN/ESCALATED 行（「整改中·PT-xxx」）③alerts 升级记录（「已升级·时间戳」）。
+2. 违例线：光板非 ONLINE 持续 **30 分钟无注记＝P1 机制违例**；持续 **24h 无注记＝P0**。注记不是掩盖——是「正在处理」的诚实可见性（实体可以坏，处理状态必须可见）。
+3. 看板消费契约：像素小镇 `Read-SubPulse`/硅基窗心跳面读取 `liveness.json`（§7）——有注记显示「修复中·…」，无注记才允许显示离线原文（而看门器保证无注记态 ≤30min）。
+
+### §3 自愈优先律（Self-Heal-First）
+
+1. 心跳生产者必须**可自愈**，已知故障模式配方表（全部历史实证·坑录在案）：
+   | 故障模式 | 自愈配方 |
+   |---|---|
+   | codely/引擎挪窝（SCRIPT_ERROR 假跑） | 取运行中进程 ExecutablePath 自适配回写 machine.json |
+   | 陈死锁（.git/index.lock/tick 锁） | 零属主进程+龄>12min 才清（既有配方法） |
+   | 信息链任务停跳（心跳/看板/CEO台） | 看门器 `Start-ScheduledTask` 点火（任务自带单飞锁，重入安全） |
+   | CeoDeskServer 挂 | 健康探针（127.0.0.1:8791/api/health）失败即点火 |
+   | ComfyUI/Ollama 熄火 | 既有 KeepWarm/保活任务族（不在看门器代管面） |
+2. **自愈动作必须留痕**（liveness.json actions 数组+stdout 行）——无痕自愈=违例。
+3. 自愈边界（F-08 车道归属律）：**本机自愈仅限本机信息链任务集**（EngineTick/CockpitBeat/CeoDeskServer 三件·v1）；生产任务（ComfyDraftTick/BoardForge 等）归其 owner 车道自愈，看门器只观测注记；**跨机永不代修**（bm-c 的修法在其 owner 车道）。
+4. 熔断（E1 既有律）：自愈两轮未愈禁硬修升级 E1——看门器对同实体同故障只记 alerts 不重复点火。
+
+### §4 双通道律（Dual-Channel）
+
+带内=实体自写心跳（§1 契约）；带外=**宿主看门器独立探活**（文件 mtime+任务 LastRun+服务探针三源）——生产者死了也不失察，两通道互为冗余。看门器本身入 task-health 五信号面（被监控者也要被监控）。
+
+### §5 升级阶梯（Escalation Ladder）
+
+检测→配方内自愈→复探→未愈→**alerts.jsonl 落行+限流触发 FluxGroup-PatrolRound**（巡检官模型会话消费 alerts 正式化 PT 行·P0=24h/P1=72h 时效律）→PT 整改闭环（audit-charter.md Part B §7）。限流=同实体 120min 内不重复触发（防风暴）；巡检戳记认领（F-09）照常生效——触发被认领跳过=诚实记录非失败。
+
+### §6 机器对称律（Fleet Symmetry）
+
+1. 每台机各宿主**同件看门器**（`Tools/fleet-liveness-watch.ps1` 随 git 分发·OS 任务 5min·InvisibleRunner 零窗·非提权 -User 注册范式）——各机自愈自己信息链、注记自己视角、互不越机（F-08）。
+2. 跨机实体活性：各机看自己本地快照（含 git fetch 滞后·诚实注记「as-of fetch」）+巡检周班权威复核（fetch 陈旧误判坑在案）。
+3. **A/B 机采纳窗＝下一巡检轮（周一 09:23）前**：注册 OS 任务+cadence 行+首跑证据各机自报（08 号协议自报范式）；未采纳=巡检 P2 发现。
+
+### §7 数据契约（liveness.json）
+
+路径=`%USERPROFILE%\.codely-cli\fleet-liveness\`（每机本地·git 零噪声·与 fleet-audit 同区）：`liveness.json`＝`{ts, verdict(GREEN/AMBER/RED), machines:[{id, flag, last_seen, note}], sched:{unhealthy, flags}, actions:[{ts,do,detail}]}`＋`alerts.jsonl`（升级流水）。消费面=看板（Read-SubPulse 注记）+巡检+夜报。
+
+### §8 与既有法关系（零新车道·防重复律 #1）
+
+复用三件零新采集：`fleet-audit.ps1`（心跳聚合·-Json）+`task-health.ps1`（调度五信号）+`docs/audit-charter.md` Part D（OPEN 行=现成整改注记源）；本件不建新心跳源、不代 owner 修（F-08）、不越认领（F-09）、不停用态复活（U166）、不绕熔断（E1）。变更控制=本件 T2+cadence.md 行变更+changelog。
+
+#### Changelog
+- 2026-09-25: initial v1.0（CEO 令 U205·C 机首宿主：charter+watch 工具+OS 任务+看板注记契约）。
+
 ### Changelog
 - 2026-09-28: v1.0 三源合一（C-20260928-02 A6 批一·委员会七席过会）——scheduling/fleet-allocations/retention 原文全保入章；三旧件转指针；活面消费者（AI.md/README 注册表/夜轮+进化轮 prompt/governance §6.5-6.6/retention-scan 注释）同窗原子批改线。
+- 2026-09-30: **v1.1 五源合一（CEO 令「治理一下机队的各种策略，统一整合梳理，要高效」·registry O-2026-0930-009）**：fleet-protocol.md→§四+fleet-liveness-charter.md→§五 原文全保入章·两旧件转指针桩；活面原子改线=AI.md 两行+governance §6 第11条+fleet-liveness-watch/integrity-sentinel 两工具注释；合并后 ≤60KB 单件预算内；机队策略散件 3→1（法熵净减 -2）。

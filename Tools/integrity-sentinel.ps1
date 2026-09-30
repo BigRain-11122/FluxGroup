@@ -8,7 +8,7 @@
 #   1) scheduler diff   - task Disabled<->Enabled transitions, task disappearance,
 #                        mass-event storm signature (>=5 transitions in one tick)
 #   2) deletion scan   - git tracked-file deletions (D-lines) across the 8 repos
-# Alert sink = fleet-liveness alerts.jsonl (docs/fleet-liveness-charter.md sec 5/7
+# Alert sink = fleet-liveness alerts.jsonl (cph4/resource-chain.md sec5 sec 5/7
 # contract); consumed by guard round / patrol / CEO surfaces.
 # Anti-dup: reuses no other mechanism's scope (task-health = nightly full audit;
 # this = 5min delta tripwire). ASCII-only body (encoding law, PS 5.1 safe).
