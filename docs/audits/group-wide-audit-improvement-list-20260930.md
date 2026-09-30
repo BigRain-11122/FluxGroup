@@ -155,7 +155,7 @@ BigDomain 83%、BigMoney 81% 的过程 commit 里，主体是快照再生、车�
 
 | 司 | 票 | 状态 | 证据 |
 |---|---|---|---|
-| **BigLife** | XL-17 消费方接线数判据 | **✅ 承接 → ✅ 交付（29 分钟全链）** | ack：`9cb31be3` 12:30 立单 `T-20260930-01`（`tasks/TASKS.md:407` 已成条目·回执行=F-20260930-BL03）；交付：`31bbc791` 12:52「XL-17 分步①②兑现」→ `Tools/consumer_wiring.py`（6678B·扫描器）+ `cognition/CONSUMER-WIRING.md`（4030B·判据件）+ **接线数首跑=3 仓 wired**。**勘正**：外审第四轮曾判"票件实物不存在"＝**我方检索面过窄（只搜文件名模式）造成的误报**，见 §三.2 自校准第 4 条 |
+| **BigLife** | XL-17 消费方接线数判据 | **✅ 承接 → ✅ 交付（29 分钟全链）** | ack：`9cb31be3` 12:30 立单 `T-20260930-01`（`tasks/TASKS.md:407` 已成条目·回执行=F-20260930-BL03）；交付：`31bbc791` 12:52「XL-17 分步①②兑现」→ `Tools/consumer_wiring.py`（6678B·扫描器）+ `cognition/CONSUMER-WIRING.md`（4030B·判据件）+ **接线数首跑=3 仓 wired**。**勘正**：外审第四轮曾判"票件实物不存在"＝**我方检索面过窄（只搜文件名模式）造成的误报**，见 §三.2 自校准第 4 条。**外审第七轮独立抽验（5 项主证逐条实测）**：✅ FluxVerse `Tools/perceptor/probes/census.ps1:4`（注释声明只读消费）+`street_behavior.ps1:19`（`$behPath` 实路径）｜✅ MiniGame `tools/PixelTownBoard.ps1:1204-1205`（`$blRoot33`→`citizen-persona.jsonl` 实读）｜✅ BigDomain `src/sandbox/lobby/config.json:34 "census_file": "citizens-light.jsonl"` + `city.py:87` 经 cfg 取值（**服务层真实接线·非文档**；注：其 L5/L13/L19 三处为文件头说明文字，按 BigLife 自订判据"文档级不计"，不应计为证据）｜✅ BigStream 零命中（**未接线=诚实态**，与判据一致）｜合计 **3 仓 wired 判定成立**；边界如实标注=消费方接线深度属**沙箱/观测层**，尚未到可访问前台（与 XL-7 `fronts` 口径自洽） |
 | BigMoney | XL-15 / RW-1~7 | ⏳ 未见回执 | 派工后仅 1 提交，主题未含 D-06/RW- 字样（下一轮窗口） |
 | BigStream | XL-14 | ⏳ 未见回执 | 派工后 0 提交（其末次 11:52） |
 | BigDomain | XL-16 | ⏳ 未见回执 | 派工后 0 提交（其末次 12:08） |
