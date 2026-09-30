@@ -22,7 +22,7 @@
 | **BigLife** | 数字生命生产公司：超体宇宙城人口与人设资产（万人户籍库·自我进化·2026-09-24 定名转正） | `life/BigLife/`（独立仓） | `docs/CODEX.md` + `docs/SILICON-LIFE.md` + `BLUEPRINT.md` |
 | **BigCompute** | 硅基算力公司：**集团商业化中枢司（位阶令 09-24：商业化面高于其他司·对外成交/定价/粉丝私域/渠道唯一出口）**·算力商业化引擎——承载集团算力成本·现实世界链接变现（抖音小店/直播 Phase 1）·全司互相赋能产生经济价值·九部门全编制·权利第一（粉丝经营/商品/直播/客服/数据/财务/商务/风控/法务） | `compute/BigCompute/`（独立仓·local） | 产品仓 `BLUEPRINT.md` + `docs/plans/`（CEO 方案归档）+ `docs/risk-register.md` |
 
-| **BigHouse** | 地产公司：现实买房决策+硅基城虚拟地产双轮·升华=城市演化预言机（苏州吴中起步·99元/份买房报告·299元/年认领数字邻居·先一区打透禁炒地）〔CEO 令 09-28 20:49/50·09-30 P2 补建〕 | `estate/BigHouse/`（独立仓·local·remote 待 CEO 建库） | 产品仓 `BLUEPRINT.md` |
+| **BigHouse** | 地产公司→**硅基城市和现实的链接**（三链=地方链/人生链/演化链·搬家前先活一遍·数字邻居结缘=认同才付费·演化预演替代一切报告形态·先苏州吴中验证·禁炒地四禁+报告词族禁令恒在）〔CEO 令 09-28 20:49/50+09-30 定位两连再升华 O-2026-0930-003/004〕 | `estate/BigHouse/`（独立仓·local·remote 待 CEO 建库） | 产品仓 `BLUEPRINT.md` |
 
 **机队**：bm-a（DASHENG·32 核·开发机+游戏 A 机）｜bm-b（16 核·回测+大资产宿主·Money02 宿主）｜bm-c（32 核·RTX 3070 魔改 16GB·交互会话+云端发射面+ComfyUI 图像产线·兼 Biggame C 机/BigLife 多模态线）｜CEO 笔记本=豁免位（移动办公指令总控·非机队成员·不加入算力池）。配置分配唯一权威=`cph4/resource-chain.md` §二（机队台账·§一 分配表+§八 产线分工与自领律）；新机接入=一键 `Tools/bootstrap-machine.ps1`（章程 `cph4/onboarding.md`）。
 
