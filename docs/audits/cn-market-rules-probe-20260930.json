@@ -1,0 +1,934 @@
+{
+  "generated_utc": "2026-09-30T07:44:12Z",
+  "probe": "cn-market-rules-probe.ps1 v1.0 (domestic rule set)",
+  "law_ref": "docs/audit-charter.md Appendix B2 item 4 (data integrity) + D-20260930-38",
+  "repo": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney",
+  "files_scanned": 48,
+  "bars_scanned": 76195,
+  "summary": {
+    "CN1_one_price_days": 7,
+    "CN2_limit_moves_ge_9p5pct": 175,
+    "CN3_tick_off_grid": 0,
+    "CN5_holiday_gaps": 0,
+    "T0_symbols_in_universe": 11,
+    "T1_symbols_in_universe": 37
+  },
+  "T0_symbols": [
+    "159920",
+    "159934",
+    "511010",
+    "511090",
+    "511260",
+    "513050",
+    "513100",
+    "513180",
+    "513500",
+    "513520",
+    "518880"
+  ],
+  "CN1_samples": [
+    {
+      "symbol": "159995",
+      "date": "2024-10-08",
+      "price": 1.069,
+      "prev_close": 0.972,
+      "pct": 9.98
+    },
+    {
+      "symbol": "512000",
+      "date": "2024-10-08",
+      "price": 1.202,
+      "prev_close": 1.093,
+      "pct": 9.97
+    },
+    {
+      "symbol": "512480",
+      "date": "2024-10-08",
+      "price": 0.873,
+      "prev_close": 0.794,
+      "pct": 9.95
+    },
+    {
+      "symbol": "512880",
+      "date": "2024-10-08",
+      "price": 1.218,
+      "prev_close": 1.107,
+      "pct": 10.03
+    },
+    {
+      "symbol": "513100",
+      "date": "2025-04-07",
+      "price": 1.272,
+      "prev_close": 1.413,
+      "pct": -9.98
+    },
+    {
+      "symbol": "513180",
+      "date": "2022-03-17",
+      "price": 0.531,
+      "prev_close": 0.483,
+      "pct": 9.94
+    },
+    {
+      "symbol": "515000",
+      "date": "2024-10-08",
+      "price": 1.332,
+      "prev_close": 1.211,
+      "pct": 9.99
+    }
+  ],
+  "CN2_samples": [
+    {
+      "symbol": "159901",
+      "date": "2020-02-03",
+      "pct": -9.99,
+      "high": 4.895,
+      "low": 4.701,
+      "one_price": false
+    },
+    {
+      "symbol": "159901",
+      "date": "2021-04-12",
+      "pct": -51.03,
+      "high": 3.726,
+      "low": 3.605,
+      "one_price": false
+    },
+    {
+      "symbol": "159901",
+      "date": "2024-09-30",
+      "pct": 10.01,
+      "high": 2.88,
+      "low": 2.687,
+      "one_price": false
+    },
+    {
+      "symbol": "159901",
+      "date": "2024-10-08",
+      "pct": 10.0,
+      "high": 3.168,
+      "low": 2.943,
+      "one_price": false
+    },
+    {
+      "symbol": "159915",
+      "date": "2024-09-27",
+      "pct": 10.32,
+      "high": 1.89,
+      "low": 1.713,
+      "one_price": false
+    },
+    {
+      "symbol": "159915",
+      "date": "2024-09-30",
+      "pct": 20.0,
+      "high": 2.232,
+      "low": 1.928,
+      "one_price": false
+    },
+    {
+      "symbol": "159915",
+      "date": "2024-10-08",
+      "pct": 19.98,
+      "high": 2.678,
+      "low": 2.29,
+      "one_price": false
+    },
+    {
+      "symbol": "159915",
+      "date": "2024-10-09",
+      "pct": -16.28,
+      "high": 2.478,
+      "low": 2.238,
+      "one_price": false
+    },
+    {
+      "symbol": "159915",
+      "date": "2025-04-07",
+      "pct": -12.43,
+      "high": 1.931,
+      "low": 1.721,
+      "one_price": false
+    },
+    {
+      "symbol": "159920",
+      "date": "2025-04-07",
+      "pct": -10.02,
+      "high": 1.358,
+      "low": 1.275,
+      "one_price": false
+    },
+    {
+      "symbol": "159928",
+      "date": "2020-02-03",
+      "pct": -10.01,
+      "high": 2.7,
+      "low": 2.616,
+      "one_price": false
+    },
+    {
+      "symbol": "159928",
+      "date": "2021-06-25",
+      "pct": -74.47,
+      "high": 1.262,
+      "low": 1.229,
+      "one_price": false
+    },
+    {
+      "symbol": "159928",
+      "date": "2024-09-26",
+      "pct": 9.94,
+      "high": 0.785,
+      "low": 0.712,
+      "one_price": false
+    },
+    {
+      "symbol": "159928",
+      "date": "2024-09-30",
+      "pct": 10.01,
+      "high": 0.934,
+      "low": 0.85,
+      "one_price": false
+    },
+    {
+      "symbol": "159928",
+      "date": "2024-10-09",
+      "pct": -9.94,
+      "high": 0.897,
+      "low": 0.834,
+      "one_price": false
+    },
+    {
+      "symbol": "159934",
+      "date": "2026-02-02",
+      "pct": -10.0,
+      "high": 10.702,
+      "low": 10.362,
+      "one_price": false
+    },
+    {
+      "symbol": "159934",
+      "date": "2026-03-23",
+      "pct": -9.51,
+      "high": 9.918,
+      "low": 9.301,
+      "one_price": false
+    },
+    {
+      "symbol": "159949",
+      "date": "2024-09-27",
+      "pct": 11.54,
+      "high": 0.852,
+      "low": 0.769,
+      "one_price": false
+    },
+    {
+      "symbol": "159949",
+      "date": "2024-09-30",
+      "pct": 19.98,
+      "high": 1.009,
+      "low": 0.871,
+      "one_price": false
+    },
+    {
+      "symbol": "159949",
+      "date": "2024-10-08",
+      "pct": 20.02,
+      "high": 1.211,
+      "low": 1.05,
+      "one_price": false
+    },
+    {
+      "symbol": "159949",
+      "date": "2024-10-09",
+      "pct": -15.52,
+      "high": 1.146,
+      "low": 1.021,
+      "one_price": false
+    },
+    {
+      "symbol": "159949",
+      "date": "2025-04-07",
+      "pct": -13.02,
+      "high": 0.86,
+      "low": 0.76,
+      "one_price": false
+    },
+    {
+      "symbol": "159992",
+      "date": "2024-02-06",
+      "pct": 10.0,
+      "high": 0.671,
+      "low": 0.601,
+      "one_price": false
+    },
+    {
+      "symbol": "159992",
+      "date": "2024-09-30",
+      "pct": 9.96,
+      "high": 0.762,
+      "low": 0.708,
+      "one_price": false
+    },
+    {
+      "symbol": "159992",
+      "date": "2024-10-08",
+      "pct": 9.97,
+      "high": 0.838,
+      "low": 0.79,
+      "one_price": false
+    },
+    {
+      "symbol": "159992",
+      "date": "2025-04-07",
+      "pct": -9.97,
+      "high": 0.735,
+      "low": 0.686,
+      "one_price": false
+    },
+    {
+      "symbol": "159995",
+      "date": "2020-07-06",
+      "pct": 10.0,
+      "high": 1.353,
+      "low": 1.251,
+      "one_price": false
+    },
+    {
+      "symbol": "159995",
+      "date": "2024-09-30",
+      "pct": 9.95,
+      "high": 0.972,
+      "low": 0.912,
+      "one_price": false
+    },
+    {
+      "symbol": "159995",
+      "date": "2024-10-08",
+      "pct": 9.98,
+      "high": 1.069,
+      "low": 1.069,
+      "one_price": true
+    },
+    {
+      "symbol": "159995",
+      "date": "2024-10-09",
+      "pct": 10.01,
+      "high": 1.176,
+      "low": 1.079,
+      "one_price": false
+    },
+    {
+      "symbol": "159995",
+      "date": "2024-10-18",
+      "pct": 9.98,
+      "high": 1.157,
+      "low": 1.048,
+      "one_price": false
+    },
+    {
+      "symbol": "159995",
+      "date": "2025-08-22",
+      "pct": 9.98,
+      "high": 1.543,
+      "low": 1.412,
+      "one_price": false
+    },
+    {
+      "symbol": "159995",
+      "date": "2026-07-07",
+      "pct": -50.12,
+      "high": 1.53,
+      "low": 1.464,
+      "one_price": false
+    },
+    {
+      "symbol": "159995",
+      "date": "2026-07-09",
+      "pct": 9.98,
+      "high": 1.642,
+      "low": 1.501,
+      "one_price": false
+    },
+    {
+      "symbol": "159995",
+      "date": "2026-07-21",
+      "pct": 10.03,
+      "high": 1.317,
+      "low": 1.14,
+      "one_price": false
+    },
+    {
+      "symbol": "159996",
+      "date": "2025-04-07",
+      "pct": -9.96,
+      "high": 1.277,
+      "low": 1.22,
+      "one_price": false
+    },
+    {
+      "symbol": "510310",
+      "date": "2020-02-03",
+      "pct": -9.78,
+      "high": 1.68,
+      "low": 1.602,
+      "one_price": false
+    },
+    {
+      "symbol": "510310",
+      "date": "2024-09-23",
+      "pct": 100.94,
+      "high": 3.232,
+      "low": 3.194,
+      "one_price": false
+    },
+    {
+      "symbol": "510310",
+      "date": "2024-09-30",
+      "pct": 10.01,
+      "high": 4.079,
+      "low": 3.8,
+      "one_price": false
+    },
+    {
+      "symbol": "510330",
+      "date": "2024-09-30",
+      "pct": 9.87,
+      "high": 4.325,
+      "low": 3.97,
+      "one_price": false
+    }
+  ],
+  "CN5_samples": null,
+  "worst_symbols": [
+    {
+      "symbol": "159901",
+      "bars": 1634,
+      "one_price_days": 0,
+      "limit_moves": 4,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": false
+    },
+    {
+      "symbol": "512480",
+      "bars": 1634,
+      "one_price_days": 1,
+      "limit_moves": 11,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": false
+    },
+    {
+      "symbol": "512660",
+      "bars": 1635,
+      "one_price_days": 0,
+      "limit_moves": 5,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": false
+    },
+    {
+      "symbol": "512690",
+      "bars": 1634,
+      "one_price_days": 0,
+      "limit_moves": 9,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": false
+    },
+    {
+      "symbol": "512710",
+      "bars": 1634,
+      "one_price_days": 0,
+      "limit_moves": 5,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": false
+    },
+    {
+      "symbol": "512720",
+      "bars": 1635,
+      "one_price_days": 0,
+      "limit_moves": 4,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": false
+    },
+    {
+      "symbol": "512800",
+      "bars": 1635,
+      "one_price_days": 0,
+      "limit_moves": 2,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": false
+    },
+    {
+      "symbol": "512880",
+      "bars": 1635,
+      "one_price_days": 1,
+      "limit_moves": 6,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": false
+    },
+    {
+      "symbol": "512980",
+      "bars": 1635,
+      "one_price_days": 0,
+      "limit_moves": 5,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": false
+    },
+    {
+      "symbol": "513050",
+      "bars": 1635,
+      "one_price_days": 0,
+      "limit_moves": 3,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": true
+    }
+  ],
+  "per_file": [
+    {
+      "symbol": "159901",
+      "bars": 1634,
+      "one_price_days": 0,
+      "limit_moves": 4,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": false
+    },
+    {
+      "symbol": "159915",
+      "bars": 1634,
+      "one_price_days": 0,
+      "limit_moves": 5,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": false
+    },
+    {
+      "symbol": "159919",
+      "bars": 1635,
+      "one_price_days": 0,
+      "limit_moves": 0,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": false
+    },
+    {
+      "symbol": "159920",
+      "bars": 1635,
+      "one_price_days": 0,
+      "limit_moves": 1,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": true
+    },
+    {
+      "symbol": "159928",
+      "bars": 1635,
+      "one_price_days": 0,
+      "limit_moves": 5,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": false
+    },
+    {
+      "symbol": "159934",
+      "bars": 1635,
+      "one_price_days": 0,
+      "limit_moves": 2,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": true
+    },
+    {
+      "symbol": "159949",
+      "bars": 1635,
+      "one_price_days": 0,
+      "limit_moves": 5,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": false
+    },
+    {
+      "symbol": "159980",
+      "bars": 1635,
+      "one_price_days": 0,
+      "limit_moves": 0,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": false
+    },
+    {
+      "symbol": "159985",
+      "bars": 1635,
+      "one_price_days": 0,
+      "limit_moves": 0,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": false
+    },
+    {
+      "symbol": "159992",
+      "bars": 1571,
+      "one_price_days": 0,
+      "limit_moves": 4,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": false
+    },
+    {
+      "symbol": "159995",
+      "bars": 1614,
+      "one_price_days": 1,
+      "limit_moves": 9,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": false
+    },
+    {
+      "symbol": "159996",
+      "bars": 1589,
+      "one_price_days": 0,
+      "limit_moves": 1,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": false
+    },
+    {
+      "symbol": "510050",
+      "bars": 1635,
+      "one_price_days": 0,
+      "limit_moves": 0,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": false
+    },
+    {
+      "symbol": "510300",
+      "bars": 1635,
+      "one_price_days": 0,
+      "limit_moves": 0,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": false
+    },
+    {
+      "symbol": "510310",
+      "bars": 1635,
+      "one_price_days": 0,
+      "limit_moves": 3,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": false
+    },
+    {
+      "symbol": "510330",
+      "bars": 1635,
+      "one_price_days": 0,
+      "limit_moves": 1,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": false
+    },
+    {
+      "symbol": "510500",
+      "bars": 1635,
+      "one_price_days": 0,
+      "limit_moves": 2,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": false
+    },
+    {
+      "symbol": "511010",
+      "bars": 1635,
+      "one_price_days": 0,
+      "limit_moves": 0,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": true
+    },
+    {
+      "symbol": "511090",
+      "bars": 801,
+      "one_price_days": 0,
+      "limit_moves": 0,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": true
+    },
+    {
+      "symbol": "511260",
+      "bars": 1635,
+      "one_price_days": 0,
+      "limit_moves": 0,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": true
+    },
+    {
+      "symbol": "512000",
+      "bars": 1635,
+      "one_price_days": 1,
+      "limit_moves": 8,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": false
+    },
+    {
+      "symbol": "512010",
+      "bars": 1634,
+      "one_price_days": 0,
+      "limit_moves": 4,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": false
+    },
+    {
+      "symbol": "512100",
+      "bars": 1634,
+      "one_price_days": 0,
+      "limit_moves": 4,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": false
+    },
+    {
+      "symbol": "512170",
+      "bars": 1634,
+      "one_price_days": 0,
+      "limit_moves": 4,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": false
+    },
+    {
+      "symbol": "512200",
+      "bars": 1635,
+      "one_price_days": 0,
+      "limit_moves": 8,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": false
+    },
+    {
+      "symbol": "512400",
+      "bars": 1635,
+      "one_price_days": 0,
+      "limit_moves": 5,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": false
+    },
+    {
+      "symbol": "512480",
+      "bars": 1634,
+      "one_price_days": 1,
+      "limit_moves": 11,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": false
+    },
+    {
+      "symbol": "512660",
+      "bars": 1635,
+      "one_price_days": 0,
+      "limit_moves": 5,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": false
+    },
+    {
+      "symbol": "512690",
+      "bars": 1634,
+      "one_price_days": 0,
+      "limit_moves": 9,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": false
+    },
+    {
+      "symbol": "512710",
+      "bars": 1634,
+      "one_price_days": 0,
+      "limit_moves": 5,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": false
+    },
+    {
+      "symbol": "512720",
+      "bars": 1635,
+      "one_price_days": 0,
+      "limit_moves": 4,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": false
+    },
+    {
+      "symbol": "512800",
+      "bars": 1635,
+      "one_price_days": 0,
+      "limit_moves": 2,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": false
+    },
+    {
+      "symbol": "512880",
+      "bars": 1635,
+      "one_price_days": 1,
+      "limit_moves": 6,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": false
+    },
+    {
+      "symbol": "512980",
+      "bars": 1635,
+      "one_price_days": 0,
+      "limit_moves": 5,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": false
+    },
+    {
+      "symbol": "513050",
+      "bars": 1635,
+      "one_price_days": 0,
+      "limit_moves": 3,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": true
+    },
+    {
+      "symbol": "513100",
+      "bars": 1634,
+      "one_price_days": 1,
+      "limit_moves": 3,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": true
+    },
+    {
+      "symbol": "513180",
+      "bars": 1300,
+      "one_price_days": 1,
+      "limit_moves": 5,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": true
+    },
+    {
+      "symbol": "513500",
+      "bars": 1634,
+      "one_price_days": 0,
+      "limit_moves": 3,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": true
+    },
+    {
+      "symbol": "513520",
+      "bars": 1635,
+      "one_price_days": 0,
+      "limit_moves": 0,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": true
+    },
+    {
+      "symbol": "515000",
+      "bars": 1635,
+      "one_price_days": 1,
+      "limit_moves": 5,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": false
+    },
+    {
+      "symbol": "515030",
+      "bars": 1597,
+      "one_price_days": 0,
+      "limit_moves": 4,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": false
+    },
+    {
+      "symbol": "515050",
+      "bars": 1635,
+      "one_price_days": 0,
+      "limit_moves": 8,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": false
+    },
+    {
+      "symbol": "515170",
+      "bars": 1385,
+      "one_price_days": 0,
+      "limit_moves": 4,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": false
+    },
+    {
+      "symbol": "515220",
+      "bars": 1599,
+      "one_price_days": 0,
+      "limit_moves": 1,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": false
+    },
+    {
+      "symbol": "515790",
+      "bars": 1402,
+      "one_price_days": 0,
+      "limit_moves": 5,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": false
+    },
+    {
+      "symbol": "518880",
+      "bars": 1635,
+      "one_price_days": 0,
+      "limit_moves": 2,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": true
+    },
+    {
+      "symbol": "588000",
+      "bars": 1426,
+      "one_price_days": 0,
+      "limit_moves": 5,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": false
+    },
+    {
+      "symbol": "588080",
+      "bars": 1426,
+      "one_price_days": 0,
+      "limit_moves": 5,
+      "tick_off_grid": 0,
+      "holiday_gaps": 0,
+      "is_t0": false
+    }
+  ],
+  "notes": [
+    "CN1 matters because at a limit-locked bar there is no counterparty: a buy fill at the limit-up price or a sell fill at the limit-down price is fiction. A close-vs-open look-ahead test cannot detect this; it is a domestic-market-specific untradeability trap.",
+    "CN4: an intraday (same-day exit) signal applied to a non-T0 symbol is untradeable under T+1 and must be rejected at preregistration.",
+    "This probe reports; it does not accuse. Every sample row is a date any reviewer can open in the CSV."
+  ]
+}
