@@ -16,6 +16,7 @@
     ├── domain/   线工作区 ──> BigDomain 产品仓（2026-09-23 开线）
     ├── life/     线工作区 ──> BigLife 产品仓（2026-09-23 开线·09-24 定名）
     ├── compute/  线工作区 ──> BigCompute 产品仓（2026-09-24 开线·商业化中枢司）
+    ├── estate/   线工作区 ──> BigHouse 产品仓（2026-09-30 开线·09-28 CEO 令补建）
     └── cph4/     CPH4 Labs 集团 AI 研究核心（横切层，非业务线，零产品代码）
 ```
 
@@ -62,6 +63,8 @@
 | **Domain** | **BigDomain（硅基域）** | **远端已接通**（`BigRain-11122/BigDomain.git`·2026-09-24 CEO 建库·remote 接线+首推毕） | active | **商业化子公司·2026-09-23 开线（CEO 全案令授权取名）：全权负责引流/共创/商业化**——运营公众共创元宙平台「硅基域」（用户一句话→AI 造策略/造游戏Demo/造视频·19.9 算力包·代币内循环·B 端入驻）；前台=BigDomain，中台=三司产能（BigMoney 回测引擎/Biggame 生产线/BigStream 发行），底座=FluxVerse world-events 同源驱动；蓝图=domain/BigDomain/BLUEPRINT.md |
 | **Life** | **BigLife（数字生命生产）** | **远端已接通**（`BigRain-11122/Biglife.git`·2026-09-24 CEO 建库·首推 main 毕） | active | **2026-09-23 CEO 令开线**（「专门生产超体元宇宙城市的所有居民…像别的子公司一样成立」·CEO 亲选新设第五子公司）+**2026-09-24 定名 BigLife**（CEO 委托决策令·T1 否决窗至 10-01）：超体宇宙城人口与人设资产唯一生产司——万人户籍库（census/·唯一性三查 PASS·QC 0 异常）+人口正典 docs/CODEX.md（三层居民模型诚实律·CEO 保留席）+硅基生命总纲 docs/SILICON-LIFE.md（12 体征+七律·本地算力律）+进化引擎（FluxVerse world 只读→本地 LLM→[锚]定律年轮）+BigLife-OSLoop 10min；服务面=FluxVerse 主客户+BigStream/BigDomain/Biggame 任务单引用（跨仓写禁令保持） |
 | **Compute** | **BigCompute（硅基算力）** | **远端已接通**（`BigRain-11122/BigCompute.git`·2026-09-24 CEO 建库·首推毕） | active | **2026-09-24 开线**（CEO 点名+委托令「自己科学决策」）：算力商业化引擎司——承载集团消耗的算力成本，通过与现实世界真实链接（抖音小店/直播 Phase 1）商业化消化成本并盈利；确保所有公司互相赋能产生经济价值；**首次按 cph4/venture.md SOP 走 P1-P3**（九件齐+OSLoop 日轮 22:43 首火）；**风控部+法务部随司设立**（CEO 令「权利第一」·风险台账=docs/risk-register.md）；CEO 方案与商业面四连批正典=compute/BigCompute/docs/plans/；边界=BigDomain 平台运营/BigStream 引流/本司成交与算力经济（P-42 转办 BigDomain 接线）；蓝图=compute/BigCompute/BLUEPRINT.md（v0.9 调研收敛中→v1.0）；**位阶=商业化中枢司**（CEO 令 09-24 ~13:15「商业化子公司的定位高于其他子公司」——商业面统辖+营收出口归口·非审批层·司内自治/跨仓写禁令/倾斜态不变） |
+
+| **Estate** | **BigHouse（地产）** | **本地仓已建**（`estate/BigHouse`·2026-09-30 P2 补单·remote 待 CEO 建库预接线） | onboarding | **2026-09-28 CEO 令开线（20:49 成立令+20:50 定位升华令·09-30 CEO 点名问责后补建）**：现实买房决策+硅基城虚拟地产双轮·升华=城市演化预言机（苏州吴中起步·99元/份买房报告·299/年认领数字邻居·先一区打透禁炒地）；30 天判据 DDL=2026-10-28（自用买房报告+城内真实小区+10 居民生活轨迹）；P3 九件+首火转委员会常务轮；蓝图=estate/BigHouse/BLUEPRINT.md |
 
 ## 3. 开线与收线（生命周期）
 
@@ -270,3 +273,4 @@
 - 2026-09-29: **Self-drive v2.2·本地批活供需对接设立+审查反思轮（C-20260929-02/03 委员会通道）**（CEO 令「决策委员会梳理高效利用本地机队算力的机制…」+「发起一轮从上至下的审查反思工作，包括委员会，确定的问题马上优化」·ledger P-20260929-02/-03·T1 否决窗至 10-06）：①self-drive.md 增 **§7 本地批活供需对接**（7/7 过会·全员附款随案生效）——GPU util 读侧消费+30% 唯一点名阈值+周报分机行/lane 文件常备 ≥2 本地可执行批（O-1855 单写者+O-1820 三验+可执行机档·违例限缩「有活不备」+亮牌免计）/商业内容护栏/自动派活毕业呈批制（bm-a 黑名单+非 CEO 机受控实弹+双侧证据）+判据 5 条回访 10-07；§2 阈值改制（70%/9G=方向性参考·nvidia-smi util=时占指标注记）；②§6 增第 5 条**台账写侧冲突检查钩子**（审查反思轮确定问题立即优化·D-20260927-05③ 悬置候选升格·双实证）——写前查冲突标记让路+commit 前查 staged 名单；③反思轮产物=cph4/reflection-journal.md 入条+R-20260929-review-topdown.md（「发现面强修复面弱」核心定谳）；接线=AI.md 自驱行。
 - 2026-09-29: **决策委员会常设化（C-20260929-03·CEO 令「决策委员会要每天复盘，然后迭代自己，成为真正的硅基城市发动机，顺便日常代管集团，只有ceo亲自发令，才凌驾委员会，其他都让委员会代管，所以要科学理性设立好机制」·七席 7/7·T1 否决窗至 10-06）**：`cph4/council.md` 升 **v2.0 §一.5 常设运转**——决策轮双班升格委员会常务轮（零新增节律/常驻/台账）+权限三分（CEO 凌驾面/保留域禁自修〔补列真金支出·使命变更·开线收线·司位阶变更·更严者准兜底〕/代管面=集团 L3 面）+每日复盘四问（复盘行落 reflection-journal 委员会班次行·台账行指针制）+自迭代闭环（迭代自修闸+核销只认独立证据）+叙事合规（发动机仅导语·T0 禁语转译门·对外禁服务承诺）；决策轮 mandate ⑤复盘步接线+decision-chain §5/§8 行+§4 代管面行+AI.md/cph4 README 接线；判据 5 条回访 10-07 治理日（与 C-20260929-01/02 三案同窗）。
 - 2026-09-30: **secret-scan 彩排夹具行级豁免（夜轮 T2·AI 立法·否决窗 7 天至 10-07）**：`Tools/secret-scan.ps1` 增行级已知夹具跳过——BigDomain releasegate 彩排 mock（`src/sandbox/releasegate/rehearse.py`·commit e9bb677）钥体自带字面 `rehearsal` 标记，连续两夜被 private-key-blk 模式 P0 命中（09-30 夜班 1 命中+午班 3 命中含日志自引用回声）；根因=allowAnchors 精确匹配豁免不了钥头类模式（匹配值恒为 header 串）。修法=命中行含 `rehearsal` 标记即跳过（真钥块同行不含该标记·与 AKIAIOSFODNN7EXAMPLE 例同族）；回归对=secret-scan.Tests.ps1 增 It 一条（镜像 allowAnchors 测试式）。证据=今午 secret-scan 报告 20260930-1507（3 P0 全 rehearsal 假钥）+昨夜班夜报定谳段。
+- 2026-09-30: **开线 Estate/BigHouse 补单**（CEO 令 2026-09-28 20:49 成立令+20:50 定位升华令——当晚以「[CEO决策]」自由文本块落台账、不匹配登记簿 `^\| 09-` 表行解析面=机器管线结构性盲区〔09-29 shadow-backfill 同盲·BigCompute 语义轮可见故其 M17 一直 blocked 在等建制〕·09-30 CEO 点名问责后按 §3 五步补建）：BRAND §8 locked（CEO 点名）+estate/ 线 README+本地仓 estate/BigHouse（gitignore 隔离行）+§2 登记簿 onboarding+architecture 线表+AI.md v1.7；orders.md 双令标准表行化+registry 补录 O-2026-0930-001/002；P3 九件+首火两件（苏州吴中买房报告骨架+城内真实小区地块）转办今晚委员会常务轮；30 天判据 DDL=2026-10-28；**教训入律=CEO 令一律标准表行落账（自由文本块=登记簿盲区）**。
