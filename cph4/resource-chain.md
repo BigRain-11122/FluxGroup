@@ -193,7 +193,7 @@
 
 | 级 | 定义 | 实况例证（2026-09-23 首测基线） | 处置权 |
 |---|---|---|---|
-| **R1 活账本** | 不可再生、不可替代 | 五仓 git 全史、集团/公司台账、登记簿、三级 CODELY.md、BRAND/RULES/正典文档、密钥身份（永不清+刻意不云备份，FLEET-OPS §4 第三行） | **永禁清理**；唯一例外=CEO 明令 |
+| **R1 活账本** | 不可再生、不可替代 | 五仓 git 全史、集团/公司台账、登记簿、三级 CODELY.md、BRAND/RULES/正典文档、密钥身份（永不清+刻意不云备份，FLEET-OPS §4 第三行）+**48 包 Synty 资产库两位**（`FluxVerse/City3D/Assets/lowpoly` 1.2GB/48,992 件在役副本+`MiniGame/projects/P3D_Spike` 中台位——L1 许可不可再生·O-20260929-033 坚决清理令禁清面·2026-09-30 审计止血批③登记） | **永禁清理**；唯一例外=CEO 明令 |
 | **R2 源资产** | 不可再生、可归档 | MiniGame Art Assets 20.5GB+Font Assets 473MB、Money02（bm-b 7.7GB·本机残 1.2GB 在途 T-20260923-01）、BigStream 素材（增长中） | **归档优先**：先上云桶（=备份位，FLEET-OPS §4 第二行）→ manifest 双侧判据（TRANSFER.md §0.3）→ 本地才可清；在途任务引用中禁动 |
 | **R3 可再生缓存** | 可再生产物 | Tuanjie Library/Temp/Obj/Builds、构建产物、回测缓存、`__pycache__`、超期 auto-saves/clipboard/日志 | **定期清**：各司 OS 轮自领执行（必过隔离区）；周报可见 |
 | **R4 垃圾** | 确证无价值 | 乱码孪生目录（evolution 台账 P-2026-09-23-03 转办中）、坏事件隔离区过期内容、崩溃残留、`.tmp/.bak` 孤儿 | **随轮清**：必过隔离区；发现即按归属转办 |

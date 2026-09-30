@@ -30,7 +30,7 @@
 - **城即超体**：脑塔（北外滩白玉兰）=集团大脑与中枢；黄浦江=三流数据道（数据青/资金金/流量品红）；陆家嘴三城=四肢（上海中心扭塔=QUANT·明珠双球=MEDIA·方塔群=GAME）；街道机器人=机队 AI；感知探针=神经系统；git 全史=记忆。
 - **AI 行为剧场**（第一需求令）：城里每个动画必须对应一次真实 AI 行为（commit=光点过江、令=光脉冲、认领=机器人出动），**禁装饰性动画**。
 - **驾驶舱**：看（L0 城市全景）→ 查（L1 建筑内景=三司面板）→ 令（L2 台账留痕可审计）。
-- **美术正典（3D polygon 定谳·CEO 令 09-28 3D 解禁→09-29「硅基城市抛弃2D像素风格，转型3D polygon」）**：世界层=lowpoly 3D polygon（Synty 48 包资产库+自研 SiliconToon 卡通渲染·URP 原生·日夜循环真实北京时间+真天气；工程=`gaming/FluxVerse/City3D`）；2D 像素/日漫版=存史对照不再新产；操作层 UI 壳=GUIAgent 展示风（水晶质感/月光调色）不变。正典族=`gaming/FluxVerse/docs/lowpoly3d-*.md` 四件+技能 `lowpoly-city-3d`（四专家）。
+- **美术正典（3D polygon 定谳·CEO 令 09-28 3D 解禁→09-29「硅基城市抛弃2D像素风格，转型3D polygon」）**：世界层=lowpoly 3D polygon（Synty 48 包资产库+自研 SiliconToon 卡通渲染·URP 原生·日夜循环真实北京时间+真天气；工程=`gaming/FluxVerse/City3D`）；2D 像素/日漫版=存史对照不再新产；操作层 UI 壳=GUIAgent 展示风（水晶质感/月光调色）不变。正典族=`gaming/FluxVerse/docs/lowpoly3d-*.md` 九件+技能 `lowpoly-city-3d`（四专家）。
 - **里程碑**：M0 设定✓ → M1 立骨（引擎工程·建城中）→ M2 神经接通（事件驱动全城活）→ M3 升格真孪生（令行闭环）→ M4 无处不在 → M5 栖居。
 - **数据面**：`world/world-state.json`（快照）+ `world/world-events.jsonl`（事件流·按日归档）——AI 零改造被动直播，引擎只读轮询 10s。
 
