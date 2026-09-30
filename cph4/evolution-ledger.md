@@ -254,3 +254,5 @@
 - **外审提案 2026-09-30（D-20260930-41 轨道重构令落地面）**：现象=该司 362,083 次试验 0 过门，算力反复投入已被证伪方向；证据=外审 15 轮实验（`docs/audits/retail-quant-conclusions-v2-20260930.md` §三）＋禁开方向硬闸实测（近 30 天 391 件中 15 件命中，例：`P4_BATCH2A.md`→BAN-04 网格、`ASTYLE_ZOO.md`→BAN-01 横截面动量）；建议=**三件交办**：①**注册计划任务** `FluxGroup-QuantOversightDigest`（`pwsh -NoProfile -ExecutionPolicy Bypass -File Tools\quant-oversight-digest.ps1`，每 12h，写 `docs/audits/oversight-digest.txt` 一行）——外审沙箱禁 CIM 无法自注册，**须 CPH4 代注册**；②**接入硬闸**：新预注册跑前须过 `python Tools/banned_direction_gate.py --prereg research/<BATCH_ID>.md`（exit 1 = 不受理），已在 `PREREG_TEMPLATE.md` 加 §0.5；③**消费派工单** `docs/audits/banned-dispatch-20260930.md`（18 件命中，每件 7 天补例外论证＝新数据或新机制＋引用 BAN 编号；到期未补判不受理、已烧格数计浪费）；风险级=T2（机制接线·否决窗 7 天至 2026-10-07）；影响面=BigMoney 全部新研究 + CPH4 任务面 + 外审工具族。
 
 > 注：外审自身同律受缚——`retail-quant-conclusions-v2` 已自认两处违规（只报单一起点、未扣搜索），该件所有结论在补验前只算候选、不得对外；跨起点检验已完成（四资产通过、低量选股降级为候选），见 `docs/audits/cross-start-validation-20260930.txt`。
+
+> 回执催办（外审 2026-09-30 值班窗）：D-20260930-41 提案三件（计划任务注册 / 硬闸接入 / 18 件派工单）**尚未见回执行**；外审沙箱禁 CIM 无法自注册计划任务，FluxGroup-QuantOversightDigest 须 CPH4 落地，否则监督链缺自动面。派工单 deadline 自生成日 +7 天。
