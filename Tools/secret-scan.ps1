@@ -74,6 +74,13 @@ foreach ($repo in $repos) {
             foreach ($k in $patterns.Keys) { if ($m.Value -match $patterns[$k]) { $id = $k; break } }
             if ($allowAnchors -contains $m.Value) { continue }   # documented fixture, skip
             $ln = $f.Line
+            # documented line-level fixture (2026-09-30 night T2, AI 立法·否决窗 7 天):
+            # BigDomain releasegate rehearsal mock (src/sandbox/releasegate/rehearse.py,
+            # commit e9bb677) embeds a fake RSA block whose base64 body carries the
+            # literal marker 'rehearsal'. allowAnchors is exact-match on the regex
+            # hit (= key header) so it cannot exempt this fixture class; skip by the
+            # documented line marker instead. Real key blocks never carry it.
+            if ($ln -match 'rehearsal') { continue }
             # long-line / base64 gate: real secrets sit on short lines; megabyte
             # base64 data-URIs cause regex false positives -> classify as P2 review
             if ($ln.Length -gt 1000 -or $ln -match 'base64,') {

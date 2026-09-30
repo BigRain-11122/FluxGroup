@@ -54,4 +54,9 @@ Describe 'secret-scan pattern table' {
     It 'allowAnchors keeps the documented AWS fixture' {
         $script:Raw | Should -Match 'AKIAIOSFODNN7EXAMPLE'
     }
+    It 'rehearsal line-level fixture skip is in place (BigDomain releasegate mock)' {
+        # 2026-09-30 night T2: fake RSA block with 'rehearsal' marker must be
+        # exempted at line level (allowAnchors cannot exempt key headers).
+        $script:Raw | Should -Match "match 'rehearsal'"
+    }
 }
