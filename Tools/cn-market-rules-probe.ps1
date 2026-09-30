@@ -25,6 +25,20 @@ if ([string]::IsNullOrWhiteSpace($Out))  { $Out  = Join-Path $Repo 'results\cn-m
 $daily = Join-Path $Repo 'data\daily'
 $t0 = @('511260','511090','511010','518880','159934','513100','513500','513050','513180','159920','513520','511880','511990')
 
+# ---- board router (instrument-rules-registry v1.0 section 1) ----
+# Returns @{ board = <name>; limit = <decimal fraction> } for a 6-digit code.
+# Stock panel lives on bm-b (CENSUS_FUSION_S2_PREREG.md:105-106); when absent the
+# caller must report DATA_GAP rather than assume.
+function Get-Board([string]$code) {
+  if ($code -match '^60')    { return @{ board='sh_main';   limit=0.10 } }
+  if ($code -match '^00')    { return @{ board='sz_main';   limit=0.10 } }
+  if ($code -match '^30')    { return @{ board='chinext';   limit=0.20 } }
+  if ($code -match '^688')   { return @{ board='star';      limit=0.20 } }
+  if ($code -match '^(8|43)'){ return @{ board='bse';       limit=0.30 } }
+  if ($code -match '^5|^159'){ return @{ board='etf';       limit=0.10 } }
+  return @{ board='unknown'; limit=0.10 }
+}
+
 $perFile = New-Object System.Collections.ArrayList
 $onePriced = New-Object System.Collections.ArrayList
 $limitMoves = New-Object System.Collections.ArrayList
@@ -68,12 +82,16 @@ foreach ($f in $files) {
       if ($onePriced.Count -lt 40) { [void]$onePriced.Add([ordered]@{ symbol=$code; date=$d; price=$vv; prev_close=$prevClose; pct=[math]::Round(($vv-$prevClose)/$prevClose*100,2) }) }
     }
 
-    # CN2 limit move vs board band (ETF 10%)
+    # CN2 board-aware limit move: threshold = the board's own band minus a small epsilon,
+    # never a blanket 9.5%. A ChiNext name at 15% is NOT a limit day; a main-board name at
+    # 9.9% is. Getting this wrong is how a stock backtest invents fills (CN-C4).
+    $brd = Get-Board $code
     if ($null -ne $prevClose -and $prevClose -gt 0) {
       $chg = ($vv - $prevClose) / $prevClose
-      if ([math]::Abs($chg) -ge 0.095) {
+      $edge = $brd.limit - 0.005
+      if ([math]::Abs($chg) -ge $edge) {
         $lm++
-        if ($limitMoves.Count -lt 40) { [void]$limitMoves.Add([ordered]@{ symbol=$code; date=$d; pct=[math]::Round($chg*100,2); high=$hh; low=$ll; one_price=($hh -eq $ll) }) }
+        if ($limitMoves.Count -lt 40) { [void]$limitMoves.Add([ordered]@{ symbol=$code; board=$brd.board; band=$brd.limit; date=$d; pct=[math]::Round($chg*100,2); high=$hh; low=$ll; one_price=($hh -eq $ll) }) }
       }
     }
 
@@ -136,7 +154,7 @@ if (-not (Test-Path $dir)) { New-Item -ItemType Directory -Path $dir -Force | Ou
 Write-Output ('cn-market-rules-probe v1.0  ' + $report.generated_utc)
 Write-Output ('files=' + $perFile.Count + '  bars=' + $sumBars)
 Write-Output ('CN1 one-price days            = ' + $sumOne)
-Write-Output ('CN2 limit moves (>=9.5%)      = ' + $sumLim)
+Write-Output ('CN2 limit moves (board-aware) = ' + $sumLim)
 Write-Output ('CN3 tick off grid (0.001)     = ' + $sumTick)
 Write-Output ('CN5 holiday gaps (>12 days)   = ' + $sumGap)
 Write-Output ('T0 symbols in universe        = ' + $t0InUniverse.Count + ' / T1 = ' + $t1InUniverse.Count)
