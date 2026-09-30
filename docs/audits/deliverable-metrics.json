@@ -1,5 +1,5 @@
 {
-  "generated_utc": "2026-09-30T04:30:38Z",
+  "generated_utc": "2026-09-30T04:54:23Z",
   "probe": "deliverable-probe.ps1 v1.1 (XL-7)",
   "law_ref": "D-20260930-06 XL-7 / docs/audits/group-wide-audit-improvement-list-20260930.md",
   "engine": "7.6.6",
@@ -20,9 +20,9 @@
         "docs\\status-export.json"
       ],
       "commits": {
-        "commits_48h": 558,
+        "commits_48h": 562,
         "overhead_48h": 164,
-        "overhead_pct": 29.4
+        "overhead_pct": 29.2
       }
     },
     {
@@ -65,9 +65,9 @@
       "negative_markers": 0,
       "evidence_scanned": [],
       "commits": {
-        "commits_48h": 639,
-        "overhead_48h": 520,
-        "overhead_pct": 81.4
+        "commits_48h": 643,
+        "overhead_48h": 523,
+        "overhead_pct": 81.3
       }
     },
     {
@@ -89,9 +89,9 @@
         "output\\reports\\weekly-2026-W40.md"
       ],
       "commits": {
-        "commits_48h": 90,
+        "commits_48h": 91,
         "overhead_48h": 43,
-        "overhead_pct": 47.8
+        "overhead_pct": 47.3
       }
     },
     {
@@ -107,9 +107,9 @@
         "docs\\status-export.json"
       ],
       "commits": {
-        "commits_48h": 144,
-        "overhead_48h": 120,
-        "overhead_pct": 83.3
+        "commits_48h": 145,
+        "overhead_48h": 121,
+        "overhead_pct": 83.4
       }
     },
     {
@@ -125,7 +125,7 @@
         "docs\\status-export.json"
       ],
       "commits": {
-        "commits_48h": 568,
+        "commits_48h": 573,
         "overhead_48h": 7,
         "overhead_pct": 1.2
       }
@@ -138,15 +138,15 @@
       "front_samples": [],
       "published_items": 0,
       "real_receipts": 0,
-      "negative_markers": 2,
+      "negative_markers": 1,
       "evidence_scanned": [
         "docs\\status-export.json",
         "state\\month-end-202609.json"
       ],
       "commits": {
-        "commits_48h": 35,
-        "overhead_48h": 4,
-        "overhead_pct": 11.4
+        "commits_48h": 37,
+        "overhead_48h": 5,
+        "overhead_pct": 13.5
       }
     }
   ],
