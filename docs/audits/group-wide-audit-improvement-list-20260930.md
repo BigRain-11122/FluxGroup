@@ -138,7 +138,8 @@ BigDomain 83%、BigMoney 81% 的过程 commit 里，主体是快照再生、车�
 | BigStream | XL-14 | ⏳ 未见回执 | 派工后 0 提交（其末次 11:52） |
 | BigDomain | XL-16 | ⏳ 未见回执 | 派工后 0 提交（其末次 12:08） |
 | BigCompute | XL-2（物理件单）/未含 XL 票 | ⏳ 未见回执 | 派工后 0 提交（其末次 12:22） |
-| Biggame / FluxVerse | XL-13 / XL-18 | ⏳ 待验 | 集团层令，需各自轮领取 |
+| **BigCompute** | XL-8（轮次转换率闸·产品优先律计量） | **✅ 已承接（12 分钟·且超出派工范围）** | commit `2dfefd9` 12:35「T33/BC-P-24 **产品优先律轮计分器毕**：`round_score.py`（git log 变更集 2/1/0 机械分类＋24h 空转判负点名面·selftest **22/22**＋真跑 PRODUCT-24h max=2 n=23 n2=16 n1=0 n0=7）」——**XL-8 的计量面被兄弟司先实现了**（外审只提判据，它交了工具） |
+| Biggame / FluxVerse | XL-13 / XL-18 | **❌ 派工未投递（结构性断链·已立 D-20260930-11）** | 两司轮 prompt/说明书**均无集团决策读取行**：MiniGame `tools/` 9 个 prompt ＋`MASTER总控与开发协议.md` 全部零命中；FluxVerse `Tools/tick/mandate.txt` 零命中。其反馈队列内集团令为**人工抄录**（`AI反馈队列.md:126`）。对照五司均含读取行→BigLife 7 分钟 ack、BigCompute 12 分钟出工具。**修法已派：各加一行读取步·验收窗 10-02 12:00** |
 
 ### 外审自身的二次校准（第二轮·D-20260930-10）
 
