@@ -31,7 +31,7 @@ TIGHT = {
 }
 # Negation guard: "do not / already falsified / forbidden" in the preceding window means
 # the text is DECLARING the direction avoided, not claiming it.
-NEG = re.compile(r"(不做|禁止|已否证|已判负|不采用|never|do not|forbidden|已收线诚实负)")
+NEG = re.compile(r"(不做|禁止|已否证|已判负|不采用|never|do not|forbidden)")
 EXC = r"{id}[\s\S]{{0,400}}?(new_data|new_mechanism|new data|new mechanism|新数据|新机制)"
 
 
@@ -47,7 +47,7 @@ def check_text(text, reg):
         m = re.search(pat, text, re.I)
         if not m:
             continue
-        prefix = text[max(0, m.start() - 30):m.start()]
+        prefix = text[max(0, m.start() - 12):m.start()]
         if NEG.search(prefix):
             continue
         has_exc = re.search(EXC.format(id=re.escape(d["id"])), text, re.I) is not None
@@ -79,7 +79,7 @@ def main():
         cases = [
             ("quant/bigmoney/research/EXIT_OVERLAY_P1.md", "REJECT", "real grid-trading engine claim"),
             ("quant/bigmoney/research/FACTOR_BLEND.md", "REJECT", "real cross-sectional momentum claim"),
-            ("quant/bigmoney/research/STRATEGY_SYSTEM_V3.md", "ADMIT", "declares 'no intraday trading'"),
+            ("quant/bigmoney/research/STRATEGY_SYSTEM_V3.md", "REJECT", "strategy table lists cross-sectional momentum as candidate E5"),
         ]
         ok = True
         for rel, want, why in cases:
