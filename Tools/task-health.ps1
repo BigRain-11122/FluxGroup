@@ -12,7 +12,10 @@ param(
     [string[]]$DesignedStale = @('MiniGameBoardForge'),
     # deliberately-disabled tasks (D-20260928-01 re-enable verdict: CEO stop-order keepdowns,
     # U175 hibernate, 09-24 legacy MiniGame-domain disables): DISABLED is E3 register-only, never auto-heal on
-    [string[]]$KnownDisabled = @('MiniGameBoardForge', 'MiniGameOllamaServe', 'MiniGamePopupWitness', 'FluxVerse-DevLoop', 'Bigmoney-IntradayMarks')
+    # BigLife-OSLoop added 2026-09-30: CEO order 09-30 13:38 stop-babymaking freeze (48h, lift criterion =
+    # 6h zero new census ids; committee re-enable review due 2026-10-02 ~13:38). Mis-enable incident
+    # 2026-09-30 15:07 round (rolled back in 5min) - this entry prevents recurrence by night rounds.
+    [string[]]$KnownDisabled = @('MiniGameBoardForge', 'MiniGameOllamaServe', 'MiniGamePopupWitness', 'FluxVerse-DevLoop', 'Bigmoney-IntradayMarks', 'BigLife-OSLoop')
 )
 
 $ErrorActionPreference = 'Continue'
