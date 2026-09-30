@@ -28,7 +28,20 @@ $suspects = [ordered]@{
     'win-temp'          = 'WINTEMP'
     'minigame-git'      = 'gaming\MiniGame\.git'
     'minigame-projects' = 'gaming\MiniGame\projects'
+    'city3d'            = 'gaming\FluxVerse\City3D'
     'media'             = 'media'
+}
+Write-Output '--- ledger growth face (bytes·guard-round trend lines)'
+foreach ($f in @('docs\orders.md', 'docs\decisions.md', 'cph4\evolution-ledger.md', 'gaming\CODELY.md', 'quant\CODELY.md')) {
+    $p2 = Join-Path $root $f
+    if (Test-Path $p2) { Write-Output ($f + ' = ' + (Get-Item $p2).Length + 'B') }
+}
+Write-Output '--- repo pack face (size-pack·GitHub ~5GB guidance per repo)'
+foreach ($r in @('gaming\MiniGame', 'quant\bigmoney', 'media\BigStream', 'life\BigLife', 'domain\BigDomain', 'gaming\FluxVerse')) {
+    try {
+        $v = (& git -C (Join-Path $root ($r -replace '/', '\')) count-objects -vH 2>$null | Select-String '^size-pack:').Line -replace '^size-pack: ', ''
+        if ($v) { Write-Output ($r + ' = ' + $v) }
+    } catch { }
 }
 foreach ($k in @($suspects.Keys)) {
     $v = $suspects[$k]
