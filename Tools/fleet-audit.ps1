@@ -109,7 +109,8 @@ if (Test-Path $bmDir) {
         $h = $pair[0]; $hSrc = $pair[1]
         if ($null -eq $h) { return }
         $ramPct = '-'
-        if ($h.free_ram_gb -ne $null -and $h.total_ram_gb -ne $null) {
+        # guard total_ram_gb=0 (bm-b heartbeat field defect 2026-10-01 night round; honesty law: stay '-' not invented pct)
+        if ($h.free_ram_gb -ne $null -and $h.total_ram_gb -ne $null -and [double]$h.total_ram_gb -gt 0) {
             $ramPct = [string][Math]::Round(100.0 * $h.free_ram_gb / $h.total_ram_gb, 0)
         }
         $vram = '-'
