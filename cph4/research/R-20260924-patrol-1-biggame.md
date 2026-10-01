@@ -60,7 +60,7 @@ remote=git@github.com:BigRain-11122/MiniGame.git ✓·ls-remote 连通实测成�
 
 ## §4 台账与决策轮接线 — 🟡 台账活·接线三缺口（确认+待证）
 
-U 号台账面：Design/configs/GLOBAL/用户限制登记簿.md=**242 行·最新 U178**（2026-09-24 周期性自审律）✓ 活且当日新鲜。HQ-FEEDBACK.md：**Biggame 缺失证实**（F-2·五兄弟司全有）。P-32 上报步/审核步：章程/mandate 零命中=回执未落（F-7·窗内）。P-35/36 层位声明：零命中=回执未落（F-7；decision.md L88 已注 MiniGame 十一部门+专家池「引用即收口」候选·声明行仍缺）。P-13：orders_bg 探针未接线·唯一面确权声明未见（F-9·登记簿为事实台账）。
+U 号台账面：Design/configs/GLOBAL/正典/用户限制登记簿.md=**242 行·最新 U178**（2026-09-24 周期性自审律）✓ 活且当日新鲜。HQ-FEEDBACK.md：**Biggame 缺失证实**（F-2·五兄弟司全有）。P-32 上报步/审核步：章程/mandate 零命中=回执未落（F-7·窗内）。P-35/36 层位声明：零命中=回执未落（F-7；decision.md L88 已注 MiniGame 十一部门+专家池「引用即收口」候选·声明行仍缺）。P-13：orders_bg 探针未接线·唯一面确权声明未见（F-9·登记簿为事实台账）。
 
 ## §5 工具链门禁 — 🟢 四门全在位（确认）
 
