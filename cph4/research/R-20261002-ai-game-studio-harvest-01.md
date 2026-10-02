@@ -41,3 +41,27 @@
 - 防线二候选：①CCGS「49/74」计数=自述+文件数双源已交叉 ✓（可注销）②unity-mcp「268 tools」旧自述 vs 现版「347/80/269」=README 现版为准（候选留证）。
 
 - 更新记录：T0 gh api 三路检索 → T1 头部直读 6 仓 → T2 CCGS 深挖（README+contents+license）→ T3 unity-mcp 深挖（README+LICENSE）→ T4 参照源克隆在位 → 终稿（≤60 行）。
+
+## ⑥ CCGS 择固化启用清单（2026-10-02 批 2·CEO 续令「全面调研。有适配的启用」·P-2026-10-02-07·§④ 转办行本窗落地）
+
+**新鲜面补扫勘误（gh api 实测 2026-10-02 22:3x）**：①**unity-mcp 主收编换血**=CoplayDev/unity-mcp **14,655★MIT**（09-30 活跃）——§③ AnkleBreaker 488★ 署名型候选**淘汰**（署名硬条款+星量级全面被超），POC 候选改录 CoplayDev（MIT 直用·A 机 City3D 试点下窗）；②gamedev-skills/awesome-gamedev-agent-skills 1,283★Apache=技能聚合清单仓在册（skills/ 目录+router 结构·后续技能源位）；③aldegad/sprite-gen 2,242★Apache（10-02 当日推）/scenario-labs/skills 829★MIT/CoderGamester/mcp-unity 1,919★MIT/IvanMurzak/Unity-MCP 4,375★Apache=参照族留痕；④letmeow/spark-arc-studio AGPL-3.0=许可门不入。
+
+**CCGS 库内分型定谳（依赖扫描实测）**：74 skill=70 件深度绑 CCGS 运行时（yaml-helper.sh resolve_config/Agent spawn/斜杠命令编排/.claude/docs 配置面）→**不装留参照**（编排骨架思想=team-* 9 件多 agent 协同范式已在 §② 录）；4 件 hook-free（asset-audit/estimate/scope-check/start）择 3 直装——start=CCGS 模板自绑定引导件跳过。
+
+**启用清单（11 件·装 C:\Users\Dasheng\.codely-cli\skills\·MIT © 2026 Donchitos·CCGS-NOTICE.md 署名）**：
+
+| # | 技能 | 源型 | 价值面 |
+|---|---|---|---|
+| 1 | asset-audit | skill·hook-free | 资产审计（尺寸预算/孤儿检测/NOT ASSESSED 反编造律）→Biggame 五闸+City3D 资产面 |
+| 2 | scope-check | skill·hook-free | 范围蔓延检查（净变更分档+NOT ASSESSED 反假 PASS 律）→承建链纪律 |
+| 3 | estimate | skill·hook-free | 三档估算+置信级+反静默加垫 |
+| 4 | unity-specialist | agent→技能 | Unity 角色协作面→City3D 技能增补（P-06 择固化清单兑现） |
+| 5 | unity-shader-specialist | agent→技能 | Shader/VFX/管线角色面 |
+| 6 | systems-designer | agent→技能 | 系统设计（CitySim 仿真面直配） |
+| 7 | game-designer | agent→技能 | 游戏设计角色面 |
+| 8 | economy-designer | agent→技能 | 游戏经济（硅基城经济体系储备） |
+| 9 | technical-artist | agent→技能 | 美术↔工程桥接 |
+| 10 | performance-analyst | agent→技能 | 性能分析角色面→Biggame 闸链 |
+| 11 | qa-lead | agent→技能 | QA 策略/回归/发布质量门→Biggame 闸链证据面（P-06 兑现） |
+
+适配法=frontmatter 裁 Claude-Code 专键（tools/model/maxTurns/allowed-tools）保 name+description+正文原文+来源注记（工具映射：AskUserQuestion→ask_user/Bash→run_shell_command/Agent→task/job/斜杠命令→对应工作流）；UTF-8 字节面验证过；**技能发现=次会话生效**（本会话发现列表会话初冻结=机制面·activate_skill 实测确认）。未装面=team-* 编排 9 件+hooks 12 件+规则 13 件=CCGS 运行时绑定族，参照库 .tools\ccgs-reference 全量在位随时可查。
