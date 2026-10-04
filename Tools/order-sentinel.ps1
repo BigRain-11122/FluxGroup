@@ -87,4 +87,12 @@ try {
       Set-Content -Path $LogF -Value $entry -Encoding UTF8
     }
   }
+  # v1.3 hook (CEO order 2026-10-04): fleet-wide poke so other tailnet nodes pull
+  # immediately (signals only; git stays the sole data channel). Fail-soft.
+  if ($fired.Count -gt 0) {
+    try {
+      $fd = Join-Path $Root 'Tools\fleet-dispatch.ps1'
+      if (Test-Path $fd) { & $fd -Root $Root -Reason 'order-sentinel' -Quiet | Out-Null }
+    } catch { }
+  }
 } finally { Remove-Item $Lock -Force -ErrorAction SilentlyContinue }
