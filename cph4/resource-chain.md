@@ -414,6 +414,29 @@
 #### Changelog
 - 2026-09-25: initial v1.0（CEO 令 U205·C 机首宿主：charter+watch 工具+OS 任务+看板注记契约）。
 
+## §六 CEO 用机让路律（机队级最高机制·2026-10-06 立法）
+
+> **溯源**：CEO 最高命令 2026-10-06 ~20:5x「CEO在哪台机器说工作或者游戏，就把那台机器任务暂停，算力资源腾出来给ceo，但机队其他机器正常全力运转，ceo说全面开工，所有的都开始全力运转」——点名决策委员会听令梳理全流程成最高机制；委员会案 C-20261006-01（七席过会 PASS·表决记录在案）。
+> **定位**：机队算力让路的唯一顶层法源——本件管「哪台机器让路+让什么+怎么复原」；单机执行正典=各机 `<Fluxgroup 根>\.codely-cli\machine-state.ps1`（便携模板+配套 `gamewin_cron_suspend.py`＝`cph4/fleet/machine-state-kit/`·git 分发）；C 机 v2 已实测在役（2026-10-06 暂停窗全静默三面复验）。
+
+### §1 触发词（常设·最高优先级让路面·U060 同族）
+1. **「我要打游戏」/「我要工作」**＝听到触发词的那台机器**立即 pause**：停本机大模型（Ollama+连带清 llama-server 子进程）＋停本机 GPU 生产任务＋本机 cron 班组停摆（备份复原制）＋toast 静默闸——算力资源腾给 CEO 亲自使用；各机交互会话听到即直接执行勿再问。
+2. 歧义判据：「我要工作」＝CEO 亲自用机＝pause；派活语义（「你去把 X 干了」）不触发。
+3. **「全面开工」**＝说令机立即 resume＋写 fleet O 令（全员 resume 节）广播→其他机循环班 ≤10min 扫令各自 resume→**全机队全力运转**；恢复复验=进程面无大模型残留＋CRON: active＋任务 Enabled。
+
+### §2 机器无关律
+1. 触发词在哪台机被听到＝只那台机执行；**其他机器不受任何影响照常全力运转**（bm 产线/心跳/簿记全照跑）。
+2. pause 面=本机大模型卸载＋本机 GPU 生产任务＋本机 cron 班组；EngineTick/值守簿记面保留（隐藏 CPU 轻量）。
+3. **resume 测试纪律**：任何 resume 验证后必须同窗回跑 pause（10-06 实证坑：resume 测试遗留 idle ollama serve 被二次申斥抓出）。
+
+### §3 部署律
+1. 正典套件=`cph4/fleet/machine-state-kit/`（machine-state.template.ps1·$PSScriptRoot 便携＋gamewin_cron_suspend.py）；各机复制到本机 `<Fluxgroup 根>\.codely-cli\` 后本地化三处=①GPU 生产任务名清单（各机自报）②大模型进程族+常驻模型（按本合典 §二 机队台账各卡档）③KeepAlive/保活任务名。
+2. 触发词律写入各机本地记忆（feedback 类）；无交互会话在场的时刻由各机 OS 循环扫 fleet O 令承接 pause/resume 令。
+3. 新机器入队=同套件部署+触发词记忆（onboarding 标配）。
+
+#### Changelog
+- 2026-10-06: initial v1.0（CEO 最高命令·C-20261006-01 七席过会 PASS·C 机实测在役·bm-a/bm-b 部署回执 ≤10-07 18:00）。
+
 ### Changelog
 - 2026-09-28: v1.0 三源合一（C-20260928-02 A6 批一·委员会七席过会）——scheduling/fleet-allocations/retention 原文全保入章；三旧件转指针；活面消费者（AI.md/README 注册表/夜轮+进化轮 prompt/governance §6.5-6.6/retention-scan 注释）同窗原子批改线。
 - 2026-09-30: **v1.1 五源合一（CEO 令「治理一下机队的各种策略，统一整合梳理，要高效」·registry O-2026-0930-009）**：fleet-protocol.md→§四+fleet-liveness-charter.md→§五 原文全保入章·两旧件转指针桩；活面原子改线=AI.md 两行+governance §6 第11条+fleet-liveness-watch/integrity-sentinel 两工具注释；合并后 ≤60KB 单件预算内；机队策略散件 3→1（法熵净减 -2）。
