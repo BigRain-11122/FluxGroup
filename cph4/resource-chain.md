@@ -437,6 +437,28 @@
 #### Changelog
 - 2026-10-06: initial v1.0（CEO 最高命令·C-20261006-01 七席过会 PASS·C 机实测在役·bm-a/bm-b 部署回执 ≤10-07 18:00）。
 
+## §七 机队静默工作律（零弹窗法·常设·2026-10-06 立法）
+
+> **溯源**：CEO 令 2026-10-06 ~22:4x「还有我强调了很多次，机队无论哪台机器，都要静默工作不要弹窗骚扰我」——**常设铁律第三次重申=升格机队级**（U060 09-20 首立→10-06 20:3x 二次→本窗三次）。执法缺口实证：C 机 toast 闸 20:3x 批设值后 22:4x 复验**读不回**（写后未读回=假绿）+第三方推送族实弹（ximalaya push-message 22:45:26 CEO 游戏窗弹窗/AliUpdater/QuarkUpdater/Office 更新族·22:38:43 重登录后全活跃）——机队自建任务审计 **22/22 全隐藏合规 PASS**（全走 wscript //B //nologo InvisibleRunner 隐藏链·骚扰源全在第三方应用面）。
+> **定位**：机队一切任务/服务/会话的**常设静默基线**——与 §六 并立（§六管「算力让路」·本件管「零打扰」·均常设）。
+
+### §1 零窗律（会话与任务运行器）
+1. 一切会话内工具执行=进程内 `&`（U060 原文律·禁 spawn powershell.exe/cmd.exe 控制台子进程——闪一次黑窗=违例）。
+2. 一切 Task Scheduler 自建任务=InvisibleRunner.vbs/wscript //B //nologo 隐藏链（fleet-liveness-watch 范式·10-06 审计 22/22 合规）。
+3. 后台 python 批=pythonw.exe（stdout 守卫）或隐藏链；新任务注册入队=静默三问（运行器隐藏？通知面？日志落盘非弹窗？）。
+
+### §2 通知闸（Windows toast 面·每机常设）
+1. 每机设**双路**闸值 `NOC_GLOBAL_SETTING_TOASTS_ENABLED`(DWORD)=0：`HKCU:\...\CurrentVersion\Push\Settings` ＋ `HKCU:\...\CurrentVersion\Notifications\Settings`（用户级免提权·可逆·静默为常设基线——「全面开工」不须复原）。
+2. **写后必读回复验**（10-06 假绿实证坑：设值后不读回=未执法）。
+3. 第三方推送任务（管理员级禁不动的·ximalaya 判例）=闸值覆盖其通知面；CEO 自装应用本体不代禁（AutoClaw 类=CEO 游戏件禁碰）。
+
+### §3 违例判据与回访
+1. CEO 再提「弹窗骚扰」=违例计数+1（patrol 记名·三次重申史在案）。
+2. 10-13 治理窗回访：三机双路闸值读回全 0＋任务运行器审计全隐藏＋CEO 零新申斥。
+
+#### Changelog
+- 2026-10-06: initial v1.0（CEO 三次重申升格·C 机双路闸值重设+读回 0 真绿·O-20261006-2250 派 bm-a/bm-b 同法执法·回执 ≤10-07 18:00）。
+
 ### Changelog
 - 2026-09-28: v1.0 三源合一（C-20260928-02 A6 批一·委员会七席过会）——scheduling/fleet-allocations/retention 原文全保入章；三旧件转指针；活面消费者（AI.md/README 注册表/夜轮+进化轮 prompt/governance §6.5-6.6/retention-scan 注释）同窗原子批改线。
 - 2026-09-30: **v1.1 五源合一（CEO 令「治理一下机队的各种策略，统一整合梳理，要高效」·registry O-2026-0930-009）**：fleet-protocol.md→§四+fleet-liveness-charter.md→§五 原文全保入章·两旧件转指针桩；活面原子改线=AI.md 两行+governance §6 第11条+fleet-liveness-watch/integrity-sentinel 两工具注释；合并后 ≤60KB 单件预算内；机队策略散件 3→1（法熵净减 -2）。
