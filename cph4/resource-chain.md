@@ -446,6 +446,7 @@
 1. 一切会话内工具执行=进程内 `&`（U060 原文律·禁 spawn powershell.exe/cmd.exe 控制台子进程——闪一次黑窗=违例）。
 2. 一切 Task Scheduler 自建任务=InvisibleRunner.vbs/wscript //B //nologo 隐藏链（fleet-liveness-watch 范式·10-06 审计 22/22 合规）。
 3. 后台 python 批=pythonw.exe（stdout 守卫）或隐藏链；新任务注册入队=静默三问（运行器隐藏？通知面？日志落盘非弹窗？）。
+4. **常驻服务启动（ComfyUI 等）=python 直启＋-WindowStyle Hidden**（ComfyOps_C.ps1 范式）；禁 bat 启动（run_nvidia_gpu 判例 10-06：-WindowStyle Minimized 仍闪窗＋bat 尾 pause=崩溃控制台永挂桌面·看门狗循环复启=弹窗风暴·KeepAlive 启动行已改隐藏直启）。
 
 ### §2 通知闸（Windows toast 面·每机常设）
 1. 每机设**双路**闸值 `NOC_GLOBAL_SETTING_TOASTS_ENABLED`(DWORD)=0：`HKCU:\...\CurrentVersion\Push\Settings` ＋ `HKCU:\...\CurrentVersion\Notifications\Settings`（用户级免提权·可逆·静默为常设基线——「全面开工」不须复原）。
@@ -458,6 +459,7 @@
 
 #### Changelog
 - 2026-10-06: initial v1.0（CEO 三次重申升格·C 机双路闸值重设+读回 0 真绿·O-20261006-2250 派 bm-a/bm-b 同法执法·回执 ≤10-07 18:00）。
+- 2026-10-06: §1.4 增补（「疯狂弹窗」第二源头抓出=KeepAlive 经 run_nvidia_gpu.bat 可见启动 ComfyUI·23:02:23 实证+bat 尾 pause 崩溃窗永挂·启动行已改 python 直启+Hidden·ComfyUI 0.36.0 隐藏在役零窗·三 GPU 任务 Ready·双源全灭：第三方 toast 闸+WpnUserService 重启激活+自有 bat 链根治）。
 
 ### Changelog
 - 2026-09-28: v1.0 三源合一（C-20260928-02 A6 批一·委员会七席过会）——scheduling/fleet-allocations/retention 原文全保入章；三旧件转指针；活面消费者（AI.md/README 注册表/夜轮+进化轮 prompt/governance §6.5-6.6/retention-scan 注释）同窗原子批改线。
