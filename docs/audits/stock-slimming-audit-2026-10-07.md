@@ -20,7 +20,7 @@
 2. **fleet O 令九月卷归位**：124 件 git mv→`fleet/orders/archive-202609/`（R100 纯改名·历史保全·BigMoney 远端 main 已收 39874bee5）。
 3. **AI 记忆死层清出**：`results/_r399bmc_ring_aside/CODELY.md`（50KB 残单目录记忆）git rm（同 commit 39874bee5·git 历史保全承诺不受损=工作树清除≠历史销毁）。
 4. **立法两节并入**：resource-chain §二.10（同构三层+维度清单 v1）+§三.10（存量三分律）——零新规则文件。
-5. **转办**：O-20261007-2245-bm-c 派 bm-a/bm-b（维度字段补写+根骨架 9/9 对账·回执 ≤10-09 12:00）；司域 CODELY.md 预算 ≤80KB 点名（Biggame 域首名·bigmoney 次名自查）。
+5. **转办**：O-20261007-2255-bm-c 派 bm-a/bm-b（维度字段补写+根骨架 9/9 对账·回执 ≤10-09 12:00）；司域 CODELY.md 预算 ≤80KB 点名（Biggame 域首名·bigmoney 次名自查）。
 6. **根 CODELY.md 冷层归档波四**：95.2KB 超线→热层指针化（快照先行+memory-archive 收全文）。
 
 ## 三、本批坑录（四条·全实证）
