@@ -25,6 +25,10 @@ $cronPy = Join-Path $PSScriptRoot "gamewin_cron_suspend.py"
 
 function Kill-GpuHolders {
     # ollama parent + llama-server children (kill-parent-leaves-child pit, 3x proven 10-06)
+    # v4 2026-10-07: tray app FIRST (7th respawn source, C-machine live evidence: killing
+    # serve alone -> "ollama app.exe" explorer-autostart relaunches a fresh serve within
+    # seconds). Kill order = tray app -> serve -> runner, family-wide re-verify.
+    Get-Process -Name "ollama app" -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
     Get-Process ollama -ErrorAction SilentlyContinue | Stop-Process -Force
     Get-Process llama-server -ErrorAction SilentlyContinue | Stop-Process -Force
     # ComfyUI python (match command line; harmless if this machine has no ComfyUI)
@@ -61,14 +65,15 @@ if ($Mode -eq "pause") {
     Start-Sleep -Seconds 4
     # hard verification: OUR holders must be gone (process-face, not absolute vram -
     # gaming window keeps vram legitimately used by CEO's own apps)
-    $residue = Get-Process llama-server,ollama -ErrorAction SilentlyContinue
+    $residue = Get-Process llama-server,ollama,"ollama app" -ErrorAction SilentlyContinue
     $comfyResidue = Get-CimInstance Win32_Process -Filter "name='python.exe'" | Where-Object { $_.CommandLine -match "ComfyUI" }
     $guard = 0
     while (($residue -or $comfyResidue) -and $guard -lt 3) {
+        Get-Process -Name "ollama app" -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
         Get-Process llama-server,ollama -ErrorAction SilentlyContinue | Stop-Process -Force
         Get-CimInstance Win32_Process -Filter "name='python.exe'" | Where-Object { $_.CommandLine -match "ComfyUI" } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }
         Start-Sleep -Seconds 4
-        $residue = Get-Process llama-server,ollama -ErrorAction SilentlyContinue
+        $residue = Get-Process llama-server,ollama,"ollama app" -ErrorAction SilentlyContinue
         $comfyResidue = Get-CimInstance Win32_Process -Filter "name='python.exe'" | Where-Object { $_.CommandLine -match "ComfyUI" }
         $guard++
     }
