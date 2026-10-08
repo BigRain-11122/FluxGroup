@@ -82,7 +82,7 @@
 | 调研部门建制 | `docs/research-dept-charter.md` |
 | 城市正典族（美学/空间/总规/升华/风格/文化律/生产标杆等 12 件） | `gaming/MiniGame/Design/configs/GLOBAL/硅基城市*.md`（随 git 分发·消费律见总览 §一.城市域） |
 | **City 3D 美术/施工正典族**（3D polygon 定谳·转型方案/施工参数/活性/Top1 升级）+48 包资产索引+四专家技能 | `gaming/FluxVerse/docs/lowpoly3d-*.md` + `gaming/MiniGame/_共享与总控/俯视角3D资产_POLYGON48包全景梳理.md` + `.codely-cli/skills/lowpoly-city-3d` 族 |
-| 治理契约（职责/开线收线/协同/变更控制） | `docs/governance.md` |
+| 治理契约（**顶层治理架构一页图 §0**+职责/开线收线/协同/变更控制） | `docs/governance.md` |
 | 商业×元宙双螺旋总规划（融合总纲） | `docs/master-plan.md` |
 | 品牌/文化/红线 | `BRAND.md` / `docs/philosophy.md` / `RULES.md` |
 | 三级记忆 | 根 `CODELY.md`（集团）· `<线>/CODELY.md`（线）· 产品仓 `CODELY.md`（司） |
