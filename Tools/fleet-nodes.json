@@ -23,16 +23,35 @@
       "status_files": ["quant/bigmoney/fleet/machines/bm-b.json"],
       "note": "tailnet join DONE 10-06 (CEO clicked; HQ verified 10-08 via bm-a 'tailscale status': active + TCP135 reachable). Roster pre-filled by HQ 10-08; bm-b loop remaining: confirm host/root/wake_tasks locally + run Tools\\register-fleet-link.ps1 + poke-test from bm-a closes adoption."
     },
-    {
+        {
       "id": "bm-c",
-      "host": "BM-C",
+      "host": "FLUXGROUP",
       "tailnet_ip": "100.123.74.104",
       "enabled": true,
-      "root": "C:/Users/sjs20/Desktop/FluxGroup",
-      "repos": ["quant/bigmoney", "gaming/MiniGame"],
-      "wake_tasks": [],
-      "status_files": ["quant/bigmoney/fleet/machines/bm-c.json", "gaming/MiniGame/Design/configs/GLOBAL/fleet/c.json"],
-      "note": "tailnet join DONE 10-06 (CEO clicked; HQ verified 10-08 via bm-a 'tailscale status': active + TCP135 reachable). Roster pre-filled by HQ 10-08; bm-c loop remaining: confirm host/root/wake_tasks locally + run Tools\\register-fleet-link.ps1 + poke-test from bm-a closes adoption."
+      "root": "K:/Fluxgroup/FluxGroup",
+      "repos": [
+        "quant/bigmoney",
+        "gaming/MiniGame"
+      ],
+      "wake_tasks": [
+        "Bigmoney-IterationLoop",
+        "Bigmoney-SaturationEngine",
+        "Bigmoney-ResidentDispatcher",
+        "Bigmoney-Autofill",
+        "Bigmoney-PoolWorker",
+        "MiniGameEngineTick",
+        "MiniGameComfyDraftTick",
+        "MiniGameAuditTick",
+        "MiniGameGateTick",
+        "MiniGameRadarTick",
+        "MiniGameRadarDeepTick",
+        "MiniGameSiliconWatchTick"
+      ],
+      "status_files": [
+        "quant/bigmoney/fleet/machines/bm-c.json",
+        "gaming/MiniGame/Design/configs/GLOBAL/fleet/c.json"
+      ],
+      "note": "adopted 10-08 bm-c r755 (O-20261008-1205-bm-c): host/root/wake_tasks confirmed locally (host=FLUXGROUP per machine.json; root=K:/Fluxgroup/FluxGroup; wake_tasks 12 live task names verified via task enum); FluxGroup-FleetLink task registered + listener on :8790 health OK; awaiting HQ poke verify to close adoption."
     },
     {
       "id": "BG-B",
