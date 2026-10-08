@@ -25,7 +25,7 @@
 ## 2. 五条部署纪律
 
 1. **幂等律**：一切动作已就绪即 PASS 跳过；`Register-ScheduledTask -Force` 重注册=自愈刷新非破坏；**已部署机重跑=全机体检**（报告在 `.codely-cli\onboarding\`，gitignored）。
-2. **静默律**：一切任务注册必须 `InvisibleRunner.vbs` 包装（U060 范式·本仓 `Tools\InvisibleRunner.vbs`=集团件），零弹窗零闪窗。
+2. **静默律**：机制级——任务注册唯一正门=`Tools\task-register.ps1`（自动 `Tools\InvisibleRunner.vbs` 隐藏链包装+读回验证·U060 范式集团件），零弹窗零闪窗；裸 schtasks/Register-ScheduledTask=违例（60 秒兜底守卫自动执法）。
 3. **引用不复制**：各司自举件永远调用它们自己仓里的（版本随其仓演进），编排器只做检查/编排/报告——禁在集团层重写任何产品自举件。
 4. **身份律**：SSH key 缺则自动生成，但 GitHub 授权=CEO 物理件；`machine.json` 永不入库（跨机合并覆写坑=其 pit #48）。
 5. **归属律**：集团任务（EvolutionTick）用集团仓内 VBS 自含注册——2026-09-23 修正：该任务此前曾引用 FluxVerse 仓内 VBS=跨仓耦合，编排器重注册即自愈。
