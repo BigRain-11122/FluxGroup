@@ -14,19 +14,18 @@ $report = [ordered]@{
 }
 
 # 1) Global toast gates (re-assert every run - OS updates may reset them)
+# 双闸律（10-06 C 机配方）：①ToastEnabled ②NOC_GLOBAL_SETTING_TOASTS_ENABLED=系统勿扰总闸
+# （12:2x 复发实锚：bm-a 曾只设①漏②=弹窗复发根源——两道全无条件写）
 $pushKey = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\PushNotifications'
 if (-not (Test-Path $pushKey)) { New-Item $pushKey -Force | Out-Null }
-Set-ItemProperty $pushKey -Name ToastEnabled -Value 0 -Type DWord
-Set-ItemProperty $pushKey -Name AllowToasts -Value 0 -Type DWord
+New-ItemProperty $pushKey -Name ToastEnabled -Value 0 -PropertyType DWord -Force | Out-Null
+New-ItemProperty $pushKey -Name AllowToasts -Value 0 -PropertyType DWord -Force | Out-Null
 $report.toast_gate = [int](Get-ItemProperty $pushKey).ToastEnabled
 
-# NOC gate (ximalaya-family; set wherever the vendor key exists - absent = n/a)
-$noc = Get-ChildItem 'HKCU:\Software' -Recurse -Depth 5 -ErrorAction SilentlyContinue |
-    Where-Object { $_.Name -match 'GLOBAL_SETTING_TOASTS' } | Select-Object -First 2
-if ($noc) {
-    foreach ($k in $noc) { Set-ItemProperty $k.PSPath -Name NOC_GLOBAL_SETTING_TOASTS_ENABLED -Value 0 -Type DWord -ErrorAction SilentlyContinue }
-    $report.noc_gate = 'set0'
-} else { $report.noc_gate = 'absent' }
+$nocKey = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings'
+if (-not (Test-Path $nocKey)) { New-Item $nocKey -Force | Out-Null }
+New-ItemProperty $nocKey -Name NOC_GLOBAL_SETTING_TOASTS_ENABLED -Value 0 -PropertyType DWord -Force | Out-Null
+$report.noc_gate = [int](Get-ItemProperty $nocKey).NOC_GLOBAL_SETTING_TOASTS_ENABLED
 
 # 2) QuarkUpdater popup source (updater only - main app untouched)
 foreach ($t in (Get-ScheduledTask -TaskPath '\QuarkUpdaterUser\*' -ErrorAction SilentlyContinue)) {
