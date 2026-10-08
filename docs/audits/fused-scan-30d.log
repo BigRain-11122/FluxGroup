@@ -1,0 +1,40 @@
+  ...380/669
+  ...540/669
+
+正则候选件=36｜双方确认=19｜仅模型=2｜仅正则(判为假阳)=15
+  BOTH               ALLOCATION_POLICY_SCAN_PREREG.md             BAN-04
+  BOTH               EXCLUSION_BOOK_R1-20261006.md                BAN-01,BAN-02,BAN-04,BAN-05,BAN-06,BAN-08,BAN-09
+  BOTH               EXIT_OVERLAY_P1.md                           BAN-04
+  BOTH               EXTERNAL_IDEAS_CATALOG_R1-20261006.md        BAN-01,BAN-04,BAN-09
+  BOTH               FACTOR_BLEND.md                              BAN-01
+  BOTH               FACTOR_BLEND_V2.md                           BAN-01
+  REGEX-ONLY(假阳)     FUND-DIVLOWVOL-P1.md                         BAN-01,BAN-02,BAN-05,BAN-09
+  REGEX-ONLY(假阳)     FUND-VALUE-P1.md                             BAN-01,BAN-02,BAN-05,BAN-09
+  REGEX-ONLY(假阳)     G2_SLOT_MON_P2.md                            BAN-01,BAN-02,BAN-05,BAN-09
+  BOTH               G2_SLOT_OLD_P1.md                            BAN-01,BAN-02
+  BOTH               G2_SLOT_STOCK_P1.md                          BAN-01,BAN-02
+  BOTH               G2_SLOT_TAIL_P1.md                           BAN-01,BAN-02
+  BOTH               LOWAMP_P1_PREREG.md                          BAN-04
+  REGEX-ONLY(假阳)     MASS_TRIAL_W3_PREREG.md                      BAN-04
+  REGEX-ONLY(假阳)     ORDERS_INDEX.md                              BAN-04
+  REGEX-ONLY(假阳)     PERPETUAL_N3_R1_PREREG.md                    BAN-04
+  BOTH               PERPETUAL_N3_R2_PREREG.md                    BAN-04
+  BOTH               pit-engine-freeze.md                         BAN-04
+  REGEX-ONLY(假阳)     pit-spawn.md                                 BAN-08
+  BOTH               REFINE_BENCH_STOCK_REV_P2.md                 BAN-04
+  BOTH               RETAIL_QUANT_TRACK.md                        BAN-01,BAN-02,BAN-05,BAN-09
+  BOTH               STOCK_FACE_FURNACE_P1.md                     BAN-01,BAN-02
+  REGEX-ONLY(假阳)     STRATEGY_SYSTEM_V3.md                        BAN-01
+  REGEX-ONLY(假阳)     SYSTEM_LOGIC.md                              BAN-01
+  REGEX-ONLY(假阳)     THEME_DEEPEN_P1_PREREG.md                    BAN-01,BAN-04
+  BOTH               THEME_JUDGE_P2.md                            BAN-04
+  BOTH               THEME_PERSIST_P1.md                          BAN-01,BAN-08
+  LLM                DIGEST-20260924-wave3.md                     BAN-06,BAN-08
+  REGEX-ONLY(假阳)     DIGEST-20260925-ssrn-crossref-academic-sweep BAN-01
+  REGEX-ONLY(假阳)     DIGEST-20260925-wave4-slice10.md             BAN-07
+  REGEX-ONLY(假阳)     DIGEST-20260925-wave5-slice2.md              BAN-07
+  REGEX-ONLY(假阳)     DIGEST-20260925-wave7-slice5.md              BAN-03
+  REGEX-ONLY(假阳)     DIGEST-20260925-wave8-slice2.md              BAN-03
+  BOTH               ASTYLE_ZOO.md                                BAN-01
+  BOTH               P4_BATCH2A.md                                BAN-04
+  LLM                SINA_MF_IC_P1.md                             BAN-07
