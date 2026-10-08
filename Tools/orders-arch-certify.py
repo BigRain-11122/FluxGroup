@@ -10,7 +10,7 @@ ROOT = r'C:\Users\sjs20\Desktop\FluxGroup'
 ORD  = os.path.join(ROOT, 'docs', 'orders.md')
 ARC  = os.path.join(ROOT, 'docs', 'orders-archive.md')
 BAK  = os.path.join(ROOT, '.codely-cli', 'tmp')
-CUTOFF = '10-01'  # 日期 >= 10-01 一律保留
+CUTOFF = '10-08'  # 日期 >= 10-08 一律保留（近 2 日 CEO 令恒留活跃卷·波四 2026-10-09 前移·原义对齐）
 KEEP_MARK = ('部分', '撤单', '关单')
 
 def last_cell(s):
