@@ -1,0 +1,307 @@
+[
+    {
+        "task":  "\\BigCompute-CleanWindowProbe",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\compute\\BigCompute\\Tools\\InvisibleRunner.vbs\" \"C:\\Users\\sjs20\\AppData\\Local\\Programs\\Python\\Python314\\python.exe\" \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\compute\\BigCompute\\Tools\\clean_window_probe.py\" check"
+    },
+    {
+        "task":  "\\BigCompute-GPU-IdleWatch",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\compute\\BigCompute\\Tools\\InvisibleRunner.vbs\" \"C:\\Users\\sjs20\\AppData\\Local\\Programs\\Python\\Python314\\python.exe\" \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\compute\\BigCompute\\Tools\\gpu_idle_collector.py\" sample"
+    },
+    {
+        "task":  "\\BigCompute-OrderSentinel",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\compute\\BigCompute\\Tools\\InvisibleRunner.vbs\" powershell.exe -NoProfile -ExecutionPolicy Bypass -File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\compute\\BigCompute\\Tools\\order_sentinel.ps1\""
+    },
+    {
+        "task":  "\\BigCompute-OSLoop",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\compute\\BigCompute\\Tools\\InvisibleRunner.vbs\" powershell.exe -NoProfile -ExecutionPolicy Bypass -File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\compute\\BigCompute\\Tools\\iteration_loop.ps1\""
+    },
+    {
+        "task":  "\\BigCompute-OSLoop-PM",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\compute\\BigCompute\\Tools\\InvisibleRunner.vbs\" powershell.exe -NoProfile -ExecutionPolicy Bypass -File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\compute\\BigCompute\\Tools\\iteration_loop.ps1\""
+    },
+    {
+        "task":  "\\BigCompute-ResidentQA",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\compute\\BigCompute\\Tools\\InvisibleRunner.vbs\" \"C:\\Users\\sjs20\\AppData\\Local\\Programs\\Python\\Python314\\pythonw.exe\" C:\\Users\\sjs20\\Desktop\\FluxGroup\\compute\\BigCompute\\Tools\\resident_qa_server.py serve"
+    },
+    {
+        "task":  "\\BigDomain-OSLoop",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\Tools\\InvisibleRunner.vbs\" powershell.exe -NoProfile -ExecutionPolicy Bypass -File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\domain\\BigDomain\\src\\os\\iteration_loop.ps1\""
+    },
+    {
+        "task":  "\\BigLife-OSLoop",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\life\\BigLife\\Tools\\InvisibleRunner.vbs\" powershell.exe -NoProfile -ExecutionPolicy Bypass -File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\life\\BigLife\\Tools\\iteration_loop.ps1\""
+    },
+    {
+        "task":  "\\BigLife-PoolGenLoop",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\life\\BigLife\\Tools\\InvisibleRunner.vbs\" powershell.exe -NoProfile -ExecutionPolicy Bypass -File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\life\\BigLife\\Tools\\poolgen_loop.ps1\""
+    },
+    {
+        "task":  "\\Bigmoney-Autofill",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\Tools\\InvisibleRunner.vbs\" python.exe \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\Tools\\autofill.py\" tick"
+    },
+    {
+        "task":  "\\Bigmoney-IntradayMarks",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\Tools\\InvisibleRunner.vbs\" python.exe \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\scripts\\update_intraday_marks.py\""
+    },
+    {
+        "task":  "\\Bigmoney-IterationLoop",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\Tools\\InvisibleRunner.vbs\" powershell.exe -NoProfile -ExecutionPolicy Bypass -File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\Tools\\iteration_loop.ps1\""
+    },
+    {
+        "task":  "\\Bigmoney-LoopWatchdog",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\Tools\\InvisibleRunner.vbs\" powershell.exe -NoProfile -ExecutionPolicy Bypass -File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\Tools\\watchdog.ps1\""
+    },
+    {
+        "task":  "\\Bigmoney-PoolWorker",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\Tools\\InvisibleRunner.vbs\" \"C:\\Users\\sjs20\\AppData\\Local\\Programs\\Python\\Python314\\pythonw.exe\" \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\Tools\\pool_worker.py\""
+    },
+    {
+        "task":  "\\Bigmoney-ResidentDispatcher",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\Tools\\InvisibleRunner.vbs\" python.exe \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\Tools\\resident_dispatcher.py\" run"
+    },
+    {
+        "task":  "\\Bigmoney-SatEngine-bm-b",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\Tools\\InvisibleRunner.vbs\" python.exe \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\scripts\\saturation_engine.py\" tick"
+    },
+    {
+        "task":  "\\BigStream-OSLoop",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\media\\BigStream\\src\\os\\InvisibleRunner.vbs\" powershell.exe -NoProfile -ExecutionPolicy Bypass -File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\media\\BigStream\\src\\os\\iteration_loop.ps1\""
+    },
+    {
+        "task":  "\\CarGZH_DailyReview",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\Tools\\InvisibleRunner.vbs\" \"C:\\Users\\sjs20\\AppData\\Local\\Programs\\Python\\Python314\\python.exe\" \"C:\\Users\\sjs20\\Desktop\\公众号\\scripts\\daily_review.py\""
+    },
+    {
+        "task":  "\\CarGZH_Erchuang",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\Tools\\InvisibleRunner.vbs\" \"C:\\Users\\sjs20\\AppData\\Local\\Programs\\Python\\Python314\\python.exe\" \"C:\\Users\\sjs20\\Desktop\\公众号\\scripts\\erchuang.py\" --auto"
+    },
+    {
+        "task":  "\\CarGZH_HotWatch",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\Tools\\InvisibleRunner.vbs\" \"C:\\Users\\sjs20\\AppData\\Local\\Programs\\Python\\Python314\\python.exe\" \"C:\\Users\\sjs20\\Desktop\\公众号\\scripts\\pipeline.py\" watch"
+    },
+    {
+        "task":  "\\CarGZH_MaterialBank",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\Tools\\InvisibleRunner.vbs\" \"C:\\Users\\sjs20\\AppData\\Local\\Programs\\Python\\Python314\\python.exe\" \"C:\\Users\\sjs20\\Desktop\\公众号\\scripts\\material_bank.py\""
+    },
+    {
+        "task":  "\\CarGZH_MechanismWatch",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\Tools\\InvisibleRunner.vbs\" \"C:\\Users\\sjs20\\AppData\\Local\\Programs\\Python\\Python314\\python.exe\" \"C:\\Users\\sjs20\\Desktop\\公众号\\scripts\\mechanism_watch.py\""
+    },
+    {
+        "task":  "\\CarGZH_Morning",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\Tools\\InvisibleRunner.vbs\" \"C:\\Users\\sjs20\\AppData\\Local\\Programs\\Python\\Python314\\python.exe\" \"C:\\Users\\sjs20\\Desktop\\公众号\\scripts\\pipeline.py\" daily"
+    },
+    {
+        "task":  "\\CarGZH_WeeklyEvolve",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\Tools\\InvisibleRunner.vbs\" \"C:\\Users\\sjs20\\AppData\\Local\\Programs\\Python\\Python314\\python.exe\" \"C:\\Users\\sjs20\\Desktop\\公众号\\scripts\\pipeline.py\" evolve"
+    },
+    {
+        "task":  "\\CarGZH_YTRadar",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\Tools\\InvisibleRunner.vbs\" \"C:\\Users\\sjs20\\AppData\\Local\\Programs\\Python\\Python314\\python.exe\" \"C:\\Users\\sjs20\\Desktop\\公众号\\scripts\\yt_radar.py\""
+    },
+    {
+        "task":  "\\FluxBoardAuto",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\tools\\InvisibleRunner.vbs\" \"C:\\Users\\sjs20\\AppData\\Local\\Programs\\Python\\Python314\\pythonw.exe\" C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\tools\\board_gen.py"
+    },
+    {
+        "task":  "\\FluxGroup-DecisionRound",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\Tools\\InvisibleRunner.vbs\" powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\cph4\\decision-round.ps1\""
+    },
+    {
+        "task":  "\\FluxGroup-DiskSentinel",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\Tools\\InvisibleRunner.vbs\" powershell.exe -NoProfile -ExecutionPolicy Bypass -File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\Tools\\disk-sentinel.ps1\""
+    },
+    {
+        "task":  "\\FluxGroup-EvolutionTick",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\Tools\\InvisibleRunner.vbs\" powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\cph4\\evolution-tick.ps1\""
+    },
+    {
+        "task":  "\\FluxGroup-FleetLink",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\Tools\\InvisibleRunner.vbs\" powershell.exe -NoProfile -ExecutionPolicy Bypass -File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\Tools\\fleet-link.ps1\" -Root \"C:\\Users\\sjs20\\Desktop\\FluxGroup\" -NodeId bm-a"
+    },
+    {
+        "task":  "\\FluxGroup-FleetLivenessWatch",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\Tools\\InvisibleRunner.vbs\" powershell.exe -NoProfile -ExecutionPolicy Bypass -File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\Tools\\fleet-liveness-watch.ps1\""
+    },
+    {
+        "task":  "\\FluxGroup-IntegritySentinel",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\Tools\\InvisibleRunner.vbs\" powershell.exe -NoProfile -ExecutionPolicy Bypass -File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\Tools\\integrity-sentinel.ps1\""
+    },
+    {
+        "task":  "\\FluxGroup-NightRound",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\Tools\\InvisibleRunner.vbs\" powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\cph4\\night-round.ps1\""
+    },
+    {
+        "task":  "\\FluxGroup-OrderSentinel",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\Tools\\InvisibleRunner.vbs\" powershell.exe -NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\Tools\\order-sentinel.ps1\""
+    },
+    {
+        "task":  "\\FluxGroup-QuantAuditProbe",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\Tools\\InvisibleRunner.vbs\" powershell.exe -NoProfile -ExecutionPolicy Bypass -File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\Tools\\quant-audit-cadence.ps1\" -Root \"C:\\Users\\sjs20\\Desktop\\FluxGroup\" -IntervalSeconds 0 -MaxRuns 1"
+    },
+    {
+        "task":  "\\FluxGroup-QuantOversightDigest",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\Tools\\InvisibleRunner.vbs\" \"C:\\Users\\sjs20\\AppData\\Local\\Microsoft\\WindowsApps\\pwsh.exe\" -NoProfile -ExecutionPolicy Bypass -File C:\\Users\\sjs20\\Desktop\\FluxGroup\\Tools\\quant-oversight-digest.ps1"
+    },
+    {
+        "task":  "\\FluxVerse-DevLoop",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\FluxVerse\\Tools\\devloop\\InvisibleRunner.vbs\" powershell.exe -NoProfile -ExecutionPolicy Bypass -File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\FluxVerse\\Tools\\devloop\\iteration_loop.ps1\""
+    },
+    {
+        "task":  "\\FluxVerseTick",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\FluxVerse\\Tools\\devloop\\InvisibleRunner.vbs\" powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\FluxVerse\\Tools\\tick\\tick.ps1\""
+    },
+    {
+        "task":  "\\GimmeAll-AutoSentinel",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\tools\\InvisibleRunner.vbs\" \"powershell.exe\" -NoProfile -ExecutionPolicy Bypass -File C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\09_吸嘟嘟GimmeAll\\GimmeAll\\production\\tools\\auto_round.ps1"
+    },
+    {
+        "task":  "\\MiniGame-SiliconWatchTick",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\tools\\InvisibleRunner.vbs\" powershell.exe -NoProfile -ExecutionPolicy Bypass -File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\tools\\siliconwatch\\generate.ps1\""
+    },
+    {
+        "task":  "\\MiniGameAuditTick",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\tools\\InvisibleRunner.vbs\" powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\tools\\ModeTick.ps1\" -PromptFile \"tools\\audit-prompt.txt\" -ModeTag M5 -HardKillSeconds 2100 -WaitMinutes 10"
+    },
+    {
+        "task":  "\\MiniGameBoardForge",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\tools\\InvisibleRunner.vbs\" powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\tools\\BoardForge.ps1\""
+    },
+    {
+        "task":  "\\MiniGameCeoDeskServer",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\tools\\InvisibleRunner.vbs\" powershell.exe -NoProfile -ExecutionPolicy Bypass -File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\tools\\CeoDeskServer.ps1\""
+    },
+    {
+        "task":  "\\MiniGameCockpitBeat",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\tools\\InvisibleRunner.vbs\" powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\tools\\CockpitHeartbeat.ps1\""
+    },
+    {
+        "task":  "\\MiniGameDailyDigest",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\tools\\InvisibleRunner.vbs\" powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\tools\\DailyDigest.ps1\""
+    },
+    {
+        "task":  "\\MiniGameEditorSentry",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\tools\\InvisibleRunner.vbs\" powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\tools\\EditorSentry.ps1\""
+    },
+    {
+        "task":  "\\MiniGameEngineTick",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\tools\\InvisibleRunner.vbs\" powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\tools\\EngineTick.ps1"
+    },
+    {
+        "task":  "\\MiniGameEvolutionTick",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\tools\\InvisibleRunner.vbs\" powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\tools\\ModeTick.ps1\" -PromptFile \"tools\\evolution-prompt.txt\" -ModeTag ME -HardKillSeconds 900 -WaitMinutes 5"
+    },
+    {
+        "task":  "\\MiniGameGateTick",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\tools\\InvisibleRunner.vbs\" powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\tools\\ModeTick.ps1\" -PromptFile \"tools\\gate-prompt.txt\" -ModeTag M6 -HardKillSeconds 2100 -WaitMinutes 5"
+    },
+    {
+        "task":  "\\MiniGameHousekeeping",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\tools\\InvisibleRunner.vbs\" powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\tools\\Housekeeping.ps1\""
+    },
+    {
+        "task":  "\\MiniGameOllamaKeepWarm",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\tools\\InvisibleRunner.vbs\" powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\tools\\Ollama\\keep-warm.ps1\""
+    },
+    {
+        "task":  "\\MiniGameOllamaServe",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\tools\\InvisibleRunner.vbs\" powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\tools\\Ollama\\serve-warm.ps1\""
+    },
+    {
+        "task":  "\\MiniGamePolicyTick",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\tools\\InvisibleRunner.vbs\" powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\tools\\ModeTick.ps1\" -PromptFile \"tools\\policy-prompt.txt\" -ModeTag M4 -HardKillSeconds 600 -WaitMinutes 5"
+    },
+    {
+        "task":  "\\MiniGamePopupWitness",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\tools\\InvisibleRunner.vbs\" powershell.exe -NoProfile -ExecutionPolicy Bypass -File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\tools\\PopupWitness.ps1\""
+    },
+    {
+        "task":  "\\MiniGameRadarDeepTick",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\tools\\InvisibleRunner.vbs\" powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\tools\\ModeTick.ps1\" -PromptFile \"tools\\deep-prompt.txt\" -ModeTag M3 -HardKillSeconds 1500 -WaitMinutes 10"
+    },
+    {
+        "task":  "\\MiniGameRadarTick",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\tools\\InvisibleRunner.vbs\" powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\tools\\ModeTick.ps1\" -PromptFile \"tools\\radar-prompt.txt\" -ModeTag M2 -HardKillSeconds 420 -WaitMinutes 5"
+    },
+    {
+        "task":  "\\MiniGameRedlineAudit",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\tools\\InvisibleRunner.vbs\" powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\tools\\RedlineAudit.ps1\""
+    },
+    {
+        "task":  "\\MiniGameResearchTick",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\tools\\InvisibleRunner.vbs\" powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\tools\\ModeTick.ps1\" -PromptFile \"tools\\research-prompt.txt\" -ModeTag MR -HardKillSeconds 900 -WaitMinutes 5"
+    },
+    {
+        "task":  "\\MiniGameTickWatchdog",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\tools\\InvisibleRunner.vbs\" powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\tools\\TickWatchdog.ps1\""
+    },
+    {
+        "task":  "\\MiniGameTjcloudSync",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\tools\\InvisibleRunner.vbs\" powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\tools\\TjcloudSync.ps1\""
+    },
+    {
+        "task":  "\\MoneyAutoGuardian",
+        "execute":  "wscript.exe",
+        "arguments":  "//B //nologo \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\Tools\\InvisibleRunner.vbs\" \"powershell.exe\" -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File \"C:\\Users\\sjs20\\Desktop\\Money\\tools\\watchdog.ps1\""
+    }
+]
