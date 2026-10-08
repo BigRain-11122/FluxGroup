@@ -70,27 +70,33 @@ foreach ($tk in (Get-ScheduledTask -ErrorAction SilentlyContinue)) {
     $report.remediations += $r
 }
 
-# 4) Self-configure: ensure the 15-min self-heal cadence lane exists. The original
-#    HQ-SilenceGuard (logon + daily 04:07) stays untouched: PS5.1 Set-ScheduledTask on
-#    it returns "Access is denied" on this host, so the cadence lane is a separate
-#    additive task with the same silent action. Fleet rollout stays automatic - each
-#    machine only needs to pull the repo and run this script once (O-20261008-1240).
-#    Write-then-readback law: cadence status is only reported green after verify.
-$laneName = 'HQ-SilenceGuard-15m'
+# 4) Self-configure: ensure the 1-MINUTE self-heal lane exists (mechanism-grade floor:
+#    even a violated bare-console task can flash at most ~60s before this guard
+#    neutralizes it). Migrates the 10-08 15m lane if present. Original HQ-SilenceGuard
+#    (logon + daily 04:07) stays untouched: PS5.1 Set-ScheduledTask on it returns
+#    "Access is denied" on this host. Write-then-readback law: green only after verify.
+$laneName = 'HQ-SilenceGuard-Lane'
 $laneVbs = Join-Path $PSScriptRoot 'silence-enforce.vbs'
 try {
+    Get-ScheduledTask -TaskName 'HQ-SilenceGuard-15m' -ErrorAction Stop | Out-Null
+    Unregister-ScheduledTask -TaskName 'HQ-SilenceGuard-15m' -Confirm:$false -ErrorAction SilentlyContinue
+} catch {}
+$laneIntOk = $false
+try {
     $lane = Get-ScheduledTask -TaskName $laneName -ErrorAction Stop
-    $report.guard_cadence = 'lane-ok'
-} catch {
+    if ($lane.Triggers | Where-Object { "$($_.Repetition.Interval)" -match '^PT1M$' }) { $laneIntOk = $true }
+} catch {}
+if (-not $laneIntOk) {
     try {
+        if (Get-ScheduledTask -TaskName $laneName -ErrorAction SilentlyContinue) { Unregister-ScheduledTask -TaskName $laneName -Confirm:$false }
         $laneAct = New-ScheduledTaskAction -Execute 'wscript.exe' -Argument ('//B //nologo "{0}"' -f $laneVbs)
-        $laneRep = New-ScheduledTaskTrigger -Once -At (Get-Date).AddMinutes(1) -RepetitionInterval (New-TimeSpan -Minutes 15) -RepetitionDuration (New-TimeSpan -Days 3650)
-        Register-ScheduledTask -TaskName $laneName -Action $laneAct -Trigger $laneRep -Description 'Fleet silence guard 15-min self-heal lane (U060 root-cure)' | Out-Null
-        $report.guard_cadence = 'lane-added'
+        $laneRep = New-ScheduledTaskTrigger -Once -At (Get-Date).AddMinutes(1) -RepetitionInterval (New-TimeSpan -Minutes 1) -RepetitionDuration (New-TimeSpan -Days 3650)
+        Register-ScheduledTask -TaskName $laneName -Action $laneAct -Trigger $laneRep -Description 'Fleet silence guard 1-min self-heal lane (U060 mechanism-grade)' | Out-Null
+        $report.guard_cadence = 'lane-1m-added'
     } catch { $report.guard_cadence = 'lane-failed: ' + $_.Exception.Message }
-}
+} else { $report.guard_cadence = 'lane-1m-ok' }
 $lv = Get-ScheduledTask -TaskName $laneName -ErrorAction SilentlyContinue
-if (-not $lv -or -not ($lv.Triggers | Where-Object { "$($_.Repetition.Interval)" -match 'PT15M' })) {
+if (-not $lv -or -not ($lv.Triggers | Where-Object { "$($_.Repetition.Interval)" -match '^PT1M$' })) {
     $report.guard_cadence = 'lane-verify-failed'
 }
 
