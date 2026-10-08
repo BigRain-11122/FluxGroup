@@ -51,7 +51,7 @@
         "quant/bigmoney/fleet/machines/bm-c.json",
         "gaming/MiniGame/Design/configs/GLOBAL/fleet/c.json"
       ],
-      "note": "adopted 10-08 bm-c r755 (O-20261008-1205-bm-c): host/root/wake_tasks confirmed locally (host=FLUXGROUP per machine.json; root=K:/Fluxgroup/FluxGroup; wake_tasks 12 live task names verified via task enum); FluxGroup-FleetLink task registered + listener on :8790 health OK; awaiting HQ poke verify to close adoption."
+      "note": "adopted 10-08 bm-c r755 (O-20261008-1205-bm-c): host/root/wake_tasks confirmed locally (host=FLUXGROUP per machine.json; root=K:/Fluxgroup/FluxGroup; wake_tasks 12 live task names verified via task enum); FluxGroup-FleetLink task registered + listener on :8790 health OK; HQ poke accepted 10-08 12:0x (fleet-dispatch verify ok=2/3) - ADOPTION CLOSED. Seconds-level dispatch live bm-a<->bm-c."
     },
     {
       "id": "BG-B",
