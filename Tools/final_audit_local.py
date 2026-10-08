@@ -10,8 +10,8 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 REG = os.path.join(ROOT, "quant", "bigmoney", "research", "BANNED_DIRECTIONS.json")
 OLLAMA = "http://127.0.0.1:11434/api/generate"
 EMB = "http://127.0.0.1:11434/api/embed"
-MODEL = "qwen2.5:7b-instruct"
-BIG = "qwen2.5:14b"
+MODEL = "qwen3:8b"
+BIG = "qwen3:14b"
 
 
 def gen(prompt, model=MODEL, timeout=240):

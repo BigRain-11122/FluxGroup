@@ -10,7 +10,7 @@ import argparse, glob, json, os, re, sys, time, urllib.request
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 REG = os.path.join(ROOT, "quant", "bigmoney", "research", "BANNED_DIRECTIONS.json")
 OLLAMA = "http://127.0.0.1:11434/api/generate"
-MODEL = "qwen2.5:7b-instruct"
+MODEL = "qwen3:8b"
 
 
 def ask(prompt, model=MODEL, timeout=180):

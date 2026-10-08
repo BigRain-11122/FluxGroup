@@ -18,7 +18,7 @@
 import argparse, glob, json, os, re, sys, time, urllib.request
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-MODEL = "qwen2.5:7b-instruct"
+MODEL = "qwen3:8b"
 OLLAMA = "http://127.0.0.1:11434/api/generate"
 
 # 每个禁开方向一条"最直白"的描述（越短越准，实测二选一形式有效）
