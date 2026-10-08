@@ -218,7 +218,7 @@
 
 - 2026-10-07: **§二.9 勘误**（D-20261007-04③·BigCompute BC-F-20260707-01 呈报采纳）——bm-a 已在 tailnet（节点 Dasheng 100.110.185.62·hostname DASHENG）：9.1 bm-a 行「P0=入 tailnet」撤销·9.2 端点注册行同步勘正；P-2026-10-06-01「bm-a 缺/dasheng=CEO 个人机」系误读（三源互证：tailscale status Self 直读+C 端点 Ollama 三模型 HTTP 可达+10-04 changelog 在网注记）·O-20261006-1845「bm-a 入 tailnet」派单事实面满足。
 
-- 2026-10-07: **§二.10 机队同构三层律+heartbeat 维度清单 v1**（CEO 令「确保我去机队每台机器都能看到同样的文件夹结构，同样的规则，同样的维度」·委员会 C-20261007-04 过会 D2）：①**结构层**=九件根骨架（README.md/MiniGame/FluxGroup/projects/data/archive/.codely-cli/.tools/CODELY.md 缺一=违例·布局正典 v2.0 承继免重立）；②**规则层**=同一规则面=随 git 分发正典族为唯一权威（MiniGame GLOBAL 三区+HQ docs/cph4）·本地副本禁改本（改法一律走提交·禁本地手改漂移）·机间差异仅允许环境绑定件（盘符/路径/机级任务定义）；③**维度层**=heartbeat 字段维度清单 v1（**必填**=hostname/root_path/gpu_model/total_ram_gb/free_ram_gb/gpu_free_vram_mb/prod_lanes/heartbeat_epoch_utc/last_seen——统一键名如左·旧键名停用不删·双写过渡一轮后清）——**维度=自证·三机各自补写自己的 machines/<机>.json·禁代写**（防 C 代写他机档案引入新漂移）；消费方（值守轮/巡检/FleetScan）按清单读·缺键=同构不合规点名；巡检新增「同构合规」判据（字段全齐+根骨架 9/9）；④10-07 实测病灶=三机 RAM/VRAM 键名三套并存+三机全缺 root_path+bm-b 缺 gpu_model/prod_lanes——补写转办 O-20261007-2255-bm-c（回执 ≤10-09 12:00）。
+- 2026-10-07: **§二.10 机队同构三层律+heartbeat 维度清单 v1**（CEO 令「确保我去机队每台机器都能看到同样的文件夹结构，同样的规则，同样的维度」·委员会 C-20261007-04 过会 D2）：①**结构层**=九件根骨架（README.md/MiniGame/FluxGroup/projects/data/archive/.codely-cli/.tools/CODELY.md 缺一=违例·布局正典 v2.0 承继免重立）；②**规则层**=同一规则面=随 git 分发正典族为唯一权威（MiniGame GLOBAL 三区+HQ docs/cph4）·本地副本禁改本（改法一律走提交·禁本地手改漂移）·机间差异仅允许环境绑定件（盘符/路径/机级任务定义）；③**维度层**=heartbeat 字段维度清单 v1（**必填**=hostname/root_path/gpu_model/total_ram_gb/free_ram_gb/gpu_free_vram_mb/prod_lanes/heartbeat_epoch_utc/last_seen/**last_pulled_at**/**head_sha**（双新键=同步新鲜度自证：本机最近 pull 时刻+所停 commit·§十.2.4·2026-10-08 增）——统一键名如左·旧键名停用不删·双写过渡一轮后清）——**维度=自证·三机各自补写自己的 machines/<机>.json·禁代写**（防 C 代写他机档案引入新漂移）；消费方（值守轮/巡检/FleetScan）按清单读·缺键=同构不合规点名；巡检新增「同构合规」判据（字段全齐+根骨架 9/9）；④10-07 实测病灶=三机 RAM/VRAM 键名三套并存+三机全缺 root_path+bm-b 缺 gpu_model/prod_lanes——补写转办 O-20261007-2255-bm-c（回执 ≤10-09 12:00）。
 
 ## §三 资源保留与清理（原 cph4/retention.md v1.0 全文）
 
@@ -560,3 +560,32 @@
 
 #### Changelog
 - 2026-10-07: initial v1.0（CEO 令·委员会 C-20261007-02 过会 7/7·U252/判例9 收窄+valve 收编+转办四面同窗收口·案卷 cph4/council/C-20261007-02-bill.md）。
+
+## §十 机队信息同步律（信息新鲜度总律·2026-10-08 立法·委员会 C-20261008-01 过会 7/7·T1 否决窗 7 天）
+
+> **溯源**：CEO 令 2026-10-08 ~11:3x「决策委员为开展机队信息同步治理，我发现机队不同机器，信息同步非常缓慢，记忆也更新延迟，导致很多思考失误必须我个人来判断！」——CEO 痛点=各机拿旧信息旧记忆思考→失误→须他亲自裁决（U205 信息通畅律 09-25 管「活着」·本律管「新鲜」·两律分治）。
+> **定位**：机队「令/台账/正典/记忆/心跳」五类信息跨机可见速度的唯一总律——§五保活律管心跳活体，本律管信息新鲜度，互补不重叠。
+
+### 10.1 同步时限表（cadence §7 时限表增行源）
+| 信息级 | 内容 | 时限 | 通道 |
+|---|---|---|---|
+| L0 秒级 | 口令广播类 O- 令（触发词/全员态） | ≤10s 全队 | FleetLink poke（Git Data API 直构落库·C-20261007-03 R4 承继） |
+| L1 分钟级 | P0/P1/T0/T1 令与 CEO 裁决·台账落行 | 收令 ≤2-4min | 直构/即时 commit+push＋OrderSentinel/fleet-dispatch 唤醒 |
+| L2 轮级 | 正典/规则/代码/记忆条目变更 | 双向 ≤10min | 各机轮首 pull --ff-only＋轮末 push（既有律·缺步=违例点名） |
+| L3 常设 | 心跳/状态 | 10s 直读+5min 看门 | FleetLink /status＋fleet-liveness-watch |
+- **广播提交律扩面**：口令类之外，**P0/P1 级 CEO 令与裁决广播一律 Git Data API 直构**（零本地 commit·免单发律 CARRY 延迟——O-1157 ~30min 延迟判例禁复发）。
+
+### 10.2 记忆上链律（治「记忆更新延迟」根因·细则=cph4/memory.md §8）
+1. **跨机价值记忆禁入本机私有层**（global scope）：CEO 裁决/口径定谳/集团级教训一律入随仓面（project scope CODELY.md·一句话+指针制）或即时落 orders.md/正典——本机私有层只存单机操作偏好；append 工具故障机（EEXIST 在册·memory.md §5）以「落台账/正典+commit」为等效上链通道。
+2. **裁决即上链**：交互会话产生新裁决记忆=同窗 commit+push（不等循环班）。
+3. **会话开场 pull**：CEO 直令会话/委员会会话/值守轮开场第一步 `git pull --ff-only`——对话机禁脏旧树开工。
+4. **新鲜度自证**：各机心跳必带 `last_pulled_at`+`head_sha`（§二.10 维度清单增行）——值守轮扫「滞后 >30min」=同步滞后点名（与同构合规判据并档）。
+
+### 10.3 快通道收口（O-20261008-1205 在飞·本律执法面）
+- bm-b/bm-c register-fleet-link＋HQ poke 验证=采纳收口（≤1h SLA·回执落 P-2026-10-08-09）；BG-B/C 入网链接=CEO 物理件在册（链接到即注册）；fleet-dispatch 钩执法：新 P0/P1/T0/T1 台账行→全队 poke（fail-soft）。
+
+### 10.4 判据与回访（预注册·10-13/10-14 治理窗并窗）
+①FleetLink 各机 enabled+poke 全通；②last_pulled_at 滞后 ≤30min 达标率 ≥95%（值守轮抽样）；③新裁决跨机可见实测 ≤10min（抽验 3 件）；④CEO 再提「信息慢/记忆旧」=0（违例计数挂 patrol）。
+
+#### Changelog
+- 2026-10-08: initial v1.0（CEO 令·委员会 C-20261008-01 过会 7/7·同窗快改=10-08 两裁决（汇报大白话/迭代先快后全）台账补录上链＋转办 bm-b/bm-c 双字段+开场 pull 核查回执）。
