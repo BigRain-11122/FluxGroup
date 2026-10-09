@@ -126,6 +126,17 @@ foreach ($rel in $pullSet) {
     }
 }
 
+# ---- global memory union-sync (O-20261009-1845: CEO pain point "memory missing on
+# other fleet machines" - the global CODELY.md never traveled. Runs AFTER pulls so
+# fresh canonical entries flow down to this machine, and this machine's local-only
+# entries flow up to the canonical + commit+push. Fail-soft: never blocks wake.) ----
+try {
+  $memSync = Join-Path $Root 'Tools\fleet-memory-sync.ps1'
+  if (Test-Path $memSync) {
+    $null = & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $memSync -Root $Root -Quiet 2>&1
+  }
+} catch { WK-Log 'memsync-fail' ([string]$_.Exception.Message) }
+
 # ---- wake allowlisted tasks ----
 $woke = @()
 $reqTasks = @()

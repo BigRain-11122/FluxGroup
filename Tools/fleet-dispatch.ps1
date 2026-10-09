@@ -37,6 +37,11 @@ try {
 $port = 8790
 if ($cfg.PSObject.Properties.Name -contains 'port') { $port = [int]$cfg.port }
 if ($ExpectSha -eq '') { try { $ExpectSha = [string](& 'C:\Program Files\Git\cmd\git.exe' -C $Root rev-parse HEAD) } catch { } }
+# memory-union commits (fleet-memory-sync) advance HEAD after a poke: a node synced
+# to the CURRENT origin/main has everything we pushed, even if its head moved past
+# ExpectSha. Accept either value.
+$OriginMain = ''
+try { $OriginMain = [string](& 'C:\Program Files\Git\cmd\git.exe' -C $Root rev-parse origin/main) } catch { }
 
 function Poke-Node([string]$ip) {
   $body = @{ reason = $Reason; tasks = @($Tasks); repos = @($Repos) } | ConvertTo-Json -Compress
@@ -89,7 +94,7 @@ foreach ($n in @($cfg.nodes)) {
       try {
         $h = Get-NodeHead $ip
         if ($h -ne '') {
-          if ($h -eq $ExpectSha) { $elapsed = [int]((Get-Date) - $t0).TotalSeconds; $sync = 'SYNCED ' + $elapsed + 's'; break }
+          if ($h -eq $ExpectSha -or $h -eq $OriginMain) { $elapsed = [int]((Get-Date) - $t0).TotalSeconds; $sync = 'SYNCED ' + $elapsed + 's'; break }
           $sync = 'PENDING head=' + $h.Substring(0, [Math]::Min(8, $h.Length))
         }
       } catch { $sync = 'verify-err ' + ([string]$_.Exception.Message).Substring(0, 40) }
