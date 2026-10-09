@@ -1,6 +1,10 @@
 ﻿# fleet-workspace-audit.ps1 - Fleet workspace baseline self-audit (CEO order O-20261009-1715, council case C-20261009-03).
 # Runs ON EACH FLEET MACHINE against its FluxGroup root. Verifies workspace baseline v1:
-#   A. total repo sync  : HEAD == origin/main HEAD (after fetch) -> machine-verifiable "files identical" test
+#   A. total repo sync  : HEAD vs LIVE remote tip (ls-remote direct read, never the stale local origin ref).
+#                        D-20261010-03 A-leg upgrade (bm-c r817 false-FAIL root-fix; HQ tools face = bm-a):
+#                          (1) sync criterion = ls-remote live tip direct read (stale origin/main ref no longer judges)
+#                          (2) ahead/behind resolve: PURE AHEAD (own canon push pending relay) = AHEAD_OK compliant, not FAIL
+#                          (3) fetch/ls-remote failure = CHANNEL_OUTAGE annotation, never FAIL (channel broken != sync broken)
 #   B. dirty-face split : modified / staged / untracked counts (post-baseline .gitignore: noise should be near zero)
 #   C. conflict remnants: codely sync-conflict files (pattern built from char codes: PS5.1 no-CHINESE-in-script law)
 #   D. nested repos     : remote present? ahead/behind? dirty? .git size flag (>2GB = GIT_BIG chronic flag)
@@ -26,18 +30,39 @@ function Gx([string]$dir, [string]$ga) {
 $confPat = [string][char]0x7684 + [string][char]0x51B2 + [string][char]0x7A81
 
 $host_name = $env:COMPUTERNAME
-$report = [ordered]@{ tool = 'fleet-workspace-audit v1.0'; host = $host_name; root = $Root; ts = (Get-Date -Format 'yyyy-MM-dd HH:mm:ss') }
+$report = [ordered]@{ tool = 'fleet-workspace-audit v1.1'; host = $host_name; root = $Root; ts = (Get-Date -Format 'yyyy-MM-dd HH:mm:ss') }
 $lines = @()
-$lines += "== fleet-workspace-audit v1.0 host=$host_name root=$Root =="
+$lines += "== fleet-workspace-audit v1.1 host=$host_name root=$Root =="
 
-# --- A. total repo sync ---
-if (-not $NoFetch) { Gx $Root 'fetch -q origin' | Out-Null }
+# --- A. total repo sync (D-20261010-03: live-tip direct read + ahead/behind resolve + channel-outage annotation) ---
+$fetchRc = 0
+if (-not $NoFetch) { Gx $Root 'fetch -q origin' | Out-Null; $fetchRc = $LASTEXITCODE }
 $head = (Gx $Root 'rev-parse HEAD') | Select-Object -First 1
-$origin = (Gx $Root 'rev-parse origin/main') | Select-Object -First 1
-$sync = 'FAIL'
-if ($head -and $origin -and $head -eq $origin) { $sync = 'PASS' } elseif (-not $head) { $sync = 'NOGIT' }
-$report.total_head = $head; $report.total_origin_main = $origin; $report.total_sync = $sync
-$lines += "A total-repo sync=$sync HEAD=$head origin/main=$origin"
+$liveTip = $null; $lsRc = 1
+try {
+    $raw = & $git -C $Root ls-remote origin main 2>$null
+    if (-not $raw) { $raw = & $git -C $Root ls-remote origin HEAD 2>$null }
+    $lsRc = $LASTEXITCODE
+    if ($raw) { $liveTip = ((@($raw) | Select-Object -First 1) -split '\s+')[0] }
+} catch { $lsRc = 1 }
+$sync = 'FAIL'; $syncNote = ''
+if (-not $head) { $sync = 'NOGIT' }
+elseif (-not $liveTip) { $sync = 'CHANNEL_OUTAGE'; $syncNote = "ls-remote-unreachable ls_rc=$lsRc fetch_rc=$fetchRc (channel broken, sync undecidable, not judged)" }
+elseif ($head -eq $liveTip) { $sync = 'PASS' }
+else {
+    # relation resolve needs the tip object locally; one fetch retry covers transient ssh resets
+    if ($fetchRc -ne 0) { Gx $Root 'fetch -q origin' | Out-Null; $fetchRc = $LASTEXITCODE }
+    $rcA = 1; & $git -C $Root merge-base --is-ancestor $liveTip $head 2>$null; $rcA = $LASTEXITCODE
+    if ($rcA -eq 0) { $sync = 'AHEAD_OK'; $syncNote = 'pure ahead vs live tip (own canon push pending relay, compliant)' }
+    else {
+        $rcB = 1; & $git -C $Root merge-base --is-ancestor $head $liveTip 2>$null; $rcB = $LASTEXITCODE
+        if ($rcB -eq 0) { $sync = 'FAIL'; $syncNote = 'genuinely behind live tip (update needed)' }
+        elseif ($rcA -gt 1 -or $rcB -gt 1) { $sync = 'CHANNEL_OUTAGE'; $syncNote = "fetch-failed fetch_rc=$fetchRc (tip object unavailable, relation unresolvable, not judged)" }
+        else { $sync = 'FAIL'; $syncNote = 'diverged from live tip' }
+    }
+}
+$report.total_head = $head; $report.total_live_tip = $liveTip; $report.total_sync = $sync; $report.total_sync_note = $syncNote; $report.total_fetch_rc = $fetchRc
+$lines += "A total-repo sync=$sync HEAD=$head live_tip=$liveTip $syncNote"
 
 # --- B. dirty-face split (counts only; in-flight files belong to their authoring window per baseline v1) ---
 $st = Gx $Root 'status --porcelain=v1'
@@ -97,9 +122,9 @@ $report.root_junk = $junk
 $extra2 = ''; if (@($junk).Count -gt 0) { $extra2 = ($junk -join ', ') }
 $lines += "E root-junk count=$(@($junk).Count) $extra2"
 
-# --- verdict ---
+# --- verdict (D-20261010-03: AHEAD_OK and CHANNEL_OUTAGE are honest states, never FAIL) ---
 $verdict = 'PASS'
-if ($sync -ne 'PASS') { $verdict = 'FAIL' }
+if ($sync -eq 'FAIL') { $verdict = 'FAIL' }
 elseif (@($conf).Count -gt 0) { $verdict = 'WARN' }
 elseif (@($junk).Count -gt 0) { $verdict = 'WARN' }
 $report.verdict = $verdict
