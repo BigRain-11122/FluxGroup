@@ -50,7 +50,16 @@ function Get-NodeHead([string]$ip) {
     # PS5.1: PSCustomObject property '.' cannot be indexed with ['.'] - go through Properties
     $p = $s.repo_heads.PSObject.Properties['.']
     if ($p) { return [string]$p.Value }
-    return 'no-dot'
+  }
+  # fallback (listener pre-v1.3 with old roster): the worker's last-pull stamp is
+  # written by a FRESH process per poke - it always reflects the current roster,
+  # so "." appears there as soon as the node pulled the tier batch.
+  if ($s.PSObject.Properties.Name -contains 'last_pull') {
+    $lp = $s.last_pull
+    if ($lp -and ($lp.PSObject.Properties.Name -contains 'repo_heads')) {
+      $q = $lp.repo_heads.PSObject.Properties['.']
+      if ($q) { return [string]$q.Value }
+    }
   }
   return ''
 }
