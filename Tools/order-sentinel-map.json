@@ -1,15 +1,19 @@
 {
-  "@FluxVerse-DevLoop": ["FluxVerse-DevLoop"],
-  "@FluxVerse": ["FluxVerse-DevLoop"],
-  "@BigLife": ["BigLife-OSLoop"],
-  "@BigStream": ["BigStream-OSLoop"],
-  "@BigDomain": ["BigDomain-OSLoop"],
-  "@BigMoney": ["Bigmoney-IterationLoop"],
-  "@Biggame": ["MiniGameEngineTick"],
-  "@MiniGame": ["MiniGameEngineTick"],
-  "@BigCompute": ["BigCompute-OSLoop"],
-  "@CPH4": [],
-  "@HQ": [],
-  "@六司": [],
-  "@八线": []
+  "_comment": "OrderSentinel route map v2 (C-20261009-04). routes['@company'] = { machine: [task,...] }. Sentinel (bm-a) wakes LOCAL machine tasks directly; REMOTE machine tasks are passed to fleet-dispatch -Tasks and each poked node's poke-worker filters them against its own wake_tasks allowlist (fleet-nodes.json) - safe by construction. Broadcast keys wake every company loop. @CPH4/@HQ stay empty = session-class faces (council law: no schedulable task -> manual-immediate). Disabled tasks are skipped by the sentinel (CEO freeze orders hold). Chinese tags live in this UTF-8 data file (encoding law); keys must not contain case-variant duplicates (PS5.1 parse rule).",
+  "routes": {
+    "@FluxVerse": { "bm-a": ["FluxVerseTick", "FluxVerse-DevLoop"], "bm-c": [] },
+    "@BigLife": { "bm-a": ["BigLife-OSLoop"], "bm-c": [] },
+    "@BigStream": { "bm-a": ["BigStream-OSLoop"], "bm-c": [] },
+    "@BigDomain": { "bm-a": ["BigDomain-OSLoop"], "bm-c": [] },
+    "@BigMoney": { "bm-a": ["Bigmoney-IterationLoop"], "bm-c": ["Bigmoney-IterationLoop", "Bigmoney-SaturationEngine", "Bigmoney-ResidentDispatcher", "Bigmoney-Autofill", "Bigmoney-PoolWorker"] },
+    "@Biggame": { "bm-a": ["MiniGameEngineTick"], "bm-c": ["MiniGameEngineTick"] },
+    "@MiniGame": { "bm-a": ["MiniGameEngineTick"], "bm-c": ["MiniGameEngineTick"] },
+    "@BigCompute": { "bm-a": ["BigCompute-OSLoop"], "bm-c": [] },
+    "@六司": { "bm-a": ["FluxVerseTick", "FluxVerse-DevLoop", "BigLife-OSLoop", "BigStream-OSLoop", "BigDomain-OSLoop", "MiniGameEngineTick", "Bigmoney-IterationLoop", "BigCompute-OSLoop"], "bm-c": ["Bigmoney-IterationLoop", "Bigmoney-SaturationEngine", "Bigmoney-ResidentDispatcher", "Bigmoney-Autofill", "Bigmoney-PoolWorker", "MiniGameEngineTick"] },
+    "@八线": { "bm-a": ["FluxVerseTick", "FluxVerse-DevLoop", "BigLife-OSLoop", "BigStream-OSLoop", "BigDomain-OSLoop", "MiniGameEngineTick", "Bigmoney-IterationLoop", "BigCompute-OSLoop"], "bm-c": ["Bigmoney-IterationLoop", "Bigmoney-SaturationEngine", "Bigmoney-ResidentDispatcher", "Bigmoney-Autofill", "Bigmoney-PoolWorker", "MiniGameEngineTick"] },
+    "@全体": { "bm-a": ["FluxVerseTick", "FluxVerse-DevLoop", "BigLife-OSLoop", "BigStream-OSLoop", "BigDomain-OSLoop", "MiniGameEngineTick", "Bigmoney-IterationLoop", "BigCompute-OSLoop"], "bm-c": ["Bigmoney-IterationLoop", "Bigmoney-SaturationEngine", "Bigmoney-ResidentDispatcher", "Bigmoney-Autofill", "Bigmoney-PoolWorker", "MiniGameEngineTick"] },
+    "@CPH4": {},
+    "@HQ": {}
+  },
+  "_notes": "bm-c MiniGameComfyDraftTick deliberately NOT routed: design-state Disabled since O-20261008-1755 (MV GPU priority); re-add when its owner re-enables. bm-a FluxVerse-DevLoop / BigLife-OSLoop are currently Disabled too - the sentinel off-skips them (freeze protection). bm-b wake lists = fill on revival (O-20261009-2150)."
 }

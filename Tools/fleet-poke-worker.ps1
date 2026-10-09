@@ -150,6 +150,9 @@ foreach ($t in $reqTasks) {
   $task = Get-ScheduledTask -TaskName $ts -ErrorAction SilentlyContinue
   if (-not $task) { $woke += ($ts + ':no-task'); continue }
   if ($task.State.ToString() -eq 'Running') { $woke += ($ts + ':busy-skip'); continue }
+  # v1.3 (C-20261009-04): CEO freeze faces (design-state Disabled tasks) must not
+  # be re-armed by a remote wake - same off-skip protection as the local sentinel.
+  if ($task.State.ToString() -eq 'Disabled') { $woke += ($ts + ':off-skip'); continue }
   try { Start-ScheduledTask -TaskName $ts; $woke += ($ts + ':WAKE') } catch { $woke += ($ts + ':wake-fail') }
 }
 
