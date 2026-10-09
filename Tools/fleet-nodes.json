@@ -8,9 +8,10 @@
       "tailnet_ip": "100.110.185.62",
       "enabled": true,
       "root": "C:/Users/sjs20/Desktop/FluxGroup",
-      "repos": [".", "gaming/MiniGame", "gaming/FluxVerse", "quant/bigmoney", "life/BigLife", "media/BigStream", "compute/BigCompute", "domain/BigDomain", "house/BigHouse"],
+      "repos": [".", "gaming/MiniGame", "gaming/FluxVerse", "quant/bigmoney", "life/BigLife", "media/BigStream", "compute/BigCompute", "domain/BigDomain"],
       "wake_tasks": ["BigStream-OSLoop", "BigLife-OSLoop", "BigDomain-OSLoop", "FluxVerseTick", "MiniGameEngineTick", "Bigmoney-IterationLoop"],
-      "status_files": ["gaming/MiniGame/Design/configs/GLOBAL/fleet/a.json", "quant/bigmoney/fleet/machines/bm-a.json"]
+      "status_files": ["gaming/MiniGame/Design/configs/GLOBAL/fleet/a.json", "quant/bigmoney/fleet/machines/bm-a.json"],
+      "note": "O-20261009-1430: house/BigHouse removed from poke-pull list (no remote configured -> chronic pull-fail since 10-08; CEO physical item 'create GH repo BigRain-11122/BigHouse' pending; re-add here after remote+first push)."
     },
     {
       "id": "bm-b",
@@ -21,7 +22,7 @@
       "repos": ["quant/bigmoney"],
       "wake_tasks": [],
       "status_files": ["quant/bigmoney/fleet/machines/bm-b.json"],
-      "note": "tailnet join DONE 10-06 (CEO clicked; HQ verified 10-08 via bm-a 'tailscale status': active + TCP135 reachable). Roster pre-filled by HQ 10-08; bm-b loop remaining: confirm host/root/wake_tasks locally + run Tools\\register-fleet-link.ps1 + poke-test from bm-a closes adoption."
+      "note": "OFFLINE since 2026-10-09 ~01:04 (tailscale last seen 13h+; heartbeat stale 00:42) - E1 CEO physical item: power on / check network. tailnet join DONE 10-06; roster pre-filled by HQ 10-08; ON REVIVAL its loop must: confirm host/root/wake_tasks locally + run Tools\\register-fleet-link.ps1 + poke-test from bm-a closes adoption (O-20261009-1430)."
     },
         {
       "id": "bm-c",
