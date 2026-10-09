@@ -84,13 +84,14 @@ foreach ($n in @($cfg.nodes)) {
   }
   if ($ok -and $ExpectSha -ne '') {
     $t0 = Get-Date
-    $sync = 'VERIFY-SKIP'
+    $sync = 'PENDING (no head report yet)'
     for ($i = 0; $i -lt ([int]($VerifyWaitSec / 5) + 1); $i++) {
       try {
         $h = Get-NodeHead $ip
-        if ($h -eq '') { $sync = 'no-heads(old-listener)'; break }
-        if ($h -eq $ExpectSha) { $elapsed = [int]((Get-Date) - $t0).TotalSeconds; $sync = 'SYNCED ' + $elapsed + 's'; break }
-        $sync = 'PENDING head=' + $h.Substring(0, [Math]::Min(8, $h.Length))
+        if ($h -ne '') {
+          if ($h -eq $ExpectSha) { $elapsed = [int]((Get-Date) - $t0).TotalSeconds; $sync = 'SYNCED ' + $elapsed + 's'; break }
+          $sync = 'PENDING head=' + $h.Substring(0, [Math]::Min(8, $h.Length))
+        }
       } catch { $sync = 'verify-err ' + ([string]$_.Exception.Message).Substring(0, 40) }
       Start-Sleep -Seconds 5
     }
