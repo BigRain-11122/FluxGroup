@@ -131,7 +131,8 @@
 - [2026-09-30 17:39:05] U331 判例收口： → 全文档案: .codely-cli/memory/mem-20260930-g-099.md
 - [2026-09-30 18:08:56] [2026-09-30 18:10] FluxVerse/City3D 团结引擎 meta 加密判例： → 全文档案: .codely-cli/memory/mem-20260930-g-100.md
 - [2026-09-30 18:32:17] O-20260930-1745 判例收口： → 全文档案: .codely-cli/memory/mem-20260930-g-101.md
-
+- [2026-10-03 11:08:27] 本地 coder 产线现役态（U340-U345·CEO 令链「QWEN3 新模型 16G 全载」+「承担游戏子公司任务看准确率效率」+「最大化利用本地 coding 算力」+「速度可以缓缓·保证正确率复审和调试好·节省云端 token」）：主力=qwen3.6-coder:35b（34.7B MoE·IQ3_S·12.8GB·全量驻 16G 显存+16k ctx 零卸载·常驻 expires=never），副选 qwen3.8:27b——qwen2.5 老族已清出本机勿再引用；local_coder.py（MiniGame tools/llm/）流程=spec json→生成→机检→复审探针→证据→promote-on-pass；**实弹五坑律**（Windows 编码时区族·①utf-8-sig 读 BOM ②naive 时区禁注入 tz ③subprocess 显式 utf-8 ④stdout reconfigure utf-8 ⑤harness reader 同律）已固化 PROMPT_LAWS 自动追加；**U344 泵**=tools/llm/queue/（NN 升序·done/parked·补货法禁忙工），U345 改版=每 2h 一轮 ≤2 件·三层闸（机检唯一死闸+复审探针+验收实跑）·调试律禁盲跑（失败定病根·一次定向复跑·再败 parked）；**U345 复审校准判例=同族自审 [BUG] 噪声 10/11（自反证条目）——复审当探针不当闸门·[BUG] 人/泵轮分诊（真缺陷特征=可复现/违规格/回退丢失）·首轮分诊抓 2 真缺陷修毕（猴档死稿 main_v2+仓摘要 GIT_FAIL 回退=机检漏检被复审抓到）**；两批 9 任务 14 轮=终态 9/9 收编·首过 88.9%·均 12.2s·89.9-95.2tps（10-03 报告已呈）；真发现=cloudF 172 行补录审计 100%/DDO 20 处无守卫/SortIt 零门禁/登记簿 U259-U262 四组重复行；泵 cron 2cdc463e（7 天过期 10-10 续窗）；权威=登记簿 U340-U345 行。
+- [2026-10-03 20:21:24] 登记簿落行 SOP 坑律（2026-10-03 两犯实录）：追加登记行的 shell 前必须先写好行内容临时文件（write_file 先行）——漏写时 [IO.File]::ReadAllText 抛错但脚本继续，AppendAllText 追加「$pre+空串+$EOL」=空行入册且 commit 照过；正法=①临时行文件先行②追加 shell 内对 ReadAllText 包 try/catch 硬失败退出③或改用 lines.Add($row) 整文件重写（WriteAllLines）时先验 $row 非空。U346/U347 两批均以「清空行+落真行」补正收口。
 
 ### Reference
 - [2026-09-24 17:43:18] 硅基生命元宇宙窗（集团唯一指定整体可视化观测窗口·CEO 令 2026-09-24 ~16:45）维护面文件地图 v3： → 全文档案: .codely-cli/memory/mem-20260930-g-102.md
