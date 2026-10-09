@@ -57,7 +57,7 @@ try {
 if ($NodeId -eq '') { $NodeId = $env:COMPUTERNAME }
 
 # ---- bind (node tailnet IP + loopback; skip missing) + v1.1 self-upgrade ----
-$Vers = '1.2'
+$Vers = '1.3'
 $bindIps = @()
 if ($node -and [string]$node.tailnet_ip -ne '') { $bindIps += [string]$node.tailnet_ip }
 $bindIps += '127.0.0.1'
@@ -178,17 +178,22 @@ function Get-StatusJson() {
                    ts = (Get-Date -Format s); ram_free_gb = $ramFree
                    disk_free_gb = $diskFree; cpu_load_pct = $cpuLoad; gpu = $gpu
                    heartbeats = $hb }
-  # v1.1: repo HEADs (fast rev-parse, no network) + last worker stamp -> dispatcher verify
+  # v1.3: repo HEADs (fast rev-parse, no network) + last worker stamp -> dispatcher verify
+  # heads set = union(node.repos, node.poke_repos) so "." (command plane) is ALWAYS reported
   $repoHeads = @{}
+  $headSet = @()
   try {
-    if ($node -and ($node.PSObject.Properties.Name -contains 'repos')) {
-      foreach ($rel in @($node.repos)) {
-        $p = Join-Path $Root ([string]$rel)
-        if (Test-Path (Join-Path $p '.git')) {
-          $h = ''
-          try { $h = [string](& git -C $p rev-parse HEAD) } catch { }
-          if ($h) { $repoHeads[[string]$rel] = $h.Trim() }
-        }
+    if ($node) {
+      if ($node.PSObject.Properties.Name -contains 'repos') { $headSet += @($node.repos) | ForEach-Object { [string]$_ } }
+      if ($node.PSObject.Properties.Name -contains 'poke_repos') { $headSet += @($node.poke_repos) | ForEach-Object { [string]$_ } }
+    }
+    $headSet = @($headSet | Select-Object -Unique)
+    foreach ($rel in $headSet) {
+      $p = Join-Path $Root ([string]$rel)
+      if (Test-Path (Join-Path $p '.git')) {
+        $h = ''
+        try { $h = [string](& git -C $p rev-parse HEAD) } catch { }
+        if ($h) { $repoHeads[[string]$rel] = $h.Trim() }
       }
     }
   } catch { }
