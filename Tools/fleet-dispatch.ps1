@@ -41,7 +41,12 @@ function Poke-Node([string]$ip) {
 }
 function Get-NodeHead([string]$ip) {
   $s = Invoke-RestMethod -Uri ('http://' + $ip + ':' + $port + '/status') -Method Get -TimeoutSec 15
-  if ($s.PSObject.Properties.Name -contains 'repo_heads') { return [string]$s.repo_heads['.'] }
+  if ($s.PSObject.Properties.Name -contains 'repo_heads') {
+    # PS5.1: PSCustomObject property '.' cannot be indexed with ['.'] - go through Properties
+    $p = $s.repo_heads.PSObject.Properties['.']
+    if ($p) { return [string]$p.Value }
+    return 'no-dot'
+  }
   return ''
 }
 
