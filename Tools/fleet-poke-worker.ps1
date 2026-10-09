@@ -10,7 +10,8 @@ param(
   [string]$Root = "C:\Users\sjs20\Desktop\FluxGroup",
   [string]$NodeId = "",
   [string]$Reason = "poke",
-  [string]$TasksJson = "[]"
+  [string]$TasksJson = "[]",
+  [string]$PullReposJson = "[]"
 )
 $ErrorActionPreference = 'Continue'
 $Dir = Join-Path $env:USERPROFILE '.codely-cli\fleet-link'
@@ -47,29 +48,89 @@ try {
 } catch { }
 if ($NodeId -eq '') { $NodeId = $env:COMPUTERNAME }
 
-# ---- pull all registered repos (fast: git pull --ff-only) ----
+# ---- pull policy (O-20261009-1755 sync tiers): HOT = node.poke_repos + explicitly
+# forced repos (request must be allowlisted against node.repos). WARM repos are
+# pulled by their OWN loop tasks on round cadence - NOT duplicated here. The
+# stamp below still reports ALL registered repo HEADs (rev-parse is cheap). ----
 $git = 'git'
 $heads = @()
-if ($node -and ($node.PSObject.Properties.Name -contains 'repos')) {
-  foreach ($rel in @($node.repos)) {
+$force = @()
+try { $force = @((($PullReposJson) | ConvertFrom-Json) | ForEach-Object { [string]$_ }) } catch { }
+$force = @($force | Where-Object { $_ -and $_.Trim() -ne '' })
+$pullSet = @()
+if ($node -and ($node.PSObject.Properties.Name -contains 'poke_repos')) { $pullSet = @($node.poke_repos) | ForEach-Object { [string]$_ } }
+if ($pullSet.Count -eq 0) { $pullSet = @('.') }
+foreach ($f in $force) {
+  $fs = [string]$f
+  $registered = ($node -and ($node.PSObject.Properties.Name -contains 'repos') -and (@($node.repos) -contains $fs))
+  if ($registered -and ($pullSet -notcontains $fs)) { $pullSet += $fs }
+  elseif (-not $registered) { $heads += ($fs + ':force-deny') }
+}
+foreach ($rel in $pullSet) {
     $p = Join-Path $Root ([string]$rel)
     if (-not (Test-Path (Join-Path $p '.git'))) { $heads += ([string]$rel + ':no-repo'); continue }
-    $s = ''
-    try { $s = [string]((& $git -C $p pull --ff-only 2>&1 | ForEach-Object { [string]$_ }) -join ' | ') } catch { $s = [string]$_.Exception.Message }
+    $lines = @()
+    try { $lines = @(& $git -C $p pull --ff-only 2>&1 | ForEach-Object { [string]$_ }) } catch { $lines = @([string]$_.Exception.Message) }
+    $s = $lines -join ' | '
     if ($s -match 'up to date') { $heads += ([string]$rel + ':current') }
     elseif ($s -match 'Fast-forward') { $heads += ([string]$rel + ':updated') }
+    elseif ($s -match 'would be overwritten by merge') {
+      # v1.2 (O-20261009-1755): dirty in-flight files (usually session CODELY.md
+      # memory) must NEVER block the command plane and NEVER be lost.
+      # Directed autostash: stash ONLY the blocking paths -> ff-merge -> pop.
+      # Pop conflict (upstream touched same file): keep the LOCAL session
+      # version (theirs in stash-pop = stashed local edits); upstream version
+      # stays in history; owning window commits its version at round end.
+      $block = @()
+      $inBlock = $false
+      foreach ($ln in $lines) {
+        if ($ln -match 'would be overwritten by merge') { $inBlock = $true; continue }
+        if ($inBlock) {
+          if ($ln -match '^\s+(\S+)\s*$') { $block += $Matches[1]; continue }
+          $inBlock = $false
+        }
+      }
+      $block = @($block | Where-Object { $_ -and (Test-Path (Join-Path $p $_)) } | Select-Object -First 12)
+      if ($block.Count -eq 0) {
+        $heads += ([string]$rel + ':fail')
+        WK-Log 'pull-fail' ([string]$rel + ' ' + $s.Substring(0, [Math]::Min(200, $s.Length)))
+        continue
+      }
+      $tag = 'fleet-autostash-' + (Get-Date -Format 'yyyyMMddHHmmss')
+      $stashArgs = @('-C', $p, 'stash', 'push', '-m', $tag, '--') + $block
+      $null = & $git @stashArgs 2>&1
+      $mlines = @(& $git -C $p merge --ff-only origin/main 2>&1 | ForEach-Object { [string]$_ })
+      $m = $mlines -join ' | '
+      if ($m -match 'Fast-forward|up to date|Already up to date') {
+        $plines = @(& $git -C $p stash pop 2>&1 | ForEach-Object { [string]$_ })
+        $pop = $plines -join ' | '
+        if ($pop -match 'CONFLICT') {
+          foreach ($bf in $block) { $null = & $git -C $p checkout --theirs -- $bf 2>&1 }
+          $unstageArgs = @('-C', $p, 'restore', '--staged', '--') + $block
+          $null = & $git @unstageArgs 2>&1
+          $null = & $git -C $p stash drop 2>&1
+          $heads += ([string]$rel + ':updated-kept-local')
+          WK-Log 'autostash-conflict-kept-local' ([string]$rel + ' ' + ($block -join ','))
+        } else { $heads += ([string]$rel + ':updated-restored-inflight') }
+      } else {
+        # merge still failed - restore stashed edits immediately (never hold them)
+        $null = & $git -C $p stash pop 2>&1
+        $heads += ([string]$rel + ':fail')
+        WK-Log 'pull-fail' ([string]$rel + ' ' + $s.Substring(0, [Math]::Min(200, $s.Length)))
+      }
+    }
     else {
       $heads += ([string]$rel + ':fail')
       if ($s.Length -gt 200) { $s = $s.Substring(0, 200) }
       WK-Log 'pull-fail' ([string]$rel + ' ' + $s)
     }
-  }
 }
 
 # ---- wake allowlisted tasks ----
 $woke = @()
 $reqTasks = @()
 try { $reqTasks = @((($TasksJson) | ConvertFrom-Json) | ForEach-Object { [string]$_ }) } catch { }
+$reqTasks = @($reqTasks | Where-Object { $_ -and $_.Trim() -ne '' })
 $allow = @()
 if ($node -and ($node.PSObject.Properties.Name -contains 'wake_tasks')) { $allow = @($node.wake_tasks) | ForEach-Object { [string]$_ } }
 foreach ($t in $reqTasks) {

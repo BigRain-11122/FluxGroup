@@ -1,13 +1,17 @@
-# fleet-dispatch.ps1 - FleetLink dispatcher v1.1 (CEO order 2026-10-04; v1.1 = O-20261009-1750 "very fast sync").
+# fleet-dispatch.ps1 - FleetLink dispatcher v1.2 (CEO order 2026-10-04; v1.1 = O-20261009-1750
+# "very fast sync"; v1.2 = O-20261009-1755 sync tiers).
 # Pokes all enabled tailnet nodes so they pull immediately + wake allowlisted
 # tasks (seconds-level dispatch instead of waiting for the next 10-min tick).
 # v1.1 upgrades:
 #   - timeout 8s -> 25s default (-TimeoutSec), retry x2 with 3s backoff
-#     (busy nodes under GPU/render load answer slowly but DO answer)
-#   - -ExpectSha verification loop: after an accepted poke, polls the node's
-#     /status repo_heads until the total repo HEAD matches the sha we pushed ->
-#     reports SYNCED <elapsed>s / PENDING (machine-verifiable fast sync)
+#   - -ExpectSha verification loop: polls the node's /status repo_heads until
+#     the total repo HEAD matches the sha we pushed -> SYNCED <elapsed>s
 #   - per-node sync state written to dispatch-log.jsonl (watchdog consumable)
+# v1.2 (sync tiers, CEO order O-20261009-1755 "git 也要分好类型"):
+#   - nodes now pull ONLY their HOT repos (node.poke_repos, default ".") per poke;
+#     WARM repos are pulled by their own loop tasks (woken via -Tasks)
+#   - -Repos forces specific repos into this poke (e.g. -Repos 'gaming/MiniGame';
+#     allowlisted against node.repos by the worker)
 # Called by: interactive sessions after pushing orders/decisions, night rounds,
 # and the OrderSentinel hook (new P0/P1/T0/T1 ledger rows -> fleet-wide poke).
 # Signals only - git stays the sole data channel (transport clause unchanged).
@@ -16,6 +20,7 @@ param(
   [string]$Root = "C:\Users\sjs20\Desktop\FluxGroup",
   [string]$Reason = "manual",
   [string[]]$Tasks = @(),
+  [string[]]$Repos = @(),
   [int]$TimeoutSec = 25,
   [string]$ExpectSha = "",
   [int]$VerifyWaitSec = 60,
@@ -34,8 +39,8 @@ if ($cfg.PSObject.Properties.Name -contains 'port') { $port = [int]$cfg.port }
 if ($ExpectSha -eq '') { try { $ExpectSha = [string](& 'C:\Program Files\Git\cmd\git.exe' -C $Root rev-parse HEAD) } catch { } }
 
 function Poke-Node([string]$ip) {
-  $body = @{ reason = $Reason; tasks = @($Tasks) } | ConvertTo-Json -Compress
-  $r = Invoke-RestMethod -Uri ('http://' + $ip + ':' + $port + '/poke') -Method Post -Body $body -ContentType 'application/json' -TimeoutSec $TimeoutSec
+  $body = @{ reason = $Reason; tasks = @($Tasks); repos = @($Repos) } | ConvertTo-Json -Compress
+  $r = Invoke-RestMethod -Uri ('http://' + $ip + ':' + $port + '/poke') -Method Post -Body $Body -ContentType 'application/json' -TimeoutSec $TimeoutSec
   if ($r.ok) { return 'ok' }
   return 'err'
 }

@@ -57,7 +57,7 @@ try {
 if ($NodeId -eq '') { $NodeId = $env:COMPUTERNAME }
 
 # ---- bind (node tailnet IP + loopback; skip missing) + v1.1 self-upgrade ----
-$Vers = '1.1'
+$Vers = '1.2'
 $bindIps = @()
 if ($node -and [string]$node.tailnet_ip -ne '') { $bindIps += [string]$node.tailnet_ip }
 $bindIps += '127.0.0.1'
@@ -200,17 +200,21 @@ function Get-StatusJson() {
   return ($o | ConvertTo-Json -Depth 5 -Compress)
 }
 
-function Start-PokeWorker([string]$reason, [string[]]$reqTasks) {
+function Start-PokeWorker([string]$reason, [string[]]$reqTasks, [string[]]$reqRepos) {
   # v1.1: pull+wake runs in a HIDDEN background process - accept loop never blocks.
+  # v1.2 (O-20261009-1755 tiers): forced repos ride along; worker allowlists them.
   $worker = Join-Path $Root 'Tools\fleet-poke-worker.ps1'
   if (-not (Test-Path $worker)) { FL-Log 'worker-missing' $worker; return }
   $tj = '[]'
   try { $tj = (@($reqTasks) | ConvertTo-Json -Compress) } catch { }
   if ($tj.Length -gt 900) { $tj = '[]' }
+  $rj = '[]'
+  try { $rj = (@($reqRepos) | ConvertTo-Json -Compress) } catch { }
+  if ($rj.Length -gt 400) { $rj = '[]' }
   try {
-    $argz = '-NoProfile -ExecutionPolicy Bypass -File "' + $worker + '" -Root "' + $Root + '" -NodeId ' + $NodeId + ' -Reason "' + $reason + '" -TasksJson "' + $tj + '"'
+    $argz = '-NoProfile -ExecutionPolicy Bypass -File "' + $worker + '" -Root "' + $Root + '" -NodeId ' + $NodeId + ' -Reason "' + $reason + '" -TasksJson "' + $tj + '" -PullReposJson "' + $rj + '"'
     Start-Process -FilePath 'powershell.exe' -ArgumentList $argz -WindowStyle Hidden | Out-Null
-    FL-Log 'worker-spawn' ('reason=' + $reason)
+    FL-Log 'worker-spawn' ('reason=' + $reason + ' force-repos=' + $rj)
   } catch { FL-Log 'worker-spawn-fail' ([string]$_.Exception.Message) }
 }
 
@@ -230,15 +234,16 @@ function Handle-Client($client) {
   if ($path -eq '/status') { Send-Resp $client 200 'OK' (Get-StatusJson); return }
   if ($path -eq '/poke') {
     if ([string]$req.m -ne 'POST') { Send-Resp $client 405 'Method Not Allowed' '{"ok":false,"err":"post-only"}'; return }
-    $reason = 'poke'; $tasks = @()
+    $reason = 'poke'; $tasks = @(); $repos = @()
     try {
       $b = ([string]$req.body) | ConvertFrom-Json
       if ($b.PSObject.Properties.Name -contains 'reason') { $reason = [string]$b.reason }
       if ($b.PSObject.Properties.Name -contains 'tasks') { $tasks = @($b.tasks) | ForEach-Object { [string]$_ } | Select-Object -First 10 }
+      if ($b.PSObject.Properties.Name -contains 'repos') { $repos = @($b.repos) | ForEach-Object { [string]$_ } | Select-Object -First 8 }
     } catch { }
     $o = [ordered]@{ ok = $true; accepted = $true; node = $NodeId; version = $Vers; ts = (Get-Date -Format s) }
     Send-Resp $client 200 'OK' ($o | ConvertTo-Json -Compress)
-    Start-PokeWorker $reason $tasks
+    Start-PokeWorker $reason $tasks $repos
     return
   }
   Send-Resp $client 404 'Not Found' '{"ok":false,"err":"unknown-endpoint"}'
