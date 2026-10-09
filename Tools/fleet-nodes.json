@@ -15,16 +15,16 @@
       "note": "O-20261009-1430: house/BigHouse removed from poke-pull list (no remote configured -> chronic pull-fail since 10-08; CEO physical item 'create GH repo BigRain-11122/BigHouse' pending; re-add here after remote+first push). TIER: '.'=HOT (poke); all product repos=WARM (own OS loops self-pull on round cadence)."
     },
     {
-      "id": "bm-b",
-      "host": "BM-B",
+"id": "bm-b",
+      "host": "BIGMONEY",
       "tailnet_ip": "100.82.175.0",
       "enabled": true,
-      "root": "C:/Users/sjs20/Desktop/FluxGroup",
+      "root": "C:/Fluxgroup/FluxGroup",
       "repos": [".", "quant/bigmoney"],
       "poke_repos": ["."],
-      "wake_tasks": [],
+      "wake_tasks": ["Bigmoney-IterationLoop"],
       "status_files": ["quant/bigmoney/fleet/machines/bm-b.json"],
-      "note": "OFFLINE since 2026-10-09 ~01:04 (tailscale last seen 13h+; heartbeat stale 00:42) - E1 CEO physical item: power on / check network. tailnet join DONE 10-06; roster pre-filled by HQ 10-08; ON REVIVAL its loop must: confirm host/root/wake_tasks locally + run Tools\\register-fleet-link.ps1 + poke-test from bm-a closes adoption (O-20261009-1430)."
+      "note": "adopted 2026-10-10 bm-b r810 (O-20260909-2150 onboarding step1 / O-20261010-0010 receipt): host/root/wake_tasks confirmed locally (host=BIGMONEY actual hostname; root=C:/Fluxgroup/FluxGroup partial-clone group tree; wake=Bigmoney-IterationLoop pulls quant/bigmoney WARM tier); FluxGroup-FleetLink task registered S4U per bm-b machine law (all lane tasks S4U, InteractiveToken forbidden per 2026-09-29 blackout-root judgment); tailnet join DONE 10-06 (100.82.175.0). ADOPTION PENDING: poke-test from bm-a closes (O-20260909-1430)."
     },
         {
       "id": "bm-c",
