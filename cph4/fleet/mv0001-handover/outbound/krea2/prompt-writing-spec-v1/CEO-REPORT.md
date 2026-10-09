@@ -26,18 +26,18 @@
 - **实验设计**（专家版归因设计）：A=旧否定墙原样 / B′=A 逐字仅删否定墙（单变量归因）/ B=正面叙事 / C=机制专业版——同场景同种子×4，共 16 张
 - **对照板**：见下方地址（上排红 A→下排绿 C 一眼对比）
 - **A/B 组级评分结论（多模态盲评·板级）**：**B 组五维全胜**——①年代感：B 组=2000 台湾青春片语法（单侧窗光/暖调暗部/胶片光晕），A 组=现代数码合影感；②皮肤：B 组哑光毛孔肌，A 组平光奶油肌磨皮感；③发型韩系倾向：**A 组墙上 NOT Korean idol，浓密齐刘海仍很像 K-pop 练习生；B 组正面描述「自然黑发略乱不造型」才真正删掉了它——否定墙反噬实证**；④文字出现率 0/0：NO_TEXT 否定墙零增益；⑤一致性与去AI感：A 组种子间漂移大（三人照/单人乱漂=否定墙无控场力），B 组四种子高度同构、塑料感最低。**一句话：否定词在这套模型里是「写了也白写还帮倒忙」的冗余，真正塑造画面的是正面写出的东西——官方改写器规则 8 与实验双向印证。**
-- B′/C 归因组：已在生成队列中（多机同窗共享 GPU，排在 H3 测试片后逐张出），出完补呈四组完整对照板。
+- **B′/C 归因组终评（16 张四组完整板）**：四组排序 **C（机制组装）＞ B（正面叙事）＞ B′（仅删否定墙）＞ A（旧否定墙）**。①B′ 归因定谳：仅删否定墙=「止损不定向」——构图从三人合影松动为抓拍、偶像吸引子减弱（否定墙=错误概念吸引子实锤），但平光/人数漂移（2/2/1/3 人乱跳）/无年代锚点全保留；②C 机制组五维全出：钨丝台灯 3200K 有动机侧光（B′ 平光问题被正面解决）/年代物证落地（绿罩台灯+摊开课本+铁皮笔盒+深领边白衬衫=2001 从口号变物证）/胶片颗粒降塑料感/**四种子锁同一机位同景别同灯位**（机制词锁拍摄方案·种子只管微调表演）/桌面杂道具+光衰减杀渲染感。**一句话：删否定墙是减法（拆错误吸引子·让图不再错），机制化重组是加法（五变量钉死画面·让图成为作品）。**
 
 ## 四、交付地址（复制即开）
 
 - **规范全文**：C:\Users\sjs20\Desktop\FluxGroup\cph4\fleet\mv0001-handover\outbound\krea2\prompt-writing-spec-v1\PROMPT-SPEC.md
 - **词表机制（核心）**：C:\Users\sjs20\Desktop\FluxGroup\cph4\fleet\mv0001-handover\outbound\krea2\prompt-writing-spec-v1\prompt_lexicon.py
-- **A/B 对照板（当前版含 A/B 两组）**：C:\Users\sjs20\Desktop\FluxGroup\.codely-cli\scratch\mv-carve-bma\krea2-out\prompt-ab\AB_SHEET.jpg
-- **A/B 全部单图（+后续 B′/C 落同目录）**：C:\Users\sjs20\Desktop\FluxGroup\.codely-cli\scratch\mv-carve-bma\krea2-out\prompt-ab\
+- **A/B 对照板（四组 16 张完整版）**：C:\Users\sjs20\Desktop\FluxGroup\.codely-cli\scratch\mv-carve-bma\krea2-out\prompt-ab\AB_SHEET.jpg
+- **A/B′/B/C 全部单图**：C:\Users\sjs20\Desktop\FluxGroup\.codely-cli\scratch\mv-carve-bma\krea2-out\prompt-ab\
 
-## 五、下一步（待您点）
+## 五、下一步（已开工）
 
-1. 词表机制+对照板过目——方向 OK 的话，产线六个脚本全部切换机制组装（约 1 小时工时，改完不跑量产，等角色定版令一起放）
+1. **产线全部现役脚本切换机制组装——已完成**（CEO 令「好好修已有的」当日执行）：11 个现役脚本（campus/designs2/designs3/candidates_v2/qwen2511_edit/hairera/hairera2/female_era/fastface/fullbody/w1fix）全部改造——否定墙+NO_TEXT 全删、prompt 按词表机制组装、铁刘海/年代发型改正面几何直给、编辑指令三段式化；**68 个 prompt 全部过 lint 三名单自检闸（全绿）**；已批效果的 ID 字面保留（MC 候选/fits 正典不伤）；判死路线旧脚本（jay_* 真照系/chars v1/mass1）不动。改造版收编：C:\Users\sjs20\Desktop\FluxGroup\cph4\fleet\mv0001-handover\outbound\krea2\prompt-writing-spec-v1\patched-scripts\
 2. 【可选】按新机制重跑一版男主候选（十几张）——定版门前快样
 3. 【可选】H3 视频用新模板试跑 2-3 个 5 秒镜头（静态微动安全区）
 
