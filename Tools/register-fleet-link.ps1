@@ -29,7 +29,7 @@ if ($NodeId -eq '') {
 $argLine = '//B //nologo "' + $vbs + '" powershell.exe -NoProfile -ExecutionPolicy Bypass -File "' + $script + '" -Root "' + $Root + '" -NodeId ' + $NodeId
 $action = New-ScheduledTaskAction -Execute 'wscript.exe' -Argument $argLine
 $trigger = New-ScheduledTaskTrigger -Once -At (Get-Date).AddMinutes(1) -RepetitionInterval (New-TimeSpan -Minutes 5) -RepetitionDuration (New-TimeSpan -Days 3650)
-$settings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable -ExecutionTimeLimit ([TimeSpan]::Zero)
+$settings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable -ExecutionTimeLimit ([TimeSpan]::Zero) -MultipleInstances Parallel
 # PS5.1 quirk: Register-ScheduledTask has no -LogonType direct parameter here;
 # go through New-ScheduledTaskPrincipal instead (same interactive-user effect).
 $principal = New-ScheduledTaskPrincipal -UserId $env:USERNAME -LogonType Interactive
