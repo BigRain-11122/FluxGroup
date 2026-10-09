@@ -57,7 +57,7 @@ try {
 if ($NodeId -eq '') { $NodeId = $env:COMPUTERNAME }
 
 # ---- bind (node tailnet IP + loopback; skip missing) + v1.1 self-upgrade ----
-$Vers = '1.3'
+$Vers = '1.4'
 $bindIps = @()
 if ($node -and [string]$node.tailnet_ip -ne '') { $bindIps += [string]$node.tailnet_ip }
 $bindIps += '127.0.0.1'
@@ -208,6 +208,11 @@ function Get-StatusJson() {
 function Start-PokeWorker([string]$reason, [string[]]$reqTasks, [string[]]$reqRepos) {
   # v1.1: pull+wake runs in a HIDDEN background process - accept loop never blocks.
   # v1.2 (O-20261009-1755 tiers): forced repos ride along; worker allowlists them.
+  # v1.4 (C-20261009-04): the -Tasks/-Repos JSON was embedded inside a quoted
+  #   -ArgumentList string - the inner double quotes broke param binding, so
+  #   workers ALWAYS received [] (live-fire probe 2026-10-09: pulls worked because
+  #   empty "[]" carries no quotes; task wake NEVER actually worked end-to-end).
+  #   Fix: pass base64 (quoting-proof); worker decodes; legacy params still honored.
   $worker = Join-Path $Root 'Tools\fleet-poke-worker.ps1'
   if (-not (Test-Path $worker)) { FL-Log 'worker-missing' $worker; return }
   $tj = '[]'
@@ -216,10 +221,14 @@ function Start-PokeWorker([string]$reason, [string[]]$reqTasks, [string[]]$reqRe
   $rj = '[]'
   try { $rj = (@($reqRepos) | ConvertTo-Json -Compress) } catch { }
   if ($rj.Length -gt 400) { $rj = '[]' }
+  $tb = 'W10='
+  $rb = 'W10='
+  try { $tb = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($tj)) } catch { }
+  try { $rb = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($rj)) } catch { }
   try {
-    $argz = '-NoProfile -ExecutionPolicy Bypass -File "' + $worker + '" -Root "' + $Root + '" -NodeId ' + $NodeId + ' -Reason "' + $reason + '" -TasksJson "' + $tj + '" -PullReposJson "' + $rj + '"'
+    $argz = '-NoProfile -ExecutionPolicy Bypass -File "' + $worker + '" -Root "' + $Root + '" -NodeId ' + $NodeId + ' -Reason "' + $reason + '" -TasksB64 ' + $tb + ' -ReposB64 ' + $rb
     Start-Process -FilePath 'powershell.exe' -ArgumentList $argz -WindowStyle Hidden | Out-Null
-    FL-Log 'worker-spawn' ('reason=' + $reason + ' force-repos=' + $rj)
+    FL-Log 'worker-spawn' ('reason=' + $reason + ' tasks=' + $tj + ' force-repos=' + $rj)
   } catch { FL-Log 'worker-spawn-fail' ([string]$_.Exception.Message) }
 }
 

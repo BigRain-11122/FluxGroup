@@ -11,8 +11,16 @@ param(
   [string]$NodeId = "",
   [string]$Reason = "poke",
   [string]$TasksJson = "[]",
-  [string]$PullReposJson = "[]"
+  [string]$PullReposJson = "[]",
+  [string]$TasksB64 = "",
+  [string]$ReposB64 = ""
 )
+# v1.3 (C-20261009-04): base64 channel from listener v1.4 - the old quoted
+# -TasksJson argument embedded JSON double-quotes inside a quoted -ArgumentList
+# string, which broke param binding (workers always received []). Legacy params
+# still honored for older listeners.
+if ($TasksB64 -ne "") { try { $TasksJson = [System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($TasksB64)) } catch { } }
+if ($ReposB64 -ne "") { try { $PullReposJson = [System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($ReposB64)) } catch { } }
 $ErrorActionPreference = 'Continue'
 $Dir = Join-Path $env:USERPROFILE '.codely-cli\fleet-link'
 if (-not (Test-Path $Dir)) { New-Item -ItemType Directory -Path $Dir | Out-Null }
