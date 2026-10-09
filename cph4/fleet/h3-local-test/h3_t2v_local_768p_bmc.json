@@ -1,0 +1,15 @@
+{
+  "1": {"class_type": "UNETLoader", "inputs": {"unet_name": "minimax_h3_fl2va_pruned_int4_convrot_simple.safetensors", "weight_dtype": "default"}},
+  "2": {"class_type": "LoraLoaderModelOnly", "inputs": {"lora_name": "minimax_h3_fl2v_turbo_4step_v1.0_768p_comfyui_bf16.safetensors", "strength_model": 1.0, "model": ["1", 0]}},
+  "3": {"class_type": "CLIPLoader", "inputs": {"clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors", "type": "minimax", "device": "default"}},
+  "4": {"class_type": "VAELoader", "inputs": {"vae_name": "minimax_h3_video_vae_fp16.safetensors"}},
+  "6": {"class_type": "MiniMaxH3ImageToVideo", "inputs": {"clip": ["3", 0], "vae": ["4", 0], "prompt": "Macro close-up, one continuous take. The camera dollies in slowly at constant speed toward a wet clay tablet resting on a dark wooden desk. A bronze stylus presses neat cuneiform wedges into the damp clay; shallow grooves catch the warm lamplight. Fine dust motes drift through a single warm tungsten light shaft at 2800K. Shallow depth of field, 85mm macro lens rendering, dark umber background falling into deep shadow, fine 35mm film grain of Kodak Vision 500T stock. Start framing: the tablet surface fills the lower third of the frame. End framing: closer, on the freshly carved cuneiform wedges.", "width": 1344, "height": 768, "length": 124}},
+  "7": {"class_type": "BasicGuider", "inputs": {"model": ["2", 0], "conditioning": ["6", 0]}},
+  "8": {"class_type": "KSamplerSelect", "inputs": {"sampler_name": "res_multistep"}},
+  "9": {"class_type": "BasicScheduler", "inputs": {"model": ["2", 0], "scheduler": "simple", "steps": 4, "denoise": 1.0}},
+  "10": {"class_type": "RandomNoise", "inputs": {"noise_seed": 20261009}},
+  "11": {"class_type": "SamplerCustomAdvanced", "inputs": {"noise": ["10", 0], "guider": ["7", 0], "sampler": ["8", 0], "sigmas": ["9", 0], "latent_image": ["6", 1]}},
+  "12": {"class_type": "VAEDecode", "inputs": {"samples": ["11", 0], "vae": ["4", 0]}},
+  "14": {"class_type": "CreateVideo", "inputs": {"images": ["12", 0], "fps": 24.0, "bit_depth": 8}},
+  "15": {"class_type": "SaveVideo", "inputs": {"video": ["14", 0], "filename_prefix": "h3_local_test/bmc_768p_t2v", "format": "auto"}}
+}
