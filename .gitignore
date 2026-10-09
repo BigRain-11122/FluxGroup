@@ -52,3 +52,41 @@ docs/audits/quant-audit-cadence.jsonl
 docs/audits/quant-audit-probe-20260930.json
 docs/audits/quant-audit-v2-20260930.json
 docs/audits/deliverable-metrics.json
+
+# === Workspace baseline v1 (2026-10-09 fleet git-hygiene pass, CEO order O-20261009-1715 / council C-20261009-03) ===
+# Per-dir .codely-cli: only settings.json + memory/ + evidence/ are canonical; ALL session/runtime scratch is noise.
+.codely-cli/*
+!.codely-cli/settings.json
+!.codely-cli/memory/
+!.codely-cli/evidence/
+gaming/.codely-cli/*
+!gaming/.codely-cli/settings.json
+!gaming/.codely-cli/memory/
+quant/.codely-cli/*
+!quant/.codely-cli/settings.json
+!quant/.codely-cli/memory/
+life/.codely-cli/*
+!life/.codely-cli/settings.json
+!life/.codely-cli/memory/
+media/.codely-cli/*
+!media/.codely-cli/settings.json
+!media/.codely-cli/memory/
+compute/.codely-cli/*
+!compute/.codely-cli/settings.json
+!compute/.codely-cli/memory/
+domain/.codely-cli/*
+!domain/.codely-cli/settings.json
+!domain/.codely-cli/memory/
+house/.codely-cli/*
+!house/.codely-cli/settings.json
+!house/.codely-cli/memory/
+# codely sync-conflict remnants (chongtu-file class) - junk, never commit
+**/.codely-cli/*冲突*
+# media runtime assets (media/BigStream is its own repo; MUSIC-class bulk audio never goes to GitHub)
+media/MUSIC/
+# lab & browser runtime surfaces
+cph4/labbench/
+.playwright-mcp/
+# python bytecode
+__pycache__/
+*.pyc
