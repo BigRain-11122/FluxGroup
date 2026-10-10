@@ -90,9 +90,11 @@ def main():
 
     out = os.path.join(OUT_DIR, "30s_reel_v4.mp4")
     # finishing 站(调色席+节奏席 v4.3.1 顺序): 暖饱和微推+黑位轻抬 → 暗角 → 统一颗粒最后
-    fin = ("eq=saturation=1.05:gamma=0.98,"
-           "vignette=PI/5,"
-           "noise=alls=5:allf=t+u,format=yuv420p")
+    fin = ("colorbalance=rs=.05:gs=.01:bs=-.06:rm=.04:gm=.01:bm=-.03:rh=.07:gh=.02:bh=-.10,"
+           "curves=all='0/0.045 0.25/0.29 0.75/0.72 1/0.965',"
+           "eq=saturation=.85:gamma=1.03:contrast=.97,"
+           "vignette=PI/4,"
+           "noise=alls=9:allf=t+u,format=yuv420p")
     fc = (
         "[0:v][1:v]xfade=transition=fade:duration=%f:offset=%f[at];"
         "[at][2:v]xfade=transition=fade:duration=%f:offset=%f[ab];"
