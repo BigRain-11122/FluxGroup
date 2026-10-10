@@ -133,6 +133,17 @@ try {
   try { $json = ConvertTo-Json -InputObject (@{ seen = $arr; ver = 3 }) -Compress } catch { }
   if ($json) { Set-Content -Path $StateF -Value $json -Encoding UTF8 }
 
+  # ---- v1.3.1 daily heartbeat: one log line per day so quiet days still prove
+  #      the scanner lives. Functional-liveness target for
+  #      Tools/fleet-mechanism-audit.ps1 (silent log = the C-20261009-04 E1 class).
+  try {
+    $lastL = Get-Content -Path $LogF -Tail 1 -ErrorAction SilentlyContinue
+    $todayS = (Get-Date -Format 'yyyy-MM-dd')
+    if (-not $lastL -or ($lastL -notmatch [regex]::Escape($todayS))) {
+      SL-Log ('HEARTBEAT day=' + (Get-Date -Format 'MMdd') + ' rows=' + $keys.Count + ' seen=' + $seen.Count)
+    }
+  } catch { }
+
   # ---- wake local tasks (skip disabled = CEO freeze faces) ----
   $fired = @()
   if ($baseline) {

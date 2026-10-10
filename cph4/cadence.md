@@ -61,7 +61,7 @@
 | ①存在性 | 在册+Enabled（停用族豁免登记对账） | **UNEXPECTED-DISABLED**（意外被禁=重点抓） |
 | ②准时性 | LastRunTime ≤ 2×预期周期（防「任务在但静默不跑」=原夜轮盲区） | STALE／NEVER-RAN |
 | ③结果码 | 0/RUNNING/NOT-RUN-YET 正常；**产出实据优先律：结果码异常+产出新鲜=启动器码类（观察级）；结果码异常+产出停更=真故障 E2** | CODE-n 入夜报 |
-| ④产出实据 | 轮账本/state/日志时间戳新鲜（tokens 行已强制）——exit 0 但产出停更=产出断流 | 归各司自监控（L0） |
+| ④产出实据 | 轮账本/state/日志时间戳新鲜（tokens 行已强制）——exit 0 但产出停更=产出断流 | 归各司自监控（L0）＋**集团级机制面=L3 值守轮跑 `Tools/fleet-mechanism-audit.ps1`**（C-20261010-01·STALE 入夜报） |
 | ⑤资源面 | 心跳 verdict+机队旗标 | fleet-audit.ps1（§五台账） |
 
 **监控分工**（谁监控谁）：L0 轮自监控（轮账本时间戳）→L2 司级看门狗（TickWatchdog/LoopWatchdog·F-08 车道归属绑定·非 owner 禁本地重启）→L3 夜轮 task-health 全量扫→CEO 面=CityWatch+黑灯区律+夜报点名行。
@@ -144,3 +144,5 @@ CEO 一句话令（任意会话/任意机器）
 
 - 2026-10-04: **FluxGroup-FleetLink 入账+OrderSentinel 分发钩 v1.3**（CEO 令 10-04「决策和分发的链条+机队组网弄好·git 慢」+追加全权授权令·O-20260928-1855③ 状态面 v2 执行批）：5min 保活微监听（/health //status 心跳 10s 级直读 /poke 白名单点火+九仓 `pull --ff-only`——**信号零数据·git 仍唯一数据通道**·tailnet 100.64.0.0/10+loopback 双绑·单实例端口占用即退·VBS 静默·零提权=Tailscale-In 防火墙规则复用）+`fleet-dispatch.ps1` 分发器（OrderSentinel 钩=新 P0/P1/T0/T1 令→全机队秒级 poke·fail-soft）+节点名册 `Tools/fleet-nodes.json`（bm-a 在网 100.110.185.62·bm-b/bm-c 待 tailscale 登录链接·BG-B/C 采纳窗）；bm-a 实弹三验毕（health 双通道/status 直读/poke 拉取+白名单 deny）；B/C 机采纳=机器对称律（`register-fleet-link.ps1` 幂等注册·host/tailnet_ip 填名册后 enabled=true）。
 - 2026-10-09: **§7.1 命令下发链全景 v3+OrderSentinel v1.3 盲区根治+map v2 分工路由**（CEO 令「委员会牵头设计好任务和命令下发机制和链条，要科学高效…分发到位且高效执行，有一个很快的链条到各分公司」·C-20261009-04 过会 7/7·**命令查重登记**=C-20261008-05 传导闭环+§7 时限表+O-20261004-2255/O-20261009-1750/1755 FleetLink v1.1-1.3 已有法覆盖→执法强化+真缺口收口·零新顶层法条零新文件）：**取证实锤=令流哨兵失明 10 天**（v1.2.2 正则只认表格行·ledger 10 月起条目式=恒零匹配·log 末条 09-29 18:56+state max:0——期间 CEO 令 60+ 全靠 10min 轮询+人工 poke·「秒级分发」自动面失效·连带 dispatch 钩从未自动触发）；修法五件=①v1.3（双格式行匹配+双台账扫描〔orders.md registry 令行入列〕+集游标〔位置无关/改号免疫/晚到行根治·首跑基线迁移 213 行实测〕+Disabled 强冻跳过+dispatch 钩传 -Tasks 跨机即拉即动）②map v2（@司→{机→任务}+@八线/@六司/@全体广播键+bm-c 12 任务按司归属填充）③本 §7.1 链全景④实弹验证（本令行=活体测试件）⑤零派单（哨兵单机件随 push 生效·bm-c/bg 机纯受益零操作）；判据回访 10-16（哨兵活性 ≥90% 抽 3+令→动工 ≤2-4min 抽 3+跨机唤醒首证+纯 O- 行抽验+CEO 再提分发问题=0）。
+
+- 2026-10-10: **§6 信号④ 产出实据监控=集团机制面 L3 承接件入账（C-20261010-01 委员会全盘自查案·R4「机制活性无自证」族收口）**：`Tools/fleet-mechanism-audit.ps1` v1.0（五探针：OrderSentinel state 龄 ≤5min／哨兵日志尾日期 ≤26h〔OrderSentinel v1.3.1 每日心跳行〕／FleetLink 监听 state 龄 ≤10min／静默审计龄 ≤25h／巡检戳记 ≤8d）+值守轮③机制自检挂面——分工：task-health 管进程面（任务跑了）·本工具管功能面（功能活着——哨兵瞎十天/守卫假绿两案〔10 天/7 天无人发现〕的常设防线）；判据回访 10-16 与 C-20261009-01/02/03/04 同窗。
