@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # kf_fix2_fleet.py - v4.3.3 重制 10 帧生成（bm-c 执行版）
-# 版本链: v4.1 火柴棍+台湾她修正 → v4.2 设计闸修正 → v4.3 六席 27 修项 → v4.3.1 第二波七席修项 → v4.3.2 C1794 收割批（KF9/KF10 LEN≤200 修剪+--only 过滤+--dry-run 干跑）→ v4.3.3 QC重摇锚强化（KF1 焰根纯琥珀+深天头·KF4 rod/ring 两手分持+露肩·KF6 槌高离凿+石粉chip·KF10 近前景展柜+人物 small deep）：
+# 版本链: v4.1 火柴棍+台湾她修正 → v4.2 设计闸修正 → v4.3 六席 27 修项 → v4.3.1 第二波七席修项 → v4.3.2 C1794 收割批（KF9/KF10 LEN≤200 修剪+--only 过滤+--dry-run 干跑）→ v4.3.3 QC重摇锚强化（KF1 焰根纯琥珀+深天头·KF4 rod/ring 两手分持+露肩·KF6 槌高离凿+石粉chip·KF10 近前景展柜+人物 small deep）→ v4.3.4 三连败手术批（C1795-reseed5 五帧全判负：KF1 焰色根到尖一统+一焰高天头+楔簇肩并肩·KF6 左手凿右手槌显式分离+一掌空气隙+火炬落地架·KFT 每字≥3笔致密+短列全画内·KF8 倒影独占一平面+致密楔簇·KF10 背影专用身份块脸朝暗厅）：
 #   ①她的服装块三要素补齐（服装席 P0：S10 全身背影镜头下装零锚=修身韩系直通；宽松粗针织+低腰微喇牛仔+帆布鞋+斜背包）
 #   ②KF6 三席合修（VFX：槌凿分离两件物+余震收尾；文字席：凿尖坐楔形字半笔；服装席：硬挺粗织亚麻版型）
 #   ③KFT 金字成簇锚（文字席：纯三角无尾读作播放键；短列+三角头+长拖尾+成簇）
@@ -40,9 +40,9 @@ def main():
                          "sconce bowls on thick bronze brackets, each broad flame breathing a full "
                          "wide pool of pure amber-gold light with smoky yellow tips, chiaroscuro "
                          "with the far shadows crushed to pure black")
-    LX.LIGHT["torch_side"] = ("a thick reed-bundle torch wedged in a cast bronze sconce bowl at the "
-                              "lower frame edge throws raking side-backlight at 2000K across the "
-                              "stone, wedge-cut grooves catching the warm light one band at a time "
+    LX.LIGHT["torch_side"] = ("a thick reed-bundle torch burning in a floor stand behind the carver "
+                              "throws raking side-backlight at 2000K across the stone, "
+                              "wedge-cut grooves catching the warm light one band at a time "
                               "while the rest stays matte black")
     LX.LIGHT["torch_off"] = ("unseen torchlight from beyond the frame edge throws raking "
                              "side-backlight at 2000K across the stone, wedge-cut grooves catching "
@@ -62,6 +62,11 @@ def main():
              "wearing a loose oatmeal chunky-knit sweater with a soft round neckline and long "
              "sleeves, low-rise bootcut dark denim jeans, flat canvas shoes and a simple "
              "shoulder bag, un-fitted 2001 Taipei street style")
+    # v4.3.4: back-view identity block (KF10) - frontal face words pull the model toward facing-camera renders
+    HER_BACK = ("a young Taiwanese woman of 2001 seen entirely from behind, long straight black "
+                "hair falling plain down her back with a blunt even cut, wearing a loose oatmeal "
+                "chunky-knit sweater, low-rise bootcut dark denim jeans, flat canvas shoes and a "
+                "simple shoulder bag, un-fitted 2001 Taipei street style")
     BANDS = ("stacked horizontal bands of hand-cut cuneiform wedge marks, each sign a tight cluster "
              "of wedge strokes with clean triangular heads and tapering tails, thin ruled lines "
              "between rows, matte black rock with visible tool marks and fine stone grain")
@@ -85,11 +90,12 @@ def main():
          obj_shot("ecu", "eye",
                   "a thick reed-bundle torch at frame left, its bound head and corded linen wrap "
                   "clearly visible, its broad flame washing across polished black basalt inscribed "
-                  "with %s, the carved bands breathing in the flickering firelight" % BANDS,
+                  "with %s, every sign dense with clustered wedge strokes packed shoulder to "
+                  "shoulder" % BANDS,
                   "torch", lens="50",
-                  extra="the whole flame held well inside the frame with deep clear headroom "
-                        "above the flame tip, the flame burning solid deep amber-gold from base "
-                        "to tip, embers drifting, halation blooming softly around the fire core")),
+                  extra="the flame tip a full flame-height below the top edge, the flame one even "
+                        "shade of deep amber-gold from root to tip, the bowl rim lit dull orange, "
+                        "embers drifting, halation blooming around the core")),
         ("KF2_sweep",
          obj_shot("cu", "high",
                   "the carved stone surface of a polished black basalt stele, pure rock filling the "
@@ -127,34 +133,38 @@ def main():
         # KF6 凿刻（VFX+文字+服装三席合修：槌凿分离+半笔楔形字+硬挺亚麻版型）
         ("KF6_chisel",
          obj_shot("ecu", "eye",
-                  "a weathered hand in a loose sleeve of coarse stiff-woven undyed linen, the raw "
-                  "frayed edge hanging in heavy unshaped folds, his bare forearm plain, gripping a "
-                  "hand-forged flat-bladed bronze chisel with a wooden mallet lifted high away "
-                  "from the blade as two separate tools, the blade seated at the head of a half-cut "
-                  "cuneiform wedge in a short fresh row of large pale wedges, crisp against the "
-                  "coarse black basalt, pale stone dust and coarse chips lifting from the groove",
+                  "his left hand steady on a hand-forged flat-bladed bronze chisel, the blade "
+                  "seated in the head of a half-cut cuneiform wedge in a short fresh row of large "
+                  "pale wedges, crisp against the coarse black basalt, his right hand raised high "
+                  "holding a round wooden mallet a full hand-width above the chisel butt, a clear "
+                  "gap of air between mallet and chisel, both sleeves of coarse stiff-woven undyed "
+                  "linen with raw frayed edges, pale stone dust and coarse chips lifting from the "
+                  "groove",
                   "torch_side",
-                  extra="the stone and linen both reading warm amber under single-source torch "
-                        "light, ample clear space above the raised mallet head, the bronze reading "
-                        "hand-forged with hammer marks")),
+                  extra="the mallet head well inside the frame with ample space above it, the "
+                        "stone and linen both reading warm amber under single-source torch light, "
+                        "the bronze reading hand-forged with hammer marks")),
         # KFT 金字（文字席：短列+三角头+长拖尾+成簇；调色席：颗粒去数字黑）
         ("KFT_glyphs",
          obj_shot("med", "eye",
-                  "a short column of luminous deep-gold cuneiform signs drifting upward through "
-                  "warm haze, each sign a tight cluster of wedges with triangular heads and long "
-                  "tapering tails, soft golden bloom breathing around each sign, the glyph glow "
+                  "a short column of three or four luminous deep-gold cuneiform signs drifting "
+                  "upward through warm haze, every sign built from three or more wedge strokes "
+                  "packed tight into one dense glyph, short triangular heads with long tapering "
+                  "tails overlapping, soft golden bloom breathing around each sign, the whole "
+                  "column held well inside the frame with wide dark margins, the glyph glow "
                   "decaying softly into halation at its edges",
                   "glyph",
                   extra="the darkness alive with grain, warm and analog")),
         # 台湾她三帧（3000K 暖钨丝柜光·S8 倒影剥衣子集·S9 干净侧脸+微动·S10 背影收）
         ("KF8_case",
          obj_shot("med", "eye",
-                  "a museum glass display case holding a broken slab of polished black basalt "
-                  "carved with %s, the dark soft-edged silhouette reflection of a young "
-                  "Taiwanese woman with long straight black hair and a full blunt fringe kept "
-                  "low and dim on the glass, over the carved bands, her gaze on the stone" % BANDS,
+                  "a museum glass display case holding a broken polished black basalt slab "
+                  "carved with %s, every register a ruled row of wedge clusters, the dim "
+                  "reflection of a young Taiwanese woman with long straight black hair laid low "
+                  "on the glass over the carved bands, script and silhouette sharing one plane, "
+                  "her gaze on the stone" % BANDS,
                   "case", lens="50",
-                  extra="a soft warm glass glare crossing the frame, every tone kept warm amber, her reflection reading as a quiet dark shape")),
+                  extra="a soft warm glass glare crossing the frame, every tone kept warm amber, her reflection a quiet dark shape")),
         ("KF9_profile",
          obj_shot("cu", "eye",
                   "%s, her profile in the warm tungsten case glow, her eyes on the carved "
@@ -166,8 +176,10 @@ def main():
         ("KF10_walkaway",
          obj_shot("wide", "eye",
                   "%s walking away small and deep down the dark museum aisle toward the exit, "
-                  "her back to the camera as a dark soft-edged silhouette, both feet mid-stride, "
-                  "in the near foreground a glass case holds a broken black basalt slab" % HER20,
+                  "her back and the plain fall of her hair toward the camera, her face turned "
+                  "toward the dark hall ahead, a dark soft-edged silhouette, both feet "
+                  "mid-stride, in the near foreground a glass case holds a broken black basalt "
+                  "slab" % HER_BACK,
                   "aisle_dim",
                   extra="the nearest case light dimming then the one beyond it behind her, the "
                         "slab keeping a faint amber pool, its carved bands catching the last "
