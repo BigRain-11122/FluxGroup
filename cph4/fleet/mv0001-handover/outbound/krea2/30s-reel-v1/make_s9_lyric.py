@@ -29,6 +29,7 @@ def main():
     ap.add_argument("--alpha", type=float, default=0.85)
     ap.add_argument("--glow", type=int, default=3)
     ap.add_argument("--font", default="")
+    ap.add_argument("--vfweight", default="", help="variable-font named weight (e.g. Black) for *-VF.ttf")
     ap.add_argument("--out", default=r"C:\Users\sjs20\Desktop\FluxGroup\cph4\fleet\mv0001-handover\outbound\krea2\30s-reel-v1\s9_lyric.png")
     args = ap.parse_args()
 
@@ -41,6 +42,8 @@ def main():
     if not font_path:
         raise SystemExit("NO FONT FOUND - pass --font <path to CJK serif ttf/otf>")
     font = ImageFont.truetype(font_path, args.size)
+    if args.vfweight:
+        font.set_variation_by_name(args.vfweight)
 
     step = args.size + int(args.size * args.tracking)
     block_w = step * len(TEXT) - int(args.size * args.tracking)

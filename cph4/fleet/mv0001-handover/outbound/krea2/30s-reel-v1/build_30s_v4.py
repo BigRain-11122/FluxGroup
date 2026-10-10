@@ -89,12 +89,15 @@ def main():
     print("film length = %.2f" % final_len)
 
     out = os.path.join(OUT_DIR, "30s_reel_v4.mp4")
-    # finishing 站(调色席+节奏席 v4.3.1 顺序): 暖饱和微推+黑位轻抬 → 暗角 → 统一颗粒最后
-    fin = ("colorbalance=rs=.05:gs=.01:bs=-.06:rm=.04:gm=.01:bm=-.03:rh=.07:gh=.02:bh=-.10,"
-           "curves=all='0/0.045 0.25/0.29 0.75/0.72 1/0.965',"
-           "eq=saturation=.85:gamma=1.03:contrast=.97,"
-           "vignette=PI/4,"
-           "noise=alls=9:allf=t+u,format=yuv420p")
+    # finishing 站(调色席+节奏席 v4.3.1 顺序): 调色→暗角→颗粒
+    # v4.4 克制档(CEO 令 10-10 18:1x「做旧要克制·像2000前后古早MV电影」):
+    #   罩染减半(去黄绿水洗)·黑位只轻抬 0.010 去数字黑(对比不压·crushed 保住)·
+    #   饱和 .97(留琥珀)·暗角 PI/5·颗粒 9→6(5279 细颗粒)·gamma/contrast 还原
+    fin = ("colorbalance=rs=.03:gs=.005:bs=-.03:rm=.02:gm=.005:bm=-.02:rh=.04:gh=.01:bh=-.05,"
+           "curves=all='0/0.010 0.5/0.50 1/0.99',"
+           "eq=saturation=.97,"
+           "vignette=PI/5,"
+           "noise=alls=6:allf=t+u,format=yuv420p")
     fc = (
         "[0:v][1:v]xfade=transition=fade:duration=%f:offset=%f[at];"
         "[at][2:v]xfade=transition=fade:duration=%f:offset=%f[ab];"
