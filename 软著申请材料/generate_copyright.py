@@ -154,30 +154,30 @@ PROJECTS = {
         "name_cn": "就差这一笔游戏软件", "name_short": "就差这一笔", "name_en": "LineRescue", "version": "V1.0",
         "src_rel": "LineRescue/Assets/_Game", "out_dir": "G12_LineRescue", "owner": "C机",
     },
-    # ---------- 定名待定区（材料随定名生成——软著名=平台名一致性红线） ----------
+    # ---------- 定名收口区（2026-10-10 委员会 C-20261010-03 代决定名·全组合 32 款定名毕——软著名=平台名一致性红线） ----------
     "G03": {
-        "name_cn": "MergeMania游戏软件", "name_short": "MergeMania", "name_en": "MergeMania", "version": "V1.0",
-        "src_rel": "MergeMania/Assets/_Game", "owner": "C机", "name_pending": True,
+        "name_cn": "合出个大的游戏软件", "name_short": "合出个大的", "name_en": "MergeMania", "version": "V1.0",
+        "src_rel": "MergeMania/Assets/_Game", "owner": "C机", "name_pending": False,
     },
     "G06": {
-        "name_cn": "ArrowRush游戏软件", "name_short": "ArrowRush", "name_en": "ArrowRush", "version": "V1.0",
-        "src_rel": "ArrowRush/Assets/_Game", "owner": "C机", "name_pending": True,
+        "name_cn": "一箭脱身游戏软件", "name_short": "一箭脱身", "name_en": "ArrowRush", "version": "V1.0",
+        "src_rel": "ArrowRush/Assets/_Game", "owner": "C机", "name_pending": False,
     },
     "G17": {
-        "name_cn": "UnboxIt游戏软件", "name_short": "UnboxIt", "name_en": "UnboxIt", "version": "V1.0",
-        "src_rel": "UnboxIt/Assets/_Game", "owner": "C机", "name_pending": True,
+        "name_cn": "拆箱上头游戏软件", "name_short": "拆箱上头", "name_en": "UnboxIt", "version": "V1.0",
+        "src_rel": "UnboxIt/Assets/_Game", "owner": "C机", "name_pending": False,
     },
     "G18": {
-        "name_cn": "PalacePlunder游戏软件", "name_short": "PalacePlunder", "name_en": "PalacePlunder", "version": "V1.0",
-        "src_rel": "PalacePlunder/Assets/_Game", "owner": "C机", "name_pending": True,
+        "name_cn": "今晚偷皇宫游戏软件", "name_short": "今晚偷皇宫", "name_en": "PalacePlunder", "version": "V1.0",
+        "src_rel": "PalacePlunder/Assets/_Game", "owner": "C机", "name_pending": False,
     },
     "G23": {
-        "name_cn": "CardRogue游戏软件", "name_short": "CardRogue", "name_en": "CardRogue", "version": "V1.0",
-        "src_rel": "G23_CardRogue/Assets/_Game", "owner": "B机", "name_pending": True,
+        "name_cn": "这张牌有诈游戏软件", "name_short": "这张牌有诈", "name_en": "CardRogue", "version": "V1.0",
+        "src_rel": "G23_CardRogue/Assets/_Game", "owner": "B机", "name_pending": False,
     },
     "G28": {
-        "name_cn": "ArrowOut游戏软件", "name_short": "ArrowOut", "name_en": "ArrowOut", "version": "V1.0",
-        "src_rel": "G28_ArrowOut/Assets/_Game", "owner": "B机", "name_pending": True,
+        "name_cn": "这一箭稳了游戏软件", "name_short": "这一箭稳了", "name_en": "ArrowOut", "version": "V1.0",
+        "src_rel": "G28_ArrowOut/Assets/_Game", "owner": "B机", "name_pending": False,
     },
 }
 
