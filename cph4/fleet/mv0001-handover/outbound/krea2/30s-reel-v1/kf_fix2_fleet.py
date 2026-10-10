@@ -31,7 +31,7 @@ def main():
     args = ap.parse_args()
 
     base = os.path.join(args.repo, "cph4", "fleet", "mv0001-handover", "outbound", "krea2", "30s-reel-v1")
-    sys.path.insert(0, os.path.join(base, "..", "..", "prompt-writing-spec-v1", "patched-scripts"))
+    sys.path.insert(0, os.path.join(base, "..", "prompt-writing-spec-v1", "patched-scripts"))
     import prompt_lexicon as LX
 
     LX.LIGHT["torch"] = ("thick pitch-soaked reed torches bound in corded linen burn in cast bronze "
