@@ -87,7 +87,7 @@ def main():
     def get(url):
         return json.loads(urllib.request.urlopen(url, timeout=30).read())
 
-    for (name, _, p), seed in zip(JOBS, seeds):
+    for (name, _, _, p), seed in zip(JOBS, seeds):
         hits = LX.lint(p, mode="t2i")
         if hits:
             print("LINT-FAIL", name, hits, flush=True)
