@@ -1,0 +1,28 @@
+{
+ "wave_batch": "C1793-kf2-10frame-remake (kf_fix2_fleet.py v4.3.3)",
+ "harvest_round": "C1795",
+ "harvest_ts": "2026-10-10 14:56 +08:00",
+ "harvester": "bm-c engine-tick C1795 (flag wave-harvest-pending adopted per FE-20260929-C-7)",
+ "qc_protocol": "multimodal per-frame 6-gate spec from kf_fix2_fleet.py header; FINAL=min(gates); PASS threshold 8.5; three-kill on cuneiform gates",
+ "kf7_hall": "reused per wave spec (unmodified, passed in prior batch)",
+ "verdicts": {
+  "KF1_fire_wake": {"seed": 7423, "final": 5.0, "verdict": "RESEED", "gates": {"G1_torch": 5, "G2_stone": 6, "G4_cuneiform": 7}, "reasons": ["blue/dark tint at flame root (zero-blue rule violated)", "flame tips cropped at top edge, no headroom", "unrequested second fire source bottom-right competing", "stone reads warm brown not black basalt"]},
+  "KF2_sweep": {"seed": 7412, "final": 9.0, "verdict": "PASS", "gates": {"G2_stone": 9.5, "G4_cuneiform": 9, "GLIGHT": 9}, "reasons": ["flat black basalt edge-to-edge", "wedge heads+tails in tight clusters, ruled bands", "raking off-frame torch, no in-frame flame"]},
+  "KF3_stele": {"seed": 7413, "final": 8.5, "verdict": "PASS", "gates": {"G2_stele": 8.5, "G1_torches": 9}, "reasons": ["flat rounded-top slab, relief band top fifth, 20+ registers", "proportion reads ~2.4:1 vs 3:1 spec (tolerated)", "broad amber flames in bronze bowls, zero blue roots"]},
+  "KF4_crown": {"seed": 7424, "final": 8.5, "verdict": "PASS", "gates": {"GRELIEF": 8.5, "G1_light": 9, "G2_stone": 9}, "reasons": ["king fringed robe rolled-brim cap + seated god horned tiara", "rod separate in extended hand; ring faintly resolved at lap", "bared shoulder reads ambiguous curl-pattern (tolerated at 8.5)"]},
+  "KF5_columns": {"seed": 7415, "final": 8.5, "verdict": "PASS", "gates": {"G4_cuneiform": 9, "G2_stone": 8.5}, "reasons": ["fresh sparse large-pale-wedge row vs dense weathered rows = match-cut contrast delivered", "no three-kill", "dust slightly under-delivered"]},
+  "KF6_chisel": {"seed": 7425, "final": 3.0, "verdict": "RESEED", "gates": {"G5_tools": 3, "GCLOTH": 9, "G1_light": 9}, "reasons": ["mallet handle + shaft read as ONE fused tool, no clear separation", "chisel tip not seated at half-cut wedge", "mallet head cropped by top edge, no headroom"]},
+  "KFT_glyphs": {"seed": 7417, "final": 4.0, "verdict": "RESEED", "gates": {"G6_glyphs": 4, "GGRAIN": 8}, "reasons": ["CRITICAL: signs render as legible Arabic ligatures (word 'Allah' x5) = unintended religious text, hard red line", "must not ship under any circumstances"]},
+  "KF8_case": {"seed": 7418, "final": 7.0, "verdict": "RESEED", "gates": {"GCASE": 8.5, "G4_cuneiform": 7}, "reasons": ["her dim reflection on glass over slab correct", "carved bands read as decorative geometric frieze (crescents/circles/star-eye slots) not cuneiform script clusters"]},
+  "KF9_profile": {"seed": 7419, "final": 9.0, "verdict": "PASS", "gates": {"G3LOOK": 9.2, "G3OUTFIT": 9, "GLIGHT": 9}, "reasons": ["2001 Taiwan rounded face full cheeks blunt fringe, zero K-pop", "loose oatmeal chunky-knit un-fitted", "warm tungsten grain veil"]},
+  "KF10_walkaway": {"seed": 7426, "final": 2.0, "verdict": "RESEED", "gates": {"G3_her": 2, "GFG": 8.5, "GTONE": 9}, "reasons": ["CRITICAL: subject faces the camera walking TOWARD viewer, face fully lit - back-view silhouette gate failed outright", "outfit itself reads correct", "foreground case + warm tones fine"]}
+ },
+ "summary": {"pass": 5, "reseed": 5, "pass_committed_this_round": ["KF2_sweep", "KF3_stele", "KF4_crown", "KF5_columns", "KF9_profile"]},
+ "reseed_wave": {
+  "batch": "C1795-reseed5",
+  "launcher": "kf_fix2_fleet.py --only KF1_fire_wake,KF6_chisel,KFT_glyphs,KF8_case,KF10_walkaway",
+  "seed_map": {"KF1_fire_wake": 7427, "KF6_chisel": 7428, "KFT_glyphs": 7429, "KF8_case": 7430, "KF10_walkaway": 7431},
+  "attempt_note": "KF1/KF6/KF10 are 2nd consecutive failure (reseed4 seeds 7423/7425/7426 also failed) - if 3rd attempt fails, prompt-surgery authorized next round (record diff in script header version chain)"
+ },
+ "i2v_gate": "11-shot i2v v2 (h3_i2v_fleet_v4.py, manifest v2, 1344x768 int8, video-only per CEO audio-ban) launches ONLY after all 11 frames QC-pass >=8.5; MUST restart ComfyUI before H3 load (Krea2->H3 model-switch slowdown trap, 10-09 precedent)"
+}

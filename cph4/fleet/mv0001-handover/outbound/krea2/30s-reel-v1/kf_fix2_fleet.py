@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# kf_fix2_fleet.py - v4.3.1 重制 10 帧生成（bm-c 执行版）
-# 版本链: v4.1 火柴棍+台湾她修正 → v4.2 设计闸修正 → v4.3 六席 27 修项 → v4.3.1 第二波七席修项：
+# kf_fix2_fleet.py - v4.3.3 重制 10 帧生成（bm-c 执行版）
+# 版本链: v4.1 火柴棍+台湾她修正 → v4.2 设计闸修正 → v4.3 六席 27 修项 → v4.3.1 第二波七席修项 → v4.3.2 C1794 收割批（KF9/KF10 LEN≤200 修剪+--only 过滤+--dry-run 干跑）→ v4.3.3 QC重摇锚强化（KF1 焰根纯琥珀+深天头·KF4 rod/ring 两手分持+露肩·KF6 槌高离凿+石粉chip·KF10 近前景展柜+人物 small deep）：
 #   ①她的服装块三要素补齐（服装席 P0：S10 全身背影镜头下装零锚=修身韩系直通；宽松粗针织+低腰微喇牛仔+帆布鞋+斜背包）
 #   ②KF6 三席合修（VFX：槌凿分离两件物+余震收尾；文字席：凿尖坐楔形字半笔；服装席：硬挺粗织亚麻版型）
 #   ③KFT 金字成簇锚（文字席：纯三角无尾读作播放键；短列+三角头+长拖尾+成簇）
@@ -28,6 +28,8 @@ def main():
     ap.add_argument("--repo", required=True)
     ap.add_argument("--server", default="http://127.0.0.1:8188")
     ap.add_argument("--seeds", default="7411,7412,7413,7414,7415,7416,7417,7418,7419,7420")
+    ap.add_argument("--only", default="", help="comma list of job names to regen")
+    ap.add_argument("--dry-run", action="store_true", help="lint-print all prompts, no submit")
     args = ap.parse_args()
 
     base = os.path.join(args.repo, "cph4", "fleet", "mv0001-handover", "outbound", "krea2", "30s-reel-v1")
@@ -57,9 +59,9 @@ def main():
     # v4.3.1: 她的服装块三要素（材质+版型+色名·服装席统一块·S9/S10 逐字复用）
     HER20 = ("a young Taiwanese woman of 2001, a softly rounded youthful face with full cheeks, "
              "large dark eyes, a small nose, long straight black hair with a full blunt fringe, "
-             "wearing a loose oatmeal chunky-knit wool sweater with a soft round neckline and long "
-             "sleeves reaching past her wrists, relaxed low-rise bootcut dark denim jeans, flat "
-             "canvas shoes and a simple shoulder bag, un-fitted relaxed 2001 Taipei street style")
+             "wearing a loose oatmeal chunky-knit sweater with a soft round neckline and long "
+             "sleeves, low-rise bootcut dark denim jeans, flat canvas shoes and a simple "
+             "shoulder bag, un-fitted 2001 Taipei street style")
     BANDS = ("stacked horizontal bands of hand-cut cuneiform wedge marks, each sign a tight cluster "
              "of wedge strokes with clean triangular heads and tapering tails, thin ruled lines "
              "between rows, matte black rock with visible tool marks and fine stone grain")
@@ -85,9 +87,9 @@ def main():
                   "clearly visible, its broad flame washing across polished black basalt inscribed "
                   "with %s, the carved bands breathing in the flickering firelight" % BANDS,
                   "torch", lens="50",
-                  extra="the whole flame held inside the frame with clear headroom above the flame "
-                        "tip, the flame base a solid amber-gold, embers drifting, halation blooming "
-                        "softly around the fire core")),
+                  extra="the whole flame held well inside the frame with deep clear headroom "
+                        "above the flame tip, the flame burning solid deep amber-gold from base "
+                        "to tip, embers drifting, halation blooming softly around the fire core")),
         ("KF2_sweep",
          obj_shot("cu", "high",
                   "the carved stone surface of a polished black basalt stele, pure rock filling the "
@@ -107,10 +109,12 @@ def main():
                   "the carved crown relief band of the black basalt stele: a standing bearded king "
                   "in a long fringed robe and a rolled-brim cap, his hand raised in salute before "
                   "a seated god wearing a horned tiara and a heavy flounced robe with one shoulder "
-                  "bared, the god holding out a rod and a ring",
+                  "bared, the god holding out a straight rod in one hand and a thin round ring "
+                  "in the other",
                   "torch",
-                  extra="their carved forms surfacing from near-black stone, the god's rod and the "
-                        "ring reading as two separate objects")),
+                  extra="their carved forms surfacing from near-black stone, the rod and the ring "
+                        "clearly two separate objects held apart, one shoulder of the god's robe "
+                        "left bare")),
         # KF5 新刻带（提示词工程+导演+文字席：短·疏·大楔新带低位·match-cut 基石）
         ("KF5_columns",
          obj_shot("cu", "eye",
@@ -125,10 +129,10 @@ def main():
          obj_shot("ecu", "eye",
                   "a weathered hand in a loose sleeve of coarse stiff-woven undyed linen, the raw "
                   "frayed edge hanging in heavy unshaped folds, his bare forearm plain, gripping a "
-                  "hand-forged flat-bladed bronze chisel with a wooden mallet raised clear of the "
-                  "blade as two separate tools, the blade seated at the head of a half-cut "
+                  "hand-forged flat-bladed bronze chisel with a wooden mallet lifted high away "
+                  "from the blade as two separate tools, the blade seated at the head of a half-cut "
                   "cuneiform wedge in a short fresh row of large pale wedges, crisp against the "
-                  "coarse black basalt, pale stone dust lifting from the groove",
+                  "coarse black basalt, pale stone dust and coarse chips lifting from the groove",
                   "torch_side",
                   extra="the stone and linen both reading warm amber under single-source torch "
                         "light, ample clear space above the raised mallet head, the bronze reading "
@@ -153,23 +157,32 @@ def main():
                   extra="a soft warm glass glare crossing the frame, every tone kept warm amber, her reflection reading as a quiet dark shape")),
         ("KF9_profile",
          obj_shot("cu", "eye",
-                  "%s, her soft youthful profile in the warm tungsten case glow, her eyes on "
-                  "the carved stone behind the glass, a single clean profile line, faint glass "
-                  "reflections reading as a soft warm veil" % HER20,
+                  "%s, her profile in the warm tungsten case glow, her eyes on the carved "
+                  "stone behind the glass, faint glass reflections as a soft warm veil" % HER20,
                   "case", lens="50",
-                  extra="her profile holding perfectly steady with only her fringe stirring "
-                        "faintly with her breath, low-key warm halogen on her cheek, natural "
-                        "skin grain under 35mm film texture, the amber darkness behind")),
+                  extra="her profile steady, her fringe stirring faintly with her breath, "
+                        "low-key warm halogen on her cheek, natural skin grain under 35mm "
+                        "film texture")),
         ("KF10_walkaway",
          obj_shot("wide", "eye",
-                  "%s walking away down the dark museum aisle toward the exit, her back to the "
-                  "camera as a dark soft-edged silhouette, both feet clearly mid-stride small in "
-                  "the wide frame, the nearest case light dimming then the one beyond it behind "
-                  "her" % HER20,
+                  "%s walking away small and deep down the dark museum aisle toward the exit, "
+                  "her back to the camera as a dark soft-edged silhouette, both feet mid-stride, "
+                  "in the near foreground a glass case holds a broken black basalt slab" % HER20,
                   "aisle_dim",
-                  extra="one case still holds a faint amber pool around a broken black stone slab, the carved bands catching the last warm light")),
+                  extra="the nearest case light dimming then the one beyond it behind her, the "
+                        "slab keeping a faint amber pool, its carved bands catching the last "
+                        "warm light")),
     ]
     seeds = [int(x) for x in args.seeds.split(",")]
+    if args.only:
+        _only = set(args.only.split(","))
+        JOBS = [j for j in JOBS if j[0] in _only]
+        print("[ONLY] jobs=%s" % ",".join(j[0] for j in JOBS), flush=True)
+    if args.dry_run:
+        for name, p in JOBS:
+            hits = LX.lint(p, mode="t2i")
+            print("[DRY] %-18s %3dw %s" % (name, len(p.split()), ";".join(hits) if hits else "OK"), flush=True)
+        return
     out_dir = os.path.join(base, "frames")
     os.makedirs(out_dir, exist_ok=True)
 
