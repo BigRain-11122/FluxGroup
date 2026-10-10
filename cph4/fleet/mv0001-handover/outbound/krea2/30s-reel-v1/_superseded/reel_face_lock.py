@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+# SUPERSEDED 2026-10-10 — v1-era face-lock lane: locks a male frontal face into scenes,
+# violating the 30s back/side-profile iron law. DO NOT RUN. History only.
+# (Legal seat review 2026-10-10; see EXPERT-PANEL-PROTOCOL.md)
+raise SystemExit("SUPERSEDED 2026-10-10: do not run reel_face_lock.py - violates 30s iron law. History only.")
 # reel_face_lock.py - CEO consistency order for the 30s reel: lock canon faces into the 4 cast shots.
 # Route: SWAP-style low-denoise (scene frame = image1 keeps composition; canon face = image2).
 # Judge rules: dn0.55-0.6 = pixel-level face lock (8.5-9/10 pass in QEDIT 判例); Lightning 4-step for speed.
