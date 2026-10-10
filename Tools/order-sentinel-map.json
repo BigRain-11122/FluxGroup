@@ -5,7 +5,7 @@
     "@BigLife": { "bm-a": ["BigLife-OSLoop"], "bm-c": [] },
     "@BigStream": { "bm-a": ["BigStream-OSLoop"], "bm-c": [] },
     "@BigDomain": { "bm-a": ["BigDomain-OSLoop"], "bm-c": [] },
-    "@BigMoney": { "bm-a": ["Bigmoney-IterationLoop"], "bm-c": ["Bigmoney-IterationLoop", "Bigmoney-SaturationEngine", "Bigmoney-ResidentDispatcher", "Bigmoney-Autofill", "Bigmoney-PoolWorker"] },
+    "@BigMoney": { "bm-a": ["Bigmoney-IterationLoop"], "bm-b": ["Bigmoney-IterationLoop"], "bm-c": ["Bigmoney-IterationLoop", "Bigmoney-SaturationEngine", "Bigmoney-ResidentDispatcher", "Bigmoney-Autofill", "Bigmoney-PoolWorker"] },
     "@Biggame": { "bm-a": ["MiniGameEngineTick"], "bm-c": ["MiniGameEngineTick"] },
     "@MiniGame": { "bm-a": ["MiniGameEngineTick"], "bm-c": ["MiniGameEngineTick"] },
     "@BigCompute": { "bm-a": ["BigCompute-OSLoop"], "bm-c": [] },
