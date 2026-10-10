@@ -1,0 +1,61 @@
+{
+  "topic": "v1",
+  "slug": "zunjie-brake",
+  "title": "尊界V800 刹车踏板断裂",
+  "duration_target": 17.8,
+  "resolution": [720, 1280],
+  "fps": 30,
+  "shots": [
+    {
+      "id": "S1", "file": "S1.mp4", "trim": [0.0, 2.8],
+      "kf_prompt": "vertical 9:16 cinematic night exterior, rear three-quarter view of a large unbranded black luxury MPV speeding along an elevated city highway, long red taillight light trails, wet asphalt with mirror reflections, warm sodium streetlight pools, anamorphic lens flare, 35mm film grain, premium automotive commercial look, text-free composition",
+      "i2v_prompt": "the car speeds forward along the highway, camera tracks alongside it smoothly, taillights streak past, subtle handheld energy, fast forward motion",
+      "i2v_provider": "minimax_h3", "i2v_mode": "first_frame", "i2v_duration": 5, "i2v_resolution": "768P"
+    },
+    {
+      "id": "S2", "file": "S2.mp4", "trim": [0.0, 2.6],
+      "kf_prompt": "vertical 9:16 dramatic close-up from the driver footwell at night, a leather dress shoe pressing a brushed aluminum brake pedal to the floor, pedal arm and metal bracket in sharp focus, warm amber dashboard glow against a dark cabin, shallow depth of field, cinematic realism, 35mm film grain, text-free composition",
+      "i2v_prompt": "the foot slams the brake pedal down hard in one fast decisive motion, a slight camera shake on impact, dust motes drift in the amber light",
+      "i2v_provider": "minimax_h3", "i2v_mode": "first_frame", "i2v_duration": 5, "i2v_resolution": "768P"
+    },
+    {
+      "id": "S3", "file": "S3.mp4", "trim": [0.0, 4.6],
+      "kf_prompt": "vertical 9:16 macro shot of a metal brake pedal bracket under extreme stress, a fresh crack propagating across the welded seam, fine metal dust beginning to lift, cold blue-gray steel with one warm highlight, dramatic hard side light, high-speed-camera aesthetic, 35mm film grain, text-free composition",
+      "i2v_prompt": "static camera, the metal bracket cracks and snaps apart in slow motion, the crack propagates across the weld then the piece separates, fine metal chips and dust burst outward in slow motion",
+      "i2v_provider": "minimax_h3", "i2v_mode": "first_frame", "i2v_duration": 5, "i2v_resolution": "768P"
+    },
+    {
+      "id": "S4", "file": "S4.mp4", "trim": [0.0, 2.8],
+      "kf_prompt": "vertical 9:16 wide shot, three identical unbranded black luxury MPVs parked side by side on an empty proving ground test track at dusk, orange traffic cones and test equipment, calm overcast cinematic light, quiet documentary mood, 35mm film grain, text-free composition",
+      "i2v_prompt": "slow lateral dolly move across the three parked cars from left to right, dusk wind moves the tall grass at the track edge",
+      "i2v_provider": "minimax_h3", "i2v_mode": "first_frame", "i2v_duration": 5, "i2v_resolution": "768P"
+    },
+    {
+      "id": "S5", "file": "S5.mp4", "trim": [0.0, 5.0],
+      "kf_prompt": "vertical 9:16 golden hour, a lone unbranded black luxury MPV parked in an empty lot, amber hazard lights glowing, long soft shadows, minimalist melancholic comedic mood, warm low sun, 35mm film grain, text-free composition",
+      "i2v_prompt": "the amber hazard lights blink on and off steadily, the camera pushes in slowly toward the car",
+      "i2v_provider": "minimax_h3", "i2v_mode": "first_frame", "i2v_duration": 5, "i2v_resolution": "768P"
+    }
+  ],
+  "narration": "百万级旗舰MPV，上市24小时大定3500台。懂车帝实测：100公里时速全力急刹——第一台，第3脚，踏板支架断了；第二台，第4脚，断；第三台，新车才跑3公里，第2脚，还是断！官方回应：用户实际使用中，未发生断裂。网友翻译：测试里断的，不算用户。下集：180天的速成车，你敢开吗？",
+  "tts_voice_query": "语速偏快的中文男声，短视频吐槽解说腔，幽默冷感",
+  "tts_speed": 1.15,
+  "narration_file": "narration.mp3",
+  "bgm_prompt": "诙谐幽默的短视频背景音乐，轻快贝斯线加节奏拍手，吃瓜喜剧感，适合吐槽解说视频，20秒",
+  "bgm_file": "bgm.wav",
+  "bgm_gain_db": -13,
+  "subtitles": [
+    {"t": [0.30, 2.60], "text": "百万豪车 上市24h大定3500台", "style": "Big"},
+    {"t": [2.90, 5.20], "text": "懂车帝实测 · 100km/h 全力急刹", "style": "Big"},
+    {"t": [5.70, 6.90], "text": "第3脚：{Y}断", "style": "Big"},
+    {"t": [7.10, 8.30], "text": "第4脚：{Y}断", "style": "Big"},
+    {"t": [8.50, 9.80], "text": "第2脚：还是{Y}断", "style": "Big"},
+    {"t": [10.30, 12.50], "text": "三台不同批次 · 断口相近", "style": "Big"},
+    {"t": [13.10, 15.00], "text": "官方：实际使用中未发生断裂", "style": "Big"},
+    {"t": [15.10, 16.30], "text": "网友翻译：测试里断的 不算用户", "style": "Big"},
+    {"t": [16.40, 17.70], "text": "下集：{Y}速成车{W}｜关注不迷路", "style": "Big"}
+  ],
+  "watermark": "AI 生成｜本片为AI创作演绎",
+  "publish_caption": "测试里断的，算不算用户？百万MPV的刹车踏板，三台全断，官方回应亮了。#尊界V800 #刹车踏板 #车圈热点 #AI动画",
+  "media_layout": "装配时 --media 指向含 S1.mp4…S5.mp4 / narration.mp3 / bgm.wav 的夹"
+}
