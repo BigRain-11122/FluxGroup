@@ -23,7 +23,7 @@ $roster = Get-Content -Raw -Encoding UTF8 $rosterF | ConvertFrom-Json
 $port = 8790
 if ($roster.PSObject.Properties.Name -contains 'port') { $port = [int]$roster.port }
 
-function Test-PortQ([string]$ip, [int]$p, [int]$ms = 1500) {
+function Test-PortQ([string]$ip, [int]$p, [int]$ms = 4000) {
   $c = New-Object System.Net.Sockets.TcpClient
   try {
     $iar = $c.BeginConnect($ip, $p, $null, $null)
