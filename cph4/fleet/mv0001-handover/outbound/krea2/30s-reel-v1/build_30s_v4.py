@@ -52,19 +52,6 @@ def main():
     if not os.path.isfile(S9_TEXT):
         print("MISSING s9_lyric.png - run make_s9_lyric.py first (needs real KF9 frame for placement)")
         sys.exit(1)
-    norm = []
-    for name, t in TRIMS:
-        src = os.path.join(D, name + ".mp4")
-        dst = os.path.join(D, "cut_" + name + ".mp4")
-        if not os.path.isfile(src):
-            print("MISSING", src); sys.exit(1)
-        cmd = [FF, "-y", "-i", src, "-t", str(t), "-an",
-               "-vf", "scale=1344:768:force_original_aspect_ratio=decrease,pad=1344:768:(ow-iw)/2:(oh-ih)/2,fps=24",
-               "-c:v", "libx264", "-preset", "fast", "-crf", "17", "-pix_fmt", "yuv420p", dst]
-        subprocess.run(cmd, check=True, capture_output=True)
-        norm.append(dst)
-        print("cut", name, t)
-
     def concat(files, out):
         lst = os.path.join(D, "list_" + os.path.basename(out) + ".txt")
         with open(lst, "w") as f:
@@ -72,6 +59,62 @@ def main():
                 f.write("file '" + x.replace("'", "'\"'\"'") + "'\n")
         subprocess.run([FF, "-y", "-f", "concat", "-safe", "0", "-i", lst, "-c", "copy", out],
                        check=True, capture_output=True)
+
+    # v4.5 变速档(CEO令 10-10 19:0x「AI感最重=匀速·有快有慢·自己评估」+立意案§二 速度五转折·禁匀速):
+    #   邝盛语法「疾配快缓配慢」五段映射: 慢=显影/时间/注视链·快=人声起/凿击·定格=灯灭字存
+    #   v=倍速(<1 慢 >1 快)·片内时长不变(收口切表卡点不动)·源裁量=片内时长×v
+    SPEEDS = {
+        "KF1_fire_wake": 0.85,  # 起·显影 极缓(前奏器乐段)
+        "KF2_sweep": 0.95,      # 前奏尾 微缓
+        "KF3_stele": 1.06,      # 人声前微催
+        "KF4_crown": 1.16,      # 人声起 拍点脆
+        "KF5_columns": 1.00,    # 基准锚
+        "KF7_hall": 0.82,       # 「距今已经三千七百多年」=时间本身 极缓拉远
+        "KFT_glyphs": 0.90,    # 金字悬浮缓(全片唯一叠化桥)
+        "KF8_case": 0.92,       # 凝视缓入
+        "KF9_profile": 0.87,    # 情感峰最缓(机位锁死·呼吸微动)
+    }
+    # S6 凿击burst: 近刀常速→冲击加速(段内变速·落凿击冲击帧)
+    S6_SEGS = [(0.0, 0.90, 1.05), (0.945, 1.28, 1.38)]
+    # S10 走远减速→定格 0.5s(灯灭字存·2001 年代 MV 经典定格收)
+    S10_WALK, S10_FREEZE = (1.78, 0.96), 0.50
+
+    def retime(src, dst, ss, film_dur, v, extra=""):
+        vf = ("setpts=PTS/%.4f,scale=1344:768:force_original_aspect_ratio=decrease,"
+              "pad=1344:768:(ow-iw)/2:(oh-ih)/2,fps=24%s" % (v, extra))
+        # -t 在 -i 后=输出侧选项·作用于 setpts 后的片内时间线 → 必须截片内时长(勿乘 v·乘 v 截短镜头=断淡出/丢定格)
+        cmd = [FF, "-y", "-ss", "%.4f" % ss, "-i", src, "-t", "%.4f" % film_dur, "-an",
+               "-vf", vf,
+               "-c:v", "libx264", "-preset", "fast", "-crf", "17", "-pix_fmt", "yuv420p", dst]
+        subprocess.run(cmd, check=True, capture_output=True)
+
+    norm = []
+    for name, t in TRIMS:
+        src = os.path.join(D, name + ".mp4")
+        if not os.path.isfile(src):
+            print("MISSING", src); sys.exit(1)
+        dst = os.path.join(D, "cut_" + name + ".mp4")
+        if name == "KF6_chisel":
+            pieces = []
+            for i, (ss, fd, v) in enumerate(S6_SEGS):
+                p = os.path.join(D, "cut_s6_%d.mp4" % i)
+                retime(src, p, ss, fd, v)
+                pieces.append(p)
+            concat(pieces, dst)
+            print("cut KF6_chisel burst %s" % (S6_SEGS,))
+        elif name == "KF10_walkaway":
+            # tpad 在流尾·输出 -t 帽会连定格一起截(实测 1.79s 丢定格→块短→视频流早终断淡出)
+            # 正法=链内 trim 先截走段→tpad 接定格(clone)·-t 只做 2.28 总帽兜底
+            fd, v = S10_WALK
+            fx = (",trim=duration=%.4f,setpts=PTS-STARTPTS,"
+                  "tpad=stop_mode=clone:stop_duration=%.2f" % (fd, S10_FREEZE))
+            retime(src, dst, 0.0, fd + S10_FREEZE, v, extra=fx)
+            print("cut KF10_walkaway %.2fs@%.2fx + freeze %.2fs" % (fd, v, S10_FREEZE))
+        else:
+            v = SPEEDS[name]
+            retime(src, dst, 0.0, t, v)
+            print("cut", name, t, "@%.2fx" % v)
+        norm.append(dst)
 
     A = os.path.join(D, "blockA.mp4")
     B = os.path.join(D, "blockB.mp4")
