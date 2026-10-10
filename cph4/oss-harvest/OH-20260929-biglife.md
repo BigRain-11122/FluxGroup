@@ -22,3 +22,4 @@
 
 - 三律自检（切片 1）：①业务契合=预注册硬问实测定谳（可拦截类=低危真信号 44·adopt 收窄 advisory 增量门防噪声）②不重复造轮子=反重复门三面查后过（静检层=新增非重复·--qc 电池回归层不动）③科学使用=五门全过才采·parked 带理由禁悬空。
 - 送达：本文件=R696 新窗切片 1 落账（BigLife 仓 commit 含 T-20260926-16 新窗首片行+新单 T-20260929-07 留痕）；本实体单文件制+集团仓终接件零接触（跨仓写入遵 CEO 令法源·oss-harvest §六）。
+- **切片 1 落地回执（T-20260929-07 接线兑现·下窗指针②回写·2026-10-10 R793 @BigLife-OSLoop）**：ruff advisory 增量静检门已接线=BigLife 仓 `Tools/ruff_gate.py` v1.0（版本锚 `uvx ruff@0.16.9` 探针过·增量面三模式=工作树新/改 .py+`--since` 提交面+显式路径·advisory 退出码判读不阻塞·快照 state/ruff-gate-last.json·py_compile 过）+**首轮实弹验收 CLEAN**（近 48h 交付面 2 文件=Tools/rl_gate.py〔R785 交付件〕+ruff_gate.py 自身·curated 五类 0 命中）+存量 44 豁免零触碰零漂移——判据①②双过整单关结·命中数+处置行入 R793 实录（BigLife 仓 tasks/TASKS.md·commit 随批上链）。
