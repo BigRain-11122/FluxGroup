@@ -73,11 +73,14 @@ def main():
     ap.add_argument("--server", default="http://127.0.0.1:8188")
     ap.add_argument("--out", default=None, help="产物目录（默认 <repo>/.../30s-reel-v1/fleet-shots/<主机名>）")
     ap.add_argument("--only", default="", help="逗号分隔的 tag 子集（调试用）")
+    ap.add_argument("--wf", default="", help="工作流 JSON 覆盖（bm-b 480P 用 --wf h3_i2v_local_480p_v4.json）")
+    ap.add_argument("--width", type=int, default=0, help="覆盖 manifest 宽（bm-b 480P=864）")
+    ap.add_argument("--height", type=int, default=0, help="覆盖 manifest 高（bm-b 480P=480）")
     args = ap.parse_args()
 
     base = os.path.join(args.repo, "cph4", "fleet", "mv0001-handover", "outbound", "krea2", "30s-reel-v1")
     manifest = json.load(open(os.path.join(base, "local_h3_i2va_v4.json"), "r", encoding="utf-8"))
-    wf_path = os.path.join(base, "h3_i2v_local_768p_v4.json")
+    wf_path = os.path.join(base, args.wf) if args.wf else os.path.join(base, "h3_i2v_local_768p_v4.json")
 
     host = os.environ.get("COMPUTERNAME", "fleet-node")
     out_dir = args.out or os.path.join(base, "fleet-shots", host)
@@ -93,8 +96,10 @@ def main():
             print("MISSING FRAME", frame, flush=True)
             fail.append(shot["tag"])
             continue
+        w = args.width or shot["width"]
+        h = args.height or shot["height"]
         r = run_shot(args.server, wf_path, out_dir, None, shot["tag"], frame,
-                     shot["prompt"], shot["seed"], shot["length"], shot["width"], shot["height"])
+                     shot["prompt"], shot["seed"], shot["length"], w, h)
         ok += 1 if r else 0
         if not r:
             fail.append(shot["tag"])
