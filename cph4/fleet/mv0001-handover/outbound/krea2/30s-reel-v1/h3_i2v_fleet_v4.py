@@ -76,10 +76,11 @@ def main():
     ap.add_argument("--wf", default="", help="工作流 JSON 覆盖（bm-b 480P 用 --wf h3_i2v_local_480p_v4.json）")
     ap.add_argument("--width", type=int, default=0, help="覆盖 manifest 宽（bm-b 480P=864）")
     ap.add_argument("--height", type=int, default=0, help="覆盖 manifest 高（bm-b 480P=480）")
+    ap.add_argument("--manifest", default="local_h3_i2va_v4.json", help="manifest 覆盖（竖版 lane 用 local_h3_i2va_v4_vertical.json）")
     args = ap.parse_args()
 
     base = os.path.join(args.repo, "cph4", "fleet", "mv0001-handover", "outbound", "krea2", "30s-reel-v1")
-    manifest = json.load(open(os.path.join(base, "local_h3_i2va_v4.json"), "r", encoding="utf-8"))
+    manifest = json.load(open(os.path.join(base, args.manifest), "r", encoding="utf-8"))
     wf_path = os.path.join(base, args.wf) if args.wf else os.path.join(base, "h3_i2v_local_768p_v4.json")
 
     host = os.environ.get("COMPUTERNAME", "fleet-node")
