@@ -1,4 +1,4 @@
-﻿军师救我游戏软件 V1.0 源程序  第 1 页 共 60 页
+﻿军师救我游戏软件 V1.0 源程序  第 1 页 共 48 页
 ================================================================================
 // BootRunner.cs
 using System.Collections;
@@ -53,7 +53,7 @@ namespace Sy.P03.Boot
 ================================================================================
 第 1 页结束
 
-军师救我游戏软件 V1.0 源程序  第 2 页 共 60 页
+军师救我游戏软件 V1.0 源程序  第 2 页 共 48 页
 ================================================================================
     /// Boot七步时序（T001验收）：
     /// ①Logger→②校时→③Config→④Save→⑤ILocale→⑥Ads.Preload→⑦切主场景，逐打日志[BOOT] n/7。
@@ -108,7 +108,7 @@ namespace Sy.P03.Boot
 ================================================================================
 第 2 页结束
 
-军师救我游戏软件 V1.0 源程序  第 3 页 共 60 页
+军师救我游戏软件 V1.0 源程序  第 3 页 共 48 页
 ================================================================================
         static bool ConfigStep()
         {
@@ -163,7 +163,7 @@ namespace Sy.P03.Boot
 ================================================================================
 第 3 页结束
 
-军师救我游戏软件 V1.0 源程序  第 4 页 共 60 页
+军师救我游戏软件 V1.0 源程序  第 4 页 共 48 页
 ================================================================================
     }
     public sealed class MockTimeService : ITimeService
@@ -218,7 +218,7 @@ namespace Sy.P03.Boot
 ================================================================================
 第 4 页结束
 
-军师救我游戏软件 V1.0 源程序  第 5 页 共 60 页
+军师救我游戏软件 V1.0 源程序  第 5 页 共 48 页
 ================================================================================
         public void Preload(string pointId)
         {
@@ -228,8 +228,10 @@ namespace Sy.P03.Boot
     }
 }
 // MainUI.cs
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 namespace Sy.P03.Newbie
 {
     public static class NewbieSceneIds
@@ -237,17 +239,402 @@ namespace Sy.P03.Newbie
         public const string Main = "S03_Main";
         public const string Battle = "S03_Battle";
     }
-    /// <summary>S03主界面逻辑：出兵布防→S03_Battle（M5前零广告弹窗——主界面无任何广告位）。</summary>
+    /// <summary>
+    /// S03主界面（V1.4 模式中枢·O-20261010-1245 填充批）：
+    /// 场景原有 StartButton 升格为「教学局 L1」入口；程序化增补
+    /// 随机攻防/天命日局（灰度门控）/点将图鉴/军资铺/离线军资五入口。
+    /// 按钮密度律（U362）：名字一物+状态全视觉化；HUD 数值只在变更时刷新（红线6）。
+    /// 零广告红线：主界面无任何广告位（T5前）。
+    /// </summary>
     public sealed class MainUI : MonoBehaviour
     {
+        static readonly Color RevRed = new Color(0.757f, 0.153f, 0.176f);
+        static readonly Color PaperYellow = new Color(0.929f, 0.871f, 0.706f);
+        static readonly Color InkBlack = new Color(0.043f, 0.043f, 0.047f);
+        static readonly Color DoomGreen = new Color(0.298f, 0.686f, 0.314f);
+        static readonly Color LockedGray = new Color(0.35f, 0.35f, 0.35f, 0.85f);
+        Canvas _canvas;
+        Sprite _square;
+        Text _walletText;
+        Text _offlineText;
+        Button _offlineButton;
+        RectTransform _codexPanel;
+        int _lastWallet = -1;
+        /// <summary>场景 StartButton 持久化接线兼容桩：教学局入口（默认模式）。</summary>
         public void StartBattle()
         {
+            BattleLaunch.StartTutorial();
             SceneManager.LoadScene(NewbieSceneIds.Battle);
         }
         void Awake()
         {
             Application.targetFrameRate = 30;
             Sy.Core.MainArtInjector.Apply(transform, "P03_scene_01", "P03_unit_01");
+================================================================================
+第 5 页结束
+
+军师救我游戏软件 V1.0 源程序  第 6 页 共 48 页
+================================================================================
+            _canvas = FindObjectOfType<Canvas>();
+            _square = MakeSquareSprite();
+            // 旧 StartButton 升格为教学局入口（场景件复用，位置收编）
+            var old = GameObject.Find("StartButton");
+            if (old != null)
+            {
+                var rt = (RectTransform)old.transform;
+                rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
+                rt.anchoredPosition = new Vector2(0, 320);
+                rt.sizeDelta = new Vector2(560, 130);
+                var label = old.GetComponentInChildren<Text>();
+                if (label != null)
+                {
+                    label.text = "教学局 L1";
+                    label.fontSize = 52;
+                }
+                var img = old.GetComponent<Image>();
+                if (img != null) img.color = DoomGreen;
+            }
+            BuildModeButtons();
+            BuildWalletLine();
+            BuildCodexPanel();
+            SyncWallet(force: true);
+        }
+        void BuildModeButtons()
+        {
+            MakeModeButton("随机攻防 · 天灾局", new Vector2(0, 160), RevRed, () =>
+            {
+                BattleLaunch.StartRandomSiege();
+                SceneManager.LoadScene(NewbieSceneIds.Battle);
+            });
+            if (TianmingGate.IsEligible())
+            {
+                MakeModeButton("天命日局 · 全服同种子", new Vector2(0, 0), PaperYellow, () =>
+                {
+                    BattleLaunch.StartTianming();
+                    SceneManager.LoadScene(NewbieSceneIds.Battle);
+                });
+            }
+            MakeModeButton("点将图鉴", new Vector2(-300, -180), InkBlack, ToggleCodex);
+            MakeModeButton("军资铺 · 兑名将", new Vector2(300, -180), InkBlack, () =>
+            {
+                var wallet = BannerWallet.Load();
+                int got = wallet.TryExchange(Random.Range(0, 99));
+                SyncWallet(force: true);
+                ShowToast(got > 0
+                    ? "点将成功！" + GeneralCodex.ById(got)?.Name + "入列"
+                    : wallet.CanExchange ? "兑换失败" : "军资不足（60 可点将）");
+            });
+        }
+================================================================================
+第 6 页结束
+
+军师救我游戏软件 V1.0 源程序  第 7 页 共 48 页
+================================================================================
+        void BuildWalletLine()
+        {
+            _walletText = MakeText(_canvas.transform, "军资 0", 44, new Vector2(0, -320), TextAnchor.MiddleCenter, 500, 60);
+            _walletText.color = PaperYellow;
+            _offlineButton = MakeModeButtonCore("离线军资 · 领取", new Vector2(0, -400), DoomGreen, TryClaimOffline);
+            _offlineText = _walletText;   // 复用余额行更新离线提示文案面
+        }
+        void TryClaimOffline()
+        {
+            long now = System.DateTimeOffset.Now.ToUnixTimeMilliseconds();
+            var claim = OfflinePay.OfflineClaim.Open(now);
+            if (!claim.Claimable)
+            {
+                ShowToast("离线不足 1 小时");
+                return;
+            }
+            int got = claim.TryCollect(false);
+            if (got > 0)
+            {
+                SyncWallet(force: true);
+                ShowToast("离线军资 +" + got);
+            }
+        }
+        void SyncWallet(bool force)
+        {
+            int balance = BannerWallet.Load().Balance;
+            if (!force && balance == _lastWallet) return;
+            _lastWallet = balance;
+            _walletText.text = "军资 " + balance + (balance >= BannerWallet.ExchangeCost ? "（可点将）" : "");
+        }
+        // ───── 点将图鉴面板 ─────
+        void BuildCodexPanel()
+        {
+            _codexPanel = MakeOverlayPanel();
+            MakeText(_codexPanel, "点将台 · 武将图鉴", 72, new Vector2(0, 760), TextAnchor.MiddleCenter, 900, 90).color = PaperYellow;
+            var generals = GeneralCodex.All;
+            for (int i = 0; i < generals.Count; i++)
+            {
+                int row = i / 2, col = i % 2;
+                var g = generals[i];
+                bool unlocked = GeneralCodex.IsUnlocked(g.Id);
+                var card = new GameObject("Codex_" + g.Id, typeof(RectTransform), typeof(Image));
+                card.transform.SetParent(_codexPanel, false);
+                var rt = (RectTransform)card.transform;
+                rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
+                rt.anchoredPosition = new Vector2(-300 + col * 600, 520 - row * 230);
+                rt.sizeDelta = new Vector2(560, 200);
+                var img = card.GetComponent<Image>();
+                img.sprite = _square;
+                img.color = unlocked ? (g.Tier == GeneralCodex.Tier.Gold ? PaperYellow
+================================================================================
+第 7 页结束
+
+军师救我游戏软件 V1.0 源程序  第 8 页 共 48 页
+================================================================================
+                    : g.Tier == GeneralCodex.Tier.Purple ? RevRed : DoomGreen) : LockedGray;
+                MakeText(card.transform, unlocked ? g.Name : "？？？（" + g.UnlockHint + "）", 48,
+                    new Vector2(0, 50), TextAnchor.MiddleCenter, 520, 70).color = unlocked ? InkBlack : new Color(0.7f, 0.7f, 0.66f);
+                MakeText(card.transform, unlocked ? g.Role : "待点将", 38,
+                    new Vector2(0, -50), TextAnchor.MiddleCenter, 520, 60).color = unlocked ? new Color(0.1f, 0.1f, 0.1f, 0.75f) : new Color(0.55f, 0.55f, 0.5f);
+            }
+            MakeModeButtonCore("合上", new Vector2(0, -740), DoomGreen, ToggleCodex).transform.SetParent(_codexPanel, false);
+            _codexPanel.gameObject.SetActive(false);
+        }
+        void ToggleCodex()
+        {
+            bool show = !_codexPanel.gameObject.activeSelf;
+            if (show)
+            {
+                // 刷新解锁色（兑换/解锁后面板即时反映）
+                var generals = GeneralCodex.All;
+                for (int i = 0; i < generals.Count; i++)
+                {
+                    var card = _codexPanel.Find("Codex_" + generals[i].Id);
+                    if (card == null) continue;
+                    var img = card.GetComponent<Image>();
+                    bool unlocked = GeneralCodex.IsUnlocked(generals[i].Id);
+                    var g = generals[i];
+                    img.color = unlocked ? (g.Tier == GeneralCodex.Tier.Gold ? PaperYellow
+                        : g.Tier == GeneralCodex.Tier.Purple ? RevRed : DoomGreen) : LockedGray;
+                }
+            }
+            _codexPanel.gameObject.SetActive(show);
+        }
+        void ShowToast(string message)
+        {
+            _walletText.text = message;
+            // 提示短暂顶替余额行，1.6s 后还原（变更时刷新律·零常驻协程）
+            CancelInvoke(nameof(RestoreWallet));
+            Invoke(nameof(RestoreWallet), 1.6f);
+        }
+        void RestoreWallet() => SyncWallet(force: true);
+        // ───── UI 工具（程序化UGUI·免场景YAML漂移） ─────
+        Button MakeModeButton(string text, Vector2 pos, Color color, System.Action onClick)
+            => MakeModeButtonCore(text, pos, color, onClick, _canvas.transform);
+        Button MakeModeButtonCore(string text, Vector2 pos, Color color, System.Action onClick, Transform parent = null)
+        {
+            var go = new GameObject("ModeBtn_" + text, typeof(RectTransform), typeof(Image), typeof(Button));
+            go.transform.SetParent(parent != null ? parent : _canvas.transform, false);
+            var rt = (RectTransform)go.transform;
+            rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
+            rt.anchoredPosition = pos;
+            rt.sizeDelta = new Vector2(560, 130);
+            var img = go.GetComponent<Image>();
+            img.sprite = _square;
+================================================================================
+第 8 页结束
+
+军师救我游戏软件 V1.0 源程序  第 9 页 共 48 页
+================================================================================
+            img.color = color;
+            var label = MakeText(go.transform, text, 44, Vector2.zero, TextAnchor.MiddleCenter, 560, 130);
+            label.color = color == PaperYellow ? InkBlack : new Color(0.96f, 0.94f, 0.9f);
+            var btn = go.GetComponent<Button>();
+            btn.onClick.AddListener(() => onClick());
+            return btn;
+        }
+        RectTransform MakeOverlayPanel()
+        {
+            var go = new GameObject("CodexPanel", typeof(RectTransform), typeof(Image));
+            go.transform.SetParent(_canvas.transform, false);
+            var rt = (RectTransform)go.transform;
+            rt.anchorMin = Vector2.zero;
+            rt.anchorMax = Vector2.one;
+            rt.offsetMin = rt.offsetMax = Vector2.zero;
+            var img = go.GetComponent<Image>();
+            img.sprite = _square;
+            img.color = new Color(0.04f, 0.03f, 0.02f, 0.96f);
+            return rt;
+        }
+        static Text MakeText(Transform parent, string text, int size, Vector2 pos, TextAnchor anchor, float w, float h)
+        {
+            var go = new GameObject("Text", typeof(RectTransform), typeof(Text));
+            go.transform.SetParent(parent, false);
+            var rt = (RectTransform)go.transform;
+            rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
+            rt.anchoredPosition = pos;
+            rt.sizeDelta = new Vector2(w, h);
+            var t = go.GetComponent<Text>();
+            t.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            t.text = text;
+            t.fontSize = size;
+            t.alignment = anchor;
+            t.color = new Color(0.91f, 0.89f, 0.85f);
+            t.supportRichText = true;
+            return t;
+        }
+        static Sprite MakeSquareSprite()
+        {
+            var tex = new Texture2D(8, 8, TextureFormat.RGBA32, false);
+            var px = tex.GetPixels32();
+            for (int i = 0; i < px.Length; i++) px[i] = new Color32(255, 255, 255, 255);
+            tex.SetPixels32(px);
+            tex.Apply(false, false);
+            return Sprite.Create(tex, new Rect(0, 0, 8, 8), new Vector2(0.5f, 0.5f), 8f);
+        }
+    }
+}
+// BannerWallet.cs
+using System;
+================================================================================
+第 9 页结束
+
+军师救我游戏软件 V1.0 源程序  第 10 页 共 48 页
+================================================================================
+using System.Collections.Generic;
+using System.Text;
+using UnityEngine;
+namespace Sy.P03.Newbie
+{
+    /// <summary>
+    /// 军师军资钱包（移植 P02 LuckyWallet·T012-B 跨局持久化半边·「输得多攒得多」防挫败环）：
+    /// 每局结算存入军资；攒满兑换价即解锁一名随机未解锁名将（图鉴扩容），随后清零
+    /// （任务书口径：兑后清仓，无余数携带）。红线12：PlayerPrefs=权威，零服务器。
+    /// 军资入账律：胜局基础10+波次×2；负局=波次×2+斩敌÷5（打得深也赚，输了不白输）。
+    /// </summary>
+    public sealed class BannerWallet
+    {
+        public const string BalanceKey = "p03_banner_wallet";
+        public const string RedeemedKey = "p03_generals";
+        public const int ExchangeCost = 60;
+        public int Balance { get; private set; }
+        public List<int> RedeemedGeneralIds { get; } = new List<int>();
+        BannerWallet() { }
+        public static BannerWallet Load()
+        {
+            var w = new BannerWallet();
+            w.Balance = PlayerPrefs.GetInt(BalanceKey, 0);
+            string raw = PlayerPrefs.GetString(RedeemedKey, "");
+            if (raw.Length > 0)
+            {
+                foreach (var part in raw.Split(','))
+                    if (int.TryParse(part, out int id)) w.RedeemedGeneralIds.Add(id);
+            }
+            return w;
+        }
+        void Save()
+        {
+            PlayerPrefs.SetInt(BalanceKey, Balance);
+            var sb = new StringBuilder();
+            for (int i = 0; i < RedeemedGeneralIds.Count; i++)
+            {
+                if (i > 0) sb.Append(',');
+                sb.Append(RedeemedGeneralIds[i]);
+            }
+            PlayerPrefs.SetString(RedeemedKey, sb.ToString());
+            PlayerPrefs.Save();
+        }
+        /// <summary>结算入账：胜=10+波×2+斩敌÷10；负=波×2+斩敌÷5（防挫败主面）。</summary>
+        public static int EarnFor(bool won, int waveReached, int kills)
+        {
+            int earned = waveReached * 2 + Math.Max(0, kills) / (won ? 10 : 5);
+            if (won) earned += 10;
+            return earned;
+        }
+================================================================================
+第 10 页结束
+
+军师救我游戏软件 V1.0 源程序  第 11 页 共 48 页
+================================================================================
+        public void Deposit(int coins)
+        {
+            if (coins <= 0) return;
+            Balance += coins;
+            Save();
+        }
+        public bool CanExchange => Balance >= ExchangeCost;
+        /// <summary>名将池=图鉴未解锁列（池空时返回 -1 不空转）。</summary>
+        public int TryExchange(int roll)
+        {
+            if (!CanExchange) return -1;
+            var pool = GeneralCodex.LockedIds();
+            if (pool.Length == 0) return -1;
+            int id = pool[((roll % pool.Length) + pool.Length) % pool.Length];
+            GeneralCodex.Unlock(id);
+            RedeemedGeneralIds.Add(id);
+            Balance = 0;
+            Save();
+            return id;
+        }
+        public static void ClearForTests()
+        {
+            PlayerPrefs.DeleteKey(BalanceKey);
+            PlayerPrefs.DeleteKey(RedeemedKey);
+            GeneralCodex.ClearForTests();
+        }
+    }
+}
+// BattleLaunch.cs
+using System.Collections.Generic;
+using UnityEngine;
+namespace Sy.P03.Newbie
+{
+    /// <summary>
+    /// 攻防局参数传递桩（场景切换间的种子/模式握手）：主界面把下一局参数落进静态桩，
+    /// S03_Battle 的 BattleLauncher 读走即清（一次性/进程内握手，非存档）。
+    /// 默认态=教学局——直接进 S03_Battle 的既有路径字节不变。
+    /// </summary>
+    public static class BattleLaunch
+    {
+        public enum Mode { Tutorial, Siege, Tianming }
+        public static Mode Next = Mode.Tutorial;
+        public static int NextSeed;
+        /// <summary>主界面入口：随机攻防（新种子）。</summary>
+        public static void StartRandomSiege()
+        {
+            Next = Mode.Siege;
+            NextSeed = Mathf.Abs(RandomSeed()) % 100000 + 1;
+        }
+        /// <summary>主界面入口：天命日局（当日全服同种子）。</summary>
+================================================================================
+第 11 页结束
+
+军师救我游戏软件 V1.0 源程序  第 12 页 共 48 页
+================================================================================
+        public static void StartTianming()
+        {
+            Next = Mode.Tianming;
+            NextSeed = TianmingPin.SeedForToday();
+        }
+        /// <summary>布阵码复战（坏码返回 false 不进局）。</summary>
+        public static bool StartFromFormationCode(string code)
+        {
+            var plan = FormationCodec.TryDecode(code);
+            if (plan == null) return false;
+            Next = Mode.Siege;
+            NextSeed = plan.Value.Seed;
+            return true;
+        }
+        public static void StartTutorial()
+        {
+            Next = Mode.Tutorial;
+            NextSeed = 0;
+        }
+        /// <summary>Launcher 消费：读走并复位（一次性握手）。</summary>
+        public static (Mode mode, int seed) Take()
+        {
+            var taken = (Next, NextSeed);
+            Next = Mode.Tutorial;
+            NextSeed = 0;
+            return taken;
+        }
+        static int RandomSeed()
+        {
+            return UnityEngine.Random.Range(int.MinValue, int.MaxValue);
         }
     }
 }
@@ -257,45 +644,77 @@ using UnityEngine;
 namespace Sy.P03.Newbie
 {
     /// <summary>
-    /// S03_Battle场景宿主：组装BattleSim+TutorialFlow+BattleView并驱动Tick；
-    /// 埋点走Sy.Telemetry（Editor域=Debug sink；T001e接微信自定义分析+TCB双写）。
+    /// S03_Battle场景宿主：组装BattleSim+TutorialFlow+BattleView并驱动Tick。
+    /// 埋点走Sy.Telemetry（Editor期=Debug sink；T001e接微信自定义分析+TCB双写）。
     /// HUD数值只在变更时刷新（禁每帧字符串拼接，红线6）。
+    /// V1.4 攻防档案批（O-20261010-1245）：主界面经 BattleLaunch 传入模式——
+    /// 教学局（默认·基线字节不变）/随机攻防（SiegeLevel 种子局）/天命日局（当日全服同种子+开放数据榜）。
     /// </summary>
     public sealed class BattleLauncher : MonoBehaviour
     {
         BattleSim _sim;
         TutorialFlow _tutorial;
         BattleView _view;
+================================================================================
+第 12 页结束
+
+军师救我游戏软件 V1.0 源程序  第 13 页 共 48 页
+================================================================================
         Sy.Telemetry.TelemetryService _telemetry;
         int _lastWave = -1, _lastLives = -1, _lastCrystals = -1, _lastKills = -1;
+        bool _tutorialMode = true;
         void Awake()
         {
-================================================================================
-第 5 页结束
-
-军师救我游戏软件 V1.0 源程序  第 6 页 共 60 页
-================================================================================
             Application.targetFrameRate = 30;
             var canvas = FindObjectOfType<Canvas>();
-            _sim = new BattleSim();
+            var (mode, seed) = BattleLaunch.Take();
+            _tutorialMode = mode == BattleLaunch.Mode.Tutorial;
+            if (_tutorialMode)
+            {
+                _sim = new BattleSim();
+            }
+            else
+            {
+                bool isTianming = mode == BattleLaunch.Mode.Tianming;
+                _sim = new BattleSim(SiegeLevel.Generate(seed), isTianming);
+            }
             _view = gameObject.AddComponent<BattleView>();
             _view.Initialize(canvas, _sim);
+            _view.SetTotalWaves(_sim.TotalWaves);
+            if (!_tutorialMode && _sim.Profile != null)
+            {
+                _view.SetCalamity("天灾 · " + _sim.Profile.CalamityName);
+                _view.SetHint("军师救我！布防迎敌——天灾【" + _sim.Profile.CalamityName + "】");
+            }
             _telemetry = new Sy.Telemetry.TelemetryService();
             _telemetry.AddSink(new TelemetryDebugSink());
-            _tutorial = new TutorialFlow(
-                _sim,
-                hint =>
-                {
-                    Debug.Log("[HINT] " + hint);
-                    _view.SetHint(hint);
-                },
-                step => _telemetry.Track(Sy.Telemetry.EventIds.NewbieStep,
-                    new Dictionary<string, string> { { "step", step.ToString() } }));
+            if (_tutorialMode)
+            {
+                _tutorial = new TutorialFlow(
+                    _sim,
+                    hint =>
+                    {
+                        Debug.Log("[HINT] " + hint);
+                        _view.SetHint(hint);
+                    },
+                    step => _telemetry.Track(Sy.Telemetry.EventIds.NewbieStep,
+                        new Dictionary<string, string> { { "step", step.ToString() } }));
+            }
+            else if (_sim.IsTianming)
+            {
+                _telemetry.Track("evt_tianming",
+                    TianmingGate.EntryFields("entry_click"));
+            }
             _view.SlotTapped += OnSlotTapped;
             _view.TianjiPicked += OnTianjiPicked;
             _view.QingLongRequested += OnQingLongRequested;
             _view.EnemyTapped += OnEnemyTapped;
             _sim.TowerPlaced += OnTowerPlaced;
+================================================================================
+第 13 页结束
+
+军师救我游戏软件 V1.0 源程序  第 14 页 共 48 页
+================================================================================
             _sim.TianjiOffered += OnTianjiOffered;
             _sim.QingLongFired += OnQingLongFired;
             _sim.StateChanged += OnStateChanged;
@@ -325,18 +744,14 @@ namespace Sy.P03.Newbie
         {
             _sim.TapFocus(enemyId);
         }
-================================================================================
-第 6 页结束
-
-军师救我游戏软件 V1.0 源程序  第 7 页 共 60 页
-================================================================================
         void OnTowerPlaced(BattleSim.TowerInst tower, int slot)
         {
-            _view.SetTower(slot, tower.IsGuanYu);
+            _view.SetTower(slot, tower.IsGuanYu, tower.GeneralId);
         }
         void OnTianjiOffered()
         {
-            _view.ShowTianjiPanel();
+            if (_tutorialMode) _view.ShowTianjiPanel();
+            else _view.ShowTianjiPanel(_sim.TianjiEntries);
         }
         void OnQingLongFired()
         {
@@ -350,12 +765,31 @@ namespace Sy.P03.Newbie
                     _view.HideIntro();
                     break;
                 case BattleSim.BattleState.Won:
-                    _view.ShowSettle(_sim.Wave, _sim.Kills, _sim.Crystals);
+================================================================================
+第 14 页结束
+
+军师救我游戏软件 V1.0 源程序  第 15 页 共 48 页
+================================================================================
+                    Settle(true);
                     break;
                 case BattleSim.BattleState.Lost:
-                    _view.ShowSettle(-1, _sim.Kills, _sim.Crystals);
+                    Settle(false);
                     break;
             }
+        }
+        void Settle(bool won)
+        {
+            if (_tutorialMode)
+            {
+                _view.ShowSettle(won ? _sim.Wave : -1, _sim.Kills, _sim.Crystals);
+                return;
+            }
+            var result = RunResult.Snapshot(_sim, won);
+            BannerWallet.Load().Deposit(result.BannerEarned);
+            TianmingBoard.TrySubmit(result, Sy.Core.ServiceLocator.TryGet(out Sy.Platform.IOpenDataBoard board) ? board : null);
+            _telemetry.Track("evt_tianming",
+                TianmingGate.RunEndFields(result.Seed, result.Won, result.WaveReached));
+            _view.ShowSettle(result);
         }
         sealed class TelemetryDebugSink : Sy.Telemetry.TelemetryService.ISink
         {
@@ -377,15 +811,21 @@ using System.Collections.Generic;
 namespace Sy.P03.Newbie
 {
     /// <summary>
-    /// 教学局核心逻辑（纯C#零渲染依赖）：Play渲染与Editor headless自验（NewbieFlowCheck）共用同一套规则。
-    /// 教学编排（06脚本03节）：M0尸潮压城预警→M1 L1布防（免费放置关羽×2+黄忠×1）→M2首波守御+点按集火
-    /// →M3天机三选一（借东风）→M4吕布残影Boss+青龙斩斩杀线（顿帧半演出）→M5过关结算+阵容码。
+    /// 战斗核心逻辑（纯C#零渲染依赖）：Play渲染与Editor headless自验（NewbieFlowCheck）共用同一套规则。
+    /// 教学编排（06脚本03章）：M0告急压城预警→M1 L1布防（免费放置关羽×2+黄忠×1）→冒M2首波完善+点按集火
+    /// →M3天机三选一（借东风）→M4吕布残影Boss+青龙斩杀线（须帧半演出）→M5通关结算+解锁码。
+    /// 红线：禁A*（S形固定折线推进）；教学局必胜（5塔残影不熄·民心耗尽折返再战直至被斩）。
+    ///
+    /// V1.4 攻防档案模式（CEO 令 O-20261010-1245 系统填充批）：Profile != null 时走
+    /// SiegeLevel 种子局——波曲线/天灾词条/魔晶经济全由种子推导；民心 3（可输）；
+    /// 名将布防走图鉴解锁轮换+军资定价；天机三选一改为种子六选三池（每波歇停一次）；
+    /// 终波残影无必胜豁免（破城=损民心+折返再压）。Profile == null 教学基线字节不变
 ================================================================================
-第 7 页结束
+第 15 页结束
 
-军师救我游戏软件 V1.0 源程序  第 8 页 共 60 页
+军师救我游戏软件 V1.0 源程序  第 16 页 共 48 页
 ================================================================================
-    /// 红线：禁A*（S形固定折线推进）；教学局必胜（吕布残影=不灭残影，漏怪后折返再战直至被斩）。
+    /// （NewbieFlowCheck 全部既有断言零漂移）。
     /// </summary>
     public sealed class BattleSim
     {
@@ -395,6 +835,7 @@ namespace Sy.P03.Newbie
             public int Id;
             public int Slot;
             public bool IsGuanYu;
+            public int GeneralId;      // 图鉴 id（1关羽/2黄忠/…；教学局与 IsGuanYu 同步）
             public float Range;
             public float Atk;
             public float Interval;
@@ -403,7 +844,8 @@ namespace Sy.P03.Newbie
         public sealed class EnemyInst
         {
             public int Id;
-            public bool Boss;
+            public bool Boss;         // 终波残影（清屏胜局位）
+            public bool Elite;        // 中途精英（普通击杀结算）
             public int Seg;
             public float SegT;
             public float X, Y;
@@ -412,6 +854,11 @@ namespace Sy.P03.Newbie
             public bool Dead;
         }
         public BattleState State { get; private set; } = BattleState.Intro;
+        /// <summary>攻防档案（null=教学局，基线字节不变）。</summary>
+        public SiegeLevel Profile { get; }
+        public int Seed { get; }
+        public bool IsTianming { get; private set; }
+        public int TotalWaves => Profile != null ? Profile.TotalWaves : NewbieConfig.NewbieWaves;
         readonly List<TowerInst> _towers = new();
         readonly List<EnemyInst> _enemies = new();
         readonly float[] _segLens;
@@ -424,10 +871,20 @@ namespace Sy.P03.Newbie
         float _waveGapTimer;
         int _lastCleared = -1;
         bool _tianjiDone;
+        int _tianjiCount;
+        int[] _tianjiPool;            // 攻防模式：种子六选三
         int _focusId = -1;
         float _focusTimer;
+================================================================================
+第 16 页结束
+
+军师救我游戏软件 V1.0 源程序  第 17 页 共 48 页
+================================================================================
         float _enemySpeedMul = 1f;
         float _atkMul = 1f;
+        float _towerIntervalMul = 1f;
+        float _crystalMul = 1f;
+        float _fireMul = 1f;           // 火计：下一波敌血减乘
         int _waveBonus;
         public IReadOnlyList<TowerInst> Towers => _towers;
         public IReadOnlyList<EnemyInst> Enemies => _enemies;
@@ -435,13 +892,10 @@ namespace Sy.P03.Newbie
         public int Lives { get; private set; } = NewbieConfig.StartLives;
         public int Crystals { get; private set; }
         public int Kills { get; private set; }
-================================================================================
-第 8 页结束
-
-军师救我游戏软件 V1.0 源程序  第 9 页 共 60 页
-================================================================================
         public int PlacedCount => _placed;
         public float BattleTime { get; private set; }
+        /// <summary>天机池可见面（教学=固定 0/1/2；攻防=种子六选三）。</summary>
+        public int[] TianjiEntries => _tianjiPool ?? new[] { 0, 1, 2 };
         public event Action<TowerInst, int> TowerPlaced;
         public event Action<int> WaveStarted;
         public event Action<int> WaveCleared;
@@ -453,8 +907,11 @@ namespace Sy.P03.Newbie
         public event Action BossKilled;
         public event Action QingLongFired;
         public event Action<BattleState> StateChanged;
-        public BattleSim()
+        public BattleSim() : this(null, false) { }
+        public BattleSim(SiegeLevel profile, bool isTianming)
         {
+            Profile = profile;
+            IsTianming = isTianming;
             _segLens = new float[NewbieConfig.PathX.Length - 1];
             for (int s = 0; s < _segLens.Length; s++)
             {
@@ -462,22 +919,79 @@ namespace Sy.P03.Newbie
                 float dy = NewbieConfig.PathY[s + 1] - NewbieConfig.PathY[s];
                 _segLens[s] = (float)Math.Sqrt(dx * dx + dy * dy);
             }
+            if (profile != null)
+            {
+                Seed = profile.Seed;
+                Lives = 3;
+                Crystals = profile.StartCrystals;
+                if (profile.CalamityId == 3) _crystalMul = 1f + profile.CalamityPower;   // 蝗祸
+                if (profile.CalamityId == 4) _towerIntervalMul = 1f + profile.CalamityPower; // 寒潮
+                var rng = new System.Random(profile.Seed ^ 0x5A11);
+                var bag = new List<int> { 0, 1, 2, 3, 4, 5 };
+                _tianjiPool = new int[3];
+                for (int i = 0; i < 3; i++)
+================================================================================
+第 17 页结束
+
+军师救我游戏软件 V1.0 源程序  第 18 页 共 48 页
+================================================================================
+                {
+                    int at = rng.Next(bag.Count);
+                    _tianjiPool[i] = bag[at];
+                    bag.RemoveAt(at);
+                }
+            }
         }
-        /// <summary>布防：点塔位放置下一座免费塔（关羽→关羽→黄忠），布防期有效。</summary>
+        (int Count, float Hp, float Speed, bool Boss, bool Elite) WaveAt(int w)
+        {
+            if (Profile == null)
+            {
+                var (tutCount, tutHp, tutSpeed) = NewbieConfig.GetWave(w);
+                return (tutCount, tutHp, tutSpeed, w == NewbieConfig.NewbieWaves, false);
+            }
+            var def = Profile.GetWave(w);
+            float hp = def.Hp * _fireMul;
+            _fireMul = 1f;
+            bool final = w == Profile.TotalWaves;
+            bool elite = def.Boss && !final;
+            return (def.Count, hp, def.Speed, final, elite);
+        }
+        /// <summary>布防：教学局=布防期免费三塔（关羽→关羽→黄忠）；攻防局=布防期+战斗中随赚随布（军资按档定价+图鉴轮换）。</summary>
         public bool PlaceTower(int slot)
         {
-            if (State != BattleState.Prep) return false;
+            bool prepOk = State == BattleState.Prep
+                          || (Profile != null && State == BattleState.Fighting);
+            if (!prepOk) return false;
             if (slot < 0 || slot >= NewbieConfig.SlotX.Length) return false;
             for (int i = 0; i < _towers.Count; i++)
                 if (_towers[i].Slot == slot) return false;
-            if (_placed >= NewbieConfig.FreeTowerPlacements) return false;
-            bool isGuanYu = _placed < NewbieConfig.FreeTowerPlacements - 1;   // 前两座关羽，末座黄忠
-            var def = isGuanYu ? NewbieConfig.GuanYu : NewbieConfig.HuangZhong;
+            GeneralCodex.GeneralDef def;
+            if (Profile == null)
+            {
+                if (_placed >= NewbieConfig.FreeTowerPlacements) return false;
+                bool isGuanYu = _placed < NewbieConfig.FreeTowerPlacements - 1;   // 前两座关羽，末座黄忠
+                def = isGuanYu ? GeneralCodex.ById(1) : GeneralCodex.ById(2);
+            }
+            else
+            {
+                var unlocked = GeneralCodex.Unlocked();
+                if (unlocked.Count == 0) return false;
+                int cost = CostFor(unlocked[_placed % unlocked.Count].Tier);
+                if (Crystals < cost) return false;
+                def = unlocked[_placed % unlocked.Count];
+                Crystals -= cost;
+            }
             var tower = new TowerInst
             {
                 Id = _nextId++,
                 Slot = slot,
-                IsGuanYu = isGuanYu,
+================================================================================
+第 18 页结束
+
+军师救我游戏软件 V1.0 源程序  第 19 页 共 48 页
+================================================================================
+                IsGuanYu = def.Aoe,
+                GeneralId = def.Id,
                 Range = def.Range,
                 Atk = def.Atk,
                 Interval = def.Interval,
@@ -487,14 +1001,15 @@ namespace Sy.P03.Newbie
             TowerPlaced?.Invoke(tower, slot);
             return true;
         }
+        static int CostFor(GeneralCodex.Tier tier) => tier switch
+        {
+            GeneralCodex.Tier.Purple => 9,
+            GeneralCodex.Tier.Gold => 12,
+            _ => 6,
+        };
         /// <summary>点按集火：指定敌人成为全塔优先目标（持续FocusSeconds）。</summary>
         public void TapFocus(int enemyId)
         {
-================================================================================
-第 9 页结束
-
-军师救我游戏软件 V1.0 源程序  第 10 页 共 60 页
-================================================================================
             for (int i = 0; i < _enemies.Count; i++)
                 if (_enemies[i].Id == enemyId)
                 {
@@ -525,6 +1040,11 @@ namespace Sy.P03.Newbie
             {
                 var e = _enemies[i];
                 if (!e.Boss) continue;
+================================================================================
+第 19 页结束
+
+军师救我游戏软件 V1.0 源程序  第 20 页 共 48 页
+================================================================================
                 QingLongFired?.Invoke();
                 DamageEnemy(e, e.Hp + 1f);
                 return true;
@@ -534,22 +1054,30 @@ namespace Sy.P03.Newbie
         public void PickTianji(int index)
         {
             if (State != BattleState.TianjiPause) return;
-            switch (index)
+            int entry;
+            if (Profile == null)
             {
-                case 0: _enemySpeedMul = 0.8f; break;
-                case 1: _atkMul = 1.25f; break;
-                default: _waveBonus = 10; break;
+                entry = index;      // 教学局固定 0/1/2
+            }
+            else
+            {
+                if (index < 0 || index >= _tianjiPool.Length) return;
+                entry = _tianjiPool[index];
+            }
+            switch (entry)
+            {
+                case 0: _enemySpeedMul = 0.8f; break;                    // 借东风
+                case 1: _atkMul = 1.25f; break;                          // 激励
+                case 2: _waveBonus = 10; break;                          // 增援
+                case 3: Crystals += (int)(15 * _crystalMul); break;       // 军粮
+                case 4: Lives += 1; break;                               // 坚守
+                case 5: _fireMul = 0.85f; break;                          // 火计
             }
             _waveGapTimer = 0f;
-            TianjiPicked?.Invoke(index);
+            TianjiPicked?.Invoke(entry);
             SetState(BattleState.Fighting);
         }
         public void Tick(float dt)
-================================================================================
-第 10 页结束
-
-军师救我游戏软件 V1.0 源程序  第 11 页 共 60 页
-================================================================================
         {
             switch (State)
             {
@@ -559,13 +1087,19 @@ namespace Sy.P03.Newbie
                     return;
                 case BattleState.Prep:
                     _stateTimer += dt;
-                    if (_placed >= 1 && (_placed >= NewbieConfig.FreeTowerPlacements || _stateTimer >= NewbieConfig.PrepStartSeconds))
+                    int need = Profile != null ? 1 : NewbieConfig.FreeTowerPlacements;
+                    if (_placed >= 1 && (_placed >= need || _stateTimer >= NewbieConfig.PrepStartSeconds))
                     {
                         SetState(BattleState.Fighting);
                         BeginWave(1);
                     }
                     return;
                 case BattleState.Fighting:
+================================================================================
+第 20 页结束
+
+军师救我游戏软件 V1.0 源程序  第 21 页 共 48 页
+================================================================================
                     BattleTime += dt;
                     if (_focusTimer > 0f) _focusTimer -= dt;
                     TickSpawns(dt);
@@ -579,43 +1113,48 @@ namespace Sy.P03.Newbie
         void BeginWave(int w)
         {
             Wave = w;
-            var (count, _, _) = NewbieConfig.GetWave(w);
+            var (_, _, _, boss, elite) = WaveAt(w);
             _waveSpawned = 0;
             _spawnTimer = 0f;
             _waveGapTimer = 0f;
             _spawning = true;
             WaveStarted?.Invoke(w);
-            if (w == NewbieConfig.NewbieWaves)
+            float bossHp = Profile != null
+                ? NewbieConfig.BossHp * (1f + 0.12f * Profile.TotalWaves)
+                : NewbieConfig.BossHp;
+            if (boss || elite)
             {
-                var boss = new EnemyInst
+                var e = new EnemyInst
                 {
                     Id = _nextId++,
-                    Boss = true,
+                    Boss = boss,
+                    Elite = elite,
                     Seg = 0,
                     SegT = 0f,
                     X = NewbieConfig.PathX[0],
                     Y = NewbieConfig.PathY[0],
-                    Hp = NewbieConfig.BossHp,
-                    MaxHp = NewbieConfig.BossHp,
-                    Speed = NewbieConfig.BossSpeed,
+                    Hp = boss ? bossHp : bossHp * 0.55f,
+                    MaxHp = boss ? bossHp : bossHp * 0.55f,
+                    Speed = elite ? NewbieConfig.BossSpeed * 1.25f : NewbieConfig.BossSpeed,
                 };
-                _enemies.Add(boss);
-================================================================================
-第 11 页结束
-
-军师救我游戏软件 V1.0 源程序  第 12 页 共 60 页
-================================================================================
-                EnemySpawned?.Invoke(boss);
+                _enemies.Add(e);
+                EnemySpawned?.Invoke(e);
             }
         }
         void TickSpawns(float dt)
         {
             if (!_spawning) return;
-            var (count, hp, speed) = NewbieConfig.GetWave(Wave);
+            var (count, hp, speed, _, _) = WaveAt(Wave);
+            float interval = Profile != null ? Profile.SpawnInt : NewbieConfig.SpawnInterval;
             _spawnTimer += dt;
-            while (_spawnTimer >= NewbieConfig.SpawnInterval && _waveSpawned < count)
+            while (_spawnTimer >= interval && _waveSpawned < count)
             {
-                _spawnTimer -= NewbieConfig.SpawnInterval;
+                _spawnTimer -= interval;
+================================================================================
+第 21 页结束
+
+军师救我游戏软件 V1.0 源程序  第 22 页 共 48 页
+================================================================================
                 _waveSpawned++;
                 var e = new EnemyInst
                 {
@@ -655,14 +1194,9 @@ namespace Sy.P03.Newbie
                         e.SegT = 0f;
                         if (e.Seg >= _segLens.Length)
                         {
-================================================================================
-第 12 页结束
-
-军师救我游戏软件 V1.0 源程序  第 13 页 共 60 页
-================================================================================
+                            // 残影破城折返再压（攻防局民心真实扣减=可输；教学局靠数值带保证必胜）
                             if (e.Boss)
                             {
-                                // 吕布残影=不灭残影：破城后折返再战（教学局必胜）
                                 e.Seg = 0;
                                 e.SegT = 0f;
                                 Lives = Math.Max(0, Lives - 1);
@@ -671,6 +1205,11 @@ namespace Sy.P03.Newbie
                             else
                             {
                                 _enemies.RemoveAt(i);
+================================================================================
+第 22 页结束
+
+军师救我游戏软件 V1.0 源程序  第 23 页 共 48 页
+================================================================================
                                 Lives = Math.Max(0, Lives - 1);
                                 LifeLost?.Invoke(Lives);
                             }
@@ -710,11 +1249,6 @@ namespace Sy.P03.Newbie
                 else
                 {
                     // 远程单体：集火目标优先，否则最近
-================================================================================
-第 13 页结束
-
-军师救我游戏软件 V1.0 源程序  第 14 页 共 60 页
-================================================================================
                     float r2 = t.Range * t.Range;
                     EnemyInst target = null;
                     float best = float.MaxValue;
@@ -726,6 +1260,11 @@ namespace Sy.P03.Newbie
                         if (d2 > r2) continue;
                         if (IsFocused(e)) { target = e; best = -1f; break; }
                         if (d2 < best) { best = d2; target = e; }
+================================================================================
+第 23 页结束
+
+军师救我游戏软件 V1.0 源程序  第 24 页 共 48 页
+================================================================================
                     }
                     if (target != null)
                     {
@@ -733,7 +1272,7 @@ namespace Sy.P03.Newbie
                         DamageEnemy(target, t.Atk * _atkMul);
                     }
                 }
-                t.Cooldown = any ? t.Interval : 0.05f;
+                t.Cooldown = any ? t.Interval * _towerIntervalMul : 0.05f;
             }
         }
         void DamageEnemy(EnemyInst e, float dmg)
@@ -743,7 +1282,7 @@ namespace Sy.P03.Newbie
             e.Dead = true;
             _enemies.Remove(e);
             Kills++;
-            Crystals += NewbieConfig.KillCrystal;
+            Crystals += (int)(NewbieConfig.KillCrystal * _crystalMul);
             if (e.Boss)
             {
                 // 演出清屏：护卫余寇随残影湮灭
@@ -753,7 +1292,7 @@ namespace Sy.P03.Newbie
                     rest.Dead = true;
                     _enemies.RemoveAt(i);
                     Kills++;
-                    Crystals += NewbieConfig.KillCrystal;
+                    Crystals += (int)(NewbieConfig.KillCrystal * _crystalMul);
                     EnemyKilled?.Invoke(rest);
                 }
                 BossKilled?.Invoke();
@@ -765,25 +1304,34 @@ namespace Sy.P03.Newbie
         }
         void TickWaves(float dt)
         {
-================================================================================
-第 14 页结束
-
-军师救我游戏软件 V1.0 源程序  第 15 页 共 60 页
-================================================================================
             if (_spawning || _enemies.Count > 0) return;
             _waveGapTimer += dt;
-            if (_waveGapTimer < NewbieConfig.WaveGapSeconds) return;
+            float gap = Profile != null ? Profile.WaveGap : NewbieConfig.WaveGapSeconds;
+            if (_waveGapTimer < gap) return;
             int cleared = Wave;
-            if (cleared >= NewbieConfig.NewbieWaves) return;   // 通关由Boss死亡触发
+            if (cleared >= TotalWaves) return;   // 通关由Boss死亡触发
             if (_lastCleared != cleared)
             {
                 _lastCleared = cleared;
-                Crystals += NewbieConfig.WaveClearCrystal + _waveBonus;
+                int bonus = NewbieConfig.WaveClearCrystal + _waveBonus;
+                if (Profile == null) Crystals += bonus;                     // 教学局原值（零漂移护栏）
+================================================================================
+第 24 页结束
+
+军师救我游戏软件 V1.0 源程序  第 25 页 共 48 页
+================================================================================
+                else Crystals += (int)(bonus * _crystalMul);                // 攻防局走蝗祸乘子
                 WaveCleared?.Invoke(cleared);
             }
-            if (cleared == 2 && !_tianjiDone)
+            bool offer;
+            if (Profile == null)
+                offer = cleared == 2 && !_tianjiDone;
+            else
+                offer = _tianjiCount < _tianjiPool.Length;
+            if (offer)
             {
-                _tianjiDone = true;
+                if (Profile == null) _tianjiDone = true;
+                else _tianjiCount++;
                 SetState(BattleState.TianjiPause);
                 TianjiOffered?.Invoke();
                 return;
@@ -818,16 +1366,20 @@ namespace Sy.P03.Newbie
         Sprite _square;
         readonly Image[] _slotImages = new Image[NewbieConfig.SlotX.Length];
         readonly Text[] _slotLabels = new Text[NewbieConfig.SlotX.Length];
-        Text _waveText, _livesText, _crystalText, _killsText, _hintText;
+        Text _waveText, _livesText, _crystalText, _killsText, _hintText, _calamityText;
         Button _qingLongButton;
-================================================================================
-第 15 页结束
-
-军师救我游戏软件 V1.0 源程序  第 16 页 共 60 页
-================================================================================
         Image _qingLongImage;
         RectTransform _introOverlay, _tianjiPanel, _slashOverlay, _settlePanel;
+================================================================================
+第 25 页结束
+
+军师救我游戏软件 V1.0 源程序  第 26 页 共 48 页
+================================================================================
         Text _settleStats;
+        Text _settleTitle;
+        int _totalWaves = NewbieConfig.NewbieWaves;
+        readonly Text[] _tianjiNames = new Text[3];
+        readonly Text[] _tianjiDescs = new Text[3];
         readonly Dictionary<int, EnemyVisual> _enemies = new();
         readonly List<int> _scratch = new();
         public event Action<int> SlotTapped;
@@ -873,13 +1425,13 @@ namespace Sy.P03.Newbie
             image.preserveAspect = true;
             image.raycastTarget = false;
         }
+================================================================================
+第 26 页结束
+
+军师救我游戏软件 V1.0 源程序  第 27 页 共 48 页
+================================================================================
         void BuildHud()
         {
-================================================================================
-第 16 页结束
-
-军师救我游戏软件 V1.0 源程序  第 17 页 共 60 页
-================================================================================
             var root = _canvas.transform;
             _waveText = MakeText(root, "L1 波次 0/4", 46, new Vector2(0, 880), TextAnchor.UpperLeft, 380, 70);
             _waveText.color = PaperYellow;
@@ -887,6 +1439,8 @@ namespace Sy.P03.Newbie
             _crystalText = MakeText(root, "魂晶 0", 44, new Vector2(0, 820), TextAnchor.UpperLeft, 380, 60);
             _crystalText.color = PaperYellow;
             _killsText = MakeText(root, "击杀 0", 44, new Vector2(0, 820), TextAnchor.UpperRight, 380, 60);
+            _calamityText = MakeText(root, "", 36, new Vector2(0, 760), TextAnchor.UpperLeft, 520, 50);
+            _calamityText.color = DoomGreen;
             _hintText = MakeText(root, "", 40, new Vector2(0, -780), TextAnchor.MiddleCenter, 1020, 150);
             _hintText.color = new Color(0.95f, 0.87f, 0.6f);
             var btnGo = new GameObject("QingLongButton", typeof(Image), typeof(Button));
@@ -926,15 +1480,15 @@ namespace Sy.P03.Newbie
             MakeText(_canvas.transform, "城门", 34, new Vector2(-500f, -660f), TextAnchor.MiddleCenter, 260, 50).color = PaperYellow;
         }
         void BuildSlots()
+================================================================================
+第 27 页结束
+
+军师救我游戏软件 V1.0 源程序  第 28 页 共 48 页
+================================================================================
         {
             for (int i = 0; i < NewbieConfig.SlotX.Length; i++)
             {
                 int index = i;
-================================================================================
-第 17 页结束
-
-军师救我游戏软件 V1.0 源程序  第 18 页 共 60 页
-================================================================================
                 var go = new GameObject("Slot_" + i, typeof(RectTransform), typeof(Image), typeof(Button));
                 go.transform.SetParent(_canvas.transform, false);
                 var rt = (RectTransform)go.transform;
@@ -970,7 +1524,7 @@ namespace Sy.P03.Newbie
         {
             _tianjiPanel = MakeOverlayPanel("TianjiPanel", new Color(0.03f, 0.03f, 0.03f, 0.92f));
             MakeText(_tianjiPanel, "天机 · 三选一", 76, new Vector2(0, 560), TextAnchor.MiddleCenter, 1000, 100).color = PaperYellow;
-            for (int i = 0; i < NewbieConfig.TianjiCards.Length; i++)
+            for (int i = 0; i < 3; i++)
             {
                 int index = i;
                 var card = NewbieConfig.TianjiCards[i];
@@ -981,16 +1535,17 @@ namespace Sy.P03.Newbie
                 rt.anchoredPosition = new Vector2(-330 + i * 330, 0);
                 rt.sizeDelta = new Vector2(300, 420);
                 var img = go.GetComponent<Image>();
+================================================================================
+第 28 页结束
+
+军师救我游戏软件 V1.0 源程序  第 29 页 共 48 页
+================================================================================
                 img.sprite = _square;
                 img.color = i == 0 ? new Color(0.55f, 0.12f, 0.12f) : new Color(0.14f, 0.16f, 0.14f);   // 借东风强提示
-                var label = MakeText(go.transform, "【" + card.Name + "】", 56, new Vector2(0, 120), TextAnchor.MiddleCenter, 300, 80);
-                label.color = PaperYellow;
-================================================================================
-第 18 页结束
-
-军师救我游戏软件 V1.0 源程序  第 19 页 共 60 页
-================================================================================
-                MakeText(go.transform, card.Desc, 38, new Vector2(0, -40), TextAnchor.MiddleCenter, 280, 200).color = new Color(0.85f, 0.85f, 0.8f);
+                _tianjiNames[i] = MakeText(go.transform, "【" + card.Name + "】", 56, new Vector2(0, 120), TextAnchor.MiddleCenter, 300, 80);
+                _tianjiNames[i].color = PaperYellow;
+                _tianjiDescs[i] = MakeText(go.transform, card.Desc, 38, new Vector2(0, -40), TextAnchor.MiddleCenter, 280, 200);
+                _tianjiDescs[i].color = new Color(0.85f, 0.85f, 0.8f);
                 go.GetComponent<Button>().onClick.AddListener(() =>
                 {
                     _tianjiPanel.gameObject.SetActive(false);
@@ -999,6 +1554,17 @@ namespace Sy.P03.Newbie
             }
             MakeText(_tianjiPanel, "规则级效果即时生效——尸潮将至", 40, new Vector2(0, -400), TextAnchor.MiddleCenter, 1000, 80).color = new Color(0.6f, 0.6f, 0.55f);
             _tianjiPanel.gameObject.SetActive(false);
+        }
+        /// <summary>攻防局：按种子池重贴三张天机牌（0=借东风强提示色保留在首牌）。</summary>
+        public void ShowTianjiPanel(int[] entries)
+        {
+            for (int i = 0; i < 3 && i < entries.Length; i++)
+            {
+                var card = NewbieConfig.TianjiCards[Math.Max(0, Math.Min(NewbieConfig.TianjiCards.Length - 1, entries[i]))];
+                _tianjiNames[i].text = "【" + card.Name + "】";
+                _tianjiDescs[i].text = card.Desc;
+            }
+            ShowTianjiPanel();
         }
         void BuildSlashOverlay()
         {
@@ -1019,10 +1585,16 @@ namespace Sy.P03.Newbie
         void BuildSettlePanel()
         {
             _settlePanel = MakeOverlayPanel("SettlePanel", new Color(0.03f, 0.03f, 0.03f, 0.96f));
-            MakeText(_settlePanel, "L1 首关达成", 90, new Vector2(0, 560), TextAnchor.MiddleCenter, 1040, 110).color = PaperYellow;
+            _settleTitle = MakeText(_settlePanel, "L1 首关达成", 90, new Vector2(0, 560), TextAnchor.MiddleCenter, 1040, 110);
+            _settleTitle.color = PaperYellow;
             _settleStats = MakeText(_settlePanel, "", 46, new Vector2(0, 380), TextAnchor.MiddleCenter, 1000, 260);
             MakeActionButton(_settlePanel, "再守一关", new Vector2(-260, -260), () => UnityEngine.SceneManagement.SceneManager.LoadScene(NewbieSceneIds.Battle));
             MakeActionButton(_settlePanel, "返回主界面", new Vector2(260, -260), () => UnityEngine.SceneManagement.SceneManager.LoadScene(NewbieSceneIds.Main));
+================================================================================
+第 29 页结束
+
+军师救我游戏软件 V1.0 源程序  第 30 页 共 48 页
+================================================================================
             _settlePanel.gameObject.SetActive(false);
         }
         // ───── 每帧同步（零字符串分配；字典reconcile只在实体增删时发生） ─────
@@ -1040,11 +1612,6 @@ namespace Sy.P03.Newbie
                     v.LastFocused = focused;
                     v.FocusLabel.gameObject.SetActive(focused);
                 }
-================================================================================
-第 19 页结束
-
-军师救我游戏软件 V1.0 源程序  第 20 页 共 60 页
-================================================================================
             }
             bool ready = sim.QingLongZhanReady;
             if (_qingLongButton.interactable != ready)
@@ -1078,6 +1645,11 @@ namespace Sy.P03.Newbie
                 v.Focused = sim.IsFocused(e);
             }
         }
+================================================================================
+第 30 页结束
+
+军师救我游戏软件 V1.0 源程序  第 31 页 共 48 页
+================================================================================
         static bool ContainsEnemy(BattleSim sim, int id)
         {
             for (int i = 0; i < sim.Enemies.Count; i++)
@@ -1091,17 +1663,14 @@ namespace Sy.P03.Newbie
             go.transform.SetParent(_canvas.transform, false);
             var rt = (RectTransform)go.transform;
             rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
-            rt.sizeDelta = e.Boss ? new Vector2(160, 160) : new Vector2(70, 70);
+            rt.sizeDelta = e.Boss ? new Vector2(160, 160) : (e.Elite ? new Vector2(110, 110) : new Vector2(70, 70));
             var image = go.GetComponent<Image>();
             image.sprite = _square;
-            image.color = e.Boss ? PaperYellow : new Color(0.35f, 0.42f, 0.33f);
-================================================================================
-第 20 页结束
-
-军师救我游戏软件 V1.0 源程序  第 21 页 共 60 页
-================================================================================
+            image.color = e.Boss ? PaperYellow : (e.Elite ? new Color(0.78f, 0.55f, 0.25f) : new Color(0.35f, 0.42f, 0.33f));
             if (e.Boss)
                 MakeText(go.transform, "吕", 64, Vector2.zero, TextAnchor.MiddleCenter, 160, 160).color = InkBlack;
+            else if (e.Elite)
+                MakeText(go.transform, "械", 44, Vector2.zero, TextAnchor.MiddleCenter, 110, 110).color = InkBlack;
             Image fill = null;
             var hpGo = new GameObject("Hp", typeof(RectTransform), typeof(Image));
             hpGo.transform.SetParent(go.transform, false);
@@ -1131,18 +1700,27 @@ namespace Sy.P03.Newbie
                 MaxHp = e.MaxHp,
             };
         }
+================================================================================
+第 31 页结束
+
+军师救我游戏软件 V1.0 源程序  第 32 页 共 48 页
+================================================================================
         // ───── HUD与面板 ─────
-        public void SetWave(int w) => _waveText.text = "L1 波次 " + w + "/" + NewbieConfig.NewbieWaves;
+        public void SetWave(int w) => _waveText.text = "波次 " + w + "/" + _totalWaves;
+        public void SetTotalWaves(int total) { _totalWaves = total > 0 ? total : NewbieConfig.NewbieWaves; }
+        public void SetCalamity(string name) => _calamityText.text = name;
         public void SetLives(int l) => _livesText.text = "民心 " + l;
         public void SetCrystals(int c) => _crystalText.text = "魂晶 " + c;
         public void SetKills(int k) => _killsText.text = "击杀 " + k;
         public void SetHint(string hint) => _hintText.text = hint;
         public void HideIntro() => _introOverlay.gameObject.SetActive(false);
         public void ShowTianjiPanel() => _tianjiPanel.gameObject.SetActive(true);
-        public void SetTower(int slot, bool isGuanYu)
+        public void SetTower(int slot, bool isGuanYu, int generalId)
         {
             _slotImages[slot].color = isGuanYu ? RevRed : DoomGreen;
-            _slotLabels[slot].text = isGuanYu ? "关" : "黄";
+            var def = GeneralCodex.ById(generalId);
+            string label = def != null && def.Name.Length > 0 ? def.Name.Substring(0, 1) : (isGuanYu ? "关" : "黄");
+            _slotLabels[slot].text = label;
             _slotLabels[slot].color = InkBlack;
             _slotLabels[slot].fontSize = 64;
         }
@@ -1150,11 +1728,6 @@ namespace Sy.P03.Newbie
         {
             StartCoroutine(SlashRoutine());
         }
-================================================================================
-第 21 页结束
-
-军师救我游戏软件 V1.0 源程序  第 22 页 共 60 页
-================================================================================
         IEnumerator SlashRoutine()
         {
             _slashOverlay.gameObject.SetActive(true);
@@ -1168,11 +1741,25 @@ namespace Sy.P03.Newbie
                 ? $"波次 {wave}/{NewbieConfig.NewbieWaves} · 击杀 {kills} · 魂晶 {crystals}\n<size=40>阵容码 L1-DEMO-0001（正式局开放晒阵/借将）</size>"
                 : $"城破……击杀 {kills} · 魂晶 {crystals}\n<size=40>教学局不该输——再守一关</size>";
         }
+        /// <summary>攻防局/天命局结算：布阵码+军资入账真值（同界面复用，教学路径不走过载）。</summary>
+        public void ShowSettle(RunResult result)
+        {
+            _settleTitle.text = result.Won ? "守城告捷" : "城破人散";
+            _settleStats.text = result.Won
+                ? $"波次 {result.WaveReached}/{_totalWaves} · 击杀 {result.Kills} · 军资 +{result.BannerEarned}\n<size=40>布阵码 {result.FormationCode}（可晒友复战同局）</size>"
+                : $"波次 {result.WaveReached}/{_totalWaves} · 击杀 {result.Kills} · 军资 +{result.BannerEarned}\n<size=40>输局也攒军资——点将台兑名将再战</size>";
+            _settlePanel.gameObject.SetActive(true);
+        }
         // ───── 工具 ─────
         RectTransform MakeOverlayPanel(string name, Color color)
         {
             var go = new GameObject(name, typeof(RectTransform), typeof(Image));
             go.transform.SetParent(_canvas.transform, false);
+================================================================================
+第 32 页结束
+
+军师救我游戏软件 V1.0 源程序  第 33 页 共 48 页
+================================================================================
             var rt = (RectTransform)go.transform;
             rt.anchorMin = Vector2.zero;
             rt.anchorMax = Vector2.one;
@@ -1205,11 +1792,6 @@ namespace Sy.P03.Newbie
             rt.anchoredPosition = pos;
             rt.sizeDelta = new Vector2(w, h);
             var t = go.GetComponent<Text>();
-================================================================================
-第 22 页结束
-
-军师救我游戏软件 V1.0 源程序  第 23 页 共 60 页
-================================================================================
             t.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
             t.text = text;
             t.fontSize = size;
@@ -1228,6 +1810,11 @@ namespace Sy.P03.Newbie
             return Sprite.Create(tex, new Rect(0, 0, 8, 8), new Vector2(0.5f, 0.5f), 8f);
         }
         // ───── 实体视图结构 ─────
+================================================================================
+第 33 页结束
+
+军师救我游戏软件 V1.0 源程序  第 34 页 共 48 页
+================================================================================
         sealed class EnemyVisual
         {
             public GameObject Go;
@@ -1239,6 +1826,229 @@ namespace Sy.P03.Newbie
             public float X, Y;
             public float Hp, MaxHp;
         }
+    }
+}
+// FormationCodec.cs
+using System;
+using System.Collections.Generic;
+using System.Text;
+namespace Sy.P03.Newbie
+{
+    /// <summary>
+    /// 布阵码（移植 P02 DefenseCodec 精神·零服务器阵容码）：把一局的种子+塔位布局
+    /// 压成短码（base36+校验位），朋友输码即同局同布局再战——传播与新鲜度并存
+    /// （06脚本03章红线①：天灾=每局固定种子，阵容码当局有效）。纯 C# 无依赖；
+    /// 每塔一格字符（槽 3bit+型 1bit=0..15 &lt; 36），编解码严格对称。
+    /// </summary>
+    public static class FormationCodec
+    {
+        const string Alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const int Version = 1;
+        /// <summary>定格短码：V(1)+种子(6)+塔数(1)+每塔1字+校验(1)。</summary>
+        public static string Encode(int seed, IReadOnlyList<BattleSim.TowerInst> towers)
+        {
+            var sb = new StringBuilder();
+            sb.Append(Digit(Version));
+            AppendUnsigned(sb, seed > 0 ? (uint)seed : 0u, 6);
+            sb.Append(Digit(towers.Count));
+            for (int i = 0; i < towers.Count; i++)
+                sb.Append(Digit(((towers[i].Slot & 0x7) << 1) | (towers[i].IsGuanYu ? 1 : 0)));
+            sb.Append(ChecksumChar(sb.ToString()));
+            return sb.ToString();
+        }
+        public static string Encode(BattleSim sim)
+            => Encode(sim.Seed, sim.Towers);
+        /// <summary>解析短码（防御式：坏码返回 null，永不抛）。</summary>
+        public static FormationPlan? TryDecode(string code)
+        {
+            if (string.IsNullOrEmpty(code) || code.Length < 9) return null;
+            string body = code.Substring(0, code.Length - 1);
+            if (code[code.Length - 1] != ChecksumChar(body)) return null;
+            int at = 0;
+================================================================================
+第 34 页结束
+
+军师救我游戏软件 V1.0 源程序  第 35 页 共 48 页
+================================================================================
+            int version = Value(body[at++]);
+            if (version != Version) return null;
+            uint seed = ReadUnsigned(body, ref at, 6);
+            int count = Value(body[at++]);
+            if (count < 0 || count > 8) return null;
+            if (body.Length - at != count) return null;
+            var slots = new int[count];
+            bool[] guan = new bool[count];
+            for (int i = 0; i < count; i++)
+            {
+                int cell = Value(body[at++]);
+                if (cell < 0) return null;
+                slots[i] = (cell >> 1) & 0x7;
+                guan[i] = (cell & 1) == 1;
+            }
+            return new FormationPlan((int)seed, slots, guan);
+        }
+        public readonly struct FormationPlan
+        {
+            public readonly int Seed;
+            public readonly int[] Slots;
+            public readonly bool[] IsGuanYu;
+            public FormationPlan(int seed, int[] slots, bool[] isGuanYu)
+            {
+                Seed = seed;
+                Slots = slots;
+                IsGuanYu = isGuanYu;
+            }
+        }
+        static char Digit(int v) => Alphabet[v % 36];
+        static int Value(char c) => Alphabet.IndexOf(char.ToUpperInvariant(c));
+        static void AppendUnsigned(StringBuilder sb, uint v, int chars)
+        {
+            char[] buf = new char[chars];
+            uint x = v;
+            for (int i = chars - 1; i >= 0; i--)
+            {
+                buf[i] = Alphabet[(int)(x % 36u)];
+                x /= 36u;
+            }
+            for (int i = 0; i < chars; i++) sb.Append(buf[i]);
+        }
+        static uint ReadUnsigned(string s, ref int at, int chars)
+        {
+            uint v = 0;
+            for (int i = 0; i < chars && at < s.Length; i++)
+                v = v * 36u + (uint)Math.Max(0, Value(s[at++]));
+            return v;
+        }
+        static char ChecksumChar(string body)
+================================================================================
+第 35 页结束
+
+军师救我游戏软件 V1.0 源程序  第 36 页 共 48 页
+================================================================================
+        {
+            int sum = 0;
+            for (int i = 0; i < body.Length; i++) sum += body[i];
+            return Alphabet[sum % 36];
+        }
+    }
+}
+// GeneralCodex.cs
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+namespace Sy.P03.Newbie
+{
+    /// <summary>
+    /// 武将图鉴（V1.4 收集系统·军师点将台）：8 名将位——关羽/黄忠随教学解锁，
+    /// 其余经军资兑换（BannerWallet）与天命局奖励解锁。战斗可用武将=已解锁集；
+    /// 布防界按解锁集轮换候选。红线12：解锁状态 PlayerPrefs 持久化，零服务器。
+    /// </summary>
+    public static class GeneralCodex
+    {
+        public enum Tier { Common, Purple, Gold }
+        public sealed class GeneralDef
+        {
+            public int Id;
+            public string Name;      // 显示名（画册+布防候选）
+            public string Role;      // 定位一行（视觉化状态·密度律）
+            public Tier Tier;
+            public float Range;
+            public float Atk;
+            public float Interval;
+            public bool Aoe;
+            public string UnlockHint;
+            public GeneralDef(int id, string name, string role, Tier tier,
+                float range, float atk, float interval, bool aoe, string unlockHint)
+            {
+                Id = id; Name = name; Role = role; Tier = tier;
+                Range = range; Atk = atk; Interval = interval; Aoe = aoe;
+                UnlockHint = unlockHint;
+            }
+        }
+        static readonly GeneralDef[] Generals =
+        {
+            new GeneralDef(1, "关羽塔", "范围斩击", Tier.Common, 280f, 12f, 0.8f, true,  "教学解锁"),
+            new GeneralDef(2, "黄忠塔", "远程单体", Tier.Common, 520f, 26f, 1.1f, false, "教学解锁"),
+            new GeneralDef(3, "赵云塔", "突刺高伤", Tier.Purple, 360f, 34f, 1.0f, false, "军资兑换"),
+            new GeneralDef(4, "诸葛塔", "减速策阵", Tier.Purple, 480f, 10f, 1.2f, true,  "军资兑换"),
+            new GeneralDef(5, "张飞塔", "咆哮震慑", Tier.Gold, 300f, 22f, 0.9f, true,   "天命奖励"),
+            new GeneralDef(6, "马超塔", "疾风连击", Tier.Gold, 380f, 18f, 0.45f, false,  "天命奖励"),
+            new GeneralDef(7, "魏延塔", "孤军死守", Tier.Purple, 320f, 40f, 1.4f, false, "军资兑换"),
+            new GeneralDef(8, "姜维塔", "续战成长", Tier.Gold, 460f, 16f, 1.0f, false,   "天命奖励"),
+================================================================================
+第 36 页结束
+
+军师救我游戏软件 V1.0 源程序  第 37 页 共 48 页
+================================================================================
+        };
+        const string UnlockedKey = "p03_codex_unlocked";
+        public static IReadOnlyList<GeneralDef> All => Generals;
+        public static GeneralDef ById(int id)
+        {
+            for (int i = 0; i < Generals.Length; i++)
+                if (Generals[i].Id == id) return Generals[i];
+            return null;
+        }
+        static HashSet<int> LoadUnlocked()
+        {
+            var set = new HashSet<int>();
+            string raw = PlayerPrefs.GetString(UnlockedKey, "");
+            if (raw.Length == 0)
+            {
+                set.Add(1);
+                set.Add(2);
+                return set;
+            }
+            foreach (var part in raw.Split(','))
+                if (int.TryParse(part, out int id)) set.Add(id);
+            return set;
+        }
+        static void SaveUnlocked(HashSet<int> set)
+        {
+            var sb = new System.Text.StringBuilder();
+            int n = 0;
+            foreach (int id in set)
+            {
+                if (n++ > 0) sb.Append(',');
+                sb.Append(id);
+            }
+            PlayerPrefs.SetString(UnlockedKey, sb.ToString());
+            PlayerPrefs.Save();
+        }
+        public static bool IsUnlocked(int id)
+            => LoadUnlocked().Contains(id);
+        /// <summary>解锁（幂等）。返回 false=已解锁。</summary>
+        public static bool Unlock(int id)
+        {
+            var set = LoadUnlocked();
+            if (!set.Add(id)) return false;
+            SaveUnlocked(set);
+            return true;
+        }
+        /// <summary>已解锁武将集（布防候选轮换源）。</summary>
+        public static List<GeneralDef> Unlocked()
+        {
+            var set = LoadUnlocked();
+            var list = new List<GeneralDef>();
+================================================================================
+第 37 页结束
+
+军师救我游戏软件 V1.0 源程序  第 38 页 共 48 页
+================================================================================
+            for (int i = 0; i < Generals.Length; i++)
+                if (set.Contains(Generals[i].Id)) list.Add(Generals[i]);
+            return list;
+        }
+        /// <summary>未解锁池（军资兑换的随机池；空=图鉴全开）。</summary>
+        public static int[] LockedIds()
+        {
+            var set = LoadUnlocked();
+            var ids = new List<int>();
+            for (int i = 0; i < Generals.Length; i++)
+                if (!set.Contains(Generals[i].Id)) ids.Add(Generals[i].Id);
+            return ids.ToArray();
+        }
+        public static void ClearForTests() => PlayerPrefs.DeleteKey(UnlockedKey);
     }
 }
 // NewbieConfig.cs
@@ -1260,11 +2070,6 @@ namespace Sy.P03.Newbie
             Aoe = aoe;
         }
     }
-================================================================================
-第 23 页结束
-
-军师救我游戏软件 V1.0 源程序  第 24 页 共 60 页
-================================================================================
     /// <summary>
     /// P03新手切片（随机塔防·换赛道底稿演示）配置 V0.1——内嵌常量切片；热更管线（X009+IConfigService）接通后迁移Design/configs/P03 JSON。
     /// 权威：06新手脚本03节M0-M5（尸潮压城/L1布防/天机三选一/青龙斩半演出/阵容码露出）、教学局必胜红线。
@@ -1280,6 +2085,11 @@ namespace Sy.P03.Newbie
         public const float PrepStartSeconds = 15f;     // 布防门兜底（至少1塔才开波）
         public const int FreeTowerPlacements = 3;       // 免费布防：关羽×2+黄忠×1
         public const float SpawnInterval = 0.8f;
+================================================================================
+第 38 页结束
+
+军师救我游戏软件 V1.0 源程序  第 39 页 共 48 页
+================================================================================
         public const float WaveGapSeconds = 2f;
         public const float MaxTutorialSeconds = 210f;  // 教学局必胜≤3.5min（06红线②）
         public const int KillCrystal = 2;               // 魂晶经济（击杀+2/波清+8）
@@ -1305,21 +2115,438 @@ namespace Sy.P03.Newbie
             3 => (10, 38f, 82f),
             _ => (4, 40f, 86f),
         };
-        /// <summary>天机三选一（06脚本M3：借东风可视化降配=敌全体减速）。</summary>
+        /// <summary>天机池（06脚本M3 三选一；攻防局=种子六选三·id 0-5 与 BattleSim.PickTianji 对位）。</summary>
         public static readonly (string Name, string Desc)[] TianjiCards =
         {
             ("借东风", "敌全体移速-20%（规则级）"),
             ("龙魂", "塔攻击+25%（规则级）"),
             ("军赏", "每波奖励魂晶+10"),
+            ("军粮", "立得魂晶+15"),
+            ("坚守", "民心+1"),
+            ("火计", "下一波敌血-15%"),
         };
     }
 }
-// TutorialFlow.cs
+// OfflinePay.cs
+using System;
+namespace Sy.P03.Newbie
+{
+    /// <summary>
+    /// 离线军资（移植 P02 OfflineEarnings·T015-A5 数据层）：离线每小时攒 3 军资，
+    /// 帽 8 小时=24/日；不足 1 小时不显领页；未领时间不受罚（戳只在领取时前移，
+    /// 待领从同一戳继续累积）。领取走真实 BannerWallet 入账（绝无平行账本）。
+    /// 红线12：PlayerPrefs=权威，零服务器。
+    /// </summary>
+    public static class OfflinePay
+    {
+        public const string SeenKey = "p03_offline_seen_ms";
 ================================================================================
-第 24 页结束
+第 39 页结束
 
-军师救我游戏软件 V1.0 源程序  第 25 页 共 60 页
+军师救我游戏软件 V1.0 源程序  第 40 页 共 48 页
 ================================================================================
+        public const int CoinsPerHour = 3;
+        public const int MaxAccrualHours = 8;
+        public const int MaxPerDay = CoinsPerHour * MaxAccrualHours;
+        public const int MinClaimCoins = CoinsPerHour;
+        static readonly long MsPerHour = 3_600_000L;
+        public static int CoinsFor(long elapsedMs)
+        {
+            if (elapsedMs < 0) return 0;
+            long hours = elapsedMs / MsPerHour;
+            if (hours > MaxAccrualHours) hours = MaxAccrualHours;
+            return (int)hours * CoinsPerHour;
+        }
+        public static int CoinsBetween(long lastSeenMs, long nowMs)
+            => CoinsFor(nowMs - lastSeenMs);
+        public static void Stamp(long nowMs)
+        {
+            UnityEngine.PlayerPrefs.SetString(SeenKey, nowMs.ToString());
+            UnityEngine.PlayerPrefs.Save();
+        }
+        public static void ClearForTests()
+            => UnityEngine.PlayerPrefs.DeleteKey(SeenKey);
+        public sealed class OfflineClaim
+        {
+            public int Pending { get; }
+            public long SeenAtMs { get; }
+            public bool Claimable => Pending >= MinClaimCoins;
+            public bool Consumed { get; private set; }
+            long _nowMs;
+            OfflineClaim(int pending, long seenAtMs, long nowMs)
+            {
+                Pending = pending;
+                SeenAtMs = seenAtMs;
+                _nowMs = nowMs;
+            }
+            public static OfflineClaim Open(long nowMs)
+            {
+                long seen = 0;
+                var raw = UnityEngine.PlayerPrefs.GetString(SeenKey, "");
+                if (long.TryParse(raw, out var parsed)) seen = parsed;
+                int pending = seen > 0 ? CoinsBetween(seen, nowMs) : 0;
+                return new OfflineClaim(pending, seen, nowMs);
+            }
+            /// <summary>领取：基础或看广告双倍，经真实钱包入账并盖戳（一次性/会话）。</summary>
+            public int TryCollect(bool doubled)
+            {
+                if (Consumed || Pending <= 0) return -1;
+                int granted = doubled ? Pending * 2 : Pending;
+                BannerWallet.Load().Deposit(granted);
+                Stamp(_nowMs);
+                Consumed = true;
+================================================================================
+第 40 页结束
+
+军师救我游戏软件 V1.0 源程序  第 41 页 共 48 页
+================================================================================
+                return granted;
+            }
+        }
+    }
+}
+// RunResult.cs
+using System;
+namespace Sy.P03.Newbie
+{
+    /// <summary>
+    /// 单局结算快照（移植 P02 RunResult·T006）：不可变定格——结算后战斗在活面上的
+    /// 任何变化都不再可变更既定结果。军资入账/天命榜提交/布阵码分享都只消费本快照。
+    /// </summary>
+    public sealed class RunResult
+    {
+        public bool Won;
+        public int Seed;
+        public bool IsTianming;
+        public bool IsTutorial;
+        public int WaveReached;
+        public int Kills;
+        public int LifeLeft;
+        public int CrystalsLeft;
+        public int BannerEarned;
+        public float DurationSec;
+        public string FormationCode;
+        public string CalamityName;
+        public static RunResult Snapshot(BattleSim sim, bool won)
+        {
+            return new RunResult
+            {
+                Won = won,
+                Seed = sim.Seed,
+                IsTianming = sim.IsTianming,
+                IsTutorial = sim.Profile == null,
+                WaveReached = sim.Wave,
+                Kills = sim.Kills,
+                LifeLeft = sim.Lives,
+                CrystalsLeft = sim.Crystals,
+                DurationSec = sim.BattleTime,
+                FormationCode = FormationCodec.Encode(sim),
+                CalamityName = sim.Profile != null ? sim.Profile.CalamityName : "",
+                BannerEarned = BannerWallet.EarnFor(won, sim.Wave, sim.Kills),
+            };
+        }
+    }
+}
+// SiegeLevel.cs
+using System;
+namespace Sy.P03.Newbie
+================================================================================
+第 41 页结束
+
+军师救我游戏软件 V1.0 源程序  第 42 页 共 48 页
+================================================================================
+{
+    /// <summary>
+    /// V1.4 随机肉鸽攻防档案（CEO 令 O-20261010-1245 系统填充批）：一局攻防完全由种子推导——
+    /// 同种子=同一局（天命日局/布阵码复战的可比性基石）。移植自 P02 RandomLevel 打样件（X031），
+    /// 换皮口径按 V1.4 裁决：波窗拉满难度带（有输有赢）、词条随种子落位、教学曲线零触碰
+    /// （NewbieConfig 教学局=null profile 字节不变，红线：06脚本03章教学局必胜铁律）。
+    /// 红线12：零服务器——种子是唯一共享真值（布阵码/天命局种子皆可本地复现）。
+    /// </summary>
+    public sealed class SiegeLevel
+    {
+        // 波窗 [5,8]：教学局 4 波之外的肉鸽带——随机局可输（天命局带挑战性），但
+        // 引导局（首局保底 seed=每日天命或首随机）沿用曲线温和档。
+        public const int WaveWindowMin = 5;
+        public const int WaveWindowMax = 8;
+        public readonly int Seed;
+        public readonly int TotalWaves;
+        public readonly float HpBase;          // 敌血基数（教学 26 附近的放大带）
+        public readonly float HpGrowth;       // 每波成长
+        public readonly float SpeedBase;      // 行军速度（点/秒）
+        public readonly float SpeedGrow;      // 每波提速
+        public readonly int CountBase;        // 每波基数
+        public readonly float SpawnInt;       // 出兵间隔
+        public readonly float WaveGap;        // 波间歇
+        public readonly int StartCrystals;    // 开局魔晶
+        public readonly bool MidBoss;         // 终波前一波也带精英
+        public readonly string CalamityName;  // 天灾词条（HUD 风味标签）
+        public readonly int CalamityId;       // 词条 id（BattleSim 消费）
+        public readonly float CalamityPower; // 词条强度（0.1-0.25 档）
+        SiegeLevel(int seed, System.Random r, int waveMin, int waveMax)
+        {
+            Seed = seed;
+            TotalWaves = r.Next(waveMin, waveMax + 1);
+            HpBase = Lerp(r, 40f, 58f);
+            HpGrowth = Lerp(r, 1.18f, 1.28f);
+            SpeedBase = Lerp(r, 72f, 88f);
+            SpeedGrow = Lerp(r, 1.5f, 3.5f);
+            CountBase = r.Next(7, 10);
+            SpawnInt = Lerp(r, 0.6f, 1.0f);
+            WaveGap = Lerp(r, 1.6f, 2.6f);
+            StartCrystals = r.Next(12, 20);
+            MidBoss = r.NextDouble() < 0.5;
+            CalamityId = r.Next(0, 5);
+            CalamityPower = Lerp(r, 0.10f, 0.25f);
+            CalamityName = CalamityId switch
+            {
+                0 => "疾风",
+                1 => "铁壁",
+                2 => "疫军",
+                3 => "蝗祸",
+                _ => "寒潮",
+================================================================================
+第 42 页结束
+
+军师救我游戏软件 V1.0 源程序  第 43 页 共 48 页
+================================================================================
+            };
+        }
+        public static SiegeLevel Generate(int seed)
+            => Generate(seed, WaveWindowMin, WaveWindowMax);
+        /// <summary>扫窗缝：默认路径恒走锁档常量，仅注册表重扫显式传窗。</summary>
+        public static SiegeLevel Generate(int seed, int waveMin, int waveMax)
+            => new SiegeLevel(seed, new System.Random(seed), waveMin, waveMax);
+        /// <summary>本局的波曲线（形状同 NewbieConfig.GetWave；词条效果由 BattleSim 落位）。</summary>
+        public WaveDef GetWave(int w)
+        {
+            float hp = HpBase * (float)Math.Pow(HpGrowth, w - 1)
+                       * (CalamityId == 1 ? 1f + CalamityPower : 1f);   // 铁壁：敌血带乘
+            int count = CountBase + (w / 3) + (CalamityId == 2 ? 2 : 0);   // 疫军：每波+2
+            float speed = SpeedBase + SpeedGrow * w + (CalamityId == 0 ? SpeedBase * CalamityPower : 0f);
+            bool boss = w == TotalWaves || (MidBoss && w == TotalWaves - 1 && w >= 3);
+            return new WaveDef(w, count, hp, speed, boss);
+        }
+        static float Lerp(System.Random r, float min, float max)
+            => min + (float)r.NextDouble() * (max - min);
+    }
+    public readonly struct WaveDef
+    {
+        public readonly int Wave;
+        public readonly int Count;
+        public readonly float Hp;
+        public readonly float Speed;
+        public readonly bool Boss;
+        public WaveDef(int wave, int count, float hp, float speed, bool boss)
+        {
+            Wave = wave;
+            Count = count;
+            Hp = hp;
+            Speed = speed;
+            Boss = boss;
+        }
+    }
+}
+// TianmingBoard.cs
+using System;
+using UnityEngine;
+namespace Sy.P03.Newbie
+{
+    /// <summary>
+    /// 天命局的微信开放数据域写入核心（移植 P02 DestinyBoard·T013-B2·红线12：榜单存储
+    /// 属平台开放数据域=微信云 KV，仍零自有服务器）。结算的天命局把当日最佳上传到
+    /// 开放数据子域后续读取的全友 KV 单键。排名法则镜像 P02 DefenseChallenge.Beats：
+    /// 胜>波次>斩敌——一法统一切对抗面。普通局零触碰此路径（既有基线零漂移）；
+    /// 未刷新纪录的天命局不上传（本地最佳缓存去重，PlayerPrefs=本地权威镜像）。
+    /// </summary>
+    public static class TianmingBoard
+================================================================================
+第 43 页结束
+
+军师救我游戏软件 V1.0 源程序  第 44 页 共 48 页
+================================================================================
+    {
+        public const string KvKey = "p03_tianming";
+        const string BestCacheKey = "p03_tianming_best";
+        const string DateTag = "\"date\":";
+        const string SeedTag = "\"seed\":";
+        const string WaveTag = "\"wave\":";
+        const string KillsTag = "\"kills\":";
+        const string WonTag = "\"won\":";
+        public readonly struct TianmingScore
+        {
+            public readonly int Date;    // yyyymmdd
+            public readonly int Seed;
+            public readonly int Wave;
+            public readonly int Kills;
+            public readonly bool Won;
+            public TianmingScore(int date, int seed, int wave, int kills, bool won)
+            {
+                Date = date;
+                Seed = seed;
+                Wave = wave;
+                Kills = kills;
+                Won = won;
+            }
+        }
+        public static int DateKeyFor(DateTime date)
+            => date.Year * 10000 + date.Month * 100 + date.Day;
+        /// <summary>定序紧凑载荷（开放数据子域解析同五字段；手写保字节确定跨端一致）。</summary>
+        public static string PayloadFor(TianmingScore s)
+            => "{" + DateTag + s.Date + "," + SeedTag + s.Seed + "," + WaveTag + s.Wave
+               + "," + KillsTag + s.Kills + "," + WonTag + (s.Won ? 1 : 0) + "}";
+        public static bool TryParse(string payload, out TianmingScore score)
+        {
+            score = default;
+            if (string.IsNullOrEmpty(payload)) return false;
+            if (!TryInt(payload, DateTag, out int date)) return false;
+            if (!TryInt(payload, SeedTag, out int seed)) return false;
+            if (!TryInt(payload, WaveTag, out int wave)) return false;
+            if (!TryInt(payload, KillsTag, out int kills)) return false;
+            if (!TryInt(payload, WonTag, out int won)) return false;
+            score = new TianmingScore(date, seed, wave, kills, won == 1);
+            return true;
+        }
+        public static bool IsBetter(TianmingScore candidate, TianmingScore current)
+        {
+            if (candidate.Date != current.Date) return candidate.Date > current.Date;
+            if (candidate.Won != current.Won) return candidate.Won;
+            if (candidate.Wave != current.Wave) return candidate.Wave > current.Wave;
+            return candidate.Kills > current.Kills;
+        }
+        /// <summary>结算钩：刷新当日本地最佳才镜像进 PlayerPrefs 并推开放数据 KV。
+================================================================================
+第 44 页结束
+
+军师救我游戏软件 V1.0 源程序  第 45 页 共 48 页
+================================================================================
+        /// 全输入空安全（未走 Boot 直进场景=榜单空=no-op）；非天命局短路零写。</summary>
+        public static bool TrySubmit(RunResult result, Sy.Platform.IOpenDataBoard board)
+        {
+            if (result == null || !result.IsTianming || board == null) return false;
+            var candidate = new TianmingScore(
+                DateKeyFor(DateTime.Now),
+                result.Seed, result.WaveReached, result.Kills, result.Won);
+            string cached = PlayerPrefs.GetString(BestCacheKey, "");
+            if (TryParse(cached, out var best) && best.Date == candidate.Date
+                && !IsBetter(candidate, best))
+                return false;
+            string payload = PayloadFor(candidate);
+            PlayerPrefs.SetString(BestCacheKey, payload);
+            board.SubmitScore(KvKey, payload);
+            return true;
+        }
+        /// <summary>当日最佳本地镜像只读面（榜页「你的当日最佳」行）。</summary>
+        public static bool TryGetLocalBest(out TianmingScore best)
+            => TryParse(PlayerPrefs.GetString(BestCacheKey, ""), out best);
+        public static void ClearForTests() => PlayerPrefs.DeleteKey(BestCacheKey);
+        static bool TryInt(string payload, string tag, out int value)
+        {
+            value = 0;
+            int at = payload.IndexOf(tag, StringComparison.Ordinal);
+            if (at < 0) return false;
+            int start = at + tag.Length;
+            int end = start;
+            while (end < payload.Length && (char.IsDigit(payload[end])
+                       || (end == start && payload[end] == '-'))) end++;
+            return end > start && int.TryParse(payload.Substring(start, end - start), out value);
+        }
+    }
+}
+// TianmingGate.cs
+using System.Collections.Generic;
+using UnityEngine;
+namespace Sy.P03.Newbie
+{
+    /// <summary>
+    /// 天命局灰度门（移植 P02 DestinyGate·T013-B 零服务器灰度形态）：设备一次抽出
+    /// 0..19 持久化本地桶位，桶位 0=天命可见群（5%），其余=留观群。evt_tianming 带
+    /// 群别字母保持灰度对比纯度。红线12：无服务器参与。
+    /// </summary>
+    public static class TianmingGate
+    {
+        public const string RollKey = "p03_ab_tianming";
+        public const int GrayDenominator = 20;
+        public static int Roll()
+        {
+            int roll = PlayerPrefs.GetInt(RollKey, -1);
+================================================================================
+第 45 页结束
+
+军师救我游戏软件 V1.0 源程序  第 46 页 共 48 页
+================================================================================
+            if (roll < 0)
+            {
+                roll = UnityEngine.Random.Range(0, GrayDenominator);
+                PlayerPrefs.SetInt(RollKey, roll);
+            }
+            return roll;
+        }
+        public static bool IsEligible() => Roll() == 0;
+        public static string GroupLetter() => IsEligible() ? "b" : "a";
+        public static void SetRollForTests(int roll) => PlayerPrefs.SetInt(RollKey, roll);
+        public static void ClearForTests() => PlayerPrefs.DeleteKey(RollKey);
+        /// <summary>evt_tianming 入口/终局字段（seed 把漏斗钉在当日共享挑战上）。</summary>
+        public static Dictionary<string, string> EntryFields(string action)
+            => new Dictionary<string, string>
+            {
+                { "action", action },
+                { "abGroup", GroupLetter() },
+                { "seed", TianmingPin.SeedForToday().ToString() },
+            };
+        public static Dictionary<string, string> RunEndFields(int seed, bool won, int wave)
+            => new Dictionary<string, string>
+            {
+                { "action", "run_end" },
+                { "abGroup", GroupLetter() },
+                { "seed", seed.ToString() },
+                { "win", won ? "true" : "false" },
+                { "wave", wave.ToString() },
+            };
+    }
+}
+// TianmingPin.cs
+using System;
+namespace Sy.P03.Newbie
+{
+    /// <summary>
+    /// 天命日锚（移植 P02 DestinyPin·T013-A）：当日天命种子纯由本地日历日期推导——
+    /// 同一天所有设备重建同一种子=同一局（零服务器形态的「服务器给全服定一个种子」）。
+    /// 红线12：无服务器无云函数；日期是唯一共享真值。布阵码复战前先比种子+指纹。
+    /// </summary>
+    public static class TianmingPin
+    {
+        /// <summary>日历日期→确定性种子：FNV-1a 遍历 yyyymmdd 十进制 8 位（纯整型
+        /// 运算，IL2CPP/wasm 逐位一致），掩正防 uint→int 回环截断。</summary>
+        public static int SeedForDate(int year, int month, int day)
+        {
+            unchecked
+            {
+                uint h = 2166136261u;
+                int date = year * 10000 + month * 100 + day;
+                for (int i = 0; i < 8; i++)
+================================================================================
+第 46 页结束
+
+军师救我游戏软件 V1.0 源程序  第 47 页 共 48 页
+================================================================================
+                {
+                    uint digit = (uint)(date % 10);
+                    date /= 10;
+                    h = (h ^ digit) * 16777619u;
+                }
+                return (int)(h & 0x7FFFFFFFu);
+            }
+        }
+        /// <summary>今天的天命种子（本地日历日；微信受众共享一个有效时区）。</summary>
+        public static int SeedForToday()
+        {
+            var now = DateTime.Now;
+            return SeedForDate(now.Year, now.Month, now.Day);
+        }
+    }
+}
+// TutorialFlow.cs
 using System;
 namespace Sy.P03.Newbie
 {
@@ -1353,6 +2580,11 @@ namespace Sy.P03.Newbie
             _onStep(step);
         }
         void OnTowerPlaced(BattleSim.TowerInst tower, int slot)
+================================================================================
+第 47 页结束
+
+军师救我游戏软件 V1.0 源程序  第 48 页 共 48 页
+================================================================================
         {
             if (!_firstTowerSeen)
             {
@@ -1370,11 +2602,6 @@ namespace Sy.P03.Newbie
                 Advance(2);
                 _hint("首波守御完成！点按敌人可集火——全塔优先攻击目标");
             }
-================================================================================
-第 25 页结束
-
-军师救我游戏软件 V1.0 源程序  第 26 页 共 60 页
-================================================================================
         }
         void OnTianjiOffered()
         {
@@ -1408,23 +2635,6 @@ namespace Sy.P03.Newbie
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ================================================================================
-第 26 页结束
+第 48 页结束
 

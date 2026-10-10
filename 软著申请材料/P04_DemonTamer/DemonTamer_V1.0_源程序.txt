@@ -230,11 +230,28 @@ namespace Sy.P04.Boot
 // MainUI.cs
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 namespace Sy.P04.Newbie
 {
-    /// <summary>S04主界面逻辑：开始收妖→S04_Battle（M5前零广告弹窗——主界面无任何广告位）。</summary>
+    /// <summary>
+    /// S04主界面（V1.4 模式中枢·O-20261010-1245）：旧「开始收妖」教学切片入口原样保留
+    /// （场景持久化接线不悬空·M5前零广告位）；程序化增补妖潮五入口——
+    /// 妖潮攻防（随机局）/妖契日局（灰度门控）/收妖图鉴/符箓铺/离线领取。
+    /// 按钮密度律（U362）；HUD 变更时刷新（红线6）。
+    /// </summary>
     public sealed class MainUI : MonoBehaviour
     {
+        static readonly Color PalRed = new Color(0.902f, 0.224f, 0.275f);
+        static readonly Color PalBlue = new Color(0.271f, 0.482f, 0.616f);
+        static readonly Color PalGold = new Color(1f, 0.843f, 0f);
+        static readonly Color PalGreen = new Color(0.165f, 0.616f, 0.561f);
+        static readonly Color PalBlack = new Color(0.114f, 0.114f, 0.114f);
+        static readonly Color LockedGray = new Color(0.35f, 0.35f, 0.35f, 0.85f);
+        Canvas _canvas;
+        Sprite _square;
+        Text _walletText;
+        RectTransform _codexPanel;
+        int _lastWallet = -1;
         public void StartHunt()
         {
             SceneManager.LoadScene(NewbieSceneIds.Battle);
@@ -243,6 +260,218 @@ namespace Sy.P04.Newbie
         {
             Application.targetFrameRate = 30;
             Sy.Core.MainArtInjector.Apply(transform, "P04_scene_01", "P04_unit_01");
+            _canvas = FindObjectOfType<Canvas>();
+            _square = MakeSquareSprite();
+            // 旧开始按钮升格为教学切片入口
+            var old = GameObject.Find("StartButton");
+            if (old != null)
+            {
+                var rt = (RectTransform)old.transform;
+                rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
+                rt.anchoredPosition = new Vector2(0, 320);
+                rt.sizeDelta = new Vector2(560, 130);
+================================================================================
+第 5 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 6 页 共 60 页
+================================================================================
+                var label = old.GetComponentInChildren<Text>();
+                if (label != null)
+                {
+                    label.text = "教学切片 · 收妖挂机";
+                    label.fontSize = 44;
+                }
+                var img = old.GetComponent<Image>();
+                if (img != null) img.color = PalGreen;
+            }
+            BuildModeButtons();
+            BuildWalletLine();
+            BuildCodexPanel();
+            SyncWallet(true);
+        }
+        void BuildModeButtons()
+        {
+            MakeModeButton("妖潮攻防 · 随机局", new Vector2(0, 160), PalRed, () =>
+            {
+                Yaotide.YaotideBattleLaunch.StartRandom();
+                SceneManager.LoadScene("S04_Yaotide");
+            });
+            if (Yaotide.DailyRift.IsEligible())
+            {
+                MakeModeButton("妖契日局 · 全服同种子", new Vector2(0, 0), PalGold, () =>
+                {
+                    Yaotide.YaotideBattleLaunch.StartDailyRift();
+                    SceneManager.LoadScene("S04_Yaotide");
+                });
+            }
+            MakeModeButton("收妖图鉴", new Vector2(-300, -180), PalBlack, ToggleCodex);
+            MakeModeButton("符箓铺 · 兑妖", new Vector2(300, -180), PalBlack, () =>
+            {
+                var wallet = Yaotide.SealCharmWallet.Load();
+                int got = wallet.TryExchange(Random.Range(0, 99));
+                SyncWallet(true);
+                ShowToast(got > 0
+                    ? "封印成功！" + (Yaotide.YaoCodex.ById(got)?.Name ?? "?") + " 入册"
+                    : wallet.CanExchange ? "兑妖失败" : "符不足（60 可兑）");
+            });
+        }
+        void BuildWalletLine()
+        {
+            _walletText = MakeText(_canvas.transform, "符 0", 44, new Vector2(0, -320), TextAnchor.MiddleCenter, 500, 60);
+            _walletText.color = PalGold;
+            MakeModeButton("离线符 · 领取", new Vector2(0, -400), PalGreen, () =>
+            {
+                long now = System.DateTimeOffset.Now.ToUnixTimeMilliseconds();
+                var claim = Yaotide.RiftOfflinePay.OfflineClaim.Open(now);
+                if (!claim.Claimable)
+                {
+================================================================================
+第 6 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 7 页 共 60 页
+================================================================================
+                    ShowToast("离线不足 1 小时");
+                    return;
+                }
+                int got = claim.TryCollect(false);
+                if (got > 0)
+                {
+                    SyncWallet(true);
+                    ShowToast("离线符 +" + got);
+                }
+            });
+        }
+        void SyncWallet(bool force)
+        {
+            int balance = Yaotide.SealCharmWallet.Load().Balance;
+            if (!force && balance == _lastWallet) return;
+            _lastWallet = balance;
+            _walletText.text = "符 " + balance + (balance >= Yaotide.SealCharmWallet.ExchangeCost ? "（可兑妖）" : "");
+        }
+        void BuildCodexPanel()
+        {
+            _codexPanel = MakeOverlayPanel();
+            MakeText(_codexPanel, "收妖图鉴 · 八妖阵位", 72, new Vector2(0, 760), TextAnchor.MiddleCenter, 900, 90).color = PalGold;
+            var yaos = Yaotide.YaoCodex.All;
+            for (int i = 0; i < yaos.Count; i++)
+            {
+                int row = i / 2, col = i % 2;
+                var y = yaos[i];
+                bool sealedUp = Yaotide.YaoCodex.IsSealed(y.Id);
+                var card = new GameObject("Codex_" + y.Id, typeof(RectTransform), typeof(Image));
+                card.transform.SetParent(_codexPanel, false);
+                var rt = (RectTransform)card.transform;
+                rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
+                rt.anchoredPosition = new Vector2(-300 + col * 600, 520 - row * 230);
+                rt.sizeDelta = new Vector2(560, 200);
+                var img = card.GetComponent<Image>();
+                img.sprite = _square;
+                img.color = sealedUp ? (y.Tier == Yaotide.YaoCodex.Tier.Gold ? PalGold
+                    : y.Tier == Yaotide.YaoCodex.Tier.Purple ? PalRed : PalGreen) : LockedGray;
+                MakeText(card.transform, sealedUp ? y.Name : "？？？（" + y.SealHint + "）", 48,
+                    new Vector2(0, 50), TextAnchor.MiddleCenter, 520, 70).color = sealedUp ? PalBlack : new Color(0.7f, 0.7f, 0.66f);
+                MakeText(card.transform, sealedUp ? y.Role : "待封印", 38,
+                    new Vector2(0, -50), TextAnchor.MiddleCenter, 520, 60).color = sealedUp
+                        ? new Color(0.1f, 0.1f, 0.1f, 0.75f) : new Color(0.55f, 0.55f, 0.5f);
+            }
+            var close = MakeModeButtonCore("合上", new Vector2(0, -740), PalGreen, ToggleCodex);
+            close.transform.SetParent(_codexPanel, false);
+            _codexPanel.gameObject.SetActive(false);
+        }
+        void ToggleCodex()
+        {
+================================================================================
+第 7 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 8 页 共 60 页
+================================================================================
+            bool show = !_codexPanel.gameObject.activeSelf;
+            if (show)
+            {
+                var yaos = Yaotide.YaoCodex.All;
+                for (int i = 0; i < yaos.Count; i++)
+                {
+                    var card = _codexPanel.Find("Codex_" + yaos[i].Id);
+                    if (card == null) continue;
+                    var img = card.GetComponent<Image>();
+                    bool sealedUp = Yaotide.YaoCodex.IsSealed(yaos[i].Id);
+                    var y = yaos[i];
+                    img.color = sealedUp ? (y.Tier == Yaotide.YaoCodex.Tier.Gold ? PalGold
+                        : y.Tier == Yaotide.YaoCodex.Tier.Purple ? PalRed : PalGreen) : LockedGray;
+                }
+            }
+            _codexPanel.gameObject.SetActive(show);
+        }
+        void ShowToast(string message)
+        {
+            _walletText.text = message;
+            CancelInvoke(nameof(RestoreWallet));
+            Invoke(nameof(RestoreWallet), 1.6f);
+        }
+        void RestoreWallet() => SyncWallet(true);
+        // ───── UI 工具（程序化 UGUI·免场景 YAML 漂移） ─────
+        Button MakeModeButton(string text, Vector2 pos, Color color, System.Action onClick)
+            => MakeModeButtonCore(text, pos, color, onClick, _canvas.transform);
+        Button MakeModeButtonCore(string text, Vector2 pos, Color color, System.Action onClick, Transform parent = null)
+        {
+            var go = new GameObject("ModeBtn_" + text, typeof(RectTransform), typeof(Image), typeof(Button));
+            go.transform.SetParent(parent != null ? parent : _canvas.transform, false);
+            var rt = (RectTransform)go.transform;
+            rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
+            rt.anchoredPosition = pos;
+            rt.sizeDelta = new Vector2(560, 130);
+            var img = go.GetComponent<Image>();
+            img.sprite = _square;
+            img.color = color;
+            var label = MakeText(go.transform, text, 44, Vector2.zero, TextAnchor.MiddleCenter, 560, 130);
+            label.color = color == PalGold ? PalBlack : new Color(0.96f, 0.94f, 0.9f);
+            var btn = go.GetComponent<Button>();
+            btn.onClick.AddListener(() => onClick());
+            return btn;
+        }
+        RectTransform MakeOverlayPanel()
+        {
+            var go = new GameObject("CodexPanel", typeof(RectTransform), typeof(Image));
+            go.transform.SetParent(_canvas.transform, false);
+            var rt = (RectTransform)go.transform;
+            rt.anchorMin = Vector2.zero;
+================================================================================
+第 8 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 9 页 共 60 页
+================================================================================
+            rt.anchorMax = Vector2.one;
+            rt.offsetMin = rt.offsetMax = Vector2.zero;
+            var img = go.GetComponent<Image>();
+            img.sprite = _square;
+            img.color = new Color(0.05f, 0.03f, 0.08f, 0.96f);
+            return rt;
+        }
+        static Text MakeText(Transform parent, string text, int size, Vector2 pos, TextAnchor anchor, float w, float h)
+        {
+            var go = new GameObject("Text", typeof(RectTransform), typeof(Text));
+            go.transform.SetParent(parent, false);
+            var rt = (RectTransform)go.transform;
+            rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
+            rt.anchoredPosition = pos;
+            rt.sizeDelta = new Vector2(w, h);
+            var t = go.GetComponent<Text>();
+            t.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            t.text = text;
+            t.fontSize = size;
+            t.alignment = anchor;
+            t.color = new Color(0.91f, 0.89f, 0.85f);
+            t.supportRichText = true;
+            return t;
+        }
+        static Sprite MakeSquareSprite()
+        {
+            var tex = new Texture2D(8, 8, TextureFormat.RGBA32, false);
+            var px = tex.GetPixels32();
+            for (int i = 0; i < px.Length; i++) px[i] = new Color32(255, 255, 255, 255);
+            tex.SetPixels32(px);
+            tex.Apply(false, false);
+            return Sprite.Create(tex, new Rect(0, 0, 8, 8), new Vector2(0.5f, 0.5f), 8f);
         }
     }
 }
@@ -261,6 +490,11 @@ namespace Sy.P04.Newbie
     /// 埋点走Sy.Telemetry（Editor域=Debug sink；T001e接微信自定义分析+TCB双写）。
     /// HUD数值只在变更时刷新（禁每帧字符串拼接，红线6）。
     /// </summary>
+================================================================================
+第 9 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 10 页 共 60 页
+================================================================================
     public sealed class BattleLauncher : MonoBehaviour
     {
         IdleSim _sim;
@@ -270,11 +504,6 @@ namespace Sy.P04.Newbie
         int _lastFloor = -1, _lastCharms = -1, _lastKills = -1, _lastCodex = -1;
         void Awake()
         {
-================================================================================
-第 5 页结束
-
-这妖我收了游戏软件 V1.0 源程序  第 6 页 共 60 页
-================================================================================
             Application.targetFrameRate = 30;
             var canvas = FindObjectOfType<Canvas>();
             _sim = new IdleSim();
@@ -316,6 +545,11 @@ namespace Sy.P04.Newbie
         {
             switch (state)
             {
+================================================================================
+第 10 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 11 页 共 60 页
+================================================================================
                 case IdleSim.IdleState.Fighting:
                     _view.HideIntro();
                     break;
@@ -325,11 +559,6 @@ namespace Sy.P04.Newbie
                 case IdleSim.IdleState.SealFailAnim:
                     _view.PlaySealFail();
                     break;
-================================================================================
-第 6 页结束
-
-这妖我收了游戏软件 V1.0 源程序  第 7 页 共 60 页
-================================================================================
                 case IdleSim.IdleState.FloorSkip:
                     _view.ShowFloorSkip(true);
                     break;
@@ -371,6 +600,11 @@ using UnityEngine;
 using UnityEngine.UI;
 namespace Sy.P04.Newbie
 {
+================================================================================
+第 11 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 12 页 共 60 页
+================================================================================
     /// <summary>
     /// 收妖挂机教学局渲染层（纯程序化UGUI——彩窗配色：彩窗红/蓝/金/绿/铅黑）。
     /// X025深打磨演出：封印=法阵彩窗旋转收缩0.8s+金光爆闪（立项书§八V1.2口径）；失败=灰符碎裂0.5s+返符提示；
@@ -380,11 +614,6 @@ namespace Sy.P04.Newbie
     public sealed class BattleView : MonoBehaviour
     {
         // 场地映射：妖阵线x=-350，出生边缘x=+500；敌行进至接战线（场距0.3）停下换血
-================================================================================
-第 7 页结束
-
-这妖我收了游戏软件 V1.0 源程序  第 8 页 共 60 页
-================================================================================
         const float FriendX = -350f;
         const float FieldSpan = 850f;
         static readonly float[] RowY = { 300f, 0f, -300f };
@@ -426,6 +655,11 @@ namespace Sy.P04.Newbie
             BuildFailOverlay();
             BuildSkipBanner();
             BuildWallBanner();
+================================================================================
+第 12 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 13 页 共 60 页
+================================================================================
             BuildFormationPanel();
             BuildSettlePanel();
             SetHint("九州封魔塔·妖潮汹涌……");
@@ -435,11 +669,6 @@ namespace Sy.P04.Newbie
         /// entirely when the art key is missing so headless checks stay green.</summary>
         void BuildBackdrop()
         {
-================================================================================
-第 8 页结束
-
-这妖我收了游戏软件 V1.0 源程序  第 9 页 共 60 页
-================================================================================
             var art = Sy.Core.ArtRuntime.Get("P04_scene_01");
             if (art == null) return;
             var go = new GameObject("ArtBackdrop", typeof(RectTransform), typeof(Image));
@@ -481,6 +710,11 @@ namespace Sy.P04.Newbie
             _sealLabel.color = new Color(0.7f, 0.7f, 0.7f);
             _sealButton.onClick.AddListener(() => SealRequested?.Invoke());
         }
+================================================================================
+第 13 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 14 页 共 60 页
+================================================================================
         void BuildField()
         {
             var fieldGo = new GameObject("Field", typeof(RectTransform), typeof(Image));
@@ -490,11 +724,6 @@ namespace Sy.P04.Newbie
             _field.anchoredPosition = new Vector2(0, 60);
             _field.sizeDelta = new Vector2(1040, 1360);
             var fieldImg = fieldGo.GetComponent<Image>();
-================================================================================
-第 9 页结束
-
-这妖我收了游戏软件 V1.0 源程序  第 10 页 共 60 页
-================================================================================
             fieldImg.sprite = _square;
             fieldImg.color = PanelBg;
             var lineGo = new GameObject("FriendLine", typeof(RectTransform), typeof(Image));
@@ -536,6 +765,11 @@ namespace Sy.P04.Newbie
         {
             var root = _canvas.transform;
             MakeText(root, "妖图鉴", 36, new Vector2(400, 750), TextAnchor.UpperCenter, 200, 50).color = PalGold;
+================================================================================
+第 14 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 15 页 共 60 页
+================================================================================
             for (int i = 0; i < NewbieConfig.CodexSlots; i++)
             {
                 var go = new GameObject("Codex_" + i, typeof(RectTransform), typeof(Image));
@@ -545,11 +779,6 @@ namespace Sy.P04.Newbie
                 rt.anchoredPosition = new Vector2(400, 620 - i * 170);
                 rt.sizeDelta = new Vector2(140, 140);
                 var image = go.GetComponent<Image>();
-================================================================================
-第 10 页结束
-
-这妖我收了游戏软件 V1.0 源程序  第 11 页 共 60 页
-================================================================================
                 image.sprite = _square;
                 image.color = new Color(0.16f, 0.16f, 0.18f);
                 _codexSlots[i] = image;
@@ -591,6 +820,11 @@ namespace Sy.P04.Newbie
             var flashGo = new GameObject("Flash", typeof(RectTransform), typeof(Image));
             flashGo.transform.SetParent(_sealOverlay, false);
             var flashRt = (RectTransform)flashGo.transform;
+================================================================================
+第 15 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 16 页 共 60 页
+================================================================================
             flashRt.anchorMin = flashRt.anchorMax = new Vector2(0.5f, 0.5f);
             flashRt.anchoredPosition = new Vector2(0, 120);
             flashRt.sizeDelta = new Vector2(900, 900);
@@ -600,11 +834,6 @@ namespace Sy.P04.Newbie
             MakeText(_sealOverlay, "法阵封印 · 收！", 72, new Vector2(0, -280), TextAnchor.MiddleCenter, 1000, 100).color = PalGold;
             _sealOverlay.gameObject.SetActive(false);
         }
-================================================================================
-第 11 页结束
-
-这妖我收了游戏软件 V1.0 源程序  第 12 页 共 60 页
-================================================================================
         void BuildFailOverlay()
         {
             _failOverlay = MakeOverlayPanel("FailOverlay", new Color(0.08f, 0.08f, 0.09f, 0.8f));
@@ -646,6 +875,11 @@ namespace Sy.P04.Newbie
             MakeText(_wallBanner, "战力差10% —— 【天助】教学局禁用（零广告）", 40, new Vector2(0, 20), TextAnchor.MiddleCenter, 1000, 70);
             var btnGo = new GameObject("HeavenAidButton", typeof(RectTransform), typeof(Image), typeof(Button));
             btnGo.transform.SetParent(_wallBanner, false);
+================================================================================
+第 16 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 17 页 共 60 页
+================================================================================
             var btnRt = (RectTransform)btnGo.transform;
             btnRt.anchorMin = btnRt.anchorMax = new Vector2(0.5f, 0.5f);
             btnRt.anchoredPosition = new Vector2(0, -110);
@@ -655,11 +889,6 @@ namespace Sy.P04.Newbie
             btnImg.color = new Color(0.35f, 0.35f, 0.35f, 0.8f);   // 置灰占位（零广告红线：可见不可点）
             var btn = btnGo.GetComponent<Button>();
             btn.interactable = false;
-================================================================================
-第 12 页结束
-
-这妖我收了游戏软件 V1.0 源程序  第 13 页 共 60 页
-================================================================================
             MakeText(btnGo.transform, "天助（禁用中）", 40, Vector2.zero, TextAnchor.MiddleCenter, 380, 100).color = new Color(0.6f, 0.6f, 0.6f);
             _wallBanner.gameObject.SetActive(false);
         }
@@ -701,6 +930,11 @@ namespace Sy.P04.Newbie
             MakeActionButton(_settlePanel, "再战一塔", new Vector2(-260, -300), () => UnityEngine.SceneManagement.SceneManager.LoadScene(NewbieSceneIds.Battle));
             MakeActionButton(_settlePanel, "返回主界面", new Vector2(260, -300), () => UnityEngine.SceneManagement.SceneManager.LoadScene(NewbieSceneIds.Main));
             _settlePanel.gameObject.SetActive(false);
+================================================================================
+第 17 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 18 页 共 60 页
+================================================================================
         }
         // ───── 每帧同步（零字符串分配；字典reconcile只在实体增删时发生） ─────
         public void SyncView(IdleSim sim)
@@ -710,11 +944,6 @@ namespace Sy.P04.Newbie
             {
                 var v = kv.Value;
                 v.Rt.anchoredPosition = new Vector2(FriendX + v.Pos * FieldSpan, RowY[v.Row]);
-================================================================================
-第 13 页结束
-
-这妖我收了游戏软件 V1.0 源程序  第 14 页 共 60 页
-================================================================================
                 v.Fill.fillAmount = v.MaxHp > 0f ? v.Hp / v.MaxHp : 0f;
                 if (v.SealReady != v.LastSealReady)
                 {
@@ -756,6 +985,11 @@ namespace Sy.P04.Newbie
             foreach (var kv in _enemies)
                 if (!ContainsEnemy(sim, kv.Key)) _scratch.Add(kv.Key);
             for (int i = 0; i < _scratch.Count; i++)
+================================================================================
+第 18 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 19 页 共 60 页
+================================================================================
             {
                 Destroy(_enemies[_scratch[i]].Go);
                 _enemies.Remove(_scratch[i]);
@@ -765,11 +999,6 @@ namespace Sy.P04.Newbie
                 var e = sim.Enemies[i];
                 if (!_enemies.TryGetValue(e.Id, out var v))
                 {
-================================================================================
-第 14 页结束
-
-这妖我收了游戏软件 V1.0 源程序  第 15 页 共 60 页
-================================================================================
                     v = CreateEnemyVisual(e);
                     _enemies[e.Id] = v;
                 }
@@ -811,6 +1040,11 @@ namespace Sy.P04.Newbie
             if (e.Collectible)
                 MakeText(go.transform, e.Name.Substring(0, 1), 64, Vector2.zero, TextAnchor.MiddleCenter, 200, 200).color = PalBlack;
             var hpGo = new GameObject("Hp", typeof(RectTransform), typeof(Image));
+================================================================================
+第 19 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 20 页 共 60 页
+================================================================================
             hpGo.transform.SetParent(go.transform, false);
             var hpRt = (RectTransform)hpGo.transform;
             hpRt.anchorMin = new Vector2(0f, 1f);
@@ -820,11 +1054,6 @@ namespace Sy.P04.Newbie
             var hp = hpGo.GetComponent<Image>();
             hp.sprite = _square;
             hp.type = Image.Type.Filled;
-================================================================================
-第 15 页结束
-
-这妖我收了游戏软件 V1.0 源程序  第 16 页 共 60 页
-================================================================================
             hp.fillMethod = Image.FillMethod.Horizontal;
             hp.color = new Color(0.2f, 0.9f, 0.3f);
             var sealLabel = MakeText(go.transform, "可封印", 34, new Vector2(0, 150), TextAnchor.MiddleCenter, 300, 50);
@@ -866,6 +1095,11 @@ namespace Sy.P04.Newbie
             }
         }
         public void PlaySealAnim()
+================================================================================
+第 20 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 21 页 共 60 页
+================================================================================
         {
             StartCoroutine(SealAnimRoutine());
         }
@@ -875,11 +1109,6 @@ namespace Sy.P04.Newbie
             float t = 0f;
             bool flashed = false;
             while (t < NewbieConfig.SealAnimSeconds)
-================================================================================
-第 16 页结束
-
-这妖我收了游戏软件 V1.0 源程序  第 17 页 共 60 页
-================================================================================
             {
                 t += Time.unscaledDeltaTime;
                 float k = t / NewbieConfig.SealAnimSeconds;
@@ -921,6 +1150,11 @@ namespace Sy.P04.Newbie
         public void ShowSettle(int kills, int charms, int codex)
         {
             _settlePanel.gameObject.SetActive(true);
+================================================================================
+第 21 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 22 页 共 60 页
+================================================================================
             _settleStats.text = $"妖图鉴：蛊雕 ✓ 妖将 ✓（{codex}/{NewbieConfig.CodexSlots}·收服态入队打工）\n封印符剩余 ×{charms}（挂机收益+{NewbieConfig.IdleIncomeCharmsPerDay}/日已预演入账）\n击杀 {kills} · 妖潮零漏 · 第10层已破\n<size=36>软保底：失败返符50%+同妖第{NewbieConfig.PityGuaranteeCount}次必成——正式局300层静候</size>";
         }
         // ───── 工具 ─────
@@ -930,11 +1164,6 @@ namespace Sy.P04.Newbie
             go.transform.SetParent(_canvas.transform, false);
             var rt = (RectTransform)go.transform;
             rt.anchorMin = Vector2.zero;
-================================================================================
-第 17 页结束
-
-这妖我收了游戏软件 V1.0 源程序  第 18 页 共 60 页
-================================================================================
             rt.anchorMax = Vector2.one;
             rt.offsetMin = rt.offsetMax = Vector2.zero;
             var image = go.GetComponent<Image>();
@@ -976,6 +1205,11 @@ namespace Sy.P04.Newbie
             var rt = (RectTransform)go.transform;
             rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
             rt.anchoredPosition = pos;
+================================================================================
+第 22 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 23 页 共 60 页
+================================================================================
             rt.sizeDelta = new Vector2(w, h);
             var t = go.GetComponent<Text>();
             t.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
@@ -985,11 +1219,6 @@ namespace Sy.P04.Newbie
             t.color = new Color(0.91f, 0.89f, 0.85f);
             t.supportRichText = true;
             return t;
-================================================================================
-第 18 页结束
-
-这妖我收了游戏软件 V1.0 源程序  第 19 页 共 60 页
-================================================================================
         }
         static Sprite MakeSquareSprite()
         {
@@ -1031,6 +1260,11 @@ namespace Sy.P04.Newbie
     /// 收妖挂机教学局核心逻辑（纯C#零渲染依赖）：Play渲染与Editor headless自验（NewbieFlowCheck）共用同一套规则。
     /// X025深打磨（用户裁决·立项书V1.2承重机制落地）：
     /// ①爬塔楼层推进（第1-3层实打→挂机自动连胜4-9层快进→第10层首墙）——§4.1核心循环"爬塔自动战斗"；
+================================================================================
+第 23 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 24 页 共 60 页
+================================================================================
     /// ②封印软保底（§4.2-1：失败返还50%符+同妖第3次必成，防死锁螺旋）——妖将封印教学演示失败×2→保底必成；
     /// ③挂机收益（§4.3 IdleFormula封印符2/日固定产出）——结算时预演入账。
     /// 红线：必胜（HP锁强制封印+保底必成+阴阵Buff盖过10%墙差）；妖潮零漏怪；教学局零广告（天助置灰不可点）。
@@ -1040,11 +1274,6 @@ namespace Sy.P04.Newbie
         public enum IdleState { Prep, Fighting, SealAnim, SealFailAnim, FloorSkip, WallDemo, Formation, BossFight, Settled, Lost }
         public sealed class FriendInst
         {
-================================================================================
-第 19 页结束
-
-这妖我收了游戏软件 V1.0 源程序  第 20 页 共 60 页
-================================================================================
             public int Id;
             public string Name;
             public int Row;
@@ -1086,6 +1315,11 @@ namespace Sy.P04.Newbie
         bool _firstSealDone;
         EnemyInst _sealTarget;
         EnemyInst _sealReadyEnemy;
+================================================================================
+第 24 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 25 页 共 60 页
+================================================================================
         int _attackRotate;
         public IReadOnlyList<FriendInst> Friends => _friends;
         public IReadOnlyList<EnemyInst> Enemies => _enemies;
@@ -1095,11 +1329,6 @@ namespace Sy.P04.Newbie
         public int Kills { get; private set; }
         public int Seals { get; private set; }               // 成功封印次数
         public int SealFails { get; private set; }           // 软保底教学：封印失败次数
-================================================================================
-第 20 页结束
-
-这妖我收了游戏软件 V1.0 源程序  第 21 页 共 60 页
-================================================================================
         public int SealRefunds { get; private set; }         // 失败返符次数
         public int PitySaves { get; private set; }           // 保底必成触发数
         public int IdleIncomeGranted { get; private set; }   // 挂机收益预演入账
@@ -1141,6 +1370,11 @@ namespace Sy.P04.Newbie
                     Id = _nextId++,
                     Name = NewbieConfig.FriendNames[i],
                     Row = i,
+================================================================================
+第 25 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 26 页 共 60 页
+================================================================================
                     Hp = NewbieConfig.FriendHp,
                     MaxHp = NewbieConfig.FriendHp,
                 });
@@ -1150,11 +1384,6 @@ namespace Sy.P04.Newbie
         {
             switch (State)
             {
-================================================================================
-第 21 页结束
-
-这妖我收了游戏软件 V1.0 源程序  第 22 页 共 60 页
-================================================================================
                 case IdleState.Prep:
                     _prepTimer += dt;
                     if (_prepTimer >= NewbieConfig.IntroSeconds) StartHunt();
@@ -1196,6 +1425,11 @@ namespace Sy.P04.Newbie
             BeginFloor(1);
         }
         void BeginFloor(int floor)
+================================================================================
+第 26 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 27 页 共 60 页
+================================================================================
         {
             _floor = floor;
             _floorSpawnIdx = 0;
@@ -1205,11 +1439,6 @@ namespace Sy.P04.Newbie
         }
         SpawnDef[] CurrentFloorSpawns() => NewbieConfig.FloorSpawns[_floor - 1];
         void TickBattle(float dt)
-================================================================================
-第 22 页结束
-
-这妖我收了游戏软件 V1.0 源程序  第 23 页 共 60 页
-================================================================================
         {
             BattleTime += dt;
             if (State == IdleState.Fighting)
@@ -1251,6 +1480,11 @@ namespace Sy.P04.Newbie
                 Name = def.Name,
                 Row = def.Row,
                 Pos = 1f,
+================================================================================
+第 27 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 28 页 共 60 页
+================================================================================
                 Hp = def.Hp,
                 MaxHp = def.Hp,
                 Atk = def.Atk,
@@ -1260,11 +1494,6 @@ namespace Sy.P04.Newbie
                 Boss = def.Boss,
                 Shielded = shielded,
             };
-================================================================================
-第 23 页结束
-
-这妖我收了游戏软件 V1.0 源程序  第 24 页 共 60 页
-================================================================================
         }
         void TickEnemiesMove(float dt)
         {
@@ -1306,6 +1535,11 @@ namespace Sy.P04.Newbie
             if (e.Shielded) return;
             float lockHp = e.Collectible ? e.MaxHp * NewbieConfig.SealHpRatio : 0f;
             e.Hp -= dmg;
+================================================================================
+第 28 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 29 页 共 60 页
+================================================================================
             if (e.Hp > lockHp) return;
             if (!e.Collectible)
             {
@@ -1315,11 +1549,6 @@ namespace Sy.P04.Newbie
             }
             e.Hp = lockHp;                       // 妖气护体：HP锁死，普通攻击无法终结
             if (e.SealReady) return;
-================================================================================
-第 24 页结束
-
-这妖我收了游戏软件 V1.0 源程序  第 25 页 共 60 页
-================================================================================
             e.SealReady = true;
             _sealReadyEnemy = e;
             SealEnabled?.Invoke(e);
@@ -1361,6 +1590,11 @@ namespace Sy.P04.Newbie
             _sealTarget.SealAttempts++;
             SealCharms -= NewbieConfig.SealCost;
             CharmsChanged?.Invoke(SealCharms);
+================================================================================
+第 29 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 30 页 共 60 页
+================================================================================
             bool success = _sealTarget.Boss
                 ? _sealTarget.SealAttempts >= NewbieConfig.PityGuaranteeCount
                 : true;
@@ -1370,11 +1604,6 @@ namespace Sy.P04.Newbie
         }
         void FinishSeal()
         {
-================================================================================
-第 25 页结束
-
-这妖我收了游戏软件 V1.0 源程序  第 26 页 共 60 页
-================================================================================
             var e = _sealTarget;
             _sealTarget = null;
             _sealReadyEnemy = null;
@@ -1416,290 +1645,1656 @@ namespace Sy.P04.Newbie
             _floor = NewbieConfig.WallFloor;
             SetState(IdleState.WallDemo);
             _wallTimer = NewbieConfig.WallDemoSeconds;
-            _enemies.Add(NewEnemy(NewbieConfig.WallBoss, shielded: true));
-            WallDemoShown?.Invoke();
-        }
-        /// <summary>M4：阴阵槽放入收服态蛊雕（双态入队）——护盾即时破碎，全阵攻击+18%逆转10%差（必胜）。</summary>
-        public bool PlaceGudiao()
-        {
-            if (State != IdleState.Formation) return false;
-            YinBuff = 1f + NewbieConfig.YinSlotAtkBuff;
-            GudiaoJoined = true;
-================================================================================
-第 26 页结束
-
-这妖我收了游戏软件 V1.0 源程序  第 27 页 共 60 页
-================================================================================
-            for (int i = 0; i < _enemies.Count; i++) _enemies[i].Shielded = false;
-            GudiaoPlaced?.Invoke();
-            SetState(IdleState.BossFight);
-            return true;
-        }
-        void SetState(IdleState s)
-        {
-            if (State == s) return;
-            State = s;
-            StateChanged?.Invoke(s);
-        }
-    }
-}
-// NewbieConfig.cs
-namespace Sy.P04.Newbie
-{
-    public readonly struct SpawnDef
-    {
-        public readonly float At;          // 层内出生秒时点（相对本层开始）
-        public readonly string Name;
-        public readonly int Row;           // 行 lane 0..2
-        public readonly float Hp;
-        public readonly float Atk;         // 0=不反击（妖潮被单方面碾碎）
-        public readonly float Speed;       // 场地坐标/秒
-        public readonly bool Collectible; // 可收录妖（HP锁+可封印）
-        public readonly bool Boss;
-        public SpawnDef(float at, string name, int row, float hp, float atk, float speed, bool collectible, bool boss)
-        {
-            At = at;
-            Name = name;
-            Row = row;
-            Hp = hp;
-            Atk = atk;
-            Speed = speed;
-            Collectible = collectible;
-            Boss = boss;
-        }
-    }
-    /// <summary>
-    /// P04新手切片配置 V0.2（X025深打磨·用户裁决"不浅尝辄止"）——内嵌常量切片；热更管线（X009+IConfigService）接通后迁移Design/configs/P04 JSON。
-    /// 权威：立项书V1.2全文——§4.1核心循环（收挂机收益→封印新妖→调阴阳阵→爬塔自动战斗）；§4.2-1封印软保底（失败返还50%符+同妖第3次必成，防死锁螺旋）；
-    /// §4.3封魔塔+IdleFormula sealCharmBasePerDay:2固定产出；§4.4首墙第10-12层战力差10%；§八封印演出=法阵彩窗旋转收缩0.8s+金光爆闪、妖兽双态透光/磨砂。
-    /// 彩窗配色：彩窗红#E63946 / 蓝#457B9D / 金#FFD700 / 绿#2A9D8F / 铅黑#1D1D1D。
-    /// </summary>
-    public static class NewbieConfig
-    {
-        public const string GameTitle = "这妖我收了";
-        public const string GameSlogan = "收妖挂机 · 封尽九州妖王";
-        // 阳阵出战（§4.2-2轻量版；教学局06脚本M4口径=阳3+阴1）
-        public const int FriendCount = 3;
-================================================================================
-第 27 页结束
-
-这妖我收了游戏软件 V1.0 源程序  第 28 页 共 60 页
-================================================================================
-        public const float FriendHp = 100f;
-        public const float FriendAtk = 6f;
-        public const float FriendAtkInterval = 0.8f;
-        public const float FriendEngageRange = 0.3f;
-        public const int StartLife = 3;                 // 妖气（教学局脚本保证零漏怪）
-        // 封印符经济（§4.3 IdleFormula固定产出2/日——教学局结算时预演入账）
-        public const int StartSealCharms = 9;
-        public const int SealCost = 2;                   // 单次封印耗2张
-        public const int FailRefundCharm = 1;           // 软保底①：失败返还50%（2张→1张，§4.2-1）
-        public const int PityGuaranteeCount = 3;        // 软保底②：同妖第3次必成（防"符耗尽→收入停→战力停"死锁螺旋）
-        public const int IdleIncomeCharmsPerDay = 2;    // 挂机收益固定产出（§4.3）
-        public const int CodexSlots = 2;                // 妖图鉴：蛊雕+妖将
-        // 爬塔（§4.1核心循环"爬塔自动战斗"·§4.4首墙第10层）
-        public const int TutorialFloors = 3;             // 教学局实打第1-3层
-        public const int WallFloor = 10;                // 首墙=第10层
-        public const int FloorSkipFrom = 4;             // 挂机自动连胜区间（快进演出）
-        public const int FloorSkipTo = 9;
-        public const float FloorSkipSeconds = 2.5f;
-        public const float FloorGapSeconds = 1.5f;
-        public const float SpawnWalkSpeed = 0.55f;
-        public const float IntroSeconds = 2.0f;
-        public const float SealHpRatio = 0.2f;          // 可收录妖HP锁20%：普通攻击无法终结，须封印
-        public const float SealAnimSeconds = 0.8f;      // 法阵彩窗旋转收缩0.8s（§八V1.2封印演出口径）
-        public const float SealFailAnimSeconds = 0.5f;  // 封印失败·灰符碎裂演出
-        public const float WallGapRatio = 0.10f;        // 第10层墙战力差10%
-        public const float WallDemoSeconds = 8f;
-        public const float YinSlotAtkBuff = 0.18f;      // 阴阵放入蛊雕：全阵攻击+18%（逆转10%差=必胜）
-        public const float MaxTutorialSeconds = 210f;   // 教学局必胜≤3.5min（06红线②）
-        public static readonly string[] FriendNames = { "鹿蜀", "白泽", "狌狌" };
-        /// <summary>爬塔脚本化出妖表（确定性教学局）：第1-3层小妖波，第3层蛊雕压轴（06脚本M2首收妖）。</summary>
-        public static readonly SpawnDef[][] FloorSpawns =
-        {
-            new[]   // 第1层
-            {
-                new SpawnDef(0.5f, "小妖", 0, 18f, 0f, SpawnWalkSpeed, false, false),
-                new SpawnDef(1.0f, "小妖", 1, 18f, 0f, SpawnWalkSpeed, false, false),
-                new SpawnDef(1.5f, "小妖", 2, 18f, 0f, SpawnWalkSpeed, false, false),
-            },
-            new[]   // 第2层
-            {
-                new SpawnDef(0.5f, "小妖", 0, 22f, 0f, SpawnWalkSpeed, false, false),
-                new SpawnDef(1.0f, "小妖", 1, 22f, 0f, SpawnWalkSpeed, false, false),
-                new SpawnDef(1.5f, "小妖", 2, 22f, 0f, SpawnWalkSpeed, false, false),
-                new SpawnDef(2.0f, "小妖", 0, 22f, 0f, SpawnWalkSpeed, false, false),
-            },
-            new[]   // 第3层（蛊雕压轴=首收妖）
-            {
-                new SpawnDef(0.5f, "小妖", 0, 26f, 0f, SpawnWalkSpeed, false, false),
-                new SpawnDef(1.0f, "小妖", 1, 26f, 0f, SpawnWalkSpeed, false, false),
-                new SpawnDef(1.5f, "小妖", 2, 26f, 0f, SpawnWalkSpeed, false, false),
-================================================================================
-第 28 页结束
-
-这妖我收了游戏软件 V1.0 源程序  第 29 页 共 60 页
-================================================================================
-                new SpawnDef(2.0f, "小妖", 1, 26f, 0f, SpawnWalkSpeed, false, false),
-                new SpawnDef(3.0f, "蛊雕", 1, 120f, 6f, SpawnWalkSpeed, true, false),
-            },
-        };
-        /// <summary>第10层妖将（墙演示Boss）：妖气护盾期伤害无效，阴阵破盾后HP锁20%待保底封印。</summary>
-        public static SpawnDef WallBoss => new SpawnDef(0f, "妖将", 1, 300f, 5f, SpawnWalkSpeed, true, true);
-    }
-}
-// TutorialFlow.cs
-using System;
-namespace Sy.P04.Newbie
-{
-    /// <summary>
-    /// 新手五步漏斗（evt_newbie_step 1-5：①观战②首封印③过墙演示④阴阵解锁⑤结算完成）+引导提示。
-    /// 逻辑门全在IdleSim（HP锁强制封印/软保底失败返还+第3次必成/脚本化墙/阵法Buff盖差），本类只负责步骤计数/文案/埋点回调——
-    /// Play视图与headless自验（NewbieFlowCheck）共用同一套节奏。
-    /// </summary>
-    public sealed class TutorialFlow
-    {
-        public int Step { get; private set; }
-        readonly Action<string> _hint;
-        readonly Action<int> _onStep;
-        bool _firstKillSeen;
-        bool _firstSealSeen;
-        public TutorialFlow(IdleSim sim, Action<string> hint, Action<int> onStep)
-        {
-            _hint = hint ?? delegate { };
-            _onStep = onStep ?? delegate { };
-            sim.EnemyKilled += OnEnemyKilled;
-            sim.SealEnabled += OnSealEnabled;
-            sim.Sealed += OnSealed;
-            sim.SealFailed += OnSealFailed;
-            sim.WallDemoShown += OnWallDemoShown;
-            sim.GudiaoPlaced += OnGudiaoPlaced;
-            sim.StateChanged += OnStateChanged;
-            _hint("九州封魔塔·妖潮汹涌——三妖阵自动迎战，一路收妖上塔");
-        }
-        void Advance(int step)
-        {
-            if (Step >= step) return;
-            Step = step;
-            _onStep(step);
-        }
-        void OnEnemyKilled(IdleSim.EnemyInst e)
-        {
-            if (_firstKillSeen) return;
-            _firstKillSeen = true;
-            Advance(1);
-            _hint("妖潮撞上妖阵，自动绞杀——挂机收妖，看着就好");
-        }
-================================================================================
-第 29 页结束
-
-这妖我收了游戏软件 V1.0 源程序  第 30 页 共 60 页
-================================================================================
-        void OnSealEnabled(IdleSim.EnemyInst e)
-        {
-            _hint(e.Name + "妖气衰弱（气血锁定）——按【封印】收下它！");
-        }
-        void OnSealed(IdleSim.EnemyInst e)
-        {
-            if (!_firstSealSeen)
-            {
-                _firstSealSeen = true;
-                Advance(2);
-                _hint("首收妖！法阵封印成功——" + e.Name + "化磨砂收服态镇入图鉴，从今为你打工");
-            }
-            else
-            {
-                _hint("保底必成！" + e.Name + "已镇入妖图鉴——两格全亮！");
-            }
-        }
-        void OnSealFailed(IdleSim.EnemyInst e, int attempts)
-        {
-            if (attempts + 1 >= NewbieConfig.PityGuaranteeCount)
-                _hint("封印失败·返还1张符（软保底：失败返还50%）——同妖第" + NewbieConfig.PityGuaranteeCount + "次必成，再按一次！");
-            else
-                _hint("封印失败·返还1张符（软保底）——同妖第" + NewbieConfig.PityGuaranteeCount + "次封印必成");
-        }
-        void OnWallDemoShown()
-        {
-            Advance(3);
-            _hint("第10层【墙】：战力差10%！【天助】教学局禁用（零广告）——阵法破墙的机会来了");
-        }
-        void OnGudiaoPlaced()
-        {
-            Advance(4);
-            _hint("阴阵连成！收服态蛊雕入阵——全阵攻击+18%，战力差逆转，碾过妖将！");
-        }
-        void OnStateChanged(IdleSim.IdleState state)
-        {
-            switch (state)
-            {
-                case IdleSim.IdleState.FloorSkip:
-                    _hint("挂机自动连胜：第" + NewbieConfig.FloorSkipFrom + "层→第" + NewbieConfig.FloorSkipTo + "层——收妖人睡觉，塔层照涨");
-                    break;
-                case IdleSim.IdleState.Formation:
-                    _hint("阴阵槽解锁——放入收服态蛊雕破墙");
-                    break;
-                case IdleSim.IdleState.Settled:
-                    Advance(5);
-                    _hint("教学局完成！图鉴2格+挂机收益2符/日（固定产出）——九州300层静候收妖人");
-                    break;
-            }
-        }
 ================================================================================
 第 30 页结束
 
 这妖我收了游戏软件 V1.0 源程序  第 31 页 共 60 页
 ================================================================================
+        {
+            value = 0;
+            int at = payload.IndexOf(tag, StringComparison.Ordinal);
+            if (at < 0) return false;
+            int start = at + tag.Length;
+            int end = start;
+            while (end < payload.Length && (char.IsDigit(payload[end])
+                       || (end == start && payload[end] == '-'))) end++;
+            return end > start && int.TryParse(payload.Substring(start, end - start), out value);
+        }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// RiftOfflinePay.cs
+using System;
+namespace Sy.P04.Yaotide
+{
+    /// <summary>
+    /// 离线封印符（移植 P03 OfflinePay 范式）：3 符/小时、8h 帽、满 1 小时起领、
+    /// 领取走真实钱包入账（零平行账本）、未领不受罚。红线12：PlayerPrefs=权威。
+    /// </summary>
+    public static class RiftOfflinePay
+    {
+        public const string SeenKey = "p04_offline_seen_ms";
+        public const int CharmsPerHour = 3;
+        public const int MaxAccrualHours = 8;
+        public const int MaxPerDay = CharmsPerHour * MaxAccrualHours;
+        public const int MinClaimCharms = CharmsPerHour;
+        static readonly long MsPerHour = 3_600_000L;
+        public static int CharmsFor(long elapsedMs)
+        {
+            if (elapsedMs < 0) return 0;
+            long hours = elapsedMs / MsPerHour;
+            if (hours > MaxAccrualHours) hours = MaxAccrualHours;
+            return (int)hours * CharmsPerHour;
+        }
+        public static int CharmsBetween(long lastSeenMs, long nowMs)
+            => CharmsFor(nowMs - lastSeenMs);
+        public static void Stamp(long nowMs)
+        {
+            UnityEngine.PlayerPrefs.SetString(SeenKey, nowMs.ToString());
+            UnityEngine.PlayerPrefs.Save();
+        }
+        public static void ClearForTests()
+            => UnityEngine.PlayerPrefs.DeleteKey(SeenKey);
+        public sealed class OfflineClaim
+        {
+            public int Pending { get; }
+            public long SeenAtMs { get; }
+            public bool Claimable => Pending >= MinClaimCharms;
+            public bool Consumed { get; private set; }
 ================================================================================
 第 31 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 32 页 共 60 页
+================================================================================
+            long _nowMs;
+            OfflineClaim(int pending, long seenAtMs, long nowMs)
+            {
+                Pending = pending;
+                SeenAtMs = seenAtMs;
+                _nowMs = nowMs;
+            }
+            public static OfflineClaim Open(long nowMs)
+            {
+                long seen = 0;
+                var raw = UnityEngine.PlayerPrefs.GetString(SeenKey, "");
+                if (long.TryParse(raw, out var parsed)) seen = parsed;
+                int pending = seen > 0 ? CharmsBetween(seen, nowMs) : 0;
+                return new OfflineClaim(pending, seen, nowMs);
+            }
+            /// <summary>领取：基础或看广告双倍，经真实钱包入账并盖戳（一次性/会话）。</summary>
+            public int TryCollect(bool doubled)
+            {
+                if (Consumed || Pending <= 0) return -1;
+                int granted = doubled ? Pending * 2 : Pending;
+                SealCharmWallet.Load().Deposit(granted);
+                Stamp(_nowMs);
+                Consumed = true;
+                return granted;
+            }
+        }
+    }
+}
+// SealCharmWallet.cs
+using System;
+using System.Collections.Generic;
+using System.Text;
+using UnityEngine;
+namespace Sy.P04.Yaotide
+{
+    /// <summary>
+    /// 封印符钱包（「输得多攒得多」防挫败环·移植 P03 BannerWallet 范式）：
+    /// 每局结算存入；攒满 60 即兑随机未收妖（封印入图鉴），兑后清零。
+    /// 入账律：胜=10+波×2+斩÷10；负=波×2+斩÷5。红线12：PlayerPrefs=权威。
+    /// </summary>
+    public sealed class SealCharmWallet
+    {
+        public const string BalanceKey = "p04_charm_wallet";
+        public const string RedeemedKey = "p04_yaos";
+        public const int ExchangeCost = 60;
+        public int Balance { get; private set; }
+        public List<int> RedeemedYaoIds { get; } = new List<int>();
+        SealCharmWallet() { }
+        public static SealCharmWallet Load()
+        {
+================================================================================
+第 32 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 33 页 共 60 页
+================================================================================
+            var w = new SealCharmWallet();
+            w.Balance = PlayerPrefs.GetInt(BalanceKey, 0);
+            string raw = PlayerPrefs.GetString(RedeemedKey, "");
+            if (raw.Length > 0)
+            {
+                foreach (var part in raw.Split(','))
+                    if (int.TryParse(part, out int id)) w.RedeemedYaoIds.Add(id);
+            }
+            return w;
+        }
+        void Save()
+        {
+            PlayerPrefs.SetInt(BalanceKey, Balance);
+            var sb = new StringBuilder();
+            for (int i = 0; i < RedeemedYaoIds.Count; i++)
+            {
+                if (i > 0) sb.Append(',');
+                sb.Append(RedeemedYaoIds[i]);
+            }
+            PlayerPrefs.SetString(RedeemedKey, sb.ToString());
+            PlayerPrefs.Save();
+        }
+        public static int EarnFor(bool won, int waveReached, int kills)
+        {
+            int earned = waveReached * 2 + Math.Max(0, kills) / (won ? 10 : 5);
+            if (won) earned += 10;
+            return earned;
+        }
+        public void Deposit(int charms)
+        {
+            if (charms <= 0) return;
+            Balance += charms;
+            Save();
+        }
+        public bool CanExchange => Balance >= ExchangeCost;
+        /// <summary>兑妖：全钱包消费+封印入图鉴。返回妖 id，-1=余额不足/图鉴全开。</summary>
+        public int TryExchange(int roll)
+        {
+            if (!CanExchange) return -1;
+            var pool = YaoCodex.UnsealedIds();
+            if (pool.Length == 0) return -1;
+            int id = pool[((roll % pool.Length) + pool.Length) % pool.Length];
+            YaoCodex.Seal(id);
+            RedeemedYaoIds.Add(id);
+            Balance = 0;
+            Save();
+            return id;
+        }
+        public static void ClearForTests()
+        {
+================================================================================
+第 33 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 34 页 共 60 页
+================================================================================
+            PlayerPrefs.DeleteKey(BalanceKey);
+            PlayerPrefs.DeleteKey(RedeemedKey);
+            YaoCodex.ClearForTests();
+        }
+    }
+}
+// YaoCodex.cs
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+namespace Sy.P04.Yaotide
+{
+    /// <summary>
+    /// 收妖图鉴（V1.4 收集系统·八山海妖位·封印解锁制）：战斗中击杀精英/终波妖王
+    /// =该妖封印入图鉴；封印妖可布防上阵（塔位候选随图鉴扩容）。红线12：PlayerPrefs 权威。
+    /// </summary>
+    public static class YaoCodex
+    {
+        public enum Tier { Common, Purple, Gold }
+        public sealed class YaoDef
+        {
+            public int Id;
+            public string Name;      // 显示名
+            public string Role;      // 定位一行（密度律）
+            public Tier Tier;
+            public float Range;
+            public float Atk;
+            public float Interval;
+            public bool Aoe;
+            public string SealHint;
+            public YaoDef(int id, string name, string role, Tier tier,
+                float range, float atk, float interval, bool aoe, string sealHint)
+            {
+                Id = id; Name = name; Role = role; Tier = tier;
+                Range = range; Atk = atk; Interval = interval; Aoe = aoe;
+                SealHint = sealHint;
+            }
+        }
+        static readonly YaoDef[] Yaos =
+        {
+            new YaoDef(1, "石敢当", "镇范围斩", Tier.Common, 280f, 12f, 0.8f, true,  "基础阵"),
+            new YaoDef(2, "山海镜", "照远单体", Tier.Common, 520f, 26f, 1.1f, false, "基础阵"),
+            new YaoDef(3, "白泽",   "通晓破绽", Tier.Purple, 480f, 10f, 1.2f, true,  "符兑"),
+            new YaoDef(4, "毕方",   "火羽灼途", Tier.Purple, 360f, 34f, 1.0f, false, "符兑"),
+            new YaoDef(5, "九尾狐", "魅惑减速", Tier.Purple, 420f, 14f, 1.1f, false, "符兑"),
+            new YaoDef(6, "饕餮",   "吞天巨口", Tier.Gold, 300f, 40f, 1.3f, true,   "妖王封印"),
+            new YaoDef(7, "混沌",   "无面奇点", Tier.Gold, 460f, 18f, 0.5f, false,  "妖王封印"),
+            new YaoDef(8, "穷奇",   "残影妖王", Tier.Gold, 520f, 30f, 1.2f, false,  "妖王封印"),
+        };
+        const string SealedKey = "p04_codex_sealed";
+================================================================================
+第 34 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 35 页 共 60 页
+================================================================================
+        public static IReadOnlyList<YaoDef> All => Yaos;
+        public static YaoDef ById(int id)
+        {
+            for (int i = 0; i < Yaos.Length; i++)
+                if (Yaos[i].Id == id) return Yaos[i];
+            return null;
+        }
+        static HashSet<int> LoadSealed()
+        {
+            var set = new HashSet<int>();
+            string raw = PlayerPrefs.GetString(SealedKey, "");
+            if (raw.Length == 0)
+            {
+                set.Add(1);
+                set.Add(2);
+                return set;
+            }
+            foreach (var part in raw.Split(','))
+                if (int.TryParse(part, out int id)) set.Add(id);
+            return set;
+        }
+        static void SaveSealed(HashSet<int> set)
+        {
+            var sb = new System.Text.StringBuilder();
+            int n = 0;
+            foreach (int id in set)
+            {
+                if (n++ > 0) sb.Append(',');
+                sb.Append(id);
+            }
+            PlayerPrefs.SetString(SealedKey, sb.ToString());
+            PlayerPrefs.Save();
+        }
+        public static bool IsSealed(int id) => LoadSealed().Contains(id);
+        /// <summary>封印（幂等·图鉴+布防候选同步扩容）。返回 false=已封印。</summary>
+        public static bool Seal(int id)
+        {
+            var set = LoadSealed();
+            if (!set.Add(id)) return false;
+            SaveSealed(set);
+            return true;
+        }
+        public static List<YaoDef> Sealed()
+        {
+            var set = LoadSealed();
+            var list = new List<YaoDef>();
+            for (int i = 0; i < Yaos.Length; i++)
+                if (set.Contains(Yaos[i].Id)) list.Add(Yaos[i]);
+            return list;
+        }
+================================================================================
+第 35 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 36 页 共 60 页
+================================================================================
+        /// <summary>未封印池（符兑随机池·空=图鉴全开）。</summary>
+        public static int[] UnsealedIds()
+        {
+            var set = LoadSealed();
+            var ids = new List<int>();
+            for (int i = 0; i < Yaos.Length; i++)
+                if (!set.Contains(Yaos[i].Id)) ids.Add(Yaos[i].Id);
+            return ids.ToArray();
+        }
+        public static void ClearForTests() => PlayerPrefs.DeleteKey(SealedKey);
+    }
+}
+// YaotideBattleLaunch.cs
+using UnityEngine;
+namespace Sy.P04.Yaotide
+{
+    /// <summary>
+    /// 妖潮局参数传递桩（场景切换握手·移植 P03 BattleLaunch）：主界面落参→
+    /// S04_Yaotide 的 YaotideLauncher 读走即清。默认=随机局。
+    /// </summary>
+    public static class YaotideBattleLaunch
+    {
+        public enum Mode { Random, DailyRift, FromCode }
+        public static Mode Next = Mode.Random;
+        public static int NextSeed;
+        public static void StartRandom()
+        {
+            Next = Mode.Random;
+            NextSeed = Mathf.Abs(UnityEngine.Random.Range(int.MinValue, int.MaxValue)) % 100000 + 1;
+        }
+        public static void StartDailyRift()
+        {
+            Next = Mode.DailyRift;
+            NextSeed = DailyRift.SeedForToday();
+        }
+        public static bool StartFromFormationCode(string code)
+        {
+            var plan = YaotideFormationCodec.TryDecode(code);
+            if (plan == null) return false;
+            Next = Mode.FromCode;
+            NextSeed = plan.Value.Seed;
+            return true;
+        }
+        public static (Mode mode, int seed) Take()
+        {
+            var taken = (Next, NextSeed);
+            Next = Mode.Random;
+            NextSeed = 0;
+            return taken;
+        }
+================================================================================
+第 36 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 37 页 共 60 页
+================================================================================
+    }
+}
+// YaotideFormationCodec.cs
+using System;
+using System.Collections.Generic;
+using System.Text;
+namespace Sy.P04.Yaotide
+{
+    /// <summary>
+    /// 妖阵码（移植 P03 FormationCodec 范式）：种子+塔位布局压成短码（base36+校验位），
+    /// 朋友输码同局同布局再战。每塔一格字符（槽 3bit+型 1bit），编解码严格对称。
+    /// </summary>
+    public static class YaotideFormationCodec
+    {
+        const string Alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const int Version = 1;
+        public static string Encode(int seed, IReadOnlyList<YaotideSim.TowerInst> towers)
+        {
+            var sb = new StringBuilder();
+            sb.Append(Digit(Version));
+            AppendUnsigned(sb, seed > 0 ? (uint)seed : 0u, 6);
+            sb.Append(Digit(towers.Count));
+            for (int i = 0; i < towers.Count; i++)
+                sb.Append(Digit(((towers[i].Slot & 0x7) << 1) | (towers[i].IsAoE ? 1 : 0)));
+            sb.Append(ChecksumChar(sb.ToString()));
+            return sb.ToString();
+        }
+        public static string Encode(YaotideSim sim)
+            => Encode(sim.Seed, sim.Towers);
+        public readonly struct FormationPlan
+        {
+            public readonly int Seed;
+            public readonly int[] Slots;
+            public readonly bool[] IsAoE;
+            public FormationPlan(int seed, int[] slots, bool[] isAoE)
+            {
+                Seed = seed;
+                Slots = slots;
+                IsAoE = isAoE;
+            }
+        }
+        public static FormationPlan? TryDecode(string code)
+        {
+            if (string.IsNullOrEmpty(code) || code.Length < 9) return null;
+            string body = code.Substring(0, code.Length - 1);
+            if (code[code.Length - 1] != ChecksumChar(body)) return null;
+            int at = 0;
+            if (Value(body[at++]) != Version) return null;
+            uint seed = ReadUnsigned(body, ref at, 6);
+            int count = Value(body[at++]);
+================================================================================
+第 37 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 38 页 共 60 页
+================================================================================
+            if (count < 0 || count > 8) return null;
+            if (body.Length - at != count) return null;
+            var slots = new int[count];
+            bool[] aoe = new bool[count];
+            for (int i = 0; i < count; i++)
+            {
+                int cell = Value(body[at++]);
+                if (cell < 0) return null;
+                slots[i] = (cell >> 1) & 0x7;
+                aoe[i] = (cell & 1) == 1;
+            }
+            return new FormationPlan((int)seed, slots, aoe);
+        }
+        static char Digit(int v) => Alphabet[v % 36];
+        static int Value(char c) => Alphabet.IndexOf(char.ToUpperInvariant(c));
+        static void AppendUnsigned(StringBuilder sb, uint v, int chars)
+        {
+            char[] buf = new char[chars];
+            uint x = v;
+            for (int i = chars - 1; i >= 0; i--)
+            {
+                buf[i] = Alphabet[(int)(x % 36u)];
+                x /= 36u;
+            }
+            for (int i = 0; i < chars; i++) sb.Append(buf[i]);
+        }
+        static uint ReadUnsigned(string s, ref int at, int chars)
+        {
+            uint v = 0;
+            for (int i = 0; i < chars && at < s.Length; i++)
+                v = v * 36u + (uint)Math.Max(0, Value(s[at++]));
+            return v;
+        }
+        static char ChecksumChar(string body)
+        {
+            int sum = 0;
+            for (int i = 0; i < body.Length; i++) sum += body[i];
+            return Alphabet[sum % 36];
+        }
+    }
+}
+// YaotideLauncher.cs
+using System.Collections.Generic;
+using UnityEngine;
+namespace Sy.P04.Yaotide
+{
+    /// <summary>
+    /// S04_Yaotide 场景宿主（移植 P03 BattleLauncher 范式）：组装 YaotideSim+YaotideView
+    /// 并驱动 Tick；埋点 evt_rift；结算=RunResult 快照+符钱包入账+日局 KV 提交。
+    /// HUD 只在变更时刷新（红线6）。
+================================================================================
+第 38 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 39 页 共 60 页
+================================================================================
+    /// </summary>
+    public sealed class YaotideLauncher : MonoBehaviour
+    {
+        YaotideSim _sim;
+        YaotideView _view;
+        Sy.Telemetry.TelemetryService _telemetry;
+        int _lastWave = -1, _lastLives = -1, _lastCharms = -1, _lastKills = -1;
+        void Awake()
+        {
+            Application.targetFrameRate = 30;
+            var canvas = FindObjectOfType<Canvas>();
+            var (mode, seed) = YaotideBattleLaunch.Take();
+            bool isRift = mode == YaotideBattleLaunch.Mode.DailyRift;
+            _sim = new YaotideSim(YaotideLevel.Generate(seed), isRift);
+            _view = gameObject.AddComponent<YaotideView>();
+            _view.Initialize(canvas, _sim);
+            _telemetry = new Sy.Telemetry.TelemetryService();
+            _telemetry.AddSink(new TelemetryDebugSink());
+            if (isRift) _telemetry.Track("evt_rift", DailyRift.EntryFields("entry_click"));
+            _view.SlotTapped += slot => _sim.PlaceTower(slot);
+            _view.ContractPicked += index => _sim.PickContract(index);
+            _view.ExecuteRequested += () => _sim.TryExecute();
+            _view.EnemyTapped += id => _sim.TapFocus(id);
+            _sim.TowerPlaced += (tower, slot) => _view.SetTower(slot, tower.IsAoE, tower.YaoId);
+            _sim.ContractOffered += () => _view.ShowContractPanel(_sim.ContractEntries);
+            _sim.ExecutedFired += () => _view.PlayExecute();
+            _sim.YaoSealed += id => _view.SetHint(YaoCodex.ById(id) != null
+                ? YaoCodex.ById(id).Name + " 封印入册！"
+                : "收妖成功");
+            _sim.StateChanged += OnStateChanged;
+        }
+        void Update()
+        {
+            _sim.Tick(Time.deltaTime);
+            _view.SyncView(_sim);
+            if (_sim.Wave != _lastWave) { _lastWave = _sim.Wave; _view.SetWave(_lastWave); }
+            if (_sim.Lives != _lastLives) { _lastLives = _sim.Lives; _view.SetLives(_lastLives); }
+            if (_sim.Charms != _lastCharms) { _lastCharms = _sim.Charms; _view.SetCharms(_lastCharms); }
+            if (_sim.Kills != _lastKills) { _lastKills = _sim.Kills; _view.SetKills(_lastKills); }
+        }
+        void OnStateChanged(YaotideSim.YaotideState state)
+        {
+            switch (state)
+            {
+                case YaotideSim.YaotideState.Prep:
+                    _view.HideIntro();
+                    break;
+                case YaotideSim.YaotideState.Won:
+                    Settle(true);
+                    break;
+================================================================================
+第 39 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 40 页 共 60 页
+================================================================================
+                case YaotideSim.YaotideState.Lost:
+                    Settle(false);
+                    break;
+            }
+        }
+        void Settle(bool won)
+        {
+            var result = YaotideRunResult.Snapshot(_sim, won);
+            SealCharmWallet.Load().Deposit(result.CharmsEarned);
+            DailyRift.TrySubmit(result,
+                Sy.Core.ServiceLocator.TryGet(out Sy.Platform.IOpenDataBoard board) ? board : null);
+            _telemetry.Track("evt_rift",
+                DailyRift.RunEndFields(result.Seed, result.Won, result.WaveReached));
+            _view.ShowSettle(result);
+        }
+        sealed class TelemetryDebugSink : Sy.Telemetry.TelemetryService.ISink
+        {
+            public void Write(string evtId, Dictionary<string, string> fields)
+            {
+                var sb = new System.Text.StringBuilder(evtId);
+                foreach (var kv in fields)
+                    sb.Append(' ').Append(kv.Key).Append('=').Append(kv.Value);
+                Debug.Log("[TELEMETRY] " + sb);
+            }
+        }
+    }
+}
+// YaotideLevel.cs
+using System;
+namespace Sy.P04.Yaotide
+{
+    /// <summary>
+    /// 妖潮种子局档案（V1.4 换赛道·CEO 令 O-20261010-1245·移植自 P03 SiegeLevel 打样件）：
+    /// 一局妖潮攻防完全由种子推导——同种子同局。五妖灾词条随种子落位：
+    /// 狂风=敌速带乘/石甲=敌血带乘/群袭=每波+2/丰饶=符掉落带乘/寒雾=塔攻速带乘（间隔带乘）。
+    /// 红线12：零服务器——种子是唯一共享真值。
+    /// </summary>
+    public sealed class YaotideLevel
+    {
+        public const int WaveWindowMin = 5;
+        public const int WaveWindowMax = 8;
+        public readonly int Seed;
+        public readonly int TotalWaves;
+        public readonly float HpBase;
+        public readonly float HpGrowth;
+        public readonly float SpeedBase;
+        public readonly float SpeedGrow;
+        public readonly int CountBase;
+        public readonly float SpawnInt;
+        public readonly float WaveGap;
+================================================================================
+第 40 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 41 页 共 60 页
+================================================================================
+        public readonly int StartCharms;
+        public readonly bool MidElite;
+        public readonly string CalamityName;
+        public readonly int CalamityId;
+        public readonly float CalamityPower;
+        YaotideLevel(int seed, System.Random r, int waveMin, int waveMax)
+        {
+            Seed = seed;
+            TotalWaves = r.Next(waveMin, waveMax + 1);
+            HpBase = Lerp(r, 40f, 58f);
+            HpGrowth = Lerp(r, 1.18f, 1.28f);
+            SpeedBase = Lerp(r, 72f, 88f);
+            SpeedGrow = Lerp(r, 1.5f, 3.5f);
+            CountBase = r.Next(7, 10);
+            SpawnInt = Lerp(r, 0.6f, 1.0f);
+            WaveGap = Lerp(r, 1.6f, 2.6f);
+            StartCharms = r.Next(12, 20);
+            MidElite = r.NextDouble() < 0.5;
+            CalamityId = r.Next(0, 5);
+            CalamityPower = Lerp(r, 0.10f, 0.25f);
+            CalamityName = CalamityId switch
+            {
+                0 => "狂风",
+                1 => "石甲",
+                2 => "群袭",
+                3 => "丰饶",
+                _ => "寒雾",
+            };
+        }
+        public static YaotideLevel Generate(int seed)
+            => Generate(seed, WaveWindowMin, WaveWindowMax);
+        public static YaotideLevel Generate(int seed, int waveMin, int waveMax)
+            => new YaotideLevel(seed, new System.Random(seed), waveMin, waveMax);
+        public WaveDef GetWave(int w)
+        {
+            float hp = HpBase * (float)Math.Pow(HpGrowth, w - 1)
+                       * (CalamityId == 1 ? 1f + CalamityPower : 1f);   // 石甲
+            int count = CountBase + (w / 3) + (CalamityId == 2 ? 2 : 0);   // 群袭
+            float speed = SpeedBase + SpeedGrow * w + (CalamityId == 0 ? SpeedBase * CalamityPower : 0f);
+            bool boss = w == TotalWaves || (MidElite && w == TotalWaves - 1 && w >= 3);
+            return new WaveDef(w, count, hp, speed, boss);
+        }
+        static float Lerp(System.Random r, float min, float max)
+            => min + (float)r.NextDouble() * (max - min);
+    }
+    public readonly struct WaveDef
+    {
+        public readonly int Wave;
+        public readonly int Count;
+        public readonly float Hp;
+================================================================================
+第 41 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 42 页 共 60 页
+================================================================================
+        public readonly float Speed;
+        public readonly bool Boss;
+        public WaveDef(int wave, int count, float hp, float speed, bool boss)
+        {
+            Wave = wave;
+            Count = count;
+            Hp = hp;
+            Speed = speed;
+            Boss = boss;
+        }
+    }
+}
+// YaotideRunResult.cs
+namespace Sy.P04.Yaotide
+{
+    /// <summary>单局结算快照（移植 P03 RunResult 范式）：不可变定格，结算后一切变化不可回改。</summary>
+    public sealed class YaotideRunResult
+    {
+        public bool Won;
+        public int Seed;
+        public bool IsDailyRift;
+        public int WaveReached;
+        public int Kills;
+        public int LivesLeft;
+        public int CharmsLeft;
+        public int CharmsEarned;
+        public float DurationSec;
+        public string FormationCode;
+        public string CalamityName;
+        public int SealedYaoId;      // 本局封印的妖（-1=无）
+        public static YaotideRunResult Snapshot(YaotideSim sim, bool won)
+        {
+            return new YaotideRunResult
+            {
+                Won = won,
+                Seed = sim.Seed,
+                IsDailyRift = sim.IsDailyRift,
+                WaveReached = sim.Wave,
+                Kills = sim.Kills,
+                LivesLeft = sim.Lives,
+                CharmsLeft = sim.Charms,
+                DurationSec = sim.BattleTime,
+                FormationCode = YaotideFormationCodec.Encode(sim),
+                CalamityName = sim.Level != null ? sim.Level.CalamityName : "",
+                CharmsEarned = SealCharmWallet.EarnFor(won, sim.Wave, sim.Kills),
+                SealedYaoId = sim.SealedThisRun,
+            };
+        }
+    }
+}
+================================================================================
+第 42 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 43 页 共 60 页
+================================================================================
+// YaotideSim.cs
+using System;
+using System.Collections.Generic;
+namespace Sy.P04.Yaotide
+{
+    /// <summary>
+    /// 妖潮攻防核心（纯 C# 零渲染依赖·V1.4 换赛道 TD·CEO 令 O-20261010-1245）：
+    /// S 形固定折线（禁 A*·AI 友好红线）+8 塔位+波次推进+封印符经济+妖契三选一
+    /// （种子六选三池）+斩妖大招（穷奇残影气血≤40% 斩杀线）+中途精英（击杀=封印入图鉴）。
+    /// 塔位候选=图鉴已封印集轮换（石敢当/山海镜起步·封印即扩容）。
+    /// 红线12：零服务器；种子决定论。
+    /// </summary>
+    public sealed class YaotideSim
+    {
+        public enum YaotideState { Intro, Prep, Fighting, ContractPause, Won, Lost }
+        public sealed class TowerInst
+        {
+            public int Id;
+            public int Slot;
+            public bool IsAoE;
+            public int YaoId;
+            public float Range, Atk, Interval, Cooldown;
+        }
+        public sealed class EnemyInst
+        {
+            public int Id;
+            public bool Boss;      // 终波穷奇残影
+            public bool Elite;     // 中途精英
+            public int Seg;
+            public float SegT;
+            public float X, Y;
+            public float Hp, MaxHp;
+            public float Speed;
+            public bool Dead;
+        }
+        public YaotideState State { get; private set; } = YaotideState.Intro;
+        public YaotideLevel Level { get; }
+        public int Seed { get; }
+        public bool IsDailyRift { get; private set; }
+        public int TotalWaves => Level.TotalWaves;
+        /// <summary>本局封印的妖（终值随 RunResult 走；-1=无）。</summary>
+        public int SealedThisRun { get; private set; } = -1;
+        // S 形固定折线（8 点 7 段：妖潮入口→鬼市城门）与 8 塔位
+        public static readonly float[] PathX = { -460f, 340f, 340f, -340f, -340f, 340f, 340f, -500f };
+        public static readonly float[] PathY = { 740f, 740f, 300f, 300f, -140f, -140f, -580f, -580f };
+        public static readonly float[] SlotX = { 0f, 0f, 0f, -320f, 320f, -320f, 320f, -420f };
+        public static readonly float[] SlotY = { 620f, 420f, -280f, 620f, 420f, -280f, 620f, -280f };
+        public const float IntroSeconds = 3f;
+        public const float PrepStartSeconds = 15f;
+        public const float FocusSeconds = 4f;
+================================================================================
+第 43 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 44 页 共 60 页
+================================================================================
+        public const float BossHpBase = 900f;
+        public const float BossSpeed = 55f;
+        public const int ExecuteHpRatioPermille = 400;   // ≤40% 斩杀线
+        public const int KillCharm = 2;
+        public const int WaveClearCharm = 8;
+        readonly List<TowerInst> _towers = new();
+        readonly List<EnemyInst> _enemies = new();
+        readonly float[] _segLens;
+        int _nextId = 1;
+        float _stateTimer;
+        int _placed;
+        int _waveSpawned;
+        float _spawnTimer;
+        bool _spawning;
+        float _waveGapTimer;
+        int _lastCleared = -1;
+        int _contractCount;
+        readonly int[] _contractPool;      // 妖契种子六选三
+        int _focusId = -1;
+        float _focusTimer;
+        float _enemySpeedMul = 1f;
+        float _atkMul = 1f;
+        float _towerIntervalMul = 1f;
+        float _charmMul = 1f;
+        float _fireMul = 1f;               // 焚妖阵：下一波敌血减乘
+        int _waveBonus;
+        readonly int _eliteYaoId;
+        public IReadOnlyList<TowerInst> Towers => _towers;
+        public IReadOnlyList<EnemyInst> Enemies => _enemies;
+        public int Wave { get; private set; }
+        public int Lives { get; private set; } = 3;
+        public int Charms { get; private set; }
+        public int Kills { get; private set; }
+        public int PlacedCount => _placed;
+        public float BattleTime { get; private set; }
+        public event Action<TowerInst, int> TowerPlaced;
+        public event Action<int> WaveStarted;
+        public event Action<int> WaveCleared;
+        public event Action<EnemyInst> EnemySpawned;
+        public event Action<EnemyInst> EnemyKilled;
+        public event Action<int> LifeLost;
+        public event Action ContractOffered;
+        public event Action<int> ContractPicked;
+        public event Action BossKilled;
+        public event Action ExecutedFired;
+        public event Action<int> YaoSealed;
+        public event Action<YaotideState> StateChanged;
+        public int[] ContractEntries => _contractPool;
+        public YaotideSim(YaotideLevel level, bool isDailyRift)
+        {
+================================================================================
+第 44 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 45 页 共 60 页
+================================================================================
+            Level = level ?? throw new ArgumentNullException(nameof(level));
+            IsDailyRift = isDailyRift;
+            Seed = level.Seed;
+            Charms = level.StartCharms;
+            _segLens = new float[PathX.Length - 1];
+            for (int s = 0; s < _segLens.Length; s++)
+            {
+                float dx = PathX[s + 1] - PathX[s];
+                float dy = PathY[s + 1] - PathY[s];
+                _segLens[s] = (float)Math.Sqrt(dx * dx + dy * dy);
+            }
+            if (level.CalamityId == 3) _charmMul = 1f + level.CalamityPower;        // 丰饶
+            if (level.CalamityId == 4) _towerIntervalMul = 1f + level.CalamityPower; // 寒雾
+            var rng = new System.Random(level.Seed ^ 0x5A11);
+            var bag = new List<int> { 0, 1, 2, 3, 4, 5 };
+            _contractPool = new int[3];
+            for (int i = 0; i < 3; i++)
+            {
+                int at = rng.Next(bag.Count);
+                _contractPool[i] = bag[at];
+                bag.RemoveAt(at);
+            }
+            _eliteYaoId = 3 + level.Seed % 3;   // 白泽/毕方/九尾狐 轮替（紫档三妖）
+        }
+        (int Count, float Hp, float Speed, bool Boss, bool Elite) WaveAt(int w)
+        {
+            var def = Level.GetWave(w);
+            float hp = def.Hp * _fireMul;
+            _fireMul = 1f;
+            bool final = w == Level.TotalWaves;
+            bool elite = def.Boss && !final;
+            return (def.Count, hp, def.Speed, final, elite);
+        }
+        /// <summary>布防：布防期+战斗中随赚随布（符按档定价+图鉴轮换）。</summary>
+        public bool PlaceTower(int slot)
+        {
+            if (State != YaotideState.Prep && State != YaotideState.Fighting) return false;
+            if (slot < 0 || slot >= SlotX.Length) return false;
+            for (int i = 0; i < _towers.Count; i++)
+                if (_towers[i].Slot == slot) return false;
+            var sealedList = YaoCodex.Sealed();
+            if (sealedList.Count == 0) return false;
+            var def = sealedList[_placed % sealedList.Count];
+            int cost = CostFor(def.Tier);
+            if (Charms < cost) return false;
+            Charms -= cost;
+            var tower = new TowerInst
+            {
+                Id = _nextId++,
+                Slot = slot,
+================================================================================
+第 45 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 46 页 共 60 页
+================================================================================
+                IsAoE = def.Aoe,
+                YaoId = def.Id,
+                Range = def.Range,
+                Atk = def.Atk,
+                Interval = def.Interval,
+            };
+            _towers.Add(tower);
+            _placed++;
+            TowerPlaced?.Invoke(tower, slot);
+            return true;
+        }
+        static int CostFor(YaoCodex.Tier tier) => tier switch
+        {
+            YaoCodex.Tier.Purple => 9,
+            YaoCodex.Tier.Gold => 12,
+            _ => 6,
+        };
+        public void TapFocus(int enemyId)
+        {
+            for (int i = 0; i < _enemies.Count; i++)
+                if (_enemies[i].Id == enemyId)
+                {
+                    _focusId = enemyId;
+                    _focusTimer = FocusSeconds;
+                    return;
+                }
+        }
+        public bool IsFocused(EnemyInst e) => e.Id == _focusId && _focusTimer > 0f;
+        /// <summary>穷奇残影气血≤40%→斩妖可用。</summary>
+        public bool ExecuteReady
+        {
+            get
+            {
+                for (int i = 0; i < _enemies.Count; i++)
+                {
+                    var e = _enemies[i];
+                    if (e.Boss && e.Hp * 1000f <= e.MaxHp * ExecuteHpRatioPermille) return true;
+                }
+                return false;
+            }
+        }
+        /// <summary>斩妖（斩杀线内瞬杀穷奇残影）。</summary>
+        public bool TryExecute()
+        {
+            if (State != YaotideState.Fighting || !ExecuteReady) return false;
+            for (int i = 0; i < _enemies.Count; i++)
+            {
+                var e = _enemies[i];
+                if (!e.Boss) continue;
+                ExecutedFired?.Invoke();
+================================================================================
+第 46 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 47 页 共 60 页
+================================================================================
+                DamageEnemy(e, e.Hp + 1f);
+                return true;
+            }
+            return false;
+        }
+        /// <summary>妖契三选一（种子池 0-5 对位效果）。</summary>
+        public void PickContract(int index)
+        {
+            if (State != YaotideState.ContractPause) return;
+            if (index < 0 || index >= _contractPool.Length) return;
+            int entry = _contractPool[index];
+            switch (entry)
+            {
+                case 0: _enemySpeedMul = 0.8f; break;                    // 驭风术
+                case 1: _atkMul = 1.25f; break;                          // 妖血契
+                case 2: _waveBonus = 10; break;                          // 祭符礼
+                case 3: Charms += (int)(15 * _charmMul); break;          // 聚宝符
+                case 4: Lives += 1; break;                               // 固阵符
+                case 5: _fireMul = 0.85f; break;                          // 焚妖阵
+            }
+            _waveGapTimer = 0f;
+            ContractPicked?.Invoke(entry);
+            SetState(YaotideState.Fighting);
+        }
+        public void Tick(float dt)
+        {
+            switch (State)
+            {
+                case YaotideState.Intro:
+                    _stateTimer += dt;
+                    if (_stateTimer >= IntroSeconds) SetState(YaotideState.Prep);
+                    return;
+                case YaotideState.Prep:
+                    _stateTimer += dt;
+                    if (_placed >= 1 && (_stateTimer >= PrepStartSeconds))
+                    {
+                        SetState(YaotideState.Fighting);
+                        BeginWave(1);
+                    }
+                    return;
+                case YaotideState.Fighting:
+                    BattleTime += dt;
+                    if (_focusTimer > 0f) _focusTimer -= dt;
+                    TickSpawns(dt);
+                    TickEnemies(dt);
+                    TickTowers(dt);
+                    TickWaves(dt);
+                    if (Lives <= 0) SetState(YaotideState.Lost);
+                    return;
+            }
+================================================================================
+第 47 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 48 页 共 60 页
+================================================================================
+        }
+        void BeginWave(int w)
+        {
+            Wave = w;
+            _waveSpawned = 0;
+            _spawnTimer = 0f;
+            _waveGapTimer = 0f;
+            _spawning = true;
+            WaveStarted?.Invoke(w);
+            float bossHp = BossHpBase * (1f + 0.12f * Level.TotalWaves);
+            var (_, _, _, boss, elite) = WaveAt(w);
+            if (boss || elite)
+            {
+                var e = new EnemyInst
+                {
+                    Id = _nextId++,
+                    Boss = boss,
+                    Elite = elite,
+                    Seg = 0,
+                    SegT = 0f,
+                    X = PathX[0],
+                    Y = PathY[0],
+                    Hp = boss ? bossHp : bossHp * 0.55f,
+                    MaxHp = boss ? bossHp : bossHp * 0.55f,
+                    Speed = elite ? BossSpeed * 1.25f : BossSpeed,
+                };
+                _enemies.Add(e);
+                EnemySpawned?.Invoke(e);
+            }
+        }
+        void TickSpawns(float dt)
+        {
+            if (!_spawning) return;
+            var (count, hp, speed, _, _) = WaveAt(Wave);
+            _spawnTimer += dt;
+            while (_spawnTimer >= Level.SpawnInt && _waveSpawned < count)
+            {
+                _spawnTimer -= Level.SpawnInt;
+                _waveSpawned++;
+                var e = new EnemyInst
+                {
+                    Id = _nextId++,
+                    Seg = 0,
+                    SegT = 0f,
+                    X = PathX[0],
+                    Y = PathY[0],
+                    Hp = hp,
+                    MaxHp = hp,
+                    Speed = speed,
+                };
+================================================================================
+第 48 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 49 页 共 60 页
+================================================================================
+                _enemies.Add(e);
+                EnemySpawned?.Invoke(e);
+            }
+            if (_waveSpawned >= count) _spawning = false;
+        }
+        void TickEnemies(float dt)
+        {
+            for (int i = _enemies.Count - 1; i >= 0; i--)
+            {
+                var e = _enemies[i];
+                float move = e.Speed * _enemySpeedMul * dt;
+                while (move > 0f)
+                {
+                    float segLen = _segLens[e.Seg];
+                    float remain = (1f - e.SegT) * segLen;
+                    if (move < remain)
+                    {
+                        e.SegT += move / segLen;
+                        move = 0f;
+                    }
+                    else
+                    {
+                        move -= remain;
+                        e.Seg++;
+                        e.SegT = 0f;
+                        if (e.Seg >= _segLens.Length)
+                        {
+                            // 破城折返再压（民心真实扣减=可输）
+                            if (e.Boss)
+                            {
+                                e.Seg = 0;
+                                e.SegT = 0f;
+                            }
+                            else
+                            {
+                                _enemies.RemoveAt(i);
+                            }
+                            Lives = Math.Max(0, Lives - 1);
+                            LifeLost?.Invoke(Lives);
+                            break;
+                        }
+                    }
+                }
+                if (e.Seg < _segLens.Length)
+                {
+                    e.X = Lerp(PathX[e.Seg], PathX[e.Seg + 1], e.SegT);
+                    e.Y = Lerp(PathY[e.Seg], PathY[e.Seg + 1], e.SegT);
+                }
+            }
+        }
+================================================================================
+第 49 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 50 页 共 60 页
+================================================================================
+        static float Lerp(float a, float b, float t) => a + (b - a) * t;
+        void TickTowers(float dt)
+        {
+            for (int i = 0; i < _towers.Count; i++)
+            {
+                var t = _towers[i];
+                t.Cooldown -= dt;
+                if (t.Cooldown > 0f) continue;
+                bool any = false;
+                if (t.IsAoE)
+                {
+                    float r2 = t.Range * t.Range;
+                    for (int j = _enemies.Count - 1; j >= 0; j--)
+                    {
+                        var e = _enemies[j];
+                        float dx = e.X - SlotX[t.Slot], dy = e.Y - SlotY[t.Slot];
+                        if (dx * dx + dy * dy > r2) continue;
+                        any = true;
+                        DamageEnemy(e, t.Atk * _atkMul);
+                    }
+                }
+                else
+                {
+                    float r2 = t.Range * t.Range;
+                    EnemyInst target = null;
+                    float best = float.MaxValue;
+                    for (int j = 0; j < _enemies.Count; j++)
+                    {
+                        var e = _enemies[j];
+                        float dx = e.X - SlotX[t.Slot], dy = e.Y - SlotY[t.Slot];
+                        float d2 = dx * dx + dy * dy;
+                        if (d2 > r2) continue;
+                        if (IsFocused(e)) { target = e; best = -1f; break; }
+                        if (d2 < best) { best = d2; target = e; }
+                    }
+                    if (target != null)
+                    {
+                        any = true;
+                        DamageEnemy(target, t.Atk * _atkMul);
+                    }
+                }
+                t.Cooldown = any ? t.Interval * _towerIntervalMul : 0.05f;
+            }
+        }
+        void DamageEnemy(EnemyInst e, float dmg)
+        {
+            e.Hp -= dmg;
+            if (e.Hp > 0f) return;
+            e.Dead = true;
+            _enemies.Remove(e);
+================================================================================
+第 50 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 51 页 共 60 页
+================================================================================
+            Kills++;
+            Charms += (int)(KillCharm * _charmMul);
+            if (e.Boss)
+            {
+                SealInto(_bossYaoId());
+                // 演出清屏：余妖随残影湮灭
+                for (int i = _enemies.Count - 1; i >= 0; i--)
+                {
+                    var rest = _enemies[i];
+                    rest.Dead = true;
+                    _enemies.RemoveAt(i);
+                    Kills++;
+                    Charms += (int)(KillCharm * _charmMul);
+                    EnemyKilled?.Invoke(rest);
+                }
+                BossKilled?.Invoke();
+                EnemyKilled?.Invoke(e);
+                SetState(YaotideState.Won);
+                return;
+            }
+            if (e.Elite)
+            {
+                SealInto(_eliteYaoId);
+            }
+            EnemyKilled?.Invoke(e);
+        }
+        int _bossYaoId() => 8;   // 穷奇
+        void SealInto(int yaoId)
+        {
+            SealedThisRun = yaoId;
+            YaoCodex.Seal(yaoId);
+            YaoSealed?.Invoke(yaoId);
+        }
+        void TickWaves(float dt)
+        {
+            if (_spawning || _enemies.Count > 0) return;
+            _waveGapTimer += dt;
+            if (_waveGapTimer < Level.WaveGap) return;
+            int cleared = Wave;
+            if (cleared >= TotalWaves) return;   // 通关由妖王死亡触发
+            if (_lastCleared != cleared)
+            {
+                _lastCleared = cleared;
+                Charms += (int)((WaveClearCharm + _waveBonus) * _charmMul);
+                WaveCleared?.Invoke(cleared);
+            }
+            if (_contractCount < _contractPool.Length)
+            {
+                _contractCount++;
+                SetState(YaotideState.ContractPause);
+================================================================================
+第 51 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 52 页 共 60 页
+================================================================================
+                ContractOffered?.Invoke();
+                return;
+            }
+            BeginWave(cleared + 1);
+        }
+        void SetState(YaotideState s)
+        {
+            if (State == s) return;
+            State = s;
+            _stateTimer = 0f;
+            StateChanged?.Invoke(s);
+        }
+    }
+}
+// YaotideView.cs
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+namespace Sy.P04.Yaotide
+{
+    /// <summary>
+    /// 妖潮攻防渲染层（程序化 UGUI·彩窗风占位：彩红×彩蓝×彩金×彩绿×墨黑）：
+    /// 背景/妖径/塔位/妖体/HUD/妖契三选一/斩妖按钮/结算面板。
+    /// HUD 只在变更时刷新（红线6）；30fps；零广告位。
+    /// </summary>
+    public sealed class YaotideView : MonoBehaviour
+    {
+        Canvas _canvas;
+        Sprite _square;
+        Text _waveText, _livesText, _charmText, _killsText, _hintText, _calamityText;
+        Button _executeButton;
+        Image _executeImage;
+        RectTransform _introOverlay, _contractPanel, _executeOverlay, _settlePanel;
+        Text _settleStats, _settleTitle;
+        int _totalWaves = YaotideLevel.WaveWindowMax;
+        readonly Text[] _contractNames = new Text[3];
+        readonly Text[] _contractDescs = new Text[3];
+        readonly Dictionary<int, EnemyVisual> _enemies = new();
+        readonly List<int> _scratch = new();
+        readonly Image[] _slotImages = new Image[YaotideSim.SlotX.Length];
+        readonly Text[] _slotLabels = new Text[YaotideSim.SlotX.Length];
+        public event Action<int> SlotTapped;
+        public event Action<int> EnemyTapped;
+        public event Action<int> ContractPicked;
+        public event Action ExecuteRequested;
+        static readonly Color PalRed = new Color(0.902f, 0.224f, 0.275f);    // #E63946
+        static readonly Color PalBlue = new Color(0.271f, 0.482f, 0.616f);   // #457B9D
+        static readonly Color PalGold = new Color(1f, 0.843f, 0f);           // #FFD700
+================================================================================
+第 52 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 53 页 共 60 页
+================================================================================
+        static readonly Color PalGreen = new Color(0.165f, 0.616f, 0.561f);  // #2A9D8F
+        static readonly Color PalBlack = new Color(0.114f, 0.114f, 0.114f);  // #1D1D1D
+        static readonly Color PathCol = new Color(0.16f, 0.10f, 0.10f);
+        /// <summary>妖契池（id 0-5 与 YaotideSim.PickContract 对位）。</summary>
+        public static readonly (string Name, string Desc)[] ContractCards =
+        {
+            ("驭风术", "妖群移速-20%"),
+            ("妖血契", "塔攻+25%"),
+            ("祭符礼", "每波符奖励+10"),
+            ("聚宝符", "立得符+15"),
+            ("固阵符", "民心+1"),
+            ("焚妖阵", "下一波妖血-15%"),
+        };
+        public void Initialize(Canvas canvas, YaotideSim sim)
+        {
+            _canvas = canvas;
+            _square = MakeSquareSprite();
+            _totalWaves = sim.TotalWaves;
+            BuildBackdrop();
+            BuildHud();
+            BuildPath();
+            BuildSlots();
+            BuildIntroOverlay();
+            BuildContractPanel();
+            BuildExecuteOverlay();
+            BuildSettlePanel();
+            SetHint("妖潮压境——布防收妖！");
+            if (sim.Level != null) SetCalamity("妖灾 · " + sim.Level.CalamityName);
+        }
+        void BuildBackdrop()
+        {
+            var art = Sy.Core.ArtRuntime.Get("P04_scene_01");
+            if (art == null) return;
+            var go = new GameObject("ArtBackdrop", typeof(RectTransform), typeof(Image));
+            go.transform.SetParent(_canvas.transform, false);
+            var rt = (RectTransform)go.transform;
+            rt.anchorMin = Vector2.zero;
+            rt.anchorMax = Vector2.one;
+            rt.offsetMin = rt.offsetMax = Vector2.zero;
+            rt.SetAsFirstSibling();
+            var image = go.GetComponent<Image>();
+            image.sprite = art;
+            image.color = Color.white;
+            image.preserveAspect = true;
+            image.raycastTarget = false;
+        }
+        void BuildHud()
+        {
+            var root = _canvas.transform;
+            _waveText = MakeText(root, "波次 0/" + _totalWaves, 46, new Vector2(0, 880), TextAnchor.UpperLeft, 380, 70);
+================================================================================
+第 53 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 54 页 共 60 页
+================================================================================
+            _waveText.color = PalGold;
+            _livesText = MakeText(root, "民心 3", 46, new Vector2(0, 880), TextAnchor.UpperRight, 340, 70);
+            _charmText = MakeText(root, "符 0", 44, new Vector2(0, 820), TextAnchor.UpperLeft, 380, 60);
+            _charmText.color = PalGold;
+            _killsText = MakeText(root, "斩妖 0", 44, new Vector2(0, 820), TextAnchor.UpperRight, 380, 60);
+            _calamityText = MakeText(root, "", 36, new Vector2(0, 760), TextAnchor.UpperLeft, 520, 50);
+            _calamityText.color = PalGreen;
+            _hintText = MakeText(root, "", 40, new Vector2(0, -780), TextAnchor.MiddleCenter, 1020, 150);
+            _hintText.color = new Color(0.95f, 0.87f, 0.6f);
+            var btnGo = new GameObject("ExecuteButton", typeof(Image), typeof(Button));
+            btnGo.transform.SetParent(root, false);
+            var btnRt = (RectTransform)btnGo.transform;
+            btnRt.anchorMin = btnRt.anchorMax = new Vector2(0.5f, 0f);
+            btnRt.anchoredPosition = new Vector2(0, 120);
+            btnRt.sizeDelta = new Vector2(460, 140);
+            _executeImage = btnGo.GetComponent<Image>();
+            _executeImage.sprite = _square;
+            _executeImage.color = new Color(0.35f, 0.35f, 0.35f);
+            _executeButton = btnGo.GetComponent<Button>();
+            _executeButton.interactable = false;
+            MakeText(btnGo.transform, "斩妖！", 54, Vector2.zero, TextAnchor.MiddleCenter, 460, 140).color = PalBlack;
+            _executeButton.onClick.AddListener(() => ExecuteRequested?.Invoke());
+        }
+        void BuildPath()
+        {
+            for (int s = 0; s < YaotideSim.PathX.Length - 1; s++)
+            {
+                float x0 = YaotideSim.PathX[s], y0 = YaotideSim.PathY[s];
+                float x1 = YaotideSim.PathX[s + 1], y1 = YaotideSim.PathY[s + 1];
+                bool horiz = Math.Abs(y1 - y0) < 1f;
+                var go = new GameObject("PathSeg_" + s, typeof(RectTransform), typeof(Image));
+                go.transform.SetParent(_canvas.transform, false);
+                var rt = (RectTransform)go.transform;
+                rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
+                rt.anchoredPosition = new Vector2((x0 + x1) * 0.5f, (y0 + y1) * 0.5f);
+                rt.sizeDelta = horiz
+                    ? new Vector2(Math.Abs(x1 - x0) + 90f, 90f)
+                    : new Vector2(90f, Math.Abs(y1 - y0) + 90f);
+                var img = go.GetComponent<Image>();
+                img.sprite = _square;
+                img.color = PathCol;
+            }
+            MakeText(_canvas.transform, "妖潮入口", 34, new Vector2(-460f, 820f), TextAnchor.MiddleCenter, 260, 50).color = PalRed;
+            MakeText(_canvas.transform, "鬼市城门", 34, new Vector2(-500f, -660f), TextAnchor.MiddleCenter, 260, 50).color = PalGold;
+        }
+        void BuildSlots()
+        {
+            for (int i = 0; i < YaotideSim.SlotX.Length; i++)
+            {
+                int index = i;
+================================================================================
+第 54 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 55 页 共 60 页
+================================================================================
+                var go = new GameObject("Slot_" + i, typeof(RectTransform), typeof(Image), typeof(Button));
+                go.transform.SetParent(_canvas.transform, false);
+                var rt = (RectTransform)go.transform;
+                rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
+                rt.anchoredPosition = new Vector2(YaotideSim.SlotX[i], YaotideSim.SlotY[i]);
+                rt.sizeDelta = new Vector2(140, 140);
+                var img = go.GetComponent<Image>();
+                var slotArt = Sy.Core.ArtRuntime.Get("P04_unit_01");
+                if (slotArt != null)
+                {
+                    img.sprite = slotArt;
+                    img.color = Color.white;
+                    img.preserveAspect = true;
+                }
+                else
+                {
+                    img.sprite = _square;
+                    img.color = new Color(0.13f, 0.13f, 0.13f, 0.9f);
+                }
+                _slotImages[i] = img;
+                _slotLabels[i] = MakeText(go.transform, "阵位", 34, Vector2.zero, TextAnchor.MiddleCenter, 140, 140);
+                _slotLabels[i].color = new Color(0.55f, 0.52f, 0.45f);
+                go.GetComponent<Button>().onClick.AddListener(() => SlotTapped?.Invoke(index));
+            }
+        }
+        void BuildIntroOverlay()
+        {
+            _introOverlay = MakeOverlayPanel("IntroOverlay", new Color(0.05f, 0.02f, 0.08f, 0.95f));
+            MakeText(_introOverlay, "妖 潮 压 境", 100, new Vector2(0, 100), TextAnchor.MiddleCenter, 1000, 130).color = PalRed;
+            MakeText(_introOverlay, "这妖我收了 · 山海布阵在即", 46, new Vector2(0, -60), TextAnchor.MiddleCenter, 1000, 80).color = PalGold;
+        }
+        void BuildContractPanel()
+        {
+            _contractPanel = MakeOverlayPanel("ContractPanel", new Color(0.03f, 0.03f, 0.06f, 0.92f));
+            MakeText(_contractPanel, "妖契 · 三选一", 76, new Vector2(0, 560), TextAnchor.MiddleCenter, 1000, 100).color = PalGold;
+            for (int i = 0; i < 3; i++)
+            {
+                int index = i;
+                var card = ContractCards[i];
+                var go = new GameObject("Contract_" + i, typeof(RectTransform), typeof(Image), typeof(Button));
+                go.transform.SetParent(_contractPanel, false);
+                var rt = (RectTransform)go.transform;
+                rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
+                rt.anchoredPosition = new Vector2(-330 + i * 330, 0);
+                rt.sizeDelta = new Vector2(300, 420);
+                var img = go.GetComponent<Image>();
+                img.sprite = _square;
+                img.color = i == 0 ? new Color(0.55f, 0.12f, 0.15f) : new Color(0.14f, 0.16f, 0.20f);
+                _contractNames[i] = MakeText(go.transform, "【" + card.Name + "】", 56, new Vector2(0, 120), TextAnchor.MiddleCenter, 300, 80);
+                _contractNames[i].color = PalGold;
+================================================================================
+第 55 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 56 页 共 60 页
+================================================================================
+                _contractDescs[i] = MakeText(go.transform, card.Desc, 38, new Vector2(0, -40), TextAnchor.MiddleCenter, 280, 200);
+                _contractDescs[i].color = new Color(0.85f, 0.85f, 0.8f);
+                go.GetComponent<Button>().onClick.AddListener(() =>
+                {
+                    _contractPanel.gameObject.SetActive(false);
+                    ContractPicked?.Invoke(index);
+                });
+            }
+            MakeText(_contractPanel, "契成即行——妖群将至", 40, new Vector2(0, -400), TextAnchor.MiddleCenter, 1000, 80).color = new Color(0.6f, 0.6f, 0.55f);
+            _contractPanel.gameObject.SetActive(false);
+        }
+        /// <summary>按种子池重贴三张妖契牌。</summary>
+        public void ShowContractPanel(int[] entries)
+        {
+            for (int i = 0; i < 3 && i < entries.Length; i++)
+            {
+                var card = ContractCards[Math.Max(0, Math.Min(ContractCards.Length - 1, entries[i]))];
+                _contractNames[i].text = "【" + card.Name + "】";
+                _contractDescs[i].text = card.Desc;
+            }
+            _contractPanel.gameObject.SetActive(true);
+        }
+        void BuildExecuteOverlay()
+        {
+            _executeOverlay = MakeOverlayPanel("ExecuteOverlay", new Color(1f, 0.98f, 0.92f, 0.75f));
+            var lineGo = new GameObject("ExecuteLine", typeof(RectTransform), typeof(Image));
+            lineGo.transform.SetParent(_executeOverlay, false);
+            var lineRt = (RectTransform)lineGo.transform;
+            lineRt.anchorMin = lineRt.anchorMax = new Vector2(0.5f, 0.5f);
+            lineRt.anchoredPosition = Vector2.zero;
+            lineRt.sizeDelta = new Vector2(2200, 16);
+            lineRt.localRotation = Quaternion.Euler(0f, 0f, 24f);
+            var lineImg = lineGo.GetComponent<Image>();
+            lineImg.sprite = _square;
+            lineImg.color = PalRed;
+            MakeText(_executeOverlay, "斩！", 110, new Vector2(0, -180), TextAnchor.MiddleCenter, 1000, 140).color = PalBlack;
+            _executeOverlay.gameObject.SetActive(false);
+        }
+        void BuildSettlePanel()
+        {
+            _settlePanel = MakeOverlayPanel("SettlePanel", new Color(0.03f, 0.03f, 0.05f, 0.96f));
+            _settleTitle = MakeText(_settlePanel, "收妖告捷", 90, new Vector2(0, 560), TextAnchor.MiddleCenter, 1040, 110);
+            _settleTitle.color = PalGold;
+            _settleStats = MakeText(_settlePanel, "", 46, new Vector2(0, 380), TextAnchor.MiddleCenter, 1000, 260);
+            MakeActionButton(_settlePanel, "再收一局", new Vector2(-260, -260), () => UnityEngine.SceneManagement.SceneManager.LoadScene("S04_Yaotide"));
+            MakeActionButton(_settlePanel, "返回主界面", new Vector2(260, -260), () => UnityEngine.SceneManagement.SceneManager.LoadScene("S04_Main"));
+            _settlePanel.gameObject.SetActive(false);
+        }
+        // ───── 每帧同步 ─────
+        public void SyncView(YaotideSim sim)
+================================================================================
+第 56 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 57 页 共 60 页
+================================================================================
+        {
+            ReconcileEnemies(sim);
+            foreach (var kv in _enemies)
+            {
+                var v = kv.Value;
+                v.Rt.anchoredPosition = new Vector2(v.X, v.Y);
+                if (v.Fill != null) v.Fill.fillAmount = v.MaxHp > 0f ? v.Hp / v.MaxHp : 0f;
+                bool focused = v.Focused;
+                if (focused != v.LastFocused)
+                {
+                    v.LastFocused = focused;
+                    v.FocusLabel.gameObject.SetActive(focused);
+                }
+            }
+            bool ready = sim.ExecuteReady;
+            if (_executeButton.interactable != ready)
+            {
+                _executeButton.interactable = ready;
+                _executeImage.color = ready ? PalRed : new Color(0.35f, 0.35f, 0.35f);
+            }
+        }
+        void ReconcileEnemies(YaotideSim sim)
+        {
+            _scratch.Clear();
+            foreach (var kv in _enemies)
+                if (!ContainsEnemy(sim, kv.Key)) _scratch.Add(kv.Key);
+            for (int i = 0; i < _scratch.Count; i++)
+            {
+                Destroy(_enemies[_scratch[i]].Go);
+                _enemies.Remove(_scratch[i]);
+            }
+            for (int i = 0; i < sim.Enemies.Count; i++)
+            {
+                var e = sim.Enemies[i];
+                if (!_enemies.TryGetValue(e.Id, out var v))
+                {
+                    v = CreateEnemyVisual(e);
+                    _enemies[e.Id] = v;
+                }
+                v.X = e.X;
+                v.Y = e.Y;
+                v.Hp = e.Hp;
+                v.MaxHp = e.MaxHp;
+                v.Focused = sim.IsFocused(e);
+            }
+        }
+        static bool ContainsEnemy(YaotideSim sim, int id)
+        {
+            for (int i = 0; i < sim.Enemies.Count; i++)
+                if (sim.Enemies[i].Id == id) return true;
+================================================================================
+第 57 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 58 页 共 60 页
+================================================================================
+            return false;
+        }
+        EnemyVisual CreateEnemyVisual(YaotideSim.EnemyInst e)
+        {
+            int id = e.Id;
+            var go = new GameObject("Enemy_" + e.Id, typeof(RectTransform), typeof(Image), typeof(Button));
+            go.transform.SetParent(_canvas.transform, false);
+            var rt = (RectTransform)go.transform;
+            rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
+            rt.sizeDelta = e.Boss ? new Vector2(160, 160) : (e.Elite ? new Vector2(110, 110) : new Vector2(70, 70));
+            var image = go.GetComponent<Image>();
+            image.sprite = _square;
+            image.color = e.Boss ? PalGold : (e.Elite ? PalGreen : new Color(0.35f, 0.32f, 0.42f));
+            if (e.Boss)
+                MakeText(go.transform, "穷", 64, Vector2.zero, TextAnchor.MiddleCenter, 160, 160).color = PalBlack;
+            else if (e.Elite)
+                MakeText(go.transform, "妖", 44, Vector2.zero, TextAnchor.MiddleCenter, 110, 110).color = PalBlack;
+            var hpGo = new GameObject("Hp", typeof(RectTransform), typeof(Image));
+            hpGo.transform.SetParent(go.transform, false);
+            var hpRt = (RectTransform)hpGo.transform;
+            hpRt.anchorMin = new Vector2(0f, 1f);
+            hpRt.anchorMax = new Vector2(1f, 1f);
+            hpRt.anchoredPosition = new Vector2(0, -6);
+            hpRt.sizeDelta = new Vector2(-8, 10);
+            var fill = hpGo.GetComponent<Image>();
+            fill.sprite = _square;
+            fill.type = Image.Type.Filled;
+            fill.fillMethod = Image.FillMethod.Horizontal;
+            fill.color = new Color(0.2f, 0.9f, 0.3f);
+            var focusLabel = MakeText(go.transform, "集火", 34, new Vector2(0, 120), TextAnchor.MiddleCenter, 220, 50);
+            focusLabel.color = PalGold;
+            focusLabel.gameObject.SetActive(false);
+            go.GetComponent<Button>().onClick.AddListener(() => EnemyTapped?.Invoke(id));
+            return new EnemyVisual
+            {
+                Go = go,
+                Rt = rt,
+                Fill = fill,
+                FocusLabel = focusLabel.gameObject,
+                X = e.X,
+                Y = e.Y,
+                Hp = e.Hp,
+                MaxHp = e.MaxHp,
+            };
+        }
+        // ───── HUD 与面板 ─────
+        public void SetWave(int w) => _waveText.text = "波次 " + w + "/" + _totalWaves;
+        public void SetCalamity(string name) => _calamityText.text = name;
+        public void SetLives(int l) => _livesText.text = "民心 " + l;
+        public void SetCharms(int c) => _charmText.text = "符 " + c;
+================================================================================
+第 58 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 59 页 共 60 页
+================================================================================
+        public void SetKills(int k) => _killsText.text = "斩妖 " + k;
+        public void SetHint(string hint) => _hintText.text = hint;
+        public void HideIntro() => _introOverlay.gameObject.SetActive(false);
+        public void SetTower(int slot, bool isAoE, int yaoId)
+        {
+            _slotImages[slot].color = isAoE ? PalRed : PalBlue;
+            var def = YaoCodex.ById(yaoId);
+            string label = def != null && def.Name.Length > 0 ? def.Name.Substring(0, 1) : (isAoE ? "石" : "镜");
+            _slotLabels[slot].text = label;
+            _slotLabels[slot].color = PalBlack;
+            _slotLabels[slot].fontSize = 64;
+        }
+        public void PlayExecute()
+        {
+            StartCoroutine(ExecuteRoutine());
+        }
+        IEnumerator ExecuteRoutine()
+        {
+            _executeOverlay.gameObject.SetActive(true);
+            yield return new WaitForSeconds(0.5f);
+            _executeOverlay.gameObject.SetActive(false);
+        }
+        public void ShowSettle(YaotideRunResult result)
+        {
+            _settleTitle.text = result.Won ? "收妖告捷" : "城破妖散";
+            string seal = result.SealedYaoId > 0 && YaoCodex.ById(result.SealedYaoId) != null
+                ? YaoCodex.ById(result.SealedYaoId).Name + " 封印入册"
+                : "";
+            _settleStats.text = result.Won
+                ? $"波次 {result.WaveReached}/{_totalWaves} · 斩妖 {result.Kills} · 符 +{result.CharmsEarned}\n<size=40>{seal} · 妖阵码 {result.FormationCode}</size>"
+                : $"波次 {result.WaveReached}/{_totalWaves} · 斩妖 {result.Kills} · 符 +{result.CharmsEarned}\n<size=40>输局也攒符——符箓铺兑妖再战</size>";
+            _settlePanel.gameObject.SetActive(true);
+        }
+        // ───── 工具 ─────
+        RectTransform MakeOverlayPanel(string name, Color color)
+        {
+            var go = new GameObject(name, typeof(RectTransform), typeof(Image));
+            go.transform.SetParent(_canvas.transform, false);
+            var rt = (RectTransform)go.transform;
+            rt.anchorMin = Vector2.zero;
+            rt.anchorMax = Vector2.one;
+            rt.offsetMin = rt.offsetMax = Vector2.zero;
+            var image = go.GetComponent<Image>();
+            image.sprite = _square;
+            image.color = color;
+            return rt;
+        }
+        void MakeActionButton(RectTransform parent, string text, Vector2 pos, Action onClick)
+        {
+            var go = new GameObject(text, typeof(RectTransform), typeof(Image), typeof(Button));
+================================================================================
+第 59 页结束
+
+这妖我收了游戏软件 V1.0 源程序  第 60 页 共 60 页
+================================================================================
+            go.transform.SetParent(parent, false);
+            var rt = (RectTransform)go.transform;
+            rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
+            rt.anchoredPosition = pos;
+            rt.sizeDelta = new Vector2(420, 120);
+            var image = go.GetComponent<Image>();
+            image.sprite = _square;
+            image.color = PalGreen;
+            MakeText(go.transform, text, 46, Vector2.zero, TextAnchor.MiddleCenter, 420, 120);
+            go.GetComponent<Button>().onClick.AddListener(() => onClick());
+        }
+        static Text MakeText(Transform parent, string text, int size, Vector2 pos, TextAnchor anchor, float w, float h)
+        {
+            var go = new GameObject("Text", typeof(RectTransform), typeof(Text));
+            go.transform.SetParent(parent, false);
+            var rt = (RectTransform)go.transform;
+            rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
+            rt.anchoredPosition = pos;
+            rt.sizeDelta = new Vector2(w, h);
+            var t = go.GetComponent<Text>();
+            t.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            t.text = text;
+            t.fontSize = size;
+            t.alignment = anchor;
+            t.color = new Color(0.91f, 0.89f, 0.85f);
+            t.supportRichText = true;
+            return t;
+        }
+        static Sprite MakeSquareSprite()
+        {
+            var tex = new Texture2D(8, 8, TextureFormat.RGBA32, false);
+            var px = tex.GetPixels32();
+            for (int i = 0; i < px.Length; i++) px[i] = new Color32(255, 255, 255, 255);
+            tex.SetPixels32(px);
+            tex.Apply(false, false);
+            return Sprite.Create(tex, new Rect(0, 0, 8, 8), new Vector2(0.5f, 0.5f), 8f);
+        }
+        sealed class EnemyVisual
+        {
+            public GameObject Go;
+            public RectTransform Rt;
+            public Image Fill;
+            public GameObject FocusLabel;
+            public bool LastFocused;
+            public bool Focused;
+            public float X, Y;
+            public float Hp, MaxHp;
+        }
+    }
+}
+================================================================================
+第 60 页结束
 

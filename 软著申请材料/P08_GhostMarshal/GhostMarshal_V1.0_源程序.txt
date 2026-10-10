@@ -323,13 +323,374 @@ namespace Sy.P08.Newbie
         }
     }
 }
-// AdPointConfig.cs
+// AchievementConfig.cs
 using System;
 ================================================================================
 第 6 页结束
 
 奈何桥游戏软件 V1.0 源程序  第 7 页 共 60 页
 ================================================================================
+using System.Collections.Generic;
+using UnityEngine;
+namespace Sy.P08.Adventure
+{
+    /// cfg_achievements data contract (SYS-06 / T011, the 成就 half):
+    /// the achievement collection as pure data - every achievement is
+    /// a goal over one tracked stat, so the whole system is
+    /// config-driven (成就填空前6周: the shipped seed covers the first
+    /// six weeks of play; later batches grow the list as pure data).
+    /// The folk-archive CARD half of SYS-06 stays in
+    /// cfg_chapter.archiveCards (the ArchiveBook law - untouched here;
+    /// the 20-card content expansion belongs to the OP02 monthly
+    /// archive batches).
+    ///  Stat vocabulary (AchievementSystem.Stat*): verdicts_correct /
+    ///  ghosts_released / archive_cards / daily_solved / yinde_earned /
+    ///  chapters_unlocked - one stat per feed face the host already
+    ///  owns (VerdictSystem.VerdictCorrect / GhostReleased,
+    ///  ArchiveBook.CardUnlocked, DailyPuzzleSystem.DailySolved,
+    ///  MoralMeter.YindeGained, ChapterUnlockGate unlock callback).
+    /// Plain serializable classes so JsonUtility round-trips the whole
+    /// collection (config-as-data face). The achievement view slice
+    /// and the P08GapCheck gate consume this one contract.
+    [Serializable]
+    public class AchievementDef
+    {
+        public string achievementId = "";
+        public string title = "";       // folk title, e.g. "初结一案"
+        public string desc = "";        // one-line folk copy
+        public string category = "";   // 断案 / 档案 / 日课 / 阴德 / 案卷
+        public string statId = "";      // AchievementSystem.Stat* vocabulary
+        public int goal;                // >= 1 (Validate law)
+    }
+    [Serializable]
+    public class AchievementTableFile
+    {
+        public string collectionId = "";
+        public List<AchievementDef> achievements = new List<AchievementDef>();
+    }
+    /// Static load face (the AdPointTable pattern): the shipped
+    /// Resources copy is the single runtime authority (the
+    /// Design/configs/P08 archive copy is the versioned source; the
+    /// P08GapCheck gate asserts the dual faces are byte-identical,
+    /// the X364 SHA256 law).
+    public static class AchievementTable
+    {
+        public const string ResourceName = "cfg_achievements";
+        static AchievementTableFile _cache;
+        public static AchievementTableFile Load(bool forceReload = false)
+        {
+            if (_cache != null && !forceReload) return _cache;
+================================================================================
+第 7 页结束
+
+奈何桥游戏软件 V1.0 源程序  第 8 页 共 60 页
+================================================================================
+            var asset = Resources.Load<TextAsset>(ResourceName);
+            if (asset == null)
+            {
+                Debug.LogError("[AchievementTable] cfg_achievements missing from Resources");
+                return null;
+            }
+            _cache = JsonUtility.FromJson<AchievementTableFile>(asset.text);
+            return _cache;
+        }
+    }
+}
+// AchievementSystem.cs
+using System;
+using System.Collections.Generic;
+namespace Sy.P08.Adventure
+{
+    /// Achievement logic core (SYS-06 / T011, the 成就 half): pure C#,
+    /// zero rendering - the CaseSim pattern (the achievement view slice
+    /// and the P08GapCheck gate share one rule set). The system is a
+    /// stat ledger with subject-dedup faces: the host routes events
+    /// the game already owns (a verdict closes, a ghost is released, a
+    /// card unlocks, a daily puzzle is solved, yinde is gained, a
+    /// chapter unlocks) into the matching Notify call and the ledger
+    /// does the rest - no system is touched, no scene is wired, red
+    /// line 12: everything is local.
+    ///  Stat vocabulary (cfg_achievements.statId):
+    ///   verdicts_correct   - correct tribunal rulings, one-shot per
+    ///                        caseId (re-closing a settled case never
+    ///                        farms the stat);
+    ///   ghosts_released    - EVERY wrong-verdict ghost release counts
+    ///                        (the M-04 beat is a performance, not a
+    ///                        wall - no dedup);
+    ///   archive_cards      - folk-archive cards unlocked, one-shot
+    ///                        per cardId;
+    ///   daily_solved       - daily mini-puzzles solved, one-shot per
+    ///                        dayKey;
+    ///   yinde_earned       - lifetime yinde gained, summed (amount
+    ///                        feeds must be > 0);
+    ///   chapters_unlocked  - chapters unlocked on any channel,
+    ///                        one-shot per chapterId.
+    ///  Laws (each has a P08GapCheck case):
+    ///   A1  Validate rejects dup ids / empty copy / unknown statId /
+    ///       non-positive goals before the game runs;
+    ///   A2  subject one-shot: a re-notify of the same subject is
+    ///       refused with zero state change (verdicts / cards / days /
+    ///       chapters), ghost events always count, yinde sums;
+    ///   A3  unlock law: a notify that crosses a goal unlocks the
+    ///       achievement exactly once (idempotent); one notify may
+    ///       unlock several achievements of the same stat;
+    ///   A4  event discipline: AchievementUnlocked fires once per
+================================================================================
+第 8 页结束
+
+奈何桥游戏软件 V1.0 源程序  第 9 页 共 60 页
+================================================================================
+    ///       achievement, never on refusals or below-goal notifies;
+    ///   A5  local-authority persistence (red line 12): counters +
+    ///       unlocked set + dedup ring round-trip through
+    ///       CaptureState/RestoreState; a foreign collectionId or
+    ///       corrupt json reads as a fresh ledger; unknown statIds in
+    ///       a save are skipped silently (data-safe).
+    public sealed class AchievementSystem
+    {
+        public const string StatVerdictsCorrect = "verdicts_correct";
+        public const string StatGhostsReleased = "ghosts_released";
+        public const string StatArchiveCards = "archive_cards";
+        public const string StatDailySolved = "daily_solved";
+        public const string StatYindeEarned = "yinde_earned";
+        public const string StatChaptersUnlocked = "chapters_unlocked";
+        /// Dedup-ring retention: the subject ring keeps this many
+        /// entries so the save stays bounded (cards/chapters/cases are
+        /// naturally small; the daily day-keys are the growth face -
+        /// the host only notifies the CURRENT day, the ring is a dedup
+        /// guard, not a calendar).
+        public const int KeptSubjects = 64;
+        static readonly string[] KnownStats =
+        {
+            StatVerdictsCorrect, StatGhostsReleased, StatArchiveCards,
+            StatDailySolved, StatYindeEarned, StatChaptersUnlocked,
+        };
+        readonly AchievementTableFile _cfg;
+        readonly Dictionary<string, int> _counters = new Dictionary<string, int>();
+        readonly HashSet<string> _subjects = new HashSet<string>();
+        readonly List<string> _subjectRing = new List<string>();
+        readonly HashSet<string> _unlocked = new HashSet<string>();
+        public event Action<AchievementDef> AchievementUnlocked;
+        public AchievementSystem(AchievementTableFile cfg)
+        {
+            if (cfg == null) throw new ArgumentNullException("cfg");
+            var problems = Validate(cfg);
+            if (problems.Count > 0)
+                throw new ArgumentException("achievements config invalid: " + string.Join("; ", problems.ToArray()));
+            _cfg = cfg;
+        }
+        public AchievementTableFile Config => _cfg;
+        /// The "cfg_achievements tool" half (A1): rejects any
+        /// achievement data that breaks the laws before the game runs
+        /// (the HintSystem.Validate pattern).
+        public static List<string> Validate(AchievementTableFile cfg)
+        {
+            var p = new List<string>();
+            if (cfg == null) { p.Add("null config"); return p; }
+            if (string.IsNullOrEmpty(cfg.collectionId)) p.Add("collectionId empty");
+            if (cfg.achievements == null || cfg.achievements.Count == 0)
+            { p.Add("achievements empty"); return p; }
+================================================================================
+第 9 页结束
+
+奈何桥游戏软件 V1.0 源程序  第 10 页 共 60 页
+================================================================================
+            var ids = new HashSet<string>();
+            foreach (var a in cfg.achievements)
+            {
+                if (a == null) { p.Add("null achievement"); continue; }
+                if (string.IsNullOrEmpty(a.achievementId)) { p.Add("achievementId empty"); continue; }
+                if (!ids.Add(a.achievementId)) p.Add("achievementId dup: " + a.achievementId);
+                if (string.IsNullOrEmpty(a.title)) p.Add("title empty: " + a.achievementId);
+                if (string.IsNullOrEmpty(a.desc)) p.Add("desc empty: " + a.achievementId);
+                if (string.IsNullOrEmpty(a.category)) p.Add("category empty: " + a.achievementId);
+                if (Array.IndexOf(KnownStats, a.statId) < 0)
+                    p.Add("statId unknown: '" + a.statId + "' @ " + a.achievementId);
+                if (a.goal < 1) p.Add("goal must be >= 1: " + a.goal + " @ " + a.achievementId);
+            }
+            return p;
+        }
+        /// Stat value read (0 for unknown stats - read-only face).
+        public int StatValue(string statId)
+        {
+            int v;
+            return _counters.TryGetValue(statId, out v) ? v : 0;
+        }
+        public bool IsUnlocked(string achievementId)
+        {
+            return !string.IsNullOrEmpty(achievementId) && _unlocked.Contains(achievementId);
+        }
+        public int UnlockedCount { get { return _unlocked.Count; } }
+        public int TotalCount { get { return _cfg.achievements.Count; } }
+        // ── feed faces (A2): the host routes existing game events here ──
+        /// Verdict feed: one correct ruling per caseId.
+        public bool NotifyVerdictCorrect(string caseId)
+        {
+            return NotifySubject(StatVerdictsCorrect, caseId, 1);
+        }
+        /// Ghost feed: every wrong-verdict release counts (no dedup -
+        /// the M-04 beat is repeatable theatre).
+        public bool NotifyGhostReleased()
+        {
+            return NotifyRaw(StatGhostsReleased, 1);
+        }
+        /// Archive feed: one card per cardId.
+        public bool NotifyArchiveCard(string cardId)
+        {
+            return NotifySubject(StatArchiveCards, cardId, 1);
+        }
+        /// Daily feed: one solved day per dayKey.
+        public bool NotifyDailySolved(string dayKey)
+        {
+            return NotifySubject(StatDailySolved, dayKey, 1);
+        }
+        /// Yinde feed: lifetime yinde gained (amount > 0).
+================================================================================
+第 10 页结束
+
+奈何桥游戏软件 V1.0 源程序  第 11 页 共 60 页
+================================================================================
+        public bool NotifyYindeGained(int amount)
+        {
+            if (amount <= 0) return false;
+            return NotifyRaw(StatYindeEarned, amount);
+        }
+        /// Chapter feed: one unlock per chapterId (any channel).
+        public bool NotifyChapterUnlocked(string chapterId)
+        {
+            return NotifySubject(StatChaptersUnlocked, chapterId, 1);
+        }
+        bool NotifySubject(string statId, string subject, int amount)
+        {
+            if (string.IsNullOrEmpty(subject)) return false;
+            string key = statId + "#" + subject;
+            if (_subjects.Contains(key)) return false;          // A2 one-shot
+            _subjects.Add(key);
+            _subjectRing.Add(key);
+            while (_subjectRing.Count > KeptSubjects) 
+            {
+                var dropped = _subjectRing[0];
+                _subjectRing.RemoveAt(0);
+                _subjects.Remove(dropped);
+            }
+            return NotifyRaw(statId, amount);
+        }
+        bool NotifyRaw(string statId, int amount)
+        {
+            int v;
+            _counters.TryGetValue(statId, out v);
+            _counters[statId] = v + amount;
+            CheckUnlocks(statId);
+            return true;
+        }
+        /// A3 unlock law: every achievement of this stat at or over its
+        /// goal unlocks exactly once. Idempotent by the unlocked set.
+        void CheckUnlocks(string statId)
+        {
+            int v = StatValue(statId);
+            foreach (var a in _cfg.achievements)
+            {
+                if (a == null || a.statId != statId) continue;
+                if (v < a.goal) continue;
+                if (!_unlocked.Add(a.achievementId)) continue;
+                AchievementUnlocked?.Invoke(a);
+            }
+        }
+        // ── local-authority persistence (A5, red line 12) ──
+        [Serializable]
+        public class StatPair
+        {
+================================================================================
+第 11 页结束
+
+奈何桥游戏软件 V1.0 源程序  第 12 页 共 60 页
+================================================================================
+            public string statId = "";
+            public int value;
+        }
+        [Serializable]
+        public class SaveState
+        {
+            public string collectionId = "";
+            public List<StatPair> counters = new List<StatPair>();
+            public List<string> subjects = new List<string>();
+            public List<string> unlocked = new List<string>();
+        }
+        /// Captures the ledger as a JsonUtility string. The HOST owns
+        /// persistence (PlayerPrefs local slot) - the core stays pure.
+        public string CaptureState()
+        {
+            var s = new SaveState { collectionId = _cfg.collectionId };
+            foreach (var kv in _counters)
+                s.counters.Add(new StatPair { statId = kv.Key, value = kv.Value });
+            foreach (var sub in _subjectRing) s.subjects.Add(sub);
+            foreach (var id in _unlocked) s.unlocked.Add(id);
+            return UnityEngine.JsonUtility.ToJson(s);
+        }
+        /// Restores the ledger. Returns "" on success or the rejection
+        /// reason (A5: the caller falls back to a fresh ledger - a bad
+        /// save never wipes earned achievements). Unknown statIds and
+        /// foreign achievement ids in the save are skipped silently
+        /// (data-safe); restore never fires AchievementUnlocked
+        /// (resume must not replay unlock toasts).
+        public string RestoreState(string json)
+        {
+            if (string.IsNullOrEmpty(json)) return "empty save";
+            SaveState s;
+            try { s = UnityEngine.JsonUtility.FromJson<SaveState>(json); }
+            catch (Exception e) { return "bad json: " + e.Message; }
+            if (s == null) return "null save";
+            if (s.collectionId != _cfg.collectionId) return "collection id mismatch: " + s.collectionId;
+            var authored = new HashSet<string>();
+            foreach (var a in _cfg.achievements)
+                if (a != null) authored.Add(a.achievementId);
+            _counters.Clear();
+            if (s.counters != null)
+                foreach (var pair in s.counters)
+                {
+                    if (pair == null || Array.IndexOf(KnownStats, pair.statId) < 0) continue;
+                    if (pair.value < 0) return "negative counter: " + pair.statId;
+                    _counters[pair.statId] = pair.value;
+                }
+            _subjects.Clear();
+            _subjectRing.Clear();
+            if (s.subjects != null)
+================================================================================
+第 12 页结束
+
+奈何桥游戏软件 V1.0 源程序  第 13 页 共 60 页
+================================================================================
+                foreach (var sub in s.subjects)
+                {
+                    if (string.IsNullOrEmpty(sub) || _subjects.Contains(sub)) continue;
+                    _subjects.Add(sub);
+                    _subjectRing.Add(sub);
+                }
+            while (_subjectRing.Count > KeptSubjects)
+            {
+                var dropped = _subjectRing[0];
+                _subjectRing.RemoveAt(0);
+                _subjects.Remove(dropped);
+            }
+            _unlocked.Clear();
+            if (s.unlocked != null)
+                foreach (var id in s.unlocked)
+                    if (!string.IsNullOrEmpty(id) && authored.Contains(id)) _unlocked.Add(id);
+            return "";
+        }
+        /// Test hygiene (house rule): resets the whole ledger so a
+        /// check run never inherits another case's progress.
+        public void ClearForTests()
+        {
+            _counters.Clear();
+            _subjects.Clear();
+            _subjectRing.Clear();
+            _unlocked.Clear();
+        }
+    }
+}
+// AdPointConfig.cs
+using System;
 using UnityEngine;
 namespace Sy.P08.Adventure
 {
@@ -349,6 +710,11 @@ namespace Sy.P08.Adventure
     }
     [Serializable]
     public class AdPriorityLadderBlock
+================================================================================
+第 13 页结束
+
+奈何桥游戏软件 V1.0 源程序  第 14 页 共 60 页
+================================================================================
     {
         public int rescue;
         public int @double;   // C# keyword escape; JsonUtility maps the JSON "double" key
@@ -380,11 +746,6 @@ namespace Sy.P08.Adventure
         public AdGateBlock gate;        // null when the row carries no gate block
         public string decay = "";       // empty = constant full value; "gainLadder" = decay face
         public string rewardRef = "";
-================================================================================
-第 7 页结束
-
-奈何桥游戏软件 V1.0 源程序  第 8 页 共 60 页
-================================================================================
         public string uiStyle = "";
     }
     /// Static load face: the shipped Resources copy is the single runtime
@@ -404,6 +765,11 @@ namespace Sy.P08.Adventure
                 return null;
             }
             _cache = JsonUtility.FromJson<AdPointTableFile>(asset.text);
+================================================================================
+第 14 页结束
+
+奈何桥游戏软件 V1.0 源程序  第 15 页 共 60 页
+================================================================================
             return _cache;
         }
         /// Table row for a cfg point id (null = unknown id).
@@ -435,11 +801,6 @@ namespace Sy.P08.Adventure
     /// policy and table are both local; a missing table row reads as
     /// "no offer" (fail-loud callers surface the missing asset through
     /// AdPointTable.Load's error log).
-================================================================================
-第 8 页结束
-
-奈何桥游戏软件 V1.0 源程序  第 9 页 共 60 页
-================================================================================
     public static class AdPointFunnel
     {
         /// Runtime ad point id: p08_-isolated namespace (P01 T020
@@ -459,6 +820,11 @@ namespace Sy.P08.Adventure
             int interCap = 0;
             if (table != null && table.points != null)
                 foreach (var p in table.points)
+================================================================================
+第 15 页结束
+
+奈何桥游戏软件 V1.0 源程序  第 16 页 共 60 页
+================================================================================
                 {
                     if (p == null || p.type != "interstitial") continue;
                     if (p.coolDownSec > 0) cool = p.coolDownSec;
@@ -490,11 +856,6 @@ namespace Sy.P08.Adventure
         /// every other P08 point keeps full value on every watch. watchIdx
         /// is 1-based; a missing table reads as full value.
         public static float GainMul(string pointId, int watchIdx)
-================================================================================
-第 9 页结束
-
-奈何桥游戏软件 V1.0 源程序  第 10 页 共 60 页
-================================================================================
         {
             var row = Row(pointId);
             var ladder = AdPointTable.Load()?.gainDecayLadder;
@@ -514,6 +875,11 @@ namespace Sy.P08.Adventure
             if (Row("interstitial") == null) return false;
             return policy.TryConsumeInterstitial(dayKey, nowSec);
         }
+================================================================================
+第 16 页结束
+
+奈何桥游戏软件 V1.0 源程序  第 17 页 共 60 页
+================================================================================
         /// evt_ad funnel telemetry (P02 vocabulary): states =
         /// offer/accept/decline/ad_fail/blocked/complete. The emitted
         /// pointId is the p08_-isolated runtime id; chapterId rides the
@@ -545,11 +911,6 @@ namespace Sy.P08.Adventure
     /// and the ArchiveCheck gate share this one rule set.
     ///  Laws:
     ///   A1  clue-pinned cards unlock exactly when their board clue is
-================================================================================
-第 10 页结束
-
-奈何桥游戏软件 V1.0 源程序  第 11 页 共 60 页
-================================================================================
     ///       found - repeated finds and unknown clue ids change nothing;
     ///   A2  the chapter's single archive_extra card unlocks only via
     ///       the rewarded-ad callback (GrantAdUnlock) - never via clues,
@@ -569,6 +930,11 @@ namespace Sy.P08.Adventure
         readonly Dictionary<string, List<ArchiveCardDef>> _cluePins =
             new Dictionary<string, List<ArchiveCardDef>>();   // clueId -> pinned cards
         ArchiveCardDef _adCard;                        // null when the chapter ships none
+================================================================================
+第 17 页结束
+
+奈何桥游戏软件 V1.0 源程序  第 18 页 共 60 页
+================================================================================
         public ArchiveBook(ChapterConfig chapter)
         {
             if (chapter == null) throw new ArgumentNullException("chapter");
@@ -600,11 +966,6 @@ namespace Sy.P08.Adventure
             if (string.IsNullOrEmpty(c.chapterId)) p.Add("chapterId empty");
             if (c.scenes == null || c.scenes.Count == 0) p.Add("scenes empty");
             else
-================================================================================
-第 11 页结束
-
-奈何桥游戏软件 V1.0 源程序  第 12 页 共 60 页
-================================================================================
             {
                 var seen = new HashSet<string>();
                 foreach (var s in c.scenes)
@@ -624,6 +985,11 @@ namespace Sy.P08.Adventure
                 }
             }
             if (string.IsNullOrEmpty(c.verdict)) p.Add("verdict empty");
+================================================================================
+第 18 页结束
+
+奈何桥游戏软件 V1.0 源程序  第 19 页 共 60 页
+================================================================================
             if (string.IsNullOrEmpty(c.freePass)) p.Add("freePass empty");
             if (c.archiveCards == null || c.archiveCards.Count == 0) p.Add("archiveCards empty");
             else
@@ -655,11 +1021,6 @@ namespace Sy.P08.Adventure
         }
         public ChapterConfig Chapter { get { return _chapter; } }
         public IList<ArchiveCardDef> Cards { get { return _chapter.archiveCards; } }
-================================================================================
-第 12 页结束
-
-奈何桥游戏软件 V1.0 源程序  第 13 页 共 60 页
-================================================================================
         public int UnlockedCount { get { return _unlocked.Count; } }
         public int TotalCount { get { return _chapter.archiveCards.Count; } }
         public bool IsUnlocked(string cardId)
@@ -679,6 +1040,11 @@ namespace Sy.P08.Adventure
             foreach (var card in pins)
             {
                 if (_unlocked.Add(card.cardId))
+================================================================================
+第 19 页结束
+
+奈何桥游戏软件 V1.0 源程序  第 20 页 共 60 页
+================================================================================
                 {
                     any = true;
                     CardUnlocked?.Invoke(card.cardId);
@@ -710,11 +1076,6 @@ namespace Sy.P08.Adventure
         {
             var st = new ArchiveBookState();
             st.chapterId = _chapter.chapterId;
-================================================================================
-第 13 页结束
-
-奈何桥游戏软件 V1.0 源程序  第 14 页 共 60 页
-================================================================================
             foreach (var id in _unlocked) st.unlocked.Add(id);
             return st;
         }
@@ -734,6 +1095,11 @@ namespace Sy.P08.Adventure
     }
 }
 // ArchiveLauncher.cs
+================================================================================
+第 20 页结束
+
+奈何桥游戏软件 V1.0 源程序  第 21 页 共 60 页
+================================================================================
 using UnityEngine;
 using UnityEngine.SceneManagement;
 namespace Sy.P08.Adventure
@@ -765,11 +1131,6 @@ namespace Sy.P08.Adventure
         string _secondChapterId;   // probed from cfg_chapter_case02 (null until it ships)
         string _secondFreePass;    // the second chapter's own free-pass window
         void Awake()
-================================================================================
-第 14 页结束
-
-奈何桥游戏软件 V1.0 源程序  第 15 页 共 60 页
-================================================================================
         {
             Application.targetFrameRate = 30;
             // T010 slice-4: case-parameterized book face (the
@@ -789,6 +1150,11 @@ namespace Sy.P08.Adventure
             // a missing config keeps the locked dead face).
             var secondAsset = Resources.Load<TextAsset>("cfg_chapter_case02");
             _secondChapterId = null;
+================================================================================
+第 21 页结束
+
+奈何桥游戏软件 V1.0 源程序  第 22 页 共 60 页
+================================================================================
             _secondFreePass = "";
             if (secondAsset != null)
             {
@@ -820,11 +1186,6 @@ namespace Sy.P08.Adventure
         }
         void OnChapterTapped(string chapterId)
         {
-================================================================================
-第 15 页结束
-
-奈何桥游戏软件 V1.0 源程序  第 16 页 共 60 页
-================================================================================
             // S02 -> S03 flow (T015 closing slice): only shipped ids ever
             // reach this wire. The gate owns the routing - a free-pass or
             // unlocked chapter loads the one S03 chain exactly as before
@@ -844,6 +1205,11 @@ namespace Sy.P08.Adventure
             SceneManager.LoadScene(Sy.P08.Newbie.NewbieSceneIds.Explore);
         }
         // Routing decision (pure, UnlockPageCheck-asserted): a locked
+================================================================================
+第 22 页结束
+
+奈何桥游戏软件 V1.0 源程序  第 23 页 共 60 页
+================================================================================
         // chapter diverts to the S07 unlock page; free-pass and unlocked
         // chapters keep the pre-gate behaviour (zero regression).
         public const string RouteExplore = "explore";
@@ -875,11 +1241,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-================================================================================
-第 16 页结束
-
-奈何桥游戏软件 V1.0 源程序  第 17 页 共 60 页
-================================================================================
 namespace Sy.P08.Adventure
 {
     /// <summary>
@@ -899,6 +1260,11 @@ namespace Sy.P08.Adventure
     /// code lands here, host-fed, deterministic - any device recomputes
     /// it from the shipped config) and the morality seat (host-fed;
     /// the T012 MoralMeter owns the live source later). Tapping an
+================================================================================
+第 23 页结束
+
+奈何桥游戏软件 V1.0 源程序  第 24 页 共 60 页
+================================================================================
     /// unlocked card opens the aged-paper reading overlay - the body
     /// is typeset through the T004 VerticalTextLayout solver (pure
     /// transform, V1-V10 laws live in this face). Game text comes
@@ -930,11 +1296,6 @@ namespace Sy.P08.Adventure
         string _chapterTwoId;
         bool _chapterTwoLive;
         public event Action<string> ChapterTapped;   // (chapterId) -> host loads the chapter scene
-================================================================================
-第 17 页结束
-
-奈何桥游戏软件 V1.0 源程序  第 18 页 共 60 页
-================================================================================
         public event Action AdTapped;                 // -> host calls book.GrantAdUnlock
         // Art spec sheet palette (StyleGateCheck B1 locks the same hex).
         static readonly Color CurtainRed = new Color(0.545f, 0f, 0f);              // #8B0000
@@ -954,6 +1315,11 @@ namespace Sy.P08.Adventure
         {
             int n = 8;   // ceiling: cfg_chapter_case01 ships five cards; extra slots stay hidden
             _cardFills = new Image[n];
+================================================================================
+第 24 页结束
+
+奈何桥游戏软件 V1.0 源程序  第 25 页 共 60 页
+================================================================================
             _cardTexts = new Text[n];
             _cardButtons = new Button[n];
             _cardSeals = new Text[n];
@@ -985,11 +1351,6 @@ namespace Sy.P08.Adventure
                 if (_chapterOneButton != null) _chapterOneButton.onClick.Invoke();
             }
             else if (_chapterTwoLive && chapterId == _chapterTwoId)
-================================================================================
-第 18 页结束
-
-奈何桥游戏软件 V1.0 源程序  第 19 页 共 60 页
-================================================================================
             {
                 if (_chapterTwoButton != null) _chapterTwoButton.onClick.Invoke();
             }
@@ -1009,6 +1370,11 @@ namespace Sy.P08.Adventure
         }
         /// <summary>Tap-to-close on the reading overlay: same path the
         /// overlay Button walks.</summary>
+================================================================================
+第 25 页结束
+
+奈何桥游戏软件 V1.0 源程序  第 26 页 共 60 页
+================================================================================
         public void SimulateDetailTap()
         {
             var btn = _detailOverlay != null ? _detailOverlay.GetComponent<Button>() : null;
@@ -1040,11 +1406,6 @@ namespace Sy.P08.Adventure
                 label.text = _chapterTwoLive ? "案二 · 冥婚案 ｜ 点章节开卷" : "案二 · 冥婚案 ｜ 直通期待开卷";
             _chapterTwoButton.onClick.RemoveAllListeners();
             if (_chapterTwoLive)
-================================================================================
-第 19 页结束
-
-奈何桥游戏软件 V1.0 源程序  第 20 页 共 60 页
-================================================================================
                 _chapterTwoButton.onClick.AddListener(() => ChapterTapped?.Invoke(_chapterTwoId));
         }
         public void SetToast(string text) { if (_toastText != null) _toastText.text = text; }
@@ -1064,6 +1425,11 @@ namespace Sy.P08.Adventure
         public string DetailTitleText { get { return _detailTitle != null ? _detailTitle.text : ""; } }
         public string DetailCategoryText { get { return _detailCategory != null ? _detailCategory.text : ""; } }
         /// <summary>The raw body the reading overlay carries - asserted
+================================================================================
+第 26 页结束
+
+奈何桥游戏软件 V1.0 源程序  第 27 页 共 60 页
+================================================================================
         /// verbatim against the config (game text = cfg law).</summary>
         public string DetailBodyText { get { return _detailBodyRaw; } }
         /// <summary>How many vertical columns the T004 solver produced for
@@ -1095,11 +1461,6 @@ namespace Sy.P08.Adventure
         }
         public string SlotLabel(int index)
         {
-================================================================================
-第 20 页结束
-
-奈何桥游戏软件 V1.0 源程序  第 21 页 共 60 页
-================================================================================
             if (index < 0 || index >= _cardTexts.Length || _cardTexts[index] == null) return "";
             // Gate contract kept verbatim: the unlocked slot still reads
             // "title | category" even though the face now typesets the two
@@ -1119,6 +1480,11 @@ namespace Sy.P08.Adventure
                 return;
             }
             OpenReadingFace(cardId);
+================================================================================
+第 27 页结束
+
+奈何桥游戏软件 V1.0 源程序  第 28 页 共 60 页
+================================================================================
         }
         void OpenReadingFace(string cardId)
         {
@@ -1150,11 +1516,6 @@ namespace Sy.P08.Adventure
             }
             _detailOverlay.gameObject.SetActive(true);
             SetToast("翻卷：《" + card.title + "》");
-================================================================================
-第 21 页结束
-
-奈何桥游戏软件 V1.0 源程序  第 22 页 共 60 页
-================================================================================
         }
         void OnDetailTapped()
         {
@@ -1174,6 +1535,11 @@ namespace Sy.P08.Adventure
             _detailColumns = 0;
             _detailOverlay.gameObject.SetActive(false);
             SyncView();
+================================================================================
+第 28 页结束
+
+奈何桥游戏软件 V1.0 源程序  第 29 页 共 60 页
+================================================================================
         }
         // ───── per-intent sync ─────
         /// <summary>Idempotent full-state refresh: card slot faces from the
@@ -1205,11 +1571,6 @@ namespace Sy.P08.Adventure
                 bool chipOn = open && cat.Length > 0;
                 if (_cardChips[i] != null)
                 {
-================================================================================
-第 22 页结束
-
-奈何桥游戏软件 V1.0 源程序  第 23 页 共 60 页
-================================================================================
                     SetActiveIfChanged(_cardChips[i].gameObject, chipOn);
                     if (chipOn)
                     {
@@ -1229,6 +1590,11 @@ namespace Sy.P08.Adventure
             bool adLive = false;
             foreach (var c in cards)
                 if (c != null && c.unlockType == "ad" && !_book.IsUnlocked(c.cardId)) { adLive = true; break; }
+================================================================================
+第 29 页结束
+
+奈何桥游戏软件 V1.0 源程序  第 30 页 共 60 页
+================================================================================
             SetActiveIfChanged(_adButton.gameObject, adLive);
         }
         // ───── static face (built once) ─────
@@ -1260,11 +1626,6 @@ namespace Sy.P08.Adventure
             _titleText.color = WarmYellow;
             _moralityText = MakeText(_canvas.transform, "阴德 · 0", 34, new Vector2(0f, 820f), TextAnchor.MiddleCenter, 600f, 50f);
             _moralityText.color = PaperWhite;
-================================================================================
-第 23 页结束
-
-奈何桥游戏软件 V1.0 源程序  第 24 页 共 60 页
-================================================================================
             // Chapter-select row: shipped chapter live, future chapter
             // locked behind its free-pass window (launch face).
             _chapterOneButton = MakeBar("ChapterOne", "案一 · 夜叩铺门 ｜ 点章节开卷",
@@ -1284,367 +1645,6 @@ namespace Sy.P08.Adventure
             for (int i = 0; i < _cardFills.Length; i++)
             {
                 int idx = i;
-                var go = new GameObject("CardSlot_" + i, typeof(RectTransform), typeof(Image), typeof(Button));
-                go.transform.SetParent(_canvas.transform, false);
-                var rt = (RectTransform)go.transform;
-                rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
-                rt.anchoredPosition = new Vector2(0f, SlotTop - i * SlotGap);
-                rt.sizeDelta = new Vector2(980f, 148f);
-                var img = go.GetComponent<Image>();
-                img.sprite = _square;
-                img.color = SlotDark;
-                // T021 slice-2 deep layout: glyph chip at the left edge +
-                // two-line typeset (title over category). Every ink band
-                // stays below the +55 top strip so the C7 slot canary
-                // keeps sampling pure fill, and the seal lane at +445 is
-                // untouched (C7/ch1/paper canaries all bit-stable).
-                var chipGo = new GameObject("CatChip", typeof(RectTransform), typeof(Image));
-                chipGo.transform.SetParent(go.transform, false);
-                var chipRt = (RectTransform)chipGo.transform;
-                chipRt.anchorMin = chipRt.anchorMax = new Vector2(0.5f, 0.5f);
-                chipRt.anchoredPosition = new Vector2(-428f, 0f);
-                chipRt.sizeDelta = new Vector2(64f, 64f);
-                var chip = chipGo.GetComponent<Image>();
-                chip.sprite = _square;
-                chip.color = NetherBlue;
-                chip.raycastTarget = false;
-                var chipGlyph = MakeText(chipGo.transform, "", 34, Vector2.zero, TextAnchor.MiddleCenter, 60f, 60f);
-                chipGlyph.color = PaperWhite;
-                chipGlyph.raycastTarget = false;
-                chipGo.SetActive(false);
-                _cardChips[i] = chip;
-                var txt = MakeText(go.transform, LockedLabel, 34, new Vector2(4f, 22f), TextAnchor.MiddleCenter, 740f, 56f);
-                txt.color = PaperWhite;
-================================================================================
-第 24 页结束
-
-奈何桥游戏软件 V1.0 源程序  第 25 页 共 60 页
-================================================================================
-                var cat = MakeText(go.transform, "", 26, new Vector2(4f, -40f), TextAnchor.MiddleLeft, 740f, 40f);
-                cat.color = CurtainRed;
-                cat.raycastTarget = false;
-                _cardCats[i] = cat;
-                // T021: red archive seal rides the unlocked face only -
-                // parked at the far right edge, clear of the center
-                // canary pixel (ChapterGateCheck C7 stays bit-stable).
-                var seal = MakeText(go.transform, "档", 34, new Vector2(445f, 0f), TextAnchor.MiddleCenter, 60f, 60f);
-                seal.color = CurtainRed;
-                seal.raycastTarget = false;
-                seal.gameObject.SetActive(false);
-                _cardSeals[i] = seal;
-                go.GetComponent<Button>().onClick.AddListener(() => OnCardButtonTapped(idx));
-                _cardFills[i] = img;
-                _cardTexts[i] = txt;
-                _cardButtons[i] = go.GetComponent<Button>();
-            }
-            // The single archive_extra rewarded-ad seat (SYS-06: one per
-            // chapter; the HOST owns the ad callback face - A2).
-            _adButton = MakeBar("ArchiveExtra", "档案加更 · 观广告", new Vector2(0f, -700f), new Vector2(460f, 110f), NetherBlue, () => AdTapped?.Invoke());
-            _toastText = MakeText(_canvas.transform, "", 30, new Vector2(0f, -850f), TextAnchor.UpperLeft, 1030f, 120f);
-            _toastText.color = PaperWhite;
-            _toastText.alignment = TextAnchor.UpperLeft;
-            _toastText.horizontalOverflow = HorizontalWrapMode.Wrap;
-            _toastText.verticalOverflow = VerticalWrapMode.Truncate;
-            // Reading overlay (aged-paper case file; tap to close).
-            var rGo = new GameObject("DetailOverlay", typeof(RectTransform), typeof(Image), typeof(Button));
-            rGo.transform.SetParent(_canvas.transform, false);
-            _detailOverlay = (RectTransform)rGo.transform;
-            _detailOverlay.anchorMin = Vector2.zero;
-            _detailOverlay.anchorMax = Vector2.one;
-            _detailOverlay.anchoredPosition = Vector2.zero;
-            _detailOverlay.sizeDelta = Vector2.zero;
-            var paper = rGo.GetComponent<Image>();
-            paper.sprite = _square;
-            paper.color = PaperWhite;
-            rGo.GetComponent<Button>().onClick.AddListener(OnDetailTapped);
-            _detailTitle = MakeText(_detailOverlay, "", 42, new Vector2(0f, 800f), TextAnchor.MiddleCenter, 990f, 70f);
-            _detailTitle.color = SilhouetteBlack;
-            _detailCategory = MakeText(_detailOverlay, "", 28, new Vector2(0f, 730f), TextAnchor.MiddleCenter, 990f, 50f);
-            _detailCategory.color = CurtainRed;
-            MakeText(_detailOverlay, "合卷 · 点纸收起", 26, new Vector2(0f, -800f), TextAnchor.MiddleCenter, 600f, 44f).color = NetherBlue;
-            rGo.SetActive(false);
-        }
-        string HasCard(string cardId)
-        {
-            foreach (var c in _book.Cards)
-                if (c != null && c.cardId == cardId) return c.cardId;
-            return null;
-        }
-================================================================================
-第 25 页结束
-
-奈何桥游戏软件 V1.0 源程序  第 26 页 共 60 页
-================================================================================
-        ArchiveCardDef CardOf(string cardId)
-        {
-            foreach (var c in _book.Cards)
-                if (c != null && c.cardId == cardId) return c;
-            return null;
-        }
-        string CardTitle(string cardId)
-        {
-            foreach (var c in _book.Cards)
-                if (c != null && c.cardId == cardId) return c.title;
-            return "";
-        }
-        // ───── small builders (FinalView tool pattern) ─────
-        Button MakeBar(string name, string label, Vector2 pos, Vector2 size, Color fill, Action onClick)
-        {
-            var go = new GameObject(name, typeof(RectTransform), typeof(Image), typeof(Button));
-            go.transform.SetParent(_canvas.transform, false);
-            var rt = (RectTransform)go.transform;
-            rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
-            rt.anchoredPosition = pos;
-            rt.sizeDelta = size;
-            var img = go.GetComponent<Image>();
-            img.sprite = _square;
-            img.color = fill;
-            var t = MakeText(go.transform, label, 36, Vector2.zero, TextAnchor.MiddleCenter, size.x, size.y);
-            t.color = fill.r > 0.9f && fill.g > 0.7f ? SilhouetteBlack : PaperWhite;
-            var b = go.GetComponent<Button>();
-            b.onClick.AddListener(() => onClick());
-            return b;
-        }
-        static void SetActiveIfChanged(GameObject go, bool active)
-        {
-            if (go.activeSelf != active) go.SetActive(active);
-        }
-        RectTransform MakeCanvasChild(string name, Color color)
-        {
-            var go = new GameObject(name, typeof(RectTransform), typeof(Image));
-            go.transform.SetParent(_canvas.transform, false);
-            var rt = (RectTransform)go.transform;
-            rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
-            var img = rt.GetComponent<Image>();
-            img.sprite = _square;
-            img.color = color;
-            return rt;
-        }
-        static Text MakeText(Transform parent, string text, int size, Vector2 pos, TextAnchor anchor, float w, float h)
-        {
-            var go = new GameObject("Text", typeof(RectTransform), typeof(Text));
-            go.transform.SetParent(parent, false);
-            var rt = (RectTransform)go.transform;
-================================================================================
-第 26 页结束
-
-奈何桥游戏软件 V1.0 源程序  第 27 页 共 60 页
-================================================================================
-            rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
-            rt.anchoredPosition = pos;
-            rt.sizeDelta = new Vector2(w, h);
-            var t = go.GetComponent<Text>();
-            t.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
-            t.text = text;
-            t.fontSize = size;
-            t.alignment = anchor;
-            t.color = new Color(0.91f, 0.89f, 0.85f);
-            t.supportRichText = true;
-            return t;
-        }
-        static Sprite MakeSquareSprite()
-        {
-            var tex = new Texture2D(8, 8, TextureFormat.RGBA32, false);
-            var px = tex.GetPixels32();
-            for (int i = 0; i < px.Length; i++) px[i] = new Color32(255, 255, 255, 255);
-            tex.SetPixels32(px);
-            tex.Apply(false, false);
-            return Sprite.Create(tex, new Rect(0, 0, 8, 8), new Vector2(0.5f, 0.5f), 8f);
-        }
-    }
-}
-// Chapter1Controller.cs
-using System;
-using System.Collections.Generic;
-namespace Sy.P08.Adventure
-{
-    /// Chapter 1 greybox orchestrator (T005 slice-2b): wires the three data
-    /// contracts into one playable case flow - StoryEngine drives the beats,
-    /// a per-chapter TouchAdventure drives the taps, and any granted "clue_"
-    /// item auto-pins onto the VerdictSystem board (the case-file handoff).
-    /// Pure C#, zero rendering (the CaseSim pattern: the later view slice and
-    /// the Chapter1Check gate share this one rule set).
-    ///  Laws (each pinned by a Chapter1Check case):
-    ///   H1  alignment + cleanliness: scenes.Count == chapters.Count,
-    ///       sceneId[i] == chapterId[i] (one scene per beat) and all three
-    ///       contract Validates clean;
-    ///   H2  reachability: every verdict board clue is grantable by some
-    ///       scene hotzone grant or combo result (no dead-case clue);
-    ///   H3  clue handoff: a granted item with the "clue_" prefix is pinned
-    ///       to the board automatically (clue_ = case-file id law);
-    ///   H4  tribunal gate: SetSegment / CommitVerdict are refused until the
-    ///       story has reached the tribunal chapter AND the board is full;
-    ///   H5  M-04 retry: a wrong verdict releases the ghost, placements
-    ///       survive, progress never locks - re-place and commit again;
-    ///   H6  checkpoint: CaptureState stores the story position plus the
-    ///       clue board; RestoreState rebuilds them (local authority, red
-    ///       line 12) and a foreign / corrupt save is rejected so the host
-    ///       falls back to a fresh start.
-================================================================================
-第 27 页结束
-
-奈何桥游戏软件 V1.0 源程序  第 28 页 共 60 页
-================================================================================
-    public sealed class Chapter1Controller
-    {
-        public const string CluePrefix = "clue_";
-        readonly StoryEngine _story;
-        readonly List<TouchAdventure> _scenes;
-        readonly VerdictSystem _verdict;
-        readonly string _tribunalChapterId;
-        readonly List<string> _pinned = new List<string>();   // clue board mirror for the save face
-        public Chapter1Controller(StoryConfig story, IList<SceneConfig> scenes, VerdictConfig verdict)
-        {
-            var problems = Validate(story, scenes, verdict);
-            if (problems.Count > 0)
-                throw new ArgumentException("chapter 1 configs invalid: " + string.Join("; ", problems.ToArray()));
-            _story = new StoryEngine(story);
-            _scenes = new List<TouchAdventure>();
-            foreach (var sc in scenes) _scenes.Add(new TouchAdventure(sc));
-            _verdict = new VerdictSystem(verdict);
-            _tribunalChapterId = story.chapters[story.chapters.Count - 1].chapterId;
-            foreach (var sc in _scenes)
-                sc.ItemGranted += OnItemGranted;
-        }
-        public StoryEngine Story { get { return _story; } }
-        public VerdictSystem Verdict { get { return _verdict; } }
-        public int CluesOnBoard { get { return _pinned.Count; } }
-        /// The scene matching the current story beat (H1 keeps the indexes
-        /// aligned, so the chapter index IS the scene index).
-        public TouchAdventure CurrentScene { get { return _scenes[_story.ChapterIndex]; } }
-        public event Action<string> CluePinned;   // clueId (dup pin = silent)
-        /// The full alignment + cleanliness + reachability tool face (the
-        /// SceneConfig.Validate pattern). Returns the problem list (empty =
-        /// valid) without constructing anything.
-        public static List<string> Validate(StoryConfig story, IList<SceneConfig> scenes, VerdictConfig verdict)
-        {
-            var p = new List<string>();
-            if (story == null) { p.Add("null story"); return p; }
-            p.AddRange(StoryEngine.Validate(story));
-            if (verdict == null) { p.Add("null verdict"); return p; }
-            p.AddRange(VerdictSystem.Validate(verdict));
-            if (scenes == null || scenes.Count == 0) { p.Add("no scenes"); return p; }
-            foreach (var sc in scenes) p.AddRange(TouchAdventure.Validate(sc));
-            if (scenes.Count != story.chapters.Count)
-            {
-                p.Add("scene count " + scenes.Count + " != chapter count " + story.chapters.Count);
-                return p;
-            }
-            for (int i = 0; i < scenes.Count; i++)
-                if (scenes[i] != null && scenes[i].sceneId != story.chapters[i].chapterId)
-                    p.Add("scene/chapter misalign @" + i + ": " + scenes[i].sceneId
-                        + " != " + story.chapters[i].chapterId);
-            // H2 reachability: every board clue must come from some pickup or
-================================================================================
-第 28 页结束
-
-奈何桥游戏软件 V1.0 源程序  第 29 页 共 60 页
-================================================================================
-            // combo somewhere in the chapter scenes - an ungrantable clue
-            // would deadlock the case (the tribunal gate never opens).
-            foreach (var clue in verdict.clues)
-            {
-                if (clue == null || string.IsNullOrEmpty(clue.id)) continue;
-                bool grantable = false;
-                foreach (var sc in scenes)
-                {
-                    if (sc == null) continue;
-                    foreach (var hz in sc.hotzones)
-                        if (hz != null && hz.grantsItemId == clue.id) { grantable = true; break; }
-                    if (grantable) break;
-                    foreach (var cb in sc.combos)
-                        if (cb != null && cb.resultItemId == clue.id) { grantable = true; break; }
-                    if (grantable) break;
-                }
-                if (!grantable) p.Add("clue not grantable anywhere: " + clue.id);
-            }
-            return p;
-        }
-        // ── story face ──
-        public void BeginStory() { _story.Begin(); }
-        public void AdvanceStory() { _story.Advance(); }
-        // ── scene face (forwards to the current beat's TouchAdventure) ──
-        public HotzoneDef Tap(float x, float y) { return CurrentScene.Tap(x, y); }
-        public bool BeginRealmSwitch(string toRealm) { return CurrentScene.BeginRealmSwitch(toRealm); }
-        public void TickRealm(float dt) { CurrentScene.Tick(dt); }
-        public float TintAlpha { get { return CurrentScene.TintAlpha; } }
-        public bool Combine(params string[] itemIds) { return CurrentScene.Combine(itemIds); }
-        // ── tribunal face (H4 gate + H5 retry) ──
-        /// True once the story stands on the tribunal chapter with every
-        /// clue pinned - the only window where placements are accepted.
-        public bool TribunalOpen
-        {
-            get
-            {
-                return _story.Begun
-                    && _story.CurrentChapter.chapterId == _tribunalChapterId
-                    && _verdict.HasAllClues;
-            }
-        }
-        public bool SetSegment(string segment, string optionId)
-        {
-            if (!TribunalOpen) return false;
-            return _verdict.SetSegment(segment, optionId);
-        }
-        public VerdictSystem.CommitResult CommitVerdict()
-        {
-            if (!TribunalOpen) return VerdictSystem.CommitResult.Refused;
-            return _verdict.CommitVerdict();
-================================================================================
-第 29 页结束
-
-奈何桥游戏软件 V1.0 源程序  第 30 页 共 60 页
-================================================================================
-        }
-        // ── clue handoff (H3) ──
-        void OnItemGranted(string itemId)
-        {
-            if (itemId == null || !itemId.StartsWith(CluePrefix, StringComparison.Ordinal)) return;
-            if (KnownClue(itemId) && _verdict.AddClue(itemId))
-            {
-                _pinned.Add(itemId);
-                CluePinned?.Invoke(itemId);
-            }
-        }
-        bool KnownClue(string clueId)
-        {
-            foreach (var c in _verdict.Config.clues)
-                if (c != null && c.id == clueId) return true;
-            return false;
-        }
-        // ── checkpoint save (H6, local authority - red line 12) ──
-        [Serializable]
-        public class SaveState
-        {
-            public string storyId = "";
-            public int chapterIndex;
-            public int lineIndex;
-            public string[] clues = new string[0];
-        }
-        /// Captures story position + clue board as a JsonUtility string. The
-        /// HOST owns persistence (the ISaveService local slot) - the
-        /// controller stays pure. Scene exploration state (taken hotzones,
-        /// scene inventory) is scene-local and replays freely on restore -
-        /// re-tapping a taken clue zone is a silent no-op for the board.
-        public string CaptureState()
-        {
-            var s = new SaveState
-            {
-                storyId = _story.Config.storyId,
-                chapterIndex = _story.ChapterIndex,
-                lineIndex = _story.LineIndex,
-                clues = _pinned.ToArray()
-            };
-            return UnityEngine.JsonUtility.ToJson(s);
-        }
-        /// Restores a checkpoint into this controller. Returns "" on success
-        /// or the rejection reason (the host then falls back to a fresh
-        /// BeginStory so a bad save never bricks the run).
-        public string RestoreState(string json)
-        {
-            if (string.IsNullOrEmpty(json)) return "empty save";
-            SaveState s;
-            try { s = UnityEngine.JsonUtility.FromJson<SaveState>(json); }
 ================================================================================
 第 30 页结束
 

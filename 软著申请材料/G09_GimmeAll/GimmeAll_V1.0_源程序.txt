@@ -71,6 +71,7 @@ namespace GimmeAll.Core
         public int GoalCount;        // -1 = clear all targets (G1)
         public string Title;        // level story title, for HUD display (W7-PLAYFIX F1; G1 same additive pattern)
         public string ChapterTitle; // chapter display name e.g. 「京都 · 樱花庭院」, "" = unknown (W9, same additive pattern)
+        public bool HasSweepStains;  // U360-L7：本关含垢类（茶渍/咖啡渍）——扫动词教学位显隐判据（LevelRunner 按 ContentCatalog.ScratchKeys 扫 spawns 填充·数据驱动零漂移）
     }
     public struct LevelCompleted
     {
@@ -104,12 +105,12 @@ namespace GimmeAll.Core
     {
         public int RecordId;
         public string TypeKey;
-        public Vector2 Position;
 ================================================================================
 第 2 页结束
 
 吸嘟嘟游戏软件 V1.0 源程序  第 3 页 共 60 页
 ================================================================================
+        public Vector2 Position;
     }
     // ── U323 新手关吸引力批（O-20260930-1316·R-20260930-newbie-level-01 T2/T3/T15）──
     // Gameplay（SuctionField 按压起点沿·Playing 门内）发布 FieldPressed：每次按压开始各发一次
@@ -159,12 +160,12 @@ namespace GimmeAll.Core
         public string Key;   // Resources 键名（=Audio/Resources 落盘文件名；空/缺失=Audio 静默降级）
     }
     // ── W19-A 预裁决契约：A4 UI 仪式音+A5 嘟嘟语音接线三枚（CodexCryRequested 同款跨 asmdef 加法先例）──
-    // UI 发布（ResultScreen 明信片合成成功时刻）→ Audio 消费（快门+邮戳）。
 ================================================================================
 第 3 页结束
 
 吸嘟嘟游戏软件 V1.0 源程序  第 4 页 共 60 页
 ================================================================================
+    // UI 发布（ResultScreen 明信片合成成功时刻）→ Audio 消费（快门+邮戳）。
     public struct PostcardComposed
     {
         // 空负载：明信片入画时刻即全部语义（败局/合成失败不发布=零假快门）
@@ -214,12 +215,12 @@ namespace GimmeAll.Core
     }
     // Game 发布（MetaFlow/Bootstrap 道具变动）→ UI 消费（HUD 强化钮徽标显隐）。
     public struct ItemStockChanged
-    {
 ================================================================================
 第 4 页结束
 
 吸嘟嘟游戏软件 V1.0 源程序  第 5 页 共 60 页
 ================================================================================
+    {
         public int Item;    // MetaItem.Hourglass / Magnet
         public int Count;   // 当前库存
     }
@@ -269,12 +270,12 @@ namespace GimmeAll.Core
         public string Id;        // 上席伙伴 id（"A05".."B12"）
     }
     // ── U351/panel-B R5b-2 图鉴伙伴管理面通道（UI asmdef 只依赖 Core：请求-执行先例=CompanionSkillRequested）──
-    // UI（CollectionScreen 伙伴团区）发布请求事件，Game（CompanionRosterFlow）消费执行：
 ================================================================================
 第 5 页结束
 
 吸嘟嘟游戏软件 V1.0 源程序  第 6 页 共 60 页
 ================================================================================
+    // UI（CollectionScreen 伙伴团区）发布请求事件，Game（CompanionRosterFlow）消费执行：
     // 选席→CompanionSeatFlow.TrySetSeat / 升级→CompanionUpgradeFlow.TryUpgrade（三守卫拒绝零副作用
     // 零广播=UI 无回执保持原样，卡面刷新只认成功广播）。开屏发布快照请求→Game 采集全册状态回拍
     //（读桥：UI 不依赖 Game 也能拿等级/席位/星沙/在玩版本四面——CodexAccelSnapshotRequested 同款兜底补刷律）。
@@ -324,12 +325,12 @@ namespace GimmeAll.Core
     // UI（companion_seat 视频 granted 回调）发布请求事件，Game（CompanionAdFlow）消费执行授予——
     // 视频兑付的执行归 Game（CompanionSkillRequested 请求-执行先例同例）。拒绝路径零回执零广播（守卫归
     // Flow=单一真源）；星沙永久路径=CompanionSeatFlow.TryUnlockSeat2Permanent（交易面同文件）。授予成功
-    // 广播 CompanionSeat2Unlocked（Game→UI）：图鉴/商店席位入口与 HUD 第二伙伴条的唯一刷新真值。
 ================================================================================
 第 6 页结束
 
 吸嘟嘟游戏软件 V1.0 源程序  第 7 页 共 60 页
 ================================================================================
+    // 广播 CompanionSeat2Unlocked（Game→UI）：图鉴/商店席位入口与 HUD 第二伙伴条的唯一刷新真值。
     public struct CompanionSeatUnlockRequested { }
     /// <summary>席位②授予回执（Game→UI）：Mode 1=视频 24h 在期·2=星沙永久（消费方只认本回执刷新）。</summary>
     public struct CompanionSeat2Unlocked
@@ -350,7 +351,9 @@ namespace GimmeAll.Core
     public static class DailyTaskCatalog
     {
         public const int TaskCount = 3;
-        public static readonly int[] Targets = { 2, 1, 3 };   // 任务0 通关2关/任务1 用1次道具/任务2 捕获3只小可爱
+        // U360-L6B1 死任务修正（L6 §四.1 关10 行）：任务1「用1次道具」在道具首得（关5 章末奖励）前
+        // 结构性不可完成=首会话必卡死任务——改「捕获 30 只小可爱」（30>3 需 6bit 进度位·DailyTaskFlow 位宽表同步）。
+        public static readonly int[] Targets = { 2, 30, 3 };   // 任务0 通关2关/任务1 捕获30只/任务2 捕获3只小可爱
         public const int SandPerTask = 20;                    // 日总 60 → 三任务各 20（P0-3 星沙定谳）
     }
     public struct DailyTasksChanged
@@ -377,14 +380,14 @@ namespace GimmeAll.Core
     public struct DailyTaskSnapshotRequested { }
     // ── U351/panel-B R7 翻倍递增签到预裁决契约（DailyTaskCatalog 同款跨 asmdef 加法先例·运营层规格 v1 §四）──
     // 「10/20/40…逐日翻倍」替代固定大礼（7 留 +14pp 实证）；断签不清零=梯位是永久进度（只增不减），
-    // 漏签只损失该日兑付（「断了就亏大了」损失感自驱），零罚则零回溯（治愈系零挫败纪律）。
-    // 防通胀帽（降档规格留痕·运营层规格 v1 §四尾注）：梯位 7 档（10/20/40/80/160/320/640）到顶恒 640
-    // ——规格原文未定帽，经济面定谳=帽值入册留痕（U332 判词「降档须规格留痕」执行面）。
 ================================================================================
 第 7 页结束
 
 吸嘟嘟游戏软件 V1.0 源程序  第 8 页 共 60 页
 ================================================================================
+    // 漏签只损失该日兑付（「断了就亏大了」损失感自驱），零罚则零回溯（治愈系零挫败纪律）。
+    // 防通胀帽（降档规格留痕·运营层规格 v1 §四尾注）：梯位 7 档（10/20/40/80/160/320/640）到顶恒 640
+    // ——规格原文未定帽，经济面定谳=帽值入册留痕（U332 判词「降档须规格留痕」执行面）。
     // Game（CheckInFlow）发布 CheckInChanged（兑付后+Menu 快照重发），UI 消费（每日任务弹层签到带
     // ——D7 habit 对=与每日任务同屏共凑双钩子·主菜单 D2 入口数锁零扰动）；常量面 CheckInCatalog
     // 入 Core=UI asmdef 不依赖 Game 也能读（DailyTaskCatalog 同律）。
@@ -432,14 +435,14 @@ namespace GimmeAll.Core
     {
         public int Chapter;     // 1-18
         public int LevelsDone;  // 章内首通关数 0-5
-        public bool Claimable;  // 5/5 且未开箱
-        public bool Claimed;    // 已开箱
-    }
 ================================================================================
 第 8 页结束
 
 吸嘟嘟游戏软件 V1.0 源程序  第 9 页 共 60 页
 ================================================================================
+        public bool Claimable;  // 5/5 且未开箱
+        public bool Claimed;    // 已开箱
+    }
     // UI（章节屏宝箱徽标）发布，Game（ChapterChestFlow）消费：开箱兑付请求——章越界/未集齐/已开箱
     // 全由数据层守卫拒付，拒付零广播（UI 收不到新快照=状态不变，天然幂等）。
     public struct ChapterChestClaimRequested
@@ -487,14 +490,14 @@ namespace GimmeAll.Core
         public const int DailyCap = 3;                    // 每日补给软上限
         public const int TotalLevels = 90;                // ChapterChestCatalog 同源口径
         /// <summary>补给道具位（确定性零 RNG：奇数关=沙漏/偶数关=磁力——两道具轮换双侧都见得到）。</summary>
-        public static int SupplyItemOf(int levelId) { return (levelId & 1) == 1 ? MetaItem.Hourglass : MetaItem.Magnet; }
-    }
-    // Game（LevelSupplyFlow）发布（失败点火/兑付/失效/Menu 快照），UI 消费（败局面/关卡入口补给位——接线=下批）。
 ================================================================================
 第 9 页结束
 
 吸嘟嘟游戏软件 V1.0 源程序  第 10 页 共 60 页
 ================================================================================
+        public static int SupplyItemOf(int levelId) { return (levelId & 1) == 1 ? MetaItem.Hourglass : MetaItem.Magnet; }
+    }
+    // Game（LevelSupplyFlow）发布（失败点火/兑付/失效/Menu 快照），UI 消费（败局面/关卡入口补给位——接线=下批）。
     public struct LevelSupplyChanged
     {
         public int Level;         // pending 关（0=无在途补给）
@@ -542,14 +545,14 @@ namespace GimmeAll.Core
     public struct OfflineEarningsChanged
     {
         public int Pending;        // 待领星沙（0=无在途）
-        public int AwaySeconds;   // 该次离家时长（秒·供「离开 N 小时」文案）
-    }
-    // UI（弹窗「收下」钮）发布，Game（OfflineEarningsFlow）消费：base 领取请求——
 ================================================================================
 第 10 页结束
 
 吸嘟嘟游戏软件 V1.0 源程序  第 11 页 共 60 页
 ================================================================================
+        public int AwaySeconds;   // 该次离家时长（秒·供「离开 N 小时」文案）
+    }
+    // UI（弹窗「收下」钮）发布，Game（OfflineEarningsFlow）消费：base 领取请求——
     // 无 pending 拒付零广播（天然幂等·DailyTaskClaimRequested 同律）。
     public struct OfflineEarningsClaimRequested { }
     // UI（弹窗 OnEnable）发布，Game 消费：快照重发请求（晚订阅者补刷——LevelSupplySnapshotRequested 同 spirit）。
@@ -597,14 +600,14 @@ namespace GimmeAll.Core
                 case OfferHourglass: return PriceHourglass;
                 case OfferFeather: return PriceFeather;
                 default: return 0;
-            }
-        }
-        /// <summary>单品 offer → 道具位（bundle 走 BundleItems/BundleCounts 表）。</summary>
 ================================================================================
 第 11 页结束
 
 吸嘟嘟游戏软件 V1.0 源程序  第 12 页 共 60 页
 ================================================================================
+            }
+        }
+        /// <summary>单品 offer → 道具位（bundle 走 BundleItems/BundleCounts 表）。</summary>
         public static int ItemOf(int offerId)
         {
             switch (offerId)
@@ -618,6 +621,188 @@ namespace GimmeAll.Core
         // 礼包内容（板批准：磁铁 x2·沙漏 x3·复活羽毛 x1）——结算入包与卡面文案单一真源。
         public static readonly int[] BundleItems = { MetaItem.Magnet, MetaItem.Hourglass, MetaItem.Feather };
         public static readonly int[] BundleCounts = { 2, 3, 1 };
+    }
+    // ─────────────────────────────────────────────────────────────────────────────
+    // ── U360 L3/L6 合流施工批事件面（O-20261008-1438·DailyTaskCatalog 同款跨 asmdef 加法先例）──
+    // L3 规格（Design/evidence/gimmeall-feel/L3_关卡情绪代入感深研规格V1.md §五/§六）+
+    // L6 规格（L6_玩法深度与系统厚度深研规格V1.md §三/§四）：波次导演/章内五拍/扫动词/解锁门
+    // 的总线契约。发布方与消费方分属不同 asmdef——事件入 Core=既有一切跨模块事件同律。
+    // ─────────────────────────────────────────────────────────────────────────────
+    // Levels（WaveDirector/LevelRunner）发布，Gameplay（AmbushBeat 藏匿配额）/Audio（波峰 sting）/
+    // Tests 消费：波沿。WaveIndex：0=W0 开场批就位（随 SpawnAll 即出——拍2 藏匿配额的驱动沿）、
+    // 1=W2 中场波、2=W3 高潮波；Audio 波 sting 只认 ≥1（W0=起点非推进）。
+    public struct WaveAdvanced
+    {
+        public int LevelId;
+        public int WaveIndex;   // 0=W0 就位、1=W2 中场波、2=W3 高潮波
+    }
+    // Levels（WaveDirector）发布：W2 中场事件触发沿（L3 §六「四选一轮换」·S3 c3a 起拍3 位轮换
+    // 地标擦亮拍、c3b 起拍1 位=伙伴技能教学、c3c 起拍2 位=隐藏宝）。Gameplay（SneezeSystem）消费免费满能；
+    // Gameplay（LandmarkBeacon）消费地标助攻；Game（CompanionCoordinator）消费伙伴窗免费充满；
+    // Game（HiddenTreasureFlow）消费隐藏宝跨层 spawn 链（藏匿签名件+1）；Tests 消费「恰 1 次」断言。
+    public struct MidEventTriggered
+    {
+        public int LevelId;
+        public int Kind;   // MidEventCatalog 表值
+    }
+    // 中场事件种类表（常量面入 Core=发布方 Levels/消费方 Gameplay·Game 双向零跨引·DailyTaskCatalog 同律）。
+    public static class MidEventCatalog
+    {
+        public const int SneezeWindow = 0;        // 嚏窗口=免费满能 1 次（章末/拍4 位与域外兜底档）
+        public const int BuddySkillLesson = 1;   // 伙伴技能教学=免费伙伴窗（S3 c3b 落地·拍1 位）
+        public const int HiddenTreasure = 2;     // 隐藏宝=藏匿签名件+1（S3 c3c 落地·拍2 位·HiddenTreasureFlow 消费链）
+        public const int LandmarkPolishBeat = 3; // 地标擦亮拍=原生地标聚光助攻（S3 c3a·拍3 位专属）
+    }
+    // Gameplay（LandmarkBeacon 拍3 擦亮完成时）发布：章地标擦亮事件（L3 §五 拍 3 机制本体）。
+    // Tests 消费「恰 1/关」断言；围观者欢呼跳同拍消费。
+================================================================================
+第 12 页结束
+
+吸嘟嘟游戏软件 V1.0 源程序  第 13 页 共 60 页
+================================================================================
+    public struct LandmarkPolished
+    {
+        public int LevelId;
+    }
+    // Gameplay（ChapterFinale 拍5 揭幕触发时）发布：章末夜灯大揭幕事件（L3 §五 拍 5 机制本体）。
+    // Tests 消费「恰 1/关」断言；亮度探针取证位同事件锚。
+    public struct ChapterFinaleStarted
+    {
+        public int LevelId;
+    }
+    // Gameplay（AmbushBeat 拍2 惊出）发布：藏匿目标现形沿（L3 §五 拍 2 机制本体）。
+    // Audio 消费惊出小 squeak；Tests 消费惊出计数断言。
+    public struct AmbushRevealed
+    {
+        public int LevelId;
+    }
+    // Gameplay（SuctionField 划拍检测）发布：扫动词一拍沿（L6 §三.1 P0「扫」——段长 ≥0.8u 且
+    // 时窗 ≤0.35s=1 拍）。Audio 消费扫拂 swish；ScratchTarget 经同拍直接路由（免总线往返）。
+    public struct SweepBeatStruck
+    {
+        public float X;   // 拍落点世界坐标（指针当前位置）
+        public float Y;
+    }
+    // Core（SystemUnlockGate.MarkUnlocked）/Game（UnlockFlow）发布，UI（主菜单渐进浮现）消费：
+    // 解锁位图变更沿（L6 §四.1 完成度事件驱动解锁表）。位定义见 SystemUnlockGate。
+    public struct SystemUnlockChanged
+    {
+        public int Bits;
+    }
+    // ── U360-L6B3 进化时刻契约（L6 规格 §三.3·SweepBeatStruck 同款跨 asmdef 加法先例）──
+    // Gameplay（ChapterEvolveFlow 章首关 LevelStarted 沿·id%5==1 恰触发）发布：嘟嘟进化时刻
+    //（每章首关=章钥匙预演·§十二四流派章位 buff 同时生效）。Tests 消费「章首关恰触发」断言；
+    // c2 仪式帧已接线：UI（ArrivalBanner 合成行消费——与 L3 §三 0-1s 揭幕同一横幅时刻·禁两段过场）。
+    public struct EvolveMomentTriggered
+    {
+        public int LevelId;
+        public int Chapter;
+        public string EvolveName;   // c2：变身名（EvolveNameFor 同源）——UI 零 Gameplay 依赖的合成行数据位
+    }
+    // ── U360-L6B4 险境双选契约（L6 规格 §三.4 行「险境双选」·EvolveMomentTriggered 同款跨 asmdef 加法先例）──
+    // 濒败线（TimeRunningLow）且清度 <80% goal 时亮一次双钮横幅：A「续 10 秒」vs B「豪赌」
+    //（继续硬打·通关 +15 星沙·失败落空零罚）。每关恰 1 次。广告位注脚「走既有插点位/AdFrequencyGate
+    // 既有 90s/3 帽」的码内兑现：插屏位硬锁 level_complete（never mid-level 体验底线·WeChatAdService
+    // 白名单执法）→ A 档走激励视频 choice_time 位（复活同径的关中合法 opt-in）；频控预算与插屏共池
+    //（兑付即 RegisterInterstitialShown 消费同一 90s/3 帽）=总广告压力有界。Game（InLevelChoiceFlow）
+    // 发布 Offered/Resolved，UI（ChoiceBanner）消费；UI 发布 PickRequested，Game 消费
+    //——请求-执行先例=CompanionSkillRequested 同律。常量面入 Core=UI asmdef 不依赖 Game 也能读。
+    public static class InLevelChoiceCatalog
+    {
+        public const float ClearGate01 = 0.8f;             // 清度闸：濒败线时清度 <80% goal 才触发（已近达标不烦玩家）
+================================================================================
+第 13 页结束
+
+吸嘟嘟游戏软件 V1.0 源程序  第 14 页 共 60 页
+================================================================================
+        public const float ExtendSeconds = 10f;            // A 档：续 10 秒
+        public const int GambleBonusSand = 15;             // B 档豪赌赢面：通关 +15 星沙
+        public const string AdPlacement = "choice_time";   // A 档激励视频位（AdConfig 白名单+RewardCatalog 同批入册）
+    }
+    // Game（InLevelChoiceFlow 濒败线沿）发布，UI（ChoiceBanner）消费：横幅亮出（每关恰一次）。
+    public struct InLevelChoiceOffered
+    {
+        public int LevelId;
+        public bool ExtendAvailable;   // AdFrequencyGate 频控镜像（false=会话帽满/冷却中——A 钮隐藏只留豪赌）
+    }
+    // UI（ChoiceBanner 双钮 onClick）发布，Game（InLevelChoiceFlow）消费：玩家抉择请求。
+    public struct InLevelChoicePickRequested
+    {
+        public bool TookExtend;   // true=A「续 10 秒」/false=B「豪赌」
+    }
+    // Game（抉择落定沿）发布，UI（ChoiceBanner）消费收横幅；Tests 消费断言。
+    public struct InLevelChoiceResolved
+    {
+        public int LevelId;
+        public bool TookExtend;
+        public bool GambleArmed;   // B 档豪赌已上膛（通关结算 +15 星沙的真值位）
+    }
+    // ── U360-L6B4 c3 连击岔路契约（L6 规格 §三.2 行「连击岔路」·InLevelChoiceCatalog 同款跨 asmdef 加法先例）──
+    // 连击 ≥5（ComboTracker 1.2s 窗——与 B5 音阶同窗同源）时亮一次双钮横幅：A「定向吸」
+    //（PointVacuum 指针处最近 3 件当场捕获）vs B「范围吸」（SuctionField.BoostRadius ×1.5 持续 5s）
+    //——免费纯选择（零广告零星沙=连击链的情绪奖赏·非商业化位）。频控=每条连击链 1 次
+    //（ChainGeneration 代数判别）+同窗静默 8s。Game（ComboChoiceFlow）发布 Offered/Resolved，
+    // UI（ChoiceBanner）复用险境横幅消费；UI 发布 PickRequested，Game 消费执行
+    //——请求-执行先例=InLevelChoicePickRequested 同律。常量面入 Core=UI asmdef 不依赖 Game 也能读。
+    public static class ComboChoiceCatalog
+    {
+        public const int TriggerChain = 5;        // 连击 ≥5 触发（ComboTracker.Chain）
+        public const float SilenceSec = 8f;       // 同窗静默 8s（一次亮出后 8s 内不重亮——防连发骚扰）
+        public const int PointCaptureCount = 3;   // A「定向吸」：指针处最近 3 件当场捕获（PointVacuum）
+        public const float BoostMult = 1.5f;       // B「范围吸」：吸力半径 ×1.5（磁力小旋 1.25 同 API 档上再豪一档）
+        public const float BoostSec = 5f;          // 持续 5s
+    }
+    // Game（ComboChoiceFlow 连击触发沿）发布，UI（ChoiceBanner）消费：横幅亮出（每链恰一次·静默窗内不亮）。
+    public struct ComboChoiceOffered
+    {
+        public int LevelId;
+    }
+    // UI（ChoiceBanner 双钮 onClick）发布，Game（ComboChoiceFlow）消费：玩家抉择请求（免费纯选择零拒付）。
+    public struct ComboChoicePickRequested
+    {
+        public bool TookPoint;   // true=A「定向吸」/false=B「范围吸」
+    }
+    // Game（抉择落定沿·奖励已执行）发布，UI（ChoiceBanner）消费收横幅；Tests 消费断言。
+    public struct ComboChoiceResolved
+    {
+================================================================================
+第 14 页结束
+
+吸嘟嘟游戏软件 V1.0 源程序  第 15 页 共 60 页
+================================================================================
+        public int LevelId;
+        public bool TookPoint;
+    }
+    // ── U360-L6B5 c2 关前免费二选一契约（L6 规格 §三.2 行「关前选择」·Toon Blast 位·ComboChoiceCatalog 同款跨 asmdef 加法先例）──
+    // 挑战段关 23+（22 让位 HardHint 首现引导=信号纯度；段界对账=SystemUnlockGate 22-30 锁）起关时亮
+    // 一次双钮横幅：A「沙漏」（限时 +5s=MetaItem.Hourglass 道具同效同值）vs B「磁力」（吸力半径
+    // ×1.25 持续 15s=MetaItem.Magnet 道具同效同值）——免费纯送（零广告零星沙零库存扣减）。
+    // 倒计时在横幅在亮未落定期间由 LevelTimer 挂起（订阅本 Offered/Resolved 双沿）——真「关前」
+    // 语义：读横幅不耗关内秒数。Game（PreLevelChoiceFlow）发布 Offered/Resolved，UI（ChoiceBanner
+    // 复用险境板）消费；UI 发布 PickRequested，Game 消费执行——请求-执行先例=InLevelChoicePickRequested
+    // 同律。常量面入 Core=UI/Levels asmdef 不依赖 Game 也能读。
+    public static class PreLevelChoiceCatalog
+    {
+        public const int FirstOfferLevel = 23;      // 挑战段关 23+（规格 §三.2 行；22=星标+首现引导位不叠三信号）
+        public const float HourglassBonusSec = 5f;   // A「沙漏」：限时 +5s（MetaItem.Hourglass 道具同效同值）
+        public const float MagnetBoostMult = 1.25f;  // B「磁力」：吸力半径 ×1.25（MetaItem.Magnet 道具同效同值）
+        public const float MagnetBoostSec = 15f;     // 持续 15s（道具同值）
+    }
+    // Game（PreLevelChoiceFlow 起关沿）发布，UI（ChoiceBanner）消费：关前横幅亮出（每次进关恰一次）；LevelTimer 消费挂起倒计时。
+    public struct PreLevelChoiceOffered
+    {
+        public int LevelId;
+    }
+    // UI（ChoiceBanner 双钮 onClick）发布，Game（PreLevelChoiceFlow）消费：玩家抉择请求（免费纯送零拒付）。
+    public struct PreLevelChoicePickRequested
+    {
+        public bool TookHourglass;   // true=A「沙漏」/false=B「磁力」
+    }
+    // Game（抉择落定沿·奖励已执行）发布，UI（ChoiceBanner）消费收横幅；LevelTimer 消费解挂起；Tests 消费断言。
+    public struct PreLevelChoiceResolved
+    {
+        public int LevelId;
+        public bool TookHourglass;
     }
 }
 // GameStateMachine.cs
@@ -635,6 +820,11 @@ namespace GimmeAll.Core
     /// <summary>
     /// Global coarse-grained game state. Modules observe GameStateChanged; they must not set it
     /// (the future Bootstrap owns transitions), except the self-test entry points during development.
+================================================================================
+第 15 页结束
+
+吸嘟嘟游戏软件 V1.0 源程序  第 16 页 共 60 页
+================================================================================
     /// </summary>
     public static class GameStateMachine
     {
@@ -655,11 +845,6 @@ namespace GimmeAll.Core
 // Bootstrap.cs
 using UnityEngine;
 using GimmeAll.Core;
-================================================================================
-第 12 页结束
-
-吸嘟嘟游戏软件 V1.0 源程序  第 13 页 共 60 页
-================================================================================
 using GimmeAll.Gameplay;
 using GimmeAll.Levels;
 using GimmeAll.Social;
@@ -690,6 +875,11 @@ namespace GimmeAll.Game
             GameEventBus.Subscribe<LevelStartRequested>(OnStartRequested);
             GameEventBus.Subscribe<ContinueRequested>(OnContinueRequested);
             GameEventBus.Subscribe<DailyLevelRequested>(OnDailyRequested);
+================================================================================
+第 16 页结束
+
+吸嘟嘟游戏软件 V1.0 源程序  第 17 页 共 60 页
+================================================================================
             GameEventBus.Subscribe<ReviveRequested>(OnReviveRequested);
             GameEventBus.Subscribe<ReturnMenuRequested>(OnReturnMenu);
             // W22-META：战内道具执行（§二十三）——沙漏+5s（复活 Timer.Extend 同款）/磁力=吸力半径 ×1.25 15s；
@@ -710,11 +900,6 @@ namespace GimmeAll.Game
         // ③兜底：桩万一未注册（异常装配顺序）时补一个桩，链不断。
         private static void EnsureServices()
         {
-================================================================================
-第 13 页结束
-
-吸嘟嘟游戏软件 V1.0 源程序  第 14 页 共 60 页
-================================================================================
 #if !UNITY_EDITOR && (WEIXINMINIGAME || UNITY_WEBGL)
             ServiceRegistry.Register<ILeaderboardService>(new WeChatLeaderboardService());
             WeChatWASM.WX.InitSDK(code =>
@@ -739,11 +924,17 @@ namespace GimmeAll.Game
             if (Camera.main == null)
             {
                 var camGo = new GameObject("[Game] Camera");
+                camGo.tag = "MainCamera";   // U360-L7 根修：自建相机从未打 MainCamera 标签=Camera.main 全游戏恒 null（揭幕灯串锚定/涟漪钉簇投影/揭幕相机拉远三族功能静默失效·取证帧像素实测定位）
                 var cam = camGo.AddComponent<Camera>();
                 // AudioListener（W6-A 闭环门禁发现的全项目缺口）：无监听器则 WebGL/小游戏上
                 // AudioSource 全静音——51+91 条测试与静态审查都看不到的引擎级断链，真实 Play 才现形。
                 camGo.AddComponent<AudioListener>();
                 cam.orthographic = true;
+================================================================================
+第 17 页结束
+
+吸嘟嘟游戏软件 V1.0 源程序  第 18 页 共 60 页
+================================================================================
                 cam.orthographicSize = CameraSize;
                 cam.clearFlags = CameraClearFlags.SolidColor;
                 cam.backgroundColor = new Color(0.16f, 0.14f, 0.22f, 1f);
@@ -765,11 +956,6 @@ namespace GimmeAll.Game
             }
             suction.FollowActor = true;   // W10 生产默认：场心钉吸嘟嘟、指针驱动演员（W9 跟手行为=模式关）
             // 灰幕揭开（W6 治愈点前置）：过关瞬间"房间亮起来"的还原爽点；失败不揭幕
-================================================================================
-第 14 页结束
-
-吸嘟嘟游戏软件 V1.0 源程序  第 15 页 共 60 页
-================================================================================
             if (Object.FindObjectOfType<RevealVeil>() == null)
             {
                 var veilGo = new GameObject("[Game] RevealVeil");
@@ -799,6 +985,11 @@ namespace GimmeAll.Game
             dudu.transform.position = new Vector3(spawn.x, spawn.y, 0f);
             dudu.SetTarget(spawn);   // 目标同步钉住：防 Awake 期旧目标把演员拉走
             // W10-GROWTH：遥测+触觉中继（一处接线全事件，玩法/UI 模块零改动；服务真机注册/编辑器静默）
+================================================================================
+第 18 页结束
+
+吸嘟嘟游戏软件 V1.0 源程序  第 19 页 共 60 页
+================================================================================
             if (Object.FindObjectOfType<TelemetryRelay>() == null)
             {
                 var tlGo = new GameObject("[Game] TelemetryRelay");
@@ -820,11 +1011,6 @@ namespace GimmeAll.Game
             }
             if (_runner == null)
             {
-================================================================================
-第 15 页结束
-
-吸嘟嘟游戏软件 V1.0 源程序  第 16 页 共 60 页
-================================================================================
                 var sessionGo = new GameObject("[Game] Session");
                 _runner = sessionGo.AddComponent<LevelRunner>();
                 sessionGo.AddComponent<GoalTracker>();
@@ -854,6 +1040,11 @@ namespace GimmeAll.Game
             _runner.StartLevel(all[idx]);
         }
         private static void OnDailyRequested(DailyLevelRequested e)
+================================================================================
+第 19 页结束
+
+吸嘟嘟游戏软件 V1.0 源程序  第 20 页 共 60 页
+================================================================================
         {
             var all = ContentCatalog.All();
             // W9：每日轮换只在可玩段取关（PlayableCount=30=已实装美术章节数；ch7-18 背景落齐后随批次上调）
@@ -875,11 +1066,6 @@ namespace GimmeAll.Game
             if (!MetaStore.TryConsume(e.Item))
             {
                 return;   // 拒付静默（库存不足；按钮本就隐藏，防野调用双保险）
-================================================================================
-第 16 页结束
-
-吸嘟嘟游戏软件 V1.0 源程序  第 17 页 共 60 页
-================================================================================
             }
             // U314-P0-4：真实消耗成功信号（拒付不发）——每日任务「用 1 次道具」据此计数
             GameEventBus.Publish(new ItemEffectApplied { Item = e.Item });
@@ -909,6 +1095,11 @@ namespace GimmeAll.Game
             // 事件驱动换图：无每帧分配；资产缺失时 ChapterArt 告警一次，Show(null) 隐藏背板优雅降级
             ApplyBackdrop(e.LevelId);
         }
+================================================================================
+第 20 页结束
+
+吸嘟嘟游戏软件 V1.0 源程序  第 21 页 共 60 页
+================================================================================
         // W12 预裁决契约（DailyFocusResolved）：组合根独占跨模块解析（UI 仅依赖 Core，见 GameEvents 注）。
         private static void OnGameStateChanged(GameStateChanged e)
         {
@@ -930,11 +1121,6 @@ namespace GimmeAll.Game
         // cover-fit（旧行为零回归）。每次落位后从 SceneBounds 换算吸嘟嘟行走带并注入（裁决值
         // [-9,9]×[-9,+1.5] 的几何换算：美术地面占场景下方六成 → 带顶=yMin+0.6h；四周内缩 6% 宽
         // ≈1.24u 余量，带顶另让 0.44×内缩防演员贴边越出可视地面）。
-================================================================================
-第 17 页结束
-
-吸嘟嘟游戏软件 V1.0 源程序  第 18 页 共 60 页
-================================================================================
         private static void ApplyBackdrop(int levelId)
         {
             if (_backdrop == null) return;
@@ -964,11 +1150,17 @@ namespace GimmeAll.Gameplay
     public static class GameplayArt
     {
         // 槽位枚举做数组下标：无 string 键查找、无装箱；Count 收口数组长度。
+================================================================================
+第 21 页结束
+
+吸嘟嘟游戏软件 V1.0 源程序  第 22 页 共 60 页
+================================================================================
         private enum Slot
         {
             Dust = 0, Fur, Debris, Spark, RingGlow, ActorDudu,
             SigSock, SigFurball, SigSnake, SigCoins, SigFuzzhill,   // W11 签名族五键
             Fuzz, DuduStunned, DuduEcstatic,                        // W11 飞絮 + 嘟嘟反应帧
+            ScratchTea, ScratchCoffee,                            // U360-L7 垢类真图（水彩渍铸件·关8 首秀/关13 正册）
             Count
         }
         // Resources 根 = Assets/_Project/Gameplay/Art/Resources/：键=文件名，无路径前缀无扩展名。
@@ -985,12 +1177,9 @@ namespace GimmeAll.Gameplay
         private const string SigFuzzhillAsset = "sig_fuzzhill";    // W11 关5 懒得动绒毛山
         private const string FuzzAsset = "target_fuzz";            // W11 破裂飞絮（fuzz 键精灵，target_* 命名律）
         private const string DuduStunnedAsset = "actor_dudu_stunned";   // W11 §十六 D「捧场」惊呆帧
-================================================================================
-第 18 页结束
-
-吸嘟嘟游戏软件 V1.0 源程序  第 19 页 共 60 页
-================================================================================
         private const string DuduEcstaticAsset = "actor_dudu_ecstatic"; // W11 §十六 D「捧场」狂喜帧
+        private const string ScratchTeaAsset = "scratch_tea";       // U360-L7 茶渍（关8 首秀·PIL 水彩渍铸件）
+        private const string ScratchCoffeeAsset = "scratch_coffee"; // U360-L7 咖啡渍（关13 正册位）
         private static readonly Sprite[] _cache = new Sprite[(int)Slot.Count];
         private static bool _loaded;
         public static Sprite Dust { get { EnsureLoaded(); return _cache[(int)Slot.Dust]; } }
@@ -1008,11 +1197,19 @@ namespace GimmeAll.Gameplay
         public static Sprite Fuzz { get { EnsureLoaded(); return _cache[(int)Slot.Fuzz]; } }
         public static Sprite DuduStunned { get { EnsureLoaded(); return _cache[(int)Slot.DuduStunned]; } }
         public static Sprite DuduEcstatic { get { EnsureLoaded(); return _cache[(int)Slot.DuduEcstatic]; } }
+        // U360-L7：垢类真图（缺席=null → 工厂族色占位兜底不变·TestArtAssets 降级感知口径）
+        public static Sprite ScratchTea { get { EnsureLoaded(); return _cache[(int)Slot.ScratchTea]; } }
+        public static Sprite ScratchCoffee { get { EnsureLoaded(); return _cache[(int)Slot.ScratchCoffee]; } }
         private static void EnsureLoaded()
         {
             if (_loaded) return;
             _loaded = true;   // 先置位再加载：单次冷路径，异常不重入；残留槽位留 null = 占位兜底语义
             _cache[(int)Slot.Dust] = Load(DustAsset);
+================================================================================
+第 22 页结束
+
+吸嘟嘟游戏软件 V1.0 源程序  第 23 页 共 60 页
+================================================================================
             _cache[(int)Slot.Fur] = Load(FurAsset);
             _cache[(int)Slot.Debris] = Load(DebrisAsset);
             _cache[(int)Slot.Spark] = Load(SparkAsset);
@@ -1026,6 +1223,8 @@ namespace GimmeAll.Gameplay
             _cache[(int)Slot.Fuzz] = Load(FuzzAsset);
             _cache[(int)Slot.DuduStunned] = Load(DuduStunnedAsset);
             _cache[(int)Slot.DuduEcstatic] = Load(DuduEcstaticAsset);
+            _cache[(int)Slot.ScratchTea] = Load(ScratchTeaAsset);
+            _cache[(int)Slot.ScratchCoffee] = Load(ScratchCoffeeAsset);
         }
         private static Sprite Load(string assetName)
         {
@@ -1040,11 +1239,6 @@ namespace GimmeAll.Gameplay
         }
     }
 }
-================================================================================
-第 19 页结束
-
-吸嘟嘟游戏软件 V1.0 源程序  第 20 页 共 60 页
-================================================================================
 // GameplayDirtPalette.cs
 using UnityEngine;
 namespace GimmeAll.Gameplay
@@ -1066,6 +1260,11 @@ namespace GimmeAll.Gameplay
         // 阿尔卑斯/桂林/大堡礁/极光/荷兰/薰衣草/枫叶/雪市/云端/回家
         private static readonly Color[] ChapterBase =
         {
+================================================================================
+第 23 页结束
+
+吸嘟嘟游戏软件 V1.0 源程序  第 24 页 共 60 页
+================================================================================
             new Color(0.93f, 0.85f, 0.72f),   // 1 家·晨光暖米
             new Color(0.96f, 0.78f, 0.83f),   // 2 京都·樱粉
             new Color(0.95f, 0.75f, 0.72f),   // 3 巴黎·玫瑰
@@ -1095,11 +1294,6 @@ namespace GimmeAll.Gameplay
             if (typeKey == "fur") return new Color(c.r * 0.30f + 0.70f, c.g * 0.30f + 0.70f, c.b * 0.30f + 0.70f);
             if (typeKey == "debris")
             {
-================================================================================
-第 20 页结束
-
-吸嘟嘟游戏软件 V1.0 源程序  第 21 页 共 60 页
-================================================================================
                 // 去饱和 10%：向灰靠半步（硬物沉稳感），明度 45% 档
                 float mean = (c.r + c.g + c.b) / 3f;
                 float dr = c.r + (mean - c.r) * 0.1f;
@@ -1121,6 +1315,11 @@ namespace GimmeAll.Gameplay
     /// <summary>
     /// A 车道自测台（仅编辑器）：Play 即装配相机（缺则建）+ 3 簇混合目标(45 个) + 吸力场 + 嚏系统 + 吸嘟嘟演员。
     /// OnGUI 局限右上角 (width-310, 10, 300, 450)：radius/strength/followLerp 滑条与曲线预设实时生效；
+================================================================================
+第 24 页结束
+
+吸嘟嘟游戏软件 V1.0 源程序  第 25 页 共 60 页
+================================================================================
     /// 嚏区（W9-B）：状态行(count/Fill01/Ready) + 充能+1 / 触发风暴(发真实 SneezeRequested) / 归零三按钮。
     /// 演员区（W10-E1）：FollowActor 切换按钮（登台=场心贴演员、指针驱动演员）+ 到位距离状态行。
     /// </summary>
@@ -1150,11 +1349,6 @@ namespace GimmeAll.Gameplay
             // 自测台仅显式开 vh_rigs_enabled（菜单 GimmeAll/开发/自测台 开关）时装配。
             if (UnityEditor.SessionState.GetBool("vh_playgate_active", false) ||
                 !UnityEditor.SessionState.GetBool("vh_rigs_enabled", false)) return;
-================================================================================
-第 21 页结束
-
-吸嘟嘟游戏软件 V1.0 源程序  第 22 页 共 60 页
-================================================================================
             if (_booted) return;   // 防域重载关闭时重复装配
             _booted = true;
             EnsureCamera();
@@ -1176,6 +1370,11 @@ namespace GimmeAll.Gameplay
         }
         private static void EnsureCamera()
         {
+================================================================================
+第 25 页结束
+
+吸嘟嘟游戏软件 V1.0 源程序  第 26 页 共 60 页
+================================================================================
             if (Camera.main != null) return;
             GameObject go = new GameObject("SelfTestCamera");
             go.tag = "MainCamera";
@@ -1205,11 +1404,6 @@ namespace GimmeAll.Gameplay
             _capturedCount = 0;
             _escapedCount = 0;
             _sneeze.ResetCharge();   // 重新生成=新会话：嚏充能同步归零
-================================================================================
-第 22 页结束
-
-吸嘟嘟游戏软件 V1.0 源程序  第 23 页 共 60 页
-================================================================================
             // 3 簇混合目标，每簇 9 dust + 4 fur + 2 debris = 45 个
             SpawnCluster(-4.2f, -2.2f);
             SpawnCluster(4.2f, -1.6f);
@@ -1231,6 +1425,11 @@ namespace GimmeAll.Gameplay
             entry.y = cy + (float)(System.Math.Sin(ang) * rad);
             entry.scale = Mathf.Lerp(scaleMin, scaleMax, (float)Rng.NextDouble());
             SpawnRegistry.TryCreate(key, entry, out _);
+================================================================================
+第 26 页结束
+
+吸嘟嘟游戏软件 V1.0 源程序  第 27 页 共 60 页
+================================================================================
         }
         private void OnGUI()
         {
@@ -1260,11 +1459,6 @@ namespace GimmeAll.Gameplay
                 + " | Fill " + _sneeze.Fill01.ToString("F2")
                 + (_sneeze.Ready ? " | READY" : " | 充能中"));
             if (GUI.Button(NextRow(1f), "充能+1 模拟")) _sneeze.AddCharge();
-================================================================================
-第 23 页结束
-
-吸嘟嘟游戏软件 V1.0 源程序  第 24 页 共 60 页
-================================================================================
             if (GUI.Button(NextRow(1f), "触发风暴")) GameEventBus.Publish(new SneezeRequested());
             if (GUI.Button(NextRow(1f), "充能归零")) _sneeze.ResetCharge();
         }
@@ -1286,6 +1480,11 @@ namespace GimmeAll.Gameplay
                     new Keyframe(0f, 1f, 0f, 0f),
                     new Keyframe(1f, 0f, -2f, -2f)); break;
                 // (1-t)²：t=0 处斜率 -2、t=1 处斜率 0（快起、边缘托底）
+================================================================================
+第 27 页结束
+
+吸嘟嘟游戏软件 V1.0 源程序  第 28 页 共 60 页
+================================================================================
                 default: _config.falloffCurve = new AnimationCurve(
                     new Keyframe(0f, 1f, -2f, -2f),
                     new Keyframe(1f, 0f, 0f, 0f)); break;
@@ -1315,11 +1514,6 @@ namespace GimmeAll.Gameplay
     {
         // const=编译期常量（switch case 标签要求 CS0150）；public=TestSignatureLevels 键同源校验位
         public const string DustKey = "dust";
-================================================================================
-第 24 页结束
-
-吸嘟嘟游戏软件 V1.0 源程序  第 25 页 共 60 页
-================================================================================
         public const string FurKey = "fur";
         public const string DebrisKey = "debris";
         // W11 签名族（§六 S1 家/关1-5）
@@ -1339,6 +1533,15 @@ namespace GimmeAll.Gameplay
         public const string GhostKey = "ghost";
         public const string SwarmKey = "swarm";
         public const string StickyKey = "sticky";
+        // U360-L3/L6 合流批（O-20261008-1438）：扫动词垢类两键（L6 §三.1）+ 擦亮地标键（L3 §五 拍3）
+        public const string ScratchTeaKey = "scratch_tea";
+================================================================================
+第 28 页结束
+
+吸嘟嘟游戏软件 V1.0 源程序  第 29 页 共 60 页
+================================================================================
+        public const string ScratchCoffeeKey = "scratch_coffee";
+        public const string LandmarkKey = "landmark";
         private readonly string _typeKey;
         public string TypeKey { get { return _typeKey; } }
         public GameplaySpawnFactory(string typeKey)
@@ -1370,11 +1573,11 @@ namespace GimmeAll.Gameplay
             SpawnRegistry.Register(new GameplaySpawnFactory(GhostKey));
             SpawnRegistry.Register(new GameplaySpawnFactory(SwarmKey));
             SpawnRegistry.Register(new GameplaySpawnFactory(StickyKey));
-================================================================================
-第 25 页结束
-
-吸嘟嘟游戏软件 V1.0 源程序  第 26 页 共 60 页
-================================================================================
+            // U360-L3/L6：垢类两键+地标键（ContentCatalog.ApplyBeatInjections 注入位——漏注册=注入
+            // 静默消失，故与全部键同点注册）
+            SpawnRegistry.Register(new GameplaySpawnFactory(ScratchTeaKey));
+            SpawnRegistry.Register(new GameplaySpawnFactory(ScratchCoffeeKey));
+            SpawnRegistry.Register(new GameplaySpawnFactory(LandmarkKey));
         }
         public ISuctionable Create(in SpawnEntry entry)
         {
@@ -1387,6 +1590,11 @@ namespace GimmeAll.Gameplay
             Sprite art;
             Color fallbackColor;
             float baseSize;
+================================================================================
+第 29 页结束
+
+吸嘟嘟游戏软件 V1.0 源程序  第 30 页 共 60 页
+================================================================================
             switch (_typeKey)
             {
                 case SockKey:
@@ -1425,265 +1633,23 @@ namespace GimmeAll.Gameplay
                     art = null; fallbackColor = new Color(0.85f, 0.82f, 0.98f, 1f); baseSize = 0.6f; break;
                 case SwarmKey:
                     art = null; fallbackColor = new Color(1f, 0.76f, 0.3f, 1f); baseSize = 0.4f; break;
-================================================================================
-第 26 页结束
-
-吸嘟嘟游戏软件 V1.0 源程序  第 27 页 共 60 页
-================================================================================
                 case StickyKey:
                     art = null; fallbackColor = new Color(0.96f, 0.86f, 0.9f, 1f); baseSize = 0.65f; break;
+                // ── U360-L3/L6 合流批：垢类（茶渍/咖啡渍底色）+ 地标（暖金宝物台底）——真图槽位
+                //    =美术批落盘自动升级（缺省族色占位=既有降级先例）──
+                case ScratchTeaKey:
+                    art = GameplayArt.ScratchTea; fallbackColor = new Color(0.62f, 0.42f, 0.24f, 1f); baseSize = 0.78f; break;   // U360-L7：真图槽位接通（缺图=族色占位兜底不变）；0.55→0.78=AFTER 帧实证渍 40px 太小（环/飞溅不可辨·「一眼茶渍」差一口气）
+                case ScratchCoffeeKey:
+                    art = GameplayArt.ScratchCoffee; fallbackColor = new Color(0.38f, 0.26f, 0.18f, 1f); baseSize = 0.78f; break;
+                case LandmarkKey:
+                    art = null; fallbackColor = new Color(0.95f, 0.82f, 0.55f, 1f); baseSize = 1.1f; break;
                 default:
                     art = GameplayArt.Dust; fallbackColor = new Color(0.82f, 0.82f, 0.86f, 1f); baseSize = 0.45f; break;
-            }
-            // W21-DESIGN：逐实例精灵路由——ch2-6 招牌 spriteKey → 签名美术（落盘自动升级）；
-            // 缺失=族色占位降级（不走家族 ch1 图：错题不穿错衣，纸鹤不顶袜子图——留位待美术批落盘）
-            // U325：mimic 豁免本路径——spriteKey 是它的「真身图」而非「外衣」，外衣恒为灰尘伪装面。
-            Sprite overrideArt = null;
-            bool isMimic = _typeKey == MimicKey;
-            bool hasSpriteKey = !string.IsNullOrEmpty(entry.spriteKey);
-            if (hasSpriteKey && !isMimic) overrideArt = SignatureArt.SpriteOf(entry.spriteKey);
-            if (overrideArt != null)
-            {
-                sr.sprite = overrideArt;
-                sr.color = Color.white;   // 专属美术路径：不染章色（自带配色·设计案 §五染色律）
-            }
-            else if (hasSpriteKey && !isMimic)
-            {
-                bool squareForSig = _typeKey == DebrisKey || _typeKey == SnakeKey;
-                sr.sprite = squareForSig ? PlaceholderSpriteFactory.Square(64) : PlaceholderSpriteFactory.Circle(64);
-                sr.color = fallbackColor;
-            }
-            else if (art != null)
-            {
-                sr.sprite = art;
-                sr.color = Color.white;
-            }
-            else
-            {
-                // 加载失败兜底：占位 + 族色（长物用方、团状用圆——与三基键先例同语义）
-                bool square = _typeKey == DebrisKey || _typeKey == SnakeKey || _typeKey == HeavyKey;
-                sr.sprite = square ? PlaceholderSpriteFactory.Square(64) : PlaceholderSpriteFactory.Circle(64);
-                sr.color = fallbackColor;
-            }
-            sr.sortingOrder = 0;
-            // U325 章色染（设计案 §五）：真图白/占位族色统一 Lerp(基色, 章色, 0.35)——专属美术分支已跳过；
-            // tintIdx 0=白（不染·现行为逐字节不变）；非三基族返回白=变奏/签名族身份色零污染
-            if (entry.tintIdx > 0)
-            {
-                Color tint = GameplayDirtPalette.TintOf(_typeKey, entry.tintIdx);
-                sr.color = Color.Lerp(sr.color, tint, 0.35f);
-            }
-            SuctionTarget target = AddTarget(go);
-            target.transform.position = new Vector3(entry.x, entry.y, 0f);
-            float size = baseSize * (entry.scale > 0f ? entry.scale : 1f);
-            // U320 战场美术（评审定谳「同尺寸同姿态三角站位=调试刷怪感」）：位置哈希定 ±8% 尺度
-            // jitter + ±7° 基础旋转——确定性哈希=同布局同观感可回归；捕获判定按 Position/Mass 走
-            // （与视觉尺度零耦合·ActorDudu W19 注释同口径），快照 Scale 记实值回放自洽。
-            float h1 = Frac01(Mathf.Sin(entry.x * 12.9898f + entry.y * 78.233f) * 43758.5453f);
-================================================================================
-第 27 页结束
-
-吸嘟嘟游戏软件 V1.0 源程序  第 28 页 共 60 页
-================================================================================
-            float h2 = Frac01(Mathf.Sin(entry.x * 3.7183f + entry.y * 9.1137f) * 27381.371f);
-            size *= 0.92f + 0.16f * h1;
-            target.transform.localScale = new Vector3(size, size, 1f);
-            target.transform.localRotation = Quaternion.Euler(0f, 0f, (h2 - 0.5f) * 14f);
-            // U325 现身注入（设计案 §四）：mimic 真身图= spriteKey 优先，缺省降级 Fur（团状真身=「原来是毛球！」）
-            if (isMimic)
-            {
-                Sprite reveal = hasSpriteKey ? SignatureArt.SpriteOf(entry.spriteKey) : null;
-                if (reveal == null) reveal = GameplayArt.Fur;
-                if (target is MimicTarget mt) mt.Setup(reveal);
-            }
-            if (entry.props != null)
-            {
-                for (int i = 0; i < entry.props.Count; i++) target.SetVariantProperty(i, entry.props[i]);
-            }
-            // U325 装扮件（设计案 §六）：gearKey →「Gear」子渲染器（SpriteOf 缓存面复用；缺失=静默跳过
-            // 降级）；挂父=随捕获缩放消失。尺寸账（PPU 512 下 64px 件自然尺寸=0.125u）：localScale 3.6
-            // ⇒ 相对父体恒 45%（父 scale 在比值中消去=各族统一观感）；localPos y=0.5=头顶位（方/圆件半高）
-            if (!string.IsNullOrEmpty(entry.gearKey))
-            {
-                Sprite gear = SignatureArt.SpriteOf(entry.gearKey);
-                if (gear != null)
-                {
-                    GameObject gearGo = new GameObject("Gear");
-                    gearGo.transform.SetParent(target.transform, false);
-                    var gsr = gearGo.AddComponent<SpriteRenderer>();
-                    gsr.sprite = gear;
-                    gsr.color = Color.white;
-                    gsr.sortingOrder = 1;   // 目标(0)之上、HUD 之下
-                    gearGo.transform.localPosition = new Vector3(0f, 0.5f, 0f);
-                    gearGo.transform.localScale = new Vector3(3.6f, 3.6f, 1f);
-                }
-            }
-            return target;
-        }
-        private static float Frac01(float v)
-        {
-            return v - Mathf.Floor(v);
-        }
-        private SuctionTarget AddTarget(GameObject go)
-        {
-            switch (_typeKey)
-            {
-                case DustKey: return go.AddComponent<DustTarget>();
-                case FurKey: return go.AddComponent<FurTarget>();
-                case DebrisKey: return go.AddComponent<DebrisTarget>();
-                case SockKey: return go.AddComponent<SockTarget>();
-                case FurBallKey: return go.AddComponent<FurBallTarget>();
-                case SnakeKey: return go.AddComponent<SnakeTarget>();
-                case CoinsKey: return go.AddComponent<CoinTarget>();
-================================================================================
-第 28 页结束
-
-吸嘟嘟游戏软件 V1.0 源程序  第 29 页 共 60 页
-================================================================================
-                case FuzzHillKey: return go.AddComponent<FuzzHillTarget>();
-                case FuzzKey:
-                    go.AddComponent<FuzzFade>();   // 自散寿命组件（W11：破裂庆祝物不进 Runner 清场名单）
-                    return go.AddComponent<FuzzPiece>();
-                // ── U325 变奏族（设计案 §三）──
-                case BubbleKey: return go.AddComponent<BubbleTarget>();
-                case SplitterKey: return go.AddComponent<SplitterTarget>();
-                case SplitKidKey: return go.AddComponent<SplitKidTarget>();
-                case MimicKey: return go.AddComponent<MimicTarget>();
-                case SparkleKey: return go.AddComponent<SparkleTarget>();
-                case HeavyKey: return go.AddComponent<HeavyTarget>();
-                case GhostKey: return go.AddComponent<GhostTarget>();
-                case SwarmKey: return go.AddComponent<SwarmTarget>();
-                case StickyKey: return go.AddComponent<StickyTarget>();
-                default: return go.AddComponent<DustTarget>();
-            }
-        }
-    }
-}
-// MainMenuScreen.cs
-using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.UI;
-using GimmeAll.Core;
-namespace GimmeAll.UI
-{
-    /// <summary>
-    /// 主菜单：三键直达游玩。F 只发请求事件；Set 是组合根缺位时的界面侧 Bootstrap 兜底
-    /// （GameStateMachine.Set 同态幂等，组合根接管后重复调用无害），菜单等 GameStateChanged 到 Playing 才隐藏。
-    /// W12-G D1 每日按钮副题（§6.2 每日话题句）→ W19-D 接线 D3/D4：副题取句走 CopyPools.PickDailyMenuLine
-    /// ——D1★ 主句「今天，全国都在吸：{章名}。」与 D3 章节变奏「{章名}的{招牌物}今天归全国了。」隔日
-    /// 轮换，D4 备用句「昨天的都吸走啦，今天换一批。」兜底（缓存空/异常序不再退隐，菜单每日位永不哑火）；
-    /// 读 CopyPools.DailyFocus 缓存，事件驱动刷新（OnEnable 订阅/OnDisable 退订现役先例）；
-    /// 副题带 y=390（W24-PLAY-SEE 随钮栈对齐 preview-final 下移）。
-    /// </summary>
-    public sealed class MainMenuScreen : MonoBehaviour
-    {
-        private RectTransform _content;
-        private Text _dailySubtitle;   // D1 每日挑战按钮副题（贴其下小字一行）
-        private Text _hello;           // W10-GROWTH 时段问候（落地横幅出现时隐位让贤——同为「首眼欢迎位」）
-        private Text _tagline;         // O-1610 slice-d：品牌副题（欢迎带占用横幅时随带让贤——一屏一事）
-        private Button _landing;      // W20-C §6.5 落地承接横幅（仅分享卡回流启动时出现）
-        private Text _landingLabel;   // 横幅文案位（CreateButton 内建 Text 缓存引用）
-        private Text _stardustChip;   // W22-META：星沙货币位（右上角胶囊——U351/A-P1-5 起纯货币，成长位拆至嘟嘟名签）
-        private Text _growthTag;     // U351/A-P1-5：成长位名签（嘟嘟脚标——星沙混排拆分的独立席，非 Button 不入 D2 计数）
-        private NumberRoll _stardustRoll;   // U305：星沙数字滚动器（300ms 补间·不瞬跳）
-        private int _lastStardust = -1;      // U305：增量判定（>0 时飘字「+N」）
-        // U351/A-P1-5：成长名 UI 镜像表（MetaStore.StageNames 同值只读镜像·UI asmdef 不引 Game
-        // ——StoreCatalog.ReadSand/CodexCatalog 镜像先例；表值变更须与 MetaStore.StageNames 同步）。
-        private static readonly string[] GrowthStageNames = { "嘟崽", "嘟墩", "嘟吨", "嘟府" };
-================================================================================
-第 29 页结束
-
-吸嘟嘟游戏软件 V1.0 源程序  第 30 页 共 60 页
-================================================================================
-        private Button _taskCapsule;         // X1432：今日任务入口胶囊（左上角·与星沙 chip 对称）
-        private Text _taskCapsuleLabel;      // 胶囊计数文本（CreateButton 内建 Text 缓存引用）
-        private DailyTasksChanged _taskSnap;   // X1432：任务快照镜像（结构体缺省=0/3 合法种子）
-        private CheckInChanged _checkInSnap;   // U351/B-R7：签到快照镜像（结构体缺省=未签=可签点亮面）
-        private ChapterChestChanged _chestSnap;   // X1457：焦点章快照镜像（U351/P1-3 起并入旅程胶囊·结构体缺省=章 0 合法种子）
-        private Button _supplyChip;          // X1463：关前补给入口（B5·失败关回流=开吸前领 1 道具）
-        private Text _supplyChipLabel;       // 补给标签位（ResultScreen.SupplyLabel 单一真源）
-        private LevelSupplyChanged _supplySnap;   // X1463：补给快照镜像（结构体缺省=Level 0 合法种子）
-        private Button _journeyCapsule;      // X1519：旅程入口胶囊（胶囊列第三行·B 版章节旅程入口）
-        private Text _journeyCapsuleLabel;   // 旅程进行中章文本（CreateButton 内建 Text 缓存引用）
-        private Image _duduHeroImg;          // U351/P0-1：嘟嘟主角主视觉（O-1610 线3·姿态/动画接线位载体）
-        private DuduIdlePlayer _duduIdle;    // O-1706/X1951：待机逐格播放器（O-1610 线3 动画件已插）
-        private RectTransform _paperRt;     // U351/A-P2-6：水彩纸面板引用（纸边延展幂等重锚位）
-        private void Awake()
-        {
-            // 内容层先行——U316 CEO 差评修复（①③根因）：背景板移入 _content 随屏显隐。
-            // 原挂屏根=永驻全屏不透明层：Boot 态盖死健康忠告屏+吞射线（Image raycastTarget 默认开）
-            // =真包自第一屏卡死不可玩；局内盖死整个战场（S3「空战场」真相——renderer.isVisible 不测
-            // UI 遮挡，探针定谳失真）。对照组=HealthNoticeScreen 背景在 _content 内随显隐走，两屏归一。
-            var contentGo = new GameObject("Content", typeof(RectTransform));
-            _content = (RectTransform)contentGo.transform;
-            _content.SetParent(transform, false);
-            UIRoot.AnchorStretch(_content);
-            // W24-UI：水彩氛围背景（顶部云卷+边缘晕染），缺资产回退纯 Cream；
-            // U305 云飘律：背景独立成层整幅横漂 ±10px（UiDrift·16s 一循环不带动按钮文本），
-            // 拉伸锚底下 sizeDelta 宽 +24 留边（漂移永不露底）。
-            var bg = UIArt.MainMenuBg;
-            var bgPanel = UIRoot.CreatePanel(_content, UIRoot.Cream);
-            var bgRt = bgPanel.rectTransform;
-            _paperRt = bgRt;   // U351/A-P2-6：纸面板引用（ApplyPaperEdge 幂等重锚位）
-            bgRt.SetAsFirstSibling();
-            bgRt.sizeDelta = new Vector2(24f, 0f);
-            if (bg != null)
-            {
-                bgPanel.sprite = bg;
-                bgPanel.type = Image.Type.Simple;
-                bgPanel.color = Color.white;
-            }
-            bgRt.gameObject.AddComponent<UiDrift>();
-            ApplyPaperEdge();   // 建屏先锚一次（此帧 SafeAreaFitter 或未跑=0 零下探无害；Show 再锚自愈）
-            // W24-UI：品牌 Logo 区——图形标志+字标，替换原纯文字标题
-            // O-1610 slice-c「logo 大号」：品牌区整体放大（mark 270→330）——胶囊列底缘 288 下 8px 起，
-            // 大号螺旋主视觉顶满品牌带；mark/wordmark 同周期 3.1s 同相共浮（锁定组律：放大后组内
-            // 间隙不随呼吸开合）。
-            var logoMark = UIArt.LogoMark;
-            if (logoMark != null)
-            {
-                var markGo = new GameObject("LogoMark", typeof(RectTransform));
-                var markRt = (RectTransform)markGo.transform;
-                markRt.SetParent(_content, false);
 ================================================================================
 第 30 页结束
 
 吸嘟嘟游戏软件 V1.0 源程序  第 31 页 共 60 页
 ================================================================================
-            return img;
-        }
-        // 测试消费面（结构锁）：真值文字节点按名取（null=未建）
-        public Text SandLabelOf() { return _sandLabel; }
-        public Text OwnedLabelOf() { return _ownedLabel; }
-    }
-    /// <summary>
-    /// X1962 R3#9 拒付抖动（NumberRoll.FloatUpDriver 同款自驱瞬态件）：目标 anchoredPosition
-    /// 水平往复 4 拍衰减（±9px 起·0.32s），unscaledDeltaTime 驱动，完帧归位自毁（零池化——
-    /// 瞬态件池化收益为负同律）。Kick 幂等：重复拒付重起点续抖。
-    /// </summary>
-    public sealed class UiNudge : MonoBehaviour
-    {
-        private const float Duration = 0.32f;
-        private const float Amplitude = 9f;
-        private const float Beats = 4f;   // 4 拍往复（8π 相位）
-        private RectTransform _rt;
-        private Vector2 _base;
-        private float _t;
-        public static void Kick(RectTransform target)
-        {
-            if (target == null) return;
-            var nudge = target.GetComponent<UiNudge>();
-            if (nudge == null) nudge = target.gameObject.AddComponent<UiNudge>();
-            nudge._rt = target;
-            nudge._base = target.anchoredPosition;
-            nudge._t = 0f;
-        }
-        private void Update()
-        {
-            if (_rt == null) { Destroy(this); return; }
-            _t += Time.unscaledDeltaTime;
-            if (_t >= Duration) { _rt.anchoredPosition = _base; Destroy(this); return; }
-            float phase = _t / Duration;
             float x = Mathf.Sin(phase * Mathf.PI * Beats * 2f) * Amplitude * (1f - phase);
             _rt.anchoredPosition = _base + new Vector2(x, 0f);
         }
@@ -1700,11 +1666,6 @@ namespace GimmeAll.UI
     /// W17-NEWBIE-FLOW 新手教学层（组合根装配，AmbientLoopLayer 同款自订阅组件）：
     /// ①一次性「按住」引导——首次进任意关（含每日先玩兜底）中央偏下浮层：「按住屏幕」大字
     /// +「嘟嘟跟着你的指尖，吸！」副句 + 程序化脉冲涟漪示意；首次按住 ≥0.15s 或首次捕获即
-================================================================================
-第 31 页结束
-
-吸嘟嘟游戏软件 V1.0 源程序  第 32 页 共 60 页
-================================================================================
     /// 退场并落档 vh.tut.press（只成功退场才落档——没真按过就失败退场，下一关还会再教）。
     /// ②满能首现一次性提示——首次 SneezeChargeChanged(Ready) 在嚏钮上方浮「嘟嘟满啦——按下去！」
     /// 2s 自隐，vh.tut.sneeze 落档（SneezeButton 零改动，同文件订阅）。
@@ -1739,6 +1700,11 @@ namespace GimmeAll.UI
             PlayerPrefs.SetInt(PressKey, 1);
             PlayerPrefs.Save();
         }
+================================================================================
+第 31 页结束
+
+吸嘟嘟游戏软件 V1.0 源程序  第 32 页 共 60 页
+================================================================================
         public static bool SneezeSeen()
         {
             return PlayerPrefs.GetInt(SneezeKey, 0) != 0;
@@ -1755,15 +1721,12 @@ namespace GimmeAll.UI
             panel.raycastTarget = false;
             _root = panel.rectTransform;
             _bigText = UIRoot.CreateText(_root, "按住屏幕", 72, UIRoot.Ink);
-================================================================================
-第 32 页结束
-
-吸嘟嘟游戏软件 V1.0 源程序  第 33 页 共 60 页
-================================================================================
             _bigText.font = UIRoot.DisplayFont;   // X1436/B7: coaching hero line = display-font track (U278)
             UIRoot.AnchorCenter(_bigText.rectTransform, new Vector2(0f, -240f), new Vector2(900f, 140f));
+            AddLegibilityShadow(_bigText);   // U360-L7：大字软影（BEFORE 锐评=教学文字裸压场景无底板·扫过亮部局部吃字）
             _subText = UIRoot.CreateText(_root, "嘟嘟跟着你的指尖，吸！", 40, UIRoot.CoralDeep);   // U320 排印：Coral 压米白场景 2.14 新手教学第一眼不可读→深珊瑚 ≈4.6
             UIRoot.AnchorCenter(_subText.rectTransform, new Vector2(0f, -360f), new Vector2(900f, 70f));
+            AddLegibilityShadow(_subText);   // U360-L7：副句软影（BEFORE 锐评实锤=副句骑灰球簇·橙字压灰紫对比崩）
             // 程序化脉冲涟漪（128² 软边圆，CollectionScreen 剪影同款生成法——自足零资产）
             var rippleGo = new GameObject("Ripple", typeof(RectTransform));
             _ripple = (RectTransform)rippleGo.transform;
@@ -1772,9 +1735,13 @@ namespace GimmeAll.UI
             var img = rippleGo.AddComponent<Image>();
             img.sprite = BuildRippleSprite();
             img.raycastTarget = false;   // 红线：涟漪不吞按压
-            img.color = UIRoot.CoralSoft;
-            _toast = UIRoot.CreateText(_root, "嘟嘟满啦——按下去！", 38, UIRoot.CoralDeep);   // U320 排印：满能提示同律（Coral 2.14→深珊瑚）
+            img.color = new Color(1f, 0.52f, 0.38f, 0.88f);   // U360-L7：饱和珊瑚档（AFTER 帧实证：暖白 0.95 被地板日光斑吞=等效不可见；两轮取教训=涟漪须与场景明度拉开）
+            // U360-L7 修正桩：toast 挂组件根而非 _root——首跑取证实锤（03 帧 toast 随按住教学同屏、
+            // 04 帧永失）：按住教学退场 _root SetActive(false) 后，作为其子级的满能 toast 永不可见
+            // （真玩家序=先学会按住→_root 熄→满能时刻 toast 结构性死亡）。挂兄弟层级=两教学生命周期解耦。
+            _toast = UIRoot.CreateText(transform, "嘟嘟满啦——按下去！", 38, UIRoot.CoralDeep);   // U320 排印：满能提示同律（Coral 2.14→深珊瑚）
             UIRoot.AnchorBottom(_toast.rectTransform, 330f, new Vector2(520f, 50f), 230f);
+            _toast.gameObject.SetActive(false);   // 兄弟层级不再随 _root 熄灭——建屏显式自藏（W21-UX 建屏瞬时自藏律）
             _root.gameObject.SetActive(false);
         }
         private void OnEnable()
@@ -1788,6 +1755,11 @@ namespace GimmeAll.UI
         {
             GameEventBus.Unsubscribe<LevelStarted>(OnLevelStarted);
             GameEventBus.Unsubscribe<LevelFailed>(OnLevelFailed);
+================================================================================
+第 32 页结束
+
+吸嘟嘟游戏软件 V1.0 源程序  第 33 页 共 60 页
+================================================================================
             GameEventBus.Unsubscribe<ObjectCaptured>(OnObjectCaptured);
             GameEventBus.Unsubscribe<SneezeChargeChanged>(OnSneezeCharge);
             StopHintRoutine();
@@ -1810,11 +1782,6 @@ namespace GimmeAll.UI
             _root.gameObject.SetActive(false);
             _hintActive = false;
             if (PressSeen()) return;
-================================================================================
-第 33 页结束
-
-吸嘟嘟游戏软件 V1.0 源程序  第 34 页 共 60 页
-================================================================================
             _hintLevelId = e.LevelId;   // U323 T3：关 1 涟漪落位最密簇
             _hintRoutine = StartCoroutine(ShowHintAfterDelay());
         }
@@ -1843,6 +1810,11 @@ namespace GimmeAll.UI
         {
             yield return new WaitForSeconds(StartDelaySeconds);   // 与到站横幅错拍
             _root.gameObject.SetActive(true);
+================================================================================
+第 33 页结束
+
+吸嘟嘟游戏软件 V1.0 源程序  第 34 页 共 60 页
+================================================================================
             _hintActive = true;
             _holdTimer = 0f;
             PositionRippleForLevel();   // U323 T3：涟漪落位（关 1=最密 B 簇画布投影·其余关=大字下方默认位）
@@ -1865,11 +1837,6 @@ namespace GimmeAll.UI
         /// 画布投影——教玩家的第一按按在最爽的一团上（R 件 G3：教学=纯文案→落位真爽点）；其余关维持默认位。</summary>
         private void PositionRippleForLevel()
         {
-================================================================================
-第 34 页结束
-
-吸嘟嘟游戏软件 V1.0 源程序  第 35 页 共 60 页
-================================================================================
             if (_hintLevelId == 1 && Camera.main != null)
             {
                 Vector2 canvasPos = FlyToTarget.WorldToCanvas(new Vector3(1.5f, -2.9f, 0f));
@@ -1898,6 +1865,11 @@ namespace GimmeAll.UI
                 SetHintAlpha(a * (1f - Mathf.Clamp01(t / 0.25f)));
                 yield return null;
             }
+================================================================================
+第 34 页结束
+
+吸嘟嘟游戏软件 V1.0 源程序  第 35 页 共 60 页
+================================================================================
             _root.gameObject.SetActive(false);
             SetHintAlpha(1f);
         }
@@ -1920,14 +1892,16 @@ namespace GimmeAll.UI
         }
         private void StopHintRoutine()
         {
-================================================================================
-第 35 页结束
-
-吸嘟嘟游戏软件 V1.0 源程序  第 36 页 共 60 页
-================================================================================
             if (_hintRoutine == null) return;
             StopCoroutine(_hintRoutine);
             _hintRoutine = null;
+        }
+        /// <summary>U360-L7：教学文字软影（W24-PLAY-SEE 同律——教学层裸压场景/亮部的可读性兜底）。</summary>
+        private static void AddLegibilityShadow(Text t)
+        {
+            var sh = t.gameObject.AddComponent<Shadow>();
+            sh.effectColor = new Color(0.345f, 0.245f, 0.200f, 0.45f);
+            sh.effectDistance = new Vector2(2f, -2f);
         }
         private float CurrentAlpha()
         {
@@ -1946,6 +1920,11 @@ namespace GimmeAll.UI
             g.color = c;
         }
         /// <summary>程序化 128² 软边圆涟漪（哑白，色由 Image.color 染——CollectionScreen 剪影同款）。</summary>
+================================================================================
+第 35 页结束
+
+吸嘟嘟游戏软件 V1.0 源程序  第 36 页 共 60 页
+================================================================================
         private static Sprite BuildRippleSprite()
         {
             const int Size = 128;
@@ -1975,11 +1954,6 @@ namespace GimmeAll.UI
             return sprite;
         }
     }
-================================================================================
-第 36 页结束
-
-吸嘟嘟游戏软件 V1.0 源程序  第 37 页 共 60 页
-================================================================================
 }
 // UIArt.cs
 using System.Collections.Generic;
@@ -2001,6 +1975,11 @@ namespace GimmeAll.UI
         private const string BannerLandingName = "ui_banner_landing";
         private const string PostcardFrameName = "ui_postcard_frame";
         private const string TagPillName = "ui_tag_pill";
+================================================================================
+第 36 页结束
+
+吸嘟嘟游戏软件 V1.0 源程序  第 37 页 共 60 页
+================================================================================
         private const string LogoEmblemName = "ui_logo_emblem";
         private const string LogoMarkName = "logo_mark";
         private const string LogoWordmarkName = "logo_wordmark";
@@ -2030,11 +2009,6 @@ namespace GimmeAll.UI
         private static Sprite _tagPill;
         private static Sprite _logoEmblem;
         private static Sprite _logoMark;
-================================================================================
-第 37 页结束
-
-吸嘟嘟游戏软件 V1.0 源程序  第 38 页 共 60 页
-================================================================================
         private static Sprite _logoWordmark;
         private static Sprite _logoHorizontal;
         private static Sprite _logoVertical;
@@ -2056,6 +2030,11 @@ namespace GimmeAll.UI
         private static bool _logoHorizontalTried;
         private static bool _logoVerticalTried;
         private static bool _duduFullTried;
+================================================================================
+第 37 页结束
+
+吸嘟嘟游戏软件 V1.0 源程序  第 38 页 共 60 页
+================================================================================
         private static bool _healthNoticeBgTried;
         private static bool _mainMenuBgTried;
         private static bool _wcBtnPrimaryTried;
@@ -2085,11 +2064,6 @@ namespace GimmeAll.UI
                 if (!_panelRoundTried)
                 {
                     _panelRoundTried = true;
-================================================================================
-第 38 页结束
-
-吸嘟嘟游戏软件 V1.0 源程序  第 39 页 共 60 页
-================================================================================
                     _panelRound = LoadSliced(PanelRoundName);
                 }
                 return _panelRound;
@@ -2111,6 +2085,11 @@ namespace GimmeAll.UI
         }
         /// <summary>O-1610 水彩纸纹次级按钮基底（Sliced 变体·丁香 wash）；资产缺失返回 null。</summary>
         public static Sprite WcBtnSecondary
+================================================================================
+第 38 页结束
+
+吸嘟嘟游戏软件 V1.0 源程序  第 39 页 共 60 页
+================================================================================
         {
             get
             {
@@ -2140,11 +2119,6 @@ namespace GimmeAll.UI
         /// 本批只入库不接线——跨屏换装留后续片）；资产缺失返回 null。</summary>
         public static Sprite WcPanel
         {
-================================================================================
-第 39 页结束
-
-吸嘟嘟游戏软件 V1.0 源程序  第 40 页 共 60 页
-================================================================================
             get
             {
                 if (!_wcPanelTried)
@@ -2166,6 +2140,11 @@ namespace GimmeAll.UI
         /// <summary>主菜单顶部品牌横幅（纯 Sprite，非 Sliced）；资产缺失返回 null。</summary>
         public static Sprite BannerLanding
         {
+================================================================================
+第 39 页结束
+
+吸嘟嘟游戏软件 V1.0 源程序  第 40 页 共 60 页
+================================================================================
             get
             {
                 if (!_bannerLandingTried)
@@ -2195,11 +2174,6 @@ namespace GimmeAll.UI
             get
             {
                 if (!_tagPillTried)
-================================================================================
-第 40 页结束
-
-吸嘟嘟游戏软件 V1.0 源程序  第 41 页 共 60 页
-================================================================================
                 {
                     _tagPillTried = true;
                     _tagPill = LoadSliced(TagPillName);
@@ -2221,6 +2195,11 @@ namespace GimmeAll.UI
             }
         }
         /// <summary>健康忠告屏全屏背景（场景化卧室+嘟嘟+漩涡云装饰）；资产缺失返回 null。</summary>
+================================================================================
+第 40 页结束
+
+吸嘟嘟游戏软件 V1.0 源程序  第 41 页 共 60 页
+================================================================================
         public static Sprite HealthNoticeBg
         {
             get
@@ -2250,11 +2229,6 @@ namespace GimmeAll.UI
         public static Sprite LogoMark
         {
             get
-================================================================================
-第 41 页结束
-
-吸嘟嘟游戏软件 V1.0 源程序  第 42 页 共 60 页
-================================================================================
             {
                 if (!_logoMarkTried) { _logoMarkTried = true; _logoMark = LoadPlain(LogoMarkName); }
                 return _logoMark;
@@ -2276,6 +2250,11 @@ namespace GimmeAll.UI
             {
                 if (!_logoHorizontalTried) { _logoHorizontalTried = true; _logoHorizontal = LoadPlain(LogoHorizontalName); }
                 return _logoHorizontal;
+================================================================================
+第 41 页结束
+
+吸嘟嘟游戏软件 V1.0 源程序  第 42 页 共 60 页
+================================================================================
             }
         }
         /// <summary>品牌 Logo 竖版组合（图形上+文字下，适合启动页/竖屏海报）；资产缺失返回 null。</summary>
@@ -2305,11 +2284,6 @@ namespace GimmeAll.UI
         {
             if (_iconCache.TryGetValue(key, out Sprite cached)) return cached;
             var sprite = Resources.Load<Sprite>("icon_" + key);
-================================================================================
-第 42 页结束
-
-吸嘟嘟游戏软件 V1.0 源程序  第 43 页 共 60 页
-================================================================================
             if (sprite == null) Debug.LogWarning("[UIArt] 图标缺失，控件保持程序化降级：icon_" + key);
             _iconCache[key] = sprite;
             return sprite;
@@ -2331,6 +2305,11 @@ namespace GimmeAll.UI
             if (_wcBtnPrimary != null) Object.Destroy(_wcBtnPrimary);
             if (_wcBtnSecondary != null) Object.Destroy(_wcBtnSecondary);
             if (_wcPill != null) Object.Destroy(_wcPill);
+================================================================================
+第 42 页结束
+
+吸嘟嘟游戏软件 V1.0 源程序  第 43 页 共 60 页
+================================================================================
             if (_wcPanel != null) Object.Destroy(_wcPanel);
             _buttonPad = null;
             _panelRound = null;
@@ -2360,11 +2339,6 @@ namespace GimmeAll.UI
             _logoHorizontalTried = false;
             _logoVerticalTried = false;
             _duduFullTried = false;
-================================================================================
-第 43 页结束
-
-吸嘟嘟游戏软件 V1.0 源程序  第 44 页 共 60 页
-================================================================================
             _healthNoticeBgTried = false;
             _mainMenuBgTried = false;
             _wcBtnPrimaryTried = false;
@@ -2386,6 +2360,11 @@ namespace GimmeAll.UI
             if (tex != null) return CreateVariant(tex, new Rect(0f, 0f, tex.width, tex.height), name, Vector4.zero);
             Debug.LogWarning("[UIArt] 美术底图缺失，控件保持纯色回退：" + name);
             return null;
+================================================================================
+第 43 页结束
+
+吸嘟嘟游戏软件 V1.0 源程序  第 44 页 共 60 页
+================================================================================
         }
         /// <summary>加载纯 Sprite（非 Sliced 变体，用于横幅/明信片框/徽章等整图显示的资产）。</summary>
         private static Sprite LoadPlain(string name)
@@ -2415,11 +2394,6 @@ namespace GimmeAll.UI
             Vector4 border;
             if (importedBorder.sqrMagnitude > 0f)
             {
-================================================================================
-第 44 页结束
-
-吸嘟嘟游戏软件 V1.0 源程序  第 45 页 共 60 页
-================================================================================
                 border = importedBorder;
             }
             else
@@ -2441,6 +2415,11 @@ namespace GimmeAll.UI
         {
             // Sliced 的 border 画布尺寸 = borderPx / (spritePPU / canvas.referencePixelsPerUnit)。
             // 导入器的 PPU=512 是世界精灵口径（512px=1 世界单位），UI 上沿用会把 border 缩水 5.12×
+================================================================================
+第 44 页结束
+
+吸嘟嘟游戏软件 V1.0 源程序  第 45 页 共 60 页
+================================================================================
             // （77px→15 参考单位）圆角几乎不可见。取 canvas.referencePixelsPerUnit 让 border 1px→1 参考单位。
             Canvas canvas = UIRoot.Canvas;
             return canvas != null ? canvas.referencePixelsPerUnit : 100f;
@@ -2470,11 +2449,6 @@ namespace GimmeAll.UI
 {
     /// <summary>
     /// 运行时 UI 装配入口：BeforeSceneLoad 建 Canvas/CanvasScaler/EventSystem/SafeArea。
-================================================================================
-第 45 页结束
-
-吸嘟嘟游戏软件 V1.0 源程序  第 46 页 共 60 页
-================================================================================
     /// 零资产（纯色 Image 无 sprite、引擎内置字体）、零场景依赖；屏幕组由 ScreenRouter 挂到本根之下。
     /// </summary>
     public static class UIRoot
@@ -2496,9 +2470,14 @@ namespace GimmeAll.UI
         // 深化后压 Cream ≈4.7 过正文线）：问候/副题/计时数字等「要暖又要可读」的一律换此档。
         public static readonly Color CoralDeep = new Color(0.706f, 0.380f, 0.122f);
         public static readonly Color Lilac = new Color(0.940f, 0.720f, 0.860f);
+================================================================================
+第 45 页结束
+
+吸嘟嘟游戏软件 V1.0 源程序  第 46 页 共 60 页
+================================================================================
         public static readonly Color Gold = new Color(1.000f, 0.720f, 0.180f);
         public static readonly Color Backdrop = new Color(0f, 0f, 0f, 0.55f);
-        public static readonly Color ResultVeil = new Color(0.990f, 0.950f, 0.900f, 0.96f);
+        public static readonly Color ResultVeil = new Color(0.990f, 0.950f, 0.900f, 1f);   // U360-L4C：0.96→0.98→1.0 两轮走查主菜单残影透底未净（星沙胶囊/同吸/图图/底部色带）＝取证帧观感污染，全遮罩收口；ChapterPalette.VeilOf 保 alpha 透传
         public static Canvas Canvas { get; private set; }
         public static RectTransform SafeArea { get; private set; }
         private static Font _font;
@@ -2525,11 +2504,6 @@ namespace GimmeAll.UI
             var desk = Screen.currentResolution;
             int winH = Mathf.Max(720, desk.height - 100);
             Screen.SetResolution(winH * 9 / 16, winH, false);
-================================================================================
-第 46 页结束
-
-吸嘟嘟游戏软件 V1.0 源程序  第 47 页 共 60 页
-================================================================================
 #endif
             var root = new GameObject("UIRoot");
             Object.DontDestroyOnLoad(root);
@@ -2551,6 +2525,11 @@ namespace GimmeAll.UI
             eventSystem.AddComponent<StandaloneInputModule>(); // legacy Input：编辑器鼠标与真机触屏同一模块接管
         }
         /// <summary>纯文本（legacy UI Text，项目未导 TMP）。默认拉伸铺满父物体，调用方可改锚点。</summary>
+================================================================================
+第 46 页结束
+
+吸嘟嘟游戏软件 V1.0 源程序  第 47 页 共 60 页
+================================================================================
         public static Text CreateText(Transform parent, string content, int fontSize, Color? color = null)
         {
             var go = new GameObject("Text", typeof(RectTransform));
@@ -2580,11 +2559,6 @@ namespace GimmeAll.UI
         {
             if (shadow)
             {
-================================================================================
-第 47 页结束
-
-吸嘟嘟游戏软件 V1.0 源程序  第 48 页 共 60 页
-================================================================================
                 var shGo = new GameObject("BtnShadow", typeof(RectTransform));
                 var shRt = (RectTransform)shGo.transform;
                 shRt.SetParent(parent, false);
@@ -2606,6 +2580,11 @@ namespace GimmeAll.UI
             if (pad != null)
             {
                 image.sprite = pad;
+================================================================================
+第 47 页结束
+
+吸嘟嘟游戏软件 V1.0 源程序  第 48 页 共 60 页
+================================================================================
                 image.type = Image.Type.Sliced;
             }
             var button = go.AddComponent<Button>();
@@ -2635,11 +2614,6 @@ namespace GimmeAll.UI
                     float iconSize = Mathf.Clamp(size.y * 0.55f, 64f, 120f);
                     AnchorCenter(iconRt, new Vector2(-size.x * 0.5f + 20f + iconSize * 0.5f, 0f), new Vector2(iconSize, iconSize));
                     AnchorCenter(text.rectTransform, new Vector2(iconSize * 0.5f + 12f, 0f), size);
-================================================================================
-第 48 页结束
-
-吸嘟嘟游戏软件 V1.0 源程序  第 49 页 共 60 页
-================================================================================
                 }
                 else
                 {
@@ -2661,6 +2635,11 @@ namespace GimmeAll.UI
         /// 捕获切画布模式重排版时存量 anchoredPosition 按新画布矩形重解读=鬼影加剧。
         /// 正法=纯画布空间锚点复制：垫恒与目标钮同锚/同 pivot/同尺寸、anchoredPosition 下沉 10 参考单位
         /// ——模式切换/画布重排版/分辨率/环境全免疫（调用方建钮后改锚也逐帧跟随不失位）。</summary>
+================================================================================
+第 48 页结束
+
+吸嘟嘟游戏软件 V1.0 源程序  第 49 页 共 60 页
+================================================================================
         internal sealed class ButtonShadowPad : MonoBehaviour
         {
             internal RectTransform Target;
@@ -2690,11 +2669,6 @@ namespace GimmeAll.UI
             {
                 AnchorStretch(rt);
             }
-================================================================================
-第 49 页结束
-
-吸嘟嘟游戏软件 V1.0 源程序  第 50 页 共 60 页
-================================================================================
             var image = go.AddComponent<Image>();
             image.color = color;
             if (baseSprite != null)
@@ -2716,6 +2690,11 @@ namespace GimmeAll.UI
         public static void AnchorCenter(RectTransform rt, Vector2 anchoredPosition, Vector2 size)
         {
             rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
+================================================================================
+第 49 页结束
+
+吸嘟嘟游戏软件 V1.0 源程序  第 50 页 共 60 页
+================================================================================
             rt.pivot = new Vector2(0.5f, 0.5f);
             rt.sizeDelta = size;
             rt.anchoredPosition = anchoredPosition;
@@ -2745,11 +2724,6 @@ namespace GimmeAll.UI
                 _font = Resources.Load<Font>("Fonts/CNFont");
                 if (_font == null) _font = TryBuiltin("LegacyRuntime.ttf");
                 if (_font == null) _font = TryBuiltin("Arial.ttf");
-================================================================================
-第 50 页结束
-
-吸嘟嘟游戏软件 V1.0 源程序  第 51 页 共 60 页
-================================================================================
                 if (_font == null) _font = Font.CreateDynamicFontFromOSFont("Microsoft YaHei UI", 28);
             }
             return _font;
@@ -2771,6 +2745,11 @@ namespace GimmeAll.UI
         }
         private static Font TryBuiltin(string name)
         {
+================================================================================
+第 50 页结束
+
+吸嘟嘟游戏软件 V1.0 源程序  第 51 页 共 60 页
+================================================================================
             try { return Resources.GetBuiltinResource<Font>(name); }
             catch { return null; }   // 部分实现缺失时抛异常，部分返回 null——两者都兜
         }
@@ -2800,11 +2779,6 @@ namespace GimmeAll.UI
         {
             _phase += Time.unscaledDeltaTime * (6.2831853f / Period);
             var rt = (RectTransform)transform;
-================================================================================
-第 51 页结束
-
-吸嘟嘟游戏软件 V1.0 源程序  第 52 页 共 60 页
-================================================================================
             rt.anchoredPosition = new Vector2(_base.x, _base.y + Mathf.Sin(_phase) * Amplitude);
         }
     }
@@ -2826,6 +2800,11 @@ namespace GimmeAll.UI
         private Vector2 _base;
         private float _phase;
         private void Awake()
+================================================================================
+第 51 页结束
+
+吸嘟嘟游戏软件 V1.0 源程序  第 52 页 共 60 页
+================================================================================
         {
             _base = ((RectTransform)transform).anchoredPosition;
             _phase = (GetInstanceID() % 71) * 0.13f;   // 实例相位错开（多背景不齐步）
@@ -2855,11 +2834,6 @@ namespace GimmeAll.UI
     public static class UiEasing
     {
         /// <summary>EaseOut 二次：k∈[0,1] → 0→1 快出慢落（端点精确 0/1）。</summary>
-================================================================================
-第 52 页结束
-
-吸嘟嘟游戏软件 V1.0 源程序  第 53 页 共 60 页
-================================================================================
         public static float EaseOut01(float k)
         {
             if (k < 0f) k = 0f;
@@ -2881,6 +2855,11 @@ namespace GimmeAll.UI
             if (k < 0f) k = 0f;
             if (k > 1f) k = 1f;
             return k * k;
+================================================================================
+第 52 页结束
+
+吸嘟嘟游戏软件 V1.0 源程序  第 53 页 共 60 页
+================================================================================
         }
         /// <summary>Pop（EaseOutBack 族·温和过冲）：0→1 且中段冲过 1 到峰约 1.10 后回落恰好 1
         /// ——弹窗 0.8→1 与屏入 0.95→1 的「Q 弹」曲线（与 JuiceCurves.SpawnPop01 同包络口不同实现）。</summary>
@@ -2910,11 +2889,6 @@ namespace GimmeAll.UI
 using UnityEngine;
 namespace GimmeAll.UI
 {
-================================================================================
-第 53 页结束
-
-吸嘟嘟游戏软件 V1.0 源程序  第 54 页 共 60 页
-================================================================================
     /// <summary>
     /// W21-UX 屏幕过渡层（§十八 G 过渡律：切屏=暖场交叉淡入，禁硬切）：
     /// CanvasGroup 驱动——淡入 0.18s easeOut（快现慢落），淡出 0.12s 后才 SetActive(false)
@@ -2936,6 +2910,11 @@ namespace GimmeAll.UI
         private const float ScreenScaleFrom = 0.95f; // U305：整屏入场起点（CEO 手册 0.95→1）
         private const float ScreenScaleTime = 0.18f; // 整屏缩入与淡入同长
         private CanvasGroup _group;
+================================================================================
+第 53 页结束
+
+吸嘟嘟游戏软件 V1.0 源程序  第 54 页 共 60 页
+================================================================================
         private RectTransform _slide;      // 模态面板（null=纯淡入淡出）
         private Vector2 _slideBase;
         private bool _animIn, _animOut;
@@ -2965,11 +2944,6 @@ namespace GimmeAll.UI
             _animOut = false;
             _t = 0f;
             // U305 入场缩放律：模态=0.8→1 Pop 250ms；整屏=0.95→1 180ms+白闪 30ms（模态不开白闪）
-================================================================================
-第 54 页结束
-
-吸嘟嘟游戏软件 V1.0 源程序  第 55 页 共 60 页
-================================================================================
             _scaleRt = _slide != null ? _slide : (RectTransform)transform;
             _scaleFrom = _slide != null ? PopScaleFrom : ScreenScaleFrom;
             _scaleTo = 1f;
@@ -2991,6 +2965,11 @@ namespace GimmeAll.UI
             // U305 模态关闭反播律（CEO 手册「关闭反向播一遍」）：面板 1→0.8 缩走（整屏只淡出不缩）
             if (_slide != null)
             {
+================================================================================
+第 54 页结束
+
+吸嘟嘟游戏软件 V1.0 源程序  第 55 页 共 60 页
+================================================================================
                 _scaleRt = _slide;
                 _scaleFrom = 1f;
                 _scaleTo = PopScaleFrom;
@@ -3020,11 +2999,6 @@ namespace GimmeAll.UI
             {
                 _st += Time.unscaledDeltaTime;
                 float sk = Mathf.Clamp01(_st / _scaleTime);
-================================================================================
-第 55 页结束
-
-吸嘟嘟游戏软件 V1.0 源程序  第 56 页 共 60 页
-================================================================================
                 float curve = _reverse ? UiEasing.EaseIn01(sk) : UiEasing.Pop01(sk);
                 float s = Mathf.Lerp(_scaleFrom, _scaleTo, curve);
                 _scaleRt.localScale = new Vector3(s, s, 1f);
@@ -3046,6 +3020,11 @@ namespace GimmeAll.UI
                 {
                     _animIn = false;
                     _group.alpha = 1f;
+================================================================================
+第 55 页结束
+
+吸嘟嘟游戏软件 V1.0 源程序  第 56 页 共 60 页
+================================================================================
                     if (_slide != null) _slide.anchoredPosition = _slideBase;
                 }
             }
@@ -3075,11 +3054,6 @@ namespace GimmeAll.UI
     /// <summary>
     /// 转场白闪（U305 CEO 手册 §四.3「屏切屏中间加一帧白闪 30ms，不要黑场」）：
     /// UIRoot 顶层懒建的全幅白色 Image（raycastTarget=false 永不吞点击），
-================================================================================
-第 56 页结束
-
-吸嘟嘟游戏软件 V1.0 源程序  第 57 页 共 60 页
-================================================================================
     /// 米白近纯白、峰值 0.9（30ms 满亮+90ms 缓落——可见的「呼吸」而非频闪刺目）。
     /// unscaledDeltaTime 驱动零分配；静态复位随 UIRoot 同款 SubsystemRegistration 律。
     /// 探针钩：CurrentAlpha/LastPeakAlpha 供 FxGate 帧取证读数（机器可验判据面）。
@@ -3095,7 +3069,17 @@ namespace GimmeAll.UI
         private float _t;
         private bool _flashing;
         private bool _peaked;   // 帧率韧性：30ms 级白闪在慢帧（>45ms/帧）下时间轴会在一帧内闪完——首帧强制满亮渲染，保证白闪至少可见一帧
+        // U360-S3：本次闪参数（Flash 重载可调；缺省=转场档常量——参数化后行为逐字节不变）
+        private float _peak = PeakAlpha;
+        private float _rise = RiseTime;
+        private float _hold = HoldTime;
+        private float _fall = FallTime;
         /// <summary>当前透明度（探针读数用；未激活=0）。</summary>
+================================================================================
+第 56 页结束
+
+吸嘟嘟游戏软件 V1.0 源程序  第 57 页 共 60 页
+================================================================================
         public static float CurrentAlpha => _instance != null && _instance._image != null
             ? _instance._image.color.a : 0f;
         /// <summary>最近一次白闪实际采到的峰值（探针断言「白闪真的亮过」用）。</summary>
@@ -3108,8 +3092,16 @@ namespace GimmeAll.UI
             _instance = null;   // Fast-Enter 域重载清引用（UIRoot 同律）
             LastPeakAlpha = 0f;
         }
-        /// <summary>触发一次白闪（幂等懒建顶层遮罩；任何态重复调用=重起点续闪）。</summary>
+        /// <summary>触发一次白闪（幂等懒建顶层遮罩；任何态重复调用=重起点续闪）。转场档参数不变。</summary>
         public static void Flash()
+        {
+            Flash(PeakAlpha, RiseTime, HoldTime, FallTime);
+        }
+        /// <summary>
+        /// U360-S3 风暴白闪重载：自定义峰值与时程（风暴拳=峰值 0.18/全程 0.12s·低调拳感不夺转场白闪语义；
+        /// FeelPulse 三连的视觉腿）。参数负值钳零、峰值钳 01。
+        /// </summary>
+        public static void Flash(float peakAlpha, float rise, float hold, float fall)
         {
             if (_instance == null)
             {
@@ -3127,29 +3119,33 @@ namespace GimmeAll.UI
             _instance._flashing = true;
             _instance._peaked = false;
             _instance._t = 0f;
+            _instance._peak = Mathf.Clamp01(peakAlpha);
+            _instance._rise = Mathf.Max(0f, rise);
+            _instance._hold = Mathf.Max(0f, hold);
+            _instance._fall = Mathf.Max(0f, fall);
         }
         private void Update()
         {
+            if (!_flashing) return;
+            _t += Time.unscaledDeltaTime;
+            float a;
+            if (!_peaked)
 ================================================================================
 第 57 页结束
 
 吸嘟嘟游戏软件 V1.0 源程序  第 58 页 共 60 页
 ================================================================================
-            if (!_flashing) return;
-            _t += Time.unscaledDeltaTime;
-            float a;
-            if (!_peaked)
             {
                 _peaked = true;
-                a = PeakAlpha;   // 帧率韧性律：首帧即满亮（慢帧设备 30ms 白闪不消失·CEO「一帧白闪」语义的本意）
+                a = _peak;   // 帧率韧性律：首帧即满亮（慢帧设备 30ms 白闪不消失·CEO「一帧白闪」语义的本意）
             }
             else
             {
-                a = UiEasing.FlashAlphaAt(_t, RiseTime, HoldTime, FallTime, PeakAlpha);
+                a = UiEasing.FlashAlphaAt(_t, _rise, _hold, _fall, _peak);
             }
             if (a > LastPeakAlpha) LastPeakAlpha = a;
             if (_image != null) _image.color = new Color(1f, 1f, 0.98f, a);
-            if (_t >= RiseTime + HoldTime + FallTime)
+            if (_t >= _rise + _hold + _fall)
             {
                 _flashing = false;
                 if (_image != null) _image.color = new Color(1f, 1f, 0.98f, 0f);
@@ -3185,15 +3181,15 @@ namespace GimmeAll.UI
         {
             if (_instance == null)
             {
+                var go = new GameObject("WardrobeScreen", typeof(RectTransform));
+                ((RectTransform)go.transform).SetParent(UIRoot.SafeArea, false);
+                UIRoot.AnchorStretch((RectTransform)go.transform);
+                _instance = go.AddComponent<WardrobeScreen>();
 ================================================================================
 第 58 页结束
 
 吸嘟嘟游戏软件 V1.0 源程序  第 59 页 共 60 页
 ================================================================================
-                var go = new GameObject("WardrobeScreen", typeof(RectTransform));
-                ((RectTransform)go.transform).SetParent(UIRoot.SafeArea, false);
-                UIRoot.AnchorStretch((RectTransform)go.transform);
-                _instance = go.AddComponent<WardrobeScreen>();
             }
             _instance.Open();
         }
@@ -3203,7 +3199,7 @@ namespace GimmeAll.UI
             PublishEquip(PlayerPrefs.GetInt(EquipKey, 0));   // 启动恢复：演员未建→ActorDudu 静态 pending 接住
         }
         private RectTransform _content, _panel;
-        private Text[] _slotState = new Text[19];
+        private Image[] _slotLock = new Image[19];   // CEO 密度律 10-09：状态文字行裁撤→锁定态=锁标视觉件
         private Button[] _slotBtn = new Button[19];
         private void Awake()
         {
@@ -3220,11 +3216,17 @@ namespace GimmeAll.UI
                 int col = i % 2, row = i / 2;
                 var btn = UIRoot.CreateButton(_panel, SlotName(i), new Vector2(430f, 128f), UIRoot.CoralSoft, UIRoot.Ink);
                 UIRoot.AnchorTop((RectTransform)btn.transform, 130f + row * 140f, new Vector2(430f, 128f), col == 0 ? -225f : 225f);
-                var state = UIRoot.CreateText(btn.transform, "", 26, UIRoot.Ink);   // U320 排印：Coral 压装备中槽(Coral 底) CR 1.00 同色隐身→Ink（三态底全 ≥4.24✓）
-                state.horizontalOverflow = HorizontalWrapMode.Overflow;
-                UIRoot.AnchorBottom(state.rectTransform, 10f, new Vector2(400f, 34f));
+                // CEO 密度律 10-09（「按钮的信息密度太高了…你做的是小游戏」）：槽=名字一物，
+                // 状态全视觉化（装备=Coral/未装备=CoralSoft/锁定=Lilac+锁标）——零状态文字行。
+                var lockGo = new GameObject("LockIcon", typeof(RectTransform));
+                var lockRt = (RectTransform)lockGo.transform;
+                lockRt.SetParent(btn.transform, false);
+                UIRoot.AnchorCenter(lockRt, new Vector2(175f, 36f), new Vector2(40f, 40f));
+                var lockImg = lockGo.AddComponent<Image>();
+                lockImg.sprite = UIArt.Icon("lock");
+                lockImg.raycastTarget = false;   // 图标不吞点击（U277 律）
                 _slotBtn[i] = btn;
-                _slotState[i] = state;
+                _slotLock[i] = lockImg;
                 btn.onClick.AddListener(() => OnSlotClicked(idx));
             }
             var close = UIRoot.CreateButton(_panel, "先这样", new Vector2(430f, 120f), UIRoot.Gold, UIRoot.Ink);
@@ -3232,19 +3234,19 @@ namespace GimmeAll.UI
             close.onClick.AddListener(Close);
             _content.gameObject.SetActive(false);   // 建屏瞬时自藏（W21-UX 过渡红线）
         }
-        private static string SlotName(int i) { return i == 0 ? "原皮 · 软乎乎本色" : OutfitNames[i]; }
+        private static string SlotName(int i) { return i == 0 ? "原皮" : OutfitNames[i]; }   // CEO 密度律 10-09：副题尾缀「· 软乎乎本色」裁撤（名字一物）
         /// <summary>衣橱解锁律（§二十一 零抽卡）：章 k 旅装=通关该章（vh.progress ≥ 5k；CodexCatalog 直读先例）。</summary>
         public static bool IsUnlocked(int chapter)
         {
             if (chapter <= 0) return true;   // 原皮恒解锁
             int p = PlayerPrefs.GetInt(_progressKey, 0);
-            return p >= chapter * 5;
-        }
 ================================================================================
 第 59 页结束
 
 吸嘟嘟游戏软件 V1.0 源程序  第 60 页 共 60 页
 ================================================================================
+            return p >= chapter * 5;
+        }
         private const string LevelProgressKey = "vh.progress";   // LevelProgressStore.DefaultPrefsKey 镜像（UI 不依赖 Levels）
         private static string _progressKey = LevelProgressKey;
         /// <summary>测试隔离缝（LevelProgressStore 先例）：测试车道换键，测后 DeleteKey 还原。</summary>
@@ -3270,9 +3272,7 @@ namespace GimmeAll.UI
                 bool unlocked = IsUnlocked(i);
                 var img = _slotBtn[i].GetComponent<Image>();
                 img.color = unlocked ? (i == equipped ? UIRoot.Coral : UIRoot.CoralSoft) : UIRoot.Lilac;
-                _slotState[i].text = !unlocked ? "通关第 " + i + " 章解锁"
-                    : (i == equipped ? "在身上～" : "");
-                _slotState[i].raycastTarget = false;
+                _slotLock[i].enabled = !unlocked;   // 锁定=锁标现身（信息密度律：状态视觉化零文字）
             }
         }
         private void OnSlotClicked(int idx)

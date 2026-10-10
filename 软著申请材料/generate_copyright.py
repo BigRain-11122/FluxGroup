@@ -1,10 +1,17 @@
 # -*- coding: utf-8 -*-
 """
-Universal software copyright application material generator.
+Universal software copyright application material generator (fleet-portable).
 Generates: source code PDF (60 pages, 50 lines/page), design document PDF, form guide PDF.
-Usage: python generate_copyright.py <project_key>
+Usage: python generate_copyright.py [key1 key2 ...]   (no args = all keys)
+
+Fleet rules (CEO order O-20261010-1330):
+- Output always lands in <this script's folder>/<out_dir>, committed via git -> synced fleet-wide.
+- src resolution: src_rel is tried against every candidate repo/project root (bm-a / bm-c / K-machine layouts).
+- Projects whose source is not on the current machine: source steps are skipped with a notice,
+  but design doc + form guide PDFs still render if their .md files exist.
+- 源程序量 in 申请表填写指南.md is auto-updated from the real measurement whenever source is collected.
 """
-import os, sys, glob
+import os, sys, glob, re
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import mm
 from reportlab.lib.colors import black, HexColor
@@ -14,116 +21,184 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, Tabl
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_JUSTIFY
 from reportlab.pdfgen import canvas
-import re
 
-BASE = r"C:\Users\sjs20\Desktop\FluxGroup\软著申请材料"
+BASE = os.path.dirname(os.path.abspath(__file__))
+REPO = os.path.dirname(BASE)
+
+# Candidate roots for src_rel resolution (bm-a / bm-c / K-machine layouts all covered)
+SRC_ROOTS = [
+    os.path.join(REPO, 'gaming', 'MiniGame'),
+    os.path.join(REPO, 'gaming'),
+    os.path.join(REPO, 'projects'),
+    os.path.normpath(os.path.join(REPO, '..', 'projects')),
+    REPO,
+    r'K:\Fluxgroup\MiniGame',
+    r'K:\Fluxgroup\projects',
+    r'K:\Fluxgroup\FluxGroup\gaming\MiniGame',
+    r'C:\Fluxgroup\FluxGroup\gaming\MiniGame',
+]
 
 # Register fonts
 pdfmetrics.registerFont(TTFont('SimSun', r'C:\Windows\Fonts\simsun.ttc'))
 pdfmetrics.registerFont(TTFont('SimHei', r'C:\Windows\Fonts\simhei.ttf'))
 pdfmetrics.registerFont(TTFont('Consolas', r'C:\Windows\Fonts\consola.ttf'))
 
-# Project configurations
+# Project configurations.
+# Fields: name_cn(软件全称) / name_short / name_en / version / src_rel(相对任意候选根) /
+#         out_dir(可选,缺省={key}_{name_en}) / name_pending(可选,True=中文定名未定工作稿) / owner(归属军团机)
 PROJECTS = {
+    # ---------- A机=团结牛马军团 (bm-a) ----------
+    "G09": {  # 吸嘟嘟 (G01 ledger 号; CEO 位标号 G09)
+        "name_cn": "吸嘟嘟游戏软件", "name_short": "吸嘟嘟", "name_en": "GimmeAll", "version": "V1.0",
+        "src_rel": "09_吸嘟嘟GimmeAll/GimmeAll/Assets", "owner": "A机",
+    },
     "G11": {
-        "name_cn": "摸鱼也升职游戏软件",
-        "name_short": "摸鱼也升职",
-        "name_en": "CrazyWorker",
-        "version": "V1.0",
-        "src_dir": r"C:\Users\sjs20\Desktop\FluxGroup\gaming\MiniGame\projects\G11_CrazyWorker\Assets\_Game",
+        "name_cn": "摸鱼也升职游戏软件", "name_short": "摸鱼也升职", "name_en": "CrazyWorker", "version": "V1.0",
+        "src_rel": "projects/G11_CrazyWorker/Assets/_Game", "owner": "A机",
     },
     "G15": {
-        "name_cn": "萌宠开店啦游戏软件",
-        "name_short": "萌宠开店啦",
-        "name_en": "PetWorkCrew",
-        "version": "V1.0",
-        "src_dir": r"C:\Users\sjs20\Desktop\FluxGroup\gaming\MiniGame\projects\G15_PetWorkCrew\Assets\_Game",
+        "name_cn": "萌宠开店啦游戏软件", "name_short": "萌宠开店啦", "name_en": "PetWorkCrew", "version": "V1.0",
+        "src_rel": "projects/G15_PetWorkCrew/Assets/_Game", "owner": "A机",
     },
     "G16": {
-        "name_cn": "我有一栋楼游戏软件",
-        "name_short": "我有一栋楼",
-        "name_en": "CrazyEstate",
-        "version": "V1.0",
-        "src_dir": r"C:\Users\sjs20\Desktop\FluxGroup\gaming\MiniGame\projects\G16_CrazyEstate\Assets\_Game",
+        "name_cn": "我有一栋楼游戏软件", "name_short": "我有一栋楼", "name_en": "CrazyEstate", "version": "V1.0",
+        "src_rel": "projects/G16_CrazyEstate/Assets/_Game", "owner": "A机",
     },
     "G19": {
-        "name_cn": "我的小花园游戏软件",
-        "name_short": "我的小花园",
-        "name_en": "BloomHaven",
-        "version": "V1.0",
-        "src_dir": r"C:\Users\sjs20\Desktop\FluxGroup\gaming\MiniGame\projects\G19_BloomHaven\Assets\_Game",
+        "name_cn": "我的小花园游戏软件", "name_short": "我的小花园", "name_en": "BloomHaven", "version": "V1.0",
+        "src_rel": "projects/G19_BloomHaven/Assets/_Game", "owner": "A机",
     },
     "FluxVerse": {
-        "name_cn": "超体宇宙城游戏软件",
-        "name_short": "超体宇宙城",
-        "name_en": "FluxVerse",
-        "version": "V1.0",
-        "src_dir": r"C:\Users\sjs20\Desktop\FluxGroup\gaming\FluxVerse\City\Assets",
-    },
-    "G09": {
-        "name_cn": "吸嘟嘟游戏软件",
-        "name_short": "吸嘟嘟",
-        "name_en": "GimmeAll",
-        "version": "V1.0",
-        "src_dir": r"C:\Users\sjs20\Desktop\FluxGroup\gaming\MiniGame\09_吸嘟嘟GimmeAll\GimmeAll\Assets",
+        "name_cn": "超体宇宙城游戏软件", "name_short": "超体宇宙城", "name_en": "FluxVerse", "version": "V1.0",
+        "src_rel": "FluxVerse/City/Assets", "owner": "A机",
     },
     "P01": {
-        "name_cn": "提灯斩鬼游戏软件",
-        "name_short": "提灯斩鬼",
-        "name_en": "LanternSlayer",
-        "version": "V1.0",
-        "src_dir": r"C:\Users\sjs20\Desktop\FluxGroup\gaming\MiniGame\projects\P01_LanternReaper\Assets\_Game",
+        "name_cn": "提灯斩鬼游戏软件", "name_short": "提灯斩鬼", "name_en": "LanternSlayer", "version": "V1.0",
+        "src_rel": "projects/P01_LanternReaper/Assets/_Game", "owner": "A机",
     },
     "P02": {
-        "name_cn": "异界行者游戏软件",
-        "name_short": "异界行者",
-        "name_en": "FateGate",
-        "version": "V1.0",
-        "src_dir": r"C:\Users\sjs20\Desktop\FluxGroup\gaming\MiniGame\projects\P02_FateGate\Assets\_Game",
-    },
-    "P06": {
-        "name_cn": "调香师游戏软件",
-        "name_short": "调香师",
-        "name_en": "SongOfScents",
-        "version": "V1.0",
-        "src_dir": r"C:\Users\sjs20\Desktop\FluxGroup\gaming\MiniGame\projects\P06_SongOfScents\Assets\_Game",
-    },
-    "P08": {
-        "name_cn": "奈何桥游戏软件",
-        "name_short": "奈何桥",
-        "name_en": "GhostMarshal",
-        "version": "V1.0",
-        "src_dir": r"C:\Users\sjs20\Desktop\FluxGroup\gaming\MiniGame\projects\P08_GhostMarshal\Assets\_Game",
+        "name_cn": "异界行者游戏软件", "name_short": "异界行者", "name_en": "FateGate", "version": "V1.0",
+        "src_rel": "projects/P02_FateGate/Assets/_Game", "owner": "A机",
     },
     "P03": {
-        "name_cn": "军师救我游戏软件",
-        "name_short": "军师救我",
-        "name_en": "StrategistDefense",
-        "version": "V1.0",
-        "src_dir": r"C:\Users\sjs20\Desktop\FluxGroup\gaming\MiniGame\projects\P03_CataclysmKeep\Assets\_Game",
+        "name_cn": "军师救我游戏软件", "name_short": "军师救我", "name_en": "StrategistDefense", "version": "V1.0",
+        "src_rel": "projects/P03_CataclysmKeep/Assets/_Game", "owner": "A机",
     },
     "P04": {
-        "name_cn": "这妖我收了游戏软件",
-        "name_short": "这妖我收了",
-        "name_en": "DemonTamer",
-        "version": "V1.0",
-        "src_dir": r"C:\Users\sjs20\Desktop\FluxGroup\gaming\MiniGame\projects\P04_ShanhaiSaga\Assets\_Game",
+        "name_cn": "这妖我收了游戏软件", "name_short": "这妖我收了", "name_en": "DemonTamer", "version": "V1.0",
+        "src_rel": "projects/P04_ShanhaiSaga/Assets/_Game", "owner": "A机",
     },
     "P05": {
-        "name_cn": "守夜人游戏软件",
-        "name_short": "守夜人",
-        "name_en": "NightWatch",
-        "version": "V1.0",
-        "src_dir": r"C:\Users\sjs20\Desktop\FluxGroup\gaming\MiniGame\projects\P05_FrozenDynasty\Assets\_Game",
+        "name_cn": "守夜人游戏软件", "name_short": "守夜人", "name_en": "NightWatch", "version": "V1.0",
+        "src_rel": "projects/P05_FrozenDynasty/Assets/_Game", "owner": "A机",
+    },
+    "P06": {
+        "name_cn": "调香师游戏软件", "name_short": "调香师", "name_en": "SongOfScents", "version": "V1.0",
+        "src_rel": "projects/P06_SongOfScents/Assets/_Game", "owner": "A机",
     },
     "P07": {
-        "name_cn": "捞个宝游戏软件",
-        "name_short": "捞个宝",
-        "name_en": "TreasureDive",
-        "version": "V1.0",
-        "src_dir": r"C:\Users\sjs20\Desktop\FluxGroup\gaming\MiniGame\projects\P07_SunkenMuseum\Assets\_Game",
+        "name_cn": "捞个宝游戏软件", "name_short": "捞个宝", "name_en": "TreasureDive", "version": "V1.0",
+        "src_rel": "projects/P07_SunkenMuseum/Assets/_Game", "owner": "A机",
+    },
+    "P08": {
+        "name_cn": "奈何桥游戏软件", "name_short": "奈何桥", "name_en": "GhostMarshal", "version": "V1.0",
+        "src_rel": "projects/P08_GhostMarshal/Assets/_Game", "owner": "A机",
+    },
+    # ---------- B机=银河牛马军团 (bm-c) ----------
+    "G04": {
+        "name_cn": "拧松它游戏软件", "name_short": "拧松它", "name_en": "ScrewOut", "version": "V1.0",
+        "src_rel": "G04_ScrewOut/Assets/_Game", "owner": "B机",
+    },
+    "G05": {
+        "name_cn": "离谱钓手游戏软件", "name_short": "离谱钓手", "name_en": "ReelRiot", "version": "V1.0",
+        "src_rel": "G05_ReelRiot/Assets/_Game", "owner": "B机",
+    },
+    "G07": {
+        "name_cn": "人潮游戏软件", "name_short": "人潮", "name_en": "MobTide", "version": "V1.0",
+        "src_rel": "G07_MobTide/Assets/_Game", "owner": "B机",
+    },
+    "G08": {
+        "name_cn": "疯狂校园游戏软件", "name_short": "疯狂校园", "name_en": "CrazyCampus", "version": "V1.0",
+        "src_rel": "G08_CrazyCampus/Assets/_Game", "owner": "B机",
+    },
+    "G13": {
+        "name_cn": "我想有个农场游戏软件", "name_short": "我想有个农场", "name_en": "CrazyFarm", "version": "V1.0",
+        "src_rel": "G13_CrazyFarm/Assets/_Game", "out_dir": "G13_我想有个农场", "owner": "B机",
+    },
+    "G14": {
+        "name_cn": "大不了开饭馆游戏软件", "name_short": "大不了开饭馆", "name_en": "CrazyRestaurant", "version": "V1.0",
+        "src_rel": "G14_CrazyRestaurant/Assets/_Game", "out_dir": "G14_大不了开饭馆", "owner": "B机",
+    },
+    "G20": {
+        "name_cn": "今夜有妖游戏软件", "name_short": "今夜有妖", "name_en": "MonsterInn", "version": "V1.0",
+        "src_rel": "G20_MonsterInn/Assets/_Game", "owner": "B机",
+    },
+    "G26": {
+        "name_cn": "流放开荒游戏软件", "name_short": "流放开荒", "name_en": "ExileFarm", "version": "V1.0",
+        "src_rel": "G26_ExileFarm/Assets/_Game", "owner": "B机",
+    },
+    # ---------- C机=御湖湾牛马军团 (bm-b/K机) ----------
+    "G02": {
+        "name_cn": "时光修理铺游戏软件", "name_short": "时光修理铺", "name_en": "TimeRepairShop", "version": "V1.0",
+        "src_rel": "TimeRepairShop/Assets/_Game", "out_dir": "G02_TimeRepairShop", "owner": "C机",
+    },
+    "G09Y": {
+        "name_cn": "我想开个医院游戏软件", "name_short": "我想开个医院", "name_en": "CrazyHospital", "version": "V1.0",
+        "src_rel": ["G09_CrazyHospital/Assets/_Game", "CrazyHospital/Assets/_Game"], "out_dir": "G09_我想开个医院", "owner": "C机",
+    },
+    "G10": {
+        "name_cn": "疯狂股市游戏软件", "name_short": "疯狂股市", "name_en": "CrazyTrade", "version": "V1.0",
+        "src_rel": ["G10_CrazyTrade/Assets/_Game", "CrazyStocks/Assets/_Game"], "out_dir": "G10_疯狂股市", "owner": "C机",
+    },
+    "G12": {
+        "name_cn": "就差一条线游戏软件", "name_short": "就差一条线", "name_en": "LineRescue", "version": "V1.0",
+        "src_rel": "LineRescue/Assets/_Game", "out_dir": "G12_LineRescue", "owner": "C机",
+    },
+    # ---------- 定名待定区（材料随定名生成——软著名=平台名一致性红线） ----------
+    "G03": {
+        "name_cn": "MergeMania游戏软件", "name_short": "MergeMania", "name_en": "MergeMania", "version": "V1.0",
+        "src_rel": "MergeMania/Assets/_Game", "owner": "C机", "name_pending": True,
+    },
+    "G06": {
+        "name_cn": "ArrowRush游戏软件", "name_short": "ArrowRush", "name_en": "ArrowRush", "version": "V1.0",
+        "src_rel": "ArrowRush/Assets/_Game", "owner": "C机", "name_pending": True,
+    },
+    "G17": {
+        "name_cn": "UnboxIt游戏软件", "name_short": "UnboxIt", "name_en": "UnboxIt", "version": "V1.0",
+        "src_rel": "UnboxIt/Assets/_Game", "owner": "C机", "name_pending": True,
+    },
+    "G18": {
+        "name_cn": "PalacePlunder游戏软件", "name_short": "PalacePlunder", "name_en": "PalacePlunder", "version": "V1.0",
+        "src_rel": "PalacePlunder/Assets/_Game", "owner": "C机", "name_pending": True,
+    },
+    "G23": {
+        "name_cn": "CardRogue游戏软件", "name_short": "CardRogue", "name_en": "CardRogue", "version": "V1.0",
+        "src_rel": "G23_CardRogue/Assets/_Game", "owner": "B机", "name_pending": True,
+    },
+    "G28": {
+        "name_cn": "ArrowOut游戏软件", "name_short": "ArrowOut", "name_en": "ArrowOut", "version": "V1.0",
+        "src_rel": "G28_ArrowOut/Assets/_Game", "owner": "B机", "name_pending": True,
     },
 }
+
+
+def resolve_src(cfg):
+    """Resolve src_rel (str or list of candidates) against every candidate root; returns existing dir or None."""
+    rels = cfg.get('src_rel')
+    if isinstance(rels, str):
+        rels = [rels]
+    if cfg.get('src_abs') and os.path.isdir(cfg['src_abs']):
+        return cfg['src_abs']
+    for rel in rels:
+        parts = rel.split('/')
+        for root in SRC_ROOTS:
+            if not os.path.isdir(root):
+                continue
+            cand = os.path.normpath(os.path.join(root, *parts))
+            if os.path.isdir(cand):
+                return cand
+    return None
+
 
 def collect_source_files(src_dir):
     """Collect .cs files, entry-point files first, then alphabetical."""
@@ -142,6 +217,7 @@ def collect_source_files(src_dir):
     all_files.sort(key=sort_key)
     return all_files
 
+
 def read_all_lines(files):
     """Read all non-empty lines from all files, natural file boundaries."""
     all_lines = []
@@ -158,6 +234,30 @@ def read_all_lines(files):
         except:
             pass
     return all_lines
+
+
+def sync_guide_linecount(out_dir, total_lines, file_count, total_pages, software_name, version):
+    """Auto-update 源程序量 row + 鉴别材料 source-page line in 申请表填写指南.md with real measurement."""
+    guide = os.path.join(out_dir, '申请表填写指南.md')
+    if not os.path.exists(guide):
+        return
+    try:
+        with open(guide, 'r', encoding='utf-8-sig') as f:
+            content = f.read()
+        new_row = f"| 源程序量 | {total_lines}行（{file_count}个.cs文件） |"
+        content2 = re.sub(r'\| 源程序量 \|[^\n]*\|', new_row, content, count=1)
+        if total_pages < 60:
+            small_line = (f"源程序：程序总量不足60页，全部{total_pages}页提交，每页不少于50行，"
+                         f"页眉「{software_name} {version} 源程序」，最后一页结束在程序末尾。")
+            content2 = re.sub(r'源程序：前后各连续30页共60页[^\n]*', small_line, content2, count=1)
+            content2 = re.sub(r'第60页结束在程序末尾', '最后一页结束在程序末尾', content2)
+        with open(guide, 'w', encoding='utf-8-sig') as f:
+            f.write(content2)
+        if content2 != content:
+            print(f"  Guide synced: 源程序量 -> {total_lines}行/{file_count}文件/{total_pages}页")
+    except Exception as e:
+        print(f"  Guide sync skipped: {e}")
+
 
 def build_source_txt(lines, out_path, software_name, version):
     """Build 60 pages: first 30 from program start, last 30 ending at program end."""
@@ -176,6 +276,7 @@ def build_source_txt(lines, out_path, software_name, version):
         second_half = lines[-half:]
 
     all_page_lines = first_half + second_half
+    actual_pages = min(TOTAL_PAGES, (len(all_page_lines) + LINES_PER_PAGE - 1) // LINES_PER_PAGE)
 
     with open(out_path, 'w', encoding='utf-8-sig') as f:
         page_num = 0
@@ -186,7 +287,7 @@ def build_source_txt(lines, out_path, software_name, version):
             chunk = all_page_lines[i:i+LINES_PER_PAGE]
             while len(chunk) < LINES_PER_PAGE:
                 chunk.append('')
-            f.write(f"{software_name} {version} 源程序  第 {page_num} 页 共 60 页\n")
+            f.write(f"{software_name} {version} 源程序  第 {page_num} 页 共 {actual_pages} 页\n")
             f.write("=" * 80 + "\n")
             for line in chunk:
                 f.write(line + "\n")
@@ -199,6 +300,7 @@ def build_source_txt(lines, out_path, software_name, version):
     print(f"  Source txt: {page_num} pages, {len(all_page_lines)} lines")
     print(f"  Last line is program end: {end_ok} ('{doc_last[:50]}')")
     return page_num
+
 
 def build_source_pdf(txt_path, out_path, software_name, version):
     """Build source code PDF from the structured txt."""
@@ -231,7 +333,8 @@ def build_source_pdf(txt_path, out_path, software_name, version):
     if current_code:
         pages.append(current_code[:])
 
-    print(f"  Parsed {len(pages)} pages for PDF")
+    total_pages = len(pages)
+    print(f"  Parsed {total_pages} pages for PDF")
 
     c = canvas.Canvas(out_path, pagesize=A4)
     width, height = A4
@@ -251,7 +354,7 @@ def build_source_pdf(txt_path, out_path, software_name, version):
         c.setFont('SimHei', 9)
         c.setFillColor(HexColor('#333333'))
         c.drawString(left_margin, height - top_margin + 2*mm, f"{software_name} {version} 源程序")
-        c.drawRightString(width - right_margin, height - top_margin + 2*mm, f"第 {pn} 页 共 60 页")
+        c.drawRightString(width - right_margin, height - top_margin + 2*mm, f"第 {pn} 页 共 {total_pages} 页")
         c.setStrokeColor(HexColor('#999999'))
         c.setLineWidth(0.5)
         c.line(left_margin, height - top_margin - 1*mm, width - right_margin, height - top_margin - 1*mm)
@@ -272,11 +375,12 @@ def build_source_pdf(txt_path, out_path, software_name, version):
         c.line(left_margin, bottom_margin + 3*mm, width - right_margin, bottom_margin + 3*mm)
         c.setFont('SimSun', 8)
         c.setFillColor(HexColor('#666666'))
-        c.drawCentredString(width/2, bottom_margin, f"{software_name} {version}  源程序交存  第 {pn} 页 / 共 60 页")
+        c.drawCentredString(width/2, bottom_margin, f"{software_name} {version}  源程序交存  第 {pn} 页 / 共 {total_pages} 页")
         c.showPage()
 
     c.save()
     print(f"  Source PDF saved: {out_path}")
+
 
 def build_design_pdf(md_path, out_path, software_name, version):
     """Build design document PDF from markdown."""
@@ -394,6 +498,7 @@ def build_design_pdf(md_path, out_path, software_name, version):
     doc.build(story, onFirstPage=add_pn, onLaterPages=add_pn)
     print(f"  Design PDF saved: {out_path}")
 
+
 def build_md_pdf(md_path, out_path, header_text):
     """Generic markdown to PDF."""
     with open(md_path, 'r', encoding='utf-8-sig') as f:
@@ -462,31 +567,45 @@ def build_md_pdf(md_path, out_path, header_text):
     doc.build(story, onFirstPage=pn, onLaterPages=pn)
     print(f"  PDF saved: {out_path}")
 
+
 def process_project(key):
     cfg = PROJECTS[key]
-    out_dir = os.path.join(BASE, f"{key}_{cfg['name_en']}")
+    out_dir = os.path.join(BASE, cfg.get('out_dir', f"{key}_{cfg['name_en']}"))
     os.makedirs(out_dir, exist_ok=True)
 
     name_cn = cfg['name_cn']
     ver = cfg['version']
 
     print(f"\n{'='*60}")
-    print(f"Processing: {name_cn} ({key})")
+    print(f"Processing: {name_cn} ({key}) [owner={cfg.get('owner','')}]")
+    if cfg.get('name_pending'):
+        print("  NOTE: name_pending=True — 中文定名未定，本位为工作稿，定名后须重渲染。")
     print(f"{'='*60}")
 
-    # 1. Collect source
-    print("\n[1/4] Collecting source files...")
-    files = collect_source_files(cfg['src_dir'])
-    print(f"  Found {len(files)} .cs files")
-    all_lines = read_all_lines(files)
-    print(f"  Total non-empty lines: {len(all_lines)}")
+    src_dir = resolve_src(cfg)
+    total_lines = 0
+    file_count = 0
 
-    # 2. Build source txt + pdf
-    print("\n[2/4] Building source code documents...")
-    txt_path = os.path.join(out_dir, f"{cfg['name_en']}_{ver}_源程序.txt")
-    build_source_txt(all_lines, txt_path, name_cn, ver)
-    pdf_path = os.path.join(out_dir, f"{cfg['name_en']}_{ver}_源程序.pdf")
-    build_source_pdf(txt_path, pdf_path, name_cn, ver)
+    # 1-2. Source pipeline (only when source exists on this machine)
+    if src_dir:
+        print(f"\n[1/4] Collecting source files from: {src_dir}")
+        files = collect_source_files(src_dir)
+        print(f"  Found {len(files)} .cs files")
+        all_lines = read_all_lines(files)
+        total_lines = len(all_lines)
+        file_count = len(files)
+        print(f"  Total non-empty lines: {total_lines}")
+
+        print("\n[2/4] Building source code documents...")
+        txt_path = os.path.join(out_dir, f"{cfg['name_en']}_{ver}_源程序.txt")
+        pages_built = build_source_txt(all_lines, txt_path, name_cn, ver)
+        pdf_path = os.path.join(out_dir, f"{cfg['name_en']}_{ver}_源程序.pdf")
+        build_source_pdf(txt_path, pdf_path, name_cn, ver)
+        sync_guide_linecount(out_dir, total_lines, file_count, pages_built, name_cn, ver)
+    else:
+        print(f"\n[1/4] Source NOT on this machine (src_rel='{cfg['src_rel']}') — source steps skipped.")
+        print("      Owner machine should run this generator to produce 源程序 materials.")
+        print("[2/4] Skipped.")
 
     # 3. Design doc PDF (md must exist)
     print("\n[3/4] Building design document...")
@@ -507,6 +626,7 @@ def process_project(key):
         print(f"  WARNING: {guide_md} not found, skipping")
 
     print(f"\nDone! Output: {out_dir}")
+
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
