@@ -106,19 +106,19 @@ PROJECTS = {
     },
     # ---------- B机=银河牛马军团 (bm-c) ----------
     "G04": {
-        "name_cn": "拧松它游戏软件", "name_short": "拧松它", "name_en": "ScrewOut", "version": "V1.0",
+        "name_cn": "螺丝仙人游戏软件", "name_short": "螺丝仙人", "name_en": "ScrewOut", "version": "V1.0",
         "src_rel": "G04_ScrewOut/Assets/_Game", "owner": "B机",
     },
     "G05": {
-        "name_cn": "离谱钓手游戏软件", "name_short": "离谱钓手", "name_en": "ReelRiot", "version": "V1.0",
+        "name_cn": "爆护游戏软件", "name_short": "爆护", "name_en": "ReelRiot", "version": "V1.0",
         "src_rel": "G05_ReelRiot/Assets/_Game", "owner": "B机",
     },
     "G07": {
-        "name_cn": "人潮游戏软件", "name_short": "人潮", "name_en": "MobTide", "version": "V1.0",
+        "name_cn": "人从众游戏软件", "name_short": "人从众", "name_en": "MobTide", "version": "V1.0",
         "src_rel": "G07_MobTide/Assets/_Game", "owner": "B机",
     },
     "G08": {
-        "name_cn": "疯狂校园游戏软件", "name_short": "疯狂校园", "name_en": "CrazyCampus", "version": "V1.0",
+        "name_cn": "开学啦游戏软件", "name_short": "开学啦", "name_en": "CrazyCampus", "version": "V1.0",
         "src_rel": "G08_CrazyCampus/Assets/_Game", "owner": "B机",
     },
     "G13": {
@@ -130,28 +130,28 @@ PROJECTS = {
         "src_rel": "G14_CrazyRestaurant/Assets/_Game", "out_dir": "G14_大不了开饭馆", "owner": "B机",
     },
     "G20": {
-        "name_cn": "今夜有妖游戏软件", "name_short": "今夜有妖", "name_en": "MonsterInn", "version": "V1.0",
+        "name_cn": "夜聊斋游戏软件", "name_short": "夜聊斋", "name_en": "MonsterInn", "version": "V1.0",
         "src_rel": "G20_MonsterInn/Assets/_Game", "owner": "B机",
     },
     "G26": {
-        "name_cn": "流放开荒游戏软件", "name_short": "流放开荒", "name_en": "ExileFarm", "version": "V1.0",
+        "name_cn": "归园田居游戏软件", "name_short": "归园田居", "name_en": "ExileFarm", "version": "V1.0",
         "src_rel": "G26_ExileFarm/Assets/_Game", "owner": "B机",
     },
     # ---------- C机=御湖湾牛马军团 (bm-b/K机) ----------
     "G02": {
-        "name_cn": "时光修理铺游戏软件", "name_short": "时光修理铺", "name_en": "TimeRepairShop", "version": "V1.0",
+        "name_cn": "旧物诊所游戏软件", "name_short": "旧物诊所", "name_en": "TimeRepairShop", "version": "V1.0",
         "src_rel": "TimeRepairShop/Assets/_Game", "out_dir": "G02_TimeRepairShop", "owner": "C机",
     },
     "G09Y": {
-        "name_cn": "我想开个医院游戏软件", "name_short": "我想开个医院", "name_en": "CrazyHospital", "version": "V1.0",
-        "src_rel": ["G09_CrazyHospital/Assets/_Game", "CrazyHospital/Assets/_Game"], "out_dir": "G09_我想开个医院", "owner": "C机",
+        "name_cn": "医院大当家游戏软件", "name_short": "医院大当家", "name_en": "CrazyHospital", "version": "V1.0",
+        "src_rel": ["G09_CrazyHospital/Assets/_Game", "CrazyHospital/Assets/_Game"], "out_dir": "G09_医院大当家", "owner": "C机",
     },
     "G10": {
-        "name_cn": "疯狂股市游戏软件", "name_short": "疯狂股市", "name_en": "CrazyTrade", "version": "V1.0",
-        "src_rel": ["G10_CrazyTrade/Assets/_Game", "CrazyStocks/Assets/_Game"], "out_dir": "G10_疯狂股市", "owner": "C机",
+        "name_cn": "涨停板游戏软件", "name_short": "涨停板", "name_en": "CrazyTrade", "version": "V1.0",
+        "src_rel": ["G10_CrazyTrade/Assets/_Game", "CrazyStocks/Assets/_Game"], "out_dir": "G10_涨停板", "owner": "C机",
     },
     "G12": {
-        "name_cn": "就差一条线游戏软件", "name_short": "就差一条线", "name_en": "LineRescue", "version": "V1.0",
+        "name_cn": "就差这一笔游戏软件", "name_short": "就差这一笔", "name_en": "LineRescue", "version": "V1.0",
         "src_rel": "LineRescue/Assets/_Game", "out_dir": "G12_LineRescue", "owner": "C机",
     },
     # ---------- 定名待定区（材料随定名生成——软著名=平台名一致性红线） ----------

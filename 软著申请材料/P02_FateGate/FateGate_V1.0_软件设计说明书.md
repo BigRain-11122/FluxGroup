@@ -38,7 +38,7 @@ OfflineEarnings → LuckyWallet → LuckyTable
 
 ### 4.1 命运棋盘系统
 
-DestinyBoard是游戏核心地图载体，由DestinyPin节点组成路径网络。每扇DestinyGate对应一个棋盘主题，GateTable定义了12种棋盘配置：平原、森林、沙漠、雪原、遗迹、深渊、火山、水城、天宫、地府、镜界、混沌。
+DestinyBoard是游戏核心地图载体，由DestinyPin节点组成路径网络。每扇DestinyGate对应一个棋盘主题，GateTable定义了12种棋盘配置：平原、森林、沙漠、雪原、遗迹、深渊、火山、水城、天宫、幽冥、镜界、混沌。
 
 棋盘宽度为固定12格，路径长度随机生成。玩家在非路径格子上放置防御单位，敌人沿路径从起点向终点移动。
 
