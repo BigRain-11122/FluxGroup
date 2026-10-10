@@ -1,0 +1,1430 @@
+﻿捞个宝游戏软件 V1.0 源程序  第 1 页 共 60 页
+================================================================================
+// BootRunner.cs
+using System.Collections;
+using Sy.Core;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using Logger = Sy.Core.Logger;
+namespace Sy.P07.Boot
+{
+    public static class SceneIds
+    {
+        public const string Boot = "S00_Boot";
+        public const string Main = "S07_Main";
+    }
+    /// <summary>
+    /// S00_Boot场景宿主：注册Mock服务→跑七步→切主场景（T001④）。
+    /// 失败则停留Boot场景并打错误日志（重试页UI属T001b后；Boot校时失败策略=重试页禁卡死）。
+    /// </summary>
+    public sealed class BootRunner : MonoBehaviour
+    {
+        IEnumerator Start()
+        {
+            BootServices.RegisterAll();
+            var sequence = new BootSequence(SwitchToMain);
+            if (!sequence.RunAll())
+            {
+                Logger.Error("BOOT", "boot sequence failed - stay on S00_Boot");
+                yield break;
+            }
+            yield return null;
+        }
+        bool SwitchToMain()
+        {
+            StartCoroutine(LoadMainRoutine());
+            return true;
+        }
+        IEnumerator LoadMainRoutine()
+        {
+            var op = SceneManager.LoadSceneAsync(SceneIds.Main, LoadSceneMode.Single);
+            while (op != null && !op.isDone) yield return null;
+        }
+    }
+}
+// BootSequence.cs
+using System;
+using System.Collections.Generic;
+using Sy.Core;
+using Sy.Platform;
+namespace Sy.P07.Boot
+{
+    /// <summary>
+================================================================================
+第 1 页结束
+
+捞个宝游戏软件 V1.0 源程序  第 2 页 共 60 页
+================================================================================
+    /// Boot七步时序（T001验收）：
+    /// ①Logger→②校时→③Config→④Save→⑤ILocale→⑥Ads.Preload→⑦切主场景，逐打日志[BOOT] n/7。
+    /// 步⑦切场景回调注入：Play模式=SceneManager.LoadSceneAsync；Editor dry-run=EditorSceneManager.OpenScene。
+    /// X006未✅时校时走SY_MOCK；任一步异常不中断后续步（收集全部失败再判定）。
+    /// </summary>
+    public sealed class BootSequence
+    {
+        public const int TotalSteps = 7;
+        readonly Func<bool> _switchScene;
+        readonly List<string> _lines = new();
+        public BootSequence(Func<bool> switchScene)
+        {
+            _switchScene = switchScene;
+        }
+        public IReadOnlyList<string> Lines => _lines;
+        public bool RunAll()
+        {
+            bool ok = true;
+            ok &= Run(1, "Logger", LoggerStep);
+            ok &= Run(2, "Time", TimeStep);
+            ok &= Run(3, "Config", ConfigStep);
+            ok &= Run(4, "Save", SaveStep);
+            ok &= Run(5, "ILocale", LocaleStep);
+            ok &= Run(6, "Ads.Preload", AdsStep);
+            ok &= Run(7, "SwitchMain", () => _switchScene != null && _switchScene());
+            return ok;
+        }
+        bool Run(int n, string name, Func<bool> step)
+        {
+            bool result;
+            try
+            {
+                result = step();
+            }
+            catch (Exception e)
+            {
+                Logger.Error("BOOT", $"step {n} {name} exception: {e.Message}");
+                result = false;
+            }
+            string line = $"[BOOT] {n}/{TotalSteps} {name} {(result ? "ok" : "FAIL")}";
+            _lines.Add(line);
+            Logger.Info("BOOT", line);
+            return result;
+        }
+        static bool LoggerStep() => true; // 静态门面首调即初始化；真实JS桥sink由platform层T001c注入
+        static bool TimeStep()
+        {
+            var time = ServiceLocator.Get<ITimeService>();
+            return time.ServerNowMs() > 0 && !time.TimeCheated();
+        }
+================================================================================
+第 2 页结束
+
+捞个宝游戏软件 V1.0 源程序  第 3 页 共 60 页
+================================================================================
+        static bool ConfigStep()
+        {
+            var config = ServiceLocator.Get<IConfigService>();
+            var update = config.CheckUpdate("mock://manifest");
+            return update.NewVersion != null; // mock=无热更；X009后接真manifest
+        }
+        static bool SaveStep()
+        {
+            var save = ServiceLocator.Get<ISaveService>();
+            save.Save("boot_probe", "{}");
+            return !string.IsNullOrEmpty(save.Load("boot_probe"));
+        }
+        static bool LocaleStep()
+        {
+            var locale = ServiceLocator.Get<ILocaleService>();
+            return !string.IsNullOrEmpty(locale.GetFontSet().NormalFont); // 缺字体集回退默认+告警
+        }
+        static bool AdsStep()
+        {
+            ServiceLocator.Get<IAdsService>().Preload("boot_warmup");
+            return true;
+        }
+    }
+}
+// BootServices.cs
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Sy.Core;
+using Sy.Platform;
+using UnityEngine;
+using Logger = Sy.Core.Logger;
+namespace Sy.P07.Boot
+{
+    /// <summary>
+    /// 开发期Mock服务集（SY_MOCK口径）：X006未✅校时走Mock、X002a未下发AppID用touristappid占位。
+    /// T001c接入WX/TT真实现后按Channel切换；Editor域永远可用。Boot七步全部依赖本集。
+    /// </summary>
+    public static class BootServices
+    {
+        public static void RegisterAll()
+        {
+            if (ServiceLocator.TryGet<ITimeService>(out _)) return; // 幂等：重复注册会抛错
+            ServiceLocator.Register<ITimeService>(new MockTimeService());
+            ServiceLocator.Register<IConfigService>(new MockConfigService());
+            ServiceLocator.Register<ISaveService>(new MockSaveService());
+            ServiceLocator.Register<ILocaleService>(new MockLocaleService());
+            ServiceLocator.Register<IAdsService>(new MockAdsService());
+            Logger.Info("BOOT", "mock services registered (SY_MOCK)");
+        }
+================================================================================
+第 3 页结束
+
+捞个宝游戏软件 V1.0 源程序  第 4 页 共 60 页
+================================================================================
+    }
+    public sealed class MockTimeService : ITimeService
+    {
+        public TimeSource Source => TimeSource.Mock;
+        public long ClientNowMs() => DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+        /// <summary>SY_MOCK：X006未✅，暂以设备时间充当服务端（真来源链TCB serverTime→HTTPS Date头→设备，T001b接）。</summary>
+        public long ServerNowMs() => ClientNowMs();
+        public bool TimeCheated() => Math.Abs(ServerNowMs() - ClientNowMs()) > 120_000;
+    }
+    public sealed class MockConfigService : IConfigService
+    {
+        public T GetTable<T>(string tableId) where T : class
+            => throw new KeyNotFoundException("mock config table not loaded: " + tableId);
+        public bool TryGetTable<T>(string tableId, out T table) where T : class
+        {
+            table = null;
+            return false;
+        }
+        public ConfigUpdateResult CheckUpdate(string manifestUrl)
+            => new ConfigUpdateResult(false, "mock-0.0.1");
+        public void SwapPolicy(ConfigSwapPolicy policy) { }
+        public string PinConfigVersion(string scope) => "mock-0.0.1";
+    }
+    public sealed class MockSaveService : ISaveService
+    {
+        const string Prefix = "sy_save_";
+        public void Save(string slot, string payloadJson) => PlayerPrefs.SetString(Prefix + slot, payloadJson);
+        public string Load(string slot) => PlayerPrefs.GetString(Prefix + slot, string.Empty);
+        /// <summary>X006未✅：无云端，本地即权威；T001b补v1→v2迁移用例。</summary>
+        public SyncResult CloudSync() => new SyncResult(false, null);
+    }
+    public sealed class MockLocaleService : ILocaleService
+    {
+        public void SetLang(string lang) { }
+        /// <summary>缺key回退key本体并告警（T001b接cfg_i18n表+回退NUnit用例）。</summary>
+        public string GetText(string key, params string[] args)
+        {
+            Logger.Warn("LOCALE", "missing i18n key (fallback): " + key);
+            return key;
+        }
+        public FontSet GetFontSet()
+            => new FontSet("LegacyRuntime.ttf", "LegacyRuntime.ttf", "LegacyRuntime.ttf");
+    }
+    public sealed class MockAdsService : IAdsService
+    {
+        public event Action<AdLifecycle> OnAdEvent;
+        public Task<RewardResult> ShowRewarded(string pointId)
+            => Task.FromResult(new RewardResult { Completed = true, Reason = "mock" });
+        public void ShowInterstitial(string pointId) { }
+        public void ShowBanner(string pointId) { }
+================================================================================
+第 4 页结束
+
+捞个宝游戏软件 V1.0 源程序  第 5 页 共 60 页
+================================================================================
+        public void Preload(string pointId)
+        {
+            Logger.Info("ADS", "preload (mock): " + pointId);
+            OnAdEvent?.Invoke(new AdLifecycle(AdLifecycleType.Fill, pointId, "mock"));
+        }
+    }
+}
+// MainUI.cs
+using UnityEngine;
+using UnityEngine.SceneManagement;
+namespace Sy.P07.Newbie
+{
+    public static class NewbieSceneIds
+    {
+        public const string Main = "S07_Main";
+        public const string Battle = "S07_Battle";
+    }
+    /// <summary>S07主界面逻辑：开始修复→S07_Battle（M5前零广告弹窗——主界面无任何广告位）。</summary>
+    public sealed class MainUI : MonoBehaviour
+    {
+        public void StartRestoration()
+        {
+            SceneManager.LoadScene(NewbieSceneIds.Battle);
+        }
+        void Awake()
+        {
+            Application.targetFrameRate = 30;
+            Sy.Core.MainArtInjector.Apply(transform, "P07_scene_01", "P07_unit_01");
+        }
+    }
+}
+// BattleLauncher.cs
+using System.Collections.Generic;
+using UnityEngine;
+namespace Sy.P07.Newbie
+{
+    /// <summary>
+    /// S07_Battle场景宿主：组装MuseumSim+TutorialFlow+MuseumView并驱动Tick；
+    /// 埋点走Sy.Telemetry（Editor域=Debug sink；T001e接微信自定义分析+TCB双写）。
+    /// HUD数值只在变更时刷新（禁每帧字符串拼接，红线6）。
+    /// </summary>
+    public sealed class BattleLauncher : MonoBehaviour
+    {
+        MuseumSim _sim;
+        TutorialFlow _tutorial;
+        MuseumView _view;
+        Sy.Telemetry.TelemetryService _telemetry;
+        int _lastEnergy = -1, _lastFragments = -1, _lastSeals = -1;
+        void Awake()
+        {
+================================================================================
+第 5 页结束
+
+捞个宝游戏软件 V1.0 源程序  第 6 页 共 60 页
+================================================================================
+            Application.targetFrameRate = 30;
+            var canvas = FindObjectOfType<Canvas>();
+            _sim = new MuseumSim(NewbieConfig.SimSeed);
+            _view = gameObject.AddComponent<MuseumView>();
+            _view.Initialize(canvas, _sim);
+            _telemetry = new Sy.Telemetry.TelemetryService();
+            _telemetry.AddSink(new TelemetryDebugSink());
+            _tutorial = new TutorialFlow(
+                _sim,
+                hint =>
+                {
+                    Debug.Log("[HINT] " + hint);
+                    _view.SetHint(hint);
+                },
+                step => _telemetry.Track(Sy.Telemetry.EventIds.NewbieStep,
+                    new Dictionary<string, string> { { "step", step.ToString() } }));
+            _view.CellTapped += OnCellTapped;
+            _view.DigRequested += OnDigRequested;
+            _view.DeliverRequested += OnDeliverRequested;
+            _view.DecomposeRequested += OnDecomposeRequested;
+            _view.RelayTapped += OnRelayTapped;
+            _sim.Dug += OnDug;
+            _sim.Merged += OnMerged;
+            _sim.Decomposed += OnDecomposed;
+        }
+        void Update()
+        {
+            _sim.Tick(Time.deltaTime);
+            _view.SyncView(_sim);
+            if (_sim.Energy != _lastEnergy) { _lastEnergy = _sim.Energy; _view.SetEnergy(_lastEnergy); }
+            if (_sim.FragmentCount != _lastFragments) { _lastFragments = _sim.FragmentCount; _view.SetFragments(_lastFragments); }
+            if (_sim.SealCount != _lastSeals) { _lastSeals = _sim.SealCount; _view.SetSeals(_lastSeals); }
+        }
+        void OnCellTapped(int col, int row)
+        {
+            _sim.SelectOrMerge(col, row);
+        }
+        void OnDigRequested()
+        {
+            _sim.TryDig();
+        }
+        void OnDeliverRequested()
+        {
+            _sim.DeliverOrder();
+        }
+        void OnDecomposeRequested()
+        {
+            _sim.DecomposeBronze();
+        }
+        void OnRelayTapped()
+================================================================================
+第 6 页结束
+
+捞个宝游戏软件 V1.0 源程序  第 7 页 共 60 页
+================================================================================
+        {
+            _view.SetHint("【订单接力】——正式局这单差1件时发给好友帮清尾单（点开互赠体力）");
+        }
+        void OnDug()
+        {
+            _view.PlayDigFx();
+        }
+        void OnMerged(MuseumSim.ItemInst a, MuseumSim.ItemInst b, MuseumSim.ItemInst product)
+        {
+            _view.PlayMergeFx(product.Id);
+        }
+        void OnDecomposed(MuseumSim.ItemInst bronze)
+        {
+            _view.PlayDecomposeFx();
+        }
+        sealed class TelemetryDebugSink : Sy.Telemetry.TelemetryService.ISink
+        {
+            public void Write(string evtId, Dictionary<string, string> fields)
+            {
+                var sb = new System.Text.StringBuilder(evtId);
+                foreach (var kv in fields)
+                {
+                    sb.Append(' ').Append(kv.Key).Append('=').Append(kv.Value);
+                }
+                Debug.Log("[TELEMETRY] " + sb);
+            }
+        }
+    }
+}
+// MuseumSim.cs
+using System;
+using System.Collections.Generic;
+namespace Sy.P07.Newbie
+{
+    /// <summary>
+    /// 合并修复教学局核心逻辑（纯C#零渲染依赖）：Play渲染与Editor headless自验（NewbieFlowCheck）共用同一套规则。
+    /// 系统性建模（立项书§4.2核心机制）：①合成链即复原（陶片→碎片→青铜残件，同型2合1升阶）；
+    /// ②拓印符限频分解（碎+碎错合升阶后订单受阻→拓印符1张拆解回2碎片="错合有救但取舍仍在"承重机制完整教学）；
+    /// ③能量经济封顶（3点封死挖掘总量）+考据卡/NPC日记+奇观苏醒预演。
+    /// 教学编排（06脚本07节）：M0探险日志3页→M1首刷（能量-1·成对出土·出水三帧）→M2首合并（陶+陶=碎）
+    /// →M2.5错合演示（碎+碎=青铜残件→订单受阻→拓印符分解救场）→M3首订单交付（3碎片→✦✦✦）
+    /// →M4考据卡#1+NPC日记特写→M5区域进度过半+奇观预演+订单接力入口+结算。
+    /// 红线：教学局必胜确定性（能量3点封死总量；分解常备3张——错合永远有救，无死锁）。
+    /// </summary>
+    public sealed class MuseumSim
+    {
+        public enum MuseumPhase { Journal1, Journal2, Journal3, Playing, CardShow, WonderPreview, Settled }
+        public sealed class ItemInst
+        {
+            public int Id;
+================================================================================
+第 7 页结束
+
+捞个宝游戏软件 V1.0 源程序  第 8 页 共 60 页
+================================================================================
+            public int TypeId;    // 0陶片/1碎片/2青铜残件
+            public int Col, Row;
+        }
+        public MuseumPhase Phase { get; private set; } = MuseumPhase.Journal1;
+        readonly List<ItemInst> _items = new();
+        readonly Random _rng;
+        int _nextId = 1;
+        float _phaseTimer;
+        int _selectedId = -1;
+        public IReadOnlyList<ItemInst> Items => _items;
+        public int Energy { get; private set; } = NewbieConfig.StartEnergy;
+        public int SealCount { get; private set; } = NewbieConfig.StartSeals;
+        public int DigCount { get; private set; }
+        public int MergeCount { get; private set; }
+        public int MisMergeCount { get; private set; }     // 错合次数（碎+碎升阶——演示位）
+        public int DecomposeCount { get; private set; }     // 拓印符分解次数
+        public int FragmentCount { get; private set; }
+        public int BronzeCount { get; private set; }
+        public bool OrderDelivered { get; private set; }
+        public bool WonderUnlocked { get; private set; }
+        public bool RelayUnlocked { get; private set; }
+        public int SelectedItemId => _selectedId;
+        public float PhaseTimer => _phaseTimer;
+        public float RegionProgress { get; private set; } = NewbieConfig.RegionProgressStart;
+        public int AdPopupCount => 0;                       // 零广告红线：结构化断言
+        public event Action<int> EnergyChanged;
+        public event Action<int> SealChanged;
+        public event Action Dug;                                     // 一次挖掘出土（能量-1·出水三帧）
+        public event Action<ItemInst, ItemInst, ItemInst> Merged;    // (A, B, 产物)
+        public event Action<ItemInst> MisMerged;                    // 错合（产物=青铜残件——订单受阻教学拍点）
+        public event Action<ItemInst> Decomposed;                   // 拓印符分解（青铜残件→2碎片救场）
+        public event Action OrderDeliveredDone;
+        public event Action CardShown;
+        public event Action WonderPreviewShown;
+        public event Action Settled;
+        public event Action<MuseumPhase> PhaseChanged;
+        public MuseumSim(int seed)
+        {
+            _rng = new Random(seed);
+        }
+        public void Tick(float dt)
+        {
+            _phaseTimer += dt;
+            switch (Phase)
+            {
+                case MuseumPhase.Journal1:
+                    if (_phaseTimer >= NewbieConfig.JournalPageSeconds) SetPhase(MuseumPhase.Journal2);
+                    break;
+                case MuseumPhase.Journal2:
+                    if (_phaseTimer >= NewbieConfig.JournalPageSeconds) SetPhase(MuseumPhase.Journal3);
+================================================================================
+第 8 页结束
+
+捞个宝游戏软件 V1.0 源程序  第 9 页 共 60 页
+================================================================================
+                    break;
+                case MuseumPhase.Journal3:
+                    if (_phaseTimer >= NewbieConfig.JournalPageSeconds) SetPhase(MuseumPhase.Playing);
+                    break;
+                case MuseumPhase.CardShow:
+                    if (_phaseTimer >= NewbieConfig.CardShowSeconds) SetPhase(MuseumPhase.WonderPreview);
+                    break;
+                case MuseumPhase.WonderPreview:
+                    // 区域进度过半动画（0.40→0.75）
+                    float k = Math.Min(1f, _phaseTimer / NewbieConfig.WonderPreviewSeconds);
+                    RegionProgress = Lerp(NewbieConfig.RegionProgressStart, NewbieConfig.RegionProgressEnd, k);
+                    if (_phaseTimer >= NewbieConfig.WonderPreviewSeconds)
+                    {
+                        Settled?.Invoke();
+                        SetPhase(MuseumPhase.Settled);
+                    }
+                    break;
+            }
+        }
+        static float Lerp(float a, float b, float t) => a + (b - a) * t;
+        /// <summary>M1：考古刷点击出土（能量-1，成对出土陶片×2，出水三帧=刷泥→半露→全露）。</summary>
+        public bool TryDig()
+        {
+            if (Phase != MuseumPhase.Playing) return false;
+            if (Energy <= 0) return false;
+            for (int n = 0; n < NewbieConfig.ShardsPerDig; n++)
+            {
+                var cell = PickEmptyCell();
+                if (cell == null) return false;
+                _items.Add(new ItemInst { Id = _nextId++, TypeId = NewbieConfig.ShardTypeId, Col = cell.Value.Item1, Row = cell.Value.Item2 });
+            }
+            Energy--;
+            DigCount++;
+            EnergyChanged?.Invoke(Energy);
+            Dug?.Invoke();
+            return true;
+        }
+        (int, int)? PickEmptyCell()
+        {
+            // 40次随机尝试+顺序兜底（纯C#确定性种子）
+            for (int attempt = 0; attempt < 40; attempt++)
+            {
+                int c = _rng.Next(NewbieConfig.Cols), r = _rng.Next(NewbieConfig.Rows);
+                if (CellIsEmpty(c, r)) return (c, r);
+            }
+            for (int r = 0; r < NewbieConfig.Rows; r++)
+                for (int c = 0; c < NewbieConfig.Cols; c++)
+                    if (CellIsEmpty(c, r)) return (c, r);
+            return null;
+        }
+================================================================================
+第 9 页结束
+
+捞个宝游戏软件 V1.0 源程序  第 10 页 共 60 页
+================================================================================
+        bool CellIsEmpty(int col, int row)
+        {
+            for (int i = 0; i < _items.Count; i++)
+                if (_items[i].Col == col && _items[i].Row == row) return false;
+            return true;
+        }
+        public ItemInst ItemAt(int col, int row)
+        {
+            for (int i = 0; i < _items.Count; i++)
+                if (_items[i].Col == col && _items[i].Row == row) return _items[i];
+            return null;
+        }
+        public bool IsSelected(ItemInst item) => item != null && item.Id == _selectedId;
+        /// <summary>
+        /// 点选/点选合成（同型2合1升阶·立项书§4.2①"合成链即复原"）：陶+陶=碎片；碎+碎=青铜残件（错合演示位）；
+        /// 青铜封顶不可再合。再点自己=取消选中；点异型=重选目标。
+        /// </summary>
+        public bool SelectOrMerge(int col, int row)
+        {
+            if (Phase != MuseumPhase.Playing) return false;
+            var target = ItemAt(col, row);
+            if (target == null) return false;
+            if (_selectedId == -1)
+            {
+                _selectedId = target.Id;
+                return true;   // 选中
+            }
+            if (_selectedId == target.Id)
+            {
+                _selectedId = -1;   // 再点自己=取消选中
+                return true;
+            }
+            var selected = FindItem(_selectedId);
+            if (selected == null) { _selectedId = -1; return false; }
+            if (selected.TypeId != target.TypeId || selected.TypeId >= NewbieConfig.BronzeTypeId)
+            {
+                // 异型或青铜封顶——改为重选目标
+                _selectedId = target.Id;
+                return true;
+            }
+            // 同型2合1升阶：产物Type+1（陶→碎，碎→青铜）
+            _items.Remove(selected);
+            _items.Remove(target);
+            var product = new ItemInst { Id = _nextId++, TypeId = selected.TypeId + 1, Col = target.Col, Row = target.Row };
+            _items.Add(product);
+            _selectedId = -1;
+            MergeCount++;
+            if (selected.TypeId == NewbieConfig.ShardTypeId)
+            {
+                FragmentCount++;
+================================================================================
+第 10 页结束
+
+捞个宝游戏软件 V1.0 源程序  第 11 页 共 60 页
+================================================================================
+            }
+            else
+            {
+                // 碎+碎=青铜残件：错合演示（订单受阻——拓印符分解救场的教学拍点）
+                FragmentCount -= 2;
+                BronzeCount++;
+                MisMergeCount++;
+                MisMerged?.Invoke(product);
+            }
+            Merged?.Invoke(selected, target, product);
+            return true;
+        }
+        ItemInst FindItem(int id)
+        {
+            for (int i = 0; i < _items.Count; i++)
+                if (_items[i].Id == id) return _items[i];
+            return null;
+        }
+        /// <summary>
+        /// 拓印符分解（立项书§4.2②承重：错合有救但取舍仍在）——青铜残件拆解回2枚碎片，耗1张拓印符。
+        /// </summary>
+        public bool DecomposeBronze()
+        {
+            if (Phase != MuseumPhase.Playing) return false;
+            if (SealCount <= 0) return false;
+            var bronze = FindFirstBronze();
+            if (bronze == null) return false;
+            _items.Remove(bronze);
+            BronzeCount--;
+            for (int n = 0; n < 2; n++)
+            {
+                var cell = PickEmptyCell();
+                if (cell == null) return false;
+                _items.Add(new ItemInst { Id = _nextId++, TypeId = NewbieConfig.FragmentTypeId, Col = cell.Value.Item1, Row = cell.Value.Item2 });
+                FragmentCount++;
+            }
+            SealCount--;
+            DecomposeCount++;
+            SealChanged?.Invoke(SealCount);
+            Decomposed?.Invoke(bronze);
+            return true;
+        }
+        ItemInst FindFirstBronze()
+        {
+            for (int i = 0; i < _items.Count; i++)
+                if (_items[i].TypeId == NewbieConfig.BronzeTypeId) return _items[i];
+            return null;
+        }
+        /// <summary>M3：订单交付（3碎片→✦✦✦）。</summary>
+        public bool DeliverOrder()
+================================================================================
+第 11 页结束
+
+捞个宝游戏软件 V1.0 源程序  第 12 页 共 60 页
+================================================================================
+        {
+            if (Phase != MuseumPhase.Playing) return false;
+            if (FragmentCount < NewbieConfig.OrderFragments) return false;
+            OrderDelivered = true;
+            for (int i = 0; i < NewbieConfig.OrderFragments; i++)
+            {
+                var frag = FindFirstFragment();
+                if (frag != null) _items.Remove(frag);
+            }
+            FragmentCount -= NewbieConfig.OrderFragments;
+            OrderDeliveredDone?.Invoke();
+            SetPhase(MuseumPhase.CardShow);
+            return true;
+        }
+        ItemInst FindFirstFragment()
+        {
+            for (int i = 0; i < _items.Count; i++)
+                if (_items[i].TypeId == NewbieConfig.FragmentTypeId) return _items[i];
+            return null;
+        }
+        void SetPhase(MuseumPhase p)
+        {
+            if (Phase == p) return;
+            Phase = p;
+            _phaseTimer = 0f;
+            switch (p)
+            {
+                case MuseumPhase.CardShow:
+                    CardShown?.Invoke();
+                    break;
+                case MuseumPhase.WonderPreview:
+                    WonderUnlocked = true;
+                    RelayUnlocked = true;
+                    WonderPreviewShown?.Invoke();
+                    break;
+            }
+            PhaseChanged?.Invoke(p);
+        }
+    }
+}
+// MuseumView.cs
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+namespace Sy.P07.Newbie
+{
+    /// <summary>
+    /// 合并修复教学局渲染层（纯程序化UGUI——深海蓝×珊瑚橙×珍珠白×铜锈绿×深渊黑）。
+================================================================================
+第 12 页结束
+
+捞个宝游戏软件 V1.0 源程序  第 13 页 共 60 页
+================================================================================
+    /// 所有UI在Initialize时程序化生成（免场景YAML漂移）；演出=探险日志翻页/出水三帧（刷泥→半露→全露）/
+    /// 出土弹跳+白光（音效占位）/错合升阶青铜残件/拓印符分解救场闪光/订单✦✦✦/考据卡+NPC日记特写/
+    /// 奇观剪影预演+进度过半动画/订单接力入口露出。
+    /// 零广告红线：全程零广告位（订单接力=留存钩非广告）。
+    /// </summary>
+    public sealed class MuseumView : MonoBehaviour
+    {
+        const float CellW = 150f, CellH = 150f, Gap = 8f;
+        Canvas _canvas;
+        Sprite _square;
+        RectTransform _board;
+        Text _journalText, _energyText, _fragmentText, _sealText, _hintText, _progressText;
+        RectTransform _journalOverlay, _cardOverlay, _wonderOverlay, _settlePanel;
+        Button _digButton, _deliverButton, _relayButton, _decomposeButton;
+        Image _digImage, _deliverImage, _decomposeImage;
+        Image _progressFill;
+        readonly Dictionary<int, ItemVisual> _items = new();
+        readonly List<int> _scratch = new();
+        MuseumSim.MuseumPhase _lastPhase;
+        public event Action<int, int> CellTapped;
+        public event Action DigRequested;
+        public event Action DeliverRequested;
+        public event Action DecomposeRequested;
+        public event Action RelayTapped;
+        static readonly Color DeepSeaBlue = new Color(0.039f, 0.141f, 0.388f);   // #0A2463
+        static readonly Color CoralOrange = new Color(0.957f, 0.376f, 0.212f);  // #F46036
+        static readonly Color PearlWhite = new Color(0.910f, 0.910f, 0.910f);   // #E8E8E8
+        static readonly Color Verdigris = new Color(0.243f, 0.533f, 0.357f);    // #3E885B
+        static readonly Color AbyssBlack = new Color(0.020f, 0.078f, 0.122f);  // #05141F
+        public void Initialize(Canvas canvas, MuseumSim sim)
+        {
+            _canvas = canvas;
+            _square = MakeSquareSprite();
+            BuildScene();
+            BuildHud();
+            BuildJournalOverlay();
+            BuildCardOverlay();
+            BuildWonderOverlay();
+            BuildSettlePanel();
+            SetHint("深海之下，沉睡的大陆……");
+        }
+        // ───── 布局 ─────
+        void BuildScene()
+        {
+            var bg = MakeCanvasChild("Bg", AbyssBlack);
+            bg.anchorMin = Vector2.zero;
+            bg.anchorMax = Vector2.one;
+            bg.anchoredPosition = Vector2.zero;
+            bg.sizeDelta = Vector2.zero;
+            // X027 generated art: swap the solid Bg for the deep-sea painting when present.
+================================================================================
+第 13 页结束
+
+捞个宝游戏软件 V1.0 源程序  第 14 页 共 60 页
+================================================================================
+            var bgImg = bg.GetComponent<Image>();
+            // 17号 §1.2: L0 全员不吃射线——无条件设置，不随美术分支（U184 修复）
+            bgImg.raycastTarget = false;
+            var bgArt = Sy.Core.ArtRuntime.Get("P07_scene_01");
+            if (bgArt != null)
+            {
+                bgImg.sprite = bgArt;
+                bgImg.color = Color.white;
+                bgImg.preserveAspect = true;
+            }
+            var boardGo = new GameObject("Board", typeof(RectTransform), typeof(Image));
+            boardGo.transform.SetParent(_canvas.transform, false);
+            _board = (RectTransform)boardGo.transform;
+            _board.anchorMin = _board.anchorMax = new Vector2(0.5f, 0.5f);
+            _board.anchoredPosition = new Vector2(0, 100);
+            _board.sizeDelta = new Vector2(NewbieConfig.Cols * (CellW + Gap), NewbieConfig.Rows * (CellH + Gap));
+            var boardImg = _board.GetComponent<Image>();
+            boardImg.sprite = _square;
+            boardImg.color = new Color(DeepSeaBlue.r, DeepSeaBlue.g, DeepSeaBlue.b, 0.35f);
+            for (int r = 0; r < NewbieConfig.Rows; r++)
+            {
+                for (int c = 0; c < NewbieConfig.Cols; c++)
+                {
+                    int col = c, row = r;
+                    var cellGo = new GameObject($"Cell_{c}_{r}", typeof(RectTransform), typeof(Image), typeof(Button));
+                    cellGo.transform.SetParent(_board, false);
+                    var rt = (RectTransform)cellGo.transform;
+                    rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
+                    rt.anchoredPosition = CellCenter(c, r);
+                    rt.sizeDelta = new Vector2(CellW, CellH);
+                    var img = cellGo.GetComponent<Image>();
+                    img.sprite = _square;
+                    img.color = new Color(0.03f, 0.10f, 0.25f, 0.9f);
+                    cellGo.GetComponent<Button>().onClick.AddListener(() => CellTapped?.Invoke(col, row));
+                }
+            }
+        }
+        void BuildHud()
+        {
+            var root = _canvas.transform;
+            _energyText = MakeText(root, "能量 " + NewbieConfig.StartEnergy, 46, new Vector2(-370, 880), TextAnchor.UpperLeft, 320, 70);
+            _energyText.color = CoralOrange;
+            _fragmentText = MakeText(root, "碎片 0/" + NewbieConfig.OrderFragments, 46, new Vector2(0, 880), TextAnchor.UpperCenter, 400, 70);
+            _fragmentText.color = PearlWhite;
+            _progressText = MakeText(root, "区域修复 40%", 44, new Vector2(0, 820), TextAnchor.UpperCenter, 500, 60);
+            _progressText.color = Verdigris;
+            _sealText = MakeText(root, "拓印符 ×" + NewbieConfig.StartSeals, 42, new Vector2(350, 820), TextAnchor.UpperRight, 360, 60);
+            _sealText.color = CoralOrange;
+            var barGo = new GameObject("Progress", typeof(RectTransform), typeof(Image));
+            barGo.transform.SetParent(root, false);
+================================================================================
+第 14 页结束
+
+捞个宝游戏软件 V1.0 源程序  第 15 页 共 60 页
+================================================================================
+            var barRt = (RectTransform)barGo.transform;
+            barRt.anchorMin = barRt.anchorMax = new Vector2(0.5f, 0.5f);
+            barRt.anchoredPosition = new Vector2(0, 760);
+            barRt.sizeDelta = new Vector2(700, 18);
+            var barImg = barGo.GetComponent<Image>();
+            barImg.sprite = _square;
+            barImg.color = new Color(0.1f, 0.15f, 0.25f);
+            var fillGo = new GameObject("Fill", typeof(RectTransform), typeof(Image));
+            fillGo.transform.SetParent(barGo.transform, false);
+            var fillRt = (RectTransform)fillGo.transform;
+            fillRt.anchorMin = new Vector2(0f, 0.5f);
+            fillRt.anchorMax = new Vector2(1f, 0.5f);
+            fillRt.anchoredPosition = Vector2.zero;
+            fillRt.sizeDelta = new Vector2(0, 18);
+            _progressFill = fillGo.GetComponent<Image>();
+            _progressFill.sprite = _square;
+            _progressFill.type = Image.Type.Filled;
+            _progressFill.fillMethod = Image.FillMethod.Horizontal;
+            _progressFill.color = Verdigris;
+            _hintText = MakeText(root, "", 40, new Vector2(0, -840), TextAnchor.MiddleCenter, 1020, 150);
+            _hintText.color = new Color(0.85f, 0.88f, 0.92f);
+            _digButton = MakeBottomButton("考古刷（能量-1）", new Vector2(-330, 100), DeepSeaBlue, () => DigRequested?.Invoke(), out _digImage);
+            _decomposeButton = MakeBottomButton("拓印符·分解", new Vector2(0, 100), DeepSeaBlue, () => DecomposeRequested?.Invoke(), out _decomposeImage);
+            _deliverButton = MakeBottomButton("交付订单 ✦✦✦", new Vector2(330, 100), CoralOrange, () => DeliverRequested?.Invoke(), out _deliverImage);
+        }
+        Button MakeBottomButton(string label, Vector2 pos, Color color, Action onClick, out Image image)
+        {
+            var go = new GameObject(label, typeof(RectTransform), typeof(Image), typeof(Button));
+            go.transform.SetParent(_canvas.transform, false);
+            var rt = (RectTransform)go.transform;
+            rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0f);
+            rt.anchoredPosition = pos;
+            rt.sizeDelta = new Vector2(310, 120);
+            image = go.GetComponent<Image>();
+            image.sprite = _square;
+            image.color = color;
+            // 17号 §三.7: pick the label color by background luminance (WCAG
+            // relative-luma) so light CTA backgrounds always carry dark text.
+            float lum = color.r * 0.2126f + color.g * 0.7152f + color.b * 0.0722f;
+            MakeText(go.transform, label, 34, Vector2.zero, TextAnchor.MiddleCenter, 310, 120).color = lum > 0.45f ? AbyssBlack : PearlWhite;
+            var button = go.GetComponent<Button>();
+            button.interactable = false;
+            button.onClick.AddListener(() => onClick());
+            return button;
+        }
+        void BuildJournalOverlay()
+        {
+            _journalOverlay = MakeOverlayPanel("JournalOverlay", new Color(0.012f, 0.045f, 0.07f, 0.96f));
+            _journalText = MakeText(_journalOverlay, "", 64, new Vector2(0, 0), TextAnchor.MiddleCenter, 1000, 200);
+            _journalText.color = PearlWhite;
+================================================================================
+第 15 页结束
+
+捞个宝游戏软件 V1.0 源程序  第 16 页 共 60 页
+================================================================================
+        }
+        void BuildCardOverlay()
+        {
+            _cardOverlay = MakeOverlayPanel("CardOverlay", new Color(0.012f, 0.045f, 0.07f, 0.94f));
+            MakeText(_cardOverlay, "考据卡 #1", 76, new Vector2(0, 330), TextAnchor.MiddleCenter, 1000, 100).color = CoralOrange;
+            MakeText(_cardOverlay, NewbieConfig.CardText, 48, new Vector2(0, 140), TextAnchor.MiddleCenter, 1000, 120).color = PearlWhite;
+            // NPC考古日记（立项书§4.2①：每条元素链配一段日记——剧情留存钩）
+            MakeText(_cardOverlay, "<size=36>" + NewbieConfig.NpcJournalText + "</size>", 40, new Vector2(0, -110), TextAnchor.MiddleCenter, 1000, 220).color = Verdigris;
+            _cardOverlay.gameObject.SetActive(false);
+        }
+        void BuildWonderOverlay()
+        {
+            _wonderOverlay = MakeOverlayPanel("WonderOverlay", new Color(0, 0, 0, 0f));
+            _wonderOverlay.GetComponent<Image>().color = new Color(0, 0, 0, 0.55f);   // 17号 §三.6 遮罩下限 0.5（U184 修复）
+            var silhouette = MakeChildOf(_wonderOverlay, "Silhouette", new Vector2(0, 420), new Vector2(360, 360));
+            var silImg = silhouette.GetComponent<Image>();
+            silImg.sprite = _square;
+            silImg.color = new Color(DeepSeaBlue.r, DeepSeaBlue.g, DeepSeaBlue.b, 0.9f);
+            MakeText(silhouette, "奇观", 90, Vector2.zero, TextAnchor.MiddleCenter, 360, 360).color = new Color(PearlWhite.r, PearlWhite.g, PearlWhite.b, 0.5f);
+            MakeText(_wonderOverlay, "区域修复过半 · 奇观苏醒预演", 56, new Vector2(0, 160), TextAnchor.MiddleCenter, 1000, 90).color = Verdigris;
+            var relayGo = new GameObject("RelayButton", typeof(RectTransform), typeof(Image), typeof(Button));
+            relayGo.transform.SetParent(_wonderOverlay, false);
+            var relayRt = (RectTransform)relayGo.transform;
+            relayRt.anchorMin = relayRt.anchorMax = new Vector2(0.5f, 0.5f);
+            relayRt.anchoredPosition = new Vector2(0, -60);
+            relayRt.sizeDelta = new Vector2(460, 120);
+            var relayImg = relayGo.GetComponent<Image>();
+            relayImg.sprite = _square;
+            relayImg.color = CoralOrange;
+            MakeText(relayGo.transform, "订单接力 · 这单差1件就靠你", 38, Vector2.zero, TextAnchor.MiddleCenter, 460, 120).color = AbyssBlack;   // 17号 §三.7 橙底深字（U184 修复）
+            _relayButton = relayGo.GetComponent<Button>();
+            _relayButton.onClick.AddListener(() => RelayTapped?.Invoke());
+            _wonderOverlay.gameObject.SetActive(false);
+        }
+        void BuildSettlePanel()
+        {
+            _settlePanel = MakeOverlayPanel("SettlePanel", new Color(0.012f, 0.045f, 0.07f, 0.96f));
+            MakeText(_settlePanel, "区域一 · 修复过半", 90, new Vector2(0, 560), TextAnchor.MiddleCenter, 1040, 110).color = Verdigris;
+            MakeText(_settlePanel, $"交付订单 1 单 · 合并 4 次（含错合1次）· 拓印符分解 1 次（余2张）· 考据卡 1 张\n<size=40>奇观苏醒的倒计时，已开始——明天，光柱将升起</size>", 44, new Vector2(0, 360), TextAnchor.MiddleCenter, 1020, 280).color = PearlWhite;
+            MakeActionButton(_settlePanel, "继续修复", new Vector2(-260, -260), () => UnityEngine.SceneManagement.SceneManager.LoadScene(NewbieSceneIds.Battle));
+            MakeActionButton(_settlePanel, "返回主界面", new Vector2(260, -260), () => UnityEngine.SceneManagement.SceneManager.LoadScene(NewbieSceneIds.Main));
+            _settlePanel.gameObject.SetActive(false);
+        }
+        // ───── 每帧同步 ─────
+        public void SyncView(MuseumSim sim)
+        {
+            ReconcileItems(sim);
+            foreach (var kv in _items)
+            {
+                var v = kv.Value;
+================================================================================
+第 16 页结束
+
+捞个宝游戏软件 V1.0 源程序  第 17 页 共 60 页
+================================================================================
+                bool selected = sim.IsSelected(v.Source);
+                if (selected != v.LastSelected)
+                {
+                    v.LastSelected = selected;
+                    v.Rt.localScale = selected ? Vector3.one * 1.15f : Vector3.one;
+                }
+            }
+            float progress = sim.RegionProgress;
+            _progressFill.fillAmount = progress;
+            int pct = (int)(progress * 100f);
+            if (_lastProgressPct != pct) { _lastProgressPct = pct; _progressText.text = "区域修复 " + pct + "%"; }
+            bool playing = sim.Phase == MuseumSim.MuseumPhase.Playing;
+            bool digOk = playing && sim.Energy > 0;
+            if (_digButton.interactable != digOk)
+            {
+                _digButton.interactable = digOk;
+                _digImage.color = digOk ? DeepSeaBlue : new Color(0.2f, 0.22f, 0.3f);
+            }
+            bool decomposeOk = playing && sim.BronzeCount > 0 && sim.SealCount > 0;
+            if (_decomposeButton.interactable != decomposeOk)
+            {
+                _decomposeButton.interactable = decomposeOk;
+                _decomposeImage.color = decomposeOk ? CoralOrange : new Color(0.2f, 0.22f, 0.3f);
+            }
+            bool deliverOk = playing && sim.FragmentCount >= NewbieConfig.OrderFragments;
+            if (_deliverButton.interactable != deliverOk)
+            {
+                _deliverButton.interactable = deliverOk;
+                _deliverImage.color = deliverOk ? CoralOrange : new Color(0.2f, 0.22f, 0.3f);
+            }
+            if (sim.Phase != _lastPhase)
+            {
+                _lastPhase = sim.Phase;
+                OnPhaseVisual(sim.Phase);
+            }
+        }
+        int _lastProgressPct = -1;
+        void OnPhaseVisual(MuseumSim.MuseumPhase phase)
+        {
+            switch (phase)
+            {
+                case MuseumSim.MuseumPhase.Journal1:
+                    _journalOverlay.gameObject.SetActive(true);
+                    _journalText.text = "探险日志 · 第1页\n<size=40>「打捞季，第7天。今日出水：陶片两枚。」</size>";
+                    break;
+                case MuseumSim.MuseumPhase.Journal2:
+                    _journalText.text = "「大陆为何沉没？」\n<size=40>——日志里的字迹，被海水洇开</size>";
+                    break;
+                case MuseumSim.MuseumPhase.Journal3:
+                    _journalText.text = "海底遗迹闪回\n<size=40>陶片上，刻着失落的文明</size>";
+================================================================================
+第 17 页结束
+
+捞个宝游戏软件 V1.0 源程序  第 18 页 共 60 页
+================================================================================
+                    break;
+                case MuseumSim.MuseumPhase.Playing:
+                    _journalOverlay.gameObject.SetActive(false);
+                    break;
+                case MuseumSim.MuseumPhase.CardShow:
+                    _cardOverlay.gameObject.SetActive(true);
+                    break;
+                case MuseumSim.MuseumPhase.WonderPreview:
+                    _cardOverlay.gameObject.SetActive(false);
+                    _wonderOverlay.gameObject.SetActive(true);
+                    StartCoroutine(RelayBreathingRoutine());
+                    break;
+                case MuseumSim.MuseumPhase.Settled:
+                    _wonderOverlay.gameObject.SetActive(false);
+                    _settlePanel.gameObject.SetActive(true);
+                    break;
+            }
+        }
+        /// <summary>订单接力入口呼吸态（露出钩——M5可见可点非广告）。</summary>
+        IEnumerator RelayBreathingRoutine()
+        {
+            while (_wonderOverlay.gameObject.activeSelf)
+            {
+                float k = 0.5f + 0.5f * Mathf.Sin(Time.unscaledTime * 3f);
+                _relayButton.transform.localScale = Vector3.one * (1f + 0.05f * k);
+                yield return null;
+            }
+            _relayButton.transform.localScale = Vector3.one;
+        }
+        void ReconcileItems(MuseumSim sim)
+        {
+            _scratch.Clear();
+            foreach (var kv in _items)
+                if (!ContainsItem(sim, kv.Key)) _scratch.Add(kv.Key);
+            for (int i = 0; i < _scratch.Count; i++)
+            {
+                Destroy(_items[_scratch[i]].Go);
+                _items.Remove(_scratch[i]);
+            }
+            for (int i = 0; i < sim.Items.Count; i++)
+            {
+                var item = sim.Items[i];
+                if (!_items.TryGetValue(item.Id, out var v))
+                {
+                    v = CreateItemVisual(item);
+                    _items[item.Id] = v;
+                }
+                v.Source = item;
+            }
+        }
+================================================================================
+第 18 页结束
+
+捞个宝游戏软件 V1.0 源程序  第 19 页 共 60 页
+================================================================================
+        static bool ContainsItem(MuseumSim sim, int id)
+        {
+            for (int i = 0; i < sim.Items.Count; i++)
+                if (sim.Items[i].Id == id) return true;
+            return false;
+        }
+        ItemVisual CreateItemVisual(MuseumSim.ItemInst item)
+        {
+            var go = new GameObject("Item_" + item.Id, typeof(RectTransform), typeof(Image));
+            go.transform.SetParent(_board, false);
+            var rt = (RectTransform)go.transform;
+            rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
+            rt.anchoredPosition = CellCenter(item.Col, item.Row);
+            rt.sizeDelta = new Vector2(120, 120);
+            var img = go.GetComponent<Image>();
+            img.sprite = _square;
+            string label;
+            Color labelColor;
+            switch (item.TypeId)
+            {
+                case NewbieConfig.BronzeTypeId:   // 青铜残件（错合升阶产物——珊瑚橙警示色）
+                    img.color = CoralOrange;
+                    label = "铜";
+                    labelColor = AbyssBlack;
+                    break;
+                case NewbieConfig.FragmentTypeId:
+                    img.color = Verdigris;
+                    label = "碎";
+                    labelColor = PearlWhite;
+                    break;
+                default:
+                {   // 陶片（主文物）——X027 generated art when present
+                    var relicArt = Sy.Core.ArtRuntime.Get("P07_unit_01");
+                    if (relicArt != null)
+                    {
+                        img.sprite = relicArt;
+                        img.color = Color.white;
+                        img.preserveAspect = true;
+                    }
+                    else img.color = PearlWhite;
+                    label = "陶";
+                    labelColor = AbyssBlack;
+                    break;
+                }
+            }
+            MakeText(go.transform, label, 52, Vector2.zero, TextAnchor.MiddleCenter, 120, 120).color = labelColor;
+            return new ItemVisual { Go = go, Rt = rt, Source = item };
+        }
+        // ───── 演出 ─────
+        /// <summary>出水三帧（立项书§八通用模板：刷泥→半露→全露）——棋盘中央三帧闪现。</summary>
+================================================================================
+第 19 页结束
+
+捞个宝游戏软件 V1.0 源程序  第 20 页 共 60 页
+================================================================================
+        public void PlayDigFx()
+        {
+            StartCoroutine(DigFramesRoutine());
+        }
+        IEnumerator DigFramesRoutine()
+        {
+            var go = new GameObject("DigFrames", typeof(RectTransform), typeof(Text));
+            go.transform.SetParent(_canvas.transform, false);
+            var rt = (RectTransform)go.transform;
+            rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
+            rt.anchoredPosition = new Vector2(0, 300);
+            rt.sizeDelta = new Vector2(600, 100);
+            var t = go.GetComponent<Text>();
+            t.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            t.fontSize = 56;
+            t.alignment = TextAnchor.MiddleCenter;
+            t.color = CoralOrange;
+            for (int i = 0; i < NewbieConfig.ExcavateStages.Length; i++)
+            {
+                t.text = NewbieConfig.ExcavateStages[i];
+                yield return new WaitForSeconds(NewbieConfig.ExcavateFrameSeconds);
+            }
+            Destroy(go);
+        }
+        /// <summary>合并手感三件套之弹跳+白光（音效占位——T006接真音频）。</summary>
+        public void PlayMergeFx(int itemId)
+        {
+            if (_items.TryGetValue(itemId, out var v))
+                StartCoroutine(BounceRoutine(v.Rt));
+            StartCoroutine(FlashRoutine(new Color(1f, 1f, 1f, 0.35f)));
+        }
+        /// <summary>拓印符分解救场：铜锈绿闪光（"分解重来，线索还在"）。</summary>
+        public void PlayDecomposeFx()
+        {
+            StartCoroutine(FlashRoutine(new Color(Verdigris.r, Verdigris.g, Verdigris.b, 0.45f)));
+        }
+        IEnumerator BounceRoutine(RectTransform rt)
+        {
+            float t = 0f;
+            while (t < NewbieConfig.MergeBounceSeconds)
+            {
+                t += Time.deltaTime;
+                float k = Mathf.Clamp01(t / NewbieConfig.MergeBounceSeconds);
+                rt.localScale = Vector3.one * Mathf.Lerp(1.45f, 1f, k);
+                yield return null;
+            }
+            rt.localScale = Vector3.one;
+        }
+        IEnumerator FlashRoutine(Color color)
+        {
+================================================================================
+第 20 页结束
+
+捞个宝游戏软件 V1.0 源程序  第 21 页 共 60 页
+================================================================================
+            var go = new GameObject("MergeFlash", typeof(RectTransform), typeof(Image));
+            go.transform.SetParent(_canvas.transform, false);
+            var rt = (RectTransform)go.transform;
+            rt.anchorMin = Vector2.zero;
+            rt.anchorMax = Vector2.one;
+            rt.anchoredPosition = Vector2.zero;
+            rt.sizeDelta = Vector2.zero;
+            var img = go.GetComponent<Image>();
+            img.sprite = _square;
+            img.color = color;
+            img.raycastTarget = false;   // 17号 §1.2 演出层不吃射线（U184 修复）
+            yield return new WaitForSeconds(NewbieConfig.MergeFlashSeconds);
+            Destroy(go);
+        }
+        // ───── HUD与面板 ─────
+        public void SetEnergy(int e) => _energyText.text = "能量 " + e;
+        public void SetFragments(int n) => _fragmentText.text = "碎片 " + n + "/" + NewbieConfig.OrderFragments;
+        public void SetSeals(int s) => _sealText.text = "拓印符 ×" + s;
+        public void SetHint(string hint) => _hintText.text = hint;
+        // ───── 工具 ─────
+        static Vector2 CellCenter(int col, int row)
+        {
+            float x = (col - (NewbieConfig.Cols - 1) * 0.5f) * (CellW + Gap);
+            float y = ((NewbieConfig.Rows - 1) * 0.5f - row) * (CellH + Gap);
+            return new Vector2(x, y);
+        }
+        RectTransform MakeCanvasChild(string name, Color color)
+        {
+            var go = new GameObject(name, typeof(RectTransform), typeof(Image));
+            go.transform.SetParent(_canvas.transform, false);
+            var rt = (RectTransform)go.transform;
+            rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
+            var img = rt.GetComponent<Image>();
+            img.sprite = _square;
+            img.color = color;
+            return rt;
+        }
+        RectTransform MakeChildOf(RectTransform parent, string name, Vector2 pos, Vector2 size)
+        {
+            var go = new GameObject(name, typeof(RectTransform), typeof(Image));
+            go.transform.SetParent(parent, false);
+            var rt = (RectTransform)go.transform;
+            rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
+            rt.anchoredPosition = pos;
+            rt.sizeDelta = size;
+            return rt;
+        }
+        RectTransform MakeOverlayPanel(string name, Color color)
+        {
+            var go = new GameObject(name, typeof(RectTransform), typeof(Image));
+================================================================================
+第 21 页结束
+
+捞个宝游戏软件 V1.0 源程序  第 22 页 共 60 页
+================================================================================
+            go.transform.SetParent(_canvas.transform, false);
+            var rt = (RectTransform)go.transform;
+            rt.anchorMin = Vector2.zero;
+            rt.anchorMax = Vector2.one;
+            rt.offsetMin = rt.offsetMax = Vector2.zero;
+            var image = go.GetComponent<Image>();
+            image.sprite = _square;
+            image.color = color;
+            return rt;
+        }
+        void MakeActionButton(RectTransform parent, string text, Vector2 pos, Action onClick)
+        {
+            var go = new GameObject(text, typeof(RectTransform), typeof(Image), typeof(Button));
+            go.transform.SetParent(parent, false);
+            var rt = (RectTransform)go.transform;
+            rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
+            rt.anchoredPosition = pos;
+            rt.sizeDelta = new Vector2(420, 120);
+            var image = go.GetComponent<Image>();
+            image.sprite = _square;
+            image.color = Verdigris;
+            MakeText(go.transform, text, 44, Vector2.zero, TextAnchor.MiddleCenter, 420, 120).color = PearlWhite;
+            go.GetComponent<Button>().onClick.AddListener(() => onClick());
+        }
+        static Text MakeText(Transform parent, string text, int size, Vector2 pos, TextAnchor anchor, float w, float h)
+        {
+            var go = new GameObject("Text", typeof(RectTransform), typeof(Text));
+            go.transform.SetParent(parent, false);
+            var rt = (RectTransform)go.transform;
+            rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
+            rt.anchoredPosition = pos;
+            rt.sizeDelta = new Vector2(w, h);
+            var t = go.GetComponent<Text>();
+            t.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            t.text = text;
+            t.fontSize = size;
+            t.alignment = anchor;
+            t.color = new Color(0.91f, 0.89f, 0.85f);
+            t.supportRichText = true;
+            t.raycastTarget = false;   // 17号 §1.2 文本默认不吃射线（U184 修复）
+            return t;
+        }
+        static Sprite MakeSquareSprite()
+        {
+            var tex = new Texture2D(8, 8, TextureFormat.RGBA32, false);
+            var px = tex.GetPixels32();
+            for (int i = 0; i < px.Length; i++) px[i] = new Color32(255, 255, 255, 255);
+            tex.SetPixels32(px);
+            tex.Apply(false, false);
+            return Sprite.Create(tex, new Rect(0, 0, 8, 8), new Vector2(0.5f, 0.5f), 8f);
+================================================================================
+第 22 页结束
+
+捞个宝游戏软件 V1.0 源程序  第 23 页 共 60 页
+================================================================================
+        }
+        // ───── 实体视图结构 ─────
+        sealed class ItemVisual
+        {
+            public GameObject Go;
+            public RectTransform Rt;
+            public MuseumSim.ItemInst Source;
+            public bool LastSelected;
+        }
+    }
+}
+// NewbieConfig.cs
+namespace Sy.P07.Newbie
+{
+    /// <summary>
+    /// P07新手切片（合并修复·治愈经营底稿）配置 V0.2深打磨——内嵌常量切片；热更管线（X009+IConfigService）接通后迁移Design/configs/P07 JSON。
+    /// 权威：立项书（§4.2①考古合成+考据卡+NPC日记/②拓印符限频分解="错合有救但取舍仍在"[每日恢复1张·持有上限3张·用掉才开始恢复下一张]/
+    /// ③奇观苏醒迷你预告、能量经济=广告脊柱）、06新手脚本07节M0-M5、教学局必胜红线。
+    /// 配色：深海蓝#0A2463 × 珊瑚橙#F46036 × 珍珠白#E8E8E8 × 铜锈绿#3E885B × 深渊黑#05141F。
+    /// 教学局闭环：能量3点封死挖掘总量=3刷×2陶片=6陶片→3次合并=3碎片；错合教学=碎+碎升阶青铜残件（订单受阻）→拓印符分解救场。
+    /// </summary>
+    public static class NewbieConfig
+    {
+        public const string GameTitle = "捞个宝";
+        public const string GameSlogan = "从一捧沙，合出一片大陆。";
+        public const int Cols = 6;                 // 6×7棋盘（任务书口径）
+        public const int Rows = 7;
+        public const int StartEnergy = 3;          // 考古刷能量：一次挖掘耗1（立项书{regenSec:240}——正式局2-3小时耗尽痛点档）
+        public const int ShardsPerDig = 2;        // 成对出土（教学闭环标定：3刷=6陶片=3碎片=订单3碎片）
+        public const int OrderFragments = 3;      // 订单需求：碎片×3
+        // ── 元素链（立项书§4.2①：合成链即复原过程） ──
+        public const int ShardTypeId = 0;          // 陶片（可两两合并）
+        public const int FragmentTypeId = 1;       // 碎片（合并产物·可再升阶=错合路径）
+        public const int BronzeTypeId = 2;         // 青铜残件（碎+碎升阶——教学局错合演示位，正式局12链×6阶）
+        public static readonly string[] ItemNames = { "陶片", "碎片", "青铜残件" };
+        // ── 拓印符限频分解（立项书§4.2②承重：错合有救但取舍仍在） ──
+        public const int StartSeals = 3;           // 同时持有上限3张口径；每日自然恢复1张、用掉才开始恢复下一张（正式局）
+        public const string SealRuleNote = "拓印符：每日自然恢复1张·用掉一张才开始恢复下一张（正式局口径）";
+        // ── 出水三帧（立项书§八：刷泥→半露→全露通用模板） ──
+        public static readonly string[] ExcavateStages = { "刷泥……", "半露！", "全露——出水！" };
+        // ── 考据卡+NPC考古日记（立项书§4.2①：每条元素链配一段日记——剧情留存钩） ──
+        public const string CardText = "「这枚陶片上的纹样，像是失落的祭礼……」";
+        public const string NpcJournalText =
+            "探险队日志·一：这片海域的陶片，纹样与史料中的『观星历』如出一辙。老学究说——修好它，就能听见大陆的心跳。";
+        public const float JournalPageSeconds = 0.8f;   // M0探险日志3页（页2=悬念钩/页3=遗迹闪回）——U184 修复：3页×0.8=2.4s<首屏3s 线（17号 §三.8）
+        public const float CardShowSeconds = 1.6f;      // M4考据卡+NPC日记特写
+        public const float WonderPreviewSeconds = 1.6f; // M5奇观预演（进度0.40→0.75过半）
+        public const float MergeBounceSeconds = 0.2f;    // 合并手感三件套：弹跳
+        public const float MergeFlashSeconds = 0.1f;    // 白光（音效占位=演出注释）
+        public const float ExcavateFrameSeconds = 0.15f; // 出水三帧每帧
+================================================================================
+第 23 页结束
+
+捞个宝游戏软件 V1.0 源程序  第 24 页 共 60 页
+================================================================================
+        public const float MaxTutorialSeconds = 210f;   // 教学局必胜≤3.5min（06红线②）
+        public const float RegionProgressStart = 0.40f;
+        public const float RegionProgressEnd = 0.75f;
+        public const int SimSeed = 20260916;
+    }
+}
+// TutorialFlow.cs
+using System;
+namespace Sy.P07.Newbie
+{
+    /// <summary>
+    /// 新手五步漏斗（evt_newbie_step 1-5：①首刷②首合并③首订单④考据卡⑤结算）+引导提示。
+    /// 逻辑门全在MuseumSim（日志3页门/能量经济封顶/错合救场），本类只负责步骤计数/文案/埋点回调——
+    /// Play视图与headless自验（NewbieFlowCheck）共用同一套节奏。
+    /// </summary>
+    public sealed class TutorialFlow
+    {
+        public int Step { get; private set; }
+        readonly Action<string> _hint;
+        readonly Action<int> _onStep;
+        bool _firstDigSeen;
+        bool _firstMergeSeen;
+        public TutorialFlow(MuseumSim sim, Action<string> hint, Action<int> onStep)
+        {
+            _hint = hint ?? delegate { };
+            _onStep = onStep ?? delegate { };
+            sim.Dug += OnDug;
+            sim.Merged += OnMerged;
+            sim.MisMerged += OnMisMerged;
+            sim.Decomposed += OnDecomposed;
+            sim.OrderDeliveredDone += OnOrderDelivered;
+            sim.CardShown += OnCardShown;
+            sim.Settled += OnSettled;
+            sim.PhaseChanged += OnPhaseChanged;
+            _hint("翻开探险日志——这片大陆，为何沉没？");
+        }
+        void Advance(int step)
+        {
+            if (Step >= step) return;
+            Step = step;
+            _onStep(step);
+        }
+        void OnDug()
+        {
+            if (!_firstDigSeen)
+            {
+                _firstDigSeen = true;
+                Advance(1);
+                _hint("出水！（刷泥→半露→全露）陶片×2入棋盘——能量-1（考古刷点击出土）");
+                return;
+================================================================================
+第 24 页结束
+
+捞个宝游戏软件 V1.0 源程序  第 25 页 共 60 页
+================================================================================
+            }
+            _hint("又出水陶片×2（刷泥→半露→全露）——凑齐两枚陶片，点选它们即可合并");
+        }
+        void OnMerged(MuseumSim.ItemInst a, MuseumSim.ItemInst b, MuseumSim.ItemInst product)
+        {
+            if (product.TypeId == NewbieConfig.BronzeTypeId) return;   // 错合由OnMisMerged单独提示
+            if (!_firstMergeSeen)
+            {
+                _firstMergeSeen = true;
+                Advance(2);
+                _hint("首合并！陶片+陶片=碎片——弹跳+白光的手感，就是修复的心跳");
+                return;
+            }
+            _hint(NewbieConfig.ItemNames[product.TypeId] + "+1——订单板在等你凑齐" + NewbieConfig.OrderFragments + "枚碎片");
+        }
+        void OnMisMerged(MuseumSim.ItemInst bronze)
+        {
+            _hint("错合了！碎片+碎片升阶成【" + NewbieConfig.ItemNames[NewbieConfig.BronzeTypeId]
+                  + "】——但订单要的是碎片。别慌：" + NewbieConfig.SealRuleNote);
+        }
+        void OnDecomposed(MuseumSim.ItemInst bronze)
+        {
+            _hint("拓印符生效！青铜残件拆解回2枚碎片——「合错了不怕：分解重来，线索还在」（拓印符-1）");
+        }
+        void OnOrderDelivered()
+        {
+            Advance(3);
+            _hint("首单交付！✦✦✦——馆长的旧识都看见了你的手艺");
+        }
+        void OnCardShown()
+        {
+            Advance(4);
+            _hint("考据卡#1出土——" + NewbieConfig.CardText + "\n" + NewbieConfig.NpcJournalText);
+        }
+        void OnSettled()
+        {
+            Advance(5);
+            _hint("区域修复过半！奇观的剪影已在海面下苏醒——订单接力，让修复不断档");
+        }
+        void OnPhaseChanged(MuseumSim.MuseumPhase phase)
+        {
+            switch (phase)
+            {
+                case MuseumSim.MuseumPhase.Journal2:
+                    _hint("「大陆为何沉没？」——日志里的字迹被海水洇开");
+                    break;
+                case MuseumSim.MuseumPhase.Journal3:
+                    _hint("海底遗迹闪回——陶片上刻着失落的文明");
+                    break;
+                case MuseumSim.MuseumPhase.Playing:
+================================================================================
+第 25 页结束
+
+捞个宝游戏软件 V1.0 源程序  第 26 页 共 60 页
+================================================================================
+                    _hint("考古刷就位！点【考古刷】出土陶片（能量3点，一次-1）");
+                    break;
+                case MuseumSim.MuseumPhase.WonderPreview:
+                    _hint("奇观预演——光柱在海底苏醒（区域1完成时的全量预演）");
+                    break;
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+================================================================================
+第 26 页结束
+

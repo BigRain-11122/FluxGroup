@@ -1,0 +1,1265 @@
+﻿守夜人游戏软件 V1.0 源程序  第 1 页 共 60 页
+================================================================================
+// BootRunner.cs
+using System.Collections;
+using Sy.Core;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using Logger = Sy.Core.Logger;
+namespace Sy.P05.Boot
+{
+    public static class SceneIds
+    {
+        public const string Boot = "S00_Boot";
+        public const string Main = "S05_Main";
+    }
+    /// <summary>
+    /// S00_Boot场景宿主：注册Mock服务→跑七步→切主场景（T001④）。
+    /// 失败则停留Boot场景并打错误日志（重试页UI属T001b后；Boot校时失败策略=重试页禁卡死）。
+    /// </summary>
+    public sealed class BootRunner : MonoBehaviour
+    {
+        IEnumerator Start()
+        {
+            BootServices.RegisterAll();
+            var sequence = new BootSequence(SwitchToMain);
+            if (!sequence.RunAll())
+            {
+                Logger.Error("BOOT", "boot sequence failed - stay on S00_Boot");
+                yield break;
+            }
+            yield return null;
+        }
+        bool SwitchToMain()
+        {
+            StartCoroutine(LoadMainRoutine());
+            return true;
+        }
+        IEnumerator LoadMainRoutine()
+        {
+            var op = SceneManager.LoadSceneAsync(SceneIds.Main, LoadSceneMode.Single);
+            while (op != null && !op.isDone) yield return null;
+        }
+    }
+}
+// BootSequence.cs
+using System;
+using System.Collections.Generic;
+using Sy.Core;
+using Sy.Platform;
+namespace Sy.P05.Boot
+{
+    /// <summary>
+================================================================================
+第 1 页结束
+
+守夜人游戏软件 V1.0 源程序  第 2 页 共 60 页
+================================================================================
+    /// Boot七步时序（T001验收）：
+    /// ①Logger→②校时→③Config→④Save→⑤ILocale→⑥Ads.Preload→⑦切主场景，逐打日志[BOOT] n/7。
+    /// 步⑦切场景回调注入：Play模式=SceneManager.LoadSceneAsync；Editor dry-run=EditorSceneManager.OpenScene。
+    /// X006未✅时校时走SY_MOCK；任一步异常不中断后续步（收集全部失败再判定）。
+    /// </summary>
+    public sealed class BootSequence
+    {
+        public const int TotalSteps = 7;
+        readonly Func<bool> _switchScene;
+        readonly List<string> _lines = new();
+        public BootSequence(Func<bool> switchScene)
+        {
+            _switchScene = switchScene;
+        }
+        public IReadOnlyList<string> Lines => _lines;
+        public bool RunAll()
+        {
+            bool ok = true;
+            ok &= Run(1, "Logger", LoggerStep);
+            ok &= Run(2, "Time", TimeStep);
+            ok &= Run(3, "Config", ConfigStep);
+            ok &= Run(4, "Save", SaveStep);
+            ok &= Run(5, "ILocale", LocaleStep);
+            ok &= Run(6, "Ads.Preload", AdsStep);
+            ok &= Run(7, "SwitchMain", () => _switchScene != null && _switchScene());
+            return ok;
+        }
+        bool Run(int n, string name, Func<bool> step)
+        {
+            bool result;
+            try
+            {
+                result = step();
+            }
+            catch (Exception e)
+            {
+                Logger.Error("BOOT", $"step {n} {name} exception: {e.Message}");
+                result = false;
+            }
+            string line = $"[BOOT] {n}/{TotalSteps} {name} {(result ? "ok" : "FAIL")}";
+            _lines.Add(line);
+            Logger.Info("BOOT", line);
+            return result;
+        }
+        static bool LoggerStep() => true; // 静态门面首调即初始化；真实JS桥sink由platform层T001c注入
+        static bool TimeStep()
+        {
+            var time = ServiceLocator.Get<ITimeService>();
+            return time.ServerNowMs() > 0 && !time.TimeCheated();
+        }
+================================================================================
+第 2 页结束
+
+守夜人游戏软件 V1.0 源程序  第 3 页 共 60 页
+================================================================================
+        static bool ConfigStep()
+        {
+            var config = ServiceLocator.Get<IConfigService>();
+            var update = config.CheckUpdate("mock://manifest");
+            return update.NewVersion != null; // mock=无热更；X009后接真manifest
+        }
+        static bool SaveStep()
+        {
+            var save = ServiceLocator.Get<ISaveService>();
+            save.Save("boot_probe", "{}");
+            return !string.IsNullOrEmpty(save.Load("boot_probe"));
+        }
+        static bool LocaleStep()
+        {
+            var locale = ServiceLocator.Get<ILocaleService>();
+            return !string.IsNullOrEmpty(locale.GetFontSet().NormalFont); // 缺字体集回退默认+告警
+        }
+        static bool AdsStep()
+        {
+            ServiceLocator.Get<IAdsService>().Preload("boot_warmup");
+            return true;
+        }
+    }
+}
+// BootServices.cs
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Sy.Core;
+using Sy.Platform;
+using UnityEngine;
+using Logger = Sy.Core.Logger;
+namespace Sy.P05.Boot
+{
+    /// <summary>
+    /// 开发期Mock服务集（SY_MOCK口径）：X006未✅校时走Mock、X002a未下发AppID用touristappid占位。
+    /// T001c接入WX/TT真实现后按Channel切换；Editor域永远可用。Boot七步全部依赖本集。
+    /// </summary>
+    public static class BootServices
+    {
+        public static void RegisterAll()
+        {
+            if (ServiceLocator.TryGet<ITimeService>(out _)) return; // 幂等：重复注册会抛错
+            ServiceLocator.Register<ITimeService>(new MockTimeService());
+            ServiceLocator.Register<IConfigService>(new MockConfigService());
+            ServiceLocator.Register<ISaveService>(new MockSaveService());
+            ServiceLocator.Register<ILocaleService>(new MockLocaleService());
+            ServiceLocator.Register<IAdsService>(new MockAdsService());
+            Logger.Info("BOOT", "mock services registered (SY_MOCK)");
+        }
+================================================================================
+第 3 页结束
+
+守夜人游戏软件 V1.0 源程序  第 4 页 共 60 页
+================================================================================
+    }
+    public sealed class MockTimeService : ITimeService
+    {
+        public TimeSource Source => TimeSource.Mock;
+        public long ClientNowMs() => DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+        /// <summary>SY_MOCK：X006未✅，暂以设备时间充当服务端（真来源链TCB serverTime→HTTPS Date头→设备，T001b接）。</summary>
+        public long ServerNowMs() => ClientNowMs();
+        public bool TimeCheated() => Math.Abs(ServerNowMs() - ClientNowMs()) > 120_000;
+    }
+    public sealed class MockConfigService : IConfigService
+    {
+        public T GetTable<T>(string tableId) where T : class
+            => throw new KeyNotFoundException("mock config table not loaded: " + tableId);
+        public bool TryGetTable<T>(string tableId, out T table) where T : class
+        {
+            table = null;
+            return false;
+        }
+        public ConfigUpdateResult CheckUpdate(string manifestUrl)
+            => new ConfigUpdateResult(false, "mock-0.0.1");
+        public void SwapPolicy(ConfigSwapPolicy policy) { }
+        public string PinConfigVersion(string scope) => "mock-0.0.1";
+    }
+    public sealed class MockSaveService : ISaveService
+    {
+        const string Prefix = "sy_save_";
+        public void Save(string slot, string payloadJson) => PlayerPrefs.SetString(Prefix + slot, payloadJson);
+        public string Load(string slot) => PlayerPrefs.GetString(Prefix + slot, string.Empty);
+        /// <summary>X006未✅：无云端，本地即权威；T001b补v1→v2迁移用例。</summary>
+        public SyncResult CloudSync() => new SyncResult(false, null);
+    }
+    public sealed class MockLocaleService : ILocaleService
+    {
+        public void SetLang(string lang) { }
+        /// <summary>缺key回退key本体并告警（T001b接cfg_i18n表+回退NUnit用例）。</summary>
+        public string GetText(string key, params string[] args)
+        {
+            Logger.Warn("LOCALE", "missing i18n key (fallback): " + key);
+            return key;
+        }
+        public FontSet GetFontSet()
+            => new FontSet("LegacyRuntime.ttf", "LegacyRuntime.ttf", "LegacyRuntime.ttf");
+    }
+    public sealed class MockAdsService : IAdsService
+    {
+        public event Action<AdLifecycle> OnAdEvent;
+        public Task<RewardResult> ShowRewarded(string pointId)
+            => Task.FromResult(new RewardResult { Completed = true, Reason = "mock" });
+        public void ShowInterstitial(string pointId) { }
+        public void ShowBanner(string pointId) { }
+================================================================================
+第 4 页结束
+
+守夜人游戏软件 V1.0 源程序  第 5 页 共 60 页
+================================================================================
+        public void Preload(string pointId)
+        {
+            Logger.Info("ADS", "preload (mock): " + pointId);
+            OnAdEvent?.Invoke(new AdLifecycle(AdLifecycleType.Fill, pointId, "mock"));
+        }
+    }
+}
+// MainUI.cs
+using UnityEngine;
+using UnityEngine.SceneManagement;
+namespace Sy.P05.Newbie
+{
+    public static class NewbieSceneIds
+    {
+        public const string Main = "S05_Main";
+        public const string Battle = "S05_Battle";
+    }
+    /// <summary>S05主界面逻辑：活过今夜→S05_Battle（M5前零广告弹窗——主界面无任何广告位）。</summary>
+    public sealed class MainUI : MonoBehaviour
+    {
+        public void StartSurvival()
+        {
+            SceneManager.LoadScene(NewbieSceneIds.Battle);
+        }
+        void Awake()
+        {
+            Application.targetFrameRate = 30;
+            Sy.Core.MainArtInjector.Apply(transform, "P05_scene_01", "P05_general_01_zhaoyun_awake");
+        }
+    }
+}
+// BattleLauncher.cs
+using System.Collections.Generic;
+using UnityEngine;
+namespace Sy.P05.Newbie
+{
+    /// <summary>
+    /// S05_Battle场景宿主：组装FurnaceSim+TutorialFlow+FurnaceView并驱动Tick；
+    /// 埋点走Sy.Telemetry（Editor域=Debug sink；T001e接微信自定义分析+TCB双写）。
+    /// HUD数值只在变更时刷新（禁每帧字符串拼接，红线6）。
+    /// </summary>
+    public sealed class BattleLauncher : MonoBehaviour
+    {
+        FurnaceSim _sim;
+        TutorialFlow _tutorial;
+        FurnaceView _view;
+        Sy.Telemetry.TelemetryService _telemetry;
+        int _lastCoins = -1, _lastCitizens = -1, _lastWood = -1, _lastFuel = -1;
+        void Awake()
+        {
+================================================================================
+第 5 页结束
+
+守夜人游戏软件 V1.0 源程序  第 6 页 共 60 页
+================================================================================
+            Application.targetFrameRate = 30;
+            var canvas = FindObjectOfType<Canvas>();
+            _sim = new FurnaceSim();
+            _view = gameObject.AddComponent<FurnaceView>();
+            _view.Initialize(canvas, _sim);
+            _telemetry = new Sy.Telemetry.TelemetryService();
+            _telemetry.AddSink(new TelemetryDebugSink());
+            _tutorial = new TutorialFlow(
+                _sim,
+                hint =>
+                {
+                    Debug.Log("[HINT] " + hint);
+                    _view.SetHint(hint);
+                },
+                step => _telemetry.Track(Sy.Telemetry.EventIds.NewbieStep,
+                    new Dictionary<string, string> { { "step", step.ToString() } }));
+            _view.ClaimRequested += OnClaimRequested;
+            _view.FirewoodRequested += OnFirewoodRequested;
+            _view.BuildRequested += OnBuildRequested;
+            _view.DigRequested += OnDigRequested;
+            _view.NearDispatchRequested += () => OnDispatchRequested(0);
+            _view.FarDispatchRequested += () => OnDispatchRequested(1);
+            _view.SocialTapped += OnSocialTapped;
+            _sim.PhaseChanged += OnPhaseChanged;
+            _sim.DigStageReached += OnDigStageReached;
+        }
+        void Update()
+        {
+            _sim.Tick(Time.deltaTime);
+            _view.SyncView(_sim);
+            if (_sim.Coins != _lastCoins) { _lastCoins = _sim.Coins; _view.SetCoins(_lastCoins); }
+            if (_sim.Citizens != _lastCitizens) { _lastCitizens = _sim.Citizens; _view.SetCitizens(_lastCitizens); }
+            if (_sim.Wood != _lastWood) { _lastWood = _sim.Wood; _view.SetWood(_lastWood); }
+            if ((int)_sim.Fuel != _lastFuel) { _lastFuel = (int)_sim.Fuel; _view.SetFuel(_lastFuel); }
+        }
+        void OnClaimRequested()
+        {
+            _sim.ClaimOffline();
+        }
+        void OnFirewoodRequested()
+        {
+            _sim.AddFirewood();
+        }
+        void OnBuildRequested()
+        {
+            _sim.BuildWoodyard();
+        }
+        void OnDigRequested()
+        {
+            _sim.StartDig();
+================================================================================
+第 6 页结束
+
+守夜人游戏软件 V1.0 源程序  第 7 页 共 60 页
+================================================================================
+        }
+        void OnDispatchRequested(int node)
+        {
+            _sim.DispatchOrder(node);
+        }
+        void OnSocialTapped()
+        {
+            _view.SetHint("【雪中送炭】互赠入口——正式局与好友互送柴火（送温暖1次/日·双方得奖励）");
+        }
+        void OnDigStageReached(int stage)
+        {
+            _view.SetDigStage(stage);
+        }
+        void OnPhaseChanged(FurnaceSim.SimPhase phase)
+        {
+            if (phase == FurnaceSim.SimPhase.Settled)
+                _view.ShowSettle(_sim.Coins, _sim.Citizens, _sim.Wood, (int)_sim.Fuel, _sim.Day, _sim.OutsideDispatchDone);
+            else
+                _view.HideIntro();
+        }
+        sealed class TelemetryDebugSink : Sy.Telemetry.TelemetryService.ISink
+        {
+            public void Write(string evtId, Dictionary<string, string> fields)
+            {
+                var sb = new System.Text.StringBuilder(evtId);
+                foreach (var kv in fields)
+                {
+                    sb.Append(' ').Append(kv.Key).Append('=').Append(kv.Value);
+                }
+                Debug.Log("[TELEMETRY] " + sb);
+            }
+        }
+    }
+}
+// FurnaceSim.cs
+using System;
+namespace Sy.P05.Newbie
+{
+    /// <summary>
+    /// 放置生存教学局核心逻辑（纯C#零渲染依赖）：Play渲染与Editor headless自验（NewbieFlowCheck）共用同一套规则。
+    /// 系统性建模（立项书§4核心循环）：炉火ticking公式(fuelPerMin=4+fireLv*2·余烬锁红线)/柴场lv1自产/炉火等级→光圈半径/
+    /// 圈内外采集二选一(圈外收益×2+frostRisk+回城取暖耗火)/分阶段挖冰四节点/生存天数。
+    /// 教学编排（06脚本05节）：M0风雪夜炉火将熄→M1首收菜(8h离线)+首次添柴(耗柴1捆·炉火+30)→M2首建柴场lv1
+    /// (柴场自产+炉火升lv2·光圈扩张)→M3首挖冰面(10s四阶段)出幸存者→M4幸存者入城+采集派遣首单(圈内安全/圈外富矿二选一)
+    /// →M5光圈可视化+雪中送炭入口+结算"活过今夜"(生存天数+1)。
+    /// 引导为序贯门（每步动作解锁下一步）；红线：教学局必胜（燃料锁1不熄灭；圈外风险=成本非致死）。
+    /// </summary>
+    public sealed class FurnaceSim
+    {
+        public enum SimPhase
+================================================================================
+第 7 页结束
+
+守夜人游戏软件 V1.0 源程序  第 8 页 共 60 页
+================================================================================
+        {
+            Intro, AwaitClaim, AwaitFirewood, AwaitBuild, AwaitDig, Digging,
+            AwaitDispatch, Dispatching, Reveal, Settled
+        }
+        public SimPhase Phase { get; private set; } = SimPhase.Intro;
+        public float Fuel { get; private set; } = NewbieConfig.StartFuel;
+        public int Coins { get; private set; }
+        public int Citizens { get; private set; } = NewbieConfig.StartCitizens;
+        public int Wood { get; private set; } = NewbieConfig.StartWood;
+        public int Day { get; private set; } = NewbieConfig.StartDay;
+        public int FireLevel { get; private set; } = 1;               // 炉火等级（立项书§4.2①：等级→光圈半径）
+        public bool HasWoodyard { get; private set; }
+        public bool SurvivorFound { get; private set; }
+        public float PhaseTimer { get; private set; }
+        public float LightRadius => NewbieConfig.LightRadiusByLevel[FireLevel];
+        public int DigStagesSeen { get; private set; }               // bit0-3=四阶段全达
+        public bool OutsideDispatchDone { get; private set; }         // 圈外富矿路径（收益×2+风险+取暖成本）
+        public int AdPopupCount => 0;                                 // 零广告红线：结构化断言
+        public event Action<SimPhase> PhaseChanged;
+        public event Action Claimed;
+        public event Action FirewoodAdded;
+        public event Action WoodyardBuilt;
+        public event Action FireLevelUp;                              // 炉火升级（光圈扩张=M5伏笔）
+        public event Action DigStarted;
+        public event Action<int> DigStageReached;                     // 分阶段挖冰节点（立项书V1.2承重②）
+        public event Action SurvivorDug;
+        public event Action<int> DispatchStarted;                     // (派遣点：0圈内/1圈外)
+        public event Action<int, int> OrderDone;                      // (产出木柴, 派遣点)
+        public event Action FrostRiskWarned;                          // 圈外冻伤风险（frostRisk口径）
+        public event Action Settled;
+        int _dispatchNode;
+        int _digStageDone;
+        float _woodTimer;
+        public void Tick(float dt)
+        {
+            if (Phase == SimPhase.Intro)
+            {
+                PhaseTimer += dt;
+                if (PhaseTimer >= NewbieConfig.IntroSeconds) SetPhase(SimPhase.AwaitClaim);
+                return;
+            }
+            if (Phase == SimPhase.Settled) return;
+            // 炉火ticking（立项书§4.1公式fuelPerMin=4+fireLv*2；教学局红线：余烬锁1不熄灭）
+            Fuel = Math.Max(NewbieConfig.FuelFloor, Fuel - NewbieConfig.FuelDrainPerSecond(FireLevel) * dt);
+            // 柴场lv1自产（建成起）：每WoodyardWoodInterval秒+1捆，封顶WoodyardWoodCap
+            if (HasWoodyard)
+            {
+                _woodTimer += dt;
+                if (_woodTimer >= NewbieConfig.WoodyardWoodInterval && Wood < NewbieConfig.WoodyardWoodCap)
+                {
+================================================================================
+第 8 页结束
+
+守夜人游戏软件 V1.0 源程序  第 9 页 共 60 页
+================================================================================
+                    _woodTimer = 0f;
+                    Wood++;
+                }
+            }
+            switch (Phase)
+            {
+                case SimPhase.Digging:
+                    PhaseTimer += dt;
+                    TickDigStages();
+                    if (PhaseTimer >= NewbieConfig.DigSeconds)
+                    {
+                        SurvivorFound = true;
+                        Citizens++;
+                        SurvivorDug?.Invoke();
+                        SetPhase(SimPhase.AwaitDispatch);
+                    }
+                    break;
+                case SimPhase.Dispatching:
+                    PhaseTimer += dt;
+                    if (PhaseTimer >= NewbieConfig.DispatchSeconds)
+                    {
+                        Wood += NewbieConfig.DispatchYield[_dispatchNode];
+                        if (_dispatchNode == 1)
+                        {
+                            OutsideDispatchDone = true;
+                            Fuel = Math.Max(NewbieConfig.FuelFloor, Fuel - NewbieConfig.OutsideWarmupFuel);   // 回城取暖成本
+                        }
+                        OrderDone?.Invoke(NewbieConfig.DispatchYield[_dispatchNode], _dispatchNode);
+                        SetPhase(SimPhase.Reveal);
+                    }
+                    break;
+                case SimPhase.Reveal:
+                    PhaseTimer += dt;
+                    if (PhaseTimer >= NewbieConfig.RevealSeconds)
+                    {
+                        Day++;   // 活过今夜→生存天数+1（立项书§4.1：生存天数+里程碑）
+                        Settled?.Invoke();
+                        SetPhase(SimPhase.Settled);
+                    }
+                    break;
+            }
+        }
+        void TickDigStages()
+        {
+            int stage = Math.Min(NewbieConfig.DigStages.Length,
+                1 + (int)(PhaseTimer / (NewbieConfig.DigSeconds / NewbieConfig.DigStages.Length)));
+            if (stage > _digStageDone)
+            {
+                _digStageDone = stage;
+                DigStagesSeen |= 1 << (stage - 1);
+================================================================================
+第 9 页结束
+
+守夜人游戏软件 V1.0 源程序  第 10 页 共 60 页
+================================================================================
+                DigStageReached?.Invoke(stage);
+            }
+        }
+        /// <summary>M1a首收菜：领取8h离线魂币。</summary>
+        public bool ClaimOffline()
+        {
+            if (Phase != SimPhase.AwaitClaim) return false;
+            Coins += NewbieConfig.OfflineCoins;
+            Claimed?.Invoke();
+            SetPhase(SimPhase.AwaitFirewood);
+            return true;
+        }
+        /// <summary>M1b首次添柴：耗柴1捆→炉火+30即时反馈。</summary>
+        public bool AddFirewood()
+        {
+            if (Phase != SimPhase.AwaitFirewood) return false;
+            if (Wood < 1) return false;   // 教学局开局蓄柴3捆——必达
+            Wood--;
+            Fuel = Math.Min(100f, Fuel + NewbieConfig.FirewoodFuel);
+            FirewoodAdded?.Invoke();
+            SetPhase(SimPhase.AwaitBuild);
+            return true;
+        }
+        /// <summary>M2首建柴场lv1：即时完成+自产+炉火升lv2（光圈扩张·立项书核心①）。</summary>
+        public bool BuildWoodyard()
+        {
+            if (Phase != SimPhase.AwaitBuild) return false;
+            HasWoodyard = true;
+            FireLevel++;
+            FireLevelUp?.Invoke();
+            WoodyardBuilt?.Invoke();
+            SetPhase(SimPhase.AwaitDig);
+            return true;
+        }
+        /// <summary>M3首挖：点冰面开始凿冰（四阶段节点反馈→10s出幸存者）。</summary>
+        public bool StartDig()
+        {
+            if (Phase != SimPhase.AwaitDig) return false;
+            PhaseTimer = 0f;
+            _digStageDone = 0;
+            DigStarted?.Invoke();
+            SetPhase(SimPhase.Digging);
+            return true;
+        }
+        /// <summary>M4采集派遣首单：派遣点二选一（0=圈内安全/1=圈外富矿·收益×2·frostRisk+回城取暖耗火）。</summary>
+        public bool DispatchOrder(int node)
+        {
+            if (Phase != SimPhase.AwaitDispatch) return false;
+            if (node < 0 || node >= NewbieConfig.DispatchNames.Length) return false;
+            _dispatchNode = node;
+================================================================================
+第 10 页结束
+
+守夜人游戏软件 V1.0 源程序  第 11 页 共 60 页
+================================================================================
+            if (node == 1)
+            {
+                FrostRiskWarned?.Invoke();   // frostRisk=0.05*炉距（教学局标定15%）——成本非致死（必胜红线）
+            }
+            PhaseTimer = 0f;
+            DispatchStarted?.Invoke(node);
+            SetPhase(SimPhase.Dispatching);
+            return true;
+        }
+        void SetPhase(SimPhase p)
+        {
+            if (Phase == p) return;
+            Phase = p;
+            PhaseTimer = 0f;
+            PhaseChanged?.Invoke(p);
+        }
+    }
+}
+// FurnaceView.cs
+using System;
+using System.Collections;
+using UnityEngine;
+using UnityEngine.UI;
+namespace Sy.P05.Newbie
+{
+    /// <summary>
+    /// 放置生存教学局渲染层（纯程序化UGUI——雪白×冰蓝×深墨蓝×炉火橙×冰灰，全款无金）。
+    /// 所有UI在Initialize时程序化生成（免场景YAML漂移）；演出=风雪飘落/炉火呼吸/光圈随炉火等级扩张（等级→半径·立项书核心①）/
+    /// 圈内近林vs圈外富矿双派遣点（圈外带冻伤风险标签）/分阶段挖冰节点标签/结算"活过今夜"。
+    /// 零广告红线：全程零广告位（雪中送炭=社交入口非广告）。
+    /// </summary>
+    public sealed class FurnaceView : MonoBehaviour
+    {
+        Canvas _canvas;
+        Sprite _square;
+        FurnaceSim _sim;
+        RectTransform _lightCircle, _furnaceRt;
+        Image _fuelFill, _digFill, _dispatchFill;
+        Image _digPortrait;   // X027: dig-stage general art (frozen peek -> awake reveal)
+        Button _firewoodButton, _buildButton, _iceButton, _nearButton, _farButton, _socialButton;
+        Image _firewoodImage, _buildImage, _iceImage, _nearImage, _farImage;
+        Text _coinText, _citizenText, _woodText, _fuelText, _hintText, _digStageText;
+        RectTransform _offlinePopup, _settlePanel;
+        Text _settleStats;
+        FurnaceSim.SimPhase _lastPhase;
+        float _circleScale = NewbieConfig.LightRadiusByLevel[1];
+        public event Action ClaimRequested;
+        public event Action FirewoodRequested;
+        public event Action BuildRequested;
+        public event Action DigRequested;
+================================================================================
+第 11 页结束
+
+守夜人游戏软件 V1.0 源程序  第 12 页 共 60 页
+================================================================================
+        public event Action NearDispatchRequested;   // 圈内·近林（安全）
+        public event Action FarDispatchRequested;    // 圈外·富矿（收益×2·风险）
+        public event Action SocialTapped;
+        static readonly Color SnowWhite = new Color(0.969f, 0.976f, 0.988f);     // #F7F9FC
+        static readonly Color IceBlue = new Color(0.659f, 0.773f, 0.855f);       // #A8C5DA
+        static readonly Color InkBlue = new Color(0.118f, 0.227f, 0.373f);       // #1E3A5F
+        static readonly Color FurnaceOrange = new Color(1f, 0.42f, 0.102f);     // #FF6B1A
+        static readonly Color IceGray = new Color(0.42f, 0.48f, 0.549f);          // #6B7B8C
+        public void Initialize(Canvas canvas, FurnaceSim sim)
+        {
+            _canvas = canvas;
+            _sim = sim;
+            _square = MakeSquareSprite();
+            BuildScene();
+            BuildHud();
+            BuildOfflinePopup();
+            BuildSettlePanel();
+            SetHint("风雪夜，炉火将熄……");
+            StartCoroutine(SnowRoutine());
+            StartCoroutine(FlameRoutine());
+        }
+        // ───── 布局 ─────
+        void BuildScene()
+        {
+            var bg = MakeFullImage("Bg", InkBlue);
+            bg.SetAsFirstSibling();
+            // X027 generated art: swap the solid Bg block for the scene painting
+            // when present; missing art keeps the procedural look untouched.
+            var bgImg = bg.GetComponent<Image>();
+            var bgArt = Sy.Core.ArtRuntime.Get("P05_scene_01");
+            if (bgArt != null)
+            {
+                bgImg.sprite = bgArt;
+                bgImg.color = Color.white;
+                bgImg.preserveAspect = true;
+                bgImg.raycastTarget = false;
+            }
+            // 雪地
+            var ground = MakeCanvasChild("Ground");
+            ground.sizeDelta = new Vector2(1080, 520);
+            ground.anchoredPosition = new Vector2(0, -700);
+            var groundImg = ground.GetComponent<Image>();
+            groundImg.sprite = _square;
+            groundImg.color = new Color(0.85f, 0.88f, 0.92f);
+            // 光圈（炉火等级→半径：lv1 0.55 → lv2 0.95；以炉火为圆心）
+            _lightCircle = MakeCanvasChild("LightCircle");
+            _lightCircle.sizeDelta = new Vector2(700, 700);
+            _lightCircle.anchoredPosition = new Vector2(0, -420);
+            var circleImg = _lightCircle.GetComponent<Image>();
+            circleImg.sprite = _square;
+================================================================================
+第 12 页结束
+
+守夜人游戏软件 V1.0 源程序  第 13 页 共 60 页
+================================================================================
+            circleImg.color = new Color(IceBlue.r, IceBlue.g, IceBlue.b, 0.10f);
+            // X027 generated art: hidden general portrait shown by dig stage below.
+            var portraitGo = new GameObject("DigPortrait", typeof(RectTransform), typeof(Image));
+            portraitGo.transform.SetParent(_canvas.transform, false);
+            _digPortrait = portraitGo.GetComponent<Image>();
+            var portraitRt = (RectTransform)portraitGo.transform;
+            portraitRt.anchorMin = portraitRt.anchorMax = new Vector2(0.5f, 0.5f);
+            portraitRt.anchoredPosition = new Vector2(0, 40);
+            portraitRt.sizeDelta = new Vector2(640, 860);
+            _digPortrait.raycastTarget = false;
+            _digPortrait.gameObject.SetActive(false);
+            // 炉火
+            _furnaceRt = MakeCanvasChild("Furnace");
+            _furnaceRt.anchoredPosition = new Vector2(0, -420);
+            _furnaceRt.sizeDelta = new Vector2(150, 150);
+            var furnaceImg = _furnaceRt.GetComponent<Image>();
+            furnaceImg.sprite = _square;
+            furnaceImg.color = FurnaceOrange;
+            MakeText(_furnaceRt, "炉", 60, Vector2.zero, TextAnchor.MiddleCenter, 150, 150).color = InkBlue;
+            var fuelBar = MakeCanvasChild("FuelBar");
+            fuelBar.anchoredPosition = new Vector2(0, -560);
+            fuelBar.sizeDelta = new Vector2(300, 24);
+            var fuelBg = fuelBar.GetComponent<Image>();
+            fuelBg.sprite = _square;
+            fuelBg.color = new Color(0.15f, 0.18f, 0.22f);
+            var fillGo = new GameObject("Fill", typeof(RectTransform), typeof(Image));
+            fillGo.transform.SetParent(fuelBar, false);
+            var fillRt = (RectTransform)fillGo.transform;
+            fillRt.anchorMin = new Vector2(0f, 0.5f);
+            fillRt.anchorMax = new Vector2(1f, 0.5f);
+            fillRt.anchoredPosition = Vector2.zero;
+            fillRt.sizeDelta = new Vector2(0, 24);
+            _fuelFill = fillGo.GetComponent<Image>();
+            _fuelFill.sprite = _square;
+            _fuelFill.type = Image.Type.Filled;
+            _fuelFill.fillMethod = Image.FillMethod.Horizontal;
+            _fuelFill.color = FurnaceOrange;
+            // 添柴按钮（炉旁·圈内）
+            _firewoodButton = MakeActionButton("FirewoodButton", "添柴", new Vector2(-260, -420), FirewoodRequested, out _firewoodImage);
+            // 柴场（圈内）
+            _buildButton = MakeActionButton("BuildButton", "建\n柴场", new Vector2(300, -420), BuildRequested, out _buildImage);
+            // 冰面（左）
+            _iceButton = MakeActionButton("IceButton", "冰面\n✦", new Vector2(-300, -660), DigRequested, out _iceImage);
+            // 采集派遣双点（M4）：圈内近林（安全）/ 圈外富矿（极寒区·收益×2·冻伤风险）——光圈即决策轴
+            _nearButton = MakeActionButton("NearNode", "圈内·近林\n+6 安全", new Vector2(170, -470), NearDispatchRequested, out _nearImage);
+            _farButton = MakeActionButton("FarNode", "圈外·富矿\n+12 风险15%", new Vector2(450, -260), FarDispatchRequested, out _farImage);
+            // X027 generated art: furnace + building paintings on the action blocks.
+            ApplyActionArt(_furnaceRt.GetComponent<Image>(), "P05_icon_fire");
+            ApplyActionArt(_firewoodImage, "P05_icon_wood");
+            ApplyActionArt(_buildImage, "P05_building_01_wood");
+================================================================================
+第 13 页结束
+
+守夜人游戏软件 V1.0 源程序  第 14 页 共 60 页
+================================================================================
+            ApplyActionArt(_iceImage, "P05_building_02_ice");
+            ApplyActionArt(_nearImage, "P05_building_03_farm");
+            ApplyActionArt(_farImage, "P05_building_04_iron");
+            // 凿冰进度（冰面上方）
+            var digBar = MakeCanvasChild("DigBar");
+            digBar.anchoredPosition = new Vector2(-300, -540);
+            digBar.sizeDelta = new Vector2(220, 18);
+            var digBg = digBar.GetComponent<Image>();
+            digBg.sprite = _square;
+            digBg.color = new Color(0.15f, 0.18f, 0.22f);
+            var digFillGo = new GameObject("Fill", typeof(RectTransform), typeof(Image));
+            digFillGo.transform.SetParent(digBar, false);
+            var digFillRt = (RectTransform)digFillGo.transform;
+            digFillRt.anchorMin = new Vector2(0f, 0.5f);
+            digFillRt.anchorMax = new Vector2(1f, 0.5f);
+            digFillRt.anchoredPosition = Vector2.zero;
+            digFillRt.sizeDelta = new Vector2(0, 18);
+            _digFill = digFillGo.GetComponent<Image>();
+            _digFill.sprite = _square;
+            _digFill.type = Image.Type.Filled;
+            _digFill.fillMethod = Image.FillMethod.Horizontal;
+            _digFill.color = IceBlue;
+            digBar.gameObject.SetActive(false);
+            // 挖冰阶段标签（分阶段反馈节点——"连续期待"）
+            _digStageText = MakeText(_canvas.transform, "", 34, new Vector2(-300, -450), TextAnchor.MiddleCenter, 340, 60);
+            _digStageText.color = new Color(0.05f, 0.09f, 0.15f);   // U184: deep-ink - was IceBlue-on-snow 1.4:1 (17 doc section 3.7)
+            _digStageText.gameObject.SetActive(false);
+            // 派遣进度
+            var dispatchBar = MakeCanvasChild("DispatchBar");
+            dispatchBar.anchoredPosition = new Vector2(310, -100);
+            dispatchBar.sizeDelta = new Vector2(220, 18);
+            var dispBg = dispatchBar.GetComponent<Image>();
+            dispBg.sprite = _square;
+            dispBg.color = new Color(0.15f, 0.18f, 0.22f);
+            var dispFillGo = new GameObject("Fill", typeof(RectTransform), typeof(Image));
+            dispFillGo.transform.SetParent(dispatchBar, false);
+            var dispFillRt = (RectTransform)dispFillGo.transform;
+            dispFillRt.anchorMin = new Vector2(0f, 0.5f);
+            dispFillRt.anchorMax = new Vector2(1f, 0.5f);
+            dispFillRt.anchoredPosition = Vector2.zero;
+            dispFillRt.sizeDelta = new Vector2(0, 18);
+            _dispatchFill = dispFillGo.GetComponent<Image>();
+            _dispatchFill.sprite = _square;
+            _dispatchFill.type = Image.Type.Filled;
+            _dispatchFill.fillMethod = Image.FillMethod.Horizontal;
+            _dispatchFill.color = IceBlue;
+            dispatchBar.gameObject.SetActive(false);
+            // 雪中送炭入口（M5露出）
+            _socialButton = MakeActionButton("SocialButton", "雪中送炭\n互赠", new Vector2(380, 300), SocialTapped, out _socialImage);
+            _socialButton.gameObject.SetActive(false);
+================================================================================
+第 14 页结束
+
+守夜人游戏软件 V1.0 源程序  第 15 页 共 60 页
+================================================================================
+        }
+        Image _socialImage;
+        void BuildHud()
+        {
+            var root = _canvas.transform;
+            _coinText = MakeText(root, "魂币 0", 46, new Vector2(0, 880), TextAnchor.UpperLeft, 360, 70);
+            _coinText.color = SnowWhite;
+            _fuelText = MakeText(root, "炉火 20%", 46, new Vector2(0, 880), TextAnchor.UpperCenter, 380, 70);
+            _fuelText.color = FurnaceOrange;
+            _citizenText = MakeText(root, "人口 1", 44, new Vector2(0, 820), TextAnchor.UpperRight, 320, 60);
+            _citizenText.color = SnowWhite;
+            _woodText = MakeText(root, "木柴 3", 44, new Vector2(0, 760), TextAnchor.UpperRight, 320, 60);
+            _woodText.color = SnowWhite;   // U184: was IceGray-on-deep ~2.6:1 (17 doc section 3.7)
+            _hintText = MakeText(root, "", 40, new Vector2(0, -840), TextAnchor.MiddleCenter, 1020, 150);
+            _hintText.color = new Color(0.05f, 0.09f, 0.15f);   // U184: deep-ink on snow band - was SnowWhite-on-snow 1.2:1 (17 doc section 3.7)
+        }
+        void BuildOfflinePopup()
+        {
+            _offlinePopup = MakeOverlayPanel("OfflinePopup", new Color(0.06f, 0.10f, 0.16f, 0.94f));
+            MakeText(_offlinePopup, "离线 8 小时", 66, new Vector2(0, 220), TextAnchor.MiddleCenter, 900, 100).color = SnowWhite;
+            MakeText(_offlinePopup, "魂币 ×240 已攒好", 52, new Vector2(0, 80), TextAnchor.MiddleCenter, 900, 90).color = IceBlue;
+            MakePanelButton(_offlinePopup, "领取", new Vector2(0, -160), () => ClaimRequested?.Invoke());
+        }
+        void BuildSettlePanel()
+        {
+            _settlePanel = MakeOverlayPanel("SettlePanel", new Color(0.06f, 0.10f, 0.16f, 0.96f));
+            MakeText(_settlePanel, "活过今夜 ✓", 96, new Vector2(0, 560), TextAnchor.MiddleCenter, 1040, 120).color = FurnaceOrange;
+            _settleStats = MakeText(_settlePanel, "", 44, new Vector2(0, 360), TextAnchor.MiddleCenter, 1020, 380);
+            MakePanelButton(_settlePanel, "明日继续", new Vector2(-260, -300), () => UnityEngine.SceneManagement.SceneManager.LoadScene(NewbieSceneIds.Battle));
+            MakePanelButton(_settlePanel, "返回主界面", new Vector2(260, -300), () => UnityEngine.SceneManagement.SceneManager.LoadScene(NewbieSceneIds.Main));
+            _settlePanel.gameObject.SetActive(false);
+        }
+        // ───── 每帧同步 ─────
+        public void SyncView(FurnaceSim sim)
+        {
+            var phase = sim.Phase;
+            if (phase != _lastPhase)
+            {
+                _lastPhase = phase;
+                OnPhaseVisual(phase);
+            }
+            float fuel01 = sim.Fuel / 100f;
+            _fuelFill.fillAmount = fuel01;
+            // 光圈：等级→半径（立项书核心①）+燃料呼吸微调
+            float target = NewbieConfig.LightRadiusByLevel[sim.FireLevel] + fuel01 * 0.05f;
+            _circleScale = Mathf.Lerp(_circleScale, target, 0.08f);
+            _lightCircle.localScale = Vector3.one * _circleScale;
+            if (phase == FurnaceSim.SimPhase.Digging)
+                _digFill.fillAmount = sim.PhaseTimer / NewbieConfig.DigSeconds;
+            if (phase == FurnaceSim.SimPhase.Dispatching)
+================================================================================
+第 15 页结束
+
+守夜人游戏软件 V1.0 源程序  第 16 页 共 60 页
+================================================================================
+                _dispatchFill.fillAmount = sim.PhaseTimer / NewbieConfig.DispatchSeconds;
+            SetButtonState(_firewoodButton, _firewoodImage, phase == FurnaceSim.SimPhase.AwaitFirewood);
+            SetButtonState(_buildButton, _buildImage, phase == FurnaceSim.SimPhase.AwaitBuild);
+            SetButtonState(_iceButton, _iceImage, phase == FurnaceSim.SimPhase.AwaitDig);
+            bool dispatchable = phase == FurnaceSim.SimPhase.AwaitDispatch;
+            SetButtonState(_nearButton, _nearImage, dispatchable);
+            SetButtonState(_farButton, _farImage, dispatchable);
+        }
+        void OnPhaseVisual(FurnaceSim.SimPhase phase)
+        {
+            switch (phase)
+            {
+                case FurnaceSim.SimPhase.AwaitClaim:
+                    _offlinePopup.gameObject.SetActive(true);
+                    break;
+                case FurnaceSim.SimPhase.AwaitFirewood:
+                    _offlinePopup.gameObject.SetActive(false);
+                    break;
+                case FurnaceSim.SimPhase.Digging:
+                    _digFill.transform.parent.gameObject.SetActive(true);
+                    _digStageText.gameObject.SetActive(true);
+                    break;
+                case FurnaceSim.SimPhase.AwaitDispatch:
+                    _digFill.transform.parent.gameObject.SetActive(false);
+                    _digStageText.gameObject.SetActive(false);
+                    break;
+                case FurnaceSim.SimPhase.Dispatching:
+                    _dispatchFill.transform.parent.gameObject.SetActive(true);
+                    break;
+                case FurnaceSim.SimPhase.Reveal:
+                    _dispatchFill.transform.parent.gameObject.SetActive(false);
+                    _socialButton.gameObject.SetActive(true);
+                    break;
+                case FurnaceSim.SimPhase.Settled:
+                    _socialButton.gameObject.SetActive(true);
+                    break;
+            }
+        }
+        static void SetButtonState(Button button, Image image, bool active)
+        {
+            if (button.interactable == active) return;
+            button.interactable = active;
+            image.color = active ? FurnaceOrange : new Color(0.30f, 0.34f, 0.40f);
+        }
+        // ───── HUD与面板 ─────
+        public void SetCoins(int c) => _coinText.text = "魂币 " + c;
+        public void SetCitizens(int n) => _citizenText.text = "人口 " + n;
+        public void SetWood(int w) => _woodText.text = "木柴 " + w;
+        public void SetFuel(int f) => _fuelText.text = "炉火 " + f + "%";
+        public void SetHint(string hint) => _hintText.text = hint;
+================================================================================
+第 16 页结束
+
+守夜人游戏软件 V1.0 源程序  第 17 页 共 60 页
+================================================================================
+        /// <summary>分阶段挖冰节点反馈（破冰层→见衣角→见真容→苏醒）。</summary>
+        public void SetDigStage(int stage)
+        {
+            _digStageText.text = NewbieConfig.DigStages[stage - 1] + "（" + stage * 25 + "%）";
+            // X027: frozen silhouette peek at "reveal", full-color awake at "awake".
+            if (_digPortrait == null) return;
+            var art = stage >= 4 ? Sy.Core.ArtRuntime.Get("P05_general_02_guanyu_awake")
+                : stage == 3 ? Sy.Core.ArtRuntime.Get("P05_general_02_guanyu_frozen")
+                : null;
+            if (art != null)
+            {
+                _digPortrait.sprite = art;
+                _digPortrait.color = stage >= 4 ? Color.white : new Color(1f, 1f, 1f, 0.6f);
+                _digPortrait.preserveAspect = true;
+                _digPortrait.gameObject.SetActive(true);
+            }
+            else
+            {
+                _digPortrait.gameObject.SetActive(false);
+            }
+        }
+        public void HideIntro()
+        {
+            // M0开场文字由Hint承载，无独立遮罩（风雪场景即开场画面）
+        }
+        public void ShowSettle(int coins, int citizens, int wood, int fuel, int day, bool outside)
+        {
+            _settlePanel.gameObject.SetActive(true);
+            _settleStats.text = $"魂币 {coins} · 人口 {citizens} · 木柴 {wood} · 炉火 {fuel}%\n生存第 {day} 天（第 {NewbieConfig.MilestoneDay} 天全城演出见）\n<size=40>{NewbieConfig.ColdWaveTeaser}</size>\n<size=40>光圈即视界——{(outside ? "圈外富矿已开采（收益×2）" : "圈内安全采集")} · 圈外皆是风雪</size>";
+        }
+        // ───── 演出协程 ─────
+        /// <summary>X027: swap a solid action block for generated art when the key exists.</summary>
+        static void ApplyActionArt(Image image, string key)
+        {
+            var art = Sy.Core.ArtRuntime.Get(key);
+            if (image == null || art == null) return;
+            image.sprite = art;
+            image.color = Color.white;
+            image.preserveAspect = true;
+        }
+        IEnumerator SnowRoutine()
+        {
+            var flakes = new RectTransform[7];
+            for (int i = 0; i < flakes.Length; i++)
+            {
+                var go = new GameObject("Snow_" + i, typeof(RectTransform), typeof(Image));
+                go.transform.SetParent(_canvas.transform, false);
+                flakes[i] = (RectTransform)go.transform;
+                flakes[i].anchorMin = flakes[i].anchorMax = new Vector2(0.5f, 0.5f);
+                flakes[i].sizeDelta = new Vector2(18, 18);
+================================================================================
+第 17 页结束
+
+守夜人游戏软件 V1.0 源程序  第 18 页 共 60 页
+================================================================================
+                flakes[i].anchoredPosition = new Vector2(UnityEngine.Random.Range(-520f, 520f), UnityEngine.Random.Range(200f, 950f));
+                var img = go.GetComponent<Image>();
+                img.sprite = _square;
+                img.color = new Color(SnowWhite.r, SnowWhite.g, SnowWhite.b, 0.75f);
+                flakes[i].SetAsFirstSibling();
+                flakes[i].SetSiblingIndex(1);
+            }
+            while (true)
+            {
+                for (int i = 0; i < flakes.Length; i++)
+                {
+                    var pos = flakes[i].anchoredPosition;
+                    pos.y -= 60f * Time.deltaTime;
+                    pos.x += Mathf.Sin(Time.time + i) * 10f * Time.deltaTime;
+                    if (pos.y < -950f)
+                    {
+                        pos.y = 950f;
+                        pos.x = UnityEngine.Random.Range(-520f, 520f);
+                    }
+                    flakes[i].anchoredPosition = pos;
+                }
+                yield return null;
+            }
+        }
+        IEnumerator FlameRoutine()
+        {
+            while (true)
+            {
+                float fuel01 = _sim.Fuel / 100f;
+                float pulse = 0.5f + 0.5f * Mathf.Sin(Time.unscaledTime * (2f + fuel01 * 3f));
+                _furnaceRt.localScale = Vector3.one * (1f + 0.05f + 0.06f * pulse * fuel01);
+                yield return null;
+            }
+        }
+        // ───── 工具 ─────
+        RectTransform MakeCanvasChild(string name)
+        {
+            var go = new GameObject(name, typeof(RectTransform), typeof(Image));
+            go.transform.SetParent(_canvas.transform, false);
+            var rt = (RectTransform)go.transform;
+            rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
+            return rt;
+        }
+        RectTransform MakeFullImage(string name, Color color)
+        {
+            var rt = MakeCanvasChild(name);
+            rt.anchorMin = Vector2.zero;
+            rt.anchorMax = Vector2.one;
+            rt.anchoredPosition = Vector2.zero;
+            rt.sizeDelta = Vector2.zero;
+================================================================================
+第 18 页结束
+
+守夜人游戏软件 V1.0 源程序  第 19 页 共 60 页
+================================================================================
+            rt.GetComponent<Image>().color = color;
+            return rt;
+        }
+        Button MakeActionButton(string name, string label, Vector2 pos, Action onClick, out Image image)
+        {
+            var go = new GameObject(name, typeof(RectTransform), typeof(Image), typeof(Button));
+            go.transform.SetParent(_canvas.transform, false);
+            var rt = (RectTransform)go.transform;
+            rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
+            rt.anchoredPosition = pos;
+            rt.sizeDelta = new Vector2(160, 160);
+            image = go.GetComponent<Image>();
+            image.sprite = _square;
+            image.color = new Color(0.30f, 0.34f, 0.40f);
+            var label1 = MakeText(go.transform, label, 34, Vector2.zero, TextAnchor.MiddleCenter, 170, 170);
+            label1.color = SnowWhite;
+            var button = go.GetComponent<Button>();
+            button.interactable = false;
+            button.onClick.AddListener(() => onClick());
+            return button;
+        }
+        Button MakePanelButton(RectTransform parent, string label, Vector2 pos, Action onClick)
+        {
+            var go = new GameObject(label, typeof(RectTransform), typeof(Image), typeof(Button));
+            go.transform.SetParent(parent, false);
+            var rt = (RectTransform)go.transform;
+            rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
+            rt.anchoredPosition = pos;
+            rt.sizeDelta = new Vector2(420, 120);
+            var image = go.GetComponent<Image>();
+            image.sprite = _square;
+            image.color = FurnaceOrange;
+            MakeText(go.transform, label, 48, Vector2.zero, TextAnchor.MiddleCenter, 420, 120).color = InkBlue;
+            var button = go.GetComponent<Button>();
+            button.onClick.AddListener(() => onClick());
+            return button;
+        }
+        RectTransform MakeOverlayPanel(string name, Color color)
+        {
+            var go = new GameObject(name, typeof(RectTransform), typeof(Image));
+            go.transform.SetParent(_canvas.transform, false);
+            var rt = (RectTransform)go.transform;
+            rt.anchorMin = Vector2.zero;
+            rt.anchorMax = Vector2.one;
+            rt.offsetMin = rt.offsetMax = Vector2.zero;
+            var image = go.GetComponent<Image>();
+            image.sprite = _square;
+            image.color = color;
+            return rt;
+        }
+================================================================================
+第 19 页结束
+
+守夜人游戏软件 V1.0 源程序  第 20 页 共 60 页
+================================================================================
+        static Text MakeText(Transform parent, string text, int size, Vector2 pos, TextAnchor anchor, float w, float h)
+        {
+            var go = new GameObject("Text", typeof(RectTransform), typeof(Text));
+            go.transform.SetParent(parent, false);
+            var rt = (RectTransform)go.transform;
+            rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
+            rt.anchoredPosition = pos;
+            rt.sizeDelta = new Vector2(w, h);
+            var t = go.GetComponent<Text>();
+            t.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            t.text = text;
+            t.fontSize = size;
+            t.alignment = anchor;
+            t.color = new Color(0.91f, 0.89f, 0.85f);
+            t.supportRichText = true;
+            return t;
+        }
+        static Sprite MakeSquareSprite()
+        {
+            var tex = new Texture2D(8, 8, TextureFormat.RGBA32, false);
+            var px = tex.GetPixels32();
+            for (int i = 0; i < px.Length; i++) px[i] = new Color32(255, 255, 255, 255);
+            tex.SetPixels32(px);
+            tex.Apply(false, false);
+            return Sprite.Create(tex, new Rect(0, 0, 8, 8), new Vector2(0.5f, 0.5f), 8f);
+        }
+    }
+}
+// NewbieConfig.cs
+namespace Sy.P05.Newbie
+{
+    /// <summary>
+    /// P05新手切片（放置生存·旗舰）配置 V0.2深打磨——内嵌常量切片；热更管线（X009+IConfigService）接通后迁移Design/configs/P05 JSON。
+    /// 权威：立项书V1.3§4.1炉火ticking公式(fuelPerMin="4+fireLv*2"·压力随进度增长)/§4.2微创新①光圈=探索半径(等级→半径/
+    /// 圈外极寒区收益×2·frostRisk="0.05*distFromFire")/②挖冰分阶段反馈(破冰层→见衣角→见真容→苏醒——"4h等待"变"连续期待")/
+    /// 寒潮夜D1-D2豁免/生存天数+里程碑、06新手脚本05节M0-M5、教学局必胜红线。
+    /// 配色：雪白#F7F9FC × 冰蓝#A8C5DA × 深墨蓝#1E3A5F × 炉火橙#FF6B1A × 冰灰#6B7B8C（全款无金）。
+    /// 教学局收敛：首挖10分钟→10秒、派遣长单→10s短单（正式局口径见立项书§4.2）。
+    /// </summary>
+    public static class NewbieConfig
+    {
+        public const string GameTitle = "守夜人";
+        public const string GameSlogan = "这乱世，先活过今夜。";
+        public const float IntroSeconds = 3f;            // M0风雪夜+炉火将熄
+        public const float DigSeconds = 10f;            // M3首挖幸存者（正式局10分钟·四阶段节点）
+        public const float DispatchSeconds = 10f;      // M4采集派遣首单（简化短单）
+        public const float RevealSeconds = 2f;         // M5光圈可视化演出
+        public const float MaxTutorialSeconds = 210f;  // 教学局必胜≤3.5min（06红线②）
+        // ── 炉火数值核（立项书§4.1：fuelPerMin="4+fireLv*2"） ──
+        public const float StartFuel = 20f;              // 炉火将熄（M0戏剧位）
+================================================================================
+第 20 页结束
+
+守夜人游戏软件 V1.0 源程序  第 21 页 共 60 页
+================================================================================
+        public const float FuelFloor = 1f;               // 余烬锁：教学局必胜红线（炉火永不熄灭）
+        public const float FirewoodFuel = 30f;           // M1添柴：炉火+30（耗柴1捆）
+        public const int StartWood = 3;                  // 蓄柴：教学局开局必达添柴
+        public const float WoodyardWoodInterval = 3f;    // 柴场lv1自产：每3s+1捆
+        public const int WoodyardWoodCap = 5;           // 柴场场存上限（教学局）
+        /// <summary>立项书公式：fuelPerMin="4+fireLv*2"（每秒=公式/60）。</summary>
+        public static float FuelDrainPerSecond(int fireLevel) => (4f + fireLevel * 2f) / 60f;
+        // ── 光圈=探索半径（立项书§4.2微创新①：炉火等级→温度圈半径；圈外=极寒区） ──
+        public static readonly float[] LightRadiusByLevel = { 0f, 0.55f, 0.95f };   // [lv1][lv2]（光圈缩放系数）
+        /// <summary>采集派遣点：0=圈内近林（安全低产）1=圈外富矿（极寒区·收益×2）。</summary>
+        public static readonly string[] DispatchNames = { "圈内·近林", "圈外·富矿" };
+        public static readonly int[] DispatchYield = { 6, 12 };                     // 圈外收益×2
+        public static readonly float[] DispatchFrostRisk = { 0f, 0.15f };           // frostRisk=0.05*炉距（教学局标定15%）
+        public const float OutsideWarmupFuel = 5f;       // 圈外回城取暖耗火（成本非致死——必胜红线）
+        // ── 分阶段挖冰（立项书V1.2承重②：每节点小反馈+"连续期待"） ──
+        public static readonly string[] DigStages =
+        {
+            "破冰层——铁镐凿穿冰壳",
+            "见衣角——蓑衣一角露出",
+            "见真容——冰下有人呼吸",
+            "苏醒——他睁开了眼",
+        };
+        // ── 日循环（立项书§4.1：生存天数+里程碑；寒潮D1-D2豁免） ──
+        public const int StartDay = 1;
+        public const string ColdWaveTeaser = "明晚寒潮将至——D1-D2自动豁免（新手减压），D3起实装";
+        public const int MilestoneDay = 7;                // 第7天全城演出（录屏打点位）
+        public const int OfflineCoins = 240;             // M1首收菜（8h离线模拟魂币雨）
+        public const int StartCitizens = 1;             // 主角独居（幸存者入城→2）
+    }
+}
+// TutorialFlow.cs
+using System;
+namespace Sy.P05.Newbie
+{
+    /// <summary>
+    /// 新手五步漏斗（evt_newbie_step 1-5：①收菜+添柴②建柴场③挖出幸存者④入城+派遣⑤光圈结算）+引导提示。
+    /// 逻辑门全在FurnaceSim（序贯门：每步动作解锁下一步），本类只负责步骤计数/文案/埋点回调——
+    /// Play视图与headless自验（NewbieFlowCheck）共用同一套节奏。
+    /// </summary>
+    public sealed class TutorialFlow
+    {
+        public int Step { get; private set; }
+        readonly Action<string> _hint;
+        readonly Action<int> _onStep;
+        public TutorialFlow(FurnaceSim sim, Action<string> hint, Action<int> onStep)
+        {
+            _hint = hint ?? delegate { };
+            _onStep = onStep ?? delegate { };
+            sim.PhaseChanged += OnPhaseChanged;
+            sim.Claimed += () => _hint("魂币已到账！（正式局离线8h上限·翻倍位暂未开放）——炉火在摇，点【添柴】（耗柴1捆·炉火+30）");
+================================================================================
+第 21 页结束
+
+守夜人游戏软件 V1.0 源程序  第 22 页 共 60 页
+================================================================================
+            sim.FirewoodAdded += OnFirewoodAdded;
+            sim.WoodyardBuilt += OnWoodyardBuilt;
+            sim.FireLevelUp += OnFireLevelUp;
+            sim.DigStarted += () => _hint("凿冰中……听，冰下有回声（正式局首挖10分钟·分阶段反馈）");
+            sim.DigStageReached += OnDigStageReached;
+            sim.SurvivorDug += OnSurvivorDug;
+            sim.DispatchStarted += OnDispatchStarted;
+            sim.FrostRiskWarned += () => _hint("【圈外·富矿】冻伤风险15%（frostRisk随炉距递增）——回城取暖耗火5，但木柴收益×2");
+            sim.OrderDone += OnOrderDone;
+            sim.Settled += OnSettled;
+            _hint("风雪夜，炉火将熄——这乱世，先活过今夜");
+        }
+        void Advance(int step)
+        {
+            if (Step >= step) return;
+            Step = step;
+            _onStep(step);
+        }
+        void OnPhaseChanged(FurnaceSim.SimPhase phase)
+        {
+            switch (phase)
+            {
+                case FurnaceSim.SimPhase.AwaitClaim:
+                    _hint("离线8小时——魂币已攒好，点【领取】");
+                    break;
+                case FurnaceSim.SimPhase.AwaitFirewood:
+                    _hint("炉火将熄！点【添柴】——即时反馈+30");
+                    break;
+                case FurnaceSim.SimPhase.AwaitBuild:
+                    _hint("一捆柴烧不了一夜——点【建柴场】lv1（即时完成·柴场自产·炉火升lv2）");
+                    break;
+                case FurnaceSim.SimPhase.AwaitDig:
+                    _hint("冰面下有金光裂缝——点【冰面】挖挖看");
+                    break;
+                case FurnaceSim.SimPhase.AwaitDispatch:
+                    _hint("幸存者已入城（人口+1）！选一个采集点发首单：圈内安全，圈外富矿收益×2");
+                    break;
+                case FurnaceSim.SimPhase.Reveal:
+                    _hint("炉光渐亮——光圈即视界，圈外皆是风雪（" + NewbieConfig.ColdWaveTeaser + "）");
+                    break;
+            }
+        }
+        void OnFirewoodAdded()
+        {
+            Advance(1);
+            _hint("炉火稳住了！添柴成功——收菜+添柴，活下来第一步");
+        }
+        void OnWoodyardBuilt()
+        {
+            Advance(2);
+================================================================================
+第 22 页结束
+
+守夜人游戏软件 V1.0 源程序  第 23 页 共 60 页
+================================================================================
+            _hint("柴场lv1建成！柴火自产（每3s+1捆·场存上限5）——今夜有了着落");
+        }
+        void OnFireLevelUp()
+        {
+            _hint("炉火升lv2！光圈扩张——照见更远的风雪（立项书核心①：炉火等级→探索半径）");
+        }
+        void OnDigStageReached(int stage)
+        {
+            _hint(NewbieConfig.DigStages[stage - 1] + "（" + stage * 25 + "%）");
+        }
+        void OnSurvivorDug()
+        {
+            Advance(3);
+            _hint("挖出来了！幸存者：\"我就知道会有人来\"——冰封的三国，不止你一个活人（名将沉睡更深·4-24h后置）");
+        }
+        void OnDispatchStarted(int node)
+        {
+            Advance(4);
+            _hint("采集派遣首单已发——他为你去" + (node == 1 ? "圈外富矿" : "圈内近林") + "拾柴");
+        }
+        void OnOrderDone(int yield, int node)
+        {
+            _hint("首单采回收！木柴+" + yield + (node == 1 ? "（圈外收益×2·回城取暖已耗火5）" : "（圈内安全）") + "——炉光渐亮");
+        }
+        void OnSettled()
+        {
+            Advance(5);
+            _hint("活过今夜！生存第" + NewbieConfig.StartDay + "天→第" + (NewbieConfig.StartDay + 1)
+                  + "天——第" + NewbieConfig.MilestoneDay + "天全城演出见；雪中送炭，等一个朋友");
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+================================================================================
+第 23 页结束
+

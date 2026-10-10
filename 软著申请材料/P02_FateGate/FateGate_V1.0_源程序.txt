@@ -171,7 +171,10 @@ namespace Sy.P02.Boot
             // U184 font-chain fix: wire a REAL fontSetLookup so MakeText helpers
             // resolve the bundled CJK subset (P02FontCJK) - device-safe Chinese
             // (LegacyRuntime.ttf has no CJK and WebGL has no OS font fallback).
-            ServiceLocator.Register<ILocaleService>(new LocaleService(null, lang => new FontSet("P02FontCJK", "P02FontCJK", "P02FontCJK")));
+            // X2315 slice D-2: BoldFont slot carries the serif title face
+            // (P02TitleCJK, FT-002 Source Han Serif Bold subset) so title/engraving
+            // slots render the art-spec row-7 "star-white serif" instead of sans.
+            ServiceLocator.Register<ILocaleService>(new LocaleService(null, lang => new FontSet("P02FontCJK", "P02TitleCJK", "P02FontCJK")));
             // T001c: full platform suite (mock in Editor/SY_MOCK; channel-gated WX/TT for real builds)
             // T006-B2: the shared AdCapPolicy is registered BEFORE the suite so the
             // rescue pre-check (HasCategoryBudget) and the suite's ShowRewarded
@@ -212,14 +215,14 @@ namespace Sy.P02.Boot
         public bool TryGetTable<T>(string tableId, out T table) where T : class
         {
             table = null;
-            return false;
-        }
-        public ConfigUpdateResult CheckUpdate(string manifestUrl)
 ================================================================================
 第 4 页结束
 
 异界行者游戏软件 V1.0 源程序  第 5 页 共 60 页
 ================================================================================
+            return false;
+        }
+        public ConfigUpdateResult CheckUpdate(string manifestUrl)
             => new ConfigUpdateResult(false, "mock-0.0.1");
         public void SwapPolicy(ConfigSwapPolicy policy) { }
         public string PinConfigVersion(string scope) => "mock-0.0.1";
@@ -267,14 +270,14 @@ namespace Sy.P02.Newbie
         P02AudioHost _audioHost;   // X816 slice C: menu-face tap beats
         const string PurplePickPointId = "purple_pick";   // T015-A4: §六 point 8 (direct purple grant)
         const string OfflineDoublePointId = "offline_double";   // T015-A5: §六 point 6 (return-page x2)
-        const string HomeBannerPointId = "home_banner";   // X137 ad-mix: home banner lives on the main screen only
-        public void StartFate()
-        {
 ================================================================================
 第 5 页结束
 
 异界行者游戏软件 V1.0 源程序  第 6 页 共 60 页
 ================================================================================
+        const string HomeBannerPointId = "home_banner";   // X137 ad-mix: home banner lives on the main screen only
+        public void StartFate()
+        {
             _audioHost?.PlaySfx("sfx_ui_click", 0.8f);   // X816 slice C: menu-face beat
             SceneManager.LoadScene(NewbieSceneIds.Battle);
         }
@@ -322,14 +325,14 @@ namespace Sy.P02.Newbie
             var go = new GameObject("ArtBackdrop", typeof(RectTransform), typeof(Image));
             go.transform.SetParent(canvas.transform, false);
             var rt = (RectTransform)go.transform;
-            rt.anchorMin = Vector2.zero;
-            rt.anchorMax = Vector2.one;
-            rt.offsetMin = rt.offsetMax = Vector2.zero;
 ================================================================================
 第 6 页结束
 
 异界行者游戏软件 V1.0 源程序  第 7 页 共 60 页
 ================================================================================
+            rt.anchorMin = Vector2.zero;
+            rt.anchorMax = Vector2.one;
+            rt.offsetMin = rt.offsetMax = Vector2.zero;
             // The scene's solid Bg block sits at the bottom; the art rides right
             // above it so the fallback color stays visible when the art is absent.
             var bg = canvas.transform.Find("Bg");
@@ -377,14 +380,14 @@ namespace Sy.P02.Newbie
         void StartDestiny()
         {
             _audioHost?.PlaySfx("sfx_ui_click", 0.8f);   // X816 slice C: menu-face beat
-            _telemetry.Track(Sy.Telemetry.EventIds.Destiny, DestinyGate.EntryFields("entry_click"));
-            BattleLauncher.DestinyRunRequested = true;
-            SceneManager.LoadScene(NewbieSceneIds.Battle);
 ================================================================================
 第 7 页结束
 
 异界行者游戏软件 V1.0 源程序  第 8 页 共 60 页
 ================================================================================
+            _telemetry.Track(Sy.Telemetry.EventIds.Destiny, DestinyGate.EntryFields("entry_click"));
+            BattleLauncher.DestinyRunRequested = true;
+            SceneManager.LoadScene(NewbieSceneIds.Battle);
         }
         // ───── T015b-B: share-card return entry (offline return flow, zero server) ─────
         /// <summary>Visible only when the app was opened from a friend's share
@@ -432,14 +435,14 @@ namespace Sy.P02.Newbie
             btnRt.anchoredPosition = new Vector2(0, -560);
             btnRt.sizeDelta = new Vector2(460, 110);
             var img = btnGo.GetComponent<Image>();
-            img.sprite = _square;
-            img.color = new Color(0.22f, 0.45f, 0.52f);
-            MakeText(btnGo.transform, "Defense Challenge", 44, Vector2.zero, TextAnchor.MiddleCenter, 460, 110);
 ================================================================================
 第 8 页结束
 
 异界行者游戏软件 V1.0 源程序  第 9 页 共 60 页
 ================================================================================
+            img.sprite = _square;
+            img.color = new Color(0.22f, 0.45f, 0.52f);
+            MakeText(btnGo.transform, "Defense Challenge", 44, Vector2.zero, TextAnchor.MiddleCenter, 460, 110);
             btnGo.GetComponent<Button>().onClick.AddListener(ToggleDefensePanel);
             _telemetry.Track(Sy.Telemetry.EventIds.Defense, DefenseFields("entry_impression", 0, "menu"));
             BuildDefensePanel(canvas.transform);
@@ -452,7 +455,7 @@ namespace Sy.P02.Newbie
         void BuildDefensePanel(Transform canvasRoot)
         {
             _defensePanel = MakeOverlayPanel(canvasRoot, "DefensePanel", new Color(0.02f, 0.05f, 0.09f, 0.95f));
-            MakeText(_defensePanel, "Defense Challenge", 66, new Vector2(0, 740), TextAnchor.MiddleCenter, 1040, 100);
+            MakeText(_defensePanel, "Defense Challenge", 66, new Vector2(0, 740), TextAnchor.MiddleCenter, 1040, 100, title: true); // X2315 D-2 serif title
             MakeText(_defensePanel, "Import a friend's settle code - same seed, same battle, beat their bar",
                 40, new Vector2(0, 600), TextAnchor.MiddleCenter, 1040, 90).color = new Color(0.62f, 0.70f, 0.78f);
             _defenseInput = MakeCodeInput(_defensePanel, new Vector2(0, 440));
@@ -487,14 +490,14 @@ namespace Sy.P02.Newbie
         void OnSystemDefenseClicked()
         {
             _telemetry.Track(Sy.Telemetry.EventIds.Defense, DefenseFields("entry_click", 0, "menu"));
-            StartDefenseChallenge(SystemDefenseTable.ToSnapshot(SystemDefenseTable.ForToday()), "system");
-        }
-        void StartDefenseChallenge(DefenseSnapshot snap, string source)
 ================================================================================
 第 9 页结束
 
 异界行者游戏软件 V1.0 源程序  第 10 页 共 60 页
 ================================================================================
+            StartDefenseChallenge(SystemDefenseTable.ToSnapshot(SystemDefenseTable.ForToday()), "system");
+        }
+        void StartDefenseChallenge(DefenseSnapshot snap, string source)
         {
             _telemetry.Track(Sy.Telemetry.EventIds.Defense, DefenseFields("challenge_start", snap.Seed, source));
             BattleLauncher.PendingDefenseChallenge = snap;
@@ -541,15 +544,15 @@ namespace Sy.P02.Newbie
         void BuildReplayPanel(Transform canvasRoot)
         {
             _replayPanel = MakeOverlayPanel(canvasRoot, "ReplayPanel", new Color(0.02f, 0.05f, 0.09f, 0.95f));
-            MakeText(_replayPanel, "Shadow Replay", 66, new Vector2(0, 740), TextAnchor.MiddleCenter, 1040, 100);
-            MakeText(_replayPanel, "Import a settle code - watch the shadow re-fight that battlefield",
-                40, new Vector2(0, 600), TextAnchor.MiddleCenter, 1040, 90).color = new Color(0.62f, 0.70f, 0.78f);
-            _replayInput = MakeCodeInput(_replayPanel, new Vector2(0, 440));
+            MakeText(_replayPanel, "Shadow Replay", 66, new Vector2(0, 740), TextAnchor.MiddleCenter, 1040, 100, title: true); // X2315 D-2 serif title
 ================================================================================
 第 10 页结束
 
 异界行者游戏软件 V1.0 源程序  第 11 页 共 60 页
 ================================================================================
+            MakeText(_replayPanel, "Import a settle code - watch the shadow re-fight that battlefield",
+                40, new Vector2(0, 600), TextAnchor.MiddleCenter, 1040, 90).color = new Color(0.62f, 0.70f, 0.78f);
+            _replayInput = MakeCodeInput(_replayPanel, new Vector2(0, 440));
             _replayHint = MakeText(_replayPanel, "", 36, new Vector2(0, 300), TextAnchor.MiddleCenter, 1040, 70);
             _replayHint.color = new Color(0.92f, 0.55f, 0.45f);
             MakeActionButton(_replayPanel, "Watch!", new Vector2(0, 160), OnWatchClicked);
@@ -597,14 +600,14 @@ namespace Sy.P02.Newbie
             if (!DestinyGate.IsEligible()) return;
             var canvas = FindObjectOfType<Canvas>();
             if (canvas == null) return;
-            var btnGo = new GameObject("BoardButton", typeof(RectTransform), typeof(Image), typeof(Button));
-            btnGo.transform.SetParent(canvas.transform, false);
-            var btnRt = (RectTransform)btnGo.transform;
 ================================================================================
 第 11 页结束
 
 异界行者游戏软件 V1.0 源程序  第 12 页 共 60 页
 ================================================================================
+            var btnGo = new GameObject("BoardButton", typeof(RectTransform), typeof(Image), typeof(Button));
+            btnGo.transform.SetParent(canvas.transform, false);
+            var btnRt = (RectTransform)btnGo.transform;
             btnRt.anchorMin = btnRt.anchorMax = new Vector2(0.5f, 0.5f);
             btnRt.anchoredPosition = new Vector2(0, -880);
             btnRt.sizeDelta = new Vector2(460, 110);
@@ -652,14 +655,14 @@ namespace Sy.P02.Newbie
             // §六 pre-offer gate: the direct category is 1/day - once claimed
             // the honest answer is the hint, not a dead ad call.
             string day = Sy.Platform.AdCapPolicy.TodayKey();
-            if (!_adCap.HasCategoryBudget(day, Sy.Platform.AdCategories.Direct))
-            {
-                _purpleHint.text = "Today's purple is already claimed - come back tomorrow";
 ================================================================================
 第 12 页结束
 
 异界行者游戏软件 V1.0 源程序  第 13 页 共 60 页
 ================================================================================
+            if (!_adCap.HasCategoryBudget(day, Sy.Platform.AdCategories.Direct))
+            {
+                _purpleHint.text = "Today's purple is already claimed - come back tomorrow";
                 return;
             }
             if (Sy.Core.ServiceLocator.TryGet<Sy.Platform.IAdsService>(out var ads))
@@ -707,17 +710,17 @@ namespace Sy.P02.Newbie
             {
                 OfflineEarnings.Stamp(nowMs);
                 return;
-            }
-            var canvas = FindObjectOfType<Canvas>();
-            if (canvas == null) return;
 ================================================================================
 第 13 页结束
 
 异界行者游戏软件 V1.0 源程序  第 14 页 共 60 页
 ================================================================================
+            }
+            var canvas = FindObjectOfType<Canvas>();
+            if (canvas == null) return;
             _offlineClaim = claim;
             _offlinePanel = MakeOverlayPanel(canvas.transform, "OfflineReturnPanel", new Color(0.02f, 0.05f, 0.09f, 0.95f));
-            MakeText(_offlinePanel, "Welcome back!", 66, new Vector2(0, 740), TextAnchor.MiddleCenter, 1040, 100);
+            MakeText(_offlinePanel, "Welcome back!", 66, new Vector2(0, 740), TextAnchor.MiddleCenter, 1040, 100, title: true); // X2315 D-2 serif title
             MakeText(_offlinePanel, "While you were away the shop kept the incense warm",
                 40, new Vector2(0, 600), TextAnchor.MiddleCenter, 1040, 90).color = new Color(0.62f, 0.70f, 0.78f);
             MakeText(_offlinePanel, "+" + claim.Pending + " lucky coins", 56, new Vector2(0, 470), TextAnchor.MiddleCenter, 1040, 100);
@@ -762,14 +765,14 @@ namespace Sy.P02.Newbie
                 if (!result.Completed)
                 {
                     _offlineHint.text = "Ad did not finish - the coins still wait";
-                    TrackOffline("ad_fail");
-                    return;
-                }
 ================================================================================
 第 14 页结束
 
 异界行者游戏软件 V1.0 源程序  第 15 页 共 60 页
 ================================================================================
+                    TrackOffline("ad_fail");
+                    return;
+                }
             }
             else
             {
@@ -817,14 +820,14 @@ namespace Sy.P02.Newbie
         {
             _audioHost?.PlaySfx("sfx_ui_click", 0.8f);   // X816 slice C: menu-face beat
             _codexPanel.gameObject.SetActive(!_codexPanel.gameObject.activeSelf);
-        }
-        InputField MakeCodeInput(RectTransform parent, Vector2 pos)
-        {
 ================================================================================
 第 15 页结束
 
 异界行者游戏软件 V1.0 源程序  第 16 页 共 60 页
 ================================================================================
+        }
+        InputField MakeCodeInput(RectTransform parent, Vector2 pos)
+        {
             var go = new GameObject("CodeInput", typeof(RectTransform), typeof(Image), typeof(InputField));
             go.transform.SetParent(parent, false);
             var rt = (RectTransform)go.transform;
@@ -872,14 +875,14 @@ namespace Sy.P02.Newbie
             // generated backdrop as the first child of the settings panel -
             // above the flat dark fallback, under the disclosure tables
             // (BuildSettlePanel convention). Skipped when the art key is
-            // missing so the color-block fallback stays and headless checks
-            // stay green (X027 no-crash fallback law).
-            var settingsArt = Sy.Core.ArtRuntime.Get("P02_scene_settings_01");
 ================================================================================
 第 16 页结束
 
 异界行者游戏软件 V1.0 源程序  第 17 页 共 60 页
 ================================================================================
+            // missing so the color-block fallback stays and headless checks
+            // stay green (X027 no-crash fallback law).
+            var settingsArt = Sy.Core.ArtRuntime.Get("P02_scene_settings_01");
             if (settingsArt != null)
             {
                 var artGo = new GameObject("ArtBackdrop", typeof(RectTransform), typeof(Image));
@@ -895,7 +898,7 @@ namespace Sy.P02.Newbie
                 artImage.preserveAspect = true;
                 artImage.raycastTarget = false;
             }
-            MakeText(_oddsPanel, "Summon Odds Disclosure", 66, new Vector2(0, 740), TextAnchor.MiddleCenter, 1040, 100);
+            MakeText(_oddsPanel, "Summon Odds Disclosure", 66, new Vector2(0, 740), TextAnchor.MiddleCenter, 1040, 100, title: true); // X2315 D-2 serif title
             MakeText(_oddsPanel, "Summon pool", 50, new Vector2(0, 580), TextAnchor.MiddleCenter, 900, 80)
                 .color = new Color(0.62f, 0.70f, 0.78f);
             for (int i = 0; i < TierLabels.Length; i++)
@@ -927,14 +930,14 @@ namespace Sy.P02.Newbie
             _audioHost?.PlaySfx("sfx_ui_click", 0.8f);   // X816 slice C: menu-face beat
             _oddsPanel.gameObject.SetActive(!_oddsPanel.gameObject.activeSelf);
         }
-        // ───── UI helpers (BattleView conventions, duplicated to stay scene-agnostic) ─────
-        RectTransform MakeOverlayPanel(Transform parent, string name, Color color)
-        {
 ================================================================================
 第 17 页结束
 
 异界行者游戏软件 V1.0 源程序  第 18 页 共 60 页
 ================================================================================
+        // ───── UI helpers (BattleView conventions, duplicated to stay scene-agnostic) ─────
+        RectTransform MakeOverlayPanel(Transform parent, string name, Color color)
+        {
             var go = new GameObject(name, typeof(RectTransform), typeof(Image));
             go.transform.SetParent(parent, false);
             var rt = (RectTransform)go.transform;
@@ -966,7 +969,7 @@ namespace Sy.P02.Newbie
                 onClick();
             });
         }
-        static Text MakeText(Transform parent, string text, int size, Vector2 pos, TextAnchor anchor, float w, float h)
+        static Text MakeText(Transform parent, string text, int size, Vector2 pos, TextAnchor anchor, float w, float h, bool title = false)
         {
             var go = new GameObject("Text", typeof(RectTransform), typeof(Text));
             go.transform.SetParent(parent, false);
@@ -975,21 +978,21 @@ namespace Sy.P02.Newbie
             rt.anchoredPosition = pos;
             rt.sizeDelta = new Vector2(w, h);
             var t = go.GetComponent<Text>();
-            t.font = UiFont.Resolve();               // U184: FontSet-driven CJK chain
+            t.font = title ? UiFont.ResolveTitle() : UiFont.Resolve(); // U184 CJK chain; X2315 D-2: title face = serif per art spec row 7
             t.raycastTarget = false;                 // U184: 17 doc 1.2 - labels never eat taps
             t.text = text;
             t.fontSize = size;
             t.alignment = anchor;
             t.color = new Color(0.91f, 0.89f, 0.85f);
             t.supportRichText = true;
-            return t;
-        }
-        static Sprite MakeSquareSprite()
 ================================================================================
 第 18 页结束
 
 异界行者游戏软件 V1.0 源程序  第 19 页 共 60 页
 ================================================================================
+            return t;
+        }
+        static Sprite MakeSquareSprite()
         {
             var tex = new Texture2D(8, 8, TextureFormat.RGBA32, false);
             var px = tex.GetPixels32();
@@ -1037,14 +1040,14 @@ namespace Sy.P02.Boot
             var face = new LaunchComplianceFace();
             var canvasGo = new GameObject("LaunchCanvas", typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
             var canvas = canvasGo.GetComponent<Canvas>();
-            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-            var scaler = canvasGo.GetComponent<CanvasScaler>();
-            scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;   // U184: 17-doc canonical scaler
 ================================================================================
 第 19 页结束
 
 异界行者游戏软件 V1.0 源程序  第 20 页 共 60 页
 ================================================================================
+            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            var scaler = canvasGo.GetComponent<CanvasScaler>();
+            scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;   // U184: 17-doc canonical scaler
             scaler.referenceResolution = new Vector2(1080f, 1920f);
             scaler.screenMatchMode = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
             scaler.matchWidthOrHeight = 0f;
@@ -1092,14 +1095,14 @@ namespace Sy.P02.Boot
             img.color = new Color(0.29f, 0.55f, 0.55f);
             MakeText(btnGo.transform, LocaleService.Get("launch.enter"), 46,
                 Vector2.zero, TextAnchor.MiddleCenter, 460, 120);
-            btnGo.GetComponent<Button>().onClick.AddListener(() => face.EnterTapped = true);
-            return face;
-        }
 ================================================================================
 第 20 页结束
 
 异界行者游戏软件 V1.0 源程序  第 21 页 共 60 页
 ================================================================================
+            btnGo.GetComponent<Button>().onClick.AddListener(() => face.EnterTapped = true);
+            return face;
+        }
         static RectTransform MakePanel(Transform parent, string name, Color color)
         {
             var go = new GameObject(name, typeof(RectTransform), typeof(Image));
@@ -1147,14 +1150,14 @@ using Sy.Core;
 using UnityEngine;
 namespace Sy.P02
 {
-    /// <summary>
-    /// U184 font-chain fix (audit B1/B2): resolve the UI font through the
-    /// locale FontSet instead of hardcoding the engine built-in font.
 ================================================================================
 第 21 页结束
 
 异界行者游戏软件 V1.0 源程序  第 22 页 共 60 页
 ================================================================================
+    /// <summary>
+    /// U184 font-chain fix (audit B1/B2): resolve the UI font through the
+    /// locale FontSet instead of hardcoding the engine built-in font.
     /// Why: LegacyRuntime.ttf carries no CJK glyphs and WebGL/WeChat builds
     /// have no OS font fallback, so every Chinese label would render blank
     /// on device (editor stays green via OS fallback - a false-comfort
@@ -1188,6 +1191,34 @@ namespace Sy.P02
             }
             return Resources.GetBuiltinResource<Font>(Fallback);
         }
+        /// <summary>
+        /// X2315 slice D-2: title/engraving face (art spec row 7 star-white serif).
+        /// Reads the BoldFont slot; any failure falls back to Resolve() so a
+        /// missing serif asset degrades to the CJK-safe normal font, never to
+        /// LegacyRuntime's tofu chain (X027 law).
+        /// </summary>
+        public static Font ResolveTitle()
+        {
+            string name = null;
+            try
+            {
+                if (ServiceLocator.TryGet<ILocaleService>(out var locale))
+                    name = locale.GetFontSet().BoldFont;
+            }
+================================================================================
+第 22 页结束
+
+异界行者游戏软件 V1.0 源程序  第 23 页 共 60 页
+================================================================================
+            catch (Exception) { name = null; }
+            if (!string.IsNullOrEmpty(name) && name != Fallback)
+            {
+                var font = Resources.Load<Font>("Fonts/" + name);
+                if (font != null) return font;
+                Sy.Core.Logger.Warn("UIFONT", "title font missing, fallback normal: " + name);
+            }
+            return Resolve();
+        }
     }
 }
 // BattleLauncher.cs
@@ -1205,11 +1236,6 @@ namespace Sy.P02.Newbie
         public const string Board = "S07_Board";   // T013-B2b: destiny friend board
     }
     /// <summary>
-================================================================================
-第 22 页结束
-
-异界行者游戏软件 V1.0 源程序  第 23 页 共 60 页
-================================================================================
     /// S03_Battle场景宿主：组装BattleSim+TutorialFlow+BattleView并驱动Tick；
     /// 埋点走Sy.Telemetry（Editor域=Debug sink；T001e接微信自定义分析+TCB双写）。
     /// HUD数值只在变更时刷新（禁每帧字符串拼接，红线6）。
@@ -1234,6 +1260,11 @@ namespace Sy.P02.Newbie
         const string ExpandPointId = "board_expand";          // T015-A3: §六 point 3 (board +1 capacity)
         int _settleBonus;   // T015-A2: the run's banked coins the accepted double re-deposits
         Sy.Social.ShareCard _shareSpec;      // T015b: the composed card's source spec
+================================================================================
+第 23 页结束
+
+异界行者游戏软件 V1.0 源程序  第 24 页 共 60 页
+================================================================================
         Sy.Social.ComposeResult _shareCard;  // T015b: the composed brag card (png path/bytes)
         Sy.Platform.IRecording _recording;   // P02-G4: highlight-video share face (M3 gate dual entry)
         const string AbBucketKey = "p02_ab_star_card";
@@ -1260,11 +1291,6 @@ namespace Sy.P02.Newbie
         // run - the player's ad is never wasted. Default false keeps every
         // existing entry path byte-identical.
         public static bool PendingPurplePick;
-================================================================================
-第 23 页结束
-
-异界行者游戏软件 V1.0 源程序  第 24 页 共 60 页
-================================================================================
         // T015b-B: the main screen's share-return entry (friend-card rematch)
         // armed this run with the shared seed. One-shot, consumed in Awake;
         // default false keeps every existing entry path byte-identical. The
@@ -1289,6 +1315,11 @@ namespace Sy.P02.Newbie
             // Telemetry resolves before the seed chain (T015b-B): the shared-seed
             // take fires evt_share(stage=return_started) right where the seed is
             // picked. Boot-registered instance when the boot scene ran first,
+================================================================================
+第 24 页结束
+
+异界行者游戏软件 V1.0 源程序  第 25 页 共 60 页
+================================================================================
             // fallback keeps direct scene entry working (MainUI convention).
             if (Sy.Core.ServiceLocator.TryGet<Sy.Telemetry.TelemetryService>(out var bootTelemetry))
                 _telemetry = bootTelemetry;
@@ -1315,11 +1346,6 @@ namespace Sy.P02.Newbie
             // seed chain and next to the star-card roll (same one-time
             // PlayerPrefs pick). While the channel is disarmed the call is a
             // no-op for gameplay; an armed reviewed build resolves the
-================================================================================
-第 24 页结束
-
-异界行者游戏软件 V1.0 源程序  第 25 页 共 60 页
-================================================================================
             // treatment cohort from this stable id.
             Sy.P02.Summon.SummonGreyGate.Bucket();
             int offerSize = _starCardAb == 0 ? StarCardTable.PickCountDefault : 3;
@@ -1344,6 +1370,11 @@ namespace Sy.P02.Newbie
                 : destiny ? DestinyPin.SeedForToday()
                 : UnityEngine.Random.Range(int.MinValue, int.MaxValue);
             // T015b-B K segment 3: the share-return entry (main-screen rematch
+================================================================================
+第 25 页结束
+
+异界行者游戏软件 V1.0 源程序  第 26 页 共 60 页
+================================================================================
             // button) re-fights the friend card's seed exactly once; explicit
             // imports keep precedence and every other path returns the seed
             // above unchanged.
@@ -1370,11 +1401,6 @@ namespace Sy.P02.Newbie
                 // destiny day-runs, defense challenges and share rematches pin
                 // the build-uniform release so the same seed stays the same
                 // battle on every device.
-================================================================================
-第 25 页结束
-
-异界行者游戏软件 V1.0 源程序  第 26 页 共 60 页
-================================================================================
                 string greyRelease = destiny || _defense != null || shareRun
                     ? null
                     : Sy.P02.Summon.SummonGreyGate.ResolveRelease();
@@ -1399,6 +1425,11 @@ namespace Sy.P02.Newbie
                 _view.SetReplayBadge(_replaySource);
             }
             // (telemetry resolved at the top of Awake - T015b-B moved it ahead of
+================================================================================
+第 26 页结束
+
+异界行者游戏软件 V1.0 源程序  第 27 页 共 60 页
+================================================================================
             // the seed chain so the shared-segment take can fire its event there)
             _tutorial = new TutorialFlow(
                 _sim,
@@ -1425,11 +1456,6 @@ namespace Sy.P02.Newbie
                 _adCap = new Sy.Platform.AdCapPolicy();
             // T013-B2: the open-data friend board rides the platform suite; a
             // direct scene entry without boot keeps it null and the settle-time
-================================================================================
-第 26 页结束
-
-异界行者游戏软件 V1.0 源程序  第 27 页 共 60 页
-================================================================================
             // submit stays a no-op (headless baselines untouched either way).
             Sy.Core.ServiceLocator.TryGet<Sy.Platform.IOpenDataBoard>(out _openData);
             _sim.RescueOffered += OnRescueOffered;
@@ -1454,6 +1480,11 @@ namespace Sy.P02.Newbie
             _view.ExpandAcceptRequested += OnExpandAcceptRequested;
             _view.ExpandDeclineRequested += OnExpandDeclineRequested;
             _view.SettleDoubleRequested += OnSettleDoubleRequested;
+================================================================================
+第 27 页结束
+
+异界行者游戏软件 V1.0 源程序  第 28 页 共 60 页
+================================================================================
             _view.ShareRequested += OnShareRequested;
             _view.ClipShareRequested += OnClipShareRequested;
             // T012-B: the wallet loads once per scene entry; the settle screen
@@ -1480,11 +1511,6 @@ namespace Sy.P02.Newbie
             _sim.StateChanged += s => { if (s == BattleSim.BattleState.Lost) _audioHost.PlaySfx("sfx_lose", 0.95f); };
             _sim.RescueCleared += _ => _audioHost.PlaySfx("sfx_ad_reward", 0.9f);
             // X817: T009 tap-reveal gesture closes its reserved beat - the view
-================================================================================
-第 27 页结束
-
-异界行者游戏软件 V1.0 源程序  第 28 页 共 60 页
-================================================================================
             // raises the tap on a cloaked foe, the sim flips it visible, and the
             // EnemyRevealed payoff fires the reserved card-flip clip @0.8 (X816
             // ruling: the beat was deferred until the gesture face existed).
@@ -1509,6 +1535,11 @@ namespace Sy.P02.Newbie
             _view.ShareRequested += () => _audioHost.PlaySfx("sfx_ui_click", 0.8f);
             _view.ClipShareRequested += () => _audioHost.PlaySfx("sfx_ui_click", 0.8f);
             _view.ExchangeRequested += () => _audioHost.PlaySfx("sfx_ui_click", 0.8f);
+================================================================================
+第 28 页结束
+
+异界行者游戏软件 V1.0 源程序  第 29 页 共 60 页
+================================================================================
             // T015-A4: consume the main screen's armed purple_pick grant on a
             // standard run only (fair play: destiny is the same battle for every
             // device, and challenge/replay must settle byte-identical - those
@@ -1535,11 +1566,6 @@ namespace Sy.P02.Newbie
                 + ",\"crystals\":" + sim.Crystals
                 + ",\"merges\":" + sim.MergeCount
                 + ",\"rescues\":" + sim.RescueCount
-================================================================================
-第 28 页结束
-
-异界行者游戏软件 V1.0 源程序  第 29 页 共 60 页
-================================================================================
                 + ",\"summons\":" + sim.SummonCount
                 + ",\"units\":" + (sim.Units != null ? sim.Units.Count : 0)
                 + ",\"battleSec\":" + sim.TimedElapsed.ToString("F1", System.Globalization.CultureInfo.InvariantCulture)
@@ -1564,6 +1590,11 @@ namespace Sy.P02.Newbie
                     _watchAccum -= WatchStepSeconds;
                     DefenseReplay.ShadowStep(_sim, _watchGuard);
                     _sim.Tick(WatchStepSeconds);
+================================================================================
+第 29 页结束
+
+异界行者游戏软件 V1.0 源程序  第 30 页 共 60 页
+================================================================================
                     _watchTime += WatchStepSeconds;
                 }
                 if (_sim.State != BattleSim.BattleState.Won
@@ -1590,11 +1621,6 @@ namespace Sy.P02.Newbie
             if (_sim.Kills != _lastKills) { _lastKills = _sim.Kills; _view.SetKills(_lastKills); }
         }
         void OnSummonRequested()
-================================================================================
-第 29 页结束
-
-异界行者游戏软件 V1.0 源程序  第 30 页 共 60 页
-================================================================================
         {
             // Task T003: the odds popup gates only the first summon of a session;
             // the sim itself stays unblocked (headless checks drive it directly).
@@ -1619,32 +1645,6 @@ namespace Sy.P02.Newbie
         {
             var unit = _sim.FindRecyclableUnit();
             if (unit == null)
-            {
-                _view.SetHint("No white unit on board");
-                return;
-            }
-            if (_sim.TryRecycleUnit(unit, out var refund))
-                _view.SetHint("Recycled " + NewbieConfig.GetUnit(unit.TypeId).Name + " +" + refund + " crystals");
-        }
-        void OnUnitRecycled(BattleSim.UnitInst unit, int refund)
-        {
-            _view.PlayRecycleFlash(unit.Col, unit.Row, refund);
-        }
-        // ───── T006-B2 rescue traffic (clear_wave, §六 funnel point 2) ─────
-        void OnRescueOffered(int wave, float triggerPct)
-        {
-            // T014-B2b: a spectated shadow never rescues (Replay parity) - the
-            // watched run must stay byte-identical to the core recompute.
-            if (_watching) return;
-            // §六 pre-offer gate: the rescue category (4/day) is shared across
-            // shield/clear_wave/board_expand - with no budget left the offer is
-            // silently skipped instead of showing a dead-end button.
-            string day = Sy.Platform.AdCapPolicy.TodayKey();
-            if (!_adCap.HasCategoryBudget(day, Sy.Platform.AdCategories.Rescue)) return;
-            // T015-A1: the pinpoint clear preempts the shield offer - one crisis
-            // panel at a time (the sim withdrew its flag; the View follows here).
-            _view.HideShieldOffer();
-            _view.HideRerollOffer();   // T015-A2: crisis first - the bonus pair yields the shared slots
 ================================================================================
 第 30 页结束
 

@@ -95,6 +95,34 @@ PROJECTS = {
         "version": "V1.0",
         "src_dir": r"C:\Users\sjs20\Desktop\FluxGroup\gaming\MiniGame\projects\P08_GhostMarshal\Assets\_Game",
     },
+    "P03": {
+        "name_cn": "军师救我游戏软件",
+        "name_short": "军师救我",
+        "name_en": "StrategistDefense",
+        "version": "V1.0",
+        "src_dir": r"C:\Users\sjs20\Desktop\FluxGroup\gaming\MiniGame\projects\P03_CataclysmKeep\Assets\_Game",
+    },
+    "P04": {
+        "name_cn": "这妖我收了游戏软件",
+        "name_short": "这妖我收了",
+        "name_en": "DemonTamer",
+        "version": "V1.0",
+        "src_dir": r"C:\Users\sjs20\Desktop\FluxGroup\gaming\MiniGame\projects\P04_ShanhaiSaga\Assets\_Game",
+    },
+    "P05": {
+        "name_cn": "守夜人游戏软件",
+        "name_short": "守夜人",
+        "name_en": "NightWatch",
+        "version": "V1.0",
+        "src_dir": r"C:\Users\sjs20\Desktop\FluxGroup\gaming\MiniGame\projects\P05_FrozenDynasty\Assets\_Game",
+    },
+    "P07": {
+        "name_cn": "捞个宝游戏软件",
+        "name_short": "捞个宝",
+        "name_en": "TreasureDive",
+        "version": "V1.0",
+        "src_dir": r"C:\Users\sjs20\Desktop\FluxGroup\gaming\MiniGame\projects\P07_SunkenMuseum\Assets\_Game",
+    },
 }
 
 def collect_source_files(src_dir):
