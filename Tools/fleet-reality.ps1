@@ -54,7 +54,7 @@ foreach ($n in @($roster.nodes)) {
   $id = [string]$n.id
   $ip = [string]$n.tailnet_ip
   $out = $id
-  if ($ip -eq '') { $out += ' no-ip'; Write-Output $out; continue }
+  if ($ip -eq '') { $out += ' empty-ip roster slot (NOT a live machine - never report as missing/offline/pending-CEO)'; Write-Output $out; continue }
   # tailnet membership
   $seenName = ''
   if ($peers.ContainsKey($ip)) { $seenName = [string]$peers[$ip]; $out += ' tailnet=Y' }
