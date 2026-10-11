@@ -2,6 +2,7 @@
 # 星晴-shots-v2.py - 《星晴》全曲帧级分镜表 v2.2（深研喂入·词级卡点·变速设计·选角案）
 # v2.1=设计闸判决机械补丁（PANEL-WAVE1/2-VERDICT-20261011·改窗/改词/改挂·不动立意不动结构）
 # v2.2=复审残余清零（PANEL-REGATE-V3 §五 7 项一行级）：GRADE 2001→2000 本地覆写/XQ13 手持/XQ31-33 星点措辞链/XQ33 现画线句洗净/hair 长度词对齐
+# v2.3=CEO 道具令（2026-10-11 22:3x「把关键帧里面的电动车换成自行车…不要出现这么掉氛围的东西」）：SCOOTER 常量退役→BICYCLE（2000 台式校园单车·钢架+后座铁架+车铃）/头灯系改小电池灯/6 帧同种子重摇（XQ02/05/07/10/13/26）
 # 权威=星晴-剧本-v1.md（创作核心）+ mv0002-星晴-立意案-v1 + RESEARCH-mv-craft-80s-90s-00s（§二/三/四/六 星晴行）
 # 词级锚点=anchors/星晴.txt（whisper 2026-10-10 实测·尾词 248.76）·film=song 对齐·0-259.40（ffprobe 判决一实证·尾窗定格延展收尾奏）
 # 长期律：匀速判负（逐镜变速）/做旧克制（5246 纯日戏·5279 黄昏蓝调+夜·台式奶黑 telecine）/禁看镜头/物质转场（天光暗/路灯亮/云影压路/星点亮）
@@ -24,7 +25,7 @@ LX.LIGHT["street_dusk"] = ("blue-hour dusk at 8000K over a 2000 Taipei street co
 LX.LIGHT["day_road"] = ("soft bright late-afternoon daylight at 5200K over a mountain highway, the asphalt pale, the far ridge haze warm")
 LX.LIGHT["sunset_rake"] = ("golden-hour sun at 2900K raking low across a grass slope, long warm shadows, a single small flare where the sun clips the ridge")
 LX.LIGHT["dusk_blue"] = ("deep blue-hour ambience at 8000K with the first tungsten road lamp at 2800K waking on the mountain road, a warm band still holding at the horizon")
-LX.LIGHT["night_road"] = ("ink-blue natural night over the mountain road, a single scooter headlight pool at 3000K carrying ahead, distant sodium village lights, the sky deep blue-black")
+LX.LIGHT["night_road"] = ("ink-blue natural night over the mountain road, a small bicycle battery lamp pool at 3000K carrying ahead, distant sodium village lights, the sky deep blue-black")
 LX.LIGHT["star_field"] = ("an ink-blue natural night sky crowded with warm gold stars over a dark grass slope, a denser band of faint starlight across the middle of the sky, one warm flashlight pool low in frame")
 LX.LIGHT["star_field_pure"] = ("an ink-blue natural night sky crowded with warm gold stars, a denser band of faint starlight across the middle, the dark grass a low rim at the frame bottom")
 LX.LIGHT["lamp_grass"] = ("one warm flashlight beam at 2800K lying low across night grass, silvergrass heads catching the rim, the slope beyond sinking into blue-black darkness")
@@ -45,7 +46,7 @@ HIM = ("jman, " + LX.ID_M_2001_BONE + ", in a plain white short-sleeve shirt, da
 XQ_HER = ("a 20-year-old Taipei girl of the year 2000 with a soft oval face, gentle almond eyes, a small "
           "rounded nose, medium-length straight black hair with a soft side fringe pinned by a small colored "
           "hair clip, in a plain knit tank top, low-rise jeans and canvas shoes")
-SCOOTER = ("an old 2000 Taipei scooter with a round headlight and chrome mirror, its paint dull from years of city rain")
+BICYCLE = ("an old 2000 Taipei campus bicycle with a rear rack and a chrome bell, its paint dull from use")
 KITE = ("a simple diamond paper kite in faded warm colors, a wooden cross spar and a long pale string wound on a bamboo spool")
 
 def kf(shot, angle, subject, light, lens="35", tex="film_day", extra=""):
@@ -77,49 +78,49 @@ NEW = [
     ("XQ01", 0.00, 5.20, 0.90, "黄昏街角她靠墙等（蓝调×钠灯开场）",
      kf("med", "eye", "a 2000 Taipei street corner at dusk, %s waiting leaning against a tiled shopfront wall, her canvas bag on one shoulder, her breath visible in the cooling air" % XQ_HER, "street_dusk", lens="35", tex="film_night"),
      i2v("A medium shot at eye level", CM["static"], "A Taipei street corner at dusk, a girl in a plain knit tank top leaning against a shopfront wall under a sodium streetlamp, her medium-length straight black hair with a soft side fringe moved by a light breeze, shop lights waking one by one along the street")),
-    ("XQ02", 5.20, 9.80, 1.00, "他骑机车来",
-     kf("med", "eye", "%s arriving on %s, slowing to a stop at the curb, his headlight washing the pavement" % (HIM, SCOOTER), "street_dusk", lens="50", tex="film_night"),
-     i2v("A medium shot at eye level", CM["track"], "A young man on a 2000 Taipei scooter rolling to the curb at dusk, the round headlight steady, his plain white shirt catching the sodium orange, a distant, soft-focus girl waiting at the wall behind him")),
+    ("XQ02", 5.20, 9.80, 1.00, "他骑单车来",
+     kf("med", "eye", "%s arriving on %s, slowing to a stop at the curb, one small ring of the chrome bell" % (HIM, BICYCLE), "street_dusk", lens="50", tex="film_night"),
+     i2v("A medium shot at eye level", CM["track"], "A young man on an old black campus bicycle rolling to the curb at dusk, his plain white shirt catching the sodium orange, a distant, soft-focus girl waiting at the wall behind him")),
     ("XQ03", 9.80, 14.50, 0.95, "她上后座",
-     kf("cu", "eye", "%s stepping to the scooter and settling onto the back seat behind %s, one hand on his shoulder, the streetlamp orange on her sleeves" % (XQ_HER, HIM), "street_dusk", lens="50", tex="film_night"),
-     i2v("A close-up at eye level", CM["static"], "A girl in a knit tank top stepping onto the back of a parked scooter at dusk, her hand resting on the rider's shoulder as she settles in, sodium light warm on her sleeve")),
+     kf("cu", "eye", "%s stepping to the bicycle and settling onto the rear rack seat behind %s, one hand on his shoulder, the streetlamp orange on her sleeves" % (XQ_HER, HIM), "street_dusk", lens="50", tex="film_night"),
+     i2v("A close-up at eye level", CM["static"], "A girl in a knit tank top settling onto the rear rack of a parked bicycle at dusk, her hand resting on the rider's shoulder as she settles in, sodium light warm on her sleeve")),
     ("XQ04", 14.50, 20.50, 1.08, "双载穿过黄昏街景（街灯次亮）",
-     kf("mw", "eye", "%s and %s riding double on the old round-headlight scooter through the dusk street, her arms around his waist, shopfront lights waking" % (HIM, XQ_HER), "street_dusk", lens="35", tex="film_night"),
-     i2v("A medium-wide shot at eye level", CM["track"], "A scooter carrying two riding through a Taipei street at dusk, the girl's medium-length straight black hair with a soft side fringe lifting in the moving air, shop lights passing in warm layers on both sides")),
+     kf("mw", "eye", "%s and %s riding double on the old campus bicycle through the dusk street, her arms around his waist, shopfront lights waking" % (HIM, XQ_HER), "street_dusk", lens="35", tex="film_night"),
+     i2v("A medium-wide shot at eye level", CM["track"], "An old campus bicycle carrying two riding through a Taipei street at dusk, the girl's medium-length straight black hair with a soft side fringe lifting in the moving air, shop lights passing in warm layers on both sides")),
     ("XQ05", 20.50, 30.00, 1.05, "出城上郊山公路（城灯留在身后·片头车辆记忆）",
-     kf("ext", "high", "two distant figures small on %s climbing the mountain highway out of the city, the Taipei basin haze sinking behind, the road pale ahead" % SCOOTER, "dusk_blue", lens="24", tex="film_night", extra="an old sedan passing in the opposite lane"),
-     i2v("An extreme wide establishing shot from a high angle", CM["pullout"], "A scooter with two riders small on a mountain highway climbing away from the city, the basin lights falling behind, the road curving up toward the ridge in the last light, an old sedan sliding past in the opposite lane")),
+     kf("ext", "high", "two distant figures small on %s climbing the mountain highway out of the city, the Taipei basin haze sinking behind, the road pale ahead" % BICYCLE, "dusk_blue", lens="24", tex="film_night", extra="an old sedan passing in the opposite lane"),
+     i2v("An extreme wide establishing shot from a high angle", CM["pullout"], "An old bicycle with two riders small on a mountain highway climbing away from the city, the pedals turning slowly, the basin lights falling behind, the road curving up toward the ridge in the last light, an old sedan sliding past in the opposite lane")),
 
     # ---- 主歌1 30-51.8（趁风/蓝天边/云掉落/捏成形状/一口一口吃掉忧愁·词窗重切=判决一 TOP3）----
     ("XQ06", 30.00, 33.16, 1.10, "乘着风=车侧跟拍·风灌衣袖",
-     kf("med", "eye", "%s and %s riding double on %s, wind lifting her soft side fringe, the ridge haze bright" % (HIM, XQ_HER, SCOOTER), "day_road", lens="35"),
-     i2v("A medium shot at eye level", CM["track"], "A scooter riding along a mountain highway in late daylight, the wind pressing the girl's knit tank top flat and streaming her side-fringed hair, the road unrolling fast beside them")),
+     kf("med", "eye", "%s and %s riding double on %s, wind lifting her soft side fringe, the ridge haze bright" % (HIM, XQ_HER, BICYCLE), "day_road", lens="35"),
+     i2v("A medium shot at eye level", CM["track"], "A bicycle carrying two riding along a mountain highway in late daylight, the pedals turning steadily, the wind pressing the girl's knit tank top flat and streaming her side-fringed hair, the road unrolling beside them")),
     ("XQ07", 33.16, 38.52, 0.92, "蓝天边=天大远景车小",
-     kf("ext", "eye", "the sky taking most of the frame, a thin ridge line and %s tiny on the road below, the blue afternoon haze deep" % SCOOTER, "day_road", lens="24"),
-     i2v("An extreme wide establishing shot at eye level", CM["tiltup"], "A wide sky over a thin mountain ridge, a scooter tiny on the pale road below, the camera easing up until the sky fills the frame, afternoon haze drifting")),
+     kf("ext", "eye", "the sky taking most of the frame, a thin ridge line and %s tiny on the road below, the blue afternoon haze deep" % BICYCLE, "day_road", lens="24"),
+     i2v("An extreme wide establishing shot at eye level", CM["tiltup"], "A wide sky over a thin mountain ridge, an old bicycle tiny on the pale road below, the camera easing up until the sky fills the frame, afternoon haze drifting")),
     ("XQ08", 38.52, 43.86, 1.00, "一片云掉落=云影压过公路",
      kf("med", "high", "a large soft cloud shadow sliding across the highway asphalt, the road grain deepening as the shadow passes over it", "day_road", lens="35"),
      i2v("A medium shot from a high angle", CM["static"], "The pale asphalt of a mountain highway as a large soft cloud shadow slides across it edge to edge, the road brightening and dimming as the cloud passes")),
     ("XQ09", 43.86, 47.00, 0.88, "捏成你的形状=她对云伸手",
-     kf("med", "eye", "%s on the scooter back seat reaching one hand up toward the far sky, a tall cloud standing over the ridge like a quiet figure, her fingers open" % XQ_HER, "day_road", lens="50"),
-     i2v("A medium shot at eye level", CM["pushin"], "A girl on the back of a moving scooter reaching one hand slowly up toward a tall cloud over the ridge, her fingers spreading against the sky, the cloud holding its shape")),
+     kf("med", "eye", "%s on the bicycle's rear rack seat reaching one hand up toward the far sky, a tall cloud standing over the ridge like a quiet figure, her fingers open" % XQ_HER, "day_road", lens="50"),
+     i2v("A medium shot at eye level", CM["pushin"], "A girl on the rear rack of a moving bicycle reaching one hand slowly up toward a tall cloud over the ridge, her fingers spreading against the sky, the cloud holding its shape")),
     ("XQ09b", 47.00, 51.80, 0.92, "一口一口吃掉忧愁=风把路边蒲公英逐颗吃走（判决一 TOP3 补镜）",
      kf("cu", "high", "wind lifting dandelion seeds one by one off the roadside grass, each small white head breaking free and drifting away over the road", "day_road", lens="85"),
      i2v("A close-up from a high angle", CM["static"], "Dandelion seeds lifting off the roadside grass one by one, each white head drifting away over the warm road")),
 
     # ---- 主歌1b 54.28-73.4（载着阳光/晴天/蝴蝶/因你而香）----
     ("XQ10", 54.28, 59.68, 1.02, "载着阳光=车影拉长在夕照",
-     kf("wide", "low", "two distant figures riding double on %s with their long shadows stretched far down the road by the low sun, the asphalt warm and bright" % SCOOTER, "sunset_rake", lens="35"),
-     i2v("A wide shot from a low angle", CM["static"], "A scooter with two riders and their long shadows reaching down a sunlit mountain road, the low sun warm across the asphalt, the shadows breathing with the road surface")),
+     kf("wide", "low", "two distant figures riding double on %s with their long shadows stretched far down the road by the low sun, the asphalt warm and bright" % BICYCLE, "sunset_rake", lens="35"),
+     i2v("A wide shot from a low angle", CM["static"], "An old bicycle with two riders and their long shadows reaching down a sunlit mountain road, the low sun warm across the asphalt, the shadows breathing with the road surface")),
     ("XQ11", 59.68, 64.62, 0.90, "都是晴天=她仰脸",
-     kf("hs", "eye", "%s on the back seat with her face tipped up into the late sun, eyes closed, the warm light on her skin, a small smile settling" % XQ_HER, "sunset_rake", lens="85"),
-     i2v("A head-and-shoulders framing at eye level", CM["pushin"], "A girl on a scooter back seat with her face tipped up into the warm low sun, eyes closed, sun freckles bright, her breath slow and easy as the ride hums on")),
+     kf("hs", "eye", "%s on the bicycle's rear rack seat with her face tipped up into the late sun, eyes closed, the warm light on her skin, a small smile settling" % XQ_HER, "sunset_rake", lens="85"),
+     i2v("A head-and-shoulders framing at eye level", CM["pushin"], "A girl on a bicycle's rear rack seat with her face tipped up into the warm low sun, eyes closed, sun freckles bright, her breath slow and easy as the ride hums on")),
     ("XQ12", 64.62, 70.08, 1.15, "蝴蝶自在飞=她追蝶（草地停车点）",
      kf("med", "eye", "%s running a few light steps across the grass slope after a white butterfly drifting ahead of her, silvergrass heads bowing in her wake" % XQ_HER, "sunset_rake", lens="35"),
      i2v("A medium shot at eye level", CM["stead"], "A girl in a knit tank top stepping quickly across a golden grass slope after a white butterfly, silvergrass heads swaying around her, her straight hair swinging with each step")),
     ("XQ13", 70.08, 73.42, 0.85, "因你而香=他看她（注视链·逆光·手持生活流=残余③）",
-     kf("cu", "eye", "%s standing by the parked scooter watching a distant girl figure chase a white butterfly across the slope, the low sun behind her, his quiet attention carried in his stillness" % HIM, "sunset_rake", lens="50"),
-     i2v("A close-up at eye level", CM["hand"], "A young man by a parked scooter watching a girl chase a butterfly across a golden slope, the low sun flaring gently behind her, his stillness holding the whole frame")),
+     kf("cu", "eye", "%s standing beside the parked old bicycle, one hand resting on its saddle, watching a distant girl figure chase a white butterfly across the slope, the low sun behind her, his quiet attention carried in his stillness" % HIM, "sunset_rake", lens="50"),
+     i2v("A close-up at eye level", CM["hand"], "A young man beside a parked old bicycle watching a girl chase a butterfly across a golden slope, the low sun flaring gently behind her, his stillness holding the whole frame")),
 
     # ---- 主歌2 73.42-101.36（夕阳飞翔/迎着风/手牵手数步·一步一剪）----
     ("XQ14", 73.42, 78.82, 1.00, "让夕阳飞翔=风筝线轴特写",
@@ -170,11 +171,11 @@ NEW = [
 
     # ---- 主歌重演 162.82-195.70（夜色变体：骑行/她仰脸/风筝更高）----
     ("XQ26", 162.82, 172.38, 1.06, "夜骑=载着你仿佛载着阳光（夜版）",
-     kf("med", "eye", "%s and %s riding double on %s into the night" % (HIM, XQ_HER, SCOOTER), "night_road", lens="35", tex="film_night"),
-     i2v("A medium shot at eye level", CM["track"], "A scooter with two riders running a night mountain road, the headlight cone sweeping the asphalt, the girl's silhouette leaning gently with the curves, far sodium lights sliding past")),
+     kf("med", "eye", "%s and %s riding double on %s into the night" % (HIM, XQ_HER, BICYCLE), "night_road", lens="35", tex="film_night"),
+     i2v("A medium shot at eye level", CM["track"], "An old bicycle carrying two down a night mountain road, the small lamp's thin warm beam touching the asphalt ahead, the girl's silhouette leaning gently with the curves, far sodium lights sliding past")),
     ("XQ27", 173.48, 181.44, 1.00, "她仰脸夜版=路旁花影（她转身笑）",
-     kf("hs", "eye", "%s stopped beside the road in the headlight glow, turning back toward him with a smile, white roadside flowers catching the light around her" % XQ_HER, "night_road", lens="50", tex="film_night"),
-     i2v("A head-and-shoulders framing at eye level", CM["static"], "A girl beside a night road in a warm headlight glow, white flowers catching the light around her as she turns back with a slow smile")),
+     kf("hs", "eye", "%s stopped beside the road in the small bicycle lamp glow, turning back toward him with a smile, white roadside flowers catching the light around her" % XQ_HER, "night_road", lens="50", tex="film_night"),
+     i2v("A head-and-shoulders framing at eye level", CM["static"], "A girl beside a night road in the warm glow of a small bicycle lamp, white flowers catching the light around her as she turns back with a slow smile")),
     ("XQ28", 182.54, 192.80, 0.90, "风筝更高=夕飞夜版（逆着星）",
      kf("wide", "eye", "%s high in the dark sky above the slope, its paper dim against the stars, the string running down to a small hand at the frame edge" % KITE, "star_field", lens="35", tex="film_night"),
      i2v("A wide shot at eye level", CM["tiltup"], "A diamond kite small and dark high in a starfield night, its pale string running down out of frame, the stars steady behind it as the paper sways")),
@@ -285,7 +286,7 @@ if __name__ == "__main__":
     assert gap_bad == 0, "WINDOW GAPS ASSERT FAILED (%d)" % gap_bad
     print("SELF-CHECK GREEN: lint_bad=0 | WINDOW GAPS=0 (0.00-%.2f 无空档无叠窗) | 时长断言 %d 镜全过（定格延窗豁免 %d 镜·源 5s）"
           % (FILM_END, len(NEW), freeze_n))
-    md = ("# 《星晴》分镜表 v2.2（帧级·深研喂入·设计闸判决落地版·复审残余清零）\n\n"
+    md = ("# 《星晴》分镜表 v2.3（帧级·深研喂入·设计闸判决落地版·CEO 道具令执法 scooter→bicycle）\n\n"
           "> 权威=星晴-剧本-v1.md（v1.1 修订同步）+立意案 v1+RESEARCH-mv-craft §六星晴行+RESEARCH-星晴-受众洞察-v1.md；词级锚点=anchors/星晴.txt（尾词 248.76）·片长 259.40（ffprobe 判决一实证）\n"
           "> **导演事实纠偏（受众卡①）**：原版星晴 MV 导演=黄中平（三源一致·非邝盛）——镜头权威=黄中平「弱剧情/极简/定格/色彩烘托」+年代共同语法\n"
           "> 发布话术红线：禁称邝盛执导星晴（原版导演=黄中平·三源）；禁称复刻原版名场面（骑行/牵手/星空=词面意象视觉化）\n"
@@ -293,6 +294,7 @@ if __name__ == "__main__":
           "> jman LoRA 挂载=mv_full_kf_r2.py L88 范式（jman_v1_640_rank32_final.safetensors）·strength 0.6-0.8 先网格（判决二可7）·含 HIM 镜自动继承触发词\n"
           "> XF_T1=唯一叠化：XQ18a→XQ18b 1.5s（星晴全片仅此一处·星线成形=KF 双帧叠化交付·i2v 禁现画线）\n"
           "> 长期律：逐镜变速/5246 纯日戏·5279 黄昏蓝调+夜（XQ01-05/16 补档·判决二年1）/台式奶黑/物质转场/禁看镜头/音轨=画面+原曲/AIGC 标识\n"
+          "> **CEO 道具令（10-11 22:3x）**：载具全量=2000 台式校园单车（旧钢架+后座铁架+车铃·夜戏小电池灯）——机车/电动车=年代错位判负；道具席+导演席帧级 QC 必含时代错位道具扫描位\n"
           "> 状态机读正身=本 py 文件（md=衍生物）；自检=lint（t2i/video 双模式）+WINDOW GAPS（0→259.40 无 >0.5s 空档）+时长断言（源长=窗长/速度 ≤15s·定格延窗镜只验源 5s）\n\n"
           "## 女主选角案（CASTING-LAW 必携件）\n\n- 受众：%s\n- 默认候选：%s\n- 候选池：%s\n- 法条：%s\n\n## 镜头表（%d 新镜）\n\n%s\n"
           % (CASTING_XQ["audience"], CASTING_XQ["default_A"],
