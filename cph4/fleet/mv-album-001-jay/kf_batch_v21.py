@@ -86,7 +86,10 @@ def main():
         t0 = time.time()
         while time.time() - t0 < 900:
             time.sleep(3)
-            h = get(a.server + "/history/" + pid)
+            try:
+                h = get(a.server + "/history/" + pid)
+            except Exception:
+                continue  # 单次轮询超时/瞬断不杀批（i2v runner 同款护栏）
             if pid in h:
                 for nid, out in h[pid]["outputs"].items():
                     for img in out.get("images", []):

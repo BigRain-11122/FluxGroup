@@ -10,6 +10,8 @@ git pull
 curl -f -C - http://100.123.74.104:8800/album-frames-v22.zip -o album-frames-v22.zip
 python -m zipfile -e album-frames-v22.zip <FluxGroup仓库根>\media\mv-album-001-jay\
 ```
+> **2026-10-11 22:50 内容更新**：6 帧（XQ02/05/07/10/13/26）按 CEO 道具令换自行车重摇——22:50 前已拉过 zip 的机器必须重新拉取同名 zip 覆盖解压（bm-a 渲染 KN 不受影响；bm-b 渲染全 53 必须重拉）。
+
 解出后应有 `<repo>\media\mv-album-001-jay\frames\XQ_*.png / KN_*.png` 共 53 件。
 
 ## 1 权重就绪
