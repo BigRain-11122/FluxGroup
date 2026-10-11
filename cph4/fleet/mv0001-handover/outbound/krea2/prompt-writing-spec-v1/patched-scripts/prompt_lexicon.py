@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 prompt_lexicon.py - BigStream 专业提示词词表机制 v1.1
+v1.3 注记（2026-10-11·双曲设计闸判决落地）：ID_F_JOLIN/ID_F_HOU 删职业词+年份统一 2000（判决一合3·判决二年3·清洗前不得进 KF 批）
 CEO 三令（O-20261009-1815/1830）：①零否定词（官方改写器规则8背书）②专业参数化③机制化禁散文手写
 v1.1 变更（提示词工程专家审查落地）：
 - 组装器改官方顺序单段散文：身份→服装→面部→姿态→环境光→镜头风格收尾
@@ -133,11 +134,11 @@ ID_F_VVR = ("a 25-year-old Taiwanese young woman of the year 2001, a softly swee
             "rounded cheeks, large bright dark double-lidded eyes with gentle upward outer corners, "
             "a small straight nose, soft medium-full rosy lips, long straight black hair with a solid "
             "blunt full fringe, natural girl-next-door warmth with a quiet melancholic grace")
-ID_F_JOLIN = ("a 21-year-old Taiwanese pop singer of the year 2001, a soft-cheeked face with full apple cheeks "
+ID_F_JOLIN = ("a 21-year-old Taiwanese young woman of 2000, a soft-cheeked face with full apple cheeks "
               "and a gently pointed chin, large dark double-lidded almond eyes, a small nose with a soft "
               "rounded tip, sweet curved lips, long dark brown-black hair with a full straight fringe, "
               "a shy sweet smile and lively petite charm")
-ID_F_HOU = ("a 24-year-old Taiwanese TV presenter of the year 2001, a gentle oval face with "
+ID_F_HOU = ("a 24-year-old Taiwanese young woman of 2000, a gentle oval face with "
             "refined delicate features, soft warm double-lidded eyes, a straight nose, medium-full lips "
             "with a graceful composed smile, long black hair softly draped over one shoulder, poised "
             "and intellectual in bearing")
