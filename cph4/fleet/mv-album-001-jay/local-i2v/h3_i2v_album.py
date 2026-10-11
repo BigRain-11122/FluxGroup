@@ -157,8 +157,8 @@ def main():
         n6 = wf["6"]["inputs"]
         n6["prompt"] = u["i2v_prompt"]
         n6["length"] = length
-        n6["width"] = w
-        n6["height"] = h
+        n6["width"] = int(u.get("width", 0)) or w   # 单内分辨率 override（V2_KFL 竖版 768x1344）
+        n6["height"] = int(u.get("height", 0)) or h
         wf["10"]["inputs"]["noise_seed"] = seed
         try:
             resp = http_json(server + "/prompt", {"prompt": wf, "client_id": "album-" + args.lane}, timeout=60)
