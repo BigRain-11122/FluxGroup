@@ -3,6 +3,7 @@
 # v2.1=设计闸判决机械补丁（PANEL-WAVE1/2-VERDICT-20261011·改窗/改词/改挂·不动立意不动结构）
 # v2.2=复审残余清零（PANEL-REGATE-V3 §五）：city_bowl 补 aged signboards/GRADE 2001→2000 本地覆写/KN09 手持生活流
 # v2.3=CEO 服装师令（2026-10-12 00:0x「服装师也要介入，毕竟是明星拍MV，你这衣服太低调了，要符合那个年代的流行！」）：HIM 常量升 2000 台式流行层次（水洗牛仔外套+图案T+宽松直筒+银链+皮绳手环·反韩化宽松剪裁不破）+KN08 她的窗内造型（条纹针织+串珠+铁刘海）·4 HIM 镜+KN08 同种子重摇（KN02/03/08/09/23）
+# v2.4=CEO 歌词意象令（2026-10-12 00:2x「歌词有直升机你就真出现一个直升机？？…MV能这么俗吗？」）：KN05 删真直升机→探照光柱意象（想要飞的渴望=城市之光托举·LYRIC-IMAGERY-LAW）；KN29 渲染翻车修正（模型把纸机画成真客机·词面强化 hand-folded/thin notebook-paper 小感）·两帧同种子重摇
 # 权威=可爱女人-剧本-v1.md（创作核心：纸飞机投掷-归返弧）+ RESEARCH-mv-craft-80s-90s-00s（§一/三/六 可爱女人行）
 # 词级锚点=anchors/可爱女人.txt（whisper 2026-10-10 实测·词行至 236.30）·film=song 对齐·0-239.03（ffprobe 判决一实证·尾窗对齐歌长）
 # 长期律：匀速判负（掷出快/穿云极缓·逐镜变速）/做旧克制（5279 黄昏蓝调+夜段·台式奶黑）/禁看镜头（她=远景/剪影/灯窗·KN24 灯窗内初见=唯一露脸）
@@ -83,9 +84,9 @@ NEW = [
      i2v("A close-up at eye level", CM["track"], "A white paper plane flashing up off a rooftop into the dusk sky, the hand still open in its follow-through, the water tower sliding past below")),
 
     # ---- 主歌 30.14-55.66（直升机/升空/她的灯窗/让我碰到你）----
-    ("KN05", 30.14, 37.22, 1.05, "想要有直升机=纸机与夜航直升机同框",
-     kf("med", "eye", "%s gliding high over the city lights with a night helicopter holding far off in the same frame, its searchlight a soft cone" % PLANE, "city_bowl", lens="35", tex="film_night"),
-     i2v("A medium shot at eye level", CM["track"], "A white paper plane gliding above a night city while a helicopter holds far off in the same sky, its running lights blinking slow, the paper banking gently")),
+    ("KN05", 30.14, 37.22, 1.05, "想要有直升机=纸机穿探照光柱（CEO 10-12 00:2x 歌词意象令：真飞行器入画=字面直译判负·删机·纸机=少年的直升机）",
+     kf("med", "eye", "%s climbing over the night city, two pale searchlight pillars rising from far rooftops into the sky, the paper crossing between their light" % PLANE, "city_bowl", lens="35", tex="film_night"),
+     i2v("A medium shot at eye level", CM["track"], "A white paper plane climbing over a night city, crossing between two pale searchlight pillars rising from far rooftops, the light laying a soft edge on its wings as it climbs")),
     ("KN06", 37.22, 43.64, 1.00, "掠过屋顶升空（蓝渐深）",
      kf("med", "eye", "%s rising past the last rooftops of the city edge into deepening blue air, the streets falling away beneath it" % PLANE, "roof_dusk", lens="50"),
      i2v("A medium shot at eye level", CM["tiltup"], "A paper plane climbing past dark rooftops into deep blue air, the camera easing up with it as the street lights sink below the frame")),
@@ -166,8 +167,8 @@ NEW = [
      kf("med", "eye", "%s lifting off from her rooftop window light, the warm square falling away below it as it climbs" % HER_PLANE, "warm_window", lens="50", tex="film_night"),
      i2v("A medium shot at eye level", CM["tiltup"], "A cream paper plane with a red wing tip lifting off from a warm rooftop window, the square of light falling away below it as it climbs into the night")),
     ("KN29", 227.28, 234.42, 0.95, "让我碰到你=双机航线交错而过（卡「可爱女人」hook 串·定格源）",
-     kf("cu", "eye", "the white plane and the red-tipped plane crossing paths high above the city, their wingtips a hand-span apart, the streets far below", "city_bowl", lens="85", tex="film_night"),
-     i2v("A close-up at eye level", CM["static"], "A white paper plane and a red-tipped paper plane crossing paths high above a night city, their wingtips a hand-span apart, both holding their line as they pass")),
+     kf("cu", "eye", "two small hand-folded paper planes crossing paths high above the city, one white and one with a red wing tip, their thin notebook-paper wings slight against the towers, wingtips a hand-span apart, the streets far below", "city_bowl", lens="85", tex="film_night"),
+     i2v("A close-up at eye level", CM["static"], "Two small hand-folded paper planes, one white and one red-tipped, crossing paths high above a night city, their thin paper wings catching the city light, both holding their line as they pass")),
     ("KN30", 234.42, 239.03, 0.96, "落回天台双机并排定格收（239.03=歌长·定格收口）",
      kf("med", "eye", "%s settling onto the rooftop ledge beside %s, two planes side by side in the window light, the city dim beyond" % (HER_PLANE, PLANE), "warm_window", lens="50", tex="film_night"),
      i2v("A medium shot at eye level", CM["pushin"], "A red-tipped paper plane settling onto a rooftop ledge beside a white one, the two planes coming to rest side by side in the warm window light, everything settling to stillness")),
