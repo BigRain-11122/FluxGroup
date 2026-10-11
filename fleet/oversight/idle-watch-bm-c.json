@@ -1,0 +1,122 @@
+{
+    "subsidiaries":  [
+                         {
+                             "c48":  2,
+                             "status":  "GREEN",
+                             "c24":  2,
+                             "name":  "BigCompute",
+                             "repo":  "compute"
+                         },
+                         {
+                             "c48":  2,
+                             "status":  "GREEN",
+                             "c24":  2,
+                             "name":  "BigDomain",
+                             "repo":  "domain"
+                         },
+                         {
+                             "c48":  2,
+                             "status":  "GREEN",
+                             "c24":  2,
+                             "name":  "BigLife",
+                             "repo":  "life"
+                         },
+                         {
+                             "c48":  64,
+                             "status":  "GREEN",
+                             "c24":  25,
+                             "name":  "BigStream",
+                             "repo":  "cph4/fleet/meme-daily-v1 cph4/fleet/shortvideo-dept cph4/fleet/mv-album-001-jay cph4/fleet/mv0001-handover cph4/fleet/h3-local-test"
+                         },
+                         {
+                             "c48":  948,
+                             "status":  "GREEN",
+                             "c24":  441,
+                             "name":  "BigMoney",
+                             "repo":  "quant\\bigmoney"
+                         },
+                         {
+                             "c48":  77,
+                             "status":  "GREEN",
+                             "c24":  41,
+                             "name":  "MiniGame",
+                             "repo":  "gaming\\MiniGame"
+                         },
+                         {
+                             "c48":  2,
+                             "status":  "AMBER",
+                             "c24":  0,
+                             "name":  "FluxVerse",
+                             "repo":  "gaming\\FluxVerse"
+                         },
+                         {
+                             "c48":  -1,
+                             "status":  "SKIP",
+                             "c24":  -1,
+                             "name":  "BigHouse",
+                             "repo":  "(no-local-clone)"
+                         }
+                     ],
+    "machine":  "bm-c",
+    "engine":  {
+                   "queue":  0,
+                   "py":  3,
+                   "burns":  0,
+                   "alive":  true,
+                   "front":  209
+               },
+    "research":  {
+                     "fresh72":  8,
+                     "status":  "GREEN"
+                 },
+    "cpu":  {
+                "load_pct":  20
+            },
+    "comfy":  {
+                  "alive":  true
+              },
+    "ram_free_gb":  1.9,
+    "infra":  {
+                  "cloudf_pending":  48,
+                  "liveness_age_h":  0.1,
+                  "prev_watch_age_h":  0.01,
+                  "cron_days_left_min":  1.9,
+                  "liveness":  "RED",
+                  "family_disabled":  1,
+                  "cron_jobs":  12
+              },
+    "gpu":  {
+                "util_pct":  100,
+                "vram_used_mb":  15426,
+                "batch":  "album-i2v",
+                "vram_total_mb":  16384
+            },
+    "llm":  {
+                "pinned_35b":  false
+            },
+    "yield_mode":  false,
+    "ts":  "2026-10-11 21:36:33",
+    "red_flags":  [
+                      {
+                          "detail":  "durable cron days_left_min=1.9 (per D4: per-band eval due 10-12)",
+                          "code":  "CRON_EVAL_DUE",
+                          "line":  "infra"
+                      },
+                      {
+                          "detail":  "pending=48 (drain needs idle CLI window)",
+                          "code":  "CLOUDF_BACKLOG",
+                          "line":  "infra"
+                      },
+                      {
+                          "detail":  "liveness verdict RED (age 0.1h)",
+                          "code":  "FLEET_LIVENESS_RED",
+                          "line":  "infra"
+                      }
+                  ],
+    "lanes":  {
+                  "gpu":  "GREEN",
+                  "cpu":  "AMBER",
+                  "llm":  "OFFLOAD"
+              },
+    "yield_note":  ""
+}
