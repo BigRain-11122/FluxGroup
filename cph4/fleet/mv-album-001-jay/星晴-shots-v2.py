@@ -25,10 +25,10 @@ STYLE_LEAD = "as a film still from a 2000 Taiwanese music video"
 
 # ---- 人物正典块 ----
 HIM = (LX.ID_M_2001_BONE + ", in a plain white short-sleeve shirt, dark denim jeans and worn canvas shoes")
-# 星晴女主·候选A（默认·2000 台北邻家系·受众预期锚=原版青春恋曲脸型族·待研究卡与 CEO 点选校正）
-XQ_HER = ("a 19-year-old Taipei girl of the year 2000 with faint sun freckles, bright dark eyes that "
-          "curve into crescents when she smiles, a small rounded nose, her black hair in a high ponytail "
-          "with wind-freed strands, in a loose pale-yellow cotton blouse, light-blue jeans and canvas shoes")
+# 星晴女主·候选A（默认·受众洞察卡锚=2000「甜美邻家」时代审美：鹅蛋脸/杏眼/中长黑直发斜刘海/彩色发夹/素色棉背心+低腰牛仔）
+XQ_HER = ("a 20-year-old Taipei girl of the year 2000 with a soft oval face, gentle almond eyes, a small "
+          "rounded nose, medium-length straight black hair with a soft side fringe pinned by a small colored "
+          "hair clip, in a plain knit tank top, low-rise jeans and canvas shoes")
 SCOOTER = ("an old 2000 Taipei scooter with a round headlight and chrome mirror, its paint dull from years of city rain")
 KITE = ("a simple diamond paper kite in faded warm colors, a wooden cross spar and a long pale string wound on a bamboo spool")
 
@@ -59,7 +59,7 @@ NEW = [
      i2v("A medium shot at eye level", CM["track"], "A young man on a 2000 Taipei scooter rolling to the curb at dusk, the round headlight steady, his plain white shirt catching the sodium orange, the girl waiting at the wall behind him")),
     ("XQ03", 9.80, 14.50, 0.95, "她上后座",
      kf("cu", "eye", "%s stepping to the scooter and settling onto the back seat, one hand on his shoulder, the streetlamp orange on her sleeves" % XQ_HER, "street_dusk", lens="50"),
-     i2v("A close-up at eye level", CM["static"], "A girl in a pale-yellow blouse stepping onto the back of a parked scooter at dusk, her hand resting on the rider's shoulder as she settles in, sodium light warm on her sleeve")),
+     i2v("A close-up at eye level", CM["static"], "A girl in a knit tank top stepping onto the back of a parked scooter at dusk, her hand resting on the rider's shoulder as she settles in, sodium light warm on her sleeve")),
     ("XQ04", 14.50, 20.50, 1.08, "双载穿过黄昏街景（街灯次亮）",
      kf("mw", "eye", "%s riding double on %s through a dusk Taipei street, her arms around his waist, shopfront lights waking along both sides" % (HIM, SCOOTER), "street_dusk", lens="35"),
      i2v("A medium-wide shot at eye level", CM["track"], "A scooter carrying two riding through a Taipei street at dusk, the girl's ponytail and loose hair strands lifting in the moving air, shop lights passing in warm layers on both sides")),
@@ -70,7 +70,7 @@ NEW = [
     # ---- 主歌1 30-51.8（趁风/蓝天边/云掉落/捏成形状）----
     ("XQ06", 30.00, 37.74, 1.10, "乘着风=车侧跟拍·风灌衣袖",
      kf("med", "eye", "%s riding double on %s along the mountain highway, wind pressing her blouse flat and freeing strands of her ponytail, the ridge haze bright" % (HIM, SCOOTER), "day_road", lens="35"),
-     i2v("A medium shot at eye level", CM["track"], "A scooter riding along a mountain highway in late daylight, the wind pressing the girl's pale-yellow blouse flat and streaming her loose hair, the road unrolling fast beside them")),
+     i2v("A medium shot at eye level", CM["track"], "A scooter riding along a mountain highway in late daylight, the wind pressing the girl's knit tank top flat and streaming her side-fringed hair, the road unrolling fast beside them")),
     ("XQ07", 37.74, 43.22, 0.92, "蓝天边=天大远景车小",
      kf("ext", "eye", "the sky taking most of the frame, a thin ridge line and %s tiny on the road below, the blue afternoon haze deep" % SCOOTER, "day_road", lens="24"),
      i2v("An extreme wide establishing shot at eye level", CM["tiltup"], "A wide sky over a thin mountain ridge, a scooter tiny on the pale road below, the camera easing up until the sky fills the frame, afternoon haze drifting")),
@@ -86,11 +86,11 @@ NEW = [
      kf("wide", "low", "%s riding double with their long shadows stretched far down the road by the low sun, the asphalt warm and bright" % SCOOTER, "sunset_rake", lens="35"),
      i2v("A wide shot from a low angle", CM["static"], "A scooter with two riders and their long shadows reaching down a sunlit mountain road, the low sun warm across the asphalt, the shadows breathing with the road surface")),
     ("XQ11", 59.68, 64.62, 0.90, "都是晴天=她仰脸",
-     kf("hs", "eye", "%s on the back seat with her face tipped up into the late sun, eyes closed, her freckles lit, a small smile settling" % XQ_HER, "sunset_rake", lens="85"),
+     kf("hs", "eye", "%s on the back seat with her face tipped up into the late sun, eyes closed, the warm light on her skin, a small smile settling" % XQ_HER, "sunset_rake", lens="85"),
      i2v("A head-and-shoulders framing at eye level", CM["pushin"], "A girl on a scooter back seat with her face tipped up into the warm low sun, eyes closed, sun freckles bright, her breath slow and easy as the ride hums on")),
     ("XQ12", 64.62, 70.08, 1.15, "蝴蝶自在飞=她追蝶（草地停车点）",
      kf("med", "eye", "%s running a few light steps across the grass slope after a white butterfly drifting ahead of her, silvergrass heads bowing in her wake" % XQ_HER, "sunset_rake", lens="35"),
-     i2v("A medium shot at eye level", CM["stead"], "A girl in a pale-yellow blouse stepping quickly across a golden grass slope after a white butterfly, silvergrass heads swaying around her, her ponytail swinging with each step")),
+     i2v("A medium shot at eye level", CM["stead"], "A girl in a knit tank top stepping quickly across a golden grass slope after a white butterfly, silvergrass heads swaying around her, her straight hair swinging with each step")),
     ("XQ13", 70.08, 73.42, 0.85, "因你而香=他看她（注视链·逆光）",
      kf("cu", "eye", "%s standing by the parked scooter watching her across the slope, the low sun behind her, his quiet attention carried in his stillness" % HIM, "sunset_rake", lens="50"),
      i2v("A close-up at eye level", CM["static"], "A young man by a parked scooter watching a girl chase a butterfly across a golden slope, the low sun flaring gently behind her, his stillness holding the whole frame")),
@@ -180,12 +180,12 @@ REUSE = [
 # ---- 女主选角案（CASTING-LAW 必携件）----
 CASTING_XQ = {
     "track": "星晴（mv-jay-01·P1 首发曲）",
-    "audience": "2000 青春恋曲受众（校园/初代杰迷/大众情感向）——预期=2000 台北邻家清纯系·自然元气（受众洞察卡 RESEARCH-星晴-受众洞察-v1.md 喂入后校正）",
-    "default_A": "XQ_HER（上述正典块·2000 台北邻家系·马尾+素颜+浅雀斑·甜而不艳）",
+    "audience": "星晴受众=跨代大众青春恋曲（80后+00后大合唱·嘉年华常设）——预期=2000「甜美邻家」时代审美（受众洞察卡锚：鹅蛋脸/杏眼/中长黑直发斜刘海/彩色发夹/素色棉背心+低腰牛仔·甜而不艳·禁性感化禁BE）",
+    "default_A": "XQ_HER（上述正典块·受众卡脸型族锚直译）",
     "candidates": [
-        "A=邻家元气系（默认块·马尾/雀斑/弯月笑眼）",
-        "B=甜系苹果肌（词表 ID_F_JOLIN 块）",
-        "C=清雅文静系（词表 ID_F_HOU 块）",
+        "A=甜美邻家系（默认块·斜刘海/杏眼/彩色发夹·受众卡锚）",
+        "B=甜系苹果肌（词表 ID_F_JOLIN 块·备选）",
+        "C=清雅文静系（词表 ID_F_HOU 块·备选）",
     ],
     "law_notes": "每曲独立面孔（禁跨 MV 复用·与可爱女人 KN_HER 不同块）；AI 参照生成·真照不入管线；落定后 ID 块逐字复用",
 }
@@ -207,7 +207,8 @@ if __name__ == "__main__":
                 print("[%s][%s] LINT HITS %s: %s" % (s[0], mode, hits, p[:90]))
     print("shots NEW=%d REUSE=%d lint_bad=%d" % (len(NEW), len(REUSE), bad))
     md = ("# 《星晴》分镜表 v2（帧级·深研喂入）\n\n"
-          "> 权威=星晴-剧本-v1.md+立意案 v1+RESEARCH-mv-craft §六星晴行；词级锚点=anchors/星晴.txt（尾词 248.76）\n"
+          "> 权威=星晴-剧本-v1.md+立意案 v1+RESEARCH-mv-craft §六星晴行+RESEARCH-星晴-受众洞察-v1.md；词级锚点=anchors/星晴.txt（尾词 248.76）\n"
+          "> **导演事实纠偏（受众卡①）**：原版星晴 MV 导演=黄中平（三源一致·非邝盛）——镜头权威=黄中平「弱剧情/极简/定格/色彩烘托」+年代共同语法；发布话术禁称「邝盛执导星晴」、禁称「复刻原版名场面」（骑行/牵手/星空=词面意象·非已证实 MV 镜头·改编话术只称「词面世界视觉化」）\n"
           "> 长期律：逐镜变速/5246日5279夜/台式奶黑/物质转场/叠化仅星线一处/禁看镜头/音轨=画面+原曲/AIGC 标识\n"
           "> 状态机读正身=本 py 文件（md=衍生物）；KF 批挂 bm-c（候选卡+空镜先行）·i2v 云端波待 CEO 过目 LOOKBOARD\n\n"
           "## 女主选角案（CASTING-LAW 必携件）\n\n- 受众：%s\n- 默认候选：%s\n- 候选池：%s\n- 法条：%s\n\n## 镜头表（%d 新镜）\n\n%s\n"
