@@ -159,18 +159,27 @@ def main():
             f.write(build_ass(spec, TOTAL))
         subs = os.path.join(work, "subs.mp4")
         run([ff, "-y", "-i", concat, "-vf", "ass=subs.ass", "-c:v", "libx264", "-preset", "veryfast", "-crf", "19", "-pix_fmt", "yuv420p", subs], cwd=work)
-        # 5) 旁白轨（atempo 装窗 + 定点 adelay）
+        # 5) 旁白轨（预压句间静音 → atempo 装窗 → 定点 adelay）
+        #    实锚（10-11）：qwen 语速带大停顿（seg3 实音 3.4s+停顿 2.3s）——先 silenceremove 压句间停顿再装窗
         ins, fc = [], []
         for i, seg in enumerate(spec["narration_segments"]):
-            p = os.path.join(media, seg["file"]); d = dur_of(ff, p)
+            src = os.path.join(media, seg["file"])
+            tmp = os.path.join(work, "t_seg%d.wav" % i)
+            run([ff, "-y", "-i", src, "-af",
+                 "silenceremove=start_periods=1:start_threshold=-45dB:start_silence=0.05,"
+                 "silenceremove=stop_periods=-1:stop_duration=0.15:stop_threshold=-38dB",
+                 "-ac", "1", "-ar", "44100", tmp])
+            d = dur_of(ff, tmp)
             f = d / seg["max_dur"] if seg["max_dur"] else 1.0
-            chain = "[%d:a]" % i
+            chain = "[%d:a]" % (i + 1)
             if f > 1.001:
-                f = min(f, 1.15)
+                f = min(f, 1.20)
                 chain += "atempo=%.4f," % f
-                print("  %s 时长 %.2fs 超窗 %.2fs → atempo %.3f" % (seg["id"], d, seg["max_dur"], f), flush=True)
+                print("  %s 压静音后 %.2fs / 窗 %.2fs -> atempo %.3f" % (seg["id"], d, seg["max_dur"], f), flush=True)
+            elif f < 1.0:
+                print("  %s 压静音后 %.2fs / 窗 %.2fs (直接放)" % (seg["id"], d, seg["max_dur"]), flush=True)
             chain += "adelay=%d|%d,apad[s%d]" % (int(seg["at"] * 1000), int(seg["at"] * 1000), i)
-            fc.append(chain); ins.append(p)
+            fc.append(chain); ins.append(tmp)
         fc.append("[s0][s1][s2][s3]amix=inputs=4:normalize=0[narr]")
         # 6) BGM 轨（乐句终止式=静点切 J-M10 + 拍5 极轻回归）
         bg = spec["bgm"]; bgp = os.path.join(media, bg["file"])
@@ -178,7 +187,7 @@ def main():
         cp = quietest_in(rms, sr, win, *bg["exit_window"])
         f0 = quietest_in(rms, sr, win, 3.0, 5.5)
         print("  BGM 静点切 @%.2fs（乐句终止式）·回归段 @%.2fs" % (cp, f0), flush=True)
-        b = len(ins)
+        b = len(ins) + 1                                     # 输入 0=视频·1..4=旁白·b=BGM
         ins.append(bgp)
         fc.append("[%d:a]atrim=0:%.3f,asetpts=PTS-STARTPTS,volume=%ddB,afade=t=in:d=0.4,apad[g1]" % (b, cp, bg["gain_db"]))
         fc.append("[%d:a]atrim=%.3f:%.3f,asetpts=PTS-STARTPTS,volume=%ddB,afade=t=in:d=0.3,afade=t=out:st=%.2f:d=0.3,adelay=%d|%d,apad[g2]"

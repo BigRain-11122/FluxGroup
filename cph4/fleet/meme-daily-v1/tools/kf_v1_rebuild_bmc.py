@@ -46,12 +46,12 @@ def main():
          "horizontal red light bars, clean unmarked body panels, wet asphalt mirroring warm sodium streetlight "
          "pools, the city haze soft behind. Shot on 35mm lens, luxury car commercial look, deep warm blacks with "
          "blooming taillight highlights, fine grain."),
-        ("S3",  # 拍3a 断裂微距（QC r1 修：粗糙撕裂断口+踏板语境·去装饰纹）
-         "An extreme close-up of a steel brake pedal arm freshly snapped in two, the fracture face reading as "
-         "rough torn metal with a coarse granular break surface and a thin bent lip where the steel stretched "
-         "before giving way, fine metal dust lifted around the break, the rubber-tipped pedal pad just entering "
-         "the frame edge. Warm hard side light over a deep dark workshop background, the steel surface plainly "
-         "machined with honest wear scratches. Shot on a macro lens, industrial test documentary look, fine grain."),
+        ("S3",  # 拍3a 断裂微距（回原过闸件正解=裂纹扩展·QC r4：裂口粗糙微张+新鲜银亮）
+         "An extreme close-up of a thick steel brake pedal arm under stress, a deep fresh crack running diagonally "
+         "across it mid-arm, the crack edges rough and slightly parted with tiny bright flecks of fresh silver in "
+         "the crack line, fine dark metal dust beginning to lift from the crack, the arm dull and scuffed with oil "
+         "grime, its black rubber pedal pad visible at the frame edge. Warm hard side light over a deep dark "
+         "workshop background. Shot on a macro lens, industrial test documentary look, fine grain."),
         ("S4",  # 拍2+拍3b 测试场三台车（QC r1 修：侧profile 视角避开头尾签名·角度差破克隆）
          "A wide shot of three identical unbranded black MPVs parked in a staggered line on an empty "
          "proving-ground test track at warm dusk, seen in side profile, each car turned at a slightly different "
