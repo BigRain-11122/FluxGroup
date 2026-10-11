@@ -1,122 +1,129 @@
 {
-    "subsidiaries":  [
-                         {
-                             "c48":  2,
-                             "status":  "GREEN",
-                             "c24":  2,
-                             "name":  "BigCompute",
-                             "repo":  "compute"
-                         },
-                         {
-                             "c48":  2,
-                             "status":  "GREEN",
-                             "c24":  2,
-                             "name":  "BigDomain",
-                             "repo":  "domain"
-                         },
-                         {
-                             "c48":  2,
-                             "status":  "GREEN",
-                             "c24":  2,
-                             "name":  "BigLife",
-                             "repo":  "life"
-                         },
-                         {
-                             "c48":  64,
-                             "status":  "GREEN",
-                             "c24":  25,
-                             "name":  "BigStream",
-                             "repo":  "cph4/fleet/meme-daily-v1 cph4/fleet/shortvideo-dept cph4/fleet/mv-album-001-jay cph4/fleet/mv0001-handover cph4/fleet/h3-local-test"
-                         },
-                         {
-                             "c48":  948,
-                             "status":  "GREEN",
-                             "c24":  441,
-                             "name":  "BigMoney",
-                             "repo":  "quant\\bigmoney"
-                         },
-                         {
-                             "c48":  77,
-                             "status":  "GREEN",
-                             "c24":  41,
-                             "name":  "MiniGame",
-                             "repo":  "gaming\\MiniGame"
-                         },
-                         {
-                             "c48":  2,
-                             "status":  "AMBER",
-                             "c24":  0,
-                             "name":  "FluxVerse",
-                             "repo":  "gaming\\FluxVerse"
-                         },
-                         {
-                             "c48":  -1,
-                             "status":  "SKIP",
-                             "c24":  -1,
-                             "name":  "BigHouse",
-                             "repo":  "(no-local-clone)"
-                         }
-                     ],
-    "machine":  "bm-c",
-    "engine":  {
-                   "queue":  0,
-                   "py":  3,
-                   "burns":  0,
-                   "alive":  true,
-                   "front":  209
-               },
-    "research":  {
-                     "fresh72":  8,
-                     "status":  "GREEN"
-                 },
-    "cpu":  {
-                "load_pct":  20
-            },
-    "comfy":  {
-                  "alive":  true
-              },
-    "ram_free_gb":  1.9,
-    "infra":  {
-                  "cloudf_pending":  48,
-                  "liveness_age_h":  0.1,
-                  "prev_watch_age_h":  0.01,
-                  "cron_days_left_min":  1.9,
-                  "liveness":  "RED",
-                  "family_disabled":  1,
-                  "cron_jobs":  12
-              },
-    "gpu":  {
-                "util_pct":  100,
-                "vram_used_mb":  15426,
-                "batch":  "album-i2v",
-                "vram_total_mb":  16384
-            },
-    "llm":  {
-                "pinned_35b":  false
-            },
-    "yield_mode":  false,
-    "ts":  "2026-10-11 21:36:33",
-    "red_flags":  [
-                      {
-                          "detail":  "durable cron days_left_min=1.9 (per D4: per-band eval due 10-12)",
-                          "code":  "CRON_EVAL_DUE",
-                          "line":  "infra"
-                      },
-                      {
-                          "detail":  "pending=48 (drain needs idle CLI window)",
-                          "code":  "CLOUDF_BACKLOG",
-                          "line":  "infra"
-                      },
-                      {
-                          "detail":  "liveness verdict RED (age 0.1h)",
-                          "code":  "FLEET_LIVENESS_RED",
-                          "line":  "infra"
-                      }
-                  ],
-    "lanes":  {
-                  "gpu":  "GREEN",
-                  "cpu":  "AMBER",
-                  "llm":  "OFFLOAD"
-              },
-    "yield_note":  ""
+  "yield_note": "",
+  "llm": {
+    "pinned_35b": false
+  },
+  "red_flags": [
+    {
+      "detail": "durable cron days_left_min=1.9 (per D4: per-band eval due 10-12)",
+      "code": "CRON_EVAL_DUE",
+      "line": "infra"
+    },
+    {
+      "detail": "pending=48 (drain needs idle CLI window)",
+      "code": "CLOUDF_BACKLOG",
+      "line": "infra"
+    },
+    {
+      "detail": "liveness verdict RED (age 0h)",
+      "code": "FLEET_LIVENESS_RED",
+      "line": "infra"
+    }
+  ],
+  "engine": {
+    "front": 209,
+    "queue": 0,
+    "py": 2,
+    "burns": 0,
+    "alive": true
+  },
+  "comfy": {
+    "alive": true
+  },
+  "ts": "2026-10-11 21:38:27",
+  "machine": "bm-c",
+  "lanes": {
+    "cpu": "GREEN",
+    "gpu": "GREEN",
+    "llm": "OFFLOAD"
+  },
+  "ram_free_gb": 1.8,
+  "research": {
+    "fresh72": 9,
+    "status": "GREEN"
+  },
+  "gpu": {
+    "util_pct": 100,
+    "vram_used_mb": 14893,
+    "vram_total_mb": 16384,
+    "batch": "album-i2v"
+  },
+  "yield_mode": false,
+  "subsidiaries": [
+    {
+      "name": "BigCompute",
+      "repo": "compute\\BigCompute",
+      "note": "",
+      "status": "AMBER",
+      "c24": 0,
+      "c48": 1
+    },
+    {
+      "name": "BigDomain",
+      "repo": "domain\\BigDomain",
+      "note": "",
+      "status": "AMBER",
+      "c24": 0,
+      "c48": 2
+    },
+    {
+      "name": "BigLife",
+      "repo": "life\\BigLife",
+      "note": "strong-freeze: BigLife-OSLoop disabled by CEO census order (C-20260926), census freeze maintained per C-20261010-03; lift only by CEO",
+      "status": "EXEMPT",
+      "c24": 0,
+      "c48": 0
+    },
+    {
+      "name": "BigStream",
+      "repo": "media\\BigStream",
+      "note": "",
+      "status": "GREEN",
+      "c24": 29,
+      "c48": 69
+    },
+    {
+      "name": "BigMoney",
+      "repo": "quant\\bigmoney",
+      "note": "",
+      "status": "GREEN",
+      "c24": 441,
+      "c48": 948
+    },
+    {
+      "name": "MiniGame",
+      "repo": "gaming\\MiniGame",
+      "note": "",
+      "status": "GREEN",
+      "c24": 41,
+      "c48": 77
+    },
+    {
+      "name": "FluxVerse",
+      "repo": "gaming\\FluxVerse",
+      "note": "",
+      "status": "AMBER",
+      "c24": 0,
+      "c48": 2
+    },
+    {
+      "repo": "(no-local-clone)",
+      "c24": -1,
+      "status": "SKIP",
+      "c48": -1,
+      "name": "BigHouse"
+    }
+  ],
+  "infra": {
+    "family_disabled": 1,
+    "liveness": "RED",
+    "cron_jobs": 12,
+    "cloudf_pending": 48,
+    "cron_days_left_min": 1.9,
+    "prev_watch_age_h": 0.01,
+    "liveness_age_h": 0.0
+  },
+  "cpu": {
+    "load_pct": 37
+  }
 }

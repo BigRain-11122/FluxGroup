@@ -166,37 +166,49 @@ if (Test-Path $liveF) {
 }
 
 # ---- subsidiaries: local commit counts (NO fetch; deep audit stays with patrol) ----
-# Layout truth (bm-c probe 2026-10-11): compute/domain/life/media are PLAIN dirs inside
-# the HQ repo, NOT nested repos - `git -C <dir>` silently walks UP to the parent repo
-# and returns HQ counts (false GREEN). Those subsidiaries are measured via HQ pathspec.
-# gaming\MiniGame / gaming\FluxVerse / quant\bigmoney ARE real repos (junction/clone).
+# Layout truth (bm-c probe 2026-10-11): real repo paths are compute\BigCompute,
+# life\BigLife, domain\BigDomain, media\BigStream (outer dirs are NOT repos - a bare
+# `git -C compute` silently walks UP to the HQ repo and returns HQ counts = false GREEN).
+# BigStream production lands mostly in HQ cph4 paths, so its count merges own-repo
+# with the HQ production pathspec (max) to avoid false stall while lines are hot.
 $subs = @()
 $repoMap = @(
-  @{ n = 'BigCompute'; p = 'compute'; inHQ = $true },
-  @{ n = 'BigDomain';   p = 'domain'; inHQ = $true },
-  @{ n = 'BigLife';     p = 'life';   inHQ = $true },
-  @{ n = 'BigStream';   p = 'cph4/fleet/meme-daily-v1 cph4/fleet/shortvideo-dept cph4/fleet/mv-album-001-jay cph4/fleet/mv0001-handover cph4/fleet/h3-local-test'; inHQ = $true },
-  @{ n = 'BigMoney';    p = 'quant\bigmoney'; inHQ = $false },
-  @{ n = 'MiniGame';    p = 'gaming\MiniGame'; inHQ = $false },
-  @{ n = 'FluxVerse';   p = 'gaming\FluxVerse'; inHQ = $false }
+  @{ n = 'BigCompute'; p = 'compute\BigCompute'; inHQ = $false },
+  @{ n = 'BigDomain';   p = 'domain\BigDomain';   inHQ = $false },
+  @{ n = 'BigLife';     p = 'life\BigLife';      inHQ = $false },
+  @{ n = 'BigStream';   p = 'media\BigStream';   inHQ = $false; hqspec = 'cph4/fleet/meme-daily-v1 cph4/fleet/shortvideo-dept cph4/fleet/mv-album-001-jay cph4/fleet/mv0001-handover cph4/fleet/h3-local-test' },
+  @{ n = 'BigMoney';    p = 'quant\bigmoney';    inHQ = $false },
+  @{ n = 'MiniGame';    p = 'gaming\MiniGame';    inHQ = $false },
+  @{ n = 'FluxVerse';   p = 'gaming\FluxVerse';   inHQ = $false }
 )
 foreach ($r in $repoMap) {
   $c24 = -1; $c48 = -1; $status = 'SKIP'
-  if ($r.inHQ) {
-    $paths = @(([string]$r.p) -split ' ')
-    $c24 = @(& $GIT -C $Root log --oneline '--since=24 hours ago' -- $paths 2>$null).Count
-    $c48 = @(& $GIT -C $Root log --oneline '--since=48 hours ago' -- $paths 2>$null).Count
-    if ($c24 -gt 0) { $status = 'GREEN' } elseif ($c48 -gt 0) { $status = 'AMBER' } else { $status = 'RED' }
-  } else {
-    $rp = Join-Path $Root $r.p
-    $hasGit = ([System.IO.Directory]::Exists((Join-Path $rp '.git')) -or [System.IO.File]::Exists((Join-Path $rp '.git')))
-    if ($hasGit) {
-      $c24 = @(& $GIT -C $rp log --oneline '--since=24 hours ago' 2>$null).Count
-      $c48 = @(& $GIT -C $rp log --oneline '--since=48 hours ago' 2>$null).Count
-      if ($c24 -gt 0) { $status = 'GREEN' } elseif ($c48 -gt 0) { $status = 'AMBER' } else { $status = 'RED' }
+  $rp = Join-Path $Root $r.p
+  $hasGit = ([System.IO.Directory]::Exists((Join-Path $rp '.git')) -or [System.IO.File]::Exists((Join-Path $rp '.git')))
+  if ($hasGit) {
+    $c24 = @(& $GIT -C $rp log --oneline '--since=24 hours ago' 2>$null).Count
+    $c48 = @(& $GIT -C $rp log --oneline '--since=48 hours ago' 2>$null).Count
+    if ($r.hqspec) {
+      $hpaths = @(([string]$r.hqspec) -split ' ')
+      $h24 = @(& $GIT -C $Root log --oneline '--since=24 hours ago' -- $hpaths 2>$null).Count
+      if ($h24 -gt $c24) { $c24 = $h24 }
+      $h48 = @(& $GIT -C $Root log --oneline '--since=48 hours ago' -- $hpaths 2>$null).Count
+      if ($h48 -gt $c48) { $c48 = $h48 }
     }
+    if ($c24 -gt 0) { $status = 'GREEN' } elseif ($c48 -gt 0) { $status = 'AMBER' } else { $status = 'RED' }
   }
-  $subs += @{ name = $r.n; repo = ([string]$r.p); c24 = $c24; c48 = $c48; status = $status }
+  # exemption face (declared freezes/right-of-way: fleet/oversight/exemptions.json,
+  # maintained by windows/rounds - keeps honest data while avoiding false alarms)
+  $exNote = ''
+  $exF = Join-Path $Root 'fleet\oversight\exemptions.json'
+  if (Test-Path $exF) {
+    try {
+      $ex = Get-Content -LiteralPath $exF -Raw -Encoding UTF8 | ConvertFrom-Json
+      $ep = $ex.PSObject.Properties | Where-Object { $_.Name -eq $r.n }
+      if ($ep -and $status -ne 'SKIP' -and $status -ne 'GREEN') { $status = 'EXEMPT'; $exNote = [string]$ep.Value.reason }
+    } catch { }
+  }
+  $subs += @{ name = $r.n; repo = ([string]$r.p); c24 = $c24; c48 = $c48; status = $status; note = $exNote }
 }
 # BigHouse: no local clone on this machine fleet-wide state via ls-remote sha watch
 $bhPath = Join-Path $Root 'house\BigHouse'
@@ -316,7 +328,7 @@ try {
   $rows += $row
   if ($rows.Count -gt 400) { $rows = $rows | Select-Object -Last 400 }
   $tmp2 = $mhPath + '.tmp'
-  [IO.File]::WriteAllText($tmp2, ($rows | ConvertTo-Json -Depth 5), (New-Object System.Text.UTF8Encoding $false))
+  [IO.File]::WriteAllText($tmp2, ($rows | ConvertTo-Json -Depth 8), (New-Object System.Text.UTF8Encoding $false))
   Move-Item -LiteralPath $tmp2 -Destination $mhPath -Force
 } catch { LogLine ('machine-health append fail: ' + $_.Exception.Message) }
 
