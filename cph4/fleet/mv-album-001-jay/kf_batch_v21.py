@@ -24,6 +24,7 @@ os.makedirs(REPO_MEDIA, exist_ok=True)
 
 # 女主脸级/近身押后镜（待 CEO 点选定版——判决二最小可产集口径·v2.1 编号）
 XQ_HOLD = {"XQ01", "XQ03", "XQ04", "XQ06", "XQ09", "XQ11", "XQ12", "XQ16", "XQ22", "XQ27", "XQ29"}
+KN_HOLD = {"KN24"}  # v2.2 修正：§六 认证集=53 单（押后 12=XQ11+KN24·选A 升 med=女主定版依赖）——旧版漏押多烧 1 单
 # XQ17a-d 共用一帧（装配切分）→ 只产 XQ17a 一帧，标记别名
 ALIAS = {"XQ17a": "XQ17", "XQ17b": "XQ17", "XQ17c": "XQ17", "XQ17d": "XQ17"}
 
@@ -118,6 +119,8 @@ def main():
         for key in jobs:
             sid = key.split("|")[1]
             if key.startswith("XQ|") and sid in XQ_HOLD:
+                continue
+            if key.startswith("KN|") and sid in KN_HOLD:
                 continue
             queue.append(key)
         queue = sorted(set(queue))

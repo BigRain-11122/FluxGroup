@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-# 可爱女人-shots-v2.py - 《可爱女人》全曲帧级分镜表 v2.1（深研喂入·词级卡点·变速设计·选角案）
+# 可爱女人-shots-v2.py - 《可爱女人》全曲帧级分镜表 v2.2（深研喂入·词级卡点·变速设计·选角案）
 # v2.1=设计闸判决机械补丁（PANEL-WAVE1/2-VERDICT-20261011·改窗/改词/改挂·不动立意不动结构）
+# v2.2=复审残余清零（PANEL-REGATE-V3 §五）：city_bowl 补 aged signboards/GRADE 2001→2000 本地覆写/KN09 手持生活流
 # 权威=可爱女人-剧本-v1.md（创作核心：纸飞机投掷-归返弧）+ RESEARCH-mv-craft-80s-90s-00s（§一/三/六 可爱女人行）
 # 词级锚点=anchors/可爱女人.txt（whisper 2026-10-10 实测·词行至 236.30）·film=song 对齐·0-239.03（ffprobe 判决一实证·尾窗对齐歌长）
 # 长期律：匀速判负（掷出快/穿云极缓·逐镜变速）/做旧克制（5279 黄昏蓝调+夜段·台式奶黑）/禁看镜头（她=远景/剪影/灯窗·KN24 灯窗内初见=唯一露脸）
@@ -18,7 +19,7 @@ import prompt_lexicon as LX
 # ---- 光照块扩展（本曲世界：黄昏天台→城市灯碗→云海月晕→银河→夜天台→她的天台）----
 LX.LIGHT["roof_dusk"] = ("blue-hour dusk at 8000K over a 2000 Taipei rooftop, sodium haze rising from the streets, a water tower standing black against the sky glow")
 LX.LIGHT["roof_night"] = ("a night rooftop with the city glow rising from below the parapet, the first stars faint above the haze")
-LX.LIGHT["city_bowl"] = ("the night city bowl of Taipei seen from high above, warm sodium scatter across ink-blue darkness, shop signs and apartment windows a slow drift of small lights")
+LX.LIGHT["city_bowl"] = ("the night city bowl of Taipei seen from high above, warm sodium scatter across ink-blue darkness, aged hand-painted signboards and old neon shop fronts among the apartment windows, a slow drift of small lights")
 LX.LIGHT["cloud_moon"] = ("silver-blue moonlight at 4400K over an endless cloud deck, the cloud tops carrying a faint warm rim from the city glow far below, the moon ringed by a soft halo")
 LX.LIGHT["galaxy_gold"] = ("a broad band of warm gold star dust arched across an ink-blue night sky, fine stars seeded through the dark, the grain of the night air thick and soft")
 LX.LIGHT["warm_window"] = ("one small rooftop window lit warm at 2800K in the blue darkness, its light laying a short amber path across the roof ledge")
@@ -28,6 +29,9 @@ LX.LIGHT["streak"] = ("night air ambience with a faint warm shimmer trailing beh
 LX.CAM_MOVE["slide"] = "the camera slides laterally with small amplitude at slow speed in shallow focus"
 
 STYLE_LEAD = "as a film still from a 2000 Taiwanese music video"
+
+# 残余⑤（复审 v2.2）：专辑年代=2000——GRADE 本地覆写统一（共享词表 tw2001 块=mv0001 范特西 2001 在飞正身·不动）
+GRADE_2000 = LX.GRADE["tw2001"].replace("2001 telecine", "2000 telecine")
 
 # ---- 人物正典块 ----
 # jman 触发词前置（判决一选1）：全部含 HIM 镜自动继承；KF 工单挂 jman_v1_640_rank32_final.safetensors（L88 范式）
@@ -48,7 +52,7 @@ def kf(shot, angle, subject, light, lens="35", tex="film_day", extra=""):
     s = "A %s of %s, %s. %s. Shot on %s, %s, %s, %s." % (
         LX.SHOT_SIZE[shot], subject, LX.CAM_ANGLE[angle],
         LX.LIGHT[light].capitalize(), LX.LENS[lens],
-        LX.GRADE["tw2001"], LX.TEXTURE[tex], STYLE_LEAD)
+        GRADE_2000, LX.TEXTURE[tex], STYLE_LEAD)
     return s + (" " + extra if extra else "")
 
 I2V_TAIL = ("Warm 2000 Taiwanese telecine grade, warm skin tones, milky lifted blacks. "
@@ -92,9 +96,9 @@ NEW = [
      i2v("A close-up at eye level", CM["pushin"], "A warm rooftop window with a slim girl silhouette pausing inside the light, a red-tipped paper plane resting on the ledge, the window breathing softly as the figure stands still")),
 
     # ---- 副歌1 56.94-85.82（他仰脸+四种飞姿·hook 行首对齐=判决二配3）----
-    ("KN09", 56.94, 59.14, 0.85, "漂亮得让我面红=他天台仰脸（夜天台·判决二年2）",
+    ("KN09", 56.94, 59.14, 0.85, "漂亮得让我面红=他天台仰脸（夜天台·判决二年2·手持生活流=残余③）",
      kf("hs", "eye", "%s on the rooftop with his face tipped up to the first stars, a warm flush on his cheeks, the plane gone from his hand" % HIM, "roof_night", lens="85", tex="film_night"),
-     i2v("A head-and-shoulders framing at eye level", CM["pushin"], "A young man on a night rooftop with his face tipped up to the first stars, a warm flush on his cheeks, his eyes following something high above")),
+     i2v("A head-and-shoulders framing at eye level", CM["hand"], "A young man on a night rooftop with his face tipped up to the first stars, a warm flush on his cheeks, his eyes following something high above")),
     ("KN10", 59.14, 62.66, 1.10, "飞姿1=宽弧回旋（卡「可爱女人」hook 行首）",
      kf("med", "eye", "%s carving a wide slow arc over the city lights, its wings catching a streetlamp flare" % PLANE, "city_bowl", lens="35", tex="film_night"),
      i2v("A medium shot at eye level", CM["panr"], "A paper plane carving a wide slow arc above night city lights, its white wings flashing as they cross a streetlamp flare, the skyline wheeling past")),
@@ -249,8 +253,8 @@ if __name__ == "__main__":
     assert gap_bad == 0, "WINDOW GAPS ASSERT FAILED (%d)" % gap_bad
     print("SELF-CHECK GREEN: lint_bad=0 | WINDOW GAPS=0 (0.00-%.2f 无空档无叠窗) | 时长断言 %d 镜全过（定格延窗豁免 %d 镜·源 5s）"
           % (FILM_END, len(NEW), freeze_n))
-    md = ("# 《可爱女人》分镜表 v2.1（帧级·深研喂入·设计闸判决落地版）\n\n"
-          "> 权威=可爱女人-剧本-v1.md（投掷-归返弧·v1.1 修订同步）+RESEARCH-mv-craft §一/三/六；词级锚点=anchors/可爱女人.txt（词行至 236.30）·片长 239.03=ffprobe 判决一实证·尾窗对齐歌长\n"
+    md = ("# 《可爱女人》分镜表 v2.2（帧级·深研喂入·设计闸判决落地版·复审残余清零）\n\n"
+          "> 权威=可爱女人-剧本-v1.md（投掷-归返弧·v1.2 修订同步）+RESEARCH-mv-craft §一/三/六；词级锚点=anchors/可爱女人.txt（词行至 236.30）·片长 239.03=ffprobe 判决一实证·尾窗对齐歌长\n"
           "> 发布话术红线：禁称复刻邝盛版分镜·徐若瑄/周杰伦真名禁入提示词与物料\n"
           "> 词曲双权：发布物料必挂『词曲著作权/录音制作者权授权中』注记（承 INDEX 五）\n"
           "> jman LoRA 挂载=mv_full_kf_r2.py L88 范式（jman_v1_640_rank32_final.safetensors）·strength 0.6-0.8 先网格（判决二可7）·含 HIM 镜自动继承触发词\n"

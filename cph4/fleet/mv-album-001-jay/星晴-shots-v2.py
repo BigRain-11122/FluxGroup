@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-# 星晴-shots-v2.py - 《星晴》全曲帧级分镜表 v2.1（深研喂入·词级卡点·变速设计·选角案）
+# 星晴-shots-v2.py - 《星晴》全曲帧级分镜表 v2.2（深研喂入·词级卡点·变速设计·选角案）
 # v2.1=设计闸判决机械补丁（PANEL-WAVE1/2-VERDICT-20261011·改窗/改词/改挂·不动立意不动结构）
+# v2.2=复审残余清零（PANEL-REGATE-V3 §五 7 项一行级）：GRADE 2001→2000 本地覆写/XQ13 手持/XQ31-33 星点措辞链/XQ33 现画线句洗净/hair 长度词对齐
 # 权威=星晴-剧本-v1.md（创作核心）+ mv0002-星晴-立意案-v1 + RESEARCH-mv-craft-80s-90s-00s（§二/三/四/六 星晴行）
 # 词级锚点=anchors/星晴.txt（whisper 2026-10-10 实测·尾词 248.76）·film=song 对齐·0-259.40（ffprobe 判决一实证·尾窗定格延展收尾奏）
 # 长期律：匀速判负（逐镜变速）/做旧克制（5246 纯日戏·5279 黄昏蓝调+夜·台式奶黑 telecine）/禁看镜头/物质转场（天光暗/路灯亮/云影压路/星点亮）
@@ -34,6 +35,9 @@ LX.CAM_MOVE["slide"] = "the camera slides laterally with small amplitude at slow
 
 STYLE_LEAD = "as a film still from a 2000 Taiwanese music video"
 
+# 残余⑤（复审 v2.2）：专辑年代=2000——GRADE 本地覆写统一（共享词表 tw2001 块=mv0001 范特西 2001 在飞正身·不动）
+GRADE_2000 = LX.GRADE["tw2001"].replace("2001 telecine", "2000 telecine")
+
 # ---- 人物正典块 ----
 # jman 触发词前置（判决一选1）：全部含 HIM 镜自动继承；KF 工单挂 jman_v1_640_rank32_final.safetensors（L88 范式）
 HIM = ("jman, " + LX.ID_M_2001_BONE + ", in a plain white short-sleeve shirt, dark denim jeans and worn canvas shoes")
@@ -48,7 +52,7 @@ def kf(shot, angle, subject, light, lens="35", tex="film_day", extra=""):
     s = "A %s of %s, %s. %s. Shot on %s, %s, %s, %s." % (
         LX.SHOT_SIZE[shot], subject, LX.CAM_ANGLE[angle],
         LX.LIGHT[light].capitalize(), LX.LENS[lens],
-        LX.GRADE["tw2001"], LX.TEXTURE[tex], STYLE_LEAD)
+        GRADE_2000, LX.TEXTURE[tex], STYLE_LEAD)
     return s + (" " + extra if extra else "")
 
 I2V_TAIL = ("Warm 2000 Taiwanese telecine grade, warm skin tones, milky lifted blacks. "
@@ -72,7 +76,7 @@ NEW = [
     # ---- 前奏 0-30（她等→他来→双载出城）----
     ("XQ01", 0.00, 5.20, 0.90, "黄昏街角她靠墙等（蓝调×钠灯开场）",
      kf("med", "eye", "a 2000 Taipei street corner at dusk, %s waiting leaning against a tiled shopfront wall, her canvas bag on one shoulder, her breath visible in the cooling air" % XQ_HER, "street_dusk", lens="35", tex="film_night"),
-     i2v("A medium shot at eye level", CM["static"], "A Taipei street corner at dusk, a girl in a plain knit tank top leaning against a shopfront wall under a sodium streetlamp, her shoulder-length straight black hair with a soft side fringe moved by a light breeze, shop lights waking one by one along the street")),
+     i2v("A medium shot at eye level", CM["static"], "A Taipei street corner at dusk, a girl in a plain knit tank top leaning against a shopfront wall under a sodium streetlamp, her medium-length straight black hair with a soft side fringe moved by a light breeze, shop lights waking one by one along the street")),
     ("XQ02", 5.20, 9.80, 1.00, "他骑机车来",
      kf("med", "eye", "%s arriving on %s, slowing to a stop at the curb, his headlight washing the pavement" % (HIM, SCOOTER), "street_dusk", lens="50", tex="film_night"),
      i2v("A medium shot at eye level", CM["track"], "A young man on a 2000 Taipei scooter rolling to the curb at dusk, the round headlight steady, his plain white shirt catching the sodium orange, a distant, soft-focus girl waiting at the wall behind him")),
@@ -81,7 +85,7 @@ NEW = [
      i2v("A close-up at eye level", CM["static"], "A girl in a knit tank top stepping onto the back of a parked scooter at dusk, her hand resting on the rider's shoulder as she settles in, sodium light warm on her sleeve")),
     ("XQ04", 14.50, 20.50, 1.08, "双载穿过黄昏街景（街灯次亮）",
      kf("mw", "eye", "%s and %s riding double on the old round-headlight scooter through the dusk street, her arms around his waist, shopfront lights waking" % (HIM, XQ_HER), "street_dusk", lens="35", tex="film_night"),
-     i2v("A medium-wide shot at eye level", CM["track"], "A scooter carrying two riding through a Taipei street at dusk, the girl's shoulder-length straight black hair with a soft side fringe lifting in the moving air, shop lights passing in warm layers on both sides")),
+     i2v("A medium-wide shot at eye level", CM["track"], "A scooter carrying two riding through a Taipei street at dusk, the girl's medium-length straight black hair with a soft side fringe lifting in the moving air, shop lights passing in warm layers on both sides")),
     ("XQ05", 20.50, 30.00, 1.05, "出城上郊山公路（城灯留在身后·片头车辆记忆）",
      kf("ext", "high", "two distant figures small on %s climbing the mountain highway out of the city, the Taipei basin haze sinking behind, the road pale ahead" % SCOOTER, "dusk_blue", lens="24", tex="film_night", extra="an old sedan passing in the opposite lane"),
      i2v("An extreme wide establishing shot from a high angle", CM["pullout"], "A scooter with two riders small on a mountain highway climbing away from the city, the basin lights falling behind, the road curving up toward the ridge in the last light, an old sedan sliding past in the opposite lane")),
@@ -113,9 +117,9 @@ NEW = [
     ("XQ12", 64.62, 70.08, 1.15, "蝴蝶自在飞=她追蝶（草地停车点）",
      kf("med", "eye", "%s running a few light steps across the grass slope after a white butterfly drifting ahead of her, silvergrass heads bowing in her wake" % XQ_HER, "sunset_rake", lens="35"),
      i2v("A medium shot at eye level", CM["stead"], "A girl in a knit tank top stepping quickly across a golden grass slope after a white butterfly, silvergrass heads swaying around her, her straight hair swinging with each step")),
-    ("XQ13", 70.08, 73.42, 0.85, "因你而香=他看她（注视链·逆光）",
+    ("XQ13", 70.08, 73.42, 0.85, "因你而香=他看她（注视链·逆光·手持生活流=残余③）",
      kf("cu", "eye", "%s standing by the parked scooter watching a distant girl figure chase a white butterfly across the slope, the low sun behind her, his quiet attention carried in his stillness" % HIM, "sunset_rake", lens="50"),
-     i2v("A close-up at eye level", CM["static"], "A young man by a parked scooter watching a girl chase a butterfly across a golden slope, the low sun flaring gently behind her, his stillness holding the whole frame")),
+     i2v("A close-up at eye level", CM["hand"], "A young man by a parked scooter watching a girl chase a butterfly across a golden slope, the low sun flaring gently behind her, his stillness holding the whole frame")),
 
     # ---- 主歌2 73.42-101.36（夕阳飞翔/迎着风/手牵手数步·一步一剪）----
     ("XQ14", 73.42, 78.82, 1.00, "让夕阳飞翔=风筝线轴特写",
@@ -183,14 +187,14 @@ NEW = [
      kf("wide", "high", "two distant figures small on the road walking the white center line from lamp pool to lamp pool, their shadows paired and re-paired", "night_road", lens="35", tex="film_night"),
      i2v("A wide shot from a high angle", CM["track"], "Two figures small on a night road walking the white center line from one streetlamp pool to the next, their paired shadows stretching and turning as they pass each lamp")),
     ("XQ31", 209.36, 214.68, 0.98, "连线第二次=更亮",
-     kf("wide", "low", "the star line lighting brighter this time, its threads a warmer gold, six points now holding the line, the whole sky a deep ink-blue drum", "star_field", lens="24", tex="film_night"),
-     i2v("A wide shot from a low angle", CM["pushin"], "The star line over the dark slope brightening link by link, its pale threads warming to gold, the whole line steadying as the camera eases toward it")),
+     kf("wide", "low", "the star line lighting brighter this time, its five linked threads a warmer gold, a sixth star awake at the line's end, the whole sky a deep ink-blue drum", "star_field", lens="24", tex="film_night"),
+     i2v("A wide shot from a low angle", CM["pushin"], "The star line over the dark slope holding brighter, its five threads warm gold, a sixth star awake at the line's end, the camera easing toward it")),
     ("XQ32", 236.26, 241.38, 0.92, "星线全貌映着两个剪影",
      kf("ext", "eye", "the full star line arched above the slope, and small below it the two silhouettes standing close, their heads tipped back", "star_field_pure", lens="24", tex="film_night"),
      i2v("An extreme wide establishing shot at eye level", CM["cranedn"], "A complete line of linked stars arched above a dark slope, two tiny silhouettes below with their heads tipped back, the camera easing down toward them")),
-    ("XQ33", 241.38, 259.40, 0.96, "第六星光丝落定+定格延窗收尾奏（装配 tpad 冻结+fade·源 5s）",
-     kf("med", "eye", "the two brightest stars of the line completing one last link, and below in the dark the two silhouettes hand in hand, the grass heads still", "star_field_pure", lens="50", tex="film_night"),
-     i2v("A medium shot at eye level", CM["static"], "The last thread of light completing its link between the two brightest stars, and below in the dark two silhouettes standing hand in hand, everything settling to stillness")),
+    ("XQ33", 241.38, 259.40, 0.96, "第六星光丝落定+定格延窗收尾奏（装配 tpad 冻结+fade·源 5s·i2v 禁现画线=残余④）",
+     kf("med", "eye", "the sixth star of the line joined by one last thread of pale gold light, the line complete end to end, and below in the dark the two silhouettes hand in hand, the grass heads still", "star_field_pure", lens="50", tex="film_night"),
+     i2v("A medium shot at eye level", CM["static"], "The completed star line holding steady end to end, the newest thread of pale gold light resting between the last two stars, and below in the dark two silhouettes standing hand in hand, everything settling to stillness")),
 ]
 
 # ---- 重演律复用（副歌2 三轮词循环·已产素材回归）+ 漏窗补齐（判决二工1·≤3s=前镜定格延展/>3s=邻镜双挂）----
@@ -281,7 +285,7 @@ if __name__ == "__main__":
     assert gap_bad == 0, "WINDOW GAPS ASSERT FAILED (%d)" % gap_bad
     print("SELF-CHECK GREEN: lint_bad=0 | WINDOW GAPS=0 (0.00-%.2f 无空档无叠窗) | 时长断言 %d 镜全过（定格延窗豁免 %d 镜·源 5s）"
           % (FILM_END, len(NEW), freeze_n))
-    md = ("# 《星晴》分镜表 v2.1（帧级·深研喂入·设计闸判决落地版）\n\n"
+    md = ("# 《星晴》分镜表 v2.2（帧级·深研喂入·设计闸判决落地版·复审残余清零）\n\n"
           "> 权威=星晴-剧本-v1.md（v1.1 修订同步）+立意案 v1+RESEARCH-mv-craft §六星晴行+RESEARCH-星晴-受众洞察-v1.md；词级锚点=anchors/星晴.txt（尾词 248.76）·片长 259.40（ffprobe 判决一实证）\n"
           "> **导演事实纠偏（受众卡①）**：原版星晴 MV 导演=黄中平（三源一致·非邝盛）——镜头权威=黄中平「弱剧情/极简/定格/色彩烘托」+年代共同语法\n"
           "> 发布话术红线：禁称邝盛执导星晴（原版导演=黄中平·三源）；禁称复刻原版名场面（骑行/牵手/星空=词面意象视觉化）\n"
