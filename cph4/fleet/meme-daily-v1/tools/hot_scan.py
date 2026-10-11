@@ -7,6 +7,12 @@
 """
 import argparse, datetime, json, urllib.request, os, sys
 
+if sys.stdout is None:  # pythonw schtasks 腿（C-20261011-01 D3）：GUI 子系统 stdout=None——print 必炸，静默化
+    import io
+    sys.stdout = io.StringIO()
+if sys.stderr is None:
+    sys.stderr = io.StringIO()
+
 BOARDS = ["weibo", "zhihu", "baidu", "douyin", "bilibili", "toutiao"]
 BOARD_CN = {"weibo": "微博", "zhihu": "知乎", "baidu": "百度", "douyin": "抖音",
             "bilibili": "B站", "toutiao": "今日头条"}
