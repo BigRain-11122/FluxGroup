@@ -1,0 +1,58 @@
+{
+  "topic": "v3",
+  "slug": "zhiji-overtime",
+  "title": "车圈加班图鉴·第一集 智己发布会",
+  "duration_target": 17.0,
+  "resolution": [720, 1280],
+  "fps": 30,
+  "shots": [
+    {
+      "id": "S1", "file": "S1.mp4", "trim": [0.0, 3.0],
+      "kf_prompt": "vertical 9:16 a keynote stage shot from the back of a dark hall, a lone speaker silhouette at a podium under a single warm spotlight, a giant glowing screen behind, dramatic rim light, cinematic, text-free composition",
+      "i2v_prompt": "the silhouette gestures slowly and emotionally at the podium, the spotlight glow breathes softly",
+      "i2v_provider": "minimax_h3", "i2v_mode": "first_frame", "i2v_duration": 5, "i2v_resolution": "768P"
+    },
+    {
+      "id": "S2", "file": "S2.mp4", "trim": [0.0, 3.4],
+      "kf_prompt": "vertical 9:16 late night open-plan office seen from above, rows of desks with a few monitors glowing, one desk lamp still on, cold blue monitor light against warm lamp light, tired quiet mood, 35mm film grain, text-free composition",
+      "i2v_prompt": "the lone desk lamp flickers, monitor light glows steadily, camera drifts slowly across the office",
+      "i2v_provider": "minimax_h3", "i2v_mode": "first_frame", "i2v_duration": 5, "i2v_resolution": "768P"
+    },
+    {
+      "id": "S3", "file": "S3.mp4", "trim": [0.0, 3.4],
+      "kf_prompt": "vertical 9:16 close-up of a small child backpack hanging on a chair beside a desk calendar with many crossed-off days, soft morning window light, gentle melancholic mood, shallow depth of field, film grain, text-free composition",
+      "i2v_prompt": "the backpack sways slightly, a page of the calendar lifts in a gentle draft",
+      "i2v_provider": "minimax_h3", "i2v_mode": "first_frame", "i2v_duration": 5, "i2v_resolution": "768P"
+    },
+    {
+      "id": "S4", "file": "S4.mp4", "trim": [0.0, 3.2],
+      "kf_prompt": "vertical 9:16 two blank white posters pasted side by side on a concrete wall in an office corridor, cool daylight, minimalist satirical mood, clean composition, text-free composition",
+      "i2v_prompt": "slow push-in toward the two blank posters on the wall",
+      "i2v_provider": "minimax_h3", "i2v_mode": "first_frame", "i2v_duration": 5, "i2v_resolution": "768P"
+    },
+    {
+      "id": "S5", "file": "S5.mp4", "trim": [0.0, 4.0],
+      "kf_prompt": "vertical 9:16 an empty office chair before a darkened dual-monitor desk at night, faint blue standby glow, one ceiling light still on, quiet unresolved mood, cinematic, text-free composition",
+      "i2v_prompt": "the monitors standby light pulses slowly, the empty chair stays still",
+      "i2v_provider": "minimax_h3", "i2v_mode": "first_frame", "i2v_duration": 5, "i2v_resolution": "768P"
+    }
+  ],
+  "narration": "车圈加班图鉴第一集：智己发布会。台上深情讲述：员工阳了四次还坚守岗位；老婆生孩子，他还在加班；为了加班，孩子送寄宿学校，一周见一面。台下泪流满面——是气的。第二天友商贴海报：不鼓励加班，流量不等于真理。加班赶出来的车，你买吗？",
+  "tts_voice_query": "语速偏快的中文男声，短视频吐槽解说腔，幽默冷感",
+  "tts_speed": 1.15,
+  "narration_file": "narration.mp3",
+  "bgm_prompt": "低音单钢琴的冷幽默短视频配乐，带一点办公室键盘声节奏感，讽刺喜剧感，20秒",
+  "bgm_file": "bgm.wav",
+  "bgm_gain_db": -13,
+  "subtitles": [
+    {"t": [0.30, 2.80], "text": "车圈加班图鉴 {Y}第一集", "style": "Big"},
+    {"t": [3.20, 6.40], "text": "阳了四次 还坚守岗位", "style": "Big"},
+    {"t": [6.80, 9.60], "text": "老婆生孩子 他还在{Y}加班", "style": "Big"},
+    {"t": [10.00, 12.60], "text": "孩子送寄宿学校 一周见一面", "style": "Big"},
+    {"t": [13.00, 15.20], "text": "友商海报：{Y}流量不等于真理", "style": "Big"},
+    {"t": [15.40, 16.90], "text": "加班赶出来的车 你买吗", "style": "Big"}
+  ],
+  "watermark": "AI 生成｜本片为AI创作演绎",
+  "publish_caption": "歌颂加班的发布会，你买账吗？加班赶出来的车，你买吗？#智己汽车 #加班 #车圈 #AI动画",
+  "media_layout": "装配时 --media 指向含 S1.mp4…S5.mp4 / narration.mp3 / bgm.wav 的夹"
+}

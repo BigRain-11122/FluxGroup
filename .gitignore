@@ -1,0 +1,92 @@
+# Subsidiary product repos 鈥?independent git repos, excluded from the HQ governance layer
+gaming/MiniGame/
+quant/bigmoney/
+media/BigStream/
+gaming/FluxVerse/
+domain/BigDomain/
+life/BigLife/
+compute/BigCompute/
+house/BigHouse/
+
+# Secrets (see RULES.md section 3)
+.env
+.env.*
+
+# Codely runtime state
+**/.codely-cli/scheduled_tasks.json
+**/.codely-cli/skills/
+**/.codely-cli/auto-saves/
+**/.codely-cli/evolution.lock
+**/.codely-cli/evolution-last.log
+**/.codely-cli/night-round.lock
+**/.codely-cli/night-round-last.log
+**/.codely-cli/decision-round-last.log
+**/.codely-cli/settings.local.json
+**/.codely-cli/retention/
+**/.codely-cli/secret-scan/
+**/.codely-cli/onboarding/
+**/.codely-cli/sentinel/
+.codely/
+
+# OS junk
+Thumbs.db
+desktop.ini
+.DS_Store
+.codely-cli/audio-staging/
+
+# Runtime & lab surfaces (2026-09-28 fleet-consistency pass, CEO order O-2026-0928-013)
+.codely-cli/labbench/
+.codely-cli/phoneview/
+.codely-cli/sdxl-test/
+.codely-cli/tmp/
+cph4/.codely-cli/
+cph4/cph4/
+.ecloud_run
+**/.codely-cli/tmp*
+**/.codely-cli/t22-*
+**/.codely-cli/_trash*/
+docs/_trash/
+# BigMoney toolstack runtime (canonical-root task = O-20260928-1755 GM lane; un-ignore in GM closing commit)
+quant/toolstack/
+docs/audits/quant-audit-cadence.jsonl
+docs/audits/quant-audit-probe-20260930.json
+docs/audits/quant-audit-v2-20260930.json
+docs/audits/deliverable-metrics.json
+
+# === Workspace baseline v1 (2026-10-09 fleet git-hygiene pass, CEO order O-20261009-1715 / council C-20261009-03) ===
+# Per-dir .codely-cli: only settings.json + memory/ + evidence/ are canonical; ALL session/runtime scratch is noise.
+.codely-cli/*
+!.codely-cli/settings.json
+!.codely-cli/memory/
+!.codely-cli/evidence/
+gaming/.codely-cli/*
+!gaming/.codely-cli/settings.json
+!gaming/.codely-cli/memory/
+quant/.codely-cli/*
+!quant/.codely-cli/settings.json
+!quant/.codely-cli/memory/
+life/.codely-cli/*
+!life/.codely-cli/settings.json
+!life/.codely-cli/memory/
+media/.codely-cli/*
+!media/.codely-cli/settings.json
+!media/.codely-cli/memory/
+compute/.codely-cli/*
+!compute/.codely-cli/settings.json
+!compute/.codely-cli/memory/
+domain/.codely-cli/*
+!domain/.codely-cli/settings.json
+!domain/.codely-cli/memory/
+house/.codely-cli/*
+!house/.codely-cli/settings.json
+!house/.codely-cli/memory/
+# codely sync-conflict remnants (chongtu-file class) - junk, never commit
+**/.codely-cli/*冲突*
+# media runtime assets (media/BigStream is its own repo; MUSIC-class bulk audio never goes to GitHub)
+media/MUSIC/
+# lab & browser runtime surfaces
+cph4/labbench/
+.playwright-mcp/
+# python bytecode
+__pycache__/
+*.pyc

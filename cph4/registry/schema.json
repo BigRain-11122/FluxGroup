@@ -1,0 +1,20 @@
+{
+  "_meta": {
+    "name": "orders.jsonl",
+    "layer": "L1-registry",
+    "schema": "gov-registry/1.0",
+    "fields": ["id", "ts", "quote_sig", "disposition", "status", "source_hash", "veto_until", "physical", "status_events"],
+    "laws": [
+      "append-only: status changes append to status_events, fold last for current state",
+      "single-writer lock: cph4/registry/.orders.lock",
+      "bad lines quarantine to cph4/registry/quarantine/orders-<date>.jsonl, never swallow whole file",
+      "atomic promotion: write .new -> verify PASS -> rename",
+      "quote full text lives HERE only; derived views carry O-id+disposition+status only",
+      "encoding: read/write always UTF8 (PS5.1 GBK law)",
+      "secret-scan: registry/** in scope; leaked key in field = truncate+log+reissue"
+    ],
+    "batch": "P-57 batch-1 pilot (CEO order 2026-09-23 ~22:40 flow; v2-decision 2026-09-24 unlocked; CEO GO 2026-09-24 ~18:35)",
+    "seeded_from": "docs/orders.md @ commit (see seed tool output)",
+    "switch_criteria": "shadow-read one night all-green -> switch primary source (per R-02c plan section-7 batch1)"
+  }
+}

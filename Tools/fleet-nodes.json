@@ -1,0 +1,62 @@
+{
+  "_comment": "FleetLink node roster (CEO order 2026-10-04; law: O-20260928-1855(3) state-plane v2, server-governance v2). Enabled nodes get poked by fleet-dispatch. Poke carries signals only - git stays the sole data channel. Adoption per machine: 1) tailscale up -> send login URL to CEO for one click (bm-b/bm-c); 2) fill host/tailnet_ip/root/repos/wake_tasks/status_files here; 3) set enabled=true; 4) run: powershell -NoProfile -ExecutionPolicy Bypass -File Tools\\register-fleet-link.ps1 (idempotent, silent, no elevation needed - Tailscale-In firewall rules cover inbound). SYNC TIERS (CEO order O-20261009-1755, T1 delegated): HOT = 'poke_repos' - the poke worker pulls ONLY these on every poke (command plane: orders/decisions/laws/tools - seconds-fresh, small). WARM = every other repo in 'repos' - pulled by its OWN loop task on round cadence (woken via wake_tasks); poke worker does NOT duplicate. COLD = no auto-pull, on-demand only. Force-pull on demand: Tools\\fleet-dispatch.ps1 -Repos 'gaming/MiniGame' (allowlisted against node.repos).",
+  "port": 8790,
+  "nodes": [
+    {
+      "id": "bm-a",
+      "host": "DASHENG",
+      "tailnet_ip": "100.110.185.62",
+      "enabled": true,
+      "root": "C:/Users/sjs20/Desktop/FluxGroup",
+      "repos": [".", "gaming/MiniGame", "gaming/FluxVerse", "quant/bigmoney", "life/BigLife", "media/BigStream", "compute/BigCompute", "domain/BigDomain", "house/BigHouse"],
+      "poke_repos": ["."],
+      "wake_tasks": ["BigStream-OSLoop", "BigLife-OSLoop", "BigDomain-OSLoop", "FluxVerseTick", "MiniGameEngineTick", "Bigmoney-IterationLoop"],
+      "status_files": ["gaming/MiniGame/Design/configs/GLOBAL/fleet/a.json", "quant/bigmoney/fleet/machines/bm-a.json"],
+      "note": "O-20261010-1815: house/BigHouse remote CREATED (BigRain-11122/BigHouse, private, main@56ad205 first push done; CEO approval same day) and re-added to repos list. WARM tier note: BigHouse has no own OS loop yet - bm-a is the owner machine, local is source of truth. TIER: '.'=HOT (poke); all product repos=WARM (own OS loops self-pull on round cadence)."
+    },
+    {
+"id": "bm-b",
+      "host": "BIGMONEY",
+      "tailnet_ip": "100.82.175.0",
+      "enabled": true,
+      "root": "C:/Fluxgroup/FluxGroup",
+      "repos": [".", "quant/bigmoney"],
+      "poke_repos": ["."],
+      "wake_tasks": ["Bigmoney-IterationLoop"],
+      "status_files": ["quant/bigmoney/fleet/machines/bm-b.json"],
+      "note": "adopted 2026-10-10 bm-b r810 (O-20260909-2150 onboarding step1 / O-20261010-0010 receipt): host/root/wake_tasks confirmed locally (host=BIGMONEY actual hostname; root=C:/Fluxgroup/FluxGroup partial-clone group tree; wake=Bigmoney-IterationLoop pulls quant/bigmoney WARM tier); FluxGroup-FleetLink task registered S4U per bm-b machine law (all lane tasks S4U, InteractiveToken forbidden per 2026-09-29 blackout-root judgment); tailnet join DONE 10-06 (100.82.175.0). ADOPTION CLOSED 2026-10-10 10:31 by HQ poke (all 3 nodes SYNCED). REVISED 10:41 (O-20261010-0045): earlier clock-skew claim RETRACTED - bm-b clock is fine, the comparison baseline was wrong (fleet-reality probe skew=0). OPEN ISSUE (downgraded 10:48): the 10:36-10:41 listener-down readings were probe-timeout artifacts (1500ms too tight; 4s probe = listener UP, v1.4). Watch with fleet-reality.ps1 (timeout raised to 4000ms) - if genuinely flapping, owner fixes power plan + keepalive task. IDENTITY 2026-10-10 13:3x (fleet=3 physical boxes, CEO-confirmed): this box ALSO = BG-B in Biggame/MiniGame fleet naming (fleet/b.json heartbeat; proof R-20260924-llm-fleet.md L12 'bm-b == BG-B' + hardware match 3800X-16T/24G/RTX3070-8G). Former roster rows BG-B/BG-C were these same boxes double-counted (bm-series vs BG-series names) - removed 2026-10-10; NEVER report BG-B/C as separate machines."
+    },
+        {
+      "id": "bm-c",
+      "host": "FLUXGROUP",
+      "tailnet_ip": "100.123.74.104",
+      "enabled": true,
+      "root": "K:/Fluxgroup/FluxGroup",
+      "repos": [
+        ".",
+        "quant/bigmoney",
+        "gaming/MiniGame"
+      ],
+      "poke_repos": ["."],
+      "wake_tasks": [
+        "Bigmoney-IterationLoop",
+        "Bigmoney-SaturationEngine",
+        "Bigmoney-ResidentDispatcher",
+        "Bigmoney-Autofill",
+        "Bigmoney-PoolWorker",
+        "MiniGameEngineTick",
+        "MiniGameComfyDraftTick",
+        "MiniGameAuditTick",
+        "MiniGameGateTick",
+        "MiniGameRadarTick",
+        "MiniGameRadarDeepTick",
+        "MiniGameSiliconWatchTick"
+      ],
+      "status_files": [
+        "quant/bigmoney/fleet/machines/bm-c.json",
+        "gaming/MiniGame/Design/configs/GLOBAL/fleet/c.json"
+      ],
+      "note": "adopted 10-08 bm-c r755 (O-20261008-1205-bm-c): host/root/wake_tasks confirmed locally (host=FLUXGROUP per machine.json; root=K:/Fluxgroup/FluxGroup; wake_tasks 12 live task names verified via task enum); FluxGroup-FleetLink task registered + listener on :8790 health OK; HQ poke accepted 10-08 12:0x (fleet-dispatch verify ok=2/3) - ADOPTION CLOSED. Seconds-level dispatch live bm-a<->bm-c. IDENTITY 2026-10-10 13:3x: this box ALSO = BG-C (MiniGame fleet c.json; proof patrol-2026-09-25.md L149 'host=BG-C/bm-c YUHUWAN1904' + hardware match 3950X-32T/24G/RTX3070-16G). Same-box roster rows BG-B/BG-C removed 2026-10-10 - NEVER report as separate machines."
+    }
+  ]
+}

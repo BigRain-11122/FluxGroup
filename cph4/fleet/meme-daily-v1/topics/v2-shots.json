@@ -1,0 +1,58 @@
+{
+  "topic": "v2",
+  "slug": "sucheng-car",
+  "title": "速成车 × 一年三款",
+  "duration_target": 18.5,
+  "resolution": [720, 1280],
+  "fps": 30,
+  "shots": [
+    {
+      "id": "S1", "file": "S1.mp4", "trim": [0.0, 3.2],
+      "kf_prompt": "vertical 9:16 satirical food-photography scene, a golden fried chicken drumstick on a fast-food tray beside a small die-cast toy car, bright studio lighting, exaggerated comedic mood, clean seamless background, text-free composition",
+      "i2v_prompt": "steam rises from the hot fried chicken, camera does a slow comedic zoom toward the toy car beside it",
+      "i2v_provider": "minimax_h3", "i2v_mode": "first_frame", "i2v_duration": 5, "i2v_resolution": "768P"
+    },
+    {
+      "id": "S2", "file": "S2.mp4", "trim": [0.0, 3.2],
+      "kf_prompt": "vertical 9:16 satirical industrial scene, a glossy unbranded white family sedan standing on a long factory conveyor belt, robotic arms positioned around it, bright clean factory lighting, exaggerated mass-production mood, cinematic, text-free composition",
+      "i2v_prompt": "the conveyor belt rolls the finished car forward, robotic arms swing in quick mechanical motions",
+      "i2v_provider": "minimax_h3", "i2v_mode": "first_frame", "i2v_duration": 5, "i2v_resolution": "768P"
+    },
+    {
+      "id": "S3", "file": "S3.mp4", "trim": [0.0, 3.6],
+      "kf_prompt": "vertical 9:16 overhead shot of a desk calendar with many fanned-open pages beside a steaming coffee mug and car keys, warm late-night desk lamp light, tired comedic mood, film grain, text-free composition",
+      "i2v_prompt": "calendar pages flip forward one by one in a fast timelapse, steam curls up from the coffee",
+      "i2v_provider": "minimax_h3", "i2v_mode": "first_frame", "i2v_duration": 5, "i2v_resolution": "768P"
+    },
+    {
+      "id": "S4", "file": "S4.mp4", "trim": [0.0, 4.0],
+      "kf_prompt": "vertical 9:16 view from the back of a large auditorium, a lone speaker silhouette at a podium under a bright spotlight, a giant glowing presentation screen, dramatic atmosphere, cinematic, text-free composition",
+      "i2v_prompt": "the silhouette gestures energetically at the podium, the spotlight flickers subtly",
+      "i2v_provider": "minimax_h3", "i2v_mode": "first_frame", "i2v_duration": 5, "i2v_resolution": "768P"
+    },
+    {
+      "id": "S5", "file": "S5.mp4", "trim": [0.0, 4.5],
+      "kf_prompt": "vertical 9:16 absurd minimalist scene, a small die-cast toy car on a kitchen weighing scale beside the fried chicken drumstick, clean studio background, deadpan comedic mood, text-free composition",
+      "i2v_prompt": "the scale pointer wobbles, the camera pulls back slowly revealing the absurd comparison",
+      "i2v_provider": "minimax_h3", "i2v_mode": "first_frame", "i2v_duration": 5, "i2v_resolution": "768P"
+    }
+  ],
+  "narration": "180天的速成鸡，能吃。180天的速成车，你敢开吗？这句梗最近炸了车圈。有人台上讲：产业最大的风险，是速成。网友翻出旧视频：别人三年做一款，我们一年做三款——周末、夜里、节假日，几班倒，并行战斗！好家伙，到底谁才是速成车？答案我不敢说，评论区见。",
+  "tts_voice_query": "语速偏快的中文男声，短视频吐槽解说腔，幽默冷感",
+  "tts_speed": 1.15,
+  "narration_file": "narration.mp3",
+  "bgm_prompt": "轻快滑稽的短视频背景音乐，马戏团式节奏，幽默诙谐，适合玩梗吐槽视频，20秒",
+  "bgm_file": "bgm.wav",
+  "bgm_gain_db": -13,
+  "subtitles": [
+    {"t": [0.30, 3.00], "text": "180天速成鸡 {Y}能吃", "style": "Big"},
+    {"t": [3.40, 6.20], "text": "180天速成车 {Y}你敢开吗", "style": "Big"},
+    {"t": [6.80, 9.60], "text": "周末 · 夜里 · 节假日", "style": "Big"},
+    {"t": [9.80, 12.60], "text": "几班倒 并行战斗", "style": "Big"},
+    {"t": [13.00, 15.80], "text": "别人三年做一款 我们{Y}一年做三款", "style": "Big"},
+    {"t": [16.00, 18.30], "text": "到底谁是{Y}速成车{W}？评论区见", "style": "Big"}
+  ],
+  "watermark": "AI 生成｜本片为AI创作演绎",
+  "publish_caption": "180天速成鸡 vs 180天速成车，到底谁才是速成车？评论区聊聊。#速成车 #车圈 #新能源汽车 #AI动画",
+  "media_layout": "装配时 --media 指向含 S1.mp4…S5.mp4 / narration.mp3 / bgm.wav 的夹"
+}

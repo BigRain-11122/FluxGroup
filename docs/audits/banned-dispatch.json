@@ -1,0 +1,142 @@
+{
+ "generated": "2026-09-30T17:45:28",
+ "window_days": 30,
+ "total_hits": 18,
+ "by_direction": {
+  "BAN-01": 7,
+  "BAN-02": 1,
+  "BAN-03": 2,
+  "BAN-04": 3,
+  "BAN-05": 1,
+  "BAN-07": 3,
+  "BAN-09": 1
+ },
+ "orders": [
+  {
+   "file": "quant/bigmoney/research/FACTOR_BLEND.md",
+   "ban_id": "BAN-01",
+   "direction": "ETF cross-sectional momentum",
+   "deadline_days": 7,
+   "action_required": "supply exception statement: new_data or new_mechanism + cite BAN-01"
+  },
+  {
+   "file": "quant/bigmoney/research/FACTOR_BLEND_V2.md",
+   "ban_id": "BAN-01",
+   "direction": "ETF cross-sectional momentum",
+   "deadline_days": 7,
+   "action_required": "supply exception statement: new_data or new_mechanism + cite BAN-01"
+  },
+  {
+   "file": "quant/bigmoney/research/RETAIL_QUANT_TRACK.md",
+   "ban_id": "BAN-01",
+   "direction": "ETF cross-sectional momentum",
+   "deadline_days": 7,
+   "action_required": "supply exception statement: new_data or new_mechanism + cite BAN-01"
+  },
+  {
+   "file": "quant/bigmoney/research/STRATEGY_SYSTEM_V3.md",
+   "ban_id": "BAN-01",
+   "direction": "ETF cross-sectional momentum",
+   "deadline_days": 7,
+   "action_required": "supply exception statement: new_data or new_mechanism + cite BAN-01"
+  },
+  {
+   "file": "quant/bigmoney/research/SYSTEM_LOGIC.md",
+   "ban_id": "BAN-01",
+   "direction": "ETF cross-sectional momentum",
+   "deadline_days": 7,
+   "action_required": "supply exception statement: new_data or new_mechanism + cite BAN-01"
+  },
+  {
+   "file": "quant/bigmoney/research/digests/DIGEST-20260925-ssrn-crossref-academic-sweep.md",
+   "ban_id": "BAN-01",
+   "direction": "ETF cross-sectional momentum",
+   "deadline_days": 7,
+   "action_required": "supply exception statement: new_data or new_mechanism + cite BAN-01"
+  },
+  {
+   "file": "quant/bigmoney/research/shortline/ASTYLE_ZOO.md",
+   "ban_id": "BAN-01",
+   "direction": "ETF cross-sectional momentum",
+   "deadline_days": 7,
+   "action_required": "supply exception statement: new_data or new_mechanism + cite BAN-01"
+  },
+  {
+   "file": "quant/bigmoney/research/RETAIL_QUANT_TRACK.md",
+   "ban_id": "BAN-02",
+   "direction": "ETF cross-sectional reversal",
+   "deadline_days": 7,
+   "action_required": "supply exception statement: new_data or new_mechanism + cite BAN-02"
+  },
+  {
+   "file": "quant/bigmoney/research/digests/DIGEST-20260925-wave7-slice5.md",
+   "ban_id": "BAN-03",
+   "direction": "Single-name timing reversal or momentum at 5/10/20 days",
+   "deadline_days": 7,
+   "action_required": "supply exception statement: new_data or new_mechanism + cite BAN-03"
+  },
+  {
+   "file": "quant/bigmoney/research/digests/DIGEST-20260925-wave8-slice2.md",
+   "ban_id": "BAN-03",
+   "direction": "Single-name timing reversal or momentum at 5/10/20 days",
+   "deadline_days": 7,
+   "action_required": "supply exception statement: new_data or new_mechanism + cite BAN-03"
+  },
+  {
+   "file": "quant/bigmoney/research/EXIT_OVERLAY_P1.md",
+   "ban_id": "BAN-04",
+   "direction": "Grid trading",
+   "deadline_days": 7,
+   "action_required": "supply exception statement: new_data or new_mechanism + cite BAN-04"
+  },
+  {
+   "file": "quant/bigmoney/research/ORDERS_INDEX.md",
+   "ban_id": "BAN-04",
+   "direction": "Grid trading",
+   "deadline_days": 7,
+   "action_required": "supply exception statement: new_data or new_mechanism + cite BAN-04"
+  },
+  {
+   "file": "quant/bigmoney/research/shortline/P4_BATCH2A.md",
+   "ban_id": "BAN-04",
+   "direction": "Grid trading",
+   "deadline_days": 7,
+   "action_required": "supply exception statement: new_data or new_mechanism + cite BAN-04"
+  },
+  {
+   "file": "quant/bigmoney/research/RETAIL_QUANT_TRACK.md",
+   "ban_id": "BAN-05",
+   "direction": "Market-temperature / breadth timing as a precondition",
+   "deadline_days": 7,
+   "action_required": "supply exception statement: new_data or new_mechanism + cite BAN-05"
+  },
+  {
+   "file": "quant/bigmoney/research/digests/DIGEST-20260924-wave3.md",
+   "ban_id": "BAN-07",
+   "direction": "Small-cap / low-price factor",
+   "deadline_days": 7,
+   "action_required": "supply exception statement: new_data or new_mechanism + cite BAN-07"
+  },
+  {
+   "file": "quant/bigmoney/research/digests/DIGEST-20260925-wave4-slice10.md",
+   "ban_id": "BAN-07",
+   "direction": "Small-cap / low-price factor",
+   "deadline_days": 7,
+   "action_required": "supply exception statement: new_data or new_mechanism + cite BAN-07"
+  },
+  {
+   "file": "quant/bigmoney/research/digests/DIGEST-20260925-wave5-slice2.md",
+   "ban_id": "BAN-07",
+   "direction": "Small-cap / low-price factor",
+   "deadline_days": 7,
+   "action_required": "supply exception statement: new_data or new_mechanism + cite BAN-07"
+  },
+  {
+   "file": "quant/bigmoney/research/RETAIL_QUANT_TRACK.md",
+   "ban_id": "BAN-09",
+   "direction": "Style persistence / chasing the prior year's winning style",
+   "deadline_days": 7,
+   "action_required": "supply exception statement: new_data or new_mechanism + cite BAN-09"
+  }
+ ]
+}
