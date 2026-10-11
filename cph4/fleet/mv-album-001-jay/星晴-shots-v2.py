@@ -3,6 +3,7 @@
 # v2.1=设计闸判决机械补丁（PANEL-WAVE1/2-VERDICT-20261011·改窗/改词/改挂·不动立意不动结构）
 # v2.2=复审残余清零（PANEL-REGATE-V3 §五 7 项一行级）：GRADE 2001→2000 本地覆写/XQ13 手持/XQ31-33 星点措辞链/XQ33 现画线句洗净/hair 长度词对齐
 # v2.3=CEO 道具令（2026-10-11 22:3x「把关键帧里面的电动车换成自行车…不要出现这么掉氛围的东西」）：SCOOTER 常量退役→BICYCLE（2000 台式校园单车·钢架+后座铁架+车铃）/头灯系改小电池灯/6 帧同种子重摇（XQ02/05/07/10/13/26）
+# v2.4=CEO 服装师令（2026-10-12 00:0x「服装师也要介入…要符合那个年代的流行！」）：XQ02 骑行抵达镜加 2000 街头配饰层（腰间系格纹衬衫+银细链·白T牛仔基底保留）·同种子重摇
 # 权威=星晴-剧本-v1.md（创作核心）+ mv0002-星晴-立意案-v1 + RESEARCH-mv-craft-80s-90s-00s（§二/三/四/六 星晴行）
 # 词级锚点=anchors/星晴.txt（whisper 2026-10-10 实测·尾词 248.76）·film=song 对齐·0-259.40（ffprobe 判决一实证·尾窗定格延展收尾奏）
 # 长期律：匀速判负（逐镜变速）/做旧克制（5246 纯日戏·5279 黄昏蓝调+夜·台式奶黑 telecine）/禁看镜头/物质转场（天光暗/路灯亮/云影压路/星点亮）
@@ -79,8 +80,8 @@ NEW = [
      kf("med", "eye", "a 2000 Taipei street corner at dusk, %s waiting leaning against a tiled shopfront wall, her canvas bag on one shoulder, her breath visible in the cooling air" % XQ_HER, "street_dusk", lens="35", tex="film_night"),
      i2v("A medium shot at eye level", CM["static"], "A Taipei street corner at dusk, a girl in a plain knit tank top leaning against a shopfront wall under a sodium streetlamp, her medium-length straight black hair with a soft side fringe moved by a light breeze, shop lights waking one by one along the street")),
     ("XQ02", 5.20, 9.80, 1.00, "他骑单车来",
-     kf("med", "eye", "%s arriving on %s, slowing to a stop at the curb, one small ring of the chrome bell" % (HIM, BICYCLE), "street_dusk", lens="50", tex="film_night"),
-     i2v("A medium shot at eye level", CM["track"], "A young man on an old black campus bicycle rolling to the curb at dusk, his plain white shirt catching the sodium orange, a distant, soft-focus girl waiting at the wall behind him")),
+     kf("med", "eye", "%s arriving on %s, a plaid flannel shirt tied around his waist, a thin silver chain catching the streetlamp, slowing to a stop at the curb, one small ring of the chrome bell" % (HIM, BICYCLE), "street_dusk", lens="50", tex="film_night"),
+     i2v("A medium shot at eye level", CM["track"], "A young man on an old black campus bicycle rolling to the curb at dusk, a plaid flannel shirt tied around his waist, a thin silver chain catching the sodium orange, a distant, soft-focus girl waiting at the wall behind him")),
     ("XQ03", 9.80, 14.50, 0.95, "她上后座",
      kf("cu", "eye", "%s stepping to the bicycle and settling onto the rear rack seat behind %s, one hand on his shoulder, the streetlamp orange on her sleeves" % (XQ_HER, HIM), "street_dusk", lens="50", tex="film_night"),
      i2v("A close-up at eye level", CM["static"], "A girl in a knit tank top settling onto the rear rack of a parked bicycle at dusk, her hand resting on the rider's shoulder as she settles in, sodium light warm on her sleeve")),
@@ -286,7 +287,7 @@ if __name__ == "__main__":
     assert gap_bad == 0, "WINDOW GAPS ASSERT FAILED (%d)" % gap_bad
     print("SELF-CHECK GREEN: lint_bad=0 | WINDOW GAPS=0 (0.00-%.2f 无空档无叠窗) | 时长断言 %d 镜全过（定格延窗豁免 %d 镜·源 5s）"
           % (FILM_END, len(NEW), freeze_n))
-    md = ("# 《星晴》分镜表 v2.3（帧级·深研喂入·设计闸判决落地版·CEO 道具令执法 scooter→bicycle）\n\n"
+    md = ("# 《星晴》分镜表 v2.4（帧级·深研喂入·设计闸判决落地版·CEO 道具令+服装师令执法）\n\n"
           "> 权威=星晴-剧本-v1.md（v1.1 修订同步）+立意案 v1+RESEARCH-mv-craft §六星晴行+RESEARCH-星晴-受众洞察-v1.md；词级锚点=anchors/星晴.txt（尾词 248.76）·片长 259.40（ffprobe 判决一实证）\n"
           "> **导演事实纠偏（受众卡①）**：原版星晴 MV 导演=黄中平（三源一致·非邝盛）——镜头权威=黄中平「弱剧情/极简/定格/色彩烘托」+年代共同语法\n"
           "> 发布话术红线：禁称邝盛执导星晴（原版导演=黄中平·三源）；禁称复刻原版名场面（骑行/牵手/星空=词面意象视觉化）\n"

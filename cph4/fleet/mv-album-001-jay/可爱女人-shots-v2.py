@@ -2,6 +2,7 @@
 # 可爱女人-shots-v2.py - 《可爱女人》全曲帧级分镜表 v2.2（深研喂入·词级卡点·变速设计·选角案）
 # v2.1=设计闸判决机械补丁（PANEL-WAVE1/2-VERDICT-20261011·改窗/改词/改挂·不动立意不动结构）
 # v2.2=复审残余清零（PANEL-REGATE-V3 §五）：city_bowl 补 aged signboards/GRADE 2001→2000 本地覆写/KN09 手持生活流
+# v2.3=CEO 服装师令（2026-10-12 00:0x「服装师也要介入，毕竟是明星拍MV，你这衣服太低调了，要符合那个年代的流行！」）：HIM 常量升 2000 台式流行层次（水洗牛仔外套+图案T+宽松直筒+银链+皮绳手环·反韩化宽松剪裁不破）+KN08 她的窗内造型（条纹针织+串珠+铁刘海）·4 HIM 镜+KN08 同种子重摇（KN02/03/08/09/23）
 # 权威=可爱女人-剧本-v1.md（创作核心：纸飞机投掷-归返弧）+ RESEARCH-mv-craft-80s-90s-00s（§一/三/六 可爱女人行）
 # 词级锚点=anchors/可爱女人.txt（whisper 2026-10-10 实测·词行至 236.30）·film=song 对齐·0-239.03（ffprobe 判决一实证·尾窗对齐歌长）
 # 长期律：匀速判负（掷出快/穿云极缓·逐镜变速）/做旧克制（5279 黄昏蓝调+夜段·台式奶黑）/禁看镜头（她=远景/剪影/灯窗·KN24 灯窗内初见=唯一露脸）
@@ -35,7 +36,7 @@ GRADE_2000 = LX.GRADE["tw2001"].replace("2001 telecine", "2000 telecine")
 
 # ---- 人物正典块 ----
 # jman 触发词前置（判决一选1）：全部含 HIM 镜自动继承；KF 工单挂 jman_v1_640_rank32_final.safetensors（L88 范式）
-HIM = ("jman, " + LX.ID_M_2001_BONE + ", in a plain grey cotton t-shirt and dark straight trousers")
+HIM = ("jman, " + LX.ID_M_2001_BONE + ", in a washed denim jacket over a white graphic tee, loose straight jeans, a thin silver chain and a braided leather bracelet, white canvas shoes")
 # 可爱女人女主=徐若瑄型 2000 版块（判决一合3+判决二年3：删职业/年份统一 2000·词面零真名·KN24 灯窗内初见=唯一露脸）
 KN_HER = ("a 20-year-old Taiwanese girl of the year 2000, a softly sweet oval face with full rounded cheeks, "
           "large bright dark double-lidded eyes with gentle innocent warmth, a small straight nose, soft "
@@ -73,7 +74,7 @@ NEW = [
          "Hands folding a white paper plane on a rooftop ledge at dusk, each crease pressed flat in turn, the paper catching the last light")),
     ("KN02", 6.50, 13.00, 0.95, "天台全景（水塔/晾衣绳·城在脚下）",
      kf("med", "eye", "%s standing on a 2000 Taipei rooftop among strung clotheslines and a black water tower, the dusk city soft below the parapet" % HIM, "roof_dusk", lens="35", tex="film_night"),
-     i2v("A medium shot at eye level", CM["static"], "A young man in a grey t-shirt standing on a Taipei rooftop at dusk among strung clotheslines and a water tower, the whole city bowl dim and warm below the parapet")),
+     i2v("A medium shot at eye level", CM["static"], "A young man in a washed denim jacket standing on a Taipei rooftop at dusk among strung clotheslines and a water tower, the whole city bowl dim and warm below the parapet")),
     ("KN03", 13.00, 22.00, 1.00, "他持机立于边缘（城为底）",
      kf("cu", "eye", "%s at the parapet edge holding %s back by its tail, his eyes on the sky above the city, the wind in his fringe" % (HIM, PLANE), "roof_dusk", lens="50", tex="film_night"),
      i2v("A close-up at eye level", CM["pushin"], "A young man at a rooftop parapet holding a white paper plane back by its tail, the dusk city far below, his fringe moved by the rising wind")),
@@ -92,8 +93,8 @@ NEW = [
      kf("ext", "high", "%s small and high above the whole city bowl, and far below one single rooftop window warm-lit among the sodium scatter" % PLANE, "city_bowl", lens="24", tex="film_night"),
      i2v("An extreme wide establishing shot from a high angle", CM["static"], "A paper plane tiny above the whole night city bowl, and far below one single rooftop window burning warm among the scatter of sodium lights")),
     ("KN08", 50.48, 55.66, 0.90, "她的灯窗（让我碰到你·许愿锚）",
-     kf("cu", "eye", "a rooftop window lit warm with a slim girl silhouette pausing inside the light, a red-tipped paper plane resting on the ledge outside", "warm_window", lens="85", tex="film_night"),
-     i2v("A close-up at eye level", CM["pushin"], "A warm rooftop window with a slim girl silhouette pausing inside the light, a red-tipped paper plane resting on the ledge, the window breathing softly as the figure stands still")),
+     kf("cu", "eye", "a rooftop window lit warm, a slim girl in a striped knit top with a small beaded bracelet pausing inside the light, her straight black hair with a solid full fringe, a red-tipped paper plane resting on the ledge outside", "warm_window", lens="85", tex="film_night"),
+     i2v("A close-up at eye level", CM["pushin"], "A warm rooftop window with a slim girl in a striped knit top and a solid full fringe pausing inside the light, a red-tipped paper plane resting on the ledge, the window breathing softly as she stands still")),
 
     # ---- 副歌1 56.94-85.82（他仰脸+四种飞姿·hook 行首对齐=判决二配3）----
     ("KN09", 56.94, 59.14, 0.85, "漂亮得让我面红=他天台仰脸（夜天台·判决二年2·手持生活流=残余③）",
@@ -253,7 +254,7 @@ if __name__ == "__main__":
     assert gap_bad == 0, "WINDOW GAPS ASSERT FAILED (%d)" % gap_bad
     print("SELF-CHECK GREEN: lint_bad=0 | WINDOW GAPS=0 (0.00-%.2f 无空档无叠窗) | 时长断言 %d 镜全过（定格延窗豁免 %d 镜·源 5s）"
           % (FILM_END, len(NEW), freeze_n))
-    md = ("# 《可爱女人》分镜表 v2.2（帧级·深研喂入·设计闸判决落地版·复审残余清零）\n\n"
+    md = ("# 《可爱女人》分镜表 v2.3（帧级·深研喂入·设计闸判决落地版·CEO 服装师令执法：2000 流行衣橱）\n\n"
           "> 权威=可爱女人-剧本-v1.md（投掷-归返弧·v1.2 修订同步）+RESEARCH-mv-craft §一/三/六；词级锚点=anchors/可爱女人.txt（词行至 236.30）·片长 239.03=ffprobe 判决一实证·尾窗对齐歌长\n"
           "> 发布话术红线：禁称复刻邝盛版分镜·徐若瑄/周杰伦真名禁入提示词与物料\n"
           "> 词曲双权：发布物料必挂『词曲著作权/录音制作者权授权中』注记（承 INDEX 五）\n"
