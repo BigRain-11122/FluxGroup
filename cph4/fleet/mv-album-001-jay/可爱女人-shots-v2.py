@@ -4,6 +4,7 @@
 # v2.2=复审残余清零（PANEL-REGATE-V3 §五）：city_bowl 补 aged signboards/GRADE 2001→2000 本地覆写/KN09 手持生活流
 # v2.3=CEO 服装师令（2026-10-12 00:0x「服装师也要介入，毕竟是明星拍MV，你这衣服太低调了，要符合那个年代的流行！」）：HIM 常量升 2000 台式流行层次（水洗牛仔外套+图案T+宽松直筒+银链+皮绳手环·反韩化宽松剪裁不破）+KN08 她的窗内造型（条纹针织+串珠+铁刘海）·4 HIM 镜+KN08 同种子重摇（KN02/03/08/09/23）
 # v2.4=CEO 歌词意象令（2026-10-12 00:2x「歌词有直升机你就真出现一个直升机？？…MV能这么俗吗？」）：KN05 删真直升机→探照光柱意象（想要飞的渴望=城市之光托举·LYRIC-IMAGERY-LAW）；KN29 渲染翻车修正（模型把纸机画成真客机·词面强化 hand-folded/thin notebook-paper 小感）·两帧同种子重摇
+# v2.5=四闸预检+调色师席 10-12 修项：KN24 造型统一 KN08（条纹针织+串珠·场内连续律）+KN08 i2v 补串珠手链+KN05 银蓝月晕锚（city_moon 光块·帧重摇）
 # 权威=可爱女人-剧本-v1.md（创作核心：纸飞机投掷-归返弧）+ RESEARCH-mv-craft-80s-90s-00s（§一/三/六 可爱女人行）
 # 词级锚点=anchors/可爱女人.txt（whisper 2026-10-10 实测·词行至 236.30）·film=song 对齐·0-239.03（ffprobe 判决一实证·尾窗对齐歌长）
 # 长期律：匀速判负（掷出快/穿云极缓·逐镜变速）/做旧克制（5279 黄昏蓝调+夜段·台式奶黑）/禁看镜头（她=远景/剪影/灯窗·KN24 灯窗内初见=唯一露脸）
@@ -26,6 +27,8 @@ LX.LIGHT["cloud_moon"] = ("silver-blue moonlight at 4400K over an endless cloud 
 LX.LIGHT["galaxy_gold"] = ("a broad band of warm gold star dust arched across an ink-blue night sky, fine stars seeded through the dark, the grain of the night air thick and soft")
 LX.LIGHT["warm_window"] = ("one small rooftop window lit warm at 2800K in the blue darkness, its light laying a short amber path across the roof ledge")
 LX.LIGHT["streak"] = ("night air ambience with a faint warm shimmer trailing behind a small paper plane, the city lights below catching the paper")
+# 调色师席 10-12 修项：KN05 银蓝月晕锚（旧 city_bowl 实帧=墨青天+暖点过半+烘 vignette·违 GRADE-v1 银蓝高调·帧重摇专用）
+LX.LIGHT["city_moon"] = ("the night city bowl under a silver-blue moonlit haze, the street lights a cool fine scatter with the warm points small and sparse, two pale searchlight pillars rising thin and steady from far rooftops into the sky")
 
 # macroslide 去污（判决二可1）：扩无 cuneiform 的 slide 变体，KN01/KN18 运镜改挂
 LX.CAM_MOVE["slide"] = "the camera slides laterally with small amplitude at slow speed in shallow focus"
@@ -41,8 +44,8 @@ HIM = ("jman, " + LX.ID_M_2001_BONE + ", in a washed denim jacket over a white g
 # 可爱女人女主=徐若瑄型 2000 版块（判决一合3+判决二年3：删职业/年份统一 2000·词面零真名·KN24 灯窗内初见=唯一露脸）
 KN_HER = ("a 20-year-old Taiwanese girl of the year 2000, a softly sweet oval face with full rounded cheeks, "
           "large bright dark double-lidded eyes with gentle innocent warmth, a small straight nose, soft "
-          "medium-full rosy lips, long straight black hair with a solid blunt full fringe, in a simple light "
-          "cotton sundress")
+          "medium-full rosy lips, long straight black hair with a solid blunt full fringe, in a striped knit "
+          "top with a small beaded bracelet")
 PLANE = ("a plain white paper plane folded from a single sheet of notebook paper, its creases crisp, "
          "one wing slightly buckled from an earlier flight")
 HER_PLANE = "a small paper plane folded from cream paper with one wing tip dipped in red"
@@ -85,8 +88,8 @@ NEW = [
 
     # ---- 主歌 30.14-55.66（直升机/升空/她的灯窗/让我碰到你）----
     ("KN05", 30.14, 37.22, 1.05, "想要有直升机=纸机穿探照光柱（CEO 10-12 00:2x 歌词意象令：真飞行器入画=字面直译判负·删机·纸机=少年的直升机）",
-     kf("med", "eye", "%s climbing over the night city, two pale searchlight pillars rising from far rooftops into the sky, the paper crossing between their light" % PLANE, "city_bowl", lens="35", tex="film_night"),
-     i2v("A medium shot at eye level", CM["track"], "A white paper plane climbing over a night city, crossing between two pale searchlight pillars rising from far rooftops, the light laying a soft edge on its wings as it climbs")),
+     kf("med", "eye", "%s climbing through the silver-blue night above the city bowl, the paper crossing between two pale searchlight pillars" % PLANE, "city_moon", lens="35", tex="film_night"),
+     i2v("A medium shot at eye level", CM["track"], "A white paper plane climbing through a silver-blue night over the city bowl, crossing between two pale searchlight pillars holding thin and steady, the pillar light laying a soft edge on its wings as it climbs")),
     ("KN06", 37.22, 43.64, 1.00, "掠过屋顶升空（蓝渐深）",
      kf("med", "eye", "%s rising past the last rooftops of the city edge into deepening blue air, the streets falling away beneath it" % PLANE, "roof_dusk", lens="50"),
      i2v("A medium shot at eye level", CM["tiltup"], "A paper plane climbing past dark rooftops into deep blue air, the camera easing up with it as the street lights sink below the frame")),
@@ -95,7 +98,7 @@ NEW = [
      i2v("An extreme wide establishing shot from a high angle", CM["static"], "A paper plane tiny above the whole night city bowl, and far below one single rooftop window burning warm among the scatter of sodium lights")),
     ("KN08", 50.48, 55.66, 0.90, "她的灯窗（让我碰到你·许愿锚）",
      kf("cu", "eye", "a rooftop window lit warm, a slim girl in a striped knit top with a small beaded bracelet pausing inside the light, her straight black hair with a solid full fringe, a red-tipped paper plane resting on the ledge outside", "warm_window", lens="85", tex="film_night"),
-     i2v("A close-up at eye level", CM["pushin"], "A warm rooftop window with a slim girl in a striped knit top and a solid full fringe pausing inside the light, a red-tipped paper plane resting on the ledge, the window breathing softly as she stands still")),
+     i2v("A close-up at eye level", CM["pushin"], "A warm rooftop window with a slim girl in a striped knit top with a small beaded bracelet and a solid full fringe pausing inside the light, a red-tipped paper plane resting on the ledge, the window breathing softly as she stands still")),
 
     # ---- 副歌1 56.94-85.82（他仰脸+四种飞姿·hook 行首对齐=判决二配3）----
     ("KN09", 56.94, 59.14, 0.85, "漂亮得让我面红=他天台仰脸（夜天台·判决二年2·手持生活流=残余③）",
@@ -255,7 +258,7 @@ if __name__ == "__main__":
     assert gap_bad == 0, "WINDOW GAPS ASSERT FAILED (%d)" % gap_bad
     print("SELF-CHECK GREEN: lint_bad=0 | WINDOW GAPS=0 (0.00-%.2f 无空档无叠窗) | 时长断言 %d 镜全过（定格延窗豁免 %d 镜·源 5s）"
           % (FILM_END, len(NEW), freeze_n))
-    md = ("# 《可爱女人》分镜表 v2.3（帧级·深研喂入·设计闸判决落地版·CEO 服装师令执法：2000 流行衣橱）\n\n"
+    md = ("# 《可爱女人》分镜表 v2.5（帧级·深研喂入·设计闸判决落地版·服装师令+四闸预检+调色师修项执法）\n\n"
           "> 权威=可爱女人-剧本-v1.md（投掷-归返弧·v1.2 修订同步）+RESEARCH-mv-craft §一/三/六；词级锚点=anchors/可爱女人.txt（词行至 236.30）·片长 239.03=ffprobe 判决一实证·尾窗对齐歌长\n"
           "> 发布话术红线：禁称复刻邝盛版分镜·徐若瑄/周杰伦真名禁入提示词与物料\n"
           "> 词曲双权：发布物料必挂『词曲著作权/录音制作者权授权中』注记（承 INDEX 五）\n"

@@ -37,30 +37,52 @@ ALIAS = {"XQ17a": "XQ17", "XQ17b": "XQ17", "XQ17c": "XQ17", "XQ17d": "XQ17"}
 def clip_of(sid):
     return os.path.join(CLIPS, "XQ_%s.mp4" % ALIAS.get(sid, sid))
 
-rows = [(s[0], s[1], s[2], s[3]) for s in XQ.NEW] + [(r[0], r[1], r[2], r[3]) for r in XQ.REUSE]
+rows = [(s[0], s[1], s[2], s[3], s[4]) for s in XQ.NEW] + [(r[0], r[1], r[2], r[3], r[4]) for r in XQ.REUSE]
+
+# 剪辑席 10-12 修项（v0.1）：重演游标越界回零真重复+定格延窗源长封顶（防黑帧/防库校验炸稿）
+from pymediainfo import MediaInfo
+def _dur_of(fp):
+    try:
+        mi = MediaInfo.parse(fp)
+        for t in mi.tracks:
+            if t.track_type == "Video" and t.duration:
+                return float(t.duration) / 1000.0
+    except Exception:
+        pass
+    return 0.0
+_DUR = {}
+def _adur(fp):
+    if fp not in _DUR:
+        _DUR[fp] = _dur_of(fp)
+    return _DUR[fp]
 
 placed, missing, cursor = [], [], {}
-for sid, t0, t1, speed in rows:
+for sid, t0, t1, speed, note in rows:
     fp = clip_of(sid)
     if not (os.path.isfile(fp) and os.path.getsize(fp) > 100000):
         missing.append(sid)
         continue
     win = t1 - t0
+    adur = _adur(fp)
     src_len = win / speed
+    if "定格延窗" in note:
+        src_len = min(src_len, adur or 5.0)  # 定格延窗=源封顶实长·冻结尾在剪映内定格
     off = cursor.get(sid, 0.0)
+    if adur and off + src_len > adur:  # 重演累计越界=回零真重复摆放
+        off = 0.0
     cursor[sid] = off + src_len
-    seg = draft.VideoSegment(fp, trange_seconds(t0, duration=win),
+    seg = draft.VideoSegment(fp, trange_seconds(t0, duration=src_len * speed),
                              source_timerange=trange_seconds(off, duration=src_len), speed=speed)
-    if sid == "XQ18a":  # XF_T1 唯一叠化挂前段
+    if sid == "XQ18a":  # XF_T1 唯一叠化挂前段（时长=XQ.XF_T1 机读·剪辑席 1.1s）
         for tname in ("叠化", "溶解", "叠影"):
             t = getattr(TransitionType, tname, None)
             if t is not None:
-                seg.add_transition(t, duration="1.5s")
+                seg.add_transition(t, duration="%gs" % XQ.XF_T1["dissolve_s"])
                 break
     placed.append((seg, sid, t0))
 
 df = draft.DraftFolder(OUT_ROOT)
-script = df.create_draft("星晴-粗剪-v23", 1344, 768, allow_replace=True)
+script = df.create_draft("星晴-粗剪-v24", 1344, 768, allow_replace=True)
 script.append_tracks([
     draft.TrackSpec(draft.TrackType.audio, "原曲"),
     draft.TrackSpec(draft.TrackType.video, "主片"),
@@ -72,5 +94,5 @@ script.add_segment(song, "原曲")
 script.save()
 print("DRAFT OK: placed=%d missing=%d(%s)" % (
     len(placed), len(set(missing)), ",".join(sorted(set(missing))) or "none"), flush=True)
-print("DRAFT DIR: %s" % os.path.join(OUT_ROOT, "星晴-粗剪-v23"), flush=True)
+print("DRAFT DIR: %s" % os.path.join(OUT_ROOT, "星晴-粗剪-v24"), flush=True)
 print("NOTE: 导入法=把整个草稿文件夹复制进剪映 draft 目录（剪映 5.9/6.x 客户端）·缺片位空缺待 i2v 全落后重跑本桥补满", flush=True)
