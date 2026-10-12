@@ -31,7 +31,24 @@
 | R01_war_later | 1.5MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/6d50c2e03f4b374b9e8c859d939ed47f/R01_war_later.mp4 |
 | C02_sand_bury_v4 | 1.6MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/b9b6986b61d251cc9be1dc31379c0e82/C02_sand_bury_v4.mp4 |
 | R02_she_turns | 1.2MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/1ed09c915f5a72af80cce27abeaec9d9/R02_she_turns.mp4 |
-| C04_words_alive_v2 | 1.0MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/c09d51bcc60943d03af2047ef8674953/C04_words_alive_v2.mp4 |
+| C04_words_alive_v2_STALE | 1.0MB | ~~https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/c09d51bcc60943d03af2047ef8674953/C04_words_alive_v2.mp4~~ STALE=旧坏帧版（放射盘+沙土 3.5 FAIL·r953）·track2 幂等守卫 SKIP 事故·禁装配·新帧重烧在飞 r955 |
 | R03_goddess_dim | 1.6MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/1738bbd5f9279637c7247ae31a9f0e31/R03_goddess_dim.mp4 |
 | D02_she_reads | 0.5MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/00e83ccd0ff9f7cd30d0377910c0fb2a/D02_she_reads.mp4 |
 | C06_forever_cut_v2 | 1.5MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/fdab62f632d1654326210dc58cfc3d47/C06_forever_cut_v2.mp4 |
+| R04_river_dry | 1.9MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/5e42101dbe02fbbc14432bce58836995/R04_river_dry.mp4 |
+| D03_two_worlds | 1.1MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/6da3d2bc29525cb9eda5167e63934df0/D03_two_worlds.mp4 |
+| R02_she_turns_v2 | 0.8MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/a7778301a75ae0a6445af743b31760f7/R02_she_turns_v2.mp4 |
+| C07_stele_sink_v2 | 0.6MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/d5f938c4f6eb1237fa499ca6ebe103e5/C07_stele_sink_v2.mp4 |
+| R05_gold_threads | 1.0MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/d7d8a9fa00dd51c6bf9495a80e436c9a/R05_gold_threads.mp4 |
+| B01_weary | 0.6MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/ff7f35536f2b9958891e8e7cc9744659/B01_weary.mp4 |
+| R06_museum_verse | 0.8MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/35e292385f83ddf387307522ee8aa8e2/R06_museum_verse.mp4 |
+| E03_gaze_meet | 0.5MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/8a344e2a8e670ea4c9c2ae5ce48eb8c2/E03_gaze_meet.mp4 |
+| C03_dig_reveal_v2 | 0.9MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/f13ca9665f556cd96539f5701dadb918/C03_dig_reveal_v2.mp4 |
+| INT2v1_s9026 | 0.7MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/83e853686235309aaf0513ac595af4a3/INT2v1_s9026.mp4 |
+| C09_oath_weather_v2 | 1.1MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/c3970aef0a3df1454200237a8c1e43af/C09_oath_weather_v2.mp4 |
+| INT4v2_s9030 | 0.7MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/2a2259a51634f83db7cc527cac1cbcd8/INT4v2_s9030.mp4 |
+| R05_gold_threads_v2 | 0.8MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/e954d22104576fac432f8892fd535e0e/R05_gold_threads_v2.mp4 |
+| R02_she_turns_v3 | 0.9MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/2953fa04fd52da3741ebcbf841149006/R02_she_turns_v3.mp4 |
+| C07_stele_sink_v3 | 0.6MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/4117948b66ea5b3a1189fd1c5f080df2/C07_stele_sink_v3.mp4 |
+
+| C04_words_alive_v2_NEW | 1.0MB | git: cph4/fleet/mv0001-handover/outbound/krea2/kf-demo-20261012/bmc/C04_words_alive_v2.mp4 (group-tree delivery; CDN dedup-blocked) | QC 7.0 borderline -- track-2 frame healed (basalt+horizontal registers, hub-disc gone); glyphs remain line-glyphs not wedge-heads; LIGHT=pulse not rake. Slot C04 best-of = THIS row (STALE row above = OLD bad-frame clip, banned) |
