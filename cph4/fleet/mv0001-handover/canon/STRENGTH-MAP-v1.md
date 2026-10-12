@@ -43,5 +43,19 @@
 - 出片前：提示词六槽齐+HOLD 句在+零情绪副词+零多动词链（lint 新检项三枚：情绪副词表/动词计数>2 报警/HOLD 缺失报警）。
 - 出片后：QC 对照意图四要素（FIDELITY-SPEC §六）+**方向性逻辑检**（干净→清晰类状态镜=必查「终点态是否正确」）。
 
+## 六、鬼相排查定谳（CEO 令 17:4x「人物表演像鬼一样」·O-20261012-1745·10 帧逐格病理板实证）
+
+**病理结论**（BOARD-ghost-audit·逐格病理表在档）：主犯=**玻璃倒影第二张脸**（6/6 人像镜带灰白半透明倒影脸·视线不镜像物理——「一帧两个鬼」且**倒影脸直视镜头=注视链铁律双违**·当场判死不保）；从犯=**死寂凝视**（§二 物理调度律矫枉过正——全板零眨眼零微表情·活人变蜡像）；放大器=**血色缺失**（低照度+零红晕+倒影抽灰白+黑影人欠曝）。
+
+**三条修法（即刻执法·人脸镜全适用）**：
+1. **倒影脸清除令**：玻璃镜的倒影=只许「刻字金光/手的虚影」，**禁任何倒影人脸**（提示词明写：the glass shows only the glowing carved words and the faint shape of her hand, no reflected face；v4.3「倒影剥五官」先例升格为全律）·或去玻璃直拍侧脸（柜内亮她暗·单向物理光）·注视链的现代重演靠「她读字的侧脸+他隔人潮」不靠倒影叠脸。
+2. **生命脉冲律**（修 §二 矫枉过正）：**静止必须有脉搏**——眼有落点+每 5s 一次慢眨眼+呼吸起伏可见+发丝微动+视线在落点内 micro-sway。模板：「her eyes hold on the carved words, with one slow blink and the faint rise and fall of her breathing」。死寂=蜡像·禁零眨眼长持（单脸镜停留 ≤3.5s）。
+3. **血色保命块**（ID 块增补+调色站）：肤色锚=「warm living skin with a healthy rosy undertone, a natural blush on the cheeks」（脸永远不欠曝·面部光池保底）；倒影区压暗+脸部品红暖补；剪影镜补轮廓光（发丝高光·黑影人病根治）；KF 层 ID 块全量补血色锚+FIDELITY 主体块内加权 (living skin tone:1.5)。
+
+**Morph 防漂追补**：人脸镜 i2v=first_frame 锁+幅度降档+LoRA 重锚；帧间跳变（眉/唇/下颌重绘抖）=光流插值或快切藏拙（minterpolate 链在役）。
+
 ---
-*v1·bm-a 导演席·2026-10-12 17:3x·消费方=mv_full_shots.py i2v() v2 重构+全部在产 MV·复引 FIDELITY-SPEC-v1/CAMERA-DIRECTION-v1/ERA-MV-GRAMMAR/EXPERIENCE-LEDGER·工具包=ai-cinematic-pipeline（MIT）镜头表模板+帧链法收编 Tools 面*
+*v1.1·bm-a 导演席·2026-10-12 17:5x（§六 鬼相排查增补）·§一~五 见 v1*
+
+---
+*v1 基础版注：bm-a 导演席·2026-10-12 17:3x·消费方=mv_full_shots.py i2v() v2 重构+全部在产 MV·复引 FIDELITY-SPEC-v1/CAMERA-DIRECTION-v1/ERA-MV-GRAMMAR/EXPERIENCE-LEDGER·工具包=ai-cinematic-pipeline（MIT）镜头表模板+帧链法收编 Tools 面*
