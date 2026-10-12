@@ -9,9 +9,9 @@
 | 2 | KF1_D03b_direct_gaze_s9013 | D03b | 8.5 | **叙事/开场帧**（三分法构图最佳） | 与 #1 双帧双角色·装配定摆位 |
 | 3 | KF2v2_INT3_rubbing_s9015 | INT3 情绪脸 | 8.5 | 楔形文拓片修正版 | 桌面文稿禁推近（伪字防御） |
 | 4 | KF3v2_C01_cuneiform_s9016 | C01 情境唱锚 | 8.5 | 楔形文碑+压饱和修正版 | 凿口火星后期补 1-2 粒（禁仙气烟） |
-| 5 | KF4_INT1_desk_breath_s9013 | INT1 开场 | 8.0 | 白名单 | i2v 锁中近景禁推近 |
+| 5 | KF4v2_desk_breath_s9016 | INT1 开场 | 8.3 | **v2 换位**（眼神光+微张嘴活气补齐·灯位同侧不破接戏） | i2v 锁中近景禁推近 |
 | 6 | KF5_stele_carving_s9012 | S 组碑刻特写 | 8.0 | 白名单 | i2v 缓慢横移+烟尘遮挡盖行间相似 |
-| 7 | E01c_first_line_s9012 | E01c 落笔近特 | 8.0 | 白名单 | 字迹后期贴字备案·景别锁死 |
+| 7 | E01cv2_first_line_s9016 | E01c 落笔近特 | 8.3 | **v2 换位**（释然+catchlight 双达标） | **接戏检查项：桌面左右与旧版镜像（杯/卡带左置）——装配站核对 E01a/b 邻镜桌面方位·冲突则退回 s9012** |
 
 备选池：KF2v2 s9017（8.0）/ KF4 s9014 / E01c s9013。
 淘汰池：KF1 s9012（死鱼眼+韩味）/ KF3 s9014（凿尖悬空）/ KF5 s9014（文字融化）/ KF3v2 s9015（锤无柄）/ KF3v2 s9017（锤消失）/ KF2v2 s9016（眼神死）。
@@ -23,9 +23,9 @@
 2. **KF1_s9013**：The young man in the grey shirt looks into the camera for a held half-beat then lets his gaze drift one inch toward the glass case, one slow blink, blurred silhouettes pass behind, static medium close-up, warm tungsten museum light, deep black background, lighting wardrobe hair and set stay unchanged for the whole shot.
 3. **KF2v2_s9015**：The young man studies the small wedge-marked photograph under the lamp, his eyes travel slowly along one row of marks, lips part slightly, one slow blink, the lamp flame breathes once, static intimate close-up, warm 2200K desk lamp island of light, room beyond stays black, lighting wardrobe hair and set stay unchanged for the whole shot.
 4. **KF3v2_s9016**：The Babylonian carver raises the round stone mallet a little higher and holds the strike frozen, his eyes stay fixed on the chisel tip, one slow breath lifts his shoulders, fine stone dust drifts from the tip, the torch flames flicker gently, static close-up camera, 2000K torchlight rim on his profile, black velvet darkness behind, lighting wardrobe hair and set stay unchanged for the whole shot.
-5. **KF4_s9013**：The young man slumped at the desk lets out one slow breath, his shoulders rise and fall almost imperceptibly, one slow blink, the fountain pen slips a centimeter from his fingers, the desk lamp glow breathes once, static close-up camera, warm 2200K lamp island in the black room, lighting wardrobe hair and set stay unchanged for the whole shot.
+5. **KF4v2_s9016**：The young man slumped at the desk lets out one slow breath, his shoulders rise and fall almost imperceptibly, one slow blink, the fountain pen slips a centimeter from his fingers, the desk lamp glow breathes once, static close-up camera, warm 2200K lamp island in the black room, lighting wardrobe hair and set stay unchanged for the whole shot.
 6. **KF5_s9012**：The carved basalt face holds still, torch flames flicker slowly at frame edge, thin smoke drifts across the cuneiform rows, fine dust motes float through the firelight, static close-up camera, 2000K raking torchlight on the incised strokes, deep crushed blacks, everything stays unchanged for the whole shot.
-7. **E01c_s9012**：The young man watches the fountain pen draw one short stroke on the page, his eyes follow the fresh ink line, one slow blink, the lamp filament glows steady, static extreme close-up, warm 2200K tungsten light on page and face, black room beyond, lighting wardrobe hair and set stay unchanged for the whole shot.
+7. **E01cv2_s9016**：The young man watches the fountain pen draw one short stroke on the page, his eyes follow the fresh ink line, one slow blink, the lamp filament glows steady, static extreme close-up, warm 2200K tungsten light on page and face, black room beyond, lighting wardrobe hair and set stay unchanged for the whole shot.
 
 ## 帧文件 CDN 直链（@bm-c i2v 拉取用·PUT 200 已验）
 
@@ -33,9 +33,9 @@
 2. KF1_s9013 → https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/c52c7553cfb6e5b1fbfb69be46a4744e/KF1_D03b_direct_gaze_s9013.png
 3. KF2v2_s9015 → https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/bf2e98f728ad79fc02f8640447fbfb65/KF2v2_INT3_rubbing_s9015.png
 4. KF3v2_s9016 → https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/2ea3e92f1b8e231dac52c27dafedff38/KF3v2_C01_cuneiform_s9016.png
-5. KF4_s9013 → https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/7ba6a0202211506cb39b6622a2c2c976/KF4_INT1_desk_breath_s9013.png
+5. KF4v2_s9016 → https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/476372b5f138c2ab9db1d2a65cf9ff27/KF4v2_desk_breath_s9016.png
 6. KF5_s9012 → https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/53ee70f36de25c60405083bfafce6d54/KF5_stele_carving_s9012.png
-7. E01c_s9012 → https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/965f44f353e4ad323919d46ea96dd8ef/E01c_first_line_s9012.png
+7. E01cv2_s9016 → https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/fddf9408e8727c6973441692cb865f3f/E01cv2_first_line_s9016.png
 
 ---
-*v1·bm-a 导演席签章·bm-c 帧批（seed 9011）到达后逐镜对审·更优者换位（回炉律）*
+*v1.1·bm-a 导演席签章（KF4/E01c 两镜 v2 换位 8.0→8.3·CDN 已同步）·bm-c 帧批（seed 9011）到达后逐镜对审·更优者换位（回炉律）*
