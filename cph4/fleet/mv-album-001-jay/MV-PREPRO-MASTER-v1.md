@@ -9,7 +9,7 @@
 | 包 | 内容 | 验收门 |
 |---|---|---|
 | ①立意包 | 歌词逐句六轴拆解（意象/时空/人称/修辞/情感值/视觉指示）+因果链闭合表+意象转化表（LYRIC-IMAGERY-LAW 逐句过·禁字面直译）+留白纪律 | 每句有出处·每层有回答·零空转 |
-| ②受众包 | 全网高赞解读/粉丝记忆拉全+原版记忆点清单+受众共鸣律（老粉 3 秒认得出·升华只加层不换底） | 记忆点逐条有出处 |
+| ②受众包 | **AUDIENCE-VOICE 三步法跑毕**（S1 专业拆解/乐评/词曲人访谈+S2 跨平台独立复现 ≥2 处的共识金句+S3 梗面点缀）+原版记忆点清单+受众共鸣律（老粉 3 秒认得出·升华只加层不换底·用户意见≠点子照搬=提炼共识做意境升华） | 记忆点逐条有出处+三步法分层留档 |
 | ③对标包 | 年代拍摄语法拉片（ERA-MV-GRAMMAR 七律+镜头预算表）+导演谱系对标（邝盛拍摄/剪辑/调色+方文山词美学）+年代考据全件（服装/道具/材质/灯光年代正确） | 拉片表+考据清单落档 |
 | ④技术包 | 引擎档位定谳（int8/云端分配·档位污染检）+**一致性方案开工前实锚**（LoRA/参照帧挂载验证·ID 块逐字复用）+词表 lint 三名单+i2v 运动规格（静态微动安全区·口型禁令） | 挂载实跑验证件（禁口头说挂了） |
 
@@ -50,4 +50,4 @@
 4. **导演席拍板权**（O-20261012-1135）：创作面决策=导演席终审拍板（十席盲评+判据支撑），「呈 CEO 定版」类流程废止；CEO 保留面=发布授权/红线/资源/物理件；CEO 见问题自会说，未说=自推进。
 
 ---
-*v1·bm-a 导演席·2026-10-12 11:4x·索引复引：CASTING-LAW/GRADE-LAW/WARDROBE-LAW/LYRIC-IMAGERY-LAW/EXPERT-PANEL-PROTOCOL/PUBLISH-CHECKLIST/PROMPT-SPEC/ERA-MV-GRAMMAR-v1/EXPERIENCE-LEDGER-v1*
+*v1·bm-a 导演席·2026-10-12 11:4x（12:3x 增补受众包 AUDIENCE-VOICE 引用）·索引复引：CASTING-LAW/GRADE-LAW/WARDROBE-LAW/LYRIC-IMAGERY-LAW/AUDIENCE-VOICE-v1/EXPERT-PANEL-PROTOCOL/PUBLISH-CHECKLIST/PROMPT-SPEC/ERA-MV-GRAMMAR-v1/EXPERIENCE-LEDGER-v1*
