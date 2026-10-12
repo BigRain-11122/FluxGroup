@@ -22,3 +22,9 @@
 | C03_dig_reveal | 0.9MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/5aa54de7510b6852fffa5ceac11104e9/C03_dig_reveal.mp4 |
 | C02_sand_bury_v2 | 1.9MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/f84d7cd25134614ead46beb9afc98f01/C02_sand_bury_v2.mp4 |
 | C04_words_alive | 0.9MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/001fbff9d916f586bad083a462d376e5/C04_words_alive.mp4 |
+| C05_flame_gap | 0.5MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/b3a57fc04da0c014f9dd1c07a2fa0a56/C05_flame_gap.mp4 |
+| C02_sand_bury_v3 | 1.8MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/8c8d55894e73341a0a9f02839eb776e8/C02_sand_bury_v3.mp4 |
+| C06_forever_cut | 1.1MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/027a0ee3069b42ffeb175a7bdfd9e8a2/C06_forever_cut.mp4 |
+| C07_stele_sink | 0.6MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/1701613f0ba75addb4ea1a641b61f62e/C07_stele_sink.mp4 |
+| C08_strike_burst | 1.5MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/ee920884b4c34cee2433fcae9bfb6d4e/C08_strike_burst.mp4 |
+| C09_oath_weather | 1.1MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/24fa90ca8261a6adb5ae6d4defba235c/C09_oath_weather.mp4 |
