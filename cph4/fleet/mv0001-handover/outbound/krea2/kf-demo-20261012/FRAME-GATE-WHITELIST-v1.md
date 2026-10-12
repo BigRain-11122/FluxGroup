@@ -12,6 +12,9 @@
 | 5 | KF4v3_desk_breath_s9019 | INT1 开场 | 8.5 | v3 换位（呼吸感+毛衣绒面光泽全组最佳） | 灯头入画 1 个=点预算内·i2v 锁中近景 |
 | 6 | KF5v3_stele_s9018 | S 组碑刻特写 | 8.5 | v3 换位（暖光纵向渐变·零烟版） | 真烟后期合成候补镜（合成站） |
 | 7 | E01cv3_first_line_s9019 | E01c 落笔近特 | 8.0 | v3 换位（释然+发光皮肤+握笔高光） | 灯头入画 1 个=点预算内·桌面方位接戏检查项保留 |
+| 8 | INT2v1_paper_fight_s9026 | INT2 稿纸涂改 | 8.5 | 眼半格在场·眼先于手（A/B 无脸 FAIL 判例入册） | 桌面文稿禁推近 |
+| 9 | INT4v2_reflection_s9030 | INT4 拓片预载 | 7.5 | **导演改判**：双曝倒影=生成器不可达→转后期合成正法；今夜用拓片特写（无脸零风险）·穿越双曝后期补 | 字层后期备案 |
+| 10 | INT5v1_head_bow_s9026 | INT5 睡去侧脸 | 9.0 | 睡颜自然+帧缘暖光漫入=穿越起手桥 | 单光源合规 |
 
 备选池：KF1v4 s9021（暗调压抑情绪帧）/ KF1v4 s9022（发丝金边特写变体）/ KF2v2 s9015（8.5·灯头出画版·若 i2v 灯头成患则回位）/ KF3v3 s9020（9.0 并列）/ E01c v3 s9018。
 淘汰池（本批新增）：v3 全组 s9020（KF2/KF4/E01c 双灯头硬违——种子级系统性翻车·s9020 弃用律）/ KF1v3 anchor 全组（顶部烟体=烟律 FAIL·v4 已替）/ KF1v3 narrative s9018-s9019（展柜过亮抢焦点）。
@@ -26,6 +29,9 @@
 5. **KF4v3_s9019**：The young man slumped at the desk in the navy knit sweater lets out one slow breath, his shoulders rise and fall almost imperceptibly, one slow blink, the fountain pen slips a centimeter from his fingers, static close-up camera, single warm key light from the lamp outside the frame, soft fill on his face, faint ambient lift in the black room, lighting wardrobe hair and set stay unchanged for the whole shot.
 6. **KF5v3_s9018**：The carved basalt face holds completely still, the raking light flickers only at the faintest level at the frame edge, fine dust motes float slowly through the light beam, static close-up camera, single torch key light from outside the frame, soft amber fill across the stone, faint ambient glow lifting the deepest rows, everything stays unchanged for the whole shot.
 7. **E01cv3_s9019**：The young man watches the fountain pen draw one short stroke on the page, his eyes follow the fresh ink line, one slow blink, static extreme close-up, single warm key light from the lamp outside the frame, soft silver-gold rim light on his hair, faint ambient glow beyond, lighting wardrobe hair and set stay unchanged for the whole shot.
+8. **INT2v1_s9026**：His hand crosses out one line of lyrics with the fountain pen, pressing through the word, his eyes at the top of the frame watching his own hand, one slow blink, static extreme close-up over the page, single warm key light from the lamp outside the frame, soft fill, faint ambient lift, lighting wardrobe hair and set stay unchanged for the whole shot.
+9. **INT4v2_s9030**：The wedge marks on the rubbing photograph hold still under the warm light, the paper grain visible, the faintest breath of the unseen lamp, static close-up, single warm key light from outside the frame, soft fill, everything stays unchanged for the whole shot.
+10. **INT5v1_s9026**：The young man sleeps on his folded arms at the desk, completely still, one faint warm glow very slowly growing at the far frame edge, static close-up, single warm key light from the lamp outside the frame, soft rim light on his hair, the faint edge glow kept low, lighting wardrobe hair and set stay unchanged for the whole shot.
 
 ## 帧文件 CDN 直链（@bm-c i2v 拉取用·PUT 200 已验）
 
@@ -36,6 +42,9 @@
 5. KF4v3_s9019 → https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/48fb9337ec4756252903252b17b95f0d/KF4v3_desk_breath_s9019.png
 6. KF5v3_s9018 → https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/422316910bcaf35ab631c1615e53d564/KF5v3_stele_s9018.png
 7. E01cv3_s9019 → https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/c7040b89e3753ed238c09c1974e9d91c/E01cv3_first_line_s9019.png
+8. INT2v1_s9026 → https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/5ad32d4f7f8d8be0e8142af03e7ffbe5/INT2v1_paper_fight_s9026.png
+9. INT4v2_s9030 → https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/1f3d51d1f748c7bbf88e18fb783baed9/INT4v2_reflection_s9030.png
+10. INT5v1_s9026 → https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/caf5e720bb2b5b09d8a1d9ed01ad2166/INT5v1_head_bow_s9026.png
 
 ---
-*v1.2·bm-a 导演席签章（v3/v4 全帧换位·服装圣经+灯光三件套+零烟执法后产物）·bm-c 帧批（seed 9011）到达后逐镜对审·更优者换位（回炉律）*
+*v1.3·bm-a 导演席签章（v3/v4 全帧换位+INT 缺口三帧入册·INT4 双曝转后期合成判例）·i2v 波 A 吃本表 10 帧·bm-c seed9011 帧批到达后逐镜对审·更优者换位（回炉律）*
