@@ -9,6 +9,10 @@
 # v2.7=XQ26 三烧剪影锚：night_ride 光块（二烧构图修复但亮脸复发——faces in shadow 入光块+subject 减负防超词限）
 # v2.8=XQ26 四烧=导演席构图定谳：改背跟视角 seen from behind（三烧 faces in shadow 仍被 Krea2 暖肤惯性打穿——**正面脸剪影=该模型不可达判例**·搂腰背影=剪影结构性免疫+拥抱读感更佳=设计内升华）
 # v2.9=XQ26 五烧：XQ_HER_BACK 背影专用块（四烧实证=背影位仍被 XQ_HER 脸部词诱导出回眸亮脸——**背影镜必须去脸部词**·身份标记=发型+发卡+服装）+night_ride 沉影措辞
+# v2.10=held12 QC 回炉 2 格修词：XQ09 悬垂分词归位（her hand reaching——旧句 reaching 落最近主语=男主伸手）+XQ27 视线离轴（画内无他时 turning back toward him=模型读成看镜头·改 over her shoulder toward the road behind）
+# v2.11=XQ27 三烧回归仰脸夜版本体（二烧瞳孔仍居中——**Krea2 转身先验=看镜头**·仰脸向花=结构性离轴·NOTE 本义「她仰脸夜版」=XQ11 夜变体）
+# v2.12=XQ27 四烧=eyes closed 结构锁（三连看镜头定谳：单人脸+暖光=Krea2 瞳孔居中先验不可改——闭眼=XQ11 同曲过审先例·**单人脸暖光镜一律给眼睛明确状态**：闭眼/望具体目标物）
+# v2.13=XQ27 五烧=止损定谳（四连看镜头含 eyes closed 失效）——**单人脸+暖光构图=看镜头先验不可破**·弃人脸变体回归 NOTE 本义「路旁花影」：花主体+她发肩软边入画（XQ26 同款去脸部词根治）
 # 权威=星晴-剧本-v1.md（创作核心）+ mv0002-星晴-立意案-v1 + RESEARCH-mv-craft-80s-90s-00s（§二/三/四/六 星晴行）
 # 词级锚点=anchors/星晴.txt（whisper 2026-10-10 实测·尾词 248.76）·film=song 对齐·0-259.40（ffprobe 判决一实证·尾窗定格延展收尾奏）
 # 长期律：匀速判负（逐镜变速）/做旧克制（5246 纯日戏·5279 黄昏蓝调+夜·台式奶黑 telecine）/禁看镜头/物质转场（天光暗/路灯亮/云影压路/星点亮）
@@ -114,8 +118,8 @@ NEW = [
      kf("med", "high", "a large soft cloud shadow sliding across the highway asphalt, the road grain deepening as the shadow passes over it", "day_road", lens="35"),
      i2v("A medium shot from a high angle", CM["static"], "The pale asphalt of a mountain highway as a large soft cloud shadow slides across it edge to edge, the road brightening and dimming as the cloud passes")),
     ("XQ09", 43.86, 47.00, 0.88, "捏成你的形状=她对云伸手",
-     kf("med", "eye", "%s on the rear rack seat of %s, the boy pedaling ahead of her, reaching one hand up toward the far sky, a tall cloud standing over the ridge like a quiet figure, her fingers open" % (XQ_HER, BICYCLE), "day_road", lens="50"),
-     i2v("A medium shot at eye level", CM["pushin"], "A girl on the rear rack of a moving old campus bicycle, the boy pedaling in front of her, reaching one hand slowly up toward a tall cloud over the ridge, her fingers spreading against the sky, the cloud holding its shape")),
+     kf("med", "eye", "%s on the rear rack seat of %s behind the boy pedaling ahead of her, her hand reaching up toward the far sky, a tall cloud standing over the ridge like a quiet figure, her fingers open" % (XQ_HER, BICYCLE), "day_road", lens="50"),
+     i2v("A medium shot at eye level", CM["pushin"], "A girl on the rear rack of a moving old campus bicycle, the boy pedaling in front of her, her hand reaching slowly up toward a tall cloud over the ridge, her fingers spreading against the sky, the cloud holding its shape")),
     ("XQ09b", 47.00, 51.80, 0.92, "一口一口吃掉忧愁=风把路边蒲公英逐颗吃走（判决一 TOP3 补镜）",
      kf("cu", "high", "wind lifting dandelion seeds one by one off the roadside grass, each small white head breaking free and drifting away over the road", "day_road", lens="85"),
      i2v("A close-up from a high angle", CM["static"], "Dandelion seed heads breaking free of the roadside grass one by one, each white head lifting and drifting away over the warm road, the bare stems left behind")),
@@ -185,9 +189,9 @@ NEW = [
     ("XQ26", 162.82, 172.38, 1.06, "夜骑=载着你仿佛载着阳光（夜版）",
      kf("med", "eye", "%s pedaling %s seen from behind, %s seated side-saddle on its rear rack, her arms around his waist, her head bowed toward his back" % (HIM, BICYCLE_SHORT, XQ_HER_BACK), "night_ride", lens="35", tex="film_night"),
      i2v("A medium shot at eye level", CM["track"], "An old bicycle carrying two down a night mountain road seen from behind, the girl seated on the rear rack leaning with the curves, both riders dark silhouettes, the small lamp's thin warm beam touching the asphalt ahead, far sodium lights sliding past")),
-    ("XQ27", 173.48, 181.44, 1.00, "她仰脸夜版=路旁花影（她转身笑）",
-     kf("hs", "eye", "%s stopped beside the road in the small bicycle lamp glow, turning back toward him with a smile, white roadside flowers catching the light around her" % XQ_HER, "night_road", lens="50", tex="film_night"),
-     i2v("A head-and-shoulders framing at eye level", CM["static"], "A girl beside a night road in the warm glow of a small bicycle lamp, white flowers catching the light around her as she turns back toward the boy behind her with a slow smile")),
+    ("XQ27", 173.48, 181.44, 1.00, "路旁花影夜版（花主体+她发肩软边·人脸变体四翻车判例弃用=单人脸暖光构图看镜头先验不可破）",
+     kf("cu", "eye", "white roadside flowers catching the small bicycle lamp glow, her shoulder and the soft edge of her hair entering the frame beside them, the night road dark beyond", "night_road", lens="50", tex="film_night"),
+     i2v("A close-up at eye level", CM["static"], "White flowers swaying in the warm glow of a small bicycle lamp, her hair edge and shoulder soft at the frame edge, the night road breathing dark beyond")),
     ("XQ28", 182.54, 192.80, 0.90, "风筝更高=夕飞夜版（逆着星）",
      kf("wide", "eye", "%s high in the dark sky above the slope, its paper dim against the stars, the string running down to a small hand at the frame edge" % KITE, "star_field", lens="35", tex="film_night"),
      i2v("A wide shot at eye level", CM["tiltup"], "A diamond kite small and dark high in a starfield night, its pale string running down out of frame, the stars steady behind it as the paper sways")),
@@ -298,7 +302,7 @@ if __name__ == "__main__":
     assert gap_bad == 0, "WINDOW GAPS ASSERT FAILED (%d)" % gap_bad
     print("SELF-CHECK GREEN: lint_bad=0 | WINDOW GAPS=0 (0.00-%.2f 无空档无叠窗) | 时长断言 %d 镜全过（定格延窗豁免 %d 镜·源 5s）"
           % (FILM_END, len(NEW), freeze_n))
-    md = ("# 《星晴》分镜表 v2.9（帧级·深研喂入·设计闸判决落地版·CEO 道具令+服装师令+五席修词执法）\n\n"
+    md = ("# 《星晴》分镜表 v2.13（帧级·深研喂入·设计闸判决落地版·CEO 道具令+服装师令+五席修词执法）\n\n"
           "> 权威=星晴-剧本-v1.md（v1.1 修订同步）+立意案 v1+RESEARCH-mv-craft §六星晴行+RESEARCH-星晴-受众洞察-v1.md；词级锚点=anchors/星晴.txt（尾词 248.76）·片长 259.40（ffprobe 判决一实证）\n"
           "> **导演事实纠偏（受众卡①）**：原版星晴 MV 导演=黄中平（三源一致·非邝盛）——镜头权威=黄中平「弱剧情/极简/定格/色彩烘托」+年代共同语法\n"
           "> 发布话术红线：禁称邝盛执导星晴（原版导演=黄中平·三源）；禁称复刻原版名场面（骑行/牵手/星空=词面意象视觉化）\n"
