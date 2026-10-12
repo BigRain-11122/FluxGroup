@@ -18,3 +18,4 @@
 | N06_poem_light | 2.4MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/f5fcdfbb1931d2a6ef908ed974a711f3/N06_poem_light.mp4 |
 | N07_fire_breath | 1.6MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/a7e9686cc99f954fa12697a69f55cf37/N07_fire_breath.mp4 |
 | C02_sand_bury | 2.1MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/7bad9ebc051466c569cebc3c2e50176b/C02_sand_bury.mp4 |
+| N02_crowd_her_v2 | 1.4MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/6cb5e3627ea27daa361c2b7c5413eb53/N02_crowd_her_v2.mp4 |
