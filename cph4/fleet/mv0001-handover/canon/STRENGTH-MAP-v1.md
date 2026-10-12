@@ -54,8 +54,22 @@
 
 **Morph 防漂追补**：人脸镜 i2v=first_frame 锁+幅度降档+LoRA 重锚；帧间跳变（眉/唇/下颌重绘抖）=光流插值或快切藏拙（minterpolate 链在役）。
 
+## 七、眼神戏律（CEO 令 19:3x「演员的眼神要有戏啊，都感觉呆呆的，一看就是AI」·O-20261012-1935）
+
+**定谳**：生命脉冲律（§六）解决「活」·不解决「戏」——眨眼呼吸造不出眼神内容。「一看就是 AI」的第一视觉指纹=**死鱼眼**（眼底无光·瞳孔平涂黑·视线无内容）。眼神的戏=眼里有光+视线有意图+眼周有张力——三层全要。
+
+**三法（即刻执法·全 FACE 镜必挂）**：
+1. **EYE-DRAMA 块**（FIDELITY 八块之[表情块]强化版·ID 块常量补）——物理层：`her eyes glisten with a warm catchlight, the dark iris detailed and luminous, a faint wet gleam along the lower lid`（**catchlight=活眼第一信号**·KF 必有）+ 眼轮匝肌张力（`the lids ease to half as he watches her`·内眼角 softening）；内容层=视线带意图的物理写法（不是「深情」是「数着她的睫毛式的凝视」/「像读一封情书那样读着刻字」——具体到行为）。权重：`(glistening catchlight in her eyes:2.5)(gaze intent:1.5)`。
+2. **戏在帧律**：**眼神的戏在第一帧（KF）·不在 i2v 动作里**——i2v 不造戏（动眼球=漂移高危），只保活（呼吸+慢眨）；KF 眼神戏不过关=回炉 KF，禁指望视频层救。
+3. **QC 眼神戏检（一票否决制）**：每 FACE 镜逐帧判——①眼底有无 catchlight ②视线有无意图（看着什么=想要/想念/失去的内容感）③眼周肌肉有无张力——三项任一缺=死鱼眼判定·直接回炉（并入 FRAME-GATE 机器检清单·鬼相三检升格为四检）。
+
+**执法面**：mv_full_shots.py kf() 表情块按 EYE-DRAMA 重构·HIM/HER ID 块补眼常量（glisten/catchlight/amber flecks）·FEMALE-LEAD-ERA-DNA 与星晴/可爱女人 ID 块同补·已烧 FACE 帧回溯过眼神戏检（回炉白名单判定）·夜窗烧帧执法新块。
+
 ---
-*v1.1·bm-a 导演席·2026-10-12 17:5x（§六 鬼相排查增补）·§一~五 见 v1*
+*v1.2·bm-a 导演席·2026-10-12 19:4x（§七 眼神戏律增补）·§一~六 见前*
+
+---
+*v1.1·bm-a 导演席·2026-10-12 17:5x（历史版本线见上）*
 
 ---
 *v1 基础版注：bm-a 导演席·2026-10-12 17:3x·消费方=mv_full_shots.py i2v() v2 重构+全部在产 MV·复引 FIDELITY-SPEC-v1/CAMERA-DIRECTION-v1/ERA-MV-GRAMMAR/EXPERIENCE-LEDGER·工具包=ai-cinematic-pipeline（MIT）镜头表模板+帧链法收编 Tools 面*
