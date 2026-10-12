@@ -19,3 +19,6 @@
 | N07_fire_breath | 1.6MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/a7e9686cc99f954fa12697a69f55cf37/N07_fire_breath.mp4 |
 | C02_sand_bury | 2.1MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/7bad9ebc051466c569cebc3c2e50176b/C02_sand_bury.mp4 |
 | N02_crowd_her_v2 | 1.4MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/6cb5e3627ea27daa361c2b7c5413eb53/N02_crowd_her_v2.mp4 |
+| C03_dig_reveal | 0.9MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/5aa54de7510b6852fffa5ceac11104e9/C03_dig_reveal.mp4 |
+| C02_sand_bury_v2 | 1.9MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/f84d7cd25134614ead46beb9afc98f01/C02_sand_bury_v2.mp4 |
+| C04_words_alive | 0.9MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/001fbff9d916f586bad083a462d376e5/C04_words_alive.mp4 |
