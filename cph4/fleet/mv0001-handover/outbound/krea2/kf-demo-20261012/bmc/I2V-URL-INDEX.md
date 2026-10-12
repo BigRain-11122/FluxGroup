@@ -16,3 +16,5 @@
 | N04_river_marks | 2.1MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/52e91cdac87346c8c4452d23c6c000c2/N04_river_marks.mp4 |
 | N05_dead_language | 1.3MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/ed7d0dde8be7f165fbeec4f466e3a0e4/N05_dead_language.mp4 |
 | N06_poem_light | 2.4MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/f5fcdfbb1931d2a6ef908ed974a711f3/N06_poem_light.mp4 |
+| N07_fire_breath | 1.6MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/a7e9686cc99f954fa12697a69f55cf37/N07_fire_breath.mp4 |
+| C02_sand_bury | 2.1MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/7bad9ebc051466c569cebc3c2e50176b/C02_sand_bury.mp4 |
