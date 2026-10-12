@@ -79,7 +79,8 @@ foreach ($id in @('bm-a', 'bm-b', 'bm-c')) {
 # ---- flags ----
 if ($down.Count -gt 0) { $out += ('[{0}] FLAG LANE-DOWN: {1} -> L2 chase lane-owner machine (highest priority fix per SS9.1)' -f $stamp, ($down -join ', ')) }
 foreach ($lane in @('bm-a', 'bm-b', 'bm-c')) {
-    if ($open[$lane] -lt 3) { $out += ('[{0}] FLAG STARVED lane={1} open_cards={2} (<3) -> L2 replenish from owner backlog (SS9.6)' -f $stamp, $lane, $open[$lane]) }
+    if ($open[$lane] -eq 0) { $out += ('[{0}] FLAG STARVED lane={1} open_cards=0 (empty queue) -> L2 replenish from owner backlog (SS9.6)' -f $stamp, $lane) }
+    elseif ($open[$lane] -lt 3) { $out += ('[{0}] NOTE QUEUE-LOW lane={1} open_cards={2} (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)' -f $stamp, $lane, $open[$lane]) }
 }
 foreach ($ch in $chase) { $out += ('[{0}] FLAG CHASE {1} -> L2 poke owner + escalate' -f $stamp, $ch) }
 if ($needJudge.Count -eq 0 -and $out.Count -eq 0) {
