@@ -49,14 +49,14 @@ ov = Image.new("RGBA", (cw, ch), (120, 120, 128, 90))
 img.paste(Image.alpha_composite(Image.new("RGBA", (cw, ch), (0, 0, 0, 0)), ov).convert("RGB"),
           (cx0, cy0), mask)
 xx, yy = cx0 + cw // 2, cy0 + ch // 2
-d.ellipse([xx - 54, yy - 54, xx + 54, yy + 54], fill=(190, 190, 196))
+d.ellipse([xx - 54, yy - 54, xx + 54, yy + 54], fill=(148, 148, 156))
 d.line([xx - 26, yy - 26, xx + 26, yy + 26], fill=(60, 60, 66), width=9)
 d.line([xx - 26, yy + 26, xx + 26, yy - 26], fill=(60, 60, 66), width=9)
 
 # 进度条+时间码（仍在播放锚）
 pw = cw - 40
 d.rounded_rectangle([cx0 + 20, cy0 + ch - 26, cx0 + 20 + pw, cy0 + ch - 14], radius=6, fill=(70, 70, 78))
-d.rounded_rectangle([cx0 + 20, cy0 + ch - 26, cx0 + 20 + int(pw * 0.93), cy0 + ch - 14], radius=6, fill=(235, 235, 240))
+d.rounded_rectangle([cx0 + 20, cy0 + ch - 26, cx0 + 20 + int(pw * 0.93), cy0 + ch - 14], radius=6, fill=(188, 188, 198))
 tf = font(22)
 d.text((cx0 + 20, cy0 + ch + 10), "00:14 / 00:15", fill=(170, 170, 178), font=tf)
 
@@ -72,8 +72,7 @@ d.ellipse([av[0], av[1], av[0] + 56, av[1] + 56], fill=(90, 90, 100))
 d.rounded_rectangle([av[0] + 76, av[1] + 8, av[0] + 220, av[1] + 22], radius=7, fill=(90, 90, 100))
 cf = font(44)
 ct = "还好我踩得慢"
-ctw = d.textlength(ct, font=cf)
-d.text(((W - ctw) // 2, av[1] + 84), ct, fill=(255, 255, 255), font=cf)
+d.text((av[0], av[1] + 84), ct, fill=(255, 255, 255), font=cf)
 
 out = MEDIA + r"\c6.png"
 img.save(out)
