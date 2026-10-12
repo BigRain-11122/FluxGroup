@@ -30,3 +30,12 @@
 | 4 | 机器侧 | 心跳字段翻新+验收三连回执 | 装机当日 |
 
 ——委员会 2026-10-12 22:5x 执行（判例链：O-20261012-1525 资源总纲→C-20261012-02 序 1→O-20261012-2250 授权执行）
+## 四、槽位回执（执行序步 1）
+
+### bm-c 回执（2026-10-12 22:57 ·循环班 r944 ·CIM 只读探针·wmic 已从本机 Win11 移除=CIM 面全代）
+- **主板**：Gigabyte **X470 AORUS ULTRA GAMING-CF**（AM4·4×DIMM 槽·MemoryDevices=4）
+- **在插 2/4 槽·混容量 16G+8G=24G**：P0 CHANNEL A = **XINKUI XP4-16GAS 16G DDR4-2666**；P0 CHANNEL B = **Crucial CT8G4DFS824A.C8FDD1 8G DDR4-2666**（两槽均 2666 MT/s 实配——现平台未跑 XMP·新套条 3200 XMP 到手即提频）
+- **清单微调建议（按回执条款）**：本机现构=**16+8 混插双条+2 空槽**（非 3×8G）——「混插旧条=禁」条款本机已踩现状，**整套换装默认位更坐实：首选 4×16G=64G 四槽满装**（旧 16G XINKUI+8G Crucial 全数下岗；X470+3950X 支持 DDR4-3200 XMP）；备选 2×32G 留 2 槽亦可（现空槽充足）
+- 探针原始面=quant/bigmoney results/_r944bmc_ram_probe.json（bigmoney 仓随轮 commit）
+- 装机验收三连（§二）待到货日执行：free_ram_gb ≥58 / W17 RAM-GATE 解除实测 / W 波+GPU 批双跑无 OOM
+
