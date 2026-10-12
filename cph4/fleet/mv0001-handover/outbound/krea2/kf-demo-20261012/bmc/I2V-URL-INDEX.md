@@ -31,3 +31,7 @@
 | R01_war_later | 1.5MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/6d50c2e03f4b374b9e8c859d939ed47f/R01_war_later.mp4 |
 | C02_sand_bury_v4 | 1.6MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/b9b6986b61d251cc9be1dc31379c0e82/C02_sand_bury_v4.mp4 |
 | R02_she_turns | 1.2MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/1ed09c915f5a72af80cce27abeaec9d9/R02_she_turns.mp4 |
+| C04_words_alive_v2 | 1.0MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/c09d51bcc60943d03af2047ef8674953/C04_words_alive_v2.mp4 |
+| R03_goddess_dim | 1.6MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/1738bbd5f9279637c7247ae31a9f0e31/R03_goddess_dim.mp4 |
+| D02_she_reads | 0.5MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/00e83ccd0ff9f7cd30d0377910c0fb2a/D02_she_reads.mp4 |
+| C06_forever_cut_v2 | 1.5MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/fdab62f632d1654326210dc58cfc3d47/C06_forever_cut_v2.mp4 |
