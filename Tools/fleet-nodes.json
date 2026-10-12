@@ -1,9 +1,10 @@
 {
-  "_comment": "FleetLink node roster (CEO order 2026-10-04; law: O-20260928-1855(3) state-plane v2, server-governance v2). Enabled nodes get poked by fleet-dispatch. Poke carries signals only - git stays the sole data channel. Adoption per machine: 1) tailscale up -> send login URL to CEO for one click (bm-b/bm-c); 2) fill host/tailnet_ip/root/repos/wake_tasks/status_files here; 3) set enabled=true; 4) run: powershell -NoProfile -ExecutionPolicy Bypass -File Tools\\register-fleet-link.ps1 (idempotent, silent, no elevation needed - Tailscale-In firewall rules cover inbound). SYNC TIERS (CEO order O-20261009-1755, T1 delegated): HOT = 'poke_repos' - the poke worker pulls ONLY these on every poke (command plane: orders/decisions/laws/tools - seconds-fresh, small). WARM = every other repo in 'repos' - pulled by its OWN loop task on round cadence (woken via wake_tasks); poke worker does NOT duplicate. COLD = no auto-pull, on-demand only. Force-pull on demand: Tools\\fleet-dispatch.ps1 -Repos 'gaming/MiniGame' (allowlisted against node.repos).",
+  "_comment": "FleetLink node roster (CEO order 2026-10-04; law: O-20260928-1855(3) state-plane v2, server-governance v2). Enabled nodes get poked by fleet-dispatch. Poke carries signals only - git stays the sole data channel. Adoption per machine: 1) tailscale up -> send login URL to CEO for one click (bm-b/bm-c); 2) fill host/tailnet_ip/root/repos/wake_tasks/status_files here; 3) set enabled=true; 4) run: powershell -NoProfile -ExecutionPolicy Bypass -File Tools\\register-fleet-link.ps1 (idempotent, silent, no elevation needed - Tailscale-In firewall rules cover inbound). SYNC TIERS (CEO order O-20261009-1755, T1 delegated): HOT = 'poke_repos' - the poke worker pulls ONLY these on every poke (command plane: orders/decisions/laws/tools - seconds-fresh, small). WARM = every other repo in 'repos' - pulled by its OWN loop task on round cadence (woken via wake_tasks); poke worker does NOT duplicate. COLD = no auto-pull, on-demand only. Force-pull on demand: Tools\\fleet-dispatch.ps1 -Repos 'gaming/MiniGame' (allowlisted against node.repos). LANES (O-20261012-2215 / C-20261012-03; canonical = cph4/resource-chain.md SS9.1 v2): bm-a = hq-central-night-gpu, bm-b = cpu-sound, bm-c = gpu-production - dispatch rows MUST name the lane-owner machine.",
   "port": 8790,
   "nodes": [
     {
       "id": "bm-a",
+      "lane": "hq-central-night-gpu",
       "host": "DASHENG",
       "tailnet_ip": "100.110.185.62",
       "enabled": true,
@@ -16,6 +17,7 @@
     },
     {
 "id": "bm-b",
+      "lane": "cpu-sound",
       "host": "BIGMONEY",
       "tailnet_ip": "100.82.175.0",
       "enabled": true,
@@ -28,6 +30,7 @@
     },
         {
       "id": "bm-c",
+      "lane": "gpu-production",
       "host": "FLUXGROUP",
       "tailnet_ip": "100.123.74.104",
       "enabled": true,

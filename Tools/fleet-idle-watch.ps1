@@ -1,4 +1,4 @@
-# fleet-idle-watch.ps1 - HQ-FleetIdleWatch v1 (CEO order O-20261012-1505: strictest anti-idle mechanism)
+# fleet-idle-watch.ps1 - HQ-FleetIdleWatch v2 (CEO order O-20261012-1505 anti-idle + role-map O-20261012-2215 / C-20261012-03 per-lane verdicts)
 # Runs every 15 min via task-register.ps1 (silent chain). Probes fleet machines, logs verdicts,
 # escalates on repeated idle/unreachable. bm-a work-hour idle is EXPECTED (CEO use-machine law).
 # Log: .codely-cli/tmp/fleet-idle-watch/watch.log (auto-pruned to 400 lines)
@@ -49,8 +49,8 @@ function HbAge([string]$file) {
 }
 
 $machines = @(
-    @{ id = 'bm-b'; ip = '100.82.175.0'; hb = Join-Path $root 'gaming\MiniGame\Design\configs\GLOBAL\fleet\b.json' },
-    @{ id = 'bm-c'; ip = '100.123.74.104'; hb = Join-Path $root 'gaming\MiniGame\Design\configs\GLOBAL\fleet\c.json' }
+    @{ id = 'bm-b'; ip = '100.82.175.0'; lane = 'cpu-sound'; hb = Join-Path $root 'gaming\MiniGame\Design\configs\GLOBAL\fleet\b.json' },
+    @{ id = 'bm-c'; ip = '100.123.74.104'; lane = 'gpu-production'; hb = Join-Path $root 'gaming\MiniGame\Design\configs\GLOBAL\fleet\c.json' }
 )
 
 $verdicts = @{}
@@ -77,12 +77,24 @@ foreach ($m in $machines) {
     $busy = $false
     if ($q.ok -and (($qr -gt 0) -or ($qp -gt 0))) { $busy = $true }
     if ($vramUsed -gt 2000) { $busy = $true }
+    # v2 role-aware verdicts (O-20261012-2215 / C-20261012-03): lanes differ.
+    # bm-b = cpu-sound lane: no ComfyUI by design -> 8188 probe failing is expected.
+    # bm-c = gpu-production lane: ComfyUI binds 127.0.0.1 -> remote probe structurally
+    # fails; GPU idleness is judged on-machine (lane duty: loop reports GPU into heartbeat).
+    # Liveness = FleetLink listener OR fresh heartbeat (<=60m). Streak escalation counts
+    # only OFFLINE / SVC_DOWN / IDLE.
+    $alive = ($lst.ok) -or (($hbAge -ge 0) -and ($hbAge -le 60))
     if ($net -eq 'offline') { $v = 'OFFLINE' }
-    elseif (-not $q.ok) { $v = 'SVC_DOWN' }
-    elseif ($busy) { $v = 'BUSY' }
-    else { $v = 'IDLE' }
+    elseif (-not $alive) { $v = 'SVC_DOWN' }
+    elseif ($m.lane -eq 'gpu-production') {
+        if ($q.ok) { if ($busy) { $v = 'BUSY' } else { $v = 'IDLE' } }
+        else { $v = 'ALIVE-LOCAL-COMFY' }
+    }
+    else { $v = 'ALIVE-CPU-LANE' }
+    $hbNote = ''
+    if ($hbAge -gt 240) { $hbNote = ' **HB-STALE**' }
     $verdicts[$m.id] = $v
-    $out += ("[{0}] {1} verdict={2} net={3} listener={4} comfy_queue=run:{5}/pend:{6} vram_used={7} hb_age={8}m" -f $stamp, $m.id, $v, $net, $(if ($lst.ok) { 'up' } else { 'down' }), $qr, $qp, $vramUsed, $hbAge)
+    $out += ("[{0}] {1} verdict={2} net={3} listener={4} comfy_queue=run:{5}/pend:{6} vram_used={7} hb_age={8}m{9}" -f $stamp, $m.id, $v, $net, $(if ($lst.ok) { 'up' } else { 'down' }), $qr, $qp, $vramUsed, $hbAge, $hbNote)
 }
 
 # ---- bm-a self line (work-hour idle = EXPECTED per CEO law) ----
