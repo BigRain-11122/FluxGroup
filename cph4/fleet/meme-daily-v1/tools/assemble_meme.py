@@ -12,6 +12,7 @@ import argparse, json, os, re, shutil, subprocess, sys, tempfile
 FONT = "Microsoft YaHei"
 YELLOW = "{\\c&H0000D7FF&}"   # FFD700 黄（BGR 序）
 WHITE = "{\\c&H00FFFFFF&}"
+RED = "{\\c&H0000FF&}"      # FF0000 红（BGR 序·爆词）
 
 def find_ffmpeg(explicit):
     if explicit:
@@ -52,14 +53,19 @@ def build_ass(spec, total, scale):
         "[V4+ Styles]",
         "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding",
         "Style: Big,%s,%d,&H00FFFFFF,&H000000FF,&H00000000,&H78000000,-1,0,0,0,100,100,1,0,1,4,1,2,40,40,%d,1" % (FONT, big.get("fontsize", 62), big.get("marginv", 300)),
+        "Style: Quote,%s,52,&H0000D7FF&,&H000000FF,&H00000000,&H96000000,0,0,0,0,100,100,0,0,3,0,0,5,40,40,0,1" % FONT,
+        "Style: Small,%s,32,&H00FFFFFF,&H000000FF,&H00000000,&H78000000,0,0,0,0,100,100,0,0,1,3,0,2,40,40,0,1" % FONT,
         "Style: WM,%s,20,&H00E8E8E8,&H000000FF,&H00000000,&H78000000,0,0,0,0,100,100,0,0,3,2,0,1,22,22,26,1" % FONT,
         "",
         "[Events]",
         "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text",
     ]
-    for sub in spec["subtitles"]:
+    for idx, sub in enumerate(spec["subtitles"]):
         t1 = sub["t"][0] * scale; t2 = sub["t"][1] * scale
-        text = sub["text"].replace("{Y}", YELLOW).replace("{W}", WHITE)
+        text = sub["text"].replace("{Y}", YELLOW).replace("{W}", WHITE).replace("{R}", RED).replace("\\N", "\\N")
+        # 反AI感字幕微倾斜：奇数卡 -1.2°（去模板完美感）
+        if idx % 2 == 1:
+            text = "{\\frz-1.2}" + text
         lines.append("Dialogue: 0,%s,%s,%s,,0,0,0,,%s" % (ass_time(t1), ass_time(t2), sub.get("style", "Big"), text))
     lines.append("Dialogue: 0,%s,%s,WM,,0,0,0,,%s" % (ass_time(0), ass_time(total + 0.2), spec.get("watermark", "AI 生成｜本片为AI创作演绎")))
     return "\n".join(lines) + "\n"
@@ -99,10 +105,14 @@ def main():
                 sys.exit("缺镜头文件: " + src)
             dst = os.path.join(work, "n_%s.mp4" % s["id"])
             vf = "scale=%d:%d:force_original_aspect_ratio=increase,crop=%d:%d,fps=%d,setsar=1" % (W, H, W, H, FPS)
+            ft = s.get("freeze_tail")
+            if ft:
+                vf += ",tpad=stop_mode=clone:stop_duration=%.2f" % ft
             run([ff, "-y", "-i", src, "-ss", str(s["trim"][0]), "-t", str(s["trim"][1] - s["trim"][0]),
                  "-vf", vf, "-an", "-c:v", "libx264", "-preset", "veryfast", "-crf", "18", dst])
             norm.append(dst)
-            print("  shot %s ok (%.1fs)" % (s["id"], s["trim"][1] - s["trim"][0]))
+            dur_s = s["trim"][1] - s["trim"][0] + (ft or 0)
+            print("  shot %s ok (%.1fs)" % (s["id"], dur_s))
 
         # 2) concat（同参编码直连）
         lst = os.path.join(work, "list.txt")
@@ -116,22 +126,74 @@ def main():
         with open(os.path.join(work, "subs.ass"), "w", encoding="utf-8") as f:
             f.write(build_ass(spec, total, a.time_scale))
         subs = os.path.join(work, "subs.mp4")
-        run([ff, "-y", "-i", concat, "-vf", "ass=subs.ass", "-c:v", "libx264", "-preset", "veryfast", "-crf", "19", subs], cwd=work)
+        # finishing 站：字幕层之上统一暖饱和+黑位轻抬+暗角+轻颗粒（承 30s-reel v4.3 调色席：五镜熔成一张拷贝·最便宜去AI手段·颗粒置最后不被调色扭曲）
+        fin = "ass=subs.ass,eq=saturation=1.06:gamma=1.02,colorbalance=rs=0.03:bs=-0.03,vignette=PI/5.5,noise=alls=4:allf=t"
+        run([ff, "-y", "-i", concat, "-vf", fin, "-c:v", "libx264", "-preset", "veryfast", "-crf", "19", subs], cwd=work)
 
-        # 4) 混音：旁白全轨 + BGM 低增益淡入出，钳到片长
-        narr = os.path.join(media, spec.get("narration_file", "narration.mp3"))
+        # 4) 混音：旁白（支持 narration_segments 分段定点=抑扬顿挫剪控）+ BGM 低增益淡入出+duck + sfx 定点，钳到片长
         bgm = os.path.join(media, spec.get("bgm_file", "bgm.wav"))
-        for p in (narr, bgm):
+        if not os.path.isfile(bgm):
+            sys.exit("缺音频文件: " + bgm)
+        segs = spec.get("narration_segments")
+        if segs:
+            inputs = ["-i", subs]
+            narr_tracks = []
+            for i, sg in enumerate(segs):
+                p = os.path.join(media, sg["file"])
+                if not os.path.isfile(p):
+                    sys.exit("缺旁白分段: " + p)
+                inputs += ["-i", p]
+                narr_tracks.append(sg)
+        else:
+            narr = os.path.join(media, spec.get("narration_file", "narration.mp3"))
+            if not os.path.isfile(narr):
+                sys.exit("缺音频文件: " + narr)
+            inputs = ["-i", subs, "-i", narr]
+            narr_tracks = None
+        inputs += ["-i", bgm]
+        sfxs = spec.get("sfx", [])
+        for s in sfxs:
+            p = os.path.join(media, s["file"])
             if not os.path.isfile(p):
-                sys.exit("缺音频文件: " + p)
+                print("  WARN 缺音效件(跳过): " + s["file"])
+                continue
+            inputs += ["-i", p]
         dur = duration_of(ff, subs)
         g = spec.get("bgm_gain_db", -13)
         fade_out_start = max(0.0, dur - 0.9)
-        fc = ("[1:a]adelay=150|150,apad[na];"
-              "[2:a]volume=%ddB,afade=t=in:d=0.4,afade=t=out:st=%.2f:d=0.9,apad[ba];"
-              "[na][ba]amix=inputs=2:duration=longest:dropout_transition=0,alimiter=limit=0.95[a]") % (g, fade_out_start)
+        duck = spec.get("bgm_duck")
+        bgm_chain = "volume=%ddB,afade=t=in:d=0.4,afade=t=out:st=%.2f:d=0.9" % (g, fade_out_start)
+        if duck and duck[1] > duck[0]:
+            d0, d1 = duck
+            bgm_chain += ",volume=0:enable='between(t,%.2f,%.2f)'" % (d0, d1)
+        mix_labels = []
+        fc = ""
+        if narr_tracks:
+            for i, sg in enumerate(narr_tracks):
+                ms = int(sg.get("t", 0) * 1000)
+                fc += "[%d:a]adelay=%d|%d,apad[ns%d];" % (1 + i, ms, ms, i)
+                mix_labels.append("[ns%d]" % i)
+        else:
+            fc += "[1:a]adelay=150|150,apad[na];"
+            mix_labels.append("[na]")
+        bidx = 1 + (len(narr_tracks) if narr_tracks else 1)
+        fc += "[%d:a]%s,apad[ba];" % (bidx, bgm_chain)
+        mix_labels.append("[ba]")
+        sfx_i = 0
+        for s in sfxs:
+            p = os.path.join(media, s["file"])
+            if not os.path.isfile(p):
+                continue
+            src = bidx + 1 + sfx_i
+            ms = int(s["t"][0] * 1000)
+            gain = s.get("gain_db", 0)
+            fc += "[%d:a]volume=%sdB,adelay=%d|%d,apad[s%d];" % (src, gain, ms, ms, sfx_i)
+            mix_labels.append("[s%d]" % sfx_i)
+            sfx_i += 1
+        fc += "%samix=inputs=%d:duration=longest:dropout_transition=0,alimiter=limit=0.95[a]" % (
+            "".join(mix_labels), len(mix_labels))
         final = os.path.join(out, "%s-%s-final.mp4" % (spec["topic"], spec["slug"]))
-        run([ff, "-y", "-i", subs, "-i", narr, "-i", bgm, "-filter_complex", fc,
+        run([ff, "-y"] + inputs + ["-filter_complex", fc,
              "-map", "0:v", "-map", "[a]", "-c:v", "copy", "-c:a", "aac", "-b:a", "160k",
              "-t", "%.2f" % dur, "-movflags", "+faststart", final])
         sz = os.path.getsize(final) / 1e6

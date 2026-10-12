@@ -1,61 +1,47 @@
 {
   "topic": "v1",
-  "slug": "zunjie-brake",
-  "title": "尊界V800 刹车踏板断裂",
-  "duration_target": 17.8,
+  "slug": "manman-cai",
+  "title": "速成汽车宇宙·第1集：慢慢踩（高级黑版 v3.3·CERTIFIED）",
+  "duration_target": 15.55,
   "resolution": [720, 1280],
   "fps": 30,
+  "subtitle_style_big": { "fontsize": 60, "marginv": 300 },
   "shots": [
-    {
-      "id": "S1", "file": "S1.mp4", "trim": [0.0, 2.8],
-      "kf_prompt": "vertical 9:16 cinematic night exterior, rear three-quarter view of a large unbranded black luxury MPV speeding along an elevated city highway, long red taillight light trails, wet asphalt with mirror reflections, warm sodium streetlight pools, anamorphic lens flare, 35mm film grain, premium automotive commercial look, text-free composition",
-      "i2v_prompt": "the car speeds forward along the highway, camera tracks alongside it smoothly, taillights streak past, subtle handheld energy, fast forward motion",
-      "i2v_provider": "minimax_h3", "i2v_mode": "first_frame", "i2v_duration": 5, "i2v_resolution": "768P"
-    },
-    {
-      "id": "S2", "file": "S2.mp4", "trim": [0.0, 2.6],
-      "kf_prompt": "vertical 9:16 dramatic close-up from the driver footwell at night, a leather dress shoe pressing a brushed aluminum brake pedal to the floor, pedal arm and metal bracket in sharp focus, warm amber dashboard glow against a dark cabin, shallow depth of field, cinematic realism, 35mm film grain, text-free composition",
-      "i2v_prompt": "the foot slams the brake pedal down hard in one fast decisive motion, a slight camera shake on impact, dust motes drift in the amber light",
-      "i2v_provider": "minimax_h3", "i2v_mode": "first_frame", "i2v_duration": 5, "i2v_resolution": "768P"
-    },
-    {
-      "id": "S3", "file": "S3.mp4", "trim": [0.0, 4.6],
-      "kf_prompt": "vertical 9:16 macro shot of a metal brake pedal bracket under extreme stress, a fresh crack propagating across the welded seam, fine metal dust beginning to lift, cold blue-gray steel with one warm highlight, dramatic hard side light, high-speed-camera aesthetic, 35mm film grain, text-free composition",
-      "i2v_prompt": "static camera, the metal bracket cracks and snaps apart in slow motion, the crack propagates across the weld then the piece separates, fine metal chips and dust burst outward in slow motion",
-      "i2v_provider": "minimax_h3", "i2v_mode": "first_frame", "i2v_duration": 5, "i2v_resolution": "768P"
-    },
-    {
-      "id": "S4", "file": "S4.mp4", "trim": [0.0, 2.8],
-      "kf_prompt": "vertical 9:16 wide shot, three identical unbranded black luxury MPVs parked side by side on an empty proving ground test track at dusk, orange traffic cones and test equipment, calm overcast cinematic light, quiet documentary mood, 35mm film grain, text-free composition",
-      "i2v_prompt": "slow lateral dolly move across the three parked cars from left to right, dusk wind moves the tall grass at the track edge",
-      "i2v_provider": "minimax_h3", "i2v_mode": "first_frame", "i2v_duration": 5, "i2v_resolution": "768P"
-    },
-    {
-      "id": "S5", "file": "S5.mp4", "trim": [0.0, 5.0],
-      "kf_prompt": "vertical 9:16 golden hour, a lone unbranded black luxury MPV parked in an empty lot, amber hazard lights glowing, long soft shadows, minimalist melancholic comedic mood, warm low sun, 35mm film grain, text-free composition",
-      "i2v_prompt": "the amber hazard lights blink on and off steadily, the camera pushes in slowly toward the car",
-      "i2v_provider": "minimax_h3", "i2v_mode": "first_frame", "i2v_duration": 5, "i2v_resolution": "768P"
-    }
+    { "id": "C1", "file": "kfp.mp4", "trim": [0.0, 2.0], "note": "拍1 发布会豪言：KF-P 极缓推（LED 巨幕+蒙布 MPV）" },
+    { "id": "C2", "file": "s4new.mp4", "trim": [0.0, 2.2], "note": "拍2 事实引入：测试场三车纪录横移" },
+    { "id": "C3a", "file": "s3new.mp4", "trim": [0.0, 1.9], "note": "拍3前 断裂微距推近（全片唯一断镜）" },
+    { "id": "C3b", "file": "s4new.mp4", "trim": [2.3, 4.6], "note": "拍3后 数据页底：三车静态+数据行浮出" },
+    { "id": "C4", "file": "s1new.mp4", "trim": [0.0, 1.9], "note": "拍4 官方定义学：S1 豪车缓推+BGM 终止式收束+Quote 金字黑底" },
+    { "id": "C5", "file": "kfn.mp4", "trim": [0.0, 3.6], "note": "拍5 不祥回声：深夜车间+口号+wordmark+热线错峰" },
+    { "id": "C6", "file": "c6.mp4", "trim": [0.0, 1.15], "note": "拍6 下架按钮：合成帧（灰封面ⓧ+已下架+神评论+进度条时间码）全静" },
+    { "id": "C7", "file": "card.mp4", "trim": [0.0, 0.5], "note": "片尾标识卡" }
   ],
-  "narration": "百万级旗舰MPV，上市24小时大定3500台。懂车帝实测：100公里时速全力急刹——第一台，第3脚，踏板支架断了；第二台，第4脚，断；第三台，新车才跑3公里，第2脚，还是断！官方回应：用户实际使用中，未发生断裂。网友翻译：测试里断的，不算用户。下集：180天的速成车，你敢开吗？",
-  "tts_voice_query": "语速偏快的中文男声，短视频吐槽解说腔，幽默冷感",
-  "tts_speed": 1.15,
-  "narration_file": "narration.mp3",
-  "bgm_prompt": "诙谐幽默的短视频背景音乐，轻快贝斯线加节奏拍手，吃瓜喜剧感，适合吐槽解说视频，20秒",
-  "bgm_file": "bgm.wav",
-  "bgm_gain_db": -13,
+  "narration_segments": [
+    { "file": "narr1t.wav", "t": 0.05, "note": "seg1 有一种豪华，急不来。" },
+    { "file": "narr2t.wav", "t": 2.05, "note": "seg2 有人较真，测了测刹车。" },
+    { "file": "narr3bt.wav", "t": 4.25, "note": "seg3 变奏三连（逗号融合版 4.04s）" },
+    { "file": "narr5t.wav", "t": 10.35, "note": "seg5 口号=终反转" }
+  ],
+  "bgm_file": "bgm_arr.wav",
+  "bgm_gain_db": 0,
   "subtitles": [
-    {"t": [0.30, 2.60], "text": "百万豪车 上市24h大定3500台", "style": "Big"},
-    {"t": [2.90, 5.20], "text": "懂车帝实测 · 100km/h 全力急刹", "style": "Big"},
-    {"t": [5.70, 6.90], "text": "第3脚：{Y}断", "style": "Big"},
-    {"t": [7.10, 8.30], "text": "第4脚：{Y}断", "style": "Big"},
-    {"t": [8.50, 9.80], "text": "第2脚：还是{Y}断", "style": "Big"},
-    {"t": [10.30, 12.50], "text": "三台不同批次 · 断口相近", "style": "Big"},
-    {"t": [13.10, 15.00], "text": "官方：实际使用中未发生断裂", "style": "Big"},
-    {"t": [15.10, 16.30], "text": "网友翻译：测试里断的 不算用户", "style": "Big"},
-    {"t": [16.40, 17.70], "text": "下集：{Y}速成车{W}｜关注不迷路", "style": "Big"}
+    { "t": [0.05, 2.0], "text": "{\\an8\\bord6}速成汽车 · 一年三款", "style": "Big", "note": "大屏字首帧即出=0.2s 承诺（J-M19）" },
+    { "t": [0.15, 1.95], "text": "有一种豪华，急不来。", "style": "Big" },
+    { "t": [2.0, 2.6], "text": "{\\an8}以上为广告。以下为实测。", "style": "Small", "note": "切点处起（J-M16）" },
+    { "t": [2.05, 4.15], "text": "有人较真，测了测刹车。", "style": "Big" },
+    { "t": [4.3, 5.55], "text": "第三脚，断了", "style": "Big" },
+    { "t": [5.65, 6.85], "text": "第四脚，又断", "style": "Big" },
+    { "t": [6.95, 8.35], "text": "第二脚，还是断", "style": "Big", "note": "变奏三连（J-M6）" },
+    { "t": [6.3, 8.35], "text": "{\\an2\\pos(360,1080)\\fs34}第一台·第三脚　第二台·第四脚　第三台·新车·三公里·第二脚", "style": "Small", "note": "数据白字逐行（细节移字幕）" },
+    { "t": [8.7, 10.15], "text": "官方回应：\\N用户实际使用中，未发生断裂。", "style": "Quote", "note": "金字黑衬底 0.3s 快现+0.95s hold（J-M19 死气封顶）" },
+    { "t": [10.35, 11.35], "text": "速成汽车。", "style": "Big" },
+    { "t": [11.4, 13.8], "text": "一年三款，{Y}永不休息。", "style": "Big", "note": "浅金单点强调（J-M13）" },
+    { "t": [11.2, 13.85], "text": "{\\an2\\pos(360,1130)\\fs42}速成汽车", "style": "Small", "note": "wordmark 随旁白浮现" },
+    { "t": [13.3, 13.9], "text": "{\\an2\\pos(360,1190)\\fs26}售后服务热线：请慢慢拨", "style": "Small", "note": "拍尾 0.6s 错峰（剪辑席）" },
+    { "t": [15.05, 15.55], "text": "{\\an5\\fs32}AI 生成｜纯属演绎｜数据为演绎设定", "style": "Small", "note": "片尾标识卡" }
   ],
-  "watermark": "AI 生成｜本片为AI创作演绎",
-  "publish_caption": "测试里断的，算不算用户？百万MPV的刹车踏板，三台全断，官方回应亮了。#尊界V800 #刹车踏板 #车圈热点 #AI动画",
-  "media_layout": "装配时 --media 指向含 S1.mp4…S5.mp4 / narration.mp3 / bgm.wav 的夹"
+  "watermark": "AI 生成｜纯属演绎",
+  "publish_caption": "官方说：用户实际使用中，未发生断裂。评论区聊聊，你怎么理解这句话。（改编自近期车圈名场面，懂的都懂。速成汽车=虚构品牌·数据为演绎设定）#车圈 #百万MPV #提车 #AI动画",
+  "pinned_comment": "慢慢踩。——趁还看得到，转给准备提车的人。下集：速成汽车法务部，我们永不休息。（虚构品牌·纯属演绎）",
+  "media_layout": "装配 --media 指向本夹（kfp/kfn/s1new/s3new/s4new/c6/card.mp4 + narr1t/narr2t/narr3bt/narr5t.wav + bgm_arr.wav）"
 }
