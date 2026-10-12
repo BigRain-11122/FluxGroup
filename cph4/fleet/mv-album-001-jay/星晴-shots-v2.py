@@ -8,6 +8,7 @@
 # v2.6=五席修词批（四闸预检 8 项+视觉评审 15 回炉件）：双载锁位 XQ03/04/06/09/11+XQ07 帧补人+星线族 holding steady XQ19/21/31/32/33+细节锁 XQ14/17/23/24/25+XQ30 牵手（帧重做）+发夹 XQ01/12
 # v2.7=XQ26 三烧剪影锚：night_ride 光块（二烧构图修复但亮脸复发——faces in shadow 入光块+subject 减负防超词限）
 # v2.8=XQ26 四烧=导演席构图定谳：改背跟视角 seen from behind（三烧 faces in shadow 仍被 Krea2 暖肤惯性打穿——**正面脸剪影=该模型不可达判例**·搂腰背影=剪影结构性免疫+拥抱读感更佳=设计内升华）
+# v2.9=XQ26 五烧：XQ_HER_BACK 背影专用块（四烧实证=背影位仍被 XQ_HER 脸部词诱导出回眸亮脸——**背影镜必须去脸部词**·身份标记=发型+发卡+服装）+night_ride 沉影措辞
 # 权威=星晴-剧本-v1.md（创作核心）+ mv0002-星晴-立意案-v1 + RESEARCH-mv-craft-80s-90s-00s（§二/三/四/六 星晴行）
 # 词级锚点=anchors/星晴.txt（whisper 2026-10-10 实测·尾词 248.76）·film=song 对齐·0-259.40（ffprobe 判决一实证·尾窗定格延展收尾奏）
 # 长期律：匀速判负（逐镜变速）/做旧克制（5246 纯日戏·5279 黄昏蓝调+夜·台式奶黑 telecine）/禁看镜头/物质转场（天光暗/路灯亮/云影压路/星点亮）
@@ -32,7 +33,7 @@ LX.LIGHT["sunset_rake"] = ("golden-hour sun at 2900K raking low across a grass s
 LX.LIGHT["dusk_blue"] = ("deep blue-hour ambience at 8000K with the first tungsten road lamp at 2800K waking on the mountain road, a warm band still holding at the horizon")
 LX.LIGHT["night_road"] = ("ink-blue natural night over the mountain road, a small bicycle battery lamp pool at 3000K carrying ahead, distant sodium village lights, the sky deep blue-black")
 # XQ26 三烧剪影锚（二烧构图修复但亮脸复发=灯池照亮面部——剪影语义入光块·对冲 GRADE 尾 warm skin tones 惯性）
-LX.LIGHT["night_ride"] = ("ink-blue night over the mountain road, the small battery lamp's warm pool held low on the asphalt, the two riders dark shapes against far sodium lights, deep blue-black sky")
+LX.LIGHT["night_ride"] = ("ink-blue night over the mountain road, the small battery lamp's warm pool held low on the asphalt, the two riders sinking into shadow against far sodium lights, only their outlines catching the far glow, deep blue-black sky")
 LX.LIGHT["star_field"] = ("an ink-blue natural night sky crowded with warm gold stars over a dark grass slope, a denser band of faint starlight across the middle of the sky, one warm flashlight pool low in frame")
 LX.LIGHT["star_field_pure"] = ("an ink-blue natural night sky crowded with warm gold stars, a denser band of faint starlight across the middle, the dark grass a low rim at the frame bottom")
 LX.LIGHT["lamp_grass"] = ("one warm flashlight beam at 2800K lying low across night grass, silvergrass heads catching the rim, the slope beyond sinking into blue-black darkness")
@@ -56,6 +57,8 @@ XQ_HER = ("a 20-year-old Taipei girl of the year 2000 with a soft oval face, gen
 BICYCLE = ("an old 2000 Taipei campus bicycle with a rear rack and a chrome bell, its paint dull from use")
 # 双人近身镜词面预算位（lint ≤200）：全量常量挤爆时用短形（年代锚「old 2000 Taipei campus bicycle」保留·车铃细节让位脸级 ID 块）
 BICYCLE_SHORT = "the old 2000 Taipei campus bicycle"
+# 剪影/背影镜专用女主块（XQ26 四烧判例：XQ_HER 脸部词在背影视角=回眸亮脸诱导——背影镜只留发型+发卡+服装身份标记·零脸部词）
+XQ_HER_BACK = "a girl with medium-length straight black hair and a small colored hair clip, in a plain knit tank top and low-rise jeans"
 KITE = ("a simple diamond paper kite in faded warm colors, a wooden cross spar and a long pale string wound on a bamboo spool")
 
 def kf(shot, angle, subject, light, lens="35", tex="film_day", extra=""):
@@ -180,7 +183,7 @@ NEW = [
 
     # ---- 主歌重演 162.82-195.70（夜色变体：骑行/她仰脸/风筝更高）----
     ("XQ26", 162.82, 172.38, 1.06, "夜骑=载着你仿佛载着阳光（夜版）",
-     kf("med", "eye", "%s pedaling %s seen from behind, %s side-saddle on its rear rack, her arms around his waist" % (HIM, BICYCLE_SHORT, XQ_HER), "night_ride", lens="35", tex="film_night"),
+     kf("med", "eye", "%s pedaling %s seen from behind, %s seated side-saddle on its rear rack, her arms around his waist, her head bowed toward his back" % (HIM, BICYCLE_SHORT, XQ_HER_BACK), "night_ride", lens="35", tex="film_night"),
      i2v("A medium shot at eye level", CM["track"], "An old bicycle carrying two down a night mountain road seen from behind, the girl seated on the rear rack leaning with the curves, both riders dark silhouettes, the small lamp's thin warm beam touching the asphalt ahead, far sodium lights sliding past")),
     ("XQ27", 173.48, 181.44, 1.00, "她仰脸夜版=路旁花影（她转身笑）",
      kf("hs", "eye", "%s stopped beside the road in the small bicycle lamp glow, turning back toward him with a smile, white roadside flowers catching the light around her" % XQ_HER, "night_road", lens="50", tex="film_night"),
@@ -295,7 +298,7 @@ if __name__ == "__main__":
     assert gap_bad == 0, "WINDOW GAPS ASSERT FAILED (%d)" % gap_bad
     print("SELF-CHECK GREEN: lint_bad=0 | WINDOW GAPS=0 (0.00-%.2f 无空档无叠窗) | 时长断言 %d 镜全过（定格延窗豁免 %d 镜·源 5s）"
           % (FILM_END, len(NEW), freeze_n))
-    md = ("# 《星晴》分镜表 v2.8（帧级·深研喂入·设计闸判决落地版·CEO 道具令+服装师令+五席修词执法）\n\n"
+    md = ("# 《星晴》分镜表 v2.9（帧级·深研喂入·设计闸判决落地版·CEO 道具令+服装师令+五席修词执法）\n\n"
           "> 权威=星晴-剧本-v1.md（v1.1 修订同步）+立意案 v1+RESEARCH-mv-craft §六星晴行+RESEARCH-星晴-受众洞察-v1.md；词级锚点=anchors/星晴.txt（尾词 248.76）·片长 259.40（ffprobe 判决一实证）\n"
           "> **导演事实纠偏（受众卡①）**：原版星晴 MV 导演=黄中平（三源一致·非邝盛）——镜头权威=黄中平「弱剧情/极简/定格/色彩烘托」+年代共同语法\n"
           "> 发布话术红线：禁称邝盛执导星晴（原版导演=黄中平·三源）；禁称复刻原版名场面（骑行/牵手/星空=词面意象视觉化）\n"
