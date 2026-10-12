@@ -28,3 +28,6 @@
 | C07_stele_sink | 0.6MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/1701613f0ba75addb4ea1a641b61f62e/C07_stele_sink.mp4 |
 | C08_strike_burst | 1.5MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/ee920884b4c34cee2433fcae9bfb6d4e/C08_strike_burst.mp4 |
 | C09_oath_weather | 1.1MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/24fa90ca8261a6adb5ae6d4defba235c/C09_oath_weather.mp4 |
+| R01_war_later | 1.5MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/6d50c2e03f4b374b9e8c859d939ed47f/R01_war_later.mp4 |
+| C02_sand_bury_v4 | 1.6MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/b9b6986b61d251cc9be1dc31379c0e82/C02_sand_bury_v4.mp4 |
+| R02_she_turns | 1.2MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/1ed09c915f5a72af80cce27abeaec9d9/R02_she_turns.mp4 |
