@@ -2,7 +2,7 @@
 
 > **CEO 原令**（2026-10-10-13 上午·O-20261013-1045）：「你的提示词写法很有问题，好好去调研应该怎么写，不是你写个2001台湾音乐MV风格就行了的，所有的提示词要一个个拆解成AI能理解的术语，准确的，简洁的，排序是科学的！」
 > 适用：一切 i2v（图生视频）提示词——Seedance 云端 / MiniMax-H3 本地 / 后续引擎；t2i/edit 面沿用 v1.2 不变。
-> 证据源（本窗两官方归笼·10-13）：①Seedance 2.0 官方完整提示词指南（docs.seedance.tv/zh/seedance-2-complete-prompting-guide·全文提取）②MiniMax H3 官方提示词指南（docs.seedance.tv/zh/minimax-h3-prompt-guide·全文提取）。
+> 证据源（四源归笼·10-13 全文提取）：①**火山方舟官方一手文档**《Doubao Seedance 2.0 系列提示词指南》（volcengine.com/docs/82379/2222480·2026.09.22 版——官方「工程型指令」定义+空间层/时间层解耦+分镜时序法+动作量化表+**情绪具象外化表**+一镜一运镜+人脸参考法+素材四功能角色）②**Seedance 2.0 官方完整指南**（docs.seedance.tv/zh/seedance-2-complete-prompting-guide——i2v 专项「不应再描述图像」铁律+分层运动法+官方关键词表）③**MiniMax H3 官方提示词指南**（docs.seedance.tv/zh/minimax-h3-prompt-guide——六部分结构+可观察动词法+结束画面+保持不变）④**社区经验提炼**（rich5000/seedance-prompt-guide SKILL.md——素材角色指定法/镜头写法表/优化 Checklist/「纯参数堆砌模型不一定响应」避坑实证）。
 
 ---
 
