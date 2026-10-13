@@ -57,3 +57,6 @@
 | C04_words_alive_v3 | 0.5MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/16dd37bf2b8822cdf7c63b9ddb78e4ef/C04_words_alive_v3.mp4 |
 | R05_gold_threads_v3 | 0.8MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/e0f77b90fe5f561cca52ba1f86626644/R05_gold_threads_v3.mp4 |
 | E03_gaze_meet_v2 | 0.4MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/6b7595cae54fc76b0f03da509613499a/E03_gaze_meet_v2.mp4 |
+| C02_sand_bury_v6 | 1.7MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/0895e77b1b5b9184d2f3f1e8319d5709/C02_sand_bury_v6.mp4 |
+| C04_words_alive_v4 | 0.9MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/5db63cf035d18abf3aaa7025dffb52c8/C04_words_alive_v4.mp4 |
+| R05_gold_threads_v4 | 0.8MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/210806a827b2d1fe3ff0233fd7446eb5/R05_gold_threads_v4.mp4 |
