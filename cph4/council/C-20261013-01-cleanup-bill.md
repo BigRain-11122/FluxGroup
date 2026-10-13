@@ -27,10 +27,10 @@
 
 ## 三、执行清单
 
-- [x] ① 安全层 28 件删除收口 commit（本窗）
+- [x] ① 安全层删除收口 commit（本窗·实收 45 件：jman-lora-640 验证帧系 22+cloud-v4-c 旧源片 5+软著 G 系旧名头源程序 14+oversight/patrol 簿记 4——全产物/作废类·commit 9f68832）
 - [x] ② .gitignore 大件防线
-- [x] ③ orders.md 落账一行 + decisions.md 台账一行
-- [ ] ④ 导演席窗 poke（正典层 66+3+10 件点名·回执窗 2 轮）
+- [x] ③ orders.md 落账一行 + decisions.md 台账一行（已含 @导演席窗 正典层点名·本机他窗经 orders 行传达·回执窗 2 轮）
+- [ ] ④ 导演席窗回执：正典层 53 件自决收口（mv-album 31+mv0001 canonical 11+meme 7+council 案卷 3+杂项 1）
 - [x] ⑤ 案卷归档 cph4/council/C-20261013-01-cleanup-bill.md
 
 ## 四、依据
