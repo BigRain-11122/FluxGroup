@@ -52,3 +52,8 @@
 | C07_stele_sink_v3 | 0.6MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/4117948b66ea5b3a1189fd1c5f080df2/C07_stele_sink_v3.mp4 |
 
 | C04_words_alive_v2_NEW | 1.0MB | git: cph4/fleet/mv0001-handover/outbound/krea2/kf-demo-20261012/bmc/C04_words_alive_v2.mp4 (group-tree delivery; CDN dedup-blocked) | QC 7.0 borderline -- track-2 frame healed (basalt+horizontal registers, hub-disc gone); glyphs remain line-glyphs not wedge-heads; LIGHT=pulse not rake. Slot C04 best-of = THIS row (STALE row above = OLD bad-frame clip, banned) |
+| C02_sand_bury_v5 | 1.7MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/f3424025ce3fd3f014ec0b3c8330f540/C02_sand_bury_v5.mp4 |
+| C03_dig_reveal_v3 | 1.2MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/2b4e9b2bc08abe33f1b66096b65b4b06/C03_dig_reveal_v3.mp4 |
+| C04_words_alive_v3 | 0.5MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/16dd37bf2b8822cdf7c63b9ddb78e4ef/C04_words_alive_v3.mp4 |
+| R05_gold_threads_v3 | 0.8MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/e0f77b90fe5f561cca52ba1f86626644/R05_gold_threads_v3.mp4 |
+| E03_gaze_meet_v2 | 0.4MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/6b7595cae54fc76b0f03da509613499a/E03_gaze_meet_v2.mp4 |
