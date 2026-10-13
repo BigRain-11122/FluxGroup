@@ -90,14 +90,6 @@ cph4/labbench/
 # python bytecode
 __pycache__/
 *.pyc
-fleet/oversight/oversight-run.log
-# bm-c i2v factory media faces (CDN URLs in I2V-URL-INDEX.md are the transport; only control faces in git)
-cph4/fleet/mv0001-handover/outbound/krea2/kf-demo-20261012/bmc/i2v/
-cph4/fleet/mv0001-handover/outbound/krea2/kf-demo-20261012/bmc/i2v_frames/
-cph4/fleet/mv0001-handover/outbound/krea2/kf-demo-20261012/bmc/archive_i2v/
-cph4/fleet/mv0001-handover/outbound/krea2/kf-demo-20261012/bmc/*.png
-cph4/fleet/mv0001-handover/outbound/krea2/kf-demo-20261012/bmc/*.log
-cph4/fleet/mv0001-handover/outbound/krea2/kf-demo-20261012/bmc/*.err
-cph4/fleet/mv0001-handover/outbound/krea2/kf-demo-20261012/bmc/*.pid
-cph4/fleet/mv0001-handover/outbound/krea2/kf-demo-20261012/*.log
-cph4/fleet/mv0001-handover/outbound/krea2/kf-demo-20261012/*.err
+
+# C-20261013-01: 171.7MB local archive piece, keep on disk but block from git (U187)
+cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v2_20261013.mp4
