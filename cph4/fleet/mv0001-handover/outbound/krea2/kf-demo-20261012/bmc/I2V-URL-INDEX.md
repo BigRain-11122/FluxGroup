@@ -60,3 +60,10 @@
 | C02_sand_bury_v6 | 1.7MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/0895e77b1b5b9184d2f3f1e8319d5709/C02_sand_bury_v6.mp4 |
 | C04_words_alive_v4 | 0.9MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/5db63cf035d18abf3aaa7025dffb52c8/C04_words_alive_v4.mp4 |
 | R05_gold_threads_v4 | 0.8MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/210806a827b2d1fe3ff0233fd7446eb5/R05_gold_threads_v4.mp4 |
+| V3HD-SIL1_stele_backlit_s9011 | 0.8MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/6bfc5589b5cd6dadebc3292960be41f6/SIL1_stele_backlit_s9011_hd.png |
+| V3HD-SIL2_ots_crowd_s9013 | 1.0MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/4f3ea6a4fe715830ef7336e06711a77a/SIL2_ots_crowd_s9013_hd.png |
+| V3HD-SIL3_case_rim_s9013 | 1.0MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/e07df1975a83e9e9b7918c9016647698/SIL3_case_rim_s9013_hd.png |
+| V3HD-SIL4_crowd_edge_s9013 | 0.9MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/8609cf4750c9fe6ac9bb4f378e3f52ca/SIL4_crowd_edge_s9013_hd.png |
+| V3HD-SING1_torch_song_s9013 | 0.7MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/e7a18756cad9529dd0b5ab39d714d15e/SING1_torch_song_s9013_hd.png |
+| V3HD-SING2_firepit_song_s9014 | 0.6MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/4ee35745afaa235ff4628c4c6707214d/SING2_firepit_song_s9014_hd.png |
+| V3HD-SING3_morning_song_s9012 | 1.0MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/e53179b76b5bd1bec0c36dbae5920897/SING3_morning_song_s9012_hd.png |
