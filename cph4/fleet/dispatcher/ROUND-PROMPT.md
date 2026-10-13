@@ -6,6 +6,7 @@
 2. **读旗**：cph4/fleet/dispatcher/ 下 NEED-JUDGMENT.md + DISPATCH-LOG.md 尾部 + POOL.json。
 3. **裁断**（有判断卡/旗才动脑·否则跳到第 6 步）：
    - 未带 lane 的卡：按 §9.1 v2 三车道表裁道（生图生视频/训练/768P→bm-c；声音/animatic/480P→bm-b；大内存/中枢/whisper→bm-a）；模糊件先问本地 bm-b 4b（POST http://100.82.175.0:11434/api/generate·超时 6s 即弃）——**禁为重复活烧云端**。
+   - **RAM-GATE 分片归口律**（O-20261012-2335 CEO 勘正令·96G 机分流替代硬件采购）：单片 RAM 需求 >8G 的分片/批（screens/JUDGE 类·bm-c/bm-b 24G 面卡闸型）→ 一律让渡 **bm-a**（94G 大内存车道·W17 分片让渡先例升格常设）；bm-c 循环班在跑的 W 波 CPU 面不动（回测主力照旧）。
    - LANE-DOWN 旗：poke 对应机（ASCII reason）+orders 记修复催办行；连班未解=升 E1 委员会通道。
    - STARVED 旗（车道 open 卡 <3）：从该 lane 司 backlog/orders 未领真实面补卡入 POOL.json（禁造无意义活·O-20260928-1820 意义性律）。
    - CHASE 旗（assigned>24h 未收口）：poke 目标机催办；再 24h 未回=升 E1。
