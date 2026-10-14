@@ -1,0 +1,67 @@
+# Law-Registry — 集团法典地图与法熵账本 v1（T3 数据面·cph4/registry 制）
+
+> 溯源：C-20261012-01 目标态 1「一张法典地图+法熵账本」（CEO 令「从顶层开始梳理」）·Phase 1 修法包 v1 落地件（O-20261014-1215）。
+> 用法：任何窗口接令先查本表（命令查重律执法面）——同主题查簇头·查状态·查退役位；季度瘦身日（首跑 2026-10-19·进化轮窗）以本表为账本清死件。
+> 数据基线：2026-10-14 12:2x 实测（sizes=KB·四舍五入）。
+
+## 〇、必读三件（新会话唯一必读面·合计 ~21KB ≤30KB 线 ✓）
+
+| 件 | KB | 作用 |
+|---|---|---|
+| `AI.md` | 10.1 | 集团速览+机制指针（唯一速览正典） |
+| `RULES.md` | 3.6 | 协作规则+CEO 令触发器+命令发布台 |
+| `cph4/fleet/dispatcher/CEO-PROXY/CEO-DIRECTION-BRIEF.md` | ~7 | CEO 方向与关注点基准（15 关注雷达+12 盲区+保留面） |
+
+## 一、L0 宪典层（顶层法·改动走 governance §9 变更控制）
+
+| 件 | KB | 状态 | 备注 |
+|---|---|---|---|
+| RULES.md | 3.6 | 活跃 | §7=CEO 令触发+发布台（10-14 接线） |
+| AI.md | 10.1 | 活跃 | v2.0 瘦身版·CEO-PROXY 行已入 §3 |
+| docs/governance.md | 84.7 | 活跃·超 60KB 线 | §4 含 CEO 命令发布台+查重律·瘦身候池（季度瘦身日面） |
+| docs/philosophy.md / BRAND.md / README.md | ~10 | 活跃 | 文化/品牌/入口·低频 |
+| cph4/resource-chain.md | 91.5 | 活跃·超 60KB 预算线 | §9.1 三车道+§一.5 排产优先级序（10-14）·瘦身候池 |
+| cph4/decision-chain.md | 24 | 活跃 | 决策路由唯一正典 |
+| cph4/council.md | 21 | 活跃 v2.3 | 委员会章程·否决窗已废止正典化（10-14） |
+| cph4/cadence.md | 32 | 活跃 | §7.1 命令链 v4（含发布台步） |
+| cph4/versioning.md | 14.2 | 活跃 | +§4.4 多窗推送唯一正道（10-14） |
+| cph4/errors.md / evolution.md / memory.md / token-economy.md / local-first.md / venture.md / onboarding.md / server-governance.md / research-protocol.md / oss-harvest.md / github-radar.md / culture.md / global-vision.md / city-lab.md / README.md / CODELY.md / reflection-journal.md | ~90 | 活跃簇 | 各专域正典·局部读 |
+| docs/audit-charter.md | 61 | 活跃·超 60KB 线 | Part A 外审班=日一班降频（10-14 终谳）·瘦身候池 |
+| docs/master-plan.md / self-drive.md / executive-protocol.md / research-dept-charter.md / qa-smoke-test-charter.md / architecture.md / ceo-review.md | ~90 | 活跃簇 | 商业/自驱/协议/调研/QA/架构/CEO 决策日志 |
+| cph4/fleet/dispatcher/CEO-PROXY/（5 件）+ DISPATCHER-CHARTER.md | ~25 | 活跃 | CEO 命令发布台+巡班（10-14 立） |
+
+## 二、L1 司规层（各司 BLUEPRINT/CODEX/CHARTER——按司归口，此处只登记不入册）
+
+Biggame=仓根文档｜BigMoney=PLAN.md+fleet/｜BigStream=仓内 PLAN/orders｜BigDomain=BLUEPRINT｜FluxVerse=BLUEPRINT/DESIGN/TECH｜BigLife=docs/CODEX｜BigCompute=BLUEPRINT｜BigHouse=BLUEPRINT v0.4｜短视频部/切片部/MV 专辑线=各自 charter/spec 族。
+
+## 三、L2 产线 SOP 层（spec/ledger/law——各产线自册，簇头登记）
+
+prompt-writing-spec-v1（MV 提示词族）·mv-album-001-jay（QC-MASTER-CHECKLIST 等）·meme-daily-v1（LEDGER/SCRIPT-FORMULA）·shortvideo-dept ·video-remix-dept ·MiniGame Design/configs/GLOBAL 正典/台账/档案三区。
+
+## 四、指针存根族（**合法设施·非死件**——2026-10-14 终谳：Phase 0 候选退役池ⓐ 证伪）
+
+| 存根 | B | 指向 | 引用面 |
+|---|---|---|---|
+| cph4/scheduling.md | 222 | resource-chain §一 | 27 |
+| cph4/fleet-allocations.md | 229 | resource-chain §二 | 15 |
+| cph4/retention.md | 227 | resource-chain §三 | 529 |
+| cph4/fleet-protocol.md | 352 | resource-chain §四 | 29 |
+| docs/fleet-liveness-charter.md | 358 | resource-chain §五 | 31 |
+| cph4/assessment.md / decision.md / review.md | ~220 | 各指向正典 | 8/801/8 |
+
+**判例**：指针存根=旧引用的永久重定向面（删除=断链 ≥5 处）——保留；新文件禁再走「同名存根」路（新正典直接落位+登记本表）。
+
+## 五、台账族（审计面·**不拆分**·>1MB 触发归档专项——C-20261013-01 终谳）
+
+docs/orders.md 550.8KB｜docs/decisions.md 215.7KB｜orders-archive×2+decisions-archive（既有分卷）｜evolution-ledger 170KB+archive 310KB｜cph4/registry/orders.jsonl。
+
+## 六、法熵账本（净增=负 ✓·2026-10-14 修法包 v1 批）
+
+- 新增节 2：resource-chain §一.5 排产优先级序｜versioning §4.4 多窗推送正道（数据面新增 2：本表+修法包案卷=案卷非法条）。
+- 废止 2 制度：否决窗制度全链（6 处条款勘注）｜外审班日三班制（降频日一班）。
+- 指针存根 8 件改判保留（候选池ⓐ 结案）。
+- 净法熵：新增 2 vs 废止 2 制度+6 勘注 = **净负** ✓。
+
+## 七、瘦身候池（季度瘦身日面·首跑 2026-10-19·owner=进化轮）
+
+governance 84.7（>60 线）·resource-chain 91.5（>60 预算线·席7 附款）·audit-charter 61（>60 线）·evolution-ledger archive 310（冷层归档续推）·MiniGame CODELY 88（司域分卷在册）。

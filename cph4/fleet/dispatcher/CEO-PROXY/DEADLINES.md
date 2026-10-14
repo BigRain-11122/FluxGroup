@@ -21,7 +21,7 @@
 | 10-19 回访：C-20261012-02/03 判据+总调度席判据（本席判据并入） | 委员会 | DISPATCHER-CHARTER §六 | scheduled |
 | 10-28 BigHouse 判据：苏州吴中社区复刻+CEO 首住户安家+≥10 居民轨迹 | BigHouse/bm-b | BLUEPRINT v0.4 | standing |
 | 短视频：video-remix 首批 S 池 3 条试产（GO·排 bm-b 音频批后） | bm-b | O-20261013-2245 ⑤ | queued |
-| 事件班 schtasks 承载升级件：L0 旗（STARVED/LANE-DOWN/CHASE）→schtasks 触发无头 CEO-PROXY 事件班（task-register 静默正门·夜窗无会话也保判断 ≤40min 延迟） | 代理席晨检班派单 | O-20261014-1235 ⑧ | queued |
+| 事件班 schtasks 承载升级件（**设计查证毕·O-20261014-1245**）：L0 旗（STARVED/LANE-DOWN/CHASE/停摆）→HQ-CEOProxyEventCarrier（task-register 静默正门·PT15M 旗扫描）→`codely -p "【CEO 总调度代理席·事件班】按 cph4/fleet/dispatcher/CEO-PROXY/ROUND.md 事件班执行（锁门同守）"` 无头判断+落单+LOG（**codely -p 非交互模式已查证·CLI 1.0.0-release.57 在位**·--approval-mode 参数面已核）·夜窗无会话也保判断 ≤40min 延迟 | 代理席晨检班派单（10-15 08:43 班） | O-20261014-1235 ⑧+O-20261014-1245 查证 | queued |
 
 ## §二 waiting-CEO（物理件/保留面·零催办）
 
