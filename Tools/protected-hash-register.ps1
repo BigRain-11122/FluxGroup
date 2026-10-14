@@ -40,6 +40,10 @@ $Protected = @(
     @{ path = 'Tools/proxy-event-carrier.ps1';                mode = 'strict' },
     @{ path = 'Tools/proxy-probe.ps1';                       mode = 'strict' },
     @{ path = 'Tools/sli-reconcile.ps1';                     mode = 'strict' },
+    @{ path = 'cph4/fleet/dispatcher/PATROL-FLEET/BLUEPRINT.md';  mode = 'strict' },
+    @{ path = 'cph4/fleet/dispatcher/PATROL-FLEET/CHARTERS.md';    mode = 'strict' },
+    @{ path = 'Tools/patrol-fleet-carrier.ps1';               mode = 'strict' },
+    @{ path = 'Tools/patrol-fleet-config.json';               mode = 'strict' },
     @{ path = 'gaming/MiniGame/tools/siliconwatch/generate.ps1';      mode = 'strict' },
     @{ path = 'gaming/MiniGame/tools/siliconwatch/canonical.html';    mode = 'strict' },
     @{ path = 'gaming/MiniGame/tools/siliconwatch/strings.json';      mode = 'strict' },
@@ -96,7 +100,7 @@ if ($Register) {
     $reg = [ordered]@{
         meta = [ordered]@{
             generated = (Get-Date -Format 'yyyy-MM-dd HH:mm:ss')
-            order = 'O-20261014-1745 (BLUEPRINT v2 sec.9, Phase 1-beta-1 baseline)'
+            order = 'O-20261014-2250 (PATROL-FLEET build order: fleet canon x4 added to the list; supersedes the O-20261014-1745 Phase 1-beta-1 baseline)'
             law = 'protected-file changes = CEO order ONLY (panel signature = nomination face; channel = governance sec.9)'
             note = 'strict = verify fails on drift; dynamic = report-only until per-generation hash log lands in generate.ps1 (pending MiniGame-lane integration). Re-register ONLY under a CEO order number - record it in meta.order when superseding.'
         }
