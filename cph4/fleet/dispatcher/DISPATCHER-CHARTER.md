@@ -1,6 +1,7 @@
-# DISPATCHER-CHARTER — 总调度席（HQ-FleetDispatcher）·v1.0
+# DISPATCHER-CHARTER — 总调度席（HQ-FleetDispatcher）·v1.1
 
 > 溯源：CEO 令 2026-10-12 22:2x 原话「还要一个主调度的agent，负责分配任务啊什么的，你好好安排，需要很好的大模型是可以走云端算力的，但重复的工作什么的，最好走本地量化模型，合适就好，没必要找那么大的」（O-20261012-2225·承 O-20261012-2215 三车道定岗/C-20261012-03）。
+> **v1.1（2026-10-14·O-20261014-1210）**：CEO 令「给我生成一个专门的AGENT，替我发布所有的命令，保证所有都正常运转！你要拉我以前的命令，好好看方向和我关注的点，没有考虑到的点之类的」——L2 云端判断班升格为 **L2·CEO 总调度代理席**（8 班/日·CEO-DIRECTION-BRIEF 方向驱动+关注点/盲区雷达+替 CEO 当窗落单）；轮班协议正身=CEO-PROXY/ROUND.md（原 ROUND-PROMPT.md 转 v1 存档）；旧 L2 cron（00:13/12:13 两班）退役防双写手竞态。
 > 修法注记：resource-chain §一.0.3「不建中央调度器」由本令修订为「调度=机制约定+主调度席」——主调度席≠官僚守护进程：确定性脚本为主（90% 免 token）、LLM 只做判断（10%）、各机自领引擎照旧兜底（调度席挂了系统不断）。
 
 ## 一、定位
@@ -13,7 +14,7 @@
 |---|---|---|---|
 | **L0 确定性巡班** | `Tools/fleet-dispatcher.ps1`·schtasks `HQ-FleetDispatcher` **PT30M 静默** | 读池单+心跳+IdleWatch 日志→规则路由（车道关键词表）→饥饿/超时/失联探针→写 DISPATCH-LOG/NEED-JUDGMENT。**零 LLM·零 git·零 token** | 免费 |
 | **L1 本地量化分类** | bm-b 4b（tailnet `100.82.175.0:11434`·轻档）/bm-c qwen3.6-35B（**仅 GPU 空窗分时段**·§9.3 让路律） | 池单模糊件的车道分类、摘要、格式化——**重复工作零云端 token**（CEO「合适就好」对位） | 本地 |
-| **L2 云端判断班** | codely 会话（云端好模型）·durable cron **00:13/12:13 两班**+按需随时 | NEED-JUDGMENT 仲裁、跨道/优先级冲突、饥饿补货、追回执、排产复盘、落 orders 行+commit+poke（**唯一有权动台账的层**·token 台账 L4 记账） | 云端·预算内 |
+| **L2·CEO 总调度代理席** | codely 会话（云端好模型）·durable cron **`43 0,3,6,9,12,15,18,21` 八班/日**+按需随时 | L2 旧职能全量（NEED-JUDGMENT 仲裁/跨道优先级冲突/饥饿补货/追回执/排产复盘/落 orders+commit+poke=**唯一有权动台账的层**）**+CEO 代理三新面**：①CEO 原话当窗转可执行单（替 CEO 发布命令）②CEO-DIRECTION-BRIEF 方向/关注点/盲区雷达执法③死线台账追踪——协议=CEO-PROXY/ROUND.md·章程=CEO-PROXY/CHARTER.md（token 台账 L4 记账） | 云端·预算内 |
 
 ## 三、模型路由律（CEO 指令的常设编码）
 
@@ -34,7 +35,7 @@
 2. 本席不改变三车道归属（改车道=委员会通道）；不派物理件/保留面。
 3. 派单一律点名机（抢单闸·O-20261012-2215）；本席派出单带 lane 与 @机名。
 4. L2 判断班为云端脑：无判断件时一轮收敛（跑 L0 脚本→核对旗→一行日志收工），禁为跑而烧 token。
-5. cron 7 天物理到期：L2 班每轮跑 cron_list 自检 `HQ-FleetDispatcher` 在位，缺失即按 ROUND-PROMPT.md 原参重建（值守窗亦负此责）。
+5. cron 7 天物理到期：代理席每轮跑 cron_list 自检本席班次在位，缺失即按 CEO-PROXY/ROUND.md 原参重建（值守窗亦负此责）；L0 schtasks `HQ-FleetDispatcher` 由 task-health 面看守。
 
 ## 六、判据（并入 C-20261012-03 回访 2026-10-19·与 C-02 并窗）
 
