@@ -34,3 +34,10 @@
 - **三机快照（fleet-reality 2026-10-14T12:06:48 实测戳）**：bm-a=:8790 活·心跳 9m 新鲜·本机树 behind origin（多窗常态·worktree 正法域）；bm-b=:8790 活·心跳 34m·pull .:fail=树脏（owner 自理已知面）·POOL open=2（QUEUE-LOW 旗·下轮从真实 backlog 补卡）；bm-c=:8790 探针 N（**11:49 心跳 GPU=MV V3 BURNING·波1 i2v 在飞**——监听打盹已知面·下轮复核勿判死）·POOL open=4。
 - **在轨 P0**：MV V3（13:00 预览剪→今晚深夜全本地终剪）=全车道让位序·10:3x/11:5x 窗已派单·不重派（同活禁双开）。
 - **移交下轮（首班 15:43）**：①bm-c 监听复核+波1 收片进度核（wave1_r996_progress）②bm-b POOL 补卡（Speech-02 装机验证批过门后解锁音频批=真实 backlog 面）③死线雷达首扫（DEADLINES.md §一 13 行对 orders 最新回执翻新）④cron_list 自检本席班次在位。
+## Round 1.1（2026-10-14 19:13-19:26·事件班·承载件触发=首弹实证）
+- **触发现**：NJ×2（19:10:05/19:11:04 探针两报）+PROBE 快照×1=EVENT-CARRIER-DOWN: heartbeat file missing。
+- **归因（全力深挖）**：NJ=NEED-JUDGMENT 行前缀（非节点名·零机队涉）——缺的是承载器自身心跳 media/logs/event-carrier-heartbeat.txt；承载器 HQ-CEOProxyEventCarrier 首扫（19:11:06）早于自身心跳存在=「鸡生蛋」首启假窗，旧版探针把缺文件判 DOWN；**三重自愈实证**：①承载器 19:13:17 拉起本班=端到端链路（探针→NJ→承载器→codely -p 无头事件班）首验通过 ②探针 v1.1（19:12:40 落盘）：缺文件=首启 INFO 不报警·根除复发面 ③心跳每扫必刷（PT15M）——19:26:06 定扫实测 HB 19:26:07 刷新·零旗零重发（防抖 40min/同签名 90min/日帽 6/锁门共享四闸在位）。
+- **裁决**：假警已结·零机队动作（传感复用律：L0 19:01 pools bm-a=4/bm-b=2/bm-c=4 全开无 STARVED·零 poke·POOL 不动）。
+- **行动**：①NJ 两行裁决注记（盘面·L0 下轮重生成自清）②current.json 陈旧报警快照裁决清空（堵 19:56 防抖到期后对陈旧警报重发第二次事件班的重发源·探针 20:11:03 下轮自刷）③19:26:06 定扫复探验 BURNING=PASS ④+90min 回访探针 cron（一次性 durable·20:47 触发）。
+- **移交晨班 08:43**：DEADLINES「事件班 schtasks 承载件升级位」行=已 LIVE 首弹（queued 可翻新·归部署窗/晨班）；proxy-probe.ps1/proxy-event-carrier.ps1/NEED-JUDGMENT.md 三件未入 git=部署窗收口须 commit（他窗在飞件·本班不代提交）。
+- 判据法：SLI L2 饥饿驻留 PASS（本旗 19:10 升→19:13 落=3min·SLO ≤90min）；本班调用数 ≈30（事件班无帽）。
