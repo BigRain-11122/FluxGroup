@@ -72,9 +72,9 @@ else { $lines += '- GREEN (freshness lines ok)' }
 # commit + push from bm-b lane (git push handled by bm-b session policy; scheduled task only writes + commits)
 $g = 'C:\Program Files\Git\cmd\git.exe'
 if (Test-Path $g) {
-    & $g -C $Root add cph4/fleet/dispatcher/SLI-RECONCILE.md 2>&1 | Out-Null
-    & $g -C $Root commit -m ('sli-reconcile: external seat report ' + $today + ' (BLUEPRINT v2 G4)') -- cph4/fleet/dispatcher/SLI-RECONCILE.md 2>&1 | Out-Null
-    & $g -C $Root push origin HEAD:refs/heads/main 2>&1 | Out-Null
+    & $g -C $Root add cph4/fleet/dispatcher/SLI-RECONCILE.md | Out-Null
+    & $g -C $Root commit -m ('sli-reconcile: external seat report ' + $today + ' (BLUEPRINT v2 G4)') -- cph4/fleet/dispatcher/SLI-RECONCILE.md | Out-Null
+    & $g -C $Root push origin HEAD:refs/heads/main | Out-Null
     Write-Output 'COMMIT+PUSH attempted (bm-b lane policy: push may be deferred to bm-b session)'
 } else {
     Write-Output 'git not found - report written only'
