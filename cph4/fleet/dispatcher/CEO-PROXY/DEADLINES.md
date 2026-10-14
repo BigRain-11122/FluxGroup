@@ -10,6 +10,7 @@
 |---|---|---|---|
 | 10-14 13:00 V3.5 预览剪呈 CEO | bm-a 装配站 | O-20261014-1035 ⑥ | **延误·如实披露**（17:0x 审查轮核注：13:00 未呈·波1 六镜 16:4x 收齐/波2 点火·装配站接管中——是否并轨深夜终剪由 21:43 死线班跟核） |
 | 10-15 08:43 MV V3 全本地终剪→成片闸→呈 CEO（CEO 死线·O-20261014-1855） | bm-a 装配站+@bm-c 缺件补产 | O-20261013-2200+NJ bigstream 10-15 00:33 | in-flight（事件班 01:2x 点火：wave2 39 件 CDN 收割+FLUX 11 件改名落 DL+cloudv2 21 件归档避让→预检 CLOUD-ONLY 35→7；V3.5 预览剪 540P 后台在跑；7 独立缺件已派 @bm-c POOL-0012〔INT1-5/D03b/E01c·INT8 768P〕；终剪候 7 件回执→asm 云引用=0→768P 终剪→QC/盲评→成片闸） |
+| 10-15 03:30 bm-b git 手术决断线（R2 裁决=A 案宽限观察·预注册决断树：a origin 见 bm-b push→自然恢复闭环 b r956 报 fetch 卡死/驱动死→即刻手术单 c 03:30 零心跳恢复→手术单〔预草案=bigmoney-shiftlog 枢纽决断行：kill blobfill pid 28880+C2 payload 抢救导出+re-clone S0 先例+push+selftest+回执〕） | 枢纽代理席（03:33 探针 cron 主承载+02:43/05:43 夜班+域席 R3 备份） | NJ bigmoney R2 01:33+LOG Round 1.3 | pending-决断线 |
 | C02/R05 源帧重制→重 i2v（装配邻段兜底） | @bm-c ✅已随 wave2 r1010 交付（C02_sand_bury/R05_gold_threads 修复 URL·事件班 01:2x 收割入 DL） | 10-14 11:0x 四抓 | done（r1010 消费面·字节校验过） |
 | 10-14 V100 P0=bm-a 夜窗 MoE 卸载跑 35B（验收 ≥30 字/秒） | bm-a 夜窗 | V100-EXPANSION-SPEC v2 | pending-夜窗 |
 | 10-14 软著 B/C 机 18 款源程序复跑批（CPU 面） | bm-c ✅C机8款已上链（origin fc1b936·G02 7425/G03 8376/G06 6260/G09Y 3666/G10 5252/G12 10347/G17 8439/G18 12007 行）+B机10款已派 @bm-b | O-20261014-1035+事件班 NJ biggame 10-15 00:31 | in-flight（B10 待 @bm-b 回执·POOL-0011·回执窗 12h；A机批收编上链卡 POOL-0013 在册） |
