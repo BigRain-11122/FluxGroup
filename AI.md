@@ -39,7 +39,7 @@
 |---|---|---|
 | OS 循环/DevLoop（各司） | 10min | 各司 mandate |
 | **决策委员会常务轮**（日常代管+复盘四问+自迭代） | 00:00/12:00 双班 | `cph4/council.md` |
-| **CEO 总调度代理席**（CEO 命令发布台+科学巡视：风险加权班表+旗分流三班型+全表日轮转·方向基准=CEO-DIRECTION-BRIEF） | 8 班/日（班表正身=CEO-PROXY/ROUND.md v3） | `cph4/fleet/dispatcher/CEO-PROXY/` |
+| **CEO 总调度代理席**（CEO 命令发布台+科学巡视：风险加权班表+旗分流三班型+全表日轮转·方向基准=CEO-DIRECTION-BRIEF） | 8 班/日+自迭代闭环（正身=CEO-PROXY/ROUND.md v3·cron prompt=律章 §4） | `cph4/fleet/dispatcher/CEO-PROXY/` |
 | 值守轮（四器审计+催办+自愈+**回执核销步**） | 03:07/15:07 双班 | `cph4/night-round-prompt.txt` |
 | 进化轮（立法+法熵审视+考核面） | 周日 09:17 | `cph4/evolution.md` |
 | 巡检 patrol+外部独立审查 | 周一 09:23／日三班 22:17/06:17/14:17 | `docs/audit-charter.md` Part B／Part A |
@@ -102,3 +102,4 @@
 - ≤v1.7：建仓至 10-07 沿革全档 git 史（组织/载体边界/美术定谳/常设化/梳理批各版本注记）。
 - 2026-10-14: §3 机制表增 CEO 总调度代理席行+§4 增方向简报指针（O-20261014-1210/1215·修法包 v1）。
 - 2026-10-14: CEO 总调度代理席行班表正身换版 v3（O-20261014-1245 调研落地·锁门+洗牌+回访探针+SLI）。
+- 2026-10-14: 代理席自迭代闭环（步9）+cron prompt 正身入 CHARTER §4（O-20261014-1315）。
