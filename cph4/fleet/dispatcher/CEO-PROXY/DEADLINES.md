@@ -22,7 +22,7 @@
 | 10-28 BigHouse 判据：苏州吴中社区复刻+CEO 首住户安家+≥10 居民轨迹 | BigHouse/bm-b | BLUEPRINT v0.4 | standing |
 | 短视频：video-remix 首批 S 池 3 条试产（GO·排 bm-b 音频批后） | bm-b | O-20261013-2245 ⑤ | queued |
 | **B站账号运营线（回复/DM/outreach 三件套·已上线·代理席接管巡检 10-14 15:5x）**：护栏审计（每轮 ≤5/日帽/条间 30-90s/永不重发台账/R1 五信号熔断）+续登路（凭据已交接仓外）+回执 | bm-a 本地（车道例外=cookie 最短路·追认·bm-b 迁移待文件通道） | O-20261014-1330+15:1x 接管令 | live-在巡 |
-| 事件班 schtasks 承载升级件（**设计查证毕·O-20261014-1245**）：L0 旗（STARVED/LANE-DOWN/CHASE/停摆）→HQ-CEOProxyEventCarrier（task-register 静默正门·PT15M 旗扫描）→`codely -p "【CEO 总调度代理席·事件班】按 cph4/fleet/dispatcher/CEO-PROXY/ROUND.md 事件班执行（锁门同守）"` 无头判断+落单+LOG（**codely -p 非交互模式已查证·CLI 1.0.0-release.57 在位**·--approval-mode 参数面已核）·夜窗无会话也保判断 ≤40min 延迟 | 代理席晨检班派单（10-15 08:43 班） | O-20261014-1235 ⑧+O-20261014-1245 查证 | queued |
+| 事件班 schtasks 承载升级件：**已落地在役（10-14 19:1x·Phase 1-α·origin 2fed6498）——08:43 班勿重派（防双注册）**：HQ-CEOProxyEventCarrier PT15M+HQ-MA-ProxyProbe PT1H 静默在役·19:13 首发射实弹毕（事件班 Round 1.1·origin 75ac965·NJ 清零+锁收口 19:28:21）·代理席巡检面接管 | 已落地在役 | O-20261014-1745 Phase 1-α ①② | done-在役 |
 
 ## §二 waiting-CEO（物理件/保留面·零催办）
 
@@ -36,3 +36,4 @@
 | Steam 分支评级点选（★★★★★=P01/P05/P07） | O-20261010-1650 存量件 |
 | BigLife census 造人线解禁 | 唯 CEO |
 | 抖音/视频号等账号注册、devtools/AppID/商户号/域名备案族 | 物理件域·有空弄 |
+| **G12 台账机核=BP+pre-push 全机提案（Phase 1-β-③·O-20261014-1745·命令级实施稿=cph4/fleet/dispatcher/MASTER-AGENT/G12-BP-PREPUSH-PROPOSAL.md）**：①GitHub branch protection 轻档（10 仓 main：禁 force-push+禁删·不开 required-PR——机队直推 main 工作流不能断）；②三机 `core.hooksPath=.githooks` pre-push 钩子（反转闸必拦+受保护件哈希漂移提示） | 账号治理面·**CEO 一次同意即三机同夜落地+回执**（登记制零催办） |

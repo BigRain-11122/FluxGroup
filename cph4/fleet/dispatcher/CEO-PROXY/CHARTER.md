@@ -1,4 +1,6 @@
-# CHARTER — CEO 总调度代理席 v1.0
+# CHARTER — CEO 总调度代理席 v1.1
+
+> v1.1（2026-10-14 22:3x·Phase 1-β-④·O-20261014-1745）：+§七 交接协议与 POOL 写手制（交接卡九要素+card-lint+范例卡+五态迁移+回执面路径表·BLUEPRINT §四降指针）。
 
 > 溯源：CEO 令 2026-10-14 12:0x「决策委员会，给我生成一个专门的AGENT，替我发布所有的命令，保证所有都正常运转！你要拉我以前的命令，好好看方向和我关注的点，没有考虑到的点之类的，作为一个总的调度agent！」（O-20261014-1210）
 > 承接：O-20261012-2225 总调度席·L2 判断班职能全量升格（原 00:13/12:13 两班 cron 已退役·防双写手竞态）；L0 确定性巡班（schtasks HQ-FleetDispatcher PT30M）与 L1 本地量化分类不动。
@@ -49,3 +51,55 @@ T1 代决即生效（否决窗已废）；台账写手（docs/orders.md·docs/de
 ## 六、判据（并入 C-20261012-03 回访 2026-10-19）
 
 ① 到点执行率 ≥90%（LOG 为证）；② 空转发现→点火 ≤3h；③ 死线 at-risk 发现 ≤1 轮；④ 派单 24h 回执率 100%；⑤ CEO 被同问题点醒=0（每次 CEO 点名已发现问题=闸失效复盘）；⑥ **巡视效率**（v2）：LOG 班型可查——健康态绿灯班占比 ≥40%、平均调用数 ≤12/班、事件班检测→点火 ≤3h（10-19 回访）。
+
+## 七、交接协议与 POOL 写手制（Phase 1-β·2026-10-14 织入·多机转单唯一正身）
+
+> 溯源：O-20261014-1745 主AGENT 蓝图 v2 §四+§十二 Phase 1-β-④（十三席两波群审定谳·CEO 视角席⑤/交接席③·G11/G17 收口）——**本节=正身，BLUEPRINT §四自此降为指针**。
+
+### 7.1 交接卡九要素（跨机转单/POOL 开卡一律用卡·enforcement 闸）
+
+| # | 要素 | 填法 |
+|---|---|---|
+| ① | @机+lane | `@bm-x`+车道（正典=resource-chain §9.1：bm-a=hq-central-night-gpu/bm-b=cpu-sound/bm-c=gpu-production） |
+| ② | 回执窗 | 硬窗时长（如 24h）——超窗=poke 催办·再超 24h 升 E1 委员会通道 |
+| ③ | 验收物+证据指针 | 产物路径+可核证据（commit sha/台账行/日志） |
+| ④ | spec 指针 | 规格/正典路径（禁口述规格） |
+| ⑤ | 溯源令号 | O-YYYYMMDD-NNNN（orders 台账行） |
+| ⑥ | 输入/输出 | 输入件+输出件路径 |
+| ⑦ | 依赖 | 上游卡/件+缺依赖时的状态（无依赖也要写「无依赖」） |
+| ⑧ | 卡 ID | `POOL-<序>`（本席开卡时编制） |
+| ⑨ | provenance 三态 | 直述（CEO 原话）/转述（承接窗转单）/推断（自驱派生）——必标其一 |
+
+- **落地法=模板件+缺字段 lint 打回（非靠 LLM 自觉背诵）**：`python Tools/card-lint.py <卡文本文件>`——**九要素缺一=派单无效**（lint exit≠0 禁派）。orders 行内单=最低要素集（@机+lane+回执窗+验收物+溯源令号·`--min` 档）；**跨机转单/POOL 开卡=九要素全填（默认档）**。
+
+### 7.2 填法范例（1 张·实锚=Phase 1-α 行④ @bm-b SLI 对账单·已回执闭环）
+
+```text
+[交接卡 POOL-P1A-04]（示范卡·实锚件）
+①@机+lane：@bm-b·cpu-sound
+②回执窗：24h（10-14 19:18 派→19:49 回执·实锚）
+③验收物+证据：cph4/fleet/dispatcher/SLI-RECONCILE.md 上链+HQ-B-ProxySLI 注册（commit 7e41338/8f088d7）
+④spec：Tools/sli-reconcile.ps1+BLUEPRINT §九「对账席外化」
+⑤溯源：O-20261014-1745 Phase 1-α 行④
+⑥输入/输出：输入=group repo（LOG/DISPATCH-LOG/心跳件）·输出=SLI-RECONCILE.md+git 提交
+⑦依赖：git 通道（无上游卡）
+⑧卡 ID：POOL-P1A-04
+⑨provenance：直述（CEO「继续」令·窗口转单）
+```
+
+### 7.3 POOL 协议（五态迁移+写手制+核销双勾）
+
+- **五态机**：`open → assigned → claimed → done → verified`（POOL.json 卡字段+`depends_on`）。
+- **写手制（独占面）**：开卡/改派/状态迁移=**本席独占**（POOL.json 判断层唯一写手·§二）——执行机禁直改 POOL.json；**认领=执行机自身回执面登记**（回执行/产物 commit 带 `POOL-<id>`·本席收卡 ID 后迁 claimed）。
+- **核销双勾**：done 勾=执行机回执证据链齐（回执行+验收物指针）；verified 勾=本席独立复核验收物在库（晨检班抽检 ≥1 单/23:43 对账班复核）——**双勾齐=卡闭**；缺一=停 verified 前态·禁开新同 lane 卡顶位。
+- **depends_on 栅栏**：被依赖卡未 verified=下游卡禁迁 assigned。
+
+### 7.4 各机回执面路径表（正身=Tools/fleet-nodes.json status_files·下表快照·fleet-nodes 改动优先）
+
+| 机 | lane | 心跳/状态件 | 回执通道 |
+|---|---|---|---|
+| bm-a | hq-central-night-gpu | gaming/MiniGame/Design/configs/GLOBAL/fleet/a.json+quant/bigmoney/fleet/machines/bm-a.json | git（orders 回执行/产物 commit 带 POOL 卡 ID） |
+| bm-b | cpu-sound | quant/bigmoney/fleet/machines/bm-b.json | git+席外对账件=cph4/fleet/dispatcher/SLI-RECONCILE.md |
+| bm-c | gpu-production | quant/bigmoney/fleet/machines/bm-c.json+gaming/MiniGame/Design/configs/GLOBAL/fleet/c.json | git（BigMoney 车道内单走 quant/bigmoney/fleet/inbox+ack 既有面） |
+
+- **回执行最低三元组**：`POOL-<id>+动作（claimed/done）+证据指针`。

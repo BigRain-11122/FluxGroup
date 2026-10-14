@@ -1,0 +1,118 @@
+{
+    "meta":  {
+                 "generated":  "2026-10-14 22:38:45",
+                 "order":  "O-20261014-1745 (BLUEPRINT v2 sec.9, Phase 1-beta-1 baseline)",
+                 "law":  "protected-file changes = CEO order ONLY (panel signature = nomination face; channel = governance sec.9)",
+                 "note":  "strict = verify fails on drift; dynamic = report-only until per-generation hash log lands in generate.ps1 (pending MiniGame-lane integration). Re-register ONLY under a CEO order number - record it in meta.order when superseding."
+             },
+    "files":  [
+                  {
+                      "path":  "cph4/fleet/dispatcher/CEO-PROXY/CHARTER.md",
+                      "mode":  "strict",
+                      "sha256":  "033281e4baeb3a49cac3a302467f5cbd067a70d17a10b7fe16daca9ac23d56e2",
+                      "bytes":  10859
+                  },
+                  {
+                      "path":  "cph4/fleet/dispatcher/CEO-PROXY/ROUND.md",
+                      "mode":  "strict",
+                      "sha256":  "48938aed23f3c6437d746315cd45f827f48f4911f653e49a9a62554a6a8250b2",
+                      "bytes":  12084
+                  },
+                  {
+                      "path":  "Tools/fleet-dispatcher.ps1",
+                      "mode":  "strict",
+                      "sha256":  "e1d1ab5a079ed7a2de7498312071c81aafe8d82ac26436fc49c0df8b9c226fbc",
+                      "bytes":  4754
+                  },
+                  {
+                      "path":  "Tools/fleet-idle-watch.ps1",
+                      "mode":  "strict",
+                      "sha256":  "c4e301e7009d5391bb36de1c90b30c0af4c78e490fc6058a1090895e8ea62856",
+                      "bytes":  6314
+                  },
+                  {
+                      "path":  "Tools/fleet-reality.ps1",
+                      "mode":  "strict",
+                      "sha256":  "4d53b3a962a35df735358dbe70814e043985fba0ec231226d423cebc9ecff87f",
+                      "bytes":  5655
+                  },
+                  {
+                      "path":  "Tools/git-atomic-push.py",
+                      "mode":  "strict",
+                      "sha256":  "a9925ee16f10143bd50a4ad19d2e04337f6ac30fc2f882060fcbd9447f84820f",
+                      "bytes":  10531
+                  },
+                  {
+                      "path":  "Tools/git-no-reversal-check.py",
+                      "mode":  "strict",
+                      "sha256":  "0eb86cb629e1fc6bf88c5af03fd52ddd5c9191b7fe5d1be7510bedd4a4959469",
+                      "bytes":  4313
+                  },
+                  {
+                      "path":  "Tools/task-register.ps1",
+                      "mode":  "strict",
+                      "sha256":  "d8f70c2a14033b6ab68d0e65b30190853c0b18bf45a68330f0db400a752174f3",
+                      "bytes":  7548
+                  },
+                  {
+                      "path":  "Tools/proxy-event-carrier.ps1",
+                      "mode":  "strict",
+                      "sha256":  "a2f1c15b16ac62ce1a0a98f97c480ea513e7aa1e9812116b1b0d0335597b4805",
+                      "bytes":  5349
+                  },
+                  {
+                      "path":  "Tools/proxy-probe.ps1",
+                      "mode":  "strict",
+                      "sha256":  "33aa2a7c7d3dc7d7c2ed3dbb792a2315a8ff1e8b86c189398ed86af29daa314e",
+                      "bytes":  2448
+                  },
+                  {
+                      "path":  "Tools/sli-reconcile.ps1",
+                      "mode":  "strict",
+                      "sha256":  "db460751436aba2bcfb99316ea705fba8d1c2880378e5105fb73a7b111015788",
+                      "bytes":  4476
+                  },
+                  {
+                      "path":  "gaming/MiniGame/tools/siliconwatch/generate.ps1",
+                      "mode":  "strict",
+                      "sha256":  "e381f10eae53631c55241c64498fdf1d5e50bcff0f00d9c615568062fd5f6bdc",
+                      "bytes":  43792
+                  },
+                  {
+                      "path":  "gaming/MiniGame/tools/siliconwatch/canonical.html",
+                      "mode":  "strict",
+                      "sha256":  "7f443c62e0de3db3873627860e73350706d54bd1fff8577985a00bd0b2586cf2",
+                      "bytes":  109218
+                  },
+                  {
+                      "path":  "gaming/MiniGame/tools/siliconwatch/strings.json",
+                      "mode":  "strict",
+                      "sha256":  "3dedee47c6cb69a03dabd159fa1843b11a5f87393697177d295992891e78a7d6",
+                      "bytes":  46664
+                  },
+                  {
+                      "path":  "gaming/MiniGame/tools/siliconwatch/sync-template.ps1",
+                      "mode":  "strict",
+                      "sha256":  "b3680c08b191baa844012b67211b103d51989c9bcefb793e9c715409ae68c7db",
+                      "bytes":  791
+                  },
+                  {
+                      "path":  "gaming/MiniGame/硅基生命元宇宙.template.html",
+                      "mode":  "strict",
+                      "sha256":  "7f443c62e0de3db3873627860e73350706d54bd1fff8577985a00bd0b2586cf2",
+                      "bytes":  109218
+                  },
+                  {
+                      "path":  "gaming/MiniGame/硅基生命元宇宙.html",
+                      "mode":  "dynamic",
+                      "sha256":  "7f443c62e0de3db3873627860e73350706d54bd1fff8577985a00bd0b2586cf2",
+                      "bytes":  109218
+                  },
+                  {
+                      "path":  "gaming/MiniGame/硅基生命元宇宙-data.js",
+                      "mode":  "dynamic",
+                      "sha256":  "89e76c6514d77970fc433fcbe2fbea3e6f5a82e01c6b9088edf34727af1b8b4c",
+                      "bytes":  139212
+                  }
+              ]
+}

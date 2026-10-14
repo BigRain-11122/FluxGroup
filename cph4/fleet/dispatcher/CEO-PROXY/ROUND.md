@@ -48,7 +48,7 @@
 
 ## 步6 落单（真要派时·承 v1 全律）
 
-orders 行=现役三段式·行内必带 **@机名+lane+回执窗+验收物**；python 尾锚追加（utf-8-sig 探测·GBK 乱码禁当锚）→ 真 git 路径 pathspec/外科提交（多窗竞态照 versioning §4.4：外科净路首选·push 撞则重放·本地纯消费化禁收敛）→ poke 目标机（步1 正法）→ POOL 开卡/改 assigned。
+orders 行=现役三段式·行内必带 **@机名+lane+回执窗+验收物**；**跨机转单/POOL 开卡=按 CHARTER §七 交接卡九要素填齐+`python Tools/card-lint.py` 过闸（缺字段 lint 打回=派单无效·2026-10-14 Phase 1-β-④ 织入）**；python 尾锚追加（utf-8-sig 探测·GBK 乱码禁当锚）→ 真 git 路径 pathspec/外科提交（多窗竞态照 versioning §4.4：外科净路首选·push 撞则重放·本地纯消费化禁收敛）→ poke 目标机（步1 正法）→ POOL 开卡/改 assigned（五态迁移+写手制+核销双勾=CHARTER §七）。
 
 ## 步7 决策与记账
 
