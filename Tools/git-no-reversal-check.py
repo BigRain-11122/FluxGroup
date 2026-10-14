@@ -1,16 +1,20 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """git-no-reversal-check.py — 推前反转闸（versioning §4.4 ⑤·2026-10-14 fc1b936 修法包回退事故后立）
+                              + --audit 丢行守望档（同日第三次丢行案后立·b9af38b 陈旧基吞 3 行实录）
 
 用法:
-  python Tools/git-no-reversal-check.py <候选提交SHA> [origin_ref] [--whitelist-file <file>] [--depth N]
+  python Tools/git-no-reversal-check.py <候选提交SHA> [origin_ref] [--whitelist-file <file>] [--depth N] [--audit]
 
-判据: origin 近 N 笔(默认10)提交的每条「有意义增行」(>=16 字符·非表头/分隔/纯符号):
+判据（普通档）: origin 近 N 笔(默认10)提交的每条「有意义增行」(>=16 字符·非表头/分隔/纯符号):
       ① 候选树中在 -> OK;
       ② 候选树中无但 origin 现行内容中也无 -> 本前已亡(他窗正当改写) -> 跳过;
-      ③ 候选树中无而 origin 现行内容中在 -> REVERSAL·exit 1。
+      ③ 候选树中无而 origin 现行内容中在 -> REVERSAL·exit 1（本批删了活行·停推）。
       白名单文件=一行一个路径前缀, 命中跳过(合法归档/改名须在提交信息注明)。
-场景: 外科提交/直改提交 push 前最后一道闸——防陈旧树提交把他窗新上链内容静默回退。
+判据（--audit 自审计档·丢行守望）: 跳过②存活过滤与例外表——近 N 笔历史增行在候选树中消失即全部报出
+      （含正当改写·作晨检/死线班告警清单人工判读；丢行→按行所在提交 blob 逐字恢复+补录注记=事件班处理）。
+巡班执法（ROUND 步8 附）: python Tools/git-no-reversal-check.py origin/main origin/main --depth 30 --audit
+场景: 外科提交/直改提交 push 前最后一道闸 + 每日丢行守望——防陈旧树提交把他窗新上链内容静默回退。
 注意: 候选与 origin_ref 须已 fetch; 候选树基于 origin_ref 构建(同链)。
 """
 import subprocess
@@ -31,6 +35,7 @@ def main():
     depth = 10
     if "--depth" in argv:
         depth = int(argv[argv.index("--depth") + 1])
+    AUDIT = "--audit" in argv
     wl = []
     if "--whitelist-file" in argv:
         with open(argv[argv.index("--whitelist-file") + 1], encoding="utf-8-sig") as fh:
@@ -58,16 +63,18 @@ def main():
                         checked += 1
                         if s in cur:
                             continue
-                        if s not in cur_o:
+                        if not AUDIT and s not in cur_o:
                             skipped += 1
                             continue
                         bad += 1
                         print("  REVERSAL %s %s :: %s" % (sha[:8], f, s[:60].encode("unicode_escape").decode("ascii")))
     if bad:
-        print("REVERSAL-DETECTED: %d / %d 条现行增行在候选树中消失 (本前已亡跳过 %d)" % (bad, checked, skipped))
-        print("停推。先做内容级并合(以 origin 尾为锚重放)再推；合法归档/改名走 --whitelist 并在提交信息注明。")
+        mode = "AUDIT-ALERT(丢行守望·含正当改写·人工判读)" if AUDIT else "REVERSAL-DETECTED"
+        print("%s: %d / %d 条历史增行在候选树中消失 (本前已亡跳过 %d)" % (mode, bad, checked, skipped))
+        if not AUDIT:
+            print("停推。先做内容级并合(以 origin 尾为锚重放)再推；合法归档/改名走 --whitelist 并在提交信息注明。")
         sys.exit(1)
-    print("NO-REVERSAL: 近 %d 笔 origin 增行检查 %d 条·现行面零消失·放行 (本前已亡跳过 %d)" % (depth, checked, skipped))
+    print("NO-REVERSAL: 近 %d 笔 origin 增行检查 %d 条·零消失·放行 (本前已亡跳过 %d)" % (depth, checked, skipped))
 
 
 if __name__ == "__main__":
