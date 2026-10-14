@@ -1,4 +1,4 @@
-# sli-reconcile.ps1 - external-seat SLI reconciliation (G4: audit OUTSIDE the proxy seat)
+﻿# sli-reconcile.ps1 - external-seat SLI reconciliation (G4: audit OUTSIDE the proxy seat)
 # Phase 1-alpha of MASTER-AGENT BLUEPRINT v2 (O-20261014-1745). Deployed on bm-b via task-register
 # (daily run), per the @bm-b orders row. Reads the group repo AFTER pull (git = sole data channel),
 # computes the seat's SLI evidence lines, writes SLI-RECONCILE.md, and commits+pushes it (bm-b lane).
