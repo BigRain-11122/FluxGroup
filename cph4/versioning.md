@@ -1,7 +1,7 @@
 # Versioning — 集团 git 版本与分支治理（CPH4 Labs）
 
 > CEO 令（2026-09-23 原话）：「建立git顶层版本和分支设计，做好规划，做好万全又合适的准备，把涉及的机制都梳理一次。」
-> 立法级=T2 机制（AI 直接落地·否决窗 7 天至 2026-09-30·CEO 随时否决，git 即回滚）。
+> 立法级=T2 机制（AI 直接落地·否决窗制度已废〔2026-10-11〕——即过即生效·CEO 随时自然翻案，git 即回滚）。
 > 立法原则：不重复立法——既有 git 相关法条（governance §6 并发纪律 / FLEET-OPS 控制面 / evolution §5 / retention 水位律）全部引用统摄，本件只立**缺口**：主干正典、分支模型、版本模型、保护与回滚、新仓接线。
 
 ## 1. 仓拓扑与主干正典（2026-09-23 实测）
@@ -96,6 +96,13 @@
 6. **执法面**：超 500 硬顶=周进化轮抽审点名（诚实律扫描附带·不建新工具）；与治理层 v2（R-20260923-02c 登记处迁移）同向——登记处落地后溯源指针升级为 `orders.jsonl 行号`，结构不变。
 
 **三面速查**：分支=trunk-based 主干开发（分支是例外四类§2）｜版本=`<scope>/vX.Y.Z` tag 档案律（§3）｜提交=四层结构+500 硬顶+指针溯源（§4.3）。
+
+### 4.4 多窗活树推送唯一正道（2026-10-14 立·C-20261012-01 工程卫生·O-20261014-1215 收口）
+
+- **外科提交净路（单件/少件首选）**：`GIT_INDEX_FILE=<仓外临时索引>` → `read-tree origin/main` → `hash-object -w` 己方内容件（仓外暂存）→ `update-index --add --cacheinfo 100644,<sha>,<path>` → `write-tree` → `commit-tree -p origin/main -F msg` → `push <sha>:main`——**零触碰工作树/主 index/他窗暂存面**；临时件（index/blob/msg）用毕即删。
+- **worktree-at-origin 变体（多文件批）**：`git worktree add <tmp> origin/main` → 内容级落件（python 尾锚追加·幂等）→ pathspec commit → `push origin HEAD:refs/heads/main` → 拆树；撞推（origin 再进）=fetch 后重放一次。
+- **本地纯消费化**：推完**不收敛**——本地 main 允许 behind，由各轮 ff-sync 自收；**禁** `reset --hard`/混合 reset 扫他窗暂存面、禁复活他窗已删件（10-14 staged 吞并+checkout 复活事故实锚）。
+- **禁面**：stash 他窗在飞件（pop 冲突=毁他窗工作）／`update-ref` 不查 reflog（孤儿化他窗提交）／push 被拒强推。
 
 ## 5. 保护与回滚
 
