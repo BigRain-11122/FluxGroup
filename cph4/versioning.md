@@ -100,7 +100,8 @@
 ### 4.4 多窗活树推送唯一正道（2026-10-14 立·C-20261012-01 工程卫生·O-20261014-1215 收口）
 
 - **外科提交净路（单件/少件首选）**：`GIT_INDEX_FILE=<仓外临时索引>` → `read-tree origin/main` → `hash-object -w` 己方内容件（仓外暂存）→ `update-index --add --cacheinfo 100644,<sha>,<path>` → `write-tree` → `commit-tree -p origin/main -F msg` → `push <sha>:main`——**零触碰工作树/主 index/他窗暂存面**；临时件（index/blob/msg）用毕即删。
-- **worktree-at-origin 变体（多文件批）**：`git worktree add <tmp> origin/main` → 内容级落件（python 尾锚追加·幂等）→ pathspec commit → `push origin HEAD:refs/heads/main` → 拆树；撞推（origin 再进）=fetch 后重放一次。
+- **worktree-at-origin 变体（多文件批·非热推期）**：`git worktree add <tmp> origin/main` → 内容级落件（python 尾锚追加·幂等）→ pathspec commit → `push origin HEAD:refs/heads/main` → 拆树；撞推（origin 再进）=fetch 后重放一次。**热推期（多窗每分钟推）实测连撞不可用（10-14 worktree 8 连撞实锚）——改走下条原子推正道**。
+- **原子推正道（热推期唯一可靠路·2026-10-14 全链条审查批补录）**：`Tools/git-atomic-push.py <spec.json>`——fetch 后 Data API 原子链 blobs[base64]→trees[base_tree=origin 尾树]→commits[parents=[origin 尾]]→PATCH refs/heads/main force:false（竞态窗 ~2s·422 非快进=重取尾重试）；推时内容级并合（full=expect 守卫防他窗改写·append=取最新尾）+内联反转闸（REVERSAL 行须全 ∈ 本批程序化 my-dels）+sha 实证（merge-base --is-ancestor）；force 恒 false（10-14 热推期首推即中×4 实锚）。
 - **本地纯消费化**：推完**不收敛**——本地 main 允许 behind，由各轮 ff-sync 自收；**禁** `reset --hard`/混合 reset 扫他窗暂存面、禁复活他窗已删件（10-14 staged 吞并+checkout 复活事故实锚）。
 - **禁面**：stash 他窗在飞件（pop 冲突=毁他窗工作）／`update-ref` 不查 reflog（孤儿化他窗提交）／push 被拒强推。
 ⑤ **推前反转闸**（10-14 fc1b936 陈旧树提交回退事故后立）：一切提交 push 前必跑 `Tools/git-no-reversal-check.py <候选SHA>`——近 10 笔 origin 有意义增行在候选树不得消失·检出即停推（先以 origin 尾为锚内容级并合再推）；合法归档/改名走 --whitelist 并在提交信息注明。
