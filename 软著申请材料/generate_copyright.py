@@ -36,6 +36,7 @@ SRC_ROOTS = [
     r'K:\Fluxgroup\projects',
     r'K:\Fluxgroup\FluxGroup\gaming\MiniGame',
     r'C:\Fluxgroup\FluxGroup\gaming\MiniGame',
+    r'C:\Fluxgroup\MiniGame',  # r957 bm-b: bare-name Unity roots (ScrewOut/... without G-prefix)
 ]
 
 # Register fonts
@@ -107,35 +108,35 @@ PROJECTS = {
     # ---------- B机=银河牛马军团 (bm-c) ----------
     "G04": {
         "name_cn": "螺丝仙人游戏软件", "name_short": "螺丝仙人", "name_en": "ScrewOut", "version": "V1.0",
-        "src_rel": "G04_ScrewOut/Assets/_Game", "owner": "B机",
+        "src_rel": ["G04_ScrewOut/Assets/_Game", "ScrewOut/Assets/_Game"], "owner": "B机",
     },
     "G05": {
         "name_cn": "爆护游戏软件", "name_short": "爆护", "name_en": "ReelRiot", "version": "V1.0",
-        "src_rel": "G05_ReelRiot/Assets/_Game", "owner": "B机",
+        "src_rel": ["G05_ReelRiot/Assets/_Game", "ReelRiot/Assets/_Game"], "owner": "B机",
     },
     "G07": {
         "name_cn": "人从众游戏软件", "name_short": "人从众", "name_en": "MobTide", "version": "V1.0",
-        "src_rel": "G07_MobTide/Assets/_Game", "owner": "B机",
+        "src_rel": ["G07_MobTide/Assets/_Game", "MobTide/Assets/_Game"], "owner": "B机",
     },
     "G08": {
         "name_cn": "开学啦游戏软件", "name_short": "开学啦", "name_en": "CrazyCampus", "version": "V1.0",
-        "src_rel": "G08_CrazyCampus/Assets/_Game", "owner": "B机",
+        "src_rel": ["G08_CrazyCampus/Assets/_Game", "CrazyCampus/Assets/_Game"], "owner": "B机",
     },
     "G13": {
         "name_cn": "我想有个农场游戏软件", "name_short": "我想有个农场", "name_en": "CrazyFarm", "version": "V1.0",
-        "src_rel": "G13_CrazyFarm/Assets/_Game", "out_dir": "G13_我想有个农场", "owner": "B机",
+        "src_rel": ["G13_CrazyFarm/Assets/_Game", "CrazyFarm/Assets/_Game"], "out_dir": "G13_我想有个农场", "owner": "B机",
     },
     "G14": {
         "name_cn": "大不了开饭馆游戏软件", "name_short": "大不了开饭馆", "name_en": "CrazyRestaurant", "version": "V1.0",
-        "src_rel": "G14_CrazyRestaurant/Assets/_Game", "out_dir": "G14_大不了开饭馆", "owner": "B机",
+        "src_rel": ["G14_CrazyRestaurant/Assets/_Game", "CrazyRestaurant/Assets/_Game"], "out_dir": "G14_大不了开饭馆", "owner": "B机",
     },
     "G20": {
         "name_cn": "夜聊斋游戏软件", "name_short": "夜聊斋", "name_en": "MonsterInn", "version": "V1.0",
-        "src_rel": "G20_MonsterInn/Assets/_Game", "owner": "B机",
+        "src_rel": ["G20_MonsterInn/Assets/_Game", "MonsterInn/Assets/_Game"], "owner": "B机",
     },
     "G26": {
         "name_cn": "归园田居游戏软件", "name_short": "归园田居", "name_en": "ExileFarm", "version": "V1.0",
-        "src_rel": "G26_ExileFarm/Assets/_Game", "owner": "B机",
+        "src_rel": ["G26_ExileFarm/Assets/_Game", "ExileFarm/Assets/_Game"], "owner": "B机",
     },
     # ---------- C机=御湖湾牛马军团 (bm-b/K机) ----------
     "G02": {
@@ -173,11 +174,11 @@ PROJECTS = {
     },
     "G23": {
         "name_cn": "这张牌有诈游戏软件", "name_short": "这张牌有诈", "name_en": "CardRogue", "version": "V1.0",
-        "src_rel": "G23_CardRogue/Assets/_Game", "owner": "B机", "name_pending": False,
+        "src_rel": ["G23_CardRogue/Assets/_Game", "CardRogue/Assets/_Game"], "owner": "B机", "name_pending": False,
     },
     "G28": {
         "name_cn": "这一箭稳了游戏软件", "name_short": "这一箭稳了", "name_en": "ArrowOut", "version": "V1.0",
-        "src_rel": "G28_ArrowOut/Assets/_Game", "owner": "B机", "name_pending": False,
+        "src_rel": ["G28_ArrowOut/Assets/_Game", "ArrowOut/Assets/_Game"], "owner": "B机", "name_pending": False,
     },
 }
 
