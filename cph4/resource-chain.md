@@ -42,12 +42,6 @@
 - 原「不建中央调度器」细化为：**不建调度守护进程；调度=机制约定**——顶层机制即本文件。
 
 
-### 5. 当期排产优先级序（2026-10-14 立·C-20261012-01 Phase 1·O-20261014-1215）
-
-- **裁决序（常设法·冲突临场按序裁决不再拍脑袋）**：CEO 新令 ＞ CEO 在等件（物理件产出面让位）＞ 时间死线 ＞ 常供线（回测 W 波链/游戏波次/41 曲滚动）＞ 自驱/创新轨。
-- **活账**=CEO 总调度代理席 `DEADLINES.md`（每班翻新·死线/归属/状态三列）——本节只立法则不载当期数据（单一事实源·防双账漂移）。
-- **满载判据**：三机 GPU/CPU 空转发现→点火 ≤3h（CEO-PROXY 满载雷达+IdleWatch+oversight 三面任一命中即执法·判据并入 10-19 回访。
-
 ## §二 机队台账（原 cph4/fleet-allocations.md v1.0 全文·活数据面）
 
 
@@ -183,7 +177,7 @@
 |---|---|---|---|
 | **bm-c**（16G GPU·24G RAM·3950X-32T） | **GPU 产线主力位=生成视觉-only（CEO 10-14 两令「bm-c 的显卡只做MV相关的工作」+「只做图片，mv，图生视频，AI视频等工作，去排满」）**：Krea2 KF 正片批（图片）/H3 INT8 768P i2v（图生视频/AI 视频）/LoRA 训练（musubi 16G 配方）/rmbg+4x 重档后处理——覆盖 MV 产线（41 曲全量重制）与一切生图/生视频/AI 视频生成单；CPU 副道=BigMoney W 波链（M8 循环班在役·BelowNormal 共存实证）+TJGenerators 云天线唯一位+DailyHotApi/热点扫描既有部署照旧 | Krea2 turbo fp8+jman LoRA（全时常驻）；H3 INT8 DiT+Qwen-Edit-2511（按批加载·同模型连跑防热换龟速判例 10-10）；**qwen3.6-coder 35B 迁站（CEO 生成视觉-only 令·不再驻 bm-c GPU·V100 到位前 coding 面=bm-a 夜窗 MoE 卸载 P0/bm-b 4b/云端·V100-EXPANSION-SPEC-20261014 v2）** | CEO 用机窗=§六 pause 全让；图像 worker 闸 free<3000MB 让路；**RAM 重活禁入**（24G 面·一律流向 bm-a）；**非生成视觉 GPU 活禁入**（CEO 10-14 令·回测/软著/编码 LLM 等一律 CPU 或他机）；GPU 闲>15min 且队列空=自领引擎领本机 lane 单（限生成视觉 lane·O-20261012-1505 承继+车道收窄） |
 | **bm-b**（8G GPU·24G RAM·3800X-16T） | **声音+轻视频+B站账号运营工位（显存低做别的）**：Speech-02 TTS 母带批/Music3 BGM（8G 量化·装机验证批先行 C-20261012-02）/INT4 480P animatic 备援档；**B站账号运营线（CEO 10-14 口谕·O-20261014-0040-bm-b 部署毕）=bili-reply 评论自动回复常驻（qwen3.8:4b 派生·CPU-only 3.7G 零 VRAM·S4U 15min 拍·候 CEO cookie[SESSDATA+bili_jct]+目标视频 aid 填 config 即转 live）+粉丝经营三步走（RESEARCH-fan-ops·评论区 SOP/称谓投票/共创栏目化）+账号日常维护**；CPU 副道=BigMoney 回测分片（主归属·IterationLoop 在役）+短视频/切片装配 CPU 面 | Speech-02+Music3（验证批过门后常驻）；4b LLM 常驻（100.82.175.0:11434 供职·L1 轻件路由·含 bili-reply 派生 CPU-only 常驻）；INT4 animatic 按批 | **8G 禁 768P/int8 正片**（跑不动判例）；回测 CPU 批优先·GPU 声音单排 CPU 空窗；燃烧线收口后 ≤1h 自领（§8.2·限本机 lane） |
-| **bm-a**（12G GPU·94G RAM·32 核·CEO 主用机） | **集团中枢+大内存专属车道（内存大显存一般）+本地 35B coding 常驻通道**：HQ/委员会/导演席/装配/剧本/看板/簿记常设+大内存活专属（whisper 词锚/大 JSON 批/嵌入/长上下文/W 系 RAM 重分片）+**35B coder 常驻（CEO 10-14 令·省云端 token·端口 8090·tailnet 100.110.185.62:8090·代码/分类/中档活本地消化）**；**夜窗 GPU 第二工位**=KF 备援+并行（CEO 满载令种子分工正法）+Qwen-Edit 锁脸+4x 升清 | **白天=35B coder 常驻 ~5G 档（CEO 10-14 令修订「白天零 GPU 常驻」·llama.cpp b11429 MoE 卸载 DDR5-5600·unsloth UD-IQ4_XS·让路触发词随让）**；夜窗 GPU 波=Krea2 turbo+jman LoRA（20-30s/张实测）+4x-UltraSharp（GPU 波前必卸载 coder·波毕 bm-a-CoderServe 看门狗 10min 自愈）；CPU 常驻=whisper+ffmpeg 装配链+35B coder 服务（BelowNormal）；llama-server 旧案退役（qwen2.5:14b-8k 已删·CEO 老模型清除令） | **CPU 面=24/7 常开排产**（10-13 22:1x CEO 常设开放令·O-20261012-1505「工作日工作时间零排单」的 CPU 部分废止·CEO 10% CPU 余量律照旧）；**GPU 面=工作日工作时间零排单（35B coder 常驻件除外·CEO 10-14 令）**（让路律·「我要工作/打游戏」触发词最高优先）；夜窗 GPU=00:00-08:00+周末+CEO 明示下班令；已在 tailnet（Dasheng 100.110.185.62·勘正 D-20261007-04③·端点详见 §9.2） |
+| **bm-a**（12G GPU·94G RAM·32 核·CEO 主用机） | **集团中枢+大内存专属车道（内存大显存一般）**：HQ/委员会/导演席/装配/剧本/看板/簿记常设+大内存活专属（whisper 词锚/大 JSON 批/嵌入/长上下文/W 系 RAM 重分片）；**夜窗 GPU 第二工位**=KF 备援+并行（CEO 满载令种子分工正法）+Qwen-Edit 锁脸+4x 升清 | 白天=零 GPU 常驻（让路律）；夜窗=Krea2 turbo+jman LoRA（20-30s/张实测）+4x-UltraSharp；CPU 常驻=whisper+ffmpeg 装配链；llama-server 仅 GPU 空窗（GPU 波前必卸载·5G 让位） | **CPU 面=24/7 常开排产**（10-13 22:1x CEO 常设开放令·O-20261012-1505「工作日工作时间零排单」的 CPU 部分废止·CEO 10% CPU 余量律照旧）；**GPU 面=工作日工作时间零排单**（让路律·「我要工作/打游戏」触发词最高优先）；夜窗 GPU=00:00-08:00+周末+CEO 明示下班令；已在 tailnet（Dasheng 100.110.185.62·勘正 D-20261007-04③·端点详见 §9.2） |
 
 **抢单闸三律（根治「互相乱倒」·承接 §四.4 批次先占律）：**
 1. **派单点名律**：orders 派单行必带 @机名；未点名的池单按本表车道归属裁决（GPU 生产未写明→bm-c；声音/animatic→bm-b；大内存/中枢→bm-a）——窗口临场开线禁跨车道抢工（「本窗顺手做他机 lane 活」=违例·派单归口）。
