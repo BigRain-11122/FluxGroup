@@ -1,52 +1,63 @@
-# ROUND — CEO 总调度代理席·每轮巡班协议
+# ROUND — CEO 总调度代理席·科学巡视协议 v2
 
-> 班次：durable cron `43 0,3,6,9,12,15,18,21 * * *`（8 班/日）·7 天物理到期→每轮步7自检重建。
-> 每轮目标：三机正常运转+死线在轨+CEO 关注点零违例+台账闭合。**零判断件时一轮收敛（≤10 次工具调用）**，禁为跑而烧 token。
-> 全程纪律：进程内 `&` 禁 spawn 控制台子进程；一切路径用绝对地址；台账追加只走 python 尾锚正法。
+> v2（2026-10-14·CEO 令「agent要科学设置最高效的巡视！」）：等距定时+每班全扫 → **风险加权班表 + 旗分流三班型 + 确定性轮转表 + 传感复用律**。v1 五雷达全保留（步 2-5）。
+> 全程纪律：进程内 `&` 禁 spawn 控制台子进程；台账追加只走 python 尾锚正法；一切路径绝对地址。
 
-## 步0 读入（并行做）
-- 本目录 CEO-DIRECTION-BRIEF.md + DEADLINES.md
-- docs/orders.md 尾部 ~30 行（read_file·offset=总行数-30）
-- cph4/fleet/dispatcher/ 下 DISPATCH-LOG.md 尾 10 行 + NEED-JUDGMENT.md + POOL.json
+## 班表（风险加权 8 班/日·durable cron `43 2,5,8,12,15,18,21,23 * * *`·7 天到期步8自续）
 
-## 步1 三机实测（先实测后结论·新鲜验证律）
-```
-Set-ExecutionPolicy -Scope Process Bypass -Force
-& "C:\Users\sjs20\Desktop\FluxGroup\Tools\fleet-dispatcher.ps1"   # L0 探针拿旗
-& "C:\Users\sjs20\Desktop\FluxGroup\Tools\fleet-reality.ps1"      # 三机全景（在网/心跳新鲜度/同步头）
-```
-- 心跳停摆判读：bm-c 10-14 判例——poke 空 body 只修拉取不修停摆；**停摆=poke 带 tasks 白名单唤醒**：
-```
-Invoke-RestMethod -Method Post -Uri "http://<tailnet_ip>:8790/poke" -Body '{"reason":"<ASCII短串>","tasks":[<该机 wake_tasks>],"repos":[]}' -ContentType 'application/json'
-```
-（IP/wake_tasks 取 Tools/fleet-nodes.json；bm-b 打盹=重试即可勿判死；PS5.1 取 /status 的 '.' 属性走 .PSObject.Properties['.']）
+| 班次 | 班型 | 固定任务片 |
+|---|---|---|
+| 08:43 **晨检全雷达班** | 全 | 盘昨夜死单+消费过夜旗+fleet-reality 全景基线（当日唯一必跑）+补昨夜缺班片 |
+| 12:43 / 15:43 / 18:43 **日间标准班** | 分流 | 各带关注点轮转片（下表）+死线增量 |
+| 21:43 **死线班** | 分流 | 当日死线全清点（晚间=死线聚集窗）+关注点 14-15 |
+| 23:43 **夜移交班** | 分流 | 向 L0/自领引擎移交注记+次日议程落 DEADLINES+盲区片 3-6 |
+| 02:43 / 05:43 **夜产守护班** | 轻重 | 盯在飞批/烧制进度/装配件落位+盲区片 7-12 |
 
-## 步2 五雷达扫描（判读标准=BRIEF §二/§三）
-1. **满载雷达**：三机 GPU/CPU 空转（util 0% 且队列空 >30min）→按自链/排产表/POOL 点火或补卡；bm-c GPU=生成视觉-only·bm-a=工作日白天 GPU 零排单（CPU 解禁）。
-2. **死线雷达**：DEADLINES.md 逐行对 orders 最新回执核态；at-risk（距窗 <2×剩余工时）→重排/催办/如实披露 ETA（禁砍闸换速度）。
-3. **回执雷达**：近 24h @机名 派单行——>2h 无回执=poke 唤醒；>24h=升 E1 委员会通道。
-4. **关注点雷达**：BRIEF §二 每轮抽 5 项轮查（质量闸执行/匀速与剪口/本地引用计数/成本台账/意义门/年代穿帮/活人感…）；违例→执法单。
-5. **盲区雷达**：BRIEF §三 抽 3 项（派单≠被消费/守护件存活 cron_list/后台批日志新鲜度/竞态收尾）。
+**夜窗科学性**：cron 只在会话 idle 时触发——夜产无会话=班次物理不触发（零 token 零浪费）；夜产有会话（MV 夜窗冲刺类）=班次自动生效盯产。24/7 传感兜底=L0（PT30M·schtasks）+IdleWatch（PT15M）+oversight（每小时），与班表互补。
 
-## 步3 落单（只有真要派时）
-- orders 行格式=现役三段式（时间戳|命令/事件|执行态）·行内必带 **@机名+lane+回执窗+验收物**。
-- 台账写入：python 脚本（utf-8-sig 探测 BOM·newline=''）读尾部→锚定当前最后一行→追加；**禁从 GBK 乱码复原中文当锚**（用 unicode_escape 打印核对真尾）。
-- 提交：真 git 路径 `& "C:\Program Files\Git\cmd\git.exe" commit -m "..." -- <pathspec>`（pathspec 形式防吞他窗暂存面）；push 带 origin；PS 假红以 `<旧sha>..<新sha>` range 行为准；push 被拒→fetch 后 worktree 内容级合并正法（git show <sha>:file→worktree 尾追加→推→reset --soft+定向 checkout 收敛）。
-- poke 目标机（步1 正法）→POOL.json 开卡/改 status=assigned+claimed_by（commit 即锁）。
+## 步0 旗分流门（每班第一动作·先定班型再花调用）
 
-## 步4 决策
-- T1 代决即生效（常设授权令）；物理件/保留面→DEADLINES.md waiting-CEO 区登记（零催办）；云端 >500 积分=不创建·呈 CEO 真金闸。
+读三件：`cph4/fleet/dispatcher/DISPATCH-LOG.md` 尾 5 行 + `NEED-JUDGMENT.md` + `CEO-PROXY/DEADLINES.md`（增量：LOG 记上班锚点）→ 判班型：
 
-## 步5 记账
-- LOG.md 每机一行（时刻+verdict+行动）+本轮订单行摘要；DEADLINES.md 状态列随 orders 新回执翻新；一并 pathspec 提交推送。
+- **绿灯班**（零旗+死线零 at-risk+回执零超窗）→ **≤6 工具调用收口**：LOG 一行+步8 自检，禁再扫全库。
+- **标准班**（任一旗/死线 at-risk/新 CEO 令）→ 步 2-5 定向处理，**预算 ≤15 调用**。
+- **事件班**（STARVED/LANE-DOWN/CHASE/心跳停摆/E0 红）→ 全力深挖：落单+poke 唤醒+3 分钟复探验 BURNING·无预算帽·LOG 记事件全程（触发时刻→点火时刻）。
 
-## 步6 出声纪律
-- 正常=静默（只记账）。仅 CHARTER §五 三条件向 CEO 出声（大白话+绝对路径+已决方案）。
+## 步1 传感复用律（禁重测·科学省调用）
 
-## 步7 cron 自续（每轮必做）
-- cron_list 查本席班次（cron `43 0,3,6,9,12,15,18,21 * * *`·recurring·durable）——缺失或临期（≤2 天）即按 CHARTER §四 原参重建；顺带清过期一次性 cron 残留。
+- L0（30min）/IdleWatch（15min）/oversight（小时）已测面**一律读其产出**（DISPATCH-LOG/oversight 台账/心跳 status 文件），本班不重测。
+- `fleet-reality.ps1` 全景仅三情形跑：①晨检班（当日基线）②三源读数矛盾时③点火验证时。
+- 满载判断=IdleWatch 台账+oversight 报告+心跳三源互证；三源皆绿=满载 PASS，零自测。
+- 心跳停摆判读/poke 正法照旧：poke body 带 `tasks=[该机 wake_tasks]`（白名单=Tools/fleet-nodes.json）·bm-b 打盹重试勿判死。
 
-## 附：已知停摆唤醒白名单（fleet-nodes.json 为正身）
-- bm-c=Bigmoney-IterationLoop/SaturationEngine/ResidentDispatcher/Autofill/PoolWorker+MiniGame 系 tick
-- bm-b=Bigmoney-IterationLoop；bm-a=各司 OSLoop+Bigmoney-IterationLoop
-- 常驻 LLM 驻卡堵生成道（free<2G 非烧制态）→ollama stop+pin 任务 disable·整卡还生成线（10-14 判例）
+## 步2-5 五雷达（标准/事件班执行·各带本班固定片）
+
+2. **满载雷达**：三源读数任一报警→查自链/排产表/POOL 点火或补卡；bm-c GPU=生成视觉-only·bm-a=白天 GPU 零排单（CPU 解禁）。
+3. **死线雷达**：DEADLINES.md 逐行对 orders **增量回执**（只读 LOG 上班锚点后新行）；at-risk（距窗<2×剩余工时）→重排/催办/如实披露（禁砍闸换速度）。
+4. **回执雷达**：增量扫描——近 24h @机名 派单行零回执 >2h=poke 唤醒；>24h=升 E1 委员会通道。
+5. **关注点+盲区轮转**（确定性切片·禁随机抽=零重复零遗漏·全表每日覆盖一次）：
+   - 关注点 15 项（BRIEF §二编号）：08:43→1-4｜12:43→5-7｜15:43→8-10｜18:43→11-13｜21:43→14-15
+   - 盲区 12 项（BRIEF §三编号）：08:43→1-2｜23:43→3-6｜02:43→7-9｜05:43→10-12
+   - 夜班未触发（无会话）→ 其片并入次日晨检班补扫（LOG 注记）。
+   - 违例→执法单（关注点违例记 BRIEF 对应行号；盲区违例按其正法处置）。
+
+## 步6 落单（真要派时·承 v1 全律）
+
+orders 行=现役三段式·行内必带 **@机名+lane+回执窗+验收物**；python 尾锚追加（utf-8-sig 探测·GBK 乱码禁当锚）→ 真 git 路径 pathspec/外科提交（多窗竞态照 versioning §4.4：外科净路首选·push 撞则重放·本地纯消费化禁收敛）→ poke 目标机（步1 正法）→ POOL 开卡/改 assigned。
+
+## 步7 决策与记账
+
+- T1 代决即生效；物理件/保留面→DEADLINES waiting-CEO 区登记（零催办）；云端 >500 积分=不创建·呈 CEO 真金闸。
+- **LOG 行必带四元组**：`时刻｜班型（绿/标准/事件）｜调用数｜verdict+行动`——效率可审计（绿灯率+平均调用数入 10-19 回访判据）；LOG 首行存「回执扫描锚点=上次已读 orders 尾行特征」。
+
+## 步8 cron 自续（每班必做）
+
+cron_list 查本席班次（`43 2,5,8,12,15,18,21,23 * * *`·recurring·durable·prompt=引用本文件）——缺失或临期（≤2 天）即按 CHARTER §四 原参重建；顺带清过期一次性 cron 残留。
+
+## 附1 出声三条件（仅三·其余静默）
+
+①真金 >500 积分确认闸 ②红线/物理件必须 CEO 亲动 ③同一缺口两轮派单+poke 无人接手=兜底失败——出声=大白话+绝对路径+已决方案。
+
+## 附2 已知停摆唤醒白名单（fleet-nodes.json 为正身）
+
+bm-c=Bigmoney-IterationLoop/SaturationEngine/ResidentDispatcher/Autofill/PoolWorker+MiniGame 系 tick；bm-b=Bigmoney-IterationLoop；bm-a=各司 OSLoop+Bigmoney-IterationLoop。常驻 LLM 驻卡堵生成道（free<2G 非烧制态）→ollama stop+pin 任务 disable·整卡还生成线。
