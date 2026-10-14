@@ -111,6 +111,7 @@ def run_gate(cand, depth, dels):
     for l in out.splitlines():
         if l.startswith("  REVERSAL") and "::" in l:
             flagged.append(l.split("::", 1)[1].strip())
+    dels = {d.strip() for d in dels}  # esc60 截断第 60 字符恰为空格时 flagged 已 strip→比对假阳性（10-14 实锚·BOM 散热行）
     unexpected = [f for f in flagged if f not in dels]
     if unexpected:
         for f in unexpected:
