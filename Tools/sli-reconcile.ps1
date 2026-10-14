@@ -27,6 +27,7 @@ if (Test-Path $logMd) {
         }
     }
 }
+}
 $typedTotal = $green + $standard + $event
 $avgCalls = 0
 if ($typedTotal -gt 0) { $avgCalls = [math]::Round($callSum / $typedTotal, 1) }
