@@ -122,15 +122,15 @@
   {
     "id": "POOL-0011",
     "priority": "P1",
-    "status": "assigned",
+    "status": "claimed",
     "lane": "bm-b",
     "title": "软著B机10款源程序复跑批（G04/G05/G07/G08/G13/G14/G20/G23/G26/G28）",
     "spec": "软著申请材料/generate_copyright.py PROJECTS 表正身 + O-20261014-1035 B10 段",
     "card": "[交接卡 POOL-0011]\n①@机+lane：@bm-b·cpu-sound\n②回执窗：12h（夜窗 CPU 面即窗执行·约 30 分钟批）\n③验收物+证据指针：软著申请材料/ B机10款源程序 txt/pdf+各款 CCPC 提交材料源程序 PDF+报审台账§四 B10 行销账+orders 回执行（逐款行数/页数）+commit/push sha\n④spec 指针：spec=软著申请材料/generate_copyright.py（PROJECTS 表=CEO 定名正典）+正典 cph4/fleet/dispatcher/CEO-PROXY/DEADLINES.md 软著行\n⑤溯源令号：O-20261014-1035（B10 段执行件）+NJ biggame R2 2026-10-15 00:31\n⑥输入/输出：输入=bm-b 盘 G 系源码（九根跨机解析）+生成器；输出=软著申请材料/B10 三件+CCPC+报审台账§四\n⑦依赖：无依赖（CPU 面独立·G26 以现盘最新代码幂等复跑）\n⑧卡 ID：POOL-0011\n⑨provenance：转述（patrol biggame ROUND-2 NJ 窗口转单·承 O-20261014-1035 原令 B 机款段）",
     "created_by": "CEO-PROXY 事件班 2026-10-15 01:3x（NJ biggame R2）",
-    "claimed_by": "",
-    "claimed_at": "",
-    "result_ref": "",
+    "claimed_by": "bm-b",
+    "claimed_at": "2026-10-15T02:36:32+08:00",
+    "result_ref": "r956 receipt face: results/_r956bmb_rz_driver.py + _r956bmb_rz_driver.log + _r956bmb_rz_receipt.json (GEN_DONE face = r957 commit round; heartbeat 2026-10-15T02:36:32)",
     "depends_on": []
   },
   {
