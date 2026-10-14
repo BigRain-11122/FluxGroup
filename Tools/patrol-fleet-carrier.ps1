@@ -50,9 +50,13 @@ foreach ($s in @($dom.sensors)) {
         continue
     }
 }
+$dlPath = Join-Path $Root 'cph4\fleet\dispatcher\CEO-PROXY\DEADLINES.md'
+$dlLines = @(Get-Content $dlPath -Encoding UTF8)
+$dlCut = $dlLines.Count
+for ($i = 0; $i -lt $dlLines.Count; $i++) { if ($dlLines[$i] -match '^##\s*§二') { $dlCut = $i; break } }
+$dlSect1 = @($dlLines | Select-Object -First $dlCut)
 foreach ($kw in @($dom.deadline_keywords)) {
-    $dl = Join-Path $Root 'cph4\fleet\dispatcher\CEO-PROXY\DEADLINES.md'
-    foreach ($l in (Get-Content $dl -Encoding UTF8)) {
+    foreach ($l in $dlSect1) {
         if ($l -match [regex]::Escape($kw)) {
             if ($l -notmatch 'done-|已落地|closed|standing|scheduled') { $flags += ('DEADLINE: ' + $l.Trim().Substring(0, [Math]::Min(100, $l.Trim().Length))) }
             break
@@ -103,7 +107,7 @@ if (-not $digestDone -and ((Get-Date).Hour -ge [int]$dom.digest_hour)) {
     $digestNote = 'ran'
     $dlDom = @()
     foreach ($kw in @($dom.deadline_keywords)) {
-        foreach ($l in (Get-Content (Join-Path $Root 'cph4\fleet\dispatcher\CEO-PROXY\DEADLINES.md') -Encoding UTF8)) {
+        foreach ($l in $dlSect1) {
             if ($l -match [regex]::Escape($kw)) { $dlDom += $l.Trim() }
         }
     }

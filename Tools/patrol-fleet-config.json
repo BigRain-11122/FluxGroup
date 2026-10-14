@@ -20,6 +20,7 @@
       "company": "BigMoney 量化",
       "charter_section": "§2",
       "sensors": [
+        { "path": "quant/bigmoney/fleet/machines/bm-a.json", "type": "mtime", "max_age_min": 150, "weak": true },
         { "path": "quant/bigmoney/fleet/machines/bm-b.json", "type": "mtime", "max_age_min": 150, "weak": true },
         { "path": "quant/bigmoney/fleet/machines/bm-c.json", "type": "mtime", "max_age_min": 150, "weak": true },
         { "path": "quant/bigmoney/fleet/backlog.md", "type": "mtime", "max_age_min": 720, "weak": true }
@@ -90,7 +91,7 @@
       "company": "FluxVerse 元宙呈现",
       "charter_section": "§7",
       "sensors": [
-        { "path": "gaming/MiniGame/硅基生命元宇宙.html", "type": "mtime", "max_age_min": 45 },
+        { "path": "gaming/MiniGame/硅基生命元宇宙.html", "type": "mtime", "max_age_min": 30 },
         { "path": "gaming/MiniGame/tools/siliconwatch/canonical.html", "type": "must_exist" }
       ],
       "deadline_keywords": ["FluxVerse", "可视化", "M1", "元宇宙", "城建"],

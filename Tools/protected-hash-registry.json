@@ -1,6 +1,6 @@
 {
     "meta":  {
-                 "generated":  "2026-10-14 23:35:49",
+                 "generated":  "2026-10-14 23:41:23",
                  "order":  "O-20261014-2250 (PATROL-FLEET build order: fleet canon x4 added to the list; supersedes the O-20261014-1745 Phase 1-beta-1 baseline)",
                  "law":  "protected-file changes = CEO order ONLY (panel signature = nomination face; channel = governance sec.9)",
                  "note":  "strict = verify fails on drift; dynamic = report-only until per-generation hash log lands in generate.ps1 (pending MiniGame-lane integration). Re-register ONLY under a CEO order number - record it in meta.order when superseding."
@@ -81,20 +81,20 @@
                   {
                       "path":  "cph4/fleet/dispatcher/PATROL-FLEET/CHARTERS.md",
                       "mode":  "strict",
-                      "sha256":  "1f6b8fbf2da9006e101af2398ee4d827753d07d180c4099100faa4c7d0a47011",
-                      "bytes":  10385
+                      "sha256":  "f2528b028bef8f8c93a13a0eb39d13195e64b492696add0cb767331aaef2ba4e",
+                      "bytes":  10851
                   },
                   {
                       "path":  "Tools/patrol-fleet-carrier.ps1",
                       "mode":  "strict",
-                      "sha256":  "7857aa1fa357f4e61fcf6875278fa0a58c06d844bbc91b71df27483abb1702b1",
-                      "bytes":  11621
+                      "sha256":  "fc215026fc35170eb3a8bacc68816c37b11c36f5a1c98417adf50ea04adde2db",
+                      "bytes":  11746
                   },
                   {
                       "path":  "Tools/patrol-fleet-config.json",
                       "mode":  "strict",
-                      "sha256":  "f7401dade95e483ed81a5489c14b2968da7eb57b99bc3726cc1dc2e9755b6055",
-                      "bytes":  6605
+                      "sha256":  "3f2ef2ceddfb989f5b244c31b0b3794f573d28bade1585588e649ef0dc2a0284",
+                      "bytes":  6719
                   },
                   {
                       "path":  "gaming/MiniGame/tools/siliconwatch/generate.ps1",
@@ -135,8 +135,8 @@
                   {
                       "path":  "gaming/MiniGame/硅基生命元宇宙-data.js",
                       "mode":  "dynamic",
-                      "sha256":  "ce9099aa1416937e8f23ea4e128498788338b7442764c7f9f40274b0a69c1d91",
-                      "bytes":  139229
+                      "sha256":  "13b4986baf0b1635e5597b00a01660604d76de8d1391e393c93cc8b5a161704b",
+                      "bytes":  139231
                   }
               ]
 }
