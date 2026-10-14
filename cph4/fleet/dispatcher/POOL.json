@@ -118,5 +118,47 @@
     "claimed_by": "",
     "claimed_at": "",
     "result_ref": ""
+  },
+  {
+    "id": "POOL-0011",
+    "priority": "P1",
+    "status": "assigned",
+    "lane": "bm-b",
+    "title": "软著B机10款源程序复跑批（G04/G05/G07/G08/G13/G14/G20/G23/G26/G28）",
+    "spec": "软著申请材料/generate_copyright.py PROJECTS 表正身 + O-20261014-1035 B10 段",
+    "card": "[交接卡 POOL-0011]\n①@机+lane：@bm-b·cpu-sound\n②回执窗：12h（夜窗 CPU 面即窗执行·约 30 分钟批）\n③验收物+证据指针：软著申请材料/ B机10款源程序 txt/pdf+各款 CCPC 提交材料源程序 PDF+报审台账§四 B10 行销账+orders 回执行（逐款行数/页数）+commit/push sha\n④spec 指针：spec=软著申请材料/generate_copyright.py（PROJECTS 表=CEO 定名正典）+正典 cph4/fleet/dispatcher/CEO-PROXY/DEADLINES.md 软著行\n⑤溯源令号：O-20261014-1035（B10 段执行件）+NJ biggame R2 2026-10-15 00:31\n⑥输入/输出：输入=bm-b 盘 G 系源码（九根跨机解析）+生成器；输出=软著申请材料/B10 三件+CCPC+报审台账§四\n⑦依赖：无依赖（CPU 面独立·G26 以现盘最新代码幂等复跑）\n⑧卡 ID：POOL-0011\n⑨provenance：转述（patrol biggame ROUND-2 NJ 窗口转单·承 O-20261014-1035 原令 B 机款段）",
+    "created_by": "CEO-PROXY 事件班 2026-10-15 01:3x（NJ biggame R2）",
+    "claimed_by": "",
+    "claimed_at": "",
+    "result_ref": "",
+    "depends_on": []
+  },
+  {
+    "id": "POOL-0012",
+    "priority": "P1",
+    "status": "assigned",
+    "lane": "bm-c",
+    "title": "V3 终剪缺件补产 7 镜（INT1-5/D03b/E01c·INT8 768P）",
+    "spec": "mv_full_shots.py 行正身 + V3-NEWKF-PACK §i2v 六段式 + 七帧 CDN（orders 10-15 01:3x 行）",
+    "card": "[交接卡 POOL-0012]\n①@机+lane：@bm-c·gpu-production\n②回执窗：12h（V3 终剪缺件优先序·INT8 768P 7 件约 2h）\n③验收物+证据指针：7 件 <镜id>.mp4（INT1_desk_breath/INT2_paper_fight/INT3_photo_stare/INT4_rubbing_glow/INT5_head_bow/D03b_direct_gaze/E01c_first_line）CDN URL+字节数回执行+I2V-URL-INDEX.md 追加行\n④spec 指针：mv_full_shots.py 行正身+V3-NEWKF-PACK §i2v 六段式（cph4/fleet/mv0001-handover/outbound/krea2/kf-demo-20261012/）+七帧 CDN 直链=orders 10-15 01:3x 行\n⑤溯源令号：O-20261013-2200（全本地令）+NJ bigstream R2 2026-10-15 00:33\n⑥输入/输出：输入=七帧 CDN PNG+提示词正身；输出=7 件 768P mp4 CDN URL\n⑦依赖：无依赖（帧不符可按 mv_full_shots.py 帧提示词正文本机重渲·672×384 试构图先行照律）\n⑧卡 ID：POOL-0012\n⑨provenance：转述（patrol bigstream ROUND-2 NJ 装配缺口面·事件班 asm_preflight 终判清单）",
+    "created_by": "CEO-PROXY 事件班 2026-10-15 01:3x（NJ bigstream R2）",
+    "claimed_by": "",
+    "claimed_at": "",
+    "result_ref": "",
+    "depends_on": []
+  },
+  {
+    "id": "POOL-0013",
+    "priority": "P2",
+    "status": "open",
+    "lane": "bm-a",
+    "title": "软著A机14款刷新批产物收编上链（L1018 勘正实收口：staged M 107+untracked 12）",
+    "spec": "软著申请材料/README.md 刷新台账 + 正典律/引用在档律",
+    "card": "[交接卡 POOL-0013]\n①@机+lane：@bm-a·hq-central-night-gpu（CPU 面即可）\n②回执窗：48h（P2 非死线件）\n③验收物+证据指针：软著 A机14款刷新批产物收编上链——staged M 约 107 件+untracked 12 件（GimmeAll 三件+_报审提交区第1-5批+报审台账.md）pathspec/原子推上链+orders 回执行（L1018 勘正实收口）+commit sha\n④spec 指针：软著申请材料/README.md 刷新台账+正典律/引用在档律（cph4/registry/law-registry.md）\n⑤溯源令号：O-20261014-1035（A机段·orders L1018 宣称失实勘正件）\n⑥输入/输出：输入=bm-a 本地 index staged M+untracked 件；输出=origin 全量软著材料+回执行\n⑦依赖：无依赖（防回退雷已拆 01:0x·暂存删除清零·推前反转闸照跑）\n⑧卡 ID：POOL-0013\n⑨provenance：推断（NJ biggame R2 ④ L1018 勘正衍生的实收口件·事件班开卡）",
+    "created_by": "CEO-PROXY 事件班 2026-10-15 01:3x（NJ biggame R2 ④）",
+    "claimed_by": "",
+    "claimed_at": "",
+    "result_ref": "",
+    "depends_on": []
   }
 ]
