@@ -23,7 +23,7 @@
         { "path": "quant/bigmoney/fleet/machines/bm-a.json", "type": "mtime", "max_age_min": 150, "weak": true },
         { "path": "quant/bigmoney/fleet/machines/bm-b.json", "type": "mtime", "max_age_min": 150, "weak": true },
         { "path": "quant/bigmoney/fleet/machines/bm-c.json", "type": "mtime", "max_age_min": 150, "weak": true },
-        { "path": "quant/bigmoney/fleet/backlog.md", "type": "mtime", "max_age_min": 720, "weak": true }
+        { "path": "quant/bigmoney/fleet/backlog.md", "type": "mtime", "max_age_min": 720, "weak": true, "digest_only": true }
       ],
       "deadline_keywords": ["W 波", "回测", "BigMoney", "量化", "N1", "RAM", "W2"],
       "keyword_flags": [

@@ -1,7 +1,7 @@
 # PATROL-FLEET CHARTERS — 十域巡视席章程 v1
 
 > 溯源：O-20261014-2250（巡视舰队令）。每席一节：定位/频率/领域雷达面（专业检项·带判据）/即决清单/知识面/升级线。域巡视班 prompt=「按本文件 §N 执行+旗清单」——禁脱离章程泛化巡逻。
-> 通用纪律（全席同守）：只读只议+领域建议；台账（orders/decisions/POOL）禁直写——产出=NEED-JUDGMENT 行+LOG.md 一行（时刻|班型|调用数|verdict+行动）；锁门同守；物理件/保留面零催办；呈 CEO=已决+判据+绝对路径；传感复用（L0/IdleWatch/枢纽已测面禁重测）。
+> 通用纪律（全席同守）：只读只议+领域建议；台账（orders/decisions/POOL）禁直写——产出=NEED-JUDGMENT 行+LOG.md 一行（时刻|班型|调用数|verdict+行动）；锁门同守；物理件/保留面零催办；呈 CEO=已决+判据+绝对路径；传感复用（L0/IdleWatch/枢纽已测面禁重测）；**升级件双面律（2026-10-14 机制梳理批成文）**：NJ 行=加速面（L0 每 30min 再生·best-effort）——**持久正身=域 shiftlog 行+舰队 LOG.md 一行+域状态件**（mechanism-map §五.5）。
 
 ## §1 巡视席-Biggame（游戏开发·MiniGame）
 

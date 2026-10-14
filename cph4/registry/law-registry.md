@@ -30,6 +30,8 @@
 | docs/master-plan.md / self-drive.md / executive-protocol.md / research-dept-charter.md / qa-smoke-test-charter.md / architecture.md / ceo-review.md | ~90 | 活跃簇 | 商业/自驱/协议/调研/QA/架构/CEO 决策日志 |
 | cph4/fleet/dispatcher/CEO-PROXY/（5 件）+ DISPATCHER-CHARTER.md | ~25 | 活跃 | CEO 命令发布台+巡班（10-14 立） |
 | cph4/fleet/dispatcher/MASTER-AGENT/（BLUEPRINT v2+PANEL-REVIEW+reviews×13） | ~47 | 活跃 | 主AGENT 架构正典+两波群审档案（10-14 立·O-20261014-1745·13 席 37 修法定版） |
+| cph4/fleet/dispatcher/PATROL-FLEET/（BLUEPRINT+CHARTERS+LOG+reviews） | ~30 | 活跃 | 子公司巡视席舰队正典（10-14 立·O-20261014-2250·十域章程·首战真发现 5 例·v1.1 晨波在排） |
+| cph4/registry/mechanism-map.md | ~9 | 活跃 | 机制总图（从上往下一条线·O-20261014-2345·只描述不立新法·三件互指：cadence/law-registry/本件） |
 
 ## 二、L1 司规层（各司 BLUEPRINT/CODEX/CHARTER——按司归口，此处只登记不入册）
 
@@ -63,6 +65,7 @@ docs/orders.md 550.8KB｜docs/decisions.md 215.7KB｜orders-archive×2+decisions
 - 指针存根 8 件改判保留（候选池ⓐ 结案）。
 - 净法熵：新增 2 vs 废止 2 制度+6 勘注 = **净负** ✓。
 - 2026-10-14 二批（主AGENT 群审定版批·O-20261014-1745）：新增 1 册=MASTER-AGENT 蓝图 v2（L0 架构正典登记·非法条·同修法包案卷判定）+伴随勘注 5 处（DISPATCHER-CHARTER 班表指针化/ROUND 步9 受保护件例外/AI.md 指针化+雷达数勘正+代理席行勘正×3/本表本行）——蓝图内 8 项拟法全部走 Phase 1-β governance §9 通道生效（本批只登记不生效）；AI.md 10.1→11.1KB/ROUND.md~11.6KB 随勘正批漂移备案（必读三件合计 ~21.7KB ≤30KB 线仍 ✓）。
+- 2026-10-14 三批（巡视舰队+机制总图批·O-20261014-2250/2345）：新增 2 册=PATROL-FLEET 巡视舰队正典（十域章程·L0 架构族·5 真 bug+5 红旗当窗修·轻审波 v1.1 晨波在排）+mechanism-map 机制总图（顶层结构族·只描述不立新法）；伴随登记=cadence.md 指挥链族入账（14 新任务/班次）+AI.md 舰队/总图指针行+governance §0.1 一页图升 v1.1。
 
 ## 七、瘦身候池（季度瘦身日面·首跑 2026-10-19·owner=进化轮）
 

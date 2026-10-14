@@ -45,7 +45,7 @@ foreach ($s in @($dom.sensors)) {
         if (-not (Test-Path $abs)) { $flags += ($s.path + ': missing'); continue }
         $ageMin = ((Get-Date) - (Get-Item $abs).LastWriteTime).TotalMinutes
         if ($ageMin -gt [double]$s.max_age_min) {
-            $flags += ($s.path + ': stale ' + [math]::Round($ageMin,0) + 'min > ' + $s.max_age_min + 'min' + $(if ($s.weak) {' (weak git-copy sensor)'} else {''}))
+            if (-not $s.digest_only) { $flags += ($s.path + ': stale ' + [math]::Round($ageMin,0) + 'min > ' + $s.max_age_min + 'min' + $(if ($s.weak) {' (weak git-copy sensor)'} else {''})) }
         }
         continue
     }

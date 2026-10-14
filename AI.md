@@ -70,6 +70,8 @@
 | CEO 令与裁决 | `docs/orders.md` |
 | CEO 方向与关注点基准（16 雷达+12 盲区+保留面） | `cph4/fleet/dispatcher/CEO-PROXY/CEO-DIRECTION-BRIEF.md` |
 | **主AGENT 架构正典（集团主脑统一蓝图 v2·两波群审定版）** | `cph4/fleet/dispatcher/MASTER-AGENT/BLUEPRINT.md`（群审原件=同目录 reviews/·总报告=PANEL-REVIEW-20261014.md） |
+| **子公司巡视席舰队（十域巡视·30min 传感+域章程专业深挖+日 digest）** | `cph4/fleet/dispatcher/PATROL-FLEET/`（架构=BLUEPRINT·十域章程=CHARTERS·审档=reviews/） |
+| **机制总图（从上往下一条线·全链流水线+SLI 总表+已知张力）** | `cph4/registry/mechanism-map.md` |
 | **顶层治理架构一页图+八原则** | `docs/governance.md` §0 |
 | 治理契约（边界/开线收线/协同/**命令查重律**/变更控制） | `docs/governance.md` |
 | 商业×元宙双螺旋总纲 | `docs/master-plan.md` |
@@ -103,3 +105,4 @@
 - ≤v1.7：建仓至 10-07 沿革全档 git 史（组织/载体边界/美术定谳/常设化/梳理批各版本注记）。
 - 2026-10-14: §3 机制表增 CEO 总调度代理席行+§4 增方向简报指针（O-20261014-1210/1215·修法包 v1）。
 - 2026-10-14 二批: §3 代理席行班表指针改 CHARTER §四（v2→v3.1 版本漂移勘正）+§4 雷达数 15→16 勘正+增主AGENT 架构正典指针行（O-20261014-1745 十三席两波群审·交接席实锚）。
+- 2026-10-14 三批: 增巡视席舰队指针行+机制总图行（O-20261014-2250 巡视舰队令+O-20261014-2345 机制从上往下梳理令）。
