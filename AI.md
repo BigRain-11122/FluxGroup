@@ -39,7 +39,7 @@
 |---|---|---|
 | OS 循环/DevLoop（各司） | 10min | 各司 mandate |
 | **决策委员会常务轮**（日常代管+复盘四问+自迭代） | 00:00/12:00 双班 | `cph4/council.md` |
-| **CEO 总调度代理席**（CEO 命令发布台+科学巡视：风险加权班表+旗分流三班型+全表日轮转·方向基准=CEO-DIRECTION-BRIEF） | 8 班/日+自迭代闭环（正身=CEO-PROXY/ROUND.md v3·cron prompt=律章 §4） | `cph4/fleet/dispatcher/CEO-PROXY/` |
+| **CEO 总调度代理席**（CEO 命令发布台+科学巡视：风险加权班表+旗分流三班型+全表日轮转·方向基准=CEO-DIRECTION-BRIEF） | 8 班/日（班表正身=CEO-PROXY/CHARTER.md §四·协议正身=ROUND.md——版本漂移勘正 2026-10-14 群审交接席） | `cph4/fleet/dispatcher/CEO-PROXY/` |
 | 值守轮（四器审计+催办+自愈+**回执核销步**） | 03:07/15:07 双班 | `cph4/night-round-prompt.txt` |
 | 进化轮（立法+法熵审视+考核面） | 周日 09:17 | `cph4/evolution.md` |
 | 巡检 patrol+外部独立审查 | 周一 09:23／日三班 22:17/06:17/14:17 | `docs/audit-charter.md` Part B／Part A |
@@ -68,7 +68,8 @@
 | 要什么 | 去哪 |
 |---|---|
 | CEO 令与裁决 | `docs/orders.md` |
-| CEO 方向与关注点基准（15 雷达+12 盲区+保留面） | `cph4/fleet/dispatcher/CEO-PROXY/CEO-DIRECTION-BRIEF.md` |
+| CEO 方向与关注点基准（16 雷达+12 盲区+保留面） | `cph4/fleet/dispatcher/CEO-PROXY/CEO-DIRECTION-BRIEF.md` |
+| **主AGENT 架构正典（集团主脑统一蓝图 v2·两波群审定版）** | `cph4/fleet/dispatcher/MASTER-AGENT/BLUEPRINT.md`（群审原件=同目录 reviews/·总报告=PANEL-REVIEW-20261014.md） |
 | **顶层治理架构一页图+八原则** | `docs/governance.md` §0 |
 | 治理契约（边界/开线收线/协同/**命令查重律**/变更控制） | `docs/governance.md` |
 | 商业×元宙双螺旋总纲 | `docs/master-plan.md` |
@@ -101,5 +102,4 @@
 - 2026-10-08: **v2.0 大瘦身**（CEO 令「规则太多了，造成思考拥堵」·C-20261008-06 Phase 1·17.9KB→≤10KB）：沿革/案例/长文移出（git 史全保）——组织表/机制表速查化、§2/§4/§5 压缩、铁律 3 增查重。
 - ≤v1.7：建仓至 10-07 沿革全档 git 史（组织/载体边界/美术定谳/常设化/梳理批各版本注记）。
 - 2026-10-14: §3 机制表增 CEO 总调度代理席行+§4 增方向简报指针（O-20261014-1210/1215·修法包 v1）。
-- 2026-10-14: CEO 总调度代理席行班表正身换版 v3（O-20261014-1245 调研落地·锁门+洗牌+回访探针+SLI）。
-- 2026-10-14: 代理席自迭代闭环（步9）+cron prompt 正身入 CHARTER §4（O-20261014-1315）。
+- 2026-10-14 二批: §3 代理席行班表指针改 CHARTER §四（v2→v3.1 版本漂移勘正）+§4 雷达数 15→16 勘正+增主AGENT 架构正典指针行（O-20261014-1745 十三席两波群审·交接席实锚）。

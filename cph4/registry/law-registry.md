@@ -29,6 +29,7 @@
 | docs/audit-charter.md | 61 | 活跃·超 60KB 线 | Part A 外审班=日一班降频（10-14 终谳）·瘦身候池 |
 | docs/master-plan.md / self-drive.md / executive-protocol.md / research-dept-charter.md / qa-smoke-test-charter.md / architecture.md / ceo-review.md | ~90 | 活跃簇 | 商业/自驱/协议/调研/QA/架构/CEO 决策日志 |
 | cph4/fleet/dispatcher/CEO-PROXY/（5 件）+ DISPATCHER-CHARTER.md | ~25 | 活跃 | CEO 命令发布台+巡班（10-14 立） |
+| cph4/fleet/dispatcher/MASTER-AGENT/（BLUEPRINT v2+PANEL-REVIEW+reviews×13） | ~47 | 活跃 | 主AGENT 架构正典+两波群审档案（10-14 立·O-20261014-1745·13 席 37 修法定版） |
 
 ## 二、L1 司规层（各司 BLUEPRINT/CODEX/CHARTER——按司归口，此处只登记不入册）
 
@@ -61,6 +62,7 @@ docs/orders.md 550.8KB｜docs/decisions.md 215.7KB｜orders-archive×2+decisions
 - 废止 2 制度：否决窗制度全链（6 处条款勘注）｜外审班日三班制（降频日一班）。
 - 指针存根 8 件改判保留（候选池ⓐ 结案）。
 - 净法熵：新增 2 vs 废止 2 制度+6 勘注 = **净负** ✓。
+- 2026-10-14 二批（主AGENT 群审定版批·O-20261014-1745）：新增 1 册=MASTER-AGENT 蓝图 v2（L0 架构正典登记·非法条·同修法包案卷判定）+伴随勘注 5 处（DISPATCHER-CHARTER 班表指针化/ROUND 步9 受保护件例外/AI.md 指针化+雷达数勘正+代理席行勘正×3/本表本行）——蓝图内 8 项拟法全部走 Phase 1-β governance §9 通道生效（本批只登记不生效）；AI.md 10.1→11.1KB/ROUND.md~11.6KB 随勘正批漂移备案（必读三件合计 ~21.7KB ≤30KB 线仍 ✓）。
 
 ## 七、瘦身候池（季度瘦身日面·首跑 2026-10-19·owner=进化轮）
 

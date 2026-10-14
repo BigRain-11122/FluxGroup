@@ -14,7 +14,7 @@
 |---|---|---|---|
 | **L0 确定性巡班** | `Tools/fleet-dispatcher.ps1`·schtasks `HQ-FleetDispatcher` **PT30M 静默** | 读池单+心跳+IdleWatch 日志→规则路由（车道关键词表）→饥饿/超时/失联探针→写 DISPATCH-LOG/NEED-JUDGMENT。**零 LLM·零 git·零 token** | 免费 |
 | **L1 本地量化分类** | bm-b 4b（tailnet `100.82.175.0:11434`·轻档）/bm-a qwen3.6-35B coder（**常驻**·llama.cpp b11429·MoE 卸载 DDR5-5600·tailnet `100.110.185.62:8090`·CEO 10-14 令） | 池单模糊件的车道分类、摘要、格式化+代码活力所能及面——**重复工作零云端 token**（CEO「合适就好」对位） | 本地 |
-| **L2·CEO 总调度代理席** | codely 会话（云端好模型）·durable cron **`43 0,3,6,9,12,15,18,21` 八班/日**+按需随时 | L2 旧职能全量（NEED-JUDGMENT 仲裁/跨道优先级冲突/饥饿补货/追回执/排产复盘/落 orders+commit+poke=**唯一有权动台账的层**）**+CEO 代理三新面**：①CEO 原话当窗转可执行单（替 CEO 发布命令）②CEO-DIRECTION-BRIEF 方向/关注点/盲区雷达执法③死线台账追踪——协议=CEO-PROXY/ROUND.md·章程=CEO-PROXY/CHARTER.md（token 台账 L4 记账） | 云端·预算内 |
+| **L2·CEO 总调度代理席** | codely 会话（云端好模型）·durable cron **八班/日（班表正身=CEO-PROXY/CHARTER.md §四·`43 2,5,8,12,15,18,21,23` 科学巡视班表·两典只此一处——2026-10-14 群审 architect 修法①指针化收口）**+按需随时 | L2 旧职能全量（NEED-JUDGMENT 仲裁/跨道优先级冲突/饥饿补货/追回执/排产复盘/落 orders+commit+poke=**唯一有权动台账的层**）**+CEO 代理三新面**：①CEO 原话当窗转可执行单（替 CEO 发布命令）②CEO-DIRECTION-BRIEF 方向/关注点/盲区雷达执法③死线台账追踪——协议=CEO-PROXY/ROUND.md·章程=CEO-PROXY/CHARTER.md（token 台账 L4 记账） | 云端·预算内 |
 
 ## 三、模型路由律（CEO 指令的常设编码）
 
