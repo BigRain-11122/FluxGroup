@@ -129,3 +129,10 @@
 | R05_gold_threads_w2r1010 | 1.1MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/f4fe5627237b511e396e0cf3b5c94a5f/R05_gold_threads.mp4 |
 | R06_museum_verse_w2r1010 | 0.9MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/5755679152fbf3bb3f0501091e9e8dfe/R06_museum_verse.mp4 |
 | E03_gaze_meet_w2r1010 | 0.4MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/f2944368f791632232b281405af80551/E03_gaze_meet.mp4 |
+| INT1_desk_breath | 0.8MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/6a65edfcaed565ccc188ba953b4f0822/INT1_desk_breath.mp4 |
+| INT2_paper_fight | 0.9MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/94cdd95a05043f5a0bde4654025dd7ce/INT2_paper_fight.mp4 |
+| INT3_photo_stare | 0.7MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/b6779270f0ff8ce9e4ec4243351be8bd/INT3_photo_stare.mp4 |
+| INT4_rubbing_glow | 0.7MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/c795e5db4db9a85a6c2c7fa4811dc1e9/INT4_rubbing_glow.mp4 |
+| INT5_head_bow | 0.9MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/850177e91dbf90c5dd9cb7462860bb92/INT5_head_bow.mp4 |
+| D03b_direct_gaze | 0.7MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/8af34f72871de71e17f1b5fa551017e3/D03b_direct_gaze.mp4 |
+| E01c_first_line | 0.6MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/c6b46f32fbc6f1d0bfe80b0f3c67aef3/E01c_first_line.mp4 |
