@@ -67,3 +67,4 @@
 | V3HD-SING1_torch_song_s9013 | 0.7MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/e7a18756cad9529dd0b5ab39d714d15e/SING1_torch_song_s9013_hd.png |
 | V3HD-SING2_firepit_song_s9014 | 0.6MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/4ee35745afaa235ff4628c4c6707214d/SING2_firepit_song_s9014_hd.png |
 | V3HD-SING3_morning_song_s9012 | 1.0MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/e53179b76b5bd1bec0c36dbae5920897/SING3_morning_song_s9012_hd.png |
+| C01_carver_face | 0.7MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/06f2aea0cc4e08774b7e61866d81c484/C01_carver_face.mp4 |
