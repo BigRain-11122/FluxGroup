@@ -26,6 +26,10 @@
 | J-16 | 横版硬投竖版流量池 | S1/S4/T 三镜中心裁全报废（实帧核验）·T 金字剩三个 | 平台席检查单（发布规格=平台适配律·9 镜静态取景裁+2 镜重做变体） | 10-10 |
 | J-17 | 叙事层取舍未明文→后续会话硬塞 | 「同貌轮回」30s 无古代她=缺口还是省略（两轮争议） | 情感席检查单（层取舍明文定谳入正典·省略也是定谳） | 10-10 |
 | J-18 | 评审席位代理超限中断（同病两轮） | 席位 7/11 首轮+席位 7 重试全在长输出阶段断线 | **派单纪律**（席位 brief 硬约束：只读指定文件数+终稿 ≤X 字+禁复述文件内容·必要时数据内联省读） | 10-10 |
+| J-25 | **色相渗漏**（材质色×调色段双真值源冲突） | 「towering black basalt stele」+句尾「amber monochrome palette」→出暖棕砂岩（SIL1·4.0 分判负·V3 实锚）；官方归因=BFL trailing clause+色板未锚对象+Krea 未成组 | **提示词专家审 C1**（冲突显式消解·光色不改物色写法）+PROMPT-SPEC v1.3 §九.1 | 10-15 |
+| J-26 | **媒介漂移**（风格词不防跨媒介滑走） | 胶片收尾词同种子出赛璐璐平涂二连（SIL4·1.0 分判负·系统性）；官方归因=媒介未显式前置（Krea 第 9 条「Preserve User Medium…honor it」） | **提示词专家审 G1**（live-action 35mm film frame 显式声明·illustration 泛词零容忍） | 10-15 |
+| J-27 | **起帧对抗**（i2v 动作与首帧状态冲突=拒执行） | 首帧闭嘴写字+提示词要张口唱→模型保持闭嘴（SING3b·2.5 分两连）；五源定谳=帧1 特权条件（ConsistI2V/HPSD/I2VEdit+Seedance 2.5+H3 fully referenced） | **提示词专家审 D1**（要改先改帧·专家审逐镜 J2 四答「首帧里有什么、要它变成什么」） | 10-15 |
+| J-28 | **形制漂移**（名称级描述→先验补全） | 「iron torches in wall sconces」→出 tiki 玻璃罐火把（SIL1 实锚）；官方归因=BFL「describe visible details that distinguish your subject」 | **提示词专家审 C4**（器物=构造名词+材质+状态部件级三件·品类名后必挂） | 10-15 |
 
 ## 二、提示词技巧册（正锚技术·两波评审实战沉淀·须正反例齐才准入册）
 
@@ -44,14 +48,19 @@
 | P-11 | 光事件限流：N 事件→2 事件 | "the nearest case light dims, then the one beyond it" | "dimming one by one"（N 个定时事件=引擎必失败） |
 | P-12 | 运镜幅度配引擎档：危险镜=small/静+短曝 | 唯一 large 幅度（S7）必须配降级链预案；静态微动=安全区主力 | 幅度词超出引擎能力=崩坏自触发 |
 | P-13 | 词级动作绑定：画面动效绑到可见动因 | "the carved bands breathing in the flickering firelight"（绑火焰脉动） | "each band catches firelight in turn"（编舞式逐行点亮=不执行） |
+| P-14 | 属性成组+光色不改物色（BFL/Krea 官方律） | "torch light gilds the surface amber while the stone itself stays near-black"（光色作用区显式分离） | "amber monochrome palette"（全局浮动色板·谁染谁=掷骰子） |
+| P-15 | 词序前置律（BFL「put first whatever matters most」） | 关键正向词放句首："Empty of visitors, the hall stays silent at night, its only motion the slow flicker" | 正向词吊句尾从句（trailing clause=弱位） |
+| P-16 | 帧内容决策律（i2v 五源定谳）：内容决策放首帧，提示词只写运动/运镜/发展 | 首帧=张口唱姿→提示词只写 "the long note breathing out, his throat easing once"（延伸不对抗） | 首帧闭嘴+提示词写张嘴（要改先改帧） |
+| P-17 | 可见细节律（BFL 官方）：器物写部件级可见特征 | "a forged-iron cylindrical sconce bowl, soot-blackened metal, mounted on an iron wall bracket" | "iron torches"（名称级→先验补 tiki 形制） |
 
-## 三、回灌状态（截至 v1）
+## 三、回灌状态（截至 v1.1·2026-10-15 追加）
 
 - 已入帧级 QC 六检：J-01（检3）/J-04（检5）/J-05（检4）/J-14（检1）——bm-c 派单已载
 - 已入剪辑席检查单：J-07/J-08/J-09（build_30s_v4.py v4.3.1 已实现）
 - 已入脚本断言（机制级）：J-13（帧齐断言）+字层选位缘距断言（make_s9_lyric.py ≥120px 边距律）
 - 已入派单纪律：J-18（EXPERT-PANEL-PROTOCOL §六·5）
-- 待回灌词表（下次 prompt_lexicon 版次）：LIGHT["torch_off"]（现为 kf_fix2_fleet.py 覆盖式正典）+P-04/P-06/P-08 锚词进 CRAFT 常备段
+- **已入提示词专家审闸（2026-10-15 立法·CEO 令 O-20261015）**：J-25（C1）/J-26（G1）/J-27（D1）/J-28（C4）+P-14~17——正典=PROMPT-EXPERT-GATE-v1（十面检查单）；**每包 prompt 过闸才烧·无 verdict 派单=烧制侧拒收**
+- 待回灌词表（下次 prompt_lexicon 版次）：LIGHT["torch_off"]（现为 kf_fix2_fleet.py 覆盖式正典）+P-04/P-06/P-08 锚词进 CRAFT 常备段+**J-25 色板锚定 lint**（palette 裸词+材质色冲突对扫描）+**J-26 媒介锚 lint**（live-action 声明在场断言）
 - 台账本体=git 正典（随仓分发全机队）；skill=.codely-cli/skills/bigstream-expert-panel（本地激活面）
 
 ## 四、迭代纪律

@@ -1,8 +1,9 @@
-# BigStream 提示词撰写规范 v1.1（定稿）
+# BigStream 提示词撰写规范 v1.3（定稿）
 
 > **CEO 三连令**：O-20261009-1815「自媒体公司好好去研究一下提示词的撰写，你现在写的很有问题，AI识别肯定做不出来好的结果」· O-20261009-1830「多写专业词汇，要具体到某个颜色某个运镜等等，好好去调研开源社区的分享案例什么的，形成机制，不要用模糊的人类自然语言！」+「大量使用成熟的相关skill，并派出专家指导和审查」
-> 适用：mv0001《爱在西元前》全管线（Krea 2 Turbo t2i / Qwen-Image-Edit-2511 / MiniMax-H3 本地 / Seedance 云端）
-> 状态：v1.1 定稿 · 2026-10-09 · 五路证据归笼（官方深研×3 + 专家审查×2）· A/B 实验结果随附
+> **CEO 令 v1.3（2026-10-15）**：「好好去调研，提示词的各种技巧和规则，你现在写的提示词，还是容易误导AI。好好看官方文档。摸清规则，每次提示词都要过1遍提示词专家审才能开始生产。」——**专家审闸已立法（PROMPT-EXPERT-GATE-v1·本目录）**，本规范=闸的规则正身。
+> 适用：mv0001《爱在西元前》全管线（Krea 2 Turbo t2i / Qwen-Image-Edit-2511 / MiniMax-H3 本地 / Seedance 云端）+ 41 曲全产线
+> 状态：v1.2（2026-10-12）：运镜章升格五槽语法（正典=mv0001-handover/canon/CAMERA-DIRECTION-v1.md）→ **v1.3（2026-10-15）：新增 §十 V3 四型病灶律（官方归因版）+ 专家审闸挂接**——官方规则调研全档=cph4/research/R-20261015-prompt-rules-official.md（四路波·A 级源）
 
 ---
 
@@ -92,7 +93,7 @@ integrated_multimodal_description: [首帧锚定→action onset→continuous dev
 overall_soundscape: [环境声总结]
 non_diegetic_music: N/A (song laid in post)   ← MV 后期贴歌防音轨打架
 ```
-- **运镜三维公式**：Motion type + Amplitude + Speed——`The camera pushes in with small amplitude at slow speed toward the folded letter in her hands.`
+- **运镜五槽公式（v1.2 升格·替换旧三维公式·正典=mv0001-handover/canon/CAMERA-DIRECTION-v1.md）**：MOVE 动作+目的地 / CURVE 速度曲线（缓入缓出·**平速语 `at slow speed` 族全禁**）/ MOTIVE 动机（相机回答画内事件）/ TEXTURE 2001 操作质感（脚架 locked-off·地轨 floor dolly·手持 breath-sway）/ ALIVE 画内活体——例：`The camera eases toward his profile on a slow floor dolly as his heavy-lidded eyes lift from the half-cut row, gathering only as far as his gaze travels, and settling on the lifted look.`；每镜限一动作；orbit 只许 ≤20° 小弧（完美整圈=AI 签名）；互补律=主体复杂则镜头稳；lint video 模式 **[FLAT] 平速门**执法。
 - 切镜带时间戳：`[Shot 2] At 00:03.500, the camera cuts to...`（切镜须引入新信息；仅变距离/角度优先用运镜）
 - 官方范本=8 秒拉面静态镜头：固定机位+蒸汽持续升腾+中段焦点转移——**静态特写+微呼吸=官方最稳区**（我方 8.5 分判例吻合）。
 - H3 词汇（fal 官方托管方）：subtle handheld shake / rack focus / fine grain, soft highlight halation, restrained color。
@@ -104,7 +105,7 @@ non_diegetic_music: N/A (song laid in post)   ← MV 后期贴歌防音轨打架
 
 **官方公式**：精准主体+动作细节+场景环境+光影色调+镜头运镜+视觉风格+画质+约束条件（60–100 词）。
 
-- **单镜单运镜红线**（官方：「同时要求推拉摇移会增加画面的不稳定性」）。
+- **单镜单运镜红线**（官方：「同时要求推拉摇移会增加画面的不稳定性」）——一动作+缓入缓出曲线短语+动机+质感短语照带（v1.2 运镜五槽的 Seedance 装法·正典=canon/CAMERA-DIRECTION-v1 §四）。
 - **低缓连续小动作优先**（官方：「规避狂奔、大跳、剧烈翻滚」）；动作量化（缓慢抬手/快速转头）；情绪外化（悲伤=低头+肩膀微颤+攥紧衣角）。
 - **禁精确秒数时间戳**（官方：强限时长导致异常——与 H3 相反，跨模型不套用）。
 - 主体绑定：`张三@图片1` 标签法，2–3 个稳定静态特征。
@@ -126,7 +127,7 @@ non_diegetic_music: N/A (song laid in post)   ← MV 后期贴歌防音轨打架
 
 ## 八、机制件与产线改造
 
-**已落盘**：`prompt_lexicon.py` v1.2——七类专业词表（年代修正版）+ 三名单 lint + FIX_MAP 否定改写器 + 五组装器（build_shot 官方顺序 / build_edit 三段式 / build_h3_i2va 三字段 / build_seedance 八要素 / autofix）。
+**已落盘**：`prompt_lexicon.py` v1.3——七类专业词表（年代修正版）+ 三名单 lint + FIX_MAP 否定改写器 + 六组装器（build_shot 官方顺序 / build_edit 三段式 / build_h3_i2va 三字段 / build_seedance 八要素 / build_camera 运镜五槽 / autofix）+ 运镜四新块（CAM_CURVE/CAM_MOTIVE/CAM_DEST/CAM_TEXTURE）+ lint video 模式 [FLAT] 平速门。
 
 **产线脚本改造清单（定版门后执行）**：krea2_campus / designs2/3 / qwen2511_edit / hairera / female_era / fastface 六脚本 prompt 全部改 import 词表组装器；NO_TEXT 常量全产线删除；所有编辑批换三段式。
 
@@ -134,7 +135,38 @@ non_diegetic_music: N/A (song laid in post)   ← MV 后期贴歌防音轨打架
 
 ---
 
-## 九、证据链（五路归笼）
+## 九、V3 四型病灶律（2026-10-15 CEO 令立法·官方归因版·专家审闸 C/G/D 面正身）
+
+> 调研正身=R-20261015-prompt-rules-official §二（官方原文短引+URL 全档）；本节=产线执法版。
+
+1. **色相渗漏律（C1）**——材质色×调色段双真值源冲突必须显式消解：
+   - 病例：主体「towering black basalt stele」+句尾「amber monochrome palette」→出暖棕砂岩（SIL1 实锚·4.0 分判负）。
+   - 官方归因：BFL「put first whatever matters most」「正向替代放句首不放 trailing clause」+「色板必须锚定具体对象」（官方示范 `palette of deep purple and black shadows`——色板作用于阴影区不作用于主体）+ Krea「Group subjects with their own attributes」——**句尾全局浮动词=晚到+未绑定=两头落空**（⚠️ 官方无冲突取舍明文·经验律）。
+   - 执法：调色词一律写成「光色不改物色」——`torch light gilds the surface amber while the stone itself stays near-black`；禁全画面级 palette 裸词；专家审逐对消解材质色×调色冲突。
+2. **媒介锚前置律（G1）**——媒介必须显式声明且前置：
+   - 病灶：胶片风格词在库下出赛璐璐平涂（SIL4 实锚·1.0 分判负）。
+   - 官方归因：Krea expansion 第 9 条「Preserve User Medium: When the user explicitly requests a medium (e.g. 'photo of', 'photograph of'…), honor it. Do not pivot to a different medium」；BFL 官方模板=媒介第一句定调。
+   - 执法：每包收尾段显式 `live-action 35mm film frame`（真人实拍锚）·动画歧义词（illustration/styled 泛词）零容忍；「胶片型号词」≠媒介锚（型号是质感·媒介要声明）。
+3. **形制锚律（C4）**——器物必须写到部件级可见特征：
+   - 病灶：「iron torches burn low in wall sconces」→出 tiki 玻璃罐火把（SIL1 实锚）。
+   - 官方归因：BFL「Describe visible details that distinguish your subject」——名称级描述让模型回训练先验补最常见形制。
+   - 执法：器物=构造名词+材质+状态三件（`forged-iron cylindrical sconce bowl, soot-blackened metal, wall-mounted bracket` 级）；品类名后必挂三件，缺一=FIX。
+4. **景深显式律（G4 关联）**——framing 必须显式景深：
+   - 病灶：写 35mm 出泛焦（SIL1 实锚）。
+   - 官方归因：BFL 官方 Job 表 framing 项**必须含 depth of field**——缺省=模型自由裁量（⚠️ 归因为推断）。
+   - 执法：镜头段=焦段+光圈+焦点行为三件齐（`35mm lens, only his silhouette edge in focus, the hall beyond falling soft`）——与 v1 §二.6 f 值行为写法同源，升格为硬检。
+5. **起帧主导律（D1·i2v）**——动作必须是首帧状态的自然延伸：
+   - 病灶：首帧闭嘴写字+提示词要张口唱→模型拒执行（SING3b 实锚·2.5 分判负两连）。
+   - 执法：与首帧对抗的动作一律禁写——要改先改帧（重制 KF）或改动作设计（动作拆到换帧后）；专家审逐镜问「首帧里有什么、提示词要它变成什么」（J2 四答）。
+6. **正向替代句位律（B5）**——BFL 官方四步递进入法：
+   - 对想要的东西更具体→尽早描述（句首不放句尾）→给替代加细节占空间→给上下文自洽（`a deserted beach at dawn, before the first swimmers arrive` 式）。
+   - 我方 FIX_MAP 25 条对照表升格为四步法驱动（lint 命中后按四步改写·不是简单同义替换）。
+
+**专家审闸挂接**：上述六律已入 PROMPT-EXPERT-GATE-v1 检查单（C1/G1/C4/D1/B5 对应条号）——每包过闸才烧（CEO 令铁律·零豁免）。
+
+---
+
+## 十、证据链（五路归笼+2026-10-15 官方规则波）
 
 1. **Qwen 官方**：github.com/QwenLM/Qwen-Image（README + prompt_utils.py 改写器规则 8/结构公式 + prompt_utils_2512.py）· HF Qwen/Qwen-Image 模型卡（negative_prompt 官方态度）
 2. **Krea 2 官方**：github.com/krea-ai/krea-2 docs/prompting.md + expansion.txt · krea.ai blog 探索式流程
@@ -144,7 +176,8 @@ non_diegetic_music: N/A (song laid in post)   ← MV 后期贴歌防音轨打架
 6. **社区分界实证**：cineprompt.io/field-notes/cinematic-is-useless · liminalshort.org/blog/jailbreak-ai · kling-prompt-engineering（github.com/Yuyyxz）· awesome-qwen-image-2-1-prompts · stillslab.com 扩散滤镜解码 · videolens.cc 调色 14 种 · melies.co 运镜句法
 7. **专家审查**（2026-10-09 本司派出）：摄影指导（年代修正+2001 签名词+运镜 8 补）· 提示词工程（官方顺序+lint 三名单+FIX_MAP+归因设计）
 8. **ComfyUI 官方模板活样例**（本机提取）：api_krea2_t2i / video_minimax_h3_* / api_seedance2_0_* / image_qwen_image_edit_2509_relight
+9. **2026-10-15 官方规则波**（CEO 令「好好看官方文档」·R-20261015-prompt-rules-official）：BFL docs.bfl.ml 三页（building/technical/editing）+ Qwen 两代改写器原文 + Krea expansion.txt 原文 + Seedream 官方指南（ark.volcengine.com）+ Anthropic/OpenAI/Gemini 官方提示词指南 + Seedance/MiniMax/Veo/Sora 官方——四路波文件=cph4/research/waves/2026-10-15-prompt-rules/
 
 ---
 
-*执笔 bm-a · 2026-10-09 · CEO 三令 O-20261009-1815/1830 全收口 · A/B/B′/C 实验结果随附呈报*
+*执笔 bm-a · 2026-10-09 · CEO 三令 O-20261009-1815/1830 全收口 · A/B/B′/C 实验结果随附呈报 · v1.3（2026-10-15）：§九 V3 四型病灶律+专家审闸挂接·CEO 令 O-20261015 立法*
