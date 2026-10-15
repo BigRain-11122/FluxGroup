@@ -231,5 +231,17 @@
   "card": "[交接卡 POOL-0019]\n①@机+lane：@bm-b·cpu-music-structure（24/7·CPU 多核分曲·与 0018 并行）\n②回执窗：72h（首批 7 曲 24h 内+全量 41 曲）\n③验收物+证据指针：anchors/<曲>-structure.json 批量（BPM/beats/downbeats/段落标签）+1 曲 S6 兼容验证（beats.json 格式对齐·自动拍点可直取）+双源不一致行清单+orders 回执行+commit sha\n④spec 指针：cph4/research/waves/W4-mv-expert-tools-community-20261015.md allin1 行（MIT·BPM/节拍/功能分段+标签）+MV-PIPELINE-PLAYBOOK §S6 拍点段\n⑤溯源令号：O-20261015-1741（派单令）\n⑥输入/输出：输入=audio/ 音源（与 0018 同批拉取·一次传输两卡共用）；输出=结构锚 JSON 批量\n⑦依赖：无（纯 CPU）\n⑧卡 ID：POOL-0019\n⑨provenance：转述（机队派单令·bm-a 会话 17:41 开卡）",
   "result_ref": "",
   "depends_on": []
+ },
+ {
+  "id": "POOL-0020",
+  "title": "bm-b 电源换装复产批（750W 上机·GPU 满性能恢复+烧机验证+复产）",
+  "lane": "bm-b",
+  "priority": "P0",
+  "status": "open",
+  "created_by": "bm-a-总控窗 2026-10-15 18:21（CEO 令「bm-b我换好了，开工」·O-20261015-1821）",
+  "spec": "执行序：①nvidia-smi -pl 239.80（恢复 3070 出厂功耗墙）②删/禁用 GPU-PowerCap-180W-Boot + GPU-PowerCap-180W-Hourly 两任务（禁漏 Hourly=下小时被压回 180）③GPU 停车旗解除（O-20261015-0906-bm-b §4 落款反向恢复）+machine-state GPU 面核验 ④烧机验证 30min 满载（Comfy 重批或 dmon 监控）——判据=零断电+零 WHEA+温度瓦数行留档 ⑤通过=满性能投产·首 24h 保持单批串行保守期·并呈报委员会（功率红线律 O-20261013-0951 退役候案+MV 备援位 480P animatic 线承接态）⑥并发帽 spawn 闸照 C-20261015-03 同窗落位。断电案 recipe 正身=memory\\bm-b-power-loss-20261012.md。",
+  "card": "[交接卡 POOL-0020]\n①@机+lane：@bm-b·machine-restore（本机自会话执行·GPU 面操作）\n②回执窗：24h\n③验收物+证据指针：nvidia-smi power_limit 实测=239.80W 行+两 PowerCap 任务删除/禁用实证+GPU 停车旗解除实证+烧机 30min 档案（温度/瓦数/零断电零 WHEA）+orders 回执行+commit sha\n④spec 指针：断电案 recipe（memory\\bm-b-power-loss-20261012.md）+O-20261015-0906-bm-b §4 反向\n⑤溯源令号：O-20261015-1821（CEO 原话「bm-b我换好了，开工」）\n⑥输入/输出：输入=750W 电源已上机（CEO 实装）；输出=满性能 GPU 复产+验收回执+委员会呈报\n⑦依赖：烧机判定前禁新开重 GPU 批（功率红线律保持至烧机通过）；CPU 双锚批（POOL-0018/0019）不受影响照跑\n⑧卡 ID：POOL-0020\n⑨provenance：CEO 原话直令（bm-a 总控窗 18:21 转录）",
+  "result_ref": "",
+  "depends_on": []
  }
 ]
