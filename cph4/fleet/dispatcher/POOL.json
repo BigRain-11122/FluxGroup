@@ -122,7 +122,7 @@
   {
     "id": "POOL-0011",
     "priority": "P1",
-    "status": "claimed",
+    "status": "done",
     "lane": "bm-b",
     "title": "软著B机10款源程序复跑批（G04/G05/G07/G08/G13/G14/G20/G23/G26/G28）",
     "spec": "软著申请材料/generate_copyright.py PROJECTS 表正身 + O-20261014-1035 B10 段",
@@ -130,7 +130,7 @@
     "created_by": "CEO-PROXY 事件班 2026-10-15 01:3x（NJ biggame R2）",
     "claimed_by": "bm-b",
     "claimed_at": "2026-10-15T02:36:32+08:00",
-    "result_ref": "r956 receipt face: results/_r956bmb_rz_driver.py + _r956bmb_rz_driver.log + _r956bmb_rz_receipt.json (GEN_DONE face = r957 commit round; heartbeat 2026-10-15T02:36:32)",
+    "result_ref": "r956 receipt face: results/_r956bmb_rz_driver.py + _r956bmb_rz_driver.log + _r956bmb_rz_receipt.json (GEN_DONE face = r957 commit round; heartbeat 2026-10-15T02:36:32) + 2026-10-15T09:06:18 receipt GEN_DONE_OK (bm-b session driver re-run: missing_src=[], 10/10 keys green, tip 736d75c1; O-20261015-0906-bm-b)",
     "depends_on": []
   },
   {
