@@ -120,11 +120,23 @@ def topic_of(body):
     return MISC
 
 
+def _log(msg):
+    p = os.path.join(os.environ.get("USERPROFILE", ""), ".codely-cli", "memory", "gate-log.txt")
+    try:
+        with open(p, "a", encoding="utf-8") as f:
+            f.write("%s | %s\n" % (datetime.datetime.now().strftime("%Y-%m-%d %H:%M"), msg))
+    except OSError:
+        pass
+
+
 def main():
+    if sys.stdout is None:  # pythonw 无控制台 stdout=None（10-14 夜批全灭判例·防秒崩）
+        sys.stdout = open(os.devnull, "w")
     args = sys.argv[1:]
     path = os.path.join(os.environ.get("USERPROFILE", ""), ".codely-cli", "CODELY.md")
     budget_bytes, budget_entries, fresh_days = 40960, 60, 3
     report_only = False
+    scheduled = False
     i = 0
     while i < len(args):
         a = args[i]
@@ -142,6 +154,8 @@ def main():
             fresh_days = int(args[i])
         elif a == "--report":
             report_only = True
+        elif a == "--scheduled":
+            scheduled = True
         i += 1
 
     raw = open(path, "rb").read()
@@ -154,6 +168,8 @@ def main():
     print("GATE-CHECK bytes=%d budget=%d entries=%d budget=%d" % (len(raw), budget_bytes, n, budget_entries))
     if len(raw) <= budget_bytes and n <= budget_entries:
         print("GATE-OK 预算内·零动作")
+        if scheduled:
+            _log("OK bytes=%d entries=%d" % (len(raw), n))
         return 0
     if report_only:
         print("GATE-OVER 预算超限（--report 只报不执法）")
@@ -171,7 +187,7 @@ def main():
     for sec, txt in entries:
         sec = sec or "Reference"
         body = txt.strip()
-        if is_keep(body, fresh_days):
+        if sec == "User" or is_keep(body, fresh_days):  # User 节=CEO 硬法节·禁自动迁（防新硬法第 fresh_days+1 天被夜审误迁·gate v1.1）
             keep[sec].append(body)
         else:
             moved.append((topic_of(body), body))
@@ -217,6 +233,10 @@ def main():
              len(moved), len(set(t for t, _ in moved)), snapdir))
     print("LEDGER-LINE | %s | gate | %d->%d B | %d->%d 条 | moved=%d | topics=%d |"
           % (datetime.datetime.now().strftime("%Y-%m-%d %H:%M"), len(raw), len(nb), n,
+             sum(1 for l in new_text.split("\n") if l.startswith("- [")), len(moved),
+             len(set(t for t, _ in moved))))
+    if scheduled:
+        _log("EXEC %d->%dB %d->%d条 moved=%d topics=%d" % (len(raw), len(nb), n,
              sum(1 for l in new_text.split("\n") if l.startswith("- [")), len(moved),
              len(set(t for t, _ in moved))))
     return 0
