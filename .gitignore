@@ -84,6 +84,8 @@ house/.codely-cli/*
 **/.codely-cli/*冲突*
 # media runtime assets (media/BigStream is its own repo; MUSIC-class bulk audio never goes to GitHub)
 media/MUSIC/
+# drama-dept OSS tool repos (R-20261015-drama-oss-stack-01 list; manifest tracked, cloned code not)
+media/drama-tools/
 # lab & browser runtime surfaces
 cph4/labbench/
 .playwright-mcp/
