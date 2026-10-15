@@ -20,7 +20,7 @@
 - **效率律**：批级一次过全包（禁逐条开会）；专家审在烧制**前**（烧后返工=10 倍成本·CEO 效率令）；低清试构图位照旧（试构图=构图面·本闸=语义面·两闸各拦各的）。
 - **复发升格**：同病灶复发=闸失效→当窗升格（检查单条目→lint 正则→脚本断言·能机核不靠人记·EXPERIENCE-LEDGER §四律）。
 
-## 二、专家审检查单 v1（十面·逐条判 PASS/FIX）
+## 二、专家审检查单 v1（十一面·逐条判 PASS/FIX）
 
 > **官方背书层**（R-20261015-prompt-rules-official·防线二直验过）：B1 色相/否定=BFL docs.bfl.ml「no negative prompt field」官方替换表+Qwen 改写器第 8 条+arxiv 2406.02965（否定=迟效中和·概念仍注入）｜C1-C4=BFL「put first whatever matters most」+trailing clause 禁令+Krea「Group subjects with their own attributes」+BFL「visible details that distinguish」｜D1=五源定谳（ConsistI2V/HPSD/I2VEdit 三论文+Seedance 2.5「The model must adapt to that asset」+H3「fully referenced」）｜G1=Krea 第 9 条「Preserve User Medium…honor it. Do not pivot」｜E 面=Seedance 密度双向律（too little→improvise/too much→omitted）+一镜一运镜+缓慢细微动作优先+多人 ≤2-4 上限｜H1=Seedance 防崩尾句官方原文｜J4=Anthropic 黄金法则（给无背景同事看）。**多属性冲突内部取舍机制=官方无明文（⚠️经验律·C1/I1 消解法为我方补位）**。四路波文件=cph4/research/waves/2026-10-15-prompt-rules/（75+25+10 条编号规则+URL 全档）。
 
@@ -80,9 +80,15 @@
 - J3 哪两个词在打架？（冲突面）
 - J4 换一个不懂上下文的模型读这段话，会读出什么歧义？（跨模型歧义）
 
+### K 表演律（2026-10-15 增面·CEO 令「人物的表演也是硬伤，非常生硬」O-20261015-1655·正身=R-20261015-mv-performance-stack）
+- K1 **情绪禁标签词**：sad/joyful/angry 等情绪词全禁出提示词——一律展开为可检测微行为链（悲伤=低头+肩膀微颤+攥紧衣角式·官方情绪外化法；可检测性原则向表演面延伸）
+- K2 **表演弧线镜间连续**：人物的情绪-行为状态跨镜必须有承接链（前一镜的落点=后一镜的起点·断链=「素板叙事断链」表演版）；思考位先行（先思后唱律 O-20261014-1050）+酝酿态外化
+- K3 **参考片驱动镜=提示词只写增量**：走 S5 表演增强站（口型/表情迁移/舞段）的镜——prompt 不重复描述参考片已有的表演内容，只写该镜独有增量；表演参考片库位在册（工具之外真瓶颈）
+- K4 **生命脉冲多源不同律**：静止主体 ≥2 处微动源且节奏互异（呼吸+眨眼+发丝不同步——单源=死板感来源之一）；幅度配引擎档（E2 律联动）
+
 ## 三、判定与验收线
 
-- **PASS**：十面零 FIX·verdict 落档 → 导演席签发 → 烧
+- **PASS**：十一面零 FIX·verdict 落档 → 导演席签发 → 烧
 - **FIX**：逐条给改写稿（不是给意见——直接给可烧文本）·作者合并复检·复检再过闸
 - **REJECT**：结构性误导（起帧对抗/属性双真值源/整包概念注入）=打回重写·不修字
 - **量化验收**：过闸包烧制后 QC 回看——verdict 里 FIX 过的病灶面复发=闸失效复盘（QC-MASTER-CHECKLIST §24 回流）

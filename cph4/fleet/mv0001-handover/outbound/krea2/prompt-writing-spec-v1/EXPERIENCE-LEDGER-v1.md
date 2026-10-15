@@ -30,6 +30,7 @@
 | J-26 | **媒介漂移**（风格词不防跨媒介滑走） | 胶片收尾词同种子出赛璐璐平涂二连（SIL4·1.0 分判负·系统性）；官方归因=媒介未显式前置（Krea 第 9 条「Preserve User Medium…honor it」） | **提示词专家审 G1**（live-action 35mm film frame 显式声明·illustration 泛词零容忍） | 10-15 |
 | J-27 | **起帧对抗**（i2v 动作与首帧状态冲突=拒执行） | 首帧闭嘴写字+提示词要张口唱→模型保持闭嘴（SING3b·2.5 分两连）；五源定谳=帧1 特权条件（ConsistI2V/HPSD/I2VEdit+Seedance 2.5+H3 fully referenced） | **提示词专家审 D1**（要改先改帧·专家审逐镜 J2 四答「首帧里有什么、要它变成什么」） | 10-15 |
 | J-28 | **形制漂移**（名称级描述→先验补全） | 「iron torches in wall sconces」→出 tiki 玻璃罐火把（SIL1 实锚）；官方归因=BFL「describe visible details that distinguish your subject」 | **提示词专家审 C4**（器物=构造名词+材质+状态部件级三件·品类名后必挂） | 10-15 |
+| J-29 | **表演生硬**（情绪标签化+微动单源+表演断链） | CEO 终审判「人物的表演也是硬伤，非常生硬」（O-20261015-1655·V3 全片面）；根因三件=①情绪词让模型回训练先验出塑料表情 ②静止镜只留一处微动源=死板 ③镜间情绪-行为无承接链 | **提示词专家审 K 面**（K1-K4）+**表演增强站**（MV-PIPELINE-PLAYBOOK S5：口型 LatentSync/表情迁移 LivePortrait/舞段 MimicMotion+表演参考片库立项） | 10-15 |
 
 ## 二、提示词技巧册（正锚技术·两波评审实战沉淀·须正反例齐才准入册）
 
@@ -52,6 +53,8 @@
 | P-15 | 词序前置律（BFL「put first whatever matters most」） | 关键正向词放句首："Empty of visitors, the hall stays silent at night, its only motion the slow flicker" | 正向词吊句尾从句（trailing clause=弱位） |
 | P-16 | 帧内容决策律（i2v 五源定谳）：内容决策放首帧，提示词只写运动/运镜/发展 | 首帧=张口唱姿→提示词只写 "the long note breathing out, his throat easing once"（延伸不对抗） | 首帧闭嘴+提示词写张嘴（要改先改帧） |
 | P-17 | 可见细节律（BFL 官方）：器物写部件级可见特征 | "a forged-iron cylindrical sconce bowl, soot-blackened metal, mounted on an iron wall bracket" | "iron torches"（名称级→先验补 tiki 形制） |
+| P-18 | 情绪外化链（表演律 K1）：情绪词一律展开为可检测微行为 | 悲伤→"his head lowering, shoulders trembling once, fingers tightening on the hem of his jacket"（低头+肩颤+攥衣角·Seedance 官方情绪外化法） | "he looks sad"（情绪标签→模型回先验出塑料表情） |
+| P-19 | 参考片优先律（表演律 K3）：有参考片驱动的镜=提示词只写增量 | 走 LivePortrait/MimicMotion 的镜：prompt 只写该镜独有增量+HOLD 句，表演主体交参考片 | 无参考片裸词描写复杂表演（文字驱动复杂表演=生硬高发区） |
 
 ## 三、回灌状态（截至 v1.1·2026-10-15 追加）
 
