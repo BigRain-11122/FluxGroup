@@ -6,9 +6,13 @@
 # REFERENCE IMPLEMENTATION (field-tested): bm-c K:\Fluxgroup\.codely-cli\machine-state.ps1 v2.
 # DEPLOY: copy this file + gamewin_cron_suspend.py into <Fluxgroup root>\.codely-cli\ as
 # machine-state.ps1, then LOCALIZE the three blocks marked ##LOCALIZE below. Idempotent.
-# Usage (in-process per U060 law, NO console spawn): & "<root>\.codely-cli\machine-state.ps1" -Mode pause|resume|status
+# Usage (in-process per U060 law, NO console spawn): & "<root>\.codely-cli\machine-state.ps1" -Mode pause|pauseLite|resume|status
+# v5 2026-10-15: +pauseLite mode (O-20261015-1500 CEO approved): work-hours auto-yield -
+#   stops heavy brain llama-server + ComfyUI + GPU tasks + cron, KEEPS the Ollama
+#   small-model light face alive. Manual word pause = full stop (unchanged).
+#   bm-a AutoYield schedule: weekdays 09:00 pauseLite / 19:00 resume.
 
-param([Parameter(Mandatory=$true)][ValidateSet("pause","resume","status")][string]$Mode)
+param([Parameter(Mandatory=$true)][ValidateSet("pause","pauseLite","resume","status")][string]$Mode)
 
 $ErrorActionPreference = "Continue"
 
@@ -17,7 +21,8 @@ $tasks = @("<LOCALIZE: your GPU production task names>")
 
 ##LOCALIZE-2: this machine's LLM stack (comment out lines that do not apply; declare honestly)
 $ollamaExe = "<LOCALIZE: ollama.exe full path>"
-$pinModel  = "<LOCALIZE: resident model, e.g. qwen3-8b / qwen3.8:4b>"
+$pinModel  = "<LOCALIZE: resident small-fast model, e.g. qwen3:4b-instruct (heavy brain lives on the brain box / :8090)>"
+$brainMarker = "<LOCALIZE: heavy-brain llama-server command-line marker, e.g. llamacpp-b11429 (Ollama runners must NOT match)>"
 $keepAliveTask = "<LOCALIZE: ComfyUI/keepalive task name>"
 
 # Portable paths: this script lives at <Fluxgroup root>\.codely-cli\machine-state.ps1
@@ -49,6 +54,8 @@ if ($Mode -eq "status") {
     $comfyUp = $false
     try { Invoke-RestMethod -Uri "http://127.0.0.1:8188/system_stats" -TimeoutSec 3 | Out-Null; $comfyUp = $true } catch {}
     $taskState = (Get-ScheduledTask -TaskName $tasks -ErrorAction SilentlyContinue | ForEach-Object { $_.TaskName + "=" + $_.State }) -join " "
+    $flagPath = Join-Path $PSScriptRoot "machine-state.flag"
+    if (Test-Path $flagPath) { Write-Output ("FLAG: " + (Get-Content $flagPath -Raw).Trim()) }
     Write-Output ("STATE: vramUsedMB={0} ollama={1} comfy={2} tasks[{3}]" -f $vram, $ollamaUp, $comfyUp, $taskState)
     try { Write-Output ("CRON: " + (& python $cronPy status)) } catch { Write-Output "CRON: unknown" }
     if (-not $ollamaUp -and -not $comfyUp) { Write-Output "MODE=pause" }
@@ -80,6 +87,25 @@ if ($Mode -eq "pause") {
     if ($residue -or $comfyResidue) { Write-Output "[pause] FAIL: production residue still alive - manual check"; exit 1 }
     $vram = Get-VramUsedMB
     Write-Output ("[pause] OK production-clean (vramUsedMB={0} = CEO desktop/gaming face, none ours)" -f $vram)
+    return
+}
+
+if ($Mode -eq "pauseLite") {
+    # v5 2026-10-15 (O-20261015-1500): heavy yield, light face kept (small-model QA lane stays).
+    Write-Output "[pauseLite] stopping heavy brain + comfyui + GPU tasks (ollama light face kept) ..."
+    Get-CimInstance Win32_Process -Filter "name='llama-server.exe'" |
+        Where-Object { $_.CommandLine -match $brainMarker } |
+        ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }
+    Get-CimInstance Win32_Process -Filter "name='python.exe'" |
+        Where-Object { $_.CommandLine -match "ComfyUI" } |
+        ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }
+    foreach ($t in $tasks) { try { Disable-ScheduledTask -TaskName $t -ErrorAction Stop | Out-Null } catch { Write-Output "[pauseLite] WARN disable ${t}: $($_.Exception.Message)" } }
+    try { Write-Output ("[pauseLite] cron: " + (& python $cronPy suspend)) } catch { Write-Output "[pauseLite] WARN cron suspend: $($_.Exception.Message)" }
+    Start-Sleep -Seconds 2
+    $brainResidue = Get-CimInstance Win32_Process -Filter "name='llama-server.exe'" | Where-Object { $_.CommandLine -match $brainMarker }
+    if ($brainResidue) { Write-Output "[pauseLite] FAIL: brain residue alive - manual check"; exit 1 }
+    $vram = Get-VramUsedMB
+    Write-Output ("[pauseLite] OK heavy-clean, light face kept (vramUsedMB={0})" -f $vram)
     return
 }
 

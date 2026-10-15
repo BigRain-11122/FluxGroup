@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-"""MV-0001 S1 剧本/分镜生成腿（Ollama qwen2.5:14b·本地）
+"""MV-0001 S1 剧本/分镜生成腿（:8090 Qwen3.6-35B-A3B 舰队脑·本地·O-20261015-1335 换装）
 CEO 第六追加令：方向贴合歌曲本意禁跳脱——主线=泥板誓言的考古一生（刻→埋→风化→出土→橱窗凝视→一切又重演）。
 消费三证：导演转译表（R-…-directors-01）+粉丝波（R-…-fandemand-01）+爆款痛点波（R-…-hits-painpoints-01）。"""
-import json, urllib.request, pathlib, sys, time
+import json, os, urllib.request, pathlib, sys, time
 
 HERE = pathlib.Path(__file__).parent
-API = "http://127.0.0.1:11434/api/generate"
+API = os.environ.get("STORYBOARD_LLM_URL", "http://127.0.0.1:8090/v1/chat/completions")  # bm-d 切换=改 env 零改码（O-20261015-1505 ⑤）
 
 SECTIONS = [
     # (id, 段名, 起秒, 终秒, 风格段, 叙事任务)
@@ -39,10 +39,13 @@ def gen_section(sec):
 硬约束：①每镜锚定歌词原生意象·禁跳脱禁加无出处设定②非写实无写实人脸③拟情镜头（眼神/凝视/手部动作传达情感）④构图讲完（黄中平式定格或邝盛式动势）。
 只输出 JSON 数组 {n} 项，每项：{{"shot": "{sid}1..{n}", "t_start": 估算秒, "t_end": 估算秒, "lyric_anchor": "锚定的歌词短语(≤12字)", "desc": "画面中文描述(≤40字)", "camera": "镜头动作(中文≤15字)", "sdxl_prompt": "英文出图提示词(≤60词·含风格基底关键词)", "motion": "后期动效(推/拉/摇/横移/慢放·中文)"}}。不要输出其他文字。"""
     req = urllib.request.Request(API, data=json.dumps(
-        {"model": "qwen2.5:14b", "prompt": prompt, "stream": False,
-         "options": {"temperature": 0.65}}).encode(), headers={"Content-Type": "application/json"})
-    with urllib.request.urlopen(req, timeout=420) as r:
-        text = json.loads(r.read().decode("utf-8"))["response"]
+        {"model": "qwen3.6-35b",
+         "messages": [{"role": "user", "content": prompt}],
+         "max_tokens": 2000, "temperature": 0.65,
+         "chat_template_kwargs": {"enable_thinking": False}}).encode(),
+        headers={"Content-Type": "application/json"})
+    with urllib.request.urlopen(req, timeout=600) as r:
+        text = json.loads(r.read().decode("utf-8"))["choices"][0]["message"]["content"]
     s, e = text.find("["), text.rfind("]")
     if s < 0:
         raise RuntimeError(f"{sid} NO_JSON: {text[:200]}")
