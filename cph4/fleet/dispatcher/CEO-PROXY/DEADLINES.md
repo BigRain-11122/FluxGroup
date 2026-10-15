@@ -12,7 +12,7 @@
 | 10-15 08:43 MV V3 全本地终剪→成片闸→呈 CEO（CEO 死线·O-20261014-1855） | bm-a 装配站+@bm-c 缺件补产 | O-20261013-2200+NJ bigstream 10-15 00:33 | in-flight（事件班 01:2x 点火：wave2 39 件 CDN 收割+FLUX 11 件改名落 DL+cloudv2 21 件归档避让→预检 CLOUD-ONLY 35→7；V3.5 预览剪 540P 后台在跑；7 独立缺件已派 @bm-c POOL-0012〔INT1-5/D03b/E01c·INT8 768P〕；终剪候 7 件回执→asm 云引用=0→768P 终剪→QC/盲评→成片闸） |
 | 10-15 03:30 bm-b git 手术决断线（R2 裁决=A 案宽限观察·预注册决断树：a origin 见 bm-b push→自然恢复闭环 b r956 报 fetch 卡死/驱动死→即刻手术单 c 03:30 零心跳恢复→手术单〔预草案=bigmoney-shiftlog 枢纽决断行：kill blobfill pid 28880+C2 payload 抢救导出+re-clone S0 先例+push+selftest+回执〕） | 枢纽代理席（03:33 探针 cron 主承载+02:43/05:43 夜班+域席 R3 备份） | NJ bigmoney R2 01:33+LOG Round 1.3 | **resolved-手术作废（02:47 枢纽事件班 R1.4 亲测 a 闭环：r956 侧枝已落 origin〔ls-remote 3eaa15f1〕+listener 活〔02:43:55·心跳 r956@02:36:32=r955 push receipt consumed PUSHED_VERIFIED+recovery drivers 在飞〕→域席修正树③命中·手术单作废；03:33 探针=确认节奏零手术；残余=r957 提交轮 main push+faces 复原·bm-b.json weak 传感旗 main push 前复发=已知恢复态非新升级）** |
 | C02/R05 源帧重制→重 i2v（装配邻段兜底） | @bm-c ✅已随 wave2 r1010 交付（C02_sand_bury/R05_gold_threads 修复 URL·事件班 01:2x 收割入 DL） | 10-14 11:0x 四抓 | done（r1010 消费面·字节校验过） |
-| 10-14 V100 P0=bm-a 夜窗 MoE 卸载跑 35B（验收 ≥30 字/秒） | bm-a 夜窗 | V100-EXPANSION-SPEC v2 | pending-夜窗 |
+| 10-14 V100 P0=bm-a 夜窗 MoE 卸载跑 35B（验收 ≥30 字/秒） | bm-a 夜窗 | V100-EXPANSION-SPEC v2 | done-在役（事件班 10-16 00:3x 翻行消费 bigcompute NJ r5〔五班同源 r1-r5 一致核验〕：证据亲验=compute/BigCompute/state/v100-p0-verdict-20261014.txt VERDICT PASS·跨跑 31.6 字/秒 ≥30·run1 29.2/run2 34.0 如实双录+双 JSON·35B :8090 在役=思考路由律本地档承载） |
 | 10-14 软著 B/C 机 18 款源程序复跑批（CPU 面） | bm-c ✅C机8款上链（fc1b936·G02 7425/G03 8376/G06 6260/G09Y 3666/G10 5252/G12 10347/G17 8439/G18 12007 行）+@bm-b ✅B机10款上链（bfa61b6 03:55 GEN_DONE·txt/pdf 10/10+CCPC 10/10+报审台账§四销账）=18/18 | O-20261014-1035+事件班 NJ biggame R5 10-15 14:2x 翻行 | done（verified 18/18 全上链：09:06 bm-b 复跑 10/10 keys green〔O-20261015-0906-bm-b〕+POOL-0011 origin status=done〔result_ref GEN_DONE_OK〕四锚全验；事件班 10-15 14:3x 翻行收口=同签 re-fire 根面清·snooze 21:47 夜审复核即清；A机14款收编=POOL-0013 另轨 open·48h 窗 ~10-17 01:30 零催办） |
 | 10-14 八度空间/叶惠美 音源批复跑→whisper 锚点→词面校准 | bm-a CPU | 10-14 10:3x（10:38 复跑实锚） | in-flight |
 | 排队 bm-c：波1.5 SIL4 jman 强度 8 帧探针→波2 云槽位重产→波3 星晴 A 批 34 KF+选角板 16 | bm-c | O-20261014-1035 自链三波 | queued |
@@ -31,7 +31,7 @@
 |---|---|
 | meme V1《慢慢踩》发布窗（18:00 首选） | 成片候 CEO 终审+发布授权 |
 | B站 cookie+aid（**已闭环销账 10-14 15:5x**） | cookie=浏览器扩展提取在用（回复线 15:03 已真回复）；凭据=CEO 已交接·仓外 auth-handoff.json（零入库）；aid=频道 API 自动发现 |
-| V100 16G 阶梯 P1 一键下单（¥900-1300 成套） | CEO 已裁·采购基金台账挂钩 |
+| V100 16G 阶梯 P1 一键下单（¥900-1300 成套·**已落地销账 10-16 00:3x**·CEO 亲手执行） | 证据亲验=cph4/fleet/hardware/V100-RIG-BOM-20261014.md 采购状态节：X9DR3-F ¥280 已购+V100 SXM2 ¥950 已下单×1（单卡期=Gemma 26B QAT 全驻留主力·35B 续留 bm-a·第 2 张到位即切双卡迁移）+内存 16×16G 1600 终裁；到货验收三关死线=bigcompute NJ#2 standing 派生面 |
 | 3090 双触发蹲价（≤¥4200）+A30 24G 观察（≤¥4500） | 触发信号=定版镜头/日>INT8 产能连续 3 天 |
 | 软著定名待定区 6 款（G03/G06/G17/G18/G23/G28）+硅基域平台名 | 命名=CEO 保留面 |
 | Steam 分支评级点选（★★★★★=P01/P05/P07） | O-20261010-1650 存量件 |
