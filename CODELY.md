@@ -36,4 +36,18 @@
 - [2026-09-26 23:21:58] 子公司开线事实与待裁（09-23/24 建制·2026-09-26 精简归并）： → 全文档案: .codely-cli/memory/mem-20260930-o-008.md
 - [2026-09-26 23:21:58] 机队资源分配律（09-23 立法·cph4/fleet-allocations.md+scheduling.md·2026-09-26 精简归并）：机器按配置分主归属（主归属 P0 保主）+空余算力可借池（verdict 绿灯进池·按被借方协议认领·禁双建禁双开工·不建中央调度器）；云算力默认态=并行全量调用——CEO 指令=唯一变更通道，AI 禁自行设限；缺资源通道=P0-Resource→周报清单→CEO。
 ### Reference
+---
 
+## L1 项目层卡（2026-10-15 建·O-20261015-1235·三层制正身=cph4/memory.md §10.2）
+> 层级：L0=全局硬法+索引（各机 <home>\.codely-cli\CODELY.md·平台每次注入·现 ~20KB）｜**本件=L1 项目层**（git 分发·跨机共享·项目专属记忆正身）｜L2=主题层（各机 <home>\.codely-cli\memory\topics\·按需读）。正典权威=git 永久件——本件只放指针与项目级记忆·禁复述正典（复述禁令 §1.2）。
+
+### 项目状态指针（最新态一律查 docs/orders.md 尾行）
+- MV 41 曲线（本机在飞=mv0001 V4 Jay-redo POOL-0014+V3 终剪装配）：cph4/fleet/mv-album-001-jay/ + cph4/fleet/mv0001-handover/
+- 量化波链（W 波席位/冻结态）：bigmoney/
+- 调度/巡视（CEO-PROXY 主AGENT/PATROL-FLEET）：cph4/fleet/dispatcher/
+- 硬件采购（V100 三卡机 BOM/验收线）：cph4/fleet/hardware/
+- 软著：软著申请材料/
+- 司域层：MiniGame/CODELY.md（gaming 线）｜metis=Unity\.codely-cli\memory\metis-architecture-deep-dive.md
+
+### 新记忆三级路由（正身=cph4/memory.md §10.2）
+跨机价值→本件/git 正典；每次必读硬法→L0 全局（≤300 字）；本机域细节/长文→L2 主题文件。本机 append 工具 project-scope EEXIST 故障在册→L1 写入走文件工具+git 原子推（等效上链 §8.4）。
