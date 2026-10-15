@@ -1,6 +1,6 @@
 # SLI-RECONCILE (external seat)
 
-> Generated 2026-10-15 08:35:17 by bm-b external reconciliation task (BLUEPRINT v2 Phase 1-alpha, G4).
+> Generated 2026-10-15 23:00:20 by bm-b external reconciliation task (BLUEPRINT v2 Phase 1-alpha, G4).
 > Data source: group repo after pull. Parser is best-effort v1 - the seat step-9 loop refines it.
 
 - Date: 2026-10-15
@@ -9,7 +9,7 @@
 - Shift lines typed today: green=0 standard=0 event=0 total=0
 - Green rate: 0% (health band 40-70)
 - Avg calls per typed shift: 0 (target <=12)
-- NEED-JUDGMENT open items: 0
+- NEED-JUDGMENT open items: 12
 - Probe heartbeat age: n/a | Carrier heartbeat age: n/a
 
 ## Verdict line
