@@ -11,13 +11,18 @@
 #   stops heavy brain llama-server + ComfyUI + GPU tasks + cron, KEEPS the Ollama
 #   small-model light face alive. Manual word pause = full stop (unchanged).
 #   bm-a AutoYield schedule: weekdays 09:00 pauseLite / 19:00 resume.
+# v6 2026-10-15 (bm-a live evidence, CEO 16:23 re-order): revival-gap fix - (a) any
+#   brain-watchdog task (e.g. bm-a-CoderServe PT10M) MUST be in the LOCALIZE-1 disable
+#   list, else it relaunches the killed brain <=10min after pause/pauseLite; (b) pause/
+#   pauseLite now write engine-tick\keepwarm.pause valve (bm-a: coder-serve's flag check
+#   never fired because the dir did not even exist) and resume removes the valve.
 
 param([Parameter(Mandatory=$true)][ValidateSet("pause","pauseLite","resume","status")][string]$Mode)
 
 $ErrorActionPreference = "Continue"
 
 ##LOCALIZE-1: this machine's GPU production Task Scheduler task names (self-report list)
-$tasks = @("<LOCALIZE: your GPU production task names>")
+$tasks = @("<LOCALIZE: your GPU production task names + brain-watchdog task if any (v6: e.g. bm-a-CoderServe must be IN this list, else it revives the killed brain after pause)>")
 
 ##LOCALIZE-2: this machine's LLM stack (comment out lines that do not apply; declare honestly)
 $ollamaExe = "<LOCALIZE: ollama.exe full path>"
@@ -65,6 +70,9 @@ if ($Mode -eq "status") {
 }
 
 if ($Mode -eq "pause") {
+    # v6: hold the brain-watchdog valve (create dir first - missing dir = silent no-op pit)
+    $null = New-Item -ItemType Directory -Force -Path (Join-Path $PSScriptRoot "engine-tick")
+    Set-Content -Path (Join-Path $PSScriptRoot "engine-tick\keepwarm.pause") -Value "paused $(Get-Date -Format o)" -Encoding ASCII
     Write-Output "[pause] stopping ollama + llama-server + comfyui ..."
     Kill-GpuHolders
     foreach ($t in $tasks) { try { Disable-ScheduledTask -TaskName $t -ErrorAction Stop | Out-Null; Write-Output "[pause] disabled: $t" } catch { Write-Output "[pause] WARN disable ${t}: $($_.Exception.Message)" } }
@@ -92,6 +100,9 @@ if ($Mode -eq "pause") {
 
 if ($Mode -eq "pauseLite") {
     # v5 2026-10-15 (O-20261015-1500): heavy yield, light face kept (small-model QA lane stays).
+    # v6: hold the brain-watchdog valve during the work-hours yield as well
+    $null = New-Item -ItemType Directory -Force -Path (Join-Path $PSScriptRoot "engine-tick")
+    Set-Content -Path (Join-Path $PSScriptRoot "engine-tick\keepwarm.pause") -Value "pausedLite $(Get-Date -Format o)" -Encoding ASCII
     Write-Output "[pauseLite] stopping heavy brain + comfyui + GPU tasks (ollama light face kept) ..."
     Get-CimInstance Win32_Process -Filter "name='llama-server.exe'" |
         Where-Object { $_.CommandLine -match $brainMarker } |
@@ -110,6 +121,8 @@ if ($Mode -eq "pauseLite") {
 }
 
 if ($Mode -eq "resume") {
+    # v6: release the brain-watchdog valve so the heavy brain may return for the night window
+    Remove-Item -Path (Join-Path $PSScriptRoot "engine-tick\keepwarm.pause") -Force -ErrorAction SilentlyContinue
     Write-Output "[resume] enabling production tasks ..."
     foreach ($t in $tasks) { try { Enable-ScheduledTask -TaskName $t -ErrorAction Stop | Out-Null; Write-Output "[resume] enabled: $t" } catch { Write-Output "[resume] WARN enable ${t}: $($_.Exception.Message)" } }
     try { Write-Output ("[resume] cron: " + (& python $cronPy restore)) } catch { Write-Output "[resume] WARN cron restore: $($_.Exception.Message)" }
