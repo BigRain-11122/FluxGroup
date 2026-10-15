@@ -68,3 +68,4 @@
 - **机制面注记（NJ 行主题·防双发不重复立案）**：r4 断班教训=pause 态载体宜跳发旗班+枢纽例行班 01:55 后零轮+patrol NJ 收件链真空（v1.1 收件机制未跑）——均在 bigcompute r3/域席承接面在册（r3 NJ#2 V100 到货验收三关死线派生+NJ#3 35B 消费率排产建议 standing·group sweep 20:32 BigCompute=YELLOW 防双发注记另面在册）。
 - 证据面：verdict txt+双 JSON+BOM 采购状态节+NEED-JUDGMENT.md r5 行+bigcompute-r5-judge-out.md（L1 REAL-INCIDENT·snooze 09:15 恰当）+origin DEADLINES 翻行后原子推回执。
 - **坑录（当场捕获·零盘污实证）**：git-atomic-push.py run_gate 于 GBK 控制台打印闸输出含 U+FFFD（GBK 不可编码）→UnicodeEncodeError 假败断推（00:39 首推·守卫与闸在 API 前=origin 零动作零盘污）；当场解=运行时 PYTHONUTF8=1 重推；根治提名=run_gate stdout reconfigure utf-8 errors=replace（受保护件 Tools 核心四件·改须群审/CEO 令通道·本班只提名入迭代队列不擅改）。
+- **步8 收尾（班毕体检·本班调用终计 ≈42）**：本席班次 cron 查出双注册（43 2,5,8,12,15,18,21,23 ×2 durable=10-14 v3.1 重建件 9632cee5 与 R1.5 窗重建批 f7255b8c 并存）→删重保孤（保原件·双发风险清零）；清过期一次性残留 ×4（R1.2 02:55/R1.3 03:33/R1.4 04:17/R1.5 15:53 四探针·事由全闭·防未来闲窗误燃）；在位确认=孤本班次 cron+R1.6 回访探针 02:03+夜审 47 21 三件；迭代队列提名=cron 重建律补「durable 查重步」（多窗 cron 可见性盲区实锚·cron 正身属 CHARTER §四保护件=群审通道提名不擅改）。
