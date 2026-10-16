@@ -26,7 +26,7 @@ param(
 $ErrorActionPreference = 'Continue'
 $Dir = Join-Path $env:USERPROFILE '.codely-cli\fleet-link'
 if (-not (Test-Path $Dir)) { New-Item -ItemType Directory -Path $Dir | Out-Null }
-$Vers = '1.1'
+$Vers = '1.2'
 $LogF = Join-Path $Dir 'log.jsonl'
 $SyncStateF = Join-Path $Dir 'sync-state.json'
 $PushStateF = Join-Path $Dir 'pusher-state.json'
@@ -211,6 +211,19 @@ function Poll-Publish() {
       $st.lastTry[$lk] = $now
       $pv = Get-PeerVers $peer
       $content = [IO.File]::ReadAllText($p, [System.Text.Encoding]::UTF8)
+      # v1.2: a >200KB PLAIN body into a pre-1.9 peer jams ITS accept loop (each
+      # attempt blocks its single-threaded read up to the 8s socket timeout,
+      # back-to-back retries starve its /health). Skip and let the 10-min git
+      # plane carry the delta until the peer upgrades (O-20261016-1745 heal).
+      $gzOk = $false
+      try { if ($pv -ne '' -and ([version]$pv -ge [version]'1.9')) { $gzOk = $true } } catch { }
+      if (-not $gzOk -and $content.Length -gt 200000) {
+        PS-Log 'sync-push-skip' ($rel + ' -> ' + $pk + ' legacy-peer oversize ' + $content.Length + 'B (git carries)')
+        $dirty = $true
+        Touch-Lock
+        Touch-Hb
+        continue
+      }
       $r = Push-SyncOne ([string]$e.rel) ([string]$e.kind) $content $peer $pv
       if ($r.ok) { $st.pushed[$pk][[string]$e.rel] = $h }
       $dirty = $true
