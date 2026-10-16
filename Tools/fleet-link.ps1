@@ -1,4 +1,4 @@
-# fleet-link.ps1 - FleetLink node listener v1.1 (CEO order 2026-10-04:
+# fleet-link.ps1 - FleetLink node listener v1.9.3 (CEO order 2026-10-04:
 # decision/dispatch chain + fleet networking - "git feels slow"; full autonomous
 # authorization granted; v1.1 = O-20261009-1750 "very fast sync" upgrade).
 # Implements state-plane v2 of O-20260928-1855 item 3: 10s-level status read +
@@ -45,6 +45,11 @@
 #   and self-checks its own on-disk version every ~2min - a newer script
 #   shipped via git replaces the running listener WITHOUT any scheduled-task
 #   dependency (bm-c open item: task not cycling, listener frozen on v1.7).
+# v1.9.3 (2026-10-16 bm-b blood-swap live-fire): self-upgrade kill gains a
+# port-owner fallback - CommandLine matching missed bm-b's stale v1.8 listener
+# (three VERIFIED worker-gate tiers task/register/raw all failed to displace it);
+# Get-NetTCPConnection names the exact PID holding port 8790, deterministic
+# regardless of how the old listener was started or which user owns it.
 param(
   [string]$Root = "C:\Users\sjs20\Desktop\FluxGroup",
   [int]$Port = 8790,
@@ -82,7 +87,7 @@ try {
 if ($NodeId -eq '') { $NodeId = $env:COMPUTERNAME }
 
 # ---- bind (node tailnet IP + loopback; skip missing) + v1.1 self-upgrade ----
-$Vers = '1.9.2'
+$Vers = '1.9.3'
 $bindIps = @()
 if ($node -and [string]$node.tailnet_ip -ne '') { $bindIps += [string]$node.tailnet_ip }
 $bindIps += '127.0.0.1'
@@ -109,6 +114,20 @@ if ($listeners.Count -eq 0) {
       $old = Get-CimInstance Win32_Process -Filter "Name='powershell.exe'" -ErrorAction SilentlyContinue |
         Where-Object { $_.CommandLine -match 'fleet-link\.ps1' -and $_.ProcessId -ne $PID }
       foreach ($o in @($old)) { try { Stop-Process -Id ([int]$o.ProcessId) -Force -ErrorAction SilentlyContinue } catch { } }
+    } catch { }
+    # v1.9.3: port-owner kill fallback - CommandLine matching misses listeners
+    # whose process context hides the command line or was started unusually
+    # (bm-b live-fire 10-16: stale v1.8 survived every CommandLine-match kill);
+    # the TCP port owner is deterministic. PID 0/4 guards = never touch System.
+    try {
+      $owners = @(Get-NetTCPConnection -LocalPort $Port -State Listen -ErrorAction SilentlyContinue |
+        Select-Object -ExpandProperty OwningProcess -Unique)
+      foreach ($opid in $owners) {
+        $k = 0
+        if ([int]::TryParse([string]$opid, [ref]$k) -and $k -gt 4 -and $k -ne $PID) {
+          Stop-Process -Id $k -Force -ErrorAction SilentlyContinue
+        }
+      }
     } catch { }
     Start-Sleep -Milliseconds 1500
     for ($i = 0; $i -lt 10 -and $listeners.Count -eq 0; $i++) {
