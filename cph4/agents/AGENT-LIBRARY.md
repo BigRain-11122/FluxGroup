@@ -9,7 +9,7 @@
 | CEO 说 | 自动激活/调用 |
 |---|---|
 | 出 MV / 改片 / 拉片 | 导演席 `tw-mv-director` → 群审 `bigstream-expert-panel`（成片呈审硬门=导演签字） |
-| 短视频 / 玩梗 / 账号内容 | 短视频部管线（meme-daily-v1）→ **合规席 `compliance-guard` 先行** → 盲评 ≥9 才呈 |
+| 短视频 / 玩梗 / 账号内容 | 短视频部管线（meme-daily-v1）→ 盲评 ≥9 才呈（合规席=轻量顾问不拦产线·CEO 令 2026-10-16·商业化触发转全检） |
 | 涨粉 / 粉丝 / 评论区 / 发片时间 | 增长席 `growth-ops` |
 | 城市搭建（装配/灯光/地形/散布） | `lowpoly-city-3d` 总控 → 四专家 city-3d-assembly / lighting / procedural / terrain |
 | 城市居民 / 户籍 / 安家 / 可视化 | 城市生态席 `silicon-city-ops`（渲染面归上一行） |
@@ -52,7 +52,7 @@
 | 游戏专家 11 席 | 游戏开发全链（设计/系统/经济/技术美术/性能/QA/审计/估时/范围/Unity×2） | skill 族=cph4/skills/ccgs/（INDEX.md 分拨面） |
 | **库长席**（本批新增） | 智能体发现/登记/审计/周审 | skill `agent-librarian` |
 | **机队运维席**（本批新增） | 机队一切故障与调度 | skill `fleet-ops` |
-| **合规席**（本批新增） | 发布前合规/肖像版权/平台红线 | skill `compliance-guard` |
+| **合规席**（本批新增·阶段门控） | 肖像版权/平台红线知识库（**现役=轻量顾问·商业化触发转全检**·CEO 令 2026-10-16） | skill `compliance-guard` |
 | **增长席**（本批新增） | 账号/粉丝/评论区/节奏/看板 | skill `growth-ops` |
 | **城市生态席**（本批新增） | 城市非渲染面（居民/安家/商业化/可视化） | skill `silicon-city-ops` |
 
@@ -102,7 +102,7 @@
 |---|---|---|---|---|---|
 | 2026-10-16 | agent-librarian | 机队/基建 | 库长：发现/登记/审计总册 | skill（canon=cph4/skills/agent-librarian） | ACTIVE |
 | 2026-10-16 | fleet-ops | 机队/基建 | 机队运维：任务/静默/同步/车道/派单 | skill（canon=cph4/skills/fleet-ops） | ACTIVE |
-| 2026-10-16 | compliance-guard | 合规/增长 | 发布前合规：肖像/版权/平台/AIGC 标识 | skill（canon=cph4/skills/compliance-guard） | ACTIVE |
+| 2026-10-16 | compliance-guard | 合规/增长 | 合规知识库（阶段门控：现役轻量顾问·商业化触发转全检·CEO 令 2026-10-16） | skill（canon=cph4/skills/compliance-guard） | ACTIVE |
 | 2026-10-16 | growth-ops | 合规/增长 | 增长运营：粉丝/评论区/节奏/看板 | skill（canon=cph4/skills/growth-ops） | ACTIVE |
 | 2026-10-16 | silicon-city-ops | 城市线 | 城市生态：居民/安家/商业化/可视化 | skill（canon=cph4/skills/silicon-city-ops） | ACTIVE |
 | 2026-10-16 | city-seat-ops / city-seat-content / city-seat-data | 城市线 | 城市运营/内容/数据席位（增长槽） | 待 canon 落地建卡 | PLAN |
@@ -110,3 +110,4 @@
 ## 更新日志
 
 - v1.0（2026-10-16·bm-a 建库）：总册首版（常设机构位 15+专家席位 16+八域 skill 索引+城市线专册）+五席新 skill+六件既有 skill 收编 canon+同步/审计双工具+CEO-PROXY 周审步接线（执行档=docs/orders.md 2026-10-16 建库令行）。
+- v1.0.1（2026-10-16·bm-a）：合规席转阶段门控（CEO 令「商业化前轻量」）——§0/§二/§六 合规行改写·skill 同步升版。
