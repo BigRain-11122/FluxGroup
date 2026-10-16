@@ -1,9 +1,17 @@
-# fleet-poke-worker.ps1 - FleetLink background pull+wake worker v1.6 (CEO order O-20261009-1750 "very fast sync").
+# fleet-poke-worker.ps1 - FleetLink background pull+wake worker v1.7 (CEO order O-20261009-1750 "very fast sync").
 # v1.6 (2026-10-16 fleet-linkup order): lock now stores its pid - a FRESH lock
 # owned by a DEAD process (crashed worker) no longer blocks pokes for 10min;
 # the stale-but-fresh lock is reclaimed immediately and the takeover is logged
 # (lock-reclaim). Live-owner semantics unchanged. Backward compatible: parses
 # legacy "pid=N" text locks too.
+# v1.7 (2026-10-16 bm-b blood-swap live-fire): the listener freshness gate now
+# VERIFIES each spawn tier by watching the local /health version actually flip
+# before trusting it; silent-start failures fall through to the next tier (bm-b
+# 20:18 evidence: gate fired, tier-2 register reported success, listener stayed
+# v1.8 - Interactive-principal tasks never start without an interactive logon
+# session). Gate trigger widened: also fires when the LIVE /health version
+# differs from the on-disk version (covers a dead same-version listener and a
+# stale-version listener holding the port while state.json lies either way).
 # v1.5 (2026-10-16 CEO check "is fleet sync fastest/most effective" - bm-c stuck on
 # v1.7 root cure): listener freshness gate - if the on-disk fleet-link.ps1 version
 # is newer than the RUNNING listener (state.json), start a fresh instance; the
@@ -47,6 +55,27 @@ function WK-Log([string]$evt, [string]$detail) {
     $o = [ordered]@{ ts = (Get-Date -Format s); event = $evt; detail = $detail }
     ($o | ConvertTo-Json -Compress) | Add-Content -LiteralPath $LogF -Encoding UTF8
   } catch { }
+}
+
+# ---- v1.7: live listener version probe + version-flip watcher (gate ground truth) ----
+function WK-ListenerPort() {
+  $p = 8790
+  try { if ($cfg -and ($cfg.PSObject.Properties.Name -contains 'port')) { $p = [int]$cfg.port } } catch { }
+  return $p
+}
+function WK-LiveListenerVers() {
+  try {
+    $h = Invoke-RestMethod -Uri ('http://127.0.0.1:' + (WK-ListenerPort) + '/health') -TimeoutSec 3
+    return [string]$h.version
+  } catch { return '' }
+}
+function WK-WaitListenerVers([string]$want, [int]$secs) {
+  $deadline = (Get-Date).AddSeconds($secs)
+  while ((Get-Date) -lt $deadline) {
+    if ((WK-LiveListenerVers) -eq $want) { return $true }
+    Start-Sleep -Milliseconds 700
+  }
+  return $false
 }
 
 # ---- single-flight lock (v1.6: pid-verified - a fresh lock owned by a dead
@@ -170,7 +199,8 @@ try {
 # newer fleet-link.ps1 shipped via git (runs AFTER pulls so the newest code is on
 # disk; zero side effects when versions already match). Try the scheduled task
 # first (durable), then idempotent re-registration (heals a missing task), then a
-# raw hidden instance as last resort. ----
+# raw hidden instance as last resort. v1.7: every tier is VERIFIED against the
+# live /health version; failures fall through to the next tier. ----
 try {
   $flScript = Join-Path $Root 'Tools\fleet-link.ps1'
   $stateF2 = Join-Path $Dir 'state.json'
@@ -180,21 +210,32 @@ try {
     if ($m.Success) { $diskVers = $m.Groups[1].Value }
     $runVers = ''
     if (Test-Path $stateF2) { try { $runVers = [string]((Get-Content -Raw $stateF2 | ConvertFrom-Json).version) } catch { } }
-    if ($diskVers -ne '' -and $runVers -ne '' -and ([version]$diskVers -gt [version]$runVers)) {
-      $spawned = $false
-      try { Start-ScheduledTask -TaskName 'FluxGroup-FleetLink' -ErrorAction Stop; $spawned = $true } catch { }
-      if (-not $spawned) {
+    $liveVers = WK-LiveListenerVers
+    $need = $false
+    if ($diskVers -ne '') {
+      if ($runVers -ne '' -and ([version]$diskVers -gt [version]$runVers)) { $need = $true }
+      elseif ($liveVers -ne $diskVers) { $need = $true }
+    }
+    if ($need) {
+      # v1.7: verify each tier actually flipped the listener; fall through on
+      # failure. Misfires are harmless - a same-version extra instance exits
+      # 'no bind' via port contention, and a takeover replaces the old listener.
+      $tiers = @()
+      $ok = $false
+      try { Start-ScheduledTask -TaskName 'FluxGroup-FleetLink' -ErrorAction Stop; $tiers += 'task:start'; $ok = WK-WaitListenerVers $diskVers 15 } catch { $tiers += 'task:fail' }
+      if (-not $ok) {
         try {
           $reg = Join-Path $Root 'Tools\register-fleet-link.ps1'
-          if (Test-Path $reg) { & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $reg -Root $Root 2>&1 | Out-Null; $spawned = $true }
-        } catch { }
+          if (Test-Path $reg) { & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $reg -Root $Root 2>&1 | Out-Null; $tiers += 'reg:run'; $ok = WK-WaitListenerVers $diskVers 15 }
+        } catch { $tiers += 'reg:fail' }
       }
-      if (-not $spawned) {
+      if (-not $ok) {
         $argz = '-NoProfile -ExecutionPolicy Bypass -File "' + $flScript + '" -Root "' + $Root + '" -NodeId ' + $NodeId
         Start-Process -FilePath 'powershell.exe' -ArgumentList $argz -WindowStyle Hidden | Out-Null
-        $spawned = $true
+        $tiers += 'raw:spawn'
+        $ok = WK-WaitListenerVers $diskVers 20
       }
-      WK-Log 'listener-refresh' ('running=' + $runVers + ' disk=' + $diskVers + ' spawned=' + $spawned)
+      WK-Log 'listener-refresh' ('running=' + $runVers + ' live=' + $liveVers + ' disk=' + $diskVers + ' tiers=' + ($tiers -join ' ') + ' upgraded=' + $ok)
     }
   }
 } catch { WK-Log 'listener-refresh-fail' ([string]$_.Exception.Message) }

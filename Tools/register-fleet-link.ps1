@@ -3,6 +3,11 @@
 # (OrderSentinel precedent) + VBS silent wrapper (U060) + 5-min keepalive; the
 # listener itself is single-instance via port occupancy. No elevation needed:
 # inbound tailnet traffic is already allowed by the Tailscale-In firewall rules.
+# v1.1 (2026-10-16 bm-b blood-swap live-fire): principal Interactive -> S4U per
+# the 09-29 blackout-root judgment (all lane tasks S4U, InteractiveToken
+# forbidden). An Interactive-principal task NEVER STARTS while the user has no
+# interactive logon session - the worker gate's re-register tier reported
+# success on headless bm-b while no listener process ever appeared (v1.8 stuck).
 param(
   [string]$Root = "C:\Users\sjs20\Desktop\FluxGroup",
   [string]$NodeId = ""
@@ -31,8 +36,9 @@ $action = New-ScheduledTaskAction -Execute 'wscript.exe' -Argument $argLine
 $trigger = New-ScheduledTaskTrigger -Once -At (Get-Date).AddMinutes(1) -RepetitionInterval (New-TimeSpan -Minutes 5) -RepetitionDuration (New-TimeSpan -Days 3650)
 $settings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable -ExecutionTimeLimit ([TimeSpan]::Zero) -MultipleInstances Parallel
 # PS5.1 quirk: Register-ScheduledTask has no -LogonType direct parameter here;
-# go through New-ScheduledTaskPrincipal instead (same interactive-user effect).
-$principal = New-ScheduledTaskPrincipal -UserId $env:USERNAME -LogonType Interactive
+# go through New-ScheduledTaskPrincipal instead. S4U = headless-safe (runs with
+# no interactive session, no stored password, no console window - U060 law).
+$principal = New-ScheduledTaskPrincipal -UserId $env:USERNAME -LogonType S4U
 Register-ScheduledTask -TaskName $TaskName -Action $action -Trigger $trigger -Settings $settings -Principal $principal -Force | Out-Null
 Write-Output ('REGISTERED ' + $TaskName + ' node=' + $NodeId)
 Start-ScheduledTask -TaskName $TaskName
