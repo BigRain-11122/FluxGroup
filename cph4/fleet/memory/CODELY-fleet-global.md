@@ -82,6 +82,7 @@
 - [2026-10-16 16:00:21] [2026-10-16 15:5x] [C-02 wave-F] 工作树批量回退族（多窗脏树 stash 回灌·mtime 同秒=指纹）对账正法：①分诊器=git hash-object vs rev-list --objects 历史集比对——命中历史 blob=纯陈旧→checkout 归位；无命中=本地独有新稿→采纳上链；双向各缺=逐 hunk 并集手术；②禁整树 checkout/提交（bc34c07 实证：41 归位+81 采纳+3 并集）；③B/C 机与本机产物竞速时以各线最新交付批定新旧。How to apply：遇「多件 M 且 mtime 同秒」先按回退覆写分诊，勿按内容盲判。
 
 
+
 ### Reference
 - [memory-gate] 记忆分层主题索引（按需读·verbatim 全量在档）：
 - [2026-10-14 16:21:54] [2026-09-26 立·10-10/10-13/10-14 执行] 记忆整理归档法（用户令「整理全局记忆：去除冗余、过期、长期价值不高的内容」·决策委员会 C-20261014-01 常设化）：**流程=①先全文快照到 C:\Users\sjs20\.codely-cli\memory\cleanup-<YYYY-MM-DD>\CODELY-global-pre.md ②去重/删 superseded/压 completed ③更新本索引**；快照存量=cleanup-2026-09-26（四文件）/cleanup-2026-10-10（删12）/cleanup-2026-10-13（删54+14改写·254KB→160KB）/cleanup-2026-10-14（本轮·删80+并档改写8·303,780B→187,372B·248→177 条）；**防复发两律**：①同主题新版本一律 update_memory 改写原条目·禁 append 留旧版（并档链病灶根因——本轮 80 删中约三成源于此）②每日 21:47 记忆周审 cron（durable·自重建）自查：>110KB 或 >140 条或同主题 ≥3 版本→自动进瘦身流程+回执 cph4/fleet/memory-slim/LEDGER.md；已知限制=逐字节相同的重复对 update_memory 拒删（本轮 union 硬件档双拷贝留档）；删除会留空行残迹（字节零影响·按条目数与字节数审计）；根因备案=bm-a append_memory project-scope EEXIST 平台故障致跨机内容全入全局文件——跨机价值内容继续走 git 正典上链。被删/被精简条目全文查各快照；权威正本=git 永久件·勿按记忆复述。

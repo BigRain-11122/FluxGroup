@@ -16,6 +16,7 @@ DL = r"C:\Users\sjs20\Desktop\FluxGroup\media\MV\mv0001\kf-demo-20261012\segment
 CLOUD = r"C:\Users\sjs20\Desktop\FluxGroup\cph4\fleet\mv0001-handover\outbound\krea2\kf-demo-20261012\cloudv2"
 D_OLD = r"C:\Users\sjs20\Desktop\FluxGroup\media\MV\mv0001\cloud-v4"  # O-20261014-1045 shou-bian: tmp-sweep-zone -> media safe zone
 FLUX = os.path.join(HERE, "fleet-shots", "FLUXGROUP")
+JAYREDO = r"C:\Users\sjs20\Desktop\FluxGroup\cph4\fleet\mv0001-handover\outbound\krea2\kf-demo-20261012\bmc\i2v\jayredo"  # V4 Jay 化正身源（r1033 装配站·17 件同名收片）
 D_CUT = os.path.join(DL, "_cut")
 OUT_DIR = HERE
 SONG = r"C:\Users\sjs20\Desktop\FluxGroup\cph4\fleet\mv0001-handover\audio\mv001_source_320k.mp3"
@@ -58,8 +59,8 @@ def build_rows():
     return rows
 
 def find_src(fname):
-    # 搜索序：cloudv2（云端定版·回炉律换优优先）→ DL（bm-c CDN 段）→ D_OLD（REUSE 11 源 KF 系）→ FLUX
-    for d in (CLOUD, DL, D_OLD, FLUX):
+    # 搜索序：JAYREDO（V4 Jay 化正身·同名收片零改表）→ cloudv2（云端定版·回炉律换优优先）→ DL（bm-c CDN 段）→ D_OLD（REUSE 11 源 KF 系）→ FLUX
+    for d in (JAYREDO, CLOUD, DL, D_OLD, FLUX):
         p = os.path.join(d, fname)
         if os.path.isfile(p):
             return p
