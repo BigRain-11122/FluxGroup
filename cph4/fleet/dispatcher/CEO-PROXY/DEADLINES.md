@@ -9,7 +9,7 @@
 | 死线 | 归属 | 来源 | 状态 |
 |---|---|---|---|
 | 10-14 13:00 V3.5 预览剪呈 CEO | bm-a 装配站 | O-20261014-1035 ⑥ | **延误·如实披露**（17:0x 审查轮核注：13:00 未呈·波1 六镜 16:4x 收齐/波2 点火·装配站接管中——是否并轨深夜终剪由 21:43 死线班跟核） |
-| 10-15 08:43 MV V3 全本地终剪→成片闸→呈 CEO（CEO 死线·O-20261014-1855） | bm-a 装配站+@bm-c 缺件补产 | O-20261013-2200+NJ bigstream 10-15 00:33 | in-flight（事件班 01:2x 点火：wave2 39 件 CDN 收割+FLUX 11 件改名落 DL+cloudv2 21 件归档避让→预检 CLOUD-ONLY 35→7；V3.5 预览剪 540P 后台在跑；7 独立缺件已派 @bm-c POOL-0012〔INT1-5/D03b/E01c·INT8 768P〕；终剪候 7 件回执→asm 云引用=0→768P 终剪→QC/盲评→成片闸） |
+| 10-15 08:43 MV V3 全本地终剪→成片闸→呈 CEO（CEO 死线·O-20261014-1855） | bm-a 装配站+@bm-c 缺件补产 | O-20261013-2200+NJ bigstream 10-15 00:33 | **延误·如实披露（R1.9 10-16 13:0x 翻新）**：V3 终剪死线未达——线被 CEO Jay 化裁定升格 V4（17 件 jayredo：11 件 i2v 10-15 20:38 bm-a 确认收讫+6 重摇件 @bm-c r1034 补烧 in-flight〔reshake6 复检 6/6 过 10-16 11:4x·DeliveryWatch 契约死线 14:05〕）→17 件齐→bm-a 装配站 V4 装配单已备（V3 时间线在位）→四闸→CERTIFIED 呈 CEO；旧 7 缺件补产线已并入 jayredo 链 |
 | 10-15 03:30 bm-b git 手术决断线（R2 裁决=A 案宽限观察·预注册决断树：a origin 见 bm-b push→自然恢复闭环 b r956 报 fetch 卡死/驱动死→即刻手术单 c 03:30 零心跳恢复→手术单〔预草案=bigmoney-shiftlog 枢纽决断行：kill blobfill pid 28880+C2 payload 抢救导出+re-clone S0 先例+push+selftest+回执〕） | 枢纽代理席（03:33 探针 cron 主承载+02:43/05:43 夜班+域席 R3 备份） | NJ bigmoney R2 01:33+LOG Round 1.3 | **resolved-手术作废（02:47 枢纽事件班 R1.4 亲测 a 闭环：r956 侧枝已落 origin〔ls-remote 3eaa15f1〕+listener 活〔02:43:55·心跳 r956@02:36:32=r955 push receipt consumed PUSHED_VERIFIED+recovery drivers 在飞〕→域席修正树③命中·手术单作废；03:33 探针=确认节奏零手术；残余=r957 提交轮 main push+faces 复原·bm-b.json weak 传感旗 main push 前复发=已知恢复态非新升级）** |
 | C02/R05 源帧重制→重 i2v（装配邻段兜底） | @bm-c ✅已随 wave2 r1010 交付（C02_sand_bury/R05_gold_threads 修复 URL·事件班 01:2x 收割入 DL） | 10-14 11:0x 四抓 | done（r1010 消费面·字节校验过） |
 | 10-14 V100 P0=bm-a 夜窗 MoE 卸载跑 35B（验收 ≥30 字/秒） | bm-a 夜窗 | V100-EXPANSION-SPEC v2 | done-在役（事件班 10-16 00:3x 翻行消费 bigcompute NJ r5〔五班同源 r1-r5 一致核验〕：证据亲验=compute/BigCompute/state/v100-p0-verdict-20261014.txt VERDICT PASS·跨跑 31.6 字/秒 ≥30·run1 29.2/run2 34.0 如实双录+双 JSON·35B :8090 在役=思考路由律本地档承载） |
@@ -25,6 +25,9 @@
 | **B站账号运营线（回复/DM/outreach 三件套·已上线·代理席接管巡检 10-14 15:5x）**：护栏审计（每轮 ≤5/日帽/条间 30-90s/永不重发台账/R1 五信号熔断）+续登路（凭据已交接仓外）+回执 | bm-a 本地（车道例外=cookie 最短路·追认·bm-b 迁移待文件通道） | O-20261014-1330+15:1x 接管令 | live-在巡 |
 | 事件班 schtasks 承载升级件：**已落地在役（10-14 19:1x·Phase 1-α·origin 2fed6498）——08:43 班勿重派（防双注册）**：HQ-CEOProxyEventCarrier PT15M+HQ-MA-ProxyProbe PT1H 静默在役·19:13 首发射实弹毕（事件班 Round 1.1·origin 75ac965·NJ 清零+锁收口 19:28:21）·代理席巡检面接管 | 已落地在役 | O-20261014-1745 Phase 1-α ①② | done-在役 |
 | 10-17（周六）bm-a 周末自由运转边界（口令制 O-202601015-1845 首周末·WorkEnd 退役+pauseLite gamewin cron 挂起=周六无自动复产承载·真机制缺口） | 值守面（周六晨检班/事件班/委员会任一活面） | NJ biggame R8 ②+枢纽 R1.8 预注册 | scheduled（决断树：①默认=候 CEO「开工」口令〔保守向·口令制 §② 唯一开关律〕②CEO 全日未发口令+委员会判「节假日随便」生效→T1 代决 -Mode resume 复产〔常设授权令射程〕·执行前必探 CEO 用机面〔GameViewer/前台重载在跑=让路面优先照旧〕③口令一发即从令·禁以本行代口令④复产即 gamewin cron restore 自归位） |
+| 10-16 14:00 @bm-b 欠件追缴五件回执（POOL-0020 销卡/spawn 帽腿回执/哨兵 PROBE_ERR 定谳/POOL-0018·0019 双锚批具名阻塞件/试映片 Taildrop） | bm-b | orders 10-16 13:0x 行+C-20261016-02 普查C/E | in-flight（委员会 DeliveryWatch 12:45 契约已挂·过线自动点名） |
+| 10-16 14:05 jayredo 6 件 i2v 补烧→拼板→bm-a 装配（V4 链前哨） | @bm-c | orders 10-16 11:4x 派单+Cure-1 契约 | in-flight（r1034 补烧·2h P0 超时哨+DeliveryWatch 双哨在役） |
+| 10-16 ~15:0x @bm-c 仓分叉修复（backup 分支+reset --hard origin/main） | @bm-c | orders 10-16 13:0x Cure-2 行 | P0 in-flight（2h 超时哨在挂·修复后 fleet-dispatch -ExpectSha 应转 SYNCED） |
 
 ## §二 waiting-CEO（物理件/保留面·零催办）
 
