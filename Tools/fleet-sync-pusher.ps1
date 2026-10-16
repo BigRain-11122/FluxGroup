@@ -26,6 +26,15 @@
 #   version + >200KB body still skips (a gz-only body into a pre-1.9 peer
 #   would "succeed" with applied=0 and poison the pushed marks - data black
 #   hole, never blind-send gz).
+# v1.4 (2026-10-16 fleet-linkup live-fire): wire-size precheck - orders.md is
+#   711KB utf-8; gz+base64+JSON still puts 445KB on the wire, ABOVE the peer
+#   v1.9.2 262144 fast-reject line, so every push bounced in ~1s forever
+#   (live probe 20:11: HTTP 200 body-too-large). The audit doc's "~130KB on the
+#   wire" claim for orders.md is hereby corrected - it never actually landed.
+#   Now: a gzipped body that still exceeds the fast-reject line skips honestly
+#   (git carries) instead of bouncing forever; fail logs carry the path too.
+#   orders.md hot-push unlocks only after the 10-19 slimming batch reaches
+#   base64(gzip(utf8)) <= 256KB (needs ~43% cut at current content).
 # PS 5.1 safe: ASCII-only body; allowlist mirrors fleet-link.ps1 v1.9 (mirror
 # law: change BOTH when the /sync face changes).
 param(
@@ -36,7 +45,7 @@ param(
 $ErrorActionPreference = 'Continue'
 $Dir = Join-Path $env:USERPROFILE '.codely-cli\fleet-link'
 if (-not (Test-Path $Dir)) { New-Item -ItemType Directory -Path $Dir | Out-Null }
-$Vers = '1.3'
+$Vers = '1.4'
 $LogF = Join-Path $Dir 'log.jsonl'
 $SyncStateF = Join-Path $Dir 'sync-state.json'
 $PushStateF = Join-Path $Dir 'pusher-state.json'
@@ -176,6 +185,13 @@ function Push-SyncOne([string]$rel, [string]$kind, [string]$content, $peer, [str
     try { if ($peerVers -ne '' -and ([version]$peerVers -ge [version]'1.9')) { $useGz = $true } } catch { }
     if ($useGz) { $bodyObj.gz = (Gz-Compress $content) } else { $bodyObj.content = $content }
     $bytes = [System.Text.Encoding]::UTF8.GetBytes(($bodyObj | ConvertTo-Json -Compress))
+    # v1.4: wire-size precheck - the peer 1.9.2 fast-reject line (262144) applies
+    # to Content-Length, i.e. the base64(gzip(...)) envelope, not the raw text.
+    # A body above it bounces in ~1s forever; skip honestly and let git carry.
+    if ($bytes.Length -gt 262144) {
+      PS-Log 'sync-push-skip' ($rel + ' -> ' + [string]$peer.id + ' oversize-on-wire ' + $bytes.Length + 'B (git carries)')
+      return @{ ok = $false }
+    }
     $c = New-Object System.Net.Sockets.TcpClient
     $c.ReceiveTimeout = 30000; $c.SendTimeout = 30000
     $c.Connect([string]$peer.tailnet_ip, $Port)
@@ -194,7 +210,7 @@ function Push-SyncOne([string]$rel, [string]$kind, [string]$content, $peer, [str
     if ($m -eq '') { PS-Log 'sync-push-reject' ($rel + ' -> ' + [string]$peer.id + ' ms=' + $ms); return @{ ok = $false } }
     PS-Log 'sync-push' ($rel + ' -> ' + [string]$peer.id + ' applied=' + $m + ' gz=' + $useGz + ' bytes=' + $bytes.Length + ' rtt_ms=' + $ms)
     return @{ ok = $true; applied = $m }
-  } catch { PS-Log 'sync-push-fail' ([string]$peer.id + ' ' + ([string]$_.Exception.Message)); return @{ ok = $false } }
+  } catch { PS-Log 'sync-push-fail' ([string]$peer.id + ' ' + $rel + ' ' + ([string]$_.Exception.Message)); return @{ ok = $false } }
 }
 
 function Poll-Publish() {
