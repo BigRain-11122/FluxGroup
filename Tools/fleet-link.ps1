@@ -82,7 +82,7 @@ try {
 if ($NodeId -eq '') { $NodeId = $env:COMPUTERNAME }
 
 # ---- bind (node tailnet IP + loopback; skip missing) + v1.1 self-upgrade ----
-$Vers = '1.9.1'
+$Vers = '1.9.2'
 $bindIps = @()
 if ($node -and [string]$node.tailnet_ip -ne '') { $bindIps += [string]$node.tailnet_ip }
 $bindIps += '127.0.0.1'
@@ -168,6 +168,14 @@ function Read-Request($client) {
       if ($h -match '^Content-Length:\s*(\d+)') { $cl = [int]$Matches[1] }
     }
     $body = ''
+    if ($path -eq '/sync' -and $cl -gt 262144) {
+      # v1.9.2: fast-reject oversized /sync bodies WITHOUT reading them - stale
+      # pre-1.9 peers push 703KB plain orders.md bodies that each block the
+      # accept loop ~30s (relay transfer); rejecting on Content-Length costs ~0
+      # and the sender's 60s backoff paces it. v1.9+ pushers send gzip
+      # (~130KB for orders.md) - far under the cap.
+      return @{ m = $parts[0]; path = $path; body = ''; bigbody = $true }
+    }
     if ($cl -gt 0 -and $cl -lt 4194304) {
       # v1.8: loop until Content-Length chars - a single Read() returns only what
       # the reader buffered, truncating large bodies (C-20261016-02 Cure-5 fix).
@@ -430,6 +438,7 @@ function Handle-Client($client) {
   }
   if ($path -eq '/sync') {
     if ([string]$req.m -ne 'POST') { Send-Resp $client 405 'Method Not Allowed' '{"ok":false,"err":"post-only"}'; return }
+    if ($req['bigbody']) { FL-Log 'sync-bigbody-reject' ($rip + ' cl-rejected'); Send-Resp $client 200 'OK' '{"ok":false,"err":"body-too-large"}'; return }
     $rel = ''; $content = ''; $src = ''
     try {
       $b = ([string]$req.body) | ConvertFrom-Json

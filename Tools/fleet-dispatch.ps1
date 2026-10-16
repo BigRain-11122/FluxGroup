@@ -113,7 +113,7 @@ foreach ($n in @($cfg.nodes)) {
           if ($h -eq $ExpectSha -or $h -eq $OriginMain) { $elapsed = [int]((Get-Date) - $t0).TotalSeconds; $sync = 'SYNCED ' + $elapsed + 's'; break }
           $sync = 'PENDING head=' + $h.Substring(0, [Math]::Min(8, $h.Length))
         }
-      } catch { $sync = 'verify-err ' + ([string]$_.Exception.Message).Substring(0, 40) }
+      } catch { $sync = 'verify-err ' + ([string]$_.Exception.Message) }
       Start-Sleep -Seconds 5
     }
   }
