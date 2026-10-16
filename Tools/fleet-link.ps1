@@ -27,6 +27,11 @@
 #                 publishes local HOT-file changes to peers. Tailscale = FIRST
 #                 channel; git = second-tier backup/canon (rounds commit what
 #                 sync applies).
+# v1.8 (C-20261016-02 Cure-5 live-fire): /sync body-read loop fix - StreamReader
+#   single Read() returns only the buffered chars, so large bodies (orders.md
+#   ~600KB) arrived TRUNCATED on peers -> JSON parse died -> path-deny reply with
+#   no "applied" -> sender logged reject forever (306 rejects, 60s retry storm).
+#   Read now loops until Content-Length chars are consumed.
 param(
   [string]$Root = "C:\Users\sjs20\Desktop\FluxGroup",
   [int]$Port = 8790,
@@ -64,7 +69,7 @@ try {
 if ($NodeId -eq '') { $NodeId = $env:COMPUTERNAME }
 
 # ---- bind (node tailnet IP + loopback; skip missing) + v1.1 self-upgrade ----
-$Vers = '1.7'
+$Vers = '1.8'
 $bindIps = @()
 if ($node -and [string]$node.tailnet_ip -ne '') { $bindIps += [string]$node.tailnet_ip }
 $bindIps += '127.0.0.1'
@@ -151,9 +156,16 @@ function Read-Request($client) {
     }
     $body = ''
     if ($cl -gt 0 -and $cl -lt 4194304) {
+      # v1.8: loop until Content-Length chars - a single Read() returns only what
+      # the reader buffered, truncating large bodies (C-20261016-02 Cure-5 fix).
       $buf = New-Object char[] $cl
-      $n = $r.Read($buf, 0, $cl)
-      if ($n -gt 0) { $body = -join $buf[0..($n - 1)] }
+      $got = 0
+      while ($got -lt $cl) {
+        $n = $r.Read($buf, $got, ($cl - $got))
+        if ($n -le 0) { break }
+        $got += $n
+      }
+      if ($got -gt 0) { $body = -join $buf[0..($got - 1)] }
     }
     return @{ m = $parts[0]; path = $path; body = $body }
   } catch { return $null }
