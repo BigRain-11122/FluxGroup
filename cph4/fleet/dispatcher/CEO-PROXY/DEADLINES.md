@@ -41,8 +41,9 @@
 | B站 cookie+aid（**已闭环销账 10-14 15:5x**） | cookie=浏览器扩展提取在用（回复线 15:03 已真回复）；凭据=CEO 已交接·仓外 auth-handoff.json（零入库）；aid=频道 API 自动发现 |
 | V100 16G 阶梯 P1 一键下单（¥900-1300 成套·**已落地销账 10-16 00:3x**·CEO 亲手执行） | 证据亲验=cph4/fleet/hardware/V100-RIG-BOM-20261014.md 采购状态节：X9DR3-F ¥280 已购+V100 SXM2 ¥950 已下单×1（单卡期=Gemma 26B QAT 全驻留主力·35B 续留 bm-a·第 2 张到位即切双卡迁移）+内存 16×16G 1600 终裁；到货验收三关死线=bigcompute NJ#2 standing 派生面 |
 | 3090 双触发蹲价（≤¥4200）+A30 24G 观察（≤¥4500） | 触发信号=定版镜头/日>INT8 产能连续 3 天 |
-| 软著定名待定区 6 款（G03/G06/G17/G18/G23/G28）+硅基域平台名 | 命名=CEO 保留面 |
+| 硅基域平台名 | 命名=CEO 保留面（D-20261011-03②·材料预备毕 R1760〔D-20261013-01 核销在案〕·正式申请双前置=平台名 CEO 定谳+bootstrap 物理件·零催办）｜〔R2.5 事件班 10-17 01:5x 承 NJ bigdomain 10-14 23:27 翻新：软著 G 系 6 款定名已由 C-20261010-03 委员会 T1 决生效（e2d0e52·PROJECTS name_pending:False×6 亲验+材料 6/6 在盘）→撤出待定区〕 |
 | Steam 分支评级点选（★★★★★=P01/P05/P07） | O-20261010-1650 存量件 |
 | BigLife census 造人线解禁 | 唯 CEO |
 | 抖音/视频号等账号注册、devtools/AppID/商户号/域名备案族 | 物理件域·有空弄 |
 | **G12 台账机核=BP+pre-push 全机提案（Phase 1-β-③·O-20261014-1745·命令级实施稿=cph4/fleet/dispatcher/MASTER-AGENT/G12-BP-PREPUSH-PROPOSAL.md）**：①GitHub branch protection 轻档（10 仓 main：禁 force-push+禁删·不开 required-PR——机队直推 main 工作流不能断）；②三机 `core.hooksPath=.githooks` pre-push 钩子（反转闸必拦+受保护件哈希漂移提示） | 账号治理面·**CEO 一次同意即三机同夜落地+回执**（登记制零催办） |
+| **patrol digest 探针 v1.1 修法（受保护件 CEO 令通道·注册表 law=改动唯 CEO 令定谳）** | NJ group E2 10-14 23:37 提名+R2.5 事件班 10-17 01:5x 补全病理实证与即贴补丁=cph4/fleet/dispatcher/PATROL-FLEET/reviews/carrier-digest-probe-v1.1-proposal.md（①5s 复探杀记忆改写瞬态竞态假阴性〔10-14 23:14 实锚〕②digest age 格式诚实化〔现格式把小时错标 min+吞 >24h 天数〕③全局/项目两路径分开探+旗面标真缺者）·过渡止血=group-snooze until 10-18 01:50·**CEO 一句「批」即四处补丁落地+注册表重锚回执**（零催办·有空弄） |
