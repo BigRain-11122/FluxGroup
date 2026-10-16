@@ -1,4 +1,9 @@
-# fleet-poke-worker.ps1 - FleetLink background pull+wake worker v1.5 (CEO order O-20261009-1750 "very fast sync").
+# fleet-poke-worker.ps1 - FleetLink background pull+wake worker v1.6 (CEO order O-20261009-1750 "very fast sync").
+# v1.6 (2026-10-16 fleet-linkup order): lock now stores its pid - a FRESH lock
+# owned by a DEAD process (crashed worker) no longer blocks pokes for 10min;
+# the stale-but-fresh lock is reclaimed immediately and the takeover is logged
+# (lock-reclaim). Live-owner semantics unchanged. Backward compatible: parses
+# legacy "pid=N" text locks too.
 # v1.5 (2026-10-16 CEO check "is fleet sync fastest/most effective" - bm-c stuck on
 # v1.7 root cure): listener freshness gate - if the on-disk fleet-link.ps1 version
 # is newer than the RUNNING listener (state.json), start a fresh instance; the
@@ -44,15 +49,22 @@ function WK-Log([string]$evt, [string]$detail) {
   } catch { }
 }
 
-# ---- single-flight lock ----
+# ---- single-flight lock (v1.6: pid-verified - a fresh lock owned by a dead
+# process is reclaimed immediately instead of blocking pokes for 10min) ----
 if (Test-Path $LockF) {
   try {
     $age = ((Get-Date) - (Get-Item $LockF).LastWriteTime).TotalMinutes
-    if ($age -lt 10) { WK-Log 'worker-skip' ('lock fresh ' + [math]::Round($age, 1) + 'm'); exit 0 }
+    $olk = Get-Content -Raw -LiteralPath $LockF -ErrorAction SilentlyContinue
+    $opid = 0
+    try { $opid = [int]($olk | ConvertFrom-Json).pid } catch { if ($olk -match 'pid=(\d+)') { $opid = [int]$Matches[1] } }
+    $alive = $false
+    if ($opid -gt 0) { $alive = [bool](Get-Process -Id $opid -ErrorAction SilentlyContinue) }
+    if ($alive -and $age -lt 10) { WK-Log 'worker-skip' ('lock fresh ' + [math]::Round($age, 1) + 'm pid=' + $opid); exit 0 }
+    WK-Log 'lock-reclaim' ('age=' + [math]::Round($age, 1) + 'm pid=' + $opid + ' alive=' + $alive)
     Remove-Item $LockF -Force -ErrorAction SilentlyContinue
   } catch { }
 }
-try { Set-Content -LiteralPath $LockF -Value ("pid=" + $PID + " reason=" + $Reason) -Encoding ASCII } catch { }
+try { [IO.File]::WriteAllText($LockF, ('{"pid":' + $PID + ',"ts":"' + (Get-Date -Format s) + '","reason":"' + $Reason + '"}'), (New-Object System.Text.UTF8Encoding($false))) } catch { }
 
 # ---- roster ----
 $node = $null

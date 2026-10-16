@@ -16,6 +16,16 @@
 #     plain content for older peers (v1.8 receives plain fine)
 #   - version self-check every 60s: exits when a newer pusher ships via git,
 #     the listener respawns the new file (no task dependency)
+# v1.3 (2026-10-16 fleet-linkup order "all permissions granted"): (1) skip-log
+#   path bug - $rel was undefined in Poll-Publish, logs printed an empty path;
+#   (2) FAILED /health probe no longer pins a peer as "legacy" for 10min -
+#   over the degraded DERP relay an 8s probe miss made bm-c (already 1.9.2)
+#   look legacy, so the 369KB orders.md rode git for hours; failed-probe cache
+#   TTL is now 60s, probe timeout 8->12s; (3) peer version changes are logged
+#   (peer-vers) for the audit plane. Skip semantics stay conservative: unknown
+#   version + >200KB body still skips (a gz-only body into a pre-1.9 peer
+#   would "succeed" with applied=0 and poison the pushed marks - data black
+#   hole, never blind-send gz).
 # PS 5.1 safe: ASCII-only body; allowlist mirrors fleet-link.ps1 v1.9 (mirror
 # law: change BOTH when the /sync face changes).
 param(
@@ -26,7 +36,7 @@ param(
 $ErrorActionPreference = 'Continue'
 $Dir = Join-Path $env:USERPROFILE '.codely-cli\fleet-link'
 if (-not (Test-Path $Dir)) { New-Item -ItemType Directory -Path $Dir | Out-Null }
-$Vers = '1.2'
+$Vers = '1.3'
 $LogF = Join-Path $Dir 'log.jsonl'
 $SyncStateF = Join-Path $Dir 'sync-state.json'
 $PushStateF = Join-Path $Dir 'pusher-state.json'
@@ -136,18 +146,25 @@ function Sync-HashFile([string]$p) {
   try { return [string](Get-FileHash -LiteralPath $p -Algorithm MD5).Hash } catch { return '' }
 }
 
-# ---- peer version cache (gzip eligibility), 10min TTL ----
+# ---- peer version cache (gzip eligibility), 10min TTL on SUCCESS, 60s on failure ----
 $script:VersCache = @{}
+$script:VersLogged = @{}
 function Get-PeerVers($peer) {
   $k = [string]$peer.id
   $now = [DateTimeOffset]::UtcNow.ToUnixTimeSeconds()
   if ($script:VersCache.ContainsKey($k)) {
     $c = $script:VersCache[$k]
-    if (($now - [long]$c.ts) -lt 600) { return [string]$c.vers }
+    $ttl = 600
+    if ([string]$c.vers -eq '') { $ttl = 60 }   # v1.3: probe miss != legacy peer - retry after 60s
+    if (($now - [long]$c.ts) -lt $ttl) { return [string]$c.vers }
   }
   $v = ''
-  try { $r = Invoke-RestMethod -Uri ('http://' + [string]$peer.tailnet_ip + ':' + $Port + '/health') -TimeoutSec 8; $v = [string]$r.version } catch { }
+  try { $r = Invoke-RestMethod -Uri ('http://' + [string]$peer.tailnet_ip + ':' + $Port + '/health') -TimeoutSec 12; $v = [string]$r.version } catch { }
   $script:VersCache[$k] = @{ ts = $now; vers = $v }
+  if ($v -ne '' -and [string]$script:VersLogged[$k] -ne $v) {
+    $script:VersLogged[$k] = $v
+    PS-Log 'peer-vers' ($k + ' v' + $v)
+  }
   return $v
 }
 
@@ -218,7 +235,7 @@ function Poll-Publish() {
       $gzOk = $false
       try { if ($pv -ne '' -and ([version]$pv -ge [version]'1.9')) { $gzOk = $true } } catch { }
       if (-not $gzOk -and $content.Length -gt 200000) {
-        PS-Log 'sync-push-skip' ($rel + ' -> ' + $pk + ' legacy-peer oversize ' + $content.Length + 'B (git carries)')
+        PS-Log 'sync-push-skip' ([string]$e.rel + ' -> ' + $pk + ' legacy-or-unverified-peer oversize ' + $content.Length + 'B (git carries)')
         $dirty = $true
         Touch-Lock
         Touch-Hb
