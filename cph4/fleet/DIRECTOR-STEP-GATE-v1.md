@@ -72,4 +72,12 @@
 到货后第一轮=按本件站表逐站补拉片（起步：drama D2-D8 实物链/短视频站 4-6 链/切片线规格面审计）。
 调研发现按「病→例→闸」循环入 LEDGER，**调研不是一次性的：每片每站按本制循环执行（贯穿始终）**。
 
-—— 导演席定稿 · 2026-10-16 21:2x · bm-a（签发=CEO 三线质量令·正典位=本件；MV 产线照旧用 PLAYBOOK D 链不适用本件）
+## 五、站尾环（CEO 双机制令 2026-10-16 21:3x·每片收口三连·缺一=收口不完整）
+
+1. **判例回灌（坏账）**：本片各站 REVISE 项→「病→例→闸」入该线 LEDGER（新 CHK 落闸·同坑二犯=闸失效追责承回灌总原则）
+2. **惊喜回灌（好账）**：本片「一次过/超预期」项→`CONTENT-WINS-LEDGER-v1.md`（W- 序号·带可复用配方·无惊喜零条如实禁硬凑）
+3. **片级 GC**：该片的废试烧/废帧/旧代理剪按 `CONTENT-GC-POLICY-v1.md` 当场清（S0 白名单内置·单批 >500MB 当窗呈报 CEO）
+
+正典接线：CONTENT-GC-POLICY-v1（清理机制正身）+ CONTENT-WINS-LEDGER-v1（惊喜录）+ 四线 LEDGER（MV=prompt-writing-spec-v1/EXPERIENCE-LEDGER / 短视频=meme-daily-v1/LEDGER / 漫剧=drama-dept-v1/LEDGER / 切片=video-remix-dept/LEDGER）。轮级 GC=治理窗跑 `Tools/content-gc.ps1`（WhatIf 报表先行）。
+
+—— 导演席定稿 · 2026-10-16 21:2x · bm-a（签发=CEO 三线质量令·正典位=本件；MV 产线照旧用 PLAYBOOK D 链不适用本件·站尾环三连对 MV 同样生效）
