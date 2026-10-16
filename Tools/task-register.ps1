@@ -1,10 +1,16 @@
 # task-register.ps1 - THE canonical silent task registrar (U060 zero-window law, mechanism-grade)
 # CEO order 2026-10-08: "silence by construction, not cleanup after incidents."
-# Every task registered through this tool is silent BY STRUCTURE:
+# Every task registered through this tool is silent AND headless BY STRUCTURE:
 #   1. Action is ALWAYS wrapped in the Tools\InvisibleRunner.vbs hidden chain (fleet-proven since 09-20).
-#   2. Write-then-readback verification: registration is reported OK only after the
-#      hidden chain is confirmed present on the task object.
-#   3. There is NO parameter or code path that can produce a visible-console task.
+#   2. Principal is ALWAYS S4U (fleet law 2026-09-29: InteractiveToken tasks die at logoff
+#      and can flash consoles; S4U runs with no logon, no window). Readback-enforced.
+#   3. Write-then-readback verification: registration is reported OK only after the
+#      hidden chain AND LogonType=S4U are confirmed on the live task object.
+#   4. Deploy = ignite (C-20261016-02 Cure-9, CEO order 2026-10-16): recurring (every:)
+#      registrations fire ONE live test immediately and report the observed run;
+#      a registration without a clean observed fire is NOT "deployed" (paper claims banned).
+#   5. There is NO parameter or code path that can produce a visible-console or
+#      InteractiveToken task.
 # Sessions must use this tool instead of raw schtasks / Register-ScheduledTask
 # (that is a hard law in AI.md item 7 - violations are counted by patrol).
 #
@@ -21,7 +27,9 @@ param(
     [Parameter(ParameterSetName = 'register')][string]$Arg = '',
     [Parameter(ParameterSetName = 'register', Mandatory = $true)][string]$Trigger,
     [Parameter(ParameterSetName = 'register')][string]$Description = 'fleet silent task via Tools/task-register.ps1 (U060 mechanism-grade)',
-    [Parameter(ParameterSetName = 'rewrap')][switch]$RewrapShim
+    [Parameter(ParameterSetName = 'rewrap')][switch]$RewrapShim,
+    [Parameter(ParameterSetName = 'register')][switch]$FireTest,
+    [Parameter(ParameterSetName = 'register')][switch]$NoFireTest
 )
 $ErrorActionPreference = 'Stop'
 
@@ -94,6 +102,12 @@ switch ($ext) {
 
 $action = New-ScheduledTaskAction -Execute 'wscript.exe' -Argument ('//B //nologo "{0}" {1}' -f $vbs, $inner)
 
+# S4U by construction (fleet law 2026-09-29). The 2026-10-16 bm-a re-bite of the 10-15
+# bm-b pit (both new sentinel tasks registered InteractiveToken while their headers
+# claimed "S4U task") proved the law must live in the registrar, not in session memory.
+$sid = ([System.Security.Principal.WindowsIdentity]::GetCurrent().User.Value)
+$principal = New-ScheduledTaskPrincipal -UserId $sid -LogonType S4U -RunLevel Limited
+
 switch -Regex ($Trigger) {
     '^logon$'  { $trg = New-ScheduledTaskTrigger -AtLogOn }
     '^boot$'   { $trg = New-ScheduledTaskTrigger -AtBoot }
@@ -111,16 +125,68 @@ if (Get-ScheduledTask -TaskName $Name -ErrorAction SilentlyContinue) {
     throw "task already exists: $Name (unregister it first - no silent overwrite)"
 }
 
-Register-ScheduledTask -TaskName $Name -Action $action -Trigger $trg -Description $Description | Out-Null
+# Register S4U-first (fleet law 2026-09-29). UAC boxes deny unelevated S4U registration
+# (bm-a 2026-10-16 live evidence: Register-ScheduledTask AND schtasks /XML both denied,
+# elevated=False). The ScheduledTasks module does not reliably honor EAP=Stop, so success
+# is decided by task existence, not by the error stream. On S4U denial: fall back to the
+# InteractiveToken default (hidden VBS chain = zero console flash while logged on) but
+# NEVER silently - the task is queued in task-s4u-backlog.md for elevated conversion.
+$degraded = $false
+$null = Register-ScheduledTask -TaskName $Name -Action $action -Trigger $trg -Principal $principal -Description $Description -ErrorAction SilentlyContinue
+if (-not (Get-ScheduledTask -TaskName $Name -ErrorAction SilentlyContinue)) {
+    $null = Register-ScheduledTask -TaskName $Name -Action $action -Trigger $trg -Description $Description -ErrorAction SilentlyContinue
+    if (-not (Get-ScheduledTask -TaskName $Name -ErrorAction SilentlyContinue)) {
+        throw 'registration failed entirely (S4U and InteractiveToken both denied)'
+    }
+    $degraded = $true
+}
 
-# write-then-readback law: green only if the hidden chain is confirmed on the live object
+# write-then-readback law: green only if hidden chain is confirmed on the live object
 $chk = Get-ScheduledTask -TaskName $Name
 $chkAct = ($chk.Actions | ForEach-Object { $_.Execute + ' ' + $_.Arguments }) -join ' '
 if ($chkAct -notmatch [regex]::Escape('InvisibleRunner.vbs')) {
     Unregister-ScheduledTask -TaskName $Name -Confirm:$false
     throw 'readback failed: hidden chain missing - registration rolled back'
 }
+$chkLT = [string]$chk.Principal.LogonType
+if ($chkLT -ne 'S4U' -and -not $degraded) {
+    Unregister-ScheduledTask -TaskName $Name -Confirm:$false
+    throw 'readback failed: LogonType=' + $chkLT + ' without a recorded S4U denial - registration rolled back'
+}
+if ($degraded) {
+    $bl = Join-Path $PSScriptRoot 'task-s4u-backlog.md'
+    if (-not (Test-Path $bl)) {
+        Set-Content -LiteralPath $bl -Value ('| registered | task | reason |' + [Environment]::NewLine + '|---|---|---|' + [Environment]::NewLine + '| ' + (Get-Date -Format 'yyyy-MM-dd HH:mm:ss') + ' | ' + $Name + ' | S4U denied unelevated (UAC) - convert via elevated Tools\task-s4u-convert.ps1 |') -Encoding UTF8
+    } else {
+        Add-Content -LiteralPath $bl -Value ('| ' + (Get-Date -Format 'yyyy-MM-dd HH:mm:ss') + ' | ' + $Name + ' | S4U denied unelevated (UAC) - convert via elevated Tools\task-s4u-convert.ps1 |') -Encoding UTF8
+    }
+    Write-Output ('  WARN   : S4U denied (unelevated UAC) - registered InteractiveToken: hidden chain = zero flash while logged on, but NO logoff survival; QUEUED -> Tools\task-s4u-backlog.md')
+}
 
 Write-Output ('OK silent task registered: ' + $Name)
 Write-Output ('  action : ' + $chkAct)
-Write-Output ('  trigger: ' + $Trigger)
+Write-Output ('  trigger: ' + $Trigger + ' | LogonType=' + $chkLT + $(if ($degraded) { ' (degraded)' } else { '' }))
+
+# Deploy = ignite (C-20261016-02 Cure-9): fire the real carrier once NOW and observe it.
+# Default ON for every: triggers (the next tick, just early); -FireTest opts in for other
+# forms; -NoFireTest skips. An UNPROVEN fire exits 2 - the caller must not claim "deployed".
+$fireOn = (($Trigger -match '^every:') -and (-not $NoFireTest)) -or [bool]$FireTest
+if ($fireOn) {
+    $t0 = Get-Date
+    Start-ScheduledTask -TaskName $Name -ErrorAction SilentlyContinue
+    $limit = $t0.AddSeconds(90)
+    $st = ''
+    $res = [datetime]::MinValue
+    do {
+        Start-Sleep -Seconds 5
+        $i = Get-ScheduledTaskInfo -TaskName $Name
+        $st = [string]$i.LastTaskResult
+        $res = $i.LastRunTime
+    } while (((Get-Date) -lt $limit) -and (($res -lt $t0) -or ($st -eq '267009')))
+    if (($res -ge $t0) -and ($st -eq '0')) {
+        Write-Output ('  fire   : OK observed ' + $res + ' result=0 (deployed)')
+    } else {
+        Write-Output ('  fire   : UNPROVEN last=' + $res + ' result=' + $st + ' - NOT deployed until a clean fire is observed')
+        exit 2
+    }
+}

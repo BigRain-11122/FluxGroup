@@ -1,6 +1,8 @@
 # delivery-watch.ps1 - C-20261016-02 Cure-1: deliverable-existence + P0 deadline sentinel (zero-LLM, deterministic)
 # Law: CEO order 2026-10-16 11:5x "root-cure must be a deployed+verified mechanism"; O-20260923 honesty (no paper claims)
-# Carrier: bm-a-DeliveryWatch S4U task, every:5m, registered via Tools\task-register.ps1 (U060 silent chain)
+# Carrier: bm-a-DeliveryWatch task, every:5m, registered via Tools\task-register.ps1 (U060 silent chain).
+# LogonType TRUTH: InteractiveToken (bm-a UAC denies unelevated S4U) - hidden chain = zero flash
+# while logged on, no logoff survival; queued in Tools\task-s4u-backlog.md for elevated conversion.
 # Watch contracts: cph4\fleet\dispatcher\delivery-watch\<id>.json
 #   { id, owner, expected_paths:[repo-relative globs], min_count, dispatch_ts, deadline_ts }
 # States per watch: PENDING -> DELIVERED (>= min_count fresh files) | OVERDUE (past deadline)

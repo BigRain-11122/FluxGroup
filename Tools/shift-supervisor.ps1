@@ -1,9 +1,11 @@
-# shift-supervisor.ps1 - C-20261016-02 Cure-6: L2 supervision shift on an S4U silent carrier
+# shift-supervisor.ps1 - C-20261016-02 Cure-6: L2 supervision shift on a silent scheduled carrier
 # Why: the L2 shift lived on a REPL durable cron (id 9632cee5); the gamewin companion
 # legitimately suspends durable crons during CEO windows (resource-chain sec.6), which
 # turned every CEO-online window into a supervision black window (2026-10-16 08:34
-# evidence: shifts 02:43/05:43/08:43 all missed). This S4U carrier is invisible,
-# survives REPL cron suspension, and runs during CEO windows by design (U060 compliant).
+# evidence: shifts 02:43/05:43/08:43 all missed). This scheduled carrier is invisible
+# (wscript hidden chain), survives REPL cron suspension, and runs during CEO windows by
+# design (U060 compliant). LogonType TRUTH: InteractiveToken (bm-a UAC denies unelevated
+# S4U) - queued in Tools\task-s4u-backlog.md for elevated conversion; no logoff survival.
 # Grid: :43 of hours 2,5,8,12,15,18,21,23 (CEO-PROXY shift schedule). One headless
 # codely round per shift, launched from this every-5m task. Prompt = SHIFT-SUPERVISOR-PROMPT.txt.
 $ErrorActionPreference = 'Continue'
