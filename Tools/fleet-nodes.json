@@ -60,6 +60,19 @@
         "gaming/MiniGame/Design/configs/GLOBAL/fleet/c.json"
       ],
       "note": "adopted 10-08 bm-c r755 (O-20261008-1205-bm-c): host/root/wake_tasks confirmed locally (host=FLUXGROUP per machine.json; root=K:/Fluxgroup/FluxGroup; wake_tasks 12 live task names verified via task enum); FluxGroup-FleetLink task registered + listener on :8790 health OK; HQ poke accepted 10-08 12:0x (fleet-dispatch verify ok=2/3) - ADOPTION CLOSED. Seconds-level dispatch live bm-a<->bm-c. IDENTITY 2026-10-10 13:3x: this box ALSO = BG-C (MiniGame fleet c.json; proof patrol-2026-09-25.md L149 'host=BG-C/bm-c YUHUWAN1904' + hardware match 3950X-32T/24G/RTX3070-16G). Same-box roster rows BG-B/BG-C removed 2026-10-10 - NEVER report as separate machines."
+    },
+    {
+      "id": "bm-d",
+      "lane": "bmd-brain-backtest",
+      "host": "PENDING-TAILNET",
+      "tailnet_ip": "PENDING-TAILNET",
+      "enabled": false,
+      "root": "C:/Fluxgroup/FluxGroup",
+      "repos": [".", "quant/bigmoney"],
+      "poke_repos": ["."],
+      "wake_tasks": [],
+      "status_files": ["quant/bigmoney/fleet/machines/bm-d.json"],
+      "note": "PENDING TAILNET JOIN - CEO new six-card rig (canon = cph4/council/C-20261016-01: V100x3 brain + P104x3 draft factory + 2xE5-2695v2 24C48T no-AVX2 + 256G DDR3 = BigMoney backtest factory, W-wave main host per O-20261015-1055). Onboarding: Tools/bmd-bootstrap.ps1 + cph4/fleet/bm-d-onboarding/BMD-ONBOARDING-v1.md (order O-20261016-2148-bm-a). Loop integration: on JOIN-REPORT landing fill host/tailnet_ip + enabled=true + pathspec push + poke /health verify; RAM>8G shard routing flips bm-d-first once enabled. wake_tasks filled at Tier-2 (codely install)."
     }
   ]
 }
