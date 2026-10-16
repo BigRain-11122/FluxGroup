@@ -42,8 +42,9 @@
 | **CEO 总调度代理席**（CEO 命令发布台+科学巡视：风险加权班表+旗分流三班型+全表日轮转·方向基准=CEO-DIRECTION-BRIEF） | 8 班/日（班表正身=CEO-PROXY/CHARTER.md §四·协议正身=ROUND.md——版本漂移勘正 2026-10-14 群审交接席） | `cph4/fleet/dispatcher/CEO-PROXY/` |
 | 值守轮（四器审计+催办+自愈+**回执核销步**） | 03:07/15:07 双班 | `cph4/night-round-prompt.txt` |
 | 进化轮（立法+法熵审视+考核面） | 周日 09:17 | `cph4/evolution.md` |
-| 巡检 patrol+外部独立审查 | 周一 09:23／日三班 22:17/06:17/14:17 | `docs/audit-charter.md` Part B／Part A |
+| 巡检 patrol+外部独立审查 | 周一 09:23／日一班 22:17（10-14 降频勘正） | `docs/audit-charter.md` Part B／Part A |
 | 令流（CEO 令→台账→执行→回执→核销） | 随时：秒级 poke→2min 哨兵→10min 轮询三层 | `docs/orders.md`+`cph4/resource-chain.md` §十 |
+| 交付契约哨（落单带交付路径+死线·过线自动点名） | 5min | `Tools/delivery-watch.ps1`+`cph4/fleet/dispatcher/delivery-watch/` |
 | 分级立法 T0-T3 | T0 宪法 CEO 签/T1 治理+否决窗/T2 机制 AI/T3 数据 AI | `cph4/evolution.md` §2 |
 | 决策/审查/考核三链×四层（L0 团队→L3 集团·底层优先） | 常设 | `cph4/decision-chain.md` |
 | 错误定级 E0-E3（E0=三通道直呈 CEO） | E0 即时/E1 当日/E2 轮内~周/E3 豁免 | `cph4/errors.md` |
@@ -68,7 +69,7 @@
 | 要什么 | 去哪 |
 |---|---|
 | CEO 令与裁决 | `docs/orders.md` |
-| CEO 方向与关注点基准（16 雷达+12 盲区+保留面） | `cph4/fleet/dispatcher/CEO-PROXY/CEO-DIRECTION-BRIEF.md` |
+| CEO 方向与关注点基准（20 雷达+14 盲区+保留面） | `cph4/fleet/dispatcher/CEO-PROXY/CEO-DIRECTION-BRIEF.md` |
 | **主AGENT 架构正典（集团主脑统一蓝图 v2·两波群审定版）** | `cph4/fleet/dispatcher/MASTER-AGENT/BLUEPRINT.md`（群审原件=同目录 reviews/·总报告=PANEL-REVIEW-20261014.md） |
 | **子公司巡视席舰队（十域巡视·30min 传感+域章程专业深挖+日 digest）** | `cph4/fleet/dispatcher/PATROL-FLEET/`（架构=BLUEPRINT·十域章程=CHARTERS·审档=reviews/） |
 | **智能体库（Agent 席位+专家 Skill 总册·谁干什么怎么调·CEO 直达速查·周审保鲜）** | `cph4/agents/AGENT-LIBRARY.md`（治理=`cph4/agents/GOVERNANCE.md`·装机=`Tools/agent-library-sync.ps1`·库长 skill=agent-librarian） |
@@ -108,3 +109,4 @@
 - 2026-10-14 二批: §3 代理席行班表指针改 CHARTER §四（v2→v3.1 版本漂移勘正）+§4 雷达数 15→16 勘正+增主AGENT 架构正典指针行（O-20261014-1745 十三席两波群审·交接席实锚）。
 - 2026-10-14 三批: 增巡视席舰队指针行+机制总图行（O-20261014-2250 巡视舰队令+O-20261014-2345 机制从上往下梳理令）。
 - 2026-10-16: §4 增智能体库指针行（CEO 建库令 2026-10-16·总册+治理法+agent-librarian/fleet-ops/compliance-guard/growth-ops/silicon-city-ops 五席 skill+同步/审计双工具上链）。
+- 2026-10-16 二批: §3 外审班「日三班」→「日一班」勘正（普查F 矛盾对 G 修复·10-14 修法包 v1 已降频漏勘）+§3 增交付契约哨行+§4 雷达/盲区数勘正 16→20/12→14（CEO 令 2026-10-16 23:4x「委员会好好从头理一次流程，规则等」·C-20261016-04 修法包 v2）。

@@ -16,9 +16,10 @@ CEO Jason（唯一决策者）
   │  对三台账只读只议——落账经 L2 单写手（2026-10-14 勘注定谳·三次丢行案根治）
   ▼
 主AGENT＝CEO-PROXY（集团枢纽·CHARTER v1.1·8 班/日风险加权）
-  │  五雷达（满载/死线/回执/关注点16/盲区12）·台账唯一写手（orders/decisions/POOL）
+  │  五雷达（满载/死线/回执/关注点20/盲区14）·台账唯一写手（orders/decisions/POOL）
   │  交接卡九要素+card-lint 打回·POOL 五态+核销双勾·落单+poke·催办升级
   │  思考路由律：量产/分类/草拟→L1 本地 35B 零 token；深判/架构→云端好模型
+  │  落单必带交付契约（expected_paths+deadline→交付哨盯货）+build 类子任务寻源闸（GitHub 高星有轮直接用）·调用面=智能体库 cph4/agents/（不登记不存在）
   ▼
 巡视舰队（PATROL-FLEET v1·10 域席·每域一个专业巡视）
   │  PT30M 传感扫描（零 token）──▶ 旗 ──▶ 域巡视班（按域章程执法·锁+防抖+同签+日帽+snooze）
@@ -33,11 +34,12 @@ L0 脊髓（确定性·零 LLM·24/7）
   │  承载件三件：事件班承载 PT15M（红旗→无头事件班 ≤15min）·外部探针 PT1H（监控者有监控）
   │  ·SLI 席外对账（bm-b daily 08:35·自产自审计破）·巡视载体 ×10 PT30M
   ▼
-执行层（各司 OS 循环 10min+自领引擎+机队三机定岗）
+执行层（各司 OS 循环 10min+自领引擎+机队四机定岗〔bm-d 候入队〕）
   │  执行权永不下放主AGENT——防官僚红线；POOL 池单+车道定岗（resource-chain §9.1）
-  │  git=唯一数据通道·FleetLink 秒级 poke·HOT/WARM/COLD 三层同步
+  │  git=第二层备份+正典持久化·FleetLink 直推=第一通道（毫秒级目标）·HOT/WARM/COLD 三层兜底
   ▼
 反馈回路（一切宣称带证据）
+  交付契约哨（DeliveryWatch every:5m：PENDING/OVERDUE/DELIVERED 三态·过线自动点名 poke）
   回执 24h→E1 委员会→两轮未决自动出声 CEO（兜底终点=人）
   SLI 总表（下§四）·哈希锚 22 件+反转闸+丢行守望 --audit·席外对账
 ```
@@ -62,7 +64,7 @@ L0 脊髓（确定性·零 LLM·24/7）
 
 **L2 主AGENT 层**（正典=CEO-PROXY/CHARTER v1.1+ROUND v3.1+MASTER-AGENT/BLUEPRINT v2）
 - 输入=CEO 原话/L0 旗/NJ+域发现/DEADLINES/回执/十域知识周轮。
-- 动作=8 班五雷达（锁门+旗分流：绿灯 ≤6 调用/标准 ≤15/事件全力）+落单（交接卡九要素+card-lint）+POOL 五态迁移+poke 唤醒+死线重排如实披露。
+- 动作=8 班五雷达（锁门+旗分流：绿灯 ≤6 调用/标准 ≤15/事件全力）+落单（交接卡九要素+card-lint+**交付契约 expected_paths+deadline**）+POOL 五态迁移+poke 唤醒+死线重排如实披露+**build 类子任务寻源闸**（有轮=名称+星数+许可·真空白才自建）。
 - 输出=orders/decisions/POOL（唯一写手）+LOG 班行（时刻|班型|调用数|verdict）+NEED-JUDGMENT 裁决。
 - 消费=执行机（自领+回执）/CEO（出声三条件）/委员会（复盘）。SLI 1-3+效率判据（绿灯率 40-70%·平均调用 ≤12）。
 
@@ -95,11 +97,12 @@ L0 脊髓（确定性·零 LLM·24/7）
 | 节拍 | 机制 | 承载 |
 |---|---|---|
 | 2min | 令流哨兵（orders 新行即唤醒） | OrderSentinel |
+| 5min | **交付契约哨**（PENDING/OVERDUE/DELIVERED·过线自动点名 poke） | bm-a-DeliveryWatch |
 | 5-15min | 事件班承载（红旗→无头事件班 ≤15min）+活性/完整性哨兵 | event-carrier PT15M 等 |
 | 10min | 各司 OS 循环（执行权所在） | OSLoop 族 |
 | 30min | L0 巡班+**十域巡视席**（48 扫/日·零 token） | dispatcher+patrol-fleet ×10 |
 | 3h | 主AGENT 8 班/日（08:43 晨检全雷达/21:43 死线/23:43 夜移交） | durable cron |
-| 日 | 域 digest（本地 35B）+SLI 席外对账（bm-b 08:35）+委员会常务轮双班 | 各载体 |
+| 日 | 域 digest（本地 35B）+SLI 席外对账（bm-b 08:35）+委员会常务轮双班+**github 雷达日频扫**（寻源闸素材·晨检班固定片 ≤2 调用） | 各载体 |
 | 周 | 进化轮 09:17+集团巡检周一 09:23+自艺调研 | 各轮 |
 | 月/季 | 使命复盘+法熵审视+季度瘦身日 | 周轮承载 |
 
@@ -121,6 +124,7 @@ L0 脊髓（确定性·零 LLM·24/7）
 | 心跳新鲜 ≤30min（SLI-1） | ≥99% | 双时间戳 | 达标 |
 | L1 消费率（SLI-4） | ≥20%（两周止损线） | l1 台账 | ~0.2% 诚实面·接线中 |
 | 云端消耗趋势+违例（SLI-8） | 周趋势可见+白名单外违例=0 | attribution+周报云端行（token-economy §10.4） | 10-15 立线·首测 10-19 |
+| 交付契约过线零漏报（SLI-9·10-16 立） | 过线件 100% 自动点名 | delivery-watch watch.log+ALERTS.md | 首日双案例在哨 ✓（12:49 首单 OVERDUE-POKE+14:01 DELIVERED 压哨交付） |
 | 域席心跳 ≤45min（P-1） | ≥95% | 域状态件 | 首日 100% ✓ |
 | 域旗响应 ≤30min（P-2） | ≥90% | shiftlog 时刻链 | 首夜 7min ✓ |
 | 域 digest 产出（P-3） | ≥90% | digest 件 | 首夜 10/10 ✓ |
@@ -136,12 +140,15 @@ L0 脊髓（确定性·零 LLM·24/7）
 5. NJ 由 L0 每 30min 再生→域班追加=加速面；**持久正身=域 shiftlog+舰队 LOG**（本批成文）。
 6. L1 消费率 ~0.2% vs ≥20%→两周止损线（10-28 前 SLI-4 首测说话）。
 
-## 六、在途件（不藏账）
+## 六、在途件（不藏账·2026-10-16 23:5x 修法包 v2 刷新）
 
-- v1.1 晨波（10-15 08:43）：W1/W3 两席补审+传感类型错配族+biglife 真传感+digest 错峰+升级件持久通道正典化+状态原子写。
-- G12 BP+pre-push：候 CEO 一次同意（DEADLINES §二在案）。
-- replay 回归判据组+sleep-time 判例蒸馏件：蓝图 Phase 1 余项（bm-b 夜窗承载）。
-- 10-19 回访：判据⑦-⑮（丢行复发=0/自迭代四件面/哈希基线/域席发现 hub 漏报 ≥1 例——首夜 5 例已达标）。
+- bm-a 存量 ~95 件 S4U 转换批：C-20261016-04 §四拍板授权——候提权窗（CEO 物理件）后 48h 首批回执·≤10-23 呈状态。
+- G12 远端 branch protection+pre-push：候 CEO 一次同意（23 天·DEADLINES 在案）。
+- L1 小脑消费率 ~0.2% vs ≥20%：10-28 止损线说话。
+- bm-b fleet-link v1.8 换血：候其轮班/夜班（高完整性旧监听器非提权不可杀·O-1745 §四）。
+- tailscale 三机直连恢复（中继 sfo 降级）：物理件候 CEO（网关/VPN 排查）。
+- 10-19 瘦身日底稿已备（C-20261016-04）：孤儿法 6 件复审+PROMPT-GATE CODELY 侧指针+否决窗字样全量注记化复核+瘦身候池五件+哈希锚扩面提名（+law-registry/orders.jsonl）。
+- 10-19 回访：判据⑦-⑮+修法包 v2 判据六条（BRIEF 对齐率/孤儿法登记行/orders 去重/总图三新行/S4U 首批回执）。
 
 ## 七、怎么用这张图
 
