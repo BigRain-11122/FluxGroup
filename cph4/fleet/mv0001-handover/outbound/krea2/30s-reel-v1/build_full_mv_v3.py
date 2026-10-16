@@ -6,6 +6,12 @@
 # 模式：PROXY=1 → 预览代理档（960x540·crf22·veryfast·结构/节奏验证·O-20261014-1325 低清验证律）
 #       默认 → 终版（1344x768·crf17/18·fast·全 finishing）
 # SIL4：探针结论前 NO_SIL4=1 缺省不插（窗自动还原零缝）
+# ================= 装配断言律 v1.1（CEO 令 10-16「治本」·T 桥双事故+SIL4 静默漂移教训） =================
+# ①缺源=装配失败硬停：插入镜缺源不再静默 SKIP（曾致 1.8s 卡点漂移直达 CEO）——
+#   显式豁免须设 FORCE_ALLOW_MISSING=1（豁免批必附漂移对账说明）
+# ②终长对账断言：FINAL-LEN 与 target 偏差 >0.5s 直接 raise（曾致 189s 塌缩版静默出片）
+# ③必跑 fix 链 SOP：裸跑本脚本出的是「T 桥 1.40s 数学塌缩」半成品——
+#   出片必跟 fix_v3_final.py / fix_v4_final.py（T 重切 2.21+短窗 pad）；V5 装配器将内置单链
 import os, subprocess, sys
 
 HERE = r"C:\Users\sjs20\Desktop\FluxGroup\cph4\fleet\mv0001-handover\outbound\krea2\30s-reel-v1"
@@ -65,13 +71,16 @@ def retime3(src, dst, ss, film_dur, v, W, H, CRF, PRE):
 
 def main():
     rows = build_rows_v3()
+    allow_missing = os.environ.get("FORCE_ALLOW_MISSING") == "1"
     resolved, merged = [], []
     for r in rows:
         src = v2.find_src(r[4])
         if src is None:
-            if r[5]:   # 插入镜缺源=跳过（窗自动还原）·终版前必到货
-                print("SKIP-INSERT %s (src missing)" % r[0], flush=True)
-                continue
+            if r[5]:   # 断言律①：插入镜缺源=装配失败（禁静默 SKIP→卡点漂移）；显式豁免须 FORCE_ALLOW_MISSING=1
+                if allow_missing:
+                    print("WARN-INSERT-SKIP %s (src missing, EXPLICIT-WAIVER)" % r[0], flush=True)
+                    continue
+                raise SystemExit("FATAL insert src missing: %s (set FORCE_ALLOW_MISSING=1 to waive with drift audit)" % r[0])
             if resolved:
                 prev = resolved[-1]; prev[2] = r[2]
                 merged.append("%s->%s" % (r[0], prev[0])); continue
@@ -147,6 +156,10 @@ def main():
         check=True)
     print("DONE %s" % out, flush=True)
     print("LEN=%.2f" % final_len, flush=True)
+    # 断言律②：终长对账（T 桥 1.40 塌缩 189s 静默事故根治——偏差>0.5s 直接炸）
+    if abs(final_len - v2.FILM_END) > 0.5:
+        raise SystemExit("FATAL final_len %.2f vs target %.2f (xfade-chain collapse? T-cut math?) — refusing silent output" % (final_len, v2.FILM_END))
+    print("ASSERT-OK len within 0.5s of target (remember fix-chain step, see header SOP ③)", flush=True)
 
 if __name__ == "__main__":
     main()
