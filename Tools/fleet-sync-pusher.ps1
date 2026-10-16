@@ -26,7 +26,7 @@ param(
 $ErrorActionPreference = 'Continue'
 $Dir = Join-Path $env:USERPROFILE '.codely-cli\fleet-link'
 if (-not (Test-Path $Dir)) { New-Item -ItemType Directory -Path $Dir | Out-Null }
-$Vers = '1.0'
+$Vers = '1.1'
 $LogF = Join-Path $Dir 'log.jsonl'
 $SyncStateF = Join-Path $Dir 'sync-state.json'
 $PushStateF = Join-Path $Dir 'pusher-state.json'
@@ -214,9 +214,30 @@ function Poll-Publish() {
       $r = Push-SyncOne ([string]$e.rel) ([string]$e.kind) $content $peer $pv
       if ($r.ok) { $st.pushed[$pk][[string]$e.rel] = $h }
       $dirty = $true
+      # v1.1: a single push attempt can run ~30-50s over a degraded relay - touch
+      # lock+heartbeat after EVERY attempt so the listener's staleness check
+      # (90s) never misreads a busy pusher as dead and spawns a duplicate.
+      Touch-Lock
+      Touch-Hb
     }
   }
   if ($dirty) { Save-PushState $st }
+}
+
+# ---- v1.1: ownership convergence - if another pusher holds a FRESH lock, this
+# one is the redundant duplicate -> exit so exactly one pusher survives. ----
+function Test-StillOwner() {
+  try {
+    if (Test-Path $LockF) {
+      $olk = Get-Content -Raw $LockF | ConvertFrom-Json
+      $opid = 0
+      try { $opid = [int]$olk.pid } catch { }
+      $oage = 999
+      try { $oage = ((Get-Date) - (Get-Item $LockF).LastWriteTime).TotalSeconds } catch { }
+      if ($opid -gt 0 -and $opid -ne $PID -and $oage -lt 60 -and (Get-Process -Id $opid -ErrorAction SilentlyContinue)) { return $false }
+    }
+  } catch { }
+  return $true
 }
 
 # ---- version self-check: newer pusher shipped via git -> exit, listener respawns ----
@@ -233,6 +254,7 @@ Touch-Hb
 $iter = 0
 while ($true) {
   $iter++
+  if (-not (Test-StillOwner)) { PS-Log 'exit' 'another pusher owns the lock'; exit 0 }
   try { Poll-Publish } catch { PS-Log 'poll-error' ([string]$_.Exception.Message) }
   Touch-Lock
   Touch-Hb
