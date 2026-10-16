@@ -9,6 +9,7 @@
 3. **OSS 弹药库**：15 仓实抓五门过闸（R-20261015-drama-oss-stack-01）——高星 MIT/Apache 直用、GPL 只学不搬、三红线执法（LivePortrait 商用换 InsightFace/IndexTTS 禁改商业模型/MoneyPrinterPlus GPL 不入闭源链）。
 
 ## 一、端到端总链（10 站·7 闸·零跳步）
+> **导演逐步验收制（CEO 令 2026-10-16 21:5x「每一步都要导演看一下」）**：本链每站过门=原闸 + **导演签章**（DIRECTOR-STEP-GATE-v1 正身=../DIRECTOR-STEP-GATE-v1.md·签章档=DIRECTOR-GATE-drama-<片号>.md·三态 PASS/REVISE/BLOCKED·无签章=下站禁开工·代理评审降级为导演审输入材料）。
 ```
 D0 IP包(定选+世界观圣经+题材合规预审)
   │ 开工闸: IP授权核+特殊题材回避+投资额底稿开卡
