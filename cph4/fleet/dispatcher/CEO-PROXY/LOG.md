@@ -159,3 +159,22 @@
 - **NJ#2 digest 探针（裁决=受保护件 CEO 令通道·不直改）**：病理亲验三新证=①假阳性真根因=瞬态竞态（10-14 23:14:18 载体单次运行 Test-Path 假阴性·同秒 DIGEST done+LAUNCHED shiftlog 实锚；勘正原诊断「路径层误标」——config 传感路径本就是全局绝对路径·「项目级 .codely-cli\CODELY.md」=平台常规位·本仓正典项目卡=根级 CODELY.md 在盘非真缺位）②digest age 格式毒='hh\.hh\ \m\i\n' 把小时错标 min 且吞 >24h 天数（FromHours(30)→「06.06 min」亲测+10-16 19:28 实产「00.00 min」）③全局/项目两路径未分开探。**裁决依据=Tools/protected-hash-register.ps1 注册表 law**：patrol-fleet-carrier.ps1+config 均锚定 O-20261014-2250 strict 基线·「changes finalized by CEO order ONLY·panel signatures are nomination·no order=restore+report」——NJ 链（域席→NJ→载体）无 CEO 令号=提名面非定谳面，直改必产 DRIFT 且下次 -Verify 依律 restore（10-14 域席同判=提名+止血而非直改）。处置三件=①提名升格落地 reviews/carrier-digest-probe-v1.1-proposal.md（病理+四处即贴补丁+批准后 -Register 重锚程序+CEO 一句「批」即落地）②过渡止血 group-snooze.json until 10-18 01:50（前缀 C:/Users/sjs20/.code·真实缺位则移除 snooze 升级）③DEADLINES §二 CEO 令通道登记行（零催办）。
 - **防双烧**：两 NJ disposition 已入 NEED-JUDGMENT 尾（HUB-RESOLVED/ADJUDICATED-ROUTED·事件载体勿重发射）；10-14 23:41 前次承载窗半途死（event-carrier out.log 证据）·本班=首次完整承载。
 - **班毕**：push1=DEADLINES（行翻新+§二新行）+提案件+NJ 双 disposition 行（8159ef6d5）→回访探针 cron 03:25（+90min 一次性 durable·ca8be73a·锁门同守）→push2=LOG 本块（原子推·反转闸内嵌·expect 守卫）+DISPATCH-LOG 四元组行（本地运行时件·origin 无此件实锚）→锁 touch 收口。08:43 晨检班=复核线（origin §二两行+提案件+snooze 三验）。
+## Round 2.1：2026-10-16 18:48-18:59·日间标准班（18:43 拍·步0 锁龄 160.6min 过期接管）·调用数=15·零云端 token
+- **旗分流**：NJ 零旗（L0 快照空）+死线 at-risk 在册（V5 链延误披露+@bm-b 五件追缴）→标准班·预算 ≤15（实收 15·含 DISPATCH-LOG git 追踪态诊断支 2 笔——判「非 git 面·union 走 FleetLink」后改推 LOG.md 正身）。
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+||||||| Stash base
+=======
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
+## Round R2.4·2026-10-17 00:42-01:0x·事件班（承载件触发·NJ bigmoney R9 黄）·调用数≈27·零云端 token
+- **触发与步0**：HQ-CEOProxyEventCarrier 00:42 发射 NJ bigmoney R9（bm-b IterationLoop 停摆 53h+·R7/R8 两轮未决·枢纽零消费 22h 实锚）；锁龄 35min 过期→touch 接管单窗；三件已读（DISPATCH-LOG 尾/NEED-JUDGMENT/DEADLINES）→事件班无预算帽。
+- **深挖实锚**：bm-b 活体四证（listener v1.9.3+poke worker+RAM 13.7G+组树 HOT f5d980e3==origin tip）+停摆五证（心跳冻结 10-15 19:10:18 r986 GREEN·53.5h+bigmoney 树冻结 8949e0aef 落后 30+ 代=读令通道死+agenda_starved=true+WAKE#2 二连 accepted 零效果+O-2347 §一.3 @bm-b 腿未达=CEO 直令违约面——正身 bigmoney 仓 fleet/orders/O-20261016-2347-bm-c.md bm-a 侧直读验讫：@bm-b 腿=循环班自检+哨兵在役确认+POOL-0020 催办）。
+- **本班诊断增量（秒退轮定谳面）**：idle_rounds 00:33 读 31→00:44 读 33→poke#3 后 00:58 读 34=**轮次在跑但秒退**（空转计数递增·last_seen/ts 恒冻结·bigmoney 不拉不消费）——任务全死论弱化·守卫锁/陈锁嫌疑优先（10-09-29 autopilot.lock 判例同型候选）；本地定谳唯一权威=手术面 (b) wrapper round_* 日志。
+- **E1 并案单承载消费（当窗主交付·原子推 66c1605af·反转闸 3 处全∈my-dels）**：①orders 00:5x E1 行（@bm-b·lane=cpu-sound·回执窗 24h）：五件回执追缴 >24h 升委员会通道（POOL-0020 销卡〔委员会可裁 r986 仓内证据代验收〕/spawn 帽腿/PROBE_ERR/POOL-0018·0019/drama Taildrop+O-2110 bm-b 腿）+手术五面照 R7 NJ 单行（(a)Task Scheduler 历史 (b)wrapper 日志 (c)LoopWatchdog 熟睡 (d)LogonType/S4U 判例复查〔10-15 09:16 自愈配方回归坑同型〕 (e)陈锁清理→重启·验证面=r987+ 落 origin 或心跳 ts 移动）+术前 state 预读已执行；②DEADLINES 三行翻行（L13 E1 升级+O-2110 bm-b 腿并轨+08:43 重载行=复核线勿重立注记）；③NEED-JUDGMENT R9 行 HUB-RESOLVED 追加。
+- **poke attempt#3+175s 复探**：00:55:49 accepted（tasks=[Bigmoney-IterationLoop]·ASCII reason）→00:58 复探 **BURNING 未燃**（idle_rounds 34 再增=又一秒退轮·last_seen 仍 19:10:18）；**E1 行交付验证**：/status 原文含 66c1605af（组树 HOT 通道秒达 bm-b 盘实证·poke reason e1-stall-surgery-r9 在 last_pull）·bigmoney 树仍冻结 8949e0aef（读令通道死维持）。
+- **防双烧与复检**：08:43 晨检班=复核线（勿重立 E1·验证面=r987+ 落 origin 或心跳 ts 移动）；回访探针 cron 02:35（+90min 一次性 durable·锁门同守）；周六缺班风险=探针+08:43 双承载。
+- **班毕**：push1=orders/DEADLINES/NJ（66c1605af）+push2=本 LOG 行原子推+shiftlog HUB-DECISION（持久正身）+DISPATCH-LOG 四元组+LOG 本地残片清理（stash 冲突标记残留清零）+锁 touch。
+- **R2.4 追记（01:1x·收口期发现·git 楔）**：本机 bm-a 组仓本地 main（4d11cdb「fleet-memory-union: 2」2026-10-17 00:07:20）与 origin 分叉=**git 楔**——本地独有提交=stale 树快照（748 行陈旧删除：C-20261016-03/04/05 三案卷+GAME-CLOUD-LANE-PLAN-v1+R-20261016-drama-sfx-tts-deploy/R-20261017-drama-ep-qc-anchorfix 两研究件整文件被删态；+103 行混装旧变体——O-2110 r1055 回执行与 O-2145 双行 origin 均保真已核=零真丢失）→组仓 ff-pull 永败=本机台账读取面恒陈旧。本班处置=四件本地面 checkout origin 对齐（orders/DEADLINES/NJ/LOG·PATROL-LOG 活面未触）+全量内容级并合（bc34c07 分诊器范式）入 NEED-JUDGMENT NEW 队行（08:43 班承载）+「fleet-memory-union」机制根因（stale 树快照入 commit 病）候 12:43 前定谳。
+- **R2.4 追记二（01:2x·内容洞事故+当窗修复）**：66c1605af（E1 行 00:53 上链）后 **T2=a25dc52**（00:59:16·bm-c c05 执法提交〔C-05 三维资源分配令 7/7 过会〕）以其本地陈旧 orders 副本整件替换=内容洞（B1890/fc1b936 同型第三案：父链正确+内容陈旧）——仅吞本班 E1 orders 行（DEADLINES/NJ/LOG 逐件验存活）·本班 gate「本前已亡跳过」正确豁免（死于 T2 非我批）；**当窗修复=push4 E1 行 blob 字节级提取重入链**（66c1605af 树内取件禁手抄）+事故行入 NJ——**G12 BP+pre-push 全机提案新增实证**（现役 gate 只护单机提交面·他机 stale 整件替换零拦截·waiting-CEO 区行已载零催办）。
