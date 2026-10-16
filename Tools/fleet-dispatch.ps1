@@ -27,6 +27,11 @@ param(
   [switch]$Quiet
 )
 $ErrorActionPreference = 'Continue'
+# C-20261016-02 Cure-3: -File invocation passes comma-joined task lists as ONE string
+# (worker allowlist denies the whole string -> zero wakeups, live-bug 10-16).
+# Split defensively so both "-Tasks a,b" and repeated -Tasks work.
+if ($Tasks) { $Tasks = @($Tasks | ForEach-Object { $_ -split ',' } | Where-Object { $_ }) }
+if ($Repos) { $Repos = @($Repos | ForEach-Object { $_ -split ',' } | Where-Object { $_ }) }
 $cfgF = Join-Path $Root 'Tools\fleet-nodes.json'
 try {
   $cfg = Get-Content -Raw -Encoding UTF8 $cfgF | ConvertFrom-Json
