@@ -91,9 +91,9 @@ S0 曲目包 ─S1 立意剧本 ─S2 分镜四案 ─S3 KF 生产 ─S4 i2v ─
 | 面 | 正典 |
 |---|---|
 | 评审制/五闸 | 30s-reel-v1/EXPERT-PANEL-PROTOCOL.md |
-| 提示词闸 | prompt-writing-spec-v1/PROMPT-EXPERT-GATE-v1.md |
-| 提示词规范/官方律 | prompt-writing-spec-v1/PROMPT-SPEC.md（v1.3） |
-| 判例/技巧 | prompt-writing-spec-v1/EXPERIENCE-LEDGER-v1.md |
+| 提示词闸 | cph4/fleet/mv0001-handover/outbound/krea2/prompt-writing-spec-v1/PROMPT-EXPERT-GATE-v1.md（实位勘误·普查F D-10·2026-10-16） |
+| 提示词规范/官方律 | cph4/fleet/mv0001-handover/outbound/krea2/prompt-writing-spec-v1/PROMPT-SPEC.md（v1.3） |
+| 判例/技巧 | cph4/fleet/mv0001-handover/outbound/krea2/prompt-writing-spec-v1/EXPERIENCE-LEDGER-v1.md |
 | QC 原子检项 | mv-album-001-jay/QC-MASTER-CHECKLIST-v1.md |
 | 表演工具栈 | cph4/research/R-20261015-mv-performance-stack.md |
 | 世界第一差距+画质配方 | cph4/research/R-20261015-mv-worldclass-benchmark.md |

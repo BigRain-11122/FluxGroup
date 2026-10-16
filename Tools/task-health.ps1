@@ -15,7 +15,10 @@ param(
     # BigLife-OSLoop added 2026-09-30: CEO order 09-30 13:38 stop-babymaking freeze (48h, lift criterion =
     # 6h zero new census ids; committee re-enable review due 2026-10-02 ~13:38). Mis-enable incident
     # 2026-09-30 15:07 round (rolled back in 5min) - this entry prevents recurrence by night rounds.
-    [string[]]$KnownDisabled = @('MiniGameBoardForge', 'MiniGameOllamaServe', 'MiniGamePopupWitness', 'FluxVerse-DevLoop', 'Bigmoney-IntradayMarks', 'BigLife-OSLoop')
+    # 2026-10-10 night-round E3 backfill - adjudicated design-state disables (ledger sources):
+    #   BigLife-PoolGenLoop=C-20261009-02 committee disable (unfreeze->enable); HQ-C10-Pilot2=P-2026-10-08-17(1)
+    #   deliberate popup-task disable; MiniGameOllamaKeepWarm=10-09 Krea2 VRAM free-up (restore post-MV-production)
+    [string[]]$KnownDisabled = @('MiniGameBoardForge', 'MiniGameOllamaServe', 'MiniGamePopupWitness', 'FluxVerse-DevLoop', 'Bigmoney-IntradayMarks', 'BigLife-OSLoop', 'BigLife-PoolGenLoop', 'HQ-C10-Pilot2', 'MiniGameOllamaKeepWarm')
 )
 
 $ErrorActionPreference = 'Continue'
@@ -70,8 +73,20 @@ function Decode-Result($code) {
 }
 
 $rows = @()
+$broken = @()
 Get-ScheduledTask -TaskPath "\" | Where-Object { $_.TaskName -notmatch '^(Microsoft|OneDrive|Adobe|Google|Edge|NVIDIA|AMD)' } | ForEach-Object {
     $name = $_.TaskName
+    # wave-F cure 2026-10-16: action-script existence register - catches orphan tasks whose
+    # targets were moved/deleted by base migration or line retirement (evidence: GimmeAll-
+    # AutoSentinel + MoneyAutoGuardian broken since 09-22/09-28, undetected 25+ days).
+    # Runs BEFORE the exempt skip so dead exempt-disabled tasks stay visible.
+    $actArgs = [string]($_.Actions | Select-Object -First 1).Arguments
+    $scriptPath = $null
+    if ($actArgs -match '-File\s+"([^"]+\.(ps1|py|bat|cmd))"') { $scriptPath = $Matches[1] }
+    elseif ($actArgs -match '([A-Z]:\\[^\s"]+\.(ps1|py|bat|cmd))') { $scriptPath = $Matches[1] }
+    if ($scriptPath -and (-not (Test-Path $scriptPath))) {
+        $broken += [pscustomobject]@{ task = $name; path = $scriptPath; state = [string]$_.State }
+    }
     # v1.1 (2026-09-29 council audit): an exempt-list task that is unexpectedly ENABLED
     # stays in scope as a register-only EXEMPT-ENABLED row (lesson: MiniGameDailyDigest
     # fired daily with CODE-2 while invisible to this monitor via the old hard skip).
@@ -90,9 +105,12 @@ Get-ScheduledTask -TaskPath "\" | Where-Object { $_.TaskName -notmatch '^(Micros
         if ($KnownDisabled -contains $name) { $flag = 'DESIGNED-DISABLED' } else { $flag = 'UNEXPECTED-DISABLED' }
     } elseif ($neverRan) {
         if ($exp -gt 0) { $flag = 'NEVER-RAN' } else { $flag = 'EVENT-BOUND' }
-    } elseif ($exp -gt 0 -and $ageMin -gt (2 * $exp)) {
+    }     elseif ($exp -gt 0 -and $ageMin -gt (2 * $exp)) {
         $flag = 'STALE'
     }
+    # wave-F cure 2026-10-16: enabled task with a dead action link = E2 (it fires and fails
+    # every tick); disabled+exempt ones are reported in the BROKEN-LINKS register below.
+    if (($broken | Where-Object { $_.task -eq $name }) -and $_.State -ne 'Disabled') { $flag = 'BROKEN-LINK' }
     # D-20260926-10 + U175: classify designed-state STALE as E3 info (register only), not E2 faults
     if ($flag -eq 'STALE') {
         if ($DesignedStale -contains $name) { $flag = 'DESIGNED-STALE' }
@@ -128,4 +146,9 @@ if ($designed.Count -gt 0) {
 }
 if ($codes.Count -gt 0) {
     Write-Output ('RESULT-CODES: ' + (($codes | ForEach-Object { ($_.task + '=' + $_.result) }) -join ', '))
+}
+if ($broken.Count -gt 0) {
+    Write-Output ('BROKEN-LINKS ' + $broken.Count + ' (enabled=E2 fault / disabled=E3 register): ' + (($broken | ForEach-Object { ($_.task + '[' + $_.state + ']') }) -join ', '))
+    Write-Output ('  paths: ' + (($broken | Select-Object -First 5 | ForEach-Object { ($_.task + ' => ' + $_.path) }) -join '  |  '))
+    Write-Output 'Routing: BROKEN-LINKS -> night report line + retire-or-retarget decision (council).'
 }
