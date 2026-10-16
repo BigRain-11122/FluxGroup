@@ -105,3 +105,14 @@
 - **判据法**：SLI L3 死线零误=三行收口两 done 一延误披露；L2 饥饿驻留=零新旗（NJ 空+L0 pools 三机 3/3 全开+交付哨 13:3x 重建点火在役·三源绿）；传感复用律全程（L0/交付哨/普查F 证据复用零重测）；丢行守望=本班非晨检/死线班不跑（R1.9 当日 audit 10/2418 全豁免在案·BRIEF 窗外丢行已亲治）。
 - **迭代提名（受保护件零擅改·群审通道）**：步0 锁 touch 一律写「接管窗口+Round 号+时刻」内容行（本窗已示范）——窗口①touch 未改内容致 R1.9「shift done」旧文误导判读=三投递 forensics 成本根因；ROUND.md 步0 加注记一行=提名面候 CEO 令定谳。
 - **证据面**：锁 forensics 三窗时间线+orders 13:0x-14:5x 增量行+交付哨 state/ALERTS 实读+bm-a media/drama-pilot-out 实测空+cron_list 四件实况+原子推回包。
+## Round 2.1：2026-10-16 18:48-18:59·日间标准班（18:43 拍·步0 锁龄 160.6min 过期接管）·调用数=17·零云端 token
+- **触发（步0 锁门）**：锁 mtime 16:07:27=R2.0 收口面·锁龄 160.6min>10min 过期接管 18:48:58·单窗零竞态（15:47 三投递病未复发）。
+- **旗分流**：NJ 零旗（L0 快照空）+死线 at-risk 在册（V5 链延误披露+@bm-b 五件追缴）→标准班·预算 ≤15（实收 17·超 2（DISPATCH-LOG git 追踪态误判空跑 1+原子推 run_gate GBK stdout 崩重试 1）·含 DISPATCH-LOG git 追踪态诊断支 2 笔——判「非 git 面·union 走 FleetLink」后改推 LOG.md 正身）。
+- **满载雷达**：传感复用零自测（L0 18:31 拍三机 pools 3/3 open·all lanes live·no judgment due·四连拍同文）。
+- **死线雷达增量（R2.0 16:16:06 锚点后）**：①MV V5 链=18:0x 导演席 winners r1055 签发（PASS-with-conditions·七胜出种子）→phase2 17 镜 INT8 768P 夜窗连烧即时解锁（ETA 3.5-4.5h·-an·队列驻留）——DeliveryWatch 死线 23:30 在监·PROXY-PASS/DIRECTOR-REVIEW-V5-PASS 硬门链在位=盯守不改判；②@bm-b 追缴五件零回执 >5.5h=维持 R2.0 零重复 poke 处置（哨时poke+普查E 全列+21:43 死线班三通道在覆盖·>24h 升 E1=10-17 08:43 复核线·本班不提前升级）；③上窗 done 三行（jayredo 17/17·仓分叉·@bm-c phase1 认领）无回退。
+- **关注点 11-13（洗牌序 11→13→12·种子 20261016 mod 3=0 偶日偶位）零违例零执法单**：①11 意义门=V5 phase1 480P trials 12/12 廉价普查先行→winners 预注册→phase2 才开烧·烧批四闸全过·三机池全活零闲置点火；②12 科学决策=机队同步体检令（CEO 17:0x）五件根治全链条审查上链（fleet-link v1.9.2 出向解耦+pusher v1.2 独立进程+poke-worker v1.5 刷新闸·实弹 /health 160-270ms）+V5 winners 判据预注册六条执法在册；③13 专家席专业度=CEO 15:5x V4 终审三连批 24h 内全落闸（CHK-E1~E7+CHK-T 字幕三查+PLAYBOOK v1.1→v1.3+DIRECTOR-REVIEW 硬门焊进装配 SOP·自我学习转化律闭环）。
+- **步8 cron**：18:43 桥（8f2e5691）本班已消费·21:43（733a0a92）/23:43（3044b679）桥在位；recurring 缺位维持 R2.0「口令制挂起态禁重建」处置；链安全边际止于今夜→补 10-17 08:43 晨检班桥一枚（e284a5da·durable 一次性·晨验 V5 交付落位+@bm-b >24h 升级复核线+radar-daily 快充·防 23:43 步8 断链）。
+- **判据法**：SLI L2 饥饿驻留零新旗（@bm-b 五件=R2.0 已披露存量·未触新升格线）；L3 死线零误（延误两行均如实披露在册）；丢行守望=08:43/21:43 班面·本班不跑（推前反转闸随原子推内嵌过闸）。
+- **证据面**：DISPATCH-LOG 尾 8 行+L0 18:31 拍；orders 增量 R2.0 锚点后实读至 18:1x；DEADLINES 全表对读；cron_list 三桥实况；BRIEF §二 11-13 逐项落成检查；git ls-files 追踪态亲验（DISPATCH-LOG.md=非 git 面·CEO-PROXY/LOG.md=git 正身）。
+
+- **迭代提名（受保护件零擅改·群审通道）**：git-atomic-push.py run_gate `sys.stdout.write` 在 GBK 控制台遇 U+FFFD 即 UnicodeEncodeError 崩=当日第二例（bm-c phase1 同坑 18:1x 在册）——升格提名=原子推调用域常设 PYTHONIOENCODING=utf-8（工具本体受保护件·改走委员会群审通道；本班环境变量绕行实证）。
