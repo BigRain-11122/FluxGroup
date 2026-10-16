@@ -178,13 +178,13 @@
   "title": "星晴 A 批 T1 低清海选（海选制 v1.1 首个全链试点·34 帧×N 种子）",
   "lane": "bm-c",
   "priority": "P1",
-  "status": "open",
+  "status": "done",
   "created_by": "bm-a-mv-director 2026-10-15 17:41（CEO 派单令 O-20261015-1741）",
   "spec": "候 PROMPT-GATE verdict 签发后烧（gate 0 拒收律·无 verdict=禁点火）。P0 Jay redo（POOL-0014）i2v 回采完成后本卡升 bm-c 最高优先。T1 档参数=672×384·8步·cfg 1.0·同 prompt 多种子：常规镜 N≥16/重要镜 N≥32/高潮镜 N≈50·阶梯早停律先行（每镜先烧 8 张速检·全负=停·回炉 prompt 不加烧）·种子分段互异。产出→bmc/kf/xingqing/T1/<帧位>/<seed>/+24 张/板 LOOKBOARD 拼板→烧速与张数实测回填（星晴=试点定标数据源）→poke bm-a 导演席开两级海审（一级海筛 24 张/板六维快分→二级专家团细审每镜取 2→verdict 板留档→⚠确认点1=提示词定稿+种子定选）。",
   "card": "[交接卡 POOL-0015]\n①@机+lane：@bm-c·gpu-kf-gen\n②回执窗：verdict 签发后 24h 出 T1 全量海选板（34 帧×阶梯 N·夜间 GPU 满载档）\n③验收物+证据指针：bmc/kf/xingqing/T1/ 海选目录（帧位×种子分段）+LOOKBOARD 拼板（24 张/板·q88）+烧速/N 值/早停触发率实测回填行+每镜胜者候选清单（前 5）+orders 回执行+git push sha\n④spec 指针：cph4/fleet/mv-album-001-jay/星晴-KF-PACK-A-v1.md（八块模板组装·主体句=星晴-SHOTLIST-v3.md §一表）+cph4/fleet/mv-album-001-jay/PROMPT-GATE-星晴-KF-PACK-A-v1.md（verdict·签发后生效）+FRAME-GATE-WHITELIST-v1.4 §ID 块逐字+MV-PIPELINE-PLAYBOOK §〇.5/§S3 海选制 v1.1\n⑤溯源令号：O-20261015-1741（机队派单令）+O-20261015-1725（海选制/精度阶梯）+O-20261015-1630（提示词闸）\n⑥输入/输出：输入=verdict 文件+KF 包+SHOTLIST §一表+ID 块；输出=T1 海选全量板+定标数据\n⑦依赖：POOL-0014（P0 Jay redo）完成前不抢 GPU；PROMPT-GATE verdict 未签发=禁烧（烧制侧拒收律）\n⑧卡 ID：POOL-0015\n⑨provenance：转述（CEO 直令「已经确定的赶紧分配给机队开工·另外2台机器用满用好」·bm-a 会话 17:41 开卡）",
-  "result_ref": "",
+  "result_ref": "T1 two-tier sea-review closed 2026-10-17 00:5x (bm-c r1057): verdict=cph4/fleet/mv-album-001-jay/xq-T1-VERDICT-r1035.md (33 frames ranked; 64 whitelist cells tier-2 picked; S5-32 full-frame refire w/ amended prompt v1.1 draft pending director sign; 4 conditional items; 7-item risk list; originals 264 verified at media/MV/mv0001/xingqing/t1/; ladder early-stop 0/33; label-misattribution corrections S1-09/S2-16/F5-33b.c); A-batch KF ignition awaits bm-a director countersign (zero-waste kept: no pre-burn)",
   "depends_on": [
-   "POOL-0014"
+    "POOL-0014"
   ]
  },
  {
