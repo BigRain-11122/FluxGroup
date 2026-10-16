@@ -1,0 +1,241 @@
+# fleet-sync-pusher.ps1 - FleetLink outbound HOT-file pusher v1.0 (CEO order
+# O-20261016-1215 millisecond mandate; root-cure of the 2026-10-16 CEO check
+# "is fleet sync fastest/most effective"): v1.8 ran poll+push INLINE in the
+# listener accept loop, so a slow/failing 703KB orders.md push over the degraded
+# DERP relay (8s socket timeout) blocked /health and /poke for the whole push -
+# the signal plane was starved by the data plane (live evidence 2026-10-16:
+# bm-a /health 20s timeout; 193 push-fail + 77 reject vs 3 successes).
+# This process owns the OUTBOUND side completely:
+#   - spawned + supervised by fleet-link.ps1 v1.9 (heartbeat pusher.json;
+#     listener respawns when stale >90s); single-flight via pid-verified lock
+#   - 2s poll on the /sync allowlist; pusher-state.json is pusher-owned
+#     (pushed marks + 60s backoff), sync-state.json stays listener-owned
+#     (applied hashes) and is READ-ONLY here - zero write contention
+#   - 30s socket timeouts (relay-grade transport; 8s killed 700KB pushes)
+#   - gzip body when the peer runs >=1.9 (703KB markdown ~ 130KB on the wire),
+#     plain content for older peers (v1.8 receives plain fine)
+#   - version self-check every 60s: exits when a newer pusher ships via git,
+#     the listener respawns the new file (no task dependency)
+# PS 5.1 safe: ASCII-only body; allowlist mirrors fleet-link.ps1 v1.9 (mirror
+# law: change BOTH when the /sync face changes).
+param(
+  [string]$Root = "C:\Users\sjs20\Desktop\FluxGroup",
+  [int]$Port = 8790,
+  [string]$NodeId = ""
+)
+$ErrorActionPreference = 'Continue'
+$Dir = Join-Path $env:USERPROFILE '.codely-cli\fleet-link'
+if (-not (Test-Path $Dir)) { New-Item -ItemType Directory -Path $Dir | Out-Null }
+$Vers = '1.0'
+$LogF = Join-Path $Dir 'log.jsonl'
+$SyncStateF = Join-Path $Dir 'sync-state.json'
+$PushStateF = Join-Path $Dir 'pusher-state.json'
+$HbF = Join-Path $Dir 'pusher.json'
+$LockF = Join-Path $Dir 'pusher.lock'
+
+function PS-Log([string]$evt, [string]$detail) {
+  try {
+    $o = [ordered]@{ ts = (Get-Date -Format s); event = $evt; detail = $detail }
+    ($o | ConvertTo-Json -Compress) | Add-Content -LiteralPath $LogF -Encoding UTF8
+  } catch { }
+}
+
+# ---- roster: resolve self + peers + port (mirrors listener) ----
+$node = $null
+$peers = @()
+try {
+  $cfg = Get-Content -Raw -Encoding UTF8 (Join-Path $Root 'Tools\fleet-nodes.json') | ConvertFrom-Json
+  if ($cfg.PSObject.Properties.Name -contains 'port') { $Port = [int]$cfg.port }
+  foreach ($n in @($cfg.nodes)) {
+    if ($NodeId -ne '' -and [string]$n.id -eq $NodeId) { $node = $n; break }
+    if ($NodeId -eq '' -and [string]$n.host -ne '' -and ([string]$n.host -ieq $env:COMPUTERNAME)) { $node = $n; $NodeId = [string]$n.id; break }
+  }
+  foreach ($n in @($cfg.nodes)) {
+    if (([bool]$n.enabled) -and ([string]$n.id -ne $NodeId) -and [string]$n.tailnet_ip -ne '') { $peers += $n }
+  }
+} catch { PS-Log 'config-fail' ([string]$_.Exception.Message) }
+if ($NodeId -eq '') { $NodeId = $env:COMPUTERNAME }
+
+# /sync allowlist - MIRROR of fleet-link.ps1 v1.9 $SyncAllowUnion (mirror law)
+$SyncAllowUnion = @(
+  'docs/orders.md',
+  'cph4/fleet/mv0001-handover/outbound/krea2/kf-demo-20261012/bmc/I2V-URL-INDEX.md',
+  'cph4/fleet/dispatcher/CEO-PROXY/LOG.md',
+  'cph4/fleet/dispatcher/PATROL-FLEET/LOG.md'
+)
+$SyncAllowFullPrefix = 'cph4/fleet/dispatcher/delivery-watch/'
+
+# ---- single-flight lock (pid-verified) ----
+if (Test-Path $LockF) {
+  try {
+    $opid = 0
+    try { $opid = [int]((Get-Content -Raw $LockF | ConvertFrom-Json).pid) } catch { }
+    $age = 999
+    try { $age = ((Get-Date) - (Get-Item $LockF).LastWriteTime).TotalSeconds } catch { }
+    $alive = $false
+    if ($opid -gt 0 -and $opid -ne $PID) { $alive = [bool](Get-Process -Id $opid -ErrorAction SilentlyContinue) }
+    if ($age -lt 30 -and $alive) { PS-Log 'exit' 'another pusher is alive'; exit 0 }
+  } catch { }
+}
+function Touch-Lock() {
+  try {
+    $o = [ordered]@{ pid = $PID; ts = (Get-Date -Format s) }
+    [IO.File]::WriteAllText($LockF, ($o | ConvertTo-Json -Compress), (New-Object System.Text.UTF8Encoding($false)))
+  } catch { }
+}
+function Touch-Hb() {
+  try {
+    $o = [ordered]@{ node = $NodeId; pid = $PID; ts = (Get-Date -Format s); version = $Vers }
+    [IO.File]::WriteAllText($HbF, ($o | ConvertTo-Json -Compress), (New-Object System.Text.UTF8Encoding($false)))
+  } catch { }
+}
+
+function Gz-Compress([string]$text) {
+  $inBytes = [System.Text.Encoding]::UTF8.GetBytes($text)
+  $ms = New-Object System.IO.MemoryStream
+  $gz = New-Object System.IO.Compression.GZipStream($ms, [System.IO.Compression.CompressionLevel]::Optimal)
+  $gz.Write($inBytes, 0, $inBytes.Length)
+  $gz.Close()
+  return [Convert]::ToBase64String($ms.ToArray())
+}
+
+# ---- state: pusher-owned pushed/backoff + listener-owned applied (read-only) ----
+function Load-PushState() {
+  $o = @{ pushed = @{}; lastTry = @{} }
+  $seedF = $PushStateF
+  if (-not (Test-Path $seedF)) { $seedF = $SyncStateF }   # legacy v1.8 carry-over seed
+  try {
+    if (Test-Path $seedF) {
+      $raw = Get-Content -Raw -Encoding UTF8 $seedF | ConvertFrom-Json
+      if ($raw.pushed) {
+        foreach ($pp in $raw.pushed.PSObject.Properties) {
+          $inner = @{}
+          if ($pp.Value) { foreach ($pr in $pp.Value.PSObject.Properties) { $inner[$pr.Name] = [string]$pr.Value } }
+          $o.pushed[$pp.Name] = $inner
+        }
+      }
+      if ($raw.lastTry) { foreach ($pr in $raw.lastTry.PSObject.Properties) { $o.lastTry[$pr.Name] = [long]$pr.Value } }
+    }
+  } catch { }
+  return $o
+}
+function Save-PushState($s) {
+  try { [IO.File]::WriteAllText($PushStateF, ($s | ConvertTo-Json -Depth 6 -Compress), (New-Object System.Text.UTF8Encoding($false))) } catch { }
+}
+function Load-Applied() {
+  $h = @{}
+  try {
+    if (Test-Path $SyncStateF) {
+      $raw = Get-Content -Raw -Encoding UTF8 $SyncStateF | ConvertFrom-Json
+      if ($raw.applied) { foreach ($pr in $raw.applied.PSObject.Properties) { $h[$pr.Name] = [string]$pr.Value } }
+    }
+  } catch { }
+  return $h
+}
+function Sync-HashFile([string]$p) {
+  try { return [string](Get-FileHash -LiteralPath $p -Algorithm MD5).Hash } catch { return '' }
+}
+
+# ---- peer version cache (gzip eligibility), 10min TTL ----
+$script:VersCache = @{}
+function Get-PeerVers($peer) {
+  $k = [string]$peer.id
+  $now = [DateTimeOffset]::UtcNow.ToUnixTimeSeconds()
+  if ($script:VersCache.ContainsKey($k)) {
+    $c = $script:VersCache[$k]
+    if (($now - [long]$c.ts) -lt 600) { return [string]$c.vers }
+  }
+  $v = ''
+  try { $r = Invoke-RestMethod -Uri ('http://' + [string]$peer.tailnet_ip + ':' + $Port + '/health') -TimeoutSec 8; $v = [string]$r.version } catch { }
+  $script:VersCache[$k] = @{ ts = $now; vers = $v }
+  return $v
+}
+
+function Push-SyncOne([string]$rel, [string]$kind, [string]$content, $peer, [string]$peerVers) {
+  try {
+    $t0 = Get-Date
+    $bodyObj = @{ path = $rel; mode = $kind; src = $NodeId }
+    $useGz = $false
+    try { if ($peerVers -ne '' -and ([version]$peerVers -ge [version]'1.9')) { $useGz = $true } } catch { }
+    if ($useGz) { $bodyObj.gz = (Gz-Compress $content) } else { $bodyObj.content = $content }
+    $bytes = [System.Text.Encoding]::UTF8.GetBytes(($bodyObj | ConvertTo-Json -Compress))
+    $c = New-Object System.Net.Sockets.TcpClient
+    $c.ReceiveTimeout = 30000; $c.SendTimeout = 30000
+    $c.Connect([string]$peer.tailnet_ip, $Port)
+    $hdr = 'POST /sync HTTP/1.1' + "`r`n" + 'Content-Type: application/json' + "`r`n" + 'Content-Length: ' + $bytes.Length + "`r`n" + 'Connection: close' + "`r`n`r`n"
+    $ns = $c.GetStream()
+    $hb = [System.Text.Encoding]::ASCII.GetBytes($hdr)
+    $ns.Write($hb, 0, $hb.Length)
+    $ns.Write($bytes, 0, $bytes.Length)
+    $ns.Flush()
+    $r = New-Object System.IO.StreamReader($ns, [System.Text.Encoding]::UTF8)
+    $resp = $r.ReadToEnd()
+    $c.Close()
+    $ms = [int]((Get-Date) - $t0).TotalMilliseconds
+    $m = ''
+    try { $m = [regex]::Match($resp, '"applied":(\d+)').Groups[1].Value } catch { }
+    if ($m -eq '') { PS-Log 'sync-push-reject' ($rel + ' -> ' + [string]$peer.id + ' ms=' + $ms); return @{ ok = $false } }
+    PS-Log 'sync-push' ($rel + ' -> ' + [string]$peer.id + ' applied=' + $m + ' gz=' + $useGz + ' bytes=' + $bytes.Length + ' rtt_ms=' + $ms)
+    return @{ ok = $true; applied = $m }
+  } catch { PS-Log 'sync-push-fail' ([string]$peer.id + ' ' + ([string]$_.Exception.Message)); return @{ ok = $false } }
+}
+
+function Poll-Publish() {
+  $rels = @()
+  foreach ($a in $SyncAllowUnion) { $rels += @{ rel = $a; kind = 'union' } }
+  try {
+    $dwDir = Join-Path $Root ($SyncAllowFullPrefix -replace '/', '\')
+    if (Test-Path $dwDir) {
+      foreach ($f in @(Get-ChildItem -LiteralPath $dwDir -Filter '*.json' -File)) {
+        $rels += @{ rel = ($SyncAllowFullPrefix + $f.Name); kind = 'full' }
+      }
+    }
+  } catch { }
+  if ($peers.Count -eq 0) { return }
+  $applied = Load-Applied
+  $st = Load-PushState
+  $now = [DateTimeOffset]::UtcNow.ToUnixTimeSeconds()
+  $dirty = $false
+  foreach ($e in $rels) {
+    $p = Join-Path $Root ([string]$e.rel -replace '/', '\')
+    if (-not (Test-Path -LiteralPath $p)) { continue }
+    $h = Sync-HashFile $p
+    if ($h -eq '') { continue }
+    if ([string]$applied[[string]$e.rel] -eq $h) { continue }  # echo of what a peer sent us
+    foreach ($peer in $peers) {
+      $pk = [string]$peer.id
+      if (-not $st.pushed.ContainsKey($pk)) { $st.pushed[$pk] = @{} }
+      if ([string]$st.pushed[$pk][[string]$e.rel] -eq $h) { continue }  # this peer already has it
+      $lk = $pk + '|' + [string]$e.rel
+      if ($st.lastTry.ContainsKey($lk) -and (($now - [long]$st.lastTry[$lk]) -lt 60)) { continue }  # 60s backoff
+      $st.lastTry[$lk] = $now
+      $pv = Get-PeerVers $peer
+      $content = [IO.File]::ReadAllText($p, [System.Text.Encoding]::UTF8)
+      $r = Push-SyncOne ([string]$e.rel) ([string]$e.kind) $content $peer $pv
+      if ($r.ok) { $st.pushed[$pk][[string]$e.rel] = $h }
+      $dirty = $true
+    }
+  }
+  if ($dirty) { Save-PushState $st }
+}
+
+# ---- version self-check: newer pusher shipped via git -> exit, listener respawns ----
+function Check-MyVersion() {
+  try {
+    $m = [regex]::Match([IO.File]::ReadAllText($PSCommandPath), "\`$Vers\s*=\s*'([0-9.]+)'")
+    if ($m.Success -and $m.Groups[1].Value -ne $Vers) { PS-Log 'self-refresh' ($Vers + ' -> ' + $m.Groups[1].Value); exit 0 }
+  } catch { }
+}
+
+PS-Log 'pusher-start' ('node=' + $NodeId + ' peers=' + $peers.Count + ' v=' + $Vers)
+Touch-Lock
+Touch-Hb
+$iter = 0
+while ($true) {
+  $iter++
+  try { Poll-Publish } catch { PS-Log 'poll-error' ([string]$_.Exception.Message) }
+  Touch-Lock
+  Touch-Hb
+  if (($iter % 30) -eq 0) { Check-MyVersion }
+  Start-Sleep -Milliseconds 2000
+}

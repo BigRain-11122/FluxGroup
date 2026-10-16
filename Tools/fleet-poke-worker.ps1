@@ -1,4 +1,13 @@
-# fleet-poke-worker.ps1 - FleetLink background pull+wake worker v1.1 (CEO order O-20261009-1750 "very fast sync").
+# fleet-poke-worker.ps1 - FleetLink background pull+wake worker v1.5 (CEO order O-20261009-1750 "very fast sync").
+# v1.5 (2026-10-16 CEO check "is fleet sync fastest/most effective" - bm-c stuck on
+# v1.7 root cure): listener freshness gate - if the on-disk fleet-link.ps1 version
+# is newer than the RUNNING listener (state.json), start a fresh instance; the
+# existing port-contention self-upgrade replaces the old one. This is the remote
+# upgrade channel for nodes whose FluxGroup-FleetLink keepalive task is not
+# cycling (bm-c: task trigger dead, listener frozen on v1.7, large-body /sync
+# rejected forever). If the task is MISSING, re-registers it via
+# register-fleet-link.ps1 (idempotent) so 5-min supervision is healed too.
+# v1.1 = O-20261009-1750 "very fast sync" upgrade).
 # Spawned hidden by the listener's /poke handler so the accept loop NEVER blocks on
 # git pulls (v1.0 inline pull blocked /health for the whole pull duration - the
 # "timeout while busy" root cause). Lock-serialized: one worker at a time per node;
@@ -144,6 +153,39 @@ try {
     $null = & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $memSync -Root $Root -Quiet 2>&1
   }
 } catch { WK-Log 'memsync-fail' ([string]$_.Exception.Message) }
+
+# ---- v1.5 listener freshness gate: upgrade/revive the local listener when a
+# newer fleet-link.ps1 shipped via git (runs AFTER pulls so the newest code is on
+# disk; zero side effects when versions already match). Try the scheduled task
+# first (durable), then idempotent re-registration (heals a missing task), then a
+# raw hidden instance as last resort. ----
+try {
+  $flScript = Join-Path $Root 'Tools\fleet-link.ps1'
+  $stateF2 = Join-Path $Dir 'state.json'
+  if (Test-Path $flScript) {
+    $diskVers = ''
+    $m = [regex]::Match([IO.File]::ReadAllText($flScript), "\`$Vers\s*=\s*'([0-9.]+)'")
+    if ($m.Success) { $diskVers = $m.Groups[1].Value }
+    $runVers = ''
+    if (Test-Path $stateF2) { try { $runVers = [string]((Get-Content -Raw $stateF2 | ConvertFrom-Json).version) } catch { } }
+    if ($diskVers -ne '' -and $runVers -ne '' -and ([version]$diskVers -gt [version]$runVers)) {
+      $spawned = $false
+      try { Start-ScheduledTask -TaskName 'FluxGroup-FleetLink' -ErrorAction Stop; $spawned = $true } catch { }
+      if (-not $spawned) {
+        try {
+          $reg = Join-Path $Root 'Tools\register-fleet-link.ps1'
+          if (Test-Path $reg) { & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $reg -Root $Root 2>&1 | Out-Null; $spawned = $true }
+        } catch { }
+      }
+      if (-not $spawned) {
+        $argz = '-NoProfile -ExecutionPolicy Bypass -File "' + $flScript + '" -Root "' + $Root + '" -NodeId ' + $NodeId
+        Start-Process -FilePath 'powershell.exe' -ArgumentList $argz -WindowStyle Hidden | Out-Null
+        $spawned = $true
+      }
+      WK-Log 'listener-refresh' ('running=' + $runVers + ' disk=' + $diskVers + ' spawned=' + $spawned)
+    }
+  }
+} catch { WK-Log 'listener-refresh-fail' ([string]$_.Exception.Message) }
 
 # ---- wake allowlisted tasks ----
 $woke = @()

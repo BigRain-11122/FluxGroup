@@ -21,17 +21,30 @@
 #                 NEVER block the accept loop (v1.0 inline pull blocked /health
 #                 for the whole pull = the "timeout while busy" root cause).
 #   POST /sync    v1.5 (O-20261016-1215 millisecond mandate) - HOT-file data plane:
-#                 body {"path","mode","content","src"} from a tailnet peer;
+#                 body {"path","mode","content","gz","src"} from a tailnet peer;
+#                 v1.9: "gz" = base64 gzip payload, decoded before apply (v1.9
+#                 pushers shrink 703KB orders.md to ~130KB on the wire);
 #                 path allowlisted; orders.md + receipt index = append-union,
-#                 delivery-watch contracts = full replace. A 500ms mtime poll
-#                 publishes local HOT-file changes to peers. Tailscale = FIRST
-#                 channel; git = second-tier backup/canon (rounds commit what
-#                 sync applies).
+#                 delivery-watch contracts = full replace. OUTBOUND publishing is
+#                 owned by Tools\fleet-sync-pusher.ps1 (this listener never
+#                 pushes). Tailscale = FIRST channel; git = second-tier
+#                 backup/canon (rounds commit what sync applies).
 # v1.8 (C-20261016-02 Cure-5 live-fire): /sync body-read loop fix - StreamReader
 #   single Read() returns only the buffered chars, so large bodies (orders.md
 #   ~600KB) arrived TRUNCATED on peers -> JSON parse died -> path-deny reply with
 #   no "applied" -> sender logged reject forever (306 rejects, 60s retry storm).
 #   Read now loops until Content-Length chars are consumed.
+# v1.9 (CEO check 2026-10-16 "is fleet sync fastest/most effective" - root cure
+#   of the signal-plane starvation): OUTBOUND poll+push moved OUT of the accept
+#   loop into a supervised hidden process Tools\fleet-sync-pusher.ps1 - a slow or
+#   failing 703KB push over the degraded DERP relay used to block /health and
+#   /poke for the whole push (live evidence: bm-a /health 20s timeout, 193 fails
+#   vs 3 successes in one day). Listener now: accepts gzip bodies on /sync
+#   (v1.9 peers push ~130KB instead of 703KB), 30s read/write timeouts for
+#   relay-grade transport, respawns the pusher when its heartbeat goes stale,
+#   and self-checks its own on-disk version every ~2min - a newer script
+#   shipped via git replaces the running listener WITHOUT any scheduled-task
+#   dependency (bm-c open item: task not cycling, listener frozen on v1.7).
 param(
   [string]$Root = "C:\Users\sjs20\Desktop\FluxGroup",
   [int]$Port = 8790,
@@ -69,7 +82,7 @@ try {
 if ($NodeId -eq '') { $NodeId = $env:COMPUTERNAME }
 
 # ---- bind (node tailnet IP + loopback; skip missing) + v1.1 self-upgrade ----
-$Vers = '1.8'
+$Vers = '1.9'
 $bindIps = @()
 if ($node -and [string]$node.tailnet_ip -ne '') { $bindIps += [string]$node.tailnet_ip }
 $bindIps += '127.0.0.1'
@@ -327,80 +340,65 @@ function Apply-Sync([string]$rel, [string]$content, [string]$src) {
   FL-Log 'sync-apply' ($src + ' -> ' + $rel + ' kind=' + $kind + ' applied=' + $applied + ' ms=' + $ms)
   return @{ ok = $true; kind = $kind; applied = $applied }
 }
-function Push-SyncOne([string]$rel, [string]$kind, [string]$content, $peer) {
-  # v1.7: single-peer push with RTT measure; returns @{ok; applied} so the poller
-  # only marks pushed on SUCCESS (v1.5 bug: failures were marked pushed = peers
-  # could permanently miss a delta until git rounds caught up).
-  try {
-    $t0 = Get-Date
-    $body = @{ path = $rel; mode = $kind; content = $content; src = $NodeId } | ConvertTo-Json -Compress
-    $bytes = [System.Text.Encoding]::UTF8.GetBytes($body)
-    $c = New-Object System.Net.Sockets.TcpClient
-    $c.ReceiveTimeout = 8000; $c.SendTimeout = 8000
-    $c.Connect([string]$peer.tailnet_ip, $Port)
-    $hdr = 'POST /sync HTTP/1.1' + "`r`n" + 'Content-Type: application/json' + "`r`n" + 'Content-Length: ' + $bytes.Length + "`r`n" + 'Connection: close' + "`r`n`r`n"
-    $ns = $c.GetStream()
-    $hb = [System.Text.Encoding]::ASCII.GetBytes($hdr)
-    $ns.Write($hb, 0, $hb.Length)
-    $ns.Write($bytes, 0, $bytes.Length)
-    $ns.Flush()
-    $r = New-Object System.IO.StreamReader($ns, [System.Text.Encoding]::UTF8)
-    $resp = $r.ReadToEnd()
-    $c.Close()
-    $ms = [int]((Get-Date) - $t0).TotalMilliseconds
-    $m = ''
-    try { $m = [regex]::Match($resp, '"applied":(\d+)').Groups[1].Value } catch { }
-    if ($m -eq '') { FL-Log 'sync-push-reject' ($rel + ' -> ' + [string]$peer.id + ' ms=' + $ms); return @{ ok = $false } }
-    FL-Log 'sync-push' ($rel + ' -> ' + [string]$peer.id + ' applied=' + $m + ' rtt_ms=' + $ms)
-    return @{ ok = $true; applied = $m }
-  } catch { FL-Log 'sync-push-fail' ([string]$peer.id + ' ' + ([string]$_.Exception.Message)); return @{ ok = $false } }
+# ---- v1.9: gzip decode for inbound /sync (pushers >=1.9 send gz) ----
+function Gz-Decompress([string]$b64) {
+  $bytes = [Convert]::FromBase64String($b64)
+  $ms = [System.IO.MemoryStream]::new($bytes)
+  $gz = [System.IO.Compression.GZipStream]::new($ms, [System.IO.Compression.CompressionMode]::Decompress)
+  $out = [System.IO.MemoryStream]::new()
+  $gz.CopyTo($out)
+  $gz.Close()
+  return [System.Text.Encoding]::UTF8.GetString($out.ToArray())
 }
-function Sync-PollAndPublish() {
-  $rels = @()
-  foreach ($a in $SyncAllowUnion) { $rels += @{ rel = $a; kind = 'union' } }
+
+# ---- v1.9: outbound pusher supervision + listener self-refresh ----
+$PusherPath = Join-Path $Root 'Tools\fleet-sync-pusher.ps1'
+$HbF = Join-Path $Dir 'pusher.json'
+$script:SelfRefreshDone = $false
+function Ensure-Pusher() {
+  if (-not (Test-Path $PusherPath)) { return }
+  $stale = $true
   try {
-    $dwDir = Join-Path $Root ($SyncAllowFullPrefix -replace '/', '\')
-    if (Test-Path $dwDir) {
-      foreach ($f in @(Get-ChildItem -LiteralPath $dwDir -Filter '*.json' -File)) {
-        $rels += @{ rel = ($SyncAllowFullPrefix + $f.Name); kind = 'full' }
+    if (Test-Path $HbF) {
+      $hb = Get-Content -Raw $HbF | ConvertFrom-Json
+      $hpid = 0
+      try { $hpid = [int]$hb.pid } catch { }
+      $alive = $false
+      if ($hpid -gt 0) { $alive = [bool](Get-Process -Id $hpid -ErrorAction SilentlyContinue) }
+      $age = 999
+      try { $age = ((Get-Date) - (Get-Item $HbF).LastWriteTime).TotalSeconds } catch { }
+      if ($alive -and $age -lt 90) { $stale = $false }
+    }
+  } catch { }
+  if (-not $stale) { return }
+  $argz = '-NoProfile -ExecutionPolicy Bypass -File "' + $PusherPath + '" -Root "' + $Root + '" -NodeId ' + $NodeId
+  Start-Process -FilePath 'powershell.exe' -ArgumentList $argz -WindowStyle Hidden | Out-Null
+  FL-Log 'pusher-spawn' 'heartbeat stale or missing'
+}
+function Check-SelfVersion() {
+  # a newer fleet-link.ps1 shipped via git -> spawn a fresh instance; the existing
+  # port-contention self-upgrade path replaces us. No scheduled-task dependency
+  # (bm-c live-fire: task not cycling, listener was frozen on v1.7 for hours).
+  if ($script:SelfRefreshDone) { return }
+  try {
+    $m = [regex]::Match([IO.File]::ReadAllText($PSCommandPath), "\`$Vers\s*=\s*'([0-9.]+)'")
+    if ($m.Success) {
+      $disk = $m.Groups[1].Value
+      if ($disk -ne $Vers -and ([version]$disk -gt [version]$Vers)) {
+        FL-Log 'self-refresh' ('running=' + $Vers + ' disk=' + $disk)
+        $script:SelfRefreshDone = $true
+        $argz = '-NoProfile -ExecutionPolicy Bypass -File "' + $PSCommandPath + '" -Root "' + $Root + '" -NodeId ' + $NodeId
+        Start-Process -FilePath 'powershell.exe' -ArgumentList $argz -WindowStyle Hidden | Out-Null
       }
     }
   } catch { }
-  $peers = @()
-  try {
-    $cfg2 = Get-Content -Raw -Encoding UTF8 (Join-Path $Root 'Tools\fleet-nodes.json') | ConvertFrom-Json
-    foreach ($n in @($cfg2.nodes)) { if (([bool]$n.enabled) -and ([string]$n.id -ne $NodeId) -and [string]$n.tailnet_ip -ne '') { $peers += $n } }
-  } catch { }
-  $st = Sync-LoadState
-  $now = [DateTimeOffset]::UtcNow.ToUnixTimeSeconds()
-  $dirty = $false
-  foreach ($e in $rels) {
-    $p = Join-Path $Root ([string]$e.rel -replace '/', '\')
-    if (-not (Test-Path -LiteralPath $p)) { continue }
-    $h = Sync-HashFile $p
-    if ($h -eq '') { continue }
-    if ([string]$st.applied[[string]$e.rel] -eq $h) { continue }  # echo of what a peer sent us
-    foreach ($peer in $peers) {
-      $pk = [string]$peer.id
-      if (-not $st.pushed.ContainsKey($pk)) { $st.pushed[$pk] = @{} }
-      if ([string]$st.pushed[$pk][[string]$e.rel] -eq $h) { continue }  # this peer already has it
-      $lk = $pk + '|' + [string]$e.rel
-      if ($st.lastTry.ContainsKey($lk) -and (($now - [long]$st.lastTry[$lk]) -lt 60)) { continue }  # 60s backoff after a failure
-      $st.lastTry[$lk] = $now
-      $content = [IO.File]::ReadAllText($p, [System.Text.Encoding]::UTF8)
-      $r = Push-SyncOne ([string]$e.rel) ([string]$e.kind) $content $peer
-      if ($r.ok) { $st.pushed[$pk][[string]$e.rel] = $h }
-      $dirty = $true
-    }
-  }
-  if ($dirty) { Sync-SaveState $st }
 }
 
 function Handle-Client($client) {
   $rip = ''
   try { $rip = $client.Client.RemoteEndPoint.Address.ToString() } catch { }
   if (-not (Test-ClientIp $rip)) { Send-Resp $client 403 'Forbidden' '{"ok":false,"err":"forbidden"}'; FL-Log 'deny' $rip; return }
-  try { $client.ReceiveTimeout = 8000; $client.SendTimeout = 8000 } catch { }
+  try { $client.ReceiveTimeout = 30000; $client.SendTimeout = 30000 } catch { }
   $req = Read-Request $client
   if (-not $req) { Send-Resp $client 400 'Bad Request' '{"ok":false,"err":"bad-request"}'; return }
   $path = [string]$req.path
@@ -432,6 +430,9 @@ function Handle-Client($client) {
       if ($b.PSObject.Properties.Name -contains 'path') { $rel = [string]$b.path }
       if ($b.PSObject.Properties.Name -contains 'content') { $content = [string]$b.content }
       if ($b.PSObject.Properties.Name -contains 'src') { $src = [string]$b.src }
+      if ($b.PSObject.Properties.Name -contains 'gz') {
+        try { $content = Gz-Decompress ([string]$b.gz) } catch { FL-Log 'sync-gz-fail' ([string]$_.Exception.Message) }
+      }
     } catch { }
     $r = Apply-Sync $rel $content $src
     Send-Resp $client 200 'OK' ($r | ConvertTo-Json -Compress)
@@ -441,6 +442,7 @@ function Handle-Client($client) {
 }
 
 # ---- accept loop ----
+try { Ensure-Pusher } catch { }   # v1.9: outbound pusher starts with the listener
 $tick = 0
 while ($true) {
   $handled = $false
@@ -452,7 +454,7 @@ while ($true) {
     }
   }
   $tick++
-  if (($tick % 480) -eq 0) { try { (Get-Item $StateF).LastWriteTime = Get-Date } catch { } }
-  if (($tick % 2) -eq 0) { try { Sync-PollAndPublish } catch { } }
+  if (($tick % 480) -eq 0) { try { (Get-Item $StateF).LastWriteTime = Get-Date } catch { }; try { Check-SelfVersion } catch { } }
+  if (($tick % 8) -eq 0) { try { Ensure-Pusher } catch { } }
   if (-not $handled) { Start-Sleep -Milliseconds 250 }
 }
