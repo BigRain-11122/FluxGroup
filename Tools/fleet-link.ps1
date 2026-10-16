@@ -20,6 +20,13 @@
 #                 wake allowlisted tasks). Worker is lock-serialized so pokes
 #                 NEVER block the accept loop (v1.0 inline pull blocked /health
 #                 for the whole pull = the "timeout while busy" root cause).
+#   POST /sync    v1.5 (O-20261016-1215 millisecond mandate) - HOT-file data plane:
+#                 body {"path","mode","content","src"} from a tailnet peer;
+#                 path allowlisted; orders.md + receipt index = append-union,
+#                 delivery-watch contracts = full replace. A 500ms mtime poll
+#                 publishes local HOT-file changes to peers. Tailscale = FIRST
+#                 channel; git = second-tier backup/canon (rounds commit what
+#                 sync applies).
 param(
   [string]$Root = "C:\Users\sjs20\Desktop\FluxGroup",
   [int]$Port = 8790,
@@ -57,7 +64,7 @@ try {
 if ($NodeId -eq '') { $NodeId = $env:COMPUTERNAME }
 
 # ---- bind (node tailnet IP + loopback; skip missing) + v1.1 self-upgrade ----
-$Vers = '1.4'
+$Vers = '1.5'
 $bindIps = @()
 if ($node -and [string]$node.tailnet_ip -ne '') { $bindIps += [string]$node.tailnet_ip }
 $bindIps += '127.0.0.1'
@@ -143,7 +150,7 @@ function Read-Request($client) {
       if ($h -match '^Content-Length:\s*(\d+)') { $cl = [int]$Matches[1] }
     }
     $body = ''
-    if ($cl -gt 0 -and $cl -lt 4096) {
+    if ($cl -gt 0 -and $cl -lt 4194304) {
       $buf = New-Object char[] $cl
       $n = $r.Read($buf, 0, $cl)
       if ($n -gt 0) { $body = -join $buf[0..($n - 1)] }
@@ -232,6 +239,123 @@ function Start-PokeWorker([string]$reason, [string[]]$reqTasks, [string[]]$reqRe
   } catch { FL-Log 'worker-spawn-fail' ([string]$_.Exception.Message) }
 }
 
+# ---- v1.5 (O-20261016-1215): /sync data-plane state + helpers ----
+$SyncAllowUnion = @(
+  'docs/orders.md',
+  'cph4/fleet/mv0001-handover/outbound/krea2/kf-demo-20261012/bmc/I2V-URL-INDEX.md'
+)
+$SyncAllowFullPrefix = 'cph4/fleet/dispatcher/delivery-watch/'
+$SyncStateF = Join-Path $Dir 'sync-state.json'
+function Sync-LoadState() {
+  $o = @{ pushed = @{}; applied = @{} }
+  try {
+    if (Test-Path $SyncStateF) {
+      $raw = Get-Content -Raw $SyncStateF | ConvertFrom-Json
+      if ($raw.pushed) { foreach ($pr in $raw.pushed.PSObject.Properties) { $o.pushed[$pr.Name] = [string]$pr.Value } }
+      if ($raw.applied) { foreach ($pr in $raw.applied.PSObject.Properties) { $o.applied[$pr.Name] = [string]$pr.Value } }
+    }
+  } catch { }
+  return $o
+}
+function Sync-SaveState($s) {
+  try { [IO.File]::WriteAllText($SyncStateF, ($s | ConvertTo-Json -Depth 4 -Compress), (New-Object System.Text.UTF8Encoding($false))) } catch { }
+}
+function Sync-TestPath([string]$rel) {
+  if ($SyncAllowUnion -contains $rel) { return 'union' }
+  if ($rel.StartsWith($SyncAllowFullPrefix) -and $rel.EndsWith('.json')) { return 'full' }
+  return ''
+}
+function Sync-HashFile([string]$p) {
+  try { return [string](Get-FileHash -LiteralPath $p -Algorithm MD5).Hash } catch { return '' }
+}
+function Apply-Sync([string]$rel, [string]$content, [string]$src) {
+  $kind = Sync-TestPath $rel
+  if ($kind -eq '') { return @{ ok = $false; err = 'path-deny' } }
+  $p = Join-Path $Root ($rel -replace '/', '\')
+  $parent = Split-Path $p -Parent
+  if (-not (Test-Path $parent)) { return @{ ok = $false; err = 'dir-missing' } }
+  $applied = 0
+  if ($kind -eq 'union') {
+    $local = ''
+    if (Test-Path -LiteralPath $p) { $local = [IO.File]::ReadAllText($p, [System.Text.Encoding]::UTF8) }
+    $seen = @{}
+    foreach ($ln in ($local -split "`r?`n")) { $seen[$ln] = $true }
+    $adds = @()
+    foreach ($ln in ($content -split "`r?`n")) { if (-not $seen.ContainsKey($ln)) { $adds += $ln } }
+    if ($adds.Count -gt 0) {
+      $newText = $local
+      if ($newText.Length -gt 0 -and -not ($newText.EndsWith("`n"))) { $newText += "`r`n" }
+      $newText += ($adds -join "`r`n") + "`r`n"
+      [IO.File]::WriteAllText($p, $newText, (New-Object System.Text.UTF8Encoding($false)))
+      $applied = $adds.Count
+    }
+  } else {
+    [IO.File]::WriteAllText($p, $content, (New-Object System.Text.UTF8Encoding($false)))
+    $applied = 1
+  }
+  $h = Sync-HashFile $p
+  $st = Sync-LoadState
+  $st.applied[$rel] = $h
+  Sync-SaveState $st
+  FL-Log 'sync-apply' ($src + ' -> ' + $rel + ' kind=' + $kind + ' applied=' + $applied)
+  return @{ ok = $true; kind = $kind; applied = $applied }
+}
+function Push-SyncOne([string]$rel, [string]$kind, [string]$content) {
+  $peers = @()
+  try {
+    $cfg2 = Get-Content -Raw -Encoding UTF8 (Join-Path $Root 'Tools\fleet-nodes.json') | ConvertFrom-Json
+    foreach ($n in @($cfg2.nodes)) { if (([bool]$n.enabled) -and ([string]$n.id -ne $NodeId) -and [string]$n.tailnet_ip -ne '') { $peers += $n } }
+  } catch { }
+  $body = @{ path = $rel; mode = $kind; content = $content; src = $NodeId } | ConvertTo-Json -Compress
+  $bytes = [System.Text.Encoding]::UTF8.GetBytes($body)
+  foreach ($peer in $peers) {
+    try {
+      $c = New-Object System.Net.Sockets.TcpClient
+      $c.ReceiveTimeout = 8000; $c.SendTimeout = 8000
+      $c.Connect([string]$peer.tailnet_ip, $Port)
+      $hdr = 'POST /sync HTTP/1.1' + "`r`n" + 'Content-Type: application/json' + "`r`n" + 'Content-Length: ' + $bytes.Length + "`r`n" + 'Connection: close' + "`r`n`r`n"
+      $ns = $c.GetStream()
+      $hb = [System.Text.Encoding]::ASCII.GetBytes($hdr)
+      $ns.Write($hb, 0, $hb.Length)
+      $ns.Write($bytes, 0, $bytes.Length)
+      $ns.Flush()
+      $r = New-Object System.IO.StreamReader($ns, [System.Text.Encoding]::UTF8)
+      $resp = $r.ReadToEnd()
+      $c.Close()
+      $m = ''
+      try { $m = [regex]::Match($resp, '"applied":(\d+)').Groups[1].Value } catch { }
+      FL-Log 'sync-push' ($rel + ' -> ' + [string]$peer.id + ' applied=' + $m)
+    } catch { FL-Log 'sync-push-fail' ([string]$peer.id + ' ' + ([string]$_.Exception.Message)) }
+  }
+}
+function Sync-PollAndPublish() {
+  $rels = @()
+  foreach ($a in $SyncAllowUnion) { $rels += @{ rel = $a; kind = 'union' } }
+  try {
+    $dwDir = Join-Path $Root ($SyncAllowFullPrefix -replace '/', '\')
+    if (Test-Path $dwDir) {
+      foreach ($f in @(Get-ChildItem -LiteralPath $dwDir -Filter '*.json' -File)) {
+        $rels += @{ rel = ($SyncAllowFullPrefix + $f.Name); kind = 'full' }
+      }
+    }
+  } catch { }
+  $st = Sync-LoadState
+  $dirty = $false
+  foreach ($e in $rels) {
+    $p = Join-Path $Root ([string]$e.rel -replace '/', '\')
+    if (-not (Test-Path -LiteralPath $p)) { continue }
+    $h = Sync-HashFile $p
+    if ($h -eq '') { continue }
+    if ([string]$st.pushed[[string]$e.rel] -eq $h) { continue }
+    if ([string]$st.applied[[string]$e.rel] -eq $h) { $st.pushed[[string]$e.rel] = $h; $dirty = $true; continue }
+    $content = [IO.File]::ReadAllText($p, [System.Text.Encoding]::UTF8)
+    Push-SyncOne ([string]$e.rel) ([string]$e.kind) $content
+    $st.pushed[[string]$e.rel] = $h
+    $dirty = $true
+  }
+  if ($dirty) { Sync-SaveState $st }
+}
+
 function Handle-Client($client) {
   $rip = ''
   try { $rip = $client.Client.RemoteEndPoint.Address.ToString() } catch { }
@@ -260,6 +384,19 @@ function Handle-Client($client) {
     Start-PokeWorker $reason $tasks $repos
     return
   }
+  if ($path -eq '/sync') {
+    if ([string]$req.m -ne 'POST') { Send-Resp $client 405 'Method Not Allowed' '{"ok":false,"err":"post-only"}'; return }
+    $rel = ''; $content = ''; $src = ''
+    try {
+      $b = ([string]$req.body) | ConvertFrom-Json
+      if ($b.PSObject.Properties.Name -contains 'path') { $rel = [string]$b.path }
+      if ($b.PSObject.Properties.Name -contains 'content') { $content = [string]$b.content }
+      if ($b.PSObject.Properties.Name -contains 'src') { $src = [string]$b.src }
+    } catch { }
+    $r = Apply-Sync $rel $content $src
+    Send-Resp $client 200 'OK' ($r | ConvertTo-Json -Compress)
+    return
+  }
   Send-Resp $client 404 'Not Found' '{"ok":false,"err":"unknown-endpoint"}'
 }
 
@@ -276,5 +413,6 @@ while ($true) {
   }
   $tick++
   if (($tick % 480) -eq 0) { try { (Get-Item $StateF).LastWriteTime = Get-Date } catch { } }
+  if (($tick % 2) -eq 0) { try { Sync-PollAndPublish } catch { } }
   if (-not $handled) { Start-Sleep -Milliseconds 250 }
 }
