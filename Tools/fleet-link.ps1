@@ -64,7 +64,7 @@ try {
 if ($NodeId -eq '') { $NodeId = $env:COMPUTERNAME }
 
 # ---- bind (node tailnet IP + loopback; skip missing) + v1.1 self-upgrade ----
-$Vers = '1.5'
+$Vers = '1.6'
 $bindIps = @()
 if ($node -and [string]$node.tailnet_ip -ne '') { $bindIps += [string]$node.tailnet_ip }
 $bindIps += '127.0.0.1'
@@ -242,7 +242,9 @@ function Start-PokeWorker([string]$reason, [string[]]$reqTasks, [string[]]$reqRe
 # ---- v1.5 (O-20261016-1215): /sync data-plane state + helpers ----
 $SyncAllowUnion = @(
   'docs/orders.md',
-  'cph4/fleet/mv0001-handover/outbound/krea2/kf-demo-20261012/bmc/I2V-URL-INDEX.md'
+  'cph4/fleet/mv0001-handover/outbound/krea2/kf-demo-20261012/bmc/I2V-URL-INDEX.md',
+  'cph4/fleet/dispatcher/CEO-PROXY/LOG.md',
+  'cph4/fleet/dispatcher/PATROL-FLEET/LOG.md'
 )
 $SyncAllowFullPrefix = 'cph4/fleet/dispatcher/delivery-watch/'
 $SyncStateF = Join-Path $Dir 'sync-state.json'
