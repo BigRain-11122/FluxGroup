@@ -64,7 +64,7 @@ try {
 if ($NodeId -eq '') { $NodeId = $env:COMPUTERNAME }
 
 # ---- bind (node tailnet IP + loopback; skip missing) + v1.1 self-upgrade ----
-$Vers = '1.6'
+$Vers = '1.7'
 $bindIps = @()
 if ($node -and [string]$node.tailnet_ip -ne '') { $bindIps += [string]$node.tailnet_ip }
 $bindIps += '127.0.0.1'
@@ -249,18 +249,25 @@ $SyncAllowUnion = @(
 $SyncAllowFullPrefix = 'cph4/fleet/dispatcher/delivery-watch/'
 $SyncStateF = Join-Path $Dir 'sync-state.json'
 function Sync-LoadState() {
-  $o = @{ pushed = @{}; applied = @{} }
+  $o = @{ pushed = @{}; applied = @{}; lastTry = @{} }
   try {
     if (Test-Path $SyncStateF) {
       $raw = Get-Content -Raw $SyncStateF | ConvertFrom-Json
-      if ($raw.pushed) { foreach ($pr in $raw.pushed.PSObject.Properties) { $o.pushed[$pr.Name] = [string]$pr.Value } }
+      if ($raw.pushed) {
+        foreach ($pp in $raw.pushed.PSObject.Properties) {
+          $inner = @{}
+          if ($pp.Value) { foreach ($pr in $pp.Value.PSObject.Properties) { $inner[$pr.Name] = [string]$pr.Value } }
+          $o.pushed[$pp.Name] = $inner
+        }
+      }
       if ($raw.applied) { foreach ($pr in $raw.applied.PSObject.Properties) { $o.applied[$pr.Name] = [string]$pr.Value } }
+      if ($raw.lastTry) { foreach ($pr in $raw.lastTry.PSObject.Properties) { $o.lastTry[$pr.Name] = [long]$pr.Value } }
     }
   } catch { }
   return $o
 }
 function Sync-SaveState($s) {
-  try { [IO.File]::WriteAllText($SyncStateF, ($s | ConvertTo-Json -Depth 4 -Compress), (New-Object System.Text.UTF8Encoding($false))) } catch { }
+  try { [IO.File]::WriteAllText($SyncStateF, ($s | ConvertTo-Json -Depth 6 -Compress), (New-Object System.Text.UTF8Encoding($false))) } catch { }
 }
 function Sync-TestPath([string]$rel) {
   if ($SyncAllowUnion -contains $rel) { return 'union' }
@@ -276,10 +283,15 @@ function Apply-Sync([string]$rel, [string]$content, [string]$src) {
   $p = Join-Path $Root ($rel -replace '/', '\')
   $parent = Split-Path $p -Parent
   if (-not (Test-Path $parent)) { return @{ ok = $false; err = 'dir-missing' } }
+  $t0 = Get-Date
   $applied = 0
   if ($kind -eq 'union') {
-    $local = ''
-    if (Test-Path -LiteralPath $p) { $local = [IO.File]::ReadAllText($p, [System.Text.Encoding]::UTF8) }
+    # v1.7: BOM-preserving read (X345 mixed-encoding family guard - PATROL LOG carries UTF8 BOM)
+    $raw = [IO.File]::ReadAllBytes($p)
+    $enc = New-Object System.Text.UTF8Encoding($false)
+    if ($raw.Length -ge 3 -and $raw[0] -eq 0xEF -and $raw[1] -eq 0xBB -and $raw[2] -eq 0xBF) { $enc = New-Object System.Text.UTF8Encoding($true) }
+    elseif ($raw.Length -ge 2 -and $raw[0] -eq 0xFF -and $raw[1] -eq 0xFE) { $enc = [System.Text.Encoding]::Unicode }
+    $local = $enc.GetString($raw)
     $seen = @{}
     foreach ($ln in ($local -split "`r?`n")) { $seen[$ln] = $true }
     $adds = @()
@@ -288,47 +300,48 @@ function Apply-Sync([string]$rel, [string]$content, [string]$src) {
       $newText = $local
       if ($newText.Length -gt 0 -and -not ($newText.EndsWith("`n"))) { $newText += "`r`n" }
       $newText += ($adds -join "`r`n") + "`r`n"
-      [IO.File]::WriteAllText($p, $newText, (New-Object System.Text.UTF8Encoding($false)))
+      [IO.File]::WriteAllText($p, $newText, $enc)
       $applied = $adds.Count
     }
   } else {
     [IO.File]::WriteAllText($p, $content, (New-Object System.Text.UTF8Encoding($false)))
     $applied = 1
   }
+  $ms = [int]((Get-Date) - $t0).TotalMilliseconds
   $h = Sync-HashFile $p
   $st = Sync-LoadState
   $st.applied[$rel] = $h
   Sync-SaveState $st
-  FL-Log 'sync-apply' ($src + ' -> ' + $rel + ' kind=' + $kind + ' applied=' + $applied)
+  FL-Log 'sync-apply' ($src + ' -> ' + $rel + ' kind=' + $kind + ' applied=' + $applied + ' ms=' + $ms)
   return @{ ok = $true; kind = $kind; applied = $applied }
 }
-function Push-SyncOne([string]$rel, [string]$kind, [string]$content) {
-  $peers = @()
+function Push-SyncOne([string]$rel, [string]$kind, [string]$content, $peer) {
+  # v1.7: single-peer push with RTT measure; returns @{ok; applied} so the poller
+  # only marks pushed on SUCCESS (v1.5 bug: failures were marked pushed = peers
+  # could permanently miss a delta until git rounds caught up).
   try {
-    $cfg2 = Get-Content -Raw -Encoding UTF8 (Join-Path $Root 'Tools\fleet-nodes.json') | ConvertFrom-Json
-    foreach ($n in @($cfg2.nodes)) { if (([bool]$n.enabled) -and ([string]$n.id -ne $NodeId) -and [string]$n.tailnet_ip -ne '') { $peers += $n } }
-  } catch { }
-  $body = @{ path = $rel; mode = $kind; content = $content; src = $NodeId } | ConvertTo-Json -Compress
-  $bytes = [System.Text.Encoding]::UTF8.GetBytes($body)
-  foreach ($peer in $peers) {
-    try {
-      $c = New-Object System.Net.Sockets.TcpClient
-      $c.ReceiveTimeout = 8000; $c.SendTimeout = 8000
-      $c.Connect([string]$peer.tailnet_ip, $Port)
-      $hdr = 'POST /sync HTTP/1.1' + "`r`n" + 'Content-Type: application/json' + "`r`n" + 'Content-Length: ' + $bytes.Length + "`r`n" + 'Connection: close' + "`r`n`r`n"
-      $ns = $c.GetStream()
-      $hb = [System.Text.Encoding]::ASCII.GetBytes($hdr)
-      $ns.Write($hb, 0, $hb.Length)
-      $ns.Write($bytes, 0, $bytes.Length)
-      $ns.Flush()
-      $r = New-Object System.IO.StreamReader($ns, [System.Text.Encoding]::UTF8)
-      $resp = $r.ReadToEnd()
-      $c.Close()
-      $m = ''
-      try { $m = [regex]::Match($resp, '"applied":(\d+)').Groups[1].Value } catch { }
-      FL-Log 'sync-push' ($rel + ' -> ' + [string]$peer.id + ' applied=' + $m)
-    } catch { FL-Log 'sync-push-fail' ([string]$peer.id + ' ' + ([string]$_.Exception.Message)) }
-  }
+    $t0 = Get-Date
+    $body = @{ path = $rel; mode = $kind; content = $content; src = $NodeId } | ConvertTo-Json -Compress
+    $bytes = [System.Text.Encoding]::UTF8.GetBytes($body)
+    $c = New-Object System.Net.Sockets.TcpClient
+    $c.ReceiveTimeout = 8000; $c.SendTimeout = 8000
+    $c.Connect([string]$peer.tailnet_ip, $Port)
+    $hdr = 'POST /sync HTTP/1.1' + "`r`n" + 'Content-Type: application/json' + "`r`n" + 'Content-Length: ' + $bytes.Length + "`r`n" + 'Connection: close' + "`r`n`r`n"
+    $ns = $c.GetStream()
+    $hb = [System.Text.Encoding]::ASCII.GetBytes($hdr)
+    $ns.Write($hb, 0, $hb.Length)
+    $ns.Write($bytes, 0, $bytes.Length)
+    $ns.Flush()
+    $r = New-Object System.IO.StreamReader($ns, [System.Text.Encoding]::UTF8)
+    $resp = $r.ReadToEnd()
+    $c.Close()
+    $ms = [int]((Get-Date) - $t0).TotalMilliseconds
+    $m = ''
+    try { $m = [regex]::Match($resp, '"applied":(\d+)').Groups[1].Value } catch { }
+    if ($m -eq '') { FL-Log 'sync-push-reject' ($rel + ' -> ' + [string]$peer.id + ' ms=' + $ms); return @{ ok = $false } }
+    FL-Log 'sync-push' ($rel + ' -> ' + [string]$peer.id + ' applied=' + $m + ' rtt_ms=' + $ms)
+    return @{ ok = $true; applied = $m }
+  } catch { FL-Log 'sync-push-fail' ([string]$peer.id + ' ' + ([string]$_.Exception.Message)); return @{ ok = $false } }
 }
 function Sync-PollAndPublish() {
   $rels = @()
@@ -341,19 +354,32 @@ function Sync-PollAndPublish() {
       }
     }
   } catch { }
+  $peers = @()
+  try {
+    $cfg2 = Get-Content -Raw -Encoding UTF8 (Join-Path $Root 'Tools\fleet-nodes.json') | ConvertFrom-Json
+    foreach ($n in @($cfg2.nodes)) { if (([bool]$n.enabled) -and ([string]$n.id -ne $NodeId) -and [string]$n.tailnet_ip -ne '') { $peers += $n } }
+  } catch { }
   $st = Sync-LoadState
+  $now = [DateTimeOffset]::UtcNow.ToUnixTimeSeconds()
   $dirty = $false
   foreach ($e in $rels) {
     $p = Join-Path $Root ([string]$e.rel -replace '/', '\')
     if (-not (Test-Path -LiteralPath $p)) { continue }
     $h = Sync-HashFile $p
     if ($h -eq '') { continue }
-    if ([string]$st.pushed[[string]$e.rel] -eq $h) { continue }
-    if ([string]$st.applied[[string]$e.rel] -eq $h) { $st.pushed[[string]$e.rel] = $h; $dirty = $true; continue }
-    $content = [IO.File]::ReadAllText($p, [System.Text.Encoding]::UTF8)
-    Push-SyncOne ([string]$e.rel) ([string]$e.kind) $content
-    $st.pushed[[string]$e.rel] = $h
-    $dirty = $true
+    if ([string]$st.applied[[string]$e.rel] -eq $h) { continue }  # echo of what a peer sent us
+    foreach ($peer in $peers) {
+      $pk = [string]$peer.id
+      if (-not $st.pushed.ContainsKey($pk)) { $st.pushed[$pk] = @{} }
+      if ([string]$st.pushed[$pk][[string]$e.rel] -eq $h) { continue }  # this peer already has it
+      $lk = $pk + '|' + [string]$e.rel
+      if ($st.lastTry.ContainsKey($lk) -and (($now - [long]$st.lastTry[$lk]) -lt 60)) { continue }  # 60s backoff after a failure
+      $st.lastTry[$lk] = $now
+      $content = [IO.File]::ReadAllText($p, [System.Text.Encoding]::UTF8)
+      $r = Push-SyncOne ([string]$e.rel) ([string]$e.kind) $content $peer
+      if ($r.ok) { $st.pushed[$pk][[string]$e.rel] = $h }
+      $dirty = $true
+    }
   }
   if ($dirty) { Sync-SaveState $st }
 }

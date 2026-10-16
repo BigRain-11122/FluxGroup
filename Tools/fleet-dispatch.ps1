@@ -47,6 +47,8 @@ if ($ExpectSha -eq '') { try { $ExpectSha = [string](& 'C:\Program Files\Git\cmd
 # ExpectSha. Accept either value.
 $OriginMain = ''
 try { $OriginMain = [string](& 'C:\Program Files\Git\cmd\git.exe' -C $Root rev-parse origin/main) } catch { }
+$script:WantSha = $ExpectSha
+$script:WantOrigin = $OriginMain
 
 function Poke-Node([string]$ip) {
   $body = @{ reason = $Reason; tasks = @($Tasks); repos = @($Repos) } | ConvertTo-Json -Compress
@@ -56,6 +58,15 @@ function Poke-Node([string]$ip) {
 }
 function Get-NodeHead([string]$ip) {
   $s = Invoke-RestMethod -Uri ('http://' + $ip + ':' + $port + '/status') -Method Get -TimeoutSec 15
+  # C-20261016-02 verify-fix: a node whose LOCAL main runs AHEAD (memory-union commit
+  # in flight) is still synced when its FETCHED origin/main equals ours. Worker stamps
+  # carry origin_main since v1.4.
+  $om = ''
+  if ($s.PSObject.Properties.Name -contains 'last_pull') {
+    $lp = $s.last_pull
+    if ($lp -and ($lp.PSObject.Properties.Name -contains 'origin_main')) { $om = [string]$lp.origin_main }
+  }
+  if ($om -ne '' -and ($om -eq $script:WantSha -or $om -eq $script:WantOrigin)) { return $om }
   if ($s.PSObject.Properties.Name -contains 'repo_heads') {
     # PS5.1: PSCustomObject property '.' cannot be indexed with ['.'] - go through Properties
     $p = $s.repo_heads.PSObject.Properties['.']

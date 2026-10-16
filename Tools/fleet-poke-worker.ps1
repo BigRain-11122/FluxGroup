@@ -179,8 +179,13 @@ try {
   }
 } catch { }
 try {
+  # v1.4 stamp: origin_main = fetched canonical head (local main may run AHEAD via
+  # memory-union commits - node still synced; dispatcher verify reads this field).
+  $om = ''
+  try { $om = [string](& $git -C $Root rev-parse origin/main) } catch { }
   $st = [ordered]@{ node = $NodeId; ts = (Get-Date -Format s); reason = $Reason
-                    pulls = @($heads); wakes = @($woke); repo_heads = $repoHeads }
+                    pulls = @($heads); wakes = @($woke); repo_heads = $repoHeads
+                    origin_main = $om }
   [IO.File]::WriteAllText($StampF, ($st | ConvertTo-Json -Depth 4 -Compress), (New-Object System.Text.UTF8Encoding($false)))
 } catch { }
 WK-Log 'worker-done' ('reason=' + $Reason + ' pull=' + ($heads -join ' ') + ' wake=' + ($woke -join ' '))
