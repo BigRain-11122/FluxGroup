@@ -81,9 +81,11 @@ Create these as needed. Do not nest arbitrary folders without a reason.
 - The receiving session must treat it as highest priority, record it in that company's order ledger (BigMoney: `quant/bigmoney/fleet/orders/`; MiniGame: 《用户限制登记簿》 U-rows per its own protocol), commit/push, then execute or dispatch, and close the loop with a receipt.
 - Headless loops receive orders through their existing git channels (orders ledger / inbox / task tickets), not this trigger.
 - A CEO order outranks everything: fix-red queues, tasks, and autonomous rounds.
+- **Command dispatch desk (2026-10-14, CEO order O-20261014-1210)**: the CEO Proxy master-dispatch agent (`cph4/fleet/dispatcher/CEO-PROXY/`) is the standing command desk - any session receiving a CEO order converts it on the spot into an executable ledger row (@machine + lane + receipt window + acceptance evidence), commits, and wakes the target machine; between CEO visits the desk self-patrols 8 shifts/day (fullness/deadline/receipt/CEO-focus/blind-spot radars) to keep everything running. Physical items stay with the CEO - register, never nag.
 
 ### Changelog
 - 2026-09-23: initial rules.
 - 2026-09-23: added §7 CEO order trigger `/CEO` (user order).
 - 2026-09-23: governance reference added (§6).
 - 2026-09-23: added §2 legacy-exception clause — subsidiary internal naming systems (MiniGame Chinese docs per its 09号§7) grandfathered; English-only governs group-layer + new files.
+- 2026-10-14: §7 += command dispatch desk (CEO Proxy agent, O-20261014-1210; amendment pack v1 O-20261014-1215).

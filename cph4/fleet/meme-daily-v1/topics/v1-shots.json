@@ -8,9 +8,9 @@
   "subtitle_style_big": { "fontsize": 60, "marginv": 300 },
   "shots": [
     { "id": "C1", "file": "kfp.mp4", "trim": [0.0, 2.0], "note": "拍1 发布会豪言：KF-P 极缓推（LED 巨幕+蒙布 MPV）" },
-    { "id": "C2", "file": "s4new.mp4", "trim": [0.0, 2.2], "note": "拍2 事实引入：测试场三车纪录横移" },
+    { "id": "C2", "file": "s4alt.mp4", "trim": [0.0, 2.2], "note": "拍2 事实引入：测试场三车纪录（备选镜 9.8 分替换 s4new·瑕疵清除·QC 10-12）" },
     { "id": "C3a", "file": "s3new.mp4", "trim": [0.0, 1.9], "note": "拍3前 断裂微距推近（全片唯一断镜）" },
-    { "id": "C3b", "file": "s4new.mp4", "trim": [2.3, 4.6], "note": "拍3后 数据页底：三车静态+数据行浮出" },
+    { "id": "C3b", "file": "s4alt.mp4", "trim": [2.3, 4.6], "note": "拍3后 数据页底：三车静态+数据行浮出（备选镜替换·同源两用为 v3.3 设计原样）" },
     { "id": "C4", "file": "s1new.mp4", "trim": [0.0, 1.9], "note": "拍4 官方定义学：S1 豪车缓推+BGM 终止式收束+Quote 金字黑底" },
     { "id": "C5", "file": "kfn.mp4", "trim": [0.0, 3.6], "note": "拍5 不祥回声：深夜车间+口号+wordmark+热线错峰" },
     { "id": "C6", "file": "c6.mp4", "trim": [0.0, 1.15], "note": "拍6 下架按钮：合成帧（灰封面ⓧ+已下架+神评论+进度条时间码）全静" },
@@ -44,5 +44,5 @@
   "watermark": "AI 生成｜纯属演绎",
   "publish_caption": "官方说：用户实际使用中，未发生断裂。评论区聊聊，你怎么理解这句话。（改编自近期车圈名场面，懂的都懂。速成汽车=虚构品牌·数据为演绎设定）#车圈 #百万MPV #提车 #AI动画",
   "pinned_comment": "慢慢踩。——趁还看得到，转给准备提车的人。下集：速成汽车法务部，我们永不休息。（虚构品牌·纯属演绎）",
-  "media_layout": "装配 --media 指向本夹（kfp/kfn/s1new/s3new/s4new/c6/card.mp4 + narr1t/narr2t/narr3bt/narr5t.wav + bgm_arr.wav）"
+  "media_layout": "装配 --media 指向本夹（kfp/kfn/s1new/s3new/s4alt/c6/card.mp4 + narr1t/narr2t/narr3bt/narr5t.wav + bgm_arr.wav；s4new.mp4 留库备用）"
 }

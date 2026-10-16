@@ -1,8 +1,14 @@
 # -*- coding: utf-8 -*-
 """
-prompt_lexicon.py - BigStream 专业提示词词表机制 v1.1
+prompt_lexicon.py - BigStream 专业提示词词表机制 v1.3
 v1.3 注记（2026-10-11·双曲设计闸判决落地）：ID_F_JOLIN/ID_F_HOU 删职业词+年份统一 2000（判决一合3·判决二年3·清洗前不得进 KF 批）
 CEO 三令（O-20261009-1815/1830）：①零否定词（官方改写器规则8背书）②专业参数化③机制化禁散文手写
+CEO 令 2026-10-12「不仅要决策，还是要去研究导演拍摄的运镜提示词，好好改善，不要只是简单的运镜，AI感强烈」
+v1.3 变更（运镜升格·正典=mv0001-handover/canon/CAMERA-DIRECTION-v1.md 五槽语法）：
+- CAM_MOVE 全键值升格：平速语（at slow speed 一族）全废，换速度曲线+目的地+2001 操作质感
+- 四新块：CAM_CURVE（缓入缓出曲线）/ CAM_MOTIVE（动机从句）/ CAM_DEST（目的地取景）/ CAM_TEXTURE（2001 台面三态：脚架/地轨/手持）
+- build_camera() 五槽组装器（十曲专辑线直接复用）
+- lint video 模式新增 [FLAT] 平速门（at slow/very slow/steady speed 命中即 fail——CEO 匀速终裁的提示词层执法）
 v1.1 变更（提示词工程专家审查落地）：
 - 组装器改官方顺序单段散文：身份→服装→面部→姿态→环境光→镜头风格收尾
 - 槽位句法模板化（固定动词框架，分句自动变散文）
@@ -25,26 +31,55 @@ CAM_ANGLE = {
     "eye": "at eye level", "low": "from a low angle", "high": "from a high angle",
     "top": "top-down", "ots": "over the shoulder", "dutch": "with a subtle dutch tilt",
 }
-CAM_MOVE = {  # v1.2：H3 官方三维公式 Motion type + Amplitude + Speed（幅度/速度中档可省）
-    "static":  "the camera holds a perfectly static shot",
-    "pushin":  "the camera pushes in with small amplitude at slow speed",
-    "pullout": "the camera pulls out with small amplitude at slow speed",
-    "panl":    "the camera pans to the left with small amplitude at slow speed",
-    "panr":    "the camera pans to the right with small amplitude at slow speed",
-    "tiltup":  "the camera tilts up with small amplitude at slow speed",
-    "cranedn": "the camera cranes down with small amplitude at slow speed",
-    "track":   "the camera tracks alongside with small amplitude at steady speed",
-    "stead":   "a steadicam follows with fluid motion at walking pace",
-    "hand":    "a light handheld follow with natural sway",
-    # MV 节奏专用（摄影指导补全·短镜头高风险区专用）
-    "orbit":     "the camera arcs slowly around the seated subject, the background sweeping past",
-    "crashzoom": "a fast crash zoom into the subject's face",
-    "whippan":   "a whip pan from the tablet to the scribe with motion blur across frame",
-    "macroslide": "an extreme close-up slides laterally across carved cuneiform marks with shallow focus",
-    "dollyzoom": "the camera dollies in while zooming out, the background compressing behind the frozen subject",
-    "craneup":   "the camera cranes up from the face to reveal the full hall",
-    "tiltdown":  "the camera tilts down from the carved stone face to the working hands",
-    "pushthru":  "a steadicam pushes through a torch-lit corridor, the subject revealed at the end",
+CAM_MOVE = {  # v1.3 导演级运镜（正典=canon/CAMERA-DIRECTION-v1.md 五槽语法）：平速语全废→曲线+到站+2001 质感
+    # 每镜限一动作（R-20261008-mv-craft-deep-01 定律③·模型对双动作二选一实锚）
+    "static":  "the camera holds a locked-off tripod frame, everything still except the living light and air",
+    "pushin":  "the camera eases in from almost still on a slow floor dolly, gathering pace gently and settling as it arrives",
+    "pullout": "the camera eases back on a slow floor dolly, beginning gently, holding through the middle, and settling to a stop",
+    "panl":    "the camera pans left in one slow unbroken sweep, easing in and out, the foreground sliding past first",
+    "panr":    "the camera pans right in one slow unbroken sweep, easing in and out, the foreground sliding past first",
+    "tiltup":  "the camera tilts up in one slow unbroken ascent, easing in and settling as the upper subject enters the frame",
+    "tiltdown": "the camera tilts down in one slow unbroken descent, easing in and settling on the lower subject",
+    "cranedn": "the camera cranes down slowly, the height easing off as it arrives at eye level",
+    "track":   "the camera travels alongside the subject at the subject's own pace, easing with each step and settling when the subject stills",
+    "stead":   "a steadicam follows with fluid motion at walking pace, a faint handmade sway under the glide",
+    "hand":    "a light handheld hold with a natural breath-sway of the frame, the operator easing to a stop",
+    # MV 节奏专用（短镜头高风险区·曲线/到站/质感全带上；orbit 只许小弧=完美整圈=AI 签名）
+    "orbit":     "the camera arcs a short way around the subject, a small slow sweep that eases in and out, the background sliding past",
+    "crashzoom": "the camera whips into the subject's face and settles hard, the frame steadying after the arrival",
+    "whippan":   "the camera whips from the tablet to the scribe in one blurred sweep and settles on him",
+    "macroslide": "the camera slides laterally across the carved marks at close range, the shallow focus riding the ridge tops, easing out at the row's end",
+    "dollyzoom": "the camera dollies in while the lens breathes the other way, the background compressing behind the still subject, settling as the two motions arrive together",
+    "craneup":   "the camera cranes up slowly from the face, the hall opening out as the move gathers, settling on the full frame",
+    "pushthru":  "a steadicam pushes through the torch-lit corridor, passing column after column with a faint handmade sway, the subject revealed as the move settles",
+}
+# ---- v1.3 运镜五槽组件块（CAMERA-DIRECTION-v1 §三；与 CAM_MOVE 搭配自由拼装用） ----
+CAM_CURVE = {  # 槽② 速度曲线：匀速禁令词面化（一切移动缓入缓出·R-01 定律①）
+    "ease_in":  "eases in from almost still, gathering pace gently",
+    "ease_out": "eases out as it arrives, settling to a stop",
+    "ease_io":  "eases in and out, moving only as far as a slow breath",
+    "gather":   "gathering to a slow walking pace, then holding it",
+    "hold_end": "settling into a hold through the last seconds of the take",
+}
+CAM_MOTIVE = {  # 槽③ 动机从句：每镜答「此运镜主张什么」（无动机推近=设备宣告存在）
+    "follow_gaze": "following her eyes along the carved line",
+    "toward_still": "drawing toward her stillness among the moving crowd",
+    "with_steps":   "matching her steps stride for stride",
+    "light_wakes":  "as the amber light wakes one case after another",
+    "flame_sinks":  "as the torch flame sinks lower in its bowl",
+    "eyes_lift":    "as his heavy-lidded eyes lift toward something beyond the frame",
+}
+CAM_DEST = {  # 槽① 目的地取景：一次移动要有可见终点（"by the end of the shot the viewer should notice ___"）
+    "band_fill":  "settling once the fresh carved band fills the lower frame",
+    "face_hold":  "settling on the lifted look and holding",
+    "wide_open":  "easing out once the whole hall opens out in frame",
+    "row_end":    "easing still as the carved row runs out at the frame edge",
+}
+CAM_TEXTURE = {  # 槽④ 2001 操作质感：现代云台完美平滑滑行=AI tell——三态=脚架/地轨/手持
+    "tripod01": "a locked-off tripod frame with the quiet stillness of a 2001 music video",
+    "dolly01":  "a slow floor dolly with a faint handmade tremor under the glide",
+    "hand01":   "a light handheld hold with a natural breath-sway of the frame",
+    "flinch01": "the frame flinching once with the impact, then still",
 }
 LENS = {  # v1.2 摄影指导审查：2001 年代无变宽无奶油焦外——球面 1.85/4:3、35-50mm 深焦为主
     "24": "24mm wide-angle lens", "35": "35mm lens at f/2.8 with honest depth of field",
@@ -222,6 +257,11 @@ def lint(prompt, mode="t2i"):
         hits.append("[LEN]%d words (>200)" % wc)
     if wc < 15:
         hits.append("[LEN]%d words (<15, too thin)" % wc)
+    # v1.3 运镜平速门（video 模式·CEO 令 10-12「不要只是简单的运镜」执法·正典=CAMERA-DIRECTION-v1 §七）
+    if mode == "video":
+        m = re.search(r"\bat (slow|very slow|steady) speed\b", p)
+        if m:
+            hits.append("[FLAT]%s (匀速标记·改用缓入缓出曲线短语·正典=canon/CAMERA-DIRECTION-v1)" % m.group(0))
     return hits
 
 def autofix(prompt):
@@ -284,6 +324,25 @@ def build_h3_i2va(shot, angle, move, id_block, action, scene, light, grade, text
             + " overall_soundscape: " + (soundscape or "quiet room tone with faint air and fabric movement")
             + " non_diegetic_music: " + music
             + (" About %.1f seconds, %s aspect." % (float(seconds), aspect)))
+
+def build_camera(move, curve="", motive="", dest="", texture="", alive=""):
+    """v1.3 运镜五槽组装器（正典=canon/CAMERA-DIRECTION-v1 §三·CEO 令 10-12 运镜升格）。
+    MOVE(动作+目的地) + CURVE(速度曲线) + MOTIVE(动机) + TEXTURE(2001 质感) + ALIVE(画内活体)。
+    move: CAM_MOVE 键（取升格值）或自写动作短语（如 'the camera retreats before her at her own walking pace'）；
+    其余槽：CAM_CURVE/CAM_MOTIVE/CAM_DEST/CAM_TEXTURE 键或自写短语；空槽自动跳过。输出=一句运镜散文。"""
+    m = CAM_MOVE.get(move, move)
+    parts = [m]
+    if curve:
+        parts.append(CAM_CURVE.get(curve, curve))
+    if motive:
+        parts.append(CAM_MOTIVE.get(motive, motive))
+    if dest:
+        parts.append(CAM_DEST.get(dest, dest))
+    if texture:
+        parts.append(CAM_TEXTURE.get(texture, texture))
+    if alive:
+        parts.append(alive)
+    return ", ".join(parts) + "."
 
 # Seedance 官方约束句（火山官方原文口径——lint 对 seedance 模式放行官方否定形）
 SEEDANCE_GUARD = ("\u5168\u5c40\u7ea6\u675f\uff1a\u4eba\u7269\u9762\u90e8\u7a33\u5b9a\u4e0d\u53d8\u5f62\uff0c"

@@ -1252,19 +1252,20 @@ namespace Sy.P08.Adventure
     /// scene-YAML drift). Faces:
     /// the chapter-select row (shipped chapter live, future chapter
     /// locked with its free-pass window note), the folk archive book
-    /// (the five cards from cfg_chapter - unlocked cards show their
+    /// (the chapter's cards from cfg_chapter - ten per shipped chapter,
+    /// the T011/OP02 20-card law; unlocked cards show their
     /// verbatim title/category, locked cards stay dark), the single
     /// archive_extra rewarded-ad seat (live only while the ad card is
     /// still locked - the HOST owns the ad callback face, red line 12),
     /// the case-code share seat (the X372 promise: the settled case
     /// code lands here, host-fed, deterministic - any device recomputes
     /// it from the shipped config) and the morality seat (host-fed;
-    /// the T012 MoralMeter owns the live source later). Tapping an
 ================================================================================
 第 23 页结束
 
 奈何桥游戏软件 V1.0 源程序  第 24 页 共 60 页
 ================================================================================
+    /// the T012 MoralMeter owns the live source later). Tapping an
     /// unlocked card opens the aged-paper reading overlay - the body
     /// is typeset through the T004 VerticalTextLayout solver (pure
     /// transform, V1-V10 laws live in this face). Game text comes
@@ -1307,19 +1308,27 @@ namespace Sy.P08.Adventure
         // Derived (MUST stay textually after their sources, pitfall #119).
         static readonly Color SlotDark = new Color(0.12f, 0.10f, 0.08f, 0.9f);
         static readonly Color ChapterLocked = new Color(0.10f, 0.08f, 0.07f, 0.85f);
-        const float SlotTop = 150f;          // first card slot center Y
-        const float SlotGap = 170f;          // slot pitch
+        const float SlotTop = 150f;          // first card row center Y
+        const float SlotRowGap = 178f;       // two-column grid row pitch (5 rows = 10 cards)
+        const float SlotColX = 255f;         // column centers (+/- x)
+        const float SlotW = 480f;            // card slot width (two-column grid)
         const int BodyCharsPerColumn = 16;   // T004 vertical typesetting height
-        const string LockedLabel = "？？？ ｜ 未入册";
-        public ArchiveView()
-        {
-            int n = 8;   // ceiling: cfg_chapter_case01 ships five cards; extra slots stay hidden
-            _cardFills = new Image[n];
+        /// T011/OP02 20-card law: each shipped chapter carries ten cards
+        /// (10 + 10 = 20). ArchiveCheck A9 locks the shipped data to
 ================================================================================
 第 24 页结束
 
 奈何桥游戏软件 V1.0 源程序  第 25 页 共 60 页
 ================================================================================
+        /// this ceiling so no card ever ships invisible behind the
+        /// counter; a monthly batch that grows past it must rework this
+        /// grid layout in the same slice.
+        public const int SlotCeiling = 10;
+        const string LockedLabel = "？？？ ｜ 未入册";
+        public ArchiveView()
+        {
+            int n = SlotCeiling;   // T011/OP02: ten cards per shipped chapter; extra slots stay hidden
+            _cardFills = new Image[n];
             _cardTexts = new Text[n];
             _cardButtons = new Button[n];
             _cardSeals = new Text[n];
@@ -1361,6 +1370,11 @@ namespace Sy.P08.Adventure
                 if (_cardIds[i] == cardId && _cardButtons[i] != null)
                 {
                     _cardButtons[i].onClick.Invoke();
+================================================================================
+第 25 页结束
+
+奈何桥游戏软件 V1.0 源程序  第 26 页 共 60 页
+================================================================================
                     return;
                 }
         }
@@ -1370,11 +1384,6 @@ namespace Sy.P08.Adventure
         }
         /// <summary>Tap-to-close on the reading overlay: same path the
         /// overlay Button walks.</summary>
-================================================================================
-第 25 页结束
-
-奈何桥游戏软件 V1.0 源程序  第 26 页 共 60 页
-================================================================================
         public void SimulateDetailTap()
         {
             var btn = _detailOverlay != null ? _detailOverlay.GetComponent<Button>() : null;
@@ -1416,6 +1425,11 @@ namespace Sy.P08.Adventure
         /// the deterministic code string.</summary>
         public void SetCaseCode(string text) { if (_codeText != null) _codeText.text = text; }
         // ───── gate/state queries (ChapterGateCheck face) ─────
+================================================================================
+第 26 页结束
+
+奈何桥游戏软件 V1.0 源程序  第 27 页 共 60 页
+================================================================================
         public int ShippedCardCount { get { return _book != null ? _book.TotalCount : 0; } }
         public bool IsAdSeatLive
         {
@@ -1425,11 +1439,6 @@ namespace Sy.P08.Adventure
         public string DetailTitleText { get { return _detailTitle != null ? _detailTitle.text : ""; } }
         public string DetailCategoryText { get { return _detailCategory != null ? _detailCategory.text : ""; } }
         /// <summary>The raw body the reading overlay carries - asserted
-================================================================================
-第 26 页结束
-
-奈何桥游戏软件 V1.0 源程序  第 27 页 共 60 页
-================================================================================
         /// verbatim against the config (game text = cfg law).</summary>
         public string DetailBodyText { get { return _detailBodyRaw; } }
         /// <summary>How many vertical columns the T004 solver produced for
@@ -1471,6 +1480,11 @@ namespace Sy.P08.Adventure
             return _cardTexts[index].text;
         }
         // ───── card face (tap = the reading law) ─────
+================================================================================
+第 27 页结束
+
+奈何桥游戏软件 V1.0 源程序  第 28 页 共 60 页
+================================================================================
         void OnCardButtonTapped(int index)
         {
             string cardId = _cardIds[index];
@@ -1480,11 +1494,6 @@ namespace Sy.P08.Adventure
                 return;
             }
             OpenReadingFace(cardId);
-================================================================================
-第 27 页结束
-
-奈何桥游戏软件 V1.0 源程序  第 28 页 共 60 页
-================================================================================
         }
         void OpenReadingFace(string cardId)
         {
@@ -1526,6 +1535,11 @@ namespace Sy.P08.Adventure
             {
                 var child = _detailOverlay.GetChild(i);
                 if (child.name == "VertColumn")
+================================================================================
+第 28 页结束
+
+奈何桥游戏软件 V1.0 源程序  第 29 页 共 60 页
+================================================================================
                 {
                     if (Application.isPlaying) UnityEngine.Object.Destroy(child.gameObject);
                     else UnityEngine.Object.DestroyImmediate(child.gameObject);
@@ -1535,11 +1549,6 @@ namespace Sy.P08.Adventure
             _detailColumns = 0;
             _detailOverlay.gameObject.SetActive(false);
             SyncView();
-================================================================================
-第 28 页结束
-
-奈何桥游戏软件 V1.0 源程序  第 29 页 共 60 页
-================================================================================
         }
         // ───── per-intent sync ─────
         /// <summary>Idempotent full-state refresh: card slot faces from the
@@ -1581,6 +1590,11 @@ namespace Sy.P08.Adventure
                 // T021: the seal stamp marks the unlocked face (layout
                 // slice 1 - paper chip + seal; full card-face art later).
                 if (_cardSeals[i] != null)
+================================================================================
+第 29 页结束
+
+奈何桥游戏软件 V1.0 源程序  第 30 页 共 60 页
+================================================================================
                     SetActiveIfChanged(_cardSeals[i].gameObject, open);
             }
             if (_counterText != null)
@@ -1590,11 +1604,6 @@ namespace Sy.P08.Adventure
             bool adLive = false;
             foreach (var c in cards)
                 if (c != null && c.unlockType == "ad" && !_book.IsUnlocked(c.cardId)) { adLive = true; break; }
-================================================================================
-第 29 页结束
-
-奈何桥游戏软件 V1.0 源程序  第 30 页 共 60 页
-================================================================================
             SetActiveIfChanged(_adButton.gameObject, adLive);
         }
         // ───── static face (built once) ─────
@@ -1636,15 +1645,6 @@ namespace Sy.P08.Adventure
             _freePassText = MakeText(_canvas.transform, "上线首周 · 章节一二免费直通", 26, new Vector2(0f, 460f), TextAnchor.MiddleCenter, 800f, 40f);
             _freePassText.color = TalismanGold;
             // Case-code share seat (the X372 promise: the settled-case
-            // code lands on this page; host-fed, deterministic).
-            _codeText = MakeText(_canvas.transform, "", 40, new Vector2(0f, 380f), TextAnchor.MiddleCenter, 1000f, 60f);
-            _codeText.color = TalismanGold;
-            MakeText(_canvas.transform, "民俗档案", 36, new Vector2(-420f, 270f), TextAnchor.MiddleCenter, 160f, 50f).color = WarmYellow;
-            _counterText = MakeText(_canvas.transform, "已入册 0/5", 30, new Vector2(370f, 270f), TextAnchor.MiddleCenter, 260f, 50f);
-            _counterText.color = PaperWhite;
-            for (int i = 0; i < _cardFills.Length; i++)
-            {
-                int idx = i;
 ================================================================================
 第 30 页结束
 

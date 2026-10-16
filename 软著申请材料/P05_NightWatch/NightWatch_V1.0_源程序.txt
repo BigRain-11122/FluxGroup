@@ -1,4 +1,4 @@
-﻿守夜人游戏软件 V1.0 源程序  第 1 页 共 42 页
+﻿守夜人游戏软件 V1.0 源程序  第 1 页 共 43 页
 ================================================================================
 // BootRunner.cs
 using System.Collections;
@@ -53,7 +53,7 @@ namespace Sy.P05.Boot
 ================================================================================
 第 1 页结束
 
-守夜人游戏软件 V1.0 源程序  第 2 页 共 42 页
+守夜人游戏软件 V1.0 源程序  第 2 页 共 43 页
 ================================================================================
     /// Boot七步时序（T001验收）：
     /// ①Logger→②校时→③Config→④Save→⑤ILocale→⑥Ads.Preload→⑦切主场景，逐打日志[BOOT] n/7。
@@ -108,7 +108,7 @@ namespace Sy.P05.Boot
 ================================================================================
 第 2 页结束
 
-守夜人游戏软件 V1.0 源程序  第 3 页 共 42 页
+守夜人游戏软件 V1.0 源程序  第 3 页 共 43 页
 ================================================================================
         static bool ConfigStep()
         {
@@ -129,6 +129,7 @@ namespace Sy.P05.Boot
         }
         static bool AdsStep()
         {
+            if (!AdHubBoot.Wire()) return false;   // P05 AdHub slot table registration (O-20261010-1325 five-slot rollout)
             ServiceLocator.Get<IAdsService>().Preload("boot_warmup");
             return true;
         }
@@ -159,12 +160,12 @@ namespace Sy.P05.Boot
             ServiceLocator.Register<ILocaleService>(new MockLocaleService());
             ServiceLocator.Register<IAdsService>(new MockAdsService());
             Logger.Info("BOOT", "mock services registered (SY_MOCK)");
-        }
 ================================================================================
 第 3 页结束
 
-守夜人游戏软件 V1.0 源程序  第 4 页 共 42 页
+守夜人游戏软件 V1.0 源程序  第 4 页 共 43 页
 ================================================================================
+        }
     }
     public sealed class MockTimeService : ITimeService
     {
@@ -214,12 +215,12 @@ namespace Sy.P05.Boot
         public Task<RewardResult> ShowRewarded(string pointId)
             => Task.FromResult(new RewardResult { Completed = true, Reason = "mock" });
         public void ShowInterstitial(string pointId) { }
-        public void ShowBanner(string pointId) { }
 ================================================================================
 第 4 页结束
 
-守夜人游戏软件 V1.0 源程序  第 5 页 共 42 页
+守夜人游戏软件 V1.0 源程序  第 5 页 共 43 页
 ================================================================================
+        public void ShowBanner(string pointId) { }
         public void Preload(string pointId)
         {
             Logger.Info("ADS", "preload (mock): " + pointId);
@@ -251,6 +252,45 @@ namespace Sy.P05.Newbie
         }
     }
 }
+// AdHubBoot.cs
+using Sy.AdHub;
+namespace Sy.P05.Boot
+{
+    /// <summary>
+    /// P05 slot table for the shared AdHub layer (O-20261010-1325 rollout, design case five slots).
+    /// Tuning numbers live in the JSON table below (data, not logic). Idle-game frequency band
+    /// per design case: daily cap 5-8 plays, cooldown 60-90s. Every reward face stays <= 2x gain.
+    /// </summary>
+    public static class AdHubBoot
+    {
+        // Design case slots: offline_x2 / dig_boost / cold_relief / build_fast / hero_extra.
+        const string SlotTableJson =
+            "{\"slots\":[" +
+            "{\"slot\":\"offline_x2\",\"rewardFace\":\"offline furnace income x2\",\"dailyCap\":5,\"cooldownSec\":75,\"interstitial\":false,\"gainDecay\":false,\"enabled\":true}," +
+            "{\"slot\":\"dig_boost\",\"rewardFace\":\"hero dig instant finish, dig yield x2\",\"dailyCap\":6,\"cooldownSec\":75,\"interstitial\":false,\"gainDecay\":false,\"enabled\":true}," +
+            "{\"slot\":\"cold_relief\",\"rewardFace\":\"temp anti-cold fuel pack\",\"dailyCap\":6,\"cooldownSec\":75,\"interstitial\":false,\"gainDecay\":false,\"enabled\":true}," +
+            "{\"slot\":\"build_fast\",\"rewardFace\":\"finish one camp build queue instantly\",\"dailyCap\":6,\"cooldownSec\":75,\"interstitial\":false,\"gainDecay\":false,\"enabled\":true}," +
+================================================================================
+第 5 页结束
+
+守夜人游戏软件 V1.0 源程序  第 6 页 共 43 页
+================================================================================
+            "{\"slot\":\"hero_extra\",\"rewardFace\":\"one extra hero recruit draw\",\"dailyCap\":5,\"cooldownSec\":75,\"interstitial\":false,\"gainDecay\":false,\"enabled\":true}]}";
+        public const int SlotCount = 5;
+        public static AdSlotTable Table => AdSlotTable.FromJson(SlotTableJson);
+        /// <summary>Boot step 6 hook: registers game id and slot table. False only on a broken table.</summary>
+        public static bool Wire()
+        {
+            var table = Table;
+            if (table.slots == null || table.slots.Length != SlotCount) return false;
+            // Fully qualified: inside namespace Sy.P05.*, the sibling namespace Sy.AdHub shadows
+            // the using-imported class AdHub during simple-name lookup (CS0234).
+            Sy.AdHub.AdHub.SetGameId("P05");
+            Sy.AdHub.AdHub.SetSlotTable(table);
+            return true;
+        }
+    }
+}
 // BattleLauncher.cs
 using System.Collections.Generic;
 using UnityEngine;
@@ -270,11 +310,6 @@ namespace Sy.P05.Newbie
         int _lastCoins = -1, _lastCitizens = -1, _lastWood = -1, _lastFuel = -1;
         void Awake()
         {
-================================================================================
-第 5 页结束
-
-守夜人游戏软件 V1.0 源程序  第 6 页 共 42 页
-================================================================================
             Application.targetFrameRate = 30;
             var canvas = FindObjectOfType<Canvas>();
             _sim = new FurnaceSim();
@@ -290,6 +325,11 @@ namespace Sy.P05.Newbie
                     _view.SetHint(hint);
                 },
                 step => _telemetry.Track(Sy.Telemetry.EventIds.NewbieStep,
+================================================================================
+第 6 页结束
+
+守夜人游戏软件 V1.0 源程序  第 7 页 共 43 页
+================================================================================
                     new Dictionary<string, string> { { "step", step.ToString() } }));
             _view.ClaimRequested += OnClaimRequested;
             _view.FirewoodRequested += OnFirewoodRequested;
@@ -325,11 +365,6 @@ namespace Sy.P05.Newbie
         void OnDigRequested()
         {
             _sim.StartDig();
-================================================================================
-第 6 页结束
-
-守夜人游戏软件 V1.0 源程序  第 7 页 共 42 页
-================================================================================
         }
         void OnDispatchRequested(int node)
         {
@@ -345,6 +380,11 @@ namespace Sy.P05.Newbie
         }
         void OnPhaseChanged(FurnaceSim.SimPhase phase)
         {
+================================================================================
+第 7 页结束
+
+守夜人游戏软件 V1.0 源程序  第 8 页 共 43 页
+================================================================================
             if (phase == FurnaceSim.SimPhase.Settled)
                 _view.ShowSettle(_sim.Coins, _sim.Citizens, _sim.Wood, (int)_sim.Fuel, _sim.Day, _sim.OutsideDispatchDone);
             else
@@ -380,11 +420,6 @@ namespace Sy.P05.Newbie
     public sealed class FurnaceSim
     {
         public enum SimPhase
-================================================================================
-第 7 页结束
-
-守夜人游戏软件 V1.0 源程序  第 8 页 共 42 页
-================================================================================
         {
             Intro, AwaitClaim, AwaitFirewood, AwaitBuild, AwaitDig, Digging,
             AwaitDispatch, Dispatching, Reveal, Settled
@@ -400,6 +435,11 @@ namespace Sy.P05.Newbie
         public bool SurvivorFound { get; private set; }
         public float PhaseTimer { get; private set; }
         public float LightRadius => NewbieConfig.LightRadiusByLevel[FireLevel];
+================================================================================
+第 8 页结束
+
+守夜人游戏软件 V1.0 源程序  第 9 页 共 43 页
+================================================================================
         public int DigStagesSeen { get; private set; }               // bit0-3=四阶段全达
         public bool OutsideDispatchDone { get; private set; }         // 圈外富矿路径（收益×2+风险+取暖成本）
         public int AdPopupCount => 0;                                 // 零广告红线：结构化断言
@@ -435,11 +475,6 @@ namespace Sy.P05.Newbie
                 _woodTimer += dt;
                 if (_woodTimer >= NewbieConfig.WoodyardWoodInterval && Wood < NewbieConfig.WoodyardWoodCap)
                 {
-================================================================================
-第 8 页结束
-
-守夜人游戏软件 V1.0 源程序  第 9 页 共 42 页
-================================================================================
                     _woodTimer = 0f;
                     Wood++;
                 }
@@ -455,6 +490,11 @@ namespace Sy.P05.Newbie
                         Citizens++;
                         SurvivorDug?.Invoke();
                         SetPhase(SimPhase.AwaitDispatch);
+================================================================================
+第 9 页结束
+
+守夜人游戏软件 V1.0 源程序  第 10 页 共 43 页
+================================================================================
                     }
                     break;
                 case SimPhase.Dispatching:
@@ -490,11 +530,6 @@ namespace Sy.P05.Newbie
             {
                 _digStageDone = stage;
                 DigStagesSeen |= 1 << (stage - 1);
-================================================================================
-第 9 页结束
-
-守夜人游戏软件 V1.0 源程序  第 10 页 共 42 页
-================================================================================
                 DigStageReached?.Invoke(stage);
             }
         }
@@ -510,6 +545,11 @@ namespace Sy.P05.Newbie
         /// <summary>M1b首次添柴：耗柴1捆→炉火+30即时反馈。</summary>
         public bool AddFirewood()
         {
+================================================================================
+第 10 页结束
+
+守夜人游戏软件 V1.0 源程序  第 11 页 共 43 页
+================================================================================
             if (Phase != SimPhase.AwaitFirewood) return false;
             if (Wood < 1) return false;   // 教学局开局蓄柴3捆——必达
             Wood--;
@@ -545,11 +585,6 @@ namespace Sy.P05.Newbie
             if (Phase != SimPhase.AwaitDispatch) return false;
             if (node < 0 || node >= NewbieConfig.DispatchNames.Length) return false;
             _dispatchNode = node;
-================================================================================
-第 10 页结束
-
-守夜人游戏软件 V1.0 源程序  第 11 页 共 42 页
-================================================================================
             if (node == 1)
             {
                 FrostRiskWarned?.Invoke();   // frostRisk=0.05*炉距（教学局标定15%）——成本非致死（必胜红线）
@@ -565,6 +600,11 @@ namespace Sy.P05.Newbie
             Phase = p;
             PhaseTimer = 0f;
             PhaseChanged?.Invoke(p);
+================================================================================
+第 11 页结束
+
+守夜人游戏软件 V1.0 源程序  第 12 页 共 43 页
+================================================================================
         }
     }
 }
@@ -600,11 +640,6 @@ namespace Sy.P05.Newbie
         public event Action FirewoodRequested;
         public event Action BuildRequested;
         public event Action DigRequested;
-================================================================================
-第 11 页结束
-
-守夜人游戏软件 V1.0 源程序  第 12 页 共 42 页
-================================================================================
         public event Action NearDispatchRequested;   // 圈内·近林（安全）
         public event Action FarDispatchRequested;    // 圈外·富矿（收益×2·风险）
         public event Action SocialTapped;
@@ -620,6 +655,11 @@ namespace Sy.P05.Newbie
             _square = MakeSquareSprite();
             BuildScene();
             BuildHud();
+================================================================================
+第 12 页结束
+
+守夜人游戏软件 V1.0 源程序  第 13 页 共 43 页
+================================================================================
             BuildOfflinePopup();
             BuildSettlePanel();
             SetHint("风雪夜，炉火将熄……");
@@ -655,11 +695,6 @@ namespace Sy.P05.Newbie
             _lightCircle.anchoredPosition = new Vector2(0, -420);
             var circleImg = _lightCircle.GetComponent<Image>();
             circleImg.sprite = _square;
-================================================================================
-第 12 页结束
-
-守夜人游戏软件 V1.0 源程序  第 13 页 共 42 页
-================================================================================
             circleImg.color = new Color(IceBlue.r, IceBlue.g, IceBlue.b, 0.10f);
             // X027 generated art: hidden general portrait shown by dig stage below.
             var portraitGo = new GameObject("DigPortrait", typeof(RectTransform), typeof(Image));
@@ -675,6 +710,11 @@ namespace Sy.P05.Newbie
             _furnaceRt = MakeCanvasChild("Furnace");
             _furnaceRt.anchoredPosition = new Vector2(0, -420);
             _furnaceRt.sizeDelta = new Vector2(150, 150);
+================================================================================
+第 13 页结束
+
+守夜人游戏软件 V1.0 源程序  第 14 页 共 43 页
+================================================================================
             var furnaceImg = _furnaceRt.GetComponent<Image>();
             furnaceImg.sprite = _square;
             furnaceImg.color = FurnaceOrange;
@@ -710,11 +750,6 @@ namespace Sy.P05.Newbie
             ApplyActionArt(_furnaceRt.GetComponent<Image>(), "P05_icon_fire");
             ApplyActionArt(_firewoodImage, "P05_icon_wood");
             ApplyActionArt(_buildImage, "P05_building_01_wood");
-================================================================================
-第 13 页结束
-
-守夜人游戏软件 V1.0 源程序  第 14 页 共 42 页
-================================================================================
             ApplyActionArt(_iceImage, "P05_building_02_ice");
             ApplyActionArt(_nearImage, "P05_building_03_farm");
             ApplyActionArt(_farImage, "P05_building_04_iron");
@@ -730,6 +765,11 @@ namespace Sy.P05.Newbie
             var digFillRt = (RectTransform)digFillGo.transform;
             digFillRt.anchorMin = new Vector2(0f, 0.5f);
             digFillRt.anchorMax = new Vector2(1f, 0.5f);
+================================================================================
+第 14 页结束
+
+守夜人游戏软件 V1.0 源程序  第 15 页 共 43 页
+================================================================================
             digFillRt.anchoredPosition = Vector2.zero;
             digFillRt.sizeDelta = new Vector2(0, 18);
             _digFill = digFillGo.GetComponent<Image>();
@@ -765,11 +805,6 @@ namespace Sy.P05.Newbie
             // 雪中送炭入口（M5露出）
             _socialButton = MakeActionButton("SocialButton", "雪中送炭\n互赠", new Vector2(380, 300), SocialTapped, out _socialImage);
             _socialButton.gameObject.SetActive(false);
-================================================================================
-第 14 页结束
-
-守夜人游戏软件 V1.0 源程序  第 15 页 共 42 页
-================================================================================
         }
         Image _socialImage;
         void BuildHud()
@@ -785,6 +820,11 @@ namespace Sy.P05.Newbie
             _woodText.color = SnowWhite;   // U184: was IceGray-on-deep ~2.6:1 (17 doc section 3.7)
             _hintText = MakeText(root, "", 40, new Vector2(0, -840), TextAnchor.MiddleCenter, 1020, 150);
             _hintText.color = new Color(0.05f, 0.09f, 0.15f);   // U184: deep-ink on snow band - was SnowWhite-on-snow 1.2:1 (17 doc section 3.7)
+================================================================================
+第 15 页结束
+
+守夜人游戏软件 V1.0 源程序  第 16 页 共 43 页
+================================================================================
         }
         void BuildOfflinePopup()
         {
@@ -820,11 +860,6 @@ namespace Sy.P05.Newbie
             if (phase == FurnaceSim.SimPhase.Digging)
                 _digFill.fillAmount = sim.PhaseTimer / NewbieConfig.DigSeconds;
             if (phase == FurnaceSim.SimPhase.Dispatching)
-================================================================================
-第 15 页结束
-
-守夜人游戏软件 V1.0 源程序  第 16 页 共 42 页
-================================================================================
                 _dispatchFill.fillAmount = sim.PhaseTimer / NewbieConfig.DispatchSeconds;
             SetButtonState(_firewoodButton, _firewoodImage, phase == FurnaceSim.SimPhase.AwaitFirewood);
             SetButtonState(_buildButton, _buildImage, phase == FurnaceSim.SimPhase.AwaitBuild);
@@ -840,6 +875,11 @@ namespace Sy.P05.Newbie
                 case FurnaceSim.SimPhase.AwaitClaim:
                     _offlinePopup.gameObject.SetActive(true);
                     break;
+================================================================================
+第 16 页结束
+
+守夜人游戏软件 V1.0 源程序  第 17 页 共 43 页
+================================================================================
                 case FurnaceSim.SimPhase.AwaitFirewood:
                     _offlinePopup.gameObject.SetActive(false);
                     break;
@@ -875,11 +915,6 @@ namespace Sy.P05.Newbie
         public void SetWood(int w) => _woodText.text = "木柴 " + w;
         public void SetFuel(int f) => _fuelText.text = "炉火 " + f + "%";
         public void SetHint(string hint) => _hintText.text = hint;
-================================================================================
-第 16 页结束
-
-守夜人游戏软件 V1.0 源程序  第 17 页 共 42 页
-================================================================================
         /// <summary>分阶段挖冰节点反馈（破冰层→见衣角→见真容→苏醒）。</summary>
         public void SetDigStage(int stage)
         {
@@ -895,6 +930,11 @@ namespace Sy.P05.Newbie
                 _digPortrait.color = stage >= 4 ? Color.white : new Color(1f, 1f, 1f, 0.6f);
                 _digPortrait.preserveAspect = true;
                 _digPortrait.gameObject.SetActive(true);
+================================================================================
+第 17 页结束
+
+守夜人游戏软件 V1.0 源程序  第 18 页 共 43 页
+================================================================================
             }
             else
             {
@@ -930,11 +970,6 @@ namespace Sy.P05.Newbie
                 flakes[i] = (RectTransform)go.transform;
                 flakes[i].anchorMin = flakes[i].anchorMax = new Vector2(0.5f, 0.5f);
                 flakes[i].sizeDelta = new Vector2(18, 18);
-================================================================================
-第 17 页结束
-
-守夜人游戏软件 V1.0 源程序  第 18 页 共 42 页
-================================================================================
                 flakes[i].anchoredPosition = new Vector2(UnityEngine.Random.Range(-520f, 520f), UnityEngine.Random.Range(200f, 950f));
                 var img = go.GetComponent<Image>();
                 img.sprite = _square;
@@ -950,6 +985,11 @@ namespace Sy.P05.Newbie
                     pos.y -= 60f * Time.deltaTime;
                     pos.x += Mathf.Sin(Time.time + i) * 10f * Time.deltaTime;
                     if (pos.y < -950f)
+================================================================================
+第 18 页结束
+
+守夜人游戏软件 V1.0 源程序  第 19 页 共 43 页
+================================================================================
                     {
                         pos.y = 950f;
                         pos.x = UnityEngine.Random.Range(-520f, 520f);
@@ -985,11 +1025,6 @@ namespace Sy.P05.Newbie
             rt.anchorMax = Vector2.one;
             rt.anchoredPosition = Vector2.zero;
             rt.sizeDelta = Vector2.zero;
-================================================================================
-第 18 页结束
-
-守夜人游戏软件 V1.0 源程序  第 19 页 共 42 页
-================================================================================
             rt.GetComponent<Image>().color = color;
             return rt;
         }
@@ -1005,6 +1040,11 @@ namespace Sy.P05.Newbie
             image.sprite = _square;
             image.color = new Color(0.30f, 0.34f, 0.40f);
             var label1 = MakeText(go.transform, label, 34, Vector2.zero, TextAnchor.MiddleCenter, 170, 170);
+================================================================================
+第 19 页结束
+
+守夜人游戏软件 V1.0 源程序  第 20 页 共 43 页
+================================================================================
             label1.color = SnowWhite;
             var button = go.GetComponent<Button>();
             button.interactable = false;
@@ -1040,11 +1080,6 @@ namespace Sy.P05.Newbie
             image.color = color;
             return rt;
         }
-================================================================================
-第 19 页结束
-
-守夜人游戏软件 V1.0 源程序  第 20 页 共 42 页
-================================================================================
         static Text MakeText(Transform parent, string text, int size, Vector2 pos, TextAnchor anchor, float w, float h)
         {
             var go = new GameObject("Text", typeof(RectTransform), typeof(Text));
@@ -1060,6 +1095,11 @@ namespace Sy.P05.Newbie
             t.alignment = anchor;
             t.color = new Color(0.91f, 0.89f, 0.85f);
             t.supportRichText = true;
+================================================================================
+第 20 页结束
+
+守夜人游戏软件 V1.0 源程序  第 21 页 共 43 页
+================================================================================
             return t;
         }
         static Sprite MakeSquareSprite()
@@ -1095,11 +1135,6 @@ namespace Sy.P05.Newbie
         public const float MaxTutorialSeconds = 210f;  // 教学局必胜≤3.5min（06红线②）
         // ── 炉火数值核（立项书§4.1：fuelPerMin="4+fireLv*2"） ──
         public const float StartFuel = 20f;              // 炉火将熄（M0戏剧位）
-================================================================================
-第 20 页结束
-
-守夜人游戏软件 V1.0 源程序  第 21 页 共 42 页
-================================================================================
         public const float FuelFloor = 1f;               // 余烬锁：教学局必胜红线（炉火永不熄灭）
         public const float FirewoodFuel = 30f;           // M1添柴：炉火+30（耗柴1捆）
         public const int StartWood = 3;                  // 蓄柴：教学局开局必达添柴
@@ -1115,6 +1150,11 @@ namespace Sy.P05.Newbie
         public static readonly float[] DispatchFrostRisk = { 0f, 0.15f };           // frostRisk=0.05*炉距（教学局标定15%）
         public const float OutsideWarmupFuel = 5f;       // 圈外回城取暖耗火（成本非致死——必胜红线）
         // ── 分阶段挖冰（立项书V1.2承重②：每节点小反馈+"连续期待"） ──
+================================================================================
+第 21 页结束
+
+守夜人游戏软件 V1.0 源程序  第 22 页 共 43 页
+================================================================================
         public static readonly string[] DigStages =
         {
             "破冰层——铁镐凿穿冰壳",
@@ -1150,11 +1190,6 @@ namespace Sy.P05.Newbie
             _onStep = onStep ?? delegate { };
             sim.PhaseChanged += OnPhaseChanged;
             sim.Claimed += () => _hint("魂币已到账！（正式局离线8h上限·翻倍位暂未开放）——炉火在摇，点【添柴】（耗柴1捆·炉火+30）");
-================================================================================
-第 21 页结束
-
-守夜人游戏软件 V1.0 源程序  第 22 页 共 42 页
-================================================================================
             sim.FirewoodAdded += OnFirewoodAdded;
             sim.WoodyardBuilt += OnWoodyardBuilt;
             sim.FireLevelUp += OnFireLevelUp;
@@ -1170,6 +1205,11 @@ namespace Sy.P05.Newbie
         void Advance(int step)
         {
             if (Step >= step) return;
+================================================================================
+第 22 页结束
+
+守夜人游戏软件 V1.0 源程序  第 23 页 共 43 页
+================================================================================
             Step = step;
             _onStep(step);
         }
@@ -1205,11 +1245,6 @@ namespace Sy.P05.Newbie
         void OnWoodyardBuilt()
         {
             Advance(2);
-================================================================================
-第 22 页结束
-
-守夜人游戏软件 V1.0 源程序  第 23 页 共 42 页
-================================================================================
             _hint("柴场lv1建成！柴火自产（每3s+1捆·场存上限5）——今夜有了着落");
         }
         void OnFireLevelUp()
@@ -1225,6 +1260,11 @@ namespace Sy.P05.Newbie
             Advance(3);
             _hint("挖出来了！幸存者：\"我就知道会有人来\"——冰封的三国，不止你一个活人（名将沉睡更深·4-24h后置）");
         }
+================================================================================
+第 23 页结束
+
+守夜人游戏软件 V1.0 源程序  第 24 页 共 43 页
+================================================================================
         void OnDispatchStarted(int node)
         {
             Advance(4);
@@ -1260,11 +1300,6 @@ namespace Sy.P05.Night
         const string DayKey = "p05_camp_day";
         public int[] Levels { get; } = new int[NightConfig.Buildings.Length];
         public int[] Workers { get; } = new int[NightConfig.Buildings.Length];
-================================================================================
-第 23 页结束
-
-守夜人游戏软件 V1.0 源程序  第 24 页 共 42 页
-================================================================================
         public int Day { get; private set; } = 1;
         public static CampBuilder Load()
         {
@@ -1280,6 +1315,11 @@ namespace Sy.P05.Night
             if (wk.Length > 0)
             {
                 var parts = wk.Split(',');
+================================================================================
+第 24 页结束
+
+守夜人游戏软件 V1.0 源程序  第 25 页 共 43 页
+================================================================================
                 for (int i = 0; i < parts.Length && i < c.Workers.Length; i++)
                     if (int.TryParse(parts[i], out int v)) c.Workers[i] = v;
             }
@@ -1315,11 +1355,6 @@ namespace Sy.P05.Night
             for (int i = 0; i < Workers.Length; i++)
                 if (i != buildingId - 1) used += Workers[i];
             if (used + count > WorkerSlots) return false;
-================================================================================
-第 24 页结束
-
-守夜人游戏软件 V1.0 源程序  第 25 页 共 42 页
-================================================================================
             Workers[buildingId - 1] = count;
             Save();
             return true;
@@ -1335,6 +1370,11 @@ namespace Sy.P05.Night
             int next = current + 1;
             int iron = NightConfig.BuildCostIron(next);
             int grain = NightConfig.BuildCostGrain(next);
+================================================================================
+第 25 页结束
+
+守夜人游戏软件 V1.0 源程序  第 26 页 共 43 页
+================================================================================
             if (!bank.TrySpend(0f, grain, iron)) return false;
             Levels[buildingId - 1] = next;
             Save();
@@ -1370,11 +1410,6 @@ namespace Sy.P05.Night
                 Level(9)) * NightConfig.WatchTowerReductionPerLevel;
         /// <summary>名将祠功能加成（+10%/5级·§二）。</summary>
         public float HeroShrineBonus => Level(10) > 0 ? 1f + Level(10) / 5 * 0.10f : 1f;
-================================================================================
-第 25 页结束
-
-守夜人游戏软件 V1.0 源程序  第 26 页 共 42 页
-================================================================================
         public static void ClearForTests()
         {
             PlayerPrefs.DeleteKey(LevelsKey);
@@ -1390,6 +1425,11 @@ namespace Sy.P05.Night
 {
     /// <summary>
     /// 寒潮引擎（§五·纯 C#）：周期调度（预警期→寒潮夜→结算）+惩罚律
+================================================================================
+第 26 页结束
+
+守夜人游戏软件 V1.0 源程序  第 27 页 共 43 页
+================================================================================
     /// （生产 -15%/夜·封顶 2 夜累计·第 3 夜起固定不再叠加）+缺席豁免
     /// （≥48h 未归→当夜自动过+回归礼=仓容 30% 柴）+守夜塔/关羽减免面。
     /// 寒潮夜柴耗=炉耗×2×30 分钟（§五 burnMultiplier×nightMinutes）——
@@ -1425,11 +1465,6 @@ namespace Sy.P05.Night
         }
         void Save()
         {
-================================================================================
-第 26 页结束
-
-守夜人游戏软件 V1.0 源程序  第 27 页 共 42 页
-================================================================================
             PlayerPrefs.SetInt(PenaltyNightsKey, PenaltyNights);
             PlayerPrefs.Save();
         }
@@ -1445,6 +1480,11 @@ namespace Sy.P05.Night
         /// <summary>过夜判定：柴足够=安然；不足=失败→惩罚+1（封顶律：第 3 夜起固定 -15% 不再叠加）。</summary>
         public bool SurviveNight(ResourceBank bank, float need)
         {
+================================================================================
+第 27 页结束
+
+守夜人游戏软件 V1.0 源程序  第 28 页 共 43 页
+================================================================================
             if (bank.Wood >= need)
             {
                 bank.TrySpend(need, 0f, 0f);
@@ -1480,11 +1520,6 @@ namespace Sy.P05.Night
         }
         public static void Stamp(long nowMs)
         {
-================================================================================
-第 27 页结束
-
-守夜人游戏软件 V1.0 源程序  第 28 页 共 42 页
-================================================================================
             PlayerPrefs.SetString(LastTickKey, nowMs.ToString());
             PlayerPrefs.Save();
         }
@@ -1500,6 +1535,11 @@ namespace Sy.P05.Night
         }
     }
 }
+================================================================================
+第 28 页结束
+
+守夜人游戏软件 V1.0 源程序  第 29 页 共 43 页
+================================================================================
 // HeroDig.cs
 using System;
 using UnityEngine;
@@ -1535,11 +1575,6 @@ namespace Sy.P05.Night
                 for (int i = 0; i < parts.Length && i < d.Progress.Length; i++)
                     if (float.TryParse(parts[i], System.Globalization.NumberStyles.Float,
                         System.Globalization.CultureInfo.InvariantCulture, out float v)) d.Progress[i] = v;
-================================================================================
-第 28 页结束
-
-守夜人游戏软件 V1.0 源程序  第 29 页 共 42 页
-================================================================================
             }
             return d;
         }
@@ -1555,6 +1590,11 @@ namespace Sy.P05.Night
                     System.Globalization.CultureInfo.InvariantCulture));
             }
             PlayerPrefs.SetString(StateKey, st.ToString());
+================================================================================
+第 29 页结束
+
+守夜人游戏软件 V1.0 源程序  第 30 页 共 43 页
+================================================================================
             PlayerPrefs.SetString(ProgressKey, pg.ToString());
             PlayerPrefs.Save();
         }
@@ -1590,11 +1630,6 @@ namespace Sy.P05.Night
         public void Tick(float dtHours)
         {
             if (dtHours <= 0f) return;
-================================================================================
-第 29 页结束
-
-守夜人游戏软件 V1.0 源程序  第 30 页 共 42 页
-================================================================================
             bool changed = false;
             for (int i = 0; i < States.Length; i++)
             {
@@ -1610,6 +1645,11 @@ namespace Sy.P05.Night
             }
             if (changed) Save();
         }
+================================================================================
+第 30 页结束
+
+守夜人游戏软件 V1.0 源程序  第 31 页 共 43 页
+================================================================================
         /// <summary>P0-1 挖加速窗：剩余时长 &lt; min(1h, 20%×总时长)。</summary>
         public bool BoostWindowOpen(int heroId)
         {
@@ -1645,11 +1685,6 @@ namespace Sy.P05.Night
                 if (States[i] != HeroState.Awake) continue;
                 var def = NightConfig.Heroes[i];
                 if (def.Id == 1) mul += 0.20f;      // 赵云 采集+20%
-================================================================================
-第 30 页结束
-
-守夜人游戏软件 V1.0 源程序  第 31 页 共 42 页
-================================================================================
                 if (def.Id == 4) mul += 0.15f;      // 张飞 采集+15%
             }
             return mul;
@@ -1665,6 +1700,11 @@ namespace Sy.P05.Night
             return 0f;
         }
         /// <summary>周仓：离线收益+10%。</summary>
+================================================================================
+第 31 页结束
+
+守夜人游戏软件 V1.0 源程序  第 32 页 共 43 页
+================================================================================
         public float OfflineBonus()
         {
             for (int i = 0; i < States.Length; i++)
@@ -1700,11 +1740,6 @@ namespace Sy.P05.Night
         public static int LightRadius(int fireLv) => 1 + fireLv / 3;           // §一 光圈格
         // ───── §五 寒潮夜参数 ─────
         public const int NightMinutes = 30;                 // §五 nightMinutes
-================================================================================
-第 31 页结束
-
-守夜人游戏软件 V1.0 源程序  第 32 页 共 42 页
-================================================================================
         public const float NightBurnMultiplier = 2.0f;        // §五 burnMultiplier
         public const float FailPenaltyRate = 0.15f;           // §五 production -15%/夜
         public const int FailPenaltyCapNights = 2;             // §五 封顶 2 夜（第3夜起固定 -15% 不叠加）
@@ -1720,6 +1755,11 @@ namespace Sy.P05.Night
         static float Pow12(int lv) { float v = lv; return v * Powf(lv, 0.2f); }   // lv^1.2
         static float Powf(float v, float e) => (float)System.Math.Pow(v, e);
         // ───── §二 十建筑（V1.4 首发最小可玩=柴场/农田/铁矿/挖冰所 4 座先行·其余 LiveOps 解锁） ─────
+================================================================================
+第 32 页结束
+
+守夜人游戏软件 V1.0 源程序  第 33 页 共 43 页
+================================================================================
         public sealed class BuildingDef
         {
             public int Id;
@@ -1755,11 +1795,6 @@ namespace Sy.P05.Night
         public static float IronPerMin(int mineLv, int workers) => 1.5f * mineLv * WorkerBonus(workers);
         public const float StorageBase = 500f;           // §二 仓库基础仓储帽
         public const float WarehouseCapPerLevel = 500f;  // §二 仓库每级 +500
-================================================================================
-第 32 页结束
-
-守夜人游戏软件 V1.0 源程序  第 33 页 共 42 页
-================================================================================
         public const int SurvivorRationsPerDay = 50;     // §二 幸存者口粮=50 粮/人/日
         // ───── §三 八名将挖冰表（铁镐消耗·功能加成·V1.4 首发先做赵云/关羽两位） ─────
         public sealed class HeroDef
@@ -1775,6 +1810,11 @@ namespace Sy.P05.Night
         {
             new HeroDef { Id = 1, Name = "赵云",   DigHours = 4f,  PickCost = 20, FirstWave = true,  Function = "采集+20%（首将·挖出传播钩）" },
             new HeroDef { Id = 2, Name = "关羽",   DigHours = 8f,  PickCost = 30, FirstWave = true,  Function = "驻守：寒潮夜耗-10%" },
+================================================================================
+第 33 页结束
+
+守夜人游戏软件 V1.0 源程序  第 34 页 共 43 页
+================================================================================
             new HeroDef { Id = 3, Name = "黄月英", DigHours = 12f, PickCost = 35, FirstWave = false, Function = "挖冰队列+1" },
             new HeroDef { Id = 4, Name = "张飞",   DigHours = 16f, PickCost = 40, FirstWave = false, Function = "采集+15%·极寒险-20%" },
             new HeroDef { Id = 5, Name = "甄姬",   DigHours = 18f, PickCost = 45, FirstWave = false, Function = "订单奖励+15%" },
@@ -1810,11 +1850,6 @@ namespace Sy.P05.Night
     /// <summary>
     /// 守夜离线结算（§六·8h 帽·P03 OfflinePay 同族范式）：离线时城建照常产出、
     /// 挖冰照常推进、寒潮按缺席豁免律（≥48h 自动过+回归礼）。领取一次性/会话、
-================================================================================
-第 33 页结束
-
-守夜人游戏软件 V1.0 源程序  第 34 页 共 42 页
-================================================================================
     /// 戳只在领取时前移（未领不受罚·待领继续累积）。周仓加成 +10%。
     /// 全部走真实账本（ResourceBank/HeroDig/ColdWave）·零平行账。
     /// </summary>
@@ -1830,6 +1865,11 @@ namespace Sy.P05.Night
         public static long LastSeen()
         {
             var raw = PlayerPrefs.GetString(SeenKey, "");
+================================================================================
+第 34 页结束
+
+守夜人游戏软件 V1.0 源程序  第 35 页 共 43 页
+================================================================================
             return long.TryParse(raw, out long v) ? v : 0;
         }
         public sealed class Claim
@@ -1865,11 +1905,6 @@ namespace Sy.P05.Night
                 return (int)minutes;
             }
             static int campLevelFire(CampBuilder camp) => 1;   // 炉火等级面挂正式 UI 后接 cfg
-================================================================================
-第 34 页结束
-
-守夜人游戏软件 V1.0 源程序  第 35 页 共 42 页
-================================================================================
         }
         public static void ClearForTests()
         {
@@ -1885,6 +1920,11 @@ namespace Sy.P05.Night
     /// <summary>
     /// 守夜人 V1.4 主城中枢（程序化 UGUI·冰蓝×暖橙×夜黑占位美术·CEO 令 O-20261010-1245）：
     /// 三资源 HUD（变更时刷新·红线6）+城建 10 槽（升级即点即建）+名将挖冰面板（双态卡）+
+================================================================================
+第 35 页结束
+
+守夜人游戏软件 V1.0 源程序  第 36 页 共 43 页
+================================================================================
     /// 寒潮状态行+离线领取。自包含 Night 经济——不触碰教学切片（教学局不挂=零变化）。
     /// 装配：Editor\NightSetup.cs MenuItem（挂本组件到场景·写而不跑）。
     /// </summary>
@@ -1920,11 +1960,6 @@ namespace Sy.P05.Night
             _bank.ProductionMultiplier = _cold.ProductionPenalty();
             BuildHud();
             BuildColdLine();
-================================================================================
-第 35 页结束
-
-守夜人游戏软件 V1.0 源程序  第 36 页 共 42 页
-================================================================================
             BuildBuildingGrid();
             BuildHeroPanel();
             BuildToastLine();
@@ -1940,6 +1975,11 @@ namespace Sy.P05.Night
             _bank.Tick(dtMinutes, prod.wood, prod.grain, prod.iron, _camp.WarehouseLevel);
             _heroes.Tick(dtMinutes / 60f);
             SyncHud();
+================================================================================
+第 36 页结束
+
+守夜人游戏软件 V1.0 源程序  第 37 页 共 43 页
+================================================================================
         }
         void SyncHud()
         {
@@ -1975,11 +2015,6 @@ namespace Sy.P05.Night
             {
                 int id = NightConfig.Buildings[i].Id;
                 int row = i / 2, col = i % 2;
-================================================================================
-第 36 页结束
-
-守夜人游戏软件 V1.0 源程序  第 37 页 共 42 页
-================================================================================
                 var btn = MakeButton(NightConfig.Buildings[i].Name + " 0",
                     new Vector2(-320 + col * 640, 660 - row * 200), InkBlue, () => TryUpgrade(id));
                 _buildingLabels[i] = btn.GetComponentInChildren<Text>();
@@ -1995,6 +2030,11 @@ namespace Sy.P05.Night
                 int lv = _camp.Level(def.Id);
                 string state = lv > 0 ? " Lv" + lv : (def.UnlockDay > _camp.Day ? "D" + def.UnlockDay : "未建");
                 _buildingLabels[i].text = def.Name + " " + state;
+================================================================================
+第 37 页结束
+
+守夜人游戏软件 V1.0 源程序  第 38 页 共 43 页
+================================================================================
             }
         }
         void TryUpgrade(int id)
@@ -2030,11 +2070,6 @@ namespace Sy.P05.Night
                 var img = card.GetComponent<Image>();
                 img.sprite = _square;
                 img.color = PanelDim;
-================================================================================
-第 37 页结束
-
-守夜人游戏软件 V1.0 源程序  第 38 页 共 42 页
-================================================================================
                 _heroLabels[i] = MakeText(card.transform, "", 42, new Vector2(0, 40), TextAnchor.MiddleCenter, 580, 70);
                 _heroLabels[i].color = IceBlue;
                 MakeText(card.transform, NightConfig.Heroes[i].Function, 32, new Vector2(0, -55),
@@ -2050,6 +2085,11 @@ namespace Sy.P05.Night
         {
             for (int i = 0; i < NightConfig.Heroes.Length; i++)
             {
+================================================================================
+第 38 页结束
+
+守夜人游戏软件 V1.0 源程序  第 39 页 共 43 页
+================================================================================
                 var def = NightConfig.Heroes[i];
                 switch (_heroes.States[i])
                 {
@@ -2085,11 +2125,6 @@ namespace Sy.P05.Night
             foreach (var h in NightConfig.Heroes)
                 if (h.Id == heroId) return h;
             return null;
-================================================================================
-第 38 页结束
-
-守夜人游戏软件 V1.0 源程序  第 39 页 共 42 页
-================================================================================
         }
         void ToggleHeroPanel()
         {
@@ -2105,6 +2140,11 @@ namespace Sy.P05.Night
             if (minutes > 0) ShowToast("离线 " + (minutes / 60) + " 小时已结算");
             else if (claim.Claimable) ShowToast("结算失败");
             else ShowToast("离线不足 1 小时");
+================================================================================
+第 39 页结束
+
+守夜人游戏软件 V1.0 源程序  第 40 页 共 43 页
+================================================================================
             SyncHud();
         }
         void BuildToastLine()
@@ -2140,11 +2180,6 @@ namespace Sy.P05.Night
         RectTransform MakeOverlayPanel()
         {
             var go = new GameObject("NightPanel", typeof(RectTransform), typeof(Image));
-================================================================================
-第 39 页结束
-
-守夜人游戏软件 V1.0 源程序  第 40 页 共 42 页
-================================================================================
             go.transform.SetParent(_canvas.transform, false);
             var rt = (RectTransform)go.transform;
             rt.anchorMin = Vector2.zero;
@@ -2160,6 +2195,11 @@ namespace Sy.P05.Night
             var go = new GameObject("Text", typeof(RectTransform), typeof(Text));
             go.transform.SetParent(parent, false);
             var rt = (RectTransform)go.transform;
+================================================================================
+第 40 页结束
+
+守夜人游戏软件 V1.0 源程序  第 41 页 共 43 页
+================================================================================
             rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
             rt.anchoredPosition = pos;
             rt.sizeDelta = new Vector2(w, h);
@@ -2195,11 +2235,6 @@ namespace Sy.P05.Night
     public sealed class ResourceBank
     {
         public const string SaveKey = "p05_night_resources";
-================================================================================
-第 40 页结束
-
-守夜人游戏软件 V1.0 源程序  第 41 页 共 42 页
-================================================================================
         const string WoodKey = "p05_night_wood";
         const string GrainKey = "p05_night_grain";
         const string IronKey = "p05_night_iron";
@@ -2215,6 +2250,11 @@ namespace Sy.P05.Night
                 Wood = PlayerPrefs.GetFloat(WoodKey, 0f),
                 Grain = PlayerPrefs.GetFloat(GrainKey, 0f),
                 Iron = PlayerPrefs.GetFloat(IronKey, 0f),
+================================================================================
+第 41 页结束
+
+守夜人游戏软件 V1.0 源程序  第 42 页 共 43 页
+================================================================================
             };
             return b;
         }
@@ -2250,11 +2290,6 @@ namespace Sy.P05.Night
         public void AddWood(float amount)
         {
             Wood += amount;
-================================================================================
-第 41 页结束
-
-守夜人游戏软件 V1.0 源程序  第 42 页 共 42 页
-================================================================================
             Save();
         }
         /// <summary>测试/运营面直塞（真实入账·走存储）。</summary>
@@ -2270,6 +2305,11 @@ namespace Sy.P05.Night
         {
             float minutes = OfflineMinutes(elapsedMs);
             Tick(minutes, woodPerMin, grainPerMin, ironPerMin, warehouseLevel);
+================================================================================
+第 42 页结束
+
+守夜人游戏软件 V1.0 源程序  第 43 页 共 43 页
+================================================================================
             return minutes;
         }
         public static float OfflineMinutes(long elapsedMs)
@@ -2305,6 +2345,21 @@ namespace Sy.P05.Night
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ================================================================================
-第 42 页结束
+第 43 页结束
 

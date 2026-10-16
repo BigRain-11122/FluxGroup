@@ -47,6 +47,7 @@
 - 调度/巡视（CEO-PROXY 主AGENT/PATROL-FLEET）：cph4/fleet/dispatcher/
 - 硬件采购（V100 三卡机 BOM/验收线）：cph4/fleet/hardware/
 - 软著：软著申请材料/
+- MV 全链条方法论+提示词闸（2026-10-15 立·CEO 令 O-20261015-1630/1655）：正身=cph4/fleet/mv-album-001-jay/MV-PIPELINE-PLAYBOOK-v1.md+prompt-writing-spec-v1/PROMPT-EXPERT-GATE-v1.md（每包 prompt 过闸才烧·十一面检查单）
 - 司域层：MiniGame/CODELY.md（gaming 线）｜metis=Unity\.codely-cli\memory\metis-architecture-deep-dive.md
 
 ### 新记忆三级路由（正身=cph4/memory.md §10.2）

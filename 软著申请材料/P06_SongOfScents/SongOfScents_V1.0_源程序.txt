@@ -1650,25 +1650,6 @@ namespace Sy.P06.Newbie
 
 调香师游戏软件 V1.0 源程序  第 31 页 共 60 页
 ================================================================================
-                streetImgs[i].color = new Color(SageGreen.r, SageGreen.g, SageGreen.b, 0f);
-                phase[i] = i * 0.7f;
-            }
-            float mistClock = 0f;
-            while (true)
-            {
-                mistClock += Time.deltaTime;
-                float conc = _atmosphere != null ? Mathf.Clamp01(_atmosphere.Concentration) : 0f;
-                if (_lureBurst > 0f) _lureBurst -= Time.deltaTime;
-                bool surge = _lureBurst > 0f;
-                float doorAlpha = Mathf.Min(0.55f + conc * 0.25f + (surge ? 0.2f : 0f), 1f);
-                // 8 fps 3-frame loop, staggered per puff for a rolling mist
-                if (hasMist)
-                {
-                    int mf = (int)(mistClock * 8f) % 3;
-                    for (int i = 0; i < puffs.Length; i++)
-                    {
-                        var f = mistFrames[(mf + i) % 3];
-                        if (doorImgs[i].sprite != f) doorImgs[i].sprite = f;
                     }
                     for (int i = 0; i < street.Length; i++)
                     {
@@ -1700,11 +1681,6 @@ namespace Sy.P06.Newbie
                     var pos = street[i].anchoredPosition;
                     pos.x -= (26f + conc * 58f) * Time.deltaTime;
                     pos.y = -100f + Mathf.Sin(phase[i]) * 26f;
-================================================================================
-第 31 页结束
-
-调香师游戏软件 V1.0 源程序  第 32 页 共 60 页
-================================================================================
                     if (pos.x < -520f) pos.x = -350f;
                     street[i].anchoredPosition = pos;
                     float s = 26f + Mathf.Sin(phase[i] * 0.8f) * 6f + (surge ? 10f : 0f);
@@ -1724,6 +1700,11 @@ namespace Sy.P06.Newbie
         public void HideOpeningOverlay() => _openingOverlay.gameObject.SetActive(false);
         public void ShowCraftingPanel(bool show) => _craftingPanel.gameObject.SetActive(show);
         public void ShowBubble(bool show) => _bubble.gameObject.SetActive(show);
+================================================================================
+第 31 页结束
+
+调香师游戏软件 V1.0 源程序  第 32 页 共 60 页
+================================================================================
         public void ShowVipBanner(bool show) => _vipBanner.gameObject.SetActive(show);
         public void ShowSettle(int coins, int hearts, int stars, int codex)
         {
@@ -1755,11 +1736,6 @@ namespace Sy.P06.Newbie
         RectTransform MakeOverlayPanel(string name, Color color)
         {
             var go = new GameObject(name, typeof(RectTransform), typeof(Image));
-================================================================================
-第 32 页结束
-
-调香师游戏软件 V1.0 源程序  第 33 页 共 60 页
-================================================================================
             go.transform.SetParent(_canvas.transform, false);
             var rt = (RectTransform)go.transform;
             rt.anchorMin = Vector2.zero;
@@ -1779,6 +1755,11 @@ namespace Sy.P06.Newbie
             return rt;
         }
         Button MakePanelButton(RectTransform parent, string label, Vector2 pos, Action onClick)
+================================================================================
+第 32 页结束
+
+调香师游戏软件 V1.0 源程序  第 33 页 共 60 页
+================================================================================
         {
             var go = new GameObject(label, typeof(RectTransform), typeof(Image), typeof(Button));
             go.transform.SetParent(parent, false);
@@ -1810,11 +1791,6 @@ namespace Sy.P06.Newbie
             t.color = new Color(0.91f, 0.89f, 0.85f);
             t.supportRichText = true;
             return t;
-================================================================================
-第 33 页结束
-
-调香师游戏软件 V1.0 源程序  第 34 页 共 60 页
-================================================================================
         }
         static Sprite MakeSquareSprite()
         {
@@ -1824,6 +1800,30 @@ namespace Sy.P06.Newbie
             tex.SetPixels32(px);
             tex.Apply(false, false);
             return Sprite.Create(tex, new Rect(0, 0, 8, 8), new Vector2(0.5f, 0.5f), 8f);
+        }
+        // X2415: anti-aliased disc for the well-seated slot tiles (a
+        // square tile would break the round-socket look of the bench).
+        static Sprite MakeDiscSprite()
+        {
+            const int S = 64;
+            const float R = 31.5f, AA = 1.5f;
+            var tex = new Texture2D(S, S, TextureFormat.RGBA32, false);
+            var px = new Color32[S * S];
+            for (int y = 0; y < S; y++)
+================================================================================
+第 33 页结束
+
+调香师游戏软件 V1.0 源程序  第 34 页 共 60 页
+================================================================================
+                for (int x = 0; x < S; x++)
+                {
+                    float dx = x - 31.5f, dy = y - 31.5f;
+                    float a = Mathf.Clamp01((R - Mathf.Sqrt(dx * dx + dy * dy)) / AA);
+                    px[y * S + x] = new Color32(255, 255, 255, (byte)(a * 255f));
+                }
+            tex.SetPixels32(px);
+            tex.Apply(false, false);
+            return Sprite.Create(tex, new Rect(0, 0, S, S), new Vector2(0.5f, 0.5f), 8f);
         }
     }
 }
