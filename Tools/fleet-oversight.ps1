@@ -107,8 +107,11 @@ try {
 # ---- LLM pin / ComfyUI / GPU batch ----
 $pinned = $false
 try {
+  # C-20261016-05 dual-mode alignment: LLM lane is GREEN when ANY model is
+  # resident in llm-mode (27b fill-in per C-20261016-03; 35b retired 10-14).
+  # In gen-mode ollama is stopped by design - the gpuBatch branch carries OFFLOAD.
   $ps = Invoke-RestMethod -Uri 'http://127.0.0.1:11434/api/ps' -TimeoutSec 4
-  foreach ($m in @($ps.models)) { if ([string]$m.name -like 'qwen3.6-coder:35b*') { $pinned = $true } }
+  if (@($ps.models).Count -gt 0) { $pinned = $true }
 } catch { }
 $comfy = $false
 try { $r = Invoke-WebRequest -Uri 'http://127.0.0.1:8188/system_stats' -TimeoutSec 4 -UseBasicParsing; if ($r.StatusCode -eq 200) { $comfy = $true } } catch { }
@@ -267,7 +270,7 @@ function AddFlag([string]$code, [string]$line, [string]$detail) {
 }
 if ($laneCpu -eq 'RED') { AddFlag 'CPU_LANE_EMPTY' 'fleet' ("cpu=" + $cpuPct + "% engine_queue=" + $eng.queue + " wave_front=" + $eng.front) }
 if ($laneGpu -eq 'RED') { AddFlag 'GPU_LANE_EMPTY' 'fleet' ("gpu_util=" + $gpuUtil + "% vram_used=" + $vramUsed + "MB comfy=" + $comfy) }
-if ($laneLlm -eq 'RED') { AddFlag 'LLM_UNPINNED' 'fleet' '35b unpinned, no gpu batch, not yield' }
+if ($laneLlm -eq 'RED') { AddFlag 'LLM_UNPINNED' 'fleet' 'no resident LLM in llm-mode, no gpu batch, not yield (C-03 dual-mode)' }
 foreach ($s in $subs) { if ($s.status -eq 'RED') { AddFlag 'SUBSIDIARY_STALL' ('subs/' + $s.name) ("c24=" + $s.c24 + " c48=" + $s.c48) } }
 if ($researchStatus -eq 'AMBER') { AddFlag 'RESEARCH_STALE' 'research' 'no research-path commits in 72h' }
 if ($prevAgeH -gt 2.5) { AddFlag 'INSPECTOR_STALLED' 'infra' ("previous watch age " + $prevAgeH + "h - who watches the watchmen") }
@@ -288,7 +291,7 @@ $snap = @{
   gpu       = @{ util_pct = $gpuUtil; vram_used_mb = $vramUsed; vram_total_mb = $vramTotal; batch = $gpuBatch }
   ram_free_gb = $ramFreeGb
   engine    = $eng
-  llm       = @{ pinned_35b = $pinned }
+  llm       = @{ pinned_llm = $pinned; pinned_35b = $pinned }   # pinned_35b dual-write kept one round (C-05; 35b retired 10-14)
   comfy     = @{ alive = $comfy }
   infra     = @{ prev_watch_age_h = $prevAgeH; cron_jobs = $cronJobs; cron_days_left_min = $cronDaysLeft; cloudf_pending = $cloudf; liveness = $liveVerdict; liveness_age_h = $liveAgeH; family_disabled = $familyDisabled }
   subsidiaries = $subs

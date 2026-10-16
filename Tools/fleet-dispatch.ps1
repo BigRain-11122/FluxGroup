@@ -17,7 +17,7 @@
 # Signals only - git stays the sole data channel (transport clause unchanged).
 # Fail-soft: unreachable nodes are logged, never block the caller. Exit 0 always.
 param(
-  [string]$Root = "C:\Users\sjs20\Desktop\FluxGroup",
+  [string]$Root = "",
   [string]$Reason = "manual",
   [string[]]$Tasks = @(),
   [string[]]$Repos = @(),
@@ -27,6 +27,10 @@ param(
   [switch]$Quiet
 )
 $ErrorActionPreference = 'Continue'
+# C-20261016-05 portability fix: default Root to this script's repo parent
+# (Tools\..). The old hardcoded bm-a path made the dispatcher cfg-fail on every
+# other machine (fleet scripts must be path-agnostic per iteration_loop norm).
+if (-not $Root) { $Root = Split-Path -Parent $PSScriptRoot }
 # C-20261016-02 Cure-3: -File invocation passes comma-joined task lists as ONE string
 # (worker allowlist denies the whole string -> zero wakeups, live-bug 10-16).
 # Split defensively so both "-Tasks a,b" and repeated -Tasks work.
