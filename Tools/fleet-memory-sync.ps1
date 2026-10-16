@@ -1,10 +1,15 @@
-﻿# fleet-memory-sync.ps1 - Fleet GLOBAL memory sync v2.0 (CEO order O-20261009-1845 union-sync
+﻿# fleet-memory-sync.ps1 - Fleet GLOBAL memory sync v2.1 (CEO order O-20261009-1845 union-sync
 # + O-20261009-1915 four-word law: lean / always-maintained / always-fresh / scientific).
 # v2 semantics = CANONICAL-AUTHORITATIVE (the append-only union of v1 preserved bloat forever):
-#   1. UNION-UP: local-only entries (not tombstoned) -> appended into the canonical, commit+push
-#   2. REPLACE-DOWN: the local global file becomes the canonical text verbatim
+#   1. INBOX-UP (v2.1, C-20261016-02 Cure-4): fresh local entries FIRST land in this host's
+#      own staging file cph4/fleet/memory/inbox/<node>.md - one file per machine = zero
+#      cross-machine write conflicts, and a durable git-committed claim: if the canonical
+#      is ever clobbered again (11:48 rollback family), the next run re-unions every entry
+#      from the inboxes = self-healing canon.
+#   2. UNION-UP: entries (inbox + local, not tombstoned) -> appended into the canonical, commit+push
+#   3. REPLACE-DOWN: the local global file becomes the canonical text verbatim
 #      -> grooming (merges/prunes) in the canonical propagates to every machine
-#   3. TOMBSTONES: entries deliberately removed by grooming are hash-registered in
+#   4. TOMBSTONES: entries deliberately removed by grooming are hash-registered in
 #      memory-tombstones.jsonl so union-up can NEVER resurrect them. Zero-loss holds:
 #      pruned content stays in the canonical's git history (memory.md R1: archive-not-erase).
 #   -RecordRemoval: run AFTER a grooming edit of the canonical (before commit): diffs the
@@ -23,6 +28,17 @@ $ErrorActionPreference = 'Continue'
 if ($LocalMem -eq '') { $LocalMem = Join-Path $env:USERPROFILE '.codely-cli\CODELY.md' }
 $Canon = Join-Path $Root ($CanonRel -replace '/', '\')
 $TombF = Join-Path $Root ($TombRel -replace '/', '\')
+
+# v2.1: per-host inbox staging path (Cure-4). Node id resolved from the roster,
+# falls back to the hostname - each machine only ever appends to ITS OWN file.
+$NodeId = $env:COMPUTERNAME
+try {
+  $cfgN = Get-Content -Raw -Encoding UTF8 (Join-Path $Root 'Tools\fleet-nodes.json') | ConvertFrom-Json
+  foreach ($n in @($cfgN.nodes)) { if ([string]$n.host -ne '' -and ([string]$n.host -ieq $env:COMPUTERNAME)) { $NodeId = [string]$n.id; break } }
+} catch { }
+$InboxRel = 'cph4/fleet/memory/inbox/' + $NodeId + '.md'
+$InboxF = Join-Path $Root ($InboxRel -replace '/', '\')
+$InboxDir = Split-Path $InboxF -Parent
 
 function Read-TextBom([string]$path) {
   $t = ''; $bom = $false
@@ -106,8 +122,14 @@ function Commit-Push([int]$n, [string]$note) {
   if (-not (Test-Path $git)) { $git = 'git' }
   $pushed = ''
   try {
-    & $git -C $Root add $CanonRel $TombRel 2>&1 | Out-Null
-    & $git -C $Root commit -m ("fleet-memory-" + $note + ": " + $n + " [via " + $env:COMPUTERNAME + "]") -- $CanonRel $TombRel 2>&1 | Out-Null
+    # v2.1: the inbox rides the same targeted commit (own file, additive only)
+    $paths = @($CanonRel, $TombRel)
+    if (Test-Path -LiteralPath $InboxF) { $paths += $InboxRel }
+    $addArgs = @('-C', $Root, 'add') + $paths
+    & $git @addArgs 2>&1 | Out-Null
+    $msg = ("fleet-memory-" + $note + ": " + $n + " [via " + $env:COMPUTERNAME + "]")
+    $cmArgs = @('-C', $Root, 'commit', '-m', $msg, '--') + $paths
+    & $git @cmArgs 2>&1 | Out-Null
     $sha = [string](& $git -C $Root rev-parse HEAD)
     & $git -C $Root push origin ("$sha" + ':refs/heads/main') 2>&1 | Out-Null
     $pushed = $sha.Substring(0, 8)
@@ -149,17 +171,66 @@ if ($canonRead.text -eq '') {
 }
 $tombs = Load-Tombstones
 $locAdd = 0; $canAdd = 0; $pushed = ''
+$inboxChanged = $false
 
-# 1) UNION-UP: fresh local entries (skip tombstoned = grooming can never be resurrected)
-$fresh = @()
-foreach ($e in (Get-Entries $localRead.text)) { if (-not $tombs.ContainsKey($e.hash)) { $fresh += $e } }
-$m1 = Merge-IntoText $canonRead.text $localRead.text $fresh
+# 0) INBOX-UP (v2.1 Cure-4): fresh local entries FIRST land in this host's own
+#    inbox file - durable per-machine claim, conflict-free by construction.
+$canonKeys = @{}
+foreach ($e in (Get-Entries $canonRead.text)) { $canonKeys[$e.hash] = $true }
+$sep = [string][char]31
+$inboxText = ''
+if (Test-Path -LiteralPath $InboxF) { $inboxText = [IO.File]::ReadAllText($InboxF) }
+$inboxSeen = @{}
+foreach ($e in (Get-Entries $inboxText)) { $inboxSeen[($e.sec + $sep + $e.line)] = $true }
+$inboxAdds = @()
+foreach ($e in (Get-Entries $localRead.text)) {
+  if ($tombs.ContainsKey($e.hash)) { continue }
+  if ($canonKeys.ContainsKey($e.hash)) { continue }
+  if ($inboxSeen.ContainsKey(($e.sec + $sep + $e.line))) { continue }
+  $inboxAdds += $e
+}
+if (@($inboxAdds).Count -gt 0) {
+  if (-not (Test-Path $InboxDir)) { New-Item -ItemType Directory -Path $InboxDir -Force | Out-Null }
+  if ($inboxText -ne '' -and -not ($inboxText.EndsWith("`n"))) { $inboxText += "`r`n" }
+  # append grouped under real section headers so Get-Entries yields the same
+  # (sec,line) keys as the local file - dedup stays exact, no dangling sections
+  $bySecAdd = @{}
+  $secOrder = @()
+  foreach ($e in $inboxAdds) {
+    if (-not $bySecAdd.ContainsKey($e.sec)) { $bySecAdd[$e.sec] = @(); $secOrder += $e.sec }
+    $bySecAdd[$e.sec] += $e.line
+  }
+  foreach ($s in $secOrder) {
+    $inboxText += ('### ' + $s + "`r`n")
+    foreach ($l in $bySecAdd[$s]) { $inboxText += ($l + "`r`n") }
+  }
+  [IO.File]::WriteAllText($InboxF, $inboxText, (New-Object Text.UTF8Encoding($false)))
+  $inboxChanged = $true
+}
+
+# 1) UNION-UP: entries from inbox + local (skip tombstoned = grooming can never
+#    be resurrected; Merge-IntoText dedupes against the canonical's own lines).
+#    v2.1.1: dedup WITHIN the source set - the same entry arrives from BOTH the
+#    inbox and the local file and Merge-IntoText only dedupes vs the base, so a
+#    raw concat double-inserted (live-fire 16:00: canon+2 = one entry x2).
+$src = @()
+$srcSeen = @{}
+foreach ($e in @(@(Get-Entries $inboxText) + @(Get-Entries $localRead.text))) {
+  if ($tombs.ContainsKey($e.hash)) { continue }
+  $k = $e.sec + $sep + $e.line
+  if ($srcSeen.ContainsKey($k)) { continue }
+  $srcSeen[$k] = $true
+  $src += $e
+}
+$m1 = Merge-IntoText $canonRead.text $localRead.text $src
 if ($m1.added -gt 0) {
   Write-TextBom $Canon $m1.text $canonRead.bom
   $canAdd = $m1.added
   $pushed = Commit-Push $canAdd 'union'
 }
 if ($canAdd -gt 0) { $canonRead = Read-TextBom $Canon }
+# inbox-only changes (canon already current) still get committed + pushed
+if ($inboxChanged -and $canAdd -eq 0) { $pushed = Commit-Push 0 'inbox' }
 
 # 2) REPLACE-DOWN: local becomes the canonical verbatim (grooming/prunes propagate).
 #    Safety: re-read local fresh; any entries that appeared during this run (not
