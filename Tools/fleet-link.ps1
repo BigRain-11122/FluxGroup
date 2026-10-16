@@ -82,7 +82,7 @@ try {
 if ($NodeId -eq '') { $NodeId = $env:COMPUTERNAME }
 
 # ---- bind (node tailnet IP + loopback; skip missing) + v1.1 self-upgrade ----
-$Vers = '1.9'
+$Vers = '1.9.1'
 $bindIps = @()
 if ($node -and [string]$node.tailnet_ip -ne '') { $bindIps += [string]$node.tailnet_ip }
 $bindIps += '127.0.0.1'
@@ -355,8 +355,12 @@ function Gz-Decompress([string]$b64) {
 $PusherPath = Join-Path $Root 'Tools\fleet-sync-pusher.ps1'
 $HbF = Join-Path $Dir 'pusher.json'
 $script:SelfRefreshDone = $false
+$script:PusherPathWarned = $false
 function Ensure-Pusher() {
-  if (-not (Test-Path $PusherPath)) { return }
+  if (-not (Test-Path $PusherPath)) {
+    if (-not $script:PusherPathWarned) { $script:PusherPathWarned = $true; FL-Log 'pusher-spawn-fail' ('script missing: ' + $PusherPath) }
+    return
+  }
   $stale = $true
   try {
     if (Test-Path $HbF) {
@@ -372,8 +376,10 @@ function Ensure-Pusher() {
   } catch { }
   if (-not $stale) { return }
   $argz = '-NoProfile -ExecutionPolicy Bypass -File "' + $PusherPath + '" -Root "' + $Root + '" -NodeId ' + $NodeId
-  Start-Process -FilePath 'powershell.exe' -ArgumentList $argz -WindowStyle Hidden | Out-Null
-  FL-Log 'pusher-spawn' 'heartbeat stale or missing'
+  try {
+    Start-Process -FilePath 'powershell.exe' -ArgumentList $argz -WindowStyle Hidden | Out-Null
+    FL-Log 'pusher-spawn' 'heartbeat stale or missing'
+  } catch { FL-Log 'pusher-spawn-fail' ([string]$_.Exception.Message) }
 }
 function Check-SelfVersion() {
   # a newer fleet-link.ps1 shipped via git -> spawn a fresh instance; the existing
