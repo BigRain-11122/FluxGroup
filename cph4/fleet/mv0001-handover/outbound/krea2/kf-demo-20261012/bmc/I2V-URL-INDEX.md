@@ -136,3 +136,7 @@
 | INT5_head_bow | 0.9MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/850177e91dbf90c5dd9cb7462860bb92/INT5_head_bow.mp4 |
 | D03b_direct_gaze | 0.7MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/8af34f72871de71e17f1b5fa551017e3/D03b_direct_gaze.mp4 |
 | E01c_first_line | 0.6MB | https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/c6b46f32fbc6f1d0bfe80b0f3c67aef3/E01c_first_line.mp4 |
+<!-- jayredo 回执·O-20261016-1120 CEO 问责令②·bm-c r1050·2026-10-16 11:5x -->
+| jayredo-RECEIPT-r1050-1-烧到第几件 | 11/17 放行件 i2v 烧毕上链（10-15 20:0x 交付 origin b845cc7：B02/D03b/E03/INT1/INT3/INT4/INT5/SIL1/SIL3/SING2/SING3b 共 11 件 mp4+CDN 行在上）+ 6 重摇槽 KF 海选 24 张烧毕上链（JAY-REDO-RESHAKE6-BOARD-r1032.jpg·10-15 20:10） | bm-c r1050 2026-10-16 11:5x |
+| jayredo-RECEIPT-r1050-2-卡点 | 6 重摇槽（E01c/SIL2/SING1/C01/B01/D01）候导演席复检 4 选 1（上游=bm-a 导演席·海选板已上链 18h 前可达）——bm-c 侧零积压零卡点·即点即烧 | 同窗 |
+| jayredo-RECEIPT-r1050-3-ETA | 导演席点选落定即同链补烧 6 件 INT8 768P（实测 15-20 分钟/件）→ 点选后约 2h 全 17 件齐 → jayredo_qc_sheet 拼板 → 装配站（bm-a）组装 V4 | 同窗 |
