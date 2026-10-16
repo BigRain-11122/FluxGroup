@@ -13,6 +13,7 @@ CANDIDATE_FONTS = [
     r"C:\Windows\Fonts\NotoSerifCJKsc-Black.otf",
     r"C:\Windows\Fonts\SourceHanSerifSC-Heavy.otf",
     r"C:\Windows\Fonts\SourceHanSerifSC-Bold.otf",
+    r"C:\Windows\Fonts\simsun.ttc",   # 宋体衬线（simsunb.ttf 实测缺字 tofu·勿用）
     r"C:\Windows\Fonts\simhei.ttf",
 ]
 TEXT = "我却在旁静静欣赏你"
