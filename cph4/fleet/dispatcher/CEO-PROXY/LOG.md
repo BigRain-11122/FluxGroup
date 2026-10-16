@@ -143,3 +143,11 @@
 - **证据面**：交付哨 state/done 双件+watch.log 尾 12 行（DELIVERED 22:11:21）+SLI-RECONCILE 08:35 版 GREEN+L0 三拍+orders 尾增量实读（21:3x-23:3x）+cron_list 四件+machine-state.ps1 mtime 亲验+radar_get_latest 24h 空窗回执。
 - **班毕**：排产单新件+DEADLINES 翻新 ×4+新增重载行+LOG R2.3 原子推（expect 守卫+反转闸 depth30 内嵌）+DISPATCH-LOG 四元组行（本地件）+清残 3044b679+锁 touch 收口。
 
+## Round R2.4·2026-10-17 00:42-01:0x·事件班（承载件触发·NJ bigmoney R9 黄）·调用数≈27·零云端 token
+- **触发与步0**：HQ-CEOProxyEventCarrier 00:42 发射 NJ bigmoney R9（bm-b IterationLoop 停摆 53h+·R7/R8 两轮未决·枢纽零消费 22h 实锚）；锁龄 35min 过期→touch 接管单窗；三件已读（DISPATCH-LOG 尾/NEED-JUDGMENT/DEADLINES）→事件班无预算帽。
+- **深挖实锚**：bm-b 活体四证（listener v1.9.3+poke worker+RAM 13.7G+组树 HOT f5d980e3==origin tip）+停摆五证（心跳冻结 10-15 19:10:18 r986 GREEN·53.5h+bigmoney 树冻结 8949e0aef 落后 30+ 代=读令通道死+agenda_starved=true+WAKE#2 二连 accepted 零效果+O-2347 §一.3 @bm-b 腿未达=CEO 直令违约面——正身 bigmoney 仓 fleet/orders/O-20261016-2347-bm-c.md bm-a 侧直读验讫：@bm-b 腿=循环班自检+哨兵在役确认+POOL-0020 催办）。
+- **本班诊断增量（秒退轮定谳面）**：idle_rounds 00:33 读 31→00:44 读 33→poke#3 后 00:58 读 34=**轮次在跑但秒退**（空转计数递增·last_seen/ts 恒冻结·bigmoney 不拉不消费）——任务全死论弱化·守卫锁/陈锁嫌疑优先（10-09-29 autopilot.lock 判例同型候选）；本地定谳唯一权威=手术面 (b) wrapper round_* 日志。
+- **E1 并案单承载消费（当窗主交付·原子推 66c1605af·反转闸 3 处全∈my-dels）**：①orders 00:5x E1 行（@bm-b·lane=cpu-sound·回执窗 24h）：五件回执追缴 >24h 升委员会通道（POOL-0020 销卡〔委员会可裁 r986 仓内证据代验收〕/spawn 帽腿/PROBE_ERR/POOL-0018·0019/drama Taildrop+O-2110 bm-b 腿）+手术五面照 R7 NJ 单行（(a)Task Scheduler 历史 (b)wrapper 日志 (c)LoopWatchdog 熟睡 (d)LogonType/S4U 判例复查〔10-15 09:16 自愈配方回归坑同型〕 (e)陈锁清理→重启·验证面=r987+ 落 origin 或心跳 ts 移动）+术前 state 预读已执行；②DEADLINES 三行翻行（L13 E1 升级+O-2110 bm-b 腿并轨+08:43 重载行=复核线勿重立注记）；③NEED-JUDGMENT R9 行 HUB-RESOLVED 追加。
+- **poke attempt#3+175s 复探**：00:55:49 accepted（tasks=[Bigmoney-IterationLoop]·ASCII reason）→00:58 复探 **BURNING 未燃**（idle_rounds 34 再增=又一秒退轮·last_seen 仍 19:10:18）；**E1 行交付验证**：/status 原文含 66c1605af（组树 HOT 通道秒达 bm-b 盘实证·poke reason e1-stall-surgery-r9 在 last_pull）·bigmoney 树仍冻结 8949e0aef（读令通道死维持）。
+- **防双烧与复检**：08:43 晨检班=复核线（勿重立 E1·验证面=r987+ 落 origin 或心跳 ts 移动）；回访探针 cron 02:35（+90min 一次性 durable·锁门同守）；周六缺班风险=探针+08:43 双承载。
+- **班毕**：push1=orders/DEADLINES/NJ（66c1605af）+push2=本 LOG 行原子推+shiftlog HUB-DECISION（持久正身）+DISPATCH-LOG 四元组+LOG 本地残片清理（stash 冲突标记残留清零）+锁 touch。
