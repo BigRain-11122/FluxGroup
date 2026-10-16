@@ -196,7 +196,9 @@
   "created_by": "bm-a-mv-director 2026-10-15 17:41（CEO 派单令 O-20261015-1741）",
   "spec": "三夜回填计划（10-16/17/18 夜窗·每晚一工具一试跑件·GPU 与日间烧制错峰）。试跑输入=现成 KF/i2v 件（如 bmc/i2v/jayredo/ 过线件或 mv0001 full_mv_v3 剪段）+人声干声（口型站）。实测回填=每工具显存峰值/速度/效果档位→R-20261015-mv-performance-stack 应用表回填行+EXPERIENCE-LEDGER 判例行。合规注=LivePortrait 商用前须换 InsightFace 检测模型（MIT）·LatentSync v1.6 18G 档 bm-c 16G 实测（不够降 v1.5 8G 档并回注明）。",
   "card": "[交接卡 POOL-0016]\n①@机+lane：@bm-c·gpu-perf-stack（夜窗 22:00 后）\n②回执窗：三夜 10-16/17/18·每夜一工具件+当夜回填（48h 总窗）\n③验收物+证据指针：三件试跑样片（口型件/表情迁移件/舞段件·mp4·-an 剥音轨）+显存/速度/效果档位实测表（回填 R-20261015-mv-performance-stack §应用表）+EXPERIENCE-LEDGER 判例行+orders 回执行\n④spec 指针：cph4/research/R-20261015-mv-performance-stack.md（工具栈选型/license/显存档·正身）+MV-PIPELINE-PLAYBOOK §S5（排产位与 prompt 侧 K 面配合）\n⑤溯源令号：O-20261015-1655（表演令「人物的表演也是硬伤…更不够top1」）+O-20261015-1741（派单令）\n⑥输入/输出：输入=现成 KF/视频件+人声干声；输出=三件试跑样片+档位实测回填\n⑦依赖：无硬依赖（夜窗 GPU 空档排产·与日间 P0/P1 烧制错峰·不抢日间产能）\n⑧卡 ID：POOL-0016\n⑨provenance：转述（CEO 双令表演根治+机队派单令·bm-a 会话 17:41 开卡）",
-  "result_ref": "",
+  "claimed_by": "bm-c",
+  "claimed_at": "2026-10-17T01:35:26+08:00",
+  "result_ref": "night-2 (LivePortrait) closed 2026-10-17 02:2x (bm-c r1057, CEO 00:1x 开工令): smoke self-driven identity recon PASS (cold 652.88s incl 614s one-time 91.9MB weight dl via hf-mirror; cold-load VRAM peak 16060MB transient, freed at prompt end) + 72-frame expression-transfer sample PASS (warm 35.55s=0.49s/frame, VRAM peak 3681MB; mp4 1344x768 72f 3.0s -an 459KB, subtle-motion source clip faithfully transferred); artifacts=bmc/lp_smoke_r1057/ (RECEIPT-POOL-0016-night2-r1057.md + lp_smoke_receipt_r1057.json + lp_expr_receipt_r1057.json + lp_expr_night2_r1057.mp4; 72-frame PNG seq left untracked on disk per bmc/ evidence convention); compliance: FaceAlignment blazeface BSD3 + landmark torch_gpu, zero InsightFace -> R-stack L23 obstacle resolved, row upgraded 直接可用; wiring law recorded EXPERIENCE-LEDGER J-30 (driving must be pre-cropped via Cropper; paste-back via Composite); night-1 (LatentSync/MimicMotion) no receipt on file; night-3 (MimicMotion/MusePose) pending 10-18 - card stays open per three-night plan",
   "depends_on": []
  },
  {
@@ -204,11 +206,13 @@
   "title": "画质链免费档部署+试跑（Real-ESRGAN x4plus+GFPGAN+七套分曲风 LUT+16mm 颗粒层）",
   "lane": "bm-c",
   "priority": "P2",
-  "status": "open",
+  "status": "done",
   "created_by": "bm-a-mv-director 2026-10-15 17:41（CEO 派单令 O-20261015-1741）",
   "spec": "对现成成片段件（full_mv_v3_final.mp4 剪段或 jayredo 过线件）跑画质链：Real-ESRGAN x4plus 4K 升档+GFPGAN 脸修（真人线）→七套分曲风 LUT（慢板台式奶黑/中国风泛黄水彩/说唱高饱和/摇滚高反差/电子霓虹冷/悲情冷暖分离/快歌撞色——直取 R-20261015-mv-genre-matrix 色彩列）→16mm 颗粒遮瑕层（SIL4 破裂镜急救序=先颗粒掩再谈重生成）。Topaz Proteus=采购件候 CEO 物理件（零催办·免费档先行不阻塞）。链路脚本入库=S7 正身件。",
   "card": "[交接卡 POOL-0017]\n①@机+lane：@bm-c·gpu-post-chain（GPU 空档或轻档；ESRGAN 显存需求低）\n②回执窗：48h（P2 填隙件）\n③验收物+证据指针：升档前后对比样片（同段三版本：裸升档/升档+LUT/升档+LUT+颗粒）+画质链脚本入库（mv-album-001-jay/ 下 S7 链路件）+orders 回执行\n④spec 指针：cph4/research/R-20261015-mv-worldclass-benchmark.md §三（画质天花板配方·正身）+MV-PIPELINE-PLAYBOOK §S7\n⑤溯源令号：O-20261015-1655（PLAYBOOK S7 立法随件）+O-20261015-1741（派单令）\n⑥输入/输出：输入=现成成片段件；输出=画质链试跑件+链路脚本\n⑦依赖：无（与 0015/0016 错峰排产·空闲档消化）\n⑧卡 ID：POOL-0017\n⑨provenance：转述（机队派单令·bm-a 会话 17:41 开卡）",
-  "result_ref": "",
+  "claimed_by": "bm-c",
+  "claimed_at": "2026-10-17T01:38:27+08:00",
+  "result_ref": "S7 half-route trial PASS 2026-10-17 01:38 (bm-c r1057, CEO 00:1x 开工令): 2 frames x 3 versions each (bare x4 / x4+LUT / x4+LUT+16mm-grain) + tier table = bmc/s7_trial_r1057/s7_tier_table_r1057.json (RealESRGAN_x4plus 7.81-8.53 s/frame, VRAM peak 6290-6334MB; GFPGAN+RIFE tiers absent=noted); chain script committed to cph4/fleet/mv-album-001-jay/xq_s7_halfroute_r1057.py; pending full-chain faces honestly recorded in tier table pending_full_chain (seven-genre LUT bank, full-clip batch, GFPGAN face-restore) - dispatcher may open successor card for full route",
   "depends_on": []
  },
  {

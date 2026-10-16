@@ -116,3 +116,11 @@
 - **当场执法**：XQ26 帧四烧定谳（v1 两车/v2 构图✓亮脸/v3 faces-in-shadow 仍被暖肤惯性打穿→v4 背跟视角 seen from behind=结构性免疫·**正面脸剪影=Krea2 不可达判例**·剪影镜一律背/侧后构图）；五烧实证 v4 背跟仍回眸亮脸=**背影镜必须去脸部词**（XQ_HER_BACK 专用块判例：发型+发卡+服装=身份标记·脸部词在背影位=回眸诱导）·XQ07 帧补人重做·XQ30 帧牵手重做·KN05 帧银蓝锚重做·17 回炉件 40 对修词（lint 全绿）+V2_KFL 留白锁重烧；调色师席实测勘正=帧层零颗粒零 halation 数字黑（时代底全量落链·GRADE 两案 6 修项）；剪辑席=剪映桥游标越界修复（回零真重复+定格延窗源长封顶）+XF_T1 1.5→1.1s+XQ33 微呼吸案+XQ29 破三连 0.92。XQ27 五烧止损定谳（单人脸+暖光构图=看镜头先验四连不可破含 eyes closed——**花影主体+发肩软边=去脸部词根治第二例**）；held12 四闸板审=10/12 一次过+XQ09 悬垂分词归位+XQ27 止损=12/12 全过。
 - **五席审查团制**：视觉评审×2+调色师席+剪辑席+四闸预检席（subagent 独立盲审·报告落 reviews/·导演席汇总）=「MV 继续请各种专家来审」的常设执法形态。
 
+## J-30 LivePortrait 表演迁移落地判例（POOL-0016 夜2 实测·bm-c r1057·2026-10-17）
+
+- **病**：表演生硬（J-29）的根治工具此前停在 R-stack 选型档——LivePortrait 标注「障碍待解」（InsightFace 检测模型 NC 红线）且 bm-c 16G 夜窗显存/速度/接线全 M 级零实测。
+- **闸（已落）**：①检测面换 **FaceAlignment blazeface_back_camera（BSD3）+landmark torch_gpu**——InsightFace/mediapipe/onnxruntime 零引入=商用红线解（R-stack §四行升「直接可用」）；②**接线律入典**：Process 节点对 driving 帧无内部检测（强缩 256×256）→**driving 必须先过 Cropper 预裁脸**（双 Cropper 接线=官方视频示例正法）+贴回原幅必须走 **LivePortraitComposite** 节点（单静源自动复用 N 帧）；③torch≥2.6 weights_only 默认坑=权重加载前 safe_globals allowlist（blazeface_detector.py）/weights_only=False（landmark_runner.py）；④ComfyUI 0.36 目录型节点按全路径注册 sys.modules→节点包内相对导入一律 `__package__`（api.py）；⑤首发权重慢下载（91.9MB@150-300kB/s）→torch hub checkpoints 预下正法。
+- **实测锚（bm-c RTX3070 16G·夜窗）**：冷烟测（自驱动恒等重建·全链 FaceAlignment→landmark→motion→warping→spade）652.88s 含 614s 一次性权重下载·冷载显存峰 16060MB（torch 分配器瞬时·prompt 尾释放）；热跑 72 帧表情迁移 **35.55s=0.49s/帧·显存峰 3681MB**——16G 卡热态富余充足。
+- **正例**：`lp_expr_night2_r1057.mp4`（1344×768·72 帧·-an）=静帧身份+驾驶片表演·多模态复检零伪影零变形身份一致；微妙表情源→微妙迁移（忠实性 PASS·幅度忠实还原驾驶源）。
+- **瓶颈注**：工具已通=真瓶颈回到**表演参考片库**（R-stack 盲区②）——真人歌手特写参考片不建库，迁移无处发力；夜3（MimicMotion/MusePose 对照）待 10-18。
+

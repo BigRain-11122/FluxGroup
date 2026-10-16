@@ -20,11 +20,11 @@
 | 项 | 首选 | 落点 | 夜窗动作/备注 |
 |---|---|---|---|
 | 口型 | LatentSync v1.5(8GB) | 需验证 | bm-a 12G 即装·试 5s 特写中文唱词 A/B |
-| 表情表演 | LivePortrait | 障碍待解（换 InsightFace 检测模型后可用） | bm-c 试真人歌手参考片迁移一单 |
+| 表情表演 | LivePortrait | **直接可用**（10-17 夜2 实测过·bm-c r1057：FaceAlignment blazeface BSD3+landmark 替代面=InsightFace 零引入·商用红线已解；全链通·双 Cropper+Composite 接线律入 EXPERIENCE-LEDGER J-30） | 已试跑一单（自场静帧+自场驾驶片·微妙表演忠实迁移）；正式投产待表演参考片库（盲区②） |
 | 身体/舞蹈 | MimicMotion | 需验证 | bm-c 16G 跑 72帧档 10s 舞段·MusePose 同夜对照 |
 | 卡点 | librosa（beat_this 备选） | 直接可用 | CPU 级今日可装·bm-a 出 beats.json 剪 30s 实测 |
 | 判负/暂缓 | Wav2Lip（禁商用）·madmom（NC-SA） | 障碍待解/放弃 | Wav2Lip 仅内部基准；Sonic·ewan 待消歧·勿采镜像 |
-| **bm-c 夜窗试跑单（建议行）** | 10-16 夜：LatentSync v1.6 特写×1+MimicMotion 10s 舞段；10-17 夜：MusePose 对照+LivePortrait 参考片迁移；10-18 夜：回填显存峰值/秒帧实测 | — | 三夜数据回填后把「需验证」升「直接可用」 |
+| **bm-c 夜窗试跑单（建议行）** | 10-16 夜：LatentSync v1.6 特写×1+MimicMotion 10s 舞段；10-17 夜：MusePose 对照+LivePortrait 参考片迁移；10-18 夜：回填显存峰值/秒帧实测 | — | 三夜数据回填后把「需验证」升「直接可用」；**实况（10-17 夜2·bm-c r1057·POOL-0016）**：LivePortrait 已收官=冷烟测 652.88s（含 614s 一次性 91.9MB 权重慢下载）+热跑 72 帧表情迁移 35.55s=0.49s/帧·显存峰 16060MB(冷载瞬时·尾释放)/3681MB(热跑)→本行升「直接可用」；夜1（LatentSync/MimicMotion）无回执在案·夜3 待 10-18 |
 - CEO 盲区补全（「我没考虑到的你要帮我补全」）：①中文唱词口型必须实测 A/B（LatentSync v1.5 中文优化=A 佐证·Wav2Lip 英文集=A 反证）；②**表演参考素材库是工具之外的真瓶颈**——真人歌手特写/舞段参考片不先建库，一切迁移工具无用武之地·建议随本单立项「表演参考片库」；③BPM 半拍/倍速误判须人工锚点；④显存分层：重活（扩散身体/口型）给 bm-c 16G 夜窗·轻活（卡点 CPU/Wav2Lip 级）给 bm-a 12G；⑤扩散链身份漂移须预算 A/B 对照与脸部修复后-pass。
-- 更新记录：2026-10-15 骨架落盘→A 源采集完成定稿（分级：A 25·B 4·C 1·M 7·判负 2 仓）
+- 更新记录：2026-10-15 骨架落盘→A 源采集完成定稿（分级：A 25·B 4·C 1·M 7·判负 2 仓）→2026-10-17 夜2 LivePortrait 实测回填（bm-c r1057·POOL-0016：升「直接可用」·回执=bmc/lp_smoke_r1057/RECEIPT-POOL-0016-night2-r1057.md）
 - 防线二：✅ 主会话已独立抽验（2026-10-15·raw.githubusercontent 三源直读全过）——①LatentSync：README 直验「Minimum VRAM for inference: 8 GB with LatentSync 1.5 / 18 GB with LatentSync 1.6」+v1.5「improves performance on Chinese videos」逐字命中+LICENSE 原文=Apache-2.0 直验 ②MimicMotion：README 直验「the 72-frame model requires 16GB VRAM (4060ti)…The minimum VRAM requirement for the 16-frame U-Net model is 8GB」+ICML 2025 逐字命中+LICENSE 原文=Apache-2.0（声明含「except for the third-party components」惯例条款·已读） ③Wav2Lip 判负主张直验成立：现行 README License 节原文「This repository can only be used for personal/research/non-commercial purposes」——判负结论维持；就地纠偏留痕：本件所引「any form of commercial use is strictly prohibited」为旧版措辞，现行文本表述如上、含义一致，星数未独立复核（以仓页读时快照为准）

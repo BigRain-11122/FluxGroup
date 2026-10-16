@@ -1,0 +1,12 @@
+{
+ "trial": "POOL-0016 night-2 LivePortrait expression-transfer sample",
+ "runner": "bm-c r1057",
+ "ts": "2026-10-17T02:16:23",
+ "source": "C01_carver_face_src.png (still, frame@1.0s)",
+ "driving": "C01_carver_face_v5.mp4 frames 0..71 @24fps native",
+ "wiring": "CropperA(src)+CropperB(driving pre-crop)->Process->Composite",
+ "frames_out": 72,
+ "wall_sec": 35.55,
+ "vram_peak_mb": 3681,
+ "outputs_dir": "expr_frames"
+}

@@ -1,71 +1,175 @@
 {
-  "topic": "v2",
-  "slug": "sucheng-launch-event",
-  "title": "速成汽车宇宙·第2集：年度发布会（假广告片·草案 v2·J-M12 归位修订 10-12）",
-  "duration_target": 15.2,
-  "resolution": [720, 1280],
-  "fps": 30,
-  "revision_note": "连续剧席 10-12 复核修项执法：①首屏发言人郑重念 V1 官方原话当新品卖点+静场（时间线焊死）②tts_speed 1.2→1.0（J-M12 快嘴禁）③去 {R} 红字（J-M12）④BGM 马戏团滑稽→发布会质感庄重弦乐（J-M12）⑤时长 18.5→15.2s（J-M8 甜区）⑥catchphrase 变体落置顶评论不落片内（J-M9）。终稿等 V1 数据后定剪。",
-  "shots": [
-    {
-      "id": "S1", "file": "S4.mp4", "trim": [0.0, 4.4],
-      "note": "首屏（连续剧席修项）：发言人剪影郑重念 V1 官方原话当新品卖点+末 0.9s 静场 hold（Quote 金字黑衬底·J-M19 死气封顶）——回调刹车事件·时间线焊死",
-      "kf_prompt": "vertical 9:16 view from the back of a large auditorium, a lone speaker silhouette at a podium under a bright spotlight, a giant glowing LED presentation screen, modern 2026 keynote atmosphere, cinematic, text-free composition",
-      "i2v_prompt": "the silhouette gestures calmly and slowly at the podium, the LED screen light shifts subtly, dust motes drift through the spotlight beam",
-      "i2v_provider": "minimax_h3", "i2v_mode": "first_frame", "i2v_duration": 5, "i2v_resolution": "768P"
-    },
-    {
-      "id": "S2", "file": "S1.mp4", "trim": [0.0, 2.6],
-      "note": "发布会大屏对比语境：180 天速成鸡 vs 速成车——荒诞过渡（源头梗不点破）",
-      "kf_prompt": "vertical 9:16 satirical food-photography scene, a golden fried chicken drumstick on a fast-food tray beside a small die-cast toy car, bright studio lighting, deadpan advertising mood, clean seamless background, text-free composition",
-      "i2v_prompt": "steam rises slowly from the hot fried chicken, the camera does a calm slow push toward the toy car beside it",
-      "i2v_provider": "minimax_h3", "i2v_mode": "first_frame", "i2v_duration": 5, "i2v_resolution": "768P"
-    },
-    {
-      "id": "S3", "file": "S2.mp4", "trim": [0.0, 3.0],
-      "note": "一年三款视觉化：传送带整车下线",
-      "kf_prompt": "vertical 9:16 satirical industrial scene, a glossy unbranded white family sedan standing on a long factory conveyor belt, robotic arms positioned around it, bright clean factory lighting, cinematic mass-production mood, text-free composition",
-      "i2v_prompt": "the conveyor belt rolls the finished car forward slowly and steadily, robotic arms swing in calm mechanical motions",
-      "i2v_provider": "minimax_h3", "i2v_mode": "first_frame", "i2v_duration": 5, "i2v_resolution": "768P"
-    },
-    {
-      "id": "S4", "file": "S3.mp4", "trim": [0.0, 2.8],
-      "note": "几班倒加班感：日历快翻+深夜咖啡",
-      "kf_prompt": "vertical 9:16 overhead shot of a desk calendar with many fanned-open pages beside a steaming coffee mug and car keys, warm late-night desk lamp light, tired quiet mood, film grain, text-free composition",
-      "i2v_prompt": "calendar pages flip forward one by one in a fast timelapse, steam curls up slowly from the coffee",
-      "i2v_provider": "minimax_h3", "i2v_mode": "first_frame", "i2v_duration": 5, "i2v_resolution": "768P"
-    },
-    {
-      "id": "S5", "file": "S5.mp4", "trim": [0.0, 2.4],
-      "note": "荒诞收尾：秤上玩具车与炸鸡——谁更像速成车不点破+wordmark 签名块",
-      "kf_prompt": "vertical 9:16 absurd minimalist scene, a small die-cast toy car on a kitchen weighing scale beside the fried chicken drumstick, clean studio background, deadpan comedic mood, text-free composition",
-      "i2v_prompt": "the scale pointer wobbles slightly, the camera holds almost still",
-      "i2v_provider": "minimax_h3", "i2v_mode": "first_frame", "i2v_duration": 5, "i2v_resolution": "768P"
-    }
-  ],
-  "narration_segments_draft": [
-    { "file": "narr1.wav", "t": 0.2, "note": "seg1 发布会开场（郑重广告腔）：速成汽车，年度发布会。全新一代，来了。" },
-    { "file": "narr2.wav", "t": 4.6, "note": "seg2 官方原话当新品卖点（V1 回调·连续剧席修项）：我们最大的底气，是用户说的——用户实际使用中，未发生断裂。（末 0.9s 静场）" },
-    { "file": "narr3.wav", "t": 8.8, "note": "seg3 速成资产复现（三资产）：一年三款，我们永不休息。周末、夜里、节假日，几班倒，并行战斗。" },
-    { "file": "narr4.wav", "t": 13.6, "note": "seg4 假广告收尾：全新一代，现已上市。" }
-  ],
-  "tts_voice_id": "qwen:anmingyuan_v3.1",
-  "tts_speed": 1.0,
-  "bgm_prompt": "庄重大气的发布会开场配乐，弦乐铺底，现代 luxury keynote 广告质感，从容优雅，禁滑稽禁马戏团节奏，15秒",
-  "bgm_file": "bgm.wav",
-  "bgm_gain_db": -12,
-  "subtitles": [
-    { "t": [0.05, 2.4], "text": "速成汽车 · 年度发布会", "style": "Big", "note": "首帧 0.2s 承诺（J-M19）" },
-    { "t": [2.5, 4.4], "text": "全新一代 · 来了", "style": "Big" },
-    { "t": [4.6, 8.2], "text": "本年度最大卖点：\\N用户实际使用中，未发生断裂。", "style": "Quote", "note": "V1 官方原话回调·金字黑衬底·0.3s 快现+0.9s hold（J-M19 死气封顶·时间线焊死）" },
-    { "t": [8.8, 12.4], "text": "一年三款，{Y}永不休息。", "style": "Big", "note": "三资产复现·浅金单点（J-M13 衬底）" },
-    { "t": [12.5, 13.5], "text": "{\\an2\\pos(360,1080)\\fs34}周末 · 夜里 · 节假日　几班倒 · 并行战斗", "style": "Small", "note": "数据白字（细节移字幕·V1 拍3 同式）" },
-    { "t": [13.6, 15.1], "text": "全新一代 · 现已上市", "style": "Big" },
-    { "t": [13.7, 15.1], "text": "{\\an2\\pos(360,1130)\\fs42}速成汽车", "style": "Small", "note": "wordmark 随旁白起" },
-    { "t": [14.6, 15.1], "text": "{\\an2\\pos(360,1190)\\fs26}售后服务热线：请慢慢拨", "style": "Small", "note": "拍尾错峰（宇宙签名件复现）" }
-  ],
-  "watermark": "AI 生成｜纯属演绎",
-  "publish_caption": "官方原话，成了年度发布会的最大卖点：用户实际使用中，未发生断裂。评论区聊聊你怎么理解这句话。#车圈 #新能源汽车 #AI动画（速成汽车=虚构品牌·纯属演绎）",
-  "pinned_comment": "下集：速成汽车法务部，我们永不休息。——慢慢踩，法务部也是。（虚构品牌·纯属演绎）",
-  "media_layout": "装配时 --media 指向含 S1.mp4…S5.mp4 / narr1-4.wav / bgm.wav 的夹（终剪按 V1 装配器格式定点）"
+ "topic": "v2",
+ "slug": "falvbu",
+ "title": "速成汽车宇宙·第2集：法务部，我们永不休息（PREPRO-V2 v0.2 CERTIFIED 装配版）",
+ "duration_target": 15.55,
+ "resolution": [
+  720,
+  1280
+ ],
+ "fps": 30,
+ "subtitle_style_big": {
+  "fontsize": 56,
+  "marginv": 300
+ },
+ "revision_note": "bm-c r1057 装配版：旧发布会草案判负归档（git 史可溯）。seg5 语音实测 3.88s (silencedetect -35dB) > C5 拍长 3.21s -> C6 弹性扩 2.15s (PREPRO §二 拍6 弹性带条款)：前 0.85s 承 seg5 尾韵+空 feed，后 1.35s 纯静+幸存句加冕；C7 [14.65,15.55]；总长 15.55=V1 同长。C1-C5 分拍表原封未动。",
+ "shots": [
+  {
+   "id": "C1",
+   "file": "c1.mp4",
+   "trim": [
+    0.0,
+    2.0
+   ],
+   "note": "拍1 守护宣言：KF-P 回收+巨幕 PIL（S3 微距 0-0.78s→灰+叉+已处理 0.78-1.67s→清空暗屏 1.67-2.0s）+侧条"
+  },
+  {
+   "id": "C2",
+   "file": "KFL.mp4",
+   "trim": [
+    0.0,
+    2.2
+   ],
+   "note": "拍2 深夜法务部：KF-L i2v [0,2.2]"
+  },
+  {
+   "id": "C3",
+   "file": "c3.mp4",
+   "trim": [
+    0.0,
+    2.8
+   ],
+   "note": "拍3 全网清理：generic feed 灰条瀑布 7 行·三小字各异·谁存了？删而复冒·段末帧退灰"
+  },
+  {
+   "id": "C4",
+   "file": "c4.mp4",
+   "trim": [
+    0.0,
+    2.3
+   ],
+   "note": "拍4 误删自己：声明卡灰罩+叉+已因权利方投诉下架·屏光微动+时码 03:11:5x→03:12:0x"
+  },
+  {
+   "id": "C5",
+   "file": "c5.mp4",
+   "trim": [
+    0.0,
+    3.21
+   ],
+   "note": "拍5 双部门签名语：KFL [2.4,5.0] 0.81x minterpolate 慢放回收（禁末帧冻结）"
+  },
+  {
+   "id": "C6",
+   "file": "c6.mp4",
+   "trim": [
+    0.0,
+    2.15
+   ],
+   "note": "拍6 唯一幸存：空 feed·正在输入闪动全程·幸存句 13.35s 高对比首读（纯静加冕 1.35s）+今天 03:12"
+  },
+  {
+   "id": "C7",
+   "file": "card.mp4",
+   "trim": [
+    0.0,
+    0.9
+   ],
+   "note": "拍7 签名卡 0.4s→标识卡 0.5s"
+  }
+ ],
+ "narration_segments": [
+  {
+   "file": "seg1_t.wav",
+   "t": 0.05,
+   "note": "有一种守护，看不见。（末字≈2.06 落 C1/C2 切点）"
+  },
+  {
+   "file": "seg2_t.wav",
+   "t": 2.35,
+   "note": "那件事，现在没人聊了。"
+  },
+  {
+   "file": "seg3_t.wav",
+   "t": 4.35,
+   "note": "那一晚，全网相关内容，全部消失。（尾入 C4 头 0.4s）"
+  },
+  {
+   "file": "seg4_t.wav",
+   "t": 7.5,
+   "note": "删得很干净。（hold 8.59-9.3=0.71s ≤0.9 ✓）"
+  },
+  {
+   "file": "seg5_t.wav",
+   "t": 9.35,
+   "note": "生产部，一年三款。法务部，永不休息。（尾韵承 C6 前 0.85s）"
+  }
+ ],
+ "bgm_file": "bgm_falvbu.wav",
+ "bgm_gain_db": 0,
+ "subtitles": [
+  {
+   "t": [
+    0.05,
+    2.1
+   ],
+   "text": "有一种守护，{Y}看不见{W}。",
+   "style": "Big"
+  },
+  {
+   "t": [
+    2.35,
+    4.4
+   ],
+   "text": "那件事，现在没人聊了。",
+   "style": "Big"
+  },
+  {
+   "t": [
+    4.35,
+    7.4
+   ],
+   "text": "那一晚，全网相关内容，{Y}全部消失{W}。",
+   "style": "Big"
+  },
+  {
+   "t": [
+    7.5,
+    8.55
+   ],
+   "text": "删得很干净。",
+   "style": "Big"
+  },
+  {
+   "t": [
+    9.35,
+    13.3
+   ],
+   "text": "生产部，一年三款。\\N法务部，{Y}永不休息{W}。",
+   "style": "Big",
+   "note": "双行字幕随 seg5"
+  },
+  {
+   "t": [
+    9.35,
+    12.5
+   ],
+   "text": "{\\an2\\pos(360,1130)\\fs42}速成汽车",
+   "style": "Small",
+   "note": "wordmark 与「生产部」首字同帧淡入（锁同步锚）"
+  },
+  {
+   "t": [
+    11.9,
+    12.5
+   ],
+   "text": "{\\an2\\pos(360,1190)\\fs26}投诉通道：请慢慢填",
+   "style": "Small",
+   "note": "拍尾 0.6s 错峰单独浮现"
+  }
+ ],
+ "watermark": "AI 生成｜纯属演绎",
+ "publish_caption": "速成汽车法务部：相关问题，已全部处理完毕。评论区聊聊：你猜，还剩什么。（改编自近期车圈名场面，懂的都懂。速成汽车=虚构品牌·情节为演绎设定）#车圈 #法务部 #下架 #AI动画",
+ "pinned_comment": "慢慢踩。转给还在找视频的人。下集：速成汽车加班图鉴，我们永不休息。（虚构品牌·纯属演绎）",
+ "media_layout": "装配 --media 指向本 build 夹（c1/KFL/c3/c4/c5/c6/card.mp4 + seg1_t..seg5_t.wav + bgm_falvbu.wav；KFL.mp4=V2_KFL.mp4 拷贝）"
 }
