@@ -1,4 +1,13 @@
 # fleet-poke-worker.ps1 - FleetLink background pull+wake worker v1.8 (CEO order O-20261009-1750 "very fast sync").
+# v1.10 (2026-10-18 hung-round revival, bm-a fleet-ops seat, CEO order "recover
+# the fleet - my accidental shutdown of other machines' tasks"): a Running
+# round-runner task (Bigmoney-IterationLoop / MiniGameEngineTick) whose LANE
+# heartbeat has been frozen >120 min is a HUNG round (bm-c 10-14 / 10-17 / 10-18
+# three occurrences; the 10-17 verdict said remote channels can only signal and
+# repair needed on-machine Stop-ScheduledTask->Start - this closes that gap).
+# Evidence-gated: only restarts with POSITIVE staleness proof from the machine's
+# own lane heartbeat file; a 20-min restart stamp prevents killing a fresh round
+# that has not written its heartbeat yet; off-skip freeze-face protection unchanged.
 # v1.8 (2026-10-17 force-repos concat fix, bm-b live-fire x2): with a single-element
 # poke_repos (all nodes use ['.']) the pipeline `@($node.poke_repos) | ForEach-Object`
 # UNROLLED the array into a scalar string, so `$pullSet += $fs` did string CONCATENATION
@@ -260,7 +269,54 @@ foreach ($t in $reqTasks) {
   if ($allow -notcontains $ts) { $woke += ($ts + ':deny'); continue }
   $task = Get-ScheduledTask -TaskName $ts -ErrorAction SilentlyContinue
   if (-not $task) { $woke += ($ts + ':no-task'); continue }
-  if ($task.State.ToString() -eq 'Running') { $woke += ($ts + ':busy-skip'); continue }
+  if ($task.State.ToString() -eq 'Running') {
+    # v1.10 hung-round revival (see header). Only the two round-runners, only with
+    # positive heartbeat-staleness evidence, only once per 20 min per task.
+    $hungRestarted = $false
+    if (($ts -eq 'Bigmoney-IterationLoop') -or ($ts -eq 'MiniGameEngineTick')) {
+      $hrLock = Join-Path $Dir ('hung-restart-' + $ts + '.stamp')
+      $recentRestart = $false
+      if (Test-Path $hrLock) { try { $recentRestart = (((Get-Date) - (Get-Item $hrLock).LastWriteTime).TotalMinutes -lt 20) } catch { } }
+      $hbAgeMin = -1
+      if (-not $recentRestart) {
+        $hbFile = $null; $hbField = ''
+        if ($ts -eq 'Bigmoney-IterationLoop') {
+          $hbFile = Join-Path $Root ('quant/bigmoney/fleet/machines/' + $NodeId + '.json')
+          $hbField = 'last_seen'
+        } else {
+          $hbFile = Join-Path $Root ('gaming/MiniGame/Design/configs/GLOBAL/fleet/' + ($NodeId -replace '^bm-', '') + '.json')
+          $hbField = 'ts'
+        }
+        try {
+          if ($NodeId -and (Test-Path $hbFile)) {
+            $hbRaw = Get-Content -Raw -LiteralPath $hbFile
+            $m1 = [regex]::Match($hbRaw, ('"' + $hbField + '"\s*:\s*"([^"]+)"'))
+            if (-not $m1.Success -and $ts -eq 'Bigmoney-IterationLoop') { $m1 = [regex]::Match($hbRaw, '"clock_read"\s*:\s*"([^"]+)"') }
+            if ($m1.Success) {
+              $hbDto = [DateTimeOffset]::Parse($m1.Groups[1].Value, [Globalization.CultureInfo]::InvariantCulture)
+              $hbAgeMin = [math]::Round(((Get-Date) - $hbDto.LocalDateTime).TotalMinutes, 0)
+            }
+          }
+        } catch { $hbAgeMin = -1 }
+      }
+      if ((-not $recentRestart) -and ($hbAgeMin -gt 120)) {
+        try {
+          try { [IO.File]::WriteAllText($hrLock, (Get-Date -Format s)) } catch { }
+          Stop-ScheduledTask -TaskName $ts -ErrorAction Stop
+          Start-Sleep -Seconds 6
+          try { Start-ScheduledTask -TaskName $ts } catch { }
+          $woke += ($ts + ':HUNG-RESTART-hb' + $hbAgeMin + 'm')
+          WK-Log 'hung-restart' ($ts + ' hb_age_min=' + $hbAgeMin + ' node=' + $NodeId + ' reason=' + $Reason)
+          $hungRestarted = $true
+        } catch {
+          $woke += ($ts + ':busy-skip-stopfail')
+          WK-Log 'hung-stop-fail' ($ts + ' ' + [string]$_.Exception.Message)
+        }
+      }
+    }
+    if (-not $hungRestarted) { $woke += ($ts + ':busy-skip') }
+    continue
+  }
   # v1.3 (C-20261009-04): CEO freeze faces (design-state Disabled tasks) must not
   # be re-armed by a remote wake - same off-skip protection as the local sentinel.
   if ($task.State.ToString() -eq 'Disabled') { $woke += ($ts + ':off-skip'); continue }
