@@ -72,6 +72,6 @@ L1 榜单判读（每窗全录）→ L2 五门+司域映射（契合件入候选
 
 - **承载**：CEO-PROXY 08:43 晨检班固定片（≤2 调用·晨检班日更在跑·零新循环=寄宿律）。
 - **方法**：匿名 api.github.com search API 双查（A=近 30 日新建高星仓 `created:>… stars:>150`·B=核心域活跃仓组合查询）——免凭据零 token；gh 已授权机可换 `gh search repos` 同效。脚本=`Tools/radar-daily-sweep.ps1`。
-- **产出路由**：契合件一行入 NEED-JUDGMENT（司域映射+建议级）/迭代队列；爆发级（日增千星族）即 hot 即报律照旧（§三5）；深评估仍归 72h OSS 窗五门——**日频=轻扫分诊·72h=深研落实·周轮=简报收益**，禁双建。
+- **产出路由**：契合件入 **OH-<date>-cph4.md 切片候选表**（radar §6.4 认领位格式 `| 件 | 司域映射 | 建议级 | 认领（空=待领） |`；NEED-JUDGMENT.md=L0 每轮重生成快照·手写会被冲掉·禁作落点〔10-17 勘误·首跑候选已按正解落 OH-20261016-cph4.md〕）；爆发级（日增千星族）即 hot 即报律照旧（§三5）；深评估仍归 72h OSS 窗五门——**日频=轻扫分诊·72h=深研落实·周轮=简报收益**，禁双建。
 - **判读纪律**：§三判据全适用（契合必研究/不契合一句话判负/诚实零发现合法）；合规红线件（共享 key/灰色通道类）由 compliance-guard 席判负留痕。
 - **首跑实锚（2026-10-16）**：契合候选 4=Niko1221/Strata（Qwen3.8-Flash-Next 消费级一键部署 26k★·本地推理线）/yetone/magpie（agent 模型路由 14k★·token-economy 线）/mattpocock/skills（293k★·智能体库素材源）/msitarzewski/agency-agents（160k★·专家席位模式参照）；判负 1=Ebony-Vinyl/dsh（共享 API Key 白嫖路=合规风险）。10-23 周审判据=日扫执行率 ≥6/7。
