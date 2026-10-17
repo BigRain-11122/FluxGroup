@@ -78,9 +78,12 @@ def c6_frames(spec, media, work, n=18):
     img = ImageEnhance.Brightness(img).enhance(0.72)
     d = ImageDraw.Draw(img, "RGBA")
     d.rectangle([0, 0, 719, 1279], fill=(30, 30, 30, 70))  # 灰罩
-    # 大叉（斜杠）
-    d.line([130, 260, 590, 1020], fill=(235, 235, 235, 210), width=14)
-    d.line([590, 260, 130, 1020], fill=(235, 235, 235, 210), width=14)
+    # 系统级禁止徽标（P2 修项 2026-10-17：平台下架通用视觉=深底圆盘+红环+45°斜杠·替代原手绘全幅大叉）
+    bx, by, r = 360, 596, 190
+    d.ellipse([bx - r, by - r, bx + r, by + r], fill=(16, 16, 18, 242))
+    d.ellipse([bx - r, by - r, bx + r, by + r], outline=(198, 40, 40, 255), width=22)
+    s = int((r - 11) * 0.7071)
+    d.line([bx - s, by - s, bx + s, by + s], fill=(198, 40, 40, 255), width=22)
     # AIGC 角标（置顶层）
     d.rectangle([14, 14, 14 + 118, 14 + 44], fill=(0, 0, 0, 190))
     d.text((24, 20), c6["badge"], font=font(26), fill=(255, 255, 255))
