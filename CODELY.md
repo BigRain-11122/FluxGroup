@@ -35,6 +35,7 @@
 - [2026-09-26 23:21:58] FluxGroup 总控仓结构律（09-23 建仓定谳·2026-09-26 精简归并）：.gitignore 隔离 gaming/MiniGame 与 quant/bigmoney 两个子公司仓（各自独立 remote），严禁把这两个目录 add 进总控；根级 CODELY.md 与 .codely-cli/settings.json 随仓提交；AI 会话冷启动第一入口=根级 AI.md（5 分钟全局认知·组织表/机制表/文件地图/AI 行为速记九律）。
 - [2026-09-26 23:21:58] 子公司开线事实与待裁（09-23/24 建制·2026-09-26 精简归并）： → 全文档案: .codely-cli/memory/mem-20260930-o-008.md
 - [2026-09-26 23:21:58] 机队资源分配律（09-23 立法·cph4/fleet-allocations.md+scheduling.md·2026-09-26 精简归并）：机器按配置分主归属（主归属 P0 保主）+空余算力可借池（verdict 绿灯进池·按被借方协议认领·禁双建禁双开工·不建中央调度器）；云算力默认态=并行全量调用——CEO 指令=唯一变更通道，AI 禁自行设限；缺资源通道=P0-Resource→周报清单→CEO。
+- [2026-10-17 12:2x] bm-c 生成窗接管 MV 产线收口（CEO 双令 09:5x：bm-c=生成视觉专用道+本地 LLM 面 RETIRED〔正典=resource-chain §9.1/§9.2 changelog+orders 09:5x 行·模型留盘可逆〕·O-20261017-1020 接产）：V5 追加单 4 镜重烧当窗闭环（重烧禁盲烧=4/4 480P trial 先 PASS→INT8 768P 官方同名覆盖；KF winners=D01/C04/E01c s9931+INT5 复用审定 s9910；帧级验收 4/4 PASS〔D01 零拉丁+半成行可读/E01c 一凿落定+石屑/INT5 背线不塌/C04 楔形判实〕·判读档=bmc/QC-v5add4-20261017.json+4x3 QC 板=V5-ADDENDUM4-QC-BOARD-20261017.jpg·commit e37aaa2f2·12:17 poke bm-a 已达）——bm-a V5.1 终版链唯一待件已清。工艺=V5 runner 模式复用（3-phase runner+旧件备份零丢失+git 原子推交付）。
 ### Reference
 ---
 
@@ -42,7 +43,7 @@
 > 层级：L0=全局硬法+索引（各机 <home>\.codely-cli\CODELY.md·平台每次注入·现 ~20KB）｜**本件=L1 项目层**（git 分发·跨机共享·项目专属记忆正身）｜L2=主题层（各机 <home>\.codely-cli\memory\topics\·按需读）。正典权威=git 永久件——本件只放指针与项目级记忆·禁复述正典（复述禁令 §1.2）。
 
 ### 项目状态指针（最新态一律查 docs/orders.md 尾行）
-- MV 41 曲线（本机在飞=mv0001 V5.1 精修 O-20261017-1020：全曲55事件歌词层+S4删/SIL1延窗+21.90微叠化已修并多模态实证（V5.1-PROXY-PASS·cd4da8db）·待 bm-c 4 镜重烧（D01/C04/E01c/INT5·bm-c 挂死轮阻塞中）→768P 终版+专家两波→呈 CEO）：cph4/fleet/mv-album-001-jay/ + cph4/fleet/mv0001-handover/
+- MV 41 曲线（本机在飞=mv0001 V5.1 精修 O-20261017-1020：全曲55事件歌词层+S4删/SIL1延窗+21.90微叠化已修并多模态实证（V5.1-PROXY-PASS·cd4da8db）·bm-c 4 镜重烧已交付 2026-10-17 12:1x（D01/C04/E01c/INT5·4/4 帧级 PASS·e37aaa2f2）→bm-a 768P 终版+专家两波→呈 CEO）：cph4/fleet/mv-album-001-jay/ + cph4/fleet/mv0001-handover/
 - 量化波链（W 波席位/冻结态）：bigmoney/
 - 调度/巡视（CEO-PROXY 主AGENT/PATROL-FLEET）：cph4/fleet/dispatcher/
 - 硬件采购（V100 三卡机 BOM/验收线）：cph4/fleet/hardware/
