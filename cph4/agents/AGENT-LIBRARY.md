@@ -36,7 +36,7 @@
 | 值守轮 / 夜轮 / 进化轮 | 四器审计+催办自愈 / 03:07 夜报 / 周日立法+法熵审视 | `cph4/night-round-prompt.txt` / `evolution.md` | 03:07/15:07 · 周日 |
 | 交付哨 delivery-watch | 交付物落地守望+min_duration 质量闸+告警 | `cph4/fleet/dispatcher/delivery-watch/` | 常驻 |
 | 审计部+哨兵 | 自我感动/同向无效功审计+独立抽审 | `cph4/audit-office.md`+`Tools/audit-sentinel.ps1` | 每日双班 |
-| 记忆夜审门 | 记忆预算闸（>110KB/>140 条自动瘦身流程） | `Tools/memory-budget-gate.py` | 21:47 |
+| 记忆治理席+预算闸 v2 | 三层记忆预算守门（预警 35KB/80 条·执法 50KB/120 条·4h S4U 二段执法·写入五问路由） | skill memory-curator（canon=cph4/skills/memory-curator）+`Tools/memory-budget-gate.py` | 4h S4U（HQ-MemoryBudgetGate） |
 | CoderServe 看门狗 | bm-a 35B 常驻 :8090（PID 锁+路径闸） | `Tools/coder-serve.ps1` | PT10M |
 | 热点扫描线 | 全网热榜三班扫描入池 | ShortVideoHotScan1/2/3（schtasks） | 日 3 班 |
 
@@ -55,6 +55,7 @@
 | **合规席**（本批新增·阶段门控） | 肖像版权/平台红线知识库（**现役=轻量顾问·商业化触发转全检**·CEO 令 2026-10-16） | skill `compliance-guard` |
 | **增长席**（本批新增） | 账号/粉丝/评论区/节奏/看板 | skill `growth-ops` |
 | **城市生态席**（本批新增） | 城市非渲染面（居民/安家/商业化/可视化） | skill `silicon-city-ops` |
+| **记忆治理席**（2026-10-18 接管） | 记忆写入守门+预算闸消费+L0/L1/L2 路由判定+梳理窗执法 | skill `memory-curator` |
 
 ## §三 Skill 总库索引（按域·含位置注记）
 
@@ -66,7 +67,7 @@
 | 城市线 | lowpoly-city-3d（总控）· city-3d-assembly · city-3d-lighting · city-3d-procedural · city-3d-terrain · **silicon-city-ops**（新） | canon（本批收编 5+新 1） |
 | 内容/媒体 | bigstream-expert-panel · tw-mv-director · capcut-edit · avoid-ai-writing · ai-writing-detector · voice-preserving-rewriter · canvas-design · theme-factory · doc-coauthoring · internal-comms | canon+项目+用户级 |
 | 量化 | backtest-expert · position-sizer · drawdown-circuit-breaker · signal-postmortem · trade-hypothesis-ideator · data-quality-checker | 用户级（bm-a） |
-| 机队/基建 | **fleet-ops**（新）· **agent-librarian**（新）· dispatching-parallel-agents · mcp-builder | canon+用户级 |
+| 机队/基建 | **fleet-ops** · **agent-librarian** · **memory-curator**（记忆治理席·2026-10-18）· dispatching-parallel-agents · mcp-builder | canon+用户级 |
 | 合规/增长 | **compliance-guard**（新）· **growth-ops**（新） | canon |
 | 研究/质量 | cph4-research-dispatch · verification-before-completion · systematic-debugging · test-driven-development · webapp-testing | canon+用户级 |
 | 办公/前端 | docx · pdf · pptx · xlsx · frontend-design · web-artifacts-builder | 用户级（bm-a） |
@@ -106,8 +107,10 @@
 | 2026-10-16 | growth-ops | 合规/增长 | 增长运营：粉丝/评论区/节奏/看板 | skill（canon=cph4/skills/growth-ops） | ACTIVE |
 | 2026-10-16 | silicon-city-ops | 城市线 | 城市生态：居民/安家/商业化/可视化 | skill（canon=cph4/skills/silicon-city-ops） | ACTIVE |
 | 2026-10-16 | city-seat-ops / city-seat-content / city-seat-data | 城市线 | 城市运营/内容/数据席位（增长槽） | 待 canon 落地建卡 | PLAN |
+| 2026-10-18 | memory-curator | 机队/基建 | 记忆治理席：三层记忆预算守门（写入五问+L0/L1/L2 路由+4h 闸消费+梳理窗执法） | skill（canon=cph4/skills/memory-curator） | ACTIVE |
 
 ## 更新日志
 
 - v1.0（2026-10-16·bm-a 建库）：总册首版（常设机构位 15+专家席位 16+八域 skill 索引+城市线专册）+五席新 skill+六件既有 skill 收编 canon+同步/审计双工具+CEO-PROXY 周审步接线（执行档=docs/orders.md 2026-10-16 建库令行）。
 - v1.0.1（2026-10-16·bm-a）：合规席转阶段门控（CEO 令「商业化前轻量」）——§0/§二/§六 合规行改写·skill 同步升版。
+- v1.0.2（2026-10-18·bm-a CEO-PROXY R2.16·NJ-6 ①收口）：记忆治理席 memory-curator 补登记（建库铁律「不登记不存在」修复·立席依据=cph4/research/R-20261018-memory-control-01·CEO 直令 2026-10-18）+§一 记忆夜审门行勘正至闸 v2 参数（4h S4U·预警 35KB/80 条·执法 50KB/120 条）——溯源=orders 2026-10-18 记忆治理直令补录行。

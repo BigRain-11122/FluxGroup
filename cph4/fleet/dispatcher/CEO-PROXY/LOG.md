@@ -342,13 +342,9 @@
 - **anchor**：orders 尾 01:2x @bm-a POOL-0013 行（下一班增量从此起算）。
 [2026-10-17 06:39] 事件班（承载件触发 NJ biggame R10·步0 陈锁 203.6min 接管 06:27）｜调用≈40｜verdict=T0 首批游戏云批点火完成：云批-1 8 占位族 T1 海选 8/8 过一级（6 PASS+2 定向重摇双 PASS·splitter_v2 9/swarm_v2 8·一级海审 7.5/10·板=u360_l2_T1wave2_board_q88.jpg）+云批-2 4 特效 80 分 4/4 验盘入工程+云批-3 collect_item 24 连击梯 20 分验盘（查重闸执法=本地 49 音频盲下载阻断·CC0 3D 错位=生成道授权）+云批-4 查重定谴=r2 代码件归 MiniGame 车道·attribution=CEO直令-游戏公司云道·DEADLINES L34 翻 ignited·08:43 呈报面备妥（遗留=二审+高清+变体+接线候 08:43/下窗）｜行动=orders 行+DEADLINES full+NEED-JUDGMENT 销旗+回访探针+锁收口
 [2026-10-17 07:3x] 事件班（bigstream R12④ 承载件触发·P1 O-2110 bm-b 腿时窗纠偏）~36 调用·verdict=E1 未愈 07:26 实测定谳（心跳 r986 冻结 60h+bigmoney origin 无 bm-b r987+）+改派裁定=堵死（文件单路径 bm-b 盘：Taildrop 欠交在哨/SMB 无凭据/git 超 bloat 闸）→行动=@bm-b 活窗轻派行落 origin 573a30c11（orders 10-17 07:3x 行·lane=cpu-sound 轻件·回执窗 ≤12:43·外死线 21:1x·勿候 IterationLoop 复活）+poke 07:33:07 受理（v1.9.3）+拉取落盘实证 07:33:17 pulls=.:updated；E1 并案单（00:5x 行）不重立不替代=仅其件⑤ CDN 半腿 deadline 对齐；回执扫描锚点=orders 10-17 07:3x 轻派行；watch=08:43 晨检复核线维持+09:07 回访探针+21:1x 收口（bigstream 席）；DEADLINES 21:1x 行 R2.8 翻新随批 [via bm-a CEO-PROXY]
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
 ||||||| Stash base
 =======
 =======
->>>>>>> Stashed changes
->>>>>>> Stashed changes
 ## Round R2.9：2026-10-17 09:57-10:1x·事件班（承载件触发 NJ-R11a biggame·08:43 晨检缺班首班 fallback 代消费）·调用数≈28·零云端 token
 - **触发与步0**：EVT 载具 09:4x 发射 NJ-R11a（08:43 晨检班周六无会话窗缺班·首批云批呈报 act 失载·预注册 fallback=首个事件班代消费）；步0 锁 139.7min 陈旧过期→touch 接管单窗（锁内容行=接管窗口+Round 号·R2.0 提名范式）。
 - **主交付①——首批游戏云批呈报已落地**：正身=orders 10-17 10:1x R2.9 呈报行（CEO 大白话+轮子/库件字段+积分费 100+产物清单+审板绝对路径 Test-Path 亲验·排产单 §三2 字段全载）；T0 执行面零重做（R2.7 receipts 在案·防双烧遵守）。
@@ -404,3 +400,13 @@
 - **行动**：DEADLINES R2.15 双注记（08:43 修正指令=只验不可销账·仍缺=E1 复发按两轮兜底律升委员会通道+音频点火候选留评）+06:50 一次性回访探针 durable（复探 watch ①+心跳新鲜度·锁门同守）+清 04:12 过期探针残留（本班即其载体已消费）+LOG/DEADLINES 原子推+锁收口
 - **坑录**：DISPATCH-LOG.md=本地未跟踪件（origin 树无此件·R2.6 判例承 R2.14 班毕行）——四元组行=本地尾锚追加零推送·正身推送面=CEO-PROXY/LOG.md；原子推 append 模式要求目标在 origin 存在（本班 ABORT 首验=守卫正行为非故障）
 - **回执锚点**：BM 仓 orders 尾 O-20261018-0348-bm-a.md（03:48·本班零新令）
+
+
+## Round 2.16｜2026-10-18 05:42-06:2x·事件班·承载件触发（R2.13 DL 四元组迟到重复投递·锁 20.7min 过期窗接管 05:48:23）·调用≈28·零云端 token
+- **重复承载判定（查重律）**：触发现=R2.13 DL 四元组（02:42-03:0x·verdict 与 LOG Round 2.13 自记块全同）=迟到重复投递非新令——盘上实证 R2.13/R2.14/R2.15 三班已连环消费（O-0348+poke ×2+06:50 探针+DEADLINES 双注记+origin 链 00236d9→859bcd1→f8f3069→0cf9bfd）→本班零重立零重派单·转夜守护面复验+NJ-6 裁决执行。
+- **watch ① 亲验=主判据达成（05:48 fetch）**：BM origin tip=b15d5e699「round 998 git-face closeout: O-0137 taskaudit receipt landed late (estate absorb per O-20261018-0348-bm-a)」——fleet/inbox/MSG-20261018-0216-bm-b-taskaudit.md（43 行）+bm-b.json/state.json 族亲验在树；死锁解锁实弹闭环=bm-a r1046（backlog row13 解锁单+force-pull poke 05:2x）→bm-b 收口链=O-0348 §3 两轮兜底律首例全链成功（WINS 候选：idle fast-path 死锁→定向解锁单+定向 poke 配方）；残余=bm-b 心跳 ts 仍冻结 02:26:54（/status 05:48:28 listener 活体 RAM 13.9G free/CPU 7%·r999 轮在跑）候轮次收口+O-0348 回执节 bm-b 落件行候补勘——06:50 探针（R2.15 设·在位）+08:43 晨检双承载维持·零新设（防双烧）。
+- **夜守护面（夜产守护片+盲区 10-12）**：bm-c 传感复用（/status 05:48:30：r1083 closeout=W265 SPLICE PREP 落链+next=W265 splice derive FIRST ACTION r1084·RAM free 2.5G/VRAM 12.9G——P0 在飞零重探）；leg-5 五件亲验 5/5 在盘 16,454,993B 字节恒等（PILOT-PREVIEW 8,224,570+seg1 2,019,916+seg2 2,099,596+seg3 4,106,800+sea-review 4,111）=CEO 看片通道 material in place 维持；新鲜验证律=本班全程实测锚；保留面零催办=waiting-CEO 区无变动；MV V5.4=呈 CEO 终审态（DEADLINES R2.11 销账线·后续归 MV 窗自守）。
+- **NJ-6 r2 裁决=当窗三件执行（r1=03:3x/r2=05:30 两轮零执行后枢纽收口·L0 下轮再生即验）**：①AGENT-LIBRARY v1.0.2=memory-curator 席补登记（§一 记忆夜审门行勘正闸 v2 参数+§二 席位行+§三 索引+§六 表行+更新日志——建库铁律「不登记不存在」修复·agent-librarian 席法执行）；②memory.md §9.1③⑤+§10 勘注（fleet-memory-sync 退役+闸 v1→v2 参数漂移修正·§8 核对零漂移）+law-registry §六 2026-10-18 一批条目（三件套闭环律：挂载点+点火证据+注销清单）；③orders.md CEO 记忆治理直令补录行（2026-10-18 00:2x 原话·正身=R-20261018-memory-control-01）——勘正 NJ-6 ③判定：10-15 双令 O-1230/1235 已在档 orders L1065/L1066（L0 词形查「记忆治理」漏中·CEO 措辞≠关键词）·真缺口=10-18 直令行+推广派单通道——本班补齐含 @bm-b/@bm-c 推广派单四件套（装机+自跑首跑+身份元组+删旧 cron）+回执节+10-25 五判据。
+- **行动**：六件 origin 基底 python 字节补丁（LOG append+DEADLINES R2.16 注记+AGENT-LIBRARY×5+memory×2+law-registry+orders 补录行·锚点断言+备份）→原子推（full 模式 expect 守卫+反转闸+PYTHONIOENCODING=utf-8 设防）→poke 双机（默认 HOT "." 拉取=补录行可见性·零 task wake=两机在飞不打扰）→agent-library-sync 本机装机→DISPATCH-LOG 四元组（本地件零推送）→cph4-shiftlog NJ-6 RESOLVED 行→锁收口；cron 自检=班次正身（43 2,5,8,12,15,18,21,23 recurring durable）+06:50 探针在位+04:12 残留已清（R2.15）——步8 ✓ 零补建；LOG 残存冲突标记行本班按 canonical label 精准清除（打印留证·承 R2.14 提名）。
+- **坑录（候选回灌 EXPERIENCE-LEDGER）**：①PS5.1 Get-Content -Raw 无 -Encoding UTF8 读 BOM-less UTF-8 中文文件=GBK 误读→中文 regex 锚零命中假阴性（本班 DEADLINES 锚初验 0 命中复现 R2.14 坑·正法=python 字节面或显式 UTF8）；②L0 NJ 词形查「记忆治理」漏中在档 CEO 令行（CEO 措辞≠关键词·10-15 双令以「上下文」「分类」措辞在档）——NJ 缺口判定须词形族扩展（同义词族+O- 号直查+R- 档正身回溯）；③本地 main 与 origin sha 分叉态（ahead=10/behind=33·API 推链历史形态·内容面六目标件 origin 权威零损）——非本班射程·外科专窗候裁（08:43 晨检班知会·分叉态不适用 ff-only 自愈判例）。
+- **回执锚点**：docs/orders.md 尾=2026-10-18 00:2x CEO 记忆治理直令补录行（推广派单 @bm-b/@bm-c·回执窗 ≤10-25）+BM 仓 orders 尾 O-20261018-0348-bm-a.md（03:48·本班零新 BM 令）。
