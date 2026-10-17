@@ -46,7 +46,7 @@
 > 层级：L0=全局硬法+索引（各机 <home>\.codely-cli\CODELY.md·平台每次注入·现 ~20KB）｜**本件=L1 项目层**（git 分发·跨机共享·项目专属记忆正身）｜L2=主题层（各机 <home>\.codely-cli\memory\topics\·按需读）。正典权威=git 永久件——本件只放指针与项目级记忆·禁复述正典（复述禁令 §1.2）。
 
 ### 项目状态指针（最新态一律查 docs/orders.md 尾行）
-- MV 41 曲线（本机在飞=mv0001 V5.3 终版收尾（CEO O-20261017-1741/1758：MV 终审=CEO 亲自审位·其余决策全授权按市场风向）——V5.2 逐镜全审 33 判+V5.3 复验全绿（canon/V5.3-VERIFY-RECEIPT-20261017）·三镜重烧 D04/SIL1/C01 @bm-c 在途·收片后重建→水印→专家组→DIRECTOR-REVIEW-V5.3-PASS→呈 CEO）：cph4/fleet/mv-album-001-jay/ + cph4/fleet/mv0001-handover/
+- MV 41 曲线（本机在飞=mv0001 V5.3 终版收尾（CEO O-20261017-1741/1758：MV 终审=CEO 亲自审位·其余决策全授权按市场风向）——V5.2 逐镜全审 33 判+V5.3 复验全绿（canon/V5.3-VERIFY-RECEIPT-20261017）·三镜重烧 D04/SIL1 已云道收口落位（V53R commit 537a58226·QC 2/2 PASS·V5_SOURCE_MAP 扩毕·星晴 i2v 包亦三层闸收口 5f3be92fa 准烧候 PENDING 帧）·唯 C01 @bm-c 在途（cron 5a5ec609 盯守）→收片后重建→水印→专家组→DIRECTOR-REVIEW-V5.3-PASS→呈 CEO）：cph4/fleet/mv-album-001-jay/ + cph4/fleet/mv0001-handover/
 - 短剧/漫剧线（CEO O-20261017-1741 转向令：短视频线停产判「太烂」·深研三波 R-20261017-duanju/manju/mv-craft 已过防线二；短剧=duanju-dept-v1《十秒人生》剧本 v1.1 复核 PASS 7.93 候 KF 试构图；漫剧=《一路长虹》转 3D 漫化+配音 P0 @bm-b 在途；三线出库闸=cph4/fleet/VIDEO-QC-GATES-GSV-v1.md）：cph4/fleet/duanju-dept-v1/ + cph4/fleet/drama-dept-v1/
 - 量化波链（W 波席位/冻结态）：bigmoney/
 - 调度/巡视（CEO-PROXY 主AGENT/PATROL-FLEET）：cph4/fleet/dispatcher/
