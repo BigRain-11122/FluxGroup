@@ -395,3 +395,12 @@
 - **班毕**：O-0348 BM 推送+双 poke+LOG 本块原子推（full 模式 expect 守卫 e6c5c80f/a38f4fb6+反转闸+PYTHONIOENCODING=utf-8 设防）+DEADLINES 08:43 行 R2.14 注记随批+DISPATCH-LOG 四元组行（本地件·R2.6 判例）+锁 touch 收口。
 
 - **R2.14 补记（班毕自审 04:1x·诚实律披露）**：本班 LOG 推送用 full 模式实推本地全量件，副作用三件如实入档——①origin LOG.md 由「近三班块窄面」态恢复为本地全量历史（Round 2.1/R2.6/R2.9/06:39/07:3x 行归位=向 05:43/08:43 pending 外科清理目标收敛非倒退）；②内容级 diff（--ignore-cr-at-eol·00236d9→859bcd1）亲证删除面仅 7 行=重复 stash 冲突标记残块一拷（零真内容损失·本班编辑面=纯 append+DEADLINES 单行改写）·残存标记块仍候 05:43/08:43 清理提名；③DEADLINES R2.14 注记先前 hits=0=PS GBK 解码吃 ASCII R 字节假阴性（GBK trail 字节吞噬）·UTF8 复检 1 处在档实证——坑录升格：PS 管道验含中文 git 输出一律先 [Console]::OutputEncoding=UTF8（承 PS5.1 六法编码族·候选回灌 EXPERIENCE-LEDGER）。
+
+## Round 2.15｜2026-10-18 04:57-05:2x·事件班·承载件触发（R2.13 04:12 回访探针迟到 04:56 投递·锁 48min 过期窗接管 04:57:39）·调用≈28·零云端 token
+- **watch ① 终验 NOT-LANDED+R2.14 兜底前提失效实证**：BM origin tip a748663be 全历史零 MSG-20261018-0216-bm-b-taskaudit+O-0348 回执节空占位+r998 心跳 02:26:54 陈旧 2h41m（/status 直探 05:06:26：listener 活体 RAM 14.9G free/CPU 2%·BM 本地 head 3917a974e 已含 O-0348·令落 origin 后 77min 零 git 面动作）+v1.10 hb>120m 自愈触发点 04:26:54 已过 40min 零效果=R2.14「勿再 poke 勿重立令」前提失效——本班维持零 poke 零重令（防双烧·bm-a r1045 04:49 心跳自证 account-stays-open 在盯+NJ hub 双线 10min 级在位）
+- **watch ⑤ bm-c 全绿翻新**：W265 PREREG FREEZE（e57215a2c）+r1083 SPLICE PREP 五面拼接收口（a748663be）+O-0137 §2 回执三件落链（f2a4b0255+MSG-0431-bmc-taskaudit）+心跳治愈——biggame 案卷归位维持·传感复用零重探
+- **饿死链入档**：POOL-0018/0019（whisperX/allin1 双锚批·10-15 开卡至今未领）×bm-b loop agenda_starved=true 双因果·输入音源=bm-a 夜窗代投 42 首 408.5MB 盘上在位未投（部分 -words.json 已有 10-17 18:45）→解锁候选=真轮次触发·点火归 mv-director 席评非本班射程
+- **leg-5/NEED-JUDGMENT**：leg-5 维持 CLOSED-VERIFIED 零复验（晨检轻验在位）；NEED-JUDGMENT 零判卡·L0 旗=QUEUE-LOW bm-a/bm-c 常规面
+- **行动**：DEADLINES R2.15 双注记（08:43 修正指令=只验不可销账·仍缺=E1 复发按两轮兜底律升委员会通道+音频点火候选留评）+06:50 一次性回访探针 durable（复探 watch ①+心跳新鲜度·锁门同守）+清 04:12 过期探针残留（本班即其载体已消费）+LOG/DEADLINES 原子推+锁收口
+- **坑录**：DISPATCH-LOG.md=本地未跟踪件（origin 树无此件·R2.6 判例承 R2.14 班毕行）——四元组行=本地尾锚追加零推送·正身推送面=CEO-PROXY/LOG.md；原子推 append 模式要求目标在 origin 存在（本班 ABORT 首验=守卫正行为非故障）
+- **回执锚点**：BM 仓 orders 尾 O-20261018-0348-bm-a.md（03:48·本班零新令）
