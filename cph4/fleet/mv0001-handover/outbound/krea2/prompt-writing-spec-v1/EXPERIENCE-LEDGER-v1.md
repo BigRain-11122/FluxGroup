@@ -77,6 +77,12 @@
 - **闸（已落）**：抽帧判读提示词「应是什么」三查——①画面预期查装配 cut 行/窗表实况（禁凭记忆写场景）；②字幕预期查 ASS 事件表该时刻有无行（禁凭「器乐段」直觉）；③镜头内容存疑先抽同窗多帧+旧版对照帧再写预期（v5/v51 同点位对照=病灶实证正法）。
 - **执法面**：一切拉片/QC 抽帧判读提示词（与 J-34 落位/J-35 预期原文合构成探针三律）。
 
+## J-39 视频暗水印选型判例：图像系 DWT 方案 x264 全灭·VideoSeal 定谳（2026-10-17 暗水印令实锥·bm-a）
+
+- **病/例**：blind_watermark（guofei9987·DWT-DCT-SVD·14.8k★）png 冒烟/往返全过，但 x264 视频编码全灭——crf16/22/28、yuv420p/444p、双嵌强度×2、Y 通道共 20 组矩阵全 GARBAGE（kmeans 提取对视频压缩+psy 天生脆弱·README JPEG 抗性不迁移；另实证其内部跨通道分片结构）；RivaGAN 无预训权重须自训 GAN（判弃）。
+- **闸（已落）**：视频隐形水印一律 **VideoSeal**（facebookresearch·Meta MIT·pip 1.0.1·权重 fbaipublicfiles 直连）；bm-a 部署五坑律=CWD 相对路径须 chdir site-packages 根+configs/attenuation.yaml 手补+decord stub+timm pin 0.9.16+pip --no-deps 手补依赖；生产工具=mv_videoseal_wm_r1017.py；V5.1 代理版四闸全绿（全片/crf23/crf28 解码均 100%·目检 4/4 不可辨·嵌入 PSNR 48.16dB·全档案=home .codely-cli/memory/topics/mem-20261017-videoseal-wm.md·回执=WM-VERIFICATION-RECEIPT-r1017.md）。
+- **执法面**：MV/短视频/漫剧一切视频资产的隐形水印（选型复审禁再试图像系逐帧方案）。
+
 ## 二、提示词技巧册（正锚技术·两波评审实战沉淀·须正反例齐才准入册）
 
 | # | 技巧 | 正锚实例（已入正典） | 反面（禁/病灶） |

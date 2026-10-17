@@ -53,3 +53,6 @@
 
 ### 新记忆三级路由（正身=cph4/memory.md §10.2）
 跨机价值→本件/git 正典；每次必读硬法→L0 全局（≤300 字）；本机域细节/长文→L2 主题文件。本机 append/update 记忆工具 project-scope 均 EEXIST 故障在册、replace 工具对 CODELY.md 硬锁（2026-10-17 三连实证）→L1 写入唯一正法=外置 UTF-8 py 字节补丁+git 原子推（等效上链 §8.4）。
+
+### L2 主题索引
+- [2026-10-17] VideoSeal 隐形视频水印部署与选型判决（bm-a comfyui python 环境·pip CWD 坑/decord stub/timm pin 0.9.16/attenuation.yaml 手补·含 blind_watermark x264 全灭负结果勿重试）：home .codely-cli/memory/topics/mem-20261017-videoseal-wm.md
