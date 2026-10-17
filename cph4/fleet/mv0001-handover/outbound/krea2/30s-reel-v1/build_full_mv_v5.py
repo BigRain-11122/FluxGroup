@@ -54,8 +54,9 @@ V5_SOURCE_MAP = {
     "E04_replay_faces": "E04_replay_faces_v5.mp4",
     "C04_words_alive": "C04_words_alive_v5.mp4",
     "D05_words_warm": "D05_words_warm_v5.mp4",
-    "SIL1_v4b": "SIL1_babylon_v5.mp4",      # V3 插入行换源（亚述→巴比伦）
+    "SIL1_v4b": "SIL1_stele_backlit_v4b_s9021.mp4",  # V5.3 云道重烧（心形符→八角星·Flare 三败冻结转像素手术·V53R-CLOUD-2shot §三）
     "SIL4": "SIL4_crowd_edge_v5.mp4",        # V3 插入行换源（缺件补烧·KF v2 锚）
+    "D04_her_brush": "D04_her_brush_v5.mp4",  # V5.3 云道重烧（竹简载体→泥板+苇笔·同上）
 }
 
 # ---- 速度改表（REBURN-SPEC §四.1·叠在基座速度之上） ----
