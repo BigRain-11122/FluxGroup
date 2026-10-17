@@ -19,7 +19,7 @@ text = "AI 生成内容"
 font = None
 for c in FONT_CHAIN:
     if os.path.isfile(c):
-        font = ImageFont.truetype(c, 28)
+        font = ImageFont.truetype(c, 32)
         break
 assert font, "no CJK font"
 
@@ -39,18 +39,20 @@ black = Image.new("RGBA", (W, H), (0, 0, 0, 255))
 shA = Image.new("RGBA", (W, H), (0, 0, 0, 0))
 shA.paste(black, (0, 0), mask)
 shA = shA.filter(ImageFilter.GaussianBlur(2.4))
-shA.putalpha(shA.getchannel("A").point(lambda v: int(v * 0.55)))
+# V5.3 strengthen (CEO O-20261017-1330 full-coverage recheck: floor too low, backing too thin):
+# white@88%, backing A@70% B@75%, font 32px (+14%). Fade-in timing handled in build (d=0.5).
+shA.putalpha(shA.getchannel("A").point(lambda v: int(v * 0.70)))
 shB = Image.new("RGBA", (W, H), (0, 0, 0, 0))
 shB.paste(black, (1, 1), mask)
 shB = shB.filter(ImageFilter.GaussianBlur(1.2))
-shB.putalpha(shB.getchannel("A").point(lambda v: int(v * 0.60)))
+shB.putalpha(shB.getchannel("A").point(lambda v: int(v * 0.75)))
 sh = Image.alpha_composite(shA, shB)
 
 # main text white @80%
 txt = Image.new("RGBA", (W, H), (0, 0, 0, 0))
 white = Image.new("RGBA", (W, H), (255, 255, 255, 255))
 txt.paste(white, (0, 0), mask)
-txt.putalpha(txt.getchannel("A").point(lambda v: int(v * 0.80)))
+txt.putalpha(txt.getchannel("A").point(lambda v: int(v * 0.88)))
 
 canvas = Image.new("RGBA", (W, H), (0, 0, 0, 0))
 canvas = Image.alpha_composite(canvas, sh)
