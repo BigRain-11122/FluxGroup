@@ -198,3 +198,14 @@
 - **判据法**：SLI L2 饥饿驻留=本旗 09:4x 升→10:1x 代消费落 <40min<SLO 90min；L3 死线零误=08:43 分项延误如实披露+已落地双注记（未收口未披露=0）；效率=fallback 首案预注册兑现（NJ 建议两支全采纳）。
 - **证据面**：NJ-R11a 触发原文（event-carrier-state.json last_signature 存档）+orders R2.7/R2.8 行+bm-b /status 10:03 探针原文+bigmoney ls-remote fa2090bb+media/logs/v5_proxy_build_20261017.log 尾（DONE 234.25+ASSERT-OK）+audit 4 旗判读链（git show 三件亲证）+POOL-0013 orders 01:2x 回执行+r1026 签章行+呈报板 Test-Path True+原子推回包。
 - **班毕**：原子推单笔（orders 呈报行+DEADLINES 翻行×7+POOL-0013 销卡+NJ disposition+本 LOG 块）+DISPATCH-LOG 四元组行（本地件）+锁 touch 收口。
+## Round R2.12：2026-10-18 01:27-02:0x·事件班（承载件触发 NJ [biggame] R13·步0 锁龄 12min 过期窗接管 01:36:59）·调用数≈32·零云端 token
+- **触发与步0**：EVT 载具 01:26:08 发射 NJ [biggame] R13（bm-c 环栈熄灯两轮律升级·候裁两件）；锁 01:14:31=上班次 R2.11 班毕 touch·age 12min>10min 过期窗→touch 接管单窗。
+- **复探翻案（本班核心新证）**：R12「远程零通道」前提失效——:8790 listener TCP+HTTP 双通（/health 200 v1.9.3·/status 200 host FLUXGROUP·RAM 2.9G/CPU 10%）+machine/C 尾笔翻新=C2030 f3c28e07a 01:34:31（redline consume+C2028 采纳+watcher 1888 串行队列 armed）+中央 hourly chore 01:13 在链=熄灯 21:03-01:34 计 4.5h 已自愈复活（R8 晨间 durable cron 自愈线提前兑现）。
+- **poke BURNING PASS**：白名单正法外科 poke 12tasks 仅 bm-c（01:40:24 accepted）→200s 复探=CPU 10→34%+wakes 4 WAKE（Autofill/PoolWorker/EngineTick/ComfyDraftTick）+7 busy-skip（IterationLoop 等=BM 环 r1076 冻结面随复活解除·归 bigmoney 席传感面防双发）+01:43 他源 hotpull O-20261018-0137-bm-a 同窗共振证（另一活动窗持 CEO 00:46 令执行 fleet recovery·01:52:35 ORD row @bm-c BM-repo unblock 上链）。
+- **候裁两件收口**：①复活面=RESOLVED-自愈复活+poke 补醒·零 CEO 物理件·waiting-CEO 零登记·08:43 必测面翻新=复活后健康/满载核验+BM 仓 hotpull :fail 复核（DEADLINES 行注记随批）；②凌晨 CAP=随复活消解——02:07/03:07 载具班见本行=轻收勿全烧（真旗清除条件=machine/C 新推送✓+fold 落链+c.json 刷新·链传播中）·残窗授权单帠目 snooze until 09:20 防连烧·02:57 枢纽回访探针 durable 验链。
+- **R15 NJ 顺带承接**：①hub 腿=DEADLINES「排队 W1」行翻新 A 批实绩态（62/62+ZOOMQC 26 GO+二源复审 23/26 e226e49+i2v 包三层闸 5f3be92·同文件顺手面）；②PRODUCTION-PLAN.md=导演席域件维持 R2.11 域界裁定候 MV 窗（不动）。
+- **域界与雷达**：MV 域 C01 @bm-c 在途件连带复活（MV 窗 5a5ec609 盯守·域界不动）；01:37 O-20261018-0137 他窗订单增量未扫（他窗在飞件·防双烧不复扫）·回执锚点承 R2.11（orders 尾行 22:42 V5.3 C01 收片行）；雷达 §1=R13 增量绿复用（至 01:13 chore）+复探零新红信号。
+- **步8 cron**：班次 recurring 9632cee5 在位+02:15 探针（R2.11）在位·临期零残留零；新回访探针=02:57 一次性 durable（复探 c.json→fold→本机拉平链落位+bm-c 复活后健康+BM 仓 hotpull 复核·锁门同守·复发=LOG 复发行+旗升 DE 级）。
+- **坑录（第三例·R1.6/R2.1 同病）**：原子推子进程未带 PYTHONIOENCODING=GBK stdout 崩→静默 rc=1（本班首跑实锚）·重跑带 utf-8 即显真因（DISPATCH-LOG origin 无此件 append ABORT）——R2.1 升格提名（调用域常设 utf-8）维持；DISPATCH-LOG 四元组行=本地件不推（R2.6 判例执法）。
+- **判据法**：SLI L2 饥饿驻留=旗升 R13 01:1x→本班裁决落 02:0x<90min PASS。
+- **班毕**：DEADLINES 两行翻新（08:43 bm-c 必测面注记+W1 行实绩态）+LOG 本块原子推 append+DISPATCH-LOG 四元组行（本地件）+NJ 本班零写（L0 01:4x 再生已吞 R13 行·R15 行留位）+锁 touch 收口。
