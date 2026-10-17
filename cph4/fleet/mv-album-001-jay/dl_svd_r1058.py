@@ -5,7 +5,11 @@
 # (2.4GB) is NOT needed. Required set = vae fp16 + image_encoder fp16 + 4
 # config files ~= 1.5GB total (2.4GB saved vs original plan).
 # Layout: MimicMotion/models/svd-img2vid-xt-1-1/<hf repo structure>
-# Writes .download_ok.json marker when every file passes size check.
+# Marker note: stabilityai/stable-video-diffusion-img2vid-xt-1-1 on HF (and
+# hf-mirror) is a GATED repo - anonymous resolve/main returns HTTP 403
+# (proven 14:0x r1058, after the concurrency hypothesis was falsified).
+# Switched to the ModelScope official-name mirror (stabilityai org, 2024-12,
+# full tree incl. fp16 variants, no gate, domestic direct ~8MB/s per memory).
 
 import json
 import os
@@ -21,7 +25,8 @@ MARKER = os.path.join(DEST, ".download_ok.json")
 LOGDIR = r"K:\Fluxgroup\FluxGroup\media\logs"
 LOGPATH = os.path.join(LOGDIR, "dl_svd_r1058.log")
 
-URL_BASE = "https://hf-mirror.com/stabilityai/stable-video-diffusion-img2vid-xt-1-1/resolve/main"
+URL_BASE = ("https://modelscope.cn/models/stabilityai/"
+            "stable-video-diffusion-img2vid-xt-1-1/resolve/master")
 
 FILES = [
     "unet/config.json",

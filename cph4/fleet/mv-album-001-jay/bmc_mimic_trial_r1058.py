@@ -8,11 +8,15 @@
 #   downloader died short, relaunch it (both scripts are resume-safe, single
 #   writer per file). No process enumeration - log sentinels only.
 # Phase 2 TRIAL: official demo (pose1.mp4 + demo1.jpg) at 576 resolution,
-#   25 steps, seed 42, PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb:256.
-#   sample_stride=16 -> single ~67-pose tile at the 72-frame tier (the
-#   official stride 2 would generate the full 530-frame demo = ~8 tiles,
-#   not needed for tier calibration; recorded as deviation).
-#   OOM ladder: num_frames (tile size) 72 -> 48 -> 24, first pass wins.
+#   seed 42, PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb:256.
+#   num_inference_steps=6 (official 25) per CEO efficiency law (verify at low
+#   cost first): the 25-step rate was measured live at 169s/step for a
+#   48-frame window (100% util, 15.7GB) -> 25-step official tier = ~2.35h per
+#   tile = judged non-production on this card; 6 steps proves the full chain
+#   end-to-end in <1h. sample_stride=15 -> 71 video poses + 1 image pose =
+#   exactly 72 frames (pipeline tiling math requires num_frames >= tile_size;
+#   stride 16 gave 68 < 72 -> IndexError, proven 14:30 r1058).
+#   OOM ladder: num_frames (tile size) 48 -> 24, first pass wins.
 #   VRAM sampled every 3s via nvidia-smi (CREATE_NO_WINDOW, zero desktop
 #   flash). Receipt: JSON + MD (fleet mirror dir) + result flag file.
 
@@ -57,7 +61,7 @@ SVD_DL = os.path.join(SCRIPTS, "dl_svd_r1058.py")
 LAUNCHER = os.path.join(SCRIPTS, "bmc_mimic_launcher_r1058.py")
 
 TRIAL = os.path.join(REPO, "trial_r1058")
-TIERS = [72, 48, 24]
+TIERS = [48, 24]
 NO_WINDOW = 0x08000000  # CREATE_NO_WINDOW - zero desktop flash (U060 law)
 
 YAML_TMPL = """# base svd model path (local prefetch dir, no hub calls)
@@ -72,10 +76,10 @@ test_case:
     num_frames: %(nf)d
     resolution: 576
     frames_overlap: 6
-    num_inference_steps: 25
+    num_inference_steps: 6
     noise_aug_strength: 0
     guidance_scale: 2.0
-    sample_stride: 16
+    sample_stride: 15
     fps: 15
     seed: 42
 """
@@ -217,27 +221,37 @@ def vram_sample():
 
 
 def preflight():
-    # torchvision.io.write_video sanity (av backend) before burning GPU time
+    # torchvision 0.28 dropped OSS write_video from torchvision.io - install
+    # the av-based shim before importing it (same shim the launcher injects).
+    # NOTE python313._pth isolated mode: script dir is NOT auto-added to
+    # sys.path (proven 14:26 r1058) - SCRIPTS must be inserted explicitly.
+    sys.path.insert(0, SCRIPTS)
     sys.path.insert(0, PYLIBS)
     sys.path.insert(0, REPO)
     os.chdir(REPO)
+    import bmc_tv_writevideo_shim_r1058 as tvshim
+    shim_on = tvshim.install()
     import torch
     from torchvision.io import write_video
     p = os.path.join(TRIAL, "preflight_writevideo.mp4")
     frames = (torch.rand(12, 3, 64, 64) * 255).to(torch.uint8)
     write_video(p, frames, fps=15)
     ok = fsize(p) >= 1024
-    log("PREFLIGHT write_video ok=%s size=%d" % (ok, fsize(p)))
+    log("PREFLIGHT write_video ok=%s size=%d shim=%s" % (ok, fsize(p), shim_on))
     return ok
 
 
 def versions():
     sys.path.insert(0, PYLIBS)
+    log("VERSIONS-START")
     out = {}
     import torch
     import torchvision
+    log("VERSIONS torch+torchvision ok")
     import diffusers
+    log("VERSIONS diffusers ok")
     import transformers
+    log("VERSIONS transformers ok")
     import onnxruntime
     import huggingface_hub
     out["torch"] = torch.__version__
@@ -246,6 +260,7 @@ def versions():
     out["transformers"] = transformers.__version__
     out["onnxruntime"] = onnxruntime.__version__
     out["huggingface_hub"] = huggingface_hub.__version__
+    log("VERSIONS-OK")
     return out
 
 
@@ -374,10 +389,21 @@ def write_receipt(result):
     a("- window: 2026-10-17 r1058 CEO idle-fill; runner = bmc_mimic_trial_r1058.py")
     a("- status: %s  passed_tier=%s" % (result.get("status"), result.get("passed_tier", "-")))
     a("- inputs: official demo assets (pose1.mp4 + demo1.jpg), zero new generation")
-    a("- config: resolution 576, steps 25, overlap 6, fps 15, seed 42,")
+    a("- config: resolution 576, steps 6 (official 25; 25-step rate measured")
+    a("  live at 169s/step @48-frame window -> official tier ~2.35h/tile on this")
+    a("  card = judged non-production; smoke runs reduced steps per CEO")
+    a("  efficiency law), overlap 6, fps 15, seed 42,")
     a("  PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb:256, fp16 default dtype")
-    a("- deviations: sample_stride=16 (official 2) -> single ~67-pose tile at the")
-    a("  72-frame tier (full 530-frame demo = ~8 tiles, not needed for calibration);")
+    a("- TIER VERDICT (POOL-0016): 16GB card FITS the pipeline at 48/72-frame")
+    a("  windows (15.4-16.1GB peak incl ~1.5-1.8GB other residents) but the")
+    a("  25-step official tier costs ~2.35h per 48-frame tile (169s/step, 100%")
+    a("  util) -> full-MV motion retargeting at 576x1024 on bm-c = impractical;")
+    a("  viable for short inserts with night-window budget or lower resolution.")
+    a("  72-frame window shares the card into WDDM paging thrash when any other")
+    a("  GPU resident competes (observed with two pipelines co-burning).")
+    a("- deviations: sample_stride=15 (official 2) -> 71+1 = exactly 72 frames =")
+    a("  single full 72-frame tile (pipeline tiling math requires num_frames >=")
+    a("  tile_size; full 530-frame demo = ~8 tiles, not needed for calibration);")
     a("  DWPose forced to CPUExecutionProvider (CPU-only onnxruntime in env);")
     a("  SVD base = local prefetch dir (no hub calls).")
     a("- env: %s" % json.dumps(result.get("env", {})))
@@ -407,4 +433,19 @@ def write_receipt(result):
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except BaseException:
+        # pythonw has no console - an unhandled exception would otherwise die
+        # silently (proven 14:19-14:24 r1058). Log traceback + crash receipt.
+        import traceback
+        with open(RUNLOG, "a", encoding="ascii", errors="replace") as f:
+            f.write("[%s] FATAL-EXC in main()\n" % time.strftime("%H:%M:%S"))
+            traceback.print_exc(file=f)
+        try:
+            write_receipt({"started": "?", "pool": "POOL-0016-night3-early",
+                           "runner": "bmc_mimic_trial_r1058.py",
+                           "status": "RUNNER_CRASH", "attempts": [],
+                           "env": {}, "vram_baseline_mb": -1, "downloads": {}})
+        except Exception:
+            pass
