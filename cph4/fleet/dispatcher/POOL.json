@@ -150,15 +150,15 @@
  {
   "id": "POOL-0013",
   "priority": "P2",
-  "status": "open",
+  "status": "done",
   "lane": "bm-a",
   "title": "软著A机14款刷新批产物收编上链（L1018 勘正实收口：staged M 107+untracked 12）",
   "spec": "软著申请材料/README.md 刷新台账 + 正典律/引用在档律",
   "card": "[交接卡 POOL-0013]\n①@机+lane：@bm-a·hq-central-night-gpu（CPU 面即可）\n②回执窗：48h（P2 非死线件）\n③验收物+证据指针：软著 A机14款刷新批产物收编上链——staged M 约 107 件+untracked 12 件（GimmeAll 三件+_报审提交区第1-5批+报审台账.md）pathspec/原子推上链+orders 回执行（L1018 勘正实收口）+commit sha\n④spec 指针：软著申请材料/README.md 刷新台账+正典律/引用在档律（cph4/registry/law-registry.md）\n⑤溯源令号：O-20261014-1035（A机段·orders L1018 宣称失实勘正件）\n⑥输入/输出：输入=bm-a 本地 index staged M+untracked 件；输出=origin 全量软著材料+回执行\n⑦依赖：无依赖（防回退雷已拆 01:0x·暂存删除清零·推前反转闸照跑）\n⑧卡 ID：POOL-0013\n⑨provenance：推断（NJ biggame R2 ④ L1018 勘正衍生的实收口件·事件班开卡）",
   "created_by": "CEO-PROXY 事件班 2026-10-15 01:3x（NJ biggame R2 ④）",
-  "claimed_by": "",
-  "claimed_at": "",
-  "result_ref": "",
+  "claimed_by": "bm-a",
+  "claimed_at": "2026-10-17T01:2x+08:00",
+  "result_ref": "done per orders 10-17 01:2x @bm-a receipt: staged M 107 landed in bc34c07 (C-02 wave-F triage); untracked 12 collected via worktree pathspec push (same-batch); quarantine manifest .codely-cli/tmp/pool0013-quarantine-*/manifest.json (reversible); evidence=quant/bigmoney results/_r1025bma_pool0013_receipt.json; card-drift note r1026 (origin open vs f3bad1cd done) closed by CEO-PROXY R2.9 per dispatcher-writer-seat routing",
   "depends_on": []
  },
  {
