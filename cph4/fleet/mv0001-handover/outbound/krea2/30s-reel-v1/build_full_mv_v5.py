@@ -33,7 +33,9 @@ DRYRUN = os.environ.get("DRYRUN") == "1"
 NO_SIL4 = os.environ.get("NO_SIL4") == "1"
 
 V5REDO = r"C:\Users\sjs20\Desktop\FluxGroup\cph4\fleet\mv0001-handover\outbound\krea2\kf-demo-20261012\bmc\i2v\v5redo"
-SONG_WAV = None  # TODO 正式跑前查无损原始源（V5-TYPOGRAPHY-SPEC §五）·暂用 320k mp3 正身
+SONG_WAV = r"C:\Users\sjs20\Desktop\FluxGroup\media\MV\mv0001\audio\mv001_lossless.wav"  # 无损 ape→PCM（TYPOGRAPHY §五 换源令·2026-10-17 落地·234.253s 对齐）
+if SONG_WAV:
+    v2.SONG = SONG_WAV   # 音源换源：旧 320k mp3（BB92ED5F）→ 无损 PCM 溯源正身
 
 # ---- 17 镜 v5redo 源映射（基座行 id → v5 收件名·V5-REBURN-SPEC §六） ----
 V5_SOURCE_MAP = {
@@ -237,19 +239,20 @@ def main():
     # ---- 源解析（V5REDO 优先·DRYRUN 顶替·正式跑缺 v5 件=FATAL）----
     resolved = []
     for sid, t0, t1, v, src_file, is_new in rows:
-        want = V5_SOURCE_MAP.get(sid, src_file)
+        base_sid = sid.split("@")[0]   # 插入行 sid 带 @time 后缀（SIL1_v4b@29/SIL4@207）——查表须剥（10-17 实锚：裸键漏配=SIL4 静默并块+SIL1 静默回旧源）
+        want = V5_SOURCE_MAP.get(base_sid, src_file)
         src, kind = find_src_v5(want)
         if src is None:
             src, kind = v2.find_src(src_file), "legacy-fallback"
         if src is None:
-            if sid in V5_SOURCE_MAP and not DRYRUN:
+            if base_sid in V5_SOURCE_MAP and not DRYRUN:
                 raise SystemExit("FATAL v5redo source missing: %s -> %s (await bm-c 17-batch; DRYRUN=1 to substitute)" % (sid, want))
             if resolved:
                 prev = resolved[-1]; prev[2] = t1
                 print("FALLBACK-MERGE %s -> %s" % (sid, prev[0]), flush=True)
                 continue
             raise SystemExit("FATAL first shot missing " + sid)
-        if sid in V5_SOURCE_MAP and kind != "v5redo":
+        if base_sid in V5_SOURCE_MAP and kind != "v5redo":
             if DRYRUN:
                 print("DRY-SUB %s uses legacy %s (math-check only)" % (sid, os.path.basename(src)), flush=True)
             else:
