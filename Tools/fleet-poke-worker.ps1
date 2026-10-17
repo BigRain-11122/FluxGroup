@@ -116,7 +116,7 @@ $force = @()
 try { $force = @((($PullReposJson) | ConvertFrom-Json) | ForEach-Object { [string]$_ }) } catch { }
 $force = @($force | Where-Object { $_ -and $_.Trim() -ne '' })
 $pullSet = @()
-if ($node -and ($node.PSObject.Properties.Name -contains 'poke_repos')) { $pullSet = @($node.poke_repos) | ForEach-Object { [string]$_ } }
+if ($node -and ($node.PSObject.Properties.Name -contains 'poke_repos')) { $pullSet = @(@($node.poke_repos) | ForEach-Object { [string]$_ }) }
 if ($pullSet.Count -eq 0) { $pullSet = @('.') }
 foreach ($f in $force) {
   $fs = [string]$f
