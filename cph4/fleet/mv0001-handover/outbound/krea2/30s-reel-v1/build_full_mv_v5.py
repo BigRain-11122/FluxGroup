@@ -261,7 +261,7 @@ def main():
     n_v5 = sum(1 for r in resolved if r[5] == "v5redo")
     print("sources: v5redo=%d / %d" % (n_v5, len(V5_SOURCE_MAP)), flush=True)
     if not DRYRUN and n_v5 != len(V5_SOURCE_MAP):
-        raise SystemExit("FATAL v5redo source count %d != %d — silent fallback present (see J-30)" % (n_v5, len(V5_SOURCE_MAP)))
+        raise SystemExit("FATAL v5redo source count %d != %d — silent fallback present (see J-32)" % (n_v5, len(V5_SOURCE_MAP)))
 
     # ---- 分块计算（发射前：块末镜需尾延量）：A(0..38.82) / T / G0..G7 ----
     T_id = "T_glyphs"
