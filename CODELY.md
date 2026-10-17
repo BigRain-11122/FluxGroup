@@ -42,7 +42,7 @@
 > 层级：L0=全局硬法+索引（各机 <home>\.codely-cli\CODELY.md·平台每次注入·现 ~20KB）｜**本件=L1 项目层**（git 分发·跨机共享·项目专属记忆正身）｜L2=主题层（各机 <home>\.codely-cli\memory\topics\·按需读）。正典权威=git 永久件——本件只放指针与项目级记忆·禁复述正典（复述禁令 §1.2）。
 
 ### 项目状态指针（最新态一律查 docs/orders.md 尾行）
-- MV 41 曲线（本机在飞=mv0001 V4 Jay-redo POOL-0014+V3 终剪装配）：cph4/fleet/mv-album-001-jay/ + cph4/fleet/mv0001-handover/
+- MV 41 曲线（本机在飞=mv0001 V5.1 精修 O-20261017-1020：全曲55事件歌词层+S4删/SIL1延窗+21.90微叠化已修并多模态实证（V5.1-PROXY-PASS·cd4da8db）·待 bm-c 4 镜重烧（D01/C04/E01c/INT5·bm-c 挂死轮阻塞中）→768P 终版+专家两波→呈 CEO）：cph4/fleet/mv-album-001-jay/ + cph4/fleet/mv0001-handover/
 - 量化波链（W 波席位/冻结态）：bigmoney/
 - 调度/巡视（CEO-PROXY 主AGENT/PATROL-FLEET）：cph4/fleet/dispatcher/
 - 硬件采购（V100 三卡机 BOM/验收线）：cph4/fleet/hardware/
@@ -52,4 +52,4 @@
 - 司域层：MiniGame/CODELY.md（gaming 线）｜metis=Unity\.codely-cli\memory\metis-architecture-deep-dive.md
 
 ### 新记忆三级路由（正身=cph4/memory.md §10.2）
-跨机价值→本件/git 正典；每次必读硬法→L0 全局（≤300 字）；本机域细节/长文→L2 主题文件。本机 append 工具 project-scope EEXIST 故障在册→L1 写入走文件工具+git 原子推（等效上链 §8.4）。
+跨机价值→本件/git 正典；每次必读硬法→L0 全局（≤300 字）；本机域细节/长文→L2 主题文件。本机 append/update 记忆工具 project-scope 均 EEXIST 故障在册、replace 工具对 CODELY.md 硬锁（2026-10-17 三连实证）→L1 写入唯一正法=外置 UTF-8 py 字节补丁+git 原子推（等效上链 §8.4）。
