@@ -1,4 +1,12 @@
-# fleet-poke-worker.ps1 - FleetLink background pull+wake worker v1.7 (CEO order O-20261009-1750 "very fast sync").
+# fleet-poke-worker.ps1 - FleetLink background pull+wake worker v1.8 (CEO order O-20261009-1750 "very fast sync").
+# v1.8 (2026-10-17 force-repos concat fix, bm-b live-fire x2): with a single-element
+# poke_repos (all nodes use ['.']) the pipeline `@($node.poke_repos) | ForEach-Object`
+# UNROLLED the array into a scalar string, so `$pullSet += $fs` did string CONCATENATION
+# ('.' + 'quant/bigmoney' = '.quant/bigmoney' -> ':no-repo' on both the v1.8 listener at
+# 21:52 and the v1.9.3 listener at 08:33) - the force-repos COLD-tier pull channel was
+# broken fleet-wide since v1.5. Array-wrap @(...) keeps $pullSet an array. Normal '.'
+# HOT pulls were unaffected (a scalar still iterates fine), which is why this hid until
+# first live use.
 # v1.6 (2026-10-16 fleet-linkup order): lock now stores its pid - a FRESH lock
 # owned by a DEAD process (crashed worker) no longer blocks pokes for 10min;
 # the stale-but-fresh lock is reclaimed immediately and the takeover is logged
