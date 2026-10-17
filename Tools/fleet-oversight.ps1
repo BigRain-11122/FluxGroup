@@ -113,6 +113,14 @@ try {
   $ps = Invoke-RestMethod -Uri 'http://127.0.0.1:11434/api/ps' -TimeoutSec 4
   if (@($ps.models).Count -gt 0) { $pinned = $true }
 } catch { }
+# CEO order 2026-10-17 ("all LLM calls -> bm-a"): bm-c hosts NO local LLM anymore -
+# the gpu-mode.flag file (governor) exists only on bm-c and marks the permanent GEN
+# lane. A zero-resident state there is LAWFUL (retired), not a vacancy to flag.
+$llmRetired = $false
+if ($M -eq 'bm-c') {
+  $gmf = Join-Path $KRoot '.codely-cli\gpu-mode.flag'
+  if (Test-Path $gmf) { $llmRetired = $true }
+}
 $comfy = $false
 try { $r = Invoke-WebRequest -Uri 'http://127.0.0.1:8188/system_stats' -TimeoutSec 4 -UseBasicParsing; if ($r.StatusCode -eq 200) { $comfy = $true } } catch { }
 $gpuBatch = ''
@@ -255,7 +263,8 @@ else {
     $laneGpu = 'AMBER'
     if (WasBad('gpu')) { $laneGpu = 'RED' }
   }
-  if ($pinned) { $laneLlm = 'GREEN' }
+  if ($llmRetired) { $laneLlm = 'RETIRED' }
+  elseif ($pinned) { $laneLlm = 'GREEN' }
   elseif ($gpuBatch -ne '') { $laneLlm = 'OFFLOAD' }
   else {
     $laneLlm = 'AMBER'
@@ -291,7 +300,7 @@ $snap = @{
   gpu       = @{ util_pct = $gpuUtil; vram_used_mb = $vramUsed; vram_total_mb = $vramTotal; batch = $gpuBatch }
   ram_free_gb = $ramFreeGb
   engine    = $eng
-  llm       = @{ pinned_llm = $pinned; pinned_35b = $pinned }   # pinned_35b dual-write kept one round (C-05; 35b retired 10-14)
+  llm       = @{ pinned_llm = $pinned; pinned_35b = $pinned; retired = $llmRetired }   # pinned_35b dual-write kept one round (C-05; 35b retired 10-14); retired = bm-c zero-LLM law (CEO 10-17)
   comfy     = @{ alive = $comfy }
   infra     = @{ prev_watch_age_h = $prevAgeH; cron_jobs = $cronJobs; cron_days_left_min = $cronDaysLeft; cloudf_pending = $cloudf; liveness = $liveVerdict; liveness_age_h = $liveAgeH; family_disabled = $familyDisabled }
   subsidiaries = $subs
