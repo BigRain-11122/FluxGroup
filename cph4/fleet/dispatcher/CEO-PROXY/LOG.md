@@ -209,3 +209,14 @@
 - **坑录（第三例·R1.6/R2.1 同病）**：原子推子进程未带 PYTHONIOENCODING=GBK stdout 崩→静默 rc=1（本班首跑实锚）·重跑带 utf-8 即显真因（DISPATCH-LOG origin 无此件 append ABORT）——R2.1 升格提名（调用域常设 utf-8）维持；DISPATCH-LOG 四元组行=本地件不推（R2.6 判例执法）。
 - **判据法**：SLI L2 饥饿驻留=旗升 R13 01:1x→本班裁决落 02:0x<90min PASS。
 - **班毕**：DEADLINES 两行翻新（08:43 bm-c 必测面注记+W1 行实绩态）+LOG 本块原子推 append+DISPATCH-LOG 四元组行（本地件）+NJ 本班零写（L0 01:4x 再生已吞 R13 行·R15 行留位）+锁 touch 收口。
+## Round R2.13 2026-10-18 02:42-03:0x·事件班（承载件触发·NJ [bigmoney] R14 O-0137 bm-b 秒死嫌疑翻案+watch 交接·锁 43min 过期窗接管 02:42:46）·调用数≈28·零云端 token
+- **触发与步0**：EVT 载具发射 NJ [bigmoney] R14（02:3x bigmoney 席 info 白档·防枢纽 2 轮兜底误读）；锁 01:59:30 age 43min>10min 过期→touch 接管单窗；三台账+orders origin 尾+BM origin 实况全读毕。
+- **bm-b 翻案接受并当窗升级（核心）**：本席独立直探 /status 02:47:55（承 R14 02:29:39「在飞」判读再探）=r998 **已执行毕 GREEN**——verdict 载：O-0137 recovery order fully executed same-round（S0 CLEAN+11-row panel audit all-S4U+dual receipt）+O-1751 EP001-003 voicegen 51/51 OK（51 wav 7.28MB+MANIFEST-r998.json 落 media/drama-tts-out/r998_ep001_003）+MSG-20261018-0216-bm-b-taskaudit.md 02:16 建件=**回执载体在途**；listener /health /status 双 200 v1.9.3·RAM 14.3G·watermark red=false——秒死嫌疑（00:55/01:22/01:23 三 WAKE）翻案成立且已越「在飞」入「回执在途」；heartbeat 02:26:54+idle_rounds=2+agenda_starved=true=r998 完毕候卡常态（POOL 0018/0019/0020 迁卡候回执·非欠账）。
+- **bm-c**：机器面归 biggame 案卷确认（biggame R14 02:27 跨域+R2.12 poke BURNING PASS 01:40:24+W265 prereg derive ARMED·传感复用律本班零重探·防双发）。
+- **leg-5 当窗提前收口（本班最大新证）**：BM origin 头笔 r1044（bm-a BM 道 02:45·fafa1413e 02:51:46）——drama pilot 5-file taildrop pickup **VERIFIED**：Taildrop 两面性坑定谳（CLI `tailscale file get` rc0 静默空≠交付失败·Windows Tailscale GUI 层自动落 Downloads\·r1037/r1041「BLOCKED inbox empty」同坑勘误）→5 件迁正位 media\drama-pilot-in\（字节对 MSG-2356 manifest 全验 16,454,993B）+MSG-20261018-0245-bma-dramapickup-verified 回执落 BM origin+MSG-2356 转 processed——**CEO 看片通道 material in place·里程碑 ≤10-18 10:00 提前 ~7h 达成**；本班亲验 5/5 在盘（PILOT-PREVIEW-3x20s.mp4 8224570B 等）——watch ② 由晨检承载提前消费毕·晨检面改轻验在盘+回执核验（勿再跑 file get）。
+- **watch ④ 当窗落地（hub 台账件）**：DEADLINES 两处——「10-16 14:00 五件回执」行销账注记（leg-5 CLOSED-VERIFIED+bm-b r998 GREEN 新证+E1 全链只欠回执落 origin 终验+POOL 迁卡）+08:43 晨检重载清单行 leg-5 项改口径；watch ①（r998+ 落 origin+双机 taskaudit 回执·2 轮无回执=bm-a 席按令 §3 接手升级）③（hub POOL 卡迁移簿记 0018/0019/0020）⑤（W265 prereg 认领验证）维持 03:16 班/08:43 晨检承载（防双发）。
+- **NJ 裁决**：R14 行枢纽消费毕——L0 03:00 再生已吞 R14 行（本班编辑前实测）→**NJ 本班零写**（R2.12 判例）·verdict 持久正身=本 LOG 块+DEADLINES 两行。
+- **回执雷达**：锚点前移=orders 尾行 01:53 O-20261018-0137 @bm-c BM 仓解锁令行（本班消费·承 R2.11「22:42 C01」旧锚·双机回执窗 2 轮计自复活轮）。
+- **步8 cron**：班次 recurring 9632cee5 在位验✓；R2.11 02:15+R2.12 02:57 探针在位不动（他席件）；本班新 04:12 一次性 durable 回访探针（复探本班旗清单：bm-b r998 回执落 origin+心跳新鲜+bm-c 恢复轮续跑+leg-5 5/5 在盘恒稳·锁门同守·复发=LOG 复发行+旗升 DE 级）。
+- **SLI 判据**：L2 饥饿驻留=R14 旗 02:3x 升→本班裁决落 03:0x<90min PASS；L1 心跳新鲜度=bm-b 02:26:54/bm-a 02:18 均<30min（bm-c R2.12 BURNING 复用）。
+- **班毕**：DEADLINES 两处+LOG 本块原子推 append（expect 守卫+反转闸·PYTHONIOENCODING=utf-8 设防 R2.12 坑）+DISPATCH-LOG 四元组行（本地件不推·R2.6 判例）+04:12 探针+锁 touch 收口。
