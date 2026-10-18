@@ -8,6 +8,11 @@
 # Evidence-gated: only restarts with POSITIVE staleness proof from the machine's
 # own lane heartbeat file; a 20-min restart stamp prevents killing a fresh round
 # that has not written its heartbeat yet; off-skip freeze-face protection unchanged.
+# v1.11 (2026-10-18 run-age guard, bm-a fleet-ops seat, CEO order "solve it at
+# the root"): the revival gate ALSO requires the RUNNING INSTANCE to be >120
+# min old (Get-ScheduledTaskInfo.LastRunTime). A healthy long round younger
+# than 2h is never killed even when the lane heartbeat is stale (it only
+# refreshes at closeout). Probe failure (-1) = fail-safe no-kill.
 # v1.8 (2026-10-17 force-repos concat fix, bm-b live-fire x2): with a single-element
 # poke_repos (all nodes use ['.']) the pipeline `@($node.poke_repos) | ForEach-Object`
 # UNROLLED the array into a scalar string, so `$pullSet += $fs` did string CONCATENATION
@@ -297,14 +302,23 @@ foreach ($t in $reqTasks) {
           }
         } catch { $hbAgeMin = -1 }
       }
-      if ((-not $recentRestart) -and ($hbAgeMin -gt 120)) {
+      # v1.11 run-age guard: also require the CURRENT instance to be >120 min
+      # old (LastRunTime = start of the running instance). A healthy long
+      # round younger than 2h is never killed even when the lane heartbeat
+      # is stale (it only refreshes at closeout). Probe failure = no-kill.
+      $runAgeMin = -1
+      try {
+        $ti = Get-ScheduledTaskInfo -TaskName $ts -ErrorAction Stop
+        if ($ti.LastRunTime) { $runAgeMin = [math]::Round(((Get-Date) - $ti.LastRunTime).TotalMinutes, 0) }
+      } catch { }
+      if ((-not $recentRestart) -and ($hbAgeMin -gt 120) -and ($runAgeMin -gt 120)) {
         try {
           try { [IO.File]::WriteAllText($hrLock, (Get-Date -Format s)) } catch { }
           Stop-ScheduledTask -TaskName $ts -ErrorAction Stop
           Start-Sleep -Seconds 6
           try { Start-ScheduledTask -TaskName $ts } catch { }
-          $woke += ($ts + ':HUNG-RESTART-hb' + $hbAgeMin + 'm')
-          WK-Log 'hung-restart' ($ts + ' hb_age_min=' + $hbAgeMin + ' node=' + $NodeId + ' reason=' + $Reason)
+          $woke += ($ts + ':HUNG-RESTART-hb' + $hbAgeMin + 'm-run' + $runAgeMin + 'm')
+          WK-Log 'hung-restart' ($ts + ' hb_age_min=' + $hbAgeMin + ' run_age_min=' + $runAgeMin + ' node=' + $NodeId + ' reason=' + $Reason)
           $hungRestarted = $true
         } catch {
           $woke += ($ts + ':busy-skip-stopfail')
