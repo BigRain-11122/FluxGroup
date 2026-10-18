@@ -88,6 +88,8 @@ docs/orders.md 709.5KB（10-16 23:5x 复测·含 10-15/16 新令高峰·10-19 �
 - 2026-10-17 一批（**问题追溯闭环批·C-20261017-01·CEO 直令 09:5x–10:0x「要落地问题追溯机制，闭环…主要问题一直再犯」+「梳理每个环节…一个一个的列计划 直达全完成」**）：governance §9 问题追溯闭环律 1 条（台账正身 PROBLEM-REGISTRY+查重先行扩面+闭环五件套「已立法≠closed」+复发升格二犯问责+日 23:43 审计点火+SLI-10）+Tools/problem-registry-audit.py 机械审计件（首跑 PASS 12/12）+CEO-PROXY 日审计片/周对账片+机制图节律行+SLI-10 行+集团十环节表定谳+六线附卷派单（10-19 委员会窗收卷）——L0 新条款 1·CEO 直令豁免 ≤2/周帽；法熵=+1 律 vs 收编五散账集合（EXPERIENCE-LEDGER/EXECUTION-FIX-LEDGER/QC-MASTER-CHECKLIST 问题面/patrol RED-FLAGS/坑录族→指针行）=净负 ✓。
 - 2026-10-18 一批（记忆治理席接管批·CEO 直令 2026-10-18「创立一个专门的agent…膨胀的太厉害太快了」·正身=cph4/research/R-20261018-memory-control-01·orders 补录行同步）：**零新法条·净负** ✓——治理系统四件落地：①拆除联合回灌（worker v1.9 删联合块+fleet-memory-sync 退役 no-op 桩+正本冻结 cph4/fleet/memory/archive/快照零删除）②闸 v1→v2 迁移（路径修复+法条自动保留+同题去重+二段执法·HQ-MemoryBudgetGate S4U every:4h）③skill memory-curator 立席（canon=cph4/skills/memory-curator·写入五问+三层路由表）④AGENT-LIBRARY 总册登记（v1.0.2·「不登记不存在」修复）；三件套闭环律对账=挂载点（Tools/memory-budget-gate.py v2+skill canon）+点火证据（cph4/fleet/memory-slim/LEDGER.md v2 首跑 2026-10-18 01:04：93,662→71,850B/112→75 条）+注销清单（fleet-memory-sync 退役+21:47 夜审 cron 换代+memory.md §9.1③⑤/§10 勘注随批）；验收=2026-10-25 治理窗五判据（R- §五）+bm-b/bm-c 推广派单随 orders 补录行发出（回执窗 ≤10-25）。
 
+- 2026-10-18 二批（CEO 命令拆解台面批·CEO 直令 23:1x「以后我的命令，都要拆解成有效的你们AI能准确识别的命令，然后分发下去，执行正确」·C-20261018-06）：CEO-PROXY ROUND 步6 寻源闸升格为**命令拆解台面 v1**（五型分诊表收编散法+拆解五律+验收断言档位+orders 派单行 card-lint --min 硬步）+步2-5 轮转表失同步勘正（16/12→21/14）+BRIEF §二 #20 织入+调研件 R-20261018-command-decode-01——执法强化件零新法条（受保护件改动授权锚=CEO 直令+委员会 --major 7/7·寻源闸旧段并档收编法熵净零）。
+
 ## 七、瘦身候池（季度瘦身日面·首跑 2026-10-19·owner=进化轮）
 
 governance 84.7（>60 线）·resource-chain 91.5（>60 预算线·席7 附款）·audit-charter 61（>60 线）·evolution-ledger archive 310（冷层归档续推）·MiniGame CODELY 88（司域分卷在册）。
