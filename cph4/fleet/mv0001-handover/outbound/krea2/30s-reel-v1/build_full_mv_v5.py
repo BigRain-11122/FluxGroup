@@ -57,10 +57,11 @@ V5_SOURCE_MAP = {
     "SIL1_v4b": "SIL1_stele_backlit_v4b_s9021.mp4",  # V5.3 云道重烧（心形符→八角星·Flare 三败冻结转像素手术·V53R-CLOUD-2shot §三）
     "SIL4": "SIL4_crowd_edge_v5.mp4",        # V3 插入行换源（缺件补烧·KF v2 锚）
     "D04_her_brush": "D04_her_brush_v5.mp4",  # V5.3 云道重烧（竹简载体→泥板+苇笔·同上）
+    "D08_world_flip": "D08_world_flip_v5.mp4",  # V5.4 换源（media segments 版 CG 纹理叠加+画廊乱入定罪 → cloudv2 archived 实拍版·CEO 终审「乱入动画镜头」整改·V54-CUT-VERDICT §一）
 }
 
 # ---- 速度改表（REBURN-SPEC §四.1·叠在基座速度之上） ----
-SPEED_OVERRIDE = {"E04_replay_faces": 0.72, "R06_museum_verse": 0.75, "N05_dead_language": 0.74}
+SPEED_OVERRIDE = {"E04_replay_faces": 0.85, "R06_museum_verse": 0.75, "N05_dead_language": 0.74}  # V5.4 E04 0.72→0.85（CEO 鬼影令·E04-SRC-DENSE-BOARD 判读主案 A：素材静帧无鬼脸·罪状=贴面渐变粘连+慢放插值三重放大；0.85=5.17/0.85+tpad1.1 定格精确满 7.18s 窗·罪段屏占 1.60→1.35s·插值帧减 39%）
 
 # ---- 9 点 xfade 链（W7 §二·anchor=后块窗起点/词锚·过渡窗 [anchor−D, anchor]） ----
 # 块尾延律（W7 §四「重叠不吃内容」工程正身）：每边界 D 由前块尾延 D 补长——素材尾余量优先，
@@ -96,6 +97,7 @@ SHOT_GRADE = {
     "R06_museum_verse": "colorbalance=bs=.02:bm=.01",
     "D05_words_warm": "colorbalance=bs=.02:bm=.01",
     "C04_words_alive": "colorbalance=bs=.02:bm=.01",
+    "D08_world_flip": "eq=brightness=0.035:saturation=1.06",  # V5.4 archived 源尾部偏暗微提亮保暖（V54-CUT-VERDICT §一）
 }
 
 # ---- 字层窗（V5-TYPOGRAPHY-SPEC）----

@@ -13,7 +13,8 @@
 #   副歌2/尾副歌结尾均无「一切又重演」（两站词面+whisper 无捕获互证·字幕宁缺勿错）
 # 时间=whisper 段界（lyric_lines_r1017.json·r1017 实测·幻觉段 25.8 Zither Harp 跳过）
 # 双行分割=音节比例目标点 snap 到最近 whisper 词尾（音节比例优先于 §四手派比例·更贴唱词）
-# 样式=V5-TYPOGRAPHY 延续：SimSun Bold 56px 金 #E9C87A·软暗晕(深暖 Outline+\blur4·禁硬描边)
+#   样式=V5.4 CEO 终审整改（2026-10-17 原话「字幕要干净点，纯白色，不要黑边，间距、字体大小等考究」）：
+#     SimSun Bold 52px 纯白 &H00FFFFFF·零描边零阴影零blur·Spacing 1.2·fad 保留
 #   Alignment 2 底部居中 MarginV 40·每行 \fad(180,140)·尾句渐隐 \fad(180,700)
 import json, os, sys
 if sys.stdout:
@@ -149,14 +150,14 @@ def main():
         "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, "
         "Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, "
         "Alignment, MarginL, MarginR, MarginV, Encoding\n"
-        "Style: Lyr,SimSun,56,&H007AC8E9,&H000000FF,&H00050E1A,&H00000000,-1,0,0,0,100,100,0,0,1,3.4,1.4,2,40,40,40,1\n\n"
+        "Style: Lyr,SimSun,52,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,-1,0,0,0,100,100,1.2,0,1,0,0,2,40,40,40,1\n\n"
         "[Events]\n"
         "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text\n"
     )
     lines = [hdr]
     for (st, en, tx, src) in events:
         fade = "\\fad(180,700)" if (st, en) == LAST_FADE else "\\fad(180,140)"
-        lines.append("Dialogue: 0,%s,%s,Lyr,,0,0,0,,{%s\\blur4}%s\n" % (fmt_t(st), fmt_t(en), fade, tx))
+        lines.append("Dialogue: 0,%s,%s,Lyr,,0,0,0,,{%s}%s\n" % (fmt_t(st), fmt_t(en), fade, tx))
     with open(OUT, "w", encoding="utf-8-sig") as f:
         f.writelines(lines)
 
