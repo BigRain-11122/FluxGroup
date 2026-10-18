@@ -16,6 +16,12 @@
 #   list, else it relaunches the killed brain <=10min after pause/pauseLite; (b) pause/
 #   pauseLite now write engine-tick\keepwarm.pause valve (bm-a: coder-serve's flag check
 #   never fired because the dir did not even exist) and resume removes the valve.
+# v6.1 2026-10-18 (D-20261016-06 three-task revival-gap root fix, mirror of bm-a live v6.1):
+#   pause/pauseLite write a disable-manifest sidecar (machine-state.disabled.json); resume
+#   reverse-revives from that manifest (union with the LOCALIZE-1 static list) + self-verifies
+#   each revived task state + consumes the manifest. Gap evidence: 10-15 14:4x pause cascade
+#   disabled tasks beyond the static list; static-list resume never re-enabled them
+#   (E1 confirmed D-20261016-06; manual-enable fallback held Ready meanwhile).
 
 param([Parameter(Mandatory=$true)][ValidateSet("pause","pauseLite","resume","status")][string]$Mode)
 
@@ -75,7 +81,9 @@ if ($Mode -eq "pause") {
     Set-Content -Path (Join-Path $PSScriptRoot "engine-tick\keepwarm.pause") -Value "paused $(Get-Date -Format o)" -Encoding ASCII
     Write-Output "[pause] stopping ollama + llama-server + comfyui ..."
     Kill-GpuHolders
-    foreach ($t in $tasks) { try { Disable-ScheduledTask -TaskName $t -ErrorAction Stop | Out-Null; Write-Output "[pause] disabled: $t" } catch { Write-Output "[pause] WARN disable ${t}: $($_.Exception.Message)" } }
+    $disabled = @()
+    foreach ($t in $tasks) { try { Disable-ScheduledTask -TaskName $t -ErrorAction Stop | Out-Null; $disabled += $t; Write-Output "[pause] disabled: $t" } catch { Write-Output "[pause] WARN disable ${t}: $($_.Exception.Message)" } }
+    try { Set-Content -Path (Join-Path $PSScriptRoot "machine-state.disabled.json") -Value $disabled -Encoding ASCII; Write-Output ("[pause] v6.1 sidecar: " + @($disabled).Count + " task(s) recorded for resume reversal") } catch { Write-Output "[pause] WARN sidecar write: $($_.Exception.Message)" }
     try { Write-Output ("[pause] cron: " + (& python $cronPy suspend)) } catch { Write-Output "[pause] WARN cron suspend: $($_.Exception.Message)" }
     Start-Sleep -Seconds 4
     # hard verification: OUR holders must be gone (process-face, not absolute vram -
@@ -110,7 +118,9 @@ if ($Mode -eq "pauseLite") {
     Get-CimInstance Win32_Process -Filter "name='python.exe'" |
         Where-Object { $_.CommandLine -match "ComfyUI" } |
         ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }
-    foreach ($t in $tasks) { try { Disable-ScheduledTask -TaskName $t -ErrorAction Stop | Out-Null } catch { Write-Output "[pauseLite] WARN disable ${t}: $($_.Exception.Message)" } }
+    $disabled = @()
+    foreach ($t in $tasks) { try { Disable-ScheduledTask -TaskName $t -ErrorAction Stop | Out-Null; $disabled += $t } catch { Write-Output "[pauseLite] WARN disable ${t}: $($_.Exception.Message)" } }
+    try { Set-Content -Path (Join-Path $PSScriptRoot "machine-state.disabled.json") -Value $disabled -Encoding ASCII } catch { Write-Output "[pauseLite] WARN sidecar write: $($_.Exception.Message)" }
     try { Write-Output ("[pauseLite] cron: " + (& python $cronPy suspend)) } catch { Write-Output "[pauseLite] WARN cron suspend: $($_.Exception.Message)" }
     Start-Sleep -Seconds 2
     $brainResidue = Get-CimInstance Win32_Process -Filter "name='llama-server.exe'" | Where-Object { $_.CommandLine -match $brainMarker }
@@ -123,8 +133,18 @@ if ($Mode -eq "pauseLite") {
 if ($Mode -eq "resume") {
     # v6: release the brain-watchdog valve so the heavy brain may return for the night window
     Remove-Item -Path (Join-Path $PSScriptRoot "engine-tick\keepwarm.pause") -Force -ErrorAction SilentlyContinue
+    # v6.1: reverse-revive from pause sidecar (union with static list), then self-verify
+    $sidecar = Join-Path $PSScriptRoot "machine-state.disabled.json"
+    $revive = @($tasks)
+    if (Test-Path $sidecar) {
+        $prevDis = @(Get-Content -Path $sidecar -EA 0 | Where-Object { $_ -and $_.Trim() -ne '' })
+        if (@($prevDis).Count -gt 0) { $revive = @(@($tasks) + @($prevDis) | Select-Object -Unique) }
+        Write-Output ("[resume] v6.1 sidecar: " + @($prevDis).Count + " task(s) recorded at last pause")
+    }
     Write-Output "[resume] enabling production tasks ..."
-    foreach ($t in $tasks) { try { Enable-ScheduledTask -TaskName $t -ErrorAction Stop | Out-Null; Write-Output "[resume] enabled: $t" } catch { Write-Output "[resume] WARN enable ${t}: $($_.Exception.Message)" } }
+    foreach ($t in $revive) { try { Enable-ScheduledTask -TaskName $t -ErrorAction Stop | Out-Null; Write-Output "[resume] enabled: $t" } catch { Write-Output "[resume] WARN enable ${t}: $($_.Exception.Message)" } }
+    foreach ($t in $revive) { try { $st = (Get-ScheduledTask -TaskName $t -ErrorAction Stop).State; Write-Output "[resume] verify: $t=$st" } catch { Write-Output "[resume] VERIFY-FAIL ${t}: $($_.Exception.Message)" } }
+    if (Test-Path $sidecar) { try { Remove-Item -Path $sidecar -Force -ErrorAction Stop; Write-Output "[resume] v6.1 sidecar consumed" } catch { Write-Output "[resume] WARN sidecar consume: $($_.Exception.Message)" } }
     try { Write-Output ("[resume] cron: " + (& python $cronPy restore)) } catch { Write-Output "[resume] WARN cron restore: $($_.Exception.Message)" }
     if ($pinModel -and $pinModel -notmatch "^<") {
         $env:OLLAMA_HOST = "0.0.0.0"
