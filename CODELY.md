@@ -54,6 +54,7 @@
 ### 项目状态指针（最新态一律查 docs/orders.md 尾行）
 - 开工首读=CEO-DIRECTION-BRIEF（cph4/fleet/dispatcher/CEO-PROXY/CEO-DIRECTION-BRIEF.md·CEO 原话级方向令简报·git+poke 分钟级三机同步=「换机不重来」正通道·快照基线 2026-10-18 09:5x）
 - 自媒体公司方法论总纲（CEO 五令链 10-18 19:28-19:54·五件套=环节专家矩阵/双签呈审/版本数 ≤3/返修成本账/迭代闭环·日进化班每日 22:0x·技术刷新面 GitHub 日扫·合规介入点=发布前·各线主创席 ≤10-20 实例化回执·正典=cph4/fleet/BIGSTREAM-PRODUCTION-METHODOLOGY-v1.md）
+- 集团九司自动化扩面（CEO 令 10-18 20:48-21:11·世界一流五要素基线=循环驱动/自领活+自愈/质量闸在环内/日进化/定位律·九司方案〔BigStream/Biggame/BigMoney/BigDomain/BigCompute/BigHouse/BigLife/FluxVerse/CPH4 Labs〕·建设案 ≤10-25·首线实装验收 ≤10-31·BigLife census 冻结令不破候解禁·正典=cph4/fleet/GROUP-AUTOMATION-PLAN-v1.md）
 - MV 41 曲线（mv0001《爱在西元前》终片=**V5.8 CEO 终审反馈七批→V5.9 修复批在飞·今夜死线双签即呈（版本数 ≤3 硬线执法首例）**〔full_mv_v56.mp4·承 V5.5 双签后 CEO 终审反馈四条快改：①字卡 v56 大字版（140px 画宽 57% 居中+双层暗衬底+真鎏金楔带）②开场 0-17.5 六拍重导重剪（CEO 澄清令「不连贯，剪辑也不好」全权委托·真像素 punch-in 微距补拍+matched-cut 续接·盲判 8.5/10）③SING3b 边写边唱镜→SING1 火炬尾段复用（出土后古声重现回环）④其余 v55 正典零动·动帧量化裁决 3 假警报 1 如实重构（E2 节拍=坐直屏息非抬眼·已披露）〕——过审→VideoSeal 水印 embed→PUBLISH-CHECKLIST 发布闸〔N1 音频 TP≤-1.0 重测/封面帧指定 KFT/原曲授权 CEO 裁量〕；S1 火焰贴缘=V5.5 过审继承面候裁）：cph4/fleet/mv-album-001-jay/ + cph4/fleet/mv0001-handover/
 - 短剧/漫剧线（CEO O-20261017-1741 转向令：短视频线停产判「太烂」·深研三波 R-20261017-duanju/manju/mv-craft 已过防线二；短剧=duanju-dept-v1《十秒人生》剧本 v1.1 复核 PASS 7.93 候 KF 试构图；漫剧=《一路长虹》转 3D 漫化+配音 P0 @bm-b 在途；三线出库闸=cph4/fleet/VIDEO-QC-GATES-GSV-v1.md）：cph4/fleet/duanju-dept-v1/ + cph4/fleet/drama-dept-v1/
 - 量化波链（W 波席位/冻结态）：bigmoney/
