@@ -57,6 +57,8 @@
 | **城市生态席**（本批新增） | 城市非渲染面（居民/安家/商业化/可视化） | skill `silicon-city-ops` |
 | **记忆治理席**（2026-10-18 接管） | 记忆写入守门+预算闸消费+L0/L1/L2 路由判定+梳理窗执法 | skill `memory-curator` |
 | **监制席**（2026-10-18 CEO 直令立·独立成品对抗审查） | 一切成品呈 CEO 前最后硬门：缺陷登记簿全量回扫+QC 清单+场景正典对照的对抗审查（MV 线先行·三线出库闸挂位） | 章程=cph4/fleet/PRODUCER-SUPERVISOR-GATE-v1.md（方法承 C-20261018-01 红绿对抗协议） |
+| **剪辑师席**（2026-10-18 新立·全环节专家覆盖令） | MV 剪辑/转场全环节：剪辑语法表+转场方法论签发（禁短视频俗感） | 矩阵=cph4/fleet/mv-album-001-jay/MV-ALL-STAGE-EXPERT-COVERAGE-v1.md §一.5 |
+| **版式设计席**（2026-10-18 新立） | 片头/字卡/credits 版式设计（主流 MV 片头对标稿签发） | 矩阵=同上 §一.7 |
 
 ## §三 Skill 总库索引（按域·含位置注记）
 
@@ -110,6 +112,8 @@
 | 2026-10-16 | city-seat-ops / city-seat-content / city-seat-data | 城市线 | 城市运营/内容/数据席位（增长槽） | 待 canon 落地建卡 | PLAN |
 | 2026-10-18 | memory-curator | 机队/基建 | 记忆治理席：三层记忆预算守门（写入五问+L0/L1/L2 路由+4h 闸消费+梳理窗执法） | skill（canon=cph4/skills/memory-curator） | ACTIVE |
 | 2026-10-18 | producer-supervisor | 内容产线 | 制监席：成品独立对抗审查（缺陷登记簿全量回扫根治复发·MV 线先行·三线出库闸挂位·CEO 令「引入监制或者副导演」） | 章程 cph4/fleet/PRODUCER-SUPERVISOR-GATE-v1.md+协议 C-20261018-01 | ACTIVE |
+| 2026-10-18 | mv-editor | MV 线 | 剪辑师席：剪辑/转场环节专家（剪辑语法表+转场方法论签发·CEO 令「所有环节都要有专家」根治令） | 矩阵 cph4/fleet/mv-album-001-jay/MV-ALL-STAGE-EXPERT-COVERAGE-v1.md·导演席管辖 | ACTIVE |
+| 2026-10-18 | mv-typography-designer | MV 线 | 版式设计席：片头/credits 版式（主流 MV 对标稿签发·同批根治令） | 矩阵同上·导演席管辖 | ACTIVE |
 
 ## 更新日志
 
@@ -118,3 +122,4 @@
 - v1.0.2（2026-10-18·bm-a CEO-PROXY R2.16·NJ-6 ①收口）：记忆治理席 memory-curator 补登记（建库铁律「不登记不存在」修复·立席依据=cph4/research/R-20261018-memory-control-01·CEO 直令 2026-10-18）+§一 记忆夜审门行勘正至闸 v2 参数（4h S4U·预警 35KB/80 条·执法 50KB/120 条）——溯源=orders 2026-10-18 记忆治理直令补录行。
 - v1.0.3（2026-10-18·bm-a 交互窗）：制监席 producer-supervisor 新立（CEO 直令「给我引入监督和校对的机制，反复出现同样的问题，引入监制或者副导演！专门负责审核他们的成品，进行对抗审查」——章程=cph4/fleet/PRODUCER-SUPERVISOR-GATE-v1.md·§二/§六 双登记+MV 呈审链升格为 DIRECTOR-REVIEW+SUPERVISOR-REVIEW 双签制〔BRIEF §一.1 同步〕）——溯源=orders 2026-10-18 19:2x 制监令行。
 - v1.0.3（2026-10-18·bm-a 记忆治理收口批）：治理席节律+=21:47 日班 cron（durable·自续命·prompt 自含五步值守法）+闸 v2.1（L0 重建保留平台标记+KEEP_RULES 补 11 元组+norm_key 同题去重修真）/v2.2（pass2 fresh 降级必落 topics）实弹收口——L0 375,794B/322 条→76,579B/90 条（-80%），法条锚点 33/33 存活。
+- v1.0.4（2026-10-18·bm-a 交互窗）：剪辑师席 mv-editor+版式设计席 mv-typography-designer 新立（CEO 直令「mv 的所有环节 都要有专家…反复修…从根本上解决」——矩阵=cph4/fleet/mv-album-001-jay/MV-ALL-STAGE-EXPERT-COVERAGE-v1.md·每环节一专家一闸·无覆盖禁开工+修复轮预算 ≤2 轮+第 3 轮根因停线+返修成本账）——溯源=orders 2026-10-18 19:2x 全环节专家令行。
