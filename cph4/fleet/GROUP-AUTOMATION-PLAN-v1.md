@@ -14,9 +14,9 @@
 - **验收**：≤10-31 三件补位实装+连续 7 日日进化零跳班。
 
 ## ③ BigMoney 量化（W 波自跑已验证）
-- **现状**：①循环✓（W 波范式）②自领活=部分（池单/水位线·SLI 假绿坑在册）③回测质量闸=部分（判据/防过拟合纪律·未环内形式化）④⑤=缺。
-- **建设**：W 波循环正式化（盘点→自领活→执行→簿记闭环·假绿判据修正入环）+回测闸入环（判负关线/预注册预算自动执法）+日进化（盈亏归因日账）。
-- **验收**：≤10-31 循环 72h 自续+闸内零违例；BM 仓 O 令由 bm-b/CEO-PROXY 镜像。
+- **现状**：五要素全 OK（10-19 审计面机读 E1-E5 全绿·gaps=0）——①循环✓（iteration_loop v2 24/7·W 波 276 波连续自跑）②自领活✓（idle_trigger 双字面+backlog/pool 清点在环）③质量闸✓环内（判负关线 CLOSED_FAMILIES 运行侧硬拒+预注册预算运行时自动停+假绿 claimable 交叉面三闸 A1/A3 落地）④日进化✓（盈亏归因日账 A2 落地·streak 1/5 交易日累积中）⑤定位律✓（近 5 轮产品轮 3·等待占比 0.0）。
+- **建设案细化正身**（本节细化指针·上链归 @quant 席/GM 面·BM 仓正身）：quant/bigmoney `research/AUTOMATION-LINE-PLAN-v1.md`（§一 五要素实测映射/§二 缺口清单 G1-G5/§三 建设排期 A1-A5〔A1-A4 已落地·A5 验收中〕/§四 验收判据 V1-V5/§五 消费面与回执律）+ 常设审计面 `scripts/automation_line_audit.py`→`results/automation_line_audit.json`（S6 常设腿）+ A5 验收记录载体 `scripts/a5_acceptance_pack.py`→`results/a5_acceptance/PACK-*.md`（幂等再生·当日重跑原地再生）。
+- **验收**：≤10-31 首线实装验收（§四判据 V1-V5 全过=V2 归因 streak ≥5 交易日+V5 审计连绿 ≥3 日累积中·验收记录面已立）+循环 72h 自续+闸内零违例；BM 仓 O 令由 bm-b/CEO-PROXY 镜像。
 
 ## ④ BigDomain 硅基域商业化
 - **现状**：BLUEPRINT 在册（引流/共创/19.9 算力包/代币内循环）·运营=窗口驱动。
