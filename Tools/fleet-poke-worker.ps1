@@ -201,16 +201,14 @@ foreach ($rel in $pullSet) {
     }
 }
 
-# ---- global memory union-sync (O-20261009-1845: CEO pain point "memory missing on
-# other fleet machines" - the global CODELY.md never traveled. Runs AFTER pulls so
-# fresh canonical entries flow down to this machine, and this machine's local-only
-# entries flow up to the canonical + commit+push. Fail-soft: never blocks wake.) ----
-try {
-  $memSync = Join-Path $Root 'Tools\fleet-memory-sync.ps1'
-  if (Test-Path $memSync) {
-    $null = & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $memSync -Root $Root -Quiet 2>&1
-  }
-} catch { WK-Log 'memsync-fail' ([string]$_.Exception.Message) }
+# ---- global memory union-sync RETIRED (v1.9, 2026-10-18, memory-curator seat, CEO
+# order "control memory bloat"): the union/replace-down loop fought the per-machine
+# L0 budget gate - the gate trimmed 375KB->117KB every 4h and the next poke replaced
+# the local file with the 375KB canonical verbatim (gate-log.txt 10-16..10-17
+# evidence; 66 fleet-memory git commits). Superseded by memory.md S8 (cross-machine
+# value travels via git canon + L1) and S10 (L0 = per-machine injection face with a
+# hard budget). The canonical is frozen under cph4/fleet/memory/archive/;
+# fleet-memory-sync.ps1 is now a no-op stub. Keep this tombstone for history. ----
 
 # ---- v1.5 listener freshness gate: upgrade/revive the local listener when a
 # newer fleet-link.ps1 shipped via git (runs AFTER pulls so the newest code is on
