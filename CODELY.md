@@ -46,6 +46,7 @@
 > 层级：L0=全局硬法+索引（各机 <home>\.codely-cli\CODELY.md·平台每次注入·现 ~20KB）｜**本件=L1 项目层**（git 分发·跨机共享·项目专属记忆正身）｜L2=主题层（各机 <home>\.codely-cli\memory\topics\·按需读）。正典权威=git 永久件——本件只放指针与项目级记忆·禁复述正典（复述禁令 §1.2）。
 
 ### 项目状态指针（最新态一律查 docs/orders.md 尾行）
+- 开工首读=CEO-DIRECTION-BRIEF（cph4/fleet/dispatcher/CEO-PROXY/CEO-DIRECTION-BRIEF.md·CEO 原话级方向令简报·git+poke 分钟级三机同步=「换机不重来」正通道·快照基线 2026-10-18 09:5x）
 - MV 41 曲线（本机在飞=mv0001 V5.3 终版收尾（CEO O-20261017-1741/1758：MV 终审=CEO 亲自审位·其余决策全授权按市场风向）——V5.2 逐镜全审 33 判+V5.3 复验全绿（canon/V5.3-VERIFY-RECEIPT-20261017）·三镜重烧 D04/SIL1 已云道收口落位（V53R commit 537a58226·QC 2/2 PASS·V5_SOURCE_MAP 扩毕·星晴 i2v 包亦三层闸收口 5f3be92fa 准烧候 PENDING 帧）·唯 C01 @bm-c 在途（cron 5a5ec609 盯守）→收片后重建→水印→专家组→DIRECTOR-REVIEW-V5.3-PASS→呈 CEO）：cph4/fleet/mv-album-001-jay/ + cph4/fleet/mv0001-handover/
 - 短剧/漫剧线（CEO O-20261017-1741 转向令：短视频线停产判「太烂」·深研三波 R-20261017-duanju/manju/mv-craft 已过防线二；短剧=duanju-dept-v1《十秒人生》剧本 v1.1 复核 PASS 7.93 候 KF 试构图；漫剧=《一路长虹》转 3D 漫化+配音 P0 @bm-b 在途；三线出库闸=cph4/fleet/VIDEO-QC-GATES-GSV-v1.md）：cph4/fleet/duanju-dept-v1/ + cph4/fleet/drama-dept-v1/
 - 量化波链（W 波席位/冻结态）：bigmoney/
@@ -58,6 +59,8 @@
 
 ### 新记忆三级路由（正身=cph4/memory.md §10.2）
 跨机价值→本件/git 正典；每次必读硬法→L0 全局（≤300 字）；本机域细节/长文→L2 主题文件。本机 append/update 记忆工具 project-scope 均 EEXIST 故障在册、replace 工具对 CODELY.md 硬锁（2026-10-17 三连实证）→L1 写入唯一正法=外置 UTF-8 py 字节补丁+git 原子推（等效上链 §8.4）。
+
+- 记忆治理席 memory-curator（写入五问+三层路由表+4h 预算闸消费+瘦身 SOP·正身=skill cph4/skills/memory-curator）+执法台账 cph4/fleet/memory-slim/LEDGER.md；L0 注入面预算=预警 35KB/80 条·执法 50KB/120 条（v2·20261018·联合回灌链永久退役）——L0 写入前先过 skill 写入五问。
 
 ### L2 主题索引
 - [2026-10-17] VideoSeal 隐形视频水印部署与选型判决（bm-a comfyui python 环境·pip CWD 坑/decord stub/timm pin 0.9.16/attenuation.yaml 手补·含 blind_watermark x264 全灭负结果勿重试）：home .codely-cli/memory/topics/mem-20261017-videoseal-wm.md
