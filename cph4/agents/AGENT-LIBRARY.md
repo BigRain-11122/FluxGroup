@@ -56,6 +56,7 @@
 | **增长席**（本批新增） | 账号/粉丝/评论区/节奏/看板 | skill `growth-ops` |
 | **城市生态席**（本批新增） | 城市非渲染面（居民/安家/商业化/可视化） | skill `silicon-city-ops` |
 | **记忆治理席**（2026-10-18 接管） | 记忆写入守门+预算闸消费+L0/L1/L2 路由判定+梳理窗执法 | skill `memory-curator` |
+| **监制席**（2026-10-18 CEO 直令立·独立成品对抗审查） | 一切成品呈 CEO 前最后硬门：缺陷登记簿全量回扫+QC 清单+场景正典对照的对抗审查（MV 线先行·三线出库闸挂位） | 章程=cph4/fleet/PRODUCER-SUPERVISOR-GATE-v1.md（方法承 C-20261018-01 红绿对抗协议） |
 
 ## §三 Skill 总库索引（按域·含位置注记）
 
@@ -108,10 +109,12 @@
 | 2026-10-16 | silicon-city-ops | 城市线 | 城市生态：居民/安家/商业化/可视化 | skill（canon=cph4/skills/silicon-city-ops） | ACTIVE |
 | 2026-10-16 | city-seat-ops / city-seat-content / city-seat-data | 城市线 | 城市运营/内容/数据席位（增长槽） | 待 canon 落地建卡 | PLAN |
 | 2026-10-18 | memory-curator | 机队/基建 | 记忆治理席：三层记忆预算守门（写入五问+L0/L1/L2 路由+4h 闸消费+梳理窗执法） | skill（canon=cph4/skills/memory-curator） | ACTIVE |
+| 2026-10-18 | producer-supervisor | 内容产线 | 制监席：成品独立对抗审查（缺陷登记簿全量回扫根治复发·MV 线先行·三线出库闸挂位·CEO 令「引入监制或者副导演」） | 章程 cph4/fleet/PRODUCER-SUPERVISOR-GATE-v1.md+协议 C-20261018-01 | ACTIVE |
 
 ## 更新日志
 
 - v1.0（2026-10-16·bm-a 建库）：总册首版（常设机构位 15+专家席位 16+八域 skill 索引+城市线专册）+五席新 skill+六件既有 skill 收编 canon+同步/审计双工具+CEO-PROXY 周审步接线（执行档=docs/orders.md 2026-10-16 建库令行）。
 - v1.0.1（2026-10-16·bm-a）：合规席转阶段门控（CEO 令「商业化前轻量」）——§0/§二/§六 合规行改写·skill 同步升版。
 - v1.0.2（2026-10-18·bm-a CEO-PROXY R2.16·NJ-6 ①收口）：记忆治理席 memory-curator 补登记（建库铁律「不登记不存在」修复·立席依据=cph4/research/R-20261018-memory-control-01·CEO 直令 2026-10-18）+§一 记忆夜审门行勘正至闸 v2 参数（4h S4U·预警 35KB/80 条·执法 50KB/120 条）——溯源=orders 2026-10-18 记忆治理直令补录行。
+- v1.0.3（2026-10-18·bm-a 交互窗）：制监席 producer-supervisor 新立（CEO 直令「给我引入监督和校对的机制，反复出现同样的问题，引入监制或者副导演！专门负责审核他们的成品，进行对抗审查」——章程=cph4/fleet/PRODUCER-SUPERVISOR-GATE-v1.md·§二/§六 双登记+MV 呈审链升格为 DIRECTOR-REVIEW+SUPERVISOR-REVIEW 双签制〔BRIEF §一.1 同步〕）——溯源=orders 2026-10-18 19:2x 制监令行。
 - v1.0.3（2026-10-18·bm-a 记忆治理收口批）：治理席节律+=21:47 日班 cron（durable·自续命·prompt 自含五步值守法）+闸 v2.1（L0 重建保留平台标记+KEEP_RULES 补 11 元组+norm_key 同题去重修真）/v2.2（pass2 fresh 降级必落 topics）实弹收口——L0 375,794B/322 条→76,579B/90 条（-80%），法条锚点 33/33 存活。
