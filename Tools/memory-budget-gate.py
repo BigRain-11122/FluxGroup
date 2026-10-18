@@ -47,7 +47,7 @@ import sys
 SECTIONS = ("User", "Feedback", "Project", "Reference")
 DATE_RE = re.compile(r"(\d{4})-(\d{2})-(\d{2})")
 TS_RE = re.compile(r"^- \[(\d{4}-\d{2}-\d{2})(?: (\d{2}:\d{2}))?")
-PREFIX_STRIP_RE = re.compile(r"^(?:\[[^\]]*\]\s*)+")
+PREFIX_STRIP_RE = re.compile(r"^(?:\s*-\s*)?(?:\[[^\]]*\]\s*)+")  # v2.1: strip leading "- [ts]" too, norm_key becomes content-based (same-topic chains dedup as designed)
 
 # Standing-law whitelist (all substrings must appear). Per-machine identity rows
 # are INTENTIONAL here: each deploying machine adds its own identity tuples
@@ -70,6 +70,10 @@ KEEP_RULES = [
     ("记忆整理归档法",),
     ("云端 token 严管令",), ("活跃产线指针",), ("机队车道两修订",),
     ("游戏公司云道",), ("云端恢复律",),
+    # v2.1 2026-10-18 记忆治理席补律：误路由真法条回归 L0（本窗修复批实弹）——新立常设法照 skill memory-curator §二落 KEEP_RULES
+    ("调度体系合订",), ("认知更新律",), ("评审机制律合订",), ("资源律合订",),
+    ("P0 坑律",), ("EEXIST",), ("并发写入竞态律",), ("静默三连反馈升级",),
+    ("whisper 词级锚点误听",), ("死窗瘟疫根因定谳",), ("记忆治理席 memory-curator",),
 ]
 # Standing-law markers (CEO-verdict conventions; a hit keeps the entry verbatim).
 LAW_MARKERS = ["原话", "长期律", "长期法", "长期硬门", "常设", "铁律", "红线",
@@ -369,6 +373,7 @@ def main():
                 else:
                     keep2.append(e)
             keeps = keep2
+            moves_for_topics.extend(pass2)  # v2.2 2026-10-18: demoted fresh grace must land in topics (first-run gap: 2 entries held only by snapshot)
 
     crit = None
     if over_exec:
@@ -429,7 +434,10 @@ def main():
             cnt = sum(1 for l in f if l.startswith("- ["))
         idx.append((tf, cnt))
 
-    out = ["# CODELY 全局结构记忆 — 分层制 v3（2026-10-15 立·2026-10-18 记忆治理席 memory-curator 接管）\n"
+    # v2.1: KEEP the "## Codely Structured Memories" platform marker on line 1 -
+    # dropping it (10-18 实锚两案) made append_memory build a duplicate trailing structure block.
+    out = ["## Codely Structured Memories\n\n",
+           "# CODELY 全局结构记忆 — 分层制 v3（2026-10-15 立·2026-10-18 记忆治理席 memory-curator 接管）\n"
            "> 机制：注入面预算（预警 35KB/80 条·执法 50KB/120 条）·Tools/memory-budget-gate.py v2 每 4h 静默闸（S4U·快照零删除·法条自动保留+同题去重）；"
            "长文/状态/领域细节=memory/topics/（按需读·索引见 ### Reference）；>300 字新条目=先落主题文件再回写指针；"
            "跨机价值一律走 git 正典+L1（memory.md §8/§10·联合回灌已退役）；写入纪律正身=skill memory-curator（cph4/skills/）。\n\n"]

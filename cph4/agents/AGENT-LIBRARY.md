@@ -36,7 +36,7 @@
 | 值守轮 / 夜轮 / 进化轮 | 四器审计+催办自愈 / 03:07 夜报 / 周日立法+法熵审视 | `cph4/night-round-prompt.txt` / `evolution.md` | 03:07/15:07 · 周日 |
 | 交付哨 delivery-watch | 交付物落地守望+min_duration 质量闸+告警 | `cph4/fleet/dispatcher/delivery-watch/` | 常驻 |
 | 审计部+哨兵 | 自我感动/同向无效功审计+独立抽审 | `cph4/audit-office.md`+`Tools/audit-sentinel.ps1` | 每日双班 |
-| 记忆治理席+预算闸 v2 | 三层记忆预算守门（预警 35KB/80 条·执法 50KB/120 条·4h S4U 二段执法·写入五问路由） | skill memory-curator（canon=cph4/skills/memory-curator）+`Tools/memory-budget-gate.py` | 4h S4U（HQ-MemoryBudgetGate） |
+| 记忆治理席+预算闸 v2.1 | 三层记忆预算守门（预警 35KB/80 条·执法 50KB/120 条·4h S4U 二段执法·写入五问路由） | skill memory-curator（canon=cph4/skills/memory-curator）+`Tools/memory-budget-gate.py` | 4h S4U（HQ-MemoryBudgetGate）+21:47 日班 cron（durable·自续命） |
 | CoderServe 看门狗 | bm-a 35B 常驻 :8090（PID 锁+路径闸） | `Tools/coder-serve.ps1` | PT10M |
 | 热点扫描线 | 全网热榜三班扫描入池 | ShortVideoHotScan1/2/3（schtasks） | 日 3 班 |
 
@@ -114,3 +114,4 @@
 - v1.0（2026-10-16·bm-a 建库）：总册首版（常设机构位 15+专家席位 16+八域 skill 索引+城市线专册）+五席新 skill+六件既有 skill 收编 canon+同步/审计双工具+CEO-PROXY 周审步接线（执行档=docs/orders.md 2026-10-16 建库令行）。
 - v1.0.1（2026-10-16·bm-a）：合规席转阶段门控（CEO 令「商业化前轻量」）——§0/§二/§六 合规行改写·skill 同步升版。
 - v1.0.2（2026-10-18·bm-a CEO-PROXY R2.16·NJ-6 ①收口）：记忆治理席 memory-curator 补登记（建库铁律「不登记不存在」修复·立席依据=cph4/research/R-20261018-memory-control-01·CEO 直令 2026-10-18）+§一 记忆夜审门行勘正至闸 v2 参数（4h S4U·预警 35KB/80 条·执法 50KB/120 条）——溯源=orders 2026-10-18 记忆治理直令补录行。
+- v1.0.3（2026-10-18·bm-a 记忆治理收口批）：治理席节律+=21:47 日班 cron（durable·自续命·prompt 自含五步值守法）+闸 v2.1（L0 重建保留平台标记+KEEP_RULES 补 11 元组+norm_key 同题去重修真）/v2.2（pass2 fresh 降级必落 topics）实弹收口——L0 375,794B/322 条→76,579B/90 条（-80%），法条锚点 33/33 存活。
