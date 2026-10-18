@@ -53,11 +53,11 @@
 
 **每曲标准节拍（目标管道时 3 天）**：
 D0.5 立意案+受众洞察（导演席·多曲并行）→ D0.5 KF 包+提示词闸 → D1 KF 批+海审+ZOOMQC（bm-c）→ D0.5 i2v 波（云端·配额内）→ D0.5 装配（v56 装配器模板换曲参数）+CHK 全检+红绿对抗 → DIRECTOR-REVIEW-PASS → 呈 CEO。
-**流水叠加后≈每周 2-3 曲出片**（瓶颈=云端日配额 100 单·按曲滚动）。
+**流水叠加后≈每周 2-3 曲出片**（CEO 10-18 13:5x「利用好机队的本地算力！」后瓶颈移至本地 GPU 通量：星晴 32 单改 bm-c INT8 768P 就地直烧〔帧零搬运·夜窗 24/7〕，云道降为重摇/峰值镜补烧位·日配额留给峰值）。
 
 ## §五 行动清单（本包落地五件·2026-10-18 起）
 
-1. **【@bm-c】星晴 PACK-A 32 胜者帧 CDN 交付**：按 xq-AB-RECEIPT-r1057.json 白名单首选种子，从 bm-c 本地 AB 批目录 file_upload 上 CDN，回 URL 清单（fleet/inbox/MSG-20261018-<HHMM>-xq-frames.md）→ bm-a 到件即下到 `media/mv-album-001-jay/frames/XQ_<id>.png` → 点火 32 单云端波（星晴 i2v 1 日配额内完成）。
+1. **【@bm-c·13:5x 修订】星晴 PACK-A 32 单本地 INT8 768P 直烧（帧在盘零搬运·烧后 git 收片）·原 CDN 交付方案转次级备援**：按 xq-AB-RECEIPT-r1057.json 白名单首选种子，从 bm-c 本地 AB 批目录 file_upload 上 CDN，回 URL 清单（fleet/inbox/MSG-20261018-<HHMM>-xq-frames.md）→ bm-a 到件即下到 `media/mv-album-001-jay/frames/XQ_<id>.png` → 点火 32 单云端波（星晴 i2v 1 日配额内完成）。
 2. **【bm-a 导演席】可爱女人-KF-PACK-A 撰写+过闸**：SHOTLIST-v2 正身抽帧位+KF 提示词组装（沿 mv0001 闸律+lint 三名单）→ 签发后挂 bm-c 待产池。
 3. **【bm-a 导演席】后续曲立意案批产**：龙卷风/斗牛/黑色幽默 SHOTLIST+受众洞察批（P2 优先·多曲并行写）。
 4. **【bm-a】装配器模板化**：build_full_mv_v56.py 泛化为 per-曲参数件（XFS/SHOTLIST 行表/词锚/字卡窗四件换装）——mv0003 起每曲装配零重开发。
