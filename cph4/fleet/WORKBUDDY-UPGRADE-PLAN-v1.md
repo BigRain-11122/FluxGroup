@@ -90,3 +90,4 @@ WorkBuddy=腾讯效率智能体（个人 AI 办公助手·日访问量居国内�
 
 ## Changelog
 - v1.0（2026-10-19 11:5x·bm-a 交互窗）：立项+Phase 0 收口（深研双源+盘点+六阶段拆解+护栏+验收）。
+- v1.1（2026-10-19 12:1x·bm-a 交互窗）：**Phase 1 收口**——OpenClaw 2026.10.5 上机（npm 全局+allow-scripts 补授权）；配置=tailnet bind+token 认证（64hex）+rateLimit+allowedOrigins 白名单+**白天 4b 轻面主模型**（ollama/qwen3:4b-instruct·让路律合规）+35B(:8090) 夜窗备选 provider+telemetry 关+mdns off+4b web 工具组禁（防注入）；网关在听 **127.0.0.1:18789+100.110.185.62:18789 双 bind**·health 双绿；安全审计 **0 critical 0 warn**；真话一句往返 15s 实证（Control UI→token→网关→本地 4b→回话）；守护=**HQ-OpenClawGateway**（task-register 正门·every:10m 幂等保活·点火 result=0·S4U 被 UAC 拒→按律降级隐藏链+入提权积压账）；runner=Tools/openclaw-gateway-runner.ps1（幂等+tailnet 等待+分离隐藏进程）。CEO 接入=手机装 Tailscale 入网→浏览器开 http://100.110.185.62:18789→贴 token（物理件一行）。
