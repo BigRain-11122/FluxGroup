@@ -390,7 +390,7 @@
   },
   {
    "id": "xq-redo-i2v-direct3",
-   "status": "pending",
+   "status": "done",
    "priority": 14,
    "auth": "X2670 redo order sec-2 direct-i2v leg (KF-clean units: S2-14 draft B / S3-20 unchanged / S4-22 draft C), C2083 pre-stow (pre-stow law O-20261018-2236); layer evidence = xq-KF-RECHECK1/2-REDO-r1019-c2083.jpg + native single-frame reads",
    "require": {
@@ -426,7 +426,10 @@
    ],
    "log_out": "media/mv-album-001-jay/log-redo-direct3.out.txt",
    "log_err": "media/mv-album-001-jay/log-redo-direct3.err.txt",
-   "note": "PASS gate = ALBUM LANE DONE ok=3 fail=0 in log-redo-direct3.out tail + 3 mp4 >=100KB in media/mv-album-001-jay/clips-packA-redo-r1/ + progress-bmcpackAredo.jsonl ok rows x3; wordage per X2670 drafts B/C verbatim + S3-20 unchanged; seeds = id-MD5 of -redo-r1 id family (renewal law, same-unit-same-seed ban); frames unchanged (KF clean per C2083 native recheck). Harvest next round: qc strips for 3 units (registry 6/7 + S4-22 zero-lip+fingerpick+same-frame + S3-20 decode-integrity gate) then author+pre-stow KF-reroll3 leg (F5-33a/S4-24/S3-19 per X2670 sec-3)."
+   "note": "PASS gate = ALBUM LANE DONE ok=3 fail=0 in log-redo-direct3.out tail + 3 mp4 >=100KB in media/mv-album-001-jay/clips-packA-redo-r1/ + progress-bmcpackAredo.jsonl ok rows x3; wordage per X2670 drafts B/C verbatim + S3-20 unchanged; seeds = id-MD5 of -redo-r1 id family (renewal law, same-unit-same-seed ban); frames unchanged (KF clean per C2083 native recheck). Harvest next round: qc strips for 3 units (registry 6/7 + S4-22 zero-lip+fingerpick+same-frame + S3-20 decode-integrity gate) then author+pre-stow KF-reroll3 leg (F5-33a/S4-24/S3-19 per X2670 sec-3).",
+   "claimed_ts": "2026-10-19T17:20:59",
+   "done_ts": "2026-10-19T18:57:25",
+   "done_note": "HARVEST PASS by tick-C2087 in-round: PASS gate 4/4 (ALBUM LANE DONE ok=3 fail=0 in log tail + 3 mp4 2862293/4233635/562446B all >=100KB + progress-bmcpackAredo.jsonl ok x3 + ffprobe -count_frames decode-clean 243/328/141f @1344x768 24fps, S3-20 decode-integrity gate GREEN); QC strips board qc-split/xq-redo-r1-QC-STRIPS-c2087.jpg (9-frame, 3x3) adjudication 3/3 PASS: S2-14 exactly-2-people zero-third zero-pseudotext; S3-20 twin-silhouette coherent zero-confetti dusk-clean; S4-22 guitar coherent closed-mouth stable-camera natural-fingerpick. Next slice = KF-reroll3 leg author+pre-stow bank p15 (F5-33a/S4-24/S3-19 per X2670 sec-3, spec on disk per C2086)"
   }
  ]
 }

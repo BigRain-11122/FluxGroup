@@ -38,3 +38,17 @@
 - 帧检判读正身（31/31=25P/6F·C2060+C2061）已在链·本回执=其回炉执行面首件
 
 —— bm-c 执行席（C2083）· 2026-10-19 17:3x · 验收数表与抽帧随烧毕回执（§五全量面）
+
+## 五 C2086 增补（18:2x·spec 落盘+direct3 实况）
+
+- **X2670 令正本已落本机盘**：cph4/fleet/mv-album-001-jay/xq-PACKA-REDO-ORDER-20261019.md（FluxGroup origin/main 81a16a1d3 直读回写·git hash-object --no-filters 字节恒等验证）——KF 重摇腿 authoring 全规格本地自足（§二 A/B/C 稿逐字+§三 KF 处置树/种子换新律/解码完整性闸/重试预算 ≤2 烧+§四验收闸+§六装配解锁判据），下轮免再取远端
+- **direct3 实况 @18:2x**：S2-14 ✓ 2,862,293B @17:42:53 · S3-20 ✓ 4,233,635B @18:15:49 · S4-22 在烧（SUBMITTED 18:15:49·日志活跃）→ 2/3 落地·烧毕 ETA ~18:45；progress-bmcpackAredo.jsonl ok×2——本班零触碰防双烧（guard 在途态）
+- **下轮头号=KF 重摇腿 authoring+银行 p15 预挂**（X2670 §三1+§二锚词全在盘）：单=F5-33a/S4-24/S3-19——F5-33a KF 锚=「the cassette's paper label blank and age-worn」+对齐 F5-33b 已过件（i2v 词面零改动）；S4-24 KF=标签软化锚入 KF（i2v=A 稿 58 词整段替换）；S3-19 KF=八块模板+黄昏天空重建（i2v 词面零改动 72 词 FIX 稿）；种子换新=-redo-r1 id-MD5 族（同单同种子禁复用）；试构图律 672×384→1344×768；新 KF 过帧审三件套→入 i2v；重试预算每单 ≤2 烧
+- **direct3 烧毕收割清单（同批）**：银行 p14 翻 done（PASS 闸=ALBUM LANE DONE ok=3 fail=0+3 mp4≥100KB+progress jsonl ok×3）→qc strips 3 单（注册表 6/7+S4-22 零口型/指弹/三帧同机位+S3-20 解码完整性闸）→验收数表回执（X2670 §五）→导演席抽检→条板重判
+
+## 六 C2087 收割回执（18:5x·direct3 三单全闭·X2670 §五验收数表）
+
+- **PASS 闸 4/4 全过**：①ALBUM LANE DONE lane=bmcpackAredo ok=3 fail=0（log-redo-direct3.out 尾行）②三 mp4 落盘=2,862,293B / 4,233,635B / 562,446B（全 ≥100KB）③progress-bmcpackAredo.jsonl ok×3（fails 零行）④ffprobe -count_frames 解码完整性全绿=S2-14 243f / S3-20 328f / S4-22 141f @1344×768 24fps（宣称帧数恒等·零解码错误·S3-20 解码完整性闸 GREEN）
+- **QC 判读 3/3 PASS**（板=qc-split/xq-redo-r1-QC-STRIPS-c2087.jpg·9 帧 3×3·每镜前/中/尾三抽）：S2-14=恰 2 人零第三人（背景挂布/绳卷道具全可辨·红橙上衣少女零增生）+全画面零伪写；S3-20=双剪影连贯（裙摆/长发/逆光轮廓清晰·姿态转身推进自然）+零三彩纸屑+黄昏暖光平滑零竖涂抹；S4-22=吉他连贯（弦/音孔/弦桥/琴头全清晰）+嘴闭合零口型+三帧同机位（构图恒定·位移=自然弹奏动作）+手型自然（按弦/拨弦手分立零融合指）
+- **银行 p14 翻 done** @18:57:25（indent=1·CRLF·无 BOM 字节保形手术·done_note 全证入册）——银行 15 单 14 done+1 pending 归零面见注
+- **下一步（下轮头号不变）**：KF 重摇腿 authoring+银行 p15 预挂（F5-33a/S4-24/S3-19·X2670 §二锚词+§三1 试构图律 672×384→1344×768+种子换新律+帧审三件套+重试预算 ≤2 烧·spec 本地自足免取远端）；烧毕后=导演席抽检→条板重判→装配解锁判据（X2670 §六）
