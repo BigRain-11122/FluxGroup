@@ -13,6 +13,15 @@ if (-not (Test-Path $logDir)) { New-Item -ItemType Directory -Force -Path $logDi
 $outLog = Join-Path $logDir 'gateway-run.out.log'
 $errLog = Join-Path $logDir 'gateway-run.err.log'
 
+# 0. canon sync (git = single source of truth): AGENTS.md/SOUL.md/skills -> workspace, every start
+$src = 'C:\Users\sjs20\Desktop\FluxGroup\cph4\fleet\workbuddy-gateway'
+if (Test-Path (Join-Path $src 'AGENTS.md')) {
+    $ws = Join-Path $logDir 'workspace'
+    New-Item -ItemType Directory -Force -Path (Join-Path $ws 'skills') | Out-Null
+    Copy-Item (Join-Path $src '*.md') $ws -Force
+    Copy-Item (Join-Path $src 'skills\*') (Join-Path $ws 'skills') -Recurse -Force
+}
+
 # 1. idempotent guard: gateway already up?
 if (Get-NetTCPConnection -State Listen -LocalPort $port -ErrorAction SilentlyContinue) { exit 0 }
 if (-not (Test-Path $oc)) { exit 0 }
