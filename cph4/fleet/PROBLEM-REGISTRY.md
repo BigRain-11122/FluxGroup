@@ -151,3 +151,12 @@
 - 复发计数: 1（J-27 口型族 +1 另计·J-29 表演系 CEO 二犯过失留档——见 SUPERVISOR-REVIEW M-4/J-41）
 - 状态: armed
 - 升格记录: 2026-10-19 立册·SING3b 面同窗 REJECT→零烧重切修复轮内闭环（V5.9 未呈不计呈次）；CEO 七批原话正身存 CEO-FEEDBACK 件·本册只存指针
+
+### PR-20261019-02 巡视台账行裸奔丢失（log-estate 工作树覆写族）
+- 来源: NJ [group] 2026-10-19 16:38（PATROL-FLEET/LOG.md git 正身缺档·末触 commit cedfed20 10-17 02:30·本地=origin 双证）·指针=R2.25 块+commit 0f608799
+- 复发史·根因: 10-16 stash 手术丢行案（6619a02c 收口）+10-17 同日三连丢行案（反转闸立）后第三族=方向相反新面——已链行被反转有闸·未链行被覆写零防护；根因=patrol 班行仅落工作树零 commit 腿（CHARTERS §通用纪律只规定行产出无上链责任=设计缺口）+多窗 autostash pop-fail 覆写循环（9 枚堆积实锚）+10-18 13:2x reset --hard 连带（推断标注）
+- 出生地闸: patrol 班毕环节缺「LOG 行上链」步（班毕动作只写不推）；对照组=CEO-PROXY/LOG.md 有 atomic-append 腿同窗零丢失实证
+- 验证证据: 收口=0f608799（60+7 行 union-restore：59 行 stash@{2}/@{3} byte 级+bigmoney R18 shiftlog 重建+16:38 NJ 行+LEDGER 7 行）·131 行全量在链·悬空证据指针闭合；修法提名=waiting-CEO 区行（patrol-prompt+CHARTERS 两行改·受保护件）；过渡闸=枢纽班批次顺手收口行面+18:45 回访探针
+- 复发计数: 1（本机制族首例·前两族=反转方向已各立闸）
+- 状态: armed
+- 升格记录: 2026-10-19 立册·复发（再现班次行缺档）=按闸升格律点名当班窗+升 lint 档
