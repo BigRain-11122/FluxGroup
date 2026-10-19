@@ -117,6 +117,11 @@
 | 2026-10-18 | producer-supervisor | 内容产线 | 制监席：成品独立对抗审查（缺陷登记簿全量回扫根治复发·MV 线先行·三线出库闸挂位·CEO 令「引入监制或者副导演」） | 章程 cph4/fleet/PRODUCER-SUPERVISOR-GATE-v1.md+协议 C-20261018-01 | ACTIVE |
 | 2026-10-18 | mv-editor | MV 线 | 剪辑师席：剪辑/转场环节专家（剪辑语法表+转场方法论签发·CEO 令「所有环节都要有专家」根治令） | 矩阵 cph4/fleet/mv-album-001-jay/MV-ALL-STAGE-EXPERT-COVERAGE-v1.md·导演席管辖 | ACTIVE |
 | 2026-10-18 | mv-typography-designer | MV 线 | 版式设计席：片头/credits 版式（主流 MV 对标稿签发·同批根治令） | 矩阵同上·导演席管辖 | ACTIVE |
+| 2026-10-19 | clawhub-llmxray | 机队/基建 | Ollama 调用诊断（慢/截断/缓存/VRAM/num_ctx——10-19 网关排障问题类·WorkBuddy Phase 3 外采） | skill（canon=cph4/skills/llmxray-diagnose-ollama-calls·MIT-0·ClawHub@0.8.6） | ACTIVE |
+| 2026-10-19 | clawhub-llama-params-optimizer | 算力/BigCompute | llama.cpp/llama-server 参数调优四阶段法（context×VRAM 甜点·夜窗 35B 调参底座） | skill（canon=cph4/skills/llama-params-optimizer·MIT-0·ClawHub@3.1.0） | ACTIVE |
+| 2026-10-19 | clawhub-fleet-doctrine | 机队/基建 | 多模型机队路由策略（哪类活派哪个模型档·dispatcher L1/网关昼夜档 advisory） | skill（canon=cph4/skills/fleet-doctrine·MIT-0·ClawHub@1.2.0） | ACTIVE |
+| 2026-10-19 | clawhub-model-routing | 机队/基建 | 请求路由纪律（显式模型锁/预算帽/重试只降不升——token-economy 技能化） | skill（canon=cph4/skills/model-routing·MIT-0·ClawHub@1.0.1） | ACTIVE |
+| 2026-10-19 | clawhub-github-repo-ops | 机队/基建 | 免 token GitHub 公共仓操作（401 修复期降级通道·WorkBuddy Phase 4 消费） | skill（canon=cph4/skills/github-repo-ops·MIT-0·ClawHub@1.0.0） | ACTIVE |
 
 ## 更新日志
 
@@ -127,3 +132,4 @@
 - v1.0.3（2026-10-18·bm-a 记忆治理收口批）：治理席节律+=21:47 日班 cron（durable·自续命·prompt 自含五步值守法）+闸 v2.1（L0 重建保留平台标记+KEEP_RULES 补 11 元组+norm_key 同题去重修真）/v2.2（pass2 fresh 降级必落 topics）实弹收口——L0 375,794B/322 条→76,579B/90 条（-80%），法条锚点 33/33 存活。
 - v1.0.4（2026-10-18·bm-a 交互窗）：剪辑师席 mv-editor+版式设计席 mv-typography-designer 新立（CEO 直令「mv 的所有环节 都要有专家…反复修…从根本上解决」——矩阵=cph4/fleet/mv-album-001-jay/MV-ALL-STAGE-EXPERT-COVERAGE-v1.md·每环节一专家一闸·无覆盖禁开工+修复轮预算 ≤2 轮+第 3 轮根因停线+返修成本账）——溯源=orders 2026-10-18 19:2x 全环节专家令行。
 - v1.0.5（2026-10-19·bm-a 交互窗·实验室汇报审计窗）：audit.py 全库审计 PASS（canon 25=装机 25·零孤儿·零缺装）+§三外部池数据实测刷新（awesomeskills.dev 1000+→47,237·补登 anthropics/skills 官方库 36 件·溯源=CEO 实验室汇报问「agent/skill 有哪些·是否最先进」外部对标新鲜验证）——纯数据维护零结构变更。
+- v1.0.6（2026-10-19·bm-a 交互窗·WorkBuddy Phase 3）：ClawHub 技能生态首批五件登记（llmxray/llama-params-optimizer/fleet-doctrine/model-routing/github-repo-ops——全 MIT-0·全 clean/benign·五门评估档=cph4/skills/CLAWHUB-ADOPTION-LEDGER.md+OH-20261019-hq-workbuddy·18 件评估 8 件安全否决=44% 带病率实证「不登记不存在」+「未过五门不装」双律执法）——溯源=orders 2026-10-19 13:40 行 WorkBuddy 推进令。
