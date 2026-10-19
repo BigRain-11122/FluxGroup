@@ -10,7 +10,8 @@
 | FluxVerse/城市线 | **0 件** | 闭环赋能案件+调研回填（cph4/council/C-20261019-01·大屏 691 件/事件流在册/媒资可达=证据齐） | 委员会 18:00 裁定大屏+入城实装 |
 | BigLife | **0 件** | census 解禁令落地（总案 ⑦ 全速） | 人口生产环今起恢复（12 体征闸在环） |
 | BigDomain/BigCompute | **0 件** | 模拟态授权落地（收款 MOCK·业务四环即跑） | 引流环+成交环今日起跑 |
-| Biggame/BigMoney/BigHouse/CPH4 Labs | 候各司 22:0x 自报（本窗不代填） | — | — |
+| BigMoney | **0 件**（如实·诚实延续） | NATS 机队总线 bm-c 节点上线+回执上链（cph4/fleet/inbox/MSG-1653-bmc-natsbus.md @ e0409120·心跳任务 every:1m 在役·三机行全绿）+ W278 引擎周期闭环（finalize 账 1,035,935 / K=609,520 EXACT·五钥 6/6·results/perpetual_faces/n1_w278_results.json）+ W279 prereg PREP 锚件机冻（results/_w279bmc_prep_facts.json + T0 冻结面字节验 99001d3d3f337942）+ T0 针脚楼层实测收据（results/_w279bmc_needle_floors.json） | W279 prereg derive 冻结上链（r1122 首动作·builder 一代滚动→ALL GATES→banned ADMIT→freeze push）；引擎波链常设全速（W279=第 269 波·席位已立） 〔bm-c r1121 落行 17:0x〕 |
+| Biggame/BigHouse/CPH4 Labs | 候各司 22:0x 自报（本窗不代填） | — | — |
 | **合计** | **0 件** | 治理/文档件如实列如上（**非产出**） | 三件实物判据在飞（下表） |
 
 **距对外发布最近的实物三件（判据不改口）**：
