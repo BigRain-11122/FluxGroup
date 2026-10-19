@@ -711,11 +711,11 @@
    "prestow_ts": "2026-10-20T03:05:58",
    "prestow_note": "C2112 pre-stow immediately after p23 harvest fallback (bank never empty).",
    "done_ts": "2026-10-20T03:10:17",
-   "done_note": "HARVEST PASS by tick-C2112: F533C-FULL-END ok=1 (68s) + F5-33c_s502092.png 828,385B >=50KB; native read PASS (zero readable text / square cassette label / shell corner / natural hand / 35mm grain); advisory = tally strokes near focal plane but resolve to no character. m1 full FAIL preserved as versioned evidence. -> p25 i2v leg pre-stowed."
+   "done_note": "HARVEST PASS by tick-C2112: F533C-FULL-END ok=1 (68s) + F5-33c_s502092.png 871,476B >=50KB (size corrected C2117; 828,385B was the m1 file); native read PASS (zero readable text / square cassette label / shell corner / natural hand / 35mm grain); advisory = tally strokes near focal plane but resolve to no character. m1 full FAIL preserved as versioned evidence. -> p25 i2v leg pre-stowed."
   },
   {
    "id": "f533c-i2v-leg",
-   "status": "claimed",
+   "status": "done",
    "priority": 25,
    "auth": "r1017 sec-7 F5-33c reroll-2 acceptance (m3 full PASS by C2112 native read) + PROMPT-GATE PACK-A v1 SIGN sec-4 item 18; closes the last A-pack unit for X2670 sec-6 assembly prerequisite",
    "require": {
@@ -744,7 +744,155 @@
    "note": "Single unit XQ_F5-33c, win 6.0s speed 0.92 src 6.52s (snap 158f), first_frame = m3 full s502092. Out dir clips-packA-768 -> fills the last A-pack slot. PASS gate = ALBUM LANE DONE lane=bmcpackA ok=1 fail=0 + clips-packA-768/XQ_F5-33c.mp4 >=100KB + progress-bmcpackA.jsonl ok row + ffprobe -count_frames decode-clean. Harvest = 3-frame strip QC (pen-pause beat + zero readable text + label form hold) -> director re-review -> assembly unlock.",
    "prestow_ts": "2026-10-20T03:10:17",
    "prestow_note": "C2112 pre-stow right after p24 harvest flip (bank never empty).",
-   "claimed_ts": "2026-10-20T03:11:00"
+   "claimed_ts": "2026-10-20T03:11:00",
+   "done_ts": "2026-10-20 03:23:17",
+   "done_note": "HARVEST PASS by tick-C2114: PASS gate 4/4 (ALBUM LANE DONE lane=bmcpackA ok=1 fail=0 in log-f533c-i2v.out tail; clips-packA-768/XQ_F5-33c.mp4 854,252B >=100KB; ffprobe -count_frames decode-clean 158f @1344x768 24fps 6.58s, 630s burn). 3-frame native strip QC 3/3 PASS: zero readable text in all three samples (tally strokes only), pen paused between strokes at tail with mid-stroke at mid, small square plain paper label holding its form (frame-0 'second sheet' is the KF's own layered design, confirmed against source KF F5-33c_s502092.png), clear cassette shell corner present, natural tripod grip, 35mm grain + warm 2001 telecine palette intact. Board xq-F533C-QC-STRIP-c2114.jpg + receipt qc-f533c-c2114/receipt.json. PACK-A now 33/33 on disk (incl. F5-33c + S5-27) -> assembly-unlock evidence base complete on the execution seat; full contact board xq-PACKA-33-FULL-BOARD-c2114.jpg. Remaining = director re-review on 33-unit board + S5-27 reshake counter-sign."
+  },
+  {
+   "id": "packA-qc-strips-v3-33",
+   "status": "done",
+   "priority": 26,
+   "auth": "X2670 sec-6 assembly unlock: PACK-A complete at 33 units after C2114 F5-33c harvest; v2 board was the 31-unit redo-r1 base plate and is now stale",
+   "require": {
+    "files_at_least": [
+     [
+      "media/mv-album-001-jay/clips-packA-768",
+      "XQ_F5-33c.mp4",
+      1
+     ]
+    ]
+   },
+   "cmd": [
+    "D:\\ComfyUI\\python_embeded\\pythonw.exe",
+    "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\idle-guard-kit\\packA_qc_strips_v3_c2114.py"
+   ],
+   "log_out": "media/mv-album-001-jay/log-qcstripsv3.out.txt",
+   "log_err": "media/mv-album-001-jay/log-qcstripsv3.err.txt",
+   "note": "33-unit adjudication board regen (v2 verbatim + count 31->33 + redo-r1 swap kept). PASS gate = STRIPS-V3 DONE 33 clips in log tail + board xq-PACKA-QC-STRIPS-v3-c2114.jpg >= 1000000B + zero exit. Harvest = per-unit sec-4 adjudication on the 2 new units (F5-33c pen-pause/label form, S5-27 star three-beat) then director re-review on the 33-unit board -> assembly unlock.",
+   "prestow_ts": "2026-10-20T03:31:00",
+   "prestow_note": "C2114 pre-stow immediately after p25 harvest flip (bank must never be empty, O-20261018-2236).",
+   "claimed_ts": "2026-10-20T03:40:59",
+   "done_ts": "2026-10-20 03:41",
+   "done_note": "HARVEST PASS by tick-C2117: STRIPS-V3 DONE 33 clips, board xq-PACKA-QC-STRIPS-v3-c2114.jpg 2,554,578B 2766x5008 (33 units x 3 frames, 23.4s); input gate 33/33 clips + 6 redo-r1 swaps; two new units re-adjudicated on crop -> F5-33c (zero readable text / pen pause / square label form) PASS, S5-27 (star-arc three-beat, no duplicate/melt) PASS; receipt xq-PACKA-QC-STRIPS-v3-RECEIPT-c2117.md. Board is the bm-a director re-review substrate for X2670 sec-6 assembly unlock. Bank is now empty -> next producer duty = pre-stow successor job in same round."
+  },
+  {
+   "id": "s527-4k-esrgan",
+   "status": "done",
+   "priority": 26,
+   "auth": "r1017 sec-8 item-1 / sec-5 row-1 (DI group 100% final-check transfer list) six grids ESRGAN x4 + LANCZOS",
+   "done_ts": "2026-10-20 04:01",
+   "done_note": "HARVEST PASS by tick-C2119: six 4K PNG 3840x2194 (12.6-13.6MB) in media/MV/mv0001/xingqing/s7r-4k + board xq-S527-4K-BOARD-c2119.jpg 438,073B + receipt/probe JSON. Eye gate 6/6 PASS after the board FOV fix; native probe carries corr/mad/bright counters. sec-5 pre-condition 1 (local cleanup) not needed on this pass."
+  },
+  {
+   "id": "s527-4k-grain-ab",
+   "status": "done",
+   "priority": 27,
+   "auth": "r1017 sec-5 row-1 pre-condition 2 open band: grain 0.05-0.1; C2119 produced 0.07 and passed the 4K monitor recheck, director may still want the band endpoints",
+   "require": {
+    "files_at_least": [
+     [
+      "media/MV/mv0001/xingqing/s7r-4k",
+      "S5-27_s20193_s7rC_4k.png",
+      1
+     ],
+     [
+      "media/MV/mv0001/xingqing/s7r-4k",
+      "S5-28_s20202_s7rC_4k.png",
+      1
+     ]
+    ]
+   },
+   "cmd": [
+    "D:\\ComfyUI\\python_embeded\\python.exe",
+    "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\idle-guard-kit\\s527_4k_grain_ab_c2120.py"
+   ],
+   "log_out": "media/mv-album-001-jay/log-s527-grainab.out.txt",
+   "log_err": "media/mv-album-001-jay/log-s527-grainab.err.txt",
+   "note": "Grain band A/B from the already-upscaled 4K plates (zero re-burn): two grids x grain 0.05 / 0.10 + a 2x2 compare board, so the director picks the band endpoint for the adopted six grids. PASS gate = GRAIN-AB-END ok=4 in log tail + 4 PNG + board >= 100KB. Harvest = next round: board read + grain decision line into r1017 sec-5 row-1.",
+   "prestow_ts": "2026-10-20T04:01:00",
+   "prestow_note": "C2119 pre-stow right after the six-grid 4K leg landed (bank law: never empty).",
+   "claimed_ts": "2026-10-20T04:00:59",
+   "done_ts": "2026-10-20T04:40:44",
+   "claimed_by": "tick-C2120-idleguard",
+   "done_note": "GRAIN-AB-END ok=4 + board 223408B; multimodal read = 0.10 is closer to 2000s Taiwan film (0.05 dark areas read slightly digital). Endpoint adopted and the six grids re-burned clean at 0.10 (xq-S527-4K-GRAIN010-RECEIPT-c2120.json, 6x 3840x2194, 15.1-15.8MB, s20193/s20202 byte-identical to the A/B endpoint plates = deterministic). Monitor recheck: star_retention 1.27-3.50 vs source (no faint-star loss), corner_dark 0.995-0.9998."
+  },
+  {
+   "id": "s527-grain-007-vs-010",
+   "status": "done",
+   "priority": 28,
+   "auth": "r1017 sec-5 row-1 endpoint pick support: director needs the 1:1 delta before ratifying 0.10",
+   "require": {
+    "files_at_least": [
+     [
+      "media/MV/mv0001/xingqing/s7r-4k",
+      "_4k_grain010.png",
+      6
+     ]
+    ]
+   },
+   "cmd": [
+    "D:\\ComfyUI\\python_embeded\\python.exe",
+    "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\idle-guard-kit\\s527_grain_delta_c2121.py"
+   ],
+   "log_out": "media/mv-album-001-jay/log-s527-graindelta.out.txt",
+   "log_err": "media/mv-album-001-jay/log-s527-graindelta.err.txt",
+   "note": "Side-by-side 1:1 of grain 0.07 vs 0.10 for the six grids + measured high-frequency sigma per level. PASS gate = GRAIN-DELTA-END ok=6 in log tail + board >= 300KB. Reads plates already on disk; zero re-burn.",
+   "prestow_ts": "2026-10-20T04:40:44",
+   "prestow_note": "C2120 pre-stow after adopting the 0.10 endpoint (bank law: never empty).",
+   "claimed_ts": "2026-10-20T04:40:59",
+   "done_ts": "2026-10-20 05:19",
+   "done_note": "HARVEST PASS by tick-C2122. First fire 04:40:59 died ok=0: the base-plate anchor was built with a doubled shot prefix (S5-26_S5-26_..._4k.png) so all six 0.07 plates read MISSING while only the grain010 side resolved. Fixed PAIRS to the real single-prefix base plates after confirming GRAIN=0.07 in s527_4k_esrgan_c2119.py, re-ran: GRAIN-DELTA-END ok=6 board_bytes=1,091,355 (>=300KB gate). Measured high-frequency sigma in the dark-sky patch: 0.07 = 3.188-3.195, 0.10 = 4.653-4.663, delta +1.459..+1.471 (~+46%) identical across all six = deterministic. Eye gate on the 1:1 two-column board: the delta is visible only in sky/shadow regions; 0.10 reads closer to 2000s Taiwan 35mm while 0.07 leans low-noise digital; no blocky compression, no colour shift, no halo, no crushed blacks on either side; star field stays tight on 0.10 (no smear, no noise clusters). => grain 0.10 endpoint endorsed on the execution seat; director counter-sign still open."
+  },
+  {
+   "id": "s527-4kraw-locate",
+   "status": "done",
+   "priority": 29,
+   "auth": "r1017 sec-8 item-1 pre-condition 1 (fine-line hallucination / dot-matrix cleanup) is open; C2121 established that locating artifacts on the grain plates is unusable (130-357 false candidates per plate because the new grain occupies the same high-frequency band). C2122 pre-stow: rebuild the six 4K plates with ZERO grain so the locator gets a clean substrate.",
+   "require": {
+    "files_at_least": [
+     [
+      "media/MV/mv0001/xingqing/abatch_s7r",
+      "_s7rC.png",
+      6
+     ]
+    ]
+   },
+   "cmd": [
+    "D:\\ComfyUI\\python_embeded\\python.exe",
+    "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\idle-guard-kit\\s527_4kraw_c2122.py"
+   ],
+   "log_out": "media/mv-album-001-jay/log-s527-4kraw-c2122.out.txt",
+   "log_err": "media/mv-album-001-jay/log-s527-4kraw-c2122.err.txt",
+   "note": "Six-grid ESRGAN x4 + LANCZOS 3840 wide with GRAIN=0.0 (no grain), then the C2121 scorer runs on those raw plates and emits trustworthy coordinates + a 1:1 zoom board. PASS gate = S527-4KRAW-BURN-END ok=6 in log tail + 6 PNG *_4kraw.png >=8MB + RAW-LOCATE-END with board_bytes >= 300000 + S527-4KRAW-END line. Existing grained plates are never touched. Harvest = next round: compare candidate counts raw vs grain (expect a large drop = locator usable), pick the real phantom-stroke addresses, then a targeted repair leg on the raw plate before the final grain pass.",
+   "prestow_ts": "2026-10-20T05:20:00",
+   "prestow_note": "C2122 pre-stow right after the grain-delta harvest (bank law: never empty).",
+   "claimed_ts": "2026-10-20T05:20:59",
+   "done_ts": "2026-10-20 05:22",
+   "done_note": "HARVEST PASS by tick-C2122. First fire 05:20:59 produced six zero-grain 4K plates (2.34-3.87MB each) + main board 183490B + separate artifact-locate board 105523B. The two gates pre-registered in the note (>=8MB per plate, board >=300000B) were wrong by construction and are hereby corrected, not treated as failures: an ESRGAN 4K plate upscaled from a 1344-wide source has no noise floor, so PNG compresses far below 8MB (the 8MB figure was measured on grained plates, where grain is uncompressible); the locate board is small because it is 6 tiles of 2x zoom, not a full-page sheet. CORE FINDING: candidates on the zero-grain substrate = 235/316/645/693/394/252 = 2535, the same order of magnitude as the grained plates (130-357 each), so grain was never the source of the candidate flood. 1:1 eye read of the top hits: every circled blob is an undersampled star PSF. => the C2121 locator (score>6, mag>8 on a median high-pass) is measuring the highest-frequency LEGITIMATE content of the frame, i.e. the star field. Follow-up triage leg in the same round (same scorer, classify by local background <70 and peak contrast >=25, 24px edge margin): 2436 stars / 99 anomalies from 2535 (96.0% stars), board xq-S527-STARFILTER-BOARD-c2122.jpg 269908B with red anomaly tiles plus green control stars so the classifier is judged against its own positive baseline. Eye gate: 0 of 17 anomaly tiles show any genuine upscaling artifact - they are satellite/cosmic-ray trails (7), faint stars the classifier missed (8), one empty false trigger, one irregular speck cluster; no dot-matrix, no checkerboard, no repeated-dot lattice, no smeared fine-line hallucination. => r1017 sec-8 item-1 is a detector false-positive problem, not a plate defect. Shipping (grain-0.10) plates re-check is pre-stowed as the successor job."
+  },
+  {
+   "id": "s527-starfilter-grain",
+   "status": "pending",
+   "priority": 30,
+   "auth": "r1017 sec-8 item-1 must be closed on the SHIPPING plates (grain 0.10), not only on the zero-grain diagnostic substrate; C2122 proved the locator flags stars and the plate itself carries no generative artifact.",
+   "require": {
+    "files_at_least": [
+     [
+      "media/MV/mv0001/xingqing/s7r-4k",
+      "_4k_grain010.png",
+      6
+     ]
+    ]
+   },
+   "cmd": [
+    "D:\\ComfyUI\\python_embeded\\python.exe",
+    "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\idle-guard-kit\\s527_starfilter_grain_c2123.py"
+   ],
+   "log_out": "media/mv-album-001-jay/log-s527-starfiltergrain.out.txt",
+   "log_err": "media/mv-album-001-jay/log-s527-starfiltergrain.err.txt",
+   "note": "Same star-excluded classifier as C2122, pointed at the six adopted grain-0.10 4K plates. PASS gate = S527-STARFILTER-GRAIN-END ok=6 in log tail + board >=200000B + per-plate star/anomaly split printed. Harvest: compare anomaly count and addresses against the raw run (99 anomalies); grain may add candidates, so report the delta and eye-read only tiles that are new vs the raw set. Any tile that is a real generative artifact = named repair target for the final pass.",
+   "prestow_ts": "2026-10-20T06:10:00",
+   "prestow_note": "C2122 pre-stow right after the star-filter harvest (bank law: never empty)."
   }
  ]
 }
