@@ -158,4 +158,5 @@ F5-33c: HOLD（1/8 条件过·未达 ≥2 净格线·修法见 §七）
 - 眼检：多模态逐件复读四板表头（BOARD-1 四列、BOARD-2 首末行三列、两件条板三格），全部读出 s7rA/s7rB/s7rC 与正确拼写，无截字。
 - 三处副本 SHA256 恒等（abatch_s7r 正身 / `cph4/fleet/mv-album-001-jay/` 证据夹 / `media/MV/mv0001/xingqing/` 根=银行 require 面）。
 - 后果：§八-6 关闭；§八表全项无「未做」面（余 2a 草尖 1:1、5 双蝶=候导演眼判，非我方可自决）。后继银行件已预挂 `s7r-conform-ratify-board`（四板一页索引供导演一次签认）。
+- 同窗连带四件（零 GPU，均由银行件驱动）：①`xq-S7R-FAMILY-RATIFY-BOARD-c2126.jpg`（259,167B·四板缩略+标签映射+sha 短号，导演一次签认）；②出货完整性复验 `delivery/VERIFY-S527-4K-c2127.json`（六盘逐张重算 SHA256 vs 清单 vs 源盘 = 6/6 恒等、0 不符）；③`origin/main` 发布核对（321a4e5·四板字节恒等；conform 收据报 **EOL-ONLY**——工作树 CRLF vs 库内 LF blob，归一后 40/40 行全等，非内容差异）；④`delivery/proxy/` 六张 1600px 翻页代理（194–208KB）+ 联系板 212,079B，`README-S527-4k.md` 已按盘上实况重写（2,398B·逐件 sha 短号）。
 
