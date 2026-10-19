@@ -82,8 +82,77 @@ if not procs_alive("saturation_engine"):
     except Exception as e:
         log("CPU lane relaunch FAIL: %r" % e)
 
+# ---------- 2.5) QW21 download chain self-heal (C2099; deploy-dir gate = no-op on other machines) ----------
+def qw21_selfheal():
+    # media/ is gitignored -> qwen21-deploy dir exists only on the machine that
+    # fired the download; on any other machine this section is a silent no-op.
+    out_dir = os.path.join(REPO, "media", "qwen21-deploy")
+    if not os.path.isdir(out_dir):
+        return
+    if procs_alive("qwen21_weights_dl"):
+        return  # runner in flight (TE/VAE/LoRA grind or DiT resume)
+    verdict_p = os.path.join(out_dir, "weights_verdict.json")
+    st_p = os.path.join(out_dir, "selfheal_state.json")
+    script = os.path.join(REPO, "cph4", "fleet", "idle-guard-kit", "qwen21_weights_dl_c2094.py")
+    cap = 6  # ~30 DiT attempts total with the runner's internal x5; beyond = M1 escalation
+    verdict = read_json(verdict_p, None)
+    if verdict is not None and verdict.get("reason") == "disk_free_below_40GB":
+        esc_p = os.path.join(out_dir, "ESCALATION-needed.json")
+        if not os.path.exists(esc_p):
+            write_json(esc_p, {"reason": "disk_free_below_40GB", "verdict": verdict,
+                               "ts": time.strftime("%Y-%m-%dT%H:%M:%S")})
+        log("QW21 disk-full verdict -> ESCALATION file, no relaunch")
+        return
+    if verdict is not None and verdict.get("status") == "OK":
+        # harvest: flip bank job to done + machine receipt (idempotent, steady no-op after)
+        receipt_p = os.path.join(out_dir, "weights_receipt.json")
+        bank = read_json(BANK, {"jobs": []})
+        job = next((j for j in bank.get("jobs", []) if j.get("id") == "qwen21-weights-dl"), None)
+        if job is None:
+            return  # bank restructured; nothing to harvest
+        if job.get("status") == "done" and os.path.exists(receipt_p):
+            return  # harvest already complete
+        job["status"] = "done"
+        job["done_ts"] = time.strftime("%Y-%m-%dT%H:%M:%S")
+        job["done_note"] = "guard harvest C2099: weights_verdict.json OK (%s/%s files)" % (
+            verdict.get("ok", "?"), verdict.get("of", "?"))
+        write_json(BANK, bank)
+        if not os.path.exists(receipt_p):
+            write_json(receipt_p, {"status": "OK", "verdict": verdict,
+                                   "receipt_ts": time.strftime("%Y-%m-%dT%H:%M:%S"),
+                                   "bank_flipped": True})
+        log("QW21 weights OK -> bank flip done + receipt written")
+        return
+    # runner dead with non-OK verdict (PARTIAL/PROBE_FAIL) or crash (no verdict):
+    # relaunch the runner; curl -C - resumes every .part file in place.
+    st = read_json(st_p, {})
+    n = int(st.get("relaunch_count", 0))
+    if n >= cap:
+        esc_p = os.path.join(out_dir, "ESCALATION-needed.json")
+        if not os.path.exists(esc_p):
+            write_json(esc_p, {"reason": "relaunch cap reached (%d)" % cap,
+                               "verdict": verdict,
+                               "ts": time.strftime("%Y-%m-%dT%H:%M:%S")})
+        log("QW21 relaunch cap reached -> ESCALATION file (M1 pickup)")
+        return
+    st["relaunch_count"] = n + 1
+    st["relaunch_ts"] = time.strftime("%Y-%m-%dT%H:%M:%S")
+    st["last_status"] = (verdict or {}).get("status", "crash-no-verdict")
+    write_json(st_p, st)
+    os.makedirs(out_dir, exist_ok=True)
+    lo = open(os.path.join(out_dir, "log-weights-relaunch-%d.out.txt" % (n + 1)), "wb")
+    le = open(os.path.join(out_dir, "log-weights-relaunch-%d.err.txt" % (n + 1)), "wb")
+    subprocess.Popen([PYW, script], creationflags=NO_WINDOW, stdout=lo, stderr=le)
+    log("QW21 relaunch #%d fired (resume .parts, last_status=%s)" % (
+        n + 1, (verdict or {}).get("status", "crash-no-verdict")))
+
+try:
+    qw21_selfheal()
+except Exception as e:
+    log("QW21 selfheal FAIL (guard core unaffected): %r" % (e,))
+
 # ---------- 3) GPU车道: 忙/闲两跳判定 ----------
-busy = procs_alive("h3_i2v_album") or procs_alive("bmc_packA_chain") or queue_busy() or gpu_util() >= 20
+busy = procs_alive("h3_i2v_album") or procs_alive("bmc_packA_chain") or procs_alive("qwen21_weights_dl") or queue_busy() or gpu_util() >= 20
 st = read_json(STATE, {})
 now = time.time()
 if busy:
@@ -126,9 +195,25 @@ for job in bank["jobs"]:
     if job.get("id") == claimed["id"]:
         job.update(claimed)
 write_json(BANK, bank)
-lo = open(os.path.join(REPO, claimed["log_out"]), "wb")
-subprocess.Popen(claimed["cmd"], creationflags=NO_WINDOW, stdout=lo,
-                 stderr=open(os.path.join(REPO, claimed["log_err"]), "wb"))
+# C2075 root-fix: log dir missing -> open() crashed AFTER the bank was flipped to
+# claimed, leaving a dead-claimed job the guard can never re-claim (13:21 latentsync-deploy
+# live case: no log line, no fire, 4x PRODUCER-VIOLATION after). makedirs first; any
+# failure rolls the job back to pending so the next cycle retries instead of stalling.
+try:
+    os.makedirs(os.path.dirname(os.path.join(REPO, claimed["log_out"])), exist_ok=True)
+    os.makedirs(os.path.dirname(os.path.join(REPO, claimed["log_err"])), exist_ok=True)
+    lo = open(os.path.join(REPO, claimed["log_out"]), "wb")
+    le = open(os.path.join(REPO, claimed["log_err"]), "wb")
+    subprocess.Popen(claimed["cmd"], creationflags=NO_WINDOW, stdout=lo, stderr=le)
+except Exception as e:
+    for job in bank["jobs"]:
+        if job.get("id") == claimed["id"]:
+            job["status"] = "pending"
+            job["rearm_ts"] = time.strftime("%Y-%m-%dT%H:%M:%S")
+            job["rearm_note"] = "guard fire-fail rollback: %r" % (e,)
+    write_json(BANK, bank)
+    log("FIRE-FAIL rollback->pending: %s %r" % (claimed["id"], e))
+    sys.exit(1)
 idle_min = (now - (st.get("_idle_since") or now)) / 60
 st["idle_since"] = None
 st["last_claim"] = claimed["id"]
