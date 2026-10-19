@@ -36,3 +36,10 @@
 - **7 日窗（10-12→10-19）产出比实测**：commit 总数 1632；产品面 commit（触 census/genes/cognition/Tools）1105（67.7%）；纯簿记 commit（仅任务板/状态导出/QA 日志面）527（32.3%）。产品件直数：census 卡 +14（CEO 解禁令复产四批滚动 C-10037~C-10050·批四 4 席已随 R1752 commit 0b2cea48 上链）、基因库 +30 条（ho#653~660+tp#481~487 四批）、年轮 10-19 当日 304 环（晨班满转）。
 - **空日如实记 0**：10-18 全日年轮 0 环（census 冻结期+LLM 让路面·heartbeat rings_today=0 实测）——该日以簿记自转为主，如实记不粉饰。
 - **纠正动作（带验收物+死线）**：等待态轮簿记合并——AutoYield 让路窗（工作日 09:00-19:00）内纯等待轮（批尝试 paused 0·零产品增量）的板面实录行不再逐轮单列 commit，窗末合并一次（或并入同窗产品 commit）。验收物=git log 让路窗纯簿记 commit 计数：10-19 窗基线 31（今窗 53 commit 实测分类）→ 10-20 窗目标 ≤4；死线=10-20 22:0x 复测。即日生效（R1752 起：R1751 死窗收尾+批四产品=单 commit 收口示范）。
+
+
+### BigMoney（2026-10-19 18:35 实测·git 实据·令 17:5x ③+18:0x ① 承接·bm-b r1031 当轮执行）
+
+- **7 日窗（10-12→10-19）产出比实测**：commit 总数 1024；产品路径 commit（触 scripts/research/firm/live/knowledge）271=26.5%（其中纯产品 7·余为轮收口捆绑携带）；纯簿记 commit 753=73.5%（文件触达 Top=compute_audit/attrition/update_status/token_usage/regime_state 族每轮再生面+state/心跳账本·三机轮班机制性必写为主源）。产品面实锚=引擎波链（W278 finalize 1,035,935/K=609,520 EXACT·W279 PREP 已冻）+纸盘账本/数据车道维护；**对外产出 0 件维持**（首日行如实·纸盘/回测件无平台/真金消费面——真金开闸=CEO 保留面·月界 10-31）。
+- **纠正动作（带验收物+死线·当轮已兑现非承诺）**：BM 仓 repo-slim bmb 腿——3860 件本司 scratch 临时件出库（root 132+results 3728·磁盘保全·birth gate `_r[0-9]*` 遮蔽），650 件 json/md 证据面+live D-19 探针工具留库，他机属主 9 件零触碰，爪 fail-closed 拦截面 8 件留库（**零逃逸口·两次拦截两次就地治愈**）；验收物=BigMoney 仓 commit 862997eec（origin main 实锚·fetch 后 behind=0 四向验证）；死线=本轮已执行（≤22:0x 收口窗前）。病灶对照=外部审查「results 8207 py」点名面就此闭环（bmb 腿 3728 py/txt/ps1 出库+bm-a L1275 腿 474 件先行）。
+- **空日如实记 0**：10-19 当日本司对外产出 0 件（NATS bm-b 节点上线=W279 供给链内部件·昨日 bm-c 已落行如实归内部交付物）。
