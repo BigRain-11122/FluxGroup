@@ -774,6 +774,44 @@
    "claimed_ts": "2026-10-20T03:40:59",
    "done_ts": "2026-10-20 03:41",
    "done_note": "HARVEST PASS by tick-C2117: STRIPS-V3 DONE 33 clips, board xq-PACKA-QC-STRIPS-v3-c2114.jpg 2,554,578B 2766x5008 (33 units x 3 frames, 23.4s); input gate 33/33 clips + 6 redo-r1 swaps; two new units re-adjudicated on crop -> F5-33c (zero readable text / pen pause / square label form) PASS, S5-27 (star-arc three-beat, no duplicate/melt) PASS; receipt xq-PACKA-QC-STRIPS-v3-RECEIPT-c2117.md. Board is the bm-a director re-review substrate for X2670 sec-6 assembly unlock. Bank is now empty -> next producer duty = pre-stow successor job in same round."
+  },
+  {
+   "id": "s527-4k-esrgan",
+   "status": "done",
+   "priority": 26,
+   "auth": "r1017 sec-8 item-1 / sec-5 row-1 (DI group 100% final-check transfer list) six grids ESRGAN x4 + LANCZOS",
+   "done_ts": "2026-10-20 04:01",
+   "done_note": "HARVEST PASS by tick-C2119: six 4K PNG 3840x2194 (12.6-13.6MB) in media/MV/mv0001/xingqing/s7r-4k + board xq-S527-4K-BOARD-c2119.jpg 438,073B + receipt/probe JSON. Eye gate 6/6 PASS after the board FOV fix; native probe carries corr/mad/bright counters. sec-5 pre-condition 1 (local cleanup) not needed on this pass."
+  },
+  {
+   "id": "s527-4k-grain-ab",
+   "status": "claimed",
+   "priority": 27,
+   "auth": "r1017 sec-5 row-1 pre-condition 2 open band: grain 0.05-0.1; C2119 produced 0.07 and passed the 4K monitor recheck, director may still want the band endpoints",
+   "require": {
+    "files_at_least": [
+     [
+      "media/MV/mv0001/xingqing/s7r-4k",
+      "S5-27_s20193_s7rC_4k.png",
+      1
+     ],
+     [
+      "media/MV/mv0001/xingqing/s7r-4k",
+      "S5-28_s20202_s7rC_4k.png",
+      1
+     ]
+    ]
+   },
+   "cmd": [
+    "D:\\ComfyUI\\python_embeded\\python.exe",
+    "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\idle-guard-kit\\s527_4k_grain_ab_c2120.py"
+   ],
+   "log_out": "media/mv-album-001-jay/log-s527-grainab.out.txt",
+   "log_err": "media/mv-album-001-jay/log-s527-grainab.err.txt",
+   "note": "Grain band A/B from the already-upscaled 4K plates (zero re-burn): two grids x grain 0.05 / 0.10 + a 2x2 compare board, so the director picks the band endpoint for the adopted six grids. PASS gate = GRAIN-AB-END ok=4 in log tail + 4 PNG + board >= 100KB. Harvest = next round: board read + grain decision line into r1017 sec-5 row-1.",
+   "prestow_ts": "2026-10-20T04:01:00",
+   "prestow_note": "C2119 pre-stow right after the six-grid 4K leg landed (bank law: never empty).",
+   "claimed_ts": "2026-10-20T04:00:59"
   }
  ]
 }
