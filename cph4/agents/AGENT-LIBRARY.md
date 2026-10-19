@@ -16,6 +16,7 @@
 | 游戏开发 / 关卡 / 数值 / 门禁 | CCGS 游戏专家套件（§三）+ 游戏域 skill 族 |
 | 回测 / 量化 | W 波自滚引擎（bigmoney 仓）+ 量化六件套 skill（§三量化域） |
 | 调研 / 查资料 | 调研员席 `cph4-research-dispatch`（派工纪律 P-65） |
+| 查知识 / 知识入库 | 知识库 `cph4/knowledge/KB-INDEX.md`（调研员席馆藏·2026-10-19 立·一句话卡+证据锚+复审线） |
 | 发布前把关 / 侵权 / 平台红线 | 合规席 `compliance-guard` |
 | 机队 / 机器 / 弹窗 / 派单 | 机队运维席 `fleet-ops` |
 | 找专家 / 谁负责 X / 登记新专家 | 库长席 `agent-librarian`（本册） |
@@ -48,7 +49,7 @@
 | 十三席评审团（两波） | BigStream 内容创意生产全段评审 | skill `bigstream-expert-panel`（canon=cph4/skills/ 同批收编） |
 | 红队席 | 大案攻击性评审（采购/架构类） | 先例=V100-EXPANSION-SPEC §10（cph4/fleet/hardware/） |
 | 盲评席 | 成片闸盲评（≥9 才呈 CEO） | 各产线成片闸协议（meme/mv/drama LEDGER） |
-| 调研员席 | R- 档调研派工（九司应用表强制） | skill `cph4-research-dispatch` |
+| 调研员席（**+知识库馆藏 10-19**） | R- 档调研派工（九司应用表强制）+**知识库 KB-INDEX 建维**（CEO 令 10-19：卡片律六条·回灌口·周审除名扫描） | skill `cph4-research-dispatch`+正典 `cph4/knowledge/KB-INDEX.md` |
 | 游戏专家 11 席 | 游戏开发全链（设计/系统/经济/技术美术/性能/QA/审计/估时/范围/Unity×2） | skill 族=cph4/skills/ccgs/（INDEX.md 分拨面） |
 | **库长席**（本批新增） | 智能体发现/登记/审计/周审 | skill `agent-librarian` |
 | **机队运维席**（本批新增） | 机队一切故障与调度 | skill `fleet-ops` |
