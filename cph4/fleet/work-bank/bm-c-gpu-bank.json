@@ -1011,7 +1011,7 @@
   },
   {
    "id": "s7r-origin-reverify-v1",
-   "status": "pending",
+   "status": "done",
    "priority": 35,
    "auth": "the verify set grew after the conform push (ratify board, proxy contact board, receipts); the verifier FILES list was extended but could only be exercised after the push that carries those artifacts",
    "require": {
@@ -1031,7 +1031,34 @@
    "log_err": "media/mv-album-001-jay/log-s7r-originverify.err.txt",
    "note": "Re-verify origin/main holds all eight delivered artifacts (four conformed boards, conform receipt, ratify board + receipt, proxy contact board) byte- or EOL-identically to the local evidence copies. PASS gate = ORIGIN-VERIFY-END ok=8 mismatches=0 in the log tail. Zero GPU.",
    "prestow_ts": "2026-10-20T06:58:51",
-   "prestow_note": "C2125 pre-stow after closing the post-conform follow-ups (bank law: never empty)."
+   "prestow_note": "C2125 pre-stow after closing the post-conform follow-ups (bank law: never empty).",
+   "claimed_ts": "2026-10-20T07:05:59",
+   "done_ts": "2026-10-20T07:17:45",
+   "done_note": "Executed by C2132 (claim had no runner run at 07:05:59). ORIGIN-VERIFY-END ok=8 mismatches=0 against origin/main f8fd129: six boards byte-identical, two receipts EOL-ONLY (CRLF worktree vs LF blob). Zero GPU."
+  },
+  {
+   "id": "packA-assembly-index-verify-v1",
+   "status": "pending",
+   "priority": 36,
+   "auth": "C2132 built the PACK-A assembly index (33 units, 6 redo-r1 picks); the index must keep describing disk and origin bytes until the editor cuts",
+   "require": {
+    "files_at_least": [
+     [
+      "cph4/fleet/mv-album-001-jay",
+      "xq-PACKA-ASSEMBLY-INDEX-c2132.json",
+      1
+     ]
+    ]
+   },
+   "cmd": [
+    "D:\\\\ComfyUI\\\\python_embeded\\\\python.exe",
+    "K:\\\\Fluxgroup\\\\FluxGroup\\\\cph4\\\\fleet\\\\mv-album-001-jay\\\\xq_packa_index_verify_c2132.py"
+   ],
+   "log_out": "media/mv-album-001-jay/log-packa-index-verify.out.txt",
+   "log_err": "media/mv-album-001-jay/log-packa-index-verify.err.txt",
+   "note": "Re-hash all 33 indexed clips, re-check the unit list against the C2114 board, and confirm both index files exist on origin/main. PASS gate = INDEX-VERIFY-END ok=1 mismatches=0. Zero GPU.",
+   "prestow_ts": "2026-10-20T07:34:00",
+   "prestow_note": "C2132 pre-stow after building the assembly index (bank law: never empty)."
   }
  ]
 }
