@@ -40,6 +40,7 @@
 | 记忆治理席+预算闸 v2.1 | 三层记忆预算守门（预警 35KB/80 条·执法 50KB/120 条·2h S4U 二段执法〔10-19 提速令 v2〕·写入五问路由） | skill memory-curator（canon=cph4/skills/memory-curator）+`Tools/memory-budget-gate.py` | 2h S4U（HQ-MemoryBudgetGate）+21:47 日班 cron（durable·自续命） |
 | CoderServe 看门狗 | bm-a 35B 常驻 :8090（PID 锁+路径闸） | `Tools/coder-serve.ps1` | PT10M |
 | 热点扫描线 | 全网热榜三班扫描入池 | ShortVideoHotScan1/2/3（schtasks） | 日 3 班 |
+| 仓库瘦身哨 RepoSlim | git 库预算守门：每日唯一合法 gc+大件台账+轮转保险丝（CEO 令 2026-10-19「文件库越来越庞大，解决」·法=resource-chain §三.11·出生闸=Tools/hooks/pre-commit >20MB 拦） | `Tools/repo-slim.ps1`+`Tools/hooks/pre-commit` | 日 09:03 |
 
 ## §二 任务态专家席位册（按需点名·审查件必留痕）
 
