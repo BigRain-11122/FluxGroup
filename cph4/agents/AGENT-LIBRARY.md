@@ -9,6 +9,7 @@
 | CEO 说 | 自动激活/调用 |
 |---|---|
 | 出 MV / 改片 / 拉片 | 导演席 `tw-mv-director` → 群审 `bigstream-expert-panel`（成片呈审硬门=导演签字） |
+| 出漫剧 / 短剧 / 连载剧 | 漫剧导演席 `drama-director`（双轨改造案 REBUILD-PLAN-v2 执法·成片呈审硬门=导演签字·2026-10-19 改造令） |
 | 短视频 / 玩梗 / 账号内容 | 短视频部管线（meme-daily-v1）→ 盲评 ≥9 才呈（合规席=轻量顾问不拦产线·CEO 令 2026-10-16·商业化触发转全检） |
 | 涨粉 / 粉丝 / 评论区 / 发片时间 | 增长席 `growth-ops` |
 | 城市搭建（装配/灯光/地形/散布） | `lowpoly-city-3d` 总控 → 四专家 city-3d-assembly / lighting / procedural / terrain |
@@ -48,6 +49,7 @@
 | 席位 | 触发任务 | 载体（skill/正典） |
 |---|---|---|
 | 导演席（MV 总控终审） | 一切 MV 剧本/分镜/成片审查定稿 | skill `tw-mv-director`（canon=cph4/skills/tw-mv-director/） |
+| **漫剧导演席**（2026-10-19 改造令新立） | 一切漫剧/短剧剧本/分镜/样片/成片审查定稿（双轨=AI 仿真人主路+Blender 3D 漫化·画质对齐红果头部 AI 仿真人及格线） | skill `drama-director`（canon=cph4/skills/drama-director/）+改造案 cph4/fleet/drama-dept-v1/REBUILD-PLAN-v2.md |
 | 十三席评审团（两波） | BigStream 内容创意生产全段评审 | skill `bigstream-expert-panel`（canon=cph4/skills/ 同批收编） |
 | 红队席 | 大案攻击性评审（采购/架构类） | 先例=V100-EXPANSION-SPEC §10（cph4/fleet/hardware/） |
 | 盲评席 | 成片闸盲评（≥9 才呈 CEO） | 各产线成片闸协议（meme/mv/drama LEDGER） |
@@ -71,7 +73,7 @@
 |---|---|---|
 | 游戏开发 | ccgs 11 件（game-designer/systems-designer/economy-designer/technical-artist/performance-analyst/qa-lead/asset-audit/estimate/scope-check/unity-specialist/unity-shader-specialist）+ create-game-assets · game-ai · game-ui-ux · level-design · procedural-gen · shader-programming · pixel-art-studio · algorithmic-art | canon+用户级 |
 | 城市线 | lowpoly-city-3d（总控）· city-3d-assembly · city-3d-lighting · city-3d-procedural · city-3d-terrain · **silicon-city-ops**（新） | canon（本批收编 5+新 1） |
-| 内容/媒体 | bigstream-expert-panel · tw-mv-director · capcut-edit · avoid-ai-writing · ai-writing-detector · voice-preserving-rewriter · canvas-design · theme-factory · doc-coauthoring · internal-comms | canon+项目+用户级 |
+| 内容/媒体 | bigstream-expert-panel · tw-mv-director · **drama-director**（新·漫剧导演席） · capcut-edit · avoid-ai-writing · ai-writing-detector · voice-preserving-rewriter · canvas-design · theme-factory · doc-coauthoring · internal-comms | canon+项目+用户级 |
 | 量化 | backtest-expert · position-sizer · drawdown-circuit-breaker · signal-postmortem · trade-hypothesis-ideator · data-quality-checker | 用户级（bm-a） |
 | 机队/基建 | **fleet-ops** · **agent-librarian** · **memory-curator**（记忆治理席·2026-10-18）· dispatching-parallel-agents · mcp-builder | canon+用户级 |
 | 合规/增长 | **compliance-guard**（新）· **growth-ops**（新） | canon |
@@ -122,6 +124,7 @@
 | 2026-10-19 | clawhub-fleet-doctrine | 机队/基建 | 多模型机队路由策略（哪类活派哪个模型档·dispatcher L1/网关昼夜档 advisory） | skill（canon=cph4/skills/fleet-doctrine·MIT-0·ClawHub@1.2.0） | ACTIVE |
 | 2026-10-19 | clawhub-model-routing | 机队/基建 | 请求路由纪律（显式模型锁/预算帽/重试只降不升——token-economy 技能化） | skill（canon=cph4/skills/model-routing·MIT-0·ClawHub@1.0.1） | ACTIVE |
 | 2026-10-19 | clawhub-github-repo-ops | 机队/基建 | 免 token GitHub 公共仓操作（401 修复期降级通道·WorkBuddy Phase 4 消费） | skill（canon=cph4/skills/github-repo-ops·MIT-0·ClawHub@1.0.0） | ACTIVE |
+| 2026-10-19 | drama-director | 内容产线 | 漫剧导演席：双轨改造案执法（AI 仿真人主路+Blender 3D 漫化）+连载钩子链审查+平台对标判据（CEO 令 10-19「漫剧彻底改造」·画质及格线=红果头部 AI 仿真人） | skill（canon=cph4/skills/drama-director）+改造案 cph4/fleet/drama-dept-v1/REBUILD-PLAN-v2.md | ACTIVE |
 
 ## 更新日志
 
@@ -133,3 +136,4 @@
 - v1.0.4（2026-10-18·bm-a 交互窗）：剪辑师席 mv-editor+版式设计席 mv-typography-designer 新立（CEO 直令「mv 的所有环节 都要有专家…反复修…从根本上解决」——矩阵=cph4/fleet/mv-album-001-jay/MV-ALL-STAGE-EXPERT-COVERAGE-v1.md·每环节一专家一闸·无覆盖禁开工+修复轮预算 ≤2 轮+第 3 轮根因停线+返修成本账）——溯源=orders 2026-10-18 19:2x 全环节专家令行。
 - v1.0.5（2026-10-19·bm-a 交互窗·实验室汇报审计窗）：audit.py 全库审计 PASS（canon 25=装机 25·零孤儿·零缺装）+§三外部池数据实测刷新（awesomeskills.dev 1000+→47,237·补登 anthropics/skills 官方库 36 件·溯源=CEO 实验室汇报问「agent/skill 有哪些·是否最先进」外部对标新鲜验证）——纯数据维护零结构变更。
 - v1.0.6（2026-10-19·bm-a 交互窗·WorkBuddy Phase 3）：ClawHub 技能生态首批五件登记（llmxray/llama-params-optimizer/fleet-doctrine/model-routing/github-repo-ops——全 MIT-0·全 clean/benign·五门评估档=cph4/skills/CLAWHUB-ADOPTION-LEDGER.md+OH-20261019-hq-workbuddy·18 件评估 8 件安全否决=44% 带病率实证「不登记不存在」+「未过五门不装」双律执法）——溯源=orders 2026-10-19 13:40 行 WorkBuddy 推进令。
+- v1.0.7（2026-10-19·bm-a 交互窗·漫剧彻底改造令）：漫剧导演席 drama-director 新立（CEO 直令「漫剧现在做的非常垃圾…组成专家团和技能，彻底改造」——双轨路线=AI 仿真人主路+Blender 3D 漫化·对标定谳=红果头部全部 AI 仿真人路线〔R-20261019-drama-benchmark-01·CSA 冒烟 2/10=路线级错位定谳〕·§0/§二/§三/§六 四处登记·环境矩阵=随 PoC 挂位）——溯源=orders 2026-10-19 漫剧改造令行。
