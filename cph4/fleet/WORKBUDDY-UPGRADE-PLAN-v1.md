@@ -88,6 +88,32 @@ WorkBuddy=腾讯效率智能体（个人 AI 办公助手·日访问量居国内�
 - **CEO 物理件面（随简报附·不催办）**：①手机装 Tailscale 入 tailnet（App Store/应用市场搜 Tailscale→登录账号→自动入网）②第三方 IM 通道授权（微信/企微/TG·可选·点头才接）③GitHub MCP 凭据轮换（顺手两分钟）。
 - **回访**=2026-10-26 治理窗：六阶段状态+总验收判据+法熵对账（本工程新增正典 ≤3 件）。
 
+## 六 WorkBuddy↔我方映射正典（Phase 5·查重律执法=映射注记·零重建）
+
+> 本节=十要素中「已有且部分超配」面的正式映射表（禁重建律）；新立面仅=权限分级表（散装规则首次集中成表·非新规则）+AI.md §3 一行指针。
+
+**三模式映射**（WorkBuddy Craft/Auto/Skills ↔ 我方在役形态）：
+- **Craft（人机协作共创）↔ 交互窗**（CEO 直令会话·本工程全程形态）
+- **Auto（自动化执行）↔ 无人值守循环**（OS 循环族/EngineTick/值守轮/决策轮/CEO-PROXY 巡班·提速令 v2 频率常数）
+- **Skills（技能自动激活）↔ skill 自动激活双面**（Codely skills 全库+OpenClaw 网关 skills allowlist 门控〔fleet-ops 现役〕）
+
+**三层记忆映射**（WorkBuddy Cloud/User/Workspace ↔ 我方 L0/L1/L2 三层制 v3）：
+- **Cloud（云端画像·跨设备）↔ L0 全局硬法+索引**（各机 <home>\.codely-cli\CODELY.md 注入面·预算闸执法）+**git 正典=跨机正身唯一源**（记忆 §8/§10）
+- **User（用户级·跨项目全局规则）↔ L0 用户偏好面**（CEO 常设法五条=管家人格 USER.md 同源）
+- **Workspace（工作区记忆）↔ L1 项目层（git 分发）+L2 主题层（按需读）**；会话 0 层+人格层 ↔ OpenClaw SOUL/IDENTITY/USER 三件（管家人格正典）+Codely 会话上下文
+- 超配注记：我方多出=memory-curator 写入五问+2h 预算闸（WorkBuddy 无预算闸机制）；WorkBuddy 多出=两级会话压缩（OpenClaw memory 自带·管家用默认）
+
+**权限分级表**（首次集中成表·各条在役执法件照旧）：
+
+| 级 | 面 | 权限 | 在役执法件 |
+|---|---|---|---|
+| P0 | CEO 本人（含手机遥控通道） | 完全访问+物理件域独占（账号/凭据/建仓/支付/保留面） | OpenClaw 网关 token 认证+tailnet-only bind+让路触发词唯一例外 |
+| P1 | 机队会话（各机 Codely 窗/循环/席位） | 按车道白名单（三车道定岗+同活禁双开）+git FluxGroup 面全自主/metis 面点头制 | resource-chain §9.1+让路律+S4U 律+静默律 |
+| P2 | 网关管家（OpenClaw butler） | 只读+唤醒（三命律：实测再答/大白话/禁改）·命令手册白名单制 | AGENTS.md 红线+skills allowlist+4b 工具组 deny（web/browser） |
+| P3 | 外部件（ClawHub 技能/未配对客户端） | 五门过才入册+pairing 强制+untrusted 包裹+许可未验明不用 | CLAWHUB-ADOPTION-LEDGER+OpenClaw pairing+安全双门（verify+install） |
+
+**查重律自检**：三层记忆/专家席位/项目台账/自动化/Agent Loop/三模式=六面已有超配→本节纯映射注记 ✓零新机制零新文件；唯一新增=权限分级表成表（规则全部在册·无新法条）✓；消费面=AI.md §3 一行指针 ✓。
+
 ## Changelog
 - v1.0（2026-10-19 11:5x·bm-a 交互窗）：立项+Phase 0 收口（深研双源+盘点+六阶段拆解+护栏+验收）。
 - v1.1（2026-10-19 12:1x·bm-a 交互窗）：**Phase 1 收口**——OpenClaw 2026.10.5 上机（npm 全局+allow-scripts 补授权）；配置=tailnet bind+token 认证（64hex）+rateLimit+allowedOrigins 白名单+**白天 4b 轻面主模型**（ollama/qwen3:4b-instruct·让路律合规）+35B(:8090) 夜窗备选 provider+telemetry 关+mdns off+4b web 工具组禁（防注入）；网关在听 **127.0.0.1:18789+100.110.185.62:18789 双 bind**·health 双绿；安全审计 **0 critical 0 warn**；真话一句往返 15s 实证（Control UI→token→网关→本地 4b→回话）；守护=**HQ-OpenClawGateway**（task-register 正门·every:10m 幂等保活·点火 result=0·S4U 被 UAC 拒→按律降级隐藏链+入提权积压账）；runner=Tools/openclaw-gateway-runner.ps1（幂等+tailnet 等待+分离隐藏进程）。CEO 接入=手机装 Tailscale 入网→浏览器开 http://100.110.185.62:18789→贴 token（物理件一行）。
@@ -95,3 +121,4 @@ WorkBuddy=腾讯效率智能体（个人 AI 办公助手·日访问量居国内�
 - v1.3（2026-10-19 13:4x·bm-a 交互窗）：**Phase 2 机队遥控接线收口**（CEO 令 13:3x「严格参考 workbuddy 改造所有，按计划自动化一步步推进」）：①**发现=秒查通道已存在**——FleetLink 监听器 /status（v1.9.3 Get-StatusJson）本就带 gpu/ram_free/cpu_load/disk_free 字段（nvidia-smi 直查），管家缺的只是入口；②**新工具=Tools/fleet-node-status.ps1**（v1.0·只读 fail-soft）：按名册逐机 curl :8790/status 压缩成单行 ASCII（gpu 型号/vram_free/ram_free_gb/cpu_pct/disk/repo head 同步位/last_pull 龄）——4b 免 JSON 解析直读；reason 字段 ASCII 前 24 字符净化（bm-c 曾收中文 reason 经 exec 管道 mojibake 实锚）；③**管家手册升 v2**=命令 4 新增「机器资源秒查」（全机队/单机 -Node 过滤·CEO 问 GPU/显存/算力空闲必跑）·原读正典顺延为命令 5；runner 同步实测到位（workspace 手册 27-28 行实锚）；④**模型卡 contextWindow 勘正**——OpenClaw 原以为自定义模型 128k（UI 显示 108k 用量）=长会话必溢 16k 真实上限；`contextWindow` 字段实测生效（models list：4b=16k/35B CoderServe=8k 双槽实况/27b=16k）→OpenClaw 会在真实窗口前自动 compact；⑤**端到端验收 PASS·25 秒**（验收线 ≤5 分钟）：新会话「让 bm-c 汇报当前 GPU 状态」→管家实跑 fleet-node-status →答 bm-c=RTX 3070·空闲显存 14,316 MiB·空闲内存 5.2GB·CPU 23%·磁盘 1227.3GB·实测时间戳 2026-10-19 13:39:25+引用净化 reason（X2670-XQ-REDO-ESCALATION）——274 词元·结论先行·大白话合格；⑥运维实锚：CEO 13:34 亲测管家在用（4b 在线 expires 实锚）·keep_alive 5m 自动卸载工作正常。
 - v1.4（2026-10-19 13:5x·bm-a 交互窗）：**Phase 3 技能生态对接收口**（CEO 令 13:3x 推进令）：①**我方技能侧载互通确认**——SKILL.md 格式原生兼容（fleet-ops 被 OpenClaw 正确解析+激活：`agents.defaults.skills:["fleet-ops"]` 后 skills list 1/60 ready 实锚·16k 预算内 +150 词元）；②**ClawHub 市场通道打通**=OpenClaw 自带 skills search/verify/install 正门（verify=注册表级安全扫描+install=安装时二次审计=双门执法）；③**首批五件全五门过入册**（全 MIT-0·全 clean/benign）：llmxray-diagnose-ollama-calls（Ollama 调用诊断=10-19 排障问题类）·llama-params-optimizer（llama.cpp 调优四阶段法·卡内明示对齐 contextWindow=当日同坑）·fleet-doctrine（机队多模型路由）·model-routing（重试只降不升+预算帽纪律）·github-repo-ops（**免 token GitHub 公共仓=Phase 4 降级通道**）——落点=cph4/skills/ 五目录（agent-library-sync 跨机分发）+管家工作区正门安装+评估档正身=cph4/skills/CLAWHUB-ADOPTION-LEDGER.md+OH-20261019-hq-workbuddy；④**五门执法实录**：18 件评估·8 件安全否决（CRITICAL 97/HIGH 62 实锚=44% 带病率·「不装未过五门」红线实证）·5 件 parked（1 同域重复 model-routing-orchestrator+4 许可空白未验明不用）·4 域反重复整域否决（git/rss/quant/video 撞自有超配）；⑤外域启发式两条留档候立法：「重试只降不升」「30 秒专注思考即升档」；⑥验收判据达成：≥5 外部技能带评估档入册 ✓+我方技能侧载可用 ✓（fleet-ops ready 实锚）。
 - v1.5（2026-10-19 14:1x·bm-a 交互窗）：**Phase 4 GitHub 连接器修复收口**（CEO 令 13:3x 推进令）：①**根因实锚**=Codely MCP `github` 连接器（settings.json→本地 github-mcp-server.exe stdio·toolsets 8 域）env 内 PAT 过期（29 字符·api 401 Bad credentials 实测）+gh CLI 未登录——而 **Windows 凭据管理器存有一枚活 PAT**（git:https://github.com·`git ls-remote` HTTPS 实测返回当日 push 尖 f9da0b27=活性铁证）；②**修复=换装**（Tools 流程：git credential fill 进程内取存储 PAT→api.github.com/user 预验〔200·login=BigRain-11122·scopes=[gist,repo,workflow]=覆盖 repos/issues/PRs/actions 工具集〕→settings.json 连接器 env 原键换值〔old_len=29→new_len=40·全程零打印零落盘零进 git〕）；③**陈旧进程清场**=杀本机五枚过期 token 陈旧 github-mcp-server 进程（11:37/12:47/12:57/14:06/14:08 五窗各一枚·全机无活连接=零伤害）；④**诚实边界**=MCP 连接器会话启动时拉起不热重载——本会话工具面到重启前仍断（如实）；新会话/全机新 CLI 窗自动吃到新 token=**GitHub 读写链在配置+凭据双层恢复**；⑤**降级通道三件在役**（401 期间即用）：SSH git 数据面（当日 5 推全成实锚）+匿名 API（本仓公共可读 200 实锚）+Phase 3 入册 github-repo-ops 技能（免 token 公共仓操作）；⑥**MCP 片段整合幂等执行**=merge-mcp-config.py 复跑 MERGE_OK（context7/playwright/unity-mcp/search 四服务器在位·additive 零删）；⑦**CEO 物理件面变更**：原「GitHub MCP token 轮换」物理件**就地销账**（机器自有存储凭据已顶上）——新物理件=零（若未来 401 复发再按轮换流程走 CEO）。
+- v1.6（2026-10-19 14:1x·bm-a 交互窗）：**Phase 5 映射正典化+权限分级收口=工程全线 Phase 0-5 完结**（CEO 令 13:3x 推进令）：①**§六映射正典落档**=三模式映射（Craft↔交互窗/Auto↔无人值守循环/Skills↔技能自动激活双面）+三层记忆映射（Cloud↔L0+git 正典/User↔L0 偏好面/Workspace↔L1+L2·含双向超配注记〔我方多=预算闸+curator·对方多=两级会话压缩〕）+**权限分级表 P0-P3 首次集中成表**（CEO/机队会话/网关管家/外部件四级·各条在役执法件照旧·零新法条）；②**查重律自检过**=六面超配纯映射注记零重建零新文件 ✓；③**AI.md §3 指针落位**（机制表 WorkBuddy 行）；④**总验收达成判据**：CEO 手机一句话→集团执行→回报〔手机装 Tailscale 后即用·网关通道全绿〕+三缺口闭合〔Gateway ✓/手机遥控 ✓/技能互通 ✓〕+连接器恢复 ✓〔配置+凭据双层·新会话生效〕+映射正典上链 ✓——**六阶段全部收口·回访 2026-10-26 治理窗照案**。

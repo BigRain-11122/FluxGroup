@@ -63,6 +63,7 @@
 | QA Smoke 自验（Build→截图→自判） | 每轮 commit 后 | `docs/qa-smoke-test-charter.md` |
 | 服务器律 v2（最小化最简化·入册制） | 常设 | `cph4/server-governance.md` |
 | CEO 观测面（可视化=硅基生命元宇宙.html·第一检查入口+ceo-review 决策日志） | 随时 | `gaming/MiniGame/`+`docs/ceo-review.md` |
+| **WorkBuddy 模式升级线（网关管家=OpenClaw：CEO 手机遥控/机队秒查/昼夜模型自动切换/ClawHub 技能生态五门；三模式+三层记忆+权限分级 P0-P3 映射正典）** | 常设（网关 every:10m 保活·模型切换 09:07/19:07·技能更新挂周审） | `cph4/fleet/WORKBUDDY-UPGRADE-PLAN-v1.md`（六阶段总案+§六映射表+管家正典=cph4/fleet/workbuddy-gateway/） |
 
 ## 4. 文件地图（按需深潜）
 
