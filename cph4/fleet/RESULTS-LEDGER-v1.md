@@ -13,7 +13,7 @@
 | 日期 | 件 | 地址 | 卡在哪 |
 |---|---|---|---|
 | 10-19 | mv0001《爱在西元前》V5.9 成片（七批修复·导演+制监双签 PASS·水印+N1+四件套字卡） | cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v59_wmvs.mp4 | 发布渠道=CEO 决策（YouTube 唯一稳妥路径在案） |
-| 10-14 | meme V1《慢慢踩》（盲评 10/10） | media\meme-daily-1\v1-zunjie-brake\final\v1-sucheng-brake-final.mp4 | CEO 终审+账号登录态（B站 cookie=物理件） |
+| 10-14 | meme V1《慢慢踩》（盲评 10/10） | media\meme-daily-v1\v1-zunjie-brake\final\v1-sucheng-brake-final.mp4 | CEO 终审+账号登录态（B站 cookie=物理件） |
 
 ## 三、在制（带预计落位）
 

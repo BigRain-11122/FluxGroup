@@ -475,3 +475,13 @@
 - **收口⑵ 防裸奔修法=受保护件提名（governance §9 通道·候 CEO 唯定谳）**：patrol 班毕对 LOG.md 行走 Tools/git-atomic-push.py append 模式上链（origin 尾基底·与本席 CEO-PROXY/LOG.md 同法·R2.6 判例同源）——落点=Tools/patrol-prompt.txt 班毕动作节+PATROL-FLEET/CHARTERS.md §通用纪律一行；替代案已评（carrier 收口 commit/OS 轮 pathspec/新守护任务）=同保护级或更重·两行改法最轻荐；过渡=枢纽班批次顺手收口 LOG.md 现存行面（本班起自律·判例候选）。
 - **坑录（候选回灌 EXPERIENCE-LEDGER）**：①stash blob=工作树 CRLF 原字节 vs origin blob=归一形态——行集比对必须 EOL 归一化（本班 68 伪差实锚）；②原子推 full 模式推字节须与 origin blob 形态逐件核实（PATROL=CRLF·LEDGER=LF·勿默认）；③NEED-JUDGMENT.md=L0 每轮再生快照面非持久正身（R2.12 判例在册·16:38 NJ 裁决随本块消费）。
 - **班毕**：原子推 full×2+append×1（expect 守卫+反转闸+retry5+PYTHONIOENCODING 设防）+本地树对齐（checkout 弃置+ff-only·10-17 12:4x 判例同法）+步8 cron 自检+回访探针+锁 touch 收口。
+
+## Round R2.26｜2026-10-20 00:18-00:38｜事件班（承载件触发 NJ bigstream 双件 R22·V5.11 装配窗提醒+W1 夜窗回执翻行单）｜30 调用·~50k token
+- **触发与步0**：R22 巡逻 00:1x 双 NJ 承载触发（巡视零触碰零 poke 交本窗）；锁门=锁龄 426min 过期零竞态→00:22 touch 接管；结果对账=已交付候 CEO 2 件盘上复验（mv0001 V5.9 full_mv_v59_wmvs.mp4 OK+meme V1 OK·实际路径=media/meme-daily-v1/——RESULTS-LEDGER「meme-daily-1」拼写当场勘正随本批）·三行数字：已上线 0/候裁 2/在制 4（mv0002 星晴夜窗六单重烧毕推进）
+- **verdict=V5.11 detached 重渲死亡定谳+W1 夜窗全绿收讫·双单落链**：① V5.11 三面实测=23:01 leg-1（75f01a8b）后 _cut\v56_v511_proxy 树最新件停 23:06:49（chk_v511 板+f_03-f_09 帧·全树 1629 件走扫+full_mv 全树零+渲染日志零）76min 零新件+00:18 ffmpeg/python 渲染进程零命中+OSLoop 23:01 后零 commit→detached try2 疑同 try1 静默死（T_glyphs 陈缓存 J-42 坑复检注记）→两态裁决取「重发 detached 重渲」处置单落链（orders 00:32 行·回执窗 ≤2h·冲刺死线 L1287 在册）② W1 XQ=C2088→C2093 五连全绿（strips v2 31/31+bank 18/18）回执收讫→翻行单落链（S5-27 终签→星晴终剪装配+xq-T1-VERDICT 修订稿双轨·O-20261019-1935 ④·回执窗 ≤12h）
+- **card-lint --min**：两派单行 4/4 要素全 PASS（机械核验·Reject=打回零发生）
+- **点火与复探**：00:33:26 poke bm-a tasks=[BigStream-OSLoop] accepted=true（worker 拉取 HOT 仓含本班新单）+任务 00:36:01 触发 rc=0+5min 轮转在位（NEXTRUN 00:41）=BURNING 点火实证；产出件（重渲树 mtime 推进/回执 commit）+3min 未现=产线会话在途（boot 1-3min 常态）·02:15 回访探针+02:43 夜班双覆盖收口
+- **步8 cron 自检**：0770c2df（43 */2·提速令 v2 12 班）+9632cee5（43 2,5,8,12,15,18,21,23 旧 8 班表）双 recurring 在位=锁门兜底双跑无害·ROUND.md 班表行与提速令 v2 分歧注记候治理窗；过期一次性探针 4 枚清除（c4860f64/b0f963e4=R2.24/R2.25 回访已过期·82fceaed/07267af4=machine-state v6.1 实弹验单 10-19 19:20 窗过未触发→复测重挂=D-20261016-06 owner 窗）
+- **记账**：orders append 双行+DEADLINES full（W1 行 R2.26 翻行注+V5.11 at-risk 新行）批一=641013cee·LOG 本行+RESULTS 勘正批二=本推——原子推正法（expect 守卫+反转闸 970 条零消失放行+retry5）·PYTHONIOENCODING=utf-8 子进程坑再实锚（git-atomic-push run_gate stdout GBK 码页写 U+FFFD 崩→环境变量注入愈·承 R2.25 在册坑）·NEED-JUDGMENT 零写（L0 每轮重生成非持久·R2.25 在册）
+- **回访探针**：cron_create 一次性 durable 02:15（复探本班旗清单·锁门同守·复发=LOG 记复发行+旗升 DE 级·连 2 次=次日晨检呈报）
+- **回执扫描锚点**=orders 尾 2026-10-20 00:32 R2.26 事件班承载触发双行特征（V5.11 处置单+W1 翻行单·回执雷达下次班从此锚后扫）
