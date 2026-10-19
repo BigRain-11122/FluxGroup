@@ -75,7 +75,7 @@
 | 研究/质量 | cph4-research-dispatch · verification-before-completion · systematic-debugging · test-driven-development · webapp-testing | canon+用户级 |
 | 办公/前端 | docx · pdf · pptx · xlsx · frontend-design · web-artifacts-builder | 用户级（bm-a） |
 
-司级技能登记面=各司仓 README 技能行（技能律）；本册只收录集团层。外部开源池（素材源·非部署源）：awesomeskills.dev（1000+）/alirezarezvani/claude-skills（380·MIT）/CCGS 参照库 74 skill——采用一律过 oss-harvest 五门。
+司级技能登记面=各司仓 README 技能行（技能律）；本册只收录集团层。外部开源池（素材源·非部署源）：awesomeskills.dev（47,237·实测 2026-10-19）/anthropics/skills 官方库（36 件·实测同日）/alirezarezvani/claude-skills（380·MIT·2026-10-16 登记值）/CCGS 参照库 74 skill——采用一律过 oss-harvest 五门。
 
 ## §四 城市线专册（硅基生命城市·FluxVerse）
 
@@ -123,3 +123,4 @@
 - v1.0.3（2026-10-18·bm-a 交互窗）：制监席 producer-supervisor 新立（CEO 直令「给我引入监督和校对的机制，反复出现同样的问题，引入监制或者副导演！专门负责审核他们的成品，进行对抗审查」——章程=cph4/fleet/PRODUCER-SUPERVISOR-GATE-v1.md·§二/§六 双登记+MV 呈审链升格为 DIRECTOR-REVIEW+SUPERVISOR-REVIEW 双签制〔BRIEF §一.1 同步〕）——溯源=orders 2026-10-18 19:2x 制监令行。
 - v1.0.3（2026-10-18·bm-a 记忆治理收口批）：治理席节律+=21:47 日班 cron（durable·自续命·prompt 自含五步值守法）+闸 v2.1（L0 重建保留平台标记+KEEP_RULES 补 11 元组+norm_key 同题去重修真）/v2.2（pass2 fresh 降级必落 topics）实弹收口——L0 375,794B/322 条→76,579B/90 条（-80%），法条锚点 33/33 存活。
 - v1.0.4（2026-10-18·bm-a 交互窗）：剪辑师席 mv-editor+版式设计席 mv-typography-designer 新立（CEO 直令「mv 的所有环节 都要有专家…反复修…从根本上解决」——矩阵=cph4/fleet/mv-album-001-jay/MV-ALL-STAGE-EXPERT-COVERAGE-v1.md·每环节一专家一闸·无覆盖禁开工+修复轮预算 ≤2 轮+第 3 轮根因停线+返修成本账）——溯源=orders 2026-10-18 19:2x 全环节专家令行。
+- v1.0.5（2026-10-19·bm-a 交互窗·实验室汇报审计窗）：audit.py 全库审计 PASS（canon 25=装机 25·零孤儿·零缺装）+§三外部池数据实测刷新（awesomeskills.dev 1000+→47,237·补登 anthropics/skills 官方库 36 件·溯源=CEO 实验室汇报问「agent/skill 有哪些·是否最先进」外部对标新鲜验证）——纯数据维护零结构变更。
