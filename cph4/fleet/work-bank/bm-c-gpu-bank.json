@@ -513,7 +513,7 @@
   },
   {
    "id": "packA-qc-strips-v2",
-   "status": "claimed",
+   "status": "done",
    "priority": 17,
    "auth": "X2670 sec-6 assembly-unlock prefix: 31-unit full QC board regen with redo-r1 6-clip swap (board re-adjudication base plate), C2091 pre-stow (pre-stow law O-20261018-2236); v1 board = xq-PACKA-QC-STRIPS-20261018.jpg (C2059, pre-redo); runner DRY-verified C2091 (py_compile green + missing-gate exactly 1 = S3-19 in-burn)",
    "require": {
@@ -542,7 +542,9 @@
    "log_out": "media/mv-album-001-jay/log-qcstripsv2.out.txt",
    "log_err": "media/mv-album-001-jay/log-qcstripsv2.err.txt",
    "note": "31-unit board regen with redo-r1 swap: 6 re-burned units (F5-33a/S2-14/S3-19/S3-20/S4-22/S4-24) read from clips-packA-redo-r1 and labeled [REDO-R1], other 25 units unchanged from clips-packA-768. require gates on i2v3 3 mp4s (F5-33a/S4-24/S3-19) so guard auto-claims right after i2v3 burn end = zero idle window (CEO 10min idle SLA). PASS gate = STRIPS-V2 DONE: 31 clips sentinel in log-qcstripsv2.out tail + board xq-PACKA-QC-STRIPS-v2-c2091.jpg >= 1000000B + zero exit. Harvest next round alongside i2v3 harvest gate 4/4: per-unit sec-4 adjudication of 3 i2v3 units (qc strips) + director re-review on v2 board (board re-adjudication) -> assembly unlock face (X2670 sec-6: PACK-A 31/31 green + S5-27 return from bm-a director seat).",
-   "claimed_ts": "2026-10-19T21:10:31"
+   "claimed_ts": "2026-10-19T21:10:31",
+    "done_ts": "2026-10-19T21:35:50",
+    "done_note": "STRIPS-V2 DONE 31 clips board 1731392B (q76 bloat-gate pass) + 31/31 green adjudication (3 i2v3 native-settled PASS) by tick-C2093"
   }
  ]
 }
