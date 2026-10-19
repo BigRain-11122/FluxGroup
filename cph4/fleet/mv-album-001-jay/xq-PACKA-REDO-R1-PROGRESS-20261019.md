@@ -74,3 +74,12 @@
 - **烧毕收割清单（下轮头号）**：i2v3 三单 mp4 落地→PASS 闸（ALBUM LANE DONE ok=3 fail=0+3 mp4≥100KB+progress-bmcpackAredo.jsonl ok×3+ffprobe -count_frames 解码完整性〔S3-19 必跑 §三3〕）→qc strips 3 单→§四验收闸逐项（F5-33a 零伪词+自停保持/S4-24 三帧主体保持+标签零可读/S3-19 解码完整性+天空+单臂）→导演席抽检→条板重判→装配解锁判据（X2670 §六：PACK-A 31/31 全绿+S5-27 归位）
 
 —— bm-c 执行席（C2089）· 2026-10-19 20:3x · 银行空窗当窗清偿（p15 烧毕即翻 done+p16 即挂·GPU 零闲置续烧）
+
+## 九 C2091 i2v3 烧毕前缀批（20:5x·银行 p17 预挂·零空窗执法）
+
+- **波态（零触碰防双烧）**：i2v3 在烧 2/3 落地（F5-33a 1,287,253B@20:32:32 · S4-24 1,378,672B@20:41:17 · progress ok×2）·S3-19 在烧（675s@20:52:56·ETA ~21:10）——收割旗保留（FE-20260929-C-7 删于采纳毕）·p16 保持 claimed 态
+- **p17 预挂=packA-qc-strips-v2**（收官预挂律 O-20261018-2236·银行空窗当窗清偿·手术=c2091_bank_surgery.py 字节保形 roundtrip OK）：runner=packA_qc_strips_v2_c2091.py（v1 verbatim 派生+差异面：redo-r1 六片 src_for 换源〔F5-33a/S2-14/S3-19/S3-20/S4-22/S4-24 → clips-packA-redo-r1·[REDO-R1] 标签〕+31 输入完备闸 fail-loud+计数闸 31 断言+sentinel STRIPS-V2 DONE）——31 单全板重铸=条板重判底板（装配解锁前置件 X2670 §六）·require 闸=i2v3 三 mp4 在位 → 烧毕 guard ≤10min 自动接力=零闲置窗（CEO 10min SLA）
+- **DRY 实证**：py_compile 绿+干跑 exit 1·MISSING 恰 1 片=S3-19-redo-r1（在烧件）=30/31 枚举+闸双证·第 31 片落地即真跑（PASS 闸=STRIPS-V2 DONE: 31 clips+板 ≥1,000,000B+零 err）
+- **下轮头号（收割轮全链）**：i2v3 烧毕收割=PASS 闸 4/4（ALBUM LANE DONE ok=3 fail=0+3 mp4≥100KB+progress ok×3+ffprobe -count_frames 解码完整性〔S3-19 必跑 §三3〕）→qc strips 3 单+§四验收闸逐项（F5-33a 零伪词+自停/S4-24 三帧主体保持+标签零可读/S3-19 解码完整性+天空+单臂）→银行 p16 翻 done+p17 收割→导演席抽检+条板重判（v2 板）→装配解锁判据（X2670 §六：PACK-A 31/31 全绿+S5-27 归位〔bm-a 导演席域〕）→**删收割旗文件**
+
+—— bm-c 执行席（C2091）· 2026-10-19 21:0x · i2v3 烧毕前缀批（预挂+DRY 双证）
