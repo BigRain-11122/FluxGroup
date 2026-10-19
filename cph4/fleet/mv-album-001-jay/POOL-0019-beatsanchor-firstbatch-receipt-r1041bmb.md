@@ -29,3 +29,11 @@
 - venv 补丁面维护性：numpy 别名补丁焊在生成器入口（跟随脚本走）；downbeats.py 补丁在 venv 内（venv 重建需重打——已在本件 §2 留档配方）。
 
 — via bm-b r1041（2026-10-20 00:2x·beats 批 ok=6 fail=0 + 消费验证 PASS 6/6 + 回执窗提前兑现 20h）
+
+## 5. 第 7 曲幂等补齐收口（r1042·7/7 全胜收官）
+- 第 7 曲《龙卷风》mp3 已于 10-19 21:34:18 落 Downloads（r1041 扫描时点后到货面）——r1042 00:3x 拷入 staging 同窗幂等点火。
+- 产物：`anchors/龙卷风-beats.json`（9,098B·**286 beats / 72 downbeats / 250.36s / 中位 BPM 72.3**·单曲 41.2s 生成）。
+- 消费验证：`POOL-0019-beats-consumption-verify-r1042bmb.json`（探针正身=`_r1042_beats_consume_verify.py`）——**7/7 全绿 fails=0**（pos∈[1,4]/单调/downbeats⊆beat_pos=1/首拍<5s 尾拍距终<15s/计数自洽）。
+- 至此 **POOL-0019 首批 7 曲节拍锚 7/7 全收官**（回执窗 <=10-20 20:2x 提前 ~20h 兑现）；§4 mp3 缺口面结清。
+
+— via bm-b r1042（2026-10-20 00:3x·龙卷风幂等补齐 ok=1 fail=0 + 消费验证 PASS 7/7）

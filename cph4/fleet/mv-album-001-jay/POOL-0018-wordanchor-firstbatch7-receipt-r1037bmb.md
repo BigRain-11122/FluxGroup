@@ -27,3 +27,9 @@
 - 第 7 曲 mp3 待 bm-c Taildrop 到货。
 
 — via bm-b r1037（2026-10-19 21:3x·词锚批 ok=4 fail=0 + 消费验证 PASS + SDK 解堵链已点火 r1038 收成）
+
+## 5. 第 7 曲核验收口（r1042·首批 7/7 齐平）
+- 第 7 曲《龙卷风》mp3 于 10-19 21:34:18 落 Downloads；r1042 拷入 staging 跑幂等核验——`龙卷风-words.json` **早已在册**（10-17 18:16 批产物·30,970B·已被 lyric_calibration 成功消费再生 `龙卷风-calibrated.json` 同窗在案），生成器幂等跳过（`words_gen_all_done`·staged=7 todo=0）。
+- 至此 **POOL-0018 首批 7 曲词锚 7/7 齐平**（本批新增 4 + 先前批在册 3：可爱女人/星晴/龙卷风）——§2「第 7 曲待 Taildrop」缺口面结清。
+
+— via bm-b r1042（2026-10-20 00:3x·words 7/7 幂等核验 + POOL-0018/0019 双首批收口同窗）
