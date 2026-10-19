@@ -1,4 +1,4 @@
-# RESULTS-LEDGER — 用户可见交付物对账账本（CEO 令 2026-10-18「委员会要加强工作和业务的结果监督」）
+﻿# RESULTS-LEDGER — 用户可见交付物对账账本（CEO 令 2026-10-18「委员会要加强工作和业务的结果监督」）
 
 > 律：只记**用户/CEO 可见件**（成片/上线/发布/真包/数据交付），过程件一概不入。委员会每轮决议+CEO-PROXY 每轮巡班**首节必对账**：上期承诺 vs 实际落位，数字说话。汇报先报本账后说别的。
 
@@ -13,6 +13,7 @@
 | 日期 | 件 | 地址 | 卡在哪 |
 |---|---|---|---|
 | 10-19 | mv0001《爱在西元前》V5.9 成片（七批修复·导演+制监双签 PASS·水印+N1+四件套字卡） | cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v59_wmvs.mp4 | 发布渠道=CEO 决策（YouTube 唯一稳妥路径在案） |
+| 10-20 | mv0001《爱在西元前》V5.11 终版（V5.9 反馈整改：代理剪重出 PROXY-PASS + 768P 终烧 + 导演/制监双签 + N1 响度变体 -1.1 dBTP） | cph4\fleet\mv0001-handover\outbound\krea2\30s-reel-v1\full_mv_v511_n1.mp4 | CEO 终审（V5.9 已被本版取代） |
 | 10-14 | meme V1《慢慢踩》（盲评 10/10） | media\meme-daily-v1\v1-zunjie-brake\final\v1-sucheng-brake-final.mp4 | CEO 终审+账号登录态（B站 cookie=物理件） |
 
 ## 三、在制（带预计落位）

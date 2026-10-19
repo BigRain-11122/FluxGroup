@@ -1,4 +1,4 @@
-# LOG — CEO 总调度代理席·轮班日志
+﻿# LOG — CEO 总调度代理席·轮班日志
 
 > 每轮一行/机（时刻+verdict+行动）·零判断件时一行收敛；本文件=「到点执行率 ≥90%」判据的证据面。
 > v2 起（2026-10-14）：每行必带班型四元组=时刻｜班型（绿/标准/事件）｜调用数｜verdict+行动（效率判据证据面）。
@@ -485,3 +485,14 @@
 - **记账**：orders append 双行+DEADLINES full（W1 行 R2.26 翻行注+V5.11 at-risk 新行）批一=641013cee·LOG 本行+RESULTS 勘正批二=本推——原子推正法（expect 守卫+反转闸 970 条零消失放行+retry5）·PYTHONIOENCODING=utf-8 子进程坑再实锚（git-atomic-push run_gate stdout GBK 码页写 U+FFFD 崩→环境变量注入愈·承 R2.25 在册坑）·NEED-JUDGMENT 零写（L0 每轮重生成非持久·R2.25 在册）
 - **回访探针**：cron_create 一次性 durable 02:15（复探本班旗清单·锁门同守·复发=LOG 记复发行+旗升 DE 级·连 2 次=次日晨检呈报）
 - **回执扫描锚点**=orders 尾 2026-10-20 00:32 R2.26 事件班承载触发双行特征（V5.11 处置单+W1 翻行单·回执雷达下次班从此锚后扫）
+
+## Round R2.27｜2026-10-20 05:57-06:3x｜夜产守护班（05:43 班·轻重）·单窗·调用≈22·零云端 token
+- **四元组**：05:57｜夜产守护班（标准）｜22｜V5.11 收口链实证达成转候裁；模型白名单判定落定；零新派单
+- **步0 锁门+账本**：锁龄 319min 过期（他窗 00:38 收口后未续）→ touch 接管；结果账三行=已上线 0／候 CEO 2（V5.9、meme V1）／在制 4 → 本班候裁面 +1（V5.11 入列，V5.9 标注被取代），零上线零销账；三件已读（DISPATCH-LOG 尾 05:51/NEED-JUDGMENT 空快照/DEADLINES）。
+- **班型判定**：DEADLINES 存 1 件 at-risk（V5.11 收口链）→ 标准班（非事件：at-risk 已由生产自驱消化，非 STARVED/LANE-DOWN）。
+- **夜产在飞跟核（本班主业）**：①V5.11 链 closeout 实证=PROXY-PASS 03:19 + full_mv_v511_n1.mp4 03:32（1,340,088,152B）+ DIRECTOR-REVIEW-V511-FINAL 03:33 三件在盘，commit 2db80a38 记录 768P 234.25s/5622f·PTS 0 异常·四板读毕·双签·N1 变体 -1.1 dBTP/-14.1 LUFS → 00:32 事件班「detached 重渲两态裁决」派单已被该批产出消费，零重派零 poke（防双烧）。②bm-c 夜窗三件（XQ+jman v2+女主 LoRA）心跳在跑：L0 05:51 三池 2/3/2 open、flags=2=QUEUE-LOW 提示行非告警；bigmoney R21 05:09 双机 GREEN（bm-b r1050 SS-COMBO P1 / bm-c r1137+r1140 W283 ADMIT+W282 sixgate 45th ALL PASS）。
+- **模型白名单判定（T1 代决）**：model-whitelist-probe 自 10-19 10:37 起每小时间隔报 NEED-JUDGMENT「qwen3.8:27b」（同题已累计 ≥19 行）——实测定性=合法在位款：Ollama 清单 3 款（qwen3:4b-instruct/bge-m3:latest/qwen3.8:27b 27.3B Q4 17.7GB·runner=llamacpp），fleet-oversight.ps1 L110-111 明载「27b fill-in per C-20261016-03」=LLM 值守车道指定填充款（35B 10-14 退役口径并存于 :8090 coder-serve）。处置=白名单补录（计划任务 bm-a-ModelWhitelistProbe 参数 -w 加 qwen3.8:27b，Set-ScheduledTask 单字段改+回读亲验 NEW 值在位），噪声源根除、零删模型零风险。附带勘误=PS Invoke-WebRequest 对 127.0.0.1:11434 报「积极拒绝」而 curl RC=0 清单可读、netstat 0.0.0.0:11434 LISTENING(pid 22088) 双证=探针方式伪差（IPv6/代理层），Ollama 本体健在（进程 10-19 20:46 起）。
+- **盲区 11-14 本班片**：11 同病复发=V5.11 前批 detached 静默死（00:18 定谳）本批已带 cache 预清+detached 重渲产出 PASS，无复发征候；12 CEO 保留面=DEADLINES §waiting-CEO 清单在册无新增（meme V1 发布授权/V5.9+V5.11 终审候裁）；13 同源派重复登记=orders 00:32 双行已由本批产出消费，本班零新派单零重立；14 多窗 git 竞态=工作树无 index.lock 残留、近 12 笔提交链连续无孤儿。
+- **步8 cron 自检**：本席 0770c2df（43 */2）+9632cee5（43 2,5,8,12,15,18,21,23）双 recurring 在位（详见 cron_list 实测行，下附）。
+- **回执扫描锚点**=orders 尾 2026-10-20 00:32 R2.26 事件班承载触发双行（V5.11 处置+W1 翻行单）后零新行。
+- **行动**：DEADLINES R2.27 注记+RESULTS-LEDGER V5.11 行+LOG 本块（单批原子推·expect 守卫+反转闸）；零落单零 poke；锁收口。
