@@ -52,3 +52,13 @@
 - **QC 判读 3/3 PASS**（板=qc-split/xq-redo-r1-QC-STRIPS-c2087.jpg·9 帧 3×3·每镜前/中/尾三抽）：S2-14=恰 2 人零第三人（背景挂布/绳卷道具全可辨·红橙上衣少女零增生）+全画面零伪写；S3-20=双剪影连贯（裙摆/长发/逆光轮廓清晰·姿态转身推进自然）+零三彩纸屑+黄昏暖光平滑零竖涂抹；S4-22=吉他连贯（弦/音孔/弦桥/琴头全清晰）+嘴闭合零口型+三帧同机位（构图恒定·位移=自然弹奏动作）+手型自然（按弦/拨弦手分立零融合指）
 - **银行 p14 翻 done** @18:57:25（indent=1·CRLF·无 BOM 字节保形手术·done_note 全证入册）——银行 15 单 14 done+1 pending 归零面见注
 - **下一步（下轮头号不变）**：KF 重摇腿 authoring+银行 p15 预挂（F5-33a/S4-24/S3-19·X2670 §二锚词+§三1 试构图律 672×384→1344×768+种子换新律+帧审三件套+重试预算 ≤2 烧·spec 本地自足免取远端）；烧毕后=导演席抽检→条板重判→装配解锁判据（X2670 §六）
+## 七 C2088 KF 重摇腿武装回执（19:3x-19:4x·runner authored+银行 p15 预挂·GPU 空窗 guard 即点）
+
+- **runner 正身**：cph4/fleet/idle-guard-kit/xq_redo_kfreroll3_c2088.py（模板 verbatim 派生：t1r1hd 图构+abatch SHOTLIST origin 直读律+h3_i2v_album seed_for 镜像）——py_compile 绿+**DRY 闸全链验证**（lint 3/3 零命中+种子换新 6 枚零碰撞+三单 prompt 手术落位实证）
+- **prompt 手术三面**（X2670 §二逐字）：F5-33a=+「the cassette's paper label blank and age-worn」入正向锚位（对齐 F5-33b 已过件 anchor 自带「revealing the blank label side」=帧间一致性硬点）；S4-24=「handwritten label with strokes too small and out of focus to read」→「its small paper label soft, plain and out of focus」（乱码温床=strokes 子句根治·A 稿锚位）；S3-19=锚零改动（退化系生成面·种子换新重建黄昏天空）
+- **种子换新律执法**：id-MD5 族 XQ_<unit>-redo-r1-kf1/kf2 → F5-33a=907154,897596 · S4-24=361394,945457 · S3-19=602988,979448（与原 KF 种子池 20233/20234/20136/20138/20140/20143/21037/21039 零碰撞断言过·同单同种子禁复用律）
+- **试构图律**（§三1）：每候选先 672×384 草图后 1344×768 正档；**重试预算**（§三4）=2 烧/单=2 候选/单，双败=对照板回升本席终裁（r1061 §二同律）
+- **银行 p15 预挂**（字节保形手术：CRLF/indent=1/无 BOM/前后缀零触碰/json.loads 复验 16 单=15 done+1 pending）：id=xq-redo-kf-reroll3 · require=三源帧在位闸（F5-33a_s20234/S3-19_s20143/S4-24_s21037）·**PASS 闸=KF-REROLL-END ok=6 + 6 full PNG≥50KB（media/MV/mv0001/xingqing/kfreroll-r1/）+ progress json + 对照板 xq-KFREROLL3-BOARD-c2088.jpg**（板面三行：病帧原身 vs cand 草图+正档×2 vs F5-33b 参照行）
+- **烧毕收割清单（下轮头号）**：原生帧审三件套逐单（F5-33a 零伪词零镜像乱写+对齐 F5-33b / S4-24 标签软化零可读字 / S3-19 黄昏天空可辨+抬臂剪影在位）→逐单选胜者→**i2v 腿预挂 p16**（F5-33a 词面零改动 / S4-24 A 稿 58 词 / S3-19 零改动 72 词 FIX 稿·first_frame=胜者正档）→导演席抽检→条板重判→装配解锁判据（X2670 §六：31/31 全绿+S5-27 归位）
+
+—— bm-c 执行席（C2088）· 2026-10-19 19:4x · 银行空窗 15/15 done 违例面当窗清偿（预挂律 O-20261018-2236）
