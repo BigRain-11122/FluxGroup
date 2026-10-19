@@ -1,0 +1,67 @@
+{
+ "file": "full_mv_v511_proxy.mp4",
+ "ffprobe": {
+  "programs": [],
+  "stream_groups": [],
+  "streams": [
+   {
+    "codec_name": "h264",
+    "width": 960,
+    "height": 540,
+    "r_frame_rate": "24/1",
+    "nb_frames": "5622"
+   },
+   {
+    "codec_name": "aac",
+    "r_frame_rate": "0/0",
+    "nb_frames": "10090"
+   }
+  ],
+  "format": {
+   "duration": "234.253333",
+   "size": "206223076"
+  }
+ },
+ "frames": 5622,
+ "first": 0.0,
+ "last": 234.208333,
+ "pts_nonuniform_steps": 0,
+ "pts_anomalies_sample": [],
+ "expected_fps_step": 0.041666666666666664,
+ "tolerance": 0.008,
+ "verdict": "PASS",
+ "boards": {
+  "xfs_cut_board": "_proxycheck/XFS-CUT-BOARD.jpg (14 rows x 2: -0.21s / +0.21s per XFS cut)",
+  "split_dense_board": "_proxycheck/SPLIT-DENSE-BOARD.jpg (4 rows x 3: -0.25 / cut / +0.25)",
+  "grade_dual_board": "_proxycheck/GRADE-DUAL-BOARD.jpg (2 rows x 3 sampled frames)"
+ },
+ "xfs_visual": {
+  "rows": 14,
+  "pass": 12,
+  "near_duplicate_flagged": [
+   12,
+   14
+  ],
+  "note": "rows 12 (187.26s) and 14 (227.50s) look near-identical across the cut; per-frame diff scan shows real motion (min mean-abs-gray diff 0.561 / 1.027 per 1/24s step, zero frozen frames), so they are slow shots, not duplicated frames"
+ },
+ "frozen_scan": {
+  "c187": {
+   "min_step_diff": 0.561,
+   "zero_frames": 0
+  },
+  "c227": {
+   "min_step_diff": 1.027,
+   "zero_frames": 0
+  },
+  "c126": {
+   "min_step_diff": 1.012,
+   "zero_frames": 0,
+   "note": "dip-to-dark transition, step diffs 23-30 = intended dissolve"
+  }
+ },
+ "grade_review": {
+  "finding": "all six sampled frames sit in one warm amber/sepia envelope; no cool/cyan-gray zone observed at 40.5s/106.0s/205.0s. Single-language grade is coherent and filmic; if the spec expects a differentiated museum zone, it is not present in the proxy",
+  "action": "director note only, no re-render"
+ },
+ "overall": "PASS with notes"
+}
