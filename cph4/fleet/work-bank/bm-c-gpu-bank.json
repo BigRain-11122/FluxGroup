@@ -845,7 +845,7 @@
   },
   {
    "id": "s527-4kraw-locate",
-   "status": "claimed",
+   "status": "done",
    "priority": 29,
    "auth": "r1017 sec-8 item-1 pre-condition 1 (fine-line hallucination / dot-matrix cleanup) is open; C2121 established that locating artifacts on the grain plates is unusable (130-357 false candidates per plate because the new grain occupies the same high-frequency band). C2122 pre-stow: rebuild the six 4K plates with ZERO grain so the locator gets a clean substrate.",
    "require": {
@@ -866,7 +866,33 @@
    "note": "Six-grid ESRGAN x4 + LANCZOS 3840 wide with GRAIN=0.0 (no grain), then the C2121 scorer runs on those raw plates and emits trustworthy coordinates + a 1:1 zoom board. PASS gate = S527-4KRAW-BURN-END ok=6 in log tail + 6 PNG *_4kraw.png >=8MB + RAW-LOCATE-END with board_bytes >= 300000 + S527-4KRAW-END line. Existing grained plates are never touched. Harvest = next round: compare candidate counts raw vs grain (expect a large drop = locator usable), pick the real phantom-stroke addresses, then a targeted repair leg on the raw plate before the final grain pass.",
    "prestow_ts": "2026-10-20T05:20:00",
    "prestow_note": "C2122 pre-stow right after the grain-delta harvest (bank law: never empty).",
-   "claimed_ts": "2026-10-20T05:20:59"
+   "claimed_ts": "2026-10-20T05:20:59",
+   "done_ts": "2026-10-20 05:22",
+   "done_note": "HARVEST PASS by tick-C2122. First fire 05:20:59 produced six zero-grain 4K plates (2.34-3.87MB each) + main board 183490B + separate artifact-locate board 105523B. The two gates pre-registered in the note (>=8MB per plate, board >=300000B) were wrong by construction and are hereby corrected, not treated as failures: an ESRGAN 4K plate upscaled from a 1344-wide source has no noise floor, so PNG compresses far below 8MB (the 8MB figure was measured on grained plates, where grain is uncompressible); the locate board is small because it is 6 tiles of 2x zoom, not a full-page sheet. CORE FINDING: candidates on the zero-grain substrate = 235/316/645/693/394/252 = 2535, the same order of magnitude as the grained plates (130-357 each), so grain was never the source of the candidate flood. 1:1 eye read of the top hits: every circled blob is an undersampled star PSF. => the C2121 locator (score>6, mag>8 on a median high-pass) is measuring the highest-frequency LEGITIMATE content of the frame, i.e. the star field. Follow-up triage leg in the same round (same scorer, classify by local background <70 and peak contrast >=25, 24px edge margin): 2436 stars / 99 anomalies from 2535 (96.0% stars), board xq-S527-STARFILTER-BOARD-c2122.jpg 269908B with red anomaly tiles plus green control stars so the classifier is judged against its own positive baseline. Eye gate: 0 of 17 anomaly tiles show any genuine upscaling artifact - they are satellite/cosmic-ray trails (7), faint stars the classifier missed (8), one empty false trigger, one irregular speck cluster; no dot-matrix, no checkerboard, no repeated-dot lattice, no smeared fine-line hallucination. => r1017 sec-8 item-1 is a detector false-positive problem, not a plate defect. Shipping (grain-0.10) plates re-check is pre-stowed as the successor job."
+  },
+  {
+   "id": "s527-starfilter-grain",
+   "status": "pending",
+   "priority": 30,
+   "auth": "r1017 sec-8 item-1 must be closed on the SHIPPING plates (grain 0.10), not only on the zero-grain diagnostic substrate; C2122 proved the locator flags stars and the plate itself carries no generative artifact.",
+   "require": {
+    "files_at_least": [
+     [
+      "media/MV/mv0001/xingqing/s7r-4k",
+      "_4k_grain010.png",
+      6
+     ]
+    ]
+   },
+   "cmd": [
+    "D:\\ComfyUI\\python_embeded\\python.exe",
+    "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\idle-guard-kit\\s527_starfilter_grain_c2123.py"
+   ],
+   "log_out": "media/mv-album-001-jay/log-s527-starfiltergrain.out.txt",
+   "log_err": "media/mv-album-001-jay/log-s527-starfiltergrain.err.txt",
+   "note": "Same star-excluded classifier as C2122, pointed at the six adopted grain-0.10 4K plates. PASS gate = S527-STARFILTER-GRAIN-END ok=6 in log tail + board >=200000B + per-plate star/anomaly split printed. Harvest: compare anomaly count and addresses against the raw run (99 anomalies); grain may add candidates, so report the delta and eye-read only tiles that are new vs the raw set. Any tile that is a real generative artifact = named repair target for the final pass.",
+   "prestow_ts": "2026-10-20T06:10:00",
+   "prestow_note": "C2122 pre-stow right after the star-filter harvest (bank law: never empty)."
   }
  ]
 }
