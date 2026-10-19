@@ -9,6 +9,7 @@ import os
 import shutil
 import subprocess
 import sys
+import time
 import urllib.request
 
 REPO = r"K:\Fluxgroup\FluxGroup"
@@ -47,6 +48,24 @@ TARGETS = [
 #   vae  = vae/qwen_image_2.1_vae_bf16.safetensors                            675,509,688B
 #   lora = loras/qwen_image_2.1_turbo_lora_avg_rank_178_bf16.safetensors      913,314,512B
 
+# Known-good manifest: the exact four files+sizes probe-verified 2026-10-19
+# 22:1x on this machine (three of them landed at exactly these byte sizes).
+# Used as probe-failure fallback so a transient tree-API timeout cannot zero
+# out the chain while files sit on disk (2026-10-20 00:51 WinError 10060
+# relaunch-death evidence: PROBE_FAIL 0/4 + zero download attempts).
+KNOWN_FILES = {
+    "Comfy-Org/Qwen-Image-2.1": [
+        {"path": "diffusion_models/qwen_image_2.1_turbo_int8_convrot.safetensors",
+         "size": 7256787829},
+        {"path": "text_encoders/qwen3vl_8b_w4a8.safetensors",
+         "size": 6312105364},
+        {"path": "vae/qwen_image_2.1_vae_bf16.safetensors",
+         "size": 675509688},
+        {"path": "loras/qwen_image_2.1_turbo_lora_avg_rank_178_bf16.safetensors",
+         "size": 913314512},
+    ],
+}
+
 
 def log(msg):
     print(msg, flush=True)
@@ -57,6 +76,21 @@ def probe_tree(repo):
     req = urllib.request.Request(url, headers={"User-Agent": UA})
     with urllib.request.urlopen(req, timeout=60) as r:
         return json.loads(r.read().decode("utf-8"))
+
+
+def probe_tree_retry(repo, tries=3, backoff=20):
+    # hf-mirror tree API has transient connect-timeout windows; one blip must
+    # not kill the chain (2026-10-20 00:51 WinError 10060 evidence above).
+    last = None
+    for i in range(1, tries + 1):
+        try:
+            return probe_tree(repo)
+        except Exception as e:
+            last = e
+            log("probe attempt %d/%d FAIL %s %s" % (i, tries, repo, e))
+            if i < tries:
+                time.sleep(backoff)
+    raise last
 
 
 def select(t, trees):
@@ -120,11 +154,15 @@ def main():
             if repo in trees or repo in probe_err:
                 continue
             try:
-                trees[repo] = probe_tree(repo)
+                trees[repo] = probe_tree_retry(repo)
                 log("probe OK %s files=%d" % (repo, len(trees[repo])))
             except Exception as e:
                 probe_err[repo] = str(e)
                 log("probe FAIL %s %s" % (repo, e))
+                if repo in KNOWN_FILES:
+                    trees[repo] = KNOWN_FILES[repo]
+                    log("probe fallback to known-good manifest %s (%d files)"
+                        % (repo, len(trees[repo])))
     json.dump({"trees": {k: [f.get("path") for f in v] for k, v in trees.items()},
                "errors": probe_err}, open(PROBE, "w", encoding="utf-8"), indent=1)
     results = {}
