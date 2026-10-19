@@ -83,3 +83,10 @@
 - **下轮头号（收割轮全链）**：i2v3 烧毕收割=PASS 闸 4/4（ALBUM LANE DONE ok=3 fail=0+3 mp4≥100KB+progress ok×3+ffprobe -count_frames 解码完整性〔S3-19 必跑 §三3〕）→qc strips 3 单+§四验收闸逐项（F5-33a 零伪词+自停/S4-24 三帧主体保持+标签零可读/S3-19 解码完整性+天空+单臂）→银行 p16 翻 done+p17 收割→导演席抽检+条板重判（v2 板）→装配解锁判据（X2670 §六：PACK-A 31/31 全绿+S5-27 归位〔bm-a 导演席域〕）→**删收割旗文件**
 
 —— bm-c 执行席（C2091）· 2026-10-19 21:0x · i2v3 烧毕前缀批（预挂+DRY 双证）
+## 批 C2092 i2v3 收割翻面 + p17 本窗认领点火（21:1x）
+
+- **i2v3 收割 PASS 4/4**：ALBUM LANE DONE ok=3 fail=0 + 3 mp4（F5-33a 1,287,253B / S4-24 1,378,672B / S3-19 884,185B 全 ≥100KB）+ progress-bmcpackAredo.jsonl ok×3 + ffprobe -count_frames 解码洁净（S3-19 277f@1344x768 exit0 §3.3 必查绿；F5-33a 107f / S4-24 141f 同洁）→ 银行 p16 翻 done；redo-r1 六片盘面齐（direct3 三片+i2v3 三片）
+- **p17 packA-qc-strips-v2 本窗认领点火**（零闲置窗：波毕 21:05:03 → 认领 21:1x <10min SLA 内；guard 兝底不受影响）：runner=packA_qc_strips_v2_c2091.py pythonw 脱离式；收割旗已重挂 c2092-packA-qc-strips-v2（挂旗=点火步骤组成部分，C2089 判例律）
+- **下窗收割**：STRIPS-V2 DONE 31 clips 哨兵 + 板 ≥1,000,000B + 零 err → 拆板判读 3 i2v3 镜 sec-4 闸（F5-33a 伪字+自停 / S4-24 三帧主体+标签可读 / S3-19 天空+单臂·解码已绿）→ 导演席复审 v2 板 → 装配解锁依据（X2670 §六：PACK-A 31/31 全绿+S5-27 回位[bm-a 导演席裁定]）→ 删旗；板入仓前过 GIT-BLOAT-GATE（>2MB 先压缩）
+
+—— bm-c 执行席记：C2092，2026-10-19 21:10（i2v3 收割+p17 点火+挂旗毕）

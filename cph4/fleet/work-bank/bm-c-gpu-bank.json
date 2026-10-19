@@ -470,7 +470,7 @@
   },
   {
    "id": "xq-redo-i2v3",
-   "status": "claimed",
+   "status": "done",
    "priority": 16,
    "auth": "X2670 redo order sec-2/sec-3.1 i2v leg (3 KF-reroll winners F5-33a/S4-24/S3-19), C2089 pre-stow (pre-stow law O-20261018-2236); winner evidence = C2089 native single-frame reads + board xq-KFREROLL3-BOARD-c2088.jpg",
    "require": {
@@ -507,11 +507,13 @@
    "log_out": "media/mv-album-001-jay/log-redo-i2v3.out.txt",
    "log_err": "media/mv-album-001-jay/log-redo-i2v3.err.txt",
    "note": "Winners per C2089 native adjudication -> i2v leg: F5-33a zero-change 51w (original verbatim, clean of label mention) + S4-24 draft A 58w verbatim (strokes-clause hotbed removed) + S3-19 zero-change 72w FIX draft; first_frame = winning full KFs (F5-33a_s897596 / S4-24_s361394 / S3-19_s979448); lane bmcpackAredo out clips-packA-redo-r1; seed renewal = -redo-r1 id-MD5 family (distinct from orig units and kf1/kf2 families). PASS gate = ALBUM LANE DONE ok=3 fail=0 in log tail + 3 mp4 >=100KB in media/mv-album-001-jay/clips-packA-redo-r1/ + progress-bmcpackAredo.jsonl ok x3 + ffprobe -count_frames decode-clean (S3-19 mandatory per order sec-3.3, others recommended). Harvest next round: qc strips 3 units + X2670 sec-4 gates per unit (F5-33a zero-pseudo-text + self-stop held / S4-24 three-frame subject hold + zero readable label / S3-19 decode-integrity + sky + single arm) -> director re-review -> assembly unlock face (X2670 sec-6: PACK-A 31/31 green + S5-27 return).",
-   "claimed_ts": "2026-10-19T20:25:59"
+   "claimed_ts": "2026-10-19T20:25:59",
+   "done_ts": "2026-10-19T21:10:31",
+   "done_note": "HARVEST PASS by tick-C2092: PASS gate 4/4 (ALBUM LANE DONE lane=bmcpackAredo ok=3 fail=0 in log-redo-i2v3.out tail + 3 mp4 F5-33a 1287253B / S4-24 1378672B / S3-19 884185B all >=100KB in clips-packA-redo-r1 + progress-bmcpackAredo.jsonl ok x3 + ffprobe -count_frames decode-clean: S3-19 277f@1344x768 exit0 (order sec-3.3 mandatory GREEN), F5-33a 107f / S4-24 141f also clean). Redo-r1 six-clip set complete on disk (S2-14/S3-20/S4-22 direct3 C2087 + F5-33a/S4-24/S3-19 i2v3). Next slice = packA-qc-strips-v2 board (in-round claimed+fired by C2092, wave flag armed c2092-packA-qc-strips-v2) -> per-unit sec-4 adjudication of 3 i2v3 units on v2 board via SPLIT-READ crop (full 31-unit board read times out per 10-18 lesson) -> director re-review on v2 board -> assembly unlock face (X2670 sec-6: PACK-A 31/31 green + S5-27 return from bm-a director seat)."
   },
   {
    "id": "packA-qc-strips-v2",
-   "status": "pending",
+   "status": "claimed",
    "priority": 17,
    "auth": "X2670 sec-6 assembly-unlock prefix: 31-unit full QC board regen with redo-r1 6-clip swap (board re-adjudication base plate), C2091 pre-stow (pre-stow law O-20261018-2236); v1 board = xq-PACKA-QC-STRIPS-20261018.jpg (C2059, pre-redo); runner DRY-verified C2091 (py_compile green + missing-gate exactly 1 = S3-19 in-burn)",
    "require": {
@@ -539,7 +541,8 @@
    ],
    "log_out": "media/mv-album-001-jay/log-qcstripsv2.out.txt",
    "log_err": "media/mv-album-001-jay/log-qcstripsv2.err.txt",
-   "note": "31-unit board regen with redo-r1 swap: 6 re-burned units (F5-33a/S2-14/S3-19/S3-20/S4-22/S4-24) read from clips-packA-redo-r1 and labeled [REDO-R1], other 25 units unchanged from clips-packA-768. require gates on i2v3 3 mp4s (F5-33a/S4-24/S3-19) so guard auto-claims right after i2v3 burn end = zero idle window (CEO 10min idle SLA). PASS gate = STRIPS-V2 DONE: 31 clips sentinel in log-qcstripsv2.out tail + board xq-PACKA-QC-STRIPS-v2-c2091.jpg >= 1000000B + zero exit. Harvest next round alongside i2v3 harvest gate 4/4: per-unit sec-4 adjudication of 3 i2v3 units (qc strips) + director re-review on v2 board (board re-adjudication) -> assembly unlock face (X2670 sec-6: PACK-A 31/31 green + S5-27 return from bm-a director seat)."
+   "note": "31-unit board regen with redo-r1 swap: 6 re-burned units (F5-33a/S2-14/S3-19/S3-20/S4-22/S4-24) read from clips-packA-redo-r1 and labeled [REDO-R1], other 25 units unchanged from clips-packA-768. require gates on i2v3 3 mp4s (F5-33a/S4-24/S3-19) so guard auto-claims right after i2v3 burn end = zero idle window (CEO 10min idle SLA). PASS gate = STRIPS-V2 DONE: 31 clips sentinel in log-qcstripsv2.out tail + board xq-PACKA-QC-STRIPS-v2-c2091.jpg >= 1000000B + zero exit. Harvest next round alongside i2v3 harvest gate 4/4: per-unit sec-4 adjudication of 3 i2v3 units (qc strips) + director re-review on v2 board (board re-adjudication) -> assembly unlock face (X2670 sec-6: PACK-A 31/31 green + S5-27 return from bm-a director seat).",
+   "claimed_ts": "2026-10-19T21:10:31"
   }
  ]
 }
