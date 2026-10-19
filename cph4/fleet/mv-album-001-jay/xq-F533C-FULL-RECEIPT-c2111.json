@@ -1,0 +1,57 @@
+{
+ "wave": "xq-f533c-reroll2",
+ "runner": "bm-c C2111",
+ "auth": "xq-AB-DIRECTOR-RATIFY-r1017.md sec-3 HOLD row + sec-7 fix recipe",
+ "prompt": "adult hand with wooden pencil writing short careful strokes on the small square plain paper cassette label, the pencil strokes heavily defocused into soft pencil-tip outlines only, slanted warm window light, pen pausing a beat between strokes, the corner of a clear plastic cassette shell in frame. 35mm film grain, telecine texture, 2001 Taiwan music video look.",
+ "surgeries": [
+  "stroke lock: text clause -> heavy defocus pencil-tip outlines only",
+  "label form: small square plain paper patch (no notepad form)",
+  "carrier lock: corner of clear plastic cassette shell in frame",
+  "kept: slanted warm window light with dust motes + pen pause beat"
+ ],
+ "params": {
+  "res_mini": "672x384",
+  "steps": 8,
+  "cfg": 1.0,
+  "jman": 0.6,
+  "sampler": "euler simple",
+  "model": "krea2_turbo_fp8_scaled"
+ },
+ "candidates": [
+  {
+   "id": "XQ_F5-33c-winner-full",
+   "seed": 502092
+  }
+ ],
+ "burn_ok": {
+  "XQ_F5-33c-reroll2-m1": true,
+  "XQ_F5-33c-reroll2-m2": true,
+  "XQ_F5-33c-reroll2-m3": true,
+  "XQ_F5-33c-reroll2-m4": true,
+  "XQ_F5-33c-reroll2-m5": true,
+  "XQ_F5-33c-reroll2-m6": true,
+  "XQ_F5-33c-reroll2-m7": true,
+  "XQ_F5-33c-reroll2-m8": true,
+  "XQ_F5-33c-winner-full": true
+ },
+ "stats": {
+  "ok": 1,
+  "total": 8,
+  "fails": [],
+  "lint": "NEG/VAGUE/CONCEPT zero-hit"
+ },
+ "out_dir": "media/MV/mv0001/xingqing/f533c-reroll2",
+ "board": "xq-F533C-FULL-BOARD-c2111.jpg",
+ "ts": "2026-10-20T03:07:47",
+ "harvest": {
+  "by": "tick C2112",
+  "ts": "2026-10-20T03:10:17",
+  "m1_native": "FAIL - readable pseudo-letters 'MMAMAD' in focus + writing surface is a full plain sheet (not small square cassette label)",
+  "m1_evidence": "xq-F533C-FULL-RECEIPT-c2111-m1s628791.json + xq-F533C-FULL-BOARD-c2111-m1s628791.jpg",
+  "fallback": "m3 s502092 per p23 harvest rule",
+  "m3_native": "PASS - zero readable word/letter/numeral (tally-mark clusters only); small square plain paper patch; clear plastic cassette shell corner upper-left; adult hand + wooden pencil natural tripod grip, no anatomy defect; 35mm grain / warm 2001 telecine, no plastic AI sheen; no clones. Advisory (non-blocking): tally strokes sit near the focal plane rather than heavily defocused, but resolve to no character.",
+  "m3_file": "media/MV/mv0001/xingqing/f533c-reroll2/F5-33c_s502092.png",
+  "m3_bytes": 871476,
+  "verdict": "PASS -> pre-stow i2v leg XQ_F5-33c (first_frame = full) to close the last A-pack unit"
+ }
+}
