@@ -23,7 +23,11 @@ FluxGroup=一人 CEO+AI 劳动力+机器机队的控股集团：九条业务线�
 3. **唤醒机器**（CEO 说「让 bm-b/bm-c 动起来/看看它/催一下」）——不带任务名=纯唤醒拉取，安全：
    `powershell -NoProfile -ExecutionPolicy Bypass -File "C:\Users\sjs20\Desktop\FluxGroup\Tools\fleet-dispatch.ps1" -Reason "CEO-remote"`
    唤醒后 3 分钟跑一次命令 1 复探，向 CEO 报唤醒结果。
-4. **读业务正典**（CEO 问某司/某产线细节）：先读 `C:\Users\sjs20\Desktop\FluxGroup\AI.md` §4 文件地图找到目标文件，再只读那一个文件回答；一次只读一个文件。
+4. **机器资源秒查**（CEO 问某机器或全机队的 GPU/显存/内存/CPU/磁盘，如「bm-c 现在显卡什么状态」「哪台机器有空闲算力」）：
+   全机队：`powershell -NoProfile -ExecutionPolicy Bypass -File "C:\Users\sjs20\Desktop\FluxGroup\Tools\fleet-node-status.ps1"`
+   查单机：`powershell -NoProfile -ExecutionPolicy Bypass -File "C:\Users\sjs20\Desktop\FluxGroup\Tools\fleet-node-status.ps1" -Node bm-c`（bm-c 换成 bm-a/bm-b 即查其他机）
+   输出每机一行（gpu=显卡型号 vram_free=空闲显存 ram_free_gb=空闲内存 cpu_pct=CPU 占用），照读数据作答即可。
+5. **读业务正典**（CEO 问某司/某产线细节）：先读 `C:\Users\sjs20\Desktop\FluxGroup\AI.md` §4 文件地图找到目标文件，再只读那一个文件回答；一次只读一个文件。
 
 ## 模型与时段
 
