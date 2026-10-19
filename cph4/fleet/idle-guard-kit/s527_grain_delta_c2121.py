@@ -18,12 +18,12 @@ BOARD = os.path.join(SHOT_DIR, "xq-S527-GRAIN-007-VS-010-c2121.jpg")
 RECEIPT = os.path.join(SHOT_DIR, "xq-S527-GRAIN-007-VS-010-c2121.json")
 
 PAIRS = [
-    ("S5-26", "S5-26_S5-26_s20185_s7rC_4k.png", "S5-26_S5-26_s20185_s7rC_4k_grain010.png"),
-    ("S5-26", "S5-26_S5-26_s20191_s7rC_4k.png", "S5-26_S5-26_s20191_s7rC_4k_grain010.png"),
-    ("S5-27", "S5-27_S5-27_s20192_s7rC_4k.png", "S5-27_S5-27_s20192_s7rC_4k_grain010.png"),
-    ("S5-27", "S5-27_S5-27_s20193_s7rC_4k.png", "S5-27_S5-27_s20193_s7rC_4k_grain010.png"),
-    ("S5-28", "S5-28_S5-28_s20202_s7rC_4k.png", "S5-28_S5-28_s20202_s7rC_4k_grain010.png"),
-    ("S5-28", "S5-28_S5-28_s20205_s7rC_4k.png", "S5-28_S5-28_s20205_s7rC_4k_grain010.png"),
+    ("S5-26", "S5-26_s20185_s7rC_4k.png", "S5-26_S5-26_s20185_s7rC_4k_grain010.png"),
+    ("S5-26", "S5-26_s20191_s7rC_4k.png", "S5-26_S5-26_s20191_s7rC_4k_grain010.png"),
+    ("S5-27", "S5-27_s20192_s7rC_4k.png", "S5-27_S5-27_s20192_s7rC_4k_grain010.png"),
+    ("S5-27", "S5-27_s20193_s7rC_4k.png", "S5-27_S5-27_s20193_s7rC_4k_grain010.png"),
+    ("S5-28", "S5-28_s20202_s7rC_4k.png", "S5-28_S5-28_s20202_s7rC_4k_grain010.png"),
+    ("S5-28", "S5-28_s20205_s7rC_4k.png", "S5-28_S5-28_s20205_s7rC_4k_grain010.png"),
 ]
 
 
