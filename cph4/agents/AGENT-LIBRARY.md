@@ -41,6 +41,7 @@
 | CoderServe 看门狗 | bm-a 35B 常驻 :8090（PID 锁+路径闸） | `Tools/coder-serve.ps1` | PT10M |
 | 热点扫描线 | 全网热榜三班扫描入池 | ShortVideoHotScan1/2/3（schtasks） | 日 3 班 |
 | 仓库瘦身哨 RepoSlim | git 库预算守门：每日唯一合法 gc+大件台账+轮转保险丝（CEO 令 2026-10-19「文件库越来越庞大，解决」·法=resource-chain §三.11·出生闸=Tools/hooks/pre-commit >20MB 拦） | `Tools/repo-slim.ps1`+`Tools/hooks/pre-commit` | 日 09:03 |
+| 资产审计哨 AssetAudit | Unity 资产面膨胀守门：周扫活跃开发面（FluxVerse 8,286 图）+月度夜窗深扫（Art Assets 25 万图）+入库闸（CEO 令 2026-10-19「不要膨胀到不可控」·法=resource-chain §三.12 膨胀治理总纲） | `Tools/asset-audit-weekly.ps1`+skill `asset-audit` | 周（10080m） |
 
 ## §二 任务态专家席位册（按需点名·审查件必留痕）
 

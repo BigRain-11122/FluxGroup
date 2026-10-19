@@ -367,10 +367,25 @@
 
 11. **git 库预算与瘦身制（REPO-SLIM·2026-10-19 立·CEO 令「现在文件库越来越庞大了，解决！」·实测基线：.git 松散 17,656 件/795MB〔gc.auto=0 致打包从未跑〕→gc 后 .git 536MB〔pack 532MB≈历史媒体 ~440MB 未压〔png/mp4/mp3/jpg·历史禁改写=沉没成本认账〕+md 399.5MB 未压版本群〔orders.md 0.8MB/版×数百版·delta 后实占小头〕〕）**：①**唯一合法打包器**=FluxGroup-RepoSlim 哨（日 09:03·Tools/repo-slim.ps1·state/alerts 出 .codely-cli/tmp/repo-slim-*）——**gc.auto=0 为多窗防冲突定谳保留·打包权归该哨独占**（人工/会话零散 git gc 禁）；②**出生级大件闸**=Tools/hooks/pre-commit（core.hooksPath=Tools/hooks·纯 git 管道〔diff --cached --raw+cat-file -s〕零外部工具依赖·.gitattributes 强制 LF 防 CRLF 断 sh）——暂存单件 **>20MB=拦截**（正法=走 gitignored media/；例外=--no-verify+令注一行）·**5-20MB=警告带**（入日报表）·U187 95MB 红线不变（闸=前哨非替代）·三态点火实证（21MB 拦 exit1/6MB 警/小件放行 exit0）；③**音频停追律**=*.mp3/*.wav 全库 ignore+存量 11 件 rm --cached 收口（音源正身=gitignored media/MUSIC·磁盘件零删·10-18 evolution R4 ignore 面漏做的执行半步·B/C 拉取后本地副本消失=预期态）；④**台账月中轮转触发线 1.2MB**=存量三分律④月卷轮转的月中保险丝（RepoSlim 日报 ROTATE-NOW→值守轮执行切卷·月卷律不变）；⑤**报表面**=每日 vitals+大件台账〔tracked >5MB〕+四告警〔loose>5000=打包失效嫌疑/PACK>700MB=历史媒体审计/GIT-DIR>900MB/BIG-FILES>25=证据件减肥候选〕——判负真关线照旧（纯报表零动作=浪费）；⑥**B/C 机执行令**=pull 后 `git config core.hooksPath Tools/hooks` 一行装闸（hook 文件随仓分发）+RepoSlim 哨照 task-register 注册·回执窗当班 22:0x 前。
 
+12. **膨胀治理总纲（2026-10-19 立·CEO 令「形成优化机制，不要随着时间就膨胀到不可控了」·以 Unity 车漆实例选区为锚例·承 §三.10-11 与记忆/媒体既有闸·统一模式升格全类常设律）**：一切会随时间生长的面位**一律五件套**——①预算线（预警/执法两档）②出生闸（入口拦截·结构性造不出违规品）③定期瘦身（机器节律·不依赖有人开窗）④告警（入日报/周报点名）⑤除名复审（陈件过期清退）。**面位登记表（在册面=机制在役；不登记不存在律延伸）**：
+   - L0 记忆✓（预警 35KB/80 条·执法 50KB/120 条·2h 闸+21:47 日班）
+   - 磁盘✓（DiskSentinel 5min·700/620/500GB 三线+批跑自清律 §三.8）
+   - media 资产✓（CONTENT-GC S0-S3 分级+WhatIf 先行）
+   - git 库✓（REPO-SLIM §三.11·日哨 09:03+出生闸+轮转保险丝 1.2MB）
+   - 台账面✓（存量三分律 §三.10 月卷轮转+热/冷/死三层）
+   - 规则法典✓（法熵审视+修法优先律〔只修不增〕+删除预算〔周删 ≥1·进化轮承载〕）
+   - 智能体库✓（周审+退役律 30 天零调用·**总量预算注=skill canon 预警 40/执法 60 件〔现 25〕·席位预警 80/执法 100〔现 ~52〕**）
+   - 知识库✓（卡片律六条·**分卷保险丝=单册 500KB 预警/1MB 分卷**）
+   - **Unity 资产面→本批新设**：FluxGroup-AssetAudit 周哨（every:10080m·Tools/asset-audit-weekly.ps1 只读扫活跃开发面 gaming\FluxVerse〔8,286 图·分钟级·点火实测 exit0·报告落 gitignored tmp 防周抖〕·FAIL=exit1→task-health 夜报信号③自动点名）+**Art Assets（25 万图冻结级上游库）=月度夜窗深扫+入库时闸（asset-audit skill 承载）·禁周扫白天全量（让路律）**；metis/City3D 侧路径由其窗登记照扫（metis 侧照其仓点头制）
+   - **计划任务面→本批新设**：总量预算线=**预警 100/执法 120 件**（2026-10-19 实测 90 件）——超预警后新任务登记=**一进一出制**（登记必查总量·须并退役 ≥1 件旧任务）·超执法线=值守轮点名强制退役审计；停用族不计入总量
+   - **场景实例/材质变体面→半设**：变体登记制=车漆类（ext_carpaint 等）材质/实例变体一律 AA-XXX 入册（Art Assets README 登记制延伸）·未入册变体=泄漏清除候选·场景实例数预算归各 Unity 窗自定并登记（City3D 线=lowpoly-city-3d 族·metis 线=其窗）
+   **膨胀三问门（新系统出生闸·即刻执法）**：一切新系统/新库/新台账/新产线/新仓/新哨/新管线立项必答三问——①**预算线多少**（两档数字）？②**出生闸在哪**（拦什么·载体）？③**瘦身节律**（谁·多久·跑什么）？**三问无答案不过立项门**（CEO-PROXY 步6 拆解台+委员会过会件挂查项；承 §三.8 管线缓存设计门同构——52GB 缓存事故根治模式全类推广）。
+
 
 #### Changelog
 - 2026-09-23: initial v1.0（四级保留制×五面+防误伤五闸+防膨大三律+水位表+retention-scan 周测）。
 - 2026-10-19: **§三.11 git 库预算与瘦身制（REPO-SLIM）**（CEO 令「文件库越来越庞大了，解决！」·实测 .git 795MB 松散堆积〔gc.auto=0 致打包从未跑〕→gc 536MB+出生级 pre-commit 大件闸〔纯 git 管道·>20MB 拦/5-20MB 报·三态点火实证〕+mp3/wav 全库停追 11 件+台账月中轮转保险丝 1.2MB+FluxGroup-RepoSlim 日哨 09:03 唯一合法打包器）。
+- 2026-10-19 二批: **§三.12 膨胀治理总纲**（CEO 令「形成优化机制，不要随着时间就膨胀到不可控了」·Unity 车漆选区锚例）：五件套模式升格全类常设律+面位登记表（八面在册+Unity 资产面/计划任务面本批新设〔AssetAudit 周哨点火 exit0·任务总量预算 100/120·实测 90〕+场景变体面半设）+**膨胀三问门**（新系统立项必答预算线/出生闸/瘦身节律·无答案不过门——52GB 缓存事故根治模式全类推广）。
 - 2026-09-24: **§7 分层执行面+§8 工程规模治理+§9 备份预案+§10 周期日历**（CEO 令「建立起分层级的清理优化机制，避免工程不受控的庞大，文件和流程繁琐，并有备份预案和周期清理预案」·T2+否决窗 7 天）——五链同构 L0-L3+CEO；WIP 上限/入口窄化/范围蔓延闸/流程瘦身日；备份三级集团化（堵点=GitHub 私库物理件）；月度恢复演练入提案面。
 - 2026-09-24: **§9.4 恢复演练首试提前实证 ✓**（当日成立当日下午即试·不等下月）：①远端可达盘点=5/7 REACHABLE（FluxGroup/MiniGame/BigMoney/Bigmedia/Biglife ✓·FluxVerse/BigDomain=CEO 建仓物理件在册）；②HQ 全量克隆演练=HEAD 逐位一致（954b62c）+九关键件全在（governance/orders/AI/master-plan/decisions/architecture/philosophy/BRAND/RULES）+docs 7/cph4 20/Tools 6+orders 108 行·decisions 17 行对账+总 59 文件+演练场即清（临时件纪律）——**一级备份=活库持续 push 判据成立**；后续月度演练照 §10 日历。
 - 2026-09-29: **§11 坚决清理律 v2 + 首夜实弹 4.6GB**（CEO 令「坚决一点不要过于保守」·O-2026-0929-033·T2 否决窗至 10-06）：Class-A 免隔离直清类五目（隔离区到期/win-temp>7d/hf-cache/audio-staging/.incomplete>48h）+Class-B 判级三问+清决日期+C1 呈签降格+模型清决判据（30b=10-09 首例·Bonsai 冻结）+资产继承律划界+周扫工具 disk-sweep.ps1+值守轮周日步；首夜实弹=隔离区 133 件 266MB+labbench/p3d-spike 2.4GB（试点收口）+hf-cache 1.9GB+audio-staging 137MB+win-temp 过期件=**4.6GB·盘余 793GB 基线**；司域大件派单=P-2026-09-29-13（Biggame 工程区 47GB 域+media 10GB 审计+30b 10-09 清决）。
