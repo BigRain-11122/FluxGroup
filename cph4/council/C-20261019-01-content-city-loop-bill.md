@@ -32,8 +32,17 @@
 
 ## 四、待裁项（委员会本班）
 
-① 实装顺序与机位归属（建议：bm-a CPU 面 Unity 编辑·让路律内）；② 首屏位选址（城市场景哪块屏·调研回填后定）；③ 档期机制（首期=手动指定单屏轮播·档期表随全量上）。
+① 实装顺序与机位归属（建议：bm-a CPU 面 Unity 编辑·让路律内）；② 首屏位选址（城市场景哪块屏·调研回填后定）；③ 档期机制（首期=手动指定单屏轮播·档期表随全量上）；④ **大屏技术路线**（VideoPlayer vs 逐帧序列贴图——WebGL 发布目标下 VideoPlayer 受限·先真机定谳·调研回填新增）；⑤ **大屏组件落位工程**（City3D=装配 vs City=事件路由·双工程分工现状需定谳避免屏体与事件消费链分家·调研回填新增）。
 
-## 五、状态
+## 五、调研回填+状态（2026-10-19 15:37·证据包=R-20261019-city-carrier-survey-01·全 A 级实锚）
 
-- 立案=2026-10-19 15:3x（bm-a 交互窗）·调研员在飞（task-66512c31）·候 18:00 常务轮裁定。
+**证据包五条（委员会弹药齐备）**：
+① **屏幕挂位现成**=AD-022 Billboard 家族（街面 Billboard_Pole/楼顶 Billboard_Roof）+Megacity advertising_001~005 楼体巨幕（屏幕类 prefab 691 个在库）——缺的只是 VideoPlayer 新组件（工程内引用 0 处·做法=屏面材质接 RenderTexture+组件挂载）。
+② **事件流零 schema 改动**=events-registry v0.1 已注册 MEDIA_OUTPUT（emitting）/CONTENT_PUBLISH（reserved·zone=media）+CityEventRouter.cs 只读 10s 尾追消费已运转（8 个 .cs 同流引用）——**事件落 jsonl 即被城市感知**。
+③ **面板两处小改**=canonical.html L661-674 nav 段+sec-title 块+generate.ps1 烘焙数据段（档期数据源候选=media/BigStream/output/finished.md·零运行时网络律不破·canonical 为源防 sync 覆盖）。
+④ **媒资同机可达**=主仓 media/（mv0001 cloud-v4 mp4×20+·PILOT-PREVIEW-3x20s.mp4·MUSIC/jay 12 专辑·BigStream finished.md 结算台账）——与 City3D 同机同盘 Unity 可 file:// 直读；**路径勘正=K:\ 与 C:\Fluxgroup 口径失效·媒资池正身=主仓 media/**。
+⑤ **首演片源建议**=PILOT-PREVIEW-3x20s.mp4 或 mv0001 cloud-v4 合成块（drama-pilot-out 空+MV 成片呈分镜块形态无单一长片）。
+
+**执行红线（调研回填随案）**：①world-events 单写律（P-43）=城侧只读消费·剧集/成长事件须**新增发射探针**·禁城内直写 jsonl；②WebGL VideoPlayer 真机定谳先行（快样若走 3D 城市编辑器视域则无此限）。
+
+- 立案=15:32·调研回填=15:37（本节·R- 件归档 cph4/research/R-20261019-city-carrier-survey-01）·**候 18:00 常务轮裁定（证据包齐备）**·快样判据（§一.5 Jay 双件）维持 ≤7 日。
