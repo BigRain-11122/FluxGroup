@@ -143,3 +143,11 @@ F5-33c: HOLD（1/8 条件过·未达 ≥2 净格线·修法见 §七）
 - 目眼两轮：拼板读（12 格）与原生裁片 PNG（3 格）均未见点阵、棋盘、细线幻觉或涂抹；判读档 xq-S527-NATIVE-CHECK-c2123.png。
 - 结论：**0 个修补目标**，sec-8 条目1 关闭（检测器假阳性族，两种底片同结论）。后继件已预挂 s527-shipping-pack-v1（出货目录+SHA256 清单）。
 - 交付物：xq-S527-SHIPPING-CONTACT-c2123.jpg（6 盘联系表·298KB 可直接看）、xq-S527-SHIPPING-ADJUDICATION-c2123.json（判读收据）。
+### C2124 交付打包（bm-c · 2026-10-20 06:2x）：六张出货 4K 母版入 delivery 包
+
+- 目录 `media/MV/mv0001/xingqing/delivery/`：六张 `_4k_grain010.png`（S5-26 s20185/s20191、S5-27 s20192/s20193、S5-28 s20202/s20205）逐字节复制，15.1–15.8MB，3840×2194，**零像素改动**（打包步骤，不改片）。
+- 清单 `MANIFEST-s527-4k.json`：逐张 SHA256 + 字节数 + 尺寸 + 源盘 SHA256（byte_identical 全 true）+ C2123 判定摘要（候选 1605/星 1571/异常 34/缺陷 0/返工 0）。
+- 说明 `README-s527-4k.md`（1,300B）：内容构成、质检结论、附件、复验法（certutil/hashlib 对数）。
+- 闸实测：`SHIPPING-PACK-END ok=6 manifest_ok=True`——六份副本在同一次运行内从盘重算 SHA256，全部等于源盘。
+- 本项=§八移交清单之外的**交付形态件**（sec-8 条目1 关闭后的产物落地）；§八-6 标注勘误已预挂为后继银行件 `s527-conform-labels-v1`。
+

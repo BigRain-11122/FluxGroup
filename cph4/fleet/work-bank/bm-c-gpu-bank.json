@@ -899,7 +899,7 @@
   },
   {
    "id": "s527-shipping-pack-v1",
-   "status": "claimed",
+   "status": "done",
    "priority": 31,
    "auth": "r1017 sec-8 item-1 closed on shipping plates by C2123 adjudication; the six grain-0.10 4K plates are now the delivery substrate for the S5-27 line",
    "require": {
@@ -920,7 +920,33 @@
    "note": "Assemble delivery/manifest for the six shipping plates: copy (byte-identical) into media/MV/mv0001/xingqing/delivery/, write SHA256 + size + dimensions per plate plus the C2123 adjudication verdict into delivery/MANIFEST-s527-4k.json and a one-page README. PASS gate = SHIPPING-PACK-END ok=6 and manifest parses with 6 entries whose SHA256 re-verify.",
    "prestow_ts": "2026-10-20T06:15:53",
    "prestow_note": "C2123 pre-stow right after the shipping-plate adjudication harvest (bank law: never empty).",
-   "claimed_ts": "2026-10-20T06:15:59"
+   "claimed_ts": "2026-10-20T06:15:59",
+   "done_ts": "2026-10-20T06:24:11",
+   "done_note": "SHIPPING-PACK-END ok=6 by tick-C2124. Six grain-0.10 4K plates copied byte-identical into media/MV/mv0001/xingqing/delivery/ (15.1-15.8MB each, 3840x2194), MANIFEST-s527-4k.json carries per-plate SHA256/size/dimensions plus the C2123 adjudication summary (0 defects, 0 repair targets) and README-s527-4k.md is the one-page hand-off. Delivery copies were re-hashed from disk in the same run and all six match their source plate."
+  },
+  {
+   "id": "s527-conform-labels-v1",
+   "status": "pending",
+   "priority": 32,
+   "auth": "r1017 sec-8 item-6 is the only open zero-GPU item left on that transfer list; C2120 pre-stowed it and never executed",
+   "require": {
+    "files_at_least": [
+     [
+      "media/MV/mv0001/xingqing",
+      "xq-AB-S7R-COMPARE-S5-26-r1058.jpg",
+      1
+     ]
+    ]
+   },
+   "cmd": [
+    "D:\\ComfyUI\\python_embeded\\python.exe",
+    "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\idle-guard-kit\\s527_conform_labels_c2125.py"
+   ],
+   "log_out": "media/mv-album-001-jay/log-s527-conformlabels.out.txt",
+   "log_err": "media/mv-album-001-jay/log-s527-conformlabels.err.txt",
+   "note": "Version-management correction from r1017 sec-8 item-6: rebuild the S7R board family with the s7rA/s7rB variant labels that match the receipts (the boards still say A/B/C) and fix the ORGINAL typo on xq-AB-S7R-COMPARE-S5-26-r1058.jpg. PASS gate = CONFORM-LABELS-END ok=1 with a regenerated board list in the log tail and zero 'ORGINAL' occurrences in the new output names.",
+   "prestow_ts": "2026-10-20T06:24:11",
+   "prestow_note": "C2124 pre-stow while the delivery pack closed (bank law: never empty)."
   }
  ]
 }
