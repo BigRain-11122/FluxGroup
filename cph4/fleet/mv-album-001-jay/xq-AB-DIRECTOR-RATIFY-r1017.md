@@ -122,7 +122,7 @@ F5-33c: HOLD（1/8 条件过·未达 ≥2 净格线·修法见 §七）
 | 3 S4-23 s20160 手持物 100% 定谳 | **闭合·支撑 CD/MD 读法** | 物件裁切框 229×119px@(611,407) 内 **≥210 亮像素占比 0.0000、最大自发光斑 0px** → 无大亮屏（智能手机负向特征缺失），与外框形制并读 = 2000 年代随身听级；1:1×3 板交导演 | `xq-S08-PROBE-c2120.json`·`xq-S08-S423-HANDHELD-1TO1-c2120.jpg` |
 | 4 S2-14 s20105 亮度拉伸复检 | **闭合·第三影维持证伪** | 暗块 (0–33%×30–79%) 拉伸至全幅后：梯度方向分布熵 4.901/5.17 bit（近满=纹理方向弥散、无连贯轮廓）·拉伸后高频能量 3.87·**无头肩级孤立闭合亮块**；置信 85%→**93%** | `xq-S08-PROBE-c2120.json`·`xq-S08-S214-STRETCH-c2120.jpg` |
 | 5 S2-13 s21026 旋转对齐残差差分 | **机械面未决·眼判板已出** | 轮廓相似拟合最佳 IoU 0.779（rot 148°, sc 1.30, 面积比 1.086=近等标度）；落在 0.75–0.90 中间带=**大体相似成立、翼缘细节有别**，判「刚性克隆」或「自然变化」均不成立 → 不自行改判，出 1:1×3 双蝶板交导演定谳（原降级附条件状态维持） | `xq-S08-PROBE2-c2120.json`·`xq-S08-S213-BUTTERFLY-1TO1-c2120.jpg` |
-| 6 版本管理勘误（S7R 板面列举 s7rA/B 口径 + ORGINAL 拼写） | **未做·已预挂** | 需重出 S7R 板族标注体系（A/B/C 三列 → s7rA/s7rB 对齐回执口径）+ 修 `xq-AB-S7R-COMPARE-S5-26-r1058.jpg` 的「ORGINAL」字样；本班时间盒已尽，预挂为后继件 | — |
+| 6 版本管理勘误（S7R 板面列举 s7rA/B 口径 + ORGINAL 拼写） | **闭合（C2125·零 GPU 纯板面重出）** | 四件板族全部由盘上变体件原样重制（变体像素零改动）：BOARD-1/BOARD-2 列头改 **s7rA grain 0.14 / s7rB shoulder+grain / s7rC esrgan4x+LANCZOS**（原 A/B/C）；S5-26 条头拼写改 **ORIGINAL**（原 ORGINAL）；S0-03 条头 s7rA/s7rB。机械闸 `CONFORM-LABELS-END ok=1`+输出名与标签零 ORGINAL；三处副本（abatch_s7r / cph4 证据夹 / xingqing 根）SHA256 恒等 | `xq-AB-S7R-BOARD-1-r1058.jpg`·`xq-AB-S7R-BOARD-2-r1058.jpg`·`xq-AB-S7R-COMPARE-S5-26-r1058.jpg`·`xq-AB-S7R-COMPARE-S0-03-r1058.jpg`·`xq-S7R-CONFORM-LABELS-c2125.json` |
 
 **下轮建议**：① §八-6 标注 conform（零 GPU·纯板面重出）；② §八-1 条件①细线幻觉修补必须先取得可信地址（建议在**未加颗粒的 ESRGAN 上采件**上定位，勿在 grain 件上找）；③ §八-5 双蝶待导演一句话定谳后回写本节。
 
@@ -150,4 +150,12 @@ F5-33c: HOLD（1/8 条件过·未达 ≥2 净格线·修法见 §七）
 - 说明 `README-s527-4k.md`（1,300B）：内容构成、质检结论、附件、复验法（certutil/hashlib 对数）。
 - 闸实测：`SHIPPING-PACK-END ok=6 manifest_ok=True`——六份副本在同一次运行内从盘重算 SHA256，全部等于源盘。
 - 本项=§八移交清单之外的**交付形态件**（sec-8 条目1 关闭后的产物落地）；§八-6 标注勘误已预挂为后继银行件 `s527-conform-labels-v1`。
+
+### C2125 收口（bm-c · 2026-10-20 06:4x）：§八-6 标注 conform 完成（零 GPU 纯板面重出）
+
+- 板族四件全部**从盘上既有变体件重制**（s7rA.png / s7rB.jpg / s7rC.png），**变体像素零改动**，只重画表头文字：BOARD-1/BOARD-2 三列改 `s7rA grain 0.14` / `s7rB shoulder+grain` / `s7rC esrgan4x+LANCZOS`（原 A/B/C）；S5-26 条头拼写改 `ORIGINAL`（原 ORGINAL）；S0-03 条头 `s7rA`/`s7rB`。
+- 机械闸：`CONFORM-LABELS-END ok=1 boards=2 strips=2 typo_fixed=1 token_bad=0`——新输出名与新标签**零 ORGINAL 出现**；四件板逐张落 sha256 入 `xq-S7R-CONFORM-LABELS-c2125.json`。
+- 眼检：多模态逐件复读四板表头（BOARD-1 四列、BOARD-2 首末行三列、两件条板三格），全部读出 s7rA/s7rB/s7rC 与正确拼写，无截字。
+- 三处副本 SHA256 恒等（abatch_s7r 正身 / `cph4/fleet/mv-album-001-jay/` 证据夹 / `media/MV/mv0001/xingqing/` 根=银行 require 面）。
+- 后果：§八-6 关闭；§八表全项无「未做」面（余 2a 草尖 1:1、5 双蝶=候导演眼判，非我方可自决）。后继银行件已预挂 `s7r-conform-ratify-board`（四板一页索引供导演一次签认）。
 
