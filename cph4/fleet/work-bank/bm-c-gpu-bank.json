@@ -952,7 +952,7 @@
   },
   {
    "id": "s7r-conform-ratify-board",
-   "status": "claimed",
+   "status": "done",
    "priority": 33,
    "auth": "r1017 sec-8 item-6 closed by C2125; the four conformed boards are separate files, so the director still has to open four images to ratify the family",
    "require": {
@@ -973,7 +973,65 @@
    "note": "One-page ratification index: the four conformed S7R boards as labeled thumbnails plus the label map (s7rA/s7rB/s7rC), the frame count per board, board sizes and sha256 short ids, so bm-a director can ratify the family in a single look. Zero GPU, reads the boards on disk only. PASS gate = RATIFY-BOARD-END ok=1 in log tail + board >= 150KB + 4 thumbnails drawn.",
    "prestow_ts": "2026-10-20T06:50:14",
    "prestow_note": "C2125 pre-stow right after the label conform landed (bank law: never empty).",
-   "claimed_ts": "2026-10-20T06:50:59"
+   "claimed_ts": "2026-10-20T06:50:59",
+   "done_ts": "2026-10-20T06:55:56",
+   "done_note": "RATIFY-BOARD-END ok=1 by tick-C2126 (job was claimed by IdleGuard 06:50:59 before its runner existed; runner authored and executed this round, board 257732B). One-page index: two labelled thumbnails per row of the four conformed boards, each row carrying filename + size + sha256 short id + what it proves (s7rA/s7rB/s7rC headers, ORIGINAL spelling). Zero GPU, no board byte touched; receipt xq-S7R-FAMILY-RATIFY-c2126.json. Feed = bm-a director single-look ratification of the S7R family."
+  },
+  {
+   "id": "s527-delivery-verify-v1",
+   "status": "done",
+   "priority": 34,
+   "auth": "C2125 follow-up executed in the same M1 round after the label conform landed",
+   "done_ts": "2026-10-20T06:58:51",
+   "done_note": "VERIFY-END ok=6 mismatches=0 by C2127: every delivery plate re-hashed from disk, matched against MANIFEST-s527-4k.json (sha256/bytes/dimensions) and against its source plate. Receipt delivery/VERIFY-S527-4K-c2127.json."
+  },
+  {
+   "id": "s7r-origin-verify-v1",
+   "status": "done",
+   "priority": 34,
+   "auth": "C2125 follow-up executed in the same M1 round after the label conform landed",
+   "done_ts": "2026-10-20T06:58:51",
+   "done_note": "ORIGIN-VERIFY-END ok=5 mismatches=0 by C2128 against origin/main 321a4e5: four conformed JPEG boards byte-identical; xq-S7R-CONFORM-LABELS-c2125.json reported EOL-ONLY (local CRLF worktree copy vs LF blob, content identical after newline normalization, confirmed 40/40 lines). Proves the detached-worktree replay landed the real bytes."
+  },
+  {
+   "id": "s527-4k-proxy-1600",
+   "status": "done",
+   "priority": 34,
+   "auth": "C2125 follow-up executed in the same M1 round after the label conform landed",
+   "done_ts": "2026-10-20T06:58:51",
+   "done_note": "PROXY-END ok=6 by C2129: 1600px review proxies for the six plates (194-208KB each vs 15MB originals) plus a 2x3 contact board 212079B. Source plates read-only; proxies are never delivery substrate."
+  },
+  {
+   "id": "s527-delivery-readme-refresh-v1",
+   "status": "done",
+   "priority": 34,
+   "auth": "C2125 follow-up executed in the same M1 round after the label conform landed",
+   "done_ts": "2026-10-20T06:58:51",
+   "done_note": "README-REFRESH-END ok=1 by C2130: README-S527-4k.md rebuilt from disk (2398B) with a plate table carrying live sha256 short ids, the proxy/board/verify artifact rows and the re-verification method; every listed path asserted to exist."
+  },
+  {
+   "id": "s7r-origin-reverify-v1",
+   "status": "pending",
+   "priority": 35,
+   "auth": "the verify set grew after the conform push (ratify board, proxy contact board, receipts); the verifier FILES list was extended but could only be exercised after the push that carries those artifacts",
+   "require": {
+    "files_at_least": [
+     [
+      "media/MV/mv0001/xingqing/delivery/proxy",
+      "xq-S527-PROXY-CONTACT-c2129.jpg",
+      1
+     ]
+    ]
+   },
+   "cmd": [
+    "D:\\\\ComfyUI\\\\python_embeded\\\\python.exe",
+    "K:\\\\Fluxgroup\\\\FluxGroup\\\\cph4\\\\fleet\\\\idle-guard-kit\\\\s7r_origin_verify_c2128.py"
+   ],
+   "log_out": "media/mv-album-001-jay/log-s7r-originverify.out.txt",
+   "log_err": "media/mv-album-001-jay/log-s7r-originverify.err.txt",
+   "note": "Re-verify origin/main holds all eight delivered artifacts (four conformed boards, conform receipt, ratify board + receipt, proxy contact board) byte- or EOL-identically to the local evidence copies. PASS gate = ORIGIN-VERIFY-END ok=8 mismatches=0 in the log tail. Zero GPU.",
+   "prestow_ts": "2026-10-20T06:58:51",
+   "prestow_note": "C2125 pre-stow after closing the post-conform follow-ups (bank law: never empty)."
   }
  ]
 }
