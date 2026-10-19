@@ -24,19 +24,19 @@
 
 | 机构位 | 职责一句话 | 正典位 | 节律 |
 |---|---|---|---|
-| CEO-PROXY 总调度代理席 | 替 CEO 发令+科学巡视 8 班/日+自迭代+大脑更新 | `cph4/fleet/dispatcher/CEO-PROXY/`（CHARTER/ROUND/DEADLINES/LOG） | 8 班/日 |
-| 最高决策委员会（七席功能制） | T1 代决日常件+复盘四问+自迭代闭环 | `cph4/council.md` | 00:00/12:00 双班 |
+| CEO-PROXY 总调度代理席 | 替 CEO 发令+科学巡视 12 班/日+自迭代+大脑更新（10-19 提速令 v2） | `cph4/fleet/dispatcher/CEO-PROXY/`（CHARTER/ROUND/DEADLINES/LOG） | 12 班/日 |
+| 最高决策委员会（七席功能制） | T1 代决日常件+复盘四问+自迭代闭环 | `cph4/council.md` | 00:00/06:00/12:00/18:00 四班（10-19 提速令 v2） |
 | MASTER-AGENT 主脑蓝图 | 集团主脑统一架构正典（两波群审定版） | `cph4/fleet/dispatcher/MASTER-AGENT/BLUEPRINT.md` | 常设 |
-| PATROL-FLEET 子公司巡视席舰队 | 十域巡视·30min 传感+域章程深挖+日 digest | `cph4/fleet/dispatcher/PATROL-FLEET/`（十域章程=CHARTERS） | PT30M+日班 |
-| FleetDispatcher L0 | 确定性巡班：规则路由+饥饿/超时/失联探针（零 LLM） | `Tools/fleet-dispatcher.ps1` | PT30M |
-| IdleWatch 机队防闲置哨 | 在线/监听/队列/心跳新鲜度探测+连 3 次复闲报警 | `Tools/fleet-idle-watch.ps1` | PT15M |
+| PATROL-FLEET 子公司巡视席舰队 | 十域巡视·15min 传感+域章程深挖+日 digest（10-19 提速令 v2） | `cph4/fleet/dispatcher/PATROL-FLEET/`（十域章程=CHARTERS） | PT15M+日班 |
+| FleetDispatcher L0 | 确定性巡班：规则路由+饥饿/超时/失联探针（零 LLM） | `Tools/fleet-dispatcher.ps1` | PT10M（10-19 提速令 v2） |
+| IdleWatch 机队防闲置哨 | 在线/监听/队列/心跳新鲜度探测+连 3 次复闲报警 | `Tools/fleet-idle-watch.ps1` | PT5M（10-19 提速令 v2） |
 | 哨兵族（bm-b-Sentinel v3.0 等） | 各机自愈哨兵：ollama/心跳/队列静默/自驱工件池认领 | `C:\Fluxgroup\.codely-cli\sentinel\`（bm-b 侧） | PT5M |
-| OS 循环班族（各司） | 各司 10min 自迭代：MiniGameEngineTick / Bigmoney-IterationLoop / BigStream-OSLoop / BigLife-OSLoop | 各司仓 mandate | PT10M |
+| OS 循环班族（各司） | 各司 5min 自迭代（10-19 提速令 v2）：MiniGameEngineTick / Bigmoney-IterationLoop / BigStream-OSLoop / BigLife-OSLoop | 各司仓 mandate | PT5M |
 | W 波回测自滚引擎 | 量化波链席位/冻结/自燃全链 | bigmoney 仓 fleet/ | 连续滚动 |
-| 值守轮 / 夜轮 / 进化轮 | 四器审计+催办自愈 / 03:07 夜报 / 周日立法+法熵审视 | `cph4/night-round-prompt.txt` / `evolution.md` | 03:07/15:07 · 周日 |
+| 值守轮 / 夜轮 / 进化轮 | 四器审计+催办自愈 / 03:07 夜报 / 周日立法+法熵审视 | `cph4/night-round-prompt.txt` / `evolution.md` | 03:07/09:07/15:07/21:07 四班 · 周日（10-19 提速令 v2） |
 | 交付哨 delivery-watch | 交付物落地守望+min_duration 质量闸+告警 | `cph4/fleet/dispatcher/delivery-watch/` | 常驻 |
 | 审计部+哨兵 | 自我感动/同向无效功审计+独立抽审 | `cph4/audit-office.md`+`Tools/audit-sentinel.ps1` | 每日双班 |
-| 记忆治理席+预算闸 v2.1 | 三层记忆预算守门（预警 35KB/80 条·执法 50KB/120 条·4h S4U 二段执法·写入五问路由） | skill memory-curator（canon=cph4/skills/memory-curator）+`Tools/memory-budget-gate.py` | 4h S4U（HQ-MemoryBudgetGate）+21:47 日班 cron（durable·自续命） |
+| 记忆治理席+预算闸 v2.1 | 三层记忆预算守门（预警 35KB/80 条·执法 50KB/120 条·2h S4U 二段执法〔10-19 提速令 v2〕·写入五问路由） | skill memory-curator（canon=cph4/skills/memory-curator）+`Tools/memory-budget-gate.py` | 2h S4U（HQ-MemoryBudgetGate）+21:47 日班 cron（durable·自续命） |
 | CoderServe 看门狗 | bm-a 35B 常驻 :8090（PID 锁+路径闸） | `Tools/coder-serve.ps1` | PT10M |
 | 热点扫描线 | 全网热榜三班扫描入池 | ShortVideoHotScan1/2/3（schtasks） | 日 3 班 |
 

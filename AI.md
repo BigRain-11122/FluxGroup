@@ -37,19 +37,19 @@
 
 | 机制 | 节律 | 正典 |
 |---|---|---|
-| OS 循环/DevLoop（各司） | 10min | 各司 mandate |
-| **决策委员会常务轮**（日常代管+复盘四问+自迭代） | 00:00/12:00 双班 | `cph4/council.md` |
-| **CEO 总调度代理席**（CEO 命令发布台+科学巡视：风险加权班表+旗分流三班型+全表日轮转·方向基准=CEO-DIRECTION-BRIEF） | 8 班/日（班表正身=CEO-PROXY/CHARTER.md §四·协议正身=ROUND.md——版本漂移勘正 2026-10-14 群审交接席） | `cph4/fleet/dispatcher/CEO-PROXY/` |
-| 值守轮（四器审计+催办+自愈+**回执核销步**） | 03:07/15:07 双班 | `cph4/night-round-prompt.txt` |
+| OS 循环/DevLoop（各司） | **5min**（10-19 提速令 v2·原 10min） | 各司 mandate |
+| **决策委员会常务轮**（日常代管+复盘四问+自迭代） | 00:00/06:00/12:00/18:00 **四班**（10-19 提速令 v2） | `cph4/council.md` |
+| **CEO 总调度代理席**（CEO 命令发布台+科学巡视：风险加权班表+旗分流三班型+全表日轮转·方向基准=CEO-DIRECTION-BRIEF） | **12 班/日·每 2h**（10-19 提速令 v2·班内自检重建吸收·班表正身=CEO-PROXY/CHARTER.md §四·协议正身=ROUND.md——版本漂移勘正 2026-10-14 群审交接席） | `cph4/fleet/dispatcher/CEO-PROXY/` |
+| 值守轮（四器审计+催办+自愈+**回执核销步**） | 03:07/09:07/15:07/21:07 **四班**（10-19 提速令 v2） | `cph4/night-round-prompt.txt` |
 | 进化轮（立法+法熵审视+考核面） | 周日 09:17 | `cph4/evolution.md` |
 | 巡检 patrol+外部独立审查 | 周一 09:23／日一班 22:17（10-14 降频勘正） | `docs/audit-charter.md` Part B／Part A |
-| 令流（CEO 令→台账→执行→回执→核销） | 随时：秒级 poke→2min 哨兵→10min 轮询三层 | `docs/orders.md`+`cph4/resource-chain.md` §十 |
-| 交付契约哨（落单带交付路径+死线·过线自动点名） | 5min | `Tools/delivery-watch.ps1`+`cph4/fleet/dispatcher/delivery-watch/` |
+| 令流（CEO 令→台账→执行→回执→核销） | 随时：秒级 poke→**1min 哨兵**→**5min 轮询**三层（10-19 提速令 v2） | `docs/orders.md`+`cph4/resource-chain.md` §十 |
+| 交付契约哨（落单带交付路径+死线·过线自动点名） | **2min**（10-19 提速令 v2） | `Tools/delivery-watch.ps1`+`cph4/fleet/dispatcher/delivery-watch/` |
 | 分级立法 T0-T3 | T0 宪法 CEO 签/T1 治理+否决窗/T2 机制 AI/T3 数据 AI | `cph4/evolution.md` §2 |
 | 决策/审查/考核三链×四层（L0 团队→L3 集团·底层优先） | 常设 | `cph4/decision-chain.md` |
 | 错误定级 E0-E3（E0=三通道直呈 CEO） | E0 即时/E1 当日/E2 轮内~周/E3 豁免 | `cph4/errors.md` |
 | 诚实律三道防线（证据对/新鲜验证/宣称分级） | 常设 | `docs/governance.md` §10 |
-| 交付时效（快速件 24h/CEO 可见交付 ≤5 天） | 常设 | `docs/governance.md` §11 |
+| 交付时效（快速件 **12h**/CEO 可见交付 **≤3 天**·10-19 提速令 v2） | 常设 | `docs/governance.md` §11 |
 | 调度+机队（verdict 驱动·云无限并行·保活/静默/让路/分工/本地主供/信息同步） | 常设 | `cph4/resource-chain.md` §一~§十 |
 | 资源保留清理（R1 永不清~R4 随轮清·磁盘预算） | 日/周/月/季 | `cph4/resource-chain.md` §三§11 |
 | 本地化算力（L1 确定性→L2 本地 LLM→L3 云 API）+Token 经济 | 常设 | `cph4/local-first.md`+`cph4/token-economy.md` |
