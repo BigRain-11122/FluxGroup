@@ -467,3 +467,11 @@
 - **观察件（候 22:43 日复盘·并入 R2.23 候选②语境）**：NJ 本地面在本班窗口内被重生成清空（15:50 读=24 行全量↔16:06 diff=仅头部 1 行；R2.23 13:44 字节级对齐 origin 后首见·非常态——13:50-15:50 间 L0 12+ 轮未清空）——消费标/历史行正身=origin 侧；本班 NJ 注记以 origin 基座构建+推后本地面重对齐；若再现=两数据点归因（L0 重生成面 vs 他窗动作）。
 - **行动**：NJ R2.24 注记行（origin 基座 append）+DEADLINES W1 行 R2.24 注记+LOG 本块——单批原子推（expect 守卫+反转闸）+NJ 本地推后重对齐+DISPATCH-LOG 四元组行（本地留痕零推送·R2.4 判例）+锁收口；零落单零云端。
 - **回执扫描锚点**=orders 尾 2026-10-19 15:39 一个月冲刺总动员令行（15:36 最新模式扫描令同尾区；R2.23 后增量=CEO 令链 13:15-15:39 全 executed/dispatched 承接·@bm-b/@bm-c 执行令回执窗 22:0x 未到零 poke）。
+
+## Round R2.25｜2026-10-19 16:46-17:1x·事件班·承载件触发（NJ [group] 16:38：PATROL-FLEET/LOG.md git 正身缺档·末触 commit cedfed20 10-17 02:30·本地=origin 双证）·单窗·调用≈33·零云端 token
+
+- **触发深挖（缺档根因链定谳）**：patrol 班行仅落工作树零 commit 腿（CHARTERS §通用纪律只规定行产出·无上链责任=设计缺口）+多窗 pull --autostash pop-fail 覆写循环（9 枚 autostash 堆积=各时点快照实锚）+10-18 13:2x reset --hard 连带（推断标注·承 NJ 原判）；正本零丢失=stash 快照+media shiftlog 双面全在。
+- **收口⑴ union-restore（6619a02c 判例同法·本批原子推三件）**：①PATROL-FLEET/LOG.md +60 行=59 行 byte 级取自 stash@{2}/@{3}（10-19 14:03 快照·stash@{4}/@{5} 交叠段四快照互证）+bigmoney R18 一行 shiftlog 重建（〔restored〕标注=14:03 快照后写入·唯一无快照行）+16:38 NJ 触发行随批上链——131 行全量正身在链·10-18/10-19 各班 shiftlog 证据指针全闭合；②memory-slim/LEDGER.md +7 行（10-18 17:46→10-19 13:46 gate v2 执法行·stash2 同源）；③排查面：CEO-PROXY/LOG.md 归一化后零真丢失（probe 68 行=纯 \r 伪差·R2.12-R2.24 块全在 origin·本席台账健康）·SLI-RECONCILE/DEADLINES=正当改写跳过·DISPATCH-LOG.md=R2.6 判例本地件不推·bigmoney 14:01 班死于裁前零产出无行可复。
+- **收口⑵ 防裸奔修法=受保护件提名（governance §9 通道·候 CEO 唯定谳）**：patrol 班毕对 LOG.md 行走 Tools/git-atomic-push.py append 模式上链（origin 尾基底·与本席 CEO-PROXY/LOG.md 同法·R2.6 判例同源）——落点=Tools/patrol-prompt.txt 班毕动作节+PATROL-FLEET/CHARTERS.md §通用纪律一行；替代案已评（carrier 收口 commit/OS 轮 pathspec/新守护任务）=同保护级或更重·两行改法最轻荐；过渡=枢纽班批次顺手收口 LOG.md 现存行面（本班起自律·判例候选）。
+- **坑录（候选回灌 EXPERIENCE-LEDGER）**：①stash blob=工作树 CRLF 原字节 vs origin blob=归一形态——行集比对必须 EOL 归一化（本班 68 伪差实锚）；②原子推 full 模式推字节须与 origin blob 形态逐件核实（PATROL=CRLF·LEDGER=LF·勿默认）；③NEED-JUDGMENT.md=L0 每轮再生快照面非持久正身（R2.12 判例在册·16:38 NJ 裁决随本块消费）。
+- **班毕**：原子推 full×2+append×1（expect 守卫+反转闸+retry5+PYTHONIOENCODING 设防）+本地树对齐（checkout 弃置+ff-only·10-17 12:4x 判例同法）+步8 cron 自检+回访探针+锁 touch 收口。
