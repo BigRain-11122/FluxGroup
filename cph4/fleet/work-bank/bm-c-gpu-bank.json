@@ -785,7 +785,7 @@
   },
   {
    "id": "s527-4k-grain-ab",
-   "status": "claimed",
+   "status": "done",
    "priority": 27,
    "auth": "r1017 sec-5 row-1 pre-condition 2 open band: grain 0.05-0.1; C2119 produced 0.07 and passed the 4K monitor recheck, director may still want the band endpoints",
    "require": {
@@ -811,7 +811,35 @@
    "note": "Grain band A/B from the already-upscaled 4K plates (zero re-burn): two grids x grain 0.05 / 0.10 + a 2x2 compare board, so the director picks the band endpoint for the adopted six grids. PASS gate = GRAIN-AB-END ok=4 in log tail + 4 PNG + board >= 100KB. Harvest = next round: board read + grain decision line into r1017 sec-5 row-1.",
    "prestow_ts": "2026-10-20T04:01:00",
    "prestow_note": "C2119 pre-stow right after the six-grid 4K leg landed (bank law: never empty).",
-   "claimed_ts": "2026-10-20T04:00:59"
+   "claimed_ts": "2026-10-20T04:00:59",
+   "done_ts": "2026-10-20T04:40:44",
+   "claimed_by": "tick-C2120-idleguard",
+   "done_note": "GRAIN-AB-END ok=4 + board 223408B; multimodal read = 0.10 is closer to 2000s Taiwan film (0.05 dark areas read slightly digital). Endpoint adopted and the six grids re-burned clean at 0.10 (xq-S527-4K-GRAIN010-RECEIPT-c2120.json, 6x 3840x2194, 15.1-15.8MB, s20193/s20202 byte-identical to the A/B endpoint plates = deterministic). Monitor recheck: star_retention 1.27-3.50 vs source (no faint-star loss), corner_dark 0.995-0.9998."
+  },
+  {
+   "id": "s527-grain-007-vs-010",
+   "status": "claimed",
+   "priority": 28,
+   "auth": "r1017 sec-5 row-1 endpoint pick support: director needs the 1:1 delta before ratifying 0.10",
+   "require": {
+    "files_at_least": [
+     [
+      "media/MV/mv0001/xingqing/s7r-4k",
+      "_4k_grain010.png",
+      6
+     ]
+    ]
+   },
+   "cmd": [
+    "D:\\ComfyUI\\python_embeded\\python.exe",
+    "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\idle-guard-kit\\s527_grain_delta_c2121.py"
+   ],
+   "log_out": "media/mv-album-001-jay/log-s527-graindelta.out.txt",
+   "log_err": "media/mv-album-001-jay/log-s527-graindelta.err.txt",
+   "note": "Side-by-side 1:1 of grain 0.07 vs 0.10 for the six grids + measured high-frequency sigma per level. PASS gate = GRAIN-DELTA-END ok=6 in log tail + board >= 300KB. Reads plates already on disk; zero re-burn.",
+   "prestow_ts": "2026-10-20T04:40:44",
+   "prestow_note": "C2120 pre-stow after adopting the 0.10 endpoint (bank law: never empty).",
+   "claimed_ts": "2026-10-20T04:40:59"
   }
  ]
 }
