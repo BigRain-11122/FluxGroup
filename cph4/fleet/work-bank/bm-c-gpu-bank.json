@@ -432,26 +432,82 @@
    "done_note": "HARVEST PASS by tick-C2087 in-round: PASS gate 4/4 (ALBUM LANE DONE ok=3 fail=0 in log tail + 3 mp4 2862293/4233635/562446B all >=100KB + progress-bmcpackAredo.jsonl ok x3 + ffprobe -count_frames decode-clean 243/328/141f @1344x768 24fps, S3-20 decode-integrity gate GREEN); QC strips board qc-split/xq-redo-r1-QC-STRIPS-c2087.jpg (9-frame, 3x3) adjudication 3/3 PASS: S2-14 exactly-2-people zero-third zero-pseudotext; S3-20 twin-silhouette coherent zero-confetti dusk-clean; S4-22 guitar coherent closed-mouth stable-camera natural-fingerpick. Next slice = KF-reroll3 leg author+pre-stow bank p15 (F5-33a/S4-24/S3-19 per X2670 sec-3, spec on disk per C2086)"
   },
   {
-    "id": "xq-redo-kf-reroll3",
-    "status": "pending",
-    "priority": 15,
-    "auth": "X2670 redo order sec-3.1 KF-reroll leg (KF-sick units F5-33a/S4-24/S3-19, layer verdicts C2083 native recheck), C2088 author+pre-stow (pre-stow law O-20261018-2236); spec on disk per C2086",
-    "require": {
-      "files_at_least": [
-        ["media/MV/mv0001/xingqing/abatch", "F5-33a_s20234.png", 1],
-        ["media/MV/mv0001/xingqing/abatch", "S3-19_s20143.png", 1],
-        ["media/MV/mv0001/xingqing/t1r1hd", "S4-24_s21037.png", 1]
-      ]
-    },
-    "cmd": [
-      "D:\\ComfyUI\\python_embeded\\python.exe",
-      "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\idle-guard-kit\\xq_redo_kfreroll3_c2088.py"
-    ],
-    "log_out": "media/mv-album-001-jay/log-kfreroll3.out.txt",
-    "log_err": "media/mv-album-001-jay/log-kfreroll3.err.txt",
-    "note": "3 units x 2 candidates x (672x384 draft + 1344x768 full) per X2670 sec-3.1 trial-composition law; retry budget sec-3.4 = 2 burns/unit == 2 candidates. Seeds: id-MD5 family XQ_<unit>-redo-r1-kf1/kf2 (renewal law, collision-asserted vs orig pool). Prompt surgery: F5-33a + blank age-worn label clause (aligns passed F5-33b); S4-24 handwritten-strokes clause -> soft plain out-of-focus label (A-draft anchor slot); S3-19 unchanged. DRY gate verified C2088 (lint 3/3 zero-hit). PASS gate = KF-REROLL-END ok=6 in log tail + 6 full PNGs >=50KB in media/MV/mv0001/xingqing/kfreroll-r1 + progress json + comparison board xq-KFREROLL3-BOARD-c2088.jpg. Harvest = next round: native 3-piece review per unit (pseudo-text/third-person/degeneration checks + F5-33a vs F5-33b frame consistency) -> pick winner per unit -> then i2v leg pre-stow (F5-33a zero-change / S4-24 A-draft 58w / S3-19 zero-change 72w FIX, first_frame = winning full).",
-    "prestow_ts": "2026-10-19T19:40:00",
-    "prestow_note": "C2088 tick authoring; bank was 15/15 done zero pending (empty-bank violation exposure) -> prestow immediately, guard <=10min auto-claim."
+   "id": "xq-redo-kf-reroll3",
+   "status": "done",
+   "priority": 15,
+   "auth": "X2670 redo order sec-3.1 KF-reroll leg (KF-sick units F5-33a/S4-24/S3-19, layer verdicts C2083 native recheck), C2088 author+pre-stow (pre-stow law O-20261018-2236); spec on disk per C2086",
+   "require": {
+    "files_at_least": [
+     [
+      "media/MV/mv0001/xingqing/abatch",
+      "F5-33a_s20234.png",
+      1
+     ],
+     [
+      "media/MV/mv0001/xingqing/abatch",
+      "S3-19_s20143.png",
+      1
+     ],
+     [
+      "media/MV/mv0001/xingqing/t1r1hd",
+      "S4-24_s21037.png",
+      1
+     ]
+    ]
+   },
+   "cmd": [
+    "D:\\ComfyUI\\python_embeded\\python.exe",
+    "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\idle-guard-kit\\xq_redo_kfreroll3_c2088.py"
+   ],
+   "log_out": "media/mv-album-001-jay/log-kfreroll3.out.txt",
+   "log_err": "media/mv-album-001-jay/log-kfreroll3.err.txt",
+   "note": "3 units x 2 candidates x (672x384 draft + 1344x768 full) per X2670 sec-3.1 trial-composition law; retry budget sec-3.4 = 2 burns/unit == 2 candidates. Seeds: id-MD5 family XQ_<unit>-redo-r1-kf1/kf2 (renewal law, collision-asserted vs orig pool). Prompt surgery: F5-33a + blank age-worn label clause (aligns passed F5-33b); S4-24 handwritten-strokes clause -> soft plain out-of-focus label (A-draft anchor slot); S3-19 unchanged. DRY gate verified C2088 (lint 3/3 zero-hit). PASS gate = KF-REROLL-END ok=6 in log tail + 6 full PNGs >=50KB in media/MV/mv0001/xingqing/kfreroll-r1 + progress json + comparison board xq-KFREROLL3-BOARD-c2088.jpg. Harvest = next round: native 3-piece review per unit (pseudo-text/third-person/degeneration checks + F5-33a vs F5-33b frame consistency) -> pick winner per unit -> then i2v leg pre-stow (F5-33a zero-change / S4-24 A-draft 58w / S3-19 zero-change 72w FIX, first_frame = winning full).",
+   "prestow_ts": "2026-10-19T19:40:00",
+   "prestow_note": "C2088 tick authoring; bank was 15/15 done zero pending (empty-bank violation exposure) -> prestow immediately, guard <=10min auto-claim.",
+   "claimed_ts": "2026-10-19T19:40:59",
+   "done_ts": "2026-10-19T20:25:57",
+   "done_note": "HARVEST PASS by tick-C2089: PASS gate 4/4 (KF-REROLL-END ok=6/6 fails=none in log tail + 6 full PNGs 578082-1128878B all >=50KB in kfreroll-r1 + progress json + board xq-KFREROLL3-BOARD-c2088.jpg 211282B). Native adjudication 3/3 winners: F5-33a=kf2 s897596 (5/5: blank age-worn label, zero text, zero mirrored gibberish, zero orange-sticker elements = defect-signature class avoided, clear-shell consistent with passed F5-33b); S4-24=kf1 s361394 (5/5: label blank soft, zero readable text, zero micro-print, zero pseudo logo, fingers natural, geometry plausible); S3-19=kf2 s979448 (order sec-4 gate 3/3: dusk sky discernible + single arm single pointing finger + zero smear/confetti/tiling; kf1 s602988 disqualified by second ambiguous limb mass lower-left; honest note: star sits mid-frame, gate carries no star-position item, finger sightline leads toward it). Retry budget 2/2 per unit consumed, all 3 units resolved within budget - no escalation to director seat needed. Next slice = i2v leg prestowed p16 xq-redo-i2v3 (F5-33a zero-change 51w / S4-24 draft-A 58w / S3-19 zero-change 72w FIX, first_frame = winners)."
+  },
+  {
+   "id": "xq-redo-i2v3",
+   "status": "claimed",
+   "priority": 16,
+   "auth": "X2670 redo order sec-2/sec-3.1 i2v leg (3 KF-reroll winners F5-33a/S4-24/S3-19), C2089 pre-stow (pre-stow law O-20261018-2236); winner evidence = C2089 native single-frame reads + board xq-KFREROLL3-BOARD-c2088.jpg",
+   "require": {
+    "files_at_least": [
+     [
+      "media/MV/mv0001/xingqing/kfreroll-r1",
+      "F5-33a_s897596.png",
+      1
+     ],
+     [
+      "media/MV/mv0001/xingqing/kfreroll-r1",
+      "S4-24_s361394.png",
+      1
+     ],
+     [
+      "media/MV/mv0001/xingqing/kfreroll-r1",
+      "S3-19_s979448.png",
+      1
+     ]
+    ]
+   },
+   "cmd": [
+    "D:\\ComfyUI\\python_embeded\\python.exe",
+    "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\mv-album-001-jay\\local-i2v\\h3_i2v_album.py",
+    "--repo",
+    "K:\\Fluxgroup\\FluxGroup",
+    "--lane",
+    "bmcpackAredo",
+    "--manifest",
+    "cph4/fleet/mv-album-001-jay/local-i2v/run-bmc-redo-r1-i2v3.json",
+    "--only",
+    "XQ_F5-33a-redo-r1,XQ_S4-24-redo-r1,XQ_S3-19-redo-r1"
+   ],
+   "log_out": "media/mv-album-001-jay/log-redo-i2v3.out.txt",
+   "log_err": "media/mv-album-001-jay/log-redo-i2v3.err.txt",
+   "note": "Winners per C2089 native adjudication -> i2v leg: F5-33a zero-change 51w (original verbatim, clean of label mention) + S4-24 draft A 58w verbatim (strokes-clause hotbed removed) + S3-19 zero-change 72w FIX draft; first_frame = winning full KFs (F5-33a_s897596 / S4-24_s361394 / S3-19_s979448); lane bmcpackAredo out clips-packA-redo-r1; seed renewal = -redo-r1 id-MD5 family (distinct from orig units and kf1/kf2 families). PASS gate = ALBUM LANE DONE ok=3 fail=0 in log tail + 3 mp4 >=100KB in media/mv-album-001-jay/clips-packA-redo-r1/ + progress-bmcpackAredo.jsonl ok x3 + ffprobe -count_frames decode-clean (S3-19 mandatory per order sec-3.3, others recommended). Harvest next round: qc strips 3 units + X2670 sec-4 gates per unit (F5-33a zero-pseudo-text + self-stop held / S4-24 three-frame subject hold + zero readable label / S3-19 decode-integrity + sky + single arm) -> director re-review -> assembly unlock face (X2670 sec-6: PACK-A 31/31 green + S5-27 return).",
+   "claimed_ts": "2026-10-19T20:25:59"
   }
  ]
 }

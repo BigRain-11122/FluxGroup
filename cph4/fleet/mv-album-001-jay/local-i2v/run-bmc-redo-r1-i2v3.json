@@ -1,0 +1,45 @@
+{
+ "policy": "X2670 REDO ORDER r1 i2v leg for 3 KF-reroll winners: F5-33a/S4-24/S3-19 per C2089 native adjudication. Seed renewal = -redo-r1 id family (id-MD5 derivation, same-unit-same-seed ban; ids distinct from orig XQ_* units and from kf1/kf2 reroll families). Wordage: F5-33a zero-change (original verbatim, was clean of label mention); S4-24 draft A 58w per order sec-2 verbatim (label-softening anchor); S3-19 zero-change 72w FIX draft (direct-burn-original ban preserved). first_frame = winning full KF per unit.",
+ "gate": "xq-PACKA-REDO-ORDER-20261019.md (X2670) sec-2/sec-3/sec-4; winner evidence: xq-KFREROLL3-BOARD-c2088.jpg initial screen + C2089 native single-frame reads (adjudication law v2: native resolution for verdict-class checks)",
+ "total": 3,
+ "units": [
+  {
+   "id": "XQ_F5-33a-redo-r1",
+   "track": "XQ",
+   "win_s": 4.0,
+   "speed": 0.9,
+   "src_s": 4.4,
+   "policy_band": "5s",
+   "frame": "media/MV/mv0001/xingqing/kfreroll-r1/F5-33a_s897596.png",
+   "i2v_prompt": "Extreme close-up. The cassette reels turn their last slow rotations and ease to a full stop, the tape settling into its window, the small counter wheel following them down to rest. Dust motes cross the slanted window light. The camera holds still. Preserve the film grain and the original color palette.",
+   "note": "winner=kf2 s897596 (native 5/5: blank age-worn label zero text zero mirrored gibberish, zero orange-sticker elements = original defect-signature class avoided, clear-shell read consistent with passed F5-33b); wordage zero-change per order sec-2 row1; seed renewal=-redo-r1 id family"
+  },
+  {
+   "id": "XQ_S4-24-redo-r1",
+   "track": "XQ",
+   "win_s": 4.82,
+   "speed": 0.9,
+   "src_s": 5.4,
+   "policy_band": "5s",
+   "frame": "media/MV/mv0001/xingqing/kfreroll-r1/S4-24_s361394.png",
+   "i2v_prompt": "Locked-off tripod close-up. The fingers turn the cassette over in one smooth motion, the shell staying centered in the warm lamplight through the whole turn, its small paper label soft, plain and out of focus throughout. A gentle dust drift crosses the light around it. The camera holds still. Preserve the film grain and the original color palette.",
+   "note": "winner=kf1 s361394 (native 5/5: blank label zero readable text zero micro-print zero pseudo logo, fingers natural, cassette geometry plausible); wordage=X2670 draft A 58w verbatim (strokes-clause hotbed removed, label-softening anchor); seed renewal=-redo-r1 id family"
+  },
+  {
+   "id": "XQ_S3-19-redo-r1",
+   "track": "XQ",
+   "win_s": 10.0,
+   "speed": 0.9,
+   "src_s": 11.1,
+   "policy_band": "8-15s",
+   "frame": "media/MV/mv0001/xingqing/kfreroll-r1/S3-19_s979448.png",
+   "i2v_prompt": "Wide shot of the dusk sky. The raised arm holds its silhouette against the darkening sky, the single index finger tracing slowly toward the first bright star low on the horizon. The gold horizon line dims by degrees. The star holds its point with a gentle twinkle. The camera tilts up in one slow unbroken ascent, easing in and settling on the star. Preserve the film grain and the original color palette.",
+   "note": "winner=kf2 s979448 (order sec-4 gate 3/3: dusk sky discernible + single raised arm single pointing finger held + zero smear/confetti/tiling degeneration; kf1 s602988 disqualified by second ambiguous limb mass at lower-left = single-arm violation; star sits mid-frame with finger sightline leading toward it - gate has no star-position item, honest note for director re-review); wordage zero-change 72w FIX draft (direct-burn-original ban preserved); seed renewal=-redo-r1 id family"
+  }
+ ],
+ "self_check": {
+  "lint_words": {"XQ_F5-33a-redo-r1": 51, "XQ_S4-24-redo-r1": 58, "XQ_S3-19-redo-r1": 72},
+  "negation_free": true,
+  "preserve_clause_official": true
+ }
+}
