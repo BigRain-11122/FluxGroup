@@ -5,7 +5,7 @@
 > 候选：18 件入五门评估（名称/源=clawhub.ai 各技能页/许可/契合点全录=CLAWHUB-ADOPTION-LEDGER.md）。
 > 采用→落点：**5 件全五门过入册**（llmxray-diagnose-ollama-calls 0.8.6／llama-params-optimizer 3.1.0／fleet-doctrine 1.2.0／model-routing 1.0.1／github-repo-ops 1.0.0——全 MIT-0·全 clean/benign·双门=verify+install 审计）→落点三面=①cph4/skills/ 五目录入册（agent-library-sync 跨机分发面）②管家工作区 ClawHub 正门安装（侧载通道实证）③评估档正身=cph4/skills/CLAWHUB-ADOPTION-LEDGER.md。
 > parked+理由：5 件（1×同域重复=model-routing-orchestrator；4×许可空白=smart-model-routing-for-zai/windows/ollama-local/rss-feed-digest——未验明不用）＋安全门否决 8 件（CRITICAL 97/HIGH 62/HIGH 51 各一+suspicious 五件——26% 带病先例当日实证）＋反重复整域否决 4 域（git/rss/quant/video 撞自有超配面）。
-> 下窗指针：Phase 3 验收待办=管家 allowlist 扩窗评估（现役仅 fleet-ops·夜窗 35B 时段可评估加装 fleet-doctrine/model-routing）＋`openclaw skills update` 节律挂周审。
+> 下窗指针：Phase 3 验收待办=管家 allowlist 扩窗评估（现役仅 fleet-ops·夜窗 35B 时段可评估加装 fleet-doctrine/model-routing）＋`openclaw skills update` 节律挂周审＋**ClawHub 热门技能月扫切片**（承竞品深研 R-20261019-work-assistant-landscape §四：技能市场运营=亿级产品标配面·月扫热门新技能入五门流水）。
 
 ## 结论应用表（research-protocol 强制）
 
