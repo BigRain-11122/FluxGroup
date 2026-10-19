@@ -594,6 +594,40 @@
    "claimed_ts": "2026-10-20T02:16:00",
    "done_ts": "2026-10-20T02:20:45",
    "done_note": "HARVEST DONE at C2108 02:02-02:06 (6 PNGs + compare_receipt.json + board 196415B + compare_verdict.json blind read Krea2 wins ~2.5/3). Bank flip MISSED by that harvest -> IdleGuard refired duplicate at 02:16:00 (claim churn, ~7min GPU reburn, qwen_sky/krea_sky PNG overwritten post-receipt). C2109 M5 audit: flipped to done + stopped duplicate runner; board (02:02:09) remains the blind-read evidence; verdict unchanged."
+  },
+  {
+   "id": "packA-s527-i2v",
+   "status": "done",
+   "priority": 21,
+   "auth": "S5-27 KF reshake i2v leg (bm-a director ruling r1061 sec-3.3, receipt xq-S527-RESHAKE-RECEIPT-c2099 sec-1/3); star three-beat S5-26->S5-27->S5-28 completion = X2670 sec-6 assembly unlock prerequisite; C2110 pre-stow (bank emptied by qwen21-vs-krea2-cmp harvest C2108)",
+   "require": {
+    "files_at_least": [
+     [
+      "media/MV/mv0001/xingqing/abatch_s7r",
+      "S5-27-shake-s20210_s7rC.png",
+      1
+     ]
+    ]
+   },
+   "cmd": [
+    "D:\\ComfyUI\\python_embeded\\python.exe",
+    "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\mv-album-001-jay\\local-i2v\\h3_i2v_album.py",
+    "--repo",
+    "K:\\Fluxgroup\\FluxGroup",
+    "--lane",
+    "bmcpackA",
+    "--manifest",
+    "cph4/fleet/mv-album-001-jay/local-i2v/run-bmc-packA-i2v-s527.json",
+    "--only",
+    "XQ_S5-27"
+   ],
+   "log_out": "media/mv-album-001-jay/log-s527-i2v.out.txt",
+   "log_err": "media/mv-album-001-jay/log-s527-i2v.err.txt",
+   "note": "Single unit XQ_S5-27 1.5s src1.7s speed0.9, word face ZERO CHANGE (B4 60w holds), first_frame = reshake final s7rC. Out dir clips-packA-768 (fills the missing 31st unit slot). PASS gate = ALBUM LANE DONE lane=bmcpackA ok=1 fail=0 in log tail + clips-packA-768/XQ_S5-27.mp4 >=100KB + progress-bmcpackA.jsonl ok row + ffprobe -count_frames decode-clean. Harvest = next round: 3-frame strip QC (star three-beat continuity vs S5-26/S5-28) + assembly unlock evidence pack -> bm-a director review + S5-27 reshake counter-sign.",
+   "prestow_ts": "2026-10-20T02:35:00",
+   "claimed_ts": "2026-10-20T02:30:00",
+   "done_ts": "2026-10-20 02:37:03",
+   "done_note": "HARVEST PASS by tick-C2110: PASS gate 4/4 (ALBUM LANE DONE lane=bmcpackA ok=1 fail=0 in log-s527-i2v.out tail + clips-packA-768/XQ_S5-27.mp4 277,024B >=100KB + progress-bmcpackA.jsonl ok row secs=240.2 length=56 seed=324694 + ffprobe -count_frames decode-clean 56f @1344x768 24fps exit0). QC board xq-s527-3beat-QC-c2110.jpg (1704x1050, 202,448B, 3 units x first/mid/last) adjudication 3/3 PASS: S5-26 star field breathes (no black/dup frame), S5-27 constellation holds with cloud drift-in and star-line span steady (zero jitter/break, no pseudo-text, no figure), S5-28 milky-way fade-in with stable linking lines; three rows share one star world (deep-blue night + four-point star bloom + thin link lines). Advisory two items logged, not blockers: (a) S5-27 cloud language is low-altitude cumulus vs high-altitude dust in S5-26/28 (altitude/camera explicable, art confirm optional); (b) S5-26 tail green cast gradient is a pre-existing unit, unrelated to this burn. Star three-beat S5-26 -> S5-27 -> S5-28 complete on disk = X2670 sec-6 assembly unlock prerequisite satisfied on the execution seat; remaining = bm-a director re-review on v2 board + S5-27 reshake counter-sign."
   }
  ]
 }
