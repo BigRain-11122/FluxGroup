@@ -26,6 +26,407 @@
    "claimed_by": "tick-C2059-manual-deblock-guard-selfmatch-fixed",
    "done_ts": "2026-10-19T00:42:53",
    "done_note": "STRIPS DONE 31 clips board 2657014B zero-err by tick-C2059"
+  },
+  {
+   "id": "musepose-deps-install",
+   "status": "done",
+   "priority": 2,
+   "auth": "PLAYBOOK night-window MusePose contrast leg + night3 receipt sec3-4 (POOL-0016 tail), C2062 prefix",
+   "require": {
+    "files_at_least": [
+     [
+      "media/musepose",
+      ".py",
+      8
+     ]
+    ]
+   },
+   "cmd": [
+    "D:\\ComfyUI\\python_embeded\\python.exe",
+    "-m",
+    "pip",
+    "install",
+    "--target",
+    "K:\\Fluxgroup\\FluxGroup\\media\\pylibs_musepose",
+    "--no-deps",
+    "--upgrade",
+    "diffusers==0.27.2",
+    "omegaconf==2.2.3",
+    "antlr4-python3-runtime==4.9.3",
+    "accelerate==0.29.3",
+    "moviepy==1.0.3",
+    "proglog==0.1.10",
+    "decorator==4.4.2",
+    "-i",
+    "https://pypi.tuna.tsinghua.edu.cn/simple"
+   ],
+   "log_out": "media/musepose-deploy/log-deps.out.txt",
+   "log_err": "media/musepose-deploy/log-deps.err.txt",
+   "note": "C2063 re-triage for embedded py3.13.14/torch2.13.0+cu130/numpy2.5.2 stack: first fire 04:36 died - torchsde0.2.5 invalid metadata (pip>=24.1 reject) AND av11.0.0 no-cp313-wheel source-build Cython fail AND old opencv/skimage pins py313-incompatible. Fix = --no-deps minimal pure-py inference set (7 pkgs, zero C builds, zero torch/tokenizers pulls); base env provides torch/numpy/transformers/opencv/einops/imageio/skimage/torchsde0.2.6/safetensors/hub per mimic r1058 shim law. Import gaps (e.g. transformers5.15 API drift) = trial-leg ImportError patch list.",
+   "claimed_ts": "2026-10-19T05:35:59",
+   "done_ts": "2026-10-19T06:34:47",
+   "done_note": "pip SUCCESS 7/7 pure-py set per log-deps.out tail 'Successfully installed accelerate-0.29.3 antlr4-python3-runtime-4.9.3 decorator-4.4.2 diffusers-0.27.2 moviepy-1.0.3 omegaconf-2.2.3 proglog-0.1.10'; log-deps.err empty; pylibs_musepose dist-info=7 by tick-C2064"
+  },
+  {
+   "id": "musepose-weights-dl",
+   "status": "done",
+   "priority": 3,
+   "auth": "POOL-0016 night3 MusePose contrast leg, C2064 pre-stow (pre-stow law O-20261018-2236)",
+   "require": {
+    "files_at_least": [
+     [
+      "media/pylibs_musepose",
+      ".dist-info",
+      7
+     ]
+    ]
+   },
+   "cmd": [
+    "D:\\ComfyUI\\python_embeded\\python.exe",
+    "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\idle-guard-kit\\musepose_weights_dl.py"
+   ],
+   "log_out": "media/musepose-deploy/log-weights.out.txt",
+   "log_err": "media/musepose-deploy/log-weights.err.txt",
+   "note": "9 weights (yolox openmmlab direct + 8 hf-mirror mapped) + 3 config jsons; Range-resume 5-retry backoff (HEAD probe 429 observed); per-file min-size gate; yolox renamed to yolox_l_8x8_300e_coco.pth; verdict media/musepose-deploy/weights_verdict.json + WEIGHTS-VERDICT final line",
+   "claimed_ts": "2026-10-19T06:35:59",
+   "done_ts": "2026-10-19T07:42:48",
+   "done_note": "PARTIAL 7/12 by tick-C2065 harvest: 7 ok (dwpose 2 + MusePose 4 + sd-vae bin); 5 fail = lambdalabs main-branch-empty 404 + stabilityai config 403-UA; verdict weights_verdict.json ts 06:53:09"
+  },
+  {
+   "id": "musepose-import-smoke",
+   "status": "done",
+   "priority": 4,
+   "auth": "POOL-0016 night3 trial prefix (C2063 next-chain import grep face), C2064 pre-stow",
+   "require": {
+    "files_at_least": [
+     [
+      "media/pylibs_musepose",
+      ".dist-info",
+      7
+     ]
+    ]
+   },
+   "cmd": [
+    "D:\\ComfyUI\\python_embeded\\python.exe",
+    "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\idle-guard-kit\\musepose_import_smoke.py"
+   ],
+   "log_out": "media/musepose-deploy/log-smoke.out.txt",
+   "log_err": "media/musepose-deploy/log-smoke.err.txt",
+   "note": "CPU-only import probes: base-env + pylibs overlay + musepose models/pipelines/utils + CLIPVisionModelWithProjection + omegaconf config parse; av/decord reported as expected GAP; verdict media/musepose-deploy/import_smoke_verdict.json feeds trial-runner ImportError patch list",
+   "claimed_ts": "2026-10-19T07:05:59",
+   "done_ts": "2026-10-19T07:42:48",
+   "done_note": "PATCH-LIST hard=5 gaps=1 by tick-C2065 harvest: single root cause huggingface_hub new no cached_download vs diffusers 0.27.2 (4 musepose modules chained); decord expected GAP -> av shim; verdict import_smoke_verdict.json ts 07:06:12"
+  },
+  {
+   "id": "musepose-weights-dl2",
+   "status": "done",
+   "priority": 3,
+   "auth": "POOL-0016 night3 straggler leg, C2065 pre-stow (pre-stow law O-20261018-2236)",
+   "require": {
+    "files_at_least": [
+     [
+      "media/musepose-deploy",
+      "weights_verdict.json",
+      1
+     ]
+    ]
+   },
+   "cmd": [
+    "D:\\ComfyUI\\python_embeded\\python.exe",
+    "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\idle-guard-kit\\musepose_weights_dl2.py"
+   ],
+   "log_out": "media/musepose-deploy/log-weights2.out.txt",
+   "log_err": "media/musepose-deploy/log-weights2.err.txt",
+   "note": "5 stragglers: lambdalabs main branch ships README only (hf-mirror API tree probe C2065 probe4) -> camenduru/MusePose mirror tree-verified + ModelScope stabilityai sd-vae-ft-mse config primary; UA header law (hf-mirror 403 face was UA-related); verdict merge into weights_verdict.json",
+   "claimed_ts": "2026-10-19T07:45:59",
+   "done_ts": "2026-10-19T08:47:00",
+   "done_note": "OK 12/12 merged by tick-C2066 harvest: WEIGHTS-VERDICT2 OK 12/12 missing=none (log-weights2.out tail); 5 stragglers landed = unet bin 3438354725B + image_encoder 1215993967B + 3 config jsons; verdict weights_verdict.json merged ts 07:47:49"
+  },
+  {
+   "id": "musepose-trial",
+   "status": "done",
+   "priority": 5,
+   "auth": "POOL-0016 night3 MusePose contrast leg trial, C2066 pre-stow (pre-stow law O-20261018-2236); import chain proven by verify_phase 08:46:01",
+   "require": {
+    "files_at_least": [
+     [
+      "media/musepose/pretrained_weights/MusePose",
+      ".pth",
+      4
+     ],
+     [
+      "media/musepose/pretrained_weights/dwpose",
+      ".pth",
+      2
+     ]
+    ]
+   },
+   "cmd": [
+    "D:\\ComfyUI\\python_embeded\\python.exe",
+    "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\idle-guard-kit\\musepose_trial_c2066.py"
+   ],
+   "log_out": "media/musepose-deploy/log-trial.out.txt",
+   "log_err": "media/musepose-deploy/log-trial.err.txt",
+   "note": "Smoke trial: pose leg (mimic onnx DWPose detector + musepose draw_pose renderer, demo dance.mp4 24f stride3 fps12) then tier ladder 384x640/L24 -> 256x448/L16, steps 6, cfg 3.5, seed 42. Verdict media/musepose-deploy/musepose_trial_verdict.json + TRIAL-RESULT.txt + TRIAL-END log sentinel. torch.load weights_only=False wrapper + hub cached_download stub; VRAM wait <=20min free>=9GB.",
+   "claimed_ts": "2026-10-19T09:58:04",
+   "claimed_by": "tick-C2067-manual-refire3-yaml-single-quote",
+   "done_ts": "2026-10-19T10:04:08",
+   "done_note": "PASS tier=1 (384x640 L24 steps6) rc=0 wall=179.2s peak_vram=14212MB by tick-C2067 in-round harvest; verdict musepose_trial_verdict.json + TRIAL-RESULT.txt + bmc_musepose_trial_c2066.json on disk"
+  },
+  {
+   "id": "musepose-trial-72f",
+   "status": "done",
+   "priority": 6,
+   "auth": "POOL-0016 night3 winner-tool 72f long-clip leg, C2070 pre-stow (pre-stow law O-20261018-2236); pipeline_pose2vid_long chunked inference, stride-1 pose leg 72 frames, feeds R-stack reference-library bottleneck",
+   "require": {
+    "files_at_least": [
+     [
+      "media/musepose/pretrained_weights/MusePose",
+      ".pth",
+      4
+     ],
+     [
+      "media/musepose/pretrained_weights/dwpose",
+      ".pth",
+      2
+     ]
+    ]
+   },
+   "cmd": [
+    "D:\\ComfyUI\\python_embeded\\python.exe",
+    "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\idle-guard-kit\\musepose_trial72_c2070.py"
+   ],
+   "log_out": "media/musepose-deploy/log-trial72.out.txt",
+   "log_err": "media/musepose-deploy/log-trial72.err.txt",
+   "note": "72f stride1 pose leg + tier ladder L24 S24 O4 / L16 S16 O4 via long pipeline chunking; PASS gate = rc0 + mp4>=100KB + decoded_frames>=60 (C2070 gate upgrade); 60-min cap per tier; verdict musepose_trial72_verdict.json + TRIAL-RESULT.txt + TRIAL-END sentinel; harvest = next round",
+   "claimed_ts": "2026-10-19T11:14:18",
+   "claimed_by": "tick-C2070-prestow-fire-72f",
+   "done_ts": "2026-10-19T11:23:33",
+   "done_note": "72f trial executed+adjudicated by tick-C2070 in-round (C2067 precedent): TIER-0 rc=0 90s peak 13373MB out=1116-3.5--/ref_pose_dance_c2070_3.5_6_0__.mp4 1233218B; TIER-1 rc=0 80s peak 8778MB out=1117-3.5--/ 1007571B; in-run av decoded=-1 (known probe face); FFPROPE AUTHORITY: T0=24f@2.0s 2312x1368, T1=16f@1.33s, c2066 ref=24f -> -L=TOTAL-LENGTH semantics CONFIRMED, pipeline_pose2vid_long does NOT auto-extend over 72f pose; verdict FAIL honest (no 72f clip produced); next slice = segment-stitch runner (3xL24 --skip 0/24/48 + concat) or -L72 single-window attempt (VRAM tight ~18.6GB est at 256x448) - authoring next round"
+  },
+  {
+   "id": "musepose-stitch72",
+   "status": "done",
+   "priority": 7,
+   "auth": "POOL-0016 night3 winner-tool 72f segment-stitch leg, C2071 authoring+pre-stow (pre-stow law O-20261018-2236); the slice prescribed by musepose-trial-72f done_note (C2070 verdict pointer)",
+   "require": {
+    "files_at_least": [
+     [
+      "media/musepose/pretrained_weights/MusePose",
+      ".pth",
+      4
+     ],
+     [
+      "media/musepose/pretrained_weights/dwpose",
+      ".pth",
+      2
+     ]
+    ]
+   },
+   "cmd": [
+    "D:\\ComfyUI\\python_embeded\\python.exe",
+    "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\idle-guard-kit\\musepose_stitch72_c2071.py"
+   ],
+   "log_out": "media/musepose-deploy/log-stitch72.out.txt",
+   "log_err": "media/musepose-deploy/log-stitch72.err.txt",
+   "note": "v2 re-arm (C2073 12:53): 12:39 FAIL post-mortem -- test_stage_2.py --skip is a frame STRIDE, not a window start offset (skip=24 -> pose_images[::25] -> L=24//25=0 -> empty pose_list -> IndexError, both WIN-1/2 deaths; WIN-0 skip=0 was legal by accident). FIX-1 = 3 pre-cut 24f pose segments (ffmpeg select between(n,A,B) re-encode; live-proofed 12:53: 3 segs x 24f x w768, 70-86KB) + --skip 0 per window (proven WIN-0 path, zero upstream surgery). FIX-2 = discovery drops __.mp4 3-row comparison boards (old max-size pick took the board: WIN-0 picked 1233218B 2312px board vs 958434B 768x1364 clean result) + picked-width assert == pose 768. Runner fixed in place (fix_tag c2073-segcut-cleanpick-v2, py_compile green), cmd path unchanged. Fire = BmcIdleGuard channel (survives CLI session death). PASS gate unchanged: 3 windows rc0+mp4>=100KB AND stitched mp4>=100KB+frames>=60. Harvest = next round (wave-harvest-pending.json armed).",
+   "claimed_ts": "2026-10-19T12:55:59",
+   "done_ts": "2026-10-19T13:18:39",
+   "done_note": "STITCH72 PASS 3win rc0 wall 95.7/70.6/70.6s peak 13.4GB zero-OOM, stitched 72f 2779274B (ffprobe authority); verdict musepose_stitch72_verdict.json + TRIAL-RESULT PASS frames=72; POOL-0016 night3 72f reverify CLOSED -> MusePose upgraded direct-use (R-stack L24 + EL J-31 clause + receipt bmc/musepose_stitch72_c2074) by tick-C2074"
+  },
+  {
+   "id": "latentsync-deploy",
+   "status": "done",
+   "priority": 8,
+   "auth": "POOL-0016 night-1 lip-sync leg deploy prefix (three-piece final gap), C2074 pre-stow (pre-stow law O-20261018-2236)",
+   "require": {
+    "files_at_least": [
+     [
+      "media/latentsync",
+      "requirements.txt",
+      1
+     ]
+    ]
+   },
+   "cmd": [
+    "D:\\ComfyUI\\python_embeded\\python.exe",
+    "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\idle-guard-kit\\latentsync_deploy_c2074.py"
+   ],
+   "log_out": "media/latentsync-deploy/log-deploy.out.txt",
+   "log_err": "media/latentsync-deploy/log-deploy.err.txt",
+   "note": "Repo cloned in-round C2074 (gh-proxy direct, bytedance/LatentSync Apache-2.0 per R-stack). Requirements triage --no-deps per mimic r1058 shim law (torch-family/numpy/opencv/gradio excluded); py313-incompatible pins -> verdict fail-list face for C2063-style re-triage. Import probe writes hard_gaps patch list. Compliance flag: insightface face-detect = NC red line -> trial leg must swap FaceAlignment per EL J-30. VRAM tier v1.5 8GB (v1.6 18GB infeasible on 16G). Weights leg = next slice after deploy verdict. Harvest: read deploy_verdict.json + DEPLOY-END line.",
+   "claimed_ts": "2026-10-19T13:51:08",
+   "rearm_ts": "2026-10-19T13:46:11",
+   "rearm_note": "C2075: guard claim 13:21:00 crashed at open(log_out) -- log dir media/latentsync-deploy never pre-created by prestow -> dead-claimed state, guard saw bank EMPTY 4 cycles 13:25-13:40 (CEO 10min idle SLA violated ~27min). Guard root-fixed same round (makedirs + fire-fail rollback->pending); reverted to pending for guard refire.",
+   "done_ts": "2026-10-19T14:27:20",
+   "done_note": "PARTIAL by tick-C2076 harvest: pip 19/21 (mediapipe+insightface fail; insightface = NC red-line, FaceAlignment swap per EL J-30 anyway), probe_ok 12, hard_gaps=4 (transformers needs tokenizers>=0.21,<0.22; ffmpeg-python needs future pkg; accelerate ImportError; lipsync_pipeline chained tokenizers) -> trial-leg patch list into PYLIBS overlay (media/pylibs_latentsync, --target isolated, zero base-env pollution verified from deploy source); verdict deploy_verdict.json ts 13:56:40; next slice latentsync-weights-dl pre-stowed same round (p9)"
+  },
+  {
+   "id": "latentsync-weights-dl",
+   "status": "done",
+   "priority": 9,
+   "auth": "POOL-0016 night-1 weights leg (v1.5 8GB tier), C2076 pre-stow (pre-stow law O-20261018-2236); slice prescribed by latentsync-deploy verdict note",
+   "require": {
+    "files_at_least": [
+     [
+      "media/latentsync-deploy",
+      "deploy_verdict.json",
+      1
+     ]
+    ]
+   },
+   "cmd": [
+    "D:\\ComfyUI\\python_embeded\\python.exe",
+    "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\idle-guard-kit\\latentsync_weights_dl_c2076.py"
+   ],
+   "log_out": "media/latentsync-deploy/log-wdl.out.txt",
+   "log_err": "media/latentsync-deploy/log-wdl.err.txt",
+   "note": "Downloads unet v1.5 + syncnet v1.5 (hf-mirror, UA-header law) + whisper tiny.pt (azureedge primary, hf-mirror fallback); range-resume 5-retry backoff; min-size gates unet>=1GB syncnet>=100MB tiny>=140MB; verdict media/latentsync-deploy/weights_verdict.json + WEIGHTS-VERDICT sentinel; dest media/latentsync/checkpoints/. Harvest next round; then trial leg consumes hard_gaps patch list + FaceAlignment swap (J-30) + v1.5 config/branch reconcile.",
+   "claimed_ts": "2026-10-19T14:30:58",
+   "done_ts": "2026-10-19T15:08:28",
+   "done_note": "FAIL 0/3 by tick-C2077 harvest (fired 14:30:58, WEIGHTS-END 14:40:28): all 3 URLs 404 (repo guess bytedance/LatentSync + path guess latentsync_v1.5/* wrong + whisper azureedge hash typo). C2077 hf-mirror tree probe = ByteDance/LatentSync-1.5 real paths (latentsync_unet.pt root 5072348184B, whisper/tiny.pt 75572083B); re-armed as latentsync-weights-dl2 with probe-verified URLs + corrected min-gates."
+  },
+  {
+   "id": "latentsync-weights-dl2",
+   "status": "done",
+   "priority": 10,
+   "auth": "POOL-0016 night-1 weights leg v2, C2077 pre-stow (pre-stow law O-20261018-2236); slice prescribed by weights-dl FAIL verdict + C2077 tree probe",
+   "require": {
+    "files_at_least": [
+     [
+      "media/latentsync-deploy",
+      "deploy_verdict.json",
+      1
+     ]
+    ]
+   },
+   "cmd": [
+    "D:\\ComfyUI\\python_embeded\\python.exe",
+    "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\idle-guard-kit\\latentsync_weights_dl2_c2077.py"
+   ],
+   "log_out": "media/latentsync-deploy/log-wdl2.out.txt",
+   "log_err": "media/latentsync-deploy/log-wdl2.err.txt",
+   "note": "unet v1.5 5.07GB + whisper tiny 75.5MB (probe-verified ByteDance/LatentSync-1.5, hf-mirror, UA-header law) + face_alignment pre-seed 2DFAN4 96MB + s3fd 90MB into checkpoints/aux (J-30 insightface swap models, removes runtime dl risk in trial); range-resume 5-retry; min gates unet>=5e9 whisper>=7e7 fan>=9e7 sfd>=8e7; stable_syncnet.pt 1.6GB eval-only SKIPPED; verdict weights2_verdict.json + WEIGHTS2-END sentinel; ETA 60-80min, harvest next round.",
+   "claimed_ts": "2026-10-19T15:10:58",
+   "done_ts": "2026-10-19T16:34:40",
+   "done_note": "OK 4/4 by tick-C2082 harvest: unet v1.5 5072348184B + whisper tiny 75572083B + 2DFAN4 96316515B + sfd 89843225B all on disk; verdict weights2_verdict.json ts 16:14:39 status OK fail=[]; WEIGHTS2-END sentinel OK in log-wdl2.out; trial leg unblocked"
+  },
+  {
+   "id": "latentsync-pylibs-patch",
+   "status": "done",
+   "priority": 11,
+   "auth": "POOL-0016 night-1 trial prefix, C2077 pre-stow (pre-stow law O-20261018-2236); consumes deploy hard_gaps list",
+   "require": {
+    "files_at_least": [
+     [
+      "media/pylibs_latentsync",
+      ".dist-info",
+      19
+     ]
+    ]
+   },
+   "cmd": [
+    "D:\\ComfyUI\\python_embeded\\python.exe",
+    "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\idle-guard-kit\\latentsync_pylibs_patch_c2077.py"
+   ],
+   "log_out": "media/latentsync-deploy/log-patch.out.txt",
+   "log_err": "media/latentsync-deploy/log-patch.err.txt",
+   "note": "tokenizers==0.21.1 + future==1.0.0 --no-deps into PYLIBS overlay (transformers 4.48 pin <0.22 + ffmpeg-python future dep), then import-chain probe transformers/ffmpeg/accelerate/diffusers/latentsync.utils/lipsync_pipeline; insightface ImportError = EXPECTED gap (NC red-line, J-30 FaceAlignment swap at trial); accelerate root cause captured with full error string; verdict patch_verdict.json + PATCH-END sentinel; feeds trial-runner authoring.",
+   "claimed_ts": "2026-10-19T15:25:58",
+   "done_ts": "2026-10-19T15:49:15",
+   "done_note": "PATCH-VERDICT OK by tick-C2079 harvest: tokenizers 0.21.1 + future 1.0.0 into overlay; import chain transformers/ffmpeg/accelerate/diffusers/latentsync.utils all ok (accelerate hard-gap root resolved by tokenizers pin); lipsync_pipeline EXPECTED-GAP insightface (NC red-line, J-30 FaceAlignment shim authored into latentsync_trial_c2079.py); verdict patch_verdict.json ts 15:26:41"
+  },
+  {
+   "id": "latentsync-trial",
+   "status": "done",
+   "priority": 12,
+   "auth": "POOL-0016 night-1 lip-sync smoke trial, C2079 authored+pre-stow (pre-stow law O-20261018-2236); consumes weights-dl2 via require gate + patch verdict",
+   "require": {
+    "files_at_least": [
+     [
+      "media/latentsync-deploy",
+      "weights2_verdict.json",
+      1
+     ]
+    ]
+   },
+   "cmd": [
+    "D:\\ComfyUI\\python_embeded\\python.exe",
+    "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\idle-guard-kit\\latentsync_trial_c2079.py"
+   ],
+   "log_out": "media/latentsync-deploy/log-trial.out.txt",
+   "log_err": "media/latentsync-deploy/log-trial.err.txt",
+   "note": "v1.5 512 smoke: stage2_512.yaml (cross_dim 384 -> whisper tiny) + local sd-vae-ft-mse (musepose reuse, zero network); J-30 FaceAlignmentDetector shim swaps insightface in-place (68->106 lmk contract fill: [43,48,49,50,51] left brow / [101:106] right brow / [74,77,83,86] nose; bbox discarded by ImageProcessor - verified); torch-hub pre-seed 2DFAN4+s3fd from checkpoints/aux; audio trimmed 3.2s from demo1; steps 20 cfg 1.5; PASS gate = mp4>=100KB + ffprobe frames>0 + zero insightface in sys.modules; verdict latentsync_trial_verdict.json + TRIAL-RESULT + TRIAL-END sentinel; VRAM wait gate 8GB/20min. Harvest next round.",
+   "claimed_ts": "2026-10-19T16:35:59",
+   "rearm_ts": "2026-10-19T16:34:40",
+   "rearm_note": "C2082: first fire 16:16:09 FAIL ModuleNotFoundError soundfile (import chain fail-fast, zero GPU burn). Fix v2 (fix tag c2082-soundfile-decordshim): soundfile 0.14.0 pip --no-deps into PYLIBS overlay; decord no-cp313-wheel -> real ffmpeg-subprocess shim package in overlay (AudioReader/VideoReader, musepose av precedent). Verified fresh-process: 6-module import chain GREEN + AudioReader real decode 51200 samples/3.2s finite + VideoReader 250f + write_video libx264 12f + face_detector J-30 shim live (bak in place) + unet 5072348184B. Guard refire expected <=10min; remaining unknowns = unet v1.5 state-dict reconcile + inference (trial's own gate).",
+   "done_ts": "2026-10-19T16:46:06",
+   "done_note": "PASS by tick-C2082 in-round harvest (guard refire 16:35:59 after C2082 soundfile+decord-shim rearm): out.mp4 1604658B / 82 frames (ffprobe), j30_no_insightface=true, inference_wall=253s total=311s, vram start free 10460MB; 82-face affine+restore chain clean; verdict latentsync_trial_verdict.json ts 16:41:10. 82f>16f = multi-window sliding inference structurally proven (long-video face OK, no 72f probe needed - musepose stitch72 precedent does not apply here). POOL-0016 night-1 CLOSED -> LatentSync lip-sync upgraded direct-use (R-stack night series 3/3: LivePortrait L23 + MusePose L24 + LatentSync lip-sync). Three-piece final gap closed."
+  },
+  {
+   "id": "latentsync-qcboard",
+   "status": "done",
+   "priority": 13,
+   "auth": "POOL-0016 night-1 closure evidence board (R-stack dossier human-eye face), C2082 pre-stow (pre-stow law O-20261018-2236)",
+   "require": {
+    "files_at_least": [
+     [
+      "media/latentsync-deploy/trial_c2079",
+      "out.mp4",
+      1
+     ]
+    ]
+   },
+   "cmd": [
+    "D:\\ComfyUI\\python_embeded\\python.exe",
+    "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\idle-guard-kit\\latentsync_qcboard_c2082.py"
+   ],
+   "log_out": "media/latentsync-deploy/log-qcboard.out.txt",
+   "log_err": "media/latentsync-deploy/log-qcboard.err.txt",
+   "note": "Mechanical PIL board: 6 input frames vs 6 output frames side-by-side from trial_c2079 (frames 4/16/28/40/52/70); output latentsync_trial_qcboard_c2082.jpg + qcboard_verdict.json + BOARD-END sentinel; feeds R-stack dossier (reference-library project-initiation evidence). Harvest next round.",
+   "claimed_ts": "2026-10-19T17:00:59",
+   "done_ts": "2026-10-19T17:26:00",
+   "done_note": "PASS by tick-C2083 in-round refire after input-path fix: first guard fire 17:00:59 died MISSING trial_c2079/video.mp4 (trial consumed repo demo asset directly, no copy in WORK); fix = IN_VIDEO fallback to media/latentsync/assets/demo1_video.mp4 (resolve_src in latentsync_qcboard_c2082.py, bank cmd path unchanged); refire 17:09:13 BOARD-END status=PASS, board latentsync_trial_qcboard_c2082.jpg 554460B (6 IN vs 6 OUT frames 4/16/28/40/52/70); POOL-0016 night-1 closure evidence board LANDED -> R-stack dossier face ready"
+  },
+  {
+   "id": "xq-redo-i2v-direct3",
+   "status": "pending",
+   "priority": 14,
+   "auth": "X2670 redo order sec-2 direct-i2v leg (KF-clean units: S2-14 draft B / S3-20 unchanged / S4-22 draft C), C2083 pre-stow (pre-stow law O-20261018-2236); layer evidence = xq-KF-RECHECK1/2-REDO-r1019-c2083.jpg + native single-frame reads",
+   "require": {
+    "files_at_least": [
+     [
+      "media/MV/mv0001/xingqing/abatch",
+      "S2-14_s20105.png",
+      1
+     ],
+     [
+      "media/MV/mv0001/xingqing/abatch",
+      "S3-20_s20146.png",
+      1
+     ],
+     [
+      "media/MV/mv0001/xingqing/abatch",
+      "S4-22_s20158.png",
+      1
+     ]
+    ]
+   },
+   "cmd": [
+    "D:\\ComfyUI\\python_embeded\\python.exe",
+    "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\mv-album-001-jay\\local-i2v\\h3_i2v_album.py",
+    "--repo",
+    "K:\\Fluxgroup\\FluxGroup",
+    "--lane",
+    "bmcpackAredo",
+    "--manifest",
+    "cph4/fleet/mv-album-001-jay/local-i2v/run-bmc-redo-r1-direct3.json",
+    "--only",
+    "XQ_S2-14-redo-r1,XQ_S3-20-redo-r1,XQ_S4-22-redo-r1"
+   ],
+   "log_out": "media/mv-album-001-jay/log-redo-direct3.out.txt",
+   "log_err": "media/mv-album-001-jay/log-redo-direct3.err.txt",
+   "note": "PASS gate = ALBUM LANE DONE ok=3 fail=0 in log-redo-direct3.out tail + 3 mp4 >=100KB in media/mv-album-001-jay/clips-packA-redo-r1/ + progress-bmcpackAredo.jsonl ok rows x3; wordage per X2670 drafts B/C verbatim + S3-20 unchanged; seeds = id-MD5 of -redo-r1 id family (renewal law, same-unit-same-seed ban); frames unchanged (KF clean per C2083 native recheck). Harvest next round: qc strips for 3 units (registry 6/7 + S4-22 zero-lip+fingerpick+same-frame + S3-20 decode-integrity gate) then author+pre-stow KF-reroll3 leg (F5-33a/S4-24/S3-19 per X2670 sec-3)."
   }
  ]
 }

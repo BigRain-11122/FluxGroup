@@ -27,6 +27,24 @@
    "quant": "int4",
    "wf": "wf_h3_i2v_480p_int4.json",
    "out": "media/mv-album-001-jay/clips-animatic-480"
+  },
+  "bmcpackA": {
+   "machine": "bm-c RTX3070 16G（星晴 i2v PACK-A-v1 签发波·768P INT8 本机专属道）",
+   "manifest": "cph4/fleet/mv-album-001-jay/local-i2v/run-bmc-packA-v2.json",
+   "width": 1344,
+   "height": 768,
+   "quant": "int8",
+   "wf": "wf_h3_i2v_768p_int8.json",
+   "out": "media/mv-album-001-jay/clips-packA-768"
+  },
+  "bmcpackAredo": {
+   "machine": "bm-c RTX3070 16G（星晴 PACK-A X2670 回炉重烧道·768P INT8）",
+   "manifest": "cph4/fleet/mv-album-001-jay/local-i2v/run-bmc-redo-r1-direct3.json",
+   "width": 1344,
+   "height": 768,
+   "quant": "int8",
+   "wf": "wf_h3_i2v_768p_int8.json",
+   "out": "media/mv-album-001-jay/clips-packA-redo-r1"
   }
  },
  "notes": "帧分发=bm-c tailnet http://100.123.74.104:8800/album-frames-v22.zip；回收规则=停滞>4h 的单由另一 768P 机 --only ID 认领补跑；--only 优先于 lane 过滤"
