@@ -548,7 +548,7 @@
   },
   {
    "id": "qwen21-weights-dl",
-   "status": "pending",
+   "status": "done",
    "priority": 19,
    "auth": "POOL-0021 leg-1 four-file weights (CEO full-load O-20261019-1935 sec-3 + resume broadcast O-20261019-2047 sec-2), C2094 pre-stow per pre-stow law O-20261018-2236 (bank emptied by strips-v2 harvest C2093)",
    "require": {
@@ -560,7 +560,40 @@
    ],
    "log_out": "media/qwen21-deploy/log-weights.out.txt",
    "log_err": "media/qwen21-deploy/log-weights.err.txt",
-   "note": "Four files per bm-b same-stack recipe cph4/fleet/bm-b-model-stack-20261016.md: turbo int8 DiT ~6.92G -> models/diffusion_models, w4a8 TE ~6.02G -> models/text_encoders, VAE ~0.64G -> models/vae, turbo LoRA ~0.87G -> models/loras. Probe-first hf-mirror tree API -> best-match select -> curl resume + stream guards + raw-byte min-size gates. Verdict = media/qwen21-deploy/weights_verdict.json + QWEN21-WEIGHTS-END sentinel in log tail. Harvest next round. Legs after: v040 portable stage (Qwen-Image-2.1 nodes TextEncodeQwenImage21/QwenImage21Cache need ComfyUI >=0.38, bm-b precedent port 8199) + smoke 1024sq 8step cfg1 + KF rep-frame trial vs Krea2 turbo + speed/vram/quality three accounts + qwen-research LICENSE verdict."
+   "note": "Four files per bm-b same-stack recipe cph4/fleet/bm-b-model-stack-20261016.md: turbo int8 DiT ~6.92G -> models/diffusion_models, w4a8 TE ~6.02G -> models/text_encoders, VAE ~0.64G -> models/vae, turbo LoRA ~0.87G -> models/loras. Probe-first hf-mirror tree API -> best-match select -> curl resume + stream guards + raw-byte min-size gates. Verdict = media/qwen21-deploy/weights_verdict.json + QWEN21-WEIGHTS-END sentinel in log tail. Harvest next round. Legs after: v040 portable stage (Qwen-Image-2.1 nodes TextEncodeQwenImage21/QwenImage21Cache need ComfyUI >=0.38, bm-b precedent port 8199) + smoke 1024sq 8step cfg1 + KF rep-frame trial vs Krea2 turbo + speed/vram/quality three accounts + qwen-research LICENSE verdict.",
+   "claimed_ts": "2026-10-19T22:05:59",
+   "done_ts": "2026-10-20T01:55:00",
+   "done_note": "HARVEST OK 4/4 by c2099: runner END was PARTIAL 3/4 (DiT 5 retries died at 99%) but the guard relaunch completed DiT at 01:21:46 -> exact byte 7256787829; reconfirmed byte+header for all four (dit/te/vae/lora), verdict media/qwen21-deploy/weights_verdict_c2099.json. Legs 2-4 executed same window: v0.42 sidecar on 8199 (K:/ComfyUICore, shared weights, python313._pth one-line add with production tree still first, backup .bak-c2099) + bmc-SidecarGuard every 10m (relaunch if dead + /free when queue empty; verified idle-free -> VRAM 2319MB) + 1024sq 8-step turbo smoke PASS wall 41.4s peak 14841MB quality 7/10 (geometry weakness). Receipt cph4/fleet/qwen21-deploy-receipt-c2099.md. REMAINING for POOL-0021: Turbo-vs-Krea2 comparison board + three-account backfill into R-20261019 sec-5 + qwen-research LICENSE verdict line (all NOT done, next bank slice)."
+  },
+  {
+   "id": "qwen21-vs-krea2-cmp",
+   "status": "done",
+   "priority": 20,
+   "auth": "POOL-0021 leg-3 (bm-a 总控窗 O-20261019-1935 spec: 3-5 representative KF frames Turbo vs Krea2 three-account table + board), c2099 pre-stow per pre-stow law O-20261018-2236 (bank emptied by qwen21-weights-dl harvest)",
+   "require": {
+    "files_at_least": [
+     [
+      "media/qwen21-deploy",
+      "weights_verdict_c2099.json",
+      1
+     ],
+     [
+      "media/comfy-sidecar",
+      "sidecar-guard-state.json",
+      1
+     ]
+    ]
+   },
+   "cmd": [
+    "D:\\ComfyUI\\python_embeded\\python.exe",
+    "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\idle-guard-kit\\qwen21_vs_krea2_cmp_c2099.py"
+   ],
+   "log_out": "media/comfy-sidecar/compare/log-cmp.out.txt",
+   "log_err": "media/comfy-sidecar/compare/log-cmp.err.txt",
+   "note": "Serialised comparison on 3 KF-representative prompts (sky constellation / cassette prop / dusk silhouette), same seed 991210: qwen21 turbo int8 on sidecar 8199 vs krea2 turbo 8-step on production 8188; sidecar /free between turns so the 16G card is never oversubscribed. PASS gate = 6 PNGs on disk + compare_receipt.json + board QWEN21-vs-KREA2-board-c2099.jpg >=100KB. Harvest = next round: board blind read (quality face) + three accounts into R-20261019 sec-5 + qwen-research LICENSE verdict line -> POOL-0021 close.",
+   "claimed_ts": "2026-10-20T02:16:00",
+   "done_ts": "2026-10-20T02:20:45",
+   "done_note": "HARVEST DONE at C2108 02:02-02:06 (6 PNGs + compare_receipt.json + board 196415B + compare_verdict.json blind read Krea2 wins ~2.5/3). Bank flip MISSED by that harvest -> IdleGuard refired duplicate at 02:16:00 (claim churn, ~7min GPU reburn, qwen_sky/krea_sky PNG overwritten post-receipt). C2109 M5 audit: flipped to done + stopped duplicate runner; board (02:02:09) remains the blind-read evidence; verdict unchanged."
   }
  ]
 }
