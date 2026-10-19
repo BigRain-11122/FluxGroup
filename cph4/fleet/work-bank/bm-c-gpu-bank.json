@@ -628,6 +628,60 @@
    "claimed_ts": "2026-10-20T02:30:00",
    "done_ts": "2026-10-20 02:37:03",
    "done_note": "HARVEST PASS by tick-C2110: PASS gate 4/4 (ALBUM LANE DONE lane=bmcpackA ok=1 fail=0 in log-s527-i2v.out tail + clips-packA-768/XQ_S5-27.mp4 277,024B >=100KB + progress-bmcpackA.jsonl ok row secs=240.2 length=56 seed=324694 + ffprobe -count_frames decode-clean 56f @1344x768 24fps exit0). QC board xq-s527-3beat-QC-c2110.jpg (1704x1050, 202,448B, 3 units x first/mid/last) adjudication 3/3 PASS: S5-26 star field breathes (no black/dup frame), S5-27 constellation holds with cloud drift-in and star-line span steady (zero jitter/break, no pseudo-text, no figure), S5-28 milky-way fade-in with stable linking lines; three rows share one star world (deep-blue night + four-point star bloom + thin link lines). Advisory two items logged, not blockers: (a) S5-27 cloud language is low-altitude cumulus vs high-altitude dust in S5-26/28 (altitude/camera explicable, art confirm optional); (b) S5-26 tail green cast gradient is a pre-existing unit, unrelated to this burn. Star three-beat S5-26 -> S5-27 -> S5-28 complete on disk = X2670 sec-6 assembly unlock prerequisite satisfied on the execution seat; remaining = bm-a director re-review on v2 board + S5-27 reshake counter-sign."
+  },
+  {
+   "id": "xq-f533c-reroll2",
+   "status": "done",
+   "priority": 22,
+   "auth": "xq-AB-DIRECTOR-RATIFY-r1017 sec-3 HOLD row (F5-33c 1/8) + sec-7 reroll round-2 recipe (mini 8 seeds, bm-c waits GPU); only un-passed A-pack unit",
+   "require": {
+    "files_at_least": [
+     [
+      "cph4/fleet/mv-album-001-jay",
+      "xq-AB-DIRECTOR-RATIFY-r1017.md",
+      1
+     ]
+    ]
+   },
+   "cmd": [
+    "D:\\ComfyUI\\python_embeded\\pythonw.exe",
+    "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\idle-guard-kit\\xq_f533c_reroll2_c2111.py"
+   ],
+   "log_out": "media/MV/mv0001/logs/xq_f533c_reroll2_c2111.out.log",
+   "log_err": "media/MV/mv0001/logs/xq_f533c_reroll2_c2111.err.log",
+   "note": "F5-33c reroll2: 8 mini seeds 672x384 on krea2 turbo + jman 0.6; prompt = shotlist anchor + 3 positive surgeries (stroke defocus lock / small square plain paper label / cassette shell corner carrier lock), lint zero-hit, DRY-OK verified C2111. PASS gate = F533C-REROLL2-END ok=8/8 in log tail + 8 PNGs >=50KB in media/MV/mv0001/xingqing/f533c-reroll2 + progress json + board xq-F533C-REROLL2-BOARD-c2111.jpg. Harvest = next round: native per-frame review vs r1017 sec-7 gates (>=2 clean frames = unit passes; pseudo-text/figure/carrier checks) -> winner full 1344x768 -> i2v leg prestow.",
+   "prestow_ts": "2026-10-20T02:46:28",
+   "prestow_note": "C2111 tick authoring; bank was 21/21 done zero pending (empty-bank violation exposure) -> prestow immediately then fired same window.",
+   "claimed_ts": "2026-10-20T02:46:35",
+   "done_ts": "2026-10-20 02:50:14",
+   "done_note": "HARVEST PASS by tick-C2111: gate 8/8 burned (F533C-REROLL2-END ok=8/8, 109s total) + 8 PNGs 240-260KB + board 168,581B + receipt on disk; native blind read 4/8 clean >= 2 acceptance line (m1 s628791 / m3 s502092 / m5 s273297 PASS, m7 s641123 borderline-pass; m2/m4/m6/m8 FAIL on pseudo-text, m4 also duplicated hand). Winner = m1 s628791. Harvest json = media/MV/mv0001/xingqing/f533c-reroll2/harvest.json. Next slice = winner full 1344x768 prestowed p23."
+  },
+  {
+   "id": "f533c-winner-full",
+   "status": "claimed",
+   "priority": 23,
+   "auth": "r1017 sec-7 reroll round-2 acceptance -> winner full-frame promotion (m1 s628791 of 4 clean); C2111 pre-stow (bank law: no empty bank)",
+   "require": {
+    "files_at_least": [
+     [
+      "media/MV/mv0001/xingqing/f533c-reroll2",
+      "harvest.json",
+      1
+     ]
+    ]
+   },
+   "cmd": [
+    "D:\\ComfyUI\\python_embeded\\pythonw.exe",
+    "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\idle-guard-kit\\xq_f533c_reroll2_c2111.py",
+    "full",
+    "628791"
+   ],
+   "log_out": "media/MV/mv0001/logs/xq_f533c_full_c2111.out.log",
+   "log_err": "media/MV/mv0001/logs/xq_f533c_full_c2111.err.log",
+   "note": "Winner full-frame promotion: F5-33c seed 628791 at 1344x768 (same prompt/surgery). PASS gate = F533C-FULL-END ok=1 + F5-33c_s628791.png >=50KB in f533c-reroll2 + receipt xq-F533C-FULL-RECEIPT. Harvest = native read vs r1017 sec-7 gates -> if clean, prestow i2v leg (XQ_F5-33c, first_frame = full) to close the last A-pack unit; if dirty, fall back to m3/m5.",
+   "prestow_ts": "2026-10-20T02:50:14",
+   "prestow_note": "C2111 pre-stow immediately after harvest flip (bank never empty).",
+   "claimed_ts": "2026-10-20T02:51:00"
   }
  ]
 }
