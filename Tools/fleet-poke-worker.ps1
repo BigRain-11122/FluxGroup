@@ -1,18 +1,4 @@
 # fleet-poke-worker.ps1 - FleetLink background pull+wake worker v1.8 (CEO order O-20261009-1750 "very fast sync").
-# v1.10 (2026-10-18 hung-round revival, bm-a fleet-ops seat, CEO order "recover
-# the fleet - my accidental shutdown of other machines' tasks"): a Running
-# round-runner task (Bigmoney-IterationLoop / MiniGameEngineTick) whose LANE
-# heartbeat has been frozen >120 min is a HUNG round (bm-c 10-14 / 10-17 / 10-18
-# three occurrences; the 10-17 verdict said remote channels can only signal and
-# repair needed on-machine Stop-ScheduledTask->Start - this closes that gap).
-# Evidence-gated: only restarts with POSITIVE staleness proof from the machine's
-# own lane heartbeat file; a 20-min restart stamp prevents killing a fresh round
-# that has not written its heartbeat yet; off-skip freeze-face protection unchanged.
-# v1.11 (2026-10-18 run-age guard, bm-a fleet-ops seat, CEO order "solve it at
-# the root"): the revival gate ALSO requires the RUNNING INSTANCE to be >120
-# min old (Get-ScheduledTaskInfo.LastRunTime). A healthy long round younger
-# than 2h is never killed even when the lane heartbeat is stale (it only
-# refreshes at closeout). Probe failure (-1) = fail-safe no-kill.
 # v1.8 (2026-10-17 force-repos concat fix, bm-b live-fire x2): with a single-element
 # poke_repos (all nodes use ['.']) the pipeline `@($node.poke_repos) | ForEach-Object`
 # UNROLLED the array into a scalar string, so `$pullSet += $fs` did string CONCATENATION
@@ -206,14 +192,16 @@ foreach ($rel in $pullSet) {
     }
 }
 
-# ---- global memory union-sync RETIRED (v1.9, 2026-10-18, memory-curator seat, CEO
-# order "control memory bloat"): the union/replace-down loop fought the per-machine
-# L0 budget gate - the gate trimmed 375KB->117KB every 4h and the next poke replaced
-# the local file with the 375KB canonical verbatim (gate-log.txt 10-16..10-17
-# evidence; 66 fleet-memory git commits). Superseded by memory.md S8 (cross-machine
-# value travels via git canon + L1) and S10 (L0 = per-machine injection face with a
-# hard budget). The canonical is frozen under cph4/fleet/memory/archive/;
-# fleet-memory-sync.ps1 is now a no-op stub. Keep this tombstone for history. ----
+# ---- global memory union-sync (O-20261009-1845: CEO pain point "memory missing on
+# other fleet machines" - the global CODELY.md never traveled. Runs AFTER pulls so
+# fresh canonical entries flow down to this machine, and this machine's local-only
+# entries flow up to the canonical + commit+push. Fail-soft: never blocks wake.) ----
+try {
+  $memSync = Join-Path $Root 'Tools\fleet-memory-sync.ps1'
+  if (Test-Path $memSync) {
+    $null = & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $memSync -Root $Root -Quiet 2>&1
+  }
+} catch { WK-Log 'memsync-fail' ([string]$_.Exception.Message) }
 
 # ---- v1.5 listener freshness gate: upgrade/revive the local listener when a
 # newer fleet-link.ps1 shipped via git (runs AFTER pulls so the newest code is on
@@ -272,63 +260,7 @@ foreach ($t in $reqTasks) {
   if ($allow -notcontains $ts) { $woke += ($ts + ':deny'); continue }
   $task = Get-ScheduledTask -TaskName $ts -ErrorAction SilentlyContinue
   if (-not $task) { $woke += ($ts + ':no-task'); continue }
-  if ($task.State.ToString() -eq 'Running') {
-    # v1.10 hung-round revival (see header). Only the two round-runners, only with
-    # positive heartbeat-staleness evidence, only once per 20 min per task.
-    $hungRestarted = $false
-    if (($ts -eq 'Bigmoney-IterationLoop') -or ($ts -eq 'MiniGameEngineTick')) {
-      $hrLock = Join-Path $Dir ('hung-restart-' + $ts + '.stamp')
-      $recentRestart = $false
-      if (Test-Path $hrLock) { try { $recentRestart = (((Get-Date) - (Get-Item $hrLock).LastWriteTime).TotalMinutes -lt 20) } catch { } }
-      $hbAgeMin = -1
-      if (-not $recentRestart) {
-        $hbFile = $null; $hbField = ''
-        if ($ts -eq 'Bigmoney-IterationLoop') {
-          $hbFile = Join-Path $Root ('quant/bigmoney/fleet/machines/' + $NodeId + '.json')
-          $hbField = 'last_seen'
-        } else {
-          $hbFile = Join-Path $Root ('gaming/MiniGame/Design/configs/GLOBAL/fleet/' + ($NodeId -replace '^bm-', '') + '.json')
-          $hbField = 'ts'
-        }
-        try {
-          if ($NodeId -and (Test-Path $hbFile)) {
-            $hbRaw = Get-Content -Raw -LiteralPath $hbFile
-            $m1 = [regex]::Match($hbRaw, ('"' + $hbField + '"\s*:\s*"([^"]+)"'))
-            if (-not $m1.Success -and $ts -eq 'Bigmoney-IterationLoop') { $m1 = [regex]::Match($hbRaw, '"clock_read"\s*:\s*"([^"]+)"') }
-            if ($m1.Success) {
-              $hbDto = [DateTimeOffset]::Parse($m1.Groups[1].Value, [Globalization.CultureInfo]::InvariantCulture)
-              $hbAgeMin = [math]::Round(((Get-Date) - $hbDto.LocalDateTime).TotalMinutes, 0)
-            }
-          }
-        } catch { $hbAgeMin = -1 }
-      }
-      # v1.11 run-age guard: also require the CURRENT instance to be >120 min
-      # old (LastRunTime = start of the running instance). A healthy long
-      # round younger than 2h is never killed even when the lane heartbeat
-      # is stale (it only refreshes at closeout). Probe failure = no-kill.
-      $runAgeMin = -1
-      try {
-        $ti = Get-ScheduledTaskInfo -TaskName $ts -ErrorAction Stop
-        if ($ti.LastRunTime) { $runAgeMin = [math]::Round(((Get-Date) - $ti.LastRunTime).TotalMinutes, 0) }
-      } catch { }
-      if ((-not $recentRestart) -and ($hbAgeMin -gt 120) -and ($runAgeMin -gt 120)) {
-        try {
-          try { [IO.File]::WriteAllText($hrLock, (Get-Date -Format s)) } catch { }
-          Stop-ScheduledTask -TaskName $ts -ErrorAction Stop
-          Start-Sleep -Seconds 6
-          try { Start-ScheduledTask -TaskName $ts } catch { }
-          $woke += ($ts + ':HUNG-RESTART-hb' + $hbAgeMin + 'm-run' + $runAgeMin + 'm')
-          WK-Log 'hung-restart' ($ts + ' hb_age_min=' + $hbAgeMin + ' run_age_min=' + $runAgeMin + ' node=' + $NodeId + ' reason=' + $Reason)
-          $hungRestarted = $true
-        } catch {
-          $woke += ($ts + ':busy-skip-stopfail')
-          WK-Log 'hung-stop-fail' ($ts + ' ' + [string]$_.Exception.Message)
-        }
-      }
-    }
-    if (-not $hungRestarted) { $woke += ($ts + ':busy-skip') }
-    continue
-  }
+  if ($task.State.ToString() -eq 'Running') { $woke += ($ts + ':busy-skip'); continue }
   # v1.3 (C-20261009-04): CEO freeze faces (design-state Disabled tasks) must not
   # be re-armed by a remote wake - same off-skip protection as the local sentinel.
   if ($task.State.ToString() -eq 'Disabled') { $woke += ($ts + ':off-skip'); continue }

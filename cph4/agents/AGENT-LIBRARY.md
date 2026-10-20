@@ -9,7 +9,6 @@
 | CEO 说 | 自动激活/调用 |
 |---|---|
 | 出 MV / 改片 / 拉片 | 导演席 `tw-mv-director` → 群审 `bigstream-expert-panel`（成片呈审硬门=导演签字） |
-| 出漫剧 / 短剧 / 连载剧 | 漫剧导演席 `drama-director`（双轨改造案 REBUILD-PLAN-v2 执法·成片呈审硬门=导演签字·2026-10-19 改造令） |
 | 短视频 / 玩梗 / 账号内容 | 短视频部管线（meme-daily-v1）→ 盲评 ≥9 才呈（合规席=轻量顾问不拦产线·CEO 令 2026-10-16·商业化触发转全检） |
 | 涨粉 / 粉丝 / 评论区 / 发片时间 | 增长席 `growth-ops` |
 | 城市搭建（装配/灯光/地形/散布） | `lowpoly-city-3d` 总控 → 四专家 city-3d-assembly / lighting / procedural / terrain |
@@ -17,7 +16,6 @@
 | 游戏开发 / 关卡 / 数值 / 门禁 | CCGS 游戏专家套件（§三）+ 游戏域 skill 族 |
 | 回测 / 量化 | W 波自滚引擎（bigmoney 仓）+ 量化六件套 skill（§三量化域） |
 | 调研 / 查资料 | 调研员席 `cph4-research-dispatch`（派工纪律 P-65） |
-| 查知识 / 知识入库 | 知识库 `cph4/knowledge/KB-INDEX.md`（调研员席馆藏·2026-10-19 立·一句话卡+证据锚+复审线） |
 | 发布前把关 / 侵权 / 平台红线 | 合规席 `compliance-guard` |
 | 机队 / 机器 / 弹窗 / 派单 | 机队运维席 `fleet-ops` |
 | 找专家 / 谁负责 X / 登记新专家 | 库长席 `agent-librarian`（本册） |
@@ -26,44 +24,37 @@
 
 | 机构位 | 职责一句话 | 正典位 | 节律 |
 |---|---|---|---|
-| CEO-PROXY 总调度代理席 | 替 CEO 发令+科学巡视 12 班/日+自迭代+大脑更新（10-19 提速令 v2） | `cph4/fleet/dispatcher/CEO-PROXY/`（CHARTER/ROUND/DEADLINES/LOG） | 12 班/日 |
-| 最高决策委员会（七席功能制） | T1 代决日常件+复盘四问+自迭代闭环 | `cph4/council.md` | 00:00/06:00/12:00/18:00 四班（10-19 提速令 v2） |
+| CEO-PROXY 总调度代理席 | 替 CEO 发令+科学巡视 8 班/日+自迭代+大脑更新 | `cph4/fleet/dispatcher/CEO-PROXY/`（CHARTER/ROUND/DEADLINES/LOG） | 8 班/日 |
+| 最高决策委员会（七席功能制） | T1 代决日常件+复盘四问+自迭代闭环 | `cph4/council.md` | 00:00/12:00 双班 |
 | MASTER-AGENT 主脑蓝图 | 集团主脑统一架构正典（两波群审定版） | `cph4/fleet/dispatcher/MASTER-AGENT/BLUEPRINT.md` | 常设 |
-| PATROL-FLEET 子公司巡视席舰队 | 十域巡视·15min 传感+域章程深挖+日 digest（10-19 提速令 v2） | `cph4/fleet/dispatcher/PATROL-FLEET/`（十域章程=CHARTERS） | PT15M+日班 |
-| FleetDispatcher L0 | 确定性巡班：规则路由+饥饿/超时/失联探针（零 LLM） | `Tools/fleet-dispatcher.ps1` | PT10M（10-19 提速令 v2） |
-| IdleWatch 机队防闲置哨 | 在线/监听/队列/心跳新鲜度探测+连 3 次复闲报警 | `Tools/fleet-idle-watch.ps1` | PT5M（10-19 提速令 v2） |
+| PATROL-FLEET 子公司巡视席舰队 | 十域巡视·30min 传感+域章程深挖+日 digest | `cph4/fleet/dispatcher/PATROL-FLEET/`（十域章程=CHARTERS） | PT30M+日班 |
+| FleetDispatcher L0 | 确定性巡班：规则路由+饥饿/超时/失联探针（零 LLM） | `Tools/fleet-dispatcher.ps1` | PT30M |
+| IdleWatch 机队防闲置哨 | 在线/监听/队列/心跳新鲜度探测+连 3 次复闲报警 | `Tools/fleet-idle-watch.ps1` | PT15M |
 | 哨兵族（bm-b-Sentinel v3.0 等） | 各机自愈哨兵：ollama/心跳/队列静默/自驱工件池认领 | `C:\Fluxgroup\.codely-cli\sentinel\`（bm-b 侧） | PT5M |
-| OS 循环班族（各司） | 各司 5min 自迭代（10-19 提速令 v2）：MiniGameEngineTick / Bigmoney-IterationLoop / BigStream-OSLoop / BigLife-OSLoop | 各司仓 mandate | PT5M |
+| OS 循环班族（各司） | 各司 10min 自迭代：MiniGameEngineTick / Bigmoney-IterationLoop / BigStream-OSLoop / BigLife-OSLoop | 各司仓 mandate | PT10M |
 | W 波回测自滚引擎 | 量化波链席位/冻结/自燃全链 | bigmoney 仓 fleet/ | 连续滚动 |
-| 值守轮 / 夜轮 / 进化轮 | 四器审计+催办自愈 / 03:07 夜报 / 周日立法+法熵审视 | `cph4/night-round-prompt.txt` / `evolution.md` | 03:07/09:07/15:07/21:07 四班 · 周日（10-19 提速令 v2） |
+| 值守轮 / 夜轮 / 进化轮 | 四器审计+催办自愈 / 03:07 夜报 / 周日立法+法熵审视 | `cph4/night-round-prompt.txt` / `evolution.md` | 03:07/15:07 · 周日 |
 | 交付哨 delivery-watch | 交付物落地守望+min_duration 质量闸+告警 | `cph4/fleet/dispatcher/delivery-watch/` | 常驻 |
 | 审计部+哨兵 | 自我感动/同向无效功审计+独立抽审 | `cph4/audit-office.md`+`Tools/audit-sentinel.ps1` | 每日双班 |
-| 记忆治理席+预算闸 v2.1 | 三层记忆预算守门（预警 35KB/80 条·执法 50KB/120 条·2h S4U 二段执法〔10-19 提速令 v2〕·写入五问路由） | skill memory-curator（canon=cph4/skills/memory-curator）+`Tools/memory-budget-gate.py` | 2h S4U（HQ-MemoryBudgetGate）+21:47 日班 cron（durable·自续命） |
+| 记忆夜审门 | 记忆预算闸（>110KB/>140 条自动瘦身流程） | `Tools/memory-budget-gate.py` | 21:47 |
 | CoderServe 看门狗 | bm-a 35B 常驻 :8090（PID 锁+路径闸） | `Tools/coder-serve.ps1` | PT10M |
 | 热点扫描线 | 全网热榜三班扫描入池 | ShortVideoHotScan1/2/3（schtasks） | 日 3 班 |
-| 仓库瘦身哨 RepoSlim | git 库预算守门：每日唯一合法 gc+大件台账+轮转保险丝（CEO 令 2026-10-19「文件库越来越庞大，解决」·法=resource-chain §三.11·出生闸=Tools/hooks/pre-commit >20MB 拦） | `Tools/repo-slim.ps1`+`Tools/hooks/pre-commit` | 日 09:03 |
-| 资产审计哨 AssetAudit | Unity 资产面膨胀守门：周扫活跃开发面（FluxVerse 8,286 图）+月度夜窗深扫（Art Assets 25 万图）+入库闸（CEO 令 2026-10-19「不要膨胀到不可控」·法=resource-chain §三.12 膨胀治理总纲） | `Tools/asset-audit-weekly.ps1`+skill `asset-audit` | 周（10080m） |
 
 ## §二 任务态专家席位册（按需点名·审查件必留痕）
 
 | 席位 | 触发任务 | 载体（skill/正典） |
 |---|---|---|
 | 导演席（MV 总控终审） | 一切 MV 剧本/分镜/成片审查定稿 | skill `tw-mv-director`（canon=cph4/skills/tw-mv-director/） |
-| **漫剧导演席**（2026-10-19 改造令新立） | 一切漫剧/短剧剧本/分镜/样片/成片审查定稿（双轨=AI 仿真人主路+Blender 3D 漫化·画质对齐红果头部 AI 仿真人及格线） | skill `drama-director`（canon=cph4/skills/drama-director/）+改造案 cph4/fleet/drama-dept-v1/REBUILD-PLAN-v2.md |
 | 十三席评审团（两波） | BigStream 内容创意生产全段评审 | skill `bigstream-expert-panel`（canon=cph4/skills/ 同批收编） |
 | 红队席 | 大案攻击性评审（采购/架构类） | 先例=V100-EXPANSION-SPEC §10（cph4/fleet/hardware/） |
 | 盲评席 | 成片闸盲评（≥9 才呈 CEO） | 各产线成片闸协议（meme/mv/drama LEDGER） |
-| 调研员席（**+知识库馆藏 10-19**） | R- 档调研派工（九司应用表强制）+**知识库 KB-INDEX 建维**（CEO 令 10-19：卡片律六条·回灌口·周审除名扫描） | skill `cph4-research-dispatch`+正典 `cph4/knowledge/KB-INDEX.md` |
+| 调研员席 | R- 档调研派工（九司应用表强制） | skill `cph4-research-dispatch` |
 | 游戏专家 11 席 | 游戏开发全链（设计/系统/经济/技术美术/性能/QA/审计/估时/范围/Unity×2） | skill 族=cph4/skills/ccgs/（INDEX.md 分拨面） |
 | **库长席**（本批新增） | 智能体发现/登记/审计/周审 | skill `agent-librarian` |
 | **机队运维席**（本批新增） | 机队一切故障与调度 | skill `fleet-ops` |
 | **合规席**（本批新增·阶段门控） | 肖像版权/平台红线知识库（**现役=轻量顾问·商业化触发转全检**·CEO 令 2026-10-16） | skill `compliance-guard` |
 | **增长席**（本批新增） | 账号/粉丝/评论区/节奏/看板 | skill `growth-ops` |
 | **城市生态席**（本批新增） | 城市非渲染面（居民/安家/商业化/可视化） | skill `silicon-city-ops` |
-| **记忆治理席**（2026-10-18 接管） | 记忆写入守门+预算闸消费+L0/L1/L2 路由判定+梳理窗执法 | skill `memory-curator` |
-| **监制席**（2026-10-18 CEO 直令立·独立成品对抗审查） | 一切成品呈 CEO 前最后硬门：缺陷登记簿全量回扫+QC 清单+场景正典对照的对抗审查（MV 线先行·三线出库闸挂位） | 章程=cph4/fleet/PRODUCER-SUPERVISOR-GATE-v1.md（方法承 C-20261018-01 红绿对抗协议） |
-| **剪辑师席**（2026-10-18 新立·全环节专家覆盖令） | MV 剪辑/转场全环节：剪辑语法表+转场方法论签发（禁短视频俗感） | 矩阵=cph4/fleet/mv-album-001-jay/MV-ALL-STAGE-EXPERT-COVERAGE-v1.md §一.5 |
-| **版式设计席**（2026-10-18 新立） | 片头/字卡/credits 版式设计（主流 MV 片头对标稿签发） | 矩阵=同上 §一.7 |
 
 ## §三 Skill 总库索引（按域·含位置注记）
 
@@ -73,14 +64,14 @@
 |---|---|---|
 | 游戏开发 | ccgs 11 件（game-designer/systems-designer/economy-designer/technical-artist/performance-analyst/qa-lead/asset-audit/estimate/scope-check/unity-specialist/unity-shader-specialist）+ create-game-assets · game-ai · game-ui-ux · level-design · procedural-gen · shader-programming · pixel-art-studio · algorithmic-art | canon+用户级 |
 | 城市线 | lowpoly-city-3d（总控）· city-3d-assembly · city-3d-lighting · city-3d-procedural · city-3d-terrain · **silicon-city-ops**（新） | canon（本批收编 5+新 1） |
-| 内容/媒体 | bigstream-expert-panel · tw-mv-director · **drama-director**（新·漫剧导演席） · capcut-edit · avoid-ai-writing · ai-writing-detector · voice-preserving-rewriter · canvas-design · theme-factory · doc-coauthoring · internal-comms | canon+项目+用户级 |
+| 内容/媒体 | bigstream-expert-panel · tw-mv-director · capcut-edit · avoid-ai-writing · ai-writing-detector · voice-preserving-rewriter · canvas-design · theme-factory · doc-coauthoring · internal-comms | canon+项目+用户级 |
 | 量化 | backtest-expert · position-sizer · drawdown-circuit-breaker · signal-postmortem · trade-hypothesis-ideator · data-quality-checker | 用户级（bm-a） |
-| 机队/基建 | **fleet-ops** · **agent-librarian** · **memory-curator**（记忆治理席·2026-10-18）· dispatching-parallel-agents · mcp-builder | canon+用户级 |
+| 机队/基建 | **fleet-ops**（新）· **agent-librarian**（新）· dispatching-parallel-agents · mcp-builder | canon+用户级 |
 | 合规/增长 | **compliance-guard**（新）· **growth-ops**（新） | canon |
 | 研究/质量 | cph4-research-dispatch · verification-before-completion · systematic-debugging · test-driven-development · webapp-testing | canon+用户级 |
 | 办公/前端 | docx · pdf · pptx · xlsx · frontend-design · web-artifacts-builder | 用户级（bm-a） |
 
-司级技能登记面=各司仓 README 技能行（技能律）；本册只收录集团层。外部开源池（素材源·非部署源）：awesomeskills.dev（47,237·实测 2026-10-19）/anthropics/skills 官方库（36 件·实测同日）/alirezarezvani/claude-skills（380·MIT·2026-10-16 登记值）/CCGS 参照库 74 skill——采用一律过 oss-harvest 五门。
+司级技能登记面=各司仓 README 技能行（技能律）；本册只收录集团层。外部开源池（素材源·非部署源）：awesomeskills.dev（1000+）/alirezarezvani/claude-skills（380·MIT）/CCGS 参照库 74 skill——采用一律过 oss-harvest 五门。
 
 ## §四 城市线专册（硅基生命城市·FluxVerse）
 
@@ -115,25 +106,8 @@
 | 2026-10-16 | growth-ops | 合规/增长 | 增长运营：粉丝/评论区/节奏/看板 | skill（canon=cph4/skills/growth-ops） | ACTIVE |
 | 2026-10-16 | silicon-city-ops | 城市线 | 城市生态：居民/安家/商业化/可视化 | skill（canon=cph4/skills/silicon-city-ops） | ACTIVE |
 | 2026-10-16 | city-seat-ops / city-seat-content / city-seat-data | 城市线 | 城市运营/内容/数据席位（增长槽） | 待 canon 落地建卡 | PLAN |
-| 2026-10-18 | memory-curator | 机队/基建 | 记忆治理席：三层记忆预算守门（写入五问+L0/L1/L2 路由+4h 闸消费+梳理窗执法） | skill（canon=cph4/skills/memory-curator） | ACTIVE |
-| 2026-10-18 | producer-supervisor | 内容产线 | 制监席：成品独立对抗审查（缺陷登记簿全量回扫根治复发·MV 线先行·三线出库闸挂位·CEO 令「引入监制或者副导演」） | 章程 cph4/fleet/PRODUCER-SUPERVISOR-GATE-v1.md+协议 C-20261018-01 | ACTIVE |
-| 2026-10-18 | mv-editor | MV 线 | 剪辑师席：剪辑/转场环节专家（剪辑语法表+转场方法论签发·CEO 令「所有环节都要有专家」根治令） | 矩阵 cph4/fleet/mv-album-001-jay/MV-ALL-STAGE-EXPERT-COVERAGE-v1.md·导演席管辖 | ACTIVE |
-| 2026-10-18 | mv-typography-designer | MV 线 | 版式设计席：片头/credits 版式（主流 MV 对标稿签发·同批根治令） | 矩阵同上·导演席管辖 | ACTIVE |
-| 2026-10-19 | clawhub-llmxray | 机队/基建 | Ollama 调用诊断（慢/截断/缓存/VRAM/num_ctx——10-19 网关排障问题类·WorkBuddy Phase 3 外采） | skill（canon=cph4/skills/llmxray-diagnose-ollama-calls·MIT-0·ClawHub@0.8.6） | ACTIVE |
-| 2026-10-19 | clawhub-llama-params-optimizer | 算力/BigCompute | llama.cpp/llama-server 参数调优四阶段法（context×VRAM 甜点·夜窗 35B 调参底座） | skill（canon=cph4/skills/llama-params-optimizer·MIT-0·ClawHub@3.1.0） | ACTIVE |
-| 2026-10-19 | clawhub-fleet-doctrine | 机队/基建 | 多模型机队路由策略（哪类活派哪个模型档·dispatcher L1/网关昼夜档 advisory） | skill（canon=cph4/skills/fleet-doctrine·MIT-0·ClawHub@1.2.0） | ACTIVE |
-| 2026-10-19 | clawhub-model-routing | 机队/基建 | 请求路由纪律（显式模型锁/预算帽/重试只降不升——token-economy 技能化） | skill（canon=cph4/skills/model-routing·MIT-0·ClawHub@1.0.1） | ACTIVE |
-| 2026-10-19 | clawhub-github-repo-ops | 机队/基建 | 免 token GitHub 公共仓操作（401 修复期降级通道·WorkBuddy Phase 4 消费） | skill（canon=cph4/skills/github-repo-ops·MIT-0·ClawHub@1.0.0） | ACTIVE |
-| 2026-10-19 | drama-director | 内容产线 | 漫剧导演席：双轨改造案执法（AI 仿真人主路+Blender 3D 漫化）+连载钩子链审查+平台对标判据（CEO 令 10-19「漫剧彻底改造」·画质及格线=红果头部 AI 仿真人） | skill（canon=cph4/skills/drama-director）+改造案 cph4/fleet/drama-dept-v1/REBUILD-PLAN-v2.md | ACTIVE |
 
 ## 更新日志
 
 - v1.0（2026-10-16·bm-a 建库）：总册首版（常设机构位 15+专家席位 16+八域 skill 索引+城市线专册）+五席新 skill+六件既有 skill 收编 canon+同步/审计双工具+CEO-PROXY 周审步接线（执行档=docs/orders.md 2026-10-16 建库令行）。
 - v1.0.1（2026-10-16·bm-a）：合规席转阶段门控（CEO 令「商业化前轻量」）——§0/§二/§六 合规行改写·skill 同步升版。
-- v1.0.2（2026-10-18·bm-a CEO-PROXY R2.16·NJ-6 ①收口）：记忆治理席 memory-curator 补登记（建库铁律「不登记不存在」修复·立席依据=cph4/research/R-20261018-memory-control-01·CEO 直令 2026-10-18）+§一 记忆夜审门行勘正至闸 v2 参数（4h S4U·预警 35KB/80 条·执法 50KB/120 条）——溯源=orders 2026-10-18 记忆治理直令补录行。
-- v1.0.3（2026-10-18·bm-a 交互窗）：制监席 producer-supervisor 新立（CEO 直令「给我引入监督和校对的机制，反复出现同样的问题，引入监制或者副导演！专门负责审核他们的成品，进行对抗审查」——章程=cph4/fleet/PRODUCER-SUPERVISOR-GATE-v1.md·§二/§六 双登记+MV 呈审链升格为 DIRECTOR-REVIEW+SUPERVISOR-REVIEW 双签制〔BRIEF §一.1 同步〕）——溯源=orders 2026-10-18 19:2x 制监令行。
-- v1.0.3（2026-10-18·bm-a 记忆治理收口批）：治理席节律+=21:47 日班 cron（durable·自续命·prompt 自含五步值守法）+闸 v2.1（L0 重建保留平台标记+KEEP_RULES 补 11 元组+norm_key 同题去重修真）/v2.2（pass2 fresh 降级必落 topics）实弹收口——L0 375,794B/322 条→76,579B/90 条（-80%），法条锚点 33/33 存活。
-- v1.0.4（2026-10-18·bm-a 交互窗）：剪辑师席 mv-editor+版式设计席 mv-typography-designer 新立（CEO 直令「mv 的所有环节 都要有专家…反复修…从根本上解决」——矩阵=cph4/fleet/mv-album-001-jay/MV-ALL-STAGE-EXPERT-COVERAGE-v1.md·每环节一专家一闸·无覆盖禁开工+修复轮预算 ≤2 轮+第 3 轮根因停线+返修成本账）——溯源=orders 2026-10-18 19:2x 全环节专家令行。
-- v1.0.5（2026-10-19·bm-a 交互窗·实验室汇报审计窗）：audit.py 全库审计 PASS（canon 25=装机 25·零孤儿·零缺装）+§三外部池数据实测刷新（awesomeskills.dev 1000+→47,237·补登 anthropics/skills 官方库 36 件·溯源=CEO 实验室汇报问「agent/skill 有哪些·是否最先进」外部对标新鲜验证）——纯数据维护零结构变更。
-- v1.0.6（2026-10-19·bm-a 交互窗·WorkBuddy Phase 3）：ClawHub 技能生态首批五件登记（llmxray/llama-params-optimizer/fleet-doctrine/model-routing/github-repo-ops——全 MIT-0·全 clean/benign·五门评估档=cph4/skills/CLAWHUB-ADOPTION-LEDGER.md+OH-20261019-hq-workbuddy·18 件评估 8 件安全否决=44% 带病率实证「不登记不存在」+「未过五门不装」双律执法）——溯源=orders 2026-10-19 13:40 行 WorkBuddy 推进令。
-- v1.0.7（2026-10-19·bm-a 交互窗·漫剧彻底改造令）：漫剧导演席 drama-director 新立（CEO 直令「漫剧现在做的非常垃圾…组成专家团和技能，彻底改造」——双轨路线=AI 仿真人主路+Blender 3D 漫化·对标定谳=红果头部全部 AI 仿真人路线〔R-20261019-drama-benchmark-01·CSA 冒烟 2/10=路线级错位定谳〕·§0/§二/§三/§六 四处登记·环境矩阵=随 PoC 挂位）——溯源=orders 2026-10-19 漫剧改造令行。

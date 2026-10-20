@@ -82,11 +82,8 @@ Get-ScheduledTask -TaskPath "\" | Where-Object { $_.TaskName -notmatch '^(Micros
     # Runs BEFORE the exempt skip so dead exempt-disabled tasks stay visible.
     $actArgs = [string]($_.Actions | Select-Object -First 1).Arguments
     $scriptPath = $null
-    # D-20261019-05 fix: suffix alternation lacked a \b, so ".pyw" targets were truncated to
-    # ".py" and Test-Path'd to a phantom miss (evidence: BmaIdleGuard rc=0 healthy, flagged
-    # BROKEN-LINK by 10-19 03:07 night run). pyw added + \b asserted; capture stays full path.
-    if ($actArgs -match '-File\s+"([^"]+\.(ps1|pyw?|bat|cmd))\b"') { $scriptPath = $Matches[1] }
-    elseif ($actArgs -match '([A-Z]:\\[^\s"]+\.(ps1|pyw?|bat|cmd))\b') { $scriptPath = $Matches[1] }
+    if ($actArgs -match '-File\s+"([^"]+\.(ps1|py|bat|cmd))"') { $scriptPath = $Matches[1] }
+    elseif ($actArgs -match '([A-Z]:\\[^\s"]+\.(ps1|py|bat|cmd))') { $scriptPath = $Matches[1] }
     if ($scriptPath -and (-not (Test-Path $scriptPath))) {
         $broken += [pscustomobject]@{ task = $name; path = $scriptPath; state = [string]$_.State }
     }

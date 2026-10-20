@@ -15,8 +15,5 @@ function Sweep($query, $label, $limit) {
     } catch { Write-Output ("SWEEP-ERR: " + $_.Exception.Message) }
 }
 
-$dA = (Get-Date).AddDays(-30).ToString('yyyy-MM-dd')
-$dB = (Get-Date).AddDays(-7).ToString('yyyy-MM-dd')
-Sweep ('created:>' + $dA + ' stars:>150') '--- A: new high-star repos created within 30 days ---' 14
-Sweep ('agent OR i2v OR unity OR backtesting stars:>400 pushed:>' + $dB) '--- B: group-relevant domains, active + high star ---' 10
-Sweep ('comfyui OR "video generation" OR "text-to-video" OR lora OR animediff stars:>600 pushed:>' + $dB) '--- C: production-craft refresh (workflows/models/params, CEO order 2026-10-18) ---' 12
+Sweep 'created:>2026-09-16 stars:>150' '--- A: new high-star repos created within 30 days ---' 14
+Sweep 'agent OR i2v OR unity OR backtesting stars:>400 pushed:>2026-10-09' '--- B: group-relevant domains, active + high star ---' 10

@@ -100,21 +100,3 @@ media/drama-pilot-out/
 media/mv-album-001-jay/
 # B2146 2026-10-16 b: drama eps KF pool + assembled episode MP4s (local media outputs, ~1GB+ pool; same ruling as above)
 media/drama-eps/
-# === P-2026-10-18-01 (evolution R4): MV/audio media inside cph4/fleet — copyright song sources & assembled outputs never enter git ===
-# (U187 95MB redline + CEO 2026-10-08 media delivery ruling; B2146 same-pattern; disk files untouched, ignore-only protection)
-cph4/fleet/mv-album-001-jay/audio/
-cph4/fleet/mv-album-001-jay/**/*.mp4
-cph4/fleet/mv0001-handover/outbound/**/*.mp4
-cph4/fleet/mv0001-handover/outbound/**/*.mp3
-cph4/fleet/mv0001-handover/outbound/**/*.wav
-cph4/fleet/h3-local-test/outbound/**/*.mp4
-cph4/fleet/h3-local-test/outbound/**/*.wav
-
-# NATS fleet bus binaries + JetStream store (local-only per machine; fetched by Tools/nats/bootstrap-nats.ps1, CEO order 2026-10-19)
-Tools/nats/bin/
-Tools/nats/data/
-
-# === REPO-SLIM v1 (2026-10-19 CEO order "文件库越来越庞大，解决"; law = cph4/resource-chain.md §11.10) ===
-# Audio sources never enter git - they live in gitignored media/MUSIC (disk copies untouched, untracked backlog removed 10-19)
-*.mp3
-*.wav

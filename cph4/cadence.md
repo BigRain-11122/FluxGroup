@@ -3,7 +3,6 @@
 > 溯源：CEO 令 2026-09-24「建立起清晰的自动化任务周期，不要重复，也不要出问题。还有提交周期什么的，好好梳理一下。不止我说的这些，需要规划好所有的。」（深做授权——全盘梳理）。
 > 定位：**全集团一切自动化周期与提交周期的唯一总账**——resource-chain.md §一 管「在哪跑」，本件管「何时跑+谁跟谁错峰+怎么防重复防出错」。T2+否决窗 7 天。
 > 实测底账：2026-09-24 11:47 bm-a 全机 35 项计划任务盘点（Get-ScheduledTask 实况）。
-> **2026-10-19 §8 全面提速令 v2 生效**：本表「10min 轮族」→5min 族、巡哨/看门/闸各族频率以 §8 变更表为准（表内原值史留·不复述）；新机/新任务登记一律按 §8 档位。
 
 ## 0. 周期总账表（bm-a 实测·2026-09-24 11:47·各分机照此格式自报入账）
 
@@ -119,38 +118,6 @@ CEO 一句话令（任意会话/任意机器）
 - **速度分层锚（governance §0 八原则4）**：秒（poke）/2min（哨兵）/10min（轮）/双班（值守·常务）——各归其道，秒级通道=本链主径、10min 轮=兜底非主径。
 - **v1.3 盲区根治档**（10-09 取证：哨兵 09-29 18:56 后失明 10 天——ledger 行改条目式致正则恒零匹配+纯 O- 行从不扫描+广播键空值+跨机任务通道未接线；修法五件详见 C-20261009-04-bill.md）。
 
-## 8. 全面提速令 v2（CEO 令 2026-10-19「把各种频率都要加快到最高效的，我等不起了」·T1·正身=本节+orders 同日行）
-
-**提速分层五原则**（「最高效」≠「最快」——各机制类拉到各自效率前沿）：
-1. 探针/哨兵类（零 LLM·成本≈0）→ 拉满（1-5min 档）；
-2. 工作轮族（单实例锁防重入+空转快路径在册）→ 2× 提频（10min→5min：领活等待减半·总工作量不变·秒退轮兜底）；
-3. LLM 班次类（token 有价）→ 适度加密（×2）；
-4. **平台写操作类保持不动**（B站族 15min 档——账号安全令：平台频控=外部频率天花板·提速=封号风险·宁慢不可险）；
-5. 立法/梳理观察窗保持（进化轮已日频·记忆治理日班·周立法质量需观察窗）。
-
-**频率变更表 v2**（bm-a 本窗实弹 34 件改频+4 件日班加密·读回全绿；5 件让路暂停态照改〔状态不动〕）：
-
-| 族 | 任务 | 旧→新 |
-|---|---|---|
-| 令流 | FluxGroup-OrderSentinel | 2min→**1min**（令→动工 ≤1-2min） |
-| 交付哨 | bm-a-DeliveryWatch | 5min→**2min** |
-| 10min 轮族→5min 族 | BigDomain/BigLife/Bigmoney-IterationLoop/BigStream-OSLoop/FluxVerse-DevLoop/FluxVerseTick/MiniGameEngineTick/MiniGameOllamaKeepWarm/QuantAuditProbe/BmaIdleGuard/bm-a-CoderServe（停用态照改） | 10min→**5min**（错峰分钟位=原位 mod 5·共享资源对重查归各轮自报） |
-| 调度/巡哨 | HQ-FleetDispatcher 30→**10min**·HQ-FleetIdleWatch 15→**5min**·HQ-CEOProxyEventCarrier 15→**5min**·HQ-MA-ProxyProbe 60→**15min**·FluxGroup-FleetOversight 60→**30min** | — |
-| 十域巡视 | HQ-Patrol-×10 | 30min→**15min** |
-| 记忆闸 | HQ-MemoryBudgetGate | 4h→**2h** |
-| 回测/算力池 | Bigmoney-PoolWorker 15→**5min**·BigCompute-GPU-IdleWatch/OrderSentinel/CleanWindowProbe 15→**5min**（让路暂停态照改·状态不动）·QuantOversightDigest 12h→**6h** | — |
-| 日班加密 | 值守轮 2→**4 班**（03:07/09:07/15:07/21:07）·决策轮 2→**4 班**（00:00/06:00/12:00/18:00）·MiniGameRadarTick 1→**2 班**（09:52/21:52）·MiniGameAuditTick 1→**2 班**（05:52/17:52） | — |
-| CEO-PROXY 班表 | 8 班/日→**12 班/日**（每 2h）——班内步8 自检重建吸收（不直改他席会话 cron·次班生效） | — |
-| **保持不动** | B站族（BiliAutoReply/BiliDM/BiliSlowDel 等·账号安全天花板）·AutoYield 让路律（09:00/19:00）·TjcloudSync（云配额）·BigLife-PoolGenLoop（census 冻结）·SatEngine/ResidentDispatcher/LoopWatchdog/SilenceGuard-Lane/WT-Park（已 1-2min）·进化轮 09:17（已日频）·记忆治理日班 21:47 | — |
-
-**SLA 同步收紧**（§3 提交周期律职权）：快速件 24h→**12h**·CEO 可见交付 ≤5 天→**≤3 天**·跨司 ack 30min→**15min**（1min 哨兵后常态 ≤5min）——governance §11 同窗勘正。
-
-**B/C 机执行令**：照本表对各自同族任务 Set-ScheduledTask 单字段改频（保 S4U+VBS 链不动·读回验证·停用态照改状态不动）——回执=fleet/inbox/MSG-<HHMM>-<机>-cadence-v2.md·回执窗=今日 22:0x 日进化班前。
-
-**正典勘正清单**：本窗已改=AI.md §3 机制表+AGENT-LIBRARY §一 节律列+governance §11+cadence §0 注；归承席位=council.md 双班→4 班（委员会窗）+各司 mandate 内 10min 字样（各司自报窗）。
-
-**诚实边界**（频率≠吞吐）：本令改善的是响应/领取延迟（轮询等待减半）；产线吞吐瓶颈（GPU 工时/云配额 100 滚动/bm-d 物理）不受触发频率影响——吞吐根治=三车道并行+夜窗满载+bm-d 上线（在飞件），本令与之互补非替代。
-
 ### Changelog
 - 2026-09-30: **FluxGroup-QuantAuditProbe 入账**（D-20260930-34 外审节奏持久化·长假检查轮 O-20260930-1540 代 CPH4 技术底层提前落地）：D-32 量化外审节奏器从会话常驻升格计划任务（10min :x1 车道·单轮 -MaxRuns 1 实测 12s 三探针绿·点火验证 LastResult=0+台账 3→4 行）——**两处规格偏离如实记**：①车道路 D-34 原建议 :x4 已被 BigDomain-OSLoop 占用→按防冲突律改 :x1；②动作 pwsh→powershell.exe（机内正体=PS5.1·脚本 ASCII 兼容实测过）+**静默律升格**（D-34 原规格裸 -WindowStyle Hidden=09-29 整改判例违例面→本落地改 Tools/InvisibleRunner.vbs 包装·合规 09-29 静默唯二正道律）；产物脏树面同步治（quant-audit-probe-20260930.json/deliverable-metrics.json 两追踪件 untrack+deliverable-metrics 补 .gitignore——10min 重写追踪件=永久脏树·D-32「三件产物均 ignore」意图对齐·首跑基线存 git 史）。
 - 2026-09-24: initial v1.0（35 项实测总账+防重复防冲突双律+提交周期表+错峰修正 :x7→:x6）。
@@ -182,6 +149,3 @@ CEO 一句话令（任意会话/任意机器）
 
 - 2026-10-10: **§6 信号④ 产出实据监控=集团机制面 L3 承接件入账（C-20261010-01 委员会全盘自查案·R4「机制活性无自证」族收口）**：`Tools/fleet-mechanism-audit.ps1` v1.0（五探针：OrderSentinel state 龄 ≤5min／哨兵日志尾日期 ≤26h〔OrderSentinel v1.3.1 每日心跳行〕／FleetLink 监听 state 龄 ≤10min／静默审计龄 ≤25h／巡检戳记 ≤8d）+值守轮③机制自检挂面——分工：task-health 管进程面（任务跑了）·本工具管功能面（功能活着——哨兵瞎十天/守卫假绿两案〔10 天/7 天无人发现〕的常设防线）；判据回访 10-16 与 C-20261009-01/02/03/04 同窗。
 - 2026-10-14: **§7.1 v4 命令发布台步**（CEO 令 O-20261014-1210·CEO-PROXY 立席——闭环前置 ⓪ 步；值守/常务/哨兵各面不变）。
-- 2026-10-19: **§8 全面提速令 v2**（CEO 原话「把各种频率都要加快到最高效的，我等不起了」·T1·bm-a 本窗实弹 34 件改频+4 件日班加密·读回全绿；含 5 件让路暂停态照改+FluxGroup-FleetOversight 勘误名）：提速分层五原则+频率变更表+SLA 收紧（快速件 12h/CEO 可见 ≤3 天/ack 15min）+B/C 机执行令+正典勘正清单+诚实边界（频率≠吞吐）——orders 2026-10-19 11:4x 行同步落账。
-- 2026-10-19 二批: **FluxGroup-RepoSlim 日 09:03 入账**（CEO 令「文件库越来越庞大，解决」·git 库唯一合法打包器+大件闸执法哨·法=resource-chain §三.11·出生闸=Tools/hooks/pre-commit 三态点火实证〔21MB 拦 exit1/6MB 警/小件放行 exit0〕·同批 .git 795MB 松散堆积→gc 536MB+mp3 11 件停追+*.mp3/*.wav 全库 ignore·首跑实弹抓到 PACK-GROWTH 告警=多窗 add 大件实时入 .git 铁证）——orders 2026-10-19 12:1x 行同步落账。
-- 2026-10-19 三批: **FluxGroup-AssetAudit 周 10080m 入账**（CEO 令「形成优化机制，不要随着时间就膨胀到不可控了」·Unity 资产面膨胀哨·法=resource-chain §三.12 膨胀治理总纲〔五件套模式+面位登记表+膨胀三问门〕·只读扫 gaming\FluxVerse 活跃面 8,286 图·点火实测 exit0·Art Assets 25 万图=月度夜窗深扫+入库闸禁周扫白天）+**计划任务面总量预算线 100/120 预警执法**（实测 90 件·超预警一进一出制）——orders 2026-10-19 12:3x 行同步落账。
