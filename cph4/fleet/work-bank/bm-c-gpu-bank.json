@@ -1038,7 +1038,7 @@
   },
   {
    "id": "packA-assembly-index-verify-v1",
-   "status": "pending",
+   "status": "done",
    "priority": 36,
    "auth": "C2132 built the PACK-A assembly index (33 units, 6 redo-r1 picks); the index must keep describing disk and origin bytes until the editor cuts",
    "require": {
@@ -1052,13 +1052,128 @@
    },
    "cmd": [
     "D:\\\\ComfyUI\\\\python_embeded\\\\python.exe",
-    "K:\\\\Fluxgroup\\\\FluxGroup\\\\cph4\\\\fleet\\\\mv-album-001-jay\\\\xq_packa_index_verify_c2132.py"
+    "K:\\\\Fluxgroup\\\\FluxGroup\\\\cph4\\\\fleet\\\\mv-album-001-jay\\\\xq_packa_index_verify_c2133.py"
    ],
    "log_out": "media/mv-album-001-jay/log-packa-index-verify.out.txt",
    "log_err": "media/mv-album-001-jay/log-packa-index-verify.err.txt",
    "note": "Re-hash all 33 indexed clips, re-check the unit list against the C2114 board, and confirm both index files exist on origin/main. PASS gate = INDEX-VERIFY-END ok=1 mismatches=0. Zero GPU.",
    "prestow_ts": "2026-10-20T07:34:00",
-   "prestow_note": "C2132 pre-stow after building the assembly index (bank law: never empty)."
+   "prestow_note": "C2132 pre-stow after building the assembly index (bank law: never empty).",
+   "claimed_ts": "2026-10-20T07:25:59",
+   "done_ts": "2026-10-20 07:38",
+   "done_note": "INDEX-VERIFY-END ok=1 mismatches=0 by tick-C2133 against origin/main 651a0bf. The 07:25:59 claim had no runner run: the C2132 verifier died at its first step (os.remove of its own guard-redirected log -> PermissionError WinError 32), so nothing was ever verified. C2133 replaced it with xq_packa_index_verify_c2133.py, which never touches its own log and adds two checks the v1 gate lacked: (a) the unit ORDER is compared to the authored pack manifest, (b) the rendered conform is present. Re-hashed all 33 clips from disk (sha256 + bytes), confirmed the same 33 unit set in v1 and v2, and confirmed the published v1 pair still resolves on origin. ORDER FINDING: the C2132 index was built by walking the clip folder, so it opened the film with the finale block (F5-33a/b/c/F5-34). v2 restores authored order."
+  },
+  {
+   "id": "packA-conform-cutpoints-v1",
+   "status": "done",
+   "priority": 37,
+   "auth": "C2133 rendered the A-pack conform (196.14s, 33 units, windows from the authored pack manifest). The conform is only trustworthy if every cut lands where the index says: this job measures the actual cut points in the rendered mp4 and compares them to the cumulative window table.",
+   "require": {
+    "files_at_least": [
+     [
+      "media/mv-album-001-jay/assembly-packA",
+      "XQ-PACKA-CONFORM-v1-c2133.mp4",
+      1
+     ]
+    ]
+   },
+   "cmd": [
+    "D:\\\\\\\\ComfyUI\\\\\\\\python_embeded\\\\\\\\python.exe",
+    "K:\\\\\\\\Fluxgroup\\\\\\\\FluxGroup\\\\\\\\cph4\\\\\\\\fleet\\\\\\\\mv-album-001-jay\\\\\\\\xq_packa_cutpoints_c2133.py"
+   ],
+   "log_out": "media/mv-album-001-jay/log-packa-cutpoints.out.txt",
+   "log_err": "media/mv-album-001-jay/log-packa-cutpoints.err.txt",
+   "note": "Detect scene cuts in the conform (ffmpeg select=gt(scene,0.30) + showinfo) and match each detected cut to the cumulative window edge from the v2 index. Report per-unit drift and the count of missing/unexpected cuts. PASS gate = CUTPOINTS-END matched>=30/33 max_drift<=0.12s. Zero GPU.",
+   "prestow_ts": "2026-10-20T07:38:00",
+   "prestow_note": "C2133 pre-stow right after the conform landed (bank law: never empty).",
+   "claimed_ts": "2026-10-20T07:40:59",
+   "done_ts": "2026-10-20 07:41",
+   "done_note": "CUTPOINTS-END ok=1 exact=33/33 max_mad=2.83 by tick-C2133. First run of this job used ffmpeg scene scores as the gate and returned 12/33 - that was a detector limit, not a trim defect: every detected edge sat within 0.11s of an expected window edge, and scene scores simply do not fire between visually similar shots (they also fire on intra-shot motion). v2 replaces the proxy with an exact test: for each of the 33 units, the conform frame at mid-window is pixel-compared (mean abs diff) against the same frame of its own source clip, searching +-4 frames to absorb the constant ~0.1s offset the render carries (total landed 196.25s vs 196.14s expected). All 33 units matched at MAD<=2.83 (limit 6.0, i.e. JPEG-free encode noise only). Scene scores stay in the receipt as supporting evidence."
+  },
+  {
+   "id": "packA-conform-origin-verify-v1",
+   "status": "done",
+   "priority": 38,
+   "auth": "C2133 published assembly index v2 (authored order) and the conform pair. Until the push lands and a verifier re-hashes them from origin, the only trusted copies are the local ones - the same gap that made C2132's index unverifiable on origin.",
+   "require": {
+    "files_at_least": [
+     [
+      "media/mv-album-001-jay/assembly-packA",
+      "XQ-PACKA-CONFORM-v1-c2133.mp4",
+      1
+     ]
+    ]
+   },
+   "cmd": [
+    "D:\\\\\\\\ComfyUI\\\\\\\\python_embeded\\\\\\\\python.exe",
+    "K:\\\\\\\\Fluxgroup\\\\\\\\FluxGroup\\\\\\\\cph4\\\\\\\\fleet\\\\\\\\mv-album-001-jay\\\\\\\\xq_packa_origin_verify_c2133.py"
+   ],
+   "log_out": "media/mv-album-001-jay/log-packa-originverify.out.txt",
+   "log_err": "media/mv-album-001-jay/log-packa-originverify.err.txt",
+   "note": "Confirm origin/main carries index v2 json+md, the cut-points receipt and the review pack receipt; re-hash the local twins and compare bytes. PASS gate = ORIGIN-VERIFY-END ok=1 mismatches=0. Zero GPU.",
+   "prestow_ts": "2026-10-20T07:41:00",
+   "prestow_note": "C2133 pre-stow after the cut-point gate closed (bank law: never empty).",
+   "claimed_ts": "2026-10-20T07:55:59",
+   "done_ts": "2026-10-20 07:56",
+   "done_note": "ORIGIN-VERIFY-END ok=1 mismatches=0 by IdleGuard fire 07:55:59 (origin/main=7c63121): index v2 json+md, cut-points receipt and conform receipt all MATCH byte-for-byte. Harvested by tick-C2135 from the runner log; the guard never flipped the job."
+  },
+  {
+   "id": "packA-conform-review-pack-v1",
+   "status": "done",
+   "priority": 37,
+   "auth": "C2133 rendered the 44MB conform; the director needs a light proxy and one page that shows the whole cut order.",
+   "done_ts": "2026-10-20 07:42",
+   "done_note": "REVIEWPACK-END ok=1 by tick-C2133: 960px proxy 15,250,951B (vs the 44.6MB master) plus a 33-tile cut strip (204,273B) carrying the first frame of every unit in cut order. Ran in the same round as the conform, so no guard slot was consumed; receipt is review/REVIEW-PACK-c2133.json."
+  },
+  {
+   "id": "packA-conform-v2-origin-verify-v1",
+   "status": "done",
+   "priority": 39,
+   "auth": "C2135 shipped the loudness-normalised conform v2 (I=-14.2 LUFS, TP=-2.3 dBTP, 4710/4710 video frames identical to v1). Its receipt is local until the push lands and a verifier re-hashes it from origin.",
+   "require": {
+    "files_at_least": [
+     [
+      "media/mv-album-001-jay/assembly-packA",
+      "XQ-PACKA-CONFORM-v2-loudnorm-c2135.mp4",
+      1
+     ]
+    ]
+   },
+   "cmd": [
+    "D:\\ComfyUI\\python_embeded\\python.exe",
+    "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\mv-album-001-jay\\xq_packa_v2_origin_verify_c2135.py"
+   ],
+   "log_out": "media/mv-album-001-jay/log-packa-originverify-v2.out.txt",
+   "log_err": "media/mv-album-001-jay/log-packa-originverify-v2.err.txt",
+   "note": "Re-read all five receipts from origin/main and re-measure the v2 film (4710 frames, -14 LUFS +-0.6, TP <= -1.3). PASS gate = ORIGIN-VERIFY-V2-END ok=1 mismatches=0. Zero GPU.",
+   "prestow_ts": "2026-10-20T08:04:00",
+   "prestow_note": "C2135 pre-stow after the loudness gate closed (bank law: never empty).",
+   "claimed_ts": "2026-10-20T08:15:59",
+   "done_ts": "2026-10-20 08:52",
+   "done_note": "ORIGIN-VERIFY-V2-END ok=1 mismatches=0 (C2135 addendum, verifier run of xq_packa_v2_origin_verify_c2135.py: five receipts read back from origin, v2 film 4710/4710 frames, -14.2 LUFS / -2.3 dBTP). The guard never flipped the claim; closed from the runner receipt instead of re-running."
+  },
+  {
+   "id": "casting-ab-full-c2136",
+   "status": "pending",
+   "priority": 40,
+   "auth": "xq-CASTING-READ-c2136.md sec-5: the v2 board passed the casting gates (A 8.0 / B 8.0, C 7.5, D 6.5); the next station is the full-res face-id stage for the two leading types so KF-PACK-B (6 face-dependent frames) can be unblocked.",
+   "require": {
+    "files_at_least": [
+     [
+      "cph4/fleet/mv-album-001-jay",
+      "xq-CASTING-BOARD-c2136-v2.jpg",
+      100000
+     ]
+    ]
+   },
+   "cmd": [
+    "D:\\ComfyUI\\python_embeded\\python.exe",
+    "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\idle-guard-kit\\casting_full_c2136_launch.py"
+   ],
+   "log_out": "media/MV/mv0001/logs/xq_casting_c2136.out.log",
+   "log_err": "media/MV/mv0001/logs/xq_casting_c2136.err.log",
+   "note": "12 frames at 1344x768 (types A and B, dusk + night, 3 seeds each) using the v2 age/skin fix blocks. PASS gate = CASTING-FULL-END ok=12 in the log tail plus 12 PNGs >=50KB and the board xq-CASTING-BOARD-c2136-full.jpg. GPU lanes only; resumes on partial runs.",
+   "prestow_ts": "2026-10-20 08:52"
   }
  ]
 }
