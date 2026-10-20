@@ -262,5 +262,17 @@
   "card": "[交接卡 POOL-0021]\n①@机+lane：@bm-c·gpu-production（生成视觉专用道·KF 量产提速验证批）\n②回执窗：24h（POOL-0016 余项完成后接续·夜间 GPU 满载档）\n③验收物+证据指针：部署回执（四件 sha/尺寸）+试烧对比 LOOKBOARD 拼板（q88·Turbo vs Krea2 turbo 同提示词 3-5 代表帧）+速度/显存/质量三账实测表（回填 cph4/research/R-20261019-work-assistant-landscape.md §五应用表）+Qwen-Image-2.1 LICENSE 全文商用判定行（qwen-research·非 Apache）+orders 回执行+commit sha\n④spec 指针：cph4/research/R-20261019-work-assistant-landscape.md L72/L86（候选定档行）+cph4/fleet/bm-b-model-stack-20261016.md（同栈配方=turbo int8 DiT 6.92G+w4a8 TE 6.02G+VAE 0.64G+turbo LoRA 0.87G·1024²·8步·cfg1·euler/simple·QwenImage21Cache(auto)·TextEncodeQwenImage21·bm-b 8G 20s/张 PASS 实证）+cph4/fleet/mv-album-001-jay/星晴-KF-PACK-A-v1.md（KF 代表帧取样源·场景/道具类·ID 脸面除外〔jman LoRA=Krea2 道不换〕）\n⑤溯源令号：O-20261019-1935（CEO「确保机队其他机器满负荷生产，且有产出！」·docs/orders.md 10-19 19:35 行）\n⑥输入/输出：输入=Qwen-Image-2.1-Turbo int8 四件（HF/ModelScope 拉取·bm-b 配方可复用）+KF 代表提示词；输出=部署+对比板+三账实测表+许可判定行\n⑦依赖：POOL-0016 余项（night-1/night-3）P1 先行·与星晴 A 批 KF（候导演席签发）错峰不抢同窗\n⑧卡 ID：POOL-0021\n⑨provenance：直述（CEO 原话「确保机队其他机器满负荷生产，且有产出！」·bm-a 总控窗 10-19 19:35 开卡）",
   "result_ref": "",
   "depends_on": []
+ },
+ {
+  "id": "POOL-0022",
+  "title": "W1 可爱女人 KF-PACK-A A 批 28 帧照烧（L2 verdict FIX 合并签发后点火·海选第一档）",
+  "lane": "bm-c",
+  "priority": "P1",
+  "status": "open",
+  "created_by": "bm-a-总控窗 2026-10-20 11:24（CEO 多曲加速令 O-20261020-1124）",
+  "spec": "可爱女人 KF-PACK-A v1（DRAFT 146 行+shots-v2.py 机读正身·B4 区间 4 帧·四块 7+8+9+4=28 帧）·独立评审 L2 verdict 已出（共享块 PASS·FIX：city_bowl 光块尾句并 F7 等）→导演席合并 FIX+复检+签发→@bm-c GPU 照烧 28 帧→LOOKBOARD q88 板→导演席海选第一档判读→烧速实测回填。JAY_BONE 骨相锚 v2 逐字·ID 块复用·零否定词。",
+  "card": "[交接卡 POOL-0022]\n①@机+lane：@bm-c·gpu-production（生成视觉专用道·W1 可爱女人 KF A 批 28 帧照烧）\n②回执窗：签发后 24h（KF 全批+LOOKBOARD 拼板+烧速/张数实测回填）\n③验收物+证据指针：28 帧 KF 入 KF 目录（bmc/kf/ 族律）+24 张/板 LOOKBOARD q88 拼板+烧速实测回填行+导演席海选第一档判读板存档+orders 回执行+commit sha\n④spec 指针：cph4/fleet/mv-album-001-jay/可爱女人-KF-PACK-A-v1-DRAFT.md（146 行）+可爱女人-shots-v2.py（机读正身 NEW 4 帧 B4 区间=28 帧对账）+PROMPT-GATE-可爱女人-KF-PACK-A-v1-L2.md（FIX 合并后签发版）+PROMPT-EXPERT-GATE-v1（十面检查单零豁免）+MV-PIPELINE-PLAYBOOK §S3 海选制 v1.1\n⑤溯源令号：O-20261020-1124（CEO「其他的mv赶紧产出，调用机队其他机器算力」·docs/orders.md 10-20 11:24 行）\n⑥输入/输出：输入=签发版提示词包+F1-F11 裁定口径+光位波段豁免+JAY_BONE 骨相锚；输出=28 帧 KF+A 批 LOOKBOARD+烧速实测\n⑦依赖：导演席 L2 FIX 合并+复检+签发（未签=禁烧·烧制侧拒收律）；GPU 空档已探明（10-20 11:24 vram_free=14156MiB）\n⑧卡 ID：POOL-0022\n⑨provenance：直述（CEO 原话「其他的mv赶紧产出，调用机队其他机器算力」·bm-a 总控窗 10-20 11:24 开卡）",
+  "result_ref": "",
+  "depends_on": []
  }
 ]
