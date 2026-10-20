@@ -38,7 +38,7 @@
 
 ## 4. 包内容（本目录）
 
-- `canon/`：BRIEF-v2.md（十场正典）/PRODUCTION.md（产线 v3.1 铁序）/SCRIPT-v1.md/ANALYSIS-v2.md
+- `canon/`：BRIEF-v2.md（十场正典）/PRODUCTION.md（产线 v3.1 铁序）/SCRIPT-v5.2.md/ANALYSIS-v2.md
 - `scripts/`：full_mv_v2.py（v2 在役链·调色链按落点C 六升级位替换）/full_mv.py/gen_storyboard.py
 - `data/`：structure.json（whisper 词窗 59 行+BPM 109.1·切点对轴正典）/lyrics_v2.ass（含尾桥字幕）
 - `refs/`：原版 MV 帧 9 张+接触表（色板/构图校准源）/era 接触表（开不了口）/弹幕报告
