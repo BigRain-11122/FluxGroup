@@ -1,6 +1,6 @@
 # PROMPT-GATE-可爱女人-KF-PACK-A-v1-SIGN（第 3 层导演席合并·复检·签发）
 
-- **gate id**：PROMPT-GATE-可爱女人-KF-PACK-A-v1-SIGN · 2026-10-20 12:5x · 签发面=bm-a 导演席（承 O-20261020-1124 W1-W2 多曲加速排产令 @bm-a 份额；三层闸=PROMPT-EXPERT-GATE-v1 + 独立审 verdict + 导演席合并签发）
+- **gate id**：PROMPT-GATE-可爱女人-KF-PACK-A-v1-SIGN · 2026-10-20 12:4x · 签发面=bm-a 导演席（承 O-20261020-1124 W1-W2 多曲加速排产令 @bm-a 份额；三层闸=PROMPT-EXPERT-GATE-v1 + 独立审 verdict + 导演席合并签发）
 - **审对象**：`可爱女人-shots-v2.py` NEW 30 帧（A 批 28 帧：B1 KN01-07 / B2 KN09-16 / B3 KN17-23+KN20b / B4 KN25/28/29/30；KN08/KN24 不在 A 批审面）· 人读稿 `可爱女人-KF-PACK-A-v1-DRAFT.md`
 - **verdict 源**：`PROMPT-GATE-可爱女人-KF-PACK-A-v1-L2.md`（2026-10-18·独立评审席·四块·整包 FIX 级 28 帧 PASS15/FIX13/REJECT0）
 
@@ -17,7 +17,7 @@
 | F-9① | KN25 | 中句换她窗+城钠对位定稿 + 尾句去 sodium 重复 | 命中 1 · 134 词 |
 | F-29 | KN29 | `one plain white and one cream paper plane with its wing tip dipped in red`（HER_PLANE 同款律回锚） | 命中 1 · 144 词 |
 
-## 二 复检回执（机核 · 2026-10-20 12:5x）
+## 二 复检回执（机核 · 2026-10-20 12:4x）
 
 - runner=`media\BigStream\.c3-tmp\r2413_recheck_keai.py`（import 正身模块 → 逐帧 `LX.lint(mode='t2i')` 三名单 + 词数 + FIX 特征串）
 - **lint：30/30 帧零命中（issues=0）**
