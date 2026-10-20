@@ -1238,6 +1238,27 @@
    "prestow_note": "C2142 pre-stow (bank law: never empty) after closing the probe-res re-roll.",
    "done_ts": "2026-10-20T12:36:23",
    "done_note": "VERDICT: B-EX2 anchor is unrenderable, not seed-dependent. 5 frames total - 3 at 672x384 (204921/206038/207158) and 2 at 1344x768 (206038/207158) - all read at native size show 3-4 fused finger shapes, no plausible thumb (hand clause 0/5). Eyeline heights also mismatch and skin is glossy with no pores at both sizes. No B-EX2 seed is locked for the main pass. Ruling landed in xq-CASTING-VERDICT-c2136-full.md sec-5: hand close-ups occupying >8% of frame are rejected at birth; B-EX2 is re-anchored as an occluded-hand composition (her hand disappears behind the jacket hem, camera from behind her shoulder, gesture read from the arm angle). Next: re-shoot B-EX2 on the new anchor, then the 1344x768 main pass over approved frames."
+  },
+  {
+   "id": "kfpb-bex2-occl-verdict-c2143",
+   "status": "pending",
+   "priority": 43,
+   "auth": "C2143 fired the re-anchored B-EX2 (occluded-hand composition per verdict c2136 sec-5, 1344x768, 3 seeds). The frames exist but nobody has read them at native size, so no seed is locked for the main pass yet.",
+   "require": {
+    "files_at_least": [
+     [
+      "media/MV/mv0001/xingqing/xq-kfpb-bex2-occl-c2143",
+      "",
+      2
+     ]
+    ]
+   },
+   "cmd": [],
+   "log_out": "media/MV/mv0001/logs/kfpb_bex2_occl.out.log",
+   "log_err": "media/MV/mv0001/logs/kfpb_bex2_occl.err.log",
+   "note": "Zero GPU review job. Read each PNG at native resolution: is the hand actually hidden behind the hem (no fingers poking through), does his eyeline read as a single believable line to her face, does her arm angle carry the gesture, and is the skin free of the glossy waxy face. PASS gate = a written verdict in done_note naming either the locked seed for the 1344x768 main pass or a further anchor change with the reason.",
+   "prestow_ts": "2026-10-20T12:54:34",
+   "prestow_note": "C2143 pre-stow (bank law: never empty) right after firing the re-anchored burn."
   }
  ]
 }
