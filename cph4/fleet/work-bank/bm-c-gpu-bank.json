@@ -1289,7 +1289,7 @@
   },
   {
    "id": "kfpb-mainpass-verdict-c2144",
-   "status": "pending",
+   "status": "done",
    "priority": 45,
    "auth": "C2144 fired the six-frame 1344x768 main pass (locked seeds, B-EX2 occluded anchor). The frames exist but nobody has read them at native size, so KF-PACK-B is not approved yet.",
    "require": {
@@ -1306,7 +1306,45 @@
    "log_err": "media/MV/mv0001/logs/kfpb_mainpass.err.log",
    "note": "Zero GPU review job. Read each of the six PNGs at native resolution against its shot intent: hand/feet framing without fused digits, face identity and era hair, B-EX2 hand fully hidden by the hem with connected eyeline, night two-shot skin not waxy, no text/logo, no Korean styling. PASS gate = a written verdict in done_note approving all six for the KF-PACK-B assembly, or naming the frames that need a re-roll with the defect each one carries.",
    "prestow_ts": "2026-10-20T13:34:31",
-   "prestow_note": "C2144 pre-stow (bank law: never empty) right after firing the six-frame main pass."
+   "prestow_note": "C2144 pre-stow (bank law: never empty) right after firing the six-frame main pass.",
+   "claimed_ts": "2026-10-20T13:46:09",
+   "done_ts": "2026-10-20T14:03:05",
+   "claimed_by": "tick-C2145-harvest",
+   "done_note": "VERDICT: all six KF-PACK-B frames approved for the A+B assembly - 4 PASS / 2 MINOR / 0 FAIL, every frame read individually at 1344x768 native (never from the board). S1-08 (s726816) MINOR: hand anatomy clean, face out of frame, era correct, but the render grips the handlebar while the English shotlist cell says seat frame - the Chinese beat says cheba, so the frame is right and the script cell was wrong; cell fixed this round. S3-17 (s266291) FAIL at c2144 then PASS on the c2145 re-roll: the main pass came back as a full-body two-shot from behind (feet close-up intent not delivered, shoe types unreadable), so the frame was re-burned with the framing clause made explicit (runner kfpb_s317_feet_c2145.py, 1344x768, 65s) and the re-roll now fills the frame with feet + white line, 4 feet / 2 people, distinct silhouettes, correct road contact. Two accepted nits: the crop sits at the knee rather than the ankle, and both pairs are laced (the one-plain-canvas intent did not land) - silhouettes still separate, so no third burn. S3-21 (s129686) MINOR: shy-joy read, hair/era correct, pores not resolvable under 2800K backlight (lighting not skin). S5-31 (s323825) PASS: both faces coherent, mutual eyeline, warm non-waxy skin. B-EX1 (s143992) PASS: two-hand spool grip, taut line physics. B-EX2 (s204921) PASS: hand fully hidden behind the jacket hem, single eyeline - the C2142 hand-close-up dead end is closed for good. Evidence: xq-KFPB-MAINPASS-VERDICT-c2144.md, xq-KFPB-MAINPASS-APPROVED-c2144.jpg, xq-KFPB-S317-BOARD-c2145.jpg, receipts c2144 + c2145. Rollup 4 PASS / 2 MINOR / 0 FAIL. KF-PACK-B is unlocked; successor prestowed."
+  },
+  {
+   "id": "kfpb-ab-coverage-c2145",
+   "status": "blocked",
+   "priority": 46,
+   "auth": "KF-PACK-B approved (verdict c2144/c2145, 4 PASS / 2 MINOR / 0 FAIL). xq-CASTING-VERDICT-c2136-full.md sec-4 item 3 makes the A+B coverage board the gate before i2v: the six B frames and the 32 approved A frames have never been laid against the full song timeline.",
+   "require": {
+    "files_at_least": []
+   },
+   "cmd": [],
+   "log_out": "media/MV/mv0001/logs/kfpb_ab_coverage.out.log",
+   "log_err": "media/MV/mv0001/logs/kfpb_ab_coverage.err.log",
+   "note": "BLOCKED until the builder exists. Author cph4/fleet/idle-guard-kit/kfpb_ab_coverage_c2145.py first, then set cmd to [pythonw, that script] and flip status to pending. The builder must: read the A-pack approved frame inventory and the six B-pack main-pass frames, map each to its shot id and timecode from Xingqing-SHOTLIST-v3.md, and emit (a) a timeline coverage board PNG marking covered vs empty seconds across the 0-238s assembly window (A-pack sample 196.14s of a 259.4s song) and (b) a gap list with the shot ids still missing. No i2v wave may fire before this board exists.",
+   "prestow_ts": "2026-10-20T14:03:05",
+   "prestow_note": "C2145 pre-stow (bank law: never empty) right after approving KF-PACK-B at native size."
+  },
+  {
+   "id": "kfpb-s317-alt-c2145",
+   "status": "claimed",
+   "priority": 42,
+   "auth": "S3-17 was replaced by the c2145 re-roll at seed 266291 (verdict c2144 sec-2). The two other seeds in that wave were never actually burned - the first run shared one cid across seeds and the skip-if-done guard burned only the first (fixed since). Alternates cost ~2.5 min of idle GPU.",
+   "require": {
+    "files_at_least": []
+   },
+   "cmd": [
+    "D:\\ComfyUI\\python_embeded\\pythonw.exe",
+    "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\idle-guard-kit\\kfpb_s317_feet_c2145.py"
+   ],
+   "log_out": "media/MV/mv0001/logs/kfpb_s317.out.log",
+   "log_err": "media/MV/mv0001/logs/kfpb_s317.err.log",
+   "note": "Burns the two unburned S3-17 seeds (310477, 410233) at 1344x768 with the feet close-up anchor; the already-approved seed 266291 is skipped by the size guard. PASS gate = 2 new PNGs >=900KB in media/MV/mv0001/xingqing/xq-kf-s317-feet-c2145/ and then a native-size read that either names one alternate or records that 266291 stays primary.",
+   "prestow_ts": "2026-10-20T14:03:21",
+   "prestow_note": "C2145 pre-stow: runnable work so the bank is never empty; GPU is idle after the round.",
+   "claimed_ts": "2026-10-20T14:05:59"
   }
  ]
 }
