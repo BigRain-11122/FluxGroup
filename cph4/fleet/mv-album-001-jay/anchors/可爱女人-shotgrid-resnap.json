@@ -1,0 +1,1157 @@
+{
+  "song": "可爱女人",
+  "version": "anchor-shotgrid v2.0 resnap (word-onset select / beat place)",
+  "inputs": {
+    "beats_sha_face": 533,
+    "n_beats": 533,
+    "n_downbeats": 133,
+    "duration_sec": 239.03
+  },
+  "bpm_median": 136.4,
+  "snap_tol_sec": 0.1,
+  "max_shot_sec": 3.0,
+  "grid": [
+    {
+      "i": 0,
+      "text": "想要有直升机",
+      "t0": 29.23,
+      "t1": 32.88,
+      "t0_used": 29.23,
+      "t1_used": 32.9,
+      "snapped": true,
+      "snap_deltas": [
+        -0.13,
+        -0.02
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 30.69,
+      "cut1": 32.9,
+      "on_beat": true,
+      "word_onset": 30.707,
+      "onset_offset": 0.017,
+      "resnap": "beat"
+    },
+    {
+      "i": 1,
+      "text": "想要和你飞到宇宙去",
+      "t0": 32.88,
+      "t1": 36.4,
+      "t0_used": 32.9,
+      "t1_used": 36.45,
+      "snapped": true,
+      "snap_deltas": [
+        -0.02,
+        -0.05
+      ],
+      "approx": false,
+      "splits": [
+        36.0
+      ],
+      "cut0": 32.9,
+      "cut1": 36.45,
+      "on_beat": true,
+      "word_onset": 32.908,
+      "onset_offset": 0.008,
+      "resnap": "beat"
+    },
+    {
+      "i": 2,
+      "text": "想要和你融化在一起",
+      "t0": 36.4,
+      "t1": 39.96,
+      "t0_used": 36.45,
+      "t1_used": 39.99,
+      "snapped": true,
+      "snap_deltas": [
+        -0.05,
+        -0.03
+      ],
+      "approx": false,
+      "splits": [
+        39.55
+      ],
+      "cut0": 36.45,
+      "cut1": 39.99,
+      "on_beat": true,
+      "word_onset": 36.47,
+      "onset_offset": 0.02,
+      "resnap": "beat"
+    },
+    {
+      "i": 3,
+      "text": "融化在银河里",
+      "t0": 39.96,
+      "t1": 42.19,
+      "t0_used": 39.99,
+      "t1_used": 42.21,
+      "snapped": true,
+      "snap_deltas": [
+        -0.03,
+        -0.02
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 39.99,
+      "cut1": 40.44,
+      "on_beat": true,
+      "word_onset": 39.992,
+      "onset_offset": 0.002,
+      "resnap": "beat"
+    },
+    {
+      "i": 4,
+      "text": "我每天每天每天在想想想想着你",
+      "t0": 42.19,
+      "t1": 46.59,
+      "t0_used": 42.21,
+      "t1_used": 46.64,
+      "snapped": true,
+      "snap_deltas": [
+        -0.02,
+        -0.05
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 40.44,
+      "cut1": 40.88,
+      "on_beat": true,
+      "word_onset": 40.552,
+      "onset_offset": 0.112,
+      "resnap": "beat"
+    },
+    {
+      "i": 5,
+      "text": "这样的甜蜜",
+      "t0": 46.59,
+      "t1": 47.78,
+      "t0_used": 46.64,
+      "t1_used": 47.78,
+      "snapped": true,
+      "snap_deltas": [
+        -0.05,
+        -0.19
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 40.88,
+      "cut1": 41.32,
+      "on_beat": true,
+      "word_onset": 40.552,
+      "onset_offset": 0.328,
+      "resnap": "beat"
+    },
+    {
+      "i": 6,
+      "text": "让我开始相信命运",
+      "t0": 47.78,
+      "t1": 51.26,
+      "t0_used": 47.78,
+      "t1_used": 51.26,
+      "snapped": false,
+      "snap_deltas": [
+        -0.19,
+        0.19
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 41.32,
+      "cut1": 41.76,
+      "on_beat": true,
+      "word_onset": 40.552,
+      "onset_offset": 0.768,
+      "resnap": "beat"
+    },
+    {
+      "i": 7,
+      "text": "感谢地心引力",
+      "t0": 51.26,
+      "t1": 53.88,
+      "t0_used": 51.26,
+      "t1_used": 53.88,
+      "snapped": false,
+      "snap_deltas": [
+        0.19,
+        0.16
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 41.76,
+      "cut1": 42.21,
+      "on_beat": true,
+      "word_onset": 40.552,
+      "onset_offset": 1.208,
+      "resnap": "beat"
+    },
+    {
+      "i": 8,
+      "text": "让我碰到你",
+      "t0": 53.88,
+      "t1": 57.03,
+      "t0_used": 53.88,
+      "t1_used": 57.03,
+      "snapped": false,
+      "snap_deltas": [
+        0.16,
+        0.21
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 42.21,
+      "cut1": 42.65,
+      "on_beat": true,
+      "word_onset": 40.552,
+      "onset_offset": 1.658,
+      "resnap": "beat"
+    },
+    {
+      "i": 9,
+      "text": "漂亮的让我面红的可爱女人",
+      "t0": 57.03,
+      "t1": 61.2,
+      "t0_used": 57.03,
+      "t1_used": 61.24,
+      "snapped": true,
+      "snap_deltas": [
+        0.21,
+        -0.04
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 42.65,
+      "cut1": 43.09,
+      "on_beat": true,
+      "word_onset": 40.552,
+      "onset_offset": 2.098,
+      "resnap": "beat"
+    },
+    {
+      "i": 10,
+      "text": "温柔的让我心疼的可爱女人",
+      "t0": 61.2,
+      "t1": 64.7,
+      "t0_used": 61.24,
+      "t1_used": 64.78,
+      "snapped": true,
+      "snap_deltas": [
+        -0.04,
+        -0.08
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 43.09,
+      "cut1": 43.54,
+      "on_beat": true,
+      "word_onset": 40.552,
+      "onset_offset": 2.538,
+      "resnap": "beat"
+    },
+    {
+      "i": 11,
+      "text": "透明的让我感动的可爱女人",
+      "t0": 64.7,
+      "t1": 68.15,
+      "t0_used": 64.78,
+      "t1_used": 68.15,
+      "snapped": true,
+      "snap_deltas": [
+        -0.08,
+        -0.17
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 43.54,
+      "cut1": 43.98,
+      "on_beat": true,
+      "word_onset": 40.552,
+      "onset_offset": 2.988,
+      "resnap": "beat"
+    },
+    {
+      "i": 12,
+      "text": "坏坏的让我疯狂的可爱女人",
+      "t0": 68.15,
+      "t1": 71.91,
+      "t0_used": 68.15,
+      "t1_used": 71.87,
+      "snapped": true,
+      "snap_deltas": [
+        -0.17,
+        0.04
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 43.98,
+      "cut1": 44.43,
+      "on_beat": true,
+      "word_onset": 40.552,
+      "onset_offset": 3.428,
+      "resnap": "beat"
+    },
+    {
+      "i": 13,
+      "text": "漂亮的让我面红的可爱女人",
+      "t0": 71.91,
+      "t1": 75.29,
+      "t0_used": 71.87,
+      "t1_used": 75.29,
+      "snapped": true,
+      "snap_deltas": [
+        0.04,
+        -0.12
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 44.43,
+      "cut1": 44.87,
+      "on_beat": true,
+      "word_onset": 40.552,
+      "onset_offset": 3.878,
+      "resnap": "beat"
+    },
+    {
+      "i": 14,
+      "text": "温柔的让我心疼的可爱女人",
+      "t0": 75.29,
+      "t1": 78.85,
+      "t0_used": 75.29,
+      "t1_used": 78.85,
+      "snapped": false,
+      "snap_deltas": [
+        -0.12,
+        -0.1
+      ],
+      "approx": false,
+      "splits": [
+        47.53,
+        51.07,
+        54.61,
+        58.14,
+        61.69,
+        65.23,
+        68.77,
+        72.32,
+        75.85,
+        79.4,
+        82.94,
+        86.49,
+        90.03,
+        93.57,
+        97.12,
+        100.66,
+        104.21,
+        107.75,
+        111.28,
+        114.84
+      ],
+      "cut0": 44.87,
+      "cut1": 115.71,
+      "on_beat": true,
+      "word_onset": 40.552,
+      "onset_offset": 4.318,
+      "resnap": "beat"
+    },
+    {
+      "i": 15,
+      "text": "透明的让我感动的可爱女人",
+      "t0": 78.85,
+      "t1": 82.4,
+      "t0_used": 78.85,
+      "t1_used": 82.49,
+      "snapped": true,
+      "snap_deltas": [
+        -0.1,
+        -0.09
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 115.71,
+      "cut1": 116.16,
+      "on_beat": true,
+      "word_onset": 114.821,
+      "onset_offset": 0.889,
+      "resnap": "beat"
+    },
+    {
+      "i": 16,
+      "text": "坏坏的让我疯狂的可爱女人",
+      "t0": 82.4,
+      "t1": 114.46,
+      "t0_used": 82.49,
+      "t1_used": 114.39,
+      "snapped": true,
+      "snap_deltas": [
+        -0.09,
+        0.07
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 116.16,
+      "cut1": 116.6,
+      "on_beat": true,
+      "word_onset": 114.821,
+      "onset_offset": 1.339,
+      "resnap": "beat"
+    },
+    {
+      "i": 17,
+      "text": "想要有直升机",
+      "t0": 114.46,
+      "t1": 117.91,
+      "t0_used": 114.39,
+      "t1_used": 117.93,
+      "snapped": true,
+      "snap_deltas": [
+        0.07,
+        -0.02
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 116.6,
+      "cut1": 117.93,
+      "on_beat": true,
+      "word_onset": 114.821,
+      "onset_offset": 1.779,
+      "resnap": "beat"
+    },
+    {
+      "i": 18,
+      "text": "想要和你飞到宇宙去",
+      "t0": 117.91,
+      "t1": 121.45,
+      "t0_used": 117.93,
+      "t1_used": 121.47,
+      "snapped": true,
+      "snap_deltas": [
+        -0.02,
+        -0.02
+      ],
+      "approx": false,
+      "splits": [
+        121.03
+      ],
+      "cut0": 117.93,
+      "cut1": 121.47,
+      "on_beat": true,
+      "word_onset": 117.944,
+      "onset_offset": 0.014,
+      "resnap": "beat"
+    },
+    {
+      "i": 19,
+      "text": "想要和你融化在一起",
+      "t0": 121.45,
+      "t1": 125.05,
+      "t0_used": 121.47,
+      "t1_used": 125.01,
+      "snapped": true,
+      "snap_deltas": [
+        -0.02,
+        0.04
+      ],
+      "approx": false,
+      "splits": [
+        124.57
+      ],
+      "cut0": 121.47,
+      "cut1": 125.01,
+      "on_beat": true,
+      "word_onset": 121.506,
+      "onset_offset": 0.036,
+      "resnap": "beat"
+    },
+    {
+      "i": 20,
+      "text": "融化在银河里",
+      "t0": 125.05,
+      "t1": 127.34,
+      "t0_used": 125.01,
+      "t1_used": 127.34,
+      "snapped": true,
+      "snap_deltas": [
+        0.04,
+        0.11
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 125.01,
+      "cut1": 127.68,
+      "on_beat": true,
+      "word_onset": 125.029,
+      "onset_offset": 0.019,
+      "resnap": "beat"
+    },
+    {
+      "i": 21,
+      "text": "我每天每天每天在想想想想着你",
+      "t0": 127.34,
+      "t1": 131.65,
+      "t0_used": 127.34,
+      "t1_used": 131.66,
+      "snapped": true,
+      "snap_deltas": [
+        0.11,
+        -0.01
+      ],
+      "approx": false,
+      "splits": [
+        130.77
+      ],
+      "cut0": 127.68,
+      "cut1": 131.66,
+      "on_beat": true,
+      "word_onset": 127.471,
+      "onset_offset": 0.209,
+      "resnap": "beat"
+    },
+    {
+      "i": 22,
+      "text": "这样的甜蜜",
+      "t0": 131.65,
+      "t1": 132.89,
+      "t0_used": 131.66,
+      "t1_used": 132.89,
+      "snapped": true,
+      "snap_deltas": [
+        -0.01,
+        -0.1
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 131.66,
+      "cut1": 133.43,
+      "on_beat": true,
+      "word_onset": 131.675,
+      "onset_offset": 0.015,
+      "resnap": "beat"
+    },
+    {
+      "i": 23,
+      "text": "让我开始相信命运",
+      "t0": 132.89,
+      "t1": 136.28,
+      "t0_used": 132.89,
+      "t1_used": 136.28,
+      "snapped": false,
+      "snap_deltas": [
+        -0.1,
+        0.19
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 133.43,
+      "cut1": 136.09,
+      "on_beat": true,
+      "word_onset": 133.236,
+      "onset_offset": 0.194,
+      "resnap": "beat"
+    },
+    {
+      "i": 24,
+      "text": "感谢地心引力",
+      "t0": 136.28,
+      "t1": 138.91,
+      "t0_used": 136.28,
+      "t1_used": 138.91,
+      "snapped": false,
+      "snap_deltas": [
+        0.19,
+        0.16
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 136.09,
+      "cut1": 138.75,
+      "on_beat": true,
+      "word_onset": 136.098,
+      "onset_offset": 0.008,
+      "resnap": "beat"
+    },
+    {
+      "i": 25,
+      "text": "让我碰到你",
+      "t0": 138.91,
+      "t1": 142.39,
+      "t0_used": 138.91,
+      "t1_used": 142.32,
+      "snapped": true,
+      "snap_deltas": [
+        0.16,
+        0.07
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 138.75,
+      "cut1": 140.52,
+      "on_beat": true,
+      "word_onset": 138.761,
+      "onset_offset": 0.011,
+      "resnap": "beat"
+    },
+    {
+      "i": 26,
+      "text": "漂亮的让我面红的可爱女人",
+      "t0": 142.39,
+      "t1": 146.24,
+      "t0_used": 142.32,
+      "t1_used": 146.26,
+      "snapped": true,
+      "snap_deltas": [
+        0.07,
+        -0.02
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 140.52,
+      "cut1": 140.96,
+      "on_beat": true,
+      "word_onset": 140.322,
+      "onset_offset": 0.198,
+      "resnap": "beat"
+    },
+    {
+      "i": 27,
+      "text": "温柔的让我心疼的可爱女人",
+      "t0": 146.24,
+      "t1": 149.74,
+      "t0_used": 146.26,
+      "t1_used": 149.8,
+      "snapped": true,
+      "snap_deltas": [
+        -0.02,
+        -0.06
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 140.96,
+      "cut1": 141.41,
+      "on_beat": true,
+      "word_onset": 140.322,
+      "onset_offset": 0.638,
+      "resnap": "beat"
+    },
+    {
+      "i": 28,
+      "text": "透明的让我感动的可爱女人",
+      "t0": 149.74,
+      "t1": 153.25,
+      "t0_used": 149.8,
+      "t1_used": 153.35,
+      "snapped": true,
+      "snap_deltas": [
+        -0.06,
+        -0.1
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 141.41,
+      "cut1": 141.88,
+      "on_beat": true,
+      "word_onset": 140.322,
+      "onset_offset": 1.088,
+      "resnap": "beat"
+    },
+    {
+      "i": 29,
+      "text": "坏坏的让我疯狂的可爱女人",
+      "t0": 153.25,
+      "t1": 157.09,
+      "t0_used": 153.35,
+      "t1_used": 157.09,
+      "snapped": true,
+      "snap_deltas": [
+        -0.1,
+        0.2
+      ],
+      "approx": false,
+      "splits": [
+        144.93,
+        148.47,
+        152.02,
+        155.56,
+        159.11,
+        162.65,
+        166.19,
+        169.73
+      ],
+      "cut0": 141.88,
+      "cut1": 171.95,
+      "on_beat": true,
+      "word_onset": 140.322,
+      "onset_offset": 1.558,
+      "resnap": "beat"
+    },
+    {
+      "i": 30,
+      "text": "漂亮的让我面红的可爱女人",
+      "t0": 157.09,
+      "t1": 160.53,
+      "t0_used": 157.09,
+      "t1_used": 160.43,
+      "snapped": true,
+      "snap_deltas": [
+        0.2,
+        0.1
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 171.95,
+      "cut1": 172.39,
+      "on_beat": true,
+      "word_onset": 171.469,
+      "onset_offset": 0.481,
+      "resnap": "beat"
+    },
+    {
+      "i": 31,
+      "text": "温柔的让我心疼的可爱女人",
+      "t0": 160.53,
+      "t1": 163.86,
+      "t0_used": 160.43,
+      "t1_used": 163.86,
+      "snapped": true,
+      "snap_deltas": [
+        0.1,
+        -0.12
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 172.39,
+      "cut1": 172.83,
+      "on_beat": true,
+      "word_onset": 171.469,
+      "onset_offset": 0.921,
+      "resnap": "beat"
+    },
+    {
+      "i": 32,
+      "text": "透明的让我感动的可爱女人",
+      "t0": 163.86,
+      "t1": 167.49,
+      "t0_used": 163.86,
+      "t1_used": 167.52,
+      "snapped": true,
+      "snap_deltas": [
+        -0.12,
+        -0.03
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 172.83,
+      "cut1": 173.28,
+      "on_beat": true,
+      "word_onset": 171.469,
+      "onset_offset": 1.361,
+      "resnap": "beat"
+    },
+    {
+      "i": 33,
+      "text": "坏坏的让我疯狂的可爱女人",
+      "t0": 167.49,
+      "t1": 171.18,
+      "t0_used": 167.52,
+      "t1_used": 171.18,
+      "snapped": true,
+      "snap_deltas": [
+        -0.03,
+        0.11
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 173.28,
+      "cut1": 173.73,
+      "on_beat": true,
+      "word_onset": 171.469,
+      "onset_offset": 1.811,
+      "resnap": "beat"
+    },
+    {
+      "i": 34,
+      "text": "世界这样大而我而我只是只小小小的蚂蚁",
+      "t0": 171.18,
+      "t1": 178.35,
+      "t0_used": 171.18,
+      "t1_used": 178.35,
+      "snapped": false,
+      "snap_deltas": [
+        0.11,
+        0.2
+      ],
+      "approx": false,
+      "splits": [
+        176.82
+      ],
+      "cut0": 173.73,
+      "cut1": 178.15,
+      "on_beat": true,
+      "word_onset": 171.469,
+      "onset_offset": 2.261,
+      "resnap": "beat"
+    },
+    {
+      "i": 35,
+      "text": "但我要尽全力全力全力保护你",
+      "t0": 178.35,
+      "t1": 185.28,
+      "t0_used": 178.35,
+      "t1_used": 185.26,
+      "snapped": true,
+      "snap_deltas": [
+        0.2,
+        0.02
+      ],
+      "approx": false,
+      "splits": [
+        181.25
+      ],
+      "cut0": 178.15,
+      "cut1": 181.69,
+      "on_beat": true,
+      "word_onset": 178.375,
+      "onset_offset": 0.225,
+      "resnap": "beat"
+    },
+    {
+      "i": 36,
+      "text": "漂亮的让我面红的可爱女人",
+      "t0": 185.28,
+      "t1": 188.67,
+      "t0_used": 185.26,
+      "t1_used": 188.67,
+      "snapped": true,
+      "snap_deltas": [
+        0.02,
+        -0.11
+      ],
+      "approx": false,
+      "splits": [
+        184.8,
+        187.45,
+        190.99
+      ],
+      "cut0": 181.69,
+      "cut1": 192.77,
+      "on_beat": true,
+      "word_onset": 181.718,
+      "onset_offset": 0.028,
+      "resnap": "beat"
+    },
+    {
+      "i": 37,
+      "text": "温柔的让我心疼的可爱女人",
+      "t0": 188.67,
+      "t1": 192.21,
+      "t0_used": 188.67,
+      "t1_used": 192.21,
+      "snapped": false,
+      "snap_deltas": [
+        -0.11,
+        -0.11
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 192.77,
+      "cut1": 193.2,
+      "on_beat": true,
+      "word_onset": 192.708,
+      "onset_offset": 0.062,
+      "resnap": "beat"
+    },
+    {
+      "i": 38,
+      "text": "透明的让我感动的可爱女人",
+      "t0": 192.21,
+      "t1": 195.68,
+      "t0_used": 192.21,
+      "t1_used": 195.68,
+      "snapped": false,
+      "snap_deltas": [
+        -0.11,
+        -0.18
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 193.2,
+      "cut1": 195.43,
+      "on_beat": true,
+      "word_onset": 192.708,
+      "onset_offset": 0.492,
+      "resnap": "beat"
+    },
+    {
+      "i": 39,
+      "text": "坏坏的让我疯狂的可爱女人",
+      "t0": 195.68,
+      "t1": 199.75,
+      "t0_used": 195.68,
+      "t1_used": 199.75,
+      "snapped": false,
+      "snap_deltas": [
+        -0.18,
+        -0.11
+      ],
+      "approx": false,
+      "splits": [
+        198.08
+      ],
+      "cut0": 195.43,
+      "cut1": 198.53,
+      "on_beat": true,
+      "word_onset": 195.611,
+      "onset_offset": 0.181,
+      "resnap": "beat"
+    },
+    {
+      "i": 40,
+      "text": "漂亮的让我面红的可爱女人",
+      "t0": 199.75,
+      "t1": 202.97,
+      "t0_used": 199.75,
+      "t1_used": 202.95,
+      "snapped": true,
+      "snap_deltas": [
+        -0.11,
+        0.02
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 198.53,
+      "cut1": 198.97,
+      "on_beat": true,
+      "word_onset": 198.313,
+      "onset_offset": 0.217,
+      "resnap": "beat"
+    },
+    {
+      "i": 41,
+      "text": "温柔的让我心疼的可爱女人",
+      "t0": 202.97,
+      "t1": 206.52,
+      "t0_used": 202.95,
+      "t1_used": 206.5,
+      "snapped": true,
+      "snap_deltas": [
+        0.02,
+        0.02
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 198.97,
+      "cut1": 199.42,
+      "on_beat": true,
+      "word_onset": 198.313,
+      "onset_offset": 0.657,
+      "resnap": "beat"
+    },
+    {
+      "i": 42,
+      "text": "透明的让我感动的可爱女人",
+      "t0": 206.52,
+      "t1": 209.96,
+      "t0_used": 206.5,
+      "t1_used": 210.03,
+      "snapped": true,
+      "snap_deltas": [
+        0.02,
+        -0.07
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 199.42,
+      "cut1": 199.86,
+      "on_beat": true,
+      "word_onset": 198.313,
+      "onset_offset": 1.107,
+      "resnap": "beat"
+    },
+    {
+      "i": 43,
+      "text": "坏坏的让我疯狂的可爱女人",
+      "t0": 209.96,
+      "t1": 213.6,
+      "t0_used": 210.03,
+      "t1_used": 213.59,
+      "snapped": true,
+      "snap_deltas": [
+        -0.07,
+        0.01
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 199.86,
+      "cut1": 200.3,
+      "on_beat": true,
+      "word_onset": 198.313,
+      "onset_offset": 1.547,
+      "resnap": "beat"
+    },
+    {
+      "i": 44,
+      "text": "漂亮的让我面红的可爱女人",
+      "t0": 213.6,
+      "t1": 217.01,
+      "t0_used": 213.59,
+      "t1_used": 217.01,
+      "snapped": true,
+      "snap_deltas": [
+        0.01,
+        -0.12
+      ],
+      "approx": false,
+      "splits": [
+        203.4,
+        206.94,
+        210.48,
+        214.03,
+        217.57,
+        221.11,
+        224.66,
+        228.2
+      ],
+      "cut0": 200.3,
+      "cut1": 230.4,
+      "on_beat": true,
+      "word_onset": 198.313,
+      "onset_offset": 1.987,
+      "resnap": "beat"
+    },
+    {
+      "i": 45,
+      "text": "温柔的让我心疼的可爱女人",
+      "t0": 217.01,
+      "t1": 220.57,
+      "t0_used": 217.01,
+      "t1_used": 220.67,
+      "snapped": true,
+      "snap_deltas": [
+        -0.12,
+        -0.1
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 230.4,
+      "cut1": 230.86,
+      "on_beat": true,
+      "word_onset": 229.737,
+      "onset_offset": 0.663,
+      "resnap": "beat"
+    },
+    {
+      "i": 46,
+      "text": "透明的让我感动的可爱女人",
+      "t0": 220.57,
+      "t1": 224.07,
+      "t0_used": 220.67,
+      "t1_used": 224.07,
+      "snapped": true,
+      "snap_deltas": [
+        -0.1,
+        -0.14
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 230.86,
+      "cut1": 231.3,
+      "on_beat": true,
+      "word_onset": 229.737,
+      "onset_offset": 1.123,
+      "resnap": "beat"
+    },
+    {
+      "i": 47,
+      "text": "坏坏的让我疯狂的可爱女人",
+      "t0": 224.07,
+      "t1": 227.68,
+      "t0_used": 224.07,
+      "t1_used": 227.76,
+      "snapped": true,
+      "snap_deltas": [
+        -0.14,
+        -0.08
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 231.3,
+      "cut1": 231.76,
+      "on_beat": true,
+      "word_onset": 229.737,
+      "onset_offset": 1.563,
+      "resnap": "beat"
+    },
+    {
+      "i": 48,
+      "text": "漂亮的让我面红的可爱女人",
+      "t0": 227.68,
+      "t1": 231.19,
+      "t0_used": 227.76,
+      "t1_used": 231.19,
+      "snapped": true,
+      "snap_deltas": [
+        -0.08,
+        -0.11
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 231.76,
+      "cut1": 232.2,
+      "on_beat": true,
+      "word_onset": 229.737,
+      "onset_offset": 2.023,
+      "resnap": "beat"
+    },
+    {
+      "i": 49,
+      "text": "温柔的让我心疼的可爱女人",
+      "t0": 231.19,
+      "t1": 234.72,
+      "t0_used": 231.19,
+      "t1_used": 234.72,
+      "snapped": false,
+      "snap_deltas": [
+        -0.11,
+        -0.12
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 232.2,
+      "cut1": 234.84,
+      "on_beat": true,
+      "word_onset": 231.281,
+      "onset_offset": 0.919,
+      "resnap": "beat"
+    },
+    {
+      "i": 50,
+      "text": "透明的让我感动的",
+      "t0": 234.72,
+      "t1": 237.72,
+      "t0_used": 234.72,
+      "t1_used": 237.72,
+      "snapped": false,
+      "snap_deltas": [
+        -0.12,
+        1.56
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 234.84,
+      "cut1": 236.16,
+      "on_beat": true,
+      "word_onset": 234.83,
+      "onset_offset": 0.01,
+      "resnap": "beat"
+    }
+  ],
+  "summary": {
+    "lines": 51,
+    "cuts": 98,
+    "cuts_on_beat": 98,
+    "mean_onset_offset_sec": 0.068,
+    "max_onset_offset_sec": 0.225,
+    "same_window_rows_removed": 0,
+    "degenerate_rows_repaired": 0,
+    "old_lines": 51,
+    "old_snapped": 39
+  },
+  "advisory": true
+}
