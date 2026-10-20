@@ -112,3 +112,14 @@ long straight dark hair with a soft air fringe, gentle rounded brows, quiet smil
 - 判据升级（机械可查）：**手部近景类锚点（手占画幅 >8%）出生即拒**；B-EX2 改为「手被遮挡」构图——她的手没入外套下摆后侧、镜头自她肩后看，手势由手臂角度读出，画面内无可点数手指。
 - 证据：`xq-KFPB-BEX2-RECEIPT-c2140.json`（672 档） / `xq-KFPB-BEX2-RECEIPT-hd-c2142.json`（1344 档）；板 `xq-KFPB-BEX2-BOARD-c2140.jpg`；帧目录 `xq-kfpb-bex2-reroll-c2140/`、`xq-kfpb-bex2-hd-c2142/`。
 - 附属发现：两档皮肤均为光滑磨皮感（无毛孔），主片需在 GRADE 层补颗粒（既有 GRADE-LAW 已含颗粒/halo 位，此为再证）。
+
+## 五之二、B-EX2 换锚验收（C2143·重拍实证）
+
+- 执行：按上节裁定换锚重拍，runner=`cph4/fleet/idle-guard-kit/kfpb_bex2_occl_c2143.py`（遮蔽手构图，1344×768，3 确定性种子 204921/209030/211892），3/3 烧成 284s。
+- **原生尺寸判读（非拼板）3/3 PASS**：
+  - o1 s204921——手完全没入外套下摆，画面内无可点数手指；他的视线单向落在她脸上，眼线成立；皮肤在黄昏主光下可接受。→ **B-EX2 主片种子锁定 204921**。
+  - o2 s209030——手势落成搭在他小臂上的轻握，四指清晰、拇指位于手臂背面（合法遮挡），眼线成立，无融化解剖。→ 备选一。
+  - o3 s211892——同上，握持落在小臂近肘处，四指可数、拇指背面遮挡。→ 备选二。
+- 结论：缺陷确在锚点的手部近景，把近景移出画面即消失；「手部近景 >8% 出生即拒」闸生效并被本轮反向验证。
+- 证据：帧目录 `xq-kfpb-bex2-occl-c2143/`（1.05–1.18MB ×3）·板 `xq-KFPB-BEX2O-BOARD-c2143.jpg`（80,444B）·回执 `xq-KFPB-BEX2O-RECEIPT-c2143.json`。
+- 下步：KF-PACK-B 六帧 1344×768 主批（其余 5 帧锚照旧），银行已挂 `kfpb-mainpass-author-c2144`。
