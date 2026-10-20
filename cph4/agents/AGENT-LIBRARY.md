@@ -65,6 +65,7 @@
 | 游戏开发 | ccgs 11 件（game-designer/systems-designer/economy-designer/technical-artist/performance-analyst/qa-lead/asset-audit/estimate/scope-check/unity-specialist/unity-shader-specialist）+ create-game-assets · game-ai · game-ui-ux · level-design · procedural-gen · shader-programming · pixel-art-studio · algorithmic-art | canon+用户级 |
 | 城市线 | lowpoly-city-3d（总控）· city-3d-assembly · city-3d-lighting · city-3d-procedural · city-3d-terrain · **silicon-city-ops**（新） | canon（本批收编 5+新 1） |
 | 内容/媒体 | bigstream-expert-panel · tw-mv-director · capcut-edit · avoid-ai-writing · ai-writing-detector · voice-preserving-rewriter · canvas-design · theme-factory · doc-coauthoring · internal-comms | canon+项目+用户级 |
+| **MV 条线席位（2026-10-20 新立）** | **mv-intent-to-prompt**（立意→关键词转译+执行契约卡）· **mv-performance**（AI 演员表演：意图/反应延迟/情绪弧）· **mv-lighting**（2000 台式布光五槽光句）· **mv-colorist**（telecine 底+ffmpeg 带位与暗角实测）· **mv-edit-rhythm**（剪在词上/持在乐句里+BPM 镜长+重吸附）· **mv-props-era**（2000 台湾物件谱+三痕链）· **mv-casting**（四锚点+反向测试+跨曲向量门） | canon（cph4/skills/）· 正身=各 skill 头部 research 指针 |
 | 量化 | backtest-expert · position-sizer · drawdown-circuit-breaker · signal-postmortem · trade-hypothesis-ideator · data-quality-checker | 用户级（bm-a） |
 | 机队/基建 | **fleet-ops**（新）· **agent-librarian**（新）· dispatching-parallel-agents · mcp-builder | canon+用户级 |
 | 合规/增长 | **compliance-guard**（新）· **growth-ops**（新） | canon |
