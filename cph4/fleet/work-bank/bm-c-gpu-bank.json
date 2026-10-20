@@ -1177,7 +1177,7 @@
   },
   {
    "id": "packA-conform-v2-reverify-after-push",
-   "status": "claimed",
+   "status": "done",
    "priority": 42,
    "auth": "C2140 re-verified v2 against origin/main 9ee0232a; this re-runs the same zero-GPU check after the C2140 push lands so the receipt in the repo cannot drift from the film.",
    "require": {
@@ -1192,7 +1192,10 @@
    "note": "Zero GPU, idempotent. PASS gate = ORIGIN-VERIFY-V2-END ok=1 mismatches=0.",
    "prestow_ts": "2026-10-20T12:13:00",
    "prestow_note": "C2140 pre-stow (bank law: never empty) after the probe closed.",
-   "claimed_ts": "2026-10-20T12:20:58"
+   "claimed_ts": "2026-10-20T12:20:58",
+   "done_ts": "2026-10-20T12:21:17",
+   "claimed_by": "IdleGuard",
+   "done_note": "ORIGIN-VERIFY-V2-END ok=1 mismatches=0 eol_only=5 at 12:21:17 (media/mv-album-001-jay/log-packa-originverify-v2.out.txt): 4710 frames as expected, I=-14.2 LUFS / TP=-2.3 dBTP, run after the C2140 push landed. The IdleGuard fire never flipped the bank entry, so C2142 closed it from the log face instead of re-burning it."
   },
   {
    "id": "kfpb-bex2-reroll-c2140",
