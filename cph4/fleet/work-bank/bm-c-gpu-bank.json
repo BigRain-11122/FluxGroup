@@ -1265,18 +1265,48 @@
   },
   {
    "id": "kfpb-mainpass-author-c2144",
-   "status": "pending",
+   "status": "done",
    "priority": 44,
    "auth": "B-EX2 is unlocked (seed 204921 primary, 209030/211892 alternates). KF-PACK-B still owes the 1344x768 main pass on all six frames; kfpb_probe_c2139.py only knows how to fire at probe size with probe seeds, so the main-pass runner does not exist yet.",
    "require": {
     "files_at_least": []
    },
+   "cmd": [
+    "D:\\ComfyUI\\python_embeded\\pythonw.exe",
+    "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\idle-guard-kit\\kfpb_mainpass_c2144.py"
+   ],
+   "log_out": "media/MV/mv0001/logs/kfpb_mainpass.out.log",
+   "log_err": "media/MV/mv0001/logs/kfpb_mainpass.err.log",
+   "note": "Author kfpb_mainpass_c2144.py from kfpb_probe_c2139.py: all six KF-PACK-B frames at 1344x768, one locked seed each (A/B faces as canonised, B-EX2 = 204921 with the occluded-hand anchor), lint gate + dry-run before firing, board + receipt. Fire detached and arm wave-harvest-pending.json. PASS gate = KFPB-MAINPASS-END ok=6/6 + 6 PNG >=900KB + board + receipt.",
+   "prestow_ts": "2026-10-20T12:57:53",
+   "prestow_note": "C2143 pre-stow (bank law: never empty) right after locking the B-EX2 seed.",
+   "claimed_ts": "2026-10-20T13:34:31",
+   "claimed_by": "tick-C2144",
+   "claim_note": "Re-claimed by tick C2144: the earlier 13:10:59 claim left two 0-byte logs and no runner on disk (kfpb_mainpass_c2144.py did not exist), so the spawn died instantly and nothing burned.",
+   "runner": "cph4/fleet/idle-guard-kit/kfpb_mainpass_c2144.py",
+   "done_ts": "2026-10-20T13:42:11",
+   "done_note": "KFPB-MAINPASS-END ok=6/6 fails=none small=none. Authored cph4/fleet/idle-guard-kit/kfpb_mainpass_c2144.py from the c2139 probe runner: six KF-PACK-B frames at 1344x768, one locked seed each (S1-08 726816 / S3-17 266291 / S3-21 129686 / S5-31 323825 / B-EX1 143992 / B-EX2 204921), B-EX2 carrying the re-anchored occluded-hand prompt verbatim from kfpb_bex2_occl_c2143.py and ID_F_B_BACK (behind her shoulder) so no hand close-up exists to fail. Lint NEG/VAGUE/CONCEPT zero-hit, word budget 60-166, dry-run printed all six prompts, then fired detached (pythonw, hidden) at 13:34:08. Burn finished at 13:41:32 (444s wall, 6/6, no fails): 956KB-1.60MB per PNG, 6 frames. Board xq-KFPB-MAINPASS-BOARD-c2144.jpg (286,945B, 1344x768 tiles) and receipt xq-KFPB-RECEIPT-c2144-mainpass.json (7,878B) are on disk. First claim (13:10:59) was dead: it left 0-byte logs and the runner file did not exist, so C2144 re-claimed and authored it before firing. Frame approval is NOT part of this job - the six PNGs still need the native-size read carried by the prestowed kfpb-mainpass-verdict-c2144 job."
+  },
+  {
+   "id": "kfpb-mainpass-verdict-c2144",
+   "status": "pending",
+   "priority": 45,
+   "auth": "C2144 fired the six-frame 1344x768 main pass (locked seeds, B-EX2 occluded anchor). The frames exist but nobody has read them at native size, so KF-PACK-B is not approved yet.",
+   "require": {
+    "files_at_least": [
+     [
+      "media/MV/mv0001/xingqing/xq-kf-packb-mainpass-c2144",
+      ".png",
+      6
+     ]
+    ]
+   },
    "cmd": [],
    "log_out": "media/MV/mv0001/logs/kfpb_mainpass.out.log",
    "log_err": "media/MV/mv0001/logs/kfpb_mainpass.err.log",
-   "note": "Author kfpb_mainpass_c2144.py from kfpb_probe_c2139.py: all six KF-PACK-B frames at 1344x768, one seed each (A/B faces as canonised, B-EX2 = 204921), lint gate + dry-run before firing, board + receipt. Fire detached and arm wave-harvest-pending.json. PASS gate = KFPB-MAINPASS-END ok=6/6 + 6 PNG >=900KB + board + receipt.",
-   "prestow_ts": "2026-10-20T12:57:53",
-   "prestow_note": "C2143 pre-stow (bank law: never empty) right after locking the B-EX2 seed."
+   "note": "Zero GPU review job. Read each of the six PNGs at native resolution against its shot intent: hand/feet framing without fused digits, face identity and era hair, B-EX2 hand fully hidden by the hem with connected eyeline, night two-shot skin not waxy, no text/logo, no Korean styling. PASS gate = a written verdict in done_note approving all six for the KF-PACK-B assembly, or naming the frames that need a re-roll with the defect each one carries.",
+   "prestow_ts": "2026-10-20T13:34:31",
+   "prestow_note": "C2144 pre-stow (bank law: never empty) right after firing the six-frame main pass."
   }
  ]
 }

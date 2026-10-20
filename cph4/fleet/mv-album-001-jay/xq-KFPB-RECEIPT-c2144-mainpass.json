@@ -1,0 +1,107 @@
+{
+ "wave": "xq-kf-packb-mainpass-c2144",
+ "runner": "bm-c C2144",
+ "auth": "bank job kfpb-mainpass-author-c2144; verdict c2136 sec-4/5; seeds from c2139 probe read and the C2143 B-EX2 native verdict",
+ "blocks": {
+  "id_f_b": "a woman of about nineteen or twenty with long straight dark hair and a soft air fringe, gentle rounded brows, quiet smiling eyes, a small clean face, natural skin texture with visible pores and subtle unevenness",
+  "id_f_b_back": "a woman of about nineteen or twenty with long straight dark hair and a soft air fringe, seen from behind her right shoulder, the edge of her cheek and one ear catching the backlight, natural skin texture with visible pores",
+  "id_m_2001": "a 20-year-old Taiwanese student with heavy-lidded monolid eyes, a thick lower lip, softly rounded cheeks and a thick black fringe lying flat over his eyebrows",
+  "world": "Taiwan countryside around Taitung-Danshui hills, 2000 era, faded single center line road, golden grass fields, small tin-and-brick farmhouse",
+  "lights": {
+   "noon": "lit by warm 5200K late-afternoon sunlight",
+   "dusk": "lit by 2800K dusk backlight with a warm halo",
+   "night": "lit by indigo night sky with cool starlight and a warm lamp edge"
+  },
+  "closing": "35mm film grain, telecine texture, 2001 Taiwan music video look",
+  "anchor_occl": "he faces the camera, she stands with her back to it, her right arm folded across to the hem of his jacket where the fabric creases over her wrist and keeps the hand fully behind the cloth, her forearm angled in a light steady hold, his eyes lowered toward her hand then lifting to her face, both heads at the same height"
+ },
+ "frames": [
+  {
+   "id": "XQ-KFPB-S1-08",
+   "shot": "S1-08",
+   "light": "noon",
+   "male_id": false,
+   "anchor": "a young woman's hands gripping the bicycle seat frame, wind in the fabric of her school-casual clothes, tight side crop with her face out of frame",
+   "prompt": "Taiwan countryside around Taitung-Danshui hills, 2000 era, faded single center line road, golden grass fields, small tin-and-brick farmhouse. a young woman's hands gripping the bicycle seat frame, wind in the fabric of her school-casual clothes, tight side crop with her face out of frame. lit by warm 5200K late-afternoon sunlight. 35mm film grain, telecine texture, 2001 Taiwan music video look.",
+   "seed": 726816,
+   "bytes": 1249430
+  },
+  {
+   "id": "XQ-KFPB-S3-17",
+   "shot": "S3-17",
+   "light": "dusk",
+   "male_id": false,
+   "anchor": "two pairs of feet stepping along a white road line, one pair in sneakers and one in canvas shoes, the rhythm of counting steps",
+   "prompt": "Taiwan countryside around Taitung-Danshui hills, 2000 era, faded single center line road, golden grass fields, small tin-and-brick farmhouse. two pairs of feet stepping along a white road line, one pair in sneakers and one in canvas shoes, the rhythm of counting steps. lit by 2800K dusk backlight with a warm halo. 35mm film grain, telecine texture, 2001 Taiwan music video look.",
+   "seed": 266291,
+   "bytes": 1600883
+  },
+  {
+   "id": "XQ-KFPB-S3-21",
+   "shot": "S3-21",
+   "light": "dusk",
+   "male_id": false,
+   "anchor": "she lowers her head with a soft smile then looks up, shy joy, era-accurate hair",
+   "prompt": "Taiwan countryside around Taitung-Danshui hills, 2000 era, faded single center line road, golden grass fields, small tin-and-brick farmhouse. a woman of about nineteen or twenty with long straight dark hair and a soft air fringe, gentle rounded brows, quiet smiling eyes, a small clean face, natural skin texture with visible pores and subtle unevenness, she lowers her head with a soft smile then looks up, shy joy, era-accurate hair. lit by 2800K dusk backlight with a warm halo. 35mm film grain, telecine texture, 2001 Taiwan music video look.",
+   "seed": 129686,
+   "bytes": 1307433
+  },
+  {
+   "id": "XQ-KFPB-S5-31",
+   "shot": "S5-31",
+   "light": "night",
+   "male_id": true,
+   "anchor": "a young couple turning to face each other and holding hands, close two-shot, warm skin tones in the cool night air",
+   "prompt": "Taiwan countryside around Taitung-Danshui hills, 2000 era, faded single center line road, golden grass fields, small tin-and-brick farmhouse. a woman of about nineteen or twenty with long straight dark hair and a soft air fringe, gentle rounded brows, quiet smiling eyes, a small clean face, natural skin texture with visible pores and subtle unevenness, standing beside a 20-year-old Taiwanese student with heavy-lidded monolid eyes, a thick lower lip, softly rounded cheeks and a thick black fringe lying flat over his eyebrows, a young couple turning to face each other and holding hands, close two-shot, warm skin tones in the cool night air. lit by indigo night sky with cool starlight and a warm lamp edge. 35mm film grain, telecine texture, 2001 Taiwan music video look.",
+   "seed": 323825,
+   "bytes": 956507
+  },
+  {
+   "id": "XQ-KFPB-B-EX1",
+   "shot": "B-EX1",
+   "light": "dusk",
+   "male_id": false,
+   "anchor": "she winds the kite spool with a focused face, both hands on the line",
+   "prompt": "Taiwan countryside around Taitung-Danshui hills, 2000 era, faded single center line road, golden grass fields, small tin-and-brick farmhouse. a woman of about nineteen or twenty with long straight dark hair and a soft air fringe, gentle rounded brows, quiet smiling eyes, a small clean face, natural skin texture with visible pores and subtle unevenness, she winds the kite spool with a focused face, both hands on the line. lit by 2800K dusk backlight with a warm halo. 35mm film grain, telecine texture, 2001 Taiwan music video look.",
+   "seed": 143992,
+   "bytes": 1305381
+  },
+  {
+   "id": "XQ-KFPB-B-EX2",
+   "shot": "B-EX2",
+   "light": "dusk",
+   "male_id": true,
+   "anchor": "he faces the camera, she stands with her back to it, her right arm folded across to the hem of his jacket where the fabric creases over her wrist and keeps the hand fully behind the cloth, her forearm angled in a light steady hold, his eyes lowered toward her hand then lifting to her face, both heads at the same height",
+   "prompt": "Taiwan countryside around Taitung-Danshui hills, 2000 era, faded single center line road, golden grass fields, small tin-and-brick farmhouse. a woman of about nineteen or twenty with long straight dark hair and a soft air fringe, seen from behind her right shoulder, the edge of her cheek and one ear catching the backlight, natural skin texture with visible pores, standing beside a 20-year-old Taiwanese student with heavy-lidded monolid eyes, a thick lower lip, softly rounded cheeks and a thick black fringe lying flat over his eyebrows, he faces the camera, she stands with her back to it, her right arm folded across to the hem of his jacket where the fabric creases over her wrist and keeps the hand fully behind the cloth, her forearm angled in a light steady hold, his eyes lowered toward her hand then lifting to her face, both heads at the same height. lit by 2800K dusk backlight with a warm halo. 35mm film grain, telecine texture, 2001 Taiwan music video look.",
+   "seed": 204921,
+   "bytes": 1097698
+  }
+ ],
+ "params": {
+  "res": "1344x768",
+  "steps": 8,
+  "cfg": 1.0,
+  "jman": "0.6 (frames showing the boy)",
+  "sampler": "euler simple",
+  "model": "krea2_turbo_fp8_scaled",
+  "bex2_seed_locked": 204921
+ },
+ "burn_ok": {
+  "XQ-KFPB-S1-08": true,
+  "XQ-KFPB-S3-17": true,
+  "XQ-KFPB-S3-21": true,
+  "XQ-KFPB-S5-31": true,
+  "XQ-KFPB-B-EX1": true,
+  "XQ-KFPB-B-EX2": true
+ },
+ "stats": {
+  "ok": 6,
+  "total": 6,
+  "fails": [],
+  "under_900kb": [],
+  "lint": "NEG/VAGUE/CONCEPT zero-hit"
+ },
+ "out_dir": "media/MV/mv0001/xingqing/xq-kf-packb-mainpass-c2144",
+ "board": "xq-KFPB-MAINPASS-BOARD-c2144.jpg",
+ "ts": "2026-10-20T13:41:33"
+}
