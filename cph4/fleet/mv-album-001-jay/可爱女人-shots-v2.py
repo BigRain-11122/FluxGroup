@@ -6,7 +6,7 @@
 # v2.4=CEO 歌词意象令（2026-10-12 00:2x「歌词有直升机你就真出现一个直升机？？…MV能这么俗吗？」）：KN05 删真直升机→探照光柱意象（想要飞的渴望=城市之光托举·LYRIC-IMAGERY-LAW）；KN29 渲染翻车修正（模型把纸机画成真客机·词面强化 hand-folded/thin notebook-paper 小感）·两帧同种子重摇
 # v2.6=PROMPT-GATE-L2 签发并入（2026-10-18·评审件=PROMPT-GATE-可爱女人-KF-PACK-A-v1-L2.md·审=独立席/签=导演席）：F-1 KN06 tex=film_night 补档/F-2 KN02 铁皮+发型句/F-3 KN09 发型句/F-4 KN23 发型句/F-7 city_bowl 尾句=low-rise 2000 Taipei skyline（受益 10 帧）/F-8 KN22b 铁皮/F-9① KN25 她窗+城钠对位/F-29 KN29 红尾机 HER_PLANE 词面回锚（cream+dipped in red）
 # v2.5=四闸预检+调色师席 10-12 修项：KN24 造型统一 KN08（条纹针织+串珠·场内连续律）+KN08 i2v 补串珠手链+KN05 银蓝月晕锚（city_moon 光块·帧重摇）
-# 权威=可爱女人-剧本-v1.md（创作核心：纸飞机投掷-归返弧）+ RESEARCH-mv-craft-80s-90s-00s（§一/三/六 可爱女人行）
+# 权威=可爱女人-剧本-v3.md（创作核心：纸飞机投掷-归返弧）+ RESEARCH-mv-craft-80s-90s-00s（§一/三/六 可爱女人行）
 # 词级锚点=anchors/可爱女人.txt（whisper 2026-10-10 实测·词行至 236.30）·film=song 对齐·0-239.03（ffprobe 判决一实证·尾窗对齐歌长）
 # 长期律：匀速判负（掷出快/穿云极缓·逐镜变速）/做旧克制（5279 黄昏蓝调+夜段·台式奶黑）/禁看镜头（她=远景/剪影/灯窗·KN24 灯窗内初见=唯一露脸）
 #   物质转场（云层吞机/星尘化开/灯如星互映）/叠化全片仅一处=机影融进银河（XF_T2=KN20 内 1-2s=24-48 帧）/AIGC 开门帧标识/定格收口（80s 惯用件·RESEARCH §三）
@@ -260,7 +260,7 @@ if __name__ == "__main__":
     print("SELF-CHECK GREEN: lint_bad=0 | WINDOW GAPS=0 (0.00-%.2f 无空档无叠窗) | 时长断言 %d 镜全过（定格延窗豁免 %d 镜·源 5s）"
           % (FILM_END, len(NEW), freeze_n))
     md = ("# 《可爱女人》分镜表 v2.5（帧级·深研喂入·设计闸判决落地版·服装师令+四闸预检+调色师修项执法）\n\n"
-          "> 权威=可爱女人-剧本-v1.md（投掷-归返弧·v1.2 修订同步）+RESEARCH-mv-craft §一/三/六；词级锚点=anchors/可爱女人.txt（词行至 236.30）·片长 239.03=ffprobe 判决一实证·尾窗对齐歌长\n"
+          "> 权威=可爱女人-剧本-v3.md（投掷-归返弧·v1.2 修订同步）+RESEARCH-mv-craft §一/三/六；词级锚点=anchors/可爱女人.txt（词行至 236.30）·片长 239.03=ffprobe 判决一实证·尾窗对齐歌长\n"
           "> 发布话术红线：禁称复刻邝盛版分镜·徐若瑄/周杰伦真名禁入提示词与物料\n"
           "> 词曲双权：发布物料必挂『词曲著作权/录音制作者权授权中』注记（承 INDEX 五）\n"
           "> jman LoRA 挂载=mv_full_kf_r2.py L88 范式（jman_v1_640_rank32_final.safetensors）·strength 0.6-0.8 先网格（判决二可7）·含 HIM 镜自动继承触发词\n"
