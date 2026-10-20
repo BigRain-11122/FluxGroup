@@ -17,7 +17,7 @@
 | 日光公路戏（day_road·5246 面貌） | 清暖日光·干净不过手 | contrast 1.06 / sat 1.04 / 暖端 curves 轻推 |
 | 黄昏金色戏（street_dusk/sunset_rake·5279） | 蜜金推暖·钠光/夕阳 halation 自然保留 | contrast 1.10 / sat 1.08 / curves 暖抬（R+ 微·B- 微）|
 | 蓝调时刻（dusk_blue） | 金蓝交接带·保留地平最后一线暖 | contrast 1.08 / sat 1.05 / 黑位 lift 0.010 |
-| 星夜戏（night_road/star_field·5279+奶黑） | 墨蓝压+乳黑提·星点暖金保护·皮肤保暖·墨蓝=中间调 B+ 微推 R- 微压（冷移非整体蓝罩）·夜骑波段城光 bokeh 补暖钠 tint（实帧冷青白→钠橙） | contrast 1.08 / sat 1.05 / 中间调 B+微 R-微 / lift 黑位 0.012-0.015 / vignette 轻档 / grain alls 5-6 / halation 位链上补 1 档（星点+灯点暖晕·帧层无） |
+| 星夜戏（night_road/star_field·5279+奶黑） | 墨蓝压+乳黑提·星点暖金保护·皮肤保暖·墨蓝=中间调 B+ 微推 R- 微压（冷移非整体蓝罩）·夜骑波段城光 bokeh 补暖钠 tint（实帧冷青白→钠橙） | contrast 1.08 / sat 1.05 / 中间调 B+微 R-微 / lift 黑位 0.012-0.015 / **vignette angle=0.30（角部 -16.9%·2026-10-20 本机实测；`PI/4.6=-63.9%`、`PI/5=-55.5%` 均为重口，禁当轻档）** / grain alls 5-6 / halation 位链上补 1 档（星点+灯点暖晕·帧层无） |
 | 尾窗定格（XQ33） | 一切沉降·只剩星线与剪影 | 同星夜档·sat 收 1.02·fade 收 |
 
 ## 四、校准协议（装配站执行·30s grade v5 正法）

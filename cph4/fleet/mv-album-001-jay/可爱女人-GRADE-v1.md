@@ -17,7 +17,7 @@
 | 云海月晕（cloud_moon） | 银蓝高调·月晕光晕呼吸·云面亮 | 中间调 lift +0.02 / contrast 1.05 / sat 0.98 / 月晕 halation 位链上补 1 档（帧层无） |
 | 城碗夜（city_bowl） | 墨蓝压+暖钠点缀强化·招牌霓虹微推 | contrast 1.10 / sat 1.02 / 暖点 R+ 微推·周界不污染 |
 | 银蓝月晕夜探（city_moon·KN05 重摇帧·调色师席 10-12 修项） | 银蓝母调直承·暖点收紧至点睛·纸机顶光归位光柱 | gain 6500-7000K / 天空 lift 偏蓝 / 暖点收紧 / vignette 取消（帧无烘制 vignette·链不叠加） |
-| 暖窗/纸机特写（warm_window/streak） | 暖点=全帧唯一强调·曝光克制 | 暖点保护（R+ 微）·周围蓝压一档·vignette 轻档 |
+| 暖窗/纸机特写（warm_window/streak） | 暖点=全帧唯一强调·曝光克制 | 暖点保护（R+ 微）·周围蓝压一档·**vignette angle=0.30（角部 -16.9%·2026-10-20 本机实测；`PI/4.6=-63.9%`、`PI/5=-55.5%` 均为重口，禁当轻档）** |
 | 星尘带（galaxy_gold） | 金尘对墨蓝·颗粒厚软 | contrast 1.08 / sat 1.03 / grain alls 5 |
 
 ## 四、校准协议（装配站执行·30s grade v5 正法）
