@@ -1357,7 +1357,7 @@
   },
   {
    "id": "kfpb-i2v-manifest-c2146",
-   "status": "blocked",
+   "status": "done",
    "priority": 47,
    "auth": "Coverage board c2145 confirms every A/B timeline shot has keyframes (0 uncovered seconds), which is the pre-condition the casting verdict set for the i2v wave. The i2v burn itself still has no manifest: motion prompts, per-shot durations and the 480P-first verification slice are design decisions, not something a generic runner can infer.",
    "require": {
@@ -1368,7 +1368,16 @@
    "log_err": "media/MV/mv0001/logs/kfpb_i2v.err.log",
    "note": "BLOCKED until a manifest exists. Author it first, then set cmd and flip to pending. Spec: emit a manifest for media/MV/mv0001/xingqing keyframes consumed by the album i2v runner (cph4/fleet/mv-album-001-jay/local-i2v/h3_i2v_album.py, which takes --manifest + --only), one entry per shot with first_frame path, duration taken from the SHOTLIST time window, a motion clause in the camera-dimension form (motion + amplitude + speed, never a Ken Burns pan), and the shot's 词窗 anchor so the cut stays on the lyric. Per the efficiency law the first wave is a 480P verification slice: 2-3 representative shots (one pack B close-up, one two-shot, one landscape) burned at 480P and read for motion and identity drift BEFORE any 768P production wave. No native audio anywhere (CEO audio ban). PASS gate = manifest JSON on disk + the 480P verification frames read and reported.",
    "prestow_ts": "2026-10-20T14:15:42",
-   "prestow_note": "C2145 pre-stow: the coverage gate is closed, so the i2v manifest is the next real step."
+   "prestow_note": "C2145 pre-stow: the coverage gate is closed, so the i2v manifest is the next real step.",
+   "done_ts": "2026-10-20 14:41:33",
+   "done_note": "AUTHORED C2146. Two manifests on disk next to the runner: run-bmc-packB-i2v.json (6 B units, 37.16s of screen time, 768P production) and run-bmc-packB-verify480.json (3 units: S3-17 close-up, S5-31 two-shot, S2-10 landscape, 24.40s). Builder = cph4/fleet/idle-guard-kit/kfpb_i2v_manifest_c2146.py; it re-checks every first frame on disk (>=500KB), the 40-90 word band, the camera clause, and bans negation/audio/emotion-label words before writing. New lane bmcverify was added to assignment-album-v1.json with out=media/mv-album-001-jay/clips-verify-480 so a 480P file can never be read as a production clip. Verify wave FIRED 14:42 detached (3 shots, 672x384 int4): PASS gate still needs the clips read next round."
+  },
+  {
+   "id": "kfpb-verify480-verdict-c2146",
+   "status": "pending",
+   "created_ts": "2026-10-20 14:41:33",
+   "note": "Zero GPU review job (successor of kfpb-i2v-manifest-c2146). Read the three clips in media/mv-album-001-jay/clips-verify-480 (XQ_VERIFY-S3-17, XQ_VERIFY-S5-31, XQ_VERIFY-S2-10) for motion realism and identity drift: does the stepping keep a believable cadence with road contact, does the hand hold land before the cut, does the field drift without the grass crawling or the horizon warping, and do the faces stay the same person across frames of the two-shot. PASS gate = a written verdict naming either GO for the 768P production wave (then flip run-bmc-packB-i2v.json into an armed job) or the shot that needs a prompt fix before any 768P burn. Costly 768P burn stays gated on this verdict.",
+   "cmd": []
   }
  ]
 }

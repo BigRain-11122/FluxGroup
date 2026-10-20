@@ -27,6 +27,15 @@
    "quant": "int4",
    "wf": "wf_h3_i2v_480p_int4.json",
    "out": "media/mv-album-001-jay/clips-animatic-480"
+  },
+  "bmcverify": {
+   "machine": "bm-c RTX3070 16G - 480P verification slice only (never production)",
+   "manifest": "cph4/fleet/mv-album-001-jay/local-i2v/run-bmc-packB-verify480.json",
+   "width": 672,
+   "height": 384,
+   "quant": "int4",
+   "wf": "wf_h3_i2v_480p_int4.json",
+   "out": "media/mv-album-001-jay/clips-verify-480"
   }
  },
  "notes": "帧分发=bm-c tailnet http://100.123.74.104:8800/album-frames-v22.zip；回收规则=停滞>4h 的单由另一 768P 机 --only ID 认领补跑；--only 优先于 lane 过滤"
