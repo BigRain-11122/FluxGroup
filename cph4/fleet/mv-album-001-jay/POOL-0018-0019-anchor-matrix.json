@@ -1,0 +1,66 @@
+{
+ "stage": "POOL-0018(words)+POOL-0019(beats) first-batch-7 readiness",
+ "version": "anchor-shotgrid v1.0 (r1070 bm-b)",
+ "machine": "bm-b",
+ "rows": [
+  {
+   "song": "可爱女人",
+   "words": 13019,
+   "beats": 16778,
+   "calibrated": 5492,
+   "shotgrid": 14626,
+   "ready": true
+  },
+  {
+   "song": "安静",
+   "words": 33663,
+   "beats": 12390,
+   "calibrated": 5155,
+   "shotgrid": 16217,
+   "ready": true
+  },
+  {
+   "song": "开不了口",
+   "words": 23352,
+   "beats": 10201,
+   "calibrated": 4952,
+   "shotgrid": 13463,
+   "ready": true
+  },
+  {
+   "song": "星晴",
+   "words": 29651,
+   "beats": 11982,
+   "calibrated": 5394,
+   "shotgrid": 14645,
+   "ready": true
+  },
+  {
+   "song": "晴天",
+   "words": 27914,
+   "beats": 9680,
+   "calibrated": 0,
+   "shotgrid": 0,
+   "ready": false
+  },
+  {
+   "song": "简单爱",
+   "words": 22542,
+   "beats": 13464,
+   "calibrated": 6800,
+   "shotgrid": 19091,
+   "ready": true
+  },
+  {
+   "song": "龙卷风",
+   "words": 30970,
+   "beats": 9098,
+   "calibrated": 5146,
+   "shotgrid": 13792,
+   "ready": true
+  }
+ ],
+ "ready_count": 6,
+ "total": 7,
+ "note": "audio supply = 7/7 staged; remaining 34 album tracks have no source audio on this node"
+}
