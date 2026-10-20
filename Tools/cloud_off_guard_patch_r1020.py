@@ -39,6 +39,7 @@ TARGETS = [
     ("cph4/night-round.ps1", "& $cli -y -p $prompt"),
     ("gaming/MiniGame/tools/ModeTick.ps1", "$p = Start-Process -FilePath $codely"),
     ("gaming/MiniGame/tools/BoardForge.ps1", "$p = Start-Process -FilePath $codely"),
+    ("gaming/MiniGame/tools/c2147_glyphtower_e4_firstfire_wave.ps1", "$cp = Start-Process -FilePath $cli"),
 ]
 
 
