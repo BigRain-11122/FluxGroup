@@ -1,7 +1,7 @@
 # AI.md — FluxGroup 集团与元宙 AI 总览（正典入口）
 
 > 目的：任何 AI 会话/新机器/新执行体读本文件 5 分钟建立全局认知，再按指针深潜。性质=唯一速览正典——**只给指针与结论，细节以目标文件为准**（单一事实来源）。
-> 版本 v2.0 · 2026-10-08 · **瘦身令**（CEO 令「规则太多了，造成思考拥堵」·C-20261008-06 Phase 1：本件 17.9KB→≤10KB——历史沿革/案例复述/行内长文全部移出，git 史全保·指针零删除）·结构变更须 changelog+溯源（docs/governance.md §9）。
+> 版本 v2.1 · 2026-10-20（节律/班次/SLA/云道/bm-a 角色对齐 10-19 提速令与 10-20 令）· 初版 v2.0 · 2026-10-08 · **瘦身令**（CEO 令「规则太多了，造成思考拥堵」·C-20261008-06 Phase 1：本件 17.9KB→≤10KB——历史沿革/案例复述/行内长文全部移出，git 史全保·指针零删除）·结构变更须 changelog+溯源（docs/governance.md §9）。
 
 ## 0. 一句话
 
@@ -22,7 +22,7 @@
 | **BigCompute** | 硅基算力：**商业化中枢司**（对外成交/定价/粉丝私域/渠道唯一出口·九部门全编制） | `compute/BigCompute/`（独立仓） | `BLUEPRINT.md`+`docs/plans/`+`docs/risk-register.md` |
 | **BigHouse** | 硅基城市安家·数字生活（三柱=安家/邻里/共长·传统行业词族门禁） | `house/BigHouse/`（独立仓·remote 待 CEO 建库） | `BLUEPRINT.md` |
 
-**机队**：bm-a（DASHENG·32 核·总控+开发+游戏 A 机）｜bm-b（16 核·回测+TTS/音频主力）｜bm-c（32 核·3070 16GB·ComfyUI 主产线+云天线+交互窗）｜CEO 笔记本=豁免位（移动指令总控·非机队·不入算力池）。配置分配唯一权威=`cph4/resource-chain.md` §二；新机接入=`Tools/bootstrap-machine.ps1`+`cph4/onboarding.md`。
+**机队**：bm-a（DASHENG·32 核·**远端提单执行位**（10-20 18:3x 降位·只按票执行））｜bm-b（16 核·回测+TTS/音频主力）｜bm-c（32 核·3070 16GB·ComfyUI 主产线+交互窗）｜CEO 笔记本=豁免位（移动指令总控·非机队·不入算力池）。配置分配唯一权威=`cph4/resource-chain.md` §二；新机接入=`Tools/bootstrap-machine.ps1`+`cph4/onboarding.md`。
 
 ## 2. 元宙（FluxVerse）思路
 
@@ -37,10 +37,10 @@
 
 | 机制 | 节律 | 正典 |
 |---|---|---|
-| OS 循环/DevLoop（各司） | 10min | 各司 mandate |
-| **决策委员会常务轮**（日常代管+复盘四问+自迭代） | 00:00/12:00 双班 | `cph4/council.md` |
-| **CEO 总调度代理席**（CEO 命令发布台+科学巡视：风险加权班表+旗分流三班型+全表日轮转·方向基准=CEO-DIRECTION-BRIEF） | 8 班/日（班表正身=CEO-PROXY/CHARTER.md §四·协议正身=ROUND.md——版本漂移勘正 2026-10-14 群审交接席） | `cph4/fleet/dispatcher/CEO-PROXY/` |
-| 值守轮（四器审计+催办+自愈+**回执核销步**） | 03:07/15:07 双班 | `cph4/night-round-prompt.txt` |
+| OS 循环/DevLoop（各司） | 5min（10-19 提速令 v2；`cph4/cadence.md` §8） | 各司 mandate |
+| **决策委员会常务轮**（日常代管+复盘四问+自迭代） | 00/06/12/18 四班（10-19 提速 v2） | `cph4/council.md` |
+| **CEO 总调度代理席**（CEO 命令发布台+科学巡视：风险加权班表+旗分流三班型+全表日轮转·方向基准=CEO-DIRECTION-BRIEF） | 8 班/日 → 12 班/日（每 2h·10-19 提速 v2；班表正身=CEO-PROXY/CHARTER.md §四·协议正身=ROUND.md） | `cph4/fleet/dispatcher/CEO-PROXY/` |
+| 值守轮（四器审计+催办+自愈+**回执核销步**） | 03:07/09:07/15:07/21:07 四班（10-19 提速 v2） | `cph4/night-round-prompt.txt` |
 | 进化轮（立法+法熵审视+考核面） | 周日 09:17 | `cph4/evolution.md` |
 | 巡检 patrol+外部独立审查 | 周一 09:23／日一班 22:17（10-14 降频勘正） | `docs/audit-charter.md` Part B／Part A |
 | 令流（CEO 令→台账→执行→回执→核销） | 随时：秒级 poke→2min 哨兵→10min 轮询三层 | `docs/orders.md`+`cph4/resource-chain.md` §十 |
@@ -49,10 +49,10 @@
 | 决策/审查/考核三链×四层（L0 团队→L3 集团·底层优先） | 常设 | `cph4/decision-chain.md` |
 | 错误定级 E0-E3（E0=三通道直呈 CEO） | E0 即时/E1 当日/E2 轮内~周/E3 豁免 | `cph4/errors.md` |
 | 诚实律三道防线（证据对/新鲜验证/宣称分级） | 常设 | `docs/governance.md` §10 |
-| 交付时效（快速件 24h/CEO 可见交付 ≤5 天） | 常设 | `docs/governance.md` §11 |
-| 调度+机队（verdict 驱动·云无限并行·保活/静默/让路/分工/本地主供/信息同步） | 常设 | `cph4/resource-chain.md` §一~§十 |
+| 交付时效（快速件 12h/CEO 可见交付 ≤3 天·10-19 提速 v2） | 常设 | `docs/governance.md` §11 |
+| 调度+机队（verdict 驱动·**云道=默认本地·必要才上云·并行 <8**（10-20 21:2x 修订）·保活/静默/让路/分工/本地主供/信息同步） | 常设 | `cph4/resource-chain.md` §一~§十 |
 | 资源保留清理（R1 永不清~R4 随轮清·磁盘预算） | 日/周/月/季 | `cph4/resource-chain.md` §三§11 |
-| 本地化算力（L1 确定性→L2 本地 LLM→L3 云 API）+Token 经济 | 常设 | `cph4/local-first.md`+`cph4/token-economy.md` |
+| 本地化算力（L1 确定性→L2 本地 LLM→L3 云端仅必要性，非默认）+Token 经济 | 常设 | `cph4/local-first.md`+`cph4/token-economy.md` |
 | 自动化周期总账（防重复/防冲突/流转时限） | 全周期登记 | `cph4/cadence.md` |
 | 新公司开线 SOP（P1-P5 判据制） | 随开线 | `cph4/venture.md` |
 | 调研部门（九司·应用表强制）+GitHub 雷达+OSS 收获轮 | 常设/周/72h | `docs/research-dept-charter.md`+`cph4/github-radar.md`+`cph4/oss-harvest.md` |
@@ -103,6 +103,7 @@
 本文件=速览+指针：目标文件改了只改指针不改结论；结论与实况冲突时**实况优先**（先改文档）；结构变更须 `docs/governance.md` changelog+溯源。
 
 ### Changelog
+- 2026-10-20: **v2.1 实况对齐**（依据：10-19 11:53 提速令 v2、10-20 18:3x bm-a 降位令、10-20 21:2x 云道修订）——§1 机队 bm-a 改「远端提单执行位」；§3 OS 循环 5min／决策轮四班／值守轮四班／CEO-PROXY 12 班/日／交付 SLA 12h·3 天／云道改「默认本地·必要才上云·并行 <8」／本地化 L3 非默认；补 `cph4/cadence.md` §8 指针。
 - 2026-10-08: **v2.0 大瘦身**（CEO 令「规则太多了，造成思考拥堵」·C-20261008-06 Phase 1·17.9KB→≤10KB）：沿革/案例/长文移出（git 史全保）——组织表/机制表速查化、§2/§4/§5 压缩、铁律 3 增查重。
 - ≤v1.7：建仓至 10-07 沿革全档 git 史（组织/载体边界/美术定谳/常设化/梳理批各版本注记）。
 - 2026-10-14: §3 机制表增 CEO 总调度代理席行+§4 增方向简报指针（O-20261014-1210/1215·修法包 v1）。
