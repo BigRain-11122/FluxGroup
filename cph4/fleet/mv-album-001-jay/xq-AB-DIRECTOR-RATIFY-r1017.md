@@ -160,3 +160,10 @@ F5-33c: HOLD（1/8 条件过·未达 ≥2 净格线·修法见 §七）
 - 后果：§八-6 关闭；§八表全项无「未做」面（余 2a 草尖 1:1、5 双蝶=候导演眼判，非我方可自决）。后继银行件已预挂 `s7r-conform-ratify-board`（四板一页索引供导演一次签认）。
 - 同窗连带四件（零 GPU，均由银行件驱动）：①`xq-S7R-FAMILY-RATIFY-BOARD-c2126.jpg`（259,167B·四板缩略+标签映射+sha 短号，导演一次签认）；②出货完整性复验 `delivery/VERIFY-S527-4K-c2127.json`（六盘逐张重算 SHA256 vs 清单 vs 源盘 = 6/6 恒等、0 不符）；③`origin/main` 发布核对（321a4e5·四板字节恒等；conform 收据报 **EOL-ONLY**——工作树 CRLF vs 库内 LF blob，归一后 40/40 行全等，非内容差异）；④`delivery/proxy/` 六张 1600px 翻页代理（194–208KB）+ 联系板 212,079B，`README-S527-4k.md` 已按盘上实况重写（2,398B·逐件 sha 短号）。
 
+
+### C2135 收口（bm-c，2026-10-20 08:0x）：A 包装配样片补响度母版（-14 LUFS / 真峰 -2.3 dBTP）
+
+- 成品标准第 5 条（loudnorm IL/TP）此前只有 PLAYBOOK 文档、脚本面从未实现；本班把 `xq_packa_loudnorm_c2135.py` 落到 `cph4/fleet/mv-album-001-jay/`，链=loudnorm I=-14:TP=-1.5:LRA=11（linear）+ alimiter 0.66（**必须 level=false**，默认 true 会把峰值抬回门限）+ 原片 0.6s/1.4s 淡入淡出。
+- 实测：源 -12.7 LUFS / 真峰 +2.1 dBTP → 成品 **-14.2 LUFS / -2.3 dBTP**，时长 196.250s 零差。
+- **闸门升格**：首版带 `-shortest` 悄悄丢尾 2 帧（4708/4710）；现闸=帧数相等 + framemd5 相等（本轮 4710/4710，画面与 v1 完全一致）。
+- origin 核对：`packA-conform-origin-verify-v1` 07:55:59 实跑 PASS（ok=1 mismatches=0 @7c63121），守卫未翻面，已按跑手日志收账翻 done；后继预挂 `packA-conform-v2-origin-verify-v1`（五件回执 + 帧数/响度复测）。
