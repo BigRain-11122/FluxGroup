@@ -1374,9 +1374,18 @@
   },
   {
    "id": "kfpb-verify480-verdict-c2146",
-   "status": "pending",
+   "status": "done",
    "created_ts": "2026-10-20 14:41:33",
    "note": "Zero GPU review job (successor of kfpb-i2v-manifest-c2146). Read the three clips in media/mv-album-001-jay/clips-verify-480 (XQ_VERIFY-S3-17, XQ_VERIFY-S5-31, XQ_VERIFY-S2-10) for motion realism and identity drift: does the stepping keep a believable cadence with road contact, does the hand hold land before the cut, does the field drift without the grass crawling or the horizon warping, and do the faces stay the same person across frames of the two-shot. PASS gate = a written verdict naming either GO for the 768P production wave (then flip run-bmc-packB-i2v.json into an armed job) or the shot that needs a prompt fix before any 768P burn. Costly 768P burn stays gated on this verdict.",
+   "cmd": [],
+   "done_ts": "2026-10-20 15:06:30",
+   "done_note": "ALL THREE GO at 480P. ffprobe: S3-17 175f/7.29s 1,044,286B; S5-31 277f/11.54s 460,603B; S2-10 192f/8.00s 746,570B; lane ended ok=3 fail=0. Motion reads true (feet plant with contact and no slide, the hand hold lands in the first second, the grass moves as one wind band), camera stays locked (the wide shot drifts slowly without a Ken Burns feel), faces stay the same pair across the two-shot, no melting/fused digits/horizon wobble. Verdict doc = xq-PACKB-VERIFY480-VERDICT-c2146.md. 768P wave FIRED 14:52 per the GO."
+  },
+  {
+   "id": "kfpb-packB768-harvest-c2146",
+   "status": "pending",
+   "created_ts": "2026-10-20 15:06:30",
+   "note": "Zero GPU review job. The 768P production wave for all six pack B shots is burning (log media/MV/mv0001/logs/kfpb_packB_768p_c2146.out.txt, out media/mv-album-001-jay/clips-local-768). PASS gate = ALBUM LANE DONE ok=6 fail=0 plus six mp4 >=900KB, then read one native frame per clip for hand/foot anatomy, waxy skin, night skin tone, era wardrobe, and zero text/logo; write the verdict and unlock the A+B assembly.",
    "cmd": []
   }
  ]
