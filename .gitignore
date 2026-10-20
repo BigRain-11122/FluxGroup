@@ -148,3 +148,8 @@ cph4/fleet/mv0001-handover/outbound/krea2/male-lead-campus-v1/
 cph4/fleet/mv0001-handover/outbound/krea2/character-candidates-v2/
 cph4/fleet/mv0001-handover/outbound/krea2/kf-demo-20261012/bmc/i2v/
 cph4/fleet/mv0001-handover/audio/
+
+# 上传凭据（本机人工闸·local_cleanup_r1020 只在它存在时允许删）
+.uploaded-ok.json
+# 清理日志
+media/logs/
