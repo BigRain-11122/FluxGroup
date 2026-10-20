@@ -26,9 +26,29 @@
 3. **文字优先**：任何 `.md/.txt/.json/.csv` 记录不随目录一起删——先恢复再提交。
 4. **保护树**：`.git`、`media/MUSIC`、`media/BigStream/data/assets`、`memory`、`inbox`、CLOUD-OFF 正典。
 
-## 四、还没动的（等你传完网盘再执行）
+## 四、第二波（同日 19:09·CEO 追加令「都清理好，不用备份，以现在最新版本为准」）
 
-`Tools/local_cleanup_r1020.ps1` 管的那 34.4GB：labbench 权重、venv/node_modules、hardware-staging、tmp、系统 Temp。这些是**可重建**件，不是过程件，按你「传完再清」的次序走，且需 `.uploaded-ok.json` 凭据才允许删。
+| 目标 | 释放 |
+|---|---|
+| `cph4/labbench`（含 ace-step 权重 + 6.12GB venv） | 15.63GB |
+| `life/BigLife/.codely-cli/labbench`（bonsai 权重） | 7.24GB |
+| `media/hardware-staging`（到货暂存） | 2.00GB |
+| `%USERPROFILE%\.codely-cli\tmp`（>1 天） | 0.57GB |
+| `%LOCALAPPDATA%\Temp`（>2 天） | 0.03GB |
+| `__pycache__` / `node_modules`（337 个目录） | 0.08GB |
+| `*.bak-*` 备份件（28 件） | 0.003GB |
+| `media/logs` 旧日志（>3 天，141 件） | 0.001GB |
+| **第二波合计** | **≈25.54GB** |
+
+**两波合计 ≈31.4GB**。C 盘可用 622.6GB → **653.8GB**（实测）。
+
+### 判据与安全边界
+
+- **不备份**：按令不产生任何副本；删前仅记路径+字节数进日志（`media/logs/deep-clean-*.log`）。
+- **环境核查先行**：删除前先枚举全仓 `.venv`/`node_modules`，确认只有 `cph4/labbench/.venv` 与两个可忽略的小环境——**没有任何生产环境挂在被删目录上**，不存在把活线拆掉的风险。
+- **临时目录分级**：`.codely-cli/tmp` 只清 1 天前、系统 Temp 只清 2 天前，避免正在跑的进程被抽掉工作目录。
+- **保护树未动**：`media/MUSIC`、`media/BigStream/data/assets`（S0 两禁删项）、`.git`、`memory`、`inbox`、最终版 5 件、在飞段件——逐项 `Test-Path` 复核为真。
+- **`media/hardware-staging` 已删**：内含采购到货暂存件。若其中有尚未落地的安装包，需重新下载；此点如实记录，不掩饰。
 
 ---
-*bm-a · 2026-10-20 · 承 CEO 过程件清理令*
+*bm-a · 2026-10-20 · 承 CEO 过程件清理令 + 全量清空令*

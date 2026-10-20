@@ -21,7 +21,7 @@ $null = New-Item -ItemType Directory -Force -Path $logDir
 $outLog = Join-Path $logDir ("coder-serve-$stamp.out.log")
 $errLog  = Join-Path $logDir ("coder-serve-$stamp.err.log")
 
-$argList = '-m "{0}" --alias qwen3.6-35b-a3b --n-cpu-moe 999 -ngl 999 -c 16384 -np 2 --host 0.0.0.0 --port 8090 --jinja -t 24 -fa auto --no-webui' -f $model
+$argList = '-m "{0}" --alias qwen3.6-35b-a3b --n-cpu-moe 999 -ngl 999 -c 65536 -np 1 --host 0.0.0.0 --port 8090 --jinja -t 24 -fa auto --no-webui' -f $model
 $p = Start-Process -FilePath $exe -ArgumentList $argList -WindowStyle Hidden `
      -RedirectStandardOutput $outLog -RedirectStandardError $errLog -PassThru
 try { $p.PriorityClass = 'BelowNormal' } catch { }   # PS5.1: no -Priority param, set post-launch
