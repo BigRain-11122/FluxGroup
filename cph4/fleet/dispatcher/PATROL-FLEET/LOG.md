@@ -943,3 +943,7 @@
 2026-10-20 19:10:01 | fluxverse | digest | L1-local | 域日报产出（零云端 token）
 2026-10-20 19:10:02 | bighouse | digest | L1-local | 域日报产出（零云端 token）
 2026-10-20 19:13:02 | biglife | digest | L1-local | 域日报产出（零云端 token）
+2026-10-20 19:16:01 | bigmoney | digest | L1-local | 域日报产出（零云端 token）
+2026-10-20 19:16:02 | bigcompute | digest | L1-local | 域日报产出（零云端 token）
+2026-10-20 19:19:02 | bigstream | digest | L1-local | 域日报产出（零云端 token）
+2026-10-20 19:28:01 | group | digest | L1-local | 域日报产出（零云端 token）

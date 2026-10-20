@@ -1,20 +1,4 @@
-﻿[2026-10-19 18:11] pools: bm-a=2 bm-b=3 bm-c=1 open; judgment_cards=0 flags=2
-[2026-10-19 18:21] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-19 18:21] NOTE QUEUE-LOW lane=bm-c open_cards=1 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-19 18:21] pools: bm-a=2 bm-b=3 bm-c=1 open; judgment_cards=0 flags=2
-[2026-10-19 18:31] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-19 18:31] NOTE QUEUE-LOW lane=bm-c open_cards=1 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-19 18:31] pools: bm-a=2 bm-b=3 bm-c=1 open; judgment_cards=0 flags=2
-[2026-10-19 18:41] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-19 18:41] NOTE QUEUE-LOW lane=bm-c open_cards=1 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-19 18:41] pools: bm-a=2 bm-b=3 bm-c=1 open; judgment_cards=0 flags=2
-[2026-10-19 18:51] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-19 18:51] NOTE QUEUE-LOW lane=bm-c open_cards=1 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-19 18:51] pools: bm-a=2 bm-b=3 bm-c=1 open; judgment_cards=0 flags=2
-[2026-10-19 19:01] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-19 19:01] NOTE QUEUE-LOW lane=bm-c open_cards=1 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-19 19:01] pools: bm-a=2 bm-b=3 bm-c=1 open; judgment_cards=0 flags=2
-[2026-10-19 19:11] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
+﻿[2026-10-19 19:11] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
 [2026-10-19 19:11] NOTE QUEUE-LOW lane=bm-c open_cards=1 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
 [2026-10-19 19:11] pools: bm-a=2 bm-b=3 bm-c=1 open; judgment_cards=0 flags=2
 [2026-10-19 19:21] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
@@ -398,3 +382,19 @@
 [2026-10-20 19:01] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
 [2026-10-20 19:11] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
 [2026-10-20 19:11] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
+[2026-10-20 19:21] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
+[2026-10-20 19:21] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
+[2026-10-20 19:31] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
+[2026-10-20 19:31] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
+[2026-10-20 19:41] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
+[2026-10-20 19:41] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
+[2026-10-20 19:51] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
+[2026-10-20 19:51] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
+[2026-10-20 20:01] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
+[2026-10-20 20:01] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
+[2026-10-20 20:11] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
+[2026-10-20 20:11] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
+[2026-10-20 20:21] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
+[2026-10-20 20:21] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
+[2026-10-20 20:31] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
+[2026-10-20 20:31] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1

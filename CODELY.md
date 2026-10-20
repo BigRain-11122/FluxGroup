@@ -40,6 +40,8 @@
 - [2026-10-17 12:4x] fleet-dispatch「SYNCED」空真判例：-ExpectSha 缺省=本地 main HEAD——落后节点拉取 .:fail 也会报 SYNCED（节点头==陈旧 ExpectSha 即判过）→验真同步必看 worker 戳记 pulls 值（.:fail=没拉成）或显式传 origin tip sha；「全节点 SYNCED」不等于工作树到件。实锚：12:44 poke 报 bm-a SYNCED 3s·git log 实测 main 仍落后 9 笔、v5redo 仍旧批（摘要层被空真误导近半小时）。
 - [2026-10-17 12:4x] PS5.1 输出重定向坑：PS 的 > 对原生 exe stdout 做 UTF-16 LE 转码（git show origin/main:<path> > file 提取件被毁·diff 误报 Binary 两连实锚）——origin blob 提取正法=git cat-file blob 落 [IO.File]::WriteAllBytes 或 git checkout origin/main -- <path>；一切需逐字节保真的命令输出禁走 PS >。
 - [2026-10-20 18:21] T0 云道停用令（CEO「集团业务全部停止走云端，全部走本地」）：业务生成/推理一律本地机队；云端 API 停作生产路径，例外仅 CEO 亲批+留痕；本地满载=排队+报障，不切云。权威件=cph4/fleet/CLOUD-OFF-LOCAL-ONLY-v1.md；落地台账=cph4/fleet/CLOUD-OFF-LANDING-20261020.md（22 件改口径·日志判例研究零改写）。未完成=云端凭据清单/派单卡机械 lint/在飞云任务盘点/本地产能预算/Animate+LatentSync 装机/代理脑边界待 CEO 裁。**2026-10-20 追加令「自动化任务全部走本地」已落地**：17 个会拉起云端 codely 会话的脚本在 Start-Process 前加统一闸门（开关=`cph4/fleet/CLOUD-OFF-LOCAL-ONLY-v1.md` 存在即拦·留痕 `media/logs/cloud-off-suppressed.log`），无人值守 LLM 判断面（L2 八班/各域巡逻席/各司迭代轮）暂停，本地确定性巡班照跑；解令=改名或删除该正典。
+- [2026-10-20 20:28:23] 2026-10-20 19:0x bm-a 转纯本地算力机（CEO 令「本机器只当做本地算力机了，不要走云端」，豆包云 API 后续接管云端）：已改 ~/.codely-cli/.env（CUSTOM_AUTH=1、OPENAI_BASE_URL=http://127.0.0.1:8090/v1）+ settings.json 四模型槽= qwen3.6-35b-a3b + 清空全局 mcpServers（备份 settings.json.bak-localonly-mcp-20261020-192203）+ coder-serve 改 -c 65536 -np 1。CLI 实测：radar-daily + --disable-next-speaker-check 可返回 LOCAL_OK；清空 MCP 后 exit 66 未查明，**新会话可能起不来，待修**。工具与回滚件=Tools/local-only-mode.ps1（-On/-Off/-Status，支持 -Backend doubao）。当时 shell 工具失效：PATH 指向不存在的豆包 sandbox pwsh（C:\Users\sjs20\AppData\Local\Doubao\User Data\sandbox_runtime\...\pwsh），所有 run_shell_command 不可用——清理/备份/git 同步全被阻塞。
+
 ### Reference
 ---
 
