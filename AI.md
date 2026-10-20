@@ -71,7 +71,7 @@
 | CEO 令与裁决 | `docs/orders.md` |
 | CEO 方向与关注点基准（20 雷达+14 盲区+保留面） | `cph4/fleet/dispatcher/CEO-PROXY/CEO-DIRECTION-BRIEF.md` |
 | **主AGENT 架构正典（集团主脑统一蓝图 v2·两波群审定版）** | `cph4/fleet/dispatcher/MASTER-AGENT/BLUEPRINT.md`（群审原件=同目录 reviews/·总报告=PANEL-REVIEW-20261014.md） |
-| **子公司巡视席舰队（十域巡视·15min 传感+域章程专业深挖+日 digest）** | `cph4/fleet/dispatcher/PATROL-FLEET/`（架构=BLUEPRINT·十域章程=CHARTERS·审档=reviews/） |
+| **子公司巡视席舰队（十域巡视·30min 传感+域章程专业深挖+日 digest）** | `cph4/fleet/dispatcher/PATROL-FLEET/`（架构=BLUEPRINT·十域章程=CHARTERS·审档=reviews/） |
 | **智能体库（Agent 席位+专家 Skill 总册·谁干什么怎么调·CEO 直达速查·周审保鲜）** | `cph4/agents/AGENT-LIBRARY.md`（治理=`cph4/agents/GOVERNANCE.md`·装机=`Tools/agent-library-sync.ps1`·库长 skill=agent-librarian） |
 | **机制总图（从上往下一条线·全链流水线+SLI 总表+已知张力）** | `cph4/registry/mechanism-map.md` |
 | **顶层治理架构一页图+八原则** | `docs/governance.md` §0 |
