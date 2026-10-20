@@ -13,7 +13,8 @@ BASE = os.path.dirname(os.path.abspath(__file__))
 LYR = os.path.join(BASE, "lyrics")
 ANC = os.path.join(BASE, "anchors")
 SONGS = {"星晴": "星晴", "可爱女人": "可爱女人", "龙卷风": "龙卷风",
-         "简单爱": "jiandanan", "开不了口": "kaibuliaokou", "安静": "anjing"}
+         "简单爱": "jiandanan", "开不了口": "kaibuliaokou", "安静": "安静-words",
+         "斗牛": "斗牛", "黑色幽默": "黑色幽默", "晴天": "晴天-words"}
 
 
 def norm(s):
@@ -139,7 +140,12 @@ def emit(song, rows):
     return exact, approx_n, none_n, len(rows)
 
 
-for song, anchor in SONGS.items():
+# argv song filter: `python lyric_calibration.py 斗牛 黑色幽默` processes only named
+# songs (idempotent re-run of existing faces stays byte-identical); bare run = all SONGS.
+only = [a for a in sys.argv[1:] if a]
+targets = {k: v for k, v in SONGS.items() if not only or k in only}
+
+for song, anchor in targets.items():
     lrc = os.path.join(LYR, song + ".lrc")
     txt = os.path.join(LYR, song + ".txt")
     aj = os.path.join(ANC, anchor + ".json")
