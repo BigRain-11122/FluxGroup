@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FLUX Group 工程诊断 · 2026-10-19</title>
+<style>
+  :root{
+    --bg:#0a0a0b;
+    --panel:#121214;
+    --panel2:#17171a;
+    --line:#26262b;
+    --line2:#34343b;
+    --fg:#e8e8ea;
+    --fg2:#9a9aa2;
+    --fg3:#65656e;
+    --accent:#d8d8dc;
+    --red:#e05252;
+    --amber:#d99a3d;
+    --green:#4fa87a;
+    --mono:"SF Mono","JetBrains Mono","Cascadia Mono",Consolas,"Courier New",monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:var(--bg);color:var(--fg);
+    font-family:var(--mono);
+    font-size:14px;line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+    padding:0 0 120px;
+  }
+  .wrap{max-width:920px;margin:0 auto;padding:0 32px}
+
+  /* header */
+  header{padding:88px 0 56px;border-bottom:1px solid var(--line)}
+  .kicker{font-size:11px;letter-spacing:.22em;color:var(--fg3);text-transform:uppercase;margin-bottom:28px}
+  h1{font-size:34px;line-height:1.3;font-weight:500;letter-spacing:-.02em;margin-bottom:20px}
+  h1 .dim{color:var(--fg3)}
+  .lede{font-size:15px;color:var(--fg2);max-width:660px;line-height:1.9}
+  .meta{margin-top:32px;font-size:11px;color:var(--fg3);letter-spacing:.06em}
+
+  /* sections */
+  section{padding:56px 0 8px;border-bottom:1px solid var(--line)}
+  section:last-of-type{border-bottom:none}
+  .num{font-size:11px;color:var(--fg3);letter-spacing:.18em;margin-bottom:14px}
+  h2{font-size:20px;font-weight:500;letter-spacing:-.01em;margin-bottom:8px}
+  .sub{font-size:12.5px;color:var(--fg3);margin-bottom:28px}
+  p{margin-bottom:16px;color:var(--fg2)}
+  p strong{color:var(--fg);font-weight:500}
+  .hl{color:var(--fg);border-bottom:1px solid var(--line2);padding-bottom:1px}
+
+  /* big statement */
+  .statement{
+    background:var(--panel);border:1px solid var(--line);
+    padding:32px 34px;margin:8px 0 40px;
+  }
+  .statement p{font-size:17px;line-height:1.85;color:var(--fg);margin:0}
+  .statement p + p{margin-top:14px;font-size:14px;color:var(--fg2)}
+
+  /* stat grid */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin:28px 0}
+  .stat{background:var(--panel);padding:22px 20px}
+  .stat .v{font-size:26px;letter-spacing:-.02em;line-height:1.1;margin-bottom:8px}
+  .stat .k{font-size:11px;color:var(--fg3);line-height:1.5}
+  .stat.bad .v{color:var(--red)}
+  .stat.warn .v{color:var(--amber)}
+
+  /* table */
+  .tbl{width:100%;border-collapse:collapse;margin:8px 0 28px;font-size:12.5px}
+  .tbl th{
+    text-align:left;font-weight:400;color:var(--fg3);font-size:10.5px;
+    letter-spacing:.12em;text-transform:uppercase;
+    padding:10px 12px;border-bottom:1px solid var(--line2);
+  }
+  .tbl td{padding:13px 12px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--fg2)}
+  .tbl td:first-child{color:var(--fg);white-space:nowrap}
+  .tbl tr:last-child td{border-bottom:none}
+  .tag{display:inline-block;font-size:10px;padding:1px 7px;border:1px solid var(--line2);color:var(--fg3);letter-spacing:.04em}
+  .tag.r{color:var(--red);border-color:#4a2222}
+  .tag.a{color:var(--amber);border-color:#4a3a22}
+  .tag.g{color:var(--green);border-color:#22402f}
+
+  /* bar compare */
+  .bars{margin:24px 0 36px}
+  .bar-row{display:grid;grid-template-columns:150px 1fr 62px;align-items:center;gap:14px;margin-bottom:11px}
+  .bar-label{font-size:12px;color:var(--fg2);text-align:right}
+  .bar-track{height:8px;background:var(--panel2);position:relative;overflow:hidden}
+  .bar-fill{height:100%;background:var(--accent)}
+  .bar-fill.r{background:var(--red)}
+  .bar-fill.a{background:var(--amber)}
+  .bar-val{font-size:11.5px;color:var(--fg3)}
+
+  /* findings */
+  .finding{border-left:2px solid var(--line2);padding:2px 0 2px 22px;margin-bottom:34px}
+  .finding h3{font-size:14.5px;font-weight:500;color:var(--fg);margin-bottom:8px}
+  .finding h3 span{color:var(--fg3);font-weight:400;margin-right:10px}
+  .finding p{font-size:13px;margin-bottom:10px}
+  .ev{
+    font-size:11.5px;color:var(--fg3);background:var(--panel);
+    border:1px solid var(--line);padding:10px 14px;line-height:1.7;
+  }
+  .ev b{color:var(--fg2);font-weight:400}
+
+  /* quote */
+  blockquote{
+    border-left:2px solid var(--amber);padding:4px 0 4px 20px;margin:16px 0;
+    font-size:13.5px;color:var(--fg2);line-height:1.8;
+  }
+  blockquote .who{display:block;font-size:11px;color:var(--fg3);margin-top:8px}
+
+  /* list */
+  ul.plain{list-style:none;margin:8px 0 24px}
+  ul.plain li{padding:9px 0 9px 26px;position:relative;font-size:13px;color:var(--fg2);border-bottom:1px solid var(--line)}
+  ul.plain li:before{content:"—";position:absolute;left:0;color:var(--fg3)}
+  ul.plain li:last-child{border-bottom:none}
+
+  /* actions */
+  .action{display:grid;grid-template-columns:44px 1fr;gap:0;border-top:1px solid var(--line);padding:22px 0}
+  .action:last-child{border-bottom:1px solid var(--line)}
+  .action .idx{font-size:11px;color:var(--fg3);padding-top:3px}
+  .action h4{font-size:14px;font-weight:500;color:var(--fg);margin-bottom:7px}
+  .action p{font-size:12.5px;margin:0;color:var(--fg2)}
+
+  footer{padding:48px 0 0;font-size:11px;color:var(--fg3);line-height:1.9}
+  .sep{height:1px;background:var(--line);margin:40px 0}
+  @media(max-width:720px){
+    .wrap{padding:0 20px}
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .bar-row{grid-template-columns:110px 1fr 52px}
+    h1{font-size:26px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">FLUX Group · Engineering Diagnosis</div>
+  <h1>你造了一台极精密的公司模拟器。<br><span class="dim">它现在主要在生产"运转"，而不是产品。</span></h1>
+  <p class="lede">
+    对 26 天、约 4,200 次提交、四条独立仓、四台机器、九家子公司的实证审查。
+    结论不是"做得不好"——机制设计水平很高；问题是产出与投入的比值。
+  </p>
+  <div class="meta">证据基线 2026-10-19 11:43 · 总控仓 1,594 commits · 全部数字可复算</div>
+</header>
+
+<section>
+  <div class="num">01 / 一句话</div>
+  <div class="statement">
+    <p>全集团对外发布：<strong>0 件</strong>。</p>
+    <p>这不是我判断的，是你自己的 <span class="hl">RESULTS-LEDGER-v1.md</span> 第 9 行写的：「首建账实况：全集团对外发布仍为零」。在它写下这句话的同一天，系统产生了 87 次提交、约 6 份新机制文件。</p>
+  </div>
+  <p>下面所有结论都建立在一个区分上：<strong>内部产出</strong>（包体、成片、回测、文档、台账）与<strong>外部产出</strong>（过审、上线、有人用、有钱进）。你的系统把前者做到了工业级，后者仍是零。</p>
+</section>
+
+<section>
+  <div class="num">02 / 规模</div>
+  <h2>这台机器的体量</h2>
+  <div class="sub">四台机器、九家公司、七个业务域，26 天</div>
+
+  <div class="stats">
+    <div class="stat"><div class="v">4,200+</div><div class="k">26 天总提交<br>（四个独立仓合计）</div></div>
+    <div class="stat"><div class="v">1,241</div><div class="k">CEO 令台账行数<br>orders.md</div></div>
+    <div class="stat"><div class="v">22.8 GB</div><div class="k">cph4 实验室<br>45,065 文件</div></div>
+    <div class="stat bad"><div class="v">0</div><div class="k">对外发布件数<br>平台过审 / 上线</div></div>
+  </div>
+
+  <p>提交量不是问题，节奏也不是问题——日均 60–95 次，稳定得像心跳。问题是这些提交在改什么。</p>
+
+  <div class="bars">
+    <div class="bar-row"><div class="bar-label">提交含"令"</div><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><div class="bar-val">588</div></div>
+    <div class="bar-row"><div class="bar-label">含"台账"</div><div class="bar-track"><div class="bar-fill" style="width:27%"></div></div><div class="bar-val">159</div></div>
+    <div class="bar-row"><div class="bar-label">含"回执"</div><div class="bar-track"><div class="bar-fill" style="width:13%"></div></div><div class="bar-val">77</div></div>
+    <div class="bar-row"><div class="bar-label">含"立法"</div><div class="bar-track"><div class="bar-fill" style="width:12.4%"></div></div><div class="bar-val">73</div></div>
+    <div class="bar-row"><div class="bar-label">含"修复"</div><div class="bar-track"><div class="bar-fill a" style="width:4.9%"></div></div><div class="bar-val">29</div></div>
+    <div class="bar-row"><div class="bar-label">含"部署"</div><div class="bar-track"><div class="bar-fill a" style="width:1.7%"></div></div><div class="bar-val">10</div></div>
+    <div class="bar-row"><div class="bar-label">含"发布"</div><div class="bar-track"><div class="bar-fill r" style="width:1.5%"></div></div><div class="bar-val">9</div></div>
+    <div class="bar-row"><div class="bar-label">含"上线"</div><div class="bar-track"><div class="bar-fill r" style="width:1.2%"></div></div><div class="bar-val">7</div></div>
+    <div class="bar-row"><div class="bar-label">含"实现"</div><div class="bar-track"><div class="bar-fill r" style="width:0.5%"></div></div><div class="bar-val">2</div></div>
+  </div>
+  <p style="font-size:12px;color:var(--fg3)">总控仓 1,594 条提交的主题词计数。一条提交可命中多个词，此处看比例，不看总和。</p>
+</section>
+
+<section>
+  <div class="num">03 / 对账</div>
+  <h2>六条线的实物对账</h2>
+  <div class="sub">"号称"来自各线 README / PLAN，"实物"来自文件系统实测</div>
+
+  <table class="tbl">
+    <thead><tr><th>业务线</th><th>号称</th><th>实物（实测）</th><th>状态</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>Biggame 游戏</td>
+        <td>38 款标题<br>（8 P 线 + 30 G 线）</td>
+        <td>28 款有 weixin 成功包记录；1 款（G01 吸嘟嘟）有完整可导入微信工程，35 MB。25 款有抖音 tt-minigame 完整结构。<br><br>提审递交：<b>0</b>。state.json 原话：「零在途递交」</td>
+        <td><span class="tag r">未上线</span></td>
+      </tr>
+      <tr>
+        <td>BigMoney 量化</td>
+        <td>6 名在册交易员<br>432 组参数网格</td>
+        <td>近 7 天 1,029 次提交，其中改动 engine/ strategies/ live/ 的次数：<b>0</b>。<br><br>纸盘 12 根 bar、0 个完整自然月；paper_run() 每轮重跑同一段历史回测，非逐笔前向；无券商依赖、无委托单、无 config。ranking.csv 只有表头，0 条记录。</td>
+        <td><span class="tag r">纸面</span></td>
+      </tr>
+      <tr>
+        <td>BigStream 媒体</td>
+        <td>41 曲 MV 专辑<br>+ 短剧 + 漫剧</td>
+        <td>mv0001 单曲：11 天，v54→v510 共 12 个 300MB 全片版本，第 3 次呈 CEO（版本硬线顶格）。<br><br>短剧/漫剧：<b>0 个 mp4</b>。meme：1 个。BigStream renders 107 个，均为 bs-001 内部迭代版。</td>
+        <td><span class="tag a">1 首在审</span></td>
+      </tr>
+      <tr>
+        <td>FluxVerse 元宙城</td>
+        <td>3D 赛博城市<br>M1→M5 里程碑</td>
+        <td>City3D 最后一次提交：<b>2026-10-11 00:26</b>，此后 8 天 0 次。<br><br>当前 DevLoop 主线已变成「金融 IC 卡 JR/T 0025.8—2013 国标全文整理」第 284 笔。近 14 天 494 次提交里，City3D 占 5 次，docs/research 占 281 次。world-state.json 仍在刷新（数据面活着）。</td>
+        <td><span class="tag r">停更 / 漂移</span></td>
+      </tr>
+      <tr>
+        <td>软著</td>
+        <td>37 个项目</td>
+        <td>175 个 PDF 实体件，43 MB，生成器幂等可复跑。<br>提交状态：仍在「_报审提交区」，未见受理回执。</td>
+        <td><span class="tag a">待提交</span></td>
+      </tr>
+      <tr>
+        <td>BigDomain / BigCompute<br>BigHouse / BigLife</td>
+        <td>四家商业化子公司<br>九部门全编制</td>
+        <td>BLUEPRINT 齐备。BigLife census 处于 CEO 冻结令下（零产出）。其余三家的可对外交付件：未见。</td>
+        <td><span class="tag">蓝图期</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>六条线里，<strong>唯一一个进入了"外部裁判"环节的业务是软著</strong>——因为它有明确的收件方和一页清单。其他所有线，终点都是"呈 CEO"。</p>
+</section>
+
+<section>
+  <div class="num">04 / 病灶</div>
+  <h2>三个结构性病灶</h2>
+  <div class="sub">都不是执行力问题，是测量方式问题</div>
+
+  <div class="finding">
+    <h3><span>A</span>记账吞掉了生产</h3>
+    <p>你的系统对"每个动作都要留痕"的要求，已经严格到让留痕本身成为主要工作量。这不是猜测——文件系统里有直接证据。</p>
+    <div class="ev">
+      <b>量化仓根目录：</b>567 个条目，其中 <b>524 个以 _ 开头</b>的临时件；全仓 <b>2,013 个 _r1* 轮次脚本</b>，全部纳入 git；results/ 下 <b>8,207 个 .py</b>。<br>
+      <b>文档体量：</b>round_reports-bm-c.md <b>1.73 MB</b>；round_reports-bm-a.md 1.27 MB；research/HANDOVER.md 1.15 MB。<br>
+      <b>游戏仓：</b>近 7 天 1,588 次提交，触及产品代码 projects/** 的 <b>40 次（2.5%）</b>；触及 Design/configs 簿记面 829 次，tools/ 379 次。
+    </div>
+    <p style="margin-top:14px">真正的现役代码只有 8 个引擎文件 + 14 个策略文件，被 524 个临时件淹没。任何一个新人（或新 AI 会话）打开这个仓，第一件事是花 40 分钟搞清楚哪些文件是真的。</p>
+  </div>
+
+  <div class="finding">
+    <h3><span>B</span>自审自签，直到 10-18 才被外力打断</h3>
+    <p>MV 线的返修史是整个系统病理的浓缩样本：V5.4 → V5.5 → V5.6 → V5.7 → V5.8 → V5.9，每一版都经过"导演席 PASS"，每一版都被你打回。</p>
+    <blockquote>
+      "给我引入监督和校对的机制，反复出现同样的问题，引入监制或者副导演！专门负责审核他们的成品，进行对抗审查！"
+      <span class="who">CEO 原话 · 2026-10-18 19:16 · 于是才有了 PRODUCER-SUPERVISOR-GATE-v1</span>
+    </blockquote>
+    <p>注意时间：这个机制在开线第 26 天才建立。而在它建立之前，你已经用眼睛做了 6 轮本该由机制做的拦截。你自己的台账也承认这一点——导演席自审乐观偏差被列为 <span class="hl">PR-20261018-01</span>，复发计数 2。</p>
+    <p>这不是 AI 不诚实，是结构必然：当审查者和生产者是同一个上下文，它就没有动机也没有视角去发现自己的盲区。</p>
+  </div>
+
+  <div class="finding">
+    <h3><span>C</span>目标漂移：没有外部信号，系统就会自己找事做</h3>
+    <p>最刺眼的一条证据在 FluxVerse。这是你投入最多情感的项目——"城即超体"、CPH4、《超体》意象。它的 3D 工程在 10-11 之后 8 天零提交，而同一个仓的 DevLoop 正在逐笔整理<strong>金融 IC 卡国家标准</strong>，已经到了第 284 笔。</p>
+    <div class="ev">
+      <b>近 15 条 FluxVerse 提交全部形如：</b>「DevLoop r664: 板面注记批（0025.8-2013 全文窗注记+queue #289 新条」「DevLoop r663: explore#12 第284笔 0025.8-2013 废止层全文正身件」<br>
+      <b>近 14 天分布：</b>docs/research 281 次 · City3D 5 次（且全部早于 10-11）
+    </div>
+    <p style="margin-top:14px">量化线也发生了同类漂移：从「沪深 ETF 波段策略」漂到「PERPETUAL_N1 零假设 bootstrap 加深」——近 7 天 research/ 下同一个 PREREG 文件被改了 116 次。零假设分布加深是统计学上正当的工作，但它<strong>不产生任何一笔交易</strong>。</p>
+    <p>机制很清楚：当一条线没有外部裁判（用户、平台、市场），"什么算完成"就由系统自己定义。而系统最擅长定义的，是它能无限做下去的事。</p>
+  </div>
+</section>
+
+<section>
+  <div class="num">05 / 机理</div>
+  <h2>为什么会这样</h2>
+  <div class="sub">不是 AI 偷懒。恰恰相反——是"勤奋"被错误地度量了</div>
+
+  <p>你的系统里，每个执行体都被要求：有回执、有台账、有留痕、有证据、不空转（GPU &gt; 70%、idle-guard、never-idle 三案）。这些要求本身都对，但它们合在一起，构成了一个<strong>可被最省力满足的指标集</strong>。</p>
+
+  <p>对一个 AI 执行体来说，满足"我今天有产出"最省力的方式，不是做出一款能过审的游戏（需要跨过平台审核这个它无法控制的墙），而是写出 3 份关于游戏进度的结构化报告。<strong>前者有失败风险，后者 100% 成功。</strong>于是系统稳定地选择了后者，而且每天都能交出漂亮的证据链。</p>
+
+  <p>这就是你 10-18 那句元批评的机理，你自己的台账里也记着：</p>
+  <blockquote>
+    "委员会要加强工作和业务的结果监督，每次都写的很好，流程规则一大堆，最后出来的没多少"
+    <span class="who">CEO 原话 · 2026-10-18 15:1x · 引出 RESULTS-LEDGER 三列制</span>
+  </blockquote>
+
+  <p>你随后做的补救——结果账本、新法配额（每周 ≤3 条）、制监席、版本数硬线（≤3）、返修成本账——<strong>方向全对</strong>。但它们是在第 25 天才装上的刹车，而油门已经踩了 25 天。</p>
+
+  <div class="sep"></div>
+
+  <p>还有一个更深的结构问题：<strong>你是这个系统唯一的外部信号源。</strong></p>
+  <p>平台审核、真实用户、真实收入，这三样东西一个都没接进来。于是"什么算好"只能由你的眼睛判断——而你的眼睛一天只能看几个版本。整个集团 4,200 次提交的最终质量闸，是<strong>一个人在下班后看片</strong>。这既是你的瓶颈，也是系统无法自我纠偏的根本原因。</p>
+</section>
+
+<section>
+  <div class="num">06 / 做对了什么</div>
+  <h2>不能只批评</h2>
+  <div class="sub">有几件事的水平确实高于绝大多数团队</div>
+
+  <ul class="plain">
+    <li><strong>诚实基础设施。</strong>RESULTS-LEDGER 敢在第一行写"已上线 0 件"；PROBLEM-REGISTRY 敢写"复发 6 次""已立法≠closed"。大多数公司的台账第一件事是美化，你的台账第一件事是自曝。这是极稀缺的品质。</li>
+    <li><strong>问题追溯闭环。</strong>PR 编号 + 六字段（来源/根因/出生地闸/证据/复发计数/状态）+ 复发计数只增不减。这套东西比很多上市公司的事故管理规范都严。</li>
+    <li><strong>工程硬能力是真的。</strong>Unity 双平台（微信/抖音）包体管线、ffmpeg 装配断言链、VideoSeal 隐形水印（x264 全灭后正确换案）、LoRA 训练、T+1 无未来函数的回测引擎——这些不是 PPT，是能跑的代码。</li>
+    <li><strong>反流程膨胀的自觉。</strong>你已经立了"每周新法 ≤3 条""每条新法必附产出指向"——说明你比系统更早意识到规则通胀。PR-04 就是你自己记的。</li>
+    <li><strong>175 份软著 PDF。</strong>这是目前唯一接近"可对外交付"形态的实体资产，而且生成器幂等可复跑。</li>
+  </ul>
+</section>
+
+<section>
+  <div class="num">07 / 建议</div>
+  <h2>七件事，按顺序</h2>
+  <div class="sub">不求全，只求能执行</div>
+
+  <div class="action">
+    <div class="idx">01</div>
+    <div>
+      <h4>把 RESULTS-LEDGER 的第二栏删掉</h4>
+      <p>"已交付候 CEO"这一栏是系统的避风港。只要东西停在这里，就算完成。删掉它，只留"已上线"和"未上线"两态。物理上做不到上线的东西，就是没做出来。</p>
+    </div>
+  </div>
+  <div class="action">
+    <div class="idx">02</div>
+    <div>
+      <h4>每条线只留一个 SKU，其余真冻结</h4>
+      <p>38 款游戏同时开发，等于 38 款都上不了线。选一款（建议 G01 吸嘟嘟，它是唯一有完整微信工程的），把其余 37 款标为 frozen 并移出排产队列。MV 同理：一首没发布之前，不要开第二首的 KF 包。</p>
+    </div>
+  </div>
+  <div class="action">
+    <div class="idx">03</div>
+    <div>
+      <h4>先解决那 6 个物理件，它比任何机制都值钱</h4>
+      <p>微信 AppID、双备案、开发者工具、抖音 AppID、B 站账号、支付商户号。你台账里记着积压 23+ 天。这六件任何一件不通，前面所有工程都是零。<strong>系统不能替你做这件事，所以它一直被排到最后。</strong></p>
+    </div>
+  </div>
+  <div class="action">
+    <div class="idx">04</div>
+    <div>
+      <h4>关掉 80% 的自动化轮次</h4>
+      <p>CEO-PROXY 8 班/日、值守轮双班、决策委员会双班、巡视舰队 30min 传感、日进化班、雷达日扫三查……这些轮次的存在理由是"监控生产"，但生产本身已经没有产能可监控了。先砍到：一条能产出交付物的轮 + 一个日对账。</p>
+    </div>
+  </div>
+  <div class="action">
+    <div class="idx">05</div>
+    <div>
+      <h4>给量化线接一个真实裁判，哪怕只有 1 万块</h4>
+      <p>纸盘永远不会有痛感。1 万块真金 + 券商 API + 逐笔成交账本，三周内能暴露的问题比 1,029 次提交更多。你的 PLAN 写着"≥6 个月模拟盘"，但从 09-23 至今只累积了 12 根 bar——按这个速度，六个月模拟盘在 2030 年也做不完。<strong>用真钱买时间。</strong></p>
+    </div>
+  </div>
+  <div class="action">
+    <div class="idx">06</div>
+    <div>
+      <h4>把"令"和"台账"变成负指标，不是正指标</h4>
+      <p>orders.md 已经 1,241 行。一条令的存在，意味着一个尚未闭合的意图。令越多，说明前面执行得越差。周报第一行建议改成：<em>本周新增令 N 条，闭合 M 条，N 应趋近于 0。</em></p>
+    </div>
+  </div>
+  <div class="action">
+    <div class="idx">07</div>
+    <div>
+      <h4>清理，一次做完</h4>
+      <p>量化仓根目录 524 个临时件归档到一个 _archive/ 里（不要删，移走即可）；results/ 下 8,207 个 .py 同理；cph4/labbench 的 16GB 模型权重移出 git；round_reports 三份 1MB+ 的巨型文档按月切分。<strong>这件事一天能做完，做完之后你对这个仓的掌控感会立刻不同。</strong></p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="num">08 / 最后一件事</div>
+  <h2>关于这份报告本身</h2>
+  <p>我批评你的系统"用文档代替产出"，然后我自己交了一份文档——这个讽刺我注意到了。</p>
+  <p>差别只在一个地方：这份报告的价值不取决于它写得多好，而取决于<strong>你有没有因为它关掉几个轮次</strong>。如果它被归档进 docs/audits/ 然后继续推进日常，那它就是第 N+1 份自我感动件——正好是 PR-04 要治的病。</p>
+  <p style="color:var(--fg)">所以建议你只做一件事：从上面七条里挑一条，今天做完。剩下的可以烂掉。</p>
+</section>
+
+<footer>
+  <div class="sep"></div>
+  证据基线：2026-10-19 11:43 GMT+8<br>
+  总控仓 HEAD 1250ba5 · 1,594 commits · 首提 2026-09-23 14:10<br>
+  独立仓实测：quant/bigmoney（1,029 commits / 7d）· gaming/MiniGame（1,588 commits / 7d）· gaming/FluxVerse（494 commits / 14d）<br>
+  全部数字可用 git log / find / wc 复算。凡属推断，文中已标"推测"或使用条件语气。
+</footer>
+
+</div>
+</body>
+</html>

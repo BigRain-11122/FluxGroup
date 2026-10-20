@@ -73,5 +73,41 @@ MV 线 10 件：`MV-PIPELINE-PLAYBOOK-v1`、`MV-PRODUCTION-PIPELINE-v1`（⑤视
 - 数量全部为词面计数，不代表违规判定，也不代表产能结论。
 - 「规则改完」不等于「已经在本地跑通」；真正的验收是下一条片子在无云条件下出得来。
 
+## 六、自动化闸门（追加令 2026-10-20 18:3x「自动化任务全部走本地，不要再消耗云端 token」）
+
+### 6.1 做法
+
+不做逐台停计划任务，而是在**拉起云端会话的那一行之前**加统一闸门：
+
+```powershell
+$__co = $PSScriptRoot   # 向上找仓库根，命中 cph4/fleet/CLOUD-OFF-LOCAL-ONLY-v1.md 即拦
+... 记一行 media/logs/cloud-off-suppressed.log ... exit 0
+```
+
+好处：本地前置工作（读旗/锁/预算/pulse）照常，只有云端回合被掐；解令=改名或删除该正典，不必重新注册任务。
+
+### 6.2 覆盖 16 个脚本
+
+| 线 | 脚本 |
+|---|---|
+| 调度/巡视（7） | `patrol-runner`、`patrol-fleet-carrier`、`proxy-event-carrier`、`shift-supervisor`、`decision-round`、`evolution-tick`、`night-round` |
+| 子公司循环（6） | BigStream / BigLife / BigDomain / BigCompute / BigMoney / FluxVerse 各自 `iteration_loop.ps1` |
+| 游戏（3） | MiniGame `EngineTick`、`ModeTick`（8 个定时任务共用）、`BoardForge` |
+
+### 6.3 验证与现场
+
+- 16 个脚本 PowerShell 解析：**0 错误**。
+- 闸门自测：退出码 0，日志确实落行。
+- 现场：5 个 `codely.exe` 全部是 `--experimental-acp` 交互窗，**没有 `-p` 无头回合**。
+- 保留运行：`HQ-FleetDispatcher`/`IdleWatch`/`MemoryBudgetGate`/`SilenceGuard`/`WT-Park`/`bm-a-Sentinel`/`OllamaOrphanWatch`/`OpenClaw`，以及各司纯 CPU 循环、`MiniGameTjcloudSync`（git 同步，零 token）。
+
+### 6.4 副作用（必须说清）
+
+**无人值守轮的 LLM 判断面全部暂停**：L2 八班、各域巡逻席、各司迭代轮不再自动点火。本地确定性巡班（派单规则、探针、心跳）照跑，但"发现问题后自动判断/落单"这一层现在没人做，只能等人工会话来处置。
+
+### 6.5 仍然消耗 token 的
+
+人开的交互会话（含本窗口）。要连它也断，需换本地模型跑 CLI——那是另一件事，须 CEO 明确。
+
 ---
-*bm-a · 2026-10-20 · 承 CEO T0 云道停用令*
+*bm-a · 2026-10-20 · 承 CEO T0 云道停用令 + 自动化全本地追加令*

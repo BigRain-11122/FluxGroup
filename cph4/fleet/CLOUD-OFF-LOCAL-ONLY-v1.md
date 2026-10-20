@@ -62,5 +62,37 @@
 - **不动**：静默律 / 让路律 / 账号安全令 / 数据本地化 / 大文件红线 / 三层记忆制度 / 产出计分口径。
 - **强化**：本地机队满载与自愈（既有 IdleWatch/dispatcher 照常）；本地故障不再有"切云"这条退路，**故障=最优先修**。
 
+## 八、自动化闸门（2026-10-20 18:3x 落地·CEO 追加令「自动化任务全部走本地，不要再消耗云端 token」）
+
+### 8.1 闸门形式
+
+- **开关=本文件是否存在**：脚本从自身目录向上找仓库根，命中 `cph4/fleet/CLOUD-OFF-LOCAL-ONLY-v1.md` 即在拉起云端会话前退出。
+- **拦点=Start-Process 之前**：本地前置工作（读旗、锁、预算、pulse、日志）照常完成，只掐掉云端回合。
+- **留痕**：每次拦截写一行 `media/logs/cloud-off-suppressed.log`（时刻｜脚本名｜suppressed cloud round）。
+- **解除**：删除或改名本文件即恢复；不必逐台改计划任务，也不必重新注册。
+
+### 8.2 已加闸的 16 个自动化脚本
+
+| 线 | 脚本 |
+|---|---|
+| 调度/巡视 | `Tools/patrol-runner.ps1`、`Tools/patrol-fleet-carrier.ps1`、`Tools/proxy-event-carrier.ps1`、`Tools/shift-supervisor.ps1`、`cph4/decision-round.ps1`、`cph4/evolution-tick.ps1`、`cph4/night-round.ps1` |
+| 子公司循环 | `media/BigStream/src/os/iteration_loop.ps1`、`life/BigLife/Tools/iteration_loop.ps1`、`domain/BigDomain/src/os/iteration_loop.ps1`、`compute/BigCompute/Tools/iteration_loop.ps1`、`quant/bigmoney/Tools/iteration_loop.ps1`、`gaming/FluxVerse/Tools/devloop/iteration_loop.ps1` |
+| 游戏 | `gaming/MiniGame/tools/EngineTick.ps1`、`ModeTick.ps1`（8 个 MiniGame 定时任务共用）、`BoardForge.ps1` |
+
+### 8.3 不受影响的自动化（本地/免费）
+
+- `HQ-FleetDispatcher`（规则路由，零 LLM）、`HQ-FleetIdleWatch`（本机 HTTP 探测）、`HQ-MemoryBudgetGate`、`HQ-SilenceGuard`、`HQ-WT-Park`、`HQ-bm-a-Sentinel`、`HQ-OllamaOrphanWatch`、`HQ-OpenClaw-*`（本地 8090 网关）。
+- 各司纯 CPU/脚本循环（回测、清理、同步、看板）照跑。
+
+### 8.4 仍然会消耗云端 token 的只剩
+
+- **人开的交互会话**（本窗口及 `--experimental-acp` 编辑窗）——这是执行者本体，不是自动化。若要求连它也断，需要换本地模型跑 CLI，属另一件事，须 CEO 明确。
+
+### 8.5 验证
+
+- 16 个脚本 PowerShell 解析：0 错误。
+- 闸门自测：退出码 0，日志落行 `_cloudoff_guard_selftest.ps1 | suppressed cloud round (T0)`。
+- 加闸后现场：5 个 `codely.exe` 全为 `--experimental-acp` 交互窗，无 `-p` 无头回合。
+
 ---
-*立令 bm-a · 2026-10-20 · 执行面=全集团各线派单模板 + 各产线正典抬头注记*
+*立令 bm-a · 2026-10-20 · 执行面=全集团各线派单模板 + 各产线正典抬头注记 + 自动化脚本闸门（§八）*

@@ -73,6 +73,16 @@ try {
     $argLine = '-p "' + $prompt.Replace('"', '').Replace("`r", ' ').Replace("`n", ' ') + '" --approval-mode yolo --disable-next-speaker-check'
     $outLog = Join-Path $runDir ('patrol-' + $stampId + '.out.log')
     $errLog = Join-Path $runDir ('patrol-' + $stampId + '.err.log')
+    # T0 CLOUD-OFF guard (CEO 2026-10-20): automation is local-only; never spawn the cloud CLI.
+    $__co = $PSScriptRoot
+    while ($__co -and -not (Test-Path (Join-Path $__co 'cph4\fleet\CLOUD-OFF-LOCAL-ONLY-v1.md'))) { $__co = Split-Path -Parent $__co }
+    if ($__co) {
+        $__cl = Join-Path $__co 'media\logs\cloud-off-suppressed.log'
+        $__cd = Split-Path -Parent $__cl
+        if (-not (Test-Path $__cd)) { New-Item -ItemType Directory -Force -Path $__cd | Out-Null }
+        Add-Content -Path $__cl -Value ((Get-Date -Format 'yyyy-MM-dd HH:mm:ss') + ' | ' + [System.IO.Path]::GetFileName($PSCommandPath) + ' | suppressed cloud round (T0)') -Encoding UTF8
+        exit 0
+    }
     $p = Start-Process -FilePath $codely -ArgumentList $argLine -WorkingDirectory $root `
         -RedirectStandardOutput $outLog -RedirectStandardError $errLog -PassThru -WindowStyle Hidden
     $killAt = (Get-Date).AddMinutes(40)

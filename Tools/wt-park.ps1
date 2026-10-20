@@ -13,7 +13,10 @@
 $ErrorActionPreference = 'SilentlyContinue'
 $existing = Get-Process WindowsTerminal -ErrorAction SilentlyContinue
 if ($existing) { Write-Output 'WT already running - consoles will attach quietly'; exit 0 }
-Start-Process wt.exe -ArgumentList 'new-tab','--title','keepalive','powershell.exe','-NoExit','-Command','Start-Sleep -Seconds 2147483647'
+# Keepalive keeper tab: Start-Sleep max valid Seconds = 2147483 (2147483647 overflows
+# int32 and throws ParameterBindingValidationException, which killed the keeper tab and
+# let the every-1-minute task revive a visible window). Loop a valid max sleep forever.
+Start-Process wt.exe -ArgumentList 'new-tab','--title','keepalive','powershell.exe','-NoExit','-Command','while($true){Start-Sleep -Seconds 2147483}'
 Start-Sleep -Seconds 8
 Add-Type -Namespace UPark -Name W -MemberDefinition '[DllImport("user32.dll")] public static extern bool ShowWindow(IntPtr h, int n);'
 Get-Process WindowsTerminal -ErrorAction SilentlyContinue | ForEach-Object {

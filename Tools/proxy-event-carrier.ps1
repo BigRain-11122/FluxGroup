@@ -77,6 +77,16 @@ if ($flagText.Length -gt 600) { $flagText = $flagText.Substring(0, 600) }
 $prompt = '【CEO 总调度代理席·事件班·承载件触发】你是集团 CEO 总调度代理席。按 C:\Users\sjs20\Desktop\FluxGroup\cph4\fleet\dispatcher\CEO-PROXY\ROUND.md 事件班协议执行本班。触发现：' + $flagText + ' 。步0 锁门同守（media/logs/ceo-proxy-patrol.lock mtime <10min=他窗在执·本窗跳班记 LOG）；全力深挖触发现→落单+poke 唤醒（tasks 白名单=Tools/fleet-nodes.json 的 wake_tasks）→3 分钟复探验 BURNING→NEED-JUDGMENT 件裁决并更新→LOG 记事件班全程（班型=事件班·标注承载件触发）。纪律：进程内调用禁 spawn 控制台；台账追加走 python 尾锚正法+原子推正法（Tools/git-atomic-push.py）+推前反转闸；物理件/保留面零催办只登记。'
 $outF = Join-Path $root ('media\logs\event-carrier-' + (Get-Date -Format 'yyyyMMdd-HHmmss') + '.out.log')
 $errF = ($outF -replace '\.out\.log$', '.err.log')
+# T0 CLOUD-OFF guard (CEO 2026-10-20): automation is local-only; never spawn the cloud CLI.
+$__co = $PSScriptRoot
+while ($__co -and -not (Test-Path (Join-Path $__co 'cph4\fleet\CLOUD-OFF-LOCAL-ONLY-v1.md'))) { $__co = Split-Path -Parent $__co }
+if ($__co) {
+    $__cl = Join-Path $__co 'media\logs\cloud-off-suppressed.log'
+    $__cd = Split-Path -Parent $__cl
+    if (-not (Test-Path $__cd)) { New-Item -ItemType Directory -Force -Path $__cd | Out-Null }
+    Add-Content -Path $__cl -Value ((Get-Date -Format 'yyyy-MM-dd HH:mm:ss') + ' | ' + [System.IO.Path]::GetFileName($PSCommandPath) + ' | suppressed cloud round (T0)') -Encoding UTF8
+    exit 0
+}
 $p = Start-Process -FilePath $codely -ArgumentList ('-p "' + $prompt + '" --approval-mode yolo --collaboration-mode default') -WorkingDirectory $root -WindowStyle Hidden -RedirectStandardOutput $outF -RedirectStandardError $errF -PassThru
 $stateObj = @{ last_launch = (Get-Date -Format 'yyyy-MM-dd HH:mm:ss'); launch_date = $today; launches_today = ($launchesToday + 1); last_signature = $sig } | ConvertTo-Json
 Set-Content -Path $stateF -Value $stateObj -Encoding UTF8

@@ -25,6 +25,16 @@ try {
   $cli = (Get-Command codely -ErrorAction SilentlyContinue).Source
   if (-not $cli) { "FATAL: codely not found at $Stamp" | Out-File $out -Encoding utf8; exit 2 }
   "night round start $Stamp" | Out-File $out -Encoding utf8
+  # T0 CLOUD-OFF guard (CEO 2026-10-20): automation is local-only; never spawn the cloud CLI.
+  $__co = $PSScriptRoot
+  while ($__co -and -not (Test-Path (Join-Path $__co 'cph4\fleet\CLOUD-OFF-LOCAL-ONLY-v1.md'))) { $__co = Split-Path -Parent $__co }
+  if ($__co) {
+      $__cl = Join-Path $__co 'media\logs\cloud-off-suppressed.log'
+      $__cd = Split-Path -Parent $__cl
+      if (-not (Test-Path $__cd)) { New-Item -ItemType Directory -Force -Path $__cd | Out-Null }
+      Add-Content -Path $__cl -Value ((Get-Date -Format 'yyyy-MM-dd HH:mm:ss') + ' | ' + [System.IO.Path]::GetFileName($PSCommandPath) + ' | suppressed cloud round (T0)') -Encoding UTF8
+      exit 0
+  }
   & $cli -y -p $prompt *>> $out
   "night round end $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')" | Out-File $out -Append -Encoding utf8
 } finally {
