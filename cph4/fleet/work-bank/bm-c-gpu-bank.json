@@ -1155,18 +1155,58 @@
   },
   {
    "id": "kf-packb-probe-c2138",
-   "status": "blocked",
+   "status": "done",
    "priority": 41,
    "auth": "C2139 director verdict canonised the B face (seed 578950 dusk / 514974 night) and decreed a 6-frame 672x384 KF-PACK-B probe before the 1344x768 main pass.",
    "require": {
     "files_at_least": []
    },
-   "cmd": [],
-   "log_out": "media/mv-album-001-jay/log-kfpackb-probe.out.txt",
-   "log_err": "media/mv-album-001-jay/log-kfpackb-probe.err.txt",
-   "note": "BLOCKED: the KF-PACK-B probe runner claimed by C2139 is not on disk (no tools/ or cph4/fleet/mv-album-001-jay/*packb* script exists). Next round must materialise the runner (reuse the KF-PACK-A shared blocks + ID_M_2001 with jman 0.6 on the two boy frames) then flip this job to pending. Do not fire while blocked.",
+   "cmd": [
+    "D:\\ComfyUI\\python_embeded\\pythonw.exe",
+    "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\idle-guard-kit\\kfpb_probe_c2139.py"
+   ],
+   "log_out": "media/MV/mv0001/logs/kfpb_probe_c2139.out.log",
+   "log_err": "media/MV/mv0001/logs/kfpb_probe_c2139.err.log",
+   "note": "6 face/limb frames at 672x384, one seed each, canonical B face + ID_M_2001 (jman 0.6 on the boy frame). PASS gate = KFPB-PROBE-END ok=6/6 in the log tail + 6 PNGs >=50KB + strip board + receipt in media/MV/mv0001/xingqing/xq-kf-packb-probe-c2139/.",
    "prestow_ts": "2026-10-20T12:03:00",
-   "prestow_note": "C2140 pre-stow: records the C2139 intent; runner gap logged in state."
+   "prestow_note": "C2139 authored the runner (idle-guard-kit/kfpb_probe_c2139.py) but never wrote the bank entry; C2140 materialised the entry from the runner header and fired it.",
+   "claimed_ts": "2026-10-20T12:14:00",
+   "claimed_by": "tick-C2140-crash-adoption",
+   "done_ts": "2026-10-20T12:13:00",
+   "done_note": "KFPB-PROBE-END ok=6/6 fails=none (261s burns). 6 PNGs 274-415KB in media/MV/mv0001/xingqing/xq-kf-packb-probe-c2139/, board xq-KFPB-BOARD-c2139-probe.jpg 168411B, receipt xq-KFPB-RECEIPT-c2139-probe.json. Native board read: 5 PASS / 1 MINOR (B-EX2 girl hand placement ambiguous + eyeline mismatch) / 0 FAIL."
+  },
+  {
+   "id": "packA-conform-v2-reverify-after-push",
+   "status": "pending",
+   "priority": 42,
+   "auth": "C2140 re-verified v2 against origin/main 9ee0232a; this re-runs the same zero-GPU check after the C2140 push lands so the receipt in the repo cannot drift from the film.",
+   "require": {
+    "files_at_least": []
+   },
+   "cmd": [
+    "D:\\ComfyUI\\python_embeded\\python.exe",
+    "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\mv-album-001-jay\\xq_packa_v2_origin_verify_c2135.py"
+   ],
+   "log_out": "media/mv-album-001-jay/log-packa-originverify-v2.out.txt",
+   "log_err": "media/mv-album-001-jay/log-packa-originverify-v2.err.txt",
+   "note": "Zero GPU, idempotent. PASS gate = ORIGIN-VERIFY-V2-END ok=1 mismatches=0.",
+   "prestow_ts": "2026-10-20T12:13:00",
+   "prestow_note": "C2140 pre-stow (bank law: never empty) after the probe closed."
+  },
+  {
+   "id": "kfpb-bex2-reroll-c2140",
+   "status": "blocked",
+   "priority": 40,
+   "auth": "C2140 native board read: B-EX2 (dusk two-shot, hem hook) = MINOR - the girl's hand placement never resolves and the eyelines do not connect. Five other probe frames PASS.",
+   "require": {
+    "files_at_least": []
+   },
+   "cmd": [],
+   "log_out": "media/MV/mv0001/logs/kfpb_bex2_reroll.out.log",
+   "log_err": "media/MV/mv0001/logs/kfpb_bex2_reroll.err.log",
+   "note": "BLOCKED: needs a single-frame variant of kfpb_probe_c2139.py (--only B-EX2, 3 candidate seeds, explicit hand/eyeline clause in the prompt). Author the variant first, then flip to pending. Do not fire while blocked.",
+   "prestow_ts": "2026-10-20T12:13:00",
+   "prestow_note": "C2140 pre-stow from the board read."
   }
  ]
 }
