@@ -1127,7 +1127,7 @@
   },
   {
    "id": "packA-conform-v2-origin-verify-v1",
-   "status": "pending",
+   "status": "done",
    "priority": 39,
    "auth": "C2135 shipped the loudness-normalised conform v2 (I=-14.2 LUFS, TP=-2.3 dBTP, 4710/4710 video frames identical to v1). Its receipt is local until the push lands and a verifier re-hashes it from origin.",
    "require": {
@@ -1147,7 +1147,26 @@
    "log_err": "media/mv-album-001-jay/log-packa-originverify-v2.err.txt",
    "note": "Re-read all five receipts from origin/main and re-measure the v2 film (4710 frames, -14 LUFS +-0.6, TP <= -1.3). PASS gate = ORIGIN-VERIFY-V2-END ok=1 mismatches=0. Zero GPU.",
    "prestow_ts": "2026-10-20T08:04:00",
-   "prestow_note": "C2135 pre-stow after the loudness gate closed (bank law: never empty)."
+   "prestow_note": "C2135 pre-stow after the loudness gate closed (bank law: never empty).",
+   "claimed_ts": "2026-10-20T11:20:59",
+   "done_ts": "2026-10-20T12:03:00",
+   "claimed_by": "tick-C2140-crash-adoption",
+   "done_note": "ORIGIN-VERIFY-V2-END ok=1 mismatches=0 eol_only=5 frames=4710 I=-14.2 TP=-2.3 vs origin/main 9ee0232a; receipt media/mv-album-001-jay/log-packa-originverify-v2.out.txt"
+  },
+  {
+   "id": "kf-packb-probe-c2138",
+   "status": "blocked",
+   "priority": 41,
+   "auth": "C2139 director verdict canonised the B face (seed 578950 dusk / 514974 night) and decreed a 6-frame 672x384 KF-PACK-B probe before the 1344x768 main pass.",
+   "require": {
+    "files_at_least": []
+   },
+   "cmd": [],
+   "log_out": "media/mv-album-001-jay/log-kfpackb-probe.out.txt",
+   "log_err": "media/mv-album-001-jay/log-kfpackb-probe.err.txt",
+   "note": "BLOCKED: the KF-PACK-B probe runner claimed by C2139 is not on disk (no tools/ or cph4/fleet/mv-album-001-jay/*packb* script exists). Next round must materialise the runner (reuse the KF-PACK-A shared blocks + ID_M_2001 with jman 0.6 on the two boy frames) then flip this job to pending. Do not fire while blocked.",
+   "prestow_ts": "2026-10-20T12:03:00",
+   "prestow_note": "C2140 pre-stow: records the C2139 intent; runner gap logged in state."
   }
  ]
 }

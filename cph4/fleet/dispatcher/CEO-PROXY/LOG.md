@@ -161,13 +161,6 @@
 - **班毕**：push1=DEADLINES（行翻新+§二新行）+提案件+NJ 双 disposition 行（8159ef6d5）→回访探针 cron 03:25（+90min 一次性 durable·ca8be73a·锁门同守）→push2=LOG 本块（原子推·反转闸内嵌·expect 守卫）+DISPATCH-LOG 四元组行（本地运行时件·origin 无此件实锚）→锁 touch 收口。08:43 晨检班=复核线（origin §二两行+提案件+snooze 三验）。
 ## Round 2.1：2026-10-16 18:48-18:59·日间标准班（18:43 拍·步0 锁龄 160.6min 过期接管）·调用数=15·零云端 token
 - **旗分流**：NJ 零旗（L0 快照空）+死线 at-risk 在册（V5 链延误披露+@bm-b 五件追缴）→标准班·预算 ≤15（实收 15·含 DISPATCH-LOG git 追踪态诊断支 2 笔——判「非 git 面·union 走 FleetLink」后改推 LOG.md 正身）。
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-||||||| Stash base
-=======
-=======
->>>>>>> Stashed changes
->>>>>>> Stashed changes
 ## Round R2.4·2026-10-17 00:42-01:0x·事件班（承载件触发·NJ bigmoney R9 黄）·调用数≈27·零云端 token
 - **触发与步0**：HQ-CEOProxyEventCarrier 00:42 发射 NJ bigmoney R9（bm-b IterationLoop 停摆 53h+·R7/R8 两轮未决·枢纽零消费 22h 实锚）；锁龄 35min 过期→touch 接管单窗；三件已读（DISPATCH-LOG 尾/NEED-JUDGMENT/DEADLINES）→事件班无预算帽。
 - **深挖实锚**：bm-b 活体四证（listener v1.9.3+poke worker+RAM 13.7G+组树 HOT f5d980e3==origin tip）+停摆五证（心跳冻结 10-15 19:10:18 r986 GREEN·53.5h+bigmoney 树冻结 8949e0aef 落后 30+ 代=读令通道死+agenda_starved=true+WAKE#2 二连 accepted 零效果+O-2347 §一.3 @bm-b 腿未达=CEO 直令违约面——正身 bigmoney 仓 fleet/orders/O-20261016-2347-bm-c.md bm-a 侧直读验讫：@bm-b 腿=循环班自检+哨兵在役确认+POOL-0020 催办）。
@@ -286,7 +279,6 @@
 - **坑律注记（当窗判例）**：git-atomic-push.py run_gate `sys.stdout.write(out)` 在 GBK 控制台遇 gate 输出 \ufffd 替换符即 UnicodeEncodeError 崩（13:02 首跑实锚·死于 gate 步=API 推送前·零上链零部分推）——进程内正法=子进程注入 PYTHONIOENCODING=utf-8:replace 重跑即愈；**修法提名（Tools 核心件=受保护件零擅改·候 CEO 通道）**=run_gate 头加 stdout reconfigure(errors='replace') 一行；同族=PS5.1 GBK 判例族（tool-pitfalls 在册）
 - **行动**：LOG 本块原子推 append（Tools/git-atomic-push.py·内置反转闸）+DISPATCH-LOG 四元组行+勘正行本地留痕+锁收口；零落单零 poke
 - **回执扫描锚点**=orders 尾 2026-10-19 12:29 膨胀治理总纲令行（R2.21 后零新行）
-<<<<<<<
 ## Round 2.23｜2026-10-19 13:36-13:44｜事件班（承载件触发：载体 13:36:08 例行再点火·触发现首行=bigdomain 10-14 23:27 软著定名 stale NJ·字符序伪象）·单窗·调用≈26·零云端 token
 - **触发与步0**：HQ-CEOProxyEventCarrier 13:36:08 发射（launches_today=2/6·state 亲读）；锁龄 32.9min 过期→touch 接管单窗；结果账三行=已上线 0/候 CEO 2（mv0001 V5.9 成片双签第 3 呈+meme V1 候终审）/在制 4——零移行零销账；三件已读（DISPATCH-LOG 尾/NEED-JUDGMENT/DEADLINES）。
 - **verdict=重复点火·零新事件（复核班收口·零落单零 poke）**：①触发现定性勘正=载体点火判据亲读 Tools/proxy-event-carrier.ps1——NJ 全非注释行聚签名「内容变更或距上次发射 >90min 即点火·日帽 6·debounce 40min」，RESOLVED 标≠防火墙（打标与否不改点火面）→本次点火根=12:26 R2.21 消费后 NJ 快照内容变更·触发现首行「- [2026-10-14 23:27]…」系 '2'<'R' 字符序伪象非新事件；②主件复核（bigdomain 软著定名待定区 stale 行）=R2.5 事件班 10-17 01:5x 已实质消费——本班防线二全项复核 PASS：C-20261010-03 六款定名与 PROJECTS 表逐款对上（generate_copyright.py 定名收口区·G03 合出个大的/G06 一箭脱身/G17 拆箱上头/G18 今晚偷皇宫/G23 这张牌有诈/G28 这一箭稳了·name_pending:False×6 亲读）+软著材料 6/6 目录在盘亲验+origin DEADLINES §二行态亲验（仅存「硅基域平台名」+R2.5 撤出注记在链）；e2d0e52 决议 commit=R2.5 亲验承证（传感复用零重测）；硅基域平台名=CEO 保留面维持 §二 waiting-CEO 区零催办（D-20261011-03②·R1760·正式申请双前置=平台名 CEO 定谳+bootstrap 物理件）；③group 批自登记义务核验=已消化（law-registry L33 PATROL-FLEET 行在册+patrol 双件 hash 锚在位〔R2.5 承证〕）。
