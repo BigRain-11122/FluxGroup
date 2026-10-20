@@ -1,0 +1,26 @@
+{
+ "policy": "S3-17 single-shot re-roll from PACKB-768P-VERDICT-c2147. Production 1344x768 int8, same frame and seed family as r1 so identity stays put.",
+ "gate": "verdict c2144 section 5 no.2 (i2v may fire only after the coverage board exists: xq-KF-COVERAGE-c2145.json) + SHOTLIST v3 camera cues + CEO audio ban (pure picture, no native audio)",
+ "wave": "packB-s317r2",
+ "total": 1,
+ "total_win_s": 37.16,
+ "units": [
+  {
+   "id": "XQ_B-S3-17",
+   "shot": "S3-17",
+   "track": "XQ",
+   "win_s": 6.4,
+   "speed": 0.95,
+   "src_s": 6.74,
+   "policy_band": "5s",
+   "light": "dusk",
+   "frame": "media/MV/mv0001/xingqing/xq-kf-s317-feet-c2145/KFPB_MP_S3-17_feet_s266291.png",
+   "lyric_anchor": "手牽手 一步兩步三步四步 望著天 (95.58-101.36)",
+   "note": "S3-17 re-roll r2 (C2148). r1 at 768P collapsed the two pairs of feet into a 6-8 pair clone line with walk-in-place and a drifting plate. Fix: empty road with a hard quantity lock on four shoes and the sequential wording removed. Same frame, same id seed family.",
+   "i2v_prompt": "Taiwan countryside around the Taitung-Danshui hills, 2000 era, faded single centre line road, golden grass fields, a small tin-and-brick farmhouse. Locked-off low close-up on bare empty asphalt. The road holds two pairs of feet alone, four shoes and only four shoes in the whole frame, the rest of the road is bare grey asphalt. Four shoes step along the faded white centre line in a counting rhythm, dusk dust lifting at each contact, the white paint bright underfoot. The camera stays still on the ground, the stepping alone carries the frame. 35mm film grain, warm dusk telecine palette. LIT_BY_DUSK. 2001 Taiwan music video look",
+   "frame_bytes": 1363703,
+   "prompt_words": 104,
+   "reroll": "r2"
+  }
+ ]
+}
