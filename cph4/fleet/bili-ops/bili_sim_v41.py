@@ -48,10 +48,10 @@ def score(reply, comment, prev):
     tones = sum(reply.count(ch) for ch in TONE)
     if tones > 1:
         s -= 0.6 * (tones - 1)
-    if n < 12:
+    if n < 15:
         s -= 0.8
-    elif n > 38:
-        s -= (n - 38) * 0.08
+    elif n > 50:
+        s -= (n - 50) * 0.06
     if reply.startswith("哈哈"):
         s -= 1.5
     # 跨条新颖度：与前 5 条已发回复的 3-gram 重合率（复读=最强 AI 感信号）
@@ -108,4 +108,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 

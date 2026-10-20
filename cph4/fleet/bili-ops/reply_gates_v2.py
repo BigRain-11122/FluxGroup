@@ -34,11 +34,15 @@ def unwrap_quotes(text):
 
 
 def sanitize(text):
-    # 生产端生成后统一走这里：剥思考段 → 脱整句引号壳 → 去 emoji（7B 常带结尾表情，删掉比整条重摇划算）
+    # 生产端生成后统一走这里：剥思考段 → 脱整句引号壳 → 去 emoji → 去单句句末句号
+    # 句末句号=强 AI 信号：真人语料 78% 不带（bilibot 12951 条），本地生成 90% 都带
     t = strip_think(text)
     t = unwrap_quotes(t)
     t = EMOJI_RE.sub("", t)
-    return re.sub(r"\s+$", "", t).strip()
+    t = re.sub(r"\s+$", "", t).strip()
+    if t.endswith("。") and "。" not in t[:-1]:
+        t = t[:-1]
+    return t
 
 # G4 同义归一：字面不重合但语义接住的真人话不该被判万能回复（v3.1 #7 实锚「确实比那期强点」vs「比之前那个强多了」）
 SYN_GROUPS = [
@@ -127,9 +131,9 @@ def check(rec, prev_replies):
     for w in G2_ENDING_BAN:
         if w in tail:
             fails.append("G2升华结尾:" + w); break
-    # G3 长度窗 6-45
+    # G3 长度窗 6-70（真人语料 p75=75 字·中位 38，原 45 上限把真人感的长回复全判死）
     if n < 6: fails.append("G3太短:%d" % n)
-    elif n > 45: fails.append("G3太长:%d" % n)
+    elif n > 70: fails.append("G3太长:%d" % n)
     # G4 具体性：与评论共享 ≥1 个实词（troll/meme 与 ≤12 字纯梗句豁免）；被问软件答具体软件名视同接梗
     if tag not in ("troll", "meme") and n > 12 and not (content_words(r) & content_words(c)):
         low = r.lower()
