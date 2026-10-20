@@ -17,7 +17,7 @@
 | **BigStream** | AI 媒体公司：集团 AI 生态内容线+AI 短剧/漫剧/MV 产线 | `media/BigStream/`（独立仓·GH 仓名 Bigmedia） | 仓内 `PLAN/`+`orders/` |
 | **BigDomain** | 硅基域商业化：引流/共创/19.9 算力包/代币内循环 | `domain/BigDomain/`（独立仓） | `BLUEPRINT.md` |
 | **CPH4 Labs** | 集团实验室：机制淬炼+**技术/架构底层唯一问责**+城市三底座总装（`cph4/city-lab.md`） | `cph4/` | `cph4/README.md`（能力注册表） |
-| **FluxVerse** | 元宙城：**集团直属独立载体**（城内含 3D 骨骼动作·Biggame=受托承建位） | `gaming/FluxVerse/`（独立仓） | `BLUEPRINT/DESIGN/TECH.md` |
+| **FluxVerse** | 元宙城：**集团直属独立载体**（城内含 3D 骨骼动作·Biggame=受托承建位） | `gaming/FluxVerse/`（独立仓） | `gaming/FluxVerse/DESIGN.md`+`TECH.md`（BLUEPRINT 已归档至 `docs/_archive/`） |
 | **BigLife** | 数字生命生产：城人口与人设资产（万人户籍库 census） | `life/BigLife/`（独立仓） | `docs/CODEX.md`+`docs/SILICON-LIFE.md` |
 | **BigCompute** | 硅基算力：**商业化中枢司**（对外成交/定价/粉丝私域/渠道唯一出口·九部门全编制） | `compute/BigCompute/`（独立仓） | `BLUEPRINT.md`+`docs/plans/`+`docs/risk-register.md` |
 | **BigHouse** | 硅基城市安家·数字生活（三柱=安家/邻里/共长·传统行业词族门禁） | `house/BigHouse/`（独立仓·remote 待 CEO 建库） | `BLUEPRINT.md` |
@@ -68,6 +68,7 @@
 
 | 要什么 | 去哪 |
 |---|---|
+| **正身索引（同一主题现在哪个文件算数）** | `CANON-INDEX-20261020.md` |
 | CEO 令与裁决 | `docs/orders.md` |
 | CEO 方向与关注点基准（20 雷达+14 盲区+保留面） | `cph4/fleet/dispatcher/CEO-PROXY/CEO-DIRECTION-BRIEF.md` |
 | **主AGENT 架构正典（集团主脑统一蓝图 v2·两波群审定版）** | `cph4/fleet/dispatcher/MASTER-AGENT/BLUEPRINT.md`（群审原件=同目录 reviews/·总报告=PANEL-REVIEW-20261014.md） |

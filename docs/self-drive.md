@@ -19,9 +19,9 @@
 
 每个司 `state/queue/` 下常备三类任务，永远不许空：
 
-- `queue/main.md` — P1主业务活，至少列5条待办
-- `queue/tech.md` — P2技术深耕活，至少列10条待办（试新工具/优化脚本/压prompt/做benchmark）
-- `queue/explore.md` — P3新方向活，至少列10条待办（新赛道扫描/竞品拆解/跨界合作可能）
+- `queue/main.md`（集团级未建；各司现行队列=本仓 `state/queue/`）— P1主业务活，至少列5条待办
+- `queue/tech.md`（集团级未建；各司现行队列=本仓 `state/queue/`）— P2技术深耕活，至少列10条待办（试新工具/优化脚本/压prompt/做benchmark）
+- `queue/explore.md`（集团级未建；各司现行队列=本仓 `state/queue/`）— P3新方向活，至少列10条待办（新赛道扫描/竞品拆解/跨界合作可能）
 
 **轮次启动规则：**
 1. 先看P1队列头部，有活就干。
@@ -47,9 +47,9 @@
 
 ## 3. 信息源墙 + 协作市场 + 技术交易所（保留v1，强化）
 
-- **信息源墙** `docs/intelligence-wall.md`：每司每天必须扫至少3个源（自己找的，不要等给），发现信号写墙。
-- **协作市场** `docs/collab-market.md`：每司每天发一条"我有什么/我要什么"，跨司自己谈，不用批。
-- **技术交易所** `docs/tech-exchange.md`：做完任何可复用的东西（脚本/prompt/配置/数据集）必须丢上去，不许藏私。
+- **信息源墙** `domain/BigDomain/docs/research/intelligence-wall.md`（BigDomain 研究目录现行落点）：每司每天必须扫至少3个源（自己找的，不要等给），发现信号写墙。
+- **协作市场** `docs/collab-market.md`（未建）：每司每天发一条"我有什么/我要什么"，跨司自己谈，不用批。
+- **技术交易所** `docs/tech-exchange.md`（未建）：做完任何可复用的东西（脚本/prompt/配置/数据集）必须丢上去，不许藏私。
 
 ## 4. 自驱心跳 + 闲置唤醒
 

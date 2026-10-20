@@ -1,7 +1,7 @@
 # FLUX 双螺旋总规划 MASTER PLAN v1.0 —— 商业化 × 元宙化 × 现实链接
 
 > 溯源：CEO 令 2026-09-23 ~21:40「在我的基础上替我全面规划商业化和元宇宙化，要和目前现实产生紧密链接，互相赋能」+ 21:30 商业全案（正典=`domain/BigDomain/BLUEPRINT.md`）+ 同日三愿景令（对标现实/数字生命/现实链接）。
-> 产出=CPH4 Labs。统摄两本 BLUEPRINT（`gaming/FluxVerse/docs/BLUEPRINT.md`=城 / `domain/BigDomain/BLUEPRINT.md`=商）——本件只做**融合架构与赋能机制**，细节一律引用不复制；冲突时以各正典为准。
+> 产出=CPH4 Labs。统摄两本 BLUEPRINT（`gaming/FluxVerse/docs/_archive/BLUEPRINT.md`（城·已归档）/ `domain/BigDomain/BLUEPRINT.md`=商）——本件只做**融合架构与赋能机制**，细节一律引用不复制；冲突时以各正典为准。
 > 体量纪律 ≤150 行（CEO 令 ~22:40 Token 经济学·治理层 v2 同源）。
 
 ## 〇、一句话总纲
