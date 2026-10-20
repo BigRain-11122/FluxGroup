@@ -18,7 +18,11 @@ param(
     # 2026-10-10 night-round E3 backfill - adjudicated design-state disables (ledger sources):
     #   BigLife-PoolGenLoop=C-20261009-02 committee disable (unfreeze->enable); HQ-C10-Pilot2=P-2026-10-08-17(1)
     #   deliberate popup-task disable; MiniGameOllamaKeepWarm=10-09 Krea2 VRAM free-up (restore post-MV-production)
-    [string[]]$KnownDisabled = @('MiniGameBoardForge', 'MiniGameOllamaServe', 'MiniGamePopupWitness', 'FluxVerse-DevLoop', 'Bigmoney-IntradayMarks', 'BigLife-OSLoop', 'BigLife-PoolGenLoop', 'HQ-C10-Pilot2', 'MiniGameOllamaKeepWarm')
+    [string[]]$KnownDisabled = @('MiniGameBoardForge', 'MiniGameOllamaServe', 'MiniGamePopupWitness', 'FluxVerse-DevLoop', 'Bigmoney-IntradayMarks', 'BigLife-OSLoop', 'BigLife-PoolGenLoop', 'HQ-C10-Pilot2', 'MiniGameOllamaKeepWarm'),
+    # AutoYield workday-pause family (CEO 10-15 order: bm-a keeps weekday 09:00-19:00 free of heavy lanes).
+    # DISABLED inside that window = E3 context state, not a fault; outside the window the same task stays
+    # UNEXPECTED-DISABLED so resume failures still surface (registered 2026-10-20 night round).
+    [string[]]$AutoYieldPaused = @('BigCompute-CleanWindowProbe', 'BigCompute-GPU-IdleWatch', 'BigCompute-OrderSentinel', 'BigCompute-OSLoop', 'BigCompute-OSLoop-PM', 'BigCompute-ResidentQA', 'bm-a-CoderServe')
 )
 
 $ErrorActionPreference = 'Continue'
@@ -82,8 +86,8 @@ Get-ScheduledTask -TaskPath "\" | Where-Object { $_.TaskName -notmatch '^(Micros
     # Runs BEFORE the exempt skip so dead exempt-disabled tasks stay visible.
     $actArgs = [string]($_.Actions | Select-Object -First 1).Arguments
     $scriptPath = $null
-    if ($actArgs -match '-File\s+"([^"]+\.(ps1|py|bat|cmd))"') { $scriptPath = $Matches[1] }
-    elseif ($actArgs -match '([A-Z]:\\[^\s"]+\.(ps1|py|bat|cmd))') { $scriptPath = $Matches[1] }
+    if ($actArgs -match '-File\s+"([^"]+\.(ps1|psm1|py|pyw|bat|cmd|vbs))(?="|\s|$)') { $scriptPath = $Matches[1] }
+    elseif ($actArgs -match '([A-Z]:\\[^\s"]+\.(ps1|psm1|py|pyw|bat|cmd|vbs))(?="|\s|$)') { $scriptPath = $Matches[1] }
     if ($scriptPath -and (-not (Test-Path $scriptPath))) {
         $broken += [pscustomobject]@{ task = $name; path = $scriptPath; state = [string]$_.State }
     }
@@ -102,7 +106,10 @@ Get-ScheduledTask -TaskPath "\" | Where-Object { $_.TaskName -notmatch '^(Micros
     if ($exemptEnabled) {
         $flag = 'EXEMPT-ENABLED'
     } elseif ($_.State -eq 'Disabled') {
-        if ($KnownDisabled -contains $name) { $flag = 'DESIGNED-DISABLED' } else { $flag = 'UNEXPECTED-DISABLED' }
+        $inYieldWindow = ($now.DayOfWeek -ge [DayOfWeek]::Monday -and $now.DayOfWeek -le [DayOfWeek]::Friday) -and ($now.TimeOfDay -ge (New-Object TimeSpan 9, 0, 0)) -and ($now.TimeOfDay -lt (New-Object TimeSpan 19, 0, 0))
+        if ($KnownDisabled -contains $name) { $flag = 'DESIGNED-DISABLED' }
+        elseif (($AutoYieldPaused -contains $name) -and $inYieldWindow) { $flag = 'AUTOYIELD-PAUSE' }
+        else { $flag = 'UNEXPECTED-DISABLED' }
     } elseif ($neverRan) {
         if ($exp -gt 0) { $flag = 'NEVER-RAN' } else { $flag = 'EVENT-BOUND' }
     }     elseif ($exp -gt 0 -and $ageMin -gt (2 * $exp)) {
@@ -133,14 +140,14 @@ Get-ScheduledTask -TaskPath "\" | Where-Object { $_.TaskName -notmatch '^(Micros
 Write-Output ('TASK HEALTH ' + $now.ToString('yyyy-MM-dd HH:mm') + ' - tasks audited: ' + $rows.Count)
 $rows | Sort-Object flag, task | Format-Table -AutoSize | Out-String -Width 200 | Write-Output
 
-$bad = @($rows | Where-Object { $_.flag -ne 'OK' -and $_.flag -ne 'EVENT-BOUND' -and $_.flag -ne 'DESIGNED-STALE' -and $_.flag -ne 'GATED-INFO' -and $_.flag -ne 'DESIGNED-DISABLED' -and $_.flag -ne 'EXEMPT-ENABLED' })
+$bad = @($rows | Where-Object { $_.flag -ne 'OK' -and $_.flag -ne 'EVENT-BOUND' -and $_.flag -ne 'DESIGNED-STALE' -and $_.flag -ne 'GATED-INFO' -and $_.flag -ne 'DESIGNED-DISABLED' -and $_.flag -ne 'AUTOYIELD-PAUSE' -and $_.flag -ne 'EXEMPT-ENABLED' })
 $codes = @($rows | Where-Object { $_.result -like 'CODE-*' })
 Write-Output ('SUMMARY unhealthy=' + $bad.Count + ' (of ' + $rows.Count + ')  odd-result-codes=' + $codes.Count)
 if ($bad.Count -gt 0) {
     Write-Output ('FLAGS: ' + (($bad | ForEach-Object { ($_.flag + '=' + $_.task) }) -join ', '))
     Write-Output 'Routing: UNEXPECTED-DISABLED/NEVER-RAN/STALE -> night report line + E2; two consecutive nights same flag -> E1 (errors.md circuit-breaker).'
 }
-$designed = @($rows | Where-Object { $_.flag -eq 'DESIGNED-STALE' -or $_.flag -eq 'GATED-INFO' -or $_.flag -eq 'DESIGNED-DISABLED' -or $_.flag -eq 'EXEMPT-ENABLED' })
+$designed = @($rows | Where-Object { $_.flag -eq 'DESIGNED-STALE' -or $_.flag -eq 'GATED-INFO' -or $_.flag -eq 'DESIGNED-DISABLED' -or $_.flag -eq 'AUTOYIELD-PAUSE' -or $_.flag -eq 'EXEMPT-ENABLED' })
 if ($designed.Count -gt 0) {
     Write-Output ('E3-REGISTER (designed/exempt, not faults): ' + (($designed | ForEach-Object { ($_.task + '=' + $_.flag) }) -join ', '))
 }
