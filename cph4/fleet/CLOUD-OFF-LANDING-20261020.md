@@ -60,12 +60,12 @@ MV 线 10 件：`MV-PIPELINE-PLAYBOOK-v1`、`MV-PRODUCTION-PIPELINE-v1`（⑤视
 
 ## 四、未完成（按优先级）
 
-1. **派单卡无机械校验**：`POOL.json` / orders 行仍可能写入云端模型名，目前靠 L2 过闸（CHARTER §五.6）人工拦；缺一个 lint 断言。
-2. **云端凭据未清点**：环境变量/API key/订阅未逐一登记封存状态。T0 要求「冻结备用、不删、不新增」，现在只有口径，**没有清单**。
-3. **在飞云任务未逐条盘点**：`cph4/fleet/h3-local-test/outbound/cloud/` 存在但未核内容与归属；需确认无遗留付费任务在跑。
+1. ~~**派单卡无机械校验**~~ **（2026-10-20 20:56 已闭环）**：`Tools/fleet-dispatcher.ps1` L0 每轮机械扫描 `POOL.json` 的 open/assigned 卡；命中云端模型名且无 `cloud_exception`（须填 CEO 令号）即拒发、不计入可派单并写入 `NEED-JUDGMENT.md`；历史闭卡放行。临时池三例实测正确（本地卡计数、云端卡拦截、带令号例外放行），真实池当前 0 命中。
+2. ~~**云端凭据未清点**~~ **（2026-10-20 20:54 已闭环）**：清点结果=环境变量面 **0 条云端凭据**（User/Machine 仅 `GIGAPIXEL_MODEL_DIR` 模型路径）；本机 `.env` 仅本地占位（`CUSTOM_AUTH=1`、`OPENAI_API_KEY=ollama`、`OPENAI_BASE_URL=http://localhost:11434/v1`），另有 2 份历史备份同形态；`Tools/secret-scan.ps1` 扫 7 仓 **0 命中**；GitHub token 仅存在于 home 级 `settings.json`（不在仓库）。封存口径照 T0：不删、不改、不新增。
+3. ~~**在飞云任务未逐条盘点**~~ **（2026-10-20 20:52 已闭环）**：`cph4/fleet/h3-local-test/outbound/cloud/` 仅 4 个 2026-10-09 的证据件（f1-f3.jpg + H3_J3 5s mp4），无任务元数据、无排队记录；进程面 **0 个 `-p` 无头云端回合**，10 个 codely 进程全部是 `--experimental-acp` 交互窗。结论：无遗留付费任务在跑。
 4. **本地产能预算未量化**：bm-c 单卡日通量 vs 41 曲需求没有算过，排队要排多久是未知数。
 5. **装机补齐未动**：Wan2.2-Animate（i2v 表演控制）、LatentSync（口型）仍未装。
-6. **「代理脑」边界待 CEO 明确**：本会话本身跑在云端模型上。本件按「工具壳、非业务生产」处理（`DISPATCHER-CHARTER` 已注），但这属解释而非 CEO 原话，**列为待裁项**。
+6. **「代理脑」边界（仍待裁·2026-10-20 21:0x 实测修正）**：默认启动路径下，本机交互会话**仍走云端**（`.env` 的 `CUSTOM_AUTH=1` 不是合法认证类型；不传 `--auth-type openai` 时鉴权仍走 Codely 云，默认模型 `codely-core → codely-glm-5.3`）。显式本地化在协议上可行，但容量不满足（见 §6.5 实测）。故边界问题未解，需 CEO 决定：接受云端交互会话，或投入更大显存/上下文方案。
 
 ## 五、诚实边界
 
@@ -108,6 +108,14 @@ $__co = $PSScriptRoot   # 向上找仓库根，命中 cph4/fleet/CLOUD-OFF-LOCAL
 ### 6.5 仍然消耗 token 的
 
 人开的交互会话（含本窗口）。要连它也断，需换本地模型跑 CLI——那是另一件事，须 CEO 明确。
+
+**2026-10-20 20:5x 实测补充（决定是否可行）**：
+
+1. **`.env` 的 `CUSTOM_AUTH=1` 不是有效认证类型**。CLI 合法值=`oauth-personal/gemini-api-key/vertex-ai/cloud-shell/openai/anthropic/qwen-oauth/codely-oauth`。不显式传 `--auth-type openai` 时，即使 `OPENAI_BASE_URL` 指向本机，CLI 仍走云端鉴权（实测报错：`team can only access models=['alias-only-proxy-models','codely-glm-5.3']`）。故 §四.6「本机交互会话已本地」在默认启动路径下**不成立**。
+2. **本地端点协议可用、容量不够**：
+   - 35B（`127.0.0.1:8090`，启动参数 `--n-cpu-moe 999` = MoE 专家全在 CPU）收到请求并进入 `is_processing`，但 5 分钟未处理完 398 token 提示 → 交互不可用。
+   - Ollama（`11434`）4B/27B 声明上下文 16,384，而 Codely CLI 一次请求实测 **71,646 token**（技能+系统提示+MCP）→ 400 超限。
+3. **结论**：交互会话真正本地化需同时满足「上下文 ≥72k」+「可用吞吐」。当前 12GB 显卡 + CPU-MoE 方案不满足；维持云端交互会话，属 CEO 待裁项（与 §四.6 同一件事）。旁证：默认模型解析为 `codely-core → codely-glm-5.3`（云端）。
 
 ---
 *bm-a · 2026-10-20 · 承 CEO T0 云道停用令 + 自动化全本地追加令*

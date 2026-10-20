@@ -38,7 +38,7 @@
 3. 派单一律点名机（抢单闸·O-20261012-2215）；本席派出单带 lane 与 @机名。
 4. L2 判断班默认脑=本地 35B（T0 云道停用后）：无判断件时一轮收敛（跑 L0 脚本→核对旗→一行日志收工），禁为跑而烧 token。
 5. cron 7 天物理到期：代理席每轮跑 cron_list 自检本席班次在位，缺失即按 CEO-PROXY/ROUND.md 原参重建（值守窗亦负此责）；L0 schtasks `HQ-FleetDispatcher` 由 task-health 面看守。
-6. **派单前云道闸（T0·2026-10-20）**：派单/池卡若含云端 API 模型（Seedance／H3 云 API／TJGenerators 云道／云端 TTS）或依赖云端 LLM 产出 = **拒发**，先改本地等价件；确需云端=转 CEO 亲批件（逐案限期留痕），本席无权自行放行。
+6. **派单前云道闸（T0·2026-10-20）**：派单/池卡若含云端 API 模型（Seedance／H3 云 API／TJGenerators 云道／云端 TTS）或依赖云端 LLM 产出 = **拒发**，先改本地等价件；确需云端=转 CEO 亲批件（逐案限期留痕），本席无权自行放行。**机械执法（2026-10-20 20:56 上链）**：`Tools/fleet-dispatcher.ps1` L0 每轮扫 `POOL.json` 的 open/assigned 卡，命中云端模型名且无 `cloud_exception`（须填 CEO 令号）即拦截不计入可派单，并写入 `NEED-JUDGMENT.md`；closed/superseded 历史卡不拦（证据不做派单面）。
 7. **无头会话闸门（CEO 追加令 2026-10-20「自动化任务全部走本地，不要再消耗云端 token」）**：全集团 16 个自动化脚本已在拉起云端会话前加闸（开关=`cph4/fleet/CLOUD-OFF-LOCAL-ONLY-v1.md` 存在即拦），拦下只写 `media/logs/cloud-off-suppressed.log`，本地职责照跑。L2 判断班与各域巡逻席因此**不再自动点火**——无人值守轮的 LLM 判断面暂停；要恢复须 CEO 先行解令。
 
 ## 六、判据（并入 C-20261012-03 回访 2026-10-19·与 C-02 并窗）
