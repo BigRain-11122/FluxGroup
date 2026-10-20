@@ -102,3 +102,49 @@ media/mv-album-001-jay/
 media/drama-eps/
 # 过程件（逐帧标定/QC 抽帧板）不入正典——D-20261020-12
 **/_proxycheck/
+
+# === 2026-10-20 bm-a 降为执行位：本地产出件不入 git（CEO 交付令 2026-10-08 + T0 云停用 2026-10-20）===
+# 交付视频/过程渲染：绝对路径交接，仓里只留回执与台账
+cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/*.mp4
+media/hardware-staging/
+media/MV/
+# 无损音源与大型派生件（源在本机 MUSIC 库）
+cph4/fleet/mv-album-001-jay/audio/
+# NATS 运行态（二进制 + JetStream 数据，非源码）
+Tools/nats/bin/
+Tools/nats/data/
+# 本机备份件与运行锁
+*.bak-*
+# 会话级本机备忘录（跨机无价值）
+.workbuddy/
+
+# === 2026-10-20 过程件与评审抽帧不入仓（D-20261020-12：调色/过程件归档；仓只留回执/台账/板图）===
+# MV 评审抽帧、探针、重烧源、QC 板散帧（合计 ~400MB）
+cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/*_frames*/
+cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/*_probe/
+cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/final_review_*/
+cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/rt_boards/
+cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/rt_frames/
+cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/rt2_frames/
+cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/v510_probe/
+cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/v511_takes/
+cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/v54_probe/
+cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/v56src/
+cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/qc-v5-audit/
+cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/rt_spec_head.png
+cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/rt_spec_tail.png
+cph4/fleet/mv0001-handover/outbound/krea2/kf-demo-20261012/cloudv2/
+# 外部参考图批（研究引用，源可重取）
+cph4/fleet/mv-album-001-jay/research/refs-8mv/
+# 本地媒体池与运行日志
+media/drama-pilot-in/
+media/logs/
+media/meme-daily-v1/
+cph4/fleet/meme-daily-v1/outbound/*/media/
+cph4/fleet/h3-local-test/outbound/
+# 全帧目录/候选图批/本地音轨（过程件，非交付物）
+cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/frames_full/
+cph4/fleet/mv0001-handover/outbound/krea2/male-lead-campus-v1/
+cph4/fleet/mv0001-handover/outbound/krea2/character-candidates-v2/
+cph4/fleet/mv0001-handover/outbound/krea2/kf-demo-20261012/bmc/i2v/
+cph4/fleet/mv0001-handover/audio/
