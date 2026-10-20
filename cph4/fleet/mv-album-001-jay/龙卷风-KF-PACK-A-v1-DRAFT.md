@@ -12,7 +12,7 @@
    - 选角律=CASTING-LAW：陈怡蓉系清纯初恋脸，**只活闪回**；词面零真名、真照不入管线；与星晴/可爱女人/简单爱 ID 块互斥。
 3. **官方尾段（py `kf()` 全额）**：`Shot on <lens>, 2000 telecine grade, warm skin tones, milky lifted blacks, blooming practical highlights, slight color bleed, <texture>, as a film still from a 2000 Taiwanese music video`
    - GRADE_2000=`LX.GRADE["tw2001"]` 逐字把 `2001 telecine` 本地覆写为 `2000 telecine`（本曲年代=2000）。
-4. **光块清单（本曲自建 7 块）**：
+4. **光块清单（本曲定义 7 块·本包实际使用 6 块）**：
    | key | 用法 |
    |---|---|
    | `room_grey` | 6200K 雨后窗光·低饱和·房间角落入冷影（现实线主光） |
@@ -21,7 +21,7 @@
    | `her_warm` | 2200K 残烛级暖残光·只落在她脸上（**闪回唯一暖点**） |
    | `day_white` | 5600K 正白日光·开帘光束·浮尘可见（收束段） |
    | `patch_light` | 斜射白光·墙面浅方形两档更浅（相框原位） |
-   | `window_rain` | 雨水顺旧铝窗流下·灰街在玻璃后溶解 |
+   | `window_rain` | 雨水顺旧铝窗流下·灰街在玻璃后溶解——**本包 A 批零帧使用，留作 B 批/闪回补镜备用** |
 5. **一歌一律（本曲=全专最冷色）**：现实线青灰、闪回线铅蓝黑；**全片唯一暖点=她的 2200K 残光**。做旧克制，禁暖调铺底。
 6. **长期律（剧本层已定，烧制侧不得违反）**：匀速判负（现实线 0.82-0.95 慢稳 / 闪回线 1.10-1.25 burst 双速对撞）；禁看镜头（她越往后越侧越背）；物质转场；音轨=画面+原曲零 AI 音轨；AIGC 显著标识。
 7. **剧情记忆钉**：相框浅方形（场 0 埋 / 场 5 显 / 场 7 收）+ 停摆的钟（场 7 扶正上弦）+ **两把椅子只拖一把**。
@@ -94,18 +94,27 @@
 | 词数 | min **89**（T15）/ max **172**（T18）· 全包 <200 |
 | t2i lint | **29/29 CLEAN**（issues=0） |
 | 覆盖 | 230.83s / 250.36s（+REUSE 19.53s = 满片） |
-| 纹理分布 | film_day 17 / film_night 10 / mist 1（T27） |
-| 光块分布 | room_grey 9 / storm_lead 7 / day_white 5 / her_warm 4 / patch_light 2 / room_lamp 2 |
+| 纹理分布 | film_day **15** / film_night **13** / mist **1**（T27）·合计 29 |
+| 光块分布 | room_grey 9 / storm_lead 7 / day_white 5 / her_warm 4 / patch_light 2 / room_lamp 2（window_rain 0） |
 
 ## 五、待裁与移交（如实记录·不自行改词）
 
 1. **GRADE 尾段与本曲色彩律冲突（新发现·待导演席裁）**：`GRADE_2000` 官方尾段含 `warm skin tones, milky lifted blacks`，而本曲长期律=「全专最冷色、闪回唯一暖点」。2026-10-20 17:47 W2 i2v 包已判该两处为继承缺陷并在 **i2v 尾段**修正（`skin tones kept natural and unlit` / `black point lifted to 10-14 code with shadow crush intact`），但 **KF 面（t2i）仍沿用官方尾段**。
    - 现状：不擅自改词（改则全包 lint/词数须重跑，且属模板级变更）。
    - 选项 A：KF 面同样本地覆写冷版尾段（与本曲色彩律一致，需重跑 lint）；选项 B：KF 保留官方尾段、由调色站统一压冷暖（承 GRADE-LAW）。**请导演席定 A/B。**
-2. **`kf()` 模板 `.capitalize()` 副作用**：光块首字符被大写、块内专名被小写化。本曲 7 个光块无专名，**零影响**（可爱女人包 `Taipei→taipei` 同源问题，与本曲无关）。
+2. **`kf()` 模板 `.capitalize()` 副作用（勘正：非零影响）**：光块首字符被大写、**块内专名与单位被小写化**——实测 `6200K`→`6200k`，本包 29/29 帧全部命中（语义无碍，模型可读，但不可称「零影响」）。真正的问题是同一模板的**主语误绑**，见 §六。
 3. **i2v 面（PACK-B）另开**：本包只审 KF 静态帧；i2v 词面须按 `KF-PACK-i2v` 口径另审（含 slide FLAT 修复、warm-skin/milky-black 清理）。
-4. **B 批（她的独立正脸帧）**：本包 A 批她 4 帧（T05/T07/T18/T19）均为侧/背/远景，无全脸近景。**是否另开 B 批补她的独立正脸帧，待导演席定**；定脸前不得跨曲复用。
+4. **B 批（她的独立正脸帧）**：勘正——A 批她实际出镜 **7 帧**（T05/T07/T11/T18/T19/T25/T26），不是 4 帧。其中 **T05 是 85mm 回头近景**（不可称「无全脸近景」），T25 为半张脸、T26 为走远发白。**B 批是否还需要、要补什么，请导演席按这张实况重判**；定脸前不得跨曲复用。
 5. **烧制侧执行口径（过闸后）**：海选制单口径（672×384 8 步 → 两级海审 → 1344×768 refine 0.30）；烧制前后各跑一次 t2i lint；词数必检；抽检位=T18（172 词最长）+ T27（mist 唯一一张）+ T09（两椅叙事）。
+
+## 六、独立评审席判读（2026-10-20·verdict 已落盘）
+
+- verdict 件：`PROMPT-GATE-龙卷风-KF-PACK-A-v1-L2.md`。整包 **FIX 级**：29 帧 PASS 9 / FIX 20 / REJECT 0，列 **14 条 FIX**。
+- **本包最大缺陷（机核抓不到·须导演席裁）**：`kf()` 模板 `"A %s of %s, %s."` 让 HIM/HER 名词块直接接动作分词，形成**主语误绑**。实例（T23，本包「唯一指路」硬点）：
+  `A medium shot of the wall … where a wooden frame hung, jman, a 20-year-old … , scuffed canvas shoes crouching at the edge …`
+  ——「crouching」被绑到「shoes/wall」上，而非人。修法=模板内加句界（词数与 lint 均不变），但属**全包/跨曲模板级变更**，须导演席统一裁，本席不擅改正身。
+- 本席已按 verdict 勘正本稿自身的转录失真（纹理分布、她的出镜帧数、光块使用数、capitalize 影响、B 批前提）——见上文各处标「勘正」。
+- **签署状态**：本席=起草席，按分权不得自签。**签发席须为另一窗/另一席**；未签前本包保持「禁烧」。
 
 ---
 *bm-a · 2026-10-20 · 承 O-20261020-1124 W1-W2 多曲加速排产令；本件=人读稿，未过闸未签发，禁据以点火。*

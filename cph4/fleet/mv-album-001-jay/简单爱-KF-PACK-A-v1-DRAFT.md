@@ -10,8 +10,8 @@
    - `jman LoRA` strength **0.6**（影射档）；ID 体=`prompt_lexicon.ID_M_2001_BONE` 同源，禁本地改字。
 2. **女主 ID 块（HER·逐字·禁跨曲复用）**：`a 20-year-old East Asian woman with a soft round face and clear dark eyes, shoulder-length black hair tucked behind one ear, in a pale blue cotton blouse and a knee-length pleated skirt`
    - 选角律=CASTING-LAW：日系清纯邻家·气质优先于国籍·禁冷感御姐向/浓妆；与星晴/可爱女人/龙卷风 ID 块互斥。
-3. **物件锚（BIKE·逐字）**：`an old steel single-speed city bicycle with chrome fenders, a wire front basket and a worn leather saddle`
-   - 尾拍两代单车（T29 老车锈成深褐 / T30 同款新车亮漆）=愿望回环物证，**同款不同代**，不得混成一台。
+3. **物件锚（BIKE·逐字块）**：`an old steel single-speed city bicycle with chrome fenders, a wire front basket and a worn leather saddle`
+   - **挂载实况（勘正）**：逐字挂载仅 **T02 / T25** 两帧；T03/T06/T07 等只以「车座/后座」等局部指称出现，T29/T30 为**另写的两代车描述**（老车锈深褐 / 同款新车亮漆），不走 BIKE 块。**不得据 BIKE 块推断全包同款**；T29/T30 的同款律靠词面自述维持。
 4. **官方尾段（py `kf()` 全额）**：`Shot on <lens>, 2001 telecine grade, warm skin tones, milky lifted blacks, blooming practical highlights, slight color bleed, <texture>, as a film still from a 2001 Taiwanese music video`
    - GRADE_2001=`LX.GRADE["tw2001"]` 逐字沿用（本曲年代=**2001**，与龙卷风 2000 不同，禁串年代）。
 5. **光块清单（本曲自建 6 块·四光位+两天气支线）**：
@@ -89,10 +89,21 @@
 ## 四、待裁与移交（如实记录·不自行改词）
 
 1. **GRADE 尾段含 `warm skin tones, milky lifted blacks`**：17:47 W2 i2v 包已判该两处为继承缺陷并在 **i2v 尾段**修正，KF 面（t2i）仍沿用官方尾段。本曲色彩律=透明日光（晴段暖白），冲突度低于龙卷风（冷色全片），但**是否 KF 面同步覆写冷版尾段，仍待导演席统一裁（与龙卷风同批定 A/B）**。
-2. **选角已承载，无需 B 批**：A 批含她 85mm 近景（T09 磕肩、T24 手放胸口），全脸已在包内；**定脸后仍须跑以图搜人反向测试留档**（CASTING-LAW）。
+2. **选角已承载，无需 B 批（证据勘正）**：能证明她全脸在包内的只有 **T09**（85mm、她的头磕在他肩上）；原稿举的 T24「手放胸口」词面**只有手与布料，无脸**，该论据不成立，已删。定脸后仍须跑以图搜人反向测试留档（CASTING-LAW）。
 3. **i2v 面（PACK-B）另开**：按 `KF-PACK-i2v` 口径审（slide FLAT、warm-skin/milky-black 清理、H3 括号语法）。
-4. **`kf()` 模板 `.capitalize()` 副作用**：本曲 6 个光块无专名，零影响。
+4. **`kf()` 模板 `.capitalize()` 副作用（勘正：非零影响）**：块内单位被小写化——实测 `6200K`→`6200k`，本包 30/30 帧命中（语义无碍）。真正的缺陷是同一模板的**主语误绑**，见 §六。
 5. **烧制侧执行口径（过闸后）**：海选制单口径（672×384 8 步 → 两级海审 → 1344×768 refine 0.30）；烧制前后各跑一次 t2i lint；词数必检；抽检位=T09（188 词最长·85mm 近景）+ T11（影子镜·v2.2 #6 判例）+ T30（两代单车·同款不混）。
+
+## 六、独立评审席判读（2026-10-20·verdict 已落盘）
+
+- verdict 件：`PROMPT-GATE-简单爱-KF-PACK-A-v1-L2.md`。整包 **FIX 级**：30 帧 PASS 10 / FIX 20 / REJECT 0，列 **14 条 FIX**。
+- **A. 模板主语误绑（与龙卷风同源·须导演席统一裁）**：`kf()` 把 HIM/HER 名词块直接接动作分词。实例（T15）：
+  `A medium shot of jman … , straight dark trousers, scuffed canvas shoes holding a plain long umbrella …`
+  ——「holding」被绑到「canvas shoes」上。修法=模板加句界（词数/lint 不变），属全包级变更，本席不擅改正身。
+- **B. T20 撞文字生成红线**：词面 `one finger drawing three characters in the water` 要求模型写三个汉字，撞 QC §9「禁 AI 生成文字」+ §19 字席制字。**改法建议（须导演同意）**：改为「指尖在积水上划动、水面破而复平」，汉字由字席后期贴字，不进生成。
+- **C. T29/T30 光块与零人物帧冲突（I1）**：两帧词面明确无人物，但 `day_back` 光块写着 `placed behind the two figures … around their silhouettes`。须另立无人版光句（如「低日逆光压在栏杆与车身上」），不得沿用双人块。
+- 本席已按 verdict 勘正本稿转录失真（BIKE 挂载范围、T24 论据、capitalize 影响）。
+- **签署状态**：本席=起草席，按分权不得自签；签发席须为另一窗/另一席。未签前保持「禁烧」。
 
 ---
 *bm-a · 2026-10-20 · 承 O-20261020-1124 W1-W2 多曲加速排产令；本件=人读稿，未过闸未签发，禁据以点火。*
