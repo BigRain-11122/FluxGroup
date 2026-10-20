@@ -43,14 +43,15 @@ Seedance 官方原文：「**提示词不应只是再次描述图像，而应说
 
 ### 律四·科学排序（按引擎·官方序逐字复用）
 - **Seedance i2v**：`[镜头定式] → [主体动作+速度+方向] → [前景运动] → [背景运动] → [相机行为收束] → [保留句]`（可选单句氛围）。官方关键词词表（逐字复用勿改写）——运动质感：gently / barely perceptible / slowly drifting / rhythmically swaying / subtly rippling；人物生命感：micro-expression shift / eyes slowly tracking / breath visible / hair softly lifted by wind；镜头：locked off / slow push-in / subtle drift / gentle handheld sway / rack focus；风格保留：maintain painterly texture / **preserve film grain / honor the original color palette**。
-- **MiniMax-H3（六部分·官方）**：`场景顺序（开场→动作→结束） → 主体动作 → 参考用途 → 相机（初始景别角度→主要运动→停在什么构图） → 声音（MV 场=按音轨禁令省） → 结束画面+保持不变`。H3 允许秒级时间轴（官方案例 0.0–1.2s——与 Seedance 禁秒数相反，不互套）。
+- **MiniMax-H3（六部分·官方）**：`场景顺序（开场→动作→结束） → 主体动作 → 参考用途 → 相机（初始景别角度→主要运动→停在什么构图） → 声音（MV 场=按音轨禁令省） → 结束画面+保持不变`。**方括号相机命令是官方唯一有语法保证的运镜通道**（`[Push in] [Truck right] [Pan left] [Tilt up] [Pedestal up] [Tracking shot] [Shake] [Static shot]`·官方示例可串联：`picks up a book [Pedestal up], then reads [Static shot]`）——我方 32 条 H3 单曾零方括号，属闲置官方能力。**H3 时间戳：官方 API 示例无时间戳（旧「0.0–1.2s 官方案例」=误引，2026-10-20 官方文档调研勘正）**。
+- **Seedance 官方框架（2026-10-20 复核）**：六要素=主体/动作/环境/风格/镜头/声音；参考生视频用「(Preserve) 保留 + (Transform) 转换」两段式。**Seedance 2.5 指南称支持整数秒时间戳**（示例「第 5 秒向左快速横移」·研究件转述，待我方复核该页原文）——**「禁精确秒数」是本厂旧偏好，不是官方律，已废止**。
 - **正字法**：官方「使用可观察的动词：把『很高级』改成『冷色侧光沿玻璃边缘移动，反射干净克制』」——每个审美判断落成一件可观察的物理事件。
 
 ### 律五·准确+简洁（参数分家）
-- **API 参数禁入 prompt**：fps/画幅/分辨率/时长一律走工具参数位。
-- **一镜一动作**（v1.2 沿袭）：动作链=压缩=AI 加速感；动作量化=速度+方向+一次完成。
-- **词预算**：i2v 单镜 40–90 词；超 90 词=先删画面重述，再删风格段，最后才考虑精简动作。
-- **零否定**（v1.2 沿袭·引擎例外授权位除外）。
+- **API 参数禁入 prompt**：fps/分辨率/时长一律走工具参数位。**例外=Seedance 全局约束段**：官方四段式最后一段要求写「画幅 + 无字幕 + 无 BGM」，该段合法（旧 lint「见 16:9/720p 即 FAIL」过宽，已收窄为「非 Seedance 包才判」）。
+- **一镜一动作**（v1.2 沿袭）：动作链=压缩=AI 加速感；动作量化=速度+方向+一次完成。**官方背书**：Seedance「不将提示当剧本处理」、时间戳「非逐帧剪辑指令」；PixVerse 实测堆叠动作被「混合成不稳定运动」。
+- **词预算**：i2v 单镜 40–90 词=**本厂偏好，非官方**（官方结构是六要素，无词数上限；Vidu 允许 20000 字符）。超预算仍建议压缩，但不得以「官方上限」为名拦截合法长包。
+- **负面词按模型分轨（勘正·2026-10-20）**：Krea2/BFL 系**无 negative 字段**，且我方 KF 链路 `steps=8, cfg=1.0` + `ConditioningZeroOut` → **cfg=1 时负向条件乘 0，负权重一律不生效**（本机脚本实读）；Seedance 官方**建议**写关键排除项（`no cuts` / `do not change the character's appearance`）；H3 未载明。→「零否定」只在 Krea2 面成立，禁当全局律。
 
 ## 三、Before/After 终例（Z03 同镜重写）
 

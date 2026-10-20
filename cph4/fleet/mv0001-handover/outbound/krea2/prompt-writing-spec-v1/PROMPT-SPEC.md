@@ -40,7 +40,7 @@
 2. **VAGUE 名单**（模糊词全禁）：beautiful/stunning/aesthetic/masterpiece/8k/dreamy/ethereal/whimsical/cozy/glass skin/porcelain skin/airbrushed/vibrant/epic/photorealistic 等 40+ 词；`cinematic` 灰名单=仅首句 1 次合法。
 3. **CONCEPT 名单**（概念注入词，写进条件=注入该概念）：korean/K-pop/idol/salon/makeup/watermark/typography/logo——**反韩化的正确姿势=全词消失，不是否定它**。
 4. **FIX_MAP 否定改写器**：`no makeup→bare face, natural matte skin` 等 25 条对照表代码化，lint 命中自动替换复检。
-5. **长度闸**：40–200 词（官方上限 200）；**ID 块逐字复用律**：同一人所有镜头引用同一 ID 常量，禁止改写（文本身份漂移）。
+5. **长度闸**：40–200 词（本厂预算；旧「官方上限 200」=误引，官方无此条·2026-10-20 勘正）；**ID 块逐字复用律**：同一人所有镜头引用同一 ID 常量，禁止改写（文本身份漂移）。
 6. **f 值行为写法**：不写「浅景深」，写 `f/1.4, only the eyes in focus, ears already soft`。
 
 **正面等价改写表（节选）**：
