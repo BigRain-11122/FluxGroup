@@ -31,4 +31,4 @@ description: MV 选角/面孔席技能（2000 年代脸谱 × AI 面孔双门）
 盲评 10 人：「3 秒后还认得出这张脸吗」≥7/10；「报得出明星名吗」≤1/10（≥2 人报名即判负）。
 
 ## 来源分级
-A=本片回执与像素判读、Bainbridge/Isola/Oliva 2013（可记性是脸的内在属性）；B=陈怡蓉/赖薇如出道史、台湾发型百年史；C=发型分期单源（不擅改正典）。GitHub=insightface 30.0k★（权重非商用）·mediapipe 37.3k★Apache-2.0·facenet-pytorch 5.2k★MIT·face_recognition 56.8k★MIT·memorability 自动评分无适配（用盲评替代）。
+A=本片回执与像素判读、Bainbridge/Isola/Oliva 2013（可记性是脸的内在属性）；B=陈怡蓉/赖薇如出道史、台湾发型百年史；C=发型分期单源（不擅改正典）。GitHub=**insightface 禁入产线**（代码开源但模型仅非商用·LICENSE 原文）→改用 deepface 代码 + 自核可商用权重·mediapipe 37.3k★Apache-2.0·facenet-pytorch 5.2k★MIT·face_recognition 56.8k★MIT·memorability 自动评分无适配（用盲评替代）。

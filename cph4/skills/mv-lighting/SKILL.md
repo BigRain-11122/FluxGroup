@@ -9,7 +9,7 @@ description: MV 摄影灯光席技能（2000 台式布光 × AI 可控光句）�
 2000 台式布光=**单光源 + 入画实用光 + 不校正钠灯**。光块只写色温=把布光交给模型。
 
 ## 硬判据
-- **光句五槽**：SOURCE→DIRECTION→QUALITY→RATIO→KELVIN，必须含**相机相对方位**与 **K/比值**，缺一退稿。
+- **光句五槽**：SOURCE→DIRECTION→QUALITY→RATIO→KELVIN，必须含**相机相对方位**与 **K/比值**，缺一退稿；**另补灯具尺寸与距离**（one 40cm paper-shaded bulb, two metres from her, wall two stops under）——缺位=模型自选柔光箱大小。
   例：`warm key light from 45 degrees screen right`。
 - **光比写数**：日 2:1／室内单源 4:1／夜外 8:1-16:1／剪影 ≥32:1；`dramatic/moody` 不计分。
 - **测光点写死**：每张脸镜指定唯一基准物（`exposed for her face, the street falling three stops under`）。
