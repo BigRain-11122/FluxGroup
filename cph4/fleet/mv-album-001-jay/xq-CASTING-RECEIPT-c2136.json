@@ -1,0 +1,150 @@
+{
+ "wave": "xq-casting-c2136",
+ "runner": "bm-c C2136",
+ "auth": "cph4/fleet/mv-album-001-jay/XQ casting CASE v1 -- candidate board, GPU batch after MV V3",
+ "types": {
+  "A": "high dark ponytail, bright crescent-smile eyes, soft rounded cheeks, even white teeth, sun-warmed clear skin, a few freckles across the nose",
+  "B": "long straight dark hair with a soft air fringe, gentle rounded brows, quiet smiling eyes, small clean face",
+  "C": "chin-length dark bob, bright boyish grin, small expressive face, lively brows",
+  "D": "low twin braids, clear bare face, neat simple features, bright honest gaze"
+ },
+ "lights": {
+  "dusk": "lit by 2800K dusk backlight with a warm halo, standing in a golden grass field, rim of warm light along her hair",
+  "night": "lit by indigo night sky with cool starlight and a warm lamp edge, standing outdoors after dark"
+ },
+ "era_block": "a Taiwanese girl around nineteen, 2000 era Taipei ordinary-girl look, simple summer outfit, natural skin texture with visible pores, natural hair texture, head-and-shoulders portrait, facing the viewer",
+ "closing": "35mm film grain, telecine texture, 2001 Taiwan music video look",
+ "params": {
+  "res_mini": "672x384",
+  "steps": 8,
+  "cfg": 1.0,
+  "jman": "omitted",
+  "sampler": "euler simple",
+  "model": "krea2_turbo_fp8_scaled"
+ },
+ "candidates": [
+  {
+   "id": "XQ-CAST-c2136-A-dusk-s1",
+   "type": "A",
+   "light": "dusk",
+   "seed": 7630
+  },
+  {
+   "id": "XQ-CAST-c2136-A-dusk-s2",
+   "type": "A",
+   "light": "dusk",
+   "seed": 235236
+  },
+  {
+   "id": "XQ-CAST-c2136-A-night-s1",
+   "type": "A",
+   "light": "night",
+   "seed": 925588
+  },
+  {
+   "id": "XQ-CAST-c2136-A-night-s2",
+   "type": "A",
+   "light": "night",
+   "seed": 819764
+  },
+  {
+   "id": "XQ-CAST-c2136-B-dusk-s1",
+   "type": "B",
+   "light": "dusk",
+   "seed": 172732
+  },
+  {
+   "id": "XQ-CAST-c2136-B-dusk-s2",
+   "type": "B",
+   "light": "dusk",
+   "seed": 747302
+  },
+  {
+   "id": "XQ-CAST-c2136-B-night-s1",
+   "type": "B",
+   "light": "night",
+   "seed": 854876
+  },
+  {
+   "id": "XQ-CAST-c2136-B-night-s2",
+   "type": "B",
+   "light": "night",
+   "seed": 604206
+  },
+  {
+   "id": "XQ-CAST-c2136-C-dusk-s1",
+   "type": "C",
+   "light": "dusk",
+   "seed": 853141
+  },
+  {
+   "id": "XQ-CAST-c2136-C-dusk-s2",
+   "type": "C",
+   "light": "dusk",
+   "seed": 488175
+  },
+  {
+   "id": "XQ-CAST-c2136-C-night-s1",
+   "type": "C",
+   "light": "night",
+   "seed": 290913
+  },
+  {
+   "id": "XQ-CAST-c2136-C-night-s2",
+   "type": "C",
+   "light": "night",
+   "seed": 507466
+  },
+  {
+   "id": "XQ-CAST-c2136-D-dusk-s1",
+   "type": "D",
+   "light": "dusk",
+   "seed": 135132
+  },
+  {
+   "id": "XQ-CAST-c2136-D-dusk-s2",
+   "type": "D",
+   "light": "dusk",
+   "seed": 517330
+  },
+  {
+   "id": "XQ-CAST-c2136-D-night-s1",
+   "type": "D",
+   "light": "night",
+   "seed": 401785
+  },
+  {
+   "id": "XQ-CAST-c2136-D-night-s2",
+   "type": "D",
+   "light": "night",
+   "seed": 141118
+  }
+ ],
+ "burn_ok": {
+  "XQ-CAST-c2136-A-dusk-s1": true,
+  "XQ-CAST-c2136-A-dusk-s2": true,
+  "XQ-CAST-c2136-A-night-s1": true,
+  "XQ-CAST-c2136-A-night-s2": true,
+  "XQ-CAST-c2136-B-dusk-s1": true,
+  "XQ-CAST-c2136-B-dusk-s2": true,
+  "XQ-CAST-c2136-B-night-s1": true,
+  "XQ-CAST-c2136-B-night-s2": true,
+  "XQ-CAST-c2136-C-dusk-s1": true,
+  "XQ-CAST-c2136-C-dusk-s2": true,
+  "XQ-CAST-c2136-C-night-s1": true,
+  "XQ-CAST-c2136-C-night-s2": true,
+  "XQ-CAST-c2136-D-dusk-s1": true,
+  "XQ-CAST-c2136-D-dusk-s2": true,
+  "XQ-CAST-c2136-D-night-s1": true,
+  "XQ-CAST-c2136-D-night-s2": true
+ },
+ "stats": {
+  "ok": 16,
+  "total": 16,
+  "fails": [],
+  "lint": "NEG/VAGUE/CONCEPT zero-hit"
+ },
+ "out_dir": "media/MV/mv0001/xingqing/xq-casting-c2136",
+ "board": "xq-CASTING-BOARD-c2136.jpg",
+ "ts": "2026-10-20T08:44:09"
+}
