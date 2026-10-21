@@ -4,14 +4,14 @@
 > 输入事实：fleet-nodes.json 名册 + resource-chain §二/§9.1 + hardware/ 七档（BOM 终审/MARKET-WATCH v1 10-20/P-CARD-WORKFORCE v1）+ 千问席 2026-10-21 模型能力调研。
 > 生效前提=机队通道恢复（tailscale/NATS/FleetLink）+ 各线复产口令。在此之前本文只作接管预案。
 
-## 一、家底（实测名册口径，纠偏两处旧读）
+## 一、家底（2026-10-21 实测版·bm-a 直读 + bm-b/bm-c 最后心跳档案）
 
-| 机 | CPU/RAM | GPU | 现车道 | 关键约束 |
+| 机 | CPU/RAM | GPU | 现车道 | 关键约束（实测） |
 |---|---|---|---|---|
-| bm-a DASHENG | 32C/94G | 12G（夜窗备援） | hq-central-night-gpu | 白天=CEO 用机零排单；INT8 768P 装不下（OOM 实测） |
-| bm-b BIGMONEY | 3800X 16T/24G | **3070 8G**（非纯 CPU 机） | cpu-sound | 8G 禁正片；曾 53.5h 停摆史→长跑必带守护；P104 #1 草图官候选位（第二槽若有） |
-| bm-c FLUXGROUP | 3950X 32T/24G | 3070 16G | gpu-production | 全集团正片 i2v/KF 唯一产线=最大瓶颈；白天让路 CEO |
-| bm-d（到位后） | 2×E5-2695v2 24C48T/**无 AVX2**/256G DDR3 | **V100 16G×3**（#1 已购，#2/#3 采购中）+X9DR3-F 仅剩 1 短卡位 | bmd-brain-backtest | Volta 架构：无 bf16/无 FA2/FP8 需特化 kernel；GPTQ-int4 可用（compute 7.0）；AVX2 缺失→CPU 推理弱，活全压 GPU+多核 |
+| bm-a DASHENG | **Ryzen 9950X 16C/32T**·93.6G | **RTX 4070 SUPER 12G**（Ada·非旧档案"4070S 待证"，driver 617.42） | hq-central-night-gpu | 实测现态=CEO 在用：GPU util 96%/7.6G 已占（Tuanjie×5 实例+千问+豆包+Edge 桌面栈）、CPU load 57%→白天零排单属实；**坑：:8090 已被 eCloud（云电脑）进程占用**——35B 夜窗重启必换端口或错峰；盘= C:剩 837G / D:剩 3511G（备份盘富余）；Ollama 模型库目录空（models blob 无留存=重装面） |
+| bm-b BIGMONEY | 3800X 16T/24G | **3070 8G**（心跳自证 gpu_free 3.6G/总 8G 口径） | cpu-sound | 停摆前 r1092 满载在跑（E24 census+池 3/3 备好未领）；曾 53.5h 停摆史→长跑必带守护；电源换装 POOL-0020 回执未闭环 |
+| bm-c FLUXGROUP | 3950X 32T/24G | 3070 16G | gpu-production | 心跳末态 r1174：GPU 曾 99%/14.2G free 双读数=ComfyUI 常驻监听+MV 波次间态；W293 冻结单在飞、星晴 XQ 六单在队；白天让路 CEO |
+| bm-d（到位后） | 2×E5-2695v2 24C48T/**无 AVX2**/256G DDR3 | **V100 16G×3**（#1 已购，#2/#3 采购中）+X9DR3-F 仅剩 1 短卡位 | bmd-brain-backtest | Volta：无 bf16/FA2/FP8 常规路径；GPTQ-int4 可用（compute 7.0）；AVX2 缺失→CPU 推理弱 |
 
 ## 二、分配总纲：按"卡的代际"定岗，不按"机器的情面"
 
@@ -72,6 +72,20 @@ bm-b：TTS/Music3/whisperX+allin1 双锚批（POOL-0018/0019 恢复后首认领�
 1. P0-P1 抢同一块 bm-c 16G → 分时制：P0 正片优先占夜窗，P1 美术批吃 P0 波次间隙与 bm-b 海选层；不得为 P1 砍 P0 波≤8 帽。
 2. P3 不新增 GPU 需求；B 腿这类纯代码件走 bm-a batchmode，属"零和不动 P0-P2"。
 3. 复产口令按本序点名=自然优先级（先 P0 链，后 P1 批，再 P2 波链，P3 候令）。
+
+## 四·六 实测带来的三个规划修订（2026-10-21 直读）
+
+**修订 1：bm-a 是 Ada 卡（4070 SUPER 12G），P0 视频线多出一个夜窗海选位。**
+- 旧档案把 bm-a 当"CPU 中枢+夜窗备援"，低估了它。4070S 有 FP8/INT8 kernel 与 Dynamic VRAM 生态，**480P 海选批（非正片）在 12G 上可行**（旧"INT8 768P OOM"判例仍成立——768P 正片不归 bm-a）。
+- 落位：bm-a 夜窗（21:00-08:00）接 **P0 的 480P trial 海选批 + 4x3 QC 拼板**，把 bm-c 16G 的波次产能整体让给正片。这是解 P0 瓶颈最便宜的一招（不花钱、不加机器）。
+- 硬前置：**:8090 现被 eCloud 云电脑进程占用**——35B/模型服务重启须换端口（建议 :8091）且先经 CEO 确认 eCloud 是否仍需该位；CEO 白天用机=让路律凌驾，此位仅夜窗有效。
+
+**修订 2：bm-b 的 3070 8G 此前被"cpu-sound"车道名掩盖，实际有 GPU 可用（心跳自证 gpu_free 3.6G）。**
+- 落位：维持"480P 以下海选+音频"双职，但明确 **TTS/whisperX/allin1 走 CPU，海选批走 GPU 分时**，不再把 bm-b 当纯 CPU 机派单——POOL-0018/0019（双锚批）+ POOL-0020（电源复产回执）恢复后首批即在此机上验。
+
+**修订 3：P1 游戏"出成品"的真实瓶颈不是算力，是 CEO 物理件；算力侧只需 bm-a 的 32 线程。**
+- 实测 bm-a CPU load 57%（桌面栈占用）+ 5 个 Tuanjie 实例在跑=你正在用机开发。**P1 波2 建工程批=32 线程 batchmode 串行**（单轮 compile 900s/门禁 240s），夜窗一夜可产 3-5 款骨架，10 款约两个夜班。
+- 提审动作（AppID/主体/递交点击）与算力无关，列入 waiting-CEO，不进排产波次。
 
 ## 五、风险与止损（预注册）
 - bm-d V100 #2/#3 未到=大脑面只起单实例，回测主轮候满配——W 链先在 bm-b 过渡（正典已有借池律）。
