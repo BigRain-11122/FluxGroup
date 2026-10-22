@@ -24,6 +24,7 @@ LEGAL = {
     "PASS": {"BURNED"},
     "BURNED": set(),
     "BLOCKED": {"READY"},
+    "HOLD": {"READY", "BLOCKED"},
 }
 WIP = {"IN_PROGRESS": 2, "QA": 6}
 
