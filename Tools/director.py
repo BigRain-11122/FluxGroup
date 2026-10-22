@@ -58,6 +58,7 @@ def main():
                                                                                     choices=["S", "A", "B", "C"])
     p.add_argument("--reason", required=True); p.add_argument("--veto", action="store_true",
                                                               help="C 档否决技术 PASS，打回 READY")
+    p = sub.add_parser("reopen"); p.add_argument("--id", required=True); p.add_argument("--reason", required=True)
     p = sub.add_parser("note"); p.add_argument("--id", required=True); p.add_argument("--text", required=True)
     a = ap.parse_args()
 
@@ -92,6 +93,15 @@ def main():
                 print("VETOED", a.id, "PASS -> READY")
             else:
                 print("注意：当前状态 %s，未执行否决（只适用于 PASS）" % r["state"])
+
+    elif a.cmd == "reopen":
+        if r["state"] not in ("BLOCKED", "HOLD"):
+            sys.exit("只有 BLOCKED/HOLD 可 reopen（当前 %s）" % r["state"])
+        r["state"] = "READY"
+        r["history"].append({"ts": now(), "to": "READY", "reason": "艺术解除: " + a.reason, "by": "D"})
+        save(WO, rows)
+        addlog("reopen", a.id, {"reason": a.reason})
+        print("REOPENED", a.id, "-> READY（艺术解除）")
 
     elif a.cmd == "note":
         addlog("note", a.id, {"text": a.text})
