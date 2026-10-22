@@ -42,7 +42,7 @@ def main():
 
     if a.verdict == "CONDITIONAL" and "条件" not in a.note:
         sys.exit("CONDITIONAL 必须在 note 写明『条件』")
-    if any(x not in a.note for x in ("0", "1", "2", "3", "4", "5", "6", "7", "8", "9")):
+    if not any(ch.isdigit() for ch in a.note):
         sys.exit("note 必须写出自己实测到的数字（复述他人数字不算独立审核）")
 
     rec = {
