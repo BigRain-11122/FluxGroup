@@ -1,0 +1,24 @@
+{
+  "film": "mv0001-爱在西元前",
+  "stage": "S4 选优结果 + EDL 草案",
+  "date": "2026-10-21",
+  "shot_decisions": [
+    {"id": "R1_E01a_carver", "window": "187.26-190.00", "take": "R1_t3_s9303", "verdict": "PASS",
+     "evidence": "嘴部≈2.5次开合/10帧零漂移/无磨皮", "note": "已过 S4 判据"},
+    {"id": "R2_SING3b", "window": "197.00-199.00", "take": "R2_sing3", "verdict": "PASS_WITH_TRIM",
+     "evidence": "咬字3-4次/脸部稳定", "note": "取前 2.0s，避开中段凭空出现的麦穗碗"},
+    {"id": "R3_E01c_first_line", "window": "191.60-193.12", "take": "R3b_9411", "verdict": "PASS",
+     "evidence": "五指正常/刻痕5帧稳定/侧脸一致", "note": "首帧火把 0→1 帧突入，剪时避开首帧"},
+    {"id": "R4_E02a_dig", "window": "193.12-197.00", "take": "R4a", "verdict": "PASS_AS_PRESS",
+     "evidence": "五指正常/刻痕稳定/无穿模", "note": "动作由『抹边缘』改为『手掌压住泥板』；原动作 3 次未成立→BLOCK"},
+    {"id": "R5_S8S9", "window": "40.22-44.00", "take": "crop-814x458@530,155", "verdict": "PASS",
+     "evidence": "41/42.5/43.5 无倒影、侧脸完整", "note": "换构图，不重烧"}
+  ],
+  "blocked": [
+    {"action": "手抹泥板边缘", "failures": 3, "reason": "H3 稳定输出为刷子/火烤，动作不成立", "route": "改用 R4a 的『手掌压住』语义"}
+  ],
+  "known_deviation": [
+    {"item": "prompt 长度", "value": "140 words", "budget": "90", "reason": "build_h3_i2va 官方结构基线约 110 词", "action": "记偏差，后续精简模板"}
+  ],
+  "next": ["出 768P 正式件（GPU 夜间窗口）", "锁 EDL → 按 N4 节奏重排", "分段 copy 装配（只编码一次）"]
+}
