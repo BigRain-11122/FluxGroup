@@ -24,6 +24,8 @@ VALID = {
 SCENE_CONFLICT = {
     "museum": ("torchlit", "torch", "temple", "mud-brick", "babylonian hall", "godray", "fire pit"),
     "hall": ("glass case", "museum aisle", "display case"),
+    "tablet": ("museum", "glass case", "display case", "torchlit temple"),
+    "temple_corridor": ("museum", "glass case", "display case"),
     "classroom": ("torch", "temple", "museum"),
     "rooftop": ("torch", "temple", "museum"),
 }
