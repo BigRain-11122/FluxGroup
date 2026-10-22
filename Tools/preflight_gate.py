@@ -82,6 +82,25 @@ def guard(shot_id, prompt_text, tokens, kf_verified=False, kf_note="", defect=No
     if bad:
         fails.append("④场景锚冲突 scene=%s 却出现 %s" % (scene, bad))
 
+    # ⑤ 正向必备锚（FRAME-GATE-v1 §六）——只查"缺什么"，不追加否定句
+    def need(cond, phrase_list, msg):
+        if cond and not any(p in low for p in phrase_list):
+            fails.append("⑤缺正向锚：" + msg)
+
+    need(any(k in low for k in ("tablet", "inscription", "inscriptions", "carved")),
+         ("cuneiform", "carved marks", "wedge"), "含刻痕/泥板的镜必须写 cuneiform / carved marks")
+    need(any(k in low for k in ("glass", "display case", "case")),
+         ("the glass carries only", "sheen of the room light", "glass surface shows only"),
+         "含玻璃/展柜的镜必须正向限定玻璃上只有光/刻痕")
+    need("sing" in low or "singing" in low,
+         ("lips",), "唱歌镜必须写 lips")
+    need("sing" in low or "singing" in low,
+         ("opening and closing", "shaping each word", "shape each word"),
+         "唱歌镜必须写口部开合/咬字")
+    need(any(k in low for k in ("carve", "carves", "carving")),
+         ("stay fixed", "remains identical", "stays fixed"),
+         "刻写镜必须写明刻痕成形后保持稳定")
+
     # 黑名单
     fails += check_blocked(shot_id, defect)
     return fails
