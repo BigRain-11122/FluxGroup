@@ -99,7 +99,10 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("video")
     ap.add_argument("--planned", type=int, default=None, help="计划镜头数; 缺省则跳过第1项")
+    ap.add_argument("--plan-cuts", default=None, help="计划切点 json（含 cuts 数组）")
     ap.add_argument("--max-delta", type=int, default=5)
+    ap.add_argument("--tol", type=float, default=0.35, help="切点匹配容差(秒)")
+    ap.add_argument("--max-unplanned", type=int, default=5, help="允许的非计划突变数")
     a = ap.parse_args()
 
     fails = []
@@ -116,7 +119,22 @@ def main():
         print("① 计划vs检测: 检测不可用")
     else:
         n = len(cuts) + 1
-        if a.planned:
+        plan = None
+        if a.plan_cuts:
+            try:
+                import json
+                plan = json.load(open(a.plan_cuts, encoding="utf-8"))["cuts"]
+            except Exception as e:
+                print("① 计划切点表读取失败:", e)
+        if plan:
+            unplanned = [c for c in cuts if not any(abs(c - p) <= a.tol for p in plan)]
+            ok = len(unplanned) <= a.max_unplanned
+            print("① 计划切点 %d | 检测切点 %d | **非计划突变 %d** (门线 ≤%d) → %s" %
+                  (len(plan), len(cuts), len(unplanned), a.max_unplanned, "PASS" if ok else "FAIL"))
+            if not ok:
+                fails.append("①非计划突变 %d 处（%s）" % (
+                    len(unplanned), ", ".join("%.2f" % x for x in unplanned[:12])))
+        elif a.planned:
             delta = n - a.planned
             ok = abs(delta) <= a.max_delta
             print("① 计划镜数 %d | 检测镜数 %d | 差 %+d (门线 ±%d) → %s" %
@@ -124,7 +142,7 @@ def main():
             if not ok:
                 fails.append("①非计划突变超限 %+d" % delta)
         else:
-            print("① 检测镜数 %d（未给 --planned，跳过比对）" % n)
+            print("① 检测镜数 %d（未给计划表，跳过比对）" % n)
 
     d = frame_diffs(a.video)
     isl, spikes = islands(d)
