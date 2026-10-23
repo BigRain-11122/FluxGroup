@@ -1,0 +1,39 @@
+{
+  "kind": "director-review",
+  "album": "mv-album-001-jay",
+  "track": "xingqing",
+  "pack": "PACK-B",
+  "version": "v7",
+  "batch": "C2164",
+  "src": "media/mv-album-001-jay/assembly-packB/XQ-PACKB-ASSEMBLY-v7-c2163.mp4",
+  "reviewed_at": "2026-10-24 02:35-02:50",
+  "duration_s": 238.0,
+  "frames": 5712,
+  "resolution": "1344x768",
+  "fps": 24,
+  "bytes": 87907806,
+  "gates": {
+    "duration_frames": "PASS",
+    "loudness": {"integrated_lufs": -14.35, "true_peak_dbtp": -2.2, "lra": 4.5, "verdict": "PASS"},
+    "luma": {"samples": 952, "min_yavg": 15.77, "min_at_s": 218.25, "frames_below_20": 1, "mean_yavg": 70.06, "verdict": "PASS"},
+    "edit_grammar": {"classes": 4, "cut": 26, "dissolve": 6, "blur": 4, "motion": 3, "hard_cut_share": 0.667, "verdict": "PASS"},
+    "typography": "PASS (title 2.5s serif soft-shadow, end credit 236.5s)",
+    "r4_cloud_figure": "PASS (30.4/34.0/37.0s native frames clean)",
+    "r5_tail_craft": "PASS (218.5s cassette macro, crushed blacks, grain)"
+  },
+  "defects_hard": [
+    {"id": "V7-1", "shot": "S2-10/S2-11 53.417-63.667s", "issue": "colour/detail discontinuity: amber-cast, no blue sky, softer than neighbours, breaks Xingqing-GRADE-v1 gold-blue pairing", "fix": "reburn S2-10/S2-11 with matched composition (preferred) or local grade compensation -> v8"},
+    {"id": "V7-2", "shot": "232.0s", "issue": "unreadable pseudo-handwriting still on paper (V2-R3 carry-over)", "fix": "real readable handwriting or fully abstracted strokes"}
+  ],
+  "defects_soft": [
+    {"id": "V7-3", "shot": "119.0s", "issue": "hand silhouette pointing at star reads faint on phone (YAVG 35.6)", "fix": "+0.02 brightness, star +1 IRE"},
+    {"id": "V7-4", "shot": "232-236.5s", "issue": "dense pinhole texture on wooden box may read as AI artefact", "fix": "soften or swap flat surface"}
+  ],
+  "verdict": "REVISE",
+  "gated_master": "v5",
+  "ceo_address": false,
+  "excerpt": "media/mv-album-001-jay/assembly-packB/XQ-PACKB-EXCERPT-42s-v7-c2164.mp4",
+  "excerpt_note": "internal review only, not for delivery",
+  "board": "media/mv-album-001-jay/assembly-packB/XQ-PACKB-v7-DIRECTOR-BOARD-c2164.jpg",
+  "next": "reburn or grade-compensate S2-10/S2-11 + fix 232s handwriting -> assemble v8 -> DIRECTOR-REVIEW-PACKB-V8"
+}
