@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿﻿# PATROL-FLEET LOG — 巡视席舰队轮班日志
+﻿﻿﻿﻿# PATROL-FLEET LOG — 巡视席舰队轮班日志
 ﻿﻿﻿﻿# PATROL-FLEET LOG — 巡视席舰队轮班日志
 
 > 每班一行：时刻 | 域 | 班型（digest/旗班） | 调用面 | verdict+行动。证据面=P-1/P-2/P-3 SLI。
@@ -1101,3 +1101,7 @@
 2026-10-20 19:19:02 | bigstream | digest | L1-local | 域日报产出（零云端 token）
 2026-10-20 19:28:01 | group | digest | L1-local | 域日报产出（零云端 token）
 2026-10-24 00:15 | biggame | 旗班R2 | 调用29·L1零云端（传感全复用：git 分支/tick 台账/计划任务/包体记录直读，心跳未重测） | 触发 c.json stale 4661min 实核=**真旗非传感噪声**：master fold 链自 10-20 18:26 断更（b.json ts 10-20T17:31 / c.json ts 10-20T18:02，对照 A 机 a.json 00:09 新鲜）+ origin/machine/C tip 仍停 10-20 21:29；产品面全绿（pipeline 7/7 PASS·13 款包体全 PASS main 最大 3,768,303B·WIP 在途 3<5·B1 六章 4K 6/6 齐）→ NJ 三行落 PATROL-FLEET/biggame-NEED-JUDGMENT.md（fold 链机制·machine/C 发布面·RedlineAudit 3 天无绿证）；真旗未 snooze；域观察含 DEADLINES.md 乱码不可读 + 8 域巡视任务 Disabled
+
+2026-10-24 00:20 | group | 巡检R2 | 调用12（本地35B判官5min超时->席内实证判） | 旗=DEADLINES W1 同签噪声（前三班已裁+snooze续24h；10-23 23:25 已重派） | 升级3件：token台账断更11d（LEDGER mtime 10-13）/ DEADLINES L22回访9d未落地+旗面滞后3.6d / 记忆双帽4d未统一（46.8KB既超L0帽又合全量帽） | 新件1：selfaudit 只有报告无自动载体（mtime 10-20 15:48·零计划任务） | 品牌/法熵两面 OK | NJ 正身=PATROL-FLEET/group-NEED-JUDGMENT.md
+
+2026-10-24 00:56 | biggame | 旗班R3 | 调用11·L1本地判读·云端0（git 分支/tick/计划任务/包体记录/产线证据直读，心跳未重测） | 同一 sig 第三轮 c.json stale 4706min：**R2-1 fold 链已自愈结案**（X2709 00:39:30 chore / 00:41:16 fold-B +101 / 00:43:54 closeout，fleet 目录 00:41:16 入 24h）；旗源收窄为 **machine/C 心跳发布器自 10-20 18:02 停写 3.27d**（C tip e26217e08 00:32:26 活着=C2159 PACK-B v5 closeout，坏的是发布面非计算面）；B 机 b.json 10-23T00:21 + tip 10-23 00:29 静默 24.4h=物理离线零催办；a.json 00:47 新鲜 | 雷达全绿：PipelineGate 00:26 Result=0·pipeline 7/7 PASS·13/13 包体 PASS viol=0（main 余 426KB 起）·WIP 3<5·B1 4K 6/6·RedlineAudit 仍 10-21 Result=1 候 02:46 | 真旗未 snooze | 新瑕 1：production-queue.json PS5.1 需 -Encoding UTF8 才可解析 | NJ 追加 R3 至 PATROL-FLEET/biggame-NEED-JUDGMENT.md

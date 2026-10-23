@@ -32,3 +32,38 @@
 - **DEADLINES.md 已不可读**：`cph4/fleet/dispatcher/CEO-PROXY/DEADLINES.md` 自 10-20 06:08 未更新，且正文为双重编码乱码（UTF-8 BOM 文件内嵌 GBK 字节痕迹），biggame 无 at-risk 行但"③ 提审硬门链 at-risk"判据实为盲读；建议 group 横切席修编码而非重写内容。
 - **巡视面缺口（交 group 横切）**：HQ-Patrol-* 十域中 8 域 Disabled（CPH4/BigStream/BigDomain/BigCompute/BigMoney/BigLife/BigHouse/FluxVerse，均停在 10-20/21），仅 biggame + group 在跑 → 其余域已 ~3 天无巡视班。
 - **出包约束**：preflight 报 `editors=1`（Tuanjie 编辑器占用）→ 家庭版 Android 出包（ENG-001/002）在关编辑器或走 D 盘独立副本前仍不可执行。
+
+---
+
+# R3 复核（biggame 巡视席 · 2026-10-24 00:52-01:0x · 只读只议）
+
+> 触发旗：`gaming/MiniGame/Design/configs/GLOBAL/fleet/c.json: stale 4706min > 150min (weak git-copy sensor)`（R2 时 4661min，45min 后 +45 → 同一 sig 第三轮）
+> 结论：**R2-1（fold 链断更）已自愈结案；旗仍为真但旗源收窄为「machine/C 心跳发布器停写」；不 snooze。**
+
+## NJ[biggame#R3-1] 承 R2-2（未决）：machine/C 心跳发布面停写 3.27 天，而 C 机计算面正常
+- 事实：`origin/machine/C:Design/configs/GLOBAL/fleet/c.json` 自身 `ts=2026-10-20T18:02:13` —— **即使 fold 已恢复通路，该文件内容仍是 10-20**，故本旗与 fold 节奏无关，会无限复燃。
+- C 机活着（证）：`origin/machine/C` tip=`e26217e08 2026-10-24 00:32:26 C2159: PACK-B v5 closeout ...`，比 R2 记录的 `e8eb75bf8 10-20 21:29:36` 前进 1 笔 → bm-c 计算/提交面正常，坏的只是 fleet 心跳写面。
+- R2-1 建议②现在有最强实证：C tip 00:32 新鲜 vs c.json 3.27 天陈旧 → 弱传感退化为读 `origin/machine/{B,C}` tip 提交时间即可消除误报并保住可见性。
+- 判据：`origin/machine/C:Design/configs/GLOBAL/fleet/c.json` 的 ts 进入 24h 内，或本旗不再复燃。
+
+## NJ[biggame#R3-2] R2-1 结案：fold 链已由 EngineTick X2709 于 00:39-00:43 补跑
+- 证据：`4287fcbeb 2026-10-24 00:41:16 X2709 fold-B: merge machine/B (+101 commits)`／`9d0d3b4c0 00:39:30 pre-fold chore`／master `267501922 00:43:54 X2709 closeout ... tick-20261024-0046`；`Design/configs/GLOBAL/fleet` 目录最新提交落在 24h 内（R2-1 判据①满足）。
+- 现状态：`b.json ts=2026-10-23T00:21:16`（已随 fold 前移一天）、`a.json ts=2026-10-24T00:47:12`（本机采集正常）。
+- 遗留：B 机 `origin/machine/B` tip=`5916db963 2026-10-23 00:29:58` → 静默 ~24.4h，与 bm-b 物理离线（tailscale 不在线）一致 = **物理件，零催办、不升级**。
+
+## R3 域雷达复核（六项，传感复用 + 增量直读）
+| 检项 | 结果 |
+|---|---|
+| ① 门禁链 | `MiniGame-PipelineGate` Last=00:26:01 **Result=0** Next=00:56；`pipeline-20261024-002601` 28s **7/7 PASS**（scenes-4k 6/6、audio 49 文件 delta=0.01 最大 0.32、ui-kit 12.44/22.21、preflight crash_streak=0 idle_streak=0）。`MiniGameRedlineAudit` 仍 Last=10-21 08:46 **Result=1** Next=02:46 → R2-3 无变化，非新增 |
+| ② 包体四值 | 13/13 packagerecords **result=PASS · violationCount=0**，main 最大 G04 3,768,303B/4,194,304B（余 426,001B）、最小余量 G12 452,216B；data 子包 0.92–9.20MB 摆位正常；全部 totalWithin30MB=true |
+| ③ 提审硬门链 | `CEOPROXY/DEADLINES.md` mtime 仍 **2026-10-20 06:08**、正文双重编码乱码 → at-risk 判据仍盲读（R2 已交 group 席，本轮不重复升级） |
+| ④ WIP 上限 | production-queue in_progress=**3**（ENG-003 · ART-B2-01 · ART-B1-03）< 5；blocked=3（PROD-006 · ENG-001 · ENG-005）；ENG-001 仍阻于编辑器占用（与 preflight `editors=1` 一致） |
+| ⑤ 产线批健康 | 见①；00:40:31 包体记录全量刷新，无陈旧假 DONE |
+| ⑥ 新立项四问 | 零新增立项（WIP 未达上限、无新标题），无适用对象 |
+| ⑦ 资产批合规 | B1 六章 4K **6/6 齐**；ui-kit 层数 11/16、meanAbsDiff 12.44/22.21 均在闸内 |
+
+## 工具小瑕（新发现·留痕不代改）
+- `docs/family/production-queue.json` 在 PS5.1 下 `Get-Content -Raw | ConvertFrom-Json` 解析失败（报 677 行无效），须 `-Encoding UTF8`；建议 QA 车道修读取路径（本席未改他司文件）。
+
+## 纪律面
+未 snooze（真机制缺口）·未 poke（无停摆需唤醒，B 机属物理离线）·未直写 orders/decisions/POOL·未碰产品代码与场景 YAML·未重测 L0/IdleWatch 已测面。
