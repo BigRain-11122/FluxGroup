@@ -1516,7 +1516,7 @@
   },
   {
    "id": "kn-packA-i2v-768p-wave-c2168",
-   "status": "pending",
+   "status": "claimed",
    "priority": 65,
    "auth": "KN i2v 480P verify verdict GO (KN-I2V-VERIFY480-VERDICT-20261024) — the 768P wave is the station-3 deliverable of O-20261023-2325 for the 可爱女人 pack.",
    "require": {
@@ -1534,7 +1534,51 @@
    ],
    "log_out": "media/mv-album-001-jay/logs/kn_i2v_768p_wave.out.log",
    "log_err": "media/mv-album-001-jay/logs/kn_i2v_768p_wave.err.log",
-   "note": "KN 30-unit 768P production wave (1344x768 int8, first_frame = the C2166 signed KN frames, prompt rev v3.0 for KN04 / v2.8-v2.9 for the rest). PASS gate = ALBUM LANE DONE ok=30 fail=0 in the log tail. Long burn (~3h) => run via the self-healing loop; SKIP is idempotent so a restart resumes. No native audio (CEO audio ban)."
+   "note": "KN 30-unit 768P production wave (1344x768 int8, first_frame = the C2166 signed KN frames, prompt rev v3.0 for KN04 / v2.8-v2.9 for the rest). PASS gate = ALBUM LANE DONE ok=30 fail=0 in the log tail. Long burn (~3h) => run via the self-healing loop; SKIP is idempotent so a restart resumes. No native audio (CEO audio ban).",
+   "claimed_ts": "2026-10-24T05:50:59"
+  },
+  {
+   "id": "kn-pa768-harvest-c2169",
+   "status": "pending",
+   "priority": 66,
+   "auth": "station-3 gate for the KN A pack: the 30-unit 768P wave is burning (job 65), and its output is unread until every clip is probed, duplicate-run checked and sampled.",
+   "require": {
+    "files_at_least": [
+     [
+      "media/mv-album-001-jay/clips-local-768",
+      "KN_A-KN30.mp4",
+      1
+     ]
+    ]
+   },
+   "cmd": [
+    "D:\\ComfyUI\\python_embeded\\python.exe",
+    "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\mv-album-001-jay\\kn_pa768_harvest_c2169.py"
+   ],
+   "log_out": "media/mv-album-001-jay/logs/kn_pa768_harvest.out.log",
+   "log_err": "media/mv-album-001-jay/logs/kn_pa768_harvest.err.log",
+   "note": "Zero GPU. Waits for ALBUM LANE DONE (or 30 stable clips), then per unit: ffprobe, framemd5 duplicate run, three native frames, two 5-column boards, verdict JSON KN-PA768-HARVEST-c2169.json. PASS gate = HARVEST-END ok=30 check=0.",
+   "created_ts": "2026-10-24 06:1x"
+  },
+  {
+   "id": "kn-pa-station4-conform-author-c2169",
+   "status": "pending",
+   "priority": 67,
+   "auth": "O-20261023-2325 station 4 follows the 768P pass: the KN A pack needs a conform (windows from the pack manifest) before the director can read motion across cuts.",
+   "require": {
+    "files_at_least": [
+     [
+      "cph4/fleet/mv-album-001-jay",
+      "KN-PA768-HARVEST-c2169.json",
+      1
+     ]
+    ]
+   },
+   "cmd": [],
+   "log_out": "media/mv-album-001-jay/logs/kn_pa_conform.out.log",
+   "log_err": "media/mv-album-001-jay/logs/kn_pa_conform.err.log",
+   "note": "Authoring job (no GPU): build the KN A conform from the verified pack manifest windows onto clips-local-768, 960px review proxy plus a cut strip board. Only start when the harvest verdict is PASS; the window table must be re-derived from the pack, not hand typed.",
+   "created_ts": "2026-10-24 06:1x"
   }
  ]
 }
