@@ -320,8 +320,14 @@
 - **步8 cron 自检**：本席 0770c2df（43 */2）+9632cee5（43 2,5,8,12,15,18,21,23）双 recurring 在位（详见 cron_list 实测行，下附）。
 - **回执扫描锚点**=orders 尾 2026-10-20 00:32 R2.26 事件班承载触发双行（V5.11 处置+W1 翻行单）后零新行。
 - **行动**：DEADLINES R2.27 注记+RESULTS-LEDGER V5.11 行+LOG 本块（单批原子推·expect 守卫+反转闸）；零落单零 poke；锁收口。
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
->>>>>>> Stashed changes
-<<<<<<<
+## Round R2.28（2026-10-24 00:0x-00:3x）事件班·承载件触发（HQ-CEOProxyEventCarrier 00:01:07 发车 pid=83336）
+- **触发现**：`PROBE-DOWN: probe-current.json stale >2h`（实测快照 proxy-probe-current.json 冻结于 2026-10-21 10:56:05，age≈85h，远超阈值）。
+- **步0 锁门**：锁 mtime=10-20 06:08（陈锁 110h）→ 本窗接管，00:01:33 touch；班毕 00:3x 复 touch 收口。
+- **根因（单点）**：`HQ-MA-ProxyProbe` 自 2026-10-21 10:56 起为 **Disabled**（Missed=244）——系 10-21 10:5x「87 条自建任务全 Disabled」合规清理批连带停摆，10-23 23:40 解锁令恢复 79 条 Ready 时**漏项**（该任务不在刻意保留停用名单内：Bili 五条/OpenClaw 三条/LocalOnlyOn/厂商自更新）。快照因此冻结 3 天，载体 00:01 轮如实报 PROBE-DOWN。
+- **处置（本机·零跨机依赖·零落单零 poke）**：Enable-ScheduledTask + 即时点火 → LastRun **00:02:45 result=0**，快照与 proxy-probe-heartbeat 同刻刷新；State=Ready，NextRun 00:11:03 维持 PT1H。
+- **二次发现（探针复位当刻如实报出）**：`PROXY-SILENT-DEATH: CEO-PROXY/LOG.md age 78.1h`——即 10-20 17:58 后无班志写入。根因=本席班表为 durable cron（仅 REPL idle 触发），叠加 10-21..10-23 会话空窗，**非进程死亡**；本班 R2.28 写入即消除该警。
+- **三次发现**：班志尾部残留 **5 行未清除的 autostash 冲突标记**（`<<<<<<< Updated upstream`×2 / `>>>>>>> Stashed changes`×2 / 孤悬 `<<<<<<<`×1，源自 commit 8818a92b「killed-autostash 冲突抢救批」且已随提交入链）→ 外科删除正文零改（327→322 行，-5）。**编码核验澄清**：全文为有效 UTF-8（328/328 行严格解码通过，0 个 U+FFFD），此前读出的"乱码"仅为控制台渲染，**非文件损坏**（避免了一次无谓的文件重写）。
+- **S4U 合规面**：HQ-MA-ProxyProbe / HQ-CEOProxyEventCarrier 均 `LogonType=Interactive`（违 2026-09-29 机队律「本机一切车道任务一律 S4U」）。进程内 Set-ScheduledTask 转 S4U 被 UAC 拒绝（非提权会话，符合注册器既有记载）→ 任务本体零改（复核 Ready+隐藏链 InvisibleRunner.vbs 在位+NextRun 正常）→ 按注册器既定路径落 `Tools/task-s4u-backlog.md` 两行候提权；XML 备份 `Tools/task-xml-backup-*-20261024-000427.xml`。
+- **保留停用面（零动作·非本班漏项）**：bm-a-Bili* 五条（账号安全红线）｜HQ-OpenClaw* 三条｜HQ-LocalOnlyOn｜HQ-Patrol-BigCompute/BigDomain/BigHouse/BigLife/BigMoney/BigStream/CPH4/FluxVerse 八条（LLM 判断面，fit 10-20 T0 停云令 §八「无人值守 LLM 判断面暂停」）｜账号连结 QuarkUpdater + SoftLanding 两条（厂商自更新）。
+- **回访探针（v3）**：已下 cron 一次性 +90min 复探（复核面=①探针 00:11 轮 alarms 复归空 ②载体 00:06 轮零 PROBE 旗 ③LOG age 回落 <26h）。
+- **四元组**：**00:3x｜事件班｜31 调用（正文写入时点；含收口推送复核共约 34）｜verdict=PROBE-DOWN 根因治理完成（Disabled 漏项→恢复+点火实证），PROXY-SILENT-DEATH 以本行写入消除，尾部冲突垃圾清零；零落单零 poke（无跨机依赖），S4U 两行入 backlog 候提权**。
