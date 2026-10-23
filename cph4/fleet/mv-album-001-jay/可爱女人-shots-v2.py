@@ -4,9 +4,10 @@
 # v2.2=复审残余清零（PANEL-REGATE-V3 §五）：city_bowl 补 aged signboards/GRADE 2001→2000 本地覆写/KN09 手持生活流
 # v2.3=CEO 服装师令（2026-10-12 00:0x「服装师也要介入，毕竟是明星拍MV，你这衣服太低调了，要符合那个年代的流行！」）：HIM 常量升 2000 台式流行层次（水洗牛仔外套+图案T+宽松直筒+银链+皮绳手环·反韩化宽松剪裁不破）+KN08 她的窗内造型（条纹针织+串珠+铁刘海）·4 HIM 镜+KN08 同种子重摇（KN02/03/08/09/23）
 # v2.4=CEO 歌词意象令（2026-10-12 00:2x「歌词有直升机你就真出现一个直升机？？…MV能这么俗吗？」）：KN05 删真直升机→探照光柱意象（想要飞的渴望=城市之光托举·LYRIC-IMAGERY-LAW）；KN29 渲染翻车修正（模型把纸机画成真客机·词面强化 hand-folded/thin notebook-paper 小感）·两帧同种子重摇
+# v2.7=C2166 首帧闸 F1-F8 修复（FRAME-GATE-v1·机队重跑令 O-20261023-2325）：KN25 F8 硬失败修=两灯分居画面左右（她暖窗单一盏左端+对侧冷白路灯辉右端·中间留城），KN24 F6 灰区修=面肤自然纹理+哑光唇，KN20b F8 修=机首朝下俯冲+下坠尘迹；三帧同种子偏移重摇（lint 三名单零命中·词数 135/192/149）
 # v2.6=PROMPT-GATE-L2 签发并入（2026-10-18·评审件=PROMPT-GATE-可爱女人-KF-PACK-A-v1-L2.md·审=独立席/签=导演席）：F-1 KN06 tex=film_night 补档/F-2 KN02 铁皮+发型句/F-3 KN09 发型句/F-4 KN23 发型句/F-7 city_bowl 尾句=low-rise 2000 Taipei skyline（受益 10 帧）/F-8 KN22b 铁皮/F-9① KN25 她窗+城钠对位/F-29 KN29 红尾机 HER_PLANE 词面回锚（cream+dipped in red）
 # v2.5=四闸预检+调色师席 10-12 修项：KN24 造型统一 KN08（条纹针织+串珠·场内连续律）+KN08 i2v 补串珠手链+KN05 银蓝月晕锚（city_moon 光块·帧重摇）
-# 权威=可爱女人-剧本-v3.md（创作核心：纸飞机投掷-归返弧）+ RESEARCH-mv-craft-80s-90s-00s（§一/三/六 可爱女人行）
+# 权威=可爱女人-剧本-v1.md（创作核心：纸飞机投掷-归返弧）+ RESEARCH-mv-craft-80s-90s-00s（§一/三/六 可爱女人行）
 # 词级锚点=anchors/可爱女人.txt（whisper 2026-10-10 实测·词行至 236.30）·film=song 对齐·0-239.03（ffprobe 判决一实证·尾窗对齐歌长）
 # 长期律：匀速判负（掷出快/穿云极缓·逐镜变速）/做旧克制（5279 黄昏蓝调+夜段·台式奶黑）/禁看镜头（她=远景/剪影/灯窗·KN24 灯窗内初见=唯一露脸）
 #   物质转场（云层吞机/星尘化开/灯如星互映）/叠化全片仅一处=机影融进银河（XF_T2=KN20 内 1-2s=24-48 帧）/AIGC 开门帧标识/定格收口（80s 惯用件·RESEARCH §三）
@@ -74,7 +75,7 @@ CM = LX.CAM_MOVE
 NEW = [
     # ---- 前奏 0-30.14（天台叠机→掷出·黄昏蓝调段=5279 补档·判决二年1）----
     ("KN01", 0.00, 6.50, 0.90, "他叠机（手部特写）",
-     kf("cu", "high", "hands folding %s on a rooftop ledge, the creases pressed flat one by one, the dusk city soft below" % PLANE, "roof_dusk", lens="50", tex="film_night"),
+     kf("cu", "high", "two hands folding %s on a rooftop ledge, five fingers clearly separated on each hand, the thumb and index finger pinching the wing edge, knuckle creases visible, the creases pressed flat one by one, the dusk city soft below" % PLANE, "roof_dusk", lens="50", tex="film_night"),
      i2v("A close-up from a high angle", CM["slide"],
          "Hands folding a white paper plane on a rooftop ledge at dusk, each crease pressed flat in turn, the paper catching the last light")),
     ("KN02", 6.50, 13.00, 0.95, "天台全景（水塔/晾衣绳·城在脚下）",
@@ -84,7 +85,7 @@ NEW = [
      kf("cu", "eye", "%s at the parapet edge holding %s back by its tail, his eyes on the sky above the city, the wind in his fringe" % (HIM, PLANE), "roof_dusk", lens="50", tex="film_night"),
      i2v("A close-up at eye level", CM["pushin"], "A young man at a rooftop parapet holding a white paper plane back by its tail, the dusk city far below, his fringe moved by the rising wind")),
     ("KN04", 22.00, 30.14, 1.20, "掷出（burst 快）",
-     kf("cu", "eye", "the throw: %s just released from a follow-through hand, the rooftop ledge and water tower streaking past below" % PLANE, "roof_dusk", lens="50", tex="film_night"),
+     kf("cu", "eye", "the throw: %s just released from a follow-through hand, the thrower's open hand with five separated fingers still in frame at the lower right, the wrist following through, a faint motion streak just behind the wing, the rooftop ledge and water tower streaking past below" % PLANE, "roof_dusk", lens="50", tex="film_night"),
      i2v("A close-up at eye level", CM["track"], "A white paper plane flashing up off a rooftop into the dusk sky, the hand still open in its follow-through, the water tower sliding past below")),
 
     # ---- 主歌 30.14-55.66（直升机/升空/她的灯窗/让我碰到你）----
@@ -141,7 +142,7 @@ NEW = [
      kf("cu", "eye", "%s dissolving softly into the star stream, its silhouette thinning into light, the fold lines of the paper becoming threads of star dust" % PLANE, "galaxy_gold", lens="85", tex="film_night"),
      i2v("A close-up at eye level", CM["static"], "A paper plane dissolving softly into a stream of warm gold stars, its silhouette thinning into light until only the fold lines remain as threads of star dust")),
     ("KN20b", 134.92, 138.38, 0.90, "感谢地心引力=星尘逆引力折拢成纸机下坠（归返因果补·判决一立2）",
-     kf("med", "eye", "the warm gold star dust gathering back inward against its own drift, folding itself into the small sharp shape of a paper plane high above the far city lights, the shape tipping into a slow dive toward the streets", "galaxy_gold", lens="50", tex="film_night"),
+     kf("med", "eye", "the warm gold star dust gathering back inward against its own drift, folding itself into the small sharp shape of a paper plane high above the far city lights, its nose tilted down toward the streets below, the whole shape angled downhill in a slow dive, a faint streak of gold dust trailing above it", "galaxy_gold", lens="50", tex="film_night"),
      i2v("A medium shot at eye level", CM["static"], "The star dust drawing together into a paper plane shape, the shape leaning into a slow dive toward the city far below")),
     ("KN21", 141.34, 155.00, 0.92, "她的天台·红尾纸机停在檐上（13.66s 窗·15s 政策内单挂·判决二配1）",
      kf("cu", "eye", "%s resting on a rooftop ledge beside a warm-lit window, the red wing tip turned toward the light" % HER_PLANE, "warm_window", lens="50", tex="film_night"),
@@ -160,10 +161,10 @@ NEW = [
      kf("wide", "high", "%s sitting on the rooftop edge with his elbows on his knees, his thick black fringe lying flat over his eyebrows, looking across the whole night city, the water tower behind him" % HIM, "city_bowl", lens="35", tex="film_night"),
      i2v("A wide shot from a high angle", CM["cranedn"], "A young man sitting on a rooftop edge above the night city, elbows on knees, the whole bowl of lights below him, the camera easing down behind his stillness")),
     ("KN24", 174.46, 177.88, 0.87, "她的天台（仰·灯窗内初见=升 med 露脸投递·选A）",
-     kf("med", "eye", "the warm rooftop window from across the gap, %s inside the light, her long straight hair and gentle bright eyes visible for the first time, %s held to her chest" % (KN_HER, HER_PLANE), "warm_window", lens="85", tex="film_night"),
+     kf("med", "eye", "the warm rooftop window from across the gap, %s inside the light, her skin carrying fine natural texture and faint unevenness, her lips matte and soft, her long straight hair and gentle bright eyes visible for the first time, %s held to her chest" % (KN_HER, HER_PLANE), "warm_window", lens="85", tex="film_night"),
      i2v("A medium shot at eye level", CM["static"], "A girl inside a warm rooftop window holding a red-tipped paper plane to her chest, her eyes lifting slowly toward the stars, the window light breathing")),
     ("KN25", 177.88, 183.28, 1.00, "两灯之间的城（全力包含你）",
-     kf("ext", "eye", "the whole night city between the two rooftops, her one small warm window light on the far rooftop aligned across the frame with the sodium glow of the city, the streets a slow warm drift far below", "city_bowl", lens="24", tex="film_night"),
+     kf("ext", "eye", "a single small warm window light burning on one far rooftop at the left of the frame, a cold white street-lamp glow far across the city at the right of the frame, the whole night city bowl lying open between the two distant lights, the streets a slow warm drift far below", "city_bowl", lens="24", tex="film_night"),
      i2v("An extreme wide establishing shot at eye level", CM["static"], "A night city seen between two far warm lights aligned across the frame, the streets drifting below, the two lights holding their distance")),
 
     # ---- 尾奏 218.18-239.03（她答/相遇/归返定格收·判决一受3+配2·尾窗对齐歌长）----
@@ -260,7 +261,7 @@ if __name__ == "__main__":
     print("SELF-CHECK GREEN: lint_bad=0 | WINDOW GAPS=0 (0.00-%.2f 无空档无叠窗) | 时长断言 %d 镜全过（定格延窗豁免 %d 镜·源 5s）"
           % (FILM_END, len(NEW), freeze_n))
     md = ("# 《可爱女人》分镜表 v2.5（帧级·深研喂入·设计闸判决落地版·服装师令+四闸预检+调色师修项执法）\n\n"
-          "> 权威=可爱女人-剧本-v3.md（投掷-归返弧·v1.2 修订同步）+RESEARCH-mv-craft §一/三/六；词级锚点=anchors/可爱女人.txt（词行至 236.30）·片长 239.03=ffprobe 判决一实证·尾窗对齐歌长\n"
+          "> 权威=可爱女人-剧本-v1.md（投掷-归返弧·v1.2 修订同步）+RESEARCH-mv-craft §一/三/六；词级锚点=anchors/可爱女人.txt（词行至 236.30）·片长 239.03=ffprobe 判决一实证·尾窗对齐歌长\n"
           "> 发布话术红线：禁称复刻邝盛版分镜·徐若瑄/周杰伦真名禁入提示词与物料\n"
           "> 词曲双权：发布物料必挂『词曲著作权/录音制作者权授权中』注记（承 INDEX 五）\n"
           "> jman LoRA 挂载=mv_full_kf_r2.py L88 范式（jman_v1_640_rank32_final.safetensors）·strength 0.6-0.8 先网格（判决二可7）·含 HIM 镜自动继承触发词\n"

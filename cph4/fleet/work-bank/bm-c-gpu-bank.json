@@ -1437,7 +1437,7 @@
   },
   {
    "id": "packb-s107-r5-i2v",
-   "status": "pending",
+   "status": "done",
    "created_ts": "2026-10-24 01:54",
    "priority": 62,
    "auth": "R5 plate harvest C2162 (r5-1 s924075 passed the native cloud read); the shot still has to be re-burned on the new plate before v6 assembly.",
@@ -1466,7 +1466,36 @@
    "log_err": "media/mv-album-001-jay/log-packB-r5-s107-c2162.err.txt",
    "note": "R5 i2v for S1-07: 226 frames, 1344x768 int8, first_frame = the winning R5 plate, renewal seed family (id-MD5). PASS gate = ALBUM LANE DONE ok=1 fail=0 in the log tail + clips-local-768/XQ_B-S1-07-r5a.mp4 >= 100KB + ffprobe decode-clean 226f. Harvest next round: native read (cloud stays weather, no body read, riders do not duplicate) -> paste into the assembly map -> v6 -> director film review.",
    "prestow_ts": "2026-10-24T01:57:00",
-   "prestow_note": "C2162 pre-stow (bank law: never empty) right after the plate harvest."
+   "prestow_note": "C2162 pre-stow (bank law: never empty) right after the plate harvest.",
+   "claimed_ts": "2026-10-24T01:55:59",
+   "done_ts": "2026-10-24T02:15:09",
+   "done_note": "CLOSED by C2166 bookkeeping: the R5 i2v burned in C2162-2163 and was harvested at 02:15:09 (clips-local-768/XQ_B-S1-07-r5a.mp4, 1,622,901B, 226 frames); R5-VERDICT-c2163 records the take, and xq-PACKB-ASSEMBLY-INDEX-v8-c2165.json lists XQ_B-S1-07-r5a in the cut. The claim line was left open only because the harvest folded into the assembly rounds."
+  },
+  {
+   "id": "kn-packA-i2v-promptgate-c2167",
+   "status": "pending",
+   "priority": 63,
+   "auth": "C2166 frame gate: KN KF PACK-A signed frame-by-frame; the next station per O-20261023-2325 is station 2 (prompt) then station 3 (480P trial then 768P).",
+   "require": {
+    "files_at_least": []
+   },
+   "cmd": [],
+   "log_out": "media/mv-album-001-jay/logs/kn_i2v_promptgate.out.log",
+   "log_err": "media/mv-album-001-jay/logs/kn_i2v_promptgate.err.log",
+   "note": "ZERO-GPU authoring job. Author the KN i2v prompt gate the same way the Xingqing pack A gate was authored (PROMPT-GATE-<song>-i2v-PACK-A-v1-B1..B4 + SIGN): one row per shot, judged on the i2v faces (A1 five-slot order 40-90 words / A2 identity carried by the frame / B1 zero negation / D1 first-frame extension / E5 micro-motion source / F1 prop conservation / K2 adjacent-shot handoff), and every prompt must pass Tools/preflight_gate.py guard(shot_id, prompt_text, tokens, kf_verified=True, kf_note=<C2166 gate id>) with an EMPTY list before submission. Then emit the manifest for cph4/fleet/mv-album-001-jay/local-i2v/h3_i2v_album.py (--manifest + --only), one unit per shot, first_frame = the signed KN_KN*.png, duration from the SHOTLIST window. PASS gate = prompt-gate doc + SIGN row on disk + guard() empty for every unit + manifest json + 480P verification slice listed."
+  },
+  {
+   "id": "kn-packA-i2v-480p-verify-c2167",
+   "status": "pending",
+   "priority": 64,
+   "auth": "Pre-stowed per the producer law (the bank must never be empty at closeout). Gated on the prompt-gate job: no burn before guard() is empty.",
+   "require": {
+    "files_at_least": []
+   },
+   "cmd": [],
+   "log_out": "media/mv-album-001-jay/logs/kn_i2v_verify480.out.log",
+   "log_err": "media/mv-album-001-jay/logs/kn_i2v_verify480.err.log",
+   "note": "480P verification slice for the KN pack: 3 representative shots (one close-up KN21, one two-hand/action KN04, one wide KN22b) at 672x384 int4, lane=bmcverify style out dir so a 480P file can never be read as a production clip. Read motion realism, identity drift and zero-collapse before any 768P wave. PASS gate = 3 clips decoded clean + a written verdict naming GO for 768P or the shot that needs a prompt fix. No native audio anywhere (CEO audio ban)."
   }
  ]
 }
