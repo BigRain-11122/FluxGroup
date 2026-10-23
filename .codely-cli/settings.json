@@ -1,5 +1,12 @@
 {
   "autoEditMemory": true,
-  "mcpServers": {},
+  "mcpServers": {
+    "TJGenerators": {
+      "httpUrl": "https://ai-generator.tuanjie.cn/mcp"
+    },
+    "radar-daily": {
+      "httpUrl": "http://127.0.0.1:3101/api/mcp"
+    }
+  },
   "model": "codely-core"
 }

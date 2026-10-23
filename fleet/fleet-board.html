@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8"><title>FluxGroup Fleet Board</title>
+<style>
+body{background:#0d1117;color:#c9d1d9;font-family:'Segoe UI',system-ui,sans-serif;margin:0;padding:20px}
+h1{font-size:18px;color:#e6edf3;margin:0 0 4px}
+.meta{color:#8b949e;font-size:12px;margin-bottom:14px}
+.card{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:12px;margin-bottom:10px}
+.g{color:#3fb950}.r{color:#f85149}.y{color:#d29922}.dim{color:#8b949e;font-size:12px}
+table{border-collapse:collapse;width:100%;font-size:13px}
+td,th{padding:4px 8px;border-bottom:1px solid #21262d;text-align:left;vertical-align:top}
+th{color:#8b949e;font-weight:600;width:110px}
+code{color:#79c0ff;word-break:break-all}
+.ok{color:#3fb950;font-weight:700}
+</style></head><body>
+<h1>FluxGroup Fleet Board</h1>
+<div class="meta" id="meta"></div>
+<div id="cards"></div>
+<h1 style="margin-top:16px">Last Order</h1>
+<div class="card"><code id="ord"></code></div>
+<h1>Dispatch Log (tail)</h1>
+<div class="card"><code id="disp"></code></div>
+<h1>Alerts (tail)</h1>
+<div class="card"><code id="alerts"></code></div>
+<script>
+var DATA = {"node_count":3,"alerts":["{\"ts\":\"2026-10-21 10:48:04\",\"src\":\"disk-sentinel\",\"type\":\"disk-warn\",\"detail\":\"free=648.8GB ladder 500/620/700 - class-A trimmed this cycle\"}","{\"ts\":\"2026-10-21 10:49:37\",\"src\":\"integrity-sentinel\",\"type\":\"sched-disabled\",\"detail\":\"BigCompute-ResidentQA\"}","{\"ts\":\"2026-10-21 10:53:04\",\"src\":\"disk-sentinel\",\"type\":\"disk-warn\",\"detail\":\"free=646.8GB ladder 500/620/700 - class-A trimmed this cycle\"}","{\"ts\":\"2026-10-21 10:58:04\",\"src\":\"disk-sentinel\",\"type\":\"disk-warn\",\"detail\":\"free=646.3GB ladder 500/620/700 - class-A trimmed this cycle\"}","{\"ts\":\"2026-10-21 11:03:04\",\"src\":\"disk-sentinel\",\"type\":\"disk-warn\",\"detail\":\"free=648.2GB ladder 500/620/700 - class-A trimmed this cycle\"}"],"online_count":0,"generated":"2026-10-21 20:07:10","last_order":"| 2026-10-21 18:2x（校时 18:2x） | CEO 令（原话）「我就是这个意思，MACBOOK转转上面的应该没问题」——确认席 18:1x 呈报三项方案：①bm-a 监控组件**不卸载不动**（Workplace 注册+Intune 组件+微步 ThreatBook EDR+Dasheng 根证书=公司可见态如实在册）；②MacBook 采购=**转转渠道·预算 ¥6700·14寸 M1 Pro 32G**（行情=闲鱼个人成交 5770-5950/转转质保商 5800-6200·预算有余量）；③敏感面迁移方向=Mac 到手后凭据索引/运营资料/财务台账优先离 bm-a·bm-a 只留纯执行件（清单候 Mac 到手出·本窗零迁移动作） | **recorded·采购路线定谳（未下单·CEO 自购）**：①**验机三闸不因转转免走**（席直言谏议权：商家质检≠无企业锁——柜台...","dispatch":["{\"line\":\"DISPATCH reason=order-sentinel nodes=3 ok=3 fail=0 sha=bfbdb020\",\"sha\":\"bfbdb02038eb4aff6d8077e047cf3401c61c090d\",\"nodes\":[{\"detail\":\"accepted\",\"ok\":true,\"node\":\"bm-a\",\"sync\":\"SYNCED 2s\"},{\"detail\":\"accepted\",\"ok\":true,\"node\":\"bm-b\",\"sync\":\"SYNCED 47s\"},{\"detail\":\"accepted\",\"ok\":true,\"node\":\"bm-c\",\"sync\":\"SYNCED 12s\"}],\"reason\":\"order-sentinel\",\"ts\":\"2026-10-18T22:47:59\"}","{\"line\":\"DISPATCH reason=T0 cloud-off: pull guard commit nodes=3 ok=3 fail=0 sha=575c10c4\",\"sha\":\"575c10c4c7be583ff3a9d18d4e5961acc81687a9\",\"nodes\":[{\"detail\":\"accepted\",\"ok\":true,\"node\":\"bm-a\",\"sync\":\"SYNCED 9s\"},{\"detail\":\"accepted\",\"ok\":true,\"node\":\"bm-b\",\"sync\":\"SYNCED 13s\"},{\"detail\":\"accepted\",\"ok\":true,\"node\":\"bm-c\",\"sync\":\"SYNCED 7s\"}],\"reason\":\"T0 cloud-off: pull guard commit\",\"ts\":\"2026-10-20T18:58:19\"}","{\"line\":\"DISPATCH reason=readonly-probe nodes=3 ok=0 fail=3 sha=0a7dd875\",\"sha\":\"0a7dd87508d30dddbdd49cf4d302dc0b12cc3740\",\"nodes\":[{\"detail\":\"Unable to connect to the remote server\",\"ok\":false,\"node\":\"bm-a\",\"sync\":\"\"},{\"detail\":\"操作超时\",\"ok\":false,\"node\":\"bm-b\",\"sync\":\"\"},{\"detail\":\"操作超时\",\"ok\":false,\"node\":\"bm-c\",\"sync\":\"\"}],\"reason\":\"readonly-probe\",\"ts\":\"2026-10-21T13:48:09\"}"],"states":[{"id":"bm-a","health":"","disk":"","ram":"","cpu":"","lane":"hq-central-night-gpu","pull":"","status":"","gpu":"","head":"","note":"health-fail 无法连接到远程服务器 | status-fail 无法连接到远程服务器","online":false,"ip":"127.0.0.1"},{"id":"bm-b","health":"","disk":"","ram":"","cpu":"","lane":"cpu-sound","pull":"","status":"","gpu":"","head":"","note":"health-fail The operation has timed out. | status-fail The operation has timed out.","online":false,"ip":"100.82.175.0"},{"id":"bm-c","health":"","disk":"","ram":"","cpu":"","lane":"gpu-production","pull":"","status":"","gpu":"","head":"","note":"health-fail The operation has timed out. | status-fail The operation has timed out.","online":false,"ip":"100.123.74.104"}]};
+var CARD = {};
+document.getElementById('meta').textContent = 'generated ' + DATA.generated + ' | nodes ' + DATA.node_count + ' | online ' + DATA.online_count;
+var cards = '';
+DATA.states.forEach(function(s){
+  var on = s.online ? '<span class="ok">ONLINE</span>' : '<span class="r">OFFLINE</span>';
+  cards += '<div class="card"><table>' +
+    '<tr><th>' + s.id + ' (' + s.lane + ')</th><td>' + on + ' <span class="dim">ip ' + s.ip + '</span></td></tr>' +
+    '<tr><th>\u72b6\u6001(status)</th><td><code>' + (s.status || '-') + '</code></td></tr>' +
+    '<tr><th>\u5fc3\u8df3(health)</th><td><code>' + (s.health || '-') + '</code></td></tr>' +
+    '<tr><th>\u5934(HEAD)</th><td><code>' + (s.head || '-') + '</code></td></tr>' +
+    '<tr><th>\u62c9\u53d6(pull)</th><td><code>' + (s.pull || '-') + '</code></td></tr>' +
+    '<tr><th>\u8d44\u6e90(res)</th><td><span class="dim">' + (s.ram ? 'ram ' + s.ram : '') + (s.disk ? ' | disk ' + s.disk : '') + (s.cpu ? ' | cpu ' + s.cpu : '') + (s.gpu ? ' | gpu ' + s.gpu : '') + '</span></td></tr>' +
+    (s.note ? '<tr><th>\u5907\u6ce8(note)</th><td class="y">' + s.note + '</td></tr>' : '') +
+    '</table></div>';
+});
+document.getElementById('cards').innerHTML = cards;
+document.getElementById('ord').textContent = DATA.last_order || '-';
+document.getElementById('disp').textContent = (DATA.dispatch && DATA.dispatch.length ? DATA.dispatch.join('\n') : '-');
+document.getElementById('alerts').textContent = (DATA.alerts && DATA.alerts.length ? DATA.alerts.join('\n') : '-');
+</script>
+</body></html>

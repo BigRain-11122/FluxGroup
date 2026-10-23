@@ -62,31 +62,35 @@ function Poke-Node([string]$ip) {
 }
 function Get-NodeHead([string]$ip) {
   $s = Invoke-RestMethod -Uri ('http://' + $ip + ':' + $port + '/status') -Method Get -TimeoutSec 15
-  # C-20261016-02 verify-fix: a node whose LOCAL main runs AHEAD (memory-union commit
-  # in flight) is still synced when its FETCHED origin/main equals ours. Worker stamps
-  # carry origin_main since v1.4.
-  $om = ''
-  if ($s.PSObject.Properties.Name -contains 'last_pull') {
-    $lp = $s.last_pull
-    if ($lp -and ($lp.PSObject.Properties.Name -contains 'origin_main')) { $om = [string]$lp.origin_main }
+  # C-20261016-02 verify-fix + 2026-10-21 tighten (CEO order "fleet sync must be
+# instantly truthful"): SYNCED must mean THIS dispatch's target reached the node.
+# The old `-or $h -eq $OriginMain` accepted ANY origin/main tip - including a STALE
+# one the node already had (10-17 false-green case: "SYNCED 3s" while main was 9
+# commits behind). Now SYNCED only when the node's fetched origin_main or hot-repo
+# head actually equals the ExpectSha we pushed. "Fetch complete + head matches" is
+# the dispatch guarantee; worktree merge is the pull worker's own verdict.
+$om = ''
+if ($s.PSObject.Properties.Name -contains 'last_pull') {
+  $lp = $s.last_pull
+  if ($lp -and ($lp.PSObject.Properties.Name -contains 'origin_main')) { $om = [string]$lp.origin_main }
+}
+if ($om -ne '' -and $om -eq $script:WantSha) { return $om }   # node fetched OUR sha
+if ($s.PSObject.Properties.Name -contains 'repo_heads') {
+  # PS5.1: PSCustomObject property '.' cannot be indexed with ['.'] - go through Properties
+  $p = $s.repo_heads.PSObject.Properties['.']
+  if ($p) { return [string]$p.Value }
+}
+# fallback (listener pre-v1.3 with old roster): the worker's last-pull stamp is
+# written by a FRESH process per poke - it always reflects the current roster,
+# so "." appears there as soon as the node pulled the tier batch.
+if ($s.PSObject.Properties.Name -contains 'last_pull') {
+  $lp = $s.last_pull
+  if ($lp -and ($lp.PSObject.Properties.Name -contains 'repo_heads')) {
+    $q = $lp.repo_heads.PSObject.Properties['.']
+    if ($q) { return [string]$q.Value }
   }
-  if ($om -ne '' -and ($om -eq $script:WantSha -or $om -eq $script:WantOrigin)) { return $om }
-  if ($s.PSObject.Properties.Name -contains 'repo_heads') {
-    # PS5.1: PSCustomObject property '.' cannot be indexed with ['.'] - go through Properties
-    $p = $s.repo_heads.PSObject.Properties['.']
-    if ($p) { return [string]$p.Value }
-  }
-  # fallback (listener pre-v1.3 with old roster): the worker's last-pull stamp is
-  # written by a FRESH process per poke - it always reflects the current roster,
-  # so "." appears there as soon as the node pulled the tier batch.
-  if ($s.PSObject.Properties.Name -contains 'last_pull') {
-    $lp = $s.last_pull
-    if ($lp -and ($lp.PSObject.Properties.Name -contains 'repo_heads')) {
-      $q = $lp.repo_heads.PSObject.Properties['.']
-      if ($q) { return [string]$q.Value }
-    }
-  }
-  return ''
+}
+return ''
 }
 
 $results = @()
@@ -114,8 +118,10 @@ foreach ($n in @($cfg.nodes)) {
       try {
         $h = Get-NodeHead $ip
         if ($h -ne '') {
-          if ($h -eq $ExpectSha -or $h -eq $OriginMain) { $elapsed = [int]((Get-Date) - $t0).TotalSeconds; $sync = 'SYNCED ' + $elapsed + 's'; break }
-          $sync = 'PENDING head=' + $h.Substring(0, [Math]::Min(8, $h.Length))
+          if ($h -eq $ExpectSha) { $elapsed = [int]((Get-Date) - $t0).TotalSeconds; $sync = 'SYNCED ' + $elapsed + 's'; break }
+          # 2026-10-21 tighten: node head that is NOT our sha is never 'green'.
+          # If it equals a different sha, we still report NOT-SYNCED (was: PENDING).
+          $sync = 'NOT-SYNCED head=' + $h.Substring(0, [Math]::Min(8, $h.Length))
         }
       } catch { $sync = 'verify-err ' + ([string]$_.Exception.Message) }
       Start-Sleep -Seconds 5

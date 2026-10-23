@@ -172,7 +172,9 @@ switch ($Action) {
     'Off' {
         $restored = @()
         foreach ($p in @($settingsPath, $envPath, $projSettings)) {
-            $bak = Get-ChildItem -LiteralPath $p -Filter '*.bak-localonly-*' -ErrorAction SilentlyContinue |
+            $bakDir = Split-Path -Parent $p
+            $bakFilter = "$(Split-Path -Leaf $p).bak-localonly-*"
+            $bak = Get-ChildItem -LiteralPath $bakDir -Filter $bakFilter -ErrorAction SilentlyContinue |
                 Sort-Object LastWriteTime -Descending | Select-Object -First 1
             if ($bak) { Copy-Item -LiteralPath $bak.FullName -Destination $p -Force; $restored += $bak.Name }
         }
