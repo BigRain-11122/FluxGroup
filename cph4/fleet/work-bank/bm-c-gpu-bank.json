@@ -1393,7 +1393,7 @@
   },
   {
    "id": "packb-s107-r4-rerender-c2159",
-   "status": "claimed",
+   "status": "done",
    "created_ts": "2026-10-24 00:28",
    "priority": 60,
    "auth": "Director R4 (DIRECTOR-REVIEW-PACKB-V2-20261020.md) is the last hard item on the Xingqing PACK-B cut. C2159 proved picture-side repair impossible: the cloud figure is a plate-locked overlay (same screen box across 226 frames while the camera moves from sky to a top-down wheat field), cloud and sky are inseparable by luma (159.7 vs 157.3) or saturation, and three passes (brightness matte / ellipse + short smear / long wind smear + shear + aerial haze) all ended as 'still a woman' or 'a smudge over the field'. Evidence: cph4/fleet/mv-album-001-jay/evidence-c2159/R4-BEFORE-AFTER-c2159.jpg.",
@@ -1408,7 +1408,65 @@
    "prestow_note": "C2159 pre-stow (bank law: never empty) - the only hard item left on the Xingqing line.",
    "claimed_ts": "2026-10-24 01:04",
    "claimed_by": "tick-C2160-r4-rerender",
-   "claim_note": "Runner authored as the 2-unit manifest run-bmc-packB-r4-s107-c2160.json on the proven h3_i2v_album lane (1344x768 int8, 226 frames, seeds 21009/21002 inside the 21000-21015 band, human-silhouette clause deleted). Long burn lives on the registered repeating task MiniGameComfyBurn-S107R4 (every 8m, hidden chain, SKIP-rule re-entry, self-disable when both takes land) via c2160_s107r4_runner.ps1; wave-harvest-pending armed at 01:11; observed live at 01:07 (r4a submitted). Harvest + native-frame read next round, then done."
+   "claim_note": "Runner authored as the 2-unit manifest run-bmc-packB-r4-s107-c2160.json on the proven h3_i2v_album lane (1344x768 int8, 226 frames, seeds 21009/21002 inside the 21000-21015 band, human-silhouette clause deleted). Long burn lives on the registered repeating task MiniGameComfyBurn-S107R4 (every 8m, hidden chain, SKIP-rule re-entry, self-disable when both takes land) via c2160_s107r4_runner.ps1; wave-harvest-pending armed at 01:11; observed live at 01:07 (r4a submitted). Harvest + native-frame read next round, then done.",
+   "done_ts": "2026-10-24T01:50:00",
+   "done_note": "HARVEST FAIL both takes by tick-C2162: r4a (s21009) keeps the woman-shaped cloud at 1.0s native and re-composes the shot into a tree avenue; r4b (s21002) duplicates the subject (two bicycle+couple pairs) and swaps the field to green rice paddies. Root cause is model-level: the first frame S1-07_s21009.png itself carries the figure, so i2v continues it no matter how the prompt is stripped. v6 assembly with r4a was built as a probe (5712/5712 frames, 238.000s, 93,550,543B, grammar PASS) and rejected on the same body read; v5 stays the only gated master. Verdict doc cph4/fleet/mv-album-001-jay/R4-VERDICT-c2162.md, board evidence-c2162/R4-TAKE-BOARD-c2162.jpg. No third blind burn: escalated to plate replacement (R5) per the c2160 receipt sec-5.3."
+  },
+  {
+   "id": "packb-s107-r5-plate-c2162",
+   "status": "done",
+   "created_ts": "2026-10-24 01:52",
+   "priority": 61,
+   "auth": "R4 verdict c2162 (both takes FAIL at model level): the cloud figure lives in the first-frame plate, so the plate must be re-authored before any further i2v burn.",
+   "require": {
+    "files_at_least": []
+   },
+   "cmd": [
+    "D:\\ComfyUI\\python_embeded\\pythonw.exe",
+    "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\idle-guard-kit\\s107_r5_plate_c2162.py"
+   ],
+   "log_out": "media/MV/mv0001/logs/s107_r5_plate.out.log",
+   "log_err": "media/MV/mv0001/logs/s107_r5_plate.err.log",
+   "note": "R5 plate for S1-07: open grassland + big sky + a low cumulus band, zero humanoid cloud, two riders 3/4 side view. krea2 turbo 8 steps cfg 1.0 jman 0.6, 1344x768, 3 seeds 924075/928184/931046, lint zero-hit, 185-word prompt, dry-run verified C2162. PASS gate = S107-R5-PLATE-END ok=3/3 + 3 PNG >=900KB in media/MV/mv0001/xingqing/xq-s107-r5-plate-c2162 + board xq-S107-R5-BOARD-c2162.jpg + receipt. Harvest next round: native read (is the cloud a cloud) -> pick plate -> then the R5 i2v leg (226f, R4 wordage as-is) -> v6 assembly -> director film review.",
+   "prestow_ts": "2026-10-24T01:50:00",
+   "prestow_note": "C2162 pre-stow (bank law: never empty) right after the R4 verdict.",
+   "claimed_ts": "2026-10-24T01:51:31",
+   "claimed_by": "tick-C2162-in-round-fire",
+   "done_ts": "2026-10-24T01:57:00",
+   "done_note": "HARVEST PASS by tick-C2162 in-round: S107-R5-PLATE-END ok=3/3 fails=none (118s/146s burns), 3 PNG 963,402-1,011,404B at 1344x768 in media/MV/mv0001/xingqing/xq-s107-r5-plate-c2162, board xq-S107-R5-BOARD-c2162.jpg. Native read 3/3: the cloud is plain cumulus weather with zero humanoid read in every seed - the defect the R4 takes could not shake is gone with the plate, which confirms the model-level diagnosis. Winner = r5-1 s924075 (his profile readable, her head naturally behind his shoulder); r5-3 s931046 alternate; r5-2 s928184 both heads turned away. Advisory (not blocking): r5-1 tee carries an abstract bird graphic, no readable brand text. Composition is a medium side-rear shot rather than the shotlist 远景, which reads as a normal wide->medium cut against S1-06/S1-08. Successor i2v leg pre-stowed."
+  },
+  {
+   "id": "packb-s107-r5-i2v",
+   "status": "pending",
+   "created_ts": "2026-10-24 01:54",
+   "priority": 62,
+   "auth": "R5 plate harvest C2162 (r5-1 s924075 passed the native cloud read); the shot still has to be re-burned on the new plate before v6 assembly.",
+   "require": {
+    "files_at_least": [
+     [
+      "media/MV/mv0001/xingqing/xq-s107-r5-plate-c2162",
+      "S107_R5_plate_S1-07-r5-1_s924075.png",
+      1
+     ]
+    ]
+   },
+   "cmd": [
+    "D:\\ComfyUI\\python_embeded\\python.exe",
+    "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\mv-album-001-jay\\local-i2v\\h3_i2v_album.py",
+    "--repo",
+    "K:\\Fluxgroup\\FluxGroup",
+    "--lane",
+    "bmc",
+    "--manifest",
+    "cph4/fleet/mv-album-001-jay/local-i2v/run-bmc-packB-r5-s107-c2162.json",
+    "--only",
+    "XQ_B-S1-07-r5a"
+   ],
+   "log_out": "media/mv-album-001-jay/log-packB-r5-s107-c2162.out.txt",
+   "log_err": "media/mv-album-001-jay/log-packB-r5-s107-c2162.err.txt",
+   "note": "R5 i2v for S1-07: 226 frames, 1344x768 int8, first_frame = the winning R5 plate, renewal seed family (id-MD5). PASS gate = ALBUM LANE DONE ok=1 fail=0 in the log tail + clips-local-768/XQ_B-S1-07-r5a.mp4 >= 100KB + ffprobe decode-clean 226f. Harvest next round: native read (cloud stays weather, no body read, riders do not duplicate) -> paste into the assembly map -> v6 -> director film review.",
+   "prestow_ts": "2026-10-24T01:57:00",
+   "prestow_note": "C2162 pre-stow (bank law: never empty) right after the plate harvest."
   }
  ]
 }
