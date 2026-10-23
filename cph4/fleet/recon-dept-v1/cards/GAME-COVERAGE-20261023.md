@@ -42,3 +42,23 @@
 - **Cocos 系（三国/向往/消消乐/寻道）**：`assets/**/*.json` 直接可读；消消乐更直接给 Lua 源码。
 - **Unity 系**：先看 metadata 是否加密；未加密用 Il2CppDumper + Cpp2IL；配置若是自定义二进制才需要逐族解码。
 - **跑酷品类**（地铁/神庙/汤姆猫）当前三款全部受阻于加密，优先换源（如国际版/旧版本 APK）再试。
+
+## 运行时 dump 路线（已搭好，卡在模拟器 root）
+
+专业解法：不碰私有二进制，运行时直接读已解析的配置对象。
+
+已完成：
+- BlueStacks 5 Pie64 启动 + ADB 打通（改 `bluestacks.conf` 的 `bst.enable_adb_access`，须停机后改）
+- 游戏安装成功（335MB，ARM 转译可运行）
+- `frida-server` 17.24.3 推送并运行
+- `frida-il2cpp-bridge` 代理已编译（`media/recon/tools/frida-bridge/agent.ts` → `agent.js`），用 `Il2Cpp.gc.choose()` 枚举 `LevelWaveConfig` / `MonsterCfg` 实例按字段读出
+- 宿主脚本：`Tools/recon/attach_dump.py`（按 pid 附着）
+
+**卡点**：attach 返回 `PermissionDeniedError`。根因=模拟器未真正 root——`adb root` 后 `id` 仍是 uid=2000(shell)，`su` 拒绝；`bst.feature.rooting=1` 对已建实例不生效。LDPlayer 官网 403、MuMu 下载页无直链，本机无可 root 模拟器。
+
+**换一台可 root 的模拟器/真机后一条命令出数**：
+```
+adb shell "nohup /data/local/tmp/frida-server -D &"
+adb forward tcp:27042 tcp:27042
+python Tools/recon/attach_dump.py <pid> media/recon/tools/frida-bridge/agent.js media/recon/data/xjskp_runtime.jsonl 120
+```
