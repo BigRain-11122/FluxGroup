@@ -330,4 +330,4 @@
 - **S4U 合规面**：HQ-MA-ProxyProbe / HQ-CEOProxyEventCarrier 均 `LogonType=Interactive`（违 2026-09-29 机队律「本机一切车道任务一律 S4U」）。进程内 Set-ScheduledTask 转 S4U 被 UAC 拒绝（非提权会话，符合注册器既有记载）→ 任务本体零改（复核 Ready+隐藏链 InvisibleRunner.vbs 在位+NextRun 正常）→ 按注册器既定路径落 `Tools/task-s4u-backlog.md` 两行候提权；XML 备份 `Tools/task-xml-backup-*-20261024-000427.xml`。
 - **保留停用面（零动作·非本班漏项）**：bm-a-Bili* 五条（账号安全红线）｜HQ-OpenClaw* 三条｜HQ-LocalOnlyOn｜HQ-Patrol-BigCompute/BigDomain/BigHouse/BigLife/BigMoney/BigStream/CPH4/FluxVerse 八条（LLM 判断面，fit 10-20 T0 停云令 §八「无人值守 LLM 判断面暂停」）｜账号连结 QuarkUpdater + SoftLanding 两条（厂商自更新）。
 - **回访探针（v3）**：已下 cron 一次性 +90min 复探（复核面=①探针 00:11 轮 alarms 复归空 ②载体 00:06 轮零 PROBE 旗 ③LOG age 回落 <26h）。
-- **四元组**：**00:3x｜事件班｜31 调用（正文写入时点；含收口推送复核共约 34）｜verdict=PROBE-DOWN 根因治理完成（Disabled 漏项→恢复+点火实证），PROXY-SILENT-DEATH 以本行写入消除，尾部冲突垃圾清零；零落单零 poke（无跨机依赖），S4U 两行入 backlog 候提权**。
+- **四元组**：**00:3x｜事件班｜44 调用（实测·含收口推送与复验）｜verdict=PROBE-DOWN 根因治理完成（Disabled 漏项→恢复+点火实证），PROXY-SILENT-DEATH 以本行写入消除，尾部冲突垃圾清零；零落单零 poke（无跨机依赖），S4U 两行入 backlog 候提权**。
