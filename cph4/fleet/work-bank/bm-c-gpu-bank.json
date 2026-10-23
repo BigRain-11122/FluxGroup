@@ -1577,8 +1577,26 @@
    "cmd": [],
    "log_out": "media/mv-album-001-jay/logs/kn_pa_conform.out.log",
    "log_err": "media/mv-album-001-jay/logs/kn_pa_conform.err.log",
-   "note": "Authoring job (no GPU): build the KN A conform from the verified pack manifest windows onto clips-local-768, 960px review proxy plus a cut strip board. Only start when the harvest verdict is PASS; the window table must be re-derived from the pack, not hand typed.",
+   "note": "Authoring job (no GPU): build the KN A conform from the verified pack manifest windows onto clips-local-768, 960px review proxy plus a cut strip board. Only start when the harvest verdict is PASS; the window table must be re-derived from the pack, not hand typed. | C2170: require-gated on the harvest verdict; cmd is still empty (script not authored) and the idle guard now skips empty-cmd jobs instead of crashing on them.",
    "created_ts": "2026-10-24 06:1x"
+  },
+  {
+   "id": "kn-pseudo-guard-c2170",
+   "status": "pending",
+   "priority": 1,
+   "auth": "C2170",
+   "require": {},
+   "cmd": [
+    "D:\\ComfyUI\\python_embeded\\python.exe",
+    "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\idle-guard-kit\\kn_pseudo_guard_c2170.py"
+   ],
+   "log_out": "media/mv-album-001-jay/logs/kn_pseudo_guard.out.log",
+   "log_err": "media/mv-album-001-jay/logs/kn_pseudo_guard.err.log",
+   "note": "Zero GPU. Scans every landed KN_A-*.mp4 for the C2170 subtitle-band pseudo-text class (KN02 is a confirmed hit: a generated caption strip, clean keyframe, so it is a generator prior). Writes evidence-c2170/pseudotext-guard.json with halt_recommended. Never kills a burn.",
+   "claimed_ts": null,
+   "claimed_by": null,
+   "done_ts": null,
+   "done_note": null
   }
  ]
 }

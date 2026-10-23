@@ -107,6 +107,11 @@ claimed = None
 for job in bank.get("jobs", []):
     if job.get("status") != "pending":
         continue
+    if not job.get("cmd"):
+        # C2170: an authored-but-unwired job (empty cmd) used to be claimed and
+        # then crash Popen, leaving the guard dead and the job stuck as claimed.
+        log("skip empty-cmd job: %s" % job.get("id"))
+        continue
     req = job.get("require", {})
     ok = True
     for d, pat, n in req.get("files_at_least", []):

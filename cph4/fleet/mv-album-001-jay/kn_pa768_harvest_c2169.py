@@ -9,6 +9,11 @@ import subprocess
 import sys
 import time
 
+HERE = os.path.dirname(os.path.abspath(__file__))
+if HERE not in sys.path:
+    sys.path.insert(0, HERE)
+import kn_pseudotext_probe as PTP   # C2170: subtitle-band pseudo-text gate
+
 REPO = r"K:\Fluxgroup\FluxGroup"
 MANIFEST = os.path.join(REPO, "cph4", "fleet", "mv-album-001-jay", "local-i2v", "run-bmc-kn-i2v.json")
 OUT_DIR = os.path.join(REPO, "media", "mv-album-001-jay", "clips-local-768")
@@ -141,6 +146,7 @@ def main():
         clip = os.path.join(OUT_DIR, uid + ".mp4")
         info = probe(clip)
         dup = dup_run(clip, info["fps"])
+        ptxt = PTP.scan(clip, step=6)
         frames = pull_frames(clip, uid, info)
         fail = []
         if (info["res"] != "%dx%d" % EXPECT_RES):
@@ -151,12 +157,15 @@ def main():
             fail.append("frames=%d" % info["frames"])
         if dup["max_run_s"] > MAX_DUP_RUN_S:
             fail.append("dup_run=%.3fs" % dup["max_run_s"])
+        if ptxt["verdict"] == "SUSPECT":
+            fail.append("pseudo_text cov=%.2f" % ptxt["coverage"])
         rows.append({"id": uid, "clip": clip, "probe": info, "dup": dup,
+                     "pseudo_text": ptxt,
                      "frames": frames, "fail": fail, "verdict": "PASS" if not fail else "CHECK"})
         tiles.append(frames[1])
-        logline("%s %s frames=%d dup_run=%.3fs bytes=%d %s" % (
+        logline("%s %s frames=%d dup_run=%.3fs ptxt=%s bytes=%d %s" % (
             uid, "PASS" if not fail else "CHECK", info["frames"], dup["max_run_s"],
-            info["bytes"], ",".join(fail) or ""))
+            ptxt["verdict"], info["bytes"], ",".join(fail) or ""))
 
     half = (len(tiles) + 1) // 2
     boards = [board(tiles[:half], os.path.join(EVID, "KN-PA768-BOARD-1-c2169.jpg"), 5, "KN 768P board 1"),
