@@ -102,3 +102,50 @@
 
 ## 纪律
 零 snooze 之外的机制新增；未 poke（无需唤醒，B 机属物理离线）；未直写 orders/decisions/POOL；未碰产品代码与场景 YAML；未重测 L0/IdleWatch 已测面。
+
+---
+
+# R5 复核（biggame 巡视席 · 2026-10-24 02:22-02:5x · 只读只议）
+
+> 触发旗：`gaming/MiniGame/Design/configs/GLOBAL/fleet/c.json: stale 4796min > 150min (weak git-copy sensor)`（同 sig 第 5 轮：R2=4661 / R3=4706 / R4=4751 / R5=4796）
+> 结论：R4-1 的根因再收窄一层——问题不止「bm-c closeout 白名单少一行」，而是**心跳吸收链对 A 机单侧放行**。产品面依旧全绿。
+
+## NJ[biggame#R5-1]（承接并收敛 R4-1）心跳收编白名单硬编码为 a.json，B/C 无对等通道
+
+- 事实①（折叠收编只带 A）：`8f06d72e9 2026-10-24 02:18 chore: pre-fold absorb heartbeat regen (fleet pulse/weather/data.js) + tick-ledger` 在 `Design/configs/GLOBAL/fleet/` 下**仅含 `a.json`**，b/c 未入选。
+- 事实②（合并不丢内容）：master `f82f5e693 02:20 Merge origin/machine/C` 之后，`HEAD:Design/configs/GLOBAL/fleet/c.json` 的 `ts` 仍为 `2026-10-20T18:02:13`，与 `origin/machine/C:.../c.json` **同值**——两支同值证明不是合并丢文件，而是根本没有写手路径把新 pulse 落到该文件。
+- 事实③（机器活着）：`origin/machine/C` tip `9422d0065 01:59 C2162 board`（R4 记 01:31 C2161）；本机 EngineTick 台账 02:18、heartbeat-live 02:25 新鲜，C2162 七步全记完成。故非 bm-c 死机、非传感拉取滞后。
+- 判读：A 机心跳靠 master 侧 pre-fold chore 每轮收编获救；B/C 没有对等收编通道，C 自身 closeout 又不带 `fleet/c.json`，于是 c.json 恒陈。两条修法（R4-1 ①②）合并为一条更省的根因修法。
+- 建议（候枢纽裁，按成本升序）：
+  1. **pre-fold absorb 白名单由 `fleet/a.json` 改 `fleet/*.json` 通配**（一行改动，与现有路径同源，B/C 一次性获救）；
+  2. bm-c tick closeout 白名单补 `Design/configs/GLOBAL/fleet/c.json`（与 A 机等价，双保险）；
+  3. 弱传感退化为读 `origin/machine/{B,C}` tip 提交时间（消除常数误报）；
+  4. 在 closeout 模板写死「心跳文件不得按机名硬编码」一行，防再次单侧化。
+- 判据：`git log -1 -- Design/configs/GLOBAL/fleet/` 出现含 b/c 的收编提交；或本旗不再复燃。
+
+## NJ[biggame#R5-2]（R4-2 现状核对，非新案）MiniGameRedlineAudit 仍未跑出绿证
+
+- 现状：`Last=2026-10-21 08:46:36 Result=1`、`State=Ready`、`Next=2026-10-24 02:46:35`。
+- 新证据（把「计划任务静默失效」排除）：断档可由机制解释——该任务在 10-21 15:4x 批次停用、10-23 23:40 解锁令恢复后 NextRunTime 重算为 02:46，并非调度损坏；上轮 WARN 的根因（`CODELY_EXE_MISSING`，machine.json 指向空路径）已验修复：`tools/machine.json codely_cli=D:\TUANJIEAI\Tuanjie Cowork\cli\bin\win32-x64\codely.exe`，`exists=True`。
+- 处置：02:46 自动重跑后由下一班核 `LastTaskResult=0`；若仍非零按任务日志查因，本席不代改任务定义。
+
+## R5 域雷达复核（七项 · 传感复用 + 增量直读）
+
+| 检项 | 结果 |
+|---|---|
+| ① 门禁链 | `MiniGame-PipelineGate` Last=01:56:01 **Result=0** Next=02:26；`pipeline-20261024-015601` 24.4s **7/7 PASS**（preflight 15.1s crash_streak=0 idle_streak=0 bm_old=0 / line-data 3 checks 0 problems / scenes-4k 6/6 / audio 49 文件 delta=0.01 max 0.32 / layout / ui-kit 11 层 12.44 / 16 层 22.21）。RedlineAudit 见 R5-2 |
+| ② 包体四值 | 13/13 `*_bundle_budget.json` **result=PASS viol=0**；G20 主包 3,619,206B / 4,194,304B（余 575,098B）、data 子包 1,271,626B、主+data 4,890,832B < 30MB、白名单 69 类扫描 4/4 合规 |
+| ③ 提审硬门链 | `CEO-PROXY/DEADLINES.md` 仍 mtime 10-20 06:08、正文乱码不可读（已交 group 横切席，本轮不重复升级）；提交夹/软著面本轮无新增件，无 at-risk 变化 |
+| ④ WIP 上限 | production-queue 46 件：in_progress=**3**（ENG-003 / ART-B2-01 / ART-B1-03）< 5；blocked=3；ready=18 / backlog=11 / done=11 |
+| ⑤ 产线批健康 | PipelineGate 30min 节奏未断（01:26→01:56 连跑）、包体记录 00:40 全量刷新、tick-ledger 02:18——无陈旧假 DONE |
+| ⑥ 玩法差异四问 | 零新增立项，无适用对象（WIP 未达上限、无新标题） |
+| ⑦ 资产批合规 | B1 六章 4K 6/6、ui-kit 层数 11/16 在闸内；**未能全量核**：`production/reports/asset-audit-*` 最新为 2026-09-14，近 40 天无新带（诚实边界：AA 登记制本轮只作抽样观察，不作合规结论） |
+
+## 域观察（不入 NJ · 仅留痕）
+
+- `MiniGameEngineTick` / `MiniGameCeoDeskServer` 的 `LastTaskResult=2147946720`（0x800710E0「操作员或管理员拒绝了请求」）**不是停摆证据**：两者 State=Running，tick-ledger 02:18 与 heartbeat-live 02:25 均在推进，C2162 七步全记完成；判读为「实例在跑时被新触发」的拒绝码，属触发频/实例化策略面（枢纽面），本席不代改。
+- 工具面（留痕不代改）：`c.json` 的 `pulse.ts` 与顶层 `ts` 同为 `2026-10-20T18:02:13`，仍可作「写手是否真落盘」的单点判据——一旦 pulse.ts 新于 ts 即证明本地已写而未提交。
+
+## 纪律
+
+不 snooze（真机制缺口，禁以噪声标签掩盖）·未 poke（bm-c 活着、B 机属物理离线零催办）·未直写 orders/decisions/POOL·未碰产品代码与场景 YAML·未重测 L0/IdleWatch 已测面。
