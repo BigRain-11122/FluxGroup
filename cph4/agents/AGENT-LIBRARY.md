@@ -107,6 +107,8 @@
 | 2026-10-16 | growth-ops | 合规/增长 | 增长运营：粉丝/评论区/节奏/看板 | skill（canon=cph4/skills/growth-ops） | ACTIVE |
 | 2026-10-16 | silicon-city-ops | 城市线 | 城市生态：居民/安家/商业化/可视化 | skill（canon=cph4/skills/silicon-city-ops） | ACTIVE |
 | 2026-10-16 | city-seat-ops / city-seat-content / city-seat-data | 城市线 | 城市运营/内容/数据席位（增长槽） | 待 canon 落地建卡 | PLAN |
+| 2026-10-23 | content-recon | 内容/竞品 | 短剧/漫剧竞品拆解：钩子/集结构/节奏/字幕/AI痕迹→配方卡 | skill（canon=cph4/skills/content-recon） | ACTIVE |
+| 2026-10-23 | game-recon | 游戏/竞品 | 小游戏拆解：包体/引擎/UI/循环/数值/商业化→规格表 | skill（canon=cph4/skills/game-recon） | ACTIVE |
 
 ## 更新日志
 
