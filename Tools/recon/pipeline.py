@@ -250,10 +250,77 @@ def normalize(slug: str, engine: str) -> dict:
     manifest["curves"] = curves[:80]
     manifest["curve_count"] = len(curves)
 
+    # Unity/IL2CPP：没有明文表，但有 dump.cs —— 建「配置类→字段」索引供设计面查
+    if engine == "unity-il2cpp":
+        cands = [APK_ROOT / "il2cpp_out" / "dump.cs"]
+        cands += sorted(APK_ROOT.glob(f"{slug}*/**/dump.cs"))
+        cands += sorted(APK_ROOT.glob("il2cpp_*/dump.cs"))
+        for c in cands:
+            if c.exists():
+                manifest["il2cpp"] = il2cpp_index(c)
+                log(f"il2cpp index <- {c} (classes={manifest['il2cpp']['class_count']}, "
+                    f"config={manifest['il2cpp']['config_class_count']})")
+                break
+
     (DATA_ROOT / slug).mkdir(parents=True, exist_ok=True)
     (DATA_ROOT / slug / "MANIFEST.json").write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
     return manifest
+
+
+def parse_dump_cs(path: Path) -> dict:
+    """从 Il2CppDumper 的 dump.cs 抽 类→字段 索引（机械解析，不推断数值）。"""
+    classes: dict[str, list[str]] = {}
+    current = None
+    pending = None
+    depth = 0
+    try:
+        with path.open("r", encoding="utf-8", errors="replace") as f:
+            for line in f:
+                s = line.strip()
+                m = re.match(r"(?:public|internal|private|protected)?\s*(?:sealed\s+|abstract\s+|static\s+|partial\s+)*class\s+([A-Za-z0-9_`<>]+)", s)
+                if m:
+                    pending = m.group(1)
+                    if "{" in s:
+                        current, depth = pending, s.count("{") - s.count("}")
+                        classes.setdefault(current, [])
+                        pending = None
+                    continue
+                if pending is not None:
+                    if s.startswith("{"):
+                        current, depth = pending, 1
+                        classes.setdefault(current, [])
+                        pending = None
+                    elif s and not s.startswith("//"):
+                        pending = None
+                    continue
+                if current is None:
+                    continue
+                depth += s.count("{") - s.count("}")
+                if depth <= 0:
+                    current = None
+                    continue
+                fm = re.match(r"(?:public|private|protected|internal|readonly|static|\s)+([A-Za-z0-9_<>,\.\[\]]+)\s+([A-Za-z0-9_]+)\s*(?:[;=])", s)
+                if fm and not s.startswith("//"):
+                    name = fm.group(2)
+                    if name not in classes[current]:
+                        classes[current].append(name)
+    except Exception:
+        return {}
+    return classes
+
+
+def il2cpp_index(dump_cs: Path) -> dict:
+    classes = parse_dump_cs(dump_cs)
+    keys = re.compile(r"(?i)(level|wave|config|stage|reward|drop|shop|iap|price|enemy|spawn|buff|skill)")
+    relevant = {k: v for k, v in classes.items() if keys.search(k)}
+    return {
+        "dump_cs": str(dump_cs),
+        "class_count": len(classes),
+        "config_class_count": len(relevant),
+        "config_classes": [{"class": k, "fields": v[:40]} for k, v in
+                           sorted(relevant.items(), key=lambda kv: -len(kv[1]))[:120]],
+    }
 
 
 def write_report(slug: str, manifest: dict, engine: str, extract_log: str) -> Path:
