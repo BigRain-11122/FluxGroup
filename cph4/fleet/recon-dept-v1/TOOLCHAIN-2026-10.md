@@ -54,3 +54,19 @@
 - Cpp2IL 2022.0.7（本机在用）
 - frida 17.24.3 + frida-il2cpp-bridge（本机已装）
 - jadx 51,199★ / Apktool 26,548★（已登记，未装 jar）
+
+## 六、存储约定（CEO 令 2026-10-23）
+
+**所有逆向资产一律放 D 盘**：
+
+```
+D:\FluxGroup-Recon\recon\
+  ├─ apk\      原始安装包（含解包目录）
+  ├─ data\     抽出的配置表/数据
+  ├─ tools\    工具与 frida 脚本
+  └─ raw\      视频样本
+```
+
+- `media\recon` 已改为指向 `D:\FluxGroup-Recon\recon` 的 **Junction**，旧脚本路径无需改动。
+- 新增下载/解包/数据默认写 D 盘，不再占用 C 盘。
+- 迁移实测：14.36 GB / 9 个 APK，校验一致。
