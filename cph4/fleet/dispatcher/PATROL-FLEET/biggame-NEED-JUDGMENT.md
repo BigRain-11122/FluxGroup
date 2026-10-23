@@ -67,3 +67,38 @@
 
 ## 纪律面
 未 snooze（真机制缺口）·未 poke（无停摆需唤醒，B 机属物理离线）·未直写 orders/decisions/POOL·未碰产品代码与场景 YAML·未重测 L0/IdleWatch 已测面。
+---
+
+# R4 复核（biggame 巡视席 · 2026-10-24 01:37-01:45 · 只读只议）
+> 触发旗：`gaming/MiniGame/Design/configs/GLOBAL/fleet/c.json: stale 4751min > 150min (weak git-copy sensor)`（同 sig 第 4 轮：R2=4661 / R3=4706 / R4=4751）
+> 结论：根因由「心跳发布器停写」**收窄为「提交路径遗漏」**——写手每轮在跑，closeout 只提交 3 件白名单，故 c.json 永远推不出去。机器活着，产品面全绿。
+
+## NJ[biggame#R4-1]（承接并升级 R3-1）bm-c 心跳写手每轮运行但从不入提交白名单
+- 事实①（写手在跑）：`origin/machine/C:.codely-cli/engine-tick/tick-ledger.txt` 于 01:03 / 01:22 两轮均记 `[Step0 done] preflight all PASS`；`tools/Step0Preflight.ps1` 第 574-656 行 §13 FLEET-PULSE 每轮把 pulse 写回 `Design/configs/GLOBAL/fleet/<id>.json`。
+- 事实②（从不提交）：`35a9c9c98 C2161 closeout` 只含 3 件（`tick-ledger.txt` / `state-c.json` / `自动化快照-c.md`），无 `fleet/c.json`；`git log -1 origin/machine/C -- Design/configs/GLOBAL/fleet/` 仍停 `eefdf9a9a 2026-10-20 18:07:40`。
+- 事实③（对照面）：A 机不走 tick 提交——master 由 `7e7422149 01:18:29 X2710 chore: absorb pre-fold heartbeats` 统一收编，故 a.json 新鲜（master ts 01:17:36 / 本地 01:26:09）；B 机 b.json 10-23T00:21 停在与它物理离线同一时刻。
+- 判读：这是**每机 closeout 白名单不一致**的机制缺口，既非 bm-c 死机、也非传感拉取滞后。bm-c 明确活着且在忙：tip `01:31:12 C2161 board ... r4b still burning`。
+- 建议（候枢纽裁，按成本升序）：① bm-c tick closeout 白名单加 `Design/configs/GLOBAL/fleet/c.json` 一行（最小改动，等价 A 机 pre-fold 收编）；② Step0Preflight FLEET-PULSE 落盘后自提交自推（单文件小提交，fail-open）；③ 弱传感退化为读 `origin/machine/{B,C}` tip 提交时间（保可见性、消除常数误报）。
+- 判据：`origin/machine/C:.../c.json` 的 `ts` 或 `pulse.ts` 进入 24h 内；或本旗不再复燃。
+
+## NJ[biggame#R4-2]（R2-3 现状核对，非新案）MiniGameRedlineAudit 仍无绿证
+- 现状：`Last=2026-10-21 08:46:36 Result=1`，`Next=2026-10-24 02:46:35`，State=Ready（本班 01:37 时点未到）；同族 `MiniGameDailyDigest` `Last=10-21 11:07 Result=2 / Next=11:07`。
+- 处置：02:46 自动重跑后由下一班核 `LastTaskResult=0`；若仍非零按任务日志查因，本席不代改任务定义。
+
+## R4 域雷达复核（七项，传感复用 + 增量直读）
+| 检项 | 结果 |
+|---|---|
+| ① 门禁链 | `MiniGame-PipelineGate` Last=01:26:01 **Result=0** Next=01:56；`pipeline-20261024-012601` 24.4s **7/7 PASS**（preflight 14.9s crash_streak=0 idle_streak=0 / line-data 3 checks 0 problems / scenes-4k 6/6 / audio 49 文件 delta=0.01 max 0.32 / layout / ui-kit 11 层 12.44 / 16 层 22.21）。RedlineAudit 见 R4-2 |
+| ② 包体四值 | 13/13 `*_bundle_budget.json` **result=PASS**（记录 00:40:31 刷新）；G04 主包 3,768,303B / 4,194,304B（余 426,001B）、data 子包 2,734,990B、主+data 6,503,293B < 30MB |
+| ③ 提审硬门链 | `CEO-PROXY/DEADLINES.md` 仍 mtime 10-20 06:08、正文乱码不可读——已交 group 横切席，本轮不重复升级 |
+| ④ WIP 上限 | production-queue 46 件：in_progress=**3**（ENG-003 / ART-B2-01 / ART-B1-03）< 5；blocked=3（PROD-006 / ENG-001 / ENG-005） |
+| ⑤ 产线批健康 | PipelineGate 每 30min 有新证、包体记录 00:40 全量刷新，无陈旧假 DONE |
+| ⑥ 玩法差异四问 | 零新增立项（WIP 未达上限、无新标题），无适用对象 |
+| ⑦ 资产批合规 | B1 六章 4K 6/6 齐（scenes-4k 章末直接判 6/6）；ui-kit 层数 11/16 均在 16 层闸内 |
+
+## 域观察（无 NJ·仅留痕）
+- bm-c 当班跑的是 MV 星晴 PACK-B R4 重渲（`MiniGameComfyBurn-S107R4` 每 8m 自愈、r4a 226 帧在烧）——属 10-17「生成视觉专用道」分工，非游戏域越界。
+- 工具面（留痕不代改）：`c.json` 的 `pulse.ts` 与顶层 `ts` 同为 `2026-10-20T18:02:13`——可作「写手是否真落盘」的单点判据：一旦 pulse.ts 新于 ts，即证明本地已写而未提交。
+
+## 纪律
+零 snooze 之外的机制新增；未 poke（无需唤醒，B 机属物理离线）；未直写 orders/decisions/POOL；未碰产品代码与场景 YAML；未重测 L0/IdleWatch 已测面。
