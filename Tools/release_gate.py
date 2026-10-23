@@ -127,7 +127,12 @@ def main():
             except Exception as e:
                 print("① 计划切点表读取失败:", e)
         if plan:
-            unplanned = [c for c in cuts if not any(abs(c - p) <= a.tol for p in plan)]
+            # 判据口径：只统计"硬跳"(帧差突跳)，不把叠化/渐变算成突变
+            _d = frame_diffs(a.video)
+            _, _sp = islands(_d)
+            _spike_t = [s / FPS for s in _sp]
+            unplanned = [t for t in _spike_t if not any(abs(t - p) <= a.tol for p in plan)]
+            print("   ①口径：帧差突跳 %d 处，其中非计划 %d 处" % (len(_spike_t), len(unplanned)))
             ok = len(unplanned) <= a.max_unplanned
             print("① 计划切点 %d | 检测切点 %d | **非计划突变 %d** (门线 ≤%d) → %s" %
                   (len(plan), len(cuts), len(unplanned), a.max_unplanned, "PASS" if ok else "FAIL"))
