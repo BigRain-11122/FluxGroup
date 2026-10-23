@@ -141,7 +141,7 @@ def main():
             fails.append(oid)
             logp({"id": oid, "status": "missing_frame", "frame": frame})
             continue
-        seed = seed_for(oid)
+        seed = int(u.get("seed") or 0) or seed_for(oid)  # per-unit seed override; id-MD5 remains the default
         length = snap_length(u.get("src_s", 5.0))
         try:
             img = upload_image(server, frame)

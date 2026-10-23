@@ -1393,7 +1393,7 @@
   },
   {
    "id": "packb-s107-r4-rerender-c2159",
-   "status": "blocked",
+   "status": "claimed",
    "created_ts": "2026-10-24 00:28",
    "priority": 60,
    "auth": "Director R4 (DIRECTOR-REVIEW-PACKB-V2-20261020.md) is the last hard item on the Xingqing PACK-B cut. C2159 proved picture-side repair impossible: the cloud figure is a plate-locked overlay (same screen box across 226 frames while the camera moves from sky to a top-down wheat field), cloud and sky are inseparable by luma (159.7 vs 157.3) or saturation, and three passes (brightness matte / ellipse + short smear / long wind smear + shear + aerial haze) all ended as 'still a woman' or 'a smudge over the field'. Evidence: cph4/fleet/mv-album-001-jay/evidence-c2159/R4-BEFORE-AFTER-c2159.jpg.",
@@ -1405,7 +1405,10 @@
    "log_err": "media/mv-album-001-jay/logs/s107_r4_rerender.err.log",
    "note": "BLOCKED until the runner is authored: copy the proven pack A/B 768P mini-wave runner paradigm (xq_t1r1hd_bmc_20261018.py) and burn S1-07 only, 1344x768, 226 frames, seed band 21000-21015 (never used band), with the prompt's human-silhouette clause REMOVED - ask for 'a low cumulus cloud whose whole mass slowly drifts alongside the riders, wind-eroded ragged edges, warm sun-side rim, thinning into haze near the ground' instead of 'shaped like a young woman silhouette'. The narrative signified stays in the edit, not in the pixels. Runner must: lint (NEG/VAGUE zero-hit, <=200 words), dry-run print the prompt, fire detached through the self-healing long-burn runner (never a naked Start-Process), arm .codely-cli/engine-tick/wave-harvest-pending.json, and stop after 2-3 seeds for a native-frame read before the full burn (low-cost-first law). PASS gate = a take whose native frames read as a cloud at 1344x768 AND whose cloud/sky luma separation is measurable (if the model still paints cloud and sky as one level, the seed is negative - do not ship it into the cut). After the verdict: assemble v6, re-check every R item, then the director reads the whole film; no CEO address before a DIRECTOR-REVIEW-PASS exists.",
    "prestow_ts": "2026-10-24T00:28:00",
-   "prestow_note": "C2159 pre-stow (bank law: never empty) - the only hard item left on the Xingqing line."
+   "prestow_note": "C2159 pre-stow (bank law: never empty) - the only hard item left on the Xingqing line.",
+   "claimed_ts": "2026-10-24 01:04",
+   "claimed_by": "tick-C2160-r4-rerender",
+   "claim_note": "Runner authored as the 2-unit manifest run-bmc-packB-r4-s107-c2160.json on the proven h3_i2v_album lane (1344x768 int8, 226 frames, seeds 21009/21002 inside the 21000-21015 band, human-silhouette clause deleted). Long burn lives on the registered repeating task MiniGameComfyBurn-S107R4 (every 8m, hidden chain, SKIP-rule re-entry, self-disable when both takes land) via c2160_s107r4_runner.ps1; wave-harvest-pending armed at 01:11; observed live at 01:07 (r4a submitted). Harvest + native-frame read next round, then done."
   }
  ]
 }
