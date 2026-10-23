@@ -175,7 +175,8 @@ if ($prevSig -and ($sig -eq $prevSig) -and (((Get-Date) - $prevLaunch).TotalMinu
     exit 0
 }
 
-$codely = 'C:\Users\sjs20\AppData\Local\Programs\Tuanjie Cowork\cli\bin\win32-x64\codely.exe'
+$codely = $env:CODELY_CLI
+if (-not $codely -or -not (Test-Path $codely)) { $codely = 'D:\TUANJIEAI\Tuanjie Cowork\cli\bin\win32-x64\codely.exe' }
 if (-not (Test-Path $codely)) { $g = Get-Command codely -ErrorAction SilentlyContinue; if ($g) { $codely = $g.Source } else { Add-Content -Path (Join-Path $Dir ($Code + '-shiftlog.md')) -Value "$stamp FATAL codely.exe not found" -Encoding UTF8; exit 1 } }
 $prompt = ('【巡视席·' + $dom.company + '·域=' + $Code + '·载体触发】你是集团 ' + $dom.company + ' 巡视席（PATROL-FLEET·正典=cph4/fleet/dispatcher/PATROL-FLEET/CHARTERS.md ' + $dom.charter_section + '）。触发现：' + $sig + ' 。按章程执行：锁门（' + $lockF + ' mtime<10min=他班在执·touch 锁继续·班毕再 touch）→读章程' + $dom.charter_section + '领域雷达面逐项核→深挖触发现（域判断优先本地 35B :8090 Tools/l1-client.py·深判走云端）→领域判断与行动（只读只议+章程即决清单·台账 orders/decisions/POOL 禁直写——产出=NEED-JUDGMENT 行〔带域标 ' + $Code + '〕+LOG.md 一行）→两轮未决=升级 NEED-JUDGMENT 候枢纽收。纪律：进程内调用禁 spawn 控制台；物理件/保留面零催办；传感复用禁重测；已核实为噪声的旗（如 weak 传感实为拉取滞后）→写或追加 snooze 件 media/logs/patrol-fleet/' + $Code + '-snooze.json（JSON 数组·元素字段 flag_prefix=旗行前 20 字、until=yyyy-MM-dd HH:mm〔≤24h〕·真实事故禁 snooze）。')
 $outF = Join-Path $Dir ($Code + '-' + (Get-Date -Format 'yyyyMMdd-HHmmss') + '.out.log')

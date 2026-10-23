@@ -67,7 +67,8 @@ if (($sig -eq $lastSig) -and (((Get-Date) - $lastLaunch).TotalMinutes -lt 90)) {
 if ($launchesToday -ge 6) { LogLine ('CAP daily-6 reached - alarm only: ' + $sig); exit 0 }
 
 # 3) launch hidden headless codely event shift
-$codely = 'C:\Users\sjs20\AppData\Local\Programs\Tuanjie Cowork\cli\bin\win32-x64\codely.exe'
+$codely = $env:CODELY_CLI
+if (-not $codely -or -not (Test-Path $codely)) { $codely = 'D:\TUANJIEAI\Tuanjie Cowork\cli\bin\win32-x64\codely.exe' }
 if (-not (Test-Path $codely)) {
     $g = Get-Command codely -ErrorAction SilentlyContinue
     if ($g) { $codely = $g.Source } else { LogLine 'FATAL codely.exe not found'; exit 1 }
