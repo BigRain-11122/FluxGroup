@@ -1383,10 +1383,29 @@
   },
   {
    "id": "kfpb-packB768-harvest-c2146",
-   "status": "pending",
+   "status": "done",
    "created_ts": "2026-10-20 15:06:30",
    "note": "Zero GPU review job. The 768P production wave for all six pack B shots is burning (log media/MV/mv0001/logs/kfpb_packB_768p_c2146.out.txt, out media/mv-album-001-jay/clips-local-768). PASS gate = ALBUM LANE DONE ok=6 fail=0 plus six mp4 >=900KB, then read one native frame per clip for hand/foot anatomy, waxy skin, night skin tone, era wardrobe, and zero text/logo; write the verdict and unlock the A+B assembly.",
-   "cmd": []
+   "cmd": [],
+   "claimed_ts": "2026-10-20T17:10:59",
+   "done_ts": "2026-10-20T17:11:00",
+   "done_note": "Claim closed by C2159 bookkeeping: the six 768P pack B clips were harvested in C2147 (partial, S1-08 MINOR / S3-17 FAIL) and C2148 (6/6 clean) and have been in the cut since PACK-B EDL v3/v5, so this claim was stale, not open work."
+  },
+  {
+   "id": "packb-s107-r4-rerender-c2159",
+   "status": "blocked",
+   "created_ts": "2026-10-24 00:28",
+   "priority": 60,
+   "auth": "Director R4 (DIRECTOR-REVIEW-PACKB-V2-20261020.md) is the last hard item on the Xingqing PACK-B cut. C2159 proved picture-side repair impossible: the cloud figure is a plate-locked overlay (same screen box across 226 frames while the camera moves from sky to a top-down wheat field), cloud and sky are inseparable by luma (159.7 vs 157.3) or saturation, and three passes (brightness matte / ellipse + short smear / long wind smear + shear + aerial haze) all ended as 'still a woman' or 'a smudge over the field'. Evidence: cph4/fleet/mv-album-001-jay/evidence-c2159/R4-BEFORE-AFTER-c2159.jpg.",
+   "require": {
+    "files_at_least": []
+   },
+   "cmd": [],
+   "log_out": "media/mv-album-001-jay/logs/s107_r4_rerender.out.log",
+   "log_err": "media/mv-album-001-jay/logs/s107_r4_rerender.err.log",
+   "note": "BLOCKED until the runner is authored: copy the proven pack A/B 768P mini-wave runner paradigm (xq_t1r1hd_bmc_20261018.py) and burn S1-07 only, 1344x768, 226 frames, seed band 21000-21015 (never used band), with the prompt's human-silhouette clause REMOVED - ask for 'a low cumulus cloud whose whole mass slowly drifts alongside the riders, wind-eroded ragged edges, warm sun-side rim, thinning into haze near the ground' instead of 'shaped like a young woman silhouette'. The narrative signified stays in the edit, not in the pixels. Runner must: lint (NEG/VAGUE zero-hit, <=200 words), dry-run print the prompt, fire detached through the self-healing long-burn runner (never a naked Start-Process), arm .codely-cli/engine-tick/wave-harvest-pending.json, and stop after 2-3 seeds for a native-frame read before the full burn (low-cost-first law). PASS gate = a take whose native frames read as a cloud at 1344x768 AND whose cloud/sky luma separation is measurable (if the model still paints cloud and sky as one level, the seed is negative - do not ship it into the cut). After the verdict: assemble v6, re-check every R item, then the director reads the whole film; no CEO address before a DIRECTOR-REVIEW-PASS exists.",
+   "prestow_ts": "2026-10-24T00:28:00",
+   "prestow_note": "C2159 pre-stow (bank law: never empty) - the only hard item left on the Xingqing line."
   }
  ]
 }
