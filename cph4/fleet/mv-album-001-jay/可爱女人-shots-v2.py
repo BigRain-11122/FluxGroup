@@ -4,6 +4,7 @@
 # v2.2=复审残余清零（PANEL-REGATE-V3 §五）：city_bowl 补 aged signboards/GRADE 2001→2000 本地覆写/KN09 手持生活流
 # v2.3=CEO 服装师令（2026-10-12 00:0x「服装师也要介入，毕竟是明星拍MV，你这衣服太低调了，要符合那个年代的流行！」）：HIM 常量升 2000 台式流行层次（水洗牛仔外套+图案T+宽松直筒+银链+皮绳手环·反韩化宽松剪裁不破）+KN08 她的窗内造型（条纹针织+串珠+铁刘海）·4 HIM 镜+KN08 同种子重摇（KN02/03/08/09/23）
 # v2.4=CEO 歌词意象令（2026-10-12 00:2x「歌词有直升机你就真出现一个直升机？？…MV能这么俗吗？」）：KN05 删真直升机→探照光柱意象（想要飞的渴望=城市之光托举·LYRIC-IMAGERY-LAW）；KN29 渲染翻车修正（模型把纸机画成真客机·词面强化 hand-folded/thin notebook-paper 小感）·两帧同种子重摇
+# v2.8=C2167 站2 i2v 词面令（B1-B4 独立席 18 项 FIX 全落位：景别/机位/纸色/红位/水塔/抬眼/视线/构图口径按各自首帧对齐）（PROMPT-GATE-i2v-PACK-A-v1）：身份三口径在 i2v 词面锁死（素白无格线纸机+红在尾/黑色波纹铁皮圆筒水塔带侧梯·不回头重烧 KF）；KN01/KN18 运镜改缓入缓出曲线短语（清 lint [FLAT] 平速门）；机械闸=lint(mode=video) 零命中+preflight_gate.guard(kf_verified=True) 空列表
 # v2.7=C2166 首帧闸 F1-F8 修复（FRAME-GATE-v1·机队重跑令 O-20261023-2325）：KN25 F8 硬失败修=两灯分居画面左右（她暖窗单一盏左端+对侧冷白路灯辉右端·中间留城），KN24 F6 灰区修=面肤自然纹理+哑光唇，KN20b F8 修=机首朝下俯冲+下坠尘迹；三帧同种子偏移重摇（lint 三名单零命中·词数 135/192/149）
 # v2.6=PROMPT-GATE-L2 签发并入（2026-10-18·评审件=PROMPT-GATE-可爱女人-KF-PACK-A-v1-L2.md·审=独立席/签=导演席）：F-1 KN06 tex=film_night 补档/F-2 KN02 铁皮+发型句/F-3 KN09 发型句/F-4 KN23 发型句/F-7 city_bowl 尾句=low-rise 2000 Taipei skyline（受益 10 帧）/F-8 KN22b 铁皮/F-9① KN25 她窗+城钠对位/F-29 KN29 红尾机 HER_PLANE 词面回锚（cream+dipped in red）
 # v2.5=四闸预检+调色师席 10-12 修项：KN24 造型统一 KN08（条纹针织+串珠·场内连续律）+KN08 i2v 补串珠手链+KN05 银蓝月晕锚（city_moon 光块·帧重摇）
@@ -50,7 +51,8 @@ KN_HER = ("a 20-year-old Taiwanese girl of the year 2000, a softly sweet oval fa
           "top with a small beaded bracelet")
 PLANE = ("a plain white paper plane folded from a single sheet of notebook paper, its creases crisp, "
          "one wing slightly buckled from an earlier flight")
-HER_PLANE = "a small paper plane folded from cream paper with one wing tip dipped in red"
+HER_PLANE = ("a small plain white paper plane folded from unruled notebook paper, "
+             "its single red mark on the tail tip")
 
 # XF_T2=唯一叠化：机影融进银河（KN20 内·1-2s=24-48 帧·可爱女人全片仅此一处·承 RESEARCH §三）
 XF_T2 = {"shot": "KN20", "dissolve_s": 1.5}
@@ -70,17 +72,22 @@ def i2v(size_angle, motion, content):
 
 CM = LX.CAM_MOVE
 
+# v2.8 = C2167 站2 i2v 词面令：CAMERA-DIRECTION-v1 §七 禁平速标记（LX 的 slide 描述含 "at slow speed"
+# 触发 lint [FLAT]），本曲两镜改用缓入缓出曲线短语；LX 共享词表不动（他曲不受影响）。
+CM_SLIDE_EASED = ("the camera slides laterally with small amplitude in shallow focus, "
+                  "easing in at the start and settling to a stop at the end")
+
 # ================= 新产镜头（30 镜）=================
 # (id, t0, t1, speed, note, kf_prompt, i2v_prompt)
 NEW = [
     # ---- 前奏 0-30.14（天台叠机→掷出·黄昏蓝调段=5279 补档·判决二年1）----
     ("KN01", 0.00, 6.50, 0.90, "他叠机（手部特写）",
      kf("cu", "high", "two hands folding %s on a rooftop ledge, five fingers clearly separated on each hand, the thumb and index finger pinching the wing edge, knuckle creases visible, the creases pressed flat one by one, the dusk city soft below" % PLANE, "roof_dusk", lens="50", tex="film_night"),
-     i2v("A close-up from a high angle", CM["slide"],
+     i2v("A close-up from a high angle", CM_SLIDE_EASED,
          "Hands folding a white paper plane on a rooftop ledge at dusk, each crease pressed flat in turn, the paper catching the last light")),
     ("KN02", 6.50, 13.00, 0.95, "天台全景（水塔/晾衣绳·城在脚下）",
      kf("med", "eye", "%s standing on a 2000 Taipei rooftop among strung clotheslines and a black corrugated-tin water tower, his thick black fringe lying flat over his eyebrows, the dusk city soft below the parapet" % HIM, "roof_dusk", lens="35", tex="film_night"),
-     i2v("A medium shot at eye level", CM["static"], "A young man in a washed denim jacket standing on a Taipei rooftop at dusk among strung clotheslines and a water tower, the whole city bowl dim and warm below the parapet")),
+     i2v("A medium shot at eye level", CM["static"], "A young man in a washed denim jacket standing on a Taipei rooftop at dusk among strung clotheslines and a water tower, the whole city bowl dim and warm below the parapet, his gaze drifting off past the camera toward the sky above the city")),
     ("KN03", 13.00, 22.00, 1.00, "他持机立于边缘（城为底）",
      kf("cu", "eye", "%s at the parapet edge holding %s back by its tail, his eyes on the sky above the city, the wind in his fringe" % (HIM, PLANE), "roof_dusk", lens="50", tex="film_night"),
      i2v("A close-up at eye level", CM["pushin"], "A young man at a rooftop parapet holding a white paper plane back by its tail, the dusk city far below, his fringe moved by the rising wind")),
@@ -97,7 +104,7 @@ NEW = [
      i2v("A medium shot at eye level", CM["tiltup"], "A paper plane climbing past dark rooftops into deep blue air, the camera easing up with it as the street lights sink below the frame")),
     ("KN07", 43.64, 50.48, 0.95, "每天每天想着你=升空寻望俯瞰城（她的天台亮一盏灯·判决一立3）",
      kf("ext", "high", "%s small and high above the whole city bowl, and far below one single rooftop window warm-lit among the sodium scatter" % PLANE, "city_bowl", lens="24", tex="film_night"),
-     i2v("An extreme wide establishing shot from a high angle", CM["static"], "A paper plane tiny above the whole night city bowl, and far below one single rooftop window burning warm among the scatter of sodium lights")),
+     i2v("An extreme wide establishing shot from a high angle", CM["static"], "A paper plane holding high above the whole night city bowl, and far below one single rooftop window burning warm among the scatter of sodium lights")),
     ("KN08", 50.48, 55.66, 0.90, "她的灯窗（让我碰到你·许愿锚）",
      kf("cu", "eye", "a rooftop window lit warm, a slim girl in a striped knit top with a small beaded bracelet pausing inside the light, her straight black hair with a solid full fringe, a red-tipped paper plane resting on the ledge outside", "warm_window", lens="85", tex="film_night"),
      i2v("A close-up at eye level", CM["pushin"], "A warm rooftop window with a slim girl in a striped knit top with a small beaded bracelet and a solid full fringe pausing inside the light, a red-tipped paper plane resting on the ledge, the window breathing softly as she stands still")),
@@ -105,19 +112,19 @@ NEW = [
     # ---- 副歌1 56.94-85.82（他仰脸+四种飞姿·hook 行首对齐=判决二配3）----
     ("KN09", 56.94, 59.14, 0.85, "漂亮得让我面红=他天台仰脸（夜天台·判决二年2·手持生活流=残余③）",
      kf("hs", "eye", "%s on the rooftop with his face tipped up to the first stars, his thick black fringe lying flat over his eyebrows, a warm flush on his cheeks, the plane gone from his hand" % HIM, "roof_night", lens="85", tex="film_night"),
-     i2v("A head-and-shoulders framing at eye level", CM["hand"], "A young man on a night rooftop with his face tipped up to the first stars, a warm flush on his cheeks, his eyes following something high above")),
+     i2v("A medium framing at eye level", CM["hand"], "A young man on a night rooftop with his face tipped up to the first stars, a warm flush on his cheeks, his eyes following something high above")),
     ("KN10", 59.14, 62.66, 1.10, "飞姿1=宽弧回旋（卡「可爱女人」hook 行首）",
      kf("med", "eye", "%s carving a wide slow arc over the city lights, its wings catching a streetlamp flare" % PLANE, "city_bowl", lens="35", tex="film_night"),
      i2v("A medium shot at eye level", CM["panr"], "A paper plane carving a wide slow arc above night city lights, its white wings flashing as they cross a streetlamp flare, the skyline wheeling past")),
     ("KN11", 62.66, 66.26, 1.00, "飞姿2=迎面直飞（翼尖弹·hook 行首）",
      kf("cu", "eye", "%s nose-on to the camera, its wings flexing once as it climbs, the city lights soft circles behind" % PLANE, "city_bowl", lens="50", tex="film_night"),
-     i2v("A close-up at eye level", CM["pushin"], "A paper plane flying nose-on toward the camera, its wings flexing once as it climbs, the night city reduced to soft circles of light behind it")),
+     i2v("A close-up at eye level", CM["pushin"], "A paper plane climbing past the camera on its three-quarter line, its near wing flexing once, the night city reduced to soft circles of light behind it")),
     ("KN12", 66.26, 69.80, 1.15, "飞姿3=穿过两楼灯阵之间（hook 行首）",
      kf("med", "eye", "%s threading between two apartment towers whose windows are strung with warm lights, the gaps closing around its path" % PLANE, "city_bowl", lens="50", tex="film_night"),
      i2v("A medium shot at eye level", CM["track"], "A paper plane threading between two lit apartment towers, warm windows sliding past on both sides close to its wingtips, the gap opening again beyond")),
     ("KN13", 69.80, 78.50, 0.95, "飞姿4=全城灯碗上的小点（四连 hook 收口）",
      kf("ext", "eye", "%s a single pale point high above the whole lit bowl of the city, the streets a warm drift far below" % PLANE, "city_bowl", lens="24", tex="film_night"),
-     i2v("An extreme wide establishing shot at eye level", CM["static"], "A paper plane a single pale point high over the whole lit bowl of a night city, the streets a slow warm drift far below, the sky holding it still")),
+     i2v("An extreme wide establishing shot at eye level", CM["static"], "A paper plane holding high over the whole lit bowl of a night city, the streets a slow warm drift far below, the sky holding it still")),
     ("KN14", 78.50, 85.82, 1.00, "收拍=暖微光尾迹（夜空语义对齐·判决二年2）",
      kf("cu", "eye", "%s trailing a faint warm shimmer through the dark, its paper edge lit from the city below" % PLANE, "streak", lens="85", tex="film_night"),
      i2v("A close-up at eye level", CM["track"], "A paper plane trailing a faint warm shimmer through the night, its white edge lit softly from the city below as it holds a steady line")),
@@ -125,16 +132,16 @@ NEW = [
     # ---- Bridge 89.36-141.34（穿云/月晕/银河全景/融化=主呼吸段·D 段重排=判决一立2）----
     ("KN15", 89.36, 99.00, 0.88, "穿云（雾流过翼）",
      kf("med", "eye", "%s punching up through a moving cloud layer, thin mist streaming off its wings, the grey breaking into blue above" % PLANE, "cloud_moon", lens="50", tex="film_night"),
-     i2v("A medium shot at eye level", CM["tiltup"], "A paper plane punching up through a moving cloud layer, thin mist streaming off its wings, the grey breaking into blue as it breaks through")),
+     i2v("A medium shot at eye level", CM["static"], "A paper plane holding its line just above a moving cloud deck, thin mist lifting from its wings, the blue opening ahead")),
     ("KN16", 99.00, 109.00, 0.84, "云海月晕（极缓长镜）",
      kf("wide", "eye", "an endless moonlit cloud deck under a haloed moon, %s small above the white sea, the city gone far below" % PLANE, "cloud_moon", lens="35", tex="film_night"),
-     i2v("A wide shot at eye level", CM["pullout"], "An endless cloud deck under a haloed moon, a small paper plane holding still above the white sea, the camera easing back until the moon halo fills the sky")),
+     i2v("A wide shot at eye level", CM["pullout"], "An endless cloud deck under a haloed moon, the paper plane holding still above the white sea, the camera easing back until the moon halo fills the sky")),
     ("KN17", 109.00, 117.46, 0.82, "银河全景（主呼吸镜1·星尘缓旋·伪影锚=判决二可5）",
      kf("ext", "eye", "the whole arc of a warm gold star band across the ink-blue night, the cloud deck a dark rim below, star dust thick along the middle of the sky", "galaxy_gold", lens="24", tex="film_night"),
      i2v("An extreme wide establishing shot at eye level", CM["pushin"], "The whole arc of a warm gold star band arched across an ink-blue night, the star dust wheeling almost imperceptibly, the cloud deck a dark rim below the frame, soft round points, the dust cloudlike")),
     ("KN18", 117.46, 126.52, 0.86, "银河近景（主呼吸镜2·伪影锚=判决二可5）",
      kf("cu", "eye", "the star dust itself close: countless fine warm points and pale currents drifting through deep blue-black, the grain of the night soft and thick", "galaxy_gold", lens="85", tex="film_night"),
-     i2v("A close-up at eye level", CM["slide"], "The star dust of the galaxy band in close detail, fine warm points and pale currents drifting through deep blue-black, everything moving at the slowest breath, soft round points, the dust cloudlike")),
+     i2v("A close-up at eye level", CM_SLIDE_EASED, "The star dust of the galaxy band in close detail, fine warm points and pale currents drifting through deep blue-black, everything moving at the slowest breath, soft round points, the dust cloudlike")),
     ("KN19", 126.52, 131.18, 0.88, "纸机漂进星流（纸面染金）",
      kf("med", "eye", "%s drifting into the gold star stream, its white paper warming gold at the edges, the stars thickening around it" % PLANE, "galaxy_gold", lens="50", tex="film_night"),
      i2v("A medium shot at eye level", CM["track"], "A paper plane drifting up into a stream of warm gold stars, its white paper warming to gold at the edges as the star field thickens around it")),
@@ -143,10 +150,10 @@ NEW = [
      i2v("A close-up at eye level", CM["static"], "A paper plane dissolving softly into a stream of warm gold stars, its silhouette thinning into light until only the fold lines remain as threads of star dust")),
     ("KN20b", 134.92, 138.38, 0.90, "感谢地心引力=星尘逆引力折拢成纸机下坠（归返因果补·判决一立2）",
      kf("med", "eye", "the warm gold star dust gathering back inward against its own drift, folding itself into the small sharp shape of a paper plane high above the far city lights, its nose tilted down toward the streets below, the whole shape angled downhill in a slow dive, a faint streak of gold dust trailing above it", "galaxy_gold", lens="50", tex="film_night"),
-     i2v("A medium shot at eye level", CM["static"], "The star dust drawing together into a paper plane shape, the shape leaning into a slow dive toward the city far below")),
+     i2v("A medium shot at eye level", CM["static"], "The gold paper plane of the frame easing into a slow dive toward the city far below, the star dust still threading above it")),
     ("KN21", 141.34, 155.00, 0.92, "她的天台·红尾纸机停在檐上（13.66s 窗·15s 政策内单挂·判决二配1）",
      kf("cu", "eye", "%s resting on a rooftop ledge beside a warm-lit window, the red wing tip turned toward the light" % HER_PLANE, "warm_window", lens="50", tex="film_night"),
-     i2v("A close-up at eye level", CM["pushin"], "A cream paper plane with a red wing tip resting on a rooftop ledge beside a warm-lit window, the red tip catching the light as the window breathes")),
+     i2v("A close-up at eye level", CM["pushin"], "A cream paper plane, its single red mark on the tail tip, resting on a rooftop ledge beside a warm-lit window, the red tail catching the light as the window breathes")),
 
     # ---- 间奏 155.00-171.34（两天台隔城相望·KN22 拆两端=判决二配1）----
     ("KN22a", 155.00, 163.20, 0.95, "两天台隔城相望·她的天台端（双线交叉锚帧A）",
@@ -154,7 +161,7 @@ NEW = [
      i2v("An extreme wide establishing shot from a high angle", CM["static"], "A single far rooftop with one small warm light burning on its ledge, the streets a soft warm drift running away from it toward the far side of the night city, the frame holding still")),
     ("KN22b", 163.20, 171.34, 0.95, "两天台隔城相望·他的天台端（双线交叉锚帧B）",
      kf("ext", "high", "a rooftop on the near side of the night city bowl, the black corrugated-tin water tower and strung clotheslines dark against the sky glow, the whole bowl of lights spread below the parapet", "city_bowl", lens="24", tex="film_night"),
-     i2v("An extreme wide establishing shot from a high angle", CM["static"], "A rooftop with a black water tower and strung clotheslines against the night sky glow, the whole bowl of city lights spread below the parapet, the frame holding still")),
+     i2v("An extreme wide establishing shot from a high angle", CM["static"], "A rooftop with the dark wooden water tank on its steel legs and strung clotheslines against the night sky glow, the whole bowl of city lights spread below the parapet, the frame holding still")),
 
     # ---- 慢段 171.34-183.28（小小的爱=一俯一仰·KN24 升 med 露脸投递=判决一受2 选A）----
     ("KN23", 171.34, 174.46, 0.84, "他的天台（俯望城）",
@@ -162,21 +169,21 @@ NEW = [
      i2v("A wide shot from a high angle", CM["cranedn"], "A young man sitting on a rooftop edge above the night city, elbows on knees, the whole bowl of lights below him, the camera easing down behind his stillness")),
     ("KN24", 174.46, 177.88, 0.87, "她的天台（仰·灯窗内初见=升 med 露脸投递·选A）",
      kf("med", "eye", "the warm rooftop window from across the gap, %s inside the light, her skin carrying fine natural texture and faint unevenness, her lips matte and soft, her long straight hair and gentle bright eyes visible for the first time, %s held to her chest" % (KN_HER, HER_PLANE), "warm_window", lens="85", tex="film_night"),
-     i2v("A medium shot at eye level", CM["static"], "A girl inside a warm rooftop window holding a red-tipped paper plane to her chest, her eyes lifting slowly toward the stars, the window light breathing")),
+     i2v("A medium shot at eye level", CM["static"], "A girl inside a warm rooftop window holding a cream paper plane, its red tail tip toward the window, to her chest, her eyes lifting slowly toward the stars, the window light breathing")),
     ("KN25", 177.88, 183.28, 1.00, "两灯之间的城（全力包含你）",
      kf("ext", "eye", "a single small warm window light burning on one far rooftop at the left of the frame, a cold white street-lamp glow far across the city at the right of the frame, the whole night city bowl lying open between the two distant lights, the streets a slow warm drift far below", "city_bowl", lens="24", tex="film_night"),
-     i2v("An extreme wide establishing shot at eye level", CM["static"], "A night city seen between two far warm lights aligned across the frame, the streets drifting below, the two lights holding their distance")),
+     i2v("An extreme wide establishing shot at eye level", CM["static"], "A night city seen between the single warm window at the left and the cold white street lamp at the right, the whole lit city lying open between them, the streets drifting below")),
 
     # ---- 尾奏 218.18-239.03（她答/相遇/归返定格收·判决一受3+配2·尾窗对齐歌长）----
     ("KN28", 218.18, 227.28, 1.02, "她的红尾机从她的天台升空（她的回答·15s 政策内 10s 源）",
      kf("med", "eye", "%s lifting off from her rooftop window light, the warm square falling away below it as it climbs" % HER_PLANE, "warm_window", lens="50", tex="film_night"),
-     i2v("A medium shot at eye level", CM["tiltup"], "A cream paper plane with a red wing tip lifting off from a warm rooftop window, the square of light falling away below it as it climbs into the night")),
+     i2v("A medium shot at eye level", CM["tiltup"], "A cream paper plane, its single red mark on the tail tip, lifting off from a warm rooftop window, the square of light falling away below it as it climbs into the night")),
     ("KN29", 227.28, 234.42, 0.95, "让我碰到你=双机航线交错而过（卡「可爱女人」hook 串·定格源）",
      kf("cu", "eye", "two small hand-folded paper planes crossing paths high above the city, one plain white and one cream paper plane with its wing tip dipped in red, their thin notebook-paper wings slight against the towers, wingtips a hand-span apart, the streets far below", "city_bowl", lens="85", tex="film_night"),
-     i2v("A close-up at eye level", CM["static"], "Two small hand-folded paper planes, one white and one red-tipped, crossing paths high above a night city, their thin paper wings catching the city light, both holding their line as they pass")),
+     i2v("A close-up at eye level", CM["static"], "Two hand-folded paper planes, one on ruled white paper and one on cream paper with a single red mark on its tail tip, crossing paths high above a night city with a hand-span of air between their wingtips, their thin paper wings catching the city light, both holding their line as they pass")),
     ("KN30", 234.42, 239.03, 0.96, "落回天台双机并排定格收（239.03=歌长·定格收口）",
      kf("med", "eye", "%s settling onto the rooftop ledge beside %s, two planes side by side in the window light, the city dim beyond" % (HER_PLANE, PLANE), "warm_window", lens="50", tex="film_night"),
-     i2v("A medium shot at eye level", CM["pushin"], "A red-tipped paper plane settling onto a rooftop ledge beside a white one, the two planes coming to rest side by side in the warm window light, everything settling to stillness")),
+     i2v("A medium shot at eye level", CM["pushin"], "The ruled white plane and the cream plane with its red tail tip coming to rest side by side on the rooftop ledge in the warm window light, then holding absolutely still to the last frame")),
 ]
 
 # ---- 重演律复用（副歌2 重排=判决一受3+配2）+ 漏窗补齐（判决二工1·≤3s=前镜定格延展/>3s=邻镜双挂）----

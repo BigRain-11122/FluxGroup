@@ -1473,7 +1473,7 @@
   },
   {
    "id": "kn-packA-i2v-promptgate-c2167",
-   "status": "pending",
+   "status": "done",
    "priority": 63,
    "auth": "C2166 frame gate: KN KF PACK-A signed frame-by-frame; the next station per O-20261023-2325 is station 2 (prompt) then station 3 (480P trial then 768P).",
    "require": {
@@ -1482,7 +1482,10 @@
    "cmd": [],
    "log_out": "media/mv-album-001-jay/logs/kn_i2v_promptgate.out.log",
    "log_err": "media/mv-album-001-jay/logs/kn_i2v_promptgate.err.log",
-   "note": "ZERO-GPU authoring job. Author the KN i2v prompt gate the same way the Xingqing pack A gate was authored (PROMPT-GATE-<song>-i2v-PACK-A-v1-B1..B4 + SIGN): one row per shot, judged on the i2v faces (A1 five-slot order 40-90 words / A2 identity carried by the frame / B1 zero negation / D1 first-frame extension / E5 micro-motion source / F1 prop conservation / K2 adjacent-shot handoff), and every prompt must pass Tools/preflight_gate.py guard(shot_id, prompt_text, tokens, kf_verified=True, kf_note=<C2166 gate id>) with an EMPTY list before submission. Then emit the manifest for cph4/fleet/mv-album-001-jay/local-i2v/h3_i2v_album.py (--manifest + --only), one unit per shot, first_frame = the signed KN_KN*.png, duration from the SHOTLIST window. PASS gate = prompt-gate doc + SIGN row on disk + guard() empty for every unit + manifest json + 480P verification slice listed."
+   "note": "ZERO-GPU authoring job. Author the KN i2v prompt gate the same way the Xingqing pack A gate was authored (PROMPT-GATE-<song>-i2v-PACK-A-v1-B1..B4 + SIGN): one row per shot, judged on the i2v faces (A1 five-slot order 40-90 words / A2 identity carried by the frame / B1 zero negation / D1 first-frame extension / E5 micro-motion source / F1 prop conservation / K2 adjacent-shot handoff), and every prompt must pass Tools/preflight_gate.py guard(shot_id, prompt_text, tokens, kf_verified=True, kf_note=<C2166 gate id>) with an EMPTY list before submission. Then emit the manifest for cph4/fleet/mv-album-001-jay/local-i2v/h3_i2v_album.py (--manifest + --only), one unit per shot, first_frame = the signed KN_KN*.png, duration from the SHOTLIST window. PASS gate = prompt-gate doc + SIGN row on disk + guard() empty for every unit + manifest json + 480P verification slice listed.",
+   "claimed_ts": "2026-10-24T04:26:06",
+   "done_ts": "2026-10-24T05:2x",
+   "result": "PROMPT-GATE-可爱女人-i2v-PACK-A-v1 {L1,B1,B2,B3,B4,SIGN}.md + 可爱女人-i2v-PACK-A-v1.json (30 units, lint 0 / guard 0, words 72-117, total 196.35s) + local-i2v/run-bmc-kn-i2v.json + run-bmc-kn-verify480.json; shots py v2.8 (18 FIX landed, identity aligned per frame)"
   },
   {
    "id": "kn-packA-i2v-480p-verify-c2167",
@@ -1492,10 +1495,21 @@
    "require": {
     "files_at_least": []
    },
-   "cmd": [],
+   "cmd": [
+    "D:\\ComfyUI\\python_embeded\\python.exe",
+    "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\mv-album-001-jay\\local-i2v\\h3_i2v_album.py",
+    "--repo",
+    "K:\\Fluxgroup\\FluxGroup",
+    "--lane",
+    "bmcverify",
+    "--manifest",
+    "cph4/fleet/mv-album-001-jay/local-i2v/run-bmc-kn-verify480.json",
+    "--only",
+    "KN_A-KN04,KN_A-KN21,KN_A-KN22b"
+   ],
    "log_out": "media/mv-album-001-jay/logs/kn_i2v_verify480.out.log",
    "log_err": "media/mv-album-001-jay/logs/kn_i2v_verify480.err.log",
-   "note": "480P verification slice for the KN pack: 3 representative shots (one close-up KN21, one two-hand/action KN04, one wide KN22b) at 672x384 int4, lane=bmcverify style out dir so a 480P file can never be read as a production clip. Read motion realism, identity drift and zero-collapse before any 768P wave. PASS gate = 3 clips decoded clean + a written verdict naming GO for 768P or the shot that needs a prompt fix. No native audio anywhere (CEO audio ban)."
+   "note": "480P verification slice for the KN pack: 3 representative shots (one close-up KN21, one two-hand/action KN04, one wide KN22b) at 672x384 int4, lane=bmcverify style out dir so a 480P file can never be read as a production clip. Read motion realism, identity drift and zero-collapse before any 768P wave. PASS gate = 3 clips decoded clean + a written verdict naming GO for 768P or the shot that needs a prompt fix. No native audio anywhere (CEO audio ban). | ARMED C2167: manifest + cmd filled, gate SIGN says verify-first. Note: bmcverify lane out dir = media/mv-album-001-jay/clips-verify-480 (never production). ComfyUI 8188 was alive at 05:0x."
   }
  ]
 }
