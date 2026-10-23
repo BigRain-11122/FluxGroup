@@ -1489,7 +1489,7 @@
   },
   {
    "id": "kn-packA-i2v-480p-verify-c2167",
-   "status": "pending",
+   "status": "done",
    "priority": 64,
    "auth": "Pre-stowed per the producer law (the bank must never be empty at closeout). Gated on the prompt-gate job: no burn before guard() is empty.",
    "require": {
@@ -1509,7 +1509,32 @@
    ],
    "log_out": "media/mv-album-001-jay/logs/kn_i2v_verify480.out.log",
    "log_err": "media/mv-album-001-jay/logs/kn_i2v_verify480.err.log",
-   "note": "480P verification slice for the KN pack: 3 representative shots (one close-up KN21, one two-hand/action KN04, one wide KN22b) at 672x384 int4, lane=bmcverify style out dir so a 480P file can never be read as a production clip. Read motion realism, identity drift and zero-collapse before any 768P wave. PASS gate = 3 clips decoded clean + a written verdict naming GO for 768P or the shot that needs a prompt fix. No native audio anywhere (CEO audio ban). | ARMED C2167: manifest + cmd filled, gate SIGN says verify-first. Note: bmcverify lane out dir = media/mv-album-001-jay/clips-verify-480 (never production). ComfyUI 8188 was alive at 05:0x."
+   "note": "480P verification slice for the KN pack: 3 representative shots (one close-up KN21, one two-hand/action KN04, one wide KN22b) at 672x384 int4, lane=bmcverify style out dir so a 480P file can never be read as a production clip. Read motion realism, identity drift and zero-collapse before any 768P wave. PASS gate = 3 clips decoded clean + a written verdict naming GO for 768P or the shot that needs a prompt fix. No native audio anywhere (CEO audio ban). | ARMED C2167: manifest + cmd filled, gate SIGN says verify-first. Note: bmcverify lane out dir = media/mv-album-001-jay/clips-verify-480 (never production). ComfyUI 8188 was alive at 05:0x.",
+   "claimed_ts": "2026-10-24T05:00:59",
+   "done_ts": "2026-10-24T06:35:00",
+   "result": "3/3 adjudicated by native frames + framemd5 (dup=0): KN21 GO, KN22b GO, KN04 FIX (golden ribbon swarm + fold collapse) -> prompt v2.9 (ribbons gone, water tower duplicated) -> prompt v3.0 (single tower, clean arc) re-burn PASS. Verdict = GO for the 768P 30-unit wave. Doc cph4/fleet/mv-album-001-jay/KN-I2V-VERIFY480-VERDICT-20261024.md"
+  },
+  {
+   "id": "kn-packA-i2v-768p-wave-c2168",
+   "status": "pending",
+   "priority": 65,
+   "auth": "KN i2v 480P verify verdict GO (KN-I2V-VERIFY480-VERDICT-20261024) — the 768P wave is the station-3 deliverable of O-20261023-2325 for the 可爱女人 pack.",
+   "require": {
+    "files_at_least": []
+   },
+   "cmd": [
+    "D:\\ComfyUI\\python_embeded\\python.exe",
+    "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\mv-album-001-jay\\local-i2v\\h3_i2v_album.py",
+    "--repo",
+    "K:\\Fluxgroup\\FluxGroup",
+    "--lane",
+    "bmc",
+    "--manifest",
+    "cph4/fleet/mv-album-001-jay/local-i2v/run-bmc-kn-i2v.json"
+   ],
+   "log_out": "media/mv-album-001-jay/logs/kn_i2v_768p_wave.out.log",
+   "log_err": "media/mv-album-001-jay/logs/kn_i2v_768p_wave.err.log",
+   "note": "KN 30-unit 768P production wave (1344x768 int8, first_frame = the C2166 signed KN frames, prompt rev v3.0 for KN04 / v2.8-v2.9 for the rest). PASS gate = ALBUM LANE DONE ok=30 fail=0 in the log tail. Long burn (~3h) => run via the self-healing loop; SKIP is idempotent so a restart resumes. No native audio (CEO audio ban)."
   }
  ]
 }

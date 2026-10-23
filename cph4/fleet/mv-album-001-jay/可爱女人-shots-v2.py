@@ -4,6 +4,9 @@
 # v2.2=复审残余清零（PANEL-REGATE-V3 §五）：city_bowl 补 aged signboards/GRADE 2001→2000 本地覆写/KN09 手持生活流
 # v2.3=CEO 服装师令（2026-10-12 00:0x「服装师也要介入，毕竟是明星拍MV，你这衣服太低调了，要符合那个年代的流行！」）：HIM 常量升 2000 台式流行层次（水洗牛仔外套+图案T+宽松直筒+银链+皮绳手环·反韩化宽松剪裁不破）+KN08 她的窗内造型（条纹针织+串珠+铁刘海）·4 HIM 镜+KN08 同种子重摇（KN02/03/08/09/23）
 # v2.4=CEO 歌词意象令（2026-10-12 00:2x「歌词有直升机你就真出现一个直升机？？…MV能这么俗吗？」）：KN05 删真直升机→探照光柱意象（想要飞的渴望=城市之光托举·LYRIC-IMAGERY-LAW）；KN29 渲染翻车修正（模型把纸机画成真客机·词面强化 hand-folded/thin notebook-paper 小感）·两帧同种子重摇
+# v3.0=C2168b 480P 第二轮实测：v2.9 金色飘带群已清零、纸机折边锐利，但横移跟拍使背景水塔复制成两座
+# →镜4 运镜改「起飞即托起·上升中缓落」+水塔点名唯一黑色波纹铁皮筒（正面单数）
+# v2.9=C2168 480P 验证片闸实测修复：KN04 掷出镜（原生帧 3.9-6.8s 金色飘带群伪影+机翼折叠变形）→动作句正面重写（单只纸机·折边锐利·一条干净弧线·干净开阔黄昏天空·删“flashing up”快闪暗示）；KN21/KN22b 实测 GO 零改动
 # v2.8=C2167 站2 i2v 词面令（B1-B4 独立席 18 项 FIX 全落位：景别/机位/纸色/红位/水塔/抬眼/视线/构图口径按各自首帧对齐）（PROMPT-GATE-i2v-PACK-A-v1）：身份三口径在 i2v 词面锁死（素白无格线纸机+红在尾/黑色波纹铁皮圆筒水塔带侧梯·不回头重烧 KF）；KN01/KN18 运镜改缓入缓出曲线短语（清 lint [FLAT] 平速门）；机械闸=lint(mode=video) 零命中+preflight_gate.guard(kf_verified=True) 空列表
 # v2.7=C2166 首帧闸 F1-F8 修复（FRAME-GATE-v1·机队重跑令 O-20261023-2325）：KN25 F8 硬失败修=两灯分居画面左右（她暖窗单一盏左端+对侧冷白路灯辉右端·中间留城），KN24 F6 灰区修=面肤自然纹理+哑光唇，KN20b F8 修=机首朝下俯冲+下坠尘迹；三帧同种子偏移重摇（lint 三名单零命中·词数 135/192/149）
 # v2.6=PROMPT-GATE-L2 签发并入（2026-10-18·评审件=PROMPT-GATE-可爱女人-KF-PACK-A-v1-L2.md·审=独立席/签=导演席）：F-1 KN06 tex=film_night 补档/F-2 KN02 铁皮+发型句/F-3 KN09 发型句/F-4 KN23 发型句/F-7 city_bowl 尾句=low-rise 2000 Taipei skyline（受益 10 帧）/F-8 KN22b 铁皮/F-9① KN25 她窗+城钠对位/F-29 KN29 红尾机 HER_PLANE 词面回锚（cream+dipped in red）
@@ -93,7 +96,7 @@ NEW = [
      i2v("A close-up at eye level", CM["pushin"], "A young man at a rooftop parapet holding a white paper plane back by its tail, the dusk city far below, his fringe moved by the rising wind")),
     ("KN04", 22.00, 30.14, 1.20, "掷出（burst 快）",
      kf("cu", "eye", "the throw: %s just released from a follow-through hand, the thrower's open hand with five separated fingers still in frame at the lower right, the wrist following through, a faint motion streak just behind the wing, the rooftop ledge and water tower streaking past below" % PLANE, "roof_dusk", lens="50", tex="film_night"),
-     i2v("A close-up at eye level", CM["track"], "A white paper plane flashing up off a rooftop into the dusk sky, the hand still open in its follow-through, the water tower sliding past below")),
+     i2v("A close-up at eye level", "the camera picks the plane up at its release and rises with it, easing into a settle as it climbs", "A single white paper plane with crisp folded edges lifting away in one clean arc off a rooftop into an open dusk sky, the thrower's open hand still in its follow-through at the lower right, the one black corrugated-tin water tower standing on its steel legs below, clean air and open dusk sky around that one plane")),
 
     # ---- 主歌 30.14-55.66（直升机/升空/她的灯窗/让我碰到你）----
     ("KN05", 30.14, 37.22, 1.05, "想要有直升机=纸机穿探照光柱（CEO 10-12 00:2x 歌词意象令：真飞行器入画=字面直译判负·删机·纸机=少年的直升机）",
