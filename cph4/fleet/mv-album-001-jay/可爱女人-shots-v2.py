@@ -34,7 +34,7 @@ LX.LIGHT["galaxy_gold"] = ("a broad band of warm gold star dust arched across an
 # v3.1=C2190 KN18 首帧病根修：galaxy_gold=远景银河带描述（broad band + thick dust），挂 85mm 特写必读成琥珀星云团
 # （C2189 实测：KN18 首帧 p99 57/med 25 vs KN17 37/18，特写开场即热=光域从源帧继承非 i2v 漂移）
 # 正法=特写专用光块：零 band 零 thick dust，只留均匀圆点+干净暗底
-LX.LIGHT["galaxy_dust_cu"] = ("deep blue-black night air seen at the closest grain, countless fine round points of warm gold light spread evenly through the dark, the darkness between every point clean and empty, nothing else in the frame")
+LX.LIGHT["galaxy_dust_cu"] = ("deep blue-black night air seen at the closest grain, a dense field of small round warm gold points filling the frame edge to edge, the points sitting close together, the blue-black between the points still deep and dark")
 LX.LIGHT["warm_window"] = ("one small rooftop window lit warm at 2800K in the blue darkness, its light laying a short amber path across the roof ledge")
 LX.LIGHT["streak"] = ("night air ambience with a faint warm shimmer trailing behind a small paper plane, the city lights below catching the paper")
 # 调色师席 10-12 修项：KN05 银蓝月晕锚（旧 city_bowl 实帧=墨青天+暖点过半+烘 vignette·违 GRADE-v1 银蓝高调·帧重摇专用）
@@ -160,9 +160,14 @@ NEW = [
     ("KN17", 109.00, 117.46, 0.82, "银河全景（主呼吸镜1·星尘缓旋·伪影锚=判决二可5）",
      kf("ext", "eye", "the whole arc of a warm gold star band across the ink-blue night, the cloud deck a dark rim below, star dust thick along the middle of the sky", "galaxy_gold", lens="24", tex="film_night"),
      i2v("An extreme wide establishing shot at eye level", CM["pushin"], "The night sky full of countless separate round points of warm gold light, each point small, round and distinct, spread evenly through an ink-blue sky, the points drifting apart at the slowest breath, the cloud deck a dark rim below the frame")),
+    # v7.0=C2197: KN18's keyframe is NOT generated any more. Three i2v takes failed on a generated
+    # near-empty keyframe (p99 19-22 -> lattice of lamps at 768P) and pushing the generator toward a dense
+    # field overshot into milky bright (89, then 145). The plate is now a deterministic crop of KN17's
+    # star band (c2197_kn18_kf_crop.py: median 23, p99 38). Do not re-run kf_batch for KN18 without
+    # re-deciding the plate; the kf() spec below is kept only as the record of what the shot is.
     ("KN18", 117.46, 126.52, 0.86, "银河近景（主呼吸镜2·伪影锚=判决二可5）",
-     kf("cu", "eye", "countless fine round warm points spread evenly through deep blue-black, the darkness between them clean and empty, the film grain fine and soft", "galaxy_dust_cu", lens="85", tex="film_night"),
-     i2v("A close-up at eye level", CM_SLIDE_EASED, "The night sky in close detail, countless separate round points of warm gold light scattered evenly through deep blue-black, every point small and round and distinct, the points drifting apart at the slowest breath, the darkness between them clean")),
+     kf("cu", "eye", "a dense field of small round warm gold points filling the frame edge to edge, the points close together, the blue-black between them still deep and dark, the film grain fine and soft", "galaxy_dust_cu", lens="85", tex="film_night"),
+     i2v("A close-up at eye level", CM_SLIDE_EASED, "The night sky in close detail, a dense field of separate round points of warm gold light holding across the whole frame, every point small and round and distinct, the points drifting apart at the slowest breath, the star dust staying thick through the dark")),
     ("KN19", 126.52, 131.18, 0.88, "纸机漂进星流（纸面染金）",
      kf("med", "eye", "%s drifting into the gold star stream, its white paper warming gold at the edges, the stars thickening around it" % PLANE, "galaxy_gold", lens="50", tex="film_night"),
      i2v("A medium shot at eye level", CM["track"], "A paper plane drifting up into a stream of warm gold stars, its white paper warming to gold at the edges as the star field thickens around it")),
