@@ -117,10 +117,14 @@ def encode(rows):
 
 
 def main():
+    global BATCH
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--encode", action="store_true")
+    ap.add_argument("--batch", default=BATCH,
+                    help="batch tag used for the output mp4 and index names")
     a = ap.parse_args()
+    BATCH = a.batch
     rows, total = build_index()
     missing = [r["shot"] for r in rows if not r["present"]]
     os.makedirs(OUTDIR, exist_ok=True)
