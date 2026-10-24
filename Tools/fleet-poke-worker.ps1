@@ -163,6 +163,16 @@ foreach ($rel in $pullSet) {
       $heads += ([string]$rel + ':no-repo'); continue
     }
     $lines = @()
+    # v1.9.6 (CEO full-sync 2026-10-24): a repo whose remote.origin.fetch does NOT
+    # map its own branch (bm-c MiniGame pulls `machine/C` but the config only maps
+    # master) reports "Already up to date" forever while the tracking ref stays
+    # stale - a silent black hole. Explicit single-branch fetch (server-advertised
+    # ref only, safe on blobless promisor clones per FleetPush's U104(3) rule)
+    # before the pull keeps the tracking ref honest.
+    try {
+      $br = @(& $git -C $p rev-parse --abbrev-ref HEAD 2>$null | ForEach-Object { [string]$_ })[0]
+      if ($br -and $br -ne 'HEAD') { $null = & $git -C $p fetch origin $br 2>&1 }
+    } catch { }
     try { $lines = @(& $git -C $p pull --ff-only 2>&1 | ForEach-Object { [string]$_ }) } catch { $lines = @([string]$_.Exception.Message) }
     $s = $lines -join ' | '
     if ($s -match 'up to date') { $heads += ([string]$rel + ':current') }
