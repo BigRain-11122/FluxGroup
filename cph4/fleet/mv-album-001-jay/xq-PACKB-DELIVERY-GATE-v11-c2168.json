@@ -1,0 +1,57 @@
+{
+ "file": "media\\mv-album-001-jay\\assembly-packB\\XQ-PACKB-ASSEMBLY-v11-c2168.mp4",
+ "frames": 5712,
+ "fps": 24.0,
+ "shots": 36,
+ "dup_pairs": 0,
+ "static_shots": [],
+ "stability": {
+  "seams": [],
+  "freezes": [
+   {
+    "t": 2.083,
+    "frame": 50,
+    "run": 3
+   },
+   {
+    "t": 2.25,
+    "frame": 54,
+    "run": 44
+   },
+   {
+    "t": 118.958,
+    "frame": 2855,
+    "run": 3
+   },
+   {
+    "t": 151.25,
+    "frame": 3630,
+    "run": 3
+   },
+   {
+    "t": 151.75,
+    "frame": 3642,
+    "run": 3
+   },
+   {
+    "t": 152.0,
+    "frame": 3648,
+    "run": 3
+   },
+   {
+    "t": 186.125,
+    "frame": 4467,
+    "run": 3
+   }
+  ]
+ },
+ "flicker": [],
+ "grammar": {
+  "cut": 26,
+  "motion": 3,
+  "dissolve": 6,
+  "blur": 4
+ },
+ "fails": [],
+ "verdict": "PASS"
+}

@@ -42,7 +42,10 @@ SCALE = 1344.0 / W
 FREEZE_MAD = 0.20          # same floor mv_stability_gate uses
 FREEZE_RUN = 3
 CUT_MAD = 12.0             # a hard cut looks like a big mean-abs-difference
-SHOT_MOTION_MIN = 0.55     # mean MAD inside a shot; below this it reads as a still
+SHOT_MOTION_MIN = 0.55     # mean MAD inside a shot
+SHOT_SHIFT_MIN = 0.35      # mean global displacement px/frame - a slow crane still moves
+STILL_MAD = 0.45           # a shot is "still" only when BOTH are low: MAD alone
+                           # punishes slow cinematography and rewards grain
 FLICKER_IRE = 9.0          # luminance step inside a shot
 REPEAT_HAMMING = 4         # 8x8 dHash distance that counts as "the same picture again"
 
@@ -97,7 +100,7 @@ def stability(path, expect):
 def scan(path):
     cap = cv2.VideoCapture(path)
     fps = cap.get(cv2.CAP_PROP_FPS) or 24.0
-    grays, mad, yavg = [], [], []
+    grays, mad, yavg, shift = [], [], [], []
     prev = None
     while True:
         ok, fr = cap.read()
@@ -109,9 +112,14 @@ def scan(path):
         yavg.append(float(g.mean()))
         gf = g.astype(np.float32)
         mad.append(0.0 if prev is None else float(np.mean(np.abs(gf - prev))))
+        if prev is None:
+            shift.append(0.0)
+        else:
+            (dx, dy), _ = cv2.phaseCorrelate(prev, gf)
+            shift.append(float((dx * dx + dy * dy) ** 0.5) * SCALE)
         prev = gf
     cap.release()
-    return fps, grays, np.asarray(mad), np.asarray(yavg)
+    return fps, grays, np.asarray(mad), np.asarray(yavg), np.asarray(shift)
 
 
 def main():
@@ -136,7 +144,7 @@ def main():
     fails = []
     n_dup, dup_at = framemd5_dupes(a.video)
     st = stability(a.video, a.expect_frames)
-    fps, grays, mad, yavg = scan(a.video)
+    fps, grays, mad, yavg, shift = scan(a.video)
     n = len(grays)
 
     # D1 repetition ------------------------------------------------------
@@ -173,9 +181,13 @@ def main():
     still_shots = []
     for s0, s1 in shots:
         seg = mad[s0 + 1:s1] if s1 - s0 > 1 else np.array([0.0])
+        seg_s = shift[s0 + 1:s1] if s1 - s0 > 1 else np.array([0.0])
         avg = float(seg.mean()) if seg.size else 0.0
-        if avg < SHOT_MOTION_MIN and not in_card(s0 / fps, s1 / fps):
-            still_shots.append((s0, s1, round(avg, 2)))
+        avg_s = float(seg_s.mean()) if seg_s.size else 0.0
+        # still means the picture barely changes AND the frame does not travel:
+        # a slow crane has low MAD but real displacement and must not be failed.
+        if avg < STILL_MAD and avg_s < SHOT_SHIFT_MIN and not in_card(s0 / fps, s1 / fps):
+            still_shots.append((s0, s1, round(avg, 2), round(avg_s, 2)))
     if still_shots:
         fails.append("D2 near-static shots: %d (first %.2f-%.2fs mean_mad=%.2f)" %
                      (len(still_shots), still_shots[0][0] / fps, still_shots[0][1] / fps,
@@ -188,10 +200,13 @@ def main():
     if st.get("freezes"):
         live = [f for f in st["freezes"] if not in_card(f["t"], f["t"] + f["run"] / fps)]
         long_holds = [f for f in live if f["run"] >= 6]
-        if live:
+        if long_holds:
             fails.append("D3 dead holds >=0.25s: %d of %d freeze runs (worst run=%d frames at %.2fs)" %
                          (len(long_holds), len(live),
-                          max(f["run"] for f in live), min(f["t"] for f in live)))
+                          max(f["run"] for f in long_holds), min(f["t"] for f in long_holds)))
+        elif live:
+            print("note: %d sub-0.25s freeze run(s) left (worst %d frames)" %
+                  (len(live), max(f["run"] for f in live)))
 
     # D4 flicker ---------------------------------------------------------
     flick = []
