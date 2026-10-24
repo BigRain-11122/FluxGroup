@@ -22,7 +22,7 @@
       "tailnet_ip": "100.82.175.0",
       "enabled": true,
       "root": "C:/Fluxgroup/FluxGroup",
-      "repos": [".", "quant/bigmoney"],
+      "repos": [".", "quant/bigmoney", "gaming/MiniGame", "gaming/FluxVerse", "life/BigLife", "media/BigStream", "compute/BigCompute", "domain/BigDomain", "house/BigHouse"],
       "poke_repos": ["."],
       "wake_tasks": ["Bigmoney-IterationLoop"],
       "status_files": ["quant/bigmoney/fleet/machines/bm-b.json"],
@@ -38,7 +38,13 @@
       "repos": [
         ".",
         "quant/bigmoney",
-        "gaming/MiniGame"
+        "gaming/MiniGame",
+        "gaming/FluxVerse",
+        "life/BigLife",
+        "media/BigStream",
+        "compute/BigCompute",
+        "domain/BigDomain",
+        "house/BigHouse"
       ],
       "poke_repos": ["."],
       "wake_tasks": [
