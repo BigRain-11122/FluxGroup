@@ -163,8 +163,11 @@ NEW = [
     # v7.0=C2197: KN18's keyframe is NOT generated any more. Three i2v takes failed on a generated
     # near-empty keyframe (p99 19-22 -> lattice of lamps at 768P) and pushing the generator toward a dense
     # field overshot into milky bright (89, then 145). The plate is now a deterministic crop of KN17's
-    # star band (c2197_kn18_kf_crop.py: median 23, p99 38). Do not re-run kf_batch for KN18 without
-    # re-deciding the plate; the kf() spec below is kept only as the record of what the shot is.
+    # star band (c2197_kn18_kf_crop.py: median 23, p99 38).
+    # v8.0=C2198: the take is a 1.45x tight reframe of the KN17 768P render with a slow lateral drift
+    # (c2198_kn18_punchin.py, p99 34/35/39). No further 768P starfield close-up burns - five were red.
+    # Do not re-run kf_batch for KN18 without re-deciding the plate; the kf() spec below is the record
+    # of what the shot is, not its production source.
     ("KN18", 117.46, 126.52, 0.86, "银河近景（主呼吸镜2·伪影锚=判决二可5）",
      kf("cu", "eye", "a dense field of small round warm gold points filling the frame edge to edge, the points close together, the blue-black between them still deep and dark, the film grain fine and soft", "galaxy_dust_cu", lens="85", tex="film_night"),
      i2v("A close-up at eye level", CM_SLIDE_EASED, "The night sky in close detail, a dense field of separate round points of warm gold light holding across the whole frame, every point small and round and distinct, the points drifting apart at the slowest breath, the star dust staying thick through the dark")),
