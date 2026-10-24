@@ -37,7 +37,7 @@
 #   - stamp file  : ~\.codely-cli\fleet-link\last-pull-<node>.json (ts + repo HEADs -> /status)
 # Law anchors unchanged: signals only, data stays in git; allowlisted tasks only.
 param(
-  [string]$Root = "C:\Users\sjs20\Desktop\FluxGroup",
+  [string]$Root = (Split-Path -Parent $PSScriptRoot),
   [string]$NodeId = "",
   [string]$Reason = "poke",
   [string]$TasksJson = "[]",

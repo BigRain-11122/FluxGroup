@@ -51,7 +51,7 @@
 # Get-NetTCPConnection names the exact PID holding port 8790, deterministic
 # regardless of how the old listener was started or which user owns it.
 param(
-  [string]$Root = "C:\Users\sjs20\Desktop\FluxGroup",
+  [string]$Root = (Split-Path -Parent $PSScriptRoot),
   [int]$Port = 8790,
   [string]$NodeId = ""
 )
@@ -87,7 +87,21 @@ try {
 if ($NodeId -eq '') { $NodeId = $env:COMPUTERNAME }
 
 # ---- bind (node tailnet IP + loopback; skip missing) + v1.1 self-upgrade ----
-$Vers = '1.9.3'
+$Vers = '1.9.4'
+# v1.9.4: a same-version listener already owning the port means "healthy";
+# exit silently. Before this, every supervisor run logged 2 bind-fail lines,
+# which rotated the real sync history out of log.jsonl (200-line cap).
+$sameVerAlive = $false
+try {
+  $owners = @(Get-NetTCPConnection -LocalPort $Port -State Listen -ErrorAction SilentlyContinue |
+              Select-Object -ExpandProperty OwningProcess -Unique)
+  if ($owners.Count -gt 0) {
+    $rv = ''
+    try { $rv = [string]((Get-Content -Raw $StateF | ConvertFrom-Json).version) } catch { }
+    if ($rv -eq $Vers) { $sameVerAlive = $true }
+  }
+} catch { }
+if ($sameVerAlive) { exit 0 }
 $bindIps = @()
 if ($node -and [string]$node.tailnet_ip -ne '') { $bindIps += [string]$node.tailnet_ip }
 $bindIps += '127.0.0.1'

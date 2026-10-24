@@ -38,7 +38,7 @@
 # PS 5.1 safe: ASCII-only body; allowlist mirrors fleet-link.ps1 v1.9 (mirror
 # law: change BOTH when the /sync face changes).
 param(
-  [string]$Root = "C:\Users\sjs20\Desktop\FluxGroup",
+  [string]$Root = (Split-Path -Parent $PSScriptRoot),
   [int]$Port = 8790,
   [string]$NodeId = ""
 )

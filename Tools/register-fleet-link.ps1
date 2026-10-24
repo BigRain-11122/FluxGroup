@@ -9,7 +9,7 @@
 # interactive logon session - the worker gate's re-register tier reported
 # success on headless bm-b while no listener process ever appeared (v1.8 stuck).
 param(
-  [string]$Root = "C:\Users\sjs20\Desktop\FluxGroup",
+  [string]$Root = (Split-Path -Parent $PSScriptRoot),
   [string]$NodeId = ""
 )
 $ErrorActionPreference = 'Stop'

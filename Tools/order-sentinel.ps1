@@ -28,7 +28,7 @@
 # Conventions kept: P2/T2 never wake; @CPH4/@HQ = session-class faces with no
 # schedulable task (manual-immediate law); wake-once via set cursor; 1-min stale
 # lock; try/finally lock release; fail-soft dispatch hook; VBS-silent task (U060).
-param([string]$Root = "C:\Users\sjs20\Desktop\FluxGroup")
+param([string]$Root = (Split-Path -Parent $PSScriptRoot))
 $ErrorActionPreference = 'SilentlyContinue'
 $Dir    = Join-Path $Root '.codely-cli\sentinel'
 $Lock   = Join-Path $Dir 'lock'

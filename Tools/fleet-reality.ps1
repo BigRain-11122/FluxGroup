@@ -14,7 +14,7 @@
 #     - a fast/slow node clock corrupts heartbeat freshness and git timestamps)
 #   - /status (ram/disk, last worker pull, repo head) vs local origin/main head
 #   - heartbeat file age (LOCAL mtime - trusted over remote-written ts fields)
-param([string]$Root = "C:\Users\sjs20\Desktop\FluxGroup")
+param([string]$Root = (Split-Path -Parent $PSScriptRoot))
 $ErrorActionPreference = 'SilentlyContinue'
 $now = Get-Date
 $rosterF = Join-Path $Root 'Tools\fleet-nodes.json'

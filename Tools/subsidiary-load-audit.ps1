@@ -6,7 +6,7 @@
 # Thresholds (from self-drive.md): P2 tech commit every 24h -> product/tech commit age
 #   <=24h else RED; queue files main>=5 tech>=10 explore>=10 else AMBER;
 #   idle-declaration ratio >=50% of last 30 commits -> AMBER.
-param([string]$Root = "C:\Users\sjs20\Desktop\FluxGroup")
+param([string]$Root = (Split-Path -Parent $PSScriptRoot))
 
 $git = "C:\Program Files\Git\cmd\git.exe"
 $bkRegex = 'chore|closeout|heartbeat|no-pullable|queue-empty|five-checks|state tick|probes green|probes flat|absorb|declaration|fold|ledger|snapshot|kanban|tick done|water-level|census-data-hygiene|maintenance|bookkeeping|jie-lu|shou-|kai-|xin-|shou-ban|kuaizhao|kanban|xintiao'
