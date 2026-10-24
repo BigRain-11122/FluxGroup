@@ -171,7 +171,18 @@ foreach ($rel in $pullSet) {
     # before the pull keeps the tracking ref honest.
     try {
       $br = @(& $git -C $p rev-parse --abbrev-ref HEAD 2>$null | ForEach-Object { [string]$_ })[0]
-      if ($br -and $br -ne 'HEAD') { $null = & $git -C $p fetch origin ("+refs/heads/" + $br + ":refs/remotes/origin/" + $br) 2>&1 }
+      if ($br -and $br -ne 'HEAD') {
+        # v1.9.6c: retry x3 like FleetPush's U104(3) rule - a blobless promisor
+        # clone rejects a lazy backfill negotiation wholesale ("not our ref") on
+        # the first try and then succeeds; without the retry the tracking ref
+        # never moves and every later merge reports "Already up to date".
+        $spec = "+refs/heads/" + $br + ":refs/remotes/origin/" + $br
+        foreach ($t in 1..3) {
+          $null = & $git -C $p fetch origin $spec 2>&1
+          if ($LASTEXITCODE -eq 0) { break }
+          Start-Sleep -Seconds 4
+        }
+      }
     } catch { }
     # v1.9.6b: merge the freshly fetched tracking ref explicitly (a bare
     # `git pull` resolves the upstream from config and misses the ref we just
