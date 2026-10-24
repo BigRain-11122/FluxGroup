@@ -245,7 +245,12 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--encode", action="store_true")
+    ap.add_argument("--batch", default=None,
+                    help="override the output batch tag (keeps earlier cuts intact)")
     a = ap.parse_args()
+    if a.batch:
+        global BATCH
+        BATCH = a.batch
     os.makedirs(OUTDIR, exist_ok=True)
     rows, film_end = load_windows()
     build_index(rows, film_end)
