@@ -134,7 +134,34 @@ foreach ($f in $force) {
 }
 foreach ($rel in $pullSet) {
     $p = Join-Path $Root ([string]$rel)
-    if (-not (Test-Path (Join-Path $p '.git'))) { $heads += ([string]$rel + ':no-repo'); continue }
+    if (-not (Test-Path (Join-Path $p '.git'))) {
+      # v1.9.5 (CEO fleet full-sync 2026-10-24): self-heal a MISSING registered
+      # repo instead of reporting :no-repo forever. Clone URL comes from the
+      # roster (Tools/fleet-nodes.json repo_urls) so no machine needs a local
+      # URL list; blob-less clone keeps the initial transfer small. Gated by
+      # autoclone=true (default off) so a full media repo is never pulled onto
+      # a box that did not ask for it. Runs peer-side per poke - git stays the
+      # sole data channel, no remote command plane is introduced.
+      $url = ''
+      try {
+        $cfgNow = Get-Content -Raw -Encoding UTF8 (Join-Path $Root 'Tools\fleet-nodes.json') | ConvertFrom-Json
+        if ($cfgNow.PSObject.Properties.Name -contains 'repo_urls' -and $cfgNow.repo_urls.PSObject.Properties.Name -contains [string]$rel) {
+          $url = [string]$cfgNow.repo_urls.([string]$rel)
+        }
+        $autoOn = $false
+        if ($node -and ($node.PSObject.Properties.Name -contains 'autoclone')) { $autoOn = [bool]$node.autoclone }
+        if (-not $autoOn -and $cfgNow.PSObject.Properties.Name -contains 'autoclone_default') { $autoOn = [bool]$cfgNow.autoclone_default }
+      } catch { $url = '' }
+      if ($url -ne '') {
+        try { New-Item -ItemType Directory -Path (Split-Path -Parent $p) -Force | Out-Null } catch { }
+        $cl = @()
+        try { $cl = @(& $git clone --filter=blob:none $url $p 2>&1 | ForEach-Object { [string]$_ }) } catch { $cl = @([string]$_.Exception.Message) }
+        if (Test-Path (Join-Path $p '.git')) { $heads += ([string]$rel + ':cloned'); continue }
+        $heads += ([string]$rel + ':clone-fail')
+        continue
+      }
+      $heads += ([string]$rel + ':no-repo'); continue
+    }
     $lines = @()
     try { $lines = @(& $git -C $p pull --ff-only 2>&1 | ForEach-Object { [string]$_ }) } catch { $lines = @([string]$_.Exception.Message) }
     $s = $lines -join ' | '
