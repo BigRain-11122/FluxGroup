@@ -73,9 +73,33 @@ for striations and torn edges.  Green → 768P production burn for KN18 → repl
 Red → next lever is the haze sentence in the motion prompt (drop the "fine dust haze"
 clause so nothing can thicken), not another keyframe pass.
 
+## 4. KN18 480P probe — GREEN, and the 768P burn is away
+
+The probe finished inside the same round (`clips-verify-480/KN_G6-KN18.mp4`, 672x384,
+260 frames, 10.833 s, 690,892 B).
+
+| t | blur p99 | blur p95 | raw p99 | med | hot(>60) share |
+|---|---|---|---|---|---|
+| 1.5 s | 22 | 19 | 100 | 10 | 1.48 % |
+| 5.0 s | 25 | 21 | 141 | 10 | 1.94 % |
+| 9.0 s | **28** | 23 | 161 | 9 | 2.24 % |
+
+Against the r4 RED (77/83/78) this is a **36-point drop**, and it is cooler than the KN17
+480P r4 clip (36/37/38).  Native 1:1 sky strip read: discrete small round points, even
+seeding, clean dark ground, **no vertical shard striations, no torn edge, no amber
+nebula**.  The raw p99 values are the star points themselves (hot share 1.5-2.2 %), not a
+cloud — the keyframe fix propagated through the motion pass exactly as predicted.
+
+Fired on the back of that verdict, lane bmc int8 1344x768, 17:27:43:
+`c2192_kn18_prod_launch.py` → `run-bmc-kn-galaxy-prod-c2192.json`, log
+`logs/kn-galaxy-prod-c2192.log`.  The wave flag now points the next round at
+`clips-local-768/KN_G6-KN18.mp4`: screen it, promote to `KN_A-KN18.mp4`, rebuild the whole
+film, then the director pass.
+
 ## Actions taken this round
 
 1. Adopted the C2190 wave flag: film v2 read, screened, duplicate-free, adopted.
 2. Built the boundary QC board and pulled 7 native frames for the director pass.
 3. Re-burned the KN18 keyframe on the fixed `galaxy_dust_cu` prompt; screened GREEN.
-4. Fired the KN18 480P probe detached and re-pointed the harvest flag at it.
+4. Fired the KN18 480P probe detached, harvested it GREEN the same round, and fired the
+   768P production burn; the flag now points at that burn.
