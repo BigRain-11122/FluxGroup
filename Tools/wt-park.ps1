@@ -1,6 +1,8 @@
 # wt-park.ps1 - keep a minimized Windows Terminal catch-all alive (U060 machine silence)
 # Why: codely headless sessions spawn one console per shell command without hiding
-# (vendor bug, 2026-10-08 CEO popup order). With WT windowingBehavior=useExistingQuiet
+# (vendor bug, 2026-10-08 CEO popup order). With WT windowingBehavior=useExisting
+# 2026-10-24: "useExistingQuiet" was never a valid WT value (only useNew|useAnyExisting|
+# useExisting). Writing it made WT reject the whole settings.json. Use useExisting.
 # (set in WT settings.json), every new console session attaches as a silent tab to an
 # EXISTING window instead of popping a visible window. This script guarantees that
 # catch-all window exists after every logon: spawns a regular window with a never-exit

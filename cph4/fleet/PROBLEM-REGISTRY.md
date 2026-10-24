@@ -22,9 +22,10 @@
 - 复发史·根因: 四连复发（三次申斥+第七复活源实锤）·根因=复活源清单不全+闸值设完不读回；10-17 五连·CEO 令原话「本机干活静默 不要给我疯狂弹窗」·新面=无头会话控制台窗族（10-08 齐射族·codely 厂商 bug·非 toast 族）
 - 出生地闸: 静默执法环节缺「设+读回+服务重启」三步验证件（十环节表 #3 执行面）
 - 验证证据: 10-07 托盘 app 先杀+ollama 全家族复验正法在册·部署面 armed 待两周期；10-17 收容所形态实测=quake 接入即弹抢焦点（VIS+FG 全程命令周期实锚）→wt-park v2 普通最小化窗静默吸收（IC=True FG=False 全程）+HQ-WT-Park 保活车道补位
-- 复发计数: 5
+- 复发计数: 6
 - 状态: armed
-- 升格记录: 2026-10-17 立册按二犯档·复发即点名当班窗问责；2026-10-17 五连复发记账·当窗执法=WT 收容所 v2（useExistingQuiet+普通最小化驻留窗+PT1M 保活车道）·当班窗=bm-c 交互窗自记自承
+- 升格记录: 2026-10-17 立册按二犯档·复发即点名当班窗问责；2026-10-17 五连复发记账·当窗执法=WT 收容所 v2（useExistingQuiet+普通最小化驻留窗+PT1M 保活车道）·当班窗=bm-c 交互窗自记自承；2026-10-24 六连（CEO 两图：WT「无法加载设置」+「Start-Sleep 参数 2147483647 超范围」）·根因两处=①配方写了不存在的枚举 useExistingQuiet（WT 只认 useNew|useAnyExisting|useExisting）→Terminal 每次启动整份 settings.json 判废、全部配置失效（10-17 起潜伏 7 天无人发现=改完不做启动验证）；②keeper 标签 Start-Sleep -Seconds 2147483647 越 int32 上限（max 2147483）→keeper 秒死、错误窗甩到桌面。当窗执法=settings 改 useExisting（备份 .bak-20261024-useexistingquiet）+5 份 wt-park 副本统一改 while($true){Start-Sleep -Seconds 2147483}+自检器 Tools/fleet-silence-guard.ps1 在役（校验枚举值域+全副本 sleep 上限，exit 1 即违例）·当班窗=bm-c 交互窗自记自承
+- 自检: `powershell -File Tools\fleet-silence-guard.ps1`（0=PASS）
 
 ### PR-20261017-03 执行落地差
 - 来源: CEO 本令 2026-10-17 09:5x「落地一塌糊涂，主要问题一直再犯」+10-16 元批评令「写得科学做得稀烂」
