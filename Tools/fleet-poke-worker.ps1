@@ -171,9 +171,15 @@ foreach ($rel in $pullSet) {
     # before the pull keeps the tracking ref honest.
     try {
       $br = @(& $git -C $p rev-parse --abbrev-ref HEAD 2>$null | ForEach-Object { [string]$_ })[0]
-      if ($br -and $br -ne 'HEAD') { $null = & $git -C $p fetch origin $br 2>&1 }
+      if ($br -and $br -ne 'HEAD') { $null = & $git -C $p fetch origin ("+refs/heads/" + $br + ":refs/remotes/origin/" + $br) 2>&1 }
     } catch { }
-    try { $lines = @(& $git -C $p pull --ff-only 2>&1 | ForEach-Object { [string]$_ }) } catch { $lines = @([string]$_.Exception.Message) }
+    # v1.9.6b: merge the freshly fetched tracking ref explicitly (a bare
+    # `git pull` resolves the upstream from config and misses the ref we just
+    # refreshed when the clone is single-branch).
+    try {
+      if ($br -and $br -ne 'HEAD') { $lines = @(& $git -C $p merge --ff-only ("origin/" + $br) 2>&1 | ForEach-Object { [string]$_ }) }
+      else { $lines = @(& $git -C $p pull --ff-only 2>&1 | ForEach-Object { [string]$_ }) }
+    } catch { $lines = @([string]$_.Exception.Message) }
     $s = $lines -join ' | '
     if ($s -match 'up to date') { $heads += ([string]$rel + ':current') }
     elseif ($s -match 'Fast-forward') { $heads += ([string]$rel + ':updated') }
