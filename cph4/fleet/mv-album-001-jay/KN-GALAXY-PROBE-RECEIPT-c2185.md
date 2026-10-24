@@ -50,3 +50,9 @@
 
 - 无 `tier=placeholder` 冒充成品；本批产物为**验证切片**，不入正典、不计成品。
 - GPU 单道长批为常驻 pythonw，会话死批不死。
+## 探针结果（本窗收割 · 15:35）
+
+- clips-verify-480/KN_G1-KN17.mp4 255s / 1309KB；KN_G1-KN18.mp4 241s / 1100KB；ALBUM LANE DONE ok=2 fail=0
+- 人眼抽帧（第 60 帧 / 第 120 帧，672×384）：**两片均为离散星点 + 柔和银河尘带，无金色网状/环状/枝条缠绕**——C2183 的病灶在词面上被消除
+- 抽帧证据：media/mv-album-001-jay/evidence-c2185-kn17-probe.png、vidence-c2185-kn18-probe.png
+- 未做（下一轮收割件）：kn_framing_drift_gate 运镜断言（两镜为建立镜，需真推 ≥1.10x）、768P 重烧、装配站重跑 v2
