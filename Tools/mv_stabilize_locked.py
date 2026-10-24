@@ -56,6 +56,7 @@ def main():
 
     # per-window state
     win_idx = -1
+    win_start = 0
     ref = None
     prev_shift = None
     written = 0
@@ -80,42 +81,54 @@ def main():
 
         if active != win_idx:
             win_idx = active
+            win_start = i
             ref = None
             prev_shift = (0.0, 0.0)
 
         gray = np.ascontiguousarray(cv2.cvtColor(fr, cv2.COLOR_BGR2GRAY))
+        if ref is None and (i - win_start) < 12:
+            # let the shot settle before choosing the reference patch (fades/dark heads)
+            enc.stdin.write(fr.tobytes())
+            written += 1
+            continue
         if ref is None:
             # choose the highest-variance cell as template (avoids periodic cuneiform aliasing)
             best = None
-            for gy in range(2):
-                for gx in range(2):
-                    tw, th = int(W * 0.42), int(ycut * 0.42)
-                    x0 = int(gx * (W - tw) * 0.9) + 10
-                    y0 = int(gy * (ycut - th) * 0.9) + 10
-                    patch = gray[y0:y0 + th, x0:x0 + tw]
-                    if patch.size == 0:
+            patches = []
+            cw, ch = W // 6, ycut // 3
+            for gy in range(3):
+                for gx in range(6):
+                    x0, y0 = gx * cw, gy * ch
+                    patch = gray[y0:y0 + ch, x0:x0 + cw]
+                    if patch.size == 0 or patch.std() < 12:
                         continue
-                    score = float(patch.std())
-                    if best is None or score > best[0]:
-                        best = (score, x0, y0, patch.copy())
-            _, x0, y0, ref = best
-            ref_xy = (x0, y0)
+                    patches.append((float(patch.std()), x0, y0, patch.copy()))
+            patches.sort(key=lambda z: -z[0])
+            patches = patches[:4]
+            if not patches:
+                patches = [(0.0, 0, 0, gray[0:ch, 0:cw].copy())]
+            refs = patches
             prev_shift = (0.0, 0.0)
             dx, dy, resp = 0.0, 0.0, 1.0
         else:
-            x0, y0 = ref_xy
-            th, tw = ref.shape
-            try:
-                res = cv2.matchTemplate(gray[:ycut], ref, cv2.TM_CCOEFF_NORMED)
-                _, score, _, loc = cv2.minMaxLoc(res)
-                dx = float(loc[0] - x0)
-                dy = float(loc[1] - y0)
-                resp = float(score)
-            except cv2.error:
-                dx, dy, resp = 0.0, 0.0, 0.0
-            # low score = no reliable match (dark/flat frame); hold the previous shift
-            if resp < 0.35:
-                dx, dy = prev_shift
+            offs = []
+            scores = []
+            for _, x0, y0, tpl in refs:
+                th, tw = tpl.shape
+                try:
+                    res = cv2.matchTemplate(gray[:ycut], tpl, cv2.TM_CCOEFF_NORMED)
+                    _, score, _, loc = cv2.minMaxLoc(res)
+                except cv2.error:
+                    continue
+                if score >= 0.45:
+                    offs.append((loc[0] - x0, loc[1] - y0))
+                    scores.append(score)
+            if offs:
+                ox = float(np.median([o[0] for o in offs]))
+                oy = float(np.median([o[1] for o in offs]))
+                dx, dy, resp = ox, oy, float(np.mean(scores))
+            else:
+                dx, dy, resp = prev_shift[0], prev_shift[1], 0.0
         dx = float(np.clip(dx, -MAX_SHIFT, MAX_SHIFT))
         dy = float(np.clip(dy, -MAX_SHIFT, MAX_SHIFT))
         # light temporal smoothing

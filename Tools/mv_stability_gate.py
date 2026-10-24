@@ -33,6 +33,39 @@ def sim(a, b):
     return 0.0 if na < 1e-6 or nb < 1e-6 else float((a * b).sum() / (na * nb))
 
 
+def static_jump(frames, i, k=12):
+    """Corroborate a whole-frame jump on a *static* patch (kills flame/motion false positives).
+
+    A real frame jump moves the static background too; a flickering flame does not.
+    """
+    if i - k < 0 or i + k >= len(frames):
+        return False
+    a, b, c = frames[i - k], frames[i + k], frames[i]
+    h, w = a.shape
+    best = None
+    cw, ch = w // 6, h // 3
+    for gy in range(3):
+        for gx in range(6):
+            p = a[gy * ch:(gy + 1) * ch, gx * cw:(gx + 1) * cw]
+            q = b[gy * ch:(gy + 1) * ch, gx * cw:(gx + 1) * cw]
+            if p.size == 0 or p.std() < 12:
+                continue
+            s = sim(p, q)
+            if s < 0.90:
+                continue
+            if best is None or p.std() > best[0]:
+                best = (float(p.std()), gx * cw, gy * ch, p.copy())
+    if best is None:
+        return False
+    _, x0, y0, tpl = best
+    res = cv2.matchTemplate(c, tpl, cv2.TM_CCOEFF_NORMED)
+    _, score, _, loc = cv2.minMaxLoc(res)
+    if score < 0.40:
+        return False
+    off = ((loc[0] - x0) ** 2 + (loc[1] - y0) ** 2) ** 0.5 * SCALE
+    return off >= SHIFT_MIN
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("video")
@@ -46,6 +79,7 @@ def main():
         sys.exit(2)
     fps = cap.get(cv2.CAP_PROP_FPS) or 24.0
     thumbs = []
+    small = []
     mad = [0.0]
     shift = [(0.0, 0.0, 0.0)]
     resid = [0.0]
@@ -58,6 +92,7 @@ def main():
         g = cv2.cvtColor(cv2.resize(fr, (W, H), interpolation=cv2.INTER_AREA),
                          cv2.COLOR_BGR2GRAY)
         thumbs.append(cv2.resize(g, (84, 47), interpolation=cv2.INTER_AREA))
+        small.append(g)
         gf = g.astype(np.float32)
         if prev is not None:
             mad.append(float(np.mean(np.abs(gf - prev))))
@@ -83,6 +118,8 @@ def main():
         s = sim(thumbs[i - 8], thumbs[i + 8])
         if s < SIM_MIN:
             continue          # framing changed -> cut, not a seam
+        if not static_jump(small, i):
+            continue          # moving content (flame/actor) -> not a frame jump
         cands.append((i, mag[i], s))
     cands.sort(key=lambda x: -x[1])
     for c in cands:
@@ -97,9 +134,11 @@ def main():
             run += 1
         else:
             if run >= FREEZE_RUN:
-                freezes.append((i - run, run))
+                # exempt: closing hold (last 12 frames) and fade-to-black holds
+                if (i - run) < n - 12 and float(np.mean([f.mean() for f in small[i - run:i]])) >= 10.0:
+                    freezes.append((i - run, run))
             run = 0
-    if run >= FREEZE_RUN:
+    if run >= FREEZE_RUN and (n - run) < n - 12 and float(np.mean([f.mean() for f in small[n - run:n]])) >= 10.0:
         freezes.append((n - run, run))
 
     print("file   :", a.video)
