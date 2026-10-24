@@ -31,6 +31,10 @@ LX.LIGHT["roof_night"] = ("a night rooftop with the city glow rising from below 
 LX.LIGHT["city_bowl"] = ("the night city bowl of Taipei seen from high above, warm sodium scatter across ink-blue darkness, aged hand-painted signboards and old neon shop fronts among the apartment windows, a slow drift of small lights, a low-rise 2000 Taipei skyline of apartment rooftops and water towers")
 LX.LIGHT["cloud_moon"] = ("silver-blue moonlight at 4400K over an endless cloud deck, the cloud tops carrying a faint warm rim from the city glow far below, the moon ringed by a soft halo")
 LX.LIGHT["galaxy_gold"] = ("a broad band of warm gold star dust arched across an ink-blue night sky, fine stars seeded through the dark, the grain of the night air thick and soft")
+# v3.1=C2190 KN18 首帧病根修：galaxy_gold=远景银河带描述（broad band + thick dust），挂 85mm 特写必读成琥珀星云团
+# （C2189 实测：KN18 首帧 p99 57/med 25 vs KN17 37/18，特写开场即热=光域从源帧继承非 i2v 漂移）
+# 正法=特写专用光块：零 band 零 thick dust，只留均匀圆点+干净暗底
+LX.LIGHT["galaxy_dust_cu"] = ("deep blue-black night air seen at the closest grain, countless fine round points of warm gold light spread evenly through the dark, the darkness between every point clean and empty, nothing else in the frame")
 LX.LIGHT["warm_window"] = ("one small rooftop window lit warm at 2800K in the blue darkness, its light laying a short amber path across the roof ledge")
 LX.LIGHT["streak"] = ("night air ambience with a faint warm shimmer trailing behind a small paper plane, the city lights below catching the paper")
 # 调色师席 10-12 修项：KN05 银蓝月晕锚（旧 city_bowl 实帧=墨青天+暖点过半+烘 vignette·违 GRADE-v1 银蓝高调·帧重摇专用）
@@ -157,7 +161,7 @@ NEW = [
      kf("ext", "eye", "the whole arc of a warm gold star band across the ink-blue night, the cloud deck a dark rim below, star dust thick along the middle of the sky", "galaxy_gold", lens="24", tex="film_night"),
      i2v("An extreme wide establishing shot at eye level", CM["pushin"], "The night sky full of countless separate round points of warm gold light, each point small, round and distinct, spread evenly through an ink-blue sky, the points drifting apart at the slowest breath, the cloud deck a dark rim below the frame")),
     ("KN18", 117.46, 126.52, 0.86, "银河近景（主呼吸镜2·伪影锚=判决二可5）",
-     kf("cu", "eye", "the star dust itself close: countless fine warm points and pale currents drifting through deep blue-black, the grain of the night soft and thick", "galaxy_gold", lens="85", tex="film_night"),
+     kf("cu", "eye", "countless fine round warm points spread evenly through deep blue-black, the darkness between them clean and empty, the film grain fine and soft", "galaxy_dust_cu", lens="85", tex="film_night"),
      i2v("A close-up at eye level", CM_SLIDE_EASED, "The night sky in close detail, countless separate round points of warm gold light scattered evenly through deep blue-black, every point small and round and distinct, the points drifting apart at the slowest breath, the darkness between them clean")),
     ("KN19", 126.52, 131.18, 0.88, "纸机漂进星流（纸面染金）",
      kf("med", "eye", "%s drifting into the gold star stream, its white paper warming gold at the edges, the stars thickening around it" % PLANE, "galaxy_gold", lens="50", tex="film_night"),
