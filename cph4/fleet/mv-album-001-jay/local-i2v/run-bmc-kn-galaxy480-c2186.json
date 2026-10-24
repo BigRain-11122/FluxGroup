@@ -1,0 +1,52 @@
+{
+ "policy": "C2186 galaxy-segment probe iteration 2. C2185 cleared the twining-filament wording (KN17 read as discrete points) but the eye pass found two residuals: KN18's dust band still renders as a bright glowing orange nebula (much brighter and more saturated than its keyframe) and KN17's tail grows a lit orange cloud bank where the prompt asked for a dark rim. Both prompts now name the band as dim low-contrast dust and the cloud deck as unlit dark. 672x384 int4 lane bmcverify, clips-verify-480 - verification only, production is 768P after the eye gate.",
+ "gate": "director DIRECTOR-REVIEW-KN-FULL-v1-c2183 item 1 + C2185 eye pass residuals (kn_framing_drift_gate KN17 FLAT 1.01x on push) + kn_prompt_hygiene_gate on the rebuilt prompts",
+ "wave": "kn-galaxy480-c2186",
+ "total": 2,
+ "total_win_s": 17.52,
+ "units": [
+  {
+   "id": "KN_G2-KN17",
+   "shot": "KN17",
+   "track": "KN",
+   "win_s": 8.46,
+   "speed": 0.82,
+   "src_s": 10.317,
+   "policy_band": "8-15s",
+   "move_raw": "reburn",
+   "frame": "media/mv-album-001-jay/frames/KN_KN17.png",
+   "lyric_anchor": "galaxy segment 109.00-126.52",
+   "note": "C2185 eye pass: galaxy reading fixed, but the tail grew a lit orange cloud bank against a prompt that asked for a dark rim; band brightness pinned down as well",
+   "i2v_prompt": "Single continuous take at 24fps, 16:9. An extreme wide establishing shot at eye level; the camera eases in from almost still on a slow level move, gathering pace gently and settling as it arrives. The night sky full of countless separate round points of warm gold light, each point small, round and distinct, spread evenly through an ink-blue sky, the points drifting apart at the slowest breath. The band of the galaxy reads as faint dim dust, low contrast, no glowing nebula and no bright clouds. The cloud deck below is an unlit dark rim, black, unlit, no lit clouds. Warm 2000 Taiwanese telecine grade, milky lifted blacks. Visible 35mm film grain. Restrained continuous motion, camera and subject motion only.",
+   "prompt_words": 110,
+   "guard": [
+    "kf_verified=True",
+    "word_face=discrete_points",
+    "band=dim_dust",
+    "cloud_deck=unlit_rim"
+   ],
+   "prompt_rev": "v3.4-C2186-galaxy480"
+  },
+  {
+   "id": "KN_G2-KN18",
+   "shot": "KN18",
+   "track": "KN",
+   "win_s": 9.06,
+   "speed": 0.86,
+   "src_s": 10.535,
+   "policy_band": "8-15s",
+   "move_raw": "reburn",
+   "frame": "media/mv-album-001-jay/frames/KN_KN18.png",
+   "lyric_anchor": "galaxy segment 109.00-126.52",
+   "note": "C2185 eye pass: the band animated into a bright continuous orange nebula, far brighter than the keyframe's fine dim dust; prompt now pins band brightness and contrast",
+   "i2v_prompt": "Single continuous take at 24fps, 16:9. A close-up at eye level; the camera slides laterally with small amplitude in shallow focus, easing in at the start and settling to a stop at the end. The night sky in close detail, countless separate round points of warm gold light scattered evenly through deep blue-black, every point small and round and distinct, the darkness between them clean. The faint dust band stays dim and low contrast, no glowing nebula, no bright orange clouds. Warm 2000 Taiwanese telecine grade, milky lifted blacks. Visible 35mm film grain. Restrained continuous motion, camera and subject motion only.",
+   "prompt_words": 105,
+   "guard": [
+    "kf_verified=True",
+    "word_face=discrete_points",
+    "band=dim_dust"
+   ],
+   "prompt_rev": "v3.4-C2186-galaxy480"
+  }
+ ]
+}

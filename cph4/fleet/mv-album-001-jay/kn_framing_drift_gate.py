@@ -126,11 +126,37 @@ _YS = np.clip((SQ // 2 + np.exp(_R) * np.sin(_T)).astype(int), 0, SQ - 1)
 _XS = np.clip((SQ // 2 + np.exp(_R) * np.cos(_T)).astype(int), 0, SQ - 1)
 
 
+def fit_square(img):
+    """Centre-crop the largest square and resample it to SQ x SQ.
+
+    The estimator window and the log-polar grid are SQ-sized, so a frame whose
+    short side is below SQ (the 480P verification lane renders 672x384) used to
+    feed a truncated crop into the window and die on a broadcast error.  Scaling
+    a square crop up to SQ keeps the log-radius axis meaning the same thing as
+    on 768P footage, so verdicts stay comparable across lanes.
+    """
+    h, w = img.shape
+    s = min(h, w)
+    y0, x0 = (h - s) // 2, (w - s) // 2
+    sq = img[y0:y0 + s, x0:x0 + s].astype(np.float32)
+    if s == SQ:
+        return sq
+    ys = np.linspace(0.0, s - 1.0, SQ)
+    xs = np.linspace(0.0, s - 1.0, SQ)
+    y0i = np.clip(np.floor(ys).astype(np.int32), 0, s - 1)
+    x0i = np.clip(np.floor(xs).astype(np.int32), 0, s - 1)
+    y1i = np.clip(y0i + 1, 0, s - 1)
+    x1i = np.clip(x0i + 1, 0, s - 1)
+    wy = (ys - y0i)[:, None]
+    wx = (xs - x0i)[None, :]
+    top = sq[np.ix_(y0i, x0i)] * (1.0 - wx) + sq[np.ix_(y0i, x1i)] * wx
+    bot = sq[np.ix_(y1i, x0i)] * (1.0 - wx) + sq[np.ix_(y1i, x1i)] * wx
+    return top * (1.0 - wy) + bot * wy
+
+
 def logpolar(img):
     """Translation-invariant spectrum fingerprint of one frame."""
-    h, w = img.shape
-    y0, x0 = (h - SQ) // 2, (w - SQ) // 2
-    a = img[y0:y0 + SQ, x0:x0 + SQ].astype(np.float32)
+    a = fit_square(img)
     mag = np.abs(np.fft.fftshift(np.fft.fft2(a * _WIN)))
     v = np.log1p(mag[_YS, _XS])
     return v - v.mean()

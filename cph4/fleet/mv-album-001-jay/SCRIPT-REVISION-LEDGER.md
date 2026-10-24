@@ -22,3 +22,5 @@
 - **可爱女人**：KF 烧出后按实测回写（触发器②）；航线三态落镜语句。
 - **四曲横向**：每周互看一次，把 A 曲毛病提前打到 B 曲。
 - **词面层**：全部 i2v 按 `mv_prompt_upgrade.py` 新语法重出（W2 已开工）。
+| 2026-10-24 | 可爱女人 | i2v v3.4-C2186 | KN17/KN18 银河段再改词面：河带写明 faint dim dust/low contrast、云堤写明 unlit dark rim/no lit clouds | C2185 探针人眼：KN17 尾帧长出被照亮橙云堤、KN18 星河带被放大成发光橙云（远亮于其关键帧细尘） | HARVEST-KN-GALAXY-c2185.md + 6 帧抽检 | 两单 480P 探针 C2186 在飞；768P 待探针绿 |
+| 2026-10-24 | 可爱女人 | 工具 | kn_framing_drift_gate.py 加 fit_square()：短边<512 的片先取最大中心方再双线性到 SQ | 原实现硬编码 512 方裁，480P 验证道（672x384）必抛 broadcast 错，低清道等于看不到运镜项 | C2185 收割轮实跑报错 | 768P 路径零回归；480P 道首次可判（KN17 1.01x FLAT / KN18 mobile NOT-JUDGED） |
