@@ -83,17 +83,39 @@ def main():
             ref = None
             prev_shift = (0.0, 0.0)
 
-        gray = np.ascontiguousarray(cv2.cvtColor(fr, cv2.COLOR_BGR2GRAY).astype(np.float32))
-        crop = gray
+        gray = np.ascontiguousarray(cv2.cvtColor(fr, cv2.COLOR_BGR2GRAY))
         if ref is None:
-            ref = crop
-        try:
-            (dx, dy), resp = cv2.phaseCorrelate(ref, crop)
-        except cv2.error:
-            (dx, dy), resp = 0.0, 0.0
-        # low response = unreliable estimate (dark/flat frame); hold the previous shift
-        if resp < 0.30:
-            dx, dy = prev_shift
+            # choose the highest-variance cell as template (avoids periodic cuneiform aliasing)
+            best = None
+            for gy in range(2):
+                for gx in range(2):
+                    tw, th = int(W * 0.42), int(ycut * 0.42)
+                    x0 = int(gx * (W - tw) * 0.9) + 10
+                    y0 = int(gy * (ycut - th) * 0.9) + 10
+                    patch = gray[y0:y0 + th, x0:x0 + tw]
+                    if patch.size == 0:
+                        continue
+                    score = float(patch.std())
+                    if best is None or score > best[0]:
+                        best = (score, x0, y0, patch.copy())
+            _, x0, y0, ref = best
+            ref_xy = (x0, y0)
+            prev_shift = (0.0, 0.0)
+            dx, dy, resp = 0.0, 0.0, 1.0
+        else:
+            x0, y0 = ref_xy
+            th, tw = ref.shape
+            try:
+                res = cv2.matchTemplate(gray[:ycut], ref, cv2.TM_CCOEFF_NORMED)
+                _, score, _, loc = cv2.minMaxLoc(res)
+                dx = float(loc[0] - x0)
+                dy = float(loc[1] - y0)
+                resp = float(score)
+            except cv2.error:
+                dx, dy, resp = 0.0, 0.0, 0.0
+            # low score = no reliable match (dark/flat frame); hold the previous shift
+            if resp < 0.35:
+                dx, dy = prev_shift
         dx = float(np.clip(dx, -MAX_SHIFT, MAX_SHIFT))
         dy = float(np.clip(dy, -MAX_SHIFT, MAX_SHIFT))
         # light temporal smoothing
