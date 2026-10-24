@@ -38,6 +38,20 @@ LX.LIGHT["city_moon"] = ("the night city bowl under a silver-blue moonlit haze, 
 
 # macroslide 去污（判决二可1）：扩无 cuneiform 的 slide 变体，KN01/KN18 运镜改挂
 LX.CAM_MOVE["slide"] = "the camera slides laterally with small amplitude at slow speed in shallow focus"
+# C2178: KN15 768P 装置化教训——镜头句里的机材/人员名词会被渲染成实物（tripod→三脚架+舱窗），本片一律改成纯运动描述；只改本片进程内词表不动共享正典，门=kn_prompt_hygiene_gate.py
+LX.CAM_MOVE["static"] = ("the camera holds a locked-off frame, everything still "
+                         "except the living light and air")
+LX.CAM_MOVE["pushin"] = ("the camera eases in from almost still on a slow level move, "
+                         "gathering pace gently and settling as it arrives")
+LX.CAM_MOVE["pullout"] = ("the camera eases back on a slow level move, beginning gently, "
+                          "holding through the middle, and settling to a stop")
+LX.CAM_MOVE["stead"] = ("the camera follows with fluid motion at walking pace, "
+                        "a faint soft sway under the glide")
+LX.CAM_MOVE["hand"] = ("a light handheld hold with a natural breath-sway of the frame, "
+                       "easing to a stop")
+LX.CAM_MOVE["pushthru"] = ("the camera pushes through the torch-lit corridor, passing "
+                           "column after column with a faint soft sway, the subject "
+                           "revealed as the move settles")
 
 STYLE_LEAD = "as a film still from a 2000 Taiwanese music video"
 
