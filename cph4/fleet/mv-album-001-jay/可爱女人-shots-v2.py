@@ -154,6 +154,12 @@ NEW = [
     ("KN15", 89.36, 99.00, 0.88, "穿云（雾流过翼）",
      kf("med", "eye", "%s punching up through a moving cloud layer, thin mist streaming off its wings, the grey breaking into blue above" % PLANE, "cloud_moon", lens="50", tex="film_night"),
      i2v("A medium shot at eye level", CM["static"], "A paper plane holding its line just above a moving cloud deck, thin mist lifting from its wings, the blue opening ahead")),
+    # v7.1=C2199: the take is recoloured, not regenerated. Both available KN16
+    # takes render the moon with a full rainbow multi-ring corona (the model prior
+    # for moon+cloud+contrast night skies); the director review of film v3 blocked
+    # PASS on exactly that. The ring is chromatic and geometric, so c2199_kn16_halo.py
+    # recolours the corona annulus to a soft warm-white halo and leaves every other
+    # pixel alone. Window, speed and grade are unchanged.
     ("KN16", 99.00, 109.00, 0.84, "云海月晕（极缓长镜）",
      kf("wide", "eye", "an endless moonlit cloud deck under a haloed moon, %s small above the white sea, the city gone far below" % PLANE, "cloud_moon", lens="35", tex="film_night"),
      i2v("A wide shot at eye level", CM["pullout"], "An endless cloud deck under a haloed moon, the paper plane holding still above the white sea, the camera easing back until the moon halo fills the sky")),
