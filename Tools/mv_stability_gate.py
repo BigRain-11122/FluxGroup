@@ -134,12 +134,19 @@ def main():
             run += 1
         else:
             if run >= FREEZE_RUN:
-                # exempt: closing hold (last 12 frames) and fade-to-black holds
-                if (i - run) < n - 12 and float(np.mean([f.mean() for f in small[i - run:i]])) >= 10.0:
-                    freezes.append((i - run, run))
+                s0 = i - run
+                # exempt: closing hold, fade-to-black hold, and a hold that ends on a cut
+                pre_cut = any(mad[j] > 15.0 for j in range(i, min(n, i + 3)))
+                dark = float(np.mean([f.mean() for f in small[s0:i]])) < 10.0
+                if not pre_cut and not dark and s0 < n - 12:
+                    freezes.append((s0, run))
             run = 0
-    if run >= FREEZE_RUN and (n - run) < n - 12 and float(np.mean([f.mean() for f in small[n - run:n]])) >= 10.0:
-        freezes.append((n - run, run))
+    if run >= FREEZE_RUN:
+        s0 = n - run
+        pre_cut = False
+        dark = float(np.mean([f.mean() for f in small[s0:n]])) < 10.0
+        if not pre_cut and not dark and s0 < n - 12:
+            freezes.append((s0, run))
 
     print("file   :", a.video)
     print("frames : %d @ %.3f fps" % (n, fps))
