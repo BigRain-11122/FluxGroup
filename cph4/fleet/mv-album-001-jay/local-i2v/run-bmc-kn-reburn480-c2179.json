@@ -1,0 +1,85 @@
+{
+ "policy": "C2179 KN re-burn, 480P verification first: KN03/KN11/KN21 rendered their declared push at 1.00x (framing gate FLAT, all samples), KN15 rendered as a built set. Prompts re-derived from the authored shot file so the re-burn rides C2178's rig-free macros. 672x384 int4, clips-verify-480, never production. Fire only after the 30-unit 768P wave exits - a second runner mid-wave evicts the resident int8 model under the in-flight unit.",
+ "gate": "framing gate C2179 (push FLAT on >=90% of samples) + kn_prompt_hygiene_gate FAIL=0 on the re-derived prompts + PROMPT-GATE 可爱女人-i2v-PACK-A-v1 SIGN",
+ "wave": "kn-reburn480-c2179",
+ "total": 4,
+ "total_win_s": 35.9,
+ "units": [
+  {
+   "id": "KN_R1-KN03",
+   "shot": "KN03",
+   "track": "KN",
+   "win_s": 9.0,
+   "speed": 1.0,
+   "src_s": 9.0,
+   "policy_band": "8-15s",
+   "move_raw": "reburn",
+   "frame": "media/mv-album-001-jay/frames/KN_KN03.png",
+   "lyric_anchor": "instrumental intro (0.00-30.14)",
+   "note": "declared push measured 1.00x on 100% of samples (framing gate C2179 FLAT)",
+   "i2v_prompt": "Single continuous take at 24fps, 16:9. A close-up at eye level; the camera eases in from almost still on a slow level move, gathering pace gently and settling as it arrives. A young man at a rooftop parapet holding a white paper plane back by its tail, the dusk city far below, his fringe moved by the rising wind. Warm 2000 Taiwanese telecine grade, warm skin tones, milky lifted blacks. Visible 35mm film grain. Restrained continuous motion, camera and subject motion only.",
+   "prompt_words": 82,
+   "guard": [
+    "kf_verified=True"
+   ],
+   "prompt_rev": "v3.2-C2179-reburn480"
+  },
+  {
+   "id": "KN_R1-KN11",
+   "shot": "KN11",
+   "track": "KN",
+   "win_s": 3.6,
+   "speed": 1.0,
+   "src_s": 3.6,
+   "policy_band": "short",
+   "move_raw": "reburn",
+   "frame": "media/mv-album-001-jay/frames/KN_KN11.png",
+   "lyric_anchor": "instrumental intro (0.00-30.14)",
+   "note": "declared push measured 1.00x on 100% of samples (framing gate C2179 FLAT)",
+   "i2v_prompt": "Single continuous take at 24fps, 16:9. A close-up at eye level; the camera eases in from almost still on a slow level move, gathering pace gently and settling as it arrives. A paper plane climbing past the camera on its three-quarter line, its near wing flexing once, the night city reduced to soft circles of light behind it. Warm 2000 Taiwanese telecine grade, warm skin tones, milky lifted blacks. Visible 35mm film grain. Restrained continuous motion, camera and subject motion only.",
+   "prompt_words": 81,
+   "guard": [
+    "kf_verified=True"
+   ],
+   "prompt_rev": "v3.2-C2179-reburn480"
+  },
+  {
+   "id": "KN_R1-KN15",
+   "shot": "KN15",
+   "track": "KN",
+   "win_s": 9.64,
+   "speed": 0.88,
+   "src_s": 10.955,
+   "policy_band": "8-15s",
+   "move_raw": "reburn",
+   "frame": "media/mv-album-001-jay/frames/KN_KN15.png",
+   "lyric_anchor": "instrumental intro (0.00-30.14)",
+   "note": "rendered as a built set (paper plane on a rig behind an airliner window) - C2178 set-dressing drift, re-burn on the rig-free clause",
+   "i2v_prompt": "Single continuous take at 24fps, 16:9. A medium shot at eye level; the camera holds a locked-off frame, everything still except the living light and air. A paper plane holding its line just above a moving cloud deck, thin mist lifting from its wings, the blue opening ahead. Warm 2000 Taiwanese telecine grade, warm skin tones, milky lifted blacks. Visible 35mm film grain. Restrained continuous motion, camera and subject motion only.",
+   "prompt_words": 71,
+   "guard": [
+    "kf_verified=True"
+   ],
+   "prompt_rev": "v3.2-C2179-reburn480"
+  },
+  {
+   "id": "KN_R1-KN21",
+   "shot": "KN21",
+   "track": "KN",
+   "win_s": 13.66,
+   "speed": 0.92,
+   "src_s": 14.848,
+   "policy_band": "8-15s",
+   "move_raw": "reburn",
+   "frame": "media/mv-album-001-jay/frames/KN_KN21.png",
+   "lyric_anchor": "instrumental intro (0.00-30.14)",
+   "note": "declared push measured 1.00x on 100% of samples (framing gate C2179 FLAT)",
+   "i2v_prompt": "Single continuous take at 24fps, 16:9. A close-up at eye level; the camera eases in from almost still on a slow level move, gathering pace gently and settling as it arrives. A cream paper plane, its single red mark on the tail tip, resting on a rooftop ledge beside a warm-lit window, the red tail catching the light as the window breathes. Warm 2000 Taiwanese telecine grade, warm skin tones, milky lifted blacks. Visible 35mm film grain. Restrained continuous motion, camera and subject motion only.",
+   "prompt_words": 85,
+   "guard": [
+    "kf_verified=True"
+   ],
+   "prompt_rev": "v3.2-C2179-reburn480"
+  }
+ ]
+}

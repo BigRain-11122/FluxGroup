@@ -187,6 +187,13 @@ def scan(clip, intent=None, prompt=None):
     unstable = any(abs(z - 1.0) > OUTLIER and p >= PEAK_MIN for z, p in raw)
     max_zoom = max(filtered) if filtered else 1.0
     peak_at = (filtered.index(max_zoom) + 1) / SAMPLE_FPS
+    # C2179: a clip whose every sampled frame reads 1.000 has no motion to
+    # flatten - the stray spike that sets "unstable" is correlation noise on a
+    # still frame, not evidence of a camera move.  Without this, KN03/KN21 were
+    # reported UNDECIDED ("needs an eye pass") while measuring exactly 1.000x at
+    # all 31 samples, i.e. the gate punted the clearest flat renders to a human.
+    still_frac = (sum(1 for z in filtered if z <= 1.005) / float(len(filtered))
+                  if filtered else 0.0)
 
     verdict, why = "NOT-JUDGED", "intent is not a zoom"
     if intent == "locked":
@@ -197,6 +204,9 @@ def scan(clip, intent=None, prompt=None):
     elif intent == "push":
         if max_zoom >= PUSH_MIN:
             verdict, why = "PASS", "rendered push %.2fx" % max_zoom
+        elif still_frac >= 0.9 and max_zoom <= PUSH_FLAT_MAX:
+            verdict, why = ("FLAT", "declared push measured %.2fx on %.0f%% of samples"
+                            % (max_zoom, still_frac * 100))
         elif unstable:
             verdict, why = "UNDECIDED", "estimator unstable, needs an eye pass"
         elif max_zoom <= PUSH_FLAT_MAX:
@@ -212,6 +222,7 @@ def scan(clip, intent=None, prompt=None):
         "raw_max_zoom": round(max(series), 3),
         "min_zoom": round(min(filtered), 3),
         "unstable": unstable,
+        "still_frac": round(still_frac, 3),
         "peak_min": round(min(p for _, p in raw), 4),
         "peak_max": round(max(p for _, p in raw), 4),
         "series": [round(z, 2) for z in filtered],
@@ -284,8 +295,11 @@ def main():
             "rule": ("declared camera intent vs rendered zoom: Fourier-Mellin "
                      "log-polar phase correlation vs frame 0 at %g fps, median-of-%d "
                      "over time; locked FLAT if >%.2fx, push PASS if >=%.2fx, push FLAT "
-                     "if <=%.2fx and stable, otherwise UNDECIDED; pull/mobile not judged"
-                     % (SAMPLE_FPS, MED_WIDTH, LOCKED_TOL, PUSH_MIN, PUSH_FLAT_MAX)),
+                     "if <=%.2fx and stable, otherwise UNDECIDED; push reading "
+                     "%.2fx or less on >=90%% of samples is FLAT even if a stray "
+                     "correlation spike made the series look unstable; pull/mobile not judged"
+                     % (SAMPLE_FPS, MED_WIDTH, LOCKED_TOL, PUSH_MIN, PUSH_FLAT_MAX,
+                        PUSH_FLAT_MAX)),
             "scanned": len(rows),
             "flagged": len(flat),
             "flagged_units": flat,
