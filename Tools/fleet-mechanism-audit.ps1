@@ -74,4 +74,17 @@ if (Test-Path -LiteralPath $ps) {
   else { $script:flags++; Probe 'patrol_stamp' ('STALE age_d=' + [int]$age) }
 } else { $script:flags++; Probe 'patrol_stamp' 'MISSING (F-09 E1 open)' }
 
+# 5b) stamp path contract (D-20261025-04): the audit path must equal the
+# runner's literal, otherwise a fresh stamp can look MISSING forever.
+$runner = Join-Path $Root 'Tools\patrol-runner.ps1'
+if (Test-Path -LiteralPath $runner) {
+  $hit = Select-String -LiteralPath $runner -Pattern 'patrol-stamp\.json' -SimpleMatch:$false -ErrorAction SilentlyContinue
+  if (-not $hit) { $script:flags++; Probe 'stamp_path' 'RUNNER-LITERAL-MISSING' }
+  elseif ($ps -notmatch 'patrol-stamp\.json$') { $script:flags++; Probe 'stamp_path' 'PATH-MISMATCH' }
+  else { Probe 'stamp_path' 'OK' }
+} else { $script:flags++; Probe 'stamp_path' 'RUNNER-MISSING' }
+
 Write-Output ('MECHANISM AUDIT ' + $now.ToString('yyyy-MM-dd HH:mm') + ' flags=' + $flags)
+# D-20261025-04: a missing/stale probe must be visible to callers as rc!=0,
+# not only as a text flag (silent failure class).
+if ($flags -gt 0) { exit 2 } else { exit 0 }

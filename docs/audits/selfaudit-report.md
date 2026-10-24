@@ -3,6 +3,28 @@
 > governance.md section 10 draft. THIRD-LINE defense input for the weekly
 > evolution round. A claim with NO evidence marker is a hallucination candidate.
 
+- [fluxgroup] 370866b482 files=1 :: MV: arm W2 KF batch runner (lj 29 + jd 30 frames, dry-run verified; not fired - waits for layer-3 si
+- [fluxgroup] 49fa19eb16 files=7 :: C2201: product round - KN16 fixed at the source (768P re-burn harvested, native streak pass), film v
+- [fluxgroup] ae32db00af files=10 :: C2199: KN16 rainbow moon halo recoloured to a warm-white film halo, film v4 gated PASS | product
+- [fluxgroup] ec3cb6ffbd files=1 :: C2181: KN rough-cut station gains a --batch tag so each pass keeps its own mp4 and index instead of 
+- [fluxgroup] c10b2f105c files=7 :: mv: xingqing PACK-B v10 (c2167) - R6-2 continuity fixed on the edit layer
+- [fluxgroup] 3c5a3b8ade files=1 :: C2178 fix: restore the eye board JPEG bytes (the replay pass decoded the binary as text)
+- [fluxgroup] ea38058913 files=5 :: C2178: KN15 landed as a built set (paper plane on a rig behind an airliner window) while its keyfram
+- [fluxgroup] a0f6780b11 files=4 :: C2177: framing gate rebuilt as a tracked producer (Fourier-Mellin zoom, C2171 regression 0/7 diffs) 
+- [fluxgroup] 9820f8a66f files=14 :: C2168: KN i2v 480P verify verdict GO (KN21/KN22b clean, KN04 fixed in 2 prompt rounds); shots v3.0 +
+- [fluxgroup] 62ff383690 files=12 :: C2165: PACK-B v8 closes both v7 hard items (S2-10/11 grade compensation + real readable note handwri
+- [fluxgroup] 2b5b243c11 files=5 :: C2163: v7 assembly receipts (5712f/238.000s, grammar PASS)
+- [fluxgroup] 8a4af00165 files=5 :: C2163: PACK-B S1-07 R5 take body-read PASS (v7 assembly fired)
+  -> repo fluxgroup: 12 claim(s), 0 bare
+- [minigame] 0f7bc4e572 files=4 :: C2202: closeout - MemeCat U085 five-member gate completed at 5/5 (item2 screenshot patrol wired, off
+- [minigame] 1e2030f4ad files=3 :: C2199: product round - KN16 rainbow moon halo recoloured at colour level (no sixth burn), film v4 en
+- [minigame] 33ed3b59e6 files=3 :: C2198: product round - KN18 resolved by reframing the KN17 take, film v3 gated PASS, director review
+- [minigame] e5ff37b3a9 files=16 :: X2742: Dudu shows the star bar while you play | 鍚稿槦鍢熸瘡鍏虫槦鏄熺帺鏃跺氨鐪嬪緱瑙?f8187beebb108f6bda1403a6bbd75812
+- [minigame] 2ca62a260f files=4 :: C2189: harvest the C2187 KN galaxy pair (KN17 768P bright-pass/geometry-fail, KN18 bright nebula fai
+- [minigame] d1edb585cc files=6 :: X2731: Dudu BGM bed - per-level key, live master gain, card silences it (qa=snd pass incl. autoplay 
+- [minigame] a002a30531 files=6 :: C2176: birth gates for KN11-KN17 (pseudo-text 7/7 PASS, KN11 push renders flat) + state/snapshot/led
+- [minigame] 795ea20093 files=12 :: X2728: Dudu run history trend - last 8 run totals + 5-bar strip on the finale card (QA ?qa=hist pass
+- [minigame] 6e93a1ca8c files=12 :: X2727: Dudu sound layer - procedural WebAudio cues + mute switch (QA ?qa=snd pass; run/auto/l2 green
 - [minigame] 92ceaddeb1 files=3 :: C2168: KN 480P verify verdict GO (KN04 fixed in 2 prompt rounds); state/snapshot/ledger
 - [minigame] 0352eeaf10 files=6 :: X2717 fold-C: merge machine/C C2166+C2167 (KN frame gate F1-F8 PASS, i2v prompt gate signed) row-lev
 - [minigame] 68aa28e94c files=4 :: C2166: KN frame gate F1-F8 signed PASS (6 repairs zero residual FAIL); state/snapshot/ledger
@@ -12,7 +34,10 @@
 - [minigame] af3453b349 files=4 :: C2163b: v7 assembly landed in-round (5712f/238.000s/grammar PASS), S1-07 r5a in film
 - [minigame] b00ee74c98 files=5 :: C2163: PACK-B S1-07 R5 take body-read PASS, v7 assembly fired (state/snapshot/ledger/board)
 - [minigame] 0384f67652 files=1 :: pipeline: 姣忔閲囬泦 key=value 鎸囨爣锛屼骇鍑哄彲姣旇緝鐨勫垎鏁板崱鑰岄潪鍙湁 PASS/FAIL
-  -> repo minigame: 9 claim(s), 0 bare
+  -> repo minigame: 18 claim(s), 0 bare
+- [bigmoney] 55c0dd2c83 files=3 :: r1195 bm-c: W308 close-out body (finalize 1,101,941 / K 675,520 / line 1.2001, fivekeys 6/6, sixgate
+- [bigmoney] 4bd8ec868f files=24 :: r1194 bm-c: S6 chain completed 39/39 rc0 (scorecard 411s was the slow leg)
+- [bigmoney] fd6b75028e files=44 :: r1191 bm-c: W306 closeout (resumed window) -- six-gate 69th ALL PASS + finalize 1,097,541/K=671,120 
 - [bigmoney] db567af1ae files=1 :: round 1115 postscript: delivery verified (ba54f4b979 on origin)
 - [bigmoney] 510ea788c0 files=1 :: round 1113 postscript: delivery verified (429bb65f12..fb6db47127 on origin, post-edit smoke 57/57)
 - [bigmoney] b4c69d64aa files=2 :: r1112 bm-a: closeout postscript (delivery verified 429bb65f12)
@@ -38,7 +63,7 @@
 - [bigmoney] 61964c8b25 files=3 :: round 1180 (bm-c): W297 five-face splice -- bands A 668_701..670_700 / B 670_701..670_900 registered
 - [bigmoney] 5933f96067 files=2 :: round 1179 (bm-c): W296 cycle closed in one window -- engine 12/12, sixgate 59th ALL PASS, finalize 
 - [bigmoney] 29c7c2632b files=1 :: round 1097 postscript: push receipt 8f1d4b1d7a verified, nine key artifacts reachable on origin
-  -> repo bigmoney: 25 claim(s), 0 bare
+  -> repo bigmoney: 28 claim(s), 0 bare
 - [bigstream] c242651edf files=11 :: R2431: D-20261024-01/-06 ack - brain seat probe reads supervisor last-result (FAKE-GREEN named live:
 - [bigstream] 58063a040f files=1 :: R2425 export refresh via canonical writer (depts/chips/results shapes fixed after first refusal) [vi
 - [bigstream] ba3505650c files=10 :: R2424: ship L-card REACT-v28 (F-203) - zhihu#3 hot-question card, 16/16 M1 verbatim, h2 30 ALL-HORIZ
@@ -47,5 +72,5 @@
 - [bigstream] 50fcecbda9 files=11 :: R2419: #118 leftovers measured - audio loudness PASS both cuts (-14.1 LUFS/-1.1 dBTP), duplicate-sho
   -> repo bigstream: 6 claim(s), 0 bare
 
-## Summary: claims=40 evidence-backed=40 bare(no-files)=0
+## Summary: claims=64 evidence-backed=64 bare(no-files)=0
 ## Round duty: bare claims and keyword-heavy claims get RE-VERIFIED by the evolution round AI (governance 10.3).
