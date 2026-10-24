@@ -149,3 +149,47 @@
 ## 纪律
 
 不 snooze（真机制缺口，禁以噪声标签掩盖）·未 poke（bm-c 活着、B 机属物理离线零催办）·未直写 orders/decisions/POOL·未碰产品代码与场景 YAML·未重测 L0/IdleWatch 已测面。
+
+---
+
+# R6 巡视（biggame 巡视席 · 2026-10-25 00:07-00:14 · 只读只议）
+
+> 触发旗：`gaming/MiniGame/Design/configs/GLOBAL/fleet/c.json: stale 578min > 150min (weak git-copy sensor)`（同 sig 第 6 轮：R2=4661 / R3=4706 / R4=4751 / R5=4796；10-24 13:28 曾一次性刷新，现 R6=578）
+> 结论：**无产线停摆**。R5-1 的根因（心跳本地写、常规 closeout 不收、白名单单侧化）**第二轮未决 → 升级枢纽**。域雷达七项全绿。
+
+## NJ[biggame#R6-1]（承接 R5-1 · 第二轮未决升级）心跳吸收白名单仍单侧化，bm-c 心跳 10.6h 未上链
+
+- 事实①（排除折叠滞后）：`origin/machine/C:Design/configs/GLOBAL/fleet/c.json` 与 `origin/master:同路径` 的 `ts` **同为 2026-10-24T13:28:16** —— 不是 master 折叠慢，是 machine/C 分支自身没更新（与 R2/R16 的「拉取/折叠滞后」判别不同，本轮是分支面就冻住）。
+- 事实②（机器活着且在建）：`origin/machine/C` tip `00644be5c 2026-10-24 23:04 C2203 closeout`；当日 C2195→C2203 连续提交（18:17→23:04）；tick-ledger `21:11:15 / 22:51:15` 两轮 GATESIT_SPAWN 心跳轮（round-3396/3402）；tailscale `bm-c active`（tx 28MB / rx 22MB 非零）。
+- 事实③（写手曾在跑，只是没上链）：13:28:16 的 c.json 内容是当日活值（ram_free 36.4% / gpu util 3% / vram_free 14008MB），且它正是被 `84ecf05f1 2026-10-24 13:42 C2181 chore: absorb autostash runtime rows` 从 autostash 里一次性捞上 master 的 —— 证明 **本地写了、常规 closeout 不收录**。
+- 事实④（白名单两处单侧）：bm-a 侧 `gaming/MiniGame/tools/x2721_gitops.py:18` 只列 `Design/configs/GLOBAL/fleet/a.json`；machine/C 上 fleet 目录最后一次提交仍是 13:42 的 C2181 —— C 系列 closeout 未列该件。
+- 判读：同因同面 22h 未修；本旗＝**监控链缺口（心跳只写不提交）**，非生产事故，故按章程「两轮未决」升级枢纽，同时按指示对本旗做 24h 降噪（NJ 保留、到期自动复报＝新决策点）。
+- 建议（成本升序，候枢纽裁；本席只读不改）：
+  1. `x2721_gitops.py` PATHS 第 18 行 `fleet/a.json` → 通配 `fleet/*.json`（一行，bm-a 侧立即生效）；
+  2. bm-c 各轮 closeout 白名单补 `Design/configs/GLOBAL/fleet/c.json`（对等化，根治面）；
+  3. 传感面改读 `origin/machine/C:Design/configs/GLOBAL/fleet/c.json` 的 `ts`（而非本地 mtime，`Tools/patrol-fleet-config.json` biggame 段），消除常数误报；
+  4. closeout 模板写死一行「心跳件按 glob 收，禁按机名硬编码」，防再单侧化。
+- 判据：24h 内 `git log -1 -- Design/configs/GLOBAL/fleet/` 出现携带 c.json 的 C 系列提交；或 c.json `ts` 与 machine/C tip 同轮。
+
+## R6 域雷达复核（§1 七项 · 传感复用 + 增量直读）
+
+| 检项 | 结果 |
+|---|---|
+| ① 门禁链 | `MiniGame-PipelineGate` Last=23:56:01 **Result=0** Next=00:26；`pipeline-20261024-235602` 38.2s **8/8 PASS**（preflight crash_streak=0 idle_streak=0 bm_old=0 / line-data checks=3 problems=0 / scenes-4k 6/6 / audio 49 文件 delta=0.01 / car-adapt scale=1.000 headroom=2.70 / layout / ui-kit 11→12.44 / 16→22.21）。`MiniGameRedlineAudit` **Last=10-24 20:46 Result=0**（R5-2 的 WARN 已消） |
+| ② 包体四值 | 13/13 `*_bundle_budget.json` **result=PASS**；G05/G07/G08/G13/G20 记录 10-24 00:40 全量刷新，其余为未动款历史件（未重测） |
+| ③ 提审硬门 | `CEO-PROXY/DEADLINES.md` 乱码/陈旧属 group 横切席在册件，本轮零重复升级；提交夹无新件 |
+| ④ WIP 上限 | production-queue 46 件：in_progress=**3**（<5）· blocked=3 · ready=18 · backlog=11 · done=11 |
+| ⑤ 产线批健康 | pipeline 证据 23:56 新鲜（30min 节奏未断）、bm-c C2203 23:04、bm-c tick 22:51 —— 无陈旧假 DONE |
+| ⑥ 玩法差异四问 | 零新立项款；新件 `Proto04_DuduThree`（10-24 23:30）属吸嘟嘟同 IP 原型（CEO 三模式令），四问门不适用，仅留痕 |
+| ⑦ 资产批合规 | `production/reports/asset-audit-2026-09-14` 仍是最新（~41 天）—— AA 登记制证据断更，属既有诚实边界（R5 已记），本轮只作抽样观察，不作合规结论 |
+
+## 域观察（不入 NJ · 仅留痕）
+
+- `MiniGameDailyDigest` Last=10-24 11:07 **Result=2**（Next=10-25 11:07）：`DailyDigest.ps1:32/37` 的 `MAIL_CONFIG_MISSING` / `SECRET_MISSING (QQ SMTP 授权码)` 出口 → 凭据属 CEO 物理件，零催办（前班已记）。
+- `MiniGameCeoDeskServer` Result=2147946720（0x800710E0）＝实例在跑时被再触发，tick 面正常，不作停摆证据。
+- 三条一次性任务 Next 为空：`MiniGameBoardForge`(09-23) / `MiniGamePopupWitness`(09-24 Result=4294967295) / `MiniGameOllamaServe`(10-20) —— 沿用「一次性注册不设 Next」现状，留痕不代改。
+
+## 纪律
+
+- 无 poke（bm-c 活着且在产：C2203 23:04 + tick 22:51）；未直写 orders/decisions/POOL；未碰产品代码与场景 YAML；未重测 L0/IdleWatch/枢纽已测面。
+- 本旗降噪 ≠ 掩盖：24h snooze 到期自动复报；机制缺口由 NJ[biggame#R6-1] 承载。
