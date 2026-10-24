@@ -163,6 +163,7 @@ foreach ($rel in $pullSet) {
       $heads += ([string]$rel + ':no-repo'); continue
     }
     $lines = @()
+    $preLines = $null
     # v1.9.6 (CEO full-sync 2026-10-24): a repo whose remote.origin.fetch does NOT
     # map its own branch (bm-c MiniGame pulls `machine/C` but the config only maps
     # master) reports "Already up to date" forever while the tracking ref stays
@@ -182,13 +183,50 @@ foreach ($rel in $pullSet) {
           if ($LASTEXITCODE -eq 0) { break }
           Start-Sleep -Seconds 4
         }
+        # v1.9.6d: promisor warm-up (ported from FleetPush stage 1.1). A merge
+        # that needs ~2900 commits of blobs dies as ONE lazy backfill batch; the
+        # fix is to warm the blobs of the touched paths in small chunks first,
+        # then merge. Bounded (50 chunks x 8 shas) and fail-soft.
+        $tgt = "origin/" + $br
+        $null = & $git -C $p rev-parse --verify $tgt 2>&1
+        if ($LASTEXITCODE -eq 0) {
+          $probe = @(& $git -C $p merge --ff-only $tgt 2>&1 | ForEach-Object { [string]$_ })
+          $probeS = $probe -join ' | '
+          if ($probeS -match 'up to date|Fast-forward') { $preLines = $probe }
+          if ($probeS -notmatch 'up to date|Fast-forward|would be overwritten') {
+            try {
+              $partial = @(& $git -C $p config --get remote.origin.promisor 2>$null | ForEach-Object { [string]$_ })[0]
+              if ($partial -eq 'true') {
+                $base = @(& $git -C $p merge-base HEAD $tgt 2>$null | ForEach-Object { [string]$_ })[0]
+                if ($base) {
+                  $touched = @(& $git -C $p diff --no-renames --name-only $base $tgt 2>$null | ForEach-Object { [string]$_ })
+                  $tipTree = @{}
+                  @(& $git -C $p ls-tree -r $tgt 2>$null) | ForEach-Object {
+                    $pp = ([string]$_) -split "`t"
+                    if ($pp.Count -eq 2) { $tipTree[$pp[1]] = ($pp[0] -split ' ')[2] }
+                  }
+                  $shas = @($touched | Where-Object { $tipTree.ContainsKey($_) } | ForEach-Object { $tipTree[$_] } | Select-Object -Unique)
+                  $i = 0; $batch = 0
+                  while ($i -lt $shas.Count -and $batch -lt 50) {
+                    $hi = [Math]::Min($i + 7, $shas.Count - 1)
+                    $chunk = @($shas[$i..$hi])
+                    $chunk | & $git -C $p cat-file --batch-check 2>$null | Out-Null
+                    $i = $hi + 1; $batch++
+                  }
+                  WK-Log 'promisor-warm' ([string]$rel + ' touched=' + $touched.Count + ' warmed_chunks=' + $batch)
+                }
+              }
+            } catch { }
+          }
+        }
       }
     } catch { }
     # v1.9.6b: merge the freshly fetched tracking ref explicitly (a bare
     # `git pull` resolves the upstream from config and misses the ref we just
     # refreshed when the clone is single-branch).
     try {
-      if ($br -and $br -ne 'HEAD') { $lines = @(& $git -C $p merge --ff-only ("origin/" + $br) 2>&1 | ForEach-Object { [string]$_ }) }
+      if ($preLines) { $lines = $preLines }
+      elseif ($br -and $br -ne 'HEAD') { $lines = @(& $git -C $p merge --ff-only ("origin/" + $br) 2>&1 | ForEach-Object { [string]$_ }) }
       else { $lines = @(& $git -C $p pull --ff-only 2>&1 | ForEach-Object { [string]$_ }) }
     } catch { $lines = @([string]$_.Exception.Message) }
     $s = $lines -join ' | '
