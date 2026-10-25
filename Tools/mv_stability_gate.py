@@ -22,7 +22,7 @@ SCALE = 1344.0 / W
 SHIFT_MIN = 6.0        # px at 1344 width
 SIM_MIN = 0.78
 RESID_MAX = 14.0
-FREEZE_MAD = 0.20
+FREEZE_MAD = 0.02      # near-identical frames only; grain keeps real slow shots above this
 FREEZE_RUN = 3
 
 
