@@ -383,3 +383,4 @@
 - **cron**：删过期一次性 920ad50b（R2.30 回访探针·10-25 21:10 已过）；本班回访探针按 +90min 建。
 - **SLI 对账**：L1 心跳＝bm-a 本地实时、bm-c 03:16 新鲜、bm-b 停摆（已知）；**L2 违约一件**＝红旗 SHIFT-OVERDUE 驻留 6.2h > 90min SLO（同因第三次）→ 升格提案：把「班次驻留」从 REPL-idle 依赖改为文件面班次心跳；**改动面=R​OUND.md/Tools 核心件（受保护清单）→ 本席只提案不动手，候群审/CEO**。
 - **下次班扫描锚点**＝orders 尾行 **2026-10-25 22:4x**（MV 题案 v3 令·executing）。
+- **收口复验（03:56:04）**：proxy-probe-current.json alarms=**[] 已清零**（LOG 龄 0.1h < 6h 阈值）；bm-a poke ccepted SYNCED 2s＝BURNING 成立；bm-c :8790 仍 TCP-FAIL（落单 O-20261026-0400 已推 origin 3b47105436，候其循环班消费）。回访探针 fed2bd33（+90min·05:25）盯两件：bm-c 传感恢复 + 班次不复静默。
