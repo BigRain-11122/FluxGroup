@@ -331,3 +331,17 @@
 - **保留停用面（零动作·非本班漏项）**：bm-a-Bili* 五条（账号安全红线）｜HQ-OpenClaw* 三条｜HQ-LocalOnlyOn｜HQ-Patrol-BigCompute/BigDomain/BigHouse/BigLife/BigMoney/BigStream/CPH4/FluxVerse 八条（LLM 判断面，fit 10-20 T0 停云令 §八「无人值守 LLM 判断面暂停」）｜账号连结 QuarkUpdater + SoftLanding 两条（厂商自更新）。
 - **回访探针（v3）**：已下 cron 一次性 +90min 复探（复核面=①探针 00:11 轮 alarms 复归空 ②载体 00:06 轮零 PROBE 旗 ③LOG age 回落 <26h）。
 - **四元组**：**00:3x｜事件班｜44 调用（实测·含收口推送与复验）｜verdict=PROBE-DOWN 根因治理完成（Disabled 漏项→恢复+点火实证），PROXY-SILENT-DEATH 以本行写入消除，尾部冲突垃圾清零；零落单零 poke（无跨机依赖），S4U 两行入 backlog 候提权**。
+
+## Round R2.29（2026-10-25 13:11-13:5x）事件班（承载件触发·HQ-CEOProxyEventCarrier 13:11:07 pid=51000）
+- **触发现**：`PROXY-SILENT-DEATH: CEO-PROXY/LOG.md age 26.2h (>26h)`（probe 13:11:04 → NEED-JUDGMENT → carrier 拉起本班）。
+- **步0 锁门**：lock mtime=10-24 00:07（过期 37h）→ 本窗接管持锁；班毕再 touch。
+- **根因（深挖，非表面）**：8 班 durable cron（9632cee5）只在 Codely REPL idle 时触发，本机无常驻 REPL → **物理不可能按时触发**；实际唯一驱动=probe→carrier。probe 的 LOG-age 阈值 26h 因此成了系统节拍器 → 实效 ≈1 班/日，而非 8 班/日。旁证：LOG 实落点 R2.27(10-20 05:57) → R2.28(10-24 00:0x) → R2.29(10-25 13:11)；其中 10-24 15:43/18:43/21:43/23:43 与 10-25 02:43/05:43/08:43/12:43 **全部零班**。
+- **裁决（T1·工具非受保护件）**：`Tools/proxy-probe.ps1` 改双阈值 —— >6h=`SHIFT-OVERDUE`（carrier 拉起；日帽 6 + 去抖 40min + 同签名 90min 全保留）／>26h=`PROXY-SILENT-DEATH`（原语义保留）。为何 6h：回执雷达判据本是「unacked >2h ⇒ poke」，26h 节拍让该判据结构性失效；6h×日帽=至多 4 班/日，绿班 ≤6 调用，成本可控。ROUND.md 属受保护件，未动。
+- **第二发现（更重·量化全线停摆 23.4h）**：BM 仓末笔 10-24 13:49（r1195），此后 0 提交。三源实测——①**bm-a**：Bigmoney-IterationLoop/Autofill/PoolWorker/ResidentDispatcher **全部 Disabled**（漏跑 344/1098/439/2196）；最后正常轮 10-24 08:33（loop 日志 C2/C3 healthy、CLOUD_CAP_DEFER live=2），08:36 watchdog 之后整族被停，**盘上无书面溯源**。②**bm-b**：tailscale offline 2d，ping 与 :8790 双否 → 物理离线。③**bm-c**：tailscale last seen ~1h、ping 超时、:8790 不通 → 物理离线（其 MiniGame c.json 最后 10-25 08:28）。→ 三个量化生产位全部不可用=**全线停摆**，非单点抖动。
+- **未擅动 bm-a 量车道**：CEO 2026-10-24 定位令「这台机器专职负责《爱在西元前》」；今日周日 GPU 3%/3.6G-12G 空闲属 MV 待料（1c216b40 记 GPU idle since 22:09）。擅自恢复量车道=违 CEO 定位令 → 交 waiting-CEO 一线选项。
+- **bm-a 本机实况（供裁定）**：GPU 3% / 3.6G-12G、RAM free 21.4G/93.6G、CPU 34%、:8090(35B)/:11434/:8790 全在听；今日周日非工作日，AutoYield 白天禁令不适用。
+- **SLI 面**：L1 心跳——MiniGame a.json 0.2h（bm-a 活）／c.json 3.7h（bm-c 停）／b.json 36.5h（bm-b 停）；BM 侧 bm-a 25.0h、bm-b 37.9h、bm-c 24.1h 全超 30min 线。L3 死线——量化停摆未披露过 = 本条首次披露。
+- **S4U 违例面（复发登记）**：HQ-MA-ProxyProbe / HQ-CEOProxyEventCarrier 仍 `LogonType=Interactive`（违 2026-09-29 S4U 律）→ 本班每次 shell 调用都会在 CEO 桌面闪控制台窗；提权导入 XML 属物理件，已在 `Tools/task-s4u-backlog.md` 在册，零催办。
+- **改动面**：`Tools/proxy-probe.ps1` 双阈值（T1）+ 本 LOG 行 + DEADLINES waiting-CEO 两行 + 一次性回访探针 cron（15:2x）。零云端调用、零真金。
+- **四元组**：13:11-13:5x｜事件班（承载件触发）｜≈26 调用｜verdict=根因定谳（cron 物理不可触发→探针阈值改双档）+ 量化全线停摆定性（bm-b/bm-c 物理离线 + bm-a 量车道 Disabled 维持）+ 两件物理件登记。
+- **下次班扫描锚点**=orders 尾行 b2739176 时代（10-25 12:00 决策轮之后）；本班未新增 orders 行（无派单可落：两目标机物理不可达）。

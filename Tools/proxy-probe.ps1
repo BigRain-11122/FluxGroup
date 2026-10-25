@@ -1,6 +1,10 @@
 # proxy-probe.ps1 - HQ-MA-ProxyProbe action body (G13 monitor-the-monitor)
 # Phase 1-alpha of MASTER-AGENT BLUEPRINT v2 (O-20261014-1745). Registered ONLY via Tools/task-register.ps1 (U060).
-# Watches: proxy shift log freshness (26h), L0 dispatch log freshness (3h), event-carrier heartbeat (2h).
+# Watches: proxy shift log freshness (6h), L0 dispatch log freshness (3h), event-carrier heartbeat (2h).
+# 2026-10-25 R2.29 (T1): shift-log threshold 26h -> 6h. Why: the 8-shift durable cron only fires while a
+# Codely REPL sits idle, and no persistent REPL exists here, so the probe->carrier path is the ONLY driver.
+# At 26h the effective metronome was ~1 event shift/day, which left the receipt radar ("unacked >2h => poke")
+# and the deadline radar 26h coarse - blind by construction. 6h x carrier daily cap 6 = at most 4 shifts/day.
 # Alarms -> proxy-probe-alarms.log (append) + proxy-probe-current.json (overwrite snapshot, consumed by the
 # carrier) + NEED-JUDGMENT.md (best-effort, L0 may regenerate it). Own heartbeat for the morning shift check.
 $ErrorActionPreference = 'Stop'
@@ -18,6 +22,7 @@ $found = @()
 if (Test-Path $pmlog) {
     $age = ((Get-Date) - (Get-Item $pmlog).LastWriteTime).TotalHours
     if ($age -gt 26) { $found += ('PROXY-SILENT-DEATH: CEO-PROXY/LOG.md age {0:N1}h (>26h)' -f $age) }
+    elseif ($age -gt 6) { $found += ('SHIFT-OVERDUE: CEO-PROXY/LOG.md age {0:N1}h (>6h)' -f $age) }
 } else { $found += 'PROXY-SILENT-DEATH: CEO-PROXY/LOG.md missing' }
 
 if (Test-Path $dl) {
