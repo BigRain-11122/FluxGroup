@@ -142,13 +142,13 @@ NEW = [
 
     # ---- 场 5 尾奏1 146.70-174.20「光进·浅方形显形」----
     ("T21", 146.70, 151.70, 0.86, "演唱锚①=钢琴旁侧影（零脸·2.5s 实拍位 5s 源）",
-     kf("med", "eye", "%s at an old upright piano in profile, only his shoulder and the line of his jaw in frame, his hands resting lightly on the keys, the keys still level, the varnish dull and worn" % HIM, "room_lamp", lens="50", tex="film_night"),
+     kf("med", "eye", "%s at an old upright piano in profile, only his shoulder and the line of his jaw in frame, the head cut off by the top edge of the frame, his face entirely out of view, his hands resting lightly on the keys, the keys still level, the varnish dull and worn" % HIM, "room_lamp", lens="50", tex="film_night"),
      i2v("A medium shot at eye level", CM["stead"], "A young man at an old upright piano in profile, only his shoulder and jawline in frame, his hands resting lightly on the keys, the keys still level, the dull varnish catching a thin light")),
     ("T22", 151.70, 164.00, 0.84, "拉开窗帘=日光第一次入房（手臂全程匀速不停顿·接受态）",
      kf("wide", "eye", "%s. Drawing the heavy curtains open with one steady arm, grey-white daylight breaking into the room and laying a long bright path across the bare floor" % HIM, "day_white", lens="35", tex="film_day"),
      i2v("A wide shot at eye level", CM["static"], "A young man drawing heavy curtains open with one steady arm, grey-white daylight breaking into the room and laying a long bright path across the bare floor")),
     ("T23", 164.00, 174.20, 0.85, "浅方形显形+抬手停半空（v2.2 给观众的手指·唯一指路）",
-     kf("med", "eye", "the wall in raking white daylight, the paint two stops paler in a tall rectangle where a wooden frame hung, his raised palm stopping in the air a hand-span clear of the wall, the fingers curled just short of contact", "patch_light", lens="50", tex="film_day"),
+     kf("med", "eye", "the wall in raking white daylight, the paint two stops paler in a tall rectangle where a wooden frame hung, his raised palm stopping in the air a hand-span clear of the wall, the palm held clear of the paint, open air visible between hand and wall, the fingers curled just short of contact", "patch_light", lens="50", tex="film_day"),
      i2v("A medium shot at eye level", CM["static"], "A wall in raking white daylight with a tall paler rectangle of paint, a raised palm stopping in the air a hand-span clear of it, the fingers curled just short of contact, the hand held still")),
 
     # ---- 场 6 尾段副歌 174.20-200.88「最后一次回望」----
