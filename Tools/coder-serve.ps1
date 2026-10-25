@@ -12,8 +12,18 @@ try { $null = Invoke-RestMethod -Uri 'http://127.0.0.1:8090/health' -TimeoutSec 
 
 $model = 'C:\Users\sjs20\models\qwen36-35b\Qwen3.6-35B-A3B-UD-IQ4_XS.gguf'
 $exe   = 'C:\Users\sjs20\models\llamacpp-b11429\llama-server.exe'
-if (-not (Test-Path $model)) { exit 0 }
-if (-not (Test-Path $exe))   { exit 0 }
+if (-not (Test-Path $model)) {
+  $miss = Join-Path $root 'media\logs\coder-serve-MISSING.log'
+  $null = New-Item -ItemType Directory -Force -Path (Split-Path $miss)
+  Add-Content -Path $miss -Value ((Get-Date -Format 'yyyy-MM-dd HH:mm:ss') + ' MISSING_MODEL ' + $model)
+  exit 2   # fail-loud: a missing artifact must not look like success (BigStream F-20261024-BS01)
+}
+if (-not (Test-Path $exe)) {
+  $miss = Join-Path $root 'media\logs\coder-serve-MISSING.log'
+  $null = New-Item -ItemType Directory -Force -Path (Split-Path $miss)
+  Add-Content -Path $miss -Value ((Get-Date -Format 'yyyy-MM-dd HH:mm:ss') + ' MISSING_EXE ' + $exe)
+  exit 2
+}
 
 $stamp = Get-Date -Format 'yyyyMMdd-HHmmss'
 $logDir = Join-Path $root 'media\logs'
