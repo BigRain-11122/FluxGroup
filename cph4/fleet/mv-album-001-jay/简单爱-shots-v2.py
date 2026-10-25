@@ -42,8 +42,9 @@ BIKE = "an old steel single-speed city bicycle with chrome fenders, a wire front
 
 
 def kf(shot, angle, subject, light, lens="35", tex="film_day", extra=""):
-    s = "A %s of %s, %s. %s. Shot on %s, %s, %s, %s." % (
-        LX.SHOT_SIZE[shot], subject, LX.CAM_ANGLE[angle],
+    art = "An" if LX.SHOT_SIZE[shot][:1].lower() in "aeiou" else "A"
+    s = "%s %s of %s, %s. %s. Shot on %s, %s, %s, %s." % (
+        art, LX.SHOT_SIZE[shot], subject, LX.CAM_ANGLE[angle],
         LX.LIGHT[light].capitalize(), LX.LENS[lens],
         GRADE_2001, LX.TEXTURE[tex], STYLE_LEAD)
     return s + (" " + extra if extra else "")
@@ -69,15 +70,15 @@ NEW = [
      kf("wide", "eye", "an empty 2001 Taipei lane at mid-morning in clear white daylight, grey concrete paving with a pale worn stripe down the middle, an old shopfront shutter half raised at the far end", "day_clear", lens="35", tex="film_day"),
      i2v("A wide shot at eye level", CM["static"], "An empty Taipei lane in clear white daylight, grey concrete paving with a worn pale stripe, the shutter at the far end lifting slowly, dust drifting in the open light")),
     ("T02", 13.00, 26.12, 1.05, "他推车入画（鼓音）→ 镜头随车轮缓摇",
-     kf("med", "eye", "%s pushing %s along the lane, his hand on the saddle, the chrome fender throwing a small hard glint" % (HIM, BIKE), "day_clear", lens="35", tex="film_day"),
+     kf("med", "eye", "%s. Pushing %s along the lane, his hand on the saddle, the chrome fender throwing a small hard glint" % (HIM, BIKE), "day_clear", lens="35", tex="film_day"),
      i2v("A medium shot at eye level", CM["panr"], "A young man pushing an old steel bicycle along a lane, his hand resting on the saddle, the chrome fender throwing a small hard glint as the camera pans with the wheels")),
 
     # ---- 场 0b 主歌 1 26.12-56.21「她跑过来·被石阶绊倒·扶起相识」----
     ("T03", 26.12, 36.08, 1.05, "她跑进巷口（鼓点落·人群零添加）",
-     kf("med", "eye", "%s running into the lane from a side street, one hand holding the hem of her skirt, her school bag swinging out behind her" % HER, "day_clear", lens="50", tex="film_day"),
+     kf("med", "eye", "%s. Running into the lane from a side street, one hand holding the hem of her skirt, her school bag swinging out behind her" % HER, "day_clear", lens="50", tex="film_day"),
      i2v("A medium shot at eye level", CM["stead"], "A young woman running into a lane from a side street, one hand holding the hem of her skirt, her bag swinging out behind her, the camera holding as she fills the frame")),
     ("T04", 36.08, 46.10, 1.10, "石阶绊倒（失误=动作链真实·裙摆与掌心同框）",
-     kf("wide", "low", "%s catching her canvas shoe on a low stone step and pitching forward, one palm thrown out toward the paving, the bicycle stopping at the near edge of the frame" % HER, "day_clear", lens="35", tex="film_day"),
+     kf("wide", "low", "%s. Catching her canvas shoe on a low stone step and pitching forward, one palm thrown out toward the paving, the bicycle stopping at the near edge of the frame" % HER, "day_clear", lens="35", tex="film_day"),
      i2v("A wide shot from a low angle", CM["static"], "A young woman catching her shoe on a low stone step and pitching forward, one palm thrown out toward the paving, the bicycle stopping at the near edge of the frame")),
     ("T05", 46.10, 56.21, 0.95, "伸手扶起（外化：他先在裤缝蹭一下手·扶起后多停半拍·掌心蹭破一划）",
      kf("cu", "eye", "his hand pressed flat against the seam of his trousers once before reaching out, then closing around her forearm above a small graze on her palm, the fingers staying there a beat too long", "day_clear", lens="50", tex="film_day"),
@@ -85,7 +86,7 @@ NEW = [
 
     # ---- 场 1 主歌 A 56.21-75.60「愿望一：骑单车」----
     ("T06", 56.21, 65.68, 0.90, "她抓他袖口又放开（羞涩三态①）→ 视线落到后座",
-     kf("med", "eye", "%s standing up with her fingers hooked in his shirt cuff for balance and then letting go, her eyes dropping to the ground" % HER, "day_clear", lens="50", tex="film_day"),
+     kf("med", "eye", "%s. Standing up with her fingers hooked in his shirt cuff for balance and then letting go, her eyes dropping to the ground" % HER, "day_clear", lens="50", tex="film_day"),
      i2v("A medium shot at eye level", CM["stead"], "A young woman standing up with her fingers hooked in a shirt cuff for balance, then letting go, her eyes dropping to the ground")),
     ("T07", 65.68, 75.60, 0.90, "他用自己的袖子擦车座（郑重到笨拙·v2.1 #3）→ 她坐上后座发丝逆风",
      kf("med", "eye", "his forearm wiping the leather saddle twice with his own shirt sleeve, %s already side-saddle behind him with her hair lifting in the lane wind" % HER, "day_clear", lens="35", tex="film_day"),
@@ -115,12 +116,12 @@ NEW = [
      kf("wide", "eye", "a school sports field in the afternoon with netting and a dirt infield, %s mid-pitch and %s at the plate with a wooden bat" % (HIM, HER), "day_clear", lens="35", tex="film_day"),
      i2v("A wide shot at eye level", CM["static"], "A school sports field in the afternoon with netting and a dirt infield, a young man mid-pitch and a young woman at the plate with a wooden bat")),
     ("T14", 128.40, 135.06, 1.15, "挥空三次笑场（玩心档·挥拍三连快切）",
-     kf("med", "eye", "%s swinging the bat through empty air for the third time and laughing at herself, the bat dropping to her shoulder" % HER, "day_clear", lens="50", tex="film_day"),
+     kf("med", "eye", "%s. Swinging the bat through empty air for the third time and laughing at herself, the bat dropping to her shoulder" % HER, "day_clear", lens="50", tex="film_day"),
      i2v("A medium shot at eye level", CM["stead"], "A young woman swinging a bat through empty air for the third time and laughing at herself, the bat dropping to her shoulder")),
 
     # ---- 场 4 副歌间 135.06-154.94「愿望四：雨中伞」----
     ("T15", 135.06, 145.28, 1.00, "暴雨突至·伞永远斜向她那边（他半肩湿=守护外化）",
-     kf("med", "eye", "%s holding a plain long umbrella tilted hard toward her while his own shoulder darkens with rain, the street behind them blue-grey and empty" % HIM, "rain_soft", lens="50", tex="film_night"),
+     kf("med", "eye", "%s. Holding a plain long umbrella tilted hard toward her while his own shoulder darkens with rain, the street behind them blue-grey and empty" % HIM, "rain_soft", lens="50", tex="film_night"),
      i2v("A medium shot at eye level", CM["stead"], "A young man holding a plain long umbrella tilted hard toward a young woman while his own shoulder darkens with rain, the blue-grey street behind them empty")),
     ("T16", 145.28, 154.94, 0.95, "伞下的分歧（她伸手接雨·他轻轻拉回=全片唯一分歧·v2.1 #1）",
      kf("cu", "eye", "her hand reaching out past the umbrella rim with the palm open to the rain, and his hand closing gently around her wrist to draw it back under the canopy", "rain_soft", lens="50", tex="film_night"),
@@ -131,13 +132,13 @@ NEW = [
      kf("wide", "eye", "the two of them standing under a narrow eave with the rain sheeting off the edge in a bright line, both laughing, one warm lamp behind them and the wet street cold beyond", "rain_soft", lens="35", tex="film_night"),
      i2v("A wide shot at eye level", CM["static"], "Two young people standing under a narrow eave with rain sheeting off the edge in a bright line, both laughing, a warm lamp behind them and the wet street cold beyond")),
     ("T18", 164.66, 174.74, 0.85, "屋檐下教她假装弹吉他（耳根红·指尖只碰三根指头·羞涩三态②）",
-     kf("med", "eye", "%s sitting on a step with a guitar across her knee and her hand flat on the strings, %s crouched beside her guiding her wrist with three fingertips, his ears reddening" % (HER, HIM), "eave_win", lens="50", tex="film_day"),
+     kf("med", "eye", "%s. Sitting on a step with a guitar across her knee and her hand flat on the strings, %s crouched beside her guiding her wrist with three fingertips, his ears reddening" % (HER, HIM), "eave_win", lens="50", tex="film_day"),
      i2v("A medium shot at eye level", CM["static"], "A young woman sitting on a step with a guitar across her knee and a hand flat on the strings, a young man crouched beside her guiding her wrist with three fingertips")),
     ("T19", 174.74, 184.64, 0.95, "独自撑伞漫步街头（间奏·原版记忆点「最青涩最纯情」）",
-     kf("wide", "eye", "%s walking alone along the wet street under the umbrella, the rain easing, his reflection travelling with him along the pavement" % HIM, "rain_soft", lens="35", tex="mist"),
+     kf("wide", "eye", "%s. Walking alone along the wet street under the umbrella, the rain easing, his reflection travelling with him along the pavement" % HIM, "rain_soft", lens="35", tex="mist"),
      i2v("A wide shot at eye level", CM["track"], "A young man walking alone along a wet street under an umbrella, the rain easing, his reflection travelling with him along the pavement, the camera tracking at his pace")),
     ("T20", 184.64, 194.46, 0.88, "（词面物质镜）他蹲下用手指在积水里写「简单爱」",
-     kf("cu", "high", "%s crouching at the edge of a shallow puddle with one finger drawing three characters in the water, the surface breaking and reforming behind his fingertip" % HIM, "eave_win", lens="50", tex="film_day"),
+     kf("cu", "high", "%s. Crouching at the edge of a shallow puddle with one finger tracing three short strokes into the water, the marks already illegible and closing over, the surface breaking and reforming behind his fingertip" % HIM, "eave_win", lens="50", tex="film_day"),
      i2v("A close-up from a high angle", CM["static"], "A young man crouching at the edge of a shallow puddle, one finger drawing characters in the water, the surface breaking and reforming behind his fingertip")),
 
     # ---- 场 5b 间奏 194.46-223.83「雨停空景 + 堤面再坐」----
@@ -156,13 +157,13 @@ NEW = [
 
     # ---- 场 7 尾段 223.83-256.78「愿望终章：不放开」----
     ("T25", 223.83, 231.50, 1.00, "黄昏骑车载她远去（背影剪影·愿望第一项的回收）",
-     kf("wide", "eye", "%s riding %s away down the embankment road with her behind him, both reduced to dark silhouettes against the low sun" % (HIM, BIKE), "day_back", lens="35", tex="film_day"),
+     kf("wide", "eye", "%s. Riding %s away down the embankment road with her behind him, both reduced to dark silhouettes against the low sun" % (HIM, BIKE), "day_back", lens="35", tex="film_day"),
      i2v("A wide shot at eye level", CM["static"], "A young man riding a steel bicycle away down an embankment road with a young woman behind him, both reduced to dark silhouettes against the low sun")),
     ("T26", 231.50, 239.12, 1.00, "巷口晚灯亮起（钠灯不校正·暖橙只落在口那里）",
      kf("wide", "eye", "the mouth of an old alley at dusk with a single sodium lamp switching on, warm orange pooling on the concrete while the rest of the street stays cool grey", "dusk_sodium", lens="35", tex="film_night"),
      i2v("A wide shot at eye level", CM["static"], "The mouth of an old alley at dusk with a single sodium lamp switching on, warm orange pooling on the concrete while the rest of the street stays cool grey")),
     ("T27", 239.12, 249.19, 0.88, "她先伸手（坦荡三态③·反转）→ 他愣半拍→扣紧",
-     kf("med", "eye", "%s reaching her hand out first with the palm open, %s pausing half a beat before his fingers close over hers, his throat moving once" % (HER, HIM), "dusk_sodium", lens="50", tex="film_night"),
+     kf("med", "eye", "%s. Reaching her hand out first with the palm open, %s. Pausing half a beat before his fingers close over hers, his throat moving once" % (HER, HIM), "dusk_sodium", lens="50", tex="film_night"),
      i2v("A medium shot at eye level", CM["stead"], "A young woman reaching her hand out first with the palm open, a young man pausing half a beat before his fingers close over hers, his throat moving once")),
     ("T28", 249.19, 256.78, 0.88, "十指相扣特写（拇指压一下）+「就这样」字帧 1s（思源宋体系）",
      kf("ecu", "eye", "two hands laced together at the centre of the frame, the thumbs pressing once into the backs of the hands, the sodium light warm on the knuckles", "dusk_sodium", lens="85", tex="film_night"),
