@@ -110,9 +110,14 @@ SOURCE_OVERRIDE = {
     # S4-23 stays local: dead middle dropped, take sped up 1.118x (mean frame
     # change 0.54 -> 0.61, the single 0.25s hold removed). Invisible at 12s.
     "S4-23": "clips-repaired-768/XQ_S4-23-sp112.mp4",
+    # Director defect: the 760px crop still admitted a profile at 50.3-51.8s.
+    # Pre-cropped at 700px (x 0-700, y 30-424) and verified frame-by-frame.
+    "S1-09": "clips-repaired-768/XQ_S1-09-crop700.mp4",
     # S5-27 shipped with a 7-frame dead hold at 174.46s; re-burned at 768P with
     # seed 141421, which measured freezes=0.
-    "S5-27": "clips-local-768/XQ_S5-27-r3.mp4",
+    # Director D2: r5 still carried two parallel streaks at 174.5s and 183.0s.
+    # r6 is a clean take of the same milky band (no streaks, matches S5-26/28).
+    "S5-27": "clips-local-768/XQ_S5-27-r6.mp4",
 }
 IN_FRAME = {}
 
@@ -134,7 +139,7 @@ MOTIONS = ("S1-07", "S2-10", "S5-29")
 TAIL_START = 218.0
 # V8-1: the two shots the director flagged for a colour/detail break.
 GRADE_V8 = ("S2-10", "S2-11")
-CROP_R6 = {"S1-09": ",crop=760:428:0:170,scale=%d:%d:flags=lanczos,setsar=1,unsharp=5:5:0.5" % (W, H)}
+CROP_R6 = {}  # S1-09 now arrives pre-cropped (see SOURCE_OVERRIDE)
 GRADE_CHAIN = (",colorbalance=rm=-0.10:gm=-0.03:bm=0.10:rh=-0.16:gh=-0.05:bh=0.16"
                ":rs=-0.02:bs=0.04,eq=brightness=-0.03:contrast=1.08:saturation=1.08"
                ",unsharp=5:5:0.8")

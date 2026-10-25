@@ -1,6 +1,6 @@
 # Xingqing PACK-B - assembly index v3 (C2168)
 
-> Built 2026-10-25T00:09:59+08:00. Revise pass on EDL v5: title card, edit language, opening prop, tail plate.
+> Built 2026-10-25T10:53:38+08:00. Revise pass on EDL v5: title card, edit language, opening prop, tail plate.
 
 - units: **40** / cut: **5712 frames = 238.000s** / drift: **0**
 - transitions: dissolve **6** / blur **4** / motion **3** / cut **26**
