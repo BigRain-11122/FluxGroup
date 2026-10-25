@@ -142,3 +142,5 @@
 | 值守轮 2026-10-25 夜 | 值守轮 | 今日最弱一环=感知面全绿而两件既定动作（orders 分卷首波 / 周日 disk-sweep）连续两班零推进——预算全花在「看」，没花在「动」 | @夜轮当班自认：10-26 03:07 首件执行分卷；disk-sweep 改法升 E1 交决策轮 |
 
 - **委员会 2026-10-26 00:00 班（批一/第 15 批·步序 5 行）：** 复盘四问落 `cph4/research/R-20261026-decision-round-retro.md`（指针）——①拍板 3 行：closed 1/dispatched 2·ceo-pending 0·overruled 复扫 0·翻案 0；②chronic：MiniGame 反馈件缺失（结构性）+BigStream/FluxVerse 断更→记违例 1 行入 D-20261026-03，patrol-stamp 第 15 班维持 D-20261025-04 不伪造；③反思消费：disk-sweep 两班零输出→夜轮 03:07 E1、推送 behind7/ahead6→03:07 判 FF、周日记忆通道缺失→周轮 R6；④迭代：归因未核销（死线 03:07）+新项 2（推送收敛/BigStream·FluxVerse·MiniGame 反馈面恢复）。台账指针=docs/decisions.md D-20261026-01~03。
+
+| 值守轮 2026-10-26 夜 | 值守轮 | 今日最弱一环=感知面「体积归因」能力缺失：TEMP 全递归扫描连续 3 班 5 分钟零输出被杀、disk-sweep 连续 2 班同病，燃烧率点名只能停在「@HQ 工具域」而无 origin 级证据——不是没发现而是发现了量不出 | @HQ 工具域（下次带电必须换分目录限额扫描法，禁第 3 次原法硬跑）；决策轮择法 |
