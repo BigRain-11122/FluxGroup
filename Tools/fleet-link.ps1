@@ -87,11 +87,18 @@ try {
 if ($NodeId -eq '') { $NodeId = $env:COMPUTERNAME }
 
 # ---- bind (node tailnet IP + loopback; skip missing) + v1.1 self-upgrade ----
-$Vers = '1.9.4'
+$Vers = '1.9.5'
 # v1.9.4: a same-version listener already owning the port means "healthy";
 # exit silently. Before this, every supervisor run logged 2 bind-fail lines,
 # which rotated the real sync history out of log.jsonl (200-line cap).
+# v1.9.5: "healthy" also requires the node tailnet address in the listen set.
+# At boot this process can start before the tailnet interface carries its IP;
+# Try-Bind then logs bind-fail and leaves loopback only, and every later
+# supervisor run treated that survivor as healthy (bm-c 2026-10-26: :8790 on
+# 127.0.0.1 only while ICMP+tailscale handshake were fine -> every peer
+# TCP-refused). A loopback-only listener is now replaced on the next cycle.
 $sameVerAlive = $false
+$rebindNeeded = $false
 try {
   $owners = @(Get-NetTCPConnection -LocalPort $Port -State Listen -ErrorAction SilentlyContinue |
               Select-Object -ExpandProperty OwningProcess -Unique)
@@ -99,6 +106,14 @@ try {
     $rv = ''
     try { $rv = [string]((Get-Content -Raw $StateF | ConvertFrom-Json).version) } catch { }
     if ($rv -eq $Vers) { $sameVerAlive = $true }
+    if ($node -and [string]$node.tailnet_ip -ne '') {
+      $addrs = @(Get-NetTCPConnection -LocalPort $Port -State Listen -ErrorAction SilentlyContinue |
+                 Select-Object -ExpandProperty LocalAddress -Unique)
+      if (-not (@($addrs) -contains [string]$node.tailnet_ip)) {
+        $rebindNeeded = $true
+        $sameVerAlive = $false
+      }
+    }
   }
 } catch { }
 if ($sameVerAlive) { exit 0 }
@@ -122,7 +137,7 @@ if ($listeners.Count -eq 0) {
   # port taken: if the RUNNING instance is an older version, take over (self-upgrade)
   $runningVers = ''
   try { $runningVers = [string]((Get-Content -Raw $StateF | ConvertFrom-Json).version) } catch { }
-  if ($runningVers -ne '' -and $runningVers -ne $Vers) {
+  if ($runningVers -ne '' -and ($runningVers -ne $Vers -or $rebindNeeded)) {
     FL-Log 'self-upgrade' ('running=' + $runningVers + ' new=' + $Vers + ' - replacing old listener')
     try {
       $old = Get-CimInstance Win32_Process -Filter "Name='powershell.exe'" -ErrorAction SilentlyContinue |
