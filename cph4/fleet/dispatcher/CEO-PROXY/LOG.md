@@ -1,4 +1,4 @@
-﻿# LOG — CEO 总调度代理席·轮班日志
+# LOG — CEO 总调度代理席·轮班日志
 
 > 每轮一行/机（时刻+verdict+行动）·零判断件时一行收敛；本文件=「到点执行率 ≥90%」判据的证据面。
 > v2 起（2026-10-14）：每行必带班型四元组=时刻｜班型（绿/标准/事件）｜调用数｜verdict+行动（效率判据证据面）。
@@ -366,3 +366,20 @@
 - **下次班扫描锚点**=orders 尾行（2026-10-25 18:2x｜决策轮 18:00 批四回执）。
 
 - **R2.30 反转闸豁免（正当改写一行）**：本班推 aa059d35 时闸报 1 条 REVERSAL=DEADLINES.md 行「量化全线停摆 23.4h…」——因该行被**就地翻新**（尾追加 R2.30 勘正、前缀保留）致整行文本变更，非丢行。原行义（延误披露）未抹除，符合「已过窗死线如实标注禁抹除」——记豁免，无须恢复。
+
+## Round 2.31 ‖ 2026-10-26 03:41→03:5x（事件班·承载件触发：PROBE SHIFT-OVERDUE 6.2h）
+
+- **元行**：03:41→03:5x｜**事件班**（承载件/探针复活路径触发）｜≈20 调用｜verdict=**非故障·物理窗口**（班次无 idle REPL）＋**传感面实缺口一件**（bm-c FleetLink :8790 拒连，生产面在飞）＋**台账完整性缺陷一件已修**（LOG 尾部 stash 冲突标记 8 行）
+- **触发现**：media/logs/proxy-probe-current.json alarms=「SHIFT-OVERDUE: CEO-PROXY/LOG.md age 6.2h (>6h)」stamp 03:41:04；NEED-JUDGMENT 同步 1 行（L0 每轮重生成面）。步0 锁门：锁 mtime=10-25 19:35:20（8.1h 陈·>10min）→ 本窗接管并 touch 至 03:41。
+- **根因定谳（第三次同因·非 cron 丢失）**：21:43/23:43/02:43 三班无落账＝**无 idle REPL 会话**，durable cron 只在 REPL idle 时触发（R2.29/R2.30 判例复现）。八班件 06db2b40 在册且表达式 43 2,5,8,12,15,18,21,23 正确；探针 6h 阈值按设计报警，**承载件→探针→本班复活链按设计工作**（班龄 6.2h＝报警后即时复活）。
+- **台账完整性缺陷（本班首修）**：LOG.md 尾部残留 **8 行 stash 冲突标记**（<<<<<<< / ||||||| / ======= / >>>>>>>），系 R2.30 收口时 autostash pop 冲突未清（R2.25 同族第三例）。已按「保留 Updated upstream 侧正文」清除标记，R2.30「反转闸豁免」行原文完整保留，零内容丢失。
+- **状态取证（本窗新鲜验证）**：
+  1. **bm-a**＝本地 poke ccepted SYNCED 2s（ok=True）。量车道维持 Disabled（CEO 10-24 专职《爱在西元前》令）。CPU/GPU 面按传感复用律不重测。
+  2. **bm-c＝传感面断、生产面在飞（关键勘正）**：ICMP 通、tailscale handshake 03:48 新鲜，但 **:8790 TCP 拒连＋HTTP 超时**（03:44/03:50 两次复测同）；同时 quant origin/main 已推进到 **round 1272 @03:18:33**（本窗 git merge --ff-only 前移 29 笔、0 ahead），心跳 status=green r1272。**结论＝不是车道停摆，是 FleetLink 监听器不在**。
+  3. **bm-b**＝tailscale offline last seen **3d**（物理件·零催办维持）。
+- **风险登记（本席无命令面·只登记）**：**bm-c RAM free 0.45GB / load 98%**（总 23.9GB）＝近 OOM，连续第三班同项；quant CPU 高载下可能抖动/被 OOM kill。
+- **落单**：quant/bigmoney/fleet/orders/O-20261026-0400-bm-c.md —— 令 bm-c 本机自愈 FleetLink 监听（重跑 register-fleet-link / 起 worker 任务）+ 让路 RAM（thin 并发·勿动在飞批）+ 回执窗 6h + 验收物＝:8790 从 bm-a 侧 TCP+HTTP 双通且 /status 返回 origin_main。
+- **反转闸（推前跑）**：git-no-reversal-check.py origin/main origin/main --depth 30 --audit → 24 candidates / 4013 历史增行；逐条复核两条关键件＝LOG 头部 BOM 行（BOM 首行敏感性假阳性）与 DEADLINES「量化全线停摆 23.4h」行（R2.30 已记豁免的就地翻新）**均在位**，其余为他窗正常改写 → **零真丢行**。
+- **cron**：删过期一次性 920ad50b（R2.30 回访探针·10-25 21:10 已过）；本班回访探针按 +90min 建。
+- **SLI 对账**：L1 心跳＝bm-a 本地实时、bm-c 03:16 新鲜、bm-b 停摆（已知）；**L2 违约一件**＝红旗 SHIFT-OVERDUE 驻留 6.2h > 90min SLO（同因第三次）→ 升格提案：把「班次驻留」从 REPL-idle 依赖改为文件面班次心跳；**改动面=R​OUND.md/Tools 核心件（受保护清单）→ 本席只提案不动手，候群审/CEO**。
+- **下次班扫描锚点**＝orders 尾行 **2026-10-25 22:4x**（MV 题案 v3 令·executing）。
