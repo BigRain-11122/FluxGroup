@@ -1516,7 +1516,7 @@
   },
   {
    "id": "kn-packA-i2v-768p-wave-c2168",
-   "status": "claimed",
+   "status": "done",
    "priority": 65,
    "auth": "KN i2v 480P verify verdict GO (KN-I2V-VERIFY480-VERDICT-20261024) — the 768P wave is the station-3 deliverable of O-20261023-2325 for the 可爱女人 pack.",
    "require": {
@@ -1535,7 +1535,9 @@
    "log_out": "media/mv-album-001-jay/logs/kn_i2v_768p_wave.out.log",
    "log_err": "media/mv-album-001-jay/logs/kn_i2v_768p_wave.err.log",
    "note": "KN 30-unit 768P production wave (1344x768 int8, first_frame = the C2166 signed KN frames, prompt rev v3.0 for KN04 / v2.8-v2.9 for the rest). PASS gate = ALBUM LANE DONE ok=30 fail=0 in the log tail. Long burn (~3h) => run via the self-healing loop; SKIP is idempotent so a restart resumes. No native audio (CEO audio ban).",
-   "claimed_ts": "2026-10-24T05:50:59"
+   "claimed_ts": "2026-10-24T05:50:59",
+   "done_ts": "2026-10-26T07:55:00",
+   "done_note": "ALBUM LANE DONE ok=30 fail=0 in log media/mv-album-001-jay/logs/kn_i2v_768p_wave.out.log; claim left open since 2026-10-24, closed by board audit 2026-10-26 (accounting only, no re-burn)"
   },
   {
    "id": "kn-pa768-harvest-c2169",
@@ -1599,5 +1601,6 @@
    "done_ts": null,
    "done_note": null
   }
- ]
+ ],
+ "_note_20261026": "lookdev-20261025 batch (K:/Fluxgroup/.codely-cli/tmp/lookdev_bank.py) runs outside the bank by design as decision support for the CEO 2026-10-25 22:4x new-process order; it is not KF and not a final, so it does not violate the D1-before-KF gate. Authorized by O-20261026-0735 sec.4."
 }
