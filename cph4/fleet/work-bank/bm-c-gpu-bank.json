@@ -1539,7 +1539,7 @@
   },
   {
    "id": "kn-pa768-harvest-c2169",
-   "status": "pending",
+   "status": "claimed",
    "priority": 66,
    "auth": "station-3 gate for the KN A pack: the 30-unit 768P wave is burning (job 65), and its output is unread until every clip is probed, duplicate-run checked and sampled.",
    "require": {
@@ -1558,7 +1558,8 @@
    "log_out": "media/mv-album-001-jay/logs/kn_pa768_harvest.out.log",
    "log_err": "media/mv-album-001-jay/logs/kn_pa768_harvest.err.log",
    "note": "Zero GPU. Waits for ALBUM LANE DONE (or 30 stable clips), then per unit: ffprobe, framemd5 duplicate run, three native frames, two 5-column boards, verdict JSON KN-PA768-HARVEST-c2169.json. PASS gate = HARVEST-END ok=30 check=0.",
-   "created_ts": "2026-10-24 06:1x"
+   "created_ts": "2026-10-24 06:1x",
+   "claimed_ts": "2026-10-24T14:45:59"
   },
   {
    "id": "kn-pa-station4-conform-author-c2169",
@@ -1582,7 +1583,7 @@
   },
   {
    "id": "kn-pseudo-guard-c2170",
-   "status": "pending",
+   "status": "claimed",
    "priority": 1,
    "auth": "C2170",
    "require": {},
@@ -1593,7 +1594,7 @@
    "log_out": "media/mv-album-001-jay/logs/kn_pseudo_guard.out.log",
    "log_err": "media/mv-album-001-jay/logs/kn_pseudo_guard.err.log",
    "note": "Zero GPU. Scans every landed KN_A-*.mp4 for the C2170 subtitle-band pseudo-text class (KN02 is a confirmed hit: a generated caption strip, clean keyframe, so it is a generator prior). Writes evidence-c2170/pseudotext-guard.json with halt_recommended. Never kills a burn.",
-   "claimed_ts": null,
+   "claimed_ts": "2026-10-24T15:00:59",
    "claimed_by": null,
    "done_ts": null,
    "done_note": null
