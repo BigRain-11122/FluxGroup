@@ -134,3 +134,12 @@
 - 复发计数: 2
 - 状态: armed
 - 升格记录: 2026-10-17 城市线附卷立册按二犯档·观察窗=两审计周期零双环（归族注记：年轮逐字重复 T-20261011-01/meet 闸陈旧出口 T-20261015-01 并入 PR-08 族）
+
+### PR-20261026-01 机器心跳 GPU 字段失真与键爆炸（bm-c / bm-a）
+- 来源: 2026-10-26 07:4x 调度席实测（BOARD-20261026 勘误）+ O-20261026-0735/0810 心电面
+- 复发史·根因: 连续多班（10-19 起同族登记）·根因=心跳写手把同一事实写成 20+ 个近义键（gpu_free_vram_mb/gpu_idle_vram_mib/gpu_used_mib…），且采样口径不一：bm-c 07:45:44 写入 gpu_face = nvidia-smi 1% / 2044 MiB，同刻 nvidia-smi 实测 100% / 14912 MiB；bm-a.json last_seen 停在 10-24 08:14（机器 tailscale active）
+- 出生地闸: 心跳写手（fleet-oversight.ps1 采集 + fleet-audit.ps1 读面）缺「单一真值键 + 采样时刻自证」
+- 验证证据: 本窗实测 nvidia-smi 与心跳文件对读不一致；调度判活只能退化为看产物节拍（lookdev 45-50s/张）
+- 复发计数: 3
+- 状态: open
+- 升格记录: 2026-10-26 立册（调度席）；修法候选=只保留 gpu.util_pct/vram_used_mb/vram_total_mb 三键+ts+source，写后回读断言

@@ -1600,6 +1600,28 @@
    "claimed_by": null,
    "done_ts": null,
    "done_note": null
+  },
+  {
+   "id": "lookdev2-mv-reboot-20261026",
+   "status": "pending",
+   "priority": 2,
+   "auth": "CEO 2026-10-25 22:4x new-process order (D1 before KF) - look-dev is decision support not KF, see O-20261026-0735 sec.4",
+   "require": {
+    "files_at_least": [
+     [
+      "media/mv-album-001-jay/lookdev-20261025",
+      ".png",
+      28
+     ]
+    ]
+   },
+   "cmd": [
+    "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe",
+    "K:\\Fluxgroup\\.codely-cli\\tmp\\lookdev_bank2.py"
+   ],
+   "log_out": "media/mv-album-001-jay/logs/lookdev2.out.log",
+   "log_err": "media/mv-album-001-jay/logs/lookdev2.err.log",
+   "note": "phase 2 chained after lookdev_bank.py: LJ female looks + LJ/JD scene light setups; waits for phase-1 pythonw to exit before burning so two GPU clients never overlap. 27 stills ~45-50s each on the Krea2 lane."
   }
  ],
  "_note_20261026": "lookdev-20261025 batch (K:/Fluxgroup/.codely-cli/tmp/lookdev_bank.py) runs outside the bank by design as decision support for the CEO 2026-10-25 22:4x new-process order; it is not KF and not a final, so it does not violate the D1-before-KF gate. Authorized by O-20261026-0735 sec.4."
