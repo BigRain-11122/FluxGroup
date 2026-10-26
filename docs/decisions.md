@@ -325,3 +325,5 @@
 | 2026-10-26 | D-20261026-19 PT-20261026-03 巡检断班复检：断班已恢复，报告落盘仍缺 | orders 10-26 09:30 行／docs/patrol 实读 | ①docs/patrol/ 末件=patrol-2026-10-15.md（10-16~10-25 共 11 天零报告）；②今日 origin 已有两笔 patrol commit（715b6967/2470fb44）=运行面恢复；③orders 声明的 docs/patrol/patrol-2026-10-26.md Test-Path=False=报告面仍断 | ①断班项**闭合**（今日已运行）；②报告落盘 24h 内补（owner=@HQ 工具域/patrol 班），判据=文件存在+RUN_ID+今日六道读数；③runner 成功判据加「报告文件存在」，无文件=rc≠0，禁只 commit 不落报告 | T2（机制运转·即过即生效） | dispatched（@HQ 工具域 24h） |
 
 > 本批 ceo-pending=0；escalated 存量=1（MiniGame D-20261026-14，A/B 待 CEO）；overruled 复扫=0。physical-reminder 不变：BigDomain bootstrap 四件（服务器/域名+备案/支付商户号）与定价确认权仍在 CEO 面（R1669 在册，禁催办）。
+
+| 2026-10-26 | D-20261026-16 执行回执（本班临时 worktree merge-push 成功） | 本常务轮 18:1x 实测 | ①worktree d12merge-1810 自 origin/main 8d164668 起；②合并 fd250fe6，5 件冲突按 append-only union 收口（CODELY.md 取 origin 全量，防记忆回退）；③push 8d164668..f1f29558 HEAD->main 成功，零 stash/零 rebase，主工作树脏面未动 | D-16 翻 **executed**；验收=origin 台账行数≥两方之和、零冲突标记、UTF-8 全绿 | T1-v2（既定） | executed（origin f1f29558） |
