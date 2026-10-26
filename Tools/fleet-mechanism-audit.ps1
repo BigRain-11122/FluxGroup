@@ -65,24 +65,15 @@ if (Test-Path -LiteralPath $sa) {
   else { $script:flags++; Probe 'silence_audit' ('STALE age_h=' + [int]$age) }
 } else { $script:flags++; Probe 'silence_audit' 'MISSING' }
 
-# 5) Patrol claim stamp (F-09 law, <= 8 d; while missing this probe keeps a
-#    known-open E1 visible EVERY shift instead of only on patrol day)
+# 5) Patrol claim stamp probe DEREGISTERED 2026-10-26 (D-20261026-07).
+#    Root cause per that ruling: patrol-stamp.json never existed - no writer was
+#    ever registered (FluxGroup-PatrolRound absent from all 61 tasks) and no
+#    consumer existed either. A probe over an unregistered, unconsumed periodic
+#    artifact is ledger decoration: it counted the same absence every shift and
+#    made this tool exit rc=2 forever. Re-register the probe ONLY together with
+#    a registered writer AND a named consumer (D-20261026-07 clause 2).
 $ps = Join-Path $Root '.codely-cli\patrol\patrol-stamp.json'
-if (Test-Path -LiteralPath $ps) {
-  $age = ($now - (Get-Item -LiteralPath $ps).LastWriteTime).TotalDays
-  if ($age -le 8) { Probe 'patrol_stamp' ('OK age_d=' + [int]$age) }
-  else { $script:flags++; Probe 'patrol_stamp' ('STALE age_d=' + [int]$age) }
-} else { $script:flags++; Probe 'patrol_stamp' 'MISSING (F-09 E1 open)' }
-
-# 5b) stamp path contract (D-20261025-04): the audit path must equal the
-# runner's literal, otherwise a fresh stamp can look MISSING forever.
-$runner = Join-Path $Root 'Tools\patrol-runner.ps1'
-if (Test-Path -LiteralPath $runner) {
-  $hit = Select-String -LiteralPath $runner -Pattern 'patrol-stamp\.json' -SimpleMatch:$false -ErrorAction SilentlyContinue
-  if (-not $hit) { $script:flags++; Probe 'stamp_path' 'RUNNER-LITERAL-MISSING' }
-  elseif ($ps -notmatch 'patrol-stamp\.json$') { $script:flags++; Probe 'stamp_path' 'PATH-MISMATCH' }
-  else { Probe 'stamp_path' 'OK' }
-} else { $script:flags++; Probe 'stamp_path' 'RUNNER-MISSING' }
+Probe 'patrol_stamp' 'DEREGISTERED (D-20261026-07: no writer, no consumer)'
 
 Write-Output ('MECHANISM AUDIT ' + $now.ToString('yyyy-MM-dd HH:mm') + ' flags=' + $flags)
 # D-20261025-04: a missing/stale probe must be visible to callers as rc!=0,
