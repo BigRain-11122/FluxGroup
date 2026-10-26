@@ -27,7 +27,11 @@ OLLAMA = r"C:\Fluxgroup\MiniGame\Tools\Ollama\ollama.exe"
 
 # profile -> (model, keep_alive, vram_gate_mb_needed, note)
 PROFILES = {
-    "text-fast": ("qwen2.5:7b-instruct", "30m", 6200, "通用文本：测得 59.6 tok/s / 5.9GB"),
+    # 4B is the resident default on purpose: sentinel + work-runner hardcode it
+    # (keep_alive=-1) and it leaves 3.3GB headroom on an 8GB card for the image
+    # lane; 7B costs +1GB and -18% tok/s for marginal quality gain in lane work.
+    "text-fast": ("qwen3.8:4b", "30m", 5400, "常驻默认：77.0 tok/s / 4.9GB（哨兵与工作轮消费此槽）"),
+    "text-standard": ("qwen2.5:7b-instruct", "20m", 6300, "更高质量交互：59.6 tok/s / 5.9GB"),
     "text-quality": ("bili-reply-14b:latest", "10m", 7900, "离线批量：4.4 tok/s / 7.9GB，禁与图像同跑"),
     "image": (None, None, 1200, "图像车道：先卸全部文本模型，再起 ComfyUI"),
     "audio": (None, None, 1200, "音频车道：先卸文本，再跑 IndexTTS/GPT-SoVITS"),

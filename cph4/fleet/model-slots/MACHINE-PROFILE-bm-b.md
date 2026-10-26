@@ -36,11 +36,14 @@
 
 | Profile | 内容 | 显存 | 适用 |
 |---|---|---|---|
-| `text-fast` | qwen2.5:7b-instruct·keep_alive 30m | 5.4 GB | 循环班/哨兵/回复线交互式 |
+| `text-fast`（默认常驻） | qwen3.8:4b·keep_alive 30m | 4.9 GB | 哨兵/工作轮/循环班（**消费方硬编码 4B，槽位须与之对齐**） |
+| `text-standard` | qwen2.5:7b-instruct·keep_alive 20m | 5.9 GB | 需要更好语感的交互（回复候选初筛） |
 | `text-quality` | bili-reply-14b·keep_alive 10m | 7.9 GB | 离线批量（慢但稳），**独占** |
 | `image` | 卸全部文本 → ComfyUI | 需 ≥6.5 GB 空闲 | KF/素材烧制 |
 | `audio` | 卸全部文本 → IndexTTS / GPT-SoVITS | 需 ≥4.5 GB 空闲 | 配音/声线 |
 | `idle` | 全卸 | 0.65 GB | 让路 CEO 用机/保底 |
+
+**为什么默认是 4B 而不是 7B**：`bmb-sentinel.ps1` 与 `bmb-work-runner.ps1` 把 `qwen3.8:4b` 写死为 keep_alive=-1 的常驻件（09-xx 起的设计）。7B 虽语感更好，但 +1GB 显存、−18% 速度，在 8G 卡上会挤掉图像车道的余量。**任务负载优先于纸面最优**——所以 7B 降为按需档 `text-standard`，不与常驻槽抢位。（实测佐证：切 7B 后哨兵下一拍即 `REPINNED` 拉回 4B，双模型共存会超卡）。
 
 切换：`python Tools/model_slot.py --profile <name>`（带 VRAM 闸，超预算直接 REFUSE）；查状态 `--status`。
 
@@ -48,9 +51,9 @@
 
 | 任务 | 槽位 | 理由 |
 |---|---|---|
-| 量化循环班（BM IterationLoop） | text-fast | 每分钟级交互，需低延迟 |
-| 哨兵/自驱工件 | text-fast | 同上 |
-| B 站回复候选（离线批） | text-quality | 4.4 tok/s 可接受，质量优先 |
+| 量化循环班（BM IterationLoop） | text-fast（4B） | 每分钟级交互，需低延迟且与哨兵同槽 |
+| 哨兵/自驱工件 | text-fast（4B） | 消费方硬编码 4B，禁改槽 |
+| B 站回复候选（离线批） | text-quality（14B） | 4.4 tok/s 可接受，质量优先 |
 | 漫剧 KF 烧制 / MV KF | image | 与文本互斥 |
 | 漫剧配音 / 声线微调 | audio | 与文本互斥 |
 | CEO 用机（「我要工作」） | idle + 释放阀 | 让路律 |
