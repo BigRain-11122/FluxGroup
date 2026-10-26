@@ -407,3 +407,15 @@
 - **收口复验**：本班落账后复跑探针 → alarms 清旗（见下条补记）；回访探针 +90min 一次性 durable；锁班毕 touch。
 - **四元组**：16:56→17:2x｜事件班（承载件触发）｜≈44 调用｜verdict=非故障（同因第 4 次）+ 注册表缺口已修（cron 重建 b20d1690）+ 台账污染已清 + 四件登记。
 - **下次班扫描锚点**＝orders 尾行 2026-10-26 09:30 巡更行（PT-20261026-01/02/03）。
+
+
+## Round 2.33｜2026-10-26 22:36→22:5x｜事件班（承载件触发 PROBE-DOWN｜HQ-CEOProxyEventCarrier 22:36:26）｜调用数≈36｜verdict=触发面已复活+节拍链条件硬化落地；根因未完全闭合（留取证动作）
+- **触发→点火**：22:36:26 carrier 抛 `PROBE-DOWN: probe-current.json stale >2h`（快照 19:56:05，age 2h40m）→ 22:41:32 探测面进程内复活（快照刷新 alarms=0）→ 22:41:47 计划任务实跑 Result=0、22:41:48 快照再刷新；carrier 22:41:07 Result=0 NextRun 22:46:06。**BURNING 已验证**（三分钟内两次独立实跑）。
+- **确定性事实（事件日志实证）**：①今日两次非正常关机=Kernel-Power 41+EventLog 6008（14:07:22 / 20:10:44，后者 20:10:39 重启）；②重启后 20:11:17 TerminalServices 21/22 已登录会话 ID=1；③电源方案 SCHEME_MIN：STANDBYIDLE=0 / HIBERNATEIDLE=0（永不睡眠）、吸尔尔（hibernate）未启用；④Kernel-General 12/13 无时钟跳变（每次启动 UTC 与 +08:00 一致）；⑤任务条件 `RunOnlyIfIdle=False`（IdleDuration=PT10M 仅为备位值不生效）。**即：睡眠门/空闲门/无会话门/时钟跳变门四门全部实证排除。**
+- **空窗实证**：20:11→22:33 全机队车道任务零实例（DISPATCH-LOG 尾 20:01 后直接跳到 22:33，probe 19:56 后无记录），22:33:40 起 ~20 件任务在同一秒成簇补跑 —— 症状形态=「错过的触发被永久丢弃」（`StartWhenAvailable=False`），一次 2h23m 全机队盲窗。
+- **未闭合项（诚实边界）**：调度器为何在该窗口完全无派发，缺逐任务证据 —— `Microsoft-Windows-TaskScheduler/Operational` 日志当前 IsEnabled=False（启用需提权）。已登记取证动作，禁以此当结论。
+- **副发现（条件拒绝实证）**：4 件任务 LastResult=0x800710E0（条件不满足被拒）——BigCompute-ResidentQA / BigLife-OSLoop / MiniGameCeoDeskServer / FluxGroup-FleetLink；与 `DisallowStartIfOnBatteries=True` 同向，属可消加重项。
+- **当班处置（T1·可逆·全量备份）**：节拍链 10 件 → `StartWhenAvailable=True` + `DisallowStartIfOnBatteries=False` + `StopIfGoingOnBatteries=False`（探测/承载另加 `WakeToRun=True`）：HQ-MA-ProxyProbe、HQ-CEOProxyEventCarrier、HQ-FleetDispatcher、HQ-FleetIdleWatch、HQ-Patrol-Group、bm-a-ShiftSupervisor、bm-a-DeliveryWatch、FluxGroup-OrderSentinel、BigCompute-OrderSentinel、FluxGroup-FleetOversight。原 XML 备份 `%TEMP%\sched-backup-20261026-224131`、`%TEMP%\sched-core-backup-20261026-224222`；回滚=按备份 XML 重注册。**硬化语义**=未来再遇任何形式的调度停搞，错过触发会在条件恢复后补跑，不再永久丢弃。
+- **残留单（已落 NEED-JUDGMENT，未闭环不吹绿）**：①其余 57 件 enabled 车道任务仍缺 `StartWhenAvailable`（批量补跑有惊群风险=需分批+低峰窗口，非本班擅动）②探测/承载仍 InteractiveToken（S4U 需提权·DEADLINES 既有 waiting-CEO 行已更新取证权重）③今日两次非正常关机电源侧未查（物理面·零催办登记）④TaskScheduler/Operational 日志启用（同需提权）。
+- **回访探针**：+90min 一次性 durable cron（约 2026-10-27 00:1x）复探 probe 快照新鲜度 + 节拍链任一任务 LastResult=0x800710E0 复发判读。
+- 判据注：SLI-L1 心跳新鲜度当日本班记为**违约一次**（≤30min SLO 被 2h23m 空窗击穿），如实入账不豁免；因果=承载面静默，非机队算力面。
