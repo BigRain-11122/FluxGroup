@@ -384,3 +384,26 @@
 - **SLI 对账**：L1 心跳＝bm-a 本地实时、bm-c 03:16 新鲜、bm-b 停摆（已知）；**L2 违约一件**＝红旗 SHIFT-OVERDUE 驻留 6.2h > 90min SLO（同因第三次）→ 升格提案：把「班次驻留」从 REPL-idle 依赖改为文件面班次心跳；**改动面=R​OUND.md/Tools 核心件（受保护清单）→ 本席只提案不动手，候群审/CEO**。
 - **下次班扫描锚点**＝orders 尾行 **2026-10-25 22:4x**（MV 题案 v3 令·executing）。
 - **收口复验（03:56:04）**：proxy-probe-current.json alarms=**[] 已清零**（LOG 龄 0.1h < 6h 阈值）；bm-a poke ccepted SYNCED 2s＝BURNING 成立；bm-c :8790 仍 TCP-FAIL（落单 O-20261026-0400 已推 origin 3b47105436，候其循环班消费）。回访探针 fed2bd33（+90min·05:25）盯两件：bm-c 传感恢复 + 班次不复静默。
+
+## Round 2.32 ‖ 2026-10-26 16:56→17:2x（事件班·承载件触发：PROBE SHIFT-OVERDUE 6.0h）
+
+- **元行**：16:56→17:2x｜**事件班**（承载件/探针复活路径触发）｜≈44 调用｜verdict=**非故障·同因第 4 次（班次物理空窗）**＋**注册表实缺口一件已修**（八班 cron 被清空→按 CHARTER §四原参重建）＋**台账二次污染已清**（LOG 尾部 8 行 stash 冲突标记复发）+ 四件登记（D-12 逾期、bm-c RAM 低位、MV 规格缺口、bm-b 离线）。
+- **触发现**：`media/logs/proxy-probe-current.json` alarms=「SHIFT-OVERDUE: CEO-PROXY/LOG.md age 6.0h (>6h)」stamp 16:56:05；NEED-JUDGMENT 同步 1 行；承载件 16:56:08 拉起本班（launches_today=2）。步0 锁门：lock mtime=10-25 19:35:20（21.3h 陈·>10min）→ 本窗接管并 touch 16:56:46。
+- **根因（第 4 次同因·非 cron 表达式问题）**：durable 八班 cron 只在 REPL idle 时触发，本机无常驻 REPL → 05:43/08:43/12:43/15:43 四班零落账；探针 6h 阈值按设计报警，复活链（probe→NJ→carrier→事件班）按设计工作。旁注：LOG mtime 10:54:36 ≠ 班次落账（正文止于 R2.31），系他窗/git 操作触碰，勿当班次证据。
+- **新缺口（本班修复·T1）**：`.codely-cli/scheduled_tasks.json` 被写成空表（16 字节·mtime 2026-10-26 09:00:02，与 09:00 AutoYield pauseLite 同窗，疑同链），`cron_list` 返回 **[]**＝八班 cron 注册整体丢失（R2.31 时 06db2b40 还在册）。按 ROUND 步8/CHARTER §四原参重建：新件 **b20d1690**（`43 2,5,8,12,15,18,21,23 * * *`·durable·prompt=CHARTER §四正身 + R2.29-R2.32 判例注记）。重建后 cron_list=1 件。
+- **状态取证（本窗新鲜验证）**：
+  1. **bm-a**：a.json 16:56:14 新鲜；GPU 3%/3322MiB、ComfyUI :8188 未起；`Bigmoney-IterationLoop`=Disabled（CEO 10-24 专职《爱在西元前》令 + D-20261026-10 维持）；BigStream-OSLoop / BigLife-OSLoop / FluxVerseTick / MiniGameEngineTick = Ready。
+  2. **bm-c**：tailscale active、`:8790` TCP+HTTP 双通（16:58/16:59/17:11 三测）＝**O-20261026-0400 已消费·FleetLink 自愈闭环**；心跳 clock_read 16:22「r1284 closed」、agenda_starved=false、quant origin round 1285@16:25；RAM free 2.2-2.3GB（总 23.9GB）、cpu 12→76%。
+  3. **bm-b**：tailscale offline last seen **3d**（物理件·零催办维持）。
+- **poke（步2/4 正法·17:05）**：fleet-dispatch nodes=3 ok=2 fail=1 —— bm-a accepted SYNCED 2s；bm-c accepted NOT-SYNCED head=0beaa4d5（因本机 HEAD 0afad5f5 领先 origin 15 笔＝分叉伪差，非机队故障）；bm-b 拒连（离线）。
+- **3 分钟复探 BURNING（17:11）**：bm-c ts=17:11:34 鲜活 + CPU 12→76%（回合在跑）；bm-a a.json 鲜；probe 心跳 17:11:04 在扫。SLI L2：旗升 16:56→裁决落 17:1x ≈20min < 90min SLO = PASS。
+- **登记（本席不动手·零催办）**：
+  1. **D-20261026-12 本地分叉 merge-push 逾期**：12:40 窗；12:02 实测 23/12 → 17:0x 实读 **23/15**（本地方向又 +3）。D-20261026-15 已钉 @HQ 主控席 18:00 前执行。本席不代推他窗 15 笔本地提交（含 12:00/15:07 批与导演判据重复件），防双写；只如实披露。
+  2. **bm-c RAM free 2.2-2.3GB** 连续第 4 班低位＝近 OOM 风险；FleetLink 只有信号面无命令面，只登记不走手术。
+  3. **MV A 组服装试片 8 帧**：导演 10:11 判据写「bm-c 直接点火，不再等确认」，实测 6.5h 零点火（GPU 3% + ComfyUI :8188 未起）+ git 全树无 costume/prompt pack 件 → 定性＝**规格缺口（prompt pack 未落库）**，非排产缺口；编制属 MV 导演席域，本席不代写规格、不投合成卡（O-20260928-1820）。
+  4. **bm-a QUEUE-LOW**（open=2<3·L0 每 10min 提示）：真实 backlog 无本机可点火件 → 维持不补合成卡。
+- **台账卫生**：LOG 尾部 8 行 stash 冲突标记**第二次复发**（R2.31 已修一次·同族第五例）→ 本班以 origin 尾为锚整篇重建（markers=0·内容零丢失）并本地落同版。根因＝并发窗 autostash pop 冲突未清；迭代队列提名（不擅改受保护件）：LOG 写入口径统一走原子推 API，本地文件不参与提交。
+- **反转闸判读（推前跑）**：`git-no-reversal-check.py origin/main origin/main --depth 3 --audit` = 1 / 322 历史增行消失候选 = `cph4/fleet/dispatcher/PATROL-FLEET/LOG.md` 首行 BOM 前缀重写（BOM 累积伪差·R2.31 已判同族）= **零真丢行**，记豁免放行；工具内建闸按 depth 1 跑通过（1 笔/68 增行全在）。
+- **收口复验**：本班落账后复跑探针 → alarms 清旗（见下条补记）；回访探针 +90min 一次性 durable；锁班毕 touch。
+- **四元组**：16:56→17:2x｜事件班（承载件触发）｜≈44 调用｜verdict=非故障（同因第 4 次）+ 注册表缺口已修（cron 重建 b20d1690）+ 台账污染已清 + 四件登记。
+- **下次班扫描锚点**＝orders 尾行 2026-10-26 09:30 巡更行（PT-20261026-01/02/03）。
