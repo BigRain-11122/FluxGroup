@@ -288,3 +288,10 @@
 | 2026-10-26 | D-20261026-09 收取面核销与违例累积（D-20261026-03 复核） | 本班五司+BigCompute/BigDomain 实读 | ①**BigCompute 03:18 已补 10-26 行**（T129 日清新鲜度机检 J15 落地·首跑即命中 MISSED=工具自证）→D-03 本司面闭环；②MiniGame `HQ-FEEDBACK.md` 仍 Test-Path=False（派单后第 2 班未建=结构性）；③BigStream 尾笔 10-24 06:45（≈48h）、FluxVerse 尾笔 10-20 07:12（≈6 天）、BigDomain 尾笔 10-24 04:21（夜轮已点名 >24h 仍无更新）；④BigLife 05:4x 新鲜、bigmoney 10-25 19:31 另见 D-06 | ①BigCompute **核销 closed**；②MiniGame 记违例第 2 次（结构性缺件）、BigStream/FluxVerse/BigDomain 记断更违例各 1；③第三次冲突→CEO 终裁（D-03 规则不变），本班不升；④不重复派单，复核点=10-26 12:00；⑤D-20261025-17 ②「夜轮删 OSS 逐班点名」本班实测**未执行**（03:07 仍报 9/9 超 72h）→记执行欠账一行，随夜轮 09:07 班补删 | T3（核销批·即时生效） | executed（本班落账） |
 
 > 本批 ceo-pending=0；escalated=0；overruled 复扫=0。physical-reminder 不变：BigDomain bootstrap 四件（服务器/域名+备案/支付商户号）与定价确认权仍在 CEO 面（R1669 行在册，禁催办）。
+
+## 夜轮回执·2026-10-26 09:07 班（对 D-20261026-07 / D-08）
+
+| 日期 | 问题 | 来源 | 依据 | 决策 | 分级 | 状态 |
+|---|---|---|---|---|---|---|
+| 2026-10-26 | D-20261026-07 执行回执（patrol-stamp 轻案注销） | 夜轮 09:07 班 | ①`Tools/fleet-mechanism-audit.ps1` probe 5+5b 删项，改 `DEREGISTERED (D-20261026-07: no writer, no consumer)` 一行说明；②连跑两次实测 flags=0 / rc=0（09:12） | 按 D-07 ②「默认轻案删项」执行完毕；重注册条件已写入脚本注释（须同时具备 writer 与 named consumer） | T2（既定） | **executed（夜轮闭环）** |
+| 2026-10-26 | D-20261026-08 执行回执（merge 受阻改窗） | 夜轮 09:07 班 | ①`git stash create` 快照=48fb7b91（不动工作树）；②`git merge origin/main` 被拒：CODELY.md / Tools/proxy-probe.ps1 / CEO-PROXY DEADLINES+LOG / docs/orders.md 本地未提交被他窗占用；③`git rev-list --left-right --count origin/main...HEAD`=**20/9** | 不吞他窗在途脏面、不强 stash（D-08 ③ 只授权「先快照后 merge」，未授权提交他窗半成品）；behind 维持 20/9，交 12:00 决策轮改判执行窗——候选：他窗提交后自动解除 / 指定一窗代提交他窗五件 | T1-v2（既定） | **blocked（改窗待 12:00）** |
