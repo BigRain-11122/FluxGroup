@@ -419,3 +419,4 @@
 - **残留单（已落 NEED-JUDGMENT，未闭环不吹绿）**：①其余 57 件 enabled 车道任务仍缺 `StartWhenAvailable`（批量补跑有惊群风险=需分批+低峰窗口，非本班擅动）②探测/承载仍 InteractiveToken（S4U 需提权·DEADLINES 既有 waiting-CEO 行已更新取证权重）③今日两次非正常关机电源侧未查（物理面·零催办登记）④TaskScheduler/Operational 日志启用（同需提权）。
 - **回访探针**：+90min 一次性 durable cron（约 2026-10-27 00:1x）复探 probe 快照新鲜度 + 节拍链任一任务 LastResult=0x800710E0 复发判读。
 - 判据注：SLI-L1 心跳新鲜度当日本班记为**违约一次**（≤30min SLO 被 2h23m 空窗击穿），如实入账不豁免；因果=承载面静默，非机队算力面。
+- 判例（本班实锤）：**台账尾锚追加前必先对齐 origin 基线**——本班 DEADLINES.md 本地工作副本在追加**之前**已比 origin 少一行（10-26 07:4x 调度席翻新行），推送面因此表现为「新增一行+删除一行」；正法=以 origin blob 为基重建再叠本班行（已实作，备份 media/logs/DEADLINES.md.pre-r233-*.bak），且推前用 origin_rows_missing_locally 计数防底。

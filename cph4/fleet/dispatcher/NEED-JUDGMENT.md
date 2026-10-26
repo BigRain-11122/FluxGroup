@@ -4,3 +4,4 @@
 [2026-10-26 22:5x][NEXT] 车道任务条件硬化剩余 57 件（enabled 且非节拍链）：建议分批 ≤15 件/批·低峰窗 02-05 执行·批间观察 CPU 峰值；惊群风险=长时间停搞后同时补跑。责任=下一个晨检班排期，禁一次性全量。
 [2026-10-26 22:5x][NEEDS-ELEVATION] ①HQ-MA-ProxyProbe/HQ-CEOProxyEventCarrier 转 S4U（见 DEADLINES waiting-CEO 既有行，今日为其取证权重）②启用 Microsoft-Windows-TaskScheduler/Operational 日志（本班唯一未闭合根因的取证手段，启用后下次同类停搞可逐任务定罪）。
 [2026-10-26 22:5x][OBSERVE] 0x800710E0 条件拒绝仍在 4 件任务上（BigCompute-ResidentQA/BigLife-OSLoop/MiniGameCeoDeskServer/FluxGroup-FleetLink）：电池门本班仅清在节拍链 10 件，此 4 件未动 → 下批一并处理。
+[2026-10-26 22:5x][TOOL-DEFECT] Tools/git-atomic-push.py 在 GBK 控制台下 run_gate() 窗口输出含 U+FFFD 即 UnicodeEncodeError 崩溃（本班实锤：反转闸已跑完、死在 sys.stdout.write）→ 当场工作法=设 PYTHONIOENCODING=utf-8/PYTHONUTF8=1；建议 1 行固化（sys.stdout.reconfigure(encoding='utf-8', errors='replace')）。受保护件=Tools 核心四件名单内？→ 若在则走群审/主管通道，本班不擅改。
