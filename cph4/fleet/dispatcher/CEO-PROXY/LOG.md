@@ -420,3 +420,17 @@
 - **回访探针**：+90min 一次性 durable cron（约 2026-10-27 00:1x）复探 probe 快照新鲜度 + 节拍链任一任务 LastResult=0x800710E0 复发判读。
 - 判据注：SLI-L1 心跳新鲜度当日本班记为**违约一次**（≤30min SLO 被 2h23m 空窗击穿），如实入账不豁免；因果=承载面静默，非机队算力面。
 - 判例（本班实锤）：**台账尾锚追加前必先对齐 origin 基线**——本班 DEADLINES.md 本地工作副本在追加**之前**已比 origin 少一行（10-26 07:4x 调度席翻新行），推送面因此表现为「新增一行+删除一行」；正法=以 origin blob 为基重建再叠本班行（已实作，备份 media/logs/DEADLINES.md.pre-r233-*.bak），且推前用 origin_rows_missing_locally 计数防底。
+
+## Round 2.34（2026-10-27 05:41→06:0x｜事件班（承载件触发 PROBE SHIFT-OVERDUE 6.2h｜HQ-CEOProxyEventCarrier 05:41:07）｜调用数≈26｜verdict=非机队故障（本席缺班自证面·与 R2.33 PROBE-DOWN 不同案）；副发现=bm-b 复活在跑＋班次 cron 双注册已清＋本地分叉仍开（命令备好未代执）
+- **触发→落锁**：05:41:05 probe 报 `CEO-PROXY/LOG.md age 6.2h (>6h)`；锁 `media/logs/ceo-proxy-patrol.lock` mtime=10-26 22:49:08（age 412min ≫10min=他窗已死锁）→本窗 05:41:22 接管落锁（非跳班）。
+- **新鲜取证（fleet-reality 2026-10-27T05:42:26）**：三机 tailnet=Y／:8790=Y／skew=0；hb_age bm-a 5m・bm-b 4m・bm-c 44m；bm-d tailnet=N（未入网·预期）。L0 派发 05:41:02／探测 05:41:04／承载 05:41:07 同一分钟全在跑（LastResult=0x0）。
+- **根因判读（本班核心结论）**：缺的是**本席自己**——23:43 夜移交班与 02:43 夜产守护班无活会话（cron 只在 REPL idle 触发，夜窗无会话=班次物理不触发，ROUND 班表已预注册此行为）→LOG mtime 自然超 6h。机制面与承载面均健康，**不属 R2.33 的 PROBE-DOWN 族**（该案病灶=错过的触发被永久丢弃，已硬化 StartWhenAvailable）。故「唤醒动作」=本班落账本身，非 poke。
+- **副发现①（重大状态变化·bm-b 复活）**：`quant/bigmoney/fleet/machines/bm-b.json` 05:38:36 落盘、clock_read 05:17:54、cyc_round **r1162**（E95 newest-era tilt stability / E98 end-choice grid）、agenda_starved=false、cpu_load 39% → **推翻 DEADLINES §二「bm-b 物理离线 2d」定性**。量化现势=bm-b r1162 在跑＋bm-c r1298 在跑＋bm-a 量车道 Disabled（CEO 10-24 专职《爱在西元前》令，非故障）→「三生产位全不可用」作废，待裁项收敛为「bm-a 分时恢复与否」。
+- **副发现②（bm-c）**：bm-c.json ts 04:54:13（hb 44m，轮间隔 30-70min 属正常区间）、busy=false、`ram_free_gb=2.03`／`ram_load_pct=91.5`／ram_critical_face 记 0.24GB 谷底 → 低内存风险延续登记（FleetLink 只有信号面无命令面，本席不动手术）。域席产品判读（非本席裁）：r1298 futures sleeve 判 untradeable at CNY 1M（8.08M capital floor）。
+- **当班处置（T1·可逆）·班次 cron 双注册清理**：`cron_list` 见 b20d1690 与 06db2b40 **同表达式** `43 2,5,8,12,15,18,21,23 * * *` 并存（双跑=锁窗并行双班风险，R2.31 重建后旧件未销）→ 删旧件 06db2b40，保留重建件 b20d1690；另清过期一次性件 3 枚（0b114041=10-26 18:47／fed2bd33=10-26 05:25／5e41a604=10-27 00:20，均过期未消费）。清理后席班次 cron=1 件在位（步8 自续 PASS）。
+- **本地分叉披露（D-20261026-12 续）**：origin/main=17b6385b vs 本地 HEAD=7a2baf6a＝**领先 4／落后 20**；`git cherry -v origin/main HEAD` 判读=2 笔已在上游等效（b4a570b8≙638e511c、5599cf13≙e3d9869b＝多窗同内容重复提交族），2 笔独有（+cd209446 patrol group 第4轮／+7a2baf6a night round）。**正法已定= `git rebase --onto origin/main 5599cf13 HEAD`**（自动丢弃两笔重复）。本席**不代执**：工作树有 9 件未提交改动（来自他窗+L0 每 10min 写盘），rebase 必踩他人在途态（违 BRIEF §三-14 禁面）→ 交 @HQ 主控窗在窗口期执行。
+- **盲区补扫（夜班 02:43/05:43 缺班片 7-12）**：⑦平台坑（本轮零云生成调用·TJ 配额未消耗）⑧大文件红线（本轮无 >95MB 入账动作）⑨死线件承载（=本条 cron 双注册修复）⑩新鲜验证律（本章全部数字为 05:38-05:42 实测，非旧注记引用）⑪同病不二犯（LOG 冲突标记亲验=0）⑫保留面零催办（DEADLINES §二 未催办，仅登记状态变化）。关注点 14-16（21:43 片）与盲区 3-6（23:43 片）随两班缺班并入下次班补扫。
+- **回访探针**：+90min 一次性 durable cron（≈07:2x）复探 `proxy-probe-current.json` alarms 是否归零＋LOG age，锁门同守。
+- **四元组**：05:41→06:0x｜事件班（承载件触发）｜≈26 调用｜verdict=非故障（本席缺班）+ bm-b 复活入账 + cron 双注册已清 + 分叉命令备好未代执
+- **下次班扫描锚点**＝orders 尾行 2026-10-26 22:36 事件班行（PROBE-DOWN 处置行）
+
