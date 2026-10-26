@@ -307,3 +307,9 @@
 | 2026-10-26 | D-20261026-14 反馈面续鲜复核（三司：MiniGame 结构性缺件第 3 次／BigStream 死线到点／FluxVerse 维持） | D-20261026-03 与 D-09 复核 + D-20261026-04 ④ 死线 10-26 12:00 | ①MiniGame `HQ-FEEDBACK.md` Test-Path=**False**（第 3 次）但 STATUS.md 09:34:25、STATUS-c 06:51 均新鲜 → **有活性无上报**（结构性，非停产）；②BigStream 尾笔 10-24 06:4x（≈53h），但 12:00 刚出导演 interim verdict（commit 6f1776fe）→ 沉默属**产能挤压**非治理对抗；③FluxVerse 尾笔 10-20 07:12（≈6 天），STATUS.md 缺失，停用态在册（D-20261020-07）；④D-20261026-04 ④ 的死线已到点未达 | ①MiniGame=结构性缺件第 3 次→标 **escalated**，双方案并呈：A（委员会推荐）集团代建 `HQ-FEEDBACK.md` 骨架并写首行「结构性代建」/ B 维持缺件且其审计面逸出集团判据；②BigStream=死线判**未达**，顺延至 10-27 00:00（与 D1/D2 件齐平），逾期即 escalate；③FluxVerse 维持 D-20261020-07 停用态，不叠加处罚，仅要求 10-27 00:00 前落一行现状；④三司均不重复派单（查重律） | T3（核销批·即时生效·MiniGame 一项 escalated） | escalated（MiniGame·A/B 双方案待 CEO；B 案零阻塞） |
 
 > 本批 ceo-pending=0；escalated=1（MiniGame 结构性缺件第 3 次）；overruled 复扫=0。physical-reminder 不变：BigDomain bootstrap 四件（服务器/域名+备案/支付商户号）与定价确认权仍在 CEO 面（R1669 行在册，禁催办）。
+
+## 台账·2026-10-26 批四（夜轮 15:07·点名转派 1 行）
+
+| 日期 | 问题 | 来源 | 依据 | 决策 | 分级 | 状态 |
+|---|---|---|---|---|---|---|
+| 2026-10-26 | D-20261026-15 夜轮 15:07 点名转派批（盘燃归因／D-12 逾期／轮停摆／台账分卷） | 夜轮 15:07 班实测（retention 20261026-150723、fleet-reality 15:09:29、task-health 15:10、git rev-list 23/14） | ①盘余 939.9GB vs 09:07 980.5GB=**-40.6GB/6h（第 4 班破线）**，而仓内 delta 仅约 +140MB→缺口在仓库面外；②D-20261026-12 死线 12:40 逾期约 2.6h，origin/main 停在 0beaa4d5（10:11）；③Bigmoney-IterationLoop/LoopWatchdog 于 12:33/12:37 二次 Disabled（09:07 已置 Ready，D-20261026-10 ② 判此两件禁入白名单=真故障）；④decisions.md 256,319B 首破 250KB 硬线 | ①@HQ 工具域 24h 内按 D-20261026-05 分目录限额法（单目录 60s 上界）出仓库面外 top-3 实测行，禁全递归；②@HQ 手术席 18:00 前执行 D-12 独立 worktree merge-push 或书面 blocked（逾期第 2 班升 E1 双报）；③@HQ 工具域/@BigMoney 24h 内查 IterationLoop/LoopWatchdog 停用动作者并复位，夜轮禁盲启；④@夜轮 10-27 03:07 班执行 decisions.md 分卷波（orders 第二波并案）；四项各带 24h 回执窗，至窗未领/未回=升 E1 | T2（雄转派·即过即生效） | dispatched（@HQ 工具域／@HQ 手术席／@BigMoney／@夜轮 03:07） |
