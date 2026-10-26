@@ -47,3 +47,17 @@
 
 1. 需补《Jay》7 曲音频（斗牛/黑色幽默/伊斯坦堡/印第安老斑鸠/反方向的钟/娘子/完美主义）到本机。
 2. 音频到位不阻塞其他曲目排产；本机随时可接「四面齐 6 曲」的 KF/装配派工。
+
+## 五、勘误（同日实测·修正 §二 A 级一行）
+
+初判「晴天可本机自修（跑 anchor_shotgrid.py 即可）」**不成立**，实测两连证据：
+
+1. `lyric_calibration.py 晴天` → `MISS lyrics '晴天'`：校准脚本输入是 **官方词面** `lyrics/晴天.txt`（或 .lrc），不是 whisper 词面。
+2. `晴天-words.json` 的 8 行文本为 whisper 误听产物（与真实歌词不符），`anchor_shotgrid.py` 因此把晴天列为 `missing: calibrated=false`，只生成 6 曲 shotgrid。
+
+修正后缺口分级：
+
+- **A 级（本机可自修）= 空**（晴天并非可自修，前提件缺失）。
+- **B 级（物理/数据件阻塞）= 8 曲**：7 曲缺音频（→beats）+ 晴天缺官方歌词（→calibrated）。
+
+补货单因此追加一行：《晴天》官方歌词文本（或 .lrc）落 `cph4/fleet/mv-album-001-jay/lyrics/晴天.txt` 即可，无需音频。
