@@ -18,9 +18,19 @@ if ($existing) { Write-Output 'WT already running - consoles will attach quietly
 # Keepalive keeper tab: Start-Sleep max valid Seconds = 2147483 (2147483647 overflows
 # int32 and throws ParameterBindingValidationException, which killed the keeper tab and
 # let the every-1-minute task revive a visible window). Loop a valid max sleep forever.
-Start-Process wt.exe -ArgumentList 'new-tab','--title','keepalive','powershell.exe','-NoExit','-Command','while($true){Start-Sleep -Seconds 2147483}'
-Start-Sleep -Seconds 8
-Add-Type -Namespace UPark -Name W -MemberDefinition '[DllImport("user32.dll")] public static extern bool ShowWindow(IntPtr h, int n);'
-Get-Process WindowsTerminal -ErrorAction SilentlyContinue | ForEach-Object {
-    if ($_.MainWindowHandle -ne 0) { [UPark.W]::ShowWindow($_.MainWindowHandle, 6) | Out-Null; Write-Output ('parked+minimized pid=' + $_.Id) }
+# 2026-10-25 CEO order ("把所有弹窗都静默"): the spawn itself flashes a visible
+# "keepalive" window before the minimize lands, and closing it revives it within 60s
+# (task fires every minute). Measured after removing the window: codely headless
+# shells no longer pop WT windows on this host, so the park lane is pure noise.
+# Spawn gated off; HQ-WT-Park Disabled. Keeper constants kept for fleet-silence-guard.
+$SpawnWindow = $false
+if ($SpawnWindow) {
+    Start-Process wt.exe -ArgumentList 'new-tab','--title','keepalive','powershell.exe','-NoExit','-Command','while($true){Start-Sleep -Seconds 2147483}'
+    Start-Sleep -Seconds 8
+    Add-Type -Namespace UPark -Name W -MemberDefinition '[DllImport("user32.dll")] public static extern bool ShowWindow(IntPtr h, int n);'
+    Get-Process WindowsTerminal -ErrorAction SilentlyContinue | ForEach-Object {
+        if ($_.MainWindowHandle -ne 0) { [UPark.W]::ShowWindow($_.MainWindowHandle, 6) | Out-Null; Write-Output ('parked+minimized pid=' + $_.Id) }
+    }
+} else {
+    Write-Output 'wt-park: spawn disabled (2026-10-25 CEO silence order) -- no-op'
 }
