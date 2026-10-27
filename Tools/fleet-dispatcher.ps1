@@ -98,6 +98,13 @@ if (Test-Path $idleF) {
     try { $is = Get-Content $idleF -Raw -Encoding UTF8 | ConvertFrom-Json; foreach ($id in @('bm-a', 'bm-b', 'bm-c')) { $p = $is.verdicts.PSObject.Properties[$id]; if ($p) { $verdicts[$id] = [string]$p.Value } } } catch { }
 }
 
+# ---- capacity: a card is not dispatchable on a RAM/offline-blocked lane ----
+$capacity = @{}
+foreach ($lane in @('bm-a', 'bm-b', 'bm-c')) {
+    if ($verdicts[$lane] -in @('BLOCKED-RAM', 'OFFLINE', 'SVC_DOWN', 'HB-STALE')) { $capacity[$lane] = 0 }
+    else { $capacity[$lane] = $exec[$lane] }
+}
+
 # ---- clock alignment (fleet-clock report writes CLOCK-SKEW.json every 5m) ----
 $clockOld = 0; $clockSkew = 0.0; $clockMissing = 0; $clockHigh = 0; $clockPrec = 0.0
 if (Test-Path $clockF) {
@@ -132,6 +139,9 @@ foreach ($lane in @('bm-a', 'bm-b', 'bm-c')) {
     if (($verdicts[$lane] -in @('GPU-IDLE', 'GPU-IDLE-WORK')) -and ($exec[$lane] -gt 0)) {
         $out += ('[{0}] FLAG IDLE-WITH-WORK lane={1} exec_cards={2} -> P1 claim now (work exists, machine idle)' -f $stamp, $lane, $exec[$lane])
     }
+    if (($exec[$lane] -gt 0) -and ($capacity[$lane] -eq 0)) {
+        $out += ('[{0}] FLAG CAPACITY-BLOCKED lane={1} exec_cards={2} dispatchable=0 -> P1 free capacity or reroute' -f $stamp, $lane, $exec[$lane])
+    }
     if ($exec[$lane] -eq 0) {
         $out += ('[{0}] FLAG STARVED-EXEC lane={1} open_cards={2} blocked={3} -> P1 supply failure: no executable card' -f $stamp, $lane, $open[$lane], $blocked[$lane])
     }
@@ -158,9 +168,9 @@ $state = [ordered]@{
     ts = (Get-Date).ToString('s')
     work_window = $workWindow
     lanes = [ordered]@{
-        'bm-a' = [ordered]@{ open = $open['bm-a']; exec = $exec['bm-a']; blocked = $blocked['bm-a']; idle = $verdicts['bm-a'] }
-        'bm-b' = [ordered]@{ open = $open['bm-b']; exec = $exec['bm-b']; blocked = $blocked['bm-b']; idle = $verdicts['bm-b'] }
-        'bm-c' = [ordered]@{ open = $open['bm-c']; exec = $exec['bm-c']; blocked = $blocked['bm-c']; idle = $verdicts['bm-c'] }
+        'bm-a' = [ordered]@{ open = $open['bm-a']; exec = $exec['bm-a']; blocked = $blocked['bm-a']; dispatchable = $capacity['bm-a']; idle = $verdicts['bm-a'] }
+        'bm-b' = [ordered]@{ open = $open['bm-b']; exec = $exec['bm-b']; blocked = $blocked['bm-b']; dispatchable = $capacity['bm-b']; idle = $verdicts['bm-b'] }
+        'bm-c' = [ordered]@{ open = $open['bm-c']; exec = $exec['bm-c']; blocked = $blocked['bm-c']; dispatchable = $capacity['bm-c']; idle = $verdicts['bm-c'] }
     }
     queue = [ordered]@{ total = $qTotal; open = $qOpen; running = $qRun; last_claim = $lastClaim }
     flags = $out.Count
