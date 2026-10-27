@@ -3,39 +3,83 @@
 > governance.md section 10 draft. THIRD-LINE defense input for the weekly
 > evolution round. A claim with NO evidence marker is a hallucination candidate.
 
+- [fluxgroup] 9388523265 files=6 :: 浜嬩欢鐝敹鍙? 017 鐧藉悕鍗曞璺?unlisted=0 / 018 淇濈湡 SSIM .9888 PASS
+- [fluxgroup] 437a00b2da files=9 :: CEO-PROXY event round #3: 3 real cards -> 3 judge-ready packs SUPPLY-DRY refilled from real backlog 
+- [fluxgroup] ea7e8f7f65 files=2 :: dispatcher: R2.38c - v717 shot-count reconciliation delivered, 83 was the stale v716 figure
+- [fluxgroup] 6bd6eed982 files=2 :: night round 2026-10-27 09:07: 8-probe pass, receipt audit 2/2, disabled/revive name-list mismatch es
 - [fluxgroup] 7a2baf6a27 files=3 :: night round 2026-10-27: perception 8-probe pass, QuantAuditProbe restored, splits re-assigned to nam
-- [fluxgroup] 0beaa4d5cb files=1 :: director interim verdict 12:00 (O-20261026-0810 sec1): LJ D1/D2 REVISE with atomic fixes, JD grade+w
-- [fluxgroup] 6f1776feb1 files=1 :: director interim verdict 12:00 (O-20261026-0810 sec1): LJ D1/D2 REVISE with atomic fixes, JD grade+w
-- [fluxgroup] 942142d7e2 files=1 :: work-bank: close stale claimed kn i2v wave (ALBUM LANE DONE ok=30), record lookdev authorization
-  -> repo fluxgroup: 4 claim(s), 0 bare
+- [fluxgroup] cd20944621 files=2 :: patrol: 2026-10-27 group 绗?杞?- orders 鍒嗗嵎琚洖濉稬38鈶犱负浼?17b6385bb5fe36f1b95a3efeb6dd295dcfa974e5|2026-
+- [fluxgroup] 32a586de8e files=7 :: bm-b r1082: model slot adaptation (bm-b delivered: profile+bench+switcher+weekly task; policy v1; fl
+- [fluxgroup] ec44e07162 files=1 :: bm-b r1080: audit - longjuanfeng v3 vs M1-M4 (M3/M1 pass, M2 pending D2 mount, two M4 defects: endin
+- [fluxgroup] d300c823f6 files=1 :: bm-b r1080: drama 60-ep regression PASS report (duration 60/60 zero-diff, 540x960@25 uniform, kinsok
+  -> repo fluxgroup: 9 claim(s), 0 bare
+- [minigame] 6de23918c6 files=49 :: X2909 fold: origin/machine/B B2484-B2490 (G20 copy/census/build29 seats) folded into HEAD - base-del
+- [minigame] a2177d2cce files=7 :: C2311 closeout: G27 dominance exit measured per row and shipped - 26 rows declare their own lead tar
+- [minigame] 2ea4b2d16b files=14 :: C2309 closeout: G27 purse-rate base fixed (0.378 per act, 68.2 gold left) and AiTailBurst=2 shipped 
+- [minigame] f9f619f33c files=10 :: X2905 fold origin/machine/C into master (C2307) | one row-level keep-both: the claims log keeps mast
+- [minigame] ab7a33389d files=37 :: X2905 fold origin/machine/B into master (B2479-B2482) | row-level keep-both on the two append logs; 
+- [minigame] efbb783bdf files=9 :: C2308 closeout: G27 purse-rate seat measured and shipped 0 - a saturated act ends with a contest pri
+- [minigame] c538ff6c91 files=14 :: B2481 closeout: morning card copy slice (S3k34) - state/snapshot/three-writes/ledger | 鏃╂櫒缁撶畻鍗℃敹鍙?77
+- [minigame] 5b3d308e2d files=11 :: C2306 G27 product: the dead tail gets a tempo and this one converts - one act allowed exactly one co
+- [minigame] ae553bdfa7 files=5 :: X2902 repair: the shared append files stop carrying fold copies | batch-claims drops 7848 duplicate 
+- [minigame] 7a4d04727a files=12 :: C2304 G27 product: the third seat gets a price and the measurement kills it - selling an own mine in
+- [minigame] c898bbb293 files=1 :: B2476 docs: G20 manual snapshot row (closeout + codex receipt recon) | 鎵嬪唽蹇収琛?be9713677cd2b59914f06
+- [minigame] acbfb29089 files=7 :: C2302 closeout: the dead tail gets a second price and the purse is measured out of the question - th
+- [minigame] 650ef3fe0f files=12 :: B2474 closeout: G20 v3.1.24+build27 adopted three-source (record + tag + CheckBundle PASS, byte iden
+- [minigame] 9c73249a06 files=7 :: C2301 closeout: the dead tail's development gap becomes a gate read (both mean tiers banked per satu
+- [minigame] 471a5117a4 files=6 :: C2299 G27 product: the purse order gets a state - contest-first only while the opponent is not behin
+- [minigame] ee689181ce files=8 :: X2899 closeout: the fold debt is cleared again - B2470 and C2297 landed row-level with verified acco
+- [minigame] b12cf25c4d files=12 :: fold origin/machine/B into master (B2470) | one row-level resolution verified by an exact Counter ac
+- [minigame] 90611acb51 files=7 :: C2298 G27 closeout: the two same-price post-saturation seats get a declared purse order - the old fi
+- [minigame] e52b2004e9 files=3 :: chore: absorb the heartbeat and ledger deltas before the X2899 fold pass (pre-fold chore, no product
+- [minigame] 4015296179 files=17 :: fold origin/machine/B into master (B2467/B2468/B2469) | two row-level resolutions verified by an exa
+- [minigame] c896d41acd files=7 :: fold origin/machine/C C2296 into master | two row-level resolutions: the claims chain keeps master w
+- [minigame] ac3b5df85f files=28 :: chore: absorb heartbeat, ledger and pipeline evidence before the X2898 fold pass (pre-fold chore, no
+- [minigame] 7dc0cc2e1a files=7 :: C2296 closeout: the opponent act budget was built and rejected by its own read - a 1+6 burst buys on
+- [minigame] 5c6d90ad83 files=14 :: B2467 closeout: G20 v3.1.23+build26 adopted (three sources: record + tag + CheckBundle v1.3 PASS, by
+- [minigame] 1782d1c410 files=18 :: chore: X2897 closeout - a fold round that clears both branches and says it scored zero | machine B a
+- [minigame] 8365add260 files=7 :: fold origin/machine/C C2295 into master | one whole-file board conflict resolved row-level: A keeps 
+- [minigame] 15a553f633 files=1 :: chore: absorb the regenerated city heartbeat before the second fold pass
+- [minigame] 3a394287e8 files=7 :: C2294 closeout: the owned-cell sink converts the saturated tail into decisions - space share 0.334 -
+- [minigame] 64202a8e81 files=7 :: C2293 closeout: the saturated board is also a rich board - the shipped line banks 3988 gold on avera
+- [minigame] 7ccc2fbd07 files=20 :: B2461 closeout: G20 S3k23 the hall line repaints on the completing frame (dead-round adoption) + v3.
+- [minigame] d8c87678b7 files=12 :: chore: bank the 14:56 gate probe (9/9 PASS in 28.4s) and the A fleet pulse from the same window | pr
+- [minigame] 7c45443f27 files=6 :: chore: X2893 closeout - both fleet flags cleared with zero master claim rows lost | B2457/B2458 (G20
+- [minigame] 926fe3e1e2 files=12 :: fold origin/machine/B B2457-B2458 into master | one row-level keep-both on the claims chain (master 
+- [minigame] a49b4bcb95 files=9 :: B2454 closeout: G20 v3.1.21+build24 adopted from three sources (record/dispatch/tag) with CheckBundl
+- [minigame] 91a6f205a8 files=2 :: C2283 closeout: the L2 drill can now be finished by a thumb at any human tempo - the clock ending on
+- [minigame] 4e2eb619fb files=5 :: C2282 closeout: the L1 teaching hint is now a face a player can read - HexTurfHint carries three sta
+- [minigame] daeebb0e2a files=8 :: chore: X2883 closeout - the car edition's world is measured against its frame, not the screen | Prod
+- [minigame] e66e72cb92 files=7 :: chore: fold origin/machine/C into master under the row-level law | C2280 is adopted rather than gues
 - [minigame] 1d7811a2b7 files=17 :: chore: X2882 closeout - the round names the next car row instead of half-starting it | Step0-3 showe
-- [minigame] 470cd4fe2d files=32 :: chore: fold origin/machine/C into master under the row-level law | C2276-C2278 are adopted rather th
+- [minigame] a0c8fc4138 files=9 :: B2435 closeout: G20 S3k3 鈥?宸茬粡璁歌繃鐨勯偅浠戒笉鍐嶅彨浜虹湅涓€閬嶅箍鍛婏紙闈?69鈫?0锛屼骇鍝?18e3492锛?470cd4fe2d724cb6b59cccc6d4
 - [minigame] 01b0cac50f files=12 :: C2277 accounting: the gate can now say whether a match ended on a raze or on the clock, and the answ
 - [minigame] c672202525 files=2 :: C2276 FE: G1 can be answered without the editor and without a quiet window - the editor-shipped Rosl
 - [minigame] c151642a07 files=20 :: C2276 accounting: G27's damage is on screen and its only playability gate is green for the first tim
 - [minigame] 1b5a3435b0 files=12 :: chore: fold origin/machine/C into master under the row-level law | shared books rebuilt as ours + (t
 - [minigame] bb3adbbffc files=16 :: X2878 closeout: P11 replay law proven at runtime - the car demo now wraps instead of parking | the l
 - [minigame] 1cd16fdd49 files=13 :: X2877 closeout: P11 replay law ships in code and in a clean build | a fully cleared station now rest
+- [minigame] 2eb7c5bd36 files=3 :: B2429 closeout: heartbeat light round - closeout integrity verified, B-side open-ticket inventory re
 - [minigame] 653fc222bb files=6 :: C2271 accounting: G25 SortIt S2.5-T001 g2 - the field log finally has a caller. C2270 wrote a store 
 - [minigame] b465b1fbfe files=6 :: C2270 accounting: G25 SortIt S2.5-T001 g - the fifth U085 seat finally has records. Four members (bo
 - [minigame] ea9cd74499 files=2 :: C2269 accounting: the G25 retry seat was written against a tool that does not exist - tools/task-reg
 - [minigame] b8563cb07b files=6 :: C2266 accounting: G25 SortIt - the Runtime assembly could never build inside the engine, and only th
 - [minigame] 3130cb13f4 files=5 :: X2840: fold C's five accounting commits, then give station 1 a consumer (car edition plays the five 
 - [minigame] 324a9e2207 files=5 :: C2263 accounting: G25 measurement round - the bot census names two zero-slack levels. No product fil
-- [minigame] ccd775707f files=8 :: C2258 accounting: G25 SortIt S1-T004 e follow-through (the progress page finally counts the receipts
-- [minigame] 49fd4f6d8a files=6 :: C2254: G25 challenge-codec board face accounting - the three laws the share card already trusts (rou
-- [minigame] 13ca8f9dbb files=28 :: X2827: the run-mode end card fits one screen too - the matrix was re-fired on X2826's card and came 
-- [minigame] 25775811fc files=13 :: chore: X2827 pre-commit - absorb the fleet pulse, the silicon city data regeneration and the 14:26 p
-- [minigame] c6fbc3ccb7 files=19 :: X2826: the Dudu finale card fits one screen - the share receipt and the signature share one band, th
-- [minigame] a74cb09349 files=5 :: C2252 accounting: G25 SortIt S1-T002 d-slice (the settle coin-double seat host). The product (SortIt
-- [minigame] 4886495c6c files=6 :: C2250 accounting: G25 SortIt S2.5-T001 c-slice (the U085 SHOTS/PERF evidence faces). The product (So
-- [minigame] 9fab5e61af files=8 :: C2248 accounting: G25 SortIt S2.5-T001 b-slice (the per-build QA row) - the product (SortItQaRow, it
-- [minigame] d1840cb111 files=13 :: X2814 fold: machine-C C2242 (E-048 fold-before ignored-overlap guard) and C2243 (SortIt ladder reado
-- [minigame] dfdc87a013 files=7 :: C2243 accounting: SortIt S2-T001 o-slice (whole-table readout on the level select page) - the page s
-- [minigame] 0590aa355e files=8 :: C2242: M5 daily review + spot audit closes E-048 (fold-before ignored-overlap snapshot guard) - the 
-- [minigame] 8b3219552b files=7 :: X2813 fold: machine-C C2240/C2241 SortIt star-targets and select-prospect adopted - both sides kept 
-- [minigame] 31eefb30ea files=1 :: X2811 fold: machine-C C2239 SortIt level-select accounting adopted as an ancestor - both sides kept,
-  -> repo minigame: 27 claim(s), 0 bare
+  -> repo minigame: 53 claim(s), 0 bare
+- [bigmoney] c523b87c8f files=2 :: round 1130 postscript: push verified, smoke 95/95 after the rebase, supply floor is the open item
+- [bigmoney] 9353a859c1 files=1 :: round 1313 postscript: smoke re-run after closeout edits (92/92 PASS)
+- [bigmoney] 0e0af654a5 files=1 :: round 1129 postscript: push verified, watchdog S4U flip still refused, marks lane did run in-hours t
+- [bigmoney] c8a596eece files=1 :: round 1128 postscript: delivery verified and the task set is back after the 19:00 AutoYield release
+- [bigmoney] 4e0da6c616 files=1 :: round 1181 heartbeat: close-of-round stamp (behind 0, E113/E114 delivered)
+- [bigmoney] e99c6088ff files=4 :: round 1309 (recovered): the ladder priced fixed cells, the company deploys a re-selection rule -- pr
+- [bigmoney] 0473c99102 files=2 :: round 1307 postscript: record the verified push, the self-heal facts and a clean attrition ledger
+- [bigmoney] dced7a58cc files=3 :: round 1176 postscript: record the verified push and the four delivered artifacts
+- [bigmoney] 4a3e1fcb1d files=2 :: round 1175 postscript: record the verified push and the three delivery traps
+- [bigmoney] 5a14a54d3b files=3 :: round 1305 postscript: record the verified push and how the 22 rebase conflicts were resolved
+- [bigmoney] 75eb927d16 files=2 :: round 1174 postscript: record the verified push (b6f16839d, behind=0 ahead=0)
+- [bigmoney] 00c7bde8b6 files=28 :: round 1172 postscript: record the verified push (bfd9cd0c0, behind=0 ahead=0)
+- [bigmoney] bfd9cd0c09 files=35 :: round 1172: E108 repair factor sign fixed -- seven screened-arm faces re-derived, legacy control pro
 - [bigmoney] 2d6c86e85a files=3 :: round 1127 postscript: record the verified push (149551d0b6, ahead=0 behind=0)
 - [bigmoney] e116e5241f files=2 :: round 1126 postscript: record the verified push (3789e6505d, behind=0 ahead=0)
 - [bigmoney] 22bd038c68 files=2 :: round 1170 postscript: record the verified push (f3d518749, behind=0 ahead=0)
@@ -55,16 +99,7 @@
 - [bigmoney] f621e6ccd6 files=2 :: round 1290 post-push receipt: state and heartbeat carry the delivered head 0b2afbdfed
 - [bigmoney] 8ed6450175 files=3 :: round 1289 post-push receipt: state and heartbeat carry the delivered head cfe97b1558 and zero commi
 - [bigmoney] af160ed7fd files=2 :: round 1288 post-push receipt: state and heartbeat carry the delivered head cd28577e56 and zero commi
-- [bigmoney] 9f98951b6f files=2 :: round 1287 post-push receipt: state and heartbeat carry the delivered head 0fe6dd04a8 and zero commi
-- [bigmoney] 64c5ad72b0 files=2 :: round 1286: post-push receipt -- state and heartbeat carry the delivered head 3206fc22c6 and zero co
-- [bigmoney] 18ddfd980e files=2 :: round 1285 post-push receipt: state and ledger carry the delivered head 2387242513 and zero commits 
-- [bigmoney] adfbed4f19 files=2 :: round 1284: post-push receipt -- state and heartbeat carry the delivered head and zero commits behin
-- [bigmoney] 82e64db630 files=1 :: round 1284: the production candidate re-prices identically under the fixed repair -- all three bond-
-- [bigmoney] 18bba6207d files=3 :: round 1116: director-seat interim verdict for the MV new process lands on both repos -- LJ D1/D2 ret
-- [bigmoney] f07ae06a75 files=1 :: round 1278 close: delivery proof line (commit 8c7f88db2c delivered, local undelivered=0)
-- [bigmoney] f638bca03c files=33 :: round 1273: the 8%->10.2% vol gap is a definition gap, not an estimator bug -- walk-forward calibrat
-- [bigmoney] 4488bdd741 files=21 :: round 1271: repair the crashing production card and put delivered vol beside the target (8% label ->
-  -> repo bigmoney: 28 claim(s), 0 bare
+  -> repo bigmoney: 32 claim(s), 0 bare
 
-## Summary: claims=59 evidence-backed=59 bare(no-files)=0
+## Summary: claims=94 evidence-backed=94 bare(no-files)=0
 ## Round duty: bare claims and keyword-heavy claims get RE-VERIFIED by the evolution round AI (governance 10.3).
