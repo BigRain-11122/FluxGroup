@@ -53,7 +53,38 @@ def main():
             print("%-6s %5s %5s %8s  %s" % (lane, v.get("open", "-"), v.get("exec", "-"),
                                             v.get("blocked", "-"), v.get("idle", "-")))
     else:
-        print("(no STATE.json - dispatcher has not run)")
+        # Standalone fallback: the Mac master may not run the Windows dispatcher yet.
+        status = {c.get("id"): c.get("status") for c in pool}
+        counts = {k: {"open": 0, "exec": 0, "blocked": 0} for k in ("bm-a", "bm-b", "bm-c", "bm-m")}
+        for c in pool:
+            if c.get("status") != "open":
+                continue
+            lane = c.get("lane") or "bm-a"
+            if lane not in counts:
+                lane = "bm-a"
+            counts[lane]["open"] += 1
+            why = ""
+            for dep in c.get("depends_on", []) or []:
+                if status.get(dep) not in ("done", "closed-superseded", "closed-stale"):
+                    why = "dep"
+                    break
+            if not why and c.get("blocked_by"):
+                why = "blocked_by"
+            if not why and c.get("deadline"):
+                try:
+                    if datetime.strptime(c["deadline"][:19], "%Y-%m-%dT%H:%M:%S") < datetime.now():
+                        why = "expired"
+                except Exception:
+                    pass
+            if why:
+                counts[lane]["blocked"] += 1
+            else:
+                counts[lane]["exec"] += 1
+        for lane in ("bm-a", "bm-b", "bm-c", "bm-m"):
+            v = counts[lane]
+            if v["open"] == 0:
+                continue
+            print("%-6s %5d %5d %8d  %s" % (lane, v["open"], v["exec"], v["blocked"], "computed-no-idle"))
 
     q = state.get("queue", {})
     if not q and queue:
