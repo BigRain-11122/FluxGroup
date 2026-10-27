@@ -75,6 +75,13 @@ $laneList = @()
 $laneStr = [string](Route-Lanes $Send)
 foreach ($p in $laneStr.Split(',')) { $q = $p.Trim(); if ($q) { $laneList = $laneList + $q } }
 $stamp = Now-Stamp
+# Unique command file = conflict-free transport. Every machine writes docs/orders.md
+# locally, so that file diverges and blocks fast-forward; a new file per command does not.
+$cmdDir = Join-Path $Root 'cph4\fleet\cmd'
+if (-not (Test-Path $cmdDir)) { New-Item -ItemType Directory -Force -Path $cmdDir | Out-Null }
+$cmdFile = Join-Path $cmdDir ($id + '.json')
+$cmdObj = [ordered]@{ id = $id; ts = $stamp; text = $Send; lanes = $laneList; src = $env:COMPUTERNAME; status = 'dispatched' }
+$cmdObj | ConvertTo-Json -Depth 4 | Set-Content -Path $cmdFile -Encoding UTF8
 $sha = ''
 if ($DryRun) {
     Write-Output ('DRY id={0} lanes={1}' -f $id, ($laneList -join ','))
@@ -88,8 +95,8 @@ $row = '| {0}（自动分发 {1}） | CEO 令（原话）：「{2}」 | **机队
 Add-Content -LiteralPath $ordersF -Value $row -Encoding UTF8
 
 # ---- 2) commit + push (HOT repo = command plane) ----
-& $git -C $Root add -- docs/orders.md 2>$null
-& $git -C $Root commit -m ('orders: auto fanout ' + $id) -m ('CEO one-line command split to lanes: ' + ($laneList -join ',')) -- docs/orders.md 2>$null | Out-Null
+& $git -C $Root add -- docs/orders.md ('cph4/fleet/cmd/' + $id + '.json') 2>$null
+& $git -C $Root commit -m ('orders: auto fanout ' + $id) -m ('CEO one-line command split to lanes: ' + ($laneList -join ',')) -- docs/orders.md ('cph4/fleet/cmd/' + $id + '.json') 2>$null | Out-Null
 & $git -C $Root fetch origin main:refs/remotes/origin/main -q 2>$null
 $behind = 0
 try { $behind = [int](& $git -C $Root rev-list --count 'HEAD..origin/main') } catch { }
