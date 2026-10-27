@@ -20,7 +20,8 @@ except Exception:
 
 def load(path, default=None):
     try:
-        with open(path, encoding="utf-8") as f:
+        # PowerShell 5.1 writes UTF-8 WITH BOM; plain utf-8 fails on json.load.
+        with open(path, encoding="utf-8-sig") as f:
             return json.load(f)
     except Exception:
         return default
@@ -34,7 +35,7 @@ def main():
     queue = []
     qf = os.path.join(ROOT, "cph4", "fleet", "PRODUCTION-QUEUE.jsonl")
     try:
-        with open(qf, encoding="utf-8") as f:
+        with open(qf, encoding="utf-8-sig") as f:
             for line in f:
                 line = line.strip()
                 if line:

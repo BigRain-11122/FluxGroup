@@ -148,7 +148,7 @@ def main():
 
     cfg = {}
     try:
-        with open(os.path.join(root, "Tools", "fleet-nodes.json"), encoding="utf-8") as f:
+        with open(os.path.join(root, "Tools", "fleet-nodes.json"), encoding="utf-8-sig") as f:
             cfg = json.load(f)
     except Exception:
         pass
