@@ -133,7 +133,8 @@ def probe_offset(hub, port, samples=5):
 
 
 def host_stats():
-    stats = {"load1": None, "ram_free_gb": None, "disk_free_gb": None}
+    stats = {"load1": None, "ram_free_gb": None, "disk_free_gb": None,
+             "gpu_util_pct": None, "vram_used_mb": None, "vram_total_mb": None}
     try:
         stats["load1"] = round(os.getloadavg()[0], 2)
     except Exception:
@@ -154,6 +155,16 @@ def host_stats():
                 if line.startswith("Pages free") or line.startswith("Pages inactive"):
                     free_pages += int(line.split(":")[1].strip().rstrip("."))
             stats["ram_free_gb"] = round(free_pages * page / 1e9, 1)
+    except Exception:
+        pass
+    try:
+        out = subprocess.check_output(
+            ["nvidia-smi", "--query-gpu=utilization.gpu,memory.used,memory.total",
+             "--format=csv,noheader,nounits"], stderr=subprocess.DEVNULL).decode()
+        parts = [x.strip() for x in out.splitlines()[0].split(",")]
+        stats["gpu_util_pct"] = int(parts[0])
+        stats["vram_used_mb"] = int(parts[1])
+        stats["vram_total_mb"] = int(parts[2])
     except Exception:
         pass
     return stats

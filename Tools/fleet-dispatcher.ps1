@@ -99,19 +99,26 @@ if (Test-Path $idleF) {
 }
 
 # ---- clock alignment (fleet-clock report writes CLOCK-SKEW.json every 5m) ----
-$clockOld = 0; $clockSkew = 0.0; $clockMissing = 0
+$clockOld = 0; $clockSkew = 0.0; $clockMissing = 0; $clockHigh = 0; $clockPrec = 0.0
 if (Test-Path $clockF) {
     try {
         $ck = Get-Content $clockF -Raw -Encoding UTF8 | ConvertFrom-Json
         $clockOld = [int]$ck.old_schema
         $clockSkew = [double]$ck.max_abs_offset_ms
         $clockMissing = [int]$ck.missing
+        if ($ck.nodes) {
+            $clockHigh = @($ck.nodes | Where-Object { $_.status -eq 'SKEW-HIGH' }).Count
+            $pm = @($ck.nodes | Where-Object { $null -ne $_.precision_ms } | ForEach-Object { [double]$_.precision_ms })
+            if ($pm.Count -gt 0) { $clockPrec = ($pm | Measure-Object -Maximum).Maximum }
+        }
     } catch { }
 }
 if ($clockOld -gt 0 -or $clockMissing -gt 0) {
     $out += ('[{0}] FLAG CLOCK-UNALIGNED old_schema={1} missing={2} -> P1 upgrade node heartbeat to v2 (ms ts+offset)' -f $stamp, $clockOld, $clockMissing)
-} elseif ($clockSkew -gt 150) {
-    $out += ('[{0}] FLAG CLOCK-SKEW max={1}ms (>150ms) -> check hub path or node clock' -f $stamp, $clockSkew)
+} elseif ($clockHigh -gt 0) {
+    # Precision-aware: a 300ms offset on a relay path with +/-200ms precision is physics,
+    # not a defect. Only the report's SKEW-HIGH verdict (beyond 2*precision+20) is a P1.
+    $out += ('[{0}] FLAG CLOCK-SKEW max={1}ms precision=+/-{2}ms -> check hub path or node clock' -f $stamp, $clockSkew, $clockPrec)
 }
 
 # ---- flags ----

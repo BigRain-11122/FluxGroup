@@ -89,6 +89,11 @@ if ($offTrusted) {
   # schema" and would flag a genuinely-v2 node as unaligned - the defect this round fixed.
   if ($null -eq $offMs) { HB-Log 'hb-clock-imprecise' ('node=' + $NodeId + ' precision_ms=' + $rttMs) }
 }
+$gpuUtil = $null; $vramUsed = $null; $vramTotal = $null
+try {
+  $g = [string](& nvidia-smi --query-gpu=utilization.gpu,memory.used,memory.total --format=csv,noheader,nounits 2>$null | Select-Object -First 1)
+  if ($g) { $p = $g -split ','; $gpuUtil = [int]$p[0].Trim(); $vramUsed = [int]$p[1].Trim(); $vramTotal = [int]$p[2].Trim() }
+} catch { }
 $state = [ordered]@{
   node = $NodeId
   host = $env:COMPUTERNAME
@@ -102,6 +107,9 @@ $state = [ordered]@{
   ram_free_gb = $ramFree
   cpu_load_pct = $cpu
   disk_free_gb = $diskFree
+  gpu_util_pct = $gpuUtil
+  vram_used_mb = $vramUsed
+  vram_total_mb = $vramTotal
 }
 $json = ($state | ConvertTo-Json -Compress)
 # PS5.1 native-argv quoting bug (10-19 live evidence): bare double quotes in the

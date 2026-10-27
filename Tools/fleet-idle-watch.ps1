@@ -66,14 +66,42 @@ function Read-Hb([string]$file) {
 }
 
 $machines = @(
-    @{ id = 'bm-b'; ip = '100.82.175.0'; lane = 'cpu-sound'; hb = Join-Path $root 'gaming\MiniGame\Design\configs\GLOBAL\fleet\b.json' },
-    @{ id = 'bm-c'; ip = '100.123.74.104'; lane = 'gpu-production'; hb = Join-Path $root 'gaming\MiniGame\Design\configs\GLOBAL\fleet\c.json' }
+    @{ id = 'bm-b'; ip = '100.82.175.0'; lane = 'cpu-sound'; ram_gb = 24; hb = Join-Path $root 'gaming\MiniGame\Design\configs\GLOBAL\fleet\b.json' },
+    @{ id = 'bm-c'; ip = '100.123.74.104'; lane = 'gpu-production'; ram_gb = 24; hb = Join-Path $root 'gaming\MiniGame\Design\configs\GLOBAL\fleet\c.json' }
 )
+
+# NATS KV is the fresh liveness source; the JSON files can be hours old and used to cause
+# false HB-STALE verdicts. KV wins on age/gpu/ram when it answers.
+$natsExe = Join-Path $root 'Tools\nats\bin\nats.exe'
+function Read-Kv([string]$id) {
+    if (-not (Test-Path $natsExe)) { return $null }
+    try {
+        $raw = @(& $natsExe -s nats://127.0.0.1:4222 kv get FLEET_STATE ("state." + $id) --raw 2>$null)
+        $line = ($raw | Where-Object { $_ -match '^\s*\{' } | Select-Object -Last 1)
+        if (-not $line) { return $null }
+        return ($line | ConvertFrom-Json)
+    } catch { return $null }
+}
 
 $verdicts = @{}
 foreach ($m in $machines) {
     $net = TsOnline $m.ip
     $h = Read-Hb $m.hb
+    $kv = Read-Kv $m.id
+    if ($kv) {
+        if ($null -ne $kv.ts_utc_ms) {
+            try {
+                $t = [DateTimeOffset]::FromUnixTimeMilliseconds([int64]$kv.ts_utc_ms).UtcDateTime
+                $h.age = [int](([DateTime]::UtcNow - $t).TotalMinutes)
+            } catch { }
+        }
+        if ($null -ne $kv.gpu_util_pct) { $h.gpu = [int]$kv.gpu_util_pct }
+        if ($null -ne $kv.vram_used_mb) { $h.vram_used = [int]$kv.vram_used_mb }
+        if ($null -ne $kv.vram_total_mb) { $h.vram_total = [int]$kv.vram_total_mb }
+        if (($null -ne $kv.ram_free_gb) -and $m.ram_gb) {
+            $h.ram_free = [double]$kv.ram_free_gb / [double]$m.ram_gb * 100.0
+        }
+    }
     $lst = Probe ("http://{0}:8790/status" -f $m.ip)
     $alive = $lst.ok -or (($h.age -ge 0) -and ($h.age -le 120))
 
@@ -121,8 +149,10 @@ foreach ($id in @('bm-a', 'bm-b', 'bm-c')) {
     $v = [string]$verdicts[$id]
     $streak = 0
     if ($prev.streaks -and $prev.streaks.PSObject.Properties[$id]) { $streak = [int]$prev.streaks.PSObject.Properties[$id].Value }
+    $prevV = ''
+    if ($prev.verdicts -and $prev.verdicts.PSObject.Properties[$id]) { $prevV = [string]$prev.verdicts.PSObject.Properties[$id].Value }
     $bad = ($v -in @('OFFLINE', 'SVC_DOWN', 'HB-STALE', 'BLOCKED-RAM', 'GPU-IDLE', 'GPU-IDLE-WORK'))
-    if ($bad) { $streak = $streak + 1 } else { $streak = 0 }
+    if ($bad) { if ($prevV -ne $v) { $streak = 1 } else { $streak = $streak + 1 } } else { $streak = 0 }
     $newState.streaks[$id] = $streak
     $newState.verdicts[$id] = $v
     $hasWork = ($exec[$id] -gt 0)
