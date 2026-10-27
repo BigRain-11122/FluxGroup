@@ -58,6 +58,37 @@ try {
   $cj = Get-Content -Raw -Encoding UTF8 (Join-Path $dataDir 'clock-offset.json') | ConvertFrom-Json
   if ($cj.ok) { $offMs = $cj.offset_ms; $rttMs = $cj.precision_ms }
 } catch { }
+$goodF = Join-Path $dataDir 'clock-offset-good.json'
+$offAgeS = 0
+# Precision gate: a relayed path can return +/-400ms precision and point estimates that
+# scatter by the same magnitude (measured here: +16 / +204 / -114ms). Publishing such a
+# number as "the offset" is worse than publishing nothing, because the dispatcher's
+# skew gate (2*precision+20) never trips and a consumer would "correct" by noise.
+$offTrusted = ($null -ne $offMs -and $null -ne $rttMs -and [double]$rttMs -le 150)
+if ($offTrusted) {
+  try {
+    [ordered]@{ ts = (Get-Date).ToString('yyyy-MM-ddTHH:mm:ss.fff'); offset_ms = $offMs;
+                precision_ms = $rttMs } |
+      ConvertTo-Json -Compress | Set-Content -LiteralPath $goodF -Encoding UTF8
+  } catch { }
+} else {
+  # Transient probe failure OR an imprecise path: carry the last trusted reading and
+  # disclose its age. A null offset would instead be read as the OLD schema by the
+  # clock report, which re-flags a healthy v2 node as CLOCK-UNALIGNED forever.
+  try {
+    $prev = Get-Content -Raw -Encoding UTF8 $goodF -ErrorAction SilentlyContinue | ConvertFrom-Json
+    if ($prev.offset_ms -ne $null) {
+      $offMs = $prev.offset_ms
+      $rttMs = $prev.precision_ms
+      try { $offAgeS = [int]((Get-Date) - [datetime]$prev.ts).TotalSeconds } catch { $offAgeS = -1 }
+      HB-Log 'hb-clock-carryforward' ('node=' + $NodeId + ' offset=' + $offMs + ' age_s=' + $offAgeS)
+    }
+  } catch { }
+  # No trusted reading has ever landed on this path: publish the fresh measurement and
+  # let clock_offset_trusted=false carry the caveat. A null here would be read as "old
+  # schema" and would flag a genuinely-v2 node as unaligned - the defect this round fixed.
+  if ($null -eq $offMs) { HB-Log 'hb-clock-imprecise' ('node=' + $NodeId + ' precision_ms=' + $rttMs) }
+}
 $state = [ordered]@{
   node = $NodeId
   host = $env:COMPUTERNAME
@@ -66,6 +97,8 @@ $state = [ordered]@{
   seq = $seq
   clock_offset_ms = $offMs
   clock_rtt_ms = $rttMs
+  clock_offset_age_s = $offAgeS
+  clock_offset_trusted = $offTrusted
   ram_free_gb = $ramFree
   cpu_load_pct = $cpu
   disk_free_gb = $diskFree
