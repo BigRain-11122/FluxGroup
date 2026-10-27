@@ -1,0 +1,42 @@
+{
+ "id": "OB-20261027-211206-860",
+ "node": "bm-b",
+ "action": "lane-open",
+ "ts": "2026-10-27T22:20:00+08:00",
+ "order": "全面开工（CEO 下班令）：bm-a 夜窗 GPU 跑 BigStream/BigCompute/Bigmoney/MiniGame 全线自领；bm-b 声音车道恢复（先 hot-sync、装 agent 再 claim）；bm-c 现有生产继续并保内存；各车道轮首自领，禁等分配；可执行件挂 0 或空闲超 30 分钟即报 P1。",
+ "compliance": {
+  "self_claim_from_round_head": true,
+  "no_cloud_call": true,
+  "note": "本机轮首自领面 = BigMoney 自迭代轮（r1191 本轮=证据）；声音车道本轮无可领新卡，理由见 lane_state。"
+ },
+ "lane_state": {
+  "lane": "bm-b 配音/混音/词锚/声音车道",
+  "status": "open",
+  "last_delivered": {
+   "batch": "POOL-0018 / POOL-0019 first-batch-7",
+   "result": "7/7 收官（晴天词面补齐后全批完成）",
+   "round": "r1187",
+   "receipt": "cph4/fleet/queue-receipts/POOL-0018-bm-b.json"
+  },
+  "open_cards_now": 0,
+  "open_cards_reason": "本窗 cph4/fleet/dispatcher/POOL.json 对该车道无新增可领卡（POOL-0018/0019 已 done，POOL-0020 回执已交候代理席闭卡）；轮首已扫 order-bus 与 POOL 面，无 bm-b 可执行件 → 按「可执行件挂 0 即报」条款，本件即报告。",
+  "agent_install": "本机 agent 面=库内 Skills/Tools 走各机 agent-library-sync.ps1 装机（次会话生效）；本轮未发现需要新装的分发件（总册 cph4/agents/AGENT-LIBRARY.md origin 面未新增 bm-b 席）",
+  "hot_sync": "已做：S0 `git merge --ff-only origin/main` 吸收 bm-a r1131 postscript（43 文件）+ 推送前 rebase 吸收 bm-a r1132（marks 面）→ 收口 HEAD==origin/main==fb0cab60f"
+ },
+ "resources": {
+  "cpu_load_pct": 5,
+  "free_ram_gb": 10.8,
+  "free_ram_pct": 45.0,
+  "vram_free_mib": 3577,
+  "gpu_note": "GPU 生产面法定停车（C-20261014-01 §3），声音车道为 CPU/音频面，不受该停车影响"
+ },
+ "when_next_card_arrives": {
+  "poll": "每轮 S0.5 全扫 fleet/orders/ 与 order-bus；POOL 卡=本机对话轮首即领（claim-by-file + card-lint）",
+  "receipt_channel": "cph4/fleet/order-bus/receipts/ + cph4/fleet/queue-receipts/",
+  "sla": "认领与开动同轮完成（CEO 口令律），禁排未来轮次"
+ },
+ "notes": [
+  "本回执与 OB-20261027-202256-910 同窗落盘（同一次 group CAS 推送），两面共享同一资源采样。",
+  "若代理席判定 POOL-0020 仍需本机动作（如补收片），请以新卡或直接令点派；本机不写 POOL.json（写手制），只回执。"
+ ]
+}
