@@ -22,7 +22,7 @@
 | **BigCompute** | 硅基算力：**商业化中枢司**（对外成交/定价/粉丝私域/渠道唯一出口·九部门全编制） | `compute/BigCompute/`（独立仓） | `BLUEPRINT.md`+`docs/plans/`+`docs/risk-register.md` |
 | **BigHouse** | 硅基城市安家·数字生活（三柱=安家/邻里/共长·传统行业词族门禁） | `house/BigHouse/`（独立仓·remote 待 CEO 建库） | `BLUEPRINT.md` |
 
-**机队**：bm-a（DASHENG·32 核·总控+开发+游戏 A 机）｜bm-b（16 核·回测+TTS/音频主力）｜bm-c（32 核·3070 16GB·ComfyUI 主产线+云天线+交互窗）｜CEO 笔记本=豁免位（移动指令总控·非机队·不入算力池）。配置分配唯一权威=`cph4/resource-chain.md` §二；新机接入=`Tools/bootstrap-machine.ps1`+`cph4/onboarding.md`。
+**机队**：bm-a（DASHENG·32 核·总控+开发+游戏 A 机）｜bm-b（16 核·回测+TTS/音频主力）｜bm-c（32 核·3070 16GB·ComfyUI 主产线+交互窗）｜**bm-d（3×V100 48G·大脑机·齐件待装）**｜**bm-m（MacBook M1 Pro·集团主控+iOS 出包·候入网）**｜CEO 笔记本=豁免位（移动指令总控·非机队·不入算力池）。配置分配唯一权威=`cph4/resource-chain.md` §二；新机接入=`Tools/bootstrap-machine.ps1`+`cph4/onboarding.md`。
 
 ## 2. 元宙（FluxVerse）思路
 
@@ -37,20 +37,20 @@
 
 | 机制 | 节律 | 正典 |
 |---|---|---|
-| OS 循环/DevLoop（各司） | 10min | 各司 mandate |
-| **决策委员会常务轮**（日常代管+复盘四问+自迭代） | 00:00/12:00 双班 | `cph4/council.md` |
-| **CEO 总调度代理席**（CEO 命令发布台+科学巡视：风险加权班表+旗分流三班型+全表日轮转·方向基准=CEO-DIRECTION-BRIEF） | 8 班/日（班表正身=CEO-PROXY/CHARTER.md §四·协议正身=ROUND.md——版本漂移勘正 2026-10-14 群审交接席） | `cph4/fleet/dispatcher/CEO-PROXY/` |
-| 值守轮（四器审计+催办+自愈+**回执核销步**） | 03:07/15:07 双班 | `cph4/night-round-prompt.txt` |
+| OS 循环/DevLoop（各司） | 5min | 各司 mandate |
+| **决策委员会常务轮**（日常代管+复盘四问+自迭代） | 00/06/12/18 四班 | `cph4/council.md` |
+| **CEO 总调度代理席**（CEO 命令发布台+科学巡视：风险加权班表+旗分流三班型+全表日轮转·方向基准=CEO-DIRECTION-BRIEF） | 12 班/日（2026-10-19 提速令 v2·班表正身=CHARTER §四·协议=ROUND.md） | `cph4/fleet/dispatcher/CEO-PROXY/` |
+| 值守轮（四器审计+催办+自愈+**回执核销步**） | 03:07/09:07/15:07/21:07 四班 | `cph4/night-round-prompt.txt` |
 | 进化轮（立法+法熵审视+考核面） | 周日 09:17 | `cph4/evolution.md` |
 | 巡检 patrol+外部独立审查 | 周一 09:23／日一班 22:17（10-14 降频勘正） | `docs/audit-charter.md` Part B／Part A |
-| 令流（CEO 令→台账→执行→回执→核销） | 随时：秒级 poke→2min 哨兵→10min 轮询三层 | `docs/orders.md`+`cph4/resource-chain.md` §十 |
+| 令流（CEO 令→台账→执行→回执→核销） | 随时：秒级 poke→1min 哨兵→5min 轮询三层 | `docs/orders.md`+`cph4/resource-chain.md` §十 |
 | 交付契约哨（落单带交付路径+死线·过线自动点名） | 5min | `Tools/delivery-watch.ps1`+`cph4/fleet/dispatcher/delivery-watch/` |
 | 分级立法 T0-T3 | T0 宪法 CEO 签/T1 治理+否决窗/T2 机制 AI/T3 数据 AI | `cph4/evolution.md` §2 |
 | 决策/审查/考核三链×四层（L0 团队→L3 集团·底层优先） | 常设 | `cph4/decision-chain.md` |
 | 错误定级 E0-E3（E0=三通道直呈 CEO） | E0 即时/E1 当日/E2 轮内~周/E3 豁免 | `cph4/errors.md` |
 | 诚实律三道防线（证据对/新鲜验证/宣称分级） | 常设 | `docs/governance.md` §10 |
-| 交付时效（快速件 24h/CEO 可见交付 ≤5 天） | 常设 | `docs/governance.md` §11 |
-| 调度+机队（verdict 驱动·云无限并行·保活/静默/让路/分工/本地主供/信息同步） | 常设 | `cph4/resource-chain.md` §一~§十 |
+| 交付时效（快速件 12h/CEO 可见交付 ≤3 天） | 常设 | `docs/governance.md` §11 |
+| 调度+机队（verdict 驱动·本地主供+云端必要闸·保活/静默/让路/分工/信息同步） | 常设 | `cph4/resource-chain.md` §一~§十 |
 | 资源保留清理（R1 永不清~R4 随轮清·磁盘预算） | 日/周/月/季 | `cph4/resource-chain.md` §三§11 |
 | 本地化算力（L1 确定性→L2 本地 LLM→L3 云 API）+Token 经济 | 常设 | `cph4/local-first.md`+`cph4/token-economy.md` |
 | 自动化周期总账（防重复/防冲突/流转时限） | 全周期登记 | `cph4/cadence.md` |
@@ -111,3 +111,4 @@
 - 2026-10-14 三批: 增巡视席舰队指针行+机制总图行（O-20261014-2250 巡视舰队令+O-20261014-2345 机制从上往下梳理令）。
 - 2026-10-16: §4 增智能体库指针行（CEO 建库令 2026-10-16·总册+治理法+agent-librarian/fleet-ops/compliance-guard/growth-ops/silicon-city-ops 五席 skill+同步/审计双工具上链）。
 - 2026-10-16 二批: §3 外审班「日三班」→「日一班」勘正（普查F 矛盾对 G 修复·10-14 修法包 v1 已降频漏勘）+§3 增交付契约哨行+§4 雷达/盲区数勘正 16→20/12→14（CEO 令 2026-10-16 23:4x「委员会好好从头理一次流程，规则等」·C-20261016-04 修法包 v2）。
+- 2026-10-27 勘正: 机队补 bm-d（3×V100 大脑机）/bm-m（Mac 主控）；§3 过期节律按 `cph4/cadence.md` §8 同步（OS 循环 5min·决策轮四班·代理席 12 班·值守四班·令流 1min/5min·交付 12h/≤3 天·调度面「云无限并行」→本地主供）；删 bm-c「云天线」旧注（10-20 云道停用→10-22 解禁但非默认）。
