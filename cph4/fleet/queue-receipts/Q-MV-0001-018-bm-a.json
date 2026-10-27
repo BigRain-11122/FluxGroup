@@ -1,0 +1,9 @@
+{
+ "id": "Q-MV-0001-018",
+ "node": "bm-a",
+ "rc": 0,
+ "seconds": 10.5,
+ "cmd": "python Tools/mv_fidelity.py \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\cph4\\fleet\\mv0001-handover\\outbound\\krea2\\30s-reel-v1\\full_mv_v717.mp4\" \"D:\\FleetWorker\\review\\v717_label\\full_mv_v717_aigc.mp4\" --json \"D:\\FleetWorker\\review\\fidelity_v717.json\"",
+ "stdout_tail": "ssim  [Parsed_ssim_0 @ 0000020444f51b00] SSIM Y:0.986174 (18.593086) U:0.993871 (22.126424) V:0.994333 (22.466586) All:0.988817 (19.514369)\npsnr  [Parsed_psnr_0 @ 0000027b36029f00] PSNR y:38.985036 u:50.659957 v:51.630853 average:40.615072 min:38.904427 max:44.082457\nVERDICT: PASS(>=0.97)\n",
+ "stderr_tail": ""
+}

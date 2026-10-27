@@ -1,0 +1,9 @@
+{
+ "id": "Q-MV-0001-016",
+ "node": "bm-a",
+ "rc": 0,
+ "seconds": 22.5,
+ "cmd": "python Tools/mv_aigc_label.py \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\cph4\\fleet\\mv0001-handover\\outbound\\krea2\\30s-reel-v1\\full_mv_v717.mp4\" --out \"D:\\FleetWorker\\review\\v717_label\\full_mv_v717_aigc.mp4\" --preset medium --crf 16",
+ "stdout_tail": "AIGC-LABEL OK text='AI 生成内容' corner=br playres=1344x768 bytes=180654901 out=D:\\FleetWorker\\review\\v717_label\\full_mv_v717_aigc.mp4\n",
+ "stderr_tail": ""
+}
