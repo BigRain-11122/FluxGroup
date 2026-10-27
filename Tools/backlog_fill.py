@@ -46,17 +46,57 @@ def _ep(name):
     return m.group(1).upper() if m else None
 
 
-def fill(root=None):
+def _fill_manifest(root, rows, have, node=None):
+    """Generic declarative rule.
+
+    Why: the drama rule below only fires where drama-eps/ exists (bm-b). On bm-a every
+    claim round returned QUEUE-EMPTY and the supervisor read exit 0 as healthy, while the
+    machine sat idle with a real, already-declared backlog. So the backlog itself is now a
+    file: a row is enqueued only when every path in `requires` exists and its `deliverable`
+    does not -- no LLM, no guessing, nothing invented.
+    """
+    man = os.path.join(root, "cph4", "fleet", "PRODUCTION-BACKLOG.jsonl")
+    added = 0
+    for r in _load(man):
+        jid = r.get("id")
+        if not jid or jid in have:
+            continue
+        if r.get("state") not in (None, "READY"):
+            continue
+        nodes = r.get("nodes")
+        if node and nodes and node not in nodes:
+            continue
+        req = r.get("requires") or []
+        if not all(os.path.exists(p) for p in req):
+            continue
+        out = r.get("deliverable")
+        if out and os.path.exists(out):
+            continue
+        job = {k: r.get(k) for k in ("id", "title", "cmd", "cwd", "needs", "deliverable")}
+        job["state"] = "OPEN"
+        job["created_by"] = "backlog_fill.py:manifest"
+        job["created_at"] = time.strftime("%Y-%m-%dT%H:%M:%S")
+        rows.append(job)
+        have.add(jid)
+        added += 1
+    return added
+
+
+def fill(root=None, node=None):
     root = root or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     queue = os.path.join(root, "cph4", "fleet", "PRODUCTION-QUEUE.jsonl")
     rows = _load(queue)
     have = {r.get("id") for r in rows}
 
+    added = _fill_manifest(root, rows, have, node)
+    if added:
+        _save(queue, rows)
+
     eps_dir = os.path.join(root, "media", "drama-eps")
     mix_dir = os.path.join(root, "media", "drama-mix-out", "r1003_3layer")
     out_dir = os.path.join(root, "media", "drama-eps-audio")
     if not (os.path.isdir(eps_dir) and os.path.isdir(mix_dir)):
-        return 0
+        return added
 
     done = set()
     if os.path.isdir(out_dir):
@@ -72,7 +112,6 @@ def fill(root=None):
             if e:
                 audio.setdefault(e, os.path.join(mix_dir, f))
 
-    added = 0
     for f in sorted(os.listdir(eps_dir)):
         if not f.lower().endswith(".mp4") or f.lower().startswith(("tmp_", "diag_")):
             continue

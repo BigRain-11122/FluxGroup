@@ -33,7 +33,7 @@
   "created_by": "HQ-Dispatcher-seed 2026-10-12",
   "claimed_by": "",
   "claimed_at": "",
-  "result_ref": "C-02 E-audit 2026-10-16: bm-a night-window 0/6 (anchors/ zero new files since 10-13); RE-OFFERED deadline 2026-10-17 24:00 to bm-a seat ; L2 2026-10-27 16:5x 事件班裁决: 销卡 closed-superseded. 实测 cph4/fleet/mv-album-001-jay/anchors/ 已 81 件(20+ 曲 .txt/.json/.calibrated, 10-20 15:30 批次)=词级锚点面已由 W 波 anchor 线整体产出, 本卡 delta 归零; deadline 2026-10-17 过期 10 日零回执不再续期(续期=空转供给, 违意义门).",
+  "result_ref": "C-02 E-audit 2026-10-16: bm-a night-window 0/6 (anchors/ zero new files since 10-13); RE-OFFERED deadline 2026-10-17 24:00 to bm-a seat ; L2 2026-10-27 16:5x 事件班裁决: 销卡 closed-superseded. 实测 cph4/fleet/mv-album-001-jay/anchors/ 已 81 件(20+ 曲 .txt/.json/.calibrated, 10-20 15:30 批次: 晴天/可爱女人/稻香/龙卷风/简单爱/开不了口/安静/爱在西元前/印第安老斑鸠/夜的第七章等)=词级锚点面已由 W 波 anchor 线整体产出, 本卡 delta 归零; deadline 2026-10-17 过期 10 日零回执不再续期(续期=空转供给, 违意义门).",
   "deadline": "2026-10-17T23:59:59"
  },
  {
@@ -118,7 +118,7 @@
   "created_by": "O-20261013-1500 games-parallel",
   "claimed_by": "",
   "claimed_at": "",
-  "result_ref": "C-02 2026-10-16: V0.9.2 desktop zip was missing, RE-DELIVERED 10-16 13:0x (58MB); remaining scope=submit physicals await CEO ; L2 2026-10-27 16:5x: 维持 CEO-PHYSICAL 阻断(提审主体/包体四值/软著 G01/提交材料夹); 已登记 DEADLINES 二 waiting-CEO 区(零催办, 只登记).",
+  "result_ref": "C-02 2026-10-16: V0.9.2 desktop zip was missing, RE-DELIVERED 10-16 13:0x (58MB); remaining scope=submit physicals await CEO ; L2 2026-10-27 16:5x: 保留 open + blocked_by CEO-PHYSICAL(提审主体/包体四值/软著 G01/提交材料夹); 已登记 DEADLINES 二 waiting-CEO 区(零催办, 只登记).",
   "blocked_by": [
    "CEO-PHYSICAL:submit-materials"
   ]
@@ -229,8 +229,10 @@
   "spec": "GPU 停车候电源期=CPU 满网格（功率红线律只限 GPU 面）。whisperX（25,863★ MIT·词级时间戳=lyric_calibration.py 精度升级路径）CPU 档跑（CTranslate2 small/base·纯 CPU 不占 VRAM）：41 曲音源→词级时间戳 JSON→anchors/<曲>-words.json。优先序=在产 6 曲（星晴/可爱女人/安静/简单爱/开不了口/龙卷风）+mv0001 晴天→其余 34 曲滚动。音源=bm-a 盘 cph4/fleet/mv-album-001-jay/audio/ 320k mp3（大件不入 git 律——Tailscale Taildrop 拉取或 bm-a 夜窗代投首批）。输出格式兼容 lyric_calibration.py 对齐链（word/start/end 三元组）。",
   "card": "[交接卡 POOL-0018]\n①@机+lane：@bm-b·cpu-audio-anchors（24/7·与 GPU 零抢·功率律合规）\n②回执窗：72h（41 曲 CPU 批量·在产 7 曲优先出首批回执）\n③验收物+证据指针：anchors/<曲>-words.json 词级时间戳批量（首批 7 曲+滚动 34 曲）+对齐率回执行（word 数/覆盖率/approx 计数）+lyric_calibration.py 兼容验证 1 曲+orders 回执行+commit sha\n④spec 指针：cph4/research/waves/W4-mv-expert-tools-community-20261015.md whisperX 行（星/许可/活跃已三查·MIT）+MV-PIPELINE-PLAYBOOK §S0 词面校准闸\n⑤溯源令号：O-20261015-1741（派单令·CEO「另外2台机器用满用好」）\n⑥输入/输出：输入=audio/ 320k 音源（Taildrop 拉）+anchors 基线；输出=词级锚点 JSON 批量入库\n⑦依赖：无（纯 CPU·与 POOL-0019 并行分曲不互抢）\n⑧卡 ID：POOL-0018\n⑨provenance：转述（机队派单令·bm-a 会话 17:41 开卡）",
   "result_ref": "RE-OFFERED 2026-10-19 19:35 per CEO 满负荷令 O-20261019-1935: claim NOW (bm-b CPU 24/7 lane, audio x7 Taildrop'd by bm-a); first batch = 在产 7 曲 ≤24h; window restarts at claim time",
-  "depends_on": []
- },
+  "depends_on": [],
+       "blocked_by": ["no-claim-task:bm-b"],
+      "blocked_note": "2026-10-27 17:3x L2: bm-b has no production-claim task; HQ-ProductionClaim is registered on bm-a only, so this card is executable on paper but not claimable in practice for 8 days. Unblock = register queue_claim on bm-b (local task action), then clear this field."
+},
  {
   "id": "POOL-0019",
   "title": "allin1 结构锚批（41 曲 BPM/节拍/downbeats/功能段标签·双轴剪辑锚另一半）",
@@ -241,8 +243,10 @@
   "spec": "allin1（860★ MIT·BPM/节拍/强拍/功能分段边界+标签 intro/verse/chorus）批量跑 41 曲：→anchors/<曲>-structure.json（BPM/beats/downbeats/段落标签）。与 whisperX 词锚（POOL-0018）构成双轴剪辑锚（词锚=内容轴·结构锚=节奏轴）=剪辑节奏站 S6 自动拍点直取源。优先序同 0018（在产曲先行）。与 S6 现役 librosa beats.json 的关系=结构锚为 allin1 增量层（段落标签 librosa 无）·beats 数据双源校验（allin1 与 librosa 不一致行标出候裁）。",
   "card": "[交接卡 POOL-0019]\n①@机+lane：@bm-b·cpu-music-structure（24/7·CPU 多核分曲·与 0018 并行）\n②回执窗：72h（首批 7 曲 24h 内+全量 41 曲）\n③验收物+证据指针：anchors/<曲>-structure.json 批量（BPM/beats/downbeats/段落标签）+1 曲 S6 兼容验证（beats.json 格式对齐·自动拍点可直取）+双源不一致行清单+orders 回执行+commit sha\n④spec 指针：cph4/research/waves/W4-mv-expert-tools-community-20261015.md allin1 行（MIT·BPM/节拍/功能分段+标签）+MV-PIPELINE-PLAYBOOK §S6 拍点段\n⑤溯源令号：O-20261015-1741（派单令）\n⑥输入/输出：输入=audio/ 音源（与 0018 同批拉取·一次传输两卡共用）；输出=结构锚 JSON 批量\n⑦依赖：无（纯 CPU）\n⑧卡 ID：POOL-0019\n⑨provenance：转述（机队派单令·bm-a 会话 17:41 开卡）",
   "result_ref": "RE-OFFERED 2026-10-19 19:35 per CEO 满负荷令 O-20261019-1935: claim NOW (bm-b CPU 24/7 lane, audio x7 Taildrop'd by bm-a); first batch = 在产 7 曲 ≤24h; window restarts at claim time",
-  "depends_on": []
- },
+  "depends_on": [],
+       "blocked_by": ["no-claim-task:bm-b"],
+      "blocked_note": "2026-10-27 17:3x L2: bm-b has no production-claim task; HQ-ProductionClaim is registered on bm-a only, so this card is executable on paper but not claimable in practice for 8 days. Unblock = register queue_claim on bm-b (local task action), then clear this field."
+},
  {
   "id": "POOL-0020",
   "title": "bm-b 电源换装复产批（750W 上机·GPU 满性能恢复+烧机验证+复产）",
@@ -283,3 +287,4 @@
   "depends_on": []
  }
 ]
+

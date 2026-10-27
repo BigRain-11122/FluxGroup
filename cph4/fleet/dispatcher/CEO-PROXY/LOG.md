@@ -482,3 +482,30 @@
 - **新发现（QC 口径冲突·不擅改·留待下一轮）**：同一支 v717，`mv_stability_gate` 报 **freeze=0 PASS**，而 `mv_jitter_scan` 在同一片上报 **FREEZE=9**（另有 SNAP=10 / POP=8）——两工具对「冻结」阈值口径不一致，同一片出现相反判定。按 10-27 判例（冻结阈值取 0.02）应先对齐两者定义再谈 PASS，否则「全绿」可能是闸口径差异造成的假绿。登记观察，本班不动工具（属 QC 工具面，需反向样例验证后改）。
 - **让路律披露**：两条 CPU 作业实际在 bm-a 工作日窗口内执行（合计 ≈228s，ffmpeg 抽帧级负载），非「重活」但确在 pausedLite 期占机 ≈4 分钟——如实记，不掩盖；后续同类抽帧件建议排到 19:00 后。
 - **四元组（收口段）**：17:2x-17:3x｜事件班（承载件触发·收口）｜≈5 调用｜verdict=补供已转产物 2/2；shot 数勘正 93→83；新增 QC 口径冲突观察 1 件
+
+### R2.37 事件班（承载件触发·17:21-17:4x）— SUPPLY-DRY 真根因定位与修复
+
+**触发**：HQ-CEOProxyEventCarrier 承载件 16:55/17:21 五旗（BLOCKED-RAM bm-c / IDLE-WITH-WORK bm-b / STARVED-EXEC bm-a / SUPPLY-DRY / LANE-DOWN bm-c）。锁门：lock mtime 17:09（>10min 过期）→ 本窗接管。
+
+**深挖结论（按旗逐条，全带实measurement）**
+
+- **SUPPLY-DRY = 真·机制缺陷，不是没活**。`Tools/backlog_fill.py`（queue_claim 的自补料腿）只有**一条**规则：漫剧集缺音轨→remux。该规则硬依赖 `media/drama-eps` + `media/drama-mix-out/r1003_3layer`，而这两个目录**在 bm-a 不存在**（漫剧素材在 bm-b，既有记忆已记）。后果：bm-a 每 5 分钟自补返回 0 → 队列恒空 → `queue_claim` 走 QUEUE-EMPTY 分支 **exit 0** → 所有监督面把 exit 0 读成「健康」。这正是 10-27 16:33 判例「健康被定义成进程活着而非有活干」的最后一处未堵口子——补供腿本身是哑的。
+- **修法（T1 当窗落地）**：新增通用**声明式**规则 `_fill_manifest()`，数据面 = `cph4/fleet/PRODUCTION-BACKLOG.jsonl`（一行一件，`requires` 全部存在 且 `deliverable` 不存在 才入队；零 LLM、零网络、零猜测）。顺手修两处吞数缺陷：无漫剧目录时 `return 0` 把 manifest 新增数吞掉、漫剧段 `added = 0` 把累计清零。
+- **bm-b「有活却闲着」= 假象，真因是认领任务缺失**。bm-b 的 `wake_tasks` 白名单只有 `Bigmoney-IterationLoop`（量化专用），全机队唯一的生产认领任务 `HQ-ProductionClaim` 只注册在 bm-a。所以 POOL-0018/0019（声音锚 CPU 卡）在 bm-b **结构性不可认领**，8 日零认领不是懒。本班把两张卡置 `blocked_by=no-claim-task:bm-b`，让 STATE 不再假报 exec_cards=2（那是假绿）。清障需在 bm-b 本机注册任务（FleetLink 无命令通道，CEO 10-23 令禁远程调度）→ 只登记不伪造。
+- **bm-c「LANE-DOWN」= 误读，不是停摆**。c.json 停写于 15:08（age>2h → HB-STALE），但 TCP /status 17:28:45 活着：ram_free 1.7G、cpu 18%、GPU 余 14.9G，且**量化轮已到 r1305/r1307**（activity=r1305 ETF 期间边界结论、current_task=r1307 被动基准 +6.36pp/yr）。即：机器在干活，只是 MiniGame 心跳写入者没跑。另一独立事实：17:04 实测 ram_free 0.5G / cpu 82%（R2.36 记的窒息态）在 24 分钟内回落到 1.7G —— 但 1.7G 仍低于 24G 机器的 10% 地板 2.4G，BLOCKED-RAM 依然成立，不因回落而销账。
+- **bm-a STARVED-EXEC = 预期**。唯一 open 卡 POOL-0010 卡在 `CEO-PHYSICAL:submit-materials`（保留面，零催办），叠加 10-15 令工作日 09:00-19:00 让路 → 属政策要求的空闲，非故障。
+
+**点火验证（poke + 3 分钟复探·全绿）**
+
+- `fleet-dispatch.ps1` → nodes=3 **ok=3 fail=0** sha=98421775（bm-a SYNCED 2s / bm-b 10s / bm-c 16s）。
+- 补供当场被机队自领：`Q-MV-0001-006` rc=0（28/28 取证条 → `D:\FleetWorker\review\flags_v717\`）、`Q-MV-0001-007` rc=0 34.1s（37 事件分类 → `D:\FleetWorker\review\jitter_class_v717.json`）。**补供 → 产物 < 1 分钟闭环**，receipt 在 `cph4/fleet/queue-receipts/`。
+- 复跑 dispatcher 17:39：`last_claim=DONE@2026-10-27T17:35:42`，SUPPLY-DRY 仍在但性质已变——从「补料腿哑了」变成「已知可立即执行的 CPU 活已做完」，后续补料需导演席/人工声明下一步（逐条判定、时代盲测、双签都是人工件）。
+
+**产物侧实质进展（CEO 待办剩余 3 项之第 1 项材料齐了）**
+
+- v717 全帧异常分类 37 事件：**JUMP=3**（t=92.17/109.29/139.62，对齐残差 11.2-11.6）与 jitter_scan 的 SNAP resp≈0.027-0.031 **两工具互证 = 镜内相机断裂，真缺陷**；JUMP?=4（t=5.42-5.54，sim_return 由 0.29 升到 0.42 = 收敛中的快速揭示，疑良性）；**FLASH=16**（多数 shift≈0、残差≈mad = 纯亮度跳，撞 CEO「转场禁用白闪」律，需人眼定性）；FREEZE=9 / POP=3 / CUT=2。
+- **新口径冲突（不动工具·留观察）**：同一支 v717，stability/scan 报 `shots=83`，jitter_analyze 报 `cuts=94 / shots=95`。三套镜数并存 → **双签前必须先对齐口径**，否则签的是错表。承 R2.36 已记的 freeze 阈值冲突，属同一根：工具间判据未统一。
+
+**让路律披露**：两条 CPU 作业在 bm-a 工作日窗口内执行（合计 ≈75s，cv2 抽帧级负载），非重活但确在让路期占机；如实记，不掩盖。
+
+**四元组**：17:21→17:4x｜事件班（承载件触发）｜≈22 调用｜verdict=SUPPLY-DRY 真根因已修（补供腿原先对 bm-a 恒哑）+ 2/2 补供转产物 + 3 旗判读纠偏（bm-b 任务缺失 / bm-c 心跳停摆非机器死 / bm-a 政策空闲）+ 1 件新证据冲突（镜数三口径）登记

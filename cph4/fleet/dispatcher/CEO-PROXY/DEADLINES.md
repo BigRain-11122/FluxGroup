@@ -37,6 +37,10 @@
 | 10-20 晨窗 V5.11 今晚收口链（代理剪重出→PROXY-PASS→768P 终烧→双签→呈 CEO） | bm-a BigStream-OSLoop/装配站 | orders 10-19 22:17 行+NJ bigstream R22 ① | **at-risk 如实披露（R2.26 00:32 事件班）**：detached 540P 代理重渲 23:06 后死亡实证（76min 零新件+进程零命中+零 commit·00:18 三面实测）→处置派单已落（orders 00:32 行·重发 detached 重渲或等待态两态裁决·poke 已发）·回执窗 ≤2h·02:43 夜班+R2.26 回访探针双覆盖 【R2.27 05:43 夜产守护班跟核】closeout 已实证达成→转「候 CEO 终审」销派单：03:19 PROXY-PASS-V511.md + 03:32 full_mv_v511_n1.mp4（1,340,088,152B）+ 03:33 DIRECTOR-REVIEW-V511-FINAL-20261020.md 三件在盘；commit 2db80a38=768P 终烧 234.25s/5622f·PTS 0 异常·四板读毕·导演/制监双签·N1 变体 TP -1.1 dBTP/-14.1 LUFS。R2.26 处置单已被该批产出消费，零重派零 poke。 |
 | 10-26 07:4x 调度席翻新（逾期 10.7 天回访） | 三条逾期回访一次结清 | bm-c 调度席（CEO 2026-10-26 07:3x 全面推进令） | executed（三件实测读数） | ①orders 分卷 D-20261025-05：**已真执行**——10-16~10-18 共 113 行迁 `docs/orders-archive-2026-10.md`，主件 363.6KB→208KB（过 250KB 线），并勘正 03:1x 夜轮「只写指针未搬行」；②token 台账断更 12.9 天：本窗补 10-26 恢复行（云端生成 0 单·历史漏记按不可回溯处理，不回填估算）；③记忆双帽 44.8KB>40KB：登记为待裁件，处置方案见同日 decisions 行（禁本窗擅删 L0 条目）。 |
 
+| 10-27 19:00 前补 bm-b 生产认领任务（否则 POOL-0018/0019 永不可认领） | bm-b 车道（需本机会话/决策轮执行） | R2.37 17:3x 事件班裁决 | **at-risk**：POOL-0018/0019 自 10-19 19:35 RE-OFFERED 起 **8 日零认领**。本班实证根因=机队唯一认领任务 `HQ-ProductionClaim` 只注册在 bm-a；bm-b 的 wake_tasks 白名单只有 Bigmoney-IterationLoop（量化专用），故两张声音锚卡在 bm-b **结构性不可认领**，不是「机器懒」。本班已置 `blocked_by=no-claim-task:bm-b` 使状态诚实（禁再假报「有活」）；清障=在 bm-b 本机注册 queue_claim 计划任务后清该字段。FleetLink 无命令通道（CEO 10-23 令禁远程调度）→本席只 poke+登记，不伪造「已恢复」。 |
+| bm-c MiniGame 心跳写入停摆 + RAM 破地板 | bm-c 车道 | R2.37 17:2x-17:30 实测 | **at-risk·如实披露**：`gaming/MiniGame/Design/configs/GLOBAL/fleet/c.json` 最后写入 15:08（age>2h→idle-watch 判 HB-STALE），但 TCP /status 17:28:45 **活着**（ram_free 1.7G / cpu 18% / GPU 余 14.9G），且量化轮 r1305/r1307 在跑 → 判定=**不是机器死，是 MiniGame 心跳写入者停摆**（该机当前只有量化任务在跑）。另 RAM 1.7G 仍低于 24G 机的 10% 地板 2.4G（17:04 曾探到 0.5G / CPU 82%，20 分钟内从窒息回落到 1.7G）。正法=bm-c 本机恢复 MiniGame tick 或补内存；本席已 poke（SYNCED 16s）并登记。 |
+| mv0001 v717 逐镜判定呈件（CEO 待办剩余 3 项之第 1 项） | bm-a / 导演席 | R2.37 17:35 产物 | **可判定态**：`Q-MV-0001-006/007` 已由机队自领完成（rc=0 → 28/28 取证条 + 37 事件分类）。分类实得：**JUMP=3**（t=92.17/109.29/139.62 · 对齐残差 11.2-11.6 · 与 jitter_scan 的 SNAP resp≈0.03 互证 = 镜内相机断裂·真缺陷）+ JUMP?=4（t=5.42-5.54 收敛段·疑开场快速揭示）+ **FLASH=16**（shift≈0 的纯亮度跳·触 CEO 禁白闪律·需人眼定性）+ FREEZE=9 + POP=3 + CUT=2。**第三口径出现**：stability/scan 报 shots=83，jitter_analyze 报 cuts=94/shots=95 → 双签前必须先对齐镜数口径，否则签的是错表。剩余人工项=逐条判定（材料已齐）+ 时代盲测 + 83 镜双签。 |
+
 ## §二 waiting-CEO（物理件/保留面·零催办）
 
 | 件 | 说明 |
@@ -59,8 +63,7 @@
 | **R2.34 注记（2026-10-27 05:5x·事件班实测）**：**bm-b 已自愈复活在跑**——bm-b.json 05:38:36 落盘・clock_read 05:17:54・cyc_round r1162・agenda_starved=false・cpu 39%（推翻本表上方「bm-b 物理离线 2d」定性）；量化现势=bm-b r1162＋bm-c r1298 双机在跑，bm-a 量车道 Disabled 属 CEO 10-24 专职令（非故障）。原三选一收敛为：①是否准 bm-a 分时恢复量车道（需 CEO 点头）②确认量化沿用 bm-b/bm-c 双机、bm-d 入网后再议。本席默认不动作。 | R2.34 |
 
 
+
 | **R2.35 注记（2026-10-27 11:3x·事件班实测）**：提权面三项已合并为**一次即可办完**——①探针/承载转 S4U ②启用 TaskScheduler/Operational ③HQ-SchedHarden-Batch 转 S4U；本班会话 `IsInRole(Administrator)=False`、S4U 注册实测 `拒绝访问 0x80070005`、Operational 日志 `IsEnabled=False`（三项同源实证）。同时：条件硬化分批执行器已排期 10-28 02:10 起低峰 5 跑（≤12/跑·自停），**需硬化任务实测 38 件（旧记 57 含第三方任务，已勘正）**；探针面 BURNING 复核通过（11:26/11:31 双次 Result=0x0）。 | R2.35 |
 
 | **R2.36 注记（2026-10-27 16:5x·事件班·承载件触发）**：三件裁决落盘——①**POOL-0022 陈旧阻断源解除**：签发件 10-20 12:4x 已在档（SIGN.md 判定准烧 A 批 28 帧），但卡 blocked_by 未清，致 W2《可爱女人》KF 28 帧 P1 停滞 7 日零烧制产出；本班清障后可认领，待 bm-c RAM 解锁点火。②**POOL-0016 收窄**至 night-1 LatentSync 单腿残余，解除对 POOL-0021 的阻塞。③**POOL-0003 销卡**（anchors/ 81 件 10-20 已整体交付，deadline 过期 10 日 delta 归零）。另：bm-a STARVED-EXEC 判为**按政策期望态**（idle-watch verdict=EXPECTED-IDLE-WORKHOURS，pausedLite 工作日让路律在役）——旗为 L0 脚本假红旗，修法涉受保护件，已登记 PROBLEM-REGISTRY PR-20261027-14 候 CEO 令/群审通道。 | R2.36 |
-
-| **bm-c 资源窒息 → 生成视觉道无卡（PR-20261027-16 类·本班新立）**：17:04:30 实测 ram_free=0.5GB（破 10% 底线）＋cpu 82%＋GPU 14884/16384MiB（仅余 ~1.4GB）。常驻 LLM 驻卡＋量化轮吃满，14:59 的 c.json「空档」读数为陈旧假象。直接后果=**W2《可爱女人》KF A 批 28 帧（POOL-0022·CEO O-20261020-1124 P1）虽已清障仍点不着火**。 | 修法（既有法条，需本机执行·本席无远程命令通道）：常驻 LLM 停 + pin 任务 disable＝整卡还生成线；执行位=bm-c 本机会话或下一决策轮（本席只 poke+登记，不伪造已恢复）。**若 24h 内仍无 KF 产出=按 CEO 10-20 加速令升 E1 呈报。**  | R2.36 17:0x |
