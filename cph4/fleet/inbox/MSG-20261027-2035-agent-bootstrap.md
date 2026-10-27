@@ -33,6 +33,17 @@ cph4/fleet/cmd/<cmd_id>.<node>.ack.json   status=done   stats{cpu/ram/gpu}
 
 且 order-bus 的 receipt 里 `acks` 显示该节点 `done`。
 
+## 生产领取任务（解除 no-claim-task 阻断）
+
+bm-b 的三张卡当前被 `blocked_by: no-claim-task:bm-b` 挡住。装完 agent 后，再装领取任务：
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File Tools\task-register.ps1 -Name HQ-ProductionClaim -Script "<repo 根>\Tools\queue_claim.py" -Arg "--node bm-b" -Trigger every:1m -NoFireTest
+Start-ScheduledTask -TaskName HQ-ProductionClaim
+```
+
+装好后回报，主控再清 POOL 里的 `no-claim-task:bm-b`（未确认安装前不清，避免假可执行）。
+
 ## 备注
 
 - 任务走 `task-register` 隐藏链，S4U 未提权会降级为 InteractiveToken（注销登录后不跑），已入 `task-s4u-backlog.md`。
