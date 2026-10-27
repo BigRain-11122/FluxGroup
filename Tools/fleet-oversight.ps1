@@ -331,16 +331,41 @@ try {
   if ($overall -eq 'GREEN' -and $flags.Count -gt 0) { $overall = 'AMBER' }
   if ($yield) { $overall = 'YIELD' }
   $work = ("oversight: cpu=" + $laneCpu + " gpu=" + $laneGpu + " llm=" + $laneLlm + " engine_q=" + $eng.queue + " wave=" + $eng.front + " flags=" + $flags.Count)
-  $row = @{ ts = $now.ToString('yyyy-MM-dd HH:mm') }
-  $row[$M] = @{ util = $overall.ToLower(); work = $work; ram_free_gb = $ramFreeGb; gpu_free_gb = [Math]::Round(($vramTotal - $vramUsed) / 1024, 1) }
-  $rows = @()
+  # D-20261028-02 (2026-10-28, assigned to @BigMoney): this face is a MACHINE-KEYED map,
+  # not an hourly array. The old code re-read whatever was on disk and re-serialised it
+  # ($rows += $row), so a single damaged payload -- the {"value": ...} shells around
+  # hashtable .ToString() strings left in this path by a different writer -- became a
+  # nesting generator: each hourly run wrapped the previous generation one level deeper,
+  # and by 2026-10-27 json.load() returned a 3-deep list of junk. Every reader saw nothing,
+  # and monitor/build_status.py failed SOFT, so the panel showed blank rows instead of
+  # UNKNOWN. Two changes: adopt only entries that carry a `ts` and drop everything else
+  # (never propagate damage), and emit the canonical shape pinned by the decision.
+  $mh = [ordered]@{}
   if (Test-Path $mhPath) {
-    try { $rows = @(Get-Content -LiteralPath $mhPath -Raw -Encoding UTF8 | ConvertFrom-Json) } catch { $rows = @() }
+    try {
+      $raw = Get-Content -LiteralPath $mhPath -Raw -Encoding UTF8 | ConvertFrom-Json
+      foreach ($e in @($raw)) {
+        if ($null -eq $e) { continue }
+        $rowProps = @($e.PSObject.Properties)
+        $isLegacyRow = ($rowProps.Name -contains 'ts')
+        foreach ($p in $rowProps) {
+          if ($p.Name -eq 'ts') { continue }
+          if (-not ($p.Value -is [System.Management.Automation.PSCustomObject])) { continue }
+          $vNames = @($p.Value.PSObject.Properties.Name)
+          if ($isLegacyRow -or ($vNames -contains 'ts')) { $mh[$p.Name] = $p.Value }
+        }
+      }
+    } catch { $mh = [ordered]@{} }
   }
-  $rows += $row
-  if ($rows.Count -gt 400) { $rows = $rows | Select-Object -Last 400 }
+  $mh[$M] = [pscustomobject]@{
+    ts          = $now.ToString('yyyy-MM-dd HH:mm')
+    util        = $overall.ToLower()
+    work        = $work
+    ram_free_gb = $ramFreeGb
+    gpu         = [pscustomobject]@{ free_gb = [Math]::Round(($vramTotal - $vramUsed) / 1024, 1) }
+  }
   $tmp2 = $mhPath + '.tmp'
-  [IO.File]::WriteAllText($tmp2, ($rows | ConvertTo-Json -Depth 8), (New-Object System.Text.UTF8Encoding $false))
+  [IO.File]::WriteAllText($tmp2, (ConvertTo-Json -InputObject $mh -Depth 6), (New-Object System.Text.UTF8Encoding $false))
   Move-Item -LiteralPath $tmp2 -Destination $mhPath -Force
 } catch { LogLine ('machine-health append fail: ' + $_.Exception.Message) }
 
