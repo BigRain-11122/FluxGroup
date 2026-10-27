@@ -45,7 +45,31 @@ try {
   $drv = Get-PSDrive -Name $q -ErrorAction SilentlyContinue
   if ($drv) { $diskFree = [math]::Round($drv.Free/1GB, 1) }
 } catch { }
-$state = [ordered]@{ node = $NodeId; host = $env:COMPUTERNAME; ts = (Get-Date -Format s); ram_free_gb = $ramFree; cpu_load_pct = $cpu; disk_free_gb = $diskFree }
+# --- millisecond timestamp + sequence + hub clock offset (2026-10-27 alignment fix) ---
+$seqF = Join-Path $dataDir ('seq.' + $NodeId + '.txt')
+$seq = 0
+if (Test-Path $seqF) { try { $seq = [int](Get-Content $seqF -Raw) } catch { } }
+$seq = $seq + 1
+Set-Content -Path $seqF -Value $seq -Encoding UTF8
+$probe = Join-Path $Root 'Tools\nats\clock-probe-nats.ps1'
+$offMs = $null; $rttMs = $null
+try {
+  & $probe -Hub '100.110.185.62' -Port 4222 -OutFile (Join-Path $dataDir 'clock-offset.json') | Out-Null
+  $cj = Get-Content -Raw -Encoding UTF8 (Join-Path $dataDir 'clock-offset.json') | ConvertFrom-Json
+  if ($cj.ok) { $offMs = $cj.offset_ms; $rttMs = $cj.precision_ms }
+} catch { }
+$state = [ordered]@{
+  node = $NodeId
+  host = $env:COMPUTERNAME
+  ts = (Get-Date).ToString('yyyy-MM-ddTHH:mm:ss.fff')
+  ts_utc_ms = [DateTimeOffset]::UtcNow.ToUnixTimeMilliseconds()
+  seq = $seq
+  clock_offset_ms = $offMs
+  clock_rtt_ms = $rttMs
+  ram_free_gb = $ramFree
+  cpu_load_pct = $cpu
+  disk_free_gb = $diskFree
+}
 $json = ($state | ConvertTo-Json -Compress)
 # PS5.1 native-argv quoting bug (10-19 live evidence): bare double quotes in the
 # JSON are eaten by the child's CommandLineToArgvW - the KV value landed quote-less
