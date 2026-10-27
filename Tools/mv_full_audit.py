@@ -14,6 +14,7 @@ Usage:
 """
 import argparse
 import json
+import os
 import sys
 from collections import Counter
 
@@ -40,6 +41,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("video")
     ap.add_argument("--json", default=None)
+    ap.add_argument("--whitelist", default=None, help="reprise whitelist JSON")
     a = ap.parse_args()
 
     sys.path.insert(0, r"C:\Users\sjs20\Desktop\FluxGroup\Tools")
@@ -96,13 +98,32 @@ def main():
             "dhash": dh[len(dh) // 2],
         })
 
-    # duplicates
+    # duplicates (ignore micro-fragments: a shot under 1s is usually a flash-split, not a shot)
     dups = []
     for i in range(len(shots)):
+        if shots[i]["dur"] < 1.0:
+            continue
         for j in range(i + 1, len(shots)):
+            if shots[j]["dur"] < 1.0:
+                continue
             d = hamming(shots[i]["dhash"], shots[j]["dhash"])
             if d <= 6 and abs(shots[i]["t0"] - shots[j]["t0"]) > 5:
                 dups.append((shots[i]["t0"], shots[j]["t0"], d))
+
+    # whitelist: intentional reprises are design, not defects
+    wl_path = a.whitelist
+    wl_ok, wl_bad = [], list(dups)
+    if wl_path and os.path.exists(wl_path):
+        with open(wl_path, encoding="utf-8-sig") as fh:
+            wl = json.load(fh)
+        tol = float(wl.get("tolerance_sec", 5.0))
+        pairs = wl.get("pairs", [])
+        keep = []
+        for t1, t2, d in dups:
+            hit = any(abs(t1 - p["a"]) <= tol and abs(t2 - p["b"]) <= tol or
+                      abs(t1 - p["b"]) <= tol and abs(t2 - p["a"]) <= tol for p in pairs)
+            (wl_ok if hit else keep).append((t1, t2, d))
+        wl_bad = keep
 
     # era clusters by warmth+sat (2-means, 1D on combined score)
     score = np.array([s["warm"] + s["sat"] / 40.0 for s in shots])
@@ -121,13 +142,15 @@ def main():
     out = {"frames": n, "fps": fps, "shots": len(shots),
            "epoch_thr": round(float(thr), 2),
            "groups": dict(Counter(s["era_group"] for s in shots)),
-           "duplicates": dups, "ambiguous_era": [(s["t0"], s["era_score"]) for s in amb],
+           "duplicates": dups, "duplicates_unlisted": wl_bad,
+           "ambiguous_era": [(s["t0"], s["era_score"]) for s in amb],
            "short_shots": [(s["t0"], s["dur"]) for s in short],
            "long_shots": [(s["t0"], s["dur"]) for s in long],
            "table": shots}
 
     print("frames=%d shots=%d  era_thr=%.2f  groups=%s" % (n, len(shots), thr, out["groups"]))
-    print("duplicates (dHash<=6, >5s apart): %d" % len(dups))
+    print("duplicates (dHash<=6, >5s apart): %d  whitelisted=%d  unlisted=%d" % (
+        len(dups), len(wl_ok), len(wl_bad)))
     for a_, b_, d in dups:
         print("   %.1fs <-> %.1fs  dist=%d" % (a_, b_, d))
     print("ambiguous era shots: %d" % len(amb))

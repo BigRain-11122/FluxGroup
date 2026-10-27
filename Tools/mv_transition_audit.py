@@ -86,9 +86,15 @@ def main():
             divs.append(dv)
         if not mags:
             return None
+        # camera motion (global), not subject motion: phase correlation between window ends
+        a, b = frames[max(0, i0)].astype(np.float32), frames[min(n - 1, i1 - 1)].astype(np.float32)
+        try:
+            (gx, gy), gresp = cv2.phaseCorrelate(a, b)
+        except cv2.error:
+            (gx, gy), gresp = 0.0, 0.0, 0.0
         return (float(np.mean(mags)), (float(np.mean([d[0] for d in dirs])),
                                        float(np.mean([d[1] for d in dirs]))),
-                float(np.mean(divs)))
+                float(np.mean(divs)), (float(gx), float(gy)), float(gresp))
 
     rows = []
     for c in cuts:
@@ -96,16 +102,19 @@ def main():
         head = window_stats(c, min(n, c + WIN))
         if tail is None or head is None:
             continue
-        mt, dt, vt = tail
-        mh, dh, vh = head
+        mt, dt, vt, gt, rt = tail
+        mh, dh, vh, gh, rh = head
         nt = np.hypot(*dt)
         nh = np.hypot(*dh)
         cos = float((dt[0] * dh[0] + dt[1] * dh[1]) / (nt * nh)) if nt > 0.05 and nh > 0.05 else 0.0
+        # camera-only direction: use global shift, not subject flow
+        gnt, gnh = np.hypot(*gt), np.hypot(*gh)
+        gcos = float((gt[0] * gh[0] + gt[1] * gh[1]) / (gnt * gnh)) if gnt > 1.5 and gnh > 1.5 else 0.0
         luma_gap = float(abs(frames[c].mean() - frames[c - 1].mean()))
 
-        if vt > 0.04 and mt > 0.5:
+        if vt > 0.04 and gnt * 84 / 336 > 6.0:
             verdict = "PULLOUT"
-        elif cos < -0.25 and mt > 0.4 and mh > 0.4:
+        elif gnt > 1.5 and gnh > 1.5 and gcos < -0.25:
             verdict = "OPPOSE"
         elif cos > 0.4 and abs(mt - mh) < max(1.5, 0.7 * max(mt, mh)):
             verdict = "MATCH"
@@ -117,7 +126,9 @@ def main():
         rows.append({
             "t": round(c / fps, 3), "frame": int(c), "verdict": verdict,
             "mag_tail": round(mt, 2), "mag_head": round(mh, 2),
-            "dir_cos": round(cos, 2), "div_tail": round(vt, 3), "div_head": round(vh, 3),
+            "dir_cos": round(cos, 2), "g_cos": round(gcos, 2),
+            "g_tail": round(float(gnt), 1), "g_head": round(float(gnh), 1),
+            "div_tail": round(vt, 3), "div_head": round(vh, 3),
             "luma_gap": round(luma_gap, 1),
         })
 

@@ -19,7 +19,7 @@ BASE = r"D:\FluxGroup\cph4\fleet\mv0001-handover\outbound\krea2\30s-reel-v1"
 WORK = r"D:\FleetWorker\rebuild"
 W, H, FPS = 1344, 768, 24
 TARGET_FRAMES = 5623
-CRF = "12"
+CRF = "10"
 
 ap = argparse.ArgumentParser()
 ap.add_argument("out")
@@ -62,7 +62,7 @@ print("planned duration=%.3fs  frames~%d" % (total, round(total * FPS)), flush=T
 
 os.makedirs(WORK, exist_ok=True)
 if a.grade:
-    WORK = WORK + "_grade2"
+    WORK = WORK + "_grade3"
 os.makedirs(WORK, exist_ok=True)
 listfile = os.path.join(WORK, "segments.txt")
 seg_files = []
