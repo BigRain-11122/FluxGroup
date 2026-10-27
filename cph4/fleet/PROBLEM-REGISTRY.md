@@ -143,3 +143,22 @@
 - 复发计数: 3
 - 状态: open
 - 升格记录: 2026-10-26 立册（调度席）；修法候选=只保留 gpu.util_pct/vram_used_mb/vram_total_mb 三键+ts+source，写后回读断言
+
+### PR-20261027-14 STARVED-EXEC 假红旗（pausedLite 让路窗）
+- 来源: R2.36 事件班 2026-10-27 16:30/16:31 双触发（lane=bm-a open_cards=2 blocked=2）
+- 复发史·根因: 首录（同族=旗面不读 idle verdict）·根因=Tools/fleet-dispatcher.ps1 的 STARVED-EXEC 判据只看 exec 计数，不读 idle-watch verdict；对 bm-a 的 EXPECTED-IDLE-WORKHOURS（CEO 10-15 AutoYield 工作日让路律，pausedLite 09:00-19:00）仍按 P1 supply failure 报旗→每日约 10h 持续假红旗，稀释真红旗信噪比
+- 出生地闸: 旗面生成环节·修法=`if ($verdicts[$lane] -eq 'EXPECTED-IDLE-WORKHOURS') { 记 PAUSED-BY-POLICY 不计旗 }`
+- 阻塞: fleet-dispatcher.ps1 ∈ BLUEPRINT 九 受保护件（Tools 核心四件）→改动须 CEO 令/群审通道，本席不擅改
+- 验证证据: 本班实测 idle state.json verdicts.bm-a=EXPECTED-IDLE-WORKHOURS（16:39:29）+ .codely-cli/machine-state.flag=pausedLite 2026-10-27T09:00 + a.json gpu util 99%（机器在人用）
+- 复发计数: 1
+- 状态: open
+- 升格记录: 2026-10-27 首录（R2.36 事件班）·候选修法入 DEADLINES waiting-CEO 受保护件通道
+
+### PR-20261027-15 POOL 阻断源不随签发清除（P1 卡停滞 7 日）
+- 来源: R2.36 事件班实测——POOL-0022 blocked_by=director-signoff:L2-FIX，而签发件 2026-10-20 12:4x 已落盘
+- 复发史·根因: 首录·根因=POOL 卡的 blocked_by 由开卡方写入，签发方落地后无人回写清除；dispatcher 每轮把陈旧 blocker 当真实依赖计入 blocked，supply 看着有卡却零可执行，与实际产能脱节
+- 出生地闸: 签发/回执落地环节·修法候选=签发件落盘时同步回写卡 blocked_by（POOL 五态迁移的核销双勾欠缺）
+- 验证证据: PROMPT-GATE-可爱女人-KF-PACK-A-v1-SIGN.md（2026-10-20 12:4x·判定准烧 28 帧）+ orders 10-20 15:28 行 + 本班实测 bmc/ 与 media/ 零可爱女人 KF 件=7 日真停滞
+- 复发计数: 1
+- 状态: open
+- 升格记录: 2026-10-27 首录（R2.36 事件班）·候选修法=P-/D- 台账入队（受保护件外的流程面）

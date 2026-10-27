@@ -60,3 +60,5 @@
 
 
 | **R2.35 注记（2026-10-27 11:3x·事件班实测）**：提权面三项已合并为**一次即可办完**——①探针/承载转 S4U ②启用 TaskScheduler/Operational ③HQ-SchedHarden-Batch 转 S4U；本班会话 `IsInRole(Administrator)=False`、S4U 注册实测 `拒绝访问 0x80070005`、Operational 日志 `IsEnabled=False`（三项同源实证）。同时：条件硬化分批执行器已排期 10-28 02:10 起低峰 5 跑（≤12/跑·自停），**需硬化任务实测 38 件（旧记 57 含第三方任务，已勘正）**；探针面 BURNING 复核通过（11:26/11:31 双次 Result=0x0）。 | R2.35 |
+
+| **R2.36 注记（2026-10-27 16:5x·事件班·承载件触发）**：三件裁决落盘——①**POOL-0022 陈旧阻断源解除**：签发件 10-20 12:4x 已在档（SIGN.md 判定准烧 A 批 28 帧），但卡 blocked_by 未清，致 W2《可爱女人》KF 28 帧 P1 停滞 7 日零烧制产出；本班清障后可认领，待 bm-c RAM 解锁点火。②**POOL-0016 收窄**至 night-1 LatentSync 单腿残余，解除对 POOL-0021 的阻塞。③**POOL-0003 销卡**（anchors/ 81 件 10-20 已整体交付，deadline 过期 10 日 delta 归零）。另：bm-a STARVED-EXEC 判为**按政策期望态**（idle-watch verdict=EXPECTED-IDLE-WORKHOURS，pausedLite 工作日让路律在役）——旗为 L0 脚本假红旗，修法涉受保护件，已登记 PROBLEM-REGISTRY PR-20261027-14 候 CEO 令/群审通道。 | R2.36 |

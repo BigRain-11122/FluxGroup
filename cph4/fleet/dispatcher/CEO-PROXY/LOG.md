@@ -448,3 +448,20 @@
 - **四元组**：11:26~12:0x｜事件班（承载件触发）｜≈18 调用｜verdict=非故障（BURNING 复核通过 + 计数修正 57→38 + 分批执行器已排期 02:10；三项提权面合并同一物理件）
 - **步8 自检补记（本班实证·重要）**：cron_list 返回空、.codely-cli/scheduled_tasks.json 的 	asks=[]（mtime 2026-10-27 09:00:02）→ **本席 8 班次 cron 自 09:00 起已全缺**（R2.34 时的 b20d1690 已不在），即 12:43/15:43 等班次在缺件状态下不可能触发。已按 CHARTER §四 原参重建：durable recurring 43 2,5,8,12,15,18,21,23 * * * = 2d82e62c-3524-4837-ae3d-e72b1408eaf6（prompt 照抄 §四 代码块原文）；回访探针一次性件 = da16d054-5b35-481e-8a38-6c8d10187521（13:07 复探）。根因未定（09:00:02 的写者是谁/是否被清理动作误删），登记观察：下次班自检若再空=升格为「cron 存储被外部清理」专门案。
 - **本地分叉披露**：本班原子推已把 R2.35 上链（origin/main=3dd3ce4d·git log origin/main -1 实证），但本地 HEAD 仍 c1fc15fa（落后 1）；因工作树存在他窗 staged 改动，本班不做 ff（防踩他人在途态），留待工作树净时 git merge --ff-only origin/main。
+
+## R2.36 事件班（2026-10-27 16:31 触发·承载件触发·DL/NJ 双源）
+
+- **锁门**：`media/logs/ceo-proxy-patrol.lock` mtime=2026-10-27 11:34:42（age 296.7min ≫10min=他窗已死锁）→ 16:31:38 本窗接管落锁（非跳班）。
+- **触发面（原样）**：`FLAG STARVED-EXEC lane=bm-a open_cards=2 blocked=2 -> P1 supply failure` ×2（16:30/16:31）+ `SUPPLY-DRY production_queue_open=0`；NJ 五件（POOL-0003 deadline-expired / 0010 CEO-PHYSICAL / 0020 receipt-owed / 0021 blocked_by 0016 / 0022 director-signoff:L2-FIX）。
+- **深挖结论（不靠推断·四条实证）**：
+  1. **bm-a STARVED-EXEC = 按政策期望态，非供给失败**。三源同证：idle-watch `state.json` 16:39:29 verdict `bm-a=EXPECTED-IDLE-WORKHOURS`；`.codely-cli/machine-state.flag`=`pausedLite 2026-10-27T09:00`（CEO 10-15 AutoYield 工作日让路律）；`fleet/a.json` 16:27:50 gpu util 99% / vram_free 1970MB = 机器在 CEO 手上。→ 派重活违让路律，本席**不派**。
+  2. **POOL-0022 的 blocker 是陈旧台账件**：`PROMPT-GATE-可爱女人-KF-PACK-A-v1-SIGN.md` 2026-10-20 12:4x 已判「准烧 A 批 28 帧」（8 条 FIX 全落位 + lint 30/30 机核），orders 10-20 15:28 行同证「KF 待 @bm-c 烧制」。但卡 `blocked_by` 从未清除 → 全机队 7 日把该卡当 blocked 计入，实测 `bmc/`+`media/` 零可爱女人 KF 件 = **P1 真停滞 7 日**。已清障。
+  3. **POOL-0003 已无 delta**：`anchors/` 实测 81 件（20+ 曲 .txt/.json/.calibrated，10-20 15:30 批次），词级锚点面由 W 波 anchor 线整体产出；deadline 已过期 10 日 → 销卡。
+  4. **POOL-0016 只剩单腿**：night-2 LivePortrait / night-3-early MimicMotion / night-3 MusePose 三腿 PASS 在档，唯一残余=night-1 LatentSync 回执 → 收窄追踪，并解除其对 POOL-0021 的阻塞（原依赖理由=GPU 窗口争用，已消解）。
+- **落单与供给**：`PRODUCTION-QUEUE.jsonl` 由 0 OPEN 补至 2 OPEN（真backlog，非凑数）——`Q-MV-0001-004` v717 逐镜审片板 93 镜联系表（`Tools/mv_shot_sheets.py`，CLI 实测可用）、`Q-MV-0001-005` v717 抖动/静止接高速点位扫描（`Tools/mv_jitter_scan.py`，CLI 实测可用）；两条均 `needs=cpu`，19:00 pausedLite 解除后由 bm-a 认领，正对 CEO 10-27 待办「11 处逐条判定 / 93 镜双签 / 静音复述」的前置件。
+- **裁决（L2 代决·即生效）**：POOL-0003→closed-superseded；POOL-0022 解除 blocked_by；POOL-0021 解除 blocked_by；POOL-0016 收窄保留；POOL-0020 维持 receipt-owed（12 日，再 poke）；POOL-0010 维持 CEO-PHYSICAL（**零催办**，仅登记 DEADLINES §二）。
+- **poke 与 BURNING 复核**：推后群 poke（`Tools/fleet-dispatch.ps1`）→ bm-b 取回执、bm-c 释内存认领 POOL-0022；3 分钟复探见下方实测行。
+- **受保护件披露**：`Tools/fleet-dispatcher.ps1` 的 STARVED-EXEC 判据不读 idle verdict → 每日约 10h 假红旗。该件属 BLUEPRINT §九 受保护件（Tools 核心四件），**本席不擅改**，已登记 PROBLEM-REGISTRY PR-20261027-14 候 CEO 令/群审通道；配套 PR-20261027-15（POOL 阻断源不随签发清除）为受保护件外的流程面修法候选。
+- **本地分叉披露（承 R2.35）**：本地 HEAD f9d0cb81 与 origin/main 5e3b67e6 双向分叉 2↔2，其中 **f9d0cb81=fleet-dispatcher v2、e99344de=决策批 23 仅存于 bm-a 本地**（机队他机仍跑 v1）；本班一律 origin 基底 + 原子推，不做本地收敛（工作树有他窗 staged 改动）。
+- **工具坑复现与正法**：`git show origin/main:<path> > file` 经 PowerShell 重定向会被重新编码（UTF-8→UTF-16+GBK mojibake，实测 POOL.json 首字节变 FF FE 且引号破损）——**取证/建基底一律走 python subprocess 取 bytes**，禁 shell 重定向。
+- **四元组**：16:31→17:0x｜事件班（承载件触发）｜≈40 调用｜verdict=非产能故障（bm-a 睡是政策要求）+ 清 1 件 7 日真停滞阻断源（POOL-0022）+ 补 2 条真 backlog 供给
