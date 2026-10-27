@@ -48,6 +48,8 @@
 | **R2.38b 复探验收（2026-10-27 18:28）** bm-b 命令传不到=本机仓分叉（再发） | bm-b 车道 | 本班三分钟复探 | **at-risk·需本机收口**：bm-b head 仍=**089e916f**（与上午 17:20 判例同一个未推送提交），拒绝拉取 origin/main=ccd517f1，故 OB-20261027-182254-574 在 bm-b **可见但未生效**（poke accepted·Bigmoney-IterationLoop:WAKE）。正法=bm-b 本机跑 `Tools/fleet-hot-sync.ps1`（fetch+rebase autostash，做不做 hard reset）。**这是同一缺口第二轮报修**（17:20 已诊断同一命令传不到根因）→ 按三声条件③ 已对 CEO 出声。 | R2.38b |
 | **R2.38b** bm-c 心跳修复点火验收 | bm-c 车道 | 本班复探 | **BURNING**：bm-c head 已=ccd517f1（真拉到命令），且 MiniGameEngineTick:WAKE 已被唤醒（Bigmoney:busy-skip=量化正常在跑）。验收面=下一次回访探针看 c.json 是否出现 18:2x 以后的新 ts 且被 fold 到 master。 | R2.38b |
 
+| **R2.38c 三口径镜数已对齐（v717 真数）**：“83 镜双签”里的 83 是 **v716 旧件错数**，不是 v717 的 | bm-a / 导演席 | R2.38c 实作（Tools/mv_shot_reconcile.py + D:\FleetWorker\review\reconcile_v717.json） | **可定调·双签对象改为实测表**：v717 实测 = 逐镜审计 **94 切点 / 95 镜**（jitter 自报 cuts=94 shots=95，两者一致）；转场审计 **118 个切点**其中 HARD 62 + MATCH 45 = 107 为镜头边界，STATIC_JUMP 11 为镜内硬跳（不属边界）；两道口径联合 tol=0.125s 得 **102 个真切点**，其中只有 trans 看到 8 个、只有 audit 看到 21 个——**真存在 29 处两道口径不一致**，不是阈值差。jitter 那一道 **只发布了计数、没发布时间表**（盘上 events 只有 37 条异常事件，不是 94 个切点），故不参与联合。建议：双签前先定义“一个镜”的口径（镜头边界 vs 可见跳变），否则 94/102/107 三个数都“对”。 | R2.38c |
+
 ## §二 waiting-CEO（物理件/保留面·零催办）
 
 | 件 | 说明 |

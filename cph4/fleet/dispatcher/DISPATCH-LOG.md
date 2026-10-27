@@ -1,11 +1,4 @@
-﻿[2026-10-26 14:11] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 14:11] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 14:21] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 14:21] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 14:31] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 14:31] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 14:41] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 14:41] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
+﻿[2026-10-26 14:41] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
 [2026-10-26 14:51] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
 [2026-10-26 14:51] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
 [2026-10-26 15:01] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
@@ -399,3 +392,9 @@
 [2026-10-27 18:31] FLAG SUPPLY-DRY production_queue_open=0 total=9 last_claim=DONE@2026-10-27T18:30:27 -> P1 refill from real backlog
 [2026-10-27 18:31] pools: bm-a=1open/0exec bm-b=3open/0exec bm-c=3open/3exec; queue_open=0 run=0; idle: a=EXPECTED-IDLE-WORKHOURS b=GPU-IDLE c=SVC_DOWN; flags=5
 [2026-10-27 18:28] R2.38b RE-PROBE (3min) calls=+4 verdict=PARTIAL-BURNING | bm-c: head=ccd517f1 (pulled the order) + MiniGameEngineTick:WAKE -> heartbeat writer re-armed, Bigmoney:busy-skip (quant alive) = BURNING PASS. bm-b: head STILL 089e916f = same never-pushed local commit as the 17:20 diagnosis; it cannot fast-forward to ccd517f1, so OB-574 is visible-but-inert there (poke accepted, Bigmoney-IterationLoop:WAKE). Fix is local-only: bm-b must run Tools/fleet-hot-sync.ps1 (fetch+rebase autostash, never hard reset). This is the SECOND round on the same transmission gap -> escalated to CEO under the third out-loud condition. False alarm noted for the record: passing a short sha to -ExpectSha makes every node report NOT-SYNCED because the worker compares 8 chars against 40; bm-a/bm-c were actually on ccd517f1.
+[2026-10-27 18:4x] R2.38c CLOSE calls=+8 verdict=DELIVERED | bm-a claim loop proved alive despite the STARVED-EXEC flag: it took Q-MV-0001-009 at 18:25:01 (done 18:25:33) and Q-MV-0001-008 at 18:30:01 (done 18:30:27) - so 'no executable card' was a supply problem, not an idle machine, and the refill fixed it within minutes. Q-MV-0001-010 failed first pass (rc=1) because the real v717 artifacts use two schemas my smoke test never touched: jitter stores cuts as an integer with only anomaly events listed, and the audit now ships {shots:count, table:[...]}. Fixed both; a count-only pass now reports nothing plus its declared count instead of inventing 18 cuts. v717 reconciliation verdict: audit 94 boundaries / 95 shots, transition 118 points of which HARD62+MATCH45=107 are real boundaries, union 102 with 8 trans-only and 21 audit-only -> the two passes genuinely disagree on 29 cuts, this is not a threshold artifact. IMPORTANT for the CEO item: the '83-shot sign-off' figure in the deadline row is the stale v716 number; v717 is 94/95. Card reset to OPEN for an official receipt. Also noted: my own -ExpectSha short-hash mistake made bm-a/bm-c look NOT-SYNCED earlier; they were synced.
+[2026-10-27 18:41] FLAG CLOCK-UNALIGNED old_schema=1 missing=0 -> P1 upgrade node heartbeat to v2 (ms ts+offset)
+[2026-10-27 18:41] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-27 18:41] FLAG STARVED-EXEC lane=bm-b open_cards=3 blocked=3 -> P1 supply failure: no executable card
+[2026-10-27 18:41] FLAG LANE-DOWN lane=bm-c verdict=HB-STALE -> P1 page lane owner
+[2026-10-27 18:41] pools: bm-a=1open/0exec bm-b=3open/0exec bm-c=3open/3exec; queue_open=1 run=0; idle: a=EXPECTED-IDLE-WORKHOURS b=GPU-IDLE c=HB-STALE; flags=4
