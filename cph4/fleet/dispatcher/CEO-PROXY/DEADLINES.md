@@ -45,6 +45,9 @@
 | **R2.38** CLOCK-UNALIGNED（bm-b v1 旧 schema / bm-c 偏 1023.8ms） | 机队计时面 | CLOCK-SKEW.json 18:04:15 | **registered·两机分治**：bm-b=heartbeat 不带 ts_utc_ms/seq/clock_offset_ms（需本机升级，已并入 bm-b 清障令 ②）；bm-c=系统钟偏 1023.8ms > 150ms 门（w32time 停转，非提权起不来）——需 bm-c 本机提权校时，与 S4U 提权面同批。 | R2.38 |
 | **R2.38** SUPPLY-DRY 补料（queue_open 0→2） | bm-a 生产队列 | 本班实作 | **executed**：新增 3 条真实 backlog（Q-MV-0001-008 逐镜审计 / 009 转场审计 / 010 三口径镜数对齐），008/009 已入队 OPEN，010 依赖前两件产出自动解锁；三件均直指 CEO 待办剩余 3 项中的“83 镜双签”前置。新工具 Tools/mv_shot_reconcile.py已开发并实测（v716 实锚 trans 144 / audit 83 / union 85）。 | R2.38 |
 
+| **R2.38b 复探验收（2026-10-27 18:28）** bm-b 命令传不到=本机仓分叉（再发） | bm-b 车道 | 本班三分钟复探 | **at-risk·需本机收口**：bm-b head 仍=**089e916f**（与上午 17:20 判例同一个未推送提交），拒绝拉取 origin/main=ccd517f1，故 OB-20261027-182254-574 在 bm-b **可见但未生效**（poke accepted·Bigmoney-IterationLoop:WAKE）。正法=bm-b 本机跑 `Tools/fleet-hot-sync.ps1`（fetch+rebase autostash，做不做 hard reset）。**这是同一缺口第二轮报修**（17:20 已诊断同一命令传不到根因）→ 按三声条件③ 已对 CEO 出声。 | R2.38b |
+| **R2.38b** bm-c 心跳修复点火验收 | bm-c 车道 | 本班复探 | **BURNING**：bm-c head 已=ccd517f1（真拉到命令），且 MiniGameEngineTick:WAKE 已被唤醒（Bigmoney:busy-skip=量化正常在跑）。验收面=下一次回访探针看 c.json 是否出现 18:2x 以后的新 ts 且被 fold 到 master。 | R2.38b |
+
 ## §二 waiting-CEO（物理件/保留面·零催办）
 
 | 件 | 说明 |

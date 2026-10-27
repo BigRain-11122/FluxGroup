@@ -1,11 +1,4 @@
-﻿[2026-10-26 13:31] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 13:41] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 13:41] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 13:51] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 13:51] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 14:01] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 14:01] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 14:11] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
+﻿[2026-10-26 14:11] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
 [2026-10-26 14:11] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
 [2026-10-26 14:21] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
 [2026-10-26 14:21] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
@@ -399,3 +392,10 @@
 [2026-10-27 18:21] FLAG SUPPLY-DRY production_queue_open=0 total=7 last_claim=QUEUE-EMPTY@2026-10-27T18:20:01 -> P1 refill from real backlog
 [2026-10-27 18:21] pools: bm-a=1open/0exec bm-b=3open/0exec bm-c=3open/3exec; queue_open=0 run=0; idle: a=EXPECTED-IDLE-WORKHOURS b=GPU-IDLE c=HB-STALE; flags=5
 [2026-10-27 18:2x] ROUND 2.38 EVENT (carrier-triggered; DL 17:32 IDLE-WITH-WORK bm-b / LANE-DOWN bm-c / STARVED-EXEC bm-a / SUPPLY-DRY + 18:01 CLOCK-UNALIGNED) calls=~28 verdict=SUPPLY-FIXED+DISPATCHED | actions: (1) SUPPLY-DRY real fix - wrote Tools/mv_shot_reconcile.py (3-way cut-count reconciliation, smoke-tested on v716: trans 144 / audit 83 / union 85) and appended 3 real backlog rows Q-MV-0001-008/-009/-010 (per-shot audit, transition audit, reconciliation on v717); backlog_fill -> queue_open 0->2, 010 auto-unlocks on predecessors; (2) bm-b IDLE-WITH-WORK reclassified HONESTLY: the 17:32 '2 exec' were POOL-0018/0019 before R2.37 added blocked_by; root cause unchanged = bm-b has no HQ-ProductionClaim task -> published fleet command OB-20261027-182254-574 (orders row + cph4/fleet/cmd) and poked bm-b Bigmoney-IterationLoop (accepted, SYNCED 12s); (3) bm-c LANE-DOWN/HB-STALE re-diagnosed: machine NOT dead - c.json written on bm-c at 18:11:23 (RAM 1.4G, CPU 53%, quant r1305/r1307 running); our local mirror stuck at ts 15:08:51 -> it is a heartbeat-git-leg/mirror staleness, not a dead lane; poked MiniGameEngineTick (accepted, SYNCED 5s); (4) bm-a STARVED-EXEC = policy-expected (postureLite workhours yield 09:00-19:00), cards queued for 19:00 resume; (5) CLOCK-UNALIGNED registered: bm-b v1 schema (folded into its clear-out order), bm-c 1023.8ms skew needs local elevation (same batch as S4U). NOTE: bm-c RAM 1.4G (5.9%) is below the 2.4G floor - deliberately did NOT poke the full 6-task MiniGame union to avoid thrash.
+[2026-10-27 18:31] FLAG CLOCK-UNALIGNED old_schema=1 missing=0 -> P1 upgrade node heartbeat to v2 (ms ts+offset)
+[2026-10-27 18:31] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-27 18:31] FLAG STARVED-EXEC lane=bm-b open_cards=3 blocked=3 -> P1 supply failure: no executable card
+[2026-10-27 18:31] FLAG LANE-DOWN lane=bm-c verdict=SVC_DOWN -> P1 page lane owner
+[2026-10-27 18:31] FLAG SUPPLY-DRY production_queue_open=0 total=9 last_claim=DONE@2026-10-27T18:30:27 -> P1 refill from real backlog
+[2026-10-27 18:31] pools: bm-a=1open/0exec bm-b=3open/0exec bm-c=3open/3exec; queue_open=0 run=0; idle: a=EXPECTED-IDLE-WORKHOURS b=GPU-IDLE c=SVC_DOWN; flags=5
+[2026-10-27 18:28] R2.38b RE-PROBE (3min) calls=+4 verdict=PARTIAL-BURNING | bm-c: head=ccd517f1 (pulled the order) + MiniGameEngineTick:WAKE -> heartbeat writer re-armed, Bigmoney:busy-skip (quant alive) = BURNING PASS. bm-b: head STILL 089e916f = same never-pushed local commit as the 17:20 diagnosis; it cannot fast-forward to ccd517f1, so OB-574 is visible-but-inert there (poke accepted, Bigmoney-IterationLoop:WAKE). Fix is local-only: bm-b must run Tools/fleet-hot-sync.ps1 (fetch+rebase autostash, never hard reset). This is the SECOND round on the same transmission gap -> escalated to CEO under the third out-loud condition. False alarm noted for the record: passing a short sha to -ExpectSha makes every node report NOT-SYNCED because the worker compares 8 chars against 40; bm-a/bm-c were actually on ccd517f1.
