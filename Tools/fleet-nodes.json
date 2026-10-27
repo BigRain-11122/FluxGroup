@@ -21,26 +21,64 @@
       "tailnet_ip": "100.110.185.62",
       "enabled": true,
       "root": "C:/Users/sjs20/Desktop/FluxGroup",
-      "repos": [".", "gaming/MiniGame", "gaming/FluxVerse", "quant/bigmoney", "life/BigLife", "media/BigStream", "compute/BigCompute", "domain/BigDomain", "house/BigHouse"],
-      "poke_repos": ["."],
-      "wake_tasks": ["BigStream-OSLoop", "BigLife-OSLoop", "BigDomain-OSLoop", "FluxVerseTick", "MiniGameEngineTick", "Bigmoney-IterationLoop"],
-      "status_files": ["gaming/MiniGame/Design/configs/GLOBAL/fleet/a.json", "quant/bigmoney/fleet/machines/bm-a.json"],
+      "repos": [
+        ".",
+        "gaming/MiniGame",
+        "gaming/FluxVerse",
+        "quant/bigmoney",
+        "life/BigLife",
+        "media/BigStream",
+        "compute/BigCompute",
+        "domain/BigDomain",
+        "house/BigHouse"
+      ],
+      "poke_repos": [
+        "."
+      ],
+      "wake_tasks": [
+        "BigStream-OSLoop",
+        "BigLife-OSLoop",
+        "BigDomain-OSLoop",
+        "FluxVerseTick",
+        "MiniGameEngineTick",
+        "Bigmoney-IterationLoop"
+      ],
+      "status_files": [
+        "gaming/MiniGame/Design/configs/GLOBAL/fleet/a.json",
+        "quant/bigmoney/fleet/machines/bm-a.json"
+      ],
       "note": "O-20261010-1815: house/BigHouse remote CREATED (BigRain-11122/BigHouse, private, main@56ad205 first push done; CEO approval same day) and re-added to repos list. WARM tier note: BigHouse has no own OS loop yet - bm-a is the owner machine, local is source of truth. TIER: '.'=HOT (poke); all product repos=WARM (own OS loops self-pull on round cadence)."
     },
     {
-"id": "bm-b",
+      "id": "bm-b",
       "lane": "cpu-sound",
       "host": "BIGMONEY",
       "tailnet_ip": "100.82.175.0",
       "enabled": true,
       "root": "C:/Fluxgroup/FluxGroup",
-      "repos": [".", "quant/bigmoney", "gaming/MiniGame", "gaming/FluxVerse", "life/BigLife", "media/BigStream", "compute/BigCompute", "domain/BigDomain", "house/BigHouse"],
-      "poke_repos": ["."],
-      "wake_tasks": ["Bigmoney-IterationLoop"],
-      "status_files": ["quant/bigmoney/fleet/machines/bm-b.json"],
+      "repos": [
+        ".",
+        "quant/bigmoney",
+        "gaming/MiniGame",
+        "gaming/FluxVerse",
+        "life/BigLife",
+        "media/BigStream",
+        "compute/BigCompute",
+        "domain/BigDomain",
+        "house/BigHouse"
+      ],
+      "poke_repos": [
+        "."
+      ],
+      "wake_tasks": [
+        "Bigmoney-IterationLoop"
+      ],
+      "status_files": [
+        "quant/bigmoney/fleet/machines/bm-b.json"
+      ],
       "note": "adopted 2026-10-10 bm-b r810 (O-20260909-2150 onboarding step1 / O-20261010-0010 receipt): host/root/wake_tasks confirmed locally (host=BIGMONEY actual hostname; root=C:/Fluxgroup/FluxGroup partial-clone group tree; wake=Bigmoney-IterationLoop pulls quant/bigmoney WARM tier); FluxGroup-FleetLink task registered S4U per bm-b machine law (all lane tasks S4U, InteractiveToken forbidden per 2026-09-29 blackout-root judgment); tailnet join DONE 10-06 (100.82.175.0). ADOPTION CLOSED 2026-10-10 10:31 by HQ poke (all 3 nodes SYNCED). REVISED 10:41 (O-20261010-0045): earlier clock-skew claim RETRACTED - bm-b clock is fine, the comparison baseline was wrong (fleet-reality probe skew=0). OPEN ISSUE (downgraded 10:48): the 10:36-10:41 listener-down readings were probe-timeout artifacts (1500ms too tight; 4s probe = listener UP, v1.4). Watch with fleet-reality.ps1 (timeout raised to 4000ms) - if genuinely flapping, owner fixes power plan + keepalive task. IDENTITY 2026-10-10 13:3x (fleet=3 physical boxes, CEO-confirmed): this box ALSO = BG-B in Biggame/MiniGame fleet naming (fleet/b.json heartbeat; proof R-20260924-llm-fleet.md L12 'bm-b == BG-B' + hardware match 3800X-16T/24G/RTX3070-8G). Former roster rows BG-B/BG-C were these same boxes double-counted (bm-series vs BG-series names) - removed 2026-10-10; NEVER report BG-B/C as separate machines."
     },
-        {
+    {
       "id": "bm-c",
       "lane": "gpu-production",
       "host": "FLUXGROUP",
@@ -58,7 +96,9 @@
         "domain/BigDomain",
         "house/BigHouse"
       ],
-      "poke_repos": ["."],
+      "poke_repos": [
+        "."
+      ],
       "wake_tasks": [
         "Bigmoney-IterationLoop",
         "Bigmoney-SaturationEngine",
@@ -80,16 +120,40 @@
       "note": "adopted 10-08 bm-c r755 (O-20261008-1205-bm-c): host/root/wake_tasks confirmed locally (host=FLUXGROUP per machine.json; root=K:/Fluxgroup/FluxGroup; wake_tasks 12 live task names verified via task enum); FluxGroup-FleetLink task registered + listener on :8790 health OK; HQ poke accepted 10-08 12:0x (fleet-dispatch verify ok=2/3) - ADOPTION CLOSED. Seconds-level dispatch live bm-a<->bm-c. IDENTITY 2026-10-10 13:3x: this box ALSO = BG-C (MiniGame fleet c.json; proof patrol-2026-09-25.md L149 'host=BG-C/bm-c YUHUWAN1904' + hardware match 3950X-32T/24G/RTX3070-16G). Same-box roster rows BG-B/BG-C removed 2026-10-10 - NEVER report as separate machines."
     },
     {
+      "id": "bm-m",
+      "lane": "master-control",
+      "host": "PENDING-MAC",
+      "tailnet_ip": "PENDING-TAILNET",
+      "enabled": false,
+      "root": "/Users/<user>/FluxGroup",
+      "repos": [
+        "."
+      ],
+      "poke_repos": [
+        "."
+      ],
+      "wake_tasks": [],
+      "status_files": [],
+      "note": "2026-10-27 CEO: M1 Pro 16 (32G/512G) joins as group master control + iOS build. macOS cannot run the Windows PowerShell/S4U/scheduled-task plane; master duties = git + NATS + Python (order bus, dispatcher, dashboards, iOS builds). FleetLink listener is Windows-only; the Mac joins the state plane via NATS. Enable after onboarding; keep awake (launchd/caffeinate) because a sleeping master cannot dispatch. Compute brain = bm-d (V100x3, assembly in progress)."
+    },
+    {
       "id": "bm-d",
       "lane": "bmd-brain-backtest",
       "host": "PENDING-TAILNET",
       "tailnet_ip": "PENDING-TAILNET",
       "enabled": false,
       "root": "C:/Fluxgroup/FluxGroup",
-      "repos": [".", "quant/bigmoney"],
-      "poke_repos": ["."],
+      "repos": [
+        ".",
+        "quant/bigmoney"
+      ],
+      "poke_repos": [
+        "."
+      ],
       "wake_tasks": [],
-      "status_files": ["quant/bigmoney/fleet/machines/bm-d.json"],
+      "status_files": [
+        "quant/bigmoney/fleet/machines/bm-d.json"
+      ],
       "note": "PENDING TAILNET JOIN - CEO new six-card rig (canon = cph4/council/C-20261016-01: V100x3 brain + P104x3 draft factory + 2xE5-2695v2 24C48T no-AVX2 + 256G DDR3 = BigMoney backtest factory, W-wave main host per O-20261015-1055). Onboarding: Tools/bmd-bootstrap.ps1 + cph4/fleet/bm-d-onboarding/BMD-ONBOARDING-v1.md (order O-20261016-2148-bm-a). Loop integration: on JOIN-REPORT landing fill host/tailnet_ip + enabled=true + pathspec push + poke /health verify; RAM>8G shard routing flips bm-d-first once enabled. wake_tasks filled at Tier-2 (codely install)."
     }
   ]
