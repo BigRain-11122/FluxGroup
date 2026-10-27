@@ -1,0 +1,29 @@
+﻿{
+ "id": "OB-20261027-211206-860",
+ "node": "bm-b",
+ "action": "lane-open-progress",
+ "ts": "2026-10-28T00:24:00+08:00",
+ "order": "bm-b 声音车道恢复；全面开工；可执行件为 0 或空闲超 30 分钟即报 P1",
+ "compliance": {
+  "self_claim_from_round_head": true,
+  "no_cloud_call": true,
+  "no_wait_for_dispatch": true
+ },
+ "lane_state": {
+  "lane": "bm-b 配音/混音/合流（声音车道）",
+  "status": "producing",
+  "previous_state": "open-but-no-cards（10-27T22:20 回执：POOL 面无新增可领卡）",
+  "now_running": [
+   "FluxGroup-DramaVoiceBatch2 (S4U): IndexTTS EP004-060 批量配音 985 句，单次模型加载，实测 5-6s/句，ETA ~02:00",
+   "FluxGroup-DramaVoiceChain (S4U watchdog): 等 voicegen DONE -> drama_mix_batch 三层混音 -> ffmpeg 合流 loudnorm -14 LUFS"
+  ],
+  "delivered_this_window": [
+   "EP001/EP002/EP003 带声成片：media/drama-eps-audio/*_AUDIO-r1003.mp4（v/a 差 6ms，I=-14.4 LUFS，TP -0.9 dBFS）",
+   "选角映射缺陷修复：EP004+ 的 id 写法（CH/MANCANG/RED/XIONG/XIONGWEI/CROWD/NARRATOR 等共 92 种）原先全部回落旁白声，已加归一化解析器（去括注 / 组合取首位 / 长名优先）并用 15 例干跑验证",
+   "工具链：drama_voicegen_batch.py / drama_mix_batch.py / chain_ep004_060.ps1 / Tools/run-ps-hidden.cmd"
+  ],
+  "open_cards_reason": "POOL 面确实无卡；按「禁等分配」自领=把「60 集默片交付」这一既有缺口当可执行件处理"
+ },
+ "blockers": [],
+ "next_checkpoint": "02:05 链守望复核（voicegen DONE -> mix -> remux），异常即报 P1"
+}
