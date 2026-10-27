@@ -77,11 +77,13 @@ foreach ($p in $laneStr.Split(',')) { $q = $p.Trim(); if ($q) { $laneList = $lan
 $stamp = Now-Stamp
 # Unique command file = conflict-free transport. Every machine writes docs/orders.md
 # locally, so that file diverges and blocks fast-forward; a new file per command does not.
+if (-not $DryRun) {
 $cmdDir = Join-Path $Root 'cph4\fleet\cmd'
 if (-not (Test-Path $cmdDir)) { New-Item -ItemType Directory -Force -Path $cmdDir | Out-Null }
 $cmdFile = Join-Path $cmdDir ($id + '.json')
 $cmdObj = [ordered]@{ id = $id; ts = $stamp; text = $Send; lanes = $laneList; src = $env:COMPUTERNAME; status = 'dispatched' }
 $cmdObj | ConvertTo-Json -Depth 4 | Set-Content -Path $cmdFile -Encoding UTF8
+}
 $sha = ''
 if ($DryRun) {
     Write-Output ('DRY id={0} lanes={1}' -f $id, ($laneList -join ','))
