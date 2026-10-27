@@ -614,3 +614,28 @@ am_free 10GB / cpu_load 48%——bm-b 在跑量化轮而非闲着；缺的是本
 **四元组**：2026-10-28 02:06-02:2x｜事件班（承载件触发）｜calls≈26｜verdict=三旗四轮复发全部定性为「本机动作才能解」并零重复 poke；新增唯一实质发现=i2v 首帧契约 bm-c 路径亲和（禁改派）；台账销 POOL-0022、诚实置 POOL-0023/0024；SUPPLY-DRY 判真尽不补假卡。
 
 **⑥ 工具面新病（本班实测）**：`Tools/git-no-reversal-check.py` 两次实测**挂死 >90s 零输出**（这也是 `python Tools\git-atomic-push.py` 本班两次连 5 分钟零输出被系统杀的根因）→ **推送闸失效会阻断全机队推送**。本班处置=临时以「numstat 增行-only 断言」代替过闸（候选树对 origin 仅 +54/-0 行·零删除），病因待查（怀疑点=步骤 8 的 `--audit` 链上对大留存包做全历史 diff）。
+**⑥ 工具面新病（本班实测）**：`Tools/git-no-reversal-check.py` 两次实测**挂死 >90s 零输出**（这也是 `python Tools\git-atomic-push.py` 本班两次连 5 分钟零输出被系统杀的根因）→ **推送闸失效会阻断全机队推送**。本班处置=临时以「numstat 增行-only 断言」代替过闸（候选树对 origin 仅 +54/-0 行·零删除），病因待查（怀疑点=步骤 8 的 `--audit` 链上对大留存包做全历史 diff）。## 2026-10-28 02:46–03:0x｜事件班（承载件触发·SUPPLY-DRY / STARVED-EXEC×2 / BLOCKED-RAM / CAPACITY-BLOCKED / CLOCK-SKEW）
+
+**① SUPPLY-DRY 第 5 轮：队列真空，但不是没活**——`PRODUCTION-QUEUE` 16/16 DONE、`PRODUCTION-BACKLOG` 9 行全部已消费（deliverable 全在盘），所以补料腿返回 0 是真话。深挖出两类**在制品盲区**（都可机械执行，非假卡）：
+- **v717 交付闸从未跑过**（`D:\FleetWorker\review` 无任何 delivery_gate 证据）→ Q-MV-0001-015
+- **v717 重建链丢了 AIGC 标识**：`mv_rebuild_from_edl.py` 只烧 `lyric_track.ass`，实测 v717 首帧 0.4s 与尾帧都是裸画面（无标识、无 credits）→ Q-MV-0001-016
+
+**② 当班 3 卡入队、2 卡已消费**：015 FAILED(rc=1, 56.7s，产物可用)｜016 DONE(22.5s)｜017 RUNNING(02:59:16 起)。捕获链=`HQ-ProductionClaim` 5 分钟自领，本轮零人工代跑。
+
+**③ 015 首次给 v717 定罪清单（交付闸 D1/D2/D4）**：frames 5623 @24fps、shots 83、seam0/freeze0；
+- D1 单帧完全重复 1 对 @234.21s（尾帧）
+- D1 镜复用 8 对，首个 45.21s vs 223.88s —— **这批是设计重演**（`MV0001-REPRISE-WHITELIST.json` 已登记），闸当时没有白名单支持 → 误判
+- D2 近静止镜 5 处：0.00–3.50s(mad .36/shift .16)、7.50–11.50s、38.79–40.21s、191.50–193.00s、219.71–223.88s
+- D4 镜内曝光闪 4 处：102.17s Δ9.5、211.17s Δ10.7、211.29/211.33s Δ9.0/9.4
+
+**④ 闸缺陷两处当场修（工艺面 T1）**：
+- `Tools/mv_delivery_gate.py` 硬编码 `C:\Program Files\ffmpeg\bin\ffmpeg.exe`，该路径在 winget 迁移后已死 ⇒ 闸只会崩不会查。改为运行期解析（PATH → winget 包 → 旧路径）。
+- 该闸缺 `--whitelist`，对 mv0001 的设计重演每次必判 FAIL ⇒ 闸不可作为通过/不通过信号。补白名单（同 `mv_full_audit.py` schema，容差 5s），017 复跑验证。
+
+**⑤ 016 保真风险已量化待判**：重编码 22.17 → 6.17 Mbps。位率下降不等于伤画质，新增 `Tools/mv_fidelity.py`（SSIM/PSNR）并派 018 卡裁决：<0.95 改高保真档重出。AIGC 母版实测 5623 帧 / 234.29s / 120s 处标签在屏 ✅（`D:\FleetWorker\review\v717_label\full_mv_v717_aigc.mp4`）。
+
+**⑥ 三机实况（读传感面，不重测）**：bm-b 02:01 心跳 RAM 17.1G / GPU 7.6G 闲，poke accepted 但 head=089e916f **NOT-SYNCED**（工作树分叉在册）+ 本机无 `HQ-ProductionClaim` ⇒ POOL-0023 第 5 轮仍不可领，属结构缺口非机器懒。bm-c `c.json` mtime 10-27 15:59（陈旧 11h）、ram_free 1.4G(6%) ⇒ POOL-0024 内存闸未解；poke accepted（NOT-SYNCED d7339348）。bm-a GPU vram_free 1.9G（35B 驻卡），GPU 侧无 KF/i2v 可派。
+
+**⑦ KN 面（与上一班结论一致，本轮复核）**：batch1 30/30 全出且 span 0→239.03s 覆盖整首歌长，联系表两套在盘；i2v 首帧契约绑 bm-c 路径（R2.4x 已判禁改派）。机器侧无新活，卡点=导演 KF 定选 + bm-c 内存。
+
+**四元组**：2026-10-28 02:46–03:0x｜事件班（承载件触发）｜calls≈34｜verdict=SUPPLY-DRY 从「真无料」翻成「有料未派」：3 卡入队 2 卡已消费；交付闸首次给出 v717 四类定罪 + 两处闸缺陷当场修（ffmpeg 死链、缺白名单）；bm-b/bm-c 两旗仍属本机动作，零重复 poke。

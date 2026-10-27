@@ -34,7 +34,22 @@ import numpy as np
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
-FFMPEG = r"C:\Program Files\ffmpeg\bin\ffmpeg.exe"
+def _ffmpeg():
+    """Resolve ffmpeg at run time. The old hardcoded C:\\Program Files path went dead
+    after the 2026-10 winget migration, so this gate crashed instead of checking
+    (found 2026-10-28 before it was burned as a queue job)."""
+    import shutil
+    for cand in (shutil.which("ffmpeg"),
+                 r"C:\Users\sjs20\AppData\Local\Microsoft\WinGet\Packages"
+                 r"\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe"
+                 r"\ffmpeg-9.0.2-full_build\bin\ffmpeg.exe",
+                 r"C:\Program Files\ffmpeg\bin\ffmpeg.exe"):
+        if cand and os.path.exists(cand):
+            return cand
+    return "ffmpeg"
+
+
+FFMPEG = _ffmpeg()
 
 W, H = 336, 188
 SCALE = 1344.0 / W
@@ -130,6 +145,9 @@ def main():
     ap.add_argument("--card", action="append", default=[],
                     help="intentional still window start:end in seconds (title/credit cards); "
                          "repeatable. Exempt from D2/D3 only - D1/D4 still apply.")
+    ap.add_argument("--whitelist", default="",
+                    help="reprise whitelist JSON (same schema as mv_full_audit.py); pairs "
+                         "listed there are designed reprises, not D1 defects")
     ap.add_argument("--json", default="")
     a = ap.parse_args()
 
@@ -165,6 +183,32 @@ def main():
         for j in range(i + 1, len(hashes)):
             if hamming(hashes[i][2], hashes[j][2]) <= REPEAT_HAMMING:
                 seen_pairs.append((hashes[i][0], hashes[j][0]))
+
+    # intentional reprises are design; the canon whitelist names them (same schema as
+    # mv_full_audit.py). Without this the gate always FAILs on mv0001's designed repeats,
+    # which is why the whole check was unreadable as a pass/fail signal (2026-10-28).
+    n_wl = 0
+    if a.whitelist and os.path.exists(a.whitelist) and seen_pairs:
+        try:
+            with open(a.whitelist, encoding="utf-8-sig") as fh:
+                wl = json.load(fh)
+            tol = float(wl.get("tolerance_sec", 5.0))
+            pairs = wl.get("pairs", [])
+            keep = []
+            for f0, f1 in seen_pairs:
+                t0, t1 = f0 / fps, f1 / fps
+                hit = any(abs(t0 - p["a"]) <= tol and abs(t1 - p["b"]) <= tol or
+                          abs(t0 - p["b"]) <= tol and abs(t1 - p["a"]) <= tol for p in pairs)
+                if hit:
+                    n_wl += 1
+                else:
+                    keep.append((f0, f1))
+            seen_pairs = keep
+        except Exception as e:
+            print("note: whitelist unreadable (%s)" % e)
+
+    if n_wl:
+        print("note: %d reprise pair(s) matched the whitelist (design, not counted)" % n_wl)
     if seen_pairs:
         fails.append("D1 shot reused on screen: %d pair(s), first %.2fs vs %.2fs" %
                      (len(seen_pairs), seen_pairs[0][0] / fps, seen_pairs[0][1] / fps))
@@ -250,6 +294,7 @@ def main():
     if a.json:
         json.dump({"file": a.video, "frames": n, "fps": fps, "shots": len(shots),
                    "dup_pairs": len(dup_at), "static_shots": still_shots,
+                   "reprise_whitelisted": n_wl, "reprise_unlisted": len(seen_pairs),
                    "stability": {"seams": st.get("seams", []), "freezes": st.get("freezes", [])},
                    "flicker": flick[:50], "grammar": grammar,
                    "fails": fails, "verdict": verdict},

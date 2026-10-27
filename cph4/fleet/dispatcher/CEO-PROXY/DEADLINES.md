@@ -114,3 +114,14 @@ am_free_gb=10+cpu_load_pct=48——**bm-b 不是闲着，是在跑量化轮**；
 | **CLOCK-SKEW** | **registered·非新增** | 02:04:14 max_abs_offset_ms=1515.5（bm-c 1536.2 / bm-b 884.6，门限=2×precision+20）。bm-c=系统钟停 w32time（需提权）、bm-b=链路中继 RTT；均已在 R2.38 登记，本轮零新动作。 |
 
 | **R2.42** 推送闸挂死（工具面·全机队阻断面） | 治理工具面 | 本班两次实测 | **registered·P1**：`Tools/git-no-reversal-check.py` 连续两次 >90s 零输出（同一病使 `git-atomic-push.py` 两次 5min 零输出被杀）→ 正法推送链路被阻。应急=改用 temp-index + `numstat 增行-only` 断言（R2.42 实作·+54/-0）；根治=查该脚本对 promisor/大包仓的读法并加超时 | R2.42 |
+| **R2.42** 推送闸挂死（工具面·全机队阻断面） | 治理工具面 | 本班两次实测 | **registered·P1**：`Tools/git-no-reversal-check.py` 连续两次 >90s 零输出（同一病使 `git-atomic-push.py` 两次 5min 零输出被杀）→ 正法推送链路被阻。应急=改用 temp-index + `numstat 增行-only` 断言（R2.42 实作·+54/-0）；根治=查该脚本对 promisor/大包仓的读法并加超时 | R2.42 |## §三 R2.43 事件班注记（2026-10-28 02:46-03:0x·承载件触发·SUPPLY-DRY 翻案）
+
+| 项 | 状态 | 证据与处置 |
+|---|---|---|
+| **SUPPLY-DRY（第 5 轮）** | **resolved·翻案为「有料未派」** | 队列 16/16 DONE + backlog 9/9 已消费（deliverable 全在盘）为真；但查在制品发现两处从未入队：v717 交付闸零证据、v717 重建链丢 AIGC 标识。已入队 015/016/017/018 四卡，015 FAILED(rc1,56.7s)、016 DONE(22.5s)、017 RUNNING(02:59:16)、018 排队。 |
+| **v717 交付闸首份证据** | **registered·待导演席裁决** | `D:\FleetWorker\review\delivery_gate_v717.json`：D1 单帧重复@234.21s；D1 镜复用 8 对（多数落在 `MV0001-REPRISE-WHITELIST.json` 内=设计重演）；D2 近静止 5 处（首 0.00–3.50s mad .36/shift .16）；D4 曝光闪 4 处（102.17s Δ9.5、211.17s Δ10.7、211.29/211.33s Δ9.0/9.4）；seam0/freeze0。**判定归导演席+制监席，本席只出证据。** |
+| **AIGC 标识缺失（v717）** | **fixed-tool·母版待终审** | 实证：v717 首帧 0.4s、尾帧均裸画面（无标识/无 credits）；根因=`mv_rebuild_from_edl.py` 只烧 `lyric_track.ass`。新增 `Tools/mv_aigc_label.py`（libass 烧标签，drawtext 在本机 ffmpeg 9.0.2 无 fontconfig 会崩）。母版=`D:\FleetWorker\review\v717_label\full_mv_v717_aigc.mp4`（5623 帧/234.29s/120s 标签在屏）。**标题卡与片尾 credits 属导演排版件，本席不代造。** |
+| **重编码保真待判** | **registered·候 018** | 22.17→6.17Mbps。新增 `Tools/mv_fidelity.py`（SSIM/PSNR）；<0.95 则改高保真档（crf 12 + tune grain）重出母版。 |
+| **bm-b 认领任务缺口（第 5 轮）** | **at-risk·结构性**（物理/本机动作） | 02:5x poke accepted 但 `/status head=089e916f` **NOT-SYNCED**（工作树分叉在册）+ 本机无 `HQ-ProductionClaim` ⇒ POOL-0023 仍不可领。FleetLink 无命令通道（CEO 10-23 令），本席零催办只登记。 |
+| **bm-c 内存闸（第 5 轮）** | **at-risk·本机动作** | `c.json` mtime 10-27 15:59（陈旧 11h）、ram_free 1.4G(6%)、vram_free 14.7G ⇒ POOL-0021/0024 唯一堵点是 RAM。poke accepted（NOT-SYNCED d7339348）。 |
+| **推送闸挂死（R2.42 续）** | **workaround 在用** | 本轮改走原生 git（暂存白名单 pathspec + 直接 push），不调用 `git-atomic-push.py` / `git-no-reversal-check.py`；上一班已证两者挂死。 |
