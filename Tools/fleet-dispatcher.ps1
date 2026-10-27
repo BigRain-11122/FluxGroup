@@ -13,6 +13,7 @@ $queueF = Join-Path $root 'cph4\fleet\PRODUCTION-QUEUE.jsonl'
 $claimF = Join-Path $root 'cph4\fleet\queue-receipts\_last_claim.json'
 $idleF = Join-Path $root '.codely-cli\tmp\fleet-idle-watch\state.json'
 $stateF = Join-Path $dir 'STATE.json'
+$clockF = Join-Path $dir 'CLOCK-SKEW.json'
 $logF = Join-Path $dir 'DISPATCH-LOG.md'
 $judgF = Join-Path $dir 'NEED-JUDGMENT.md'
 $stamp = Get-Date -Format 'yyyy-MM-dd HH:mm'
@@ -95,6 +96,22 @@ if (Test-Path $claimF) {
 $verdicts = @{}
 if (Test-Path $idleF) {
     try { $is = Get-Content $idleF -Raw -Encoding UTF8 | ConvertFrom-Json; foreach ($id in @('bm-a', 'bm-b', 'bm-c')) { $p = $is.verdicts.PSObject.Properties[$id]; if ($p) { $verdicts[$id] = [string]$p.Value } } } catch { }
+}
+
+# ---- clock alignment (fleet-clock report writes CLOCK-SKEW.json every 5m) ----
+$clockOld = 0; $clockSkew = 0.0; $clockMissing = 0
+if (Test-Path $clockF) {
+    try {
+        $ck = Get-Content $clockF -Raw -Encoding UTF8 | ConvertFrom-Json
+        $clockOld = [int]$ck.old_schema
+        $clockSkew = [double]$ck.max_abs_offset_ms
+        $clockMissing = [int]$ck.missing
+    } catch { }
+}
+if ($clockOld -gt 0 -or $clockMissing -gt 0) {
+    $out += ('[{0}] FLAG CLOCK-UNALIGNED old_schema={1} missing={2} -> P1 upgrade node heartbeat to v2 (ms ts+offset)' -f $stamp, $clockOld, $clockMissing)
+} elseif ($clockSkew -gt 150) {
+    $out += ('[{0}] FLAG CLOCK-SKEW max={1}ms (>150ms) -> check hub path or node clock' -f $stamp, $clockSkew)
 }
 
 # ---- flags ----
