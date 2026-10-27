@@ -322,20 +322,64 @@
 
 未 poke · 未直写 orders/decisions/POOL · 未碰产品代码与场景 YAML · 未重测 L0/IdleWatch/枢纽已测面 · **未 snooze**（真结构性缺口，snooze 会掩盖）· 班毕 touch 锁。
 
-# R10 Ѳ�Ӱࣨbiggame Ѳ��ϯ �� 2026-10-27 17:22-17:4x �� ֻ��ֻ�飩
+# R10 巡视班（biggame 巡视席 · 2026-10-27 17:22-17:4x · 只读只议）
 
-> �����֣�ǩ������`DISPATCH-LOG.md :: [16:55]/[17:01]/[17:11]/[17:17]/[17:21] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1` + `[17:11]/[17:17]/[17:21] FLAG LANE-DOWN lane=bm-c verdict=HB-STALE` + `[17:21] pools: bm-a=1open/0exec bm-b=3open/2exec bm-c=3open/3exec; queue_open=0`
-> ���ۣ�**STARVED-EXEC���桤�ڶ���δ����R9-1 �䵵 40min δ�á���������LANE-DOWN bm-c��liveness �پ�����������ļ���δ������ע��������������ȱ�����ڲᣩ�� ���Ա��� snooze�����ڸ�����ȱ�ڣ�biggame ���״�����ȫ��**
+> 触发现（签名）：`DISPATCH-LOG.md :: [16:55]/[17:01]/[17:11]/[17:17]/[17:21] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1` + `[17:11]/[17:17]/[17:21] FLAG LANE-DOWN lane=bm-c verdict=HB-STALE` + `[17:21] pools: bm-a=1open/0exec bm-b=3open/2exec bm-c=3open/3exec; queue_open=0`
+> 结论：**STARVED-EXEC＝真·第二轮未决（R9-1 落档 40min 未裁→升级）；LANE-DOWN bm-c＝liveness 假警（机器活）但文件面未收敛＋注入能力已满（真缺口已在册）→ 仅对本旗 snooze，不掩盖能力缺口；biggame 域雷达七面全绿**
 
-## NJ[biggame#R10-1]���� R9-1���ڶ���δ�� �� ����Ŧ�� �� ���¿����ţ�
+## NJ[biggame#R10-1]（承 R9-1·第二轮未决 · 候枢纽收 · 不新开案号）
 
-- **ʵ��һ��STARVED-EXEC ԭ��δ�䣩**��`cph4/fleet/dispatcher/STATE.json` 17:21:03 `bm-a open=1 exec=0 blocked=1`��`POOL.json` �� `lane=bm-a` Ψ�� `POOL-0010`��`blocked_by=CEO-PHYSICAL:submit-materials`��CEO �����桤��߰죩��`NEED-JUDGMENT.md` 17:21 ����ͬ���ڵ����� �� R9 ����һ�£�**ȱ�������ϣ����ڲ���**��R9-1 �������� GimmeAll ready 15 ���� GPU ���� `lane=bm-a` �� `POOL-0003` ���� 9.7 �� MV ������ �� STARVED-EXEC �о����֡�POOL �ɡ��롸���� 15 ready����**��δ���** �� ���³̡�����δ�����������ϱ���Ŧ��
-- **ʵ�����bm-c LANE-DOWN��liveness �پ�����֤��**����`http://100.123.74.104:8790/status` 17:31:52 **HTTP 200**��len 31185������ͣ������`cph4/fleet/dispatcher/CLOCK-SKEW.json` 17:24:15 `bm-c seq=21 age_ms=64518 offset_ms=858.9`��NATS �������ߣ�����ϵ㣽**�ļ���**��`gaming/MiniGame/Design/configs/GLOBAL/fleet/c.json` �������� `ts=2026-10-27T15:08:51`��mtime 15:59:23����bm-c 17:14 pull �� `.:updated-kept-local`�����ظĶ���ס��ȡ���ֿ�������ļ��� 15:08 ֮��δ�ٳ������� R4-1/R8-1 ͬ�����ȱ�ڣ����� `verdict=HB-STALE` ϵ�ļ������ͺ󣬷ǻ������ߡ�
-- **ʵ������bm-c ��ʵ�������ߡ���������**��`/status` ʵ�� `ram_free_gb=1.3`��24G ����5.4%����`gpu=RTX3070 16384MiB �� 14892MiB ����`����91%����`cpu_load 29%`��c.json 15:08 ���� `GPU_COMFY_MISSING|RAM_LOW`��ram_free 5.9%������ **bm-c GPU ���ɵ�Ӧ���������ɽ����ػ**�������ļ��ָ��� dispatcher �� `BLOCKED-RAM` ��֧����Ȼ���֣������������ƣ���bm-c �ڲ� 3 �� exec ����POOL-0016/0021/0022��ȫ�� MV/KF��bigstream ��**biggame ��ֱ����Ӱ�죽0**��
-- **���渴�ˣ����� R9 ֤�ݣ���������һ����**������ `gaming/MiniGame/Design/evidence/pipeline-20261027-172602/report.json` 17:26:35 **9/9 PASS / failed=0 / 33.4s**��preflight `crash_streak=0 idle_streak=0 comfy=1 editors=1 ram_free=32.6 vram_free=3168`��car-adapt PASS `canvas=2880 scale=1.000 headroom=2.701`��ui-kit main 11 �� / result 16 �㣻compliance PASS��audio 49 files `diverge_or_fail=0`��scenes-4k `6/6`���������棨R9 17:0x ʵ�⣬δ�ز⣩��RedlineAudit `2026-10-27 14:47:01 machine=A CLEAN`��6h ���ࡤ�´Ρ�20:47����G20 build25 ���� `3,621,408 / 4,194,304B`���� 572,896B����WIP GimmeAll `in_progress 5 ��8`��24h ��������Ž��� compile 0err/0warn��PlayMode 7/7���� �״����-��**ȫ�̣�����������**��
-- **���飨����Ŧ����-�� �� R9-1�����ֲ���������**���� �� bm-c �� `.:updated-kept-local` ��һ�� `Tools/fleet-hot-sync.ps1`��fetch+rebase autostash�����ָ� c.json �ļ������������һ�л��� c.json �� lane �ж�������پ�����ǰ snooze ֻѹ�룬���޸�����
-- **��֤������д����һ�ࣩ**���� bm-c ���� NATS ������CLOCK-SKEW ���� `missing` �� age>10min�������κβֿ��ύ��������ͣ�ڲ��� ��1 ���� poke `MiniGameEngineTick` �Ȱ��������񣻽�ʱ snooze �����á�
+- **实测一（STARVED-EXEC 原样未变）**：`cph4/fleet/dispatcher/STATE.json` 17:21:03 `bm-a open=1 exec=0 blocked=1`；`POOL.json` 中 `lane=bm-a` 唯余 `POOL-0010`（`blocked_by=CEO-PHYSICAL:submit-materials`＝CEO 保留面·零催办）；`NEED-JUDGMENT.md` 17:21 快照同行在档。→ 与 R9 逐字一致：**缺口在送料，不在产能**。R9-1 三条（① GimmeAll ready 15 挑非 GPU 件补 `lane=bm-a` ② `POOL-0003` 过期 9.7 天 MV 卡清理 ③ STARVED-EXEC 判据区分「POOL 干」与「域内 15 ready」）**仍未获裁** → 按章程「两轮未决＝升级」上报枢纽。
+- **实测二（bm-c LANE-DOWN＝liveness 假警·带证）**：①`http://100.123.74.104:8790/status` 17:31:52 **HTTP 200**（len 31185）＝非停机；②`cph4/fleet/dispatcher/CLOCK-SKEW.json` 17:24:15 `bm-c seq=21 age_ms=64518 offset_ms=858.9`＝NATS 心跳在走；③真断点＝**文件面**：`gaming/MiniGame/Design/configs/GLOBAL/fleet/c.json` 本机副本 `ts=2026-10-27T15:08:51`（mtime 15:59:23），bm-c 17:14 pull 报 `.:updated-kept-local`＝本地改动挡住拉取，仓库侧心跳文件自 15:08 之后未再出货（与 R4-1/R8-1 同族机制缺口）。故 `verdict=HB-STALE` 系文件传感滞后，非机器掉线。
+- **实测三（bm-c 真实余量红线·非噪声）**：`/status` 实测 `ram_free_gb=1.3`（24G 机≈5.4%）、`gpu=RTX3070 16384MiB 中 14892MiB 在用`（≈91%）、`cpu_load 29%`；c.json 15:08 自判 `GPU_COMFY_MISSING|RAM_LOW`（ram_free 5.9%）。→ **bm-c GPU 生成道应视作「不可接新重活」**（心跳文件恢复后 dispatcher 的 `BLOCKED-RAM` 分支会自然复现，无需另立机制）。bm-c 在册 3 张 exec 卡（POOL-0016/0021/0022）全属 MV/KF＝bigstream 域，**biggame 域直接受影响＝0**。
+- **域面复核（复用 R9 证据＋本轮新增一件）**：新增 `gaming/MiniGame/Design/evidence/pipeline-20261027-172602/report.json` 17:26:35 **9/9 PASS / failed=0 / 33.4s**（preflight `crash_streak=0 idle_streak=0 comfy=1 editors=1 ram_free=32.6 vram_free=3168`；car-adapt PASS `canvas=2880 scale=1.000 headroom=2.701`；ui-kit main 11 层 / result 16 层；compliance PASS；audio 49 files `diverge_or_fail=0`；scenes-4k `6/6`）。复用面（R9 17:0x 实测，未重测）：RedlineAudit `2026-10-27 14:47:01 machine=A CLEAN`（6h 节奏·下次≈20:47）、G20 build25 主包 `3,621,408 / 4,194,304B`（余 572,896B）、WIP GimmeAll `in_progress 5 ＜8`、24h 零新立项、门禁链 compile 0err/0warn＋PlayMode 7/7。→ 雷达面①-⑦**全绿，本轮零新旗**。
+- **建议（候枢纽·①-③ 见 R9-1，本轮补第四条）**：④ 对 bm-c 的 `.:updated-kept-local` 跑一次 `Tools/fleet-hot-sync.ps1`（fetch+rebase autostash），恢复 c.json 文件面出货；否则一切基于 c.json 的 lane 判读会持续假警（当前 snooze 只压噪，不修根）。
+- **反证条件（写给下一班）**：若 bm-c 既无 NATS 心跳（CLOCK-SKEW 报告 `missing` 或 age>10min）又无任何仓库提交，则判真停摆并按 §1 即决 poke `MiniGameEngineTick` 等白名单任务；届时 snooze 不适用。
 
-## ����
+## 纪律
 
-δ poke �� δֱд orders/decisions/POOL �� δ����Ʒ�����볡�� YAML �� δ�ز� L0/IdleWatch/��Ŧ�Ѳ��� �� ���� `FLAG LANE-DOWN lane=bm-c` д snooze����24h��liveness ��ʵ֤������� STARVED-EXEC **�� snooze**����ṹ��ȱ�ڣ�snooze ���ڸǣ��� ��� touch ����
+未 poke · 未直写 orders/decisions/POOL · 未碰产品代码与场景 YAML · 未重测 L0/IdleWatch/枢纽已测面 · 仅对 `FLAG LANE-DOWN lane=bm-c` 写 snooze（≤24h·liveness 已实证机器活）· STARVED-EXEC **不 snooze**（真结构性缺口，snooze 会掩盖）· 班毕 touch 锁。
+
+# R11 巡视班（biggame 巡视席 · 2026-10-27 18:07-18:2x · 只读只议）
+
+> 签名旗：`DEADLINE: | bm-c MiniGame 心跳写入停摆 + RAM 破地板` + `[18:01] FLAG STARVED-EXEC lane=bm-a/bm-b` + `[18:01] FLAG SUPPLY-DRY production_queue_open=0` + `FLAG LANE-DOWN lane=bm-c HB-STALE`
+> 结论：**触发旗两半各判一半错**——「MiniGame 心跳写入停摆」第三次证伪（bm-c 本轮 18:04 仍在提交产品收口 `C2296`）；「RAM 破地板」为真且在恶化（`ram_free_gb=0.7` / 24G，低于 2.4G 地板），但 bm-c 在册三卡全属 MV，**biggame 域影响＝0**。域雷达七项全绿且比 R10 更新。**本班新增域级 at-risk 一件：G1 门（10-29·2 天后）唯一缺件 `ENG-001` Android D1 构建，其 blocked 理由已失效，`Build/android/` 从未产出**。
+
+## NJ[biggame#R11-1] G1 门（2026-10-29）缺件 ENG-001 卡在失效的阻塞理由上 → 候枢纽 48h 内处置
+
+- **事态**：`docs/family/production-queue.json` 46 项 / `in_progress 5` / `ready 15`；G1 门（D7 可玩 4K 空场景 + 站点 1 三关）status=pending，死线 **2026-10-29**（2 天后）。
+- **缺件**：`ENG-001`（4K 空场景 Android 构建·D1 基线·输出 `Build/android/`）status=**blocked**，blockedReason＝「Tuanjie 编辑器占用工程 Library/，需关编辑器才能跑批处理」。**`Build/android/` 至今不存在**（`Build/` 下只有 `Win64/` 与 9-30 的 `MiniGameWeChat/`）。
+- **阻塞理由已失效（四证）**：①GimmeAll 工程树递归全查，`UnityLockfile` **零命中**；②`Temp/` 不存在＝编辑器干净退出；③`Library` mtime `16:49:10` 与最后一次 Win64 构建 `V0.10.4` `16:49:06` 对齐＝那是上一轮正常收尾；④当前在跑的编辑器**全属他工程**（`C:\Agent\gui-agent\GUIAgentUnity` 主进程+8 个 AssetImportWorker、`C:\一体化现实世界2\metis\Unity` 主进程+2 worker、Tuanjie Cowork hub；pid 22632/28424/27632/53528/32164/49520/45868/59668/13404/61592/52708/79172/77656），无一持有 GimmeAll。
+- **产能侧健康（同日实证）**：Win64 今日 5 连发 `V0.10.0` 09:51 / `V0.10.1` 12:02 / `V0.10.2` 12:14 / `V0.10.3` 13:18 / `V0.10.4` 16:49 → 构建循环通，Android 腿是「从未点火」而非「点不着」。AndroidPlayer 模块在位（`2022.3.62t15`＝True；`2022.3.55t4`＝False → 选版本须用 .62t15）；构建入口在位（`Assets/_Project/Editor/BuildAndroid.cs`、`Assets/_Project/Game/Editor/ProjectBuild.cs`）。
+- **建议（候枢纽裁）**：①先清 `ENG-001` 的陈旧 blockedReason（台账件，非产品代码）；②以 `2022.3.62t15 -batchMode -quit -executeMethod` 跑首条 Android 4K 空场景构建，产出 `Build/android/` 作为 G1 的 D1 基线证据；③若构建报缺 Android SDK/NDK 等物理件，转 CEO 物理件面（零催办）。
+- **判据窗 48h**：`Build/android/` 出现 APK/AAB，或 `ENG-001` 状态离开 blocked 且附新阻塞实证。
+- **诚实边界**：本席**未执行构建**（编辑器批处理＝产品面作业，超巡视席只读只议权限）。结论只到「阻塞理由不成立 + 缺件确定」为止。
+
+## NJ[biggame#R11-2] 派单面读数不可复核（承 R9-1/R10-1 第三轮 · 仅留痕不重复升级）
+
+- `STATE.json` 18:11:03 判 `bm-a open=1/blocked=1`、`bm-b open=3/blocked=3`、`bm-c open=3/exec=3`；但 `POOL.json` 实读：bm-a 车道**零 open 卡**（`POOL-0003` closed-superseded、`POOL-0009` closed-superseded、`POOL-0013` done），bm-c 三卡（0016/0021/0022）全部 MV 面。**biggame 域在 POOL 内零卡** → `STARVED-EXEC` / `SUPPLY-DRY` 对 biggame 域影响恒为 0；这两旗的真实内容是 MV/音频车道供给事故（`POOL-0018/0019` 卡在 `no-claim-task:bm-b`）。
+- open 计数与卡体状态对不上＝派单面读数缺陷，属枢纽/事件班面，本席只留痕不改口径。
+- R9-1 三条建议（ready 项补卡入池 / 清死卡 / 旗口径加域内供给或改 `POOL-DRY`）**三小时零处置**，本班不重复升级，等枢纽一次裁决。
+- 跨域提示（不属本席决）：`DEADLINES` 另一行「19:00 前补 bm-b 生产认领任务」距死线 49min，FleetLink 无命令通道（CEO 10-23 令禁远程调度），本席无法验证 bm-b 是否已注册，不伪造「已恢复」。
+
+## R11 域雷达复核（§1 七项 · 增量直读 · 传感复用）
+
+| 检项 | 结果 |
+|---|---|
+| ① 门禁链 | 绿。`pipeline-20261027-175602`（17:56:30）**9/9 PASS / failed=0 / 28s**（preflight crash_streak=0 idle_streak=0 editors=1 ram_free 34.7 vram_free 3078；car-adapt canvas 2880 scale 1.000 headroom 2.701；audio 49 files diverge_or_fail=0 max_delta 0.32；scenes-4k 6/6；compliance PASS；ui-kit main 11 层 / result 16 层）。RedlineAudit `2026-10-27 14:47:01 machine=A CLEAN`＝**6h 节拍**（日志尾串 02:46/08:46/14:47/20:46 连续 10 次 CLEAN），3.5h 龄属正常非陈旧 |
+| ② 包体四值 | 绿。`B2467` G20 `v3.1.23+build26` CheckBundle v1.3 PASS，字节恒等 4,901,287+28,847=4,930,134，**main 3,623,460 / 4,194,304B（余 570,844B）**，较 build25 的 3,621,408 增 2,052B |
+| ③ 提审硬门 | 无新增提交动作；G1 门缺件见 NJ R11-1（本班新记） |
+| ④ WIP 上限 | `production-queue.json` 46 项 / **in_progress 5 vs policy 8**（各道 ≤2）→ 不构成拥挤预警 |
+| ⑤ 产线批健康 | 三机同窗在产，无陈旧假 DONE：A `X2897` fold 17:34（master 已含 B/C tip）· B `B2467` 17:59 · C `C2296` 18:04；bm-a engine-tick 17:52 轮次日志在盘 |
+| ⑥ 玩法差异四问 | 24h 零新增立项（C2296＝G20 现有款 AI 行动预算「1+2 收口、否决 1+6」的量化裁决，非新立项） |
+| ⑦ 资产批合规 | `production/reports/asset-audit-*` 最新仍 2026-09-14（≈43 天）＝既有诚实边界（承 R5/R8）；本窗零新增未登记件 |
+
+## 域观察（不入 NJ）
+
+- 「bm-c 心跳写入停摆」**第三次证伪**：`origin/machine/C` tip＝`C2296` @18:04:15 为产品收口提交，`C2295` 在其前 → 写手在跑；而 `c.json` 本地仍 `ts=2026-10-27T15:08:51`、mtime 15:59:23（与 R10 逐字相同）→ 停的是**文件面**不是产线（R4-1/R8-1 同族）。修法仍是 bm-c 本机 `Tools/fleet-hot-sync.ps1`（fetch+rebase autostash）+ c.json 写入端排查。
+- bm-c RAM **真且在恶化**：`/status` 18:10:52 `ram_free_gb=0.7`（24G 的 2.9%），轨迹 17:04 0.5G → 17:28 1.7G → 18:10 0.7G，长期低于 2.4G 地板；其 3 张 exec 卡全属 MV，biggame 域不受影响。
+- **文件编码缺陷（工具面·本班实锚）**：`biggame-NEED-JUDGMENT.md` 主体是 **UTF-8**，R10 段却是 **GBK** 追加 → 混编使 `read_file` 类工具直接拒读整件（首读时 R1-R9 正常、R10 段乱码；本班按错误假设再以 GBK 追加 R11 后整件被判「无法安全解码」，随即回滚重做）。本班已把该件**整件归一为 UTF-8**：主段 strict-UTF8 校验 OK / R10 段 GBK→UTF-8 无损转换 / 全件零 U+FFFD / 三段探针（「域雷达复核」「只读只议」「G1 门（2026-10-29）」）全部命中，**内容零改动**。`PATROL-FLEET/LOG.md` 与 `biggame-shiftlog.md` 主体为 GBK，本班按 GBK 追加以与各自主体一致 —— 建议枢纽统一三件编码（属枢纽工具面，非本席改）。
+
+## 纪律
+
+未 poke · 未直写 orders/decisions/POOL/DEADLINES · 未碰产品代码与场景 YAML · 未重测 L0/IdleWatch/枢纽已测面 · 未执行构建（超权限） · snooze 仅用于已证伪的 `DEADLINE: | bm-c Mini`（至 02:00，真事故面以数字判据重提） · `STARVED-EXEC` **未 snooze**（真结构性缺口） · 班毕 touch 锁。
