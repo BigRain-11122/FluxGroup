@@ -47,29 +47,54 @@ def _trans_cuts(d):
 
 
 def _jitter_cuts(d):
-    """jitter classify -> cut times (list of floats or dicts with t)"""
-    if d is None:
+    """jitter classify -> cut times, or None when the pass published only a count.
+
+    The v717 artifact stores "cuts": 94 as an integer and puts only the *anomaly*
+    events (37 of them, FLASH/POP/JUMP...) under "events". Treating that subset as
+    the cut list would invent 18 cuts and silently drop 76 - so when the published
+    list is shorter than the declared count, we report "count-only" instead.
+    """
+    if not isinstance(d, dict):
         return None
-    raw = d.get("cuts") if isinstance(d, dict) else None
-    if raw is None:
-        raw = d.get("events") if isinstance(d, dict) else []
-    out = []
-    for r in raw or []:
-        if isinstance(r, dict):
-            if r.get("kind") in ("FLASH", "POP"):
-                continue
-            if "t" in r:
-                out.append(float(r["t"]))
-        elif isinstance(r, (int, float)):
-            out.append(float(r))
-    return out
+    raw = d.get("cuts")
+    if isinstance(raw, list):
+        out = []
+        for r in raw:
+            if isinstance(r, dict):
+                if r.get("kind") in ("FLASH", "POP"):
+                    continue
+                if "t" in r:
+                    out.append(float(r["t"]))
+            elif isinstance(r, (int, float)):
+                out.append(float(r))
+        return out
+    declared = raw if isinstance(raw, int) else None
+    events = d.get("events") or []
+    times = [float(e["t"]) for e in events if isinstance(e, dict) and "t" in e]
+    if declared is not None and len(times) < declared:
+        return None
+    return times
 
 
 def _audit_shot_starts(d):
-    """full audit -> shot start times (shot boundaries, i>0)"""
+    """full audit -> shot start times (shot boundaries, i>0)
+
+    Two schemas exist: the older one is a bare list of shots, the 2026-10-27
+    revision wraps them in {"shots": <count>, "table": [...]}. "shots" as an int
+    is a count, so prefer whichever key actually holds the list.
+    """
     if d is None:
         return None
-    rows = d if isinstance(d, list) else (d.get("shots") or [])
+    if isinstance(d, list):
+        rows = d
+    else:
+        rows = None
+        for k in ("shots", "table", "rows"):
+            v = d.get(k)
+            if isinstance(v, list):
+                rows = v
+                break
+        rows = rows or []
     out = []
     for r in rows:
         if isinstance(r, dict) and "t0" in r:
@@ -131,6 +156,14 @@ def main():
     if trans_rows is not None:
         trans_boundaries = sum(1 for _, v in trans_rows if v in ("HARD", "MATCH"))
     jitter = _jitter_cuts(_load(a.jitter))
+    # counts each pass *declares* in its own header, even when it published no list
+    declared = {}
+    for tag, path in (("trans", a.trans), ("jitter", a.jitter), ("audit", a.audit)):
+        d = _load(path)
+        if isinstance(d, dict):
+            for k in ("cuts", "shots"):
+                if isinstance(d.get(k), int):
+                    declared[tag + "_" + k] = d[k]
     starts = _audit_shot_starts(_load(a.audit))
     # shot starts exclude t=0, and the last boundary may equal duration: treat as cuts
     audit_cuts = [t for t in (starts or []) if t > 0]
@@ -168,6 +201,7 @@ def main():
         "fps": a.fps,
         "tolerance_s": round(tol, 4),
         "counts": counts,
+        "declared_counts": declared,
         "trans_by_verdict": trans_by_verdict,
         "trans_shot_boundaries": trans_boundaries,
         "spun_from_shots": {k: (counts[k] + 1) if counts[k] is not None else None for k in counts},
@@ -180,6 +214,8 @@ def main():
     }
 
     print("counts   :", counts)
+    if declared:
+        print("declared :", declared)
     if trans_by_verdict:
         print("trans    :", trans_by_verdict, "| shot boundaries(HARD+MATCH) =", trans_boundaries)
     print("union    :", len(clusters), "cuts (tol %.3fs)" % tol)
