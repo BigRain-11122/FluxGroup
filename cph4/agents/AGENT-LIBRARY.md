@@ -114,3 +114,15 @@
 
 - v1.0（2026-10-16·bm-a 建库）：总册首版（常设机构位 15+专家席位 16+八域 skill 索引+城市线专册）+五席新 skill+六件既有 skill 收编 canon+同步/审计双工具+CEO-PROXY 周审步接线（执行档=docs/orders.md 2026-10-16 建库令行）。
 - v1.0.1（2026-10-16·bm-a）：合规席转阶段门控（CEO 令「商业化前轻量」）——§0/§二/§六 合规行改写·skill 同步升版。
+
+## 审美能力包 v1（2026-10-25 委员会令：全集团审美水平大幅提升）
+
+**已有席位（盘清·全部可调用）**：视觉定义 `art-bible`／单件规格 `asset-spec`／画面构成 `canvas-design`／主题配色 `theme-factory`／设计审查 `design-review`／设计系统 `design-system`／交互与视觉 `ux-design`+`ux-review`／游戏界面 `game-ui-ux`／游戏美术 `create-game-assets`／关卡 `level-design`／像素 `pixel-art-studio`／MV 导演 `tw-mv-director`／专家群 `bigstream-expert-panel`／MV 色彩 `mv-colorist`／MV 灯光 `mv-lighting`／MV 表演 `mv-performance`／MV 年代道具 `mv-props-era`／MV 选角 `mv-casting`／MV 剪辑节奏 `mv-edit-rhythm`／短剧导演 `drama-director`／技术美术 `technical-artist`／着色器 `unity-shader-specialist`。
+
+**新增（本次落地）**：
+- `cph4/skills/art-critique/SKILL.md` — 审美批判席：构图/光/色/材质/表演/叙事六面打分 + 可执行修改指令。用于"机器全绿但人一眼看出问题"。
+- `Tools/mv_aesthetic_gate.py` — 把审美变成数字：逐镜 luma/sat/edge/色温/同色连段；判 DARK(<35/255)、BLOWN(>190)、FLAT(edge<0.02)、同色连段≥6。
+
+**执法位**：任何成片/关键帧/界面交付前，除技术闸外必须跑 `mv_aesthetic_gate` 并附 art-critique 六面表；两者任一判负不得交付。
+
+**首跑实测（mv0001 v715）**：dark=43 / flat=39 / 最长同色连段=6；整体 gamma 1.15 提亮后 dark=29 / flat=31。结论=全片偏暗是"看不懂"的主因，须在装配级做一次整体提亮，而非逐镜补。

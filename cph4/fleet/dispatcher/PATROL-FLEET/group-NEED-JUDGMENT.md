@@ -125,3 +125,22 @@
 **本轮动作**：未写 orders/decisions/POOL（禁直写）·未删 L0 条目·未动 BRAND 与法条·未 poke·**未 snooze**（真实台账事故禁 snooze）。
 **请枢纽二选一裁决（本件已到升级顶·第 4 轮）**：a) 由枢纽按 append-only 律对 `orders.md` 二次分卷（archive 保全量，主件回 ≤250KB，禁删行）；b) 判「archive=全量镜像」语义成立并改 DEADLINES L38 口径为「分卷政策作废」。
 **L38 状态位建议**：裁决前不得维持 `executed`（①为伪）→ 建议 `executed-partial（②真／①伪／③候裁）`。
+## 2026-10-27 07:4x 班（第 5 轮·sig=DEADLINE L38 同一签名 re-fire〔360min 窗到期〕·只读实测·**升级顶**）
+
+**结论：前 4 轮读数 5.8h 内零变化 → 已到升级顶，不再新增并列案，只候枢纽一次裁决。**
+
+- **枢纽面零动（mtime 即证）**：`docs/orders.md` 376,608B @10-26 23:30；`docs/orders-archive-2026-10.md` 835,994B @10-26 22:36；`DEADLINES.md` @10-26 23:30（L38 仍写 `executed`）。三件 mtime 全未变 → 跨件重复 **119 行**读数沿用（传感复用律，不重测）。
+- **①分卷=伪（本班自测 git blob 链＋diff 成分，定位到根因）**：`8f7414c0` 201,544B → `61a4cc48` 213,160B（分卷**真发生**）→ **`715b6967` 374,893B**（+161,733B；`--numstat` = **116 增 / 0 删**；新增行中 **115 行**命中 `2026-10-1[678]` 段）＝**09:31 那笔提交把已迁档的 113 行整段搬回主件**，不是新回执增长 → `f1f29558` 375,275B → `3775b90e` 376,208B，工作树 376,608B。**根因=搬回路径未封，任何后续整文件写入都会再贴回。**
+- **②token 台账恢复行=真（本班亲读）**：`cph4/fleet/token-ledger/LEDGER.md` 尾部行 `| 10-26 | 全队 | 云端生成面 | 无（0 单） | 0 | 台账断更恢复…`（mtime 10-26 22:36）。
+- **③双帽=分层错位（本班新增分口径实测）**：L0 `C:\Users\sjs20\.codely-cli\CODELY.md`=**45,050B / 50 条**（日期戳口径）→ 超字节帽 4,090B(+9.99%)、条数 50≤60 **内**；L1 `FluxGroup\CODELY.md`=**40,289B / 61 条** → 超条数帽 **1 条**、字节 40,289<40,960B **内**。即**L0 只破字节口、L1 只破条数口**，瘦身须分口径（L0 压长条目不删条目／L1 退役并条 1 条）。
+- **④法度面（未变）**：`cph4/registry/law-registry.md` mtime **10-20 18:20**＝停更 **7 天**；10-21~10-27 CEO 直令簇（方法论校正／CEO-DEFECT-LEDGER 立规／分工令／调度席令）零登记 → 续 group#20261025-1。
+- **⑤诚实律面=OK（新鲜）**：`docs/audits/selfaudit-report.md` mtime **10-27 06:04**，`claims=38 evidence-backed=38 bare=0`。
+- **⑥时效面**：DEADLINES 近两日唯 L23（10-28 BigHouse 判据）`standing`＝bighouse 席面；group 面零新增逾期快速件。
+- **⚠ 跨域复核（承 10-26 23:0x 席发现，本班实测仍存）**：`HQ-MemoryBudgetGate`、`HQ-Patrol-Group` 均 **LogonType=Interactive**（违 2026-09-29 判例「本机车道任务一律 S4U」；两任务 State=Ready/LastResult=0 运行正常）→ 交 **fleet-ops** 统一注记，本席不改任务注册。
+
+**本班未动**：未写 `orders.md`／`decisions`／POOL／`DEADLINES.md`；未删 L0/L1 条目；未动 `BRAND.md` 与法条；零 poke；**未 snooze**（台账真事故禁 snooze）；**班毕未 touch 锁**（下一班 07:58 距班毕 <10min，touch 会把当班假锁掉——承 R1.7 判例）。
+
+**请枢纽一次裁决（第 5 轮·同签名 6h 周期重发，不裁将持续耗巡视预算）**
+- **a) orders**：按 append-only 二次分卷（archive 保 835,994B 全量镜像，主件回 ≤250KB），**并封 09:31 搬回路径**；或 **b)** 判「archive=全量镜像」语义成立 → 改 DEADLINES L38 口径为「分卷政策作废」，并把当前行状态改 `executed-partial`（②真／①伪／③候裁）。
+- **c) 记忆双帽**：分口径授权瘦身（L0 压长条目不删条目＋L1 退役并条 1 条），或置 gate **fail-loud**（现 gate 连轮 moved=0 静默）。
+- **d) DEADLINES L21**（10-16 回访）/ **L22**（10-19 回访）改 `done-exempt` 或重排（逾期 11/8 天）。

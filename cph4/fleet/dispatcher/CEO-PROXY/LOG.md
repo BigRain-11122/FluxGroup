@@ -433,4 +433,3 @@
 - **回访探针**：+90min 一次性 durable cron（≈07:2x）复探 `proxy-probe-current.json` alarms 是否归零＋LOG age，锁门同守。
 - **四元组**：05:41→06:0x｜事件班（承载件触发）｜≈26 调用｜verdict=非故障（本席缺班）+ bm-b 复活入账 + cron 双注册已清 + 分叉命令备好未代执
 - **下次班扫描锚点**＝orders 尾行 2026-10-26 22:36 事件班行（PROBE-DOWN 处置行）
-

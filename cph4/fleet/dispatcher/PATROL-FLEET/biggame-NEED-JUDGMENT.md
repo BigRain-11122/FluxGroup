@@ -193,3 +193,90 @@
 
 - 无 poke（bm-c 活着且在产：C2203 23:04 + tick 22:51）；未直写 orders/decisions/POOL；未碰产品代码与场景 YAML；未重测 L0/IdleWatch/枢纽已测面。
 - 本旗降噪 ≠ 掩盖：24h snooze 到期自动复报；机制缺口由 NJ[biggame#R6-1] 承载。
+
+---
+
+# R7 复核（biggame 巡视席 · 2026-10-26 02:52-03:0x · 只读只议）
+
+> 触发旗：`gaming/MiniGame/Design/configs/GLOBAL/fleet/c.json: stale 154min > 150min (weak git-copy sensor)`（同 sig 第 7 轮：R2=4661 / R3=4706 / R4=4751 / R5=4796 / R6=578 / R7=154）
+> 结论：**无停摆**；R6-1 同面第三轮未修，本轮把「本地写了、closeout 不收」由旁证升为**直证**；域雷达七项全绿。
+
+## NJ[biggame#R7-1]（承接 R4-1/R5-1/R6-1 · 第三轮现状复核·非新案不重复升级）
+
+- 事实①（写手真跑·铁证升级）：`origin/machine/C:.codely-cli/engine-tick/tick-ledger.txt` 记 `[2026-10-26 01:40] [Step0 done] C2236 preflight all PASS` → 该轮 preflight 实跑；`tools/Step0Preflight.ps1:584` 每轮把 pulse 写回 `Design\configs\GLOBAL\fleet\<id>.json`（文件存在即写，c.json 存在）。而 `git show --name-only 836162113` 的 fleet/ 命中 **0** → 「本地写、closeout 不收录」由 R4/R6 的 autostash 旁证升为直证。
+- 事实②（唯一一次上链是意外）：`661dcb162 C2233 23:22` 含 `Design/configs/GLOBAL/fleet/c.json | 12 +-`（ts=2026-10-25T23:06:53）；此后 C2234/C2235/C2236/C2237 四轮 `fleet/` 命中全 0。
+- 事实③（白名单仍单侧）：本轮实读 `gaming/MiniGame/tools/x2721_gitops.py:18` 仍为 `"Design/configs/GLOBAL/fleet/a.json"`（无通配）。
+- 事实④（机器活着且在建）：machine/C tip `ce54fd435 02:23 C2237`；01:40 preflight；GATESIT heartbeat-round 3576(01:21)/3582(02:11)；tailscale `bm-c active`（tx 12.7MB / rx 8.6MB）；master `266822f19 02:19` 已 fold C2236。
+- 判读：同因同面自 R4 首记（10-24 01:45）至今 ≈ 49h 未修；非产品事故、非拉取滞后、非死机。R6 已按「两轮未决」升级枢纽，本轮只作证据加固。
+- 建议沿用 R6 四条（成本升序，候枢纽裁）：① `x2721_gitops.py` 第 18 行 `fleet/a.json` → `fleet/*.json`；② bm-c closeout 白名单补 `Design/configs/GLOBAL/fleet/c.json`；③ 传感改读 `origin/machine/C:.../c.json` 的 `ts` 而非本地 mtime（`Tools/patrol-fleet-config.json` biggame 段，消除常数误报）；④ closeout 模板写死「心跳件按 glob 收，禁按机名硬编码」。
+- 判据不变：24h 内 `git log -- Design/configs/GLOBAL/fleet/` 出现携 c.json 的 C 系列提交；或 c.json `ts` 与 machine/C tip 同轮。
+
+## 结案面（本轮收口·非新案）
+
+- NJ[R2-3]/[R4-2]/[R5-2]「MiniGameRedlineAudit 无绿证」→ **结案**：`Last=2026-10-26 02:46:36 Result=0`，`Next=08:46`，门禁链①取证缺口已填。
+- R2-1（fold 链断更）R3 已结案，沿用。
+
+## R7 域雷达复核（§1 七项 · 传感复用 + 增量直读）
+
+| 检项 | 结果 |
+|---|---|
+| ① 门禁链 | `MiniGame-PipelineGate` Last=02:56:01 **Result=0** Next=03:26；`pipeline-20261026-025603` 48.6s **9/9 PASS**（preflight 25.8s crash_streak=0 idle_streak=0 bm_old=0 due=0 inflight=0 / line-data checks=3 problems=0 / scenes-4k 6/6 / audio 49 文件 delta=0.01 max 0.32 / car-adapt scale=1.000 need=645 have=1751 headroom=2.701 / layout / ui-kit 11→12.44 / 16→22.21 / compliance）。`MiniGameRedlineAudit` 02:46 **Result=0** |
+| ② 包体四值 | 13/13 `*_bundle_budget.json` **PASS**；G25 19:29 刷新：main 3,721,141B / 4,194,304B（余 473,163B）、data 子包 1,025,042B、main+data 4,746,183B < 30MB、白名单违例 0（3 条 `unityweb` 按 P06_T023 X171 判例 WARN） |
+| ③ 提审硬门链 | `CEO-PROXY/DEADLINES.md` mtime 仍 10-20 06:08、正文双重编码乱码 → at-risk 判据仍盲读（group 横切席在册件，本轮零重复升级）；提交夹/软著无新件 |
+| ④ WIP 上限 | `09_吸嘟嘟GimmeAll/GimmeAll/docs/family/production-queue.json`：in_progress=**3**（ENG-003 / ART-B2-01 / ART-B1-03）< 5；blocked=3 · ready=18 · backlog=11 · done=11 |
+| ⑤ 产线批健康 | pipeline 02:56 新鲜（30min 节奏：01:56→02:26→02:56 连跑）；G25 证据 `c2237_sortit_level_ladder.txt`、`c2236_sortit_progress_store.txt` 与轮次同刻 → 无陈旧假 DONE |
+| ⑥ 玩法差异四问 | 24h 内 commit 涉及项目仅 **G25** 一款（13 笔）；零新增立项，无适用对象 |
+| ⑦ 资产批合规 | `production/reports/asset-audit-*` 最新仍 2026-09-14（≈42 天）＝既有诚实边界（R5 已记）；AA 目录最新 AA-051(10-14)，本窗零新增未登记件 → 只作抽样观察，不作合规结论 |
+
+## 域观察（不入 NJ · 仅留痕）
+
+- **包体口径防误判（新）**：`G25_v1.2.0_build2.json` 的 `weixin_submit_bytes=4,775,036`（4.55MB）与 `redline_ok=true` 并存，乍看违 4MB 主包线——实为两套口径：`BuildPackage.ps1` 断言 20MB 提交面，主包 4MB 由 `CheckBundle.ps1` B9 面判（`G25_bundle_budget.json` mainPkgBytes=3,721,141）。后续班勿按 submit_bytes 误报红线。
+- `Design/configs/GLOBAL/build_versions.json` 存 `G30 1.1.0 build1 S1`，但 `gaming/MiniGame` 顶层 25 个 G/P 目录无 G30 → 疑似占位行；非事故，留痕待制作人席核。
+- preflight 02:56 报 `editors=1`（Tuanjie 编辑器占用）`comfy=1`：comfy 属 MV 线（bm-c 侧 C2235 亦有 Comfy 占用记录）合理；`editors=1` 与 ENG-001/ENG-003 在途项同面，属已知出包约束。
+- bm-c 自报 `FE-20261026-C-01` 已登记「Step0 RAM 三处读数矛盾（FLEET 36% / PULSE 0.6% / 实测 1.3%）」；本席复核 `c.json` 内同症（`ram.free_pct=36.4` vs `pulse.ram_free_pct=7.9`）＝同一缺陷的存档面投影，不另立 NJ；建议枢纽在 R7-1 修法①落地时一并核 pulse 与顶层字段同源。
+- `MiniGameEngineTick` Result=2147946720（0x800710E0 实例在跑被再触发）非停摆：tick 02:57 在推进，沿用 R5/R6 判读。
+
+## 纪律
+
+未重测 L0/IdleWatch/枢纽已测面 · 未 poke（bm-c 在产、bm-b 物理离线零催办）· 未直写 orders/decisions/POOL · 未碰产品代码与场景 YAML · 本旗按 R6 同法续 24h snooze（NJ 保留、到期自动复报，非掩盖）。
+---
+
+# R8 复核（biggame 巡视席 · 2026-10-27 03:07-03:3x · 只读只议）
+
+> 触发旗：`gaming/MiniGame/Design/configs/GLOBAL/fleet/c.json: stale 888min > 150min (weak git-copy sensor)`（同 sig 第 8 轮：R2=4661 / R3=4706 / R4=4751 / R5=4796 / R6=578 / R7=154 / R8=888；R7 的 24h snooze 于 03:00 到期→按「到期复报＝新决策点」重启）
+> 结论：**无停线**。机制缺口第四轮未修；本轮把「写手今夜仍在跑」由间接证据升为**域内自报直证**。域雷达七项全绿。
+
+## NJ[biggame#R8-1]（承接 R4-1/R5-1/R6-1/R7-1 · 第四轮现状复核 · 非新案不重复升级）
+
+- 事实①（写手今夜在跑·直证）：`origin/machine/C:.codely-cli/engine-tick/tick-ledger.txt` → `2026-10-27 02:02:57 | tick C2269 note | FLEET vs FLEET-PULSE ram divergence 36%(8.7G) vs 2.6% vs live 0.9-1.3GB`。该行即 `tools/Step0Preflight.ps1` §13（`584-656` 行：`$fleetPath = Design\configs\GLOBAL\fleet\<id>.json` → 写 `pulse` → `Write-FleetJson`）的 FLEET-PULSE 输出，证明 pulse 每轮仍在 bm-c 本机落盘。
+- 事实②（提交面仍不收）：`git log -1 origin/machine/C -- Design/configs/GLOBAL/fleet/c.json` 仍 = `4886495c6 2026-10-26 12:09:01 C2250`（顶层 `ts` 与 `pulse.ts` 同为 `2026-10-26T11:56:36`）；此后 C2251→C2270 共 20 轮，本轮抽核 `8c27e1103 / 8dee3d0b5 / 72bf7d5c1 / 8577b8c0f` 四笔 `fleet/` 命中**全为 0**。
+- 事实③（单点判据保持可用）：`c.json` 顶层 `ts` 与 `pulse.ts` 同值＝自 C2250 起再未写入该分支副本；一旦 `pulse.ts` 新于 `ts` 即证明「本地已写、未入提交」。
+- 事实④（机器活着且在产）：`origin/machine/C` tip `8c27e1103 02:57:48 C2270 correction`；tick ledger `02:51:34 C2270 PRODUCT TICK_DONE`（SortItObserver 64/64 + 32 legs 零漂移 + 35 纯 BCL 源 0 err 0 warn）；`origin/master 0d8816bcf 02:34:29` hourly sync；本机 `03:06:00 X2863 fold` 收编 machine/B（B2407-B2412）与 machine/C（C2267-C2270），`master..B=0 / master..C=0`。
+- 事实⑤（传感口径确认）：本旗 `888min` 折算 ＝ `2026-10-26 12:18:59`，正是该文件被 fold checkout 到本机的 mtime，与文件内容真龄（`ts` 11:56:36）无干——传感读本地 checkout mtime 属**口径缺陷**，非内容陈旧。
+- 判读：同因同面自 R4 首记（10-24 01:45）至今 ≈ 73h 未修；非产品事故、非拉取滞后、非死机。R6 已按「两轮未决」升级枢纽；本轮只加固证据，不重复升级。
+- 建议沿用 R6/R7 四条（成本升序，候枢纽裁）：① `gaming/MiniGame/tools/x2721_gitops.py` 第 18 行 `fleet/a.json` → `fleet/*.json`；② bm-c 各轮 closeout 白名单补 `Design/configs/GLOBAL/fleet/c.json`；③ 传感改读 `origin/machine/C:Design/configs/GLOBAL/fleet/c.json` 的 `pulse.ts`（`Tools/patrol-fleet-config.json` biggame 段），而非本地 checkout mtime；④ closeout 模板写死「心跳件按 glob 收，禁按机名硬编码」。
+- 判据不变：24h 内 `git log -- Design/configs/GLOBAL/fleet/` 出现带 `c.json` 的 C 系列提交；或 `c.json` `pulse.ts` 与 machine/C tip 同轮。
+
+## R8 域雷达复核（§1 七项 · 传感复用 + 增量直读）
+
+| 检项 | 结果 |
+|---|---|
+| ① 门禁链 | `pipeline-20261027-025602` **9/9 PASS**（27.2s；preflight 16.1s `crash_streak=0 idle_streak=0 bm_old=0 due=0 inflight=0`；line-data `checks=3 problems=0`；scenes-4k 6/6；audio 49 文件 `max_delta=0.32`；car-adapt `scale=1.000 headroom=2.701`；ui-kit 11/16 层；compliance PASS）。`MiniGameRedlineAudit` → `=== patrol 2026-10-27 02:46:58 machine=A CLEAN ===`（六连 CLEAN）；R2-3/R4-2/R5-2 已结案维持 |
+| ② 包体四值 | `packagerecords` 全量刷新 02:53:48；G25 `recordedAt 2026-10-25 19:29:02`：`result=PASS` `violationCount=0` `mainPkgBytes=3,721,141 / 4,194,304`（余 **473,163B**）、data 子包 1,025,042B、main+data 4,746,183B < 30MB、`mainPkgWithin4MB=true` `totalWithin30MB=true`。诚实边界：该记录 31.5h 未刷新＝构建节拍，非红线违例 |
+| ③ 提审硬门 | `CEO-PROXY/DEADLINES.md` 乱码/陈旧（group 横切席在册件），本轮零重复升级；提交夹/软著零新增 |
+| ④ WIP 上限 | production-queue：**in_progress 3→5**（ENG-003 / UX-001 / UX-003 / ART-B2-01 / ART-B1-03）· blocked=3 · ready=15 · backlog=9 · done=14。**裁定：不构成拥挤预警**——队列自带 policy `wip_per_lane=2 / wip_global_in_flight=8`，实测 ENG=1、UX=2、ART=2（各道 ≤2）、全局 5<8，且五件同属一款（吸嘟嘟）。章程 §1④「在途款 ≥5」原意为多款并行，与队列 v1 口径并存时以队列自带 policy 为准；阈值不一致留痕供枢纽对齐 |
+| ⑤ 产线批健康 | pipeline 02:56 新鲜（02:26→02:56 节奏未断）；证据目录 `G25` 02:57:12 / `G20` 02:53:48 / `P11` 02:49:26 与轮次同步；X2863 fold 03:06 落账——无陈旧假 DONE |
+| ⑥ 玩法差异四问 | 24h 160 笔提交：顶层目录仅 `Design` / `.codely-cli` / `tools` / `qa` + `G20_MonsterInn`（README/开发任务书/AI 开发手册）与 `G08`·`G13`·`G14`（各仅 AI 开发手册）——**零新增立项**，四问门无适用对象 |
+| ⑦ 资产批合规 | `production/reports/asset-audit-*` 最新仍 2026-09-14（≈43 天）＝既有诚实边界（R5 已记）；本窗零新增未登记件，只作抽样观察，不作合规结论 |
+
+## 域观察（不入 NJ · 仅留痕）
+
+- **队列头部时间戳漂移**：`production-queue.json` 的 `updated` 仍为 `2026-10-23`，而其 tasks 已于 10-26 20:07 / 23:15 多次翻转（`c04dbaf` / `9a5bc40`）——工具面小瑕，本席不代改。
+- **GimmeAll 工作区脏面**：6 个已改未提交件（`ProjectSettings.asset` / `FAMILY-EDITION-ASSET-PRODUCTION-PLAN.md` / `FAMILY-EDITION-LEVEL-DESIGN-v1.md` / `LINE-RECEIPT-20261027-0026.md` / `layout-report-20261023.md` / `qa-testcases-v1.csv`）+ 未跟踪 `Assets/_Project/Editor.meta` 与 `Assets/_Project/Editor/BuildAndroid.cs.meta`；不属本轮触发面，留痕待该线收口时核（AA 登记制对 .meta 有要求）。
+- preflight 02:56 `editors=1 / comfy=1`：comfy 为 MV 线合理占用；`editors=1` 与 `ENG-001 blocked` 同面，属已知出包约束。
+- `MiniGameEngineTick` `Result=2147946720`（0x800710E0 实例在跑被再触发）非停摆：tick 03:07 在推进；本机 `CLOUD_CAP_DEFER live=3` 为云端配额让路（C-20261015-03），非故障。
+- R7 遗留的 `G30 1.1.0 build1 S1` 疑似占位行（`build_versions.json` 无对应项目目录）仍未清，沿用留痕。
+
+## 纪律
+
+未重测 L0/IdleWatch/枢纽已测面 · 未 poke（bm-c 在产、bm-b 物理离线零催办）· 未直写 orders/decisions/POOL · 未碰产品代码与场景 YAML · 本旗按 R6/R7 同法降噪（24h snooze 刷新至 2026-10-28 02:30，NJ 保留、到期自动复报，非掩盖）
