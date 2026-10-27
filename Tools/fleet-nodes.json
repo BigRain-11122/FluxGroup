@@ -71,7 +71,8 @@
         "."
       ],
       "wake_tasks": [
-        "Bigmoney-IterationLoop"
+        "Bigmoney-IterationLoop",
+        "HQ-ProductionClaim"
       ],
       "status_files": [
         "quant/bigmoney/fleet/machines/bm-b.json"
@@ -111,7 +112,8 @@
         "MiniGameGateTick",
         "MiniGameRadarTick",
         "MiniGameRadarDeepTick",
-        "MiniGameSiliconWatchTick"
+        "MiniGameSiliconWatchTick",
+        "HQ-ProductionClaim"
       ],
       "status_files": [
         "quant/bigmoney/fleet/machines/bm-c.json",

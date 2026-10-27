@@ -125,3 +125,15 @@ am_free_gb=10+cpu_load_pct=48——**bm-b 不是闲着，是在跑量化轮**；
 | **bm-b 认领任务缺口（第 5 轮）** | **at-risk·结构性**（物理/本机动作） | 02:5x poke accepted 但 `/status head=089e916f` **NOT-SYNCED**（工作树分叉在册）+ 本机无 `HQ-ProductionClaim` ⇒ POOL-0023 仍不可领。FleetLink 无命令通道（CEO 10-23 令），本席零催办只登记。 |
 | **bm-c 内存闸（第 5 轮）** | **at-risk·本机动作** | `c.json` mtime 10-27 15:59（陈旧 11h）、ram_free 1.4G(6%)、vram_free 14.7G ⇒ POOL-0021/0024 唯一堵点是 RAM。poke accepted（NOT-SYNCED d7339348）。 |
 | **推送闸挂死（R2.42 续）** | **workaround 在用** | 本轮改走原生 git（暂存白名单 pathspec + 直接 push），不调用 `git-atomic-push.py` / `git-no-reversal-check.py`；上一班已证两者挂死。 |
+
+## 附录 R2.44 事件班注记（2026-10-28 03:26-03:4x）
+
+| 旗 | 状态 | 证据 / 下一步 |
+|---|---|---|
+| **SUPPLY-DRY** | **resolved（本班）** | 队列 20 行全收后按 v717 交付闸 FAIL 真缺陷补 2 张 CPU 卡；`Q-MV-0001-019` 85.7s rc=0 DONE（`D:\FleetWorker\review\outliers_v717.json`），`020` 在飞。补供到产物 < 2 分钟。 |
+| **v718 单点病源（新）** | **found** | POP 帧群聚 209.375–211.917s（7 帧，score 7.48–21.53），与 D4 曝光闪 211.1–211.3s 重叠 → 该段重烧或换素材即可，非全片性缺陷。修复计划交导演席。 |
+| **bm-b STARVED-EXEC** | **at-risk（本机一行）** | 无 `HQ-ProductionClaim`；本班已把该任务名写入 bm-b wake_tasks 白名单。本机执行：`powershell -NoProfile -ExecutionPolicy Bypass -File Tools\task-register.ps1 -Name HQ-ProductionClaim -Script "<仓根>\Tools\queue_claim.py" -Arg "--node bm-b" -Trigger every:1m -NoFireTest` 再 `Start-ScheduledTask -TaskName HQ-ProductionClaim`。 |
+| **bm-b 未推送本地提交** | **at-risk（证据升级）** | `head=089e916f` 在 origin 对象库中不存在（`git cat-file` fatal）⇒ 提交只在本机且阻拉。本机执行 `Tools\fleet-hot-sync.ps1`（fetch + rebase autostash，不做 hard reset）。 |
+| **bm-c BLOCKED-RAM** | **at-risk（本机动作）** | `c.json` 陈旧 11h、ram_free 6%；本机 `ollama stop` + keepwarm 暂停即解。另：capacity 规则令自愈卡 POOL-0024 不可派（机制死锁），`Tools/fleet-dispatcher.ps1` 属 L0 正身 → 候 CEO 裁。 |
+| **CLOCK-SKEW 恶化** | **registered** | bm-b 1124.9ms / bm-c 1839.7ms（01:26 时 717/1313），precision ±190；修法本机 w32time（需提权）。 |
+| **账本冲突残留** | **fixed** | `CEO-PROXY/LOG.md` 27 行 stash 冲突壳（含重复 R2.41）已复原 HEAD 干净版，零独有内容损失。 |

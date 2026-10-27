@@ -643,3 +643,17 @@ am_free 10GB / cpu_load 48%——bm-b 在跑量化轮而非闲着；缺的是本
 - **017 白名单复跑 = 语义恢复**：`reprise_whitelisted=8 / unlisted=0` ⇒ 8 对设计重演全部命中，D1 镜复用不再计罚。真缺陷剩三项：D1 单帧完全重复 @234.21s、D2 近静止 5 处、D4 镜内曝光闪 4 处（102.17s／211.1–211.3s）。
 - **018 保真判定 = PASS**：SSIM All **0.988817**（Y 0.986174）、PSNR average **40.62 dB**（min 38.90）⇒ 22.17→6.17 Mbps 是 x264 打包效率，不是画质损失；AIGC 母版可作终审链输入。
 - **队列 20/20 全消费**（含本轮 4 卡）。下一轮补料只能等导演席 D2/D4 修法裁决、或 bm-c 内存解锁后的 KF/i2v —— **不再补假卡**（O-20260928-1820）。
+
+## R2.44 事件班 2026-10-28 03:26-03:4x（承载件触发：DL 02:41-02:51 六旗）
+**0 锁门**：`ceo-proxy-patrol.lock` mtime 03:08:15，入班实测 03:26:34 → age 18.3min > 10min 窗，判他窗已收口，取锁继续。
+**① SUPPLY-DRY = 已解（真补，非造假卡）**：队列 20 行全收（18 DONE / 2 FAILED），manifest 见底属实。真 backlog 取 v717 交付闸 FAIL 的机器可检缺陷（D1 单帧重复 / D2 近静止 / D4 曝光闪），按「先取证后修」派两张 CPU 卡：
+- `Q-MV-0001-019` 逐帧异常定位 temporal outliers（85.7s rc=0 → `D:\FleetWorker\review\outliers_v717.json` 31KB）
+- `Q-MV-0001-020` 逐镜四病分级 FLICKER/JERK/FLOW/FREEZE（在飞）
+**BURNING 实证**：03:33 补供 → 03:35:01 claim → 03:36:27 DONE，补供到产物 **< 2 分钟**闭环。
+**② 新硬证据（019 产物）**：POP 帧群聚 **209.375–211.917s 共 7 帧**（score 7.48–21.53），与交付闸 D4 曝光闪窗口 211.1–211.3s 重叠 ⇒ v718 该段是**单点病源**（重烧或换素材），不是全片性缺陷。修复计划据此收窄。
+**③ bm-b STARVED（第 4 轮·结构性，本班加执行件）**：bm-b 无 `HQ-ProductionClaim` → POOL-0023 可见不可领。本班把 `HQ-ProductionClaim` 写入 bm-b/bm-c 的 `wake_tasks` 白名单（`Tools/fleet-nodes.json`）：装完即 poke 可唤醒，不必等 5 分钟节拍。装任务仍需 bm-b 本机一行（无远程执行通道，CEO 2026-10-23 令）。
+**④ 新硬证据（poke 取证）**：poke 3/3 accepted；`bm-b head=089e916f` 在 origin 对象库中**不存在**（`git cat-file` fatal）⇒ bm-b 持未推送本地提交且阻拉（updated-kept-local），修法=`Tools/fleet-hot-sync.ps1` 本机一行；`bm-c head=d7339348` 在库内（可拉，待收口）。
+**⑤ bm-c BLOCKED-RAM（维持）+ 机制级新发现**：dispatcher 的 capacity 规则令 BLOCKED-RAM 车道 `dispatchable=0`，而 POOL-0024 恰是「释放内存」的自愈卡 ⇒ **自愈卡被它所修的条件本身挡住（死锁）**。`Tools/fleet-dispatcher.ps1` 属 L0 正身，改动须 CEO 令 → 本班只登记候裁，未改。
+**⑥ CLOCK-SKEW 恶化**：bm-b 1124.9ms（01:26 时 717.1）、bm-c 1839.7ms（01:26 时 1313.6），precision ±190 ⇒ 均超 `2×precision+20` 门限；档已登记，修法在本机（w32time 需提权）。
+**⑦ 账本修复**：`CEO-PROXY/LOG.md` 工作树残留 stash 冲突标记 27 行（含 R2.41 重复段），`git checkout` 复原 HEAD 干净版；新增段全为「重复 R2.41 + 冲突壳」，零独有内容损失。
+**四元组**：2026-10-28 03:26-03:4x｜事件班（承载件触发）｜calls≈30｜verdict=SUPPLY-DRY 真解（2 真卡，019 已 DONE 并给出 v718 单点病源）；bm-b 认领任务白名单已铺、本机一行待装；bm-c 内存闸与 capacity 死锁登记候裁；账本冲突壳清除。
