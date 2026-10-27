@@ -58,3 +58,5 @@
 
 | **R2.34 注记（2026-10-27 05:5x·事件班实测）**：**bm-b 已自愈复活在跑**——bm-b.json 05:38:36 落盘・clock_read 05:17:54・cyc_round r1162・agenda_starved=false・cpu 39%（推翻本表上方「bm-b 物理离线 2d」定性）；量化现势=bm-b r1162＋bm-c r1298 双机在跑，bm-a 量车道 Disabled 属 CEO 10-24 专职令（非故障）。原三选一收敛为：①是否准 bm-a 分时恢复量车道（需 CEO 点头）②确认量化沿用 bm-b/bm-c 双机、bm-d 入网后再议。本席默认不动作。 | R2.34 |
 
+
+| **R2.35 注记（2026-10-27 11:3x·事件班实测）**：提权面三项已合并为**一次即可办完**——①探针/承载转 S4U ②启用 TaskScheduler/Operational ③HQ-SchedHarden-Batch 转 S4U；本班会话 `IsInRole(Administrator)=False`、S4U 注册实测 `拒绝访问 0x80070005`、Operational 日志 `IsEnabled=False`（三项同源实证）。同时：条件硬化分批执行器已排期 10-28 02:10 起低峰 5 跑（≤12/跑·自停），**需硬化任务实测 38 件（旧记 57 含第三方任务，已勘正）**；探针面 BURNING 复核通过（11:26/11:31 双次 Result=0x0）。 | R2.35 |

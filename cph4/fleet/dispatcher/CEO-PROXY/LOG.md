@@ -433,3 +433,16 @@
 - **回访探针**：+90min 一次性 durable cron（≈07:2x）复探 `proxy-probe-current.json` alarms 是否归零＋LOG age，锁门同守。
 - **四元组**：05:41→06:0x｜事件班（承载件触发）｜≈26 调用｜verdict=非故障（本席缺班）+ bm-b 复活入账 + cron 双注册已清 + 分叉命令备好未代执
 - **下次班扫描锚点**＝orders 尾行 2026-10-26 22:36 事件班行（PROBE-DOWN 处置行）
+
+## Round 2.35︱2026-10-27 11:26~12:0x｜事件班（承载件触发·NJ NEEDS-ELEVATION×2 / PROBE-BURNING）｜调用数≈18｜verdict=BURNING 复核通过+R2.33 硬化读回确认；三项提权面合并同一物理件；硬性计数修正 57→38 并排入低峰分批执行器（非故障）
+- **锁门**：`media/logs/ceo-proxy-patrol.lock` mtime=2026-10-27 05:45:34（age 5h41m ≫10min=他窗已死锁）→ 11:26:40 本窗接管落锁（非跳班）。
+- **并发披露（不碰他窗内容）**：本班期间工作树有他线会话在写（MV v717 车线）——HEAD 由 0dcdadb6→c1fc15fa、`CEO-PROXY/LOG.md` 一度呈 `UU` 冲突态后由该窗 merge 收口；因此本班对 LOG/DEADLINES 一律**纯追加**、推前重取 origin 尾锚，不做整篇重写。
+- **BURNING 实证（触发面）**：HQ-MA-ProxyProbe 11:26:04 Result=0x0（Next 11:41:03）、HQ-CEOProxyEventCarrier 11:26:07 与 11:31:07 两次独立实跑 Result=0x0（Next 11:36:06），`NumberOfMissedRuns=0`；探针快照 `media/logs/proxy-probe-current.json` mtime 11:26:04、alarms=0。读回设定确认 R2.33 硬化在位：两者 `StartWhenAvailable=true` / `DisallowStartIfOnBatteries=false`。
+- **本班唯一阻断＝提权面（三项同源）**：`IsInRole(Administrator)=False` 实测 → ①S4U 转换不可执行（探针/承载仍 Interactive）②`Microsoft-Windows-TaskScheduler/Operational` 启用不可执行（`Get-WinEvent -ListLog` IsEnabled=False，读取亦 False）③新建任务 S4U 注册实测「拒绝访问 0x80070005」。三项并作**一次提权会话可一并办完的物理件**，只在 DEADLINES 既有行补今日取证权重（零催办）。
+- **当场处置（T1·可逆）＝硬化分批执行器落地**：新建 `Tools/sched-harden-batch.ps1`（补 `StartWhenAvailable=true` + 清电池门 `DisallowStartIfOnBatteries/StopIfGoingOnBatteries=false`；每次 ≤MaxItems 12；改前逐件 Export-ScheduledTask XML 备份到 `%TEMP%\sched-batch-backup-<stamp>`；落台账 `media/logs/sched-harden-ledger-20261027.json`（前值/备份路径/验证戳）；读回验证；队列清空自动 `Disable-ScheduledTask` 自停）+ 注册 `HQ-SchedHarden-Batch`（**10-28 02:10 起 PT30M×2H＝5 跑**，低峰窗 02-10~04:10，单跑 ≤12 件 → 覆盖 38 件；Interactive+InvisibleRunner 隐藏垫片，S4U 因提权被拒降级并在此披露）。
+- **硬性计数修正（禁沿用旧注记）**：机队自有、enabled、需硬化任务实测 **38 件**（20 件缺 SWA + 18 件仅电池门为真；含 ComputeWorker/ComputeGuard/DiskSentinel/FleetLivenessWatch/IntegritySentinel 等 8 件 SWA 已为 true）。02:5x 的「57 件」计数含第三方厂商任务（Adobe Acrobat Update / AMDInstallLauncher / Office C2R 等）→ 已按机队前缀白名单剔除，脚本内建 `-PrefixFilter` 防再混入。
+- **电池门现症（0x800710E0）收敛**：22:5x 记的 4 件中 3 件已正常（BigCompute-ResidentQA 0x40010004 / BigLife-OSLoop 0x41301 / FluxGroup-FleetLink 0x41301＝均在跑），仅 MiniGameCeoDeskServer 仍 0x800710E0；另抓到 MiniGameEngineTick 11:27 0x800710E0、bm-a-AutoYield-WorkEnd 10:36 0x800710E0 → 同批分批执行器一并覆盖（32 分钟前的实跑证据，非旧注记）。
+- **TOOL-DEFECT 判定（受保护件·本席不擅改）**：`Tools/git-atomic-push.py` 第 107 行 `sys.stdout.write(out)`（gate 输出含 U+FFFD）在 GBK 控制台必崩＝确认属实；该件在 `MASTER-AGENT/BLUEPRINT.md §九` 受保护件清单（Tools 核心四件：fleet-dispatcher / git-atomic-push / git-no-reversal-check / task-register）→ 改动须 CEO 令/群审通道，本班**不擅改**；过渡工作法=`PYTHONIOENCODING=utf-8`+`PYTHONUTF8=1`（本班推送即用此法并实证通过），1 行固化建议（`sys.stdout.reconfigure(encoding='utf-8', errors='replace')`）已登记 NEED-JUDGMENT 受保护件提案面。
+- **步8 自检**：班次 cron 在位 1 件（`43 2,5,8,12,15,18,21,23 * * *`·durable）；本班另挂 +90min 一次性回访探针。
+- **回访探针**：一次·durable cron（≈13:05）复探 probe 快照新鲜度 + probe/carrier LastResult 是否回归非 0 + 电池门 0x800710E0 是否在批次外复发；锁门同守。
+- **四元组**：11:26~12:0x｜事件班（承载件触发）｜≈18 调用｜verdict=非故障（BURNING 复核通过 + 计数修正 57→38 + 分批执行器已排期 02:10；三项提权面合并同一物理件）
