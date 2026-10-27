@@ -1,0 +1,15 @@
+{
+ "card": "POOL-0018",
+ "node": "bm-b",
+ "action": "claimed",
+ "kind": "claim-intent",
+ "lane": "bm-b",
+ "priority": "P1",
+ "title": "whisperX 词锚升级批（41 曲词级时间戳·CPU 24/7·在产曲优先）",
+ "first_ts": "2026-10-27T18:56:28",
+ "last_seen_ts": "2026-10-27T18:57:43",
+ "seen_count": 3,
+ "face": "origin",
+ "origin_sha": "dd2e2846e834f32ab4a07c878d8d1d23482bcd7d",
+ "note": "claim INTENT only - POOL.json transitions are proxy-written (pool law). Dispatcher clears blocked_by on this receipt; the lane executes the card and reports done with this card id + evidence pointer."
+}

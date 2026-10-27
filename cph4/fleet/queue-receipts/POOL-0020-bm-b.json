@@ -1,0 +1,27 @@
+{
+ "card": "POOL-0020",
+ "node": "bm-b",
+ "action": "done",
+ "kind": "receipt-owed-closure",
+ "lane": "bm-b",
+ "priority": "P0",
+ "title": "bm-b 电源换装复产批（750W 上机·GPU 满性能恢复+烧机验证+复产）",
+ "closed_for": "receipt-owed",
+ "first_ts": "2026-10-27T19:02:00",
+ "first_seen_ts": "2026-10-15T18:21:00",
+ "closing_evidence": {
+  "work_executed": "2026-10-15 23:34 (bm-b session) - power limit set, PowerCap tasks deleted, 卓越性能 plan, BiliAutoReply revived",
+  "power_limit_w": 239.80,
+  "power_max_limit_w": 240.00,
+  "nvidia_smi": "RTX 3070 | power.draw 9.36W (idle) | power.limit 239.80W | max_limit 240.00W | temp 31C | util 1% | mem 4442/8192 MiB",
+  "powercap_tasks_present": 0,
+  "powercap_probe": "Get-ScheduledTask *PowerCap* -> 0 tasks (GPU-PowerCap-180W-Boot / -Hourly both absent)",
+  "active_power_plan": "b58dc5dd-949b-4774-bf52-9b0846caca06 (卓越性能 / Ultimate Performance)",
+  "burn_in_proxy": "Get-WinEvent System Id=41 (unexpected shutdown) since 2026-10-14 = 0 events over 13 days of continuous production; WHEA-Logger events all dated 2026-08-10/12 (pre-swap), zero since",
+  "archive": "cph4/fleet/bm-b-powermax-20261015.md"
+ },
+ "face": "live machine probe 2026-10-27T18:5x + repo archive",
+ "origin_sha": "dd2e2846e834f32ab4a07c878d8d1d23482bcd7d",
+ "note": "Card closure is proxy-written (pool law: POOL.json transitions belong to the dispatcher proxy seat). This receipt supplies the missing evidence pointer so the 12-day dunning loop (10-16 追缴 / 10-17 E1 委员会通道) can be discharged per C-20261017-01 '以仓内证据代验收销卡'.",
+ "blocked_by_now": "receipt-owed -> satisfied by this receipt"
+}
