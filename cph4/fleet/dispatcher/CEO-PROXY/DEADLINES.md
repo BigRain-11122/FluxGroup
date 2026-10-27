@@ -92,3 +92,25 @@
 | **R2.39a 事件班 2026-10-28 01:45** mv0001 三项人工判定包已交付 | bm-a / 导演席 | orders 01:45 行 + Q-MV-0001-012/013/014 回执 | **dispatched·回执窗 2026-10-28 12:00**：三包落盘 `D:\FleetWorker\review\ceo_items_v717\`——双签表 95 行（时代/暖度/饱和/运动/重演重复 5 列+签名列留空）·盲测 24 张 seed=20261028 标签分离（KEY.json）·静止接高速 11 处 3×3 联系条+指标表。验收=判定列填满 / 命中率行 / 签名列非空。禁自审自签：判定归导演席与制监席 |
 | **R2.39b** bm-b 认领任务缺口（**第 3 轮**） | bm-b 车道 | 01:32 /status 直探 + b.json mtime 01:30:38 | **at-risk·结构性**：bm-b 已复活（TCP 200·ram_free 11.7G·GPU 203MiB·00:28 last_pull 拉取成功），但本机无 `HQ-ProductionClaim` → POOL-0023（音频锚第二批 7 首）看得见领不到；且 whisperX/allin1 只装在 bm-b，bm-a 无此栈（实测 ModuleNotFoundError）→ **不能改派 bm-a**，禁造假活。本机一行修法：`Tools\task-register.ps1` 注册 HQ-ProductionClaim = `python Tools\queue_claim.py --node bm-b --needs cpu` PT5M（S4U，禁 InteractiveToken） |
 | **R2.39c** bm-c 内存闸（**第 3 轮·恶化维持**） | bm-c 车道 | 01:32 /status 直探 | **at-risk·结构性**：ram_free **1.1G**（24G 机），VRAM 空 14.7G；POOL-0024（P0 内存释放闸）与 POOL-0021/0022 全卡在「本机执行（禁远程）」；另 00:29 `.:fail` 拉取失败。修法=bm-c 本机 `python Tools\fleet\gpu_lease.py --node bm-c --acquire --need-mb 12000`（内部 ollama stop + keepwarm 停），判据 ram_free>=6G + ollama ps 无 27b/30b/35b 驻留 |
+
+
+| **R2.39a 事件班 2026-10-28 01:45** mv0001 三项人工判定包已交付 | bm-a / 导演席 | orders 01:45 行 + Q-MV-0001-012/013/014 回执 | **dispatched·回执窗 2026-10-28 12:00**：三包落盘 `D:\FleetWorker\review\ceo_items_v717\`——双签表 95 行（时代/暖度/饱和/运动/重演重复 5 列+签名列留空）·盲测 24 张 seed=20261028 标签分离（KEY.json）·静止接高速 11 处 3×3 联系条+指标表。验收=判定列填满 / 命中率行 / 签名列非空。禁自审自签：判定归导演席与制监席 |
+| **R2.39b** bm-b 认领任务缺口（**第 3 轮**） | bm-b 车道 | 01:32 /status 直探 + b.json mtime 01:30:38 | **at-risk·结构性**：bm-b 已复活（TCP 200·ram_free 11.7G·GPU 203MiB·00:28 last_pull 拉取成功），但本机无 `HQ-ProductionClaim` → POOL-0023（音频锚第二批 7 首）看得见领不到；且 whisperX/allin1 只装在 bm-b，bm-a 无此栈（实测 ModuleNotFoundError）→ **不能改派 bm-a**，禁造假活。本机一行修法：`Tools\task-register.ps1` 注册 HQ-ProductionClaim = `python Tools\queue_claim.py --node bm-b --needs cpu` PT5M（S4U，禁 InteractiveToken） |
+| **R2.39c** bm-c 内存闸（**第 3 轮·恶化维持**） | bm-c 车道 | 01:32 /status 直探 | **at-risk·结构性**：ram_free **1.1G**（24G 机），VRAM 空 14.7G；POOL-0024（P0 内存释放闸）与 POOL-0021/0022 全卡在「本机执行（禁远程）」；另 00:29 `.:fail` 拉取失败。修法=bm-c 本机 `python Tools\fleet\gpu_lease.py --node bm-c --acquire --need-mb 12000`（内部 ollama stop + keepwarm 停），判据 ram_free>=6G + ollama ps 无 27b/30b/35b 驻留 |
+
+
+## §三 R2.42 事件班注记（2026-10-28 02:06-02:2x·承载件触发·四轮复发定性）
+
+| 件 | 状态 | 证据 |
+|---|---|---|
+| **bm-c BLOCKED-RAM（POOL-0024 P0·第 4 轮）** | **at-risk·持续恶化·非 poke 可解** | NATS KV 02:09:07 实测 
+am_free_gb=0.4（24G 机·00:04 0.7G→00:51 0.9G→01:32 1.1G→02:09 **0.4G** 波动见底）+ ram_used 1469/16384MB（GPU 空 14.9G）+ cpu 46%。阻塞面已从「bm-c 四卡不可点火」升级为**整机 MV 链咽喉**：W2《龙卷风》29 帧+《简单爱》30 帧（SIGN-CARD-W2 待导演三裁后即烧）、可爱女人 i2v、星晴 i2v 全在该机。修法仍唯一=bm-c 本机 python Tools\\fleet\\gpu_lease.py --node bm-c --acquire --need-mb 12000（内部 ollama stop+keepwarm 停），判据 ram_free>=6G+ollama ps 空。**6h 窗（≤06:10）过半未动即复派 P0。** |
+| **bm-b 认领任务缺口（POOL-0023·第 4 轮）** | **at-risk·结构性维持** | KV 02:08:50 
+am_free_gb=10+cpu_load_pct=48——**bm-b 不是闲着，是在跑量化轮**；缺的只是 HQ-ProductionClaim（唯一认领任务只注册在 bm-a），故音频锚卡看得见领不到。修法=bm-b 本机注册 S4U 认领任务（禁 InteractiveToken）。 |
+| **IDLE-WITH-WORK 对 bm-b 是假红（新判）** | **registered·工具面缺陷** | leet-idle-watch.ps1 对 bm-b 的 verdict 只吃 gpu.util_pct/comfy/batch，不吃 cpu_load_pct——bm-b 是 cpu-sound 车道（whisperX/allin1 纯 CPU），52% CPU 负载下仍被判 GPU-IDLE，触发 IDLE-WITH-WORK 假旗。修法候选=bm-b 分支改判 CPU 负载（≥30% 视为在忙）。tools 核心四件属受保护面，只登记候裁。 |
+| **可爱女人 i2v 首帧契约=bm-c 路径亲和（新判·防误改派）** | **registered·路由约束** | 可爱女人-i2v-PACK-A-v1.json 30 units 的 rame 全部指向 repo 相对路径 media/mv-album-001-jay/frames/KN_KN01..30.png 并记录 rame_bytes/frame_sha12；**bm-a 上该目录不存在（0/30）**，且本机两套 KN 帧（media/mv-test/xingqing 10-24 30 张、media/mv-test/keainvren/batch1 10-27 30 张）与契约 sha12 **零匹配**（KN01 契约 1024124B/58f1c5ac4ef6 vs batch1 1041594B/a7d089588db9）。⇒ 结论：契约帧集在 bm-c 本机，**i2v 链不可为绕开 bm-c RAM 而改派 bm-a**（改派=拿错首帧=人物一致性崩）。该约束同时说明 bm-a 10-27 22:58 那批 30 帧是 A/B 对照批，非权威集。 |
+| **可爱女人 KF A 批（POOL-0022）** | **done（台账滞后校正）** | 照烧两套已实产（bm-c 权威集 10-24 / bm-a A/B 集 10-27 22:58-23:06·30 帧+联系表 00:15）。POOL-0022 由 open→done；判读/海选归导演席，不属卡面。 |
+| **SUPPLY-DRY（第 4 轮）** | **resolved·真因=机器活确实做尽** | _last_claim.json 02:05:01 QUEUE-EMPTY（bm-a 认领环活着自报）+队列 16/16 DONE + acklog_fill 自补零产出。本班**不补假卡**：bm-a 夜窗 GPU 12.3G 已被 llama-server 35B 占 11.4G，而所有待产 KF/i2v 件均卡「人工裁决」或「bm-c 本机内存」两条真阻塞，硬烧=白烧。 |
+| **CLOCK-SKEW** | **registered·非新增** | 02:04:14 max_abs_offset_ms=1515.5（bm-c 1536.2 / bm-b 884.6，门限=2×precision+20）。bm-c=系统钟停 w32time（需提权）、bm-b=链路中继 RTT；均已在 R2.38 登记，本轮零新动作。 |
+
+| **R2.42** 推送闸挂死（工具面·全机队阻断面） | 治理工具面 | 本班两次实测 | **registered·P1**：`Tools/git-no-reversal-check.py` 连续两次 >90s 零输出（同一病使 `git-atomic-push.py` 两次 5min 零输出被杀）→ 正法推送链路被阻。应急=改用 temp-index + `numstat 增行-only` 断言（R2.42 实作·+54/-0）；根治=查该脚本对 promisor/大包仓的读法并加超时 | R2.42 |

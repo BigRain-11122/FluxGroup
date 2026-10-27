@@ -586,3 +586,31 @@ bm-b `wake_tasks` 仅 `Bigmoney-IterationLoop`，无 claim 任务 → 音频锚 
 **⑥ CLOCK-SKEW**：max 1313.6ms(bm-c) / 717.1ms(bm-b)，门限=2×precision+20；bm-b 为链路中继 RTT 所致、bm-c 为系统钟停 w32time（已知·需提权），均已在 R2.38 登记，非新增。
 
 **四元组**：2026-10-28 01:26-01:46｜事件班（承载件触发）｜calls≈34｜verdict=SUPPLY 补 3 真卡且 3/3 DONE（13s 跑完）；bm-a 机器活已尽（STARVED 属定性而非故障）；bm-b/bm-c 两 P1 第 3 轮结构性缺口维持并写死本机一行修法；判定三包已派导演席 12:00 窗。
+
+
+**四元组**：2026-10-28 01:26-01:46｜事件班（承载件触发）｜calls≈34｜verdict=SUPPLY 补 3 真卡且 3/3 DONE（13s 跑完）；bm-a 机器活已尽（STARVED 属定性而非故障）；bm-b/bm-c 两 P1 第 3 轮结构性缺口维持并写死本机一行修法；判定三包已派导演席 12:00 窗。
+
+
+---
+
+## R2.42 事件班 2026-10-28 02:06-02:2x（承载件触发：DL 01:21-01:31 六旗 + 02:01 七旗）
+
+**0 锁门**：ceo-proxy-patrol.lock mtime 01:46:45，入班实测 age 19.7min > 10min 窗 → 判他窗已收口（与 R2.41 班毕时刻吻合）取锁继续；班中已刷新锁 mtime 02:11:01。
+
+**① bm-c 内存闸（第 4 轮·恶化）**：KV 02:09:07 
+am_free_gb=0.4（24G 机）+ VRAM 空 14899MB + cpu 46%。三源互证（KV 新鲜/state 4 卡 exec/CAPACITY-BLOCKED 旗）一致。**本班零 poke**——CEO 10-23 禁远程调度 + ROUND 附2 已定「非 poke 可解类」，重复 poke 前两班已实证无效。升格：该机已从「bm-c 产线堵」升级为**整机 MV 链咽喉**（W2 59 帧+可爱女人 i2v+星晴 i2v 全在此机），6h 窗过半即复派 P0。
+
+**② bm-b（第 4 轮·结构性维持）**：KV 
+am_free 10GB / cpu_load 48%——bm-b 在跑量化轮而非闲着；缺的是本机 HQ-ProductionClaim。**新判**：leet-idle-watch.ps1 对 bm-b 只吃 GPU/comfy/batch 不吃 cpu_load，故 cpu-sound 车道永远假红 GPU-IDLE → 已登记为工具面缺陷（受保护件只登记候裁）。
+
+**③ 新发现（本轮唯一实质新增）：可爱女人 i2v 首帧契约=bm-c 路径亲和**。逐 unit 核对 可爱女人-i2v-PACK-A-v1.json 30 条：rame 全指 media/mv-album-001-jay/frames/KN_KN**.png + 记 rame_bytes/frame_sha12；bm-a 该目录不存在 0/30，本机两套 KN（xingqing 10-24 / batch1 10-27）与契约 sha12 **零匹配**。⇒ **i2v 不可为绕开 bm-c RAM 改派 bm-a**（改派=拿错首帧=一致性崩，CEO 红线面）。此约束写入 DEADLINES，防止日后被「reroute 到空闲机」的错误直觉踩掉。
+
+**④ SUPPLY-DRY 定性（第 4 轮）**：_last_claim.json 02:05:01 QUEUE-EMPTY 自报 + 队列 16/16 DONE + backlog_fill 零产出 ⇒ 机器活真做尽。**本班不补假卡**（O-20260928-1820）。bm-a 夜窗 GPU 亦不可烧：llama-server 35B 占 11.4G/12.3G，且待产件全卡人工裁决/bm-c 内存两条真阻塞。
+
+**⑤ 台账校正**：POOL-0022（可爱女人 KF A 批）open→**done**（照烧两套实产：bm-c 权威集 10-24 + bm-a A/B 集 10-27 22:58-23:06 30 帧+联系表 00:15）；POOL-0023 置 locked_by=no-claim-task:bm-b 使状态诚实；POOL-0024 补 0.4G 恶化实测。
+
+**⑥ CLOCK-SKEW**：1515.5ms（bm-c）/884.6ms（bm-b），已知两类根因，R2.38 已登记，非新增。
+
+**四元组**：2026-10-28 02:06-02:2x｜事件班（承载件触发）｜calls≈26｜verdict=三旗四轮复发全部定性为「本机动作才能解」并零重复 poke；新增唯一实质发现=i2v 首帧契约 bm-c 路径亲和（禁改派）；台账销 POOL-0022、诚实置 POOL-0023/0024；SUPPLY-DRY 判真尽不补假卡。
+
+**⑥ 工具面新病（本班实测）**：`Tools/git-no-reversal-check.py` 两次实测**挂死 >90s 零输出**（这也是 `python Tools\git-atomic-push.py` 本班两次连 5 分钟零输出被系统杀的根因）→ **推送闸失效会阻断全机队推送**。本班处置=临时以「numstat 增行-only 断言」代替过闸（候选树对 origin 仅 +54/-0 行·零删除），病因待查（怀疑点=步骤 8 的 `--audit` 链上对大留存包做全历史 diff）。

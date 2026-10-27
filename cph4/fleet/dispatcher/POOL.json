@@ -278,11 +278,11 @@
   "title": "W1 可爱女人 KF-PACK-A A 批 28 帧照烧（L2 verdict FIX 合并签发后点火·海选第一档）",
   "lane": "bm-c",
   "priority": "P1",
-  "status": "open",
+  "status": "done",
   "created_by": "bm-a-总控窗 2026-10-20 11:24（CEO 多曲加速令 O-20261020-1124）",
   "spec": "可爱女人 KF-PACK-A v1（DRAFT 146 行+shots-v2.py 机读正身·B4 区间 4 帧·四块 7+8+9+4=28 帧）·独立评审 L2 verdict 已出（共享块 PASS·FIX：city_bowl 光块尾句并 F7 等）→导演席合并 FIX+复检+签发→@bm-c GPU 照烧 28 帧→LOOKBOARD q88 板→导演席海选第一档判读→烧速实测回填。JAY_BONE 骨相锚 v2 逐字·ID 块复用·零否定词。",
   "card": "[交接卡 POOL-0022]\n①@机+lane：@bm-c·gpu-production（生成视觉专用道·W1 可爱女人 KF A 批 28 帧照烧）\n②回执窗：签发后 24h（KF 全批+LOOKBOARD 拼板+烧速/张数实测回填）\n③验收物+证据指针：28 帧 KF 入 KF 目录（bmc/kf/ 族律）+24 张/板 LOOKBOARD q88 拼板+烧速实测回填行+导演席海选第一档判读板存档+orders 回执行+commit sha\n④spec 指针：cph4/fleet/mv-album-001-jay/可爱女人-KF-PACK-A-v1-DRAFT.md（146 行）+可爱女人-shots-v2.py（机读正身 NEW 4 帧 B4 区间=28 帧对账）+PROMPT-GATE-可爱女人-KF-PACK-A-v1-L2.md（FIX 合并后签发版）+PROMPT-EXPERT-GATE-v1（十面检查单零豁免）+MV-PIPELINE-PLAYBOOK §S3 海选制 v1.1\n⑤溯源令号：O-20261020-1124（CEO「其他的mv赶紧产出，调用机队其他机器算力」·docs/orders.md 10-20 11:24 行）\n⑥输入/输出：输入=签发版提示词包+F1-F11 裁定口径+光位波段豁免+JAY_BONE 骨相锚；输出=28 帧 KF+A 批 LOOKBOARD+烧速实测\n⑦依赖：导演席 L2 FIX 合并+复检+签发（未签=禁烧·烧制侧拒收律）；GPU 空档已探明（10-20 11:24 vram_free=14156MiB）\n⑧卡 ID：POOL-0022\n⑨provenance：直述（CEO 原话「其他的mv赶紧产出，调用机队其他机器算力」·bm-a 总控窗 10-20 11:24 开卡）",
-  "result_ref": "L2 2026-10-27 16:5x 事件班裁决: blocked_by director-signoff:L2-FIX 为陈旧台账件, 解除. 实证=cph4/fleet/mv-album-001-jay/PROMPT-GATE-可爱女人-KF-PACK-A-v1-SIGN.md(2026-10-20 12:4x, 判定=准烧 A 批 28 帧, 8 条 FIX 全落位 + lint 30/30 机核回执); orders 10-20 15:28 行同证「12:40 签发·KF 待 @bm-c 烧制」. 本卡自 10-20 起 P1 停滞 7 日零烧制产出(实测 bmc/ 与 media/ 下零可爱女人 KF 件)=ledger 阻断源未随签发清除所致, 非真依赖. 现可认领.",
+  "result_ref": "L2 2026-10-27 16:5x 事件班裁决: blocked_by director-signoff:L2-FIX 为陈旧台账件, 解除. 实证=cph4/fleet/mv-album-001-jay/PROMPT-GATE-可爱女人-KF-PACK-A-v1-SIGN.md(2026-10-20 12:4x, 判定=准烧 A 批 28 帧, 8 条 FIX 全落位 + lint 30/30 机核回执); orders 10-20 15:28 行同证「12:40 签发·KF 待 @bm-c 烧制」. 本卡自 10-20 起 P1 停滞 7 日零烧制产出(实测 bmc/ 与 media/ 下零可爱女人 KF 件)=ledger 阻断源未随签发清除所致, 非真依赖. 现可认领. [R2.42 2026-10-28 02:1x 事件班] 照烧已实产两套 KF：bm-c 权威集(包内 frame_sha12 契约·10-24 建包 C2167) + bm-a A/B 集 D:\\\\FluxGroup\\\\media\\\\mv-test\\\\keainvren\\\\batch1\\\\KN01..KN30.png(10-27 22:58-23:06·30 帧)+联系表 D:\\\\FleetWorker\\\\review\\\\kf_sheets_keainvren(00:15)。卡定义动作(照烧+LOOKBOARD)已达成，转 done；判读/海选归导演席(非卡面)。",
   "depends_on": []
  },
  {
@@ -297,8 +297,10 @@
   "claimed_at": "",
   "card": "[加入池 POOL-0023]\n①@机+lane：@bm-b（cpu-sound）·24/7 CPU 声音线·GPU 零占用\n②回执窗：72h（本批 7 首，到齐即回执；单首超窗只报阻塞不静默）\n③验收物+证据指针：anchors/<曲>-calibrated.json（mode=lrc exact/approx/none 计数）+ <曲>-shotgrid.json/md（BPM/beats/downbeats/段落标签）+ POOL-0018-0019-anchor-matrix.json ready=14/41 + 至少 1 首 lyric_calibration.py 复验输出 + orders 行 + commit sha\n④spec：Tools/lyric_calibration.py + Tools/anchor_shotgrid.py + Tools/lyrics_fetch_163.py；cph4/research/waves/W4-mv-expert-tools-community-20261015.md（whisperX/allin1 · MIT）\n⑤责源锚：O-20261015-1741（CEO「两台机器都要用好」）+ OB-20261027-211206-860 声音线开放 + 本席 2026-10-28 00:0x 事件班（POOL-0018 7/7 收口后补第二批）\n⑥依赖/先后：承 POOL-0018 管线；与 mv0001 收片期不冲突（纯 CPU）\n⑦产能归属：CPU；不占 GPU、不占生成道\n⑧卡 ID：POOL-0023\n⑨provenance：CEO-PROXY 事件班 2026-10-28 00:10 落单（SUPPLY-DRY 补料·真backlog=41 首曲线剩余 34 首）",
   "depends_on": [],
-  "blocked_by": [],
-  "result_ref": ""
+  "blocked_by": [
+   "no-claim-task:bm-b"
+  ],
+  "result_ref": " [R2.42] 第4轮结构性缺口维持：bm-b 无 HQ-ProductionClaim(唯一认领任务只注册在 bm-a)·wake_tasks 仅 Bigmoney-IterationLoop；whisperX/allin1 仅装在 bm-b 不可改派。修法=bm-b 本机注册认领任务(S4U)。"
  },
  {
   "id": "POOL-0024",
@@ -313,6 +315,6 @@
   "card": "[加入池 POOL-0024]\n①@机+lane：@bm-c（gpu-production）·本机进程内执行，禁跨机远程下发\n②回执窗：6h（夜里 GPU 空转=纯损失，6h 未动即升 P0 复派）\n③验收物+证据指针：TCP 100.123.74.104:8790/status ram_free_gb >= 6.0（改前 1.3->0.7G 实锚）+ ollama ps 无 qwen3.8:27b / glm-4.7-flash:30b / qwen3.6-coder:35b 驻留 + Get-ScheduledTask MiniGameOllamaKeepWarm/Serve 的 State 证据 + ComfyUI /system_stats 200 + POOL-0021 首批 KF 落盘计数 + commit sha\n④spec：Tools/fleet/gpu_lease.py（stop_ollama + keepwarm set_tasks(False) + vram 轮询）+ Tools/fleet/job_kf_batch.py（一步式 acquire->run->receipt->release）\n⑤责源锚：O-20261013-2245（CEO 全部项目继续开工·全力运转）+ OB-20261027-211206-860（CEO 新班令 bm-c 先释放内存再开烧）+ ROUND 附2 整卡还生成线 + 本席 2026-10-28 00:0x 事件班（BLOCKED-RAM 1.3G->0.7G 恶化实证）\n⑥依赖/先后：依赖完成本卡，先后顺序=本卡先、POOL-0021/0022 后（堵点=RAM 不是 VRAM）　输入=POOL-0021 的 prompts.json 与 audio/源件；输出=本机 D:/FluxGroup/media/mv-test/<pack>/batch* KF 落盘目录 + Tools/nats/data/gpu.bm-c.lease.json + 回执 cph4/fleet/queue-receipts/POOL-0024-bm-c.json\n⑦产能归属：生成道（GPU 14.7G 已空）；量化轮 CPU 侧不停\n⑧卡 ID：POOL-0024\n⑨provenance：CEO-PROXY 事件班 2026-10-28 00:10 落单（BLOCKED-RAM 1.3G->0.7G 恶化实证）",
   "depends_on": [],
   "blocked_by": [],
-  "result_ref": ""
+  "result_ref": " [R2.42 02:09 实测] ram_free 0.4GB(24G 机·1.1G→0.4G 恶化)·VRAM 空 14899MB·cpu 46%；仍非 poke 可解，需 bm-c 本机 python Tools\\\\fleet\\\\gpu_lease.py --node bm-c --acquire --need-mb 12000。"
  }
 ]
