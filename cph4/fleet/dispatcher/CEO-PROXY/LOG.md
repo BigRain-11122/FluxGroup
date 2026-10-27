@@ -657,3 +657,9 @@ am_free 10GB / cpu_load 48%——bm-b 在跑量化轮而非闲着；缺的是本
 **⑥ CLOCK-SKEW 恶化**：bm-b 1124.9ms（01:26 时 717.1）、bm-c 1839.7ms（01:26 时 1313.6），precision ±190 ⇒ 均超 `2×precision+20` 门限；档已登记，修法在本机（w32time 需提权）。
 **⑦ 账本修复**：`CEO-PROXY/LOG.md` 工作树残留 stash 冲突标记 27 行（含 R2.41 重复段），`git checkout` 复原 HEAD 干净版；新增段全为「重复 R2.41 + 冲突壳」，零独有内容损失。
 **四元组**：2026-10-28 03:26-03:4x｜事件班（承载件触发）｜calls≈30｜verdict=SUPPLY-DRY 真解（2 真卡，019 已 DONE 并给出 v718 单点病源）；bm-b 认领任务白名单已铺、本机一行待装；bm-c 内存闸与 capacity 死锁登记候裁；账本冲突壳清除。
+
+**⑧ R2.44 补记（03:40–03:44 复核闭环）**：`Q-MV-0001-020` 03:40:35 DONE（rc0，64 镜分级 → `D:\FleetWorker\review\shot_audit_v717.json` 13.9KB）。交付闸三项定罪现已**逐镜指名**：
+- **D2 近静止**：最重 `INT3_her_walk` 7.5–11.5s freeze **0.442**（近半帧重复，且在片头 7.5s，CEO 必见）；次 `Z01_words_alone` 219.84–224s 0.293、`E04a_words_warm@reuse` 200.8–205.1s 0.255；开场 `INT1_hall_breath` 0–3.5s freeze 0.108 即闸报的 0.00–3.50s mad 0.36 同源。
+- **D4 曝光闪**：`E01b_sand@reuse` flicker **0.173**、`E04a_words_warm` 0.167、`D05_words_warm` 0.152、`Z03_lights_out` 0.131 —— 与 019 的 POP 群聚 209.4–211.9s 相邻成片（E04a 200.8s / POP 209–212s 同属插入段）。
+- **jerk/flow 全片 ≤0.036** ⇒ 运镜与装配本身干净，问题**只在 freeze 与 flicker 两类**，v718 修法收窄为「重烧 INT3 / 缩短 Z01 定格 / 换 E04a 段素材」，无需全片重做。
+**四元组（补记）**：2026-10-28 03:40-03:44｜事件班（承载件触发）｜calls≈6｜verdict=两卡 2/2 DONE，v718 修复面已收敛到 3 处具名镜，交导演席出修复计划。
