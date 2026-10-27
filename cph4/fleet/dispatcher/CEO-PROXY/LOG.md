@@ -465,3 +465,12 @@
 - **本地分叉披露（承 R2.35）**：本地 HEAD f9d0cb81 与 origin/main 5e3b67e6 双向分叉 2↔2，其中 **f9d0cb81=fleet-dispatcher v2、e99344de=决策批 23 仅存于 bm-a 本地**（机队他机仍跑 v1）；本班一律 origin 基底 + 原子推，不做本地收敛（工作树有他窗 staged 改动）。
 - **工具坑复现与正法**：`git show origin/main:<path> > file` 经 PowerShell 重定向会被重新编码（UTF-8→UTF-16+GBK mojibake，实测 POOL.json 首字节变 FF FE 且引号破损）——**取证/建基底一律走 python subprocess 取 bytes**，禁 shell 重定向。
 - **四元组**：16:31→17:0x｜事件班（承载件触发）｜≈40 调用｜verdict=非产能故障（bm-a 睡是政策要求）+ 清 1 件 7 日真停滞阻断源（POOL-0022）+ 补 2 条真 backlog 供给
+
+### R2.36 复探与点火实证（17:0x·poke 后 3 分钟复探·TCP /status 直读）
+
+- **poke 回执**：`fleet-dispatch.ps1` nodes=3 ok=3 fail=0 sha=4decc988（bm-a SYNCED 2s；bm-b/bm-c accepted）。随后两机 `last_pull.reason=order:OB-20261027-170356-791` 实证取令，root origin_main=fc80f9de（他窗在本班推后又落一笔，本班 38a32ca14 为其祖先，merge-base 实证）。
+- **bm-b=BURNING 确认**：wakes `Bigmoney-IterationLoop:WAKE`；heartbeat clock_read 17:02:22（新鲜）、cpu 7.2%、agenda_starved=false、current=r1183 E116 earlydelay。→ 量化 cpu-sound 车道在跑，非停摆。
+- **bm-c=资源窒息（本班最重要发现·推翻「bm-c 闲着但不干活」的旧读）**：/status 17:04:30 实测 `ram_free_gb=0.5`（历史运行带 1.8-2.4GB，已破 10% 底线）、`cpu_load_pct=82`、`gpu=NVIDIA RTX 3070, 14884 MiB`（16GB 卡仅余 ~1.4GB）。即：14:59 的 c.json（vram_free 15095「空档」）与此刻实况**完全相反**——bm-c 已被常驻 LLM 驻卡 + 量化轮吃满。
+- **由此定谳 W2 KF 停滞 7 日的真因（两层）**：①台账层=POOL-0022 blocked_by 从未随签发清除（本班已清）；②产能层=**bm-c 的 GPU 被驻卡 LLM 占满**，生成视觉道无卡可用（正是既有法条「常驻 LLM 驻卡堵生成道→ollama stop + pin 任务 disable，整卡还生成线」要治的病）。故本班清障必要但不充分：POOL-0022 具备可认领性，却仍**点不着火**。
+- **本席能力边界（如实披露）**：CEO 2026-10-23 明令「你不能远程调度」——FleetLink 只有 拉取+poke 唤醒，无命令通道；停驻卡 LLM 需本机会话或下一决策轮执行。本班只 poke+登记，不伪造「已恢复」。
+- **四元组（复探段）**：17:04-17:2x｜事件班（承载件触发·复探片）｜≈8 调用｜verdict=bm-b BURNING 确认；bm-c 资源窒息（RAM 0.5G/GPU 14.8G）→ POOL-0022 可认领但不可点火，已登记 DEADLINES §一 at-risk
