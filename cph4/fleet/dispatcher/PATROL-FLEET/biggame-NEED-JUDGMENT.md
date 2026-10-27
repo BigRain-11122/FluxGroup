@@ -280,3 +280,62 @@
 ## 纪律
 
 未重测 L0/IdleWatch/枢纽已测面 · 未 poke（bm-c 在产、bm-b 物理离线零催办）· 未直写 orders/decisions/POOL · 未碰产品代码与场景 YAML · 本旗按 R6/R7 同法降噪（24h snooze 刷新至 2026-10-28 02:30，NJ 保留、到期自动复报，非掩盖）
+
+# R9 复核（biggame 巡视席 · 2026-10-27 16:37-17:0x · 只读只议）
+
+> 触发旗（两连发）：`cph4/fleet/dispatcher/DISPATCH-LOG.md :: [2026-10-27 16:30] FLAG STARVED-EXEC lane=bm-a open_cards=2 blocked=2 -> P1 supply failure` + `[2026-10-27 16:31]` 同签名。
+> 结论：**旗的事实面为真（bm-a 可执行卡确实 0），但短缺点是"池子没人送料"，不是"域内无活"**——不 snooze（真结构性缺口，掩盖更糟）。
+
+## NJ[biggame#R9-1]（新案·首记）bm-a 存在量=0 的根因是 POOL 未镜像 biggame 域内队列
+
+- **事实①（旗为真）**：`cph4/fleet/dispatcher/POOL.json`（22 卡）中 `lane=bm-a` 在册仅 2 张，且两张均不可执行——`POOL-0003`（P2，`deadline=2026-10-17T23:59:59` 已过期 ≈9.7 天，内容是 MV 词锚复核=bigstream 面）+ `POOL-0010`（P2，`blocked_by=CEO-PHYSICAL:submit-materials`=CEO 保留面，零催办）。`STATE.json` 同窗读回 `bm-a open=2 exec=0 blocked=2`，`NEED-JUDGMENT.md` 亦逐张列出 `deadline-expired / CEO-PHYSICAL`。判：旗不是传感噪声。
+- **事实②（域内生产未停）**：三机 tick 今日全在产且门禁绿——A 机 `自动化快照.md` X2895（15:54，fold 轮，C2291-C2293 + B2460-B2462 收编，`master..B=0 / master..C=0`）；B 机 `自动化快照-b.md` tick B2462（15:57，G20 `S3k24` 面 82→83 四值全 True，compile 0err/0warn，PlayMode 7/7，CheckBundle PASS）；C 机 `自动化快照-c.md` tick C2293（15:52，`SLICE_A_GREEN total=21 QG_EXIT=0`、G1 `SRC=19 REF=292 EXIT=0`）。判：不存在产线停摆。
+- **事实③（域内供给在另一本账）**：`gaming/MiniGame/09_吸嘟嘟GimmeAll/GimmeAll/docs/family/production-queue.json` 46 项 = **ready 15 / in_progress 5 / blocked 3 / backlog 9 / done 14**，自带 policy `wip_per_lane=2 / wip_global_in_flight=8`（5<8，不拥挤）。这 15 项 ready 从未镜像进车队 POOL，故从 POOL 视角看 bm-a 永远"无活"。
+- **事实④（口径与让路）**：车队级 `cph4/fleet/PRODUCTION-QUEUE.jsonl` 全库仅 3 行且全 `DONE`（Q-MV-0001-001/002/003，MV 面）＝0 OPEN；且 `Tools/queue_claim.py` 对 bm-a 内置**工作日 09:00-19:00 GPU 让路**（CEO 工作时段让路律），本旗发生在 16:30 属让路窗内——即便有 GPU 卡此刻也不可执行。**旗不得读作生产闲置。**
+- **判读**：与既有判例「池里 open≠可执行」同构的第二面——这次是**「域内 ready≠入池」**。真缺口在送料通道，不在产能。
+- **建议（候枢纽裁，成本升序）**：
+  1. **补料入池**：把 GimmeAll ready 15 中的非 GPU 项（`DES-S1-02` 站点1参数落表 / `QA-003` 站点1用例补齐 / `UX-002` ResultVeil 夜面降亮 / `ENG-004` PlayerPrefs 写放大收敛）按卡格式补进 POOL 并指定 `lane=bm-a`（工作时段可执行、不碰 GPU 让路窗）。
+  2. **清死卡**：`POOL-0003` 过期 9.7 天且属 MV(bigstream) 面，建议关单或改派——该卡不清，任何"可执行"统计都会被它拖成 `open=2 / exec=0` 的常态假象。
+  3. **改旗口径**：`STARVED-EXEC` 判定加一路域内供给读取（POOL + 域内队列），或把旗名改为 `POOL-DRY` 并标注"仅 POOL 面"，避免"域内 15 ready、池面 0 exec"被读成 P1 供给事故。
+- **判据（24h）**：POOL 出现 ≥1 张 `lane=bm-a` 且 `status=open` 的非 GPU 卡（可执行），或 `POOL-0003` 状态变更。
+
+## R9 域雷达复核（§1 七项 · 传感复用 + 增量直读）
+
+| 检项 | 结果 |
+|---|---|
+| ① 门禁链 | 全绿。A：X2894 产品轮 `compile.log` 0 error + `winbuild.log` `WINBUILD\|Succeeded\|errors=0\|size=151061050`；`parent_key_check.py` 176 断言 red=0（负控塞回 40 恰 2 条转红、逐字节 SHA256 还原一致）。B：自证 G1 编译绿 + PlayMode 7/7 + CheckBundle PASS。C：`SLICE_A_GREEN total=21 QG_EXIT=0` + G1 `SRC=19 REF=292 EXIT=0` zero-warn。`MiniGameRedlineAudit` 最近 `=== patrol 2026-10-27 14:47:01 machine=A CLEAN ===`（延续 CLEAN 串） |
+| ② 包体四值 | G20 `build25` 主包 **3,621,408 / 4,194,304**（余 572,896B，较 02:5x 的 3,721,141 再降 99,733B）；G25 记录 `result=PASS` `violationCount=0` `mainPkgBytes=3,721,141`（31.5h+ 未刷新＝构建节拍，诚实边界）；G27 上次包 2026-10-11（stale ≈388h，被编辑线 RAM 窗挡住，C 机自报） |
+| ③ 提审硬门 | `POOL-0010` 仍 `blocked_by=CEO-PHYSICAL:submit-materials`（物理件零催办）；本窗零新增提交夹/软著动作 |
+| ④ WIP 上限 | GimmeAll `in_progress 5` vs policy `8`（各道 ≤2）→ **不构成拥挤预警**；fleet 面在产款=G20（B）+ G27（C）+ 家庭车机线（A） |
+| ⑤ 产线批健康 | 三机快照同窗（A 15:54 / B 15:57 / C 15:52），`qa\x2894` 证据与轮次同步、X2895 fold 15:54 落账 → 无陈旧假 DONE |
+| ⑥ 玩法差异四问 | 24h 零新增立项（G20 深耕现有款：S3k22-S3k24 广告面纵向打磨至十七张脸） |
+| ⑦ 资产批合规 | `production/reports/asset-audit-*` 最新仍 2026-09-14（≈43 天）＝既有诚实边界（承 R5/R8）；本窗零新增未登记件 |
+
+## 域观察（不入 NJ · 仅留痕）
+
+- `production-queue.json` 的 `updated` 仍写 `2026-10-23`，而 tasks 已在 10-26/10-27 多次翻转（承 R8 留痕，未变）。
+- `POOL-0003`（过期死卡）与 `POOL-0010`（CEO 物理件）并列，使 bm-a 的 `open=2` **恒为不可执行的 2**——派单看板上的这个数字长期误导。
+- bm-a 工作日 GPU 让路窗（09:00-19:00）在 `queue_claim.py` 内生效；19:00 后若仍无卡，才算真供给断。
+- R8 的 `c.json` 传感口径缺口（四条修法候裁）本轮无新证据，不重复升级。
+
+## 纪律
+
+未 poke · 未直写 orders/decisions/POOL · 未碰产品代码与场景 YAML · 未重测 L0/IdleWatch/枢纽已测面 · **未 snooze**（真结构性缺口，snooze 会掩盖）· 班毕 touch 锁。
+
+# R10 Ѳ�Ӱࣨbiggame Ѳ��ϯ �� 2026-10-27 17:22-17:4x �� ֻ��ֻ�飩
+
+> �����֣�ǩ������`DISPATCH-LOG.md :: [16:55]/[17:01]/[17:11]/[17:17]/[17:21] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1` + `[17:11]/[17:17]/[17:21] FLAG LANE-DOWN lane=bm-c verdict=HB-STALE` + `[17:21] pools: bm-a=1open/0exec bm-b=3open/2exec bm-c=3open/3exec; queue_open=0`
+> ���ۣ�**STARVED-EXEC���桤�ڶ���δ����R9-1 �䵵 40min δ�á���������LANE-DOWN bm-c��liveness �پ�����������ļ���δ������ע��������������ȱ�����ڲᣩ�� ���Ա��� snooze�����ڸ�����ȱ�ڣ�biggame ���״�����ȫ��**
+
+## NJ[biggame#R10-1]���� R9-1���ڶ���δ�� �� ����Ŧ�� �� ���¿����ţ�
+
+- **ʵ��һ��STARVED-EXEC ԭ��δ�䣩**��`cph4/fleet/dispatcher/STATE.json` 17:21:03 `bm-a open=1 exec=0 blocked=1`��`POOL.json` �� `lane=bm-a` Ψ�� `POOL-0010`��`blocked_by=CEO-PHYSICAL:submit-materials`��CEO �����桤��߰죩��`NEED-JUDGMENT.md` 17:21 ����ͬ���ڵ����� �� R9 ����һ�£�**ȱ�������ϣ����ڲ���**��R9-1 �������� GimmeAll ready 15 ���� GPU ���� `lane=bm-a` �� `POOL-0003` ���� 9.7 �� MV ������ �� STARVED-EXEC �о����֡�POOL �ɡ��롸���� 15 ready����**��δ���** �� ���³̡�����δ�����������ϱ���Ŧ��
+- **ʵ�����bm-c LANE-DOWN��liveness �پ�����֤��**����`http://100.123.74.104:8790/status` 17:31:52 **HTTP 200**��len 31185������ͣ������`cph4/fleet/dispatcher/CLOCK-SKEW.json` 17:24:15 `bm-c seq=21 age_ms=64518 offset_ms=858.9`��NATS �������ߣ�����ϵ㣽**�ļ���**��`gaming/MiniGame/Design/configs/GLOBAL/fleet/c.json` �������� `ts=2026-10-27T15:08:51`��mtime 15:59:23����bm-c 17:14 pull �� `.:updated-kept-local`�����ظĶ���ס��ȡ���ֿ�������ļ��� 15:08 ֮��δ�ٳ������� R4-1/R8-1 ͬ�����ȱ�ڣ����� `verdict=HB-STALE` ϵ�ļ������ͺ󣬷ǻ������ߡ�
+- **ʵ������bm-c ��ʵ�������ߡ���������**��`/status` ʵ�� `ram_free_gb=1.3`��24G ����5.4%����`gpu=RTX3070 16384MiB �� 14892MiB ����`����91%����`cpu_load 29%`��c.json 15:08 ���� `GPU_COMFY_MISSING|RAM_LOW`��ram_free 5.9%������ **bm-c GPU ���ɵ�Ӧ���������ɽ����ػ**�������ļ��ָ��� dispatcher �� `BLOCKED-RAM` ��֧����Ȼ���֣������������ƣ���bm-c �ڲ� 3 �� exec ����POOL-0016/0021/0022��ȫ�� MV/KF��bigstream ��**biggame ��ֱ����Ӱ�죽0**��
+- **���渴�ˣ����� R9 ֤�ݣ���������һ����**������ `gaming/MiniGame/Design/evidence/pipeline-20261027-172602/report.json` 17:26:35 **9/9 PASS / failed=0 / 33.4s**��preflight `crash_streak=0 idle_streak=0 comfy=1 editors=1 ram_free=32.6 vram_free=3168`��car-adapt PASS `canvas=2880 scale=1.000 headroom=2.701`��ui-kit main 11 �� / result 16 �㣻compliance PASS��audio 49 files `diverge_or_fail=0`��scenes-4k `6/6`���������棨R9 17:0x ʵ�⣬δ�ز⣩��RedlineAudit `2026-10-27 14:47:01 machine=A CLEAN`��6h ���ࡤ�´Ρ�20:47����G20 build25 ���� `3,621,408 / 4,194,304B`���� 572,896B����WIP GimmeAll `in_progress 5 ��8`��24h ��������Ž��� compile 0err/0warn��PlayMode 7/7���� �״����-��**ȫ�̣�����������**��
+- **���飨����Ŧ����-�� �� R9-1�����ֲ���������**���� �� bm-c �� `.:updated-kept-local` ��һ�� `Tools/fleet-hot-sync.ps1`��fetch+rebase autostash�����ָ� c.json �ļ������������һ�л��� c.json �� lane �ж�������پ�����ǰ snooze ֻѹ�룬���޸�����
+- **��֤������д����һ�ࣩ**���� bm-c ���� NATS ������CLOCK-SKEW ���� `missing` �� age>10min�������κβֿ��ύ��������ͣ�ڲ��� ��1 ���� poke `MiniGameEngineTick` �Ȱ��������񣻽�ʱ snooze �����á�
+
+## ����
+
+δ poke �� δֱд orders/decisions/POOL �� δ����Ʒ�����볡�� YAML �� δ�ز� L0/IdleWatch/��Ŧ�Ѳ��� �� ���� `FLAG LANE-DOWN lane=bm-c` д snooze����24h��liveness ��ʵ֤������� STARVED-EXEC **�� snooze**����ṹ��ȱ�ڣ�snooze ���ڸǣ��� ��� touch ����
