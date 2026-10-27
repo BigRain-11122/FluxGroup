@@ -534,3 +534,27 @@
 **命令通道**：推后两机均 NOT-SYNCED（bm-b 卡在本地分叉 head=089e916f；bm-c 落后 head=d7339348），`-Repos .` 强拉亦未收口 → 与 10-27 17:20 同一缺口**第二次复发**（节点分叉需本机 `fleet-hot-sync.ps1`，禁远程）。已登记 at-risk；bm-c 侧未 sync + 监听器半死 = 双因。
 
 **四元组**：2026-10-28 00:0x-00:3x｜事件班（承载件触发）｜calls≈50｜verdict=七旗全归因：3 卡陈旧假红已关账 / bm-b 已自醒 BURNING（但未 sync）/ bm-c RAM 0.7G+监听器半死=POOL-0024 P0 待本机执行 / SUPPLY-DRY 以 2 张真卡 10 分钟内闭环自愈后定性为结构性稀薄。
+## R2.40 事件班（2026-10-28 00:46-01:0x·承载件触发·接 R2.39 续班）
+
+**步0**：锁 mtime 00:33:07（age 13.3min >10min）→ 本窗接管，touch 00:46:35。
+
+**① bm-b LANE-DOWN → 已闭合（真·自愈）**
+三源实测：`tailscale status` bm-b `active; relay sfo`／ping True／TCP 8790 True。`/status` 两次采样：`ts 00:47:08 → 00:51:14`、`cpu 4%→71%`、`ram 10.8G→8.7G`、心跳 `current=r1193: machine-health face + writer repair (D-20261028-02); next E122 warm-spread twin`。**30 分钟以上无回落 = BURNING**，零 poke（醒着的机器不需要吵）。
+
+**② bm-b 根仓分叉未解（R2.38b 第三次复发，同因）**
+`last_pull 00:28:02 reason=ceo-proxy-event-force-pull` 却 `pulls=["…:updated"]` 而 `repo_heads["."]=089e916f` ≠ `origin_main=5266f7a2` → 本地未推送提交仍卡住拉取，**命令在 bm-b 可见但不可生效**。量化子仓正常（`quant/bigmoney=350c9bf0`）。正法仍=bm-b 本机 `Tools/fleet-hot-sync.ps1`（禁远程，CEO 10-23 令）。
+
+**③ bm-c BLOCKED-RAM → 恶化（非 poke 可解）**
+`00:04 0.7G → 00:51 0.9G`（24G 机余 4%），`cpu 76%`，而 `GPU 14884 MiB 空闲`（16G 卡只占 ~1.2G）。00:15 已 poke `MiniGameEngineTick` 后 RAM 无改善 → **该旗不属 poke 可解类**（真因=ollama 27b/30b/35b 驻留+keepwarm），只能本机 `gpu_lease.py --acquire` / `job_kf_batch.py`（POOL-0024 P0·6h 窗 ≤06:10 仍在）。**本班零重复 poke**（防 churn·禁制造虚假动作）。
+
+**④ 新发现（真因级·上两次班未识）bm-c gaming 心跳 c.json 是 PS5.1 ETS 污染件**
+`/status` 返回的 `heartbeats[].content`（file=`gaming/MiniGame/Design/configs/GLOBAL/fleet/c.json`）在 `ConvertFrom-Json` 后**不是字符串而是 PSCustomObject**，键=`value,PSPath,PSParentPath,PSChildName,PSDrive,PSProvider,ReadCount` —— 正是 **PS5.1 六法 ①**（`Get-Content` 逐行对象带 ETS 属性未 `[string]$_` 解包就 `ConvertTo-Json`，暴胀且失真）。
+**推论（纠 R2.37 的定性）**：bm-c「MiniGame 心跳写入停摆 / HB-STALE」不是写入者死了，而是**写入格式病了**——落盘件被 ETS 元数据包裹，读方永远解不出心跳体。修法=bm-c 本机 ①重写 c.json ②写入器 `Get-Content` 结果接 `[string]$_` 解包后再 `ConvertTo-Json` ③写 UTF-8 无 BOM。**本机无写入器源码可达**（MiniGame 仓 depth-4 未命中），故不擅改，登记候 bm-c 会话。
+
+**⑤ SUPPLY-DRY 真因=manifest 见底（非补料失效）**
+`backlog_fill.py` 返回 0 的实锚=`cph4/fleet/PRODUCTION-BACKLOG.jsonl` **5/5 行 deliverable 全部已存在**（006-010 全部 DONE），队列 12 行全 DONE。本班补 1 张真卡：**Q-MV-0001-011**（v717 28 帧 flags → 4 列联系表，`kf_sheet.py`·双 requires 实存校验过），直供 CEO 待办①「逐条判定」的材料面；已入队 `OPEN`，bm-a `HQ-ProductionClaim=Ready`，下一 claim 轮（≤5min）领取。
+
+**⑥ POOL-0023 仍结构性不可认领（第三轮）**
+bm-b `wake_tasks` 仅 `Bigmoney-IterationLoop`，无 claim 任务 → 音频锚 7 首（72h 窗）结构性卡死。10-27 17:20 诊断 + R2.38 派令均需 bm-b 本机会话落地；本班**零重派零 poke**（防双烧），维持 at-risk 如实登记。
+
+**四元组**：2026-10-28 00:46-01:0x｜事件班（承载件触发）｜calls≈38｜verdict=bm-b LANE-DOWN 自愈闭合 BURNING（但根仓分叉第 3 次复发）/ bm-c RAM 0.9G 恶化且新证 c.json 为 PS5.1 ETS 污染件（HB-STALE 真因在写入格式非写入者死）/ SUPPLY-DRY 定性为 manifest 见底并补 1 张真卡 / POOL-0023 结构性卡死第 3 轮。

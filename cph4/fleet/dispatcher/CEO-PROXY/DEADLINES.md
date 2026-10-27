@@ -78,3 +78,13 @@
 | **R2.36 注记（2026-10-27 16:5x·事件班·承载件触发）**：三件裁决落盘——①**POOL-0022 陈旧阻断源解除**：签发件 10-20 12:4x 已在档（SIGN.md 判定准烧 A 批 28 帧），但卡 blocked_by 未清，致 W2《可爱女人》KF 28 帧 P1 停滞 7 日零烧制产出；本班清障后可认领，待 bm-c RAM 解锁点火。②**POOL-0016 收窄**至 night-1 LatentSync 单腿残余，解除对 POOL-0021 的阻塞。③**POOL-0003 销卡**（anchors/ 81 件 10-20 已整体交付，deadline 过期 10 日 delta 归零）。另：bm-a STARVED-EXEC 判为**按政策期望态**（idle-watch verdict=EXPECTED-IDLE-WORKHOURS，pausedLite 工作日让路律在役）——旗为 L0 脚本假红旗，修法涉受保护件，已登记 PROBLEM-REGISTRY PR-20261027-14 候 CEO 令/群审通道。 | R2.36 |
 | **R2.39 事件班 2026-10-28 00:1x（承载件触发）** bm-b 主机离线（LANE-DOWN 真因）+ 三张 POOL 陈旧假红校正 | bm-b 侧 | tailscale status + ping + TCP 8790 三源实测 | **registered·at-risk**：Tailscale `last seen 23:34`、ping=False、8790 超时 → 主机睡眠/断电（非软件停摆）。21:12 令在其醒后自续；POOL-0018/0019/0020 经回执核对**实为已交付**（7/7 anchors + 0020 回执 20:21 落），已 close 为 done，bm-b 「3 开卡全堵」不是供给失败是台账滞后。唤醒=物理动作，本席零催办只登记。 | R2.39 |
 | **R2.39** bm-c 内存闸（0.7G 余量·GPU 14.7G 空转） | bm-c 侧（本机执行） | TCP /status 00:02=1.3G / 00:04=0.7G | **executing（POOL-0024 P0·6h 窗）**：真因=ollama 三模型驻留（27b/30b/35b）+ keepwarm；正法=本机 `python Tools/fleet/gpu_lease.py --node bm-c --acquire` 或 `job_kf_batch.py` 一步式（内部 stop_ollama+keepwarm disable）。判据 ram_free>=6.0G + ollama ps 空 + /system_stats 200 + POOL-0021 首批 KF 落盘。6h 未动即复派 P0。 | R2.39 |
+## §三 R2.40 事件班注记（2026-10-28 00:46-01:0x·承载件触发）
+
+| 件 | 状态 | 证据 |
+|---|---|---|
+| **bm-b LANE-DOWN** | **closed（自愈）** | tailscale active relay sfo / ping True / TCP 8790 True；`ts 00:47:08→00:51:14`、cpu 4%→71%、ram 10.8→8.7G、`current=r1193`（D-20261028-02）。30min+ 无回落=BURNING。 |
+| **bm-b 根仓分叉** | **at-risk·第 3 次复发** | `last_pull 00:28:02` 仍 `head=089e916f` ≠ `origin_main=5266f7a2`；命令可见不生效。正法=本机 `fleet-hot-sync.ps1`（禁远程）。 |
+| **bm-c BLOCKED-RAM（POOL-0024 P0）** | **at-risk·恶化·非 poke 可解** | `00:04 0.7G → 00:51 0.9G`（24G 余 4%）、cpu 76%、GPU 14884MiB 空闲。6h 窗 ≤06:10。需本机 `gpu_lease.py --acquire`（CEO 10-23 禁远程）。 |
+| **bm-c gaming c.json ETS 污染（新）** | **registered·候 bm-c 会话** | `/status` 的 c.json content 解析后键为 `value,PSPath,PSParentPath,PSChildName,PSDrive,PSProvider,ReadCount` = PS5.1 六法①（未 `[string]$_` 解包即 ConvertTo-Json）。**HB-STALE 真因=写入格式病，非写入者死**。修法=重写 c.json + 写入器解包 + UTF-8 无 BOM。 |
+| **SUPPLY-DRY** | **resolved（真因=manifest 见底）** | BACKLOG 5/5 行 deliverable 已存在。本班补 Q-MV-0001-011（v717 flags 拼板）→ 已 OPEN，待 bm-a claim。 |
+| **POOL-0023（bm-b 音频锚 7 首）** | **at-risk·第 3 轮** | bm-b 无 claim 任务（wake_tasks 仅 Bigmoney-IterationLoop）→ 结构性不可认领。零重派零 poke。 |
