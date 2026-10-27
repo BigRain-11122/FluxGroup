@@ -1,0 +1,9 @@
+{
+ "id": "Q-MV-0001-013",
+ "node": "bm-a",
+ "rc": 0,
+ "seconds": 1.9,
+ "cmd": "python Tools\\mv_ceo_items_pack.py --out D:\\FleetWorker\\review\\ceo_items_v717 --mode erablind",
+ "stdout_tail": "ERABLIND images=24 missing=0 -> D:\\FleetWorker\\review\\ceo_items_v717\\erablind\\ANSWERS.md\n",
+ "stderr_tail": ""
+}

@@ -1,0 +1,9 @@
+{
+ "id": "Q-MV-0001-012",
+ "node": "bm-a",
+ "rc": 0,
+ "seconds": 0.2,
+ "cmd": "python Tools\\mv_ceo_items_pack.py --out D:\\FleetWorker\\review\\ceo_items_v717 --mode signoff",
+ "stdout_tail": "SIGNOFF rows=95 -> D:\\FleetWorker\\review\\ceo_items_v717\\signoff\\SIGN-OFF-SHEET-v717.md\n",
+ "stderr_tail": ""
+}
