@@ -1,224 +1,4 @@
-﻿[2026-10-26 14:41] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 14:51] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 14:51] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 15:01] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 15:01] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 15:11] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 15:11] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 15:21] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 15:21] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 15:31] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 15:31] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 15:41] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 15:41] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 15:51] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 15:51] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 16:01] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 16:01] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 16:11] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 16:11] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 16:21] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 16:21] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 16:31] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 16:31] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 16:41] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 16:41] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 16:51] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 16:51] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 17:01] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 17:01] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 17:11] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 17:11] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 17:21] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 17:21] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 17:31] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 17:31] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 17:41] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 17:41] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 17:51] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 17:51] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 18:01] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 18:01] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 18:11] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 18:11] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 18:21] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 18:21] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 18:31] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 18:31] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 18:41] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 18:41] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 18:51] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 18:51] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 19:01] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 19:01] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 19:11] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 19:11] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 19:21] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 19:21] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 19:31] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 19:31] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 19:41] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 19:41] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 19:51] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 19:51] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 20:01] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 20:01] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 22:33] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 22:33] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 22:41] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 22:41] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 22:51] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 22:51] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 23:01] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 23:01] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 23:11] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 23:11] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 23:21] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 23:21] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 23:31] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 23:31] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 23:35] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 23:35] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 23:41] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 23:41] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-26 23:51] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-26 23:51] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 00:01] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 00:01] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 00:11] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 00:11] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 00:21] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 00:21] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 00:31] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 00:31] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 00:41] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 00:41] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 00:51] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 00:51] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 01:01] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 01:01] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 01:11] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 01:11] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 01:21] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 01:21] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 01:31] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 01:31] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 01:41] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 01:41] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 01:51] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 01:51] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 02:01] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 02:01] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 02:11] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 02:11] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 02:21] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 02:21] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 02:31] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 02:31] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 02:41] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 02:41] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 02:51] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 02:51] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 03:01] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 03:01] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 03:11] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 03:11] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 03:21] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 03:21] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 03:31] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 03:31] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 03:41] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 03:41] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 03:51] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 03:51] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 04:01] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 04:01] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 04:11] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 04:11] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 04:21] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 04:21] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 04:31] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 04:31] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 04:41] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 04:41] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 04:51] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 04:51] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 05:01] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 05:01] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 05:11] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 05:11] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 05:21] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 05:21] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 05:31] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 05:31] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 05:41] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 05:41] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 05:51] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 05:51] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 06:01] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 06:01] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 06:11] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 06:11] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 06:21] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 06:21] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 06:31] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 06:31] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 06:41] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 06:41] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 06:51] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 06:51] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 07:01] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 07:01] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 07:11] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 07:11] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 07:21] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 07:21] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 07:31] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 07:31] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 07:41] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 07:41] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 07:51] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 07:51] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 08:01] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 08:01] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 08:11] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 08:11] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 08:21] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 08:21] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 08:31] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 08:31] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 08:41] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 08:41] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 08:51] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 08:51] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 09:01] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 09:01] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 09:11] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 09:11] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 09:21] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 09:21] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 09:31] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 09:31] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 09:41] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 09:41] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 09:51] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 09:51] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 10:01] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 10:01] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 10:11] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 10:11] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 10:21] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 10:21] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 10:31] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 10:31] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 10:41] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 10:41] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 10:51] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 10:51] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 11:01] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 11:01] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 11:11] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 11:11] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
+﻿[2026-10-27 11:11] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
 [2026-10-27 11:21] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
 [2026-10-27 11:21] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
 [2026-10-27 11:31] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
@@ -398,3 +178,227 @@
 [2026-10-27 18:41] FLAG STARVED-EXEC lane=bm-b open_cards=3 blocked=3 -> P1 supply failure: no executable card
 [2026-10-27 18:41] FLAG LANE-DOWN lane=bm-c verdict=HB-STALE -> P1 page lane owner
 [2026-10-27 18:41] pools: bm-a=1open/0exec bm-b=3open/0exec bm-c=3open/3exec; queue_open=1 run=0; idle: a=EXPECTED-IDLE-WORKHOURS b=GPU-IDLE c=HB-STALE; flags=4
+[2026-10-27 18:51] FLAG CLOCK-SKEW max=1203ms (>150ms) -> check hub path or node clock
+[2026-10-27 18:51] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-27 18:51] FLAG STARVED-EXEC lane=bm-b open_cards=3 blocked=3 -> P1 supply failure: no executable card
+[2026-10-27 18:51] FLAG LANE-DOWN lane=bm-c verdict=HB-STALE -> P1 page lane owner
+[2026-10-27 18:51] FLAG SUPPLY-DRY production_queue_open=0 total=10 last_claim=QUEUE-EMPTY@2026-10-27T18:50:01 -> P1 refill from real backlog
+[2026-10-27 18:51] pools: bm-a=1open/0exec bm-b=3open/0exec bm-c=3open/3exec; queue_open=0 run=0; idle: a=EXPECTED-IDLE-WORKHOURS b=GPU-IDLE c=HB-STALE; flags=5
+[2026-10-27 19:01] FLAG CLOCK-SKEW max=1241.8ms (>150ms) -> check hub path or node clock
+[2026-10-27 19:01] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-27 19:01] FLAG STARVED-EXEC lane=bm-b open_cards=3 blocked=3 -> P1 supply failure: no executable card
+[2026-10-27 19:01] FLAG LANE-DOWN lane=bm-c verdict=HB-STALE -> P1 page lane owner
+[2026-10-27 19:01] FLAG SUPPLY-DRY production_queue_open=0 total=10 last_claim=QUEUE-EMPTY@2026-10-27T19:00:01 -> P1 refill from real backlog
+[2026-10-27 19:01] pools: bm-a=1open/0exec bm-b=3open/0exec bm-c=3open/3exec; queue_open=0 run=0; idle: a=EXPECTED-IDLE-WORKHOURS b=GPU-IDLE c=HB-STALE; flags=5
+[2026-10-27 19:11] FLAG CLOCK-SKEW max=1246ms (>150ms) -> check hub path or node clock
+[2026-10-27 19:11] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-27 19:11] FLAG STARVED-EXEC lane=bm-b open_cards=3 blocked=3 -> P1 supply failure: no executable card
+[2026-10-27 19:11] FLAG LANE-DOWN lane=bm-c verdict=HB-STALE -> P1 page lane owner
+[2026-10-27 19:11] FLAG SUPPLY-DRY production_queue_open=0 total=10 last_claim=QUEUE-EMPTY@2026-10-27T19:10:01 -> P1 refill from real backlog
+[2026-10-27 19:11] pools: bm-a=1open/0exec bm-b=3open/0exec bm-c=3open/3exec; queue_open=0 run=0; idle: a=BUSY b=GPU-IDLE c=HB-STALE; flags=5
+[2026-10-27 19:21] FLAG CLOCK-SKEW max=1319.7ms (>150ms) -> check hub path or node clock
+[2026-10-27 19:21] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-27 19:21] FLAG STARVED-EXEC lane=bm-b open_cards=3 blocked=3 -> P1 supply failure: no executable card
+[2026-10-27 19:21] FLAG LANE-DOWN lane=bm-c verdict=HB-STALE -> P1 page lane owner
+[2026-10-27 19:21] FLAG SUPPLY-DRY production_queue_open=0 total=10 last_claim=QUEUE-EMPTY@2026-10-27T19:20:01 -> P1 refill from real backlog
+[2026-10-27 19:21] pools: bm-a=1open/0exec bm-b=3open/0exec bm-c=3open/3exec; queue_open=0 run=0; idle: a=BUSY b=GPU-IDLE c=HB-STALE; flags=5
+[2026-10-27 19:31] FLAG CLOCK-SKEW max=1296.3ms (>150ms) -> check hub path or node clock
+[2026-10-27 19:31] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-27 19:31] FLAG STARVED-EXEC lane=bm-b open_cards=3 blocked=3 -> P1 supply failure: no executable card
+[2026-10-27 19:31] FLAG LANE-DOWN lane=bm-c verdict=HB-STALE -> P1 page lane owner
+[2026-10-27 19:31] FLAG SUPPLY-DRY production_queue_open=0 total=10 last_claim=QUEUE-EMPTY@2026-10-27T19:30:01 -> P1 refill from real backlog
+[2026-10-27 19:31] pools: bm-a=1open/0exec bm-b=3open/0exec bm-c=3open/3exec; queue_open=0 run=0; idle: a=GPU-IDLE b=GPU-IDLE c=HB-STALE; flags=5
+[2026-10-27 19:41] FLAG CLOCK-SKEW max=1335ms (>150ms) -> check hub path or node clock
+[2026-10-27 19:41] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-27 19:41] FLAG STARVED-EXEC lane=bm-b open_cards=3 blocked=3 -> P1 supply failure: no executable card
+[2026-10-27 19:41] FLAG LANE-DOWN lane=bm-c verdict=SVC_DOWN -> P1 page lane owner
+[2026-10-27 19:41] FLAG SUPPLY-DRY production_queue_open=0 total=10 last_claim=QUEUE-EMPTY@2026-10-27T19:40:01 -> P1 refill from real backlog
+[2026-10-27 19:41] pools: bm-a=1open/0exec bm-b=3open/0exec bm-c=3open/3exec; queue_open=0 run=0; idle: a=GPU-IDLE b=GPU-IDLE c=SVC_DOWN; flags=5
+[2026-10-27 19:51] FLAG CLOCK-SKEW max=1438.5ms (>150ms) -> check hub path or node clock
+[2026-10-27 19:51] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-27 19:51] FLAG STARVED-EXEC lane=bm-b open_cards=3 blocked=3 -> P1 supply failure: no executable card
+[2026-10-27 19:51] FLAG LANE-DOWN lane=bm-c verdict=HB-STALE -> P1 page lane owner
+[2026-10-27 19:51] FLAG SUPPLY-DRY production_queue_open=0 total=10 last_claim=QUEUE-EMPTY@2026-10-27T19:50:01 -> P1 refill from real backlog
+[2026-10-27 19:51] pools: bm-a=1open/0exec bm-b=3open/0exec bm-c=3open/3exec; queue_open=0 run=0; idle: a=GPU-IDLE b=GPU-IDLE c=HB-STALE; flags=5
+[2026-10-27 20:01] FLAG CLOCK-SKEW max=1487.3ms (>150ms) -> check hub path or node clock
+[2026-10-27 20:01] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-27 20:01] FLAG STARVED-EXEC lane=bm-b open_cards=3 blocked=3 -> P1 supply failure: no executable card
+[2026-10-27 20:01] FLAG LANE-DOWN lane=bm-c verdict=HB-STALE -> P1 page lane owner
+[2026-10-27 20:01] FLAG SUPPLY-DRY production_queue_open=0 total=10 last_claim=QUEUE-EMPTY@2026-10-27T20:00:01 -> P1 refill from real backlog
+[2026-10-27 20:01] pools: bm-a=1open/0exec bm-b=3open/0exec bm-c=3open/3exec; queue_open=0 run=0; idle: a=BUSY b=GPU-IDLE c=HB-STALE; flags=5
+[2026-10-27 20:11] FLAG CLOCK-SKEW max=1462.8ms (>150ms) -> check hub path or node clock
+[2026-10-27 20:11] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-27 20:11] FLAG STARVED-EXEC lane=bm-b open_cards=3 blocked=3 -> P1 supply failure: no executable card
+[2026-10-27 20:11] FLAG LANE-DOWN lane=bm-c verdict=HB-STALE -> P1 page lane owner
+[2026-10-27 20:11] FLAG SUPPLY-DRY production_queue_open=0 total=10 last_claim=QUEUE-EMPTY@2026-10-27T20:10:01 -> P1 refill from real backlog
+[2026-10-27 20:11] pools: bm-a=1open/0exec bm-b=3open/0exec bm-c=3open/3exec; queue_open=0 run=0; idle: a=BUSY b=GPU-IDLE c=HB-STALE; flags=5
+[2026-10-27 20:21] FLAG CLOCK-SKEW max=315.5ms (>150ms) -> check hub path or node clock
+[2026-10-27 20:21] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-27 20:21] FLAG STARVED-EXEC lane=bm-b open_cards=3 blocked=3 -> P1 supply failure: no executable card
+[2026-10-27 20:21] FLAG LANE-DOWN lane=bm-c verdict=HB-STALE -> P1 page lane owner
+[2026-10-27 20:21] FLAG SUPPLY-DRY production_queue_open=0 total=10 last_claim=QUEUE-EMPTY@2026-10-27T20:20:01 -> P1 refill from real backlog
+[2026-10-27 20:21] pools: bm-a=1open/0exec bm-b=3open/0exec bm-c=3open/3exec; queue_open=0 run=0; idle: a=BUSY b=GPU-IDLE c=HB-STALE; flags=5
+[2026-10-27 20:31] FLAG CLOCK-SKEW max=342.5ms (>150ms) -> check hub path or node clock
+[2026-10-27 20:31] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-27 20:31] FLAG STARVED-EXEC lane=bm-b open_cards=3 blocked=3 -> P1 supply failure: no executable card
+[2026-10-27 20:31] FLAG LANE-DOWN lane=bm-c verdict=SVC_DOWN -> P1 page lane owner
+[2026-10-27 20:31] FLAG SUPPLY-DRY production_queue_open=0 total=10 last_claim=QUEUE-EMPTY@2026-10-27T20:30:01 -> P1 refill from real backlog
+[2026-10-27 20:31] pools: bm-a=1open/0exec bm-b=3open/0exec bm-c=3open/3exec; queue_open=0 run=0; idle: a=BUSY b=GPU-IDLE c=SVC_DOWN; flags=5
+[2026-10-27 20:40] FLAG CLOCK-SKEW max=331.4ms (>150ms) -> check hub path or node clock
+[2026-10-27 20:40] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-27 20:40] FLAG STARVED-EXEC lane=bm-b open_cards=3 blocked=3 -> P1 supply failure: no executable card
+[2026-10-27 20:40] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-10-27 20:40] FLAG SUPPLY-DRY production_queue_open=0 total=10 last_claim=QUEUE-EMPTY@2026-10-27T20:40:01 -> P1 refill from real backlog
+[2026-10-27 20:40] pools: bm-a=1open/0exec bm-b=3open/0exec bm-c=3open/3exec; queue_open=0 run=0; idle: a=GPU-IDLE b=GPU-IDLE c=BLOCKED-RAM; flags=5
+[2026-10-27 20:41] FLAG CLOCK-SKEW max=331.4ms (>150ms) -> check hub path or node clock
+[2026-10-27 20:41] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-27 20:41] FLAG STARVED-EXEC lane=bm-b open_cards=3 blocked=3 -> P1 supply failure: no executable card
+[2026-10-27 20:41] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-10-27 20:41] FLAG SUPPLY-DRY production_queue_open=0 total=10 last_claim=QUEUE-EMPTY@2026-10-27T20:40:01 -> P1 refill from real backlog
+[2026-10-27 20:41] pools: bm-a=1open/0exec bm-b=3open/0exec bm-c=3open/3exec; queue_open=0 run=0; idle: a=GPU-IDLE b=GPU-IDLE c=BLOCKED-RAM; flags=5
+[2026-10-27 20:42] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-27 20:42] FLAG STARVED-EXEC lane=bm-b open_cards=3 blocked=3 -> P1 supply failure: no executable card
+[2026-10-27 20:42] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-10-27 20:42] FLAG SUPPLY-DRY production_queue_open=0 total=10 last_claim=QUEUE-EMPTY@2026-10-27T20:40:01 -> P1 refill from real backlog
+[2026-10-27 20:42] pools: bm-a=1open/0exec bm-b=3open/0exec bm-c=3open/3exec; queue_open=0 run=0; idle: a=GPU-IDLE b=GPU-IDLE c=BLOCKED-RAM; flags=4
+[2026-10-27 20:51] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-27 20:51] FLAG STARVED-EXEC lane=bm-b open_cards=3 blocked=3 -> P1 supply failure: no executable card
+[2026-10-27 20:51] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-10-27 20:51] FLAG SUPPLY-DRY production_queue_open=0 total=10 last_claim=QUEUE-EMPTY@2026-10-27T20:50:01 -> P1 refill from real backlog
+[2026-10-27 20:51] pools: bm-a=1open/0exec bm-b=3open/0exec bm-c=3open/3exec; queue_open=0 run=0; idle: a=GPU-IDLE b=GPU-IDLE c=BLOCKED-RAM; flags=4
+[2026-10-27 21:01] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-27 21:01] FLAG STARVED-EXEC lane=bm-b open_cards=3 blocked=3 -> P1 supply failure: no executable card
+[2026-10-27 21:01] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-10-27 21:01] FLAG SUPPLY-DRY production_queue_open=0 total=10 last_claim=QUEUE-EMPTY@2026-10-27T21:00:01 -> P1 refill from real backlog
+[2026-10-27 21:01] pools: bm-a=1open/0exec bm-b=3open/0exec bm-c=3open/3exec; queue_open=0 run=0; idle: a=BUSY b=GPU-IDLE c=BLOCKED-RAM; flags=4
+[2026-10-27 21:11] FLAG CLOCK-SKEW max=412.5ms precision=+/-322.7ms -> check hub path or node clock
+[2026-10-27 21:11] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-27 21:11] FLAG STARVED-EXEC lane=bm-b open_cards=3 blocked=3 -> P1 supply failure: no executable card
+[2026-10-27 21:11] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-10-27 21:11] FLAG SUPPLY-DRY production_queue_open=0 total=10 last_claim=QUEUE-EMPTY@2026-10-27T21:10:01 -> P1 refill from real backlog
+[2026-10-27 21:11] pools: bm-a=1open/0exec bm-b=3open/0exec bm-c=3open/3exec; queue_open=0 run=0; idle: a=GPU-IDLE b=GPU-IDLE c=BLOCKED-RAM; flags=5
+[2026-10-27 21:21] FLAG CLOCK-SKEW max=417ms precision=+/-206.7ms -> check hub path or node clock
+[2026-10-27 21:21] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-27 21:21] FLAG STARVED-EXEC lane=bm-b open_cards=3 blocked=3 -> P1 supply failure: no executable card
+[2026-10-27 21:21] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-10-27 21:21] FLAG SUPPLY-DRY production_queue_open=0 total=10 last_claim=QUEUE-EMPTY@2026-10-27T21:20:01 -> P1 refill from real backlog
+[2026-10-27 21:21] pools: bm-a=1open/0exec bm-b=3open/0exec bm-c=3open/3exec; queue_open=0 run=0; idle: a=GPU-IDLE b=GPU-IDLE c=BLOCKED-RAM; flags=5
+[2026-10-27 21:31] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-27 21:31] FLAG STARVED-EXEC lane=bm-b open_cards=3 blocked=3 -> P1 supply failure: no executable card
+[2026-10-27 21:31] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-10-27 21:31] FLAG SUPPLY-DRY production_queue_open=0 total=10 last_claim=QUEUE-EMPTY@2026-10-27T21:30:01 -> P1 refill from real backlog
+[2026-10-27 21:31] pools: bm-a=1open/0exec bm-b=3open/0exec bm-c=3open/3exec; queue_open=0 run=0; idle: a=GPU-IDLE b=GPU-IDLE c=BLOCKED-RAM; flags=4
+[2026-10-27 21:41] FLAG CLOCK-SKEW max=459.4ms precision=+/-260.6ms -> check hub path or node clock
+[2026-10-27 21:41] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-27 21:41] FLAG STARVED-EXEC lane=bm-b open_cards=3 blocked=3 -> P1 supply failure: no executable card
+[2026-10-27 21:41] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-10-27 21:41] FLAG SUPPLY-DRY production_queue_open=0 total=10 last_claim=QUEUE-EMPTY@2026-10-27T21:40:01 -> P1 refill from real backlog
+[2026-10-27 21:41] pools: bm-a=1open/0exec bm-b=3open/0exec bm-c=3open/3exec; queue_open=0 run=0; idle: a=BUSY b=GPU-IDLE c=BLOCKED-RAM; flags=5
+[2026-10-27 21:51] FLAG CLOCK-SKEW max=492.2ms precision=+/-208.2ms -> check hub path or node clock
+[2026-10-27 21:51] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-27 21:51] FLAG STARVED-EXEC lane=bm-b open_cards=3 blocked=3 -> P1 supply failure: no executable card
+[2026-10-27 21:51] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-10-27 21:51] FLAG SUPPLY-DRY production_queue_open=0 total=10 last_claim=QUEUE-EMPTY@2026-10-27T21:50:01 -> P1 refill from real backlog
+[2026-10-27 21:51] pools: bm-a=1open/0exec bm-b=3open/0exec bm-c=3open/3exec; queue_open=0 run=0; idle: a=GPU-IDLE b=GPU-IDLE c=BLOCKED-RAM; flags=5
+[2026-10-27 22:01] FLAG CLOCK-SKEW max=470.3ms precision=+/-489.6ms -> check hub path or node clock
+[2026-10-27 22:01] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-27 22:01] FLAG STARVED-EXEC lane=bm-b open_cards=3 blocked=3 -> P1 supply failure: no executable card
+[2026-10-27 22:01] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-10-27 22:01] FLAG SUPPLY-DRY production_queue_open=0 total=10 last_claim=QUEUE-EMPTY@2026-10-27T22:00:01 -> P1 refill from real backlog
+[2026-10-27 22:01] pools: bm-a=1open/0exec bm-b=3open/0exec bm-c=3open/3exec; queue_open=0 run=0; idle: a=GPU-IDLE b=GPU-IDLE c=BLOCKED-RAM; flags=5
+[2026-10-27 22:11] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-27 22:11] FLAG STARVED-EXEC lane=bm-b open_cards=3 blocked=3 -> P1 supply failure: no executable card
+[2026-10-27 22:11] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-10-27 22:11] FLAG SUPPLY-DRY production_queue_open=0 total=10 last_claim=QUEUE-EMPTY@2026-10-27T22:10:01 -> P1 refill from real backlog
+[2026-10-27 22:11] pools: bm-a=1open/0exec bm-b=3open/0exec bm-c=3open/3exec; queue_open=0 run=0; idle: a=GPU-IDLE b=GPU-IDLE c=BLOCKED-RAM; flags=4
+[2026-10-27 22:21] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-27 22:21] FLAG STARVED-EXEC lane=bm-b open_cards=3 blocked=3 -> P1 supply failure: no executable card
+[2026-10-27 22:21] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-10-27 22:21] FLAG SUPPLY-DRY production_queue_open=0 total=10 last_claim=QUEUE-EMPTY@2026-10-27T22:20:01 -> P1 refill from real backlog
+[2026-10-27 22:21] pools: bm-a=1open/0exec bm-b=3open/0exec bm-c=3open/3exec; queue_open=0 run=0; idle: a=GPU-IDLE b=GPU-IDLE c=BLOCKED-RAM; flags=4
+[2026-10-27 22:31] FLAG CLOCK-SKEW max=652.7ms precision=+/-261.5ms -> check hub path or node clock
+[2026-10-27 22:31] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-27 22:31] FLAG STARVED-EXEC lane=bm-b open_cards=3 blocked=3 -> P1 supply failure: no executable card
+[2026-10-27 22:31] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-10-27 22:31] FLAG SUPPLY-DRY production_queue_open=0 total=10 last_claim=QUEUE-EMPTY@2026-10-27T22:30:01 -> P1 refill from real backlog
+[2026-10-27 22:31] pools: bm-a=1open/0exec bm-b=3open/0exec bm-c=3open/3exec; queue_open=0 run=0; idle: a=GPU-IDLE b=GPU-IDLE c=BLOCKED-RAM; flags=5
+[2026-10-27 22:41] FLAG CLOCK-SKEW max=629ms precision=+/-271.1ms -> check hub path or node clock
+[2026-10-27 22:41] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-27 22:41] FLAG STARVED-EXEC lane=bm-b open_cards=3 blocked=3 -> P1 supply failure: no executable card
+[2026-10-27 22:41] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-10-27 22:41] FLAG SUPPLY-DRY production_queue_open=0 total=10 last_claim=QUEUE-EMPTY@2026-10-27T22:40:01 -> P1 refill from real backlog
+[2026-10-27 22:41] pools: bm-a=1open/0exec bm-b=3open/0exec bm-c=3open/3exec; queue_open=0 run=0; idle: a=BUSY b=GPU-IDLE c=BLOCKED-RAM; flags=5
+[2026-10-27 22:51] FLAG CLOCK-SKEW max=660.3ms precision=+/-273ms -> check hub path or node clock
+[2026-10-27 22:51] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-27 22:51] FLAG STARVED-EXEC lane=bm-b open_cards=3 blocked=3 -> P1 supply failure: no executable card
+[2026-10-27 22:51] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-10-27 22:51] FLAG SUPPLY-DRY production_queue_open=0 total=10 last_claim=QUEUE-EMPTY@2026-10-27T22:50:01 -> P1 refill from real backlog
+[2026-10-27 22:51] pools: bm-a=1open/0exec bm-b=3open/0exec bm-c=3open/3exec; queue_open=0 run=0; idle: a=BUSY b=GPU-IDLE c=BLOCKED-RAM; flags=5
+[2026-10-27 23:01] FLAG CLOCK-SKEW max=680.4ms precision=+/-459.3ms -> check hub path or node clock
+[2026-10-27 23:01] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-27 23:01] FLAG STARVED-EXEC lane=bm-b open_cards=3 blocked=3 -> P1 supply failure: no executable card
+[2026-10-27 23:01] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-10-27 23:01] FLAG SUPPLY-DRY production_queue_open=0 total=10 last_claim=QUEUE-EMPTY@2026-10-27T23:00:20 -> P1 refill from real backlog
+[2026-10-27 23:01] pools: bm-a=1open/0exec bm-b=3open/0exec bm-c=3open/3exec; queue_open=0 run=0; idle: a=BUSY b=GPU-IDLE c=BLOCKED-RAM; flags=5
+[2026-10-27 23:01] FLAG CLOCK-SKEW max=680.4ms precision=+/-459.3ms -> check hub path or node clock
+[2026-10-27 23:01] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-27 23:01] FLAG STARVED-EXEC lane=bm-b open_cards=3 blocked=3 -> P1 supply failure: no executable card
+[2026-10-27 23:01] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-10-27 23:01] FLAG CAPACITY-BLOCKED lane=bm-c exec_cards=3 dispatchable=0 -> P1 free capacity or reroute
+[2026-10-27 23:01] FLAG SUPPLY-DRY production_queue_open=0 total=10 last_claim=QUEUE-EMPTY@2026-10-27T23:00:20 -> P1 refill from real backlog
+[2026-10-27 23:01] pools: bm-a=1open/0exec bm-b=3open/0exec bm-c=3open/3exec; queue_open=0 run=0; idle: a=BUSY b=GPU-IDLE c=BLOCKED-RAM; flags=6
+[2026-10-27 23:11] FLAG CLOCK-SKEW max=803.3ms precision=+/-208.8ms -> check hub path or node clock
+[2026-10-27 23:11] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-27 23:11] FLAG STARVED-EXEC lane=bm-b open_cards=3 blocked=3 -> P1 supply failure: no executable card
+[2026-10-27 23:11] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-10-27 23:11] FLAG CAPACITY-BLOCKED lane=bm-c exec_cards=3 dispatchable=0 -> P1 free capacity or reroute
+[2026-10-27 23:11] FLAG SUPPLY-DRY production_queue_open=0 total=10 last_claim=QUEUE-EMPTY@2026-10-27T23:10:01 -> P1 refill from real backlog
+[2026-10-27 23:11] pools: bm-a=1open/0exec bm-b=3open/0exec bm-c=3open/3exec; queue_open=0 run=0; idle: a=GPU-IDLE b=GPU-IDLE c=BLOCKED-RAM; flags=6
+[2026-10-27 23:21] FLAG CLOCK-SKEW max=778.2ms precision=+/-274.5ms -> check hub path or node clock
+[2026-10-27 23:21] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-27 23:21] FLAG STARVED-EXEC lane=bm-b open_cards=3 blocked=3 -> P1 supply failure: no executable card
+[2026-10-27 23:21] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-10-27 23:21] FLAG CAPACITY-BLOCKED lane=bm-c exec_cards=3 dispatchable=0 -> P1 free capacity or reroute
+[2026-10-27 23:21] FLAG SUPPLY-DRY production_queue_open=0 total=10 last_claim=QUEUE-EMPTY@2026-10-27T23:20:01 -> P1 refill from real backlog
+[2026-10-27 23:21] pools: bm-a=1open/0exec bm-b=3open/0exec bm-c=3open/3exec; queue_open=0 run=0; idle: a=GPU-IDLE b=GPU-IDLE c=BLOCKED-RAM; flags=6
+[2026-10-27 23:31] FLAG CLOCK-UNALIGNED old_schema=0 missing=1 -> P1 upgrade node heartbeat to v2 (ms ts+offset)
+[2026-10-27 23:31] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-27 23:31] FLAG LANE-DOWN lane=bm-b verdict=OFFLINE -> P1 page lane owner
+[2026-10-27 23:31] FLAG STARVED-EXEC lane=bm-b open_cards=3 blocked=3 -> P1 supply failure: no executable card
+[2026-10-27 23:31] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-10-27 23:31] FLAG CAPACITY-BLOCKED lane=bm-c exec_cards=3 dispatchable=0 -> P1 free capacity or reroute
+[2026-10-27 23:31] FLAG SUPPLY-DRY production_queue_open=0 total=10 last_claim=QUEUE-EMPTY@2026-10-27T23:30:01 -> P1 refill from real backlog
+[2026-10-27 23:31] pools: bm-a=1open/0exec bm-b=3open/0exec bm-c=3open/3exec; queue_open=0 run=0; idle: a=GPU-IDLE b=OFFLINE c=BLOCKED-RAM; flags=7
+[2026-10-27 23:41] FLAG CLOCK-UNALIGNED old_schema=0 missing=1 -> P1 upgrade node heartbeat to v2 (ms ts+offset)
+[2026-10-27 23:41] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-27 23:41] FLAG LANE-DOWN lane=bm-b verdict=OFFLINE -> P1 page lane owner
+[2026-10-27 23:41] FLAG STARVED-EXEC lane=bm-b open_cards=3 blocked=3 -> P1 supply failure: no executable card
+[2026-10-27 23:41] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-10-27 23:41] FLAG CAPACITY-BLOCKED lane=bm-c exec_cards=3 dispatchable=0 -> P1 free capacity or reroute
+[2026-10-27 23:41] FLAG SUPPLY-DRY production_queue_open=0 total=10 last_claim=QUEUE-EMPTY@2026-10-27T23:40:01 -> P1 refill from real backlog
+[2026-10-27 23:41] pools: bm-a=1open/0exec bm-b=3open/0exec bm-c=3open/3exec; queue_open=0 run=0; idle: a=BUSY b=OFFLINE c=BLOCKED-RAM; flags=7
+[2026-10-27 23:51] FLAG CLOCK-UNALIGNED old_schema=0 missing=1 -> P1 upgrade node heartbeat to v2 (ms ts+offset)
+[2026-10-27 23:51] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-27 23:51] FLAG LANE-DOWN lane=bm-b verdict=OFFLINE -> P1 page lane owner
+[2026-10-27 23:51] FLAG STARVED-EXEC lane=bm-b open_cards=3 blocked=3 -> P1 supply failure: no executable card
+[2026-10-27 23:51] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-10-27 23:51] FLAG CAPACITY-BLOCKED lane=bm-c exec_cards=3 dispatchable=0 -> P1 free capacity or reroute
+[2026-10-27 23:51] FLAG SUPPLY-DRY production_queue_open=0 total=10 last_claim=QUEUE-EMPTY@2026-10-27T23:50:01 -> P1 refill from real backlog
+[2026-10-27 23:51] pools: bm-a=1open/0exec bm-b=3open/0exec bm-c=3open/3exec; queue_open=0 run=0; idle: a=GPU-IDLE b=OFFLINE c=BLOCKED-RAM; flags=7
+[2026-10-28 00:01] FLAG CLOCK-UNALIGNED old_schema=0 missing=1 -> P1 upgrade node heartbeat to v2 (ms ts+offset)
+[2026-10-28 00:01] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-28 00:01] FLAG LANE-DOWN lane=bm-b verdict=OFFLINE -> P1 page lane owner
+[2026-10-28 00:01] FLAG STARVED-EXEC lane=bm-b open_cards=3 blocked=3 -> P1 supply failure: no executable card
+[2026-10-28 00:01] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-10-28 00:01] FLAG CAPACITY-BLOCKED lane=bm-c exec_cards=3 dispatchable=0 -> P1 free capacity or reroute
+[2026-10-28 00:01] FLAG SUPPLY-DRY production_queue_open=0 total=10 last_claim=QUEUE-EMPTY@2026-10-28T00:00:01 -> P1 refill from real backlog
+[2026-10-28 00:01] pools: bm-a=1open/0exec bm-b=3open/0exec bm-c=3open/3exec; queue_open=0 run=0; idle: a=GPU-IDLE b=OFFLINE c=BLOCKED-RAM; flags=7
+[2026-10-28 00:11] FLAG CLOCK-SKEW max=935.5ms precision=+/-523.4ms -> check hub path or node clock
+[2026-10-28 00:11] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-28 00:11] FLAG STARVED-EXEC lane=bm-b open_cards=3 blocked=3 -> P1 supply failure: no executable card
+[2026-10-28 00:11] FLAG SUPPLY-DRY production_queue_open=0 total=10 last_claim=QUEUE-EMPTY@2026-10-28T00:10:01 -> P1 refill from real backlog
+[2026-10-28 00:11] pools: bm-a=1open/0exec bm-b=3open/0exec bm-c=3open/3exec; queue_open=0 run=0; idle: a= b= c=; flags=4
+[2026-10-28 00:15] EVENT-RESOLVE STARVED-EXEC lane=bm-b -> PHANTOM (POOL-0018/0019/0020 delivered: 7/7 anchors ready + 0020 receipt landed 20:21); POOL.json closed to done, blocked_by cleared
+[2026-10-28 00:15] EVENT-RESOLVE LANE-DOWN lane=bm-b -> HOST-ASLEEP (tailscale last seen 23:34 / ping False / TCP 8790 timeout); registered at-risk, poke attempted, zero dunning
+[2026-10-28 00:15] EVENT-RESOLVE BLOCKED-RAM lane=bm-c -> ollama residents (ram 1.3G->0.7G by 00:04, VRAM free 14.7G); POOL-0024 P0 card (local-only) + poke MiniGameEngineTick
+[2026-10-28 00:15] EVENT-RESOLVE SUPPLY-DRY -> queue refill 2 OPEN CPU cards (Q-MV-0002-001/002, kf_sheet.py) + POOL-0023 (bm-b anchors batch-2, real backlog 34 of 41 songs)
