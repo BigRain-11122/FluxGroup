@@ -12,13 +12,17 @@
 #   powershell Tools/fleet-order-bus.ps1 -Status
 param(
     [string]$Send = '',
+    [string]$SendFile = '',
     [string]$Lanes = '',
     [switch]$DryRun,
     [switch]$Status,
     [string]$Root = ''
 )
 $ErrorActionPreference = 'Continue'
+try { [Console]::OutputEncoding = [System.Text.Encoding]::UTF8 } catch { }
 if (-not $Root) { $Root = Split-Path -Parent $PSScriptRoot }
+# PS5.1 argv mangles Chinese through the console code page; a UTF-8 file is the safe path.
+if ($SendFile -and (Test-Path $SendFile)) { $Send = [System.IO.File]::ReadAllText($SendFile, [System.Text.Encoding]::UTF8).Trim() }
 $cfgF = Join-Path $Root 'Tools\fleet-nodes.json'
 $ordersF = Join-Path $Root 'docs\orders.md'
 $busDir = Join-Path $Root 'cph4\fleet\order-bus'
@@ -119,7 +123,7 @@ if ($cfg -and $cfg.nodes) {
         foreach ($t in @($n.wake_tasks)) { if ($t) { $tasks += [string]$t } }
     }
     $tasks = @($tasks | Sort-Object -Unique)
-    $disp = & (Join-Path $Root 'Tools\fleet-dispatch.ps1') -Root $Root -Reason ('order:' + $id) -Tasks $tasks -ExpectSha $sha -Quiet 2>&1
+    $disp = & (Join-Path $Root 'Tools\fleet-dispatch.ps1') -Root $Root -Reason ('order:' + $id) -Tasks $tasks -ExpectSha $sha 2>&1
     $dispatch = ($disp -join ' ').Trim()
 }
 
