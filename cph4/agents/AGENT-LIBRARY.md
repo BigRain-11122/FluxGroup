@@ -92,7 +92,7 @@
 1. **skill 自动激活律**：任务语义命中 skill description=会话自动激活（描述触发词写清是建 skill 第一质量位）。
 2. **子代理律**：task 工具派 explore/general-purpose/plan/unity-insight（复杂多步研究/隔离上下文用）。
 3. **跨机派单律**：orders 行（@机名+lane+回执窗+验收物）→ poke tasks=[wake_tasks 白名单]（Tools/fleet-nodes.json）→ 回执落行。
-4. **车道表**（resource-chain §9.1 正身）：bm-a=集团中枢+大内存+夜窗 GPU 备援（12G/94G）｜bm-b=声音+轻视频+回测 CPU（8G）｜bm-c=生成视觉-only GPU 主力（16G）｜bm-d=六卡机（V100×3+P104×3+24C48T+256G·候 JOIN-REPORT 入网）。
+4. **车道表**（resource-chain §9.1 正身）：bm-a=集团中枢+大内存+夜窗 GPU 备援（12G/94G）｜bm-b=声音+轻视频+回测 CPU（8G）｜bm-c=生成视觉-only GPU 主力（16G）｜bm-d=大脑机（3×V100 16G=48G 池+24C48T+256G·齐件待装·P104 已于 2026-10-21 判负未采）。
 5. **CEO 直呼律**：CEO 说人话即可（§0 速查），库长席负责翻译成调用链；多窗重复令查重律照旧（orders 查重先查盘）。
 
 ## §六 登记表（append-only·机读行格式）

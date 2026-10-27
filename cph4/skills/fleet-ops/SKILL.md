@@ -13,7 +13,7 @@ description: 机队运维专家席。Use when any fleet or machine problem or op
 2. **静默律**：建/改任务唯一正门=`Tools\task-register.ps1`（wscript //B 隐藏链+写后读回验证）；会话内执行=进程内 `&`（先 `Set-ExecutionPolicy -Scope Process Bypass -Force`），禁 spawn powershell.exe/cmd.exe 子进程。
 3. **停摆唤醒**：心跳 last_round_at 冻结+拉取 .:fail=循环班停摆——空任务 poke 只修拉取不修停摆；正法=poke body 带 `tasks=[该机 wake_tasks]`（白名单=`Tools/fleet-nodes.json`）→ 3 分钟复探验 BURNING。
 4. **派单律**：orders 行必带 @机名+lane+回执窗+验收物；跨机转单/POOL 开卡=交接卡九要素+`python Tools/card-lint.py` 过闸；台账追加只走 python 尾锚正法（utf-8-sig 探测·GBK 乱码禁当锚）。
-5. **车道裁决**：bm-a=中枢+大内存+夜窗 GPU 备援（工作日白天 GPU 零排单·CPU 解禁）｜bm-b=声音+轻视频+回测 CPU｜bm-c=生成视觉-only GPU 主力（回测/编码 LLM 禁入其 GPU）｜bm-d=六卡机候 JOIN-REPORT。RAM>8G 分片归口 bm-d/bm-a。
+5. **车道裁决**：bm-a=中枢+大内存+夜窗 GPU 备援（工作日白天 GPU 零排单·CPU 解禁）｜bm-b=声音+轻视频+回测 CPU｜bm-c=生成视觉-only GPU 主力（回测/编码 LLM 禁入其 GPU）｜bm-d=大脑机 3×V100 48G（齐件待装·P104 判负未采）。RAM>8G 分片归口 bm-d/bm-a。
 6. **让路律**：CEO 原话「我要打游戏/我要工作」=立即 `machine-state.ps1 -Mode pause`（bm-a）；「全面开工」=-Mode resume+O 令广播；触发词歧义=派活语义不触发。
 7. **推送纪律**：多窗脏树=pathspec 提交/外科净路；push 成败验 sha 变化（`<旧>..<新> main -> main` 才算成·PS 假红勿信）；撞钩子/竞推=worktree 内容级合并或 Git Data API 原子链；反转闸=`Tools/git-no-reversal-check.py` push 前必跑。
 8. **FleetLink 判障三件**：/health 版本+tailscale direct/relay+stamp pulls——判「同步慢/监听器不动」先查三件勿盲杀进程重启（单线程 listener 阻塞=读超时问题非进程死）。
