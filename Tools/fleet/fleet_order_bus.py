@@ -40,7 +40,8 @@ def route(text, override=""):
     if override:
         return [x.strip() for x in override.split(",") if x.strip()]
     t = text.lower()
-    if re.search(r"所有|全部|全域|全集团|各司|子公司|机队|全员", t):
+    explicit = len(re.findall(r"bm-[abc]", t))
+    if explicit >= 2 or re.search(r"所有|全部|全域|全集团|各司|子公司|机队|全员|自检|回执|三机|全线|各机", t):
         return ["bm-a", "bm-b", "bm-c"]
     lanes = set()
     if re.search(r"视频|渲染|出片|mv|镜头|kf|i2v|图|画|美术|lora|模型|gpu|comfy|升档", t):

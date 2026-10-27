@@ -36,7 +36,8 @@ function New-Id { 'OB-' + (Get-Date).ToString('yyyyMMdd-HHmmss') + '-' + (Get-Ra
 function Route-Lanes([string]$text) {
     if ($Lanes) { return $Lanes }
     $t = $text.ToLower()
-    if ($t -match '所有|全部|全域|全集团|各司|子公司|机队|全员') { return 'bm-a,bm-b,bm-c' }
+    $explicit = ([regex]::Matches($t, 'bm-[abc]')).Count
+    if ($explicit -ge 2 -or $t -match '所有|全部|全域|全集团|各司|子公司|机队|全员|自检|回执|三机|全线|各机') { return 'bm-a,bm-b,bm-c' }
     $set = New-Object System.Collections.Generic.HashSet[string]
     if ($t -match '视频|渲染|出片|mv|镜头|kf|i2v|图|画|美术|lora|模型|gpu|comfy|升档') { [void]$set.Add('bm-c') }
     if ($t -match '配音|音|tts|bgm|混音|歌|语音|旁白|whisper|字幕') { [void]$set.Add('bm-b') }
