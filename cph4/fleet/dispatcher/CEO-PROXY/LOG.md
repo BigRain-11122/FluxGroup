@@ -562,7 +562,7 @@ bm-b `wake_tasks` 仅 `Bigmoney-IterationLoop`，无 claim 任务 → 音频锚 
 
 ---
 
-## R2.41 事件班 2026-10-28 01:26-02:0x（承载件触发：DL 00:41-00:51 七旗）
+## R2.41 事件班 2026-10-28 01:26-01:46（承载件触发：DL 00:41-00:51 七旗）
 
 **0 锁门**：`ceo-proxy-patrol.lock` mtime 00:56:31，入班实测 01:26:27 → age 29.9min > 10min 窗，判「他窗已收口」取锁继续（与 R2.40 班毕时刻吻合，非并行双跑）。
 
@@ -585,4 +585,4 @@ bm-b `wake_tasks` 仅 `Bigmoney-IterationLoop`，无 claim 任务 → 音频锚 
 
 **⑥ CLOCK-SKEW**：max 1313.6ms(bm-c) / 717.1ms(bm-b)，门限=2×precision+20；bm-b 为链路中继 RTT 所致、bm-c 为系统钟停 w32time（已知·需提权），均已在 R2.38 登记，非新增。
 
-**四元组**：2026-10-28 01:26-02:0x｜事件班（承载件触发）｜calls≈34｜verdict=SUPPLY 补 3 真卡且 3/3 DONE（13s 跑完）；bm-a 机器活已尽（STARVED 属定性而非故障）；bm-b/bm-c 两 P1 第 3 轮结构性缺口维持并写死本机一行修法；判定三包已派导演席 12:00 窗。
+**四元组**：2026-10-28 01:26-01:46｜事件班（承载件触发）｜calls≈34｜verdict=SUPPLY 补 3 真卡且 3/3 DONE（13s 跑完）；bm-a 机器活已尽（STARVED 属定性而非故障）；bm-b/bm-c 两 P1 第 3 轮结构性缺口维持并写死本机一行修法；判定三包已派导演席 12:00 窗。
