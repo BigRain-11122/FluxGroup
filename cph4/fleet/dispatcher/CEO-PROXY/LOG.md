@@ -509,3 +509,28 @@
 **让路律披露**：两条 CPU 作业在 bm-a 工作日窗口内执行（合计 ≈75s，cv2 抽帧级负载），非重活但确在让路期占机；如实记，不掩盖。
 
 **四元组**：17:21→17:4x｜事件班（承载件触发）｜≈22 调用｜verdict=SUPPLY-DRY 真根因已修（补供腿原先对 bm-a 恒哑）+ 2/2 补供转产物 + 3 旗判读纠偏（bm-b 任务缺失 / bm-c 心跳停摆非机器死 / bm-a 政策空闲）+ 1 件新证据冲突（镜数三口径）登记
+
+## 2026-10-28 00:0x-00:3x 事件班（承载件触发·七旗全清·无预算帽）
+
+**触发**：L0 00:01 七旗（SUPPLY-DRY / STARVED-EXEC bm-b / LANE-DOWN bm-b / BLOCKED-RAM bm-c / CAPACITY-BLOCKED bm-c）。
+
+**归因（三源实测，禁按记忆）**
+- **STARVED-EXEC bm-b = 陈旧假红**。POOL-0018/0019/0020 三张「blocked」卡实际已交付：`queue-receipts/POOL-0018-RECEIPT-bm-b.md`（7/7 anchors calibrated+shotgrid，10-27 19:2x-19:5x bm-b r1187）+ `POOL-0018-0019-anchor-matrix.json ready=7/7` + `POOL-0020-RECEIPT-bm-b.md`（20:21 落）。POOL.json 自 10-19 未随回执更新 → 三开卡全堵是台账滞后，不是供给失败。已按 L2 权限改 POOL.json：三卡 → done，blocked_by 清空，result_ref 记证据指针。
+- **LANE-DOWN bm-b = 主机睡眠（真）**。00:02 实测 `tailscale last seen 23:34` + ping False + TCP 8790 超时；00:18 复探已自醒：`ts=00:18:27 ram_free=7.5G cpu=48% gpu 1016MiB` → BURNING。非软件停摆，21:12 令在其醒后自续。
+- **BLOCKED-RAM bm-c = ollama 三模型驻留（真·恶化）**。00:02 `ram_free=1.3G` → 00:04 `0.7G`（24G 余 3%），而 `VRAM free 14.7G`、ComfyUI 未启 → POOL-0021/0022 两卡唯一堵点=RAM 不是显存；真因=ollama qwen3.8:27b / glm-4.7-flash:30b / qwen3.6-coder:35b 驻留 + keepwarm 常驻。
+- **bm-c 监听器随后失联**：00:19-00:21 连续 3 次 HTTP 8790 超时，但 `tailscale ping` 通（DERP sfo 368-838ms）→ 网络在、监听器死/挂（内存压力下最可能）。00:23 poke 又 accepted（自愈或半死），head=d7339348 **NOT-SYNCED**。
+
+**落单（全部过 card-lint 9/9）**
+- **POOL-0024**（bm-c · P0 · 6h 窗）：内存释放闸。正法=本机 `python Tools/fleet/gpu_lease.py --node bm-c --acquire` 或 `job_kf_batch.py` 一步式（内部 stop_ollama + keepwarm disable）；判据 ram_free≥6.0G + ollama ps 空 + /system_stats 200 + POOL-0021 首批 KF 落盘。禁跨机远程（CEO 10-23 令）。
+- **POOL-0023**（bm-b · P1 · 72h 窗）：音频锚第二批 7 首（真 backlog=41 首曲线剩余 34 首，承 0018 管线）。
+- **队列补料 2 张 bm-a CPU 卡**：Q-MV-0002-001/002（KN KF 审看板）。
+
+**供给侧修复（真闭环·非纸面）**：新工具 `Tools/kf_sheet.py`（静帧联系表·mv_shot_sheets 只吃视频，KF 包此前无审看面）。冒烟→看图→发现标签溢出压邻格→按像素宽截断→复验，然后才放卡。**两张卡由 bm-a 的 HQ-ProductionClaim 在 00:15:04 / 00:20:03 自动领走并跑完**，产物 `D:\FleetWorker\review\kf_sheets_keainvren\`（3 板）+ `kf_sheets_kn_1024\`（3 板）+ index.json，回执 `Q-MV-0002-001/002-bm-a.json` → **供给→领取→执行→回执 全链 10 分钟内闭合**，SUPPLY-DRY 机制面治愈。
+
+**归因纠错留档（防误判）**：一度疑 `media/mv-test/xingqing` 里的 KN 帧是「串包污染」（两包 21/30 提示词相同、KN03 字节相同）。查 `c2185-c2199_kn_*` 脚本链确认 **KN 前缀=《可爱女人》**，10-24 那批是同一包旧版、目录名错标成 xingqing；9 镜提示词差异=10-27 新版的修订。**结论：非串包，是目录名误导**。遗留小瑕=目录名待改（登记不做）。
+
+**结构性问题（不造假卡）**：两张真卡 10 分钟烧完后队列再空，`backlog_fill` 自补料返回 0 → 剩余真 backlog 三分：①GPU 件卡在 bm-c RAM（POOL-0021/0022 在 POOL-0024 之后）；②bm-b 音频件（POOL-0023 已铺，等它 sync）；③人工判读件（v717 的 83 镜双签 / 11 处 STATIC_JUMP 逐条判定 / 时代盲测 / 静音复述）——**不能机器化，须导演席+CEO 眼感**。故 SUPPLY-DRY 定性=结构性稀薄（真 backlog 见底），不是补料失效；再补只能造假卡，本席不补。
+
+**命令通道**：推后两机均 NOT-SYNCED（bm-b 卡在本地分叉 head=089e916f；bm-c 落后 head=d7339348），`-Repos .` 强拉亦未收口 → 与 10-27 17:20 同一缺口**第二次复发**（节点分叉需本机 `fleet-hot-sync.ps1`，禁远程）。已登记 at-risk；bm-c 侧未 sync + 监听器半死 = 双因。
+
+**四元组**：2026-10-28 00:0x-00:3x｜事件班（承载件触发）｜calls≈50｜verdict=七旗全归因：3 卡陈旧假红已关账 / bm-b 已自醒 BURNING（但未 sync）/ bm-c RAM 0.7G+监听器半死=POOL-0024 P0 待本机执行 / SUPPLY-DRY 以 2 张真卡 10 分钟内闭环自愈后定性为结构性稀薄。

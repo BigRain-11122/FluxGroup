@@ -1,22 +1,4 @@
-﻿[2026-10-27 11:11] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 11:21] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 11:21] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 11:31] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 11:31] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 11:41] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 11:41] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 11:51] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 11:51] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 12:01] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 12:01] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 12:11] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 12:11] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 12:21] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 12:21] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 12:31] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 12:31] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
-[2026-10-27 12:41] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
-[2026-10-27 12:41] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
+﻿[2026-10-27 12:41] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
 [2026-10-27 12:51] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
 [2026-10-27 12:51] pools: bm-a=2 bm-b=3 bm-c=3 open; judgment_cards=0 flags=1
 [2026-10-27 13:01] NOTE QUEUE-LOW lane=bm-a open_cards=2 (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)
@@ -402,3 +384,21 @@
 [2026-10-28 00:15] EVENT-RESOLVE LANE-DOWN lane=bm-b -> HOST-ASLEEP (tailscale last seen 23:34 / ping False / TCP 8790 timeout); registered at-risk, poke attempted, zero dunning
 [2026-10-28 00:15] EVENT-RESOLVE BLOCKED-RAM lane=bm-c -> ollama residents (ram 1.3G->0.7G by 00:04, VRAM free 14.7G); POOL-0024 P0 card (local-only) + poke MiniGameEngineTick
 [2026-10-28 00:15] EVENT-RESOLVE SUPPLY-DRY -> queue refill 2 OPEN CPU cards (Q-MV-0002-001/002, kf_sheet.py) + POOL-0023 (bm-b anchors batch-2, real backlog 34 of 41 songs)
+[2026-10-28 00:21] FLAG CLOCK-SKEW max=922.9ms precision=+/-350.7ms -> check hub path or node clock
+[2026-10-28 00:21] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-28 00:21] FLAG IDLE-WITH-WORK lane=bm-b exec_cards=1 -> P1 claim now (work exists, machine idle)
+[2026-10-28 00:21] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-10-28 00:21] FLAG CAPACITY-BLOCKED lane=bm-c exec_cards=4 dispatchable=0 -> P1 free capacity or reroute
+[2026-10-28 00:21] FLAG SUPPLY-DRY production_queue_open=0 total=12 last_claim=DONE@2026-10-28T00:20:03 -> P1 refill from real backlog
+[2026-10-28 00:21] pools: bm-a=1open/0exec bm-b=1open/1exec bm-c=4open/4exec; queue_open=0 run=0; idle: a=GPU-IDLE b=GPU-IDLE c=BLOCKED-RAM; flags=6
+[2026-10-28 00:31] FLAG CLOCK-SKEW max=1134.1ms precision=+/-267.2ms -> check hub path or node clock
+[2026-10-28 00:31] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-28 00:31] FLAG IDLE-WITH-WORK lane=bm-b exec_cards=1 -> P1 claim now (work exists, machine idle)
+[2026-10-28 00:31] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-10-28 00:31] FLAG CAPACITY-BLOCKED lane=bm-c exec_cards=4 dispatchable=0 -> P1 free capacity or reroute
+[2026-10-28 00:31] FLAG SUPPLY-DRY production_queue_open=0 total=12 last_claim=QUEUE-EMPTY@2026-10-28T00:30:01 -> P1 refill from real backlog
+[2026-10-28 00:31] pools: bm-a=1open/0exec bm-b=1open/1exec bm-c=4open/4exec; queue_open=0 run=0; idle: a=GPU-IDLE b=GPU-IDLE c=BLOCKED-RAM; flags=6
+[2026-10-28 00:25] EVENT-CLOSE bm-b -> BURNING (self-woke 00:18:27 ram_free=7.5G cpu=48%) but NOT-SYNCED head=089e916f (local fork; hot-sync is a local action) - second occurrence of the 10-27 17:20 transport gap
+[2026-10-28 00:25] EVENT-CLOSE bm-c -> listener half-dead (3x TCP 8790 timeout 00:19-00:21 while tailscale ping OK 368-838ms), head=d7339348 NOT-SYNCED, ram_free 0.7G; POOL-0024 P0 staged for local execution
+[2026-10-28 00:25] EVENT-CLOSE SUPPLY-DRY -> 2 real cards claimed+executed by bm-a in 10 min (Q-MV-0002-001@00:15:04 / -002@00:20:03, deliverables landed); queue then dry by design: remaining backlog = GPU(blocked) + bm-b audio(POOL-0023) + human judgment (83-shot dual sign / static-jump / era blind / silent rewatch) -> classified STRUCTURAL-THIN, no filler cards
+[2026-10-28 00:25] LOG 事件班 00:0x-00:3x calls~50 verdict=7 flags all attributed; POOL 3 phantom cards closed with receipt pointers (POOL-0018/0019/0020 -> done); new POOL-0023/0024 lint 9/9; commit 1f1a7f31
