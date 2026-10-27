@@ -498,7 +498,7 @@
 **点火验证（poke + 3 分钟复探·全绿）**
 
 - `fleet-dispatch.ps1` → nodes=3 **ok=3 fail=0** sha=98421775（bm-a SYNCED 2s / bm-b 10s / bm-c 16s）。
-- 补供当场被机队自领：`Q-MV-0001-006` rc=0（28/28 取证条 → `D:\FleetWorker\review\flags_v717\`）、`Q-MV-0001-007` rc=0 34.1s（37 事件分类 → `D:\FleetWorker\review\jitter_class_v717.json`）。**补供 → 产物 < 1 分钟闭环**，receipt 在 `cph4/fleet/queue-receipts/`。
+- 补供当场被机队自领：`Q-MV-0001-006` rc=0（27/27 取证条 → `D:\FleetWorker\review\flags_v717\`）、`Q-MV-0001-007` rc=0 34.1s（37 事件分类 → `D:\FleetWorker\review\jitter_class_v717.json`）。**补供 → 产物 < 1 分钟闭环**，receipt 在 `cph4/fleet/queue-receipts/`。
 - 复跑 dispatcher 17:39：`last_claim=DONE@2026-10-27T17:35:42`，SUPPLY-DRY 仍在但性质已变——从「补料腿哑了」变成「已知可立即执行的 CPU 活已做完」，后续补料需导演席/人工声明下一步（逐条判定、时代盲测、双签都是人工件）。
 
 **产物侧实质进展（CEO 待办剩余 3 项之第 1 项材料齐了）**
