@@ -66,6 +66,7 @@ def main():
     ap.add_argument("--status", action="store_true")
     ap.add_argument("--root", default=ROOT_DEFAULT)
     ap.add_argument("--no-push", action="store_true")
+    ap.add_argument("--no-poke", action="store_true")
     a = ap.parse_args()
     root = os.path.abspath(a.root)
     bus_dir = os.path.join(root, "cph4", "fleet", "order-bus", "receipts")
@@ -147,6 +148,19 @@ def main():
             return 1
     sha = git(root, "rev-parse", "HEAD").stdout.strip()
 
+    # seconds-level channel: the agent subscribes to fleet.cmd; git remains the durable copy
+    try:
+        sys.path.insert(0, os.path.join(root, "Tools", "fleet"))
+        from fleet_hb import Nats
+        nc = Nats("100.110.185.62", 4222, timeout=5.0)
+        nc.publish("fleet.cmd", json.dumps({"id": oid, "ts": stamp, "text": text,
+                                            "lanes": lanes,
+                                            "src": os.environ.get("COMPUTERNAME", "")},
+                                           ensure_ascii=False))
+        nc.sock.close()
+    except Exception as e:
+        print("NATS-PUB-FAIL " + str(e))
+
     cfg = {}
     try:
         with open(os.path.join(root, "Tools", "fleet-nodes.json"), encoding="utf-8-sig") as f:
@@ -166,11 +180,15 @@ def main():
         tasks.extend(n.get("wake_tasks", []))
     tasks = sorted(set(tasks))
     results = []
+    poke_enabled = not a.no_poke
     for n in cfg.get("nodes", []):
         if not n.get("enabled") or n.get("id") not in nodes:
             continue
         ip = n.get("tailnet_ip", "")
         if not ip or ip.startswith("PENDING"):
+            continue
+        if not poke_enabled:
+            results.append("%s poke=skipped" % n.get("id"))
             continue
         body = json.dumps({"reason": "order:" + oid, "tasks": tasks, "repos": []}).encode()
         try:
@@ -197,12 +215,30 @@ def main():
             time.sleep(2)
         results.append("%s ok=%s %s" % (n.get("id"), ok, synced))
 
+    acks = {}
+    ack_deadline = time.time() + (20 if poke_enabled else 5)
+    for nid in nodes:
+        p = os.path.join(root, "cph4", "fleet", "cmd", "%s.%s.ack.json" % (oid, nid))
+        while time.time() < ack_deadline and not os.path.exists(p):
+            time.sleep(1)
+        if os.path.exists(p):
+            try:
+                with open(p, encoding="utf-8-sig") as f:
+                    acks[nid] = json.load(f).get("status", "ack")
+            except Exception:
+                acks[nid] = "ack-unreadable"
+        else:
+            acks[nid] = "no-ack"
+    if acks:
+        results.append("ACK " + " ".join("%s=%s" % (k, v) for k, v in sorted(acks.items())))
+
     receipt = {"id": oid, "ts": stamp, "text": text, "lanes": lanes, "nodes": nodes,
-               "sha": sha, "dispatch": " | ".join(results), "dry": False}
+               "sha": sha, "dispatch": " | ".join(results), "acks": acks, "dry": False}
     with open(os.path.join(bus_dir, oid + ".json"), "w", encoding="utf-8") as f:
         json.dump(receipt, f, ensure_ascii=False, indent=1)
     print("ORDER %s lanes=%s nodes=%s sha=%s" % (oid, ",".join(lanes), ",".join(nodes), sha[:8]))
     print("DISPATCH " + " | ".join(results))
+    print("ACKS " + json.dumps(acks, ensure_ascii=False))
     return 0
 
 
