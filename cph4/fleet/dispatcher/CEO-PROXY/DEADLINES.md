@@ -41,6 +41,10 @@
 | bm-c MiniGame 心跳写入停摆 + RAM 破地板 | bm-c 车道 | R2.37 17:2x-17:30 实测 | **at-risk·如实披露**：`gaming/MiniGame/Design/configs/GLOBAL/fleet/c.json` 最后写入 15:08（age>2h→idle-watch 判 HB-STALE），但 TCP /status 17:28:45 **活着**（ram_free 1.7G / cpu 18% / GPU 余 14.9G），且量化轮 r1305/r1307 在跑 → 判定=**不是机器死，是 MiniGame 心跳写入者停摆**（该机当前只有量化任务在跑）。另 RAM 1.7G 仍低于 24G 机的 10% 地板 2.4G（17:04 曾探到 0.5G / CPU 82%，20 分钟内从窒息回落到 1.7G）。正法=bm-c 本机恢复 MiniGame tick 或补内存；本席已 poke（SYNCED 16s）并登记。 |
 | mv0001 v717 逐镜判定呈件（CEO 待办剩余 3 项之第 1 项） | bm-a / 导演席 | R2.37 17:35 产物 | **可判定态**：`Q-MV-0001-006/007` 已由机队自领完成（rc=0 → 27/27 取证条 + 37 事件分类）。分类实得：**JUMP=3**（t=92.17/109.29/139.62 · 对齐残差 11.2-11.6 · 与 jitter_scan 的 SNAP resp≈0.03 互证 = 镜内相机断裂·真缺陷）+ JUMP?=4（t=5.42-5.54 收敛段·疑开场快速揭示）+ **FLASH=16**（shift≈0 的纯亮度跳·触 CEO 禁白闪律·需人眼定性）+ FREEZE=9 + POP=3 + CUT=2。**第三口径出现**：stability/scan 报 shots=83，jitter_analyze 报 cuts=94/shots=95 → 双签前必须先对齐镜数口径，否则签的是错表。剩余人工项=逐条判定（材料已齐）+ 时代盲测 + 83 镜双签。 |
 
+| **R2.38 事件班 2026-10-27 18:2x（承载件触发 DL 17:32/18:01）** bm-b 生产认领任务清障令 | bm-b 车道 | orders 18:2x 行 + cph4/fleet/cmd/OB-20261027-182254-574.json | **dispatched·回执窗 ≤ 2026-10-28 08:43**：已用机队命令总线发布到 bm-b（poke accepted·SYNCED 12s）。根因实证仍为“bm-b 没有 HQ-ProductionClaim 认领任务”，POOL-0018/0019 声音锚卡自 10-19 RE-OFFERED 起 **8 日不可认领**。本班不伪造“已恢复”；验收物=bm-b 本机 Get-ScheduledTask 读数 + POOL.json 两卡 blocked_by 清空。 | R2.38 |
+| **R2.38** CLOCK-UNALIGNED（bm-b v1 旧 schema / bm-c 偏 1023.8ms） | 机队计时面 | CLOCK-SKEW.json 18:04:15 | **registered·两机分治**：bm-b=heartbeat 不带 ts_utc_ms/seq/clock_offset_ms（需本机升级，已并入 bm-b 清障令 ②）；bm-c=系统钟偏 1023.8ms > 150ms 门（w32time 停转，非提权起不来）——需 bm-c 本机提权校时，与 S4U 提权面同批。 | R2.38 |
+| **R2.38** SUPPLY-DRY 补料（queue_open 0→2） | bm-a 生产队列 | 本班实作 | **executed**：新增 3 条真实 backlog（Q-MV-0001-008 逐镜审计 / 009 转场审计 / 010 三口径镜数对齐），008/009 已入队 OPEN，010 依赖前两件产出自动解锁；三件均直指 CEO 待办剩余 3 项中的“83 镜双签”前置。新工具 Tools/mv_shot_reconcile.py已开发并实测（v716 实锚 trans 144 / audit 83 / union 85）。 | R2.38 |
+
 ## §二 waiting-CEO（物理件/保留面·零催办）
 
 | 件 | 说明 |
