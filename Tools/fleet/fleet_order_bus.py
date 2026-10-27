@@ -206,8 +206,9 @@ def main():
                 with urllib.request.urlopen("http://%s:8790/status" % ip, timeout=10) as r:
                     st = json.loads(r.read().decode())
                 heads = st.get("repo_heads", {}) or {}
-                lp = st.get("last_pull", {}) or {}
-                if heads.get(".") == sha or lp.get("origin_main") == sha:
+                # Worktree head only: a node can fetch our sha and still keep a diverged
+                # worktree (bm-b live case), so origin_main is a false SYNCED.
+                if heads.get(".") == sha:
                     synced = "SYNCED"
                     break
             except Exception:

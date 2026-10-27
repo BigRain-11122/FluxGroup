@@ -74,7 +74,9 @@ if ($s.PSObject.Properties.Name -contains 'last_pull') {
   $lp = $s.last_pull
   if ($lp -and ($lp.PSObject.Properties.Name -contains 'origin_main')) { $om = [string]$lp.origin_main }
 }
-if ($om -ne '' -and $om -eq $script:WantSha) { return $om }   # node fetched OUR sha
+# 2026-10-27: origin_main == WantSha only proves the FETCH; bm-b kept a diverged
+# worktree (head 089e916f) and was reported SYNCED while it could not see the order.
+# SYNCED now requires the worktree head below to match.
 if ($s.PSObject.Properties.Name -contains 'repo_heads') {
   # PS5.1: PSCustomObject property '.' cannot be indexed with ['.'] - go through Properties
   $p = $s.repo_heads.PSObject.Properties['.']
