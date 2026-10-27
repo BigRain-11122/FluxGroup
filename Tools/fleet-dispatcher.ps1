@@ -1,26 +1,36 @@
-# fleet-dispatcher.ps1 - HQ-FleetDispatcher L0 deterministic round
-# CEO order O-20261012-2225 / charter: cph4/fleet/dispatcher/DISPATCHER-CHARTER.md
+# fleet-dispatcher.ps1 - HQ-FleetDispatcher L0 deterministic round (v2, 2026-10-27)
+# CEO order 2026-10-27: an "open" card is not work; idle with work is a P1, not a NOTE.
+# v1 counted every status=open card as supply and only appended QUEUE-LOW lines, so the
+# fleet could sit at 0% with 8 "open" cards for days while the log looked normal.
+# v2 adds: executable predicate, production-queue supply check, idle-with-work alarm,
+# machine-readable STATE.json (single source for idle-watch / proxy-carrier / rounds).
 # Layer 0: rules + probes + flags ONLY. Never touches git (L2 owns ledger writes).
-# Runs via task-register.ps1 silent chain every 30m + on demand from judgment rounds.
 $ErrorActionPreference = 'SilentlyContinue'
 $root = 'C:\Users\sjs20\Desktop\FluxGroup'
 $dir = Join-Path $root 'cph4\fleet\dispatcher'
 $poolF = Join-Path $dir 'POOL.json'
+$queueF = Join-Path $root 'cph4\fleet\PRODUCTION-QUEUE.jsonl'
+$claimF = Join-Path $root 'cph4\fleet\queue-receipts\_last_claim.json'
+$idleF = Join-Path $root '.codely-cli\tmp\fleet-idle-watch\state.json'
+$stateF = Join-Path $dir 'STATE.json'
 $logF = Join-Path $dir 'DISPATCH-LOG.md'
 $judgF = Join-Path $dir 'NEED-JUDGMENT.md'
 $stamp = Get-Date -Format 'yyyy-MM-dd HH:mm'
 $out = @()
 
-# ---- lane keyword router (fallback for 'any'/untagged cards) ----
 function Route-Lane([string]$text) {
     $t = $text.ToLower()
     if ($t -match 'kf|i2v|lora|768p|video|image|training|upscale|rmbg|comfy|render') { return 'bm-c' }
-    if ($t -match 'tts|bgm|music|voice|audio|animatic|480p|speech') { return 'bm-b' }
+    if ($t -match 'tts|bgm|music|voice|audio|animatic|480p|speech|whisper|allin1') { return 'bm-b' }
     if ($t -match 'whisper|anchor|assemble|json|embed|ledger|board|script|review|hub|hq') { return 'bm-a' }
     return 'unknown'
 }
 
-# ---- load pool (PS5.1: pipeline-wrapped ConvertFrom-Json collapses arrays - assign first, then type-check) ----
+function Is-GpuCard([string]$text) {
+    return ($text.ToLower() -match 'kf|i2v|lora|768p|comfy|render|upscale|training|gpu')
+}
+
+# ---- load pool ----
 $pool = @()
 if (Test-Path $poolF) {
     try {
@@ -28,70 +38,115 @@ if (Test-Path $poolF) {
         if ($raw -is [array]) { $pool = $raw } else { $pool = @($raw) }
     } catch { $pool = @() }
 }
+$statusById = @{}
+foreach ($c in $pool) { $statusById[[string]$c.id] = [string]$c.status }
 
-# ---- per-card pass: route + starvation count + overdue chase ----
-$open = @{}
-foreach ($lane in @('bm-a', 'bm-b', 'bm-c')) { $open[$lane] = 0 }
-$needJudge = @()
-$chase = @()
+# ---- per-card pass: route / open / executable ----
+$open = @{}; $exec = @{}; $blocked = @{}
+foreach ($lane in @('bm-a', 'bm-b', 'bm-c')) { $open[$lane] = 0; $exec[$lane] = 0; $blocked[$lane] = 0 }
+$needJudge = @(); $chase = @(); $blockedDetail = @()
+$hh = [int](Get-Date -Format 'HH')
+$isWeekend = ((Get-Date).DayOfWeek -eq [DayOfWeek]::Saturday) -or ((Get-Date).DayOfWeek -eq [DayOfWeek]::Sunday)
+$workWindow = ((-not $isWeekend) -and ($hh -ge 9) -and ($hh -lt 19))
+
 foreach ($c in $pool) {
     $st = [string]$c.status
     if ($st -eq 'assigned') {
         $ca = [string]$c.claimed_at
-        if ($ca) {
-            try {
-                $t = [datetime]::Parse($ca)
-                if (((Get-Date) - $t).TotalHours -gt 24) { $chase += ('{0} assigned>24h no closure' -f $c.id) }
-            } catch { }
-        }
+        if ($ca) { try { if (((Get-Date) - [datetime]::Parse($ca)).TotalHours -gt 24) { $chase += ('{0} assigned>24h no closure' -f $c.id) } } catch { } }
         continue
     }
     if ($st -ne 'open') { continue }
+
     $lane = [string]$c.lane
     if ($lane -eq 'any' -or $lane -eq '') {
         $lane = Route-Lane (([string]$c.title) + ' ' + ([string]$c.spec))
-        if ($lane -eq 'unknown') {
-            $needJudge += ('- [{0}] {1} : untagged card -> needs L2 lane ruling (bm-a/bm-b/bm-c per resource-chain SS9.1 v2)' -f $stamp, $c.id)
-            continue
-        }
+        if ($lane -eq 'unknown') { $needJudge += ('- [{0}] {1} : untagged card -> needs L2 lane ruling' -f $stamp, $c.id); continue }
     }
-    if ($open.ContainsKey($lane)) { $open[$lane] = $open[$lane] + 1 }
+    if (-not $open.ContainsKey($lane)) { $lane = 'bm-a' }
+    $open[$lane] = $open[$lane] + 1
+
+    $why = ''
+    $deps = @($c.depends_on)
+    foreach ($d in $deps) {
+        if ($d -and $statusById.ContainsKey([string]$d) -and $statusById[[string]$d] -notin @('done', 'closed-superseded', 'closed-stale')) { $why = 'dep:' + $d; break }
+    }
+    if (-not $why -and $c.blocked_by) { $b = @($c.blocked_by | Where-Object { $_ }); if ($b.Count -gt 0) { $why = 'blocked_by:' + ($b -join ',') } }
+    if (-not $why -and $c.deadline) { try { if ([datetime]::Parse([string]$c.deadline) -lt (Get-Date)) { $why = 'deadline-expired' } } catch { } }
+    if (-not $why -and $lane -eq 'bm-a' -and $workWindow -and (Is-GpuCard (([string]$c.title) + ' ' + ([string]$c.spec)))) { $why = 'bm-a-workhour-gpu-yield' }
+
+    if ($why) { $blocked[$lane] = $blocked[$lane] + 1; $blockedDetail += ('{0}[{1}]' -f $c.id, $why) }
+    else { $exec[$lane] = $exec[$lane] + 1 }
 }
 
-# ---- machine liveness: reuse IdleWatch latest verdicts (no duplicate probes) ----
-$watch = Join-Path $root '.codely-cli\tmp\fleet-idle-watch\watch.log'
-$verdicts = @{}
-if (Test-Path $watch) {
-    $lines = @(Get-Content $watch -Tail 8 -Encoding UTF8 | Where-Object { $_ -match 'verdict=' })
-    foreach ($l in $lines) {
-        foreach ($id in @('bm-a', 'bm-b', 'bm-c')) {
-            if ($l -match ('\[' + $id + '\].*verdict=(\S+)')) { $verdicts[$id] = $Matches[1] }
-        }
+# ---- production queue supply (the actual work source) ----
+$qOpen = 0; $qRun = 0; $qTotal = 0
+if (Test-Path $queueF) {
+    foreach ($line in @(Get-Content $queueF -Encoding UTF8 | Where-Object { $_ -match '\S' })) {
+        try { $r = $line | ConvertFrom-Json; $qTotal = $qTotal + 1; if ($r.state -eq 'OPEN') { $qOpen = $qOpen + 1 } elseif ($r.state -eq 'RUNNING') { $qRun = $qRun + 1 } } catch { }
     }
 }
-$down = @()
-foreach ($id in @('bm-a', 'bm-b', 'bm-c')) {
-    $v = ''
-    if ($verdicts.ContainsKey($id)) { $v = $verdicts[$id] }
-    if ($v -eq 'OFFLINE' -or $v -eq 'SVC_DOWN') { $down += ('{0}({1})' -f $id, $v) }
+$lastClaim = ''
+if (Test-Path $claimF) {
+    try { $lc = Get-Content $claimF -Raw -Encoding UTF8 | ConvertFrom-Json; $lastClaim = [string]$lc.state + '@' + [string]$lc.ts } catch { }
+}
+
+# ---- idle verdicts (idle-watch state.json) ----
+$verdicts = @{}
+if (Test-Path $idleF) {
+    try { $is = Get-Content $idleF -Raw -Encoding UTF8 | ConvertFrom-Json; foreach ($id in @('bm-a', 'bm-b', 'bm-c')) { $p = $is.verdicts.PSObject.Properties[$id]; if ($p) { $verdicts[$id] = [string]$p.Value } } } catch { }
 }
 
 # ---- flags ----
-if ($down.Count -gt 0) { $out += ('[{0}] FLAG LANE-DOWN: {1} -> L2 chase lane-owner machine (highest priority fix per SS9.1)' -f $stamp, ($down -join ', ')) }
+$idleBad = @('OFFLINE', 'SVC_DOWN', 'HB-STALE', 'GPU-IDLE', 'GPU-IDLE-WORK', 'BLOCKED-RAM')
 foreach ($lane in @('bm-a', 'bm-b', 'bm-c')) {
-    if ($open[$lane] -eq 0) { $out += ('[{0}] FLAG STARVED lane={1} open_cards=0 (empty queue) -> L2 replenish from owner backlog (SS9.6)' -f $stamp, $lane) }
-    elseif ($open[$lane] -lt 3) { $out += ('[{0}] NOTE QUEUE-LOW lane={1} open_cards={2} (<3) -> replenish only from real backlog, no synthetic cards (O-20260928-1820)' -f $stamp, $lane, $open[$lane]) }
+    if ($verdicts[$lane] -eq 'OFFLINE' -or $verdicts[$lane] -eq 'SVC_DOWN' -or $verdicts[$lane] -eq 'HB-STALE') {
+        $out += ('[{0}] FLAG LANE-DOWN lane={1} verdict={2} -> P1 page lane owner' -f $stamp, $lane, $verdicts[$lane])
+    } elseif ($verdicts[$lane] -eq 'BLOCKED-RAM') {
+        $out += ('[{0}] FLAG BLOCKED-RAM lane={1} -> P1 free memory before assigning' -f $stamp, $lane)
+    }
+    if (($verdicts[$lane] -in @('GPU-IDLE', 'GPU-IDLE-WORK')) -and ($exec[$lane] -gt 0)) {
+        $out += ('[{0}] FLAG IDLE-WITH-WORK lane={1} exec_cards={2} -> P1 claim now (work exists, machine idle)' -f $stamp, $lane, $exec[$lane])
+    }
+    if ($exec[$lane] -eq 0) {
+        $out += ('[{0}] FLAG STARVED-EXEC lane={1} open_cards={2} blocked={3} -> P1 supply failure: no executable card' -f $stamp, $lane, $open[$lane], $blocked[$lane])
+    }
 }
-foreach ($ch in $chase) { $out += ('[{0}] FLAG CHASE {1} -> L2 poke owner + escalate' -f $stamp, $ch) }
-if ($needJudge.Count -eq 0 -and $out.Count -eq 0) {
-    $out += ('[{0}] OK pools: bm-a={1}/3 bm-b={2}/3 bm-c={3}/3 open; all lanes live; no judgment due' -f $stamp, $open['bm-a'], $open['bm-b'], $open['bm-c'])
+if ($qOpen -eq 0) {
+    $out += ('[{0}] FLAG SUPPLY-DRY production_queue_open=0 total={1} last_claim={2} -> P1 refill from real backlog' -f $stamp, $qTotal, $lastClaim)
+}
+foreach ($ch in $chase) { $out += ('[{0}] FLAG CHASE {1} -> poke owner + escalate' -f $stamp, $ch) }
+foreach ($bd in $blockedDetail) { $needJudge += ('- {0} blocked: {1}' -f $bd, $stamp) }
+
+$allGreen = $true
+foreach ($lane in @('bm-a', 'bm-b', 'bm-c')) { if ($exec[$lane] -le 0) { $allGreen = $false } }
+if ($qOpen -le 0) { $allGreen = $false }
+if ($out.Count -gt 0) { $allGreen = $false }
+if ($allGreen) {
+    $out += ('[{0}] OK supply: bm-a={1} bm-b={2} bm-c={3} exec; queue_open={4}; lanes busy' -f $stamp, $exec['bm-a'], $exec['bm-b'], $exec['bm-c'], $qOpen)
 } else {
-    $out += ('[{0}] pools: bm-a={1} bm-b={2} bm-c={3} open; judgment_cards={4} flags={5}' -f $stamp, $open['bm-a'], $open['bm-b'], $open['bm-c'], $needJudge.Count, $out.Count)
+    $out += ('[{0}] pools: bm-a={1}open/{2}exec bm-b={3}open/{4}exec bm-c={5}open/{6}exec; queue_open={7} run={8}; idle: a={9} b={10} c={11}; flags={12}' -f `
+        $stamp, $open['bm-a'], $exec['bm-a'], $open['bm-b'], $exec['bm-b'], $open['bm-c'], $exec['bm-c'], $qOpen, $qRun, $verdicts['bm-a'], $verdicts['bm-b'], $verdicts['bm-c'], $out.Count)
 }
 
-# ---- write NEED-JUDGMENT (fresh snapshot each round) ----
+# ---- machine-readable state for idle-watch / rounds / dashboards ----
+$state = [ordered]@{
+    ts = (Get-Date).ToString('s')
+    work_window = $workWindow
+    lanes = [ordered]@{
+        'bm-a' = [ordered]@{ open = $open['bm-a']; exec = $exec['bm-a']; blocked = $blocked['bm-a']; idle = $verdicts['bm-a'] }
+        'bm-b' = [ordered]@{ open = $open['bm-b']; exec = $exec['bm-b']; blocked = $blocked['bm-b']; idle = $verdicts['bm-b'] }
+        'bm-c' = [ordered]@{ open = $open['bm-c']; exec = $exec['bm-c']; blocked = $blocked['bm-c']; idle = $verdicts['bm-c'] }
+    }
+    queue = [ordered]@{ total = $qTotal; open = $qOpen; running = $qRun; last_claim = $lastClaim }
+    flags = $out.Count
+}
+$state | ConvertTo-Json -Depth 6 | Set-Content -Path $stateF -Encoding UTF8
+
+# ---- NEED-JUDGMENT snapshot ----
 $jhead = @('# NEED-JUDGMENT - current snapshot (regenerated by L0 every round; L2 resolves then edits POOL.json)')
 $jhead += $needJudge
+if ($needJudge.Count -eq 0) { $jhead += '- none' }
 Set-Content -Path $judgF -Value $jhead -Encoding UTF8
 
 # ---- append + prune log ----

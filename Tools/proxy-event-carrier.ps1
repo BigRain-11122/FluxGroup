@@ -27,7 +27,7 @@ if (Test-Path $nj) {
 }
 if (Test-Path $dl) {
     foreach ($l in (Get-Content $dl -Tail 30 -Encoding UTF8)) {
-        if ($l -match 'STARVED|LANE-DOWN|CHASE|OFFLINE|HB-STALE|E0-RED|PROXY-SILENT-DEATH|L0-DOWN|EVENT-CARRIER-DOWN') {
+        if ($l -match 'STARVED|IDLE-WITH-WORK|BLOCKED-RAM|SUPPLY-DRY|LANE-DOWN|CHASE|OFFLINE|HB-STALE|E0-RED|PROXY-SILENT-DEATH|L0-DOWN|EVENT-CARRIER-DOWN') {
             if ($l -notmatch 'QUEUE-LOW') { $flags += ('DL: ' + $l) }
         }
     }

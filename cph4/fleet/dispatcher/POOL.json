@@ -33,7 +33,8 @@
   "created_by": "HQ-Dispatcher-seed 2026-10-12",
   "claimed_by": "",
   "claimed_at": "",
-  "result_ref": "C-02 E-audit 2026-10-16: bm-a night-window 0/6 (anchors/ zero new files since 10-13); RE-OFFERED deadline 2026-10-17 24:00 to bm-a seat"
+  "result_ref": "C-02 E-audit 2026-10-16: bm-a night-window 0/6 (anchors/ zero new files since 10-13); RE-OFFERED deadline 2026-10-17 24:00 to bm-a seat",
+  "deadline": "2026-10-17T23:59:59"
  },
  {
   "id": "POOL-0004",
@@ -117,7 +118,10 @@
   "created_by": "O-20261013-1500 games-parallel",
   "claimed_by": "",
   "claimed_at": "",
-  "result_ref": "C-02 2026-10-16: V0.9.2 desktop zip was missing, RE-DELIVERED 10-16 13:0x (58MB); remaining scope=submit physicals await CEO"
+  "result_ref": "C-02 2026-10-16: V0.9.2 desktop zip was missing, RE-DELIVERED 10-16 13:0x (58MB); remaining scope=submit physicals await CEO",
+  "blocked_by": [
+   "CEO-PHYSICAL:submit-materials"
+  ]
  },
  {
   "id": "POOL-0011",
@@ -249,7 +253,10 @@
   "spec": "执行序：①nvidia-smi -pl 239.80（恢复 3070 出厂功耗墙）②删/禁用 GPU-PowerCap-180W-Boot + GPU-PowerCap-180W-Hourly 两任务（禁漏 Hourly=下小时被压回 180）③GPU 停车旗解除（O-20261015-0906-bm-b §4 落款反向恢复）+machine-state GPU 面核验 ④烧机验证 30min 满载（Comfy 重批或 dmon 监控）——判据=零断电+零 WHEA+温度瓦数行留档 ⑤通过=满性能投产·首 24h 保持单批串行保守期·并呈报委员会（功率红线律 O-20261013-0951 退役候案+MV 备援位 480P animatic 线承接态）⑥并发帽 spawn 闸照 C-20261015-03 同窗落位。断电案 recipe 正身=memory\\bm-b-power-loss-20261012.md。",
   "card": "[交接卡 POOL-0020]\n①@机+lane：@bm-b·machine-restore（本机自会话执行·GPU 面操作）\n②回执窗：24h\n③验收物+证据指针：nvidia-smi power_limit 实测=239.80W 行+两 PowerCap 任务删除/禁用实证+GPU 停车旗解除实证+烧机 30min 档案（温度/瓦数/零断电零 WHEA）+orders 回执行+commit sha\n④spec 指针：断电案 recipe（memory\\bm-b-power-loss-20261012.md）+O-20261015-0906-bm-b §4 反向\n⑤溯源令号：O-20261015-1821（CEO 原话「bm-b我换好了，开工」）\n⑥输入/输出：输入=750W 电源已上机（CEO 实装）；输出=满性能 GPU 复产+验收回执+委员会呈报\n⑦依赖：烧机判定前禁新开重 GPU 批（功率红线律保持至烧机通过）；CPU 双锚批（POOL-0018/0019）不受影响照跑\n⑧卡 ID：POOL-0020\n⑨provenance：CEO 原话直令（bm-a 总控窗 18:21 转录）",
   "result_ref": "C-02 2026-10-16: work executed 10-15 23:34 per bm-b memory (239.80W + PowerCap deleted + performance plan + BiliAutoReply revived) - RECEIPT OWED, dunning orders 10-16 13:0x; card open until receipt lands",
-  "depends_on": []
+  "depends_on": [],
+  "blocked_by": [
+   "receipt-owed"
+  ]
  },
  {
   "id": "POOL-0021",
@@ -261,7 +268,10 @@
   "spec": "部署 Qwen-Image-2.1-Turbo int8 栈（配方=cph4/fleet/bm-b-model-stack-20261016.md·bm-b 8G 已 PASS 同栈 20s/张）→KF 场景/道具类代表提示词 3-5 帧试烧 vs Krea2 turbo 1344x768 现役配方→速度/显存/质量三账+对比板→Qwen-Image-2.1 LICENSE 全文商用判定行（qwen-research 非 Apache·试烧合法·量产采用前必读·ID 脸面除外：jman LoRA 系 Krea2/SDXL 道 Turbo 不适用）。产出回填 R-20261019-work-assistant-landscape.md §五应用表+EXPERIENCE-LEDGER 判例行。",
   "card": "[交接卡 POOL-0021]\n①@机+lane：@bm-c·gpu-production（生成视觉专用道·KF 量产提速验证批）\n②回执窗：24h（POOL-0016 余项完成后接续·夜间 GPU 满载档）\n③验收物+证据指针：部署回执（四件 sha/尺寸）+试烧对比 LOOKBOARD 拼板（q88·Turbo vs Krea2 turbo 同提示词 3-5 代表帧）+速度/显存/质量三账实测表（回填 cph4/research/R-20261019-work-assistant-landscape.md §五应用表）+Qwen-Image-2.1 LICENSE 全文商用判定行（qwen-research·非 Apache）+orders 回执行+commit sha\n④spec 指针：cph4/research/R-20261019-work-assistant-landscape.md L72/L86（候选定档行）+cph4/fleet/bm-b-model-stack-20261016.md（同栈配方=turbo int8 DiT 6.92G+w4a8 TE 6.02G+VAE 0.64G+turbo LoRA 0.87G·1024²·8步·cfg1·euler/simple·QwenImage21Cache(auto)·TextEncodeQwenImage21·bm-b 8G 20s/张 PASS 实证）+cph4/fleet/mv-album-001-jay/星晴-KF-PACK-A-v1.md（KF 代表帧取样源·场景/道具类·ID 脸面除外〔jman LoRA=Krea2 道不换〕）\n⑤溯源令号：O-20261019-1935（CEO「确保机队其他机器满负荷生产，且有产出！」·docs/orders.md 10-19 19:35 行）\n⑥输入/输出：输入=Qwen-Image-2.1-Turbo int8 四件（HF/ModelScope 拉取·bm-b 配方可复用）+KF 代表提示词；输出=部署+对比板+三账实测表+许可判定行\n⑦依赖：POOL-0016 余项（night-1/night-3）P1 先行·与星晴 A 批 KF（候导演席签发）错峰不抢同窗\n⑧卡 ID：POOL-0021\n⑨provenance：直述（CEO 原话「确保机队其他机器满负荷生产，且有产出！」·bm-a 总控窗 10-19 19:35 开卡）",
   "result_ref": "",
-  "depends_on": []
+  "depends_on": [],
+  "blocked_by": [
+   "POOL-0016"
+  ]
  },
  {
   "id": "POOL-0022",
@@ -273,6 +283,9 @@
   "spec": "可爱女人 KF-PACK-A v1（DRAFT 146 行+shots-v2.py 机读正身·B4 区间 4 帧·四块 7+8+9+4=28 帧）·独立评审 L2 verdict 已出（共享块 PASS·FIX：city_bowl 光块尾句并 F7 等）→导演席合并 FIX+复检+签发→@bm-c GPU 照烧 28 帧→LOOKBOARD q88 板→导演席海选第一档判读→烧速实测回填。JAY_BONE 骨相锚 v2 逐字·ID 块复用·零否定词。",
   "card": "[交接卡 POOL-0022]\n①@机+lane：@bm-c·gpu-production（生成视觉专用道·W1 可爱女人 KF A 批 28 帧照烧）\n②回执窗：签发后 24h（KF 全批+LOOKBOARD 拼板+烧速/张数实测回填）\n③验收物+证据指针：28 帧 KF 入 KF 目录（bmc/kf/ 族律）+24 张/板 LOOKBOARD q88 拼板+烧速实测回填行+导演席海选第一档判读板存档+orders 回执行+commit sha\n④spec 指针：cph4/fleet/mv-album-001-jay/可爱女人-KF-PACK-A-v1-DRAFT.md（146 行）+可爱女人-shots-v2.py（机读正身 NEW 4 帧 B4 区间=28 帧对账）+PROMPT-GATE-可爱女人-KF-PACK-A-v1-L2.md（FIX 合并后签发版）+PROMPT-EXPERT-GATE-v1（十面检查单零豁免）+MV-PIPELINE-PLAYBOOK §S3 海选制 v1.1\n⑤溯源令号：O-20261020-1124（CEO「其他的mv赶紧产出，调用机队其他机器算力」·docs/orders.md 10-20 11:24 行）\n⑥输入/输出：输入=签发版提示词包+F1-F11 裁定口径+光位波段豁免+JAY_BONE 骨相锚；输出=28 帧 KF+A 批 LOOKBOARD+烧速实测\n⑦依赖：导演席 L2 FIX 合并+复检+签发（未签=禁烧·烧制侧拒收律）；GPU 空档已探明（10-20 11:24 vram_free=14156MiB）\n⑧卡 ID：POOL-0022\n⑨provenance：直述（CEO 原话「其他的mv赶紧产出，调用机队其他机器算力」·bm-a 总控窗 10-20 11:24 开卡）",
   "result_ref": "",
-  "depends_on": []
+  "depends_on": [],
+  "blocked_by": [
+   "director-signoff:L2-FIX"
+  ]
  }
 ]
