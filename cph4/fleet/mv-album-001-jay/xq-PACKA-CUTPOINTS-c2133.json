@@ -1,0 +1,195 @@
+{
+ "batch": "C2133",
+ "conform": "media/mv-album-001-jay/assembly-packA/XQ-PACKA-CONFORM-v1-c2133.mp4",
+ "method": "per-unit mid-window frame vs source clip mid-window frame (MAD, 0-255)",
+ "max_mad_allowed": 6.0,
+ "exact_matches": 5,
+ "worst_mad": 2.83,
+ "units": [
+  {
+   "n": 1,
+   "unit": "XQ_F0-01a",
+   "conform_t": 1.0,
+   "offset_s": 0.0,
+   "mad": 1.31
+  },
+  {
+   "n": 2,
+   "unit": "XQ_F0-01b",
+   "conform_t": 3.0,
+   "offset_s": 0.0,
+   "mad": 1.23
+  },
+  {
+   "n": 3,
+   "unit": "XQ_S0-02",
+   "conform_t": 5.0,
+   "offset_s": 0.0,
+   "mad": 1.84
+  },
+  {
+   "n": 4,
+   "unit": "XQ_S0-03",
+   "conform_t": 9.0,
+   "offset_s": 0.0,
+   "mad": 1.74
+  },
+  {
+   "n": 5,
+   "unit": "XQ_S0-04",
+   "conform_t": 15.0,
+   "offset_s": 0.0,
+   "mad": 2.83
+  },
+  {
+   "n": 6,
+   "unit": "XQ_S0-05",
+   "mad": null
+  },
+  {
+   "n": 7,
+   "unit": "XQ_S0-06",
+   "mad": null
+  },
+  {
+   "n": 8,
+   "unit": "XQ_S1-07",
+   "mad": null
+  },
+  {
+   "n": 9,
+   "unit": "XQ_S1-09",
+   "mad": null
+  },
+  {
+   "n": 10,
+   "unit": "XQ_S2-10",
+   "mad": null
+  },
+  {
+   "n": 11,
+   "unit": "XQ_S2-11",
+   "mad": null
+  },
+  {
+   "n": 12,
+   "unit": "XQ_S2-12",
+   "mad": null
+  },
+  {
+   "n": 13,
+   "unit": "XQ_S2-13",
+   "mad": null
+  },
+  {
+   "n": 14,
+   "unit": "XQ_S2-14",
+   "mad": null
+  },
+  {
+   "n": 15,
+   "unit": "XQ_S2-15",
+   "mad": null
+  },
+  {
+   "n": 16,
+   "unit": "XQ_S2-16",
+   "mad": null
+  },
+  {
+   "n": 17,
+   "unit": "XQ_S3-18",
+   "mad": null
+  },
+  {
+   "n": 18,
+   "unit": "XQ_S3-19",
+   "mad": null
+  },
+  {
+   "n": 19,
+   "unit": "XQ_S3-20",
+   "mad": null
+  },
+  {
+   "n": 20,
+   "unit": "XQ_S4-22",
+   "mad": null
+  },
+  {
+   "n": 21,
+   "unit": "XQ_S4-23",
+   "mad": null
+  },
+  {
+   "n": 22,
+   "unit": "XQ_S4-24",
+   "mad": null
+  },
+  {
+   "n": 23,
+   "unit": "XQ_S5-25",
+   "mad": null
+  },
+  {
+   "n": 24,
+   "unit": "XQ_S5-26",
+   "mad": null
+  },
+  {
+   "n": 25,
+   "unit": "XQ_S5-27",
+   "mad": null
+  },
+  {
+   "n": 26,
+   "unit": "XQ_S5-28",
+   "mad": null
+  },
+  {
+   "n": 27,
+   "unit": "XQ_S5-29",
+   "mad": null
+  },
+  {
+   "n": 28,
+   "unit": "XQ_S5-30",
+   "mad": null
+  },
+  {
+   "n": 29,
+   "unit": "XQ_S5-32",
+   "mad": null
+  },
+  {
+   "n": 30,
+   "unit": "XQ_F5-33a",
+   "mad": null
+  },
+  {
+   "n": 31,
+   "unit": "XQ_F5-33b",
+   "mad": null
+  },
+  {
+   "n": 32,
+   "unit": "XQ_F5-33c",
+   "mad": null
+  },
+  {
+   "n": 33,
+   "unit": "XQ_F5-34",
+   "mad": null
+  }
+ ],
+ "scene_support": {
+  "threshold": 0.3,
+  "detected": 29,
+  "edges_hit": 12,
+  "edges_total": 33,
+  "max_drift_s": 0.11,
+  "note": "scene scores miss cuts between visually similar shots and fire on intra-shot motion; they support the timeline, they do not gate it"
+ },
+ "gate": "exact==33 and max_mad<=6.0",
+ "ok": 0
+}

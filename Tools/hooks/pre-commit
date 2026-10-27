@@ -1,0 +1,24 @@
+#!/bin/sh
+# FluxGroup REPO-BLOAT-GATE (birth-grade, CEO order 2026-10-19 "file library bloat")
+# Law: cph4/resource-chain.md SS11.10 - single staged file >20MB = BLOCK (move to gitignored
+# media/ instead); >5MB = WARN (listed in daily repo-slim report).
+# Override for legitimate exceptions: git commit --no-verify + one law-note line in the message.
+# ZERO external tools: pure git plumbing + sh builtins only (tr/wc/cut are NOT on hook PATH).
+# This file MUST stay LF (CRLF breaks sh) - enforced by .gitattributes eol=lf.
+LIMIT_BLOCK=20971520
+LIMIT_WARN=5242880
+git diff --cached --raw | while IFS= read -r line; do
+  [ -n "$line" ] || continue
+  set -- $line
+  newsha=$4
+  case $newsha in 0000000000000000000000000000000000000000) continue ;; esac
+  sz=$(git cat-file -s "$newsha" 2>/dev/null)
+  case $sz in ''|*[!0-9]*) continue ;; esac
+  if [ "$sz" -gt "$LIMIT_BLOCK" ]; then
+    echo "[REPO-BLOAT-GATE] BLOCK: $line ($sz bytes > 20MB). Move it to gitignored media/ (media delivery law 2026-10-08). Override: --no-verify + note." >&2
+    exit 1
+  elif [ "$sz" -gt "$LIMIT_WARN" ]; then
+    echo "[REPO-BLOAT-GATE] WARN: $line ($sz bytes, 5-20MB band -> repo-slim daily report)" >&2
+  fi
+done
+exit $?

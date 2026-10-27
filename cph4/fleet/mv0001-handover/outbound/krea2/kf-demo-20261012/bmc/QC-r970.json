@@ -1,0 +1,40 @@
+{
+  "round": "r970",
+  "ts": "2026-10-17T17:03:00+08:00".replace("2026-10-17", "2026-10-13"),
+  "lane": "CEO V3 refire-2 QC re-verify (O-20261013-1530 @bm-c, chain bmc_v3_chain_r969.py PID 30000)",
+  "verdicts": [
+    {
+      "slot": "C02_sand_bury_v6",
+      "seed": 9240,
+      "score": 4.0,
+      "verdict": "FAIL",
+      "prior": "v5 4.0 FAIL (埋碑事件全缺+石缘辉光伪影)",
+      "fix_verified": "埋碑事件=FIXED (沙土持续隆起覆盖最下两行刻字·连续进展可观察)",
+      "residual_disease": "石缘辉光伪影=PERSIST (00:01 起石碑顶部/两侧黄白强发光晕染持续全片·帧源烘焙伪影=i2v 治不了)",
+      "remedy": "帧级修复: 源帧 C02_sand_bury.png 辉光 inpaint 或 Krea2 帧重制 (bm-a 夜窗 GPU 窗·bm-c 无 Krea2 权重); 提示词方向已两连败判死 (v5/v6)",
+      "cdm": "https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/0895e77b1b5b9184d2f3f1e8319d5709/C02_sand_bury_v6.mp4",
+      "local": "bmc/archive_i2v/C02_sand_bury_v6.mp4"
+    },
+    {
+      "slot": "C04_words_alive_v4",
+      "seed": 9241,
+      "score": 9.0,
+      "verdict": "PASS LOCKED",
+      "prior": "v3 3.0 FAIL (光反向衰退扫)",
+      "fix_verified": "光形态=沿刻痕侧向行进推进 (左→右推进·火光晃动物理可信)·光方向恒定=是·反向衰退/整屏脉动双病灶清零",
+      "residual_disease": "无 (刻字可读·零 morph·边缘辉光符合光源逻辑)",
+      "cdm": "https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/5db63cf035d18abf3aaa7025dffb52c8/C04_words_alive_v4.mp4",
+      "local": "bmc/archive_i2v/C04_words_alive_v4.mp4"
+    },
+    {
+      "slot": "R05_gold_threads_v4",
+      "seed": 9242,
+      "status": "BURNING at closeout (chain log 438s+ ~17:02·ETA save ~17:04)",
+      "qc": "deferred to r971 harvest (multimodal on landing)",
+      "note": "前版病灶=80% 软冻尾+零尘; QC 复验时查连续行进禁冻尾+尘粒物理"
+    }
+  ],
+  "chain_next_phase": "NEWKF 7镜x4种子 28 张试构图 672x384 jman 0.6 影射档 → q88 看板 → 复 pin 35b (r971 收割: 看板 commit+push + 导演席零等待接力回执)",
+  "ram_arbitration": "W233 prereg derive 顺延第 3 窗 (0.2G free 实锚·i2v 进程优先律 O-20261012-2330②·前窗 1.9G)",
+  "qc_method": "multimodal 病灶定向复验 (V3-REFIRE-PACK-v1.md 验收线 ≥7.5)"
+}

@@ -1,0 +1,145 @@
+# fleet-dispatch.ps1 - FleetLink dispatcher v1.2 (CEO order 2026-10-04; v1.1 = O-20261009-1750
+# "very fast sync"; v1.2 = O-20261009-1755 sync tiers).
+# Pokes all enabled tailnet nodes so they pull immediately + wake allowlisted
+# tasks (seconds-level dispatch instead of waiting for the next 10-min tick).
+# v1.1 upgrades:
+#   - timeout 8s -> 25s default (-TimeoutSec), retry x2 with 3s backoff
+#   - -ExpectSha verification loop: polls the node's /status repo_heads until
+#     the total repo HEAD matches the sha we pushed -> SYNCED <elapsed>s
+#   - per-node sync state written to dispatch-log.jsonl (watchdog consumable)
+# v1.2 (sync tiers, CEO order O-20261009-1755 "git 也要分好类型"):
+#   - nodes now pull ONLY their HOT repos (node.poke_repos, default ".") per poke;
+#     WARM repos are pulled by their own loop tasks (woken via -Tasks)
+#   - -Repos forces specific repos into this poke (e.g. -Repos 'gaming/MiniGame';
+#     allowlisted against node.repos by the worker)
+# Called by: interactive sessions after pushing orders/decisions, night rounds,
+# and the OrderSentinel hook (new P0/P1/T0/T1 ledger rows -> fleet-wide poke).
+# Signals only - git stays the sole data channel (transport clause unchanged).
+# Fail-soft: unreachable nodes are logged, never block the caller. Exit 0 always.
+param(
+  [string]$Root = "",
+  [string]$Reason = "manual",
+  [string[]]$Tasks = @(),
+  [string[]]$Repos = @(),
+  [int]$TimeoutSec = 25,
+  [string]$ExpectSha = "",
+  [int]$VerifyWaitSec = 60,
+  [switch]$Quiet
+)
+$ErrorActionPreference = 'Continue'
+# C-20261016-05 portability fix: default Root to this script's repo parent
+# (Tools\..). The old hardcoded bm-a path made the dispatcher cfg-fail on every
+# other machine (fleet scripts must be path-agnostic per iteration_loop norm).
+if (-not $Root) { $Root = Split-Path -Parent $PSScriptRoot }
+# C-20261016-02 Cure-3: -File invocation passes comma-joined task lists as ONE string
+# (worker allowlist denies the whole string -> zero wakeups, live-bug 10-16).
+# Split defensively so both "-Tasks a,b" and repeated -Tasks work.
+if ($Tasks) { $Tasks = @($Tasks | ForEach-Object { $_ -split ',' } | Where-Object { $_ }) }
+if ($Repos) { $Repos = @($Repos | ForEach-Object { $_ -split ',' } | Where-Object { $_ }) }
+$cfgF = Join-Path $Root 'Tools\fleet-nodes.json'
+try {
+  $cfg = Get-Content -Raw -Encoding UTF8 $cfgF | ConvertFrom-Json
+} catch {
+  if (-not $Quiet) { Write-Output ('DISPATCH cfg-fail ' + ([string]$_.Exception.Message)) }
+  exit 0
+}
+$port = 8790
+if ($cfg.PSObject.Properties.Name -contains 'port') { $port = [int]$cfg.port }
+if ($ExpectSha -eq '') { try { $ExpectSha = [string](& 'C:\Program Files\Git\cmd\git.exe' -C $Root rev-parse HEAD) } catch { } }
+# memory-union commits (fleet-memory-sync) advance HEAD after a poke: a node synced
+# to the CURRENT origin/main has everything we pushed, even if its head moved past
+# ExpectSha. Accept either value.
+$OriginMain = ''
+try { $OriginMain = [string](& 'C:\Program Files\Git\cmd\git.exe' -C $Root rev-parse origin/main) } catch { }
+$script:WantSha = $ExpectSha
+$script:WantOrigin = $OriginMain
+
+function Poke-Node([string]$ip) {
+  $body = @{ reason = $Reason; tasks = @($Tasks); repos = @($Repos) } | ConvertTo-Json -Compress
+  $r = Invoke-RestMethod -Uri ('http://' + $ip + ':' + $port + '/poke') -Method Post -Body $Body -ContentType 'application/json' -TimeoutSec $TimeoutSec
+  if ($r.ok) { return 'ok' }
+  return 'err'
+}
+function Get-NodeHead([string]$ip) {
+  $s = Invoke-RestMethod -Uri ('http://' + $ip + ':' + $port + '/status') -Method Get -TimeoutSec 15
+  # C-20261016-02 verify-fix + 2026-10-21 tighten (CEO order "fleet sync must be
+# instantly truthful"): SYNCED must mean THIS dispatch's target reached the node.
+# The old `-or $h -eq $OriginMain` accepted ANY origin/main tip - including a STALE
+# one the node already had (10-17 false-green case: "SYNCED 3s" while main was 9
+# commits behind). Now SYNCED only when the node's fetched origin_main or hot-repo
+# head actually equals the ExpectSha we pushed. "Fetch complete + head matches" is
+# the dispatch guarantee; worktree merge is the pull worker's own verdict.
+$om = ''
+if ($s.PSObject.Properties.Name -contains 'last_pull') {
+  $lp = $s.last_pull
+  if ($lp -and ($lp.PSObject.Properties.Name -contains 'origin_main')) { $om = [string]$lp.origin_main }
+}
+# 2026-10-27: origin_main == WantSha only proves the FETCH; bm-b kept a diverged
+# worktree (head 089e916f) and was reported SYNCED while it could not see the order.
+# SYNCED now requires the worktree head below to match.
+if ($s.PSObject.Properties.Name -contains 'repo_heads') {
+  # PS5.1: PSCustomObject property '.' cannot be indexed with ['.'] - go through Properties
+  $p = $s.repo_heads.PSObject.Properties['.']
+  if ($p) { return [string]$p.Value }
+}
+# fallback (listener pre-v1.3 with old roster): the worker's last-pull stamp is
+# written by a FRESH process per poke - it always reflects the current roster,
+# so "." appears there as soon as the node pulled the tier batch.
+if ($s.PSObject.Properties.Name -contains 'last_pull') {
+  $lp = $s.last_pull
+  if ($lp -and ($lp.PSObject.Properties.Name -contains 'repo_heads')) {
+    $q = $lp.repo_heads.PSObject.Properties['.']
+    if ($q) { return [string]$q.Value }
+  }
+}
+return ''
+}
+
+$results = @()
+foreach ($n in @($cfg.nodes)) {
+  if ([bool]$n.enabled -ne $true) { continue }
+  $ip = [string]$n.tailnet_ip
+  if ($ip -eq '') { continue }
+  if ([string]$n.host -ne '' -and ([string]$n.host -ieq $env:COMPUTERNAME)) { $ip = '127.0.0.1' }
+  $ok = $false; $detail = ''; $sync = ''; $elapsed = -1
+  for ($attempt = 1; $attempt -le 3 -and -not $ok; $attempt++) {
+    try {
+      $r = Poke-Node $ip
+      if ($r -eq 'ok') { $ok = $true; $detail = 'accepted' }
+      else { $detail = 'err-resp' }
+    } catch {
+      $detail = [string]$_.Exception.Message
+      if ($detail.Length -gt 80) { $detail = $detail.Substring(0, 80) }
+      if ($attempt -lt 3) { Start-Sleep -Seconds 3 }
+    }
+  }
+  if ($ok -and $ExpectSha -ne '') {
+    $t0 = Get-Date
+    $sync = 'PENDING (no head report yet)'
+    for ($i = 0; $i -lt ([int]($VerifyWaitSec / 5) + 1); $i++) {
+      try {
+        $h = Get-NodeHead $ip
+        if ($h -ne '') {
+          if ($h -eq $ExpectSha) { $elapsed = [int]((Get-Date) - $t0).TotalSeconds; $sync = 'SYNCED ' + $elapsed + 's'; break }
+          # 2026-10-21 tighten: node head that is NOT our sha is never 'green'.
+          # If it equals a different sha, we still report NOT-SYNCED (was: PENDING).
+          $sync = 'NOT-SYNCED head=' + $h.Substring(0, [Math]::Min(8, $h.Length))
+        }
+      } catch { $sync = 'verify-err ' + ([string]$_.Exception.Message) }
+      Start-Sleep -Seconds 5
+    }
+  }
+  $results += @{ node = [string]$n.id; ok = $ok; detail = $detail; sync = $sync }
+}
+$okN = @($results | Where-Object { $_.ok }).Count
+$line = 'DISPATCH reason=' + $Reason + ' nodes=' + $results.Count + ' ok=' + $okN + ' fail=' + ($results.Count - $okN) + ' sha=' + ($ExpectSha.Substring(0, [Math]::Min(8, $ExpectSha.Length)))
+if (-not $Quiet) {
+  Write-Output $line
+  foreach ($r in $results) { Write-Output ('  ' + $r.node + ' ok=' + $r.ok + ' ' + $r.detail + ' ' + $r.sync) }
+}
+try {
+  $Dir = Join-Path $env:USERPROFILE '.codely-cli\fleet-link'
+  if (-not (Test-Path $Dir)) { New-Item -ItemType Directory -Path $Dir | Out-Null }
+  @{ ts = (Get-Date -Format s); reason = $Reason; line = $line; sha = $ExpectSha; nodes = $results } | ConvertTo-Json -Compress -Depth 4 | Add-Content -LiteralPath (Join-Path $Dir 'dispatch-log.jsonl') -Encoding UTF8
+} catch { }
+exit 0

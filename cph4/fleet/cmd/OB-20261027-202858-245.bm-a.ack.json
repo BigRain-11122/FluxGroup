@@ -1,0 +1,21 @@
+{
+ "cmd_id": "OB-20261027-202858-245",
+ "node": "bm-a",
+ "host": "Dasheng",
+ "status": "done",
+ "ts": "2026-10-27T12:29:08.517Z",
+ "ts_utc_ms": 1793104148517,
+ "lanes": [
+  "bm-a"
+ ],
+ "text_sha256": "9cf427c0cef871d1",
+ "stats": {
+  "cpu_load_pct": 51.0,
+  "ram_free_gb": 20.1,
+  "disk_free_gb": 988.6,
+  "gpu_util_pct": 1,
+  "vram_used_mb": 11490,
+  "vram_total_mb": 12282
+ },
+ "handled": "selfcheck"
+}

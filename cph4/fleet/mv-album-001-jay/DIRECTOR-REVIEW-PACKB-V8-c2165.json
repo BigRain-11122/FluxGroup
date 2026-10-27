@@ -1,0 +1,55 @@
+{
+ "schema": "xq-packb-director-review/1",
+ "batch": "C2165",
+ "project": "mv-album-001-jay / PACK-B",
+ "version": "v8",
+ "ts": "2026-10-24T03:20:00+08:00",
+ "subject": "media/mv-album-001-jay/assembly-packB/XQ-PACKB-ASSEMBLY-v8-c2165.mp4",
+ "verdict": "PASS",
+ "mechanical": {
+  "seconds": 238.0,
+  "frames": 5712,
+  "drift_frames": 0,
+  "lufs": -14.35,
+  "true_peak_dbtp": -2.2,
+  "lra": 4.5,
+  "luma_samples": 952,
+  "luma_mean": 69.21,
+  "luma_under20_frames": 1,
+  "luma_min_at_seconds": 218.25,
+  "edit_classes": {"cut": 26, "dissolve": 6, "blur": 4, "motion": 3},
+  "hard_cut_ratio": 0.667,
+  "title_card_at": 2.5,
+  "end_credit_at": 236.5
+ },
+ "closed_items": [
+  {"id": "V7-1", "what": "S2-10/S2-11 colour+detail break (53.417-63.667s)",
+   "fix": "block level grade compensation (colorbalance/eq/unsharp), no reburn",
+   "evidence": {"sky_b_minus_r_30p4": 18.9, "sky_b_minus_r_54p0_v7": -39.5,
+                "sky_b_minus_r_54p0_v8": 25.7, "sky_b_minus_r_62p0_v8": 28.3,
+                "sharpness_54p0": 79.7, "sharpness_84p0": 32.0},
+   "verdict": "PASS"},
+  {"id": "V7-2", "what": "232.0s unreadable pseudo-handwriting",
+   "fix": "new note take XQ_B-F5-33c-v8.mp4: inpaint fake glyphs + real Xingkai lyric, per-frame bbox tracking",
+   "evidence": {"tracked_frames": 158, "masked_frames": 158,
+                "lines": ["手牽手 一步兩步", "三步四步 望著天"],
+                "builder": "xq_packb_note_fix_c2165.py"},
+   "verdict": "PASS"}
+ ],
+ "carry_over": [
+  {"id": "V8-3", "note": "119.0s silhouette reads faint on a phone (was V7-3)"},
+  {"id": "V8-4", "note": "232-236.5s wooden box pinhole texture (was V7-4)"},
+  {"id": "V8-5", "note": "226-232s note shot keeps 2-3 short strokes under the pencil tip by intent"}
+ ],
+ "stale_gate_note": "assembly card_proof reads 0 by construction: it diffs the 2.6s frame against the previous master, and v7 already carried the title card. Card presence proven by direct native frame check instead.",
+ "gate_master": "v8 is the only gated master; v5 kept as the historical gated cut",
+ "evidence": {
+  "board": "media/mv-album-001-jay/assembly-packB/XQ-PACKB-v8-DIRECTOR-BOARD-c2165.jpg",
+  "native_frames": "v8g_{2.5,30.4,54,62,84,119,176,218.5,232,236.5}.png",
+  "luma": "media/mv-album-001-jay/assembly-packB/luma-v8b-c2165.txt",
+  "index": "cph4/fleet/mv-album-001-jay/xq-PACKB-ASSEMBLY-INDEX-v8-c2165.json",
+  "grammar": "cph4/fleet/mv-album-001-jay/xq-PACKB-EDIT-GRAMMAR-c2165.json",
+  "receipt": "cph4/fleet/mv-album-001-jay/xq-PACKB-ASSEMBLY-RECEIPT-c2165.json",
+  "note_track": "cph4/fleet/mv-album-001-jay/xq-PACKB-NOTEFIX-TRACK-c2165.json"
+ }
+}

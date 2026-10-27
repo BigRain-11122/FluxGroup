@@ -1,0 +1,78 @@
+{
+ "ts": "2026-10-20T03:07:47",
+ "pid": 45616,
+ "stage": "burn",
+ "done": {
+  "XQ_F5-33c-reroll2-m1": {
+   "ok": true,
+   "file": "F5-33c_s628791_mini672.png",
+   "err": "",
+   "seed": 628791
+  },
+  "XQ_F5-33c-reroll2-m2": {
+   "ok": true,
+   "file": "F5-33c_s835543_mini672.png",
+   "err": "",
+   "seed": 835543
+  },
+  "XQ_F5-33c-reroll2-m3": {
+   "ok": true,
+   "file": "F5-33c_s502092_mini672.png",
+   "err": "",
+   "seed": 502092
+  },
+  "XQ_F5-33c-reroll2-m4": {
+   "ok": true,
+   "file": "F5-33c_s425971_mini672.png",
+   "err": "",
+   "seed": 425971
+  },
+  "XQ_F5-33c-reroll2-m5": {
+   "ok": true,
+   "file": "F5-33c_s273297_mini672.png",
+   "err": "",
+   "seed": 273297
+  },
+  "XQ_F5-33c-reroll2-m6": {
+   "ok": true,
+   "file": "F5-33c_s491783_mini672.png",
+   "err": "",
+   "seed": 491783
+  },
+  "XQ_F5-33c-reroll2-m7": {
+   "ok": true,
+   "file": "F5-33c_s641123_mini672.png",
+   "err": "",
+   "seed": 641123
+  },
+  "XQ_F5-33c-reroll2-m8": {
+   "ok": true,
+   "file": "F5-33c_s30218_mini672.png",
+   "err": "",
+   "seed": 30218
+  },
+  "XQ_F5-33c-winner-full": {
+   "ok": true,
+   "file": "F5-33c_s502092.png",
+   "err": "",
+   "seed": 502092
+  }
+ },
+ "meta": {
+  "wave": "xq-f533c-reroll2",
+  "runner": "bm-c C2111",
+  "auth": "xq-AB-DIRECTOR-RATIFY-r1017.md sec-3/sec-7",
+  "res_mini": "672x384",
+  "steps": 8,
+  "cfg": 1.0,
+  "jman_strength": 0.6,
+  "sampler": "euler simple",
+  "model": "krea2_turbo_fp8_scaled",
+  "candidates": [
+   "XQ_F5-33c-winner-full"
+  ],
+  "seeds": {
+   "XQ_F5-33c-winner-full": 502092
+  }
+ }
+}

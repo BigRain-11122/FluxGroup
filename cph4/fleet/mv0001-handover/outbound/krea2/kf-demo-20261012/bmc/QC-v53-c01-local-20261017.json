@@ -1,0 +1,37 @@
+{
+  "qc_id": "QC-v53-c01-local-20261017",
+  "date": "2026-10-17 22:42",
+  "route": "C01 本地道收片（KF winner s9932 帧级不动 + I2V3B 逐失败模式强化运动锚 + 新 i2v noise_seed s9944 · trial2 480P INT4 盲烧闸 PASS → official2 768P INT8 同名覆盖）",
+  "shot": "C01_carver_face_v5（r1 病=眼区塌闭+手/刻刀糊团无击打+面骨漂移+光跳）",
+  "dense_qc": {
+    "frames_t": [0.5, 2.6, 5.0],
+    "strip_first_judgment": "FAIL（眼部三帧近闭目——1080px 压缩条板低分辨率误判·眼区仅约 20px）",
+    "native_frame_recheck": "3/3 原生 768P 复核眼睑开度=A 半开下视专注态（眼裂/睫毛下缘/虹膜反光可辨）——推翻条板误判（执法律=疑似伪影一律原生分辨率像素级复核）",
+    "items": {
+      "eyes_half_open_steady_downcast": "PASS（三时点开度一致·非塌闭非眨眼·视线落工作面）",
+      "hand_chisel_clear_strike_motion": "PASS（三帧握持可辨·中段凿击起落动势·运动模糊属凿击动势非糊团）",
+      "face_structure_stable": "PASS（宽颧钝圆颊三帧骨相一致·无漂移熔变·jman 锚不散）",
+      "lighting_stable": "PASS（暖橙烛火光稳·无逐帧跳变）"
+    },
+    "verdict": "PASS"
+  },
+  "segment": {
+    "file": "C01_carver_face_v5.mp4",
+    "res": "1344x768",
+    "duration_s": 5.17,
+    "fps": 24,
+    "bytes": 1105275,
+    "audio": "none（本地工作流剥音轨·CEO 音轨禁令合规）",
+    "min_duration_gate": "5.17s 契约 runner 内断言 contract=OK"
+  },
+  "three_shot_local_evidence": {
+    "note": "D04/SIL1 正身已由 V53R 云道线收口（commit 537a582·QC-v53r-cloud-2shot-20261017.json·2/2 PASS）——本档只收 C01，本地证据保全如下：",
+    "D04_her_brush_local_r1": "18:45 件 dense QC 原四项（手/面/光）PASS，但本次交付前复验另查出 0-1s 硬切跳镜（中景持刷→极特写重构·无推镜过渡·板验+mp4 复核两次独立多模态判读一致）——本地 r1 件不作为交付正身（正身=云道版），该缺陷记录供导演席装配拉片时知悉；r1 败件链=old_v53_backup 463986B→现件 1623821B 均在 media 区",
+    "SIL1_local_r2": "本地 official2 件（s9027·1119586B）dense QC 亦 PASS（符带逐区域扫查零心形零现代字形·剪影背线完整·原生复核三源一致）——正身=云道版，本地件与证据留 media/MV/mv0001/v5redo/ 保全",
+    "C01_r1_fail_preserved": "v5redo/fail_v53/C01_carver_face_v5.fail1.mp4 (1107837B)"
+  },
+  "qc_strip": "V53-C01-LOCAL-QC-STRIP-20261017.jpg（三时点横拼）",
+  "runner": "v53_reburn3_bmc_20261017.py（kf/kf2/trial/official/trial2/official2 六相位·随本批复档）",
+  "assembly_gate": "三镜重烧 3/3 齐（D04/SIL1=V53R 云道·C01=本地）→ V5.3 重建（build_full_mv_v5.py）→ 水印 → 专家组 → DIRECTOR-REVIEW-V5.3-PASS → 呈 CEO",
+  "sign": "bm-c 生成窗 · 2026-10-17 22:42"
+}

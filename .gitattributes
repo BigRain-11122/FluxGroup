@@ -1,0 +1,10 @@
+# C-20261016-02 Cure-4: fleet memory union + per-host inboxes - no eol
+# normalization (CRLF accident family), no union merge driver (conflicts stay
+# loud instead of silently concatenating/losing lines).
+cph4/fleet/memory/CODELY-fleet-global.md -text
+cph4/fleet/memory/inbox/** -text
+
+# REPO-SLIM 2026-10-19: git hooks must stay LF - CRLF checkout breaks POSIX sh
+# and would block every commit on every machine.
+Tools/hooks/** text eol=lf
+*.sh text eol=lf

@@ -1,0 +1,40 @@
+{
+ "batch": "S7R board family ratification index (r1017 sec-8 item-6 follow-up)",
+ "runner": "bm-c C2126",
+ "ts": "2026-10-20T06:55:56",
+ "board": "xq-S7R-FAMILY-RATIFY-BOARD-c2126.jpg",
+ "bytes": 259167,
+ "items": [
+  {
+   "board": "xq-AB-S7R-BOARD-1-r1058.jpg",
+   "bytes": 480629,
+   "sha256": "6148e34ee688cccc",
+   "proves": "9 rows: 4 cols on s7rC frames (S5-26/27/28), else 3"
+  },
+  {
+   "board": "xq-AB-S7R-BOARD-2-r1058.jpg",
+   "bytes": 617155,
+   "sha256": "675319983ed50f76",
+   "proves": "9 rows x 3 cols: s7rA / s7rB headers (no s7rC)"
+  },
+  {
+   "board": "xq-AB-S7R-COMPARE-S5-26-r1058.jpg",
+   "bytes": 197965,
+   "sha256": "81eb2b37de3cc6b0",
+   "proves": "3 panels full-res: ORIGINAL spelling fixed"
+  },
+  {
+   "board": "xq-AB-S7R-COMPARE-S0-03-r1058.jpg",
+   "bytes": 608937,
+   "sha256": "81fe7c73f70aa787",
+   "proves": "3 panels full-res: s7rA / s7rB"
+  }
+ ],
+ "label_map": {
+  "orig": "orig <frame>",
+  "s7rA": "s7rA grain 0.14",
+  "s7rB": "s7rB shoulder+grain",
+  "s7rC": "s7rC esrgan4x+LANCZOS"
+ },
+ "zero_gpu": true
+}

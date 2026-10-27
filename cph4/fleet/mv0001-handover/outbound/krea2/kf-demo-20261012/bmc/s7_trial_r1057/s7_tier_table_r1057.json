@@ -1,0 +1,50 @@
+{
+ "trial": "POOL-0017 S7 half-route",
+ "runner": "bm-c r1057",
+ "ts": "2026-10-17T01:38:27",
+ "comfy_url": "http://127.0.0.1:8188",
+ "model": "RealESRGAN_x4plus.pth",
+ "upscale_models_stock": {
+  "multiselect": false,
+  "options": [
+   "4x-UltraSharp.pth",
+   "RealESRGAN_x4plus.pth"
+  ]
+ },
+ "missing_tiers": [
+  "GFPGAN (face restore)",
+  "RIFE (frame interpolation)"
+ ],
+ "pending_full_chain": [
+  "seven-genre LUT bank (R-20261015-mv-genre-matrix)",
+  "full-clip batch mode (per-frame video pass)"
+ ],
+ "frames": [
+  {
+   "clip": "C01_carver_face_v5.mp4",
+   "frame_at_s": 1.0,
+   "model": "RealESRGAN_x4plus.pth",
+   "upscale_sec": 7.81,
+   "vram_peak_mb": 6290,
+   "versions": [
+    "C01_carver_face_x4.png",
+    "C01_carver_face_lut.jpg",
+    "C01_carver_face_s7.jpg"
+   ],
+   "out_file_kb": 5904.6
+  },
+  {
+   "clip": "SIL4_crowd_edge_v5.mp4",
+   "frame_at_s": 1.0,
+   "model": "RealESRGAN_x4plus.pth",
+   "upscale_sec": 8.53,
+   "vram_peak_mb": 6334,
+   "versions": [
+    "SIL4_crowd_edge_x4.png",
+    "SIL4_crowd_edge_lut.jpg",
+    "SIL4_crowd_edge_s7.jpg"
+   ],
+   "out_file_kb": 7884.0
+  }
+ ]
+}

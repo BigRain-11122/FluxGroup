@@ -1,0 +1,53 @@
+{
+ "policy": "C2189 KN17/KN18 probe iteration 4: the band noun is dropped entirely. C2186 (defect named in positive text) and C2187 iteration 3 (positive-only positive wording) both collapsed into a bright amber nebula; the shared attractor is the 'band of the galaxy' noun itself. Iteration 4 asks for an evenly dark sky with an even, flat, barely-there warm dust haze - no band structure at all - so the veil can be added deterministically at the grade stage instead. 672x384 int4 lane bmcverify, verification only; production stays 768P after the eye gate.",
+ "gate": "C2187 harvest verdicts: KN17 768P band brightness PASS (blurred p99 43/44/47, screening STARFIELD-LIKE) but band edge geometry FAIL (vertical shard striations, hard torn edges); KN18 480P FAIL (bright amber nebula clouds, p99 89/110/114)",
+ "wave": "kn-galaxy480-c2189",
+ "total": 2,
+ "total_win_s": 17.52,
+ "units": [
+  {
+   "id": "KN_G4-KN17",
+   "shot": "KN17",
+   "track": "KN",
+   "win_s": 8.46,
+   "speed": 0.82,
+   "src_s": 10.317,
+   "policy_band": "8-15s",
+   "move_raw": "reburn",
+   "frame": "media/mv-album-001-jay/frames/KN_KN17.png",
+   "lyric_anchor": "galaxy segment 109.00-126.52",
+   "note": "Iteration 4: no band noun, no nebula noun, even flat dust haze only. 480P probe before any 768P production burn.",
+   "i2v_prompt": "Single continuous take at 24fps, 16:9. An extreme wide establishing shot at eye level; the camera eases in from almost still on a slow level move, gathering pace gently and settling as it arrives. The night sky is an evenly dark ink-blue field filled edge to edge with countless separate small round points of warm gold light, every point distinct and evenly spread, the points drifting apart at the slowest breath. A haze of fine dust sits evenly through the whole sky, warm in tone and so faint it stays close to the sky's own brightness, even and flat from edge to edge, its edges soft and open. Below, the horizon sits as an unlit black rim, black and unlit. Warm 2000 Taiwanese telecine grade, milky lifted blacks. Visible 35mm film grain. Restrained continuous motion, camera and subject motion only.",
+   "prompt_words": 118,
+   "guard": [
+    "kf_verified=True",
+    "word_face=discrete_points",
+    "haze=even_flat_barely_there",
+    "band_noun=dropped"
+   ],
+   "prompt_rev": "v4.0-C2189-galaxy480-noband"
+  },
+  {
+   "id": "KN_G4-KN18",
+   "shot": "KN18",
+   "track": "KN",
+   "win_s": 9.06,
+   "speed": 0.86,
+   "src_s": 10.535,
+   "policy_band": "8-15s",
+   "move_raw": "reburn",
+   "frame": "media/mv-album-001-jay/frames/KN_KN18.png",
+   "lyric_anchor": "galaxy segment 109.00-126.52",
+   "note": "Iteration 4: same haze law as KN17, close-up camera kept verbatim from iteration 3.",
+   "i2v_prompt": "Single continuous take at 24fps, 16:9. A close-up at eye level; the camera slides laterally with small amplitude in shallow focus, easing in at the start and settling to a stop at the end. The night sky in close detail: countless round pin-points of pale warm light, all the same tiny size, spread evenly through deep blue-black, the darkness between them clean and even. A haze of fine dust sits evenly across the whole frame, warm in tone and so faint it stays close to the sky's own brightness, even and flat from edge to edge, its edges soft and open, every speck still resolvable on its own. Warm 2000 Taiwanese telecine grade, milky lifted blacks. Visible 35mm film grain. Restrained continuous motion, camera and subject motion only.",
+   "prompt_words": 116,
+   "guard": [
+    "kf_verified=True",
+    "word_face=discrete_points",
+    "haze=even_flat_barely_there",
+    "band_noun=dropped"
+   ],
+   "prompt_rev": "v4.0-C2189-galaxy480-noband"
+  }
+ ]
+}

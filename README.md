@@ -1,0 +1,78 @@
+# FluxGroup — 超体宇宙集团 / FLUX Group
+
+> This repository is the brand and project root for the group.
+> Any AI or human opening this file should immediately understand who we are.
+>
+> CEO 宣言（2026-09-23）：**这就是我的 FLUX 集团——创新元宇宙，超体能量。**
+> 运转模式（CEO 定）：**AI 赋能自治** —— CEO 只做决策、发号施令、定方向；子公司自动运作、运转、迭代。
+
+## Identity at a glance
+
+| Layer | English | Chinese | Role |
+|---|---|---|---|
+| Group (parent) | FLUX Group | 超体宇宙集团 | Main brand — flow of data / capital / traffic |
+| R&D core | CPH4 Labs | CPH4 实验室 | AI engine / origin explosion |
+| Line 1 | Gaming | 游戏 | Content universe |
+| Line 2 | Quant | 量化 | Capital flow compute |
+| Line 3 | Media | 自媒体 | Knowledge distribution |
+
+Full naming rationale and rules: see [BRAND.md](./BRAND.md).
+
+## Core philosophy (超体 canon · Rain 润泽万物)
+
+- Time is our only real currency.
+- Knowledge is unbounded — passed on, never hoarded.
+- 无处不在：超体的完成态是化入日常。
+- Rain 润泽万物：流到之处，万物生长。
+
+FLUX = the flowing process (data flow, capital flow, traffic flow).
+CPH4 = the origin substance that triggers the explosion (our AI engine).
+Narrative: from one drop of CPH4, flow outward into the infinite universe.
+
+## Slogans
+
+- Flux is Everything (流即万物)
+- Nourish everything (润泽万物 · Rain)
+- From origin to infinity (从原点流向无限)
+
+## Visual tone
+
+Minimal black/white, monospaced sans-serif, large whitespace.
+Reference: OpenAI / Anthropic restraint.
+Mark: a single point (CPH4) radiating outward into flow (FLUX).
+
+## Directory layout
+
+```
+FluxGroup/
+├── README.md              <- this file (entry point)
+├── BRAND.md               <- full brand definition (locked naming)
+├── RULES.md               <- top-level collaboration rules
+├── docs/
+│   ├── architecture.md    <- group business architecture
+│   ├── governance.md      <- group ↔ subsidiary governance charter
+│   ├── philosophy.md      <- culture & north star (Rain 润泽万物 + WALL-E)
+│   ├── master-plan.md     <- 商业×元宙双螺旋总规划
+│   ├── orders.md          <- CEO 令与裁决唯一审计面（活跃面）
+│   ├── orders-archive.md  <- 令历史归档（2026-09-28 分卷）
+│   ├── executive-protocol.md <- 极简执行协议（每轮只读 runbook）
+│   ├── research-dept-charter.md <- 集团调研部门建制律
+│   ├── audit-charter.md  <- 集团审查合一正典（外部审查+巡检+自审+PT 台账）
+│   └── audits/            <- 架构/规则审计件（含 group-architecture-review 四域总览）
+├── gaming/                <- FLUX Gaming / 超体游戏
+├── quant/                 <- FLUX Quant / FLUX 量化
+├── media/                 <- FLUX Media / 超体自媒体
+├── domain/                <- BigDomain / 硅基域（商业化·2026-09-23 开线）
+├── life/                  <- BigLife / 数字生命生产（2026-09-23 开线·09-24 定名）
+├── compute/               <- BigCompute / 硅基算力（商业化中枢·2026-09-24 开线）
+└── cph4/                  <- CPH4 Labs 集团 AI 研究核心（横切层）
+```
+
+When an AI or human joins, read in this order:
+1. `/README.md`
+2. `/BRAND.md`
+3. `/docs/philosophy.md`
+4. `/RULES.md`
+5. The target line's `README.md`
+
+HQ-layer operators additionally read: `/docs/governance.md`.

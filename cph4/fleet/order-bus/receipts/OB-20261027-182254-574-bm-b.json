@@ -1,0 +1,35 @@
+{
+ "id": "OB-20261027-182254-574",
+ "node": "bm-b",
+ "action": "done",
+ "ts": "2026-10-27T19:02:00",
+ "items": [
+  {
+   "item": 1,
+   "ask": "注册 HQ-ProductionClaim（每 5 分钟 python Tools/queue_claim.py --pool --node bm-b）；清 POOL-0018/0019 blocked_by=no-claim-task:bm-b",
+   "status": "done",
+   "evidence": [
+    "task: Get-ScheduledTask HQ-ProductionClaim -> State=Ready, trigger every:5m, LogonType=S4U, action=wscript //B InvisibleRunner.vbs cmd /c Tools\\hq-production-claim.bat; registration fire observed 2026-10-27 18:57:43 result=0",
+    "tool gap was real: Tools/queue_claim.py at origin had NO --pool flag and only knew cph4/fleet/PRODUCTION-QUEUE.jsonl - the numbered POOL cards were structurally unclaimable by any machine (this is the 8-day root cause, not machine laziness)",
+    "patch: --pool / --pool-list / --pool-republish / --pool-selftest added; pool claims emit a claim-INTENT receipt and never write POOL.json (pool law: transitions are proxy-written); blocked_by gate = a card blocked by anything other than 'no-claim-task:<node>' is held, not claimed (POOL-0020 receipt-owed stays visible instead of being buried)",
+    "selftest: python Tools/queue_claim.py --pool-selftest -> 9/9 PASS",
+    "live: python Tools/queue_claim.py --pool --node bm-b -> POOL-CLAIM POOL-0018, receipt cph4/fleet/queue-receipts/POOL-0018-bm-b.json (face=origin, origin_sha=dd2e2846); second run -> POOL-ALREADY-CLAIMED seen 2/3 (idempotent)",
+    "task log: cph4/fleet/queue-receipts/_claim_task.log"
+   ],
+   "left_to_proxy": "POOL.json: clear blocked_by=no-claim-task:bm-b on POOL-0018/0019 (proxy-writer law; bm-b must not write POOL.json). Lane execution of 0018 continues in-session (first batch already delivered r1037)."
+  },
+  {
+   "item": 2,
+   "ask": "machine heartbeat v2: ts_utc_ms / seq / clock_offset_ms",
+   "status": "done",
+   "evidence": [
+    "root cause found: the FluxGroup-NatsHB task still pointed at the LEGACY root C:\\Fluxgroup\\Tools\\nats\\nats-heartbeat.ps1 (3515-byte v1 script, no ts_utc_ms/seq/offset) and ran InteractiveToken; its own log carried hb-server-unreachable/hb-kvput-fail, so the KV key aged out and every audit read v1",
+    "fix: Tools/nats bootstrapped from origin (nats.exe 0.5.0 + nats-server 2.15.1 via gh-proxy mirror), task unregistered and re-registered through Tools/task-register.ps1 -> action now C:\\Fluxgroup\\FluxGroup\\Tools\\InvisibleRunner.vbs -> Tools\\nats\\nats-heartbeat.ps1 with -Root C:\\Fluxgroup\\FluxGroup -NodeId bm-b -Server nats://100.110.185.62:4222, LogonType=S4U, every:1m, fire observed 18:50:38 result=0",
+    "verify: nats kv get FLEET_STATE state.bm-b --raw -> {\"node\":\"bm-b\",...,\"ts_utc_ms\":1793098633668,\"seq\":9,\"clock_offset_ms\":203.5,\"clock_rtt_ms\":248.4,...} - all four v2 fields present; kv ls shows state.bm-a/bm-b/bm-c",
+    "clock honesty: offset measured 16.1ms at 18:48 and 203.5ms at 18:57 on a relayed Tailscale path (probe precision +/-248ms) - the 1ms claim only holds on a direct/LAN path; the dispatcher SKEW gate is 2*precision+20 so both readings pass, but this face must not be quoted as millisecond-accurate"
+   ],
+   "left_to_proxy": "CLOCK-SKEW.json old_schema drops only when bm-c also upgrades (bm-c is not this lane)."
+  }
+ ],
+ "note": "Both items landed with live evidence, not paper claims. Third acceptance item on the card (POOL.json blocked_by cleared) is proxy-writer by pool law; this receipt supplies the machine-side signal it needed."
+}

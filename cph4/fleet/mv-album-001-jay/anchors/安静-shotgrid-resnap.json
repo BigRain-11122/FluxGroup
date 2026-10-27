@@ -1,0 +1,531 @@
+{
+  "song": "安静",
+  "version": "anchor-shotgrid v2.0 resnap (word-onset select / beat place)",
+  "inputs": {
+    "beats_sha_face": 389,
+    "n_beats": 389,
+    "n_downbeats": 98,
+    "duration_sec": 334.23
+  },
+  "bpm_median": 72.3,
+  "snap_tol_sec": 0.1,
+  "max_shot_sec": 3.0,
+  "grid": [
+    {
+      "i": 3,
+      "text": "我想你已表现的非常明白",
+      "t0": 27.785,
+      "t1": 50.758,
+      "t0_used": 27.785,
+      "t1_used": 50.74,
+      "snapped": true,
+      "snap_deltas": [
+        0.385,
+        0.018
+      ],
+      "approx": false,
+      "splits": [
+        30.73,
+        34.09,
+        37.4,
+        40.72,
+        44.08,
+        47.4,
+        50.74
+      ],
+      "cut0": 27.4,
+      "cut1": 50.74,
+      "on_beat": true,
+      "word_onset": 27.785,
+      "onset_offset": 0.385,
+      "resnap": "beat"
+    },
+    {
+      "i": 4,
+      "text": "我懂我也知道",
+      "t0": 50.758,
+      "t1": 55.769,
+      "t0_used": 50.74,
+      "t1_used": 55.74,
+      "snapped": true,
+      "snap_deltas": [
+        0.018,
+        0.029
+      ],
+      "approx": true,
+      "splits": [
+        54.1
+      ],
+      "cut0": 50.74,
+      "cut1": 55.74,
+      "on_beat": true,
+      "word_onset": 50.738,
+      "onset_offset": 0.002,
+      "resnap": "beat"
+    },
+    {
+      "i": 9,
+      "text": "希望他是真的比我还要爱你",
+      "t0": 55.769,
+      "t1": 75.355,
+      "t0_used": 55.74,
+      "t1_used": 75.355,
+      "snapped": true,
+      "snap_deltas": [
+        0.029,
+        -0.385
+      ],
+      "approx": false,
+      "splits": [
+        59.07,
+        62.39,
+        65.73,
+        69.07,
+        72.4,
+        75.74
+      ],
+      "cut0": 55.74,
+      "cut1": 75.74,
+      "on_beat": true,
+      "word_onset": 55.769,
+      "onset_offset": 0.029,
+      "resnap": "beat"
+    },
+    {
+      "i": 10,
+      "text": "我才会逼自己离开",
+      "t0": 75.355,
+      "t1": 81.913,
+      "t0_used": 75.355,
+      "t1_used": 81.89,
+      "snapped": true,
+      "snap_deltas": [
+        -0.385,
+        0.023
+      ],
+      "approx": true,
+      "splits": [
+        79.07
+      ],
+      "cut0": 75.74,
+      "cut1": 81.89,
+      "on_beat": true,
+      "word_onset": 75.335,
+      "onset_offset": 0.405,
+      "resnap": "beat"
+    },
+    {
+      "i": 13,
+      "text": "为什么还要我用微笑来带过",
+      "t0": 81.913,
+      "t1": 108.129,
+      "t0_used": 81.89,
+      "t1_used": 108.129,
+      "snapped": true,
+      "snap_deltas": [
+        0.023,
+        0.399
+      ],
+      "approx": false,
+      "splits": [
+        84.39,
+        87.72,
+        91.05,
+        94.39,
+        97.71,
+        101.06,
+        104.4,
+        107.73
+      ],
+      "cut0": 81.89,
+      "cut1": 107.73,
+      "on_beat": true,
+      "word_onset": 81.913,
+      "onset_offset": 0.023,
+      "resnap": "beat"
+    },
+    {
+      "i": 14,
+      "text": "我没有这种天分",
+      "t0": 108.129,
+      "t1": 108.705,
+      "t0_used": 108.129,
+      "t1_used": 108.705,
+      "snapped": false,
+      "snap_deltas": [
+        0.399,
+        0.135
+      ],
+      "approx": true,
+      "splits": [],
+      "cut0": 107.73,
+      "cut1": 108.57,
+      "on_beat": true,
+      "word_onset": 108.109,
+      "onset_offset": 0.379,
+      "resnap": "beat"
+    },
+    {
+      "i": 20,
+      "text": "为什么我连分开都迁就着你",
+      "t0": 108.705,
+      "t1": 132.379,
+      "t0_used": 108.705,
+      "t1_used": 132.379,
+      "snapped": false,
+      "snap_deltas": [
+        0.135,
+        -0.351
+      ],
+      "approx": false,
+      "splits": [
+        111.06,
+        114.38,
+        117.71,
+        121.06,
+        124.38,
+        127.74,
+        131.07
+      ],
+      "cut0": 108.57,
+      "cut1": 132.73,
+      "on_beat": true,
+      "word_onset": 108.705,
+      "onset_offset": 0.135,
+      "resnap": "beat"
+    },
+    {
+      "i": 21,
+      "text": "我真的没有天分",
+      "t0": 132.379,
+      "t1": 148.301,
+      "t0_used": 132.379,
+      "t1_used": 148.301,
+      "snapped": false,
+      "snap_deltas": [
+        -0.351,
+        -0.249
+      ],
+      "approx": true,
+      "splits": [
+        136.06,
+        139.38,
+        142.72,
+        146.05
+      ],
+      "cut0": 132.73,
+      "cut1": 148.55,
+      "on_beat": true,
+      "word_onset": 132.359,
+      "onset_offset": 0.371,
+      "resnap": "beat"
+    },
+    {
+      "i": 28,
+      "text": "我想你已表现的非常明白",
+      "t0": 148.301,
+      "t1": 172.182,
+      "t0_used": 148.301,
+      "t1_used": 172.182,
+      "snapped": false,
+      "snap_deltas": [
+        -0.249,
+        0.292
+      ],
+      "approx": false,
+      "splits": [
+        151.05,
+        154.39,
+        157.72,
+        161.05,
+        164.39,
+        167.72,
+        171.05
+      ],
+      "cut0": 148.55,
+      "cut1": 171.89,
+      "on_beat": true,
+      "word_onset": 148.301,
+      "onset_offset": 0.249,
+      "resnap": "beat"
+    },
+    {
+      "i": 29,
+      "text": "我懂我也知道",
+      "t0": 172.182,
+      "t1": 175.784,
+      "t0_used": 172.182,
+      "t1_used": 175.784,
+      "snapped": false,
+      "snap_deltas": [
+        0.292,
+        -0.266
+      ],
+      "approx": true,
+      "splits": [
+        174.39
+      ],
+      "cut0": 171.89,
+      "cut1": 176.05,
+      "on_beat": true,
+      "word_onset": 172.162,
+      "onset_offset": 0.272,
+      "resnap": "beat"
+    },
+    {
+      "i": 31,
+      "text": "你说你也会难过我不相信",
+      "t0": 175.784,
+      "t1": 197.279,
+      "t0_used": 175.784,
+      "t1_used": 197.279,
+      "snapped": false,
+      "snap_deltas": [
+        -0.266,
+        0.389
+      ],
+      "approx": false,
+      "splits": [
+        179.38,
+        182.72,
+        186.06,
+        189.39,
+        192.72,
+        196.05
+      ],
+      "cut0": 176.05,
+      "cut1": 196.89,
+      "on_beat": true,
+      "word_onset": 175.784,
+      "onset_offset": 0.266,
+      "resnap": "beat"
+    },
+    {
+      "i": 32,
+      "text": "牵着你陪着我也只是曾经",
+      "t0": 197.279,
+      "t1": 205.25,
+      "t0_used": 197.279,
+      "t1_used": 205.25,
+      "snapped": false,
+      "snap_deltas": [
+        0.389,
+        0.4
+      ],
+      "approx": true,
+      "splits": [
+        199.43,
+        202.35,
+        204.85
+      ],
+      "cut0": 196.89,
+      "cut1": 205.68,
+      "on_beat": true,
+      "word_onset": 197.259,
+      "onset_offset": 0.369,
+      "resnap": "beat"
+    },
+    {
+      "i": 37,
+      "text": "为什么还要我用微笑来带过",
+      "t0": 205.25,
+      "t1": 224.49,
+      "t0_used": 205.25,
+      "t1_used": 224.49,
+      "snapped": false,
+      "snap_deltas": [
+        0.4,
+        -0.36
+      ],
+      "approx": false,
+      "splits": [
+        208.19,
+        211.52,
+        214.85,
+        218.18,
+        221.52,
+        224.85
+      ],
+      "cut0": 205.68,
+      "cut1": 224.85,
+      "on_beat": true,
+      "word_onset": 205.25,
+      "onset_offset": 0.43,
+      "resnap": "beat"
+    },
+    {
+      "i": 38,
+      "text": "我真的没有天分",
+      "t0": 224.49,
+      "t1": 232.02,
+      "t0_used": 224.49,
+      "t1_used": 232.02,
+      "snapped": false,
+      "snap_deltas": [
+        -0.36,
+        -0.33
+      ],
+      "approx": true,
+      "splits": [
+        228.19,
+        231.52
+      ],
+      "cut0": 224.85,
+      "cut1": 232.35,
+      "on_beat": true,
+      "word_onset": 224.47,
+      "onset_offset": 0.38,
+      "resnap": "beat"
+    },
+    {
+      "i": 44,
+      "text": "为什么我连分开都迁就着你",
+      "t0": 232.02,
+      "t1": 254.558,
+      "t0_used": 232.02,
+      "t1_used": 254.64,
+      "snapped": true,
+      "snap_deltas": [
+        -0.33,
+        -0.082
+      ],
+      "approx": false,
+      "splits": [
+        234.85,
+        238.19,
+        241.52,
+        244.85,
+        248.19,
+        251.52,
+        254.64
+      ],
+      "cut0": 232.35,
+      "cut1": 254.64,
+      "on_beat": true,
+      "word_onset": 232.02,
+      "onset_offset": 0.33,
+      "resnap": "beat"
+    },
+    {
+      "i": 45,
+      "text": "我真的没有天分",
+      "t0": 254.558,
+      "t1": 304.368,
+      "t0_used": 254.64,
+      "t1_used": 304.36,
+      "snapped": true,
+      "snap_deltas": [
+        -0.082,
+        0.008
+      ],
+      "approx": true,
+      "splits": [
+        257.36,
+        260.68,
+        264.01,
+        267.35,
+        270.69,
+        274.02,
+        277.36,
+        280.69,
+        284.09,
+        286.85,
+        289.35,
+        292.68,
+        296.03,
+        299.35,
+        302.68
+      ],
+      "cut0": 254.64,
+      "cut1": 304.36,
+      "on_beat": true,
+      "word_onset": 254.537,
+      "onset_offset": 0.103,
+      "resnap": "beat"
+    },
+    {
+      "i": 50,
+      "text": "是因为我太爱你",
+      "t0": 304.368,
+      "t1": 312.401,
+      "t0_used": 304.36,
+      "t1_used": 312.401,
+      "snapped": true,
+      "snap_deltas": [
+        0.008,
+        -0.279
+      ],
+      "approx": false,
+      "splits": [
+        307.68,
+        311.03
+      ],
+      "cut0": 304.36,
+      "cut1": 312.68,
+      "on_beat": true,
+      "word_onset": 304.368,
+      "onset_offset": 0.008,
+      "resnap": "beat"
+    },
+    {
+      "i": 0,
+      "text": "只剩下钢琴陪我谈了一天",
+      "t0": null,
+      "t1": null,
+      "t0_used": null,
+      "t1_used": null,
+      "snapped": false,
+      "approx": true,
+      "splits": [],
+      "_untimed": true,
+      "cut0": null,
+      "cut1": null,
+      "on_beat": false,
+      "resnap": "untimed"
+    },
+    {
+      "i": 1,
+      "text": "睡着的大提琴",
+      "t0": null,
+      "t1": null,
+      "t0_used": null,
+      "t1_used": null,
+      "snapped": false,
+      "approx": true,
+      "splits": [],
+      "_untimed": true,
+      "cut0": null,
+      "cut1": null,
+      "on_beat": false,
+      "resnap": "untimed"
+    },
+    {
+      "i": 2,
+      "text": "安静的旧旧的",
+      "t0": null,
+      "t1": null,
+      "t0_used": null,
+      "t1_used": null,
+      "snapped": false,
+      "approx": true,
+      "splits": [],
+      "_untimed": true,
+      "cut0": null,
+      "cut1": null,
+      "on_beat": false,
+      "resnap": "untimed"
+    }
+  ],
+  "summary": {
+    "lines": 20,
+    "cuts": 100,
+    "cuts_on_beat": 100,
+    "mean_onset_offset_sec": 0.232,
+    "max_onset_offset_sec": 0.405,
+    "same_window_rows_removed": 31,
+    "degenerate_rows_repaired": 0,
+    "old_lines": 51,
+    "old_snapped": 18
+  },
+  "advisory": true
+}
