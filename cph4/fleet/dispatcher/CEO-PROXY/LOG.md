@@ -562,33 +562,6 @@ bm-b `wake_tasks` 仅 `Bigmoney-IterationLoop`，无 claim 任务 → 音频锚 
 
 ---
 
-## R2.41 事件班 2026-10-28 01:26-01:46（承载件触发：DL 00:41-00:51 七旗）
-
-**0 锁门**：`ceo-proxy-patrol.lock` mtime 00:56:31，入班实测 01:26:27 → age 29.9min > 10min 窗，判「他窗已收口」取锁继续（与 R2.40 班毕时刻吻合，非并行双跑）。
-
-**① 补料=真卡 3 张，非凑数**
-上一班（R2.40）已定性 SUPPLY-DRY=manifest 见底并补 Q-MV-0001-011（01:00:01 已被 bm-a 领走 DONE）。本班复核：队列 13 行**全 DONE**、manifest 6 行 deliverable 全部已存在 → 见底属实。真 backlog 定位=v717 只剩 3 项**人工判定**（CEO 待办剩余 3 项之②③），机器侧唯一可做的是把判定材料做成一页可判的包，于是落 3 张 CPU 卡并当窗产出：
-
-- `Q-MV-0001-012` 逐镜双签表预填 95 行（0.2s）
-- `Q-MV-0001-013` 时代盲测盲样 24 张（1.9s）
-- `Q-MV-0001-014` 静止接高速 11 处联系条（11.2s）
-
-新件 `Tools/mv_ceo_items_pack.py` 复用既有实测件（`aesthetic_v717.json` 95 镜含 era_group/指标 / `trans_v717.json` 11 处 STATIC_JUMP / `reconcile_v717.json` 102 联合切点），零重测零 LLM。自检：先在 `_pack_selftest` 跑通再入队（12A/12B、0 缺失帧、11 条纹）；随机看 `sj04_t077.333` 条纹——烛火→人脸是**真硬切**，材料可直接判。
-
-**② 判定交接已派单（禁自审自签）**：三包交 @bm-a mv-director，回执窗 12:00；本席只派单不判定。
-
-**③ bm-a STARVED-EXEC 的定性纠偏**：池内唯一开卡 POOL-0010 卡 CEO 物理件（提审主体/包体四值/软著 G01/材料夹），属登记面零催办；机器活本轮 13 秒跑完即尽。故 bm-a「STARVED」不是供给失效，而是**该机可机械执行的活真的做完了**——继续补只能造假活，本班不做（O-20260928-1820）。
-
-**④ bm-b IDLE-WITH-WORK（第 3 轮·结构性）**：bm-b 01:32 TCP 200、ram_free 11.7G、GPU 203MiB、00:28 last_pull 成功（昨夜 LANE-DOWN 已自愈），但无 `HQ-ProductionClaim` → POOL-0023 可见不可领。**关键新证**：whisperX/allin1 只装在 bm-b，bm-a 实测 `ModuleNotFoundError` → **改派 bm-a 这条路不存在**，唯一修法=bm-b 本机注册认领任务。
-
-**⑤ bm-c BLOCKED-RAM（第 3 轮·维持）**：ram_free 1.1G / VRAM 空 14.7G；POOL-0024 与 0021/0022 全卡本机执行面；另 00:29 `.:fail` 拉取失败。**不是 poke 可解类**（上一班已实证 poke 无效），本班零重复 poke。
-
-**⑥ CLOCK-SKEW**：max 1313.6ms(bm-c) / 717.1ms(bm-b)，门限=2×precision+20；bm-b 为链路中继 RTT 所致、bm-c 为系统钟停 w32time（已知·需提权），均已在 R2.38 登记，非新增。
-
-**四元组**：2026-10-28 01:26-01:46｜事件班（承载件触发）｜calls≈34｜verdict=SUPPLY 补 3 真卡且 3/3 DONE（13s 跑完）；bm-a 机器活已尽（STARVED 属定性而非故障）；bm-b/bm-c 两 P1 第 3 轮结构性缺口维持并写死本机一行修法；判定三包已派导演席 12:00 窗。
-
----
-
 ## R2.41 事件班 2026-10-28 01:26-02:0x（承载件触发：DL 00:41-00:51 七旗）
 
 **0 锁门**：`ceo-proxy-patrol.lock` mtime 00:56:31，入班实测 01:26:27 → age 29.9min > 10min 窗，判「他窗已收口」取锁继续（与 R2.40 班毕时刻吻合，非并行双跑）。
