@@ -2,9 +2,11 @@
 # bench_coder.py - resident 35B coder acceptance bench (CEO order 2026-10-14)
 # Gates: tok/s >= 30 (V100 spec P0 line), coding sanity answers, CJK sanity.
 # Self file-log only (no stdout dependency), safe-zone log.
-import json, time, urllib.request, sys
+import json, os, time, urllib.request, sys
 
-URL = "http://127.0.0.1:8090/v1/chat/completions"
+# L1 endpoint is swappable (D-20261028-11): resident 35B on :8090, or the
+# degraded ollama slot on :11434. Set L1_ENDPOINT to override the base URL.
+URL = (os.environ.get("L1_ENDPOINT") or "http://127.0.0.1:8090").rstrip("/") + "/v1/chat/completions"
 LOG = r"C:\Users\sjs20\Desktop\FluxGroup\media\logs\coder-bench.log"
 
 def log(m):
