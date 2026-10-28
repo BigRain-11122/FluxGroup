@@ -1,0 +1,57 @@
+{
+ "card": "POOL-0023",
+ "node": "bm-b",
+ "kind": "claim-task-audit",
+ "round": "bm-b r1225",
+ "ts": "2026-10-28T22:05:00+08:00",
+ "order_ref": "D-20261028-17 (@bm-b, acceptance due 2026-10-29 08:43)",
+ "acceptance": {
+  "a_task_exists": {
+   "verdict": "PRESENT",
+   "evidence": {
+    "task_name": "HQ-ProductionClaim",
+    "state": "Ready",
+    "logon_type": "S4U",
+    "user": "Administrator",
+    "action": "wscript.exe //B //nologo \"C:\\Fluxgroup\\FluxGroup\\Tools\\InvisibleRunner.vbs\" cmd.exe /c \"C:\\Fluxgroup\\FluxGroup\\Tools\\hq-production-claim.bat\"",
+    "last_run": "2026-10-28T21:22:44",
+    "last_result": 0,
+    "next_run": "2026-10-28T21:27:43",
+    "missed_runs": 0,
+    "cadence_min": 5
+   },
+   "note": "D-17 assumed no claim task existed on bm-b; it does, it is S4U, it is hidden-chained and it fires every 5 minutes with rc=0. An earlier schtasks /tn probe in this same round returned an empty string (the R49 trap, Tools/Invoke-SilentExe.ps1 -StdoutOnly on a multi-line /query) -- the full-table query is what settled it."
+  },
+  "b_blocked_by_cleared": {
+   "verdict": "NOT WRITTEN BY THIS NODE",
+   "reason": "POOL.json transitions are proxy-written (pool law, queue_claim.py header). Origin card still carries blocked_by=['no-claim-task:bm-b'] and result_ref says 'bm-b has no HQ-ProductionClaim'. Both statements are now FALSE by this receipt; the flip belongs to the dispatcher seat."
+  },
+  "c_claim_receipt": {
+   "verdict": "PRESENT",
+   "path": "cph4/fleet/queue-receipts/POOL-0023-bm-b.json",
+   "first_ts": "2026-10-28T00:22:48",
+   "last_seen_ts": "2026-10-28T21:17:44",
+   "seen_count": 252,
+   "kind": "claim-intent"
+  }
+ },
+ "diagnosis": {
+  "real_blocker": "not a missing claim task -- the claim executor is alive and has re-issued the same intent 252 times over 21 hours without the card ever being EXECUTED",
+  "why": "queue_claim.py --pool has only two modes: emit a claim INTENT (once) and bump last_seen thereafter. There is no execute leg for a POOL card, so 'POOL-ALREADY-CLAIMED <id>' is the terminal state of every card this machine claims. The PRODUCTION-QUEUE path executes; the POOL path does not.",
+  "second_finding": {
+   "task": "bm-b-AnchorBurn-r990",
+   "state": "Disabled",
+   "logon_type": "Interactive",
+   "action": "python.exe C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\anchor_runner_r990.py",
+   "last_run": "2026-10-17T18:02:56",
+   "last_result": 0,
+   "missed_runs": 2005,
+   "note": "an anchor burn runner exists on this machine but is disabled and was registered with InteractiveToken (violates the S4U law for lane tasks); it has not run for 11 days. It is NOT enabled by this round: whether that lineage should be revived is a lane decision, not a claim-task decision."
+  }
+ },
+ "honest": [
+  "this receipt is evidence, not an execution: the 7-song audio batch in POOL-0023 has not been produced",
+  "the claim executor being alive does not mean the card can be worked -- the card's work needs an execute leg (or a lane runner) that consumes the intent",
+  "a 5-minute claim cadence that re-emits the same intent 252 times is itself a symptom worth fixing before D-17's 12h window closes"
+ ]
+}
