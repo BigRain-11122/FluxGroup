@@ -647,3 +647,90 @@
 - 零 poke（bm-b 无命令通道·CEO 10-23 禁远程调度）；未直写 `orders/decisions/POOL/DEADLINES`；未碰产品代码与场景 YAML；未执行构建；未开游戏包；未重测 L0/IdleWatch/枢纽已测面。
 - 本件整件编码归一为 UTF-8（本轮实锚：R16 段为 GBK 追加致整件 UTF-8 校验在字节 79509 失败）——内容零改动，仅编码归一，便于 `read_file` 类工具直读。
 - 班毕 touch 锁。
+---
+
+# 班次 R18 · 2026-10-29 01:37-01:5x · 触发=承载件（STARVED-EXEC bm-a ×2 / R2.47 锁窃 / fleetlink probe）
+
+## NJ[biggame#R18-1]（升级·第 3 轮·承 R13-1 / R14-1 / R17-1）STARVED-EXEC lane=bm-a = 卡面政策失败，不是「无活可干」
+
+- **旗面**：`[01:21][01:31] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1`。`STATE.json` 01:31:02 同口径：bm-a open=1 / exec=0 / blocked=1。
+- **POOL 实况**（直读 24 卡）：bm-a 在册唯一 open = **POOL-0010**（P2，`blocked_by=CEO-PHYSICAL:submit-materials`）；其余 23 卡非 bm-a 或已 done。
+- **但机器不闲、产线在产**（本班直产证据，非传感复用）：
+  - `qa/x3050/quit_probe.json` + `winbuild.log`：吸嘟嘟 **V0.10.18** 于 **01:17:57–01:19:31** 跑完，`exit_code=0`、8 stations 全推进、19 level captures、`error_rows=0`、`Exiting batchmode successfully now!`。
+  - `qa/x3048`：10-28 22:36:21 batchmode success。
+  - `G20_bundle_budget.json`：recordedAt 10-28 20:24（G20 第 37 次 build 10-28 22:01）。
+  → **结论：bm-a「starved」只在 POOL 认领面成立，不在生产面**。
+
+- **域内可执行供料（本班新证·三条）**：
+  1. **吸嘟嘟 WeChat 构建从未过 CheckBundle**。`Design/evidence/packagerecords/` 全表按款名扫描：**无任何 GimmeAll/吸嘟嘟 的 bundle 记录**；被前几班当作 ② 证据的两件其实是他款——`G09_bundle_budget.json` 的 `packageDir=K:\Fluxgroup\projects\CrazyHospital\MiniGame\weixin\build\Build`（医院大当家·bm-c 路径），`G20_bundle_budget.json` 的 `packageDir=C:\Fluxgroup\MiniGame\MonsterInn\...`（bm-b 路径）。
+  2. **该构建为旧形状且实测越线风险**：`Build/MiniGameWeChat/webgl/Build` 面为 `*.unityweb.bin.br` 旧容器（10-11 03:19-03:20），实测 **wasm code `.br` = 4,851,172B > 4,194,304B 红线（超 656,868B）**、data `.br` = 23,906,540B、全目录 51.94MB 未压缩件并存。是否计入主包面必须跑一次 `tools/CheckBundle.ps1`（25,851B·10-25）裁决 → **分钟级可执行卡**。
+  3. **G01=提灯斩鬼(P01) 提审链半成**：软著 ✓（`软著申请材料/P01_LanternSlayer/` 源程序 pdf+txt、说明书 md+pdf 四件 10-19；`_报审提交区/第2批/01_提灯斩鬼/` 三件 PDF 10-19）、store screenshots ✓（10-03 五张）、docs ✓、合规自查 ✓；**但真包不在盘**——全 `gaming` 树 `*.zip > 20MB` **0 件**、文件名含 `V0.9.2` 的 zip **0 件**、`01_提灯斩鬼` 下 zip **0 件**；`01_提灯斩鬼/提交夹` **空**、`提交材料/video` 与 `提交材料/软著` **空**、`09_吸嘟嘟GimmeAll/GimmeAll/提交夹` **空**。→ POOL-0010 自己 `result_ref` 声称的「V0.9.2 desktop zip 10-16 补发 58MB」在盘上**查无**。
+  4. 旁证：`docs/family/production-queue.json` mtime **10-26 23:15**（记账面滞后 ~2.2 日）。
+
+- **判断**：POOL-0010 整卡贴 `CEO-PHYSICAL` **覆盖过宽**。其中「真包产出 / 提交夹组装 / 包体四值裁决」属**本地可执行工作**（不是账号、商户号、上架费一类物理件）；这正是 bm-a 每 10min 读 STARVED 的结构根因。上一班 snooze（STARVED-EXEC lane=bm-a → 2026-10-29 01:10）已过期，本班**不再续 snooze**——续 snooze 会把真供料缺口掩盖掉。
+
+- **候裁（hub 一句即可）**：
+  1. 是否把 POOL-0010 拆成 **可执行子件**（真包 / 提交夹 / 包体四值裁决）+ **CEO 物理件**（Steamworks 账号与上架费 / 软著登记受理）两部分；
+  2. 是否授权 bm-a 本机跑 `tools/CheckBundle.ps1` 对吸嘟嘟 10-11 构建出一份四值裁决记录（产出即为可认领交付件）；
+  3. 若 G1（due 2026-10-29）今日无法闭合 → 按「延误如实披露」改期（DEADLINES 本体禁直写，只报行）。
+
+## NJ[biggame#R18-2]（勘误 · R17 ③ 事实有误）Android 构建：模块在，工具链不在
+
+- **R17 ③ 写「6/6 编辑器无 AndroidPlayer」= 与盘上事实不符，本班直接更正**：
+  - 编辑器实为 **5 个**：`C:\Program Files\Tuanjie\Hub\Editor\2022.3.55t4 / .61t4 / .62t12 / .62t14 / .62t15`；
+  - **62t12 / 62t14 / 62t15 三个含 `AndroidPlayer`**；在役版本（`qa/x3050/winbuild.log` 握手行 `TuanjieEditor/2022.3.62t15`）**即含该模块**。
+- **真缺口**：模块内**无 `SDK` / `NDK` / `OpenJDK`**（`AndroidPlayer` 下仅 `Apk / Bee / Data / Documentation / Source / Tools / Variations`），叠加 `ANDROID_HOME` 为空、`Build\android` 不存在。
+- **影响**：修法从「装整个 Android 模块」降级为「**补 SDK/NDK/JDK 三件套 + 设 ANDROID_HOME**」。属开发者工具链变更（CEO 保留面 / 或 hub 派单面，R17 候裁① 至今未答，本轮为第 2 轮）→ 零催办，只登记。
+
+## NJ[biggame#R18-3]（新 · 证据可追溯性）R16/R17 引用的 pipeline 报告在树内查无
+
+- `pipeline-20261028-235601` 在 `gaming/MiniGame` 全树与 `media/logs` 内**按名 0 命中**（仅有 `tools/PipelineRun.ps1` 与 `pipeline.manifest.json`，10-25）。
+- 不推翻 ① 判绿——本班改用**可验证的直产证据**替代（x3050 exit 0 @01:19 / x3048 batchmode success @22:36 / G20 build37 @22:01）。
+- 但「引用件不可回溯」本身是回执链缺口 → hub 侧统一 pipeline 报告的落盘路径与命名规范（否则每班都在引用查不到的摘要）。
+
+## R18 域雷达复核（§1 七项）
+
+| 检查项 | 结果 |
+|---|---|
+| ① 门禁链 | **绿（改用直产证据）**：`qa/x3050` V0.10.18 01:17:57–01:19:31 exit 0·8 站·19 捕获·error_rows=0；`qa/x3048` 10-28 22:36:21 batchmode success；旁注见 NJ[R18-3]（pipeline 报告引用不可回溯） |
+| ② 包体四值 | **绿（他款样本）＋域缺口**：G20 `result=PASS` main 3,623,130/4,194,304B（余 571,174B）、data 1,145,536B、白名单 4/4、violation=0；**但吸嘟嘟自身 0 记录**，其 10-11 旧形状构建 wasm `.br` 4,851,172B 越 4MB 线 → NJ[R18-1] 子件 2 |
+| ③ 提审硬门 | **红 → NJ[R18-1]**：真包 0 件 / 提交夹空 / video + 软著子目录空（G01）；软著主体 ✓、screenshots ✓；G1 due 今日仍 pending；Android 缺口更正见 NJ[R18-2] |
+| ④ WIP 上限 | 46 项·`in_progress` **5 < 8**，无拥挤预警；`production-queue.json` mtime 10-26 23:15（滞后 ~2.2 日·记账面） |
+| ⑤ 产线批健康 | **绿·本班最新**：x3050 01:19:31 收口（本班启动前 18 分钟）→ 非断更 |
+| ⑥ 玩法差异四问 | 24h 无新增立项，无适用对象 |
+| ⑦ 资产批合规 | `asset-audit` 最新仍 2026-09-14（既有诚实边界）；本窗零新增未登记件 |
+
+## 触发旗裁决（本班）
+
+1. `STARVED-EXEC lane=bm-a` ×2 → **真缺口·不 snooze**，升 NJ[R18-1]（理由与证据如上）。
+2. `EVENT R2.47 锁窃 / PROBE fleetlink 3/3 HTTP200` → 舰队域面已由 R2.47 自证（bm-b LANE-DOWN 未复现），**非本域事项**，不重测。
+3. `CLOCK-SKEW max≈4.0s` / `BLOCKED-RAM bm-c` / `CAPACITY-BLOCKED bm-c` / `SUPPLY-DRY` → 均属舰队·调度域，R2.47 已登记（bm-c 为等待 CEO 桌面内存让路）；biggame 域损失 0，不重复登记、不 snooze 真事故。
+
+## 纪律
+
+- 零 poke；未直写 `orders/decisions/POOL/DEADLINES`；未碰产品代码与场景 YAML；未执行构建、未装工具链；未开游戏包。
+- 传感复用：L0 / IdleWatch / 枢纽 / R2.47 已测面一律不重测；本班新增读数仅限域内证据面（qa 批、包体记录、编辑器模块、提交链文件态）。
+- 既有 snooze 不续写：`FLAG STARVED-EXEC lane=bm-a`（until 01:10）**留其过期态**，原因见 NJ[R18-1]。
+- 班毕 touch 锁。
+
+## NJ[biggame#R19-1] CEO 10-28 游戏自动循环停令被 TickWatchdog 自动回滚（真实现状·结构面）
+
+- **事实链（本地直取）**：10-28 20:47:02 `RedlineAudit` 记 `CRIT TASK scheduled task Disabled: MiniGameAuditTick` + `MiniGameGateTick`（=停令已生效，调度任务退出码 2）→ 同日 22:03:14 同一日志转 `CLEAN` → 现四任务全部 `State=Ready`：`MiniGameEngineTick` LastRun **2026-10-29 02:22:01**、`.codely-cli/engine-tick/tick-ledger.txt` 02:27:03 仍在写；`MiniGame-PipelineGate` LastRun 01:56:01 并产 `Design/evidence/pipeline-20261029-015602/`（01:56:41）。
+- **回滚机制（脚本自证）**：`gaming/MiniGame/tools/TickWatchdog.ps1` 对 `DISABLED_UNFLAGGED`（`state.json` 的 `trigger.paused_by_user != true`）执行 `Enable-ScheduledTask -TaskName MiniGameEngineTick`，并把「state.json trigger.paused_by_user=true FIRST, or this watchdog restores it.」写在自身注释里。CEO 2026-10-28 停令执行时未先置该旗 → 被自愈回启。
+- **不夸大**：当前未复现「自动运行游戏包」——tick 每 ~2 分钟落 `CLOUD_CAP_DEFER live=2..3 | engine tick yielded`，进程面零 `GimmeAll/player`。风险=潜在复发（watchdog 每次见到 Disabled 就回启）+ 与 CEO 停令字面冲突。
+- **需枢纽裁决（不在本席即决射程：本席禁改任务状态）**：A=重申停令并补正确工序（先置 `state.json trigger.paused_by_user=true`，再 Disable EngineTick/PipelineGate/GateTick/AuditTick 四件，否则 watchdog 必回启）；B=认定保留，则更新记忆/法度免得每班重报。
+- **未 snooze**：任务确在跑=真实现状，非噪声。
+
+## NJ[biggame#R19-2] 雷达面七项复核（本班全绿·无新红旗）
+
+| 面 | 判 |
+| --- | --- |
+| ① 门禁链 | **绿**：`pipeline-20261029-015602` pass=9 fail=0（39.5s·preflight 19.8s） |
+| ② 包体四值 | **绿**：G20 `result=PASS` main 3,623,130/4,194,304B（余 571,174B）+ data 1,145,536B + whitelist 4/4 `violation=0`（recordedAt 10-28 20:24） |
+| ③ 提审硬门 | 不变：POOL-0010 仍 `blocked_by=CEO-PHYSICAL:submit-materials` → **物理件零催办** |
+| ④ WIP 上限 | 46 款 in_progress=**5**（触章程 ≥5 预警线，R18 已在档）；`docs/family/production-queue.json` mtime 10-26 23:15 = **51h 陈旧**，但 ready=15 供料在 |
+| ⑤ 产线批健康 | **绿**：pipeline 每 30min 新鲜，EngineTick 心跳在写 |
+| ⑥ 玩法差异四问 | 24h 无新立项 = n/a |
+| ⑦ 资产批合规 | 本窗无新批；`asset-audit` 末次 2026-09-14 = 陈旧边界（R18 在档） |
+
+本班附记（非本席域，转 group/机队席判读）：bm-a 现存 13 个 `Tuanjie.exe` + 71 个 `TuanjieShaderCompiler`，起于 10-28 12:17 与 19:26，项目为 `C:\Agent\gui-agent\GUIAgentUnity` 与 `D:\test\My project`——**不是 MiniGame 工程**，未纳入本席处置。
