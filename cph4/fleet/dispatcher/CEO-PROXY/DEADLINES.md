@@ -150,3 +150,15 @@ am_free_gb=10+cpu_load_pct=48——**bm-b 不是闲着，是在跑量化轮**；
 | **dispatcher capacity 自愈死锁（续 R2.44）** | **waiting-CEO（受保护件）** | BLOCKED-RAM 车道 `dispatchable=0`，而 POOL-0024 恰是解内存的自愈卡 → 自愈卡被自己所解条件挡住。`Tools/fleet-dispatcher.ps1` 属受保护四件（BLUEPRINT §九），本席不改只呈。 |
 | **bm-a 重复提交分叉** | **fixed（本班）** | 本地 `40c0b2a3` 与 origin `c6cf8447` 同题重复（两窗各写一次同批决策），本地另落后 4 笔。`git rebase --autostash origin/main` 跳过重复、behind/ahead 归零（现 HEAD=c6cf8447），dirty 44 项 autostash 零丢失。 |
 | **idle-watch bm-b 假红（续）** | **registered·工具面缺口（候裁）** | bm-b 分支只吃 gpu/comfy/batch，不吃 git 产出与 cpu_load → 在产也判 SVC_DOWN/GPU-IDLE。正法候选=加「近 60min 有本机提交即判 BUSY」。`fleet-idle-watch.ps1` 按保护面口径只登记候裁。 |
+
+## 附录 R2.46 事件班注记（2026-10-29 00:41-00:5x·承载件触发）
+
+| 件 | 状态 | 证据 / 下一步 |
+|---|---|---|
+| **SUPPLY-DRY（第 7 轮）** | **resolved·真供给（已验 BURNING）** | 新增 `Tools/mv_workorder.py`（确定性三源聚合，无 LLM），补 Q-MV-0001-021/022 两卡；bm-a 认领环 00:51:04 / 00:51:11 各 0.1s **DONE**。交付物 `D:\FleetWorker\review\v718_workorder.json`（74,293B·314 缺陷·100% 归镜）+ `v718_workorder.md` + `v717_cut_consensus.csv`（102 切点 BOTH73/TRANS-ONLY8/AUDIT-ONLY21）。队列 24/24 DONE。 |
+| **台账勘正 Q-MV-0001-015/017** | **fixed** | 两卡此前 FAILED 但交付物在盘（rc=1=交付闸 VERDICT FAIL 属设计行为，非执行失败）→ 改 DONE+result_note。症结=runner 把「闸判 FAIL」当「卡失败」，虚增失败面并掩盖有效证据。 |
+| **bm-b LANE-DOWN** | **at-risk·定性修正（本机动作）** | 主机**活**：tailscale active relay sfo / ping True / TCP 8790 accept；但 HTTP GET 三次（00:47/00:53）全超时 ⇒ **FleetLink 监听线程卡死（半活态）**，非关机非断网。修法=bm-b 本机重启 `FluxGroup-FleetLink`（S4U）。无远程通道（CEO 10-23 令），本席零催办只登记。 |
+| **bm-b STARVED-EXEC** | **at-risk·结构性（本机一行）** | POOL-0023 blocked_by=`no-claim-task:bm-b`。wake_tasks 白名单侧**已闭合**（fleet-nodes.json bm-b 含 HQ-ProductionClaim）；余缺=bm-b 本机注册 `HQ-ProductionClaim`（S4U）。另 whisperX/allin1 仅装 bm-b，禁改派 bm-a。 |
+| **bm-c BLOCKED-RAM** | **at-risk·本机动作（bm-c 侧）** | 00:47 `/status`：ram_free **0.6G / 23.9G（2.5%）**、VRAM 空 14,683MiB、cpu 48%、ollama 驻留 qwen3.5:9b/4b + qwen3.8:27b + glm-4.7-flash:30b + qwen3.6-coder:35b。POOL-0021/0022/0024 全堵 RAM。**零 poke**（r240：poke 治不了 RAM）。修法=bm-c 本机 `python Tools\fleet\gpu_lease.py --node bm-c --acquire --need-mb 12000`。 |
+| **D4 曝光闪单点病源（新判）** | **found·交导演席** | 4 处闪烁里 3 处连在 **E06_strike@reuse（211.17/211.29/211.33s）**，与 R2.44 的 POP 群聚（209.375-211.917s）同区 ⇒ 该段单点问题，重烧/换素材即可，非全片性缺陷。D1 尾帧重复=Z04_glyph_remains@234.21s（裁 1 帧级）；D2 近静止 5 镜清单见工单表。**修复决策归导演席，本席只出证据。** |
+| **诚实边界** | **standing** | CPU 卡一领即空（0.1s 级），下一轮 SUPPLY-DRY 必然再亮。真瓶颈=bm-c 内存（闸住全部 GPU 产）+ 导演席签核（人类判定）。本席不补假卡、不代创作裁决。 |

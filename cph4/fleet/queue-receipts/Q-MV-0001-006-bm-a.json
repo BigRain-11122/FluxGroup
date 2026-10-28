@@ -1,0 +1,9 @@
+{
+ "id": "Q-MV-0001-006",
+ "node": "bm-a",
+ "rc": 0,
+ "seconds": 16.6,
+ "cmd": "python Tools/mv_flag_frames.py \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\cph4\\fleet\\mv0001-handover\\outbound\\krea2\\30s-reel-v1\\full_mv_v717.mp4\" --flags \"D:\\FleetWorker\\review\\jitter_v717.json\" --out \"D:\\FleetWorker\\review\\flags_v717\" --pad 4",
+ "stdout_tail": "FLAG-FRAMES 27 strips -> D:\\FleetWorker\\review\\flags_v717\n",
+ "stderr_tail": ""
+}

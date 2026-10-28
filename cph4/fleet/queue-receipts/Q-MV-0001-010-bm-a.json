@@ -1,0 +1,9 @@
+{
+ "id": "Q-MV-0001-010",
+ "node": "bm-a",
+ "rc": 0,
+ "seconds": 0.2,
+ "cmd": "python Tools/mv_shot_reconcile.py --trans \"D:\\FleetWorker\\review\\trans_v717.json\" --jitter \"D:\\FleetWorker\\review\\jitter_class_v717.json\" --audit \"D:\\FleetWorker\\review\\aesthetic_v717.json\" --fps 24 --out \"D:\\FleetWorker\\review\\reconcile_v717.json\"",
+ "stdout_tail": "counts   : {'trans': 118, 'jitter': None, 'audit': 94}\ndeclared : {'jitter_cuts': 94, 'jitter_shots': 95, 'audit_shots': 95}\ntrans    : {'HARD': 62, 'STATIC_JUMP': 11, 'MATCH': 45} | shot boundaries(HARD+MATCH) = 107\nunion    : 102 cuts (tol 0.125s)\n  only in trans  : 8\n  only in audit  : 21\nVERDICT  : MISMATCH - at least one pass sees cuts no other pass sees; the union is the honest cut list\njson -> D:\\FleetWorker\\review\\reconcile_v717.json\n",
+ "stderr_tail": ""
+}

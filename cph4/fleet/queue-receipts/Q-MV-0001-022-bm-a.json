@@ -1,0 +1,9 @@
+{
+ "id": "Q-MV-0001-022",
+ "node": "bm-a",
+ "rc": 0,
+ "seconds": 0.1,
+ "cmd": "python Tools/mv_workorder.py cuts --reconcile-in \"D:\\FleetWorker\\review\\reconcile_v717.json\" --shots-in \"D:\\FleetWorker\\review\\shot_audit_v717.json\" --csv-out \"D:\\FleetWorker\\review\\v717_cut_consensus.csv\"",
+ "stdout_tail": "CUTS rows=102 verdict={\"BOTH\": 73, \"AUDIT-ONLY\": 21, \"TRANS-ONLY\": 8}\n",
+ "stderr_tail": ""
+}

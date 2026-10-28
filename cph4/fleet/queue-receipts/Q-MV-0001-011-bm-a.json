@@ -1,0 +1,9 @@
+{
+ "id": "Q-MV-0001-011",
+ "node": "bm-a",
+ "rc": 0,
+ "seconds": 0.5,
+ "cmd": "python Tools/kf_sheet.py \"D:\\FleetWorker\\review\\flags_v717\" --out \"D:\\FleetWorker\\review\\flag_board_v717\" --per-sheet 28 --cols 4 --thumb 480",
+ "stdout_tail": "KF-SHEET OK frames=27 sheets=1 out=D:\\FleetWorker\\review\\flag_board_v717\n",
+ "stderr_tail": ""
+}

@@ -1,0 +1,9 @@
+{
+ "id": "Q-MV-0002-002",
+ "node": "bm-a",
+ "rc": 0,
+ "seconds": 1.6,
+ "cmd": "python Tools/kf_sheet.py \"D:\\FluxGroup\\media\\mv-test\\xingqing\" --out \"D:\\FleetWorker\\review\\kf_sheets_kn_1024\" --per-sheet 12 --cols 4 --prompts \"D:\\FluxGroup\\media\\mv-test\\xingqing\\prompts_kf.json\"",
+ "stdout_tail": "KF-SHEET OK frames=30 sheets=3 out=D:\\FleetWorker\\review\\kf_sheets_kn_1024\n",
+ "stderr_tail": ""
+}

@@ -1,0 +1,9 @@
+{
+ "id": "Q-MV-0001-003",
+ "node": "bm-a",
+ "rc": 0,
+ "seconds": 30.4,
+ "cmd": "python Tools/mv_stability_gate.py \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\cph4\\fleet\\mv0001-handover\\outbound\\krea2\\30s-reel-v1\\full_mv_v716.mp4\"",
+ "stdout_tail": "file   : C:\\Users\\sjs20\\Desktop\\FluxGroup\\cph4\\fleet\\mv0001-handover\\outbound\\krea2\\30s-reel-v1\\full_mv_v716.mp4\nframes : 5623 @ 24.000 fps\nseams  : 0\nfreezes: 0\nVERDICT: PASS\n",
+ "stderr_tail": ""
+}

@@ -1,0 +1,9 @@
+{
+ "id": "Q-MV-0001-021",
+ "node": "bm-a",
+ "rc": 0,
+ "seconds": 0.1,
+ "cmd": "python Tools/mv_workorder.py workorder --gate-in \"D:\\FleetWorker\\review\\delivery_gate_v717_wl.json\" --shots-in \"D:\\FleetWorker\\review\\shot_audit_v717.json\" --outliers-in \"D:\\FleetWorker\\review\\outliers_v717.json\" --json-out \"D:\\FleetWorker\\review\\v718_workorder.json\" --md-out \"D:\\FleetWorker\\review\\v718_workorder.md\"",
+ "stdout_tail": "WORKORDER items=314 counts={\"CUT\": 217, \"POP\": 87, \"STATIC\": 5, \"FLICKER\": 4, \"DUP\": 1}\nassigned_to_shot=314 unassigned=0\n",
+ "stderr_tail": ""
+}

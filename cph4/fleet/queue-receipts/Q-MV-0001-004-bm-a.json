@@ -1,0 +1,9 @@
+{
+ "id": "Q-MV-0001-004",
+ "node": "bm-a",
+ "rc": 0,
+ "seconds": 197.9,
+ "cmd": "python Tools/mv_shot_sheets.py \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\cph4\\fleet\\mv0001-handover\\outbound\\krea2\\30s-reel-v1\\full_mv_v717.mp4\" --sheets \"D:\\FleetWorker\\review\\sheets_v717\" --per-sheet 8",
+ "stdout_tail": "shots=83 frames=415\ndecoded=415\nwrote D:\\FleetWorker\\review\\sheets_v717\\sheet_001-008.jpg\nwrote D:\\FleetWorker\\review\\sheets_v717\\sheet_009-016.jpg\nwrote D:\\FleetWorker\\review\\sheets_v717\\sheet_017-024.jpg\nwrote D:\\FleetWorker\\review\\sheets_v717\\sheet_025-032.jpg\nwrote D:\\FleetWorker\\review\\sheets_v717\\sheet_033-040.jpg\nwrote D:\\FleetWorker\\review\\sheets_v717\\sheet_041-048.jpg\nwrote D:\\FleetWorker\\review\\sheets_v717\\sheet_049-056.jpg\nwrote D:\\FleetWorker\\review\\sheets_v717\\sheet_057-064.jpg\nwrote D:\\FleetWorker\\review\\sheets_v717\\sheet_065-072.jpg\nwrote D:\\FleetWorker\\review\\sheets_v717\\sheet_073-080.jpg\nwrote D:\\FleetWorker\\review\\sheets_v717\\sheet_081-083.jpg\n",
+ "stderr_tail": ""
+}
