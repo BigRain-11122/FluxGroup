@@ -162,3 +162,16 @@ am_free_gb=10+cpu_load_pct=48——**bm-b 不是闲着，是在跑量化轮**；
 | **bm-c BLOCKED-RAM** | **at-risk·本机动作（bm-c 侧）** | 00:47 `/status`：ram_free **0.6G / 23.9G（2.5%）**、VRAM 空 14,683MiB、cpu 48%、ollama 驻留 qwen3.5:9b/4b + qwen3.8:27b + glm-4.7-flash:30b + qwen3.6-coder:35b。POOL-0021/0022/0024 全堵 RAM。**零 poke**（r240：poke 治不了 RAM）。修法=bm-c 本机 `python Tools\fleet\gpu_lease.py --node bm-c --acquire --need-mb 12000`。 |
 | **D4 曝光闪单点病源（新判）** | **found·交导演席** | 4 处闪烁里 3 处连在 **E06_strike@reuse（211.17/211.29/211.33s）**，与 R2.44 的 POP 群聚（209.375-211.917s）同区 ⇒ 该段单点问题，重烧/换素材即可，非全片性缺陷。D1 尾帧重复=Z04_glyph_remains@234.21s（裁 1 帧级）；D2 近静止 5 镜清单见工单表。**修复决策归导演席，本席只出证据。** |
 | **诚实边界** | **standing** | CPU 卡一领即空（0.1s 级），下一轮 SUPPLY-DRY 必然再亮。真瓶颈=bm-c 内存（闸住全部 GPU 产）+ 导演席签核（人类判定）。本席不补假卡、不代创作裁决。 |
+
+## 附录 R2.47 事件班注记（2026-10-29 01:21-01:3x·承载件触发·第 8 轮 SUPPLY-DRY 同型）
+
+| 项 | 状态 | 证据 / 下一步 |
+|---|---|---|
+| **bm-b LANE-DOWN（00:52 旗）** | **resolved·本班实证自愈** | 01:23:17 `/health` 200 `{"ok":true,"node":"bm-b","version":"1.9.3"}`；01:28:38 `/status` 200 host=BIGMONEY ram_free 6.2G cpu 33% GPU 112MiB。00:52 的「TCP accept 但 HTTP GET 三次全超时」未复现。三机同时探活全 200（bm-a 1.9.5 / bm-b 1.9.3 / bm-c 1.9.5）。**残余=FleetLink 版本落后（1.9.3 vs 1.9.5），本机升级动作，零催办**。 |
+| **bm-b STARVED-EXEC 定性** | **falsified（本班·承 R2.46 判错）** | R2.46 判「余缺=bm-b 本机注册 HQ-ProductionClaim」被 bm-b 自身审计回执证伪：`cph4/fleet/queue-receipts/POOL-0023-bm-b-claimtask-audit.json` → 任务 `PRESENT / State=Ready / S4U / last_result=0 / cadence 5min / last_run 10-28 21:22:44`，且同一 claim intent **21 小时内重发 252 次、卡从未执行**。真病灶=`queue_claim.py --pool` 只有意图腿、无执行腿（mode 有 `--pool`/`--pool-list`/`--pool-republish`，无 exec）→ POOL 卡结构性不可执行。`blocked_by` 已由本席翻为 `no-exec-leg:queue_claim--pool`。 |
+| **POOL-0023 可执行面** | **blocked·工具面（本席不代造 cmd）** | whisperX 锚批工具只在 bm-b（`media\drama-tools\anchor_runner_r990.py`，状态 Disabled 且注册为 Interactive = 违 S4U 律，11 天未跑）；bm-a 树全搜无 whisperX 锚 runner。无远程执行通道（CEO 10-23 令）→ 本席无法代写可验证 cmd，禁造假卡。 |
+| **bm-c BLOCKED-RAM** | **waiting-CEO（本机物理·零催办）** | 01:28 `/status` ram_free **0.9G/23.9G**、GPU 14686MiB free、cpu 25%。回执 `POOL-0024-bm-c.json` 已实测：RAM 消费者=桌面（Doubao×4 ~3.8G / msedge / Platform / explorer / wetype），ollama **0 驻留模型**（daemon 296MB）→ 撤 ollama 到不了 6.0G 判据。禁重复 poke（r240 判例：poke 治不了 RAM）。 |
+| **CLOCK-SKEW** | **registered·本机提权动作** | 01:19 `CLOCK-SKEW.json`：bm-b **+4004.5ms**（σ±192.9）、bm-c **+3678.6ms**（σ±206.4），hub bm-a +0.1ms。bm-c 由 R2.38 的 +3342ms 续涨 336ms ≈ w32time 仍在停摆。两机 NATS 心跳活（age 20s/62s）→ 偏差真实非传感假值。裁定=订正排程按 offset 校正已生效，系统时钟提权自启候本机动作。 |
+| **bm-a「BUSY」假忙面** | **found·判读勘正** | 01:07 `fleet/a.json` pulse：GPU util 99% 而 `gpu_procs=blender.exe;Tuanjie Hub.exe;Tuanjie.exe`（编辑器占卡）且 vram_free 1.9G；MV 产物最新 `D:\FluxGroup\media\mv-test\keainvren\batch1\KN30.png` = **10-27 23:06（26h 零新增）**。01:28 `/status` GPU 已释放至 1516MiB。结论=idle-watch 的 `a=BUSY` 由编辑器占卡造成，属「进程活着≠有活干」同族；生产面判据须看产物 mtime。 |
+| **SUPPLY-DRY（第 8 轮）** | **standing·真瓶颈（本席不补假卡）** | 队列 **24/24 DONE**、声明式 backlog **17/17 已交付（0 eligible）**、5 张 POOL 全不可执行：POOL-0010=CEO 物理件、POOL-0024/0016/0021=bm-c RAM 闸、POOL-0023=无执行腿。R2.45/R2.46 两轮「派生分析卡」均 0.1–11s 秒跑完 → 分析卡不构成供给。真供给只剩导演席 v718 生产裁决（工单 `D:\FleetWorker\review\v718_workorder.md` 314 项已备）。 |
+| **诚实边界** | **standing** | 本班 poke 3/3 accepted、3 分钟后复探 `_last_claim=QUEUE-EMPTY@01:25` + 零新回执 → **poke 不能凭空造供给**。下一步只能由三处之一解开：①bm-c 桌面 RAM（CEO 物理）②POOL 执行腿工具面修法 ③导演席 v718 生产。 |
