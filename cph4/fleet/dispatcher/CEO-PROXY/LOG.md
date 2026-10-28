@@ -690,3 +690,8 @@ am_free 10GB / cpu_load 48%——bm-b 在跑量化轮而非闲着；缺的是本
 - 旁证：`D:\FleetWorker\review` 最新产物停在 10-28 03:40（v717 复议收口），此后 20h 零新件，MV 线确实停在「等导演计划」。
 
 **◆ 四元组**：2026-10-29 00:01-00:3x｜事件班（承载件触发）｜calls≈30｜verdict=bm-b LANE-DOWN 翻案为假红（机器在产、三路遥测断）并勘正 00:04 决策轮 host-offline 定性；bm-a 重复提交造成的分叉已 rebase 清零（唯一实体修复）；bm-c RAM 真红维持且零重复 poke；SUPPLY-DRY 定性为声明式 backlog 耗尽 → 供给升级到导演席 v718 计划（非机械补卡）。
+
+**◆ R2.45 补记（00:26-00:30 复核·决定性证据）**
+- bm-b **00:18 又推一笔**：`50066348` = `bm-b r1203: casting reel builder + partial-manifest builder`（[via bm-b]）。即 dispatcher 00:01 与 00:21 两次判 `LANE-DOWN verdict=SVC_DOWN` 的**同一时段内**，bm-b 连推 r1201（23:37）/r1202（23:46）/r1203（00:18）三轮——不是「曾经活着」，是**正在产**。
+- `fleet-idle-watch` 00:24:33 仍判 bm-b `SVC_DOWN`、**streak=8**；`DISPATCH-LOG` 00:21 块仍出 `LANE-DOWN lane=bm-b` + `capacity=0`。⇒ 假红未自愈，且已满 8 连击（同病复发，按步9 闸升格律呈报；`fleet-idle-watch.ps1` 保护面口径只登记候裁，正法候选=「近 60min 有本机提交即判 BUSY」）。
+- 建议后续处置口径：bm-b 车道**恢复可派**（`dispatchable` 不应为 0），但其遥测三缺口仍须本机补齐（NatsHB/FleetLink S4U + HQ-ProductionClaim），否则时钟面永远 MISSING、poke 永远 verify 超时。
