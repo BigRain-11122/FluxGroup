@@ -90,6 +90,10 @@ def _pool_source():
 
 
 CLAIM_CLEARS = "no-claim-task:"   # this tool's intent receipt is exactly what clears it
+POOL_STUCK_AFTER = 3              # why: on 2026-10-29 one intent was re-emitted 252 times over
+# 21h and nothing ran, because a POOL card carries no cmd - the intent leg has no execute leg.
+# Re-emitting silently made an idle GPU look healthy for 8 SUPPLY-DRY rounds. Past this count the
+# claim reports POOL-STUCK so the dispatcher flags phantom supply instead of reading exit 0 as work.
 
 
 def _pool_gate(card, node):
@@ -159,6 +163,15 @@ def run_pool(a):
                        seen_count=prev["seen_count"])
             print("POOL-ALREADY-CLAIMED %s (intent from %s, seen %d)"
                   % (cid, prev["first_ts"], prev["seen_count"]))
+            if prev["seen_count"] > POOL_STUCK_AFTER:
+                write_last("POOL-STUCK", node=a.node, id=cid, face=src["face"],
+                           seen_count=prev["seen_count"], first_ts=prev["first_ts"],
+                           note="intent re-emitted without execution: the card carries no cmd, so "
+                                "this leg has no execute leg. Dispatcher must materialize a "
+                                "PRODUCTION-QUEUE job (job_ref) or the card is phantom supply.")
+                print("POOL-STUCK %s seen %d since %s :: no executable cmd on the card - "
+                      "materialize a PRODUCTION-QUEUE job (gate: Tools/pool_lint.py)"
+                      % (cid, prev["seen_count"], prev["first_ts"]))
             return 0
         now = time.strftime("%Y-%m-%dT%H:%M:%S")
         rec = {"card": cid, "node": a.node, "action": "claimed", "kind": "claim-intent",
