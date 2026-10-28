@@ -137,3 +137,16 @@ am_free_gb=10+cpu_load_pct=48——**bm-b 不是闲着，是在跑量化轮**；
 | **bm-c BLOCKED-RAM** | **at-risk（本机动作）** | `c.json` 陈旧 11h、ram_free 6%；本机 `ollama stop` + keepwarm 暂停即解。另：capacity 规则令自愈卡 POOL-0024 不可派（机制死锁），`Tools/fleet-dispatcher.ps1` 属 L0 正身 → 候 CEO 裁。 |
 | **CLOCK-SKEW 恶化** | **registered** | bm-b 1124.9ms / bm-c 1839.7ms（01:26 时 717/1313），precision ±190；修法本机 w32time（需提权）。 |
 | **账本冲突残留** | **fixed** | `CEO-PROXY/LOG.md` 27 行 stash 冲突壳（含重复 R2.41）已复原 HEAD 干净版，零独有内容损失。 |
+
+## 附录 R2.45 事件班注记（2026-10-29 00:01-00:3x·承载件触发）
+
+| 件 | 状态 | 证据 / 下一步 |
+|---|---|---|
+| **bm-b 三路遥测断（LANE-DOWN 假红根因）** | **at-risk·本机三条动作（bm-b 侧）** | 机器在产实证：`4d7c6082` 23:37 / `10d0ecff`+`c9dbbf96` 23:46 连推两轮 r1201-r1202。断的三路=①`FluxGroup-NatsHB` 未跑（NATS `state.bm-b` MISSING）②FleetLink :8790 未起（poke `accepted` 但 verify 超时=假受理）③`machines/bm-b.json` 停 16:05（bm-b 转 drama 线，量化心跳自然停）。修法=`FluxGroup-NatsHB`+`FluxGroup-FleetLink` 重注册 **S4U**（禁 InteractiveToken）→ 装 `HQ-ProductionClaim`（`Tools\task-register.ps1 -Name HQ-ProductionClaim -Script "<仓根>\Tools\queue_claim.py" -Arg "--node bm-b" -Trigger every:1m`）。无远程执行通道（CEO 10-23 令），本席零催办只登记。 |
+| **POOL-0023 定性勘正** | **corrected（本班）** | 00:04 决策轮第29批判「host-offline(SVC_DOWN)」→ 勘正为 **telemetry-down:bm-b**。host 在线且在产；卡仍 open 合理，但理由行改为「认领任务未装 + 遥测断」，避免日后按「主机死」重派音频锚。 |
+| **SUPPLY-DRY（第 6 轮）定性** | **resolved·供给升级（非机械补卡）** | 队列 22/22 全消费、声明式 backlog 15/15 全交付。下批真供给=导演席 v718 修复计划（D1 尾帧 @234.21s / D2 freeze 3 镜 `INT3_her_walk`0.442·`Z01`0.293·`E04a`0.255 / D4 flicker 4 镜 `E01b`0.173·`E04a`0.167·`D05`0.152·`Z03`0.131）。本席不代造创作裁决。 |
+| **bm-c BLOCKED-RAM（维持）** | **at-risk·本机动作（bm-c 侧）** | NATS 活 seq1807/age4min；GPU free 14.36G，`ram_free_gb=0.4`（1.7%）。释放法=`Tools/fleet/gpu_lease.py --acquire` 或 `.codely-cli/machine-state.ps1 -Mode pause`（本机）。**禁重复 poke**（r240 判例：poke 修不动 RAM，只 churn）。 |
+| **bm-c 时钟 +3342ms** | **registered·本机提权动作** | precision ±299 → 门限 618ms，判 SKEW-HIGH 成立；w32time 停摆需提权自启，与 R2.38 同源，仅更新数值。 |
+| **dispatcher capacity 自愈死锁（续 R2.44）** | **waiting-CEO（受保护件）** | BLOCKED-RAM 车道 `dispatchable=0`，而 POOL-0024 恰是解内存的自愈卡 → 自愈卡被自己所解条件挡住。`Tools/fleet-dispatcher.ps1` 属受保护四件（BLUEPRINT §九），本席不改只呈。 |
+| **bm-a 重复提交分叉** | **fixed（本班）** | 本地 `40c0b2a3` 与 origin `c6cf8447` 同题重复（两窗各写一次同批决策），本地另落后 4 笔。`git rebase --autostash origin/main` 跳过重复、behind/ahead 归零（现 HEAD=c6cf8447），dirty 44 项 autostash 零丢失。 |
+| **idle-watch bm-b 假红（续）** | **registered·工具面缺口（候裁）** | bm-b 分支只吃 gpu/comfy/batch，不吃 git 产出与 cpu_load → 在产也判 SVC_DOWN/GPU-IDLE。正法候选=加「近 60min 有本机提交即判 BUSY」。`fleet-idle-watch.ps1` 按保护面口径只登记候裁。 |

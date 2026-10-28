@@ -663,3 +663,30 @@ am_free 10GB / cpu_load 48%——bm-b 在跑量化轮而非闲着；缺的是本
 - **D4 曝光闪**：`E01b_sand@reuse` flicker **0.173**、`E04a_words_warm` 0.167、`D05_words_warm` 0.152、`Z03_lights_out` 0.131 —— 与 019 的 POP 群聚 209.4–211.9s 相邻成片（E04a 200.8s / POP 209–212s 同属插入段）。
 - **jerk/flow 全片 ≤0.036** ⇒ 运镜与装配本身干净，问题**只在 freeze 与 flicker 两类**，v718 修法收窄为「重烧 INT3 / 缩短 Z01 定格 / 换 E04a 段素材」，无需全片重做。
 **四元组（补记）**：2026-10-28 03:40-03:44｜事件班（承载件触发）｜calls≈6｜verdict=两卡 2/2 DONE，v718 修复面已收敛到 3 处具名镜，交导演席出修复计划。
+
+## R2.45 事件班注记（2026-10-29 00:01-00:3x·承载件触发·六旗：LANE-DOWN / STARVED-EXEC×2 / BLOCKED-RAM / CAPACITY-BLOCKED / SUPPLY-DRY / CLOCK-UNALIGNED）
+
+**◆ 锁门**：`media/logs/ceo-proxy-patrol.lock` mtime 2026-10-28 03:45（age 20.3h > 10min 窗）→ 判他窗已停，取锁继续（入班 00:01:32，收口再 touch）。
+
+**◆ 本班唯一翻案：bm-b LANE-DOWN = 假红（机器活着，而且在产）**
+- dispatcher 23:31 / 23:51 / 00:01 三轮判 `LANE-DOWN verdict=SVC_DOWN` + 因 capacity 规则把 bm-b 车道 `dispatchable=0`，等于把一条在产车道从可派列表里摘掉。
+- 反证：**bm-b 23:37 与 23:46 各推一笔提交**（`4d7c6082` r1201 ack OB-20261028-150100-267 ／ `10d0ecff`+`c9dbbf96` r1202 drama voice chain v2 + valve keeper 5m）——距本班 15-25 分钟，推链与产出都正常。
+- 三类遥测同时断，才合成「死机」影像：① `FluxGroup-NatsHB` 未跑 → NATS `state.bm-b` MISSING（CLOCK-UNALIGNED missing=1 同一根因）② FleetLink 听者 :8790 未起（reality 00:07 与 00:19 两次 `:8790=N`；poke 返回 `accepted` 但 `verify-err 操作超时`=假受理）③ `quant/bigmoney/fleet/machines/bm-b.json` 停在 16:05（bm-b 已转 drama/audio 线，量化心跳本就不动），而 `fleet-idle-watch.ps1` 的 bm-b 分支只吃 gpu/comfy/batch 不吃真实产出。
+- **修法（bm-b 本机，非本席可远程；已入 DEADLINES）**：`FluxGroup-NatsHB`、`FluxGroup-FleetLink` 重注册为 **S4U**（禁 InteractiveToken，2026-09-29 判例）；装 `HQ-ProductionClaim`（`Tools\task-register.ps1 -Name HQ-ProductionClaim -Script "<仓根>\Tools\queue_claim.py" -Arg "--node bm-b" -Trigger every:1m`）。
+- **对 00:04 决策轮第29批③的勘正**：该批判「POOL-0023 = host-offline(SVC_DOWN) 移出 STARVED」——host 并未离线（反证同上），准确形态是**遥测断而机器在产**。pool 侧维持 open 无误，但理由行须改；否则日后依「主机离线」做重派/降级会误伤一条在产车道。卡面真阻塞应写 `telemetry-down:bm-b`（认领回执→任务注册），不是主机死。
+
+**◆ bm-a 自身缺陷已修（本班唯一实体修复）**
+- 实测本地 `HEAD=40c0b2a3` 与 origin `c6cf8447` 是**同题重复提交**（两窗各写一次同批决策：E1 误报销账+两卡改判），且本地落后 4 笔（含 bm-b 三笔）。`git rebase --autostash origin/main` → git 自动跳过重复提交，落后/超前双双归零（现 HEAD=c6cf8447），dirty 工作树 44 项 autostash 原样回贴、零丢失。依据=「SYNCED 只认工作树 head」+ hot-sync 正法（不做 hard reset）。
+
+**◆ bm-c：BLOCKED-RAM 是真红，维持；零重复 poke**
+- NATS 侧活着（seq 1807 / age 4min），`bm-c.json` GPU free **14.36G**，`ram_free_gb=0.4`（24G 机器 1.7%）；MiniGame `c.json` 停在 10-28 10:20、ram_free 1.4G —— 两侧读数一致指向**内存是真堵点**。
+- 时钟真偏 **+3342ms**（precision ±299 → 门限 618ms，判 SKEW-HIGH 成立）；w32time 停摆需提权，与 R2.38 同源，本班只更新数值。
+- 释放阀只有本机可拉（`Tools/fleet/gpu_lease.py --acquire` ／ `Tools/fleet/job_kf_batch.py` ／ `.codely-cli/machine-state.ps1 -Mode pause`）；**本班未重复 poke**（r240 判例：poke 修不动 RAM，只会 churn）。POOL-0024 与 dispatcher capacity 的自愈死锁，**`Tools/fleet-dispatcher.ps1` 属受保护四件，只登记候裁未改**。
+
+**◆ SUPPLY-DRY（第 6 轮）= 声明式 backlog 已耗尽，不是漏派**
+- `PRODUCTION-QUEUE` **22/22 全消费**（20 DONE / 2 FAILED）；`PRODUCTION-BACKLOG.jsonl` **15/15 行 deliverable 全部在盘** → `backlog_fill` 返回 0 是**真话**。
+- 两个 FAILED 不是作业故障，是**闸判负**：015 = 无白名单版、017 = 带白名单版，两卡给的结论正是「v717 有真缺陷」，重跑无信息增量。
+- 下一批真供给**不在机械面**：v717 三项具名缺陷（D1 尾帧 @234.21s 全帧重复 ／ D2 freeze `INT3_her_walk` 7.5-11.5s 0.442、`Z01_words_alone` 219.8-224.3s 0.293、`E04a_words_warm` 200.8-205.1s 0.255 ／ D4 flicker `E01b_sand` 0.173、`E04a` 0.167、`D05` 0.152、`Z03_lights_out` 0.131）需要**导演席出 v718 修复计划**（哪几镜重烧、哪几镜缩定格、哪段换素材）——本席不代造创作裁决，也不补假卡（O-20260928-1820）。
+- 旁证：`D:\FleetWorker\review` 最新产物停在 10-28 03:40（v717 复议收口），此后 20h 零新件，MV 线确实停在「等导演计划」。
+
+**◆ 四元组**：2026-10-29 00:01-00:3x｜事件班（承载件触发）｜calls≈30｜verdict=bm-b LANE-DOWN 翻案为假红（机器在产、三路遥测断）并勘正 00:04 决策轮 host-offline 定性；bm-a 重复提交造成的分叉已 rebase 清零（唯一实体修复）；bm-c RAM 真红维持且零重复 poke；SUPPLY-DRY 定性为声明式 backlog 耗尽 → 供给升级到导演席 v718 计划（非机械补卡）。
