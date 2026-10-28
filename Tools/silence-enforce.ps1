@@ -52,6 +52,12 @@ $vbsPath = Join-Path $PSScriptRoot 'InvisibleRunner.vbs'
 foreach ($tk in (Get-ScheduledTask -ErrorAction SilentlyContinue)) {
     if ($tk.TaskPath -like '\Microsoft\*') { continue }
     if ($tk.State -eq 'Disabled') { continue }
+    # S4U / service principals run in a non-interactive session: their child consoles
+    # are never visible on the desktop, so a "console flash" violation cannot occur.
+    # 2026-10-29 night round root cause: re-wrapping these via Set-ScheduledTask throws
+    # on some registrations and the old fallback then DISABLED the lane task (the daily
+    # ~00:36 disable of Bigmoney-* and FluxGroup-Quant* traced here).
+    if ("$($tk.Principal.LogonType)" -in @('S4U', 'Password', 'ServiceAccount', 'ServiceAccountNetwork')) { continue }
     $act = ($tk.Actions | ForEach-Object { ($_.Execute + ' ' + $_.Arguments).Trim() }) -join ' ;; '
     if (-not $act) { continue }
     if ($act -match 'wscript|mshta') { continue }
@@ -64,8 +70,15 @@ foreach ($tk in (Get-ScheduledTask -ErrorAction SilentlyContinue)) {
         Set-ScheduledTask -TaskPath $tk.TaskPath -TaskName $tk.TaskName -Action $newAct | Out-Null
         $r.action = 'wrapped'
     } catch {
-        try { Disable-ScheduledTask -TaskPath $tk.TaskPath -TaskName $tk.TaskName | Out-Null; $r.action = 'disabled' }
-        catch { $r.action = 'failed'; $r.detail = $_.Exception.Message }
+        # Fail closed only where a window can actually appear (interactive principal).
+        # Anything else keeps running: a disabled lane costs far more than one flash.
+        if ("$($tk.Principal.LogonType)" -match 'Interactive') {
+            try { Disable-ScheduledTask -TaskPath $tk.TaskPath -TaskName $tk.TaskName | Out-Null; $r.action = 'disabled' }
+            catch { $r.action = 'failed'; $r.detail = $_.Exception.Message }
+        } else {
+            $r.action = 'wrap-failed-kept'
+            $r.detail = $_.Exception.Message
+        }
     }
     $report.remediations += $r
 }

@@ -148,7 +148,7 @@
 - 来源: R2.36 事件班 2026-10-27 16:30/16:31 双触发（lane=bm-a open_cards=2 blocked=2）
 - 复发史·根因: 首录（同族=旗面不读 idle verdict）·根因=Tools/fleet-dispatcher.ps1 的 STARVED-EXEC 判据只看 exec 计数，不读 idle-watch verdict；对 bm-a 的 EXPECTED-IDLE-WORKHOURS（CEO 10-15 AutoYield 工作日让路律，pausedLite 09:00-19:00）仍按 P1 supply failure 报旗→每日约 10h 持续假红旗，稀释真红旗信噪比
 - 出生地闸: 旗面生成环节·修法=`if ($verdicts[$lane] -eq 'EXPECTED-IDLE-WORKHOURS') { 记 PAUSED-BY-POLICY 不计旗 }`
-- 阻塞: fleet-dispatcher.ps1 ∈ BLUEPRINT 九 受保护件（Tools 核心四件）→改动须 CEO 令/群审通道，本席不擅改
+- 阻塞: fleet-dispatcher.ps1 ∈ BLUEPRINT §九 受保护件（Tools 核心四件）→改动须 CEO 令/群审通道，本席不擅改
 - 验证证据: 本班实测 idle state.json verdicts.bm-a=EXPECTED-IDLE-WORKHOURS（16:39:29）+ .codely-cli/machine-state.flag=pausedLite 2026-10-27T09:00 + a.json gpu util 99%（机器在人用）
 - 复发计数: 1
 - 状态: open

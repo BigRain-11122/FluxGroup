@@ -1,39 +1,39 @@
 ﻿{
-    "ts":  "2026-10-27T16:54:15.072",
-    "hub_now_ms":  1793091254720,
-    "max_abs_offset_ms":  0,
-    "old_schema":  2,
+    "ts":  "2026-10-29T02:54:15.652",
+    "hub_now_ms":  1793213655299,
+    "max_abs_offset_ms":  4069.6,
+    "old_schema":  0,
     "missing":  0,
     "nodes":  [
                   {
                       "node":  "bm-a",
                       "status":  "OK",
-                      "ts":  "2026-10-27T16:54:12.994",
-                      "corrected_ts":  1793091252994,
-                      "age_ms":  1726,
+                      "ts":  "2026-10-29T02:54:13.331",
+                      "corrected_ts":  1793213653331,
+                      "age_ms":  1968,
                       "offset_ms":  0,
                       "precision_ms":  0.5,
-                      "seq":  18
+                      "seq":  2007
                   },
                   {
                       "node":  "bm-b",
-                      "status":  "V1-OLD-SCHEMA",
-                      "ts":  "2026-10-27T16:53:21",
-                      "corrected_ts":  null,
-                      "age_ms":  null,
-                      "offset_ms":  null,
-                      "precision_ms":  null,
-                      "seq":  null
+                      "status":  "SKEW-HIGH",
+                      "ts":  "2026-10-29T02:53:50.029",
+                      "corrected_ts":  1793213633974,
+                      "age_ms":  21325,
+                      "offset_ms":  3945.2,
+                      "precision_ms":  184.5,
+                      "seq":  1700
                   },
                   {
                       "node":  "bm-c",
-                      "status":  "V1-OLD-SCHEMA",
-                      "ts":  "2026-10-27T16:54:06",
-                      "corrected_ts":  null,
-                      "age_ms":  null,
-                      "offset_ms":  null,
-                      "precision_ms":  null,
-                      "seq":  null
+                      "status":  "SKEW-HIGH",
+                      "ts":  "2026-10-29T02:54:08.490",
+                      "corrected_ts":  1793213652560,
+                      "age_ms":  2739,
+                      "offset_ms":  4069.6,
+                      "precision_ms":  194.9,
+                      "seq":  1956
                   }
               ]
 }
