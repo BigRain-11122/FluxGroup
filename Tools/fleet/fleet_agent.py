@@ -4,9 +4,12 @@
 
 Why: the trial proved distribution != execution. A poke wakes a node's default task
 list, not the command's handler, and no node reports back. This agent is the missing
-receiver: it subscribes to fleet.cmd, dedupes by command id, performs the small set of
-safe built-in handlers (selfcheck / noop), and writes a unique ack file that travels
-back through git. It never executes arbitrary shell from a command.
+receiver + executor of the unified command plane (cph4/fleet/UNIFIED-COMMAND-PLANE-v1.md,
+2026-10-28 CEO order): subscribes to fleet.cmd, dedupes by id, runs a WHITELIST of actions,
+reports ack via NATS + a local acks/ dir. Nodes never write the group repo any more - that
+is exactly what diverged the worktree and stopped order intake on 2026-10-28. Commands are
+read straight from origin/main blobs, so a dirty worktree cannot block intake either.
+It never executes arbitrary shell from a command.
 
 Usage:
   python3 fleet_agent.py --node bm-a --serve
@@ -179,7 +182,37 @@ def git_push(path, root, message):
     return p.returncode == 0
 
 
-def handle(cmd, node, root, no_push):
+def nats_pub(hub, port, subject, payload, timeout=3.0):
+    """Fire-and-forget publish (no dependency on the SUB client)."""
+    try:
+        s = socket.create_connection((hub, port), timeout=timeout)
+        data = payload.encode("utf-8")
+        s.sendall(b"PUB " + subject.encode() + b" " + str(len(data)).encode() + b"\r\n" + data + b"\r\nPING\r\n")
+        s.close()
+        return True
+    except Exception:
+        return False
+
+
+def run_actions(cmd, root):
+    """Only whitelisted kinds execute. Anything else is queued for the owner."""
+    out = []
+    for a in (cmd.get("actions") or []):
+        kind = str(a.get("kind") or "")
+        if kind == "selfcheck":
+            out.append({"kind": kind, "ok": True, "stats": stats()})
+        elif kind == "noop":
+            out.append({"kind": kind, "ok": True})
+        elif kind == "sync":
+            run(["git", "-C", root, "fetch", "--quiet", "origin", "main"], timeout=120)
+            out.append({"kind": kind, "ok": True,
+                        "origin_main": run(["git", "-C", root, "rev-parse", "--short", "origin/main"])})
+        else:
+            out.append({"kind": kind, "ok": False, "note": "not-whitelisted"})
+    return out
+
+
+def handle(cmd, node, root, hub="100.110.185.62", port=4222, push_ack=False):
     cid = str(cmd.get("id") or "")
     text = str(cmd.get("text") or "")
     lanes = cmd.get("lanes") or []
@@ -188,48 +221,97 @@ def handle(cmd, node, root, no_push):
     if lanes and node not in lanes and "all" not in lanes:
         return None
     low = text.lower()
-    if "自检" in text or "selfcheck" in low or "状态回执" in text or "noop" in low:
-        status = "done"
-        detail = {"stats": stats(), "handled": "selfcheck"}
-    else:
-        status = "received"
-        detail = {"handled": "queued-for-owner", "note": "no built-in executor"}
+    actions = cmd.get("actions") or []
+    if not actions:
+        if "自检" in text or "selfcheck" in low or "状态回执" in text or "noop" in low:
+            actions = [{"kind": "selfcheck"}]
+    results = run_actions({"actions": actions}, root) if actions else []
+    ok = bool(results) and all(r.get("ok") for r in results)
+    status = "done" if ok else ("received" if not results else "failed")
     ack = {
         "cmd_id": cid, "node": node, "host": socket.gethostname(),
         "status": status, "ts": ts_str(), "ts_utc_ms": int(now().timestamp() * 1000),
         "lanes": lanes, "text_sha256": hashlib.sha256(text.encode("utf-8")).hexdigest()[:16],
+        "actions": results,
+        "head": run(["git", "-C", root, "rev-parse", "--short", "HEAD"]),
+        "note": "" if results else "no-executor-for-this-command",
     }
-    ack.update(detail)
-    cmd_dir = os.path.join(root, "cph4", "fleet", "cmd")
-    os.makedirs(cmd_dir, exist_ok=True)
-    path = os.path.join(cmd_dir, "%s.%s.ack.json" % (cid, node))
-    with open(path, "w", encoding="utf-8") as f:
+    # Unified command plane: nodes never write the group repo (that is what diverged the
+    # worktree and stopped order intake). Ack goes to NATS + a local, gitignored acks/ dir.
+    ack_dir = os.path.join(root, "cph4", "fleet", "acks")
+    os.makedirs(ack_dir, exist_ok=True)
+    with open(os.path.join(ack_dir, "%s.%s.ack.json" % (cid, node)), "w", encoding="utf-8") as f:
         json.dump(ack, f, ensure_ascii=False, indent=1)
-    pushed = False
-    if not no_push:
-        pushed = git_push(path, root, "ack: %s %s" % (node, cid))
-    print("ACK %s %s %s push=%s" % (cid, node, status, pushed))
+    nats_pub(hub, port, "fleet.ack", json.dumps(ack, ensure_ascii=False))
+    if push_ack:
+        cmd_dir = os.path.join(root, "cph4", "fleet", "cmd")
+        os.makedirs(cmd_dir, exist_ok=True)
+        p2 = os.path.join(cmd_dir, "%s.%s.ack.json" % (cid, node))
+        with open(p2, "w", encoding="utf-8") as f:
+            json.dump(ack, f, ensure_ascii=False, indent=1)
+        git_push(p2, root, "ack: %s %s" % (node, cid))
+    print("ACK %s %s %s actions=%s" % (cid, node, status, len(results)))
     return ack
 
 
-def scan(root, node, seen, no_push):
-    cmd_dir = os.path.join(root, "cph4", "fleet", "cmd")
-    if not os.path.isdir(cmd_dir):
-        return 0
+def git_show(root, path):
+    try:
+        p = subprocess.run(["git", "-C", root, "show", "origin/main:" + path],
+                           capture_output=True, creationflags=CREATE_NO_WINDOW, timeout=20)
+        if p.returncode == 0:
+            return p.stdout.decode("utf-8-sig", "replace")
+    except Exception:
+        pass
+    return None
+
+
+def list_cmd_names(root):
+    names = []
+    try:
+        p = subprocess.run(["git", "-C", root, "ls-tree", "--name-only", "origin/main", "--", "cph4/fleet/cmd"],
+                           capture_output=True, creationflags=CREATE_NO_WINDOW, timeout=30)
+        if p.returncode == 0:
+            for line in p.stdout.decode("utf-8", "replace").splitlines():
+                n = line.strip().split("/")[-1]
+                if n.endswith(".json") and not n.endswith(".ack.json"):
+                    names.append(n)
+    except Exception:
+        pass
+    if not names:
+        cmd_dir = os.path.join(root, "cph4", "fleet", "cmd")
+        if os.path.isdir(cmd_dir):
+            names = [n for n in sorted(os.listdir(cmd_dir))
+                     if n.endswith(".json") and not n.endswith(".ack.json")]
+    return names
+
+
+def scan(root, node, seen, hub, port, push_ack=False):
+    """Read the command plane straight from origin/main blobs.
+
+    A dirty or diverged worktree can no longer block order intake - that failure mode
+    stopped bm-b/bm-c for 11h on 2026-10-28.
+    """
+    run(["git", "-C", root, "fetch", "--quiet", "origin", "main"], timeout=120)
     n = 0
-    for name in sorted(os.listdir(cmd_dir)):
-        if not name.endswith(".json") or name.endswith(".ack.json"):
-            continue
-        path = os.path.join(cmd_dir, name)
+    for name in list_cmd_names(root):
+        raw = git_show(root, "cph4/fleet/cmd/" + name)
+        if raw is None:
+            p = os.path.join(root, "cph4", "fleet", "cmd", name)
+            if not os.path.exists(p):
+                continue
+            try:
+                with open(p, encoding="utf-8-sig") as f:
+                    raw = f.read()
+            except Exception:
+                continue
         try:
-            with open(path, encoding="utf-8-sig") as f:
-                cmd = json.load(f)
+            cmd = json.loads(raw)
         except Exception:
             continue
         cid = str(cmd.get("id") or "")
         if not cid or cid in seen:
             continue
-        if handle(cmd, node, root, no_push):
+        if handle(cmd, node, root, hub, port, push_ack):
             seen.add(cid)
             n += 1
     return n
@@ -245,6 +327,8 @@ def main():
     ap.add_argument("--once", action="store_true")
     ap.add_argument("--wait", type=float, default=0)
     ap.add_argument("--no-push", action="store_true")
+    ap.add_argument("--push-ack", action="store_true",
+                    help="legacy: also commit the ack into the repo (breaks the read-only node rule)")
     ap.add_argument("--no-scan", action="store_true")
     a = ap.parse_args()
     root = os.path.abspath(a.root)
@@ -252,7 +336,7 @@ def main():
     seen = load_seen(seen_path)
 
     if not a.no_scan:
-        scan(root, a.node, seen, a.no_push)
+        scan(root, a.node, seen, a.hub, a.port, a.push_ack)
         save_seen(seen_path, seen)
 
     if a.once and a.wait <= 0:
@@ -272,7 +356,7 @@ def main():
                 data = sub.next(min(5.0, max(0.5, deadline - time.time())))
                 if data is None:
                     if a.serve:
-                        scan(root, a.node, seen, a.no_push)
+                        scan(root, a.node, seen, a.hub, a.port, a.push_ack)
                         save_seen(seen_path, seen)
                     continue
                 try:
@@ -281,7 +365,7 @@ def main():
                     continue
                 cid = str(cmd.get("id") or "")
                 if cid and cid not in seen:
-                    if handle(cmd, a.node, root, a.no_push):
+                    if handle(cmd, a.node, root, a.hub, a.port, a.push_ack):
                         seen.add(cid)
                         save_seen(seen_path, seen)
                 if a.wait > 0:
