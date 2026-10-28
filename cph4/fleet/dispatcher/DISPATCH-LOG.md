@@ -452,3 +452,62 @@
 [2026-10-29 01:40] SELF-CORRECTION R2.47: my first commit 27254ee0 carried a sibling windows working-tree truncation (34 history lines 2026-10-28 15:41..16:21 were already absent from the file copy before my edit). Rebuilt the file as origin-blob(e521823a) verbatim + only this shifts new lines: base lines lost 0 / cur lines lost 0. Lesson: before appending to an append-only ledger, diff the working copy against origin blob -- a truncated copy commits as a mass deletion.
 [2026-10-29 01:44] GATE-DISCREPANCY: git-no-reversal-check reports 46 absent lines yet direct content verification finds every one of them present (15:31/15:41/15:51/16:01/16:11/16:21 blocks at file head). Flag judged gate-side blind spot, carried to 08:43 morning shift; no history actually lost after the repair.
 [2026-10-29 02:1x] 事件班·承载件触发（R2.48）｜调用≈16｜verdict=SUPPLY-DRY 结构性根因修复+POOL 台账去幻影｜①闸升格（第 8 轮复发·按闸升格律当窗落地，非再加提醒）：新增 Tools/pool_lint.py —— OPEN 卡必须二选一〔job_ref 指向 PRODUCTION-QUEUE/BACKLOG 里真实存在的作业，或带类型化 blocked_by〕，否则判 PHANTOM SUPPLY=FAIL；反向验证实锚=修复前 FAIL 抓出 POOL-0016/POOL-0021 两张幻影（正是 bm-c 被记作 2exec 的那两张），修复后 PASS 零幻影｜②Tools/queue_claim.py 增 POOL-STUCK 闸：同一 claim intent 重发 >3 次即上报 POOL-STUCK 并写明卡无 cmd 故本腿无执行腿，终结 252 次静默重发被读成健康 exit 0｜③POOL 台账如实化：0016 转 done（三夜链 3/3 回执在案 c2094/r1057/r1058/c2069·open 理由=GPU 排产位已耗尽）；0021 补 blocked_by=CEO-PHYSICAL:bm-c-desktop-ram（原空数组属登记失实）；0023 收窄为 no-exec-leg:pool-card-has-no-cmd + no-verified-cmd:runner-only-on-bm-b 并附三步可验解锁配方（bm-b runner 重注册 S4U → runner+argv 入库 → 派单席物化 Q-MV-ANCHOR-B2 并设 job_ref）｜④真实供给判读（禁造假作业）：队列 24/24 DONE、backlog 17/17 已交付 0 eligible 属实；bm-a 无剩余 CPU 分析件且 GPU 52%/10483MiB 全为 CEO 桌面占用（13×Tuanjie 编辑器+Blender+Photoshop+Doubao+Feishu+llama-server 常驻，计算进程零生产作业）=不可派重活；bm-c ram_free 0.9G/23.9G 卡 CEO 物理面（零催办已登记）；bm-b 唯一真活在 0023 且无入仓 cmd → 本班不派单不 poke（无活可派时 poke=空打扰），瓶颈如实指向 RAM 闸+导演席判读｜⑤回访探针 +90min 已设
+
+[2026-10-29 01:41] FLAG CLOCK-SKEW max=3792.2ms precision=+/-198ms -> check hub path or node clock
+[2026-10-29 01:41] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-29 01:41] FLAG STARVED-EXEC lane=bm-b open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-29 01:41] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-10-29 01:41] FLAG CAPACITY-BLOCKED lane=bm-c exec_cards=2 dispatchable=0 -> P1 free capacity or reroute
+[2026-10-29 01:41] FLAG SUPPLY-DRY production_queue_open=0 total=24 last_claim=QUEUE-EMPTY@2026-10-29T01:40:02 -> P1 refill from real backlog
+[2026-10-29 01:41] pools: bm-a=1open/0exec bm-b=1open/0exec bm-c=3open/2exec; queue_open=0 run=0; idle: a=BUSY b=GPU-IDLE c=BLOCKED-RAM; flags=6
+[2026-10-29 01:51] FLAG CLOCK-SKEW max=3810.1ms precision=+/-197.5ms -> check hub path or node clock
+[2026-10-29 01:51] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-29 01:51] FLAG STARVED-EXEC lane=bm-b open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-29 01:51] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-10-29 01:51] FLAG CAPACITY-BLOCKED lane=bm-c exec_cards=2 dispatchable=0 -> P1 free capacity or reroute
+[2026-10-29 01:51] FLAG SUPPLY-DRY production_queue_open=0 total=24 last_claim=QUEUE-EMPTY@2026-10-29T01:50:01 -> P1 refill from real backlog
+[2026-10-29 01:51] pools: bm-a=1open/0exec bm-b=1open/0exec bm-c=3open/2exec; queue_open=0 run=0; idle: a=BUSY b=GPU-IDLE c=BLOCKED-RAM; flags=6
+[2026-10-29 02:01] FLAG CLOCK-SKEW max=3851.6ms precision=+/-194.7ms -> check hub path or node clock
+[2026-10-29 02:01] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-29 02:01] FLAG STARVED-EXEC lane=bm-b open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-29 02:01] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-10-29 02:01] FLAG CAPACITY-BLOCKED lane=bm-c exec_cards=2 dispatchable=0 -> P1 free capacity or reroute
+[2026-10-29 02:01] FLAG SUPPLY-DRY production_queue_open=0 total=24 last_claim=QUEUE-EMPTY@2026-10-29T02:00:01 -> P1 refill from real backlog
+[2026-10-29 02:01] pools: bm-a=1open/0exec bm-b=1open/0exec bm-c=3open/2exec; queue_open=0 run=0; idle: a=BUSY b=GPU-IDLE c=BLOCKED-RAM; flags=6
+[2026-10-29 02:11] FLAG CLOCK-SKEW max=3886.4ms precision=+/-195.2ms -> check hub path or node clock
+[2026-10-29 02:11] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-29 02:11] FLAG STARVED-EXEC lane=bm-b open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-29 02:11] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-10-29 02:11] FLAG STARVED-EXEC lane=bm-c open_cards=2 blocked=2 -> P1 supply failure: no executable card
+[2026-10-29 02:11] FLAG SUPPLY-DRY production_queue_open=0 total=24 last_claim=QUEUE-EMPTY@2026-10-29T02:10:02 -> P1 refill from real backlog
+[2026-10-29 02:11] pools: bm-a=1open/0exec bm-b=1open/0exec bm-c=2open/0exec; queue_open=0 run=0; idle: a=BUSY b=GPU-IDLE c=BLOCKED-RAM; flags=6
+[2026-10-29 02:21] FLAG CLOCK-SKEW max=3931.1ms precision=+/-194.7ms -> check hub path or node clock
+[2026-10-29 02:21] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-29 02:21] FLAG STARVED-EXEC lane=bm-b open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-29 02:21] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-10-29 02:21] FLAG STARVED-EXEC lane=bm-c open_cards=2 blocked=2 -> P1 supply failure: no executable card
+[2026-10-29 02:21] FLAG SUPPLY-DRY production_queue_open=0 total=24 last_claim=QUEUE-EMPTY@2026-10-29T02:20:02 -> P1 refill from real backlog
+[2026-10-29 02:21] pools: bm-a=1open/0exec bm-b=1open/0exec bm-c=2open/0exec; queue_open=0 run=0; idle: a=BUSY b=GPU-IDLE c=BLOCKED-RAM; flags=6
+[2026-10-29 02:31] FLAG CLOCK-SKEW max=3969.9ms precision=+/-195.9ms -> check hub path or node clock
+[2026-10-29 02:31] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-29 02:31] FLAG STARVED-EXEC lane=bm-b open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-29 02:31] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-10-29 02:31] FLAG STARVED-EXEC lane=bm-c open_cards=2 blocked=2 -> P1 supply failure: no executable card
+[2026-10-29 02:31] FLAG SUPPLY-DRY production_queue_open=0 total=24 last_claim=QUEUE-EMPTY@2026-10-29T02:30:02 -> P1 refill from real backlog
+[2026-10-29 02:31] pools: bm-a=1open/0exec bm-b=1open/0exec bm-c=2open/0exec; queue_open=0 run=0; idle: a=BUSY b=GPU-IDLE c=BLOCKED-RAM; flags=6
+[2026-10-29 02:41] FLAG CLOCK-SKEW max=4009.7ms precision=+/-194.8ms -> check hub path or node clock
+[2026-10-29 02:41] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-29 02:41] FLAG STARVED-EXEC lane=bm-b open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-29 02:41] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-10-29 02:41] FLAG STARVED-EXEC lane=bm-c open_cards=2 blocked=2 -> P1 supply failure: no executable card
+[2026-10-29 02:41] FLAG SUPPLY-DRY production_queue_open=0 total=24 last_claim=QUEUE-EMPTY@2026-10-29T02:40:02 -> P1 refill from real backlog
+[2026-10-29 02:41] pools: bm-a=1open/0exec bm-b=1open/0exec bm-c=2open/0exec; queue_open=0 run=0; idle: a=BUSY b=GPU-IDLE c=BLOCKED-RAM; flags=6
+[2026-10-29 02:51] FLAG CLOCK-SKEW max=4049.5ms precision=+/-194.7ms -> check hub path or node clock
+[2026-10-29 02:51] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-29 02:51] FLAG STARVED-EXEC lane=bm-b open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-29 02:51] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-10-29 02:51] FLAG STARVED-EXEC lane=bm-c open_cards=2 blocked=2 -> P1 supply failure: no executable card
+[2026-10-29 02:51] FLAG SUPPLY-DRY production_queue_open=0 total=25 last_claim=DONE@2026-10-29T02:50:43 -> P1 refill from real backlog
+[2026-10-29 02:51] pools: bm-a=1open/0exec bm-b=1open/0exec bm-c=2open/0exec; queue_open=0 run=0; idle: a=BUSY b=GPU-IDLE c=BLOCKED-RAM; flags=6
+﻿[2026-10-28 18:11] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-29 02:58] SHIFT event (carrier-triggered DL 02:01-02:11, lock stale 31min) | calls=~34 | verdict: SUPPLY-DRY CLOSED WITH REAL PRODUCT (9th round, but first one that ran work). Identity: POOL-0023 spec points at 3 tools with zero git history; beats leg rerouted to bm-a (librosa present, madmom absent) -> Q-MV-ANCHOR-BEATS-01 OPEN 02:47:xx -> DONE 02:50:43, 33/33 songs, 0 fail, beats anchors 7->41 files, receipt Q-MV-ANCHOR-BEATS-01-bm-a.json. Reverse-verified vs madmom originals (533/133 vs 533/134, median IBI .440 vs .441s; 389/98 vs 391/97). Toolgate: dispatcher R2.44 BLOCKED-RAM self-deadlock untouched (protected). Tree: autostash pop left markers in queue_claim.py/POOL.json(both sides byte-identical, EOL-only) + 2 ledgers truncated vs HEAD -> rebuilt from HEAD, committed-line loss=0, markers=0. push=origin 2113cdc4.
