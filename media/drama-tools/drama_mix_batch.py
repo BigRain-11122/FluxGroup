@@ -43,6 +43,12 @@ SFX_RULES = [
 
 
 def parse_range(tok):
+    if ',' in tok:
+        out = []
+        for part in tok.split(','):
+            if part.strip():
+                out.extend(parse_range(part.strip()))
+        return out
     if "-" in tok:
         a, b = tok.split("-", 1)
         return ["EP%03d" % n for n in range(int(a.replace("EP", "")), int(b.replace("EP", "")) + 1)]
