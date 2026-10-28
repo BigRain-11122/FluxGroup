@@ -28,6 +28,18 @@ param(
 $ErrorActionPreference = 'Continue'
 $now = [DateTime]::Now
 
+# The AutoYield pause set is declared in .codely-cli\machine-state.ps1 ($tasks, single source since D-20261027-11)
+# and mirrored to machine-state.disabled.json while a pause is in force. Read that sidecar so this register cannot
+# lag the declaration - otherwise a widened pause set (10-27: quant family joined) spams false UNEXPECTED-DISABLED
+# rows for every workday shift (found 2026-10-28 night round: 7 tasks, ~4h30m of noise).
+$pauseSidecar = Join-Path (Split-Path $PSScriptRoot -Parent) '.codely-cli\machine-state.disabled.json'
+if (Test-Path $pauseSidecar) {
+    $sidecarTasks = @(Get-Content -Path $pauseSidecar -ErrorAction SilentlyContinue | Where-Object { $_ -and $_.Trim() -ne '' })
+    if ($sidecarTasks.Count -gt 0) {
+        $AutoYieldPaused = @(@($AutoYieldPaused) + $sidecarTasks | Select-Object -Unique)
+    }
+}
+
 function Convert-IsoDuration([string]$iso) {
     # ISO8601 duration like PT10M / PT1H / P1D -> minutes. Returns -1 when unparsable.
     if ([string]::IsNullOrWhiteSpace($iso)) { return -1 }
