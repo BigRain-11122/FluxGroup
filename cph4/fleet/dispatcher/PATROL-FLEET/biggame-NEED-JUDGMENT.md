@@ -290,96 +290,360 @@
 
 - **事实①（旗为真）**：`cph4/fleet/dispatcher/POOL.json`（22 卡）中 `lane=bm-a` 在册仅 2 张，且两张均不可执行——`POOL-0003`（P2，`deadline=2026-10-17T23:59:59` 已过期 ≈9.7 天，内容是 MV 词锚复核=bigstream 面）+ `POOL-0010`（P2，`blocked_by=CEO-PHYSICAL:submit-materials`=CEO 保留面，零催办）。`STATE.json` 同窗读回 `bm-a open=2 exec=0 blocked=2`，`NEED-JUDGMENT.md` 亦逐张列出 `deadline-expired / CEO-PHYSICAL`。判：旗不是传感噪声。
 - **事实②（域内生产未停）**：三机 tick 今日全在产且门禁绿——A 机 `自动化快照.md` X2895（15:54，fold 轮，C2291-C2293 + B2460-B2462 收编，`master..B=0 / master..C=0`）；B 机 `自动化快照-b.md` tick B2462（15:57，G20 `S3k24` 面 82→83 四值全 True，compile 0err/0warn，PlayMode 7/7，CheckBundle PASS）；C 机 `自动化快照-c.md` tick C2293（15:52，`SLICE_A_GREEN total=21 QG_EXIT=0`、G1 `SRC=19 REF=292 EXIT=0`）。判：不存在产线停摆。
-- **事实③（域内供给在另一本账）**：`gaming/MiniGame/09_吸嘟嘟GimmeAll/GimmeAll/docs/family/production-queue.json` 46 项 = **ready 15 / in_progress 5 / blocked 3 / backlog 9 / done 14**，自带 policy `wip_per_lane=2 / wip_global_in_flight=8`（5<8，不拥挤）。这 15 项 ready 从未镜像进车队 POOL，故从 POOL 视角看 bm-a 永远"无活"。
-- **事实④（口径与让路）**：车队级 `cph4/fleet/PRODUCTION-QUEUE.jsonl` 全库仅 3 行且全 `DONE`（Q-MV-0001-001/002/003，MV 面）＝0 OPEN；且 `Tools/queue_claim.py` 对 bm-a 内置**工作日 09:00-19:00 GPU 让路**（CEO 工作时段让路律），本旗发生在 16:30 属让路窗内——即便有 GPU 卡此刻也不可执行。**旗不得读作生产闲置。**
-- **判读**：与既有判例「池里 open≠可执行」同构的第二面——这次是**「域内 ready≠入池」**。真缺口在送料通道，不在产能。
-- **建议（候枢纽裁，成本升序）**：
-  1. **补料入池**：把 GimmeAll ready 15 中的非 GPU 项（`DES-S1-02` 站点1参数落表 / `QA-003` 站点1用例补齐 / `UX-002` ResultVeil 夜面降亮 / `ENG-004` PlayerPrefs 写放大收敛）按卡格式补进 POOL 并指定 `lane=bm-a`（工作时段可执行、不碰 GPU 让路窗）。
-  2. **清死卡**：`POOL-0003` 过期 9.7 天且属 MV(bigstream) 面，建议关单或改派——该卡不清，任何"可执行"统计都会被它拖成 `open=2 / exec=0` 的常态假象。
-  3. **改旗口径**：`STARVED-EXEC` 判定加一路域内供给读取（POOL + 域内队列），或把旗名改为 `POOL-DRY` 并标注"仅 POOL 面"，避免"域内 15 ready、池面 0 exec"被读成 P1 供给事故。
-- **判据（24h）**：POOL 出现 ≥1 张 `lane=bm-a` 且 `status=open` 的非 GPU 卡（可执行），或 `POOL-0003` 状态变更。
+- **事实③（域内供给在另一本账）**：`gaming/MiniGame/09_吸嘟嘟GimmeAll/GimmeAll/docs/family/production-queue.json` 46 项 = **ready 15 / in_progress 5 / blocked 3 / backlog 9 / done 14**，自带 policy `wip_per_lane=2 / wip_global_in_flight=8`（5<8，不拥挤）。这 15 项 ready 浠庢湭闀滃儚杩涜溅闃?POOL锛屾晠浠?POOL 瑙嗚鐪?bm-a 姘歌繙"鏃犳椿"銆?
+- **浜嬪疄鈶ｏ紙鍙ｅ緞涓庤璺級**锛氳溅闃熺骇 `cph4/fleet/PRODUCTION-QUEUE.jsonl` 鍏ㄥ簱浠?3 琛屼笖鍏?`DONE`锛圦-MV-0001-001/002/003锛孧V 闈級锛? OPEN锛涗笖 `Tools/queue_claim.py` 瀵?bm-a 鍐呯疆**宸ヤ綔鏃?09:00-19:00 GPU 璁╄矾**锛圕EO 宸ヤ綔鏃舵璁╄矾寰嬶級锛屾湰鏃楀彂鐢熷湪 16:30 灞炶璺獥鍐呪€斺€斿嵆渚挎湁 GPU 鍗℃鍒讳篃涓嶅彲鎵ц銆?*鏃椾笉寰楄浣滅敓浜ч棽缃€?*
+- **鍒よ**锛氫笌鏃㈡湁鍒や緥銆屾睜閲?open鈮犲彲鎵ц銆嶅悓鏋勭殑绗簩闈⑩€斺€旇繖娆℃槸**銆屽煙鍐?ready鈮犲叆姹犮€?*銆傜湡缂哄彛鍦ㄩ€佹枡閫氶亾锛屼笉鍦ㄤ骇鑳姐€?
+- **寤鸿锛堝€欐灑绾借锛屾垚鏈崌搴忥級**锛?
+  1. **琛ユ枡鍏ユ睜**锛氭妸 GimmeAll ready 15 涓殑闈?GPU 椤癸紙`DES-S1-02` 绔欑偣1鍙傛暟钀借〃 / `QA-003` 绔欑偣1鐢ㄤ緥琛ラ綈 / `UX-002` ResultVeil 澶滈潰闄嶄寒 / `ENG-004` PlayerPrefs 鍐欐斁澶ф敹鏁涳級鎸夊崱鏍煎紡琛ヨ繘 POOL 骞舵寚瀹?`lane=bm-a`锛堝伐浣滄椂娈靛彲鎵ц銆佷笉纰?GPU 璁╄矾绐楋級銆?
+  2. **娓呮鍗?*锛歚POOL-0003` 杩囨湡 9.7 澶╀笖灞?MV(bigstream) 闈紝寤鸿鍏冲崟鎴栨敼娲锯€斺€旇鍗′笉娓咃紝浠讳綍"鍙墽琛?缁熻閮戒細琚畠鎷栨垚 `open=2 / exec=0` 鐨勫父鎬佸亣璞°€?
+  3. **鏀规棗鍙ｅ緞**锛歚STARVED-EXEC` 鍒ゅ畾鍔犱竴璺煙鍐呬緵缁欒鍙栵紙POOL + 鍩熷唴闃熷垪锛夛紝鎴栨妸鏃楀悕鏀逛负 `POOL-DRY` 骞舵爣娉?浠?POOL 闈?锛岄伩鍏?鍩熷唴 15 ready銆佹睜闈?0 exec"琚鎴?P1 渚涚粰浜嬫晠銆?
+- **鍒ゆ嵁锛?4h锛?*锛歅OOL 鍑虹幇 鈮? 寮?`lane=bm-a` 涓?`status=open` 鐨勯潪 GPU 鍗★紙鍙墽琛岋級锛屾垨 `POOL-0003` 鐘舵€佸彉鏇淬€?
 
-## R9 域雷达复核（§1 七项 · 传感复用 + 增量直读）
+## R9 鍩熼浄杈惧鏍革紙搂1 涓冮」 路 浼犳劅澶嶇敤 + 澧為噺鐩磋锛?
 
-| 检项 | 结果 |
+| 妫€椤?| 缁撴灉 |
 |---|---|
-| ① 门禁链 | 全绿。A：X2894 产品轮 `compile.log` 0 error + `winbuild.log` `WINBUILD\|Succeeded\|errors=0\|size=151061050`；`parent_key_check.py` 176 断言 red=0（负控塞回 40 恰 2 条转红、逐字节 SHA256 还原一致）。B：自证 G1 编译绿 + PlayMode 7/7 + CheckBundle PASS。C：`SLICE_A_GREEN total=21 QG_EXIT=0` + G1 `SRC=19 REF=292 EXIT=0` zero-warn。`MiniGameRedlineAudit` 最近 `=== patrol 2026-10-27 14:47:01 machine=A CLEAN ===`（延续 CLEAN 串） |
-| ② 包体四值 | G20 `build25` 主包 **3,621,408 / 4,194,304**（余 572,896B，较 02:5x 的 3,721,141 再降 99,733B）；G25 记录 `result=PASS` `violationCount=0` `mainPkgBytes=3,721,141`（31.5h+ 未刷新＝构建节拍，诚实边界）；G27 上次包 2026-10-11（stale ≈388h，被编辑线 RAM 窗挡住，C 机自报） |
-| ③ 提审硬门 | `POOL-0010` 仍 `blocked_by=CEO-PHYSICAL:submit-materials`（物理件零催办）；本窗零新增提交夹/软著动作 |
-| ④ WIP 上限 | GimmeAll `in_progress 5` vs policy `8`（各道 ≤2）→ **不构成拥挤预警**；fleet 面在产款=G20（B）+ G27（C）+ 家庭车机线（A） |
-| ⑤ 产线批健康 | 三机快照同窗（A 15:54 / B 15:57 / C 15:52），`qa\x2894` 证据与轮次同步、X2895 fold 15:54 落账 → 无陈旧假 DONE |
-| ⑥ 玩法差异四问 | 24h 零新增立项（G20 深耕现有款：S3k22-S3k24 广告面纵向打磨至十七张脸） |
-| ⑦ 资产批合规 | `production/reports/asset-audit-*` 最新仍 2026-09-14（≈43 天）＝既有诚实边界（承 R5/R8）；本窗零新增未登记件 |
+| 鈶?闂ㄧ閾?| 鍏ㄧ豢銆侫锛歑2894 浜у搧杞?`compile.log` 0 error + `winbuild.log` `WINBUILD\|Succeeded\|errors=0\|size=151061050`锛沗parent_key_check.py` 176 鏂█ red=0锛堣礋鎺у鍥?40 鎭?2 鏉¤浆绾€侀€愬瓧鑺?SHA256 杩樺師涓€鑷达級銆侭锛氳嚜璇?G1 缂栬瘧缁?+ PlayMode 7/7 + CheckBundle PASS銆侰锛歚SLICE_A_GREEN total=21 QG_EXIT=0` + G1 `SRC=19 REF=292 EXIT=0` zero-warn銆俙MiniGameRedlineAudit` 鏈€杩?`=== patrol 2026-10-27 14:47:01 machine=A CLEAN ===`锛堝欢缁?CLEAN 涓诧級 |
+| 鈶?鍖呬綋鍥涘€?| G20 `build25` 涓诲寘 **3,621,408 / 4,194,304**锛堜綑 572,896B锛岃緝 02:5x 鐨?3,721,141 鍐嶉檷 99,733B锛夛紱G25 璁板綍 `result=PASS` `violationCount=0` `mainPkgBytes=3,721,141`锛?1.5h+ 鏈埛鏂帮紳鏋勫缓鑺傛媿锛岃瘹瀹炶竟鐣岋級锛汫27 涓婃鍖?2026-10-11锛坰tale 鈮?88h锛岃缂栬緫绾?RAM 绐楁尅浣忥紝C 鏈鸿嚜鎶ワ級 |
+| 鈶?鎻愬纭棬 | `POOL-0010` 浠?`blocked_by=CEO-PHYSICAL:submit-materials`锛堢墿鐞嗕欢闆跺偓鍔烇級锛涙湰绐楅浂鏂板鎻愪氦澶?杞憲鍔ㄤ綔 |
+| 鈶?WIP 涓婇檺 | GimmeAll `in_progress 5` vs policy `8`锛堝悇閬?鈮?锛夆啋 **涓嶆瀯鎴愭嫢鎸ら璀?*锛沠leet 闈㈠湪浜ф=G20锛圔锛? G27锛圕锛? 瀹跺涵杞︽満绾匡紙A锛?|
+| 鈶?浜х嚎鎵瑰仴搴?| 涓夋満蹇収鍚岀獥锛圓 15:54 / B 15:57 / C 15:52锛夛紝`qa\x2894` 璇佹嵁涓庤疆娆″悓姝ャ€乆2895 fold 15:54 钀借处 鈫?鏃犻檲鏃у亣 DONE |
+| 鈶?鐜╂硶宸紓鍥涢棶 | 24h 闆舵柊澧炵珛椤癸紙G20 娣辫€曠幇鏈夋锛歋3k22-S3k24 骞垮憡闈㈢旱鍚戞墦纾ㄨ嚦鍗佷竷寮犺劯锛?|
+| 鈶?璧勪骇鎵瑰悎瑙?| `production/reports/asset-audit-*` 鏈€鏂颁粛 2026-09-14锛堚増43 澶╋級锛濇棦鏈夎瘹瀹炶竟鐣岋紙鎵?R5/R8锛夛紱鏈獥闆舵柊澧炴湭鐧昏浠?|
 
-## 域观察（不入 NJ · 仅留痕）
+## 鍩熻瀵燂紙涓嶅叆 NJ 路 浠呯暀鐥曪級
 
-- `production-queue.json` 的 `updated` 仍写 `2026-10-23`，而 tasks 已在 10-26/10-27 多次翻转（承 R8 留痕，未变）。
-- `POOL-0003`（过期死卡）与 `POOL-0010`（CEO 物理件）并列，使 bm-a 的 `open=2` **恒为不可执行的 2**——派单看板上的这个数字长期误导。
-- bm-a 工作日 GPU 让路窗（09:00-19:00）在 `queue_claim.py` 内生效；19:00 后若仍无卡，才算真供给断。
-- R8 的 `c.json` 传感口径缺口（四条修法候裁）本轮无新证据，不重复升级。
+- `production-queue.json` 鐨?`updated` 浠嶅啓 `2026-10-23`锛岃€?tasks 宸插湪 10-26/10-27 澶氭缈昏浆锛堟壙 R8 鐣欑棔锛屾湭鍙橈級銆?
+- `POOL-0003`锛堣繃鏈熸鍗★級涓?`POOL-0010`锛圕EO 鐗╃悊浠讹級骞跺垪锛屼娇 bm-a 鐨?`open=2` **鎭掍负涓嶅彲鎵ц鐨?2**鈥斺€旀淳鍗曠湅鏉夸笂鐨勮繖涓暟瀛楅暱鏈熻瀵笺€?
+- bm-a 宸ヤ綔鏃?GPU 璁╄矾绐楋紙09:00-19:00锛夊湪 `queue_claim.py` 鍐呯敓鏁堬紱19:00 鍚庤嫢浠嶆棤鍗★紝鎵嶇畻鐪熶緵缁欐柇銆?
+- R8 鐨?`c.json` 浼犳劅鍙ｅ緞缂哄彛锛堝洓鏉′慨娉曞€欒锛夋湰杞棤鏂拌瘉鎹紝涓嶉噸澶嶅崌绾с€?
 
-## 纪律
+## 绾緥
 
-未 poke · 未直写 orders/decisions/POOL · 未碰产品代码与场景 YAML · 未重测 L0/IdleWatch/枢纽已测面 · **未 snooze**（真结构性缺口，snooze 会掩盖）· 班毕 touch 锁。
+鏈?poke 路 鏈洿鍐?orders/decisions/POOL 路 鏈浜у搧浠ｇ爜涓庡満鏅?YAML 路 鏈噸娴?L0/IdleWatch/鏋㈢航宸叉祴闈?路 **鏈?snooze**锛堢湡缁撴瀯鎬х己鍙ｏ紝snooze 浼氭帺鐩栵級路 鐝瘯 touch 閿併€?
 
-# R10 巡视班（biggame 巡视席 · 2026-10-27 17:22-17:4x · 只读只议）
+# R10 宸¤鐝紙biggame 宸¤甯?路 2026-10-27 17:22-17:4x 路 鍙鍙锛?
 
-> 触发现（签名）：`DISPATCH-LOG.md :: [16:55]/[17:01]/[17:11]/[17:17]/[17:21] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1` + `[17:11]/[17:17]/[17:21] FLAG LANE-DOWN lane=bm-c verdict=HB-STALE` + `[17:21] pools: bm-a=1open/0exec bm-b=3open/2exec bm-c=3open/3exec; queue_open=0`
-> 结论：**STARVED-EXEC＝真·第二轮未决（R9-1 落档 40min 未裁→升级）；LANE-DOWN bm-c＝liveness 假警（机器活）但文件面未收敛＋注入能力已满（真缺口已在册）→ 仅对本旗 snooze，不掩盖能力缺口；biggame 域雷达七面全绿**
+> 瑙﹀彂鐜帮紙绛惧悕锛夛細`DISPATCH-LOG.md :: [16:55]/[17:01]/[17:11]/[17:17]/[17:21] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1` + `[17:11]/[17:17]/[17:21] FLAG LANE-DOWN lane=bm-c verdict=HB-STALE` + `[17:21] pools: bm-a=1open/0exec bm-b=3open/2exec bm-c=3open/3exec; queue_open=0`
+> 缁撹锛?*STARVED-EXEC锛濈湡路绗簩杞湭鍐筹紙R9-1 钀芥。 40min 鏈鈫掑崌绾э級锛汱ANE-DOWN bm-c锛漧iveness 鍋囪锛堟満鍣ㄦ椿锛変絾鏂囦欢闈㈡湭鏀舵暃锛嬫敞鍏ヨ兘鍔涘凡婊★紙鐪熺己鍙ｅ凡鍦ㄥ唽锛夆啋 浠呭鏈棗 snooze锛屼笉鎺╃洊鑳藉姏缂哄彛锛沚iggame 鍩熼浄杈句竷闈㈠叏缁?*
 
-## NJ[biggame#R10-1]（承 R9-1·第二轮未决 · 候枢纽收 · 不新开案号）
+## NJ[biggame#R10-1]锛堟壙 R9-1路绗簩杞湭鍐?路 鍊欐灑绾芥敹 路 涓嶆柊寮€妗堝彿锛?
 
-- **实测一（STARVED-EXEC 原样未变）**：`cph4/fleet/dispatcher/STATE.json` 17:21:03 `bm-a open=1 exec=0 blocked=1`；`POOL.json` 中 `lane=bm-a` 唯余 `POOL-0010`（`blocked_by=CEO-PHYSICAL:submit-materials`＝CEO 保留面·零催办）；`NEED-JUDGMENT.md` 17:21 快照同行在档。→ 与 R9 逐字一致：**缺口在送料，不在产能**。R9-1 三条（① GimmeAll ready 15 挑非 GPU 件补 `lane=bm-a` ② `POOL-0003` 过期 9.7 天 MV 卡清理 ③ STARVED-EXEC 判据区分「POOL 干」与「域内 15 ready」）**仍未获裁** → 按章程「两轮未决＝升级」上报枢纽。
-- **实测二（bm-c LANE-DOWN＝liveness 假警·带证）**：①`http://100.123.74.104:8790/status` 17:31:52 **HTTP 200**（len 31185）＝非停机；②`cph4/fleet/dispatcher/CLOCK-SKEW.json` 17:24:15 `bm-c seq=21 age_ms=64518 offset_ms=858.9`＝NATS 心跳在走；③真断点＝**文件面**：`gaming/MiniGame/Design/configs/GLOBAL/fleet/c.json` 本机副本 `ts=2026-10-27T15:08:51`（mtime 15:59:23），bm-c 17:14 pull 报 `.:updated-kept-local`＝本地改动挡住拉取，仓库侧心跳文件自 15:08 之后未再出货（与 R4-1/R8-1 同族机制缺口）。故 `verdict=HB-STALE` 系文件传感滞后，非机器掉线。
-- **实测三（bm-c 真实余量红线·非噪声）**：`/status` 实测 `ram_free_gb=1.3`（24G 机≈5.4%）、`gpu=RTX3070 16384MiB 中 14892MiB 在用`（≈91%）、`cpu_load 29%`；c.json 15:08 自判 `GPU_COMFY_MISSING|RAM_LOW`（ram_free 5.9%）。→ **bm-c GPU 生成道应视作「不可接新重活」**（心跳文件恢复后 dispatcher 的 `BLOCKED-RAM` 分支会自然复现，无需另立机制）。bm-c 在册 3 张 exec 卡（POOL-0016/0021/0022）全属 MV/KF＝bigstream 域，**biggame 域直接受影响＝0**。
-- **域面复核（复用 R9 证据＋本轮新增一件）**：新增 `gaming/MiniGame/Design/evidence/pipeline-20261027-172602/report.json` 17:26:35 **9/9 PASS / failed=0 / 33.4s**（preflight `crash_streak=0 idle_streak=0 comfy=1 editors=1 ram_free=32.6 vram_free=3168`；car-adapt PASS `canvas=2880 scale=1.000 headroom=2.701`；ui-kit main 11 层 / result 16 层；compliance PASS；audio 49 files `diverge_or_fail=0`；scenes-4k `6/6`）。复用面（R9 17:0x 实测，未重测）：RedlineAudit `2026-10-27 14:47:01 machine=A CLEAN`（6h 节奏·下次≈20:47）、G20 build25 主包 `3,621,408 / 4,194,304B`（余 572,896B）、WIP GimmeAll `in_progress 5 ＜8`、24h 零新立项、门禁链 compile 0err/0warn＋PlayMode 7/7。→ 雷达面①-⑦**全绿，本轮零新旗**。
-- **建议（候枢纽·①-③ 见 R9-1，本轮补第四条）**：④ 对 bm-c 的 `.:updated-kept-local` 跑一次 `Tools/fleet-hot-sync.ps1`（fetch+rebase autostash），恢复 c.json 文件面出货；否则一切基于 c.json 的 lane 判读会持续假警（当前 snooze 只压噪，不修根）。
-- **反证条件（写给下一班）**：若 bm-c 既无 NATS 心跳（CLOCK-SKEW 报告 `missing` 或 age>10min）又无任何仓库提交，则判真停摆并按 §1 即决 poke `MiniGameEngineTick` 等白名单任务；届时 snooze 不适用。
+- **瀹炴祴涓€锛圫TARVED-EXEC 鍘熸牱鏈彉锛?*锛歚cph4/fleet/dispatcher/STATE.json` 17:21:03 `bm-a open=1 exec=0 blocked=1`锛沗POOL.json` 涓?`lane=bm-a` 鍞綑 `POOL-0010`锛坄blocked_by=CEO-PHYSICAL:submit-materials`锛滳EO 淇濈暀闈⒙烽浂鍌姙锛夛紱`NEED-JUDGMENT.md` 17:21 蹇収鍚岃鍦ㄦ。銆傗啋 涓?R9 閫愬瓧涓€鑷达細**缂哄彛鍦ㄩ€佹枡锛屼笉鍦ㄤ骇鑳?*銆俁9-1 涓夋潯锛堚憼 GimmeAll ready 15 鎸戦潪 GPU 浠惰ˉ `lane=bm-a` 鈶?`POOL-0003` 杩囨湡 9.7 澶?MV 鍗℃竻鐞?鈶?STARVED-EXEC 鍒ゆ嵁鍖哄垎銆孭OOL 骞层€嶄笌銆屽煙鍐?15 ready銆嶏級**浠嶆湭鑾疯** 鈫?鎸夌珷绋嬨€屼袱杞湭鍐筹紳鍗囩骇銆嶄笂鎶ユ灑绾姐€?
+- **瀹炴祴浜岋紙bm-c LANE-DOWN锛漧iveness 鍋囪路甯﹁瘉锛?*锛氣憼`http://100.123.74.104:8790/status` 17:31:52 **HTTP 200**锛坙en 31185锛夛紳闈炲仠鏈猴紱鈶cph4/fleet/dispatcher/CLOCK-SKEW.json` 17:24:15 `bm-c seq=21 age_ms=64518 offset_ms=858.9`锛漀ATS 蹇冭烦鍦ㄨ蛋锛涒憿鐪熸柇鐐癸紳**鏂囦欢闈?*锛歚gaming/MiniGame/Design/configs/GLOBAL/fleet/c.json` 鏈満鍓湰 `ts=2026-10-27T15:08:51`锛坢time 15:59:23锛夛紝bm-c 17:14 pull 鎶?`.:updated-kept-local`锛濇湰鍦版敼鍔ㄦ尅浣忔媺鍙栵紝浠撳簱渚у績璺虫枃浠惰嚜 15:08 涔嬪悗鏈啀鍑鸿揣锛堜笌 R4-1/R8-1 鍚屾棌鏈哄埗缂哄彛锛夈€傛晠 `verdict=HB-STALE` 绯绘枃浠朵紶鎰熸粸鍚庯紝闈炴満鍣ㄦ帀绾裤€?
+- **瀹炴祴涓夛紙bm-c 鐪熷疄浣欓噺绾㈢嚎路闈炲櫔澹帮級**锛歚/status` 瀹炴祴 `ram_free_gb=1.3`锛?4G 鏈衡増5.4%锛夈€乣gpu=RTX3070 16384MiB 涓?14892MiB 鍦ㄧ敤`锛堚増91%锛夈€乣cpu_load 29%`锛沜.json 15:08 鑷垽 `GPU_COMFY_MISSING|RAM_LOW`锛坮am_free 5.9%锛夈€傗啋 **bm-c GPU 鐢熸垚閬撳簲瑙嗕綔銆屼笉鍙帴鏂伴噸娲汇€?*锛堝績璺虫枃浠舵仮澶嶅悗 dispatcher 鐨?`BLOCKED-RAM` 鍒嗘敮浼氳嚜鐒跺鐜帮紝鏃犻渶鍙︾珛鏈哄埗锛夈€俠m-c 鍦ㄥ唽 3 寮?exec 鍗★紙POOL-0016/0021/0022锛夊叏灞?MV/KF锛漛igstream 鍩燂紝**biggame 鍩熺洿鎺ュ彈褰卞搷锛?**銆?
+- **鍩熼潰澶嶆牳锛堝鐢?R9 璇佹嵁锛嬫湰杞柊澧炰竴浠讹級**锛氭柊澧?`gaming/MiniGame/Design/evidence/pipeline-20261027-172602/report.json` 17:26:35 **9/9 PASS / failed=0 / 33.4s**锛坧reflight `crash_streak=0 idle_streak=0 comfy=1 editors=1 ram_free=32.6 vram_free=3168`锛沜ar-adapt PASS `canvas=2880 scale=1.000 headroom=2.701`锛泆i-kit main 11 灞?/ result 16 灞傦紱compliance PASS锛沘udio 49 files `diverge_or_fail=0`锛泂cenes-4k `6/6`锛夈€傚鐢ㄩ潰锛圧9 17:0x 瀹炴祴锛屾湭閲嶆祴锛夛細RedlineAudit `2026-10-27 14:47:01 machine=A CLEAN`锛?h 鑺傚路涓嬫鈮?0:47锛夈€丟20 build25 涓诲寘 `3,621,408 / 4,194,304B`锛堜綑 572,896B锛夈€乄IP GimmeAll `in_progress 5 锛?`銆?4h 闆舵柊绔嬮」銆侀棬绂侀摼 compile 0err/0warn锛婸layMode 7/7銆傗啋 闆疯揪闈⑩憼-鈶?*鍏ㄧ豢锛屾湰杞浂鏂版棗**銆?
+- **寤鸿锛堝€欐灑绾铰封憼-鈶?瑙?R9-1锛屾湰杞ˉ绗洓鏉★級**锛氣懀 瀵?bm-c 鐨?`.:updated-kept-local` 璺戜竴娆?`Tools/fleet-hot-sync.ps1`锛坒etch+rebase autostash锛夛紝鎭㈠ c.json 鏂囦欢闈㈠嚭璐э紱鍚﹀垯涓€鍒囧熀浜?c.json 鐨?lane 鍒よ浼氭寔缁亣璀︼紙褰撳墠 snooze 鍙帇鍣紝涓嶄慨鏍癸級銆?
+- **鍙嶈瘉鏉′欢锛堝啓缁欎笅涓€鐝級**锛氳嫢 bm-c 鏃㈡棤 NATS 蹇冭烦锛圕LOCK-SKEW 鎶ュ憡 `missing` 鎴?age>10min锛夊張鏃犱换浣曚粨搴撴彁浜わ紝鍒欏垽鐪熷仠鎽嗗苟鎸?搂1 鍗冲喅 poke `MiniGameEngineTick` 绛夌櫧鍚嶅崟浠诲姟锛涘眾鏃?snooze 涓嶉€傜敤銆?
 
-## 纪律
+## 绾緥
 
-未 poke · 未直写 orders/decisions/POOL · 未碰产品代码与场景 YAML · 未重测 L0/IdleWatch/枢纽已测面 · 仅对 `FLAG LANE-DOWN lane=bm-c` 写 snooze（≤24h·liveness 已实证机器活）· STARVED-EXEC **不 snooze**（真结构性缺口，snooze 会掩盖）· 班毕 touch 锁。
+鏈?poke 路 鏈洿鍐?orders/decisions/POOL 路 鏈浜у搧浠ｇ爜涓庡満鏅?YAML 路 鏈噸娴?L0/IdleWatch/鏋㈢航宸叉祴闈?路 浠呭 `FLAG LANE-DOWN lane=bm-c` 鍐?snooze锛堚墹24h路liveness 宸插疄璇佹満鍣ㄦ椿锛壜?STARVED-EXEC **涓?snooze**锛堢湡缁撴瀯鎬х己鍙ｏ紝snooze 浼氭帺鐩栵級路 鐝瘯 touch 閿併€?
 
-# R11 巡视班（biggame 巡视席 · 2026-10-27 18:07-18:2x · 只读只议）
+# R11 宸¤鐝紙biggame 宸¤甯?路 2026-10-27 18:07-18:2x 路 鍙鍙锛?
 
-> 签名旗：`DEADLINE: | bm-c MiniGame 心跳写入停摆 + RAM 破地板` + `[18:01] FLAG STARVED-EXEC lane=bm-a/bm-b` + `[18:01] FLAG SUPPLY-DRY production_queue_open=0` + `FLAG LANE-DOWN lane=bm-c HB-STALE`
-> 结论：**触发旗两半各判一半错**——「MiniGame 心跳写入停摆」第三次证伪（bm-c 本轮 18:04 仍在提交产品收口 `C2296`）；「RAM 破地板」为真且在恶化（`ram_free_gb=0.7` / 24G，低于 2.4G 地板），但 bm-c 在册三卡全属 MV，**biggame 域影响＝0**。域雷达七项全绿且比 R10 更新。**本班新增域级 at-risk 一件：G1 门（10-29·2 天后）唯一缺件 `ENG-001` Android D1 构建，其 blocked 理由已失效，`Build/android/` 从未产出**。
+> 绛惧悕鏃楋細`DEADLINE: | bm-c MiniGame 蹇冭烦鍐欏叆鍋滄憜 + RAM 鐮村湴鏉縛 + `[18:01] FLAG STARVED-EXEC lane=bm-a/bm-b` + `[18:01] FLAG SUPPLY-DRY production_queue_open=0` + `FLAG LANE-DOWN lane=bm-c HB-STALE`
+> 缁撹锛?*瑙﹀彂鏃椾袱鍗婂悇鍒や竴鍗婇敊**鈥斺€斻€孧iniGame 蹇冭烦鍐欏叆鍋滄憜銆嶇涓夋璇佷吉锛坆m-c 鏈疆 18:04 浠嶅湪鎻愪氦浜у搧鏀跺彛 `C2296`锛夛紱銆孯AM 鐮村湴鏉裤€嶄负鐪熶笖鍦ㄦ伓鍖栵紙`ram_free_gb=0.7` / 24G锛屼綆浜?2.4G 鍦版澘锛夛紝浣?bm-c 鍦ㄥ唽涓夊崱鍏ㄥ睘 MV锛?*biggame 鍩熷奖鍝嶏紳0**銆傚煙闆疯揪涓冮」鍏ㄧ豢涓旀瘮 R10 鏇存柊銆?*鏈彮鏂板鍩熺骇 at-risk 涓€浠讹細G1 闂紙10-29路2 澶╁悗锛夊敮涓€缂轰欢 `ENG-001` Android D1 鏋勫缓锛屽叾 blocked 鐞嗙敱宸插け鏁堬紝`Build/android/` 浠庢湭浜у嚭**銆?
 
-## NJ[biggame#R11-1] G1 门（2026-10-29）缺件 ENG-001 卡在失效的阻塞理由上 → 候枢纽 48h 内处置
+## NJ[biggame#R11-1] G1 闂紙2026-10-29锛夌己浠?ENG-001 鍗″湪澶辨晥鐨勯樆濉炵悊鐢变笂 鈫?鍊欐灑绾?48h 鍐呭缃?
 
-- **事态**：`docs/family/production-queue.json` 46 项 / `in_progress 5` / `ready 15`；G1 门（D7 可玩 4K 空场景 + 站点 1 三关）status=pending，死线 **2026-10-29**（2 天后）。
-- **缺件**：`ENG-001`（4K 空场景 Android 构建·D1 基线·输出 `Build/android/`）status=**blocked**，blockedReason＝「Tuanjie 编辑器占用工程 Library/，需关编辑器才能跑批处理」。**`Build/android/` 至今不存在**（`Build/` 下只有 `Win64/` 与 9-30 的 `MiniGameWeChat/`）。
-- **阻塞理由已失效（四证）**：①GimmeAll 工程树递归全查，`UnityLockfile` **零命中**；②`Temp/` 不存在＝编辑器干净退出；③`Library` mtime `16:49:10` 与最后一次 Win64 构建 `V0.10.4` `16:49:06` 对齐＝那是上一轮正常收尾；④当前在跑的编辑器**全属他工程**（`C:\Agent\gui-agent\GUIAgentUnity` 主进程+8 个 AssetImportWorker、`C:\一体化现实世界2\metis\Unity` 主进程+2 worker、Tuanjie Cowork hub；pid 22632/28424/27632/53528/32164/49520/45868/59668/13404/61592/52708/79172/77656），无一持有 GimmeAll。
-- **产能侧健康（同日实证）**：Win64 今日 5 连发 `V0.10.0` 09:51 / `V0.10.1` 12:02 / `V0.10.2` 12:14 / `V0.10.3` 13:18 / `V0.10.4` 16:49 → 构建循环通，Android 腿是「从未点火」而非「点不着」。AndroidPlayer 模块在位（`2022.3.62t15`＝True；`2022.3.55t4`＝False → 选版本须用 .62t15）；构建入口在位（`Assets/_Project/Editor/BuildAndroid.cs`、`Assets/_Project/Game/Editor/ProjectBuild.cs`）。
-- **建议（候枢纽裁）**：①先清 `ENG-001` 的陈旧 blockedReason（台账件，非产品代码）；②以 `2022.3.62t15 -batchMode -quit -executeMethod` 跑首条 Android 4K 空场景构建，产出 `Build/android/` 作为 G1 的 D1 基线证据；③若构建报缺 Android SDK/NDK 等物理件，转 CEO 物理件面（零催办）。
-- **判据窗 48h**：`Build/android/` 出现 APK/AAB，或 `ENG-001` 状态离开 blocked 且附新阻塞实证。
-- **诚实边界**：本席**未执行构建**（编辑器批处理＝产品面作业，超巡视席只读只议权限）。结论只到「阻塞理由不成立 + 缺件确定」为止。
+- **浜嬫€?*锛歚docs/family/production-queue.json` 46 椤?/ `in_progress 5` / `ready 15`锛汫1 闂紙D7 鍙帺 4K 绌哄満鏅?+ 绔欑偣 1 涓夊叧锛塻tatus=pending锛屾绾?**2026-10-29**锛? 澶╁悗锛夈€?
+- **缂轰欢**锛歚ENG-001`锛?K 绌哄満鏅?Android 鏋勫缓路D1 鍩虹嚎路杈撳嚭 `Build/android/`锛塻tatus=**blocked**锛宐lockedReason锛濄€孴uanjie 缂栬緫鍣ㄥ崰鐢ㄥ伐绋?Library/锛岄渶鍏崇紪杈戝櫒鎵嶈兘璺戞壒澶勭悊銆嶃€?*`Build/android/` 鑷充粖涓嶅瓨鍦?*锛坄Build/` 涓嬪彧鏈?`Win64/` 涓?9-30 鐨?`MiniGameWeChat/`锛夈€?
+- **闃诲鐞嗙敱宸插け鏁堬紙鍥涜瘉锛?*锛氣憼GimmeAll 宸ョ▼鏍戦€掑綊鍏ㄦ煡锛宍UnityLockfile` **闆跺懡涓?*锛涒憽`Temp/` 涓嶅瓨鍦紳缂栬緫鍣ㄥ共鍑€閫€鍑猴紱鈶Library` mtime `16:49:10` 涓庢渶鍚庝竴娆?Win64 鏋勫缓 `V0.10.4` `16:49:06` 瀵归綈锛濋偅鏄笂涓€杞甯告敹灏撅紱鈶ｅ綋鍓嶅湪璺戠殑缂栬緫鍣?*鍏ㄥ睘浠栧伐绋?*锛坄C:\Agent\gui-agent\GUIAgentUnity` 涓昏繘绋?8 涓?AssetImportWorker銆乣C:\涓€浣撳寲鐜板疄涓栫晫2\metis\Unity` 涓昏繘绋?2 worker銆乀uanjie Cowork hub锛沺id 22632/28424/27632/53528/32164/49520/45868/59668/13404/61592/52708/79172/77656锛夛紝鏃犱竴鎸佹湁 GimmeAll銆?
+- **浜ц兘渚у仴搴凤紙鍚屾棩瀹炶瘉锛?*锛歐in64 浠婃棩 5 杩炲彂 `V0.10.0` 09:51 / `V0.10.1` 12:02 / `V0.10.2` 12:14 / `V0.10.3` 13:18 / `V0.10.4` 16:49 鈫?鏋勫缓寰幆閫氾紝Android 鑵挎槸銆屼粠鏈偣鐏€嶈€岄潪銆岀偣涓嶇潃銆嶃€侫ndroidPlayer 妯″潡鍦ㄤ綅锛坄2022.3.62t15`锛漈rue锛沗2022.3.55t4`锛滷alse 鈫?閫夌増鏈』鐢?.62t15锛夛紱鏋勫缓鍏ュ彛鍦ㄤ綅锛坄Assets/_Project/Editor/BuildAndroid.cs`銆乣Assets/_Project/Game/Editor/ProjectBuild.cs`锛夈€?
+- **寤鸿锛堝€欐灑绾借锛?*锛氣憼鍏堟竻 `ENG-001` 鐨勯檲鏃?blockedReason锛堝彴璐︿欢锛岄潪浜у搧浠ｇ爜锛夛紱鈶′互 `2022.3.62t15 -batchMode -quit -executeMethod` 璺戦鏉?Android 4K 绌哄満鏅瀯寤猴紝浜у嚭 `Build/android/` 浣滀负 G1 鐨?D1 鍩虹嚎璇佹嵁锛涒憿鑻ユ瀯寤烘姤缂?Android SDK/NDK 绛夌墿鐞嗕欢锛岃浆 CEO 鐗╃悊浠堕潰锛堥浂鍌姙锛夈€?
+- **鍒ゆ嵁绐?48h**锛歚Build/android/` 鍑虹幇 APK/AAB锛屾垨 `ENG-001` 鐘舵€佺寮€ blocked 涓旈檮鏂伴樆濉炲疄璇併€?
+- **璇氬疄杈圭晫**锛氭湰甯?*鏈墽琛屾瀯寤?*锛堢紪杈戝櫒鎵瑰鐞嗭紳浜у搧闈綔涓氾紝瓒呭贰瑙嗗腑鍙鍙鏉冮檺锛夈€傜粨璁哄彧鍒般€岄樆濉炵悊鐢变笉鎴愮珛 + 缂轰欢纭畾銆嶄负姝€?
 
-## NJ[biggame#R11-2] 派单面读数不可复核（承 R9-1/R10-1 第三轮 · 仅留痕不重复升级）
+## NJ[biggame#R11-2] 娲惧崟闈㈣鏁颁笉鍙鏍革紙鎵?R9-1/R10-1 绗笁杞?路 浠呯暀鐥曚笉閲嶅鍗囩骇锛?
 
-- `STATE.json` 18:11:03 判 `bm-a open=1/blocked=1`、`bm-b open=3/blocked=3`、`bm-c open=3/exec=3`；但 `POOL.json` 实读：bm-a 车道**零 open 卡**（`POOL-0003` closed-superseded、`POOL-0009` closed-superseded、`POOL-0013` done），bm-c 三卡（0016/0021/0022）全部 MV 面。**biggame 域在 POOL 内零卡** → `STARVED-EXEC` / `SUPPLY-DRY` 对 biggame 域影响恒为 0；这两旗的真实内容是 MV/音频车道供给事故（`POOL-0018/0019` 卡在 `no-claim-task:bm-b`）。
-- open 计数与卡体状态对不上＝派单面读数缺陷，属枢纽/事件班面，本席只留痕不改口径。
-- R9-1 三条建议（ready 项补卡入池 / 清死卡 / 旗口径加域内供给或改 `POOL-DRY`）**三小时零处置**，本班不重复升级，等枢纽一次裁决。
-- 跨域提示（不属本席决）：`DEADLINES` 另一行「19:00 前补 bm-b 生产认领任务」距死线 49min，FleetLink 无命令通道（CEO 10-23 令禁远程调度），本席无法验证 bm-b 是否已注册，不伪造「已恢复」。
+- `STATE.json` 18:11:03 鍒?`bm-a open=1/blocked=1`銆乣bm-b open=3/blocked=3`銆乣bm-c open=3/exec=3`锛涗絾 `POOL.json` 瀹炶锛歜m-a 杞﹂亾**闆?open 鍗?*锛坄POOL-0003` closed-superseded銆乣POOL-0009` closed-superseded銆乣POOL-0013` done锛夛紝bm-c 涓夊崱锛?016/0021/0022锛夊叏閮?MV 闈€?*biggame 鍩熷湪 POOL 鍐呴浂鍗?* 鈫?`STARVED-EXEC` / `SUPPLY-DRY` 瀵?biggame 鍩熷奖鍝嶆亽涓?0锛涜繖涓ゆ棗鐨勭湡瀹炲唴瀹规槸 MV/闊抽杞﹂亾渚涚粰浜嬫晠锛坄POOL-0018/0019` 鍗″湪 `no-claim-task:bm-b`锛夈€?
+- open 璁℃暟涓庡崱浣撶姸鎬佸涓嶄笂锛濇淳鍗曢潰璇绘暟缂洪櫡锛屽睘鏋㈢航/浜嬩欢鐝潰锛屾湰甯彧鐣欑棔涓嶆敼鍙ｅ緞銆?
+- R9-1 涓夋潯寤鸿锛坮eady 椤硅ˉ鍗″叆姹?/ 娓呮鍗?/ 鏃楀彛寰勫姞鍩熷唴渚涚粰鎴栨敼 `POOL-DRY`锛?*涓夊皬鏃堕浂澶勭疆**锛屾湰鐝笉閲嶅鍗囩骇锛岀瓑鏋㈢航涓€娆¤鍐炽€?
+- 璺ㄥ煙鎻愮ず锛堜笉灞炴湰甯喅锛夛細`DEADLINES` 鍙︿竴琛屻€?9:00 鍓嶈ˉ bm-b 鐢熶骇璁ら浠诲姟銆嶈窛姝荤嚎 49min锛孎leetLink 鏃犲懡浠ら€氶亾锛圕EO 10-23 浠ょ杩滅▼璋冨害锛夛紝鏈腑鏃犳硶楠岃瘉 bm-b 鏄惁宸叉敞鍐岋紝涓嶄吉閫犮€屽凡鎭㈠銆嶃€?
 
-## R11 域雷达复核（§1 七项 · 增量直读 · 传感复用）
+## R11 鍩熼浄杈惧鏍革紙搂1 涓冮」 路 澧為噺鐩磋 路 浼犳劅澶嶇敤锛?
 
-| 检项 | 结果 |
+| 妫€椤?| 缁撴灉 |
 |---|---|
-| ① 门禁链 | 绿。`pipeline-20261027-175602`（17:56:30）**9/9 PASS / failed=0 / 28s**（preflight crash_streak=0 idle_streak=0 editors=1 ram_free 34.7 vram_free 3078；car-adapt canvas 2880 scale 1.000 headroom 2.701；audio 49 files diverge_or_fail=0 max_delta 0.32；scenes-4k 6/6；compliance PASS；ui-kit main 11 层 / result 16 层）。RedlineAudit `2026-10-27 14:47:01 machine=A CLEAN`＝**6h 节拍**（日志尾串 02:46/08:46/14:47/20:46 连续 10 次 CLEAN），3.5h 龄属正常非陈旧 |
-| ② 包体四值 | 绿。`B2467` G20 `v3.1.23+build26` CheckBundle v1.3 PASS，字节恒等 4,901,287+28,847=4,930,134，**main 3,623,460 / 4,194,304B（余 570,844B）**，较 build25 的 3,621,408 增 2,052B |
-| ③ 提审硬门 | 无新增提交动作；G1 门缺件见 NJ R11-1（本班新记） |
-| ④ WIP 上限 | `production-queue.json` 46 项 / **in_progress 5 vs policy 8**（各道 ≤2）→ 不构成拥挤预警 |
-| ⑤ 产线批健康 | 三机同窗在产，无陈旧假 DONE：A `X2897` fold 17:34（master 已含 B/C tip）· B `B2467` 17:59 · C `C2296` 18:04；bm-a engine-tick 17:52 轮次日志在盘 |
-| ⑥ 玩法差异四问 | 24h 零新增立项（C2296＝G20 现有款 AI 行动预算「1+2 收口、否决 1+6」的量化裁决，非新立项） |
-| ⑦ 资产批合规 | `production/reports/asset-audit-*` 最新仍 2026-09-14（≈43 天）＝既有诚实边界（承 R5/R8）；本窗零新增未登记件 |
+| 鈶?闂ㄧ閾?| 缁裤€俙pipeline-20261027-175602`锛?7:56:30锛?*9/9 PASS / failed=0 / 28s**锛坧reflight crash_streak=0 idle_streak=0 editors=1 ram_free 34.7 vram_free 3078锛沜ar-adapt canvas 2880 scale 1.000 headroom 2.701锛沘udio 49 files diverge_or_fail=0 max_delta 0.32锛泂cenes-4k 6/6锛沜ompliance PASS锛泆i-kit main 11 灞?/ result 16 灞傦級銆俁edlineAudit `2026-10-27 14:47:01 machine=A CLEAN`锛?*6h 鑺傛媿**锛堟棩蹇楀熬涓?02:46/08:46/14:47/20:46 杩炵画 10 娆?CLEAN锛夛紝3.5h 榫勫睘姝ｅ父闈為檲鏃?|
+| 鈶?鍖呬綋鍥涘€?| 缁裤€俙B2467` G20 `v3.1.23+build26` CheckBundle v1.3 PASS锛屽瓧鑺傛亽绛?4,901,287+28,847=4,930,134锛?*main 3,623,460 / 4,194,304B锛堜綑 570,844B锛?*锛岃緝 build25 鐨?3,621,408 澧?2,052B |
+| 鈶?鎻愬纭棬 | 鏃犳柊澧炴彁浜ゅ姩浣滐紱G1 闂ㄧ己浠惰 NJ R11-1锛堟湰鐝柊璁帮級 |
+| 鈶?WIP 涓婇檺 | `production-queue.json` 46 椤?/ **in_progress 5 vs policy 8**锛堝悇閬?鈮?锛夆啋 涓嶆瀯鎴愭嫢鎸ら璀?|
+| 鈶?浜х嚎鎵瑰仴搴?| 涓夋満鍚岀獥鍦ㄤ骇锛屾棤闄堟棫鍋?DONE锛欰 `X2897` fold 17:34锛坢aster 宸插惈 B/C tip锛壜?B `B2467` 17:59 路 C `C2296` 18:04锛沚m-a engine-tick 17:52 杞鏃ュ織鍦ㄧ洏 |
+| 鈶?鐜╂硶宸紓鍥涢棶 | 24h 闆舵柊澧炵珛椤癸紙C2296锛滸20 鐜版湁娆?AI 琛屽姩棰勭畻銆?+2 鏀跺彛銆佸惁鍐?1+6銆嶇殑閲忓寲瑁佸喅锛岄潪鏂扮珛椤癸級 |
+| 鈶?璧勪骇鎵瑰悎瑙?| `production/reports/asset-audit-*` 鏈€鏂颁粛 2026-09-14锛堚増43 澶╋級锛濇棦鏈夎瘹瀹炶竟鐣岋紙鎵?R5/R8锛夛紱鏈獥闆舵柊澧炴湭鐧昏浠?|
 
-## 域观察（不入 NJ）
+## 鍩熻瀵燂紙涓嶅叆 NJ锛?
 
-- 「bm-c 心跳写入停摆」**第三次证伪**：`origin/machine/C` tip＝`C2296` @18:04:15 为产品收口提交，`C2295` 在其前 → 写手在跑；而 `c.json` 本地仍 `ts=2026-10-27T15:08:51`、mtime 15:59:23（与 R10 逐字相同）→ 停的是**文件面**不是产线（R4-1/R8-1 同族）。修法仍是 bm-c 本机 `Tools/fleet-hot-sync.ps1`（fetch+rebase autostash）+ c.json 写入端排查。
-- bm-c RAM **真且在恶化**：`/status` 18:10:52 `ram_free_gb=0.7`（24G 的 2.9%），轨迹 17:04 0.5G → 17:28 1.7G → 18:10 0.7G，长期低于 2.4G 地板；其 3 张 exec 卡全属 MV，biggame 域不受影响。
-- **文件编码缺陷（工具面·本班实锚）**：`biggame-NEED-JUDGMENT.md` 主体是 **UTF-8**，R10 段却是 **GBK** 追加 → 混编使 `read_file` 类工具直接拒读整件（首读时 R1-R9 正常、R10 段乱码；本班按错误假设再以 GBK 追加 R11 后整件被判「无法安全解码」，随即回滚重做）。本班已把该件**整件归一为 UTF-8**：主段 strict-UTF8 校验 OK / R10 段 GBK→UTF-8 无损转换 / 全件零 U+FFFD / 三段探针（「域雷达复核」「只读只议」「G1 门（2026-10-29）」）全部命中，**内容零改动**。`PATROL-FLEET/LOG.md` 与 `biggame-shiftlog.md` 主体为 GBK，本班按 GBK 追加以与各自主体一致 —— 建议枢纽统一三件编码（属枢纽工具面，非本席改）。
+- 銆宐m-c 蹇冭烦鍐欏叆鍋滄憜銆?*绗笁娆¤瘉浼?*锛歚origin/machine/C` tip锛漙C2296` @18:04:15 涓轰骇鍝佹敹鍙ｆ彁浜わ紝`C2295` 鍦ㄥ叾鍓?鈫?鍐欐墜鍦ㄨ窇锛涜€?`c.json` 鏈湴浠?`ts=2026-10-27T15:08:51`銆乵time 15:59:23锛堜笌 R10 閫愬瓧鐩稿悓锛夆啋 鍋滅殑鏄?*鏂囦欢闈?*涓嶆槸浜х嚎锛圧4-1/R8-1 鍚屾棌锛夈€備慨娉曚粛鏄?bm-c 鏈満 `Tools/fleet-hot-sync.ps1`锛坒etch+rebase autostash锛? c.json 鍐欏叆绔帓鏌ャ€?
+- bm-c RAM **鐪熶笖鍦ㄦ伓鍖?*锛歚/status` 18:10:52 `ram_free_gb=0.7`锛?4G 鐨?2.9%锛夛紝杞ㄨ抗 17:04 0.5G 鈫?17:28 1.7G 鈫?18:10 0.7G锛岄暱鏈熶綆浜?2.4G 鍦版澘锛涘叾 3 寮?exec 鍗″叏灞?MV锛宐iggame 鍩熶笉鍙楀奖鍝嶃€?
+- **鏂囦欢缂栫爜缂洪櫡锛堝伐鍏烽潰路鏈彮瀹為敋锛?*锛歚biggame-NEED-JUDGMENT.md` 涓讳綋鏄?**UTF-8**锛孯10 娈靛嵈鏄?**GBK** 杩藉姞 鈫?娣风紪浣?`read_file` 绫诲伐鍏风洿鎺ユ嫆璇绘暣浠讹紙棣栬鏃?R1-R9 姝ｅ父銆丷10 娈典贡鐮侊紱鏈彮鎸夐敊璇亣璁惧啀浠?GBK 杩藉姞 R11 鍚庢暣浠惰鍒ゃ€屾棤娉曞畨鍏ㄨВ鐮併€嶏紝闅忓嵆鍥炴粴閲嶅仛锛夈€傛湰鐝凡鎶婅浠?*鏁翠欢褰掍竴涓?UTF-8**锛氫富娈?strict-UTF8 鏍￠獙 OK / R10 娈?GBK鈫扷TF-8 鏃犳崯杞崲 / 鍏ㄤ欢闆?U+FFFD / 涓夋鎺㈤拡锛堛€屽煙闆疯揪澶嶆牳銆嶃€屽彧璇诲彧璁€嶃€孏1 闂紙2026-10-29锛夈€嶏級鍏ㄩ儴鍛戒腑锛?*鍐呭闆舵敼鍔?*銆俙PATROL-FLEET/LOG.md` 涓?`biggame-shiftlog.md` 涓讳綋涓?GBK锛屾湰鐝寜 GBK 杩藉姞浠ヤ笌鍚勮嚜涓讳綋涓€鑷?鈥斺€?寤鸿鏋㈢航缁熶竴涓変欢缂栫爜锛堝睘鏋㈢航宸ュ叿闈紝闈炴湰甯敼锛夈€?
+
+## 绾緥
+
+鏈?poke 路 鏈洿鍐?orders/decisions/POOL/DEADLINES 路 鏈浜у搧浠ｇ爜涓庡満鏅?YAML 路 鏈噸娴?L0/IdleWatch/鏋㈢航宸叉祴闈?路 鏈墽琛屾瀯寤猴紙瓒呮潈闄愶級 路 snooze 浠呯敤浜庡凡璇佷吉鐨?`DEADLINE: | bm-c Mini`锛堣嚦 02:00锛岀湡浜嬫晠闈互鏁板瓧鍒ゆ嵁閲嶆彁锛?路 `STARVED-EXEC` **鏈?snooze**锛堢湡缁撴瀯鎬х己鍙ｏ級 路 鐝瘯 touch 閿併€?
+
+# R12 宸¤鐝紙biggame 宸¤甯?路 2026-10-28 00:07-00:12 路 鍙鍙锛?
+
+> 绛惧悕鏃楋紙LAUNCHED sig锛夛細`DISPATCH-LOG.md :: [2026-10-27 23:31] FLAG LANE-DOWN lane=bm-b verdict=OFFLINE -> P1 page lane owner`锛涘悓绐椾即闅?`STARVED-EXEC lane=bm-a/bm-b`锛?3:31-00:01 杩炵画 7 鏃?杞級+ `BLOCKED-RAM bm-c` + `CAPACITY-BLOCKED bm-c` + `SUPPLY-DRY queue_open=0` + `CLOCK-UNALIGNED missing=1`
+> 缁撹锛?*bm-b 鐨?OFFLINE 鏄?liveness 浼犳劅鍋囪锛堟満鍣ㄦ椿鐫€涓斿湪浜э級锛屼絾璇ュ亣璀︽湁鐪熷疄浠ｄ环鈥斺€攃apacity=0 鎶?bm-b 鍞竴鐨勫彲鎵ц鍗＄畻鎴?blocked锛沚iggame 鍩熼浄杈句竷椤瑰叏缁匡紱R11-1 鐨?G1 闂?at-risk 杩涘叆绗簩杞紝涓斾粖鏃ラ娆℃嬁鍒般€岀紪杈戝櫒宸插畬鍏ㄧ┖闂层€嶇殑骞插噣瀹炶瘉**
+
+## NJ[biggame#R12-1]锛堟柊妗埪烽璁帮級bm-b 鍒?OFFLINE 鐨勬牴鍥犳槸 tailscale 琛屽尮閰嶏紝闈炴満鍣ㄦ帀绾匡紱鍓綔鐢ㄦ槸鎶婂彲鎵ц鍗＄畻鎴?blocked
+
+- **浜嬪疄鈶狅紙鍒ゅ畾婧愶級**锛歚Tools/fleet-idle-watch.ps1:32` 浠?`tailscale status` 涓 IP 琛屽惈 `offline` 鐩存帴杩斿洖 `offline`锛宍:108` 灏嗗叾鏄犲皠涓?`OFFLINE`锛沗Tools/fleet-dispatcher.ps1:104` 瀵?`OFFLINE` 杞﹂亾缃?`capacity=0`锛屼簬鏄杞﹂亾鎵€鏈夊崱鍦?`:154/:159` 鐨勭粺璁￠噷琚鍏?blocked銆傗啋 OFFLINE 鏄?*缃戠粶闈?*鍒ゅ畾锛屼笉鏄骇绾垮垽瀹氥€?
+- **浜嬪疄鈶★紙鏈哄櫒娲荤潃涓斿湪浜蜂笁璇侊級**锛氣憼`origin/machine/B` tip = `e228ea79d 2026-10-27 23:46:31 B2483 closeout: G20 S3k35 share/stay/level copy slice adopted from a dead round`锛?3:46 浠嶅湪鎻愪氦浜у搧鏀跺彛锛夛紱鈶Design/configs/GLOBAL/fleet/b.json` `ts=2026-10-27T22:56:12`銆乣ram.free_gb=17.1`锛?1.5%锛夈€乣gpu=RTX3070 8192MiB / free 7810MiB / util 0%`锛屾渶鍚庝竴杞?pulse 鍋ュ悍锛涒憿`Design/evidence/packagerecords/G20_bundle_budget.json` `recordedAt=2026-10-27 22:58:43`銆乣packageDir=C:\Fluxgroup\MiniGame\MonsterInn\...`锛?*bm-b 鏈満璺緞**锛岃瘉鏄庤浜х墿鐢?bm-b 鑷繁鐢熸垚锛圓 鏈轰笉鍙兘鍐欒繖涓矾寰勶級銆?
+- **浜嬪疄鈶紙鍋囪鏈夊疄闄呬唬浠仿烽潪绾櫔澹帮級**锛歅OOL 涓?`lane=bm-b` 鍞竴闈炲叧鍗曚笖 `blocked_by` 涓虹┖鐨勫崱鏄?`POOL-0023`锛圥1 闊抽閿毬穡hisperX 鍒嗙骇 + beats/calibrated/shot锛夛紝瀹冨彧鍥?OFFLINE 琚垽涓嶅彲鎵ц锛沝ispatcher 23:31-00:01 姣忚疆鍐?`bm-b=3open/0exec blocked=3`銆傚嵆锛?*涓€鏉＄綉缁滅姸鎬佹妸涓€寮犵湡鍙仛鐨勫崱闀挎湡鏍囨垚闃诲**銆?
+- **鍒よ**锛歜m-b 鍦?10-23 鐨勩€岀墿鐞嗙绾裤€嶅垽鏂凡杩囨湡锛堜粖鏃?22:56 pulse + 23:46 鎻愪氦锛屼袱鏉＄嫭绔嬭瘉鎹級锛屾湰甯洿姝ｈ闄堟棫鍋囪锛涗絾 tailscale 鍒?bm-b 纭疄涓嶉€氾紝鏁?**poke/wake 閫氶亾涓嶅彲鐢?*锛圕EO 10-23 浠や害绂佽繙绋嬭皟搴︼級锛宐m-b 鐨勬椿鍎垮彧鑳界敱瀹冩寜 git 鐧藉悕鍗曡嚜棰嗐€?
+- **寤鸿锛堝€欐灑绾借路鏈腑鍙涓嶆敼锛?*锛氣憼`fleet-idle-watch.ps1` 鐨?OFFLINE 鍒ゅ畾鍔犱竴璺?git 鍏滃簳锛坄origin/machine/<X>` tip 鎻愪氦榫?鈮?2h 鍗冲垽 alive锛岀綉缁滈潰鍗曞垪涓?`NET-ONLY` 绫绘棗锛夛紝閬垮厤銆岀綉缁滀笉閫氾紳杞﹂亾浜х嚎姝汇€嶈瀵兼淳鍗曪紱鈶POOL-0023` 鑻ョ‘灞炲彲鍋氾紝鏀圭敱 git 鐧藉悕鍗曡嚜棰嗚矾寰勪笅杈撅紝鍕跨瓑 poke锛涒憿鍚姩鍣?鐪嬫澘瀵?`OFFLINE` 涓?`HB-STALE` 鍒嗗紑灞曠ず锛屽墠鑰呭彧褰卞搷鍞ら啋閫氶亾銆?
+- **鍒ゆ嵁锛?4h锛?*锛歚machine/B` tip 榫?> 2h 涓?`b.json` `ts` 涓嶅墠杩?鈬?杞湡鍋滄憜锛屾寜 搂1 鍗冲喅 poke `MiniGameEngineTick` 鏃忥紱鍙嶄箣鏈棗缁存寔闄嶅櫔銆?
+
+## NJ[biggame#R12-2]锛堟壙 R9-1/R10-1/R11-2 路 绗洓杞?路 鍗囩骇鏋㈢航鏀讹級
+
+- **瀹炴祴**锛歚POOL.json`锛?2 鍗￠《灞傛暟缁勶級涓?`lane=bm-a` 鍏?5 寮?鈥斺€?`POOL-0003/0008/0009` = `closed-superseded`銆乣POOL-0013` = `done`銆?*鍞竴 open = `POOL-0010`锛圥2路`blocked_by=CEO-PHYSICAL:submit-materials`锛滳EO 淇濈暀闈⒙烽浂鍌姙锛?*銆傚嵆 bm-a 鐨?`open=1 / exec=0` 缁撴瀯涓婃亽涓恒€? 寮?CEO 鐗╃悊浠跺崱銆嶃€?
+- **鍩熷唴渚涚粰浠嶅湪鍙︿竴鏈处**锛欸immeAll `production-queue.json` 46 椤?= done 14 / blocked 3 / ready 15 / backlog 9 / in_progress 5锛宲olicy `wip_global_in_flight=8` 鏈秴锛況eady 15 浠庢湭闀滃儚杩?POOL銆?
+- **鏃堕棿绾?*锛歊9锛?0-27 17:0x 棣栬锛夆啋 R10锛?7:4x 浜岃疆鍗囷級鈫?R11锛?8:2x 鐣欑棔锛夆啋 **R12锛堟湰杞紝璺濋璁?鈮?h 闆跺缃級**銆傛寜绔犵▼銆屼袱杞湭鍐筹紳鍗囩骇銆嶅凡鍦?R10 涓婃姤锛屾湰杞?*涓嶆柊寮€妗堝彿**锛屼粎灏嗗缃姸鎬佹爣涓恒€屾灑绾芥敹路绗?7 灏忔椂鏃犲姩浣溿€嶃€?
+- **寤鸿**浠嶄负 R9-1 涓夋潯锛坮eady 鎸戦潪 GPU 浠惰ˉ `lane=bm-a` / 娓?`POOL-0003` 杩囨湡姝诲崱 / 鏃楀彛寰勬敼 `POOL-DRY` 鎴栧姞鍩熷唴渚涚粰璇诲彇锛夈€?
+
+## NJ[biggame#R12-3]锛堟壙 R11-1 路 绗簩杞?路 鍩熺骇 at-risk 鍗囩骇锛塆1 闂紙2026-10-29锛夌己浠?ENG-001锛氶樆濉炵悊鐢变粖鏃ョ浜屾瀹炶瘉澶辨晥锛屼笖缂栬緫鍣ㄥ凡瀹屽叏绌洪棽
+
+- **姝荤嚎**锛欸1 闂?`status=pending`锛宍due=2026-10-29`锛堣窛鏈彮 鈮?.7 澶╋級銆傜己浠朵粛涓?`ENG-001`锛?K 绌哄満鏅?Android 鏋勫缓路D1 鍩虹嚎路杈撳嚭 `Build/android/`锛夛紝`status=blocked`锛宍blockedReason=銆孴uanjie 缂栬緫鍣ㄥ崰鐢ㄥ伐绋?Library/锛岄渶鍏崇紪杈戝櫒鎵嶈兘璺戞壒澶勭悊銆峘銆?
+- **瀹炶瘉涓€锛堢己浠朵粛鍦級**锛歚09_鍚稿槦鍢烥immeAll/GimmeAll/Build/` 浠?`MiniGameWeChat`锛?9-30锛変笌 `Win64`锛?0-27 13:36锛変袱涓洰褰曪紝**`Build\android` 涓嶅瓨鍦?*銆?
+- **瀹炶瘉浜岋紙闃诲鐞嗙敱澶辨晥路姣?R11 鏇村共鍑€锛?*锛歚Temp\UnityLockfile` **涓嶅瓨鍦?*銆乣Temp\` 鐩綍**涓嶅瓨鍦?*锛堬紳缂栬緫鍣ㄥ凡姝ｅ父閫€鍑猴紝涓嶆槸"鍗犵敤涓?锛夈€乣Library` mtime `2026-10-27 19:58:54`锛圧11 鏃朵负 16:49锛岃鏄庢鍚庡張鏈夋甯镐細璇濇敹灏撅級銆傗啋 褰撳墠鏃犱换浣曡繘绋嬫寔鏈?GimmeAll 宸ョ▼锛屾壒澶勭悊鍙窇銆?
+- **瀹炶瘉涓夛紙浜ц兘渚у悓鏃ュ湪浜э級**锛歚MiniGame-PipelineGate` 23:56 9/9 PASS锛沚m-a/bm-b/bm-c 涓夋満鍚岀獥鎻愪氦锛堣涓嬭〃鈶わ級銆?
+- **snooze 浜ら潰**锛歊11 宸插 `DEADLINE: | bm-c Mini`锛堝彟涓€鏉?DEADLINE 鏂囨湰锛夐檷鍣嚦 02:00锛屼笌鏈潯鏃犲叧锛涙湰鏉?*涓?snooze**锛堢湡姝荤嚎缂哄彛锛夈€?
+- **寤鸿锛堝€欐灑绾铰锋寜 R11 鍘熶笁鏉★級**锛氣憼娓?`ENG-001` 闄堟棫 `blockedReason`锛堝彴璐︿欢锛夛紱鈶′互 `2022.3.62t15 -batchMode -quit -executeMethod` 璺戦鏉?Android 4K 绌哄満鏅瀯寤猴紝浜у嚭 `Build/android/` 浣?G1 鐨?D1 鍩虹嚎锛涒憿鑻ョ己 Android SDK/NDK 绛夌墿鐞嗕欢锛岃浆 CEO 鐗╃悊浠堕潰锛堥浂鍌姙锛夈€?
+- **鍒ゆ嵁绐?*锛欸1 due 鍓?`Build/android/` 鍑虹幇 APK/AAB锛涘惁鍒欐湰鏉″湪 10-29 鍚庣敱涓嬩竴鐝寜銆屾绾垮け瀹堛€嶅崌绾с€?
+- **璇氬疄杈圭晫**锛氭湰甯?*鏈墽琛屾瀯寤?*锛堢紪杈戝櫒鎵瑰鐞嗗睘浜у搧闈綔涓氾紝瓒呭贰瑙嗗腑鍙鍙鏉冮檺锛夛紱缁撹鍙埌銆岄樆濉炵悊鐢变笉鎴愮珛 + 缂轰欢纭畾 + 姝荤嚎 1.7 澶┿€嶄负姝€?
+
+## R12 鍩熼浄杈惧鏍革紙搂1 涓冮」 路 澧為噺鐩磋 路 浼犳劅澶嶇敤锛?
+
+| 妫€椤?| 缁撴灉 |
+|---|---|
+| 鈶?闂ㄧ閾?| 缁裤€俙pipeline-20261027-235602` **passed=9 / failed=0 / 28.7s**锛坧reflight 17.6s锛歚ram_free=16.9 vram_free=592 comfy=1 editors=1 crash_streak=0 idle_streak=0 due=0 inflight=0`锛沴ine-data checks=3 problems=0锛泂cenes-4k 6/6锛沘udio 49 鏂囦欢锛沜ar-adapt / layout / ui-kit 11鈫?2.44 路 16鈫?2.21 / compliance锛夈€俙redline-audit.log` 灏?= `=== patrol 2026-10-27 20:47:00 machine=A CLEAN ===`锛?h 鑺傛媿锛?2:46鈫?8:46鈫?4:47鈫?0:47 杩?CLEAN锛夛紝3.4h 榫勫睘姝ｅ父銆佷笅娆?鈮?2:46 |
+| 鈶?鍖呬綋鍥涘€?| 缁裤€侴20 `build28`锛坄recordedAt 2026-10-27 22:58:43`锛塦result=PASS`锛歮ain **3,637,911 / 4,194,304B锛堜綑 556,393B锛?*銆乨ata 瀛愬寘 1,319,139B銆乵ain+data **4,957,050B < 30MB**銆乣devArtifactBytes=0` `unclassifiedBuildBytes=0` shell 28,847B銆侴25 璁板綍浠?10-25 19:29 PASS锛堟湭鍒锋柊锛濇瀯寤鸿妭鎷嶏紝璇氬疄杈圭晫锛?|
+| 鈶?鎻愬纭棬 | **绾細瑙?NJ[R12-3]** 鈥斺€?G1 闂?10-29 缂?`ENG-001`锛宍Build/android` 涓嶅瓨鍦紱`POOL-0010` 浠?`CEO-PHYSICAL:submit-materials`锛堢墿鐞嗕欢闆跺偓鍔烇級 |
+| 鈶?WIP 涓婇檺 | production-queue 46 椤癸細done 14 / blocked 3 / ready 15 / backlog 9 / **in_progress 5**锛沺olicy `wip_global_in_flight=8`銆佸悇閬?鈮? 鈫?**涓嶆瀯鎴愭嫢鎸ら璀?*锛堟壙 R8 瑁佸喅鍙ｅ緞锛?|
+| 鈶?浜х嚎鎵瑰仴搴?| 涓夋満鍚岀獥鍦ㄤ骇锛欰 `master 73529daac X2905 23:33:41`锛坒old 鍙屾敹缂?B2479-B2482锛壜?B `B2483 23:46:31` 路 C `C2308 23:28:44`锛圙27 purse-rate 搴т綅瀹炴祴锛夛紱`fleet/` 鐩綍鏈€鍚庢彁浜?`ab7a33389 23:31:40` 鈫?鏃犻檲鏃у亣 DONE |
+| 鈶?鐜╂硶宸紓鍥涢棶 | 24h 鎻愪氦椤跺眰鐩綍锛歚Design 1013 / .codely-cli 352 / tools 180 / G20_MonsterInn 176 / qa 158`锛屽叾浣?G04/G05/G07/G08/G13/G14 鍚?1 浠讹紙鏂囨。绾э級鈫?**闆舵柊澧炵珛椤?*锛屽洓闂棬鏃犻€傜敤瀵硅薄 |
+| 鈶?璧勪骇鎵瑰悎瑙?| `production/reports/asset-audit-*` 鏈€鏂颁粛 2026-09-14锛堚増44 澶╋級锛濇棦鏈夎瘹瀹炶竟鐣岋紙鎵?R5/R8/R9/R11锛夛紱鏈獥闆舵柊澧炴湭鐧昏浠讹紝鍙綔鎶芥牱瑙傚療銆佷笉浣滃悎瑙勭粨璁?|
+
+## 鍩熻瀵燂紙涓嶅叆 NJ 路 浠呯暀鐥曪級
+
+- **bm-b 銆岀墿鐞嗙绾裤€嶆棫鍋囪浣滃簾**锛?0-23 鍚勭彮鐨勩€宐m-b 鐗╃悊绂荤嚎路闆跺偓鍔炪€嶅垽鏂湪浠婃棩琚帹缈伙紙22:56 pulse + 23:46 鎻愪氦 + 22:58 鏈満 bundle 璁板綍涓夎瘉锛夈€傚悗缁彮鍕垮啀寮曠敤鏃х粨璁恒€?
+- **bm-c 蹇冭烦鏂囦欢闈粛闄?*锛堟壙 R4-1/R8-1/R10-1/R11锛夛細`c.json ts=pulse.ts=2026-10-27T15:08:51`銆乵time 15:59:23锛?h 鏈姩锛岃€?`machine/C` tip `C2308 23:28:44` 鍦ㄤ骇 鈫?still銆屾湰鍦板啓銆佹彁浜や笉鏀躲€嶅悓鏃忥紱R8 鐨?24h snooze 宸蹭簬 02:30 鍓嶆湁鏁堛€丷10 鐨?`LANE-DOWN bm-c` snooze 鑷?05:40 浠嶆湁鏁堬紝鏈疆涓嶆柊寮€銆備慨娉曚粛鏄?bm-c 璺?`Tools/fleet-hot-sync.ps1` + closeout 鐧藉悕鍗曡ˉ `fleet/*.json`銆?
+- **bm-c RAM 鏈娴?*锛堝皧閲?R11 瀵硅闈㈢殑 snooze 鑷?02:00 涓庝紶鎰熷鐢ㄥ緥锛夛紱R11 瀹炴祴 0.7G/24G 涓旇建杩逛笅闄嶏紝鍏?3 寮?exec 鍗★紙POOL-0016/0021/0022锛夊叏灞?MV/bigstream锛宐iggame 鍩熷奖鍝?0锛涘彟 `POOL-0024`锛圥0 bm-c 鍐呭瓨閲婃斁闂革級鍦ㄥ唽銆?
+- `production-queue.json` 鐨?`updated` 浠嶅啓 `2026-10-23`锛堟壙 R8/R9 鐣欑棔锛屾湭鍙橈級鈥斺€斿伐鍏烽潰灏忕憰锛屼笉浠ｆ敼銆?
+- `MiniGameEngineTick` 绫?`Result=2147946720`锛?x800710E0 瀹炰緥鍦ㄨ窇琚啀瑙﹀彂锛夐潪鍋滄憜锛堟壙 R5/R6/R7 鍒よ锛夛紱鏈疆 A 鏈?tick X2905 23:33 鍦ㄦ帹杩涖€?
+- `CLOCK-UNALIGNED missing=1`锛氫笁鏈轰腑浠嶆湁涓€鍙板績璺虫湭鍗囩骇 v2锛坢s ts+offset锛夛紝涓?bm-b OFFLINE 鍒ゅ畾鍚屽睘 liveness 浼犳劅闈㈡瑺璐︼紝宸插湪 R12-1 寤鸿鈶犱竴骞惰鐩栥€?
+
+## 绾緥
+
+鏈?poke锛坆m-b 娲讳笖鍦ㄤ骇銆乥m-c 鍦ㄤ骇銆佹棤鍋滄憜璇佹嵁锛壜?鏈洿鍐?orders/decisions/POOL/DEADLINES 路 鏈浜у搧浠ｇ爜涓庡満鏅?YAML 路 鏈墽琛屾瀯寤猴紙瓒呮潈闄愶級路 鏈噸娴?L0/IdleWatch/鏋㈢航宸叉祴闈?路 浠呭 `FLAG LANE-DOWN lane=bm-b` 鍐?snooze锛堚墹24h锛岄檮鍙嶈瘉鏉′欢锛壜?`STARVED-EXEC` / `G1 闂╜ **涓?snooze**锛堢湡缂哄彛锛壜?鐝瘯 touch 閿併€?
+
+
+---
+
+# R13 宸¤鐝紙2026-10-28 00:52 路 sig=STARVED-EXEC lane=bm-a 路 绗?5 杞級
+
+## NJ[biggame#R13-1]锛堟壙 R9-1/R10-1/R11-2/R12-2 路 绗簲杞?路 鍗囨灑绾界害 7.9h 闆跺缃?路 鏈疆缁欏嚭鍙洿鎺ョ収鍔炵殑鏄犲皠琛級
+
+- **瀹炴祴锛?0:53锛?*锛歚cph4/fleet/dispatcher/POOL.json` 鍏?24 鍗★紱`lane=bm-a` 5 鍗?= `POOL-0003/0008/0009` `closed-superseded` + `POOL-0013` `done` + **鍞竴 open `POOL-0010`锛圥2路`blocked_by=["CEO-PHYSICAL:submit-materials"]`锛?*銆傚嵆 `bm-a open=1/exec=0` 鏄?*鎭掑畾缁撴瀯鎬?*锛宍STARVED-EXEC lane=bm-a` 姣?10 鍒嗛挓蹇呯劧鍐嶇敓锛圖ISPATCH-LOG 鑷?10-27 20:51 璧疯繛缁?30+ 琛岋紝鏈疆瑙﹀彂 00:21/00:31/00:41/00:51 鍥涜锛夈€?
+- **鏈疆澧為噺锛堝彲鐩存帴鐓у姙锛?*锛氬煙鍐呴槦鍒?`gaming/MiniGame/09_鍚稿槦鍢烥immeAll/GimmeAll/docs/family/production-queue.json`锛坢time 2026-10-26 23:15:01路`updated` 瀛楁浠嶆槸 2026-10-23 鏃у€硷級46 椤?= done 14 / blocked 3 / ready 15 / backlog 9 / in_progress 5锛宍policy.wip_per_lane=2 路 wip_global_in_flight=8`銆?*鍦ㄩ€斾负 0 鐨勮溅閬擄紙0/2锛屽彲鍗冲埢琛ヤ綅涓嶇牬 WIP 寰嬶級鍏?8 寮?ready**锛?
+  - `MKT-W2-01`锛圡KT锛夎溅涓绘効鍗曞畾浠疯璇伮?0 涓璋堣剼鏈?
+  - `DES-P0-01`锛圖ES锛?1 鍏崇洰鏍囪璁?W3 涓夎疆澶嶆牳涓庣鍙?
+  - `DES-P0-02`锛圖ES锛夐鎵?5 涓叧鍗″彿锛?1/84/90/1/3锛?
+  - `DES-S1-02`锛圖ES锛夌珯鐐?1 鍏冲崱鎷嗗垎 typeKey/娈佃惤/鑺傚
+  - `DES-S1-03`锛圖ES锛夊け璐?钀藉湴鍙嶉 30s路姣忓叧 1 娆?/ 鏈揪鏍囪嚜鍔ㄩ噸缃?/ 鏃?GameOver
+  - `QA-003`锛圦A锛夌珯鐐?1 鍏冲崱楠屾敹锛? 鍏陈烽€氬叧 + 鏄庣粏闂?+ 涓夋。鐧诲綍锛?
+  - `QA-005`锛圦A锛?K 鎶芥澶嶉獙锛堝悓鎵瑰害瀵圭収 / 瑕嗙洊鐜?/ 鏋勫浘瀹屾暣鎬э級
+  - `AUD-B6-02`锛圓UD锛夐椤?3 妗ｉ煶鏁堬紙鏆傚仠涓€涓?/ 鎺ㄤ竴涓?/ 鍚镐竴涓嬶級
+  - 鍙?3 寮?**GPU 鍨?ready**锛坄ART-B1-04/05/06` 4K 璧勪骇鐢熸垚锛夊彲涓?bm-a 澶滅獥锛屼絾**椤诲厛楠?VRAM**锛歚pipeline-20261028-002602` preflight 鎶?`vram_free=504MiB`锛堢灛鏃惰繎鑰楀敖锛夛紝褰撳墠涓嶅疁鐩存帴鐐圭伀銆?
+- **鏃堕棿绾?*锛歊9锛?0-27 17:0x 棣栬锛夆啋 R10锛?7:4x锛夆啋 R11锛?8:2x锛夆啋 R12锛?0:12锛夆啋 **R13锛?0:53锛岃窛棣栬绾?7.9h锛屼簲杞浂澶勭疆锛?*銆傛寜绔犵▼銆屼袱杞湭鍐筹紳鍗囩骇銆嶆棭宸插崌鏋㈢航锛屾湰鏉?*涓嶆柊寮€妗堝彿**锛屽彧鏍囧缃姸鎬併€?
+- **寤鸿锛堝€欐灑绾借路鏈腑鍙涓嶆敼锛?*锛氣憼鎶婁笂琛?8 寮?ready 鐩存帴闀滃儚杩?`POOL`锛屾垨鍗曞紶娲?`lane=bm-a`锛?*寤鸿棣栭€?2鈥? 寮?DES/QA 绫伙細绾枃妗?楠屾敹锛屼笉纰?`Assets/` 鍗曞啓閿?*锛夛紱鈶＄粰 `POOL-0010` 鍔?`dispatchable=false`锛圕EO 鐗╃悊浠跺崱涓嶅簲璁″叆銆屽彲鎵ц鍊欓€夈€嶅垎姣嶏紝鍚﹀垯 starved 鏃楁亽鐪燂級锛涒憿鏃楀彛寰勬敼 `POOL-DRY`锛屾垨璁╄皟搴﹀櫒鍚岃鍩熷唴渚涚粰璐︼紙涓?R9-1 鍘熷缓璁悓锛夈€?
+- **鍒ゆ嵁**锛氫笅涓€鐝紙绾?01:2x锛夎嫢 bm-a 浠?`exec=0` 涓斾笂琛ㄤ粛鏈?鈮? 寮?ready 鏈淳 鈫?鍒や负**澶滈棿浜ц兘绌鸿浆锛堢湡瀹炴氮璐癸級**锛屾寜姝荤嚎琛屽崌绾э紱鑻ヨ皟搴﹀櫒鏀瑰彛寰勬垨宸叉淳鍗曪紝鏈棗鑷劧娑堥€€銆?
+
+## NJ[biggame#R13-2]锛堟壙 R11-1/R12-3 路 绗笁杞?路 **缁撹鏇存锛氬師闃诲鐞嗙敱涓ゅ閮戒笉鎴愮珛锛岀湡闃诲鏄?Android 宸ュ叿閾剧己澶?*锛?
+
+- **姝荤嚎**锛歚gates.G1 = 2026-10-29`锛坄status=pending`路`evidence=[]`锛夛紝璺濇湰鐝害 **1.0鈥?.7 澶?*锛涚己浠?`ENG-001`锛坄gate=G1 路 status=blocked 路 dependsOn=[] 路 blockedReason="Tuanjie 缂栬緫鍣ㄥ崰鐢ㄥ伐绋?Library/锛岄渶鍏崇紪杈戝櫒鎵嶈兘璺戞壒澶勭悊" 路 outputs=["Build/android/"]`锛夈€?
+- **瀹炶瘉 A锛堢己浠朵粛鍦級**锛歚GimmeAll/Build/` 浠?`MiniGameWeChat`锛?026-09-30 16:45:52锛変笌 `Win64`锛?026-10-27 13:36:39锛夛紱**`Build/android` 涓嶅瓨鍦?*銆?
+- **瀹炶瘉 B锛堝師 `blockedReason` 杩涚▼绾ц瘉浼锋湰杞姞寮猴級**锛氬叏鏈?`Tuanjie/Unity*` 杩涚▼鍛戒护琛岄€愭潯鏍革紝`-projectPath` 鍙嚭鐜?`C:/Agent/gui-agent/GUIAgentUnity`锛圓ssetImportWorker2鈥?锛変笌 `C:/涓€涓暟瀛椾笘鐣寁2/metis/Unity`锛?*鏃犱换浣曡繘绋嬫寚鍚?GimmeAll**锛沗GimmeAll/Temp` 涓嶅瓨鍦ㄣ€乣Temp/UnityLockfile` 涓嶅瓨鍦ㄣ€乣Library` mtime 2026-10-27 19:58:54 鈬?宸ョ▼鏃犱汉鍗犵敤锛屾壒澶勭悊涓嶄細琚攣銆?
+- **瀹炶瘉 C锛堢湡闃诲锛滱ndroid 宸ュ叿閾剧己澶甭锋湰杞柊鍙戠幇锛?*锛氱紪杈戝櫒 `2022.3.62t15`锛堜笌 `ProjectSettings/ProjectVersion.txt` 瀹屽叏涓€鑷达級宸茶 `PlaybackEngines/AndroidPlayer`锛堝惈 `AndroidPlayerBuildProgram.exe` / `UnityEditor.Android.Extensions.dll`锛変笌 `WeixinMiniGameSupport`锛涗絾 **`AndroidPlayer/Tools` 涓嬪彧鏈?gradle/bundletool锛屾棤 `sdk` / `ndk` / `OpenJDK`**锛岀紪杈戝櫒鏍?鈮? 灞傛棤鍚屽悕鐩綍锛宍%LOCALAPPDATA%\Android\Sdk`銆乣C:\Android`銆乣D:\Android\Sdk`銆乣D:\AI\Android\Sdk` 鍏ㄩ儴涓嶅瓨鍦紝`ANDROID_HOME`/`ANDROID_SDK_ROOT` 涓虹┖锛宍ProjectSettings.asset` 鏃?`AndroidSdkRoot/AndroidNdkRoot` 鑷畾涔夊€硷紙浠呮湁 `AndroidMinSdkVersion: 29`銆乣AndroidBundleVersionCode: 1`锛夈€傗噿 **`ENG-001` 鍗充究绔嬪嵆鐐圭伀涔熶細鍦ㄥ伐鍏烽摼闃舵澶辫触**锛涘畠鏄€岀紪杈戝櫒绌洪棽浣?SDK/NDK/JDK 鏈畨瑁呫€嶇殑姝荤粨锛屼笉鏄€岀紪杈戝櫒鍗犵敤銆嶃€?
+- **寤鸿锛堝€欐灑绾借锛?*锛氣憼鎶?`ENG-001.blockedReason` 灏卞湴鏀瑰啓涓虹湡瀹炲師鍥狅紙SDK/NDK/JDK 缂哄け锛夛紝`outputs=["Build/android/"]` 淇濈暀锛涒憽鍙栧緱閫斿緞锛漈uanjie Hub 琛ヨ Android Build Support 鐨?SDK/NDK/JDK 瀛愭ā鍧楋紙鏈満鍔ㄤ綔锛屽睘浜у搧闈㈠畨瑁咃紝宸¤甯笉浠ｈ窇锛夛紱鈶㈣嫢琛ヨ鍙楅樆浜庣綉缁?璁稿彲/绠＄悊鍛樻潈闄?鈫?杞?**CEO 鐗╃悊浠堕潰**锛堥浂鍌姙锛夛紝骞舵妸 G1 鍓嶇疆浠舵敼鍐欎负銆屽伐鍏烽摼灏辩华銆嶅瓙鍗★紝閬垮厤姝荤嚎闈欓粯澶卞畧锛涒懀`ENG-005` 渚濊禆 `ENG-001`锛屽悓姝ラ『寤躲€?
+- **鍒ゆ嵁**锛歚Build/android/` 鍑虹幇 APK/AAB锛屾垨 G1 鍓?`ENG-001` 鏈夋嵁闃诲浠讹紙宸ュ叿閾惧畨瑁呭洖鎵э級鍦ㄦ。锛涘惁鍒?10-29 鍚庣敱涓嬩竴鐝寜姝荤嚎澶卞畧鍗囩骇銆?
+
+## R13 鍩熼浄杈惧鏍革紙搂1 涓冮」 路 澧為噺鐩磋 路 浼犳劅澶嶇敤锛?
+
+| 妫€椤?| 缁撴灉 |
+|---|---|
+| 鈶?闂ㄧ閾?| 缁裤€俙pipeline-20261028-002602`锛?0:26:33锛?*pass=9 / fail=0 / 31.3s**锛歱reflight 17.3s锛坄ram_free=14.3 vram_free=504 batchmode=0 comfy=1 editors=1 crash_streak=0 idle_streak=0 due=0 inflight=0`锛夈€乴ine-data 3 鏌?0 闂銆乻cenes-4k 6/6銆乤udio 49 鏂囦欢 `delta=0.01`銆乧ar-adapt锛?880 playfield路headroom 2.701锛夈€乴ayout銆乽i-kit 11 灞?12.44 路 16 灞?22.21銆乧ompliance銆傜浉瀵逛笂杞?23:56 鏂板 00:26 涓€娆★紝30min 鑺傛媿姝ｅ父 |
+| 鈶?鍖呬綋鍥涘€?| 缁匡紙鏈埛鏂帮紳鏋勫缓鑺傛媿锛夈€俙G20_bundle_budget.json` recordedAt 2026-10-27 22:58:43 `result=PASS`锛歮ain **3,637,911 / 4,194,304B锛堜綑 556,393B锛?*銆乨ata 1,319,139B銆乵ain+data 4,957,050B < 30MB銆乣devArtifactBytes=0` `unclassifiedBuildBytes=0`銆佺櫧鍚嶅崟 4/4 `violationCount=0` `warnCount=0` |
+| 鈶?鎻愬纭棬 | **绾?鈫?NJ[R13-2]**锛欸1 due 10-29锛沗ENG-001` 鍘熼樆濉炵悊鐢变袱澶勫潎涓嶆垚绔嬶紝浣嗗伐鍏烽摼缂哄け锛宍Build/android` 涓嶅瓨鍦紱`POOL-0010`锛滳EO 鐗╃悊浠讹紙闆跺偓鍔烇級 |
+| 鈶?WIP 涓婇檺 | 46 椤癸細done 14 / blocked 3 / ready 15 / backlog 9 / **in_progress 5 < 8**锛汚RT 2/2銆乁X 2/2 椤舵牸浣嗘湭瓒婄晫 鈬?涓嶆瀯鎴愭嫢鎸ら璀︼紙鎵?R8 鍙ｅ緞锛?|
+| 鈶?浜х嚎鎵瑰仴搴?| 涓夋満鍏ㄩ儴鍦ㄤ骇涓旀柊椴滐細A `origin/master 9b98d1067` 00:13:13 鏀跺吇鎵?路 鏈湴 HEAD `583721a23` **X2906 00:39:58**锛汢 `799751c65` **B2484 00:47:19**锛汣 `e8bb6af57` **C2310 00:54:46**銆俁edlineAudit 6h 鑺傛媿锛?2:46/08:46/14:47/**20:47 CLEAN**锛夛紝涓嬭疆 02:46锛?h 榫勬甯?|
+| 鈶?鐜╂硶宸紓鍥涢棶 | 24h 鍐呴浂鏂板绔嬮」锛堟壙 R12 鐩磋锛夛紝鏃犻€傜敤瀵硅薄 |
+| 鈶?璧勪骇鎵瑰悎瑙?| `production/reports/asset-audit-*` 鏈€鏂颁粛 2026-09-14锛堢害 44 澶╋級锛濇棦鏈夎瘹瀹炶竟鐣岋紱鏈獥闆舵柊澧炴湭鐧昏浠讹紝鍙綔鎶芥牱瑙傚療 |
+
+## 鍩熻瀵燂紙涓嶅叆 NJ 路 浠呯暀鐥曪級
+
+- **鎵?R12 宸蹭綔搴熺殑鏃х粨璁哄嬁鍐嶅紩鐢?*锛歜m-b銆岀墿鐞嗙绾裤€嶄綔搴燂紙`B2484 00:47:19` 鍦ㄤ骇锛夈€?
+- **鏈疆鏂板璁よ瘑**锛歱reflight 鐨?`editors=1` **涓嶇瓑浜?GimmeAll 琚崰鐢?* 鈥斺€?鍦ㄨ窇鐨勬槸 `GUIAgentUnity` 涓?`metis` 涓や釜**鍒殑宸ョ▼**鐨?AssetImportWorker銆傚悗缁彮鏍?`ENG-001` 璇风洿鎺ョ湅 `-projectPath`锛屽嬁鍙湅杩涚▼鏁般€?
+- bm-c `c.json` 鍐欒€屼笉鏀讹紙`.:updated-kept-local` 鍚屾棌路鎵?R4-1/R8-1/R10-1/R11/R12锛変笌 bm-c RAM 闈紙R11 snooze 鑷?02:00锛夋湰杞笉閲嶆祴銆佷笉鏂板紑銆?
+- `POOL-0023`锛坆m-b 闊抽绗簩鎵孤稰1路`claimed=''`锛変笌 `POOL-0024`锛坆m-c 鍐呭瓨閲婃斁闂嘎稰0路`claimed=''`锛変簬 00:10 钀藉崟鍚庝粛鏃犱汉璁ら 鈫?灞炴灑绾芥淳鍗曢潰锛屾湰甯彧鐣欑棔銆?
+
+## 绾緥
+
+鏈?poke锛堜笁鏈哄潎鍦ㄤ骇锛壜?鏈洿鍐?orders/decisions/POOL/DEADLINES 路 鏈浜у搧浠ｇ爜涓庡満鏅?YAML 路 鏈墽琛屾瀯寤猴紙瓒呭贰瑙嗗腑鏉冮檺锛壜?鏈噸娴?L0/IdleWatch/鏋㈢航宸叉祴闈?路 **鏈?snooze**锛坄STARVED-EXEC`锛濈湡瀹炰骇鑳界┖杞€乣G1`锛濈湡瀹炴绾跨己鍙ｏ紝鍧囦笉闄嶅櫔锛壜?鐝瘯 touch 閿併€?
+
+## NJ[biggame#R14-1]锛堟壙 R13-1 路 绗簩杞?路 **R13 鑷鍒ゆ嵁宸插厬鐜帮細澶滈棿浜ц兘绌鸿浆鍒ゅ畾鎴愮珛**锛?
+
+- **閿?*锛氬煙=`biggame`锛埪?锛壜?瑙﹀彂=`STARVED-EXEC lane=bm-a open_cards=1 blocked=1` 01:01/01:11/01:21/01:31 鍥涜繛鍙?路 姝荤嚎 `G1 = 2026-10-29`锛圱-1 澶╋級銆?
+- **瀹炶瘉 A锛堟棗纭瘖涓虹粨鏋勬亽鐪熉烽潪鍋滅嚎锛?*锛歚cph4/fleet/dispatcher/POOL.json` 24 鍗★紝bm-a 鍞竴 open = `POOL-0010`锛宍blocked_by=['CEO-PHYSICAL:submit-materials']` 鈬?open=1/blocked=1/exec=0 鎭掓垚绔嬨€?*杩欎笉鏄満鍣ㄥ仠鎽?*锛歜m-a `origin/master f0132c0c2 01:30:28` 鍦ㄤ骇銆?
+- **瀹炶瘉 B锛圧13 鍒ゆ嵁鍏戠幇路鏈腑鑷垽鍗囩骇锛?*锛歊13 鐣欑殑鍒ゆ嵁鍘熸枃銆屼笅涓€鐝紙绾?01:2x锛夎嫢 bm-a 浠?exec=0 涓斾笂琛ㄤ粛 ready 鏈淳 鈫?鍒や负**澶滈棿浜ц兘绌鸿浆锛堢湡瀹炴氮璐癸級**銆嶃€?1:37 澶嶆牳鍏ㄩ儴鍛戒腑锛?
+  - 鍩熷唴闃熷垪 `docs/family/production-queue.json` 46 椤逛笉鍙橈細done 14 / blocked 3 / **ready 15** / backlog 9 / in_progress 5锛圵IP 5<8锛屼笉鎷ユ尋锛夛紱
+  - 璋冨害鍣ㄤ晶 `production_queue_open=0 total=16 last_claim=QUEUE-EMPTY@2026-10-28T01:30:01`锛屽嵆 **鍩熷唴 15 寮?ready 浠庢湭杩?POOL**锛?
+  - 璋冨害姹犺 `idle: a=GPU-IDLE`锛屽嵆 bm-a 鑷?00:5x 璧疯繛缁害 40 鍒嗛挓闆跺彲鎵ц鍗°€?
+  鈬?verdict锛氭棗鏂囨湰鐪熴€佹棗鏍瑰洜鏄?*渚涚粰绠￠亾鏂紙鍩熷唴 ready 涓嶆槧灏?POOL锛?*锛屼笉鏄€屾棤娲诲彲骞层€嶃€?
+- **瀹炶瘉 C锛堟湰杞柊绾︽潫路GPU 渚т篃涓嶅彲鐐圭伀锛?*锛歚pipeline-20261028-012602` preflight `vram_free=518MiB`锛坆m-a 鏄惧瓨杩戣€楀敖锛夈€傛晠 5 寮?GPU 绫?ready锛坄ART-B1-02/04/05/06`銆乣ART-B3-01`锛?*褰撳墠杩?bm-a 涔熺偣涓嶇潃**锛涚湡姝ｅ彲鎵ц鐨勪緵缁欐槸 **10 寮犻潪 GPU 鍗?*锛坄MKT-W2-01`銆乣DES-P0-01`銆乣DES-P0-02`銆乣DES-S1-02`銆乣DES-S1-03`銆乣UX-002`銆乣UX-005`銆乣QA-003`銆乣QA-005`銆乣AUD-B6-02`锛夆€斺€旂函鏂囨湰/CPU 闈紝涓嶈Е `Assets/` 鍗曞啓閿併€?
+- **瀹炶瘉 D锛堟棗淇￠亾宸茶闄嶅櫔路鍗囩骇鍙兘璧版湰浠讹級**锛歚media/logs/patrol-fleet/group-snooze.json` 宸叉湁 `flag_prefix=STARVED-EXEC lane=bm-a` 鏉＄洰 `until=2026-10-29 01:10`锛坓roup 甯?01:10 鍒ゃ€岀粨鏋勩€侀潪浜嬫晠銆嶏級銆?*鏈腑涓嶈儗涔﹁闄嶅櫔**锛歡roup 甯彧鐪嬩簡 POOL 渚э紙POOL-0010=CEO 鐗╃悊浠讹級锛屾湭鐪嬪煙鍐?ready 15 寮犵┖杞€傛棗涓嶅啀閲嶅彂锛屾晠鍗囩骇鍞竴閫氶亾锛濇湰 NJ銆?
+- **寤鸿锛堝€欐灑绾借路鏈腑鍙涓嶆敼锛?*锛?
+  1. 鎶婁笂杩?**10 寮犻潪 GPU ready 鐩存帴闀滃儚杩?`POOL.json`锛宍lane=bm-a`**锛圖ES/UX/QA/MKT/AUD 鏂囨湰涓庨獙鏀剁被锛岀珛鍗冲彲鎵ц锛夛紱
+  2. 5 寮?ART 鍗?*鏆備笉闀滃儚**锛岄椄鏉′欢鍐欐垚 `vram_free >= 8GB`锛坆m-a 瀹炴祴 518MiB锛夋垨杞?bm-c 寰?`POOL-0024` 鍐呭瓨闂搁獙杩囷紱
+  3. 鏀?starved 鍙ｅ緞锛歚blocked_by=CEO-PHYSICAL:*` 鐨勫崱涓嶈鍏ュ垎姣嶏紙鍚﹀垯璇ユ棗姘镐箙涓虹湡锛屽櫔澹板寲鍏跺畠鐪熸棗锛夛紱
+  4. `G1`锛圱-1锛夎 `NJ[biggame#R13-2]`锛歚Build/android` 浠嶄笉瀛樺湪銆佺紪杈戝櫒 `2022.3.62t15` 鐨?`AndroidPlayer/Tools` 浠?`gradle/GradleTemplates/Pram/VisualStudioGradleTemplates`锛?*鏃?sdk/ndk/OpenJDK**锛夈€乣ANDROID_HOME`/`ANDROID_SDK_ROOT` 绌恒€乣%LOCALAPPDATA%\Android\Sdk` 涓嶅瓨鍦?鈬?涓嶈ˉ宸ュ叿閾惧垯鏄庢棩 G1 闈欓粯澶卞畧锛涜ˉ瑁呭睘浜у搧闈㈠姩浣滐紙宸¤甯笉浠ｈ窇锛夛紝鍙楅樆鍗宠浆 CEO 鐗╃悊浠堕潰闆跺偓鍔炪€?
+- **鍒ゆ嵁锛堜笅涓€鐝?~02:0x锛?*锛氳嫢 POOL 浠?`bm-a exec=0` 涓旈潪 GPU ready 浠?鈮?0 寮犳湭娲?鈫?杩炵画绗笁杞紝鎸夋绾胯鐩存帴鍗囨灑绾?P1 渚涚粰澶辫触锛堜笉鍐嶈嚜鐣欒瀵燂級銆?
+
+## R14 鍩熼浄杈惧鏍革紙搂1 涓冮」 路 浼犳劅澶嶇敤路澧為噺鐩磋锛?
+
+| 妫€椤?| 缁撴灉 |
+|---|---|
+| 鈶?闂ㄧ閾?| 缁裤€俙pipeline-20261028-012602`锛?1:26:35锛?*pass=9 / fail=0 / 32.9s**锛歱reflight 18.4s锛坮am_free=18.7 vram_free=518 batchmode=0 comfy=1 editors=1 crash=0 idle=0锛夈€乴ine-data 3 妫€ 0 闂銆乻cenes-4k 6/6銆乤udio 49 浠?delta=0.01銆乧ar-adapt 2880 playfield headroom 2.701銆乴ayout銆乽i-kit 11 灞?12.44 / 16 灞?22.21銆乧ompliance銆傝妭鎷?00:56鈫?1:26 姝ｅ父 |
+| 鈶?鍖呬綋鍥涘€?| 缁匡紙鏈埛鏂帮紳鏋勫缓鑺傛媿锛夈€俙G20_bundle_budget.json` recordedAt 2026-10-27 22:58:43 `result=PASS`锛歮ain **3,637,911 / 4,194,304B锛堜綑 556,393B锛?*銆乨ata 1,319,139B銆乵ain+data 4,957,050B < 30MB銆乨evArtifact=0銆乽nclassified=0 |
+| 鈶?鎻愬纭棬 | **绾紙鎵?NJ[R13-2]路鏃犲彉鍖栵級**锛欸1 due 10-29锛沗Build/android` 涓嶅瓨鍦紙`Build/` 浠?`MiniGameWeChat` / `Win64`锛夛紱SDK/NDK/JDK 浠嶇己 |
+| 鈶?WIP 涓婇檺 | 46 椤癸細done 14 / blocked 3 / ready 15 / backlog 9 / **in_progress 5 < 8** 鈬?鏃犳嫢鎸ら璀?|
+| 鈶?浜х嚎鎵瑰仴搴?| 缁匡紙涓夋満鍏ㄦ柊椴滐級锛欰 `origin/master f0132c0c2 01:30:28`锛?鏈湴 HEAD锛夛紱B `b5dd53cd3 B2487 01:33:54`锛圙20 v3.1.26+build29 鏀跺吇锛夛紱C `a2177d2cc C2311 01:35:32`锛圙27 鏀厤閫€鍑哄疄娴嬶級锛涘搴嚎 `LINE-RECEIPT-20261028-0126.md` 30min 鑺傛媿鍦ㄦ。 |
+| 鈶?鐜╂硶宸紓鍥涢棶 | 24h 鍐呴浂鏂板绔嬮」锛屾棤閫傜敤瀵硅薄 |
+| 鈶?璧勪骇鎵瑰悎瑙?| `asset-audit-*` 鏈€鏂颁粛 2026-09-14锛堟棦鏈夎瘹瀹炶竟鐣岋級锛涙湰绐楅浂鏂板鏈櫥璁颁欢 |
+
+## 鍩熻瀵燂紙涓嶅叆 NJ 路 浠呯暀鐥曪級
+
+- 鐢熶骇鐪嬫澘 `docs/family/PRODUCTION-BOARD.md` 澶撮儴璁℃暟锛坉one 9 / ready 11 / ip 1 / backlog 8锛?*婊炲悗浜?* `production-queue.json` 瀹炲喌锛?4/15/5/9锛夛細鐪嬫澘鐢虫槑姣忔棩鏇存柊锛屽睘姝ｅ父鏃ユ洿婊炲悗锛屾湭鍗?NJ锛涜嫢 10-28 鏃ョ粓浠嶄笉杩藉钩鍐嶈銆?
+- bm-b `LANE-DOWN`锛圧12 snooze 鑷?06:00锛変笌 bm-c RAM 闈紙R11 snooze 鑷?02:00锛夋湰杞笉閲嶆祴銆佷笉鏂板紑妗堛€?
+
+## 绾緥
+
+鉁?鏈?poke锛堜笁鏈哄潎鍦ㄤ骇锛壜?鏈洿鍐?orders/decisions/POOL/DEADLINES 路 鏈浜у搧浠ｇ爜涓庡満鏅?YAML 路 鏈墽琛屾瀯寤?路 鏈噸娴?L0/IdleWatch/鏋㈢航宸叉祴闈?路 **鏈湪鏈腑 snooze**锛坄STARVED-EXEC`锛濈湡瀹炵┖杞級路 鐝瘯 touch 閿併€?
+
+## R15 复巡（2026-10-28 02:22-02:32 班·触发=DEADLINE bm-c 心跳停摆+RAM 破地板 + STARVED-EXEC bm-a/bm-b）
+
+### NJ[biggame#R15-1] POOL-0024 内存释放闸 P0 二轮未决（bm-c RAM 破地板·真事故·禁 snooze）
+- 实测：bm-c TCP /status 02:25:29 HTTP 200（len 31186）ram_free_gb=1.4（24G 机=5.8%）；轨迹 0.4G@02:09 -> 1.4G@02:25（回升但仍低于 2.4G 地板，距 POOL-0024 判据 ram_free>=6.0 还差 4.6G）。CLOCK-SKEW.json 02:24:15 bm-c seq=532 age_ms=5017 offset_ms=1597.2 状态 SKEW-HIGH（时钟偏约 1.6s，不致命但拉偏卡点判定）。
+- 卡况：POOL-0024（P0·2026-10-28 00:10 开卡）至今未认领 2h18m。卡内明写「本机执行·禁远程下发」（承 CEO 2026-10-23 令：不能远程调度），故 poke 与派单均无法解，唯一解=bm-c 本机 round 执行 python Tools/fleet/gpu_lease.py --node bm-c --acquire --need-mb 12000。
+- 影响面：bm-c 车道现挂 POOL-0016/0021（MV/bigstream 域），biggame 域直接损失=0；但 BLOCKED-RAM 使 bm-c 每轮 dispatchable=0，机队账面呆滞、dispatcher 持续报警。
+- 呈枢纽请求：① 下一轮 bm-c round 议程首位插 POOL-0024 本机执行（或授权代跑）；② 若 hub 判不可行，请改判为「记名待办」并停掉 10min 级报警，避免每班重复取证。
+- 复火阈值（本席判据）：fresh /status ram_free_gb < 0.5；或 origin/machine/C tip age > 2h；或 CLOCK-SKEW bm-c 条目缺失/age>10min。
+
+### NJ[biggame#R15-2] POOL-0023 P1 音频锚第二批 结构阻断（bm-b 无认领任务·真供给故障）
+- 实测：origin/machine/B tip=db9b076b0 2026-10-28 02:11:45「B2490 closeout」-> bm-b 活且出货；但 POOL-0023 blocked_by=["no-claim-task:bm-b"]，00:10 开卡至今 2h18m 零认领，dispatcher 每轮报 bm-b open=1 blocked=1 exec=0。
+- 根因（R2.42 已在档，本节只复核）：HQ-ProductionClaim 仅注册在 bm-a；bm-b 的 wake_tasks 指向 Bigmoney-IterationLoop，MiniGame/音频队列无领取者；远程注册任务同样被 CEO 10-23 令禁止。
+- 呈枢纽请求：由 bm-b 本机 round 注册 S4U 认领任务，或 bm-b 自跑 Tools/queue_claim.py 领取 POOL-0023；否则 41 曲曲线第二批词锚/结构锚永久空转（纯 CPU，不占 GPU、不与任何 GPU 批冲突）。
+
+### NJ[biggame#R15-3] G1（due 2026-10-29·T-1）出包路面缺失=域内最高真风险（第三轮未决）
+- 本班实测：gaming/MiniGame/Build/android 不存在；%LOCALAPPDATA%\Android\Sdk 不存在；ANDROID_HOME 为空。编辑器 2022.3.62t15 的 AndroidPlayer/Tools 无 sdk/ndk/OpenJDK（R13-2 已记）。
+- 判读：G1 若按「本地出真包」口径=明日必然落空；这不是批日志或心跳问题，是工具链物理缺失。安装属物理/资源决策面（CEO 保留面·零催办），本席只如实呈报，请枢纽在 G1 行写明口径（小程序包为准/AAR 延后）或改期。
+- 本班未改任何产品代码与场景 YAML；G1 状态未变。
+
+### 噪声核实（本轮不重复计旗）
+- 「bm-c MiniGame 心跳写入停摆」第四次为假（生产面）：origin/machine/C tip=705fb7fcd 2026-10-28 02:14:58「C2312 closeout chore: TICK_DONE ledger line」（班前 10 分钟的产品提交）。真缺陷只是 git 副本 gaming/MiniGame/Design/configs/GLOBAL/fleet/c.json ts=2026-10-27T15:08:51 / mtime 2026-10-27 15:59:23（陈旧 10.4h）=拉取侧 kept-local 收敛缺陷，与 R4-1/R8-1/R10-1/R11-1 同族；机制修法（Tools/fleet-hot-sync.ps1 on bm-c + 写侧自检）仍待 hub 裁决。
+- STARVED-EXEC lane=bm-a：bm-a 唯一 open=POOL-0010（blocked_by CEO-PHYSICAL:submit-materials）=CEO 保留件占位，非供给故障；R13-1/R14-1 在档，group 席已 snooze 同前缀至 2026-10-29 01:10，本席同步 snooze（见 biggame-snooze.json）。
+
+### 雷达逐项（本班核·未复测项如实标注）
+① 门禁链/pipeline：pipeline-20261028-022602 pass=9 fail=0 26.5s（preflight ram_free=15.5 crash_streak=0 idle_streak=0 editors=1 comfy=1；line-data 3 项 0 问题；scenes-4k 6/6；audio 49 件 delta=0.01 diverge=0；car-adapt canvas 2880 headroom 2.701；ui-kit 11 层 12.44 / 16 层 22.21；compliance 0）=绿；30min 节拍正常（01:56 -> 02:26 连续）。
+② 包体四值红线：G20_bundle_budget.json recordedAt 2026-10-28 01:32:03 result=PASS（main 3,637,911 / 4,194,304B·余 556,393B；main+data 4,957,050B < 30MB）=绿。
+③ 提审硬门/G1：红（见 R15-3）。
+④ WIP 上限：本班未复测（production-queue.json 路径未定位，Design/family/ 下无此件），沿用 R14 实测 in_progress 5 < 8，不重复计旗。
+⑤ 产线批健康：pipeline 断更=0（最新 02:26）；bm-c 心跳写入面见噪声核实。
+⑥ 玩法差异四问：24h 无新立项（沿用 R13/R14 判定），本班无新增可核件。
+⑦ 资产批合规：asset-audit 最近 2026-09-14（已知诚实边界），本班无新入库件。
+
+纪律：未 poke（日志全新鲜 + 远程下发禁令 + RAM 修需本机执行）；未直写 orders/decisions/POOL/DEADLINES；未改产品代码与场景 YAML；未重测 L0/IdleWatch/枢纽已测面（复用 CLOCK-SKEW.json 02:24:15 与 /status 02:25:29）。
+
+
+## R16 宸¤甯?2026-10-29 00:07-00:2x锛堣Е鍙?DEADLINE bm-c 蹇冭烦鍋滄憜+RAM 鐮村湴鏉?/ c.json stale 826min / STARVED-EXEC bm-b + LANE-DOWN bm-b锛?
+
+## NJ[biggame#R16-1] G1 闂?*浠婃棩鍒版湡**锛?026-10-29锛壜稟ndroid 鏋勫缓閾剧己浠堵烽樆濉炵悊鐢卞凡澶辨晥 鈫?**鍗囩骇鏋㈢航鏀?*锛堟壙 R13-2/R15-3锛屼袱杞凡杩囷級
+- **浜嬪疄**锛歚09_鍚稿槦鍢烥immeAll/GimmeAll/docs/family/production-queue.json` gates 瀹炶 G1 date=**2026-10-29** status=**pending** evidence=[]锛泃asks 46锛坉one 14 / ready 15 / backlog 9 / in_progress 5 / blocked 3锛夈€?
+- **澶辨晥闃诲鐞嗙敱**锛欵NG-001銆?K 绌哄満 Android 鏋勫缓锛圖1 鍩虹嚎锛夈€峴tatus=blocked锛宐lockedReason=`Tuanjie 缂栬緫鍣ㄥ崰鐢ㄥ伐绋?Library/锛岄渶鍏崇紪杈戝櫒鍚庤窇鎵瑰鐞哷鈥斺€旂湡鍥犱笉鏄紪杈戝櫒閿侊紝鑰屾槸**鏋勫缓妯″潡鏈韩娌¤**銆?
+- **瀹炴帰锛堟湰鐝柊璇侊級**锛氣憼`GimmeAll/Build/` 鍙湁 `MiniGameWeChat`(09-30 16:45) 涓?`Win64`(10-28 17:35)锛?*鏃?android 鐩綍**锛涒憽`ANDROID_HOME` / `ANDROID_SDK_ROOT` 鍧囩┖锛宍%LOCALAPPDATA%\Android\Sdk` 涓嶅瓨鍦紱鈶Get-ChildItem 'C:\Program Files','D:\' -Depth 4 -Filter AndroidPlayer` **闆跺懡涓?* = 缂栬緫鍣?Android Build Support 妯″潡鏈锛堟鍓嶅彧璁般€岀己 gradle/sdk/ndk/OpenJDK銆嶏紝瀹為檯鏄暣妯″潡缂轰綅锛夈€?
+- **鍒ゅ畾**锛欸1 浠婃棩蹇呭け瀹堬紱闄ら潪琛ヨ Android Build Support + SDK/NDK/JDK锛堝畨瑁?浜у搧/鐗╃悊闈㈠姩浣滐紝宸¤甯笉浠ｈ窇锛夈€?
+- **鍊欒**锛氣憼hub 瀹?G1 椤哄欢涓庡惁骞跺悓姝?DEADLINES/鐪嬫澘锛涒憽琛ヨ浜?bm-a 浜у搧浼氳瘽锛堣嫢闇€纾佺洏/鎺堟潈鍗崇墿鐞嗕欢路闆跺偓鍔烇級銆?
+- **鍒ゆ嵁**锛氫粖鏃?24:00 鍓?`Build/android/` 鏃犱骇鐗?鈫?澶卞畧鎴愮珛锛孌EADLINES 钀?at-risk 鐢辨灑绾芥敹銆?
+
+## NJ[biggame#R16-2] POOL-0024锛坆m-c 鍐呭瓨閲婃斁路P0锛夊紑鍗?~24h 闆舵墽琛屄疯繙绋嬩笉鍙В 鈫?**鍗囩骇鍊欐灑绾?*锛堟壙 R15-1锛?
+- **浜嬪疄**锛歅OOL-0024 created 2026-10-28 00:10锛岃嚦浠?~24h锛宍blocked_by=[]`銆乣claimed_by=""`锛堟棤浜洪锛夛紱dispatcher 00:01 浠?`BLOCKED-RAM lane=bm-c`锛汣LOCK-SKEW 00:04:15 bm-c seq=1795 age=57s锛?*鏈哄櫒娲荤潃**锛岄潪瀹曟満锛夈€?
+- **biggame 鍩熷奖鍝?0**锛歜m-c 鍦ㄥ唽 open 鍗?POOL-0021锛圡V KF路bigstream锛? POOL-0024锛堟湰鍗÷穎leet 闈級锛屽潎闈?biggame銆?
+- **鍊欒**锛氬敮涓€瑙ｆ硶=bm-c **鏈満**涓€杞?`python Tools/fleet/gpu_lease.py --node bm-c --acquire --need-mb 12000`锛圕EO 10-23 绂佽繙绋嬭皟搴β穚oke 鏃犲懡浠ら€氶亾锛夛紱hub 闇€鍐冲畾娲?bm-c 鏈満浼氳瘽锛屾垨鏄庣‘鎺ュ彈璇ユ満 GPU 闈㈤暱鏈熷仠杞︺€?
+- **鎭跺寲鏃佽瘉**锛歜m-c 鏃堕挓 offset 1597ms(10-28 02:25) 鈫?**3319.4ms**(10-29 00:04)锛宲recision 271ms锛宻tatus=SKEW-HIGH锛沝ispatcher 鐨?`CLOCK-UNALIGNED` 鍙煡 old_schema/missing锛坢issing=1 鎸?bm-b 浠庢棤 v2 蹇冭烦锛夛紝**涓嶆煡 skew 闃堝€?* 鈫?鍩熻瀵燂紝闈炴湰鐝?NJ銆?
+
+## R16 鍩熼浄杈惧鏍革紙搂1 涓冮」路浼犳劅澶嶇敤路澧為噺鐩磋锛?
+
+| 妫€椤?| 缁撴灉 |
+|---|---|
+| 鈶犻棬绂侀摼 | **缁?*銆俙pipeline-20261028-235601` SUMMARY锛歱ass=9 fail=0 / 32s锛坧reflight ram_free=19.6 vram_free=1500 comfy=1 editors=1 crash=0 idle=0锛沴ine-data 3/0锛泂cenes-4k 6/6锛沘udio 49 delta=0.01锛沜ar-adapt 2880 headroom 2.701锛泆i-kit 11鈫?2.44 / 16鈫?2.21锛沜ompliance锛夈€傝妭鎷?23:26鈫?3:56 姝ｅ父 |
+| 鈶″寘浣撳洓鍊?| **缁?*銆俙G20_bundle_budget.json` recordedAt **2026-10-28 20:24:23** result=PASS锛歮ain **3,623,130 / 4,194,304B锛堜綑 571,174B锛?*銆乨ata 1,145,536B銆乵ain+data 4,768,666B < 30MB銆乨evArtifact=0銆乽nclassified=0銆佺櫧鍚嶅崟 4/4 viol=0 |
+| 鈶㈡彁瀹＄‖闂?| **绾紙=NJ[R16-1]锛?*锛欸1 浠婃棩鍒版湡 pending路Build/android 鏃犅稟ndroid 妯″潡鏁寸己 |
+| 鈶IP 涓婇檺 | 46 椤?in_progress **5 < 8**锛屾棤鎷ユ尋棰勮銆傛梺璇侊細`production-queue.json` mtime **2026-10-26 23:15**锛坄updated` 瀛楁浠?10-23锛夛紝鑰?PRODUCTION-BOARD 鐢虫槑姣忔棩鏇存柊 鈫?璁拌处闈㈡粸鍚?~2.5 鏃ワ紝鍩熻瀵?|
+| 鈶や骇绾挎壒鍋ュ悍 | **缁匡紙涓夋満鍏ㄦ柊椴滐級**锛欰 master `1f2f3eadf` 23:13:02锛坔ourly sync锛夛紱B `origin/machine/B` **B2567 23:19:53**锛汣 `origin/machine/C` **C2344 23:40:28**銆傝瘉鎹洰褰?23:26/23:56 鍙岃惤鐩?|
+| 鈶ョ帺娉曞樊寮傚洓闂?| 24h 鏃犳柊澧炵珛椤癸紝鏃犻€傜敤瀵硅薄 |
+| 鈶﹁祫浜ф壒鍚堣 | `asset-audit` 鏈€鏂颁粛 2026-09-14锛堟棦鏈夎瘹瀹炶竟鐣岋級锛涙湰绐楅浂鏂板鏈櫥璁颁欢 |
+
+## 瑙﹀彂鏃楄鍐筹紙鏈彮锛?
+
+1. **c.json stale 826min 鈫?鍣０锛堝急浼犳劅锛?*锛歜m-c 娲荤潃涓斿湪浜р€斺€擭ATS CLOCK-SKEW 00:04:15 seq=1795 age=57s锛涗骇鍝佹彁浜?C2344 23:40:28銆傚悓 NJ R4-1/R8-1/R10-1/R11-1 瀹舵棌锛坄.:updated-kept-local` git 鍓湰鏂摼锛夈€傗啋 鍒锋柊 snooze锛堝甫鏁板€?refire 闃堝€硷級銆?
+2. **DEADLINE bm-c 蹇冭烦鍋滄憜+RAM 鐮村湴鏉?鈫?鍗婄湡鍗婂亣**锛氬績璺冲崐=鍋囷紙鍚屼笂锛夛紱RAM 鍗?鐪燂紙dispatcher BLOCKED-RAM锛孭OOL-0024 P0 24h 鏈墽琛岋級鈫?鐪熷崐杩?NJ[R16-2]锛屼笉闈犳湰鏉?flag 璁般€?
+3. **STARVED-EXEC / LANE-DOWN bm-b 鈫?蹇冭烦榫勮法鐣岋紝闈炴満鍣ㄤ簨浠?*锛歜.json ts=2026-10-28T21:46:13锛?3:41 鏃?age鈮?15min锛堜粛 鈮?20 鈫?褰撴椂 GPU-IDLE锛夛紝23:51 瓒婅繃 120min 闃堝€兼墠缈?SVC_DOWN锛涘悓鏈?bm-b **浜у搧鎻愪氦 B2567 23:19:53** 浠嶅湪銆傜粨鏋勬€ф畫浣?POOL-0023 `blocked_by=no-claim-task:bm-b`锛堝凡鍦?NJ R12-1/R15-2锛夈€傗啋 鍒锋柊 snooze锛宺efire 鍐欐銆宮achine/B tip age>2h 涓?hb 涓嶆帹杩涖€嶃€?
+4. **STARVED-EXEC bm-a**锛欳EO-PHYSICAL 鍗犱綅锛坓roup 甯悓鍓嶇紑 snooze 鑷?10-29 01:10锛夛紝鏈腑娌跨敤涓嶉噸鍒ゃ€?
+
+## 绾緥
+- 闆?poke锛坆m-b 鏃犲懡浠ら€氶亾路CEO 10-23 绂佽繙绋嬭皟搴︼級锛涙湭鐩村啓 orders/decisions/POOL/DEADLINES锛涙湭纰颁骇鍝佷唬鐮佷笌鍦烘櫙 YAML锛涙湭鎵ц鏋勫缓锛涙湭寮€娓告垙鍖咃紱鏈噸娴?L0/IdleWatch/鏋㈢航宸叉祴闈紙澶嶇敤 STATE.json 00:01 / CLOCK-SKEW 00:04 / pipeline 23:56 / G20 20:24锛夈€?
+- 鐝瘯 touch 閿併€?
+
+## NJ[biggame#R17-1]（承 R11-1/R12-3/R13-2/R16-1 · 第 4 轮 · 死线当日升级）G1 门（2026-10-29）今日到期仍 pending → **升级候枢纽（当日裁决）**
+
+- **触发**：`DISPATCH-LOG` 00:21/00:31/00:41/00:51 四连 `FLAG STARVED-EXEC lane=bm-b` + 00:31 `pools: bm-a=1open/0exec bm-b=1open/0exec bm-c=3open/3exec; queue_open=0`。
+- **本班独立实测（2026-10-29 00:52-01:1x·未复用上席结论）**：
+  - ① `C:\Program Files\Tuanjie\Hub\Editor` 下 **6 个编辑器版本全无 `Data\PlaybackEngines\AndroidPlayer`**：`2022.3.55t4 / 61t12 / 61t4 / 62t12 / 62t14 / 62t15` → `AndroidPlayer=False, SDK=False` 6/6；
+  - ② `ANDROID_HOME` 为空串；
+  - ③ `gaming/MiniGame/09_吸嘟嘟GimmeAll/GimmeAll/Build/` 只有 `MiniGameWeChat`（mtime **09-30 16:45**·已 29 天未刷）与 `Win64`（10-28 17:35），**无 `android/`**。
+- **域判读**：微信面**不红**（G20 包体四值 PASS，见雷达②·主包 3,623,130/4,194,304B 余 571,174B）；**红的是 Android 渠道 + G1 复合门**。G1 定义（C-20261024-01 R5：可玩 demo + 3 家渠道材料 + 1 份 LOI）不限于 Android 构建，但 `ENG-001`（`outputs=["Build/android/"]`）是本席在档唯一硬缺件，且本班未见到任何等效替代取证的更新记录。
+- **候裁（hub·当日）**：① 是否由 bm-a 本机经 Hub 安装 Tuanjie Android 构建模块（属本地工具链变更＝CEO 物理件面还是 hub 可派单面，需 hub 一句裁定·本席即决清单未授权工具链变更）；② 若 G1 今日无法闭合，是否按「延误如实披露」改期并同步 DEADLINES 行（DEADLINES 本体禁直写）。
+- **纪律**：不执行构建、不装模块、未直写 `orders/decisions/POOL/DEADLINES`。
+
+## NJ[biggame#R17-2]（承 R16-2 · 第 2 轮未变 · 仅报状态）POOL-0024（bm-c 内存释放·P0）
+
+- **事实**：仍 `claimed_by=""`（无人领）；bm-c 本班新证**活着且在产**——MiniGame 仓 `origin/machine/C` tip **83f22e690 00:29:10**（C2345 closeout·G29 ModMatch 赛季阶梯），但 `ram_free` 仍在 0.6G 级（00:47 事件班实测 0.6G/23.9G），dispatcher 持续 `BLOCKED-RAM` + `CAPACITY-BLOCKED`。
+- **biggame 域影响＝0**：bm-c 在册 open 为 POOL-0021（MV KF·bigstream）与 POOL-0024 本体（fleet 面）。
+- **候裁**：唯一解仍是 bm-c **本机**一条 `python Tools/fleet/gpu_lease.py --node bm-c --acquire --need-mb 12000`（CEO 10-23 禁远程调度·poke 无命令通道）；本席不重复升级，仅记录第 2 轮未变。
+
+## R17 域雷达复核（§1 七项·传感复用＋增量直读）
+
+| 检查项 | 结果 |
+|---|---|
+| ① 门禁链 | **绿**。承 R16 `pipeline-20261028-235601` SUMMARY pass=9 fail=0；本班新证 `qa/x3048/winbuild.log` **22:36:21「Exiting batchmode successfully now!」**（产物 `quit_probe.json` 22:38:00），MiniGame master `a6a6e1a22` 00:13:02 小时同步正常 |
+| ② 包体四值 | **绿**。`G20_bundle_budget.json`（文件 mtime 10-29 00:13·recordedAt 10-28 20:24:23）`result=PASS`：main **3,623,130 / 4,194,304B（余 571,174B）**、data 子包 1,145,536B、main+data 4,768,666B < 30MB、devArtifact=0、unclassified=0、官方 69 类白名单 4/4、violation=0 |
+| ③ 提审硬门 | **红 → NJ[R17-1]**：G1 due **今日**（2026-10-29）仍 pending；6/6 编辑器无 AndroidPlayer、ANDROID_HOME 空、`Build/android` 不存在；`POOL-0010` 仍 `CEO-PHYSICAL:submit-materials`（物理件零催办） |
+| ④ WIP 上限 | 46 项·`in_progress` **5 < 8**，无拥挤预警。旁证：`production-queue.json` mtime **10-26 23:15**（记账面滞后 ~2.5 日，域观·非本席改） |
+| ⑤ 产线批健康 | **绿（三线全新鲜）**：MiniGame 仓 master `a6a6e1a22` 00:13:02 / `origin/machine/B` **7cb004b1c 00:55:22（B2569）** / `origin/machine/C` **83f22e690 00:29:10（C2345）** |
+| ⑥ 玩法差异四问 | 24h 无新增立项，无适用对象 |
+| ⑦ 资产批合规 | `asset-audit` 最新仍 2026-09-14（既有诚实边界）；本窗零新增未登记件 |
+
+## 触发旗裁决（本班）
+
+1. **`STARVED-EXEC lane=bm-b` ×4 → 非 biggame 供料故障（弱供料拓扑传感）**：bm-b 在册唯一 open = **POOL-0023**（音频锚第二批 7 首·**bigstream 域**），`blocked_by=no-claim-task:bm-b`（结构件：`wake_tasks` 缺口已于 00:52 闭合，残差=bm-b 本机未注册 S4U 认领任务）。**本班新证机器活着且在产**：`origin/machine/B` tip **B2569 00:55:22**（本班启动前 3 分钟提交）。→ 追加 snooze（4h·带 refire 阈值）；事故正身已在 NJ[R15-2] + DEADLINES R2.46 留痕，**未隐藏**。
+2. **`pools` 行 bm-a=1open/0exec**：bm-a 唯一 open = `POOL-0010`（CEO-PHYSICAL 占位），group 席同前缀 snooze 至 2026-10-29 01:10，本席沿用不重判。
+3. **bm-c `BLOCKED-RAM` / `CAPACITY-BLOCKED`**：真事故·已在 NJ[R16-2]/[R17-2]，本班不重复登记。
 
 ## 纪律
-
-未 poke · 未直写 orders/decisions/POOL/DEADLINES · 未碰产品代码与场景 YAML · 未重测 L0/IdleWatch/枢纽已测面 · 未执行构建（超权限） · snooze 仅用于已证伪的 `DEADLINE: | bm-c Mini`（至 02:00，真事故面以数字判据重提） · `STARVED-EXEC` **未 snooze**（真结构性缺口） · 班毕 touch 锁。
+- 零 poke（bm-b 无命令通道·CEO 10-23 禁远程调度）；未直写 `orders/decisions/POOL/DEADLINES`；未碰产品代码与场景 YAML；未执行构建；未开游戏包；未重测 L0/IdleWatch/枢纽已测面。
+- 本件整件编码归一为 UTF-8（本轮实锚：R16 段为 GBK 追加致整件 UTF-8 校验在字节 79509 失败）——内容零改动，仅编码归一，便于 `read_file` 类工具直读。
+- 班毕 touch 锁。
