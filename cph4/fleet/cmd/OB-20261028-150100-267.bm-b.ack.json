@@ -1,0 +1,42 @@
+{
+ "id": "OB-20261028-150100-267",
+ "node": "bm-b",
+ "action": "ack+state",
+ "ts": "2026-10-28T00:32:00+08:00",
+ "order": "机队其他机器满负荷生产；不许空转等派单；队列空按本机车道自补产线（bm-b=配音/混音/词锚/声音类）；每班回执行状态与产出件，产能按满载口径报",
+ "compliance": {
+  "no_idle_wait": true,
+  "self_supply_lane": "voice(TTS)/mix/anchor",
+  "no_cloud_call": true
+ },
+ "running_now": [
+  {
+   "task": "FluxGroup-DramaVoiceBatch2",
+   "kind": "IndexTTS 批量配音 EP004-EP060",
+   "progress": "5 eps / 80 wavs @ 00:27（985 句总量）",
+   "rate": "5-7 s/line（rtf 1.3-1.5）",
+   "eta": "2026-10-28 ~02:20"
+  },
+  {
+   "task": "FluxGroup-DramaVoiceChain",
+   "kind": "守望链：voicegen DONE -> 三层混音 -> ffmpeg 合流 loudnorm -14 LUFS",
+   "state": "waiting-for-voicegen",
+   "eta": "~03:00 全 60 集带声"
+  }
+ ],
+ "delivered_since_221206": [
+  "EP001/EP002/EP003 带声成片（media/drama-eps-audio/*_AUDIO-r1003.mp4）",
+  "选角归一化修复：92 种说话人写法全覆盖（此前 EP004+ 全回落旁白声）",
+  "链工具四件：drama_voicegen_batch.py / drama_mix_batch.py / chain_ep004_060.ps1 / Tools/run-ps-hidden.cmd",
+  "经验台账 P-13（GPU 批被 Ollama 保活抢资源：单句 5s->84s，修法三步）"
+ ],
+ "capacity": {
+  "gpu": "IndexTTS 占用 ~6.0GB / 8GB，util 波动 20-100%（批内推理）",
+  "cpu": "8C/16T，当前 30-40%，可再接 CPU-only 件",
+  "ram_free_gb": 6.2,
+  "lanes_open": ["声音（在产）", "混音（链内排队）", "词锚（待音频/歌词物理件）"],
+  "cannot_take_now": ["图像车道（与配音互斥，02:20 后才释放）"]
+ },
+ "next_shift_report": "2026-10-28T03:10 由复核任务自动落回执（含音轨/响度抽检 + Ollama 恢复状态）",
+ "blockers": []
+}
