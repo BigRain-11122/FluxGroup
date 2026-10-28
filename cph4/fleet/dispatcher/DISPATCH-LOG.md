@@ -1,8 +1,40 @@
-# 补录注记（R2.47 事件班 2026-10-29 01:3x·丢行守望恢复）下方 15:31 三行为某窗重写文件头时丢失的原始增行，已按 commit 9be08399 blob 逐字恢复（无轮转档、文件 49KB 未达 1.2MB 轮转阈）。
+﻿[2026-10-28 15:31] FLAG CAPACITY-BLOCKED lane=bm-c exec_cards=3 dispatchable=0 -> P1 free capacity or reroute
 [2026-10-28 15:31] FLAG SUPPLY-DRY production_queue_open=0 total=22 last_claim=QUEUE-EMPTY@2026-10-28T15:30:02 -> P1 refill from real backlog
-[2026-10-28 15:31] FLAG CAPACITY-BLOCKED lane=bm-c exec_cards=3 dispatchable=0 -> P1 free capacity or reroute
 [2026-10-28 15:31] pools: bm-a=1open/0exec bm-b=1open/0exec bm-c=3open/3exec; queue_open=0 run=0; idle: a=EXPECTED-IDLE-WORKHOURS b=GPU-IDLE c=BLOCKED-RAM; flags=6
-﻿[2026-10-28 16:21] FLAG SUPPLY-DRY production_queue_open=0 total=22 last_claim=QUEUE-EMPTY@2026-10-28T16:20:02 -> P1 refill from real backlog
+[2026-10-28 15:41] FLAG CLOCK-SKEW max=2669.3ms precision=+/-200.8ms -> check hub path or node clock
+[2026-10-28 15:41] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-28 15:41] FLAG STARVED-EXEC lane=bm-b open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-28 15:41] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-10-28 15:41] FLAG CAPACITY-BLOCKED lane=bm-c exec_cards=3 dispatchable=0 -> P1 free capacity or reroute
+[2026-10-28 15:41] FLAG SUPPLY-DRY production_queue_open=0 total=22 last_claim=QUEUE-EMPTY@2026-10-28T15:40:02 -> P1 refill from real backlog
+[2026-10-28 15:41] pools: bm-a=1open/0exec bm-b=1open/0exec bm-c=3open/3exec; queue_open=0 run=0; idle: a=EXPECTED-IDLE-WORKHOURS b=GPU-IDLE c=BLOCKED-RAM; flags=6
+[2026-10-28 15:51] FLAG CLOCK-SKEW max=2531.3ms precision=+/-479.7ms -> check hub path or node clock
+[2026-10-28 15:51] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-28 15:51] FLAG STARVED-EXEC lane=bm-b open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-28 15:51] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-10-28 15:51] FLAG CAPACITY-BLOCKED lane=bm-c exec_cards=3 dispatchable=0 -> P1 free capacity or reroute
+[2026-10-28 15:51] FLAG SUPPLY-DRY production_queue_open=0 total=22 last_claim=QUEUE-EMPTY@2026-10-28T15:50:02 -> P1 refill from real backlog
+[2026-10-28 15:51] pools: bm-a=1open/0exec bm-b=1open/0exec bm-c=3open/3exec; queue_open=0 run=0; idle: a=EXPECTED-IDLE-WORKHOURS b=GPU-IDLE c=BLOCKED-RAM; flags=6
+[2026-10-28 16:01] FLAG CLOCK-SKEW max=2648.2ms precision=+/-197.3ms -> check hub path or node clock
+[2026-10-28 16:01] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-28 16:01] FLAG STARVED-EXEC lane=bm-b open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-28 16:01] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-10-28 16:01] FLAG CAPACITY-BLOCKED lane=bm-c exec_cards=3 dispatchable=0 -> P1 free capacity or reroute
+[2026-10-28 16:01] FLAG SUPPLY-DRY production_queue_open=0 total=22 last_claim=QUEUE-EMPTY@2026-10-28T16:00:02 -> P1 refill from real backlog
+[2026-10-28 16:01] pools: bm-a=1open/0exec bm-b=1open/0exec bm-c=3open/3exec; queue_open=0 run=0; idle: a=EXPECTED-IDLE-WORKHOURS b=GPU-IDLE c=BLOCKED-RAM; flags=6
+[2026-10-28 16:11] FLAG CLOCK-SKEW max=2641ms precision=+/-276ms -> check hub path or node clock
+[2026-10-28 16:11] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-28 16:11] FLAG STARVED-EXEC lane=bm-b open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-28 16:11] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-10-28 16:11] FLAG CAPACITY-BLOCKED lane=bm-c exec_cards=3 dispatchable=0 -> P1 free capacity or reroute
+[2026-10-28 16:11] FLAG SUPPLY-DRY production_queue_open=0 total=22 last_claim=QUEUE-EMPTY@2026-10-28T16:10:02 -> P1 refill from real backlog
+[2026-10-28 16:11] pools: bm-a=1open/0exec bm-b=1open/0exec bm-c=3open/3exec; queue_open=0 run=0; idle: a=EXPECTED-IDLE-WORKHOURS b=GPU-IDLE c=BLOCKED-RAM; flags=6
+[2026-10-28 16:21] FLAG CLOCK-SKEW max=2647.1ms precision=+/-199.3ms -> check hub path or node clock
+[2026-10-28 16:21] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-28 16:21] FLAG STARVED-EXEC lane=bm-b open_cards=1 blocked=1 -> P1 supply failure: no executable card
+[2026-10-28 16:21] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-10-28 16:21] FLAG CAPACITY-BLOCKED lane=bm-c exec_cards=3 dispatchable=0 -> P1 free capacity or reroute
+[2026-10-28 16:21] FLAG SUPPLY-DRY production_queue_open=0 total=22 last_claim=QUEUE-EMPTY@2026-10-28T16:20:02 -> P1 refill from real backlog
 [2026-10-28 16:21] pools: bm-a=1open/0exec bm-b=1open/0exec bm-c=3open/3exec; queue_open=0 run=0; idle: a=EXPECTED-IDLE-WORKHOURS b=GPU-IDLE c=BLOCKED-RAM; flags=6
 [2026-10-28 16:31] FLAG CLOCK-SKEW max=2706.9ms precision=+/-244.1ms -> check hub path or node clock
 [2026-10-28 16:31] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
@@ -374,6 +406,9 @@
 [2026-10-29 00:52] FLAG bm-b STARVED-EXEC: POOL-0023 still blocked_by no-claim-task:bm-b. Wake-list gap is already closed (Tools/fleet-nodes.json bm-b.wake_tasks now carries HQ-ProductionClaim); the remaining gap is the LOCAL task registration on bm-b, which needs a bm-b-side session.
 [2026-10-29 00:52] FLAG bm-c BLOCKED-RAM confirmed live: ram_free 0.6G of 23.9G (2.5%), VRAM free 14,683 MiB, cpu 48%, ollama resident = qwen3.5:9b/4b + qwen3.8:27b + glm-4.7-flash:30b + qwen3.6-coder:35b. No poke issued (r240 judgment: poke cannot free RAM, only churn). Fix = bm-c-local gpu_lease --acquire.
 [2026-10-29 00:52] SHIFT-END event-class | calls~26 | verdict: SUPPLY-DRY resolved+verified BURNING (2/2 cards DONE, deliverables on disk); bm-b SVC_DOWN re-classified to hung-listener (host alive, remote-unfixable, registered); bm-b STARVED-EXEC structural (wake-list closed, local task still missing, registered); bm-c BLOCKED-RAM register-only (0.6G, non-poke); ledger FAILED->DONE corrected x2
+
+[2026-10-28 15:31] FLAG CAPACITY-BLOCKED lane=bm-c exec_cards=3 dispatchable=0 -> P1 free capacity or reroute
+﻿[2026-10-28 16:21] FLAG SUPPLY-DRY production_queue_open=0 total=22 last_claim=QUEUE-EMPTY@2026-10-28T16:20:02 -> P1 refill from real backlog
 [2026-10-29 01:01] FLAG CLOCK-SKEW max=4216.9ms precision=+/-273.5ms -> check hub path or node clock
 [2026-10-29 01:01] FLAG STARVED-EXEC lane=bm-a open_cards=1 blocked=1 -> P1 supply failure: no executable card
 [2026-10-29 01:01] FLAG STARVED-EXEC lane=bm-b open_cards=1 blocked=1 -> P1 supply failure: no executable card
@@ -414,3 +449,5 @@
 [2026-10-29 01:30] SUPPLY-DRY round 8 standing: queue 24/24 DONE, backlog 17/17 delivered (0 eligible), 5 POOL cards all unexecutable -> analysis cards are not supply; real supply = director v718 production (workorder 314 items ready)
 [2026-10-29 01:3x] EVENT R2.47 close: calls=24 verdict=LANE-DOWN cleared(direct evidence) + STARVED cause corrected(direct evidence) + 2 waiting-CEO/setup rows + supply truth stated; no fake cards opened
 [2026-10-29 01:34] GATE git-no-reversal-check --audit: 10/3900 historical added lines absent. Dispositions: 1 REAL LOST (DISPATCH-LOG 2026-10-28 15:31 trio) -> restored verbatim from blob 9be08399 + note line; 4 EXEMPT BOM-position (PATROL-FLEET/LOG.md header, valve-keep.ps1, chain_full.ps1, cloud-off-gate.ps1, mv_aesthetic_gate.py = first-line BOM moved when file became non-first); 4 EXEMPT in-place rewrite (PRODUCTION-QUEUE.jsonl card state edits); 1 residual flag = the restored 15:31 CAPACITY line still matches only with its old leading BOM (content identical) -> exempt-BOM, no content lost.
+[2026-10-29 01:40] SELF-CORRECTION R2.47: my first commit 27254ee0 carried a sibling windows working-tree truncation (34 history lines 2026-10-28 15:41..16:21 were already absent from the file copy before my edit). Rebuilt the file as origin-blob(e521823a) verbatim + only this shifts new lines: base lines lost 0 / cur lines lost 0. Lesson: before appending to an append-only ledger, diff the working copy against origin blob -- a truncated copy commits as a mass deletion.
+[2026-10-29 01:44] GATE-DISCREPANCY: git-no-reversal-check reports 46 absent lines yet direct content verification finds every one of them present (15:31/15:41/15:51/16:01/16:11/16:21 blocks at file head). Flag judged gate-side blind spot, carried to 08:43 morning shift; no history actually lost after the repair.
