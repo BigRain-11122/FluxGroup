@@ -695,3 +695,44 @@ am_free 10GB / cpu_load 48%——bm-b 在跑量化轮而非闲着；缺的是本
 - bm-b **00:18 又推一笔**：`50066348` = `bm-b r1203: casting reel builder + partial-manifest builder`（[via bm-b]）。即 dispatcher 00:01 与 00:21 两次判 `LANE-DOWN verdict=SVC_DOWN` 的**同一时段内**，bm-b 连推 r1201（23:37）/r1202（23:46）/r1203（00:18）三轮——不是「曾经活着」，是**正在产**。
 - `fleet-idle-watch` 00:24:33 仍判 bm-b `SVC_DOWN`、**streak=8**；`DISPATCH-LOG` 00:21 块仍出 `LANE-DOWN lane=bm-b` + `capacity=0`。⇒ 假红未自愈，且已满 8 连击（同病复发，按步9 闸升格律呈报；`fleet-idle-watch.ps1` 保护面口径只登记候裁，正法候选=「近 60min 有本机提交即判 BUSY」）。
 - 建议后续处置口径：bm-b 车道**恢复可派**（`dispatchable` 不应为 0），但其遥测三缺口仍须本机补齐（NatsHB/FleetLink S4U + HQ-ProductionClaim），否则时钟面永远 MISSING、poke 永远 verify 超时。
+
+
+**◆ R2.50 事件班（2026-10-29 03:26-03:5x·承载件触发·三面旗第 9 轮）**
+
+**◆ 四元组**：2026-10-29 03:26-03:5x｜事件班（承载件触发：03:11/03:21 STARVED-EXEC×3 + BLOCKED-RAM bm-c + SUPPLY-DRY + CLOCK-SKEW）｜calls≈26｜verdict=三面旗全是结构面已知、零 poke 零假卡；本班改走「把台账欠账做实」，产出一件真交付（POOL-0023 全批关账）＋补齐他窗一件未上链的账目（34 个 beats 文件 untracked）。
+
+**◆ 步0 锁门**：`media/logs/ceo-proxy-patrol.lock` mtime 03:00:24（26min>10min）=他窗班已收口，本窗接管并 touch。
+**◆ 他窗去重**：R2.48（`01d9e5ed` phantom-supply gate）与 R2.49（`576ec7a8`/`9e9a3eeb` beats 7→41）已由他窗跑完并提交 → **本班不重登记、不重派单**，只做增量核验。
+
+**◆ 真发现①·R2.49 的「beats 7→41」只落在盘上、没落到链上**
+- `git ls-files .../anchors/*beats*` = **7 行**；磁盘上 beats = **41 个**，其中 34 个在 `git status` 里是 `??`（untracked）。
+- 即 bm-b/bm-c 拉不到这 34 个文件，全专节奏锚只有 bm-a 本机有。本班已随交付批一并入库。
+- 判例口径（承 2026-10-17 机队交付核对律）：**「声称已产」必须 `git ls-files` 实证，不以文件名在盘为准。**
+
+**◆ 真发现②·POOL-0023 的真堵点不是「没有认领任务」，是「官方词面缺 5 首 + 工具 SONGS 表只写死 9 首」**
+- R2.47 把 POOL-0023 定性为 `no-exec-leg:queue_claim--pool`（工具面不可执行）。本班实测：该定性对「排队执行」成立，但**活可以绕过池子直接做**——三个工具一直躺在仓里，纯 CPU 零 GPU：
+  `cph4/fleet/mv-album-001-jay/{lyrics_fetch_163.py, lyric_calibration.py, anchor_shotgrid.py}`（卡片 spec 写的 `Tools/` 是路径笔误）。
+- 缺 lyrics 的 5 首（伊斯坦堡/印第安老斑鸠/反方向的钟/娘子/完美主义）用 163 官方 lyric api 补齐：先按艺人 6452 取专辑 `18918`（《Jay》2000）拿官方 song id，再拉 lrc/txt；credit 与 ISRC 残留行按「短前缀＋全角冒号」与 `^ISRC` 剔除（工具自带 CREDIT_KEYS 漏了「过带/配唱/混音录音师」「Guitar：」「合声编写：」这些形态）。
+- 两工具 `SONGS` 表原先写死 9 首/7 首 → 本批 7 首补入；`anchor_shotgrid.SONGS` 再扩到全专 41 首，使矩阵能诚实报出 `ready=14/41`（而非 `14/14` 的自证式分母）。
+
+**◆ 交付物（全部在盘 + 入库）**
+- calibrated 5 首，全 `mode=lrc` **exact 100%**：伊斯坦堡 47 行 / 印第安老斑鸠 74 / 反方向的钟 59 / 娘子 86 / 完美主义 55。
+- shotgrid 7 首（本批全批）：伊斯坦堡 lines=47 snapped=31 split=27 bpm=161.3（双倍速检测，advisory）／印第安老斑鸠 74/22/12/95.7／反方向的钟 59/27/29/95.7／娘子 86/61/30/136.1／完美主义 55/34/12/89.2／斗牛 91/72/11/129.3／黑色幽默 42/22/34/64.6。
+- 矩阵 `POOL-0018-0019-anchor-matrix.json`：**ready=14/41**（27 首 beats 已就位、calibrated 待产）。
+- `anchor_shotgrid.py --selftest` = **7/7 PASS**；两工具重跑字节恒等（幂等复验通过）。
+- **POOL-0023 → done**（三腿齐，销卡理由写进 result_ref）。
+
+**◆ 台账勘正·POOL-0014 假忙**
+`POOL-0014`（V4 jayredo 17 镜）自 10-16 起挂 `in-flight`，实际 10-16 13:52 已全量交付、线已升 V5→V5.11→V7.17 三代、用途被消费 → 改 `closed-superseded`。不销卡则 pools 永远显示「有在制品」，属「进程活着≠有活干」同族。
+
+**◆ 三面旗处置（零 poke 的逐条依据）**
+- **bm-c BLOCKED-RAM（第 9 轮）**：03:28 直探 `ram_free=0.2G`（24G 机，比 01:28 的 0.9G 再降）／GPU 空 14.36G／cpu 59%／`last_pull .:fail`。R2.47 已实测消费者=bm-c 桌面（Doubao×4/msedge/Platform/explorer/wetype），`ollama ps` 零驻留 → **poke 与 ollama stop 都到不了 6G 判据**（r240 判例）。真动作只能发生在 bm-c 桌面。**零 poke。**
+- **bm-b STARVED-EXEC（第 9 轮）**：03:28 直探活且不闲（`ram_free=9.7G`／cpu 2%，量化轮在跑）。根因维持 R2.47 `no-exec-leg:queue_claim--pool`。**本班用「绕过池子直接执行」证明活不必等池子**——对 R2.47 定性的补正，不是翻案。**零 poke。**
+- **bm-a STARVED-EXEC（第 9 轮）**：`_last_claim=QUEUE-EMPTY@03:25:01`（认领环活着自报，非静默）+ 队列 25/25 DONE。夜窗 GPU 另有硬堵：`a.json` 03:26 实测 `util=99% / vram_free=1970MB`，`gpu_procs=blender.exe;Tuanjie Hub.exe;Tuanjie.exe` —— **编辑器占卡**（同 R2.47 判），MV 产物最新仍停 10-27 23:06（KN30.png，28h 零新增）。即使有 KF 卡也塞不进 1.9G 显存。**零 poke、零假卡。**
+- **SUPPLY-DRY（第 9 轮）**：不补「派生分析卡」（R2.45/46 两轮已证 0.1–11s 秒跑完=不构成供给），改为**执行真实在手活**（POOL-0023 全批）=供给从「造卡」升级为「把已批准的活干完」。
+- **CLOCK-SKEW**：03:21 `max=4168.5ms / precision ±194.3`，bm-b/bm-c w32time 停摆需本机提权；R2.38/R2.47 同源，仅更新数值。**登记不动作。**
+
+**◆ 诚实边界**
+- bm-c RAM 与 bm-a 显存两处都**不是软件能远程解**的（CEO 10-23 禁远程调度；FleetLink 无命令通道）。
+- 本班能做的最高价值动作是「把已批准、不依赖第二台机器的活干完」——今天这件是音频锚；MV 正片仍卡在**导演席 v718 修复计划**（工单 `D:\FleetWorker\review\v718_workorder.md` 314 项已备）。
+---

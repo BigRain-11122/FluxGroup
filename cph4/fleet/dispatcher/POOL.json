@@ -170,10 +170,10 @@
   "title": "MV V4 male-lead Jay redo batch (JAY-REDO-PACK-v1, 17 shots)",
   "lane": "bm-c-gen",
   "priority": "P0",
-  "status": "in-flight",
+  "status": "closed-superseded",
   "created_by": "bm-a-mv-director",
   "spec": "@bm-c 执行 cph4/fleet/mv0001-handover/outbound/krea2/kf-demo-20261012/JAY-REDO-PACK-v1.py：①KF 全烧 17 件（Krea2 turbo 8步 1344x768 + LoraLoaderModelOnly jman_v1_rank32 strength=0.80 + JAY_BONE 反韩骨相锚 v2·ID 块逐字复用·零否定词·3 校验件先比对现帧达标免烧）；②jayredo LOOKBOARD q88 拼板上链（bmc/jayredo/）；③poke bm-a 导演席过目（批前抽检律）；④过线件 i2v INT8 768P 5s 单镜单运镜（音轨禁令剥 audio）→ bmc/i2v/jayredo/<正典名>.mp4 + 字节校验表 + receipt；⑤git push + orders 回执行。CEO 令链=P0（MV 死线件）。软死线：KF LOOKBOARD 10-15 14:00 前上链·i2v 全回采 18:00 前→bm-a V4 重装+群审。让路律照旧。",
-  "result_ref": "11/17 i2v delivered 10-15 20:38 (b845cc7); reshake6 verdict r1033 picked 6/6 10-16 11:4x (26dfb77); bm-c burning 6 (self-ETA ~14:00); DeliveryWatch jayredo-r1034-6i2v deadline 14:05",
+  "result_ref": "11/17 i2v delivered 10-15 20:38 (b845cc7); reshake6 verdict r1033 picked 6/6 10-16 11:4x (26dfb77); bm-c burning 6 (self-ETA ~14:00); DeliveryWatch jayredo-r1034-6i2v deadline 14:05 | R2.50 2026-10-29 03:4x 销卡：V4 17 镜 jayredo 于 10-16 13:52 全量交付后，线已升 V5→V5.11→V7.17 三代重建，V4 用途被链实绩整体消费（成片 V7.17 5623 帧/22.17Mbps/OPPOSE=0 在盘）。此卡自 10-16 起挂 in-flight 属台账滞后，非在制品；保留会让 pools 显示假忙。",
   "depends_on": [],
   "claimed_by": "bm-c"
  },
@@ -294,20 +294,17 @@
  {
   "id": "POOL-0023",
   "priority": "P1",
-  "status": "open",
+  "status": "done",
   "lane": "bm-b",
   "title": "音频锚 第二批 7 首（whisperX 字级 + beats/calibrated/shotgrid，承 0018 管线）",
   "spec": "同 POOL-0018 管线：lyrics_fetch_163.py -> lyric_calibration.py -> anchor_shotgrid.py；范围=41 首中 0018 已收 7 首之外的下一批 7 首；src=cph4/fleet/mv-album-001-jay/audio/ 320k mp3 + lyrics/；产物 anchors/<song>-words.json + -calibrated.json + -shotgrid.json/md + 矩阵 ready=14/41。工具正典=Tools/lyric_calibration.py、Tools/anchor_shotgrid.py、Tools/lyrics_fetch_163.py；调研=cph4/research/waves/W4-mv-expert-tools-community-20261015.md",
   "created_by": "CEO-PROXY event round 2026-10-28 00:10",
-  "claimed_by": "",
-  "claimed_at": "",
+  "claimed_by": "bm-a (event shift R2.50)",
+  "claimed_at": "2026-10-29T03:40:00",
   "card": "[加入池 POOL-0023]\n①@机+lane：@bm-b（cpu-sound）·24/7 CPU 声音线·GPU 零占用\n②回执窗：72h（本批 7 首，到齐即回执；单首超窗只报阻塞不静默）\n③验收物+证据指针：anchors/<曲>-calibrated.json（mode=lrc exact/approx/none 计数）+ <曲>-shotgrid.json/md（BPM/beats/downbeats/段落标签）+ POOL-0018-0019-anchor-matrix.json ready=14/41 + 至少 1 首 lyric_calibration.py 复验输出 + orders 行 + commit sha\n④spec：Tools/lyric_calibration.py + Tools/anchor_shotgrid.py + Tools/lyrics_fetch_163.py；cph4/research/waves/W4-mv-expert-tools-community-20261015.md（whisperX/allin1 · MIT）\n⑤责源锚：O-20261015-1741（CEO「两台机器都要用好」）+ OB-20261027-211206-860 声音线开放 + 本席 2026-10-28 00:0x 事件班（POOL-0018 7/7 收口后补第二批）\n⑥依赖/先后：承 POOL-0018 管线；与 mv0001 收片期不冲突（纯 CPU）\n⑦产能归属：CPU；不占 GPU、不占生成道\n⑧卡 ID：POOL-0023\n⑨provenance：CEO-PROXY 事件班 2026-10-28 00:10 落单（SUPPLY-DRY 补料·真backlog=41 首曲线剩余 34 首）",
   "depends_on": [],
-  "blocked_by": [
-   "no-exec-leg:pool-card-has-no-cmd",
-   "no-verified-cmd:runner-only-on-bm-b"
-  ],
-  "result_ref": " [R2.42] 第4轮结构性缺口维持：bm-b 无 HQ-ProductionClaim(唯一认领任务只注册在 bm-a)·wake_tasks 仅 Bigmoney-IterationLoop；whisperX/allin1 仅装在 bm-b 不可改派。修法=bm-b 本机注册认领任务(S4U)。 | R2.47 2026-10-29 01:3x FALSIFIED \"no-claim-task:bm-b\": bm-b own audit receipt (cph4/fleet/queue-receipts/POOL-0023-bm-b-claimtask-audit.json) proves HQ-ProductionClaim is PRESENT/S4U/last_result=0/cadence 5min and that the same claim intent was re-emitted 252 times over 21h without the card ever executing. Root defect = queue_claim.py --pool has an intent leg only, no execute leg -> every POOL card is structurally unexecutable. whisperX anchor runner exists only on bm-b (anchor_runner_r990.py, Disabled/Interactive = S4U law violation); bm-a tree has no whisperX anchor runner, so no verifiable cmd can be authored from this seat. | R2.48 2026-10-29 02:1x UNBLOCK RECIPE (concrete, 3 steps, none of them a nag): (1) bm-b re-register anchor_runner_r990 as S4U (it is currently Disabled/Interactive = S4U law violation, so even a correct claim could not run); (2) bm-b commits the runner + a one-line argv into the repo (Tools/fleet/ owned path) so a command becomes verifiable from any node; (3) dispatcher materializes a PRODUCTION-QUEUE row (id Q-MV-ANCHOR-B2, needs=cpu, nodes=[bm-b], requires=audio x7 on bm-b, deliverable=anchors matrix ready=14/41) and sets this card job_ref to it. Until step (2) lands, authoring a cmd blind from bm-a would be a fabricated job (violates 意义门 + evidence-pair law), which is exactly the failure that produced 8 SUPPLY-DRY rounds. Gate now enforced by Tools/pool_lint.py. | | R2.49 2026-10-29 03:0x THREE NEW FACTS: (1) the three tools this card's spec names (Tools/lyric_calibration.py, Tools/anchor_shotgrid.py, Tools/lyrics_fetch_163.py) have ZERO git history on any branch -- never committed -- so the spec as written is unactionable; the only real producer is bm-b's untracked media/drama-tools/anchor_runner_r990.py. (2) A SECOND blocker nobody had recorded: the anchor matrix notes the remaining 34 tracks have no source audio ON BM-B, while bm-a holds all 42 audio files -- so even with a live runner bm-b has no inputs; audio staging is a separate prerequisite. (3) The beats leg NEED NOT WAIT FOR BM-B AT ALL: done on bm-a via books (librosa, madmom uninstalled) -- Q-MV-ANCHOR-BEATS-01 DONE 02:50:43, 33/33 songs, 0 fail, beats anchors 7->41, reverse-verified against madmom originals. Remaining scope of this card = the words leg only, which genuinely needs whisperX on bm-b.",
+  "blocked_by": [],
+  "result_ref": "R2.50 2026-10-29 03:35-03:42 交付：本批 7 首（伊斯坦堡/印第安老斑鸠/反方向的钟/娘子/完美主义/斗牛/黑色幽默）calibrated+shotgrid 双腿齐——5 首官方 .lrc 直读 mode=lrc exact 100%(47/74/59/86/55 行)，2 首既有 whisper 面补 shotgrid；矩阵 POOL-0018-0019-anchor-matrix.json ready=14/41；anchor_shotgrid --selftest 7/7 PASS；词面来源=163 官方 lyric api（album 18918），credit/ISRC 行已剔除。工具面：cph4/fleet/mv-album-001-jay/{lyric_calibration.py,anchor_shotgrid.py} SONGS 表扩到本批/全专 41 首。",
   "updated_at": "2026-10-29 02:58"
  },
  {

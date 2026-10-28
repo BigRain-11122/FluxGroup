@@ -14,7 +14,10 @@ LYR = os.path.join(BASE, "lyrics")
 ANC = os.path.join(BASE, "anchors")
 SONGS = {"星晴": "星晴", "可爱女人": "可爱女人", "龙卷风": "龙卷风",
          "简单爱": "jiandanan", "开不了口": "kaibuliaokou", "安静": "安静-words",
-         "斗牛": "斗牛", "黑色幽默": "黑色幽默", "晴天": "晴天-words"}
+         "斗牛": "斗牛", "黑色幽默": "黑色幽默", "晴天": "晴天-words",
+         # POOL-0023 第二批 7 首（2026-10-29 事件班登记）：5 首现有官方 .lrc 直读
+         "伊斯坦堡": "伊斯坦堡-words", "印第安老斑鸠": "印第安老斑鸠-words",
+         "反方向的钟": "反方向的钟-words", "娘子": "娘子-words", "完美主义": "完美主义-words"}
 
 
 def norm(s):

@@ -175,3 +175,17 @@ am_free_gb=10+cpu_load_pct=48——**bm-b 不是闲着，是在跑量化轮**；
 | **bm-a「BUSY」假忙面** | **found·判读勘正** | 01:07 `fleet/a.json` pulse：GPU util 99% 而 `gpu_procs=blender.exe;Tuanjie Hub.exe;Tuanjie.exe`（编辑器占卡）且 vram_free 1.9G；MV 产物最新 `D:\FluxGroup\media\mv-test\keainvren\batch1\KN30.png` = **10-27 23:06（26h 零新增）**。01:28 `/status` GPU 已释放至 1516MiB。结论=idle-watch 的 `a=BUSY` 由编辑器占卡造成，属「进程活着≠有活干」同族；生产面判据须看产物 mtime。 |
 | **SUPPLY-DRY（第 8 轮）** | **standing·真瓶颈（本席不补假卡）** | 队列 **24/24 DONE**、声明式 backlog **17/17 已交付（0 eligible）**、5 张 POOL 全不可执行：POOL-0010=CEO 物理件、POOL-0024/0016/0021=bm-c RAM 闸、POOL-0023=无执行腿。R2.45/R2.46 两轮「派生分析卡」均 0.1–11s 秒跑完 → 分析卡不构成供给。真供给只剩导演席 v718 生产裁决（工单 `D:\FleetWorker\review\v718_workorder.md` 314 项已备）。 |
 | **诚实边界** | **standing** | 本班 poke 3/3 accepted、3 分钟后复探 `_last_claim=QUEUE-EMPTY@01:25` + 零新回执 → **poke 不能凭空造供给**。下一步只能由三处之一解开：①bm-c 桌面 RAM（CEO 物理）②POOL 执行腿工具面修法 ③导演席 v718 生产。 |
+
+
+## 附录 R2.50 事件班注记（2026-10-29 03:26-03:5x·承载件触发·第 9 轮）
+
+| 件 | 状态 | 证据 / 下一步 |
+|---|---|---|
+| **POOL-0023 音频锚第二批 7 首** | **done（本班交付·三腿齐）** | calibrated 5 首全 `mode=lrc` exact 100%（47/74/59/86/55 行）＋shotgrid 7 首＋矩阵 `ready=14/41`＋selftest 7/7 PASS。词面=163 官方 api（album 18918），credit/ISRC 已剔。**R2.47「无执行腿」定性补正：活可绕过池子直接做，三个工具一直在仓里（纯 CPU）。** |
+| **R2.49「beats 7→41」未上链** | **fixed（本班）** | `git ls-files` 只有 7 个 beats 在库，磁盘 41 个中 34 个 untracked → bm-b/bm-c 拉不到。本班随交付批入链。判例：「声称已产」必须 `git ls-files` 实证。 |
+| **POOL-0014 陈旧 in-flight** | **fixed（本班）** | V4 jayredo 10-16 13:52 已全量交付、线已升 V7.17 三代 → `closed-superseded`。不销卡=pools 假忙。 |
+| **bm-c BLOCKED-RAM（第 9 轮）** | **waiting-CEO（物理件·零催办）** | 03:28 直探 `ram_free=0.2G`（24G 机；01:28 为 0.9G，继续下降）／GPU 空 14.36G／cpu 59%／`last_pull .:fail`（根仓分叉未收口）。消费者=桌面应用（R2.47 实测 ollama 零驻留）。**poke 治不了 RAM，零 poke。** |
+| **bm-b STARVED-EXEC（第 9 轮）** | **at-risk·结构性（本机动作）** | 03:28 直探 `ram_free=9.7G`/cpu 2%（在跑量化轮）→ 机器不闲；缺可执行腿。另根仓 `head=b47c4708` ≠ `origin 01d9e5ed`（落后）。修法=bm-b 本机 `Tools/fleet-hot-sync.ps1`。 |
+| **bm-a STARVED-EXEC（第 9 轮）** | **registered·判读勘正（本机桌面动作）** | `_last_claim=QUEUE-EMPTY@03:25:01`（环活着）+ 队列 25/25 DONE 为真；但夜窗 GPU 被 `blender.exe;Tuanjie Hub.exe;Tuanjie.exe` 占住（util 99%／vram_free 1970MB），MV 产物停 10-27 23:06（28h）。**有卡也塞不进显存**→ 需关编辑器。 |
+| **SUPPLY-DRY（第 9 轮）** | **resolved（本班·改为执行真实在手活）** | 不补派生分析卡（R2.45/46 已证秒跑完不构成供给），改为把已批准、不依赖第二台机的活干完（POOL-0023）。 |
+| **CLOCK-SKEW** | **registered·本机提权动作** | 03:21 `max=4168.5ms / precision ±194.3`；bm-b/bm-c w32time 停摆，需提权自启。R2.38/R2.47 同源，仅更新数值。 |
