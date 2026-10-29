@@ -1,0 +1,19 @@
+{
+ "_comment": "业务条线登记表（2026-10-29 CEO 令：把业务条线/规则也交给主 Agent 循环调度）。只放机器可判的字段：仓、证据目录、过期阈值、活源前缀、闸、状态。规则正文仍在各正典，这里不复制法条。",
+ "_status_values": "ACTIVE=应在产出 / PARKED=CEO 令停但保留 / BLOCKED=有活但无可用车道 / MIGRATING=换载体中",
+ "lines": [
+  {"id": "bigstream-mv", "name": "BigStream·MV 41 曲", "repos": [], "evidence": ["cph4/fleet/mv-album-001-jay", "cph4/fleet/mv0001-handover"], "queue_prefix": ["Q-MV-", "R-MV-"], "stale_after_h": 24, "owner": "导演席（CEO 终审）", "gate": "cph4/fleet/VIDEO-QC-GATES-GSV-v1.md", "status": "ACTIVE", "note": "mv0001 v717 已过闸机面，待逐镜修复计划；v718 重建规则已证伪并回撤"},
+  {"id": "bigstream-drama", "name": "BigStream·漫剧", "repos": [], "evidence": ["cph4/fleet/drama-dept-v1"], "queue_prefix": ["Q-DRAMA-"], "stale_after_h": 48, "owner": "漫剧席 @bm-b", "gate": "cph4/fleet/VIDEO-QC-GATES-GSV-v1.md", "status": "BLOCKED", "note": "素材与混音在 bm-b；bm-b 根仓库工作树分叉，新执行器落不了地"},
+  {"id": "bigstream-duanju", "name": "BigStream·短剧", "repos": [], "evidence": ["cph4/fleet/duanju-dept-v1"], "queue_prefix": ["Q-DUANJU-"], "stale_after_h": 72, "owner": "短剧席", "gate": "cph4/fleet/VIDEO-QC-GATES-GSV-v1.md", "status": "ACTIVE", "note": "《十秒人生》剧本 v1.1 复核 PASS，候 KF 试构图"},
+  {"id": "bigstream-shortvideo", "name": "BigStream·短视频/切片", "repos": [], "evidence": ["cph4/fleet/shortvideo-dept", "cph4/fleet/video-remix-dept", "cph4/fleet/meme-daily-v1"], "queue_prefix": ["Q-SV-", "Q-REMIx-"], "stale_after_h": 168, "owner": "短视频席", "gate": "", "status": "PARKED", "note": "CEO 2026-10-17 判「太烂」停产；不派活、不计闲置"},
+  {"id": "biggame", "name": "Biggame·游戏", "repos": ["gaming/MiniGame"], "evidence": [], "queue_prefix": ["Q-GAME-"], "stale_after_h": 24, "owner": "游戏席", "gate": "gaming/MiniGame/Design/configs/GLOBAL", "status": "ACTIVE", "note": "吸嘟嘟家庭版/车机版在研；自动跑游戏包被 CEO 禁止"},
+  {"id": "fluxverse", "name": "FluxVerse·元宙城", "repos": ["gaming/FluxVerse"], "evidence": [], "queue_prefix": ["Q-CITY-"], "stale_after_h": 36, "owner": "城市线（CEO 第一检查入口）", "gate": "gaming/FluxVerse/world", "status": "ACTIVE", "note": "City3D 装配 + 可视化每日刷新"},
+  {"id": "bigmoney", "name": "BigMoney·量化", "repos": ["quant/bigmoney"], "evidence": [], "queue_prefix": ["Q-QUANT-"], "stale_after_h": 24, "owner": "量化席 @bm-b/bm-d", "gate": "quant/bigmoney/results/automation_line_audit.json", "status": "ACTIVE", "note": "W 波自跑；真金红线永不全自动"},
+  {"id": "bigdomain", "name": "BigDomain·硅基域商业化", "repos": ["domain/BigDomain"], "evidence": [], "queue_prefix": ["Q-DOMAIN-"], "stale_after_h": 36, "owner": "域运营席", "gate": "", "status": "ACTIVE", "note": "模拟态授权：收款 MOCK，上线前问题归零"},
+  {"id": "bigcompute", "name": "BigCompute·硅基算力", "repos": ["compute/BigCompute"], "evidence": [], "queue_prefix": ["Q-COMPUTE-"], "stale_after_h": 36, "owner": "算力中枢席", "gate": "", "status": "ACTIVE", "note": "P1 成交环+私域分发环"},
+  {"id": "biglife", "name": "BigLife·数字生命", "repos": ["life/BigLife"], "evidence": [], "queue_prefix": ["Q-LIFE-"], "stale_after_h": 48, "owner": "生命生产席", "gate": "life/BigLife/census", "status": "ACTIVE", "note": "census 已解禁；入册必过 12 条生命体征机器闸"},
+  {"id": "bighouse", "name": "BigHouse·城市安家", "repos": ["house/BigHouse"], "evidence": [], "queue_prefix": ["Q-HOUSE-"], "stale_after_h": 72, "owner": "生态运营席", "gate": "", "status": "ACTIVE", "note": "三柱=安家/邻里/共长；近 275h 无提交"},
+  {"id": "car-gaming", "name": "车机游戏 BU", "repos": [], "evidence": ["cph4/fleet/car-gaming-v1"], "queue_prefix": ["Q-CAR-"], "stale_after_h": 72, "owner": "车机 BU", "gate": "gaming/MiniGame/09_吸嘟嘟GimmeAll/GimmeAll/Tools/car_adapt_check.py", "status": "ACTIVE", "note": "研发与合规归本线；样机/版号/商务归 CEO"},
+  {"id": "recon", "name": "RECON·竞品拆解", "repos": [], "evidence": ["cph4/fleet/recon-dept-v1"], "queue_prefix": ["Q-RECON-"], "stale_after_h": 72, "owner": "拆解部", "gate": "", "status": "ACTIVE", "note": "拆完 48h 内必须出可玩原型或可看样片"}
+ ]
+}
