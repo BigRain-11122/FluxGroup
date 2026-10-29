@@ -150,6 +150,8 @@ def self_dispatch(root, node, allow_gpu_workhours, max_seconds, hub, port, dry):
             continue
         if fl.game_launch_blocked(r.get("cmd") or ""):
             continue
+        if r.get("heavy") and not fl.heavy_allowed(node) and not allow_gpu_workhours:
+            continue
         if (r.get("needs") == "gpu") and not fl.gpu_window_open(node) and not allow_gpu_workhours:
             continue
         pick = r

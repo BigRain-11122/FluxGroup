@@ -49,3 +49,9 @@ python Tools\fleet\lane_agent.py --node bm-a       # 手动跑一次本机执行
 ```
 
 验收判据：①队列不再长期 0 OPEN；②每台在线机的 `idle_reason` 非空且可解释；③任务从派发到回执闭环（2026-10-29 首测：smoke 任务 0.2s 完成、回执落盘、主 Agent 收口 done+1）。
+
+## 六、首日实跑发现（2026-10-29）
+
+1. **v718 重建规则被证伪并回撤**：`mv_rebuild_from_edl.py` 按同一 EDL 重建，产物与 v717 **逐字节相同**（MD5 均为 `B75435845FCA145DB16CFB7283F8E76B`），交付闸结论也一字不差。结论=重建不能修 D1/D2/D4（缺陷在素材镜本身），只能逐镜重烧/调色/插值。5 条规则已移到 `WORK-RULES.disabled-20261029.jsonl`，v718 母版与派生产物已删，队列行标 `INVALID`。**教训：任何“重跑就能修”的规则必须先验证产物不是副本再上生产。**
+2. **白天让路的漏洞已补**：`self_dispatch` 当时只看 GPU 窗口，漏了 `heavy`，导致 10:06 在 bm-a 工作时间跑了一次重活。现已按 `heavy_allowed()` 拦截。
+3. **两台远程机的结构性阻塞（需人处理）**：poke 返回 `bm-b .:updated` / `bm-c .:fail`，但两者工作树 HEAD 一直停在 `da7652f5` / `994d63ca`，拉不下新代码 → 新的 lane 执行器落不了地。各自在本机跑一次 `Tools/fleet-hot-sync.ps1` 即可解决；bm-c 另有空闲内存仅 0.8GB 的硬约束。
