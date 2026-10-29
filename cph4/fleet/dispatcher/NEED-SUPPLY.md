@@ -1,7 +1,7 @@
 # NEED-SUPPLY - why lanes and business lines are not running (#regenerated)
 
-- ts: 2026-10-29T23:18:31
-- queue: open=0 running=0 done=30 failed=0
+- ts: 2026-10-29T23:28:48
+- queue: open=0 running=0 done=33 failed=0
 - open jobs by need: cpu=0 gpu=0
 
 - bm-a: CAPACITY-BLOCKED-RAM OFFLINE (hb age Nones) -> free memory on that box (gpu_lease --acquire reclaims it)
