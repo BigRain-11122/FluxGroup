@@ -1,19 +1,8 @@
 {
  "node": "bm-a",
- "ts": "2026-10-29T10:22:02",
- "jobs": [
-  {
-   "id": "R-MV-V718-FIDELITY",
-   "title": "v718 AIGC 母版重编码保真（SSIM/PSNR <0.95 则高保真档重出）",
-   "cmd": "python Tools/mv_fidelity.py \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\cph4\\fleet\\mv0001-handover\\outbound\\krea2\\30s-reel-v1\\full_mv_v718.mp4\" \"D:\\FleetWorker\\review\\v718_label\\full_mv_v718_aigc.mp4\" --json \"D:\\FleetWorker\\review\\fidelity_v718.json\"",
-   "cwd": "C:\\Users\\sjs20\\Desktop\\FluxGroup",
-   "needs": "cpu",
-   "deliverable": "D:\\FleetWorker\\review\\fidelity_v718.json",
-   "need_mb": null,
-   "timeout_s": 1200
-  }
- ],
- "idle_reason": "",
+ "ts": "2026-10-29T10:26:02",
+ "jobs": [],
+ "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
  "lane_ok": true,
- "capacity_note": "ram 11.8/3.0 GB"
+ "capacity_note": "ram 13.2/3.0 GB"
 }
