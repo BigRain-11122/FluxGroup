@@ -35,8 +35,10 @@ Get-CimInstance Win32_Process | Where-Object {
     } catch { }
 }
 
-# The launcher loops re-register themselves; keep them off during the working day.
-$watch = @('MiniGameEngineTick', 'MiniGame-PipelineGate', 'MiniGameGateTick', 'MiniGameAuditTick', 'MiniGameTickWatchdog')
+# Only the two tasks that can actually reach a built game stay off (CEO 2026-10-29:
+# 只停会拉起游戏的那几个). EngineTick spawns a headless agent that may launch the player;
+# TickWatchdog would resurrect EngineTick. Pipeline/Gate/Audit/Cockpit stay enabled.
+$watch = @('MiniGameEngineTick', 'MiniGameTickWatchdog')
 foreach ($t in $watch) {
     $task = Get-ScheduledTask -TaskName $t
     if ($task -and $task.State -ne 'Disabled') {
