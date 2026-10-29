@@ -80,6 +80,7 @@ if (-not (Test-Path $runner)) {
         'if not exist cph4\fleet\queue-receipts mkdir cph4\fleet\queue-receipts',
         $py + ' Tools\fleet-sync.py --src "' + $Root + '" --dst "' + $laneRoot + '" >> "%LOG%" 2>&1',
         $py + ' Tools\fleet\fleet_hb.py --node ' + $Node + ' --root "%CD%" >> "%LOG%" 2>&1',
+        $py + ' Tools\queue_claim.py --node ' + $Node + ' >> "%LOG%" 2>&1',
         $py + ' Tools\queue_claim.py --pool --node ' + $Node + ' >> "%LOG%" 2>&1',
         $py + ' Tools\fleet\lane_agent.py --node ' + $Node + ' --root "%CD%" --max-seconds 600 >> "%LOG%" 2>&1',
         'exit /b %ERRORLEVEL%'
