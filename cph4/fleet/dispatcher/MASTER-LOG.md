@@ -1,0 +1,8 @@
+[2026-10-29T09:58:51] cyc=1 q=0/1/25 sup=0 ev=1 idle=bm-a:-,bm-b:SELF-DISPATCH: lan,bm-c:CAPACITY-BLOCKED-R flags=bm-c CAPACITY-BLOCKED-RAM
+[2026-10-29T09:59:24] cyc=2 q=1/0/25 sup=1 ev=0 idle=bm-a:SELF-DISPATCH: lan,bm-b:SELF-DISPATCH: lan,bm-c:CAPACITY-BLOCKED-R flags=bm-c CAPACITY-BLOCKED-RAM
+[2026-10-29T09:59:41] cyc=3 q=1/0/25 sup=0 ev=0 idle=bm-a:WORKHOUR-YIELD: 1 ,bm-b:SELF-DISPATCH: lan,bm-c:CAPACITY-BLOCKED-R flags=bm-c CAPACITY-BLOCKED-RAM
+[2026-10-29T10:00:27] cyc=4 q=4/1/25 sup=3 ev=1 idle=bm-a:-,bm-b:SELF-DISPATCH: lan,bm-c:CAPACITY-BLOCKED-R flags=bm-c CAPACITY-BLOCKED-RAM
+[2026-10-29T10:01:48] cyc=5 q=0/1/26 sup=0 ev=1 idle=bm-a:-,bm-b:SELF-DISPATCH: lan,bm-c:CAPACITY-BLOCKED-R flags=bm-c CAPACITY-BLOCKED-RAM
+[2026-10-29T10:02:08] cyc=6 q=1/1/25 sup=0 ev=0 idle=bm-a:-,bm-b:SELF-DISPATCH: lan,bm-c:CAPACITY-BLOCKED-R flags=bm-c CAPACITY-BLOCKED-RAM
+[2026-10-29T10:02:21] cyc=7 q=1/0/26 sup=0 ev=1 idle=bm-a:WORKHOUR-YIELD: 1 ,bm-b:SELF-DISPATCH: lan,bm-c:CAPACITY-BLOCKED-R flags=bm-c CAPACITY-BLOCKED-RAM
+[2026-10-29T10:03:03] cyc=8 q=1/0/25 sup=0 ev=0 idle=bm-a:WORKHOUR-YIELD: 1 ,bm-b:SELF-DISPATCH: lan,bm-c:CAPACITY-BLOCKED-R flags=bm-c CAPACITY-BLOCKED-RAM

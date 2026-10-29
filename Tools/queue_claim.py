@@ -247,6 +247,18 @@ if a.pool or a.pool_list:
     sys.exit(run_pool(a))
 
 
+# Lane mode (2026-10-29): the master agent is the only scheduler now. If this node has a
+# lane assignment file (origin/main:cph4/fleet/lanes/<node>.json), execute exactly what the
+# master assigned and never write the shared queue - separate clones diverge otherwise.
+# Falls through to the legacy global claim only when no lane file exists at all.
+sys.path.insert(0, os.path.join(ROOT, "Tools", "fleet"))
+try:
+    from lane_agent import run_lane_cycle
+    if run_lane_cycle(a.node, ROOT, a.dry, a.allow_gpu_workhours):
+        sys.exit(0)
+except Exception as _e:
+    print("lane-mode skipped: %s" % str(_e)[:200])
+
 rows = load()
 hour = datetime.now().hour
 weekday = datetime.now().weekday() < 5
