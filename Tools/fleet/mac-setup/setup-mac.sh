@@ -47,6 +47,8 @@ cat > "$ROOT/tools-run-once.sh" <<'RUN'
 # stays resident afterwards.
 set -uo pipefail
 cd "$(dirname "$0")"
+# 本轮先拉一次：不拉就看不到新规则/新车道代码，主控会拿旧队列空转（2026-10-29 实测）
+git pull --ff-only --quiet 2>/dev/null || echo "[runner] pull skipped (offline or dirty)"
 python3 Tools/fleet/fleet_hb.py --node "${NODE:-bm-m}" --root "$PWD" || true
 python3 Tools/fleet/master_agent.py --node "${NODE:-bm-m}" --root "$PWD" --no-push || true
 python3 Tools/fleet/lane_agent.py --node "${NODE:-bm-m}" --root "$PWD" || true
