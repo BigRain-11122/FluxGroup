@@ -1,6 +1,6 @@
 {
- "ts": "2026-10-29T23:39:16",
- "cycle": 575,
+ "ts": "2026-10-29T23:49:44",
+ "cycle": 585,
  "queue": {
   "total": 38,
   "open": 0,
@@ -23,27 +23,27 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 20.3,
-   "cpu_load_pct": 65,
-   "ram_free_gb": 4.3,
+   "hb_age_s": 44.5,
+   "cpu_load_pct": 32,
+   "ram_free_gb": 8.6,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-10-29T23:36:51",
+    "ts": "2026-10-29T23:49:00",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 11
+   "idle_rounds": 21
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 63.5,
-   "cpu_load_pct": 35,
-   "ram_free_gb": 8.9,
+   "hb_age_s": 29.6,
+   "cpu_load_pct": 5,
+   "ram_free_gb": 9.5,
    "gpu_util_pct": 0,
    "job": null,
    "last_result": null,
@@ -55,26 +55,26 @@
    "online": true,
    "hb_age_s": 0.5,
    "cpu_load_pct": null,
-   "ram_free_gb": 26.3,
+   "ram_free_gb": 26.1,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-10-29T23:38:14",
+    "ts": "2026-10-29T23:48:42",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 14
+   "idle_rounds": 24
   }
  },
  "idle_rounds": {
   "bm-a": 0,
-  "bm-b": 11,
+  "bm-b": 21,
   "bm-c": 0,
-  "bm-m": 14
+  "bm-m": 24
  },
  "lines": {
   "bigstream-mv": {
@@ -702,8 +702,8 @@
  "events": [],
  "violations": [
   "bm-a OFFLINE",
-  "bm-b IDLE-CONFIRMED x11 (SELF-DISPATCH: lane scans its own backlo)",
-  "bm-m IDLE-CONFIRMED x14 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-b IDLE-CONFIRMED x21 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-m IDLE-CONFIRMED x24 (SELF-DISPATCH: lane scans its own backlo)",
   "LINE-BLOCKED bigstream-drama ()"
  ],
  "lane_files_written": []
