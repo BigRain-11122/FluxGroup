@@ -226,6 +226,42 @@ def lane_result_key(node):
     return "lane.result.%s" % node
 
 
+def kv_get(key, host=HUB_DEFAULT, port=PORT_DEFAULT, timeout=3.0):
+    """Read FLEET_STATE.<key> with the raw protocol (JetStream direct get).
+
+    Why raw: the Mac must be able to run the master, and there is no nats.exe there (and
+    no reason to ship a Windows binary to it). Direct get is enabled on the bus, verified
+    2026-10-29; if it ever returns an error this returns None and the caller treats the
+    node as unseen rather than inventing a state.
+    """
+    try:
+        s = _nats_connect(host, port, timeout)
+        inbox = "_INBOX." + os.urandom(6).hex()
+        s.sendall(("SUB %s 1\r\n" % inbox).encode())
+        subject = "$JS.API.DIRECT.GET.KV_%s.$KV.%s.%s" % (KV_BUCKET, KV_BUCKET, key)
+        s.sendall(("PUB %s %s 0\r\n\r\n" % (subject, inbox)).encode())
+        end = time.time() + timeout
+        buf = b""
+        while time.time() < end:
+            while b"\r\n" not in buf:
+                chunk = s.recv(65536)
+                if not chunk:
+                    return None
+                buf += chunk
+            line, buf = buf.split(b"\r\n", 1)
+            if line.startswith(b"MSG "):
+                n = int(line.split()[-1])
+                while len(buf) < n:
+                    buf += s.recv(65536)
+                txt = buf[:n].decode("utf-8", "replace")
+                s.close()
+                return None if '"error"' in txt[:80] else json.loads(txt)
+        s.close()
+    except Exception:
+        pass
+    return None
+
+
 # ---- admission ----------------------------------------------------------------
 def game_launch_blocked(cmd):
     low = (cmd or "").lower()

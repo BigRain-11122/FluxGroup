@@ -44,6 +44,11 @@ MAX_ATTEMPTS = 3
 
 # ---------------------------------------------------------------- sensing
 def kv_get(key, root, host=fl.HUB_DEFAULT, port=fl.PORT_DEFAULT):
+    """Live node state. Pure-python first so the Mac (no nats.exe) can run the master too;
+    the Windows CLI is kept as a fallback for boxes that already rely on it."""
+    got = fl.kv_get(key, host, port)
+    if got is not None:
+        return got
     exe = os.path.join(root, "Tools", "nats", "bin", "nats.exe")
     if not os.path.exists(exe):
         return None
