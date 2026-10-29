@@ -48,6 +48,9 @@ KV_BUCKET = "FLEET_STATE"
 #                                          only box that can hold 768p batches + backtests
 LANES = {
     "bm-a": {"needs": ["cpu", "gpu"], "ram_floor_gb": 3.0, "gpu_hours": (9, 19),
+             # CEO 2026-10-29: this is his WORK machine - full load only at night.
+             # 09:00-19:00 weekdays it takes nothing unless a job is marked day_ok.
+             "quiet_hours": (9, 19),
              "enabled": True, "ram_gb": 94, "vram_gb": 12, "cuda": True,
              "caps": ["cpu", "kf768", "i2v768", "audio", "assemble", "llm"],
              "llm": {"endpoint": "http://127.0.0.1:11434"},
@@ -284,6 +287,16 @@ def gpu_window_open(node, when=None):
     if d.weekday() >= 5:
         return True
     return not (win[0] <= d.hour < win[1])
+
+
+def quiet_hours(node, when=None):
+    win = (LANES.get(node) or {}).get("quiet_hours")
+    if not win:
+        return None
+    d = when or datetime.now()
+    if d.weekday() >= 5:
+        return None
+    return win if win[0] <= d.hour < win[1] else None
 
 
 def heavy_allowed(node, when=None):

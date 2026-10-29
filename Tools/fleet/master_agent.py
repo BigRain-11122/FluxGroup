@@ -299,6 +299,9 @@ def lane_capacity(node, fleet, needs="cpu", vram_min=0, job=None):
         return False, "OFFLINE (hb age %ss)" % info.get("age_s")
     st = info.get("state") or {}
     spec = fl.LANES.get(node) or {}
+    q = fl.quiet_hours(node)
+    if q is not None and not (job is not None and job.get("day_ok")):
+        return False, "work machine daytime yield (%02d:00-%02d:00)" % (q[0], q[1])
     if spec.get("role_class") == "control":
         if needs == "gpu":
             return False, "control node: no CUDA, GPU work goes elsewhere"
@@ -418,15 +421,20 @@ def write_lane_files(root, rows, fleet, dry=False, nodes=None):
         if jobs:
             idle_reason = ""
         elif not ok:
-            idle_reason = "CAPACITY-BLOCKED-RAM " + why
+            # A work machine in its daytime window is not a capacity fault - it is policy.
+            idle_reason = ("DAY-YIELD: work machine, takes over at 19:00"
+                           if fl.quiet_hours(n) else "CAPACITY-BLOCKED-RAM " + why)
         else:
             waiting = [r for r in rows if r.get("state") == "OPEN"
                        and (not (r.get("nodes") or []) or n in (r.get("nodes") or []))
                        and (r.get("needs") or "cpu") in fl.LANES[n]["needs"]]
+            day_wait = [r for r in waiting if fl.quiet_hours(n) and not r.get("day_ok")]
             heavy_wait = [r for r in waiting if r.get("heavy") and not fl.heavy_allowed(n)]
             gpu_wait = [r for r in waiting if (r.get("needs") == "gpu")
                         and not fl.gpu_window_open(n)]
-            if heavy_wait or gpu_wait:
+            if day_wait:
+                idle_reason = "DAY-YIELD: work machine, %d job(s) wait for 19:00" % len(day_wait)
+            elif heavy_wait or gpu_wait:
                 # Not idle-by-fault: the CEO's own desktop yields during his working day.
                 idle_reason = "WORKHOUR-YIELD: %d job(s) wait for the night window" % len(
                     heavy_wait or gpu_wait)
@@ -491,6 +499,8 @@ def cycle(root, dry=False, push=True, node="bm-a"):
         jobs = by_lane.get(n) or []
         rep = reports.get(n) or {}
         confirmed_idle = (not jobs) and str(rep.get("state") or "").upper() == "IDLE"
+        if (fl.read_json(fl.lane_file(root, n), {}) or {}).get("idle_reason", "").startswith("DAY-YIELD"):
+            confirmed_idle = False  # yielded on purpose: not idleness
         reason = ""
         if not jobs:
             reason = (fl.read_json(fl.lane_file(root, n), {}) or {}).get("idle_reason", "")
@@ -520,11 +530,13 @@ def cycle(root, dry=False, push=True, node="bm-a"):
     for n, ls in lanes_state.items():
         if not ls["online"]:
             violations.append("%s OFFLINE" % n)
-        elif ls["idle_confirmed"] and ls["idle_rounds"] >= 2:
+        elif (ls["idle_confirmed"] and ls["idle_rounds"] >= 2
+              and not ls["idle_reason"].startswith("DAY-YIELD")):
             violations.append("%s IDLE-CONFIRMED x%d (%s)" % (
                 n, ls["idle_rounds"], ls["idle_reason"][:40]))
         elif ls["idle_reason"].startswith("CAPACITY-BLOCKED-RAM"):
             violations.append("%s CAPACITY-BLOCKED-RAM" % n)
+        # DAY-YIELD is compliance with the CEO's own machine, never a violation.
 
     lines = load_lines(root)
     # stage freshness drives the "which工序 stopped" answer; cached, recomputed every 10 min
@@ -890,8 +902,18 @@ def stage_states(root, lines, rows, ages):
 
 
 def push_lane_files(root):
-    """Ship assignments to the clones. One path only, so it cannot drag in worktree noise."""
+    """Ship assignments to the clones. One path only, so it cannot drag in worktree noise.
+
+    Throttled to 10 minutes: a commit per 2-minute tick is noise on the ledger, and lane
+    files rarely change more often than a job does.
+    """
     rel = fl.LANE_DIR_REL
+    stamp = os.path.join(root, ".codely-cli", "tmp", "lanepush.stamp")
+    try:
+        if os.path.exists(stamp) and (time.time() - os.path.getmtime(stamp)) < 600:
+            return True
+    except Exception:
+        pass
     try:
         subprocess.run(["git", "-C", root, "add", "--", rel], timeout=60, capture_output=True,
                        creationflags=CREATE_NO_WINDOW)
@@ -909,6 +931,11 @@ def push_lane_files(root):
                            timeout=120, capture_output=True, creationflags=CREATE_NO_WINDOW)
             p = subprocess.run(["git", "-C", root, "push", "origin", "HEAD:main"],
                                timeout=120, capture_output=True, creationflags=CREATE_NO_WINDOW)
+        try:
+            os.makedirs(os.path.dirname(stamp), exist_ok=True)
+            open(stamp, "w").close()
+        except Exception:
+            pass
         return p.returncode == 0
     except Exception:
         return False

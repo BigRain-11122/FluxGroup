@@ -80,11 +80,14 @@ python Tools\fleet\lane_agent.py --node bm-a       # 手动跑一次本机执行
 
 | 机 | 卡/内存 | 能接 | 不能接 |
 |---|---|---|---|
-| bm-a | 4070S 12GB / 94GB | 768p KF/i2v、装配、闸 | 工作日 09–19 让路 |
+| bm-a | 4070S 12GB / 94GB | **夜间满负荷**：768p KF/i2v、装配、闸 | 工作日 09–19 全让路（`quiet_hours`，只接 `day_ok` 标记的活） |
 | bm-b | 3070 8GB / 24GB | 480p animatic、音频/TTS | 768p（显存不够） |
 | bm-c | 3070 16GB / 24GB | 768p 生产 | RAM 常年吃紧，CPU 活慎派 |
 | bm-m | M1 Pro 32GB | **调度中枢**、iOS 出包、文本（可跑 14B–27B）、音频 | 无 CUDA 不接 GPU；单件写入 >20GB 不接 |
 | bm-d | 3×V100 48GB / 256GB | 768p 批量、回测 | 装机未完成 |
+
+
+**工作机白天让路（CEO 2026-10-29「台式机是我的工作机，只有晚上可以满负荷」）**：bm-a 带 `quiet_hours=(9,19)`，工作日白天不接任何活（连 CPU 也不接），除非任务显式标 `day_ok: true`；19:00 后自动恢复满负荷。这种等待在状态里显示 `DAY-YIELD`，**不计为闲置、不进 violations**——那是合规，不是故障。
 
 `vram_min_gb` / `cap` 是硬过滤：8GB 卡永不接 768p，无 CUDA 永不接 GPU 活；`model=local-small` 的活只派给带 `llm` 能力的机（bm-a/b/c/m/d）。本地模型名不写死——车道读该机 `/api/tags`，配置的模型不在就用本机最大的那个，换机不用改代码。bm-m / bm-d 标 `auto_join`——**只要它一上报心跳就自动并入排产**，不用改代码、不用再问硬件到没到。
 
