@@ -225,7 +225,7 @@ def route_decision(job, fleet, rows=None, policy=None):
             if need_cap and (fl.LANES[n].get("caps")
                              and need_cap not in fl.LANES[n]["caps"]):
                 continue
-            ok, _why = lane_capacity(n, fleet, need, int(job.get("vram_min_gb") or 0))
+            ok, _why = lane_capacity(n, fleet, need, int(job.get("vram_min_gb") or 0), job)
             if not ok:
                 continue
             if need == "gpu" and not fl.gpu_window_open(n):
@@ -279,19 +279,35 @@ def cloud_spend_today(rows):
     return total
 
 
-def lane_capacity(node, fleet, needs="cpu", vram_min=0):
+def lane_capacity(node, fleet, needs="cpu", vram_min=0, job=None):
     """(ok, reason) for assigning work to this lane right now.
 
     A GPU job is allowed past the RAM floor because gpu_lease.acquire() stops the resident
     LLM and disables keepwarm before ComfyUI starts - that is the documented reclaim path,
     not something the master can do remotely. A CPU job has no such reclaim, so it obeys
     the floor strictly. VRAM is a hard filter: an 8GB card must never be handed a 768p job.
+    A control-plane box (bm-m) refuses heavy work and anything that would eat its disk: it
+    exists to schedule, not to produce (CEO 2026-10-29).
     """
     info = fleet.get(node) or {}
     if not info.get("online"):
         return False, "OFFLINE (hb age %ss)" % info.get("age_s")
     st = info.get("state") or {}
     spec = fl.LANES.get(node) or {}
+    if spec.get("role_class") == "control":
+        if needs == "gpu":
+            return False, "control node: no GPU work"
+        if job is not None:
+            if job.get("heavy"):
+                return False, "control node: heavy work refused"
+            est = int(job.get("est_gb") or 0)
+            cap_gb = int(spec.get("max_job_gb") or 2)
+            if est > cap_gb:
+                return False, "control node: job writes %dGB > %dGB budget" % (est, cap_gb)
+        disk = st.get("disk_free_gb")
+        need_disk = float(spec.get("disk_free_min_gb") or 0)
+        if disk is not None and need_disk and float(disk) < need_disk:
+            return False, "control node: disk %.0fGB < %.0fGB reserve" % (float(disk), need_disk)
     if needs == "gpu":
         have = int(spec.get("vram_gb") or 0)
         if vram_min and have < int(vram_min):
@@ -323,7 +339,7 @@ def choose_lane(job, fleet, busy):
     for n in candidates:
         if busy.get(n):
             continue
-        ok, why = lane_capacity(n, fleet, needs, vram_min)
+        ok, why = lane_capacity(n, fleet, needs, vram_min, job)
         if not ok:
             continue
         if needs == "gpu" and not fl.gpu_window_open(n):
@@ -390,7 +406,7 @@ def write_lane_files(root, rows, fleet, dry=False, nodes=None):
             })
     written = []
     for n, jobs in by_lane.items():
-        ok, why = lane_capacity(n, fleet)
+        ok, why = lane_capacity(n, fleet, "cpu")
         if jobs:
             idle_reason = ""
         elif not ok:
@@ -425,7 +441,15 @@ def write_lane_files(root, rows, fleet, dry=False, nodes=None):
 
 
 # ---------------------------------------------------------------- main cycle
-def cycle(root, dry=False, push=True):
+def cycle(root, dry=False, push=True, node="bm-a"):
+    owner_node = master_node(root)
+    if node != owner_node:
+        # Not the declared master: observe only, never write the queue.
+        return {"standby": True, "node": node, "master": owner_node,
+                "ts": fl.now_iso(), "cycle": None,
+                "queue": {}, "lanes": {}, "lines": {}, "stages": {},
+                "judgments": {}, "routing": {}, "violations": [],
+                "supply_added": [], "events": [], "lane_files_written": []}
     # Pending boxes (bm-m Mac, bm-d V100 rack) join the moment they report a heartbeat -
     # no code edit, no flag flip, no asking the CEO whether the hardware arrived.
     nodes = list(fl.ACTIVE_LANES)
@@ -511,7 +535,7 @@ def cycle(root, dry=False, push=True):
         need = r.get("needs") or "cpu"
         lane = next((n for n in fl.ACTIVE_LANES if n not in busy_now
                      and need in fl.LANES[n]["needs"]
-                     and lane_capacity(n, fleet, need)[0]), None)
+                     and lane_capacity(n, fleet, need, 0, r)[0]), None)
         if lane:
             waste.append("%s cloud while %s idle" % (r.get("id"), lane))
     routing = {
@@ -792,6 +816,20 @@ def build_judgments(root, rows, lanes_state, lines_state, fleet, policy):
 STAGE_CACHE_REL = "cph4/fleet/dispatcher/STAGE-CACHE.json"
 
 
+MASTER_NODE_REL = "cph4/fleet/MASTER-NODE.json"
+
+
+def master_node(root):
+    """Who is allowed to write the queue. Exactly one node, declared in a file.
+
+    bm-a and bm-m are separate clones, so there is no shared lock to arbitrate at runtime.
+    Two masters would double-assign every job. Switching the master is a decision, so it
+    is written down in one line and the other box goes to standby on its next tick.
+    """
+    data = fl.read_json(os.path.join(root, MASTER_NODE_REL.replace("/", os.sep)), {}) or {}
+    return str(data.get("node") or "bm-a")
+
+
 def stage_ages(root, lines, ttl=600):
     """Freshness per stage, cached: walking every evidence dir each 2 minutes is waste."""
     path = os.path.join(root, STAGE_CACHE_REL.replace("/", os.sep))
@@ -874,9 +912,14 @@ def main():
     ap.add_argument("--once", action="store_true", default=True)
     ap.add_argument("--dry", action="store_true")
     ap.add_argument("--no-push", action="store_true")
+    ap.add_argument("--node", default="bm-a", help="which node is running this tick")
     ap.add_argument("--json", action="store_true", help="print the full cycle state")
     a = ap.parse_args()
-    st = cycle(os.path.abspath(a.root), dry=a.dry, push=not a.no_push)
+    st = cycle(os.path.abspath(a.root), dry=a.dry, push=not a.no_push, node=a.node)
+    if st.get("standby"):
+        print("STANDBY node=%s declared_master=%s (observe only, queue untouched)"
+              % (a.node, st.get("master")))
+        return 0
     if a.json:
         print(json.dumps(st, ensure_ascii=False, indent=1))
     else:

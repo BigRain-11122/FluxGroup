@@ -64,12 +64,16 @@ LANES = {
              "roles": "gpu production", "game_launch_ok": False},
     # bm-m is a full agent, not a thin client: M1 Pro 32GB runs local models (MLX/Ollama),
     # so it takes text work as well as iOS builds. No CUDA, so never a GPU job.
+    # bm-m is the CONTROL PLANE, not a worker (CEO 2026-10-29: 只做调度和 agent 中心,
+# 不干重活、不占硬盘). It runs the master, the bus client and light text jobs; it must
+# never receive media production, backtests or anything that writes large files.
     "bm-m": {"needs": ["cpu"], "ram_floor_gb": 2.0, "gpu_hours": None,
              "enabled": False, "pending": True, "auto_join": True,
              "ram_gb": 32, "vram_gb": 0, "cuda": False,
+             "role_class": "control", "disk_free_min_gb": 20, "max_job_gb": 2,
              "caps": ["cpu", "ios-build", "text", "llm"],
              "llm": {"endpoint": "http://127.0.0.1:11434"},
-             "roles": "master control / ios / local llm", "game_launch_ok": False},
+             "roles": "control plane / ios / light text", "game_launch_ok": False},
     "bm-d": {"needs": ["cpu", "gpu"], "ram_floor_gb": 4.0, "gpu_hours": None,
              "enabled": False, "pending": True, "auto_join": True,
              "ram_gb": 256, "vram_gb": 48, "cuda": True,

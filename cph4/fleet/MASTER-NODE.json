@@ -1,0 +1,7 @@
+{
+ "node": "bm-a",
+ "why": "总控一次只能有一个。bm-a 现役（Windows 计划任务 + S4U + 本地盘）；切到 bm-m 只改这一行并 commit，bm-a 下一轮自动转 standby（只读不写队列）。",
+ "history": [
+  {"ts": "2026-10-29", "from": null, "to": "bm-a", "note": "master 上线首日"}
+ ]
+}

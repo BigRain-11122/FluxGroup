@@ -83,7 +83,7 @@ python Tools\fleet\lane_agent.py --node bm-a       # 手动跑一次本机执行
 | bm-a | 4070S 12GB / 94GB | 768p KF/i2v、装配、闸 | 工作日 09–19 让路 |
 | bm-b | 3070 8GB / 24GB | 480p animatic、音频/TTS | 768p（显存不够） |
 | bm-c | 3070 16GB / 24GB | 768p 生产 | RAM 常年吃紧，CPU 活慎派 |
-| bm-m | M1 Pro 32GB | iOS 出包、文本、**本地模型** | 无 CUDA，不接 GPU |
+| bm-m | M1 Pro 32GB | **调度中枢**、iOS 出包、轻文本 | 重活、大写入、GPU（control 档硬拒） |
 | bm-d | 3×V100 48GB / 256GB | 768p 批量、回测 | 装机未完成 |
 
 `vram_min_gb` / `cap` 是硬过滤：8GB 卡永不接 768p，无 CUDA 永不接 GPU 活；`model=local-small` 的活只派给带 `llm` 能力的机（bm-a/b/c/m/d）。本地模型名不写死——车道读该机 `/api/tags`，配置的模型不在就用本机最大的那个，换机不用改代码。bm-m / bm-d 标 `auto_join`——**只要它一上报心跳就自动并入排产**，不用改代码、不用再问硬件到没到。
@@ -104,7 +104,16 @@ python Tools\fleet\lane_agent.py --node bm-a       # 手动跑一次本机执行
 
 实测（2026-10-29）：五类样活分别落到 local / local-llm / cloud / blocked(600 分) / local-GPU，本地调用 `qwen3:4b-instruct` 返回正常。
 
-## 九、首日实跑发现（2026-10-29）
+
+## 九、总控只有一个（2026-10-29）
+
+`cph4/fleet/MASTER-NODE.json` 一行声明谁写队列。bm-a 与 bm-m 是两个克隆，没有共享锁，两个总控会把同一件活派两次。声明式而不是运行时抢占：切总控是决定，就写下来。
+
+- 切到 Mac：改 `"node": "bm-m"` → commit → bm-a 下一轮自动打 `STANDBY`（只读，不碰队列）。
+- Mac 上的角色是 **control plane**：跑 master、挂总线、接轻文本活；`role_class=control` 会硬拒重活、GPU 活、单件写入 >2GB 的活，并要求磁盘余量 ≥20GB。
+- Mac 不需要装媒体素材。clone 用 `--filter=blob:none` 即可，媒体目录在别的机上。
+
+## 十、首日实跑发现（2026-10-29）
 
 1. **v718 重建规则被证伪并回撤**：`mv_rebuild_from_edl.py` 按同一 EDL 重建，产物与 v717 **逐字节相同**（MD5 均为 `B75435845FCA145DB16CFB7283F8E76B`），交付闸结论也一字不差。结论=重建不能修 D1/D2/D4（缺陷在素材镜本身），只能逐镜重烧/调色/插值。5 条规则已移到 `WORK-RULES.disabled-20261029.jsonl`，v718 母版与派生产物已删，队列行标 `INVALID`。**教训：任何“重跑就能修”的规则必须先验证产物不是副本再上生产。**
 2. **白天让路的漏洞已补**：`self_dispatch` 当时只看 GPU 窗口，漏了 `heavy`，导致 10:06 在 bm-a 工作时间跑了一次重活。现已按 `heavy_allowed()` 拦截。
