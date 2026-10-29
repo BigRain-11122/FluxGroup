@@ -119,6 +119,7 @@ def supply(root, queue, have_ids):
             "deliverable": out, "nodes": r.get("nodes") or [],
             "model": r.get("model") or "none",
             "prompt": r.get("prompt") or "",
+            "when_all": r.get("when_all") or [],
             "llm": r.get("llm") or {},
             "prio": r.get("prio") or "P2", "why": r.get("why"),
             "cloud_ok": bool(r.get("cloud_ok")), "cloud_cmd": r.get("cloud_cmd"),
@@ -416,6 +417,7 @@ def write_lane_files(root, rows, fleet, dry=False, nodes=None):
                 "need_mb": r.get("need_mb"),
                 "model": r.get("model") or "none",
                 "prompt": r.get("prompt") or "",
+                "when_all": r.get("when_all") or [],
                 "llm": r.get("llm"),
                 "timeout_s": r.get("timeout_s"),
             })

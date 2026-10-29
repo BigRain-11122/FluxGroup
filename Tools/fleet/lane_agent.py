@@ -103,6 +103,18 @@ def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
         llm = job.get("llm") or {}
         prompt = llm.get("prompt") or job.get("prompt") or ""
         out_path = llm.get("out") or job.get("deliverable") or ""
+        # 输入文件：把 when_all 声明的真实文档内容注入 prompt，让模型基于文档干活。
+        inputs = job.get("when_all") or []
+        if inputs:
+            parts = [prompt, "", "## 输入文档内容（请基于以下内容回答，不要编造）"]
+            for f in inputs:
+                try:
+                    with open(f, encoding="utf-8", errors="replace") as fh:
+                        body = fh.read()
+                    parts.append("### %s\n%s" % (f, body[:16000]))
+                except Exception as e:
+                    parts.append("### %s (读取失败: %s)" % (f, e))
+            prompt = "\n".join(parts)
         text = fl.local_llm(prompt, fl.load_policy(root),
                             timeout=int(job.get("llm_timeout_s") or 180), node=node)
         if text is None:
