@@ -26,17 +26,28 @@ bash setup-mac.sh                      # 默认装到 ~/FluxGroup
 ROOT=~/work/FluxGroup bash setup-mac.sh # 或自定义路径
 ```
 
-它会做四件事：克隆（稀疏）→ 写两个 launchd 服务（调度每 2 分钟、心跳每 5 分钟）→ 加载 → 打印自检命令。
+它做三件事：克隆（稀疏）→ 生成一个**按需运行**的 `tools-run-once.sh` → 打印用法。
 
-## 三、装完还要手动两件
+**默认不常驻**（CEO 2026-10-29：笔记本不当 24/7 机器）。要用的时候跑一次：
 
-1. **Tailscale**：装好、加入同一个 tailnet，把机器名告诉我（我写进机队名册，它才会被当成在线）。
-2. **防休眠**：`caffeinate -dimsu &`（插电时常驻；合盖会睡，需要 `sudo pmset -c disablesleep 1`）。
+```bash
+bash ~/FluxGroup/tools-run-once.sh
+```
+
+它做一轮：上报心跳 → 跑一次调度（现在会打 STANDBY）→ 领一件轻活干完就退出，不驻留任何后台服务。合上盖子就停，插电后就接着用。
+
+真的想让它常驻（不建议），才加 `INSTALL_DAEMON=1 bash setup-mac.sh`，那会装一个每 10 分钟醒一次的服务。
+
+## 三、装完还要手动一件
+
+**Tailscale**：装好、加入同一个 tailnet，把机器名告诉我（我写进机队名册，它才会被当成在线）。
+
+不需要 `caffeinate`，也不改电源设置——不常驻就不需要一直醒着。
 
 ## 四、验证
 
 ```bash
-tail -n 20 /tmp/fluxgroup-master.log
+bash ~/FluxGroup/tools-run-once.sh
 # 期望看到：STANDBY node=bm-m declared_master=bm-a
 ```
 

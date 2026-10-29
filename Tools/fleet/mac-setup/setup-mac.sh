@@ -1,12 +1,14 @@
 #!/bin/bash
-# setup-mac.sh - put the MacBook on the bus as the control plane, with almost no disk.
+# setup-mac.sh - put the MacBook on the bus as an ON-DEMAND node, with almost no disk.
 #
-# CEO 2026-10-29: the Mac is a scheduler, not a worker. So it clones ONLY the control
-# plane (scheduler, queues, registries, order ledger) and never media, game art, or
-# model files. Expected footprint: tens of MB, not tens of GB.
+# CEO 2026-10-29: the laptop is NOT a resident 24/7 box - it runs tasks when awake and
+# stops when closed. So by default this installs NO background service: it prepares the
+# clone and leaves one script you run when you want the Mac to work.
+# Opt in to a daemon only if that changes:   INSTALL_DAEMON=1 bash setup-mac.sh
 #
-# Usage:  bash setup-mac.sh            (installs into ~/FluxGroup)
+# Usage:  bash setup-mac.sh
 #         ROOT=~/work/FluxGroup bash setup-mac.sh
+#         INSTALL_DAEMON=1 bash setup-mac.sh
 set -euo pipefail
 
 ROOT="${ROOT:-$HOME/FluxGroup}"
@@ -37,63 +39,51 @@ git checkout main 2>/dev/null || git switch main
 git pull --ff-only || true
 echo "   footprint: $(du -sh "$ROOT" | cut -f1)"
 
-echo "== launchd: scheduler every 2 minutes =="
-mkdir -p "$HOME/Library/LaunchAgents"
-cat > "$HOME/Library/LaunchAgents/com.fluxgroup.master.plist" <<PLIST
+echo "== on-demand runner =="
+cat > "$ROOT/tools-run-once.sh" <<'RUN'
+#!/bin/bash
+# One working session on the Mac: heartbeat, then one scheduler tick, then (if this box is
+# allowed to work) one lane job. Run it when you want the laptop to participate; nothing
+# stays resident afterwards.
+set -uo pipefail
+cd "$(dirname "$0")"
+python3 Tools/fleet/fleet_hb.py --node "${NODE:-bm-m}" --root "$PWD" || true
+python3 Tools/fleet/master_agent.py --node "${NODE:-bm-m}" --root "$PWD" --no-push || true
+python3 Tools/fleet/lane_agent.py --node "${NODE:-bm-m}" --root "$PWD" || true
+RUN
+chmod +x "$ROOT/tools-run-once.sh"
+
+if [ "${INSTALL_DAEMON:-0}" = "1" ]; then
+  echo "== daemon (opted in) =="
+  mkdir -p "$HOME/Library/LaunchAgents"
+  cat > "$HOME/Library/LaunchAgents/com.fluxgroup.member.plist" <<PLIST
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0"><dict>
-  <key>Label</key><string>com.fluxgroup.master</string>
+  <key>Label</key><string>com.fluxgroup.member</string>
   <key>ProgramArguments</key><array>
-    <string>/usr/bin/python3</string>
-    <string>$ROOT/Tools/fleet/master_agent.py</string>
-    <string>--node</string><string>$NODE</string>
-    <string>--root</string><string>$ROOT</string>
-    <string>--no-push</string>
+    <string>/bin/bash</string><string>$ROOT/tools-run-once.sh</string>
   </array>
-  <key>StartInterval</key><integer>120</integer>
+  <key>StartInterval</key><integer>600</integer>
   <key>RunAtLoad</key><true/>
-  <key>StandardOutPath</key><string>/tmp/fluxgroup-master.log</string>
-  <key>StandardErrorPath</key><string>/tmp/fluxgroup-master.err</string>
+  <key>StandardOutPath</key><string>/tmp/fluxgroup-member.log</string>
+  <key>StandardErrorPath</key><string>/tmp/fluxgroup-member.err</string>
 </dict></plist>
 PLIST
-
-launchctl unload "$HOME/Library/LaunchAgents/com.fluxgroup.master.plist" 2>/dev/null || true
-launchctl load "$HOME/Library/LaunchAgents/com.fluxgroup.master.plist"
-
-echo "== heartbeat every 5 minutes =="
-cat > "$HOME/Library/LaunchAgents/com.fluxgroup.hb.plist" <<PLIST
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0"><dict>
-  <key>Label</key><string>com.fluxgroup.hb</string>
-  <key>ProgramArguments</key><array>
-    <string>/usr/bin/python3</string>
-    <string>$ROOT/Tools/fleet/fleet_hb.py</string>
-    <string>--node</string><string>$NODE</string>
-    <string>--root</string><string>$ROOT</string>
-  </array>
-  <key>StartInterval</key><integer>300</integer>
-  <key>RunAtLoad</key><true/>
-  <key>StandardErrorPath</key><string>/tmp/fluxgroup-hb.err</string>
-</dict></plist>
-PLIST
-launchctl unload "$HOME/Library/LaunchAgents/com.fluxgroup.hb.plist" 2>/dev/null || true
-launchctl load "$HOME/Library/LaunchAgents/com.fluxgroup.hb.plist"
+  launchctl unload "$HOME/Library/LaunchAgents/com.fluxgroup.member.plist" 2>/dev/null || true
+  launchctl load "$HOME/Library/LaunchAgents/com.fluxgroup.member.plist"
+  echo "   installed: com.fluxgroup.member (every 600s while the Mac is awake)"
+fi
 
 cat <<EOF
 
 == done ==
-scheduler : com.fluxgroup.master (every 120s, node=$NODE)
-heartbeat : com.fluxgroup.hb     (every 300s)
-logs      : /tmp/fluxgroup-master.log  /tmp/fluxgroup-hb.err
+clone     : $ROOT  ($(du -sh "$ROOT" | cut -f1))
+runner    : bash $ROOT/tools-run-once.sh      <- run this when you want the Mac to work
+daemon    : ${INSTALL_DAEMON:-0} (0 = not installed; the laptop stays non-resident)
 
 still to do by hand:
-  1) Tailscale: install, join the same tailnet, then tell bm-a the machine name
-     (bm-a writes it into Tools/fleet-nodes.json; the master starts counting it)
-  2) keep it awake while plugged in:   caffeinate -dimsu &
-  3) check it is alive:                tail -n 20 /tmp/fluxgroup-master.log
-     expected line: STANDBY node=$NODE declared_master=bm-a
-     (standby is correct until MASTER-NODE.json is switched to $NODE)
-  4) switch the master later: edit cph4/fleet/MASTER-NODE.json -> "node": "$NODE", commit.
+  1) Tailscale: join the same tailnet, then tell bm-a the machine name
+  2) first run:  bash $ROOT/tools-run-once.sh   -> expect "STANDBY node=$NODE ..."
+     (standby is correct; the scheduler still lives on bm-a)
 EOF
