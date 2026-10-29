@@ -1,8 +1,23 @@
 {
  "node": "bm-m",
- "ts": "2026-10-29T15:42:01",
- "jobs": [],
- "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+ "ts": "2026-10-29T17:00:56",
+ "jobs": [
+  {
+   "id": "R-TEXT-20261029-001",
+   "title": "机队架构文档结构化总结（bm-m 本地 35B 产出）",
+   "cmd": null,
+   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "needs": "cpu",
+   "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-arch-summary.md",
+   "need_mb": null,
+   "model": "local-small",
+   "llm": {
+    "out": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-arch-summary.md"
+   },
+   "timeout_s": null
+  }
+ ],
+ "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 21.4/2.0 GB"
+ "capacity_note": "ram 23.9/2.0 GB"
 }
