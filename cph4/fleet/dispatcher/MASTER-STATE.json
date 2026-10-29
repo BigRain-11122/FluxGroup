@@ -1,6 +1,6 @@
 {
- "ts": "2026-10-29T17:12:53",
- "cycle": 207,
+ "ts": "2026-10-29T17:23:16",
+ "cycle": 217,
  "queue": {
   "total": 31,
   "open": 0,
@@ -11,16 +11,16 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 40.3,
-   "cpu_load_pct": 26,
-   "ram_free_gb": 43.5,
-   "gpu_util_pct": 1,
+   "hb_age_s": 3.1,
+   "cpu_load_pct": 10,
+   "ram_free_gb": 36.3,
+   "gpu_util_pct": 0,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-10-29T17:10:05",
+    "ts": "2026-10-29T17:20:05",
     "reason": "DAY-YIELD: work machine, takes over at 19:00"
    },
    "idle_confirmed": false,
@@ -29,9 +29,9 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 56.2,
-   "cpu_load_pct": 1,
-   "ram_free_gb": 11.6,
+   "hb_age_s": 22.5,
+   "cpu_load_pct": 31,
+   "ram_free_gb": 9.7,
    "gpu_util_pct": null,
    "job": null,
    "last_result": null,
@@ -41,40 +41,40 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 43.7,
-   "cpu_load_pct": 72,
-   "ram_free_gb": 0.7,
+   "hb_age_s": 5.9,
+   "cpu_load_pct": 49,
+   "ram_free_gb": 0.6,
    "gpu_util_pct": 0,
    "job": null,
    "last_result": null,
    "idle_confirmed": false,
-   "idle_reason": "CAPACITY-BLOCKED-RAM ram 0.7/3.0 GB",
+   "idle_reason": "CAPACITY-BLOCKED-RAM ram 0.6/3.0 GB",
    "idle_rounds": 0
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.3,
+   "hb_age_s": 0.4,
    "cpu_load_pct": null,
-   "ram_free_gb": 26.1,
+   "ram_free_gb": 24.7,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-10-29T17:11:51",
+    "ts": "2026-10-29T17:22:14",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 6
+   "idle_rounds": 16
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 6
+  "bm-m": 16
  },
  "lines": {
   "bigstream-mv": {
@@ -702,8 +702,10 @@
  "events": [],
  "violations": [
   "bm-c CAPACITY-BLOCKED-RAM",
-  "bm-m IDLE-CONFIRMED x6 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-m IDLE-CONFIRMED x16 (SELF-DISPATCH: lane scans its own backlo)",
   "LINE-BLOCKED bigstream-drama ()"
  ],
- "lane_files_written": []
+ "lane_files_written": [
+  "bm-c"
+ ]
 }
