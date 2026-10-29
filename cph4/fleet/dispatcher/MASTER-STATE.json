@@ -1,6 +1,6 @@
 {
- "ts": "2026-10-30T03:30:33",
- "cycle": 795,
+ "ts": "2026-10-30T03:41:04",
+ "cycle": 805,
  "queue": {
   "total": 38,
   "open": 0,
@@ -23,27 +23,27 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 42.6,
-   "cpu_load_pct": 38,
-   "ram_free_gb": 10,
+   "hb_age_s": 12.7,
+   "cpu_load_pct": 26,
+   "ram_free_gb": 5.2,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-10-30T03:28:56",
+    "ts": "2026-10-30T03:38:57",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 231
+   "idle_rounds": 241
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 24.9,
-   "cpu_load_pct": 93,
-   "ram_free_gb": 9.1,
+   "hb_age_s": 55.6,
+   "cpu_load_pct": 21,
+   "ram_free_gb": 7,
    "gpu_util_pct": 0,
    "job": null,
    "last_result": null,
@@ -53,7 +53,7 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.4,
+   "hb_age_s": 0.5,
    "cpu_load_pct": null,
    "ram_free_gb": 24.6,
    "gpu_util_pct": null,
@@ -62,19 +62,19 @@
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-10-30T03:29:31",
+    "ts": "2026-10-30T03:40:02",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 234
+   "idle_rounds": 244
   }
  },
  "idle_rounds": {
   "bm-a": 0,
-  "bm-b": 231,
+  "bm-b": 241,
   "bm-c": 0,
-  "bm-m": 234
+  "bm-m": 244
  },
  "lines": {
   "bigstream-mv": {
@@ -702,8 +702,8 @@
  "events": [],
  "violations": [
   "bm-a OFFLINE",
-  "bm-b IDLE-CONFIRMED x231 (SELF-DISPATCH: lane scans its own backlo)",
-  "bm-m IDLE-CONFIRMED x234 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-b IDLE-CONFIRMED x241 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-m IDLE-CONFIRMED x244 (SELF-DISPATCH: lane scans its own backlo)",
   "LINE-BLOCKED bigstream-drama ()"
  ],
  "lane_files_written": []
