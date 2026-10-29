@@ -216,13 +216,14 @@ def route_decision(job, fleet, rows=None, policy=None):
             if r.get("state") == "RUNNING" and r.get("owner")}
 
     def free_lane(need):
+        need_cap = job.get("cap") or ("llm" if (job.get("model") or "") == "local-small" else None)
         for n in fl.ACTIVE_LANES:
             if n in busy:
                 continue
             if need not in fl.LANES[n]["needs"]:
                 continue
-            if job.get("cap") and (fl.LANES[n].get("caps")
-                                   and job["cap"] not in fl.LANES[n]["caps"]):
+            if need_cap and (fl.LANES[n].get("caps")
+                             and need_cap not in fl.LANES[n]["caps"]):
                 continue
             ok, _why = lane_capacity(n, fleet, need, int(job.get("vram_min_gb") or 0))
             if not ok:
@@ -310,7 +311,7 @@ def lane_capacity(node, fleet, needs="cpu", vram_min=0):
 def choose_lane(job, fleet, busy):
     needs = job.get("needs") or "cpu"
     pref = job.get("nodes") or []
-    cap = job.get("cap")
+    cap = job.get("cap") or ("llm" if (job.get("model") or "") == "local-small" else None)
     vram_min = int(job.get("vram_min_gb") or 0)
     candidates = [n for n in fl.LANES if needs in fl.LANES[n]["needs"]]
     if cap:

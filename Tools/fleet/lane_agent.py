@@ -97,7 +97,7 @@ def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
         prompt = llm.get("prompt") or job.get("prompt") or ""
         out_path = llm.get("out") or job.get("deliverable") or ""
         text = fl.local_llm(prompt, fl.load_policy(root),
-                            timeout=int(job.get("llm_timeout_s") or 180))
+                            timeout=int(job.get("llm_timeout_s") or 180), node=node)
         if text is None:
             rc, out, err = 126, "", "local-llm-unavailable (ollama @ default endpoint)"
         else:

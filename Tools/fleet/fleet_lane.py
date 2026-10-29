@@ -49,26 +49,32 @@ KV_BUCKET = "FLEET_STATE"
 LANES = {
     "bm-a": {"needs": ["cpu", "gpu"], "ram_floor_gb": 3.0, "gpu_hours": (9, 19),
              "enabled": True, "ram_gb": 94, "vram_gb": 12, "cuda": True,
-             "caps": ["cpu", "kf768", "i2v768", "audio", "assemble"],
+             "caps": ["cpu", "kf768", "i2v768", "audio", "assemble", "llm"],
+             "llm": {"endpoint": "http://127.0.0.1:11434"},
              "roles": "hq-central night gpu", "game_launch_ok": False},
     "bm-b": {"needs": ["cpu", "gpu"], "ram_floor_gb": 2.0, "gpu_hours": None,
              "enabled": True, "ram_gb": 24, "vram_gb": 8, "cuda": True,
-             "caps": ["cpu", "animatic480", "audio", "tts"],
+             "caps": ["cpu", "animatic480", "audio", "tts", "llm"],
+             "llm": {"endpoint": "http://127.0.0.1:11434"},
              "roles": "cpu sound / small gpu", "game_launch_ok": False},
     "bm-c": {"needs": ["cpu", "gpu"], "ram_floor_gb": 3.0, "gpu_hours": None,
              "enabled": True, "ram_gb": 24, "vram_gb": 16, "cuda": True,
-             "caps": ["cpu", "kf768", "i2v768", "audio", "render"],
+             "caps": ["cpu", "kf768", "i2v768", "audio", "render", "llm"],
+             "llm": {"endpoint": "http://127.0.0.1:11434"},
              "roles": "gpu production", "game_launch_ok": False},
-    # pending: joins by itself the moment it publishes a heartbeat on the bus
+    # bm-m is a full agent, not a thin client: M1 Pro 32GB runs local models (MLX/Ollama),
+    # so it takes text work as well as iOS builds. No CUDA, so never a GPU job.
     "bm-m": {"needs": ["cpu"], "ram_floor_gb": 2.0, "gpu_hours": None,
              "enabled": False, "pending": True, "auto_join": True,
              "ram_gb": 32, "vram_gb": 0, "cuda": False,
-             "caps": ["cpu", "ios-build", "text"],
-             "roles": "master control / ios", "game_launch_ok": False},
+             "caps": ["cpu", "ios-build", "text", "llm"],
+             "llm": {"endpoint": "http://127.0.0.1:11434"},
+             "roles": "master control / ios / local llm", "game_launch_ok": False},
     "bm-d": {"needs": ["cpu", "gpu"], "ram_floor_gb": 4.0, "gpu_hours": None,
              "enabled": False, "pending": True, "auto_join": True,
              "ram_gb": 256, "vram_gb": 48, "cuda": True,
-             "caps": ["cpu", "kf768", "i2v768", "backtest", "brain"],
+             "caps": ["cpu", "kf768", "i2v768", "backtest", "brain", "llm"],
+             "llm": {"endpoint": "http://127.0.0.1:11434"},
              "roles": "brain / backtest / batch", "game_launch_ok": False},
 }
 
@@ -256,16 +262,36 @@ def load_policy(root):
     return read_json(os.path.join(root, POLICY_REL.replace("/", os.sep)), {}) or {}
 
 
-def local_llm(prompt, policy=None, timeout=120):
-    """Ask the box's own Ollama. Cheap tier for text work; returns text or None.
+def _llm_tags(endpoint, timeout=5):
+    """Available model names on that box, largest first. Lets a new machine (the Mac) join
+    without hardcoding a model name we only guessed."""
+    import urllib.request
+    try:
+        with urllib.request.urlopen(endpoint.rstrip("/") + "/api/tags", timeout=timeout) as r:
+            data = json.loads(r.read().decode("utf-8", "replace"))
+        models = data.get("models") or []
+        models.sort(key=lambda m: int(m.get("size") or 0), reverse=True)
+        return [m.get("name") for m in models if m.get("name")]
+    except Exception:
+        return []
 
-    Deliberately HTTP-only and failure-tolerant: a lane that cannot reach the local model
-    must fail the job loudly, not silently fall back to a cloud call.
+
+def local_llm(prompt, policy=None, timeout=120, node=None):
+    """Ask that box's own model. Cheap tier for text work; returns text or None.
+
+    Endpoint/model come from the lane record first, so bm-m (MLX) and bm-d (35B) can differ
+    from bm-a. If the configured model is absent, the largest installed one is used -
+    hardware changes should not need a code edit. A lane that cannot reach a local model
+    fails loudly instead of quietly escalating to a paid cloud call.
     """
     import urllib.request
-    lane = ((policy or {}).get("agents") or {}).get("lane") or {}
-    base = lane.get("local_endpoint") or "http://127.0.0.1:11434"
-    model = lane.get("local_model_default") or "qwen3:4b-instruct"
+    pol = (policy or {}).get("lane_local_llm") or {}
+    spec = (LANES.get(node or "") or {}).get("llm") or {}
+    base = spec.get("endpoint") or pol.get("endpoint") or "http://127.0.0.1:11434"
+    model = spec.get("model") or pol.get("model") or ""
+    if not model:
+        have = _llm_tags(base)
+        model = have[0] if have else ""
     body = json.dumps({"model": model, "prompt": prompt, "stream": False}).encode()
     req = urllib.request.Request(base.rstrip("/") + "/api/generate", data=body,
                                  headers={"Content-Type": "application/json"})
