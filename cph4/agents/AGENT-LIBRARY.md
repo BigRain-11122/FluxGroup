@@ -56,6 +56,8 @@
 | **增长席**（本批新增） | 账号/粉丝/评论区/节奏/看板 | skill `growth-ops` |
 | **城市生态席**（本批新增） | 城市非渲染面（居民/安家/商业化/可视化） | skill `silicon-city-ops` |
 
+| **子公司运营席**（2026-10-29 新立·bm-m 承载） | 七司条线判读/停摆归因/派单建议/升级（只判不代决） | canon=`cph4/fleet/subsidiary-coo/BLUEPRINT.md`·条线正身=`cph4/fleet/LINE-REGISTRY.json` |
+
 ## §三 Skill 总库索引（按域·含位置注记）
 
 **级别律**：`canon`=cph4/skills/（git 分发·本册正源）；`项目级`=.codely-cli/skills/（本机安装副本·gitignored）；`用户级`=~\.codely-cli\skills\（bm-a 本机·跨机需移植 canon）。安装/更新一键=`Tools\agent-library-sync.ps1`（装后次会话生效）。
@@ -110,6 +112,16 @@
 | 2026-10-23 | content-recon | 内容/竞品 | 短剧/漫剧竞品拆解：钩子/集结构/节奏/字幕/AI痕迹→配方卡 | skill（canon=cph4/skills/content-recon） | ACTIVE |
 | 2026-10-23 | game-recon | 游戏/竞品 | 小游戏拆解：包体/引擎/UI/循环/数值/商业化→规格表 | skill（canon=cph4/skills/game-recon） | ACTIVE |
 
+| 2026-10-29 | subsidiary-coo | 子公司运营 | 席位本体：七司条线判读/归因/升级（bm-m 总控承载·不新建注册表与调度器） | canon=cph4/fleet/subsidiary-coo/BLUEPRINT.md | ACTIVE |
+| 2026-10-29 | ops-bigmoney | 子公司运营 | 金融公司：数据/回测/审计闸三段判读 | canon=AGENTS.md §ops-bigmoney·条线=bigmoney | ACTIVE |
+| 2026-10-29 | ops-bigstream | 子公司运营 | 媒体公司：MV/漫剧/短剧/短视频四线判读 | canon=AGENTS.md §ops-bigstream·条线=bigstream-* | ACTIVE |
+| 2026-10-29 | ops-biggame | 子公司运营 | 游戏公司：玩法/美术/构建三段判读 | canon=AGENTS.md §ops-biggame·条线=biggame | ACTIVE |
+| 2026-10-29 | ops-biglife | 子公司运营 | 数字生命：人设生产/体征闸 | canon=AGENTS.md §ops-biglife·条线=biglife | ACTIVE |
+| 2026-10-29 | ops-bigdomain | 子公司运营 | 硅基域：引流/订单簿记 | canon=AGENTS.md §ops-bigdomain·条线=bigdomain | ACTIVE |
+| 2026-10-29 | ops-bigcompute | 子公司运营 | 算力商业：成交环 | canon=AGENTS.md §ops-bigcompute·条线=bigcompute | ACTIVE |
+| 2026-10-29 | ops-bighouse | 子公司运营 | 安家：安家/邻里共长 | canon=AGENTS.md §ops-bighouse·条线=bighouse | ACTIVE |
+| 2026-10-29 | ops-fluxverse | 子公司运营 | 元宙城：装配/数据面/可视化 | canon=AGENTS.md §ops-fluxverse·条线=fluxverse | ACTIVE |
+
 ## 更新日志
 
 - v1.0（2026-10-16·bm-a 建库）：总册首版（常设机构位 15+专家席位 16+八域 skill 索引+城市线专册）+五席新 skill+六件既有 skill 收编 canon+同步/审计双工具+CEO-PROXY 周审步接线（执行档=docs/orders.md 2026-10-16 建库令行）。
@@ -126,3 +138,4 @@
 **执法位**：任何成片/关键帧/界面交付前，除技术闸外必须跑 `mv_aesthetic_gate` 并附 art-critique 六面表；两者任一判负不得交付。
 
 **首跑实测（mv0001 v715）**：dark=43 / flat=39 / 最长同色连段=6；整体 gamma 1.15 提亮后 dark=29 / flat=31。结论=全片偏暗是"看不懂"的主因，须在装配级做一次整体提亮，而非逐镜补。
+- v1.0.7（2026-10-29·bm-b 交互窗）：子公司运营席 subsidiary-coo + 八条线子代理（ops-bigmoney/bigstream/biggame/biglife/bigdomain/bigcompute/bighouse/fluxverse）登记（CEO 令 2026-10-29「让他好好去管理一下金融公司等子公司，自己管不过来就去造agent，专门负责子公司的生产运转」——承载机=bm-m（已是总控·MASTER-NODE.json）·条线正身=LINE-REGISTRY·执行面=master_agent 规则 R-SUBCO-20261029-001~003）。
