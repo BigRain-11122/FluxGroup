@@ -1,19 +1,19 @@
 {
  "node": "bm-a",
- "ts": "2026-10-29T10:06:02",
+ "ts": "2026-10-29T10:12:02",
  "jobs": [
   {
-   "id": "R-MV-V718-GATE",
-   "title": "mv0001 v718 交付闸全检（D1/D2/D3/D4 + 白名单）",
-   "cmd": "python Tools/mv_delivery_gate.py \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\cph4\\fleet\\mv0001-handover\\outbound\\krea2\\30s-reel-v1\\full_mv_v718.mp4\" --whitelist \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\cph4\\fleet\\mv0001-handover\\canon\\MV0001-REPRISE-WHITELIST.json\" --json \"D:\\FleetWorker\\review\\delivery_gate_v718.json\"",
+   "id": "R-MV-V718-SHOTAUDIT",
+   "title": "mv0001 v718 逐镜四病分级（FLICKER/JERK/FLOW/FREEZE Top20）",
+   "cmd": "python Tools/mv_shot_audit.py \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\cph4\\fleet\\mv0001-handover\\outbound\\krea2\\30s-reel-v1\\full_mv_v718.mp4\" --json \"D:\\FleetWorker\\review\\shot_audit_v718.json\" --top 20",
    "cwd": "C:\\Users\\sjs20\\Desktop\\FluxGroup",
    "needs": "cpu",
-   "deliverable": "D:\\FleetWorker\\review\\delivery_gate_v718.json",
+   "deliverable": "D:\\FleetWorker\\review\\shot_audit_v718.json",
    "need_mb": null,
    "timeout_s": 1800
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 14.2/3.0 GB"
+ "capacity_note": "ram 15.3/3.0 GB"
 }
