@@ -199,19 +199,80 @@ def supervise(rows, reports, now_ts):
 
 
 # ---------------------------------------------------------------- routing + assignment
-def route_decision(job, fleet):
-    """Local first. Cloud only on an explicit cloud leg and inside the cost gate."""
-    if not job.get("cloud_ok"):
-        return "local", "local-first (no cloud leg declared)"
-    cred = job.get("cloud_est_credits")
-    if cred is not None and int(cred) > 500:
-        return "blocked", "CEO-CONFIRM required: %s credits > 500" % cred
-    gpu_lanes = [n for n in fl.LANES if fl.LANES[n].get("gpu_hours") is not None]
-    local_ok = any(fleet.get(n, {}).get("online") and
-                   fl.gpu_window_open(n) for n in gpu_lanes) if job.get("needs") == "gpu" else True
-    if local_ok:
-        return "local", "local capacity available"
-    return "cloud", "local starved; cloud leg allowed (%s credits)" % cred
+def route_decision(job, fleet, rows=None, policy=None):
+    """Allocate by fitness, not by habit (CEO 2026-10-29): local when local can do it,
+    cloud when only the smart tier can, and queue rather than pay just to skip a wait.
+
+    Guards: per-job credits <=50 by default, daily <=200, hard ceiling 500 needs the CEO.
+    """
+    pol = (policy or {}).get("guards") or {}
+    per_cap = int(pol.get("per_call_credit_cap") or 50)
+    day_cap = int(pol.get("daily_credit_cap") or 200)
+    ceil = int(pol.get("hard_ceiling") or 500)
+    model = str(job.get("model") or "none")
+    needs = str(job.get("needs") or "cpu")
+    kind = model if model != "none" else ("gpu-production" if needs == "gpu" else "deterministic")
+    busy = {r.get("owner") for r in (rows or [])
+            if r.get("state") == "RUNNING" and r.get("owner")}
+
+    def free_lane(need):
+        for n in fl.ACTIVE_LANES:
+            if n in busy:
+                continue
+            if need not in fl.LANES[n]["needs"]:
+                continue
+            ok, _why = lane_capacity(n, fleet, need)
+            if not ok:
+                continue
+            if need == "gpu" and not fl.gpu_window_open(n):
+                continue
+            if job.get("heavy") and not fl.heavy_allowed(n):
+                continue
+            return n
+        return None
+
+    if kind == "deterministic":
+        return "local", "deterministic script -> local (zero token)"
+    if kind == "gpu-production":
+        lane = free_lane("gpu")
+        if lane:
+            return "local", "gpu production -> %s (local GPU is the point)" % lane
+        if job.get("cloud_ok") and job.get("blocks_downstream"):
+            cred = int(job.get("cloud_est_credits") or 0)
+            if cred <= per_cap and cloud_spend_today(rows or []) + cred <= day_cap:
+                return "cloud", "overflow: no local GPU lane, blocks downstream (%s credits)" % cred
+        return "queue", "no local GPU lane free; held (local GPU is the only production path)"
+    if kind == "local-small":
+        lane = free_lane("cpu")
+        if lane:
+            return "local", "text work -> local-llm on %s" % lane
+        return "queue", "local lanes busy; wait instead of paying for a short job"
+    if model == "cloud-smart":
+        cred = int(job.get("cloud_est_credits") or 0)
+        if cred > ceil:
+            return "blocked", "CEO-CONFIRM required: %s credits > %s" % (cred, ceil)
+        if cred > per_cap:
+            return "blocked", "over per-call cap: %s > %s credits" % (cred, per_cap)
+        used = cloud_spend_today(rows or [])
+        if used + cred > day_cap:
+            return "blocked", "daily cap: used %s + %s > %s credits" % (used, cred, day_cap)
+        return "cloud", "judgment -> smart tier (est %s credits, day used %s/%s)" % (
+            cred, used, day_cap)
+    if job.get("cloud_ok") and job.get("blocks_downstream") and not free_lane(needs):
+        cred = int(job.get("cloud_est_credits") or 0)
+        if cred <= per_cap and cloud_spend_today(rows or []) + cred <= day_cap:
+            return "cloud", "overflow: no local lane and it blocks downstream (%s credits)" % cred
+        return "blocked", "overflow denied by credit guard (%s credits)" % cred
+    return "local", "default: local first"
+
+
+def cloud_spend_today(rows):
+    today = datetime.now().strftime("%Y-%m-%d")
+    total = 0
+    for r in rows:
+        if str(r.get("route") or "") == "cloud" and str(r.get("created_at") or "").startswith(today):
+            total += int(r.get("cloud_est_credits") or 0)
+    return total
 
 
 def lane_capacity(node, fleet, needs="cpu"):
@@ -276,9 +337,12 @@ def assign(rows, fleet, reports, lines=None):
                                 str(r.get("created_at") or "")))
     events = []
     for r in pending:
-        if r.get("route") == "blocked":
+        if r.get("route") in ("blocked", "queue"):
             continue
         if line_of_job(r, lines or []) in parked:
+            continue
+        # Never let the cron spend cloud money: cloud-smart work waits for the smart seat.
+        if (r.get("model") or "none") == "cloud-smart":
             continue
         lane, why = choose_lane(r, fleet, busy)
         if not lane:
@@ -304,6 +368,8 @@ def write_lane_files(root, rows, fleet, dry=False):
                 "cwd": r.get("cwd"), "needs": r.get("needs"),
                 "deliverable": r.get("deliverable"),
                 "need_mb": r.get("need_mb"),
+                "model": r.get("model") or "none",
+                "llm": r.get("llm"),
                 "timeout_s": r.get("timeout_s"),
             })
     written = []
@@ -351,9 +417,10 @@ def cycle(root, dry=False, push=True):
     lines = load_lines(root)
     now_ts = fl.now_iso()
     events = supervise(rows, reports, now_ts)
+    policy = fl.load_policy(root)
     for r in rows:
         if r.get("state") == "OPEN":
-            route, why = route_decision(r, fleet)
+            route, why = route_decision(r, fleet, rows, policy)
             r["route"] = route
             r["route_note"] = why
     events += assign(rows, fleet, reports, lines)
@@ -406,7 +473,35 @@ def cycle(root, dry=False, push=True):
             violations.append("%s CAPACITY-BLOCKED-RAM" % n)
 
     lines = load_lines(root)
+    # Paying the cloud while a capable local lane sits empty is the waste this policy
+    # exists to catch. Judgment jobs are exempt: local cannot do them at all.
+    busy_now = {r.get("owner") for r in rows
+                if r.get("state") == "RUNNING" and r.get("owner")}
+    waste = []
+    for r in rows:
+        if r.get("state") != "OPEN" or r.get("route") != "cloud":
+            continue
+        if (r.get("model") or "none") == "cloud-smart":
+            continue
+        need = r.get("needs") or "cpu"
+        lane = next((n for n in fl.ACTIVE_LANES if n not in busy_now
+                     and need in fl.LANES[n]["needs"]
+                     and lane_capacity(n, fleet, need)[0]), None)
+        if lane:
+            waste.append("%s cloud while %s idle" % (r.get("id"), lane))
+    routing = {
+        "local": len([r for r in rows if r.get("state") == "OPEN" and r.get("route") == "local"]),
+        "cloud": len([r for r in rows if r.get("state") == "OPEN" and r.get("route") == "cloud"]),
+        "queue": len([r for r in rows if r.get("state") == "OPEN" and r.get("route") == "queue"]),
+        "blocked": len([r for r in rows if r.get("state") == "OPEN" and r.get("route") == "blocked"]),
+        "cloud_spend_today": cloud_spend_today(rows),
+        "waste": waste,
+    }
     lines_state = line_states(root, lines, rows, lanes_state)
+    policy = fl.load_policy(root)
+    judgments = build_judgments(root, rows, lanes_state, lines_state, fleet, policy) if not dry \
+        else {"open": 0, "by_kind": {}, "added": 0,
+              "tick_tier": "none", "judgment_tier": "cloud-smart"}
     for lid, ls in lines_state.items():
         if ls["verdict"] == "STALE":
             violations.append("LINE-STALE %s %sh>%sh (%s)" % (
@@ -414,9 +509,14 @@ def cycle(root, dry=False, push=True):
         elif ls["verdict"] == "BLOCKED":
             violations.append("LINE-BLOCKED %s (%s)" % (lid, (ls["note"] or "")[:50]))
 
+    for w in waste:
+        violations.append("CLOUD-WHILE-LOCAL-IDLE " + w)
+
     state = {"ts": now_ts, "cycle": int(prev.get("cycle") or 0) + 1,
              "queue": queued, "lanes": lanes_state, "idle_rounds": idle_rounds,
              "lines": lines_state,
+             "judgments": judgments,
+             "routing": routing,
              "supply_gap": {k: len([r for r in rows if r.get("state") == "OPEN"
                                     and (r.get("needs") or "cpu") == k])
                             for k in ("cpu", "gpu")},
@@ -577,6 +677,73 @@ def line_states(root, lines, rows, lanes_state):
     return out
 
 
+def build_judgments(root, rows, lanes_state, lines_state, fleet, policy):
+    """Only the calls a rule cannot make get queued for the smart tier.
+
+    CEO 2026-10-29: the master must be the smartest agent, but the 2-minute tick must not
+    burn cloud tokens. So the tick stays deterministic and everything genuinely ambiguous
+    becomes one line here; the smart seat answers it and the answer is the audit trail.
+    """
+    wanted = []
+
+    def add(kind, key, question, evidence):
+        wanted.append({"key": "%s:%s" % (kind, key), "kind": kind, "subject": key,
+                       "question": question, "evidence": evidence,
+                       "tier": "cloud-smart", "ts": fl.now_iso(), "state": "OPEN"})
+
+    for r in rows:
+        if r.get("state") == "OPEN" and (r.get("model") or "none") == "cloud-smart":
+            add("MODEL-DECISION", r.get("id"),
+                "这件活被标成需要最强大脑，是否值得花钱、还是改成本地做法或拆小？",
+                {"title": r.get("title"), "why": r.get("why"),
+                 "est_credits": r.get("cloud_est_credits")})
+        if r.get("state") == "OPEN" and int(r.get("attempts") or 0) >= 2:
+            add("RETRY", r.get("id"),
+                "这件活已重排 %d 次仍未收口，是工具坏了、输入缺失还是车道不合适？" %
+                int(r.get("attempts") or 0),
+                {"note": r.get("note"), "needs": r.get("needs")})
+    for lid, ls in lines_state.items():
+        if ls["verdict"] == "STALE":
+            add("LINE-STALE", lid,
+                "这条线 %.0f 小时没有产出、也没有已声明的活，下一步该做什么？" % (ls["age_h"] or 0),
+                {"owner": ls["owner"], "limit_h": ls["stale_after_h"], "note": ls["note"]})
+        elif ls["verdict"] == "BLOCKED":
+            add("LINE-BLOCKED", lid,
+                "这条线有活但没有能跑的车道，是拆活、换机器还是先修车道？",
+                {"owner": ls["owner"], "note": ls["note"]})
+    for n, ls in lanes_state.items():
+        if ls["online"] and not ls["job"] and ls["idle_reason"].startswith("CAPACITY-BLOCKED-RAM"):
+            add("CAPACITY", n, "这台机内存不够但 GPU 空着，先释放哪些进程？",
+                {"ram_free_gb": ls["ram_free_gb"], "gpu_util_pct": ls["gpu_util_pct"]})
+
+    path = os.path.join(root, fl.JUDGMENT_REL.replace("/", os.sep))
+    existing = fl.read_jsonl(path)
+    live_ids = {r.get("id") for r in rows}
+    # A job that was removed or completed must not keep an open decision hanging.
+    existing = [e for e in existing
+                if not (e.get("state") == "OPEN"
+                        and e.get("kind") in ("MODEL-DECISION", "RETRY")
+                        and e.get("subject") not in live_ids)]
+    by_key = {e.get("key"): e for e in existing}
+    added = 0
+    for w in wanted:
+        cur = by_key.get(w["key"])
+        if cur and cur.get("state") == "OPEN":
+            continue
+        if cur and cur.get("state") == "ANSWERED" and cur.get("evidence") == w["evidence"]:
+            continue  # already decided on the same evidence; do not nag
+        by_key[w["key"]] = w
+        added += 1
+    rows_out = list(by_key.values())[-400:]
+    fl.write_jsonl(path, rows_out)
+    open_by_kind = {}
+    for e in rows_out:
+        if e.get("state") == "OPEN":
+            open_by_kind[e["kind"]] = open_by_kind.get(e["kind"], 0) + 1
+    return {"open": sum(open_by_kind.values()), "by_kind": open_by_kind, "added": added,
+            "tick_tier": "none", "judgment_tier": "cloud-smart"}
+
+
 def push_lane_files(root):
     """Ship assignments to the clones. One path only, so it cannot drag in worktree noise."""
     rel = fl.LANE_DIR_REL
@@ -624,6 +791,11 @@ def main():
         if st["violations"]:
             print("  FLAGS:", "; ".join(st["violations"]))
         order = {"BLOCKED": 0, "STALE": 1, "WAITING": 2, "WORKING": 3, "PARKED": 4}
+        if st.get("judgments"):
+            j = st["judgments"]
+            print("  SMART-TIER: tick=%s judgment=%s open=%d %s" % (
+                j.get("tick_tier"), j.get("judgment_tier"), j.get("open", 0),
+                j.get("by_kind") or ""))
         ls_all = st.get("lines") or {}
         shown = [kv for kv in sorted(ls_all.items(), key=lambda kv: order.get(kv[1]["verdict"], 9))
                  if kv[1]["verdict"] in ("BLOCKED", "STALE")]

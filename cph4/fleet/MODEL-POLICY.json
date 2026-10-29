@@ -1,0 +1,28 @@
+{
+ "_comment": "Agent 算力分配（CEO 2026-10-29：该用云端就用，但不要浪费本地算力，合理分配）。原则：按适配度分配，不按身份分配；本地闲着想省钱、本地占满要产出，两者冲突时看任务能不能等。",
+ "version": "v2-20261029",
+ "principle": "能本地做的绝不上云；本地做不了（需要最强大脑/本地无此能力）才上云；本地有产能却让任务排队等云=浪费，必须告警。",
+ "kinds": {
+  "deterministic": "脚本/闸/转码/扫描。零模型零 token，永远本地。",
+  "text-small": "摘要/分类/抽取/改写。本地小模型够用，默认本地。",
+  "judgment": "仲裁/归因/取舍/创意方向。本地小模型做不了，走最强大脑。",
+  "gpu-production": "KF/i2v/渲染。产能本身就是目的，必须本地 GPU。",
+  "overflow": "本地确实无车道或排满、且任务卡住下游时才允许上云。"
+ },
+ "matrix": [
+  {"kind": "deterministic", "compute": "local", "why": "没有任何需要模型的地方"},
+  {"kind": "text-small", "compute": "local-llm", "when_free": "local-llm", "when_all_local_busy": "queue", "why": "小模型够用就用本地的；本地全占就排队，不为了省等待去花钱"},
+  {"kind": "gpu-production", "compute": "local-gpu", "when_no_gpu_lane": "queue", "why": "本地 GPU 是唯一正法（本地化算力律）"},
+  {"kind": "judgment", "compute": "cloud-smart", "why": "判断题值钱，用最强大脑；本地 4B 给不出可用结论"},
+  {"kind": "overflow", "compute": "cloud", "requires": ["cloud_ok", "credits<=cap", "local_blocked", "blocks_downstream"], "why": "只有本地真的做不了且卡住下游才花钱"}
+ ],
+ "guards": {
+  "per_call_credit_cap": 50,
+  "daily_credit_cap": 200,
+  "hard_ceiling": 500,
+  "over_daily_cap": "停手，写 NEED-SUPPLY，等 CEO 亲批",
+  "waste_alarm": "任何被判为 cloud 的活，只要有一台空闲且能力匹配的本地车道，就报 CLOUD-WHILE-LOCAL-IDLE（浪费本地算力）",
+  "never": ["cron 心跳调云端", "为缩短本地排队时间上云", "本地闲置时用云端跑确定性脚本"]
+ },
+ "lane_local_llm": {"endpoint": "http://127.0.0.1:11434", "model": "qwen3:4b-instruct"}
+}

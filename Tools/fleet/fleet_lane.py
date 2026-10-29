@@ -25,6 +25,8 @@ QUEUE_REL = "cph4/fleet/PRODUCTION-QUEUE.jsonl"
 LANE_DIR_REL = "cph4/fleet/lanes"
 BACKLOG_REL = "cph4/fleet/PRODUCTION-BACKLOG.jsonl"
 RULES_REL = "cph4/fleet/WORK-RULES.jsonl"
+POLICY_REL = "cph4/fleet/MODEL-POLICY.json"
+JUDGMENT_REL = "cph4/fleet/dispatcher/JUDGMENT-QUEUE.jsonl"
 RECEIPT_REL = "cph4/fleet/queue-receipts"
 STATE_REL = "cph4/fleet/dispatcher/MASTER-STATE.json"
 LOG_REL = "cph4/fleet/dispatcher/MASTER-LOG.md"
@@ -123,7 +125,12 @@ def origin_blob(root, rel, timeout=60):
 
 
 def lane_payload(root, node, fetch=True):
-    """The master's assignment for this node: origin blob first, worktree as fallback."""
+    """The master's assignment for this node: whichever face is NEWEST wins.
+
+    Origin is preferred because a diverged worktree must not block intake, but on the
+    master's own box the local file is written seconds ago and origin lags a push - taking
+    origin there hands the lane a stale assignment (2026-10-29, caught in policy test).
+    """
     if fetch:
         import subprocess
         try:
@@ -131,21 +138,27 @@ def lane_payload(root, node, fetch=True):
                            timeout=120, capture_output=True)
         except Exception:
             pass
+    candidates = []
     raw = origin_blob(root, LANE_DIR_REL + "/" + node + ".json")
-    if raw is None:
-        p = lane_file(root, node)
-        if os.path.exists(p):
-            try:
-                with open(p, encoding="utf-8-sig") as f:
-                    raw = f.read()
-            except Exception:
-                return None
-    if raw is None:
-        return None
-    try:
-        return json.loads(raw)
-    except Exception:
-        return None
+    if raw is not None:
+        candidates.append(("origin", raw))
+    p = lane_file(root, node)
+    if os.path.exists(p):
+        try:
+            with open(p, encoding="utf-8-sig") as f:
+                candidates.append(("worktree", f.read()))
+        except Exception:
+            pass
+    best = None
+    for face, text in candidates:
+        try:
+            obj = json.loads(text)
+        except Exception:
+            continue
+        ts = str(obj.get("ts") or "")
+        if best is None or ts >= best[0]:
+            best = (ts, face, obj)
+    return best[2] if best else None
 
 
 # ---- NATS raw protocol (no exe required on remote nodes) -------------------------
@@ -212,3 +225,29 @@ def heavy_allowed(node, when=None):
     if d.weekday() >= 5:
         return True
     return not (9 <= d.hour < 19)
+
+
+# ---- model policy (CEO 2026-10-29: master = smartest, lanes = local/cheap) --------
+def load_policy(root):
+    return read_json(os.path.join(root, POLICY_REL.replace("/", os.sep)), {}) or {}
+
+
+def local_llm(prompt, policy=None, timeout=120):
+    """Ask the box's own Ollama. Cheap tier for text work; returns text or None.
+
+    Deliberately HTTP-only and failure-tolerant: a lane that cannot reach the local model
+    must fail the job loudly, not silently fall back to a cloud call.
+    """
+    import urllib.request
+    lane = ((policy or {}).get("agents") or {}).get("lane") or {}
+    base = lane.get("local_endpoint") or "http://127.0.0.1:11434"
+    model = lane.get("local_model_default") or "qwen3:4b-instruct"
+    body = json.dumps({"model": model, "prompt": prompt, "stream": False}).encode()
+    req = urllib.request.Request(base.rstrip("/") + "/api/generate", data=body,
+                                 headers={"Content-Type": "application/json"})
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as r:
+            data = json.loads(r.read().decode("utf-8", "replace"))
+        return (data.get("response") or "").strip()
+    except Exception:
+        return None

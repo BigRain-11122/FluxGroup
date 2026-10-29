@@ -89,13 +89,34 @@ def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
 
     publish(node, "RUNNING", {"job": jid, "title": job.get("title")}, hub, port)
     t0 = time.time()
-    try:
-        r = subprocess.run(cmd, shell=True, cwd=job.get("cwd") or root,
-                           capture_output=True, text=True, errors="replace",
-                           timeout=max_seconds, creationflags=CREATE_NO_WINDOW)
-        rc, out, err = r.returncode, r.stdout, r.stderr
-    except subprocess.TimeoutExpired as e:
-        rc, out, err = 124, (e.stdout or ""), (e.stderr or "") + "\n[timeout %ss]" % max_seconds
+    model = str(job.get("model") or "none")
+    if model == "local-small":
+        # Cheap text leg: the box's own Ollama, never a cloud call. A missing local model
+        # fails the job loudly instead of quietly costing money.
+        llm = job.get("llm") or {}
+        prompt = llm.get("prompt") or job.get("prompt") or ""
+        out_path = llm.get("out") or job.get("deliverable") or ""
+        text = fl.local_llm(prompt, fl.load_policy(root),
+                            timeout=int(job.get("llm_timeout_s") or 180))
+        if text is None:
+            rc, out, err = 126, "", "local-llm-unavailable (ollama @ default endpoint)"
+        else:
+            try:
+                if out_path:
+                    os.makedirs(os.path.dirname(out_path), exist_ok=True)
+                    with open(out_path, "w", encoding="utf-8") as f:
+                        f.write(text)
+                rc, out, err = 0, text[:2000], ""
+            except Exception as e:
+                rc, out, err = 125, "", "write-failed: %s" % e
+    else:
+        try:
+            r = subprocess.run(cmd, shell=True, cwd=job.get("cwd") or root,
+                               capture_output=True, text=True, errors="replace",
+                               timeout=max_seconds, creationflags=CREATE_NO_WINDOW)
+            rc, out, err = r.returncode, r.stdout, r.stderr
+        except subprocess.TimeoutExpired as e:
+            rc, out, err = 124, (e.stdout or ""), (e.stderr or "") + "\n[timeout %ss]" % max_seconds
     dur = round(time.time() - t0, 1)
 
     if lease:
