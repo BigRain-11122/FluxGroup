@@ -16,21 +16,25 @@ NODE="${NODE:-bm-m}"
 command -v git >/dev/null || { echo "need git (xcode-select --install)"; exit 1; }
 command -v python3 >/dev/null || { echo "need python3 (xcode-select --install)"; exit 1; }
 
-echo "== clone (blob-filter + sparse: no media, no art) =="
+SPARSE_PATHS=(
+  '/AI.md' '/CODELY.md'
+  '/Tools/fleet/' '/Tools/queue_claim.py' '/Tools/backlog_fill.py'
+  '/cph4/fleet/*.json' '/cph4/fleet/*.jsonl' '/cph4/fleet/*.md'
+  '/cph4/fleet/dispatcher/' '/cph4/fleet/lanes/'
+  '/cph4/fleet/queue-receipts/' '/cph4/fleet/cmd/' '/cph4/fleet/acks/'
+  '/docs/orders.md'
+)
+
+echo "== clone (blob-filter + sparse: media/art/model files never land) =="
 if [ ! -d "$ROOT/.git" ]; then
-  git clone --filter=blob:none --sparse "$REPO" "$ROOT"
-  cd "$ROOT"
-  git sparse-checkout set --no-cone \
-    '/AI.md' '/CODELY.md' \
-    '/Tools/fleet/' '/Tools/queue_claim.py' '/Tools/backlog_fill.py' \
-    '/cph4/fleet/*.json' '/cph4/fleet/*.jsonl' '/cph4/fleet/*.md' \
-    '/cph4/fleet/dispatcher/' '/cph4/fleet/lanes/' \
-    '/cph4/fleet/queue-receipts/' '/cph4/fleet/cmd/' '/cph4/fleet/acks/' \
-    '/cph4/fleet/WORK-RULES.disabled-20261029.jsonl' \
-    '/docs/orders.md'
-else
-  cd "$ROOT"; git pull --ff-only || true
+  # --no-checkout matters: without it the first checkout materialises every tracked file,
+  # which on this repo means media. Fetch refs first, restrict, then checkout.
+  git clone --filter=blob:none --no-checkout "$REPO" "$ROOT"
 fi
+cd "$ROOT"
+git sparse-checkout set --no-cone "${SPARSE_PATHS[@]}"
+git checkout main 2>/dev/null || git switch main
+git pull --ff-only || true
 echo "   footprint: $(du -sh "$ROOT" | cut -f1)"
 
 echo "== launchd: scheduler every 2 minutes =="
