@@ -1,7 +1,9 @@
 {
- "node": "bm-a",
- "why": "总控一次只能有一个。bm-a 现役（Windows 计划任务 + S4U + 本地盘）；切到 bm-m 只改这一行并 commit，bm-a 下一轮自动转 standby（只读不写队列）。",
+ "node": "bm-m",
+ "why": "CEO 2026-10-29 令：主控转移到 MacBook，其它机器的调度/常驻停掉，听它的。bm-a 是工作机（白天让路），不再承担调度；它的 HQ-MasterAgent / HQ-FleetDispatcher / HQ-FleetIdleWatch 已停用，只保留生产执行口 HQ-ProductionClaim（夜间接 Mac 派下来的活）。",
+ "must_run": "Mac 上执行 bash ~/FluxGroup/tools-run-once.sh 或装 INSTALL_DAEMON=1 的每 10 分钟服务——Mac 睡着了就没人派活，这是唯一的总控脉。",
  "history": [
-  {"ts": "2026-10-29", "from": null, "to": "bm-a", "note": "master 上线首日"}
+  {"ts": "2026-10-29", "from": null, "to": "bm-a", "note": "master 上线首日"},
+  {"ts": "2026-10-29", "from": "bm-a", "to": "bm-m", "note": "CEO 令：主控迁 Mac，其余停"}
  ]
 }
