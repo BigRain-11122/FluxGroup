@@ -134,7 +134,7 @@ def supply(root, queue, have_ids):
 
 
 # ---------------------------------------------------------------- supervision
-def supervise(rows, reports, now_ts):
+def supervise(rows, reports, now_ts, self_node="bm-a"):
     """Close jobs from lane reports; requeue expired leases. Returns list of events."""
     events = []
     by_id = {}
@@ -196,7 +196,7 @@ def supervise(rows, reports, now_ts):
     for r in rows:
         if r.get("state") == "DONE" and r.get("deliverable"):
             dl = r["deliverable"]
-            if dl.startswith(("C:", "D:")) and r.get("owner") == "bm-a" and not os.path.exists(dl):
+            if dl.startswith(("C:", "D:")) and r.get("owner") == self_node and not os.path.exists(dl):
                 r["state"] = "FAILED"
                 r["failure"] = "deliverable-missing"
                 events.append("%s FAILED deliverable-missing" % r["id"])
@@ -478,7 +478,7 @@ def cycle(root, dry=False, push=True, node="bm-a"):
     added, rows = supply(root, None, set())
     lines = load_lines(root)
     now_ts = fl.now_iso()
-    events = supervise(rows, reports, now_ts)
+    events = supervise(rows, reports, now_ts, self_node=node)
     policy = fl.load_policy(root)
     for r in rows:
         if r.get("state") == "OPEN":
