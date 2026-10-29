@@ -1,6 +1,6 @@
 {
- "ts": "2026-10-30T00:10:47",
- "cycle": 605,
+ "ts": "2026-10-30T00:21:18",
+ "cycle": 615,
  "queue": {
   "total": 38,
   "open": 0,
@@ -23,27 +23,27 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 53.1,
-   "cpu_load_pct": 79,
-   "ram_free_gb": 5,
+   "hb_age_s": 124.0,
+   "cpu_load_pct": 100,
+   "ram_free_gb": 4.2,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-10-30T00:09:03",
+    "ts": "2026-10-30T00:20:24",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 41
+   "idle_rounds": 51
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 151.2,
-   "cpu_load_pct": 65,
-   "ram_free_gb": 8.1,
+   "hb_age_s": 62.5,
+   "cpu_load_pct": 11,
+   "ram_free_gb": 8.4,
    "gpu_util_pct": 0,
    "job": null,
    "last_result": null,
@@ -53,28 +53,28 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.5,
+   "hb_age_s": 0.4,
    "cpu_load_pct": null,
-   "ram_free_gb": 25.8,
+   "ram_free_gb": 25.7,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-10-30T00:09:45",
+    "ts": "2026-10-30T00:20:16",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 44
+   "idle_rounds": 54
   }
  },
  "idle_rounds": {
   "bm-a": 0,
-  "bm-b": 41,
+  "bm-b": 51,
   "bm-c": 0,
-  "bm-m": 44
+  "bm-m": 54
  },
  "lines": {
   "bigstream-mv": {
@@ -702,8 +702,8 @@
  "events": [],
  "violations": [
   "bm-a OFFLINE",
-  "bm-b IDLE-CONFIRMED x41 (SELF-DISPATCH: lane scans its own backlo)",
-  "bm-m IDLE-CONFIRMED x44 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-b IDLE-CONFIRMED x51 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-m IDLE-CONFIRMED x54 (SELF-DISPATCH: lane scans its own backlo)",
   "LINE-BLOCKED bigstream-drama ()"
  ],
  "lane_files_written": []
