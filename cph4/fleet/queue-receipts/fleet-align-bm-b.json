@@ -1,0 +1,41 @@
+﻿{
+    "node":  "bm-b",
+    "root":  "C:\\Fluxgroup\\FluxGroup",
+    "rc":  0,
+    "steps":  [
+                  {
+                      "step":  "python",
+                      "detail":  "python"
+                  },
+                  {
+                      "step":  "fetch",
+                      "detail":  "head=da7652f5 behind=749"
+                  },
+                  {
+                      "step":  "hot-sync",
+                      "detail":  "script absent (stale worktree)"
+                  },
+                  {
+                      "step":  "worktree",
+                      "detail":  "lane_agent.py absent -\u003e building runtime"
+                  },
+                  {
+                      "step":  "lane",
+                      "detail":  "C:\\Fluxgroup\\FleetRuntime\\Tools\\fleet\\lane_agent.py"
+                  },
+                  {
+                      "step":  "task",
+                      "detail":  "present state=Ready"
+                  },
+                  {
+                      "step":  "heartbeat",
+                      "detail":  "HB bm-b seq=12 offset=1080.2ms"
+                  },
+                  {
+                      "step":  "lane-dry",
+                      "detail":  "LANE-IDLE bm-b :: SELF-DISPATCH: lane scans its own backlog"
+                  }
+              ],
+    "head":  "da7652f5",
+    "lane":  "LANE-IDLE bm-b :: SELF-DISPATCH: lane scans its own backlog"
+}
