@@ -1,6 +1,6 @@
 {
- "ts": "2026-10-29T21:23:13",
- "cycle": 447,
+ "ts": "2026-10-29T21:33:42",
+ "cycle": 457,
  "queue": {
   "total": 35,
   "open": 0,
@@ -23,9 +23,9 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 200.2,
-   "cpu_load_pct": 4,
-   "ram_free_gb": 7.6,
+   "hb_age_s": 466.9,
+   "cpu_load_pct": 80,
+   "ram_free_gb": 3.8,
    "gpu_util_pct": null,
    "job": null,
    "last_result": null,
@@ -35,9 +35,9 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 2.3,
-   "cpu_load_pct": 38,
-   "ram_free_gb": 6.4,
+   "hb_age_s": 32.2,
+   "cpu_load_pct": 39,
+   "ram_free_gb": 9.7,
    "gpu_util_pct": 0,
    "job": null,
    "last_result": null,
@@ -49,26 +49,26 @@
    "online": true,
    "hb_age_s": 0.5,
    "cpu_load_pct": null,
-   "ram_free_gb": 20.3,
+   "ram_free_gb": 20.1,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-10-29T21:22:11",
+    "ts": "2026-10-29T21:32:41",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 198
+   "idle_rounds": 208
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 198
+  "bm-m": 208
  },
  "lines": {
   "bigstream-mv": {
@@ -696,7 +696,7 @@
  "events": [],
  "violations": [
   "bm-a OFFLINE",
-  "bm-m IDLE-CONFIRMED x198 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-m IDLE-CONFIRMED x208 (SELF-DISPATCH: lane scans its own backlo)",
   "LINE-BLOCKED bigstream-drama ()"
  ],
  "lane_files_written": []
