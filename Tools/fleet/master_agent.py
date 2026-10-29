@@ -902,12 +902,22 @@ def stage_states(root, lines, rows, ages):
 
 
 def push_lane_files(root):
-    """Ship assignments to the clones. One path only, so it cannot drag in worktree noise.
+    """Ship everything the master produced: lane assignments + dispatcher state.
 
-    Throttled to 10 minutes: a commit per 2-minute tick is noise on the ledger, and lane
-    files rarely change more often than a job does.
+    One commit per throttle window, all master-owned paths together so the worktree never
+    holds mismatched state. Push failures fetch + rebase --autostash and retry twice, so the
+    sole writer (this box) converges with concurrent commits from other nodes.
+
+    Throttled so a 2-minute tick does not spam the ledger: lane/state files rarely change
+    more often than a job does.
     """
-    rel = fl.LANE_DIR_REL
+    rels = [
+        fl.LANE_DIR_REL,                                  # lanes/<node>.json assignments
+        fl.STATE_REL.replace("/", os.sep),                # dispatcher/MASTER-STATE.json
+        fl.LOG_REL.replace("/", os.sep),                  # dispatcher/MASTER-LOG.md
+        "cph4/fleet/dispatcher/NEED-SUPPLY.md",
+        "cph4/fleet/dispatcher/STAGE-CACHE.json",
+    ]
     stamp = os.path.join(root, ".codely-cli", "tmp", "lanepush.stamp")
     try:
         if os.path.exists(stamp) and (time.time() - os.path.getmtime(stamp)) < 600:
@@ -915,22 +925,32 @@ def push_lane_files(root):
     except Exception:
         pass
     try:
-        subprocess.run(["git", "-C", root, "add", "--", rel], timeout=60, capture_output=True,
-                       creationflags=CREATE_NO_WINDOW)
-        diff = subprocess.run(["git", "-C", root, "diff", "--cached", "--quiet", "--", rel],
+        subprocess.run(["git", "-C", root, "add", "--"] + rels, timeout=60,
+                       capture_output=True, creationflags=CREATE_NO_WINDOW)
+        diff = subprocess.run(["git", "-C", root, "diff", "--cached", "--quiet", "--"] + rels,
                               timeout=30, capture_output=True, creationflags=CREATE_NO_WINDOW)
         if diff.returncode == 0:
             return True
         subprocess.run(["git", "-C", root, "commit", "-m",
-                        "master-agent: lane assignments", "--", rel],
+                        "master-agent: lane assignments + fleet state", "--"] + rels,
                        timeout=60, capture_output=True, creationflags=CREATE_NO_WINDOW)
         p = subprocess.run(["git", "-C", root, "push", "origin", "HEAD:main"],
                            timeout=120, capture_output=True, creationflags=CREATE_NO_WINDOW)
-        if p.returncode != 0:
+        for _ in range(2):
+            if p.returncode == 0:
+                break
+            # Concurrent writer on the other side: bring our commit on top of theirs.
             subprocess.run(["git", "-C", root, "fetch", "--quiet", "origin", "main"],
                            timeout=120, capture_output=True, creationflags=CREATE_NO_WINDOW)
+            rb = subprocess.run(["git", "-C", root, "rebase", "--autostash",
+                                 "origin/main"],
+                                timeout=120, capture_output=True,
+                                creationflags=CREATE_NO_WINDOW)
+            if rb.returncode != 0:
+                break
             p = subprocess.run(["git", "-C", root, "push", "origin", "HEAD:main"],
-                               timeout=120, capture_output=True, creationflags=CREATE_NO_WINDOW)
+                               timeout=120, capture_output=True,
+                               creationflags=CREATE_NO_WINDOW)
         try:
             os.makedirs(os.path.dirname(stamp), exist_ok=True)
             open(stamp, "w").close()
