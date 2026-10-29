@@ -53,3 +53,13 @@ INSTALL_DAEMON=1 bash ~/FluxGroup/Tools/fleet/mac-setup/setup-mac.sh
 | bigstream-drama 堵死 | `LINE-BLOCKED bigstream-drama` | 归因件 `queue-receipts/bm-m-drama-unblock.md` |
 | bm-b/bm-c 工作树落后 | `MASTER-AGENT-v1.md §十` 第三条 | 各自本机跑 `Tools/fleet-hot-sync.ps1`（禁远程） |
 | bm-a 离线 | `flags=bm-a OFFLINE` | 该机自起（工作机白天让路属正常，夜间应上线） |
+| 一键轮不拉代码 | `tools-run-once.sh` 原版只跑 hb/master/lane，无 `git pull` | 2026-10-29 已补（`setup-mac.sh` 生成的运行器首行拉一次）；**Mac 上重跑一次 `bash setup-mac.sh` 才会重新生成运行器** |
+| 主控日志断更 | `MASTER-LOG.md` 停在 23:07:56（此后无新周期） | Mac 睡了或 runner 没跑：`bash ~/FluxGroup/tools-run-once.sh` 手动续一轮 |
+
+## 六、队列与回执的真实路径（别猜）
+
+- 队列：`cph4/fleet/PRODUCTION-QUEUE.jsonl`
+- 规则：`cph4/fleet/WORK-RULES.jsonl`（本轮新增 R-SUBCO-20261029-001~003）
+- 车道：`cph4/fleet/lanes/<node>.json`
+- 回执：`cph4/fleet/queue-receipts/`
+- 状态：`cph4/fleet/dispatcher/MASTER-STATE.json` + `MASTER-LOG.md`
