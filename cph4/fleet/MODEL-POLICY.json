@@ -24,5 +24,5 @@
   "waste_alarm": "任何被判为 cloud 的活，只要有一台空闲且能力匹配的本地车道，就报 CLOUD-WHILE-LOCAL-IDLE（浪费本地算力）",
   "never": ["cron 心跳调云端", "为缩短本地排队时间上云", "本地闲置时用云端跑确定性脚本"]
  },
- "lane_local_llm": {"endpoint": "http://127.0.0.1:11434", "model": "qwen3:4b-instruct"}
+ "lane_local_llm": {"endpoint": "http://127.0.0.1:11434", "model": "qwen3:4b-instruct", "keep_alive": "5m", "num_ctx": 4096, "why": "本机是 CEO 工作机：模型用完 5 分钟就退，上下文压到 4096，别把 12GB 显存常年钉住"}
 }

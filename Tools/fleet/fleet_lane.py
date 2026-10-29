@@ -345,7 +345,13 @@ def local_llm(prompt, policy=None, timeout=120, node=None):
     if not model:
         have = _llm_tags(base)
         model = have[0] if have else ""
-    body = json.dumps({"model": model, "prompt": prompt, "stream": False}).encode()
+    # keep_alive: a resident 4B pinned its whole context into 7.5GB of a 12GB card on the
+    # CEO's work machine (2026-10-29). Ask for a short lease and a small context so the
+    # model gives the VRAM back when nobody is using it.
+    body = json.dumps({"model": model, "prompt": prompt, "stream": False,
+                       "keep_alive": (policy or {}).get("lane_local_llm", {}).get("keep_alive", "5m"),
+                       "options": {"num_ctx": int((policy or {}).get("lane_local_llm", {}).get("num_ctx", 4096))},
+                       }).encode()
     req = urllib.request.Request(base.rstrip("/") + "/api/generate", data=body,
                                  headers={"Content-Type": "application/json"})
     try:
