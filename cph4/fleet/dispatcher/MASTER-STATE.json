@@ -1,6 +1,6 @@
 {
- "ts": "2026-10-29T10:57:38",
- "cycle": 46,
+ "ts": "2026-10-29T11:28:02",
+ "cycle": 64,
  "queue": {
   "total": 30,
   "open": 0,
@@ -11,27 +11,27 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 24.0,
-   "cpu_load_pct": 54,
-   "ram_free_gb": 13.5,
-   "gpu_util_pct": 59,
+   "hb_age_s": 48.0,
+   "cpu_load_pct": 48,
+   "ram_free_gb": 21.8,
+   "gpu_util_pct": 10,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-10-29T10:55:05",
+    "ts": "2026-10-29T11:25:05",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 1
+   "idle_rounds": 19
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 101.0,
-   "cpu_load_pct": 0,
-   "ram_free_gb": 12.9,
+   "hb_age_s": 9.2,
+   "cpu_load_pct": 4,
+   "ram_free_gb": 12.4,
    "gpu_util_pct": null,
    "job": null,
    "last_result": null,
@@ -41,19 +41,19 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 25.1,
-   "cpu_load_pct": 50,
-   "ram_free_gb": 1.5,
+   "hb_age_s": 52.9,
+   "cpu_load_pct": 62,
+   "ram_free_gb": 0.9,
    "gpu_util_pct": 0,
    "job": null,
    "last_result": null,
    "idle_confirmed": false,
-   "idle_reason": "CAPACITY-BLOCKED-RAM ram 1.5/3.0 GB",
+   "idle_reason": "CAPACITY-BLOCKED-RAM ram 0.9/3.0 GB",
    "idle_rounds": 0
   }
  },
  "idle_rounds": {
-  "bm-a": 1,
+  "bm-a": 19,
   "bm-b": 0,
   "bm-c": 0
  },
@@ -61,158 +61,647 @@
   "bigstream-mv": {
    "name": "BigStream·MV 41 曲",
    "status": "ACTIVE",
-   "verdict": "WAITING",
-   "age_h": 7.4,
+   "verdict": "STALLED-STAGE",
+   "age_h": null,
    "stale_after_h": 24.0,
    "owner": "导演席（CEO 终审）",
    "jobs": [],
    "no_supply": true,
    "blockers": [],
-   "note": "mv0001 v717 已过闸机面，待逐镜修复计划；v718 重建规则已证伪并回撤"
+   "note": null,
+   "stuck_stage": "mv-kf",
+   "stuck_owner": "导演席·美术"
   },
   "bigstream-drama": {
    "name": "BigStream·漫剧",
    "status": "BLOCKED",
    "verdict": "BLOCKED",
-   "age_h": 47.5,
+   "age_h": null,
    "stale_after_h": 48.0,
-   "owner": "漫剧席 @bm-b",
+   "owner": "漫剧席",
    "jobs": [],
    "no_supply": true,
    "blockers": [],
-   "note": "素材与混音在 bm-b；bm-b 根仓库工作树分叉，新执行器落不了地"
+   "note": null
   },
   "bigstream-duanju": {
    "name": "BigStream·短剧",
    "status": "ACTIVE",
-   "verdict": "STALE",
-   "age_h": 280.6,
+   "verdict": "STALLED-STAGE",
+   "age_h": null,
    "stale_after_h": 72.0,
    "owner": "短剧席",
    "jobs": [],
    "no_supply": true,
    "blockers": [],
-   "note": "《十秒人生》剧本 v1.1 复核 PASS，候 KF 试构图"
+   "note": null,
+   "stuck_stage": "duanju-script",
+   "stuck_owner": "编剧席"
   },
   "bigstream-shortvideo": {
    "name": "BigStream·短视频/切片",
    "status": "PARKED",
    "verdict": "PARKED",
-   "age_h": 208.7,
+   "age_h": null,
    "stale_after_h": 168.0,
    "owner": "短视频席",
    "jobs": [],
    "no_supply": true,
    "blockers": [],
-   "note": "CEO 2026-10-17 判「太烂」停产；不派活、不计闲置"
+   "note": null
   },
   "biggame": {
    "name": "Biggame·游戏",
    "status": "ACTIVE",
    "verdict": "WAITING",
-   "age_h": 0.2,
+   "age_h": 0.1,
    "stale_after_h": 24.0,
    "owner": "游戏席",
    "jobs": [],
    "no_supply": true,
    "blockers": [],
-   "note": "吸嘟嘟家庭版/车机版在研；自动跑游戏包被 CEO 禁止"
+   "note": null
   },
   "fluxverse": {
    "name": "FluxVerse·元宙城",
    "status": "ACTIVE",
    "verdict": "WAITING",
-   "age_h": 21.6,
+   "age_h": 22.1,
    "stale_after_h": 36.0,
-   "owner": "城市线（CEO 第一检查入口）",
+   "owner": "城市线",
    "jobs": [],
    "no_supply": true,
    "blockers": [],
-   "note": "City3D 装配 + 可视化每日刷新"
+   "note": null
   },
   "bigmoney": {
    "name": "BigMoney·量化",
    "status": "ACTIVE",
    "verdict": "WAITING",
-   "age_h": 2.0,
+   "age_h": 2.5,
    "stale_after_h": 24.0,
-   "owner": "量化席 @bm-b/bm-d",
+   "owner": "量化席",
    "jobs": [],
    "no_supply": true,
    "blockers": [],
-   "note": "W 波自跑；真金红线永不全自动"
+   "note": null
   },
   "bigdomain": {
    "name": "BigDomain·硅基域商业化",
    "status": "ACTIVE",
    "verdict": "WAITING",
-   "age_h": 0.5,
+   "age_h": 0.0,
    "stale_after_h": 36.0,
    "owner": "域运营席",
    "jobs": [],
    "no_supply": true,
    "blockers": [],
-   "note": "模拟态授权：收款 MOCK，上线前问题归零"
+   "note": null
   },
   "bigcompute": {
    "name": "BigCompute·硅基算力",
    "status": "ACTIVE",
    "verdict": "WAITING",
-   "age_h": 4.8,
+   "age_h": 5.3,
    "stale_after_h": 36.0,
    "owner": "算力中枢席",
    "jobs": [],
    "no_supply": true,
    "blockers": [],
-   "note": "P1 成交环+私域分发环"
+   "note": null
   },
   "biglife": {
    "name": "BigLife·数字生命",
    "status": "ACTIVE",
    "verdict": "WAITING",
-   "age_h": 29.9,
+   "age_h": 30.4,
    "stale_after_h": 48.0,
    "owner": "生命生产席",
    "jobs": [],
    "no_supply": true,
    "blockers": [],
-   "note": "census 已解禁；入册必过 12 条生命体征机器闸"
+   "note": null
   },
   "bighouse": {
    "name": "BigHouse·城市安家",
    "status": "ACTIVE",
    "verdict": "STALE",
-   "age_h": 267.6,
+   "age_h": 268.1,
    "stale_after_h": 72.0,
    "owner": "生态运营席",
    "jobs": [],
    "no_supply": true,
    "blockers": [],
-   "note": "三柱=安家/邻里/共长；近 275h 无提交"
+   "note": null
   },
   "car-gaming": {
    "name": "车机游戏 BU",
    "status": "ACTIVE",
-   "verdict": "STALE",
-   "age_h": 72.1,
+   "verdict": "STALLED-STAGE",
+   "age_h": null,
    "stale_after_h": 72.0,
    "owner": "车机 BU",
    "jobs": [],
    "no_supply": true,
    "blockers": [],
-   "note": "研发与合规归本线；样机/版号/商务归 CEO"
+   "note": null,
+   "stuck_stage": "car-market",
+   "stuck_owner": "车机 BU"
   },
   "recon": {
    "name": "RECON·竞品拆解",
    "status": "ACTIVE",
-   "verdict": "STALE",
-   "age_h": 120.0,
+   "verdict": "STALLED-STAGE",
+   "age_h": null,
    "stale_after_h": 72.0,
    "owner": "拆解部",
    "jobs": [],
    "no_supply": true,
    "blockers": [],
-   "note": "拆完 48h 内必须出可玩原型或可看样片"
+   "note": null,
+   "stuck_stage": "recon-scan",
+   "stuck_owner": "拆解部"
+  }
+ },
+ "stages": {
+  "bigstream-mv": {
+   "bottleneck": {
+    "id": "mv-kf",
+    "name": "关键帧",
+    "owner": "导演席·美术",
+    "model": "local-gpu",
+    "lane": "bm-c",
+    "verdict": "STALLED",
+    "age_h": 60.8,
+    "limit_h": 24.0,
+    "jobs": []
+   },
+   "stages": [
+    {
+     "id": "mv-plan",
+     "name": "立意/分镜",
+     "owner": "导演席",
+     "model": "cloud-smart",
+     "lane": null,
+     "verdict": "WAITING",
+     "age_h": 7.9,
+     "limit_h": 24.0,
+     "jobs": []
+    },
+    {
+     "id": "mv-kf",
+     "name": "关键帧",
+     "owner": "导演席·美术",
+     "model": "local-gpu",
+     "lane": "bm-c",
+     "verdict": "STALLED",
+     "age_h": 60.8,
+     "limit_h": 24.0,
+     "jobs": []
+    },
+    {
+     "id": "mv-i2v",
+     "name": "出片",
+     "owner": "导演席",
+     "model": "local-gpu",
+     "lane": "bm-c",
+     "verdict": "NO-DATA",
+     "age_h": null,
+     "limit_h": 24.0,
+     "jobs": []
+    },
+    {
+     "id": "mv-cut",
+     "name": "剪辑/装配",
+     "owner": "剪辑席",
+     "model": "none",
+     "lane": "bm-a",
+     "verdict": "STALLED",
+     "age_h": 35.0,
+     "limit_h": 24.0,
+     "jobs": []
+    },
+    {
+     "id": "mv-gate",
+     "name": "质检/交付",
+     "owner": "质检席",
+     "model": "none",
+     "lane": "bm-a",
+     "verdict": "WAITING",
+     "age_h": 8.6,
+     "limit_h": 24.0,
+     "jobs": []
+    },
+    {
+     "id": "mv-approve",
+     "name": "呈审",
+     "owner": "CEO",
+     "model": "none",
+     "lane": null,
+     "verdict": "STALLED",
+     "age_h": 48.0,
+     "limit_h": 24.0,
+     "jobs": []
+    }
+   ]
+  },
+  "bigstream-drama": {
+   "bottleneck": null,
+   "stages": [
+    {
+     "id": "drama-script",
+     "name": "剧本",
+     "owner": "编剧席",
+     "model": "cloud-smart",
+     "lane": null,
+     "verdict": "WAITING",
+     "age_h": 48.0,
+     "limit_h": 48.0,
+     "jobs": []
+    },
+    {
+     "id": "drama-kf",
+     "name": "画面/分镜",
+     "owner": "漫剧席",
+     "model": "local-gpu",
+     "lane": "bm-b",
+     "verdict": "NO-DATA",
+     "age_h": null,
+     "limit_h": 48.0,
+     "jobs": []
+    },
+    {
+     "id": "drama-voice",
+     "name": "配音",
+     "owner": "声音席",
+     "model": "local-llm",
+     "lane": "bm-b",
+     "verdict": "NO-DATA",
+     "age_h": null,
+     "limit_h": 48.0,
+     "jobs": []
+    },
+    {
+     "id": "drama-mix",
+     "name": "混音/合成",
+     "owner": "声音席",
+     "model": "none",
+     "lane": "bm-b",
+     "verdict": "NO-DATA",
+     "age_h": null,
+     "limit_h": 48.0,
+     "jobs": []
+    }
+   ]
+  },
+  "bigstream-duanju": {
+   "bottleneck": {
+    "id": "duanju-script",
+    "name": "剧本",
+    "owner": "编剧席",
+    "model": "cloud-smart",
+    "lane": null,
+    "verdict": "STALLED",
+    "age_h": 281.1,
+    "limit_h": 72.0,
+    "jobs": []
+   },
+   "stages": [
+    {
+     "id": "duanju-script",
+     "name": "剧本",
+     "owner": "编剧席",
+     "model": "cloud-smart",
+     "lane": null,
+     "verdict": "STALLED",
+     "age_h": 281.1,
+     "limit_h": 72.0,
+     "jobs": []
+    },
+    {
+     "id": "duanju-board",
+     "name": "试构图",
+     "owner": "短剧席",
+     "model": "local-gpu",
+     "lane": "bm-c",
+     "verdict": "STALLED",
+     "age_h": 281.1,
+     "limit_h": 72.0,
+     "jobs": []
+    }
+   ]
+  },
+  "bigstream-shortvideo": {
+   "bottleneck": null,
+   "stages": [
+    {
+     "id": "sv-script",
+     "name": "选题/脚本",
+     "owner": "短视频席",
+     "model": "cloud-smart",
+     "lane": null,
+     "verdict": "PARKED",
+     "age_h": 209.1,
+     "limit_h": 168.0,
+     "jobs": []
+    },
+    {
+     "id": "sv-cut",
+     "name": "剪辑",
+     "owner": "剪辑席",
+     "model": "none",
+     "lane": "bm-a",
+     "verdict": "PARKED",
+     "age_h": 301.3,
+     "limit_h": 168.0,
+     "jobs": []
+    }
+   ]
+  },
+  "biggame": {
+   "bottleneck": null,
+   "stages": [
+    {
+     "id": "game-design",
+     "name": "玩法/数值",
+     "owner": "游戏席",
+     "model": "cloud-smart",
+     "lane": null,
+     "verdict": "WAITING",
+     "age_h": 0.1,
+     "limit_h": 24.0,
+     "jobs": []
+    },
+    {
+     "id": "game-art",
+     "name": "美术资产",
+     "owner": "美术席",
+     "model": "local-gpu",
+     "lane": "bm-c",
+     "verdict": "NO-DATA",
+     "age_h": null,
+     "limit_h": 24.0,
+     "jobs": []
+    },
+    {
+     "id": "game-build",
+     "name": "构建/打包",
+     "owner": "工程席",
+     "model": "none",
+     "lane": "bm-a",
+     "verdict": "NO-DATA",
+     "age_h": null,
+     "limit_h": 24.0,
+     "jobs": []
+    }
+   ]
+  },
+  "fluxverse": {
+   "bottleneck": null,
+   "stages": [
+    {
+     "id": "city-assemble",
+     "name": "场景装配",
+     "owner": "地编席",
+     "model": "none",
+     "lane": "bm-a",
+     "verdict": "WAITING",
+     "age_h": 16.4,
+     "limit_h": 36.0,
+     "jobs": []
+    },
+    {
+     "id": "city-data",
+     "name": "数据面",
+     "owner": "城市线",
+     "model": "none",
+     "lane": null,
+     "verdict": "WAITING",
+     "age_h": 0.0,
+     "limit_h": 36.0,
+     "jobs": []
+    },
+    {
+     "id": "city-viz",
+     "name": "可视化",
+     "owner": "城市线",
+     "model": "none",
+     "lane": null,
+     "verdict": "WAITING",
+     "age_h": 0.1,
+     "limit_h": 36.0,
+     "jobs": []
+    }
+   ]
+  },
+  "bigmoney": {
+   "bottleneck": null,
+   "stages": [
+    {
+     "id": "quant-data",
+     "name": "数据",
+     "owner": "数据席",
+     "model": "none",
+     "lane": "bm-b",
+     "verdict": "WAITING",
+     "age_h": 0.0,
+     "limit_h": 24.0,
+     "jobs": []
+    },
+    {
+     "id": "quant-backtest",
+     "name": "回测",
+     "owner": "量化席",
+     "model": "none",
+     "lane": "bm-d",
+     "verdict": "WAITING",
+     "age_h": 0.0,
+     "limit_h": 24.0,
+     "jobs": []
+    },
+    {
+     "id": "quant-audit",
+     "name": "审计/闸",
+     "owner": "风控席",
+     "model": "none",
+     "lane": "bm-b",
+     "verdict": "NO-DATA",
+     "age_h": null,
+     "limit_h": 24.0,
+     "jobs": []
+    }
+   ]
+  },
+  "bigdomain": {
+   "bottleneck": null,
+   "stages": [
+    {
+     "id": "domain-lead",
+     "name": "引流线索",
+     "owner": "域运营席",
+     "model": "none",
+     "lane": null,
+     "verdict": "WAITING",
+     "age_h": 0.0,
+     "limit_h": 36.0,
+     "jobs": []
+    },
+    {
+     "id": "domain-order",
+     "name": "订单簿记",
+     "owner": "域运营席",
+     "model": "none",
+     "lane": null,
+     "verdict": "WAITING",
+     "age_h": 0.0,
+     "limit_h": 36.0,
+     "jobs": []
+    }
+   ]
+  },
+  "bigcompute": {
+   "bottleneck": null,
+   "stages": [
+    {
+     "id": "compute-deal",
+     "name": "成交环",
+     "owner": "算力中枢席",
+     "model": "cloud-smart",
+     "lane": null,
+     "verdict": "WAITING",
+     "age_h": 0.0,
+     "limit_h": 36.0,
+     "jobs": []
+    }
+   ]
+  },
+  "biglife": {
+   "bottleneck": null,
+   "stages": [
+    {
+     "id": "life-gen",
+     "name": "人设生产",
+     "owner": "生命生产席",
+     "model": "local-llm",
+     "lane": null,
+     "verdict": "WAITING",
+     "age_h": 1.9,
+     "limit_h": 48.0,
+     "jobs": []
+    },
+    {
+     "id": "life-gate",
+     "name": "生命体征闸",
+     "owner": "质检席",
+     "model": "none",
+     "lane": null,
+     "verdict": "WAITING",
+     "age_h": 1.9,
+     "limit_h": 48.0,
+     "jobs": []
+    }
+   ]
+  },
+  "bighouse": {
+   "bottleneck": null,
+   "stages": [
+    {
+     "id": "house-movein",
+     "name": "安家",
+     "owner": "生态运营席",
+     "model": "none",
+     "lane": null,
+     "verdict": "WAITING",
+     "age_h": 0.0,
+     "limit_h": 72.0,
+     "jobs": []
+    },
+    {
+     "id": "house-neighbor",
+     "name": "邻里/共长",
+     "owner": "生态运营席",
+     "model": "none",
+     "lane": null,
+     "verdict": "WAITING",
+     "age_h": 0.0,
+     "limit_h": 72.0,
+     "jobs": []
+    }
+   ]
+  },
+  "car-gaming": {
+   "bottleneck": {
+    "id": "car-market",
+    "name": "市场/立项",
+    "owner": "车机 BU",
+    "model": "cloud-smart",
+    "lane": null,
+    "verdict": "STALLED",
+    "age_h": 72.5,
+    "limit_h": 72.0,
+    "jobs": []
+   },
+   "stages": [
+    {
+     "id": "car-market",
+     "name": "市场/立项",
+     "owner": "车机 BU",
+     "model": "cloud-smart",
+     "lane": null,
+     "verdict": "STALLED",
+     "age_h": 72.5,
+     "limit_h": 72.0,
+     "jobs": []
+    },
+    {
+     "id": "car-build",
+     "name": "研发/适配闸",
+     "owner": "工程席",
+     "model": "none",
+     "lane": "bm-a",
+     "verdict": "WAITING",
+     "age_h": 34.2,
+     "limit_h": 72.0,
+     "jobs": []
+    }
+   ]
+  },
+  "recon": {
+   "bottleneck": {
+    "id": "recon-scan",
+    "name": "扒榜/拆包",
+    "owner": "拆解部",
+    "model": "none",
+    "lane": "bm-a",
+    "verdict": "STALLED",
+    "age_h": 120.5,
+    "limit_h": 72.0,
+    "jobs": []
+   },
+   "stages": [
+    {
+     "id": "recon-scan",
+     "name": "扒榜/拆包",
+     "owner": "拆解部",
+     "model": "none",
+     "lane": "bm-a",
+     "verdict": "STALLED",
+     "age_h": 120.5,
+     "limit_h": 72.0,
+     "jobs": []
+    },
+    {
+     "id": "recon-proto",
+     "name": "48h 原型",
+     "owner": "拆解部",
+     "model": "cloud-smart",
+     "lane": null,
+     "verdict": "STALLED",
+     "age_h": 120.5,
+     "limit_h": 72.0,
+     "jobs": []
+    }
+   ]
   }
  },
  "judgments": {
@@ -222,7 +711,7 @@
    "LINE-STALE": 4,
    "CAPACITY": 1
   },
-  "added": 1,
+  "added": 0,
   "tick_tier": "none",
   "judgment_tier": "cloud-smart"
  },
@@ -241,16 +730,14 @@
  "supply_added": [],
  "events": [],
  "violations": [
+  "bm-a IDLE-CONFIRMED x19 (SELF-DISPATCH: lane scans its own backlo)",
   "bm-c CAPACITY-BLOCKED-RAM",
-  "LINE-BLOCKED bigstream-drama (素材与混音在 bm-b；bm-b 根仓库工作树分叉，新执行器落不了地)",
-  "LINE-STALE bigstream-duanju 280.6h>72.0h (短剧席)",
-  "LINE-STALE bighouse 267.6h>72.0h (生态运营席)",
-  "LINE-STALE car-gaming 72.1h>72.0h (车机 BU)",
-  "LINE-STALE recon 120.0h>72.0h (拆解部)"
+  "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（CEO 终审）)",
+  "LINE-BLOCKED bigstream-drama ()",
+  "STAGE-STALLED bigstream-duanju 卡在 剧本/编剧席 (短剧席)",
+  "LINE-STALE bighouse 268.1h>72.0h (生态运营席)",
+  "STAGE-STALLED car-gaming 卡在 市场/立项/车机 BU (车机 BU)",
+  "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
- "lane_files_written": [
-  "bm-a",
-  "bm-b",
-  "bm-c"
- ]
+ "lane_files_written": []
 }

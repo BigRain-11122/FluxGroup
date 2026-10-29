@@ -221,7 +221,10 @@ def route_decision(job, fleet, rows=None, policy=None):
                 continue
             if need not in fl.LANES[n]["needs"]:
                 continue
-            ok, _why = lane_capacity(n, fleet, need)
+            if job.get("cap") and (fl.LANES[n].get("caps")
+                                   and job["cap"] not in fl.LANES[n]["caps"]):
+                continue
+            ok, _why = lane_capacity(n, fleet, need, int(job.get("vram_min_gb") or 0))
             if not ok:
                 continue
             if need == "gpu" and not fl.gpu_window_open(n):
@@ -275,19 +278,26 @@ def cloud_spend_today(rows):
     return total
 
 
-def lane_capacity(node, fleet, needs="cpu"):
+def lane_capacity(node, fleet, needs="cpu", vram_min=0):
     """(ok, reason) for assigning work to this lane right now.
 
     A GPU job is allowed past the RAM floor because gpu_lease.acquire() stops the resident
     LLM and disables keepwarm before ComfyUI starts - that is the documented reclaim path,
     not something the master can do remotely. A CPU job has no such reclaim, so it obeys
-    the floor strictly.
+    the floor strictly. VRAM is a hard filter: an 8GB card must never be handed a 768p job.
     """
     info = fleet.get(node) or {}
     if not info.get("online"):
         return False, "OFFLINE (hb age %ss)" % info.get("age_s")
     st = info.get("state") or {}
-    floor = float((fl.LANES.get(node) or {}).get("ram_floor_gb") or 2.0)
+    spec = fl.LANES.get(node) or {}
+    if needs == "gpu":
+        have = int(spec.get("vram_gb") or 0)
+        if vram_min and have < int(vram_min):
+            return False, "VRAM %dGB < %dGB" % (have, int(vram_min))
+        if not spec.get("cuda", True):
+            return False, "no CUDA"
+    floor = float(spec.get("ram_floor_gb") or 2.0)
     if needs == "gpu":
         floor = min(floor, 1.0)
     ram = st.get("ram_free_gb")
@@ -300,14 +310,19 @@ def lane_capacity(node, fleet, needs="cpu"):
 def choose_lane(job, fleet, busy):
     needs = job.get("needs") or "cpu"
     pref = job.get("nodes") or []
+    cap = job.get("cap")
+    vram_min = int(job.get("vram_min_gb") or 0)
     candidates = [n for n in fl.LANES if needs in fl.LANES[n]["needs"]]
+    if cap:
+        candidates = [n for n in candidates
+                      if cap in (fl.LANES[n].get("caps") or []) or not (fl.LANES[n].get("caps"))]
     if pref:
-        candidates = [n for n in pref if n in fl.LANES] or candidates
+        candidates = [n for n in pref if n in fl.LANES and n in candidates] or candidates
     scored = []
     for n in candidates:
         if busy.get(n):
             continue
-        ok, why = lane_capacity(n, fleet, needs)
+        ok, why = lane_capacity(n, fleet, needs, vram_min)
         if not ok:
             continue
         if needs == "gpu" and not fl.gpu_window_open(n):
@@ -358,9 +373,9 @@ def assign(rows, fleet, reports, lines=None):
     return events
 
 
-def write_lane_files(root, rows, fleet, dry=False):
+def write_lane_files(root, rows, fleet, dry=False, nodes=None):
     """One job per lane; the lane file also carries WHY the lane is empty."""
-    by_lane = {n: [] for n in fl.ACTIVE_LANES}
+    by_lane = {n: [] for n in (nodes or fl.ACTIVE_LANES)}
     for r in rows:
         if r.get("state") == "RUNNING" and r.get("owner") in by_lane:
             by_lane[r["owner"]].append({
@@ -410,8 +425,14 @@ def write_lane_files(root, rows, fleet, dry=False):
 
 # ---------------------------------------------------------------- main cycle
 def cycle(root, dry=False, push=True):
+    # Pending boxes (bm-m Mac, bm-d V100 rack) join the moment they report a heartbeat -
+    # no code edit, no flag flip, no asking the CEO whether the hardware arrived.
     nodes = list(fl.ACTIVE_LANES)
+    pending_fleet = sense(root, fl.AUTO_JOIN)
+    joined = [n for n, v in pending_fleet.items() if v.get("online")]
+    nodes += joined
     fleet = sense(root, nodes)
+    fleet.update({n: pending_fleet[n] for n in joined})
     reports = lane_reports(root, nodes)
     added, rows = supply(root, None, set())
     lines = load_lines(root)
@@ -426,7 +447,7 @@ def cycle(root, dry=False, push=True):
     events += assign(rows, fleet, reports, lines)
     if not dry:
         fl.write_jsonl(os.path.join(root, fl.QUEUE_REL.replace("/", os.sep)), rows)
-    written, by_lane = write_lane_files(root, rows, fleet, dry)
+    written, by_lane = write_lane_files(root, rows, fleet, dry, nodes)
 
     # idle ledger: every empty lane must carry a reason, and persistent emptiness escalates
     prev = fl.read_json(os.path.join(root, fl.STATE_REL.replace("/", os.sep)), {}) or {}
@@ -473,6 +494,9 @@ def cycle(root, dry=False, push=True):
             violations.append("%s CAPACITY-BLOCKED-RAM" % n)
 
     lines = load_lines(root)
+    # stage freshness drives the "which工序 stopped" answer; cached, recomputed every 10 min
+    s_ages = stage_ages(root, lines)
+    stages_state = stage_states(root, lines, rows, s_ages)
     # Paying the cloud while a capable local lane sits empty is the waste this policy
     # exists to catch. Judgment jobs are exempt: local cannot do them at all.
     busy_now = {r.get("owner") for r in rows
@@ -498,14 +522,30 @@ def cycle(root, dry=False, push=True):
         "waste": waste,
     }
     lines_state = line_states(root, lines, rows, lanes_state)
+    # A line can look fine at the top (one fresh stage) while an earlier工序 has stopped.
+    # The stage verdict wins: that is the whole point of splitting the line.
+    for lid, st in stages_state.items():
+        ls = lines_state.get(lid)
+        if not ls or not st.get("bottleneck"):
+            continue
+        if ls["verdict"] in ("WAITING", "WORKING"):
+            ls["verdict"] = "STALLED-STAGE"
+            ls["stuck_stage"] = st["bottleneck"]["id"]
+            ls["stuck_owner"] = st["bottleneck"]["owner"]
     policy = fl.load_policy(root)
     judgments = build_judgments(root, rows, lanes_state, lines_state, fleet, policy) if not dry \
         else {"open": 0, "by_kind": {}, "added": 0,
               "tick_tier": "none", "judgment_tier": "cloud-smart"}
     for lid, ls in lines_state.items():
+        bn = (stages_state.get(lid) or {}).get("bottleneck") or {}
         if ls["verdict"] == "STALE":
-            violations.append("LINE-STALE %s %sh>%sh (%s)" % (
-                lid, ls["age_h"], ls["stale_after_h"], ls["owner"] or "no owner"))
+            violations.append("LINE-STALE %s %sh>%sh (%s%s)" % (
+                lid, ls["age_h"], ls["stale_after_h"], ls["owner"] or "no owner",
+                (" · 卡在 %s/%s" % (bn.get("name"), bn.get("owner"))) if bn else ""))
+        elif ls["verdict"] == "STALLED-STAGE":
+            violations.append("STAGE-STALLED %s 卡在 %s/%s (%s)" % (
+                lid, bn.get("name") or ls.get("stuck_stage"), bn.get("owner") or "?",
+                ls["owner"] or "no owner"))
         elif ls["verdict"] == "BLOCKED":
             violations.append("LINE-BLOCKED %s (%s)" % (lid, (ls["note"] or "")[:50]))
 
@@ -515,6 +555,7 @@ def cycle(root, dry=False, push=True):
     state = {"ts": now_ts, "cycle": int(prev.get("cycle") or 0) + 1,
              "queue": queued, "lanes": lanes_state, "idle_rounds": idle_rounds,
              "lines": lines_state,
+             "stages": stages_state,
              "judgments": judgments,
              "routing": routing,
              "supply_gap": {k: len([r for r in rows if r.get("state") == "OPEN"
@@ -524,7 +565,7 @@ def cycle(root, dry=False, push=True):
              "lane_files_written": written}
     if not dry:
         fl.write_json(os.path.join(root, fl.STATE_REL.replace("/", os.sep)), state)
-        write_need_supply(root, lanes_state, queued, state["supply_gap"], lines_state)
+        write_need_supply(root, lanes_state, queued, state["supply_gap"], lines_state, stages_state)
         log = os.path.join(root, fl.LOG_REL.replace("/", os.sep))
         os.makedirs(os.path.dirname(log), exist_ok=True)
         line = "[%s] cyc=%d q=%d/%d/%d sup=%d ev=%d idle=%s flags=%s" % (
@@ -540,7 +581,7 @@ def cycle(root, dry=False, push=True):
     return state
 
 
-def write_need_supply(root, lanes_state, queued, gap, lines_state=None):
+def write_need_supply(root, lanes_state, queued, gap, lines_state=None, stages_state=None):
     """One page a human can read: what each lane and each business line is waiting for.
 
     Law: the AI layer is not the fallback end-point. If a lane or a line is idle for a
@@ -572,16 +613,19 @@ def write_need_supply(root, lanes_state, queued, gap, lines_state=None):
 
     if lines_state:
         lines += ["## 业务条线（正身 cph4/fleet/LINE-REGISTRY.json）", "",
-                  "| 条线 | 判 | 最近产出 | 阈值 | 活 | 负责人 |", "|---|---|---|---|---|---|"]
-        order = {"BLOCKED": 0, "STALE": 1, "WAITING": 2, "WORKING": 3, "PARKED": 4}
+                  "| 条线 | 判 | 最近产出 | 阈值 | 卡在 | 负责人 |", "|---|---|---|---|---|---|"]
+        order = {"BLOCKED": 0, "STALE": 1, "STALLED-STAGE": 2, "WAITING": 3, "WORKING": 4, "PARKED": 5}
+        st_by_line = stages_state or {}
         for lid, ls in sorted(lines_state.items(), key=lambda kv: order.get(kv[1]["verdict"], 9)):
             age = "-" if ls["age_h"] is None else "%.1fh" % ls["age_h"]
+            bn = (st_by_line.get(lid) or {}).get("bottleneck") or {}
+            stuck = "%s/%s" % (bn.get("name"), bn.get("owner")) if bn else "-"
             lines.append("| %s | %s | %s | %sh | %s | %s |" % (
-                ls["name"], ls["verdict"], age, ls["stale_after_h"],
-                ",".join(ls["jobs"]) or "none", ls["owner"] or "-"))
+                ls["name"], ls["verdict"], age, ls["stale_after_h"], stuck,
+                ls["owner"] or "-"))
         lines.append("")
         lines.append("- PARKED=CEO 令停，不计闲置；WAITING=没活但未过期；"
-                     "STALE=超过阈值无产出；BLOCKED=有活但无可用车道。")
+                     "STALE=超过阈值无产出；BLOCKED=有活但无可用车道；卡在=最早断供的工段。")
         lines.append("")
     path = os.path.join(root, fl.STATE_REL.replace("/", os.sep).replace(
         "MASTER-STATE.json", "NEED-SUPPLY.md"))
@@ -744,6 +788,60 @@ def build_judgments(root, rows, lanes_state, lines_state, fleet, policy):
             "tick_tier": "none", "judgment_tier": "cloud-smart"}
 
 
+STAGE_CACHE_REL = "cph4/fleet/dispatcher/STAGE-CACHE.json"
+
+
+def stage_ages(root, lines, ttl=600):
+    """Freshness per stage, cached: walking every evidence dir each 2 minutes is waste."""
+    path = os.path.join(root, STAGE_CACHE_REL.replace("/", os.sep))
+    cache = fl.read_json(path, {}) or {}
+    if cache.get("ts") and (time.time() - float(cache["ts"])) < ttl and cache.get("ages"):
+        return cache["ages"]
+    ages = {}
+    for ln in lines:
+        for st in ln.get("stages") or []:
+            vals = [a for a in (_newest_age_h(root, e) for e in (st.get("evidence") or []))
+                    if a is not None]
+            ages["%s/%s" % (ln["id"], st["id"])] = min(vals) if vals else None
+    fl.write_json(path, {"ts": time.time(), "ages": ages})
+    return ages
+
+
+def stage_states(root, lines, rows, ages):
+    """Per-stage verdict. The bottleneck is the earliest stage with no output in time.
+
+    A stage whose evidence paths do not exist on this machine reports NO-DATA instead of
+    STALLED: that usually means the material lives on another box, not that work stopped.
+    """
+    out = {}
+    for ln in lines:
+        stages, bottleneck = [], None
+        for st in ln.get("stages") or []:
+            key = "%s/%s" % (ln["id"], st["id"])
+            age = ages.get(key)
+            live = [r for r in rows
+                    if r.get("state") in ("OPEN", "RUNNING") and r.get("stage") == st["id"]]
+            limit = float(st.get("stale_after_h") or ln.get("stale_after_h") or 48)
+            if (ln.get("status") or "") == "PARKED":
+                verdict = "PARKED"
+            elif live:
+                verdict = "WORKING"
+            elif age is None:
+                verdict = "NO-DATA"
+            elif age > limit:
+                verdict = "STALLED"
+            else:
+                verdict = "WAITING"
+            stages.append({"id": st["id"], "name": st.get("name"), "owner": st.get("owner"),
+                           "model": st.get("model"), "lane": st.get("lane"),
+                           "verdict": verdict, "age_h": age, "limit_h": limit,
+                           "jobs": [r["id"] for r in live]})
+            if bottleneck is None and verdict == "STALLED":
+                bottleneck = stages[-1]
+        out[ln["id"]] = {"bottleneck": bottleneck, "stages": stages}
+    return out
+
+
 def push_lane_files(root):
     """Ship assignments to the clones. One path only, so it cannot drag in worktree noise."""
     rel = fl.LANE_DIR_REL
@@ -790,7 +888,7 @@ def main():
                 ("ram=%s gpu=%s" % (ls["ram_free_gb"], ls["gpu_util_pct"]))))
         if st["violations"]:
             print("  FLAGS:", "; ".join(st["violations"]))
-        order = {"BLOCKED": 0, "STALE": 1, "WAITING": 2, "WORKING": 3, "PARKED": 4}
+        order = {"BLOCKED": 0, "STALE": 1, "STALLED-STAGE": 2, "WAITING": 3, "WORKING": 4, "PARKED": 5}
         if st.get("judgments"):
             j = st["judgments"]
             print("  SMART-TIER: tick=%s judgment=%s open=%d %s" % (

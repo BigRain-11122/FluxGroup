@@ -1,19 +1,119 @@
 {
- "_comment": "业务条线登记表（2026-10-29 CEO 令：把业务条线/规则也交给主 Agent 循环调度）。只放机器可判的字段：仓、证据目录、过期阈值、活源前缀、闸、状态。规则正文仍在各正典，这里不复制法条。",
- "_status_values": "ACTIVE=应在产出 / PARKED=CEO 令停但保留 / BLOCKED=有活但无可用车道 / MIGRATING=换载体中",
+ "_comment": "业务条线 + 工段登记表（2026-10-29 v2：CEO 指『不够细分』→ 每线拆到工序）。机器可判字段：证据目录（产出新鲜度）、owner（谁判）、model（算什么档）、lane（哪台机跑）。规则正文仍在各正典，不复制法条。",
+ "_verdicts": "WORKING=队列里有本段活 / WAITING=未超期 / STALLED=超期无产出 / BLOCKED=有活无车道 / PARKED=CEO 令停",
+ "default_stale_after_h": 48,
  "lines": [
-  {"id": "bigstream-mv", "name": "BigStream·MV 41 曲", "repos": [], "evidence": ["cph4/fleet/mv-album-001-jay", "cph4/fleet/mv0001-handover"], "queue_prefix": ["Q-MV-", "R-MV-"], "stale_after_h": 24, "owner": "导演席（CEO 终审）", "gate": "cph4/fleet/VIDEO-QC-GATES-GSV-v1.md", "status": "ACTIVE", "note": "mv0001 v717 已过闸机面，待逐镜修复计划；v718 重建规则已证伪并回撤"},
-  {"id": "bigstream-drama", "name": "BigStream·漫剧", "repos": [], "evidence": ["cph4/fleet/drama-dept-v1"], "queue_prefix": ["Q-DRAMA-"], "stale_after_h": 48, "owner": "漫剧席 @bm-b", "gate": "cph4/fleet/VIDEO-QC-GATES-GSV-v1.md", "status": "BLOCKED", "note": "素材与混音在 bm-b；bm-b 根仓库工作树分叉，新执行器落不了地"},
-  {"id": "bigstream-duanju", "name": "BigStream·短剧", "repos": [], "evidence": ["cph4/fleet/duanju-dept-v1"], "queue_prefix": ["Q-DUANJU-"], "stale_after_h": 72, "owner": "短剧席", "gate": "cph4/fleet/VIDEO-QC-GATES-GSV-v1.md", "status": "ACTIVE", "note": "《十秒人生》剧本 v1.1 复核 PASS，候 KF 试构图"},
-  {"id": "bigstream-shortvideo", "name": "BigStream·短视频/切片", "repos": [], "evidence": ["cph4/fleet/shortvideo-dept", "cph4/fleet/video-remix-dept", "cph4/fleet/meme-daily-v1"], "queue_prefix": ["Q-SV-", "Q-REMIx-"], "stale_after_h": 168, "owner": "短视频席", "gate": "", "status": "PARKED", "note": "CEO 2026-10-17 判「太烂」停产；不派活、不计闲置"},
-  {"id": "biggame", "name": "Biggame·游戏", "repos": ["gaming/MiniGame"], "evidence": [], "queue_prefix": ["Q-GAME-"], "stale_after_h": 24, "owner": "游戏席", "gate": "gaming/MiniGame/Design/configs/GLOBAL", "status": "ACTIVE", "note": "吸嘟嘟家庭版/车机版在研；自动跑游戏包被 CEO 禁止"},
-  {"id": "fluxverse", "name": "FluxVerse·元宙城", "repos": ["gaming/FluxVerse"], "evidence": [], "queue_prefix": ["Q-CITY-"], "stale_after_h": 36, "owner": "城市线（CEO 第一检查入口）", "gate": "gaming/FluxVerse/world", "status": "ACTIVE", "note": "City3D 装配 + 可视化每日刷新"},
-  {"id": "bigmoney", "name": "BigMoney·量化", "repos": ["quant/bigmoney"], "evidence": [], "queue_prefix": ["Q-QUANT-"], "stale_after_h": 24, "owner": "量化席 @bm-b/bm-d", "gate": "quant/bigmoney/results/automation_line_audit.json", "status": "ACTIVE", "note": "W 波自跑；真金红线永不全自动"},
-  {"id": "bigdomain", "name": "BigDomain·硅基域商业化", "repos": ["domain/BigDomain"], "evidence": [], "queue_prefix": ["Q-DOMAIN-"], "stale_after_h": 36, "owner": "域运营席", "gate": "", "status": "ACTIVE", "note": "模拟态授权：收款 MOCK，上线前问题归零"},
-  {"id": "bigcompute", "name": "BigCompute·硅基算力", "repos": ["compute/BigCompute"], "evidence": [], "queue_prefix": ["Q-COMPUTE-"], "stale_after_h": 36, "owner": "算力中枢席", "gate": "", "status": "ACTIVE", "note": "P1 成交环+私域分发环"},
-  {"id": "biglife", "name": "BigLife·数字生命", "repos": ["life/BigLife"], "evidence": [], "queue_prefix": ["Q-LIFE-"], "stale_after_h": 48, "owner": "生命生产席", "gate": "life/BigLife/census", "status": "ACTIVE", "note": "census 已解禁；入册必过 12 条生命体征机器闸"},
-  {"id": "bighouse", "name": "BigHouse·城市安家", "repos": ["house/BigHouse"], "evidence": [], "queue_prefix": ["Q-HOUSE-"], "stale_after_h": 72, "owner": "生态运营席", "gate": "", "status": "ACTIVE", "note": "三柱=安家/邻里/共长；近 275h 无提交"},
-  {"id": "car-gaming", "name": "车机游戏 BU", "repos": [], "evidence": ["cph4/fleet/car-gaming-v1"], "queue_prefix": ["Q-CAR-"], "stale_after_h": 72, "owner": "车机 BU", "gate": "gaming/MiniGame/09_吸嘟嘟GimmeAll/GimmeAll/Tools/car_adapt_check.py", "status": "ACTIVE", "note": "研发与合规归本线；样机/版号/商务归 CEO"},
-  {"id": "recon", "name": "RECON·竞品拆解", "repos": [], "evidence": ["cph4/fleet/recon-dept-v1"], "queue_prefix": ["Q-RECON-"], "stale_after_h": 72, "owner": "拆解部", "gate": "", "status": "ACTIVE", "note": "拆完 48h 内必须出可玩原型或可看样片"}
+  {
+   "id": "bigstream-mv", "name": "BigStream·MV 41 曲", "owner": "导演席（CEO 终审）", "status": "ACTIVE",
+   "repos": [], "stale_after_h": 24, "queue_prefix": ["Q-MV-", "R-MV-"],
+   "stages": [
+    {"id": "mv-plan", "name": "立意/分镜", "owner": "导演席", "model": "cloud-smart", "evidence": ["cph4/fleet/mv-album-001-jay/anchors", "cph4/fleet/mv0001-handover/canon"]},
+    {"id": "mv-kf", "name": "关键帧", "owner": "导演席·美术", "model": "local-gpu", "lane": "bm-c", "evidence": ["cph4/fleet/mv-album-001-jay/local-i2v"]},
+    {"id": "mv-i2v", "name": "出片", "owner": "导演席", "model": "local-gpu", "lane": "bm-c", "evidence": ["D:/FluxGroup/media/mv-album-001-jay/clips-local-768"]},
+    {"id": "mv-cut", "name": "剪辑/装配", "owner": "剪辑席", "model": "none", "lane": "bm-a", "evidence": ["cph4/fleet/mv0001-handover/outbound"]},
+    {"id": "mv-gate", "name": "质检/交付", "owner": "质检席", "model": "none", "lane": "bm-a", "evidence": ["D:/FleetWorker/review"]},
+    {"id": "mv-approve", "name": "呈审", "owner": "CEO", "model": "none", "evidence": ["cph4/fleet/mv0001-handover/canon"]}
+   ]
+  },
+  {
+   "id": "bigstream-drama", "name": "BigStream·漫剧", "owner": "漫剧席", "status": "BLOCKED",
+   "repos": [], "stale_after_h": 48, "queue_prefix": ["Q-DRAMA-"],
+   "stages": [
+    {"id": "drama-script", "name": "剧本", "owner": "编剧席", "model": "cloud-smart", "evidence": ["cph4/fleet/drama-dept-v1"]},
+    {"id": "drama-kf", "name": "画面/分镜", "owner": "漫剧席", "model": "local-gpu", "lane": "bm-b", "evidence": ["media/drama-eps"]},
+    {"id": "drama-voice", "name": "配音", "owner": "声音席", "model": "local-llm", "lane": "bm-b", "evidence": ["media/drama-mix-out"]},
+    {"id": "drama-mix", "name": "混音/合成", "owner": "声音席", "model": "none", "lane": "bm-b", "evidence": ["media/drama-eps-audio"]}
+   ]
+  },
+  {
+   "id": "bigstream-duanju", "name": "BigStream·短剧", "owner": "短剧席", "status": "ACTIVE",
+   "repos": [], "stale_after_h": 72, "queue_prefix": ["Q-DUANJU-"],
+   "stages": [
+    {"id": "duanju-script", "name": "剧本", "owner": "编剧席", "model": "cloud-smart", "evidence": ["cph4/fleet/duanju-dept-v1"]},
+    {"id": "duanju-board", "name": "试构图", "owner": "短剧席", "model": "local-gpu", "lane": "bm-c", "evidence": ["cph4/fleet/duanju-dept-v1"]}
+   ]
+  },
+  {
+   "id": "bigstream-shortvideo", "name": "BigStream·短视频/切片", "owner": "短视频席", "status": "PARKED",
+   "repos": [], "stale_after_h": 168, "queue_prefix": ["Q-SV-"],
+   "stages": [
+    {"id": "sv-script", "name": "选题/脚本", "owner": "短视频席", "model": "cloud-smart", "evidence": ["cph4/fleet/meme-daily-v1"]},
+    {"id": "sv-cut", "name": "剪辑", "owner": "剪辑席", "model": "none", "lane": "bm-a", "evidence": ["cph4/fleet/video-remix-dept"]}
+   ]
+  },
+  {
+   "id": "biggame", "name": "Biggame·游戏", "owner": "游戏席", "status": "ACTIVE",
+   "repos": ["gaming/MiniGame"], "stale_after_h": 24, "queue_prefix": ["Q-GAME-"],
+   "stages": [
+    {"id": "game-design", "name": "玩法/数值", "owner": "游戏席", "model": "cloud-smart", "evidence": ["gaming/MiniGame/Design"]},
+    {"id": "game-art", "name": "美术资产", "owner": "美术席", "model": "local-gpu", "lane": "bm-c", "evidence": ["gaming/MiniGame/Art"]},
+    {"id": "game-build", "name": "构建/打包", "owner": "工程席", "model": "none", "lane": "bm-a", "evidence": ["gaming/MiniGame/Builds"]}
+   ]
+  },
+  {
+   "id": "fluxverse", "name": "FluxVerse·元宙城", "owner": "城市线", "status": "ACTIVE",
+   "repos": ["gaming/FluxVerse"], "stale_after_h": 36, "queue_prefix": ["Q-CITY-"],
+   "stages": [
+    {"id": "city-assemble", "name": "场景装配", "owner": "地编席", "model": "none", "lane": "bm-a", "evidence": ["gaming/FluxVerse/City3D"]},
+    {"id": "city-data", "name": "数据面", "owner": "城市线", "model": "none", "evidence": ["gaming/FluxVerse/world"]},
+    {"id": "city-viz", "name": "可视化", "owner": "城市线", "model": "none", "evidence": ["gaming/MiniGame/Design/configs/GLOBAL"]}
+   ]
+  },
+  {
+   "id": "bigmoney", "name": "BigMoney·量化", "owner": "量化席", "status": "ACTIVE",
+   "repos": ["quant/bigmoney"], "stale_after_h": 24, "queue_prefix": ["Q-QUANT-"],
+   "stages": [
+    {"id": "quant-data", "name": "数据", "owner": "数据席", "model": "none", "lane": "bm-b", "evidence": ["quant/bigmoney/data"]},
+    {"id": "quant-backtest", "name": "回测", "owner": "量化席", "model": "none", "lane": "bm-d", "evidence": ["quant/bigmoney/results"]},
+    {"id": "quant-audit", "name": "审计/闸", "owner": "风控席", "model": "none", "lane": "bm-b", "evidence": ["quant/bigmoney/results/automation_line_audit.json"]}
+   ]
+  },
+  {
+   "id": "bigdomain", "name": "BigDomain·硅基域商业化", "owner": "域运营席", "status": "ACTIVE",
+   "repos": ["domain/BigDomain"], "stale_after_h": 36, "queue_prefix": ["Q-DOMAIN-"],
+   "stages": [
+    {"id": "domain-lead", "name": "引流线索", "owner": "域运营席", "model": "none", "evidence": ["domain/BigDomain"]},
+    {"id": "domain-order", "name": "订单簿记", "owner": "域运营席", "model": "none", "evidence": ["domain/BigDomain"]}
+   ]
+  },
+  {
+   "id": "bigcompute", "name": "BigCompute·硅基算力", "owner": "算力中枢席", "status": "ACTIVE",
+   "repos": ["compute/BigCompute"], "stale_after_h": 36, "queue_prefix": ["Q-COMPUTE-"],
+   "stages": [
+    {"id": "compute-deal", "name": "成交环", "owner": "算力中枢席", "model": "cloud-smart", "evidence": ["compute/BigCompute"]}
+   ]
+  },
+  {
+   "id": "biglife", "name": "BigLife·数字生命", "owner": "生命生产席", "status": "ACTIVE",
+   "repos": ["life/BigLife"], "stale_after_h": 48, "queue_prefix": ["Q-LIFE-"],
+   "stages": [
+    {"id": "life-gen", "name": "人设生产", "owner": "生命生产席", "model": "local-llm", "evidence": ["life/BigLife/census"]},
+    {"id": "life-gate", "name": "生命体征闸", "owner": "质检席", "model": "none", "evidence": ["life/BigLife/census"]}
+   ]
+  },
+  {
+   "id": "bighouse", "name": "BigHouse·城市安家", "owner": "生态运营席", "status": "ACTIVE",
+   "repos": ["house/BigHouse"], "stale_after_h": 72, "queue_prefix": ["Q-HOUSE-"],
+   "stages": [
+    {"id": "house-movein", "name": "安家", "owner": "生态运营席", "model": "none", "evidence": ["house/BigHouse"]},
+    {"id": "house-neighbor", "name": "邻里/共长", "owner": "生态运营席", "model": "none", "evidence": ["house/BigHouse"]}
+   ]
+  },
+  {
+   "id": "car-gaming", "name": "车机游戏 BU", "owner": "车机 BU", "status": "ACTIVE",
+   "repos": [], "stale_after_h": 72, "queue_prefix": ["Q-CAR-"],
+   "stages": [
+    {"id": "car-market", "name": "市场/立项", "owner": "车机 BU", "model": "cloud-smart", "evidence": ["cph4/fleet/car-gaming-v1"]},
+    {"id": "car-build", "name": "研发/适配闸", "owner": "工程席", "model": "none", "lane": "bm-a", "evidence": ["gaming/MiniGame/09_吸嘟嘟GimmeAll/GimmeAll/Tools"]}
+   ]
+  },
+  {
+   "id": "recon", "name": "RECON·竞品拆解", "owner": "拆解部", "status": "ACTIVE",
+   "repos": [], "stale_after_h": 72, "queue_prefix": ["Q-RECON-"],
+   "stages": [
+    {"id": "recon-scan", "name": "扒榜/拆包", "owner": "拆解部", "model": "none", "lane": "bm-a", "evidence": ["cph4/fleet/recon-dept-v1"]},
+    {"id": "recon-proto", "name": "48h 原型", "owner": "拆解部", "model": "cloud-smart", "evidence": ["cph4/fleet/recon-dept-v1"]}
+   ]
+  }
  ]
 }

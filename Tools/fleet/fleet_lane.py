@@ -38,20 +38,44 @@ KV_BUCKET = "FLEET_STATE"
 # Lane capabilities. A lane is a machine role, not a wish: `needs` is matched against
 # these, `ram_floor_gb` is the minimum free RAM before the master will assign anything,
 # and `gpu_hours` is the CEO work-hour yield window (bm-a is the CEO's own desktop).
+#
+# Hardware is recorded as measured (nvidia-smi / meminfo), not by model reputation:
+#   bm-a RTX 4070 SUPER 12GB / 94GB RAM  - CEO desktop, yields 09-19 weekdays
+#   bm-b RTX 3070 8GB / 24GB RAM         - 8GB card: 480p animatic + audio, not 768p
+#   bm-c RTX 3070 16GB modded / 24GB RAM - production 768p; RAM is chronically tight
+#   bm-m M1 Pro 32GB (MacBook)           - no CUDA: iOS builds, office, CPU text only
+#   bm-d 3x V100 48GB / 256GB RAM        - assembly pending; when it joins it is the
+#                                          only box that can hold 768p batches + backtests
 LANES = {
     "bm-a": {"needs": ["cpu", "gpu"], "ram_floor_gb": 3.0, "gpu_hours": (9, 19),
-             "enabled": True, "roles": "hq-central night gpu", "game_launch_ok": False},
+             "enabled": True, "ram_gb": 94, "vram_gb": 12, "cuda": True,
+             "caps": ["cpu", "kf768", "i2v768", "audio", "assemble"],
+             "roles": "hq-central night gpu", "game_launch_ok": False},
     "bm-b": {"needs": ["cpu", "gpu"], "ram_floor_gb": 2.0, "gpu_hours": None,
-             "enabled": True, "roles": "cpu sound / small gpu", "game_launch_ok": False},
+             "enabled": True, "ram_gb": 24, "vram_gb": 8, "cuda": True,
+             "caps": ["cpu", "animatic480", "audio", "tts"],
+             "roles": "cpu sound / small gpu", "game_launch_ok": False},
     "bm-c": {"needs": ["cpu", "gpu"], "ram_floor_gb": 3.0, "gpu_hours": None,
-             "enabled": True, "roles": "gpu production", "game_launch_ok": False},
+             "enabled": True, "ram_gb": 24, "vram_gb": 16, "cuda": True,
+             "caps": ["cpu", "kf768", "i2v768", "audio", "render"],
+             "roles": "gpu production", "game_launch_ok": False},
+    # pending: joins by itself the moment it publishes a heartbeat on the bus
     "bm-m": {"needs": ["cpu"], "ram_floor_gb": 2.0, "gpu_hours": None,
-             "enabled": False, "roles": "master control / ios", "game_launch_ok": False},
+             "enabled": False, "pending": True, "auto_join": True,
+             "ram_gb": 32, "vram_gb": 0, "cuda": False,
+             "caps": ["cpu", "ios-build", "text"],
+             "roles": "master control / ios", "game_launch_ok": False},
     "bm-d": {"needs": ["cpu", "gpu"], "ram_floor_gb": 4.0, "gpu_hours": None,
-             "enabled": False, "roles": "brain / backtest", "game_launch_ok": False},
+             "enabled": False, "pending": True, "auto_join": True,
+             "ram_gb": 256, "vram_gb": 48, "cuda": True,
+             "caps": ["cpu", "kf768", "i2v768", "backtest", "brain"],
+             "roles": "brain / backtest / batch", "game_launch_ok": False},
 }
 
 ACTIVE_LANES = [n for n, v in LANES.items() if v.get("enabled")]
+# A pending box stops being theoretical the moment it reports: no code change needed when
+# bm-m finishes its Tailscale join or bm-d comes out of the rack.
+AUTO_JOIN = [n for n, v in LANES.items() if v.get("auto_join")]
 
 # Hard red line 2026-10-28 (CEO): never auto-launch a packaged game. Route spawns
 # through this deny list before anything runs; a job that trips it fails closed.
