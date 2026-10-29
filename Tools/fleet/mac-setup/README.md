@@ -52,13 +52,13 @@ STANDBY 是**正确状态**：总控现在还是 bm-a。Mac 只读、不写队�
 
 commit 之后，bm-a 下一轮自动打 STANDBY，Mac 接管。**同时只有一个总控**，不会两边抢活。
 
-## 六、可选：本地模型
+## 六、本地模型（32GB 统一内存，可以放大）
 
-只做文本类活用，一个 4B～9B 足够（约 3–6 GB）：
+32G 统一内存能跑 14B～27B 的量化模型（4-bit 约 8–16GB），文本/摘要/改写这类活质量会明显好于 4B。按需装一个主用模型即可：
 
 ```bash
 brew install ollama && ollama serve &
-ollama pull qwen3:4b-instruct
+ollama pull qwen3:14b        # 或 27B 的 4-bit 量化；车道自动取本机最大的那个
 ```
 
 模型名**不用写进配置**——车道会自动取那台机器上最大的模型。要省空间就别多装，一个够用。

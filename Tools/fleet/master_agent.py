@@ -301,10 +301,11 @@ def lane_capacity(node, fleet, needs="cpu", vram_min=0, job=None):
     spec = fl.LANES.get(node) or {}
     if spec.get("role_class") == "control":
         if needs == "gpu":
-            return False, "control node: no GPU work"
+            return False, "control node: no CUDA, GPU work goes elsewhere"
         if job is not None:
-            if job.get("heavy"):
-                return False, "control node: heavy work refused"
+            # 32GB unified memory is real capacity (CEO 2026-10-29): the Mac may take
+            # heavy CPU/text work. It just must not fill a 512GB disk or starve its own
+            # scheduling duties - hence a size guard, not a heavy-work ban.
             est = int(job.get("est_gb") or 0)
             cap_gb = int(spec.get("max_job_gb") or 2)
             if est > cap_gb:
@@ -354,7 +355,9 @@ def choose_lane(job, fleet, busy):
         st = (fleet.get(n) or {}).get("state") or {}
         load = float(st.get("cpu_load_pct") or 0)
         # GPU work prefers the production box; CPU work prefers the least loaded lane.
-        score = (0 if (needs == "gpu" and n == "bm-c") else 1, load)
+        penalty = 1 if ((fl.LANES[n].get("role_class") == "control" and job.get("heavy"))
+                        or fl.LANES[n].get("role_class") == "control") else 0
+        score = (0 if (needs == "gpu" and n == "bm-c") else 1, penalty, load)
         scored.append((score, n))
     scored.sort()
     if not scored:
