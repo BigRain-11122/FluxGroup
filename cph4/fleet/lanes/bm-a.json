@@ -1,19 +1,19 @@
 {
  "node": "bm-a",
- "ts": "2026-10-29T10:16:02",
+ "ts": "2026-10-29T10:22:02",
  "jobs": [
   {
-   "id": "R-MV-V718-AIGC",
-   "title": "mv0001 v718 AIGC 标识母版（0.4s 开门标识 + 尾帧）",
-   "cmd": "python Tools/mv_aigc_label.py \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\cph4\\fleet\\mv0001-handover\\outbound\\krea2\\30s-reel-v1\\full_mv_v718.mp4\" --out \"D:\\FleetWorker\\review\\v718_label\\full_mv_v718_aigc.mp4\" --preset medium --crf 16",
+   "id": "R-MV-V718-FIDELITY",
+   "title": "v718 AIGC 母版重编码保真（SSIM/PSNR <0.95 则高保真档重出）",
+   "cmd": "python Tools/mv_fidelity.py \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\cph4\\fleet\\mv0001-handover\\outbound\\krea2\\30s-reel-v1\\full_mv_v718.mp4\" \"D:\\FleetWorker\\review\\v718_label\\full_mv_v718_aigc.mp4\" --json \"D:\\FleetWorker\\review\\fidelity_v718.json\"",
    "cwd": "C:\\Users\\sjs20\\Desktop\\FluxGroup",
    "needs": "cpu",
-   "deliverable": "D:\\FleetWorker\\review\\v718_label\\full_mv_v718_aigc.mp4",
+   "deliverable": "D:\\FleetWorker\\review\\fidelity_v718.json",
    "need_mb": null,
-   "timeout_s": 2400
+   "timeout_s": 1200
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 14.5/3.0 GB"
+ "capacity_note": "ram 11.8/3.0 GB"
 }
