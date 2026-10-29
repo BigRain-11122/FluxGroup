@@ -76,9 +76,10 @@ LANES = {
              "role_class": "control", "disk_free_min_gb": 20, "max_job_gb": 20,
              "caps": ["cpu", "ios-build", "text", "llm", "audio", "tts"],
              "llm": {"endpoint": "http://127.0.0.1:11434",
-                     "model": "qwen3:8b",
+                     "model": "qwen3.5:35b-a3b",
+                     "think": False,
                      "keep_alive": "5m", "num_ctx": 8192,
-                     "why": "bm-m text 车道用 qwen3:8b：首token约5s、约22tok/s，远快于默认取35B(26s思考链)；num_ctx 8192 够摘要/改写，省内存给调度"},
+                     "why": "bm-m text 车道用 35B-a3b 关思考：MoE 实测 36 tok/s、3.4s 出结果（比 8B 快且质量高）；think:false 避免默认思考链 26s 首token等待；32GB 内存跑 21GB 模型余量足"},
              "roles": "control plane / ios / local llm / audio", "game_launch_ok": False},
     "bm-d": {"needs": ["cpu", "gpu"], "ram_floor_gb": 4.0, "gpu_hours": None,
              "enabled": False, "pending": True, "auto_join": True,
@@ -353,6 +354,7 @@ def local_llm(prompt, policy=None, timeout=120, node=None):
     # model gives the VRAM back when nobody is using it.
     body = json.dumps({"model": model, "prompt": prompt, "stream": False,
                        "keep_alive": (policy or {}).get("lane_local_llm", {}).get("keep_alive", "5m"),
+                       "think": spec.get("think", True),
                        "options": {"num_ctx": int((policy or {}).get("lane_local_llm", {}).get("num_ctx", 4096))},
                        }).encode()
     req = urllib.request.Request(base.rstrip("/") + "/api/generate", data=body,
