@@ -1,6 +1,6 @@
 {
- "ts": "2026-10-29T21:54:38",
- "cycle": 477,
+ "ts": "2026-10-29T22:05:07",
+ "cycle": 487,
  "queue": {
   "total": 35,
   "open": 0,
@@ -35,9 +35,9 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 28.0,
-   "cpu_load_pct": 35,
-   "ram_free_gb": 9.8,
+   "hb_age_s": 44.3,
+   "cpu_load_pct": 59,
+   "ram_free_gb": 10,
    "gpu_util_pct": 0,
    "job": null,
    "last_result": null,
@@ -47,7 +47,7 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.4,
+   "hb_age_s": 0.5,
    "cpu_load_pct": null,
    "ram_free_gb": 19.9,
    "gpu_util_pct": null,
@@ -56,19 +56,19 @@
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-10-29T21:53:37",
+    "ts": "2026-10-29T22:04:05",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 228
+   "idle_rounds": 238
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 228
+  "bm-m": 238
  },
  "lines": {
   "bigstream-mv": {
@@ -697,7 +697,7 @@
  "violations": [
   "bm-a OFFLINE",
   "bm-b OFFLINE",
-  "bm-m IDLE-CONFIRMED x228 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-m IDLE-CONFIRMED x238 (SELF-DISPATCH: lane scans its own backlo)",
   "LINE-BLOCKED bigstream-drama ()"
  ],
  "lane_files_written": []
