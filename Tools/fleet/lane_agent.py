@@ -67,8 +67,15 @@ def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
     jid = str(job.get("id") or "")
     cmd = str(job.get("cmd") or "")
     needs = str(job.get("needs") or "cpu")
-    if not jid or not cmd:
+    model = str(job.get("model") or "none")
+    prompt = str(job.get("prompt") or "")
+    if not jid:
         return {"id": jid, "rc": None, "note": "empty job"}
+    # local-small 活靠 prompt 而非 cmd（cmd 为空是正常的）
+    if model != "local-small" and not cmd:
+        return {"id": jid, "rc": None, "note": "empty job"}
+    if model == "local-small" and not prompt:
+        return {"id": jid, "rc": None, "note": "empty job (no prompt)"}
     if fl.game_launch_blocked(cmd):
         return {"id": jid, "rc": None, "note": "BLOCKED-GAME-LAUNCH (CEO 2026-10-28)"}
     if needs == "gpu" and not fl.gpu_window_open(node) and not allow_gpu_workhours:
