@@ -1,7 +1,7 @@
 # NEED-SUPPLY - why lanes and business lines are not running (#regenerated)
 
-- ts: 2026-10-29T17:54:18
-- queue: open=0 running=0 done=28 failed=0
+- ts: 2026-10-29T18:04:43
+- queue: open=0 running=0 done=30 failed=0
 - open jobs by need: cpu=0 gpu=0
 
 - bm-a: DAY-YIELD: work machine, takes over at 19:00 -> assign a card or declare work
