@@ -1,23 +1,8 @@
 {
  "node": "bm-c",
- "ts": "2026-10-30T10:43:53",
- "jobs": [
-  {
-   "id": "Q-ALIGN-20261030-BMC",
-   "title": "bm-c 对齐 bm-m 主控：跑 fleet-align.ps1（环境+任务+车道自检）",
-   "cmd": "powershell -NoProfile -ExecutionPolicy Bypass -File \"K:\\Fluxgroup\\FluxGroup\\Tools\\fleet-align.ps1\" -Node bm-c",
-   "cwd": "K:\\Fluxgroup\\FluxGroup",
-   "needs": "cpu",
-   "deliverable": "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\queue-receipts\\fleet-align-bm-c.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": 900
-  }
- ],
- "idle_reason": "",
+ "ts": "2026-10-30T11:31:07",
+ "jobs": [],
+ "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
  "lane_ok": true,
- "capacity_note": "ram 13.5/3.0 GB"
+ "capacity_note": "ram 10.5/3.0 GB"
 }
