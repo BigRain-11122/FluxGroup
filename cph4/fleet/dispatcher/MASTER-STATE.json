@@ -1,6 +1,6 @@
 {
- "ts": "2026-10-31T00:26:11",
- "cycle": 1710,
+ "ts": "2026-10-31T00:28:52",
+ "cycle": 1712,
  "queue": {
   "total": 46,
   "open": 3,
@@ -11,10 +11,10 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 41.4,
-   "cpu_load_pct": 60,
-   "ram_free_gb": 51.5,
-   "gpu_util_pct": 96,
+   "hb_age_s": 24.0,
+   "cpu_load_pct": 28,
+   "ram_free_gb": 52.5,
+   "gpu_util_pct": 93,
    "job": null,
    "last_result": {
     "job": null,
@@ -25,13 +25,13 @@
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 16
+   "idle_rounds": 18
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 2.2,
-   "cpu_load_pct": 9,
-   "ram_free_gb": 3.5,
+   "hb_age_s": 45.5,
+   "cpu_load_pct": 5,
+   "ram_free_gb": 5.6,
    "gpu_util_pct": null,
    "job": "Q-TTS-1202",
    "last_result": null,
@@ -41,10 +41,10 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 38.3,
-   "cpu_load_pct": 84,
-   "ram_free_gb": 10.4,
-   "gpu_util_pct": 0,
+   "hb_age_s": 21.6,
+   "cpu_load_pct": 34,
+   "ram_free_gb": 10.6,
+   "gpu_util_pct": 1,
    "job": "R-LLM-BMC-PROBE",
    "last_result": null,
    "idle_confirmed": false,
@@ -53,28 +53,28 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 1.2,
+   "hb_age_s": 57.4,
    "cpu_load_pct": null,
-   "ram_free_gb": 23.0,
+   "ram_free_gb": 22.6,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-10-31T00:24:22",
+    "ts": "2026-10-31T00:27:58",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 33
+   "idle_rounds": 35
   }
  },
  "idle_rounds": {
-  "bm-a": 16,
+  "bm-a": 18,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 33
+  "bm-m": 35
  },
  "lines": {
   "bigstream-mv": {
@@ -697,8 +697,8 @@
  "supply_added": [],
  "events": [],
  "violations": [
-  "bm-a IDLE-CONFIRMED x16 (SELF-DISPATCH: lane scans its own backlo)",
-  "bm-m IDLE-CONFIRMED x33 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-a IDLE-CONFIRMED x18 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-m IDLE-CONFIRMED x35 (SELF-DISPATCH: lane scans its own backlo)",
   "LINE-BLOCKED bigstream-drama ()"
  ],
  "lane_files_written": []

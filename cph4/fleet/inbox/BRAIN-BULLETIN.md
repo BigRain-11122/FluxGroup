@@ -1,5 +1,8 @@
 # 副大脑公告栏（bm-m 35B 每日产出·车道自动同步）
 
+- **2026-10-31** fleet-ops → [brain-fleet-ops-2026-10-31.md](/cph4/fleet/queue-receipts/brain-fleet-ops-2026-10-31.md)
+# 副大脑公告栏（bm-m 35B 每日产出·车道自动同步）
+
 - **2026-10-31** # 2026-10-28 竞品拆解晨报 → [brain-recon-2026-10-31.md](/cph4/fleet/queue-receipts/brain-recon-2026-10-31.md)
 # 副大脑公告栏（bm-m 35B 每日产出·车道自动同步）
 
