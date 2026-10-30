@@ -21,14 +21,47 @@ import fleet_lane as fl
 BACKLOG_REL = "cph4/fleet/PRODUCTION-BACKLOG.jsonl"
 
 
+_GIT_TREE = {"loaded": False, "paths": set()}
+
+
+def _git_paths(root):
+    """Authoritative file list for the whole repo. bm-m runs a SPARSE checkout, so
+    os.path.exists() on Tools/*.py is routinely False for files that DO exist on the
+    worker boxes (2026-10-30: that mis-lint killed 5 real mv0001 cards as 'phantom').
+    git ls-tree is the single source of truth and works regardless of checkout width."""
+    if not _GIT_TREE["loaded"]:
+        import subprocess
+        try:
+            r = subprocess.run(["git", "-C", root, "ls-tree", "-r", "--name-only", "HEAD"],
+                               capture_output=True, text=True, timeout=40)
+            if r.returncode == 0:
+                _GIT_TREE["paths"] = set(x.strip() for x in r.stdout.splitlines() if x.strip())
+        except Exception:
+            pass
+        _GIT_TREE["loaded"] = True
+    return _GIT_TREE["paths"]
+
+
 def _repo_has(root, rel):
-    """True if rel is a path inside the repo that exists (repo-relative check)."""
+    rel = rel.replace("\\", "/").lstrip("./")
+    if rel in _git_paths(root):
+        return True
     return os.path.exists(os.path.join(root, rel.replace("/", os.sep)))
+
+
+def _is_remote(pth):
+    import re
+    return bool(re.match(r"^[A-Za-z]:", pth.replace("\\\\", "/"))) or pth.startswith("/")
 
 
 def _structural_ok(card, root):
     if not card.get("id") or not card.get("cmd"):
         return False, "no id/cmd"
+    for req in (card.get("requires") or []):
+        if _is_remote(req):
+            continue          # lives on the assignee box; lane re-checks at claim time
+        if not _repo_has(root, req):
+            return False, "input missing in repo: %s" % req
     # referenced repo-relative tool paths (e.g. Tools/x.py, media/y/z.cmd) must exist
     cmd = card.get("cmd") or ""
     for token in cmd.replace('"', " ").replace("'", " ").split():
