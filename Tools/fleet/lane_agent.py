@@ -78,6 +78,18 @@ def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
         return {"id": jid, "rc": None, "note": "empty job (no prompt)"}
     if fl.game_launch_blocked(cmd):
         return {"id": jid, "rc": None, "note": "BLOCKED-GAME-LAUNCH (CEO 2026-10-28)"}
+    # CEO 2026-10-30 "缺什么让他自己装啊": self-heal the toolchain on THIS box, in the
+    # lane's own process, before spending a claim on a command that cannot run.
+    try:
+        import env_selfheal
+        _tool = env_selfheal.first_tool(cmd)
+        if _tool and not env_selfheal.have(_tool):
+            _ok, _det = env_selfheal.ensure(_tool)
+            if not _ok:
+                return {"id": jid, "rc": None,
+                        "note": "SELFHEAL-FAILED %s: %s" % (_tool, _det)}
+    except Exception as _e:
+        print("selfheal skipped:", str(_e)[:100])
     if needs == "gpu" and not fl.gpu_window_open(node) and not allow_gpu_workhours:
         return {"id": jid, "rc": None, "note": "DEFERRED-WORKHOUR-GPU-YIELD",
                 "defer": True}
