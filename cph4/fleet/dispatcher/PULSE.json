@@ -1,24 +1,24 @@
 {
- "ts": "2026-10-31T00:24:30+08:00",
+ "ts": "2026-10-31T00:26:19+08:00",
  "node": "bm-m",
- "sec": 42.4,
+ "sec": 49.3,
  "slow_ts": 1793377290.8097181,
  "git": "ok(committed-state)",
- "push": "failed:To github.com:BigRain-11122/FluxGroup.git ! [rejected] HEAD -> main (fetch first) error: failed to p",
+ "push": "ok+3",
  "stages": {
   "hb": {
    "rc": 0,
-   "sec": 11.0,
-   "tail": "HB bm-m seq=1543 offset=491.2ms"
+   "sec": 10.2,
+   "tail": "HB bm-m seq=1544 offset=491.7ms"
   },
   "master": {
    "rc": 0,
-   "sec": 19.0,
+   "sec": 21.8,
    "tail": "  LINES: BLOCKED=1, PARKED=1, WAITING=11"
   },
   "lane": {
    "rc": 0,
-   "sec": 0.9,
+   "sec": 1.2,
    "tail": "LANE-IDLE bm-m :: SELF-DISPATCH: lane scans its own backlog"
   },
   "inventory": {
@@ -81,7 +81,7 @@
   {
    "name": "com.fluxgroup.pulse",
    "ok": true,
-   "detail": "57755\t0\tcom.fluxgroup.pulse"
+   "detail": "58234\t0\tcom.fluxgroup.pulse"
   },
   {
    "name": "com.fluxgroup.dashboard",
