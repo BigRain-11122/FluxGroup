@@ -1,8 +1,8 @@
 {
  "node": "bm-a",
- "ts": "2026-10-30T17:55:34",
+ "ts": "2026-10-30T19:00:26",
  "jobs": [],
- "idle_reason": "DAY-YIELD: work machine, takes over at 19:00",
- "lane_ok": false,
- "capacity_note": "work machine daytime yield (09:00-19:00)"
+ "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+ "lane_ok": true,
+ "capacity_note": "ram 42.5/3.0 GB"
 }
