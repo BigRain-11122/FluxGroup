@@ -9,8 +9,19 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import fleet_lane as fl
 
 def _run_contingency():
-    """每次刷新前先跑预案引擎（20s 环=预案环，独立于 60s 主控环·双环冗余）"""
+    """Watchdog only: run the contingency engine when the pulse itself looks stalled.
+
+    2026-10-30: this ran every 20s alongside the 60s pulse and the 120s master, so three
+    processes wrote the same state files and the engine crashed on a temp-file race. The
+    pulse now owns the tick (master_pulse.py, single lock); this stays as an independent
+    dead-man switch for when the pulse is late or dead.
+    """
     try:
+        p = os.path.join(ROOT, 'cph4/fleet/dispatcher/PULSE.json')
+        age = time.time() - os.path.getmtime(p) if os.path.exists(p) else 1e9
+        if age < 180:
+            return
+        print('pulse-stale %.0fs -> contingency watchdog' % age)
         import fleet_contingency
         fleet_contingency.main()
     except Exception as e:
@@ -19,7 +30,7 @@ def _run_contingency():
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 OUT = os.path.join(ROOT, "fleet-console.html")
 names = {'bm-a':'公司生产力','bm-b':'小钢炮','bm-c':'传家宝','bm-m':'MacBook Pro','bm-d':'算力大脑'}
-role = {'bm-a':'中枢·装配·夜GPU','bm-b':'声音·TTS·480P','bm-c':'KF·出片·画质','bm-m':'主控·调度·35B','bm-d':'大脑·回测(未装)'}
+role = {'bm-a':'中枢·装配·夜GPU','bm-b':'声音·TTS·480P','bm-c':'KF·出片·画质','bm-m':'主控·调度·判读','bm-d':'大脑·回测(未装)'}
 
 def main():
     _run_contingency()

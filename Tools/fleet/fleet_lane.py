@@ -119,9 +119,16 @@ def read_jsonl(path):
     return rows
 
 
+def _atomic_tmp(path):
+    # A fixed "<path>.tmp" crashed the contingency engine on 2026-10-30: dashboard,
+    # member and master all write the same state file, so one process renamed the
+    # other's temp file away (FileNotFoundError on os.replace). Unique per writer.
+    return "%s.%d.%d.tmp" % (path, os.getpid(), time.time_ns())
+
+
 def write_jsonl(path, rows):
     os.makedirs(os.path.dirname(path), exist_ok=True)
-    tmp = path + ".tmp"
+    tmp = _atomic_tmp(path)
     with open(tmp, "w", encoding="utf-8") as f:
         for r in rows:
             f.write(json.dumps(r, ensure_ascii=False) + "\n")
@@ -138,7 +145,7 @@ def read_json(path, default=None):
 
 def write_json(path, obj):
     os.makedirs(os.path.dirname(path), exist_ok=True)
-    tmp = path + ".tmp"
+    tmp = _atomic_tmp(path)
     with open(tmp, "w", encoding="utf-8") as f:
         json.dump(obj, f, ensure_ascii=False, indent=1)
     os.replace(tmp, path)
