@@ -1,0 +1,290 @@
+{
+ "batch": "C2172",
+ "purpose": "quantify the near-black claim from the C2171 cut board (KN16-18, KN21)",
+ "metric": "ffmpeg signalstats YAVG per frame, mean/min over the whole clip; dark = mean YAVG < 35",
+ "dark_count": 5,
+ "dark": [
+  {
+   "unit": "KN_A-KN21",
+   "frames": 362,
+   "yavg_mean": 23.33,
+   "yavg_min": 20.47,
+   "yavg_max": 36.88,
+   "ylow_mean": 16.58
+  },
+  {
+   "unit": "KN_A-KN25",
+   "frames": 141,
+   "yavg_mean": 27.28,
+   "yavg_min": 27.14,
+   "yavg_max": 27.44,
+   "ylow_mean": 17.01
+  },
+  {
+   "unit": "KN_A-KN17",
+   "frames": 260,
+   "yavg_mean": 30.3,
+   "yavg_min": 28.98,
+   "yavg_max": 33.51,
+   "ylow_mean": 22.03
+  },
+  {
+   "unit": "KN_A-KN23",
+   "frames": 90,
+   "yavg_mean": 30.34,
+   "yavg_min": 27.8,
+   "yavg_max": 31.98,
+   "ylow_mean": 16.0
+  },
+  {
+   "unit": "KN_A-KN18",
+   "frames": 218,
+   "yavg_mean": 33.3,
+   "yavg_min": 32.21,
+   "yavg_max": 34.13,
+   "ylow_mean": 25.81
+  }
+ ],
+ "all": [
+  {
+   "unit": "KN_A-KN01",
+   "frames": 175,
+   "yavg_mean": 86.16,
+   "yavg_min": 76.49,
+   "yavg_max": 93.93,
+   "ylow_mean": 20.11
+  },
+  {
+   "unit": "KN_A-KN02",
+   "frames": 175,
+   "yavg_mean": 83.07,
+   "yavg_min": 72.99,
+   "yavg_max": 89.22,
+   "ylow_mean": 17.92
+  },
+  {
+   "unit": "KN_A-KN03",
+   "frames": 226,
+   "yavg_mean": 77.98,
+   "yavg_min": 71.25,
+   "yavg_max": 83.51,
+   "ylow_mean": 26.26
+  },
+  {
+   "unit": "KN_A-KN04",
+   "frames": 175,
+   "yavg_mean": 112.34,
+   "yavg_min": 86.4,
+   "yavg_max": 119.54,
+   "ylow_mean": 64.29
+  },
+  {
+   "unit": "KN_A-KN05",
+   "frames": 175,
+   "yavg_mean": 64.37,
+   "yavg_min": 52.31,
+   "yavg_max": 92.3,
+   "ylow_mean": 22.38
+  },
+  {
+   "unit": "KN_A-KN06",
+   "frames": 158,
+   "yavg_mean": 56.95,
+   "yavg_min": 52.53,
+   "yavg_max": 61.72,
+   "ylow_mean": 16.97
+  },
+  {
+   "unit": "KN_A-KN07",
+   "frames": 175,
+   "yavg_mean": 45.08,
+   "yavg_min": 43.85,
+   "yavg_max": 46.16,
+   "ylow_mean": 17.0
+  },
+  {
+   "unit": "KN_A-KN08",
+   "frames": 141,
+   "yavg_mean": 63.75,
+   "yavg_min": 50.54,
+   "yavg_max": 77.96,
+   "ylow_mean": 20.63
+  },
+  {
+   "unit": "KN_A-KN09",
+   "frames": 73,
+   "yavg_mean": 43.52,
+   "yavg_min": 39.78,
+   "yavg_max": 46.34,
+   "ylow_mean": 20.32
+  },
+  {
+   "unit": "KN_A-KN10",
+   "frames": 90,
+   "yavg_mean": 65.75,
+   "yavg_min": 54.14,
+   "yavg_max": 80.08,
+   "ylow_mean": 20.19
+  },
+  {
+   "unit": "KN_A-KN11",
+   "frames": 90,
+   "yavg_mean": 60.02,
+   "yavg_min": 56.63,
+   "yavg_max": 67.2,
+   "ylow_mean": 18.38
+  },
+  {
+   "unit": "KN_A-KN12",
+   "frames": 90,
+   "yavg_mean": 48.06,
+   "yavg_min": 43.89,
+   "yavg_max": 52.62,
+   "ylow_mean": 17.83
+  },
+  {
+   "unit": "KN_A-KN13",
+   "frames": 226,
+   "yavg_mean": 52.47,
+   "yavg_min": 51.47,
+   "yavg_max": 53.4,
+   "ylow_mean": 17.0
+  },
+  {
+   "unit": "KN_A-KN14",
+   "frames": 192,
+   "yavg_mean": 49.39,
+   "yavg_min": 45.99,
+   "yavg_max": 55.98,
+   "ylow_mean": 18.0
+  },
+  {
+   "unit": "KN_A-KN15",
+   "frames": 277,
+   "yavg_mean": 94.37,
+   "yavg_min": 91.95,
+   "yavg_max": 118.29,
+   "ylow_mean": 26.58
+  },
+  {
+   "unit": "KN_A-KN16",
+   "frames": 294,
+   "yavg_mean": 64.79,
+   "yavg_min": 63.83,
+   "yavg_max": 66.24,
+   "ylow_mean": 23.39
+  },
+  {
+   "unit": "KN_A-KN17",
+   "frames": 260,
+   "yavg_mean": 30.3,
+   "yavg_min": 28.98,
+   "yavg_max": 33.51,
+   "ylow_mean": 22.03
+  },
+  {
+   "unit": "KN_A-KN18",
+   "frames": 218,
+   "yavg_mean": 33.3,
+   "yavg_min": 32.21,
+   "yavg_max": 34.13,
+   "ylow_mean": 25.81
+  },
+  {
+   "unit": "KN_A-KN19",
+   "frames": 141,
+   "yavg_mean": 57.63,
+   "yavg_min": 40.75,
+   "yavg_max": 74.07,
+   "ylow_mean": 24.61
+  },
+  {
+   "unit": "KN_A-KN20",
+   "frames": 107,
+   "yavg_mean": 61.08,
+   "yavg_min": 51.2,
+   "yavg_max": 67.31,
+   "ylow_mean": 28.48
+  },
+  {
+   "unit": "KN_A-KN20b",
+   "frames": 107,
+   "yavg_mean": 43.91,
+   "yavg_min": 37.69,
+   "yavg_max": 63.5,
+   "ylow_mean": 24.9
+  },
+  {
+   "unit": "KN_A-KN21",
+   "frames": 362,
+   "yavg_mean": 23.33,
+   "yavg_min": 20.47,
+   "yavg_max": 36.88,
+   "ylow_mean": 16.58
+  },
+  {
+   "unit": "KN_A-KN22a",
+   "frames": 209,
+   "yavg_mean": 40.86,
+   "yavg_min": 36.46,
+   "yavg_max": 45.49,
+   "ylow_mean": 16.21
+  },
+  {
+   "unit": "KN_A-KN22b",
+   "frames": 209,
+   "yavg_mean": 48.56,
+   "yavg_min": 35.75,
+   "yavg_max": 52.4,
+   "ylow_mean": 19.23
+  },
+  {
+   "unit": "KN_A-KN23",
+   "frames": 90,
+   "yavg_mean": 30.34,
+   "yavg_min": 27.8,
+   "yavg_max": 31.98,
+   "ylow_mean": 16.0
+  },
+  {
+   "unit": "KN_A-KN24",
+   "frames": 107,
+   "yavg_mean": 84.36,
+   "yavg_min": 54.91,
+   "yavg_max": 115.78,
+   "ylow_mean": 24.55
+  },
+  {
+   "unit": "KN_A-KN25",
+   "frames": 141,
+   "yavg_mean": 27.28,
+   "yavg_min": 27.14,
+   "yavg_max": 27.44,
+   "ylow_mean": 17.01
+  },
+  {
+   "unit": "KN_A-KN28",
+   "frames": 226,
+   "yavg_mean": 54.18,
+   "yavg_min": 44.33,
+   "yavg_max": 57.33,
+   "ylow_mean": 19.12
+  },
+  {
+   "unit": "KN_A-KN29",
+   "frames": 192,
+   "yavg_mean": 65.42,
+   "yavg_min": 54.46,
+   "yavg_max": 80.34,
+   "ylow_mean": 18.76
+  },
+  {
+   "unit": "KN_A-KN30",
+   "frames": 124,
+   "yavg_mean": 62.68,
+   "yavg_min": 55.56,
+   "yavg_max": 67.74,
+   "ylow_mean": 17.0
+  }
+ ]
+}

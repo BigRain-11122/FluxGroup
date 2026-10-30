@@ -1630,6 +1630,26 @@
    "claimed_ts": "2026-10-30T11:01:00",
    "done_ts": "2026-10-30T23:32:56",
    "done_note": "CLOSED 2026-10-30 by bm-c: ran and every phase-2 target already existed -> all SKIP, log tail LOOKDEV2-DONE 0.0min (media/mv-album-001-jay/logs/lookdev2.out.log, 443B). Nothing to burn."
+  },
+  {
+   "id": "kn21-reburn-gated-c2172",
+   "status": "pending",
+   "priority": 2,
+   "created_ts": "2026-10-30T23:34:55",
+   "auth": "C2172 luma+lift verdict: KN_A-KN21 is not a scene at all - lifted it reads as full-frame glyph noise (YAVG 23.33 mean, 20.47 min). C2170 pseudotext class in its extreme form. Lift cannot fix it; it needs a re-burn.",
+   "require": {
+    "files_at_least": [
+     [
+      "cph4/fleet/mv-album-001-jay",
+      "PROMPT-GATE-\\u53ef\\u7231\\u5973\\u4eba-i2v-KN21-RETRY-v1-SIGN.md",
+      1
+     ]
+    ]
+   },
+   "cmd": [],
+   "log_out": "media/mv-album-001-jay/logs/kn21_reburn.out.log",
+   "log_err": "media/mv-album-001-jay/logs/kn21_reburn.err.log",
+   "note": "Blocked on a signed prompt gate for the single KN21 retry: the current prompt produced glyph soup. Authoring step (zero GPU): rewrite KN21 prompt (rooftop night + paper plane crossing, no text/glyph words, explicit camera move), run Tools/preflight_gate.py guard() to empty, then emit a one-unit manifest and burn 1344x768 int8. Also decide KN17/KN18/KN25: stars/empty plate may be accepted with a light lift instead of a re-burn."
   }
  ],
  "_note_20261026": "lookdev-20261025 batch (K:/Fluxgroup/.codely-cli/tmp/lookdev_bank.py) runs outside the bank by design as decision support for the CEO 2026-10-25 22:4x new-process order; it is not KF and not a final, so it does not violate the D1-before-KF gate. Authorized by O-20261026-0735 sec.4."

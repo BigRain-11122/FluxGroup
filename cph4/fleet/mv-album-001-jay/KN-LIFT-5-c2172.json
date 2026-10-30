@@ -1,0 +1,55 @@
+{
+ "batch": "C2172",
+ "gamma": 1.45,
+ "black_lift": 0.035,
+ "targets": [
+  "KN_A-KN21",
+  "KN_A-KN25",
+  "KN_A-KN17",
+  "KN_A-KN23",
+  "KN_A-KN18"
+ ],
+ "rows": [
+  {
+   "unit": "KN_A-KN21",
+   "src": "K:\\Fluxgroup\\FluxGroup\\media\\mv-album-001-jay\\clips-local-768\\KN_A-KN21.mp4",
+   "out": "K:\\Fluxgroup\\FluxGroup\\media\\mv-album-001-jay\\clips-review-lift-c2172\\KN_A-KN21-lift.mp4",
+   "yavg_before": 23.33,
+   "yavg_after": 60.56,
+   "bytes": 9679666
+  },
+  {
+   "unit": "KN_A-KN25",
+   "src": "K:\\Fluxgroup\\FluxGroup\\media\\mv-album-001-jay\\clips-local-768\\KN_A-KN25.mp4",
+   "out": "K:\\Fluxgroup\\FluxGroup\\media\\mv-album-001-jay\\clips-review-lift-c2172\\KN_A-KN25-lift.mp4",
+   "yavg_before": 27.28,
+   "yavg_after": 65.19,
+   "bytes": 500840
+  },
+  {
+   "unit": "KN_A-KN17",
+   "src": "K:\\Fluxgroup\\FluxGroup\\media\\mv-album-001-jay\\clips-local-768\\KN_A-KN17.mp4",
+   "out": "K:\\Fluxgroup\\FluxGroup\\media\\mv-album-001-jay\\clips-review-lift-c2172\\KN_A-KN17-lift.mp4",
+   "yavg_before": 30.3,
+   "yavg_after": 69.72,
+   "bytes": 4044469
+  },
+  {
+   "unit": "KN_A-KN23",
+   "src": "K:\\Fluxgroup\\FluxGroup\\media\\mv-album-001-jay\\clips-local-768\\KN_A-KN23.mp4",
+   "out": "K:\\Fluxgroup\\FluxGroup\\media\\mv-album-001-jay\\clips-review-lift-c2172\\KN_A-KN23-lift.mp4",
+   "yavg_before": 30.34,
+   "yavg_after": 68.48,
+   "bytes": 880077
+  },
+  {
+   "unit": "KN_A-KN18",
+   "src": "K:\\Fluxgroup\\FluxGroup\\media\\mv-album-001-jay\\clips-local-768\\KN_A-KN18.mp4",
+   "out": "K:\\Fluxgroup\\FluxGroup\\media\\mv-album-001-jay\\clips-review-lift-c2172\\KN_A-KN18-lift.mp4",
+   "yavg_before": 33.3,
+   "yavg_after": 73.43,
+   "bytes": 17921954
+  }
+ ],
+ "note": "Review variants only. Sources untouched. This is the cheap branch of the fix: if the human vote says the shots still read as empty, the shots need a re-burn with a different light setup, not more gamma."
+}
