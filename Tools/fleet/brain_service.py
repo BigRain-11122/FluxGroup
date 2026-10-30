@@ -3,8 +3,10 @@
 
 Master was already dispatch + judgment seat. This adds the production leg: every
 business line gets one concrete text deliverable per workday, written by the resident
-35B from REAL repo documents (origin_blob reads git, so sparse checkout is no barrier),
-committed to queue-receipts/, and announced in the daily bulletin that lanes pull.
+model (qwen3:4b-instruct by default; 2026-10-30 bench on this 32GB M1 Pro: 4B 8k=3.3GB/
+41.6 tok/s vs 35B-A3B 22.0GB/29-40 tok/s with 14-21s cold load) from REAL repo documents
+(origin_blob reads git, so sparse checkout is no barrier), committed to queue-receipts/,
+and announced in the daily bulletin that lanes pull.
 
 Cost design: one line per tick (7 lines -> full sweep ~7 min at 60s ticks), each call
 <=90s, so the control loop never starves. Zero cloud tokens -- local brain only.
@@ -93,7 +95,7 @@ def produce(root, line, task, src):
     if not ex:
         return None, "no-excerpt"
     allowed = set(re.findall(r"[A-Za-z0-9_./-]+\.(?:md|json|py|txt)", ex))
-    prompt = ("你是 FluxGroup 机队的副大脑 bm-m（本地35B）。只依据下面给出的仓库摘录写作，"
+    prompt = ("你是 FluxGroup 机队的副大脑 bm-m（本地判读席）。只依据下面给出的仓库摘录写作，"
               "严禁编造文件名、人名、数字、路径；正文中出现的每个文件名都必须逐字来自摘录清单："
               "%s。证据不足就写『需补充：…』。\n任务：%s\n"
               "格式：Markdown，标题用今天日期，<=350字，最后一段是【给谁·下一步】。\n\n"
@@ -109,8 +111,9 @@ def produce(root, line, task, src):
         ans += "\n\n> ⚠️ 引用核验未过（主控已标记，请勿据此行动）：%s" % ", ".join(sorted(ghost))
     safe = re.sub(r"[^a-z0-9-]", "-", line)
     path = os.path.join(root, RECEIPT_DIR, "brain-%s-%s.md" % (safe, _today()))
+    model_used = (fl.LANES.get("bm-m", {}).get("llm") or {}).get("model") or "local"
     with open(path, "w", encoding="utf-8") as f:
-        f.write(ans.strip() + "\n\n---\n*副大脑 bm-m · qwen3.5:35b-a3b 本地产出 · 依据仓库摘录*\n")
+        f.write(ans.strip() + "\n\n---\n*副大脑 bm-m · %s 本地产出 · 依据仓库摘录*\n" % model_used)
     return path, "ok"
 
 

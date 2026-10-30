@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
-"""local_judge.py - answer the smart-tier judgment queue with bm-m's local 35B.
+"""local_judge.py - answer the smart-tier judgment queue with bm-m's local model.
 
 CEO 2026-10-30: 云端额度要用完了 -- the cloud-smart seat is closed until he reopens it.
-Every OPEN judgment gets answered locally instead (qwen3.5:35b-a3b, no-think, resident).
-The answer carries model="local:qwen3.5:35b-a3b" so the audit trail shows exactly which
+Every OPEN judgment gets answered locally instead (default qwen3:4b-instruct, no-think,
+short lease; 2026-10-30 bench: 4B 8k=3.3GB/41.6 tok/s vs 35B-A3B 22.0GB/29-40 tok/s with
+14-21s cold load, so the control plane judges with 4B and leaves 35B to on-demand use).
+The answer carries model="local:<model>" so the audit trail shows exactly which
 brain said it. D-20261030-01 lesson baked in: the prompt FORBIDS inventing tools/paths;
 the judge may only cite evidence given to it, and must say "需要人工" when unsure.
 """
@@ -14,7 +16,9 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import fleet_lane as fl
 
-MAX_PER_CYCLE = 3   # 35B ~30s/judgment -> fits inside the 60s tick with margin
+MAX_PER_CYCLE = 3   # 4B ~3.5s/judgment on the real queue -> fits the 60s tick with margin
+
+JUDGE_MODEL = (fl.LANES.get("bm-m", {}).get("llm") or {}).get("model") or "qwen3:4b-instruct"
 
 PROMPT = """你是机队主控的本地判断席（只依据给定证据回答，严禁编造不存在的工具、命令或路径；证据不足就回答"需要人工裁决+原因"）。
 问题：{question}
@@ -40,7 +44,7 @@ def main():
             continue
         r["state"] = "ANSWERED"
         r["answer"] = str(ans).strip()[:500]
-        r["model"] = "local:qwen3.5:35b-a3b"
+        r["model"] = "local:" + JUDGE_MODEL
         r["answered_at"] = fl.now_iso()
         n += 1
     if n:

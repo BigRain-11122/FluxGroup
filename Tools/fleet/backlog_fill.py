@@ -4,14 +4,24 @@ master_agent.py and lane_agent.py import (they put os.path.dirname(HERE)=Tools o
 sys.path). Keeping two copies drifted apart for real: on 2026-10-30 fixes landed here
 while the workers loaded the other file, so nothing changed for them. Do not add logic
 here; add it to Tools/backlog_fill.py.
+
+2026-10-30 fix: a bare `from backlog_fill import fill` resolves to THIS file whenever
+Tools/fleet is earlier on sys.path (inventory_guard.py runs from there), which raised
+"cannot import name 'fill' from 'backlog_fill'" and starved bm-a every tick. Load the
+real file by explicit path so the module identity can never be ambiguous.
 """
+import importlib.util
 import os
-import sys
 
 _TOOLS = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-if _TOOLS not in sys.path:
-    sys.path.insert(0, _TOOLS)
+_REAL = os.path.join(_TOOLS, "backlog_fill.py")
 
-from backlog_fill import (  # noqa: E402,F401
-    fill, _fill_manifest, _git_paths, _tool_ok, _checkable,
-)
+_spec = importlib.util.spec_from_file_location("_live_backlog_fill", _REAL)
+_mod = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(_mod)
+
+fill = _mod.fill
+_fill_manifest = _mod._fill_manifest
+_git_paths = _mod._git_paths
+_tool_ok = _mod._tool_ok
+_checkable = _mod._checkable

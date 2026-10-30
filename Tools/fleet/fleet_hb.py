@@ -149,10 +149,14 @@ def host_stats():
             vm = subprocess.check_output(["vm_stat"]).decode()
             page = 4096
             free_pages = 0
+            # macOS "Pages free" alone is not usable memory; reclaimable pages sit in
+            # inactive/speculative/purgeable. Counting only free+inactive understated the
+            # box (2026-10-30: reported 4.3GB while 23GB was actually available).
             for line in vm.splitlines():
                 if "page size of" in line:
                     page = int(line.split("page size of")[1].split()[0])
-                if line.startswith("Pages free") or line.startswith("Pages inactive"):
+                if any(line.startswith(k) for k in (
+                        "Pages free", "Pages inactive", "Pages speculative", "Pages purgeable")):
                     free_pages += int(line.split(":")[1].strip().rstrip("."))
             stats["ram_free_gb"] = round(free_pages * page / 1e9, 1)
     except Exception:

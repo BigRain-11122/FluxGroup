@@ -1,0 +1,113 @@
+{
+ "ts": "2026-10-30T23:29:59+08:00",
+ "chip": "arm",
+ "env": {},
+ "swap_before_gb": 2.83,
+ "results": [
+  {
+   "model": "qwen3:4b-instruct",
+   "num_ctx": 8192,
+   "ctx_reported": 8192,
+   "resident_gb": 3.3,
+   "runs": [
+    {
+     "load_s": 0.83,
+     "prefill_tok_s": 272.6,
+     "decode_tok_s": 41.6,
+     "prompt_tokens": 47,
+     "gen_tokens": 96
+    },
+    {
+     "load_s": 0.83,
+     "prefill_tok_s": 287.9,
+     "decode_tok_s": 41.6,
+     "prompt_tokens": 47,
+     "gen_tokens": 96
+    }
+   ],
+   "load_s": 0.83,
+   "prefill_tok_s": 287.9,
+   "decode_tok_s": 41.6,
+   "swap_after_gb": 2.83
+  },
+  {
+   "model": "qwen3:4b-instruct",
+   "num_ctx": 16384,
+   "ctx_reported": 16384,
+   "resident_gb": 4.0,
+   "runs": [
+    {
+     "load_s": 0.82,
+     "prefill_tok_s": 263.2,
+     "decode_tok_s": 41.6,
+     "prompt_tokens": 47,
+     "gen_tokens": 96
+    },
+    {
+     "load_s": 0.83,
+     "prefill_tok_s": 281.6,
+     "decode_tok_s": 41.7,
+     "prompt_tokens": 47,
+     "gen_tokens": 96
+    }
+   ],
+   "load_s": 0.82,
+   "prefill_tok_s": 281.6,
+   "decode_tok_s": 41.7,
+   "swap_after_gb": 2.83
+  },
+  {
+   "model": "qwen3.5:35b-a3b",
+   "num_ctx": 8192,
+   "ctx_reported": 8192,
+   "resident_gb": 22.0,
+   "runs": [
+    {
+     "load_s": 21.07,
+     "prefill_tok_s": 5.4,
+     "decode_tok_s": 39.7,
+     "prompt_tokens": 49,
+     "gen_tokens": 96
+    },
+    {
+     "load_s": 19.34,
+     "prefill_tok_s": 7.1,
+     "decode_tok_s": 40.0,
+     "prompt_tokens": 49,
+     "gen_tokens": 96
+    }
+   ],
+   "load_s": 19.34,
+   "prefill_tok_s": 7.1,
+   "decode_tok_s": 40.0,
+   "swap_after_gb": 4.81
+  },
+  {
+   "model": "qwen3.5:35b-a3b",
+   "num_ctx": 16384,
+   "ctx_reported": 16384,
+   "resident_gb": 22.0,
+   "runs": [
+    {
+     "load_s": 16.94,
+     "prefill_tok_s": 7.7,
+     "decode_tok_s": 39.9,
+     "prompt_tokens": 49,
+     "gen_tokens": 96
+    },
+    {
+     "load_s": 14.15,
+     "prefill_tok_s": 12.2,
+     "decode_tok_s": 39.9,
+     "prompt_tokens": 49,
+     "gen_tokens": 96
+    }
+   ],
+   "load_s": 14.15,
+   "prefill_tok_s": 12.2,
+   "decode_tok_s": 39.9,
+   "swap_after_gb": 5.43
+  }
+ ],
+ "swap_after_all_gb": 5.42
+}
