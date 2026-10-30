@@ -1541,7 +1541,7 @@
   },
   {
    "id": "kn-pa768-harvest-c2169",
-   "status": "claimed",
+   "status": "done",
    "priority": 66,
    "auth": "station-3 gate for the KN A pack: the 30-unit 768P wave is burning (job 65), and its output is unread until every clip is probed, duplicate-run checked and sampled.",
    "require": {
@@ -1561,7 +1561,9 @@
    "log_err": "media/mv-album-001-jay/logs/kn_pa768_harvest.err.log",
    "note": "Zero GPU. Waits for ALBUM LANE DONE (or 30 stable clips), then per unit: ffprobe, framemd5 duplicate run, three native frames, two 5-column boards, verdict JSON KN-PA768-HARVEST-c2169.json. PASS gate = HARVEST-END ok=30 check=0.",
    "created_ts": "2026-10-24 06:1x",
-   "claimed_ts": "2026-10-24T14:45:59"
+   "claimed_ts": "2026-10-24T14:45:59",
+   "done_ts": "2026-10-30T11:07:28",
+   "done_note": "CLOSED by bm-c session 2026-10-30 accounting only, no re-burn: verdict on disk cph4/fleet/mv-album-001-jay/KN-PA768-HARVEST-c2169.json (written 2026-10-28 15:26) covers units=30 check=0; clips-local-768 holds 31 KN_A clips and the wave log tail reads ALBUM LANE DONE ok=30 fail=0."
   },
   {
    "id": "kn-pa-station4-conform-author-c2169",
@@ -1585,7 +1587,7 @@
   },
   {
    "id": "kn-pseudo-guard-c2170",
-   "status": "claimed",
+   "status": "done",
    "priority": 1,
    "auth": "C2170",
    "require": {},
@@ -1598,12 +1600,12 @@
    "note": "Zero GPU. Scans every landed KN_A-*.mp4 for the C2170 subtitle-band pseudo-text class (KN02 is a confirmed hit: a generated caption strip, clean keyframe, so it is a generator prior). Writes evidence-c2170/pseudotext-guard.json with halt_recommended. Never kills a burn.",
    "claimed_ts": "2026-10-24T15:00:59",
    "claimed_by": null,
-   "done_ts": null,
-   "done_note": null
+   "done_ts": "2026-10-30T11:07:28",
+   "done_note": "CLOSED by bm-c session 2026-10-30: scan actually executed (it had never run). BIRTH-GATE-END landed=31 pseudo=0 framing=5 defects=5 halt=YES -> media/mv-album-001-jay/evidence-c2170/pseudotext-guard.json. Subtitle pseudo-text class is clean; the 5 defects are framing: KN02 DRIFT, KN24 DRIFT, KN11/KN17/KN21 FLAT against push/locked intent. Practically this is a camera-motion miss on i2v, so station-4 conform stays gated until a director/QC call."
   },
   {
    "id": "lookdev2-mv-reboot-20261026",
-   "status": "pending",
+   "status": "claimed",
    "priority": 2,
    "auth": "CEO 2026-10-25 22:4x new-process order (D1 before KF) - look-dev is decision support not KF, see O-20261026-0735 sec.4",
    "require": {
@@ -1621,7 +1623,8 @@
    ],
    "log_out": "media/mv-album-001-jay/logs/lookdev2.out.log",
    "log_err": "media/mv-album-001-jay/logs/lookdev2.err.log",
-   "note": "phase 2 chained after lookdev_bank.py: LJ female looks + LJ/JD scene light setups; waits for phase-1 pythonw to exit before burning so two GPU clients never overlap. 27 stills ~45-50s each on the Krea2 lane."
+   "note": "phase 2 chained after lookdev_bank.py: LJ female looks + LJ/JD scene light setups; waits for phase-1 pythonw to exit before burning so two GPU clients never overlap. 27 stills ~45-50s each on the Krea2 lane.",
+   "claimed_ts": "2026-10-30T11:01:00"
   }
  ],
  "_note_20261026": "lookdev-20261025 batch (K:/Fluxgroup/.codely-cli/tmp/lookdev_bank.py) runs outside the bank by design as decision support for the CEO 2026-10-25 22:4x new-process order; it is not KF and not a final, so it does not violate the D1-before-KF gate. Authorized by O-20261026-0735 sec.4."
