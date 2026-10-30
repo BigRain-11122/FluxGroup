@@ -72,8 +72,25 @@ def _structural_ok(card, root):
     return True, ""
 
 
-def fill(root):
-    """Promote READY cards that pass the structural gate. Returns count added."""
+def _local_inputs_ok(card, node):
+    """For lane self-dispatch: the card is runnable HERE only if its declared inputs
+    exist on this machine and its deliverable is not already produced. The master cannot
+    know this (different box, sparse checkout) -- the lane does. (2026-10-30: lane_agent
+    has called fill(root, node) all along while the signature was fill(root); the
+    TypeError was swallowed by the except in self_dispatch, so self-dispatch had been
+    silently dead the whole time. This closes that hole properly.)"""
+    for req in (card.get("requires") or []) + (card.get("when_all") or []):
+        if not os.path.exists(req):
+            return False
+    out = card.get("deliverable") or ""
+    if out and os.path.exists(out):
+        return False
+    return True
+
+
+def fill(root, node=None):
+    """Promote READY cards that pass the gate. node=None -> master pass (structural
+    lint only); node='bm-b' -> lane pass (also require the inputs on THIS machine)."""
     bpath = os.path.join(root, BACKLOG_REL.replace("/", os.sep))
     qpath = os.path.join(root, fl.QUEUE_REL.replace("/", os.sep))
     backlog = fl.read_jsonl(bpath)
@@ -97,7 +114,16 @@ def fill(root):
             by_id.pop(jid, None)
         if b.get("state") != "READY":
             continue
-        ok, why = _structural_ok(b, root)
+        nodes = b.get("nodes") or []
+        if node is not None:
+            # lane pass: only this node's cards, and they must be runnable on this disk
+            if nodes and node not in nodes:
+                continue
+            if not _local_inputs_ok(b, node):
+                continue
+            ok, why = (True, "")
+        else:
+            ok, why = _structural_ok(b, root)
         if not ok:
             b["state"] = "INVALID"
             b["invalid_reason"] = why
@@ -113,7 +139,8 @@ def fill(root):
             "cloud_ok": bool(b.get("cloud_ok")), "heavy": bool(b.get("heavy")),
             "timeout_s": b.get("timeout_s"), "day_ok": bool(b.get("day_ok")),
             "state": "OPEN", "route": "local",
-            "created_by": "backlog_fill", "created_at": fl.now_iso(),
+            "created_by": ("backlog_fill:%s" % node) if node else "backlog_fill",
+            "created_at": fl.now_iso(),
         })
         b["state"] = "PROMOTED"
         b["promoted_at"] = fl.now_iso()
