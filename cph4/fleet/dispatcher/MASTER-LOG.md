@@ -1544,3 +1544,5 @@
 [2026-10-30T22:11:49] cyc=1673 q=4/1/38 sup=0 ev=1 idle=bm-a:CAPACITY-BLOCKED-R,bm-b:-,bm-c:CAPACITY-BLOCKED-R flags=bm-a OFFLINE;bm-b OFFLINE;bm-c OFFLINE;LINE-BLOCKED bigstream-drama ()
 [2026-10-30T22:44:21] cyc=1674 q=4/1/38 sup=0 ev=0 idle=bm-a:CAPACITY-BLOCKED-R,bm-b:-,bm-c:CAPACITY-BLOCKED-R flags=bm-a OFFLINE;bm-b OFFLINE;bm-c OFFLINE;LINE-BLOCKED bigstream-drama ()
 [2026-10-30T23:14:17] cyc=1675 q=4/1/38 sup=0 ev=0 idle=bm-a:CAPACITY-BLOCKED-R,bm-b:-,bm-c:CAPACITY-BLOCKED-R flags=bm-a OFFLINE;bm-b OFFLINE;bm-c OFFLINE;LINE-BLOCKED bigstream-drama ()
+[2026-10-30T23:28:28] cyc=1676 q=4/1/38 sup=0 ev=0 idle=bm-a:CAPACITY-BLOCKED-R,bm-b:-,bm-c:CAPACITY-BLOCKED-R flags=bm-a OFFLINE;bm-b OFFLINE;bm-c OFFLINE;LINE-BLOCKED bigstream-drama ()
+[2026-10-30T23:29:13] cyc=1677 q=4/1/38 sup=0 ev=0 idle=bm-a:CAPACITY-BLOCKED-R,bm-b:-,bm-c:CAPACITY-BLOCKED-R flags=bm-a OFFLINE;bm-b OFFLINE;bm-c OFFLINE;LINE-BLOCKED bigstream-drama ()
