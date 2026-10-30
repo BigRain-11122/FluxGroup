@@ -793,10 +793,13 @@ def build_judgments(root, rows, lanes_state, lines_state, fleet, policy):
 
     for r in rows:
         if r.get("state") == "OPEN" and (r.get("model") or "none") == "cloud-smart":
+            # CEO 2026-10-30: cloud quota nearly exhausted -> default answer is LOCAL.
+            # The judgment seat itself is now bm-m's resident 35B (local_judge.py), so
+            # this stays a decision record, never a spend request.
             add("MODEL-DECISION", r.get("id"),
-                "这件活被标成需要最强大脑，是否值得花钱、还是改成本地做法或拆小？",
+                "云端席位已关（CEO 令）。此活改用本地 35B 怎么做？拆小/换 prompt/降级验收——给具体做法。",
                 {"title": r.get("title"), "why": r.get("why"),
-                 "est_credits": r.get("cloud_est_credits")})
+                 "est_credits": r.get("cloud_est_credits"), "seat": "local-only"})
         if r.get("state") == "OPEN" and int(r.get("attempts") or 0) >= 2:
             add("RETRY", r.get("id"),
                 "这件活已重排 %d 次仍未收口，是工具坏了、输入缺失还是车道不合适？" %
