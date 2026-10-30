@@ -79,17 +79,29 @@ def fill(root):
     backlog = fl.read_jsonl(bpath)
     rows = fl.read_jsonl(qpath)
     have = {r.get("id") for r in rows}
+    by_id = {r.get("id"): r for r in rows}
     added = 0
     for b in backlog:
         jid = b.get("id")
-        if not jid or jid in have:
+        if not jid:
             continue
+        if jid in have:
+            # A dead INVALID row must not permanently block a fixed card, and a FAILED
+            # row must not block a card whose tool/env defect has since been solved
+            # (2026-10-30: 5 mis-linted mv0001 cards were stuck behind their own corpse).
+            cur = by_id.get(jid) or {}
+            if cur.get("state") not in ("INVALID", "FAILED"):
+                continue
+            rows = [r for r in rows if r.get("id") != jid]
+            have.discard(jid)
+            by_id.pop(jid, None)
         if b.get("state") != "READY":
             continue
         ok, why = _structural_ok(b, root)
         if not ok:
             b["state"] = "INVALID"
             b["invalid_reason"] = why
+            b["invalid_at"] = fl.now_iso()
             continue
         rows.append({
             "id": jid, "title": b.get("title"), "cmd": b.get("cmd"),
@@ -109,11 +121,7 @@ def fill(root):
         added += 1
     if added:
         fl.write_jsonl(qpath, rows)
-        fl.write_jsonl(bpath, backlog)
-    else:
-        # persist INVALID marks even when nothing was promoted
-        if any(b.get("state") == "INVALID" for b in backlog):
-            fl.write_jsonl(bpath, backlog)
+    fl.write_jsonl(bpath, backlog)
     return added
 
 

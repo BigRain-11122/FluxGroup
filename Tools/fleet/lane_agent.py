@@ -188,6 +188,14 @@ def self_dispatch(root, node, allow_gpu_workhours, max_seconds, hub, port, dry):
         nodes = r.get("nodes") or []
         if nodes and node not in nodes:
             continue
+        # 2026-10-30 master fix: when_all on C:/D:/ paths is not checkable on the master
+        # box (macOS + sparse checkout). The lane owns its own filesystem -> verify here.
+        wa = r.get("when_all") or []
+        if wa and not all(os.path.exists(x) for x in wa):
+            continue
+        req = r.get("requires") or []
+        if req and not all(os.path.exists(x) for x in req):
+            continue
         if fl.game_launch_blocked(r.get("cmd") or ""):
             continue
         if r.get("heavy") and not fl.heavy_allowed(node) and not allow_gpu_workhours:
