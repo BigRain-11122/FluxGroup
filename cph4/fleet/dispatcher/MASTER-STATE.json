@@ -1,6 +1,6 @@
 {
- "ts": "2026-10-30T22:11:49",
- "cycle": 1673,
+ "ts": "2026-10-30T23:14:17",
+ "cycle": 1675,
  "queue": {
   "total": 46,
   "open": 4,
@@ -220,7 +220,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "WAITING",
-     "age_h": 0.9,
+     "age_h": 2.0,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -231,7 +231,7 @@
      "model": "local-gpu",
      "lane": "bm-c",
      "verdict": "WAITING",
-     "age_h": 3.5,
+     "age_h": 4.5,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -253,7 +253,7 @@
      "model": "none",
      "lane": "bm-a",
      "verdict": "WAITING",
-     "age_h": 3.5,
+     "age_h": 4.5,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -275,7 +275,7 @@
      "model": "none",
      "lane": null,
      "verdict": "WAITING",
-     "age_h": 0.9,
+     "age_h": 2.0,
      "limit_h": 24.0,
      "jobs": []
     }
@@ -291,7 +291,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "WAITING",
-     "age_h": 3.5,
+     "age_h": 4.5,
      "limit_h": 48.0,
      "jobs": []
     },
@@ -340,7 +340,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "WAITING",
-     "age_h": 3.5,
+     "age_h": 4.5,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -351,7 +351,7 @@
      "model": "local-gpu",
      "lane": "bm-c",
      "verdict": "WAITING",
-     "age_h": 3.5,
+     "age_h": 4.5,
      "limit_h": 72.0,
      "jobs": []
     }
@@ -367,7 +367,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "PARKED",
-     "age_h": 3.5,
+     "age_h": 4.5,
      "limit_h": 168.0,
      "jobs": []
     },
@@ -378,7 +378,7 @@
      "model": "none",
      "lane": "bm-a",
      "verdict": "PARKED",
-     "age_h": 3.5,
+     "age_h": 4.5,
      "limit_h": 168.0,
      "jobs": []
     }
@@ -605,7 +605,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "WAITING",
-     "age_h": 3.5,
+     "age_h": 4.5,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -632,7 +632,7 @@
      "model": "none",
      "lane": "bm-a",
      "verdict": "WAITING",
-     "age_h": 3.5,
+     "age_h": 4.5,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -643,7 +643,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "WAITING",
-     "age_h": 3.5,
+     "age_h": 4.5,
      "limit_h": 72.0,
      "jobs": []
     }
@@ -651,11 +651,9 @@
   }
  },
  "judgments": {
-  "open": 1,
-  "by_kind": {
-   "RETRY": 1
-  },
-  "added": 1,
+  "open": 0,
+  "by_kind": {},
+  "added": 0,
   "tick_tier": "none",
   "judgment_tier": "cloud-smart"
  },
@@ -672,17 +670,12 @@
   "gpu": 0
  },
  "supply_added": [],
- "events": [
-  "R-LLM-BMC-PROBE REQUeued attempt=2"
- ],
+ "events": [],
  "violations": [
   "bm-a OFFLINE",
   "bm-b OFFLINE",
   "bm-c OFFLINE",
   "LINE-BLOCKED bigstream-drama ()"
  ],
- "lane_files_written": [
-  "bm-a",
-  "bm-c"
- ]
+ "lane_files_written": []
 }
