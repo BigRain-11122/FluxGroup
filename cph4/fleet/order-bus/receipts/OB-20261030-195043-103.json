@@ -1,0 +1,18 @@
+﻿{
+    "id":  "OB-20261030-195043-103",
+    "ts":  "2026-10-30 19:50",
+    "text":  "我现在下班了，你们可以全面开工、满负荷开工了，包括日本机，然后尽快把那个 MV 给搞定，再宣传起来。导演只要负起责任来，把我说的问题全部回答，不要反复出现，你要着重去审核，不要偷懒监督，要负起责任来，然后还要听主控跟他 MacBook 的调度啊之类的",
+    "lanes":  [
+                  "bm-a",
+                  "bm-b",
+                  "bm-c"
+              ],
+    "nodes":  [
+                  "bm-a",
+                  "bm-b",
+                  "bm-c"
+              ],
+    "sha":  "f777d707911cc1fa6ad3b1958d467f7e812d5426",
+    "dispatch":  "DISPATCH reason=order:OB-20261030-195043-103 nodes=3 ok=2 fail=1 sha=f777d707   bm-a ok=False 无法连接到远程服务器    bm-b ok=True accepted NOT-SYNCED head=dd42f03c   bm-c ok=True accepted SYNCED 14s",
+    "dry":  false
+}
