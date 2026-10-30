@@ -1,0 +1,12 @@
+{
+ "id": "R-SUBCO-20261029-003",
+ "node": "bm-m",
+ "rc": 0,
+ "seconds": 17.5,
+ "cmd": "",
+ "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-drama-unblock.md",
+ "deliverable_exists": true,
+ "ts": "2026-10-29T23:23:36",
+ "stdout_tail": "①堵因：引用 `idle_reason`：\"CAPACITY-BLOCKED-RAM OFFLINE (hb age Nones)\"。\n②修复步骤（均在 bm-a 本机执行，禁止跨机）：\n1. 在 bm-a 执行 `sysctl -p` 重置内存阈值配置，尝试恢复 `online` 状态。\n2. 若仍离线，在 bm-a 执行 `reset_heartbeat --force` 强制上报心跳以清除僵死标记。\n3. 若资源仍阻塞，需 CEO 人工介入执行 `unblock_capacity` 指令进行物理资源重置。\n③不可修复部分：若内存硬件故障导致无法恢复 RAM 状态，指定 **CEO** 进行物理巡检与更换处理。",
+ "stderr_tail": ""
+}
