@@ -1567,7 +1567,7 @@
   },
   {
    "id": "kn-pa-station4-conform-author-c2169",
-   "status": "pending",
+   "status": "done",
    "priority": 67,
    "auth": "O-20261023-2325 station 4 follows the 768P pass: the KN A pack needs a conform (windows from the pack manifest) before the director can read motion across cuts.",
    "require": {
@@ -1583,7 +1583,10 @@
    "log_out": "media/mv-album-001-jay/logs/kn_pa_conform.out.log",
    "log_err": "media/mv-album-001-jay/logs/kn_pa_conform.err.log",
    "note": "Authoring job (no GPU): build the KN A conform from the verified pack manifest windows onto clips-local-768, 960px review proxy plus a cut strip board. Only start when the harvest verdict is PASS; the window table must be re-derived from the pack, not hand typed. | C2170: require-gated on the harvest verdict; cmd is still empty (script not authored) and the idle guard now skips empty-cmd jobs instead of crashing on them.",
-   "created_ts": "2026-10-24 06:1x"
+   "created_ts": "2026-10-24 06:1x",
+   "claimed_ts": "2026-10-30T23:32:43",
+   "done_ts": "2026-10-30T23:32:43",
+   "done_note": "DONE by bm-c C2171: script authored kn_pa_conform_c2171.py (adapted from xq_packa_conform_c2133.py) and run. CONFORM-END ok=1 units=30 cut=195.50s out=195.58s bytes=26,469,607 at 960px; receipt KN-PA-CONFORM-c2171.json + note KN-PA-CONFORM-c2171.md + cutboard KN-PACKA-CUTBOARD-c2171.jpg. KN04 window clamped (authored 8.14s > take length). Review proxy only, zero GPU, no re-burn. Found: KN16-18 near-black, KN21 suspicious dark-red texture."
   },
   {
    "id": "kn-pseudo-guard-c2170",
@@ -1605,7 +1608,7 @@
   },
   {
    "id": "lookdev2-mv-reboot-20261026",
-   "status": "claimed",
+   "status": "done",
    "priority": 2,
    "auth": "CEO 2026-10-25 22:4x new-process order (D1 before KF) - look-dev is decision support not KF, see O-20261026-0735 sec.4",
    "require": {
@@ -1624,7 +1627,9 @@
    "log_out": "media/mv-album-001-jay/logs/lookdev2.out.log",
    "log_err": "media/mv-album-001-jay/logs/lookdev2.err.log",
    "note": "phase 2 chained after lookdev_bank.py: LJ female looks + LJ/JD scene light setups; waits for phase-1 pythonw to exit before burning so two GPU clients never overlap. 27 stills ~45-50s each on the Krea2 lane.",
-   "claimed_ts": "2026-10-30T11:01:00"
+   "claimed_ts": "2026-10-30T11:01:00",
+   "done_ts": "2026-10-30T23:32:56",
+   "done_note": "CLOSED 2026-10-30 by bm-c: ran and every phase-2 target already existed -> all SKIP, log tail LOOKDEV2-DONE 0.0min (media/mv-album-001-jay/logs/lookdev2.out.log, 443B). Nothing to burn."
   }
  ],
  "_note_20261026": "lookdev-20261025 batch (K:/Fluxgroup/.codely-cli/tmp/lookdev_bank.py) runs outside the bank by design as decision support for the CEO 2026-10-25 22:4x new-process order; it is not KF and not a final, so it does not violate the D1-before-KF gate. Authorized by O-20261026-0735 sec.4."
