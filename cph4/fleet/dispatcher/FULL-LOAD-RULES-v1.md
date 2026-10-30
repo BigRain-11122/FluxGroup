@@ -23,6 +23,12 @@
 - lane 开工前调 `env_selfheal.ensure(tool)`：**在执行机自己进程内**用 winget 正典口径静默装（Gyan.FFmpeg / Git.Git / Python），装完再跑；装不上就 SELFHEAL-FAILED 响亮失败，绝不静默假开工。
 - 主控绝不远程装任何东西（机队设计禁跨机执行）；缺依赖登记 CEO-DEFECT-LEDGER，由该机自愈解决。
 
+## 三·六、算力三层（CEO 2026-10-30 终版）
+1. **本机本地模型**（各机自己的 Ollama）；
+2. **共享大脑**：bm-m 常驻 35B，Tailscale `100.75.133.10:11434`，端点链自动兜底（本机挂→走共享大脑，都挂→响亮失败，绝不偷烧云）；
+3. **云端 codely**（团结引擎 CLI，各机自有机位）：席位已按 CEO 令**重开**，但额度接近上限——本地/共享大脑能做的一律不上传；每单记 est_credits。
+- bm-m 的 Ollama 改由 launchd `com.fluxgroup.ollama` 常驻：`OLLAMA_HOST=0.0.0.0:11434` + FlashAttention + KV q8_0 + Parallel=2 + MaxLoaded=1，与图形层解耦，35B 永久驻留。
+
 ## 四、当前夜间接力链（全自动，无需人工）
 小钢炮: Q-AUD 合流 → Q-TTS-1202 配音57集(夜) → Q-MIX-1203 混音60集(when_all=TTS产物,自动接力)
 传家宝: Q-GPU-BMC-001 租约点火 → POOL-0021/0022 KF 试烧(租约成功即解锁)

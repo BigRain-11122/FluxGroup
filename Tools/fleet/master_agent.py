@@ -802,7 +802,7 @@ def build_judgments(root, rows, lanes_state, lines_state, fleet, policy):
             # The judgment seat itself is now bm-m's resident 35B (local_judge.py), so
             # this stays a decision record, never a spend request.
             add("MODEL-DECISION", r.get("id"),
-                "云端席位已关（CEO 令）。此活改用本地 35B 怎么做？拆小/换 prompt/降级验收——给具体做法。",
+                "此活要走云端(codely)吗？先判：本地模型或 bm-m 共享大脑(100.75.133.10:11434)能否完成？能则降级 local-small，不能才放行云端并记 est_credits。",
                 {"title": r.get("title"), "why": r.get("why"),
                  "est_credits": r.get("cloud_est_credits"), "seat": "local-only"})
         if r.get("state") == "OPEN" and int(r.get("attempts") or 0) >= 2:

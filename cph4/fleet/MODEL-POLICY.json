@@ -10,11 +10,40 @@
   "overflow": "本地确实无车道或排满、且任务卡住下游时才允许上云。"
  },
  "matrix": [
-  {"kind": "deterministic", "compute": "local", "why": "没有任何需要模型的地方"},
-  {"kind": "text-small", "compute": "local-llm", "when_free": "local-llm", "when_all_local_busy": "queue", "why": "小模型够用就用本地的；本地全占就排队，不为了省等待去花钱"},
-  {"kind": "gpu-production", "compute": "local-gpu", "when_no_gpu_lane": "queue", "why": "本地 GPU 是唯一正法（本地化算力律）"},
-  {"kind": "judgment", "compute": "cloud-smart", "why": "判断题值钱，用最强大脑；本地 4B 给不出可用结论"},
-  {"kind": "overflow", "compute": "cloud", "requires": ["cloud_ok", "credits<=cap", "local_blocked", "blocks_downstream"], "why": "只有本地真的做不了且卡住下游才花钱"}
+  {
+   "kind": "deterministic",
+   "compute": "local",
+   "why": "没有任何需要模型的地方"
+  },
+  {
+   "kind": "text-small",
+   "compute": "local-llm",
+   "when_free": "local-llm",
+   "when_all_local_busy": "queue",
+   "why": "小模型够用就用本地的；本地全占就排队，不为了省等待去花钱"
+  },
+  {
+   "kind": "gpu-production",
+   "compute": "local-gpu",
+   "when_no_gpu_lane": "queue",
+   "why": "本地 GPU 是唯一正法（本地化算力律）"
+  },
+  {
+   "kind": "judgment",
+   "compute": "cloud-smart",
+   "why": "判断题值钱，用最强大脑；本地 4B 给不出可用结论"
+  },
+  {
+   "kind": "overflow",
+   "compute": "cloud",
+   "requires": [
+    "cloud_ok",
+    "credits<=cap",
+    "local_blocked",
+    "blocks_downstream"
+   ],
+   "why": "只有本地真的做不了且卡住下游才花钱"
+  }
  ],
  "guards": {
   "per_call_credit_cap": 50,
@@ -22,7 +51,32 @@
   "hard_ceiling": 500,
   "over_daily_cap": "停手，写 NEED-SUPPLY，等 CEO 亲批",
   "waste_alarm": "任何被判为 cloud 的活，只要有一台空闲且能力匹配的本地车道，就报 CLOUD-WHILE-LOCAL-IDLE（浪费本地算力）",
-  "never": ["cron 心跳调云端", "为缩短本地排队时间上云", "本地闲置时用云端跑确定性脚本"]
+  "never": [
+   "cron 心跳调云端",
+   "为缩短本地排队时间上云",
+   "本地闲置时用云端跑确定性脚本"
+  ]
  },
- "lane_local_llm": {"endpoint": "http://127.0.0.1:11434", "model": "qwen3:4b-instruct", "keep_alive": "5m", "num_ctx": 4096, "why": "本机是 CEO 工作机：模型用完 5 分钟就退，上下文压到 4096，别把 12GB 显存常年钉住"}
+ "lane_local_llm": {
+  "endpoint": "http://127.0.0.1:11434",
+  "model": "qwen3:4b-instruct",
+  "keep_alive": "5m",
+  "num_ctx": 4096,
+  "why": "本机是 CEO 工作机：模型用完 5 分钟就退，上下文压到 4096，别把 12GB 显存常年钉住",
+  "fallback": "http://100.75.133.10:11434",
+  "shared_brain": "bm-m qwen3.5:35b-a3b (Tailscale 100.75.133.10, resident, keep_alive=-1)"
+ },
+ "cloud_seat": {
+  "state": "OPEN",
+  "since": "2026-10-30T18:10",
+  "authority": "CEO 2026-10-30 令：云端可以用，各机走自己团结引擎 codely",
+  "route": "tier1 本机 Ollama -> tier2 共享大脑 bm-m:11434 -> tier3 codely cloud（各机自有 .codely-cli 机位）",
+  "spend_rule": "每单必须记 cloud_est_credits；本地或共享大脑能做的一律降级 local-small，不烧额度",
+  "quota_watch": "master 每轮汇总 cloud_spend_today；额度告急由 CEO 一句话关回 local-only"
+ },
+ "tier_order": [
+  "local-own",
+  "shared-brain-bm-m",
+  "codely-cloud"
+ ]
 }
