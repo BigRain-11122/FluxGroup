@@ -72,8 +72,16 @@ def _fill_manifest(root, rows, have, node=None):
         out = r.get("deliverable")
         if out and os.path.exists(out):
             continue
-        job = {k: r.get(k) for k in ("id", "title", "cmd", "cwd", "needs", "deliverable")}
+        # 2026-10-30 bm-m master: fields must survive promotion or the card is crippled --
+        # day_ok lost = bm-a daytime cards never claimable; heavy lost = work-hour yield
+        # bypassed; when_all lost = input gate gone; model/prompt lost = every text job
+        # became "empty job" (that is why local lanes looked permanently idle).
+        job = {k: r.get(k) for k in ("id", "title", "cmd", "cwd", "needs", "deliverable",
+                                     "nodes", "day_ok", "heavy", "when_all", "when_none",
+                                     "model", "prompt", "llm", "prio", "why", "timeout_s",
+                                     "cloud_ok", "need_mb", "est_gb")}
         job["state"] = "OPEN"
+        job["route"] = "local"
         job["created_by"] = "backlog_fill.py:manifest"
         job["created_at"] = time.strftime("%Y-%m-%dT%H:%M:%S")
         rows.append(job)
