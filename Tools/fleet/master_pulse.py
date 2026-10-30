@@ -122,17 +122,25 @@ def commit_state(tracked: list[str], untracked: list[str]) -> str:
 
 def pull_if_clean() -> str:
     tracked, untracked = tree_state()
-    note = commit_state(tracked, untracked)
-    if note.startswith("skipped"):
-        return note
-    try:
-        r = git(["pull", "--rebase", "--no-autostash", "origin", "main"], timeout=120)
-    except subprocess.TimeoutExpired:
-        return "timeout"
-    if r.returncode != 0:
-        git(["rebase", "--abort"])       # never leave a half-finished rebase behind
-        return "failed:%s" % _one_line(r.stderr or r.stdout, 120)
-    return "ok" + ("(committed-state)" if "no state" not in note else "")
+    # Two attempts: the dashboard rewrites its html every 20s and the master rewrites its
+    # state every cycle, so a rebase can find the tree dirty again between commit and pull.
+    # Committing our own state twice is cheap; rebasing over hand edits is not.
+    for attempt in (0, 1):
+        tracked, untracked = tree_state()
+        note = commit_state(tracked, untracked)
+        if note.startswith("skipped"):
+            return note
+        try:
+            r = git(["pull", "--rebase", "--no-autostash", "origin", "main"], timeout=120)
+        except subprocess.TimeoutExpired:
+            return "timeout"
+        if r.returncode == 0:
+            return "ok" + ("(committed-state)" if "no state" not in note else "")
+        msg = _one_line(r.stderr or r.stdout, 120)
+        if "unstaged" not in msg and "not concluded" not in msg:
+            git(["rebase", "--abort"])
+            return "failed:%s" % msg
+    return "skipped:dirty-race(%s)" % _one_line(msg, 80)
 
 
 def ollama_ok() -> bool:
