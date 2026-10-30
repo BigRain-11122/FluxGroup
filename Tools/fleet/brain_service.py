@@ -19,6 +19,7 @@ import re
 import subprocess
 import sys
 import time
+from concurrent.futures import ThreadPoolExecutor
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import fleet_lane as fl
@@ -27,6 +28,7 @@ STATE_REL = "cph4/fleet/dispatcher/brain-state.json"
 BULLETIN_REL = "cph4/fleet/inbox/BRAIN-BULLETIN.md"
 RECEIPT_DIR = "cph4/fleet/queue-receipts"
 PER_DAY = 1          # per line
+WORKERS = 3          # parallel lines per tick (4B handles 3 concurrent calls at full speed)
 CALL_TIMEOUT = 90
 
 TASKS = {
@@ -127,15 +129,24 @@ def main():
     if not todo:
         print("[brain] all %d lines served today" % len(TASKS))
         return 0
-    line, task, src = todo[0]
-    path, note = produce(root, line, task, src)
-    st["done"][line] = int(st["done"].get(line, 0)) + (1 if path else 0)
-    if not path:
-        st.setdefault("fail", {})[line] = note
-    _save_state(root, st)
-    if path:
+    # 2026-10-31: one line per tick left 6 of 7 lines waiting ~30 min behind a model that
+    # already answers 3 calls in parallel at full speed. Batch them; results are collected
+    # and written serially, so the state file and bulletin keep a single writer.
+    batch = todo[:WORKERS]
+    with ThreadPoolExecutor(max_workers=WORKERS) as ex:
+        results = list(ex.map(lambda x: produce(root, x[0], x[1], x[2]), batch))
+    served = 0
+    for (line, _t, _s), (path, note) in zip(batch, results):
+        st["done"][line] = int(st["done"].get(line, 0)) + (1 if path else 0)
+        if not path:
+            st.setdefault("fail", {})[line] = note
+            continue
+        served += 1
         _bulletin(root, line, path)
-    print("[brain] %s -> %s (%s)" % (line, os.path.basename(path) if path else "FAIL", note))
+        print("[brain] %s -> %s (%s)" % (line, os.path.basename(path), note))
+    _save_state(root, st)
+    if not served:
+        print("[brain] batch produced nothing (%d tried)" % len(batch))
     return 0
 
 
@@ -159,7 +170,7 @@ def _bulletin(root, line, path):
     os.makedirs(os.path.dirname(bp), exist_ok=True)
     if entry.strip() not in old:
         with open(bp, "w", encoding="utf-8") as f:
-            f.write("# 副大脑公告栏（bm-m 35B 每日产出·车道自动同步）\n\n" + entry + old)
+            f.write("# 副大脑公告栏（bm-m 本地判读席每日产出·车道自动同步）\n\n" + entry + old)
 
 
 if __name__ == "__main__":

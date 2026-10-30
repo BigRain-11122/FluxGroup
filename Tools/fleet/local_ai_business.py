@@ -74,6 +74,22 @@ JOBS = {
         "must": ["## 风险"],
         "chars": (200, 2500),
     },
+    "mv-publish-checklist": {
+        "line": "bigstream-mv",
+        "tier": "fast",
+        "sources": [
+            "cph4/fleet/mv0001-handover/canon/DIRECTOR-REVIEW-V717-REVISE-20261030.md",
+            "cph4/fleet/queue-receipts/biz-mv-promo-20261031.md",
+        ],
+        "task": ("给《爱在西元前》MV 出一份「发布前检查单」，读者是 CEO 本人，他要在 5 分钟内判断能不能发。"
+                 "必须包含：`## 能发吗`（一句话结论，只依据素材里已完成的项，未完成的一律不算）、"
+                 "`## 机器已过`（逐条列素材里明确通过的判据）、"
+                 "`## 还差什么`（逐条列素材里明确未完成/待定的项，每条标注谁负责：导演席/剪辑席/CEO）、"
+                 "`## 发布时要做`（平台侧动作，例如声明位勾选这类，由 CEO 决定，不要替他决定）。"
+                 "只用给定素材里出现的事实，没写的不要假设已经完成。"),
+        "must": ["## 能发吗", "## 机器已过", "## 还差什么", "## 发布时要做"],
+        "chars": (150, 2000),
+    },
     "car-gaming": {
         "line": "car-gaming",
         "tier": "fast",
@@ -149,6 +165,11 @@ def gate(text, job, ex):
     for h in job["must"]:
         if h not in text:
             problems.append("missing-section:" + h)
+    # Soft gate: process/policy names are the easiest thing for a small model to invent.
+    # Not a hard reject (the sentence may still be useful) but the CEO must see it flagged.
+    invented = [t for t in ("流程", "制度", "规范", "协议", "白皮书") if t in text and t not in ex]
+    if invented:
+        problems.append("soft-needs-review:" + ",".join(invented))
     lo, hi = job["chars"]
     if not (lo <= len(text) <= hi):
         problems.append("length:%d not in %d-%d" % (len(text), lo, hi))
@@ -180,11 +201,16 @@ def run(job_id, tier_override=None, dry=False):
         return {"job": job_id, "tier": tier, "model": model, "prompt_chars": len(prompt)}
     text, sec = call(model, prompt)
     problems = gate(text, job, ex)
+    hard = [p for p in problems if not p.startswith("soft-")]
+    soft = [p for p in problems if p.startswith("soft-")]
     out = {"job": job_id, "line": job["line"], "tier": tier, "model": model,
            "sec": sec, "chars": len(text), "problems": problems}
-    if problems:
+    if hard:
         out["state"] = "REJECTED"
         return out
+    if soft:
+        text += "\n\n> ⚠️ 需人工复核：文中出现素材未给出的流程/制度词（%s），不要直接当结论用。\n" \
+                % "、".join(p.split(":")[1] for p in soft)
     day = datetime.now().strftime("%Y%m%d")
     base = os.path.join(OUT_DIR, "biz-%s-%s" % (job_id, day))
     os.makedirs(OUT_DIR, exist_ok=True)
