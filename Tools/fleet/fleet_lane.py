@@ -53,17 +53,17 @@ LANES = {
              "quiet_hours": (9, 19),
              "enabled": True, "ram_gb": 94, "vram_gb": 12, "cuda": True,
              "caps": ["cpu", "kf768", "i2v768", "audio", "assemble", "llm"],
-             "llm": {"endpoint": "http://127.0.0.1:11434"},
+             "llm": {"endpoint": "http://127.0.0.1:11434", "fallback": "http://100.75.133.10:11434"},
              "roles": "hq-central night gpu", "game_launch_ok": False},
     "bm-b": {"name_cn": "小钢炮", "needs": ["cpu", "gpu"], "ram_floor_gb": 2.0, "gpu_hours": None,
              "enabled": True, "ram_gb": 24, "vram_gb": 8, "cuda": True,
              "caps": ["cpu", "animatic480", "audio", "tts", "llm"],
-             "llm": {"endpoint": "http://127.0.0.1:11434"},
+             "llm": {"endpoint": "http://127.0.0.1:11434", "fallback": "http://100.75.133.10:11434"},
              "roles": "cpu sound / small gpu", "game_launch_ok": False},
     "bm-c": {"name_cn": "传家宝", "needs": ["cpu", "gpu"], "ram_floor_gb": 3.0, "gpu_hours": None,
              "enabled": True, "ram_gb": 24, "vram_gb": 16, "cuda": True,
              "caps": ["cpu", "kf768", "i2v768", "audio", "render", "llm"],
-             "llm": {"endpoint": "http://127.0.0.1:11434"},
+             "llm": {"endpoint": "http://127.0.0.1:11434", "fallback": "http://100.75.133.10:11434"},
              "roles": "gpu production", "game_launch_ok": False},
     # bm-m is a full agent, not a thin client: M1 Pro 32GB runs local models (MLX/Ollama),
     # so it takes text work as well as iOS builds. No CUDA, so never a GPU job.
@@ -85,7 +85,7 @@ LANES = {
              "enabled": False, "pending": True, "auto_join": True,
              "ram_gb": 256, "vram_gb": 48, "cuda": True,
              "caps": ["cpu", "kf768", "i2v768", "backtest", "brain", "llm"],
-             "llm": {"endpoint": "http://127.0.0.1:11434"},
+             "llm": {"endpoint": "http://127.0.0.1:11434", "fallback": "http://100.75.133.10:11434"},
              "roles": "brain / backtest / batch", "game_launch_ok": False},
 }
 
@@ -360,11 +360,19 @@ def local_llm(prompt, policy=None, timeout=120, node=None):
                        "think": spec.get("think", True),
                        "options": {"num_ctx": int(spec.get("num_ctx", _pol.get("num_ctx", 4096)))},
                        }).encode()
-    req = urllib.request.Request(base.rstrip("/") + "/api/generate", data=body,
-                                 headers={"Content-Type": "application/json"})
-    try:
-        with urllib.request.urlopen(req, timeout=timeout) as r:
-            data = json.loads(r.read().decode("utf-8", "replace"))
-        return (data.get("response") or "").strip()
-    except Exception:
-        return None
+    urls = [base]
+    fb = spec.get("fallback") or pol.get("fallback")
+    if fb:
+        urls.append(fb)          # shared brain: bm-m's resident 35B, reachable over Tailscale
+    for u in urls:
+        req = urllib.request.Request(u.rstrip("/") + "/api/generate", data=body,
+                                     headers={"Content-Type": "application/json"})
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                data = json.loads(r.read().decode("utf-8", "replace"))
+            out = (data.get("response") or "").strip()
+            if out:
+                return out
+        except Exception:
+            continue            # own box down -> shared brain; both down -> None (loud)
+    return None
