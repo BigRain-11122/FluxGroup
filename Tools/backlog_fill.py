@@ -46,6 +46,44 @@ def _ep(name):
     return m.group(1).upper() if m else None
 
 
+_GIT = {"loaded": False, "paths": set()}
+
+
+def _git_paths(root):
+    """Repo truth for tool existence: bm-m runs a SPARSE checkout, so os.path.exists()
+    on Tools/*.py is routinely False for files that do exist on the worker boxes."""
+    if not _GIT["loaded"]:
+        import subprocess
+        try:
+            r = subprocess.run(["git", "-C", root, "ls-tree", "-r", "--name-only", "HEAD"],
+                               capture_output=True, text=True, timeout=40)
+            if r.returncode == 0:
+                _GIT["paths"] = {x.strip() for x in r.stdout.splitlines() if x.strip()}
+        except Exception:
+            pass
+        _GIT["loaded"] = True
+    return _GIT["paths"]
+
+
+def _checkable(p):
+    """Can THIS machine even look at this path? Drive letters only exist on Windows;
+    /paths only on POSIX. The master (macOS) must not judge a worker's C-drive data."""
+    pp = (p or "").replace("\\", "/")
+    if re.match(r"^[A-Za-z]:", pp):
+        return os.name == "nt"
+    return True
+
+
+def _tool_ok(cmd, root):
+    """Every repo-relative script referenced by cmd must exist in the repo."""
+    for tok in (cmd or "").replace('"', " ").replace("'", " ").split():
+        t = tok.strip("\\/").replace("\\", "/")
+        if t.startswith(("Tools/", "media/", "cph4/")) and t.endswith((".py", ".cmd", ".ps1", ".sh")):
+            if t not in _git_paths(root) and not os.path.exists(os.path.join(root, t.replace("/", os.sep))):
+                return False, t
+    return True, ""
+
+
 def _fill_manifest(root, rows, have, node=None):
     """Generic declarative rule.
 
@@ -56,22 +94,60 @@ def _fill_manifest(root, rows, have, node=None):
     does not -- no LLM, no guessing, nothing invented.
     """
     man = os.path.join(root, "cph4", "fleet", "PRODUCTION-BACKLOG.jsonl")
+    queue_path = os.path.join(root, "cph4", "fleet", "PRODUCTION-QUEUE.jsonl")
+    rows_by_id = {x.get("id"): x for x in rows}
+    backlog = _load(man)
+    touched = False
     added = 0
-    for r in _load(man):
+    for r in backlog:
         jid = r.get("id")
-        if not jid or jid in have:
+        if not jid:
             continue
         if r.get("state") not in (None, "READY"):
             continue
         nodes = r.get("nodes")
         if node and nodes and node not in nodes:
             continue
+        if jid in have:
+            cur = rows_by_id.get(jid) or {}
+            # A corpse (INVALID/FAILED) must not block a card whose defect is now fixed.
+            if cur.get("state") not in ("INVALID", "FAILED"):
+                continue
+            rows[:] = [x for x in rows if x.get("id") != jid]
+            rows_by_id.pop(jid, None)
+            have.discard(jid)
+        cmd = r.get("cmd") or ""
+        ok, bad = _tool_ok(cmd, root)
+        if not ok:
+            r["state"] = "INVALID"
+            r["invalid_reason"] = "tool not in repo: %s" % bad
+            r["invalid_at"] = time.strftime("%Y-%m-%dT%H:%M:%S")
+            touched = True
+            continue
         req = r.get("requires") or []
-        if not all(os.path.exists(p) for p in req):
-            continue
+        wa = r.get("when_all") or []
+        if node is not None:
+            # lane pass: THIS box must really have every declared input (strict)
+            if req and not all(os.path.exists(p) for p in req):
+                continue
+            if wa and not all(os.path.exists(p) for p in wa):
+                continue
+        else:
+            # master pass: verify only what this OS can see; the rest the lane re-checks
+            for p in req + wa:
+                if _checkable(p) and not os.path.exists(p):
+                    break
+            else:
+                pass
+            if any(_checkable(p) and not os.path.exists(p) for p in req + wa):
+                continue
         out = r.get("deliverable")
-        if out and os.path.exists(out):
+        if out and _checkable(out) and os.path.exists(out):
             continue
+        if node is not None:
+            r["state"] = "PROMOTED"
+            r["promoted_at"] = time.strftime("%Y-%m-%dT%H:%M:%S")
+            touched = True
         # 2026-10-30 bm-m master: fields must survive promotion or the card is crippled --
         # day_ok lost = bm-a daytime cards never claimable; heavy lost = work-hour yield
         # bypassed; when_all lost = input gate gone; model/prompt lost = every text job
@@ -86,7 +162,10 @@ def _fill_manifest(root, rows, have, node=None):
         job["created_at"] = time.strftime("%Y-%m-%dT%H:%M:%S")
         rows.append(job)
         have.add(jid)
+        rows_by_id[jid] = job
         added += 1
+    if touched:
+        _save(man, backlog)
     return added
 
 

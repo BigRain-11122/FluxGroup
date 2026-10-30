@@ -10,10 +10,18 @@
 4. **库存地板=2**：inventory_guard 每轮核对每机可领库存，低于 2 自动回补+告警留痕（/tmp/inventory-guard.log）。
 5. **白天让位唯一例外**：公司生产力机 09:00-19:00 只吃 day_ok 轻卡（CEO 工位法），其余机器 24/7 满负荷。
 
+## 二·六、活体文件律（2026-10-30 最深根因）
+6. **改代码先确认"谁 import 它"**：master/lane 把 `Tools/` 塞进 sys.path，所以**活体是 `Tools/backlog_fill.py`**；`Tools/fleet/backlog_fill.py` 已改成纯转发 shim。同名的两份实现 = 静默失效的头号来源（修了半天，执行机读的还是另一份）。改前必 `grep -rn "import <模块>" Tools/fleet/`。
+7. **新模块必须进 fleet-sync 白名单**：不在清单里就同步不到 `C:\Fluxgroup\FleetRuntime`，执行机 import 失败被 except 吞掉——和 backlog_fill 缺失同一种死法。
+
 ## 三、防假忙
 - DONE 必须有交付物或回执证据（deliverable_exists / receipt 在仓），无证据 = 重开。
 - 主控只认「别的机器的 RUNNING/DONE + 证据」为产出，自己的回执不算机队产能。
 - 活源三问（造活前必答）：工具在 git 树？输入在认领机磁盘？验收物写得出路径？
+
+## 三·五、依赖自装（CEO 令"缺什么让他自己装啊"）
+- lane 开工前调 `env_selfheal.ensure(tool)`：**在执行机自己进程内**用 winget 正典口径静默装（Gyan.FFmpeg / Git.Git / Python），装完再跑；装不上就 SELFHEAL-FAILED 响亮失败，绝不静默假开工。
+- 主控绝不远程装任何东西（机队设计禁跨机执行）；缺依赖登记 CEO-DEFECT-LEDGER，由该机自愈解决。
 
 ## 四、当前夜间接力链（全自动，无需人工）
 小钢炮: Q-AUD 合流 → Q-TTS-1202 配音57集(夜) → Q-MIX-1203 混音60集(when_all=TTS产物,自动接力)
