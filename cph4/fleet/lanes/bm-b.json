@@ -1,8 +1,23 @@
 {
  "node": "bm-b",
- "ts": "2026-10-30T21:02:30",
- "jobs": [],
- "idle_reason": "CAPACITY-BLOCKED-RAM OFFLINE (hb age Nones)",
- "lane_ok": false,
- "capacity_note": "OFFLINE (hb age Nones)"
+ "ts": "2026-10-30T21:17:10",
+ "jobs": [
+  {
+   "id": "Q-AUD-1002",
+   "title": "EP002 带声合流（三层混音→成片·依 10-27 审计命令链）",
+   "cmd": "ffmpeg -y -i \"C:/Fluxgroup/FluxGroup/media/drama-eps/EP002.mp4\" -i \"C:/Fluxgroup/FluxGroup/media/drama-mix-out/r1003_3layer/EP002_3layer\" -map 0:v -map 1:a -c:v copy -af \"loudnorm=I=-14:TP=-1.0:LRA=11\" -c:a aac -b:a 192k -shortest \"C:/Fluxgroup/FluxGroup/media/drama-eps-audio/EP002_AUDIO-r1002.mp4\"",
+   "cwd": "C:/Fluxgroup/FluxGroup",
+   "needs": "cpu",
+   "deliverable": "C:/Fluxgroup/FluxGroup/media/drama-eps-audio/EP002_AUDIO-r1002.mp4",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": {},
+   "timeout_s": null
+  }
+ ],
+ "idle_reason": "",
+ "lane_ok": true,
+ "capacity_note": "ram 4.5/2.0 GB"
 }
