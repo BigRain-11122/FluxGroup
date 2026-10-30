@@ -85,6 +85,52 @@ def arm_recurring(dry=False):
     return armed
 
 
+def arm_triage(dry=False, limit=3):
+    """Turn "this line is silent" into one executable card on the machine that owns it.
+
+    The Mac cannot read six of the sub-repos (0 files), so it can never diagnose them itself.
+    A triage card asks the owning lane for facts from its own disk: what exists, what is
+    newest, what is missing. Only ACTIVE lines whose lane is online get one, at most `limit`
+    per run, so a quiet fleet cannot be flooded with paperwork.
+    """
+    reg = json.load(open(REGISTRY, encoding="utf-8")) if os.path.exists(REGISTRY) else {}
+    try:
+        ms = json.load(open(os.path.join(FLEET, "dispatcher", "MASTER-STATE.json"),
+                            encoding="utf-8-sig"))
+    except Exception:
+        ms = {}
+    online = {n for n, v in (ms.get("lanes") or {}).items() if v.get("online")}
+    have = {r.get("id") for r in rows(BACKLOG) + rows(os.path.join(FLEET, "PRODUCTION-QUEUE.jsonl"))}
+    day = datetime.now().strftime("%Y%m%d")
+    armed = []
+    for ln in reg.get("lines") or []:
+        if len(armed) >= limit:
+            break
+        if (ln.get("status") or "") != "ACTIVE":
+            continue
+        want = [st.get("lane") for st in (ln.get("stages") or []) if st.get("lane")]
+        target = next((w for w in want if w in online), None)
+        if not target:
+            continue
+        lid = ln.get("id")
+        deliverable = "cph4/fleet/queue-receipts/triage-%s-%s.md" % (lid, day)
+        jid = "Q-TRIAGE-%s-%s" % (lid.upper().replace("-", ""), day)
+        if jid in have or os.path.exists(os.path.join(ROOT, deliverable)):
+            continue
+        row = {"id": jid, "title": "%s 线级体检（本机证据目录实况）" % lid, "needs": "cpu",
+               "nodes": [target], "prio": "P3", "day_ok": True, "heavy": False,
+               "cmd": "python Tools/fleet/line_triage.py --line %s" % lid, "cwd": "",
+               "requires": ["Tools/fleet/line_triage.py"],
+               "deliverable": deliverable,
+               "why": "该线 24h 无落库产出，主控看不到其仓库（本机 0 文件），只能由承办机自证缺口",
+               "created_at": datetime.now().isoformat(timespec="seconds"),
+               "created_by": "line_agents:triage"}
+        if not dry:
+            append(BACKLOG, row)
+        armed.append(jid)
+    return armed
+
+
 def line_verdicts(dry=False):
     try:
         reg = json.load(open(REGISTRY, encoding="utf-8"))
@@ -107,7 +153,7 @@ def line_verdicts(dry=False):
 
 def main():
     dry = "--dry" in sys.argv
-    armed = arm_recurring(dry)
+    armed = arm_recurring(dry) + arm_triage(dry)
     verdicts = line_verdicts(dry)
     if not dry and armed:
         lines = ["", "## 条线 Agent 续卡 %s" % datetime.now().strftime("%Y-%m-%d %H:%M"),
