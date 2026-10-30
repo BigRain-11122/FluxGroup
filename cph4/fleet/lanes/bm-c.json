@@ -1,8 +1,23 @@
 {
  "node": "bm-c",
- "ts": "2026-10-30T15:06:26",
- "jobs": [],
- "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+ "ts": "2026-10-30T16:51:14",
+ "jobs": [
+  {
+   "id": "Q-GPU-BMC-001",
+   "title": "传家宝 GPU 租约点火（撤 ollama/keepwarm→开 KF 试烧窗口·POOL-0021 前置）",
+   "cmd": "python Tools/fleet/gpu_lease.py --node bm-c --acquire --need-mb 12000",
+   "cwd": "K:/Fluxgroup/FluxGroup",
+   "needs": "cpu",
+   "deliverable": "K:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/bm-c-gpu-lease-receipt.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": {},
+   "timeout_s": null
+  }
+ ],
+ "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 10.8/3.0 GB"
+ "capacity_note": "ram 12.3/3.0 GB"
 }
