@@ -162,9 +162,20 @@ def push_if_ahead() -> str:
         return "up-to-date"
     try:
         r = git(["push", "origin", "HEAD:main"], timeout=90)
+        if r.returncode != 0:
+            # Another node (bm-b/bm-c) pushes between our pull and push; rebase once, retry.
+            msg = _one_line(r.stderr, 120)
+            if "fetch first" in msg or "rejected" in msg:
+                pull_note = pull_if_clean()
+                if pull_note.startswith("ok"):
+                    r = git(["push", "origin", "HEAD:main"], timeout=90)
+                    if r.returncode == 0:
+                        return "ok+%d(after-rebase)" % ahead
+                return "rejected:%s | pull=%s" % (msg, pull_note)
+            return "failed:%s" % msg
     except subprocess.TimeoutExpired:
         return "timeout"
-    return "ok+%d" % ahead if r.returncode == 0 else "failed:%s" % _one_line(r.stderr, 100)
+    return "ok+%d" % ahead
 
 
 def ollama_ok() -> bool:
