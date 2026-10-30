@@ -62,6 +62,10 @@ STAGES = [
     ("social", ["Tools/fleet/social_drafts.py"], 180, {0}, True),
     ("biz", ["Tools/fleet/local_ai_business.py", "--due-only"], 600, {0, 1}, True),
     ("supervisor", ["Tools/fleet/fleet_supervisor.py"], 60, {0}, True),
+    # Solve leg: requeues failed cards (capped), warns on starvation, and coordinates the
+    # only remote channel we have. Serial with the other queue writers.
+    ("solver", ["Tools/fleet/master_solver.py"], 120, {0}, True),
+    ("line_agents", ["Tools/fleet/line_agents.py"], 120, {0}, True),
 ]
 
 
@@ -294,7 +298,7 @@ def main() -> int:
     # with no extra memory, so the slow batch is latency-bound on nothing but serialisation).
     # Queue writers (master, contingency, inventory) must never run concurrently or they
     # clobber each other's rows; everything else is read-mostly and model-bound.
-    SLOW_SERIAL = {"inventory", "contingency"}
+    SLOW_SERIAL = {"inventory", "contingency", "solver", "line_agents"}
     serial = [s for s in STAGES if not s[4]]
     slow_serial = [s for s in STAGES if s[4] and s[0] in SLOW_SERIAL]
     parallel = [s for s in STAGES if s[4] and s[0] not in SLOW_SERIAL]
