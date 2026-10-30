@@ -106,9 +106,14 @@ def supply(root, queue, have_ids):
             continue
         if r.get("state") not in (None, "READY"):
             continue
-        if not all(os.path.exists(p) for p in (r.get("when_all") or [])):
+        # Cross-host cards (2026-10-30 fix): C:/ K:/ E:/ paths live on the assignee box,
+        # never on the macOS master. Master must NOT local-check them (that killed every
+        # worker card). lane_agent re-checks when_all/when_none locally at claim time.
+        def _remote(pth):
+            return bool(__import__("re").match(r"^[A-Za-z]:[\\/]", pth))
+        if not all(_remote(p) or os.path.exists(p) for p in (r.get("when_all") or [])):
             continue
-        if any(os.path.exists(p) for p in (r.get("when_none") or [])):
+        if any((not _remote(p)) and os.path.exists(p) for p in (r.get("when_none") or [])):
             continue
         out = r.get("deliverable")
         if out and out.startswith(("C:", "D:", "/")) and os.path.exists(out):
