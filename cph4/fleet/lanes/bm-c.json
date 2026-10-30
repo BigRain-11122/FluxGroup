@@ -1,6 +1,6 @@
 {
  "node": "bm-c",
- "ts": "2026-10-30T16:51:14",
+ "updated_at": "2026-10-30T16:58:00",
  "jobs": [
   {
    "id": "Q-GPU-BMC-001",
@@ -9,15 +9,54 @@
    "cwd": "K:/Fluxgroup/FluxGroup",
    "needs": "cpu",
    "deliverable": "K:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/bm-c-gpu-lease-receipt.md",
-   "need_mb": null,
+   "nodes": [
+    "bm-c"
+   ],
    "model": "none",
    "prompt": "",
    "when_all": [],
    "llm": {},
-   "timeout_s": null
+   "prio": "P0",
+   "why": "15:46 实测传家宝 ram_free 12.7G（R2.42 时仅 0.4G），物理闸大概率已解；gpu_lease 是正典仲裁器，先租约后烧，杜绝打架",
+   "cloud_ok": false,
+   "heavy": false,
+   "timeout_s": null,
+   "day_ok": false,
+   "state": "RUNNING",
+   "route": "local",
+   "created_by": "backlog_fill",
+   "created_at": "2026-10-30T16:50:45",
+   "route_note": "deterministic script -> local (zero token)",
+   "owner": "bm-c",
+   "claimed_at": "2026-10-30T16:51:14",
+   "assign_ts": "2026-10-30T16:51:14",
+   "lease_minutes": 45
+  },
+  {
+   "id": "Q-VIZ-2001",
+   "title": "提示词预算体检（prompt_budget_check 自检+台账扫描）",
+   "cmd": "python Tools/prompt_budget_check.py --selftest > cph4/fleet/queue-receipts/bm-c-prompt-budget-scan.md 2>&1",
+   "cwd": "K:/Fluxgroup/FluxGroup",
+   "needs": "cpu",
+   "deliverable": "K:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/bm-c-prompt-budget-scan.md",
+   "nodes": [
+    "bm-c"
+   ],
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": {},
+   "prio": "P2",
+   "why": "传家宝 GPU 等审签镜包；此 CPU 活仅依赖 git 同步文件（behind=0 实证可领），77token 截断防线日常巡检",
+   "cloud_ok": false,
+   "heavy": false,
+   "timeout_s": null,
+   "day_ok": false,
+   "state": "OPEN",
+   "route": "local",
+   "created_by": "backlog_fill",
+   "created_at": "2026-10-30T16:52:43",
+   "route_note": "deterministic script -> local (zero token)"
   }
- ],
- "idle_reason": "",
- "lane_ok": true,
- "capacity_note": "ram 12.3/3.0 GB"
+ ]
 }
