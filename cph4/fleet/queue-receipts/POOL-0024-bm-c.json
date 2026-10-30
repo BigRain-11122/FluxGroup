@@ -1,29 +1,19 @@
 {
- "card_id": "POOL-0024",
- "card": "bm-c 内存释放闸：ollama 撤驻 + keepwarm 停 → 开 POOL-0021/0022 KF",
+ "card": "POOL-0024",
  "node": "bm-c",
- "action": "blocked",
- "ts": "2026-10-28T15:28:00+08:00",
- "acceptance_probe": {
-  "criterion": "Tcp :8790/status ram_free_gb >= 6.0 + ollama ps 无 27b/30b/35b 驻留 + ComfyUI /system_stats 200",
-  "ram_free_gb": 0.4,
-  "ram_total_gb": 23.9,
-  "gpu_total_mib": 16384,
-  "gpu_free_mib": 14664,
-  "cpu_load_pct": 73,
-  "ollama_resident_models": 0,
-  "ollama_process_ram_mb": 296,
-  "comfyui_running": false,
-  "verdict": "BLOCKED-RAM"
+ "ts": "2026-10-30T23:29:46",
+ "verdict": "PASS (memory gate already satisfied; re-verified live)",
+ "evidence": {
+  "ram_free_gb_live": 9.23,
+  "ram_free_threshold_gb": 6.0,
+  "ollama_ps": "empty (no model residency) - 10-17 LLM retirement still in force on bm-c",
+  "comfyui_8188": "HTTP 200 system_stats devices[0]=NVIDIA GeForce RTX 3070",
+  "vram_used_mib": 1960,
+  "gpu_util_pct": 0
  },
- "why_not": "The gate's criterion is RAM, and the RAM consumer is not this lane. ollama holds no model (216 MB + 80 MB daemon RAM, 0 resident models) so evicting it cannot reach 6.0 GB; the 23.5 GB in use is the desktop (Doubao x4 ~3.8 GB, msedge, Platform, explorer, wetype). Measured just now: 0.4 GB free of 23.9 GB. Running gpu_lease --acquire would disable the keep-warm tasks and still leave the criterion unmet, so it was not fired blindly.",
- "what_was_done_instead": "The CEO lane order (OB-20261028-150100-267, bm-c = KF/i2v/render/image-quality) was served with the part of the lane that needs no VRAM/RAM headroom: the KN A-pack 768P station-3 harvest, which had been owed since 2026-10-24 (wave finished ok=30 fail=0 at 13:46 that day, verdict never derived). Result 30/30 PASS with two defects fixed in the gate itself -- see cph4/fleet/mv-album-001-jay/KN-PA768-HARVEST-c2169-REVIEW.md and KN-PA768-HARVEST-c2169.json.",
- "unblock_path": "Free ~6 GB of desktop RAM on this host (CEO physical action) OR run the KF wave with a RAM-lean loader. Re-probe is one command: python Tools/fleet/gpu_lease.py --node bm-c --status",
- "evidence": [
-  "http://127.0.0.1:8790/status -> ram_free_gb 0.4",
-  "nvidia-smi -> 1495 MiB used / 16384 MiB (14.66 GB free)",
-  "ollama ps -> empty (no 27b/30b/35b resident)",
-  "cph4/fleet/mv-album-001-jay/KN-PA768-HARVEST-c2169.json -> units 30 pass 30 check 0"
- ],
- "poollaw": "POOL.json status transition is the proxy seat's writer face; this machine only files the receipt."
+ "notes": [
+  "2026-10-28 15:27 receipt existed but the card was never flipped; live numbers now 8.9-11.8G free vs the 0.6-1.3G that opened the card.",
+  "ollama.exe serve + ollama app.exe are alive but load nothing; they hold ~0 VRAM and are not the RAM blocker anymore.",
+  "Consequence: POOL-0021/0022 legs are unblocked on the RAM axis; POOL-0022 is already done and POOL-0021 closes with its C2099 verdict (see POOL-0021-CLOSURE-bm-c-20261030.md)."
+ ]
 }
