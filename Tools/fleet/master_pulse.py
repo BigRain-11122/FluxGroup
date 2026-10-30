@@ -55,6 +55,12 @@ STAGES = [
     ("contingency", ["Tools/fleet/fleet_contingency.py"], 120, {0}, True),
     ("judge", ["Tools/fleet/local_judge.py"], 180, {0}, True),
     ("brain", ["Tools/fleet/brain_service.py"], 240, {0}, True),
+    # Business production (2026-10-31 CEO: 本地 AI 赋能业务). Biz drafts one deliverable per
+    # job per day; social only drafts replies (never posts); supervisor writes the one-screen
+    # verdict. All are maintenance cadence so they cannot delay dispatch.
+    ("social", ["Tools/fleet/social_drafts.py"], 180, {0}, True),
+    ("biz", ["Tools/fleet/local_ai_business.py", "--due-only"], 600, {0, 1}, True),
+    ("supervisor", ["Tools/fleet/fleet_supervisor.py"], 60, {0}, True),
 ]
 
 
@@ -143,6 +149,23 @@ def pull_if_clean() -> str:
     return "skipped:dirty-race(%s)" % _one_line(msg, 80)
 
 
+def push_if_ahead() -> str:
+    """Other nodes read lanes from origin, so an unpushed dispatch is a silent no-op.
+    Pushing does not need a clean tree (unlike rebase) - no stash, no loss."""
+    try:
+        r = git(["rev-list", "--count", "origin/main..HEAD"], timeout=20)
+        ahead = int((r.stdout or "0").strip() or 0)
+    except Exception:
+        return "count-failed"
+    if ahead == 0:
+        return "up-to-date"
+    try:
+        r = git(["push", "origin", "HEAD:main"], timeout=90)
+    except subprocess.TimeoutExpired:
+        return "timeout"
+    return "ok+%d" % ahead if r.returncode == 0 else "failed:%s" % _one_line(r.stderr, 100)
+
+
 def ollama_ok() -> bool:
     try:
         with urllib.request.urlopen("http://127.0.0.1:11434/api/tags", timeout=5) as r:
@@ -227,6 +250,7 @@ def main() -> int:
         elif rc != 0:
             alerts.append("%s:%s" % (name, tail[-80:]))
 
+    git_push = "skipped" if no_pull else push_if_ahead()
     chk = checks()
     blockers = [c["name"] for c in chk if not c["ok"]] + ["stage:" + n for n in failed]
     pulse = {
@@ -235,6 +259,7 @@ def main() -> int:
         "sec": round(time.time() - started, 1),
         "slow_ts": time.time() if slow_due else float(prev.get("slow_ts") or 0),
         "git": git_note,
+        "push": git_push,
         "stages": stages,
         "checks": chk,
         "alerts": alerts,
@@ -250,8 +275,8 @@ def main() -> int:
 
     summary = " ".join("%s=%s/%ss" % (k, v["rc"], v["sec"]) for k, v in stages.items()
                        if v.get("rc") is not None)
-    log("%s pulse %s git=%s blockers=%s alerts=%s | %s"
-        % (now(), "OK" if pulse["ok"] else "DEGRADED", git_note,
+    log("%s pulse %s git=%s push=%s blockers=%s alerts=%s | %s"
+        % (now(), "OK" if pulse["ok"] else "DEGRADED", git_note, git_push,
            ",".join(blockers) or "-", ",".join(alerts) or "-", summary))
     print("pulse %s git=%s blockers=%s%s"
           % ("OK" if pulse["ok"] else "DEGRADED", git_note,
