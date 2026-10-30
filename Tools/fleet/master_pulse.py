@@ -63,6 +63,9 @@ STAGES = [
     ("biz", ["Tools/fleet/local_ai_business.py", "--due-only"], 600, {0, 1}, True),
     # Output timeliness + direction alignment, computed on git receipts/globs (the only
     # surface the Mac can always see), then the supervisor's one-screen verdict.
+    # Unified-memory budget: decide, every cycle, whether a heavier local model may load at
+    # all. 32GB is shared with the CEO's apps; the answer must be measured, not assumed.
+    ("mem", ["Tools/fleet/mem_gate.py", "--need-gb", "22"], 30, {0}, True),
     ("deadline", ["Tools/fleet/fleet_deadline.py"], 120, {0}, True),
     ("supervisor", ["Tools/fleet/fleet_supervisor.py"], 60, {0}, True),
     # Solve leg: requeues failed cards (capped), warns on starvation, and coordinates the
