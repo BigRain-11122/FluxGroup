@@ -82,38 +82,44 @@ def git(args, timeout=90):
 STATE_PREFIXES = ("cph4/fleet/", "fleet-console.html")
 
 
-def tree_is_clean() -> tuple[bool, list[str]]:
-    # Only tracked changes count: the master rewrites its own state files constantly, and
-    # rebasing on top of that is what produced the autostash losses.
-    r = git(["status", "--porcelain", "--untracked-files=no"])
-    dirty = [ln[3:].strip() for ln in (r.stdout or "").splitlines() if ln.strip()]
-    return (not dirty), dirty
+def tree_state() -> tuple[list[str], list[str]]:
+    """Return (tracked_dirty, untracked). Rebases only ever choke on tracked edits, but
+    untracked state files (PULSE.json, brain receipts) should still ride along so the repo
+    stays one coherent snapshot."""
+    r = git(["status", "--porcelain"])
+    tracked, untracked = [], []
+    for ln in (r.stdout or "").splitlines():
+        if not ln.strip():
+            continue
+        if ln.startswith("??"):
+            untracked.append(ln[3:].strip())
+        else:
+            tracked.append(ln[3:].strip())
+    return tracked, untracked
 
 
-def commit_state(dirty: list[str]) -> str:
+def commit_state(tracked: list[str], untracked: list[str]) -> str:
     """Commit the plane's own state files so a rebase never has to stash them.
 
     Hand edits under Tools/ are deliberately NOT committed here: if one is dirty the pulse
     refuses to pull instead of inventing a commit for someone else's work.
     """
-    if any(not p.startswith(STATE_PREFIXES) for p in dirty):
-        return "skipped:dirty(hand-edit %s)" % next(
-            p for p in dirty if not p.startswith(STATE_PREFIXES))[:60]
-    git(["add"] + dirty)
+    hand = [p for p in tracked if not p.startswith(STATE_PREFIXES)]
+    if hand:
+        return "skipped:dirty(hand-edit %s)" % hand[0][:60]
+    todo = [p for p in tracked + untracked if p.startswith(STATE_PREFIXES)]
+    if not todo:
+        return "ok (no state changes)"
+    git(["add"] + todo)
     r = git(["commit", "-q", "-m", "pulse: state snapshot [via bm-m]"])
     return "ok" if r.returncode == 0 else "commit-failed:%s" % (r.stderr or "").strip()[:80]
 
 
 def pull_if_clean() -> str:
-    clean, dirty = tree_is_clean()
-    note = ""
-    if not clean:
-        note = commit_state(dirty)
-        if not note.startswith("ok"):
-            return note
-        clean, dirty = tree_is_clean()
-        if not clean:
-            return "still-dirty:%s" % (dirty[0] if dirty else "")
+    tracked, untracked = tree_state()
+    note = commit_state(tracked, untracked)
+    if note.startswith("skipped"):
+        return note
     try:
         r = git(["pull", "--rebase", "--no-autostash", "origin", "main"], timeout=120)
     except subprocess.TimeoutExpired:
@@ -121,7 +127,7 @@ def pull_if_clean() -> str:
     if r.returncode != 0:
         git(["rebase", "--abort"])       # never leave a half-finished rebase behind
         return "failed:%s" % (r.stderr or r.stdout or "").strip()[:120]
-    return "ok" + ("(committed-state)" if note else "")
+    return "ok" + ("(committed-state)" if "no state" not in note else "")
 
 
 def ollama_ok() -> bool:
