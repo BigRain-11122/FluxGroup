@@ -1,23 +1,24 @@
 {
- "ts": "2026-10-31T00:01:53+08:00",
+ "ts": "2026-10-31T00:12:12+08:00",
  "node": "bm-m",
- "sec": 43.0,
- "slow_ts": 1793375702.98768,
- "git": "ok(committed-state)",
+ "sec": 33.9,
+ "slow_ts": 1793376321.8959072,
+ "git": "skipped:dirty(hand-edit Tools/fleet/master_pulse.py)",
+ "push": "up-to-date",
  "stages": {
   "hb": {
    "rc": 0,
-   "sec": 11.8,
-   "tail": "HB bm-m seq=1529 offset=469.4ms"
+   "sec": 11.6,
+   "tail": "HB bm-m seq=1535 offset=482.3ms"
   },
   "master": {
    "rc": 0,
-   "sec": 21.7,
+   "sec": 21.2,
    "tail": "  LINES: BLOCKED=1, PARKED=1, WAITING=11"
   },
   "lane": {
    "rc": 0,
-   "sec": 0.9,
+   "sec": 1.0,
    "tail": "LANE-IDLE bm-m :: SELF-DISPATCH: lane scans its own backlog"
   },
   "inventory": {
@@ -44,6 +45,21 @@
    "rc": null,
    "sec": 0,
    "tail": "deferred (runs every 600s)"
+  },
+  "social": {
+   "rc": null,
+   "sec": 0,
+   "tail": "deferred (runs every 600s)"
+  },
+  "biz": {
+   "rc": null,
+   "sec": 0,
+   "tail": "deferred (runs every 600s)"
+  },
+  "supervisor": {
+   "rc": null,
+   "sec": 0,
+   "tail": "deferred (runs every 600s)"
   }
  },
  "checks": [
@@ -60,12 +76,12 @@
   {
    "name": "com.fluxgroup.pulse",
    "ok": true,
-   "detail": "50708\t0\tcom.fluxgroup.pulse"
+   "detail": "53611\t0\tcom.fluxgroup.pulse"
   },
   {
    "name": "com.fluxgroup.dashboard",
    "ok": true,
-   "detail": "50788\t0\tcom.fluxgroup.dashboard"
+   "detail": "53779\t0\tcom.fluxgroup.dashboard"
   },
   {
    "name": "com.fluxgroup.ollama",

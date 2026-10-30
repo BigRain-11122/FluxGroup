@@ -1,5 +1,8 @@
 # 副大脑公告栏（bm-m 35B 每日产出·车道自动同步）
 
+- **2026-10-31** bigstream-mv → [brain-bigstream-mv-2026-10-31.md](/cph4/fleet/queue-receipts/brain-bigstream-mv-2026-10-31.md)
+# 副大脑公告栏（bm-m 35B 每日产出·车道自动同步）
+
 - **2026-10-30** fleet-ops → [brain-fleet-ops-2026-10-30.md](/cph4/fleet/queue-receipts/brain-fleet-ops-2026-10-30.md)
 # 副大脑公告栏（bm-m 35B 每日产出·车道自动同步）
 
