@@ -61,6 +61,9 @@ STAGES = [
     # verdict. All are maintenance cadence so they cannot delay dispatch.
     ("social", ["Tools/fleet/social_drafts.py"], 180, {0}, True),
     ("biz", ["Tools/fleet/local_ai_business.py", "--due-only"], 600, {0, 1}, True),
+    # Output timeliness + direction alignment, computed on git receipts/globs (the only
+    # surface the Mac can always see), then the supervisor's one-screen verdict.
+    ("deadline", ["Tools/fleet/fleet_deadline.py"], 120, {0}, True),
     ("supervisor", ["Tools/fleet/fleet_supervisor.py"], 60, {0}, True),
     # Solve leg: requeues failed cards (capped), warns on starvation, and coordinates the
     # only remote channel we have. Serial with the other queue writers.
