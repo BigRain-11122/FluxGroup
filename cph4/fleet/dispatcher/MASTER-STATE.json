@@ -1,26 +1,26 @@
 {
- "ts": "2026-10-30T17:22:55",
- "cycle": 1543,
+ "ts": "2026-10-30T17:33:01",
+ "cycle": 1552,
  "queue": {
   "total": 43,
-  "open": 2,
+  "open": 3,
   "running": 2,
   "done": 38,
-  "failed": 1
+  "failed": 0
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 41.3,
-   "cpu_load_pct": 20,
-   "ram_free_gb": 43.1,
-   "gpu_util_pct": 4,
+   "hb_age_s": 48.7,
+   "cpu_load_pct": 18,
+   "ram_free_gb": 42,
+   "gpu_util_pct": 13,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-10-30T17:20:05",
+    "ts": "2026-10-30T17:30:07",
     "reason": "DAY-YIELD: work machine, takes over at 19:00"
    },
    "idle_confirmed": false,
@@ -29,9 +29,9 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 121.0,
-   "cpu_load_pct": 14,
-   "ram_free_gb": 6.4,
+   "hb_age_s": 66.3,
+   "cpu_load_pct": 59,
+   "ram_free_gb": 1.9,
    "gpu_util_pct": null,
    "job": "Q-TTS-1202",
    "last_result": null,
@@ -41,8 +41,8 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 44.0,
-   "cpu_load_pct": 53,
+   "hb_age_s": 53.2,
+   "cpu_load_pct": 55,
    "ram_free_gb": 12,
    "gpu_util_pct": 0,
    "job": "Q-GPU-BMC-001",
@@ -55,26 +55,26 @@
    "online": true,
    "hb_age_s": 0.4,
    "cpu_load_pct": null,
-   "ram_free_gb": 2.5,
+   "ram_free_gb": 2.3,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-10-30T17:21:49",
+    "ts": "2026-10-30T17:31:56",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 108
+   "idle_rounds": 117
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 108
+  "bm-m": 117
  },
  "lines": {
   "bigstream-mv": {
@@ -683,7 +683,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 2,
+  "local": 3,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -691,13 +691,13 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 2,
+  "cpu": 3,
   "gpu": 0
  },
  "supply_added": [],
  "events": [],
  "violations": [
-  "bm-m IDLE-CONFIRMED x108 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-m IDLE-CONFIRMED x117 (SELF-DISPATCH: lane scans its own backlo)",
   "LINE-BLOCKED bigstream-drama ()"
  ],
  "lane_files_written": []
