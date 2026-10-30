@@ -1,27 +1,23 @@
 {
  "node": "bm-c",
- "ts": "2026-10-31T00:20:15",
+ "ts": "2026-10-31T01:05:54",
  "jobs": [
   {
-   "id": "R-LLM-BMC-PROBE",
-   "title": "传家宝本地模型探针（读满负荷规则出GPU排产建议）",
-   "cmd": null,
-   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "id": "Q-GPU-BMC-001",
+   "title": "传家宝 GPU 租约点火（撤 ollama/keepwarm→开 KF 试烧窗口·POOL-0021 前置）",
+   "cmd": "python Tools/fleet/gpu_lease.py --node bm-c --acquire --need-mb 12000",
+   "cwd": "K:/Fluxgroup/FluxGroup",
    "needs": "cpu",
-   "deliverable": "K:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/bm-c-local-llm-probe.md",
+   "deliverable": "K:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/bm-c-gpu-lease-receipt.md",
    "need_mb": null,
-   "model": "local-small",
-   "prompt": "读 cph4/fleet/dispatcher/FULL-LOAD-RULES-v1.md。本机情况：RTX3070 16G 显存基本空闲、内存今晨仅 0.4G 现约 12G、GPU 租约卡 Q-GPU-BMC-001 正在跑。请给：①今晚 GPU 该烧什么顺序？②内存必须守住什么底线？只依据文档+上述实况，不要编造工具，200字内。",
-   "when_all": [
-    "K:/Fluxgroup/FluxGroup/cph4/fleet/dispatcher/FULL-LOAD-RULES-v1.md"
-   ],
-   "llm": {
-    "out": "K:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/bm-c-local-llm-probe.md"
-   },
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": {},
    "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 3.4/3.0 GB"
+ "capacity_note": "ram 12.5/3.0 GB"
 }
