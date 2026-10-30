@@ -225,9 +225,18 @@ def self_dispatch(root, node, allow_gpu_workhours, max_seconds, hub, port, dry):
     rows = fl.read_jsonl(qpath)
     for x in rows:
         if x.get("id") == pick.get("id"):
-            x["state"] = "DONE" if (res.get("rc") == 0 or res.get("deliverable_exists")) else "FAILED"
+            ok = (res.get("rc") == 0 or res.get("deliverable_exists"))
+            x["state"] = "DONE" if ok else "FAILED"
             x["owner"] = node
             x["finished_at"] = fl.now_iso()
+            x["rc"] = res.get("rc")
+            x["seconds"] = res.get("seconds")
+            if not ok:
+                # A FAILED card with no reason is what made every incident a surprise
+                # (2026-10-31: R-MV-GATE-1D failed on bm-a and nothing recorded why).
+                x["failure"] = (res.get("stderr_tail") or res.get("stdout_tail")
+                                or res.get("reason") or "rc=%s, no output captured"
+                                % res.get("rc"))[:400]
             x["created_by"] = (x.get("created_by") or "") + "+lane-self"
     fl.write_jsonl(qpath, rows)
     return res
