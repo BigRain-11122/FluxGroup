@@ -1,18 +1,18 @@
 {
- "ts": "2026-10-30T23:58:10+08:00",
+ "ts": "2026-10-31T00:00:10+08:00",
  "node": "bm-m",
- "sec": 127.7,
+ "sec": 59.1,
  "slow_ts": 1793375702.98768,
- "git": "ok(committed-state)",
+ "git": "failed:From github.com:BigRain-11122/FluxGroup * branch main -> FETCH_HEAD error: cannot rebase: You have unstaged chang",
  "stages": {
   "hb": {
    "rc": 0,
-   "sec": 10.3,
-   "tail": "HB bm-m seq=1527 offset=465.7ms"
+   "sec": 11.9,
+   "tail": "HB bm-m seq=1528 offset=468.3ms"
   },
   "master": {
    "rc": 0,
-   "sec": 108.1,
+   "sec": 23.1,
    "tail": "  LINES: BLOCKED=1, PARKED=1, WAITING=11"
   },
   "lane": {
@@ -23,27 +23,27 @@
   "inventory": {
    "rc": null,
    "sec": 0,
-   "tail": "deferred (runs every 240s)"
+   "tail": "deferred (runs every 600s)"
   },
   "health": {
    "rc": null,
    "sec": 0,
-   "tail": "deferred (runs every 240s)"
+   "tail": "deferred (runs every 600s)"
   },
   "contingency": {
    "rc": null,
    "sec": 0,
-   "tail": "deferred (runs every 240s)"
+   "tail": "deferred (runs every 600s)"
   },
   "judge": {
    "rc": null,
    "sec": 0,
-   "tail": "deferred (runs every 240s)"
+   "tail": "deferred (runs every 600s)"
   },
   "brain": {
    "rc": null,
    "sec": 0,
-   "tail": "deferred (runs every 240s)"
+   "tail": "deferred (runs every 600s)"
   }
  },
  "checks": [
@@ -60,7 +60,7 @@
   {
    "name": "com.fluxgroup.pulse",
    "ok": true,
-   "detail": "49778\t0\tcom.fluxgroup.pulse"
+   "detail": "50289\t0\tcom.fluxgroup.pulse"
   },
   {
    "name": "com.fluxgroup.dashboard",
