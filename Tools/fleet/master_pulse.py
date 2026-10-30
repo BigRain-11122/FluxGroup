@@ -63,6 +63,11 @@ def log(line: str) -> None:
         f.write(line.rstrip() + "\n")
 
 
+def _one_line(s: str, limit: int = 140) -> str:
+    # git errors arrive multi-line; a newline in the log/state breaks every reader.
+    return " ".join(str(s or "").split())[:limit]
+
+
 def now() -> str:
     return datetime.now(timezone.utc).astimezone().isoformat(timespec="seconds")
 
@@ -106,13 +111,13 @@ def commit_state(tracked: list[str], untracked: list[str]) -> str:
     """
     hand = [p for p in tracked if not p.startswith(STATE_PREFIXES)]
     if hand:
-        return "skipped:dirty(hand-edit %s)" % hand[0][:60]
+        return "skipped:dirty(hand-edit %s)" % _one_line(hand[0], 60)
     todo = [p for p in tracked + untracked if p.startswith(STATE_PREFIXES)]
     if not todo:
         return "ok (no state changes)"
     git(["add"] + todo)
     r = git(["commit", "-q", "-m", "pulse: state snapshot [via bm-m]"])
-    return "ok" if r.returncode == 0 else "commit-failed:%s" % (r.stderr or "").strip()[:80]
+    return "ok" if r.returncode == 0 else "commit-failed:%s" % _one_line(r.stderr, 80)
 
 
 def pull_if_clean() -> str:
@@ -126,7 +131,7 @@ def pull_if_clean() -> str:
         return "timeout"
     if r.returncode != 0:
         git(["rebase", "--abort"])       # never leave a half-finished rebase behind
-        return "failed:%s" % (r.stderr or r.stdout or "").strip()[:120]
+        return "failed:%s" % _one_line(r.stderr or r.stdout, 120)
     return "ok" + ("(committed-state)" if "no state" not in note else "")
 
 
@@ -139,9 +144,29 @@ def ollama_ok() -> bool:
 
 
 def checks() -> list[dict]:
-    out = [{"name": "ollama", "ok": ollama_ok(), "detail": "http://127.0.0.1:11434/api/tags"}]
+    out = []
+    ok = ollama_ok()
+    detail = "http://127.0.0.1:11434/api/tags"
+    if not ok:
+        # The judgement seat is dead if Ollama is down; repair it before reporting.
+        subprocess.run(["launchctl", "kickstart", "-k", "gui/%d/com.fluxgroup.ollama" % os.getuid()],
+                       capture_output=True, text=True)
+        for _ in range(20):
+            time.sleep(1)
+            if ollama_ok():
+                ok, detail = True, "restarted by pulse after failing a health check"
+                break
+    out.append({"name": "ollama", "ok": ok, "detail": detail})
+
     caf = subprocess.run(["pgrep", "-f", "caffeinate"], capture_output=True, text=True)
-    out.append({"name": "caffeinate", "ok": bool(caf.stdout.strip()),
+    caf_ok = bool(caf.stdout.strip())
+    if not caf_ok:
+        subprocess.run(["launchctl", "kickstart", "-k", "gui/%d/com.fluxgroup.caffeinate" % os.getuid()],
+                       capture_output=True, text=True)
+        time.sleep(2)
+        caf = subprocess.run(["pgrep", "-f", "caffeinate"], capture_output=True, text=True)
+        caf_ok = bool(caf.stdout.strip())
+    out.append({"name": "caffeinate", "ok": caf_ok,
                 "detail": "keeps the plane awake on AC power"})
     r = subprocess.run(["launchctl", "list"], capture_output=True, text=True)
     for label in ("com.fluxgroup.pulse", "com.fluxgroup.dashboard", "com.fluxgroup.ollama"):
@@ -180,7 +205,7 @@ def main() -> int:
     started = time.time()
     prev = read_state()
     slow_due = force_slow or (time.time() - float(prev.get("slow_ts") or 0) > SLOW_EVERY)
-    git_note = "skipped" if no_pull else pull_if_clean()
+    git_note = "skipped" if no_pull else _one_line(pull_if_clean(), 120)
 
     stages, alerts, failed = {}, [], []
     for name, argv, timeout_s, ok_rc, slow in STAGES:
