@@ -8,8 +8,37 @@
   "主控不复述法条、不造活：队列空时只写 NEED-SUPPLY/JUDGMENT-QUEUE，由生产席认领。"
  ],
  "history": [
-  {"ts": "2026-10-29", "from": null, "to": "bm-a", "note": "master 上线首日"},
-  {"ts": "2026-10-29", "from": "bm-a", "to": "bm-m", "note": "CEO 令：主控迁 Mac，其余停"},
-  {"ts": "2026-10-30", "from": "bm-m", "to": "bm-m", "note": "单写手脉冲：master_pulse.py + caffeinate + 看门狗降频；停用 member/master/hb 三个并发任务"}
- ]
+  {
+   "ts": "2026-10-29",
+   "from": null,
+   "to": "bm-a",
+   "note": "master 上线首日"
+  },
+  {
+   "ts": "2026-10-29",
+   "from": "bm-a",
+   "to": "bm-m",
+   "note": "CEO 令：主控迁 Mac，其余停"
+  },
+  {
+   "ts": "2026-10-30",
+   "from": "bm-m",
+   "to": "bm-m",
+   "note": "单写手脉冲：master_pulse.py + caffeinate + 看门狗降频；停用 member/master/hb 三个并发任务"
+  }
+ ],
+ "role_boundary": {
+  "primary": "主控：派活、盯产出、监督机队、保证方向正确（第一任务）",
+  "allowed": [
+   "调度/仲裁/回执核销",
+   "常驻轻量模型（qwen3:4b-instruct，<=8GB，5m 短租）",
+   "文本类轻活：判读/摘要/评论草稿/当日业务件"
+  ],
+  "forbidden": [
+   "重度生产：i2v/KF/渲染/批量转码/回测",
+   "常驻 >8GB 模型（pulse 每小时检查并卸载）",
+   "deep 档业务件（ROUTED 给 bm-a 夜窗 / bm-d）"
+  ],
+  "enforced_by": "Tools/fleet/master_pulse.py:evict_heavy_models() + Tools/fleet/local_ai_business.py ROUTED"
+ }
 }

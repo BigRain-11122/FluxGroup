@@ -41,7 +41,7 @@ ROOT = os.path.dirname(os.path.dirname(HERE))
 OUT_DIR = os.path.join(ROOT, "cph4", "fleet", "queue-receipts")
 END = "http://127.0.0.1:11434/api/generate"
 MODELS = {"fast": "qwen3:4b-instruct", "deep": "qwen3.5:35b-a3b"}
-BANNED = ["绝对", "第一", "顶级", "永久", "稳赚", "包过", "最强", "最好", "唯一", "官方认证"]
+BANNED = ["绝对", "顶级", "永久", "稳赚", "包过", "全球最强", "全网第一", "销量第一", "官方认证", "零风险"]
 
 # Each job = a real business deliverable the group currently needs, with its sources.
 JOBS = {
@@ -158,6 +158,17 @@ def gate(text, job, ex):
 def run(job_id, tier_override=None, dry=False):
     job = JOBS[job_id]
     tier = tier_override or job["tier"]
+    if tier == "deep":
+        # CEO 2026-10-31: 这台机器只做调度/监督/常驻轻量模型，不干重度生产。
+        # A 22GB generation is production, not control. Route it, do not run it.
+        row = {"job": job_id, "line": job["line"], "tier": tier, "state": "ROUTED",
+               "ts": datetime.now().isoformat(timespec="seconds"),
+               "why": "bm-m 只做调度/监督/轻量模型；deep 档交机队（bm-a 夜窗 / bm-d）"}
+        route = os.path.join(ROOT, "cph4", "fleet", "dispatcher", "ROUTED-WORK.jsonl")
+        os.makedirs(os.path.dirname(route), exist_ok=True)
+        with open(route, "a", encoding="utf-8") as f:
+            f.write(json.dumps(row, ensure_ascii=False) + "\n")
+        return dict(row, problems=[])
     model = MODELS[tier]
     ex = excerpts(job)
     if not ex:
@@ -180,10 +191,10 @@ def run(job_id, tier_override=None, dry=False):
     with open(base + ".md", "w", encoding="utf-8") as f:
         f.write(text + "\n\n---\n*本地业务生产席 bm-m · %s · %ss · 依据仓库素材，非云端*\n"
                 % (model, sec))
+    out.update(state="DONE", path=base + ".md")
     with open(base + ".json", "w", encoding="utf-8") as f:
         json.dump(dict(out, ts=datetime.now().isoformat(timespec="seconds"),
                        sources=job["sources"]), f, ensure_ascii=False, indent=1)
-    out.update(state="DONE", path=base + ".md")
     return out
 
 

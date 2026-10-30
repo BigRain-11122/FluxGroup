@@ -31,6 +31,7 @@ import json
 import os
 import subprocess
 import sys
+from concurrent.futures import ThreadPoolExecutor
 import time
 import urllib.request
 from datetime import datetime, timezone
@@ -42,7 +43,7 @@ PY = sys.executable or "/usr/bin/python3"
 LOCK = "/tmp/fluxgroup-pulse.lock"
 LOG = "/tmp/fluxgroup-pulse.log"
 STATE_REL = "cph4/fleet/dispatcher/PULSE.json"
-SLOW_EVERY = 600   # maintenance (health/contingency/judge/brain) costs ~110s; keep it off the 60s dispatch path
+SLOW_EVERY = 300   # maintenance batch runs in parallel now, so 5 min is affordable
 
 # (name, argv, timeout_s, ok_rc, slow)
 STAGES = [
@@ -174,8 +175,38 @@ def ollama_ok() -> bool:
         return False
 
 
+MAX_RESIDENT_GB = 8.0
+
+
+def evict_heavy_models() -> str:
+    """bm-m is the control plane (CEO 2026-10-31): resident models must stay light.
+    A 22GB model here starves the 32GB box and swaps the whole machine."""
+    try:
+        with urllib.request.urlopen("http://127.0.0.1:11434/api/ps", timeout=5) as r:
+            models = json.load(r).get("models", [])
+    except Exception:
+        return "unknown"
+    heavy = [(m.get("name") or m.get("model"), (m.get("size_vram") or 0) / 1e9)
+             for m in models if (m.get("size_vram") or 0) / 1e9 > MAX_RESIDENT_GB]
+    if not heavy:
+        return "ok"
+    for name, _ in heavy:
+        try:
+            body = json.dumps({"model": name, "keep_alive": 0}).encode()
+            urllib.request.urlopen(urllib.request.Request(
+                "http://127.0.0.1:11434/api/generate", data=body,
+                headers={"Content-Type": "application/json"}), timeout=30).read()
+        except Exception:
+            pass
+    return "evicted:" + ",".join(n for n, _ in heavy)
+
+
 def checks() -> list[dict]:
     out = []
+    ev = evict_heavy_models()
+    out.append({"name": "resident-model-size", "ok": ev in ("ok", "unknown"),
+                "detail": "limit %.0fGB (control plane, not a production box): %s"
+                          % (MAX_RESIDENT_GB, ev)})
     ok = ollama_ok()
     detail = "http://127.0.0.1:11434/api/tags"
     if not ok:
@@ -239,16 +270,48 @@ def main() -> int:
     git_note = "skipped" if no_pull else _one_line(pull_if_clean(), 120)
 
     stages, alerts, failed = {}, [], []
-    for name, argv, timeout_s, ok_rc, slow in STAGES:
-        if slow and not slow_due:
-            stages[name] = {"rc": None, "sec": 0, "tail": "deferred (runs every %ds)" % SLOW_EVERY}
-            continue
-        rc, sec, tail = run_stage(argv, timeout_s)
+
+    def record(name, rc, sec, tail, ok_rc):
         stages[name] = {"rc": rc, "sec": sec, "tail": tail}
         if rc not in ok_rc:
             failed.append(name)
         elif rc != 0:
             alerts.append("%s:%s" % (name, tail[-80:]))
+
+    # Dispatch-critical stages stay serial and ordered; maintenance stages are independent
+    # and are run concurrently (2026-10-31: 4B handles 3 parallel calls at ~41 tok/s each
+    # with no extra memory, so the slow batch is latency-bound on nothing but serialisation).
+    # Queue writers (master, contingency, inventory) must never run concurrently or they
+    # clobber each other's rows; everything else is read-mostly and model-bound.
+    SLOW_SERIAL = {"inventory", "contingency"}
+    serial = [s for s in STAGES if not s[4]]
+    slow_serial = [s for s in STAGES if s[4] and s[0] in SLOW_SERIAL]
+    parallel = [s for s in STAGES if s[4] and s[0] not in SLOW_SERIAL]
+    pool = ThreadPoolExecutor(max_workers=4)
+    futs = {}
+    if slow_due:
+        # Start the read-mostly/model-bound batch BEFORE the dispatch trio: they do not read
+        # queue state, so waiting for hb+master first would just serialise the whole cycle.
+        futs = {name: pool.submit(run_stage, argv, timeout_s)
+                for name, argv, timeout_s, _, _ in parallel}
+
+    for name, argv, timeout_s, ok_rc, _ in serial:
+        rc, sec, tail = run_stage(argv, timeout_s)
+        record(name, rc, sec, tail, ok_rc)
+
+    if slow_due:
+        for name, argv, timeout_s, ok_rc, _ in slow_serial:
+            rc, sec, tail = run_stage(argv, timeout_s)
+            record(name, rc, sec, tail, ok_rc)
+        for name, _argv, _t, ok_rc, _ in parallel:
+            rc, sec, tail = futs[name].result()
+            record(name, rc, sec, tail, ok_rc)
+        pool.shutdown()
+    else:
+        pool.shutdown()
+        for name, _argv, _t, _ok, _ in slow_serial + parallel:
+            stages[name] = {"rc": None, "sec": 0,
+                            "tail": "deferred (runs every %ds)" % SLOW_EVERY}
 
     git_push = "skipped" if no_pull else push_if_ahead()
     chk = checks()

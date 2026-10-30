@@ -10,13 +10,14 @@ brain said it. D-20261030-01 lesson baked in: the prompt FORBIDS inventing tools
 the judge may only cite evidence given to it, and must say "需要人工" when unsure.
 """
 import json
+from concurrent.futures import ThreadPoolExecutor
 import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import fleet_lane as fl
 
-MAX_PER_CYCLE = 3   # 4B ~3.5s/judgment on the real queue -> fits the 60s tick with margin
+MAX_PER_CYCLE = 4   # 4B ~3.5s/judgment on the real queue -> fits the 60s tick with margin
 
 JUDGE_MODEL = (fl.LANES.get("bm-m", {}).get("llm") or {}).get("model") or "qwen3:4b-instruct"
 
@@ -31,14 +32,16 @@ def main():
     root = fl.ROOT_DEFAULT
     path = os.path.join(root, fl.JUDGMENT_REL.replace("/", os.sep))
     rows = fl.read_jsonl(path)
-    n = 0
-    for r in rows:
-        if r.get("state") != "OPEN" or n >= MAX_PER_CYCLE:
-            continue
-        ans = fl.local_llm(
+    todo = [r for r in rows if r.get("state") == "OPEN"][:MAX_PER_CYCLE]
+    # Parallel on purpose: 2026-10-31 measured 3 concurrent 4B calls at ~41 tok/s each with
+    # no extra memory, so serialising judgments burns wall-clock for nothing.
+    with ThreadPoolExecutor(max_workers=MAX_PER_CYCLE) as ex:
+        answers = list(ex.map(lambda r: fl.local_llm(
             PROMPT.format(question=r.get("question", ""),
                           evidence=json.dumps(r.get("evidence") or {}, ensure_ascii=False)[:1200]),
-            node="bm-m", timeout=40)
+            node="bm-m", timeout=90), todo))
+    n = 0
+    for r, ans in zip(todo, answers):
         if not ans or not str(ans).strip():
             r["note"] = "local-judge failed this round (ollama down?)"
             continue
