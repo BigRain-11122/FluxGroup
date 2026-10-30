@@ -42,7 +42,7 @@ PY = sys.executable or "/usr/bin/python3"
 LOCK = "/tmp/fluxgroup-pulse.lock"
 LOG = "/tmp/fluxgroup-pulse.log"
 STATE_REL = "cph4/fleet/dispatcher/PULSE.json"
-SLOW_EVERY = 240
+SLOW_EVERY = 600   # maintenance (health/contingency/judge/brain) costs ~110s; keep it off the 60s dispatch path
 
 # (name, argv, timeout_s, ok_rc, slow)
 STAGES = [
