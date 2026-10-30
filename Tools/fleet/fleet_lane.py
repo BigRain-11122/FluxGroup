@@ -47,7 +47,7 @@ KV_BUCKET = "FLEET_STATE"
 #   bm-d 3x V100 48GB / 256GB RAM        - assembly pending; when it joins it is the
 #                                          only box that can hold 768p batches + backtests
 LANES = {
-    "bm-a": {"needs": ["cpu", "gpu"], "ram_floor_gb": 3.0, "gpu_hours": (9, 19),
+    "bm-a": {"name_cn": "中枢机", "needs": ["cpu", "gpu"], "ram_floor_gb": 3.0, "gpu_hours": (9, 19),
              # CEO 2026-10-29: this is his WORK machine - full load only at night.
              # 09:00-19:00 weekdays it takes nothing unless a job is marked day_ok.
              "quiet_hours": (9, 19),
@@ -55,12 +55,12 @@ LANES = {
              "caps": ["cpu", "kf768", "i2v768", "audio", "assemble", "llm"],
              "llm": {"endpoint": "http://127.0.0.1:11434"},
              "roles": "hq-central night gpu", "game_launch_ok": False},
-    "bm-b": {"needs": ["cpu", "gpu"], "ram_floor_gb": 2.0, "gpu_hours": None,
+    "bm-b": {"name_cn": "声音机", "needs": ["cpu", "gpu"], "ram_floor_gb": 2.0, "gpu_hours": None,
              "enabled": True, "ram_gb": 24, "vram_gb": 8, "cuda": True,
              "caps": ["cpu", "animatic480", "audio", "tts", "llm"],
              "llm": {"endpoint": "http://127.0.0.1:11434"},
              "roles": "cpu sound / small gpu", "game_launch_ok": False},
-    "bm-c": {"needs": ["cpu", "gpu"], "ram_floor_gb": 3.0, "gpu_hours": None,
+    "bm-c": {"name_cn": "画图机", "needs": ["cpu", "gpu"], "ram_floor_gb": 3.0, "gpu_hours": None,
              "enabled": True, "ram_gb": 24, "vram_gb": 16, "cuda": True,
              "caps": ["cpu", "kf768", "i2v768", "audio", "render", "llm"],
              "llm": {"endpoint": "http://127.0.0.1:11434"},
@@ -70,7 +70,7 @@ LANES = {
     # bm-m is the CONTROL PLANE, not a worker (CEO 2026-10-29: 只做调度和 agent 中心,
 # 不干重活、不占硬盘). It runs the master, the bus client and light text jobs; it must
 # never receive media production, backtests or anything that writes large files.
-    "bm-m": {"needs": ["cpu"], "ram_floor_gb": 2.0, "gpu_hours": None,
+    "bm-m": {"name_cn": "主控机", "needs": ["cpu"], "ram_floor_gb": 2.0, "gpu_hours": None,
              "enabled": False, "pending": True, "auto_join": True,
              "ram_gb": 32, "vram_gb": 0, "cuda": False,
              "role_class": "control", "disk_free_min_gb": 20, "max_job_gb": 20,
@@ -81,7 +81,7 @@ LANES = {
                      "keep_alive": "5m", "num_ctx": 8192,
                      "why": "bm-m text 车道用 35B-a3b 关思考：MoE 实测 36 tok/s、3.4s 出结果（比 8B 快且质量高）；think:false 避免默认思考链 26s 首token等待；32GB 内存跑 21GB 模型余量足"},
              "roles": "control plane / ios / local llm / audio", "game_launch_ok": False},
-    "bm-d": {"needs": ["cpu", "gpu"], "ram_floor_gb": 4.0, "gpu_hours": None,
+    "bm-d": {"name_cn": "大脑机", "needs": ["cpu", "gpu"], "ram_floor_gb": 4.0, "gpu_hours": None,
              "enabled": False, "pending": True, "auto_join": True,
              "ram_gb": 256, "vram_gb": 48, "cuda": True,
              "caps": ["cpu", "kf768", "i2v768", "backtest", "brain", "llm"],
