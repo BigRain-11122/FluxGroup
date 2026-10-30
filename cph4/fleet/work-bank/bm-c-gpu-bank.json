@@ -1649,7 +1649,7 @@
    "cmd": [],
    "log_out": "media/mv-album-001-jay/logs/kn21_reburn.out.log",
    "log_err": "media/mv-album-001-jay/logs/kn21_reburn.err.log",
-   "note": "Blocked on a signed prompt gate for the single KN21 retry: the current prompt produced glyph soup. Authoring step (zero GPU): rewrite KN21 prompt (rooftop night + paper plane crossing, no text/glyph words, explicit camera move), run Tools/preflight_gate.py guard() to empty, then emit a one-unit manifest and burn 1344x768 int8. Also decide KN17/KN18/KN25: stars/empty plate may be accepted with a light lift instead of a re-burn."
+   "note": "C2172 retried once: int4 768P (wf_h3_i2v_768p_int4.json) no longer emits glyph noise but drifts into a Chinese papercraft / stained-glass / cartoon-face look - fails the no-Chinese-style law. Both takes now falsified with this KF (int8 = glyph soup, int4 = style drift), so the next attempt must start from a NEW real-scene KF, not another re-burn of the same first frame. See KN21-RETRY-VERDICT-c2172.md."
   }
  ],
  "_note_20261026": "lookdev-20261025 batch (K:/Fluxgroup/.codely-cli/tmp/lookdev_bank.py) runs outside the bank by design as decision support for the CEO 2026-10-25 22:4x new-process order; it is not KF and not a final, so it does not violate the D1-before-KF gate. Authorized by O-20261026-0735 sec.4."
