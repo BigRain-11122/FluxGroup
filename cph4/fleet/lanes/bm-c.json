@@ -1,8 +1,23 @@
 {
  "node": "bm-c",
- "ts": "2026-10-30T22:11:49",
- "jobs": [],
- "idle_reason": "CAPACITY-BLOCKED-RAM OFFLINE (hb age Nones)",
- "lane_ok": false,
- "capacity_note": "OFFLINE (hb age Nones)"
+ "ts": "2026-10-30T23:33:58",
+ "jobs": [
+  {
+   "id": "Q-GPU-BMC-001",
+   "title": "传家宝 GPU 租约点火（撤 ollama/keepwarm→开 KF 试烧窗口·POOL-0021 前置）",
+   "cmd": "python Tools/fleet/gpu_lease.py --node bm-c --acquire --need-mb 12000",
+   "cwd": "K:/Fluxgroup/FluxGroup",
+   "needs": "cpu",
+   "deliverable": "K:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/bm-c-gpu-lease-receipt.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": {},
+   "timeout_s": null
+  }
+ ],
+ "idle_reason": "",
+ "lane_ok": true,
+ "capacity_note": "ram 9.4/3.0 GB"
 }

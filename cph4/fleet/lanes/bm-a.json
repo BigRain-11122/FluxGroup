@@ -1,8 +1,27 @@
 {
  "node": "bm-a",
- "ts": "2026-10-30T22:11:49",
- "jobs": [],
- "idle_reason": "CAPACITY-BLOCKED-RAM OFFLINE (hb age Nones)",
- "lane_ok": false,
- "capacity_note": "OFFLINE (hb age Nones)"
+ "ts": "2026-10-30T23:33:58",
+ "jobs": [
+  {
+   "id": "R-LLM-BMA-PROBE",
+   "title": "生产力机本地模型探针（day_ok 轻卡：v717 签核表摘要）",
+   "cmd": null,
+   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "needs": "cpu",
+   "deliverable": "C:/Users/sjs20/Desktop/FluxGroup/cph4/fleet/queue-receipts/bm-a-local-llm-probe.md",
+   "need_mb": null,
+   "model": "local-small",
+   "prompt": "读 cph4/fleet/dispatcher/FULL-LOAD-RULES-v1.md 与《爱在西元前》待人工四项背景：给导演席写一份 120 字签核备忘——四项各查什么、机器已证到什么、还缺什么判断。只依据文档，不得编造帧号或文件。",
+   "when_all": [
+    "C:/Users/sjs20/Desktop/FluxGroup/cph4/fleet/dispatcher/FULL-LOAD-RULES-v1.md"
+   ],
+   "llm": {
+    "out": "C:/Users/sjs20/Desktop/FluxGroup/cph4/fleet/queue-receipts/bm-a-local-llm-probe.md"
+   },
+   "timeout_s": null
+  }
+ ],
+ "idle_reason": "",
+ "lane_ok": true,
+ "capacity_note": "ram 51.6/3.0 GB"
 }
