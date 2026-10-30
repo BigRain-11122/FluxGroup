@@ -1,18 +1,18 @@
 {
- "ts": "2026-10-31T00:00:10+08:00",
+ "ts": "2026-10-31T00:01:53+08:00",
  "node": "bm-m",
- "sec": 59.1,
+ "sec": 43.0,
  "slow_ts": 1793375702.98768,
- "git": "failed:From github.com:BigRain-11122/FluxGroup * branch main -> FETCH_HEAD error: cannot rebase: You have unstaged chang",
+ "git": "ok(committed-state)",
  "stages": {
   "hb": {
    "rc": 0,
-   "sec": 11.9,
-   "tail": "HB bm-m seq=1528 offset=468.3ms"
+   "sec": 11.8,
+   "tail": "HB bm-m seq=1529 offset=469.4ms"
   },
   "master": {
    "rc": 0,
-   "sec": 23.1,
+   "sec": 21.7,
    "tail": "  LINES: BLOCKED=1, PARKED=1, WAITING=11"
   },
   "lane": {
@@ -60,12 +60,12 @@
   {
    "name": "com.fluxgroup.pulse",
    "ok": true,
-   "detail": "50289\t0\tcom.fluxgroup.pulse"
+   "detail": "50708\t0\tcom.fluxgroup.pulse"
   },
   {
    "name": "com.fluxgroup.dashboard",
    "ok": true,
-   "detail": "-\t0\tcom.fluxgroup.dashboard"
+   "detail": "50788\t0\tcom.fluxgroup.dashboard"
   },
   {
    "name": "com.fluxgroup.ollama",
