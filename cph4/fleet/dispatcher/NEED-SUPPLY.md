@@ -1,11 +1,11 @@
 # NEED-SUPPLY - why lanes and business lines are not running (#regenerated)
 
-- ts: 2026-10-30T19:56:06
-- queue: open=5 running=1 done=38 failed=2
-- open jobs by need: cpu=5 gpu=0
+- ts: 2026-10-30T21:02:30
+- queue: open=6 running=0 done=38 failed=2
+- open jobs by need: cpu=5 gpu=1
 
 - bm-a: CAPACITY-BLOCKED-RAM OFFLINE (hb age Nones) -> free memory on that box (gpu_lease --acquire reclaims it)
-- bm-b: RUNNING Q-TTS-1202
+- bm-b: CAPACITY-BLOCKED-RAM OFFLINE (hb age Nones) -> free memory on that box (gpu_lease --acquire reclaims it)
 - bm-c: CAPACITY-BLOCKED-RAM OFFLINE (hb age Nones) -> free memory on that box (gpu_lease --acquire reclaims it)
 
 Rules pack: cph4/fleet/WORK-RULES.jsonl (empty = every job must be declared by a producing seat; the master will not invent work).

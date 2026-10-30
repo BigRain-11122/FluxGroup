@@ -1,23 +1,8 @@
 {
  "node": "bm-b",
- "ts": "2026-10-30T17:04:44",
- "jobs": [
-  {
-   "id": "Q-TTS-1202",
-   "title": "短剧配音大产批 EP001-EP060（index-tts 静默链·小钢炮已验证栈）",
-   "cmd": "cmd /c \"C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\voicegen_batch_ep004_060.cmd\"",
-   "cwd": "C:/Fluxgroup/FluxGroup",
-   "needs": "gpu",
-   "deliverable": "C:/Fluxgroup/FluxGroup/media/drama-tts-out/r1202_ep001_060/",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": {},
-   "timeout_s": null
-  }
- ],
- "idle_reason": "",
- "lane_ok": true,
- "capacity_note": "ram-unknown"
+ "ts": "2026-10-30T21:02:30",
+ "jobs": [],
+ "idle_reason": "CAPACITY-BLOCKED-RAM OFFLINE (hb age Nones)",
+ "lane_ok": false,
+ "capacity_note": "OFFLINE (hb age Nones)"
 }
