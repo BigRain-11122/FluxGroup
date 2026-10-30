@@ -131,6 +131,11 @@ def supply(root, queue, have_ids):
             "cloud_est_credits": r.get("cloud_est_credits"),
             "heavy": bool(r.get("heavy")),
             "timeout_s": r.get("timeout_s"),
+            # day_ok must survive promotion or bm-a daytime cards wait until 19:00
+            # (2026-10-30: R-LLM-BMA-PROBE lost its day_ok right here).
+            "day_ok": bool(r.get("day_ok")),
+            "when_none": r.get("when_none") or [],
+            "need_mb": r.get("need_mb"), "est_gb": r.get("est_gb"),
             "state": "OPEN", "route": "local",
             "created_by": "master_agent:rule", "created_at": fl.now_iso(),
         })
