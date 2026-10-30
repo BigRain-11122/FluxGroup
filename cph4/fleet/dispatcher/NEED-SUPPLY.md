@@ -1,8 +1,8 @@
 # NEED-SUPPLY - why lanes and business lines are not running (#regenerated)
 
-- ts: 2026-10-31T00:47:54
-- queue: open=8 running=3 done=39 failed=0
-- open jobs by need: cpu=8 gpu=0
+- ts: 2026-10-31T00:54:54
+- queue: open=11 running=3 done=39 failed=0
+- open jobs by need: cpu=11 gpu=0
 
 - bm-a: RUNNING R-MV-GATE-1D
 - bm-b: RUNNING Q-TTS-1202
@@ -30,8 +30,3 @@ Rules pack: cph4/fleet/WORK-RULES.jsonl (empty = every job must be declared by a
 | BigStream·短视频/切片 | PARKED | - | 168.0h | - | 短视频席 |
 
 - PARKED=CEO 令停，不计闲置；WAITING=没活但未过期；STALE=超过阈值无产出；BLOCKED=有活但无可用车道；卡在=最早断供的工段。
-
-## 条线 Agent 续卡 2026-10-31 00:48
-
-- 本轮续卡 3：Q-TRIAGE-FLUXVERSE-20261031, Q-TRIAGE-BIGMONEY-20261031, Q-TRIAGE-CARGAMING-20261031
-- NO-DATA（证据不在主控盘上，需生产机上报）22 段
