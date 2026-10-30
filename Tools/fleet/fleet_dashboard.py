@@ -43,6 +43,18 @@ def main():
             hb[n]={'name':names.get(n,n),'online':age<=900,'age_s':round(age,1),'ram':s.get('ram_free_gb'),'gpu':s.get('gpu_util_pct')}
         else:
             hb[n]={'name':names.get(n,n),'online':False,'age_s':None}
+    # NATS is the primary source, but the bus lives on bm-a (100.110.185.62): when the
+    # link is down this page showed 0/5 online (2026-10-30) which reads as "fleet dead"
+    # while every node was heartbeating fine. Fall back to the master's own snapshot.
+    if not any(v.get('online') for v in hb.values()):
+        try:
+            ms_l = json.load(open(os.path.join(ROOT, 'cph4/fleet/dispatcher/MASTER-STATE.json'), encoding='utf-8-sig'))
+            for n, v in (ms_l.get('lanes') or {}).items():
+                hb[n] = {'name': names.get(n, n), 'online': bool(v.get('online')),
+                         'age_s': v.get('hb_age_s'), 'ram': v.get('ram_free_gb'),
+                         'gpu': v.get('gpu_util_pct')}
+        except Exception:
+            pass
     qf=os.path.join(ROOT,'cph4/fleet/PRODUCTION-QUEUE.jsonl')
     from collections import Counter
     rows=[]
@@ -68,9 +80,18 @@ def main():
     ht=[]
     try: ht=[l.strip()[:150] for l in open('/tmp/fleet-health.log').readlines()[-2:]]
     except Exception: pass
-    cyc=''
-    try: cyc=[l for l in open('/tmp/fluxgroup-member.log') if 'MASTER cyc' in l][-1][:110]
-    except Exception: pass
+    cyc=''; pulse_age=None; pulse_ok=None; pulse_blockers=[]
+    try:
+        pp=os.path.join(ROOT,'cph4/fleet/dispatcher/PULSE.json')
+        pd=json.load(open(pp,encoding='utf-8-sig'))
+        pulse_age=time.time()-os.path.getmtime(pp)
+        pulse_ok=pd.get('ok'); pulse_blockers=pd.get('blockers') or []
+        st=pd.get('stages') or {}
+        cyc='pulse %s · %.0fs 前 · 本轮 %ss · git=%s | %s' % (
+            '正常' if pulse_ok else '降级', pulse_age, pd.get('sec'),
+            pd.get('git'), ' '.join('%s=%s/%ss'%(k,v.get('rc'),v.get('sec')) for k,v in st.items() if v.get('rc') is not None))
+    except Exception:
+        pass
 
     def card(n):
         s=hb.get(n,{}); on=s.get('online',False)
@@ -119,7 +140,7 @@ li{{list-style:none;font-size:12.5px;padding:4px 0;border-bottom:1px dashed #1c2
   <div class="panel"><h2>▶ 运行中</h2><ul>{run_html}</ul><div class="kpi" style="margin-top:8px"><div><b>{q.get('DONE',0)}</b><span>完成</span></div><div><b>{q.get('OPEN',0)}</b><span>待派</span></div><div><b>{q.get('RUNNING',0)}</b><span>运行</span></div></div></div>
   <div class="panel"><h2>📦 最近产出</h2><div style="font-size:12px;line-height:2">{rec_html}</div></div>
 </div>
-<div class="mono" style="margin-top:12px;background:#0d1320;border:1px solid #1c2740;border-radius:10px;padding:10px 14px"><b style="color:#8ea0c0">主控脉（最近调度轮）</b><br>{cyc or '—'}<br><br>{ht[0] if ht else ''}<br>{ht[1] if len(ht)>1 else ''}</div>
+<div class="mono" style="margin-top:12px;background:#0d1320;border:1px solid #1c2740;border-radius:10px;padding:10px 14px"><b style="color:#8ea0c0">主控脉（master_pulse · 60s）</b><br>{cyc or '—'}<br>{"阻塞: " + ", ".join(pulse_blockers) if pulse_blockers else ""}<br><br>{ht[0] if ht else ''}<br>{ht[1] if len(ht)>1 else ''}</div>
 <div class="src">{src}</div>
 </body></html>'''
     with open(OUT,'w',encoding='utf-8') as f: f.write(html)

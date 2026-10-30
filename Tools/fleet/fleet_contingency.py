@@ -86,11 +86,15 @@ def main():
         return True
 
     # ---- S1 主控脉停摆 -> 自愈
-    age = _mtime_age("/tmp/fluxgroup-member.log")
+    # 2026-10-30: the pulse moved from the launchd "member" job (which also fired the
+    # master every 60s alongside a second 120s master) to master_pulse.py. Watch PULSE.json,
+    # not the old log, or this self-heal would fire forever and repair nothing.
+    pulse_path = os.path.join(ROOT, "cph4/fleet/dispatcher/PULSE.json")
+    age = _mtime_age(pulse_path)
     if age is None or age > 300:
         if mark("S1:" + today, 900):
-            rc, out, err = _sh("launchctl kickstart -k gui/%d/com.fluxgroup.member" % UID)
-            actions.append("S1 主控脉日志 %ss 未更新 -> kickstart %s"
+            rc, out, err = _sh("launchctl kickstart -k gui/%d/com.fluxgroup.pulse" % UID)
+            actions.append("S1 主控脉 PULSE.json %ss 未更新 -> kickstart %s"
                            % (int(age) if age is not None else -1,
                               "ok" if rc == 0 else "fail:" + err[:80]))
 
