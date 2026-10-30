@@ -1,0 +1,12 @@
+{
+  "id": "OB-20261031-001653-926",
+  "ts": "2026-10-31 00:16",
+  "text": "CEO 令 2026-10-31：CPU 算力机队都不要浪费，去训练音色库。\n处置：音色库（VOICE-BANK-PLAN v1）从\"方案+工具\"转实产，按机分片、各机自下载自建语料（机队无大文件通道，vb_worker 设计即如此）。\n分工：bm-b 主道先出 v01-v03 三席样板并公布 BV 分配清单（写回仓内 Tools/voicebank/jobs_<voice>.txt，供他机自领）；bm-c 领 v04/v05 两席，CPU 侧跑语料 shard 与训练。\n先决：bm-b 侧 GPT-SoVITS 与 pretrained v2Pro 是目前唯一安装（C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\GPT-SoVITS）；bm-c 无此目录，需最小可跑集分发或由 bm-b 直接训练。验收：REGISTRY.jsonl 每席含 voice id/时长/F0 命名法/权重路径/试听样本，且过三步闸（F0 四分位差<0.75、静音<20%、ASR 回识>=0.90）。",
+  "lanes": [
+    "bm-a",
+    "bm-b",
+    "bm-c"
+  ],
+  "src": "FLUXGROUP",
+  "status": "dispatched"
+}
