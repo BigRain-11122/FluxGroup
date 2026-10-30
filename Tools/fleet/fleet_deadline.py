@@ -174,7 +174,7 @@ def main() -> int:
                 "question": "这条线已 %.0f 小时没有落库产出（阈值 %.0f），下一步该做什么？" % (age_h, limit_h),
                 "evidence": {"last_receipt": src, "age_h": round(age_h, 1), "limit_h": limit_h,
                              "owner": owner},
-                "tier": "cloud-smart", "ts": datetime.now(timezone.utc).astimezone().isoformat(timespec="seconds"),
+                "tier": "local", "ts": datetime.now(timezone.utc).astimezone().isoformat(timespec="seconds"),
                 "state": "OPEN"})
             made += 1
 

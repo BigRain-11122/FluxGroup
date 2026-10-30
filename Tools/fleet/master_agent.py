@@ -596,7 +596,7 @@ def cycle(root, dry=False, push=True, node="bm-a"):
     policy = fl.load_policy(root)
     judgments = build_judgments(root, rows, lanes_state, lines_state, fleet, policy) if not dry \
         else {"open": 0, "by_kind": {}, "added": 0,
-              "tick_tier": "none", "judgment_tier": "cloud-smart"}
+              "tick_tier": "none", "judgment_tier": "local"}
     for lid, ls in lines_state.items():
         bn = (stages_state.get(lid) or {}).get("bottleneck") or {}
         if ls["verdict"] == "STALE":
@@ -794,7 +794,7 @@ def build_judgments(root, rows, lanes_state, lines_state, fleet, policy):
     def add(kind, key, question, evidence):
         wanted.append({"key": "%s:%s" % (kind, key), "kind": kind, "subject": key,
                        "question": question, "evidence": evidence,
-                       "tier": "cloud-smart", "ts": fl.now_iso(), "state": "OPEN"})
+                       "tier": "local", "ts": fl.now_iso(), "state": "OPEN"})
 
     for r in rows:
         if r.get("state") == "OPEN" and (r.get("model") or "none") == "cloud-smart":
@@ -849,7 +849,7 @@ def build_judgments(root, rows, lanes_state, lines_state, fleet, policy):
         if e.get("state") == "OPEN":
             open_by_kind[e["kind"]] = open_by_kind.get(e["kind"], 0) + 1
     return {"open": sum(open_by_kind.values()), "by_kind": open_by_kind, "added": added,
-            "tick_tier": "none", "judgment_tier": "cloud-smart"}
+            "tick_tier": "none", "judgment_tier": "local"}
 
 
 STAGE_CACHE_REL = "cph4/fleet/dispatcher/STAGE-CACHE.json"
