@@ -78,7 +78,7 @@ LANES = {
              "llm": {"endpoint": "http://127.0.0.1:11434",
                      "model": "qwen3.5:35b-a3b",
                      "think": False,
-                     "keep_alive": "5m", "num_ctx": 8192,
+                     "keep_alive": -1, "num_ctx": 8192,
                      "why": "bm-m text 车道用 35B-a3b 关思考：MoE 实测 36 tok/s、3.4s 出结果（比 8B 快且质量高）；think:false 避免默认思考链 26s 首token等待；32GB 内存跑 21GB 模型余量足"},
              "roles": "control plane / ios / local llm / audio", "game_launch_ok": False},
     "bm-d": {"name_cn": "算力大脑", "needs": ["cpu", "gpu"], "ram_floor_gb": 4.0, "gpu_hours": None,
@@ -352,10 +352,13 @@ def local_llm(prompt, policy=None, timeout=120, node=None):
     # keep_alive: a resident 4B pinned its whole context into 7.5GB of a 12GB card on the
     # CEO's work machine (2026-10-29). Ask for a short lease and a small context so the
     # model gives the VRAM back when nobody is using it.
+    _pol = (policy or {}).get("lane_local_llm", {}) or {}
     body = json.dumps({"model": model, "prompt": prompt, "stream": False,
-                       "keep_alive": (policy or {}).get("lane_local_llm", {}).get("keep_alive", "5m"),
+                       # lane spec wins over policy: bm-m keeps its model hot forever,
+                       # bm-a/b stay at the conservative 5m lease for their 12GB cards.
+                       "keep_alive": spec.get("keep_alive", _pol.get("keep_alive", "5m")),
                        "think": spec.get("think", True),
-                       "options": {"num_ctx": int((policy or {}).get("lane_local_llm", {}).get("num_ctx", 4096))},
+                       "options": {"num_ctx": int(spec.get("num_ctx", _pol.get("num_ctx", 4096)))},
                        }).encode()
     req = urllib.request.Request(base.rstrip("/") + "/api/generate", data=body,
                                  headers={"Content-Type": "application/json"})

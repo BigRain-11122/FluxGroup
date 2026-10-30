@@ -1,0 +1,12 @@
+{
+ "id": "R-DX-20261030-001",
+ "node": "bm-m",
+ "rc": 0,
+ "seconds": 19.9,
+ "cmd": "",
+ "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-fleet-dx-round2.md",
+ "deliverable_exists": true,
+ "ts": "2026-10-30T14:19:21",
+ "stdout_tail": "**机队健康面**：1 条产能通道（bm-c）因内存不足停摆，3 条产线因无数据待命，整体队列积压空转。\n前两大堵点：①bm-c 节点内存仅剩 0.1GB 触发容量阻塞；②bm-b 节点闲置确认超 24 轮且无作业供给。\n执行动作：调度 R-DX-20261030-001 从 `bigstream-mv` -> `bm-m` 通道启动计算任务。\n风险：若内存未释放，本地 GPU 产线将长期停滞导致交付延迟。",
+ "stderr_tail": ""
+}

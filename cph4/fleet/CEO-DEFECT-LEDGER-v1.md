@@ -168,3 +168,8 @@
 | 车机 UI/游戏 | 待建 |
 
 *台账维护：发现问题当窗入账；每周删/并一次重复项；正身随仓提交。*
+## D-20261030-01 | local-llm 产出含臆造命令（sysctl 用在 Windows 机）
+- 现象：bm-m-drama-unblock.md 建议在 bm-a（Windows）执行 sysctl -p / reset_heartbeat / unblock_capacity——均为不存在的命令，属模型幻觉。
+- 根因：local-llm 只基于 prompt 输出，未强制交叉验证"引用的命令/工具是否在正典存在"。
+- 整改：产出中"修复步骤"类任务必须可溯源到 Tools/ 或正典文件名；命令存在性未验证即标【未验证】。
+- 状态：已返工重写（事实版 1964B）。
