@@ -1,25 +1,23 @@
 {
  "node": "bm-b",
- "ts": "2026-10-31T05:54:49",
+ "ts": "2026-10-31T06:05:12",
  "jobs": [
   {
-   "id": "Q-MIX-1203",
-   "title": "短剧混音接力批 EP001-EP060（TTS 完成即自动点火·drama_mix_batch 正典用法）",
-   "cmd": "python \"C:/Fluxgroup/FluxGroup\\media\\drama-tools\\drama_mix_batch.py\" EP001-EP060 --tts r1202_ep001_060 --out r1203_ep001_060",
+   "id": "Q-TTS-1202",
+   "title": "短剧配音大产批 EP001-EP060（index-tts 静默链·小钢炮已验证栈）",
+   "cmd": "cmd /c \"C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\voicegen_batch_ep004_060.cmd\"",
    "cwd": "C:/Fluxgroup/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "C:/Fluxgroup/FluxGroup/media/drama-mix-out/r1203_ep001_060/",
+   "needs": "gpu",
+   "deliverable": "C:/Fluxgroup/FluxGroup/media/drama-tts-out/r1202_ep001_060/",
    "need_mb": null,
    "model": "none",
    "prompt": "",
-   "when_all": [
-    "C:/Fluxgroup/FluxGroup/media/drama-tts-out/r1202_ep001_060"
-   ],
+   "when_all": [],
    "llm": {},
    "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram-unknown"
+ "capacity_note": "ram 5.5/2.0 GB"
 }
