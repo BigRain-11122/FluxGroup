@@ -1559,3 +1559,5 @@
 [2026-10-30T23:44:38] cyc=1688 q=4/3/38 sup=0 ev=2 idle=bm-a:-,bm-b:-,bm-c:- flags=bm-m IDLE-CONFIRMED x11 (SELF-DISPATCH: lane scans its own backlo);LINE-BLOCKED bigstream-drama ()
 [2026-10-30T23:46:34] cyc=1689 q=4/2/39 sup=0 ev=1 idle=bm-a:SELF-DISPATCH: lan,bm-b:-,bm-c:- flags=bm-m IDLE-CONFIRMED x12 (SELF-DISPATCH: lane scans its own backlo);LINE-BLOCKED bigstream-drama ()
 [2026-10-30T23:48:41] cyc=1690 q=4/2/39 sup=0 ev=0 idle=bm-a:SELF-DISPATCH: lan,bm-b:-,bm-c:- flags=bm-m IDLE-CONFIRMED x13 (SELF-DISPATCH: lane scans its own backlo);LINE-BLOCKED bigstream-drama ()
+[2026-10-30T23:51:33] cyc=1691 q=4/2/39 sup=0 ev=0 idle=bm-a:SELF-DISPATCH: lan,bm-b:-,bm-c:- flags=bm-m IDLE-CONFIRMED x14 (SELF-DISPATCH: lane scans its own backlo);LINE-BLOCKED bigstream-drama ()
+[2026-10-30T23:53:11] cyc=1692 q=4/2/39 sup=0 ev=0 idle=bm-a:SELF-DISPATCH: lan,bm-b:-,bm-c:- flags=bm-m IDLE-CONFIRMED x15 (SELF-DISPATCH: lane scans its own backlo);LINE-BLOCKED bigstream-drama ()

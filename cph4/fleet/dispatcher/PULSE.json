@@ -1,0 +1,81 @@
+{
+ "ts": "2026-10-30T23:55:02+08:00",
+ "node": "bm-m",
+ "sec": 147.9,
+ "slow_ts": 1793375702.98768,
+ "git": "skipped:dirty(hand-edit Tools/fleet/fleet_contingency.py)",
+ "stages": {
+  "hb": {
+   "rc": 0,
+   "sec": 13.4,
+   "tail": "HB bm-m seq=1526 offset=454.6ms"
+  },
+  "master": {
+   "rc": 0,
+   "sec": 23.7,
+   "tail": "  LINES: BLOCKED=1, PARKED=1, WAITING=11"
+  },
+  "lane": {
+   "rc": 0,
+   "sec": 1.3,
+   "tail": "LANE-IDLE bm-m :: SELF-DISPATCH: lane scans its own backlog"
+  },
+  "inventory": {
+   "rc": 1,
+   "sec": 0.1,
+   "tail": "[2026-10-30T23:53:13] bm-a stock=0 [] | bm-a after-refill=0 | bm-b stock=3 ['Q-MIX-1203', 'Q-TTS-1202', 'R-LLM-BMB-PROBE'] | bm-c stock=3 ['Q-GPU-BMC-001', 'Q-V"
+  },
+  "health": {
+   "rc": 0,
+   "sec": 9.5,
+   "tail": "bm-a HB=1s ONLINE ram=53.9G gpu=97 | bm-b HB=17s ONLINE ram=5G gpu=None | bm-c HB=235s ONLINE ram=0.7G gpu=100 | bm-m HB=27s ONLINE ram=22.8G gpu=None | bm-m 本地"
+  },
+  "contingency": {
+   "rc": 0,
+   "sec": 99.8,
+   "tail": "contingency 2026-10-30T23:55:02 | 动作 1 | 新升级 1 | 在线['bm-a', 'bm-b', 'bm-c', 'bm-m'] | S3 分叉 ahead=6 behind=0 -> rebase修复 需人工"
+  },
+  "judge": {
+   "rc": 0,
+   "sec": 0.1,
+   "tail": "[local_judge] answered=0 still_open=0 (tier: local→shared→codely)"
+  },
+  "brain": {
+   "rc": 0,
+   "sec": 0.0,
+   "tail": "[brain] all 6 lines served today"
+  }
+ },
+ "checks": [
+  {
+   "name": "ollama",
+   "ok": true,
+   "detail": "http://127.0.0.1:11434/api/tags"
+  },
+  {
+   "name": "caffeinate",
+   "ok": true,
+   "detail": "keeps the plane awake on AC power"
+  },
+  {
+   "name": "com.fluxgroup.pulse",
+   "ok": true,
+   "detail": "48738\t0\tcom.fluxgroup.pulse"
+  },
+  {
+   "name": "com.fluxgroup.dashboard",
+   "ok": true,
+   "detail": "49666\t0\tcom.fluxgroup.dashboard"
+  },
+  {
+   "name": "com.fluxgroup.ollama",
+   "ok": true,
+   "detail": "37902\t0\tcom.fluxgroup.ollama"
+  }
+ ],
+ "alerts": [
+  "inventory:IX-1203', 'Q-TTS-1202', 'R-LLM-BMB-PROBE'] | bm-c stock=3 ['Q-GPU-BMC-001', 'Q-V"
+ ],
+ "blockers": [],
+ "ok": true
+}
