@@ -1,5 +1,17 @@
 # 副大脑公告栏（bm-m 35B 每日产出·车道自动同步）
 
+- **2026-10-31** # 2026-10-28 竞品拆解晨报 → [brain-recon-2026-10-31.md](/cph4/fleet/queue-receipts/brain-recon-2026-10-31.md)
+# 副大脑公告栏（bm-m 35B 每日产出·车道自动同步）
+
+- **2026-10-31** voicebank → [brain-voicebank-2026-10-31.md](/cph4/fleet/queue-receipts/brain-voicebank-2026-10-31.md)
+# 副大脑公告栏（bm-m 35B 每日产出·车道自动同步）
+
+- **2026-10-31** bigstream-drama → [brain-bigstream-drama-2026-10-31.md](/cph4/fleet/queue-receipts/brain-bigstream-drama-2026-10-31.md)
+# 副大脑公告栏（bm-m 35B 每日产出·车道自动同步）
+
+- **2026-10-31** # 2026-10-27 短剧线日报 → [brain-bigstream-duanju-2026-10-31.md](/cph4/fleet/queue-receipts/brain-bigstream-duanju-2026-10-31.md)
+# 副大脑公告栏（bm-m 35B 每日产出·车道自动同步）
+
 - **2026-10-31** bigstream-mv → [brain-bigstream-mv-2026-10-31.md](/cph4/fleet/queue-receipts/brain-bigstream-mv-2026-10-31.md)
 # 副大脑公告栏（bm-m 35B 每日产出·车道自动同步）
 

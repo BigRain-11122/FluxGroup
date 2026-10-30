@@ -1,68 +1,73 @@
 {
- "ts": "2026-10-31T00:15:43+08:00",
+ "ts": "2026-10-31T00:21:30+08:00",
  "node": "bm-m",
- "sec": 47.8,
- "slow_ts": 1793376321.8959072,
- "git": "ok(committed-state)",
- "push": "ok+1",
+ "sec": 50.0,
+ "slow_ts": 1793377290.8097181,
+ "git": "skipped:dirty(hand-edit Tools/fleet/local_ai_business.py)",
+ "push": "up-to-date",
  "stages": {
   "hb": {
    "rc": 0,
-   "sec": 11.7,
-   "tail": "HB bm-m seq=1537 offset=481.2ms"
+   "sec": 12.2,
+   "tail": "HB bm-m seq=1541 offset=482.1ms"
   },
   "master": {
    "rc": 0,
-   "sec": 24.7,
+   "sec": 25.3,
    "tail": "  LINES: BLOCKED=1, PARKED=1, WAITING=11"
   },
   "lane": {
    "rc": 0,
-   "sec": 1.3,
+   "sec": 0.9,
    "tail": "LANE-IDLE bm-m :: SELF-DISPATCH: lane scans its own backlog"
   },
   "inventory": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 600s)"
-  },
-  "health": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 600s)"
+   "rc": 1,
+   "sec": 0.1,
+   "tail": "[2026-10-31T00:21:19] bm-a stock=0 [] | bm-a after-refill=0 | bm-b stock=3 ['Q-MIX-1203', 'Q-TTS-1202', 'R-LLM-BMB-PROBE'] | bm-c stock=2 ['Q-VIZ-2001', 'R-LLM-"
   },
   "contingency": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 600s)"
+   "rc": 0,
+   "sec": 11.4,
+   "tail": "contingency 2026-10-31T00:21:30 | 动作 0 | 新升级 0 | 在线['bm-a', 'bm-b', 'bm-c', 'bm-m']"
+  },
+  "health": {
+   "rc": 0,
+   "sec": 8.7,
+   "tail": "bm-a HB=28s ONLINE ram=54.2G gpu=89 | bm-b HB=47s ONLINE ram=6G gpu=None | bm-c HB=21s ONLINE ram=2.8G gpu=0 | bm-m HB=51s ONLINE ram=23.2G gpu=None | bm-m 本地回执"
   },
   "judge": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 600s)"
+   "rc": 0,
+   "sec": 0.0,
+   "tail": "[local_judge] answered=0 still_open=0 (tier: local→shared→codely)"
   },
   "brain": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 600s)"
+   "rc": 0,
+   "sec": 14.6,
+   "tail": "[brain] recon -> brain-recon-2026-10-31.md (ok)"
   },
   "social": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 600s)"
+   "rc": 0,
+   "sec": 0.1,
+   "tail": "[social] new=0 pending=5 escalate=4 -> /Users/junsheng.sun/FluxGroup/cph4/fleet/social/DIGEST.md"
   },
   "biz": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 600s)"
+   "rc": 1,
+   "sec": 0.1,
+   "tail": "[biz] duanju-ep1   ROUTED                      -s"
   },
   "supervisor": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 600s)"
+   "rc": 0,
+   "sec": 0.0,
+   "tail": "[supervisor] online=4/4 actions=3"
   }
  },
  "checks": [
+  {
+   "name": "resident-model-size",
+   "ok": true,
+   "detail": "limit 8GB (control plane, not a production box): ok"
+  },
   {
    "name": "ollama",
    "ok": true,
@@ -76,20 +81,23 @@
   {
    "name": "com.fluxgroup.pulse",
    "ok": true,
-   "detail": "54068\t0\tcom.fluxgroup.pulse"
+   "detail": "-\t0\tcom.fluxgroup.pulse"
   },
   {
    "name": "com.fluxgroup.dashboard",
    "ok": true,
-   "detail": "-\t0\tcom.fluxgroup.dashboard"
+   "detail": "57291\t0\tcom.fluxgroup.dashboard"
   },
   {
    "name": "com.fluxgroup.ollama",
    "ok": true,
-   "detail": "37902\t0\tcom.fluxgroup.ollama"
+   "detail": "56171\t0\tcom.fluxgroup.ollama"
   }
  ],
- "alerts": [],
+ "alerts": [
+  "inventory:IX-1203', 'Q-TTS-1202', 'R-LLM-BMB-PROBE'] | bm-c stock=2 ['Q-VIZ-2001', 'R-LLM-",
+  "biz:[biz] duanju-ep1   ROUTED                      -s"
+ ],
  "blockers": [],
  "ok": true
 }
