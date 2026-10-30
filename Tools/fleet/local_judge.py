@@ -46,7 +46,7 @@ def main():
     if n:
         fl.write_jsonl(path, rows)
     open_count = sum(1 for r in rows if r.get("state") == "OPEN")
-    print("[local_judge] answered=%d still_open=%d (cloud seat CLOSED)" % (n, open_count))
+    print("[local_judge] answered=%d still_open=%d (tier: local→shared→codely)" % (n, open_count))
     return 0
 
 
