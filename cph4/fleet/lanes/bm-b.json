@@ -1,18 +1,20 @@
 {
  "node": "bm-b",
- "ts": "2026-10-31T02:54:33",
+ "ts": "2026-10-31T05:54:49",
  "jobs": [
   {
-   "id": "Q-TTS-1202",
-   "title": "短剧配音大产批 EP001-EP060（index-tts 静默链·小钢炮已验证栈）",
-   "cmd": "cmd /c \"C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\voicegen_batch_ep004_060.cmd\"",
+   "id": "Q-MIX-1203",
+   "title": "短剧混音接力批 EP001-EP060（TTS 完成即自动点火·drama_mix_batch 正典用法）",
+   "cmd": "python \"C:/Fluxgroup/FluxGroup\\media\\drama-tools\\drama_mix_batch.py\" EP001-EP060 --tts r1202_ep001_060 --out r1203_ep001_060",
    "cwd": "C:/Fluxgroup/FluxGroup",
-   "needs": "gpu",
-   "deliverable": "C:/Fluxgroup/FluxGroup/media/drama-tts-out/r1202_ep001_060/",
+   "needs": "cpu",
+   "deliverable": "C:/Fluxgroup/FluxGroup/media/drama-mix-out/r1203_ep001_060/",
    "need_mb": null,
    "model": "none",
    "prompt": "",
-   "when_all": [],
+   "when_all": [
+    "C:/Fluxgroup/FluxGroup/media/drama-tts-out/r1202_ep001_060"
+   ],
    "llm": {},
    "timeout_s": null
   }
