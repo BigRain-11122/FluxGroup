@@ -101,7 +101,7 @@ def start_comfy(port=8188, need_mb=12000):
     return p.pid, False
 
 
-def acquire(node, need_mb, with_comfy, if_held_ok=False):
+def acquire(node, need_mb, with_comfy, if_held_ok=True):
     lp = lease_path(node)
     if os.path.exists(lp):
         try:
@@ -171,8 +171,10 @@ def main():
     ap.add_argument("--status", action="store_true")
     ap.add_argument("--need-mb", type=int, default=12000)
     ap.add_argument("--start-comfy", action="store_true")
-    ap.add_argument("--if-held-ok", action="store_true",
-                    help="treat a fresh lease on this node as success (idempotent ensure)")
+    ap.add_argument("--if-held-ok", action="store_true", default=True,
+                    help="fresh lease on this node already held = success (ensure-acquire is idempotent)")
+    ap.add_argument("--strict", action="store_true",
+                    help="return rc=2 when the node lease is already held (real competitors)")
     a = ap.parse_args()
     if a.status:
         used, total = vram()
@@ -181,7 +183,7 @@ def main():
         print("LEASE " + (open(lp, encoding="utf-8").read().strip() if os.path.exists(lp) else "none"))
         return 0
     if a.acquire:
-        return acquire(a.node, a.need_mb, a.start_comfy, a.if_held_ok)
+        return acquire(a.node, a.need_mb, a.start_comfy, a.if_held_ok and not a.strict)
     if a.release:
         return release(a.node)
     print("usage: --status | --acquire [--need-mb N] [--start-comfy] | --release")
