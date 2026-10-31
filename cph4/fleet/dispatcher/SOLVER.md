@@ -1,11 +1,13 @@
-# 主控解题 2026-10-31 10:55
+# 主控解题 2026-10-31 11:02
 
-- 队列 open=6 running=3 failed=4 · 在线 4 台
+- 队列 open=5 running=3 failed=5 · 在线 4 台
 
 ## 本轮已处理
-- 重派 R-MV-GATE-1D（第 1 次）
+- bm-m 连续 4 轮无活：只允许做真活，已交 line_agents 续卡（本机无该线输入则报 NO-DATA）
+- 重派 R-MV-GATE-1D（第 2 次）
 
 ## 需人/需资源（主控不越权）
 - Q-AUD-1002 已失败 2 次： —— 需改卡或人工定性（不放行第 3 次）
 - Q-GPU-BMC-001 已失败 2 次：lease-expired-5-attempts —— 需改卡或人工定性（不放行第 3 次）
+- Q-VIZ-2001 已失败 2 次：lease-expired-5-attempts —— 需改卡或人工定性（不放行第 3 次）
 - R-LLM-BMC-PROBE 已失败 2 次：lease-expired-5-attempts —— 需改卡或人工定性（不放行第 3 次）
