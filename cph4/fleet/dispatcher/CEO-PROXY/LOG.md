@@ -897,3 +897,15 @@ if prev_by and prev_by != owner_node:
 
 - **ERRATUM(内容不变·手续披露)**：本班 `git-atomic-push.py` 直写 blob 绕过 `text=auto`/`autocrlf`，把 `cph4/evolution-ledger.md` / `cph4/reflection-journal.md` 存成 **CRLF blob**（同内容，仅行尾差 446/190 字节），故 43febeb4 在 git 侧显示全文件伪改（846+/636-）。语义仍为零删除（+9/+1 行）。归一尝试被反转闸对 `PULSE.json` 滚动尾行的历史噪声拦下（31/1579·与本批无关），故**本班不做归一**：下次 git 原生提交会自动把两件回写为 LF。若需立刻归一，正法=`git-atomic-push.py` 增加 `--whitelist` 通道（受保护件·候群审），禁用 force push 改写他窗历史。
 
+## R2.57（2026-11-01 03:26-03:4x·事件班·承载件触发 probe L0-DOWN age 3.0h·调用 ≈44·零云端）
+
+- **触发**：\[2026-11-01 03:26:04][PROBE] L0-DOWN: DISPATCH-LOG.md age 3.0h (>3h)\。步0 锁门：lock mtime=180min 已过期 ⇒ 本窗持锁执行。
+- **误报面**：00:25 后无会话、02:43 夜产班未触发 ⇒ 日志龄天然越 3h 阈值，与 R2.55 登记同源（L0 谓词 3h < 班表相邻 4.2h）。L0 脚本属受保护件，本班只再提名不改；建议阈值 4.5h 或读班表。
+- **真故障（本班核心发现·母因坐实）**：\cph4/fleet/dispatcher/SUPERVISOR.md\ 由本机 steward 每 5min 重写，同时 **bm-m 每次 pulse 都提交它**（origin 近 50 笔 50/50 命中该文件）⇒ 工作树恒脏 ⇒ \Tools/fleet/agent.py\ 的 pull 腿 \git pull --rebase --no-autostash\ 恒以 \error: cannot pull with rebase: You have unstaged changes\ 失败，**且返回码被丢弃不告警** ⇒ 本地静默落后 **125 笔**，任何本机写手（夜轮/shift/委员）都落在陈旧基线上 ⇒ **R2.54 / R2.55 / R2.56 三夜卡死 rebase 不是三次独立事故，是同一母因的三个表现**。本班现场复现该错误原文。
+- **处置一（救件）**：夜轮 03:12 未推提交（evolution-ledger +13 行 / reflection-journal）rebase 到 origin 后原样保留并推上链（f4d86611 → a3a66c8c）；其中 reflection-journal 新行被粘在上一行末尾（缺换行、表格断裂）已修复。
+- **处置二（根治·T1·非受保护件）**：改写 \Tools/fleet/agent.py::pull()\ = fetch → merge --ff-only → 仅在受阻时清**四件机器生成态**（SUPERVISOR / CLOCK-SKEW / NEED-JUDGMENT / selfaudit-report；人类与班次写的台账一律不碰）→ 真分叉才 rebase --no-autostash → **失败必 rebase --abort**（顺带补上 D-R256-STUCKREBASE 缺的那条 abort）→ 每次结果写 \media/logs/agent-pull.log\（media 已 gitignore，不再自污工作树）。验收实测：pull rc=0，125 behind → 0/0；API 追加后再 pull 亦 rc=0。
+- **机队实况（全绿）**：bm-a hb 6.9s idle102 / bm-b hb 30s job=Q-TTS-1202R / bm-c hb 11.6s ram 3.0GB idle88 / bm-m hb 1.3s；origin MASTER-TICK=bm-m ts 03:23:56 masquerade=false；队列 total59 open1 run1 done54 failed3；GitRebaseGuard 03:19:11 rc=0、无 .git/rebase-merge ⇒ 兜底闸 + --no-schedule 拆腿有效（R2.56 后零复发）。bm-b Q-TTS-1202R 02:26:53 认领在飞 60min，P0 批量无 timeout，属正常批时非幻影。
+- **过程披露（诚实律）**：本班首次复现用了 \--autostash\ 变体（非 agent 原命令）产生一次 autostash 冲突，已 \checkout HEAD -- SUPERVISOR.md\ 收敛并 drop 该 stash，零内容丢失。
+- **未动受保护件**：CHARTER / ROUND / Tools 核心四件 / L0 脚本 / cron 正身 一律未改；master_agent.py::push_lane_files 同型缺 abort 仍候裁（该腿 --no-schedule 停用中）。
+- **无 lane down ⇒ 未 poke**；无新派单（查重律：本班无新增缺口）。待办：①stash 积压 21 笔历史 autostash 建议清理（本班已清自己造的 1 笔）；②L0 探针阈值提名（受保护件）。
+
