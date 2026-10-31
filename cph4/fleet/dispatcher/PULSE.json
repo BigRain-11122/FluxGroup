@@ -1,19 +1,19 @@
 {
- "ts": "2026-10-31T11:23:20+08:00",
+ "ts": "2026-10-31T11:24:59+08:00",
  "node": "bm-m",
- "sec": 49.9,
+ "sec": 38.4,
  "slow_ts": 1793417000.983849,
  "git": "ok(committed-state)",
- "push": "up-to-date",
+ "push": "ok+1",
  "stages": {
   "hb": {
    "rc": 0,
-   "sec": 10.9,
-   "tail": "HB bm-m seq=1963 offset=1429.1ms"
+   "sec": 10.6,
+   "tail": "HB bm-m seq=1964 offset=1431.6ms"
   },
   "master": {
    "rc": 0,
-   "sec": 24.8,
+   "sec": 18.6,
    "tail": "  LINES: BLOCKED=1, PARKED=1, WAITING=11"
   },
   "lane": {
@@ -22,69 +22,69 @@
    "tail": "LANE-IDLE bm-m :: SELF-DISPATCH: lane scans its own backlog"
   },
   "inventory": {
-   "rc": 0,
-   "sec": 0.1,
-   "tail": "[2026-10-31T11:23:12] bm-a stock=2 ['Q-TRIAGE-CARGAMING-20261031', 'Q-TRIAGE-FLUXVERSE-20261031'] | bm-b stock=2 ['Q-TRIAGE-BIGMONEY-20261031', 'Q-TTS-1202'] | "
+   "rc": null,
+   "sec": 0,
+   "tail": "deferred (runs every 300s)"
   },
   "contingency": {
-   "rc": 0,
-   "sec": 8.8,
-   "tail": "contingency 2026-10-31T11:23:20 | 动作 0 | 新升级 0 | 在线['bm-a', 'bm-b', 'bm-c', 'bm-m']"
+   "rc": null,
+   "sec": 0,
+   "tail": "deferred (runs every 300s)"
   },
   "solver": {
-   "rc": 0,
-   "sec": 0.1,
-   "tail": "[solver] fixes=2 escalate=4"
+   "rc": null,
+   "sec": 0,
+   "tail": "deferred (runs every 300s)"
   },
   "line_agents": {
-   "rc": 0,
-   "sec": 0.0,
-   "tail": "[line_agents] armed=0 no_data=22"
+   "rc": null,
+   "sec": 0,
+   "tail": "deferred (runs every 300s)"
   },
   "health": {
-   "rc": 0,
-   "sec": 8.0,
-   "tail": "bm-a HB=22s ONLINE ram=34.4G gpu=4 | bm-b HB=43s ONLINE ram=9G gpu=None | bm-c HB=27s ONLINE ram=3.5G gpu=3 | bm-m HB=90s ONLINE ram=18.2G gpu=None | bm-m 本地回执="
+   "rc": null,
+   "sec": 0,
+   "tail": "deferred (runs every 300s)"
   },
   "judge": {
-   "rc": 0,
-   "sec": 0.0,
-   "tail": "[local_judge] answered=0 still_open=0 (tier: local→shared→codely)"
+   "rc": null,
+   "sec": 0,
+   "tail": "deferred (runs every 300s)"
   },
   "brain": {
-   "rc": 0,
-   "sec": 0.0,
-   "tail": "[brain] all 6 lines served today"
+   "rc": null,
+   "sec": 0,
+   "tail": "deferred (runs every 300s)"
   },
   "social": {
-   "rc": 0,
-   "sec": 0.1,
-   "tail": "[social] new=0 pending=5 escalate=4 -> /Users/junsheng.sun/FluxGroup/cph4/fleet/social/DIGEST.md"
+   "rc": null,
+   "sec": 0,
+   "tail": "deferred (runs every 300s)"
   },
   "biz": {
-   "rc": 1,
-   "sec": 0.1,
-   "tail": "[biz] duanju-ep1   ROUTED                      -s"
+   "rc": null,
+   "sec": 0,
+   "tail": "deferred (runs every 300s)"
   },
   "mem": {
-   "rc": 0,
-   "sec": 0.0,
-   "tail": "[mem] avail=18.1GB max_model=12.0GB need=22.0GB swap=2.5GB -> DOWNGRADE"
+   "rc": null,
+   "sec": 0,
+   "tail": "deferred (runs every 300s)"
   },
   "autowork": {
-   "rc": 0,
-   "sec": 0.0,
-   "tail": "[autowork] nothing due"
+   "rc": null,
+   "sec": 0,
+   "tail": "deferred (runs every 300s)"
   },
   "deadline": {
-   "rc": 0,
-   "sec": 0.0,
-   "tail": "[deadline] late=7 no_data=7 align_missing=0"
+   "rc": null,
+   "sec": 0,
+   "tail": "deferred (runs every 300s)"
   },
   "supervisor": {
-   "rc": 0,
-   "sec": 0.0,
-   "tail": "[supervisor] online=4/4 actions=4"
+   "rc": null,
+   "sec": 0,
+   "tail": "deferred (runs every 300s)"
   }
  },
  "checks": [
@@ -106,12 +106,12 @@
   {
    "name": "com.fluxgroup.pulse",
    "ok": true,
-   "detail": "28645\t0\tcom.fluxgroup.pulse"
+   "detail": "28874\t0\tcom.fluxgroup.pulse"
   },
   {
    "name": "com.fluxgroup.dashboard",
    "ok": true,
-   "detail": "28772\t0\tcom.fluxgroup.dashboard"
+   "detail": "-\t0\tcom.fluxgroup.dashboard"
   },
   {
    "name": "com.fluxgroup.ollama",
@@ -119,9 +119,7 @@
    "detail": "56171\t0\tcom.fluxgroup.ollama"
   }
  ],
- "alerts": [
-  "biz:[biz] duanju-ep1   ROUTED                      -s"
- ],
+ "alerts": [],
  "blockers": [],
  "ok": true
 }
