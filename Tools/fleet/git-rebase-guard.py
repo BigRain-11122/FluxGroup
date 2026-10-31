@@ -135,7 +135,7 @@ def recover(root, reason, dry):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", default=ROOT_DEFAULT)
-    ap.add_argument("--min-age-min", type=float, default=20.0)
+    ap.add_argument("--min-age-min", type=float, default=15.0)
     ap.add_argument("--apply", action="store_true")
     a = ap.parse_args()
     root = os.path.abspath(a.root)
