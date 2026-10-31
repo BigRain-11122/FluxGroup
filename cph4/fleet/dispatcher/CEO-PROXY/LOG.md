@@ -909,3 +909,12 @@ if prev_by and prev_by != owner_node:
 - **未动受保护件**：CHARTER / ROUND / Tools 核心四件 / L0 脚本 / cron 正身 一律未改；master_agent.py::push_lane_files 同型缺 abort 仍候裁（该腿 --no-schedule 停用中）。
 - **无 lane down ⇒ 未 poke**；无新派单（查重律：本班无新增缺口）。待办：①stash 积压 21 笔历史 autostash 建议清理（本班已清自己造的 1 笔）；②L0 探针阈值提名（受保护件）。
 
+## R2.58（2026-11-01 06:56-07:0x）事件班·承载件触发 probe L0-DOWN age 3.2h｜calls≈37
+
+- **触发现**：`[2026-11-01 06:56:04][PROBE] L0-DOWN: DISPATCH-LOG.md age 3.2h (>3h)`；锁 mtime 03:41（3.2h，已过期）⇒ 本窗执班。
+- **裁决**：结构性误报第 5 次（`proxy-probe.ps1:30` 阈值 3h < 班表最大间隔 4.2h；无会话夜窗班不触发）⇒ 非停摆。登记同 R2.55/56/57，仍待 CEO 定谳（受保护件）。
+- **真缺口一·bm-b 执行器死**：心跳活（07:03:49 seq4）但 `lane.result.bm-b` 键全无（bm-a/bm-c 分钟级刷）⇒ P0 Q-TTS-1202R 05:26:55 认领后空转于全闲机器（cpu 21%/ram 12.2G），lease 08:26。07:01:14 poke 白名单 accepted ⇒ 3 分钟复探未复活 ⇒ 兜底失败，出声（需 bm-b 本机 `python Tools\fleet\agent.py --node bm-b --loop 60`）。
+- **真缺口二·队列缺核销/停泊态**：被取代卡 Q-TTS-1202 与空 cmd 残卡 R-LLM-BMC-PROBE 永久留 FAILED ⇒ supervisor 每轮「失败件3个」重复噪音；修法需改受保护 master_agent.py，登记。
+- **好消息**：R2.57 的 pull 降级**实证生效**（06:09→06:54 每 5min ff-only/rebase rc=0，无 rebase-merge 死锁）；4/4 在线；bm-c ram 9.8G 解压。
+- **登记**：时钟偏差 b 3.02s/c 3.40s/m 3.09s 全 untrusted（SKEW 面）；4 笔巡逻提交未推（ahead=4）。
+- **未动**：CHARTER/ROUND/L0 脚本/master_agent.py/cron 正身 一律未改。
