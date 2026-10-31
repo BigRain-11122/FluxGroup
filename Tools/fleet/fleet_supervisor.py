@@ -78,6 +78,23 @@ def main() -> int:
             acts.append("作业 %s 运行 %.1fh 无回执：主控按租约重排/判 FAILED"
                         % (r.get("id"), age / 3600))
 
+    # 心跳新鲜但从不回执行结果 = 执行器没在跑。这是整夜"派了没人接"的真因，
+    # 与"机器坏了"完全不同：心跳由 fleet_hb 一个任务发，车道由 lane_agent 另一个任务跑。
+    for n, v in lanes.items():
+        if not v.get("online"):
+            continue
+        lr = v.get("last_result") or {}
+        lag = None
+        try:
+            lag = (now - datetime.fromisoformat(lr.get("ts")).timestamp()) / 60
+        except Exception:
+            pass
+        if v.get("job") and (lag is None or lag > 15):
+            acts.append("%s 有派单但 %s 分钟无执行回执：执行器(lane_agent/HQ-ProductionClaim)没跑"
+                        "——本机执行 `%s`"
+                        % (n, "?" if lag is None else int(lag),
+                           "python Tools/fleet/lane_agent.py --node %s" % n))
+
     failed = [r.get("id") for r in rows if r.get("state") == "FAILED"]
     if failed:
         acts.append("失败件 %d 个：%s —— 要么重派要么改卡，不能挂着" %

@@ -1,6 +1,6 @@
 {
- "ts": "2026-10-31T10:51:23",
- "cycle": 2116,
+ "ts": "2026-10-31T10:57:08",
+ "cycle": 2117,
  "queue": {
   "total": 54,
   "open": 6,
@@ -11,16 +11,16 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 56.1,
-   "cpu_load_pct": 62,
-   "ram_free_gb": 55.3,
+   "hb_age_s": 41.3,
+   "cpu_load_pct": 17,
+   "ram_free_gb": 53,
    "gpu_util_pct": 0,
-   "job": "Q-TRIAGE-FLUXVERSE-20261031",
+   "job": "R-MV-GATE-1D",
    "last_result": {
-    "job": "R-MV-GATE-1D",
+    "job": "Q-TRIAGE-FLUXVERSE-20261031",
     "state": "FAILED",
-    "rc": 1,
-    "ts": "2026-10-31T10:51:00",
+    "rc": 2,
+    "ts": "2026-10-31T10:55:05",
     "reason": null
    },
    "idle_confirmed": false,
@@ -29,9 +29,9 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 17.9,
-   "cpu_load_pct": 4,
-   "ram_free_gb": 6.2,
+   "hb_age_s": 2.2,
+   "cpu_load_pct": 13,
+   "ram_free_gb": 6,
    "gpu_util_pct": null,
    "job": "Q-TTS-1202",
    "last_result": null,
@@ -41,9 +41,9 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 0.4,
-   "cpu_load_pct": 62,
-   "ram_free_gb": 10.8,
+   "hb_age_s": 44.8,
+   "cpu_load_pct": 65,
+   "ram_free_gb": 10.7,
    "gpu_util_pct": 0,
    "job": "Q-VIZ-2001",
    "last_result": null,
@@ -53,33 +53,41 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 1.5,
+   "hb_age_s": 1.1,
    "cpu_load_pct": null,
-   "ram_free_gb": 17.7,
+   "ram_free_gb": 17.3,
    "gpu_util_pct": null,
    "job": null,
-   "last_result": null,
-   "idle_confirmed": false,
+   "last_result": {
+    "job": null,
+    "state": "IDLE",
+    "rc": null,
+    "ts": "2026-10-31T10:51:29",
+    "reason": "SELF-DISPATCH: lane scans its own backlog"
+   },
+   "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 0
+   "idle_rounds": 1
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 0
+  "bm-m": 1
  },
  "lines": {
   "bigstream-mv": {
    "name": "BigStream·MV 41 曲",
    "status": "ACTIVE",
-   "verdict": "WAITING",
+   "verdict": "WORKING",
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "导演席（CEO 终审）",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "R-MV-GATE-1D"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": null
   },
@@ -688,14 +696,15 @@
   "cpu": 6,
   "gpu": 0
  },
- "supply_added": [
-  "backlog_manifest+1"
- ],
+ "supply_added": [],
  "events": [
-  "R-MV-GATE-1D FAILED via bm-a"
+  "Q-TRIAGE-FLUXVERSE-20261031 FAILED via bm-a",
+  "R-MV-GATE-1D -> bm-a (cpu)"
  ],
  "violations": [
   "LINE-BLOCKED bigstream-drama ()"
  ],
- "lane_files_written": []
+ "lane_files_written": [
+  "bm-a"
+ ]
 }
