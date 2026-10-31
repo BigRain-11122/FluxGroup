@@ -736,3 +736,34 @@ am_free 10GB / cpu_load 48%——bm-b 在跑量化轮而非闲着；缺的是本
 - bm-c RAM 与 bm-a 显存两处都**不是软件能远程解**的（CEO 10-23 禁远程调度；FleetLink 无命令通道）。
 - 本班能做的最高价值动作是「把已批准、不依赖第二台机器的活干完」——今天这件是音频锚；MV 正片仍卡在**导演席 v718 修复计划**（工单 `D:\FleetWorker\review\v718_workorder.md` 314 项已备）。
 ---
+
+
+## 附录 R2.51 事件班注记（2026-10-31 14:12 起·承载件触发·十轮之首）
+
+**四元组**：2026-10-31 14:12｜事件班（承载件触发：DL 10-28~10-29 的 STARVED-EXEC×3 / BLOCKED-RAM bm-c / SUPPLY-DRY + 13:56 实时探针三红）｜calls≈38｜verdict=**触发旗全是陈旗（2-3 天前），真事件是控制面断链 + 本机 git 卡死；两件都已收口，并落地一条机器判据修正**
+
+**① 锁门**：`media/logs/ceo-proxy-patrol.lock` mtime 10-29 03:37（>10min·他窗已收口）→ 本窗接管并 touch。
+
+**② 真事件·控制面断链（不是内存、不是缺卡）**
+- bm-m（CEO 令下的主控）`PULSE.json` 最后脉冲 **2026-10-31T00:13:55**，至本班 14:0x 已 **13h52m 无脉**；`MASTER-STATE.master_tick_ts` 仍是 `2026-10-31T00:13:49`（备用机接管时刻意不推进主控时钟，设计正确）。
+- 探针 13:56 三红（PROXY-SILENT-DEATH 58.3h / L0-DOWN 24.6h / EVENT-CARRIER-DOWN 2660min）**全部由这条断链派生**。
+- **实证已恢复**：`HQ-MasterFallback` 任务在役，14:02:30 写出 cycle **2154**；四机心跳 bm-a 2.5s / bm-b 24.6s / bm-c 5.5s / bm-m 1.3s，**bm-m 本体在线**（是它的 launchd pulse 停了，不是 Mac 睡了）。
+
+**③ 本机 git 卡死（FleetLink 自动 pull 撞本地写入）**
+- 现象：`rebase-merge` 存在、`HEAD (no branch, rebasing main)`、3 个 UU（MASTER-LOG/MASTER-STATE/NEED-SUPPLY）。
+- 处置：`git rebase --abort` → `git reset --mixed origin/main` → 主控文件以 origin 为准。
+- **坑律新增**：autostash 回灌会**删掉 43 个 origin 新提交带来的文件**（line_triage.py / master_pulse.py 全中招）——收口后必须 `git diff --diff-filter=D` 全量复原；另有 37 件本地旧快照（含坏掉的 `hq-lane-claim.bat` 逐行折断版）一并回退。仅保留 `Tools/mv_delivery_gate.py` 的 +14 行导演裁决级修正。
+
+**④ 真供给缺口（比旗本身更值钱）**
+- `Q-TTS-1202`（57 集短剧配音·P1）与 `Q-GPU-BMC-001`（bm-c GPU 租约）终态都是 **`lease-expired-5-attempts`**：主控派了、认领了、5 次租约到期**零回执**。这是执行腿没跑，不是没卡。
+- 本班按正法在 declarative backlog 申报 **Q-TTS-1202R（P0）** 与 **Q-GPU-BMC-01R（P1）**，理由写进卡内；不改主控单写队列。
+
+**⑤ MV 机器判据修正（本班唯一代码级产出）**
+- `mv_delivery_gate.py` 新增「角落 luma 局部性」判据：活光源移动受光面而四角不动 = 设计。**v717 的 D4 曝光闪 4→0**。
+- 余项：D1 重复帧 1 对（5621@234.21s，装配裁 1 帧量级）、D2 近静止 5 镜（首个 0.0–3.5s）。证据件=`cph4/fleet/queue-receipts/mv-gate-r251-verdict.md`。**修与不修归导演席**。
+
+**⑥ 登记（不动手）**
+- `HQ-MasterFallback` 的 `LogonType=Interactive` —— 违「本机车道任务一律 S4U」律；CEO 登出/锁屏即脉停，与本次断链同族。属 cron 正身（受保护），只登记候裁。
+- 探针 `L0-DOWN` / `PROXY-SILENT-DEATH` 仍以 bm-a 侧旧日志为测点，主控迁 bm-m 后**结构性假红**；建议改用 `MASTER-NODE.json` + `PULSE.json` 新鲜度。
+
+**⑦ 诚实边界**：bm-b/bm-c 的活本席**不能远程执行**（CEO 10-23 令），只能申报卡 + 靠各自车道自领；Q-TTS-1202R 是否真跑起来，要等 bm-b 下一轮认领回执。

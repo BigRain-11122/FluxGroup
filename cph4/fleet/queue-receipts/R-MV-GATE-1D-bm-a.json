@@ -1,0 +1,12 @@
+{
+ "id": "R-MV-GATE-1D",
+ "node": "bm-a",
+ "rc": 1,
+ "seconds": 100.9,
+ "cmd": "python Tools/mv_delivery_gate.py \"cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v717.mp4\" --whitelist cph4/fleet/mv0001-handover/canon/MV0001-REPRISE-WHITELIST.json --json cph4/fleet/queue-receipts/mv-gate-latest.json",
+ "deliverable": "cph4/fleet/queue-receipts/mv-gate-latest.json",
+ "deliverable_exists": false,
+ "ts": "2026-10-31T14:11:46",
+ "stdout_tail": "note: 8 reprise pair(s) matched the whitelist (design, not counted)\nfile    : cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v717.mp4\nframes  : 5623 @ 24.000fps  shots=83  dup_pairs=1  static_shots=5\nstability: seams=0 freezes=0\nFAIL D1 exact duplicate frames: 1 pair(s), first at frame 5621 (234.21s)\nFAIL D2 near-static shots: 5 (first 0.00-3.50s mean_mad=0.36)\nVERDICT: FAIL\n",
+ "stderr_tail": ""
+}
