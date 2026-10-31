@@ -1,8 +1,23 @@
 {
  "node": "bm-b",
- "ts": "2026-10-31T13:57:17",
- "jobs": [],
- "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+ "ts": "2026-10-31T14:14:31",
+ "jobs": [
+  {
+   "id": "Q-TTS-1202R",
+   "title": "短剧配音重试 EP004-EP060（前卡 5 次租约到期零回执·本卡验执行腿）",
+   "cmd": "cmd /c \"C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\voicegen_batch_ep004_060.cmd\"",
+   "cwd": "C:/Fluxgroup/FluxGroup",
+   "needs": "gpu",
+   "deliverable": "C:/Fluxgroup/FluxGroup/media/drama-tts-out/r1202_ep001_060/",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  }
+ ],
+ "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 6.2/2.0 GB"
+ "capacity_note": "ram-unknown"
 }
