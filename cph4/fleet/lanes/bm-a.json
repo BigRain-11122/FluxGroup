@@ -1,14 +1,14 @@
 {
  "node": "bm-a",
- "ts": "2026-10-31T11:36:42",
+ "ts": "2026-10-31T11:41:49",
  "jobs": [
   {
-   "id": "R-MV-GATE-1D",
-   "title": "MV 交付闸复核（v717 母版·按重演白名单）",
-   "cmd": "python Tools/mv_delivery_gate.py \"cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v717.mp4\" --whitelist cph4/fleet/mv0001-handover/canon/MV0001-REPRISE-WHITELIST.json --json cph4/fleet/queue-receipts/mv-gate-latest.json",
+   "id": "Q-TRIAGE-CARGAMING-20261031",
+   "title": "car-gaming 线级体检（本机证据目录实况）",
+   "cmd": "python Tools/fleet/line_triage.py --line car-gaming",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/mv-gate-latest.json",
+   "deliverable": "cph4/fleet/queue-receipts/triage-car-gaming-20261031.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 21.9/3.0 GB"
+ "capacity_note": "ram 17.8/3.0 GB"
 }
