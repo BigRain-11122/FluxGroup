@@ -2038,3 +2038,4 @@
 >>>>>>> 8d72eaea (pulse: state snapshot [via bm-m])
 [2026-10-31T16:59:01] cyc=1 q=1/2/44 sup=1 ev=2 idle=bm-a:SELF-DISPATCH: lan,bm-b:-,bm-c:- flags=LINE-BLOCKED bigstream-drama ()
 [2026-10-31T17:00:58] cyc=2 q=1/2/44 sup=0 ev=0 idle=bm-a:CAPACITY-BLOCKED-R,bm-b:-,bm-c:- flags=bm-a OFFLINE;bm-b OFFLINE;bm-c OFFLINE;LINE-BLOCKED bigstream-drama ()
+[2026-10-31T17:02:52] cyc=3 q=1/2/44 sup=0 ev=0 idle=bm-a:SELF-DISPATCH: lan,bm-b:-,bm-c:- flags=LINE-BLOCKED bigstream-drama ()
