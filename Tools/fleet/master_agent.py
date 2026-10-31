@@ -55,7 +55,7 @@ def kv_get(key, root, host=fl.HUB_DEFAULT, port=fl.PORT_DEFAULT):
     try:
         p = subprocess.run([exe, "-s", "nats://%s:%d" % (host, port), "kv", "get",
                             fl.KV_BUCKET, key, "--raw"],
-                           capture_output=True, text=True, timeout=15,
+                           capture_output=True, text=True, errors="replace", timeout=15,
                            creationflags=CREATE_NO_WINDOW)
         for line in reversed((p.stdout or "").splitlines()):
             line = line.strip()
@@ -473,9 +473,28 @@ def write_lane_files(root, rows, fleet, dry=False, nodes=None):
 
 
 # ---------------------------------------------------------------- main cycle
-def cycle(root, dry=False, push=True, node="bm-a"):
+def cycle(root, dry=False, push=True, node="bm-a", fallback_stale_s=900):
     owner_node = master_node(root)
+    masquerade = False
     if node != owner_node:
+        # The declared master is the Mac, which is on-demand by CEO order - so it can be
+        # asleep for hours while jobs sit unassigned (2026-10-31: 13h45m dark). A fallback
+        # node may take over ONLY when the declared master's own last tick is stale.
+        prev_state = fl.read_json(os.path.join(root, fl.STATE_REL.replace("/", os.sep)), {}) or {}
+        # Only a tick by the DECLARED master refreshes the clock; a fallback run must not
+        # make the master look alive or the fallback would permanently disable itself.
+        prev_ts = str(prev_state.get("master_tick_ts") or prev_state.get("ts") or "")
+        stale = True
+        try:
+            age = (datetime.now() - datetime.strptime(prev_ts, "%Y-%m-%dT%H:%M:%S")).total_seconds()
+            stale = age > fallback_stale_s
+        except Exception:
+            stale = True
+        if not stale:
+            pass
+        else:
+            masquerade = True
+    if node != owner_node and not masquerade:
         # Not the declared master: observe only, never write the queue.
         return {"standby": True, "node": node, "master": owner_node,
                 "ts": fl.now_iso(), "cycle": None,
@@ -614,6 +633,9 @@ def cycle(root, dry=False, push=True, node="bm-a"):
         violations.append("CLOUD-WHILE-LOCAL-IDLE " + w)
 
     state = {"ts": now_ts, "cycle": int(prev.get("cycle") or 0) + 1,
+             "master_node": owner_node, "masquerade_by": node if masquerade else None,
+             "master_tick_ts": (prev.get("master_tick_ts") or prev.get("ts") or now_ts)
+                               if masquerade else now_ts,
              "queue": queued, "lanes": lanes_state, "idle_rounds": idle_rounds,
              "lines": lines_state,
              "stages": stages_state,
@@ -707,7 +729,7 @@ def load_lines(root):
 def _git_age_h(root, repo):
     try:
         p = subprocess.run(["git", "-C", os.path.join(root, repo), "log", "-1", "--format=%ct"],
-                           capture_output=True, text=True, timeout=20,
+                           capture_output=True, text=True, errors="replace", timeout=20,
                            creationflags=CREATE_NO_WINDOW)
         ts = int((p.stdout or "0").strip() or 0)
         if ts:
