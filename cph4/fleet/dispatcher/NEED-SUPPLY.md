@@ -1,7 +1,7 @@
 # NEED-SUPPLY - why lanes and business lines are not running (#regenerated)
 
-- ts: 2026-10-31T11:41:49
-- queue: open=3 running=3 done=41 failed=6
+- ts: 2026-10-31T11:44:08
+- queue: open=3 running=3 done=41 failed=5
 - open jobs by need: cpu=3 gpu=0
 
 - bm-a: RUNNING Q-TRIAGE-CARGAMING-20261031
