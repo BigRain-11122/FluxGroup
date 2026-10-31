@@ -10,3 +10,4 @@
 - [2026-10-31T12:59:31] S4 NATS_DOWN: 状态总线(bm-a:4222)不可达，机队失去心跳总线，bm-m 只能产本地活；需在公司生产力机(bm-a)重启 NATS
 - [2026-10-31T15:39:54] S4 NATS_DOWN: 状态总线(bm-a:4222)不可达，机队失去心跳总线，bm-m 只能产本地活；需在公司生产力机(bm-a)重启 NATS
 - [2026-10-31T17:57:15] S3 GIT_SYNC: 分叉 ahead=11 behind=4 且自动修复失败，需人工处理仓库同步
+- [2026-10-31T18:28:34] S7 JOB_FAIL: 当日失败任务 -> Q-AUD-1002(?); Q-TTS-1202(lease-expired-5-attempts); R-LLM-BMC-PROBE(lease-expired-5-attempts) —— 已终态不自动重派，需人工定夺（重试/改道/撤销）
