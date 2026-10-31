@@ -1,14 +1,14 @@
 {
  "node": "bm-a",
- "ts": "2026-11-01T00:17:24",
+ "ts": "2026-11-01T00:19:11",
  "jobs": [
   {
-   "id": "Q-TRIAGE-FLUXVERSE-20261101",
-   "title": "fluxverse 线级体检（本机证据目录实况）",
-   "cmd": "python Tools/fleet/line_triage.py --line fluxverse",
+   "id": "Q-TRIAGE-CARGAMING-20261101",
+   "title": "car-gaming 线级体检（本机证据目录实况）",
+   "cmd": "python Tools/fleet/line_triage.py --line car-gaming",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-fluxverse-20261101.md",
+   "deliverable": "cph4/fleet/queue-receipts/triage-car-gaming-20261101.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 48.1/3.0 GB"
+ "capacity_note": "ram-unknown"
 }
