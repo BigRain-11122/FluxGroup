@@ -1,23 +1,8 @@
 {
  "node": "bm-a",
- "ts": "2026-10-31T12:59:48",
- "jobs": [
-  {
-   "id": "Q-TRIAGE-CARGAMING-20261031",
-   "title": "car-gaming 线级体检（本机证据目录实况）",
-   "cmd": "python Tools/fleet/line_triage.py --line car-gaming",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-car-gaming-20261031.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  }
- ],
- "idle_reason": "",
- "lane_ok": true,
- "capacity_note": "ram 18.7/3.0 GB"
+ "ts": "2026-10-31T13:55:07",
+ "jobs": [],
+ "idle_reason": "CAPACITY-BLOCKED-RAM OFFLINE (hb age Nones)",
+ "lane_ok": false,
+ "capacity_note": "OFFLINE (hb age Nones)"
 }
