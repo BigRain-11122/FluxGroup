@@ -883,3 +883,15 @@ if prev_by and prev_by != owner_node:
 
 - 清掉 4 个已过期的一次性 cron 残留（`5affeaaa` 18:10 / `83cfb8e5` 19:03 / `64b60a83` 15:45 / `fd0895b8` 16:37），避免明年同日误触发。
 - 8 班表 cron 在位：`c7229ba7`（ROUND v3.1 事件班）+ `2d82e62c`（例行巡班）；二者同点同频属历史双注册，非本班新增，登记不改。
+
+### 九、R2.56 事件班（承载件触发：L0-DOWN DISPATCH-LOG age 3.0h @23:56:04）
+
+- **触发现判读**：L0-DOWN 主因是**班表间隙误报**（21:43 班无会话未触发，日志停在 20:52）；同一时刻命中一桩**当日第 3 次复发的真故障**。两因分离叙述，不合并。
+- **真故障**：`.git/rebase-merge` 自 21:07:03 残留、HEAD 游离，8 笔 `master-agent` 提交落在游离头（109 behind / 8 ahead）。origin `MASTER-TICK`=bm-m / masquerade=false / ts 23:55:24 ⇒ **主控健康，故障纯在本机工树**。
+- **根因（代码级坐实）**：`master_agent.py::push_lane_files()` push 失败后 `git rebase --autostash origin/main`，`rb.returncode != 0` 只 `break`、**不 `rebase --abort`**；且 rebase 在途时 `git commit -- <pathspec>`（带路径提交）被 git 放行 ⇒ 每 20min 往游离 HEAD 叠一笔、永不 pull、越落越远。R2.55 记的「粘滞锁存」是次因（解锁需 pull，而分叉树永不 pull）。
+- **处置（未动受保护件）**：①备份分支 `backup/bm-a-masterloop-20261031-2356`@41d1c7cd + `local-vs-origin-2356.patch`（96,566B，`.codely-cli/tmp/`）；②`git rebase --quit`（autostash 转 stash@{0}，内容仅 4 个派生状态件，无手改丢失）；③`reset --mixed origin/main` + `checkout -B main` ⇒ 0 ahead / 0 behind；④27 个陈旧 tracked 文件以 origin 为准回滚（状态/派生件 origin 更新，非 live-wins 场景）；⑤两本追加型台账经三方并核实证为**严格超集**（origin 自 21:07 起 base==theirs 字节级相同），保留本机夜轮产出并补推（+9 行 / +1 行，0 删除）。
+- **新闸（T1 工艺面）**：`Tools/fleet/git-rebase-guard.py`——卡死 rebase 或游离 HEAD ≥20min、无 index.lock、origin/main 可解析时，双备份后自动归位。已注册 `FluxGroup-GitRebaseGuard` every:15m（InvisibleRunner+pythonw，fire OK 00:04:10 rc=0）。S4U 被未提权 UAC 拒 → Interactive 降级，已入 `Tools/task-s4u-backlog.md`（权限件·零催办）。回滚=`Unregister-ScheduledTask FluxGroup-GitRebaseGuard`。
+- **闸自检（应通过/应拒绝两组）**：真实仓=OK 不动作；合成仓（伪造 45min 前 rebase-merge）=DRY 判中、apply 后归位。首版把目录 mtime 计入导致 0min 漏判，已修为只看目录内文件 mtime。
+- **待 CEO 裁（受保护件）**：`master_agent.py` 一行补丁——冲突后补 `git rebase --abort`（或改在 pull 前先提交状态件）。已入 NJ `D-R256-STUCKREBASE` + DEADLINES waiting-CEO。
+- **无 lane down / 无新增派单** ⇒ 未 poke；L0 探针谓词（3h 阈值 vs 班表 4.2h 间隙）维持 R2.55 登记，本班不改。
+

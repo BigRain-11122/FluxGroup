@@ -209,3 +209,4 @@ am_free_gb=10+cpu_load_pct=48——**bm-b 不是闲着，是在跑量化轮**；
 | **L0 探针谓词错位（实证补强）** | **waiting-CEO（受保护件）** | `DISPATCH-LOG age>3h` 与班表相邻班 4.2h 间隔天然冲突：17:31→21:43 之间必报。建议改测 MASTER-TICK 新鲜度。 |
 | **bm-a 本地树收口（detached→main）** | **fixed（本班）** | R2.54 只 `reset --mixed` 未重挂分支 ⇒ 8 笔提交落游离头。本班 `git checkout -B main` 后 0 ahead/0 behind、tracked 树干净。备份 branch `backup/bm-a-masterloop-20261031`@d818da44 + diff 快照 181,802B。 |
 | **bm-c RAM 闸（续）** | **waiting-CEO（物理件·零催办）** | 无新动向证据，本班按传感复用律未复测；只登记不催办。 |
+| **卡死 rebase 自愈（push_lane_files 缺 rebase --abort）** | **registered + 外部闸在役（受保护件候 CEO）** | 10-31 21:07 冲突后 `.git/rebase-merge` 残留 -> 游离 HEAD 8 提交 / 109 落后（当日第 3 次复发）。外部兜底=`Tools/fleet/git-rebase-guard.py` + FluxGroup-GitRebaseGuard every:15m（Interactive 降级·S4U 入 backlog）。根治一行补丁=`rb.returncode != 0` 后加 `git rebase --abort`。回滚=Unregister-ScheduledTask。 |
