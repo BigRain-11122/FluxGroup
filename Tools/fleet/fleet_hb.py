@@ -175,28 +175,29 @@ def host_stats():
 
 
 def self_bootstrap(node):
-    """The heartbeat task is the only thing proven alive on every node, so it carries the
-    bootstrap: if cph4/fleet/nodes/<node>/AGENT-REQUIRED exists and no agent process is
-    running, start one detached. Because this file itself is refreshed by `git pull`, a node
-    that pulls once becomes self-deploying without SSH or a human at the keyboard.
+    """Bootstrap carrier = the heartbeat task (the only thing proven alive on every node).
+
+    Safety (2026-10-31): the first version used `pgrep`, which does not exist on Windows, so
+    "not running" was always true and every heartbeat respawned an agent. Replaced by a
+    cross-platform lock file: create-exclusive, stale after 10 minutes, and a marker gate.
+    Absent the marker nothing ever spawns.
     """
     import subprocess as sp
+    import time as _t
     root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     if not os.path.exists(os.path.join(root, "cph4", "fleet", "nodes", node, "AGENT-REQUIRED")):
         return
+    lock = os.path.join(root, ".codely-cli", "tmp", "agent-%s.lock" % node)
+    os.makedirs(os.path.dirname(lock), exist_ok=True)
     try:
-        r = sp.run(["pgrep", "-f", "fleet/agent.py --node %s" % node], capture_output=True)
-        alive = r.returncode == 0
+        if os.path.exists(lock) and _t.time() - os.path.getmtime(lock) < 600:
+            return                      # a live agent owns this node
+        with open(lock, "w") as f:
+            f.write("%d %d" % (os.getpid(), int(_t.time())))
     except Exception:
-        alive = False
-    if alive:
         return
     try:
-        kw = {}
-        if os.name == "posix":
-            kw["start_new_session"] = True
-        else:
-            kw["creationflags"] = 0x00000008  # DETACHED_PROCESS
+        kw = {"start_new_session": True} if os.name == "posix" else {"creationflags": 0x00000008}
         sp.Popen([sys.executable, os.path.join(root, "Tools", "fleet", "agent.py"),
                   "--node", node, "--loop", "60"], cwd=root, **kw)
     except Exception:
