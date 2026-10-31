@@ -1,0 +1,23 @@
+{
+ "id": "OB-20261031-113916-LANESTART-BMC",
+ "lane": "bm-c",
+ "ack_at": "2026-10-31T14:49:57+08:00",
+ "by": "bm-c (interactive round window)",
+ "status": "partially_accepted_honest",
+ "steps_done": {
+  "pull": "skipped: group worktree carries 290 uncommitted tracked files from the live MV render lane (h3_i2v_album.py pid 5964); rebase --autostash there would rewrite a running lane tree",
+  "lane_agent": "ran: python Tools/fleet/lane_agent.py --node bm-c -> LANE-IDLE CAPACITY-BLOCKED-RAM (dry + live via task)",
+  "register": "done: HQ-ProductionClaim re-registered through Tools/task-register.ps1 (InvisibleRunner hidden chain) every:5m; fire test observed 14:49:25 rc=0"
+ },
+ "accept_evidence": {
+  "lanes_last_result": null,
+  "lanes_ts": "2026-10-31T14:34:31",
+  "lanes_idle_reason": "CAPACITY-BLOCKED-RAM ram 2.3/3.0 GB",
+  "task": "HQ-ProductionClaim every:5m, last result 0, payload Tools/hq-lane-claim.bat runs fleet_hb + queue_claim + lane_agent"
+ },
+ "residual": [
+  "last_result still absent: the master has assigned zero jobs to bm-c lane (jobs=[]), so there is no execution receipt to show yet - not a broken agent",
+  "capacity: free RAM measured 3.2 GB of 23.9 GB, lane gate needs 3.0 GB and sees 1.6-2.3 GB -> every claim attempt reports CAPACITY-BLOCKED-RAM; the remedy named by master_agent is gpu_lease --acquire, which bm-c cannot self-grant",
+  "LogonType is InteractiveToken (S4U denied unelevated, queued in Tools/task-s4u-backlog.md) -> task survives window but not logoff"
+ ]
+}
