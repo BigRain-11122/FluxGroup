@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-01T04:47:24",
- "cycle": 403,
+ "ts": "2026-11-01T04:48:59",
+ "cycle": 404,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-01T04:47:24",
+ "master_tick_ts": "2026-11-01T04:48:59",
  "queue": {
   "total": 59,
   "open": 1,
@@ -14,9 +14,9 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": -1.9,
-   "cpu_load_pct": 39,
-   "ram_free_gb": 48.9,
+   "hb_age_s": 33.3,
+   "cpu_load_pct": 11,
+   "ram_free_gb": 49.7,
    "gpu_util_pct": 1,
    "job": null,
    "last_result": {
@@ -28,13 +28,13 @@
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 152
+   "idle_rounds": 153
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 21.0,
-   "cpu_load_pct": 7,
-   "ram_free_gb": 11.5,
+   "hb_age_s": 56.1,
+   "cpu_load_pct": 9,
+   "ram_free_gb": 8.6,
    "gpu_util_pct": null,
    "job": "Q-TTS-1202R",
    "last_result": null,
@@ -44,9 +44,9 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 3.6,
-   "cpu_load_pct": 31,
-   "ram_free_gb": 9.5,
+   "hb_age_s": 38.8,
+   "cpu_load_pct": 67,
+   "ram_free_gb": 9.4,
    "gpu_util_pct": 2,
    "job": null,
    "last_result": {
@@ -58,32 +58,32 @@
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 138
+   "idle_rounds": 139
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 1.2,
+   "hb_age_s": 1.3,
    "cpu_load_pct": null,
-   "ram_free_gb": 16.1,
+   "ram_free_gb": 16.2,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-01T04:45:48",
+    "ts": "2026-11-01T04:47:24",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 90
+   "idle_rounds": 91
   }
  },
  "idle_rounds": {
-  "bm-a": 152,
+  "bm-a": 153,
   "bm-b": 0,
-  "bm-c": 138,
-  "bm-m": 90
+  "bm-c": 139,
+  "bm-m": 91
  },
  "lines": {
   "bigstream-mv": {
@@ -718,9 +718,9 @@
  "supply_added": [],
  "events": [],
  "violations": [
-  "bm-a IDLE-CONFIRMED x152 (SELF-DISPATCH: lane scans its own backlo)",
-  "bm-c IDLE-CONFIRMED x138 (SELF-DISPATCH: lane scans its own backlo)",
-  "bm-m IDLE-CONFIRMED x90 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-a IDLE-CONFIRMED x153 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-c IDLE-CONFIRMED x139 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-m IDLE-CONFIRMED x91 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED bigstream-mv 卡在 剪辑/装配/剪辑席 (导演席（CEO 终审）)",
   "LINE-BLOCKED bigstream-drama ()"
  ],
