@@ -1,20 +1,20 @@
 {
- "ts": "2026-10-31T11:41:55+08:00",
+ "ts": "2026-10-31T12:43:11+08:00",
  "node": "bm-m",
- "sec": 38.3,
- "slow_ts": 1793417816.907455,
+ "sec": 93.5,
+ "slow_ts": 1793421791.9882681,
  "git": "ok(committed-state)",
- "push": "ok+1",
+ "push": "up-to-date",
  "stages": {
   "hb": {
    "rc": 0,
-   "sec": 10.6,
-   "tail": "HB bm-m seq=1974 offset=1452.1ms"
+   "sec": 16.3,
+   "tail": "HB bm-m seq=1980 offset=1608.1ms"
   },
   "master": {
    "rc": 0,
-   "sec": 17.2,
-   "tail": "  LINES: BLOCKED=1, PARKED=1, WAITING=11"
+   "sec": 62.3,
+   "tail": "  LINES: BLOCKED=1, PARKED=1, WAITING=10, WORKING=1"
   },
   "lane": {
    "rc": 0,
@@ -22,69 +22,69 @@
    "tail": "LANE-IDLE bm-m :: SELF-DISPATCH: lane scans its own backlog"
   },
   "inventory": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 1,
+   "sec": 0.1,
+   "tail": "[2026-10-31T12:43:02] bm-a stock=1 ['R-MV-GATE-1D'] | bm-a after-refill=1 | bm-b stock=1 ['Q-TRIAGE-BIGMONEY-20261031'] | bm-b after-refill=1 | bm-c stock=2 ['Q"
   },
   "contingency": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 0,
+   "sec": 9.6,
+   "tail": "contingency 2026-10-31T12:43:11 | 动作 0 | 新升级 0 | 在线['bm-a', 'bm-b', 'bm-c', 'bm-m']"
   },
   "solver": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 0,
+   "sec": 0.1,
+   "tail": "[solver] fixes=2 escalate=5"
   },
   "line_agents": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 0,
+   "sec": 0.0,
+   "tail": "[line_agents] armed=0 no_data=22"
   },
   "health": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 0,
+   "sec": 13.4,
+   "tail": "bm-a HB=30s ONLINE ram=21.5G gpu=99 | bm-b HB=51s ONLINE ram=5.2G gpu=None | bm-c HB=35s ONLINE ram=9.7G gpu=2 | bm-m HB=dead | bm-m 本地回执= 89 件（较上轮 +0） | 队列 {'D"
   },
   "judge": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 0,
+   "sec": 0.0,
+   "tail": "[local_judge] answered=0 still_open=0 (tier: local→shared→codely)"
   },
   "brain": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 0,
+   "sec": 0.0,
+   "tail": "[brain] all 6 lines served today"
   },
   "social": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 0,
+   "sec": 0.1,
+   "tail": "[social] new=0 pending=5 escalate=4 -> /Users/junsheng.sun/FluxGroup/cph4/fleet/social/DIGEST.md"
   },
   "biz": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 1,
+   "sec": 0.1,
+   "tail": "[biz] duanju-ep1   ROUTED                      -s"
   },
   "mem": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 0,
+   "sec": 0.0,
+   "tail": "[mem] avail=17.8GB max_model=11.8GB need=22.0GB swap=2.4GB -> DOWNGRADE"
   },
   "autowork": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 0,
+   "sec": 0.0,
+   "tail": "[autowork] nothing due"
   },
   "deadline": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 0,
+   "sec": 0.0,
+   "tail": "[deadline] late=7 no_data=7 align_missing=0"
   },
   "supervisor": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 0,
+   "sec": 0.0,
+   "tail": "[supervisor] online=4/4 actions=5"
   }
  },
  "checks": [
@@ -105,13 +105,13 @@
   },
   {
    "name": "com.fluxgroup.pulse",
-   "ok": true,
-   "detail": "30891\t0\tcom.fluxgroup.pulse"
+   "ok": false,
+   "detail": "31579\t-15\tcom.fluxgroup.pulse"
   },
   {
    "name": "com.fluxgroup.dashboard",
    "ok": true,
-   "detail": "30970\t0\tcom.fluxgroup.dashboard"
+   "detail": "31706\t0\tcom.fluxgroup.dashboard"
   },
   {
    "name": "com.fluxgroup.ollama",
@@ -119,7 +119,12 @@
    "detail": "56171\t0\tcom.fluxgroup.ollama"
   }
  ],
- "alerts": [],
- "blockers": [],
- "ok": true
+ "alerts": [
+  "inventory: stock=1 ['Q-TRIAGE-BIGMONEY-20261031'] | bm-b after-refill=1 | bm-c stock=2 ['Q",
+  "biz:[biz] duanju-ep1   ROUTED                      -s"
+ ],
+ "blockers": [
+  "com.fluxgroup.pulse"
+ ],
+ "ok": false
 }
