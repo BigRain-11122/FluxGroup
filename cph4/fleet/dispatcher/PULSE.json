@@ -1,24 +1,24 @@
 {
- "ts": "2026-10-31T23:10:24+08:00",
+ "ts": "2026-10-31T23:12:11+08:00",
  "node": "bm-m",
- "sec": 47.9,
+ "sec": 46.8,
  "slow_ts": 1793459210.411322,
  "git": "ok(committed-state)",
- "push": "up-to-date",
+ "push": "ok+1",
  "stages": {
   "hb": {
    "rc": 0,
-   "sec": 10.6,
-   "tail": "HB bm-m seq=2263 offset=2398.6ms"
+   "sec": 14.1,
+   "tail": "HB bm-m seq=2264 offset=2397.0ms"
   },
   "master": {
    "rc": 0,
-   "sec": 30.3,
+   "sec": 22.1,
    "tail": "  LINES: BLOCKED=1, PARKED=1, STALLED-STAGE=1, WAITING=10"
   },
   "lane": {
    "rc": 0,
-   "sec": 0.9,
+   "sec": 1.1,
    "tail": "LANE-IDLE bm-m :: SELF-DISPATCH: lane scans its own backlog"
   },
   "inventory": {
@@ -106,12 +106,12 @@
   {
    "name": "com.fluxgroup.pulse",
    "ok": true,
-   "detail": "93037\t0\tcom.fluxgroup.pulse"
+   "detail": "93214\t0\tcom.fluxgroup.pulse"
   },
   {
    "name": "com.fluxgroup.dashboard",
    "ok": true,
-   "detail": "93140\t0\tcom.fluxgroup.dashboard"
+   "detail": "-\t0\tcom.fluxgroup.dashboard"
   },
   {
    "name": "com.fluxgroup.ollama",
