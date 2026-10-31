@@ -1,6 +1,6 @@
 {
- "ts": "2026-10-31T14:08:05",
- "cycle": 2157,
+ "ts": "2026-10-31T14:09:47",
+ "cycle": 2158,
  "queue": {
   "total": 50,
   "open": 0,
@@ -11,9 +11,9 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 36.7,
-   "cpu_load_pct": 77,
-   "ram_free_gb": 19.1,
+   "hb_age_s": 18.6,
+   "cpu_load_pct": 87,
+   "ram_free_gb": 18.3,
    "gpu_util_pct": 98,
    "job": "R-MV-GATE-1D",
    "last_result": {
@@ -29,27 +29,27 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 0.2,
-   "cpu_load_pct": 2,
-   "ram_free_gb": 10.7,
-   "gpu_util_pct": null,
+   "hb_age_s": 34.9,
+   "cpu_load_pct": null,
+   "ram_free_gb": null,
+   "gpu_util_pct": 1,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-10-31T14:04:18",
+    "ts": "2026-10-31T14:09:10",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 7
+   "idle_rounds": 8
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 41.1,
-   "cpu_load_pct": 49,
-   "ram_free_gb": 2.7,
+   "hb_age_s": 24.3,
+   "cpu_load_pct": 46,
+   "ram_free_gb": 0.9,
    "gpu_util_pct": 100,
    "job": null,
    "last_result": {
@@ -60,33 +60,33 @@
     "reason": null
    },
    "idle_confirmed": false,
-   "idle_reason": "CAPACITY-BLOCKED-RAM ram 2.7/3.0 GB",
+   "idle_reason": "CAPACITY-BLOCKED-RAM ram 0.9/3.0 GB",
    "idle_rounds": 0
   },
   "bm-m": {
    "online": true,
    "hb_age_s": 1.1,
    "cpu_load_pct": null,
-   "ram_free_gb": 18.1,
+   "ram_free_gb": 15.9,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-10-31T14:06:30",
+    "ts": "2026-10-31T14:08:05",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 6
+   "idle_rounds": 7
   }
  },
  "idle_rounds": {
   "bm-a": 0,
-  "bm-b": 7,
+  "bm-b": 8,
   "bm-c": 0,
-  "bm-m": 6
+  "bm-m": 7
  },
  "lines": {
   "bigstream-mv": {
@@ -694,7 +694,7 @@
   "by_kind": {
    "CAPACITY": 1
   },
-  "added": 0,
+  "added": 1,
   "tick_tier": "none",
   "judgment_tier": "local"
  },
@@ -713,9 +713,9 @@
  "supply_added": [],
  "events": [],
  "violations": [
-  "bm-b IDLE-CONFIRMED x7 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-b IDLE-CONFIRMED x8 (SELF-DISPATCH: lane scans its own backlo)",
   "bm-c CAPACITY-BLOCKED-RAM",
-  "bm-m IDLE-CONFIRMED x6 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-m IDLE-CONFIRMED x7 (SELF-DISPATCH: lane scans its own backlo)",
   "LINE-BLOCKED bigstream-drama ()"
  ],
  "lane_files_written": [
