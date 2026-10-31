@@ -3,3 +3,5 @@
 - [2026-10-30T23:55:02] S3 GIT_SYNC: 分叉 ahead=6 behind=0 且自动修复失败，需人工处理仓库同步
 - [2026-10-30T23:56:38] S3 GIT_SYNC: 分叉 ahead=6 behind=0 且自动修复失败，需人工处理仓库同步
 - [2026-10-31T00:20:25] S7 JOB_FAIL: 当日失败任务 -> Q-GPU-BMC-001(lease-expired-3-attempts) —— 已终态不自动重派，需人工定夺（重试/改道/撤销）
+- [2026-10-31T06:23:15] S7 JOB_FAIL: 当日失败任务 -> Q-AUD-1002(?); Q-GPU-BMC-001(lease-expired-5-attempts); R-MV-GATE-1D(?) —— 已终态不自动重派，需人工定夺（重试/改道/撤销）
+- [2026-10-31T10:51:06] S4 NATS_DOWN: 状态总线(bm-a:4222)不可达，机队失去心跳总线，bm-m 只能产本地活；需在公司生产力机(bm-a)重启 NATS

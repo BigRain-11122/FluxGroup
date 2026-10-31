@@ -1,20 +1,20 @@
 {
- "ts": "2026-10-31T00:48:04+08:00",
+ "ts": "2026-10-31T10:55:34+08:00",
  "node": "bm-m",
- "sec": 43.4,
- "slow_ts": 1793378884.557476,
+ "sec": 288.3,
+ "slow_ts": 1793415334.2080681,
  "git": "skipped:dirty(hand-edit Tools/backlog_fill.py)",
  "push": "up-to-date",
  "stages": {
   "hb": {
    "rc": 0,
-   "sec": 13.5,
-   "tail": "HB bm-m seq=1559 offset=378.6ms"
+   "sec": 17.1,
+   "tail": "HB bm-m seq=1947 offset=1221.3ms"
   },
   "master": {
    "rc": 0,
-   "sec": 19.9,
-   "tail": "  LINES: BLOCKED=1, PARKED=1, WAITING=10, WORKING=1"
+   "sec": 26.0,
+   "tail": "  LINES: BLOCKED=1, PARKED=1, WAITING=11"
   },
   "lane": {
    "rc": 0,
@@ -22,29 +22,29 @@
    "tail": "LANE-IDLE bm-m :: SELF-DISPATCH: lane scans its own backlog"
   },
   "inventory": {
-   "rc": 1,
-   "sec": 0.0,
-   "tail": "[2026-10-31T00:47:55] bm-a stock=1 ['R-MV-GATE-1D'] | bm-a after-refill=1 | bm-b stock=4 ['Q-AUD-1002', 'Q-MIX-1203', 'Q-TTS-1202'] | bm-c stock=6 ['Q-GPU-BMC-0"
+   "rc": 0,
+   "sec": 0.1,
+   "tail": "[2026-10-31T10:51:30] bm-a stock=3 ['Q-TRIAGE-CARGAMING-20261031', 'Q-TRIAGE-FLUXVERSE-20261031', 'Q-TRIAGE-RECON-20261031'] | bm-b stock=2 ['Q-TRIAGE-BIGMONEY-"
   },
   "contingency": {
    "rc": 0,
-   "sec": 8.8,
-   "tail": "contingency 2026-10-31T00:48:04 | 动作 0 | 新升级 0 | 在线['bm-a', 'bm-b', 'bm-c', 'bm-m']"
+   "sec": 244.0,
+   "tail": "contingency 2026-10-31T10:55:34 | 动作 0 | 新升级 0 | 在线['bm-a']"
   },
   "solver": {
    "rc": 0,
    "sec": 0.0,
-   "tail": "[solver] fixes=1 escalate=0"
+   "tail": "[solver] fixes=1 escalate=3"
   },
   "line_agents": {
    "rc": 0,
    "sec": 0.0,
-   "tail": "[line_agents] armed=3 no_data=22"
+   "tail": "[line_agents] armed=0 no_data=22"
   },
   "health": {
    "rc": 0,
-   "sec": 8.3,
-   "tail": "bm-a HB=8s ONLINE ram=51.9G gpu=94 | bm-b HB=29s ONLINE ram=5.1G gpu=None | bm-c HB=8s ONLINE ram=12G gpu=0 | bm-m HB=34s ONLINE ram=19.6G gpu=None | bm-m 本地回执="
+   "sec": 11.9,
+   "tail": "bm-a HB=dead | bm-b HB=dead | bm-c HB=37s ONLINE ram=10.9G gpu=0 | bm-m HB=dead | bm-m 本地回执= 82 件（较上轮 +1） | 队列 {'DONE': 41, 'FAILED': 4, 'RUNNING': 3, 'OPEN': 6"
   },
   "judge": {
    "rc": 0,
@@ -53,7 +53,7 @@
   },
   "brain": {
    "rc": 0,
-   "sec": 0.0,
+   "sec": 0.1,
    "tail": "[brain] all 6 lines served today"
   },
   "social": {
@@ -66,6 +66,11 @@
    "sec": 0.1,
    "tail": "[biz] duanju-ep1   ROUTED                      -s"
   },
+  "mem": {
+   "rc": 0,
+   "sec": 0.1,
+   "tail": "[mem] avail=17.6GB max_model=11.6GB need=22.0GB swap=2.6GB -> DOWNGRADE"
+  },
   "deadline": {
    "rc": 0,
    "sec": 0.0,
@@ -74,7 +79,7 @@
   "supervisor": {
    "rc": 0,
    "sec": 0.0,
-   "tail": "[supervisor] online=4/4 actions=1"
+   "tail": "[supervisor] online=4/4 actions=3"
   }
  },
  "checks": [
@@ -95,13 +100,13 @@
   },
   {
    "name": "com.fluxgroup.pulse",
-   "ok": true,
-   "detail": "-\t0\tcom.fluxgroup.pulse"
+   "ok": false,
+   "detail": "24434\t-15\tcom.fluxgroup.pulse"
   },
   {
    "name": "com.fluxgroup.dashboard",
    "ok": true,
-   "detail": "68467\t0\tcom.fluxgroup.dashboard"
+   "detail": "24559\t0\tcom.fluxgroup.dashboard"
   },
   {
    "name": "com.fluxgroup.ollama",
@@ -110,9 +115,10 @@
   }
  ],
  "alerts": [
-  "inventory: stock=4 ['Q-AUD-1002', 'Q-MIX-1203', 'Q-TTS-1202'] | bm-c stock=6 ['Q-GPU-BMC-0",
   "biz:[biz] duanju-ep1   ROUTED                      -s"
  ],
- "blockers": [],
- "ok": true
+ "blockers": [
+  "com.fluxgroup.pulse"
+ ],
+ "ok": false
 }
