@@ -1,27 +1,23 @@
 {
  "node": "bm-b",
- "ts": "2026-10-31T09:05:13",
+ "ts": "2026-10-31T09:15:51",
  "jobs": [
   {
-   "id": "R-LLM-BMB-PROBE",
-   "title": "小钢炮本地模型探针（读音色库方案出执行清单）",
-   "cmd": null,
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "C:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/bm-b-local-llm-probe.md",
+   "id": "Q-TTS-1202",
+   "title": "短剧配音大产批 EP001-EP060（index-tts 静默链·小钢炮已验证栈）",
+   "cmd": "cmd /c \"C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\voicegen_batch_ep004_060.cmd\"",
+   "cwd": "C:/Fluxgroup/FluxGroup",
+   "needs": "gpu",
+   "deliverable": "C:/Fluxgroup/FluxGroup/media/drama-tts-out/r1202_ep001_060/",
    "need_mb": null,
-   "model": "local-small",
-   "prompt": "读 Tools/voicebank/VOICE-BANK-PLAN.md，回答：①本机(RTX3070 8G)在音色库产线该承担哪些工序？②60席矩阵里优先做哪5席，为什么？③出厂闸5条用本机工具怎么执行？只依据文档，不要编造，250字内。",
-   "when_all": [
-    "C:/Fluxgroup/FluxGroup/Tools/voicebank/VOICE-BANK-PLAN.md"
-   ],
-   "llm": {
-    "out": "C:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/bm-b-local-llm-probe.md"
-   },
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": {},
    "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 6.2/2.0 GB"
+ "capacity_note": "ram 4.7/2.0 GB"
 }
