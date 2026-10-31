@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-01T04:00:27+08:00",
+ "ts": "2026-11-01T04:02:03+08:00",
  "node": "bm-m",
  "sec": 35.3,
  "slow_ts": 1793476732.439445,
@@ -9,11 +9,11 @@
   "hb": {
    "rc": 0,
    "sec": 9.3,
-   "tail": "HB bm-m seq=2430 offset=2804.0ms"
+   "tail": "HB bm-m seq=2431 offset=2807.7ms"
   },
   "master": {
    "rc": 0,
-   "sec": 16.6,
+   "sec": 16.5,
    "tail": "  LINES: BLOCKED=1, PARKED=1, STALLED-STAGE=1, WAITING=10"
   },
   "lane": {
@@ -111,7 +111,7 @@
   {
    "name": "com.fluxgroup.pulse",
    "ok": true,
-   "detail": "25889\t0\tcom.fluxgroup.pulse"
+   "detail": "26066\t0\tcom.fluxgroup.pulse"
   },
   {
    "name": "com.fluxgroup.dashboard",
