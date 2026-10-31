@@ -1,35 +1,35 @@
 {
- "ts": "2026-10-31T13:44:09+08:00",
+ "ts": "2026-10-31T13:55:41+08:00",
  "node": "bm-m",
- "sec": 755.3,
- "slow_ts": 1793425449.509063,
+ "sec": 83.2,
+ "slow_ts": 1793426141.3706071,
  "git": "ok(committed-state)",
  "push": "up-to-date",
  "stages": {
   "hb": {
-   "rc": 0,
-   "sec": 13.0,
-   "tail": "HB bm-m seq=1983 offset=1619.5ms"
+   "rc": 1,
+   "sec": 20.1,
+   "tail": "HB-FAIL timed out"
   },
   "master": {
    "rc": 0,
-   "sec": 23.5,
-   "tail": "  LINES: BLOCKED=1, PARKED=1, WAITING=11"
+   "sec": 37.0,
+   "tail": "  LINES: BLOCKED=1, PARKED=1, WAITING=10, WORKING=1"
   },
   "lane": {
    "rc": 0,
-   "sec": 1.3,
+   "sec": 3.1,
    "tail": "LANE-IDLE bm-m :: SELF-DISPATCH: lane scans its own backlog"
   },
   "inventory": {
    "rc": 1,
    "sec": 0.1,
-   "tail": "[2026-10-31T13:32:16] bm-a stock=1 ['Q-TRIAGE-CARGAMING-20261031'] | bm-a after-refill=2 | bm-b stock=0 [] | bm-b after-refill=0 | bm-c stock=3 ['Q-TRIAGE-BIGGA"
+   "tail": "[2026-10-31T13:55:23] bm-a stock=2 ['Q-TRIAGE-CARGAMING-20261031', 'R-MV-GATE-1D'] | bm-b stock=0 [] | bm-b after-refill=0 | bm-c stock=3 ['Q-TRIAGE-BIGGAME-202"
   },
   "contingency": {
    "rc": 0,
-   "sec": 712.5,
-   "tail": "contingency 2026-10-31T13:44:09 | 动作 0 | 新升级 0 | 在线[]"
+   "sec": 18.1,
+   "tail": "contingency 2026-10-31T13:55:41 | 动作 0 | 新升级 0 | 在线[]"
   },
   "solver": {
    "rc": 0,
@@ -43,8 +43,8 @@
   },
   "health": {
    "rc": 0,
-   "sec": 9.8,
-   "tail": "bm-a HB=dead | bm-b HB=dead | bm-c HB=22s ONLINE ram=10.7G gpu=2 | bm-m HB=dead | bm-m 本地回执= 89 件（较上轮 +0） | 队列 {'DONE': 41, 'FAILED': 7, 'OPEN': 2, 'RUNNING': 2"
+   "sec": 12.1,
+   "tail": "bm-a HB=dead | bm-b HB=dead | bm-c HB=dead | bm-m HB=dead | bm-m 本地回执= 89 件（较上轮 +1） | 队列 {'DONE': 41, 'FAILED': 5, 'RUNNING': 2, 'OPEN': 3}"
   },
   "judge": {
    "rc": 0,
@@ -69,7 +69,7 @@
   "mem": {
    "rc": 0,
    "sec": 0.0,
-   "tail": "[mem] avail=17.8GB max_model=11.8GB need=22.0GB swap=2.4GB -> DOWNGRADE"
+   "tail": "[mem] avail=16.8GB max_model=10.8GB need=22.0GB swap=2.4GB -> DOWNGRADE"
   },
   "autowork": {
    "rc": 0,
@@ -105,13 +105,13 @@
   },
   {
    "name": "com.fluxgroup.pulse",
-   "ok": false,
-   "detail": "32021\t-15\tcom.fluxgroup.pulse"
+   "ok": true,
+   "detail": "32229\t0\tcom.fluxgroup.pulse"
   },
   {
    "name": "com.fluxgroup.dashboard",
    "ok": true,
-   "detail": "32157\t0\tcom.fluxgroup.dashboard"
+   "detail": "32376\t0\tcom.fluxgroup.dashboard"
   },
   {
    "name": "com.fluxgroup.ollama",
@@ -120,11 +120,11 @@
   }
  ],
  "alerts": [
-  "inventory:refill=2 | bm-b stock=0 [] | bm-b after-refill=0 | bm-c stock=3 ['Q-TRIAGE-BIGGA",
+  "inventory:'] | bm-b stock=0 [] | bm-b after-refill=0 | bm-c stock=3 ['Q-TRIAGE-BIGGAME-202",
   "biz:[biz] duanju-ep1   ROUTED                      -s"
  ],
  "blockers": [
-  "com.fluxgroup.pulse"
+  "stage:hb"
  ],
  "ok": false
 }
