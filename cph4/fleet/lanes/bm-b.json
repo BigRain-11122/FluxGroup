@@ -1,23 +1,23 @@
 {
  "node": "bm-b",
- "ts": "2026-10-31T14:14:31",
+ "ts": "2026-11-01T02:02:18",
  "jobs": [
   {
-   "id": "Q-TTS-1202R",
-   "title": "短剧配音重试 EP004-EP060（前卡 5 次租约到期零回执·本卡验执行腿）",
-   "cmd": "cmd /c \"C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\voicegen_batch_ep004_060.cmd\"",
-   "cwd": "C:/Fluxgroup/FluxGroup",
-   "needs": "gpu",
-   "deliverable": "C:/Fluxgroup/FluxGroup/media/drama-tts-out/r1202_ep001_060/",
+   "id": "R-TTS1202R-VERIFY-20261031",
+   "title": "Q-TTS-1202R 交付物实证探针（bm-b 本地数音频文件，终结 2 小时 RUNNING 幽灵）",
+   "cmd": "python Tools/fleet/tts_batch_check.py --dir C:/Fluxgroup/FluxGroup/media/drama-tts-out/r1202_ep001_060 --out C:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/Q-TTS-1202R-bm-b-verify.md",
+   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "needs": "cpu",
+   "deliverable": "C:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/Q-TTS-1202R-bm-b-verify.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
    "when_all": [],
-   "llm": null,
+   "llm": {},
    "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram-unknown"
+ "capacity_note": "ram 11.7/2.0 GB"
 }
