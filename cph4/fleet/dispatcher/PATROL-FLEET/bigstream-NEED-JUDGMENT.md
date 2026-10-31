@@ -40,3 +40,11 @@
 - video-remix S 池 3 条试产=queued-refrozen 合法静默（R2.11 定谳）：三闸零 delta（①配音并入漫剧 PoC-A·新锚 ≤10-26，实测 10-19 15:41 后无新件、PoC 实体=POOL-0016 LatentSync 三夜 3/3 收官 ②授权链未启动 ③委员会快评未触发）。不 snooze（真死线保留可见性），下一观察点=PoC-A 交付或委员会快评变化。
 - [承 R23-3 监控线] **10-21 24:00 前需第 1 曲成片落盘**：现况=41 曲 0 成片；星晴 PACK-A 33/33 装配完成+响度母版过关（本批唯一已到交付面的候选）；可爱女人 KF 签发未烧（R26-1）；W3/W4 KF 未派。若明日 24:00 无成片=按 R23-3 重新起旗并如实披露。
 - 今日质量面新发现三件已在正典、无需本席另立：a) 全系装配脚本 `vignette=PI/5`（角部 -55.5%）被当轻档使用→V5.11 及之前交付片均带；正典已改 `angle=0.30`，V5.11 回炉与否已挂「待决呈 CEO」。b) KF 链路 `steps=8/cfg=1.0 + ConditioningZeroOut` 使负向条件乘 0（反韩负权重从未生效）+ KF 实跑 1344×768 低于 Krea 2k 支持面→QC §12 v1.14 已收窄。c) 四条所谓「官方铁律」实为本厂自订，已改口径并留勘正痕迹。
+
+## 呈上级枢纽（2026-11-01 06:1x R27 班）
+
+- [bigstream#R27-1 | 事故·产线断更] **可爱女人 KN21 收割断链 15h20m（渲染已完成、收据未落）** ｜证据链：① `cph4/fleet/mv-album-001-jay/KN21-KF-RETRY-c2173.json`（10-31 14:06）三行全 ok，seed 770112/770341/770905，1.16–1.25MB，落 `K:\Fluxgroup\FluxGroup\media\mv-album-001-jay\frames-retry-c2173\`（bm-c 本地盘，bm-a 不可达=Test-Path False）；② `KN21-RETRY-VERDICT-c2172.md` 判 768P int8 字形噪点/int4 纸艺漂移均为**输出端**问题，正法是重出首帧 → C2173 即该正法；③ 提交 `825a063d`（10-31 14:43）「KN21 re-plated take is rendering server-side; harvest watcher armed, conform v2 pre-stowed」；④ 此后至 2026-11-01 06:04 **零** harvest 判据 / 零 verdict 件 / 零后续提交（`kn21_harvest_c2173.py` 写于 14:44 却无产出件）；⑤ `cph4/fleet/lanes/bm-c.json` 05:25:18 jobs=[] lane_ok=true ram 9.4/3.0GB = bm-c 空闲。判读=渲染应已结束（或中途被击杀），收割随会话死亡，成品悬在 bm-c 盘上无人签核。｜建议动作（枢纽决）：落一条 bm-c 侧卡/会话 —— 跑 `kn21_harvest_c2173.py` 收 take → 全分辨率（禁 420px 缩略图）签核 KF/成片 → 走 conform v2 预存件装配；核 chip 是否 `clips-local-768/KN_A-KN21.mp4`。禁由 bm-a 远程驱动（CEO 2026-10-23 令）。
+
+- [bigstream#R27-2 | 节奏·供给空缺] **41 曲曲线 6 天 0 曲产出，机器空转** ｜证据：星晴线末件 `xq-PACKB-DELIVERY-GATE-v11-c2168.json`（10-25 10:59）；可爱女人线卡在 KN21（见 R27-1）；`lanes/bm-c.json` 05:25 与 R2.57 记录 bm-b/bm-c 均无 job（jobs=[] / POOL-EMPTY）。单一歌曲线独占 7 天，S 层滚动 DDL 偏差 ≫1 曲/日阈值。｜建议动作（枢纽决）：①先把 KN21 收口（R27-1）——它是当前唯一在途曲；②bm-b（8G）该承接 animatic 480P 批（assignment-album-v1.json lanes.bmb 已定义 864×480 int4，`clips-animatic-480`），把「排 bm-b 音频批后」的前置条件核掉；③明确 41 曲下一首的排队行归属（现无 executable 卡）。
+
+- [观察·不升级] video-remix S 池 3 条试产仍 queued-refrozen：属 R2.11 判定的结构性等待（PoC-A 授权锚 10-26 到期未续·委员会未动），非新事故，维持既有 snooze 口径；B 站线台账 `cph4/fleet/bili-ops/` 最新条目 10-21 12:04（11 天无新条目），按合规阶段门控（商业化前轻量）+ 账号安全令零动作，本席只记状态不催办。
