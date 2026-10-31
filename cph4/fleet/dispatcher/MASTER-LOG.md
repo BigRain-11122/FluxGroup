@@ -2281,3 +2281,4 @@
 [2026-11-01T00:19:11] cyc=243 q=3/3/49 sup=0 ev=2 idle=bm-a:-,bm-b:-,bm-c:- flags=bm-m IDLE-CONFIRMED x24 (SELF-DISPATCH: lane scans its own backlo);STAGE-STALLED bigstream-mv 卡在 剪辑/装配/剪辑席 (导演席（CEO 终审）);LINE-BLOCKED bigstream-drama ()
 [2026-11-01T00:21:03] cyc=244 q=3/3/49 sup=0 ev=0 idle=bm-a:-,bm-b:-,bm-c:- flags=bm-m IDLE-CONFIRMED x25 (SELF-DISPATCH: lane scans its own backlo);STAGE-STALLED bigstream-mv 卡在 剪辑/装配/剪辑席 (导演席（CEO 终审）);LINE-BLOCKED bigstream-drama ()
 [2026-11-01T00:22:48] cyc=245 q=3/3/49 sup=0 ev=0 idle=bm-a:-,bm-b:-,bm-c:- flags=bm-m IDLE-CONFIRMED x26 (SELF-DISPATCH: lane scans its own backlo);STAGE-STALLED bigstream-mv 卡在 剪辑/装配/剪辑席 (导演席（CEO 终审）);LINE-BLOCKED bigstream-drama ()
+[2026-11-01T00:24:49] cyc=246 q=3/3/50 sup=1 ev=2 idle=bm-a:-,bm-b:-,bm-c:- flags=bm-m IDLE-CONFIRMED x27 (SELF-DISPATCH: lane scans its own backlo);STAGE-STALLED bigstream-mv 卡在 剪辑/装配/剪辑席 (导演席（CEO 终审）);LINE-BLOCKED bigstream-drama ()
