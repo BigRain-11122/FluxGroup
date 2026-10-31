@@ -1,14 +1,14 @@
 {
  "node": "bm-c",
- "ts": "2026-10-31T13:57:17",
+ "ts": "2026-10-31T14:00:50",
  "jobs": [
   {
-   "id": "Q-TRIAGE-BIGSTREAMDUANJU-20261031",
-   "title": "bigstream-duanju 线级体检（本机证据目录实况）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigstream-duanju",
+   "id": "Q-TRIAGE-BIGGAME-20261031",
+   "title": "biggame 线级体检（本机证据目录实况）",
+   "cmd": "python Tools/fleet/line_triage.py --line biggame",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigstream-duanju-20261031.md",
+   "deliverable": "cph4/fleet/queue-receipts/triage-biggame-20261031.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 10.2/3.0 GB"
+ "capacity_note": "ram 4.1/3.0 GB"
 }
