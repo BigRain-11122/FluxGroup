@@ -16,7 +16,9 @@ Write-Output ('FLEET LIVE STATE @ ' + (Get-Date -Format s) + '  (source: NATS KV
 foreach ($n in @($cfg.nodes)) {
   $id = [string]$n.id
   $out = ''
-  try { $raw = & $nats -s $Server kv get FLEET_STATE ("state." + $id) 2>$null; $out = [string](@($raw) | Where-Object { $_ -match '^\{' } | Select-Object -First 1) } catch { }
+  # --raw is mandatory: without it the CLI truncates the value to 120 bytes
+  # ("Showing first 120 bytes of N, use --raw for full data") and every parse fails.
+  try { $raw = & $nats -s $Server kv get FLEET_STATE ("state." + $id) --raw 2>$null; $out = [string](@($raw) | Where-Object { $_ -match '^\{' } | Select-Object -First 1) } catch { }
   if ($out) {
     try {
       $s = $out | ConvertFrom-Json
