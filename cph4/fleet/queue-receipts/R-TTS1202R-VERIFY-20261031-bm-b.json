@@ -1,0 +1,14 @@
+{
+ "id": "R-TTS1202R-VERIFY-20261031",
+ "node": "bm-b",
+ "rc": 0,
+ "seconds": 0.1,
+ "cmd": "python Tools/fleet/tts_batch_check.py --dir C:/Fluxgroup/FluxGroup/media/drama-tts-out/r1202_ep001_060 --out C:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/Q-TTS-1202R-bm-b-verify.md",
+ "deliverable": "C:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/Q-TTS-1202R-bm-b-verify.md",
+ "deliverable_exists": true,
+ "cwd_asked": "/Users/junsheng.sun/FluxGroup",
+ "cwd_used": "C:\\Fluxgroup\\FluxGroup",
+ "ts": "2026-11-01T02:27:27",
+ "stdout_tail": "{\"dir\": \"C:/Fluxgroup/FluxGroup/media/drama-tts-out/r1202_ep001_060\", \"files\": 1036, \"bytes\": 147430476, \"newest_age_min\": 4357.1, \"verdict\": \"COMPLETE-STOPPED - newest file is 4357.1 min old\", \"out\": \"C:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/Q-TTS-1202R-bm-b-verify.md\"}\n",
+ "stderr_tail": ""
+}
