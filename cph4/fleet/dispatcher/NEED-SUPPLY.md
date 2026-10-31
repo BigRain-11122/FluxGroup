@@ -1,7 +1,7 @@
 # NEED-SUPPLY - why lanes and business lines are not running (#regenerated)
 
-- ts: 2026-10-31T17:56:53
-- queue: open=1 running=1 done=45 failed=5
+- ts: 2026-10-31T17:58:56
+- queue: open=1 running=1 done=47 failed=3
 - open jobs by need: cpu=1 gpu=0
 
 - bm-a: SELF-DISPATCH: lane scans its own backlog -> lane is scanning its own backlog; if this persists >2 rounds the box has no declared work and needs a new card
