@@ -1,24 +1,24 @@
 {
- "ts": "2026-11-01T04:58:52+08:00",
+ "ts": "2026-11-01T05:00:40+08:00",
  "node": "bm-m",
- "sec": 35.5,
+ "sec": 47.9,
  "slow_ts": 1793480236.7077382,
  "git": "ok(committed-state)",
- "push": "ok+1",
+ "push": "failed:ssh: connect to host ssh.github.com port 443: Undefined error: 0 fatal: Could not read from remote repository. Please ma",
  "stages": {
   "hb": {
-   "rc": 0,
-   "sec": 9.4,
-   "tail": "HB bm-m seq=2466 offset=2895.8ms"
+   "rc": 1,
+   "sec": 16.4,
+   "tail": "HB-FAIL timed out"
   },
   "master": {
    "rc": 0,
-   "sec": 16.4,
+   "sec": 24.3,
    "tail": "  LINES: BLOCKED=1, PARKED=1, STALLED-STAGE=1, WAITING=10"
   },
   "lane": {
    "rc": 0,
-   "sec": 0.9,
+   "sec": 3.1,
    "tail": "LANE-IDLE bm-m :: SELF-DISPATCH: lane scans its own backlog"
   },
   "inventory": {
@@ -111,7 +111,7 @@
   {
    "name": "com.fluxgroup.pulse",
    "ok": true,
-   "detail": "32652\t0\tcom.fluxgroup.pulse"
+   "detail": "32842\t0\tcom.fluxgroup.pulse"
   },
   {
    "name": "com.fluxgroup.dashboard",
@@ -125,6 +125,8 @@
   }
  ],
  "alerts": [],
- "blockers": [],
- "ok": true
+ "blockers": [
+  "stage:hb"
+ ],
+ "ok": false
 }
