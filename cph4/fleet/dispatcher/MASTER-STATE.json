@@ -1,26 +1,26 @@
 {
- "ts": "2026-10-31T11:09:03",
- "cycle": 2124,
+ "ts": "2026-10-31T11:10:57",
+ "cycle": 2125,
  "queue": {
   "total": 54,
-  "open": 5,
+  "open": 6,
   "running": 3,
   "done": 41,
-  "failed": 5
+  "failed": 4
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 36.5,
-   "cpu_load_pct": 45,
-   "ram_free_gb": 63.9,
-   "gpu_util_pct": 2,
+   "hb_age_s": 28.9,
+   "cpu_load_pct": 69,
+   "ram_free_gb": 58.8,
+   "gpu_util_pct": 42,
    "job": "R-MV-GATE-1D",
    "last_result": {
-    "job": "Q-TRIAGE-CARGAMING-20261031",
-    "state": "FAILED",
-    "rc": 2,
-    "ts": "2026-10-31T11:05:05",
+    "job": "R-MV-GATE-1D",
+    "state": "RUNNING",
+    "rc": null,
+    "ts": "2026-10-31T11:10:05",
     "reason": null
    },
    "idle_confirmed": false,
@@ -29,9 +29,9 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 57.4,
+   "hb_age_s": 51.1,
    "cpu_load_pct": 5,
-   "ram_free_gb": 11.2,
+   "ram_free_gb": 11.8,
    "gpu_util_pct": null,
    "job": "Q-TTS-1202",
    "last_result": null,
@@ -41,9 +41,9 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 40.3,
-   "cpu_load_pct": 71,
-   "ram_free_gb": 9.7,
+   "hb_age_s": 32.5,
+   "cpu_load_pct": 43,
+   "ram_free_gb": 9.5,
    "gpu_util_pct": 2,
    "job": "Q-TRIAGE-BIGSTREAMMV-20261031",
    "last_result": null,
@@ -53,28 +53,28 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 1.4,
+   "hb_age_s": 1.8,
    "cpu_load_pct": null,
-   "ram_free_gb": 18.1,
+   "ram_free_gb": 18.2,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-10-31T11:07:22",
+    "ts": "2026-10-31T11:09:03",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 8
+   "idle_rounds": 9
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 8
+  "bm-m": 9
  },
  "lines": {
   "bigstream-mv": {
@@ -685,7 +685,7 @@
   "judgment_tier": "local"
  },
  "routing": {
-  "local": 5,
+  "local": 6,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -693,17 +693,13 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 5,
+  "cpu": 6,
   "gpu": 0
  },
- "supply_added": [
-  "backlog_manifest+1"
- ],
- "events": [
-  "Q-TRIAGE-CARGAMING-20261031 FAILED via bm-a"
- ],
+ "supply_added": [],
+ "events": [],
  "violations": [
-  "bm-m IDLE-CONFIRMED x8 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-m IDLE-CONFIRMED x9 (SELF-DISPATCH: lane scans its own backlo)",
   "LINE-BLOCKED bigstream-drama ()"
  ],
  "lane_files_written": []
