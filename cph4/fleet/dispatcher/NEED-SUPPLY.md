@@ -1,6 +1,6 @@
 # NEED-SUPPLY - why lanes and business lines are not running (#regenerated)
 
-- ts: 2026-10-31T18:45:17
+- ts: 2026-10-31T18:47:10
 - queue: open=1 running=1 done=47 failed=3
 - open jobs by need: cpu=1 gpu=0
 
@@ -16,7 +16,7 @@ Rules pack: cph4/fleet/WORK-RULES.jsonl (empty = every job must be declared by a
 | 条线 | 判 | 最近产出 | 阈值 | 卡在 | 负责人 |
 |---|---|---|---|---|---|
 | BigStream·漫剧 | BLOCKED | - | 48.0h | - | 漫剧席 |
-| BigStream·MV 41 曲 | WAITING | - | 24.0h | - | 导演席（CEO 终审） |
+| BigStream·MV 41 曲 | STALLED-STAGE | - | 24.0h | 剪辑/装配/剪辑席 | 导演席（CEO 终审） |
 | BigStream·短剧 | WAITING | - | 72.0h | - | 短剧席 |
 | Biggame·游戏 | WAITING | - | 24.0h | - | 游戏席 |
 | FluxVerse·元宙城 | WAITING | - | 36.0h | - | 城市线 |
