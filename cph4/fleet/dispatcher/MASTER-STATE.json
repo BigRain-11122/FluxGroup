@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-01T00:41:37",
- "cycle": 255,
+ "ts": "2026-11-01T00:43:24",
+ "cycle": 256,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-01T00:41:37",
+ "master_tick_ts": "2026-11-01T00:43:24",
  "queue": {
   "total": 59,
   "open": 3,
@@ -14,10 +14,10 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 4.4,
-   "cpu_load_pct": 60,
-   "ram_free_gb": 48.9,
-   "gpu_util_pct": 72,
+   "hb_age_s": 53.1,
+   "cpu_load_pct": 70,
+   "ram_free_gb": 49.4,
+   "gpu_util_pct": 65,
    "job": null,
    "last_result": {
     "job": null,
@@ -28,13 +28,13 @@
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 4
+   "idle_rounds": 5
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 26.1,
-   "cpu_load_pct": 4,
-   "ram_free_gb": 12.1,
+   "hb_age_s": 16.3,
+   "cpu_load_pct": 17,
+   "ram_free_gb": 11.9,
    "gpu_util_pct": null,
    "job": "Q-TTS-1202R",
    "last_result": null,
@@ -58,26 +58,26 @@
    "online": true,
    "hb_age_s": 1.3,
    "cpu_load_pct": null,
-   "ram_free_gb": 18.4,
+   "ram_free_gb": 18.3,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-01T00:39:54",
+    "ts": "2026-11-01T00:41:38",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 36
+   "idle_rounds": 37
   }
  },
  "idle_rounds": {
-  "bm-a": 4,
+  "bm-a": 5,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 36
+  "bm-m": 37
  },
  "lines": {
   "bigstream-mv": {
@@ -714,9 +714,9 @@
  "supply_added": [],
  "events": [],
  "violations": [
-  "bm-a IDLE-CONFIRMED x4 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-a IDLE-CONFIRMED x5 (SELF-DISPATCH: lane scans its own backlo)",
   "bm-c OFFLINE",
-  "bm-m IDLE-CONFIRMED x36 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-m IDLE-CONFIRMED x37 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED bigstream-mv 卡在 剪辑/装配/剪辑席 (导演席（CEO 终审）)",
   "LINE-BLOCKED bigstream-drama ()"
  ],
