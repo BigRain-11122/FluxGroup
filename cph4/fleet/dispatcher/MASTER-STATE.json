@@ -1,55 +1,86 @@
 {
- "ts": "2026-10-31T13:55:07",
- "cycle": 2150,
+ "ts": "2026-10-31T13:57:17",
+ "cycle": 2151,
  "queue": {
   "total": 51,
-  "open": 4,
-  "running": 1,
-  "done": 41,
-  "failed": 5
+  "open": 1,
+  "running": 2,
+  "done": 42,
+  "failed": 6
  },
  "lanes": {
   "bm-a": {
-   "online": false,
-   "hb_age_s": null,
-   "cpu_load_pct": null,
-   "ram_free_gb": null,
-   "gpu_util_pct": null,
-   "job": null,
-   "last_result": null,
+   "online": true,
+   "hb_age_s": 46.4,
+   "cpu_load_pct": 40,
+   "ram_free_gb": 17.8,
+   "gpu_util_pct": 99,
+   "job": "R-MV-GATE-1D",
+   "last_result": {
+    "job": "Q-TRIAGE-CARGAMING-20261031",
+    "state": "FAILED",
+    "rc": 2,
+    "ts": "2026-10-31T13:55:05",
+    "reason": null
+   },
    "idle_confirmed": false,
-   "idle_reason": "CAPACITY-BLOCKED-RAM OFFLINE (hb age Nones)",
+   "idle_reason": "",
    "idle_rounds": 0
   },
   "bm-b": {
-   "online": false,
-   "hb_age_s": null,
+   "online": true,
+   "hb_age_s": 9.9,
+   "cpu_load_pct": 10,
+   "ram_free_gb": 6.2,
+   "gpu_util_pct": null,
+   "job": null,
+   "last_result": {
+    "job": null,
+    "state": "IDLE",
+    "rc": null,
+    "ts": "2026-10-31T13:54:03",
+    "reason": "SELF-DISPATCH: lane scans its own backlog"
+   },
+   "idle_confirmed": true,
+   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+   "idle_rounds": 1
+  },
+  "bm-c": {
+   "online": true,
+   "hb_age_s": 51.5,
+   "cpu_load_pct": 47,
+   "ram_free_gb": 10.2,
+   "gpu_util_pct": 4,
+   "job": "Q-TRIAGE-BIGSTREAMDUANJU-20261031",
+   "last_result": {
+    "job": "Q-TRIAGE-BIGSTREAMMV-20261031",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-10-31T13:56:05",
+    "reason": null
+   },
+   "idle_confirmed": false,
+   "idle_reason": "",
+   "idle_rounds": 0
+  },
+  "bm-m": {
+   "online": true,
+   "hb_age_s": 1.3,
    "cpu_load_pct": null,
-   "ram_free_gb": null,
+   "ram_free_gb": 17.9,
    "gpu_util_pct": null,
    "job": null,
    "last_result": null,
    "idle_confirmed": false,
-   "idle_reason": "CAPACITY-BLOCKED-RAM OFFLINE (hb age Nones)",
-   "idle_rounds": 0
-  },
-  "bm-c": {
-   "online": false,
-   "hb_age_s": null,
-   "cpu_load_pct": null,
-   "ram_free_gb": null,
-   "gpu_util_pct": null,
-   "job": "Q-TRIAGE-BIGSTREAMMV-20261031",
-   "last_result": null,
-   "idle_confirmed": false,
-   "idle_reason": "",
+   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
    "idle_rounds": 0
   }
  },
  "idle_rounds": {
   "bm-a": 0,
-  "bm-b": 0,
-  "bm-c": 0
+  "bm-b": 1,
+  "bm-c": 0,
+  "bm-m": 0
  },
  "lines": {
   "bigstream-mv": {
@@ -63,9 +94,7 @@
     "R-MV-GATE-1D"
    ],
    "no_supply": false,
-   "blockers": [
-    "R-MV-GATE-1D:no-lane"
-   ],
+   "blockers": [],
    "note": null
   },
   "bigstream-drama": {
@@ -662,7 +691,7 @@
   "judgment_tier": "local"
  },
  "routing": {
-  "local": 4,
+  "local": 1,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -670,21 +699,22 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 4,
+  "cpu": 1,
   "gpu": 0
  },
  "supply_added": [],
  "events": [
-  "Q-TRIAGE-CARGAMING-20261031 REQUeued attempt=1"
+  "Q-TRIAGE-CARGAMING-20261031 FAILED via bm-a",
+  "Q-TRIAGE-BIGSTREAMMV-20261031 DONE via bm-c",
+  "R-MV-GATE-1D -> bm-a (cpu)",
+  "Q-TRIAGE-BIGSTREAMDUANJU-20261031 -> bm-c (cpu)"
  ],
  "violations": [
-  "bm-a OFFLINE",
-  "bm-b OFFLINE",
-  "bm-c OFFLINE",
   "LINE-BLOCKED bigstream-drama ()"
  ],
  "lane_files_written": [
   "bm-a",
-  "bm-b"
+  "bm-b",
+  "bm-c"
  ]
 }
