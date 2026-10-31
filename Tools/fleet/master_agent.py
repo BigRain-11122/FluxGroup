@@ -480,16 +480,19 @@ def cycle(root, dry=False, push=True, node="bm-a", fallback_stale_s=900):
         # The declared master is the Mac, which is on-demand by CEO order - so it can be
         # asleep for hours while jobs sit unassigned (2026-10-31: 13h45m dark). A fallback
         # node may take over ONLY when the declared master's own last tick is stale.
-        prev_state = fl.read_json(os.path.join(root, fl.STATE_REL.replace("/", os.sep)), {}) or {}
-        # Only a tick by the DECLARED master refreshes the clock; a fallback run must not
-        # make the master look alive or the fallback would permanently disable itself.
-        prev_ts = str(prev_state.get("master_tick_ts") or prev_state.get("ts") or "")
+        # MASTER-STATE is also refreshed by the Mac's pulse snapshot, which is why staleness
+        # reads a dedicated tick file that only a real scheduler run writes.
+        tick = fl.read_json(os.path.join(root, TICK_REL.replace("/", os.sep)), {}) or {}
+        prev_ts = str(tick.get("ts") or "")
+        prev_by = str(tick.get("last_tick_by") or "")
         stale = True
         try:
             age = (datetime.now() - datetime.strptime(prev_ts, "%Y-%m-%dT%H:%M:%S")).total_seconds()
             stale = age > fallback_stale_s
         except Exception:
             stale = True
+        if prev_by and prev_by != owner_node:
+            stale = True   # the last tick was itself a fallback: the real master is still dark
         if not stale:
             pass
         else:
@@ -648,6 +651,9 @@ def cycle(root, dry=False, push=True, node="bm-a", fallback_stale_s=900):
              "lane_files_written": written}
     if not dry:
         fl.write_json(os.path.join(root, fl.STATE_REL.replace("/", os.sep)), state)
+        fl.write_json(os.path.join(root, TICK_REL.replace("/", os.sep)),
+                      {"declared_master": owner_node, "last_tick_by": node,
+                       "ts": now_ts, "masquerade": masquerade})
         write_need_supply(root, lanes_state, queued, state["supply_gap"], lines_state, stages_state)
         log = os.path.join(root, fl.LOG_REL.replace("/", os.sep))
         os.makedirs(os.path.dirname(log), exist_ok=True)
@@ -875,6 +881,7 @@ def build_judgments(root, rows, lanes_state, lines_state, fleet, policy):
 
 
 STAGE_CACHE_REL = "cph4/fleet/dispatcher/STAGE-CACHE.json"
+TICK_REL = "cph4/fleet/dispatcher/MASTER-TICK.json"
 
 
 MASTER_NODE_REL = "cph4/fleet/MASTER-NODE.json"
