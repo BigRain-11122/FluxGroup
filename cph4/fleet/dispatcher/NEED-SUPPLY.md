@@ -1,6 +1,6 @@
 # NEED-SUPPLY - why lanes and business lines are not running (#regenerated)
 
-- ts: 2026-11-01T00:55:49
+- ts: 2026-11-01T00:57:31
 - queue: open=2 running=1 done=53 failed=3
 - open jobs by need: cpu=2 gpu=0
 
