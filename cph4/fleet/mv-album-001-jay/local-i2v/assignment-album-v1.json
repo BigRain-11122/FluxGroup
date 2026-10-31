@@ -36,6 +36,15 @@
    "quant": "int4",
    "wf": "wf_h3_i2v_480p_int4.json",
    "out": "media/mv-album-001-jay/clips-verify-480"
+  },
+  "bma768i4": {
+   "machine": "bm-a RTX4070S 12G - 768P int4 override (10-21 law: int8 truncates at 81%)",
+   "track": "V718",
+   "width": 1344,
+   "height": 768,
+   "quant": "int4",
+   "wf": "wf_h3_i2v_768p_int8.json",
+   "out": "media/MV/mv0001/v718-clips-768"
   }
  },
  "notes": "帧分发=bm-c tailnet http://100.123.74.104:8800/album-frames-v22.zip；回收规则=停滞>4h 的单由另一 768P 机 --only ID 认领补跑；--only 优先于 lane 过滤"
