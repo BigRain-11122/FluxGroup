@@ -2040,3 +2040,4 @@
 [2026-10-31T17:00:58] cyc=2 q=1/2/44 sup=0 ev=0 idle=bm-a:CAPACITY-BLOCKED-R,bm-b:-,bm-c:- flags=bm-a OFFLINE;bm-b OFFLINE;bm-c OFFLINE;LINE-BLOCKED bigstream-drama ()
 [2026-10-31T17:02:52] cyc=3 q=1/2/44 sup=0 ev=0 idle=bm-a:SELF-DISPATCH: lan,bm-b:-,bm-c:- flags=LINE-BLOCKED bigstream-drama ()
 [2026-10-31T17:04:34] cyc=4 q=1/2/44 sup=0 ev=0 idle=bm-a:SELF-DISPATCH: lan,bm-b:-,bm-c:- flags=bm-a IDLE-CONFIRMED x2 (SELF-DISPATCH: lane scans its own backlo);LINE-BLOCKED bigstream-drama ()
+[2026-10-31T17:06:24] cyc=5 q=1/2/44 sup=0 ev=0 idle=bm-a:SELF-DISPATCH: lan,bm-b:-,bm-c:- flags=bm-a IDLE-CONFIRMED x3 (SELF-DISPATCH: lane scans its own backlo);bm-m IDLE-CONFIRMED x2 (SELF-DISPATCH: lane scans its own backlo);LINE-BLOCKED bigstream-drama ()
