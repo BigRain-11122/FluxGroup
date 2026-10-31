@@ -1,19 +1,19 @@
 {
- "ts": "2026-11-01T01:18:26+08:00",
+ "ts": "2026-11-01T01:20:14+08:00",
  "node": "bm-m",
- "sec": 40.5,
- "slow_ts": 1793466806.779302,
+ "sec": 47.4,
+ "slow_ts": 1793467214.323461,
  "git": "ok(committed-state)",
  "push": "ok+1",
  "stages": {
   "hb": {
    "rc": 0,
-   "sec": 10.8,
-   "tail": "HB bm-m seq=2332 offset=2570.4ms"
+   "sec": 10.1,
+   "tail": "HB bm-m seq=2333 offset=2570.0ms"
   },
   "master": {
    "rc": 0,
-   "sec": 19.5,
+   "sec": 18.0,
    "tail": "  LINES: BLOCKED=1, PARKED=1, STALLED-STAGE=1, WAITING=10"
   },
   "lane": {
@@ -22,74 +22,74 @@
    "tail": "LANE-IDLE bm-m :: SELF-DISPATCH: lane scans its own backlog"
   },
   "inventory": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 1,
+   "sec": 0.1,
+   "tail": "[2026-11-01T01:20:01] bm-a stock=0 [] | bm-a after-refill=0 | bm-b stock=3 ['Q-TRIAGE-BIGMONEY-20261101', 'Q-TTS-1202R', 'R-TTS1202R-VERIFY-20261031'] | bm-c st"
   },
   "contingency": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 0,
+   "sec": 8.5,
+   "tail": "contingency 2026-11-01T01:20:09 | 动作 0 | 新升级 0 | 在线['bm-a', 'bm-b', 'bm-c', 'bm-m']"
   },
   "solver": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 0,
+   "sec": 0.1,
+   "tail": "[solver] fixes=3 escalate=3"
   },
   "line_agents": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 0,
+   "sec": 0.0,
+   "tail": "[line_agents] armed=1 no_data=22"
   },
   "health": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 0,
+   "sec": 6.8,
+   "tail": "bm-a HB=10s ONLINE ram=NoneG gpu=1 | bm-b HB=41s ONLINE ram=12.2G gpu=None | bm-c HB=23s ONLINE ram=3.3G gpu=2 | bm-m HB=91s ONLINE ram=16.4G gpu=None | bm-m 本地"
   },
   "judge": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 0,
+   "sec": 0.0,
+   "tail": "[local_judge] answered=0 still_open=0 (tier: local→shared→codely)"
   },
   "brain": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 0,
+   "sec": 0.0,
+   "tail": "[brain] all 6 lines served today"
   },
   "social": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 0,
+   "sec": 0.1,
+   "tail": "[social] new=0 pending=5 escalate=4 -> /Users/junsheng.sun/FluxGroup/cph4/fleet/social/DIGEST.md"
   },
   "biz": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 1,
+   "sec": 0.1,
+   "tail": "[biz] duanju-ep1   ROUTED                      -s"
   },
   "mem": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 0,
+   "sec": 0.0,
+   "tail": "[mem] avail=16.3GB max_model=10.3GB need=22.0GB swap=2.1GB -> DOWNGRADE"
   },
   "autowork": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 0,
+   "sec": 0.0,
+   "tail": "[autowork] nothing due"
   },
   "deadline": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 0,
+   "sec": 0.0,
+   "tail": "[deadline] late=7 no_data=7 align_missing=1"
   },
   "supervisor": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 0,
+   "sec": 0.0,
+   "tail": "[supervisor] online=4/4 actions=5"
   },
   "digest": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 0,
+   "sec": 3.1,
+   "tail": "[digest] receipts=11 cached=False"
   }
  },
  "checks": [
@@ -111,12 +111,12 @@
   {
    "name": "com.fluxgroup.pulse",
    "ok": true,
-   "detail": "6769\t0\tcom.fluxgroup.pulse"
+   "detail": "6950\t0\tcom.fluxgroup.pulse"
   },
   {
    "name": "com.fluxgroup.dashboard",
    "ok": true,
-   "detail": "-\t0\tcom.fluxgroup.dashboard"
+   "detail": "7064\t0\tcom.fluxgroup.dashboard"
   },
   {
    "name": "com.fluxgroup.ollama",
@@ -124,7 +124,10 @@
    "detail": "56171\t0\tcom.fluxgroup.ollama"
   }
  ],
- "alerts": [],
+ "alerts": [
+  "inventory:RIAGE-BIGMONEY-20261101', 'Q-TTS-1202R', 'R-TTS1202R-VERIFY-20261031'] | bm-c st",
+  "biz:[biz] duanju-ep1   ROUTED                      -s"
+ ],
  "blockers": [],
  "ok": true
 }
