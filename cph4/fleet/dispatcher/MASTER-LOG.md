@@ -2255,3 +2255,4 @@
 [2026-10-31T23:28:39] cyc=217 q=1/1/47 sup=0 ev=0 idle=bm-a:CAPACITY-BLOCKED-R,bm-b:-,bm-c:CAPACITY-BLOCKED-R flags=bm-a OFFLINE;bm-b OFFLINE;bm-c OFFLINE;STAGE-STALLED bigstream-mv 卡在 剪辑/装配/剪辑席 (导演席（CEO 终审）);LINE-BLOCKED bigstream-drama ()
 [2026-10-31T23:31:00] cyc=218 q=1/1/47 sup=0 ev=0 idle=bm-a:CAPACITY-BLOCKED-R,bm-b:-,bm-c:CAPACITY-BLOCKED-R flags=bm-a OFFLINE;bm-b OFFLINE;bm-c OFFLINE;STAGE-STALLED bigstream-mv 卡在 剪辑/装配/剪辑席 (导演席（CEO 终审）);LINE-BLOCKED bigstream-drama ()
 [2026-10-31T23:32:51] cyc=219 q=1/1/47 sup=0 ev=0 idle=bm-a:SELF-DISPATCH: lan,bm-b:-,bm-c:SELF-DISPATCH: lan flags=STAGE-STALLED bigstream-mv 卡在 剪辑/装配/剪辑席 (导演席（CEO 终审）);LINE-BLOCKED bigstream-drama ()
+[2026-10-31T23:34:38] cyc=220 q=1/1/47 sup=0 ev=0 idle=bm-a:SELF-DISPATCH: lan,bm-b:-,bm-c:SELF-DISPATCH: lan flags=bm-a IDLE-CONFIRMED x2 (SELF-DISPATCH: lane scans its own backlo);STAGE-STALLED bigstream-mv 卡在 剪辑/装配/剪辑席 (导演席（CEO 终审）);LINE-BLOCKED bigstream-drama ()
