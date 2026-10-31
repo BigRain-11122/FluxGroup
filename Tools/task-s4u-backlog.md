@@ -14,3 +14,7 @@
 | 2026-10-27 16:47:18 | FluxGroup-NatsClockHub | S4U denied unelevated (UAC) - convert via elevated Tools\task-s4u-convert.ps1 |
 | 2026-10-27 16:48:17 | FluxGroup-FleetClock | S4U denied unelevated (UAC) - convert via elevated Tools\task-s4u-convert.ps1 |
 | 2026-10-27 20:29:30 | FluxGroup-FleetAgent | S4U denied unelevated (UAC) - convert via elevated Tools\task-s4u-convert.ps1 |
+| 2026-10-30 10:58:47 | HQ-ProductionClaim | S4U denied unelevated (UAC) - convert via elevated Tools\task-s4u-convert.ps1 |
+| 2026-10-31 11:12:07 | FluxGroup-FleetAgent | S4U denied unelevated (UAC) - convert via elevated Tools\task-s4u-convert.ps1 |
+| 2026-10-31 14:48:28 | HQ-ProductionClaim | S4U denied unelevated (UAC) - convert via elevated Tools\task-s4u-convert.ps1 |
+| 2026-10-31 18:20:52 | FluxGroup-Planner | S4U denied unelevated (UAC) - convert via elevated Tools\task-s4u-convert.ps1 |

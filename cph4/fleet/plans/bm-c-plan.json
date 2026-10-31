@@ -1,0 +1,34 @@
+{
+ "ts": "2026-10-31T18:21:53",
+ "node": "bm-c",
+ "paused": false,
+ "verdict": "BUSY",
+ "capacity": {
+  "gpu": {
+   "util_pct": 6,
+   "used_mb": 2871,
+   "total_mb": 16384
+  },
+  "ram_free_gb": 6.16,
+  "vram_free_mb": 13513,
+  "lease_held": true,
+  "can_gpu": true,
+  "can_cpu": true
+ },
+ "idle_min": 2.1,
+ "assigned": [],
+ "next_actions": [],
+ "flags": [
+  {
+   "id": "R-LLM-BMC-PROBE",
+   "kind": "stub",
+   "detail": "FAILED row with no cmd (authored stub, never runnable)"
+  }
+ ],
+ "dispatched_now": null,
+ "counts": {
+  "open_backlog": 0,
+  "open_queue": 2,
+  "bank_pending": 0
+ }
+}
