@@ -1,11 +1,11 @@
 # NEED-SUPPLY - why lanes and business lines are not running (#regenerated)
 
-- ts: 2026-11-01T02:25:16
-- queue: open=2 running=1 done=53 failed=3
-- open jobs by need: cpu=1 gpu=1
+- ts: 2026-11-01T02:26:53
+- queue: open=1 running=1 done=54 failed=3
+- open jobs by need: cpu=1 gpu=0
 
 - bm-a: SELF-DISPATCH: lane scans its own backlog -> lane is scanning its own backlog; if this persists >2 rounds the box has no declared work and needs a new card
-- bm-b: RUNNING R-TTS1202R-VERIFY-20261031
+- bm-b: RUNNING Q-TTS-1202R
 - bm-c: SELF-DISPATCH: lane scans its own backlog -> lane is scanning its own backlog; if this persists >2 rounds the box has no declared work and needs a new card
 - bm-m: SELF-DISPATCH: lane scans its own backlog -> lane is scanning its own backlog; if this persists >2 rounds the box has no declared work and needs a new card
 
@@ -30,3 +30,8 @@ Rules pack: cph4/fleet/WORK-RULES.jsonl (empty = every job must be declared by a
 | BigStream·短视频/切片 | PARKED | - | 168.0h | - | 短视频席 |
 
 - PARKED=CEO 令停，不计闲置；WAITING=没活但未过期；STALE=超过阈值无产出；BLOCKED=有活但无可用车道；卡在=最早断供的工段。
+
+## 条线 Agent 续卡 2026-11-01 02:27
+
+- 本轮续卡 1：R-BIZ-CAR-1D
+- NO-DATA（证据不在主控盘上，需生产机上报）22 段
