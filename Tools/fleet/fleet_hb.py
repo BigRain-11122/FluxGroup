@@ -174,6 +174,35 @@ def host_stats():
     return stats
 
 
+def self_bootstrap(node):
+    """The heartbeat task is the only thing proven alive on every node, so it carries the
+    bootstrap: if cph4/fleet/nodes/<node>/AGENT-REQUIRED exists and no agent process is
+    running, start one detached. Because this file itself is refreshed by `git pull`, a node
+    that pulls once becomes self-deploying without SSH or a human at the keyboard.
+    """
+    import subprocess as sp
+    root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    if not os.path.exists(os.path.join(root, "cph4", "fleet", "nodes", node, "AGENT-REQUIRED")):
+        return
+    try:
+        r = sp.run(["pgrep", "-f", "fleet/agent.py --node %s" % node], capture_output=True)
+        alive = r.returncode == 0
+    except Exception:
+        alive = False
+    if alive:
+        return
+    try:
+        kw = {}
+        if os.name == "posix":
+            kw["start_new_session"] = True
+        else:
+            kw["creationflags"] = 0x00000008  # DETACHED_PROCESS
+        sp.Popen([sys.executable, os.path.join(root, "Tools", "fleet", "agent.py"),
+                  "--node", node, "--loop", "60"], cwd=root, **kw)
+    except Exception:
+        pass
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--node", required=True)
@@ -218,6 +247,10 @@ def main():
         print("HB-FAIL %s" % e)
         return 1
     print("HB %s seq=%d offset=%sms" % (a.node, seq, state["clock_offset_ms"]))
+    try:
+        self_bootstrap(args.node)
+    except Exception:
+        pass
     return 0
 
 
