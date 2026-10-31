@@ -1,9 +1,9 @@
 {
- "ts": "2026-10-31T17:38:33",
- "cycle": 23,
+ "ts": "2026-10-31T17:40:14",
+ "cycle": 24,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-10-31T17:38:33",
+ "master_tick_ts": "2026-10-31T17:40:14",
  "queue": {
   "total": 52,
   "open": 1,
@@ -14,27 +14,27 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 3.9,
-   "cpu_load_pct": 43,
-   "ram_free_gb": 57,
-   "gpu_util_pct": 63,
+   "hb_age_s": 45.8,
+   "cpu_load_pct": 72,
+   "ram_free_gb": 56,
+   "gpu_util_pct": 58,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-10-31T17:35:05",
+    "ts": "2026-10-31T17:40:05",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 21
+   "idle_rounds": 22
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 26.6,
-   "cpu_load_pct": 13,
-   "ram_free_gb": 8,
+   "hb_age_s": 7.9,
+   "cpu_load_pct": 6,
+   "ram_free_gb": 5.7,
    "gpu_util_pct": null,
    "job": "Q-TTS-1202R",
    "last_result": null,
@@ -44,16 +44,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 5.8,
-   "cpu_load_pct": 17,
-   "ram_free_gb": 11.6,
-   "gpu_util_pct": 6,
+   "hb_age_s": 23.5,
+   "cpu_load_pct": null,
+   "ram_free_gb": null,
+   "gpu_util_pct": 7,
    "job": null,
    "last_result": {
     "job": "Q-GPU-BMC-01R",
     "state": "FAILED",
     "rc": 2,
-    "ts": "2026-10-31T17:38:27",
+    "ts": "2026-10-31T17:39:49",
     "reason": null
    },
    "idle_confirmed": false,
@@ -62,7 +62,7 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 1.9,
+   "hb_age_s": 1.3,
    "cpu_load_pct": null,
    "ram_free_gb": 17.5,
    "gpu_util_pct": null,
@@ -71,19 +71,19 @@
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-10-31T17:36:49",
+    "ts": "2026-10-31T17:38:33",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 20
+   "idle_rounds": 21
   }
  },
  "idle_rounds": {
-  "bm-a": 21,
+  "bm-a": 22,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 20
+  "bm-m": 21
  },
  "lines": {
   "bigstream-mv": {
@@ -703,16 +703,16 @@
   "cpu": 1,
   "gpu": 0
  },
- "supply_added": [],
+ "supply_added": [
+  "backlog_manifest+1"
+ ],
  "events": [
   "Q-GPU-BMC-01R FAILED via bm-c"
  ],
  "violations": [
-  "bm-a IDLE-CONFIRMED x21 (SELF-DISPATCH: lane scans its own backlo)",
-  "bm-m IDLE-CONFIRMED x20 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-a IDLE-CONFIRMED x22 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-m IDLE-CONFIRMED x21 (SELF-DISPATCH: lane scans its own backlo)",
   "LINE-BLOCKED bigstream-drama ()"
  ],
- "lane_files_written": [
-  "bm-c"
- ]
+ "lane_files_written": []
 }
