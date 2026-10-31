@@ -1,15 +1,14 @@
-# 本地自动化产物 2026-10-31 23:58
+# 本地自动化产物 2026-11-01 00:07
 
 ## 失败归因
-Q-GPU-BMC-001 -> BMC会话超时 | 运维人员刷新BMC会话  
-R-LLM-BMC-PROBE -> BMC会话超时 | 运维人员刷新BMC会话
+Q-TTS-1202 -> lease-expired-5-attempts | 运维人员检查TTS节点网络连接并重置BMC会话  
+R-LLM-BMC-PROBE -> lease-expired-5-attempts | 运维人员检查LLM节点网络连接并重置BMC会话
 
 ## 回执日报
-今天产出了10件，覆盖biz-car-gaming、biz-mv-promo、bm-c-voicebank、brain-bigstream、brain-fleet-ops、brain-recon、brain-voicebank等线。  
-brain-bigstream-drama线明显偏少。  
-建议明天先完成brain-bigstream-duanju的产出。
+今天产出了4件，覆盖bm-m、biz-mv、brain-bigstream三条线。  
+biz-mv线明显偏少。  
+建议明天先完成biz-mv的发布检查清单。
 
-- 今日无可做的重复件
 
 ---
 *本地 4B · 只做重复性判读，不派单不发帖*

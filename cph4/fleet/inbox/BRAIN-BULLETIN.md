@@ -1,3 +1,12 @@
+# 副大脑公告栏（bm-m 本地判读席每日产出·车道自动同步）
+
+- **2026-11-01** bigstream-drama → [brain-bigstream-drama-2026-11-01.md](/cph4/fleet/queue-receipts/brain-bigstream-drama-2026-11-01.md)
+# 副大脑公告栏（bm-m 本地判读席每日产出·车道自动同步）
+
+- **2026-11-01** bigstream-duanju → [brain-bigstream-duanju-2026-11-01.md](/cph4/fleet/queue-receipts/brain-bigstream-duanju-2026-11-01.md)
+# 副大脑公告栏（bm-m 本地判读席每日产出·车道自动同步）
+
+- **2026-11-01** bigstream-mv → [brain-bigstream-mv-2026-11-01.md](/cph4/fleet/queue-receipts/brain-bigstream-mv-2026-11-01.md)
 # 副大脑公告栏（bm-m 35B 每日产出·车道自动同步）
 
 - **2026-10-31** fleet-ops → [brain-fleet-ops-2026-10-31.md](/cph4/fleet/queue-receipts/brain-fleet-ops-2026-10-31.md)

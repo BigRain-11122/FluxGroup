@@ -1,19 +1,19 @@
 {
- "ts": "2026-11-01T00:04:56+08:00",
+ "ts": "2026-11-01T00:07:36+08:00",
  "node": "bm-m",
- "sec": 56.3,
- "slow_ts": 1793462362.321902,
+ "sec": 99.6,
+ "slow_ts": 1793462856.3801441,
  "git": "ok(committed-state)",
- "push": "ok+1",
+ "push": "up-to-date",
  "stages": {
   "hb": {
    "rc": 0,
-   "sec": 16.0,
-   "tail": "HB bm-m seq=2292 offset=2451.6ms"
+   "sec": 16.6,
+   "tail": "HB bm-m seq=2293 offset=2454.2ms"
   },
   "master": {
    "rc": 0,
-   "sec": 30.1,
+   "sec": 29.2,
    "tail": "  LINES: BLOCKED=1, PARKED=1, STALLED-STAGE=1, WAITING=10"
   },
   "lane": {
@@ -22,69 +22,69 @@
    "tail": "LANE-IDLE bm-m :: SELF-DISPATCH: lane scans its own backlog"
   },
   "inventory": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 1,
+   "sec": 0.1,
+   "tail": "[2026-11-01T00:06:48] bm-a stock=0 [] | bm-a after-refill=0 | bm-b stock=2 ['Q-TTS-1202R', 'R-TTS1202R-VERIFY-20261031'] | bm-c stock=0 [] | bm-c after-refill=0"
   },
   "contingency": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 0,
+   "sec": 12.1,
+   "tail": "contingency 2026-11-01T00:07:00 | 动作 0 | 新升级 0 | 在线['bm-a', 'bm-b', 'bm-c', 'bm-m']"
   },
   "solver": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 0,
+   "sec": 0.0,
+   "tail": "[solver] fixes=3 escalate=3"
   },
   "line_agents": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 0,
+   "sec": 0.0,
+   "tail": "[line_agents] armed=3 no_data=22"
   },
   "health": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 0,
+   "sec": 14.7,
+   "tail": "bm-a HB=49s ONLINE ram=48.9G gpu=78 | bm-b HB=9s ONLINE ram=8.6G gpu=None | bm-c HB=81s ONLINE ram=NoneG gpu=12 | bm-m HB=103s ONLINE ram=17.9G gpu=None | bm-m "
   },
   "judge": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 0,
+   "sec": 0.0,
+   "tail": "[local_judge] answered=0 still_open=0 (tier: local→shared→codely)"
   },
   "brain": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 0,
+   "sec": 76.8,
+   "tail": "[brain] bigstream-drama -> brain-bigstream-drama-2026-11-01.md (ok)"
   },
   "social": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 0,
+   "sec": 0.1,
+   "tail": "[social] new=0 pending=5 escalate=4 -> /Users/junsheng.sun/FluxGroup/cph4/fleet/social/DIGEST.md"
   },
   "biz": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 1,
+   "sec": 93.0,
+   "tail": "[biz] car-gaming   DONE     qwen3:4b-instruct  69.7s /Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/biz-car-gaming-20261101.md"
   },
   "mem": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 0,
+   "sec": 0.0,
+   "tail": "[mem] avail=17.9GB max_model=11.9GB need=22.0GB swap=2.1GB -> DOWNGRADE"
   },
   "autowork": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 0,
+   "sec": 94.4,
+   "tail": "[autowork] 失败归因 3 条, 回执日报 4 份"
   },
   "deadline": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 0,
+   "sec": 0.0,
+   "tail": "[deadline] late=7 no_data=7 align_missing=0"
   },
   "supervisor": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 0,
+   "sec": 0.0,
+   "tail": "[supervisor] online=4/4 actions=5"
   }
  },
  "checks": [
@@ -106,12 +106,12 @@
   {
    "name": "com.fluxgroup.pulse",
    "ok": true,
-   "detail": "98523\t0\tcom.fluxgroup.pulse"
+   "detail": "98707\t0\tcom.fluxgroup.pulse"
   },
   {
    "name": "com.fluxgroup.dashboard",
    "ok": true,
-   "detail": "98603\t0\tcom.fluxgroup.dashboard"
+   "detail": "98901\t0\tcom.fluxgroup.dashboard"
   },
   {
    "name": "com.fluxgroup.ollama",
@@ -119,7 +119,10 @@
    "detail": "56171\t0\tcom.fluxgroup.ollama"
   }
  ],
- "alerts": [],
+ "alerts": [
+  "inventory:TS-1202R', 'R-TTS1202R-VERIFY-20261031'] | bm-c stock=0 [] | bm-c after-refill=0",
+  "biz:sers/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/biz-car-gaming-20261101.md"
+ ],
  "blockers": [],
  "ok": true
 }

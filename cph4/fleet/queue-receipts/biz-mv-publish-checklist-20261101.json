@@ -1,0 +1,16 @@
+{
+ "job": "mv-publish-checklist",
+ "line": "bigstream-mv",
+ "tier": "fast",
+ "model": "qwen3:4b-instruct",
+ "sec": 23.1,
+ "chars": 945,
+ "problems": [],
+ "state": "DONE",
+ "path": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/biz-mv-publish-checklist-20261101.md",
+ "ts": "2026-11-01T00:06:24",
+ "sources": [
+  "cph4/fleet/mv0001-handover/canon/DIRECTOR-REVIEW-V717-REVISE-20261030.md",
+  "cph4/fleet/queue-receipts/biz-mv-promo-20261031.md"
+ ]
+}
