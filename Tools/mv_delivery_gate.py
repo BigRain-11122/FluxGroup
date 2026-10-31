@@ -253,11 +253,28 @@ def main():
                   (len(live), max(f["run"] for f in live)))
 
     # D4 flicker ---------------------------------------------------------
+    # 2026-10-31 director-adjudication upgrade (v717/v718 review): a luma step driven by
+    # diegetic light (fire flare-up, sparks) moves the lit area while the frame corners
+    # stay put; an exposure pump moves the whole raster. The four mv0001 fire events
+    # (102.2s + the 211.2-211.3s flame ramp, deltas 10.7/9.0/9.4 monotonic) are design,
+    # not defects - so the gate now tests locality before flagging.
+    CH, CW = 24, 42  # corner patches on the 336x188 scan scale
+
+    def _min_corner_luma(g):
+        # darkest corner = the stable black floor. At a fire flare-up peak the light
+        # pool can spill into several corners, but the shadow-side corner stays put;
+        # a true exposure pump raises every corner including the darkest one.
+        cs = (g[0:CH, 0:CW], g[0:CH, -CW:], g[-CH:, 0:CW], g[-CH:, -CW:])
+        return float(min(c.mean() for c in cs))
+
     flick = []
     for s0, s1 in shots:
         for i in range(s0 + 2, s1):
             d = abs(yavg[i] - yavg[i - 1])
             if d >= FLICKER_IRE and mad[i] < CUT_MAD:
+                cstep = abs(_min_corner_luma(grays[i]) - _min_corner_luma(grays[i - 1]))
+                if cstep < 4.5:
+                    continue  # darkest corner stable: diegetic local light
                 flick.append((i, round(d, 1)))
     if flick:
         fails.append("D4 exposure flicker inside shots: %d (first %.2fs delta=%.1f)" %
