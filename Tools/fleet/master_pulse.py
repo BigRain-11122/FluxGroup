@@ -69,6 +69,8 @@ STAGES = [
     ("autowork", ["Tools/fleet/autowork.py"], 240, {0}, True),
     ("deadline", ["Tools/fleet/fleet_deadline.py"], 120, {0}, True),
     ("supervisor", ["Tools/fleet/fleet_supervisor.py"], 60, {0}, True),
+    # Aggregator: turns receipts+queue+verdicts into one screen for the CEO.
+    ("digest", ["Tools/fleet/digest_agent.py"], 200, {0}, True),
     # Solve leg: requeues failed cards (capped), warns on starvation, and coordinates the
     # only remote channel we have. Serial with the other queue writers.
     ("solver", ["Tools/fleet/master_solver.py"], 120, {0}, True),
@@ -312,7 +314,7 @@ def main() -> int:
     # Two pools by resource, not by "more workers = faster":
     #   MODEL_STAGES share Ollama's 3 slots; giving them 6 threads only queues work.
     #   IO stages are pure python (files/git) and are cheap to run wide.
-    MODEL_STAGES = {"judge", "brain", "social", "biz", "autowork"}
+    MODEL_STAGES = {"judge", "brain", "social", "biz", "autowork", "digest"}
     pool_model = ThreadPoolExecutor(max_workers=3)
     pool_io = ThreadPoolExecutor(max_workers=8)
     pool = pool_model
