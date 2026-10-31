@@ -1,6 +1,6 @@
 {
- "ts": "2026-10-31T11:35:02",
- "cycle": 2139,
+ "ts": "2026-10-31T11:36:42",
+ "cycle": 2140,
  "queue": {
   "total": 53,
   "open": 4,
@@ -11,16 +11,16 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 33.9,
-   "cpu_load_pct": 50,
-   "ram_free_gb": 19.9,
+   "hb_age_s": 14.8,
+   "cpu_load_pct": 54,
+   "ram_free_gb": 21.9,
    "gpu_util_pct": 99,
-   "job": "Q-TRIAGE-FLUXVERSE-20261031",
+   "job": "R-MV-GATE-1D",
    "last_result": {
-    "job": "R-MV-GATE-1D",
+    "job": "Q-TRIAGE-FLUXVERSE-20261031",
     "state": "FAILED",
-    "rc": 1,
-    "ts": "2026-10-31T11:31:09",
+    "rc": 2,
+    "ts": "2026-10-31T11:35:04",
     "reason": null
    },
    "idle_confirmed": false,
@@ -29,10 +29,10 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 48.7,
-   "cpu_load_pct": null,
-   "ram_free_gb": null,
-   "gpu_util_pct": 3,
+   "hb_age_s": 37.0,
+   "cpu_load_pct": 3,
+   "ram_free_gb": 8.3,
+   "gpu_util_pct": null,
    "job": "Q-TTS-1202",
    "last_result": null,
    "idle_confirmed": false,
@@ -41,9 +41,9 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 39.7,
-   "cpu_load_pct": 47,
-   "ram_free_gb": 10.1,
+   "hb_age_s": 18.6,
+   "cpu_load_pct": 15,
+   "ram_free_gb": 10.2,
    "gpu_util_pct": 2,
    "job": "Q-TRIAGE-BIGSTREAMMV-20261031",
    "last_result": null,
@@ -62,30 +62,32 @@
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-10-31T11:33:28",
+    "ts": "2026-10-31T11:35:02",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 23
+   "idle_rounds": 24
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 23
+  "bm-m": 24
  },
  "lines": {
   "bigstream-mv": {
    "name": "BigStream·MV 41 曲",
    "status": "ACTIVE",
-   "verdict": "WAITING",
+   "verdict": "WORKING",
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "导演席（CEO 终审）",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "R-MV-GATE-1D"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": null
   },
@@ -698,11 +700,14 @@
   "backlog_manifest+1"
  ],
  "events": [
-  "R-MV-GATE-1D FAILED via bm-a"
+  "Q-TRIAGE-FLUXVERSE-20261031 FAILED via bm-a",
+  "R-MV-GATE-1D -> bm-a (cpu)"
  ],
  "violations": [
-  "bm-m IDLE-CONFIRMED x23 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-m IDLE-CONFIRMED x24 (SELF-DISPATCH: lane scans its own backlo)",
   "LINE-BLOCKED bigstream-drama ()"
  ],
- "lane_files_written": []
+ "lane_files_written": [
+  "bm-a"
+ ]
 }
