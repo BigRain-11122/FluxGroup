@@ -132,13 +132,11 @@ def _fill_manifest(root, rows, have, node=None):
                 continue
             if wa and not all(os.path.exists(p) for p in wa):
                 continue
-        else:
-            # master pass: verify only what this OS can see; the rest the lane re-checks
-            for p in req + wa:
-                if _checkable(p) and not os.path.exists(p):
-                    break
-            else:
-                pass
+        elif not r.get("verify_on_node"):
+            # master pass: verify only what this OS can see; the rest the lane re-checks.
+            # verify_on_node=true exists because the control plane (Mac) never holds the
+            # production media: a card for bm-a whose input is a 2GB master would otherwise
+            # be unpromotable forever. The lane pass below stays strict.
             if any(_checkable(p) and not os.path.exists(p) for p in req + wa):
                 continue
         out = r.get("deliverable")
@@ -155,7 +153,7 @@ def _fill_manifest(root, rows, have, node=None):
         job = {k: r.get(k) for k in ("id", "title", "cmd", "cwd", "needs", "deliverable",
                                      "nodes", "day_ok", "heavy", "when_all", "when_none",
                                      "model", "prompt", "llm", "prio", "why", "timeout_s",
-                                     "cloud_ok", "need_mb", "est_gb")}
+                                     "cloud_ok", "need_mb", "est_gb", "verify_on_node")}
         job["state"] = "OPEN"
         job["route"] = "local"
         job["created_by"] = "backlog_fill.py:manifest"
