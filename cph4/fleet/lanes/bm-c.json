@@ -1,23 +1,8 @@
 {
  "node": "bm-c",
- "ts": "2026-11-01T00:15:07",
- "jobs": [
-  {
-   "id": "Q-TRIAGE-BIGSTREAMDUANJU-20261101",
-   "title": "bigstream-duanju 线级体检（本机证据目录实况）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigstream-duanju",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigstream-duanju-20261101.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  }
- ],
- "idle_reason": "",
- "lane_ok": true,
- "capacity_note": "ram-unknown"
+ "ts": "2026-11-01T00:45:13",
+ "jobs": [],
+ "idle_reason": "CAPACITY-BLOCKED-RAM OFFLINE (hb age Nones)",
+ "lane_ok": false,
+ "capacity_note": "OFFLINE (hb age Nones)"
 }
