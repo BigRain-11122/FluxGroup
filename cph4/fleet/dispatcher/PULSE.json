@@ -1,24 +1,24 @@
 {
- "ts": "2026-10-31T20:36:51+08:00",
+ "ts": "2026-10-31T20:38:30+08:00",
  "node": "bm-m",
- "sec": 42.9,
+ "sec": 39.7,
  "slow_ts": 1793450005.870421,
  "git": "ok(committed-state)",
- "push": "up-to-date",
+ "push": "ok+1",
  "stages": {
   "hb": {
    "rc": 0,
-   "sec": 10.8,
-   "tail": "HB bm-m seq=2179 offset=2165.1ms"
+   "sec": 10.0,
+   "tail": "HB bm-m seq=2180 offset=2180.9ms"
   },
   "master": {
    "rc": 0,
-   "sec": 26.8,
+   "sec": 17.6,
    "tail": "  LINES: BLOCKED=1, PARKED=1, STALLED-STAGE=1, WAITING=10"
   },
   "lane": {
    "rc": 0,
-   "sec": 1.0,
+   "sec": 0.9,
    "tail": "LANE-IDLE bm-m :: SELF-DISPATCH: lane scans its own backlog"
   },
   "inventory": {
@@ -106,7 +106,7 @@
   {
    "name": "com.fluxgroup.pulse",
    "ok": true,
-   "detail": "77595\t0\tcom.fluxgroup.pulse"
+   "detail": "77772\t0\tcom.fluxgroup.pulse"
   },
   {
    "name": "com.fluxgroup.dashboard",
