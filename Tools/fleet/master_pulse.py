@@ -309,7 +309,7 @@ def main() -> int:
     serial = [s for s in STAGES if not s[4]]
     slow_serial = [s for s in STAGES if s[4] and s[0] in SLOW_SERIAL]
     parallel = [s for s in STAGES if s[4] and s[0] not in SLOW_SERIAL]
-    pool = ThreadPoolExecutor(max_workers=4)
+    pool = ThreadPoolExecutor(max_workers=6)
     futs = {}
     if slow_due:
         # Start the read-mostly/model-bound batch BEFORE the dispatch trio: they do not read
