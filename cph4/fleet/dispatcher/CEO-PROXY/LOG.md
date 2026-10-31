@@ -895,3 +895,5 @@ if prev_by and prev_by != owner_node:
 - **待 CEO 裁（受保护件）**：`master_agent.py` 一行补丁——冲突后补 `git rebase --abort`（或改在 pull 前先提交状态件）。已入 NJ `D-R256-STUCKREBASE` + DEADLINES waiting-CEO。
 - **无 lane down / 无新增派单** ⇒ 未 poke；L0 探针谓词（3h 阈值 vs 班表 4.2h 间隙）维持 R2.55 登记，本班不改。
 
+- **ERRATUM(内容不变·手续披露)**：本班 `git-atomic-push.py` 直写 blob 绕过 `text=auto`/`autocrlf`，把 `cph4/evolution-ledger.md` / `cph4/reflection-journal.md` 存成 **CRLF blob**（同内容，仅行尾差 446/190 字节），故 43febeb4 在 git 侧显示全文件伪改（846+/636-）。语义仍为零删除（+9/+1 行）。归一尝试被反转闸对 `PULSE.json` 滚动尾行的历史噪声拦下（31/1579·与本批无关），故**本班不做归一**：下次 git 原生提交会自动把两件回写为 LF。若需立刻归一，正法=`git-atomic-push.py` 增加 `--whitelist` 通道（受保护件·候群审），禁用 force push 改写他窗历史。
+
