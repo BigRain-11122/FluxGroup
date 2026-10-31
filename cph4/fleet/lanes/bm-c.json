@@ -1,8 +1,8 @@
 {
  "node": "bm-c",
- "ts": "2026-10-31T22:15:15",
+ "ts": "2026-10-31T22:17:00",
  "jobs": [],
- "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
- "lane_ok": true,
- "capacity_note": "ram-unknown"
+ "idle_reason": "CAPACITY-BLOCKED-RAM ram 2.8/3.0 GB",
+ "lane_ok": false,
+ "capacity_note": "ram 2.8/3.0 GB"
 }
