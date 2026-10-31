@@ -101,7 +101,7 @@ def start_comfy(port=8188, need_mb=12000):
     return p.pid, False
 
 
-def acquire(node, need_mb, with_comfy):
+def acquire(node, need_mb, with_comfy, if_held_ok=False):
     lp = lease_path(node)
     if os.path.exists(lp):
         try:
@@ -109,6 +109,10 @@ def acquire(node, need_mb, with_comfy):
             age = time.time() - old.get("epoch", 0)
             if age < old.get("ttl_s", 7200):
                 print("LEASE-BUSY owner=%s age=%ds" % (old.get("owner"), int(age)))
+                if if_held_ok:
+                    print("LEASE-HELD-OK need_mb=%s ttl_left=%ds" % (
+                        old.get("need_mb"), int(old.get("ttl_s", 7200) - age)))
+                    return 0
                 return 2
         except Exception:
             pass
@@ -167,6 +171,8 @@ def main():
     ap.add_argument("--status", action="store_true")
     ap.add_argument("--need-mb", type=int, default=12000)
     ap.add_argument("--start-comfy", action="store_true")
+    ap.add_argument("--if-held-ok", action="store_true",
+                    help="treat a fresh lease on this node as success (idempotent ensure)")
     a = ap.parse_args()
     if a.status:
         used, total = vram()
@@ -175,7 +181,7 @@ def main():
         print("LEASE " + (open(lp, encoding="utf-8").read().strip() if os.path.exists(lp) else "none"))
         return 0
     if a.acquire:
-        return acquire(a.node, a.need_mb, a.start_comfy)
+        return acquire(a.node, a.need_mb, a.start_comfy, a.if_held_ok)
     if a.release:
         return release(a.node)
     print("usage: --status | --acquire [--need-mb N] [--start-comfy] | --release")
