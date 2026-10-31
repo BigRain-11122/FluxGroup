@@ -1,0 +1,19 @@
+{
+ "id": "OB-20261031-113916-LANESTART-BMC",
+ "lane": "bm-c",
+ "type": "lane-start",
+ "issued_at": "2026-10-31T11:39:16",
+ "issued_by": "bm-m master (CEO 令 2026-10-31「给他们全部推送，或者git留单让他们执行」)",
+ "why": "心跳在、执行回执 0 条：lane_agent 未运行。本令要求在该机执行一次并注册为常驻。",
+ "steps": [
+  "cd <repo root>",
+  "git pull --rebase --autostash origin main",
+  "python Tools/fleet/lane_agent.py --node bm-c",
+  "Tools\\task-register.ps1 -Name HQ-ProductionClaim -Script Tools\\fleet\\lane_agent.py -Args '--node bm-c' -IntervalMinutes 5"
+ ],
+ "accept": [
+  "cph4/fleet/lanes/bm-c.json 的 last_result 出现时间戳",
+  "本机 queue-receipts 或写回执 cph4/fleet/cmd/OB-20261031-113916-LANESTART-BMC.bm-c.ack.json"
+ ],
+ "cmd": "python Tools/fleet/lane_agent.py --node bm-c"
+}
