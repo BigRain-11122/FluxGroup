@@ -1,40 +1,40 @@
 {
- "ts": "2026-10-31T12:43:11+08:00",
+ "ts": "2026-10-31T13:44:09+08:00",
  "node": "bm-m",
- "sec": 93.5,
- "slow_ts": 1793421791.9882681,
+ "sec": 755.3,
+ "slow_ts": 1793425449.509063,
  "git": "ok(committed-state)",
  "push": "up-to-date",
  "stages": {
   "hb": {
    "rc": 0,
-   "sec": 16.3,
-   "tail": "HB bm-m seq=1980 offset=1608.1ms"
+   "sec": 13.0,
+   "tail": "HB bm-m seq=1983 offset=1619.5ms"
   },
   "master": {
    "rc": 0,
-   "sec": 62.3,
-   "tail": "  LINES: BLOCKED=1, PARKED=1, WAITING=10, WORKING=1"
+   "sec": 23.5,
+   "tail": "  LINES: BLOCKED=1, PARKED=1, WAITING=11"
   },
   "lane": {
    "rc": 0,
-   "sec": 0.9,
+   "sec": 1.3,
    "tail": "LANE-IDLE bm-m :: SELF-DISPATCH: lane scans its own backlog"
   },
   "inventory": {
    "rc": 1,
    "sec": 0.1,
-   "tail": "[2026-10-31T12:43:02] bm-a stock=1 ['R-MV-GATE-1D'] | bm-a after-refill=1 | bm-b stock=1 ['Q-TRIAGE-BIGMONEY-20261031'] | bm-b after-refill=1 | bm-c stock=2 ['Q"
+   "tail": "[2026-10-31T13:32:16] bm-a stock=1 ['Q-TRIAGE-CARGAMING-20261031'] | bm-a after-refill=2 | bm-b stock=0 [] | bm-b after-refill=0 | bm-c stock=3 ['Q-TRIAGE-BIGGA"
   },
   "contingency": {
    "rc": 0,
-   "sec": 9.6,
-   "tail": "contingency 2026-10-31T12:43:11 | 动作 0 | 新升级 0 | 在线['bm-a', 'bm-b', 'bm-c', 'bm-m']"
+   "sec": 712.5,
+   "tail": "contingency 2026-10-31T13:44:09 | 动作 0 | 新升级 0 | 在线[]"
   },
   "solver": {
    "rc": 0,
    "sec": 0.1,
-   "tail": "[solver] fixes=2 escalate=5"
+   "tail": "[solver] fixes=0 escalate=5"
   },
   "line_agents": {
    "rc": 0,
@@ -43,8 +43,8 @@
   },
   "health": {
    "rc": 0,
-   "sec": 13.4,
-   "tail": "bm-a HB=30s ONLINE ram=21.5G gpu=99 | bm-b HB=51s ONLINE ram=5.2G gpu=None | bm-c HB=35s ONLINE ram=9.7G gpu=2 | bm-m HB=dead | bm-m 本地回执= 89 件（较上轮 +0） | 队列 {'D"
+   "sec": 9.8,
+   "tail": "bm-a HB=dead | bm-b HB=dead | bm-c HB=22s ONLINE ram=10.7G gpu=2 | bm-m HB=dead | bm-m 本地回执= 89 件（较上轮 +0） | 队列 {'DONE': 41, 'FAILED': 7, 'OPEN': 2, 'RUNNING': 2"
   },
   "judge": {
    "rc": 0,
@@ -84,7 +84,7 @@
   "supervisor": {
    "rc": 0,
    "sec": 0.0,
-   "tail": "[supervisor] online=4/4 actions=5"
+   "tail": "[supervisor] online=4/4 actions=4"
   }
  },
  "checks": [
@@ -106,12 +106,12 @@
   {
    "name": "com.fluxgroup.pulse",
    "ok": false,
-   "detail": "31579\t-15\tcom.fluxgroup.pulse"
+   "detail": "32021\t-15\tcom.fluxgroup.pulse"
   },
   {
    "name": "com.fluxgroup.dashboard",
    "ok": true,
-   "detail": "31706\t0\tcom.fluxgroup.dashboard"
+   "detail": "32157\t0\tcom.fluxgroup.dashboard"
   },
   {
    "name": "com.fluxgroup.ollama",
@@ -120,7 +120,7 @@
   }
  ],
  "alerts": [
-  "inventory: stock=1 ['Q-TRIAGE-BIGMONEY-20261031'] | bm-b after-refill=1 | bm-c stock=2 ['Q",
+  "inventory:refill=2 | bm-b stock=0 [] | bm-b after-refill=0 | bm-c stock=3 ['Q-TRIAGE-BIGGA",
   "biz:[biz] duanju-ep1   ROUTED                      -s"
  ],
  "blockers": [
