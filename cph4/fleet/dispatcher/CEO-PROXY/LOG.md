@@ -795,3 +795,43 @@ bm-b 根仓工作树 HEAD=`4c7de09b`，该提交**在 origin 与本机全量仓�
 2. bm-c：RAM 0.6GB / VRAM 429MB 被非机队进程占死（codex-computer-use + python），GPU 产线（POOL-0021、Q-GPU-BMC-01R、MV i2v/KF、duanju board、game-art）全部堵在这里。
 **⑧ 回访探针**：+90min 一次性 durable cron 复探本班 5 卡落地与两条幽灵状态；复发=旗升 DE 级。
 **⑪ 诚实边界**：bm-b 的 `R-TTS1202R-VERIFY` 卡与 Q-TTS-1202R 幽灵，卡在 bm-b 工作树分叉（4c7de09b local-only，poke 只 `.:updated-kept-local`），本席无远程执行通道（CEO 10-23 令）⇒ 只能登记候 bm-b 本机 hot-sync；bm-c 在渲 KN21（GPU 98%），其 RAM 门 2.3/3.0GB 与 /status 6.4G 的口径差为既有缺陷，本班不改（属 master/lane 核心面·非本席权限）。
+
+## R2.54 事件班 2026-10-31 17:26-17:31（承载件触发·probe L0-DOWN）
+
+**触发**：`[2026-10-31 17:26:05][PROBE] L0-DOWN: DISPATCH-LOG.md age 3.0h (>3h)`；承载件 17:26:07 拉起 pid=76360。
+（注：本班记录最初误编为 R2.52，与 origin 上 16:11/16:35 班撞号，已全文改为 R2.54。）
+
+**结论：告警为真（盘上文件确实 3h 没更新），但原因不是「没人写」，而是「本地树收不到 origin」——探针读的是盘面，盘面整体落后 28 个提交。**
+
+### 一、本班首判被推翻（自纠）
+初判「16:11–16:33 事件班跑了却零写日志」，依据是本地 DISPATCH-LOG 末笔 14:23 且 git 干净。**该判读错误**：`git show origin/main:...DISPATCH-LOG.md` 显示 origin 已有
+`[2026-10-31 14:47] R2.52 ERRATUM`、`[2026-10-31 16:11] SHIFT event`、`[2026-10-31 16:35] SHIFT closeout` 三条。⇒ 写手一直是好的，是**本地盘面陈旧**。
+**新判例**：任何「文件陈旧/停更」判断，必须先 `git fetch` 并读 origin 对应件再定性；本地工作树可能整体落后，盘面 ≠ 事实。
+
+### 二、真根因：master split-brain（自证循环）
+| 视角 | MASTER-TICK | ts | masquerade |
+|---|---|---|---|
+| origin（权威） | last_tick_by=**bm-m** | 17:27:41 | **false** |
+| bm-a 本地 | last_tick_by=**bm-a** | 17:24:31 | **true** |
+
+两机同时在当主控，且各自覆盖同一份 tick 文件 → 互相看不到对方的退让信号 → bm-a 的 masquerade 永不结束。
+后果链：bm-a 每 20 分钟产 `master-agent: lane assignments + fleet state` 提交（14:44→17:24 共 9 笔）↔ origin 另一谱系（bm-m pulse 快照 + dispatcher + master-agent） → push 必拒 → 本地永不 pull → 分叉每 20 分钟加深一格 → DISPATCH-LOG 在盘上永久停在 14:23 → L0 探针 3h 后必报 → 承载件拉起会话 → 会话又写在陈旧盘面上 → 自激闭环。
+
+印证：本班 `git push` 直接被拒（remote 已前进 28 笔），`git merge origin/main` 因 3 个 triage 文件 untracked 而 abort。
+
+### 三、本班处置（只做本地收口，不动受保护件）
+- `git reset --mixed origin/main` + 定向取 origin 盘面（**不用 `pull --rebase --autostash`**，规避 autostash 吞工作树的历史坑）→ 本地 main 与 origin 对齐，9 笔 bm-a masquerade 状态提交退役（内容为机器生成状态，已在 origin 有更新版本；reflog 可回收）。
+- 仅重放本班记录并推送验证。
+- **未动** `master_agent.py` / `HQ-MasterFallback` / L0 探针脚本 —— 三者均属 BLUEPRINT §九 受保护件，只登记候裁。
+
+### 四、机队健康（三源互证·复用律未重测）
+1. 调度器活：本 clone master-agent 每 20 分钟一提交，14:44→17:24 连十笔无断档。
+2. 四机在线：bm-m hb_age 39.1s / ram_free 17.6G；bm-a idle_rounds 19（SELF-DISPATCH 自扫）；bm-b、bm-c idle_rounds 0。
+3. 产物面：v718 出片回执 14:13 PASS（ea5ded6c）。
+
+### 五、生产面诚实边界
+14:00 之后 `D:\FluxGroup\media` 与 `D:\FleetWorker` 全树**零新产物**。bm-c `ram_free` 长期在 0.3–2.3G 徘徊（24G 机，闸 3.0G），Q-GPU-BMC-01R 两轮 `lease-expired-5-attempts`，扣住全部 GPU 产 → 属 CEO 物理件（桌面内存占用），零催办只登记。
+
+### 六、待裁（见 DEADLINES §R2.54）
+- master split-brain 根因：masquerade 判定读的 tick 文件**由自己写**，构成自证循环。正法候选=判定改读 origin 侧 MASTER-TICK（或加 node 字段区分、或 bm-m 心跳新鲜时强制退让），属 `master_agent.py` 受保护面。
+- L0 探针谓词：`DISPATCH-LOG age>3h` 测「有没有人写」而非「调度在不在跑」，且在本地树陈旧时会永久误报。建议改测 MASTER-TICK 新鲜度（同样属受保护件）。

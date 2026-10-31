@@ -189,3 +189,13 @@ am_free_gb=10+cpu_load_pct=48——**bm-b 不是闲着，是在跑量化轮**；
 | **bm-a STARVED-EXEC（第 9 轮）** | **registered·判读勘正（本机桌面动作）** | `_last_claim=QUEUE-EMPTY@03:25:01`（环活着）+ 队列 25/25 DONE 为真；但夜窗 GPU 被 `blender.exe;Tuanjie Hub.exe;Tuanjie.exe` 占住（util 99%／vram_free 1970MB），MV 产物停 10-27 23:06（28h）。**有卡也塞不进显存**→ 需关编辑器。 |
 | **SUPPLY-DRY（第 9 轮）** | **resolved（本班·改为执行真实在手活）** | 不补派生分析卡（R2.45/46 已证秒跑完不构成供给），改为把已批准、不依赖第二台机的活干完（POOL-0023）。 |
 | **CLOCK-SKEW** | **registered·本机提权动作** | 03:21 `max=4168.5ms / precision ±194.3`；bm-b/bm-c w32time 停摆，需提权自启。R2.38/R2.47 同源，仅更新数值。 |
+
+## §三 R2.54 事件班注记（2026-10-31 17:26-17:31·承载件触发）
+
+| 件 | 状态 | 证据 |
+|---|---|---|
+| **MASTER SPLIT-BRAIN（两机同当主控·自证循环）** | **at-risk·waiting-CEO（受保护件）** | origin `MASTER-TICK` = bm-m / ts 17:27:41 / masquerade=false；bm-a 本地 = bm-a / ts 17:24:31 / masquerade=true。两机同时当主控、各自覆盖同一 tick 文件 ⇒ 互相看不到退让信号 ⇒ bm-a masquerade 永不结束。后果=bm-a 每 20min 产 master-agent 提交与 origin 另谱系对撞 ⇒ push 必拒 ⇒ 本地永不 pull ⇒ 分叉 10/28（merge-base 1dd20bd3 14:44）且每 20min 加深 ⇒ 盘上 DISPATCH-LOG 永停 14:23 ⇒ L0 探针永久误报。正法候选=判定改读 origin 侧 tick / 加 node 字段 / bm-m 心跳新鲜时强制退让。`master_agent.py` + `HQ-MasterFallback` 属 BLUEPRINT §九 受保护件 → 只登记不改。 |
+| **L0 探针谓词错位（本地陈旧时永久误报）** | **registered·waiting-CEO（受保护件）** | `DISPATCH-LOG age>3h` 测「有没有人写日志」，非「调度在不在跑」；本地树陈旧时该谓词恒真。建议改测 MASTER-TICK 新鲜度、DISPATCH-LOG 降二级。L0 脚本受保护。 |
+| **bm-a 本地分叉（10 ahead / 28 behind）** | **fixed（本班）** | `reset --mixed origin/main` + 定向取 origin 盘面（不用 autostash），9 笔 masquerade 状态提交退役（机器生成态，origin 已有更新版，reflog 可回收）。仅重放本班记录。 |
+| **bm-c RAM 闸（0.3–2.3G / 24G·闸 3.0G）** | **waiting-CEO（物理件·零催办）** | 14:00 后 media/FleetWorker 全树零新产物；Q-GPU-BMC-01R 两轮 `lease-expired-5-attempts`。扣住全部 GPU 产。 |
+| **Q-TTS-1202R / Q-GPU-BMC-01R 去向** | **monitoring·18:10 回访探针接管** | 两卡 cmd 指向 C:/K: 远端路径（bm-b/bm-c 本机执行面），主控不可直跑。18:10 一次性探针 `5affeaaa` 在位复探，本班不重复不 poke（防双烧）。 |
