@@ -1,24 +1,24 @@
 {
- "ts": "2026-10-31T18:34:47+08:00",
+ "ts": "2026-10-31T18:36:30+08:00",
  "node": "bm-m",
- "sec": 39.1,
+ "sec": 42.5,
  "slow_ts": 1793442687.664052,
- "git": "skipped:dirty(hand-edit Tools/fleet/fleet_hb.py)",
- "push": "up-to-date",
+ "git": "ok(committed-state)",
+ "push": "ok+1",
  "stages": {
   "hb": {
    "rc": 0,
-   "sec": 12.4,
-   "tail": "HB bm-m seq=2111 offset=2086.6ms"
+   "sec": 11.0,
+   "tail": "HB bm-m seq=2112 offset=2039.2ms"
   },
   "master": {
    "rc": 0,
-   "sec": 20.4,
+   "sec": 21.1,
    "tail": "  LINES: BLOCKED=1, PARKED=1, WAITING=11"
   },
   "lane": {
    "rc": 0,
-   "sec": 1.4,
+   "sec": 1.0,
    "tail": "LANE-IDLE bm-m :: SELF-DISPATCH: lane scans its own backlog"
   },
   "inventory": {
@@ -106,12 +106,12 @@
   {
    "name": "com.fluxgroup.pulse",
    "ok": true,
-   "detail": "64967\t0\tcom.fluxgroup.pulse"
+   "detail": "65438\t0\tcom.fluxgroup.pulse"
   },
   {
    "name": "com.fluxgroup.dashboard",
    "ok": true,
-   "detail": "65335\t0\tcom.fluxgroup.dashboard"
+   "detail": "-\t0\tcom.fluxgroup.dashboard"
   },
   {
    "name": "com.fluxgroup.ollama",
