@@ -1,23 +1,23 @@
 {
  "node": "bm-b",
- "ts": "2026-10-31T09:15:51",
+ "ts": "2026-10-31T12:41:37",
  "jobs": [
   {
-   "id": "Q-TTS-1202",
-   "title": "短剧配音大产批 EP001-EP060（index-tts 静默链·小钢炮已验证栈）",
-   "cmd": "cmd /c \"C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\voicegen_batch_ep004_060.cmd\"",
-   "cwd": "C:/Fluxgroup/FluxGroup",
-   "needs": "gpu",
-   "deliverable": "C:/Fluxgroup/FluxGroup/media/drama-tts-out/r1202_ep001_060/",
+   "id": "Q-TRIAGE-BIGMONEY-20261031",
+   "title": "bigmoney 线级体检（本机证据目录实况）",
+   "cmd": "python Tools/fleet/line_triage.py --line bigmoney",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigmoney-20261031.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
    "when_all": [],
-   "llm": {},
+   "llm": null,
    "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 4.7/2.0 GB"
+ "capacity_note": "ram 7.6/2.0 GB"
 }

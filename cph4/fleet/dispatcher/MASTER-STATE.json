@@ -1,55 +1,74 @@
 {
- "ts": "2026-10-31T12:09:10",
- "cycle": 2145,
+ "ts": "2026-10-31T12:41:37",
+ "cycle": 2146,
  "queue": {
   "total": 52,
-  "open": 4,
-  "running": 2,
+  "open": 1,
+  "running": 3,
   "done": 41,
-  "failed": 5
+  "failed": 7
  },
  "lanes": {
   "bm-a": {
-   "online": false,
-   "hb_age_s": null,
-   "cpu_load_pct": null,
-   "ram_free_gb": null,
-   "gpu_util_pct": null,
-   "job": "Q-TRIAGE-CARGAMING-20261031",
-   "last_result": null,
+   "online": true,
+   "hb_age_s": 41.9,
+   "cpu_load_pct": 34,
+   "ram_free_gb": 18,
+   "gpu_util_pct": 99,
+   "job": "R-MV-GATE-1D",
+   "last_result": {
+    "job": "Q-TRIAGE-CARGAMING-20261031",
+    "state": "FAILED",
+    "rc": 2,
+    "ts": "2026-10-31T12:25:05",
+    "reason": null
+   },
    "idle_confirmed": false,
    "idle_reason": "",
    "idle_rounds": 0
   },
   "bm-b": {
-   "online": false,
-   "hb_age_s": null,
-   "cpu_load_pct": null,
-   "ram_free_gb": null,
+   "online": true,
+   "hb_age_s": 3.0,
+   "cpu_load_pct": 38,
+   "ram_free_gb": 7.6,
    "gpu_util_pct": null,
-   "job": "Q-TTS-1202",
+   "job": "Q-TRIAGE-BIGMONEY-20261031",
    "last_result": null,
    "idle_confirmed": false,
    "idle_reason": "",
    "idle_rounds": 0
   },
   "bm-c": {
-   "online": false,
-   "hb_age_s": null,
+   "online": true,
+   "hb_age_s": 45.2,
+   "cpu_load_pct": 33,
+   "ram_free_gb": 10.4,
+   "gpu_util_pct": 2,
+   "job": "Q-TRIAGE-BIGSTREAMDUANJU-20261031",
+   "last_result": null,
+   "idle_confirmed": false,
+   "idle_reason": "",
+   "idle_rounds": 0
+  },
+  "bm-m": {
+   "online": true,
+   "hb_age_s": 1.3,
    "cpu_load_pct": null,
-   "ram_free_gb": null,
+   "ram_free_gb": 17.9,
    "gpu_util_pct": null,
    "job": null,
    "last_result": null,
    "idle_confirmed": false,
-   "idle_reason": "CAPACITY-BLOCKED-RAM OFFLINE (hb age Nones)",
+   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
    "idle_rounds": 0
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
-  "bm-c": 0
+  "bm-c": 0,
+  "bm-m": 0
  },
  "lines": {
   "bigstream-mv": {
@@ -63,9 +82,7 @@
     "R-MV-GATE-1D"
    ],
    "no_supply": false,
-   "blockers": [
-    "R-MV-GATE-1D:no-lane"
-   ],
+   "blockers": [],
    "note": null
   },
   "bigstream-drama": {
@@ -224,7 +241,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "WAITING",
-     "age_h": 14.9,
+     "age_h": 15.4,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -235,7 +252,7 @@
      "model": "local-gpu",
      "lane": "bm-c",
      "verdict": "WAITING",
-     "age_h": 11.7,
+     "age_h": 12.3,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -257,7 +274,7 @@
      "model": "none",
      "lane": "bm-a",
      "verdict": "WAITING",
-     "age_h": 17.4,
+     "age_h": 18.0,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -279,7 +296,7 @@
      "model": "none",
      "lane": null,
      "verdict": "WAITING",
-     "age_h": 14.9,
+     "age_h": 15.4,
      "limit_h": 24.0,
      "jobs": []
     }
@@ -295,7 +312,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "WAITING",
-     "age_h": 17.4,
+     "age_h": 18.0,
      "limit_h": 48.0,
      "jobs": []
     },
@@ -344,7 +361,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "WAITING",
-     "age_h": 17.4,
+     "age_h": 18.0,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -355,7 +372,7 @@
      "model": "local-gpu",
      "lane": "bm-c",
      "verdict": "WAITING",
-     "age_h": 17.4,
+     "age_h": 18.0,
      "limit_h": 72.0,
      "jobs": []
     }
@@ -371,7 +388,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "PARKED",
-     "age_h": 17.4,
+     "age_h": 18.0,
      "limit_h": 168.0,
      "jobs": []
     },
@@ -382,7 +399,7 @@
      "model": "none",
      "lane": "bm-a",
      "verdict": "PARKED",
-     "age_h": 17.4,
+     "age_h": 18.0,
      "limit_h": 168.0,
      "jobs": []
     }
@@ -609,7 +626,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "WAITING",
-     "age_h": 17.4,
+     "age_h": 18.0,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -636,7 +653,7 @@
      "model": "none",
      "lane": "bm-a",
      "verdict": "WAITING",
-     "age_h": 17.4,
+     "age_h": 18.0,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -647,7 +664,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "WAITING",
-     "age_h": 17.4,
+     "age_h": 18.0,
      "limit_h": 72.0,
      "jobs": []
     }
@@ -662,7 +679,7 @@
   "judgment_tier": "local"
  },
  "routing": {
-  "local": 4,
+  "local": 1,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -670,22 +687,23 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 4,
+  "cpu": 1,
   "gpu": 0
  },
- "supply_added": [
-  "backlog_manifest+1"
- ],
+ "supply_added": [],
  "events": [
-  "Q-TRIAGE-BIGSTREAMMV-20261031 FAILED after 3 attempts (lease 45m)"
+  "Q-TRIAGE-CARGAMING-20261031 FAILED via bm-a",
+  "Q-TTS-1202 FAILED after 5 attempts (lease 180m)",
+  "R-MV-GATE-1D -> bm-a (cpu)",
+  "Q-TRIAGE-BIGSTREAMDUANJU-20261031 -> bm-c (cpu)",
+  "Q-TRIAGE-BIGMONEY-20261031 -> bm-b (cpu)"
  ],
  "violations": [
-  "bm-a OFFLINE",
-  "bm-b OFFLINE",
-  "bm-c OFFLINE",
   "LINE-BLOCKED bigstream-drama ()"
  ],
  "lane_files_written": [
+  "bm-a",
+  "bm-b",
   "bm-c"
  ]
 }
