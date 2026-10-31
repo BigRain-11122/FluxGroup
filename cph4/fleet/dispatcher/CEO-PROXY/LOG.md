@@ -793,3 +793,4 @@ bm-b 根仓工作树 HEAD=`4c7de09b`，该提交**在 origin 与本机全量仓�
 **待人工（零催办；附1③已满足=两轮派单+poke 无人接手）**
 1. bm-b：跑一次 `powershell -NoProfile -File Tools\fleet-hot-sync.ps1`（fetch+rebase autostash，勿 hard reset）。无远程命令通道（CEO 10-23），本席不能代跑。
 2. bm-c：RAM 0.6GB / VRAM 429MB 被非机队进程占死（codex-computer-use + python），GPU 产线（POOL-0021、Q-GPU-BMC-01R、MV i2v/KF、duanju board、game-art）全部堵在这里。
+**⑧ 回访探针**：+90min 一次性 durable cron 复探本班 5 卡落地与两条幽灵状态；复发=旗升 DE 级。
