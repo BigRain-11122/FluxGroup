@@ -1,0 +1,31 @@
+{
+ "order": "OB-20261031-182307-132",
+ "order_text": "executor unification: run Tools/fleet/agent.py --node <id>, verify heartbeat and claim work (<=30s), register it with Tools/task-register.ps1 as the ONLY resident task (every 5 min), disable the superseded HQ-ProductionClaim, leave a receipt in cph4/fleet/queue-receipts",
+ "node": "bm-b",
+ "executed_by": "bm-b r1337 interactive round",
+ "ts": "2026-10-31T22:43+08:00",
+ "verdict": "executed_deployed",
+ "before": {
+  "agent_py_on_disk": false,
+  "fleet_hb_py_on_disk": false,
+  "cause": "this group worktree is ~195 commits behind origin on a blob:none promisor clone, so Tools/fleet/ was not materialised at all (autowork.py, fleet_hb.py, lane_agent.py, env_selfheal.py ... all absent). The first fire test of the registered task failed with result=1 because agent.py runs fleet_hb.py and that file did not exist on disk."
+ },
+ "actions": [
+  "materialised the executor toolset from the origin blob (git show origin/main:<path>), not from the stale worktree: agent.py, env_selfheal.py, fleet_supervisor.py; the rest of Tools/fleet/*.py was already present as working copies",
+  "one manual tick: python Tools/fleet/agent.py --node bm-b --no-pull -> hb=0 (HB bm-b seq=2 offset=2140.0ms) lane=0, elapsed < 1s",
+  "registered FluxGroup-Agent-bm-b via Tools/task-register.ps1 (every:5m, S4U, hidden wscript -> pythonw chain), fire test observed result=0 at 22:41:31 -> deployed",
+  "disabled HQ-ProductionClaim (Get-ScheduledTask state Disabled) as superseded"
+ ],
+ "deviation": {
+  "arg": "--node bm-b --no-pull",
+  "why": "the registered task would otherwise run `git pull --rebase --no-autostash` every 5 minutes from a worktree 195 commits behind on a blob:none promisor clone; that pull has wedged for 5 minutes in this repo repeatedly (r1255/r1264/r1271 family) and an unattended loop would wedge every tick. Code currency is owned by the master pulse / manual rounds until the worktree is caught up.",
+  "how_to_revert": "unregister FluxGroup-Agent-bm-b, drop --no-pull from -Arg, re-register once `git rev-list --count HEAD..origin/main` is 0"
+ },
+ "verification": {
+  "task_state": "Ready",
+  "logon_type": "S4U",
+  "fire_result": 0,
+  "manual_tick_rc": 0,
+  "claim": "lane_agent completed with zero items to claim in this tick (lane=0)"
+ }
+}
