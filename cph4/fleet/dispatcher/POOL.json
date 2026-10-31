@@ -269,15 +269,15 @@
   "title": "Qwen-Image-2.1-Turbo KF 提速试烧批（int8 四件部署+vs Krea2 turbo 对比三账+许可商用判定）",
   "lane": "bm-c",
   "priority": "P2",
-  "status": "open",
+  "status": "done",
   "created_by": "bm-a-总控窗 2026-10-19 19:35（CEO 满负荷令 O-20261019-1935）",
   "spec": "部署 Qwen-Image-2.1-Turbo int8 栈（配方=cph4/fleet/bm-b-model-stack-20261016.md·bm-b 8G 已 PASS 同栈 20s/张）→KF 场景/道具类代表提示词 3-5 帧试烧 vs Krea2 turbo 1344x768 现役配方→速度/显存/质量三账+对比板→Qwen-Image-2.1 LICENSE 全文商用判定行（qwen-research 非 Apache·试烧合法·量产采用前必读·ID 脸面除外：jman LoRA 系 Krea2/SDXL 道 Turbo 不适用）。产出回填 R-20261019-work-assistant-landscape.md §五应用表+EXPERIENCE-LEDGER 判例行。",
   "card": "[交接卡 POOL-0021]\n①@机+lane：@bm-c·gpu-production（生成视觉专用道·KF 量产提速验证批）\n②回执窗：24h（POOL-0016 余项完成后接续·夜间 GPU 满载档）\n③验收物+证据指针：部署回执（四件 sha/尺寸）+试烧对比 LOOKBOARD 拼板（q88·Turbo vs Krea2 turbo 同提示词 3-5 代表帧）+速度/显存/质量三账实测表（回填 cph4/research/R-20261019-work-assistant-landscape.md §五应用表）+Qwen-Image-2.1 LICENSE 全文商用判定行（qwen-research·非 Apache）+orders 回执行+commit sha\n④spec 指针：cph4/research/R-20261019-work-assistant-landscape.md L72/L86（候选定档行）+cph4/fleet/bm-b-model-stack-20261016.md（同栈配方=turbo int8 DiT 6.92G+w4a8 TE 6.02G+VAE 0.64G+turbo LoRA 0.87G·1024²·8步·cfg1·euler/simple·QwenImage21Cache(auto)·TextEncodeQwenImage21·bm-b 8G 20s/张 PASS 实证）+cph4/fleet/mv-album-001-jay/星晴-KF-PACK-A-v1.md（KF 代表帧取样源·场景/道具类·ID 脸面除外〔jman LoRA=Krea2 道不换〕）\n⑤溯源令号：O-20261019-1935（CEO「确保机队其他机器满负荷生产，且有产出！」·docs/orders.md 10-19 19:35 行）\n⑥输入/输出：输入=Qwen-Image-2.1-Turbo int8 四件（HF/ModelScope 拉取·bm-b 配方可复用）+KF 代表提示词；输出=部署+对比板+三账实测表+许可判定行\n⑦依赖：POOL-0016 余项（night-1/night-3）P1 先行·与星晴 A 批 KF（候导演席签发）错峰不抢同窗\n⑧卡 ID：POOL-0021\n⑨provenance：直述（CEO 原话「确保机队其他机器满负荷生产，且有产出！」·bm-a 总控窗 10-19 19:35 开卡）",
-  "result_ref": "L2 2026-10-27 16:5x: blocked_by POOL-0016 解除=可认领; bm-c RAM 解锁后按滚动队列点火. | R2.48 2026-10-29 02:1x: 本卡实为 GPU KF 试烧(需 bm-c 本机执行), 与 POOL-0024 同受同一个 RAM 闸约束——拔出真阻塞为 CEO-PHYSICAL:bm-c-desktop-ram(实测 ram_free 0.9G/23.9G, 消费者=桌面 Doubao x4/msedge/Platform/explorer, ollama 零驻留故撤驻到不了 6G). 原 blocked_by=[] 是登记失实(把'无卡面阻塞'当'可执行'), 已按 pool_lint 闸更正. 解锁=POOL-0024 达成 ram_free>=6G 后本卡自动可派. | bm-m master 2026-10-30 15:46 实测: bm-c ram_free 12.7GB(前值0.4G恶化已缓解), VRAM 空 14.3G, cpu 18% → 物理闸大概率已解, Q-GPU-BMC-001 租约卡已下发, 夜间可直接开 POOL-0021 试烧",
+  "result_ref": "bm-c 2026-10-31: legs 1-2 already finished on 2026-10-20 - deploy 4/4 OK (qwen21-deploy-receipt-c2099.md), smoke 41.4s/14841MB, blind compare Krea2 wins ~2.5/3 (hq-wt-c2108/media/comfy-sidecar/compare/compare_verdict.json), license verdict LICENSE-VERDICT-20261020-c2101.md. Qwen-Image-2.1 does not take the KF seat. Closure doc cph4/fleet/queue-receipts/POOL-0021-CLOSURE-bm-c-20261030.md.",
   "depends_on": [],
-  "blocked_by": [
-   "CEO-PHYSICAL:bm-c-desktop-ram"
-  ]
+  "blocked_by": [],
+  "claimed_by": "bm-c",
+  "claimed_at": "2026-10-31T13:57:55"
  },
  {
   "id": "POOL-0022",
@@ -310,18 +310,16 @@
  {
   "id": "POOL-0024",
   "priority": "P0",
-  "status": "open",
+  "status": "done",
   "lane": "bm-c",
   "title": "bm-c 内存释放闸：ollama 撤驻 + keepwarm 停 → 开 POOL-0021/0022 KF（GPU 已空 14.7G）",
   "spec": "本机执行（禁远程）：python Tools/fleet/gpu_lease.py --node bm-c --acquire --need-mb 12000 （内部 stop_ollama + MiniGameOllamaKeepWarm/Serve disable + 等 VRAM），或一步式 python Tools/fleet/job_kf_batch.py --node bm-c --prompts <POOL-0021 prompts.json> --out <dir>；判据=Tcp :8790/status ram_free_gb>=6.0（改前实测 0.7G@00:04）+ ollama ps 无 27b/30b/35b 驻留 + ComfyUI /system_stats 200。正典=Tools/fleet/gpu_lease.py + ROUND 附2「整卡还生成线」",
   "created_by": "CEO-PROXY event round 2026-10-28 00:10",
-  "claimed_by": "",
-  "claimed_at": "",
+  "claimed_by": "bm-c",
+  "claimed_at": "2026-10-31T13:57:55",
   "card": "[加入池 POOL-0024]\n①@机+lane：@bm-c（gpu-production）·本机进程内执行，禁跨机远程下发\n②回执窗：6h（夜里 GPU 空转=纯损失，6h 未动即升 P0 复派）\n③验收物+证据指针：TCP 100.123.74.104:8790/status ram_free_gb >= 6.0（改前 1.3->0.7G 实锚）+ ollama ps 无 qwen3.8:27b / glm-4.7-flash:30b / qwen3.6-coder:35b 驻留 + Get-ScheduledTask MiniGameOllamaKeepWarm/Serve 的 State 证据 + ComfyUI /system_stats 200 + POOL-0021 首批 KF 落盘计数 + commit sha\n④spec：Tools/fleet/gpu_lease.py（stop_ollama + keepwarm set_tasks(False) + vram 轮询）+ Tools/fleet/job_kf_batch.py（一步式 acquire->run->receipt->release）\n⑤责源锚：O-20261013-2245（CEO 全部项目继续开工·全力运转）+ OB-20261027-211206-860（CEO 新班令 bm-c 先释放内存再开烧）+ ROUND 附2 整卡还生成线 + 本席 2026-10-28 00:0x 事件班（BLOCKED-RAM 1.3G->0.7G 恶化实证）\n⑥依赖/先后：依赖完成本卡，先后顺序=本卡先、POOL-0021/0022 后（堵点=RAM 不是 VRAM）　输入=POOL-0021 的 prompts.json 与 audio/源件；输出=本机 D:/FluxGroup/media/mv-test/<pack>/batch* KF 落盘目录 + Tools/nats/data/gpu.bm-c.lease.json + 回执 cph4/fleet/queue-receipts/POOL-0024-bm-c.json\n⑦产能归属：生成道（GPU 14.7G 已空）；量化轮 CPU 侧不停\n⑧卡 ID：POOL-0024\n⑨provenance：CEO-PROXY 事件班 2026-10-28 00:10 落单（BLOCKED-RAM 1.3G->0.7G 恶化实证）",
   "depends_on": [],
-  "blocked_by": [
-   "CEO-PHYSICAL:bm-c-desktop-ram"
-  ],
-  "result_ref": " [R2.42 02:09 实测] ram_free 0.4GB(24G 机·1.1G→0.4G 恶化)·VRAM 空 14899MB·cpu 46%；仍非 poke 可解，需 bm-c 本机 python Tools\\\\fleet\\\\gpu_lease.py --node bm-c --acquire --need-mb 12000。 | R2.47 2026-10-29 01:2x re-probe: bm-c ram_free 0.9G/23.9G, GPU 14686MiB free, cpu 25%. bm-c own receipt POOL-0024-bm-c.json proves the consumer is the DESKTOP (Doubao x4 ~3.8G / msedge / Platform / explorer / wetype); ollama holds 0 resident models (296MB daemon) so evicting it cannot reach the 6.0G criterion. Unblock = free ~6G desktop RAM on that host (CEO physical) or a RAM-lean KF loader. Zero-nag register. | bm-m master 2026-10-30 15:46 实测: bm-c ram_free 12.7GB(前值0.4G恶化已缓解), VRAM 空 14.3G, cpu 18% → 物理闸大概率已解, Q-GPU-BMC-001 租约卡已下发, 夜间可直接开 POOL-0021 试烧"
+  "blocked_by": [],
+  "result_ref": "bm-c 2026-10-31: memory gate re-verified live - ram_free 9.2-11.8G (card opened at 0.6-1.3G), ollama ps empty, ComfyUI 8188 HTTP 200. Receipt cph4/fleet/queue-receipts/POOL-0024-bm-c.json. Cleared the stale CEO-PHYSICAL:bm-c-desktop-ram blocker that was holding bm-c GPU supply to zero."
  }
 ]
