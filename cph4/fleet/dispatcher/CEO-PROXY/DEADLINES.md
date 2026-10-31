@@ -199,3 +199,13 @@ am_free_gb=10+cpu_load_pct=48——**bm-b 不是闲着，是在跑量化轮**；
 | **bm-a 本地分叉（10 ahead / 28 behind）** | **fixed（本班）** | `reset --mixed origin/main` + 定向取 origin 盘面（不用 autostash），9 笔 masquerade 状态提交退役（机器生成态，origin 已有更新版，reflog 可回收）。仅重放本班记录。 |
 | **bm-c RAM 闸（0.3–2.3G / 24G·闸 3.0G）** | **waiting-CEO（物理件·零催办）** | 14:00 后 media/FleetWorker 全树零新产物；Q-GPU-BMC-01R 两轮 `lease-expired-5-attempts`。扣住全部 GPU 产。 |
 | **Q-TTS-1202R / Q-GPU-BMC-01R 去向** | **monitoring·18:10 回访探针接管** | 两卡 cmd 指向 C:/K: 远端路径（bm-b/bm-c 本机执行面），主控不可直跑。18:10 一次性探针 `5affeaaa` 在位复探，本班不重复不 poke（防双烧）。 |
+
+## 附录 R2.55 事件班注记（2026-10-31 20:41-20:5x·承载件触发·probe L0-DOWN 3.2h）
+
+| 件 | 状态 | 证据 / 下一步 |
+|---|---|---|
+| **粘滞锁存（master_agent.py:489-499）** | **waiting-CEO（受保护件）** | masquerade 判据 `if prev_by and prev_by != owner_node: stale=True`：一旦本机写过一次 tick，下一轮必然再判 stale ⇒ 永久自锁；解锁只能靠 pull 到 origin 的 bm-m tick。正法候选：①删该分支只用 `age > fallback_stale_s`；②或增 `last_real_master_ts` 只由真主控刷新。本班未改代码。 |
+| **产出链澄清** | **registered** | 无任何计划任务跑 `master-fallback.cmd`；`HQ-MasterAgent` 自 10-29 15:46 Disabled。实产=**HQ-Steward → steward.cmd → steward.py → master_agent.py**（20:31:57 最后写状态件）。R2.54 记「HQ-MasterFallback LogonType 违规」的指向应按此勘正。 |
+| **L0 探针谓词错位（实证补强）** | **waiting-CEO（受保护件）** | `DISPATCH-LOG age>3h` 与班表相邻班 4.2h 间隔天然冲突：17:31→21:43 之间必报。建议改测 MASTER-TICK 新鲜度。 |
+| **bm-a 本地树收口（detached→main）** | **fixed（本班）** | R2.54 只 `reset --mixed` 未重挂分支 ⇒ 8 笔提交落游离头。本班 `git checkout -B main` 后 0 ahead/0 behind、tracked 树干净。备份 branch `backup/bm-a-masterloop-20261031`@d818da44 + diff 快照 181,802B。 |
+| **bm-c RAM 闸（续）** | **waiting-CEO（物理件·零催办）** | 无新动向证据，本班按传感复用律未复测；只登记不催办。 |

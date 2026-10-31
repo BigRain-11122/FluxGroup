@@ -835,3 +835,39 @@ bm-b 根仓工作树 HEAD=`4c7de09b`，该提交**在 origin 与本机全量仓�
 ### 六、待裁（见 DEADLINES §R2.54）
 - master split-brain 根因：masquerade 判定读的 tick 文件**由自己写**，构成自证循环。正法候选=判定改读 origin 侧 MASTER-TICK（或加 node 字段区分、或 bm-m 心跳新鲜时强制退让），属 `master_agent.py` 受保护面。
 - L0 探针谓词：`DISPATCH-LOG age>3h` 测「有没有人写」而非「调度在不在跑」，且在本地树陈旧时会永久误报。建议改测 MASTER-TICK 新鲜度（同样属受保护件）。
+
+## R2.55 事件班 2026-10-31 20:41-20:5x（承载件触发·probe L0-DOWN）
+
+**触发**：`[2026-10-31 20:41:05][PROBE] L0-DOWN: DISPATCH-LOG.md age 3.2h (>3h)`；承载件 20:41:07 拉起本会话。
+
+### 一、告警定性：真陈旧，但两重原因必须分离
+1. **班表间隙本身（新实证）**：`git show origin/main:...DISPATCH-LOG.md` 尾行也是 **17:31**——3.2 小时内**没有任何班次写过日志**。班表下一班 21:43，与 17:31 相距 4.2h > 探针 3h 阈值 ⇒ 该谓词在每个 4h 级间隙都会必然报警，与机器健康无关。R2.54 已登记谓词错位，本班补上实证。
+2. **本地树结构性病灶仍在，且比 R2.54 记录更深**：本班接手时 HEAD 处于 **detached（`## HEAD (no branch)`）**、93 behind / 8 ahead，另有 `UU Tools/task-s4u-backlog.md` 未合并态。R2.54 的 `reset --mixed origin/main` 只搬了 HEAD，**没有重新挂分支** ⇒ 之后每轮 master_agent 提交都落在游离头，永远无法与 origin 收敛。
+
+### 二、精确根因（代码坐标）
+`Tools/fleet/master_agent.py:489-499`：
+
+```
+stale = age > fallback_stale_s
+if prev_by and prev_by != owner_node:
+    stale = True   # the last tick was itself a fallback: the real master is still dark
+```
+
+这是**粘滞锁存（sticky latch）**：本机一旦 masquerade 写一次 tick（last_tick_by=bm-a），下一轮按此判据必然再判 stale=True → 再 masquerade → 永远退不出。唯一解锁路径是拉到 origin 的 bm-m tick，而分叉 + detached 的树永不 pull ⇒ 自证死循环，每 20 分钟多一笔提交、分叉单调加深、盘上文件永久冻结在 17:31。
+
+### 三、产出者定位（澄清 R2.54 的「HQ-MasterFallback」指向）
+无任何计划任务执行 `master-fallback.cmd`；`HQ-MasterAgent` 自 10-29 15:46 起 **Disabled**。实际产出链=**HQ-Steward → steward.cmd → steward.py → master_agent.py**（本机 pythonw 常驻；20:31:57 最后一次写 MASTER-TICK/MASTER-STATE/STAGE-CACHE/NEED-SUPPLY）。
+
+### 四、本班处置（只动状态·不动受保护代码）
+- 可恢复备份：`branch backup/bm-a-masterloop-20261031` @ `d818da44`；全量差异快照 `.codely-cli/tmp/local-vs-origin-2045.patch`（181,802 B）。
+- `git reset --mixed origin/main` → 定向 checkout 收口 14 个文件（UU 件取 origin 版）→ **`git checkout -B main`**（关键补步：重新挂分支，R2.54 缺这一步）。
+- 结果：**0 ahead / 0 behind**；tracked 树干净；盘上 `MASTER-TICK = bm-m / masquerade=false / ts 20:41:55`。
+- 8 笔本地提交只动 4 个机器状态文件（MASTER-LOG / MASTER-STATE / NEED-SUPPLY / STAGE-CACHE），无人写内容损失。
+- **未动** `master_agent.py`、`steward.py`、`HQ-Steward`、L0 探针脚本——均属受保护件，只登记候裁。
+
+### 五、验收面
+下一轮 steward（20 分钟节拍）应读到 bm-m 的新鲜 tick ⇒ `masquerade=False` ⇒ standby 只读不写 ⇒ 不再产提交。本班另设 +90 分钟回访探针复核（复发=旗升 DE 级）。
+
+### 六、待裁（承 R2.54·本班细化）
+- **粘滞锁存缺陷**：判据把「上一轮由本机写 tick」当作「真主控仍暗」，而该状态正由自己制造 ⇒ 锁存。正法候选：①仅用 `age > fallback_stale_s` 判 stale，删掉 `prev_by != owner_node` 分支；②或增 `last_real_master_ts` 字段，只由真主控刷新。属 `master_agent.py` 受保护面，候 CEO 令。
+- **L0 探针谓词**：`DISPATCH-LOG age>3h` 与班表 4h 级间隙天然冲突，建议改测 `MASTER-TICK` 新鲜度、DISPATCH-LOG 降二级。同属受保护件。
