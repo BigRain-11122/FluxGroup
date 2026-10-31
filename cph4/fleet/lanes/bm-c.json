@@ -1,14 +1,14 @@
 {
  "node": "bm-c",
- "ts": "2026-11-01T00:09:30",
+ "ts": "2026-11-01T00:15:07",
  "jobs": [
   {
-   "id": "Q-TRIAGE-BIGSTREAMMV-20261101",
-   "title": "bigstream-mv 线级体检（本机证据目录实况）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigstream-mv",
+   "id": "Q-TRIAGE-BIGSTREAMDUANJU-20261101",
+   "title": "bigstream-duanju 线级体检（本机证据目录实况）",
+   "cmd": "python Tools/fleet/line_triage.py --line bigstream-duanju",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigstream-mv-20261101.md",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigstream-duanju-20261101.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
