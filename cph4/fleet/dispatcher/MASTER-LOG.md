@@ -2016,3 +2016,4 @@
 [2026-10-31T12:09:10] cyc=2145 q=4/2/41 sup=1 ev=1 idle=bm-a:-,bm-b:-,bm-c:CAPACITY-BLOCKED-R flags=bm-a OFFLINE;bm-b OFFLINE;bm-c OFFLINE;LINE-BLOCKED bigstream-drama ()
 [2026-10-31T12:41:37] cyc=2146 q=1/3/41 sup=0 ev=5 idle=bm-a:-,bm-b:-,bm-c:- flags=LINE-BLOCKED bigstream-drama ()
 [2026-10-31T12:42:56] cyc=2147 q=1/3/41 sup=0 ev=0 idle=bm-a:-,bm-b:-,bm-c:- flags=LINE-BLOCKED bigstream-drama ()
+[2026-10-31T12:59:48] cyc=2148 q=2/2/41 sup=0 ev=3 idle=bm-a:-,bm-b:SELF-DISPATCH: lan,bm-c:- flags=LINE-BLOCKED bigstream-drama ()

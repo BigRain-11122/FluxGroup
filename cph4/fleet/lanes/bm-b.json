@@ -1,23 +1,8 @@
 {
  "node": "bm-b",
- "ts": "2026-10-31T12:41:37",
- "jobs": [
-  {
-   "id": "Q-TRIAGE-BIGMONEY-20261031",
-   "title": "bigmoney 线级体检（本机证据目录实况）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigmoney",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigmoney-20261031.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  }
- ],
- "idle_reason": "",
+ "ts": "2026-10-31T12:59:48",
+ "jobs": [],
+ "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
  "lane_ok": true,
- "capacity_note": "ram 7.6/2.0 GB"
+ "capacity_note": "ram 8.0/2.0 GB"
 }
