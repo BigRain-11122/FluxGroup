@@ -3,3 +3,6 @@
 - POOL-0021[blocked_by:CEO-PHYSICAL:bm-c-desktop-ram] blocked: 2026-10-29 02:51
 - POOL-0023[blocked_by:no-exec-leg:pool-card-has-no-cmd,no-verified-cmd:runner-only-on-bm-b] blocked: 2026-10-29 02:51
 - POOL-0024[blocked_by:CEO-PHYSICAL:bm-c-desktop-ram] blocked: 2026-10-29 02:51
+[2026-10-31 14:52][PROXY R2.52] E1 bm-b-root-worktree-diverged: HEAD 4c7de09b 在 origin 与本机全量仓皆不存在(origin/main=825a063d), pull 恒 kept-local -> 队列卡对 bm-b 不可见; HQ-ProductionClaim 连续 deny 两次(14:19:20/14:43:55)。需人工在 bm-b 执行 Tools/fleet-hot-sync.ps1(无远程命令通道)。影响 Q-TTS-1202R(P0)。
+[2026-10-31 14:52][PROXY R2.52] CAPACITY bm-c: /status 直读 ram_free 0.6GB / VRAM free 429MB / gpu_procs=codex-computer-use-swift.exe;python.exe(非机队) -> GPU 车道结构性不可用; Q-GPU-BMC-01R(OPEN) 与 POOL-0021/0024 一并候; 物理域 CEO 保留面, 零催办。
+[2026-10-31 14:52][PROXY R2.52] DEFECT D-R252-CARRIER-SELFEXCITE: proxy-event-carrier.ps1 以 DISPATCH-LOG 尾30行历史旗 + NEED-JUDGMENT 全行 + 本席 LOG 文本为活旗, 签名随日志写入而变 -> 90min 同签名门失效 -> 事件班频率约等于日志写入频率。受保护面(Tools/L0 脚本), 候裁。

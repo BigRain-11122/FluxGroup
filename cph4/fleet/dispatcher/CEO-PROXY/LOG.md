@@ -767,3 +767,29 @@ am_free 10GB / cpu_load 48%——bm-b 在跑量化轮而非闲着；缺的是本
 - 探针 `L0-DOWN` / `PROXY-SILENT-DEATH` 仍以 bm-a 侧旧日志为测点，主控迁 bm-m 后**结构性假红**；建议改用 `MASTER-NODE.json` + `PULSE.json` 新鲜度。
 
 **⑦ 诚实边界**：bm-b/bm-c 的活本席**不能远程执行**（CEO 10-23 令），只能申报卡 + 靠各自车道自领；Q-TTS-1202R 是否真跑起来，要等 bm-b 下一轮认领回执。
+
+## 2026-10-31 14:36–14:55 事件班（承载件触发·R2.52）
+
+**触发**：与 14:12 班同一批旧旗（10-28 18:11 ~ 10-29 02:31）。逐字原文见 `media/logs/event-carrier.log` 与触发 prompt；本行不复写字面量，理由见「承载件自激」节。
+
+**锁门**：进入时锁龄 12.4min（>10min，上一班 14:23 已收口）→ 本窗接管；班毕 touch。
+
+**实况（14:42:51 / 14:42:53 直读节点 /status；非二手台账）**
+- bm-b：ram_free 5.3GB、cpu 26%、GPU 空闲 3487MB → **没有在跑 TTS**
+- bm-c：ram_free 0.6GB、cpu 81%、VRAM free 429MB、gpu_procs=`codex-computer-use-swift.exe;python.exe`（非机队进程）→ GPU 车道结构性不可用
+- 队列：total 51 / open 1（Q-GPU-BMC-01R）/ running 1（Q-TTS-1202R）/ done 44 / failed 5
+- bm-a、bm-m 均 SELF-DISPATCH 空跑；主控脉 bm-a 代管（master_tick 14:09:47、masquerade=true，未过 15min 阈）
+
+**决定性根因（本轮新增·硬证据）**
+bm-b 根仓工作树 HEAD=`4c7de09b`，该提交**在 origin 与本机全量仓都不存在**（本机已 `git fetch origin`；origin/main=`825a063d`）→ bm-b 根仓由本地独有提交构成分叉，pull 恒报 `.:updated` 而头不动 → **bm-b 看不到新卡**。定向 poke 实测 `HQ-ProductionClaim:deny`，14:19:20 与 14:43:55 两次一致；叠加 GPU/CPU 静默，判 Q-TTS-1202R 为 phantom RUNNING——**不是执行体坏了，是它没有卡可执行**。
+
+**处置**
+- Q-TTS-1202R **不手改**：lease 17:14 到期 → FAILED → `backlog_fill` 依 manifest 自动重排（manifest 行在，requires=bm-b 本地两脚本，齐全）。
+- 补齐 6 条线体检（bigstream-drama、bigstream-shortvideo、bigdomain、bigcompute、biglife、bighouse）→ **今日 13/13 全覆盖**。结论：bigdomain 0.1h / bigcompute 0.0h / biglife 0.7h / bighouse 0.1h 新鲜；drama 的 voice 阶段就是在飞的 Q-TTS；shortvideo=PARKED（CEO 判停）。**不存在可凭空造的 CPU 缺口** → 遵命令查重律，不造卡。
+
+**登记：承载件自激缺陷（D-R252-CARRIER-SELFEXCITE）**
+`Tools/proxy-event-carrier.ps1` 把三样东西当「活旗」：DISPATCH-LOG 尾 30 行命中的历史旗、NEED-JUDGMENT 全部非注释行、以及本席自己写进 DISPATCH-LOG 的 LOG 文本（同样含那批关键词）。于是签名随每次写日志而变 → 90min 同签名门失效 → 事件班触发频率 ≈ 日志写入频率。属 Tools/L0 脚本受保护面，**只登记不擅改**。
+
+**待人工（零催办；附1③已满足=两轮派单+poke 无人接手）**
+1. bm-b：跑一次 `powershell -NoProfile -File Tools\fleet-hot-sync.ps1`（fetch+rebase autostash，勿 hard reset）。无远程命令通道（CEO 10-23），本席不能代跑。
+2. bm-c：RAM 0.6GB / VRAM 429MB 被非机队进程占死（codex-computer-use + python），GPU 产线（POOL-0021、Q-GPU-BMC-01R、MV i2v/KF、duanju board、game-art）全部堵在这里。
