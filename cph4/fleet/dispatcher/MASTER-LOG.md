@@ -2037,3 +2037,4 @@
 [2026-10-31T14:11:50] cyc=2159 q=0/0/44 sup=0 ev=1 idle=bm-a:SELF-DISPATCH: lan,bm-b:SELF-DISPATCH: lan,bm-c:CAPACITY-BLOCKED-R flags=bm-b IDLE-CONFIRMED x9 (SELF-DISPATCH: lane scans its own backlo);bm-c CAPACITY-BLOCKED-RAM;bm-m IDLE-CONFIRMED x8 (SELF-DISPATCH: lane scans its own backlo);LINE-BLOCKED bigstream
 >>>>>>> 8d72eaea (pulse: state snapshot [via bm-m])
 [2026-10-31T16:59:01] cyc=1 q=1/2/44 sup=1 ev=2 idle=bm-a:SELF-DISPATCH: lan,bm-b:-,bm-c:- flags=LINE-BLOCKED bigstream-drama ()
+[2026-10-31T17:00:58] cyc=2 q=1/2/44 sup=0 ev=0 idle=bm-a:CAPACITY-BLOCKED-R,bm-b:-,bm-c:- flags=bm-a OFFLINE;bm-b OFFLINE;bm-c OFFLINE;LINE-BLOCKED bigstream-drama ()

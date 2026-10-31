@@ -1,13 +1,12 @@
 # NEED-SUPPLY - why lanes and business lines are not running (#regenerated)
 
-- ts: 2026-10-31T16:59:01
+- ts: 2026-10-31T17:00:58
 - queue: open=1 running=2 done=44 failed=5
 - open jobs by need: cpu=1 gpu=0
 
-- bm-a: SELF-DISPATCH: lane scans its own backlog -> lane is scanning its own backlog; if this persists >2 rounds the box has no declared work and needs a new card
+- bm-a: CAPACITY-BLOCKED-RAM OFFLINE (hb age Nones) -> free memory on that box (gpu_lease --acquire reclaims it)
 - bm-b: RUNNING Q-TTS-1202R
 - bm-c: RUNNING Q-GPU-BMC-01R
-- bm-m: SELF-DISPATCH: lane scans its own backlog -> lane is scanning its own backlog; if this persists >2 rounds the box has no declared work and needs a new card
 
 Rules pack: cph4/fleet/WORK-RULES.jsonl (empty = every job must be declared by a producing seat; the master will not invent work).
 
