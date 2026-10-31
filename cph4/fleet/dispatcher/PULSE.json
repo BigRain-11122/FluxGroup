@@ -1,19 +1,19 @@
 {
- "ts": "2026-10-31T18:18:29+08:00",
+ "ts": "2026-10-31T18:21:52+08:00",
  "node": "bm-m",
- "sec": 54.5,
- "slow_ts": 1793441909.647491,
- "git": "ok(committed-state)",
- "push": "ok+1",
+ "sec": 45.4,
+ "slow_ts": 1793442112.0960882,
+ "git": "skipped:dirty(hand-edit Tools/fleet/master_pulse.py)",
+ "push": "up-to-date",
  "stages": {
   "hb": {
    "rc": 0,
-   "sec": 11.2,
-   "tail": "HB bm-m seq=2100 offset=2014.7ms"
+   "sec": 12.1,
+   "tail": "HB bm-m seq=2102 offset=2013.1ms"
   },
   "master": {
    "rc": 0,
-   "sec": 21.4,
+   "sec": 22.8,
    "tail": "  LINES: BLOCKED=1, PARKED=1, WAITING=11"
   },
   "lane": {
@@ -24,16 +24,16 @@
   "inventory": {
    "rc": 1,
    "sec": 0.1,
-   "tail": "[2026-10-31T18:18:13] bm-a stock=0 [] | bm-a after-refill=0 | bm-b stock=2 ['Q-TTS-1202R', 'R-TTS1202R-VERIFY-20261031'] | bm-c stock=0 [] | bm-c after-refill=0"
+   "tail": "[2026-10-31T18:21:42] bm-a stock=0 [] | bm-a after-refill=0 | bm-b stock=2 ['Q-TTS-1202R', 'R-TTS1202R-VERIFY-20261031'] | bm-c stock=0 [] | bm-c after-refill=0"
   },
   "contingency": {
    "rc": 0,
-   "sec": 11.6,
-   "tail": "contingency 2026-10-31T18:18:24 | 动作 0 | 新升级 0 | 在线['bm-a', 'bm-b', 'bm-c', 'bm-m']"
+   "sec": 9.3,
+   "tail": "contingency 2026-10-31T18:21:51 | 动作 0 | 新升级 0 | 在线['bm-a', 'bm-b', 'bm-c', 'bm-m']"
   },
   "solver": {
    "rc": 0,
-   "sec": 0.1,
+   "sec": 0.0,
    "tail": "[solver] fixes=3 escalate=3"
   },
   "line_agents": {
@@ -43,8 +43,8 @@
   },
   "health": {
    "rc": 0,
-   "sec": 7.7,
-   "tail": "bm-a HB=26s ONLINE ram=49.3G gpu=79 | bm-b HB=48s ONLINE ram=4.4G gpu=None | bm-c HB=32s ONLINE ram=7.1G gpu=7 | bm-m HB=93s ONLINE ram=17.5G gpu=None | bm-m 本地"
+   "sec": 8.4,
+   "tail": "bm-a HB=16s ONLINE ram=NoneG gpu=7 | bm-b HB=15s ONLINE ram=3.3G gpu=None | bm-c HB=50s ONLINE ram=8.3G gpu=5 | bm-m HB=83s ONLINE ram=17.5G gpu=None | bm-m 本地回"
   },
   "judge": {
    "rc": 0,
@@ -69,7 +69,7 @@
   "mem": {
    "rc": 0,
    "sec": 0.0,
-   "tail": "[mem] avail=17.5GB max_model=11.5GB need=22.0GB swap=2.3GB -> DOWNGRADE"
+   "tail": "[mem] avail=17.4GB max_model=11.4GB need=22.0GB swap=2.3GB -> DOWNGRADE"
   },
   "autowork": {
    "rc": 0,
@@ -106,12 +106,12 @@
   {
    "name": "com.fluxgroup.pulse",
    "ok": true,
-   "detail": "62287\t0\tcom.fluxgroup.pulse"
+   "detail": "-\t0\tcom.fluxgroup.pulse"
   },
   {
    "name": "com.fluxgroup.dashboard",
    "ok": true,
-   "detail": "62419\t0\tcom.fluxgroup.dashboard"
+   "detail": "-\t0\tcom.fluxgroup.dashboard"
   },
   {
    "name": "com.fluxgroup.ollama",
