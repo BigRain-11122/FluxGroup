@@ -1,24 +1,24 @@
 {
- "ts": "2026-10-31T18:23:16+08:00",
+ "ts": "2026-10-31T18:25:04+08:00",
  "node": "bm-m",
- "sec": 62.4,
+ "sec": 47.9,
  "slow_ts": 1793442112.0960882,
  "git": "ok(committed-state)",
- "push": "rejected:To github.com:BigRain-11122/FluxGroup.git ! [rejected] HEAD -> main (fetch first) error: failed to push some refs to 'gi | pull=ok(committed-state)",
+ "push": "ok+3",
  "stages": {
   "hb": {
    "rc": 0,
-   "sec": 12.9,
-   "tail": "HB bm-m seq=2103 offset=2015.4ms"
+   "sec": 12.4,
+   "tail": "HB bm-m seq=2104 offset=2023.6ms"
   },
   "master": {
    "rc": 0,
-   "sec": 21.7,
+   "sec": 18.8,
    "tail": "  LINES: BLOCKED=1, PARKED=1, WAITING=11"
   },
   "lane": {
    "rc": 0,
-   "sec": 0.9,
+   "sec": 1.5,
    "tail": "LANE-IDLE bm-m :: SELF-DISPATCH: lane scans its own backlog"
   },
   "inventory": {
@@ -106,12 +106,12 @@
   {
    "name": "com.fluxgroup.pulse",
    "ok": true,
-   "detail": "63139\t0\tcom.fluxgroup.pulse"
+   "detail": "63393\t0\tcom.fluxgroup.pulse"
   },
   {
    "name": "com.fluxgroup.dashboard",
    "ok": true,
-   "detail": "-\t0\tcom.fluxgroup.dashboard"
+   "detail": "63498\t0\tcom.fluxgroup.dashboard"
   },
   {
    "name": "com.fluxgroup.ollama",
