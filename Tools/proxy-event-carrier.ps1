@@ -18,18 +18,49 @@ Set-Content -Path $hb -Value "alive $stamp" -Encoding UTF8
 function LogLine($msg) { Add-Content -Path $clog -Value "$stamp $msg" -Encoding UTF8 }
 
 # 1) collect flags from L0 + probe outputs only
+# 2026-10-31 R2.53 fix (carrier self-excite, registered R2.52): this loop used to take EVERY
+# non-# NEED-JUDGMENT line (including long registry prose) and substring-match DISPATCH-LOG
+# bodies, so an event shift's own SHIFT/ERRATUM narrative ("...STARVED-EXEC...") re-entered
+# the next round as a fresh flag. Signature therefore never repeated and the 90min
+# same-signature gate never applied; shifts kept re-diagnosing 10-28/10-29 flags.
+# Rules now: only real flag rows, and only ones younger than $flagMaxAgeH.
 $flags = @()
+$stale = 0
+$flagMaxAgeH = 6
 if (Test-Path $nj) {
     foreach ($l in (Get-Content $nj -Encoding UTF8)) {
         $t = $l.Trim()
-        if ($t -and -not $t.StartsWith('#')) { $flags += ('NJ: ' + $t) }
+        if ($t -match '^- POOL-\d+\[blocked_by') {
+            # blocked: <yyyy-MM-dd HH:mm> - a card blocked for more than a day is a
+            # registered structural/CEO-physical wait, not a fresh event.
+            $bt = [datetime]::MinValue
+            if ($t -match 'blocked:\s*(\d{4}-\d{2}-\d{2} \d{2}:\d{2})') {
+                try { $bt = [datetime]::ParseExact($matches[1], 'yyyy-MM-dd HH:mm', $null) } catch { $bt = [datetime]::MinValue }
+            }
+            if ($bt -ne [datetime]::MinValue -and ((Get-Date) - $bt).TotalHours -gt 24) { $stale++; continue }
+            $flags += ('NJ: ' + $t)
+        }
+        elseif ($t -match '^\[(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\]\[PROBE\]') {
+            # NJ probe rows are an append-only historical record; fresh alarms come from
+            # probe-current.json below. Only a probe row younger than 2h is a live signal.
+            $pt = [datetime]::MinValue
+            try { $pt = [datetime]::ParseExact($matches[1], 'yyyy-MM-dd HH:mm:ss', $null) } catch { $pt = [datetime]::MinValue }
+            if ($pt -eq [datetime]::MinValue -or ((Get-Date) - $pt).TotalHours -gt 2) { $stale++; continue }
+            $flags += ('NJ: ' + $t)
+        }
     }
 }
 if (Test-Path $dl) {
-    foreach ($l in (Get-Content $dl -Tail 30 -Encoding UTF8)) {
-        if ($l -match 'STARVED|IDLE-WITH-WORK|BLOCKED-RAM|SUPPLY-DRY|LANE-DOWN|CHASE|OFFLINE|HB-STALE|E0-RED|PROXY-SILENT-DEATH|L0-DOWN|EVENT-CARRIER-DOWN') {
-            if ($l -notmatch 'QUEUE-LOW') { $flags += ('DL: ' + $l) }
+    foreach ($l in (Get-Content $dl -Tail 80 -Encoding UTF8)) {
+        if ($l -notmatch '^\s*\[(\d{4}-\d{2}-\d{2} \d{2}:\d{2})\]\s+FLAG\b') { continue }
+        if ($l -match 'QUEUE-LOW') { continue }
+        $ft = [datetime]::MinValue
+        try { $ft = [datetime]::ParseExact($matches[1], 'yyyy-MM-dd HH:mm', $null) } catch { $ft = [datetime]::MinValue }
+        if ($ft -eq [datetime]::MinValue -or ((Get-Date) - $ft).TotalHours -gt $flagMaxAgeH) {
+            $stale++
+            continue
         }
+        $flags += ('DL: ' + $l)
     }
 }
 if (Test-Path $probeJ) {
@@ -45,7 +76,10 @@ if (Test-Path $probeJ) {
 } else {
     LogLine 'probe-current.json missing (probe never ran or first boot) - log only'
 }
-if ($flags.Count -eq 0) { exit 0 }
+if ($flags.Count -eq 0) {
+    if ($stale -gt 0) { LogLine ('no fire: {0} stale FLAG row(s) older than {1}h (already registered, not re-fired)' -f $stale, $flagMaxAgeH) }
+    exit 0
+}
 
 # 2) gates
 $lockAge = 999

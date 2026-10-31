@@ -794,3 +794,4 @@ bm-b 根仓工作树 HEAD=`4c7de09b`，该提交**在 origin 与本机全量仓�
 1. bm-b：跑一次 `powershell -NoProfile -File Tools\fleet-hot-sync.ps1`（fetch+rebase autostash，勿 hard reset）。无远程命令通道（CEO 10-23），本席不能代跑。
 2. bm-c：RAM 0.6GB / VRAM 429MB 被非机队进程占死（codex-computer-use + python），GPU 产线（POOL-0021、Q-GPU-BMC-01R、MV i2v/KF、duanju board、game-art）全部堵在这里。
 **⑧ 回访探针**：+90min 一次性 durable cron 复探本班 5 卡落地与两条幽灵状态；复发=旗升 DE 级。
+**⑪ 诚实边界**：bm-b 的 `R-TTS1202R-VERIFY` 卡与 Q-TTS-1202R 幽灵，卡在 bm-b 工作树分叉（4c7de09b local-only，poke 只 `.:updated-kept-local`），本席无远程执行通道（CEO 10-23 令）⇒ 只能登记候 bm-b 本机 hot-sync；bm-c 在渲 KN21（GPU 98%），其 RAM 门 2.3/3.0GB 与 /status 6.4G 的口径差为既有缺陷，本班不改（属 master/lane 核心面·非本席权限）。
