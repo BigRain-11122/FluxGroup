@@ -1,9 +1,9 @@
 {
- "ts": "2026-10-31T19:47:32",
- "cycle": 96,
+ "ts": "2026-10-31T19:49:29",
+ "cycle": 97,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-10-31T19:47:32",
+ "master_tick_ts": "2026-10-31T19:49:29",
  "queue": {
   "total": 52,
   "open": 1,
@@ -19,22 +19,16 @@
    "ram_free_gb": null,
    "gpu_util_pct": null,
    "job": null,
-   "last_result": {
-    "job": null,
-    "state": "IDLE",
-    "rc": null,
-    "ts": "2026-10-31T19:46:48",
-    "reason": "SELF-DISPATCH: lane scans its own backlog"
-   },
-   "idle_confirmed": true,
+   "last_result": null,
+   "idle_confirmed": false,
    "idle_reason": "CAPACITY-BLOCKED-RAM OFFLINE (hb age Nones)",
-   "idle_rounds": 32
+   "idle_rounds": 0
   },
   "bm-b": {
-   "online": true,
-   "hb_age_s": 22.6,
-   "cpu_load_pct": 14,
-   "ram_free_gb": 5.3,
+   "online": false,
+   "hb_age_s": null,
+   "cpu_load_pct": null,
+   "ram_free_gb": null,
    "gpu_util_pct": null,
    "job": "Q-TTS-1202R",
    "last_result": null,
@@ -43,28 +37,22 @@
    "idle_rounds": 0
   },
   "bm-c": {
-   "online": true,
-   "hb_age_s": 65.0,
-   "cpu_load_pct": 54,
-   "ram_free_gb": 10.8,
-   "gpu_util_pct": 4,
+   "online": false,
+   "hb_age_s": null,
+   "cpu_load_pct": null,
+   "ram_free_gb": null,
+   "gpu_util_pct": null,
    "job": null,
-   "last_result": {
-    "job": null,
-    "state": "IDLE",
-    "rc": null,
-    "ts": "2026-10-31T19:44:49",
-    "reason": "SELF-DISPATCH: lane scans its own backlog"
-   },
-   "idle_confirmed": true,
-   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 63
+   "last_result": null,
+   "idle_confirmed": false,
+   "idle_reason": "CAPACITY-BLOCKED-RAM OFFLINE (hb age Nones)",
+   "idle_rounds": 0
   }
  },
  "idle_rounds": {
-  "bm-a": 32,
+  "bm-a": 0,
   "bm-b": 0,
-  "bm-c": 63
+  "bm-c": 0
  },
  "lines": {
   "bigstream-mv": {
@@ -700,9 +688,12 @@
  "events": [],
  "violations": [
   "bm-a OFFLINE",
-  "bm-c IDLE-CONFIRMED x63 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-b OFFLINE",
+  "bm-c OFFLINE",
   "STAGE-STALLED bigstream-mv 卡在 剪辑/装配/剪辑席 (导演席（CEO 终审）)",
   "LINE-BLOCKED bigstream-drama ()"
  ],
- "lane_files_written": []
+ "lane_files_written": [
+  "bm-c"
+ ]
 }
