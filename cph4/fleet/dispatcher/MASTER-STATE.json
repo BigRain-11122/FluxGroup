@@ -1,9 +1,9 @@
 {
- "ts": "2026-10-31T22:11:36",
- "cycle": 176,
+ "ts": "2026-10-31T22:13:18",
+ "cycle": 177,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-10-31T22:11:36",
+ "master_tick_ts": "2026-10-31T22:13:18",
  "queue": {
   "total": 52,
   "open": 1,
@@ -14,27 +14,27 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 6.6,
-   "cpu_load_pct": 60,
-   "ram_free_gb": 50,
-   "gpu_util_pct": 68,
+   "hb_age_s": 54.3,
+   "cpu_load_pct": 71,
+   "ram_free_gb": 49.8,
+   "gpu_util_pct": 66,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-10-31T22:06:48",
+    "ts": "2026-10-31T22:11:48",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 31
+   "idle_rounds": 32
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 22.3,
-   "cpu_load_pct": 17,
-   "ram_free_gb": 9.1,
+   "hb_age_s": 66.2,
+   "cpu_load_pct": 14,
+   "ram_free_gb": 9,
    "gpu_util_pct": null,
    "job": "Q-TTS-1202R",
    "last_result": null,
@@ -44,10 +44,10 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 6.8,
-   "cpu_load_pct": 81,
-   "ram_free_gb": 3.3,
-   "gpu_util_pct": 100,
+   "hb_age_s": 55.8,
+   "cpu_load_pct": 55,
+   "ram_free_gb": 1.8,
+   "gpu_util_pct": 4,
    "job": null,
    "last_result": {
     "job": null,
@@ -57,33 +57,14 @@
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
-   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 76
-  },
-  "bm-m": {
-   "online": true,
-   "hb_age_s": 1.3,
-   "cpu_load_pct": null,
-   "ram_free_gb": 17.9,
-   "gpu_util_pct": null,
-   "job": null,
-   "last_result": {
-    "job": null,
-    "state": "IDLE",
-    "rc": null,
-    "ts": "2026-10-31T22:09:50",
-    "reason": "SELF-DISPATCH: lane scans its own backlog"
-   },
-   "idle_confirmed": true,
-   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 21
+   "idle_reason": "CAPACITY-BLOCKED-RAM ram 1.8/3.0 GB",
+   "idle_rounds": 77
   }
  },
  "idle_rounds": {
-  "bm-a": 31,
+  "bm-a": 32,
   "bm-b": 0,
-  "bm-c": 76,
-  "bm-m": 21
+  "bm-c": 77
  },
  "lines": {
   "bigstream-mv": {
@@ -697,9 +678,11 @@
   }
  },
  "judgments": {
-  "open": 0,
-  "by_kind": {},
-  "added": 0,
+  "open": 1,
+  "by_kind": {
+   "CAPACITY": 1
+  },
+  "added": 1,
   "tick_tier": "none",
   "judgment_tier": "cloud-smart"
  },
@@ -718,11 +701,12 @@
  "supply_added": [],
  "events": [],
  "violations": [
-  "bm-a IDLE-CONFIRMED x31 (SELF-DISPATCH: lane scans its own backlo)",
-  "bm-c IDLE-CONFIRMED x76 (SELF-DISPATCH: lane scans its own backlo)",
-  "bm-m IDLE-CONFIRMED x21 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-a IDLE-CONFIRMED x32 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-c IDLE-CONFIRMED x77 (CAPACITY-BLOCKED-RAM ram 1.8/3.0 GB)",
   "STAGE-STALLED bigstream-mv 卡在 剪辑/装配/剪辑席 (导演席（CEO 终审）)",
   "LINE-BLOCKED bigstream-drama ()"
  ],
- "lane_files_written": []
+ "lane_files_written": [
+  "bm-c"
+ ]
 }
