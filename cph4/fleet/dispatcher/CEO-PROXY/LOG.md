@@ -871,3 +871,15 @@ if prev_by and prev_by != owner_node:
 ### 六、待裁（承 R2.54·本班细化）
 - **粘滞锁存缺陷**：判据把「上一轮由本机写 tick」当作「真主控仍暗」，而该状态正由自己制造 ⇒ 锁存。正法候选：①仅用 `age > fallback_stale_s` 判 stale，删掉 `prev_by != owner_node` 分支；②或增 `last_real_master_ts` 字段，只由真主控刷新。属 `master_agent.py` 受保护面，候 CEO 令。
 - **L0 探针谓词**：`DISPATCH-LOG age>3h` 与班表 4h 级间隙天然冲突，建议改测 `MASTER-TICK` 新鲜度、DISPATCH-LOG 降二级。同属受保护件。
+
+### 七、验收（BURNING·3 分钟复探 + 两轮节拍实证）
+
+- HQ-Steward 收口后连续两轮实跑：`20:46:47` / `20:51:47`（PT5M 节拍，`LastTaskResult=0`）——**均未产提交、未写 MASTER-TICK**。
+- 盘上 `MASTER-TICK` 保持 `bm-m / masquerade=false / ts 20:41:55→20:45:21`（由 bm-m 脉冲刷新，本机不再覆盖）⇒ **standby 生效，只读不写**。
+- 本地 `HEAD=26375446` 已在 `origin/main`（0 ahead / 0 behind）；台账四件 append-only（48 insertions / 0 deletions）已上链。
+- 零 poke 正确（无 lane down）。**残余风险**：代码级粘滞锁存未修（受保护件）；只要 origin 端卡滞或本机再次脱离 main，锁存仍会复发 → 由 +90min 回访探针 `af67937d` 复核。
+
+### 八、顺带清理
+
+- 清掉 4 个已过期的一次性 cron 残留（`5affeaaa` 18:10 / `83cfb8e5` 19:03 / `64b60a83` 15:45 / `fd0895b8` 16:37），避免明年同日误触发。
+- 8 班表 cron 在位：`c7229ba7`（ROUND v3.1 事件班）+ `2d82e62c`（例行巡班）；二者同点同频属历史双注册，非本班新增，登记不改。
