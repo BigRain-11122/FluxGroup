@@ -1,40 +1,40 @@
 {
- "ts": "2026-10-31T17:43:57",
- "cycle": 26,
+ "ts": "2026-10-31T17:45:41",
+ "cycle": 27,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-10-31T17:43:57",
+ "master_tick_ts": "2026-10-31T17:45:41",
  "queue": {
   "total": 52,
   "open": 1,
-  "running": 2,
-  "done": 44,
+  "running": 1,
+  "done": 45,
   "failed": 5
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 27.5,
-   "cpu_load_pct": 45,
-   "ram_free_gb": 55.2,
-   "gpu_util_pct": 2,
+   "hb_age_s": 9.8,
+   "cpu_load_pct": 73,
+   "ram_free_gb": 54.9,
+   "gpu_util_pct": 73,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-10-31T17:40:05",
+    "ts": "2026-10-31T17:45:05",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 24
+   "idle_rounds": 25
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 49.9,
-   "cpu_load_pct": 27,
-   "ram_free_gb": 7.2,
+   "hb_age_s": 31.2,
+   "cpu_load_pct": 3,
+   "ram_free_gb": 6.8,
    "gpu_util_pct": null,
    "job": "Q-TTS-1202R",
    "last_result": null,
@@ -44,25 +44,25 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 26.7,
-   "cpu_load_pct": 22,
-   "ram_free_gb": 10,
-   "gpu_util_pct": 4,
-   "job": "Q-GPU-BMC-01R",
+   "hb_age_s": 10.0,
+   "cpu_load_pct": 26,
+   "ram_free_gb": 10.4,
+   "gpu_util_pct": 5,
+   "job": null,
    "last_result": {
-    "job": null,
-    "state": "IDLE",
-    "rc": null,
-    "ts": "2026-10-31T17:43:24",
-    "reason": "SELF-DISPATCH: lane scans its own backlog"
+    "job": "Q-GPU-BMC-01R",
+    "state": "DONE",
+    "rc": 2,
+    "ts": "2026-10-31T17:44:48",
+    "reason": null
    },
    "idle_confirmed": false,
-   "idle_reason": "",
+   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
    "idle_rounds": 0
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 1.3,
+   "hb_age_s": 1.4,
    "cpu_load_pct": null,
    "ram_free_gb": 17.5,
    "gpu_util_pct": null,
@@ -71,19 +71,19 @@
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-10-31T17:42:04",
+    "ts": "2026-10-31T17:44:02",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 23
+   "idle_rounds": 24
   }
  },
  "idle_rounds": {
-  "bm-a": 24,
+  "bm-a": 25,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 23
+  "bm-m": 24
  },
  "lines": {
   "bigstream-mv": {
@@ -704,11 +704,15 @@
   "gpu": 0
  },
  "supply_added": [],
- "events": [],
+ "events": [
+  "Q-GPU-BMC-01R DONE via bm-c"
+ ],
  "violations": [
-  "bm-a IDLE-CONFIRMED x24 (SELF-DISPATCH: lane scans its own backlo)",
-  "bm-m IDLE-CONFIRMED x23 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-a IDLE-CONFIRMED x25 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-m IDLE-CONFIRMED x24 (SELF-DISPATCH: lane scans its own backlo)",
   "LINE-BLOCKED bigstream-drama ()"
  ],
- "lane_files_written": []
+ "lane_files_written": [
+  "bm-c"
+ ]
 }

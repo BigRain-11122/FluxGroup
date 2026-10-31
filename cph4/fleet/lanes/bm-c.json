@@ -1,23 +1,8 @@
 {
  "node": "bm-c",
- "ts": "2026-10-31T17:42:04",
- "jobs": [
-  {
-   "id": "Q-GPU-BMC-01R",
-   "title": "传家宝 GPU 租约重试（前卡 5 次租约到期零回执）",
-   "cmd": "python Tools/fleet/gpu_lease.py --node bm-c --acquire --need-mb 12000",
-   "cwd": "K:/Fluxgroup/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "K:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/bm-c-gpu-lease-receipt.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  }
- ],
- "idle_reason": "",
+ "ts": "2026-10-31T17:45:41",
+ "jobs": [],
+ "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
  "lane_ok": true,
- "capacity_note": "ram-unknown"
+ "capacity_note": "ram 10.4/3.0 GB"
 }
