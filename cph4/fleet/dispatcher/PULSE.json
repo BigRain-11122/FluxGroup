@@ -1,19 +1,19 @@
 {
- "ts": "2026-10-31T17:47:40+08:00",
+ "ts": "2026-10-31T17:49:42+08:00",
  "node": "bm-m",
- "sec": 53.3,
- "slow_ts": 1793439739.309331,
- "git": "failed:From github.com:BigRain-11122/FluxGroup * branch main -> FETCH_HEAD 855a9094..a6ff478c main -> origin/main Rebasi",
- "push": "rejected:To github.com:BigRain-11122/FluxGroup.git ! [rejected] HEAD -> main (non-fast-forward) error: failed to push some refs t | pull=failed:From github.com:BigRain-11122/FluxGroup * branch main -> FETCH_HEAD Rebasing (1/2) error: could not apply c8202205... pu",
+ "sec": 62.0,
+ "slow_ts": 1793440182.139594,
+ "git": "failed:From github.com:BigRain-11122/FluxGroup * branch main -> FETCH_HEAD a6ff478c..a134a3c6 main -> origin/main Rebasi",
+ "push": "rejected:To github.com:BigRain-11122/FluxGroup.git ! [rejected] HEAD -> main (non-fast-forward) error: failed to push some refs t | pull=failed:From github.com:BigRain-11122/FluxGroup * branch main -> FETCH_HEAD Rebasing (1/4) error: could not apply c8202205... pu",
  "stages": {
   "hb": {
    "rc": 0,
-   "sec": 12.4,
-   "tail": "HB bm-m seq=2082 offset=2021.7ms"
+   "sec": 12.1,
+   "tail": "HB bm-m seq=2083 offset=2025.2ms"
   },
   "master": {
    "rc": 0,
-   "sec": 19.4,
+   "sec": 20.8,
    "tail": "  LINES: BLOCKED=1, PARKED=1, WAITING=11"
   },
   "lane": {
@@ -22,69 +22,69 @@
    "tail": "LANE-IDLE bm-m :: SELF-DISPATCH: lane scans its own backlog"
   },
   "inventory": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 1,
+   "sec": 0.1,
+   "tail": "[2026-10-31T17:49:23] bm-a stock=0 [] | bm-a after-refill=0 | bm-b stock=2 ['Q-TTS-1202R', 'R-TTS1202R-VERIFY-20261031'] | bm-c stock=0 [] | bm-c after-refill=0"
   },
   "contingency": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 0,
+   "sec": 9.2,
+   "tail": "contingency 2026-10-31T17:49:33 | 动作 0 | 新升级 0 | 在线['bm-a', 'bm-b', 'bm-c', 'bm-m']"
   },
   "solver": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 0,
+   "sec": 0.1,
+   "tail": "[solver] fixes=2 escalate=5"
   },
   "line_agents": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 0,
+   "sec": 0.0,
+   "tail": "[line_agents] armed=0 no_data=22"
   },
   "health": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 0,
+   "sec": 10.4,
+   "tail": "bm-a HB=37s ONLINE ram=55.3G gpu=71 | bm-b HB=-0s ONLINE ram=5.2G gpu=None | bm-c HB=-0s ONLINE ram=NoneG gpu=7 | bm-m HB=103s ONLINE ram=17.5G gpu=None | bm-m "
   },
   "judge": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 0,
+   "sec": 0.0,
+   "tail": "[local_judge] answered=0 still_open=0 (tier: local→shared→codely)"
   },
   "brain": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 0,
+   "sec": 0.0,
+   "tail": "[brain] all 6 lines served today"
   },
   "social": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 0,
+   "sec": 0.1,
+   "tail": "[social] new=0 pending=5 escalate=4 -> /Users/junsheng.sun/FluxGroup/cph4/fleet/social/DIGEST.md"
   },
   "biz": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 1,
+   "sec": 0.1,
+   "tail": "[biz] duanju-ep1   ROUTED                      -s"
   },
   "mem": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 0,
+   "sec": 0.0,
+   "tail": "[mem] avail=17.5GB max_model=11.5GB need=22.0GB swap=2.3GB -> DOWNGRADE"
   },
   "autowork": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 0,
+   "sec": 0.0,
+   "tail": "[autowork] nothing due"
   },
   "deadline": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 0,
+   "sec": 0.0,
+   "tail": "[deadline] late=7 no_data=7 align_missing=0"
   },
   "supervisor": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
+   "rc": 0,
+   "sec": 0.0,
+   "tail": "[supervisor] online=4/4 actions=4"
   }
  },
  "checks": [
@@ -106,12 +106,12 @@
   {
    "name": "com.fluxgroup.pulse",
    "ok": true,
-   "detail": "57998\t0\tcom.fluxgroup.pulse"
+   "detail": "58239\t0\tcom.fluxgroup.pulse"
   },
   {
    "name": "com.fluxgroup.dashboard",
    "ok": true,
-   "detail": "58106\t0\tcom.fluxgroup.dashboard"
+   "detail": "58387\t0\tcom.fluxgroup.dashboard"
   },
   {
    "name": "com.fluxgroup.ollama",
@@ -119,7 +119,10 @@
    "detail": "56171\t0\tcom.fluxgroup.ollama"
   }
  ],
- "alerts": [],
+ "alerts": [
+  "inventory:TS-1202R', 'R-TTS1202R-VERIFY-20261031'] | bm-c stock=0 [] | bm-c after-refill=0",
+  "biz:[biz] duanju-ep1   ROUTED                      -s"
+ ],
  "blockers": [],
  "ok": true
 }
