@@ -1,24 +1,24 @@
 {
- "ts": "2026-10-31T17:51:36+08:00",
+ "ts": "2026-10-31T17:53:21+08:00",
  "node": "bm-m",
- "sec": 53.7,
+ "sec": 45.3,
  "slow_ts": 1793440182.139594,
- "git": "failed:From github.com:BigRain-11122/FluxGroup * branch main -> FETCH_HEAD a134a3c6..cddd1a80 main -> origin/main Rebasi",
- "push": "rejected:To github.com:BigRain-11122/FluxGroup.git ! [rejected] HEAD -> main (non-fast-forward) error: failed to push some refs t | pull=failed:From github.com:BigRain-11122/FluxGroup * branch main -> FETCH_HEAD Rebasing (1/6) error: could not apply c8202205... pu",
+ "git": "failed:From github.com:BigRain-11122/FluxGroup * branch main -> FETCH_HEAD Rebasing (1/7) error: could not apply c820220",
+ "push": "rejected:To github.com:BigRain-11122/FluxGroup.git ! [rejected] HEAD -> main (non-fast-forward) error: failed to push some refs t | pull=failed:From github.com:BigRain-11122/FluxGroup * branch main -> FETCH_HEAD Rebasing (1/8) error: could not apply c8202205... pu",
  "stages": {
   "hb": {
    "rc": 0,
-   "sec": 10.7,
-   "tail": "HB bm-m seq=2084 offset=1989.6ms"
+   "sec": 11.4,
+   "tail": "HB bm-m seq=2085 offset=1977.5ms"
   },
   "master": {
    "rc": 0,
-   "sec": 21.4,
+   "sec": 19.4,
    "tail": "  LINES: BLOCKED=1, PARKED=1, WAITING=11"
   },
   "lane": {
    "rc": 0,
-   "sec": 0.9,
+   "sec": 1.4,
    "tail": "LANE-IDLE bm-m :: SELF-DISPATCH: lane scans its own backlog"
   },
   "inventory": {
@@ -106,7 +106,7 @@
   {
    "name": "com.fluxgroup.pulse",
    "ok": true,
-   "detail": "58570\t0\tcom.fluxgroup.pulse"
+   "detail": "58791\t0\tcom.fluxgroup.pulse"
   },
   {
    "name": "com.fluxgroup.dashboard",
