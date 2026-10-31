@@ -1,8 +1,16 @@
 {
  "node": "bm-a",
+<<<<<<< HEAD
  "ts": "2026-10-31T14:13:04",
  "jobs": [],
  "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
  "lane_ok": true,
  "capacity_note": "ram 19.3/3.0 GB"
+=======
+ "ts": "2026-10-31T14:11:50",
+ "jobs": [],
+ "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+ "lane_ok": true,
+ "capacity_note": "ram 15.2/3.0 GB"
+>>>>>>> 8d72eaea (pulse: state snapshot [via bm-m])
 }

@@ -1,40 +1,40 @@
 {
- "ts": "2026-10-31T14:10:16+08:00",
+ "ts": "2026-10-31T15:39:58+08:00",
  "node": "bm-m",
- "sec": 63.7,
- "slow_ts": 1793427016.703069,
- "git": "ok(committed-state)",
- "push": "ok+1(after-rebase)",
+ "sec": 303.4,
+ "slow_ts": 1793432398.041491,
+ "git": "failed:ssh: connect to host ssh.github.com port 443: Operation timed out fatal: Could not read from remote repository. P",
+ "push": "up-to-date",
  "stages": {
   "hb": {
-   "rc": 0,
-   "sec": 11.2,
-   "tail": "HB bm-m seq=1992 offset=1661.7ms"
+   "rc": 1,
+   "sec": 20.1,
+   "tail": "HB-FAIL timed out"
   },
   "master": {
    "rc": 0,
-   "sec": 19.0,
+   "sec": 174.6,
    "tail": "  LINES: BLOCKED=1, PARKED=1, WAITING=10, WORKING=1"
   },
   "lane": {
    "rc": 0,
-   "sec": 0.9,
+   "sec": 3.1,
    "tail": "LANE-IDLE bm-m :: SELF-DISPATCH: lane scans its own backlog"
   },
   "inventory": {
    "rc": 1,
    "sec": 0.1,
-   "tail": "[2026-10-31T14:09:48] bm-a stock=1 ['R-MV-GATE-1D'] | bm-a after-refill=1 | bm-b stock=0 [] | bm-b after-refill=0 | bm-c stock=0 [] | bm-c after-refill=0  !! bm"
+   "tail": "[2026-10-31T15:39:27] bm-a stock=0 [] | bm-a after-refill=0 | bm-b stock=1 ['Q-TTS-1202R'] | bm-b after-refill=1 | bm-c stock=1 ['Q-GPU-BMC-01R'] | bm-c after-r"
   },
   "contingency": {
    "rc": 0,
-   "sec": 8.0,
-   "tail": "contingency 2026-10-31T14:09:56 | 动作 0 | 新升级 0 | 在线['bm-a', 'bm-b', 'bm-c', 'bm-m']"
+   "sec": 30.1,
+   "tail": "contingency 2026-10-31T15:39:57 | 动作 1 | 新升级 1 | 在线[] | S4 NATS 4222 不可达 -> bm-m 转本地模式"
   },
   "solver": {
    "rc": 0,
    "sec": 0.1,
-   "tail": "[solver] fixes=2 escalate=5"
+   "tail": "[solver] fixes=0 escalate=5"
   },
   "line_agents": {
    "rc": 0,
@@ -43,13 +43,13 @@
   },
   "health": {
    "rc": 0,
-   "sec": 8.0,
-   "tail": "bm-a HB=2s ONLINE ram=18.3G gpu=98 | bm-b HB=19s ONLINE ram=NoneG gpu=1 | bm-c HB=8s ONLINE ram=0.9G gpu=100 | bm-m HB=91s ONLINE ram=18.1G gpu=None | bm-m 本地回执"
+   "sec": 12.1,
+   "tail": "bm-a HB=dead | bm-b HB=dead | bm-c HB=dead | bm-m HB=dead | bm-m 本地回执= 90 件（较上轮 +1） | 队列 {'DONE': 44, 'FAILED': 5, 'RUNNING': 1}"
   },
   "judge": {
    "rc": 0,
-   "sec": 2.0,
-   "tail": "[local_judge] answered=1 still_open=0 (tier: local→shared→codely)"
+   "sec": 0.0,
+   "tail": "[local_judge] answered=0 still_open=0 (tier: local→shared→codely)"
   },
   "brain": {
    "rc": 0,
@@ -69,7 +69,7 @@
   "mem": {
    "rc": 0,
    "sec": 0.0,
-   "tail": "[mem] avail=17.9GB max_model=11.9GB need=22.0GB swap=2.4GB -> DOWNGRADE"
+   "tail": "[mem] avail=17.8GB max_model=11.8GB need=22.0GB swap=2.3GB -> DOWNGRADE"
   },
   "autowork": {
    "rc": 0,
@@ -79,12 +79,12 @@
   "deadline": {
    "rc": 0,
    "sec": 0.0,
-   "tail": "[deadline] late=7 no_data=7 align_missing=0"
+   "tail": "[deadline] late=4 no_data=12 align_missing=0"
   },
   "supervisor": {
    "rc": 0,
    "sec": 0.0,
-   "tail": "[supervisor] online=4/4 actions=3"
+   "tail": "[supervisor] online=0/3 actions=4"
   }
  },
  "checks": [
@@ -106,7 +106,7 @@
   {
    "name": "com.fluxgroup.pulse",
    "ok": true,
-   "detail": "34158\t0\tcom.fluxgroup.pulse"
+   "detail": "44774\t0\tcom.fluxgroup.pulse"
   },
   {
    "name": "com.fluxgroup.dashboard",
@@ -120,9 +120,11 @@
   }
  ],
  "alerts": [
-  "inventory: stock=0 [] | bm-b after-refill=0 | bm-c stock=0 [] | bm-c after-refill=0  !! bm",
+  "inventory:TS-1202R'] | bm-b after-refill=1 | bm-c stock=1 ['Q-GPU-BMC-01R'] | bm-c after-r",
   "biz:[biz] duanju-ep1   ROUTED                      -s"
  ],
- "blockers": [],
- "ok": true
+ "blockers": [
+  "stage:hb"
+ ],
+ "ok": false
 }

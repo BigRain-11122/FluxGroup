@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
  "ts": "2026-10-31T14:44:31",
  "cycle": 2163,
  "master_node": "bm-m",
@@ -8,16 +9,52 @@
   "total": 51,
   "open": 1,
   "running": 1,
+=======
+ "ts": "2026-10-31T14:11:50",
+ "cycle": 2159,
+ "master_node": "bm-m",
+ "masquerade_by": null,
+ "master_tick_ts": "2026-10-31T14:11:50",
+ "queue": {
+  "total": 50,
+  "open": 0,
+  "running": 0,
+>>>>>>> 8d72eaea (pulse: state snapshot [via bm-m])
   "done": 44,
-  "failed": 5
+  "failed": 6
  },
  "lanes": {
   "bm-a": {
    "online": true,
+<<<<<<< HEAD
    "hb_age_s": 18.3,
    "cpu_load_pct": 42,
    "ram_free_gb": 19.3,
    "gpu_util_pct": 99,
+=======
+   "hb_age_s": 21.5,
+   "cpu_load_pct": 88,
+   "ram_free_gb": 15.2,
+   "gpu_util_pct": 98,
+   "job": null,
+   "last_result": {
+    "job": "R-MV-GATE-1D",
+    "state": "FAILED",
+    "rc": 1,
+    "ts": "2026-10-31T14:11:46",
+    "reason": null
+   },
+   "idle_confirmed": false,
+   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+   "idle_rounds": 0
+  },
+  "bm-b": {
+   "online": true,
+   "hb_age_s": 43.9,
+   "cpu_load_pct": 10,
+   "ram_free_gb": 10.6,
+   "gpu_util_pct": null,
+>>>>>>> 8d72eaea (pulse: state snapshot [via bm-m])
    "job": null,
    "last_result": {
     "job": null,
@@ -28,6 +65,7 @@
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+<<<<<<< HEAD
    "idle_rounds": 3
   },
   "bm-b": {
@@ -48,11 +86,22 @@
    "cpu_load_pct": 72,
    "ram_free_gb": 1.6,
    "gpu_util_pct": 2,
+=======
+   "idle_rounds": 9
+  },
+  "bm-c": {
+   "online": true,
+   "hb_age_s": 26.1,
+   "cpu_load_pct": 35,
+   "ram_free_gb": 1,
+   "gpu_util_pct": 100,
+>>>>>>> 8d72eaea (pulse: state snapshot [via bm-m])
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
+<<<<<<< HEAD
     "ts": "2026-10-31T14:40:11",
     "reason": "CAPACITY-BLOCKED-RAM ram 2.3/3.0 GB"
    },
@@ -65,17 +114,36 @@
    "hb_age_s": 42.6,
    "cpu_load_pct": null,
    "ram_free_gb": 16.2,
+=======
+    "ts": "2026-10-31T14:10:10",
+    "reason": "CAPACITY-BLOCKED-RAM ram 1.3/3.0 GB"
+   },
+   "idle_confirmed": true,
+   "idle_reason": "CAPACITY-BLOCKED-RAM ram 1.0/3.0 GB",
+   "idle_rounds": 1
+  },
+  "bm-m": {
+   "online": true,
+   "hb_age_s": 2.3,
+   "cpu_load_pct": null,
+   "ram_free_gb": 16.4,
+>>>>>>> 8d72eaea (pulse: state snapshot [via bm-m])
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
+<<<<<<< HEAD
     "ts": "2026-10-31T14:44:07",
+=======
+    "ts": "2026-10-31T14:09:47",
+>>>>>>> 8d72eaea (pulse: state snapshot [via bm-m])
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+<<<<<<< HEAD
    "idle_rounds": 12
   }
  },
@@ -84,12 +152,26 @@
   "bm-b": 0,
   "bm-c": 5,
   "bm-m": 12
+=======
+   "idle_rounds": 8
+  }
+ },
+ "idle_rounds": {
+  "bm-a": 0,
+  "bm-b": 9,
+  "bm-c": 1,
+  "bm-m": 8
+>>>>>>> 8d72eaea (pulse: state snapshot [via bm-m])
  },
  "lines": {
   "bigstream-mv": {
    "name": "BigStream·MV 41 曲",
    "status": "ACTIVE",
+<<<<<<< HEAD
    "verdict": "STALLED-STAGE",
+=======
+   "verdict": "WAITING",
+>>>>>>> 8d72eaea (pulse: state snapshot [via bm-m])
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "导演席（CEO 终审）",
@@ -777,8 +859,11 @@
   "gpu": 0
  },
  "supply_added": [],
- "events": [],
+ "events": [
+  "R-MV-GATE-1D FAILED via bm-a"
+ ],
  "violations": [
+<<<<<<< HEAD
   "bm-a IDLE-CONFIRMED x3 (SELF-DISPATCH: lane scans its own backlo)",
   "bm-c IDLE-CONFIRMED x5 (CAPACITY-BLOCKED-RAM ram 1.6/3.0 GB)",
   "bm-m IDLE-CONFIRMED x12 (SELF-DISPATCH: lane scans its own backlo)",
@@ -790,8 +875,15 @@
   "LINE-STALE bighouse 319.4h>72.0h (生态运营席)",
   "STAGE-STALLED car-gaming 卡在 市场/立项/车机 BU (车机 BU)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
+=======
+  "bm-b IDLE-CONFIRMED x9 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-c CAPACITY-BLOCKED-RAM",
+  "bm-m IDLE-CONFIRMED x8 (SELF-DISPATCH: lane scans its own backlo)",
+  "LINE-BLOCKED bigstream-drama ()"
+>>>>>>> 8d72eaea (pulse: state snapshot [via bm-m])
  ],
  "lane_files_written": [
+  "bm-a",
   "bm-c"
  ]
 }
