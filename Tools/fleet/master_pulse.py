@@ -309,13 +309,21 @@ def main() -> int:
     serial = [s for s in STAGES if not s[4]]
     slow_serial = [s for s in STAGES if s[4] and s[0] in SLOW_SERIAL]
     parallel = [s for s in STAGES if s[4] and s[0] not in SLOW_SERIAL]
-    pool = ThreadPoolExecutor(max_workers=6)
+    # Two pools by resource, not by "more workers = faster":
+    #   MODEL_STAGES share Ollama's 3 slots; giving them 6 threads only queues work.
+    #   IO stages are pure python (files/git) and are cheap to run wide.
+    MODEL_STAGES = {"judge", "brain", "social", "biz", "autowork"}
+    pool_model = ThreadPoolExecutor(max_workers=3)
+    pool_io = ThreadPoolExecutor(max_workers=8)
+    pool = pool_model
     futs = {}
     if slow_due:
         # Start the read-mostly/model-bound batch BEFORE the dispatch trio: they do not read
         # queue state, so waiting for hb+master first would just serialise the whole cycle.
-        futs = {name: pool.submit(run_stage, argv, timeout_s)
-                for name, argv, timeout_s, _, _ in parallel}
+        futs = {}
+        for name, argv, timeout_s, _, _ in parallel:
+            target = pool_model if name in MODEL_STAGES else pool_io
+            futs[name] = target.submit(run_stage, argv, timeout_s)
 
     for name, argv, timeout_s, ok_rc, _ in serial:
         rc, sec, tail = run_stage(argv, timeout_s)
@@ -328,9 +336,11 @@ def main() -> int:
         for name, _argv, _t, ok_rc, _ in parallel:
             rc, sec, tail = futs[name].result()
             record(name, rc, sec, tail, ok_rc)
-        pool.shutdown()
+        pool_model.shutdown()
+        pool_io.shutdown()
     else:
-        pool.shutdown()
+        pool_model.shutdown()
+        pool_io.shutdown()
         for name, _argv, _t, _ok, _ in slow_serial + parallel:
             stages[name] = {"rc": None, "sec": 0,
                             "tail": "deferred (runs every %ds)" % SLOW_EVERY}
