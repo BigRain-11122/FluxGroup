@@ -1,23 +1,8 @@
 {
  "node": "bm-c",
- "ts": "2026-11-01T00:50:33",
- "jobs": [
-  {
-   "id": "Q-TRIAGE-BIGGAME-20261101",
-   "title": "biggame 线级体检（本机证据目录实况）",
-   "cmd": "python Tools/fleet/line_triage.py --line biggame",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-biggame-20261101.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  }
- ],
- "idle_reason": "",
+ "ts": "2026-11-01T00:55:49",
+ "jobs": [],
+ "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
  "lane_ok": true,
- "capacity_note": "ram 3.0/3.0 GB"
+ "capacity_note": "ram 9.9/3.0 GB"
 }
