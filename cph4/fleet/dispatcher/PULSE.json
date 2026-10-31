@@ -1,39 +1,39 @@
 {
- "ts": "2026-10-31T18:28:40+08:00",
+ "ts": "2026-10-31T18:31:27+08:00",
  "node": "bm-m",
- "sec": 52.5,
- "slow_ts": 1793442520.144879,
- "git": "ok(committed-state)",
- "push": "ok+1",
+ "sec": 42.7,
+ "slow_ts": 1793442687.664052,
+ "git": "skipped:dirty(hand-edit Tools/fleet/master_pulse.py)",
+ "push": "up-to-date",
  "stages": {
   "hb": {
    "rc": 0,
-   "sec": 11.8,
-   "tail": "HB bm-m seq=2106 offset=2025.2ms"
+   "sec": 13.2,
+   "tail": "HB bm-m seq=2108 offset=2082.7ms"
   },
   "master": {
    "rc": 0,
-   "sec": 21.3,
+   "sec": 19.0,
    "tail": "  LINES: BLOCKED=1, PARKED=1, WAITING=11"
   },
   "lane": {
    "rc": 0,
-   "sec": 0.9,
+   "sec": 1.6,
    "tail": "LANE-IDLE bm-m :: SELF-DISPATCH: lane scans its own backlog"
   },
   "inventory": {
    "rc": 1,
    "sec": 0.1,
-   "tail": "[2026-10-31T18:28:27] bm-a stock=0 [] | bm-a after-refill=0 | bm-b stock=2 ['Q-TTS-1202R', 'R-TTS1202R-VERIFY-20261031'] | bm-c stock=0 [] | bm-c after-refill=0"
+   "tail": "[2026-10-31T18:31:18] bm-a stock=0 [] | bm-a after-refill=0 | bm-b stock=2 ['Q-TTS-1202R', 'R-TTS1202R-VERIFY-20261031'] | bm-c stock=0 [] | bm-c after-refill=0"
   },
   "contingency": {
    "rc": 0,
-   "sec": 8.0,
-   "tail": "contingency 2026-10-31T18:28:35 | 动作 0 | 新升级 1 | 在线['bm-a', 'bm-b', 'bm-c', 'bm-m']"
+   "sec": 8.5,
+   "tail": "contingency 2026-10-31T18:31:27 | 动作 0 | 新升级 0 | 在线['bm-a', 'bm-b', 'bm-c', 'bm-m']"
   },
   "solver": {
    "rc": 0,
-   "sec": 0.1,
+   "sec": 0.0,
    "tail": "[solver] fixes=2 escalate=3"
   },
   "line_agents": {
@@ -43,8 +43,8 @@
   },
   "health": {
    "rc": 0,
-   "sec": 7.9,
-   "tail": "bm-a HB=40s ONLINE ram=48.5G gpu=1 | bm-b HB=2s ONLINE ram=5.7G gpu=None | bm-c HB=46s ONLINE ram=10.4G gpu=4 | bm-m HB=94s ONLINE ram=17.4G gpu=None | bm-m 本地回"
+   "sec": 8.8,
+   "tail": "bm-a HB=32s ONLINE ram=49.2G gpu=4 | bm-b HB=53s ONLINE ram=5.6G gpu=None | bm-c HB=37s ONLINE ram=11.4G gpu=3 | bm-m HB=46s ONLINE ram=17.8G gpu=None | bm-m 本地"
   },
   "judge": {
    "rc": 0,
@@ -84,7 +84,7 @@
   "supervisor": {
    "rc": 0,
    "sec": 0.0,
-   "tail": "[supervisor] online=4/4 actions=4"
+   "tail": "[supervisor] online=4/4 actions=5"
   }
  },
  "checks": [
@@ -106,12 +106,12 @@
   {
    "name": "com.fluxgroup.pulse",
    "ok": true,
-   "detail": "63814\t0\tcom.fluxgroup.pulse"
+   "detail": "-\t0\tcom.fluxgroup.pulse"
   },
   {
    "name": "com.fluxgroup.dashboard",
    "ok": true,
-   "detail": "63949\t0\tcom.fluxgroup.dashboard"
+   "detail": "-\t0\tcom.fluxgroup.dashboard"
   },
   {
    "name": "com.fluxgroup.ollama",
