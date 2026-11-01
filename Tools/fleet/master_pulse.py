@@ -29,6 +29,7 @@ from __future__ import annotations
 import fcntl
 import json
 import os
+import re
 import subprocess
 import sys
 from concurrent.futures import ThreadPoolExecutor
@@ -266,8 +267,76 @@ def evict_heavy_models() -> str:
     return "evicted:" + ",".join(n for n, _ in heavy)
 
 
-def checks() -> list[dict]:
+def swap_used_gb() -> float:
+    try:
+        out = subprocess.run(["sysctl", "-n", "vm.swapusage"], capture_output=True, text=True,
+                             timeout=10).stdout
+        m = re.search(r"used = ([\d.]+)M", out)
+        return round(float(m.group(1)) / 1024, 1) if m else -1.0
+    except Exception:
+        return -1.0
+
+
+def pageouts() -> int:
+    """Cumulative pageouts. Swap *usage* is sticky - it does not shrink when pressure
+    goes away - so judging by the number alone would flag the box red for hours after a
+    single spike. What matters is whether pages are still going to disk NOW."""
+    try:
+        out = subprocess.run(["vm_stat"], capture_output=True, text=True, timeout=10).stdout
+        m = re.search(r"Pageouts:\s+(\d+)", out)
+        return int(m.group(1)) if m else -1
+    except Exception:
+        return -1
+
+
+def relieve_swap() -> str:
+    """CEO 2026-11-01: 不要频繁触发硬盘交换. Live swap means pages are already on disk;
+    every extra resident model makes it worse. Above 2GB we drop everything except the
+    policy seat and say so, instead of quietly paging during the CEO's work."""
+    gb = swap_used_gb()
+    if gb < 0:
+        return "unknown"
+    if gb < 2.0:
+        return "ok(%.1fGB)" % gb
+    try:
+        with urllib.request.urlopen("http://127.0.0.1:11434/api/ps", timeout=5) as r:
+            models = json.load(r).get("models", [])
+    except Exception:
+        return "high(%.1fGB) unload-unknown" % gb
+    keep = ""
+    try:
+        with open(os.path.join(ROOT, "cph4", "fleet", "MODEL-POLICY.json"), encoding="utf-8-sig") as f:
+            pol = json.load(f)
+        keep = ((pol.get("lane_local_llm") or {}).get("model")) or ""
+    except Exception:
+        pass
+    dropped = []
+    for m in models:
+        name = m.get("name") or m.get("model") or ""
+        if keep and name.startswith(keep.split(":")[0]):
+            continue
+        try:
+            urllib.request.urlopen(urllib.request.Request(
+                "http://127.0.0.1:11434/api/generate",
+                data=json.dumps({"model": name, "keep_alive": 0}).encode(),
+                headers={"Content-Type": "application/json"}), timeout=30).read()
+            dropped.append(name)
+        except Exception:
+            pass
+    return "high(%.1fGB)%s" % (gb, (" unloaded:" + ",".join(dropped)) if dropped else " no-extra-model")
+
+
+def checks(prev: dict | None = None) -> list[dict]:
     out = []
+    sw = relieve_swap()
+    po = pageouts()
+    prev_po = int((prev or {}).get("swap_pageouts") or 0)
+    growing = prev_po > 0 and po > prev_po
+    out.append({"name": "swap", "ok": not growing,
+                "detail": "live swap %s%s (2GB line unloads extra models; red only while "
+                          "pageouts still grow: %s->%s)"
+                          % (sw, " GROWING" if growing else "",
+                             prev_po or "-", po if po >= 0 else "-")})
     ev = evict_heavy_models()
     out.append({"name": "resident-model-size", "ok": ev in ("ok", "unknown"),
                 "detail": "limit %.0fGB (control plane, not a production box): %s"
@@ -394,7 +463,7 @@ def main() -> int:
                             "tail": "deferred (runs every %ds)" % SLOW_EVERY}
 
     git_push = "skipped" if no_pull else push_if_ahead()
-    chk = checks()
+    chk = checks(prev)
     blockers = [c["name"] for c in chk if not c["ok"]] + ["stage:" + n for n in failed]
     pulse = {
         "ts": now(),
@@ -405,6 +474,8 @@ def main() -> int:
         "push": git_push,
         "stages": stages,
         "checks": chk,
+        "swap_pageouts": pageouts(),
+        "swap_used_gb": swap_used_gb(),
         "alerts": alerts,
         "blockers": blockers,
         "ok": not blockers,

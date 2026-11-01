@@ -70,13 +70,35 @@
   "state": "OPEN",
   "since": "2026-10-30T18:10",
   "authority": "CEO 2026-10-30 令：云端可以用，各机走自己团结引擎 codely",
+  "execute_via": "agent session only (2026-11-01 实测：router.py 的 cloud 分支是占位符，脚本不能真的上云；判断题由 ESCALATED 队列交给 agent 会话，脚本不得假装已裁决)",
   "route": "tier1 本机 Ollama -> tier2 共享大脑 bm-m:11434 -> tier3 codely cloud（各机自有 .codely-cli 机位）",
   "spend_rule": "每单必须记 cloud_est_credits；本地或共享大脑能做的一律降级 local-small，不烧额度",
-  "quota_watch": "master 每轮汇总 cloud_spend_today；额度告急由 CEO 一句话关回 local-only"
+  "quota_watch": "master 每轮汇总 cloud_spend_today；额度告急由 CEO 一句话关回 local-only",
+  "escalation_rule": "本地 4B 回答含「需要人工/证据不足/无法判断」即改判 ESCALATED，不再标 ANSWERED（2026-11-01 已回改 23 条历史行）"
  },
  "tier_order": [
   "local-own",
   "shared-brain-bm-m",
   "codely-cloud"
- ]
+ ],
+ "capacity_ledger": {
+  "_why": "CEO 2026-11-01：做的事不要超过能力；要上云就上云；不要频繁触发硬盘交换；合理使用 MacBook 算力",
+  "bm-m_can": [
+   "确定性脚本/闸/扫描",
+   "本机 4B 文本判读（≤4GB, keep_alive 5m）",
+   "调度/监督/派单",
+   "轻 CPU 批处理"
+  ],
+  "bm-m_cannot": [
+   "35B-A3B 常驻（21.9GB，驻留即换页）",
+   "重媒体生产（i2v/KF/渲染/批量转码）",
+   "电源/网络之外的对外发布"
+  ],
+  "swap_policy": {
+   "soft_gb": 1.0,
+   "hard_gb": 2.0,
+   "hard_effect": "单模型上限压到常驻席 3.3GB；主控脉每轮检测，超过 2GB 即卸载非策略模型并报 blocker"
+  },
+  "no_fake_cloud": "router.py 的 cloud 分支未实现；凡需云端的判断一律进 ESCALATED，由 agent 会话执行并留痕"
+ }
 }

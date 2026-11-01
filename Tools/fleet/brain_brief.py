@@ -157,6 +157,12 @@ def main():
                       "evidence": rel(last_p) if last_p else ""})
 
     failed = [r for r in rows_q if r.get("state") == "FAILED"]
+    # Rows the local 4B refused to decide. They are my work, not the fleet's: the cloud
+    # seat only exists inside an agent session, so a script must never pretend to close
+    # them (CEO 2026-11-01: 不超能力，该上云就上云).
+    escalated = [r for r in jl(os.path.join(root, "cph4", "fleet", "dispatcher",
+                                            "JUDGMENT-QUEUE.jsonl"))
+                 if r.get("state") == "ESCALATED"]
     open_n = len([r for r in rows_q if r.get("state") == "OPEN"])
     run_n = len([r for r in rows_q if r.get("state") == "RUNNING"])
     idle_boxes = [n for n, v in lanes.items() if v["online"] and not v["jobs"]]
@@ -166,7 +172,12 @@ def main():
     cands = [l for l in lines if l["verdict"] in ("LATE", "NO-EVIDENCE") and not l["job"]]
     cands.sort(key=lambda l: (0 if l["has_next"] else 1, l["limit"], l["age_h"] or 0))
     decision = None
-    if cands:
+    if escalated:
+        # Escalated judgments outrank dispatch: they are decisions already blocking lines,
+        # and only an agent session (cloud seat) can answer them.
+        decision = ("先清 %d 件 ESCALATED 判断（本地 4B 判不了→上云席位，我自己来）"
+                    % len(escalated))
+    elif cands:
         c = cands[0]
         decision = ("派 %s 的下一步产物（现 %s，阈值 %.0fh，声明=%s）"
                     % (c["id"], ("无产出证据" if c["age_h"] is None else "%.1fh 前" % c["age_h"]),

@@ -1,13 +1,17 @@
 # -*- coding: utf-8 -*-
-"""local_judge.py - answer the smart-tier judgment queue with bm-m's local model.
+"""local_judge.py - answer the smart-tier judgment queue, and escalate what is beyond it.
 
-CEO 2026-10-30: 云端额度要用完了 -- the cloud-smart seat is closed until he reopens it.
-Every OPEN judgment gets answered locally instead (default qwen3:4b-instruct, no-think,
-short lease; 2026-10-30 bench: 4B 8k=3.3GB/41.6 tok/s vs 35B-A3B 22.0GB/29-40 tok/s with
-14-21s cold load, so the control plane judges with 4B and leaves 35B to on-demand use).
-The answer carries model="local:<model>" so the audit trail shows exactly which
-brain said it. D-20261030-01 lesson baked in: the prompt FORBIDS inventing tools/paths;
-the judge may only cite evidence given to it, and must say "需要人工" when unsure.
+CEO 2026-11-01: 「你做的事情不要超过你的能力，要上云还是上云，不要频繁触发硬盘交换，合理使用
+你 macbook 的算力」。So this seat is two-staged, not one:
+  1. the local 4B answers when the question is a routing/attribution call it can ground in
+     the given evidence (measured 3.5s, 3.3GB, no swap);
+  2. when its own answer says it cannot decide (需要人工/证据不足), or the call is a real
+     judgment (取舍/方向/仲裁), the row is marked ESCALATED and handed to the cloud seat
+     instead of being answered by a model that has no business answering it.
+The 35B-A3B is never loaded here: 21.9GB on a 32GB box that is already swapping.
+
+Answer/model fields are written either way, so the audit trail shows which brain spoke.
+D-20261030-01 lesson stays: the prompt forbids inventing tools or paths.
 """
 import json
 from concurrent.futures import ThreadPoolExecutor
@@ -24,8 +28,15 @@ JUDGE_MODEL = (fl.LANES.get("bm-m", {}).get("llm") or {}).get("model") or "qwen3
 PROMPT = """你是机队主控的本地判断席（只依据给定证据回答，严禁编造不存在的工具、命令或路径；证据不足就回答"需要人工裁决+原因"）。
 问题：{question}
 背景证据：{evidence}
-业务约束：算力分层=本地优先，云端已停用；公司生产力机 09-19 点让位 CEO 办公；主控机只做调度与文本。
-请用不超过 80 字给出下一步动作（谁、做什么），格式："动作｜理由"。"""
+业务约束：算力分层=本地优先；本地判不了的上云（单次≤50积分、当日≤200）；主控机只做调度与文本、云端不用于确定性脚本。
+请用不超过 80 字给出下一步动作（谁、做什么），格式："动作｜理由"。判不了就只回"需要人工裁决"。"""
+
+ESCALATE_MARKERS = ("需要人工", "证据不足", "无法判断", "不能确定", "需人工")
+
+
+def needs_cloud(answer: str) -> bool:
+    a = str(answer or "")
+    return (not a.strip()) or any(m in a for m in ESCALATE_MARKERS)
 
 
 def main():
@@ -41,19 +52,32 @@ def main():
                           evidence=json.dumps(r.get("evidence") or {}, ensure_ascii=False)[:1200]),
             node="bm-m", timeout=90), todo))
     n = 0
+    esc = 0
     for r, ans in zip(todo, answers):
         if not ans or not str(ans).strip():
             r["note"] = "local-judge failed this round (ollama down?)"
             continue
-        r["state"] = "ANSWERED"
-        r["answer"] = str(ans).strip()[:500]
+        text = str(ans).strip()[:500]
+        r["answer"] = text
         r["model"] = "local:" + JUDGE_MODEL
         r["answered_at"] = fl.now_iso()
-        n += 1
-    if n:
+        if needs_cloud(text):
+            # Beyond the 4B's ability: keep it OPEN for the cloud seat instead of letting
+            # a weak model close a real judgment. Wasted local rounds are cheap; a wrong
+            # verdict from a 4B is not.
+            r["state"] = "ESCALATED"
+            r["escalate_to"] = "cloud-smart"
+            r["escalate_why"] = "local 4B said it cannot decide: %s" % text[:80]
+            esc += 1
+        else:
+            r["state"] = "ANSWERED"
+            n += 1
+    if n or esc:
         fl.write_jsonl(path, rows)
     open_count = sum(1 for r in rows if r.get("state") == "OPEN")
-    print("[local_judge] answered=%d still_open=%d (tier: local→shared→codely)" % (n, open_count))
+    esc_count = sum(1 for r in rows if r.get("state") == "ESCALATED")
+    print("[local_judge] answered=%d escalated=%d(cloud-smart) still_open=%d"
+          % (n, esc, open_count))
     return 0
 
 
