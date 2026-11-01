@@ -370,6 +370,29 @@ def main() -> int:
         json.dump(pulse, f, ensure_ascii=False, indent=1)
     os.replace(tmp, path)
 
+    # Append-only event stream: every pulse leaves one immutable fact so dispatch/claim/
+    # result can be replayed later instead of argued about.
+    try:
+        import collections
+        qp = os.path.join(ROOT, "cph4", "fleet", "PRODUCTION-QUEUE.jsonl")
+        cnt = collections.Counter()
+        if os.path.exists(qp):
+            for ln in open(qp, encoding="utf-8"):
+                ln = ln.strip()
+                if ln:
+                    try:
+                        cnt[json.loads(ln).get("state")] += 1
+                    except Exception:
+                        pass
+        ev = {"ts": now(), "node": NODE, "sec": pulse["sec"], "ok": pulse["ok"],
+              "git": git_note, "push": git_push, "queue": dict(cnt),
+              "blockers": blockers, "alerts": alerts}
+        with open(os.path.join(ROOT, "cph4", "fleet", "dispatcher", "events.jsonl"), "a",
+                  encoding="utf-8") as f:
+            f.write(json.dumps(ev, ensure_ascii=False) + "\n")
+    except Exception:
+        pass
+
     summary = " ".join("%s=%s/%ss" % (k, v["rc"], v["sec"]) for k, v in stages.items()
                        if v.get("rc") is not None)
     log("%s pulse %s git=%s push=%s blockers=%s alerts=%s | %s"
