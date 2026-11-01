@@ -38,6 +38,17 @@
 | P-2026-10-25-07 | 10-25 | **「治理文档 ≤40 件」判据无计数边界定义 → 法熵周检无法机械执法** | 实锚=本窗计数 docs/*.md 21 + cph4/*.md 36 = 57 件（含研究/装备/手册类非治理件），按任一口径都越线但无法判定哪些该退役 | 定义边界后再执法：治理面=docs/ 顶层治理件（排除 audits/）+ cph4 顶层治理白名单（evolution/governance 承继/resource-chain/decision-chain/autonomy-target/token-economy 等）；其余计「研究面」另设阈值 | P3 | 法熵周检 | open（T2 待落） |
 | P-2026-10-25-08 | 10-25 | **「否决窗」语义冲突未消解**：P-2026-10-11-04 记「否决窗已废（CEO 预弃翻案权）」，而 evolution.md §2 与夜轮 prompt 仍写「AI 立法·否决窗 7 天」，决策轮 prompt 写「否决窗照旧」 | 实锚=三处文本实读（cph4/decision-round-prompt.txt ③、cph4/night-round-prompt.txt ②、cph4/evolution.md §2）；R4 已列「勘正候选一行」本周未清 | **不擅改宪法级文本**：请 CEO 一句话定口径——(a) 否决窗仅指 T1 CEO 翻案权已废、T2 标注语改为「AI 立法·git 即回滚」；(b) 全废标注语；(c) 维持 7 天窗 | P2 | 立法程序/全部轮 prompt | open（T1·上呈待裁） |
 
+| P-2026-11-01-01 | 11-01 | **台账 GBK 混写二次复发（P-2026-10-25-01 标 applied 后 7 天原样再犯）：8 行/5 段 GBK 写进 UTF-8 ledger，read_file 整件拒读 → 全部会话的感知+追加面被堵** | 实锚=本窗实读 L429-436（2026-10-29 日班报告块）UTF-8 解码 966 个替换字符；同族=reflection-journal.md L187 同病 1 段（guard 首跑即抓出）；P-2026-10-25-01 的「写入后 0xFFFD 断言」=一次性断言，无常驻闸 | ①本窗已字节级修复两件（备份 %TEMP%\ledger-backup-20261101.md + .bak-20261101-092516·零内容改动）；②**新常驻闸=Tools\ledger-utf8-guard.ps1**（6 台账件逐段严格解码·exit 1=有坏段·-Repair 自动转码+备份·本窗自测 rc1→修复→rc0）；③夜轮 prompt ②收口步已接线「编码闸步」 | P1 | 集团台账/全部会话读写面 | applied（T2·AI 立法·2026-11-01） |
+| P-2026-11-01-02 | 11-01 | **「点名饱和即执行真空」：一周 10 条反思同病——点名行无 owner/时点/逾期动作三要素，同一旗标连 4 班原样复述，提醒能力饱和而零动作** | 实锚=reflection-journal 10-25 夜/10-25 午后/10-26 夜×2/10-27 夜/10-28 夜/10-28 15:07/10-29 夜/10-29 午/11-01 夜/11-01 日共 ≥10 条自认（P-2026-10-25-04 已悬置 7 日）；对象=外审班/OSS 九实体/Bigmoney 六任务/MiniGame .git 四件 | 三要素强制+三班强制改判（自愈体/升 E1 阻断/收线三选一），已写进夜轮 prompt ②收口步；验收=次周反思 journal 同类条目归零或转为三选一动作行 | P1 | 全部轮/催办链 | applied（T2·AI 立法·否决窗 7 天） |
+| P-2026-11-01-03 | 11-01 | **「治理文档 ≤20 件」判据仍无计数边界（P-2026-10-25-07 悬置 7 日）→ 法熵周检连续两周无法机械执法** | 实锚=本窗实测 docs 顶层 23 件+cph4 顶层 36 件=59（与 10-25 的 57 同量级）；无边界则任一口径都越线但无法判谁该退役 | 已在 evolution.md §3 立法定义治理面（docs 顶层排除 audits/research＋cph4 白名单 11 件）+研究面 80 件阈值；实测治理面 34 件仍越线=瘦身对象点名为非白名单治理件 | P3 | 法熵周检 | applied（T2·AI 立法·否决窗 7 天·2026-11-01） |
+| P-2026-11-01-04 | 11-01 | **车道计划任务 LogonType 回归 InteractiveToken（违 2026-09-29「本机一切车道任务一律 S4U」律）：EvolutionTick/NightRound 均 Interactive，无头轮内子进程控制台会在 CEO 桌面闪黑窗** | 实锚=本窗 Get-ScheduledTask 实读：FluxGroup-EvolutionTick / FluxGroup-NightRound 双件 LogonType=Interactive、State=Running；与 10-15 Bigmoney-* 回归坑同型第二案 | 重注册 S4U+SWA=false（先导 XML 备份）——本窗未动（提权失败面已知：Bigmoney watchdog 报「拒绝访问」=F-20261101-14），转 @HQ 工具域带带回执；验收=Get-ScheduledTask 双件 LogonType=S4U | P1 | 静默律/15 任务族 | transferred（@HQ 工具域·须带回执行编号） |
+| P-2026-11-01-05 | 11-01 | **governance §2 登记簿状态漂移两行：BigStream 自 09-23 起 39 天挂在 onboarding（实为最活跃内容线）；BigHouse 30 天判据 DDL 10-28 已过期，状态仍 onboarding 无结论** | 实锚=governance §2 表实读（L98 BigStream onboarding·L104 BigHouse onboarding）+orders/decisions 零收线或转 active 行 | 请 CEO 一句话：BigStream→active；BigHouse 三选一（转 active／延长判据 30 天／收线列入 parked）。属 T1 登记簿拓扑，本窗不自改 | P2 | 登记簿/组织拓扑 | open（T1·上呈待裁） |
+| P-2026-11-01-06 | 11-01 | **`D:\FluxGroup` 是旧镜像，集团面件停在 10-20（ledger 278,945B vs 活树 404,556B）：按 `..\..` 解析组根的脚本读到旧世界，判读与感知同时失真** | 实锚=FluxVerse F-20261027-02/F-20261101-02（两司独立复现）+F-20261101-04（集团 Tools\resolve-group-root.ps1 已是权威解析器·本司副本仅 EOL 差） | 集团面动作=①不得新增 `..\..` 解析（既有 §组根律）②旧镜像 D:\FluxGroup\cph4 与 docs 的清理=R2/结构性件，出清单呈签不直接删；转办各司自查一行回执 | P1 | 全司脚本/判读面 | transferred（@各司自查＋集团面清单呈签） |
+| P-2026-11-01-07 | 11-01 | **产品仓两件任务级病：Bigmoney-IterationLoop「Ready≠会跑」（启动即 0x800710E0 OPERATOR_OR_ADMIN_REFUSED·InteractiveToken 态）+ silence-enforce.ps1 存在无白名单硬禁用兜底，轮点火面在射程内** | 实锚=bigmoney HQ-FEEDBACK F-20261101-14（07:4x 实读 schtasks）+F-20261026-02（silence-enforce 遍历全任务·动作含 powershell/cmd 停用） | 转办 @BigMoney（任务注册态=S4U 需提权，其侧 watchdog 已报拒绝访问）+@HQ 工具域（silence-enforce 兜底加白名单/只停无产出类）；集团不代修产品仓 | P1 | BigMoney 车道/静默守卫 | transferred（@BigMoney＋@HQ 工具域） |
+| P-2026-11-01-08 | 11-01 | **资源水位三件超线（集团面无超）**：MiniGame .git 2923.6MB>2GB／bigmoney auto-saves 252 件>30 天／FluxVerse logs 141 件>14 天 | 实锚=retention-scan 20261101-091940（elapsed 92s·C: free 929.2GB）；对照 resource-chain §三 水位表 | 全部=产品仓 R3 域：MiniGame=git gc 只压不删；bigmoney auto-saves/FluxVerse logs=过期清（必过隔离区）——各司自领，集团只出清单。集团面 R1/R2 零超线 | P2 | 三司磁盘/仓库卫生 | transferred（@Biggame／@BigMoney／@FluxVerse） |
+| P-2026-11-01-09 | 11-01 | **evolution-ledger 404,556B 越过 400KB 分卷线（余量 -4.5KB）：报告区 400+ 行与提案区累计同一件，注入面与检索面双膨胀** | 实锚=本窗实测 +11-01 日班「390.0KB 余 10KB 预警」已被本轮追加吃掉 | 本窗只追加不轮转（他窗并发写入中·改写有吞件风险）；下个干净窗按 O-008 行首编号锚定分卷（提案区/报告区各行 1-9 月→archive-2），并核 commit 后对账步 | P2 | 台账膨胀/注入面 | open（T3 待干净窗执行） |
+| P-2026-11-01-10 | 11-01 | **两项长期「有法无役」无领受体：外审班 docs/external-audit.md 末笔 10-25 10:59（龄 7 天·日三班零自证）＋OSS 收获九实体全部 >72h（最短 283h）** | 实锚=11-01 日班点名行①②⑥（fleet-reality/日志 mtime 实测）+reflection-journal 10-27/10-28/10-28 15:07 三连自认 | 按本轮新立的点名闭环律三选一：外审班=落自愈体（当日无新行即自动补派或收线声明）；OSS=降频为周频并指定唯一执行体。owner=@HQ 治理席（11-03 前给判据）。已连续 7 班无动作=本项按第 3 班规则强制改判 | P1 | 监督链/收获链 | open（T2·须次轮回访） |
+> 并条注记（2026-11-01 R6）：P-2026-10-25-01（台账编码）→ 同病二犯，改判「常驻闸」由 P-2026-11-01-01 承接；P-2026-10-25-04（点名三要素）→ P-2026-11-01-02 落地；P-2026-10-25-07（治理面计数边界）→ P-2026-11-01-03 落地；P-2026-10-25-06（CLOUD-OFF 闸·transferred）→ 10-28 Tools/cloud-off-gate.ps1 正身入仓，本轮核销 **executed**。四条旧行状态以本注记为准，正文不改写（错账留痕）。
 ## 反馈区（子公司 → 集团 · 收取与回访 · CEO 令「顶层机制务必听子公司的反馈」）
 
 > 各公司反馈面登记：BigMoney=`quant/bigmoney/HQ-FEEDBACK.md` ✓｜BigStream=`media/BigStream/HQ-FEEDBACK.md` ✓｜Biggame=待其按自治法选定落位（其根级冻结清单法优先；落位前其 CODELY.md 机制类条目为临时反馈面）。收取 SLA=周轮必扫；未处理超两周自动升级 CEO 待办（docs/orders.md）。
@@ -426,14 +437,14 @@
 **点名行**=①**停摆面根因实锤（本轮最大发现）**：Bigmoney 族 6 件+FluxGroup-Quant 两探针每日 **~00:36-00:37 被停**（10-28 03:07 班复活 4 件、09:07/15:07/21:07 三班均见复停），根因=**Tools\silence-enforce.ps1 AUTO-ENFORCE 段**：逐任务 `Set-ScheduledTask -Action` 重包，S4U 注册体抛异常即走 `fallback=Disable-ScheduledTask`（不区分主体类型）＝**静默闸自己把车道任务停了**——连报四班只做「复活」未读写入方，本轮已按根因修（见动作②）；②**外审班连续第六夜缺席**：docs/external-audit.md 末条实体行仍 2026-10-13 22:25（第 16 天），E1 已两班呈 CEO，本班维持不重复升级；③**OSS 收获轮九实体连续第五夜超 72h**：最老 OH-20261019-hq-workbuddy **228h**、OH-20261020-bigcompute 216h／bigmoney 199h（已路由周轮 11-01，本班只登记）；④**机队滞后**：**bm-a／bm-c pull=fail**、三机 head 全 behind origin、bm-b hb 467m → 点名三机 owner 补 pull/hb 回传；⑤**BG-C STALE 17.2h**（bm-c 同机双角色侧·RAM 5.9%）→ 黑灯区点名；⑥**面型异常=bm-b idle 且 pool ready 3（E187/E188/E190）**＝借池/派活信号，点名 @Bigmoney 派活；⑦**四司 HQ-FEEDBACK 缺口**：MiniGame／BigStream／FluxVerse／HQ 无新鲜行（compute 10-29 01:44、quant 10-28 23:06、life/domain 10-28 05:0x）→ 点名补正产出口径。
 **本轮动作行**=①只读感知九件全跑通（retention／selfaudit／secret-scan／fleet-audit／fleet-reality／task-health／mechanism-audit／audit-sentinel／registry-shadow）；②**根因修 1 件（读回实证）**：Tools\silence-enforce.ps1 停用面根治——审计循环跳过 S4U/Password/ServiceAccount 主体（非交互会话控制台不可见＝不可能闪窗，本不该被包/被停）、fallback 仅在 Interactive 主体下降级为「停」其余记 `wrap-failed-kept`；验证=`Parser` 语法 err=0、`-DryRun` 复跑 **violations=0／remediations=0 零副作用**，`silence-audit.json` 已还原原档避免污染巡检读数；③**复活 8 件读回 Ready**（Bigmoney-Autofill／IterationLoop／LoopWatchdog／PoolWorker／ResidentDispatcher／SatEngine-bm-b + FluxGroup-QuantAuditProbe／QuantOversightDigest）＝不为第三次硬启而是**根因已修后的复位**，次班以「是否再次 00:36 被停」为验收判据；④周窗步（记忆梳理／disk-sweep／周轮产出台账核对）今日周四＝不触发；⑤熔断计数归零（同错根因已消除）；⑥定向 commit（脏树只 add 本班三件产出，不吞他窗半成品）。
 
-## ֵ���� 2026-10-29 �磨09:07 �ࣩ
-**ˮλ��**=���� C: **896.9GB**��retention 20261029-091035��elapsed 105s��vs 03:07 ���� 899.5GB=**-2.6GB/6h �� -10.4GB/��**������ 20GB ȼ���ߣ�ǰ�� -18.7GB/�գ�δ������ �� �Ǽǲ������������� delta ͷ��=**quant\bigmoney +8.5MB**��.git +2.9��data +5.6�����������=**GIT_BIG gaming\MiniGame\.git 3,926.5MB**�����İ�Խ 2GB ˮλ��ʵ��� 06:00 �� 3,878MB �� +48MB �� D-20261029-07 ���������ڷɣ����� MiniGame owner ִ�� gc �տڣ���LOGS_OLD FluxVerse\logs 1,786 �� >14d��AUTO_SAVES_OLD 28/1054 >30d����������ȫ�� >150GB����С BG-B 353GB�����޵������� >20GB��
+## 值守轮 2026-10-29 午（09:07 班）
+**水位行**=本机 C: **896.9GB**（retention 20261029-091035，elapsed 105s）vs 03:07 快照 899.5GB=**-2.6GB/6h ≈ -10.4GB/日**（低于 20GB 燃烧线；前班 -18.7GB/日，未连两班 → 登记不升级）；本班 delta 头名=**quant\bigmoney +8.5MB**（.git +2.9／data +5.6）；旗标三亮=**GIT_BIG gaming\MiniGame\.git 3,926.5MB**（连四班越 2GB 水位，实测较 06:00 班 3,878MB 仍 +48MB → D-20261029-07 具名交付在飞，点名 MiniGame owner 执行 gc 收口）＋LOGS_OLD FluxVerse\logs 1,786 件 >14d＋AUTO_SAVES_OLD 28/1054 >30d。机队盘余全部 >150GB（最小 BG-B 353GB），无单机日烧 >20GB。
 
-**������**=selfaudit claims=**74/backed=74/bare=0** ?��secret-scan 7 �ֽ� 24h **0 ���У�P0=0 P2=0��** ?��fleet-reality **2026-10-29T09:12:49��Ψһ��״Դ��**=local DASHENG origin/main=44fd0fd6��bm-a/bm-b/bm-c tailnet=Y :8790=Y skew=0m��v1.9.5 �����룩��**bm-a pull=fail��bm-c pull=fail������ head �� behind**��hb_age=17/827/106m��bm-m/bm-d tailnet=N���ڵ�����֪����fleet-audit offline=**0** stale=**4**��BG-C 23.3h��RAM 5.9%��bm-b 17.1h��**idle pool ready 3**��bm-c 2.8h��bigcompute LATE 181m��green_idle=0 heavy=0��task-health ��ǰ **unhealthy=23/105**��odd-result-codes=13���� 03:07 �� 29/105 �� 6����mechanism-audit **flags=0**��patrol_stamp DEREGISTERED �� D-20261026-07 ���⣩��orders-registry shadow **md_not_in_jsonl=3 / jsonl_not_in_md=144 �� SHADOW_RED��Ӱ��ȱ�� 3 ���������ǹ��ϣ�δ�����̲�����Դ��**��audit-sentinel **total_flags=6**��**��ִ���� 2 ��ʵ֤**=��D-20261029-09��Tools/silence-enforce.ps1 L55/L60 S4U/Password/ServiceAccount ���� + L79 wrap-failed-kept �����ļ��ڣ�? ��D-20261029-07��gaming/MiniGame/.git ʵ�� 3,926.5MB�������� 3,878MB ͬ������=�ڷ�֤�ݣ�?��**��δ��̽��**=decisions ���� **12 �У��� 29/30 ����** + reflection-journal ���� **2 ��** ? PASS����������յ���=**0**��
+**抽验行**=selfaudit claims=**74/backed=74/bare=0** ?｜secret-scan 7 仓近 24h **0 命中（P0=0 P2=0）** ?｜fleet-reality **2026-10-29T09:12:49（唯一现状源）**=local DASHENG origin/main=44fd0fd6；bm-a/bm-b/bm-c tailnet=Y :8790=Y skew=0m（v1.9.5 三机齐），**bm-a pull=fail、bm-c pull=fail、三机 head 均 behind**，hb_age=17/827/106m；bm-m/bm-d tailnet=N（黑灯区已知）｜fleet-audit offline=**0** stale=**4**（BG-C 23.3h·RAM 5.9%／bm-b 17.1h·**idle pool ready 3**／bm-c 2.8h／bigcompute LATE 181m）green_idle=0 heavy=0｜task-health 修前 **unhealthy=23/105**、odd-result-codes=13（较 03:07 班 29/105 降 6）｜mechanism-audit **flags=0**（patrol_stamp DEREGISTERED 属 D-20261026-07 豁免）｜orders-registry shadow **md_not_in_jsonl=3 / jsonl_not_in_md=144 → SHADOW_RED（影子缺口 3 条待补·非故障，未达连绿不切主源）**｜audit-sentinel **total_flags=6**｜**回执核销 2 件实证**=①D-20261029-09（Tools/silence-enforce.ps1 L55/L60 S4U/Password/ServiceAccount 跳过 + L79 wrap-failed-kept 均在文件内）? ②D-20261029-07（gaming/MiniGame/.git 实测 3,926.5MB，与声称 3,878MB 同向增长=在飞证据）?｜**班次存活探针**=decisions 今日 **12 行（第 29/30 批）** + reflection-journal 今日 **2 行** ? PASS｜否决窗当日到期=**0**。
 
-**������**=��**03:07 �����������ͨ��**��Bigmoney-IterationLoop LastTaskResult=267009�����ܣ����� 00:36 ��ͣ��Autofill/LoopWatchdog/PoolWorker/ResidentDispatcher �� Quant ��̽�� Disabled = **AutoYield �����·����09:00-19:00�����̬**��D-20261029-01 �ھ��������ƹ��ϣ���**STALE ������ E1���� 3 ��ͬ�죩**=BigCompute-ResidentQA��ComputeWorker��HQ-SchedHarden-Batch�����۶��ɽ�������Ӳ������ CEO �嵥����Bigmoney-IterationLoop STALE �г��ܶ���=�۲켶����**�������������ҹȱϯ**��docs/external-audit.md ĩ��ʵ�� 2026-10-13 22:25���� 16 �죩E1 ������� CEO������ά�ֲ��ظ���������**OSS �ջ��־�ʵ����������ҹ�� 72h**������ OH-20261020-bigmoney ��205h����·������ 11-01������ֻ�Ǽǣ�����**�����ͺ�**=bm-a��bm-c pull=fail������ head behind��bm-b hb_age 827m��BG-C 23.3h �ڵ�����bm-c ͬ��˫��ɫ�� RAM 5.9%���� �������� owner �� pull/hb �ش�����**��˾ HQ-FEEDBACK �޼�**��MiniGame��BigStream��FluxVerse��HQ �����ڶ�ҹȱϯ��compute 10-29 06:10��domain 05:15��quant 03:54��life 10-28 05:05 ���У��� �������������ھ�����**audit-sentinel ������̨��Ư��**=FLAG A �Ա� P-2026-10-25-06 transferred 4d���� D-20261029-08 ���� 06:03 �� applied=**�ڱ�����̨�˱ջ�״̬**������˼�У��� �������ּӡ��ڱ��ض� ledger ״̬���ţ���UNEXPECTED-DISABLED 18 ����ڲᣨBili 5=�˺Ű�ȫ���ᣯHQ-Patrol 8��OpenClaw 3��BmaIdleGuard��HQ-bm-a-Sentinel��HQ-LocalOnlyOn�����Ǽǲ�Ӳ�ޡ�
+**点名行**=①**03:07 班根因修验收通过**：Bigmoney-IterationLoop LastTaskResult=267009（在跑）、无 00:36 复停；Autofill/LoopWatchdog/PoolWorker/ResidentDispatcher 与 Quant 两探针 Disabled = **AutoYield 昼间让路窗（09:00-19:00）设计态**（D-20261029-01 口径），不计故障；②**STALE 三件升 E1（第 3 班同旗）**=BigCompute-ResidentQA／ComputeWorker／HQ-SchedHarden-Batch（按熔断律禁第三次硬启，呈 CEO 清单）；Bigmoney-IterationLoop STALE 判长跑读数=观察级；③**外审班连续第七夜缺席**（docs/external-audit.md 末条实体 2026-10-13 22:25，第 16 天）E1 已两班呈 CEO，本班维持不重复升级；④**OSS 收获轮九实体连续第六夜超 72h**（最新 OH-20261020-bigmoney ≈205h；已路由周轮 11-01，本班只登记）；⑤**机队滞后**=bm-a／bm-c pull=fail、三机 head behind、bm-b hb_age 827m、BG-C 23.3h 黑灯区（bm-c 同机双角色侧 RAM 5.9%）→ 点名三机 owner 修 pull/hb 回传；⑥**四司 HQ-FEEDBACK 无件**（MiniGame／BigStream／FluxVerse／HQ 连续第二夜缺席；compute 10-29 06:10／domain 05:15／quant 03:54／life 10-28 05:05 有行）→ 点名补正产出口径；⑦**audit-sentinel 读数与台账漂移**=FLAG A 仍报 P-2026-10-25-06 transferred 4d，但 D-20261029-08 已于 06:03 判 applied=**哨兵不读台账闭环状态**（见反思行）→ 建议周轮加「哨兵回读 ledger 状态」桥；⑧UNEXPECTED-DISABLED 18 项长期在册（Bili 5=账号安全冻结／HQ-Patrol 8＋OpenClaw 3＋BmaIdleGuard＋HQ-bm-a-Sentinel＋HQ-LocalOnlyOn），登记不硬修。
 
-**���ֶ�����**=��ֻ����֪�ż�ȫ��ͨ��retention��selfaudit��secret-scan��fleet-audit��fleet-reality��task-health��mechanism-audit��audit-sentinel��registry-shadow������**Ӳ�� 0 �����۶ϼ��� 0/1**������δ��ʵ��ͬ�������࣬����������Ӳ�޲��������ۻ�ִ���� 2 ����֤��ָ���룩�����ܴ���������������disk-sweep�����ֲ���̨�˺˶ԣ���������=���������ݶ��� commit������ֻ add �������������������������Ʒ����
+**本轮动作行**=①只读感知九件全跑通（retention／selfaudit／secret-scan／fleet-audit／fleet-reality／task-health／mechanism-audit／audit-sentinel／registry-shadow）；②**硬修 0 件·熔断计数 0/1**（根因未坐实且同旗已三班，按禁第三次硬修不动）；③回执核销 2 件（证据指针齐）；④周窗步（记忆梳理／disk-sweep／周轮产出台账核对）今日周四=不触发；⑤定点 commit（脏树只 add 本班两产出件，不吞他窗半成品）。
 
 ## 值守轮 2026-10-29 午（15:07 班）
 
@@ -471,3 +482,82 @@
 **抽验行**=selfaudit claims=**16/backed=16/bare=0** ✅｜secret-scan 7 仓近 24h **0 命中·P0=0 P2=0（exit 0）** ✅｜fleet-reality **2026-11-01T09:09:15（唯一现状源）**=local DASHENG origin/main=ee345640；bm-a tailnet=Y :8790=Y v1.9.5 skew=0m hb_age=13m、bm-b hb_age=**2285m（38h）**、bm-c hb_age=**1192m（20h）**、bm-m/bm-d tailnet=N＋UNROSTERED peer 2（bm-m-1／bm-m·候收养）｜fleet-audit=offline **1（bm-b 44.4h）**／stale **3（bm-c 21.3h／BG-C 3h／bigcompute LATE 173m）**／heavy **1（BG-A VRAM 0.4G）**／**green-idle=0**（无闲置促配面）｜task-health 不健康 **28/109**（UNEXPECTED-DISABLED 26／STALE 3／BROKEN-LINK 1）｜mechanism-audit **flags=0**（patrol_stamp DEREGISTERED＝D-20261026-07 设计态）｜audit-sentinel **flags=6**（A=1 P-2026-10-25-06 7d 逾窗·状态源未改；B=5 虚荣比候选）｜registry shadow jsonl 423／md 282／**md_not_in_jsonl=3**（影子缺口 3 条待补·非故障）｜回执核销 2 件（C-20261008-05）：Q-TRIAGE-{recon,car-gaming,fluxverse}-20261101 三件证据件均在盘（416/416/516B·含工段与证据目录节）＝**核销通过**。
 **点名行**=①**周轮缺口**：evolution-ledger 尾条周进化轮仍＝**2026-10-25 R5**，10-26 R6 与其后缺席（今日 11-01 周日应出 R7）→ 点名 @EvolutionTick「tick 触发≠产出落账」；②**bm-b 38h／bm-c 20h 心跳陈旧**（:8790=Y 而 HB 断）＋bm-b OFFLINE／BG-C、bigcompute STALE → 各机 owner 按 fleet-nodes 修（冷备预案：任一机 ootstrap-machine.ps1 -Roles group 可重建全部节律）；③**Bigmoney 六任务仍 Disabled**（IterationLoop/LoopWatchdog/PoolWorker/ResidentDispatcher/SatEngine-bm-b/Autofill·03:07 班曾复活 5 件后又被停）＝他司自决面，**只点名不代启**；④**FluxGroup-FleetLink／QuantAuditProbe 又 Disabled**（03:07 班复活后 04:36 再停）→ @HQ 工具域查自停源；⑤**外审班缺位**：docs/external-audit.md 末笔 mtime 2026-10-25 10:59＝**龄 7 天**（日三班 22:17/06:17/14:17 无自证）→ 点名外审班；⑥**OSS 收获面全实体过期**：九实体最新件 OH-20261020-bigmoney（≈283h）／fluxverse 10-14（≈445h），**全部 >72h** → 已转周轮点名，本班不重派；⑦**decisions.md 分卷已由 06:00 决策轮执行（215.8KB→74.9KB）**＝连 4 班点名的越线件闭环，本班销账；⑧SLA：orders 尾行 10-31 18:23 执行器统一令处 dispatched（回执面=cph4/fleet/queue-receipts 有 bm-a 领受件）／decisions 第 33 批 3 条 dispatched 均在承 11-02~11-03 窗内无逾期；否决窗当日到期=**无**。
 **本轮动作行**=①只读感知全件跑（retention／selfaudit／secret-scan／fleet-audit／fleet-reality／task-health／mechanism-audit／audit-sentinel／registry-shadow／feedback mtime 六面）；②**周日窗 disk-sweep -Sweep 已发起**（结果由后台任务回填，未能闭环则记未完成不冒认）；③**记忆梳理步通道受阻**：本会话无 update_memory 工具，memory.md §3 明禁文件工具直写 CODELY.md → 如实记「通道不可得」，不硬改（E1 候选交周轮）；④**硬修 0 件·熔断计数 0**（他司面／白名单面一律不代启，与 03:07 班「复活即被打回」实证一致，避免第三次硬修）；⑤班次存活探针：当班 decisions 新批（第 33 批 11-01 06:00）＋reflection 当班复盘行均在＝**探针绿**；⑥git 收口按纪律定向 add 本轮两件产出。
+
+> 周轮收取注记（11-01 R6·R5 后反馈面差集扫 10-25→11-01 窗）：①**BigMoney 17 新**（F-20261025-01/02/03、F-20261026-01/02、F-20261027-01/02、F-20261028-01~06〔-04 两行同号〕、F-20261029-01、F-20261030-01、F-20261101-14）——回执/自查类 11 条（25-03 水位四元组落地、26-01 任务归属纠正、27-02 machine-health 收口、28-01~06 组根与方言自查）＝**resolved-by-receipt 零转提案**；提案类 6 条：25-01 车道接管腿只 3 条存在（7 条优先车道）／25-02 七件 UNEXPECTED-DISABLED 属 T1 设计态请入白名单／26-02 silence-enforce 无白名单硬禁用兜底（→P-2026-11-01-07）／**27-01〔P0〕本仓根 CODELY.md 不可逆双重编码且已进 git**（产品仓面·集团不代修→转办一行）／29-01 BLOCKED-RAM 归因误判（内存被 CEO 桌面应用占用·非 ollama）／30-01 共享链腿指向从未存在的脚本（链不可信·产品仓自修）／11-01-14 Ready≠会跑 0x800710E0（→P-2026-11-01-07）。②**BigStream 0 新**（末行 10-24 06:4x·面龄 184h）＝反馈面本身缺位，连续第 2 周，点名维持 @BigStream。③**FluxVerse 11 新**（F-20261026-01 复产无口令行／27-01 复产回执／27-02 镜像陈旧组根 P1／28-01 组根回执／28-02 城市取景帧 17 天未更新／28-03 四面自查回执／31-01 两件外因挡队列头／**F-20261101-01 城建附卷交付+三候选请入册〔逾期 13 天收口·CC-2/CC-3 由 HQ 治理席承诺 11-03〕**／11-01-02 双拼写+旧镜像（→P-2026-11-01-06）／11-01-03 D-20261101-11 回执／11-01-04 D-20261101-12 回执）——除镜像陈旧与城建入册外全部带编号回执＝送达判据合规。④**BigLife 2 新**（10-28 01:36／10-28 05:05 双条 D-20261028-04 组根自查回执·修 1 件 iteration_loop.ps1 改 Resolve-GroupRoot）＝resolved 零转提案。⑤Biggame 临时面无新反馈行（P-13 落位仍缺·CEO 待办面在册）。⑥**反馈区表体 open 行=0**（两行历史行均 resolved）；超两周未处理=0；本轮 4 条转办（P-04/P-06/P-07/P-08）均带编号回执要求，次轮回访。
+
+## 周进化轮 2026-11-01 R6（FluxGroup-EvolutionTick 09:17 点火 · 本窗即 tick 无头体 · 轮首脏=定向提交模式 · 预算 25 分钟）
+
+**感知**=读根 CODELY.md（59.1KB·136 行）+gaming/CODELY.md（41.8KB·154 行·末笔 10-04）；产品仓只读巡检=MiniGame 快照 vX3066（10-29 16:22 停在 CEO 10-28 停引擎令后·非故障）+BigMoney HANDOVER（r1265 段+bm-a r1170/r1180 五倍数核对在册·今晨 r1203/r1204 在飞·08:28）+iteration-loop 日志（今日 08:33 最后一跑）；反馈面四家全扫（BigMoney 9 新行/BigStream 0 新/FluxVerse 6 新/BigLife 0 新）；资源=retention 20261101-091940（elapsed 92s·C: free 929.2GB）；安全=11-01 日班 secret-scan 7 仓近 24h 0 命中（零新增采集）。
+
+### ①承诺对账（R5 → R6·差距清单如实）
+1. **P-2026-10-25-01「台账写侧 UTF-8 纪律」标 applied = 承诺落空**：那次是「写入后 0xFFFD 断言」一次性动作，非闸；7 天后 8 行/5 段 GBK 再入 ledger（本轮已修+立常驻闸）。差距闭，但属**同病二犯**，按「同病二犯=过失留档」记一行。
+2. **P-2026-10-25-04「点名三要素」open 逾期 7 日**零落地（一周反思 10 条同病）→ 本轮 land。
+3. **P-2026-10-25-07「治理面计数边界」open 逾期 7 日**→ 本轮 land。
+4. **P-2026-10-25-06 CLOUD-OFF 闸（P0·transferred）= 已 executed**：10-28 决策轮实体动作 `Tools/cloud-off-gate.ps1` 正身入仓（Parser 0 错+实跑解析双起点）→ 本轮核销。
+5. **P-2026-10-25-02（D-19 水位哈希）/P-2026-10-25-08（否决窗语义）维持 open**：前者由 D-20261025-08 四元组在途，后者属 T1 须 CEO 一句话，本轮不重复催办只列待裁。
+6. **11-01 日班点名「10-26 R6 缺席、今日应出 R7」= 伪案**：周轮周频=周日，10-25 周日 R5 后下一法定窗就是今日 11-01，**本轮即 R6**，无缺席。日班未核「周频=7 天」口径即下结论（同 P-2026-10-25-03「立令前不核实况」族）。
+
+### ②规则缺陷批评（点名到法条）
+- **㈠「台账/治理件追加一律显式 UTF-8」缺常驻执行体**——法条本身对，判据错：写成「本窗断言一次」而非「每班必跑的闸」，故 `read_file` 整件拒读的全局伤害会复发。修=P-2026-11-01-01（guard 脚本+夜轮 ② 接线）。
+- **㈡「F-09 检出即点名」缺〔owner+时点+逾期动作〕三元组与逾期自动动作**——点名成了日记，一周 10 条反思自认「点名饱和即执行真空」。修=P-2026-11-01-02（三班强制改判三选一）。
+- **㈢「周轮产出核对步」（P-2026-10-11-01②）缺周期口径机核**——核对步只比「ledger 尾条 R 号」，不比「距上轮天数是否 = 周期」，于是周频被读成日频并报出伪缺席。修=核对步应加「上轮日期+7 天=本轮窗口」判据（并入 ㈠ 同批 prompt 接线，不另立法）。
+- **㈣ governance §3 开线五步缺「状态推进判据到期自动点名」**——BigStream onboarding 39 天、BigHouse 30 天判据 DDL 10-28 过期零结论，登记簿变成只进不出的漏斗。属 T1 拓扑，本轮只提案（P-05）。
+- **㈤「台账 400KB 分卷线」有雷达无扳机**——夜轮报「余 10KB 预警」两班后本轮追加即越线（404,556B），按「过线=次班执行分卷波」的既有范式，实际无人执行。修=P-2026-11-01-09（干净窗分卷；本轮不动因他窗并发写）。
+- 撞号/竞写：本窗取号前重读提案区尾行（P-2026-10-25-10 不存在，尾行=P-2026-10-25-08），取 P-2026-11-01-01~10 无撞号；轮首脏树 20+ 项（他窗在飞）按纪律只定向提交，未触碰。
+
+### ③法熵周检
+- 计数（本窗实测）：`docs/` 顶层 23 件＋`cph4/` 顶层 36 件=**59 件**；按本轮新立边界=治理面 **34 件（仍越 20 件线）**、研究面 48 件（<80 件阈）。
+- 重复簇：无 0 完全重复件；P-2026-10-25-07 与本轮 P-03 同源，已就地并条（不新立第二法）。同夜多版本连升：本周零。
+- 瘦身候选（提案非删除）：①治理面 34 件中非白名单件 23 件里，先并「同主题多件」——audit 域（audit-office/audit-charter/audit-sentinel 说明）可三并一；②`evolution-ledger` 分卷（P-09）本身即减注入面。
+- 季度全量宪法审承继（R13=2027-02 前后）不动。
+
+### ④迭代提案落地
+- **T2 已落 3 件**：P-01 台账编码闸（`Tools/ledger-utf8-guard.ps1` 自测 rc1→修复→rc0，两件台账已修·备份在案）、P-02 点名三要素闭环律（night-round-prompt ② 接线）、P-03 治理面计数边界（evolution.md §3+changelog）。
+- **T3 已记**：本报告+提案 10 行+反馈区收取注记；11-01 日班「R7」伪案勘正。
+- **T1 上呈 2 件**：P-05 登记簿状态两行、P-2026-10-25-08 否决窗语义（承继不重立）。
+- **transferred 4 件**：P-04（S4U 重注册→@HQ 工具域）、P-06（D:\ 旧镜像→各司自查+集团面清单呈签）、P-07（BigMoney 0x800710E0 + silence-enforce→@BigMoney/@HQ）、P-08（三司 R3 水位→三司自领）。
+
+### ⑤方向对账（CEO 令对齐度）
+- 在飞 vs CEO 方向主题：mv0001 **V718 装配中**（三镜 768P 重烧 3/3 PASS·待全闸复跑+导演席签字）＝对齐 10-30/10-31 精品线；MiniGame 引擎类任务按 10-28「不要再自动化运行游戏包」令停用＝对齐静默/让路；BigMoney W 波 r1203/r1204 今晨在跑＝对齐量化波链；FluxVerse 城建附卷（F-20261101-01·逾期 13 天收口）＝对齐城市线。
+- 偏航 1 件：**外审班 7 天 + OSS 收获九实体全部 >72h（最短 283h）＝「有法无役」**，与 CEO 10-23「拆完 48h 内必须出可玩原型/可看样片，补文档写规则不算交付」相悖 → P-10 要求三选一（自愈体/降频指定唯一执行体/收线），不许第 8 次点名。
+
+### 资源健康（retention 20261101-091940）
+- 盘余 **929.2GB**（远高于 150GB 线，无燃烧率点名）；区间增量头名 cph4 0.0MB／gaming\MiniGame +14.8MB（全在 .git）／quant\bigmoney +5.1MB（全在 .git）——**零生产面爆量**。
+- 超水位三件（全部产品仓 R3 域·集团面零超）：GIT_BIG `gaming\MiniGame\.git` **2923.6MB**>2GB（动作=git gc 只压不删）；AUTO_SAVES_OLD bigmoney auto-saves **252/1137 件**>30 天（过期清·隔离区）；LOGS_OLD FluxVerse logs **141 件**>14 天（过期清·隔离区）。建议：三司自领，集团只出清单，禁直接删。
+- 集团面台账：orders 189.2KB/250 ✓｜decisions 74.9KB/200 ✓（11-01 06:00 已分卷）｜**evolution-ledger 404,556B/400 ✗**（P-09）｜gaming-CODELY 31.8KB/60 ✓｜根 CODELY 59.1KB（注入面 >40KB 为在册 P0）。
+
+### 考核面（decision-chain §三·四层一行态）
+- **L0 团队判据**：本轮四步全走完+五议程+月度复盘+六指标全出＝✓；自审缺口 1 件＝轮内未测「i2v/云配额」面（本机今晨无在飞云批，按实况记 🟡 未测量）。
+- **L1 门禁与评审**：mv0001 呈审门（DIRECTOR-REVIEW 缺 PASS 禁出地址）在位 ✓；MiniGame 五闸链未跑（自动化按令停）＝⬜ 依令停；decision-round 回执 SLA 今日 3 行全在窗 ✓。
+- **L2 各司锚点**：MiniGame 上线闭环 🟡（V0.10.18 版本号一名多物成债·免费续时倒计时冻结黄件在册）｜BigMoney 门禁与回测 🟡（r1203/r1204 在飞·supply_floor 常红 ready 1/floor 3·main 领先 31 落后 40 未推）｜BigStream 内容与本地化率 🟡（V718 未过导演席·反馈面 184h 零新行）｜FluxVerse 里程碑 🟡（城建附卷交付·CC-2/CC-3 承诺 11-03·面板帧源 17 天未更新）｜BigLife QC ✓（D-20261026-13 编码闸复核闭合·无异常）｜BigDomain 待机豁免 ✓（无在飞·合理）｜CPH4 闭环率 🟡（10 件提案中 3 落 4 转 3 上呈/待窗）。
+- **L3 集团三面+四器+物尽其用+token**：机制面 mechanism-audit flags=0 ✓／task-health 28/109 不健康（UNEXPECTED-DISABLED 26 含设计态 7+BROKEN-LINK 1）🟡／audit-sentinel flags=6（A 1 件逾窗 7d·B 5 件虚荣比候选）🟡／registry 影子缺口 3 🟡；物尽其用=green-idle 0（无闲置促配面）✓，bm-b 44.4h OFFLINE／bm-c 21.3h STALE ✗（各机 owner）；token=本地优先+云默认关，本轮零云调用 ✓。
+
+### 月度使命复盘（本月首个周日·六司+实验室·四问一行态）
+| 司 | ①使命对照 | ②各司其职 | ③相互赋能 | ④重复建设/资源 |
+|---|---|---|---|---|
+| Biggame/MiniGame | 🟡 正典=多款小游戏+车机亲子；实况=V0.10.18 打磨+家庭版档位，主线未偏 | ✓ 无越界（引擎类自动化按 CEO 令自停） | 给 BigStream 素材面 0／受 FluxVerse 资产复用 0＝断链候选 | 🟡 版本号一名多物（债）；Art Assets 27.9GB 年增未过 5GB 线 |
+| BigMoney | ✓ 正典=量化回测厂；实况 r1203 日频在跑+方法论资产卡 E239/E295 | ✓ 司内自治·未越集团面 | 给 BigCompute 回测产能／受 bm-c GPU＝双向在册 | ✓ 无重复建设；.git 1.0GB 健康；auto-saves 252 件待清 |
+| BigStream | 🟡 正典=AI 媒体精品 MV；实况 V718 未过导演席＝「精品」判据未兑现 | ✓ 未越界 | 给 BigDomain 引流素材 0（本季）＝断链 | 🟡 MV 中间件 2.75GB 已入 _trash（可逆）；反馈面 184h 零行 |
+| FluxVerse | ✓ 正典=硅基城市 3D polygon；实况城建附卷+面板 | 🟡 城建侧 18 条问题 0 条进正身（F-20261101-01 自认） | 受 BigLife census 万行；给 BigHouse 地块 | 🟡 D:\ 旧镜像双拼写（P-06） |
+| BigLife | ✓ 正典=居民与人设唯一生产司；QC 闸闭合 | ✓ 未越界（census 冻结维持） | 给 FluxVerse 人口面；受 BigDomain 共创面 | ✓ 无重复 |
+| BigDomain | ⬜ 待机豁免（无在飞批次·按实况判负不代修） | ✓ | 断链：本季无对外件 | ⬜ 未测量 |
+| CPH4 实验室 | ✓ 正典=横切机制/进化引擎；实况四环在跑 | 🟡 督办多、产出少（本轮唯一实物=guard 脚本+3 法条接线） | 给各司判据/闸；受各司反馈 15 行 | 🟡 治理面 34 件越线 |
+
+### 自治度六指标（vs 目标线·零新增采集）
+| # | 指标 | 现值 | 目标 | 态 |
+|---|---|---|---|---|
+| 1 | 转办闭环率（48h provably-read） | 本轮 4 件转办均带编号要求；上周 P-06 已 executed（1/1 已闭环件） | 100% | 🟡 样本 1 件不足判 |
+| 2 | 循环健康（E2 真故障） | task-health 不健康 28/109，其中设计态 26 件为 E3 豁免，真故障面=BROKEN-LINK 1 | 连续 30 天 0 | 🟡 |
+| 3 | 自愈率 | 本轮自愈 2 件（两台账编码修复）／尝试 2＝100%；熔断升 E1=0 | ≥90% | ✓（单轮样本） |
+| 4 | 立法自决度 | 本轮 T2/T3 自决 4 件、T1 上呈 2 件、假令 0 | ≥95% | ✓ |
+| 5 | 停跳零容忍（>24h） | bm-b OFFLINE 44.4h／bm-c STALE 21.3h（1 例 >24h）→ 各机 owner，集团不代启 | 0 例 | ✗ |
+| 6 | 物理件外阻塞 | 本轮零「等 CEO」卡单；T1 两件属保留面豁免 | 维持 0 | ✓ |
+
+### 待 CEO 裁决清单（一句话即可）
+1. **P-05 登记簿两行**：BigStream 39 天 onboarding → active？（是/否）；BigHouse 30 天判据 10-28 到期 → 转 active／延期 30 天／收线 parked？（三选一）
+2. **P-2026-10-25-08 否决窗语义**（悬置第 3 周）：(a) 仅 T1 翻案权已废、T2 标注改「AI 立法·git 即回滚」；(b) 全废标注语；(c) 维持 7 天窗。
+3. **P-10 外审班 + OSS 收获九实体**：同意「降频为周频并指定唯一执行体」还是「正式收线」？（二者皆可，只在不再第 8 次点名）
+4. **根 CODELY.md 59.1KB（注入面 >40KB）**：是否授权按 10-26 瘦身范式再压一轮（只下沉不删条）？
+5. 物理件面零新增（GH/账号/支付/备案无新件待办）。
+
+**必答一行**：这个规则体系本周让哪件事变好了？——「转办送达判据（P-51①）让 CLOUD-OFF 闸这件 P0 从 transferred 一路核销到 executed，跨司回执链真的跑通了」；哪件事仍然需要 CEO 重复说？——**「不要再点名了，去把它做掉」**：同一批旗标连续 4 班原样复述即证明「提醒」不是解法，本周已把三要素+三班强制改判写进夜轮法条（机制缺口台账化=P-2026-11-01-02），但**根因仍是无人认领的领受体制度未定**——该判据需 CEO 一句话（本清单第 3 项）。
