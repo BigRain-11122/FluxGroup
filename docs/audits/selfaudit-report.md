@@ -3,104 +3,23 @@
 > governance.md section 10 draft. THIRD-LINE defense input for the weekly
 > evolution round. A claim with NO evidence marker is a hallucination candidate.
 
-- [fluxgroup] 9388523265 files=6 :: 浜嬩欢鐝敹鍙? 017 鐧藉悕鍗曞璺?unlisted=0 / 018 淇濈湡 SSIM .9888 PASS
-- [fluxgroup] 437a00b2da files=9 :: CEO-PROXY event round #3: 3 real cards -> 3 judge-ready packs SUPPLY-DRY refilled from real backlog 
-- [fluxgroup] ea7e8f7f65 files=2 :: dispatcher: R2.38c - v717 shot-count reconciliation delivered, 83 was the stale v716 figure
-  -> repo fluxgroup: 3 claim(s), 0 bare
-- [minigame] 369ab50f9e files=8 :: X2950 P11: the quit request now carries a focus timeline, so one run separates an engine shutdown fr
-- [minigame] 56fa725a56 files=11 :: C2339 closeout (machine C, G27 HexTurf slice-b1): the gate's own JSON said three of the five U085 me
-- [minigame] ead70c63eb files=10 :: X2949 closeout: GateSitter fold B(+3)+C(+1) landed row-level keep-both | shared logs rebuilt as ours
-- [minigame] bfd12e19b8 files=23 :: Merge origin/machine/B (B2542-B2545) into master - G20 dead-round adoption, E-062 build36 adoption, 
-- [minigame] d5b630b83e files=6 :: C2337 closeout (machine C, G27 HexTurf slice-38): the saturated-tail gesture was built, measured and
-- [minigame] 1fe227963b files=30 :: X2946: P11 demo reel lands as a watchable artefact - the V0.10.18 Windows player captured 94 frames 
-- [minigame] 1df4f84065 files=11 :: B2544 closeout: one night, two settle keys | 缁。闈竴澶滀袱閿紙瑙勬牸杞烽浂浜у搧鏀瑰姩锛?bebfc164cdad18facc05bbbd1400
-- [minigame] 66431096bd files=7 :: C2334 closeout (machine C, G27 HexTurf slice-36): the mine pay table is now a declared lever and a f
-- [minigame] e24f9dc593 files=10 :: X2944: P11 clean early exit is player facing, not autopilot-only - a bare launch (no autopilot, no p
-- [minigame] 4afedbc188 files=11 :: B2536 closeout: G20 the door word counts the wrong guest | 闂ㄧ墝鏁伴敊鏁查棬鑰?60ae61543bd91fcf9b37bdae28d546
-- [minigame] cca34e8d1a files=15 :: B2534 closeout: the tag only marks a package that shipped | 澶辫触鍖呬笉鍐嶆嬁閲岀▼纰戞爣绛?93118ba37ec39a06519d00e
-- [minigame] 278a626c3b files=6 :: C2328 closeout: G25 banner words become locale seats - the rescue, dead-end, code, teach and badge-p
-- [minigame] 343cfcb67b files=6 :: C2327 closeout: G25 settle titles and thirteen button words become data - the card body and headline
-- [minigame] 9517a776df files=40 :: fold-B: absorb machine B's six commits (G20 S3k50 emptied-hall code leg, M2 R37 quiet window, S3k45 
-- [minigame] 48e5dae11d files=17 :: B2521 closeout: G20 S3k50 the emptied hall gets its own sentence (copy row, zero glyph cost) | 绌哄簵涓撶
-- [minigame] a33b8d4792 files=8 :: X2918: P11 postcard caption fixed and photographed | state + snapshot + board + ledger closeout
-- [minigame] 251641384e files=2 :: M5 20261028 addendum: evolution_ledger schema drift (643/767 rows are not 8 columns) is the root cau
-- [minigame] 93b92fca58 files=9 :: B2498 closeout: the rail says which night it is - state/snapshot/three-writes/board/ledger | 澶滃彿閲岀▼琛
-- [minigame] d2d267dfb0 files=7 :: X2912 P11 product batch: car edition gets station 2 (challenge band 22-30), so the hard-level star r
-- [minigame] 53a914ee81 files=13 :: C2314 closeout: G27 attacker supply cap shipped at 2 - a keep may absorb at most two siege points pe
-- [minigame] 2b4db11020 files=12 :: X2911 fold: origin/machine/C C2312-C2313 folded into HEAD - keep-both row surgery on batch-claims an
-- [minigame] 837d783e04 files=9 :: C2313 closeout: G27 turf-home coupling measured and shipped off - 8 lead/cadence arms over 1280 offl
-- [minigame] 6de23918c6 files=49 :: X2909 fold: origin/machine/B B2484-B2490 (G20 copy/census/build29 seats) folded into HEAD - base-del
-- [minigame] a2177d2cce files=7 :: C2311 closeout: G27 dominance exit measured per row and shipped - 26 rows declare their own lead tar
-- [minigame] 2ea4b2d16b files=14 :: C2309 closeout: G27 purse-rate base fixed (0.378 per act, 68.2 gold left) and AiTailBurst=2 shipped 
-- [minigame] f9f619f33c files=10 :: X2905 fold origin/machine/C into master (C2307) | one row-level keep-both: the claims log keeps mast
-- [minigame] ab7a33389d files=37 :: X2905 fold origin/machine/B into master (B2479-B2482) | row-level keep-both on the two append logs; 
-- [minigame] efbb783bdf files=9 :: C2308 closeout: G27 purse-rate seat measured and shipped 0 - a saturated act ends with a contest pri
-- [minigame] c538ff6c91 files=14 :: B2481 closeout: morning card copy slice (S3k34) - state/snapshot/three-writes/ledger | 鏃╂櫒缁撶畻鍗℃敹鍙?77
-- [minigame] 5b3d308e2d files=11 :: C2306 G27 product: the dead tail gets a tempo and this one converts - one act allowed exactly one co
-- [minigame] ae553bdfa7 files=5 :: X2902 repair: the shared append files stop carrying fold copies | batch-claims drops 7848 duplicate 
-- [minigame] 7a4d04727a files=12 :: C2304 G27 product: the third seat gets a price and the measurement kills it - selling an own mine in
-- [minigame] c898bbb293 files=1 :: B2476 docs: G20 manual snapshot row (closeout + codex receipt recon) | 鎵嬪唽蹇収琛?be9713677cd2b59914f06
-- [minigame] acbfb29089 files=7 :: C2302 closeout: the dead tail gets a second price and the purse is measured out of the question - th
-- [minigame] 650ef3fe0f files=12 :: B2474 closeout: G20 v3.1.24+build27 adopted three-source (record + tag + CheckBundle PASS, byte iden
-- [minigame] 9c73249a06 files=7 :: C2301 closeout: the dead tail's development gap becomes a gate read (both mean tiers banked per satu
-- [minigame] 471a5117a4 files=6 :: C2299 G27 product: the purse order gets a state - contest-first only while the opponent is not behin
-- [minigame] ee689181ce files=8 :: X2899 closeout: the fold debt is cleared again - B2470 and C2297 landed row-level with verified acco
-- [minigame] b12cf25c4d files=12 :: fold origin/machine/B into master (B2470) | one row-level resolution verified by an exact Counter ac
-- [minigame] 90611acb51 files=7 :: C2298 G27 closeout: the two same-price post-saturation seats get a declared purse order - the old fi
-- [minigame] e52b2004e9 files=3 :: chore: absorb the heartbeat and ledger deltas before the X2899 fold pass (pre-fold chore, no product
-- [minigame] 4015296179 files=17 :: fold origin/machine/B into master (B2467/B2468/B2469) | two row-level resolutions verified by an exa
-- [minigame] c896d41acd files=7 :: fold origin/machine/C C2296 into master | two row-level resolutions: the claims chain keeps master w
-- [minigame] ac3b5df85f files=28 :: chore: absorb heartbeat, ledger and pipeline evidence before the X2898 fold pass (pre-fold chore, no
-- [minigame] 7dc0cc2e1a files=7 :: C2296 closeout: the opponent act budget was built and rejected by its own read - a 1+6 burst buys on
-- [minigame] 5c6d90ad83 files=14 :: B2467 closeout: G20 v3.1.23+build26 adopted (three sources: record + tag + CheckBundle v1.3 PASS, by
-- [minigame] 1782d1c410 files=18 :: chore: X2897 closeout - a fold round that clears both branches and says it scored zero | machine B a
-- [minigame] 8365add260 files=7 :: fold origin/machine/C C2295 into master | one whole-file board conflict resolved row-level: A keeps 
-- [minigame] 15a553f633 files=1 :: chore: absorb the regenerated city heartbeat before the second fold pass
-- [minigame] 3a394287e8 files=7 :: C2294 closeout: the owned-cell sink converts the saturated tail into decisions - space share 0.334 -
-- [minigame] 64202a8e81 files=7 :: C2293 closeout: the saturated board is also a rich board - the shipped line banks 3988 gold on avera
-- [minigame] 7ccc2fbd07 files=20 :: B2461 closeout: G20 S3k23 the hall line repaints on the completing frame (dead-round adoption) + v3.
-- [minigame] d8c87678b7 files=12 :: chore: bank the 14:56 gate probe (9/9 PASS in 28.4s) and the A fleet pulse from the same window | pr
-- [minigame] 7c45443f27 files=6 :: chore: X2893 closeout - both fleet flags cleared with zero master claim rows lost | B2457/B2458 (G20
-- [minigame] 926fe3e1e2 files=12 :: fold origin/machine/B B2457-B2458 into master | one row-level keep-both on the claims chain (master 
-  -> repo minigame: 55 claim(s), 0 bare
-- [bigmoney] 5ed1e427c1 files=4 :: round 1135 receipt: push 0d380d005b verified (ahead 0 behind 0 both ways); S7 claws reinstalled, att
-- [bigmoney] 1691ede042 files=2 :: round 1325 receipt: push a4694c2924 four-way verified (ls-remote==HEAD, behind/ahead=0, three artifa
-- [bigmoney] 9440860f5e files=2 :: round 1220 push receipt: 282730f639+ddd349fad0 delivered, heartbeat and state carry the verified sha
-- [bigmoney] ddd349fad0 files=5 :: round 1220 receipt: push 282730f639 four-way verified, delivery line filled in the round report (the
-- [bigmoney] e3d486f818 files=45 :: round 1324: chain 65/65 + closeout -- the hysteresis face is re-derived every round by an engine-fre
-- [bigmoney] fbfb58e29c files=3 :: round 1219 receipt: push 386a13fee4 four-way verified, delivery line filled in the round report (the
-- [bigmoney] 08eff0da4c files=1 :: round 1217 receipt: one round, two pushes -- the rebase that absorbed bm-c r1320/r1322 and the E184 
-- [bigmoney] 658796ce1f files=1 :: round 1214 receipt: push 2b1a046db verified four ways -- the same-fold guard on both new legs is the
-- [bigmoney] 2b1a046dbd files=23 :: round 1214: the fixed ladder's era levels survive every single-member drop, while the rotating wide 
-- [bigmoney] 7ea297c398 files=2 :: round 1213 receipt: push afb18ae94 verified four ways, and the pool face was re-encoded to CRLF befo
-- [bigmoney] afb18ae943 files=25 :: round 1213: a side-level zero is not five zeros -- the ladder side is published per holding and the 
-- [bigmoney] e9c56ed0a0 files=2 :: round 1212 receipt: push 04c1455b9 verified four ways, and the pool and heartbeat faces were re-enco
-- [bigmoney] 04c1455b96 files=38 :: round 1212: the fixed leg never moves is a membership fact, not a family law -- all three pinned ski
-- [bigmoney] 2f5ee81fcf files=4 :: round 1211 receipt: push 7884010ac verified four ways, and four CRLF faces re-encoded by text-mode w
-- [bigmoney] bbe74d398a files=4 :: round 1210 receipt: push ce4e27c56 verified beyond doubt four ways, and the 17 skipped faces are nam
-- [bigmoney] 81ebfd6ff7 files=2 :: round 1209 receipt: push c528fe34f verified; a mixed-ending file rewritten in text mode gains newlin
-- [bigmoney] 58c5579cbf files=1 :: round 1208 receipt: push 8655bf74f verified behind 0 ahead 0; per-face rebase resolution and the car
-- [bigmoney] f507310c5d files=3 :: round 1319 receipt: push 43959542ce verified behind 0 ahead 0; the bm-c card renumbered E173 on the 
-- [bigmoney] e5c92c833c files=3 :: round 1207 receipt: push f01756311 verified behind 0 ahead 0; two self-inflicted defects fixed befor
-- [bigmoney] b369e279c9 files=3 :: round 1206 receipt: push c8f8e6625 verified behind 0 ahead 0; claw blocked the first push and the re
-- [bigmoney] 65141056cf files=2 :: round 1318 receipt: push aecd027cd5 verified, behind 0 ahead 0; ls-tree origin carries scripts/group
-- [bigmoney] 6da2a6b20f files=1 :: round 1205 receipt: push c0ebcb740 verified behind 0 ahead 0; S7 loop pin no-op, watchdog and both c
-- [bigmoney] 5aad170d70 files=9 :: round 1204 receipt: push 55b355807 verified behind 0 ahead 0; the ownership claw blocked the stale-b
-- [bigmoney] 674f211b6c files=61 :: round 1316 (absorbed): the forward ledger now publishes what it cannot see -- power floor replaces a
-- [bigmoney] ef085175f2 files=2 :: round 1202 receipt: push 60b4d1810 verified, behind 0 ahead 0; ls-tree origin carries the E168 face 
-- [bigmoney] eaf207b95a files=2 :: round 1201 receipt: push 1ba96b3c3 verified, behind 0 ahead 0; ls-tree origin carries the E126 face 
-- [bigmoney] ed9464c21a files=2 :: round 1200 receipt: push 36f614bb1 verified, behind 0 ahead 0; S7 legs green after the push
-- [bigmoney] 81d00242c0 files=3 :: round 1199 receipt: push 7f72400ad verified, behind 0 ahead 0
-- [bigmoney] c6c6edac2e files=2 :: round 1198 receipt: push 09df85ece verified, behind 0 ahead 0
-- [bigmoney] 93b634836a files=2 :: round 1197 receipt: push 7f8a2dcd7 verified, behind 0 ahead 0
-- [bigmoney] 7f9b1b5572 files=2 :: round 1196 receipt: push 18aa47fa0 verified, behind 0 ahead 0
-- [bigmoney] c523b87c8f files=2 :: round 1130 postscript: push verified, smoke 95/95 after the rebase, supply floor is the open item
-- [bigmoney] 9353a859c1 files=1 :: round 1313 postscript: smoke re-run after closeout edits (92/92 PASS)
-- [bigmoney] 0e0af654a5 files=1 :: round 1129 postscript: push verified, watchdog S4U flip still refused, marks lane did run in-hours t
-- [bigmoney] c8a596eece files=1 :: round 1128 postscript: delivery verified and the task set is back after the 19:00 AutoYield release
-- [bigmoney] 4e0da6c616 files=1 :: round 1181 heartbeat: close-of-round stamp (behind 0, E113/E114 delivered)
-- [bigmoney] e99c6088ff files=4 :: round 1309 (recovered): the ladder priced fixed cells, the company deploys a re-selection rule -- pr
-  -> repo bigmoney: 37 claim(s), 0 bare
+- [fluxgroup] b5e6041c94 files=7 :: triage: factual first pass on 7 silent lines [CEO 2026-11-01 鍏ㄩ潰寮€宸
+- [fluxgroup] 7c0fa564a3 files=4 :: R2.59 addendum: two self-inflicted defects fixed night-round commits, add agent.py push leg
+- [fluxgroup] edd4939185 files=2 :: dispatcher: R2.57 - stale-worktree root cause found and fixed in agent pull leg
+- [fluxgroup] 11a69f5afb files=4 :: dispatcher R2.53 closeout: carrier self-excite loop fixed (real FLAG rows only + freshness window; 5
+- [fluxgroup] ea5ded6cf6 files=4 :: mv0001: v718 鍑虹墖鍥炴墽鈥斺€斾慨澶嶅崟鍏ㄩ棴鐜?鍏ㄩ椄 PASS+D4 闂稿崌鏍硷紙CEO 10-30 涓嬬彮浠わ級 [via bm-a]
+- [fluxgroup] 675f3afb3b files=6 :: bm-c 20261031: claim leg was a broken bat (every line split, LF endings) - rewritten and verified on
+  -> repo fluxgroup: 6 claim(s), 0 bare
+- [bigmoney] dfb8132734 files=1 :: round 1208 receipts: final-tree smoke 294/294 PASS; CEO page 87/87; D-19 MATCH (zero new decision ro
+- [bigmoney] 71712072ca files=1 :: round 1207 receipts: final-tree smoke 294/294 PASS on the look-ahead face; --check OK; D-19 MATCH af
+- [bigmoney] b92e68a8b2 files=3 :: round 1205 receipts: final-tree smoke 293/293 PASS on the lane-silence face; orphan 0/14; D-19 batch
+- [bigmoney] 95edef379d files=76 :: round 1203: the 60-day vol window gets priced on four decision calendars -- direction robust, size n
+- [bigmoney] dd9ca33361 files=14 :: round 1202: the de-lever rule keeps its job -- a fixed fraction matches it on the full window and lo
+- [bigmoney] 063a864a8c files=3 :: round 1200: chain artifacts from the post-fix audit pass (supply_candidates=AGENDA_DEBT, selftest 68
+- [bigmoney] 54c2b847a5 files=1 :: round 1200 note: --no-verify tracer -- HEAD scanned for conflict markers, zero hits, push verified o
+- [bigmoney] 54b43adf20 files=1 :: MSG bm-c: executor live, lease self-lock fixed, lane file stale at 17:42 - needs master republish
+- [bigmoney] f545a4314b files=2 :: round 1192 close: delivery receipt (smoke 283/283, S6 109 legs, push verified 0/0)
+  -> repo bigmoney: 9 claim(s), 0 bare
 
-## Summary: claims=95 evidence-backed=95 bare(no-files)=0
+## Summary: claims=15 evidence-backed=15 bare(no-files)=0
 ## Round duty: bare claims and keyword-heavy claims get RE-VERIFIED by the evolution round AI (governance 10.3).

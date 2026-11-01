@@ -487,3 +487,43 @@
 
 **本班未动**：未写 `orders/decisions/POOL/DEADLINES`，未删改 L0/L1 条目，未动 `BRAND.md` 与任何章程，零 poke，零计划任务状态变更。
 **写面**＝本件本轮段 + `PATROL-FLEET/LOG.md` 一行（UTF-8）+ `group-shiftlog.md` 一行 + 锁 touch；**snooze 不改**（W1 星晴行=真实待决件，禁 snooze）。
+---
+
+# R17 巡视（group 横切 · 2026-11-01 20:0x 班 · 域=元资产与法度 · 只读只议）
+
+**触发现**：DEADLINE W1 星晴行（本日第 4 次发射 · group-state launches_today=4）。
+
+## 一、触发件现势（20:0x 实测）
+
+- `cph4/fleet/dispatcher/CEO-PROXY/DEADLINES.md` = **80,179B / 259 行 @ 11-01 17:54:55**（较 R16 读数 75,069B @10:52 已更新 ⇒ **该件在维护**，非陈旧传感）。
+- 四行状态**仍无终态判词**（逐行实读，行号不变）：L17 `10-14 八度空间/叶惠美 音源`=in-flight · L21 `10-16 治理窗 C-20261009-01/02`=scheduled · L22 `10-19 回访 C-20261012-02/03`=scheduled · L19 `排队 W1 星晴 A 批`=in-flight（行内末注记仍为 R2.24 段，无新增处置）。
+- ⇒ **【G-20261101-01 · 第 3 轮未决升级】** 四选一销行建议不变（closed-superseded ／ re-scheduled 带日期 ／ upgraded ／ dropped），禁 in-flight 空转。静态龄现算 **12 / 13 / 16 / 18 天**（均破 §11 五天顶）。
+
+## 二、【NEW · group#R17-1 · 第 1 轮】维护级节拍全停 5h40m ⇒ 我自己这条 ⑥ 的命名面失明
+
+- **实证（不靠记忆）**：`cph4/fleet/dispatcher/PULSE.json` 内容 `ts=2026-11-01T14:25:32`（`node=bm-m`），文件 mtime **14:29:25**；本班现时 20:0x ⇒ **停摆 5h40m**。旁证 `events.jsonl` mtime **13:58:45**。
+- **机制**：`Tools/fleet/master_pulse.py` 每轮**无条件**落盘 PULSE.json（临时件 + `os.replace`）并 append `events.jsonl`；`SLOW_EVERY = 300`（源码行注「maintenance batch … 5 min is affordable」）⇒ 维护批应按 **5 分钟/轮**跑，停摆区已漏 **≈68 轮**。
+- **覆盖面差**：派遣三腿（hb / master / lane）由 bm-a `steward.py` 的 `master_agent.py` 兜底（MASTER-STATE 实测 `masquerade_by=bm-a`、`master_tick_ts=19:32:27`、cyc=929），但 **维护批无兜底** —— `steward.py` 只串 `agent.py` / `master_agent.py` / `fleet_supervisor.py` 三腿（源码 L11-L12、L89-L90 实读），不含 `master_pulse.py`。故主控一断，`deadline/digest/brain/judge/social/biz/autowork/mem` 八段全黑。
+- **本席域内后果（可直接定罪）**：pulse 的 `deadline` 段产物 `cph4/fleet/dispatcher/DEADLINES.md`（「产出与方向」）mtime **13:58:45**、内容头戳 **12:21**。其 `bigstream-mv  OK  最近 19.4h 前 / 阈值 24h` 只是 12:21 的读数；真实传感 `cph4/fleet/queue-receipts/mv-gate-latest.json` mtime **10-31 14:11:46** ⇒ 现龄 **30.0h**，**已破 24h 阈值**，而命名面 7h40m 未刷新、无人点名 ⇒ §10⑥「快速件 >24h 未关单点名面」当场失效（不是产线慢了，是**报时的表停了**）。
+- **同族附带疑点**：该 mv-gate 回执内容 `verdict=FAIL` 且 `file` 仍指 `full_mv_v717.mp4`（bigstream 已登 v718 PASS，R29-3 在案）⇒ 命名面**按 mtime 判 OK、不看 verdict/内容戳**，与 biggame R21-2 判例「状态件新鲜度读内容 ts、禁读 mtime」同病，建议 `fleet_deadline.py` 判据双面化。
+- **建议（只议不执行）**：① 枢纽先定性 bm-m 脉冲停摆是「合盖/休眠」还是 loop 死（Mac 心跳仍在：MASTER-STATE bm-m online / hb 67s ⇒ 机器活、脉冲死），按需恢复；② 维护批给 bm-a 兜底（steward 加第四腿、或 master_agent 内联慢轮），否则每当主控断线维护面必失明；③ deadline 段判据改「内容戳 + verdict」双面；④ 本行另抄一份给 fleet-ops 席（根因在调度面，不在元资产面，本席不接管派单）。
+
+## 三、六面现势（本班实读实算）
+
+| 面 | 判定 | 本班实据（2026-11-01 20:0x） |
+|---|---|---|
+| ① 品牌词法 | **OK** | `BRAND.md` 5,856B @09-30 16:57 未变；§8 十名 locked；无新命名事件（CEO 保留面零触碰，物理件零催办） |
+| ② 记忆健康 | **超帽未愈（第 7 轮）** | L0 `C:\Users\sjs20\.codely-cli\CODELY.md` = **44,913B**（帽 40,960B ⇒ **+3,953B / +9.65%**，与 R15/R16 同值零变化）；L1 `FluxGroup\CODELY.md` = **62,287B / 94 条**（R16 为 60,482B / 92 条 ⇒ **+1,805B / +2 条**）；§10 判据（>110KB / >140 条 / 同主题≥3 版本）均未触发；`HQ-MemoryBudgetGate` State=Ready · Last 19:46:09 Result=0 · Next 21:46:08 **存活 ✓** |
+| ③ token 账本 | **缺行（第 5 轮）** | `cph4/fleet/token-ledger/LEDGER.md` = 4,648B @**10-26 22:36**（6 天零行，与 R15/R16 同值）；今日 11-01=**周日周报窗** ⇒ 10-18 / 10-25 / 11-01 **三窗零行**；**月度成本行全账零产出**（跨月首日） |
+| ④ 法度健康 | **承前分歧（第 3 轮·不重立）** | `cph4/registry/law-registry.md` = 16,233B @**10-20 18:20** ⇒ 12 天零批次行；R15 判 OK（17/20 + 法熵平衡 + 3 件超帽入池），R16 留口径分歧一行，本班不改判、不重立 |
+| ⑤ AI 诚实律 | **OK（本班刷新实测）** | `docs/audits/selfaudit-report.md` 13,462B @**11-01 19:36:39**（24 分钟内新鲜，R16 时为 09:14）；`## Summary: claims=95 evidence-backed=95 bare(no-files)=0`，分仓 fluxgroup / minigame / bigmoney 三仓全 0 bare |
+| ⑥ 交付时效 | **双破口** | ①G-20261101-01 四行破五天顶第 3 轮未决；②**R17-1 命名面失明**（见 §二：pulse 停摆 5h40m，mv 线实测 30.0h 破 24h 而表面仍记 19.4h OK） |
+
+## 四、承前未决（只标状态位，不重复登记）
+
+- 已历 4~7 轮：**第 4 条 记忆双帽**（②承载）· **第 6 条 token 周报/月度行**（③承载）· **law-registry 补账**（④承载）· **R16-1 LOG.md 双编码正身**（本班未重测）。
+- 跨域承载不改：R11-1 `DEADLINES` 去重（`R2.39a` count=2）+ L28 终态化 · R10-1 `queue_claim.py --pool` 缺 execute 腿 · R10-2 bm-b 心跳写手 + NATS · L1/账本未提交面（按 R13 dirty=34 维持，本班未复测）。
+
+**本班未动**：未写 `orders/decisions/POOL/DEADLINES`，未删改 L0/L1 条目，未动 `BRAND.md` 与任何章程，零 poke、零计划任务状态变更、零云端、零 spawn。
+**snooze**：**不改**——现有 5 条（L0 超帽 / DEADLINE 10-26 / STARVED-EXEC bm-a·bm-b·bm-c）均未到期（至 2026-11-02 14:00）；本班新发现两条（G-20261101-01 第 3 轮、R17-1）**均为真事故，按律禁 snooze**。
+**写面**＝本件 R17 段 + `PATROL-FLEET/LOG.md` 一行 + `media/logs/patrol-fleet/group-shiftlog.md` 一行，均 **UTF-8 无 BOM 字节追加**（写后复验坏行数未增加）+ 班毕 touch 锁。
