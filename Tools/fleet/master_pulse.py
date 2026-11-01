@@ -115,7 +115,12 @@ def git(args, timeout=90):
     return subprocess.run(["git", "-C", ROOT] + args, capture_output=True, text=True, timeout=timeout)
 
 
-STATE_PREFIXES = ("cph4/fleet/", "fleet-console.html")
+# Files the pulse commits itself so a rebase never has to stash them. CODELY.md and the
+# memory folder belong here: agents append memory constantly, and while that file stayed
+# dirty the pulse skipped every pull and every push ("non-fast-forward" for hours), so the
+# plane kept ticking while the fleet could not see it - the 2026-11-02 overnight vacuum.
+# Memory writes are append-only facts, safe to snapshot; hand edits under Tools/ are not.
+STATE_PREFIXES = ("cph4/fleet/", "fleet-console.html", "CODELY.md", ".codely-cli/memory/")
 
 
 def tree_state() -> tuple[list[str], list[str]]:
