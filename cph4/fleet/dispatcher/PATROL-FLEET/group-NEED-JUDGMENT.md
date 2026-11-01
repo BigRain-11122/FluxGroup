@@ -562,3 +562,47 @@
 未写 `orders/decisions/POOL/DEADLINES/BRAND`；未删 L0/L1 条目；未 poke、未 spawn、未改代码与状态件；未呈 CEO。snooze 仅刷新 L0 旗注记（维持 11-02 14:00 到期）；R18-1/2/3 **均为真实缺口，不入 snooze**。
 
 **证据**：本文件 R18 节 + `PATROL-FLEET/LOG.md` 一行 + `media/logs/patrol-fleet/group-shiftlog.md` 一行 + touch 锁。
+
+---
+
+## 第 19 轮（R19）· 2026-11-02 00:58-01:05 · 域=group（元资产与法度）
+
+> 触发 sig 与 R18（00:13-00:2x）同签（DEADLINE: 排队 W1 星晴行）⇒ 按传感复用律**不重测** R18 已测面，只做增量直读（8 次只读调用）。零 poke · 零 spawn · 零台账直写。
+
+### 一、真事故（本轮首要 delta）：维护脉二次停摆 56 分钟 —— R17-1 复活，R18 结案过早
+
+- **硬证据（双件同刻静止）**：`cph4/fleet/dispatcher/PULSE.json` mtime **11-02 00:04:11**、`cph4/fleet/dispatcher/events.jsonl` mtime **11-02 00:04:11**；本班实测时刻 01:0x ⇒ **56 分钟零写**（`Tools/fleet/master_pulse.py` 每轮无条件落盘 PULSE + append events，`SLOW_EVERY=300` ⇒ 5 分钟/轮，漏 ≈11 轮）。
+- **内容戳更早**：PULSE.json 内 `ts=2026-11-01T23:28:30+08:00`，落后自身 mtime **36 分钟** ⇒ 停摆不是 00:04 才发生，00:04 那一笔写已是「陈旧内容的最后一次落盘」。
+- **进程面旁证**：`Get-CimInstance Win32_Process python.exe` 命令行匹配 `master_pulse|steward` = **NONE**（HQ-Steward / FluxGroup-FleetAgent 任务 State=Running，但无 pulse 主体）——与 R17-1 同根（`steward.py` 只串 agent / master_agent / fleet_supervisor 三腿，**不含 master_pulse**）。
+- **R18 为何结案过早**：R18（00:2x）以「mtime 00:04:11 + 5 连跳 + 记忆闸 23:46 绿」判「已恢复」；但该组证据的 mtime 在当时已静置 9 分钟，其后 56 分钟零新写 ⇒ 判据用的是「昨夜跳频」而非「当前存活」。**判例**：维护脉存活判据须是「now − mtime ≤ 2×周期（=10min）」当场读数，禁用历史跳频外推。
+- **后果（本席域内可直接定罪）**：deadline / digest / brain / judge / social / biz / autowork / mem 八段全黑 ⇒ §10⑥ 命名面失明（产线慢不慢看不见）。
+- **处置归属**：根因在调度面（fleet-ops），本席只登记不代劳；**真实事故禁 snooze**。
+
+### 二、§10 六面（01:00-01:05 实读实算 · 与 R18 同值者只标「未变」）
+
+| 面 | 判定 | 本班实据 |
+|---|---|---|
+| ① 品牌词法 | **OK（未变）** | `BRAND.md` 5,856B @09-30 16:57 未变；§8 十族 locked；无新命名事件（CEO 保留面零触碰） |
+| ② 记忆健康 | **双帽内 · L0 小超帽（snooze 有效）** | L0 `C:\Users\sjs20\.codely-cli\CODELY.md` 44,913B vs 40,960B 帽 ⇒ **+3,953B / +9.65%**（mtime 11-01 04:03 未变＝git-copy 传感）；L1 `FluxGroup\CODELY.md` 71,371B / 102 条（§10 判据 110KB / 140 条均未触发）；`HQ-MemoryBudgetGate` Ready · Last 11-01 23:46:09 R=0 · Next 01:46 **存活** |
+| ③ token 账本 | **缺行（未变）** | `token-ledger/LEDGER.md` 4,648B @**10-26 22:36**（6.7 天零行）；11-01 月度成本行缺；真金周帽 10-18 / 10-25 / 11-01 三连缺（承 R18-3） |
+| ④ 法度健康 | **账本滞后 13 天（未变 · 非事故）** | `cph4/registry/law-registry.md` 16,233B @**10-20 18:20**；L0 顶层法 ≈17/20 在预算内；10-15 后法熵批次行零 → 承 R16 分歧行，本席不改判不重立 |
+| ⑤ AI 诚实律 | **OK（未变）** | `docs/audits/selfaudit-report.md` 2,522B @**11-01 21:13:42**（3.9h 新鲜）；`claims=15 evidence-backed=15 bare=0`（正文乱码＝R18-2 在册） |
+| ⑥ 交付时效 | **双破口 + 新增落盘事实** | 见 §三 |
+
+### 三、§10⑥ 时效面新增（R18 未登记的两条落盘 LATE）
+
+- **R19-2｜mv 回执现龄 34.8h，破 24h 阈值（磁盘事实，非回执推导）**：`cph4/fleet/queue-receipts/mv-gate-latest.json` mtime **10-31 14:11:46**（01:0x 实测龄 **34.8h**）。同件内容 `verdict=FAIL` 且 `file` 仍指 `full_mv_v717.mp4`（v718 已出，承 bigstream R31-2 指针漂移）⇒ 时效面与判读面双失真。归 bigstream 席出件；本席只登记「>24h 无新回执」这一事实。
+- **R19-3｜drama 线 52.7h 破 48h 阈值（旗源为新鲜台账）**：`cph4/fleet/dispatcher/DEADLINES.md`（mtime 11-02 00:04，pulse 再生件，1,564B）正文行 `bigstream-drama LATE 最近 52.7h 前 / 阈值 48h`。同上，只登记不越域处置。
+- **判读纪律**：同件表内 7 条 `NO-OUTPUT` **不作事实登记**——按 11-01 19:39 判例（缺产判定须落磁盘事实，禁由「没回执」倒推没干活），且 triage 证据卡已在机械化推进（R18 已记）。
+
+### 四、升级（两轮未决 → 候枢纽）
+
+- **【升级 group#R18-1 第 2 轮 → NEED-JUDGMENT 候枢纽】触发行本身陈旧 16 天**：`cph4/fleet/dispatcher/CEO-PROXY/DEADLINES.md`（mtime 11-02 00:15:42，82,314B，UTF-8 无 BOM）**L19** 状态仍 `in-flight`，行内事实（62/62、26 GO、23/26、准烧候 PENDING）全部对应 10-17 提交（`e226e49`=10-17 23:59 / `5f3be92`=10-17 21:09），此后 41 曲线已推进、mv0001 已到 v718。按章程「两轮未决＝升级」⇒ 建议按今日 D-20261102-01 决策寿命律判 `expired` 或重写状态位（DEADLINES 单写手＝枢纽）。同件 L17 `in-flight`（18 天）/ L21 `scheduled`（16 天）/ L22 `scheduled`（13 天）继续无终态判词，四选一销行建议不变（closed-superseded / re-scheduled 带日期 / upgraded / dropped）。
+- **【承 · 不改判】R16-1 LOG.md 双编码正身**：本班实测 `PATROL-FLEET/LOG.md` 579,580B，UTF-8 解码坏字 **2,491**（R10 为 1,786）、GBK 解码 0 ⇒ GBK 正文＋UTF-8 BOM 头的老结构仍在，R16-1 第 3 轮未决。本班追加按 GBK 字节写入并复验坏字数不增。
+
+### 五、未做声明与写面
+
+未写 `orders/decisions/POOL/DEADLINES/BRAND`；未删改 L0/L1 条目；未改代码与状态件；零 poke、零 spawn、零云端、未呈 CEO。
+snooze **不改**：现有 5 条均未到期（至 2026-11-02 14:00）；本轮新增（R19-1 维护脉停摆 / R19-2·3 时效破口 / R18-1 升级）**均为真实缺口，按律禁 snooze**。
+
+**证据**：本文件 R19 节 + `PATROL-FLEET/LOG.md` 一行（GBK）+ `media/logs/patrol-fleet/group-shiftlog.md` 一行 + touch 锁。

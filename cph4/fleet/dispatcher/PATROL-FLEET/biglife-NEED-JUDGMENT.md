@@ -37,3 +37,38 @@
 
 ## 本席未做
 - 未 poke（os-loop 计划任务本身在按时触发，故障点在脚本分支，poke 无效）；未改产品代码/人设；未写 orders/decisions/POOL/DEADLINES；未造人；未动 CEO 人设保留面。
+
+## R2 — 2026-11-02 00:2x — 触发=carrier DISPATCH-LOG R2.63 (b) bm-b 打盹+分叉
+
+**域判断：非本源。** `cph4/fleet/lines/biglife.json` lanes=[]（本域无车道依赖）；OSLoop=本机计划任务 `BigLife-OSLoop`（bm-a·PT5M·SilentShimRunner）直跑 `life/BigLife/Tools/iteration_loop.ps1`，不经 bm-b；本地 LLM 面 :11434 在听（pid 23864），:8090 无监听但 `evolve_citizen.py` L649 已有 local-ollama 回退。⇒ 该旗对本域无影响，入 snooze。
+
+### biglife#R2-1（P1·升级·同病二犯：R1-1 未修）headless 演进轮仍 0 执行，已 4 天 19 小时
+
+本班实测证据（四项互相印证）：
+1. `Tools/iteration_loop.ps1` mtime **仍 = 2026-10-28 05:04:25**（R1 修复建议未落地）。
+2. `logs/os-loop/round_*.out` **今日 0 个**，最新 `round_20261028_050301.out`（2026-10-28 05:06:13）。
+3. `media/logs/cloud-off-suppressed.log` 累计 2349 行，最新 `2026-11-02 00:28:03 | iteration_loop.ps1 | suppressed cloud round (T0)`，每 5min +1（≈288 行/日）。
+4. 结构性死枝（L175-188）：`$__co` 解析失败 → `exit 0`；`$__co` 解析成功 → 也 `exit 0`；L189 `Start-Process` **永不可达**。且 L173 先打印 `spawning headless round ...` 再进抑制分支 ⇒ 日志自相矛盾（R1 已指出，仍未改）。
+
+影响半径：生命演进/剧情/台词/城市卡片链停摆 —— `city-today.html` 10-28 04:56（4.8 天）、`index.html` 10-28 03:35、`evgate` 末次 10-26 06:51（6.7 天）。行为面仍活：`behavior-auto` 11-01 23:03（rows=10114 bad=0）；`PoolGenLoop` 小时级 exit=0 TOTAL=1440 FAIL_BUCKETS=NONE。
+
+建议（三选一，判归枢纽/CEO·本席不执行）：
+- **A（推荐·存疑最小）**：演进轮改走本地 ollama `:11434`（在听；`evolve_citizen.py` L649 已有 local fallback，`citizen_qa.py` L33 同源），不再 spawn 云端 CLI ⇒ 恢复演进且不违 T0「本地优先」。附带须把 L173 的 `spawning...` 挪到真正 spawn 之前（缺陷出生地拦截）。
+- **B**：正式宣告该轮「按 T0 停用」⇒ 禁用 `BigLife-OSLoop`（现状每日 288 次空 tick + 288 行抑制日志=纯噪声成本）。
+- **C**：CEO 单次云端授权（10-20 21:13 解禁令口径内·非必要不上云）。
+
+### biglife#R2-2（P2）体征闸 evgate 停摆 6.7 天（radar ③ 12 体征/七律执法面）
+
+证据：`logs/evgate-065141.out` 130B·末次 2026-10-26 06:51:51；此后无新件（R1 记录一致）。与 R2-1 同根：演进轮不跑则无新体征产出可审。修 R2-1 后须补跑 evgate 并核 12 体征/七律。未自行执行（本席只读）。
+
+### biglife#R2-3（P3·R1-2 部分结案）census 冻结律合规
+
+证据：`census/registry/**/*.md` = **10091 件**；10-29 起 **0 写入**；10-28 仅 **493 件被改写**，ID 覆盖 C-01721…C-09845 全段 = 归一化/修复批次（非新增）；QC-REPORT 10-28 04:45 判「乱码 0·异常 0·全量 PASS」。⇒ 无批量造人，冻结律未破（唯 CEO 解禁，本席不碰）。
+遗留（R1-2 未结·非事故）：`INDEX.md` 仍 10-20 16:53（13 天未刷）；QC 记 10114 片 vs registry 10091 件 ⇒ 差 23，属归一化后未重导口径。
+
+### biglife#R2-4（P3·fleet 邻近）BigLife-OSLoop LogonType=Interactive
+
+证据：`Get-ScheduledTask BigLife-OSLoop` → **LogonType=Interactive**，`wscript.exe //B SilentShimRunner.vbs → powershell -File iteration_loop.ps1`，PT5M。与「本机车道任务一律 S4U」律不符（现 wscript //B 已隐藏，无弹窗实害）。建议 fleet-ops 席按 S4U 重注册（本席不改任务）。
+
+## 本席未做
+未 poke（os-loop 按点在跑·无对象）·未 spawn 控制台·未改产品代码/脚本/人设·未写 orders/decisions/POOL/DEADLINES·未造人·未呈 CEO。

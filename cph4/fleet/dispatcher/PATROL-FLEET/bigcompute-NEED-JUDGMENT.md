@@ -22,3 +22,22 @@
   - 出口：`state/delivery-ledger.jsonl` 仅 3 行 DV-20261025-1（`mock:true`/`live:false`·10-25 22:39）→ 真出口零实绩，已超 3 日线；承载=R-45「商业消费四源全零=失分结构态」+ R-28/R-08（开店物理件未通·CEO 保留面零催办）。
   - 35B：`state/lane8090-probe-log.jsonl` 10-31 18:08→11-01 06:05 连续 5 探 DARK[DOWN]（最近 06:05:57）；承载=R-58 open + D-20261031-05 判定窗 11-02 03:07。
   - GPU：日均 10-29 68.5% / 10-30 89.3% / 10-31 55.8% 三日站上 50% 对标线（正面），11-01 夜窗 06:08/06:13 util=1.0% 空转待盯；承载=R-45 open。
+- [CLOSED 2026-11-02 00:2x（本席核收）] **风险台账滞后项已修**：`compute/BigCompute/docs/risk-register.md` mtime = **2026-11-01 22:49:57**，末条 R-62（写入面编码事故·修复后 CLEAN），「R-61 之后零行」状态结束。上轮 P1 的「台账滞后」半边闭环；余「队列 FAILED 结案」未执行，见本件 P2·二轮项。
+
+- [OPEN 2026-11-02 00:2x][P1·二轮] **L1 :8090（35B coder）结构性缺席，本班三证排除「CEO 让路/暂停」解释**
+  - 新证（00:16-00:18 直读本机）：①`Get-NetTCPConnection -LocalPort 8090 -State Listen` 计数 = **0**（端口无人持，当前不是 eCloud 抢占态）；②`state/lane8090-probe-log.jsonl` 尾四探全 `DARK[DOWN]`（10-31 18:10:56 / 11-01 12:43:07 / 11-01 22:43:07 / **11-02 00:05:57**）；③`.codely-cli/machine-state.flag` = `resumed 2026-10-31T17:47:19+08:00` → **非让路窗**（R-56 型 pause 解释不成立）。
+  - 判读：R-58 三案（eCloud 占端口 / 权重与二进制缺失 / 看门狗假绿 exit 0）未见修复，`lane8090` 侧已连续 ≥30h 零服务。§6⑤「35B 消费率 <1%」由偶发升级为**结构性**；同时是本域唯一「算力商品」服务面后端。
+  - 候选（候枢纽·本席零催办）：①按 R-58 的 BC-P-101 三案定夺（改端口 / 补资产 / 看门狗改真判）；②若 35B 已实质上弃用，落一行「服务下线」明示并停 8090 探针，免每日 DARK 噪声；③修好前把四个消费面（BigLife 年轮 / MV 分镜 / 8792 QA / BigMoney advisor）显式 reroute 到 `:11434` 4B，避免上游静默降级。
+
+- [OPEN 2026-11-02 00:2x][P1·新] **bm-a 夜间生产窗被常驻 4B 挤出：GPU 3% / 9821MiB 已占 / 剩 ≈2461MiB，768P 生产车道物理上无法点火（2026-10-28 判例复发，占用由 7.3G 升至 9.8G）**
+  - 新证（00:18 本机 nvidia-smi + Win32_Process）：`utilization.gpu=3%`、`memory.used=9821 / 12282 MiB`；占卡进程 = `llama-server.exe` pid **54636**（起 2026-10-31 17:51:52，即 machine-state resumed 后 4 分钟自起），命令行 `--model sha256-85e4…（Ollama 4B 档） -c 32768 -np 2 --flash-attn auto`。
+  - 判读：00:18 属 bm-a 夜窗（quiet_hours 09:00-19:00 之外），按律应为满载生产窗；实测 GPU 3%、显存被常驻推理吃掉 80%。bm-a 侧 768P 车道（ComfyUI krea2 int8 / h3 int4）需 ~10G 级显存，free 2.4G 下**不可点火**——这是「算力在役、产能为零」的成本空转，也是 GPU 卡被迫外投 bm-b（8G，显存更小）的结构性原因。
+  - 与 10-28 判例差别：那轮是「4B 常驻 7.3G + keepwarm 反复拉回」；本轮 keepwarm 已非主导，单件常驻（ctx 32768 / `-np 2`）本身就吃 80%。
+  - 候选（候枢纽）：①夜窗把常驻 4B 降到 `num_ctx 8192` / `-np 1`，或按 5m 短租卸载，让出 ≥8G 给生产车道（`Tools/fleet/gpu_lease.py` 现有租约未覆盖 Ollama runner，属缺口）；②`dispatch_precheck` 链上补 `free_vram` 门（R-61 同族：读数有、裁判无）；③若不改，则 bm-a 夜窗产能须按「仅小件」重算，不得在排产表按满卡记。
+
+- [OPEN 2026-11-02 00:2x][P2·二轮] **队列簿记未结案：FAILED 2 件挂账 + UNVERIFIED 8 件 + MASTER-STATE 计数与 jsonl 口径不一致**
+  - 事实（`cph4/fleet/PRODUCTION-QUEUE.jsonl` 逐行统计，共 72 行）：`DONE 54 / UNVERIFIED 8 / OPEN 3 / RUNNING 1 / FAILED 2 / CANCELLED 4`。
+  - FAILED 仍为 `Q-AUD-1002`（10-31T02:58:59）与 `Q-TTS-1202`（10-31T12:41:37，已被 `Q-TTS-1202R` 取代却仍留 FAILED）；上轮 NJ（11-01 06:2x）建议的两项零执行（`R-LLM-BMC-PROBE` 已从队列消失，`Q-TTS-1202→CLOSED-SUPERSEDED` 未翻）。
+  - 新面：`UNVERIFIED` 8 件（MV-NEWPROC-PACKET / R-NEXT-BIGSTREAMM-GATE-20261101 / R-NEXT-BIGSTREAMM-AUDIT-20261101 / C-VB-DISCOVER-V02 / V03 / KN-FILM-GATE-LATEST / LINE-TRIAGE-MV / Q-TRIAGE-BIGSTREAMDUANJU），均 `result.rc=0 + deliverable_exists=true` 但无 receipt/audit 收口 → 属「产能已消耗、成果未验收」，直接压低 §6④ 对账面可信度。
+  - 口径不一致：`MASTER-STATE.json` queue = `open 16 / running 2 / failed 2`，与 jsonl 实盘 `OPEN 3 / RUNNING 1 / FAILED 2` 不符（差 13），簿记面已失真。
+  - 候选（候枢纽）：①`Q-TTS-1202` 翻 CLOSED-SUPERSEDED（一句话）；②UNVERIFIED 8 件按行内已有 rc/deliverable 批量补 receipt；③MASTER-STATE 的 queue 计数改为由 jsonl 派生，单一真源。
