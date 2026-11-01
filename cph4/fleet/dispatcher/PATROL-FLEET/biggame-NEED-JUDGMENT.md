@@ -734,3 +734,72 @@
 | ⑦ 资产批合规 | 本窗无新批；`asset-audit` 末次 2026-09-14 = 陈旧边界（R18 在档） |
 
 本班附记（非本席域，转 group/机队席判读）：bm-a 现存 13 个 `Tuanjie.exe` + 71 个 `TuanjieShaderCompiler`，起于 10-28 12:17 与 19:26，项目为 `C:\Agent\gui-agent\GUIAgentUnity` 与 `D:\test\My project`——**不是 MiniGame 工程**，未纳入本席处置。
+## NJ[biggame#R21-1] bm-c 心跳面整机 MISSING（新事故·非 RAM、非 MiniGame 写入件）
+
+- **实测（本轮唯一新事实）**：`cph4/fleet/dispatcher/CLOCK-SKEW.json` ts=`2026-11-01T14:24:14.813` → `missing=1`，`bm-c status=MISSING / ts=null / seq=null`；同批 bm-a `OK offset=-0.3ms seq=6`、bm-b `SKEW-HIGH 3694.3ms age=16376ms seq=4`。即 bm-c 在 NATS 时钟/心跳平面上**整机失联**，而此前多轮（R20 记 10-31 14:08）bm-c 还是 `seq=5xxx` 秒级新鲜。
+- **传导链（实读，非推测）**：`master_agent.lane_capacity()` 见 `fleet[node].online=false` → 返回 `OFFLINE (hb age Nones)` → `cph4/fleet/lanes/bm-c.json`（mtime 14:19:25）`lane_ok=false / idle_reason="CAPACITY-BLOCKED-RAM OFFLINE (hb age Nones)"` → `MASTER-STATE.json`（ts 14:17:40 cycle 741）`lanes.bm-c.online=false, hb_age_s=null`，violations 含 `bm-c OFFLINE`。
+- **机器没死（反证）**：`gaming/MiniGame` `origin/machine/C` tip = `9102debd5` C2593 **11-01 13:43**（author 与 committer 同为 孙君晟，作者时刻=提交时刻），前序 13:40 / 13:22 / 13:21 / 12:53 / 12:24 / 12:12 每 20–30min 一条连续产品提交。故判定=**心跳发布面断，不是机器停**。
+- **域损失=0 但结构性堵**：`MASTER-STATE.stages.biggame` 的 `game-art` 阶段车道=`bm-c`；当前 biggame 线 `verdict=WAITING / jobs=[] / no_supply=true`，无在途美术卡 → 未实现损失。一旦开出 biggame 美术卡，因 bm-c 被判 OFFLINE 无处可投。
+- **交枢纽的处置（本席不越权）**：需 bm-c **本机会话**重挂心跳发布（NatsClockHub/NatsHB 类任务）——CEO 2026-10-23 禁远程调度，且 R2.58 已实证 poke 只会让 listener 醒来、不执行 → **本席不 poke，只登记**。
+- **闭合/恶化判据**：CLOCK-SKEW 中 bm-c 恢复 `seq` 前进=闭合；若 `origin/machine/C` tip 出现 **>2h 空窗** 且 NATS 仍 MISSING → 判真停摆，升 P0 呈枢纽。
+
+## NJ[biggame#R21-2] 修正 R20 判词：14:13 的「新鲜 mtime」是全树 checkout，不是写入器复活
+
+- **证据**：`gaming/MiniGame` 工作树在 **14:13:13–14:13:16** 一次性刷新了 G04/G05/G07/G09/G14/G20/G23/G28 目录 + `tools/` + `CODELY.md` + `state-b.json`/`state-c.json` + `Design/evidence/packagerecords/*.json`；同时 `HEAD...origin/master` = **0/0**、`git status Design/configs/GLOBAL/fleet/` 干净、`Design/configs/GLOBAL/fleet/{b,c}.json` 的最后提交仍是 10-29（`a6f43bd9a`）。
+- **数据层仍在停写**：`c.json` 内容 `ts=2026-10-29T13:41:45`（`ram free 1.4/23.9GB`）、`b.json` 内容 `ts=2026-10-29T15:31:32`（`ram free 17.1/23.9GB`）→ MiniGame 机队心跳写入件的数据层已停 **≈72h**，`mtime` 只反映 checkout。
+- **连带假新鲜（本轮最有复用价值的一条）**：`packagerecords/G20_bundle_budget.json` mtime `14:13:12` 但 `recordedAt=2026-10-29 10:33:58` —— 任何以文件 mtime 判「包体四值已复测/心跳已恢复」的读法都会误判。判据律：**机队/包体类状态件新鲜度必须读内容 ts 或 git 提交时刻，禁读 mtime**（同族 D-R258-DE3 编码坑）。
+- 处置：仍由 bm-b/bm-c 本机会话修写入器；本席登记，不代写、不重测。
+
+## NJ[biggame#R21-3] §1 七面雷达本轮实测（只读·复用既有传感）
+
+| 面 | 结论 | 判据 |
+|---|---|---|
+| ① 门禁链健康 | **绿** | `Design/evidence/pipeline-20261101-142601` 正在跑，`preflight.log` 14:26:13 已到 `[PREFLIGHT DONE]`，FLEET-SYNC / ART-NEW / R-TRANSIT 全 PASS、BUILD-DUE `due=0 inflight=0`；上一批 `pipeline-20261029-015602` pass=9 fail=0（R19 记） |
+| ② 包体四值红线 | **黄（证据越 24h 复测窗）** | G20 `result=PASS` main `3,623,130 / 4,194,304B`（余 571,174B）、whitelist 4/4 `violation=0`；但 `recordedAt=2026-10-29 10:33:58` 且 `packageDir` 指向 bm-b 路径 → 建议下轮重启复测（本席不跑批） |
+| ③ 提审硬门链 | **红在外（CEO 物理件）** | `DEADLINES.md` L9 `biggame NO-OUTPUT 命中（bm-a,bm-c）` 仍在表；`POOL-0010 blocked_by=CEO-PHYSICAL:submit-materials` → 保留面零催办 |
+| ④ WIP 上限律 | **绿** | `docs/family/production-queue.json` mtime **2026-10-29 13:03**（≈73h 陈旧）；分布 in_progress=**5** / ready=13 / blocked=3 / backlog=9 / done=16 → 5 < 8 不拥挤（并纠正 R19「mtime 10-26=51h」：实为 10-29 13:03） |
+| ⑤ 产线批健康 | **绿** | 见①；`scenes-4k.log`/`line-data.log` 同批 14:26:13 在写 |
+| ⑥ 玩法差异四问 | n/a | 24h 内无新立项 |
+| ⑦ 资产批合规 | **黄（陈旧边界）** | `asset-audit` 末次 **2026-09-14**（R18 已在档）；本轮无新未登记件 |
+
+- **blocked 缘由实证（本域可读不可解）**：`ENG-001`「Tuanjie 编辑器占用工程 Library/，需关编辑器后跑批处理」、`ENG-005` 依赖 `ENG-001` → 车机基线包仍被编辑器占用挡住，属本机操作面，非巡视席可动。
+
+## 处置与边界
+
+- **snooze**：`DEADLINE: | bm-c Mini…` 条 14:20 已到期，**本轮故意不续**——其「MiniGame 心跳写入停摆」半句已与 bm-c NATS 整机 MISSING 合流为真事故（R21-1），按「真实事故禁 snooze」保持在线；`cph4/fleet/dispatch` 条（迁移遗骸、零信息量）续至 2026-11-02 14:30。
+- **未做**：未 poke；未写 `orders/decisions/POOL/DEADLINES`；未改产品代码/场景 YAML；未跑批、未开游戏、未装任何东西；未重测 L0/IdleWatch/枢纽已测面。
+- **两轮未决升级**：R19-1（CEO 10-28 自动循环停用是否维持）、R19-2（POOL-0010 提审材料）继续候枢纽；本轮新增 R21-1（bm-c 心跳面）同候枢纽。
+
+## NJ[biggame#R22-1] bm-c 心跳面第二轮 MISSING —— 两轮未决，升级枢纽（承 R21-1，未闭合）
+
+- **实测（同一传感复用，未重测）**：`CLOCK-SKEW.json` 三轮 15:04:14 / 15:09:15 / 15:14:15 中 bm-c 全为 `status=MISSING / ts=null / seq=null`；同窗 bm-a `OK`（seq=6，age 1.2s）、bm-b `SKEW-HIGH`（offset 3.9–5.4s）但在线。KV 直读 `nats kv ls FLEET_STATE`（15:12、15:18 两次）：键仅 `state.bm-a / state.bm-b / state.bm-m / lane.result.bm-a / lane.result.bm-m` —— **无 `state.bm-c`、无 `lane.result.bm-c`**（bm-b 的 KV 在 15:10:59 刷新、seq=6，同一读法可证）。
+- **传导未变**：`cph4/fleet/lanes/bm-c.json`（ts 15:06:15）=`lane_ok=false / idle_reason="CAPACITY-BLOCKED-RAM OFFLINE (hb age Nones)"`；`MASTER-STATE.json`（ts 15:02:48，cycle 770）bm-c `online=true` 但 `ram_free_gb=null`、hb_age_s=463.8 → 15:06 后转为 OFFLINE。即 bm-c 在主控眼里已不可派。
+- **反证机器与产线在跑（本轮新增实证）**：`origin/machine/C` tip=`f8fdedc11` **C2595 2026-11-01 15:09:37**（G31 GlyphTower E4 13/13 ALL_GREEN），前序 C2594 14:27:02；同窗 bm-b tip=`96dce3473` B2808 15:07:20。→ 心跳**发布面**断，不是机器停，与 R21-1 判词一致。
+- **侧证链路间歇**：bm-c `http://100.123.74.104:8790/status` 15:09:21 返回 HTTP 200（`tailscale status`=active，relay sfo），随后两次 25s 超时 → Tailscale 中继抖动，非端点死。
+- **域损=0**：bm-c 名下 biggame 卡仅 `Q-TRIAGE-BIGGAME-20261101`（DONE 00:54:52）；`MASTER-STATE.stages.biggame` 的 `game-art` 阶段（车道=bm-c）仍 `NO-DATA / jobs=[]`，无在途美术卡。
+- **升级（章程「两轮未决=升级 NEED-JUDGMENT 候枢纽收」）**：R21-1 + R22-1 两轮同症 → 交枢纽。修法仍只能 bm-c **本机会话**重挂 NatsClockHub/NatsHB 类发布任务（CEO 2026-10-23 禁远程调度；poke 只唤醒 listener 不执行，R2.58 已实证）。
+- **闭合判据**：CLOCK-SKEW 出现 bm-c `seq` 前进、或 `state.bm-c` 键回到 KV。**恶化判据**：`origin/machine/C` tip 出现 >2h 空窗且心跳仍 MISSING → 判真停摆升 P0。
+
+## NJ[biggame#R22-2] DEADLINE 行「RAM 破地板」半句本轮被 bm-c 自证推翻；行本身待上游刷新
+
+- **实测**：bm-c 自己在 C2595 提交正文写「Fired out of the queue tail once RAM sat at **36%** (guard floor 25%)」= 约 8.6G/23.9G 空闲，远在 3.0G 闸之上；组巡 R15 独立读 9.4G 同向。`Design/configs/GLOBAL/fleet/c.json` 里 `ram free 1.4G` 是 **2026-10-29** 的数据层（R21-2 已判「mtime 假新鲜」，本轮复核不变：`c.json` 内容 ts 仍 `2026-10-29T13:41:45`，mtime 14:13:16 为全树 checkout）。
+- **判读**：R2.37 行两半现在都不构成**域级在飞事故**——「MiniGame 心跳写入停摆」属已知写入器缺陷（NJ-R20-1，机器与产品线健康）；「RAM 破地板」本轮为假。
+- **本席不写 DEADLINES/POOL，只登记两件候枢纽/上游裁定**：① `DEADLINES.md` BIGGAME 行按实况刷新（现措辞停在 10-31 17:2x）；② `POOL-0021 / POOL-0024 blocked_by=CEO-PHYSICAL:bm-c-desktop-ram` 的前提已失效（组巡 R15 与 CEO-PROXY R2.60 DE-1 已同向记过，本处仅交叉印证，不代改）。
+
+## NJ[biggame#R22-3] §1 七面雷达本轮实测（只读·复用既有传感）
+
+| 面 | 结论 | 判据 |
+| --- | --- | --- |
+| ① 门禁链健康 | **绿** | `Design/evidence/pipeline-20261101-145601/SUMMARY.txt`：`pass=9 fail=0`（22.2s，14:56:24）；preflight 段 `FLEET-SYNC PASS / ART-NEW PASS / R-TRANSIT PASS / BUILD-DUE due=0 inflight=0` |
+| ② 包体四值红线 | **黄（证据越 24h 复测窗）** | `packagerecords/G20_bundle_budget.json`：`result=PASS`，main 3,623,130 / 4,194,304B（余 571,174B）、data 1,145,536B、whitelist 4/4 `violation=0`；但 `recordedAt=2026-10-29 10:33:58`，mtime 14:13 系 checkout 假新鲜 |
+| ③ 提审硬门链 | **红在外（CEO 物理件零催办）** | `POOL-0010 blocked_by=CEO-PHYSICAL:submit-materials`；C2595 记 U045 十一块 / U114 / U100 三门均须在 **2026-11-03 准入到期**前完成（产品侧死线，非巡视可决） |
+| ④ WIP 上限律 | **绿** | `GimmeAll/docs/family/production-queue.json`：46 任务，`in_progress=5 < 8`；但 `updated=2026-10-23`、mtime 10-29 13:03 = 73h 陈旧（沿用 R21 判读） |
+| ⑤ 产线批健康 | **绿** | 14:26 与 14:56 两批连续落盘，`SUMMARY.txt`/`report.json`/各阶段 log 同批 mtime；`scenes-4k chapters_complete=6/6`、`audio diverge_or_fail=0`、`car-adapt headroom=2.701` |
+| ⑥ 玩法差异四问 | n/a | 24h 内无新立项 |
+| ⑦ 资产批合规 | **绿（本批）/ 黄（审计陈旧）** | preflight `ART-NEW PASS no unregistered packs - library index in sync`；`asset-audit` 末次仍为 2026-09-14（R18 在档） |
+
+## 处置与边界（R22）
+
+- **snooze**：本轮**不新增**。`DEADLINE: | bm-c Mini…` 保持在线——R21 已故意不续，R22-1 仍未闭合，按「真实事故禁 snooze」维持；`cph4/fleet/dispatch` 遗骸条维持至 2026-11-02 14:30（沿用）。
+- **未做**：未 poke；未写 `orders/decisions/POOL/DEADLINES`；未改产品代码/场景 YAML；未跑批、未开游戏、未装任何东西；未重测 L0/IdleWatch/枢纽已测面；未远程调度 bm-c。
+- **两轮未决候枢纽**：R21-1 + R22-1（bm-c NATS 心跳面整机失联）；R19-1（CEO 10-28 自动循环停用是否维持）；R19-2（POOL-0010 提审材料）。
