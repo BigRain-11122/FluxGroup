@@ -1002,3 +1002,4 @@ if prev_by and prev_by != owner_node:
 **生产面诚实边界**：14:00 之后 `D:\FluxGroup\media` 与 `D:\FleetWorker` 全树零新产物——bm-c `ram_free 0.3G` 仍是唯一产线咽喉（POOL-0021/0024 + Q-GPU-BMC-01R 全堵此闸），属 CEO 物理件，零催办只登记。
 **结构性建议（候裁·L0 脚本属受保护件）**：谓词 `DISPATCH-LOG age>3h` 测的是「有没有人写日志」，不是「调度在不在跑」。建议改测 `MASTER-TICK.json` 的 ts 新鲜度（真调度脉，主控迁 bm-m 后由 bm-a masquerade 每 20min 写），DISPATCH-LOG 降为二级。否则本告警会随「没人开班」无限复发，而每次复发反而拉起一个会话，形成自激。
 ## R2.52 事件班 2026-10-31 17:26-17:29（承载件触发·probe L0-DOWN）
+同一班增量交付：bm-a 就地跑出 triage-bigmoney-20261102.md / triage-bigstream-duanju-20261102.md 两份真回执；重跑 ETF 复合因子回测（52s）刷新 quant/bigmoney/results/etf_composite_pf.json（rebal20 全期 CAGR 8.0%/Sharpe 0.83，2024+ OOS CAGR 14.0%/Sharpe 1.44，基准沪深300 全期 CAGR -0.3%/maxDD -45%）。另登记卡验收日期钉死路障（duanju 卡 deliverable 写死 20261101）。

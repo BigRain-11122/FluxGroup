@@ -583,3 +583,5 @@
 (h) 清理候选：`git stash list` 残留 22 条 autostash（10-24 起累积）→ 建议先存 ref 再批量 drop；属卫生件，下轮死线班处置。
 (i) L2 饥饿 SLO：bm-b RAM 见底 >90min + bm-c 停机 ~2h → 今日累计违约 2 件（承 R2.64 计数，不重复立法）。
 (j) 回访探针：沿用 R2.64 一次性 cron 7d828b30 @05:28（传感复用律，不重叠新建）；班次 cron 007d4701 在位无临期。
+(k) 本班实产（针对 CPU 单点的就地承接）：bm-a 实跑 `line_triage.py` → triage-bigmoney-20261102.md（quant-data 最新 0.2h / quant-backtest 0.0h / quant-audit 静默 220.9h）与 triage-bigstream-duanju-20261102.md（该线 369.9h 静止，属已知停产线）；另跑 `etf_composite_pf.py` 52s → quant/bigmoney/results/etf_composite_pf.json @04:18:39（rebal20 全期 CAGR 8.04% / Sharpe 0.834 / maxDD -12.8%；2024+ OOS CAGR 14.0% / Sharpe 1.44；基准 510300 全期 CAGR -0.30% / maxDD -45.1%）。bigmoney 仓 46 件脏文件属其自有 resident_dispatcher 写域，按「同仓单执行体退避」未代提交该仓，产物以盘上事实记账。
+(l) 卡验收路障（同 R2.64 ZOMBIE 型）：R-TRIAGE-BIGSTREAMDUANJU-BMB-20261101 的 deliverable 写死 `triage-bigstream-duanju-20261101.md`（日期钉死），实际产出恒为 `-20261102.md` → 卡永远验不过。建议 deliverable 去日期化或用通配（非本班写域，登记待改）。
