@@ -44,7 +44,11 @@ PY = sys.executable or "/usr/bin/python3"
 LOCK = "/tmp/fluxgroup-pulse.lock"
 LOG = "/tmp/fluxgroup-pulse.log"
 STATE_REL = "cph4/fleet/dispatcher/PULSE.json"
-SLOW_EVERY = 300   # maintenance batch runs in parallel now, so 5 min is affordable
+SLOW_EVERY = 300
+STATE_SNAPSHOT_S = 1800   # 报告类状态每 30 分钟快照一次（此前每 60 秒，占全部提交 44%）
+HOT_PREFIXES = ("cph4/fleet/lanes/", "cph4/fleet/PRODUCTION-QUEUE.jsonl",
+                "cph4/fleet/PRODUCTION-BACKLOG.jsonl", "cph4/fleet/dispatcher/MASTER-STATE.json",
+                "cph4/fleet/dispatcher/MASTER-TICK.json")   # maintenance batch runs in parallel now, so 5 min is affordable
 
 # (name, argv, timeout_s, ok_rc, slow)
 STAGES = [
@@ -139,44 +143,70 @@ def tree_state() -> tuple[list[str], list[str]]:
     return tracked, untracked
 
 
-def commit_state(tracked: list[str], untracked: list[str]) -> str:
-    """Commit the plane's own state files so a rebase never has to stash them.
+def last_snapshot_ts() -> float:
+    """Wall-clock time of the last commit that touched a cold state file.
 
-    Hand edits under Tools/ are deliberately NOT committed here: if one is dirty the pulse
-    refuses to pull instead of inventing a commit for someone else's work.
+    Used to throttle report snapshots. Reading it from git (rather than trusting a field in
+    PULSE.json) keeps the throttle honest even after a restart or a reset.
+    """
+    try:
+        r = git(["log", "-1", "--format=%at", "--",
+                 "cph4/fleet/dispatcher/PULSE.json"], timeout=20)
+        return float((r.stdout or "0").strip() or 0)
+    except Exception:
+        return 0.0
+
+
+def commit_state(tracked: list[str], untracked: list[str], force=False, last_ts=0.0) -> str:
+    """Commit the plane's own state files, with hot/cold separation.
+
+    Structure fix (2026-11-02): git was being used as a 60-second message bus. 44% of all
+    commits were state snapshots, 54% of cycles could not sync because some file was dirty,
+    and every second scheduler writing the same files produced rebase conflicts. Git now
+    carries (a) the dispatch channel and (b) reports - and reports are snapshotted at most
+    every STATE_SNAPSHOT_S, because nobody needs a SUPERVISOR.md per minute in history.
     """
     hand = [p for p in tracked if not p.startswith(STATE_PREFIXES)]
     if hand:
         return "skipped:dirty(hand-edit %s)" % _one_line(hand[0], 60)
-    todo = [p for p in tracked + untracked if p.startswith(STATE_PREFIXES)]
+    hot, cold = [], []
+    for p in tracked + untracked:
+        if not p.startswith(STATE_PREFIXES):
+            continue
+        (hot if any(p.startswith(h) for h in HOT_PREFIXES) else cold).append(p)
+    if not force and not hot and cold and (time.time() - float(last_ts or 0) < STATE_SNAPSHOT_S):
+        return "ok (cold state deferred)"
+    todo = hot + (cold if (force or time.time() - float(last_ts or 0) >= STATE_SNAPSHOT_S) else [])
     if not todo:
         return "ok (no state changes)"
-    git(["add"] + todo)
-    r = git(["commit", "-q", "-m", "pulse: state snapshot [via bm-m]"])
+    git(["add", "--"] + todo)
+    kind = "state" if cold and not hot else "dispatch"
+    r = git(["commit", "-q", "-m", "pulse: %s snapshot [via bm-m]" % kind])
     return "ok" if r.returncode == 0 else "commit-failed:%s" % _one_line(r.stderr, 80)
 
 
-def pull_if_clean() -> str:
+def pull_if_clean(last_ts=0.0) -> str:
+    """Fast-forward only, never rebase.
+
+    A rebase over a shared worktree is how the plane lost hours: it stalls on any dirty
+    file, then needs a manual abort, then leaves UU conflicts on the queue. Fast-forward
+    either works or it does not - and "does not" is reported instead of fought.
+    """
     tracked, untracked = tree_state()
-    # Two attempts: the dashboard rewrites its html every 20s and the master rewrites its
-    # state every cycle, so a rebase can find the tree dirty again between commit and pull.
-    # Committing our own state twice is cheap; rebasing over hand edits is not.
-    for attempt in (0, 1):
-        tracked, untracked = tree_state()
-        note = commit_state(tracked, untracked)
-        if note.startswith("skipped"):
-            return note
-        try:
-            r = git(["pull", "--rebase", "--no-autostash", "origin", "main"], timeout=120)
-        except subprocess.TimeoutExpired:
-            return "timeout"
-        if r.returncode == 0:
-            return "ok" + ("(committed-state)" if "no state" not in note else "")
-        msg = _one_line(r.stderr or r.stdout, 120)
-        if "unstaged" not in msg and "not concluded" not in msg:
-            git(["rebase", "--abort"])
-            return "failed:%s" % msg
-    return "skipped:dirty-race(%s)" % _one_line(msg, 80)
+    note = commit_state(tracked, untracked, last_ts=last_ts)
+    if note.startswith("skipped"):
+        return note
+    try:
+        r = git(["pull", "--ff-only", "--no-rebase", "origin", "main"], timeout=120)
+    except subprocess.TimeoutExpired:
+        return "timeout"
+    if r.returncode == 0:
+        return "ok"
+    msg = _one_line(r.stderr or r.stdout, 120)
+    if "Not possible to fast-forward" in msg or "diverg" in msg:
+        # Diverged: someone else wrote history. Report it; do not invent a merge.
+        return "DIVERGED(report-only):%s" % msg
+    return "failed:%s" % msg
 
 
 def push_if_ahead() -> str:
@@ -411,7 +441,8 @@ def main() -> int:
     resident_note = align_resident()
     prev = read_state()
     slow_due = force_slow or (time.time() - float(prev.get("slow_ts") or 0) > SLOW_EVERY)
-    git_note = "skipped" if no_pull else _one_line(pull_if_clean(), 120)
+    git_note = "skipped" if no_pull else _one_line(
+        pull_if_clean(last_snapshot_ts()), 120)
 
     stages, alerts, failed = {}, [], []
 
