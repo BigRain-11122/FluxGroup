@@ -1,13 +1,13 @@
-# 一屏汇总 2026-11-01 22:24
+# 一屏汇总 2026-11-01 22:32
 
-队列 CANCELLED=1 DONE=56 FAILED=2 OPEN=2
+队列 CANCELLED=1 DONE=56 FAILED=2 OPEN=1 RUNNING=1
 今日新回执 46 份
 
 今天产出了48份回执，队列在跑2件。  
-bm-c因内存不足卡住，ram仅2.5/3.0GB。  
-bm-a需生产席补卡，持续超两轮。  
-方向有缺口，bigstream-mv与drama延迟严重。  
-风险：关键任务延迟，可能影响整体交付。
+bm-a与bm-c积压未清，卡在自扫环节。  
+bm-a与bm-c需生产席补卡推进。  
+方向有缺口，bigstream-mv与drama延迟。  
+风险：关键任务延迟超阈值，影响整体节奏。
 
 ---
 *汇总席 bm-m · 4B · 只读事实*
