@@ -927,3 +927,8 @@ if prev_by and prev_by != owner_node:
 - **登记**：L0 探针谓词 3h<4.2h 第6次误报（受保护件，承 R2.54/R2.55，不重复立法）；P0 Q-TTS-1202R lease 11:27 到期后只会重派同一死执行器；时钟偏差 b/c/m 仍 untrusted（承 SKEW 登记）。
 - **未改**：CHARTER / ROUND / L0 脚本 / master_agent.py / cron 正身 —— 一律未动。
 - **cron**：班次 2d82e62c 在役正常；清理过期一次性 725dbfb7；新建 +90min 回访探针。
+### R2.59 ADDENDUM · 2026-11-01 10:46-10:53（自修两缺陷）
+- **症状**：push 腿上线后 steward 连两轮 `agent=1 (no output)`。
+- **根因①**：tick() 按元组解包 push() 的 int 返回值 → TypeError（hb/lane 已跑完，零损失；执行器被误判不健康）。已修。
+- **根因②**：`queue-receipts/_last_lane_*.json` 受 git 跟踪且 lane 每轮改写 → 树永久脏 → ff-only/rebase 恒拒（R2.57 SUPERVISOR.md 同型，节点追不上主线的母因）。已并入 GEN_STATE。
+- **验收**：10:49:30 `agent=0`、agent-push.log `ok: Everything up-to-date`、无 rebase 残留；本地仅剩 GEN_STATE 脏，下轮自动快进。commits 79fca5b8 / 92a199ab。

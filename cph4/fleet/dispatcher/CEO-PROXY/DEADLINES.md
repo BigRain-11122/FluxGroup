@@ -222,3 +222,4 @@ am_free_gb=10+cpu_load_pct=48——**bm-b 不是闲着，是在跑量化轮**；
 | **bm-b 执行器死（DE-1·第5次）** | **waiting-CEO（需 bm-b 本机动手·零催办）** | 根因坐实：bm-b worktree HEAD=c1d7762e 为本地独有提交（本仓无），磁盘 fleet-nodes.json 停留 10-28 前、无 HQ-ProductionClaim → poke 恒 deny。修复=git 收口 + `python Tools\fleet\agent.py --node bm-b --loop 60` 注册为唯一任务（CEO 令 2026-10-31 18:23 未执行）。影响 P0 Q-TTS-1202R。 |
 | **L0 探针谓词 3h < 班表 4.2h（第6次误报）** | **registered·waiting-CEO（受保护件）** | proxy-probe.ps1:30 `-gt 3`；建议 4.5h 或改读班表。承 R2.54/R2.55 登记，不重复立法。 |
 | **P0 Q-TTS-1202R（lease 11:27 到期）** | **monitoring** | 08:27:24 attempts2 认领，队列 08:29 后零状态变化；到期将再派给同一死执行器（bm-b）。执行器修复前无法推进。 |
+| **lane 指针文件致树恒脏（D-R259-DIRTYTREE）** | **fixed（本班·T1）** | `queue-receipts/_last_lane_*.json` 受跟踪且每轮改写 → ff-only/rebase 恒拒 → 节点追不上主线（R2.57 同型）。已并入 GEN_STATE；实测 10:49:30 agent=0、push ok、无 rebase 残留。 |
