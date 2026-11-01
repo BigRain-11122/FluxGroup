@@ -527,3 +527,38 @@
 **本班未动**：未写 `orders/decisions/POOL/DEADLINES`，未删改 L0/L1 条目，未动 `BRAND.md` 与任何章程，零 poke、零计划任务状态变更、零云端、零 spawn。
 **snooze**：**不改**——现有 5 条（L0 超帽 / DEADLINE 10-26 / STARVED-EXEC bm-a·bm-b·bm-c）均未到期（至 2026-11-02 14:00）；本班新发现两条（G-20261101-01 第 3 轮、R17-1）**均为真事故，按律禁 snooze**。
 **写面**＝本件 R17 段 + `PATROL-FLEET/LOG.md` 一行 + `media/logs/patrol-fleet/group-shiftlog.md` 一行，均 **UTF-8 无 BOM 字节追加**（写后复验坏行数未增加）+ 班毕 touch 锁。
+
+---
+
+## 第 18 轮（R18）· 2026-11-02 00:2x · 域=group（元资产与法度）
+
+> 触发 sig=DEADLINE：`排队 W1：星晴 A 批 62/62 烧毕+ZOOMQC 26 GO+二源复审 23/26（e226e49）+i2v 包三层闸收口（5f3be92·准烧候 PENDING 帧点位）·可爱女人 SH`
+> 班型：只读只议·零 poke·零 spawn·零台账直写。调用 ~12 次（全只读：mtime/字节/计划任务状态/git log/Select-String）。
+
+### 一、六面判定（2026-11-02 00:13-00:20 实测）
+
+| 面 | 判定 | 实测证据 |
+|---|---|---|
+| ① 品牌词法 | **OK** | `BRAND.md` 5,856B @09-30 16:57 未变；§8 十族 locked 无新增；命名权=CEO 保留面零触碰 |
+| ② 记忆健康 | 双帽内·L0 小超帽（snooze 有效） | L0 `C:\Users\sjs20\.codely-cli\CODELY.md` = 43.9KB / 19 行（cap 40,960B → +3,953B / +9.65%，mtime 11-01 04:03 未变=git-copy 传感）；L1 `FluxGroup\CODELY.md` = 71,371B / 103 行（§10 判据 110KB / 140 条均未触发；mtime 11-02 00:04:11 与 DEADLINES/PULSE 同刻=一次 checkout，非代理写入）；`HQ-MemoryBudgetGate` State=Ready Last=11-01 23:46:09 R=0 Next=01:46 存活 |
+| ③ token 账本 | **缺行（第 5 轮未愈）** | `cph4/fleet/token-ledger/` 仅 `LEDGER.md` 单件 4,648B @**10-26 22:36**；11-01 应出的**月度成本行缺**；真金周帽行 10-18 / 10-25 / 11-01 三连缺；>500 闸规则文本在册（§一.4）但无执行回执行 |
+| ④ 法度健康 | **OK（账本滞后非事故）** | `cph4/registry/law-registry.md` 96 行 / 33 表格行、mtime **10-20**（滞后 13 天）；L0 宪典行 ≈17/20 预算内；今日第 36 批 6 行（commit 632c018e）内含**决策寿命律 / 超期 expired**=退役机制在位 → 法熵平衡 |
+| ⑤ AI 诚实律 | 数字 OK · **文本乱码（新旗 R18-2）** | `docs/audits/selfaudit-report.md` 2,522B @11-01 21:13:42，`claims=15 evidence-backed=15 bare=0`（95→15 属 1 日滚动窗正常收缩，非截断）；但正文含 `鍏潰寮€宸?`（UTF-8 字节被按 GBK 解码），指控原文不可读 |
+| ⑥ 交付时效律 | 平台复活 · 触发行陈旧 | `dispatcher/DEADLINES.md` 1,564B **mtime 11-02 00:04**（PULSE ts=11-01T23:28:30 运行中，pulse 提交 22:35/23:19/23:24/23:26/23:29 连跳）=R17-1 事故事后修复；`mv-gate-20261102.json` 00:10:32 重生但仍指 v717 FAIL；triage 证据卡 00:04 / 00:14 新增=NO-OUTPUT 面机械化在推进 |
+
+### 二、新旗（候枢纽/所有者处置·本席不直写）
+
+- **R18-1｜触发行本身陈旧 16 天**：本班 sig 引自 `cph4/fleet/dispatcher/CEO-PROXY/DEADLINES.md` L19，行状态 `in-flight·R2.1`、令源 O-20261013-1540；行内状态（62/62、26 GO、23/26、准烧候 PENDING）全部对应 **10-17** 提交（`git log -1 e226e49`=10-17 23:59、`5f3be92`=10-17 21:09），此后 41 曲线已推进、mv0001 已到 v718。→ 建议按今日 **D-20261102-01 决策寿命律** 判 `expired` 或重写状态位（DEADLINES 单写手=枢纽）。
+- **R18-2｜selfaudit 报告编码乱码**：`Tools/selfaudit.ps1` 取 git log 按 GBK 解码，周演化轮读到的指控原文不可读（同 R16-1 LOG.md 双编码家族）；今日第 36 批已立「编码拦截」决策，建议把该工具列入拦截清单逐件修。
+- **R18-3｜token 月度成本行缺**：11-01 月度首日未出成本行、`token-ledger/` 无分卷；建议按 §三格式补 10-26→11-01 区段（无云端单则显式记「0 单·本地全替代」，消除「无行=未核」歧义）。
+
+### 三、结案 / 复用
+
+- **R17-1 结案**（维护腿全停 5h40m）：已恢复（PULSE ts 23:28:30 / mtime 00:04:11 / 5 连跳 / 记忆闸 23:46 绿 / DEADLINES 与 triage 自动再生）。**根因未变**（`steward.py` 只串 agent/master_agent/fleet_supervisor，不含 `master_pulse.py`），仍归 fleet-ops 席修，本席只记结案事实不代劳。
+- 复用不重测：mv-gate 指针漂移（指 v717 而 v718 已出）= bigstream **R31-2** 已在册；7 条 NO-OUTPUT 由 `line_triage` 证据卡机械化（记忆判例 11-01 19:39 正法），不在本席重开。
+
+### 四、未做声明
+
+未写 `orders/decisions/POOL/DEADLINES/BRAND`；未删 L0/L1 条目；未 poke、未 spawn、未改代码与状态件；未呈 CEO。snooze 仅刷新 L0 旗注记（维持 11-02 14:00 到期）；R18-1/2/3 **均为真实缺口，不入 snooze**。
+
+**证据**：本文件 R18 节 + `PATROL-FLEET/LOG.md` 一行 + `media/logs/patrol-fleet/group-shiftlog.md` 一行 + touch 锁。
