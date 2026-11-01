@@ -1,0 +1,37 @@
+{
+ "node": "bm-a",
+ "role": "公司生产力 / 夜间重 CPU",
+ "note": "白天 09-19 只接 day_ok；夜间可满载 CPU，但保留 ~10% 余量",
+ "jobs": [
+  {
+   "id": "C-MV-TRANSITION",
+   "title": "MV 转场审计（逐切点方向余弦，OPPOSE 必须为 0）",
+   "cmd": "python Tools/mv_transition_audit.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v717.mp4 --json cph4/fleet/queue-receipts/mv-transition.json",
+   "needs": "cpu",
+   "prio": "P2",
+   "requires": [
+    "Tools/mv_transition_audit.py",
+    "cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v717.mp4"
+   ],
+   "why": "交付闸的前置证据；OPPOSE 与同构图硬切是 CEO 明令禁止的短视频语法",
+   "deliverable": "cph4/fleet/queue-receipts/mv-transition.json",
+   "accept": "OPPOSE=0；MATCH/HARD/STATIC_JUMP 计数齐全；非 0 时逐条列镜号",
+   "status": "pending"
+  },
+  {
+   "id": "C-MV-STABILITY",
+   "title": "MV 稳定性闸（seam/freeze 双 0）",
+   "cmd": "python Tools/mv_stability_gate.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v717.mp4 --json cph4/fleet/queue-receipts/mv-stability.json",
+   "needs": "cpu",
+   "prio": "P2",
+   "requires": [
+    "Tools/mv_stability_gate.py",
+    "cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v717.mp4"
+   ],
+   "why": "接缝与冻结是观众能一眼看出的硬伤，必须每次改片重验",
+   "deliverable": "cph4/fleet/queue-receipts/mv-stability.json",
+   "accept": "seam=0 且 freeze=0；任何非 0 必须给帧号",
+   "status": "pending"
+  }
+ ]
+}

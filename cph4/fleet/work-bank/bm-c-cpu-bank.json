@@ -1,0 +1,49 @@
+{
+ "node": "bm-c",
+ "role": "gpu 生产 / CPU 语料腿",
+ "note": "内存紧张时只跑采集与只读类；出片另算",
+ "jobs": [
+  {
+   "id": "C-VB-DISCOVER-V01",
+   "title": "音色库候选发现 v01（播客/有声书类长音频）",
+   "cmd": "python Tools/voicebank/vb_discover.py --voice v01 --keywords 播客,有声书 --pages 1",
+   "needs": "cpu",
+   "prio": "P2",
+   "requires": [
+    "Tools/voicebank/vb_discover.py"
+   ],
+   "why": "音色库整线卡在「没有 BV 清单」；先发现候选再生语料，避免白下载",
+   "deliverable": "cph4/fleet/voicebank/discover/discover_v01.json",
+   "accept": "JSON 含候选数与每人时长/播放/UP；status 必须明确 OK 或 BLOCKED+原因",
+   "status": "pending"
+  },
+  {
+   "id": "C-VB-DISCOVER-V02",
+   "title": "音色库候选发现 v02（课堂/讲解类）",
+   "cmd": "python Tools/voicebank/vb_discover.py --voice v02 --keywords 课堂,讲解 --pages 1",
+   "needs": "cpu",
+   "prio": "P2",
+   "requires": [
+    "Tools/voicebank/vb_discover.py"
+   ],
+   "why": "60 席矩阵需要多语域取样，讲解/课堂是「播音腔」之外最缺的一档",
+   "deliverable": "cph4/fleet/voicebank/discover/discover_v02.json",
+   "accept": "同上：候选数 + 时长分布 + status",
+   "status": "pending"
+  },
+  {
+   "id": "C-VB-DISCOVER-V03",
+   "title": "音色库候选发现 v03（评书/说书类）",
+   "cmd": "python Tools/voicebank/vb_discover.py --voice v03 --keywords 评书,说书 --pages 1",
+   "needs": "cpu",
+   "prio": "P3",
+   "requires": [
+    "Tools/voicebank/vb_discover.py"
+   ],
+   "why": "说书类单人长音频是语料密度最高的一档，最适合 8 分钟准入线",
+   "deliverable": "cph4/fleet/voicebank/discover/discover_v03.json",
+   "accept": "同上：候选数 + 时长分布 + status",
+   "status": "pending"
+  }
+ ]
+}

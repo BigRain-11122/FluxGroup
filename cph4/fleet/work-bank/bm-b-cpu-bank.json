@@ -1,0 +1,49 @@
+{
+ "node": "bm-b",
+ "role": "cpu-sound / 回测节点",
+ "note": "CEO 11-01 CPU 满负荷令：金融与声音两条线都要吃满 CPU，但每件必须有可核验产出",
+ "jobs": [
+  {
+   "id": "C-FIN-ETF-COMPOSITE",
+   "title": "ETF 复合因子轮动回测（钱的面：年化/夏普/回撤）",
+   "cmd": "python quant/bigmoney/scripts/etf_composite_pf.py",
+   "needs": "cpu",
+   "prio": "P1",
+   "requires": [
+    "quant/bigmoney/scripts/etf_composite_pf.py"
+   ],
+   "why": "量化线唯一已成形可交易结构；回测必须在盘上给出年化/夏普/回撤三数，不是台账条目",
+   "deliverable": "quant/bigmoney/results/etf_composite_pf.json",
+   "accept": "JSON 内同时有年化/夏普/最大回撤与样本外区间；缺任一数判无效产出",
+   "status": "pending"
+  },
+  {
+   "id": "C-FIN-EQUITY-ALPHA",
+   "title": "ETF 权益档单列：纯权益 alpha 与债档分离对照",
+   "cmd": "python quant/bigmoney/scripts/etf_equity_alpha.py",
+   "needs": "cpu",
+   "prio": "P1",
+   "requires": [
+    "quant/bigmoney/scripts/etf_equity_alpha.py"
+   ],
+   "why": "现状 48% 调仓期靠债券 carry，不单列就不知道权益本身有没有 alpha",
+   "deliverable": "quant/bigmoney/results/etf_equity_alpha.json",
+   "accept": "权益档与债档分开各给年化/回撤；含报价翻转修复后的对照数",
+   "status": "pending"
+  },
+  {
+   "id": "C-TTS-QC-ALL",
+   "title": "短剧配音全量质检（逐集时长/静音/体积 → 可发布集数清单）",
+   "cmd": "python Tools/fleet/tts_batch_check.py --dir media/drama-tts-out --out cph4/fleet/queue-receipts/tts-qc-all.json",
+   "needs": "cpu",
+   "prio": "P2",
+   "requires": [
+    "Tools/fleet/tts_batch_check.py"
+   ],
+   "why": "配音是短剧线唯一在产的真活，出片前必须先知道哪些集能发",
+   "deliverable": "cph4/fleet/queue-receipts/tts-qc-all.json",
+   "accept": "逐集有实测时长与静音判定；缺失集列明「未生成/失败」，不许只给总数",
+   "status": "pending"
+  }
+ ]
+}

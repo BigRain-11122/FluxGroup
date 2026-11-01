@@ -30,9 +30,9 @@ import sys
 import time
 from datetime import datetime
 
-FLOOR = 2
+FLOOR = 3
 STALL_HOURS = 3
-MAX_CARDS_PER_RUN = 4
+MAX_CARDS_PER_RUN = 8
 ONLINE_MIN = 30  # lane ts fresher than this counts as an online box
 
 # A machine that migrated its tree leaves cards pointing at a dead prefix. Left alone
@@ -222,20 +222,38 @@ def main():
             continue
         need = FLOOR - len(held)
         # 1) work-bank pending
-        bank = read_json(os.path.join(root, "cph4", "fleet", "work-bank", "%s-gpu-bank.json" % node), {}) or {}
-        for j in (bank.get("jobs") or []):
-            if need <= 0 or budget <= 0:
-                break
-            if j.get("status") != "pending" or not j.get("cmd") or str(j.get("id")) in open_ids():
-                continue
-            cmd = j["cmd"] if isinstance(j["cmd"], str) else " ".join(str(x) for x in j["cmd"])
-            card = {"id": j["id"], "title": (j.get("title") or j["id"])[:90], "cmd": cmd,
-                    "cwd": "", "requires": [], "deliverable": "",
-                    "needs": str(j.get("needs") or "cpu"), "nodes": [node], "prio": "P2",
-                    "day_ok": True, "heavy": False,
-                    "why": "workgen R1: work-bank pending promoted so the box is not idle",
-                    "created_by": "workgen", "created_at": stamp, "state": "READY"}
-            added.append(card); budget -= 1; need -= 1
+        # Both banks are real supply: GPU work and CPU work. CEO 2026-11-01: CPU must not idle
+        # either - finance backtests and the voice bank are CPU lines that were sitting empty.
+        for bank_name in ("%s-gpu-bank.json" % node, "%s-cpu-bank.json" % node):
+            bank = read_json(os.path.join(root, "cph4", "fleet", "work-bank", bank_name), {}) or {}
+            for j in (bank.get("jobs") or []):
+                if need <= 0 or budget <= 0:
+                    break
+                if j.get("status") != "pending" or not j.get("cmd") or str(j.get("id")) in open_ids():
+                    continue
+                if not (j.get("deliverable") or j.get("accept")):
+                    report.append("- %s skip `%s`: bank job has no deliverable/accept" % (node, j.get("id")))
+                    continue
+                # An artifact already on disk means the job is done, not pending. Without
+                # this the bank re-declared the same backtest every cycle (无效产出).
+                dpath = j.get("deliverable") or ""
+                if dpath:
+                    dp = dpath if os.path.isabs(dpath) else os.path.join(root, dpath)
+                    if os.path.exists(dp):
+                        report.append("- %s skip `%s`: deliverable already on disk" % (node, j.get("id")))
+                        continue
+                cmd = j["cmd"] if isinstance(j["cmd"], str) else " ".join(str(x) for x in j["cmd"])
+                card = {"id": j["id"], "title": (j.get("title") or j["id"])[:90], "cmd": cmd,
+                        "cwd": "", "requires": j.get("requires") or [],
+                        "deliverable": j.get("deliverable") or "",
+                        "accept": j.get("accept") or "",
+                        "needs": str(j.get("needs") or "cpu"), "nodes": [node], "prio": j.get("prio") or "P2",
+                        # Bank jobs are heavy unless they say otherwise: bm-a is the CEO's
+                        # workstation, so CPU work must not ignore its 09-19 quiet window.
+                        "day_ok": bool(j.get("day_ok")), "heavy": False,
+                        "why": "workgen R1: work-bank pending promoted so the box is not idle",
+                        "created_by": "workgen", "created_at": stamp, "state": "READY"}
+                added.append(card); budget -= 1; need -= 1
         # 2) node task table
         for (cid, title, cmd, needs, prio, reqs, why) in NODE_TASKS.get(node, []):
             if need <= 0 or budget <= 0:

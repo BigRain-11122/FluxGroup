@@ -360,6 +360,16 @@ def lane_capacity(node, fleet, needs="cpu", vram_min=0, job=None):
     floor = float(spec.get("ram_floor_gb") or 2.0)
     if needs == "gpu":
         floor = min(floor, 1.0)
+    # A CPU job that declares no memory need is a script, not a model load: python +
+    # a search/QC pass fits in well under 1GB. Keeping the full 2-3GB floor for those
+    # left bm-c "CAPACITY-BLOCKED-RAM at 2.0GB free" while it could have run them -
+    # idle caused by the gate itself (CEO 2026-11-01: 门槛太多导致闲置).
+    if needs == "cpu" and not job:
+        floor = min(floor, 1.0)
+    elif needs == "cpu":
+        est = float(job.get("est_gb") or 0)
+        if est <= 0 and not (job.get("model") or ""):
+            floor = min(floor, 1.0)
     ram = st.get("ram_free_gb")
     if ram is None:
         return True, "ram-unknown"
