@@ -5,3 +5,4 @@
 {"kind": "route", "job": "cli", "tier": "local", "model": "qwen3.5:4b", "latency_s": 1.9, "gate": "pass", "ts": "2026-11-01T10:38:43"}
 {"ts": "2026-11-01T10:38:49+08:00", "node": "bm-m", "sec": 51.0, "ok": true, "git": "ok(committed-state)", "push": "ok+2", "queue": {"DONE": 54, "FAILED": 3, "OPEN": 1, "RUNNING": 1}, "blockers": [], "alerts": []}
 {"ts": "2026-11-01T10:40:33+08:00", "node": "bm-m", "sec": 44.2, "ok": true, "git": "ok(committed-state)", "push": "up-to-date", "queue": {"DONE": 54, "FAILED": 3, "OPEN": 1, "RUNNING": 1}, "blockers": [], "alerts": []}
+{"ts": "2026-11-01T10:42:32+08:00", "node": "bm-m", "sec": 58.9, "ok": true, "git": "ok(committed-state)", "push": "ok+1(after-rebase)", "queue": {"DONE": 54, "FAILED": 3, "OPEN": 1, "RUNNING": 1}, "blockers": [], "alerts": []}
