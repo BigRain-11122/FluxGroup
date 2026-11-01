@@ -67,6 +67,7 @@ STAGES = [
     # all. 32GB is shared with the CEO's apps; the answer must be measured, not assumed.
     ("mem", ["Tools/fleet/mem_gate.py", "--need-gb", "22"], 30, {0}, True),
     ("autowork", ["Tools/fleet/autowork.py"], 240, {0}, True),
+    ("closer", ["Tools/fleet/closer.py"], 60, {0}, True),
     ("deadline", ["Tools/fleet/fleet_deadline.py"], 120, {0}, True),
     ("supervisor", ["Tools/fleet/fleet_supervisor.py"], 60, {0}, True),
     # Aggregator: turns receipts+queue+verdicts into one screen for the CEO.
