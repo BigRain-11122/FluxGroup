@@ -34,6 +34,13 @@ STALL_HOURS = 3
 MAX_CARDS_PER_RUN = 4
 ONLINE_MIN = 30  # lane ts fresher than this counts as an online box
 
+# A machine that migrated its tree leaves cards pointing at a dead prefix. Left alone
+# they look like declared work but can never pass the lane-side input check.
+LEGACY_ROOTS = {
+    "C:\\Users\\sjs20\\Desktop\\FluxGroup": "C:\\Fluxgroup\\FluxGroup",
+    "C:/Users/sjs20/Desktop/FluxGroup": "C:/Fluxgroup/FluxGroup",
+}
+
 # Mechanical steps that are safe to declare without a human: (id, title, cmd, needs, prio, requires, why)
 NODE_TASKS = {
     "bm-c": [
@@ -153,6 +160,36 @@ def main():
 
     # R1 inventory per online node
     nodes = [f[:-5] for f in os.listdir(os.path.join(root, "cph4", "fleet", "lanes")) if f.endswith(".json")]
+
+    # R0 LEGACY-ROOT HEAL: cards that point at a machine's old tree can never pass the
+    # lane-side input check, so they sit READY forever while the box idles. Rewrite the
+    # legacy prefix to the canonical one and let the owning lane re-check locally
+    # (verify_on_node), instead of promoting cards whose inputs cannot exist.
+    healed = 0
+    for r in backlog:
+        if r.get("state") != "READY":
+            continue
+        changed_r = False
+        for legacy, canon in LEGACY_ROOTS.items():
+            for key in ("cmd", "deliverable"):
+                v = r.get(key)
+                if isinstance(v, str) and legacy in v:
+                    r[key] = v.replace(legacy, canon)
+                    changed_r = True
+            reqs = r.get("requires") or []
+            new = [p.replace(legacy, canon) if isinstance(p, str) else p for p in reqs]
+            if new != reqs:
+                r["requires"] = new
+                changed_r = True
+        if changed_r:
+            r["verify_on_node"] = True
+            r["healed_at"] = stamp
+            r["healed_note"] = "legacy root rewritten to the canonical tree; lane re-checks on the owning box"
+            healed += 1
+    if healed and not a.dry:
+        write_jsonl(backlog_p, backlog)
+    if healed:
+        report.append("- R0 healed %d card(s) off a legacy root path" % healed)
     budget = MAX_CARDS_PER_RUN
     for node in sorted(nodes):
         if not lane_fresh(root, node):
@@ -217,6 +254,27 @@ def main():
             report.append("- queue promotion on %s: +%d job(s)" % (a.node, promoted))
         except Exception as e:
             report.append("- queue promotion FAILED: %s" % str(e)[:120])
+
+    # R4 LINE-UNBLOCK: the director seat stalls because nothing hands it a packet. If the
+    # newest review packet is older than a day, declare the builder card even when that
+    # box already looks "inventoried" - stale cards are not the same as work.
+    packets = glob.glob(os.path.join(root, "cph4", "fleet", "queue-receipts", "review-packet-kn-*.md"))
+    fresh_packet = any(time.time() - os.path.getmtime(p) < 24 * 3600 for p in packets)
+    if (not fresh_packet and budget > 0 and not a.dry
+            and "MV-DIRECTOR-PACKET" not in open_ids()
+            and not recent_receipt(root, "MV-DIRECTOR-PACKET")
+            and os.path.exists(os.path.join(root, "Tools", "fleet", "review_packet.py"))):
+        added.append({"id": "MV-DIRECTOR-PACKET",
+                      "title": "导演席拉片包：KN 复核卷一页卷（成片+闸+证据+签字位）",
+                      "cmd": "python Tools/fleet/review_packet.py --line kn --root .",
+                      "cwd": root.replace("\\", "/"),
+                      "requires": ["Tools/fleet/review_packet.py"], "deliverable": "",
+                      "needs": "cpu", "nodes": ["bm-a"], "prio": "P1", "day_ok": True,
+                      "heavy": False,
+                      "why": "R4 line-unblock: MV stalls at the director seat with no packet to read; build the packet first (older than 24h or absent)",
+                      "created_by": "workgen", "created_at": stamp, "state": "READY"})
+        budget -= 1
+        report.append("- R4 declared MV-DIRECTOR-PACKET -> bm-a (no fresh review packet)")
 
     # R2 stalled claims (report only)
     for node in sorted(nodes):
