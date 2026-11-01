@@ -95,6 +95,18 @@ def main() -> int:
                         % (n, "?" if lag is None else int(lag),
                            "python Tools/fleet/lane_agent.py --node %s" % n))
 
+    # 常驻模型与策略不一致 = 悄悄换了脑子（2026-11-01 实锚）
+    try:
+        pol = load(os.path.join(ROOT, "cph4", "fleet", "MODEL-POLICY.json"), {})
+        want = ((pol.get("lane_local_llm") or {}).get("model")) or ""
+        import subprocess as _sp
+        out = _sp.run(["ollama", "ps"], capture_output=True, text=True, timeout=10).stdout
+        resident = [ln.split()[0] for ln in out.splitlines()[1:] if ln.strip()]
+        if want and resident and not any(r.startswith(want.split(":")[0]) for r in resident):
+            acts.append("MODEL-DRIFT 常驻=%s 策略=%s" % (",".join(resident), want))
+    except Exception:
+        pass
+
     failed = [r.get("id") for r in rows if r.get("state") == "FAILED"]
     if failed:
         acts.append("失败件 %d 个：%s —— 要么重派要么改卡，不能挂着" %
