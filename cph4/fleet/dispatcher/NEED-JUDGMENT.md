@@ -53,3 +53,7 @@
 [2026-11-02 03:5x][PROXY R2.64] DEFECT **D-R264-ZOMBIE-DELIVERABLE**（新）：执行器只校验 deliverable 路径存在性、不校验新鲜度；而 `line_triage.py` 按运行日命名产物 => 卡内钉死的旧路径（`*-20261101.md`）被历史件满足，任务"成功"却零新证据（实测 DONE rc=0 0.7s，文件 mtime 停在 11-01 21:13）。影响=僵尸卡反复"完成"、监督面假绿。修法候选=交付校验加 `mtime >= assign_ts`，或卡内交付路径改用运行日模板。
 
 [2026-11-02 04:0x][PROXY R2.64] DEFECT **D-R264-LANEFILE-STALE-REPLAY**（新·未修）：cph4/fleet/lanes/<node>.json 里已完成的作业在 origin 上永不清除（本机 02:09:17 版本仍钉着 R-PLAN-BIGGAME-20261102），而主控 fallback 跑的是 --no-push、完成态不落 origin => 执行体每 5 分钟把同一张旧卡重跑一遍（今晚 STEWARD-LOG 实测 13 轮 DONE rc=0 0.4-0.7s）。后果=日志与算力噪声、监督面真假难辨、且掩盖真正的新派单。修法=pulse/完成回执把 jobs=[] 落 origin（需先补 master_agent push 腿的 rebase --abort 守卫 D-R256）。
+[2026-11-02 04:2x][PROXY R2.65] RESOLVED 本机成果未推/pull 恒阻：HEAD 158d2be9 9ahead/6behind + 13 脏件 → agent pull 04:04/04:09 双阻。处置=备份补丁 164KB → 存档 e090442e → rebase（steward.py/STAGE-CACHE 取 origin；QUEUE/MASTER-LOG 并集 JSONL BAD=0）→ 推 67ef56a5 → 复验 0/0 + 04:14:25 ff-only ok。
+[2026-11-02 04:2x][PROXY R2.65] DEFECT D-R265-POKE-SILENT: Tools/fleet-poke-worker.ps1 对 bm-a（可达）与 bm-c（不可达）均零输出且 EXIT=0，回执不可判 accepted/denied/failed。建议失败写 stderr+非零码或落 media/logs/poke.log。非受保护件·本班仅登记。
+[2026-11-02 04:2x][PROXY R2.65] PHYSICAL bm-c 停机 ~2h：TCP 100.123.74.104 8790/4222 全 closed（04:12/04:15 两测）·NATS KV state.bm-c key not found·lane ts 02:09:17。需 bm-c 本机开机+Tailscale+agent；外部无通道（CEO 2026-10-23 令）。CEO 保留面·零催办。
+[2026-11-02 04:2x][PROXY R2.65] CAPACITY bm-b ram_free 0.1GB（KV 04:07:37 seq=166 新鲜·cpu 77%·VRAM 7928/8192）→ CPU 车道结构性不可用，承 R2.64 计数。

@@ -958,3 +958,47 @@ if prev_by and prev_by != owner_node:
 
 [2026-11-02 03:26-03:55] R2.64 事件班（承载件触发：probe L0-DOWN age 3.2h @03:26:04）= 第11次节拍器，但三源矛盾升事件班。核心发现：①主控真空复发（bm-m pulse 02:19 后死约 3.4h），根因=master_pulse.py 从不写 MASTER-TICK（0 处引用）=> 陈旧度信号永久冻结；②steward.py 在 --no-schedule 下把 stale 打印成 master-fresh（日志撒谎，误导前几班）；③4 个 OPEN 卡全部 nodes=["bm-b"] 而 bm-b 余 0.3-0.5GB => CPU 供给单点（D-R263 复发）；④该卡"成功"为假绿=交付路径按日期钉死 + 只验存在。处置：手动 masquerade tick 两轮（cyc→1049，lanes 03:28:37 刷新，Q-TTS-1202R 租约复位）、单卡改派 bm-a 实跑 rc=0、bm-c TCP:8790 实测 closed（物理件）。未改受保护件，物理件零催办。详见 DISPATCH-LOG R2.64。
 
+[2026-11-02 04:06-04:2x] R2.65 事件班（承载件触发；probe L0-DOWN age 3.7h）= 与 R2.64 同一触发现的重复投递（R2.61 节拍器判例）。增量只有一条真故障：本机 9 笔成果未推 + 13 件脏件让 agent pull 每 5 分钟恒阻 → 已备份脏补丁、存档提交、rebase origin（4 冲突按「代码/状态取 origin、台账取并集」解）、重放 artifact 提交并推 914e15a2..67ef56a5，复验 0/0 + 04:14:25 `ff-only ok`。其余为现状确认：bm-c TCP 8790/4222 全 closed 且 KV 键过期（停机 ~2h，物理件）；bm-b 心跳新鲜但 ram_free 0.1GB（CPU 车道不可用）；bm-m 心跳新鲜但 MASTER-TICK 仍不落盘（R2.64 已定根因）。新登记 D-R265-POKE-SILENT（poke 脚本可达与不可达均零输出、EXIT=0）。回访沿用 R2.64 探针 @05:28。详档 DISPATCH-LOG R2.65。
+<<<<<<<
+||||||| Stash base
+=======
+=======
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
+- 补供当场被机队自领：`Q-MV-0001-006` rc=0（28/28 取证条 → `D:\FleetWorker\review\flags_v717\`）、`Q-MV-0001-007` rc=0 34.1s（37 事件分类 → `D:\FleetWorker\review\jitter_class_v717.json`）。**补供 → 产物 < 1 分钟闭环**，receipt 在 `cph4/fleet/queue-receipts/`。
+## R2.41 事件班 2026-10-28 01:26-02:0x（承载件触发：DL 00:41-00:51 七旗）
+**0 锁门**：\ceo-proxy-patrol.lock\ mtime 00:56:31，入班实测 01:26:27 → age 29.9min > 10min 窗，判「他窗已收口」取锁继续（R2.40 班毕时刻与之吻合，非并行双跑）。
+上一班（R2.40）已定性 SUPPLY-DRY=manifest 见底并补 Q-MV-0001-011（01:00:01 已被 bm-a 领走 DONE）。本班复核队列 13 行 **全 DONE**、manifest 6 行全 consumed → 见底属实。真 backlog 定位=v717 只剩 3 项**人工判定**（CEO 待办剩余 3 项之②③），机器侧唯一可做的是把判定材料做成一页可判的包，于是落 3 张 CPU 卡并当窗产出：
+- \Q-MV-0001-012\ 双签表预填 95 行（0.2s）
+- \Q-MV-0001-013\ 时代盲测盲样 24 张（1.9s）
+- \Q-MV-0001-014\ 静止接高速 11 处联系条（11.2s）
+新件 \Tools/mv_ceo_items_pack.py\ 复用既有实测件（aesthetic_v717.json 95 镜含 era_group / trans_v717.json 11 处 STATIC_JUMP / reconcile_v717.json 102 联合切点），零重测零 LLM。自检：先在 \_pack_selftest\ 跑通再入队（12A/12B、0 缺失帧、11 条纹），随机抽看 sj04_t077.333 条纹——烛火→人脸是**真硬切**，材料可直接判。
+**③ bm-a STARVED-EXEC 的定性纠偏**：bm-a 池内唯一开卡 POOL-0010 卡 CEO 物理件（提审主体/包体四值/软著 G01/材料夹），属登记面零催办；机器活本轮 13 秒跑完即尽。故 bm-a「STARVED」不是供给失效，而是**该机可机械执行的活真的做完了**——继续补只能造假活，本班不做（O-20260928-1820）。
+**④ bm-b IDLE-WITH-WORK（第 3 轮·结构性）**：bm-b 01:32 TCP 200、ram_free 11.7G、GPU 203MiB、00:28 last_pull 成功（昨夜 LANE-DOWN 已自愈），但无 \HQ-ProductionClaim\ → POOL-0023 可见不可领。**关键新证**：whisperX/allin1 只装在 bm-b，bm-a 实测 \ModuleNotFoundError\ → **改派 bm-a 这条路不存在**，唯一修法=bm-b 本机注册认领任务。
+**⑤ bm-c BLOCKED-RAM（第 3 轮·维持）**：ram_free 1.1G / VRAM 空 14.7G；POOL-0024 与 0021/0022 全卡本机执行面；另 00:29 \.:fail\ 拉取失败。**不是 poke 可解类**（上一班已实证 poke 无效），本班零重复 poke。
+**⑥ CLOCK-SKEW**：max 1313.6ms(bm-c)/717.1ms(bm-b)，门限=2×precision+20；bm-b 为链路中继 RTT 所致、bm-c 为系统钟停 w32time（已知·需提权），均已在 R2.38 登记，非新增。
+**四元组**：2026-10-28 01:26-02:0x｜事件班（承载件触发）｜calls≈34｜verdict=SUPPLY 补 3 真卡且 3/3 DONE（13s 跑完）；bm-a 机器活已尽（STARVED 属定性而非故障）；bm-b/bm-c 两 P1 第 3 轮结构性缺口维持并写死本机一行修法；判定三包已派导演席 12:00 窗。
+<<<<<<< HEAD
+>>>>>>> 18a81cbb (MV 交付闸首跑定罪 + 两处闸缺陷修 + SUPPLY-DRY 翻案补料)
+## R2.43 事件班 2026-10-28 03:26-03:4x（承载件触发：DL 02:41-02:51 六旗）
+## R2.52 事件班 2026-10-31 17:26-17:45（承载件触发·probe L0-DOWN）
+**结论：告警为真（文件确实 3h 没写），但「调度停了」是假——停的是写手，不是机队。**
+三源互证（传感复用律，未重测）：
+1. **调度器活**：`MASTER-TICK.json` ts=17:24:31 / last_tick_by=bm-a / masquerade=true；master-agent 每 20 分钟一提交，15:04→17:24 连十笔无断档。（bm-m 声明主控但只跑 lane 不跑 master tick，故 masquerade 属预期，非故障。）
+2. **四机在线**：bm-m hb_age 39.1s / ram_free 17.6G；bm-a idle_rounds 19（SELF-DISPATCH 自扫）；bm-b、bm-c idle_rounds 0。
+3. **产物面**：v718 出片回执 14:13 PASS（ea5ded6c）。
+**根因（两段）**：
+- ① 15:43 标准班没跑 —— cron 只在本会话 idle 时触发，14:23 后无 shift 写日志。
+- ② **16:11–16:33 有一个事件班确实跑过**（铁证：本席两枚 cron 的 createdAt=1793435610308 / 1793435613841 = 16:33:33，且 18:10 回访探针 prompt 自述「复探 2026-10-31 16:11 事件班」），但它**零写入** DISPATCH-LOG / CEO-PROXY/LOG / DEADLINES。
+**排除 autostash 吞件**（历史上最常见的丢行法）：DISPATCH-LOG.md 末笔 14:23 且 `git status` 干净（无 M）；17 个 stash 中最新仅 14:09，含 DISPATCH-LOG 的 4 个全部落在 10-24~10-29。⇒ 不是「写后被覆盖」，是**根本没写**（中断或跳过步7）。同一窗口只落了步8（cron 自续）。
+**承载件自激修复已验证生效**：`media/logs/event-carrier.log` 自 16:32:32 起持续输出 `no fire: 59 stale FLAG row(s) older than 6h (already registered, not re-fired)`，10-28/10-29 旧旗签名不再自激拉起会话；17:26:07 拉起的是本条**新**签名，属正确行为。
+**本班动作**：零 poke（无 lane down，poke=假活，承 R2.47/R2.50 判例）；零派单（18:10 回访探针将覆盖 Q-TTS-1202R / Q-GPU-BMC-01R 去向，防双烧）；补写本班记录；登记结构性假红（见 DEADLINES §R2.52）。
+**生产面诚实边界**：14:00 之后 `D:\FluxGroup\media` 与 `D:\FleetWorker` 全树零新产物——bm-c `ram_free 0.3G` 仍是唯一产线咽喉（POOL-0021/0024 + Q-GPU-BMC-01R 全堵此闸），属 CEO 物理件，零催办只登记。
+**结构性建议（候裁·L0 脚本属受保护件）**：谓词 `DISPATCH-LOG age>3h` 测的是「有没有人写日志」，不是「调度在不在跑」。建议改测 `MASTER-TICK.json` 的 ts 新鲜度（真调度脉，主控迁 bm-m 后由 bm-a masquerade 每 20min 写），DISPATCH-LOG 降为二级。否则本告警会随「没人开班」无限复发，而每次复发反而拉起一个会话，形成自激。
+## R2.52 事件班 2026-10-31 17:26-17:29（承载件触发·probe L0-DOWN）

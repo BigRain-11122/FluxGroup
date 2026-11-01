@@ -572,3 +572,14 @@
 (g) L2 饥饿 SLO 今日违约 2 件（bm-b RAM 阻塞 >90min、bm-c 停机）。
 (h) 未改受保护件；未重派同一旗；物理件零催办。回访探针 +90min 已建。
 
+[2026-11-02 04:06-04:2x] SHIFT event R2.65 (carrier-triggered; probe L0-DOWN DISPATCH-LOG age 3.7h) | calls=~45 | verdict: DUPLICATE-PROBE（与 R2.64 同一触发现）+ 真故障=本机 11 笔成果未推/pull 恒阻（已修）+ bm-c 停机第 2 小时（物理件）
+(a) 触发现定性：与 R2.64（03:26:04 同一 probe）重复投递；R2.61 STANDING-PRECEDENT 适用（3h 阈值 < 班间 4.2h，且夜间无 idle 会话）。按 R2.62 判例不重登记 R2.64 已处置项（主控真空/CPU 单点/假绿），只做增量。
+(b) 增量真故障=本机工作树分叉+成果未推：HEAD 158d2be9，9 ahead / 6 behind origin，13 件受跟踪脏件 → `agent.py` pull 每 5 分钟 `ff-only blocked`（04:04:29 / 04:09:29 实测），本机持续落后且 9 笔 artifact 提交只存本地磁盘（reset 即静默销毁，D-R259 同型风险面）。
+(c) 处置（可复验）：脏补丁备份 %TEMP%265-backup\dirty.patch (164KB) → 存档提交 e090442e → rebase origin/main（4 冲突：steward.py / STAGE-CACHE.json 取 origin；PRODUCTION-QUEUE.jsonl / MASTER-LOG.md 取并集，JSONL 解析 BAD=0）→ 重放 10 笔 artifact 提交 → 推 914e15a2..67ef56a5 → 复验 0/0、tracked-dirty=0、04:14:25 `ff-only ok: Already up to date`。
+(d) bm-c 仍全域不可达（~2h）：TCP 100.123.74.104 8790=closed、4222=closed（04:12:40 / 04:15:33 两测）；NATS KV `state.bm-c` = key not found（TTL 10m 已过期）；lanes/bm-c.json ts=02:09:17。判定=停机或断网（不是总线路由问题，本机 nats-server 4222 正常应答四机）。物理件，外部不可达（CEO 2026-10-23「不能远程调度」）。
+(e) bm-b 活但 RAM 见底：KV 心跳 04:07:37 seq=166（新鲜，offset 945.5ms），ram_free_gb=0.1、cpu 77%、VRAM 7928/8192 → CPU 车道结构性不可用（承 R2.64 同项，无新增）。
+(f) bm-m 心跳新鲜（04:06:34 seq=3303，ram 15.1G）：主控进程活着；但 MASTER-TICK 仍不落盘（R2.64 已坐实 master_pulse.py 从不写该文件），steward 报 master-STALE=16585s 属真值而非误报。
+(g) 新登记缺陷 **D-R265-POKE-SILENT**：`Tools/fleet-poke-worker.ps1` 对可达节点（bm-a）与不可达节点（bm-c）一律零输出、EXIT=0 → 无法从回执区分 accepted / denied / 物理失败；建议失败时写一行 stderr + 非零码，或统一落 media/logs/poke.log（非受保护件，本班只登记不擅改）。
+(h) 清理候选：`git stash list` 残留 22 条 autostash（10-24 起累积）→ 建议先存 ref 再批量 drop；属卫生件，下轮死线班处置。
+(i) L2 饥饿 SLO：bm-b RAM 见底 >90min + bm-c 停机 ~2h → 今日累计违约 2 件（承 R2.64 计数，不重复立法）。
+(j) 回访探针：沿用 R2.64 一次性 cron 7d828b30 @05:28（传感复用律，不重叠新建）；班次 cron 007d4701 在位无临期。
