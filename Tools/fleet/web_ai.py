@@ -14,6 +14,16 @@ PORT = int(os.environ.get("WEB_PORT", "8088"))
 MAX_CONC = int(os.environ.get("WEB_MAX_CONC", "2"))
 PASSCODE = os.environ.get("WEB_PASSCODE") or secrets.token_urlsafe(6)
 MODELS = ["qwen3.5:4b", "qwen3.5:35b-a3b"]
+# Endpoint catalogue: each entry is "where the compute lives". bm-d (3xV100) joins by adding
+# one row here once it reports; the page shows it as offline until then.
+CATALOG = [
+    {"id": "qwen3.5:4b", "label": "快速 · 4B", "machine": "bm-m 本机",
+     "note": "判读/写作，约 40 tok/s，占 4.2GB"},
+    {"id": "qwen3.5:35b-a3b", "label": "深度 · 35B-A3B", "machine": "bm-m 本机（按需）",
+     "note": "重活，21GB，冷启动约 20 秒"},
+    {"id": "bm-d/qwen3.5:35b-a3b", "label": "算力大脑 · V100×3", "machine": "bm-d",
+     "note": "上线后自动出现；当前未入网"},
+]
 SEM = threading.Semaphore(MAX_CONC)
 AUDIT = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
                      "cph4", "fleet", "dispatcher", "events.jsonl")
@@ -40,7 +50,11 @@ display:flex;gap:10px}footer textarea{flex:1;resize:none;height:54px}
 <button id="s" onclick="send()">发送</button></footer><script>
 const log=document.getElementById('log'),q=document.getElementById('q'),m=document.getElementById('m'),
 pw=document.getElementById('pw'),hist=[];
-MODELS.forEach(x=>{const o=document.createElement('option');o.value=o.textContent=x;m.appendChild(o)});
+fetch('/api/models').then(r=>r.json()).then(list=>{
+ list.forEach(x=>{const o=document.createElement('option');o.value=x.id;
+  o.textContent=x.label+' · '+x.machine+(x.loaded?' · 已加载':'');
+  if(x.machine.indexOf('bm-d')>-1){o.disabled=true;o.textContent=x.label+' · 未上线'}
+  else m.appendChild(o)})})
 pw.value=localStorage.getItem('pw')||'';
 function add(role,t){const d=document.createElement('div');d.className='m '+(role=='user'?'u':'a');
 d.innerHTML='<div class="r">'+(role=='user'?'你':'本地模型')+'</div>';d.appendChild(document.createTextNode(t));
@@ -79,6 +93,15 @@ class H(BaseHTTPRequestHandler):
     def do_GET(self):
         if self.path in ("/", "/index.html"):
             return self._send(200, PAGE, "text/html; charset=utf-8")
+        if self.path.startswith("/api/models"):
+            live = []
+            try:
+                with urllib.request.urlopen(UP + "/api/ps", timeout=4) as r:
+                    live = [m.get("name") or m.get("model") for m in json.load(r).get("models", [])]
+            except Exception:
+                pass
+            out = [dict(c, loaded=(c["id"] in live), available=True) for c in CATALOG]
+            return self._send(200, json.dumps(out, ensure_ascii=False))
         if self.path.startswith("/healthz"):
             return self._send(200, json.dumps({"ok": True, "max_conc": MAX_CONC}))
         self._send(404, json.dumps({"error": "not found"}))
