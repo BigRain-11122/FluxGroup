@@ -13,3 +13,4 @@
 - [2026-10-31T18:28:34] S7 JOB_FAIL: 当日失败任务 -> Q-AUD-1002(?); Q-TTS-1202(lease-expired-5-attempts); R-LLM-BMC-PROBE(lease-expired-5-attempts) —— 已终态不自动重派，需人工定夺（重试/改道/撤销）
 - [2026-10-31T20:33:20] S4 NATS_DOWN: 状态总线(bm-a:4222)不可达，机队失去心跳总线，bm-m 只能产本地活；需在公司生产力机(bm-a)重启 NATS
 - [2026-10-31T23:29:05] S4 NATS_DOWN: 状态总线(bm-a:4222)不可达，机队失去心跳总线，bm-m 只能产本地活；需在公司生产力机(bm-a)重启 NATS
+- [2026-11-01T20:52:52] S7 JOB_FAIL: 当日失败任务 -> Q-TRIAGE-BIGMONEY-20261101(?) —— 已终态不自动重派，需人工定夺（重试/改道/撤销）
