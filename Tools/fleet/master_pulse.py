@@ -395,6 +395,7 @@ def main() -> int:
         "blockers": blockers,
         "ok": not blockers,
     }
+    pulse["resident"] = resident_note
     path = os.path.join(ROOT, STATE_REL.replace("/", os.sep))
     os.makedirs(os.path.dirname(path), exist_ok=True)
     tmp = "%s.%d.tmp" % (path, os.getpid())
@@ -425,7 +426,6 @@ def main() -> int:
     except Exception:
         pass
 
-    pulse["resident"] = resident_note
 
     summary = " ".join("%s=%s/%ss" % (k, v["rc"], v["sec"]) for k, v in stages.items()
                        if v.get("rc") is not None)
