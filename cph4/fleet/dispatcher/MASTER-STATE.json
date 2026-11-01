@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-01T12:15:06",
- "cycle": 670,
+ "ts": "2026-11-01T12:16:57",
+ "cycle": 671,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-01T12:15:06",
+ "master_tick_ts": "2026-11-01T12:16:57",
  "queue": {
   "total": 59,
   "open": 0,
@@ -14,9 +14,9 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 25.4,
-   "cpu_load_pct": null,
-   "ram_free_gb": null,
+   "hb_age_s": 28.3,
+   "cpu_load_pct": 56,
+   "ram_free_gb": 46.1,
    "gpu_util_pct": 1,
    "job": null,
    "last_result": {
@@ -28,20 +28,20 @@
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 146
+   "idle_rounds": 147
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 0.7,
-   "cpu_load_pct": 25,
-   "ram_free_gb": 9.2,
-   "gpu_util_pct": null,
+   "hb_age_s": -0.2,
+   "cpu_load_pct": null,
+   "ram_free_gb": null,
+   "gpu_util_pct": 3,
    "job": "Q-TTS-1202R",
    "last_result": {
     "job": "Q-TRIAGE-BIGMONEY-20261101",
     "state": "FAILED",
     "rc": 2,
-    "ts": "2026-11-01T12:11:43",
+    "ts": "2026-11-01T12:16:43",
     "reason": null
    },
    "idle_confirmed": false,
@@ -50,9 +50,9 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 16.8,
-   "cpu_load_pct": null,
-   "ram_free_gb": null,
+   "hb_age_s": 32.0,
+   "cpu_load_pct": 20,
+   "ram_free_gb": 9.9,
    "gpu_util_pct": 2,
    "job": null,
    "last_result": {
@@ -64,32 +64,32 @@
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 146
+   "idle_rounds": 147
   },
   "bm-m": {
    "online": true,
    "hb_age_s": 1.2,
    "cpu_load_pct": null,
-   "ram_free_gb": 16.9,
+   "ram_free_gb": 17.0,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-01T12:13:26",
+    "ts": "2026-11-01T12:15:11",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 146
+   "idle_rounds": 147
   }
  },
  "idle_rounds": {
-  "bm-a": 146,
+  "bm-a": 147,
   "bm-b": 0,
-  "bm-c": 146,
-  "bm-m": 146
+  "bm-c": 147,
+  "bm-m": 147
  },
  "lines": {
   "bigstream-mv": {
@@ -721,16 +721,14 @@
   "cpu": 0,
   "gpu": 0
  },
- "supply_added": [
-  "backlog_manifest+1"
- ],
+ "supply_added": [],
  "events": [
   "Q-TRIAGE-BIGMONEY-20261101 FAILED via bm-b"
  ],
  "violations": [
-  "bm-a IDLE-CONFIRMED x146 (SELF-DISPATCH: lane scans its own backlo)",
-  "bm-c IDLE-CONFIRMED x146 (SELF-DISPATCH: lane scans its own backlo)",
-  "bm-m IDLE-CONFIRMED x146 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-a IDLE-CONFIRMED x147 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-c IDLE-CONFIRMED x147 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-m IDLE-CONFIRMED x147 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED bigstream-mv 卡在 剪辑/装配/剪辑席 (导演席（CEO 终审）)",
   "LINE-BLOCKED bigstream-drama ()"
  ],
