@@ -1,12 +1,12 @@
-# 一屏汇总 2026-11-01 23:17
+# 一屏汇总 2026-11-01 23:24
 
-队列 CANCELLED=4 DONE=59 FAILED=2 OPEN=5 RUNNING=2
+队列 CANCELLED=4 DONE=54 FAILED=2 OPEN=4 UNVERIFIED=8
 今日新回执 47 份
 
-今天产出47份回执，队列运行7件。  
-bm-b机队卡在执行回执未响应。  
+今天产出了48份新回执，队列在跑4件。  
+bm-b机队卡住，执行器未跑回执。  
 bm-b需补卡，bm-m自扫积压。  
-方向有缺口，bigstream-mv严重滞后。  
+方向有缺口，bigstream-mv严重延迟。  
 风险：bigstream-mv超时未闭环。
 
 ---

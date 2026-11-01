@@ -45,17 +45,24 @@ def main():
     beats = lane_beat()
     closed, waiting, requeued = [], [], []
     for r in rows:
-        if r.get("state") not in ("RUNNING", "DONE"):
+        # UNVERIFIED is a legitimate holding state: the lane said done but the artifact had
+        # not landed yet. The moment it does land, this leg upgrades it - so the state
+        # machine self-heals instead of leaving an unproven closure on the books.
+        if r.get("state") not in ("RUNNING", "DONE", "UNVERIFIED"):
             continue
         dl = r.get("deliverable") or ""
         local = os.path.join(ROOT, dl) if dl and not os.path.isabs(dl) else dl
         ok = bool(dl) and os.path.exists(local)
-        if ok and r.get("state") == "RUNNING":
+        if ok and r.get("state") in ("RUNNING", "UNVERIFIED"):
+            was = r.get("state")
             r["state"] = "DONE"
             r["closed_by"] = "closer.py"
             r["closed_at"] = datetime.now().isoformat(timespec="seconds")
             r["audit"] = {"deliverable": dl, "exists": True,
                           "size": os.path.getsize(local) if os.path.isfile(local) else None}
+            if was == "UNVERIFIED":
+                r.pop("evidence", None)
+                r["audit"]["upgraded_from"] = "UNVERIFIED"
             closed.append(r["id"])
         elif not ok and r.get("state") == "RUNNING":
             owner = r.get("owner")

@@ -189,10 +189,48 @@ def supervise(rows, reports, now_ts, self_node="bm-a"):
         if floor_ts and rep_ts and rep_ts <= floor_ts:
             continue
         if st in ("DONE", "FAILED"):
+            de = rep.get("deliverable_exists")
+            declares = bool(job.get("deliverable"))
+            # rc=0 is the executor's opinion; the artifact is the fact. A card that
+            # declares a deliverable and reports "not produced" must never close as DONE
+            # (2026-11-01: 17 rows were DONE with no artifact, no audit and no receipt -
+            # they came from this branch trusting rc alone).
+            if st == "DONE" and declares and de is False:
+                job["state"] = "FAILED"
+                job["note"] = "closed without artifact: lane reported DONE but deliverable missing"
+                job["finished_at"] = rep.get("ts") or now_ts
+                job["result"] = {"rc": rep.get("rc"), "seconds": rep.get("seconds"),
+                                 "deliverable_exists": False}
+                events.append("%s FAILED(no-artifact) via %s" % (jid, node))
+                continue
+            # Master-visible paths are checked by the master itself: the lane's own word is
+            # not enough. A repo-relative deliverable that is not on this clone is
+            # UNVERIFIED, and closer.py upgrades it to DONE the moment the file lands
+            # (2026-11-01: C-VB-DISCOVER-V03 closed DONE with no file anywhere).
+            rel_out = job.get("deliverable") or ""
+            # Only judge paths that live on a surface this clone actually has. media/,
+            # quant/ and gaming/ are gitignored or separate repos, so their absence here
+            # proves nothing (OFFBOX). A cph4/... path, by contrast, must be committed by
+            # the producing node; if it is not here, the closure is unproven.
+            _root_dir = rel_out.split("/")[0] if rel_out and not os.path.isabs(rel_out) else ""
+            _visible = bool(_root_dir) and os.path.isdir(os.path.join(root, _root_dir))
+            if (st == "DONE" and rel_out and not os.path.isabs(rel_out) and _visible
+                    and not os.path.exists(os.path.join(root, rel_out))):
+                job["state"] = "UNVERIFIED"
+                job["finished_at"] = rep.get("ts") or now_ts
+                job["result"] = {"rc": rep.get("rc"), "seconds": rep.get("seconds"),
+                                 "deliverable_exists": False}
+                job["evidence"] = "UNVERIFIED: lane said DONE, %s not on disk yet" % rel_out
+                events.append("%s UNVERIFIED(no-artifact-yet) via %s" % (jid, node))
+                continue
             job["state"] = "DONE" if st == "DONE" else "FAILED"
             job["finished_at"] = rep.get("ts") or now_ts
             job["result"] = {"rc": rep.get("rc"), "seconds": rep.get("seconds"),
-                             "deliverable_exists": rep.get("deliverable_exists")}
+                             "deliverable_exists": de}
+            if job["state"] == "DONE" and declares and de is None:
+                # The lane could not tell (foreign path, tool silent). Keep the closure but
+                # label it, so supervision never counts an unproven card as delivered.
+                job["evidence"] = "UNVERIFIED: deliverable declared, lane returned no existence flag"
             events.append("%s %s via %s" % (jid, job["state"], node))
         elif st == "DEFERRED":
             # The lane refused on purpose (work-hour yield). Release it immediately so the
@@ -558,6 +596,23 @@ def cycle(root, dry=False, push=True, node="bm-a", fallback_stale_s=900):
     fleet.update({n: pending_fleet[n] for n in joined})
     reports = lane_reports(root, nodes)
     added, rows = supply(root, None, set())
+    # BUSY-SILENT: a box that holds a RUNNING card and has gone quiet is producing, not
+    # dead. Dropping it from dispatch because lane_agent is blocked inside a long job is
+    # how a TTS batch looked "offline" while it was working (2026-11-01). Mark it online
+    # with an explicit note so supervision can tell silence from absence.
+    try:
+        for _r in rows:
+            if _r.get("state") != "RUNNING":
+                continue
+            for _n in (_r.get("nodes") or []):
+                _f = fleet.get(_n) or {}
+                if not _f.get("online") and (_r.get("owner") == _n or _n in fl.LANES):
+                    _f["online"] = True
+                    _f["busy_silent"] = True
+                    _f["note"] = "busy-silent: RUNNING %s, heartbeat stale" % _r.get("id")
+                    fleet[_n] = _f
+    except Exception:
+        pass
     lines = load_lines(root)
     now_ts = fl.now_iso()
     events = supervise(rows, reports, now_ts, self_node=node)

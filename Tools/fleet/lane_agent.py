@@ -63,6 +63,42 @@ def publish(node, state, detail, hub, port):
     fl.kv_put(fl.lane_result_key(node), payload, host=hub, port=port)
 
 
+def git_publish(root, node, jid, paths):
+    """Commit + push this job's artifact so the fleet can actually see it.
+
+    Why (2026-11-01): the lane used to leave its output on the local disk and report
+    "done" over NATS. Every verifier lives on git, so a produced card looked unproven from
+    every other machine. Publishing here makes "done" mean "on the shared surface".
+    Returns a short status string; never raises past this function.
+    """
+    keep = []
+    for p in paths:
+        if not p:
+            continue
+        full = p if os.path.isabs(p) else os.path.join(root, p)
+        rel = os.path.relpath(full, root).replace("\\", "/")
+        if rel.startswith("..") or rel.startswith("media/") or rel.startswith("gaming/") or rel.startswith("quant/"):
+            # Untracked trees: committing them would blow the repo up (media is GBs).
+            continue
+        if os.path.exists(full):
+            keep.append(rel)
+    if not keep:
+        return "nothing-tracked"
+    def git(args, timeout=90):
+        return subprocess.run(["git", "-C", root] + args, capture_output=True, text=True,
+                              timeout=timeout, creationflags=CREATE_NO_WINDOW)
+    git(["add", "--"] + keep)
+    msg = "job(%s): %s [via %s]" % (jid, "artifact", node)
+    r = git(["commit", "-q", "-m", msg, "--"] + keep)
+    if r.returncode != 0 and "nothing to commit" not in (r.stdout or "") + (r.stderr or ""):
+        return "commit-failed:%s" % (r.stderr or r.stdout)[:80]
+    r = git(["push", "origin", "HEAD:main"], timeout=120)
+    if r.returncode != 0:
+        git(["pull", "--rebase", "--no-autostash"], timeout=120)
+        r = git(["push", "origin", "HEAD:main"], timeout=120)
+    return "pushed" if r.returncode == 0 else "push-failed:%s" % (r.stderr or "")[:80]
+
+
 def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
     jid = str(job.get("id") or "")
     cmd = str(job.get("cmd") or "")
@@ -159,7 +195,11 @@ def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
     os.makedirs(receipt_dir, exist_ok=True)
     rc_path = os.path.join(receipt_dir, "%s-%s.json" % (jid, node))
     deliverable = job.get("deliverable") or ""
-    dl_ok = bool(deliverable) and os.path.exists(deliverable)
+    # Resolve against the repo root: lane_agent may run from anywhere, and a relative
+    # deliverable checked against the wrong cwd reported "missing" for a file that exists.
+    dl_abs = deliverable if os.path.isabs(deliverable) else (
+        os.path.join(root, deliverable) if deliverable else "")
+    dl_ok = bool(dl_abs) and os.path.exists(dl_abs)
     rec = {"id": jid, "node": node, "rc": rc, "seconds": dur, "cmd": cmd,
            "deliverable": deliverable, "deliverable_exists": dl_ok,
            "ts": fl.now_iso(), "stdout_tail": (out or "")[-1500:],
@@ -167,10 +207,23 @@ def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
     with open(rc_path, "w", encoding="utf-8") as f:
         json.dump(rec, f, ensure_ascii=False, indent=1)
 
+    # Push the artifact back to the shared surface. Until 2026-11-01 the lane wrote its
+    # receipt on the local disk and told the master "done" over NATS; the file never
+    # entered git, so no other node could verify it - that is why dozens of cards were
+    # DONE with no artifact anywhere. Best effort: a failed push must not lose the result.
+    landed = ""
+    if dl_ok or os.path.exists(rc_path):
+        try:
+            landed = git_publish(root, node, jid,
+                                 [deliverable, os.path.relpath(rc_path, root)])
+        except Exception as e:
+            landed = "publish-error:%s" % str(e)[:80]
+
     # rc!=0 is not always a failure (gates return 1 by design); the deliverable is the
     # truth the master closes on, and it is reported either way.
     publish(node, "DONE" if (rc == 0 or dl_ok) else "FAILED",
             {"job": jid, "rc": rc, "seconds": dur, "deliverable_exists": dl_ok,
+             "landed": landed or "not-needed",
              "receipt": os.path.relpath(rc_path, root).replace("\\", "/")}, hub, port)
     print("%s %s rc=%s %.1fs deliverable=%s" % (jid, "DONE" if rc == 0 or dl_ok else "FAILED",
                                                 rc, dur, dl_ok))

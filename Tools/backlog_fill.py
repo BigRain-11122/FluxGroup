@@ -148,6 +148,12 @@ def _fill_manifest(root, rows, have, node=None):
                 continue
         out = r.get("deliverable")
         if out and _checkable(out) and os.path.exists(out):
+            # Already produced. Leaving such a row at READY/None made it look like pending
+            # work for ever (2026-11-01: 22 rows read as inventory while every box idled).
+            if r.get("state") is None:
+                r["state"] = "DONE"
+                r["closed_by"] = "backlog_fill: deliverable already on disk"
+                touched = True
             continue
         if node is not None:
             r["state"] = "PROMOTED"
