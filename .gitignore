@@ -168,3 +168,23 @@ fleet-console.html
 # runtime social queue (drafts contain user comments; not source)
 cph4/fleet/social/inbox.jsonl
 cph4/fleet/social/drafts.jsonl
+
+# --- 运行态报告：只在本机跑，不进 git（2026-11-02 结构修正）---
+# 原因：这些文件每个周期都被重写，成为「工作树永远脏」的根源；git 里只要有一点未提交，
+# pull 就会被永久阻塞（1912 轮里 54% 无法同步）。git 只保留派单通道与产物。
+cph4/fleet/dispatcher/PULSE.json
+cph4/fleet/dispatcher/SUPERVISOR.md
+cph4/fleet/dispatcher/BRAIN.md
+cph4/fleet/dispatcher/DIGEST.md
+cph4/fleet/dispatcher/AUTOWORK.md
+cph4/fleet/dispatcher/DEADLINES.md
+cph4/fleet/dispatcher/SOLVER.md
+cph4/fleet/dispatcher/NIGHT-PLAN.md
+cph4/fleet/dispatcher/NEED-SUPPLY.md
+cph4/fleet/dispatcher/MASTER-LOG.md
+cph4/fleet/dispatcher/STEWARD-LOG.md
+cph4/fleet/dispatcher/events.jsonl
+cph4/fleet/dispatcher/JUDGMENT-QUEUE.jsonl
+cph4/fleet/dispatcher/ROUTED-WORK.jsonl
+cph4/fleet/dispatcher/CONTINGENCY-STATE.json
+cph4/fleet/dispatcher/PATROL-FLEET/

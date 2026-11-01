@@ -169,14 +169,11 @@ def commit_state(tracked: list[str], untracked: list[str], force=False, last_ts=
     hand = [p for p in tracked if not p.startswith(STATE_PREFIXES)]
     if hand:
         return "skipped:dirty(hand-edit %s)" % _one_line(hand[0], 60)
-    hot, cold = [], []
-    for p in tracked + untracked:
-        if not p.startswith(STATE_PREFIXES):
-            continue
-        (hot if any(p.startswith(h) for h in HOT_PREFIXES) else cold).append(p)
-    if not force and not hot and cold and (time.time() - float(last_ts or 0) < STATE_SNAPSHOT_S):
-        return "ok (cold state deferred)"
-    todo = hot + (cold if (force or time.time() - float(last_ts or 0) >= STATE_SNAPSHOT_S) else [])
+    # Only the dispatch channel is committed from now on. Reports (PULSE/SUPERVISOR/
+    # BRAIN/DIGEST...) are gitignored runtime files: they are rewritten every cycle, and a
+    # permanently dirty worktree is what blocked every pull (54% of cycles, 2026-11-02).
+    todo = [p for p in tracked + untracked
+            if p.startswith(STATE_PREFIXES) and any(p.startswith(h) for h in HOT_PREFIXES)]
     if not todo:
         return "ok (no state changes)"
     git(["add", "--"] + todo)
