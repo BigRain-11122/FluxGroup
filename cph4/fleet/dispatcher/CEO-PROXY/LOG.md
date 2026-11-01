@@ -955,3 +955,6 @@ if prev_by and prev_by != owner_node:
 - **未做**：未动受保护件（CHARTER/ROUND/L0 脚本/proxy-probe/cron 正身/master_agent.py）；未跨机改 bm-b（CEO 2026-10-23 令）；物理件零催办。
 
 [2026-11-02 00:01-00:2x] R2.63 事件班（承载件触发·probe L0-DOWN 第10次）：触发现=结构性（3h<4.2h，夜间三班未触发）；真故障三分离=bm-b 打盹+分叉（/health 00:13 ok→2min timeout·NOT-SYNCED head=c1d7762e）、bm-c 全域停机（双 timeout·总线健康）、主控真空 1.7h（bm-m 21:13 停 + HQ-Steward --no-schedule，符合 10-30 迁移令）；处置=手动 master tick 一次解冻（--no-push）+ 本机跑通 bigmoney 收据（事实校正：该线 0.0h 有产出，真静默仅 quant-audit 216.9h）；物理件 bm-b/bm-c 零催办登记。
+
+[2026-11-02 03:26-03:55] R2.64 事件班（承载件触发：probe L0-DOWN age 3.2h @03:26:04）= 第11次节拍器，但三源矛盾升事件班。核心发现：①主控真空复发（bm-m pulse 02:19 后死约 3.4h），根因=master_pulse.py 从不写 MASTER-TICK（0 处引用）=> 陈旧度信号永久冻结；②steward.py 在 --no-schedule 下把 stale 打印成 master-fresh（日志撒谎，误导前几班）；③4 个 OPEN 卡全部 nodes=["bm-b"] 而 bm-b 余 0.3-0.5GB => CPU 供给单点（D-R263 复发）；④该卡"成功"为假绿=交付路径按日期钉死 + 只验存在。处置：手动 masquerade tick 两轮（cyc→1049，lanes 03:28:37 刷新，Q-TTS-1202R 租约复位）、单卡改派 bm-a 实跑 rc=0、bm-c TCP:8790 实测 closed（物理件）。未改受保护件，物理件零催办。详见 DISPATCH-LOG R2.64。
+

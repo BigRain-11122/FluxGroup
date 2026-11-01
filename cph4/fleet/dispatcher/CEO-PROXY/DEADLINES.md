@@ -269,3 +269,14 @@ am_free_gb=10+cpu_load_pct=48——**bm-b 不是闲着，是在跑量化轮**；
 | **Q-TRIAGE-BIGMONEY-20261101** | **delivered（本班收口）** | 收据=`cph4/fleet/queue-receipts/triage-bigmoney-20261102.md`；结论=该线 0.0h 前有产出（quant-backtest），真静默仅 quant-audit 216.9h。 |
 | **quant-audit 子线静默 216.9h** | **registered（风控审计席）** | 三源=收据实测 1 文件 / 216.9h。判读=9 天无产出，超 24h 阈值 9 倍。派单归属=风控/审计席（非本席），登记待该线自领。 |
 | **L0 探针阈值 3h（保护件）** | **registered（waiting-CEO·第 10 次复发）** | `Tools/proxy-probe.ps1:30` `-gt 3` vs 班间 4.2h；R2.54-R2.62 已连续登记，本班不重复立法。 |
+
+## 附记 R2.64 事件班登记（2026-11-02 03:26-03:55·第11次节拍器 + 真故障分离）
+
+| 项 | 状态 | 证据 / 下一步 |
+|---|---|---|
+| **主控真空复发（bm-m pulse 02:19 后死 3.4h）** | **registered（待裁·不擅改）** | MASTER-STATE master_tick_ts=02:15:12；MASTER-TICK.json ts=11-01 23:28:24；master_pulse.py 0 处写 MASTER-TICK。待裁=①pulse 补写 MASTER-TICK（一行，先恢复可观测）②之后再议条件式兜底；本班仅手动 tick 两轮解冻。 |
+| **bm-b 内存阻塞（物理件）** | **waiting-CEO（零催办）** | ram_free 0.3-0.5GB < 1.0GB 门，连续 8 轮 CAPACITY-BLOCKED-RAM；4 个 CPU 卡全钉此机。下一步=bm-b 现场释放内存（gpu_lease --acquire 或停常驻模型）。 |
+| **bm-c 全域不可达（物理件）** | **waiting-CEO（零催办）** | TCP 100.123.74.104:8790 closed @03:36；poke 无法落地；/health、/status 均不可达（R2.63 同判）。下一步=bm-c 现场上电/查 Tailscale 服务。 |
+| **CPU 供给单点（生成器层）** | **registered（T1 候选）** | 卡片 nodes 全为 ["bm-b"]；建议 workgen/backlog_fill 写多机亲和。本班仅单卡就地改派。 |
+| **僵尸交付物假绿** | **registered（受保护面·候改）** | 执行器只验存在性；line_triage 按运行日命名 => 旧件满足旧路径。修法=校验 mtime>=assign_ts 或模板化路径。 |
+

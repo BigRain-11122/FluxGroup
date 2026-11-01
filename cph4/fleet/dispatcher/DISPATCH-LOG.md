@@ -561,3 +561,14 @@
 (d) **主控真空 1.7h（新缺陷 D-R263-MASTER-VACUUM·登记不擅改）**：bm-m PULSE 停 21:13、MASTER-TICK 停 22:22；实测 HQ-Steward 实参带 `--no-schedule` ⇒ bm-a 兜底调度结构性关闭（**符合 10-30 主控迁移令，非回归**）。本席仅手动 `master_agent.py --no-push` 一次解冻（requeue Q-TRIAGE attempt=1 + 写 lanes），未改任务参数。
 (e) **CPU 单点路由（D-R263-CPUROUTE-SINGLEPOINT）**：CPU 类只进 bm-b lane，bm-b 抖动即全堵（bm-a lane jobs=[] 且 idle 15 轮）。就地收口=本机实跑 `line_triage.py --line bigmoney` → 收据 triage-bigmoney-20261102.md。**事实校正**：bigmoney 线 0.0h 前有产出（quant-backtest 25165 文件），真静默仅 quant-audit 216.9h ⇒ 覆 R2.61/R2.62 的"整线无产出"叙述。
 (f) 班毕：L2 饥饿 SLO 违约 1 件（bm-b >90min）已登记；回访探针 cron 重建 +90min；台账三段（NEED-JUDGMENT/DEADLINES/DISPATCH-LOG）尾锚追加 + 外科推。
+
+[2026-11-02 03:26-03:55] SHIFT event R2.64 (carrier-triggered; probe L0-DOWN DISPATCH-LOG age 3.2h @03:26:04) | calls=~30 | verdict: 第11次节拍器触发，但三源实据矛盾 => 升事件班；真故障=主控真空复发 + CPU 供给单点 + bm-c 停机 + 僵尸交付物假绿
+(a) 触发定性：R2.61 STANDING-PRECEDENT 适用（3h 阈值 < 班间 4.2h、夜间无会话物理不触发）。本班未按误报收口，因三源有实据矛盾（见 b/c）。
+(b) **主控真空复发（D-R263 第2次）**：MASTER-STATE `master_tick_ts`=02:15:12、MASTER-TICK.json ts=11-01 23:28:24；bm-m pulse 02:19 后再死约 3.4h。新根因坐实：`Tools/fleet/master_pulse.py` 全文 **0 处引用 MASTER-TICK**（grep 计数=0）=> 陈旧度信号永久冻结，任何 stale 守卫读到的都是错值；且 `steward.py` 在 --no-schedule 下把 stale 一律打印成 "master-fresh"（日志与事实相反，此前班次据此误判主控正常）。
+(c) 处置：手动 masquerade tick 两轮（`master_agent.py --once --no-push --node bm-a`，cyc 1047→1049）；`cph4/fleet/lanes/*.json` 03:28:37 刷新；Q-TTS-1202R 租约复位 OPEN；bm-a "每5分钟重跑同一旧卡"噪声随 jobs=[] 消失（R-PLAN-BIGGAME 自 02:19 起已重放 13 轮）。
+(d) **CPU 供给单点（D-R263 复发第2次）**：4 个 OPEN 件全部 `nodes=["bm-b"]`，而 bm-b `ram_free` 0.3-0.5GB < 1.0GB 门 => CPU 供给全堵，bm-a 49GB 空闲。就地收口=Q-TRIAGE-BIGMONEY 卡追加 bm-a 亲和并实跑（lane DONE rc=0 0.7s deliverable=True）。
+(e) **该卡"成功"是假绿（D-R264-ZOMBIE-DELIVERABLE）**：deliverable `triage-bigmoney-20261101.md` mtime=11-01 21:13（旧件）；`line_triage.py` 按运行日命名（今日产物=triage-bigmoney-20261102.md @00:15）=> 卡交付路径按日期钉死 + 执行器只验"存在" = 陈旧件永久放行、永不产新证据。本班按证据收口该卡，未改执行器校验（Tools 属受保护面）。
+(f) bm-c 仍全域不可达：TCP 100.123.74.104:8790 closed（03:36 实测），poke 无法落地；GPU 道与其 Q-TRIAGE 卡一并悬停。物理件。
+(g) L2 饥饿 SLO 今日违约 2 件（bm-b RAM 阻塞 >90min、bm-c 停机）。
+(h) 未改受保护件；未重派同一旗；物理件零催办。回访探针 +90min 已建。
+
