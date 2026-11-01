@@ -252,7 +252,11 @@ def main():
                         # workstation, so CPU work must not ignore its 09-19 quiet window.
                         "day_ok": bool(j.get("day_ok")), "heavy": False,
                         "why": "workgen R1: work-bank pending promoted so the box is not idle",
-                        "created_by": "workgen", "created_at": stamp, "state": "READY"}
+                        "created_by": "workgen", "created_at": stamp, "state": "READY",
+                        # The control plane never holds the production trees (quant repo,
+                        # media masters): without this the master's own existence check
+                        # blocks the card forever and the CPU stays idle.
+                        "verify_on_node": True}
                 added.append(card); budget -= 1; need -= 1
         # 2) node task table
         for (cid, title, cmd, needs, prio, reqs, why) in NODE_TASKS.get(node, []):
