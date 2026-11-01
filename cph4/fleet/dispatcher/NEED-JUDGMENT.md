@@ -52,3 +52,4 @@
 [2026-11-02 03:5x][PROXY R2.64] **D-R263-CPUROUTE-SINGLEPOINT 复发第2次**：4 个 OPEN 卡全部 `nodes=["bm-b"]`（含纯只读 line_triage），bm-b `ram_free` 0.3-0.5GB 长期低于 1.0GB 门 => 整条 CPU 供给单点锁死，而 bm-a 49GB 空闲且在跑同类脚本。建议=workgen/backlog_fill 生成 CPU 卡时写多机亲和 `["bm-b","bm-a"]`，由 master 按 capacity 择优。本班只对单卡就地改派，未改生成器。
 [2026-11-02 03:5x][PROXY R2.64] DEFECT **D-R264-ZOMBIE-DELIVERABLE**（新）：执行器只校验 deliverable 路径存在性、不校验新鲜度；而 `line_triage.py` 按运行日命名产物 => 卡内钉死的旧路径（`*-20261101.md`）被历史件满足，任务"成功"却零新证据（实测 DONE rc=0 0.7s，文件 mtime 停在 11-01 21:13）。影响=僵尸卡反复"完成"、监督面假绿。修法候选=交付校验加 `mtime >= assign_ts`，或卡内交付路径改用运行日模板。
 
+[2026-11-02 04:0x][PROXY R2.64] DEFECT **D-R264-LANEFILE-STALE-REPLAY**（新·未修）：cph4/fleet/lanes/<node>.json 里已完成的作业在 origin 上永不清除（本机 02:09:17 版本仍钉着 R-PLAN-BIGGAME-20261102），而主控 fallback 跑的是 --no-push、完成态不落 origin => 执行体每 5 分钟把同一张旧卡重跑一遍（今晚 STEWARD-LOG 实测 13 轮 DONE rc=0 0.4-0.7s）。后果=日志与算力噪声、监督面真假难辨、且掩盖真正的新派单。修法=pulse/完成回执把 jobs=[] 落 origin（需先补 master_agent push 腿的 rebase --abort 守卫 D-R256）。
