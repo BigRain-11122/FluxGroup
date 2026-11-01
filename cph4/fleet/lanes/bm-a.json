@@ -1,14 +1,14 @@
 {
  "node": "bm-a",
- "ts": "2026-11-01T22:48:27",
+ "ts": "2026-11-01T22:56:38",
  "jobs": [
   {
-   "id": "MV-NEWPROC-PACKET",
-   "title": "导演席新流程卷：四曲立意/分镜/合规矩阵一页卷",
-   "cmd": "python Tools/fleet/review_packet.py --line mv --root .",
+   "id": "R-NEXT-BIGSTREAMM-GATE-20261101",
+   "title": "MV 交付闸复跑：当前母版四闸全验（收口前置）",
+   "cmd": "python Tools/mv_delivery_gate.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v717.mp4 --whitelist cph4/fleet/mv0001-handover/canon/MV0001-REPRISE-WHITELIST.json --json cph4/fleet/queue-receipts/mv-gate-20261101.json",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/review-packet-mv-20261101.md",
+   "deliverable": "cph4/fleet/queue-receipts/mv-gate-20261101.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 45.9/3.0 GB"
+ "capacity_note": "ram 44.4/3.0 GB"
 }
