@@ -1,0 +1,28 @@
+{
+ "id": "OB-20261101-104744-MODELPOLICY-IGNITE",
+ "type": "policy+ignition",
+ "lanes": [
+  "bm-a",
+  "bm-b",
+  "bm-c"
+ ],
+ "issued_at": "2026-11-01T10:47:44",
+ "issued_by": "bm-m master (CEO 令 2026-11-01)",
+ "steps": [
+  "cd <repo root> && git pull --rebase --no-autostash origin main",
+  "python Tools/fleet/agent.py --node <本机代号>        ← 一次性点火，看到 hb=0/lane=0 即成功",
+  "powershell Tools\\task-register.ps1 -Name HQ-Agent -Script <本机启动脚本.ps1/.bat> -Trigger every:1m -Arg \"--node <本机代号> --loop 60\"",
+  "此后每轮：上报 hb、领活、执行、写回执；失败必须落 rc + stderr 尾部"
+ ],
+ "policy": {
+  "model_download": "只许走国内镜像（ModelScope / hf-mirror），禁止从官方源慢速长期占用；下载后用 ollama create 建标签，不改代码",
+  "bm_m_role": "只做调度/监督/协调/解题 + 轻量模型；qwen3.5:4b 常驻(4.2GB)，35B 仅按需且需 mem_gate 判 OK",
+  "gates": "所有产出过同一验真闸(路径/命令必须存在)；周期件禁用云端；云端单次<=50、日<=200 积分",
+  "reporting": "四信号上报：hb / agent 上报 / claim / receipt；缺任一不得宣称健康"
+ },
+ "accept": [
+  "cph4/fleet/lanes/<node>.json 的 last_result 出现时间戳",
+  "cph4/fleet/queue-receipts/ 新增本机产出",
+  "cph4/fleet/cmd/OB-20261101-104744-MODELPOLICY-IGNITE.<node>.ack.json 落库"
+ ]
+}
