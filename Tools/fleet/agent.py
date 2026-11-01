@@ -170,10 +170,16 @@ def push():
     return rc2
 
 
-def tick(node, do_push=False):
+def tick(node, do_push=False, with_pull=False):
+    if with_pull:
+        pull()
     rc_hb, t_hb = run([PY, "Tools/fleet/fleet_hb.py", "--node", node, "--root", ROOT], 120)
-    rc_ln, t_ln = run([PY, "Tools/fleet/lane_agent.py", "--node", node, "--root", ROOT,
-                       "--no-fetch"], 3600)
+    # Lane intake must re-read origin every cycle. fleet_lane.lane_payload() only runs
+    # `git fetch` when asked, and this call used to pass --no-fetch: after the single
+    # startup pull the node kept re-reading a frozen origin/main ref, so a lanes/<node>.json
+    # the master published minutes later never arrived and the lane reported IDLE forever
+    # (2026-11-01 measured: lane file on disk 21:03, agent started 21:52, no intake since).
+    rc_ln, t_ln = run([PY, "Tools/fleet/lane_agent.py", "--node", node, "--root", ROOT], 3600)
     t_ps = "-"
     if do_push:
         t_ps = "rc=%s" % push()
@@ -181,20 +187,79 @@ def tick(node, do_push=False):
     return 0 if rc_hb == 0 else 1
 
 
+def _pid_alive(pid):
+    if os.name == "nt":
+        try:
+            r = subprocess.run(["tasklist", "/FI", "PID eq %d" % pid],
+                               capture_output=True, text=True, timeout=30)
+            return str(pid) in (r.stdout or "")
+        except Exception:
+            return False
+    try:
+        os.kill(pid, 0)
+        return True
+    except Exception:
+        return False
+
+
+def claim_lock(node):
+    """One agent per node. Two claimers on one lane take the same card twice and fight over
+    the GPU lease; the master's design is exactly one resident executor per box."""
+    path = os.path.join(ROOT, ".codely-cli", "tmp", "agent-%s.lock" % node)
+    try:
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        if os.path.exists(path):
+            try:
+                with open(path, encoding="utf-8") as f:
+                    pid = int((f.read().split() or ["0"])[0])
+            except Exception:
+                pid = 0
+            if pid and pid != os.getpid() and _pid_alive(pid):
+                return None
+        with open(path, "w", encoding="utf-8") as f:
+            f.write("%d %d" % (os.getpid(), int(time.time())))
+    except Exception:
+        return None
+    return path
+
+
+def touch_lock(path):
+    # fleet_hb.self_bootstrap() reads this file's mtime as "a live agent owns the node";
+    # refreshing it each tick is what stops it from spawning a second agent.
+    try:
+        with open(path, "w", encoding="utf-8") as f:
+            f.write("%d %d" % (os.getpid(), int(time.time())))
+    except Exception:
+        pass
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--node", required=True)
     ap.add_argument("--loop", type=int, default=0, help="0 = one tick; N = every N seconds")
     ap.add_argument("--no-pull", action="store_true")
+    ap.add_argument("--pull-every", type=int, default=5,
+                    help="in --loop mode, pull once every N ticks (default 5 = 5 min)")
     ap.add_argument("--push", action="store_true",
                     help="push locally authored commits after each tick (append-only; see push())")
     a = ap.parse_args()
-    if not a.no_pull:
-        pull()
+    lock = None
+    if a.loop:
+        lock = claim_lock(a.node)
+        if lock is None:
+            print("agent %s already running (lock held) - this instance exits" % a.node)
+            return 0
     if not a.loop:
-        return tick(a.node, a.push)
+        return tick(a.node, a.push, with_pull=not a.no_pull)
+    every = max(1, a.pull_every)
+    i = 0
     while True:
-        tick(a.node, a.push)
+        try:
+            tick(a.node, a.push, with_pull=(not a.no_pull) and i % every == 0)
+        except Exception as e:  # a crashed tick must not kill the resident agent
+            print("agent %s tick error: %s" % (a.node, str(e)[:200]))
+        touch_lock(lock)
+        i += 1
         time.sleep(a.loop)
 
 

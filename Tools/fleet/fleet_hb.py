@@ -132,8 +132,73 @@ def probe_offset(hub, port, samples=5):
             "precision_ms": round(rtt / 2.0, 1), "samples": len(vals)}
 
 
-def host_stats():
+def _win_stats(stats, node, root):
+    """RAM and CPU for Windows nodes, without psutil and without spawning a shell.
+
+    2026-11-01 measured: state.bm-c reached the bus with ram_free_gb=null and no cpu field,
+    because the RAM branch below is macOS-only and Windows has no os.getloadavg(). The
+    master then scored this lane as "ram-unknown" (master_agent.lane_capacity), i.e. it
+    could never gate or aim RAM-heavy work at the box it actually has to fit.
+    CPU comes from GetSystemTimes deltas (Windows has no instantaneous counter); the
+    previous sample is kept next to the heartbeat sequence file.
+    """
+    import ctypes
+
+    class MEMORYSTATUSEX(ctypes.Structure):
+        _fields_ = [("dwLength", ctypes.c_ulong), ("dwMemoryLoad", ctypes.c_ulong),
+                    ("ullTotalPhys", ctypes.c_ulonglong),
+                    ("ullAvailPhys", ctypes.c_ulonglong),
+                    ("ullTotalPageFile", ctypes.c_ulonglong),
+                    ("ullAvailPageFile", ctypes.c_ulonglong),
+                    ("ullTotalVirtual", ctypes.c_ulonglong),
+                    ("ullAvailVirtual", ctypes.c_ulonglong),
+                    ("ullAvailExtendedVirtual", ctypes.c_ulonglong)]
+
+    try:
+        m = MEMORYSTATUSEX()
+        m.dwLength = ctypes.sizeof(MEMORYSTATUSEX)
+        if ctypes.windll.kernel32.GlobalMemoryStatusEx(ctypes.byref(m)):
+            stats["ram_free_gb"] = round(m.ullAvailPhys / 1e9, 1)
+    except Exception:
+        pass
+
+    class FILETIME(ctypes.Structure):
+        _fields_ = [("lo", ctypes.c_uint), ("hi", ctypes.c_uint)]
+
+    def _ticks(ft):
+        return (ft.hi << 32) + ft.lo
+
+    try:
+        idle, kernel, user = FILETIME(), FILETIME(), FILETIME()
+        get = ctypes.windll.kernel32.GetSystemTimes
+        if not get(ctypes.byref(idle), ctypes.byref(kernel), ctypes.byref(user)):
+            return
+        cur = {"idle": _ticks(idle), "total": _ticks(kernel) + _ticks(user),
+               "ts": time.time()}
+        path = os.path.join(root, "Tools", "nats", "data", "cpusample.%s.json" % node)
+        prev = None
+        try:
+            with open(path, encoding="utf-8") as f:
+                prev = json.load(f)
+        except Exception:
+            pass
+        try:
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            with open(path, "w", encoding="utf-8") as f:
+                json.dump(cur, f)
+        except Exception:
+            pass
+        if prev and cur["total"] > prev.get("total", 0):
+            d_total = cur["total"] - prev["total"]
+            d_idle = cur["idle"] - prev.get("idle", 0)
+            stats["cpu_load_pct"] = int(round(100.0 * (d_total - d_idle) / d_total))
+    except Exception:
+        pass
+
+
+def host_stats(node=None, root=None):
     stats = {"load1": None, "ram_free_gb": None, "disk_free_gb": None,
+             "cpu_load_pct": None,
              "gpu_util_pct": None, "vram_used_mb": None, "vram_total_mb": None}
     try:
         stats["load1"] = round(os.getloadavg()[0], 2)
@@ -171,6 +236,8 @@ def host_stats():
         stats["vram_total_mb"] = int(parts[2])
     except Exception:
         pass
+    if os.name == "nt" and node and root:
+        _win_stats(stats, node, root)
     return stats
 
 
@@ -235,7 +302,7 @@ def main():
         "clock_offset_ms": clk.get("offset_ms"),
         "clock_rtt_ms": clk.get("precision_ms"),
     }
-    state.update(host_stats())
+    state.update(host_stats(a.node, a.root))
     payload = json.dumps(state, ensure_ascii=False, separators=(",", ":"))
 
     try:
@@ -249,7 +316,7 @@ def main():
         return 1
     print("HB %s seq=%d offset=%sms" % (a.node, seq, state["clock_offset_ms"]))
     try:
-        self_bootstrap(args.node)
+        self_bootstrap(a.node)
     except Exception:
         pass
     return 0
