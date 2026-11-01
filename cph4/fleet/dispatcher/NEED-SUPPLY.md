@@ -1,11 +1,11 @@
 # NEED-SUPPLY - why lanes and business lines are not running (#regenerated)
 
-- ts: 2026-11-02T00:25:29
-- queue: open=20 running=2 done=54 failed=2
-- open jobs by need: cpu=19 gpu=1
+- ts: 2026-11-02T00:36:45
+- queue: open=18 running=3 done=55 failed=2
+- open jobs by need: cpu=18 gpu=0
 
-- bm-a: RUNNING R-NEXT-BIGSTREAMM-GATE-20261102
-- bm-b: CAPACITY-BLOCKED-RAM ram 0.9/1.0 GB -> free memory on that box (gpu_lease --acquire reclaims it)
+- bm-a: RUNNING R-NEXT-BIGSTREAMM-AUDIT-20261102
+- bm-b: RUNNING Q-TTS-1202R
 - bm-c: RUNNING Q-TRIAGE-BIGSTREAMDUANJU-20261102
 - bm-m: SELF-DISPATCH: lane scans its own backlog -> lane is scanning its own backlog; if this persists >2 rounds the box has no declared work and needs a new card
 
