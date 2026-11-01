@@ -1,19 +1,19 @@
 {
- "ts": "2026-11-01T22:34:27+08:00",
+ "ts": "2026-11-01T22:37:57+08:00",
  "node": "bm-m",
- "sec": 42.3,
+ "sec": 44.5,
  "slow_ts": 1793543565.539896,
  "git": "ok(committed-state)",
- "push": "ok+1",
+ "push": "up-to-date",
  "stages": {
   "hb": {
    "rc": 0,
-   "sec": 11.0,
-   "tail": "HB bm-m seq=3081 offset=273.6ms"
+   "sec": 13.7,
+   "tail": "HB bm-m seq=3083 offset=300.3ms"
   },
   "master": {
    "rc": 0,
-   "sec": 19.2,
+   "sec": 25.0,
    "tail": "  LINES: BLOCKED=1, PARKED=1, STALLED-STAGE=1, WAITING=10"
   },
   "lane": {
