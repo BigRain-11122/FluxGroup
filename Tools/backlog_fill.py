@@ -116,6 +116,13 @@ def _fill_manifest(root, rows, have, node=None):
             rows[:] = [x for x in rows if x.get("id") != jid]
             rows_by_id.pop(jid, None)
             have.discard(jid)
+        # 2026-11 调研：无人值守工厂的第一教训不是"要更自主"，而是"没有书面规格→瓶颈转到
+        # 评审队列"。所以卡必须自带交付物与验收口径，否则拒绝入队（SPEC-REQUIRED）。
+        if not (r.get("deliverable") or r.get("accept") or r.get("when_none")):
+            r["invalid_reason"] = "SPEC-REQUIRED: 无交付物/验收口径"
+            r["state"] = "INVALID"
+            touched = True
+            continue
         cmd = r.get("cmd") or ""
         ok, bad = _tool_ok(cmd, root)
         if not ok:
