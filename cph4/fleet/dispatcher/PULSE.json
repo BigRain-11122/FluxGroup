@@ -1,24 +1,24 @@
 {
- "ts": "2026-11-01T10:11:16+08:00",
+ "ts": "2026-11-01T10:12:55+08:00",
  "node": "bm-m",
- "sec": 40.8,
+ "sec": 39.0,
  "slow_ts": 1793498974.128225,
  "git": "ok(committed-state)",
  "push": "ok+1",
  "stages": {
   "hb": {
    "rc": 0,
-   "sec": 10.6,
-   "tail": "HB bm-m seq=2654 offset=3355.6ms"
+   "sec": 10.2,
+   "tail": "HB bm-m seq=2655 offset=3361.2ms"
   },
   "master": {
    "rc": 0,
-   "sec": 19.1,
+   "sec": 18.9,
    "tail": "  LINES: BLOCKED=1, PARKED=1, STALLED-STAGE=1, WAITING=10"
   },
   "lane": {
    "rc": 0,
-   "sec": 1.1,
+   "sec": 1.0,
    "tail": "LANE-IDLE bm-m :: SELF-DISPATCH: lane scans its own backlog"
   },
   "inventory": {
@@ -95,8 +95,8 @@
  "checks": [
   {
    "name": "resident-model-size",
-   "ok": false,
-   "detail": "limit 8GB (control plane, not a production box): evicted:qwen3:30b-a3b"
+   "ok": true,
+   "detail": "limit 8GB (control plane, not a production box): ok"
   },
   {
    "name": "ollama",
@@ -111,12 +111,12 @@
   {
    "name": "com.fluxgroup.pulse",
    "ok": true,
-   "detail": "69076\t0\tcom.fluxgroup.pulse"
+   "detail": "69277\t0\tcom.fluxgroup.pulse"
   },
   {
    "name": "com.fluxgroup.dashboard",
    "ok": true,
-   "detail": "69146\t0\tcom.fluxgroup.dashboard"
+   "detail": "-\t0\tcom.fluxgroup.dashboard"
   },
   {
    "name": "com.fluxgroup.ollama",
@@ -125,8 +125,6 @@
   }
  ],
  "alerts": [],
- "blockers": [
-  "resident-model-size"
- ],
- "ok": false
+ "blockers": [],
+ "ok": true
 }
