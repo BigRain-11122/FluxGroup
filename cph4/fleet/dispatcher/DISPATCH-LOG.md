@@ -585,3 +585,14 @@
 (j) 回访探针：沿用 R2.64 一次性 cron 7d828b30 @05:28（传感复用律，不重叠新建）；班次 cron 007d4701 在位无临期。
 (k) 本班实产（针对 CPU 单点的就地承接）：bm-a 实跑 `line_triage.py` → triage-bigmoney-20261102.md（quant-data 最新 0.2h / quant-backtest 0.0h / quant-audit 静默 220.9h）与 triage-bigstream-duanju-20261102.md（该线 369.9h 静止，属已知停产线）；另跑 `etf_composite_pf.py` 52s → quant/bigmoney/results/etf_composite_pf.json @04:18:39（rebal20 全期 CAGR 8.04% / Sharpe 0.834 / maxDD -12.8%；2024+ OOS CAGR 14.0% / Sharpe 1.44；基准 510300 全期 CAGR -0.30% / maxDD -45.1%）。bigmoney 仓 46 件脏文件属其自有 resident_dispatcher 写域，按「同仓单执行体退避」未代提交该仓，产物以盘上事实记账。
 (l) 卡验收路障（同 R2.64 ZOMBIE 型）：R-TRIAGE-BIGSTREAMDUANJU-BMB-20261101 的 deliverable 写死 `triage-bigstream-duanju-20261101.md`（日期钉死），实际产出恒为 `-20261102.md` → 卡永远验不过。建议 deliverable 去日期化或用通配（非本班写域，登记待改）。
+
+
+[2026-11-02 07:26-07:4x] SHIFT event R2.66 (carrier-triggered; probe L0-DOWN DISPATCH-LOG age 3.1h @07:26:04) | calls=~26 | verdict: **真故障=L0 主控真空 3.8h + 队列按 id 不去重致永久重放（新根因落定）+ bm-c 物理离线**；处置=L0 复活（cyc 1058→1059）+ 队列状态修复（74→72 行·关 2 张·归档 3 张）+ 新缺陷 2 条
+(a) 触发定性：第 12 次节拍器触发（R2.61 STANDING-PRECEDENT），但三源实据矛盾 => 升事件班。三源：MASTER-STATE ts=03:41:29（age 3.75h）、lanes 全部 03:32-03:41、MASTER-TICK.json ts=11-01 23:28（D-R264 已判该文件永不写）=> L0（master tick）自 03:41 起真空，非探针误报。
+(b) **真根因落定（R2.63/R2.64/R2.65 三班均未坐实）**：`PRODUCTION-QUEUE/PRODUCTION-BACKLOG` 的 `open_ids()`/`pending` 只按 state 取行、不按 id 去重也不取最新态（workgen.py:139-146、master_agent.py:474）=> 同一 id 存在旧 OPEN 行 + 新 DONE 行时，卡片永久"在飞"、每轮重派。实证：`Q-TRIAGE-BIGMONEY-20261101` 三行 OPEN(11-01 12:27)/RUNNING(今 07:28)/DONE(今 03:50 已收口)，今晨被本席 tick 第四次派给 bm-a；biglife 同卡每 5 分钟重跑（07:04/07:09/07:14/07:19/07:24 五连 artifact 提交，triage-biglife-20261102.md 07:24:30 重写）=> 这是"队列有活而机器空转/假绿"的机制源头，非 lane 文件缺陷（R2.64 归因不完整）。
+(c) 处置（可复验）：PRODUCTION-QUEUE.jsonl 74→72 行（按 id 保留最后一行；备份 `%TEMP%\queue-backup-20261102-073023.jsonl`）；关闭 2 张交付已在盘卡（C-FIN-ETF-COMPOSITE → `quant/bigmoney/results/etf_composite_pf.json` @04:18:39；R-TRIAGE-BIGSTREAMDUANJU-BMB-20261101 → `triage-bigstream-duanju-20261102.md` @06:03）；归档 3 张同意图分机卡（BMB/BMC/BMA，交付路径钉死 20261101 属僵尸型）。复验：二次 tick cyc=1059 queue open=0 run=1；lanes bm-a/bm-c jobs=[]，仅 bm-b 持 Q-TTS-1202R（真实 P0）。
+(d) **新缺陷 D-R266-LANE-MTIME-SELFPROOF**：master_agent.py 是 `cph4/fleet/lanes/*.json` 唯一写手、每轮对每台机写一次（含离线机），而在线判定又用 `lane_age <= OFFLINE_AFTER_S` 读同一 mtime => lane mtime 恒新鲜、永远判 online=True。实证：本席 07:27 实测 bm-c 100.123.74.104:8790/4222 双 closed，而 07:30:40 tick 报 bm-c online=True（ram=None）；bm-c lane ts 逐轮推进 03:32→07:28→07:30。后果：离线机被当在线派活 => 卡片静默滞留 + 真离线被掩盖。修法建议：在线判定只认 NATS KV 心跳 `state.<node>.ts_utc_ms`，lanes-file 回退须排除本进程写入的 ts（或加 heartbeat_src 字段）。Tools 属受保护面，本班只登记不擅改。
+(e) bm-c 物理件（零催办）：TCP 8790/4222 双 closed（07:27 实测）、NATS KV 无 `state.bm-c`。需现场上电/查 Tailscale。
+(f) bm-b：二次 tick 报 ram=11.7GB、job=Q-TTS-1202R 在位（较 04:07 的 0.1GB 已缓解）；P0 仍在飞，继续盯。
+(g) L2 饥饿 SLO 今日违约计 3 件（bm-b RAM 阻塞 >90min、bm-c 停机、主控真空 3.8h），承 R2.63/R2.64 计数不重复立法。
+(h) 步8 cron：班次 007d4701 在位；过期一次性 7d828b30（11-02 05:28 已过）删除；本班回访探针新建 @09:05。

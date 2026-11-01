@@ -280,3 +280,14 @@ am_free_gb=10+cpu_load_pct=48——**bm-b 不是闲着，是在跑量化轮**；
 | **CPU 供给单点（生成器层）** | **registered（T1 候选）** | 卡片 nodes 全为 ["bm-b"]；建议 workgen/backlog_fill 写多机亲和。本班仅单卡就地改派。 |
 | **僵尸交付物假绿** | **registered（受保护面·候改）** | 执行器只验存在性；line_triage 按运行日命名 => 旧件满足旧路径。修法=校验 mtime>=assign_ts 或模板化路径。 |
 
+
+## 附录 R2.66 事件班登记（2026-11-02 07:26-07:4x·第 12 次节拍器 + 真故障分离）
+
+| 项 | 状态 | 证据 / 下一步 |
+|---|---|---|
+| **L0 主控真空 3.8h** | **RESOLVED（本班复活）** | MASTER-STATE ts=03:41:29 → 本席 tick 两轮 cyc 1058/1059，lanes 07:30:40 刷新、queue open=0。根因为 bm-m 按需主控断脉 + bm-a 兜底 `--no-schedule`（符合 10-30 迁移令）。待裁=Mac 常驻 caffeinate 或启用条件式兜底（前置补 push_lane_files 的 rebase --abort 守卫）。 |
+| **D-R266-QUEUE-NODEDUPE（真根因）** | **registered（数据层已修·代码层待改）** | open_ids()/pending 不按 id 去重 → DONE 卡永久重放。数据层：74→72 行、关 2、归档 3（备份 %TEMP%\queue-backup-20261102-073023.jsonl）。代码层=Tools 受保护面，需按修法单改。 |
+| **D-R266-LANE-MTIME-SELFPROOF** | **registered（未修）** | lane mtime 由 master_agent 自写又自读 → 离线机恒 online=True（07:27 bm-c TCP 双 closed vs 07:30 online=True）。修法=在线只认 NATS KV 心跳。 |
+| **bm-c 全域不可达（物理件）** | **waiting-CEO（零催办）** | TCP 8790/4222 双 closed @07:27；无 NATS KV state.bm-c。下一步=现场上电/查 Tailscale 服务。 |
+| **bm-b RAM 阻塞** | **缓解（本班复测）** | ram_free 11.7GB（07:30），Q-TTS-1202R RUNNING 在位；CPU 卡可恢复派发。 |
+| **L2 饥饿 SLO 当日违约 3 件** | **registered** | bm-b RAM >90min、bm-c 停机、主控真空 3.8h；承 R2.63/R2.64 计数。回访探针 @09:05。 |
