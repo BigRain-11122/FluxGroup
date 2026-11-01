@@ -1,0 +1,20 @@
+{
+ "id": "fluxverse",
+ "name": "FluxVerse·元宙城",
+ "owner": "城市线",
+ "status": "ACTIVE",
+ "cadence_h": 36,
+ "inputs": [
+  "gaming/FluxVerse/City3D",
+  "gaming/FluxVerse/world",
+  "gaming/MiniGame/Design/configs/GLOBAL"
+ ],
+ "outputs": [
+  "gaming/FluxVerse/world/**/*",
+  "gaming/FluxVerse/City3D/**/*"
+ ],
+ "lanes": [
+  "bm-a"
+ ],
+ "needs": "cpu"
+}

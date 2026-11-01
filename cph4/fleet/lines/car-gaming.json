@@ -1,0 +1,19 @@
+{
+ "id": "car-gaming",
+ "name": "车机游戏 BU",
+ "owner": "车机 BU",
+ "status": "ACTIVE",
+ "cadence_h": 72,
+ "inputs": [
+  "cph4/fleet/car-gaming-v1",
+  "gaming/MiniGame/09_吸嘟嘟GimmeAll/GimmeAll/Tools"
+ ],
+ "outputs": [
+  "cph4/fleet/car-gaming-v1/**/*.md",
+  "cph4/fleet/queue-receipts/biz-car-gaming-*.md"
+ ],
+ "lanes": [
+  "bm-a"
+ ],
+ "needs": "cpu"
+}

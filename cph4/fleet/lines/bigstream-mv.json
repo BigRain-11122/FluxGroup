@@ -1,0 +1,27 @@
+{
+ "id": "bigstream-mv",
+ "name": "BigStream·MV 41 曲",
+ "owner": "导演席（CEO 终审）",
+ "status": "ACTIVE",
+ "cadence_h": 24,
+ "inputs": [
+  "cph4/fleet/mv-album-001-jay/anchors",
+  "cph4/fleet/mv0001-handover/canon",
+  "cph4/fleet/mv-album-001-jay/local-i2v",
+  "D:/FluxGroup/media/mv-album-001-jay/clips-local-768",
+  "cph4/fleet/mv0001-handover/outbound",
+  "D:/FleetWorker/review",
+  "cph4/fleet/mv0001-handover/canon"
+ ],
+ "outputs": [
+  "cph4/fleet/mv0001-handover/canon/*.md",
+  "cph4/fleet/mv0001-handover/outbound/**/*.mp4",
+  "cph4/fleet/queue-receipts/biz-mv-promo-*.md",
+  "cph4/fleet/queue-receipts/mv-gate-latest.json"
+ ],
+ "lanes": [
+  "bm-a",
+  "bm-c"
+ ],
+ "needs": "gpu"
+}

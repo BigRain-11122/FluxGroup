@@ -1,0 +1,21 @@
+{
+ "id": "biggame",
+ "name": "Biggame·游戏",
+ "owner": "游戏席",
+ "status": "ACTIVE",
+ "cadence_h": 24,
+ "inputs": [
+  "gaming/MiniGame/Design",
+  "gaming/MiniGame/Art",
+  "gaming/MiniGame/Builds"
+ ],
+ "outputs": [
+  "gaming/MiniGame/Design/**/*",
+  "gaming/MiniGame/Builds/**/*"
+ ],
+ "lanes": [
+  "bm-a",
+  "bm-c"
+ ],
+ "needs": "gpu"
+}

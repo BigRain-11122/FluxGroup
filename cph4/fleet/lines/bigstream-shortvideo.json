@@ -1,0 +1,16 @@
+{
+ "id": "bigstream-shortvideo",
+ "name": "BigStream·短视频/切片",
+ "owner": "短视频席",
+ "status": "PARKED",
+ "cadence_h": 168,
+ "inputs": [
+  "cph4/fleet/meme-daily-v1",
+  "cph4/fleet/video-remix-dept"
+ ],
+ "outputs": [],
+ "lanes": [
+  "bm-a"
+ ],
+ "needs": "cpu"
+}

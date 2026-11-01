@@ -1,0 +1,16 @@
+{
+ "id": "bighouse",
+ "name": "BigHouse·城市安家",
+ "owner": "生态运营席",
+ "status": "ACTIVE",
+ "cadence_h": 72,
+ "inputs": [
+  "house/BigHouse",
+  "house/BigHouse"
+ ],
+ "outputs": [
+  "house/BigHouse/**/*"
+ ],
+ "lanes": [],
+ "needs": "cpu"
+}

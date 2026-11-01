@@ -1,0 +1,20 @@
+{
+ "id": "bigstream-drama",
+ "name": "BigStream·漫剧",
+ "owner": "漫剧席",
+ "status": "BLOCKED",
+ "cadence_h": 48,
+ "inputs": [
+  "cph4/fleet/drama-dept-v1",
+  "media/drama-eps",
+  "media/drama-mix-out",
+  "media/drama-eps-audio"
+ ],
+ "outputs": [
+  "cph4/fleet/drama-dept-v1/**/*.md"
+ ],
+ "lanes": [
+  "bm-b"
+ ],
+ "needs": "gpu"
+}
