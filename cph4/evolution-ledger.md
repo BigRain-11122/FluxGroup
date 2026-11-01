@@ -561,3 +561,4 @@
 5. 物理件面零新增（GH/账号/支付/备案无新件待办）。
 
 **必答一行**：这个规则体系本周让哪件事变好了？——「转办送达判据（P-51①）让 CLOUD-OFF 闸这件 P0 从 transferred 一路核销到 executed，跨司回执链真的跑通了」；哪件事仍然需要 CEO 重复说？——**「不要再点名了，去把它做掉」**：同一批旗标连续 4 班原样复述即证明「提醒」不是解法，本周已把三要素+三班强制改判写进夜轮法条（机制缺口台账化=P-2026-11-01-02），但**根因仍是无人认领的领受体制度未定**——该判据需 CEO 一句话（本清单第 3 项）。
+**补记行（09:12 收尾回填）**=①周日 disk-sweep -Sweep **已闭环**：DISK SWEEP 2026-11-01 09:11 free=929GB sweep=True，Class-A 面无待清件（docs/_trash 0MB／audio-staging 0MB／root-hf-cache 0MB），Class-B 报告=labbench 130MB、repo pack gaming\MiniGame 2.79GiB／quant\bigmoney 894MiB／media\BigStream 1019MiB；②**断供抽验**（self-drive §7.2）：cph4/fleet/lanes 实读＝bm-a jobs=[] SELF-DISPATCH（自扫 backlog·合法声明）／bm-c jobs=[] SELF-DISPATCH／bm-b 1 件 Q-TTS-1202R claimed 05:26:55 零回执而 lane ts 停在 02:26:53＝执行器死面，派新活无消费方 → **本班零补派**（承接 OB-20261031-182307-132 执行器恢复令在飞）；③**自记本班一处工具面小错**：抽验脚本误用 cph4\fleet\queue 路径（实际面=lanes／order-bus／queue-receipts），致后台任务 rc=1；结论未受影响，改以 lanes 实读定谳（根因＝路径假设未经 ls 验证，非脚本缺陷）。
