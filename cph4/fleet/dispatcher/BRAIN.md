@@ -1,7 +1,7 @@
-# 大脑简报 2026-11-01 23:24
+# 大脑简报 2026-11-01 23:25
 
 ## 本轮唯一决策
-- **派 bigstream-mv 的下一步产物（现 30.4h 前，阈值 24h，声明=有）**
+- **派 bigstream-mv 的下一步产物（现 30.5h 前，阈值 24h，声明=有）**
 
 ## 机队事实（来源：lanes/*.json + PULSE.json）
 - 在线：bm-a(闲),bm-b(1),bm-c(闲),bm-m(闲)；掉线：bm-d
@@ -12,7 +12,7 @@
 | 线 | 判定 | 最近产出 | 在跑卡 | 下一步已声明 |
 |---|---|---|---|---|
 | bigstream-drama | LATE | 52.7h | - | 是 |
-| bigstream-mv | LATE | 30.4h | - | 是 |
+| bigstream-mv | LATE | 30.5h | - | 是 |
 | bigcompute | OFFBOX | 证据在别机 | - | 否 |
 | bigdomain | OFFBOX | 证据在别机 | - | 否 |
 | biggame | OFFBOX | 证据在别机 | - | 否 |

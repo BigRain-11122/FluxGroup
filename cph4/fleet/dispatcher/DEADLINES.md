@@ -1,9 +1,9 @@
-# 产出与方向 2026-11-01 23:24
+# 产出与方向 2026-11-01 23:25
 
-- 24h 新增回执 48 份 · 队列在跑 4 件 · 方向 有缺口
+- 24h 新增回执 47 份 · 队列在跑 4 件 · 方向 有缺口
 
 ## 产出时效
-- bigstream-mv       LATE 最近 30.4h 前 / 阈值 24h（cph4/fleet/queue-receipts/mv-gate-latest.json）
+- bigstream-mv       LATE 最近 30.5h 前 / 阈值 24h（cph4/fleet/queue-receipts/mv-gate-latest.json）
 - bigstream-drama    LATE 最近 52.7h 前 / 阈值 48h（cph4/fleet/drama-dept-v1/epburn-handover/RECIPE-EPBURN-v1.md）
 - bigstream-duanju   OK   最近 52.7h 前 / 阈值 72h（cph4/fleet/duanju-dept-v1/duanju-001-shimiaorensheng/SCRIPT-PILOT-3ep-v1.md）
 - biggame            NO-OUTPUT 承办机在线（bm-a,bm-c）但 24h 无落库回执

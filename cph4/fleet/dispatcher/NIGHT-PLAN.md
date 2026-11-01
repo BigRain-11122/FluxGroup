@@ -1,4 +1,4 @@
-# 夜间计划 2026-11-01 23:23
+# 夜间计划 2026-11-01 23:25
 
 - 在线 4 台：bm-a,bm-b,bm-c,bm-m
 - 新开卡 0 张，等待承办机 0 条线
@@ -17,6 +17,6 @@
 - bigstream-duanju：52.7h 前有产出，未到点
 - bigstream-mv：今日计划卡已在册
 - bigstream-shortvideo：CEO 已停产，不派
-- car-gaming：23.2h 前有产出，未到点
+- car-gaming：23.3h 前有产出，未到点
 - fluxverse：今日计划卡已在册
 - recon：52.7h 前有产出，未到点
