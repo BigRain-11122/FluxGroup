@@ -1,12 +1,12 @@
 # NEED-SUPPLY - why lanes and business lines are not running (#regenerated)
 
-- ts: 2026-11-01T23:04:00
-- queue: open=4 running=1 done=58 failed=2
-- open jobs by need: cpu=3 gpu=1
+- ts: 2026-11-01T23:14:26
+- queue: open=4 running=3 done=59 failed=2
+- open jobs by need: cpu=4 gpu=0
 
-- bm-a: RUNNING R-NEXT-BIGSTREAMM-GATE-20261101
-- bm-b: CAPACITY-BLOCKED-RAM OFFLINE (hb age Nones) -> free memory on that box (gpu_lease --acquire reclaims it)
-- bm-c: CAPACITY-BLOCKED-RAM ram 2.0/3.0 GB -> free memory on that box (gpu_lease --acquire reclaims it)
+- bm-a: RUNNING R-NEXT-BIGSTREAMM-AUDIT-20261101
+- bm-b: RUNNING Q-TTS-1202R
+- bm-c: RUNNING C-VB-DISCOVER-V02
 - bm-m: SELF-DISPATCH: lane scans its own backlog -> lane is scanning its own backlog; if this persists >2 rounds the box has no declared work and needs a new card
 
 Rules pack: cph4/fleet/WORK-RULES.jsonl (empty = every job must be declared by a producing seat; the master will not invent work).
