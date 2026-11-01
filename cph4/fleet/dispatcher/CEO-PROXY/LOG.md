@@ -939,3 +939,10 @@ if prev_by and prev_by != owner_node:
 - **判读**：误报（PROBE-CADENCE-MISFIT 第7次，L0 谓词受保护）+ 真故障（本地 22 件脏 → 落后 23 笔 → 写手落陈旧基线）。
 - **处置**：备份 22 件 → 丢机器态脏面 → ff-only 至 0/0 → pull rc=0 实测三连 → 回收搁浅巡班 44 行 → T1 修 GEN_STATE(5→18) + blocking-paths 诊断 → 台账四件追加 → 原子推。
 - **未做**：未动受保护件；未 poke（防双烧）；未写 POOL；未碰 bm-b/bm-c 远程（CEO 令 2026-10-23）。
+
+## R2.61 事件班（2026-11-01 17:11-17:27·承载件触发·probe L0-DOWN 第 8 次）｜班型=事件班｜调用数=~26｜verdict=真故障（bm-b 幻影头）+ 前七班标签勘正
+
+- **触发**：`[2026-11-01 17:11:05][PROBE] L0-DOWN: DISPATCH-LOG.md age 3.2h (>3h)`；锁 mtime 14:03:37（188.1min 已过期）=> 本窗执班（跳班门未触发）。
+- **判读（两因分离）**：(a) 该旗=**设计节拍器**非故障探测（3h 系 10-25 刻意调低，probe->carrier 是唯一驱动源）——前七班写 "误报" 才是定性错，已落 STANDING-PRECEDENT 防第九次复算；(b) 真故障=**bm-b 幻影头锁死**：HEAD=c1d7762e 不在本仓 => 永不可快进 => 盘上 fleet-nodes.json 停 10-28 前版 => poke 恒 `HQ-ProductionClaim:deny`（17:19:45/17:23:25 两发实测）+ 心跳 17:11:52 seq=1 重启（约 5.2h 断连）=> P0 Q-TTS-1202R 悬停 5.6h。
+- **处置**：三源实证（KV/MASTER-STATE/lanes）确认主控、总线、bm-a/bm-c 健康 => 两次 poke 点火失败 => 登记物理件；台账三件追加（DISPATCH-LOG/NEED-JUDGMENT/DEADLINES）；新缺陷 D-R261-POKECFG-STALE 登记；步8 cron 自续（8 班在位，清过期一次性探针 d3b03e69，按 v3 新立 +90min 回访探针）。
+- **未做**：未动受保护件（CHARTER/ROUND/L0 脚本/proxy-probe/cron 正身/master_agent.py）；未跨机改 bm-b（CEO 2026-10-23 令）；未改队列（master_agent 单写域）；物理件零催办。

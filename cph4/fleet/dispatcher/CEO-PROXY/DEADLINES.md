@@ -236,3 +236,15 @@ am_free_gb=10+cpu_load_pct=48——**bm-b 不是闲着，是在跑量化轮**；
 | **Q-TRIAGE-BIGMONEY-20261101 FAILED rc=2** | **registered·转 bigmoney 域** | `line_triage.py --line bigmoney` rc=2 @12:26:43，`deliverable_exists=False`。 |
 | **POOL-0021 阻塞前提失效** | **registered·待 POOL 属主复核** | bm-c `ram_free` 1G→**9.4G**（group R15 实测）；`CEO-PHYSICAL:bm-c-desktop-ram` 不再成立。物理件零催办。 |
 | **L0 探针谓词 3h < 班表 4.2h（第7次）** | **registered·waiting-CEO（受保护件）** | 承 R2.54-R2.59 登记，不重复立法；建议 4.5h 或改读班表。 |
+
+
+## 附录 R2.61 事件班登记（2026-11-01 17:11-17:26·承载件触发·probe L0-DOWN 第 8 次）
+
+| 件 | 状态 | 证据 / 下一步 |
+|---|---|---|
+| **bm-b 幻影头锁死（HEAD=c1d7762e 不存在于 origin）** | **at-risk·waiting-CEO/人影（物理件·零催办·第 6 次同源）** | FleetLink /status：`repo_heads["."]=c1d7762e` vs `origin_main=1d89f756`，pull 报 `.:updated` 但 HEAD 恒不动 => 工作树永不可快进 => 盘上 `Tools/fleet-nodes.json` 停 10-28 前版 => `HQ-ProductionClaim:deny`（17:19:45/17:23:25 两发 poke 实测）。**唯一修法=在 bm-b 本机执行**：`cd C:\Fluxgroup\FluxGroup` -> `git fetch origin` -> `git status`（确认无本地独有工作）-> `git reset --hard origin/main` -> `python Tools\fleet\agent.py --node bm-b --loop 60` 并注册为唯一任务。外部不可代修（CEO 2026-10-23 令）。 |
+| **P0 Q-TTS-1202R（RUNNING 悬停 5.6h）** | **monitoring·不可跨机重排** | 11:52:15 认领，rc=null 零回执；deliverable=`C:/Fluxgroup/FluxGroup/media/drama-tts-out/r1202_ep001_060/` 与 cmd 均在 bm-b 本机盘 => bm-c 无素材/路径，重排必空跑。执行器修复前无法推进；防双烧不重派。 |
+| **bm-b 断连窗 ~5.2h（11:52->17:11）** | **registered** | MASTER-STATE@17:06 `online=false`；`state.bm-b` 17:11:52 以 seq=1 重启（`load1/ram_free_gb=null`=旧版 agent，未跟上 R2.59/R2.60 的 agent.py 修法）。佐证「节点盘停旧版 => 结构性不可靠」母因。 |
+| **D-R261-POKECFG-STALE（poke 白名单读序）** | **registered·建议一行修（未擅改）** | worker 启动即载入 `fleet-nodes.json`，pull 之后仍用旧内存判白名单 => 同轮新白名单永不生效。修法=wake 段前重读盘。 |
+| **承载件节拍器定性勘正（第 8 次）** | **registered·STANDING-PRECEDENT 已落 NEED-JUDGMENT** | 前七班记 "PROBE-CADENCE-MISFIT 误报"=拿探测器标准评判节拍器；3h 系 10-25 刻意设定（probe->carrier 为唯一驱动源）。后续班按三源判例行巡班，<=10 调用。 |
+| **L0 探针谓词双档建议（承 R2.54-R2.60）** | **registered·waiting-CEO（受保护件）** | 若仍要「探测器」而非「节拍器」语义：`DISPATCH-LOG age>3h` 降二级，改测 `MASTER-TICK`/三条 `state.bm-x` 心跳新鲜度。不重复立法。 |
