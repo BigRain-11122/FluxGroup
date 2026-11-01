@@ -1,0 +1,54 @@
+{
+ "_comment": "大脑分层席位（2026-11-01 主控大脑定案）。CEO 原话：主控大脑要创新、要科学、轻度赋能；后面还有真正的算力服务器大脑介入。所以判断能力做成可切换的席位，而不是写死在 Mac 上。",
+ "principle": "本机只做「快而准的轻判断」，重判断等 bm-d 入网后交给它，本地全判不了的才上云；任何一层都不许假装能判它判不了的事。",
+ "tiers": [
+  {
+   "id": "local",
+   "node": "bm-m",
+   "kind": "small-local",
+   "model": "qwen3.5:4b",
+   "resident_max_gb": 4.0,
+   "role": "快判：路由/归因/短动作/归并事实",
+   "latency": "3-4s 实测",
+   "state": "ACTIVE",
+   "why": "32GB 统一内存与 CEO 办公共用；4B 8k 实测 3.3GB、41 tok/s，不触发换页"
+  },
+  {
+   "id": "server",
+   "node": "bm-d",
+   "kind": "big-local",
+   "model": "",
+   "endpoint": "",
+   "capabilities": ["judgment", "planning", "quant-batch", "creative-direction"],
+   "state": "PENDING",
+   "enable_when": "bm-d 入网（Tailscale + lane 心跳）并声明 llm.endpoint 与 model；届时把 state 改 ACTIVE 即可接管重判断，本机不再承担",
+   "handover": [
+    "1) 把 bm-d 的 LANES.llm.endpoint 填成它的 Tailscale 地址:11434",
+    "2) BRAIN-SEAT.tiers[server].state=ACTIVE、填 model",
+    "3) 本机 local 席位降级为「快判兜底」，local_judge 自动优先 server",
+    "4) 重判断与量化重批一并迁到 bm-d，本机只留调度/监督/派单"
+   ],
+   "why": "256GB + 3×V100 才能常驻 35B-A3B 级别模型；本机 21.9GB 一装就换页，属于超过能力"
+  },
+  {
+   "id": "cloud",
+   "kind": "paid",
+   "role": "本地与 server 都判不了的方向/仲裁",
+   "per_call_credit_cap": 50,
+   "daily_credit_cap": 200,
+   "execute_via": "agent session only",
+   "why": "router.py 的 cloud 分支是占位符，脚本不能真上云；判断题进 ESCALATED 由会话执行并留痕"
+  }
+ ],
+ "escalation": {
+  "order": ["local", "server", "cloud"],
+  "rule": "上一层明确说「判不了/证据不足」才升下一层；任何一层不得改写问题以使自己能判",
+  "budget_guard": "上云前先查当日已花额度；超 200 积分停手写 NEED-SUPPLY，不自作主张"
+ },
+ "light_touch": {
+  "_label": "轻度赋能：本机的产出形态",
+  "does": ["判断与决策（写进 BRAIN.md 与队列）", "派单与补料", "监督四信号与磁盘事实", "把重型活路由到有产能的机器"],
+  "does_not": ["重媒体生产（i2v/KF/渲染/批量转码）", "常驻大模型", "占用 CEO 办公时段的重 CPU"],
+  "measure": "本机每轮 CPU 峰值应远低于一台生产机；若主控自己在跑重活，判角色越界"
+ }
+}

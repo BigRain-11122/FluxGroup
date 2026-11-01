@@ -34,6 +34,28 @@ PROMPT = """你是机队主控的本地判断席（只依据给定证据回答�
 ESCALATE_MARKERS = ("需要人工", "证据不足", "无法判断", "不能确定", "需人工")
 
 
+def brain_seat(root):
+    """Return the judgment seat to use first: the server brain when it is live, else local.
+
+    CEO 2026-11-01: 主控是大脑，但后面还有真正的算力服务器大脑介入. The seat is therefore
+    declarative (cph4/fleet/BRAIN-SEAT.json): flip tiers[server].state to ACTIVE and fill its
+    endpoint/model, and this leg moves heavy judgment to bm-d without a code change. Until
+    then it stays on the 4B - which is honest about what a 32GB laptop can judge.
+    """
+    path = os.path.join(root, "cph4", "fleet", "BRAIN-SEAT.json")
+    try:
+        with open(path, encoding="utf-8") as f:
+            seat = json.load(f)
+    except Exception:
+        return ("bm-m", "")
+    for t in seat.get("tiers") or []:
+        if str(t.get("state") or "").upper() != "ACTIVE":
+            continue
+        if t.get("id") == "server" and t.get("endpoint") and t.get("model"):
+            return (t.get("node") or "bm-d", t.get("model") or "")
+    return ("bm-m", "")
+
+
 def needs_cloud(answer: str) -> bool:
     a = str(answer or "")
     return (not a.strip()) or any(m in a for m in ESCALATE_MARKERS)
@@ -41,6 +63,7 @@ def needs_cloud(answer: str) -> bool:
 
 def main():
     root = fl.ROOT_DEFAULT
+    seat_node, seat_model = brain_seat(root)
     path = os.path.join(root, fl.JUDGMENT_REL.replace("/", os.sep))
     rows = fl.read_jsonl(path)
     todo = [r for r in rows if r.get("state") == "OPEN"][:MAX_PER_CYCLE]
@@ -50,7 +73,7 @@ def main():
         answers = list(ex.map(lambda r: fl.local_llm(
             PROMPT.format(question=r.get("question", ""),
                           evidence=json.dumps(r.get("evidence") or {}, ensure_ascii=False)[:1200]),
-            node="bm-m", timeout=90), todo))
+            node=seat_node, timeout=90), todo))
     n = 0
     esc = 0
     for r, ans in zip(todo, answers):
@@ -59,7 +82,7 @@ def main():
             continue
         text = str(ans).strip()[:500]
         r["answer"] = text
-        r["model"] = "local:" + JUDGE_MODEL
+        r["model"] = ("local:%s" % seat_model) if seat_node=="bm-m" else ("seat:%s" % seat_node)
         r["answered_at"] = fl.now_iso()
         if needs_cloud(text):
             # Beyond the 4B's ability: keep it OPEN for the cloud seat instead of letting
@@ -76,8 +99,8 @@ def main():
         fl.write_jsonl(path, rows)
     open_count = sum(1 for r in rows if r.get("state") == "OPEN")
     esc_count = sum(1 for r in rows if r.get("state") == "ESCALATED")
-    print("[local_judge] answered=%d escalated=%d(cloud-smart) still_open=%d"
-          % (n, esc, open_count))
+    print("[local_judge] seat=%s answered=%d escalated=%d(cloud-smart) still_open=%d"
+          % (seat_node, n, esc, open_count))
     return 0
 
 

@@ -219,6 +219,22 @@ def main():
             L.append("- `%s` rc=%s %s" % (r.get("id"), res.get("rc"),
                                           str(res.get("note") or res.get("stderr") or "")[:90]))
     L.append("")
+    L.append("## 本机角色自检（轻度赋能：主控是不是在抢生产的活）")
+    try:
+        la = os.getloadavg()
+        nproc = os.cpu_count() or 1
+        seat = jload(os.path.join(root, "cph4", "fleet", "BRAIN-SEAT.json"), {})
+        tiers = seat.get("tiers") or []
+        act = [t.get("id") for t in tiers if str(t.get("state") or "").upper() == "ACTIVE"]
+        pend = [t.get("id") for t in tiers if str(t.get("state") or "").upper() != "ACTIVE"]
+        L.append("- 负载 %.2f/%.2f/%.2f（%d 核，占比 %.0f%%）"
+                 % (la[0], la[1], la[2], nproc, 100.0 * la[0] / nproc))
+        L.append("- 判断席：在用 %s%s" % (",".join(act) or "未声明",
+                                          ("；待接管 " + ",".join(pend)) if pend else ""))
+        L.append("- 判据：主控只做判断/派单/监督；本机负载长期接近核数＝角色越界，应把活路由出去")
+    except Exception:
+        L.append("- 负载不可读")
+    L.append("")
     L.append("## 严格性自检")
     L.append("- 本页所有判定均来自 lanes/*.json、PRODUCTION-QUEUE/BACKLOG 与 LINE-REGISTRY 的证据目录；")
     L.append("- 「NO-EVIDENCE」= 证据目录里没有任何文件，不得读成「在推进」；")
