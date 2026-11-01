@@ -90,6 +90,27 @@ def run_msg(argv, timeout):
         return 1, str(e)[:240]
 
 
+def heal_deleted():
+    """Materialise tracked files that HEAD has but the worktree lacks.
+
+    2026-11-01 measured: after a `git reset --mixed origin/main` convergence, HEAD equalled
+    origin while 26 files the master had committed (including Tools/voicebank/
+    vb_discover.py) were never written to disk. `merge --ff-only` then answers "Already up
+    to date" forever, so the node silently ran a stale tree and the master's card
+    C-VB-DISCOVER-V02 died rc=2 in 0.1s on a script that "should" have existed. Only files
+    that are MISSING are restored, so local edits and working-tree changes are untouched.
+    """
+    rc, out = run_msg(["git", "ls-files", "-d"], 60)
+    paths = [p.strip() for p in out.replace(" | ", "\n").splitlines() if p.strip()]
+    healed = 0
+    for p in paths:
+        r, _ = run_msg(["git", "checkout", "--", p], 60)
+        healed += 1 if r == 0 else 0
+    if healed:
+        note("healed %d missing tracked file(s)" % healed)
+    return healed
+
+
 def pull():
     # Codes must arrive before the executor runs, otherwise the node keeps running the bug
     # we already fixed on the master. Never autostash (it swallowed hand edits once).
@@ -104,6 +125,7 @@ def pull():
     rc, tail = run_msg(["git", "merge", "--ff-only", "origin/main"], 120)
     if rc == 0:
         note("ff-only ok: %s" % tail)
+        heal_deleted()
         return rc
     cleared = []
     for p in GEN_STATE:
