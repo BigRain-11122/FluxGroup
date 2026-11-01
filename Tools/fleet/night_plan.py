@@ -59,6 +59,10 @@ def main():
     except Exception:
         pass
     queue = jl(Q)
+    try:
+        STEPS = json.load(open(os.path.join(F, "LINE-NEXT-STEPS.json"), encoding="utf-8"))
+    except Exception:
+        STEPS = {}
     inflight = {}
     for r in queue:
         if r.get("state") in ("OPEN", "RUNNING"):
@@ -102,6 +106,40 @@ def main():
             continue
         day = now.strftime("%Y%m%d")
         cid = "R-PLAN-%s-%s" % (lid.upper().replace("-", "")[:12], day)
+        # A declared next product beats a generic evidence pass (2026-11-01 brain pass:
+        # a due line should get the ONE artifact that moves it, not another triage).
+        made_here = 0
+        for card_t in ((STEPS.get("lines") or {}).get(lid) or {}).get("cards") or []:
+            scid = "R-NEXT-%s-%s-%s" % (lid.upper().replace("-", "")[:10],
+                                        str(card_t.get("key") or "x").upper()[:8], day)
+            if scid in have:
+                continue
+            deliverable_n = (card_t.get("deliverable") or "").replace("{date}", day).replace("{line}", lid)
+            if not deliverable_n:
+                continue
+            card_n = {
+                "id": scid,
+                "title": card_t.get("title") or ("%s 下一步产物" % lid),
+                "needs": card_t.get("needs") or "cpu",
+                "nodes": card_t.get("nodes") or [lane],
+                "prio": card_t.get("prio") or "P2", "day_ok": True,
+                "verify_on_node": True, "state": "READY",
+                "cmd": (card_t.get("cmd") or "").replace("{date}", day).replace("{line}", lid),
+                "cwd": "",
+                "requires": [p.replace("{date}", day) for p in (card_t.get("requires") or [])],
+                "deliverable": deliverable_n,
+                "accept": card_t.get("accept") or "",
+                "line": lid, "created_by": "night_plan:next-steps",
+                "created_at": now.isoformat(timespec="seconds"),
+                "why": "线到期未产出；按 LINE-NEXT-STEPS 派该线唯一下一步产物",
+            }
+            with open(B, "a", encoding="utf-8") as f:
+                f.write(json.dumps(card_n, ensure_ascii=False) + "\n")
+            have.add(scid)
+            made.append((lid, card_n["nodes"][0], scid))
+            made_here += 1
+        if made_here:
+            continue
         if cid in have:
             lines.append("- %s：今日计划卡已在册" % lid)
             continue

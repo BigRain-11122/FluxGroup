@@ -2,7 +2,7 @@
  "id": "bighouse",
  "name": "BigHouse·城市安家",
  "owner": "生态运营席",
- "status": "ACTIVE",
+ "status": "PARKED",
  "cadence_h": 72,
  "inputs": [
   "house/BigHouse",
@@ -12,5 +12,6 @@
   "house/BigHouse/**/*"
  ],
  "lanes": [],
- "needs": "cpu"
+ "needs": "cpu",
+ "park_reason": "DIRECTION-20261101：至今无真实需求证据，先停占用注意力；恢复条件=出现具体需求"
 }

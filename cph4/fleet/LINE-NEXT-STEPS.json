@@ -1,0 +1,71 @@
+{
+ "_comment": "线级「下一步唯一产物」声明（2026-11-01 主控大脑定案，配 DIRECTION-20261101.md）。night_plan 到期时会优先派这里的卡，没有声明才退回只读证据卡。占位符：{date}=YYYYMMDD，{line}=线 id。卡片必须自带 deliverable 与 accept，否则被 backlog_fill 判 SPEC-REQUIRED。",
+ "_rules": [
+  "一条线一个到期周期只派一张生产卡，避免自抢机器",
+  "requires 里的文件是硬前置；跨机卡 cwd 留空，由承办机用自己的仓库根执行",
+  "deliverable 带日期，保证「今天做过」不被当成「永远做过」",
+  "机器不发明方向：新方向由 DIRECTION-*.md 定案后再加进本文件"
+ ],
+ "lines": {
+  "bigstream-mv": {
+   "prio": "P1",
+   "nodes": ["bm-a"],
+   "needs": "cpu",
+   "cards": [
+    {
+     "key": "gate",
+     "title": "MV 交付闸复跑：当前母版四闸全验（收口前置）",
+     "cmd": "python Tools/mv_delivery_gate.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v717.mp4 --whitelist cph4/fleet/mv0001-handover/canon/MV0001-REPRISE-WHITELIST.json --json cph4/fleet/queue-receipts/mv-gate-{date}.json",
+     "deliverable": "cph4/fleet/queue-receipts/mv-gate-{date}.json",
+     "accept": "JSON 内四闸齐全且 mtime 为当日；OPPOSE=0、seam=0、freeze=0；任何一项不为 0 必须在回执里写明具体镜号",
+     "requires": [
+      "Tools/mv_delivery_gate.py",
+      "cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v717.mp4",
+      "cph4/fleet/mv0001-handover/canon/MV0001-REPRISE-WHITELIST.json"
+     ]
+    },
+    {
+     "key": "audit",
+     "title": "MV 观众级三查：逐镜暖度/重复/转场/稳定性（导演席签字依据）",
+     "cmd": "python Tools/mv_full_audit.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v717.mp4 --whitelist cph4/fleet/mv0001-handover/canon/MV0001-REPRISE-WHITELIST.json --json cph4/fleet/queue-receipts/mv-full-audit-{date}.json",
+     "deliverable": "cph4/fleet/queue-receipts/mv-full-audit-{date}.json",
+     "accept": "重复镜按镜号白名单判定后为 0；逐镜暖度/饱和度分布有结论；非计划硬跳逐条列镜号",
+     "requires": [
+      "Tools/mv_full_audit.py",
+      "cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v717.mp4"
+     ]
+    }
+   ]
+  },
+  "bigstream-duanju": {
+   "prio": "P2",
+   "nodes": ["bm-b"],
+   "needs": "cpu",
+   "cards": [
+    {
+     "key": "tts-qc",
+     "title": "配音批质检：r1202 目录逐集时长/静音/体积（出可发布集数清单）",
+     "cmd": "python Tools/fleet/tts_batch_check.py --dir media/drama-tts-out/r1202_ep001_060 --out cph4/fleet/queue-receipts/tts-qc-{date}.json",
+     "deliverable": "cph4/fleet/queue-receipts/tts-qc-{date}.json",
+     "accept": "每集有实测时长与静音判定；缺失集列明是「未生成」还是「生成失败」，不许只给总数",
+     "requires": ["Tools/fleet/tts_batch_check.py"]
+    }
+   ]
+  },
+  "bigstream-drama": {
+   "prio": "P2",
+   "nodes": ["bm-b"],
+   "needs": "cpu",
+   "cards": [
+    {
+     "key": "evidence",
+     "title": "漫剧证据目录补齐判定：画面/配音工段为何为空（一页含根因与补法）",
+     "cmd": "python Tools/fleet/line_triage.py --line bigstream-drama",
+     "deliverable": "cph4/fleet/queue-receipts/triage-bigstream-drama-{date}.md",
+     "accept": "逐工段列证据目录存在性/文件数/最新时间，并对空目录给出「是本机没有素材还是从未生产」的判定",
+     "requires": ["Tools/fleet/line_triage.py"]
+    }
+   ]
+  }
+ }
+}
