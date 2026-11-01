@@ -76,6 +76,9 @@ STAGES = [
     ("closer", ["Tools/fleet/closer.py"], 60, {0}, True),
     ("deadline", ["Tools/fleet/fleet_deadline.py"], 120, {0}, True),
     ("supervisor", ["Tools/fleet/fleet_supervisor.py"], 60, {0}, True),
+    # One page that names the single decision that moves the fleet now, from disk facts
+    # only (CEO 2026-11-01: 大脑要及时/准确/创新/严格). Read-only, so it cannot stall.
+    ("brain", ["Tools/fleet/brain_brief.py", "--root", ROOT], 60, {0}, True),
     # Aggregator: turns receipts+queue+verdicts into one screen for the CEO.
     ("digest", ["Tools/fleet/digest_agent.py"], 200, {0}, True),
     # Solve leg: requeues failed cards (capped), warns on starvation, and coordinates the

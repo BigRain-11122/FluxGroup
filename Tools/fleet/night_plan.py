@@ -42,12 +42,31 @@ def jl(p):
 
 
 def newest(paths):
+    """Newest file under any evidence path.
+
+    Evidence entries in LINE-REGISTRY / lines/*.json are usually directories; globbing a
+    directory matches the dir itself and isfile() rejects it, which made every line look
+    overdue forever and produced triage cards for lines that had output that same hour
+    (2026-11-01: 143 anchor files on disk, line judged "999h stale").
+    """
     import glob
     best = 0.0
     for pat in paths or []:
-        for p in glob.glob(os.path.join(ROOT, pat), recursive=True):
-            if os.path.isfile(p):
-                best = max(best, os.path.getmtime(p))
+        full = os.path.join(ROOT, pat)
+        if os.path.isdir(full):
+            for dp, _dn, fns in os.walk(full):
+                for fn in fns:
+                    try:
+                        best = max(best, os.path.getmtime(os.path.join(dp, fn)))
+                    except Exception:
+                        pass
+        else:
+            for p in glob.glob(full, recursive=True):
+                if os.path.isfile(p):
+                    try:
+                        best = max(best, os.path.getmtime(p))
+                    except Exception:
+                        pass
     return best
 
 
