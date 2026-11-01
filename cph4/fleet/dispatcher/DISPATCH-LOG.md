@@ -553,3 +553,11 @@
 (c) 处置：未重 poke（R2.61 17:19:45/17:23:25 两发已实测 `HQ-ProductionClaim:deny`，再发=双烧零收益）、未重登记同一旗、未动受保护件、未跨机改 bm-b（CEO 2026-10-23 令）；物理件零催办。
 (d) 本班唯一增量=L2 饥饿 SLO 记录：bm-b 红旗（执行器死）自 11:52 驻留 **6.0h > 90min 门** => 今日 L2 违约 1 件；未达 24h E1 升格线，交 R2.61 回访探针（cron 194c8c8c @18:57）复验。
 (e) 步8：班次 cron 007d4701（`43 2,5,8,12,15,18,21,23`）在位、回访 194c8c8c 在位，无需重建；无过期一次性 cron 残留。
+
+[2026-11-02 00:01-00:2x] SHIFT event R2.63 (carrier-triggered; probe L0-DOWN DISPATCH-LOG age 6.0h @00:01:21) | calls=~34 | verdict: **触发=结构性第10次（照 R2.61 STANDING-PRECEDENT，按源真值巡视）（a）+ 真故障三分离（b-e）**
+(a) 触发现定性：`DISPATCH-LOG age>3h` = 探针节奏自指回声（3h 阈值 < 班间 4.2h，夜间无 idle 会话 → 18:43/21:43/23:43 三班物理未触发）。不按"事件班全量深挖"跑；按权威源（/health、lanes、MASTER-STATE、receipts）判定真实故障。
+(b) **bm-b = 打盹+分叉（非死机/非纯幻影）**：00:13:10 `/health` ok（v1.9.5 host=BIGMONEY ram 7.4G cpu 3% gpu 闲置）→ 2 分钟后同端 timeout；poke accepted=true 但 `NOT-SYNCED head=c1d7762e`；lane ts=23:58:48。⇒ agent.py pull 被本地分叉 commit 挡住 → 心跳与领取双停 → 主控按 900s 规则判 OFFLINE。物理件=bm-b 本地三命令 + 禁睡眠。
+(c) **bm-c = 全域停机**：/health·/status 双 timeout，poke `ok=False`。本机 NATS 总线健康（nats-server pid 53584·4222 INFO 应答）⇒ 排除总线单点。物理件。
+(d) **主控真空 1.7h（新缺陷 D-R263-MASTER-VACUUM·登记不擅改）**：bm-m PULSE 停 21:13、MASTER-TICK 停 22:22；实测 HQ-Steward 实参带 `--no-schedule` ⇒ bm-a 兜底调度结构性关闭（**符合 10-30 主控迁移令，非回归**）。本席仅手动 `master_agent.py --no-push` 一次解冻（requeue Q-TRIAGE attempt=1 + 写 lanes），未改任务参数。
+(e) **CPU 单点路由（D-R263-CPUROUTE-SINGLEPOINT）**：CPU 类只进 bm-b lane，bm-b 抖动即全堵（bm-a lane jobs=[] 且 idle 15 轮）。就地收口=本机实跑 `line_triage.py --line bigmoney` → 收据 triage-bigmoney-20261102.md。**事实校正**：bigmoney 线 0.0h 前有产出（quant-backtest 25165 文件），真静默仅 quant-audit 216.9h ⇒ 覆 R2.61/R2.62 的"整线无产出"叙述。
+(f) 班毕：L2 饥饿 SLO 违约 1 件（bm-b >90min）已登记；回访探针 cron 重建 +90min；台账三段（NEED-JUDGMENT/DEADLINES/DISPATCH-LOG）尾锚追加 + 外科推。

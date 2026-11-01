@@ -256,3 +256,16 @@ am_free_gb=10+cpu_load_pct=48——**bm-b 不是闲着，是在跑量化轮**；
 | **bm-b 幻影头锁死 + 断连 6.0h** | **at-risk·waiting-CEO（本机人手·物理件·零催办·第 7 次同源）** | 17:40:30 cyc=864 `online=false`、`lanes/bm-b.json ts=11:52:15`；R2.61 两发 poke 实测 deny。修复只在 bm-b 本机：git 收口后 `python Tools\fleet\agent.py --node bm-b --loop 60`（CEO 令 2026-10-31 18:23 至今未执行）。 |
 | **L2 饥饿 SLO 当日违约 1 件** | **registered** | 红旗（bm-b 执行器）自 11:52 驻留 6.0h，超「升→落 ≤90min」门；未达 24h E1 升格线。回访=cron 194c8c8c @18:57。 |
 | **P0 Q-TTS-1202R（RUNNING 悬停 6.0h）** | **monitoring·不重派** | 11:52:15 认领后 rc=null 零回执；deliverable=`C:/Fluxgroup/FluxGroup/media/drama-tts-out/r1202_ep001_060/` 与 cmd 均在 bm-b 本机盘，跨机重排必空跑。 |
+
+
+## 附记 R2.63 事件班登记（2026-11-02 00:01-00:2x·probe L0-DOWN 第 10 次 + 真故障分离）
+
+| 项 | 状态 | 证据 / 下一步 |
+|---|---|---|
+| **bm-b 打盹+分叉（物理件）** | **waiting-CEO（外部不可达·零催办）** | /health ok@00:13:10（v1.9.5 host=BIGMONEY ram 7.4G cpu 3%）→ 2 分钟后 timeout；poke accepted 但 `NOT-SYNCED head=c1d7762e`。下一步=bm-b 本地：`git fetch origin && git reset --hard origin/main && python Tools\\fleet\\agent.py --node bm-b --loop 60`；并禁用睡眠（电源计划/keepalive）。 |
+| **bm-c 全域停机（物理件）** | **waiting-CEO（零催办）** | /health、/status 双 timeout（00:13/00:16）；poke ok=False。本机 NATS 总线健康（pid 53584）故非总线单点。下一步=bm-c 现场上电/查 Tailscale。 |
+| **主控真空 D-R263-MASTER-VACUUM** | **registered（待裁·不擅改）** | bm-m PULSE 停 21:13 + MASTER-TICK 停 22:22；HQ-Steward 实参 `--no-schedule` ⇒ bm-a 兜底调度结构性关闭（符合 10-30 迁移令）。本席手动 tick 一次解冻。待裁=Mac 常驻 caffeinate 或启用条件式兜底（前置=补 rebase --abort 守卫）。 |
+| **CPU 作业单点 D-R263-CPUROUTE-SINGLEPOINT** | **registered（T1 候选·未改）** | CPU 类只进 bm-b lane；bm-b 抖动即全堵（Q-TRIAGE 12:26 REQUEUE 至今无接手）。建议=CPU 类加 bm-a 兜底路由。本轮就地收口（本机实跑出收据），未改调度代码。 |
+| **Q-TRIAGE-BIGMONEY-20261101** | **delivered（本班收口）** | 收据=`cph4/fleet/queue-receipts/triage-bigmoney-20261102.md`；结论=该线 0.0h 前有产出（quant-backtest），真静默仅 quant-audit 216.9h。 |
+| **quant-audit 子线静默 216.9h** | **registered（风控审计席）** | 三源=收据实测 1 文件 / 216.9h。判读=9 天无产出，超 24h 阈值 9 倍。派单归属=风控/审计席（非本席），登记待该线自领。 |
+| **L0 探针阈值 3h（保护件）** | **registered（waiting-CEO·第 10 次复发）** | `Tools/proxy-probe.ps1:30` `-gt 3` vs 班间 4.2h；R2.54-R2.62 已连续登记，本班不重复立法。 |

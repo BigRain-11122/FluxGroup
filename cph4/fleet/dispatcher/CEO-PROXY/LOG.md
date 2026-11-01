@@ -953,3 +953,5 @@ if prev_by and prev_by != owner_node:
 - **判读**：R2.61 已于 17:11-17:27 全量处置。本班三源复验（MASTER-STATE cyc=864@17:40:30 / `cph4/fleet/lanes/*.json` / 队列计数）→ bm-b 仍 `online=false`、lanes ts 11:52:15、断连 6.0h，P0 Q-TTS-1202R 仍 RUNNING；bm-a/bm-c/bm-m 心跳 -0.7s/32.9s/1.8s，queue open1/running1/done54/failed3 零新增 => **无新增病灶**。
 - **处置**：按命令查重律零 poke、零新单、零重登记；三账追加（DISPATCH-LOG/NEED-JUDGMENT/DEADLINES）；记 L2 饥饿 SLO 违约 1 件；步8 cron 核（8 班 007d4701 在位、回访 194c8c8c 在位，无需重建）。
 - **未做**：未动受保护件（CHARTER/ROUND/L0 脚本/proxy-probe/cron 正身/master_agent.py）；未跨机改 bm-b（CEO 2026-10-23 令）；物理件零催办。
+
+[2026-11-02 00:01-00:2x] R2.63 事件班（承载件触发·probe L0-DOWN 第10次）：触发现=结构性（3h<4.2h，夜间三班未触发）；真故障三分离=bm-b 打盹+分叉（/health 00:13 ok→2min timeout·NOT-SYNCED head=c1d7762e）、bm-c 全域停机（双 timeout·总线健康）、主控真空 1.7h（bm-m 21:13 停 + HQ-Steward --no-schedule，符合 10-30 迁移令）；处置=手动 master tick 一次解冻（--no-push）+ 本机跑通 bigmoney 收据（事实校正：该线 0.0h 有产出，真静默仅 quant-audit 216.9h）；物理件 bm-b/bm-c 零催办登记。
