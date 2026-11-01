@@ -1,11 +1,13 @@
-# 线级体检 bigstream-duanju · 2026-11-02 04:17
+# 线级体检 bigstream-duanju · 2026-11-02 06:03
 
 ## 工段与证据目录
-- duanju-script  owner=编剧席      lane=-      证据 1/1 存在 · 文件 2 · 最新 369.9h
-- duanju-board   owner=短剧席      lane=bm-c   证据 1/1 存在 · 文件 2 · 最新 369.9h
+- duanju-script  owner=编剧席      lane=-      证据 1/1 存在 · 文件 2 · 最新 371.7h
+- duanju-board   owner=短剧席      lane=bm-c   证据 1/1 存在 · 文件 2 · 最新 371.7h
 
 ## 判定
-- 最近产出 369.9h 前（阈值 72h）
+- 最近产出 371.7h 前（阈值 72.0h）→ STALE 超阈
+- 工段超阈 2/2（线级最近值不代表最差工段）：duanju-script 371.7h、duanju-board 371.7h
 
 ## 下一步（按缺口）
-- 产出正常：按工段顺序继续，主控不再介入
+- duanju-script：产出已停 371.7h（阈值 72.0h）→ 补产出或正式收线（责任人=编剧席）
+- duanju-board：产出已停 371.7h（阈值 72.0h）→ 补产出或正式收线（责任人=短剧席）

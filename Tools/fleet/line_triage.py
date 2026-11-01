@@ -75,7 +75,7 @@ def main() -> int:
         return 2
 
     rows = ["# 线级体检 %s · %s" % (line_id, datetime.now().strftime("%Y-%m-%d %H:%M")), ""]
-    missing, offnode, newest_all = [], [], 0.0
+    missing, offnode, newest_all, stage_ages = [], [], 0.0, []
     rows.append("## 工段与证据目录")
     for st in line.get("stages") or []:
         ev = st.get("evidence") or []
@@ -109,18 +109,27 @@ def main() -> int:
         rows.append("- %-14s owner=%-8s lane=%-6s 证据 %d/%d 存在 · 文件 %d · 最新 %s"
                     % (st.get("id"), st.get("owner"), st.get("lane") or "-",
                        len(found), len(ev), files, age))
+        stage_ages.append((st.get("id"), st.get("owner"),
+                           (time.time() - newest) / 3600 if newest else None))
         if not found:
             # an evidence dir that only lives on another node is not this box's gap
             if all(resolve_evidence(e)[1] == "offnode" for e in ev):
                 continue
             missing.append(st.get("id"))
 
+    thr = float(line.get("stale_after_h") or reg.get("default_stale_after_h") or 48)
+    age_h = (time.time() - newest_all) / 3600 if newest_all else None
+    stale_stages = [s for s in stage_ages if s[2] is not None and s[2] > thr]
     rows += ["", "## 判定"]
     if missing and len(missing) == len(line.get("stages") or []):
         rows.append("- 本机没有这条线的任何证据目录：这条线不归本机，请改派持有仓库的机器")
-    elif newest_all:
-        rows.append("- 最近产出 %.1fh 前（阈值 %sh）" % ((time.time() - newest_all) / 3600,
-                                                    line.get("stale_after_h")))
+    elif age_h is not None:
+        rows.append("- 最近产出 %.1fh 前（阈值 %sh）→ %s" % (
+            age_h, thr, "STALE 超阈" if age_h > thr else "FRESH 在阈内"))
+        if stale_stages:
+            rows.append("- 工段超阈 %d/%d（线级最近值不代表最差工段）：%s" % (
+                len(stale_stages), len(stage_ages),
+                "、".join("%s %.1fh" % (s[0], s[2]) for s in stale_stages)))
     else:
         rows.append("- 证据目录存在但为空：工段已建未开工")
     if offnode:
@@ -131,6 +140,9 @@ def main() -> int:
     acts = []
     for sid in missing:
         acts.append("- %s：建目录/补输入后再谈产出（责任人=%s）" % (sid, line.get("owner")))
+    for sid, owner, a in stale_stages:
+        acts.append("- %s：产出已停 %.1fh（阈值 %sh）→ 补产出或正式收线（责任人=%s）"
+                    % (sid, a, thr, owner or line.get("owner")))
     if not acts:
         acts.append("- 产出正常：按工段顺序继续，主控不再介入")
     rows += acts[:3]
