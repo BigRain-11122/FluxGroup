@@ -918,3 +918,12 @@ if prev_by and prev_by != owner_node:
 - **好消息**：R2.57 的 pull 降级**实证生效**（06:09→06:54 每 5min ff-only/rebase rc=0，无 rebase-merge 死锁）；4/4 在线；bm-c ram 9.8G 解压。
 - **登记**：时钟偏差 b 3.02s/c 3.40s/m 3.09s 全 untrusted（SKEW 面）；4 笔巡逻提交未推（ahead=4）。
 - **未动**：CHARTER/ROUND/L0 脚本/master_agent.py/cron 正身 一律未改。
+## R2.59 事件班 · 2026-11-01 10:26-10:45（承载件触发·probe L0-DOWN age 3.2h）
+- **触发**：NJ PROBE L0-DOWN @10:26:04；锁门检查 mtime 07:13（193min > 10min）→ 本窗接管。
+- **判型**：事件班（L0-DOWN）。调用数 ≈26。
+- **处置①（真危害·已修）**：本机 4 笔夜班工作提交（09:17-09:28）70min 未推 → rebase + 反转闸 + push `29c32f0c..fde6bdf4`，本地 0/0。反转闸命中全部为机器生成滚动态（MASTER-STATE.json / bm-m 10:33 pulse 行），非人类台账丢行。
+- **处置②（根因·T1 已修）**：agent.py 无 push 腿（D-R259-NOPUSH）→ 新增 push()/--push（仅 rebase 成功后推、绝不 force、拒绝即 abort 记 skip）；steward.py 仅 bm-a 启用。实测编译 OK + 隔离 push rc=0。
+- **处置③（根因坐实·待本机）**：bm-b 执行器死第5次——poke 回执 `HQ-ProductionClaim:deny`，真因=bm-b worktree HEAD c1d7762e 为本地独有提交，磁盘 fleet-nodes.json 停在 10-28 前无该任务名，poke 白名单恒拒。远程不可修（CEO 令 2026-10-23）→ DEADLINES waiting-CEO 登记，零催办。
+- **登记**：L0 探针谓词 3h<4.2h 第6次误报（受保护件，承 R2.54/R2.55，不重复立法）；P0 Q-TTS-1202R lease 11:27 到期后只会重派同一死执行器；时钟偏差 b/c/m 仍 untrusted（承 SKEW 登记）。
+- **未改**：CHARTER / ROUND / L0 脚本 / master_agent.py / cron 正身 —— 一律未动。
+- **cron**：班次 2d82e62c 在役正常；清理过期一次性 725dbfb7；新建 +90min 回访探针。

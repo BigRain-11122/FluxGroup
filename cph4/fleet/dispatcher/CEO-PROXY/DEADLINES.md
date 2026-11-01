@@ -212,3 +212,13 @@ am_free_gb=10+cpu_load_pct=48——**bm-b 不是闲着，是在跑量化轮**；
 | **卡死 rebase 自愈（push_lane_files 缺 rebase --abort）** | **registered + 外部闸在役（受保护件候 CEO）** | 10-31 21:07 冲突后 `.git/rebase-merge` 残留 -> 游离 HEAD 8 提交 / 109 落后（当日第 3 次复发）。外部兜底=`Tools/fleet/git-rebase-guard.py` + FluxGroup-GitRebaseGuard every:15m（Interactive 降级·S4U 入 backlog）。根治一行补丁=`rb.returncode != 0` 后加 `git rebase --abort`。回滚=Unregister-ScheduledTask。 |
 | **HQ-Steward 停用（bm-a standby 写手）** | **registered·可逆·待 CEO 追认** | 当日第 4 次冲撞后停用；复原=`Enable-ScheduledTask HQ-Steward`。启用前置=`master_agent.py::push_lane_files` 冲突后补 `git rebase --abort`（受保护件·候裁）且 1 周零冲突。现役写手=bm-m（masquerade=false 持续）。 |
 | **HQ-Steward fallback 腿已拆（勘正前条「停用」）** | **registered·可逆·待 CEO 追认** | 现役=`steward.py --node bm-a --no-schedule`（执行腿+监督腿保留）。复原 fallback=Unregister + 导入 `.codely-cli/tmp/HQ-Steward-backup-20261101.xml`；前置=补 `git rebase --abort` 与修 `master_stale()` 粘滞锁存，且 1 周零冲突。 |
+
+## 附录 R2.59 事件班登记（2026-11-01 10:26-10:45·probe L0-DOWN 第6次）
+
+| 件 | 状态 | 证据 / 下一步 |
+|---|---|---|
+| **bm-a 4 笔夜班工作未推（真危害）** | **fixed（本班）** | 09:17-09:28 四笔（perception+night report / evolution R6 / disk-sweep backfill / ledger 归档拆分）自 09:28 未推；已 rebase → 反转闸（仅机器生成滚动态命中）→ push 29c32f0c..fde6bdf4，本地 0/0。 |
+| **agent.py 无 push 腿（D-R259-NOPUSH）** | **fixed（T1·非受保护件）** | push() 仅在 rebase 成功后推、绝不 force、失败 abort 记 skip；steward.py 仅 bm-a 传 --push。实测 py_compile OK + 隔离 push rc=0。修复前任何 reset --mixed 收口都会静默销毁本机作者工作。 |
+| **bm-b 执行器死（DE-1·第5次）** | **waiting-CEO（需 bm-b 本机动手·零催办）** | 根因坐实：bm-b worktree HEAD=c1d7762e 为本地独有提交（本仓无），磁盘 fleet-nodes.json 停留 10-28 前、无 HQ-ProductionClaim → poke 恒 deny。修复=git 收口 + `python Tools\fleet\agent.py --node bm-b --loop 60` 注册为唯一任务（CEO 令 2026-10-31 18:23 未执行）。影响 P0 Q-TTS-1202R。 |
+| **L0 探针谓词 3h < 班表 4.2h（第6次误报）** | **registered·waiting-CEO（受保护件）** | proxy-probe.ps1:30 `-gt 3`；建议 4.5h 或改读班表。承 R2.54/R2.55 登记，不重复立法。 |
+| **P0 Q-TTS-1202R（lease 11:27 到期）** | **monitoring** | 08:27:24 attempts2 认领，队列 08:29 后零状态变化；到期将再派给同一死执行器（bm-b）。执行器修复前无法推进。 |
