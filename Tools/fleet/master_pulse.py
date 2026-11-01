@@ -191,6 +191,37 @@ def push_if_ahead() -> str:
     return "ok+%d" % ahead
 
 
+def align_resident() -> str:
+    """Keep exactly one brain resident: the policy model. A stray tag means the fleet is
+    quietly running on something nobody configured (2026-11-01: policy qwen3.5:4b, resident
+    qwen3:4b-instruct). Unload the stranger; never force-load (first caller loads it)."""
+    try:
+        with urllib.request.urlopen("http://127.0.0.1:11434/api/ps", timeout=5) as r:
+            models = json.load(r).get("models", [])
+    except Exception:
+        return "unknown"
+    pol = {}
+    try:
+        with open(os.path.join(ROOT, "cph4", "fleet", "MODEL-POLICY.json"), encoding="utf-8-sig") as f:
+            pol = json.load(f)
+    except Exception:
+        pass
+    want = ((pol.get("lane_local_llm") or {}).get("model")) or ""
+    if not want:
+        return "no-policy"
+    stray = [m.get("name") or m.get("model") for m in models
+             if not (m.get("name") or m.get("model") or "").startswith(want.split(":")[0])]
+    for name in stray:
+        try:
+            urllib.request.urlopen(urllib.request.Request(
+                "http://127.0.0.1:11434/api/generate",
+                data=json.dumps({"model": name, "keep_alive": 0}).encode(),
+                headers={"Content-Type": "application/json"}), timeout=30).read()
+        except Exception:
+            pass
+    return "ok" if not stray else "unloaded:" + ",".join(stray)
+
+
 def ollama_ok() -> bool:
     try:
         with urllib.request.urlopen("http://127.0.0.1:11434/api/tags", timeout=5) as r:
@@ -289,6 +320,7 @@ def main() -> int:
         return 0
 
     started = time.time()
+    resident_note = align_resident()
     prev = read_state()
     slow_due = force_slow or (time.time() - float(prev.get("slow_ts") or 0) > SLOW_EVERY)
     git_note = "skipped" if no_pull else _one_line(pull_if_clean(), 120)
@@ -392,6 +424,8 @@ def main() -> int:
             f.write(json.dumps(ev, ensure_ascii=False) + "\n")
     except Exception:
         pass
+
+    pulse["resident"] = resident_note
 
     summary = " ".join("%s=%s/%ss" % (k, v["rc"], v["sec"]) for k, v in stages.items()
                        if v.get("rc") is not None)
