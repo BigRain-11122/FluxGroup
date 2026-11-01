@@ -1,14 +1,14 @@
 {
  "node": "bm-a",
- "ts": "2026-11-02T02:09:17",
+ "ts": "2026-11-02T03:32:32",
  "jobs": [
   {
-   "id": "R-PLAN-BIGGAME-20261102",
-   "title": "Biggame·游戏 线级体检与缺口清单",
-   "cmd": "python Tools/fleet/line_triage.py --line biggame",
+   "id": "R-PLAN-BIGLIFE-20261102",
+   "title": "BigLife·数字生命 线级体检与缺口清单",
+   "cmd": "python Tools/fleet/line_triage.py --line biglife",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-biggame-20261102.md",
+   "deliverable": "cph4/fleet/queue-receipts/triage-biglife-20261102.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 43.4/1.0 GB"
+ "capacity_note": "ram 46.2/1.0 GB"
 }
