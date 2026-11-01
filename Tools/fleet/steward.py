@@ -90,7 +90,13 @@ def main():
     rc_sup, _, _ = run("fleet_supervisor.py", [], timeout=300)
 
     first = (out_agent.splitlines() or ["(no output)"])[0][:110]
-    sched = ("stale=%.0fs take-over" % age) if (stale and not a.no_schedule) else "master-fresh"
+    # R2.64: never print "master-fresh" for a stale tick just because we are executor-only.
+    if not stale:
+        sched = "master-fresh"
+    elif a.no_schedule:
+        sched = "master-STALE=%.0fs (observe-only)" % (age or 0)
+    else:
+        sched = "stale=%.0fs take-over" % (age or 0)
     line = "agent=%d sup=%d %s :: %s" % (rc_agent, rc_sup, sched, first)
     note(line)
     print("STEWARD", line)
