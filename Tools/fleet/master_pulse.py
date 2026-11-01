@@ -440,4 +440,14 @@ def main() -> int:
 
 
 if __name__ == "__main__":
+    # --loop N = resident mode: launchd KeepAlive then keeps ONE process alive instead of
+    # waking a new one every minute (the 12:21 stall was a missed wake-up, not a crash).
+    if "--loop" in sys.argv:
+        every = int(sys.argv[sys.argv.index("--loop") + 1])
+        while True:
+            try:
+                main()
+            except Exception as e:
+                log("%s loop-error: %s" % (now(), str(e)[:160]))
+            time.sleep(every)
     sys.exit(main())
