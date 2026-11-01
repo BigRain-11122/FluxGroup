@@ -82,10 +82,23 @@ def main():
         if age_h < float(spec.get("cadence_h") or 24):
             lines.append("- %s：%.1fh 前有产出，未到点" % (lid, age_h))
             continue
-        lane = next((n for n in spec.get("lanes", []) if n in online), None)
+        # Declared lanes first; otherwise any online box. Five lines (bigcompute /
+        # bigdomain / bighouse / biglife / ...) declare `lanes: []`, so the strict rule
+        # made them WAITING for ever - a permanent idle that looked like "no owner".
+        # The card these lines get is CPU-only evidence gathering, safe on any box.
+        declared = spec.get("lanes") or []
+        lane = next((n for n in declared if n in online), None)
+        fallback = False
+        if not lane and online:
+            # Spread fallback work instead of stacking it on the alphabetically first box
+            # (that was always bm-a = the CEO's workstation). The control plane bm-m is
+            # only used when it is the single box online, per MASTER-NODE.json.
+            pool_n = [n for n in sorted(online) if n != "bm-m"] or sorted(online)
+            lane = pool_n[len(made) % len(pool_n)]
+            fallback = True
         if not lane:
             waiting.append(lid)
-            lines.append("- %s：承办机不在线，记 WAITING（不算闲置）" % lid)
+            lines.append("- %s：全机队不在线，记 WAITING" % lid)
             continue
         day = now.strftime("%Y%m%d")
         cid = "R-PLAN-%s-%s" % (lid.upper().replace("-", "")[:12], day)
@@ -98,11 +111,14 @@ def main():
         card = {"id": cid, "title": "%s 线级体检与缺口清单" % (spec.get("name") or lid),
                 "needs": "cpu", "nodes": [lane], "prio": "P3", "day_ok": True,
                 "verify_on_node": True, "state": "READY",
-                "cmd": "python Tools/fleet/line_triage.py --line %s" % lid, "cwd": "/",
+                "cmd": "python Tools/fleet/line_triage.py --line %s" % lid,
+                "cwd": "",
                 "requires": ["Tools/fleet/line_triage.py"],
                 "deliverable": "cph4/fleet/queue-receipts/triage-%s-%s.md" % (lid, day),
                 "accept": "回执含每工段证据存在性/最新时间/缺什么",
-                "line": lid, "created_by": "night_plan", "created_at": now.isoformat(timespec="seconds")}
+                "line": lid, "created_by": "night_plan", "created_at": now.isoformat(timespec="seconds"),
+                "why": ("线到期未产出；声明车道 %s 不在线，改派在线机 %s" % (",".join(declared) or "无", lane)
+                        if fallback else "线到期未产出")}
         with open(B, "a", encoding="utf-8") as f:
             f.write(json.dumps(card, ensure_ascii=False) + "\n")
         made.append((lid, lane, card["id"]))

@@ -74,8 +74,28 @@ def sense(root, nodes):
         age = None
         if s and s.get("ts_utc_ms"):
             age = round((now_ms - int(s["ts_utc_ms"])) / 1000.0, 1)
-        out[n] = {"state": s, "age_s": age,
-                  "online": bool(s) and age is not None and age <= OFFLINE_AFTER_S}
+        online = bool(s) and age is not None and age <= OFFLINE_AFTER_S
+        if not online:
+            # The KV read is one signal, not the truth (2026-11-01: bm-b reported
+            # "OFFLINE (hb age Nones)" - i.e. no ts at all - while its own lane file was
+            # 40s old and it was busy with TTS). A dead NATS client on either side must
+            # not remove a working box from dispatch, or the queue starves while the
+            # machine is up. git is the authoritative surface, so fall back to the lane
+            # file the box commits every cycle.
+            try:
+                lp = os.path.join(root, "cph4", "fleet", "lanes", "%s.json" % n)
+                lane_age = time.time() - os.path.getmtime(lp)
+                lj = json.load(open(lp, encoding="utf-8"))
+                if lane_age <= OFFLINE_AFTER_S:
+                    online = True
+                    age = age if age is not None else round(lane_age, 1)
+                    s = s or {"source": "lanes-file", "ts_utc_ms": None,
+                              "ram_free_gb": None, "gpu_util_pct": None}
+                    s["state_source"] = "lanes-file"
+                    s["lane"] = lj
+            except Exception:
+                pass
+        out[n] = {"state": s, "age_s": age, "online": online}
     return out
 
 

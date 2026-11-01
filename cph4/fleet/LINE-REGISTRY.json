@@ -4,7 +4,7 @@
  "default_stale_after_h": 48,
  "lines": [
   {
-   "id": "bigstream-mv", "name": "BigStream·MV 41 曲", "owner": "导演席（CEO 终审）", "status": "ACTIVE",
+   "id": "bigstream-mv", "name": "BigStream·MV 41 曲", "owner": "导演席（自决推进，CEO 巡视可随时否决）", "status": "ACTIVE",
    "repos": [], "stale_after_h": 24, "queue_prefix": ["Q-MV-", "R-MV-"],
    "stages": [
     {"id": "mv-plan", "name": "立意/分镜", "owner": "导演席", "model": "cloud-smart", "evidence": ["cph4/fleet/mv-album-001-jay/anchors", "cph4/fleet/mv0001-handover/canon"]},
@@ -12,7 +12,7 @@
     {"id": "mv-i2v", "name": "出片", "owner": "导演席", "model": "local-gpu", "lane": "bm-c", "evidence": ["D:/FluxGroup/media/mv-album-001-jay/clips-local-768"]},
     {"id": "mv-cut", "name": "剪辑/装配", "owner": "剪辑席", "model": "none", "lane": "bm-a", "evidence": ["cph4/fleet/mv0001-handover/outbound"]},
     {"id": "mv-gate", "name": "质检/交付", "owner": "质检席", "model": "none", "lane": "bm-a", "evidence": ["D:/FleetWorker/review"]},
-    {"id": "mv-approve", "name": "呈审", "owner": "CEO", "model": "none", "evidence": ["cph4/fleet/mv0001-handover/canon"]}
+    {"id": "mv-approve", "name": "呈审", "owner": "导演席（自决放行）", "model": "none", "post_hoc": true, "stale_after_h": 9999, "veto_window": "CEO 巡视时否决即回滚到 mv-gate 重出", "evidence": ["cph4/fleet/mv0001-handover/canon"]}
    ]
   },
   {

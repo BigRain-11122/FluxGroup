@@ -48,6 +48,12 @@ SLOW_EVERY = 300   # maintenance batch runs in parallel now, so 5 min is afforda
 # (name, argv, timeout_s, ok_rc, slow)
 STAGES = [
     ("hb", ["Tools/fleet/fleet_hb.py", "--node", NODE, "--root", ROOT], 60, {0}, False),
+    # SUPPLY FIRST (CEO 2026-11-01: 不许因为是"没人宣告"就闲置). Both declare-work seats
+    # existed since 10-31 but were never wired into the pulse, so they only ran when a
+    # human remembered - boxes idled with an empty backlog while the generators sat idle.
+    # They are queue writers, so they run serially before the dispatcher reads the queue.
+    ("night_plan", ["Tools/fleet/night_plan.py"], 120, {0}, False),
+    ("workgen", ["Tools/fleet/workgen.py", "--root", ROOT], 180, {0}, False),
     ("master", ["Tools/fleet/master_agent.py", "--node", NODE, "--root", ROOT], 240, {0}, False),
     ("lane", ["Tools/fleet/lane_agent.py", "--node", NODE, "--root", ROOT, "--no-fetch"], 300, {0}, False),
     # inventory exits 1 to say "a lane is STARVED"; that is an alert, not a tool failure.
@@ -290,8 +296,12 @@ def checks() -> list[dict]:
     for label in ("com.fluxgroup.pulse", "com.fluxgroup.dashboard", "com.fluxgroup.ollama"):
         line = next((ln for ln in r.stdout.splitlines() if ln.endswith(label)), "")
         parts = line.split()
-        # "-" in the PID column just means "between interval runs" for StartInterval jobs.
-        out.append({"name": label, "ok": bool(line) and len(parts) >= 2 and parts[1] == "0",
+        # A live PID in column 1 already proves the job is up. The status column is the
+        # LAST exit code and keeps reporting a SIGTERM/previous failure after a deliberate
+        # restart, which used to make a healthy plane look broken (2026-11-01).
+        running = len(parts) >= 2 and parts[0].isdigit()
+        clean_exit = len(parts) >= 2 and parts[1] == "0"
+        out.append({"name": label, "ok": bool(line) and (running or clean_exit),
                     "detail": line.strip()})
     return out
 

@@ -25,6 +25,7 @@ import argparse
 import glob
 import json
 import os
+import re
 import sys
 import time
 from datetime import datetime
@@ -191,12 +192,31 @@ def main():
     if healed:
         report.append("- R0 healed %d card(s) off a legacy root path" % healed)
     budget = MAX_CARDS_PER_RUN
+    triaged_lines = set()   # one triage card per line per run, whichever box holds it
+
+    def runnable(r):
+        """A card is real inventory only if it can still become work.
+
+        2026-11-01: pending cards whose deliverable already exists were counted as held
+        work, so every box reported "inventory ok" while nothing was running - the queue
+        was full of corpses and the machines idled. Count only what can still execute.
+        """
+        if r.get("state") not in ("OPEN", "READY", "RUNNING"):
+            return False
+        out = r.get("deliverable")
+        if out:
+            p = out if os.path.isabs(out) else os.path.join(root, out)
+            if os.path.exists(p):
+                return False
+        return True
+
     for node in sorted(nodes):
         if not lane_fresh(root, node):
             continue
         held = [i for i in open_ids()
                 if any(str(r.get("id")) == i and node in (r.get("nodes") or [])
-                       for r in backlog + queue)]
+                       for r in backlog + queue
+                       if r.get("state") == "RUNNING" or runnable(r))]
         if len(held) >= FLOOR:
             report.append("- %s inventory ok (%d open)" % (node, len(held)))
             continue
@@ -210,7 +230,7 @@ def main():
                 continue
             cmd = j["cmd"] if isinstance(j["cmd"], str) else " ".join(str(x) for x in j["cmd"])
             card = {"id": j["id"], "title": (j.get("title") or j["id"])[:90], "cmd": cmd,
-                    "cwd": root.replace("\\", "/"), "requires": [], "deliverable": "",
+                    "cwd": "", "requires": [], "deliverable": "",
                     "needs": str(j.get("needs") or "cpu"), "nodes": [node], "prio": "P2",
                     "day_ok": True, "heavy": False,
                     "why": "workgen R1: work-bank pending promoted so the box is not idle",
@@ -225,35 +245,73 @@ def main():
             if not all(os.path.exists(os.path.join(root, r)) for r in reqs):
                 report.append("- %s skip `%s`: input missing" % (node, cid))
                 continue
+            # A card with no deliverable AND no acceptance is rejected by backlog_fill as
+            # SPEC-REQUIRED (2026-11-01: both director-packet cards went INVALID here and
+            # never ran). Mechanically well-known tools get their real output path.
+            deliverable = ""
+            if "review_packet.py" in cmd:
+                m = re.search(r"--line\s+(\S+)", cmd)
+                if m:
+                    deliverable = ("cph4/fleet/queue-receipts/review-packet-%s-%s.md"
+                                   % (m.group(1), now.strftime("%Y%m%d")))
             added.append({"id": cid, "title": title, "cmd": cmd,
-                          "cwd": root.replace("\\", "/"), "requires": reqs, "deliverable": "",
+                          "cwd": "", "requires": reqs, "deliverable": deliverable,
+                          "accept": "卷内四件齐全（成片/闸结论/证据/签字位）且 mtime 为当日",
                           "needs": needs, "nodes": [node], "prio": prio, "day_ok": True,
                           "heavy": False, "why": why, "created_by": "workgen",
                           "created_at": stamp, "state": "READY"})
             budget -= 1; need -= 1
+        # 3) R5 generic evidence pass: still short with nothing authored. A read-only
+        # line_triage card is safe on any box and always produces a real file, so "no
+        # safe declaration" stops meaning "stand idle" (CEO 2026-11-01: 门槛太多导致闲置).
+        if need > 0:
+            try:
+                reg = read_json(os.path.join(root, "cph4", "fleet", "LINE-REGISTRY.json"), {}) or {}
+                day = now.strftime("%Y%m%d")
+                for ln in (reg.get("lines") or []):
+                    if need <= 0 or budget <= 0:
+                        break
+                    lid = ln.get("id")
+                    if not lid or str(ln.get("status") or "").upper() == "PARKED":
+                        continue
+                    if lid in triaged_lines:
+                        continue
+                    # One evidence pass per line+day, fleet-wide: line_triage writes a
+                    # single path per line, so a second box would overwrite the first
+                    # box's receipt and both would look "done" (2026-11-01).
+                    if any(str(r.get("id") or "").startswith(tok) and r.get("state") in ("OPEN", "READY", "RUNNING")
+                           for r in backlog + queue):
+                        continue
+                    # node belongs in the id: the same line triaged on two boxes is two
+                    # different evidence sets, and a shared id made the second card dead.
+                    cid = "R-TRIAGE-%s-%s-%s" % (lid.upper().replace("-", ""),
+                                                  node.upper().replace("-", ""), day)
+                    tok = "R-TRIAGE-%s-" % lid.upper().replace("-", "")
+                    # line_triage writes ONE path per line+day (no node component), so a
+                    # second box on the same line would produce the identical file. Skip
+                    # when that evidence already exists instead of declaring busywork.
+                    if os.path.exists(os.path.join(root, "cph4", "fleet", "queue-receipts",
+                                                   "triage-%s-%s.md" % (lid, day))):
+                        continue
+                    if cid in open_ids() or recent_receipt(root, cid):
+                        continue
+                    added.append({
+                        "id": cid, "title": "%s 线证据扫描（%s 本机可判面）" % (ln.get("name") or lid, node),
+                        "cmd": "python Tools/fleet/line_triage.py --line %s" % lid,
+                        "cwd": "",
+                        "requires": ["Tools/fleet/line_triage.py"],
+                        "deliverable": "cph4/fleet/queue-receipts/triage-%s-%s.md" % (lid, day),
+                        "accept": "回执含每工段证据存在性/最新时间/缺什么",
+                        "needs": "cpu", "nodes": [node], "prio": "P3", "day_ok": True,
+                        "heavy": False,
+                        "why": "workgen R5: 本机缺活且无既有宣告，派只读证据扫描（产出可核验，非空转）",
+                        "created_by": "workgen", "created_at": stamp, "state": "READY"})
+                    budget -= 1; need -= 1
+                    triaged_lines.add(lid)
+            except Exception as e:
+                report.append("- R5 skipped: %s" % str(e)[:100])
         if need > 0:
             report.append("- %s STILL SHORT %d card(s): no safe declaration available" % (node, need))
-
-    if added and not a.dry:
-        with open(backlog_p, "a", encoding="utf-8", newline="") as f:
-            for c in added:
-                f.write(json.dumps(c, ensure_ascii=False) + "\n")
-
-    # Declaring is not enough: backlog rows only become queue jobs when the box-side
-    # promotion pass runs. Do that here for the local node so a declared card cannot
-    # sit READY forever while the machine idles.
-    promoted = 0
-    if a.node and not a.dry:
-        try:
-            sys.path.insert(0, os.path.join(root, "Tools"))
-            import importlib
-            fl = importlib.import_module("backlog_fill")
-            before = len(read_jsonl(queue_p))
-            fl.fill(root, node=a.node)
-            promoted = len(read_jsonl(queue_p)) - before
-            report.append("- queue promotion on %s: +%d job(s)" % (a.node, promoted))
-        except Exception as e:
-            report.append("- queue promotion FAILED: %s" % str(e)[:120])
 
     # R4 LINE-UNBLOCK: the director seat stalls because nothing hands it a packet. If the
     # newest review packet is older than a day, declare the builder card even when that
@@ -267,7 +325,7 @@ def main():
         added.append({"id": "MV-DIRECTOR-PACKET",
                       "title": "导演席拉片包：KN 复核卷一页卷（成片+闸+证据+签字位）",
                       "cmd": "python Tools/fleet/review_packet.py --line kn --root .",
-                      "cwd": root.replace("\\", "/"),
+                      "cwd": "",
                       "requires": ["Tools/fleet/review_packet.py"], "deliverable": "",
                       "needs": "cpu", "nodes": ["bm-a"], "prio": "P1", "day_ok": True,
                       "heavy": False,
@@ -275,6 +333,57 @@ def main():
                       "created_by": "workgen", "created_at": stamp, "state": "READY"})
         budget -= 1
         report.append("- R4 declared MV-DIRECTOR-PACKET -> bm-a (no fresh review packet)")
+
+    # R6 CLOSE-PRODUCED: a READY card whose deliverable is already on disk is not work.
+    # 2026-11-01: 22 such rows sat READY and every box read them as inventory, so the
+    # fleet reported "inventory ok" while nothing ran. Closing on a file that exists is a
+    # fact, not a claim: the evidence is the path itself.
+    closed = 0
+    for r in backlog:
+        if r.get("state") != "READY":
+            continue
+        d = r.get("deliverable")
+        if not d:
+            continue
+        p = d if os.path.isabs(d) else os.path.join(root, d)
+        if os.path.exists(p):
+            r["state"] = "DONE"
+            r["closed_at"] = stamp
+            r["closed_by"] = "workgen R6: deliverable already on disk"
+            closed += 1
+    if closed:
+        report.append("- R6 closed %d READY card(s) whose deliverable already exists" % closed)
+        if not a.dry:
+            write_jsonl(backlog_p, backlog)
+
+    # Persist AFTER every rule has had its say. 2026-11-01: the R4 unblock card used to be
+    # appended after this write, so it was reported as declared and never reached the
+    # backlog - a silent no-op that left the director seat idle.
+    if added and not a.dry:
+        new_ids = {c["id"] for c in added}
+        keep = [r for r in backlog
+                if not (r.get("id") in new_ids and r.get("state") in ("INVALID", "CANCELLED"))]
+        if len(keep) != len(backlog):
+            write_jsonl(backlog_p, keep)
+        with open(backlog_p, "a", encoding="utf-8", newline="") as f:
+            for c in added:
+                f.write(json.dumps(c, ensure_ascii=False) + "\n")
+
+    # Declaring is not enough: backlog rows only become queue jobs when the box-side
+    # promotion pass runs. Do that here (after the persist) so a declared card cannot
+    # sit READY forever while the machine idles.
+    promoted = 0
+    if a.node and not a.dry:
+        try:
+            sys.path.insert(0, os.path.join(root, "Tools"))
+            import importlib
+            fl = importlib.import_module("backlog_fill")
+            before = len(read_jsonl(queue_p))
+            fl.fill(root, node=a.node)
+            promoted = len(read_jsonl(queue_p)) - before
+            report.append("- queue promotion on %s: +%d job(s)" % (a.node, promoted))
+        except Exception as e:
+            report.append("- queue promotion FAILED: %s" % str(e)[:120])
 
     # R2 stalled claims (report only)
     for node in sorted(nodes):
