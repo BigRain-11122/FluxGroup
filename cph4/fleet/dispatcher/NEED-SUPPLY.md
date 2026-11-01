@@ -1,12 +1,12 @@
 # NEED-SUPPLY - why lanes and business lines are not running (#regenerated)
 
-- ts: 2026-11-01T19:38:08
-- queue: open=1 running=1 done=54 failed=3
-- open jobs by need: cpu=1 gpu=0
+- ts: 2026-11-01T20:47:25
+- queue: open=0 running=1 done=56 failed=3
+- open jobs by need: cpu=0 gpu=0
 
-- bm-a: SELF-DISPATCH: lane scans its own backlog -> lane is scanning its own backlog; if this persists >2 rounds the box has no declared work and needs a new card
+- bm-a: CAPACITY-BLOCKED-RAM OFFLINE (hb age Nones) -> free memory on that box (gpu_lease --acquire reclaims it)
 - bm-b: RUNNING Q-TTS-1202R
-- bm-c: SELF-DISPATCH: lane scans its own backlog -> lane is scanning its own backlog; if this persists >2 rounds the box has no declared work and needs a new card
+- bm-c: CAPACITY-BLOCKED-RAM ram 0.5/3.0 GB -> free memory on that box (gpu_lease --acquire reclaims it)
 - bm-m: SELF-DISPATCH: lane scans its own backlog -> lane is scanning its own backlog; if this persists >2 rounds the box has no declared work and needs a new card
 
 Rules pack: cph4/fleet/WORK-RULES.jsonl (empty = every job must be declared by a producing seat; the master will not invent work).
@@ -16,15 +16,15 @@ Rules pack: cph4/fleet/WORK-RULES.jsonl (empty = every job must be declared by a
 | 条线 | 判 | 最近产出 | 阈值 | 卡在 | 负责人 |
 |---|---|---|---|---|---|
 | BigStream·漫剧 | BLOCKED | - | 48.0h | 剧本/编剧席 | 漫剧席 |
-| BigLife·数字生命 | STALE | 110.5h | 48.0h | - | 生命生产席 |
-| BigHouse·城市安家 | STALE | 348.3h | 72.0h | - | 生态运营席 |
 | BigStream·MV 41 曲 | STALLED-STAGE | - | 24.0h | 立意/分镜/导演席 | 导演席（CEO 终审） |
 | BigStream·短剧 | WAITING | - | 72.0h | - | 短剧席 |
-| Biggame·游戏 | WAITING | 0.4h | 24.0h | - | 游戏席 |
-| FluxVerse·元宙城 | WAITING | 0.7h | 36.0h | - | 城市线 |
-| BigMoney·量化 | WAITING | 0.2h | 24.0h | - | 量化席 |
-| BigDomain·硅基域商业化 | WAITING | 0.3h | 36.0h | - | 域运营席 |
-| BigCompute·硅基算力 | WAITING | 1.3h | 36.0h | - | 算力中枢席 |
+| Biggame·游戏 | WAITING | - | 24.0h | - | 游戏席 |
+| FluxVerse·元宙城 | WAITING | - | 36.0h | - | 城市线 |
+| BigMoney·量化 | WAITING | - | 24.0h | - | 量化席 |
+| BigDomain·硅基域商业化 | WAITING | - | 36.0h | - | 域运营席 |
+| BigCompute·硅基算力 | WAITING | - | 36.0h | - | 算力中枢席 |
+| BigLife·数字生命 | WAITING | - | 48.0h | - | 生命生产席 |
+| BigHouse·城市安家 | WAITING | - | 72.0h | - | 生态运营席 |
 | 车机游戏 BU | WAITING | - | 72.0h | - | 车机 BU |
 | RECON·竞品拆解 | WAITING | - | 72.0h | - | 拆解部 |
 | BigStream·短视频/切片 | PARKED | - | 168.0h | - | 短视频席 |
