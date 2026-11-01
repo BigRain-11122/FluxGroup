@@ -1,8 +1,12 @@
-# workgen report 2026-11-01T23:28:03
+# workgen report 2026-11-02T07:36:12
 
 - added cards: 0
 
 
 - bm-a inventory ok (4 open)
-- bm-b inventory ok (3 open)
-- bm-c inventory ok (3 open)
+- bm-b inventory ok (4 open)
+- bm-c skip `C-VB-DISCOVER-V01`: deliverable already on disk
+- bm-c skip `KN-FILM-GATE-LATEST`: input missing
+- R5 skipped: free variable 'tok' referenced before assignment in enclosing scope
+- bm-c STILL SHORT 1 card(s): no safe declaration available
+- R6 closed 6 READY card(s) whose deliverable already exists

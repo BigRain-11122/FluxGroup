@@ -1,22 +1,22 @@
-# 夜间计划 2026-11-01 23:28
+# 夜间计划 2026-11-02 07:36
 
 - 在线 4 台：bm-a,bm-b,bm-c,bm-m
-- 新开卡 0 张，等待承办机 0 条线
+- 新开卡 9 张，等待承办机 0 条线
 
 ## 决策
-- 本轮无线到期
+- 派 bigcompute → bm-a（R-PLAN-BIGCOMPUTE-20261102）
+- 派 bigdomain → bm-b（R-PLAN-BIGDOMAIN-20261102）
+- 派 biggame → bm-a（R-PLAN-BIGGAME-20261102）
+- 派 biglife → bm-a（R-PLAN-BIGLIFE-20261102）
+- 派 bigmoney → bm-b（R-PLAN-BIGMONEY-20261102）
+- 派 bigstream-drama → bm-b（R-NEXT-BIGSTREAMD-EVIDENCE-20261102）
+- 派 bigstream-mv → bm-a（R-NEXT-BIGSTREAMM-GATE-20261102）
+- 派 bigstream-mv → bm-a（R-NEXT-BIGSTREAMM-AUDIT-20261102）
+- 派 fluxverse → bm-a（R-PLAN-FLUXVERSE-20261102）
 
 ## 逐线状态
-- bigcompute：今日计划卡已在册
-- bigdomain：今日计划卡已在册
-- biggame：今日计划卡已在册
 - bighouse：CEO 已停产，不派
-- biglife：今日计划卡已在册
-- bigmoney：今日计划卡已在册
-- bigstream-drama：今日计划卡已在册
-- bigstream-duanju：52.8h 前有产出，未到点
-- bigstream-mv：今日计划卡已在册
+- bigstream-duanju：60.9h 前有产出，未到点
 - bigstream-shortvideo：CEO 已停产，不派
-- car-gaming：23.3h 前有产出，未到点
-- fluxverse：今日计划卡已在册
-- recon：52.8h 前有产出，未到点
+- car-gaming：7.5h 前有产出，未到点
+- recon：60.9h 前有产出，未到点

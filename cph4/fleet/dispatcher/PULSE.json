@@ -1,153 +1,35 @@
 {
- "ts": "2026-11-01T23:28:30+08:00",
+ "ts": "2026-11-02T07:36:29+08:00",
  "node": "bm-m",
- "sec": 40.1,
- "slow_ts": 1793546753.476743,
- "git": "skipped:dirty(hand-edit CODELY.md)",
- "push": "ok+1",
+ "sec": 30.4,
+ "git": "ok",
  "stages": {
   "hb": {
    "rc": 0,
-   "sec": 12.4,
-   "tail": "HB bm-m seq=3122 offset=343.2ms"
+   "sec": 9.2,
+   "tail": "HB bm-m seq=3440 offset=1053.5ms"
   },
   "night_plan": {
    "rc": 0,
    "sec": 0.1,
-   "tail": "[night_plan] cards=0 waiting=0"
+   "tail": "[night_plan] cards=9 waiting=0"
   },
   "workgen": {
    "rc": 0,
-   "sec": 0.0,
+   "sec": 0.1,
    "tail": "WORKGEN added=0"
   },
   "master": {
    "rc": 0,
-   "sec": 21.2,
+   "sec": 16.3,
    "tail": "  LINES: BLOCKED=1, PARKED=1, STALLED-STAGE=1, WAITING=10"
   },
   "lane": {
    "rc": 0,
-   "sec": 1.0,
+   "sec": 0.9,
    "tail": "LANE-IDLE bm-m :: SELF-DISPATCH: lane scans its own backlog"
-  },
-  "inventory": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
-  },
-  "contingency": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
-  },
-  "solver": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
-  },
-  "line_agents": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
-  },
-  "health": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
-  },
-  "judge": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
-  },
-  "brain": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
-  },
-  "social": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
-  },
-  "biz": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
-  },
-  "mem": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
-  },
-  "autowork": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
-  },
-  "closer": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
-  },
-  "deadline": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
-  },
-  "supervisor": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
-  },
-  "digest": {
-   "rc": null,
-   "sec": 0,
-   "tail": "deferred (runs every 300s)"
   }
  },
- "checks": [
-  {
-   "name": "swap",
-   "ok": true,
-   "detail": "live swap high(2.3GB) no-extra-model (2GB line unloads extra models; red only while pageouts still grow: 41964->41964)"
-  },
-  {
-   "name": "resident-model-size",
-   "ok": true,
-   "detail": "limit 8GB (control plane, not a production box): ok"
-  },
-  {
-   "name": "ollama",
-   "ok": true,
-   "detail": "http://127.0.0.1:11434/api/tags"
-  },
-  {
-   "name": "caffeinate",
-   "ok": true,
-   "detail": "keeps the plane awake on AC power"
-  },
-  {
-   "name": "com.fluxgroup.pulse",
-   "ok": true,
-   "detail": "79112\t-15\tcom.fluxgroup.pulse"
-  },
-  {
-   "name": "com.fluxgroup.dashboard",
-   "ok": true,
-   "detail": "79169\t0\tcom.fluxgroup.dashboard"
-  },
-  {
-   "name": "com.fluxgroup.ollama",
-   "ok": true,
-   "detail": "56171\t0\tcom.fluxgroup.ollama"
-  }
- ],
- "swap_pageouts": 41964,
- "swap_used_gb": 2.3,
- "alerts": [],
- "blockers": [],
- "ok": true,
- "resident": "ok"
+ "slow": "running",
+ "phase": "dispatch-done"
 }

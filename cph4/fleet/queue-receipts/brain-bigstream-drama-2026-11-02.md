@@ -1,23 +1,13 @@
-# 2026-10-28·漫剧线解堵三策
+2026 年 10 月 29 日
+**漫剧线解堵方案·Bm-m 判读席指令**
 
-## 一、补全 TTS 全量音频（EP004-060）
-*   **谁做**：`drama_voicegen_eps_r998.py` 脚本执行组。
-*   **做什么**：基于已部署的 `IndexTTS` 范式，生成 EP004-060 全量配音，并按 `cph4/fleet/drama-dept-v1/R-20261027-drama-audio-remux-01.md` 标准生成三层混音素材。
-*   **验收物**：生成后的音频文件及对应的混音目录结构（参照 EP001-003 产出路径）。
+基于审计与回归实测，当前核心堵点为"EP004-060 默片交付”与"CSA 一致性未达 9/10"。
+**动作一（立即执行）**：由**音频组**依据`cph4/fleet/drama-dept-v1/R-20261027-drama-audio-remux-01.md`指令，对 EP002-003 执行 `-shortest` 合流；EP004-060 调用`drama_voicegen_eps_r998.py` 补全 TTS 后复混。
+**动作二（流程固化）**：由**工程组**修改`sim_kinsoku4.py` 折行逻辑，并植入`cph4/fleet/drama-dept-v1/epburn-handover/CSA-SMOKE-VERDICT-20261017.md` 所要求的“两遍 loudnorm"参数至默认链。
+**动作三（验收闭环）**：运行`audit_durations.py` 校验新合流片长，复测 CSA 跨镜一致性；若黑帧误报需剔除`sim_kinsoku4.py` 已验证的卡片类型干扰项。
 
-## 二、实施“两遍 loudnorm"合流处理
-*   **谁做**：装配链默认操作组。
-*   **做什么**：针对所有 60 集，在 ffmpeg 命令链中执行两次 `loudnorm`（pass1 测量 / pass2 应用），强制压制 True Peak 至 ≤-1.0 dBFS。
-*   **验收物**：True Peak 合规的视频文件及 ebur128 响度测试报告（目标 -14 LUFS/LRA 3.1）。
-
-## 三、重置 CSA 锚点并复测一致性
-*   **谁做**：`sim_kinsoku4.py` 回归组 + `audit_durations.py` 对账门。
-*   **做什么**：执行冒烟测试，清除噪声锚组；同时校验跨镜一致性（CSA vs 基线）及片长匹配度（容忍 ±0.25s）。
-*   **验收物**：CSA-SMOKE-VERDICT-202610xx.md 新报告，需锁定 ≥9/10 批内锁线且无结构崩坏。
-
-【给 CEO·下一步】请裁批启动 TTS 全量生成任务并授权装配链默认执行双层响度压限策略；待 CS A 锚清洗后确认二轮复测通过。
-
-> ⚠️ 引用核验未过（主控已标记，请勿据此行动）：CSA-SMOKE-VERDICT-202610xx.md
+【给 CEO·下一步】
+请批准“全量配音排产”优先级，授权将两遍 loudnorm 压入装配器默认链；验收物为 EP001-060 完整音画流及 CSA 批内锁 9/10 复测报告。
 
 ---
 *副大脑 bm-m · qwen3.5:4b 本地产出 · 依据仓库摘录*
