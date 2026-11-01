@@ -88,6 +88,11 @@ def git_publish(root, node, jid, paths):
         return subprocess.run(["git", "-C", root] + args, capture_output=True, text=True,
                               timeout=timeout, creationflags=CREATE_NO_WINDOW)
     git(["add", "--"] + keep)
+    # Nothing actually changed -> do not create another commit for the same artifact.
+    # The night of 11-01/02 produced 14 identical commits for one triage file.
+    st = git(["status", "--porcelain", "--"] + keep)
+    if not (st.stdout or "").strip():
+        return "unchanged"
     msg = "job(%s): %s [via %s]" % (jid, "artifact", node)
     r = git(["commit", "-q", "-m", msg, "--"] + keep)
     if r.returncode != 0 and "nothing to commit" not in (r.stdout or "") + (r.stderr or ""):
@@ -97,6 +102,29 @@ def git_publish(root, node, jid, paths):
         git(["pull", "--rebase", "--no-autostash"], timeout=120)
         r = git(["push", "origin", "HEAD:main"], timeout=120)
     return "pushed" if r.returncode == 0 else "push-failed:%s" % (r.stderr or "")[:80]
+
+
+def already_closed(root, jid):
+    """True when the shared queue already considers this card finished.
+
+    Why: a stale lane file (or a takeover master that disagrees with origin) keeps handing
+    the same card back, so the box re-runs a finished job every cycle - the same triage
+    artifact was rewritten and re-committed 14 times on the night of 11-01/02. The lane
+    must trust the shared queue's terminal states, not only its local assignment.
+    """
+    try:
+        qp = os.path.join(root, "cph4", "fleet", "PRODUCTION-QUEUE.jsonl")
+        with open(qp, encoding="utf-8") as fh:
+            for ln in fh:
+                ln = ln.strip()
+                if not ln:
+                    continue
+                r = json.loads(ln)
+                if r.get("id") == jid:
+                    return str(r.get("state") or "").upper() in ("DONE", "UNVERIFIED", "CANCELLED")
+    except Exception:
+        pass
+    return False
 
 
 def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
@@ -316,6 +344,12 @@ def run_lane_cycle(node, root=None, dry=False, allow_gpu_workhours=False,
         return True
 
     job = jobs[0]
+    if already_closed(root, job.get("id")):
+        # Finished on the shared surface: never replay it. Idle is the honest answer.
+        publish(node, "IDLE", {"reason": "ALREADY-CLOSED %s" % job.get("id")}, hub, port)
+        write_last(root, node, "IDLE", note="ALREADY-CLOSED")
+        print("LANE-SKIP %s :: already closed in queue" % job.get("id"))
+        return True
     if dry:
         print("LANE-DRY %s would run %s :: %s" % (node, job.get("id"), job.get("title")))
         return True
