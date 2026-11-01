@@ -183,25 +183,34 @@ def commit_state(tracked: list[str], untracked: list[str], force=False, last_ts=
 
 
 def pull_if_clean(last_ts=0.0) -> str:
-    """Fast-forward only, never rebase.
+    """Sync without ever letting a dirty worktree block the plane.
 
-    A rebase over a shared worktree is how the plane lost hours: it stalls on any dirty
-    file, then needs a manual abort, then leaves UU conflicts on the queue. Fast-forward
-    either works or it does not - and "does not" is reported instead of fought.
+    Two hard-won rules (2026-11-02):
+      * never rebase - a rebase over a shared worktree stalls and leaves UU conflicts;
+      * generated state (everything under cph4/fleet/) is allowed to be autostashed, but a
+        dirty HAND EDIT under Tools/ still blocks the pull, because autostash can silently
+        swallow someone's uncommitted work.
     """
     tracked, untracked = tree_state()
     note = commit_state(tracked, untracked, last_ts=last_ts)
     if note.startswith("skipped"):
         return note
+    tracked2, _ = tree_state()
+    hand = [p for p in tracked2 if not p.startswith("cph4/fleet/")]
+    if hand:
+        return "skipped:dirty(hand-edit %s)" % _one_line(hand[0], 60)
+    args = ["pull", "--ff-only", "--no-rebase", "origin", "main"]
+    if tracked2:
+        # only generated state is dirty: stash/restore around the fast-forward
+        args = ["pull", "--ff-only", "--autostash", "origin", "main"]
     try:
-        r = git(["pull", "--ff-only", "--no-rebase", "origin", "main"], timeout=120)
+        r = git(args, timeout=120)
     except subprocess.TimeoutExpired:
         return "timeout"
     if r.returncode == 0:
         return "ok"
     msg = _one_line(r.stderr or r.stdout, 120)
     if "Not possible to fast-forward" in msg or "diverg" in msg:
-        # Diverged: someone else wrote history. Report it; do not invent a merge.
         return "DIVERGED(report-only):%s" % msg
     return "failed:%s" % msg
 
