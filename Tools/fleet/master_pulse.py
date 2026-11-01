@@ -451,6 +451,22 @@ def main() -> int:
         rc, sec, tail = run_stage(argv, timeout_s)
         record(name, rc, sec, tail, ok_rc)
 
+    # EARLY HEARTBEAT. The dispatch trio above is what liveness depends on; the maintenance
+    # batch below can take minutes (autowork and digest both wait on the 4B). With a single
+    # write at the very end, a 4-minute cycle looked like a dead plane from every other node
+    # - that is how bm-a spent a whole night believing the master was vacuum and took over.
+    try:
+        _early = {"ts": now(), "node": NODE, "sec": round(time.time() - started, 1),
+                  "git": git_note, "stages": dict(stages),
+                  "slow": "running" if slow_due else "deferred", "phase": "dispatch-done"}
+        _p = os.path.join(ROOT, STATE_REL.replace("/", os.sep))
+        _tmp = "%s.%d.early" % (_p, os.getpid())
+        with open(_tmp, "w", encoding="utf-8") as f:
+            json.dump(_early, f, ensure_ascii=False, indent=1)
+        os.replace(_tmp, _p)
+    except Exception:
+        pass
+
     if slow_due:
         for name, argv, timeout_s, ok_rc, _ in slow_serial:
             rc, sec, tail = run_stage(argv, timeout_s)
