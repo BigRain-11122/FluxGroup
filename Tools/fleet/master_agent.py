@@ -309,6 +309,20 @@ def route_decision(job, fleet, rows=None, policy=None):
     return "local", "default: local first"
 
 
+def _has_next_step(root, line_id):
+    """True when LINE-NEXT-STEPS.json already declares this line's next product.
+
+    Keeps the judgment queue for real direction gaps only. A line that already has a
+    declared next artifact does not need a model's opinion - it needs a card.
+    """
+    try:
+        with open(os.path.join(root, "cph4", "fleet", "LINE-NEXT-STEPS.json"), encoding="utf-8") as f:
+            steps = json.load(f)
+        return bool(((steps.get("lines") or {}).get(line_id) or {}).get("cards"))
+    except Exception:
+        return False
+
+
 def cloud_spend_today(rows):
     today = datetime.now().strftime("%Y-%m-%d")
     total = 0
@@ -870,9 +884,15 @@ def build_judgments(root, rows, lanes_state, lines_state, fleet, policy):
                 {"note": r.get("note"), "needs": r.get("needs")})
     for lid, ls in lines_state.items():
         if ls["verdict"] == "STALE":
-            add("LINE-STALE", lid,
-                "这条线 %.0f 小时没有产出、也没有已声明的活，下一步该做什么？" % (ls["age_h"] or 0),
-                {"owner": ls["owner"], "limit_h": ls["stale_after_h"], "note": ls["note"]})
+            # LINE-STALE questions are answered by machinery now, not by a model:
+            # night_plan reads LINE-NEXT-STEPS.json and dispatches that line's declared
+            # next product. Asking a 4B「这条线该做什么」produced 20+ identical rows that
+            # nobody could answer usefully (2026-11-01) - so only ask when there is NO
+            # declared next step, i.e. when a direction decision is genuinely missing.
+            if not _has_next_step(root, lid):
+                add("LINE-STALE", lid,
+                    "这条线 %.0f 小时没有产出、且没有已声明的下一步产物，方向该怎么定？" % (ls["age_h"] or 0),
+                    {"owner": ls["owner"], "limit_h": ls["stale_after_h"], "note": ls["note"]})
         elif ls["verdict"] == "BLOCKED":
             add("LINE-BLOCKED", lid,
                 "这条线有活但没有能跑的车道，是拆活、换机器还是先修车道？",
