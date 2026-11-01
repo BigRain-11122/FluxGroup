@@ -1,4 +1,4 @@
-# group-NEED-JUDGMENT（集团横切·元资产与法度）
+﻿# group-NEED-JUDGMENT（集团横切·元资产与法度）
 
 > 写入纪律：orders/decisions/POOL 禁直写——本件=巡逻产出汇。正本=media/logs/patrol-fleet/group-shiftlog.md；L0 消费面 cph4/fleet/dispatcher/NEED-JUDGMENT.md 每轮重生成，巡逻 NJ 不放那里。
 > 本班=2026-10-20 06:28 触发（DEADLINE 同签 re-fire；域判断=旗属 bigstream 在飞件，group 域无新增事实）。
@@ -410,3 +410,80 @@
 5. **law-registry 8.4 天补账**：含 §六 法熵账本 10-16 后批次与 §三 L2 簇头登记
 6. **token 周报行 3 条 + 月度成本行**
 7. **L1/账本未提交面**：dirty=34（含 L1 CODELY.md、selfaudit、DISPATCH-LOG、POOL.json）
+## 五、R15 追加（集团横切·域=group·2026-11-01 13:1x）
+> 载具触发：DEADLINE W1 星晴行 + DEADLINE 10-26 调度席行 + DISPATCH-LOG STARVED-EXEC(bm-a/bm-c)。
+> 本班只读只议：零 poke／零派单／未落一字于 orders·decisions·POOL·DEADLINES／未删 L0-L1 条目／未动 BRAND 命名权。
+> 研读面：governance §8 法熵/§9 修法优先/§10 诚实律/§11 时效 + memory.md + token-economy §八。
+### 5.1 §10 六面核验（本班实读实算）
+| 面 | 结论 | 证据（今日实测） |
+| ① 品牌词法 | 通过 | BRAND §8 登记簿 10 名全 locked（FluxGroup/Biggame/MiniGame/BigMoney/BigStream/FluxVerse/BigDomain/BigLife/BigCompute/BigHouse）；车机 BU=业务线非公司、吸嘟嘟=款名归司内簿（§8 末行豁免）；BRAND.md 自 09-30 无新增待登记名 |
+| ② 记忆健康 | **超帽未愈**（第 4 条承载） | L0 `~/.codely-cli/CODELY.md` = **44,913B** vs 40,960B 注入帽 → **+3,953B（9.65%）**；L1 `FluxGroup/CODELY.md` = 60,482B/92 条，未触 §10 判据（110KB/140 条/同主题≥3 版本）；HQ-MemoryBudgetGate State=Ready·NextRun 13:46=存活 ✓ |
+| ③ token 账本 | **缺行**（第 6 条承载） | `cph4/fleet/token-ledger/LEDGER.md` 末行 = **10-26（0 单）**；§三「每周日值守轮汇总一行」→ 10-18/10-25/**11-01 三窗零行**（今日即第 3 窗）；**月度成本行全账零产出**（11-01=月初窗） |
+| ④ 法度健康 | 通过 | law-registry §一 登记 **17 行 ≤20 预算**；法熵账 10-20 **平衡**（新增 2 vs 废止 2）；3 件超 60KB（governance 84.7／resource-chain 91.5／audit-charter 61）已在「瘦身候池」 |
+| ⑤ AI 诚实律 | 通过 | `docs/audits/selfaudit-report.md` mtime 11-01 09:14（当日新鲜·13,462B）：fluxgroup **3 claim / 0 bare**；minigame 同窗全覆 |
+| ⑥ 交付时效 | **新破口**（见 5.3） | 5 天顶 4 行未分类处置，静默 12-18 天 |
+### 5.2 既有 7 条待枢纽·状态复核（**0/7 收口**）
+- **第 4 条「记忆双帽」**：未动。L0 仍 44,913B；DEADLINES 10-26 行 ③ 仅记「登记为待裁件·禁本窗擅删 L0 条目」→ 已跨两轮以上未决，维持升级态。本班不擅删（元资产·CEO 面记忆）。
+- **第 6 条「token 周报 ×3 + 月度成本行」**：未动且**恶化 1 窗**（三周日窗零行）。
+- 第 1/2/3/5/7 条（R11-1 DEADLINES 去重／R10-1 execute 腿／R10-2 bm-b 双写+NATS／law-registry §8.4 补丁／L1 与台账未提交 dirty=34）本班未复核，归对应域席，不重复登记。
+### 5.3 【新·NEED-JUDGMENT·G-20261101-01】交付时效 4 行破 5 天顶（§10⑥）
+雷达实锚 = `cph4/fleet/dispatcher/CEO-PROXY/DEADLINES.md`（mtime **11-01 10:52 = 新鲜**，非陈旧传感）：
+| 行（首 20 字） | 状态位 | 静默 | 破顶倍数 |
+|---|---|---|---|
+| `10-14 八度空间/叶惠美 音源` | in-flight（无翻新注记） | 18 天 | ×3.6 |
+| `10-16 治理窗：C-20261009-01` | scheduled | 16 天 | ×3.2 |
+| `10-19 回访：C-20261012-02` | scheduled | 13 天 | ×2.6 |
+| `排队 W1：星晴 A 批 62/62` | in-flight（末注记 R2.26·10-20 00:32） | 12 天 | ×2.4 |
+判读：四行**均无分类处置**（无 closed-superseded／无 re-scheduled／无 upgrade 记录），与 §11 时效律「快速件 >24h 未关单点名／5 天顶执行」直接冲突；且星晴行末次实质推进为 10-19 XQ 夜窗（C2093 31/31+bank 18/18），此后全线资源转 mv0001（v717→v718），星晴线**静默 12 天无一句说明**。
+行动建议（本席只议不执行）：枢纽按「分类处置」一次性销行，每行四选一 —— ①closed-superseded（被链实绩超越）②re-scheduled 新窗（给日期）③upgraded（升委员会/CEO 通道）④dropped（明证作废）。禁留 in-flight 空转。
+### 5.4 本班降噪（snooze 续/摘·24h）
+- `STARVED-EXEC lane=bm-a` **续**：MASTER-STATE 12:06:14 实测 bm-a online/hb 45s/**IDLE-CONFIRMED idle_rounds=141**/gpu 2%/ram_free 47.5G —— 「自派无可执行卡」结构恒真，历史卡 blocked_by=CEO-PHYSICAL（物理件零催办）。
+- `STARVED-EXEC lane=bm-c` **续 + 条件变化注记**：bm-c idle_confirmed/gpu 3%/**ram_free 9.4G（前值 1G）** → POOL-0021 的 `CEO-PHYSICAL:bm-c-desktop-ram` 阻塞前提**已不成立**，建议 POOL 所有者复核解锁（本席不直写 POOL）。
+- `STARVED-EXEC lane=bm-b` **续 + 执行器已复活实证**：`last_result = Q-TRIAGE-BIGMONEY-20261101 FAILED rc=2 @12:01:43` + job `Q-TTS-1202R` 在飞 → 与 R2.59（10:53「poke 全 deny／lane.result.bm-b 恒缺」）**已不同**；但同 job 连两日 FAILED（-20261031／-20261101）→ 转 bigmoney/bm-b 域席，非本席。
+- `DEADLINE: | 10-26 07:4` **续**：该行状态位已 = `executed`（三件实测），传感按行文本重发 = 噪声。
+- `C:/Users/sjs20/.codely-cli/CODELY.md` **续**：非事故，超帽件由第 4 条承载（本班复核 +3,953B 未愈）。
+- `DEADLINE: | 排队 W1：星晴` **不续**：该行已升 G-20261101-01，不得遮蔽。
+### 5.5 写侧纪律（承 07:12 LOG.md 乱码事故）
+本班一切写入走 UTF-8 字节追加（.NET UTF8 no-BOM），**禁 PS5.1 GBK 直写台面**；LOG.md 现首 3 字节 EF BB BF（合法 UTF-8 BOM）＝07:12 抢救后状态已复正常（558KB/1153 行）。台账体量只对照不设绝对帽（§9.1）。
+---
+
+# R16 巡视（group 横切 · 2026-11-01 13:58 班 · 同签第二发 · 只读只议）
+
+**触发现**：DEADLINE W1 星晴行——与 R15（今日 13:16）同签，本班只做现势复核，零新立并列案。
+
+## 一、触发件现势（13:58 实测）
+
+- `CEO-PROXY/DEADLINES.md` = 75,069B / mtime **11-01 10:52**（3h 内新鲜台账，非陈旧传感）。四行状态**逐行未变**：
+  - L17 八度空间/叶惠美 音源批复跑 = `in-flight`（10-14 起 → **18 天**）
+  - L21 10-16 治理窗（C-20261009-01/02 判据回访）= `scheduled`（**16 天**）
+  - L22 10-19 回访（C-20261012-02/03 判据）= `scheduled`（**13 天**）
+  - L19 排队 W1 星晴 A 批 = `in-flight`（**12 天**）
+- → **[ESCALATE group#G-20261101-01 第 2 轮未决]** 按章程「两轮未决=升级 NEED-JUDGMENT 候枢纽收」。建议仍为四选一一次性销行：`closed-superseded` / `re-scheduled（带日期）` / `upgraded` / `dropped`；**禁继续 in-flight 空转**。判定依据与 R15 一致（新鲜台账 + 无终态判词），本班只补「同签第二发仍零变化」这一事实。
+
+## 二、六面现势（复用 R15 传感，仅补变化面）
+
+| 面 | 判定 | 本班实据 |
+|---|---|---|
+| ① 品牌词法 | **OK** | `BRAND.md` 5,856B @09-30 16:57 未变；§8 十名 locked；无新命名事件（CEO 保留面零触碰） |
+| ② 记忆健康 | **超帽未愈（第 6 轮）** | L0 `C:\Users\sjs20\.codely-cli\CODELY.md`=**44,913B** @11-01 04:03（帽 40,960B ⇒ **+3,953B / +9.65%**）；L1 `FluxGroup\CODELY.md`=**60,482B / 92 条** @10-31 18:19。与 R15 同值零变化；章程 §10 判据（>110KB/>140 条）不触发、memory.md §10 硬帽已破 ⇒ 口径分叉延续 |
+| ③ token 账本 | **缺行（第 4 轮）** | `token-ledger/LEDGER.md`=4,648B @**10-26 22:36** ⇒ 6 天零行；今日 11-01（周日）=周报窗 ⇒ 10-18 / 10-25 / 11-01 **三窗零行**；月度成本行全账零产出 |
+| ④ 法度健康 | **账本停更 12 天 + 口径分歧留痕** | `cph4/registry/law-registry.md`=16,233B @**10-20 18:20** ⇒ 12 天零批次行。R15 判 OK 的依据是「§一 17/20 + 法熵账 10-20 平衡 + 3 件超帽入池」——本班不改该判定，仅留分歧一行：账本自 10-20 未再开批次行 ⇒ 10-21~11-01 新增正典（CEO-DEFECT-LEDGER-v1 / QC §25·§27 / recon-dept-v1 / car-gaming-v1 / STORAGE-LAYOUT 等）的「新增↔退役」配对照无法核证；§一 计数不变 ≠ 法熵在持。供枢纽裁（补登，或明示「台账/清单类正典不入法熵账」） |
+| ⑤ AI 诚实律 | **OK** | `docs/audits/selfaudit-report.md` 13,462B @**11-01 09:14**（4.7h 新鲜）；R15 读数 fluxgroup 3 claim / 0 bare |
+| ⑥ 交付时效 | **新突破（承 G-20261101-01）** | 见 §一：四行破 5 天顶且无分类处置，静态龄 12/13/16/18 天 |
+
+## 三、本班新登记（R16-1 · 第 1 轮）
+
+- **[NEW group#R16-1 | §10 ④ 法度 / 审计面完好性] `PATROL-FLEET/LOG.md` 实测为双编码混装，可精确定位到行**
+  - 正向：全件 **1,154 行**；按 UTF-8 解码有 **11 行含替换符**（U+FFFD），行号 **1113 / 1115 / 1116 / 1121 / 1124 / 1125 / 1127 / 1129 / 1132 / 1134 / 1135**（10-29 biggame R17 前后段=GBK 字节写入）。
+  - 反向：全件按 **GBK** 解码时中文关键词「巡视」命中 **0**；按 UTF-8 解码命中 **50** ⇒ **任何按单一编码做的 grep 审计都会静默漏读另一部分**（GBK 解码几乎不报错，故不会 fail-loud）。
+  - 危害：该件是舰队唯一跨域审计面；漏读=判定假阴性（本席 R7/R8/R13 各轮读数均受此影响）。追因：各席按自身默认编码追加，且 R15 起改用 UTF-8 字节追加 → 与旧 GBK 段并存。
+  - 建议（候枢纽·承 R7-3 第 3 轮）：① 定编码正身（推荐全件一次性转 UTF-8 无 BOM）；② 追加一律走封装（先探测正身编码再写，禁裸 `Add-Content` 默认编码、禁混写）；③ 现存 11 行只加勘注不改写（append-only）。
+  - 本班自保：本行追加走 **UTF-8 字节直写**，写后复验坏行数仍 = 11（未新增），已验。
+
+## 四、承前未决（不重复登记，仅状态位）
+
+- 4 项已历 4~6 轮：记忆双帽（②）/ token 周报行（③）/ law-registry 补账（④）/ LOG.md 编码正身（R7-3）。
+- 跨域承载：R10-1 `queue_claim.py --pool` 无 execute 腿 / R10-2 bm-b 心跳写手+NATS / R11-1 DEADLINES 去重（`R2.39a` count=2）+ L28 终态化 / L1 未提交面（本班未重测，按 R13 dirty=34 维持）。
+
+**本班未动**：未写 `orders/decisions/POOL/DEADLINES`，未删改 L0/L1 条目，未动 `BRAND.md` 与任何章程，零 poke，零计划任务状态变更。
+**写面**＝本件本轮段 + `PATROL-FLEET/LOG.md` 一行（UTF-8）+ `group-shiftlog.md` 一行 + 锁 touch；**snooze 不改**（W1 星晴行=真实待决件，禁 snooze）。

@@ -1,4 +1,4 @@
-# NEED-JUDGMENT·bigstream — 持久正身（巡视席 R25 起）
+﻿# NEED-JUDGMENT·bigstream — 持久正身（巡视席 R25 起）
 
 > 缘由：`cph4/fleet/dispatcher/NEED-JUDGMENT.md` 由 L0 每轮再生（实测 R23 06:11 追加行被抹），巡视 NJ 写在快照面会丢。本件=域持久副本，与 `media/logs/patrol-fleet/bigstream-shiftlog.md`（本机持久正身）+`PATROL-FLEET/LOG.md`（跨机行）三面同源。
 > 台账纪律不变：orders/decisions/POOL 禁直写；本件只议不裁。
@@ -60,3 +60,10 @@
 - [bigstream#R29-4 | 三轮升级·承 R27-2/R28] **41 曲零新曲 7 天** ｜末次成片闸仍为 xq-PACKB-DELIVERY-GATE-v11（10-25 10:59），现 6/41；`lanes/bm-c.json` 05:25:18 `jobs=[]`、`lanes/bm-a.json` 05:02:11 `jobs=[]`；下一曲无 executable 卡（11-01 的 `Q-TRIAGE-BIGSTREAMMV-20261101` 交付物 `triage-bigstream-mv-20261101.md` 不存在＝未执行）。建议：①先收 KN21（R29-2）——唯一在途曲；②排下一首 KF 签发卡并指定 lane；③`Q-MV-ANCHOR-BEATS-01`（41 首 beats 锚·CPU 全量）可即刻上 bm-c/bm-b 空档。
 
 - 观察·不升级：①**v718 宣发面** `promo-v718/` 仅 3 张封面候选（10-31 14:13），无标题/简介/标签/置顶文案，`DEADLINES.md` `mv-promo`=无活——发布决定权=CEO（零催办），补一张文案卡即可成套；②**video-remix S 池 3 条**仍 queued-refrozen（R2.11 结构性等待：PoC-A 授权 10-26 到期未续、委员会快评未触发），前置「bm-b 音频批后」未清（`Q-TTS-1202R` 执行腿 R2.58 报 poke 不落地）；③**B 站线**台账最新 10-21 12:04（11 天无新条目）——枢纽已接管在巡+合规轻量期+账号安全令，只记状态零动作；④触发旗中 10-29 02:51 的 STARVED-EXEC 三行=已登记噪声（D-R252-CARRIER-SELFEXCITE + R2.58 PROBE-CADENCE-MISFIT），本班不重升；⑤`PRODUCTION-PLAN.md` stale 传感 snooze 有效至 2026-11-02 06:10（snooze 单条限制：PS5.1 多条 ConvertFrom-Json 互相吞没，实测 07:34 `SNOOZE filtered 7->6`），本班不複加。
+## 2026-11-01 10:49 R30 班（复现确认·三轮升级）
+- [bigstream#R30-1 | 三轮升级·承 R29-1] **v718 母版响度未修** ｜本班复测逐值相同：`Input Integrated -10.1 LUFS / Input True Peak +1.0 dBTP / LRA 5.6`；文件 mtime 仍 10-31 14:01:12，无修复件 → 3h 零推进。根因未变=`Tools/mv_delivery_gate.py` 无响度/真峰值断言。**依章程「两轮未决=升级」，本条候枢纽收。**
+- [bigstream#R30-2 | 三轮升级·承 R29-2] **KN21 收割仍孤儿（~20h）** ｜`lanes/bm-c.json` ts=08:09:12 `jobs=0 lane_ok=true`（较 R29 的 05:25 前移，仍无 harvest 卡）；`K:\Fluxgroup\FluxGroup\media\mv-album-001-jay\frames-retry-c2173` 从 bm-a `Test-Path=False`（跨机不可达·承 CEO 2026-10-23 禁远程驱动令）；10-31 14:44 后无 KN21 相关提交。**候枢纽收（正法=先修 harvest 三处结构缺陷，再由 bm-c 本地执行）。**
+- [bigstream#R30-3 | 复现·簿记] **成片闸指针仍指被替代版** ｜`queue-receipts/mv-gate-latest.json` mtime 仍 10-31 14:11:46、内容 v717 `verdict: FAIL`；`DEADLINES.md` 仍按该 mtime 判 `bigstream-mv OK`＝假绿。v718 的 PASS 回执仍只在 `.codely-cli/tmp/`。
+- [bigstream#R30-4 | 三轮升级·承 R29-4] **41 曲零新曲 8 天** ｜本班实核：`D:\FluxGroup\media\mv-album-001-jay` 仅 `clips-animatic-480`（3 件 bm-b 480P 烟验 V718_S1/S2/S3，10-31 11:29-11:31）；`media\mv-test\xingqing` 仅 `prompts_kf.json` + KN28/KN29/KN30 三张 KF（10-24 13:40）；无新曲装配件、无新 KF 签发。**排除误报**：`clips-local-768` 本机缺失属架构而非丢失（assignment-album-v1.json 中 bmc lane 的 out 为相对路径=bm-c 机 K: 盘），本班不据此立旗。**候枢纽收。**
+- [新增·执行面观察（非 bigstream 专域·只记不升）] 今日 triage 仅 3/10：`queue-receipts` 有 triage-car-gaming 00:24 / fluxverse 00:19 / recon 00:29，而 `triage-bigstream-mv-20261101.md`、`triage-bigstream-duanju-20261101.md`、biggame 均不存在 → `Q-TRIAGE-BIGSTREAMMV/DUANJU-20261101` 两张 CPU 卡仍挂未领；lane 心跳文件 ts 分别 bm-a 08:30:46 / bm-c 08:09:12 / bm-b 02:26:53（各停 2-8h，bm-b `jobs=1`＝Q-TTS-1202R）。供枢纽判执行腿，本席不重升。
+- 触发旗处置：DL 10-28 18:11 与 10-29 02:51 的 STARVED-EXEC 三行＝已登记噪声（D-R252-CARRIER-SELFEXCITE + R2.58 PROBE-CADENCE-MISFIT + 06:10 cph4 席同判），不重升；**snooze 不新增条目**——snooze 文件受单条限制（PS5.1 多条 ConvertFrom-Json 互相吞没，07:34 实测 7->6），新增会牺牲现有 `PRODUCTION-PLAN.md: stale` 抑制（有效至 2026-11-02 06:10）。video-remix S 池 3 条仍 queued-refrozen，前置 bm-b 音频批未清，维持 R29 观察不重升。

@@ -223,3 +223,16 @@ am_free_gb=10+cpu_load_pct=48——**bm-b 不是闲着，是在跑量化轮**；
 | **L0 探针谓词 3h < 班表 4.2h（第6次误报）** | **registered·waiting-CEO（受保护件）** | proxy-probe.ps1:30 `-gt 3`；建议 4.5h 或改读班表。承 R2.54/R2.55 登记，不重复立法。 |
 | **P0 Q-TTS-1202R（lease 11:27 到期）** | **monitoring** | 08:27:24 attempts2 认领，队列 08:29 后零状态变化；到期将再派给同一死执行器（bm-b）。执行器修复前无法推进。 |
 | **lane 指针文件致树恒脏（D-R259-DIRTYTREE）** | **fixed（本班·T1）** | `queue-receipts/_last_lane_*.json` 受跟踪且每轮改写 → ff-only/rebase 恒拒 → 节点追不上主线（R2.57 同型）。已并入 GEN_STATE；实测 10:49:30 agent=0、push ok、无 rebase 残留。 |
+
+## 附录 R2.60 事件班登记（2026-11-01 13:56-14:0x·probe L0-DOWN 第7次）
+
+| 件 | 状态 | 证据 / 下一步 |
+|---|---|---|
+| **本地 22 件脏致落后 23 笔（真故障）** | **fixed（本班）** | `merge --ff-only`/`rebase` 恒拒；本地 MASTER-LOG cyc=665@12:06 vs origin cyc=728@13:55。处置=备份 `.codely-cli/tmp/r260-backup-20261101/` → 丢机器态 → ff-only 至 0/0 → `agent.py` pull rc=0 三连。 |
+| **GEN_STATE 覆盖不足（D-R260-GENSTATE-FULL）** | **fixed（本班·T1）** | 5 项→18 项（补 lanes\*.json 与 dispatcher 派生态）；台账/队列**刻意排除**，继续挡 pull 走人工裁决。 |
+| **git 拒绝信息 240 字截断（D-R260-BLOCKMSG）** | **fixed（本班·T1）** | 追加 `blocking paths (N): ...` 全量诊断，终结「每班重查同一脏树」。 |
+| **搁浅巡班工作 44 行** | **recovered（本班）** | bigstream R30@10:49 + group R15@13:1x 原写于陈旧基线、origin 无此内容 → 重贴 origin 基线（+2/+8-1/+36-1）。 |
+| **P0 Q-TTS-1202R（bm-b）** | **monitoring·不 poke** | 11:52:15 认领，2h 零回执，`lanes/bm-b.json` ts 停 11:52:15。防双烧不 poke；转 bm-b/bigmoney 域。 |
+| **Q-TRIAGE-BIGMONEY-20261101 FAILED rc=2** | **registered·转 bigmoney 域** | `line_triage.py --line bigmoney` rc=2 @12:26:43，`deliverable_exists=False`。 |
+| **POOL-0021 阻塞前提失效** | **registered·待 POOL 属主复核** | bm-c `ram_free` 1G→**9.4G**（group R15 实测）；`CEO-PHYSICAL:bm-c-desktop-ram` 不再成立。物理件零催办。 |
+| **L0 探针谓词 3h < 班表 4.2h（第7次）** | **registered·waiting-CEO（受保护件）** | 承 R2.54-R2.59 登记，不重复立法；建议 4.5h 或改读班表。 |

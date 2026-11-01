@@ -53,6 +53,28 @@ GEN_STATE = [
     # permanently dirty and every ff-only/rebase refused -- the same class of bug as
     # R2.57's SUPERVISOR.md. Regenerated on the next lane round, so dropping it is free.
     "cph4/fleet/queue-receipts/_last_lane_*.json",
+    # R2.60: the R2.57/R2.59 lists named four files, but the master republishes a wider set
+    # of derived state and each local sensor rewrites its own copy. On 11-01 13:5x the tree
+    # carried 22 dirty tracked files, so the clear step freed 5 of them and the fast-forward
+    # still refused for hours -- the node sat 23 commits behind and every local writer landed
+    # on a stale base. Only derived state belongs here: the authoritative copy is on origin,
+    # written by the master, and a node's own copy costs at most one sensor cycle to rebuild.
+    # Human/shift ledgers (DISPATCH-LOG, DEADLINES, MASTER-LOG, PATROL-FLEET/*) and the queue
+    # itself (PRODUCTION-QUEUE/BACKLOG, queue-receipts) are deliberately NOT listed: those
+    # carry work that exists nowhere else, so they must block the pull and be resolved.
+    "cph4/fleet/dispatcher/MASTER-STATE.json",
+    "cph4/fleet/dispatcher/MASTER-TICK.json",
+    "cph4/fleet/dispatcher/PULSE.json",
+    "cph4/fleet/dispatcher/SOLVER.md",
+    "cph4/fleet/dispatcher/DIGEST.md",
+    "cph4/fleet/dispatcher/digest-cache.json",
+    "cph4/fleet/dispatcher/CONTINGENCY-STATE.json",
+    "cph4/fleet/dispatcher/NEED-SUPPLY.md",
+    "cph4/fleet/dispatcher/AUTOWORK.md",
+    "cph4/fleet/dispatcher/ROUTED-WORK.jsonl",
+    "cph4/fleet/dispatcher/events.jsonl",
+    "cph4/fleet/social/DIGEST.md",
+    "cph4/fleet/lanes/*.json",
 ]
 
 
@@ -101,6 +123,14 @@ def pull():
         run_msg(["git", "rebase", "--abort"], 60)
     note("ff-only blocked (%s) -> cleared %d gen-state -> rebase rc=%s %s"
          % (tail, len(cleared), rc3, tail3))
+    if rc3 != 0:
+        # R2.60: git's refusal message is truncated to 240 chars and names only the first few
+        # colliding paths, so a 22-file dirty tree looked like a 4-file problem and every shift
+        # re-diagnosed it from scratch. Log the whole remaining set: whatever is here is either
+        # work that exists nowhere else (resolve it) or machine state missing from GEN_STATE.
+        rc_s, dirty = run_msg(["git", "status", "--porcelain"], 60)
+        blocked = [ln[3:] for ln in dirty.split("|") if ln.strip()]
+        note("blocking paths (%d): %s" % (len(blocked), ", ".join(blocked)[:900]))
     return rc3
 
 

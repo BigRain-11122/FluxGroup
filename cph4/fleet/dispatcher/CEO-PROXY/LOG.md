@@ -932,3 +932,10 @@ if prev_by and prev_by != owner_node:
 - **根因①**：tick() 按元组解包 push() 的 int 返回值 → TypeError（hb/lane 已跑完，零损失；执行器被误判不健康）。已修。
 - **根因②**：`queue-receipts/_last_lane_*.json` 受 git 跟踪且 lane 每轮改写 → 树永久脏 → ff-only/rebase 恒拒（R2.57 SUPERVISOR.md 同型，节点追不上主线的母因）。已并入 GEN_STATE。
 - **验收**：10:49:30 `agent=0`、agent-push.log `ok: Everything up-to-date`、无 rebase 残留；本地仅剩 GEN_STATE 脏，下轮自动快进。commits 79fca5b8 / 92a199ab。
+
+## R2.60 事件班（2026-11-01 13:56-14:0x·承载件触发）
+
+- **触发**：`[2026-11-01 13:56:04][PROBE] L0-DOWN: DISPATCH-LOG.md age 3.1h (>3h)`；锁 mtime 10:52:46（183.6min，已过期）=> 本窗执班。
+- **判读**：误报（PROBE-CADENCE-MISFIT 第7次，L0 谓词受保护）+ 真故障（本地 22 件脏 → 落后 23 笔 → 写手落陈旧基线）。
+- **处置**：备份 22 件 → 丢机器态脏面 → ff-only 至 0/0 → pull rc=0 实测三连 → 回收搁浅巡班 44 行 → T1 修 GEN_STATE(5→18) + blocking-paths 诊断 → 台账四件追加 → 原子推。
+- **未做**：未动受保护件；未 poke（防双烧）；未写 POOL；未碰 bm-b/bm-c 远程（CEO 令 2026-10-23）。
