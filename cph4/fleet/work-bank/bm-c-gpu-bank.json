@@ -1633,7 +1633,7 @@
   },
   {
    "id": "kn21-reburn-gated-c2172",
-   "status": "claimed",
+   "status": "done",
    "priority": 2,
    "created_ts": "2026-10-30T23:34:55",
    "auth": "C2172 luma+lift verdict: KN_A-KN21 is not a scene at all - lifted it reads as full-frame glyph noise (YAVG 23.33 mean, 20.47 min). C2170 pseudotext class in its extreme form. Lift cannot fix it; it needs a re-burn.",
@@ -1650,11 +1650,13 @@
    "log_out": "media/mv-album-001-jay/logs/kn21_reburn.out.log",
    "log_err": "media/mv-album-001-jay/logs/kn21_reburn.err.log",
    "note": "In progress (c2173): the gate this job was waiting for turned out to be the WRONG gate - the defect was the plate, not the prompt. Re-authored three real-scene first frames (Krea2, 27-67s each, all >1.16MB) in frames-retry-c2173/, picked r2_s770341 (weathered rooftop, rusted pipe, warm window, water tanks, no set-dressing). 768P int8 re-burn submitted on the new plate; the runner hit its 2400s poll budget (~47s/frame under desktop contention) but the server kept rendering, so kn21_harvest_c2173.py is waiting to copy the finished file into clips-local-768. Verify the take before it goes anywhere near an assembly.",
-   "claimed_ts": "2026-10-31T14:43:20"
+   "claimed_ts": "2026-10-31T14:43:20",
+   "done_ts": "2026-11-01T19:42:30",
+   "done_note": "harvest verified by bm-c 2026-11-01: KN_A-KN21.mp4 5.59MB / 362f / 1344x768; native frames checked (weathered rooftop + warm window + paper plane, no glyph class); YAVG 68.3-69.1 vs the dead take's 23.33. Evidence cph4/fleet/mv-album-001-jay/KN21-HARVEST-c2173.json"
   },
   {
    "id": "kn-packA-conform-v2-c2173",
-   "status": "pending",
+   "status": "done",
    "priority": 3,
    "created_ts": "2026-10-31T14:43:20",
    "auth": "C2171 built the review conform with the old KN21 (now a known dead take). Once the c2173 plate take lands, the conform must be rebuilt so the director reads a clean film.",
@@ -1673,7 +1675,10 @@
    ],
    "log_out": "media/mv-album-001-jay/log-kn-conform-v2.out.log",
    "log_err": "media/mv-album-001-jay/log-kn-conform-v2.err.log",
-   "note": "Zero GPU. Re-runs the C2171 conform script after the KN21 plate take is harvested; gate = CONFORM-END ok=1. Keep the C2171 file as the old reference."
+   "note": "Zero GPU. Re-runs the C2171 conform script after the KN21 plate take is harvested; gate = CONFORM-END ok=1. Keep the C2171 file as the old reference.",
+   "claimed_ts": "2026-10-31T15:00:59",
+   "done_ts": "2026-11-01T19:42:30",
+   "done_note": "conform rebuilt 2026-11-01 19:40 CONFORM-END ok=1 units=30 cut=195.50s out=195.58s bytes=25,569,638 -> assembly-packA/KN-PACKA-CONFORM-v1-c2171.mp4; film gate PASS (4694f, dup=0, luma min 27.23) logs/kn-film-gate-conform-v2-c2173.json"
   }
  ],
  "_note_20261026": "lookdev-20261025 batch (K:/Fluxgroup/.codely-cli/tmp/lookdev_bank.py) runs outside the bank by design as decision support for the CEO 2026-10-25 22:4x new-process order; it is not KF and not a final, so it does not violate the D1-before-KF gate. Authorized by O-20261026-0735 sec.4."
