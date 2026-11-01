@@ -1,11 +1,11 @@
 # NEED-SUPPLY - why lanes and business lines are not running (#regenerated)
 
-- ts: 2026-11-01T18:37:42
-- queue: open=2 running=0 done=54 failed=3
-- open jobs by need: cpu=1 gpu=1
+- ts: 2026-11-01T18:48:48
+- queue: open=1 running=1 done=54 failed=3
+- open jobs by need: cpu=1 gpu=0
 
 - bm-a: SELF-DISPATCH: lane scans its own backlog -> lane is scanning its own backlog; if this persists >2 rounds the box has no declared work and needs a new card
-- bm-b: CAPACITY-BLOCKED-RAM OFFLINE (hb age Nones) -> free memory on that box (gpu_lease --acquire reclaims it)
+- bm-b: RUNNING Q-TTS-1202R
 - bm-c: SELF-DISPATCH: lane scans its own backlog -> lane is scanning its own backlog; if this persists >2 rounds the box has no declared work and needs a new card
 - bm-m: SELF-DISPATCH: lane scans its own backlog -> lane is scanning its own backlog; if this persists >2 rounds the box has no declared work and needs a new card
 
@@ -15,7 +15,7 @@ Rules pack: cph4/fleet/WORK-RULES.jsonl (empty = every job must be declared by a
 
 | 条线 | 判 | 最近产出 | 阈值 | 卡在 | 负责人 |
 |---|---|---|---|---|---|
-| BigStream·漫剧 | BLOCKED | - | 48.0h | - | 漫剧席 |
+| BigStream·漫剧 | BLOCKED | - | 48.0h | 剧本/编剧席 | 漫剧席 |
 | BigStream·MV 41 曲 | STALLED-STAGE | - | 24.0h | 立意/分镜/导演席 | 导演席（CEO 终审） |
 | BigStream·短剧 | WAITING | - | 72.0h | - | 短剧席 |
 | Biggame·游戏 | WAITING | - | 24.0h | - | 游戏席 |
