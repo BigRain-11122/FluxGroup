@@ -75,7 +75,14 @@ def main():
                     help="executor only; never take over scheduling")
     a = ap.parse_args()
 
-    rc_agent, out_agent, err_agent = run("agent.py", ["--node", a.node], timeout=5400)
+    # R2.59: agent.py's pull leg had no push counterpart, so locally authored work (night
+    # rounds, lane edits) never reached origin and was destroyed by every `reset --mixed`
+    # closeout. Only nodes whose worktree is known-convergent may push -- bm-b/bm-c roots are
+    # structurally diverged (R2.52/R2.58), and auto-pushing a stale tree would replay it onto
+    # main. Enable them individually once their trees are reconciled.
+    PUSH_NODES = {"bm-a"}
+    agent_args = ["--node", a.node] + (["--push"] if a.node in PUSH_NODES else [])
+    rc_agent, out_agent, err_agent = run("agent.py", agent_args, timeout=5400)
     stale, age = master_stale()
     rc_master, out_master = 0, ""
     if stale and not a.no_schedule:

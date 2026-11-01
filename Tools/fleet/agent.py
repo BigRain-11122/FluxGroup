@@ -100,22 +100,51 @@ def pull():
     return rc3
 
 
-def note(msg):
-    """Evidence line for the pull leg; media/ is gitignored so this never dirties the tree."""
+def note(msg, fname="agent-pull.log"):
+    """Evidence line; media/ is gitignored so this never dirties the tree."""
     try:
         d = os.path.join(ROOT, "media", "logs")
         os.makedirs(d, exist_ok=True)
-        with open(os.path.join(d, "agent-pull.log"), "a", encoding="utf-8") as f:
+        with open(os.path.join(d, fname), "a", encoding="utf-8") as f:
             f.write("%s %s\n" % (time.strftime("%Y-%m-%dT%H:%M:%S"), msg))
     except Exception:
         pass
 
 
-def tick(node):
+def push():
+    """R2.59: the pull leg had no counterpart. Lane/night rounds commit work locally and it
+    never left the box, so every `reset --mixed origin/main` closeout (R2.54/R2.56/R2.57)
+    silently destroyed that work -- 4 night-round commits sat unpushed for 70 minutes on
+    11-01 and were one closeout away from being lost.
+
+    Safety: never force, and only push after a rebase has proven the branch is origin/main
+    plus our commits (an append). A diverged tree that will not rebase is left alone and the
+    skip is logged, so a broken worktree can never overwrite the master's history."""
+    rc, tail = run_msg(["git", "push", "origin", "HEAD:main"], 300)
+    if rc == 0:
+        note("ok: %s" % tail, "agent-push.log")
+        return 0
+    # origin moved under us (the master pulses every minute): re-anchor and retry once.
+    run_msg(["git", "fetch", "--quiet", "origin", "main"], 120)
+    rc1, t1 = run_msg(["git", "rebase", "--no-autostash", "origin/main"], 180)
+    if rc1 != 0:
+        run_msg(["git", "rebase", "--abort"], 60)
+        note("skip (rebase refused): %s" % t1, "agent-push.log")
+        return rc1
+    rc2, tail2 = run_msg(["git", "push", "origin", "HEAD:main"], 300)
+    note("retry rc=%s %s" % (rc2, tail2), "agent-push.log")
+    return rc2
+
+
+def tick(node, do_push=False):
     rc_hb, t_hb = run([PY, "Tools/fleet/fleet_hb.py", "--node", node, "--root", ROOT], 120)
     rc_ln, t_ln = run([PY, "Tools/fleet/lane_agent.py", "--node", node, "--root", ROOT,
                        "--no-fetch"], 3600)
-    print("agent %s hb=%s(%s) lane=%s(%s)" % (node, rc_hb, t_hb, rc_ln, t_ln))
+    t_ps = "-"
+    if do_push:
+        rc_ps, t_ps = push()
+        t_ps = "%s(%s)" % (rc_ps, t_ps)
+    print("agent %s hb=%s(%s) lane=%s(%s) push=%s" % (node, rc_hb, t_hb, rc_ln, t_ln, t_ps))
     return 0 if rc_hb == 0 else 1
 
 
@@ -124,13 +153,15 @@ def main():
     ap.add_argument("--node", required=True)
     ap.add_argument("--loop", type=int, default=0, help="0 = one tick; N = every N seconds")
     ap.add_argument("--no-pull", action="store_true")
+    ap.add_argument("--push", action="store_true",
+                    help="push locally authored commits after each tick (append-only; see push())")
     a = ap.parse_args()
     if not a.no_pull:
         pull()
     if not a.loop:
-        return tick(a.node)
+        return tick(a.node, a.push)
     while True:
-        tick(a.node)
+        tick(a.node, a.push)
         time.sleep(a.loop)
 
 
