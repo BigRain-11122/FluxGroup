@@ -248,3 +248,11 @@ am_free_gb=10+cpu_load_pct=48——**bm-b 不是闲着，是在跑量化轮**；
 | **D-R261-POKECFG-STALE（poke 白名单读序）** | **registered·建议一行修（未擅改）** | worker 启动即载入 `fleet-nodes.json`，pull 之后仍用旧内存判白名单 => 同轮新白名单永不生效。修法=wake 段前重读盘。 |
 | **承载件节拍器定性勘正（第 8 次）** | **registered·STANDING-PRECEDENT 已落 NEED-JUDGMENT** | 前七班记 "PROBE-CADENCE-MISFIT 误报"=拿探测器标准评判节拍器；3h 系 10-25 刻意设定（probe->carrier 为唯一驱动源）。后续班按三源判例行巡班，<=10 调用。 |
 | **L0 探针谓词双档建议（承 R2.54-R2.60）** | **registered·waiting-CEO（受保护件）** | 若仍要「探测器」而非「节拍器」语义：`DISPATCH-LOG age>3h` 降二级，改测 `MASTER-TICK`/三条 `state.bm-x` 心跳新鲜度。不重复立法。 |
+
+## 附录 R2.62 事件班登记（2026-11-01 17:51-18:0x·承载件触发·**同触发现重复投递**·probe L0-DOWN 第 9 次）
+
+| 件 | 状态 | 证据 / 下一步 |
+|---|---|---|
+| **bm-b 幻影头锁死 + 断连 6.0h** | **at-risk·waiting-CEO（本机人手·物理件·零催办·第 7 次同源）** | 17:40:30 cyc=864 `online=false`、`lanes/bm-b.json ts=11:52:15`；R2.61 两发 poke 实测 deny。修复只在 bm-b 本机：git 收口后 `python Tools\fleet\agent.py --node bm-b --loop 60`（CEO 令 2026-10-31 18:23 至今未执行）。 |
+| **L2 饥饿 SLO 当日违约 1 件** | **registered** | 红旗（bm-b 执行器）自 11:52 驻留 6.0h，超「升→落 ≤90min」门；未达 24h E1 升格线。回访=cron 194c8c8c @18:57。 |
+| **P0 Q-TTS-1202R（RUNNING 悬停 6.0h）** | **monitoring·不重派** | 11:52:15 认领后 rc=null 零回执；deliverable=`C:/Fluxgroup/FluxGroup/media/drama-tts-out/r1202_ep001_060/` 与 cmd 均在 bm-b 本机盘，跨机重排必空跑。 |

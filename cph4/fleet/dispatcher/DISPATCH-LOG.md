@@ -546,3 +546,10 @@
 (d) **新缺陷 D-R261-POKECFG-STALE**：poke worker 在脚本启动时即把 `fleet-nodes.json` 载入内存（$cfg/$node），**pull 腿跑完之后才用这份旧内存做白名单判定** => 「同一轮内刚拉到的新白名单」永不生效，最快的自愈被自己的读序挡掉（bm-b 实测连续两轮 deny）。非受保护件，建议一行修：wake 段前重新 `Get-Content -Raw Tools\fleet-nodes.json` 并重解析 $node。
 (e) 三源健康面（复用律·未自测重跑）：bm-a hb 9.6s/ram 46.3G、bm-c hb 13.1s/ram 9.1G/GPU 2%、bm-m hb 1.3s、MASTER-STATE cyc=844@17:06:42、NATS FLEET_STATE 7 键 2s 内刷新 => 主控与总线健康，唯一病灶=bm-b。
 (f) 受保护件：CHARTER/ROUND/L0 脚本/proxy-probe.ps1/cron 正身/master_agent.py **一件未动**。步8：8 班 durable cron 在位；清过期一次性探针 d3b03e69（15:33 班回访·未触发已物理过期），并按 v3 新立 +90min 回访探针。
+
+[2026-11-01 17:51-18:0x] SHIFT event R2.62 (carrier-triggered; **DUPLICATE DELIVERY** — 与 R2.61 同一条 `PROBE L0-DOWN @17:11:05 age 3.2h`) | calls=~16 | verdict: **DUPLICATE-NO-REACTION（零重登记·零重派）**
+(a) 查重律执行：R2.61 已 17:11-17:27 全量处置（三账+缺陷 D-R261-POKECFG-STALE+回访探针 cron 194c8c8c），本窗先查盘上现状再动手。
+(b) 三源复验（复用律·未重测）：MASTER-STATE cyc=864@17:40:30 → bm-b `online=false`；`cph4/fleet/lanes/bm-b.json` ts=11:52:15（6.0h 未动）；bm-a hb -0.7s / bm-c 32.9s / bm-m 1.8s 全新鲜；queue open1/running1/done54/failed3 与 R2.60 同值零新增；本地 HEAD=origin/main=4b0e3023（0/0）。
+(c) 处置：未重 poke（R2.61 17:19:45/17:23:25 两发已实测 `HQ-ProductionClaim:deny`，再发=双烧零收益）、未重登记同一旗、未动受保护件、未跨机改 bm-b（CEO 2026-10-23 令）；物理件零催办。
+(d) 本班唯一增量=L2 饥饿 SLO 记录：bm-b 红旗（执行器死）自 11:52 驻留 **6.0h > 90min 门** => 今日 L2 违约 1 件；未达 24h E1 升格线，交 R2.61 回访探针（cron 194c8c8c @18:57）复验。
+(e) 步8：班次 cron 007d4701（`43 2,5,8,12,15,18,21,23`）在位、回访 194c8c8c 在位，无需重建；无过期一次性 cron 残留。

@@ -946,3 +946,10 @@ if prev_by and prev_by != owner_node:
 - **判读（两因分离）**：(a) 该旗=**设计节拍器**非故障探测（3h 系 10-25 刻意调低，probe->carrier 是唯一驱动源）——前七班写 "误报" 才是定性错，已落 STANDING-PRECEDENT 防第九次复算；(b) 真故障=**bm-b 幻影头锁死**：HEAD=c1d7762e 不在本仓 => 永不可快进 => 盘上 fleet-nodes.json 停 10-28 前版 => poke 恒 `HQ-ProductionClaim:deny`（17:19:45/17:23:25 两发实测）+ 心跳 17:11:52 seq=1 重启（约 5.2h 断连）=> P0 Q-TTS-1202R 悬停 5.6h。
 - **处置**：三源实证（KV/MASTER-STATE/lanes）确认主控、总线、bm-a/bm-c 健康 => 两次 poke 点火失败 => 登记物理件；台账三件追加（DISPATCH-LOG/NEED-JUDGMENT/DEADLINES）；新缺陷 D-R261-POKECFG-STALE 登记；步8 cron 自续（8 班在位，清过期一次性探针 d3b03e69，按 v3 新立 +90min 回访探针）。
 - **未做**：未动受保护件（CHARTER/ROUND/L0 脚本/proxy-probe/cron 正身/master_agent.py）；未跨机改 bm-b（CEO 2026-10-23 令）；未改队列（master_agent 单写域）；物理件零催办。
+
+## R2.62 事件班（2026-11-01 17:51-18:0x·承载件触发·**同触发现重复投递**）｜班型=事件班｜调用数=~16｜verdict=DUPLICATE-NO-REACTION（零重登记·零重派）
+
+- **触发**：`[2026-11-01 17:11:05][PROBE] L0-DOWN: DISPATCH-LOG.md age 3.2h` —— 与 R2.61 完全同一条；锁 mtime 17:31:08（龄 20.3min > 10min）=> 执班门允许。
+- **判读**：R2.61 已于 17:11-17:27 全量处置。本班三源复验（MASTER-STATE cyc=864@17:40:30 / `cph4/fleet/lanes/*.json` / 队列计数）→ bm-b 仍 `online=false`、lanes ts 11:52:15、断连 6.0h，P0 Q-TTS-1202R 仍 RUNNING；bm-a/bm-c/bm-m 心跳 -0.7s/32.9s/1.8s，queue open1/running1/done54/failed3 零新增 => **无新增病灶**。
+- **处置**：按命令查重律零 poke、零新单、零重登记；三账追加（DISPATCH-LOG/NEED-JUDGMENT/DEADLINES）；记 L2 饥饿 SLO 违约 1 件；步8 cron 核（8 班 007d4701 在位、回访 194c8c8c 在位，无需重建）。
+- **未做**：未动受保护件（CHARTER/ROUND/L0 脚本/proxy-probe/cron 正身/master_agent.py）；未跨机改 bm-b（CEO 2026-10-23 令）；物理件零催办。
