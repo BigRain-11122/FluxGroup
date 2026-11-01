@@ -142,8 +142,7 @@ def tick(node, do_push=False):
                        "--no-fetch"], 3600)
     t_ps = "-"
     if do_push:
-        rc_ps, t_ps = push()
-        t_ps = "%s(%s)" % (rc_ps, t_ps)
+        t_ps = "rc=%s" % push()
     print("agent %s hb=%s(%s) lane=%s(%s) push=%s" % (node, rc_hb, t_hb, rc_ln, t_ln, t_ps))
     return 0 if rc_hb == 0 else 1
 
