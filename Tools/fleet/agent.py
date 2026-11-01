@@ -49,6 +49,10 @@ GEN_STATE = [
     "cph4/fleet/dispatcher/CLOCK-SKEW.json",
     "cph4/fleet/dispatcher/NEED-JUDGMENT.md",
     "docs/audits/selfaudit-report.md",
+    # R2.59: lane writes this pointer every round and it is tracked, so the tree was
+    # permanently dirty and every ff-only/rebase refused -- the same class of bug as
+    # R2.57's SUPERVISOR.md. Regenerated on the next lane round, so dropping it is free.
+    "cph4/fleet/queue-receipts/_last_lane_*.json",
 ]
 
 
