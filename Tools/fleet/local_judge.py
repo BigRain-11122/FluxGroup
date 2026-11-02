@@ -51,6 +51,10 @@ def brain_seat(root):
     for t in seat.get("tiers") or []:
         if str(t.get("state") or "").upper() != "ACTIVE":
             continue
+        # A tested upgrade seat (e.g. 8B judge) wins over the fast 4B seat.
+        jc = t.get("judge_candidate") or {}
+        if str(jc.get("state") or "").upper() == "ACTIVE" and jc.get("model"):
+            return (t.get("node") or "bm-m", jc["model"])
         if t.get("id") == "server" and t.get("endpoint") and t.get("model"):
             return (t.get("node") or "bm-d", t.get("model") or "")
     return ("bm-m", "")
@@ -64,6 +68,9 @@ def needs_cloud(answer: str) -> bool:
 def main():
     root = fl.ROOT_DEFAULT
     seat_node, seat_model = brain_seat(root)
+    if seat_model:
+        # fl.local_llm picks the lane's configured model; a bench-approved seat overrides it.
+        fl.LANES.setdefault(seat_node, {}).setdefault("llm", {})["model"] = seat_model
     path = os.path.join(root, fl.JUDGMENT_REL.replace("/", os.sep))
     rows = fl.read_jsonl(path)
     todo = [r for r in rows if r.get("state") == "OPEN"][:MAX_PER_CYCLE]
