@@ -244,6 +244,22 @@ def pull():
     # Diverged: local commits exist. Rebase onto the master, but only when the tree is clean --
     # git refuses on its own otherwise, so a shift mid-edit is never destroyed.
     commit_state()
+    # Whatever is left dirty is not fleet state (hand edits, quant settings, scratch files).
+    # git refuses to rebase over it, so park it in a stash, sync, and put it back. Without this
+    # the node can sit permanently diverged (2026-11-02: ahead/behind 6/8 with the only blocker
+    # being quant/.codely-cli/settings.json). A failed pop is logged, never fatal -- the work is
+    # still in the stash for a human to recover.
+    parked = False
+    try:
+        left = subprocess.run(["git", "status", "--porcelain"], cwd=ROOT,
+                              capture_output=True, text=True, timeout=60).stdout or ""
+        if any(ln.strip() and not ln.startswith("??") for ln in left.splitlines()):
+            rc_s, _ = run_msg(["git", "stash", "push", "-m", "auto-sync-bm-c"], 120)
+            parked = rc_s == 0
+            if parked:
+                note("parked local edits in stash before rebase")
+    except Exception:
+        pass
     rc3, full3 = git_full(["git", "rebase", "--no-autostash", "origin/main"], 180)
     tail3 = full3.replace("\n", " | ")[:240]
     if rc3 != 0 and "would be overwritten by checkout" in full3:
@@ -265,6 +281,10 @@ def pull():
             tail3 = "rebase completed after conflict resolution"
     if rc3 != 0:
         run_msg(["git", "rebase", "--abort"], 60)
+    if parked:
+        rc_p, _ = run_msg(["git", "stash", "pop"], 120)
+        if rc_p != 0:
+            note("stash pop conflicted; local edits kept in stash")
     note("ff-only blocked (%s) -> cleared %d gen-state -> rebase rc=%s %s"
          % (tail, len(cleared), rc3, tail3))
     if rc3 != 0:
