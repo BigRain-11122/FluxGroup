@@ -75,7 +75,7 @@ STAGES = [
     ("canary", ["Tools/fleet/canary.py"], 120, {0}, True),
     # 冷备（2026-11-02 实测：脚本从来没人调度，备份仓落后 341 个提交而报表全绿）。
     # 盘不在会写 state/backup.json 的 UNMOUNTED，并 rc=0 退出，不让掉盘拖红主控脉。
-    ("backup", ["/bin/bash", "Tools/fleet/backup_sync.sh"], 300, {0}, True),
+    ("backup", ["Tools/fleet/backup_sync.sh"], 300, {0}, True),
     ("gate", ["Tools/fleet/gate_report.py"], 180, {0}, True),
     ("checkups", ["Tools/fleet/checkups.py"], 180, {0, 2}, True),
     ("metrics", ["Tools/fleet/ops_metrics.py"], 90, {0}, True),
@@ -329,16 +329,19 @@ def push_if_ahead() -> str:
     try:
         r = git(["push", "origin", "HEAD:main"], timeout=90)
         if r.returncode != 0:
-            # Another node (bm-b/bm-c) pushes between our pull and push; rebase once, retry.
-            msg = _one_line(r.stderr, 120)
-            if "fetch first" in msg or "rejected" in msg:
-                pull_note = pull_if_clean()
-                if pull_note.startswith("ok"):
-                    r = git(["push", "origin", "HEAD:main"], timeout=90)
-                    if r.returncode == 0:
-                        return "ok+%d(after-rebase)" % ahead
-                return "rejected:%s | pull=%s" % (msg, pull_note)
-            return "failed:%s" % msg
+            # 多机同推：远端随时可能又前进。反复 fetch+收口+push，最多三次，
+            # 每次只允许生成态冲突（rebase_generated），绝不替人改代码。
+            for attempt in range(3):
+                msg = _one_line(r.stderr, 120)
+                if not ("fetch first" in msg or "rejected" in msg or "diverg" in msg):
+                    return "failed:%s" % msg
+                rb = rebase_generated()
+                if rb != "ok":
+                    return "rejected+%s" % rb
+                r = git(["push", "origin", "HEAD:main"], timeout=90)
+                if r.returncode == 0:
+                    return "ok+%d(after-sync-%d)" % (ahead, attempt + 1)
+            return "rejected(3-attempts):%s" % _one_line(r.stderr, 100)
     except subprocess.TimeoutExpired:
         return "timeout"
     return "ok+%d" % ahead
@@ -525,7 +528,16 @@ def run_stage(argv, timeout_s):
     try:
         # 周期件禁云（CEO 2026-11-02）：给每个阶段打标记，router 见到就拒绝升云。
         _env = dict(os.environ, FLUX_AUTOMATION="1")
-        r = subprocess.run([PY] + argv, cwd=ROOT, capture_output=True, text=True,
+        # 阶段不都是 python（2026-11-02 实测：backup 传 /bin/bash 被当成
+        # "python3 /bin/bash" → SyntaxError，备份阶段每轮红）。按扩展名选解释器。
+        first = str(argv[0])
+        if first.endswith(".sh"):
+            cmd = ["/bin/bash"] + argv
+        elif first.endswith(".ps1"):
+            cmd = ["pwsh", "-NoProfile", "-File"] + argv
+        else:
+            cmd = [PY] + argv
+        r = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True,
                            timeout=timeout_s, env=_env)
         out = (r.stdout or "").strip()
         err = (r.stderr or "").strip()
