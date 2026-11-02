@@ -100,6 +100,52 @@ def runner_pids(match):
         return []
 
 
+def free_ram_gb():
+    try:
+        import ctypes
+
+        class MS(ctypes.Structure):
+            _fields_ = [("dwLength", ctypes.c_ulong), ("dwMemoryLoad", ctypes.c_ulong),
+                        ("ullTotalPhys", ctypes.c_ulonglong), ("ullAvailPhys", ctypes.c_ulonglong),
+                        ("ullTotalPageFile", ctypes.c_ulonglong), ("ullAvailPageFile", ctypes.c_ulonglong),
+                        ("ullTotalVirtual", ctypes.c_ulonglong), ("ullAvailVirtual", ctypes.c_ulonglong),
+                        ("ullAvailExtendedVirtual", ctypes.c_ulonglong)]
+        m = MS()
+        m.dwLength = ctypes.sizeof(MS)
+        if ctypes.windll.kernel32.GlobalMemoryStatusEx(ctypes.byref(m)):
+            return round(m.ullAvailPhys / 1e9, 1)
+    except Exception:
+        pass
+    return None
+
+
+def reclaim_webview(below_gb=4.0):
+    """SearchHost spawns tens of msedgewebview2 children that nobody closes; measured
+    36 processes / ~5GB, and they respawn within minutes. Only touched when the render is
+    already short of RAM, and only the ones whose ROOT parent is SearchHost - never a
+    browser window the CEO is looking at."""
+    ram = free_ram_gb()
+    if ram is None or ram >= below_gb:
+        return 0
+    try:
+        out = subprocess.run(
+            ["powershell", "-NoProfile", "-Command",
+             "$r=@(); Get-CimInstance Win32_Process -Filter \"Name='msedgewebview2.exe'\" | "
+             "ForEach-Object { $p=Get-CimInstance Win32_Process -Filter ('ProcessId='+$_.ParentProcessId); "
+             "if ($p -and $p.Name -eq 'SearchHost.exe') { $r += $_.ProcessId } }; $r -join ','"],
+            capture_output=True, text=True, timeout=90, creationflags=NO_WINDOW).stdout
+        pids = [x.strip() for x in out.strip().split(",") if x.strip().isdigit()]
+        for pid in pids:
+            subprocess.run(["taskkill", "/PID", pid, "/T", "/F"], capture_output=True,
+                           timeout=30, creationflags=NO_WINDOW)
+        if pids:
+            log("reclaimed %d SearchHost webview process(es) at ram=%.1fGB" % (len(pids), ram))
+        return len(pids)
+    except Exception as e:
+        log("webview reclaim failed: %s" % e)
+        return 0
+
+
 def main():
     if "--once" not in sys.argv:
         pass
@@ -120,6 +166,8 @@ def main():
         time.sleep(3)
         if not start_comfy():
             return 1
+
+    reclaim_webview()
 
     if not os.path.exists(FLAG):
         return 0

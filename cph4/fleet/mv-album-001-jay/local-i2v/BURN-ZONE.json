@@ -1,8 +1,8 @@
 {
- "name": "w2-i2v",
- "note": "W2 两曲 i2v 补烧；guard 发现没有 runner 就按这条重放，runner 自身带 SKIP 语义，所以是续烧不是重烧",
- "cmd": ["cmd", "/c", "cph4\\fleet\\mv-album-001-jay\\local-i2v\\burn-w2-20261101.cmd"],
- "log": "media/mv-album-001-jay/logs/w2-i2v-20261101.log",
+ "name": "w2-i2v-short",
+ "note": "W2 两曲短镜(<=10s)批 v2；长镜(26单)待主控裁定。guard 发现无 runner 就重放，runner 带 SKIP 语义=续烧",
+ "cmd": ["cmd", "/c", "cph4\\fleet\\mv-album-001-jay\\local-i2v\\burn-w2-short-20261102.cmd"],
+ "log": "media/mv-album-001-jay/logs/w2-i2v-short.log",
  "match": "h3_i2v_album",
  "done": false
 }
