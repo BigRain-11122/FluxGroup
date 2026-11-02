@@ -1,40 +1,40 @@
 {
- "ts": "2026-11-02T18:44:45",
- "cycle": 1424,
+ "ts": "2026-11-02T18:45:59",
+ "cycle": 1425,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-02T18:44:45",
+ "master_tick_ts": "2026-11-02T18:45:59",
  "queue": {
   "total": 112,
-  "open": 1,
-  "running": 2,
+  "open": 0,
+  "running": 1,
   "done": 76,
-  "failed": 4
+  "failed": 5
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 14.6,
-   "cpu_load_pct": 26,
-   "ram_free_gb": 37.0,
-   "gpu_util_pct": 45,
-   "job": "RCANARY4-20261102T183254",
+   "hb_age_s": 44.4,
+   "cpu_load_pct": 65,
+   "ram_free_gb": 33.9,
+   "gpu_util_pct": 33,
+   "job": null,
    "last_result": {
     "job": "RCANARY4-20261102T183254",
-    "state": "RUNNING",
-    "rc": null,
-    "ts": "2026-11-02T18:44:35",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-02T18:44:50",
     "reason": null
    },
    "idle_confirmed": false,
-   "idle_reason": "",
+   "idle_reason": "DAY-YIELD: work machine, takes over at 19:00",
    "idle_rounds": 0
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 52.5,
-   "cpu_load_pct": 99,
-   "ram_free_gb": 1.8,
+   "hb_age_s": 7.3,
+   "cpu_load_pct": 86,
+   "ram_free_gb": 4.1,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
@@ -45,37 +45,37 @@
     "reason": null
    },
    "idle_confirmed": false,
-   "idle_reason": "CAPACITY-BLOCKED-RAM CPU-SATURATED 99%",
+   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
    "idle_rounds": 0
   },
   "bm-c": {
-   "online": false,
-   "hb_age_s": null,
+   "online": true,
+   "hb_age_s": 73.9,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
-   "job": null,
+   "job": "R-NEXT-BIGSTREAMD-TTS-QC-20261102",
    "last_result": null,
    "idle_confirmed": false,
-   "idle_reason": "CAPACITY-BLOCKED-RAM OFFLINE (hb age Nones)",
+   "idle_reason": "",
    "idle_rounds": 0
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.6,
-   "cpu_load_pct": 36,
+   "hb_age_s": 0.5,
+   "cpu_load_pct": 39,
    "ram_free_gb": 13.3,
    "gpu_util_pct": null,
-   "job": "R-TTS-QC-R2-20261102",
+   "job": null,
    "last_result": {
-    "job": null,
-    "state": "IDLE",
-    "rc": null,
-    "ts": "2026-11-02T18:43:31",
-    "reason": "SELF-DISPATCH: lane scans its own backlog"
+    "job": "R-TTS-QC-R2-20261102",
+    "state": "FAILED",
+    "rc": 1,
+    "ts": "2026-11-02T18:44:53",
+    "reason": null
    },
    "idle_confirmed": false,
-   "idle_reason": "",
+   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
    "idle_rounds": 0
   }
  },
@@ -118,13 +118,10 @@
    "stale_after_h": 72.0,
    "owner": "短剧席",
    "jobs": [
-    "R-TTS-QC-R2-20261102",
     "R-NEXT-BIGSTREAMD-TTS-QC-20261102"
    ],
    "no_supply": false,
-   "blockers": [
-    "R-NEXT-BIGSTREAMD-TTS-QC-20261102:no-lane"
-   ],
+   "blockers": [],
    "note": null
   },
   "bigstream-shortvideo": {
@@ -250,14 +247,12 @@
   "fleet-ops": {
    "name": "机队运维·端到端自检（平台服务线）",
    "status": "ACTIVE",
-   "verdict": "WORKING",
+   "verdict": "WAITING",
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
-   "jobs": [
-    "RCANARY4-20261102T183254"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": null
   }
@@ -734,12 +729,12 @@
   "by_kind": {
    "CAPACITY": 1
   },
-  "added": 1,
+  "added": 0,
   "tick_tier": "none",
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 1,
+  "local": 0,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -747,22 +742,23 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 1,
+  "cpu": 0,
   "gpu": 0
  },
  "supply_added": [
-  "backlog_manifest+2"
+  "backlog_manifest+1"
  ],
  "events": [
+  "RCANARY4-20261102T183254 UNVERIFIED(no-artifact-yet) via bm-a",
   "C-FIN-EQUITY-ALPHA FAILED via bm-b",
-  "R-TTS-QC-R2-20261102 -> bm-m (cpu)"
+  "R-TTS-QC-R2-20261102 FAILED via bm-m",
+  "R-NEXT-BIGSTREAMD-TTS-QC-20261102 -> bm-c (cpu)"
  ],
  "violations": [
-  "bm-b CAPACITY-BLOCKED-RAM",
-  "bm-c OFFLINE",
   "LINE-BLOCKED bigstream-drama ()"
  ],
  "lane_files_written": [
+  "bm-a",
   "bm-b",
   "bm-c",
   "bm-m"
