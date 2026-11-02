@@ -1,8 +1,23 @@
 {
  "node": "bm-a",
- "ts": "2026-11-02T18:50:56",
- "jobs": [],
- "idle_reason": "DAY-YIELD: work machine, takes over at 19:00",
+ "ts": "2026-11-02T18:52:09",
+ "jobs": [
+  {
+   "id": "C-FIN-EQUITY-ALPHA",
+   "title": "ETF 权益档单列：纯权益 alpha 与债档分离对照",
+   "cmd": "python quant/bigmoney/scripts/etf_equity_alpha.py",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "quant/bigmoney/results/etf_equity_alpha.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  }
+ ],
+ "idle_reason": "",
  "lane_ok": false,
  "capacity_note": "daytime heavy-yield (09:00-19:00); light CPU allowed"
 }
