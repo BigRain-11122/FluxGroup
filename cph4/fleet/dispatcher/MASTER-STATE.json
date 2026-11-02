@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-02T15:34:51",
- "cycle": 1271,
+ "ts": "2026-11-02T15:36:01",
+ "cycle": 1272,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-02T15:34:51",
+ "master_tick_ts": "2026-11-02T15:36:01",
  "queue": {
   "total": 102,
   "open": 0,
@@ -14,10 +14,10 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 20.1,
-   "cpu_load_pct": 47,
-   "ram_free_gb": 19.6,
-   "gpu_util_pct": 1,
+   "hb_age_s": 46.7,
+   "cpu_load_pct": 76,
+   "ram_free_gb": 17.5,
+   "gpu_util_pct": 9,
    "job": null,
    "last_result": {
     "job": null,
@@ -32,16 +32,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 16.2,
-   "cpu_load_pct": 76,
+   "hb_age_s": 9.6,
+   "cpu_load_pct": 79,
    "ram_free_gb": 5.6,
-   "gpu_util_pct": 100,
+   "gpu_util_pct": null,
    "job": "R-TTS-QC-R2-20261102",
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-02T15:34:43",
+    "ts": "2026-11-02T15:35:44",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": false,
@@ -50,7 +50,7 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 144.7,
+   "hb_age_s": 214.4,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -63,7 +63,7 @@
   "bm-m": {
    "online": true,
    "hb_age_s": 0.5,
-   "cpu_load_pct": 26,
+   "cpu_load_pct": 25,
    "ram_free_gb": 14.3,
    "gpu_util_pct": null,
    "job": null,
@@ -71,19 +71,19 @@
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-02T15:33:37",
+    "ts": "2026-11-02T15:34:51",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 33
+   "idle_rounds": 34
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 33
+  "bm-m": 34
  },
  "lines": {
   "bigstream-mv": {
@@ -716,14 +716,10 @@
   "gpu": 0
  },
  "supply_added": [],
- "events": [
-  "R-TTS-QC-R2-20261102 -> bm-b (cpu)"
- ],
+ "events": [],
  "violations": [
-  "bm-m IDLE-CONFIRMED x33 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-m IDLE-CONFIRMED x34 (SELF-DISPATCH: lane scans its own backlo)",
   "LINE-BLOCKED bigstream-drama ()"
  ],
- "lane_files_written": [
-  "bm-b"
- ]
+ "lane_files_written": []
 }
