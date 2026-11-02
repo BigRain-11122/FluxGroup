@@ -1,0 +1,12 @@
+{
+ "id": "R-PLAN-BIGDOMAIN-20261102",
+ "node": "bm-m",
+ "rc": 127,
+ "seconds": 0.0,
+ "cmd": "python Tools/fleet/line_triage.py --line bigdomain",
+ "deliverable": "cph4/fleet/queue-receipts/triage-bigdomain-20261102.md",
+ "deliverable_exists": false,
+ "ts": "2026-11-02T10:30:54",
+ "stdout_tail": "",
+ "stderr_tail": "/bin/sh: python: command not found\n"
+}
