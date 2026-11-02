@@ -154,6 +154,14 @@ def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
         return {"id": jid, "rc": None, "note": "empty job (no prompt)"}
     if fl.game_launch_blocked(cmd):
         return {"id": jid, "rc": None, "note": "BLOCKED-GAME-LAUNCH (CEO 2026-10-28)"}
+
+    # 解释器归一（2026-11-02 实测）：卡在 Windows 上写成 `python ...`，Mac 执行器 PATH 里
+    # 只有 python3，于是 rc=127 且 0.0 秒、零产物（回执 R-TRIAGE-BIGSTREAMDRAMA 实锚）。
+    # 这里按"本机有没有 python"决定是否改写，而不是靠人记得写对。
+    import shutil as _sh
+    if cmd.startswith("python ") and not _sh.which("python"):
+        cmd = "python3 " + cmd[len("python "):]
+        job["cmd_resolved"] = cmd
     # CEO 2026-10-30 "缺什么让他自己装啊": self-heal the toolchain on THIS box, in the
     # lane's own process, before spending a claim on a command that cannot run.
     try:
@@ -327,29 +335,64 @@ def self_dispatch(root, node, allow_gpu_workhours, max_seconds, hub, port, dry):
         return None
     qpath = os.path.join(root, fl.QUEUE_REL.replace("/", os.sep))
     rows = fl.read_jsonl(qpath)
-    pick = None
-    for r in rows:
-        if r.get("state") != "OPEN":
-            continue
+
+    # 2026-11-02 换挡：卡的 nodes 是偏好，不是硬过滤。
+    # 实测两张开给 bm-c 的 CPU 卡在队列里躺了 15 分钟没动（bm-c 心跳 882s 沉默），
+    # 而 bm-m/bm-a 空着——"等指定机器"就是流程缺陷。规则：
+    #   第一轮只认本机在名单里的卡；第二轮允许接"名单上的机器已失联"的卡（附 fallback 标记）。
+    GRACE_S = 600
+
+    def _pins_stale(nodes):
+        if not nodes:
+            return True
+        ms = fl.read_json(os.path.join(root, "cph4", "fleet", "dispatcher", "MASTER-STATE.json"), {}) or {}
+        lanes = ms.get("lanes") or {}
+        for n in nodes:
+            v = lanes.get(n) or {}
+            hb = v.get("hb_age_s")
+            if v.get("online") and hb is not None and float(hb) <= GRACE_S:
+                return False
+        return True
+
+    def _eligible(r, strict):
         nodes = r.get("nodes") or []
-        if nodes and node not in nodes:
-            continue
+        if strict:
+            if nodes and node not in nodes:
+                return False
+        else:
+            if node in nodes:
+                return False          # 已在第一轮处理
+            if not _pins_stale(nodes):
+                return False          # 指定机器还活着，先让它干
         # 2026-10-30 master fix: when_all on C:/D:/ paths is not checkable on the master
         # box (macOS + sparse checkout). The lane owns its own filesystem -> verify here.
         wa = r.get("when_all") or []
         if wa and not all(os.path.exists(x) for x in wa):
-            continue
+            return False
         req = r.get("requires") or []
         if req and not all(os.path.exists(x) for x in req):
-            continue
+            return False
         if fl.game_launch_blocked(r.get("cmd") or ""):
-            continue
+            return False
         if r.get("heavy") and not fl.heavy_allowed(node) and not allow_gpu_workhours:
-            continue
+            return False
         if (r.get("needs") == "gpu") and not fl.gpu_window_open(node) and not allow_gpu_workhours:
-            continue
-        pick = r
-        break
+            return False
+        return True
+
+    pick = None
+    for strict in (True, False):
+        for r in rows:
+            if r.get("state") != "OPEN":
+                continue
+            if _eligible(r, strict):
+                pick = r
+                if not strict:
+                    pick["fallback_from"] = r.get("nodes")
+                    pick["fallback_why"] = "pinned lane silent >%ds; any capable lane may take it" % GRACE_S
+                break
+        if pick:
+            break
     if not pick:
         return None
     if dry:

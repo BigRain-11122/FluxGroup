@@ -198,6 +198,28 @@ def main():
         merge_rows(backlog_p, healed_rows)
     if healed:
         report.append("- R0 healed %d card(s) off a legacy root path" % healed)
+
+    # R7 DEAD-READY: 积压里 READY、但队列里同名卡早已了结（DONE/CANCELLED/ARCHIVED）的行。
+    # 2026-11-02 实测 11 张这种尸体：night_fill 用"id 在队列出现过"就排除，于是既不给活
+    # 也不报缺口，队列永远 0 张、机器空转。这里按事实归档，让"有供给"不再说谎。
+    qstate = {}
+    for r in queue:
+        qstate[r.get("id")] = r.get("state")
+    dead = []
+    for r in backlog:
+        if r.get("state") != "READY":
+            continue
+        st = qstate.get(r.get("id"))
+        if st in ("DONE", "CANCELLED", "ARCHIVED", "SUPERSEDED"):
+            r["state"] = "ARCHIVED"
+            r["archived_at"] = stamp
+            r["archived_by"] = "workgen R7: queue twin already %s" % st
+            dead.append(r)
+    if dead:
+        report.append("- R7 archived %d dead READY row(s) whose queue twin is finished" % len(dead))
+        if not a.dry:
+            merge_rows(backlog_p, dead)
+
     budget = MAX_CARDS_PER_RUN
     triaged_lines = set()   # one triage card per line per run, whichever box holds it
 

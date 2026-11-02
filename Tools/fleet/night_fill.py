@@ -52,29 +52,44 @@ def main(argv):
 
     q = fl.read_jsonl(QUEUE)
     open_cards = [r for r in q if r.get("state") == "OPEN"]
+    used = Counter(org_of.get(r.get("line") or "", "platform")
+                   for r in q if r.get("state") in ("OPEN", "RUNNING"))
     if len(open_cards) >= a.target:
         print("队列已有 %d 张待领，够用，不灌" % len(open_cards))
         return 0
 
-    have_ids = {r.get("id") for r in q}
-    used = Counter(org_of.get(r.get("line") or "", "platform")
-                   for r in q if r.get("state") in ("OPEN", "RUNNING"))
-    nights = [r for r in q if r.get("night")]
-    if nights:
-        print("夜间包已在（%d 张），不重复灌" % len(nights))
+    # 2026-11-02 实测病根：backlog 里 11 张 READY，全部是"队列里同名卡早已 DONE/CANCELLED"
+    # 的尸体。旧逻辑用"id 出现在队列任何状态"就排除，于是既不给活、也不报缺口，
+    # 队列永远 0 张、机器永久空转。改为按队列状态分流：在跑的跳过，已了结的算尸体，
+    # 只有真正从没进过队列的才算候选。
+    qstate = {}
+    for r in q:
+        qstate[r.get("id")] = r.get("state")
+    TERMINAL = ("DONE", "CANCELLED", "ARCHIVED", "SUPERSEDED")
+    nights_open = [r for r in q if r.get("night") and r.get("state") in ("OPEN", "RUNNING")]
+    if nights_open:
+        print("夜间包已在（%d 张在跑/待领），不重复灌" % len(nights_open))
         return 0
 
     cands = []
+    stale = []
     for r in fl.read_jsonl(BACKLOG):
         if r.get("state") != "READY" or not r.get("cmd"):
             continue
-        if r.get("id") in have_ids:
+        st = qstate.get(r.get("id"))
+        if st in ("OPEN", "RUNNING"):
+            continue
+        if st in TERMINAL:
+            stale.append(r)
             continue
         if not (r.get("line") or r.get("nodes")):
             continue
         cands.append(r)
     # 先 P0，再按创建时间
     cands.sort(key=lambda r: (prio_of.get(r.get("line"), "P2"), str(r.get("created_at") or "")))
+    if stale:
+        print("积压里有 %d 张 READY 是尸体（队列里已了结），不计入供给：%s"
+              % (len(stale), ", ".join(r.get("id") for r in stale[:5])))
 
     picked = []
     for r in cands:

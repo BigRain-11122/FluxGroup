@@ -16,6 +16,7 @@ import argparse
 import json
 import os
 import re
+import sys
 import time
 
 
@@ -34,11 +35,13 @@ def _load(path):
 
 
 def _save(path, rows):
-    tmp = path + ".tmp"
-    with open(tmp, "w", encoding="utf-8") as f:
-        for r in rows:
-            f.write(json.dumps(r, ensure_ascii=False) + "\n")
-    os.replace(tmp, path)
+    # 队列只有一个写入口（2026-11-02）：交给 fleet_lane 加锁按 id 合并。
+    # 这里原来自己写 .tmp 再 os.replace 整表——而 lane_agent 每个周期都会调 fill()，
+    # 于是它是第七条隐式写入口：与主控/补料同轮时，谁后写谁把对方的行抹掉。
+    sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(
+        os.path.abspath(__file__))), "Tools", "fleet"))
+    import fleet_lane as _fl
+    return _fl.merge_jsonl(path, rows)
 
 
 def _ep(name):
