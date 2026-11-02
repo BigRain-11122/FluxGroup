@@ -48,7 +48,7 @@
      "cmd": "python Tools/fleet/tts_batch_check.py --dir media/drama-tts-out/r1202_ep001_060 --out cph4/fleet/queue-receipts/tts-qc-{date}.json",
      "deliverable": "cph4/fleet/queue-receipts/tts-qc-{date}.json",
      "accept": "每集有实测时长与静音判定；缺失集列明是「未生成」还是「生成失败」，不许只给总数",
-     "requires": ["Tools/fleet/tts_batch_check.py"]
+     "requires": ["Tools/fleet/tts_batch_check.py", "media/drama-tts-out/r1202_ep001_060"]
     }
    ]
   },

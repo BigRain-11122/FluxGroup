@@ -996,3 +996,19 @@ if prev_by and prev_by != owner_node:
 [2026-11-02 13:5x][PROXY R2.68-ERRATUM] R2.68 行调用数勘正：实际 ≈27（非 12）——含协议/锁门/三件读数/KV 探针/origin 核验/56 笔树拉平+4 笔回执上链/反转闸 330 行判读；超例行巡班 10 帽部分=树拉平与回执上链为真实必要收口（D-R259-NOPUSH 悬笔风险面），非全量深挖复算。
 [2026-11-03 00:02-00:4x][PROXY R2.69 事件班·承载件触发：probe L0-DOWN age 10.2h]｜调用≈20｜verdict=METRONOME(第14次)+LOCAL-TREE-DIVERGED(真故障·本班收口)。两因分离：(a) 13:46 R2.68 后 15:43/18:43/21:43/23:43 四班无 idle 会话未触发+19:41/19:56/20:11 三 probe 无人接=日志龄自然越阈（R2.61 STANDING-PRECEDENT）；(b) 真故障=本机树 33 ahead/212 behind——33 笔全为 D-R267 僵尸 artifact 重放（R-TRIAGE-BIGSTREAMDRAMA×29+C-TTS-QC-ALL×4·lanes/bm-a.json 钉旧卡=D-R264-LANEFILE-STALE-REPLAY 未修）+pull 腿被 CODELY/evolution-ledger/reflection-journal/settings 四件真内容脏面卡死（20:14 起连败）。三源核验=主控健康（origin tip 00:00:47 [via bm-m] 每分钟 pulse·三机心跳 9.9/31.9/34.8s）+bm-c 复活（翻案 R2.68「停机持续」）。行动=备份全景（backup/bm-a-20261103-0002+八件+脏补丁）→reset 收口→重放真内容（CODELY 四条目+值守轮两台账）→LOG 尾 14 行冲突标记剥离（D-R267-MERGE-MARKERS 第2次复发·origin 同带·块内零真内容·白名单校验）→滞留回执上链（R-TRIAGE…-bm-a.json+triage-bigstream-drama-20261102.md）。新裁决=TTS-QC 双卡 UNVERIFIED≠没干活（rc=0 证据已写执行机·bm-b 幻影头/bm-c 陈树推送腿死·候本机 git 收口·物理件零催办·收口前 chief 重排噪声有界）。零 poke（三机活且领卡·防双烧）。复探见下行。
 [2026-11-03 00:2x-00:3x][PROXY R2.69-复探收口] BURNING 全绿：①agent-pull 00:14:28 ff-only ok（树收口后复绿·00:19:21 steward 轮 rc=0 跑 ~11min 长卡后正常收口·00:34 起恢复 5min 节律）；②僵尸重放止停（末笔 bm-a artifact=06199ff6 00:14:38 合法 lane 卡·R-TRIAGE 回执已由 bm-m 代收 9501b539 上链）；③树 0/0+四件内容 origin 实证（CODELY 四条目/EVO 值守轮块/LOG 剥离+R2.69 行/NJ 六条裁决）；④origin 主控分秒级活性。步8：删重复班次 cron 007d4701（双注册双触发白烧·保 R2.68 在案重建 b3fe38a2）+清过期残留 108dc4d7+建 R2.69 回访探针 0dacc655@01:56（一次性 durable·prompt 含本班旗清单）。预判注记：origin lane 实证 chief 已将 C-TTS-QC-ALL 改派 bm-a（本机无 media/drama-tts-out→rc=1 失败重试噪声·NJ R2.69 段已登记不干预活队列）；bigdomain 回执留 untracked（与 NJ 同窗被 clear 吞·非关键候下班）。D-R267-GENSTATE-CLOBBER 第2实锚教训=台账批量写入禁跨工具调用窗悬置暂存面（本班已用禁任务过窗+同窗原子化正法）。班毕锁收口。调用≈30。
+
+[2026-11-03 03:56-04:1x][PROXY R2.71 事件班] 承载件触发（DISPATCH-LOG 3.2h）→ 复盘 00:44 后复发两病并当场修死：队列去重折叠（314→181）+ 错节点空烧（requires 前置闸 + E-INPUT 分类 + 三张僵尸卡退役 + 今日卡修派 bm-b）+ 投 bm-b 盘点卡。bm-b poke 04:02:54 accepted。四机在线、主控 cycle 22 正常；bm-c ram 0.1GB 只登记不动作。复探结果见 DISPATCH-LOG 下行。
+<<<<<<<
+||||||| Stash base
+=======
+=======
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
+<<<<<<< HEAD
+>>>>>>> 18a81cbb (MV 交付闸首跑定罪 + 两处闸缺陷修 + SUPPLY-DRY 翻案补料)
