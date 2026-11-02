@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-03T01:00:31",
- "cycle": 2,
+ "ts": "2026-11-03T01:01:37",
+ "cycle": 3,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-03T01:00:31",
+ "master_tick_ts": "2026-11-03T01:01:37",
  "queue": {
   "total": 299,
   "open": 0,
@@ -14,9 +14,9 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 17.8,
-   "cpu_load_pct": 27,
-   "ram_free_gb": 31.9,
+   "hb_age_s": 23.6,
+   "cpu_load_pct": 40,
+   "ram_free_gb": 31.7,
    "gpu_util_pct": 10,
    "job": "R-NEXT-BIGSTREAMD-TTS-QC-20261103",
    "last_result": {
@@ -32,9 +32,9 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 41.4,
-   "cpu_load_pct": 2,
-   "ram_free_gb": 4.2,
+   "hb_age_s": 47.5,
+   "cpu_load_pct": 4,
+   "ram_free_gb": 4.5,
    "gpu_util_pct": null,
    "job": "R-TTS-QC-R2-20261102",
    "last_result": null,
@@ -44,16 +44,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 35.1,
-   "cpu_load_pct": 5,
-   "ram_free_gb": 7.5,
-   "gpu_util_pct": 0,
+   "hb_age_s": 18.3,
+   "cpu_load_pct": 4,
+   "ram_free_gb": 7.1,
+   "gpu_util_pct": 1,
    "job": "C-TTS-QC-ALL",
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-03T01:00:01",
+    "ts": "2026-11-03T01:01:24",
     "reason": "ALREADY-CLOSED C-TTS-QC-ALL"
    },
    "idle_confirmed": false,
@@ -62,17 +62,17 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.6,
-   "cpu_load_pct": 23,
-   "ram_free_gb": 14.8,
+   "hb_age_s": 0.5,
+   "cpu_load_pct": 14,
+   "ram_free_gb": 14.9,
    "gpu_util_pct": null,
    "job": "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102",
    "last_result": {
-    "job": "R-TRIAGE-FLEETOPS-BMA-20261103",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-03T00:59:25",
-    "reason": null
+    "job": null,
+    "state": "IDLE",
+    "rc": null,
+    "ts": "2026-11-03T01:00:31",
+    "reason": "ALREADY-CLOSED R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102"
    },
    "idle_confirmed": false,
    "idle_reason": "",
@@ -770,8 +770,6 @@
  },
  "supply_added": [],
  "events": [
-  "R-TRIAGE-FLEETOPS-BMA-20261103 DONE via bm-m",
-  "R-NEXT-BIGSTREAMD-TTS-QC-20261103 -> bm-a (cpu)",
   "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102 -> bm-m (cpu)"
  ],
  "violations": [
@@ -779,8 +777,5 @@
   "STAGE-STALLED bigstream-duanju 卡在 剧本/编剧席 (短剧席)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
- "lane_files_written": [
-  "bm-a",
-  "bm-m"
- ]
+ "lane_files_written": []
 }
