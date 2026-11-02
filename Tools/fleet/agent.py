@@ -156,6 +156,30 @@ def git_full(argv, timeout=180):
         return 1, str(e)
 
 
+def resolve_rebase_conflicts():
+    """Finish a conflicted rebase instead of aborting it.
+
+    Why (2026-11-02): the master and this node both touch the shared queue/backlog and both
+    produce receipts, so replaying a local artifact commit hits add/add conflicts
+    (cph4/fleet/queue-receipts/mv-transition.json on bm-c). Aborting there means the node can
+    never catch up: every cycle finds the same conflict. Rule: shared state belongs to the
+    master (take origin), our own artifacts belong to us (take the commit being applied).
+    """
+    rc, out = git_full(["git", "diff", "--name-only", "--diff-filter=U"], 60)
+    files = [p.strip() for p in out.splitlines() if p.strip()]
+    if not files:
+        return 1
+    for p in files:
+        side = "--ours" if p.startswith("cph4/fleet/PRODUCTION-QUEUE.jsonl") or \
+            p.startswith("cph4/fleet/PRODUCTION-BACKLOG.jsonl") or \
+            p.startswith("cph4/fleet/plans/") else "--theirs"
+        run_msg(["git", "checkout", side, "--", p], 60)
+        run_msg(["git", "add", "--", p], 60)
+    note("resolved %d rebase conflicts" % len(files))
+    r, _ = run_msg(["git", "-c", "core.editor=true", "rebase", "--continue"], 180)
+    return r
+
+
 def stash_untracked_collisions(msg):
     """Move aside untracked files the checkout refuses to overwrite.
 
@@ -233,8 +257,13 @@ def pull():
         # is what made the next cycle start diverged again.
         run_msg(["git", "push", "origin", "HEAD:main"], 120)
     if rc3 != 0:
-        # Never leave a half-finished rebase behind: that residue is exactly what turned into
-        # the stuck-rebase / detached-HEAD loop (D-R256-STUCKREBASE).
+        # A conflicted replay is recoverable: master wins on shared state, we win on our own
+        # artifacts. Only abort when even that fails, so no half-finished rebase is left behind
+        # (that residue is exactly what turned into the stuck-rebase / detached-HEAD loop).
+        if resolve_rebase_conflicts() == 0:
+            rc3 = 0
+            tail3 = "rebase completed after conflict resolution"
+    if rc3 != 0:
         run_msg(["git", "rebase", "--abort"], 60)
     note("ff-only blocked (%s) -> cleared %d gen-state -> rebase rc=%s %s"
          % (tail, len(cleared), rc3, tail3))
