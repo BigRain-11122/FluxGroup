@@ -45,11 +45,12 @@ def live_state(root, node, hub, port):
         pass
     # CPU 遥测（此前完全缺失：调度只能看内存与显存，CPU 是瞎的）
     try:
-        cores = os.cpu_count() or 1
-        st["cpu_cores"] = cores
-        st["cpu_load_pct"] = int(round(100.0 * min(os.getloadavg()[0], cores) / cores))
+        st["cpu_cores"] = os.cpu_count() or 1
     except Exception:
         pass
+    pct = fl.cpu_load_pct(root, node)
+    if pct is not None:
+        st["cpu_load_pct"] = pct
     try:
         p = subprocess.run(["nvidia-smi", "--query-gpu=utilization.gpu,memory.free",
                             "--format=csv,noheader,nounits"],

@@ -277,6 +277,65 @@ def kv_get(key, host=HUB_DEFAULT, port=PORT_DEFAULT, timeout=3.0):
 
 
 # ---- admission ----------------------------------------------------------------
+def cpu_load_pct(root, node):
+    """CPU busy percentage, or None when it genuinely cannot be measured.
+
+    Why (2026-11-02): every lane published ram_free_gb but no CPU at all, so the master
+    could only aim work by RAM and VRAM - local CPU capacity sat unused while the boxes
+    looked "unknown". The straight `os.getloadavg()` fix only works on macOS: Windows has
+    no such call, so the except-branch swallowed it and the field stayed null on all three
+    Windows nodes. Windows is therefore derived from GetSystemTimes deltas against the
+    previous sample (Windows has no instantaneous CPU counter).
+    """
+    try:
+        cores = os.cpu_count() or 1
+    except Exception:
+        cores = 1
+    if os.name != "nt":
+        try:
+            return int(round(100.0 * min(os.getloadavg()[0], cores) / cores))
+        except Exception:
+            return None
+    # Separate sample file from fleet_hb's: two writers sharing one sample would each
+    # consume the other's timestamp and halve every delta window.
+    try:
+        import ctypes
+
+        class FILETIME(ctypes.Structure):
+            _fields_ = [("lo", ctypes.c_uint), ("hi", ctypes.c_uint)]
+
+        def _ticks(ft):
+            return (ft.hi << 32) + ft.lo
+
+        idle, kernel, user = FILETIME(), FILETIME(), FILETIME()
+        if not ctypes.windll.kernel32.GetSystemTimes(ctypes.byref(idle),
+                                                     ctypes.byref(kernel),
+                                                     ctypes.byref(user)):
+            return None
+        cur = {"idle": _ticks(idle), "total": _ticks(kernel) + _ticks(user)}
+        path = os.path.join(root or ROOT_DEFAULT, "Tools", "nats", "data",
+                            "cpusample-lane.%s.json" % node)
+        prev = None
+        try:
+            with open(path, encoding="utf-8") as f:
+                prev = json.load(f)
+        except Exception:
+            pass
+        try:
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            with open(path, "w", encoding="utf-8") as f:
+                json.dump(cur, f)
+        except Exception:
+            pass
+        if prev and cur["total"] > prev.get("total", 0):
+            d_total = cur["total"] - prev["total"]
+            d_idle = cur["idle"] - prev.get("idle", 0)
+            return int(round(100.0 * (d_total - d_idle) / d_total))
+    except Exception:
+        pass
+    return None
+
+
 def game_launch_blocked(cmd):
     low = (cmd or "").lower()
     return any(bad in low for bad in GAME_LAUNCH_DENY)
