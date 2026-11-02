@@ -1,19 +1,18 @@
 {
- "ts": "2026-11-02T21:19:56",
+ "ts": "2026-11-02T21:25:56",
  "stage": 3,
  "adoption": {
   "days": 1,
-  "applied": 31,
-  "total": 34,
-  "rate": 91.2,
+  "applied": 34,
+  "total": 36,
+  "rate": 94.4,
   "eligible_stage4": false
  },
  "decisions": [
   {
    "kind": "flag",
-   "why": "2 台机空转且有活",
+   "why": "1 台机空转且有活",
    "target": [
-    "bm-a",
     "bm-m"
    ],
    "min_stage": 1,
@@ -23,6 +22,17 @@
    "kind": "requeue",
    "why": "1 张卡在跑但 1 小时无回执",
    "target": [
+    "R-TTS-QC-R2-20261102"
+   ],
+   "min_stage": 3,
+   "result": "applied"
+  },
+  {
+   "kind": "promote",
+   "why": "队列空，候选 4 张",
+   "target": [
+    "C-VB-DISCOVER-V03",
+    "C-VB-DISCOVER-V03",
     "R-TTS-QC-R2-20261102"
    ],
    "min_stage": 3,
@@ -45,6 +55,10 @@
    "ids": [
     "R-TTS-QC-R2-20261102"
    ]
+  },
+  {
+   "kind": "promote",
+   "out": "积压里有 2 张 READY 是尸体（队列里已了结），不计入供给：C-VB-DISCOVER-V03, C-VB-DISCOVER-V03\n候选卡为 0（README 里没活可补）——这属于供给缺口，不是调度故障"
   }
  ],
  "brief": "/Users/junsheng.sun/FluxGroup/cph4/fleet/chief/BRIEF-20261102.md"
