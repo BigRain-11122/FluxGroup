@@ -1,0 +1,10 @@
+{
+ "line": "cph4-lab",
+ "priority": "P1",
+ "evidence": ["Tools/fleet", "cph4/skills", "cph4/fleet/LAB-TOOL-LEDGER.jsonl"],
+ "checks": [
+  {"name": "近 14 天有新工具", "type": "age_h", "path": "Tools/fleet", "pattern": "*.py", "max": 336},
+  {"name": "有工具台账", "type": "glob", "path": "cph4/fleet", "pattern": "LAB-TOOL-LEDGER.jsonl", "min": 1},
+  {"name": "技能库非空", "type": "glob", "path": "cph4/skills", "pattern": "SKILL.md", "min": 3}
+ ]
+}
