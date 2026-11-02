@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-03T02:12:19",
- "cycle": 53,
+ "ts": "2026-11-03T02:13:29",
+ "cycle": 54,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-03T02:12:19",
+ "master_tick_ts": "2026-11-03T02:13:29",
  "queue": {
   "total": 305,
   "open": 2,
@@ -14,9 +14,9 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 6.1,
-   "cpu_load_pct": 7,
-   "ram_free_gb": 35,
+   "hb_age_s": 16.2,
+   "cpu_load_pct": 22,
+   "ram_free_gb": 33.6,
    "gpu_util_pct": 10,
    "job": "C-TTS-QC-ALL",
    "last_result": {
@@ -32,9 +32,9 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 87.6,
-   "cpu_load_pct": 82,
-   "ram_free_gb": 2.7,
+   "hb_age_s": 39.7,
+   "cpu_load_pct": 12,
+   "ram_free_gb": 3.2,
    "gpu_util_pct": null,
    "job": "R-TTS-QC-R2-20261102",
    "last_result": null,
@@ -44,16 +44,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 9.0,
+   "hb_age_s": 79.2,
    "cpu_load_pct": 13,
    "ram_free_gb": 0.2,
    "gpu_util_pct": 100,
    "job": null,
    "last_result": {
     "job": "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102",
-    "state": "RUNNING",
-    "rc": null,
-    "ts": "2026-11-03T02:12:14",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-03T02:12:31",
     "reason": null
    },
    "idle_confirmed": false,
@@ -71,7 +71,7 @@
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-03T02:11:09",
+    "ts": "2026-11-03T02:12:19",
     "reason": "ALREADY-CLOSED C-TTS-QC-ALL"
    },
    "idle_confirmed": false,
