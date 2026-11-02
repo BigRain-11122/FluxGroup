@@ -1,29 +1,29 @@
 {
- "ts": "2026-11-03T05:49:26",
- "cycle": 1,
+ "ts": "2026-11-03T05:50:40",
+ "cycle": 2,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-03T05:49:26",
+ "master_tick_ts": "2026-11-03T05:50:40",
  "queue": {
   "total": 186,
   "open": 0,
-  "running": 3,
+  "running": 2,
   "done": 112,
-  "failed": 2
+  "failed": 3
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 0.3,
-   "cpu_load_pct": 11,
-   "ram_free_gb": 35.7,
+   "hb_age_s": 26.7,
+   "cpu_load_pct": 45,
+   "ram_free_gb": 34.9,
    "gpu_util_pct": 10,
    "job": "R-NEXT-BIGSTREAMD-TTS-QC-20261103",
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-03T05:44:38",
+    "ts": "2026-11-03T05:49:29",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": false,
@@ -32,9 +32,9 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 36.8,
-   "cpu_load_pct": 62,
-   "ram_free_gb": 6,
+   "hb_age_s": 50.9,
+   "cpu_load_pct": 10,
+   "ram_free_gb": 5.9,
    "gpu_util_pct": null,
    "job": "R-TTS-QC-R2-20261102",
    "last_result": null,
@@ -44,45 +44,45 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 74.0,
-   "cpu_load_pct": 9,
-   "ram_free_gb": 0.2,
-   "gpu_util_pct": 10,
+   "hb_age_s": 74.7,
+   "cpu_load_pct": 7,
+   "ram_free_gb": 0.1,
+   "gpu_util_pct": 0,
    "job": null,
    "last_result": {
-    "job": null,
-    "state": "IDLE",
-    "rc": null,
-    "ts": "2026-11-03T05:48:17",
-    "reason": "ALREADY-CLOSED C-TTS-QC-ALL"
-   },
-   "idle_confirmed": true,
-   "idle_reason": "CAPACITY-BLOCKED-RAM ram 0.2/1.0 GB",
-   "idle_rounds": 1
-  },
-  "bm-m": {
-   "online": true,
-   "hb_age_s": 0.5,
-   "cpu_load_pct": 20,
-   "ram_free_gb": 15.3,
-   "gpu_util_pct": null,
-   "job": "C-TTS-QC-ALL",
-   "last_result": {
-    "job": "CANARY-20261103T054924",
+    "job": "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-03T05:49:25",
+    "ts": "2026-11-03T05:49:45",
     "reason": null
    },
    "idle_confirmed": false,
-   "idle_reason": "",
+   "idle_reason": "CAPACITY-BLOCKED-RAM ram 0.1/1.0 GB",
+   "idle_rounds": 0
+  },
+  "bm-m": {
+   "online": true,
+   "hb_age_s": 0.6,
+   "cpu_load_pct": 17,
+   "ram_free_gb": 14.4,
+   "gpu_util_pct": null,
+   "job": null,
+   "last_result": {
+    "job": "C-TTS-QC-ALL",
+    "state": "FAILED",
+    "rc": 1,
+    "ts": "2026-11-03T05:49:31",
+    "reason": null
+   },
+   "idle_confirmed": false,
+   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
    "idle_rounds": 0
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
-  "bm-c": 1,
+  "bm-c": 0,
   "bm-m": 0
  },
  "lines": {
@@ -754,7 +754,7 @@
   "by_kind": {
    "CAPACITY": 1
   },
-  "added": 0,
+  "added": 1,
   "tick_tier": "none",
   "judgment_tier": "cloud-smart"
  },
@@ -770,13 +770,9 @@
   "cpu": 0,
   "gpu": 0
  },
- "supply_added": [
-  "backlog_manifest+1"
- ],
+ "supply_added": [],
  "events": [
-  "R-TTS-QC-R2-20261102 -> bm-b (cpu)",
-  "R-NEXT-BIGSTREAMD-TTS-QC-20261103 -> bm-a (cpu)",
-  "C-TTS-QC-ALL -> bm-m (cpu)"
+  "C-TTS-QC-ALL FAILED via bm-m"
  ],
  "violations": [
   "bm-c CAPACITY-BLOCKED-RAM",
@@ -785,7 +781,6 @@
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-a",
   "bm-c",
   "bm-m"
  ]
