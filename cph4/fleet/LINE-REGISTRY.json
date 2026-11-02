@@ -541,6 +541,33 @@
    ],
    "org": "enabling",
    "priority": "P3"
+  },
+  {
+   "id": "fleet-ops",
+   "name": "机队运维·端到端自检（平台服务线）",
+   "owner": "中枢（机器判）",
+   "status": "ACTIVE",
+   "policy_note": "2026-11-02 立：canary 卡必须挂在一条线上，否则 I1 判无主；本线只产自检证据与运维卡，不产业务件",
+   "repos": [],
+   "stale_after_h": 24,
+   "queue_prefix": [
+    "CANARY-",
+    "Q-SYNC-",
+    "R-FREEMEM-"
+   ],
+   "stages": [
+    {
+     "id": "ops-canary",
+     "name": "端到端自检",
+     "owner": "中枢",
+     "model": "none",
+     "evidence": [
+      "cph4/fleet/state/canary"
+     ]
+    }
+   ],
+   "org": "platform",
+   "priority": "P3"
   }
  ]
 }

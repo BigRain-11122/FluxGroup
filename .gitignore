@@ -208,6 +208,7 @@ media/mv-test/
 media/covers/
 
 # === Generated state (2026-11-02 FLUX OS v2): projections are rebuilt from events/disk ===
-cph4/fleet/state/*.json
-cph4/fleet/state/*.jsonl
+# state/ 整个目录都是可重建的投影与运行产物（含 canary 证据、批次中间件）；
+# 2026-11-02 实测：只忽略 *.json 时，canary 的 RUN-*.txt 被执行器的产物提交带进了 git（I6 红）。
+cph4/fleet/state/
 !cph4/fleet/state/invariants-baseline.json

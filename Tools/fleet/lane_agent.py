@@ -319,12 +319,15 @@ def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
             "ok": ok, "error_class": err_cls}
 
 
-def self_dispatch(root, node, allow_gpu_workhours, max_seconds, hub, port, dry):
+def self_dispatch(root, node, allow_gpu_workhours, max_seconds, hub, port, dry, only=None):
     """When the master has nothing for me, look at my own disks for ready work.
 
     This is the "ask local compute what it should be doing" leg. It only consumes the
     declarative backlog manifest (inputs must exist HERE, deliverable must not), so it
     cannot invent work and cannot touch another machine's paths.
+
+    only: 只认这一张卡（端到端自检用）。走的是同一条 pick→claim→run→receipt→state 链，
+    不另写一条捷径——否则测的就不是生产路径了。
     """
     sys.path.insert(0, os.path.dirname(HERE))
     try:
@@ -355,6 +358,8 @@ def self_dispatch(root, node, allow_gpu_workhours, max_seconds, hub, port, dry):
         return True
 
     def _eligible(r, strict):
+        if only and r.get("id") != only:
+            return False
         nodes = r.get("nodes") or []
         if strict:
             if nodes and node not in nodes:

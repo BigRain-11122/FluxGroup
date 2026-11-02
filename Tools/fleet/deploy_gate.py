@@ -84,6 +84,19 @@ def brief_runs():
     return (r.returncode == 0), (r.stdout or r.stderr or "").strip()[:110]
 
 
+def canary_runs():
+    """端到端：投一张真卡走完整条链。零件都绿但这条红 = 不许重启。
+
+    2026-11-02 CEO 质问"为什么每次都能发现问题"之后立的唯一验收口径：
+    自动化成不成，只看这条链能不能无人值守跑通一次，不看某个函数对不对。
+    """
+    r = subprocess.run([PY, os.path.join(HERE, "canary.py"), "--force"],
+                       capture_output=True, text=True, timeout=180)
+    tail = [l for l in (r.stdout or r.stderr or "").strip().splitlines() if l]
+    first = tail[0][:110] if tail else ""
+    return (r.returncode == 0), first
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--restart", action="store_true")
@@ -93,6 +106,7 @@ def main():
     step("json", json_ok)
     step("master --dry", agent_dry)
     step("brain_brief", brief_runs)
+    step("canary end-to-end", canary_runs)
     if FAIL:
         print("\nGATE BLOCKED: %s —— 不许重启，先修代码" % ",".join(FAIL))
         return 1

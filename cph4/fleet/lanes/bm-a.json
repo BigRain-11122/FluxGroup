@@ -1,14 +1,14 @@
 {
  "node": "bm-a",
- "ts": "2026-11-02T18:02:40",
+ "ts": "2026-11-02T18:10:46",
  "jobs": [
   {
-   "id": "R-VB-DISCOVER-R2-20261102",
-   "title": "音色库候选发现 v02/v03（课堂讲解·评书说书）",
-   "cmd": "python Tools/voicebank/vb_discover.py --voice v02 --keywords 课堂,讲解 --pages 1",
+   "id": "R-TRIAGE-FLEETOPS-BMM-20261102",
+   "title": "机队运维·端到端自检（平台服务线） 线证据扫描（bm-m 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line fleet-ops",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/voicebank/discover/discover_v02.json",
+   "deliverable": "cph4/fleet/queue-receipts/triage-fleet-ops-20261102.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",

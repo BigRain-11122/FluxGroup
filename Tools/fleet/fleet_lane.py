@@ -188,6 +188,25 @@ def merge_jsonl(path, rows, key="id"):
             pass
 
 
+def prune_jsonl(path, keep):
+    """Delete rows under the same lock as merge_jsonl, so the single writer stays single.
+
+    Canary cards and archived rows accumulate; rewriting the file outside the lock is how
+    one leg silently restores rows another leg just deleted. keep(row) -> True to retain.
+    """
+    lockp = _lock(path)
+    try:
+        current = read_jsonl(path)
+        kept = [r for r in current if keep(r)]
+        write_jsonl(path, kept)
+        return len(current) - len(kept)
+    finally:
+        try:
+            os.remove(lockp)
+        except OSError:
+            pass
+
+
 def write_jsonl(path, rows):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     tmp = _atomic_tmp(path)

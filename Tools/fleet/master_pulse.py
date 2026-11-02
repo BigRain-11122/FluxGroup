@@ -70,6 +70,9 @@ STAGES = [
     # 研究创新席（2026-11-02 CEO 令）：体检四席的边界与空转，顺手刷新 PROPOSALS.json
     # 供派单方择取。rc=2 是有违规的告警，不是工具坏，所以计入 ok_rc。
     ("ri", ["Tools/fleet/ri_dept.py", "check"], 60, {0, 2}, True),
+    # 端到端自检（2026-11-02 CEO 质问后的唯一验收口径）：每轮投一张真卡，
+    # 走 pick→claim→run→receipt→state→artifact，断在哪一环就指名。rc=2 = 链断。
+    ("canary", ["Tools/fleet/canary.py"], 120, {0}, True),
     ("gate", ["Tools/fleet/gate_report.py"], 180, {0}, True),
     ("checkups", ["Tools/fleet/checkups.py"], 180, {0, 2}, True),
     ("metrics", ["Tools/fleet/ops_metrics.py"], 90, {0}, True),
