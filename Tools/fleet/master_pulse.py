@@ -303,16 +303,12 @@ def pull_if_clean(last_ts=0.0) -> str:
     if r.returncode == 0:
         return "ok"
     msg = _one_line(r.stderr or r.stdout, 120)
-    if "Not possible to fast-forward" in msg or "diverg" in msg:
-        # 多机同推时这是常态，不是故障：只对生成态取远端，代码不 rebase
+    # 任何"非快进"类失败都按分叉处理：远端文案随 git 版本变（有时只说
+    # "Diverging branches can't be fast-forwarded"），不靠字符串猜，直接试收口。
+    if "Not possible to fast-forward" in msg or "diverg" in msg or "fetch first" in msg \
+            or "rejected" in msg or "cannot" in msg.lower():
         rb = rebase_generated()
-        return ("ok(divergence-resolved)" if rb == "ok"
-                else "%s:%s" % (rb, msg))
-    if "fetch first" in msg or "rejected" in msg:
-        rb = rebase_generated()
-        if rb == "ok":
-            return "ok(divergence-resolved)"
-        return "%s:%s" % (rb, msg)
+        return "ok(divergence-resolved)" if rb == "ok" else "%s:%s" % (rb, msg)
     return "failed:%s" % msg
 
 
