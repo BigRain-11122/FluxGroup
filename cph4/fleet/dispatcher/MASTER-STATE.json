@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-02T21:53:21",
- "cycle": 1544,
+ "ts": "2026-11-02T21:54:31",
+ "cycle": 1545,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-02T21:53:21",
+ "master_tick_ts": "2026-11-02T21:54:31",
  "queue": {
   "total": 137,
   "open": 0,
@@ -14,10 +14,10 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 7.8,
-   "cpu_load_pct": 77,
-   "ram_free_gb": 42.2,
-   "gpu_util_pct": 6,
+   "hb_age_s": 0.1,
+   "cpu_load_pct": 17,
+   "ram_free_gb": 41.6,
+   "gpu_util_pct": 8,
    "job": "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102",
    "last_result": {
     "job": "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102",
@@ -32,9 +32,9 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 30.0,
-   "cpu_load_pct": 42,
-   "ram_free_gb": 5.5,
+   "hb_age_s": 41.3,
+   "cpu_load_pct": 55,
+   "ram_free_gb": 2.1,
    "gpu_util_pct": null,
    "job": "R-TTS-QC-R2-20261102",
    "last_result": null,
@@ -44,7 +44,7 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 784.2,
+   "hb_age_s": 854.4,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -56,8 +56,8 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.6,
-   "cpu_load_pct": 23,
+   "hb_age_s": 0.5,
+   "cpu_load_pct": 13,
    "ram_free_gb": 13.5,
    "gpu_util_pct": null,
    "job": null,
@@ -65,7 +65,7 @@
     "job": "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-02T21:52:15",
+    "ts": "2026-11-02T21:53:25",
     "reason": null
    },
    "idle_confirmed": false,
