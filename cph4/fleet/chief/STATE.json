@@ -1,21 +1,30 @@
 {
- "ts": "2026-11-03T03:14:12",
+ "ts": "2026-11-03T03:32:30",
  "stage": 3,
  "adoption": {
   "days": 2,
-  "applied": 174,
-  "total": 148,
-  "rate": 117.6,
+  "applied": 176,
+  "total": 150,
+  "rate": 117.3,
   "eligible_stage4": false
  },
  "decisions": [
   {
    "kind": "requeue",
-   "why": "3 张卡在跑但 1 小时无回执",
+   "why": "1 张卡在跑但 1 小时无回执",
    "target": [
-    "R-TTS-QC-R2-20261102",
-    "C-TTS-QC-ALL",
-    "C-TTS-QC-ALL"
+    "R-TTS-QC-R2-20261102"
+   ],
+   "min_stage": 3,
+   "result": "applied"
+  },
+  {
+   "kind": "promote",
+   "why": "队列空，候选 10 张",
+   "target": [
+    "C-FIN-ETF-COMPOSITE",
+    "C-VB-DISCOVER-V03",
+    "C-VB-DISCOVER-V03"
    ],
    "min_stage": 3,
    "result": "applied"
@@ -35,10 +44,12 @@
   {
    "kind": "requeue",
    "ids": [
-    "R-TTS-QC-R2-20261102",
-    "C-TTS-QC-ALL",
-    "C-TTS-QC-ALL"
+    "R-TTS-QC-R2-20261102"
    ]
+  },
+  {
+   "kind": "promote",
+   "out": "积压里有 7 张 READY 是尸体（队列里已了结），不计入供给：C-FIN-ETF-COMPOSITE, C-VB-DISCOVER-V03, C-VB-DISCOVER-V03, C-VB-DISCOVER-V03, C-VB-DISC"
   }
  ],
  "brief": "/Users/junsheng.sun/FluxGroup/cph4/fleet/chief/BRIEF-20261103.md"
