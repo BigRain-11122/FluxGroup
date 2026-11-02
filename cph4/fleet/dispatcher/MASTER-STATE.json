@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-03T02:40:56",
- "cycle": 77,
+ "ts": "2026-11-03T02:42:06",
+ "cycle": 78,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-03T02:40:56",
+ "master_tick_ts": "2026-11-03T02:42:06",
  "queue": {
   "total": 308,
   "open": 1,
@@ -14,10 +14,10 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 42.5,
-   "cpu_load_pct": 68,
-   "ram_free_gb": 34.2,
-   "gpu_util_pct": 7,
+   "hb_age_s": 53.0,
+   "cpu_load_pct": 57,
+   "ram_free_gb": 34.8,
+   "gpu_util_pct": 10,
    "job": "C-TTS-QC-ALL",
    "last_result": {
     "job": null,
@@ -32,9 +32,9 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 5.0,
-   "cpu_load_pct": 65,
-   "ram_free_gb": 5,
+   "hb_age_s": 16.6,
+   "cpu_load_pct": 2,
+   "ram_free_gb": 5.1,
    "gpu_util_pct": null,
    "job": "R-TTS-QC-R2-20261102",
    "last_result": null,
@@ -44,16 +44,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 72.0,
-   "cpu_load_pct": 5,
-   "ram_free_gb": 7.1,
+   "hb_age_s": 68.4,
+   "cpu_load_pct": 3,
+   "ram_free_gb": 7.8,
    "gpu_util_pct": 0,
    "job": "R-NEXT-BIGSTREAMD-TTS-QC-20261103",
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-03T02:39:49",
+    "ts": "2026-11-03T02:41:03",
     "reason": "ALREADY-CLOSED C-TTS-QC-ALL"
    },
    "idle_confirmed": false,
@@ -63,7 +63,7 @@
   "bm-m": {
    "online": true,
    "hb_age_s": 0.6,
-   "cpu_load_pct": 6,
+   "cpu_load_pct": 13,
    "ram_free_gb": 14.6,
    "gpu_util_pct": null,
    "job": "C-TTS-QC-ALL",
@@ -71,8 +71,8 @@
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-03T02:39:46",
-    "reason": "ALREADY-CLOSED R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102"
+    "ts": "2026-11-03T02:40:56",
+    "reason": "ALREADY-CLOSED C-TTS-QC-ALL"
    },
    "idle_confirmed": false,
    "idle_reason": "",
@@ -771,7 +771,6 @@
  "supply_added": [],
  "events": [
   "C-TTS-QC-ALL REQUeued attempt=1",
-  "R-NEXT-BIGSTREAMD-TTS-QC-20261103 -> bm-c (cpu)",
   "C-TTS-QC-ALL -> bm-m (cpu)"
  ],
  "violations": [
@@ -779,8 +778,5 @@
   "STAGE-STALLED bigstream-duanju 卡在 剧本/编剧席 (短剧席)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
- "lane_files_written": [
-  "bm-c",
-  "bm-m"
- ]
+ "lane_files_written": []
 }
