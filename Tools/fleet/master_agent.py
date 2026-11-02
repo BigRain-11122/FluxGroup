@@ -520,6 +520,27 @@ def assign(rows, fleet, reports, lines=None):
         pmap = {}
     # 红了的线要插队，不是停摆：I14（P0 24h 无产物）红说明这条线缺产出，它手上的卡
     # 应当先跑出来，而不是被别的线挤在后面（2026-11-02 自审发现"断言红了没后果"）。
+    # 组配额（2026-11-02）：只按优先级排队会让 P0 内容把 P0 游戏饿死。每组 24 小时
+    # 有硬上限，超了就等下一窗口，保证四条线都有产能。
+    org_of, caps, window_h = {}, {}, 24
+    try:
+        org_of = {l.get("id"): (l.get("org") or "platform") for l in (reg.get("lines") or [])}
+        q = json.load(open(os.path.join(root, "cph4", "fleet", "QUOTA.json"), encoding="utf-8"))
+        caps = q.get("caps") or {}
+        window_h = int(q.get("window_h") or 24)
+    except Exception:
+        pass
+    cutoff = __import__("datetime").datetime.now() - __import__("datetime").timedelta(hours=window_h)
+    used = {}
+    for r2 in rows:
+        ts = str(r2.get("created_at") or "")
+        try:
+            if __import__("datetime").datetime.fromisoformat(ts) >= cutoff:
+                o = org_of.get(r2.get("line") or line_of_job(r2, lines or []), "platform")
+                used[o] = used.get(o, 0) + 1
+        except Exception:
+            pass
+
     red_lines = set()
     try:
         inv = json.load(open(os.path.join(root, "cph4", "fleet", "state", "invariants.json"),
@@ -542,6 +563,9 @@ def assign(rows, fleet, reports, lines=None):
             continue
         if line_of_job(r, lines or []) in parked:
             continue
+        _org = org_of.get(r.get("line") or line_of_job(r, lines or []), "platform")
+        if caps and used.get(_org, 0) >= int(caps.get(_org, 999)):
+            continue          # 该组本窗口配额已满，让位给别的组
         # Never let the cron spend cloud money: cloud-smart work waits for the smart seat.
         if (r.get("model") or "none") == "cloud-smart":
             continue
@@ -555,6 +579,7 @@ def assign(rows, fleet, reports, lines=None):
         r["lease_minutes"] = int(r.get("timeout_s") or 0) // 60 or \
             DEFAULT_LEASE.get(r.get("needs") or "cpu", 45)
         busy[lane] = r
+        used[_org] = used.get(_org, 0) + 1
         events.append("%s -> %s (%s)" % (r["id"], lane, r.get("needs") or "cpu"))
     return events
 

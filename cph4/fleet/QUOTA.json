@@ -1,0 +1,5 @@
+{
+ "_comment": "每 24 小时每组最多派多少张卡（2026-11-02 定：优先级只排队会互相饿死，配额才保底）",
+ "window_h": 24,
+ "caps": {"content": 14, "game": 8, "strategy": 6, "city": 3, "platform": 2, "enabling": 4}
+}
