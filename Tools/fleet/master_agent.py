@@ -518,7 +518,22 @@ def assign(rows, fleet, reports, lines=None):
                 for l in (reg.get("lines") or [])}
     except Exception:
         pmap = {}
-    pending.sort(key=lambda r: (pmap.get(r.get("line") or line_of_job(r, lines or []), 2),
+    # 红了的线要插队，不是停摆：I14（P0 24h 无产物）红说明这条线缺产出，它手上的卡
+    # 应当先跑出来，而不是被别的线挤在后面（2026-11-02 自审发现"断言红了没后果"）。
+    red_lines = set()
+    try:
+        inv = json.load(open(os.path.join(root, "cph4", "fleet", "state", "invariants.json"),
+                             encoding="utf-8"))
+        for c in inv.get("checks") or []:
+            if c.get("id") != "I14":
+                continue
+            for s in (c.get("samples") or []):
+                if s.startswith("p0:"):
+                    red_lines.add(s.split(":")[1])
+    except Exception:
+        pass
+    pending.sort(key=lambda r: (0 if (r.get("line") or line_of_job(r, lines or [])) in red_lines else 1,
+                                pmap.get(r.get("line") or line_of_job(r, lines or []), 2),
                                 prio_rank.get(str(r.get("prio") or "P2"), 2),
                                 str(r.get("created_at") or "")))
     events = []
