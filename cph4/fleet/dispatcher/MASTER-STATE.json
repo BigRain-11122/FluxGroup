@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-03T01:50:55",
- "cycle": 35,
+ "ts": "2026-11-03T01:52:14",
+ "cycle": 36,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-03T01:50:55",
+ "master_tick_ts": "2026-11-03T01:52:14",
  "queue": {
   "total": 304,
   "open": 0,
@@ -14,9 +14,9 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 41.5,
-   "cpu_load_pct": 51,
-   "ram_free_gb": 32.5,
+   "hb_age_s": 0.3,
+   "cpu_load_pct": 54,
+   "ram_free_gb": 31.9,
    "gpu_util_pct": 10,
    "job": "C-TTS-QC-ALL",
    "last_result": {
@@ -32,8 +32,8 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 6.0,
-   "cpu_load_pct": 29,
+   "hb_age_s": 24.6,
+   "cpu_load_pct": 14,
    "ram_free_gb": 5.9,
    "gpu_util_pct": null,
    "job": "R-TTS-QC-R2-20261102",
@@ -44,16 +44,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 68.9,
+   "hb_age_s": 59.8,
    "cpu_load_pct": 9,
-   "ram_free_gb": 2.1,
+   "ram_free_gb": 1.8,
    "gpu_util_pct": 100,
    "job": "C-TTS-QC-ALL",
    "last_result": {
     "job": "R-NEXT-BIGSTREAMD-TTS-QC-20261103",
     "state": "FAILED",
     "rc": 1,
-    "ts": "2026-11-03T01:50:05",
+    "ts": "2026-11-03T01:51:33",
     "reason": null
    },
    "idle_confirmed": false,
@@ -63,16 +63,16 @@
   "bm-m": {
    "online": true,
    "hb_age_s": 0.6,
-   "cpu_load_pct": 14,
-   "ram_free_gb": 15.9,
+   "cpu_load_pct": 9,
+   "ram_free_gb": 14.6,
    "gpu_util_pct": null,
    "job": "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102",
    "last_result": {
-    "job": "CANARY-20261103T015054",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-03T01:50:54",
-    "reason": null
+    "job": null,
+    "state": "IDLE",
+    "rc": null,
+    "ts": "2026-11-03T01:50:56",
+    "reason": "ALREADY-CLOSED R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102"
    },
    "idle_confirmed": false,
    "idle_reason": "",
@@ -771,7 +771,6 @@
  "events": [
   "R-NEXT-BIGSTREAMD-TTS-QC-20261103 FAILED via bm-c",
   "C-TTS-QC-ALL REQUeued attempt=1",
-  "R-TTS-QC-R2-20261102 -> bm-b (cpu)",
   "C-TTS-QC-ALL -> bm-c (cpu)",
   "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102 -> bm-m (cpu)"
  ],
@@ -780,8 +779,5 @@
   "STAGE-STALLED bigstream-duanju 卡在 剧本/编剧席 (短剧席)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
- "lane_files_written": [
-  "bm-c",
-  "bm-m"
- ]
+ "lane_files_written": []
 }
