@@ -21,6 +21,7 @@ from __future__ import annotations
 
 import argparse
 import os
+import shutil
 import subprocess
 import sys
 import time
@@ -146,6 +147,51 @@ def commit_state():
     return rc_c
 
 
+def git_full(argv, timeout=180):
+    """Run git and keep the whole stderr: rebase refusals name every colliding path."""
+    try:
+        r = subprocess.run(argv, cwd=ROOT, capture_output=True, text=True, timeout=timeout)
+        return r.returncode, ((r.stderr or "") + "\n" + (r.stdout or "")).strip()
+    except Exception as e:
+        return 1, str(e)
+
+
+def stash_untracked_collisions(msg):
+    """Move aside untracked files the checkout refuses to overwrite.
+
+    Why (2026-11-02): origin may start tracking a file this node already created locally
+    (bm-c had an untracked cph4/fleet/voicebank/discover/jobs_v02.txt). git then aborts the whole
+    rebase with "The following untracked working tree files would be overwritten", the node stays
+    behind for good, and the local copy might be the only one. Move it under media/ (gitignored)
+    rather than deleting it.
+    """
+    paths, grab = [], False
+    for ln in msg.splitlines():
+        if "would be overwritten by checkout" in ln:
+            grab = True
+            continue
+        if grab:
+            s = ln.strip()
+            if (not s or s.startswith("Please move") or s.startswith("Aborting")
+                    or s.startswith("error") or s.startswith("hint")):
+                break
+            paths.append(s)
+    dest = os.path.join(ROOT, "media", "logs", "untracked-collisions",
+                        time.strftime("%Y%m%d-%H%M%S"))
+    moved = 0
+    for p in paths[:20]:
+        src = os.path.join(ROOT, p.replace("/", os.sep))
+        if not os.path.exists(src):
+            continue
+        try:
+            os.makedirs(dest, exist_ok=True)
+            shutil.move(src, os.path.join(dest, os.path.basename(p)))
+            moved += 1
+        except Exception:
+            pass
+    return moved
+
+
 def pull():
     # Codes must arrive before the executor runs, otherwise the node keeps running the bug
     # we already fixed on the master. Never autostash (it swallowed hand edits once).
@@ -174,7 +220,14 @@ def pull():
     # Diverged: local commits exist. Rebase onto the master, but only when the tree is clean --
     # git refuses on its own otherwise, so a shift mid-edit is never destroyed.
     commit_state()
-    rc3, tail3 = run_msg(["git", "rebase", "--no-autostash", "origin/main"], 180)
+    rc3, full3 = git_full(["git", "rebase", "--no-autostash", "origin/main"], 180)
+    tail3 = full3.replace("\n", " | ")[:240]
+    if rc3 != 0 and "would be overwritten by checkout" in full3:
+        run_msg(["git", "rebase", "--abort"], 60)
+        moved = stash_untracked_collisions(full3)
+        note("moved %d untracked collisions aside, retrying rebase" % moved)
+        rc3, full3 = git_full(["git", "rebase", "--no-autostash", "origin/main"], 180)
+        tail3 = full3.replace("\n", " | ")[:240]
     if rc3 == 0:
         # A rebased node is ahead of the master until it publishes; leaving that commit local
         # is what made the next cycle start diverged again.
