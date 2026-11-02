@@ -1,11 +1,11 @@
 {
- "ts": "2026-11-02T23:54:43",
+ "ts": "2026-11-03T00:00:45",
  "stage": 3,
  "adoption": {
   "days": 1,
-  "applied": 108,
-  "total": 87,
-  "rate": 124.1,
+  "applied": 110,
+  "total": 88,
+  "rate": 125.0,
   "eligible_stage4": false
  },
  "decisions": [
@@ -13,10 +13,30 @@
    "kind": "flag",
    "why": "2 台机空转且有活",
    "target": [
-    "bm-b",
+    "bm-a",
     "bm-m"
    ],
    "min_stage": 1,
+   "result": "applied"
+  },
+  {
+   "kind": "requeue",
+   "why": "1 张卡在跑但 1 小时无回执",
+   "target": [
+    "C-TTS-QC-ALL"
+   ],
+   "min_stage": 3,
+   "result": "applied"
+  },
+  {
+   "kind": "promote",
+   "why": "队列空，候选 6 张",
+   "target": [
+    "C-FIN-ETF-COMPOSITE",
+    "C-VB-DISCOVER-V03",
+    "C-VB-DISCOVER-V03"
+   ],
+   "min_stage": 3,
    "result": "applied"
   },
   {
@@ -30,6 +50,17 @@
    "result": "applied"
   }
  ],
- "applied": [],
- "brief": "/Users/junsheng.sun/FluxGroup/cph4/fleet/chief/BRIEF-20261102.md"
+ "applied": [
+  {
+   "kind": "requeue",
+   "ids": [
+    "C-TTS-QC-ALL"
+   ]
+  },
+  {
+   "kind": "promote",
+   "out": "夜间包已在（1 张在跑/待领），不重复灌"
+  }
+ ],
+ "brief": "/Users/junsheng.sun/FluxGroup/cph4/fleet/chief/BRIEF-20261103.md"
 }
