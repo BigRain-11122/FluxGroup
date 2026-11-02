@@ -1,11 +1,11 @@
 {
- "ts": "2026-11-03T02:38:29",
+ "ts": "2026-11-03T02:44:25",
  "stage": 3,
  "adoption": {
   "days": 2,
-  "applied": 159,
-  "total": 133,
-  "rate": 119.5,
+  "applied": 161,
+  "total": 135,
+  "rate": 119.3,
   "eligible_stage4": false
  },
  "decisions": [
@@ -16,6 +16,17 @@
     "R-TTS-QC-R2-20261102",
     "C-TTS-QC-ALL",
     "C-TTS-QC-ALL"
+   ],
+   "min_stage": 3,
+   "result": "applied"
+  },
+  {
+   "kind": "promote",
+   "why": "队列空，候选 8 张",
+   "target": [
+    "C-VB-DISCOVER-V03",
+    "C-VB-DISCOVER-V03",
+    "C-VB-DISCOVER-V03"
    ],
    "min_stage": 3,
    "result": "applied"
@@ -39,6 +50,10 @@
     "C-TTS-QC-ALL",
     "C-TTS-QC-ALL"
    ]
+  },
+  {
+   "kind": "promote",
+   "out": "队列已有 3 张待领，够用，不灌"
   }
  ],
  "brief": "/Users/junsheng.sun/FluxGroup/cph4/fleet/chief/BRIEF-20261103.md"
