@@ -66,9 +66,8 @@ STAGES = [
     # 事实层（2026-11-02 FLUX OS v2）：先把磁盘事实与结构断言跑一遍，再谈派单。
     # census 写 state/lines.json（I14 与 metrics 都依赖它），因此放在慢批串行最前。
     ("census", ["Tools/fleet/census.py"], 180, {0}, True),
-    ("invariants", ["Tools/fleet/flux_check.py"], 120, {0}, True),
+    ("gate", ["Tools/fleet/gate_report.py"], 180, {0}, True),
     ("metrics", ["Tools/fleet/ops_metrics.py"], 90, {0}, True),
-    ("comms", ["Tools/fleet/comms_check.py"], 60, {0}, True),
     ("health", ["Tools/fleet/fleet_health.py"], 90, {0}, True),
     ("contingency", ["Tools/fleet/fleet_contingency.py"], 120, {0}, True),
     ("judge", ["Tools/fleet/local_judge.py"], 180, {0}, True),
