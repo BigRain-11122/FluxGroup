@@ -1,14 +1,14 @@
 {
  "node": "bm-c",
- "ts": "2026-11-02T21:09:16",
+ "ts": "2026-11-02T21:15:15",
  "jobs": [
   {
-   "id": "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102",
-   "title": "BigStream·漫剧 线证据扫描（bm-c 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigstream-drama",
+   "id": "C-TTS-QC-ALL",
+   "title": "短剧配音全量质检（逐集时长/静音/体积 → 可发布集数清单）",
+   "cmd": "python Tools/fleet/tts_batch_check.py --dir media/drama-tts-out --out cph4/fleet/queue-receipts/tts-qc-all.json",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigstream-drama-20261102.md",
+   "deliverable": "cph4/fleet/queue-receipts/tts-qc-all.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
