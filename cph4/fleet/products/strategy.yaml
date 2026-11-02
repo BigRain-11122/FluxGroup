@@ -7,7 +7,7 @@ status: active
 owner: 量化席（AI 席位；定价与对外承诺由 CEO）
 lane: [bm-b, bm-d]                # 回测与数据；bm-d 未入网时只排 bm-b
 checker: 风控席（回测闸 + 数据指纹）
-outlet: BigDomain 页面 + 私域（收钱口）；CEO 报价
+outlet: BigDomain 页面 + 私域收钱；组内自决定价 19.9–29.9 并报备
 
 chain:
   - C1 因子：候选池 → 可回测的一页假设
@@ -23,7 +23,7 @@ acceptance:
   - 合规：不出现收益承诺、不出现"必涨"类措辞
 
 fixed_deliverables:
-  - 每周：1 份回测结论（一页 + 数据指针）
+  - 每天：1 份回测结论（一页 + 数据指针）
   - 每月：1 次策略去留决定（上线/下线/继续观察，带理由）
   - 上线后：每笔 19.9 订单有回执与结果页
 

@@ -364,6 +364,22 @@ def i13_idle_with_matching_work():
     return bad
 
 
+def i14_p0_daily_output():
+    """CEO 2026-11-02：P0 必须每天有产物。24 小时没有新产出即红，不看解释。
+    Source: census projection (state/lines.json) so the number is disk age, not a claim."""
+    reg = jload(os.path.join(FLEET, "LINE-REGISTRY.json"), {}) or {}
+    p0 = {l.get("id") for l in (reg.get("lines") or []) if str(l.get("priority")) == "P0"}
+    st = jload(os.path.join(STATE, "lines.json"), {}) or {}
+    bad = []
+    for r in st.get("lines") or []:
+        if r.get("id") not in p0 or r.get("observed") != "OBSERVED":
+            continue
+        age = r.get("age_h")
+        if age is None or age > 24:
+            bad.append("p0:%s:no-output-%sh" % (r.get("id"), age))
+    return bad
+
+
 CHECKS = [
     ("I1", "每张卡有 line 且 line 存在", i1_cards_have_line),
     ("I2", "卡不含机器名/绝对主机路径", i2_cards_are_portable),
@@ -378,6 +394,7 @@ CHECKS = [
     ("I11", "每条产品配方有 kill_criteria", i11_recipes_have_kill_criteria),
     ("I12", "无孤儿脚本", i12_no_orphan_scripts),
     ("I13", "有机空闲且有它能干的活", i13_idle_with_matching_work),
+    ("I14", "P0 线 24 小时必须有产物", i14_p0_daily_output),
 ]
 
 
