@@ -118,6 +118,31 @@ def main(argv):
         if retries > 0:
             m["rework"] += 1
 
+    # 还债计划（2026-11-02 自审第 13 条）：baseline 记了多少条债，每周必须降一成。
+    # 债不清就会永久合法化，红变成背景色。
+    debt_path = os.path.join(STATE, "debt.jsonl")
+    debt = None
+    try:
+        debt = len((jload(os.path.join(FLEET, "INVARIANTS-BASELINE.json"), {}) or {}).get("keys") or [])
+        today = datetime.now().strftime("%Y-%m-%d")
+        hist = []
+        if os.path.exists(debt_path):
+            for l in open(debt_path, encoding="utf-8"):
+                l = l.strip()
+                if l:
+                    try:
+                        hist.append(json.loads(l))
+                    except Exception:
+                        pass
+        if not any(h.get("date") == today for h in hist):
+            hist.append({"date": today, "debt": debt})
+            with open(debt_path, "a", encoding="utf-8") as f:
+                f.write(json.dumps({"date": today, "debt": debt}, ensure_ascii=False) + "\n")
+        old = hist[0]["debt"] if hist else debt
+        drop_pct = round(100.0 * (old - debt) / old, 1) if old else 0.0
+    except Exception:
+        debt, drop_pct = None, None
+
     rows = []
     stops = []
     for ln in lines:
@@ -145,7 +170,9 @@ def main(argv):
             stops.append({"line": lid, "why": "7天零产出" if stale else "过闸率<50%且返工>=3"})
 
     out = {"ts": datetime.now().isoformat(timespec="seconds"),
-           "rate_cny_per_hour": rate, "lines": rows, "autostop": stops}
+           "rate_cny_per_hour": rate, "lines": rows, "autostop": stops,
+           "debt": debt, "debt_drop_pct": drop_pct,
+           "debt_deadline": "30 天内降 30%（每周约 10%）"}
     with open(os.path.join(STATE, "metrics.json"), "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=1)
 
@@ -175,6 +202,8 @@ def main(argv):
             "¥%.2f" % r["cost_cny"],
             "%d/%d/%d" % (r["cards"], r["done"], r["failed"]),
             r["status"]))
+    if debt is not None:
+        print("结构债 %s 条，累计下降 %s%%（目标：30 天降 30%%）" % (debt, drop_pct))
     if applied:
         print("自动停线：%s（可在注册表改回 ACTIVE 恢复）" % "、".join(applied))
     elif stops:

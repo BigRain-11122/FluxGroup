@@ -18,6 +18,7 @@ import fleet_lane as fl  # noqa: E402
 F = os.path.join(ROOT, "cph4", "fleet")
 Q = os.path.join(F, "PRODUCTION-QUEUE.jsonl")
 EV = os.path.join(F, "dispatcher", "events.jsonl")
+RECEIPT_DIR = os.path.join(F, "queue-receipts")
 
 
 HEARTBEAT_TIMEOUT_S = 600   # Temporal-style heartbeat: no sign of life = the worker is gone
@@ -82,7 +83,20 @@ def main():
             continue
         dl = r.get("deliverable") or ""
         local = os.path.join(ROOT, dl) if dl and not os.path.isabs(dl) else dl
-        ok = bool(dl) and os.path.exists(local)
+        # 产物可能落在别的机器上（跨机路径假红，2026-11-02 自审）：本机看不见不代表没做出来。
+        # 以回执为准——回执说产物在、退出码合格，就认。
+        receipt_ok = False
+        try:
+            for n in os.listdir(RECEIPT_DIR):
+                if not n.endswith(".json"):
+                    continue
+                rec = json.load(open(os.path.join(RECEIPT_DIR, n), encoding="utf-8-sig"))
+                if rec.get("id") == r.get("id") and rec.get("deliverable_exists"):
+                    receipt_ok = True
+                    break
+        except Exception:
+            pass
+        ok = (bool(dl) and os.path.exists(local)) or receipt_ok
         owner = r.get("owner")
         allowed = r.get("ok_rc") if isinstance(r.get("ok_rc"), list) and r.get("ok_rc") else [0]
         allowed = [int(x) for x in allowed]

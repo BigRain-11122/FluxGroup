@@ -97,7 +97,25 @@ def main(argv):
             st = "已发布" if any(p in x["file"] for p in published) else "待发布"
             lines.append("| %s | %sMB | %s | %s |" % (x["file"], x["mb"], x["mtime"], st))
     else:
-        lines.append("（本机没有成片文件；成片在各工作机的仓库里）")
+        lines.append("（本机没有成片文件；下面按队列记录列远端成片）")
+    # 远端成片：本机看不见，但队列/回执里有记录（2026-11-02：抽查不能只信本机磁盘）
+    far = []
+    try:
+        for l in open(os.path.join(FLEET, "PRODUCTION-QUEUE.jsonl"), encoding="utf-8"):
+            l = l.strip()
+            if not l:
+                continue
+            r = json.loads(l)
+            d = str(r.get("deliverable") or "")
+            if d.endswith(".mp4") and r.get("state") == "DONE":
+                far.append((r.get("id"), d, r.get("owner") or ",".join(r.get("nodes") or []) or "?"))
+    except FileNotFoundError:
+        pass
+    if far:
+        lines += ["", "### 远端成片（在别的机器上，本机未同步）", "",
+                  "| 卡 | 文件 | 机器 |", "|---|---|---|"]
+        for x in far[-10:]:
+            lines.append("| %s | %s | %s |" % x)
     lines += ["", "## 三、游戏可玩包", ""]
     if b:
         lines += ["| 文件 | 大小 | 时间 |", "|---|---|---|"]
