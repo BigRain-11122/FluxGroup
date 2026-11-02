@@ -1,6 +1,6 @@
 {
  "_comment": "业务条线 + 工段登记表（2026-10-29 v2：CEO 指『不够细分』→ 每线拆到工序）。机器可判字段：证据目录（产出新鲜度）、owner（谁判）、model（算什么档）、lane（哪台机跑）。规则正文仍在各正典，不复制法条。",
- "_verdicts": "WORKING=队列里有本段活 / WAITING=未超期 / STALLED=超期无产出 / BLOCKED=有活无车道 / PARKED=CEO 令停",
+ "_verdicts": "WORKING=队列里有本段活 / WAITING=未超期 / STALLED=超期无产出 / BLOCKED=有活无车道 / PARKED=CEO 令停 / DORMANT=判负收线（已定谳停摆，复活需 CEO 令或新立项）",
  "default_stale_after_h": 48,
  "lines": [
   {
@@ -140,7 +140,7 @@
    "id": "bigstream-duanju",
    "name": "BigStream·短剧",
    "owner": "短剧席",
-   "status": "ACTIVE",
+   "status": "DORMANT",
    "repos": [],
    "stale_after_h": 72,
    "queue_prefix": [
@@ -168,7 +168,8 @@
     }
    ],
    "org": "content",
-   "priority": "P0"
+   "priority": "P0",
+   "pause_reason": "D-20261103-03 自动收线：11-02 18:00 回执三选一逾期（反馈面末行 10-24·尾写 10-17）；复活需 CEO 令或新立项"
   },
   {
    "id": "bigstream-shortvideo",
@@ -234,7 +235,9 @@
      "lane": "bm-c",
      "evidence": [
       "gaming/MiniGame/Art"
-     ]
+     ],
+     "status": "not-started",
+     "status_basis": "D-20261103-02（D-20261102-13 逾期未选·实读 Art/Builds 目录不存在→按事实标未启动）"
     },
     {
      "id": "game-build",
@@ -244,7 +247,9 @@
      "lane": "bm-a",
      "evidence": [
       "gaming/MiniGame/Builds"
-     ]
+     ],
+     "status": "not-started",
+     "status_basis": "D-20261103-02（D-20261102-13 逾期未选·实读 Art/Builds 目录不存在→按事实标未启动）"
     }
    ],
    "org": "game",
