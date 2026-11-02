@@ -1,23 +1,23 @@
 {
- "ts": "2026-11-02T19:47:24",
- "cycle": 1466,
+ "ts": "2026-11-02T19:48:36",
+ "cycle": 1467,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-02T19:47:24",
+ "master_tick_ts": "2026-11-02T19:48:36",
  "queue": {
   "total": 126,
-  "open": 0,
+  "open": 2,
   "running": 4,
   "done": 85,
-  "failed": 4
+  "failed": 2
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 10.5,
-   "cpu_load_pct": 68,
-   "ram_free_gb": 31.8,
-   "gpu_util_pct": 6,
+   "hb_age_s": 22.7,
+   "cpu_load_pct": 63,
+   "ram_free_gb": 35.9,
+   "gpu_util_pct": 7,
    "job": "RCANARY2-20261102T181500",
    "last_result": {
     "job": "C-MV-TRANSITION-20261102",
@@ -32,9 +32,9 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 34.2,
-   "cpu_load_pct": 8,
-   "ram_free_gb": 4.8,
+   "hb_age_s": 44.9,
+   "cpu_load_pct": 77,
+   "ram_free_gb": 4.9,
    "gpu_util_pct": null,
    "job": "R-TTS-QC-R2-20261102",
    "last_result": null,
@@ -44,16 +44,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 22.7,
+   "hb_age_s": 94.6,
    "cpu_load_pct": 18,
    "ram_free_gb": 0.9,
    "gpu_util_pct": 0,
    "job": "C-MV-STABILITY",
    "last_result": {
     "job": "C-MV-TRANSITION-20261102",
-    "state": "RUNNING",
-    "rc": null,
-    "ts": "2026-11-02T19:47:08",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-02T19:47:24",
     "reason": null
    },
    "idle_confirmed": false,
@@ -63,15 +63,15 @@
   "bm-m": {
    "online": true,
    "hb_age_s": 0.6,
-   "cpu_load_pct": 27,
-   "ram_free_gb": 16.0,
+   "cpu_load_pct": 26,
+   "ram_free_gb": 13.9,
    "gpu_util_pct": null,
-   "job": "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102",
+   "job": "R-NEXT-BIGSTREAMD-TTS-QC-20261102",
    "last_result": {
-    "job": "C-TTS-QC-ALL",
-    "state": "FAILED",
-    "rc": 1,
-    "ts": "2026-11-02T19:46:18",
+    "job": "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-02T19:47:29",
     "reason": null
    },
    "idle_confirmed": false,
@@ -118,7 +118,8 @@
    "stale_after_h": 72.0,
    "owner": "短剧席",
    "jobs": [
-    "R-TTS-QC-R2-20261102"
+    "R-TTS-QC-R2-20261102",
+    "R-NEXT-BIGSTREAMD-TTS-QC-20261102"
    ],
    "no_supply": false,
    "blockers": [],
@@ -758,7 +759,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 0,
+  "local": 2,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -766,15 +767,12 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 0,
+  "cpu": 2,
   "gpu": 0
  },
  "supply_added": [],
  "events": [
-  "C-TTS-QC-ALL FAILED via bm-m",
-  "RCANARY2-20261102T181500 -> bm-a (cpu)",
-  "R-TTS-QC-R2-20261102 -> bm-b (cpu)",
-  "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102 -> bm-m (cpu)"
+  "R-NEXT-BIGSTREAMD-TTS-QC-20261102 -> bm-m (cpu)"
  ],
  "violations": [
   "LINE-BLOCKED bigstream-drama ()",
