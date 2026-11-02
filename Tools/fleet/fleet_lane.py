@@ -197,6 +197,21 @@ def merge_jsonl(path, rows, key="id"):
                     r = dict(r)
                     r["state"] = "CANCELLED"
                     r["cancel_kept_by"] = "fleet_lane"
+                # Dispatcher card edits must survive stale write-backs
+                # (D-R272-STALE-WRITEBACK-CLOBBER, 2026-11-03): a lane that claimed the
+                # card before a pin landed writes its pre-edit snapshot back over it, so
+                # the pin silently vanished and the card kept burning on boxes that do
+                # not hold the input. Compare card_edit_ts; an older/absent stamp means
+                # the caller never saw the pin, so the pin wins.
+                prev_edit = prev.get("card_edit_ts") if isinstance(prev, dict) else None
+                if prev_edit:
+                    cur_edit = r.get("card_edit_ts")
+                    if not cur_edit or str(cur_edit) < str(prev_edit):
+                        r = dict(r)
+                        for _k in ("requires", "nodes", "card_edit_ts", "card_edit_by"):
+                            if _k in prev:
+                                r[_k] = prev[_k]
+                        r["pin_kept_by"] = "fleet_lane"
                 current[index[k]] = r
             else:
                 index[k] = len(current)
