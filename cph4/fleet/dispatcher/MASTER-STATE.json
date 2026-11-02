@@ -1,11 +1,19 @@
 {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
  "ts": "2026-11-03T04:22:17",
  "cycle": 2,
  "master_node": "bm-m",
  "masquerade_by": null,
  "master_tick_ts": "2026-11-03T04:22:17",
+=======
+ "ts": "2026-11-02T20:16:10",
+ "cycle": 1486,
+ "master_node": "bm-m",
+ "masquerade_by": null,
+ "master_tick_ts": "2026-11-02T20:16:10",
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
 =======
  "ts": "2026-11-02T20:16:10",
  "cycle": 1486,
@@ -26,8 +34,13 @@
   "running": 2,
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   "done": 112,
   "failed": 2
+=======
+  "done": 90,
+  "failed": 3
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
 =======
   "done": 90,
   "failed": 3
@@ -42,12 +55,15 @@
    "online": true,
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
    "hb_age_s": 4.0,
    "cpu_load_pct": 7,
    "ram_free_gb": 32.4,
    "gpu_util_pct": 10,
    "job": "C-TTS-QC-ALL",
 =======
+=======
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
 =======
 >>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
    "hb_age_s": 56.2,
@@ -71,6 +87,7 @@
    "online": true,
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
    "hb_age_s": 27.5,
    "cpu_load_pct": 29,
    "ram_free_gb": 3,
@@ -82,6 +99,8 @@
     "rc": 0,
     "ts": "2026-11-03T04:12:44",
 =======
+=======
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
 =======
 >>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
    "hb_age_s": 18.0,
@@ -101,6 +120,7 @@
    "ram_free_gb": 0.7,
    "gpu_util_pct": 100,
    "job": null,
+<<<<<<< HEAD
 <<<<<<< HEAD
    "last_result": {
     "job": "C-TTS-QC-ALL",
@@ -141,6 +161,17 @@
    "idle_confirmed": false,
    "idle_reason": "CAPACITY-BLOCKED-RAM ram 0.7/1.0 GB",
 >>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
+=======
+   "last_result": {
+    "job": "C-TTS-QC-ALL",
+    "state": "FAILED",
+    "rc": 1,
+    "ts": "2026-11-02T20:15:18",
+    "reason": null
+   },
+   "idle_confirmed": false,
+   "idle_reason": "CAPACITY-BLOCKED-RAM ram 0.7/1.0 GB",
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
    "idle_rounds": 0
   },
   "bm-m": {
@@ -148,8 +179,13 @@
    "hb_age_s": 0.6,
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
    "cpu_load_pct": 10,
    "ram_free_gb": 14.1,
+=======
+   "cpu_load_pct": 26,
+   "ram_free_gb": 12.4,
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
 =======
    "cpu_load_pct": 26,
    "ram_free_gb": 12.4,
@@ -166,7 +202,11 @@
     "rc": null,
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     "ts": "2026-11-03T04:21:11",
+=======
+    "ts": "2026-11-02T20:14:47",
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
 =======
     "ts": "2026-11-02T20:14:47",
 >>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
@@ -179,7 +219,11 @@
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
    "idle_rounds": 1
+=======
+   "idle_rounds": 7
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
 =======
    "idle_rounds": 7
 >>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
@@ -194,7 +238,11 @@
   "bm-c": 0,
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   "bm-m": 1
+=======
+  "bm-m": 7
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
 =======
   "bm-m": 7
 >>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
@@ -872,7 +920,11 @@
   },
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   "added": 0,
+=======
+  "added": 1,
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
 =======
   "added": 1,
 >>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
@@ -898,10 +950,13 @@
  "events": [
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   "R-NEXT-BIGSTREAMD-TTS-QC-20261103 UNVERIFIED(no-artifact-yet) via bm-b"
  ],
  "violations": [
 =======
+=======
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
 =======
 >>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
   "C-TTS-QC-ALL FAILED via bm-c",
@@ -911,6 +966,9 @@
   "bm-c CAPACITY-BLOCKED-RAM",
   "bm-m IDLE-CONFIRMED x7 (SELF-DISPATCH: lane scans its own backlo)",
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
+=======
 >>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
 =======
 >>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
