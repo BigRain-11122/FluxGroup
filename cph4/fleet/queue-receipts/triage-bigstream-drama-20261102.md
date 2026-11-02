@@ -1,14 +1,14 @@
-# 线级体检 bigstream-drama · 2026-11-02 22:25
+# 线级体检 bigstream-drama · 2026-11-02 23:02
 
 ## 工段与证据目录
-- drama-script   owner=编剧席      lane=-      证据 1/1 存在 · 文件 14 · 最新 75.7h
+- drama-script   owner=编剧席      lane=-      证据 1/1 存在 · 文件 14 · 最新 150.1h
 - drama-kf       owner=漫剧席      lane=bm-b   证据 0/1 存在 · 文件 0 · 最新 —
 - drama-voice    owner=声音席      lane=bm-b   证据 0/1 存在 · 文件 0 · 最新 —
 - drama-mix      owner=声音席      lane=bm-b   证据 0/1 存在 · 文件 0 · 最新 —
 
 ## 判定
-- 最近产出 75.7h 前（阈值 48.0h）→ STALE 超阈
-- 工段超阈 1/4（线级最近值不代表最差工段）：drama-script 75.7h
+- 最近产出 150.1h 前（阈值 48.0h）→ STALE 超阈
+- 工段超阈 1/4（线级最近值不代表最差工段）：drama-script 150.1h
 
 ## 下一步（按缺口）
 - drama-kf：建目录/补输入后再谈产出（责任人=漫剧席）
