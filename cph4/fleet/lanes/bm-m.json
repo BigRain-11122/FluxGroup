@@ -1,25 +1,23 @@
 {
  "node": "bm-m",
- "ts": "2026-11-02T14:41:01",
+ "ts": "2026-11-02T14:42:13",
  "jobs": [
   {
-   "id": "R-TTS-QC-R2-20261102",
-   "title": "短剧配音全量质检（出可发布集数清单）",
-   "cmd": "python Tools/fleet/tts_batch_check.py --dir media/drama-tts-out --out cph4/fleet/queue-receipts/tts-qc-r2-20261102.json",
+   "id": "R-ART-PUSH-B-20261102",
+   "title": "bm-b 实际产出回传移动盘（按 ARTIFACT-BACKUP-RULES-v1）",
+   "cmd": "powershell -ExecutionPolicy Bypass -File Tools\\fleet\\artifact_push.ps1 -Root \"C:\\Fluxgroup\\FluxGroup\" -Node bm-b",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/tts-qc-r2-20261102.json",
+   "deliverable": "cph4/fleet/artifacts/bm-b/MANIFEST.jsonl",
    "need_mb": null,
    "model": "none",
    "prompt": "",
-   "when_all": [
-    "C:/Fluxgroup/FluxGroup/media/drama-tts-out/r1202_ep001_060/"
-   ],
+   "when_all": [],
    "llm": null,
    "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 15.2/1.0 GB"
+ "capacity_note": "ram 13.6/1.0 GB"
 }
