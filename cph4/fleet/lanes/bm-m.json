@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
- "ts": "2026-11-03T02:48:05",
+ "ts": "2026-11-03T02:56:25",
  "jobs": [
   {
-   "id": "C-TTS-QC-ALL",
-   "title": "短剧配音全量质检（逐集时长/静音/体积 → 可发布集数清单）",
-   "cmd": "python Tools/fleet/tts_batch_check.py --dir media/drama-tts-out --out cph4/fleet/queue-receipts/tts-qc-all.json",
+   "id": "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102",
+   "title": "BigStream·漫剧 线证据扫描（bm-c 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line bigstream-drama",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/tts-qc-all.json",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigstream-drama-20261102.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 14.5/1.0 GB"
+ "capacity_note": "ram 15.8/1.0 GB"
 }
