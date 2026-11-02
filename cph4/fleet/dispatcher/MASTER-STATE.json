@@ -1,29 +1,29 @@
 {
- "ts": "2026-11-03T02:04:08",
- "cycle": 46,
+ "ts": "2026-11-03T02:05:18",
+ "cycle": 47,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-03T02:04:08",
+ "master_tick_ts": "2026-11-03T02:05:18",
  "queue": {
   "total": 305,
-  "open": 2,
-  "running": 3,
+  "open": 1,
+  "running": 4,
   "done": 201,
   "failed": 4
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 55.3,
-   "cpu_load_pct": 34,
-   "ram_free_gb": 33.2,
+   "hb_age_s": 5.4,
+   "cpu_load_pct": 37,
+   "ram_free_gb": 33,
    "gpu_util_pct": 10,
    "job": "C-TTS-QC-ALL",
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-03T01:59:30",
+    "ts": "2026-11-03T02:04:29",
     "reason": "ALREADY-CLOSED C-TTS-QC-ALL"
    },
    "idle_confirmed": false,
@@ -32,9 +32,9 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 17.3,
-   "cpu_load_pct": 40,
-   "ram_free_gb": 1.9,
+   "hb_age_s": 28.8,
+   "cpu_load_pct": 22,
+   "ram_free_gb": 3.3,
    "gpu_util_pct": null,
    "job": "R-TTS-QC-R2-20261102",
    "last_result": null,
@@ -44,35 +44,35 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 13.2,
+   "hb_age_s": 9.1,
    "cpu_load_pct": 9,
-   "ram_free_gb": 0.9,
+   "ram_free_gb": 1.4,
    "gpu_util_pct": 100,
-   "job": null,
-   "last_result": {
-    "job": null,
-    "state": "IDLE",
-    "rc": null,
-    "ts": "2026-11-03T02:04:00",
-    "reason": "ALREADY-CLOSED C-TTS-QC-ALL"
-   },
-   "idle_confirmed": true,
-   "idle_reason": "CAPACITY-BLOCKED-RAM ram 0.9/1.0 GB",
-   "idle_rounds": 1
-  },
-  "bm-m": {
-   "online": true,
-   "hb_age_s": 0.6,
-   "cpu_load_pct": 10,
-   "ram_free_gb": 14.7,
-   "gpu_util_pct": null,
    "job": "C-TTS-QC-ALL",
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-03T02:02:58",
-    "reason": "ALREADY-CLOSED R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102"
+    "ts": "2026-11-03T02:05:14",
+    "reason": "ALREADY-CLOSED C-TTS-QC-ALL"
+   },
+   "idle_confirmed": false,
+   "idle_reason": "",
+   "idle_rounds": 0
+  },
+  "bm-m": {
+   "online": true,
+   "hb_age_s": 0.6,
+   "cpu_load_pct": 6,
+   "ram_free_gb": 14.7,
+   "gpu_util_pct": null,
+   "job": "R-NEXT-BIGSTREAMD-TTS-QC-20261103",
+   "last_result": {
+    "job": null,
+    "state": "IDLE",
+    "rc": null,
+    "ts": "2026-11-03T02:04:08",
+    "reason": "ALREADY-CLOSED C-TTS-QC-ALL"
    },
    "idle_confirmed": false,
    "idle_reason": "",
@@ -82,7 +82,7 @@
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
-  "bm-c": 1,
+  "bm-c": 0,
   "bm-m": 0
  },
  "lines": {
@@ -122,9 +122,7 @@
     "R-TTS-QC-R2-20261102"
    ],
    "no_supply": false,
-   "blockers": [
-    "R-NEXT-BIGSTREAMD-TTS-QC-20261103:no-lane"
-   ],
+   "blockers": [],
    "note": null,
    "stuck_stage": "duanju-script",
    "stuck_owner": "编剧席"
@@ -756,12 +754,12 @@
   "by_kind": {
    "CAPACITY": 1
   },
-  "added": 1,
+  "added": 0,
   "tick_tier": "none",
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 2,
+  "local": 1,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -769,16 +767,16 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 2,
+  "cpu": 1,
   "gpu": 0
  },
  "supply_added": [],
  "events": [
   "C-TTS-QC-ALL REQUeued attempt=1",
-  "C-TTS-QC-ALL -> bm-m (cpu)"
+  "C-TTS-QC-ALL -> bm-c (cpu)",
+  "R-NEXT-BIGSTREAMD-TTS-QC-20261103 -> bm-m (cpu)"
  ],
  "violations": [
-  "bm-c CAPACITY-BLOCKED-RAM",
   "LINE-BLOCKED bigstream-drama ()",
   "STAGE-STALLED bigstream-duanju 卡在 剧本/编剧席 (短剧席)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
