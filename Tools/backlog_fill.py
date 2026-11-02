@@ -166,7 +166,8 @@ def _fill_manifest(root, rows, have, node=None):
         job = {k: r.get(k) for k in ("id", "title", "cmd", "cwd", "needs", "deliverable",
                                      "nodes", "day_ok", "heavy", "when_all", "when_none",
                                      "model", "prompt", "llm", "prio", "why", "timeout_s",
-                                     "cloud_ok", "need_mb", "est_gb", "verify_on_node")}
+                                     "cloud_ok", "need_mb", "est_gb", "verify_on_node", "accept", "line",
+                                     "rescue")}
         job["state"] = "OPEN"
         job["route"] = "local"
         job["created_by"] = "backlog_fill.py:manifest"

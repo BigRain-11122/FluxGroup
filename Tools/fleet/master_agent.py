@@ -417,7 +417,12 @@ def lane_capacity(node, fleet, needs="cpu", vram_min=0, job=None):
     # a search/QC pass fits in well under 1GB. Keeping the full 2-3GB floor for those
     # left bm-c "CAPACITY-BLOCKED-RAM at 2.0GB free" while it could have run them -
     # idle caused by the gate itself (CEO 2026-11-01: 门槛太多导致闲置).
-    if needs == "cpu" and not job:
+    # A rescue card exists to RECLAIM memory; blocking it because memory is low is
+    # circular (2026-11-02: bm-b sat at 0.0GB free and nothing could run - not even the
+    # script that frees memory). Rescue cards are allowed down to 0.2GB.
+    if job is not None and job.get("rescue"):
+        floor = 0.2
+    elif needs == "cpu" and not job:
         floor = min(floor, 1.0)
     elif needs == "cpu":
         est = float(job.get("est_gb") or 0)
