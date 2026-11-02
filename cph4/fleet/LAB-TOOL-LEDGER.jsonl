@@ -1,1 +1,2 @@
 {"ts": "2026-11-02T17:31:00", "tool": "fluxctl", "kind": "内部工具", "what": "一个入口看全盘子：status / check / gate / chief", "adopted_by": ["中枢(每日一屏)", "值班后新会话"], "evidence": "Tools/fleet/fluxctl.py", "next": "接入为 CLAUDE 会话第一条命令"}
+{"ts": "2026-11-02T17:40:00", "tool": "ri_dept", "kind": "治理工具", "what": "研究创新席：四态工单（IDEA/SCOUT/PROBE/ADOPTED+KILLED）、采纳率记分、边界白名单体检、超期自动清算、PROPOSALS 供卡", "adopted_by": ["master_pulse 慢批 ri 阶段", "flux_check I17/I18/I19"], "evidence": "Tools/fleet/ri_dept.py + cph4/fleet/RI-DEPT-v1.md", "next": "把 PROPOSALS.json 接成 night_fill 的第四类候选源"}

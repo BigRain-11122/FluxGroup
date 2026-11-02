@@ -1,0 +1,20 @@
+{
+ "id": "RI-C-001",
+ "seat": "ri-content",
+ "group": "content",
+ "title": "短剧/漫剧工序模板化",
+ "stage": "SCOUT",
+ "hypothesis": "把 C1-C4 拆成带验收口径的可派卡模板，night_fill 的候选卡就能从 0 变成 >0，70 小时无动作的病根也就没了",
+ "sources": [
+  "cph4/fleet/products/content.yaml",
+  "cph4/fleet/drama-dept-v1/DRAMA-PRODUCTION-SYSTEM-v1.md",
+  "cph4/fleet/duanju-dept-v1"
+ ],
+ "opened": "2026-11-02",
+ "touched": "2026-11-02",
+ "due": "2026-11-09",
+ "touches": [],
+ "probe": {},
+ "adoption": {},
+ "kill": {}
+}

@@ -422,6 +422,24 @@ def i16_one_current_version():
     return bad
 
 
+def i17_ri_seats_declared():
+    """研究创新席：active 产品组都必须有人管创新，登记字段齐全（RI-DEPT-v1 §7）。"""
+    import ri_dept
+    return ri_dept.check_seats()
+
+
+def i18_ri_scope():
+    """边界是路径白名单：组级席不许写平台核心，forbid 不许落在 writes 里。"""
+    import ri_dept
+    return ri_dept.check_scope()
+
+
+def i19_ri_not_idle():
+    """创新席不许空转：简报超期、IDEA/SCOUT 超 14 天、PROBE 过截止日都算红。"""
+    import ri_dept
+    return ri_dept.check_liveness()
+
+
 CHECKS = [
     ("I1", "每张卡有 line 且 line 存在", i1_cards_have_line),
     ("I2", "卡不含机器名/绝对主机路径", i2_cards_are_portable),
@@ -439,6 +457,9 @@ CHECKS = [
     ("I14", "P0 线 24 小时必须有产物", i14_p0_daily_output),
     ("I15", "发布件授权已清、24h 数据回填", i15_ship_is_clean),
     ("I16", "一条内容只有一个当前版", i16_one_current_version),
+    ("I17", "active 产品组都有研究创新席", i17_ri_seats_declared),
+    ("I18", "创新席不越界写平台核心", i18_ri_scope),
+    ("I19", "创新席不空转（简报/工单超期）", i19_ri_not_idle),
 ]
 
 
