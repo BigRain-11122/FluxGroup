@@ -1,14 +1,14 @@
 {
  "node": "bm-c",
- "ts": "2026-11-02T20:02:35",
+ "ts": "2026-11-02T20:06:27",
  "jobs": [
   {
-   "id": "KN-FILM-GATE-LATEST-20261102",
-   "title": "KN PACK-A 最新复核版跑全片闸（重复帧/亮度/时长三查）",
-   "cmd": "python cph4/fleet/mv-album-001-jay/kn_film_gate.py --film media/mv-album-001-jay/assembly-packA/KN-PACKA-CONFORM-v1-c2171.mp4 --tag gate-rerun",
+   "id": "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102",
+   "title": "BigStream·漫剧 线证据扫描（bm-c 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line bigstream-drama",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigstream-drama-20261102.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 2.1/1.0 GB"
+ "capacity_note": "ram 1.3/1.0 GB"
 }
