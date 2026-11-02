@@ -994,17 +994,4 @@ if prev_by and prev_by != owner_node:
 [2026-11-02 10:4x] R2.67 复探收口｜调用≈50｜3 分钟复探 = BURNING 全绿：bm-m 心跳 64.5s + origin 持续 pulse 提交（主控真空已愈）；僵尸重放不再复现（10:35 后每卡仅一次 artifact、lanes 全空闲）；bm-c 仍不可达（物理件）、bm-b RAM 0.2GB（CPU 车道不可用）维持。步8：本席 durable cron 注册表实读为**空**（8 班 cron 已丢）→ 已按 CHARTER §四 原参重建 `43 2,5,8,12,15,18,21,23 * * *`（job b3fe38a2），并建 +90min 一次性回访探针（b04eb115 @12:08）。推前反转闸 76 处 REVERSAL 已逐条判读为 origin 结构修正的有意移除（非本班丢行），豁免记 DISPATCH-LOG。
 [2026-11-02 13:41-13:5x][PROXY R2.68 事件班·承载件触发] PROBE L0-DOWN 第13次 -> 例行巡班收口（节拍器+本机树陈旧两因分离·R2.61 先 fetch origin 再定性）｜调用数≈12｜verdict=GREEN（主控 bm-m origin 全速·执行面三机心跳 9-50s 新鲜·队列推进·4 笔 MV 回执在产）｜行动=rebase 拉平 56+4 笔回执上链+台账三件+清过期回访 cron+锁收口。新 DEFECT D-R268-QUEUE-ENCODING-CORRUPT：PRODUCTION-QUEUE.jsonl 80/95 行 JSON 语法坏（title 中文 GBK ? 替换+引号丢失·历史卡为主·容错跳过不阻塞现役·风险=坏行活卡被静默跳过·修法建议=迁移重写规范 JSONL+写手 UTF-8 断言·Tools 受保护面候裁）。
 [2026-11-02 13:5x][PROXY R2.68-ERRATUM] R2.68 行调用数勘正：实际 ≈27（非 12）——含协议/锁门/三件读数/KV 探针/origin 核验/56 笔树拉平+4 笔回执上链/反转闸 330 行判读；超例行巡班 10 帽部分=树拉平与回执上链为真实必要收口（D-R259-NOPUSH 悬笔风险面），非全量深挖复算。
-<<<<<<<
-||||||| Stash base
-=======
-=======
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
->>>>>>> Stashed changes
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
->>>>>>> Stashed changes
-<<<<<<< HEAD
->>>>>>> 18a81cbb (MV 交付闸首跑定罪 + 两处闸缺陷修 + SUPPLY-DRY 翻案补料)
+[2026-11-03 00:02-00:4x][PROXY R2.69 事件班·承载件触发：probe L0-DOWN age 10.2h]｜调用≈20｜verdict=METRONOME(第14次)+LOCAL-TREE-DIVERGED(真故障·本班收口)。两因分离：(a) 13:46 R2.68 后 15:43/18:43/21:43/23:43 四班无 idle 会话未触发+19:41/19:56/20:11 三 probe 无人接=日志龄自然越阈（R2.61 STANDING-PRECEDENT）；(b) 真故障=本机树 33 ahead/212 behind——33 笔全为 D-R267 僵尸 artifact 重放（R-TRIAGE-BIGSTREAMDRAMA×29+C-TTS-QC-ALL×4·lanes/bm-a.json 钉旧卡=D-R264-LANEFILE-STALE-REPLAY 未修）+pull 腿被 CODELY/evolution-ledger/reflection-journal/settings 四件真内容脏面卡死（20:14 起连败）。三源核验=主控健康（origin tip 00:00:47 [via bm-m] 每分钟 pulse·三机心跳 9.9/31.9/34.8s）+bm-c 复活（翻案 R2.68「停机持续」）。行动=备份全景（backup/bm-a-20261103-0002+八件+脏补丁）→reset 收口→重放真内容（CODELY 四条目+值守轮两台账）→LOG 尾 14 行冲突标记剥离（D-R267-MERGE-MARKERS 第2次复发·origin 同带·块内零真内容·白名单校验）→滞留回执上链（R-TRIAGE…-bm-a.json+triage-bigstream-drama-20261102.md）。新裁决=TTS-QC 双卡 UNVERIFIED≠没干活（rc=0 证据已写执行机·bm-b 幻影头/bm-c 陈树推送腿死·候本机 git 收口·物理件零催办·收口前 chief 重排噪声有界）。零 poke（三机活且领卡·防双烧）。复探见下行。
