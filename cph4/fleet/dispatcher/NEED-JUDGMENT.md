@@ -74,3 +74,4 @@
 [2026-11-02 13:4x][R2.68 裁决] 上行 PROBE L0-DOWN(age 3.0h @13:41:05) -> RESOLVED: DESIGNED-METRONOME（第13次）+ LOCAL-TREE-STALE。两因分离：(a) 节拍器结构性（承 R2.61 STANDING-PRECEDENT·12:43 班无会话未触发=设计预期）；(b) 本机树 56 behind/4 ahead -> 盘面假陈旧；origin 实况=主控 bm-m 每分钟 pulse+作业回执全速、NATS 三机心跳 9-50s 全新鲜 -> 判例行巡班收口（禁事件班全量深挖复算）。处置=拉平+重放 4 笔 bm-a 回执+台账上链。
 [2026-11-02 13:4x][PROXY R2.68] DEFECT D-R268-QUEUE-ENCODING-CORRUPT（新·登记不擅改）：cph4/fleet/PRODUCTION-QUEUE.jsonl 80/95 行 JSON 语法坏（title 中文被转码成 ? 且吃掉闭合引号·样本=Q-MV-0001-001 行）——历史卡为主，主控容错跳过不阻塞现役调度；风险=坏行中若有未收口活卡会被静默跳过。修法建议=队列迁移重写规范 JSONL（UTF-8）+写手断言。队列/写手属 Tools 受保护面，候 CEO/群审。
 [2026-11-02 13:4x][PROXY R2.68] 状态更新：bm-b ram_free 3.7G（KV 13:42 seq816）——R2.67 CAPACITY 旗（0.2G 结构性不可用）解除；bm-c 停机持续（HB missing·第4班连续登记·waiting-CEO 零催办）；主控 bm-m 健康（推翻本班入班「MASTER-STATE 停 11:56=真空复发」初判——R2.61 fetch-origin 定性判例第二次防误判）。
+[2026-11-02 19:41:05][PROBE] L0-DOWN: DISPATCH-LOG.md age 5.9h (>3h) (probe alarm -> carrier/patrol revive path)
