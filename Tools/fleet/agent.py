@@ -111,6 +111,41 @@ def heal_deleted():
     return healed
 
 
+def commit_state():
+    """Snapshot the fleet state this node itself rewrote, so the rebase can actually run.
+
+    Why (2026-11-02): the lane's workgen/backlog_fill steps rewrite the shared backlog and queue
+    every cycle. Those are real state transitions (cards promoted, archived, closed) and must not
+    be dropped by GEN_STATE -- but while they sit unstaged, the rebase that a diverged node needs
+    refuses on "unstaged changes" and the node stays behind. bm-c sat at ahead/behind 1/2 and
+    kept re-running stale code for exactly this reason. Commit them under a pathspec limited to
+    fleet state; shift ledgers (dispatcher logs, orders) are deliberately left alone.
+    """
+    # Full output, not run_msg: it truncates to 240 chars, which would silently commit only the
+    # first one or two paths and leave the rest to block the next rebase.
+    try:
+        dirty = subprocess.run(["git", "status", "--porcelain"], cwd=ROOT,
+                               capture_output=True, text=True, timeout=60).stdout or ""
+    except Exception:
+        return 1
+    paths = []
+    for ln in dirty.splitlines():
+        if not ln.strip():
+            continue
+        p = ln[3:].strip()
+        if p.startswith("cph4/fleet/") and p.endswith((".jsonl", ".json", ".md")):
+            paths.append(p)
+    if not paths:
+        return 0
+    run_msg(["git", "add", "--"] + paths, 120)
+    rc_c, _ = run_msg(["git", "commit", "-q", "-m",
+                       "state(bm-c): node state snapshot before rebase [via bm-c]",
+                       "--"] + paths, 120)
+    if rc_c == 0:
+        note("committed %d state files before rebase" % len(paths))
+    return rc_c
+
+
 def pull():
     # Codes must arrive before the executor runs, otherwise the node keeps running the bug
     # we already fixed on the master. Never autostash (it swallowed hand edits once).
@@ -138,7 +173,12 @@ def pull():
         return rc2
     # Diverged: local commits exist. Rebase onto the master, but only when the tree is clean --
     # git refuses on its own otherwise, so a shift mid-edit is never destroyed.
+    commit_state()
     rc3, tail3 = run_msg(["git", "rebase", "--no-autostash", "origin/main"], 180)
+    if rc3 == 0:
+        # A rebased node is ahead of the master until it publishes; leaving that commit local
+        # is what made the next cycle start diverged again.
+        run_msg(["git", "push", "origin", "HEAD:main"], 120)
     if rc3 != 0:
         # Never leave a half-finished rebase behind: that residue is exactly what turned into
         # the stuck-rebase / detached-HEAD loop (D-R256-STUCKREBASE).
