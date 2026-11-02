@@ -1,4 +1,4 @@
-# 交接一屏（2026-11-03 02:50）
+# 交接一屏（2026-11-03 03:02）
 
 > 新会话先读这一页，再看具体文件。四段：在产 / 待判 / 阻塞 / 下一步。
 
@@ -12,7 +12,7 @@
 ## 二、待判（2 张在队列等机器）
 
 - `R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102` BigStream·漫剧 线证据扫描（bm-c 本机可判面）（无归属）
-- `CANARY-20261103T025024` 端到端自检：投卡→领取→执行→回执→产物（fleet-ops）
+- `CANARY-20261103T030218` 端到端自检：投卡→领取→执行→回执→产物（fleet-ops）
 
 ## 三、阻塞（5 项断言红 / 3 台机不一致）
 
@@ -21,15 +21,15 @@
 - 断言 I3：18 条
 - 断言 I4：12 条
 - 断言 I14：2 条
-- 机器 bm-a：BUSY-NO-REPORT、NO-RECEIPT-1H
+- 机器 bm-a：NO-RECEIPT-1H
 - 机器 bm-b：BUSY-NO-REPORT、NO-RECEIPT-1H
 - 机器 bm-c：NO-RECEIPT-1H
 
 ## 四、下一步（P0 两线）
 
-- bigstream-mv：过闸率 83.3，返工 14，产出年龄 7.4
-- bigstream-drama：过闸率 75.0，返工 13，产出年龄 80.0
-- bigstream-duanju：过闸率 100.0，返工 2，产出年龄 80.0
+- bigstream-mv：过闸率 83.3，返工 14，产出年龄 7.6
+- bigstream-drama：过闸率 75.0，返工 13，产出年龄 80.2
+- bigstream-duanju：过闸率 100.0，返工 2，产出年龄 80.2
 - biggame：过闸率 100.0，返工 0，产出年龄 None
 
 ## 五、已发布（0 条）
