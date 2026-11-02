@@ -1,0 +1,16 @@
+{
+ "line": "bigcompute",
+ "priority": "P3",
+ "evidence": [
+  "compute/BigCompute"
+ ],
+ "checks": [
+  {
+   "name": "有台账",
+   "type": "glob",
+   "path": "compute/BigCompute",
+   "pattern": "*",
+   "min": 1
+  }
+ ]
+}

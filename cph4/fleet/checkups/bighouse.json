@@ -1,0 +1,16 @@
+{
+ "line": "bighouse",
+ "priority": "P2",
+ "evidence": [
+  "house/BigHouse"
+ ],
+ "checks": [
+  {
+   "name": "有正典",
+   "type": "glob",
+   "path": "house/BigHouse",
+   "pattern": "*",
+   "min": 1
+  }
+ ]
+}

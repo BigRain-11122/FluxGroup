@@ -1,0 +1,16 @@
+{
+ "line": "fluxverse",
+ "priority": "P2",
+ "evidence": [
+  "gaming/FluxVerse/world"
+ ],
+ "checks": [
+  {
+   "name": "有世界状态",
+   "type": "glob",
+   "path": "gaming/FluxVerse/world",
+   "pattern": "*",
+   "min": 1
+  }
+ ]
+}

@@ -1,0 +1,29 @@
+{
+ "line": "bigmoney",
+ "priority": "P1",
+ "evidence": [
+  "quant/bigmoney/results",
+  "quant/bigmoney/data"
+ ],
+ "checks": [
+  {
+   "name": "有回测结论",
+   "type": "glob",
+   "path": "quant/bigmoney/results",
+   "pattern": "*.json",
+   "min": 1
+  },
+  {
+   "name": "结论五数齐全",
+   "type": "json_keys",
+   "path": "quant/bigmoney/results",
+   "required": [
+    "annual_return",
+    "max_drawdown",
+    "sharpe",
+    "sample_period",
+    "trades"
+   ]
+  }
+ ]
+}

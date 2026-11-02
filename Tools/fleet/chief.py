@@ -73,6 +73,7 @@ def main(argv):
     inv = jload(os.path.join(STATE, "invariants.json"), {}) or {}
     com = jload(os.path.join(STATE, "comms.json"), {}) or {}
     met = jload(os.path.join(STATE, "metrics.json"), {}) or {}
+    ck = jload(os.path.join(STATE, "checkups.json"), {}) or {}
     now = datetime.now()
 
     running = [r for r in q if r.get("state") == "RUNNING"]
@@ -165,6 +166,9 @@ def main(argv):
     L.append("## 今天的数")
     L.append("- 在产 %d / 待领 %d / 候选 %d" % (len(running), len(opens), len(ready)))
     L.append("- 断言红 %d 项%s" % (len(red), ("：" + ",".join("%s x%s" % (i, n) for i, n, _ in red[:5])) if red else ""))
+    bad_ck = [r for r in (ck.get("lines") or []) if r.get("status") == "FAIL"]
+    if bad_ck:
+        L.append("- 体检不合格 %d 条：%s" % (len(bad_ck), "、".join(r["line"] for r in bad_ck[:4])))
     L.append("- 机器不一致 %d 台%s" % (len(bad_nodes),
                                  ("：" + ",".join("%s(%s)" % (n["node"], "、".join(n["flags"])) for n in bad_nodes[:3])) if bad_nodes else ""))
     if met.get("debt") is not None:

@@ -1,0 +1,30 @@
+{
+ "line": "biggame",
+ "priority": "P0",
+ "evidence": [
+  "gaming/MiniGame/Builds",
+  "gaming/MiniGame/Design"
+ ],
+ "checks": [
+  {
+   "name": "有可玩包",
+   "type": "glob",
+   "path": "gaming/MiniGame",
+   "pattern": "*.html",
+   "min": 1
+  },
+  {
+   "name": "有设计件",
+   "type": "glob",
+   "path": "gaming/MiniGame/Design",
+   "pattern": "*",
+   "min": 1
+  },
+  {
+   "name": "24h 内有动作",
+   "type": "age_h",
+   "path": "gaming/MiniGame/Design",
+   "max": 48
+  }
+ ]
+}

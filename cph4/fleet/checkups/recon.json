@@ -1,0 +1,22 @@
+{
+ "line": "recon",
+ "priority": "P3",
+ "evidence": [
+  "cph4/fleet/recon-dept-v1"
+ ],
+ "checks": [
+  {
+   "name": "有拆解卡",
+   "type": "glob",
+   "path": "cph4/fleet/recon-dept-v1",
+   "pattern": "*.md",
+   "min": 1
+  },
+  {
+   "name": "7 天内有动作",
+   "type": "age_h",
+   "path": "cph4/fleet/recon-dept-v1",
+   "max": 168
+  }
+ ]
+}

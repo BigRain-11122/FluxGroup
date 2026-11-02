@@ -1,0 +1,38 @@
+{
+ "line": "bigstream-duanju",
+ "priority": "P0",
+ "evidence": [
+  "cph4/fleet/duanju-dept-v1",
+  "media/drama-tts-out",
+  "media/drama-eps"
+ ],
+ "checks": [
+  {
+   "name": "有剧本",
+   "type": "glob",
+   "path": "cph4/fleet/duanju-dept-v1",
+   "pattern": "*.md",
+   "min": 1
+  },
+  {
+   "name": "有配音输出",
+   "type": "glob",
+   "path": "media/drama-tts-out",
+   "pattern": "*.wav",
+   "min": 1
+  },
+  {
+   "name": "有集成片",
+   "type": "glob",
+   "path": "media/drama-eps",
+   "pattern": "*.mp4",
+   "min": 1
+  },
+  {
+   "name": "24h 内有动作",
+   "type": "age_h",
+   "path": "cph4/fleet/duanju-dept-v1",
+   "max": 48
+  }
+ ]
+}

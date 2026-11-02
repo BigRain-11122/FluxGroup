@@ -68,6 +68,7 @@ STAGES = [
     # census 写 state/lines.json（I14 与 metrics 都依赖它），因此放在慢批串行最前。
     ("census", ["Tools/fleet/census.py"], 180, {0}, True),
     ("gate", ["Tools/fleet/gate_report.py"], 180, {0}, True),
+    ("checkups", ["Tools/fleet/checkups.py"], 180, {0, 2}, True),
     ("metrics", ["Tools/fleet/ops_metrics.py"], 90, {0}, True),
     ("showcase", ["Tools/fleet/showcase.py"], 60, {0}, True),
     ("vault", ["Tools/fleet/vault.py", "verify"], 120, {0, 2}, True),

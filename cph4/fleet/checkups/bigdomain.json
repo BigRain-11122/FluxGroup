@@ -1,0 +1,23 @@
+{
+ "line": "bigdomain",
+ "priority": "P1",
+ "evidence": [
+  "domain/BigDomain"
+ ],
+ "checks": [
+  {
+   "name": "有前台件",
+   "type": "glob",
+   "path": "domain/BigDomain",
+   "pattern": "*",
+   "min": 1
+  },
+  {
+   "name": "有收款台账",
+   "type": "glob",
+   "path": "domain/BigDomain",
+   "pattern": "*order*",
+   "min": 1
+  }
+ ]
+}

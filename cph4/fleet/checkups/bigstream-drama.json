@@ -1,0 +1,30 @@
+{
+ "line": "bigstream-drama",
+ "priority": "P0",
+ "evidence": [
+  "cph4/fleet/drama-dept-v1",
+  "media/drama-eps"
+ ],
+ "checks": [
+  {
+   "name": "有分镜证据",
+   "type": "glob",
+   "path": "cph4/fleet/drama-dept-v1",
+   "pattern": "*",
+   "min": 1
+  },
+  {
+   "name": "有集成片",
+   "type": "glob",
+   "path": "media/drama-eps",
+   "pattern": "*.mp4",
+   "min": 1
+  },
+  {
+   "name": "24h 内有动作",
+   "type": "age_h",
+   "path": "cph4/fleet/drama-dept-v1",
+   "max": 48
+  }
+ ]
+}
