@@ -1,34 +1,72 @@
 {
- "ts": "2026-10-31T18:21:53",
+ "ts": "2026-11-02T20:21:55",
  "node": "bm-c",
  "paused": false,
- "verdict": "BUSY",
+ "verdict": "BLOCKED-CAPACITY",
  "capacity": {
   "gpu": {
-   "util_pct": 6,
-   "used_mb": 2871,
+   "util_pct": 100,
+   "used_mb": 15547,
    "total_mb": 16384
   },
-  "ram_free_gb": 6.16,
-  "vram_free_mb": 13513,
-  "lease_held": true,
-  "can_gpu": true,
-  "can_cpu": true
+  "ram_free_gb": 1.89,
+  "vram_free_mb": 837,
+  "lease_held": false,
+  "can_gpu": false,
+  "can_cpu": false
  },
- "idle_min": 2.1,
- "assigned": [],
- "next_actions": [],
+ "idle_min": 0.5,
+ "assigned": [
+  {
+   "kind": "assigned",
+   "id": "C-TTS-QC-ALL",
+   "title": "短剧配音全量质检（逐集时长/静音/体积 → 可发布集数清单）",
+   "prio": null,
+   "needs": "cpu",
+   "feasible": false,
+   "reason": "master lane file (authority)"
+  }
+ ],
+ "next_actions": [
+  {
+   "kind": "assigned",
+   "id": "C-TTS-QC-ALL",
+   "title": "短剧配音全量质检（逐集时长/静音/体积 → 可发布集数清单）",
+   "prio": null,
+   "needs": "cpu",
+   "feasible": false,
+   "reason": "master lane file (authority)"
+  },
+  {
+   "kind": "queue",
+   "id": "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102",
+   "title": "BigStream·漫剧 线证据扫描（bm-c 本机可判面）",
+   "prio": "P3",
+   "needs": "cpu",
+   "feasible": false,
+   "reason": "queue row OPEN"
+  },
+  {
+   "kind": "queue",
+   "id": "LINE-TRIAGE-MV-20261102",
+   "title": "MV 线证据陈旧扫描（line_triage·本机可判面）",
+   "prio": "P3",
+   "needs": "cpu",
+   "feasible": false,
+   "reason": "queue row OPEN"
+  }
+ ],
  "flags": [
   {
-   "id": "R-LLM-BMC-PROBE",
-   "kind": "stub",
-   "detail": "FAILED row with no cmd (authored stub, never runnable)"
+   "id": "Q-ALIGN-20261030-BMC",
+   "kind": "paper-claim",
+   "detail": "DONE but deliverable missing: K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\queue-receipts\\fleet-align-bm-c.json"
   }
  ],
  "dispatched_now": null,
  "counts": {
   "open_backlog": 0,
-  "open_queue": 2,
+  "open_queue": 4,
   "bank_pending": 0
  }
 }
