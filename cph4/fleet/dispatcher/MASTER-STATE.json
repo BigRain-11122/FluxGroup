@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-02T14:46:56",
- "cycle": 1227,
+ "ts": "2026-11-02T14:48:10",
+ "cycle": 1228,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-02T14:46:56",
+ "master_tick_ts": "2026-11-02T14:48:10",
  "queue": {
   "total": 97,
   "open": 0,
@@ -14,10 +14,10 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 41.6,
-   "cpu_load_pct": 69,
-   "ram_free_gb": 22.9,
-   "gpu_util_pct": 5,
+   "hb_age_s": 55.6,
+   "cpu_load_pct": 65,
+   "ram_free_gb": 21.7,
+   "gpu_util_pct": 0,
    "job": "R-TTS-QC-R2-20261102",
    "last_result": {
     "job": "R-VB-DISCOVER-R2-20261102",
@@ -32,8 +32,8 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 3.6,
-   "cpu_load_pct": 12,
+   "hb_age_s": 15.0,
+   "cpu_load_pct": 6,
    "ram_free_gb": 6,
    "gpu_util_pct": null,
    "job": "R-TTS-EP001-060-NIGHT",
@@ -44,7 +44,7 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 614.7,
+   "hb_age_s": 688.1,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -57,16 +57,16 @@
   "bm-m": {
    "online": true,
    "hb_age_s": 0.5,
-   "cpu_load_pct": 48,
-   "ram_free_gb": 15.6,
+   "cpu_load_pct": 23,
+   "ram_free_gb": 13.6,
    "gpu_util_pct": null,
-   "job": "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102",
+   "job": "R-ART-PUSH-B-20261102",
    "last_result": {
-    "job": null,
-    "state": "IDLE",
-    "rc": null,
-    "ts": "2026-11-02T14:45:50",
-    "reason": "SELF-DISPATCH: lane scans its own backlog"
+    "job": "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102",
+    "state": "FAILED",
+    "rc": 127,
+    "ts": "2026-11-02T14:47:02",
+    "reason": null
    },
    "idle_confirmed": false,
    "idle_reason": "",
@@ -709,13 +709,10 @@
   "cpu": 0,
   "gpu": 0
  },
- "supply_added": [
-  "backlog_manifest+1"
- ],
+ "supply_added": [],
  "events": [
-  "R-TTS-EP001-060-NIGHT -> bm-b (gpu)",
-  "R-ART-PUSH-C-20261102 -> bm-c (cpu)",
-  "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102 -> bm-m (cpu)"
+  "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102 FAILED via bm-m",
+  "R-ART-PUSH-B-20261102 -> bm-m (cpu)"
  ],
  "violations": [
   "LINE-BLOCKED bigstream-drama ()"
