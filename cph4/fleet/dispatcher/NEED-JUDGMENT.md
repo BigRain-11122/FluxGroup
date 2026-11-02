@@ -110,3 +110,6 @@
 [2026-11-03 04:0x][PROXY R2.71] RESOLVED（派单面）**D-R270-NO-INPUT-PRECHECK**=短剧配音质检卡输入只在 bm-b（media/drama-tools/drama_voicegen_batch.py 的 TTS_OUT 硬编码 bm-b 根路径），却按「指定机沉默>600s 任何机可接」被 bm-a/bm-m 取走：03:24:30 bm-a rc=1 MISSING、03:43:03 bm-m rc=1 MISSING，各 0.1s 回 UNVERIFIED→closer 反复重排。三层修：①卡面 requires 加输入目录（执行器前置校验不接）；②lane_agent 回执新增 E-INPUT；③僵尸卡退役、今日卡修派 bm-b。同病三犯=闸升格到卡面。
 [2026-11-03 04:0x][PROXY R2.71] 待判（未决）bigstream-duanju 线级缺口：checkups 三项证据本机全 0（配音 wav/集成片 mp4/48h 动作）；r1202_ep001_060 是否在 bm-b 盘上未知→已投 P1 盘点卡 R-NEXT-DUANJU-INVENTORY-20261103；生产卡（voicegen EP004-060 重 GPU 长批）待盘点结果+bm-b 空窗再派，禁凭猜派长批。
 [2026-11-03 04:0x][PROXY R2.71] CAPACITY（零动作）bm-c ram_free 0.1GB(<1.0GB 地板)、bm-b CPU 99% 在忙=判在现场不派重活不杀进程；bm-d 仍未入网（enabled=false）。
+
+[2026-11-03 04:1x][PROXY R2.71] DEFECT→RESOLVED **D-R271-CANCEL-RESURRECTION**=取消卡被在飞执行腿写回 RUNNING（在飞腿用领取前快照整行写回）→ 同一张空输入卡在 bm-a/bm-m/bm-c 反复烧，04:09:06 bm-m 再证 rc=1 E-INPUT。修=`fleet_lane.merge_jsonl` 取消粘滞（CANCELLED 是终态，仅 requeued_by 可复活；单测通过）。附：E-INPUT 分类已在 bm-m 生效（回执 error_class=E-INPUT 实测）。
+[2026-11-03 04:1x][PROXY R2.71] 事故留痕（已修）**D-R271-AUTOSTASH-TOOL-CONFLICT**=bm-a 工作树 04:12 出现 `UU Tools/fleet/fleet_lane.py` / `lane_agent.py`（hot-sync autostash 冲突标记入文件），使单一队列写入口与执行器 import 全断。处置=git checkout HEAD 取回本班已推版本、markers 复扫 0、py_compile OK；根因=改动在暂存/未提交态停留过久。落闸=台账与 Tools 改动一律「写→秒级原子推」，禁跨分钟挂起。

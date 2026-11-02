@@ -186,6 +186,17 @@ def merge_jsonl(path, rows, key="id"):
                 continue
             k = r[key]
             if k in index:
+                prev = current[index[k]]
+                # Cancellation is terminal (D-R271-CANCEL-RESURRECTION, 2026-11-03):
+                # a lane that claimed the card before the cancel landed wrote RUNNING
+                # back over CANCELLED, so the same empty-input card kept burning on
+                # three boxes. Only an explicit re-queue may revive it.
+                if (isinstance(prev, dict) and prev.get("state") == "CANCELLED"
+                        and r.get("state") in ("OPEN", "READY", "RUNNING", "CLAIMED")
+                        and not r.get("requeued_by")):
+                    r = dict(r)
+                    r["state"] = "CANCELLED"
+                    r["cancel_kept_by"] = "fleet_lane"
                 current[index[k]] = r
             else:
                 index[k] = len(current)

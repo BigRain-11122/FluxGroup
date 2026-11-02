@@ -1012,3 +1012,5 @@ if prev_by and prev_by != owner_node:
 >>>>>>> Stashed changes
 <<<<<<< HEAD
 >>>>>>> 18a81cbb (MV 交付闸首跑定罪 + 两处闸缺陷修 + SUPPLY-DRY 翻案补料)
+
+[2026-11-03 04:1x][PROXY R2.71 复探与三修] 点火成功（bm-b 04:09:06 起跑盘点卡）。新增两修：取消粘滞（merge_jsonl，防在飞腿复活已取消卡）+ 冲突清理（fleet_lane/lane_agent UU 取回 HEAD，markers 0，编译 OK）。队列 183 行/183 id 稳定；E-INPUT 分类已在 bm-m 回执生效。回访探针 4c609b62@05:47 在案。
