@@ -380,6 +380,48 @@ def i14_p0_daily_output():
     return bad
 
 
+def i15_ship_is_clean():
+    """发布件必须授权清算，且发布后 24 小时数据必须回填（否则等于发完就断线）。"""
+    d = os.path.join(FLEET, "ship")
+    if not os.path.isdir(d):
+        return []
+    bad = []
+    now = time.time()
+    for n in os.listdir(d):
+        if not n.endswith(".json"):
+            continue
+        o = jload(os.path.join(d, n), {}) or {}
+        if not o.get("license_cleared"):
+            bad.append("ship:%s:license-uncleared" % n)
+        pub = o.get("published_at")
+        data = o.get("data") or {}
+        if pub and "24h" not in data:
+            try:
+                from datetime import datetime as _dt
+                age_h = (now - _dt.fromisoformat(pub).timestamp()) / 3600.0
+                if age_h > 26:
+                    bad.append("ship:%s:no-24h-data(%.0fh)" % (n, age_h))
+            except Exception:
+                pass
+    return bad
+
+
+def i16_one_current_version():
+    d = os.path.join(FLEET, "ship")
+    if not os.path.isdir(d):
+        return []
+    bad = []
+    for n in os.listdir(d):
+        if not n.endswith(".json"):
+            continue
+        o = jload(os.path.join(d, n), {}) or {}
+        cur = o.get("current_version")
+        vers = [v.get("version") for v in (o.get("versions") or [])]
+        if cur and vers and cur not in vers:
+            bad.append("ship:%s:current-not-in-versions" % n)
+    return bad
+
+
 CHECKS = [
     ("I1", "每张卡有 line 且 line 存在", i1_cards_have_line),
     ("I2", "卡不含机器名/绝对主机路径", i2_cards_are_portable),
@@ -395,6 +437,8 @@ CHECKS = [
     ("I12", "无孤儿脚本", i12_no_orphan_scripts),
     ("I13", "有机空闲且有它能干的活", i13_idle_with_matching_work),
     ("I14", "P0 线 24 小时必须有产物", i14_p0_daily_output),
+    ("I15", "发布件授权已清、24h 数据回填", i15_ship_is_clean),
+    ("I16", "一条内容只有一个当前版", i16_one_current_version),
 ]
 
 
