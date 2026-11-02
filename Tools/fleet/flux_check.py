@@ -34,7 +34,9 @@ PRODUCTS = os.path.join(FLEET, "products")
 VAULT = os.path.join(FLEET, "vault", "index.jsonl")
 VERDICTS = os.path.join(FLEET, "verdicts")
 STATE = os.path.join(FLEET, "state")
-BASELINE = os.path.join(STATE, "invariants-baseline.json")
+# The baseline is a governed artefact (it is the debt we accept), not volatile state:
+# it lives outside state/ so that invariant I6 ("nothing under state/ is tracked") holds.
+BASELINE = os.path.join(FLEET, "INVARIANTS-BASELINE.json")
 
 sys.path.insert(0, HERE)
 import flux_contracts as C  # noqa: E402
@@ -284,23 +286,31 @@ def i12_no_orphan_scripts():
     ENTRIES = {"flux_check", "flux_contracts", "census", "lane_agent", "agent",
                "master_pulse", "pulse_watchdog", "model_gateway", "web_ai"}
     hay = []
-    skip_dirs = {"state", "__pycache__", "queue-receipts", "artifacts"}
-    for base in (os.path.join(ROOT, "Tools"), FLEET, os.path.join(ROOT, "docs")):
+    skip_dirs = {"state", "__pycache__", "queue-receipts", "artifacts", "dispatcher"}
+    # Only stable sources count as a caller: code, launchd plists and the two declarative
+    # work ledgers. Markdown reports and queue files are rewritten every cycle, which made
+    # this check flip between 0 and 8 orphans per run (2026-11-02) - a gate that flickers
+    # is worse than no gate.
+    for base in (os.path.join(ROOT, "Tools"), os.path.join(ROOT, "cph4")):
         for dirpath, dirs, files in os.walk(base):
             dirs[:] = [x for x in dirs if x not in skip_dirs]
             for n in files:
-                if n.startswith("invariants"):
-                    continue          # the checker's own output would "call" everything
-                if n.startswith("PRODUCTION-") or n in ("events.jsonl", "JUDGMENT-QUEUE.jsonl"):
-                    continue          # volatile queues: a mention here is not a caller
-                if n.endswith((".py", ".json", ".jsonl", ".md", ".ps1", ".sh", ".cmd", ".txt")):
-                    p = os.path.join(dirpath, n)
-                    if dirpath == d and n.endswith(".py"):
-                        continue          # the script family itself
-                    try:
-                        hay.append(open(p, encoding="utf-8", errors="ignore").read())
-                    except Exception:
-                        pass
+                if not n.endswith((".py", ".ps1", ".sh", ".cmd", ".plist")):
+                    continue
+                p = os.path.join(dirpath, n)
+                if dirpath == d and n.endswith(".py"):
+                    continue          # the script family itself
+                try:
+                    hay.append(open(p, encoding="utf-8", errors="ignore").read())
+                except Exception:
+                    pass
+    for extra in ("WORK-RULES.jsonl", "RECURRING-WORK.jsonl", "LINE-REGISTRY.json"):
+        p = os.path.join(FLEET, extra)
+        if os.path.exists(p):
+            try:
+                hay.append(open(p, encoding="utf-8", errors="ignore").read())
+            except Exception:
+                pass
     for pl in ("/Users/%s/Library/LaunchAgents" % os.environ.get("USER", ""),):
         if os.path.isdir(pl):
             for n in os.listdir(pl):
