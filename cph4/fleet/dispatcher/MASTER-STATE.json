@@ -1,29 +1,29 @@
 {
- "ts": "2026-11-02T10:58:35",
- "cycle": 1092,
+ "ts": "2026-11-02T11:01:58",
+ "cycle": 1095,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-02T10:58:35",
+ "master_tick_ts": "2026-11-02T11:01:58",
  "queue": {
   "total": 82,
   "open": 1,
-  "running": 0,
+  "running": 1,
   "done": 63,
-  "failed": 3
+  "failed": 2
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 21.0,
-   "cpu_load_pct": 41,
-   "ram_free_gb": 34.2,
-   "gpu_util_pct": 70,
+   "hb_age_s": 44.1,
+   "cpu_load_pct": 81,
+   "ram_free_gb": 31.2,
+   "gpu_util_pct": 4,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-02T10:54:32",
+    "ts": "2026-11-02T10:59:30",
     "reason": "DAY-YIELD: work machine, takes over at 19:00"
    },
    "idle_confirmed": false,
@@ -32,25 +32,25 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 42.7,
-   "cpu_load_pct": 31,
-   "ram_free_gb": 0.9,
+   "hb_age_s": 4.2,
+   "cpu_load_pct": 80,
+   "ram_free_gb": 1.7,
    "gpu_util_pct": null,
-   "job": null,
+   "job": "R-PLAN-BIGSTREAMDRA-20261102",
    "last_result": {
-    "job": "R-FREEMEM-BMB-20261102",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-02T10:56:47",
-    "reason": null
+    "job": null,
+    "state": "IDLE",
+    "rc": null,
+    "ts": "2026-11-02T11:01:37",
+    "reason": "CAPACITY-BLOCKED-RAM ram 0.4/1.0 GB"
    },
    "idle_confirmed": false,
-   "idle_reason": "CAPACITY-BLOCKED-RAM ram 0.9/1.0 GB",
+   "idle_reason": "",
    "idle_rounds": 0
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 540.5,
+   "hb_age_s": 743.7,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -64,26 +64,26 @@
    "online": true,
    "hb_age_s": 0.5,
    "cpu_load_pct": null,
-   "ram_free_gb": 13.4,
+   "ram_free_gb": 15.5,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-02T10:57:32",
+    "ts": "2026-11-02T11:00:44",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 21
+   "idle_rounds": 24
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 21
+  "bm-m": 24
  },
  "lines": {
   "bigstream-mv": {
@@ -111,9 +111,7 @@
     "R-PLAN-BIGSTREAMDRA-20261102"
    ],
    "no_supply": false,
-   "blockers": [
-    "R-PLAN-BIGSTREAMDRA-20261102:no-lane"
-   ],
+   "blockers": [],
    "note": null,
    "stuck_stage": "drama-script",
    "stuck_owner": "编剧席"
@@ -713,10 +711,8 @@
   }
  },
  "judgments": {
-  "open": 1,
-  "by_kind": {
-   "CAPACITY": 1
-  },
+  "open": 0,
+  "by_kind": {},
   "added": 0,
   "tick_tier": "none",
   "judgment_tier": "cloud-smart"
@@ -733,19 +729,12 @@
   "cpu": 1,
   "gpu": 0
  },
- "supply_added": [
-  "backlog_manifest+1"
- ],
- "events": [
-  "R-FREEMEM-BMB-20261102 FAILED(no-artifact) via bm-b"
- ],
+ "supply_added": [],
+ "events": [],
  "violations": [
-  "bm-b CAPACITY-BLOCKED-RAM",
-  "bm-m IDLE-CONFIRMED x21 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-m IDLE-CONFIRMED x24 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED bigstream-mv 卡在 立意/分镜/导演席 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED bigstream-drama 卡在 剧本/编剧席 (漫剧席)"
  ],
- "lane_files_written": [
-  "bm-b"
- ]
+ "lane_files_written": []
 }
