@@ -1,11 +1,16 @@
-# workgen report 2026-11-02T11:28:32
+# workgen report 2026-11-02T19:37:11
 
-- added cards: 0
+- added cards: 1
 
+- + `C-TTS-QC-ALL` -> bm-b (cpu, P2)
 
-- bm-b inventory ok (6 open)
+- R7 archived 1 dead READY row(s) whose queue twin is finished
+- bm-a inventory ok (3 open)
+- bm-b skip `C-FIN-ETF-COMPOSITE`: deliverable already on disk
 - bm-c skip `C-VB-DISCOVER-V01`: deliverable already on disk
-- bm-c skip `KN-FILM-GATE-LATEST`: input missing
-- R5 skipped: free variable 'tok' referenced before assignment in enclosing scope
+- bm-c skip `C-VB-DISCOVER-V02`: deliverable already on disk
+- bm-c skip `C-VB-DISCOVER-V03`: deliverable already on disk
 - bm-c STILL SHORT 1 card(s): no safe declaration available
-- R6 closed 2 READY card(s) whose deliverable already exists
+- bm-m STILL SHORT 2 card(s): no safe declaration available
+- R6 closed 1 READY card(s) whose deliverable already exists
+- queue promotion on bm-c: +0 job(s)
