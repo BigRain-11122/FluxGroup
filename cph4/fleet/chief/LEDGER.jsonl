@@ -124,3 +124,5 @@
 {"ts": "2026-11-03T00:08:03", "stage": 3, "read": {"running": 3, "open": 11, "ready": 14, "red": 5}, "judged": "2 台机空转且有活", "action": "flag", "target": ["bm-a", "bm-m"], "result": "applied"}
 {"ts": "2026-11-03T00:08:03", "stage": 3, "read": {"running": 3, "open": 11, "ready": 14, "red": 5}, "judged": "1 张卡在跑但 1 小时无回执", "action": "requeue", "target": ["R-PLAN-RECON-20261103"], "result": "applied"}
 {"ts": "2026-11-03T00:08:03", "stage": 3, "read": {"running": 3, "open": 11, "ready": 14, "red": 5}, "judged": "P0 线 24h 无产物：2 条", "action": "escalate", "target": ["p0:bigstream-drama:no-output", "p0:bigstream-duanju:no-output"], "result": "applied"}
+{"ts": "2026-11-03T00:16:43", "stage": 3, "read": {"running": 3, "open": 11, "ready": 15, "red": 5}, "judged": "1 张卡在跑但 1 小时无回执", "action": "requeue", "target": ["R-PLAN-BIGMONEY-20261103"], "result": "applied"}
+{"ts": "2026-11-03T00:16:43", "stage": 3, "read": {"running": 3, "open": 11, "ready": 15, "red": 5}, "judged": "P0 线 24h 无产物：2 条", "action": "escalate", "target": ["p0:bigstream-drama:no-output", "p0:bigstream-duanju:no-output"], "result": "applied"}

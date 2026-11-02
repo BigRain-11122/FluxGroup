@@ -1,29 +1,19 @@
 {
- "ts": "2026-11-03T00:08:03",
+ "ts": "2026-11-03T00:16:43",
  "stage": 3,
  "adoption": {
   "days": 2,
-  "applied": 114,
-  "total": 91,
-  "rate": 125.3,
+  "applied": 117,
+  "total": 93,
+  "rate": 125.8,
   "eligible_stage4": false
  },
  "decisions": [
   {
-   "kind": "flag",
-   "why": "2 台机空转且有活",
-   "target": [
-    "bm-a",
-    "bm-m"
-   ],
-   "min_stage": 1,
-   "result": "applied"
-  },
-  {
    "kind": "requeue",
    "why": "1 张卡在跑但 1 小时无回执",
    "target": [
-    "R-PLAN-RECON-20261103"
+    "R-PLAN-BIGMONEY-20261103"
    ],
    "min_stage": 3,
    "result": "applied"
@@ -43,7 +33,7 @@
   {
    "kind": "requeue",
    "ids": [
-    "R-PLAN-RECON-20261103"
+    "R-PLAN-BIGMONEY-20261103"
    ]
   }
  ],
