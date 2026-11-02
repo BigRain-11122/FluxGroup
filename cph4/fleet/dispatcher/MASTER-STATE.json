@@ -1,29 +1,29 @@
 {
- "ts": "2026-11-02T19:44:53",
- "cycle": 1464,
+ "ts": "2026-11-02T19:46:10",
+ "cycle": 1465,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-02T19:44:53",
+ "master_tick_ts": "2026-11-02T19:46:10",
  "queue": {
-  "total": 125,
+  "total": 126,
   "open": 1,
   "running": 4,
   "done": 81,
-  "failed": 4
+  "failed": 3
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 26.3,
-   "cpu_load_pct": 34,
-   "ram_free_gb": 31.6,
-   "gpu_util_pct": 8,
+   "hb_age_s": 56.8,
+   "cpu_load_pct": 62,
+   "ram_free_gb": 28.7,
+   "gpu_util_pct": 1,
    "job": "RCANARY2-20261102T181500",
    "last_result": {
     "job": "C-MV-TRANSITION-20261102",
-    "state": "RUNNING",
-    "rc": null,
-    "ts": "2026-11-02T19:44:31",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-02T19:45:17",
     "reason": null
    },
    "idle_confirmed": false,
@@ -32,9 +32,9 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 62.1,
-   "cpu_load_pct": 5,
-   "ram_free_gb": 4.8,
+   "hb_age_s": 14.7,
+   "cpu_load_pct": 17,
+   "ram_free_gb": 4.6,
    "gpu_util_pct": null,
    "job": "R-TTS-QC-R2-20261102",
    "last_result": null,
@@ -44,16 +44,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 29.1,
-   "cpu_load_pct": 14,
-   "ram_free_gb": 2.1,
-   "gpu_util_pct": 100,
-   "job": "C-MV-TRANSITION-20261102",
+   "hb_age_s": 25.4,
+   "cpu_load_pct": 10,
+   "ram_free_gb": 1.7,
+   "gpu_util_pct": 99,
+   "job": "C-MV-STABILITY",
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-02T19:44:31",
+    "ts": "2026-11-02T19:45:50",
     "reason": "CAPACITY-BLOCKED-RAM ram 0.8/1.0 GB"
    },
    "idle_confirmed": false,
@@ -63,15 +63,15 @@
   "bm-m": {
    "online": true,
    "hb_age_s": 0.6,
-   "cpu_load_pct": 25,
-   "ram_free_gb": 13.9,
+   "cpu_load_pct": 34,
+   "ram_free_gb": 14.9,
    "gpu_util_pct": null,
    "job": "C-TTS-QC-ALL",
    "last_result": {
-    "job": "C-MV-STABILITY",
-    "state": "FAILED",
-    "rc": 1,
-    "ts": "2026-11-02T19:43:43",
+    "job": "CANARY-20261102T194604",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-02T19:46:04",
     "reason": null
    },
    "idle_confirmed": false,
@@ -88,7 +88,7 @@
  "lines": {
   "bigstream-mv": {
    "name": "BigStream·MV 41 曲",
-   "status": "ACTIVE",
+   "status": "PAUSED",
    "verdict": "WAITING",
    "age_h": null,
    "stale_after_h": 24.0,
@@ -769,11 +769,10 @@
   "cpu": 1,
   "gpu": 0
  },
- "supply_added": [
-  "backlog_manifest+1"
- ],
+ "supply_added": [],
  "events": [
-  "C-MV-STABILITY FAILED via bm-m"
+  "C-MV-TRANSITION-20261102 UNVERIFIED(no-artifact-yet) via bm-a",
+  "C-MV-STABILITY -> bm-c (cpu)"
  ],
  "violations": [
   "LINE-BLOCKED bigstream-drama ()",
@@ -781,8 +780,6 @@
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-a",
-  "bm-c",
-  "bm-m"
+  "bm-c"
  ]
 }
