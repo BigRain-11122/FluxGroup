@@ -169,8 +169,16 @@ def main(argv):
         if ln.get("status") == "ACTIVE" and (stale or poor):
             stops.append({"line": lid, "why": "7天零产出" if stale else "过闸率<50%且返工>=3"})
 
+    # 模型账（CEO 2026-11-02：简单的走本地，省云端 token）：每天看三个数。
+    budget = jload(os.path.join(FLEET, "dispatcher", "cloud-budget.json"), {}) or {}
+    model_acct = {"cloud_calls": int(budget.get("calls") or 0),
+                  "cloud_spent_credits": int(budget.get("spent_credits") or 0),
+                  "cloud_cap_credits": int(budget.get("daily_cap_credits") or 0),
+                  "local_note": "本地调用见 JUDGMENT-QUEUE 的 model=local:* 与 DIGEST.md"}
+
     out = {"ts": datetime.now().isoformat(timespec="seconds"),
            "rate_cny_per_hour": rate, "lines": rows, "autostop": stops,
+           "model": model_acct,
            "debt": debt, "debt_drop_pct": drop_pct,
            "debt_deadline": "30 天内降 30%（每周约 10%）"}
     with open(os.path.join(STATE, "metrics.json"), "w", encoding="utf-8") as f:
@@ -202,6 +210,8 @@ def main(argv):
             "¥%.2f" % r["cost_cny"],
             "%d/%d/%d" % (r["cards"], r["done"], r["failed"]),
             r["status"]))
+    print("模型账：云端 %d 次 / %d 积分（上限 %d）；周期件禁云，默认本地" % (
+        model_acct["cloud_calls"], model_acct["cloud_spent_credits"], model_acct["cloud_cap_credits"]))
     if debt is not None:
         print("结构债 %s 条，累计下降 %s%%（目标：30 天降 30%%）" % (debt, drop_pct))
     if applied:

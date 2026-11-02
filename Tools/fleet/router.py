@@ -94,6 +94,11 @@ def _gen(model, prompt, timeout=300):
 
 def ask(prompt, job="", allowed_files=None, cloud_ok=False, downstream=False):
     """Returns dict(text, tier, gate). Escalates local -> local-heavy -> cloud -> human."""
+    # 周期件禁云：脉冲里跑的自动阶段一律不许上云（CEO 2026-11-02 令）。
+    if cloud_ok and os.environ.get("FLUX_AUTOMATION") == "1":
+        _audit({"kind": "route", "job": job, "tier": "cloud", "gate": "blocked",
+                "why": "periodic automation may not use cloud"})
+        cloud_ok = False
     for tier in ("local", "local-heavy"):
         if tier == "local-heavy" and not _mem_ok(22):
             _audit({"kind": "route-skip", "job": job, "tier": tier,

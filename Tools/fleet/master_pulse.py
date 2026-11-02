@@ -450,8 +450,10 @@ def checks(prev: dict | None = None) -> list[dict]:
 def run_stage(argv, timeout_s):
     t0 = time.time()
     try:
+        # 周期件禁云（CEO 2026-11-02）：给每个阶段打标记，router 见到就拒绝升云。
+        _env = dict(os.environ, FLUX_AUTOMATION="1")
         r = subprocess.run([PY] + argv, cwd=ROOT, capture_output=True, text=True,
-                           timeout=timeout_s)
+                           timeout=timeout_s, env=_env)
         out = (r.stdout or "").strip()
         err = (r.stderr or "").strip()
         tail = (out.splitlines() or err.splitlines() or [""])[-1][:160]
