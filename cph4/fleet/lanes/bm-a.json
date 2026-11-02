@@ -1,14 +1,14 @@
 {
  "node": "bm-a",
- "ts": "2026-11-02T11:45:45",
+ "ts": "2026-11-02T11:51:51",
  "jobs": [
   {
-   "id": "C-MV-TRANSITION",
-   "title": "MV 转场审计（逐切点方向余弦，OPPOSE 必须为 0）",
-   "cmd": "python Tools/mv_transition_audit.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v717.mp4 --json cph4/fleet/queue-receipts/mv-transition.json",
+   "id": "R-MV-GATE-R2-20261102",
+   "title": "MV 交付闸复跑（当前母版四闸全验）",
+   "cmd": "python Tools/mv_delivery_gate.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v718.mp4 --whitelist cph4/fleet/mv0001-handover/canon/MV0001-REPRISE-WHITELIST.json --card 38.79:40.21 --card 219.71:223.88 --json cph4/fleet/queue-receipts/mv-gate-r2-20261102.json",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/mv-transition.json",
+   "deliverable": "cph4/fleet/queue-receipts/mv-gate-r2-20261102.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",

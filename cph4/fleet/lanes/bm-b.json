@@ -1,23 +1,23 @@
 {
  "node": "bm-b",
- "ts": "2026-11-02T11:47:16",
+ "ts": "2026-11-02T11:51:51",
  "jobs": [
   {
-   "id": "R-TTS-QC-R2-20261102",
-   "title": "短剧配音全量质检（出可发布集数清单）",
-   "cmd": "python Tools/fleet/tts_batch_check.py --dir media/drama-tts-out --out cph4/fleet/queue-receipts/tts-qc-r2-20261102.json",
-   "cwd": "",
+   "id": "Q-AUD-1002",
+   "title": "EP002 带声合流（三层混音→成片·依 10-27 审计命令链）",
+   "cmd": "ffmpeg -y -i \"C:/Fluxgroup/FluxGroup/media/drama-eps/EP002.mp4\" -i \"C:/Fluxgroup/FluxGroup/media/drama-mix-out/r1003_3layer/EP002_3layer\" -map 0:v -map 1:a -c:v copy -af \"loudnorm=I=-14:TP=-1.0:LRA=11\" -c:a aac -b:a 192k -shortest \"C:/Fluxgroup/FluxGroup/media/drama-eps-audio/EP002_AUDIO-r1002.mp4\"",
+   "cwd": "C:/Fluxgroup/FluxGroup",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/tts-qc-r2-20261102.json",
+   "deliverable": "C:/Fluxgroup/FluxGroup/media/drama-eps-audio/EP002_AUDIO-r1002.mp4",
    "need_mb": null,
    "model": "none",
    "prompt": "",
    "when_all": [],
-   "llm": null,
+   "llm": {},
    "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 5.4/1.0 GB"
+ "capacity_note": "ram 5.5/1.0 GB"
 }
