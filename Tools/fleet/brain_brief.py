@@ -117,6 +117,7 @@ def main():
     steps = jload(os.path.join(root, "cph4", "fleet", "LINE-NEXT-STEPS.json"), {})
     pulse = jload(os.path.join(root, "cph4", "fleet", "dispatcher", "PULSE.json"), {})
     now = time.time()
+    NAME = machine_names()   # 人话机名，全篇统一使用（CEO 令：不要代号）
 
     inflight = {}
     for r in rows_q + rows_b:
@@ -194,7 +195,7 @@ def main():
                     % (c["id"], ("无产出证据" if c["age_h"] is None else "%.1fh 前" % c["age_h"]),
                        c["limit"], "有" if c["has_next"] else "无"))
     elif idle_boxes:
-        decision = "%s 空闲且无线到期：按 CPU-CAPACITY 补料或停一台省电" % ",".join(idle_boxes)
+        decision = "%s 空闲且无线到期：按 CPU-CAPACITY 补料或停一台省电" % "、".join(NAME.get(x, x) for x in idle_boxes)
     else:
         decision = "全线在跑，无待决"
 
@@ -205,7 +206,6 @@ def main():
     L.append("- **%s**" % decision)
     L.append("")
     L.append("## 机队事实（来源：lanes/*.json + PULSE.json）")
-    NAME = machine_names()
     live = "、".join("%s%s" % (NAME.get(n, n), "" if v["jobs"] else "（空闲）")
                     for n, v in sorted(lanes.items()) if v["online"]) or "无"
     dead = [NAME.get(n, n) for n, v in lanes.items() if not v["online"]]
