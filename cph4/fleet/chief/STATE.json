@@ -1,11 +1,11 @@
 {
- "ts": "2026-11-03T01:27:26",
+ "ts": "2026-11-03T01:33:20",
  "stage": 3,
  "adoption": {
   "days": 2,
-  "applied": 130,
-  "total": 104,
-  "rate": 125.0,
+  "applied": 132,
+  "total": 106,
+  "rate": 124.5,
   "eligible_stage4": false
  },
  "decisions": [
@@ -14,6 +14,17 @@
    "why": "1 张卡在跑但 1 小时无回执",
    "target": [
     "R-TTS-QC-R2-20261102"
+   ],
+   "min_stage": 3,
+   "result": "applied"
+  },
+  {
+   "kind": "promote",
+   "why": "队列空，候选 9 张",
+   "target": [
+    "C-FIN-ETF-COMPOSITE",
+    "C-VB-DISCOVER-V03",
+    "C-VB-DISCOVER-V03"
    ],
    "min_stage": 3,
    "result": "applied"
@@ -35,6 +46,10 @@
    "ids": [
     "R-TTS-QC-R2-20261102"
    ]
+  },
+  {
+   "kind": "promote",
+   "out": "夜间包已在（1 张在跑/待领），不重复灌"
   }
  ],
  "brief": "/Users/junsheng.sun/FluxGroup/cph4/fleet/chief/BRIEF-20261103.md"
