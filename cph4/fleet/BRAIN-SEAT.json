@@ -8,10 +8,16 @@
    "kind": "small-local",
    "model": "qwen3.5:4b",
    "resident_max_gb": 4.0,
-   "role": "快判：路由/归因/短动作/归并事实",
+   "role": "快判：路由/归因/短动作/归并事实（4B，41 tok/s，不换页）",
    "latency": "3-4s 实测",
    "state": "ACTIVE",
-   "why": "32GB 统一内存与 CEO 办公共用；4B 8k 实测 3.3GB、41 tok/s，不触发换页"
+   "why": "32GB 统一内存与 CEO 办公共用；4B 8k 实测 3.3GB、41 tok/s，不触发换页",
+   "judge_candidate": {
+    "model": "qwen3:8b",
+    "state": "BENCH-PENDING",
+    "why": "CEO 2026-11-02：本机主要赋能 AI。预算放开到预留 4GB/上限 14GB 后，8B 可常驻",
+    "switch_rule": "仅当同题实测质量明显优于 4B 且不触发换页，才把判断席切到 8B"
+   }
   },
   {
    "id": "server",
@@ -19,7 +25,12 @@
    "kind": "big-local",
    "model": "",
    "endpoint": "",
-   "capabilities": ["judgment", "planning", "quant-batch", "creative-direction"],
+   "capabilities": [
+    "judgment",
+    "planning",
+    "quant-batch",
+    "creative-direction"
+   ],
    "state": "PENDING",
    "enable_when": "bm-d 入网（Tailscale + lane 心跳）并声明 llm.endpoint 与 model；届时把 state 改 ACTIVE 即可接管重判断，本机不再承担",
    "handover": [
@@ -41,14 +52,32 @@
   }
  ],
  "escalation": {
-  "order": ["local", "server", "cloud"],
+  "order": [
+   "local",
+   "server",
+   "cloud"
+  ],
   "rule": "上一层明确说「判不了/证据不足」才升下一层；任何一层不得改写问题以使自己能判",
   "budget_guard": "上云前先查当日已花额度；超 200 积分停手写 NEED-SUPPLY，不自作主张"
  },
  "light_touch": {
   "_label": "轻度赋能：本机的产出形态",
-  "does": ["判断与决策（写进 BRAIN.md 与队列）", "派单与补料", "监督四信号与磁盘事实", "把重型活路由到有产能的机器"],
-  "does_not": ["重媒体生产（i2v/KF/渲染/批量转码）", "常驻大模型", "占用 CEO 办公时段的重 CPU"],
+  "does": [
+   "判断与决策（写进 BRAIN.md 与队列）",
+   "派单与补料",
+   "监督四信号与磁盘事实",
+   "把重型活路由到有产能的机器"
+  ],
+  "does_not": [
+   "重媒体生产（i2v/KF/渲染/批量转码）",
+   "常驻大模型",
+   "占用 CEO 办公时段的重 CPU"
+  ],
   "measure": "本机每轮 CPU 峰值应远低于一台生产机；若主控自己在跑重活，判角色越界"
+ },
+ "machine_role": {
+  "primary": "AI 赋能（本地模型、判断席、机队网关）",
+  "secondary": "轻度办公（浏览器/文档，预留 4GB）",
+  "gateway": "http://0.0.0.0:11435 供机队调用（带 token），网页端 :8088"
  }
 }
