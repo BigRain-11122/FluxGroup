@@ -1,19 +1,18 @@
 {
- "ts": "2026-11-02T22:07:38",
+ "ts": "2026-11-02T22:13:36",
  "stage": 3,
  "adoption": {
   "days": 1,
-  "applied": 59,
-  "total": 54,
-  "rate": 109.3,
+  "applied": 62,
+  "total": 56,
+  "rate": 110.7,
   "eligible_stage4": false
  },
  "decisions": [
   {
    "kind": "flag",
-   "why": "2 台机空转且有活",
+   "why": "1 台机空转且有活",
    "target": [
-    "bm-a",
     "bm-m"
    ],
    "min_stage": 1,
@@ -25,6 +24,17 @@
    "target": [
     "R-TTS-QC-R2-20261102",
     "C-TTS-QC-ALL"
+   ],
+   "min_stage": 3,
+   "result": "applied"
+  },
+  {
+   "kind": "promote",
+   "why": "队列空，候选 4 张",
+   "target": [
+    "C-VB-DISCOVER-V03",
+    "C-VB-DISCOVER-V03",
+    "R-TTS-QC-R2-20261102"
    ],
    "min_stage": 3,
    "result": "applied"
@@ -47,6 +57,10 @@
     "R-TTS-QC-R2-20261102",
     "C-TTS-QC-ALL"
    ]
+  },
+  {
+   "kind": "promote",
+   "out": "队列已有 3 张待领，够用，不灌"
   }
  ],
  "brief": "/Users/junsheng.sun/FluxGroup/cph4/fleet/chief/BRIEF-20261102.md"
