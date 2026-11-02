@@ -60,9 +60,9 @@
  "lane_local_llm": {
   "endpoint": "http://127.0.0.1:11434",
   "model": "qwen3:4b-instruct",
-  "keep_alive": "5m",
+  "keep_alive": "30m",
   "num_ctx": 4096,
-  "why": "本机是 CEO 工作机：模型用完 5 分钟就退，上下文压到 4096，别把 12GB 显存常年钉住",
+  "why": "CEO 2026-11-02：本机主要赋能 AI → 常驻 4B（3.3GB）提高机队调用响应，办公仍留 4GB",
   "fallback": "http://100.75.133.10:11434",
   "shared_brain": "bm-m qwen3.5:35b-a3b (Tailscale 100.75.133.10, resident, keep_alive=-1)"
  },
@@ -109,15 +109,17 @@
    "reserve_for_office_gb": 4,
    "model_max_gb": 14,
    "swap_soft_gb": 1.0,
-   "swap_hard_gb": 2.0
+   "swap_hard_gb": 2.0,
+   "note": "办公预留 4GB；4B 常驻（AI 优先，keep_alive 30m），8B 仅按需加载做长文"
   },
   "note": "办公预留从 6GB 降到 4GB；换页规则不变（≥2GB 时单模型压到常驻席）"
  },
  "judge_seat": {
   "model": "qwen3:8b",
   "role": "本地判读席（比 4B 更能给判断，但更慢）",
-  "state": "PENDING-BENCH",
+  "state": "MEASURED-NOT-ADOPTED",
   "rule": "先与 4B 同题实测：正确率/是否编造/端到端秒数；只有质量明显更优才替换 4B",
-  "why": "判断质量是当前瓶颈，速度不是；8B 约 5GB，在新预算内可常驻"
+  "why": "判断质量是当前瓶颈，速度不是；8B 约 5GB，在新预算内可常驻",
+  "evidence": "同题 4 条实测（judge-bench-20261102.json）：4B 更可执行、不更慢；8B 更爱回「需要人工」"
  }
 }

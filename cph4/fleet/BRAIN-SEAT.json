@@ -14,9 +14,12 @@
    "why": "32GB 统一内存与 CEO 办公共用；4B 8k 实测 3.3GB、41 tok/s，不触发换页",
    "judge_candidate": {
     "model": "qwen3:8b",
-    "state": "BENCH-PENDING",
+    "state": "MEASURED-NOT-ADOPTED",
     "why": "CEO 2026-11-02：本机主要赋能 AI。预算放开到预留 4GB/上限 14GB 后，8B 可常驻",
-    "switch_rule": "仅当同题实测质量明显优于 4B 且不触发换页，才把判断席切到 8B"
+    "switch_rule": "仅当同题实测质量明显优于 4B 且不触发换页，才把判断席切到 8B",
+    "bench": "cph4/fleet/queue-receipts/judge-bench-20261102.json",
+    "result": "同题 4 条：4B 可执行 3/4、判不了 0/4、编造 0、1.5s/38.9 tok/s；8B 可执行 2/4、判不了 3/4、2.0s/26.1 tok/s",
+    "decision": "判断席继续用 4B；8B 不替换。8B 保留用于长文稿件（有深度但更保守），不做短判断。"
    }
   },
   {
