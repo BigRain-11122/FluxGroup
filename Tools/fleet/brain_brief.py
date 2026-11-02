@@ -132,6 +132,22 @@ def main():
         lanes[node] = {"age_s": round(age, 0), "online": age <= OFFLINE_AFTER,
                        "jobs": [j.get("id") for j in d.get("jobs") or []],
                        "note": d.get("capacity_note") or "", "idle": d.get("idle_reason") or ""}
+    # 2026-11-02：上面用 lanes/*.json 的 mtime 判在线是错的——那个文件是主控按「执行腿
+    # 上报」写的，执行腿在长任务里阻塞不上报时它就不动，于是把正在满负荷干活的机器
+    # （实测 bm-b：cpu 100%、hb 35 秒）写成「掉线 137 分钟」，主控据此把两条线标 BLOCKED。
+    # 机器活不活看 MASTER-STATE 的 hb_age_s（机器心跳），执行腿多久没上报单独记。
+    try:
+        _ms = jload(os.path.join(root, "cph4", "fleet", "dispatcher", "MASTER-STATE.json"), {})
+        for n, v in ((_ms.get("lanes") or {})).items():
+            hb = v.get("hb_age_s")
+            if n in lanes and hb is not None:
+                lanes[n]["hb_age_s"] = hb
+                lanes[n]["online"] = float(hb) <= OFFLINE_AFTER
+                lanes[n]["lane_age_s"] = lanes[n]["age_s"]
+                if not lanes[n]["online"] and float(hb) <= OFFLINE_AFTER:
+                    lanes[n]["online"] = True
+    except Exception:
+        pass
     # The pulse node is alive by definition while its own PULSE.json is fresh: lane_agent
     # on the control plane does not rewrite lanes/<node>.json, so reading only that file
     # reported the master as "掉线" while it was busy producing this very page.
@@ -205,11 +221,18 @@ def main():
     L.append("## 本轮唯一决策")
     L.append("- **%s**" % decision)
     L.append("")
-    L.append("## 机队事实（来源：lanes/*.json + PULSE.json）")
+    L.append("## 机队事实（来源：MASTER-STATE hb_age_s + lanes/*.json + PULSE.json）")
     live = "、".join("%s%s" % (NAME.get(n, n), "" if v["jobs"] else "（空闲）")
                     for n, v in sorted(lanes.items()) if v["online"]) or "无"
     dead = [NAME.get(n, n) for n, v in lanes.items() if not v["online"]]
     L.append("- 在线：%s%s" % (live, ("；掉线：" + "、".join(dead)) if dead else ""))
+    # 机器活着但执行腿很久没上报 ≠ 掉线：这是长任务在跑，必须与「掉线」分开写，
+    # 否则主控会照着「掉线」去重排卡，把正在产出的活打断。
+    quiet = ["%s（执行腿 %.0f 分钟未上报，机活）" % (NAME.get(n, n), v["lane_age_s"] / 60.0)
+             for n, v in sorted(lanes.items())
+             if v["online"] and v.get("lane_age_s", 0) > OFFLINE_AFTER]
+    if quiet:
+        L.append("- 在忙未上报：%s" % "、".join(quiet))
     L.append("- 队列：跑 %d · 待派 %d · 失败 %d｜主控脉 %s（%s）"
              % (run_n, open_n, len(failed), "ok" if pulse.get("ok") else "DEGRADED",
                 (pulse.get("ts") or "-")[:16]))
