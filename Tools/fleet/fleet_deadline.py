@@ -164,6 +164,19 @@ def main() -> int:
         have = {r.get("key") for r in jl(JUDGMENT)}
         made = 0
         for lid, age_h, limit_h, src, owner in late:
+            # 只问真超期的线：age 未到阈值就提问会把判断队列灌成噪音
+            # （2026-11-02 实锚：24h 未超 36h 的线也被问了两次）。
+            if age_h < limit_h:
+                continue
+            # 有已声明下一步的线不需要模型做方向判断——night_plan 会直接派卡。
+            try:
+                import json as _j
+                with open(os.path.join(ROOT, "cph4", "fleet", "LINE-NEXT-STEPS.json"),
+                          encoding="utf-8") as _f:
+                    if ((_j.load(_f).get("lines") or {}).get(lid) or {}).get("cards"):
+                        continue
+            except Exception:
+                pass
             if made >= 3:
                 break      # 一天最多 3 条时效问询，避免把判断队列灌成噪音
             key = "LINE-LATE:%s:%s" % (lid, today)
