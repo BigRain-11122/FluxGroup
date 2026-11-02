@@ -63,6 +63,12 @@ STAGES = [
     ("lane", ["Tools/fleet/lane_agent.py", "--node", NODE, "--root", ROOT, "--no-fetch"], 300, {0}, False),
     # inventory exits 1 to say "a lane is STARVED"; that is an alert, not a tool failure.
     ("inventory", ["Tools/fleet/inventory_guard.py"], 120, {0, 1}, True),
+    # 事实层（2026-11-02 FLUX OS v2）：先把磁盘事实与结构断言跑一遍，再谈派单。
+    # census 写 state/lines.json（I14 与 metrics 都依赖它），因此放在慢批串行最前。
+    ("census", ["Tools/fleet/census.py"], 180, {0}, True),
+    ("invariants", ["Tools/fleet/flux_check.py"], 120, {0}, True),
+    ("metrics", ["Tools/fleet/ops_metrics.py"], 90, {0}, True),
+    ("comms", ["Tools/fleet/comms_check.py"], 60, {0}, True),
     ("health", ["Tools/fleet/fleet_health.py"], 90, {0}, True),
     ("contingency", ["Tools/fleet/fleet_contingency.py"], 120, {0}, True),
     ("judge", ["Tools/fleet/local_judge.py"], 180, {0}, True),
@@ -486,7 +492,7 @@ def main() -> int:
     # with no extra memory, so the slow batch is latency-bound on nothing but serialisation).
     # Queue writers (master, contingency, inventory) must never run concurrently or they
     # clobber each other's rows; everything else is read-mostly and model-bound.
-    SLOW_SERIAL = {"inventory", "contingency", "solver", "line_agents"}
+    SLOW_SERIAL = {"census", "inventory", "contingency", "solver", "line_agents"}
     serial = [s for s in STAGES if not s[4]]
     slow_serial = [s for s in STAGES if s[4] and s[0] in SLOW_SERIAL]
     parallel = [s for s in STAGES if s[4] and s[0] not in SLOW_SERIAL]
