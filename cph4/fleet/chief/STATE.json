@@ -1,32 +1,22 @@
 {
- "ts": "2026-11-03T02:44:25",
+ "ts": "2026-11-03T02:50:24",
  "stage": 3,
  "adoption": {
   "days": 2,
-  "applied": 161,
-  "total": 135,
-  "rate": 119.3,
+  "applied": 164,
+  "total": 138,
+  "rate": 118.8,
   "eligible_stage4": false
  },
  "decisions": [
   {
    "kind": "requeue",
-   "why": "3 张卡在跑但 1 小时无回执",
+   "why": "4 张卡在跑但 1 小时无回执",
    "target": [
+    "R-NEXT-BIGSTREAMD-TTS-QC-20261103",
     "R-TTS-QC-R2-20261102",
     "C-TTS-QC-ALL",
     "C-TTS-QC-ALL"
-   ],
-   "min_stage": 3,
-   "result": "applied"
-  },
-  {
-   "kind": "promote",
-   "why": "队列空，候选 8 张",
-   "target": [
-    "C-VB-DISCOVER-V03",
-    "C-VB-DISCOVER-V03",
-    "C-VB-DISCOVER-V03"
    ],
    "min_stage": 3,
    "result": "applied"
@@ -46,14 +36,11 @@
   {
    "kind": "requeue",
    "ids": [
+    "R-NEXT-BIGSTREAMD-TTS-QC-20261103",
     "R-TTS-QC-R2-20261102",
     "C-TTS-QC-ALL",
     "C-TTS-QC-ALL"
    ]
-  },
-  {
-   "kind": "promote",
-   "out": "队列已有 3 张待领，够用，不灌"
   }
  ],
  "brief": "/Users/junsheng.sun/FluxGroup/cph4/fleet/chief/BRIEF-20261103.md"
