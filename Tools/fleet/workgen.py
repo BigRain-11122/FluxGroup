@@ -91,12 +91,14 @@ def read_jsonl(p):
     return out
 
 
-def write_jsonl(p, rows):
-    tmp = p + ".tmp"
-    with open(tmp, "w", encoding="utf-8", newline="") as f:
-        for r in rows:
-            f.write(json.dumps(r, ensure_ascii=False) + "\n")
-    os.replace(tmp, p)
+def merge_rows(p, rows):
+    """队列/积压只有一个写入口（2026-11-02）：交给 fleet_lane 的加锁合并。
+
+    以前这里是"读全表→改→整表 os.replace"，与另外五个脚本同轮互踩，谁后写谁赢，
+    另一方的行直接消失。现在只提交本工具碰过的行，按 id 合并回磁盘现状。
+    """
+    import fleet_lane as _fl
+    return _fl.merge_jsonl(p, rows)
 
 
 def read_json(p, default=None):
@@ -148,6 +150,7 @@ def main():
 
     # R3 stubs
     changed = 0
+    r3_rows = []
     for r in queue:
         if r.get("state") == "FAILED" and not r.get("cmd"):
             r["state"] = "CANCELLED"
@@ -155,9 +158,11 @@ def main():
             r["result"] = {"rc": None, "seconds": 0, "deliverable_exists": False,
                            "note": "workgen R3: FAILED row with no cmd is an authored stub, not a runnable job"}
             changed += 1
+            r3_rows.append(r)
             report.append("- R3 cancelled stub `%s`" % r.get("id"))
-    if changed and not a.dry:
-        write_jsonl(queue_p, queue)
+    # 单写入口（2026-11-02）：只合并自己改过的行，不再整表覆盖（整表写会抹掉别人同轮写入）。
+    if r3_rows and not a.dry:
+        merge_rows(queue_p, r3_rows)
 
     # R1 inventory per online node
     nodes = [f[:-5] for f in os.listdir(os.path.join(root, "cph4", "fleet", "lanes")) if f.endswith(".json")]
@@ -167,6 +172,7 @@ def main():
     # legacy prefix to the canonical one and let the owning lane re-check locally
     # (verify_on_node), instead of promoting cards whose inputs cannot exist.
     healed = 0
+    healed_rows = []
     for r in backlog:
         if r.get("state") != "READY":
             continue
@@ -187,8 +193,9 @@ def main():
             r["healed_at"] = stamp
             r["healed_note"] = "legacy root rewritten to the canonical tree; lane re-checks on the owning box"
             healed += 1
-    if healed and not a.dry:
-        write_jsonl(backlog_p, backlog)
+            healed_rows.append(r)
+    if healed_rows and not a.dry:
+        merge_rows(backlog_p, healed_rows)
     if healed:
         report.append("- R0 healed %d card(s) off a legacy root path" % healed)
     budget = MAX_CARDS_PER_RUN
@@ -361,6 +368,7 @@ def main():
     # fleet reported "inventory ok" while nothing ran. Closing on a file that exists is a
     # fact, not a claim: the evidence is the path itself.
     closed = 0
+    closed_rows = []
     for r in backlog:
         if r.get("state") != "READY":
             continue
@@ -373,23 +381,18 @@ def main():
             r["closed_at"] = stamp
             r["closed_by"] = "workgen R6: deliverable already on disk"
             closed += 1
+            closed_rows.append(r)
     if closed:
         report.append("- R6 closed %d READY card(s) whose deliverable already exists" % closed)
         if not a.dry:
-            write_jsonl(backlog_p, backlog)
+            merge_rows(backlog_p, closed_rows)
 
     # Persist AFTER every rule has had its say. 2026-11-01: the R4 unblock card used to be
     # appended after this write, so it was reported as declared and never reached the
     # backlog - a silent no-op that left the director seat idle.
     if added and not a.dry:
-        new_ids = {c["id"] for c in added}
-        keep = [r for r in backlog
-                if not (r.get("id") in new_ids and r.get("state") in ("INVALID", "CANCELLED"))]
-        if len(keep) != len(backlog):
-            write_jsonl(backlog_p, keep)
-        with open(backlog_p, "a", encoding="utf-8", newline="") as f:
-            for c in added:
-                f.write(json.dumps(c, ensure_ascii=False) + "\n")
+        # 只合并新卡；别人的行原样留在盘上（旧写法先整表重写再 append，既丢更新又可能写重）。
+        merge_rows(backlog_p, added)
 
     # Declaring is not enough: backlog rows only become queue jobs when the box-side
     # promotion pass runs. Do that here (after the persist) so a declared card cannot

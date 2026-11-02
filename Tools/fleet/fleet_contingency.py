@@ -164,7 +164,7 @@ def main():
             "prio": "P1", "state": "OPEN", "route": "local",
             "created_by": "fleet_contingency:S6", "created_at": _ts(),
         })
-        fl.write_jsonl(os.path.join(ROOT, QUEUE_REL.replace("/", os.sep)), rows)
+        fl.merge_jsonl(os.path.join(ROOT, QUEUE_REL.replace("/", os.sep)), [rows[-1]])
         actions.append("S6 供给干涸%d轮 -> 已造自检真活 %s" % (dry, jid))
 
     # ---- S7 当日 FAILED -> 升级（附原因）

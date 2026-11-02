@@ -58,12 +58,13 @@ def jl(p):
     return out
 
 
-def save_jl(p, rows):
-    tmp = "%s.%d.tmp" % (p, os.getpid())
-    with open(tmp, "w", encoding="utf-8") as f:
-        for r in rows:
-            f.write(json.dumps(r, ensure_ascii=False) + "\n")
-    os.replace(tmp, p)
+def append_card(p, card):
+    """积压只有一个写入口（2026-11-02）：交给 fleet_lane 加锁按 id 合并。
+
+    旧写法自己 open(...,'a') 追加，并发时同一 id 会被写两遍，读方按 id 覆盖时
+    先写进来的状态就没了（与队列整表覆盖是同一类丢更新）。"""
+    import fleet_lane as _fl
+    return _fl.merge_jsonl(p, [card])
 
 
 def sync_card(node, why, dry):
@@ -78,8 +79,7 @@ def sync_card(node, why, dry):
             "why": why, "created_by": "master_solver:A1",
             "created_at": datetime.now().isoformat(timespec="seconds")}
     if not dry:
-        with open(BACKLOG, "a", encoding="utf-8") as f:
-            f.write(json.dumps(card, ensure_ascii=False) + "\n")
+        append_card(BACKLOG, card)
     return jid
 
 

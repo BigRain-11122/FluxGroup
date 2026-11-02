@@ -44,12 +44,19 @@ def load():
     return rows
 
 
-def save(rows):
-    tmp = QUEUE + ".tmp"
-    with open(tmp, "w", encoding="utf-8") as f:
-        for r in rows:
-            f.write(json.dumps(r, ensure_ascii=False) + "\n")
-    os.replace(tmp, QUEUE)
+def save(rows, only=None):
+    """队列只有一个写入口（2026-11-02）：走 fleet_lane 的加锁按 id 合并。
+
+    本脚本是 Windows 侧的遗留领取通道（bm-a/bm-b/bm-c 的计划任务还指着它），
+    所以不删，只把"读全表→整表覆盖"换成"只提交我改过的行"，
+    避免与主控/补料/应急同时写同一条队列时互相抹掉。
+    only: 本脚本改过的行；不给则拒绝写（防误用整表覆盖）。
+    """
+    if only is None:
+        raise SystemExit("queue_claim.save() now requires only=<rows you changed>")
+    sys.path.insert(0, os.path.join(ROOT, "Tools", "fleet"))
+    import fleet_lane as _fl
+    return _fl.merge_jsonl(QUEUE, only)
 
 
 def write_last(state, **kw):
@@ -306,7 +313,7 @@ if a.dry:
 job["state"] = "RUNNING"
 job["owner"] = a.node
 job["claimed_at"] = time.strftime("%Y-%m-%dT%H:%M:%S")
-save(rows)
+save(rows, only=[job])
 write_last("RUNNING", node=a.node, needs=a.needs, id=job["id"])
 
 t0 = time.time()
@@ -323,12 +330,14 @@ with open(receipt, "w", encoding="utf-8") as f:
               f, ensure_ascii=False, indent=1)
 
 rows = load()
+done_row = None
 for x in rows:
     if x["id"] == job["id"]:
         x["state"] = "DONE" if ok else "FAILED"
         x["finished_at"] = time.strftime("%Y-%m-%dT%H:%M:%S")
         x["receipt"] = os.path.relpath(receipt, ROOT)
-save(rows)
+        done_row = x
+save(rows, only=[done_row] if done_row else [])
 write_last("DONE" if ok else "FAILED", node=a.node, needs=a.needs, id=job["id"],
            rc=r.returncode, seconds=round(dur, 1))
 print("%s %s (%.1fs) receipt=%s" % (job["id"], "DONE" if ok else "FAILED", dur, receipt))

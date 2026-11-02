@@ -44,12 +44,12 @@ def save(work, obj):
 
 
 def append_backlog(cards):
+    """积压只有一个写入口（2026-11-02）：交给 fleet_lane 加锁按 id 合并，
+    不再自己 open(...,'a') 追加（并发追加会写出重复 id，状态被先写的那行吃掉）。"""
     if not cards:
         return
-    os.makedirs(os.path.dirname(BACKLOG), exist_ok=True)
-    with open(BACKLOG, "a", encoding="utf-8") as f:
-        for c in cards:
-            f.write(json.dumps(c, ensure_ascii=False) + "\n")
+    import fleet_lane as _fl
+    return _fl.merge_jsonl(BACKLOG, cards)
 
 
 def cmd_add(a):

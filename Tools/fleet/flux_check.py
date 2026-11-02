@@ -178,17 +178,26 @@ def i6_state_not_in_git():
 
 
 WRITER_HINTS = ("PRODUCTION-QUEUE.jsonl", "PRODUCTION-BACKLOG.jsonl")
+QUEUE_VARS = (r"QUEUE|Q|qpath|q_file|queue_p|BACKLOG|blpath|backlog_p")
+SINGLE_WRITER = "Tools/fleet/fleet_lane.py"
+QUEUE_VAR = re.compile(r"\b(%s)\b" % QUEUE_VARS)
 
 
 def i7_single_writer():
-    """A writer is a file that actually opens a shared queue for writing (or atomically
-    replaces it), not one that merely mentions the path while reading it.
-    There must be exactly one designated writer per queue."""
+    """一个队列只能有一个自己写盘的文件：Tools/fleet/fleet_lane.py。
+
+    其他脚本一律调 fl.merge_jsonl / fl.write_jsonl（加锁按 id 合并）。
+    判据（2026-11-02 收紧，去掉了"提到队列就算"的误报）：
+      1) 自己 open(<队列路径或队列变量>, 'w'/'a')
+      2) 自己 os.replace(临时件, <队列变量>)
+      3) 自己定义一个写原语，且该原语函数体里写的是队列
+    """
     open_pat = re.compile(r"open\([^)]{0,120},\s*['\"][wa]\+?b?['\"]")
-    replace_pat = re.compile(r"os\.replace\([^)]{0,80},\s*(Q|QUEUE|qpath|q_file|queue)\s*\)")
-    const_pat = {"PRODUCTION-QUEUE.jsonl": re.compile(r"\b(Q|QUEUE|qpath|q_file)\s*="),
-                 "PRODUCTION-BACKLOG.jsonl": re.compile(r"\b(BL|BACKLOG|blpath)\s*=")}
-    writers = {q: set() for q in WRITER_HINTS}
+    var_open = re.compile(r"open\(\s*(%s)\s*,\s*['\"][wa]" % QUEUE_VARS)
+    replace_pat = re.compile(r"os\.replace\(\s*[^,]+,\s*[^)]*\b(%s)\b" % QUEUE_VARS)
+    bad = []
+    if not os.path.exists(os.path.join(ROOT, SINGLE_WRITER)):
+        bad.append("queue:no-single-writer-module:%s" % SINGLE_WRITER)
     for base in (os.path.join(ROOT, "Tools"), os.path.join(FLEET, "dispatcher"),
                  os.path.join(FLEET, "lines")):
         for dirpath, _dirs, files in os.walk(base):
@@ -196,30 +205,27 @@ def i7_single_writer():
                 if not n.endswith(".py"):
                     continue
                 p = os.path.join(dirpath, n)
+                rel = os.path.relpath(p, ROOT)
+                if rel == SINGLE_WRITER:
+                    continue
                 try:
                     src = open(p, encoding="utf-8", errors="ignore").read()
                 except Exception:
                     continue
-                for qname in WRITER_HINTS:
-                    if qname not in src and not const_pat[qname].search(src):
-                        continue
-                    hit = False
-                    helper = re.search(r"(fl\.)?write_jsonl\(", src) is not None
-                    for line in src.splitlines():
-                        if qname in line and open_pat.search(line):
-                            hit = True
-                        elif helper and (qname in line or
-                                         (qname == "PRODUCTION-QUEUE.jsonl" and "QUEUE_REL" in line) or
-                                         (qname == "PRODUCTION-BACKLOG.jsonl" and "BACKLOG" in line)):
-                            hit = True
-                        elif replace_pat.search(line) and const_pat[qname].search(src):
-                            hit = True
-                    if hit:
-                        writers[qname].add(os.path.relpath(p, ROOT))
-    bad = []
-    for qname, ws in writers.items():
-        if len(ws) > 1:
-            bad.append("queue:%s:%d-writers[%s]" % (qname, len(ws), ",".join(sorted(ws))))
+                lines = src.splitlines()
+                direct = any(open_pat.search(l) and (q in l or var_open.search(l))
+                             for l in lines for q in WRITER_HINTS)
+                atomic = any(replace_pat.search(l) for l in lines)
+                # 自己定义写原语：拆顶层 def 体，看函数体里是否写队列
+                prim = False
+                for m in re.finditer(r"^def (\w+)\(", src, re.M):
+                    body = src[m.end():]
+                    body = body.split("\ndef ", 1)[0]
+                    if re.search(r"open\(\s*(%s)\s*,\s*['\"][wa]" % QUEUE_VARS, body) \
+                            or re.search(r"os\.replace\(\s*[^,]+,\s*[^)]*\b(%s)\b" % QUEUE_VARS, body):
+                        prim = True
+                if direct or atomic or prim:
+                    bad.append("queue:extra-writer:%s" % rel)
     return bad
 
 

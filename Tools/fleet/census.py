@@ -103,6 +103,44 @@ def observed_status(evidence):
     return "EMPTY", None, ""
 
 
+def group_rollup(rows, reg):
+    """把 13 条工段线折成产品组的实况（2026-11-02 组织定案：中枢 + 三产品组 + 三职能）。
+
+    组级只回答一件事：这一组今天有没有产物、最老的一件多旧。
+    线仍是工段登记（派卡与证据目录按线走），组是给一屏与配额看的层。
+    """
+    org = {l.get("id"): (l.get("org") or "platform") for l in (reg.get("lines") or [])}
+    prio = {l.get("id"): str(l.get("priority") or "P2") for l in (reg.get("lines") or [])}
+    groups = {}
+    for r in rows:
+        g = org.get(r.get("id")) or "platform"
+        e = groups.setdefault(g, {"group": g, "lines": [], "priority": None,
+                                  "ages": [], "observed": 0, "stale": 0})
+        e["lines"].append({"id": r.get("id"), "observed": r.get("observed"),
+                           "age_h": r.get("age_h")})
+        if r.get("age_h") is not None:
+            e["ages"].append(r["age_h"])
+        if r.get("observed") == "OBSERVED":
+            e["observed"] += 1
+        p = prio.get(r.get("id")) or "P2"
+        if e["priority"] is None or p < e["priority"]:
+            e["priority"] = p
+    for g, e in groups.items():
+        e["newest_age_h"] = min(e["ages"]) if e["ages"] else None
+        e["oldest_age_h"] = max(e["ages"]) if e["ages"] else None
+        # 本机没有证据目录 ≠ 没产出（跨机产物只认回执，2026-11-02 判例）。
+        # 所以只有在"看得到证据且确实旧了"时才算 STALE；一条都看不到记 UNSEEN。
+        if e["observed"] == 0:
+            e["status"] = "UNSEEN"
+        elif e["newest_age_h"] is None or e["newest_age_h"] > 24:
+            e["status"] = "STALE"
+        else:
+            e["status"] = "OK"
+        e["stale"] = 1 if e["status"] == "STALE" else 0
+        e.pop("ages", None)
+    return sorted(groups.values(), key=lambda x: (x["priority"] or "P9", x["group"]))
+
+
 def main(argv):
     reg = json.load(open(REG, encoding="utf-8-sig"))
     os.makedirs(STATE, exist_ok=True)
@@ -151,6 +189,7 @@ def main(argv):
     out = {"ts": datetime.now().isoformat(timespec="seconds"),
            "source": "census.py - generated from disk; never hand-edit",
            "lines": rows,
+           "groups": group_rollup(rows, reg),
            "queue": {"total": len(q), "by_state": states},
            "summary": {
                "declared_active_no_disk": sum(1 for r in rows if r["drift"]),
@@ -171,6 +210,12 @@ def main(argv):
             "-" if r["age_h"] is None else r["age_h"],
             (r["newest"] or "")[:19], "<- DRIFT" if r["drift"] else ""))
     s = out["summary"]
+    print("\n组级（一屏看的层）")
+    for g in out["groups"]:
+        print("  %-10s %-3s lines=%-2d 有产物=%-2d 最新产出=%s  %s" % (
+            g["group"], g["priority"] or "-", len(g["lines"]), g["observed"],
+            ("%.1fh 前" % g["newest_age_h"]) if g["newest_age_h"] is not None else "-",
+            g["status"]))
     print("\ndeclared ACTIVE but no disk: %d | observed on disk: %d | remote-only: %d"
           % (s["declared_active_no_disk"], s["observed"], s["remote"]))
     print("queue: %d cards %s" % (len(q), states))

@@ -441,7 +441,8 @@
    "id": "bighouse",
    "name": "BigHouse·城市安家",
    "owner": "生态运营席",
-   "status": "ACTIVE",
+   "status": "PARKED",
+   "policy_note": "2026-11-02 组织定案：BigHouse 关闭，降为城市组内不对外资产；恢复须新立项",
    "repos": [
     "house/BigHouse"
    ],
@@ -476,7 +477,8 @@
    "id": "car-gaming",
    "name": "车机游戏 BU",
    "owner": "车机 BU",
-   "status": "ACTIVE",
+   "status": "PARKED",
+   "policy_note": "2026-11-02 组织定案：挂起，等 OEM 商务（样机/版号/渠道归 CEO）；有 OEM 信号再启",
    "repos": [],
    "stale_after_h": 72,
    "queue_prefix": [

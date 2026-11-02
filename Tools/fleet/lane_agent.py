@@ -356,6 +356,8 @@ def self_dispatch(root, node, allow_gpu_workhours, max_seconds, hub, port, dry):
         print("LANE-DRY %s self-dispatch would run %s" % (node, pick.get("id")))
         return None
     res = run_job(pick, root, node, hub, port, allow_gpu_workhours, max_seconds)
+    # 单写入口（2026-11-02）：只把自己改的那一行按 id 合并回去。
+    # 旧写法读全表、改一行、再整表覆盖，等于把别人同时写进来的行一起抹掉。
     rows = fl.read_jsonl(qpath)
     for x in rows:
         if x.get("id") == pick.get("id"):
@@ -372,7 +374,8 @@ def self_dispatch(root, node, allow_gpu_workhours, max_seconds, hub, port, dry):
                                 or res.get("reason") or "rc=%s, no output captured"
                                 % res.get("rc"))[:400]
             x["created_by"] = (x.get("created_by") or "") + "+lane-self"
-    fl.write_jsonl(qpath, rows)
+            fl.merge_jsonl(qpath, [x])
+            break
     return res
 
 

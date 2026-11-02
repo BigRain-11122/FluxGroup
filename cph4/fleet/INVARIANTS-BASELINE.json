@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-02T17:15:51",
+ "ts": "2026-11-02T17:47:06",
  "note": "ratchet: this many known violations; only downward",
  "keys": [
   "I14|p0:bigstream-drama:no-output",
@@ -304,8 +304,6 @@
   "I4|card:R-TRIAGE-BIGHOUSE-BMM-20261102:done-without-artifact",
   "I4|card:R-TRIAGE-BIGSTREAMDRAMA-BMC-20261101:done-without-artifact",
   "I4|card:R-TRIAGE-BIGSTREAMDUANJU-BMB-20261101:done-without-artifact",
-  "I4|card:R-TTS1202R-VERIFY-20261031:done-without-artifact",
-  "I7|queue:PRODUCTION-BACKLOG.jsonl:3-writers[Tools/fleet/fleet_contingency.py,Tools/fleet/fleet_lane.py,Tools/fleet/workgen.py]",
-  "I7|queue:PRODUCTION-QUEUE.jsonl:6-writers[Tools/fleet/fleet_contingency.py,Tools/fleet/fleet_lane.py,Tools/fleet/lane_agent.py,Tools/fleet/master_agent.py,Tools/fleet/workgen.py,Tools/queue_claim.py]"
+  "I4|card:R-TTS1202R-VERIFY-20261031:done-without-artifact"
  ]
 }
