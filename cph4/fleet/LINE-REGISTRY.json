@@ -7,7 +7,7 @@
    "id": "bigstream-mv",
    "name": "BigStream·MV 41 曲",
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
-   "status": "ACTIVE",
+   "status": "PAUSED",
    "repos": [],
    "stale_after_h": 24,
    "queue_prefix": [
@@ -79,7 +79,8 @@
     }
    ],
    "org": "content",
-   "priority": "P0"
+   "priority": "P0",
+   "pause_reason": "auto-stop:过闸率<50%且返工>=3（2026-11-02）"
   },
   {
    "id": "bigstream-drama",
