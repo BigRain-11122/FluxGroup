@@ -120,6 +120,10 @@ def i3_receipts_have_rc():
     for n in sorted(os.listdir(RECEIPTS)):
         if not n.endswith(".json"):
             continue
+        # only step receipts follow "<card>-<node>.json"; lane scratch files (_last_lane)
+        # and business reports (mv-gate/biz/triage) are not receipts and carry no rc.
+        if not re.search(r"-bm-[a-z]\.json$", n):
+            continue
         d = jload(os.path.join(RECEIPTS, n), None)
         if not isinstance(d, dict):
             continue
@@ -329,6 +333,37 @@ def i12_no_orphan_scripts():
     return bad
 
 
+def i13_idle_with_matching_work():
+    """CEO 的第一诉求（历史 203 条令）：机器空着而队列里有它能做的活。
+    Daytime yield is policy, not a fault, so lanes explicitly yielding are skipped."""
+    ms = jload(os.path.join(FLEET, "dispatcher", "MASTER-STATE.json"), {}) or {}
+    lanes = ms.get("lanes") or {}
+    open_cards = [r for r in jlines(QUEUE) if r.get("state") == "OPEN"]
+    if not open_cards or not lanes:
+        return []
+    try:
+        import fleet_lane as fl
+    except Exception:
+        return []
+    bad = []
+    for n, v in lanes.items():
+        if not v.get("online") or v.get("job"):
+            continue
+        reason = str(v.get("idle_reason") or "")
+        if "DAY-YIELD" in reason or "WORKHOUR-YIELD" in reason:
+            continue
+        spec = fl.LANES.get(n) or {}
+        for r in open_cards:
+            if (r.get("needs") or "cpu") not in (spec.get("needs") or []):
+                continue
+            pinned = r.get("nodes") or []
+            if pinned and n not in pinned:
+                continue
+            bad.append("idle:%s:could-run:%s" % (n, r.get("id")))
+            break
+    return bad
+
+
 CHECKS = [
     ("I1", "每张卡有 line 且 line 存在", i1_cards_have_line),
     ("I2", "卡不含机器名/绝对主机路径", i2_cards_are_portable),
@@ -342,6 +377,7 @@ CHECKS = [
     ("I10", "发布件有 AIGC 隐式标识", i10_publish_has_aigc),
     ("I11", "每条产品配方有 kill_criteria", i11_recipes_have_kill_criteria),
     ("I12", "无孤儿脚本", i12_no_orphan_scripts),
+    ("I13", "有机空闲且有它能干的活", i13_idle_with_matching_work),
 ]
 
 

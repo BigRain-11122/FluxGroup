@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-02T14:43:44",
+ "ts": "2026-11-02T14:46:41",
  "note": "ratchet: this many known violations; only downward",
  "keys": [
   "I11|products:no-recipes-yet",
@@ -239,7 +239,6 @@
   "I2|card:R-TTS1202R-VERIFY-20261031:FORBID:deliverable names a machine (cards decla",
   "I3|receipt:POOL-0018-bm-b.json:no-rc",
   "I3|receipt:POOL-0020-bm-b.json:no-rc",
-  "I3|receipt:POOL-0023-bm-b-claimtask-audit.json:no-rc",
   "I3|receipt:Q-MV-0001-015-bm-a.json:rc=1-no-error-class",
   "I3|receipt:Q-MV-0001-017-bm-a.json:rc=1-no-error-class",
   "I3|receipt:Q-TRIAGE-CARGAMING-20261031-bm-a.json:rc=2-no-error-class",
@@ -255,16 +254,6 @@
   "I3|receipt:R-PLAN-BIGSTREAMDRA-20261101-bm-a.json:rc=2-no-error-class",
   "I3|receipt:R-PLAN-BIGSTREAMDRA-20261102-bm-m.json:rc=127-no-error-class",
   "I3|receipt:R-PLAN-BIGSTREAMMV-20261102-bm-m.json:rc=127-no-error-class",
-  "I3|receipt:_last_claim.json:no-rc",
-  "I3|receipt:_last_lane_bm-m.json:rc=127-no-error-class",
-  "I3|receipt:biz-car-gaming-20261031.json:no-rc",
-  "I3|receipt:biz-car-gaming-20261101.json:no-rc",
-  "I3|receipt:biz-car-gaming-20261102.json:no-rc",
-  "I3|receipt:biz-mv-promo-20261031.json:no-rc",
-  "I3|receipt:biz-mv-publish-checklist-20261031.json:no-rc",
-  "I3|receipt:biz-mv-publish-checklist-20261101.json:no-rc",
-  "I3|receipt:biz-mv-publish-checklist-20261102.json:no-rc",
-  "I3|receipt:judge-bench-20261102.json:no-rc",
   "I7|queue:PRODUCTION-BACKLOG.jsonl:3-writers[Tools/fleet/fleet_contingency.py,Tools/fleet/fleet_lane.py,Tools/fleet/workgen.py]",
   "I7|queue:PRODUCTION-QUEUE.jsonl:6-writers[Tools/fleet/fleet_contingency.py,Tools/fleet/fleet_lane.py,Tools/fleet/lane_agent.py,Tools/fleet/master_agent.py,Tools/fleet/workgen.py,Tools/queue_claim.py]"
  ]
