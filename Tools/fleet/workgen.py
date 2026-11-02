@@ -298,6 +298,7 @@ def main():
                         continue
                     if lid in triaged_lines:
                         continue
+                    tok = "R-TRIAGE-%s-" % lid.upper().replace("-", "")
                     # One evidence pass per line+day, fleet-wide: line_triage writes a
                     # single path per line, so a second box would overwrite the first
                     # box's receipt and both would look "done" (2026-11-01).
@@ -308,7 +309,6 @@ def main():
                     # different evidence sets, and a shared id made the second card dead.
                     cid = "R-TRIAGE-%s-%s-%s" % (lid.upper().replace("-", ""),
                                                   node.upper().replace("-", ""), day)
-                    tok = "R-TRIAGE-%s-" % lid.upper().replace("-", "")
                     # line_triage writes ONE path per line+day (no node component), so a
                     # second box on the same line would produce the identical file. Skip
                     # when that evidence already exists instead of declaring busywork.
