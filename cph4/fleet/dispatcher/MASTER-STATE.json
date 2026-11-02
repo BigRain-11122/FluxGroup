@@ -1,23 +1,23 @@
 {
- "ts": "2026-11-02T19:46:10",
- "cycle": 1465,
+ "ts": "2026-11-02T19:47:24",
+ "cycle": 1466,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-02T19:46:10",
+ "master_tick_ts": "2026-11-02T19:47:24",
  "queue": {
   "total": 126,
-  "open": 1,
+  "open": 0,
   "running": 4,
-  "done": 81,
-  "failed": 3
+  "done": 85,
+  "failed": 4
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 56.8,
-   "cpu_load_pct": 62,
-   "ram_free_gb": 28.7,
-   "gpu_util_pct": 1,
+   "hb_age_s": 10.5,
+   "cpu_load_pct": 68,
+   "ram_free_gb": 31.8,
+   "gpu_util_pct": 6,
    "job": "RCANARY2-20261102T181500",
    "last_result": {
     "job": "C-MV-TRANSITION-20261102",
@@ -32,9 +32,9 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 14.7,
-   "cpu_load_pct": 17,
-   "ram_free_gb": 4.6,
+   "hb_age_s": 34.2,
+   "cpu_load_pct": 8,
+   "ram_free_gb": 4.8,
    "gpu_util_pct": null,
    "job": "R-TTS-QC-R2-20261102",
    "last_result": null,
@@ -44,17 +44,17 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 25.4,
-   "cpu_load_pct": 10,
-   "ram_free_gb": 1.7,
-   "gpu_util_pct": 99,
+   "hb_age_s": 22.7,
+   "cpu_load_pct": 18,
+   "ram_free_gb": 0.9,
+   "gpu_util_pct": 0,
    "job": "C-MV-STABILITY",
    "last_result": {
-    "job": null,
-    "state": "IDLE",
+    "job": "C-MV-TRANSITION-20261102",
+    "state": "RUNNING",
     "rc": null,
-    "ts": "2026-11-02T19:45:50",
-    "reason": "CAPACITY-BLOCKED-RAM ram 0.8/1.0 GB"
+    "ts": "2026-11-02T19:47:08",
+    "reason": null
    },
    "idle_confirmed": false,
    "idle_reason": "",
@@ -63,15 +63,15 @@
   "bm-m": {
    "online": true,
    "hb_age_s": 0.6,
-   "cpu_load_pct": 34,
-   "ram_free_gb": 14.9,
+   "cpu_load_pct": 27,
+   "ram_free_gb": 16.0,
    "gpu_util_pct": null,
-   "job": "C-TTS-QC-ALL",
+   "job": "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102",
    "last_result": {
-    "job": "CANARY-20261102T194604",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-02T19:46:04",
+    "job": "C-TTS-QC-ALL",
+    "state": "FAILED",
+    "rc": 1,
+    "ts": "2026-11-02T19:46:18",
     "reason": null
    },
    "idle_confirmed": false,
@@ -758,7 +758,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 1,
+  "local": 0,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -766,13 +766,15 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 1,
+  "cpu": 0,
   "gpu": 0
  },
  "supply_added": [],
  "events": [
-  "C-MV-TRANSITION-20261102 UNVERIFIED(no-artifact-yet) via bm-a",
-  "C-MV-STABILITY -> bm-c (cpu)"
+  "C-TTS-QC-ALL FAILED via bm-m",
+  "RCANARY2-20261102T181500 -> bm-a (cpu)",
+  "R-TTS-QC-R2-20261102 -> bm-b (cpu)",
+  "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102 -> bm-m (cpu)"
  ],
  "violations": [
   "LINE-BLOCKED bigstream-drama ()",
@@ -780,6 +782,6 @@
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-c"
+  "bm-m"
  ]
 }
