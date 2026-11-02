@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-03T03:59:47",
- "cycle": 28,
+ "ts": "2026-11-03T04:00:57",
+ "cycle": 29,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-03T03:59:47",
+ "master_tick_ts": "2026-11-03T04:00:57",
  "queue": {
   "total": 314,
   "open": 3,
@@ -14,10 +14,10 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 21.4,
-   "cpu_load_pct": 20,
-   "ram_free_gb": 33.0,
-   "gpu_util_pct": 3,
+   "hb_age_s": 43.7,
+   "cpu_load_pct": 32,
+   "ram_free_gb": 30.2,
+   "gpu_util_pct": 10,
    "job": "C-TTS-QC-ALL",
    "last_result": {
     "job": null,
@@ -32,9 +32,9 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 57.7,
-   "cpu_load_pct": 18,
-   "ram_free_gb": 5.8,
+   "hb_age_s": 6.2,
+   "cpu_load_pct": 88,
+   "ram_free_gb": 4.8,
    "gpu_util_pct": null,
    "job": "R-TTS-QC-R2-20261102",
    "last_result": null,
@@ -44,26 +44,26 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 28.1,
-   "cpu_load_pct": 10,
+   "hb_age_s": 15.2,
+   "cpu_load_pct": 20,
    "ram_free_gb": 0.5,
-   "gpu_util_pct": 100,
+   "gpu_util_pct": 59,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-03T03:59:24",
+    "ts": "2026-11-03T04:00:47",
     "reason": "ALREADY-CLOSED C-TTS-QC-ALL"
    },
    "idle_confirmed": true,
    "idle_reason": "CAPACITY-BLOCKED-RAM ram 0.5/1.0 GB",
-   "idle_rounds": 1
+   "idle_rounds": 2
   },
   "bm-m": {
    "online": true,
    "hb_age_s": 0.6,
-   "cpu_load_pct": 34,
+   "cpu_load_pct": 28,
    "ram_free_gb": 13.6,
    "gpu_util_pct": null,
    "job": "C-TTS-QC-ALL",
@@ -71,7 +71,7 @@
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-03T03:58:37",
+    "ts": "2026-11-03T03:59:51",
     "reason": "ALREADY-CLOSED C-TTS-QC-ALL"
    },
    "idle_confirmed": false,
@@ -82,7 +82,7 @@
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
-  "bm-c": 1,
+  "bm-c": 2,
   "bm-m": 0
  },
  "lines": {
@@ -756,7 +756,7 @@
   "by_kind": {
    "CAPACITY": 1
   },
-  "added": 1,
+  "added": 0,
   "tick_tier": "none",
   "judgment_tier": "cloud-smart"
  },
@@ -779,12 +779,10 @@
   "C-TTS-QC-ALL -> bm-m (cpu)"
  ],
  "violations": [
-  "bm-c CAPACITY-BLOCKED-RAM",
+  "bm-c IDLE-CONFIRMED x2 (CAPACITY-BLOCKED-RAM ram 0.5/1.0 GB)",
   "LINE-BLOCKED bigstream-drama ()",
   "STAGE-STALLED bigstream-duanju 卡在 剧本/编剧席 (短剧席)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
- "lane_files_written": [
-  "bm-c"
- ]
+ "lane_files_written": []
 }
