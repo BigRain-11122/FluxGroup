@@ -69,6 +69,7 @@ STAGES = [
     ("gate", ["Tools/fleet/gate_report.py"], 180, {0}, True),
     ("metrics", ["Tools/fleet/ops_metrics.py"], 90, {0}, True),
     ("showcase", ["Tools/fleet/showcase.py"], 60, {0}, True),
+    ("vault", ["Tools/fleet/vault.py", "verify"], 120, {0, 2}, True),
     ("health", ["Tools/fleet/fleet_health.py"], 90, {0}, True),
     ("contingency", ["Tools/fleet/fleet_contingency.py"], 120, {0}, True),
     ("judge", ["Tools/fleet/local_judge.py"], 180, {0}, True),
