@@ -1,8 +1,23 @@
 {
  "node": "bm-b",
- "ts": "2026-11-02T11:30:48",
- "jobs": [],
- "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+ "ts": "2026-11-02T11:33:00",
+ "jobs": [
+  {
+   "id": "R-FREEMEM-BMB-20261102",
+   "title": "bm-b 内存救援：0.0GB 可用，释放孤儿 TTS 进程与常驻模型",
+   "cmd": "python Tools/fleet/free_mem.py --apply",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/freemem-bm-b-20261102.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  }
+ ],
+ "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 5.0/1.0 GB"
+ "capacity_note": "ram 6.2/1.0 GB"
 }
