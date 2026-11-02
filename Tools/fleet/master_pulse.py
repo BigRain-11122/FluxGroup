@@ -126,6 +126,8 @@ def git(args, timeout=90):
 # Memory writes are append-only facts, safe to snapshot; hand edits under Tools/ are not.
 # 2026-11-02: CODELY.md / 记忆目录**不**由主控自动提交。多个班的会话同时在维护记忆，主控再自动签入就必然撞冲突（本轮连撞四次，写出冲突标记）。记忆由写它的会话自己提交，主控只碰派单通道。
 STATE_PREFIXES = ("cph4/fleet/", "fleet-console.html")
+# 手写脏件挡住 git 超过这么久就不再算「可以容忍的迟到」，而是主控故障（需人/会话处理）。
+GIT_SKIP_ALERT_MIN = 30
 
 
 def tree_state() -> tuple[list[str], list[str]]:
@@ -530,6 +532,18 @@ def main() -> int:
 
     git_push = "skipped" if no_pull else push_if_ahead()
     chk = checks(prev)
+    # 同步停摆必须可见（2026-11-02）：commit_state 遇手写脏件就整体跳过 git，
+    # 而 PULSE 过去仍报 ok=true —— 与昨夜主控哑巴 8h 同一类「假绿」。
+    skip_since = prev.get("git_skip_since")
+    if str(git_note).startswith("skipped"):
+        skip_since = skip_since or time.time()
+        stuck_min = int((time.time() - float(skip_since)) / 60)
+        chk.append({"name": "git-sync", "ok": stuck_min < GIT_SKIP_ALERT_MIN,
+                    "detail": "%s; stuck %dmin (commit or clean it: uncommitted hand edits "
+                              "stop fleet-wide sync)" % (_one_line(git_note, 90), stuck_min)})
+    else:
+        skip_since = None
+        chk.append({"name": "git-sync", "ok": True, "detail": _one_line(git_note, 90)})
     blockers = [c["name"] for c in chk if not c["ok"]] + ["stage:" + n for n in failed]
     pulse = {
         "ts": now(),
@@ -537,6 +551,7 @@ def main() -> int:
         "sec": round(time.time() - started, 1),
         "slow_ts": time.time() if slow_due else float(prev.get("slow_ts") or 0),
         "git": git_note,
+        "git_skip_since": skip_since,
         "push": git_push,
         "stages": stages,
         "checks": chk,

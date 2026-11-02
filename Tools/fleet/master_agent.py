@@ -388,7 +388,15 @@ def lane_capacity(node, fleet, needs="cpu", vram_min=0, job=None):
     spec = fl.LANES.get(node) or {}
     q = fl.quiet_hours(node)
     if q is not None and not (job is not None and job.get("day_ok")):
-        return False, "work machine daytime yield (%02d:00-%02d:00)" % (q[0], q[1])
+        # CEO 2026-11-02：公司工作机配置很高，白天可以跑**轻量**任务，只有重活让位。
+        # 轻量判定=纯 CPU、非 heavy、不写大文件（est_gb<=2）、不用模型。
+        light = bool(job is not None
+                     and (job.get("needs") or "cpu") == "cpu"
+                     and not job.get("heavy")
+                     and int(job.get("est_gb") or 0) <= 2
+                     and not (job.get("model") or ""))
+        if not light:
+            return False, "daytime heavy-yield (%02d:00-%02d:00); light CPU allowed" % (q[0], q[1])
     if spec.get("role_class") == "control":
         if needs == "gpu":
             return False, "control node: no CUDA, GPU work goes elsewhere"
@@ -428,6 +436,12 @@ def lane_capacity(node, fleet, needs="cpu", vram_min=0, job=None):
         est = float(job.get("est_gb") or 0)
         if est <= 0 and not (job.get("model") or ""):
             floor = min(floor, 1.0)
+    # CPU 饱和保护：一台机 CPU 已被占满时再派 CPU 活只会互相拖慢（此前没有这一维，
+    # 因为机队根本不报 CPU 占用；2026-11-02 补遥测后才有依据）。
+    if needs == "cpu":
+        cpu = st.get("cpu_load_pct")
+        if cpu is not None and float(cpu) >= 95:
+            return False, "CPU-SATURATED %s%%" % cpu
     ram = st.get("ram_free_gb")
     if ram is None:
         return True, "ram-unknown"

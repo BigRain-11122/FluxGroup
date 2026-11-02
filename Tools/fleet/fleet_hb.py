@@ -202,6 +202,10 @@ def host_stats(node=None, root=None):
              "gpu_util_pct": None, "vram_used_mb": None, "vram_total_mb": None}
     try:
         stats["load1"] = round(os.getloadavg()[0], 2)
+        # 2026-11-02: macOS 之前只有 load1、没有占用率，主控因此对 CPU 完全盲。
+        cores = os.cpu_count() or 1
+        stats["cpu_cores"] = cores
+        stats["cpu_load_pct"] = int(round(100.0 * min(stats["load1"], cores) / cores))
     except Exception:
         pass
     try:
