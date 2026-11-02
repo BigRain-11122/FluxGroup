@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-03T01:01:37",
- "cycle": 3,
+ "ts": "2026-11-03T01:02:48",
+ "cycle": 4,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-03T01:01:37",
+ "master_tick_ts": "2026-11-03T01:02:48",
  "queue": {
   "total": 299,
   "open": 0,
@@ -14,10 +14,10 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 23.6,
-   "cpu_load_pct": 40,
-   "ram_free_gb": 31.7,
-   "gpu_util_pct": 10,
+   "hb_age_s": 34.4,
+   "cpu_load_pct": 35,
+   "ram_free_gb": 32.8,
+   "gpu_util_pct": 7,
    "job": "R-NEXT-BIGSTREAMD-TTS-QC-20261103",
    "last_result": {
     "job": "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102",
@@ -32,9 +32,9 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 47.5,
-   "cpu_load_pct": 4,
-   "ram_free_gb": 4.5,
+   "hb_age_s": 58.8,
+   "cpu_load_pct": 3,
+   "ram_free_gb": 5,
    "gpu_util_pct": null,
    "job": "R-TTS-QC-R2-20261102",
    "last_result": null,
@@ -44,16 +44,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 18.3,
-   "cpu_load_pct": 4,
-   "ram_free_gb": 7.1,
-   "gpu_util_pct": 1,
+   "hb_age_s": 14.1,
+   "cpu_load_pct": 7,
+   "ram_free_gb": 7.3,
+   "gpu_util_pct": 0,
    "job": "C-TTS-QC-ALL",
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-03T01:01:24",
+    "ts": "2026-11-03T01:02:39",
     "reason": "ALREADY-CLOSED C-TTS-QC-ALL"
    },
    "idle_confirmed": false,
@@ -62,16 +62,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.5,
-   "cpu_load_pct": 14,
-   "ram_free_gb": 14.9,
+   "hb_age_s": 0.6,
+   "cpu_load_pct": 9,
+   "ram_free_gb": 14.8,
    "gpu_util_pct": null,
    "job": "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102",
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-03T01:00:31",
+    "ts": "2026-11-03T01:01:37",
     "reason": "ALREADY-CLOSED R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102"
    },
    "idle_confirmed": false,
