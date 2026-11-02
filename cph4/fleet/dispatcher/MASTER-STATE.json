@@ -1,23 +1,23 @@
 {
- "ts": "2026-11-02T15:09:46",
- "cycle": 1250,
+ "ts": "2026-11-02T15:11:00",
+ "cycle": 1251,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-02T15:09:46",
+ "master_tick_ts": "2026-11-02T15:11:00",
  "queue": {
   "total": 102,
   "open": 0,
-  "running": 3,
+  "running": 2,
   "done": 74,
-  "failed": 2
+  "failed": 3
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 16.4,
-   "cpu_load_pct": 20,
-   "ram_free_gb": 21.7,
-   "gpu_util_pct": 1,
+   "hb_age_s": 46.9,
+   "cpu_load_pct": 57,
+   "ram_free_gb": 20.6,
+   "gpu_util_pct": 25,
    "job": "R-MV-STAB-20261102",
    "last_result": {
     "job": null,
@@ -32,25 +32,25 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 11.7,
-   "cpu_load_pct": 48,
-   "ram_free_gb": 5.4,
-   "gpu_util_pct": 100,
-   "job": "R-MV-TRANS-20261102",
+   "hb_age_s": 8.5,
+   "cpu_load_pct": 40,
+   "ram_free_gb": 4.5,
+   "gpu_util_pct": null,
+   "job": null,
    "last_result": {
-    "job": null,
-    "state": "IDLE",
-    "rc": null,
-    "ts": "2026-11-02T15:09:39",
-    "reason": "SELF-DISPATCH: lane scans its own backlog"
+    "job": "R-MV-TRANS-20261102",
+    "state": "FAILED",
+    "rc": 2,
+    "ts": "2026-11-02T15:10:46",
+    "reason": null
    },
    "idle_confirmed": false,
-   "idle_reason": "",
+   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
    "idle_rounds": 0
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 55.9,
+   "hb_age_s": 73.8,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -63,27 +63,27 @@
   "bm-m": {
    "online": true,
    "hb_age_s": 0.5,
-   "cpu_load_pct": 28,
-   "ram_free_gb": 15.5,
+   "cpu_load_pct": 22,
+   "ram_free_gb": 13.5,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-02T15:08:36",
+    "ts": "2026-11-02T15:09:46",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 12
+   "idle_rounds": 13
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 12
+  "bm-m": 13
  },
  "lines": {
   "bigstream-mv": {
@@ -94,8 +94,7 @@
    "stale_after_h": 24.0,
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
    "jobs": [
-    "R-MV-STAB-20261102",
-    "R-MV-TRANS-20261102"
+    "R-MV-STAB-20261102"
    ],
    "no_supply": false,
    "blockers": [],
@@ -306,8 +305,7 @@
      "age_h": null,
      "limit_h": 24.0,
      "jobs": [
-      "R-MV-STAB-20261102",
-      "R-MV-TRANS-20261102"
+      "R-MV-STAB-20261102"
      ]
     },
     {
@@ -721,19 +719,15 @@
   "cpu": 0,
   "gpu": 0
  },
- "supply_added": [
-  "backlog_manifest+1"
- ],
+ "supply_added": [],
  "events": [
-  "R-MV-STAB-20261102 -> bm-a (cpu)",
-  "R-TTS-QC-R2-20261102 -> bm-c (cpu)"
+  "R-MV-TRANS-20261102 FAILED via bm-b"
  ],
  "violations": [
-  "bm-m IDLE-CONFIRMED x12 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-m IDLE-CONFIRMED x13 (SELF-DISPATCH: lane scans its own backlo)",
   "LINE-BLOCKED bigstream-drama ()"
  ],
  "lane_files_written": [
-  "bm-a",
-  "bm-c"
+  "bm-b"
  ]
 }
