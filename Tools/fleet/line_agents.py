@@ -56,11 +56,25 @@ def append(path, row):
         f.write(json.dumps(row, ensure_ascii=False) + "\n")
 
 
+def rewrite(path, rows_):
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        for r in rows_:
+            f.write(json.dumps(r, ensure_ascii=False) + "\n")
+    os.replace(tmp, path)
+
+
 def arm_recurring(dry=False):
     """A recurring row is due when its deliverable is missing or older than every_h."""
     armed, backlog, queue = [], rows(BACKLOG), rows(os.path.join(FLEET, "PRODUCTION-QUEUE.jsonl"))
     active = {r.get("id") for r in backlog + queue
               if r.get("state") in ("OPEN", "RUNNING", "PROMOTED")}
+    # 2026-11-02: the backlog is a definition table, not an append log. It used to append a
+    # fresh row every time a recurring card came due, and a card whose deliverable stayed
+    # stale is due on every single run - R-MV-GATE-1D and R-BIZ-CAR-1D had grown to 29
+    # copies each (147 rows, 91 unique). Re-arming now updates the existing row in place.
+    by_id = {r.get("id"): r for r in backlog if r.get("id")}
+    dirty = False
     now = time.time()
     for r in rows(RECUR):
         rid = r.get("id")
@@ -77,11 +91,17 @@ def arm_recurring(dry=False):
         if dry:
             armed.append(rid)
             continue
-        row = dict(r, state="READY", created_at=datetime.now(timezone.utc)
-                   .astimezone().isoformat(timespec="seconds"),
-                   created_by="line_agents:recurring")
-        append(BACKLOG, row)
+        stamp = datetime.now(timezone.utc).astimezone().isoformat(timespec="seconds")
+        if rid in by_id:
+            by_id[rid].update(state="READY", created_at=stamp,
+                              created_by="line_agents:recurring")
+            dirty = True
+        else:
+            append(BACKLOG, dict(r, state="READY", created_at=stamp,
+                                 created_by="line_agents:recurring"))
         armed.append(rid)
+    if dirty:
+        rewrite(BACKLOG, backlog)
     return armed
 
 

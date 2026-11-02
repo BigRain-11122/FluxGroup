@@ -48,12 +48,16 @@ def main():
         # UNVERIFIED is a legitimate holding state: the lane said done but the artifact had
         # not landed yet. The moment it does land, this leg upgrades it - so the state
         # machine self-heals instead of leaving an unproven closure on the books.
-        if r.get("state") not in ("RUNNING", "DONE", "UNVERIFIED"):
+        # FAILED belongs here too (2026-11-02): a card was marked failed because the
+        # executor never reported, but the artifact can still land afterwards (a retry on
+        # another box, a manual run). FAILED was terminal, so the queue kept saying
+        # "failed" over a deliverable that existed on disk - the books lied about reality.
+        if r.get("state") not in ("RUNNING", "DONE", "UNVERIFIED", "FAILED"):
             continue
         dl = r.get("deliverable") or ""
         local = os.path.join(ROOT, dl) if dl and not os.path.isabs(dl) else dl
         ok = bool(dl) and os.path.exists(local)
-        if ok and r.get("state") in ("RUNNING", "UNVERIFIED"):
+        if ok and r.get("state") in ("RUNNING", "UNVERIFIED", "FAILED"):
             was = r.get("state")
             r["state"] = "DONE"
             r["closed_by"] = "closer.py"
@@ -63,6 +67,9 @@ def main():
             if was == "UNVERIFIED":
                 r.pop("evidence", None)
                 r["audit"]["upgraded_from"] = "UNVERIFIED"
+            elif was == "FAILED":
+                r.pop("error", None)
+                r["audit"]["upgraded_from"] = "FAILED"
             closed.append(r["id"])
         elif not ok and r.get("state") == "RUNNING":
             owner = r.get("owner")

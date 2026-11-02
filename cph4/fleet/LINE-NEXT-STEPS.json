@@ -66,25 +66,6 @@
      "requires": ["Tools/fleet/line_triage.py"]
     }
    ]
-  },
-  "car-gaming": {
-   "prio": "P2",
-   "nodes": ["bm-a"],
-   "needs": "cpu",
-   "cards": [
-    {
-     "key": "demo-pkg",
-     "title": "车机可演示包收口：4:3 母版 10 档自适应闸复跑 + 家长键闸 + OEM 一页材料落盘",
-     "cmd": "cd \"C:/Users/sjs20/Desktop/FluxGroup/gaming/MiniGame/09_吸嘟嘟GimmeAll/GimmeAll\"; python Tools/car_adapt_check.py --kit \"D:/FluxGroup/media/family-assets/b2/master43/kit\" --profiles docs/car/car-screen-profiles.json --json \"C:/Users/sjs20/Desktop/FluxGroup/cph4/fleet/queue-receipts/car-adapt-{date}.json\"; python Tools/parent_key_check.py; python Tools/family_layout_check.py",
-     "deliverable": "cph4/fleet/queue-receipts/car-adapt-{date}.json 与 cph4/fleet/car-gaming-v1/OEM-DEMO-ONEPAGE-v1.md（一页商务材料：产品定位/三模式玩法/4:3 母版 kit 完整路径/最近可运行构建完整路径/10 档适配证据/商务联系位）",
-     "accept": "car-adapt JSON 为当日生成且 10 档 profile 全 PASS（零运行时升采样）；parent_key_check 与 family_layout_check 全绿、布局报告 mtime 为当日；一页材料在盘且其中的证据路径全部可打开。真机 8295 实测不在本卡射程（等样机物理件），材料内不得宣称真机数据",
-     "requires": [
-      "gaming/MiniGame/09_吸嘟嘟GimmeAll/GimmeAll/Tools/car_adapt_check.py",
-      "gaming/MiniGame/09_吸嘟嘟GimmeAll/GimmeAll/docs/car/car-screen-profiles.json",
-      "D:/FluxGroup/media/family-assets/b2/master43/kit/compose.json"
-     ]
-    }
-   ]
   }
  }
 }
