@@ -118,6 +118,12 @@ def supply(root, queue, have_ids):
 
     rows = fl.read_jsonl(os.path.join(root, fl.QUEUE_REL.replace("/", os.sep)))
     have = {r.get("id") for r in rows}
+    # 查重（2026-11-02）：同一 cmd 的活已在排队/在跑，就不再进队列第二张。
+    # 实测 6 组同名卡、8 组同 cmd 卡（每日体检卡每天一张），是"重复指挥"的主要来源。
+    live_cmds = {(r.get("cmd") or "").strip() for r in rows
+                 if r.get("state") in ("OPEN", "RUNNING") and r.get("cmd")}
+    live_cmds.discard("")
+    dup_skipped = 0
     rules = fl.read_jsonl(os.path.join(root, fl.RULES_REL.replace("/", os.sep)))
     rule_added = 0
     for r in rules:
@@ -125,6 +131,9 @@ def supply(root, queue, have_ids):
         if not jid or jid in have:
             continue
         if r.get("state") not in (None, "READY"):
+            continue
+        if (r.get("cmd") or "").strip() and (r.get("cmd") or "").strip() in live_cmds:
+            dup_skipped += 1
             continue
         # Cross-host cards (2026-10-30 fix): C:/ K:/ E:/ paths live on the assignee box,
         # never on the macOS master. Master must NOT local-check them (that killed every
@@ -166,6 +175,8 @@ def supply(root, queue, have_ids):
         # merge, never blind-overwrite: closer/workgen may have touched other rows in the
         # same cycle, and a whole-list dump erased their work (2026-11-02 review).
         fl.merge_jsonl(os.path.join(root, fl.QUEUE_REL.replace("/", os.sep)), rows)
+    if dup_skipped:
+        added.append("dedup_skipped:%d" % dup_skipped)
     return added, rows
 
 
@@ -461,7 +472,10 @@ def choose_lane(job, fleet, busy):
         candidates = [n for n in candidates
                       if cap in (fl.LANES[n].get("caps") or []) or not (fl.LANES[n].get("caps"))]
     if pref:
-        candidates = [n for n in pref if n in fl.LANES and n in candidates] or candidates
+        # Preference, NOT a filter (2026-11-02): cards generated with nodes=["bm-c"]
+        # made the dispatcher answer NO-CAPACITY while bm-a sat idle with 20GB free.
+        # A pinned node now only ranks first; any compatible lane may take the job.
+        pass
     scored = []
     for n in candidates:
         if busy.get(n):
@@ -479,7 +493,8 @@ def choose_lane(job, fleet, busy):
         penalty = 1 if ((fl.LANES[n].get("role_class") == "control" and job.get("heavy"))
                         or fl.LANES[n].get("role_class") == "control") else 0
         score = (0 if (needs == "gpu" and n == "bm-c") else 1, penalty, load)
-        scored.append((score, n))
+        rank = (0 if n in pref else 1, score)
+        scored.append((rank, n))
     scored.sort()
     if not scored:
         return None, "NO-CAPACITY"
