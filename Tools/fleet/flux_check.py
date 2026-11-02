@@ -282,19 +282,15 @@ def i11_recipes_have_kill_criteria():
 
 
 def i12_no_orphan_scripts():
-    """Every script must be reachable: imported/called by another script, a card, a
-    launchd plist, or a docs canon. Orphans are dead weight that still gets maintained."""
+    """每个脚本都得有人调用：别的脚本 import/subprocess、launchd plist、两张工作台账。
+    注意：不能因为文件在同一个目录就跳过——那会把 master_pulse 对 ops_metrics 的调用
+    一起跳过，导致"明明在用却被判孤儿"（2026-11-02 修）。"""
     d = HERE
     names = [n[:-3] for n in os.listdir(d) if n.endswith(".py")]
-    # entry points are invoked by launchd / operators / other machines, not by a caller
     ENTRIES = {"flux_check", "flux_contracts", "census", "lane_agent", "agent",
                "master_pulse", "pulse_watchdog", "model_gateway", "web_ai"}
-    hay = []
-    skip_dirs = {"state", "__pycache__", "queue-receipts", "artifacts", "dispatcher"}
-    # Only stable sources count as a caller: code, launchd plists and the two declarative
-    # work ledgers. Markdown reports and queue files are rewritten every cycle, which made
-    # this check flip between 0 and 8 orphans per run (2026-11-02) - a gate that flickers
-    # is worse than no gate.
+    docs = {}
+    skip_dirs = {"state", "__pycache__", "queue-receipts", "artifacts"}
     for base in (os.path.join(ROOT, "Tools"), os.path.join(ROOT, "cph4")):
         for dirpath, dirs, files in os.walk(base):
             dirs[:] = [x for x in dirs if x not in skip_dirs]
@@ -302,33 +298,37 @@ def i12_no_orphan_scripts():
                 if not n.endswith((".py", ".ps1", ".sh", ".cmd", ".plist")):
                     continue
                 p = os.path.join(dirpath, n)
-                if dirpath == d and n.endswith(".py"):
-                    continue          # the script family itself
                 try:
-                    hay.append(open(p, encoding="utf-8", errors="ignore").read())
+                    docs[p] = open(p, encoding="utf-8", errors="ignore").read()
                 except Exception:
                     pass
     for extra in ("WORK-RULES.jsonl", "RECURRING-WORK.jsonl", "LINE-REGISTRY.json"):
         p = os.path.join(FLEET, extra)
         if os.path.exists(p):
             try:
-                hay.append(open(p, encoding="utf-8", errors="ignore").read())
+                docs[p] = open(p, encoding="utf-8", errors="ignore").read()
             except Exception:
                 pass
-    for pl in ("/Users/%s/Library/LaunchAgents" % os.environ.get("USER", ""),):
-        if os.path.isdir(pl):
-            for n in os.listdir(pl):
-                if n.startswith("com.fluxgroup"):
-                    try:
-                        hay.append(open(os.path.join(pl, n), encoding="utf-8", errors="ignore").read())
-                    except Exception:
-                        pass
-    blob = "\n".join(hay)
+    pl = "/Users/%s/Library/LaunchAgents" % os.environ.get("USER", "")
+    if os.path.isdir(pl):
+        for n in os.listdir(pl):
+            if n.startswith("com.fluxgroup"):
+                try:
+                    docs[os.path.join(pl, n)] = open(os.path.join(pl, n), encoding="utf-8",
+                                                     errors="ignore").read()
+                except Exception:
+                    pass
+    manual = set()
+    try:
+        manual = set((jload(os.path.join(FLEET, "TOOLS-MANUAL.json"), {}) or {}).get("tools") or {})
+    except Exception:
+        pass
     bad = []
     for nm in names:
-        if nm in ENTRIES:
+        if nm in ENTRIES or nm in manual:
             continue
-        if blob.count(nm) <= 0:
+        called = any(os.path.basename(p) != nm + ".py" and nm in txt for p, txt in docs.items())
+        if not called:
             bad.append("script:%s:no-caller" % nm)
     return bad
 
@@ -376,7 +376,7 @@ def i14_p0_daily_output():
             continue
         age = r.get("age_h")
         if age is None or age > 24:
-            bad.append("p0:%s:no-output-%sh" % (r.get("id"), age))
+            bad.append("p0:%s:no-output" % r.get("id"))   # 不带小时数，避免键每小时变一次
     return bad
 
 

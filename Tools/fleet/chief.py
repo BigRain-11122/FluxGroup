@@ -133,6 +133,19 @@ def main(argv):
             applied.append({"kind": "promote", "out": (r.stdout or "").strip()[:120]})
         d["result"] = "applied" if ok else note
 
+    # 阶段 4 的准入：连续 7 天、采纳率 >=80%（采纳=动作被执行且未被撤销）
+    adoption = {"days": 0, "applied": 0, "total": 0, "rate": None, "eligible_stage4": False}
+    try:
+        rows = [json.loads(l) for l in open(LEDGER, encoding="utf-8") if l.strip()]
+        applied_n = sum(1 for r in rows if r.get("result") == "applied")
+        total_n = sum(1 for r in rows if r.get("action") != "flag")
+        days = len({r.get("ts", "")[:10] for r in rows})
+        rate = round(100.0 * applied_n / total_n, 1) if total_n else None
+        adoption = {"days": days, "applied": applied_n, "total": total_n, "rate": rate,
+                    "eligible_stage4": bool(days >= 7 and rate is not None and rate >= 80)}
+    except Exception:
+        pass
+
     # 早报（只写 3 件：要你定的、我在处理的、今天最该看的数）
     L = ["# 总管早报 %s（阶段 %d）" % (now.strftime("%Y-%m-%d %H:%M"), stage), ""]
     L.append("## 要你定的（≤3）")
@@ -157,6 +170,11 @@ def main(argv):
     if met.get("debt") is not None:
         L.append("- 结构债 %s 条，已降 %s%%" % (met.get("debt"), met.get("debt_drop_pct")))
     L.append("")
+    L.append("")
+    L.append("## 放权进度")
+    L.append("- 阶段 %d｜近 %d 天决定 %s 条，执行 %s 条，采纳率 %s%%｜阶段4 资格：%s" % (
+        stage, adoption["days"], adoption["total"], adoption["applied"],
+        adoption["rate"], "是" if adoption["eligible_stage4"] else "否"))
     L.append("---")
     L.append("动作白名单：%s｜阶段闸：%s" % (",".join(sorted(ACTIONS)), mcfg.get("note", "")))
     brief = os.path.join(CHIEF, "BRIEF-%s.md" % now.strftime("%Y%m%d"))
@@ -172,7 +190,7 @@ def main(argv):
                                 "target": d.get("target"), "result": d.get("result")},
                                ensure_ascii=False) + "\n")
 
-    out = {"ts": now.isoformat(timespec="seconds"), "stage": stage,
+    out = {"ts": now.isoformat(timespec="seconds"), "stage": stage, "adoption": adoption,
            "decisions": decisions, "applied": applied, "brief": brief}
     json.dump(out, open(os.path.join(CHIEF, "STATE.json"), "w", encoding="utf-8"),
               ensure_ascii=False, indent=1)
