@@ -44,7 +44,9 @@ def main():
     ap.add_argument("--whitelist", default=None, help="reprise whitelist JSON")
     a = ap.parse_args()
 
-    sys.path.insert(0, r"C:\Users\sjs20\Desktop\FluxGroup\Tools")
+    # 2026-11-02 修：原来这里硬编码 C:\Users\sjs20\Desktop\FluxGroup\Tools，等于把这张卡
+    # 钉死在 bm-a 上——换任何一台机 import 直接失败（跨机卡禁写绝对路径）。
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
     import release_gate as RG
 
     cuts, err = RG.detect_cuts(a.video, threshold=15.0)
