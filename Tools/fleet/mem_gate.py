@@ -26,8 +26,10 @@ import re
 import subprocess
 import sys
 
-RESERVE_GB = 6.0
-CAP_GB = 12.0          # never let one model hold more than ~1/3 of the pool
+# CEO 2026-11-02: 这台机器主要就是赋能 AI，轻度办公 → 办公预留从 6GB 降到 4GB，
+# 单模型上限提到 14GB（仍然受换页规则约束）。
+RESERVE_GB = 4.0
+CAP_GB = 14.0          # AI-first box: a 9-14B judge seat must be able to fit
 RESIDENT_GB = 3.3      # qwen3:4b-instruct @8k, measured
 # CEO 2026-11-01: 不要频繁触发硬盘交换，合理使用 MacBook 的算力. Swap already in use means
 # the box is under pressure BEFORE the model loads; counting only "free" RAM would invite

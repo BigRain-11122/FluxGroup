@@ -100,5 +100,24 @@
    "hard_effect": "单模型上限压到常驻席 3.3GB；主控脉每轮检测，超过 2GB 即卸载非策略模型并报 blocker"
   },
   "no_fake_cloud": "router.py 的 cloud 分支未实现；凡需云端的判断一律进 ESCALATED，由 agent 会话执行并留痕"
+ },
+ "machine_role": {
+  "_why": "CEO 2026-11-02：这台机器主要就是赋能 AI，轻度办公",
+  "primary": "AI 赋能：判断席、线级简报、派单与监督",
+  "secondary": "轻度办公：浏览器/文档/终端，预留 4GB",
+  "budget": {
+   "reserve_for_office_gb": 4,
+   "model_max_gb": 14,
+   "swap_soft_gb": 1.0,
+   "swap_hard_gb": 2.0
+  },
+  "note": "办公预留从 6GB 降到 4GB；换页规则不变（≥2GB 时单模型压到常驻席）"
+ },
+ "judge_seat": {
+  "model": "qwen3:8b",
+  "role": "本地判读席（比 4B 更能给判断，但更慢）",
+  "state": "PENDING-BENCH",
+  "rule": "先与 4B 同题实测：正确率/是否编造/端到端秒数；只有质量明显更优才替换 4B",
+  "why": "判断质量是当前瓶颈，速度不是；8B 约 5GB，在新预算内可常驻"
  }
 }
