@@ -1,11 +1,11 @@
 {
- "ts": "2026-11-02T21:42:36",
- "cycle": 1535,
+ "ts": "2026-11-02T21:43:46",
+ "cycle": 1536,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-02T21:42:36",
+ "master_tick_ts": "2026-11-02T21:43:46",
  "queue": {
-  "total": 136,
+  "total": 137,
   "open": 0,
   "running": 3,
   "done": 91,
@@ -14,10 +14,10 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 22.8,
-   "cpu_load_pct": 4,
-   "ram_free_gb": 32.8,
-   "gpu_util_pct": 0,
+   "hb_age_s": 33.0,
+   "cpu_load_pct": 23,
+   "ram_free_gb": 33.2,
+   "gpu_util_pct": 7,
    "job": "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102",
    "last_result": {
     "job": null,
@@ -32,9 +32,9 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 44.5,
-   "cpu_load_pct": 96,
-   "ram_free_gb": 4.6,
+   "hb_age_s": 56.0,
+   "cpu_load_pct": 34,
+   "ram_free_gb": 1.5,
    "gpu_util_pct": null,
    "job": "R-TTS-QC-R2-20261102",
    "last_result": null,
@@ -44,7 +44,7 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 140.0,
+   "hb_age_s": 210.0,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -57,27 +57,27 @@
   "bm-m": {
    "online": true,
    "hb_age_s": 0.6,
-   "cpu_load_pct": 9,
-   "ram_free_gb": 13.5,
+   "cpu_load_pct": 10,
+   "ram_free_gb": 15.6,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
-    "job": null,
-    "state": "IDLE",
-    "rc": null,
-    "ts": "2026-11-02T21:41:26",
-    "reason": "SELF-DISPATCH: lane scans its own backlog"
+    "job": "CANARY-20261102T214345",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-02T21:43:45",
+    "reason": null
    },
-   "idle_confirmed": true,
+   "idle_confirmed": false,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 8
+   "idle_rounds": 0
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 8
+  "bm-m": 0
  },
  "lines": {
   "bigstream-mv": {
@@ -763,10 +763,11 @@
  },
  "supply_added": [],
  "events": [
+  "R-TTS-QC-R2-20261102 -> bm-b (cpu)",
+  "C-TTS-QC-ALL -> bm-c (cpu)",
   "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102 -> bm-a (cpu)"
  ],
  "violations": [
-  "bm-m IDLE-CONFIRMED x8 (SELF-DISPATCH: lane scans its own backlo)",
   "LINE-BLOCKED bigstream-drama ()",
   "STAGE-STALLED bigstream-duanju 卡在 剧本/编剧席 (短剧席)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
