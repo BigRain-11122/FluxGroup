@@ -166,10 +166,21 @@ def merge_jsonl(path, rows, key="id"):
     lockp = _lock(path)
     try:
         current = read_jsonl(path)
+        # Collapse duplicates already on disk before merging (D-R270-QUEUE-DUP-ID):
+        # index used to point at the LAST duplicate, so earlier copies could never be
+        # replaced and every later write kept them alive - the queue grew 173 -> 314
+        # rows with 129 repeated ids while each card was reported as "handled".
         index = {}
-        for i, r in enumerate(current):
+        deduped = []
+        for r in current:
             if isinstance(r, dict) and r.get(key) is not None:
-                index[r[key]] = i
+                k = r[key]
+                if k in index:
+                    deduped[index[k]] = r      # last write wins, keep original position
+                    continue
+                index[k] = len(deduped)
+            deduped.append(r)
+        current = deduped
         for r in rows:
             if not isinstance(r, dict) or r.get(key) is None:
                 continue

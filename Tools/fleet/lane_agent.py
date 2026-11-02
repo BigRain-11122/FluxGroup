@@ -308,6 +308,10 @@ def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
         err_cls = None
     elif rc == 0:
         err_cls = "E-ARTIFACT"      # ran cleanly but did not produce what the card promised
+    elif ("MISSING " in (out or "")) or ("No such file" in ((out or "") + (err or ""))):
+        # Input path absent on THIS box (D-R270-NO-INPUT-PRECHECK). Naming it stops the
+        # next reader from re-issuing the same card here: the fix is another node, not a retry.
+        err_cls = "E-INPUT"
     else:
         err_cls = fc.error_class(rc)
     rec = {"id": jid, "node": node, "rc": rc, "seconds": dur, "cmd": cmd,

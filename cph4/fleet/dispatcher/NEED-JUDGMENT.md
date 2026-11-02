@@ -105,3 +105,8 @@
 [2026-11-03 00:4x][PROXY R2.70] DEFECT D-R270-QUEUE-DUP-ID（2 次实锚：11-02 00:1x / 11-03 00:4x）：PRODUCTION-QUEUE 同 id 多行（173 行/168 id）-> 主控见非终态行重跑 -> 重复 artifact 提交（本班实测同卡 4 笔）。本班已 prune 清 5 行并备份；根因在写入口（merge_jsonl 按 id 更新但不消除既有重复行），建议 fleet_lane.merge_jsonl 落盘前对 current 做一次按键去重（保留最后写入者），或由 master 慢批加「dup-id 自动合并」断言。
 [2026-11-03 00:4x][PROXY R2.70] DEFECT D-R270-NO-INPUT-PRECHECK：workgen/backlog_fill 提升卡片前不校验输入路径存在性，导致 tts_batch_check 0.2 秒 rc=1 空跑并被反复重提。建议卡面增 precheck（路径存在性）字段，缺失即不提升、记 BLOCKED-INPUT 一次而非轮轮重派。
 [2026-11-03 00:4x][PROXY R2.70] 上游缺口：短剧配音批（media/drama-tts-out）从未产出 -> bigstream-duanju 线「可发布集数清单」不可得。承办=短剧席；产出后自动解锁两张质检卡（不需要新派卡）。
+
+[2026-11-03 04:0x][PROXY R2.71] RESOLVED **D-R270-QUEUE-DUP-ID**=`Tools/fleet/fleet_lane.py::merge_jsonl` 原把 index[id] 指到最后一个重复行，只替换那一行，早期重复行永远清不掉（实测 314 行/181 id，每卡 2-3 行且状态各异）。改为写前按 id 折叠（后写覆盖、保留位置）；一次性外科 314→181、0 重复 id。复核实证：合并单测 A(OPEN)+A(DONE)+B → 2 行且 A=DONE。
+[2026-11-03 04:0x][PROXY R2.71] RESOLVED（派单面）**D-R270-NO-INPUT-PRECHECK**=短剧配音质检卡输入只在 bm-b（media/drama-tools/drama_voicegen_batch.py 的 TTS_OUT 硬编码 bm-b 根路径），却按「指定机沉默>600s 任何机可接」被 bm-a/bm-m 取走：03:24:30 bm-a rc=1 MISSING、03:43:03 bm-m rc=1 MISSING，各 0.1s 回 UNVERIFIED→closer 反复重排。三层修：①卡面 requires 加输入目录（执行器前置校验不接）；②lane_agent 回执新增 E-INPUT；③僵尸卡退役、今日卡修派 bm-b。同病三犯=闸升格到卡面。
+[2026-11-03 04:0x][PROXY R2.71] 待判（未决）bigstream-duanju 线级缺口：checkups 三项证据本机全 0（配音 wav/集成片 mp4/48h 动作）；r1202_ep001_060 是否在 bm-b 盘上未知→已投 P1 盘点卡 R-NEXT-DUANJU-INVENTORY-20261103；生产卡（voicegen EP004-060 重 GPU 长批）待盘点结果+bm-b 空窗再派，禁凭猜派长批。
+[2026-11-03 04:0x][PROXY R2.71] CAPACITY（零动作）bm-c ram_free 0.1GB(<1.0GB 地板)、bm-b CPU 99% 在忙=判在现场不派重活不杀进程；bm-d 仍未入网（enabled=false）。
