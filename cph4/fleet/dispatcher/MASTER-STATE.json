@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-02T14:48:10",
- "cycle": 1228,
+ "ts": "2026-11-02T14:49:21",
+ "cycle": 1229,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-02T14:48:10",
+ "master_tick_ts": "2026-11-02T14:49:21",
  "queue": {
   "total": 97,
   "open": 0,
@@ -14,10 +14,10 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 55.6,
-   "cpu_load_pct": 65,
-   "ram_free_gb": 21.7,
-   "gpu_util_pct": 0,
+   "hb_age_s": 7.5,
+   "cpu_load_pct": 46,
+   "ram_free_gb": 23,
+   "gpu_util_pct": 3,
    "job": "R-TTS-QC-R2-20261102",
    "last_result": {
     "job": "R-VB-DISCOVER-R2-20261102",
@@ -32,9 +32,9 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 15.0,
-   "cpu_load_pct": 6,
-   "ram_free_gb": 6,
+   "hb_age_s": 27.7,
+   "cpu_load_pct": 31,
+   "ram_free_gb": 6.1,
    "gpu_util_pct": null,
    "job": "R-TTS-EP001-060-NIGHT",
    "last_result": null,
@@ -44,7 +44,7 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 688.1,
+   "hb_age_s": 759.9,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -57,15 +57,15 @@
   "bm-m": {
    "online": true,
    "hb_age_s": 0.5,
-   "cpu_load_pct": 23,
+   "cpu_load_pct": 39,
    "ram_free_gb": 13.6,
    "gpu_util_pct": null,
-   "job": "R-ART-PUSH-B-20261102",
+   "job": "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102",
    "last_result": {
-    "job": "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102",
+    "job": "R-ART-PUSH-B-20261102",
     "state": "FAILED",
     "rc": 127,
-    "ts": "2026-11-02T14:47:02",
+    "ts": "2026-11-02T14:48:15",
     "reason": null
    },
    "idle_confirmed": false,
@@ -709,10 +709,12 @@
   "cpu": 0,
   "gpu": 0
  },
- "supply_added": [],
+ "supply_added": [
+  "backlog_manifest+1"
+ ],
  "events": [
-  "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102 FAILED via bm-m",
-  "R-ART-PUSH-B-20261102 -> bm-m (cpu)"
+  "R-ART-PUSH-B-20261102 FAILED via bm-m",
+  "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102 -> bm-m (cpu)"
  ],
  "violations": [
   "LINE-BLOCKED bigstream-drama ()"
