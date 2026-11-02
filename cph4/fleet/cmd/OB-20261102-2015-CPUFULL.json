@@ -1,0 +1,33 @@
+{
+ "id": "OB-20261102-2015-CPUFULL",
+ "type": "capacity+dispatch",
+ "lanes": ["bm-a", "bm-b", "bm-c", "bm-m"],
+ "issued_at": "2026-11-02T20:15:00",
+ "issued_by": "bm-a (承 CEO 令 2026-11-02 20:1x 原话「去通知主控，让机队所有的机器，调动起 cpu 去干该干的事，不要浪费 cpu 这一块的算力」)",
+ "steps": [
+  "cd <repo root> && git pull --rebase origin main（本令已随仓落盘，拉取即生效）",
+  "逐机实测 CPU：Windows 用 typeperf \"\\Processor(_Total)\\% Processor Time\" -sc 3；Mac 用 top -l 2 | grep CPU。把实测 CPU% 与「在跑什么卡」一并写进本轮 hb 上报——心跳新鲜不等于 CPU 有产出。",
+  "cpu 活源按序取用，取完一档再下一档：①PRODUCTION-QUEUE 中 needs=cpu 且 state∈READY/OPEN 的卡（今日基线：READY 2 / OPEN 1 / UNVERIFIED 2）②work-bank/<node>-cpu-bank.json（实测：bm-a 仅 2 条，低于 FLOOR=3，须由 workgen cpu 库补料）③已声明却无人在干的真活——短剧/漫剧工序模板化、音色库语料三桶（v01 播客有声书 / v02 课堂讲解 / v03 评书说书，卡点=没有 BV 清单，用 Tools/voicebank/vb_discover.py）、量化回测（只能在 bm-b/bm-d 跑，quant 仓不在 Mac）、游戏侧可演示包构建。",
+  "各机轮首自领，禁等人工分配；领到即跑，跑完把产物写进 cph4/fleet/queue-receipts/（受控目录，远端可验），state/ 之类 gitignore 目录不算交付。",
+  "禁造假活：不得为把 CPU 打满而跑空转脚本、重复跑已 DONE 的卡、或把未处理的原始拷贝当产物。没有真活就补料并如实上报缺口，宁可挂着也不许刷指标。",
+  "每日落账：把「CPU 有效工时」= 有产物回执的卡时长合计，写进 ops metrics；禁止用「进程在跑/任务 Ready」充当产能数字。"
+ ],
+ "policy": {
+  "meaning_gate": "CEO 10-13 令照旧：正确方向 + 有意义产出；四条意义闸（廉价普查先行 / 判负真关线禁保载续烧 / 预注册预算上限 / 消费面紧迫度排序）不变",
+  "bm_a_daytime": "bm-a 工作日 09:00-19:00 仍走 AutoYield 让路（day_ok 卡除外），19:00 后满负荷；本令时段已 resumed",
+  "no_fake_load": "不许用 CPU 占用率本身当验收指标；验收只看「受控目录里的产物」",
+  "cloud": "云端默认=本地；周期件禁云端；单次 >500 积分仍走确认闸"
+ },
+ "accept": [
+  "各机 cph4/fleet/lanes/<node>.json 出现本令时段 last_result 与实测 CPU%",
+  "cph4/fleet/queue-receipts/ 新增 ≥1 条本机 CPU 产物回执",
+  "cph4/fleet/cmd/OB-20261102-2015-CPUFULL.<node>.ack.json 落库",
+  "日报出现「CPU 有效工时」数字，且能逐条追到产物文件"
+ ],
+ "baseline_measured_20261102_2015": {
+  "cpu_banks": {"bm-a": 2, "bm-b": 3, "bm-c": 3, "floor": 3},
+  "bank_mtime": "2026-11-02T00:04",
+  "queue_cpu_cards": {"READY": 2, "OPEN": 1, "UNVERIFIED": 2, "RUNNING": 2},
+  "note": "活库 20 小时未动、bm-a 低于补料线，属供给缺口而非产能不足"
+ }
+}
