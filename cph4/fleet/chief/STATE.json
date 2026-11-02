@@ -1,29 +1,21 @@
 {
- "ts": "2026-11-02T19:40:38",
+ "ts": "2026-11-02T19:41:02",
  "stage": 3,
  "adoption": {
   "days": 1,
-  "applied": 8,
-  "total": 17,
-  "rate": 47.1,
+  "applied": 11,
+  "total": 19,
+  "rate": 57.9,
   "eligible_stage4": false
  },
  "decisions": [
   {
-   "kind": "flag",
-   "why": "1 台机空转且有活",
-   "target": [
-    "bm-c"
-   ],
-   "min_stage": 1,
-   "result": "applied"
-  },
-  {
    "kind": "requeue",
-   "why": "2 张卡在跑但 1 小时无回执",
+   "why": "3 张卡在跑但 1 小时无回执",
    "target": [
     "R-TTS-QC-R2-20261102",
-    "C-MV-TRANSITION-20261102"
+    "RCANARY2-20261102T181500",
+    "R-NEXT-BIGSTREAMD-TTS-QC-20261102"
    ],
    "min_stage": 3,
    "result": "applied"
@@ -44,7 +36,8 @@
    "kind": "requeue",
    "ids": [
     "R-TTS-QC-R2-20261102",
-    "C-MV-TRANSITION-20261102"
+    "RCANARY2-20261102T181500",
+    "R-NEXT-BIGSTREAMD-TTS-QC-20261102"
    ]
   }
  ],
