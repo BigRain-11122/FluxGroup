@@ -137,3 +137,5 @@
 {"ts": "2026-11-03T01:21:38", "stage": 3, "read": {"running": 4, "open": 1, "ready": 9, "red": 5}, "judged": "1 张卡在跑但 1 小时无回执", "action": "requeue", "target": ["R-TTS-QC-R2-20261102"], "result": "applied"}
 {"ts": "2026-11-03T01:21:38", "stage": 3, "read": {"running": 4, "open": 1, "ready": 9, "red": 5}, "judged": "队列空，候选 9 张", "action": "promote", "target": ["C-FIN-ETF-COMPOSITE", "C-VB-DISCOVER-V03", "C-VB-DISCOVER-V03"], "result": "applied"}
 {"ts": "2026-11-03T01:21:38", "stage": 3, "read": {"running": 4, "open": 1, "ready": 9, "red": 5}, "judged": "P0 线 24h 无产物：2 条", "action": "escalate", "target": ["p0:bigstream-drama:no-output", "p0:bigstream-duanju:no-output"], "result": "applied"}
+{"ts": "2026-11-03T01:27:26", "stage": 3, "read": {"running": 3, "open": 2, "ready": 9, "red": 5}, "judged": "1 张卡在跑但 1 小时无回执", "action": "requeue", "target": ["R-TTS-QC-R2-20261102"], "result": "applied"}
+{"ts": "2026-11-03T01:27:26", "stage": 3, "read": {"running": 3, "open": 2, "ready": 9, "red": 5}, "judged": "P0 线 24h 无产物：2 条", "action": "escalate", "target": ["p0:bigstream-drama:no-output", "p0:bigstream-duanju:no-output"], "result": "applied"}
