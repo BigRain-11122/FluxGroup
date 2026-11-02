@@ -213,9 +213,10 @@ def supervise(rows, reports, now_ts, self_node="bm-a"):
             # proves nothing (OFFBOX). A cph4/... path, by contrast, must be committed by
             # the producing node; if it is not here, the closure is unproven.
             _root_dir = rel_out.split("/")[0] if rel_out and not os.path.isabs(rel_out) else ""
-            _visible = bool(_root_dir) and os.path.isdir(os.path.join(root, _root_dir))
+            _root = os.environ.get("FLUX_ROOT") or fl.ROOT_DEFAULT
+            _visible = bool(_root_dir) and os.path.isdir(os.path.join(_root, _root_dir))
             if (st == "DONE" and rel_out and not os.path.isabs(rel_out) and _visible
-                    and not os.path.exists(os.path.join(root, rel_out))):
+                    and not os.path.exists(os.path.join(_root, rel_out))):
                 job["state"] = "UNVERIFIED"
                 job["finished_at"] = rep.get("ts") or now_ts
                 job["result"] = {"rc": rep.get("rc"), "seconds": rep.get("seconds"),
