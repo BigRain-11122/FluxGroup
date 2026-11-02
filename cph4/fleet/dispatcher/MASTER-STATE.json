@@ -1,23 +1,23 @@
 {
- "ts": "2026-11-03T00:05:44",
- "cycle": 45,
+ "ts": "2026-11-03T00:06:55",
+ "cycle": 46,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-03T00:05:44",
+ "master_tick_ts": "2026-11-03T00:06:55",
  "queue": {
-  "total": 166,
-  "open": 10,
+  "total": 167,
+  "open": 9,
   "running": 4,
-  "done": 93,
-  "failed": 2
+  "done": 94,
+  "failed": 3
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 30.7,
-   "cpu_load_pct": 50,
-   "ram_free_gb": 24.8,
-   "gpu_util_pct": 25,
+   "hb_age_s": 40.9,
+   "cpu_load_pct": 58,
+   "ram_free_gb": 26.7,
+   "gpu_util_pct": 5,
    "job": "R-PLAN-BIGMONEY-20261103",
    "last_result": {
     "job": "R-PLAN-BIGGAME-20261103",
@@ -32,16 +32,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 53.2,
-   "cpu_load_pct": 24,
-   "ram_free_gb": 1.9,
-   "gpu_util_pct": null,
-   "job": "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102",
+   "hb_age_s": 12.5,
+   "cpu_load_pct": 35,
+   "ram_free_gb": 3.0,
+   "gpu_util_pct": 100,
+   "job": "R-PLAN-RECON-20261103",
    "last_result": {
-    "job": "R-PLAN-BIGDOMAIN-20261103",
+    "job": "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-03T00:04:53",
+    "ts": "2026-11-03T00:06:51",
     "reason": null
    },
    "idle_confirmed": false,
@@ -50,16 +50,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 101.5,
-   "cpu_load_pct": 9,
-   "ram_free_gb": 4.3,
+   "hb_age_s": 55.1,
+   "cpu_load_pct": 8,
+   "ram_free_gb": 4.4,
    "gpu_util_pct": 0,
-   "job": "R-NEXT-BIGSTREAMD-TTS-QC-20261103",
+   "job": "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102",
    "last_result": {
-    "job": "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-03T00:04:42",
+    "job": "R-NEXT-BIGSTREAMD-TTS-QC-20261103",
+    "state": "FAILED",
+    "rc": 1,
+    "ts": "2026-11-03T00:06:35",
     "reason": null
    },
    "idle_confirmed": false,
@@ -68,16 +68,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.5,
-   "cpu_load_pct": 31,
-   "ram_free_gb": 13.6,
+   "hb_age_s": 0.6,
+   "cpu_load_pct": 16,
+   "ram_free_gb": 15.2,
    "gpu_util_pct": null,
-   "job": "R-PLAN-FLUXVERSE-20261103",
+   "job": "R-TRIAGE-BIGSTREAMMV-BMC-20261103",
    "last_result": {
-    "job": "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102",
+    "job": "R-PLAN-FLUXVERSE-20261103",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-03T00:04:39",
+    "ts": "2026-11-03T00:05:49",
     "reason": null
    },
    "idle_confirmed": false,
@@ -130,7 +130,6 @@
    "stale_after_h": 72.0,
    "owner": "短剧席",
    "jobs": [
-    "R-NEXT-BIGSTREAMD-TTS-QC-20261103",
     "R-PLAN-BIGSTREAMDUA-20261103"
    ],
    "no_supply": false,
@@ -168,14 +167,12 @@
   "fluxverse": {
    "name": "FluxVerse·元宙城",
    "status": "ACTIVE",
-   "verdict": "WORKING",
+   "verdict": "WAITING",
    "age_h": null,
    "stale_after_h": 36.0,
    "owner": "城市线",
-   "jobs": [
-    "R-PLAN-FLUXVERSE-20261103"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": null
   },
@@ -264,9 +261,7 @@
     "R-PLAN-RECON-20261103"
    ],
    "no_supply": false,
-   "blockers": [
-    "R-PLAN-RECON-20261103:no-lane"
-   ],
+   "blockers": [],
    "note": null,
    "stuck_stage": "recon-scan",
    "stuck_owner": "拆解部"
@@ -781,7 +776,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 10,
+  "local": 9,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -789,16 +784,18 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 10,
+  "cpu": 9,
   "gpu": 0
  },
- "supply_added": [],
+ "supply_added": [
+  "backlog_manifest+1"
+ ],
  "events": [
-  "R-PLAN-BIGGAME-20261103 UNVERIFIED(no-artifact-yet) via bm-a",
-  "R-PLAN-BIGDOMAIN-20261103 UNVERIFIED(no-artifact-yet) via bm-b",
-  "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102 -> bm-b (cpu)",
-  "R-PLAN-BIGMONEY-20261103 -> bm-a (cpu)",
-  "R-PLAN-FLUXVERSE-20261103 -> bm-m (cpu)"
+  "R-NEXT-BIGSTREAMD-TTS-QC-20261103 FAILED via bm-c",
+  "R-PLAN-FLUXVERSE-20261103 DONE via bm-m",
+  "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102 -> bm-c (cpu)",
+  "R-PLAN-RECON-20261103 -> bm-b (cpu)",
+  "R-TRIAGE-BIGSTREAMMV-BMC-20261103 -> bm-m (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-drama 卡在 剧本/编剧席 (漫剧席)",
@@ -806,8 +803,8 @@
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-a",
   "bm-b",
+  "bm-c",
   "bm-m"
  ]
 }
