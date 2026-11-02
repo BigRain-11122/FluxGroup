@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-02T21:12:46",
- "cycle": 1510,
+ "ts": "2026-11-02T21:13:56",
+ "cycle": 1511,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-02T21:12:46",
+ "master_tick_ts": "2026-11-02T21:13:56",
  "queue": {
   "total": 134,
   "open": 0,
@@ -14,10 +14,10 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 32.6,
-   "cpu_load_pct": 40,
-   "ram_free_gb": 37.9,
-   "gpu_util_pct": 5,
+   "hb_age_s": 42.4,
+   "cpu_load_pct": 54,
+   "ram_free_gb": 38,
+   "gpu_util_pct": 7,
    "job": null,
    "last_result": {
     "job": "C-TTS-QC-ALL",
@@ -32,9 +32,9 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 45.8,
-   "cpu_load_pct": 32,
-   "ram_free_gb": 2,
+   "hb_age_s": 5.4,
+   "cpu_load_pct": 23,
+   "ram_free_gb": 5.2,
    "gpu_util_pct": null,
    "job": "R-TTS-QC-R2-20261102",
    "last_result": null,
@@ -44,7 +44,7 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 209.8,
+   "hb_age_s": 280.0,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -57,27 +57,27 @@
   "bm-m": {
    "online": true,
    "hb_age_s": 0.6,
-   "cpu_load_pct": 12,
-   "ram_free_gb": 13.6,
+   "cpu_load_pct": 8,
+   "ram_free_gb": 15.7,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-02T21:11:40",
+    "ts": "2026-11-02T21:12:46",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 3
+   "idle_rounds": 4
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 3
+  "bm-m": 4
  },
  "lines": {
   "bigstream-mv": {
@@ -764,10 +764,11 @@
  "supply_added": [],
  "events": [
   "C-TTS-QC-ALL FAILED via bm-a",
+  "R-TTS-QC-R2-20261102 -> bm-b (cpu)",
   "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102 -> bm-c (cpu)"
  ],
  "violations": [
-  "bm-m IDLE-CONFIRMED x3 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-m IDLE-CONFIRMED x4 (SELF-DISPATCH: lane scans its own backlo)",
   "LINE-BLOCKED bigstream-drama ()",
   "STAGE-STALLED bigstream-duanju 卡在 剧本/编剧席 (短剧席)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
