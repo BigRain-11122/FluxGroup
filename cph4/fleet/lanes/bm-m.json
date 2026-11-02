@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
- "ts": "2026-11-03T00:03:20",
+ "ts": "2026-11-03T00:04:31",
  "jobs": [
   {
-   "id": "R-PLAN-BIGLIFE-20261103",
-   "title": "BigLife·数字生命 线级体检与缺口清单",
-   "cmd": "python Tools/fleet/line_triage.py --line biglife",
+   "id": "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102",
+   "title": "BigStream·漫剧 线证据扫描（bm-c 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line bigstream-drama",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-biglife-20261103.md",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigstream-drama-20261102.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
