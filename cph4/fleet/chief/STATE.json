@@ -1,11 +1,11 @@
 {
- "ts": "2026-11-02T21:49:40",
+ "ts": "2026-11-02T21:55:43",
  "stage": 3,
  "adoption": {
   "days": 1,
-  "applied": 48,
-  "total": 46,
-  "rate": 104.3,
+  "applied": 52,
+  "total": 49,
+  "rate": 106.1,
   "eligible_stage4": false
  },
  "decisions": [
@@ -20,20 +20,10 @@
   },
   {
    "kind": "requeue",
-   "why": "1 张卡在跑但 1 小时无回执",
+   "why": "2 张卡在跑但 1 小时无回执",
    "target": [
-    "R-TTS-QC-R2-20261102"
-   ],
-   "min_stage": 3,
-   "result": "applied"
-  },
-  {
-   "kind": "promote",
-   "why": "队列空，候选 4 张",
-   "target": [
-    "C-VB-DISCOVER-V03",
-    "C-VB-DISCOVER-V03",
-    "R-TTS-QC-R2-20261102"
+    "R-TTS-QC-R2-20261102",
+    "C-TTS-QC-ALL"
    ],
    "min_stage": 3,
    "result": "applied"
@@ -53,12 +43,9 @@
   {
    "kind": "requeue",
    "ids": [
-    "R-TTS-QC-R2-20261102"
+    "R-TTS-QC-R2-20261102",
+    "C-TTS-QC-ALL"
    ]
-  },
-  {
-   "kind": "promote",
-   "out": "夜间包已在（1 张在跑/待领），不重复灌"
   }
  ],
  "brief": "/Users/junsheng.sun/FluxGroup/cph4/fleet/chief/BRIEF-20261102.md"
