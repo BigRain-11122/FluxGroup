@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-02T13:42:14",
- "cycle": 1175,
+ "ts": "2026-11-02T13:43:26",
+ "cycle": 1176,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-02T13:42:14",
+ "master_tick_ts": "2026-11-02T13:43:26",
  "queue": {
   "total": 95,
   "open": 5,
@@ -14,9 +14,9 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": -0.9,
-   "cpu_load_pct": 90,
-   "ram_free_gb": 19.3,
+   "hb_age_s": 10.6,
+   "cpu_load_pct": 93,
+   "ram_free_gb": 20.5,
    "gpu_util_pct": 2,
    "job": "C-MV-TRANSITION",
    "last_result": {
@@ -32,9 +32,9 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 21.5,
-   "cpu_load_pct": 93,
-   "ram_free_gb": 4.4,
+   "hb_age_s": 32.1,
+   "cpu_load_pct": 71,
+   "ram_free_gb": 3.7,
    "gpu_util_pct": null,
    "job": "R-TTS-EP001-060-NIGHT",
    "last_result": null,
@@ -44,7 +44,7 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 69.8,
+   "hb_age_s": 142.2,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -56,28 +56,28 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.6,
-   "cpu_load_pct": 18,
+   "hb_age_s": 0.5,
+   "cpu_load_pct": 17,
    "ram_free_gb": 14.8,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
-    "job": "R-TRIAGE-BIGDOMAIN-BMM-20261102",
-    "state": "FAILED",
-    "rc": 127,
-    "ts": "2026-11-02T13:41:08",
-    "reason": null
+    "job": null,
+    "state": "IDLE",
+    "rc": null,
+    "ts": "2026-11-02T13:42:14",
+    "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
-   "idle_confirmed": false,
+   "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 0
+   "idle_rounds": 1
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 0
+  "bm-m": 1
  },
  "lines": {
   "bigstream-mv": {
@@ -712,13 +712,9 @@
   "gpu": 0
  },
  "supply_added": [],
- "events": [
-  "R-TRIAGE-BIGDOMAIN-BMM-20261102 FAILED via bm-m"
- ],
+ "events": [],
  "violations": [
   "LINE-BLOCKED bigstream-drama ()"
  ],
- "lane_files_written": [
-  "bm-m"
- ]
+ "lane_files_written": []
 }
