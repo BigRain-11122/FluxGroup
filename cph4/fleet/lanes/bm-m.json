@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
- "ts": "2026-11-03T03:43:03",
+ "ts": "2026-11-03T03:44:13",
  "jobs": [
   {
-   "id": "R-NEXT-BIGSTREAMD-TTS-QC-20261103",
-   "title": "配音批质检：r1202 目录逐集时长/静音/体积（出可发布集数清单）",
-   "cmd": "python Tools/fleet/tts_batch_check.py --dir media/drama-tts-out/r1202_ep001_060 --out cph4/fleet/queue-receipts/tts-qc-20261103.json",
+   "id": "C-TTS-QC-ALL",
+   "title": "短剧配音全量质检（逐集时长/静音/体积 → 可发布集数清单）",
+   "cmd": "python Tools/fleet/tts_batch_check.py --dir media/drama-tts-out --out cph4/fleet/queue-receipts/tts-qc-all.json",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/tts-qc-20261103.json",
+   "deliverable": "cph4/fleet/queue-receipts/tts-qc-all.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 14.5/1.0 GB"
+ "capacity_note": "ram 15.8/1.0 GB"
 }
