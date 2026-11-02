@@ -145,7 +145,7 @@ media/drama-pilot-in/
 media/logs/
 media/meme-daily-v1/
 cph4/fleet/meme-daily-v1/outbound/*/media/
-cph4/fleet/h3-local-test/outbound/
+cph4/fleet/_archive-20261102/h3-local-test/outbound/
 # 全帧目录/候选图批/本地音轨（过程件，非交付物）
 cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/frames_full/
 cph4/fleet/mv0001-handover/outbound/krea2/male-lead-campus-v1/
@@ -193,3 +193,16 @@ cph4/fleet/dispatcher/CLOCK-SKEW.json
 cph4/fleet/dispatcher/CONTINGENCY-ESCALATIONS.md
 cph4/fleet/dispatcher/L1-POOL-TRIAGE.md
 cph4/fleet/dispatcher/DISPATCH-LOG.md
+
+# --- 2026-11-02 全面清理：运行态与本地媒体一律不进 git ---
+cph4/fleet/dispatcher/STATE.json
+cph4/fleet/dispatcher/STEWARD-STATE.json
+cph4/fleet/state/lane-registry.jsonl
+cph4/fleet/queue-receipts/_last_lane_*.json
+cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/promo-*/
+cph4/fleet/media/
+cph4/fleet/dispatcher/CEO-PROXY/media/
+media/_trash/
+media/family-assets/
+media/mv-test/
+media/covers/
