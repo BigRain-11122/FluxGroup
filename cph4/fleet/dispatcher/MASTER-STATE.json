@@ -1,23 +1,23 @@
 {
- "ts": "2026-11-02T11:53:00",
- "cycle": 1146,
+ "ts": "2026-11-02T11:54:11",
+ "cycle": 1147,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-02T11:53:00",
+ "master_tick_ts": "2026-11-02T11:54:11",
  "queue": {
   "total": 90,
   "open": 4,
   "running": 3,
-  "done": 66,
-  "failed": 1
+  "done": 67,
+  "failed": 0
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 46.2,
-   "cpu_load_pct": 15,
-   "ram_free_gb": 23.9,
-   "gpu_util_pct": 3,
+   "hb_age_s": 56.8,
+   "cpu_load_pct": 36,
+   "ram_free_gb": 22.8,
+   "gpu_util_pct": 2,
    "job": "R-MV-GATE-R2-20261102",
    "last_result": {
     "job": "C-MV-TRANSITION",
@@ -32,16 +32,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 7.1,
-   "cpu_load_pct": 20,
-   "ram_free_gb": 5.9,
+   "hb_age_s": 19.1,
+   "cpu_load_pct": 82,
+   "ram_free_gb": 5.2,
    "gpu_util_pct": null,
-   "job": "Q-AUD-1002",
+   "job": "R-TTS-EP001-060-NIGHT",
    "last_result": {
-    "job": "R-TTS-QC-R2-20261102",
-    "state": "FAILED",
-    "rc": 1,
-    "ts": "2026-11-02T11:48:42",
+    "job": "Q-AUD-1002",
+    "state": "DONE",
+    "rc": 4294967294,
+    "ts": "2026-11-02T11:53:43",
     "reason": null
    },
    "idle_confirmed": false,
@@ -50,7 +50,7 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 881.4,
+   "hb_age_s": null,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -63,7 +63,7 @@
   "bm-m": {
    "online": true,
    "hb_age_s": 0.5,
-   "cpu_load_pct": 33,
+   "cpu_load_pct": 34,
    "ram_free_gb": 15.2,
    "gpu_util_pct": null,
    "job": null,
@@ -71,19 +71,19 @@
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-02T11:51:51",
+    "ts": "2026-11-02T11:53:00",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 75
+   "idle_rounds": 76
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 75
+  "bm-m": 76
  },
  "lines": {
   "bigstream-mv": {
@@ -122,13 +122,17 @@
   "bigstream-duanju": {
    "name": "BigStream·短剧",
    "status": "ACTIVE",
-   "verdict": "WAITING",
+   "verdict": "WORKING",
    "age_h": null,
    "stale_after_h": 72.0,
    "owner": "短剧席",
-   "jobs": [],
-   "no_supply": true,
-   "blockers": [],
+   "jobs": [
+    "R-TTS-QC-R2-20261102"
+   ],
+   "no_supply": false,
+   "blockers": [
+    "R-TTS-QC-R2-20261102:no-lane"
+   ],
    "note": null
   },
   "bigstream-shortvideo": {
@@ -721,25 +725,28 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 3,
+  "local": 4,
   "cloud": 0,
-  "queue": 1,
+  "queue": 0,
   "blocked": 0,
   "cloud_spend_today": 0,
   "waste": []
  },
  "supply_gap": {
-  "cpu": 3,
-  "gpu": 1
+  "cpu": 4,
+  "gpu": 0
  },
  "supply_added": [],
  "events": [
-  "R-TTS-QC-R2-20261102 FAILED via bm-b"
+  "Q-AUD-1002 DONE via bm-b",
+  "R-TTS-EP001-060-NIGHT -> bm-b (gpu)"
  ],
  "violations": [
-  "bm-m IDLE-CONFIRMED x75 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-m IDLE-CONFIRMED x76 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED bigstream-mv 卡在 立意/分镜/导演席 (导演席（自决推进，CEO 巡视可随时否决）)",
   "LINE-BLOCKED bigstream-drama ()"
  ],
- "lane_files_written": []
+ "lane_files_written": [
+  "bm-b"
+ ]
 }
