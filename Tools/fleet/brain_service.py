@@ -92,6 +92,23 @@ def _excerpt(root, src, chars=3500):
         return ""
 
 
+def _names(root):
+    try:
+        return {k: (v.get("name_cn") or k) for k, v in fl.LANES.items()}
+    except Exception:
+        return {}
+
+
+def _humanize(text, root):
+    """把正文里的 bm-x 换成机名，反引号内的命令保持原样（CEO 令：看不懂代号）. """
+    nm = _names(root)
+    parts = text.split("`")
+    for i in range(0, len(parts), 2):      # 只在反引号之外替换
+        for code, name in nm.items():
+            parts[i] = re.sub(r"\b%s\b" % re.escape(code), name, parts[i])
+    return "`".join(parts)
+
+
 def produce(root, line, task, src):
     ex = _excerpt(root, src)
     if not ex:
@@ -109,11 +126,22 @@ def produce(root, line, task, src):
     cited = set(re.findall(r"`?([A-Za-z0-9_./-]+\.(?:md|json|py|txt))`?", ans))
     ghost = {c for c in cited
              if not any(c == a or c in a or a.endswith(c) for a in allowed)}
-    if ghost:
-        ans += "\n\n> ⚠️ 引用核验未过（主控已标记，请勿据此行动）：%s" % ", ".join(sorted(ghost))
+    # Two gates now, because the excerpt-only check let a fabricated path through
+    # (2026-11-02: 「.codely-cli/tmp/v718-delivery-gate.json」 passed and the brief told the
+    # CEO to release a cut). A citation must both come from the excerpt AND exist on disk.
+    ghost_disk = {c for c in cited
+                  if not (os.path.exists(os.path.join(root, c)) or os.path.exists(c))}
+    bad = sorted(ghost | ghost_disk)
+    if bad:
+        # Banner goes FIRST: a reader must not reach the recommendation before the warning.
+        ans = ("> ⛔ 引证核验未过（%d 处查无此文件），本页结论不可作为决策依据：\n> %s\n\n"
+               % (len(bad), "\n> ".join(bad))) + ans
+    # Machine-readable truth for downstream readers (supervisor/digest/BRAIN).
+    ans += "\n\n<!-- verify: citations=%d unverified=%d -->" % (len(cited), len(bad))
     safe = re.sub(r"[^a-z0-9-]", "-", line)
     path = os.path.join(root, RECEIPT_DIR, "brain-%s-%s.md" % (safe, _today()))
     model_used = (fl.LANES.get("bm-m", {}).get("llm") or {}).get("model") or "local"
+    ans = _humanize(ans, root)
     with open(path, "w", encoding="utf-8") as f:
         f.write(ans.strip() + "\n\n---\n*副大脑 bm-m · %s 本地产出 · 依据仓库摘录*\n" % model_used)
     return path, "ok"
