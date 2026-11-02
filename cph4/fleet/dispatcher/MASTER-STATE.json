@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-02T11:01:58",
- "cycle": 1095,
+ "ts": "2026-11-02T11:03:00",
+ "cycle": 1096,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-02T11:01:58",
+ "master_tick_ts": "2026-11-02T11:03:00",
  "queue": {
   "total": 82,
   "open": 1,
@@ -14,10 +14,10 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 44.1,
-   "cpu_load_pct": 81,
-   "ram_free_gb": 31.2,
-   "gpu_util_pct": 4,
+   "hb_age_s": 47.5,
+   "cpu_load_pct": 21,
+   "ram_free_gb": 33.9,
+   "gpu_util_pct": 5,
    "job": null,
    "last_result": {
     "job": null,
@@ -32,8 +32,8 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 4.2,
-   "cpu_load_pct": 80,
+   "hb_age_s": 8.6,
+   "cpu_load_pct": 71,
    "ram_free_gb": 1.7,
    "gpu_util_pct": null,
    "job": "R-PLAN-BIGSTREAMDRA-20261102",
@@ -41,8 +41,8 @@
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-02T11:01:37",
-    "reason": "CAPACITY-BLOCKED-RAM ram 0.4/1.0 GB"
+    "ts": "2026-11-02T11:02:43",
+    "reason": "CAPACITY-BLOCKED-RAM ram 0.9/1.0 GB"
    },
    "idle_confirmed": false,
    "idle_reason": "",
@@ -50,7 +50,7 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 743.7,
+   "hb_age_s": 806.4,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -71,19 +71,19 @@
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-02T11:00:44",
+    "ts": "2026-11-02T11:01:58",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 24
+   "idle_rounds": 25
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 24
+  "bm-m": 25
  },
  "lines": {
   "bigstream-mv": {
@@ -732,7 +732,7 @@
  "supply_added": [],
  "events": [],
  "violations": [
-  "bm-m IDLE-CONFIRMED x24 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-m IDLE-CONFIRMED x25 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED bigstream-mv 卡在 立意/分镜/导演席 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED bigstream-drama 卡在 剧本/编剧席 (漫剧席)"
  ],
