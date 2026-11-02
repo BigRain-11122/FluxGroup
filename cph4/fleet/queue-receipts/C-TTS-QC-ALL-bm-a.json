@@ -2,16 +2,16 @@
  "id": "C-TTS-QC-ALL",
  "node": "bm-a",
  "rc": 1,
- "seconds": 0.2,
+ "seconds": 0.1,
  "cmd": "python Tools/fleet/tts_batch_check.py --dir media/drama-tts-out --out cph4/fleet/queue-receipts/tts-qc-all.json",
  "ok_rc": [
   0
  ],
  "outcome": "FAIL",
- "error_class": "E-UNKNOWN",
+ "error_class": "E-INPUT",
  "deliverable": "cph4/fleet/queue-receipts/tts-qc-all.json",
  "deliverable_exists": false,
- "ts": "2026-11-03T00:44:40",
+ "ts": "2026-11-03T04:24:30",
  "stdout_tail": "[tts-check] MISSING media/drama-tts-out\n",
  "stderr_tail": ""
 }
