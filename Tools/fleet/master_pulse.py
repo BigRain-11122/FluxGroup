@@ -73,6 +73,9 @@ STAGES = [
     # 端到端自检（2026-11-02 CEO 质问后的唯一验收口径）：每轮投一张真卡，
     # 走 pick→claim→run→receipt→state→artifact，断在哪一环就指名。rc=2 = 链断。
     ("canary", ["Tools/fleet/canary.py"], 120, {0}, True),
+    # 冷备（2026-11-02 实测：脚本从来没人调度，备份仓落后 341 个提交而报表全绿）。
+    # 盘不在会写 state/backup.json 的 UNMOUNTED，并 rc=0 退出，不让掉盘拖红主控脉。
+    ("backup", ["/bin/bash", "Tools/fleet/backup_sync.sh"], 300, {0}, True),
     ("gate", ["Tools/fleet/gate_report.py"], 180, {0}, True),
     ("checkups", ["Tools/fleet/checkups.py"], 180, {0, 2}, True),
     ("metrics", ["Tools/fleet/ops_metrics.py"], 90, {0}, True),

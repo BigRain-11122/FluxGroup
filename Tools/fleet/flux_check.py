@@ -142,11 +142,16 @@ def i4_done_cards_have_artifact():
         return []          # vault not built yet; S3 turns this into a hard rule
     have = set()
     for a in jlines(VAULT):
-        if a.get("path"):
-            have.add(os.path.normpath(a["path"]))
+        for k in ("path", "origin"):
+            if a.get(k):
+                have.add(os.path.normpath(a[k]))
     bad = []
     for r in jlines(QUEUE):
         if r.get("state") not in ("DONE",):
+            continue
+        # 自检卡（CANARY/RCANARY）的"交付物"是链路证据，写在 state/ 里、永不进资产库；
+        # 拿它当业务产物要求登记就是假红（2026-11-02 实锚）。
+        if str(r.get("id") or "").startswith(("CANARY-", "RCANARY")):
             continue
         d = C.deliverable_of(r)
         if d and os.path.normpath(d) not in have:

@@ -20,8 +20,18 @@ LOG="${FG_BACKUP_LOG:-/tmp/fg-backup.log}"
 
 say() { echo "[$(date '+%F %T')] $*" | tee -a "$LOG"; }
 
-[ -d "$EXT" ] || { say "SKIP 外置盘未挂载: $EXT"; exit 0; }
-[ -d "$BK/.git" ] || { say "SKIP 备份仓不存在: $BK"; exit 0; }
+# 状态落盘（2026-11-02）：这个脚本以前"盘没挂载就 exit 0"，于是冷备停了也没人知道——
+# 实测备份仓落后 341 个提交，所有报表却都是绿的。任何"安静退出"的分支都必须留痕，
+# 让"没做"变成可见事实（state/ 是可重建投影目录，只给本机看）。
+STATE="${FG_BACKUP_STATE:-$(cd "$(dirname "$0")/../.." && pwd)/cph4/fleet/state/backup.json}"
+status() {
+  mkdir -p "$(dirname "$STATE")" 2>/dev/null
+  printf '{"ts":"%s","status":"%s","detail":"%s","ext":"%s"}\n' \
+    "$(date '+%FT%T')" "$1" "$2" "$EXT" > "$STATE" 2>/dev/null
+}
+
+[ -d "$EXT" ] || { say "SKIP 外置盘未挂载: $EXT"; status UNMOUNTED "volume not mounted"; exit 0; }
+[ -d "$BK/.git" ] || { say "SKIP 备份仓不存在: $BK"; status NO-CLONE "backup clone missing"; exit 0; }
 
 cd "$BK" || { say "FAIL 无法进入备份仓"; exit 1; }
 
@@ -41,8 +51,10 @@ after=$(git rev-parse HEAD 2>/dev/null || echo "")
 
 if [ "$before" = "$after" ]; then
   say "OK 无变化 @ ${after:0:8}"
+  status OK "up to date @ ${after:0:8}"
 else
   n=$(git rev-list --count "${before}..${after}" 2>/dev/null || echo "?")
   say "OK ${before:0:8} -> ${after:0:8}（$n 个新提交）"
+  status OK "${before:0:8} -> ${after:0:8} (${n} commits)"
 fi
 exit 0
