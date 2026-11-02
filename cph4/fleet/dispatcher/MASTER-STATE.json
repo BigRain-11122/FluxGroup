@@ -1,22 +1,22 @@
 {
- "ts": "2026-11-03T00:36:58",
- "cycle": 9,
+ "ts": "2026-11-03T00:38:08",
+ "cycle": 10,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-03T00:36:58",
+ "master_tick_ts": "2026-11-03T00:38:08",
  "queue": {
-  "total": 172,
-  "open": 6,
+  "total": 173,
+  "open": 5,
   "running": 3,
-  "done": 104,
+  "done": 105,
   "failed": 2
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 44.9,
-   "cpu_load_pct": 65,
-   "ram_free_gb": 30.4,
+   "hb_age_s": 45.1,
+   "cpu_load_pct": 55,
+   "ram_free_gb": 30.9,
    "gpu_util_pct": 10,
    "job": "C-TTS-QC-ALL",
    "last_result": {
@@ -32,16 +32,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 4.9,
-   "cpu_load_pct": 93,
-   "ram_free_gb": 4.3,
+   "hb_age_s": 15.4,
+   "cpu_load_pct": 90,
+   "ram_free_gb": 4.5,
    "gpu_util_pct": null,
    "job": "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102",
    "last_result": {
     "job": "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102",
-    "state": "RUNNING",
-    "rc": null,
-    "ts": "2026-11-03T00:36:55",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-03T00:36:58",
     "reason": null
    },
    "idle_confirmed": false,
@@ -50,16 +50,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 16.4,
+   "hb_age_s": 86.4,
    "cpu_load_pct": 11,
    "ram_free_gb": 0.2,
    "gpu_util_pct": 100,
    "job": null,
    "last_result": {
     "job": "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102",
-    "state": "RUNNING",
-    "rc": null,
-    "ts": "2026-11-03T00:36:47",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-03T00:37:02",
     "reason": null
    },
    "idle_confirmed": false,
@@ -68,16 +68,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.6,
-   "cpu_load_pct": 12,
-   "ram_free_gb": 15.1,
+   "hb_age_s": 0.5,
+   "cpu_load_pct": 6,
+   "ram_free_gb": 16.0,
    "gpu_util_pct": null,
-   "job": "R-TRIAGE-BIGGAME-BMM-20261103",
+   "job": "R-TRIAGE-FLUXVERSE-BMM-20261103",
    "last_result": {
-    "job": "R-TRIAGE-BIGSTREAMDUANJU-BMM-20261103",
+    "job": "CANARY-20261103T003807",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-03T00:35:52",
+    "ts": "2026-11-03T00:38:07",
     "reason": null
    },
    "idle_confirmed": false,
@@ -286,7 +286,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "WAITING",
-     "age_h": 10.3,
+     "age_h": 10.5,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -297,7 +297,7 @@
      "model": "local-gpu",
      "lane": "bm-c",
      "verdict": "WAITING",
-     "age_h": 5.1,
+     "age_h": 5.2,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -319,7 +319,7 @@
      "model": "none",
      "lane": "bm-a",
      "verdict": "WAITING",
-     "age_h": 9.6,
+     "age_h": 9.7,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -341,7 +341,7 @@
      "model": "none",
      "lane": null,
      "verdict": "WAITING",
-     "age_h": 10.3,
+     "age_h": 10.5,
      "limit_h": 9999.0,
      "jobs": []
     }
@@ -355,7 +355,7 @@
     "model": "cloud-smart",
     "lane": null,
     "verdict": "STALLED",
-    "age_h": 77.7,
+    "age_h": 77.9,
     "limit_h": 48.0,
     "jobs": []
    },
@@ -367,7 +367,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "STALLED",
-     "age_h": 77.7,
+     "age_h": 77.9,
      "limit_h": 48.0,
      "jobs": []
     },
@@ -414,7 +414,7 @@
     "model": "cloud-smart",
     "lane": null,
     "verdict": "STALLED",
-    "age_h": 77.7,
+    "age_h": 77.9,
     "limit_h": 72.0,
     "jobs": []
    },
@@ -426,7 +426,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "STALLED",
-     "age_h": 77.7,
+     "age_h": 77.9,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -437,7 +437,7 @@
      "model": "local-gpu",
      "lane": "bm-c",
      "verdict": "STALLED",
-     "age_h": 77.7,
+     "age_h": 77.9,
      "limit_h": 72.0,
      "jobs": []
     }
@@ -453,7 +453,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "PARKED",
-     "age_h": 11.3,
+     "age_h": 11.5,
      "limit_h": 168.0,
      "jobs": []
     },
@@ -464,7 +464,7 @@
      "model": "none",
      "lane": "bm-a",
      "verdict": "PARKED",
-     "age_h": 77.7,
+     "age_h": 77.9,
      "limit_h": 168.0,
      "jobs": []
     }
@@ -691,7 +691,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "PARKED",
-     "age_h": 4.5,
+     "age_h": 4.7,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -716,7 +716,7 @@
     "model": "none",
     "lane": "bm-a",
     "verdict": "STALLED",
-    "age_h": 77.7,
+    "age_h": 77.9,
     "limit_h": 72.0,
     "jobs": []
    },
@@ -728,7 +728,7 @@
      "model": "none",
      "lane": "bm-a",
      "verdict": "STALLED",
-     "age_h": 77.7,
+     "age_h": 77.9,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -739,7 +739,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "STALLED",
-     "age_h": 77.7,
+     "age_h": 77.9,
      "limit_h": 72.0,
      "jobs": []
     }
@@ -772,7 +772,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 6,
+  "local": 5,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -780,14 +780,13 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 6,
+  "cpu": 5,
   "gpu": 0
  },
  "supply_added": [],
  "events": [
-  "R-TRIAGE-BIGSTREAMDUANJU-BMM-20261103 DONE via bm-m",
   "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102 -> bm-b (cpu)",
-  "R-TRIAGE-BIGGAME-BMM-20261103 -> bm-m (cpu)"
+  "R-TRIAGE-FLUXVERSE-BMM-20261103 -> bm-m (cpu)"
  ],
  "violations": [
   "bm-c CAPACITY-BLOCKED-RAM",
@@ -796,7 +795,6 @@
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-c",
   "bm-m"
  ]
 }
