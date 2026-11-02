@@ -46,7 +46,11 @@ def _job(jid, node, stamp):
     out = os.path.join("cph4", "fleet", "state", "canary", "RUN-%s.txt" % stamp)
     # 卡里不许出现机器名（I2：卡声明 needs，不写主机）；机器只放在 nodes 偏好字段里。
     payload = "canary %s — 端到端自检产物，不是业务活" % stamp
-    cmd = 'python -c "open(r\'%s\',\'w\',encoding=\'utf-8\').write(\'%s\')"' % (out, payload)
+    # 2026-11-02 修：原来直接 open() 写进 cph4/fleet/state/canary/，而 state/ 是 gitignore
+    # 的——只有跑过 canary 的机器才有这个目录。实测这张卡派到 bm-a 时 rc=1/0.2s 零产物，
+    # 正是因为目录不存在。卡必须自己建目录，否则自检只在本机成立。
+    cmd = ('python -c "import os;os.makedirs(r\'cph4/fleet/state/canary\',exist_ok=True);'
+           'open(r\'%s\',\'w\',encoding=\'utf-8\').write(\'%s\')"' % (out, payload))
     return {
         "id": jid, "title": "端到端自检：投卡→领取→执行→回执→产物",
         "cmd": cmd, "cwd": "",
