@@ -12,6 +12,9 @@ from datetime import datetime
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
+if HERE not in sys.path:
+    sys.path.insert(0, HERE)
+import fleet_lane as fl  # noqa: E402
 F = os.path.join(ROOT, "cph4", "fleet")
 Q = os.path.join(F, "PRODUCTION-QUEUE.jsonl")
 EV = os.path.join(F, "dispatcher", "events.jsonl")
@@ -40,10 +43,33 @@ def lane_beat():
     return out
 
 
+def lane_rc():
+    """owner -> last reported rc. The artifact on disk is not proof of success: a card
+    that never ran (rc=9009, command not found on this host) can still leave a stale
+    file behind. Closing on the file alone fabricated 20+ green cards in October.
+    """
+    try:
+        ms = json.load(open(os.path.join(F, "dispatcher", "MASTER-STATE.json"),
+                            encoding="utf-8-sig"))
+    except Exception:
+        return {}
+    out = {}
+    for n, v in (ms.get("lanes") or {}).items():
+        lr = v.get("last_result") or {}
+        if lr.get("rc") is not None:
+            try:
+                out[n] = (lr.get("job"), int(lr.get("rc")))
+            except (TypeError, ValueError):
+                pass
+    return out
+
+
 def main():
     rows = [json.loads(l) for l in open(Q, encoding="utf-8") if l.strip()]
     beats = lane_beat()
-    closed, waiting, requeued = [], [], []
+    rcs = lane_rc()
+    closed, waiting, requeued, awaiting = [], [], [], []
+    touched = []
     for r in rows:
         # UNVERIFIED is a legitimate holding state: the lane said done but the artifact had
         # not landed yet. The moment it does land, this leg upgrades it - so the state
@@ -57,6 +83,21 @@ def main():
         dl = r.get("deliverable") or ""
         local = os.path.join(ROOT, dl) if dl and not os.path.isabs(dl) else dl
         ok = bool(dl) and os.path.exists(local)
+        owner = r.get("owner")
+        allowed = r.get("ok_rc") if isinstance(r.get("ok_rc"), list) and r.get("ok_rc") else [0]
+        allowed = [int(x) for x in allowed]
+        lane_rc_v = None
+        rep = rcs.get(owner)
+        if rep and (rep[0] is None or rep[0] == r.get("id")):
+            lane_rc_v = rep[1]          # only trust a report that belongs to this card
+        rc_ok = lane_rc_v is None or lane_rc_v in allowed
+        if ok and not rc_ok:
+            # File exists but the executor's exit code says it did not succeed.
+            # Do not upgrade; record the contradiction so it can be triaged.
+            r["evidence"] = "artifact-on-disk-but-rc=%s (allowed=%s)" % (lane_rc_v, allowed)
+            touched.append(r)
+            awaiting.append(r["id"])
+            continue
         if ok and r.get("state") in ("RUNNING", "UNVERIFIED", "FAILED"):
             was = r.get("state")
             r["state"] = "DONE"
@@ -71,6 +112,7 @@ def main():
                 r.pop("error", None)
                 r["audit"]["upgraded_from"] = "FAILED"
             closed.append(r["id"])
+            touched.append(r)
         elif not ok and r.get("state") == "RUNNING":
             owner = r.get("owner")
             age = beats.get(owner, 1e9)
@@ -80,19 +122,19 @@ def main():
                 r["retries"] = int(r.get("retries") or 0) + 1
                 r["note"] = "lease-heartbeat-timeout(%.0fs)" % age
                 requeued.append(r["id"])
+                touched.append(r)
             else:
                 waiting.append(r["id"])
-    if closed or requeued:
-        tmp = Q + ".closer.tmp"
-        with open(tmp, "w", encoding="utf-8") as f:
-            for r in rows:
-                f.write(json.dumps(r, ensure_ascii=False) + "\n")
-        os.replace(tmp, Q)
+    if touched:
+        # commit only the rows this leg changed; a whole-file rewrite erased the master's
+        # dispatch in the same cycle (lost update, 2026-11-02 review).
+        fl.merge_jsonl(Q, touched)
         with open(EV, "a", encoding="utf-8") as f:
             f.write(json.dumps({"ts": datetime.now().isoformat(timespec="seconds"),
                                 "kind": "close", "cards": closed}, ensure_ascii=False) + "\n")
-    print("[closer] closed=%d requeued=%d waiting=%d %s"
-          % (len(closed), len(requeued), len(waiting), ",".join(requeued[:3] or waiting[:3])))
+    print("[closer] closed=%d requeued=%d waiting=%d awaiting-evidence=%d %s"
+          % (len(closed), len(requeued), len(waiting), len(awaiting),
+             ",".join(requeued[:3] or awaiting[:3] or waiting[:3])))
     return 0
 
 

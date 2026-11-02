@@ -32,6 +32,7 @@ if HERE not in sys.path:
     sys.path.insert(0, HERE)
 
 import fleet_lane as fl  # noqa: E402
+import flux_contracts as fc  # noqa: E402
 
 CREATE_NO_WINDOW = 0x08000000 if os.name == "nt" else 0
 # 长任务存活上报间隔：既不刷爆 NATS，又能让主控在 1-2 分钟内看出一台机"在忙"而不是"死了"。
@@ -172,7 +173,8 @@ def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
     lease = False
     if needs == "gpu":
         p = subprocess.run([sys.executable, os.path.join(HERE, "gpu_lease.py"), "--node", node,
-                            "--acquire", "--need-mb", str(int(job.get("need_mb") or 12000))],
+                            "--acquire", "--need-mb", str(int(job.get("need_mb") or 12000)),
+                            "--owner", node, "--job", jid],
                            capture_output=True, text=True, timeout=600,
                            creationflags=CREATE_NO_WINDOW)
         lease = p.returncode == 0
@@ -254,7 +256,7 @@ def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
 
     if lease:
         subprocess.run([sys.executable, os.path.join(HERE, "gpu_lease.py"), "--node", node,
-                        "--release"], capture_output=True, text=True, timeout=300,
+                        "--release", "--owner", node], capture_output=True, text=True, timeout=300,
                        creationflags=CREATE_NO_WINDOW)
 
     receipt_dir = os.path.join(root, fl.RECEIPT_REL.replace("/", os.sep))
@@ -266,7 +268,19 @@ def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
     dl_abs = deliverable if os.path.isabs(deliverable) else (
         os.path.join(root, deliverable) if deliverable else "")
     dl_ok = bool(dl_abs) and os.path.exists(dl_abs)
+    # Success is a contract, not a feeling (2026-11-02): rc must be in the card's ok_rc
+    # AND the declared deliverable must be on disk. Until today "a file exists" alone
+    # booked rc=9009 (command not found) as DONE, so the books said done while nothing ran.
+    ok = fc.is_ok(job, rc, dl_ok)
+    if ok:
+        err_cls = None
+    elif rc == 0:
+        err_cls = "E-ARTIFACT"      # ran cleanly but did not produce what the card promised
+    else:
+        err_cls = fc.error_class(rc)
     rec = {"id": jid, "node": node, "rc": rc, "seconds": dur, "cmd": cmd,
+           "ok_rc": fc.ok_rc(job), "outcome": "OK" if ok else "FAIL",
+           "error_class": err_cls,
            "deliverable": deliverable, "deliverable_exists": dl_ok,
            "ts": fl.now_iso(), "stdout_tail": (out or "")[-1500:],
            "stderr_tail": (err or "")[-1500:]}
@@ -285,15 +299,16 @@ def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
         except Exception as e:
             landed = "publish-error:%s" % str(e)[:80]
 
-    # rc!=0 is not always a failure (gates return 1 by design); the deliverable is the
-    # truth the master closes on, and it is reported either way.
-    publish(node, "DONE" if (rc == 0 or dl_ok) else "FAILED",
+    # rc!=0 is not always a failure (gate cards declare ok_rc:[0,1]); the card decides.
+    publish(node, "DONE" if ok else "FAILED",
             {"job": jid, "rc": rc, "seconds": dur, "deliverable_exists": dl_ok,
+             "error_class": err_cls, "outcome": "OK" if ok else "FAIL",
              "landed": landed or "not-needed",
              "receipt": os.path.relpath(rc_path, root).replace("\\", "/")}, hub, port)
-    print("%s %s rc=%s %.1fs deliverable=%s" % (jid, "DONE" if rc == 0 or dl_ok else "FAILED",
-                                                rc, dur, dl_ok))
-    return {"id": jid, "rc": rc, "seconds": dur, "deliverable_exists": dl_ok}
+    print("%s %s rc=%s %.1fs deliverable=%s error=%s"
+          % (jid, "DONE" if ok else "FAILED", rc, dur, dl_ok, err_cls or "-"))
+    return {"id": jid, "rc": rc, "seconds": dur, "deliverable_exists": dl_ok,
+            "ok": ok, "error_class": err_cls}
 
 
 def self_dispatch(root, node, allow_gpu_workhours, max_seconds, hub, port, dry):

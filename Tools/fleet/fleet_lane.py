@@ -126,6 +126,68 @@ def _atomic_tmp(path):
     return "%s.%d.%d.tmp" % (path, os.getpid(), time.time_ns())
 
 
+def _lock(path, timeout=10.0, stale=180.0):
+    """Cross-process guard for read-modify-write on a shared jsonl.
+
+    The 2026-11-02 review found seven scripts rewriting the same queue with no lock, so
+    every cycle silently dropped another writer's changes (lost update). A lock file with
+    O_EXCL works on Windows and POSIX alike; a stale lock (crashed holder) is reclaimed.
+    """
+    lockp = path + ".lock"
+    t0 = time.time()
+    while True:
+        try:
+            fd = os.open(lockp, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+            try:
+                os.write(fd, str(os.getpid()).encode())
+            finally:
+                os.close(fd)
+            return lockp
+        except FileExistsError:
+            try:
+                if time.time() - os.path.getmtime(lockp) > stale:
+                    os.remove(lockp)
+                    continue
+            except OSError:
+                pass
+            if time.time() - t0 > timeout:
+                raise TimeoutError("queue busy: %s" % path)
+            time.sleep(0.15)
+
+
+def merge_jsonl(path, rows, key="id"):
+    """Commit only the rows this caller touched, merged into what is on disk right now.
+
+    write_jsonl(dump the whole list) is how one leg erased another leg's dispatch inside
+    the same pulse cycle. merge_jsonl re-reads under a lock, applies the caller's rows by
+    id (new ids appended, touched ids updated, untouched ids left alone) and replaces the
+    file atomically.
+    """
+    lockp = _lock(path)
+    try:
+        current = read_jsonl(path)
+        index = {}
+        for i, r in enumerate(current):
+            if isinstance(r, dict) and r.get(key) is not None:
+                index[r[key]] = i
+        for r in rows:
+            if not isinstance(r, dict) or r.get(key) is None:
+                continue
+            k = r[key]
+            if k in index:
+                current[index[k]] = r
+            else:
+                index[k] = len(current)
+                current.append(r)
+        write_jsonl(path, current)
+        return len(rows)
+    finally:
+        try:
+            os.remove(lockp)
+        except OSError:
+            pass
+
+
 def write_jsonl(path, rows):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     tmp = _atomic_tmp(path)

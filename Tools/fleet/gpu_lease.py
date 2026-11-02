@@ -101,19 +101,26 @@ def start_comfy(port=8188, need_mb=12000):
     return p.pid, False
 
 
-def acquire(node, need_mb, with_comfy, if_held_ok=True):
+def acquire(node, need_mb, with_comfy, owner="", job_id="", relaxed=False):
+    """Exclusive GPU lease. Identity matters: on 2026-11-02 the lease carried the literal
+    owner "gpu_lease" and `--if-held-ok` defaulted to true, so a second job was told
+    "lease ok" while another job was already using the card. Same job re-acquires and
+    renews; a different job is busy."""
     lp = lease_path(node)
     if os.path.exists(lp):
         try:
             old = json.load(open(lp, encoding="utf-8"))
             age = time.time() - old.get("epoch", 0)
             if age < old.get("ttl_s", 7200):
-                print("LEASE-BUSY owner=%s age=%ds" % (old.get("owner"), int(age)))
-                if if_held_ok:
-                    print("LEASE-HELD-OK need_mb=%s ttl_left=%ds" % (
-                        old.get("need_mb"), int(old.get("ttl_s", 7200) - age)))
+                if job_id and old.get("job_id") == job_id:
+                    old["epoch"] = time.time()
+                    old["ts"] = datetime.now().isoformat(timespec="seconds")
+                    _atomic_write(lp, old)
+                    print("LEASE-RENEW job=%s" % job_id)
                     return 0
-                return 2
+                print("LEASE-BUSY owner=%s job=%s age=%ds"
+                      % (old.get("owner"), old.get("job_id"), int(age)))
+                return 0 if relaxed else 2
         except Exception:
             pass
     stopped = stop_ollama()
@@ -131,14 +138,14 @@ def acquire(node, need_mb, with_comfy, if_held_ok=True):
     if ok and with_comfy:
         comfy_pid, up = start_comfy(need_mb=need_mb)
         ok = ok and up
-    lease = {"node": node, "owner": "gpu_lease", "need_mb": need_mb,
+    lease = {"node": node, "owner": owner or "unattributed", "job_id": job_id,
+             "need_mb": need_mb,
              "vram_used_mb": used, "vram_total_mb": total,
              "comfy_pid": comfy_pid, "stopped_ollama": stopped,
              "epoch": time.time(), "ttl_s": 7200,
              "ts": datetime.now().isoformat(timespec="seconds")}
     os.makedirs(DATA, exist_ok=True)
-    with open(lp, "w", encoding="utf-8") as f:
-        json.dump(lease, f, ensure_ascii=False, indent=1)
+    _atomic_write(lp, lease)
     if not ok:
         print("LEASE-FAIL free=%sMB need=%sMB" % ((total - used) if used else "?", need_mb))
         return 1
@@ -146,7 +153,17 @@ def acquire(node, need_mb, with_comfy, if_held_ok=True):
     return 0
 
 
-def release(node):
+def _atomic_write(path, obj):
+    tmp = path + ".tmp"
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(obj, f, ensure_ascii=False, indent=1)
+    os.replace(tmp, path)
+
+
+def release(node, owner="", force=False):
+    """Only the holder may release. Before 2026-11-02 any lane could delete any lease,
+    which silently handed a busy card to the next job."""
     lp = lease_path(node)
     lease = {}
     if os.path.exists(lp):
@@ -154,6 +171,9 @@ def release(node):
             lease = json.load(open(lp, encoding="utf-8"))
         except Exception:
             pass
+        if owner and not force and lease.get("owner") not in (None, "", owner):
+            print("LEASE-RELEASE-DENIED holder=%s caller=%s" % (lease.get("owner"), owner))
+            return 2
         os.remove(lp)
     pid = lease.get("comfy_pid")
     if pid:
@@ -171,10 +191,11 @@ def main():
     ap.add_argument("--status", action="store_true")
     ap.add_argument("--need-mb", type=int, default=12000)
     ap.add_argument("--start-comfy", action="store_true")
-    ap.add_argument("--if-held-ok", action="store_true", default=True,
-                    help="fresh lease on this node already held = success (ensure-acquire is idempotent)")
-    ap.add_argument("--strict", action="store_true",
-                    help="return rc=2 when the node lease is already held (real competitors)")
+    ap.add_argument("--owner", default="", help="who holds it (node or agent id)")
+    ap.add_argument("--job", default="", help="card id; the same id re-acquires its own lease")
+    ap.add_argument("--relaxed", action="store_true",
+                    help="DEPRECATED: treat a held lease as success (breaks exclusivity)")
+    ap.add_argument("--force", action="store_true", help="release regardless of holder")
     a = ap.parse_args()
     if a.status:
         used, total = vram()
@@ -183,9 +204,9 @@ def main():
         print("LEASE " + (open(lp, encoding="utf-8").read().strip() if os.path.exists(lp) else "none"))
         return 0
     if a.acquire:
-        return acquire(a.node, a.need_mb, a.start_comfy, a.if_held_ok and not a.strict)
+        return acquire(a.node, a.need_mb, a.start_comfy, a.owner, a.job, a.relaxed)
     if a.release:
-        return release(a.node)
+        return release(a.node, a.owner, a.force)
     print("usage: --status | --acquire [--need-mb N] [--start-comfy] | --release")
     return 2
 

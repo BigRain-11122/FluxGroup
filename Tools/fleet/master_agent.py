@@ -163,7 +163,9 @@ def supply(root, queue, have_ids):
         added.append(jid)
         rule_added += 1
     if rule_added:
-        fl.write_jsonl(os.path.join(root, fl.QUEUE_REL.replace("/", os.sep)), rows)
+        # merge, never blind-overwrite: closer/workgen may have touched other rows in the
+        # same cycle, and a whole-list dump erased their work (2026-11-02 review).
+        fl.merge_jsonl(os.path.join(root, fl.QUEUE_REL.replace("/", os.sep)), rows)
     return added, rows
 
 
@@ -644,7 +646,8 @@ def cycle(root, dry=False, push=True, node="bm-a", fallback_stale_s=900):
             r["route_note"] = why
     events += assign(rows, fleet, reports, lines)
     if not dry:
-        fl.write_jsonl(os.path.join(root, fl.QUEUE_REL.replace("/", os.sep)), rows)
+        # merge by id under a lock; a whole-list dump lost concurrent closer/workgen edits
+        fl.merge_jsonl(os.path.join(root, fl.QUEUE_REL.replace("/", os.sep)), rows)
     written, by_lane = write_lane_files(root, rows, fleet, dry, nodes)
 
     # idle ledger: every empty lane must carry a reason, and persistent emptiness escalates

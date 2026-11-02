@@ -206,3 +206,8 @@ media/_trash/
 media/family-assets/
 media/mv-test/
 media/covers/
+
+# === Generated state (2026-11-02 FLUX OS v2): projections are rebuilt from events/disk ===
+cph4/fleet/state/*.json
+cph4/fleet/state/*.jsonl
+!cph4/fleet/state/invariants-baseline.json
