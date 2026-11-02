@@ -1014,3 +1014,5 @@ if prev_by and prev_by != owner_node:
 >>>>>>> 18a81cbb (MV 交付闸首跑定罪 + 两处闸缺陷修 + SUPPLY-DRY 翻案补料)
 
 [2026-11-03 04:1x][PROXY R2.71 复探与三修] 点火成功（bm-b 04:09:06 起跑盘点卡）。新增两修：取消粘滞（merge_jsonl，防在飞腿复活已取消卡）+ 冲突清理（fleet_lane/lane_agent UU 取回 HEAD，markers 0，编译 OK）。队列 183 行/183 id 稳定；E-INPUT 分类已在 bm-m 回执生效。回访探针 4c609b62@05:47 在案。
+
+[2026-11-03 04:2x][PROXY R2.71 收口] 链通四证（队列 183/183·僵尸卡稳定取消·bm-b 盘点回执上链·质检卡由 bm-b 领取）。三修一闸已推：去重折叠、requires 输入前置闸+E-INPUT、取消粘滞；台账+DISPATCH-LOG 全记。班毕锁收口。

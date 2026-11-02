@@ -113,3 +113,5 @@
 
 [2026-11-03 04:1x][PROXY R2.71] DEFECT→RESOLVED **D-R271-CANCEL-RESURRECTION**=取消卡被在飞执行腿写回 RUNNING（在飞腿用领取前快照整行写回）→ 同一张空输入卡在 bm-a/bm-m/bm-c 反复烧，04:09:06 bm-m 再证 rc=1 E-INPUT。修=`fleet_lane.merge_jsonl` 取消粘滞（CANCELLED 是终态，仅 requeued_by 可复活；单测通过）。附：E-INPUT 分类已在 bm-m 生效（回执 error_class=E-INPUT 实测）。
 [2026-11-03 04:1x][PROXY R2.71] 事故留痕（已修）**D-R271-AUTOSTASH-TOOL-CONFLICT**=bm-a 工作树 04:12 出现 `UU Tools/fleet/fleet_lane.py` / `lane_agent.py`（hot-sync autostash 冲突标记入文件），使单一队列写入口与执行器 import 全断。处置=git checkout HEAD 取回本班已推版本、markers 复扫 0、py_compile OK；根因=改动在暂存/未提交态停留过久。落闸=台账与 Tools 改动一律「写→秒级原子推」，禁跨分钟挂起。
+
+[2026-11-03 04:2x][PROXY R2.71] 磁盘事实（bm-b 盘点产物已上链）bigstream-duanju 线级证据：duanju-script 78.0h、duanju-board 78.0h 均超 72h 阈 → 线 STALE；配音质检卡输入 media/drama-tts-out/r1202_ep001_060 在 bm-b 侧存在（bm-b 能过 requires 闸并领卡），故下一步=配音批质检出可发布集数清单，再按结果派生产或正式收线。责任人面=编剧席/短剧席，候上班按 DEADLINES 口径处理；本席只登记不催办 CEO。
