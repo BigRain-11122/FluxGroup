@@ -1,23 +1,23 @@
 {
- "ts": "2026-11-02T22:58:04",
- "cycle": 1598,
+ "ts": "2026-11-02T22:59:15",
+ "cycle": 1599,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-02T22:58:04",
+ "master_tick_ts": "2026-11-02T22:59:15",
  "queue": {
   "total": 143,
   "open": 0,
-  "running": 2,
+  "running": 1,
   "done": 91,
   "failed": 2
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 48.9,
-   "cpu_load_pct": 62,
-   "ram_free_gb": 27.4,
-   "gpu_util_pct": 12,
+   "hb_age_s": 0.9,
+   "cpu_load_pct": 42,
+   "ram_free_gb": 26.2,
+   "gpu_util_pct": 13,
    "job": null,
    "last_result": {
     "job": null,
@@ -28,38 +28,38 @@
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 3
+   "idle_rounds": 4
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 12.6,
-   "cpu_load_pct": 22,
-   "ram_free_gb": 3.3,
+   "hb_age_s": 21.9,
+   "cpu_load_pct": 71,
+   "ram_free_gb": 2.7,
    "gpu_util_pct": null,
-   "job": "R-TTS-QC-R2-20261102",
+   "job": null,
    "last_result": {
-    "job": null,
-    "state": "IDLE",
-    "rc": null,
-    "ts": "2026-11-02T22:57:49",
-    "reason": "CAPACITY-BLOCKED-RAM ram 0.9/1.0 GB"
+    "job": "R-TTS-QC-R2-20261102",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-02T22:58:48",
+    "reason": null
    },
    "idle_confirmed": false,
-   "idle_reason": "",
+   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
    "idle_rounds": 0
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 23.5,
+   "hb_age_s": 94.8,
    "cpu_load_pct": 15,
    "ram_free_gb": 2.0,
    "gpu_util_pct": 7,
    "job": "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102",
    "last_result": {
     "job": "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102",
-    "state": "RUNNING",
-    "rc": null,
-    "ts": "2026-11-02T22:57:46",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-02T22:58:03",
     "reason": null
    },
    "idle_confirmed": false,
@@ -69,27 +69,27 @@
   "bm-m": {
    "online": true,
    "hb_age_s": 0.6,
-   "cpu_load_pct": 12,
-   "ram_free_gb": 13.9,
+   "cpu_load_pct": 11,
+   "ram_free_gb": 14.0,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-02T22:56:53",
+    "ts": "2026-11-02T22:58:04",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 2
+   "idle_rounds": 3
   }
  },
  "idle_rounds": {
-  "bm-a": 3,
+  "bm-a": 4,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 2
+  "bm-m": 3
  },
  "lines": {
   "bigstream-mv": {
@@ -123,10 +123,8 @@
    "age_h": null,
    "stale_after_h": 72.0,
    "owner": "短剧席",
-   "jobs": [
-    "R-TTS-QC-R2-20261102"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": null,
    "stuck_stage": "duanju-script",
@@ -777,14 +775,17 @@
  },
  "supply_added": [],
  "events": [
+  "R-TTS-QC-R2-20261102 UNVERIFIED(no-artifact-yet) via bm-b",
   "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102 -> bm-c (cpu)"
  ],
  "violations": [
-  "bm-a IDLE-CONFIRMED x3 (SELF-DISPATCH: lane scans its own backlo)",
-  "bm-m IDLE-CONFIRMED x2 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-a IDLE-CONFIRMED x4 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-m IDLE-CONFIRMED x3 (SELF-DISPATCH: lane scans its own backlo)",
   "LINE-BLOCKED bigstream-drama ()",
   "STAGE-STALLED bigstream-duanju 卡在 剧本/编剧席 (短剧席)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
- "lane_files_written": []
+ "lane_files_written": [
+  "bm-b"
+ ]
 }
