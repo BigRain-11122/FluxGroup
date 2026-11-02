@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-03T02:19:28",
- "cycle": 59,
+ "ts": "2026-11-03T02:20:38",
+ "cycle": 60,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-03T02:19:28",
+ "master_tick_ts": "2026-11-03T02:20:38",
  "queue": {
   "total": 306,
   "open": 2,
@@ -14,16 +14,16 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 2.5,
-   "cpu_load_pct": 14,
-   "ram_free_gb": 32.3,
+   "hb_age_s": 24.9,
+   "cpu_load_pct": 54,
+   "ram_free_gb": 30.3,
    "gpu_util_pct": 10,
    "job": "C-TTS-QC-ALL",
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-03T02:14:29",
+    "ts": "2026-11-03T02:19:29",
     "reason": "ALREADY-CLOSED C-TTS-QC-ALL"
    },
    "idle_confirmed": false,
@@ -32,9 +32,9 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 37.4,
-   "cpu_load_pct": 90,
-   "ram_free_gb": 3.6,
+   "hb_age_s": 47.2,
+   "cpu_load_pct": 74,
+   "ram_free_gb": 5.9,
    "gpu_util_pct": null,
    "job": "R-TTS-QC-R2-20261102",
    "last_result": null,
@@ -44,34 +44,34 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 69.8,
-   "cpu_load_pct": 11,
-   "ram_free_gb": 0.2,
+   "hb_age_s": 51.2,
+   "cpu_load_pct": 9,
+   "ram_free_gb": 0.4,
    "gpu_util_pct": 100,
    "job": null,
    "last_result": {
     "job": "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-03T02:18:37",
+    "ts": "2026-11-03T02:20:05",
     "reason": null
    },
    "idle_confirmed": false,
-   "idle_reason": "CAPACITY-BLOCKED-RAM ram 0.2/1.0 GB",
+   "idle_reason": "CAPACITY-BLOCKED-RAM ram 0.4/1.0 GB",
    "idle_rounds": 0
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.6,
-   "cpu_load_pct": 11,
-   "ram_free_gb": 14.6,
+   "hb_age_s": 0.4,
+   "cpu_load_pct": 7,
+   "ram_free_gb": 15.7,
    "gpu_util_pct": null,
    "job": "C-TTS-QC-ALL",
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-03T02:18:18",
+    "ts": "2026-11-03T02:19:28",
     "reason": "ALREADY-CLOSED C-TTS-QC-ALL"
    },
    "idle_confirmed": false,
@@ -775,6 +775,8 @@
  "supply_added": [],
  "events": [
   "C-TTS-QC-ALL REQUeued attempt=1",
+  "R-TTS-QC-R2-20261102 -> bm-b (cpu)",
+  "C-TTS-QC-ALL -> bm-a (cpu)",
   "C-TTS-QC-ALL -> bm-m (cpu)"
  ],
  "violations": [
