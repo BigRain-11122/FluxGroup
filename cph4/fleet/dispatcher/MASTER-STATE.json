@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-02T13:24:13",
- "cycle": 1160,
+ "ts": "2026-11-02T13:25:23",
+ "cycle": 1161,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-02T13:24:13",
+ "master_tick_ts": "2026-11-02T13:25:23",
  "queue": {
   "total": 95,
   "open": 5,
@@ -14,16 +14,16 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": -0.3,
-   "cpu_load_pct": 37,
-   "ram_free_gb": 25.2,
-   "gpu_util_pct": 2,
+   "hb_age_s": 8.8,
+   "cpu_load_pct": 54,
+   "ram_free_gb": 24.9,
+   "gpu_util_pct": 3,
    "job": "C-MV-TRANSITION",
    "last_result": {
-    "job": "R-MV-AUDIT-R2-20261102",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-02T13:20:09",
+    "job": "R-MV-V718-STILL-5273",
+    "state": "RUNNING",
+    "rc": null,
+    "ts": "2026-11-02T13:24:33",
     "reason": null
    },
    "idle_confirmed": false,
@@ -32,9 +32,9 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 21.3,
-   "cpu_load_pct": 22,
-   "ram_free_gb": 4.9,
+   "hb_age_s": 30.8,
+   "cpu_load_pct": 26,
+   "ram_free_gb": 5,
    "gpu_util_pct": null,
    "job": "R-TTS-EP001-060-NIGHT",
    "last_result": null,
@@ -44,7 +44,7 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 133.2,
+   "hb_age_s": 203.0,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -56,16 +56,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.4,
-   "cpu_load_pct": 25,
+   "hb_age_s": 0.5,
+   "cpu_load_pct": 19,
    "ram_free_gb": 14.0,
    "gpu_util_pct": null,
-   "job": "R-TRIAGE-BIGHOUSE-BMM-20261102",
+   "job": "R-TRIAGE-BIGDOMAIN-BMM-20261102",
    "last_result": {
-    "job": "R-TRIAGE-BIGDOMAIN-BMM-20261102",
+    "job": "R-TRIAGE-BIGHOUSE-BMM-20261102",
     "state": "FAILED",
     "rc": 127,
-    "ts": "2026-11-02T13:23:11",
+    "ts": "2026-11-02T13:24:17",
     "reason": null
    },
    "idle_confirmed": false,
@@ -715,15 +715,13 @@
   "backlog_manifest+1"
  ],
  "events": [
-  "R-TRIAGE-BIGDOMAIN-BMM-20261102 FAILED via bm-m",
-  "C-MV-TRANSITION -> bm-a (cpu)",
-  "R-TRIAGE-BIGHOUSE-BMM-20261102 -> bm-m (cpu)"
+  "R-TRIAGE-BIGHOUSE-BMM-20261102 FAILED via bm-m",
+  "R-TRIAGE-BIGDOMAIN-BMM-20261102 -> bm-m (cpu)"
  ],
  "violations": [
   "LINE-BLOCKED bigstream-drama ()"
  ],
  "lane_files_written": [
-  "bm-a",
   "bm-m"
  ]
 }
