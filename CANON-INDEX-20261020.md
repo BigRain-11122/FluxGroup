@@ -2,6 +2,7 @@
 
 > 一张表回答「现在哪个文件算数」。**同一主题只认本表指向的那一件**；其余为历史、记录或过程件。
 > 维护律：新增版本→改本表指针→旧版可删（git 留痕）。**本表不指向任何已被取代的版本。**
+> 2026-11-02 勘正（全面清理令）：§三 MV 成品指针 v511→v718；§一 本机角色按 10-29/10-30 CEO 令勘正（主控=bm-m）；条线方向正身另见 `cph4/fleet/DIRECTION-20261101.md`。
 
 ## 〇、冷启动读序（新窗口 5 分钟）
 
@@ -22,7 +23,7 @@
 | 法条登记（何者被废/被冻） | `cph4/registry/law-registry.md` | 引用前必查 |
 | **云道停用（T0）** | `cph4/fleet/CLOUD-OFF-LOCAL-ONLY-v1.md` | 业务一律本地；例外仅 CEO 亲批 |
 | 云道落地记录 | `cph4/fleet/CLOUD-OFF-LANDING-20261020.md` | 22 件改口径 + 机械闸 |
-| **本机角色** | `cph4/fleet/MACHINE-ROLE-bm-a-EXECUTOR-20261020.md` | 票据制·无票不做 |
+| **本机角色** | `cph4/fleet/DIRECTION-20261101.md` §机队 + `cph4/fleet/MASTER-NODE.json` | 主控=bm-m（MacBook）；本机 bm-a=CEO 工作机+执行中枢（10-29 迁主控令·10-30 NATS 修复令）；MACHINE-ROLE-*-20261020 为历史档 |
 | 机队分工/算力 | `cph4/fleet-allocations.md` + `cph4/scheduling.md` | 云道段已按 T0 改口径 |
 
 ## 二、工作流层（照这个跑）
@@ -46,7 +47,7 @@
 
 | 资产 | 正身 | 状态 |
 |---|---|---|
-| MV 成品（mv0001） | `cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v511*.mp4`（5 件） | **最终版·v511 家族唯一保留** |
+| MV 成品（mv0001） | `cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v718.mp4` | **当前版·v718**（10-31 全闸 PASS+导演席签核·候 CEO 发布·mp4 走 gitignored 本地交付） |
 | 装配段件 | `media/MV/mv0001/kf-demo-20261012/segments/_cut/v56_v511_final/` | 在飞/可重装 |
 | 曲目剧本（当前版） | 星晴/可爱女人 `-剧本-v3.md`；简单爱/龙卷风 `-剧本-v2.md` | 旧版已删（git 留痕） |
 | 分镜词面（机器正身） | `mv-album-001-jay/<曲>-shots-v2.py` 的 `NEW` 元组 | **词面唯一权威**，人读稿服从它 |
