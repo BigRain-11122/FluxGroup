@@ -177,7 +177,7 @@ def commit_state(tracked: list[str], untracked: list[str], force=False, last_ts=
     if not todo:
         return "ok (no state changes)"
     git(["add", "--"] + todo)
-    kind = "state" if cold and not hot else "dispatch"
+    kind = "dispatch"
     r = git(["commit", "-q", "-m", "pulse: %s snapshot [via bm-m]" % kind])
     return "ok" if r.returncode == 0 else "commit-failed:%s" % _one_line(r.stderr, 80)
 
@@ -192,7 +192,11 @@ def pull_if_clean(last_ts=0.0) -> str:
         swallow someone's uncommitted work.
     """
     tracked, untracked = tree_state()
-    note = commit_state(tracked, untracked, last_ts=last_ts)
+    try:
+        note = commit_state(tracked, untracked, last_ts=last_ts)
+    except Exception as e:
+        # A bug in state bookkeeping must never stop the plane from dispatching.
+        note = "commit-error:%s" % str(e)[:80]
     if note.startswith("skipped"):
         return note
     tracked2, _ = tree_state()
