@@ -1,23 +1,8 @@
 {
  "node": "bm-m",
- "ts": "2026-11-02T20:45:18",
- "jobs": [
-  {
-   "id": "LINE-TRIAGE-MV-20261102",
-   "title": "MV 线证据陈旧扫描（line_triage·本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigstream-mv",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  }
- ],
- "idle_reason": "",
+ "ts": "2026-11-02T20:46:29",
+ "jobs": [],
+ "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
  "lane_ok": true,
- "capacity_note": "ram 13.6/1.0 GB"
+ "capacity_note": "ram 13.5/1.0 GB"
 }
