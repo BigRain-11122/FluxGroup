@@ -1,17 +1,17 @@
 {
  "id": "RCANARY2-20261102T181500",
  "node": "bm-a",
- "rc": 1,
- "seconds": 0.2,
+ "rc": 0,
+ "seconds": 0.1,
  "cmd": "python -c \"open(r'cph4/fleet/state/canary/REMOTE2-20261102T181500.txt','w',encoding='utf-8').write('remote canary 2 20261102T181500')\"",
  "ok_rc": [
   0
  ],
- "outcome": "FAIL",
- "error_class": "E-UNKNOWN",
+ "outcome": "OK",
+ "error_class": null,
  "deliverable": "cph4/fleet/state/canary/REMOTE2-20261102T181500.txt",
- "deliverable_exists": false,
- "ts": "2026-11-02T18:19:33",
+ "deliverable_exists": true,
+ "ts": "2026-11-02T19:49:32",
  "stdout_tail": "",
- "stderr_tail": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n    open(r'cph4/fleet/state/canary/REMOTE2-20261102T181500.txt','w',encoding='utf-8').write('remote canary 2 20261102T181500')\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: 'cph4/fleet/state/canary/REMOTE2-20261102T181500.txt'\n"
+ "stderr_tail": ""
 }
