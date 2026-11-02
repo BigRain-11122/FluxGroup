@@ -2,7 +2,7 @@
  "id": "C-VB-DISCOVER-V02-20261102",
  "node": "bm-m",
  "rc": 0,
- "seconds": 0.0,
+ "seconds": 0.3,
  "cmd": "python3 Tools/voicebank/vb_discover.py --voice v02 --keywords 课堂,讲解 --pages 1",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/voicebank/discover/discover_v02.json",
  "deliverable_exists": true,
- "ts": "2026-11-02T19:28:02",
- "stdout_tail": "{\"voice\": \"v02\", \"status\": \"BLOCKED\", \"count\": 0, \"json\": \"cph4/fleet/voicebank/discover/discover_v02.json\", \"jobs\": \"cph4/fleet/voicebank/discover/jobs_v02.txt\", \"note\": \"bilibili_api not installed: No module named 'bilibili_api'\"}\n",
+ "ts": "2026-11-02T19:29:14",
+ "stdout_tail": "{\"voice\": \"v02\", \"status\": \"PARTIAL\", \"count\": 0, \"json\": \"cph4/fleet/voicebank/discover/discover_v02.json\", \"jobs\": \"cph4/fleet/voicebank/discover/jobs_v02.txt\", \"note\": \"search failed for '课堂': 尚未安装第三方请求库或未注册自定义第三方请求库。\\n$ pip3 install (curl_cffi|httpx|aiohttp)\"}\n",
  "stderr_tail": ""
 }

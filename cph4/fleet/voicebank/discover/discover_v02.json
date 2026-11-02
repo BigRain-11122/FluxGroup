@@ -4,9 +4,9 @@
   "课堂",
   "讲解"
  ],
- "status": "BLOCKED",
- "note": "bilibili_api not installed: No module named 'bilibili_api'",
- "generated_at": "2026-11-02T19:28:02",
+ "status": "PARTIAL",
+ "note": "search failed for '课堂': 尚未安装第三方请求库或未注册自定义第三方请求库。\n$ pip3 install (curl_cffi|httpx|aiohttp)",
+ "generated_at": "2026-11-02T19:29:14",
  "count": 0,
  "candidates": []
 }
