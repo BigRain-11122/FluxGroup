@@ -1,8 +1,23 @@
 {
  "node": "bm-c",
- "ts": "2026-11-02T19:25:34",
- "jobs": [],
- "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+ "ts": "2026-11-02T19:28:02",
+ "jobs": [
+  {
+   "id": "C-FIN-ETF-COMPOSITE-20261102",
+   "title": "ETF 复合因子轮动回测（钱的面：年化/夏普/回撤）",
+   "cmd": "python quant/bigmoney/scripts/etf_composite_pf.py",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "quant/bigmoney/results/etf_composite_pf.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  }
+ ],
+ "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 2.2/1.0 GB"
+ "capacity_note": "ram 2.1/1.0 GB"
 }

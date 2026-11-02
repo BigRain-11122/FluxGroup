@@ -1,24 +1,24 @@
 {
- "ts": "2026-11-02T19:25:34",
- "cycle": 1457,
+ "ts": "2026-11-02T19:28:02",
+ "cycle": 1458,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-02T19:25:34",
+ "master_tick_ts": "2026-11-02T19:28:02",
  "queue": {
-  "total": 113,
-  "open": 0,
-  "running": 1,
-  "done": 76,
+  "total": 118,
+  "open": 1,
+  "running": 4,
+  "done": 77,
   "failed": 4
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 19.7,
-   "cpu_load_pct": 66,
-   "ram_free_gb": 32.4,
-   "gpu_util_pct": 50,
-   "job": null,
+   "hb_age_s": 48.1,
+   "cpu_load_pct": 24,
+   "ram_free_gb": 19.1,
+   "gpu_util_pct": 6,
+   "job": "R-MV-GATE-1D-20261102",
    "last_result": {
     "job": "R-NEXT-BIGSTREAMD-TTS-QC-20261102",
     "state": "FAILED",
@@ -27,14 +27,14 @@
     "reason": null
    },
    "idle_confirmed": false,
-   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+   "idle_reason": "",
    "idle_rounds": 0
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 43.5,
-   "cpu_load_pct": 34,
-   "ram_free_gb": 2.3,
+   "hb_age_s": 9.2,
+   "cpu_load_pct": 99,
+   "ram_free_gb": 5.7,
    "gpu_util_pct": null,
    "job": "R-TTS-QC-R2-20261102",
    "last_result": null,
@@ -44,57 +44,59 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 5.1,
+   "hb_age_s": 77.3,
    "cpu_load_pct": 21,
-   "ram_free_gb": 2.2,
-   "gpu_util_pct": 53,
-   "job": null,
+   "ram_free_gb": 2.1,
+   "gpu_util_pct": 99,
+   "job": "C-FIN-ETF-COMPOSITE-20261102",
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-02T19:24:08",
-    "reason": "CAPACITY-BLOCKED-RAM ram 0.6/1.0 GB"
+    "ts": "2026-11-02T19:25:34",
+    "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
-   "idle_confirmed": true,
-   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 5
+   "idle_confirmed": false,
+   "idle_reason": "",
+   "idle_rounds": 0
   },
   "bm-m": {
    "online": true,
    "hb_age_s": 0.5,
-   "cpu_load_pct": 52,
-   "ram_free_gb": 14.6,
+   "cpu_load_pct": 45,
+   "ram_free_gb": 13.9,
    "gpu_util_pct": null,
-   "job": null,
+   "job": "C-VB-DISCOVER-V02-20261102",
    "last_result": {
-    "job": null,
-    "state": "IDLE",
-    "rc": null,
-    "ts": "2026-11-02T19:24:22",
-    "reason": "SELF-DISPATCH: lane scans its own backlog"
+    "job": "MV-DIRECTOR-PACKET-20261102",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-02T19:26:56",
+    "reason": null
    },
-   "idle_confirmed": true,
-   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 3
+   "idle_confirmed": false,
+   "idle_reason": "",
+   "idle_rounds": 0
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
-  "bm-c": 5,
-  "bm-m": 3
+  "bm-c": 0,
+  "bm-m": 0
  },
  "lines": {
   "bigstream-mv": {
    "name": "BigStream·MV 41 曲",
    "status": "ACTIVE",
-   "verdict": "WAITING",
+   "verdict": "WORKING",
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "R-MV-GATE-1D-20261102"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": null
   },
@@ -756,7 +758,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 0,
+  "local": 1,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -764,23 +766,25 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 0,
+  "cpu": 1,
   "gpu": 0
  },
  "supply_added": [],
  "events": [
   "R-NEXT-BIGSTREAMD-TTS-QC-20261102 FAILED via bm-a",
-  "R-TTS-QC-R2-20261102 -> bm-b (cpu)"
+  "MV-DIRECTOR-PACKET-20261102 DONE via bm-m",
+  "C-FIN-ETF-COMPOSITE-20261102 -> bm-c (cpu)",
+  "R-MV-GATE-1D-20261102 -> bm-a (cpu)",
+  "C-VB-DISCOVER-V02-20261102 -> bm-m (cpu)"
  ],
  "violations": [
-  "bm-c IDLE-CONFIRMED x5 (SELF-DISPATCH: lane scans its own backlo)",
-  "bm-m IDLE-CONFIRMED x3 (SELF-DISPATCH: lane scans its own backlo)",
   "LINE-BLOCKED bigstream-drama ()",
   "STAGE-STALLED bigstream-duanju 卡在 剧本/编剧席 (短剧席)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
   "bm-a",
-  "bm-c"
+  "bm-c",
+  "bm-m"
  ]
 }
