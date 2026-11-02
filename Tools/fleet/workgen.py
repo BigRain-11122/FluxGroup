@@ -291,7 +291,12 @@ def main():
         for (cid, title, cmd, needs, prio, reqs, why) in NODE_TASKS.get(node, []):
             if need <= 0 or budget <= 0:
                 break
-            if cid in open_ids() or recent_receipt(root, cid):
+            # 2026-11-02：id 必须带日期。原来用固定 id，队列里同名卡一旦 DONE/CANCELLED，
+            # 这里补出来的 READY 行会被 R7 判成"尸体"归档——补料→归档的死循环，
+            # 队列永远 0 张、机器空转（实测 19:2x 全队无活可派）。日期化后每天是一张新卡。
+            _base = cid
+            cid = "%s-%s" % (_base, now.strftime("%Y%m%d"))
+            if cid in open_ids() or recent_receipt(root, _base):
                 continue
             if not all(os.path.exists(os.path.join(root, r)) for r in reqs):
                 report.append("- %s skip `%s`: input missing" % (node, cid))
