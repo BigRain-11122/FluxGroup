@@ -80,3 +80,9 @@
 
 ### 新记忆三级路由（正身=cph4/memory.md §10.2）
 跨机价值→本件/git 正典；每次必读硬法→L0 全局（≤300 字）；本机域细节/长文→L2 主题文件（<home>\.codely-cli\memory\topics\）。L1 写入走平台 append/update 工具（2026-10-21 勘正：project-scope 已可用；replace 对 CODELY.md 遇硬锁时改走外置 UTF-8 py 字节补丁+git 原子推）。
+
+### 2026-11-02 主控自保与表达（本轮定案·简短版）
+- **禁代号**：面向 CEO 与界面输出只用机名——公司生产力/小钢炮/传家宝/MacBook Pro/算力大脑（正身=LANES[*].name_cn；`--node` 参数仍用代号）。
+- **本机=AI 优先+轻度办公**：办公预留 4GB、模型上限 14GB；已装 8B 但同题实测 4B 更可用（4B 3/4 可执行·8B 2/4 且 3/4 说判不了），判断席仍用 4B，8B 留长文。
+- **主控自保**：`deploy_gate.py` 五关（编译/导入/JSON/master --dry/brain_brief）不过不许重启；`pulse_watchdog.py`+launchd 每 2 分钟检查 PULSE 超 7 分钟即杀进程重启（KeepAlive 看不见「活着但不干活」）。
+- **记忆不再由主控自动提交**：多会话并发维护记忆，主控再自动签入必撞冲突（本轮连撞四次写出冲突标记）；同步时记忆脏也不再阻塞（昨夜主控哑巴 8h 的病根）。

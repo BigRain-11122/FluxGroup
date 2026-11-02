@@ -124,7 +124,8 @@ def git(args, timeout=90):
 # dirty the pulse skipped every pull and every push ("non-fast-forward" for hours), so the
 # plane kept ticking while the fleet could not see it - the 2026-11-02 overnight vacuum.
 # Memory writes are append-only facts, safe to snapshot; hand edits under Tools/ are not.
-STATE_PREFIXES = ("cph4/fleet/", "fleet-console.html", "CODELY.md", ".codely-cli/memory/")
+# 2026-11-02: CODELY.md / 记忆目录**不**由主控自动提交。多个班的会话同时在维护记忆，主控再自动签入就必然撞冲突（本轮连撞四次，写出冲突标记）。记忆由写它的会话自己提交，主控只碰派单通道。
+STATE_PREFIXES = ("cph4/fleet/", "fleet-console.html")
 
 
 def tree_state() -> tuple[list[str], list[str]]:
@@ -200,7 +201,10 @@ def pull_if_clean(last_ts=0.0) -> str:
     if note.startswith("skipped"):
         return note
     tracked2, _ = tree_state()
-    hand = [p for p in tracked2 if not p.startswith("cph4/fleet/")]
+    # 记忆文件是追加型事实，任何会话随时在写；把它算作「手写代码」会让同步永久停摆
+    # （这正是昨夜主控哑巴 8h 的病根）。只有 Tools/ 等真代码脏才拒绝同步。
+    IGNORABLE = ("cph4/fleet/", "CODELY.md", ".codely-cli/memory/", "fleet-console.html")
+    hand = [p for p in tracked2 if not p.startswith(IGNORABLE)]
     if hand:
         return "skipped:dirty(hand-edit %s)" % _one_line(hand[0], 60)
     args = ["pull", "--ff-only", "--no-rebase", "origin", "main"]
