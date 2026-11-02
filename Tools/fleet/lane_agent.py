@@ -101,8 +101,15 @@ def git_publish(root, node, jid, paths):
     # too -- bm-c sat ahead/behind 1/2 and kept running stale code. Commit it alongside the
     # artifact so the tree is clean whenever we go to the wire.
     queue_rel = "cph4/fleet/PRODUCTION-QUEUE.jsonl"
-    if os.path.exists(os.path.join(root, queue_rel.replace("/", os.sep))):
-        keep.append(queue_rel)
+    try:
+        st = subprocess.run(["git", "-C", root, "status", "--porcelain"], capture_output=True,
+                            text=True, timeout=60, creationflags=CREATE_NO_WINDOW).stdout or ""
+        for ln in st.splitlines():
+            p = ln[3:].strip()
+            if p.startswith("cph4/fleet/") and p.endswith((".jsonl", ".json", ".md")):
+                keep.append(p)
+    except Exception:
+        pass
     if not keep:
         return "nothing-tracked"
     def git(args, timeout=90):
