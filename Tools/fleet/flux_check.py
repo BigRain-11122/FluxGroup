@@ -84,13 +84,18 @@ def line_ids():
 def i1_cards_have_line():
     known = line_ids()
     bad = []
+    # 键按"谁产的"聚合，不按卡号（2026-11-02）：机队每轮都在造新卡，
+    # 以卡号为键就会每轮长出新债、永久红；真正的信号是"某个生成者反复产无主卡"。
+    agg, detail = {}, []
     for r in jlines(QUEUE):
         lid = r.get("line")
         if not lid:
-            bad.append("card:%s:no-line" % r.get("id"))
+            src = str(r.get("created_by") or "unknown").split()[0]
+            agg["src:%s:no-line" % src] = agg.get("src:%s:no-line" % src, 0) + 1
+            detail.append(r.get("id"))
         elif known and lid not in known:
-            bad.append("card:%s:unknown-line=%s" % (r.get("id"), lid))
-    return bad
+            agg["src:%s:unknown-line:%s" % (str(r.get("created_by") or "unknown").split()[0], lid)] = 1
+    return sorted(agg)
 
 
 def i2_cards_are_portable():
@@ -145,7 +150,7 @@ def i4_done_cards_have_artifact():
         for k in ("path", "origin"):
             if a.get(k):
                 have.add(os.path.normpath(a[k]))
-    bad = []
+    agg = {}
     for r in jlines(QUEUE):
         if r.get("state") not in ("DONE",):
             continue
@@ -155,8 +160,10 @@ def i4_done_cards_have_artifact():
             continue
         d = C.deliverable_of(r)
         if d and os.path.normpath(d) not in have:
-            bad.append("card:%s:done-without-artifact" % r.get("id"))
-    return bad
+            # 同上：按生成者聚合，别让每张新卡变成一条新债
+            src = str(r.get("created_by") or "unknown").split()[0]
+            agg["src:%s:done-without-artifact" % src] = 1
+    return sorted(agg)
 
 
 def i5_artifacts_have_provenance():
