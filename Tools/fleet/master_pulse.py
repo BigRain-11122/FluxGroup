@@ -217,6 +217,57 @@ def commit_state(tracked: list[str], untracked: list[str], force=False, last_ts=
     return "ok" if r.returncode == 0 else "commit-failed:%s" % _one_line(r.stderr, 80)
 
 
+GENERATED = ("cph4/fleet/dispatcher/", "cph4/fleet/lanes/", "cph4/fleet/queue-receipts/",
+             "cph4/fleet/chief/", "cph4/fleet/social/", "cph4/fleet/plans/",
+             "cph4/fleet/state/", "cph4/fleet/PRODUCTION-QUEUE.jsonl",
+             "cph4/fleet/PRODUCTION-BACKLOG.jsonl", "cph4/fleet/SHOWCASE.md",
+             "cph4/fleet/HANDOFF.md", "cph4/fleet/ri/PROPOSALS.json",
+             "cph4/fleet/vault/index.jsonl")
+
+
+def rebase_generated():
+    """分叉收口：只对"生成态文件"取远端版本，代码一律不rebase。
+
+    为什么需要（2026-11-02 实测）：多机同时 push 时 fast-forward 必然失败，
+    主控脉报 DIVERGED/rejected，整夜同步停摆而报表还绿——就是"哑巴 8 小时"那类病。
+    安全边界：一旦冲突落在 Tools/ 或文档（手写件），立即 abort，绝不替人做选择。
+    """
+    r = git(["fetch", "--prune", "origin"], timeout=120)
+    if r.returncode != 0:
+        return "fetch-failed"
+    r = git(["rebase", "--autostash", "origin/main"], timeout=180)
+    for _ in range(3):
+        r = git(["diff", "--name-only", "--diff-filter=U"], timeout=30)
+        conflicts = [p for p in (r.stdout or "").split() if p]
+        if r.returncode != 0:
+            return "status-failed"
+        if not conflicts:
+            if _rebase_in_progress():
+                r2 = git(["-c", "core.editor=true", "rebase", "--continue"], timeout=120)
+                if r2.returncode != 0:
+                    # rebase 可能已在最后一步自行收口（"no rebase in progress"），
+                    # 只要不再处于 rebase 且无冲突，就算成功，不 abort 掉已完成的成果。
+                    if not _rebase_in_progress():
+                        return "ok"
+                    git(["rebase", "--abort"], timeout=60)
+                    return "continue-failed"
+                continue
+            return "ok"
+        if any(not p.startswith(GENERATED) for p in conflicts):
+            git(["rebase", "--abort"], timeout=60)
+            return "hand-edit-conflict:%s" % _one_line(",".join(conflicts), 80)
+        for p in conflicts:
+            git(["checkout", "--theirs", "--", p], timeout=30)
+            git(["add", "--", p], timeout=30)
+    git(["rebase", "--abort"], timeout=60)
+    return "loop-limit"
+
+
+def _rebase_in_progress():
+    return os.path.isdir(os.path.join(ROOT, ".git", "rebase-merge")) or \
+        os.path.isdir(os.path.join(ROOT, ".git", "rebase-apply"))
+
+
 def pull_if_clean(last_ts=0.0) -> str:
     """Sync without ever letting a dirty worktree block the plane.
 
@@ -253,7 +304,15 @@ def pull_if_clean(last_ts=0.0) -> str:
         return "ok"
     msg = _one_line(r.stderr or r.stdout, 120)
     if "Not possible to fast-forward" in msg or "diverg" in msg:
-        return "DIVERGED(report-only):%s" % msg
+        # 多机同推时这是常态，不是故障：只对生成态取远端，代码不 rebase
+        rb = rebase_generated()
+        return ("ok(divergence-resolved)" if rb == "ok"
+                else "%s:%s" % (rb, msg))
+    if "fetch first" in msg or "rejected" in msg:
+        rb = rebase_generated()
+        if rb == "ok":
+            return "ok(divergence-resolved)"
+        return "%s:%s" % (rb, msg)
     return "failed:%s" % msg
 
 
