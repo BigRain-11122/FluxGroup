@@ -1,22 +1,22 @@
 {
- "ts": "2026-11-03T01:15:44",
- "cycle": 5,
+ "ts": "2026-11-03T01:16:59",
+ "cycle": 6,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-03T01:15:44",
+ "master_tick_ts": "2026-11-03T01:16:59",
  "queue": {
   "total": 301,
-  "open": 1,
+  "open": 0,
   "running": 4,
   "done": 201,
-  "failed": 4
+  "failed": 5
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 30.8,
-   "cpu_load_pct": 74,
-   "ram_free_gb": 30.8,
+   "hb_age_s": 45.5,
+   "cpu_load_pct": 21,
+   "ram_free_gb": 32.1,
    "gpu_util_pct": 10,
    "job": "C-TTS-QC-ALL",
    "last_result": {
@@ -32,8 +32,8 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 54.4,
-   "cpu_load_pct": 23,
+   "hb_age_s": 7.6,
+   "cpu_load_pct": 56,
    "ram_free_gb": 4.6,
    "gpu_util_pct": null,
    "job": "R-TTS-QC-R2-20261102",
@@ -44,16 +44,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 11.5,
-   "cpu_load_pct": 5,
-   "ram_free_gb": 7.4,
+   "hb_age_s": 11.8,
+   "cpu_load_pct": 7,
+   "ram_free_gb": 7.1,
    "gpu_util_pct": 0,
    "job": "C-TTS-QC-ALL",
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-03T01:15:38",
+    "ts": "2026-11-03T01:16:52",
     "reason": "ALREADY-CLOSED C-TTS-QC-ALL"
    },
    "idle_confirmed": false,
@@ -62,16 +62,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.5,
-   "cpu_load_pct": 8,
-   "ram_free_gb": 15.8,
+   "hb_age_s": 0.6,
+   "cpu_load_pct": 9,
+   "ram_free_gb": 14.9,
    "gpu_util_pct": null,
-   "job": "R-NEXT-BIGSTREAMD-TTS-QC-20261103",
+   "job": "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102",
    "last_result": {
-    "job": "CANARY-20261103T011543",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-03T01:15:43",
+    "job": "R-NEXT-BIGSTREAMD-TTS-QC-20261103",
+    "state": "FAILED",
+    "rc": 1,
+    "ts": "2026-11-03T01:15:49",
     "reason": null
    },
    "idle_confirmed": false,
@@ -118,7 +118,6 @@
    "stale_after_h": 72.0,
    "owner": "短剧席",
    "jobs": [
-    "R-NEXT-BIGSTREAMD-TTS-QC-20261103",
     "R-TTS-QC-R2-20261102"
    ],
    "no_supply": false,
@@ -750,16 +749,14 @@
   }
  },
  "judgments": {
-  "open": 1,
-  "by_kind": {
-   "CAPACITY": 1
-  },
+  "open": 0,
+  "by_kind": {},
   "added": 0,
   "tick_tier": "none",
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 1,
+  "local": 0,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -767,17 +764,20 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 1,
+  "cpu": 0,
   "gpu": 0
  },
  "supply_added": [],
  "events": [
-  "R-TTS-QC-R2-20261102 -> bm-b (cpu)"
+  "R-NEXT-BIGSTREAMD-TTS-QC-20261103 FAILED via bm-m",
+  "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102 -> bm-m (cpu)"
  ],
  "violations": [
   "LINE-BLOCKED bigstream-drama ()",
   "STAGE-STALLED bigstream-duanju 卡在 剧本/编剧席 (短剧席)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
- "lane_files_written": []
+ "lane_files_written": [
+  "bm-m"
+ ]
 }
