@@ -169,6 +169,18 @@ def commit_state(tracked: list[str], untracked: list[str], force=False, last_ts=
     carries (a) the dispatch channel and (b) reports - and reports are snapshotted at most
     every STATE_SNAPSHOT_S, because nobody needs a SUPERVISOR.md per minute in history.
     """
+    # 记忆是追加型事实：任何会话随时在写 CODELY.md。把它当成"手写代码"会让同步永久停摆
+    # （2026-11-02 实测 322/386 轮因此跳过同步）。记忆单独定向提交，不与派单混在一起。
+    MEMORY_PATHS = ("CODELY.md", ".codely-cli/memory/")
+    mem = [p for p in tracked if p.startswith(MEMORY_PATHS)]
+    if mem:
+        try:
+            git(["add", "--"] + mem)
+            git(["commit", "-q", "-m", "memory: autosave [via %s]"
+                 % os.environ.get("NODE", "bm-m")])
+        except Exception:
+            pass
+        tracked = [p for p in tracked if p not in mem]
     hand = [p for p in tracked if not p.startswith(STATE_PREFIXES)]
     if hand:
         return "skipped:dirty(hand-edit %s)" % _one_line(hand[0], 60)
