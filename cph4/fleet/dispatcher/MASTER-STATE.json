@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-02T16:25:22",
- "cycle": 1313,
+ "ts": "2026-11-02T16:26:40",
+ "cycle": 1314,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-02T16:25:22",
+ "master_tick_ts": "2026-11-02T16:26:40",
  "queue": {
   "total": 102,
   "open": 0,
@@ -14,9 +14,9 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 8.1,
-   "cpu_load_pct": 11,
-   "ram_free_gb": 21.7,
+   "hb_age_s": 25.7,
+   "cpu_load_pct": 42,
+   "ram_free_gb": 21.3,
    "gpu_util_pct": 5,
    "job": null,
    "last_result": {
@@ -32,9 +32,9 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 29.5,
-   "cpu_load_pct": 20,
-   "ram_free_gb": 4,
+   "hb_age_s": 45.0,
+   "cpu_load_pct": 29,
+   "ram_free_gb": 3.8,
    "gpu_util_pct": null,
    "job": "R-TTS-QC-R2-20261102",
    "last_result": null,
@@ -44,7 +44,7 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 154.7,
+   "hb_age_s": 232.4,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -57,27 +57,27 @@
   "bm-m": {
    "online": true,
    "hb_age_s": 0.6,
-   "cpu_load_pct": 19,
-   "ram_free_gb": 16.9,
+   "cpu_load_pct": 16,
+   "ram_free_gb": 14.4,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-02T16:24:04",
+    "ts": "2026-11-02T16:25:22",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 75
+   "idle_rounds": 76
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 75
+  "bm-m": 76
  },
  "lines": {
   "bigstream-mv": {
@@ -710,9 +710,11 @@
   "gpu": 0
  },
  "supply_added": [],
- "events": [],
+ "events": [
+  "R-TTS-QC-R2-20261102 -> bm-b (cpu)"
+ ],
  "violations": [
-  "bm-m IDLE-CONFIRMED x75 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-m IDLE-CONFIRMED x76 (SELF-DISPATCH: lane scans its own backlo)",
   "LINE-BLOCKED bigstream-drama ()"
  ],
  "lane_files_written": []
