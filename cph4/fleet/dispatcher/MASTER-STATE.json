@@ -1,23 +1,23 @@
 {
- "ts": "2026-11-02T11:11:28",
- "cycle": 1103,
+ "ts": "2026-11-02T11:12:35",
+ "cycle": 1104,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-02T11:11:28",
+ "master_tick_ts": "2026-11-02T11:12:35",
  "queue": {
   "total": 82,
   "open": 0,
-  "running": 1,
+  "running": 0,
   "done": 63,
-  "failed": 2
+  "failed": 3
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 14.8,
-   "cpu_load_pct": 43,
-   "ram_free_gb": 27.1,
-   "gpu_util_pct": 66,
+   "hb_age_s": 21.3,
+   "cpu_load_pct": 48,
+   "ram_free_gb": 30.8,
+   "gpu_util_pct": 70,
    "job": null,
    "last_result": {
     "job": null,
@@ -32,25 +32,25 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 37.0,
-   "cpu_load_pct": 66,
+   "hb_age_s": 43.1,
+   "cpu_load_pct": 87,
    "ram_free_gb": 2,
    "gpu_util_pct": null,
-   "job": "R-FREEMEM-BMB-20261102",
+   "job": null,
    "last_result": {
-    "job": null,
-    "state": "IDLE",
-    "rc": null,
-    "ts": "2026-11-02T11:10:39",
-    "reason": "SELF-DISPATCH: lane scans its own backlog"
+    "job": "R-FREEMEM-BMB-20261102",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-02T11:11:47",
+    "reason": null
    },
    "idle_confirmed": false,
-   "idle_reason": "",
+   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
    "idle_rounds": 0
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 289.6,
+   "hb_age_s": 355.9,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -64,26 +64,26 @@
    "online": true,
    "hb_age_s": 0.5,
    "cpu_load_pct": null,
-   "ram_free_gb": 13.3,
+   "ram_free_gb": 17.0,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-02T11:10:19",
+    "ts": "2026-11-02T11:11:29",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 32
+   "idle_rounds": 33
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 32
+  "bm-m": 33
  },
  "lines": {
   "bigstream-mv": {
@@ -726,11 +726,15 @@
   "gpu": 0
  },
  "supply_added": [],
- "events": [],
+ "events": [
+  "R-FREEMEM-BMB-20261102 FAILED(no-artifact) via bm-b"
+ ],
  "violations": [
-  "bm-m IDLE-CONFIRMED x32 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-m IDLE-CONFIRMED x33 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED bigstream-mv 卡在 立意/分镜/导演席 (导演席（自决推进，CEO 巡视可随时否决）)",
   "LINE-BLOCKED bigstream-drama ()"
  ],
- "lane_files_written": []
+ "lane_files_written": [
+  "bm-b"
+ ]
 }
