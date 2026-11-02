@@ -1,0 +1,12 @@
+{
+ "id": "R-VB-DISCOVER-R2-20261102",
+ "node": "bm-a",
+ "rc": 0,
+ "seconds": 3.2,
+ "cmd": "python Tools/voicebank/vb_discover.py --voice v02 --keywords 课堂,讲解 --pages 1",
+ "deliverable": "cph4/fleet/voicebank/discover/discover_v02.json",
+ "deliverable_exists": true,
+ "ts": "2026-11-02T18:09:35",
+ "stdout_tail": "{\"voice\": \"v02\", \"status\": \"OK\", \"count\": 16, \"json\": \"cph4\\\\fleet\\\\voicebank\\\\discover\\\\discover_v02.json\", \"jobs\": \"cph4\\\\fleet\\\\voicebank\\\\discover\\\\jobs_v02.txt\", \"note\": \"16 candidates in 240-3600s band\"}\n",
+ "stderr_tail": ""
+}
