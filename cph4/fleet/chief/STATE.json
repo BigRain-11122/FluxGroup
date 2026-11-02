@@ -1,0 +1,49 @@
+{
+ "ts": "2026-11-02T17:15:01",
+ "stage": 3,
+ "decisions": [
+  {
+   "kind": "requeue",
+   "why": "1 张卡在跑但 1 小时无回执",
+   "target": [
+    "R-TTS-QC-R2-20261102"
+   ],
+   "min_stage": 3,
+   "result": "applied"
+  },
+  {
+   "kind": "promote",
+   "why": "队列空，候选 14 张",
+   "target": [
+    "C-FIN-ETF-COMPOSITE",
+    "C-VB-DISCOVER-V02",
+    "C-VB-DISCOVER-V03"
+   ],
+   "min_stage": 3,
+   "result": "applied"
+  },
+  {
+   "kind": "escalate",
+   "why": "P0 线 24h 无产物：2 条",
+   "target": [
+    "p0:bigstream-drama:no-output-70.4h",
+    "p0:bigstream-duanju:no-output-70.4h"
+   ],
+   "min_stage": 1,
+   "result": "applied"
+  }
+ ],
+ "applied": [
+  {
+   "kind": "requeue",
+   "ids": [
+    "R-TTS-QC-R2-20261102"
+   ]
+  },
+  {
+   "kind": "promote",
+   "out": "候选卡为 0（README 里没活可补）——这属于供给缺口，不是调度故障"
+  }
+ ],
+ "brief": "/Users/junsheng.sun/FluxGroup/cph4/fleet/chief/BRIEF-20261102.md"
+}
