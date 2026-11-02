@@ -44,7 +44,33 @@ for lk in .git/index.lock .git/shallow.lock; do
 done
 
 before=$(git rev-parse HEAD 2>/dev/null || echo "")
-git fetch --prune --quiet origin 2>>"$LOG" || { say "FAIL fetch（盘可能掉线）"; exit 1; }
+# 掉盘/重枚举是常态（实测 3 小时 3 次）：先等 20 秒让卷回来，再 fetch；
+# fetch 失败区分「盘掉线」与「权限被 TCC 拦」，前者重试一次，后者只留痕不拖红主控脉。
+if [ ! -d "$EXT" ]; then
+  for i in 1 2 3 4 5 6 7 8 9 10; do
+    sleep 2
+    [ -d "$EXT" ] && { say "NOTE 卷回来了（等了 ${i}0 秒内）"; break; }
+  done
+fi
+fetch_try() {
+  out=$(git fetch --prune --quiet origin 2>&1)
+  rc=$?
+  echo "$out" >> "$LOG" 2>/dev/null
+  return $rc
+}
+if ! fetch_try; then
+  sleep 10
+  if ! fetch_try; then
+    if printf '%s' "$out" | grep -qiE "operation not permitted|permission denied"; then
+      say "SKIP 权限被拦（TCC 未授予完全磁盘访问）: $out"
+      status TCC-BLOCKED "launchd 写可移除卷被拒；需在 隐私与安全性>完全磁盘访问 加 /usr/bin/python3 与 /bin/bash"
+      exit 0
+    fi
+    say "FAIL fetch（盘掉线或网络）: $out"
+    status FAIL "fetch failed: $out"
+    exit 1
+  fi
+fi
 git checkout -q main 2>>"$LOG"
 git reset --hard -q origin/main 2>>"$LOG" || { say "FAIL reset"; exit 1; }
 after=$(git rev-parse HEAD 2>/dev/null || echo "")

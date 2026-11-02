@@ -187,7 +187,11 @@ def _recent_pass(min_interval):
         return None
     try:
         from datetime import datetime as _dt
-        age = (datetime.now() - _dt.fromisoformat(str(st.get("ts")))).total_seconds()
+        t = _dt.fromisoformat(str(st.get("ts")))
+        # ts 带 +08:00 时区；naive now() 相减会抛 TypeError，被 except 吞掉后节流就静默失效
+        # （实测每轮都在跑）。按同一时区比较。
+        now = _dt.now(t.tzinfo) if t.tzinfo else _dt.now()
+        age = (now - t).total_seconds()
     except Exception:
         return None
     return st if age < min_interval else None

@@ -110,7 +110,7 @@ def main() -> int:
                 fixes.append("已开同步卡 %s -> %s" % (jid, n))
 
     # A2 - retry failed cards, capped
-    changed = False
+    changed_rows = []
     for r in rows:
         if r.get("state") != "FAILED":
             continue
@@ -124,10 +124,13 @@ def main() -> int:
             r["retries"] = tries + 1
             r["owner"] = None
             r["requeued_at"] = datetime.now().isoformat(timespec="seconds")
-            changed = True
+            changed_rows.append(r)
         fixes.append("重派 %s（第 %d 次）" % (r.get("id"), tries + 1))
-    if changed:
-        save_jl(QUEUE, rows)
+    if changed_rows:
+        # 单写入口（2026-11-02）：只合并改过的行；旧的 save_jl 已删，直接调用会在
+        # 这里 NameError（实测让 solver 阶段每轮都红）。
+        import fleet_lane as _fl
+        _fl.merge_jsonl(QUEUE, changed_rows)
 
     q = st.get("queue") or {}
     lines = ["# 主控解题 %s" % datetime.now().strftime("%Y-%m-%d %H:%M"), "",
