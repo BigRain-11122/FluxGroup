@@ -361,6 +361,13 @@ def self_dispatch(root, node, allow_gpu_workhours, max_seconds, hub, port, dry, 
         if only and r.get("id") != only:
             return False
         nodes = r.get("nodes") or []
+        # 2026-11-02：控制面不接生产活。CEO 立法：这台机第一任务是主控——调度、监督、
+        # 协调、解题，外加常驻轻量模型；生产活一律路由出去。实测它抢走了本该给传家宝的
+        # 音色库发现卡，主控在跟机队抢算力。fleet-ops 线（自检/巡检）仍允许在本机跑。
+        _role = ((fl.LANES.get(node) or {}).get("role_class") or "")
+        if _role == "control" and node not in nodes \
+                and (r.get("line") or "") not in ("fleet-ops", ""):
+            return False
         if strict:
             if nodes and node not in nodes:
                 return False
