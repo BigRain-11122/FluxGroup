@@ -23,6 +23,7 @@ import json
 import os
 import subprocess
 import sys
+import threading
 import time
 from datetime import datetime
 
@@ -33,6 +34,8 @@ if HERE not in sys.path:
 import fleet_lane as fl  # noqa: E402
 
 CREATE_NO_WINDOW = 0x08000000 if os.name == "nt" else 0
+# 长任务存活上报间隔：既不刷爆 NATS，又能让主控在 1-2 分钟内看出一台机"在忙"而不是"死了"。
+PROGRESS_EVERY = 45
 
 
 def live_state(root, node, hub, port):
@@ -213,13 +216,40 @@ def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
             except Exception as e:
                 rc, out, err = 125, "", "write-failed: %s" % e
     else:
-        try:
-            r = subprocess.run(cmd, shell=True, cwd=job.get("cwd") or root,
-                               capture_output=True, text=True, errors="replace",
-                               timeout=max_seconds, creationflags=CREATE_NO_WINDOW)
-            rc, out, err = r.returncode, r.stdout, r.stderr
-        except subprocess.TimeoutExpired as e:
-            rc, out, err = 124, (e.stdout or ""), (e.stderr or "") + "\n[timeout %ss]" % max_seconds
+        # 2026-11-02：原来是裸 subprocess.run，整段阻塞到任务结束——长任务（如 57 集配音批）
+        # 期间一个字节都不上报，主控只能看到"心跳停了 137 分钟"，把正在干活的机器判成掉线，
+        # 还可能按租约超时把卡重排。改为后台线程跑命令、主线程每 PROGRESS_EVERY 秒发一次
+        # BUSY 进度（只报活性与已跑时长，不改任务语义、不改 stdout/stderr 处理）。
+        _box = {}
+
+        def _exec():
+            try:
+                r = subprocess.run(cmd, shell=True, cwd=job.get("cwd") or root,
+                                   capture_output=True, text=True, errors="replace",
+                                   timeout=max_seconds, creationflags=CREATE_NO_WINDOW)
+                _box.update(rc=r.returncode, out=r.stdout, err=r.stderr)
+            except subprocess.TimeoutExpired as e:
+                _box.update(rc=124, out=(e.stdout or ""),
+                            err=(e.stderr or "") + "\n[timeout %ss]" % max_seconds)
+            except Exception as e:
+                _box.update(rc=125, out="", err="exec-failed: %s" % e)
+
+        _t = threading.Thread(target=_exec, daemon=True)
+        _t.start()
+        while _t.is_alive():
+            _t.join(timeout=PROGRESS_EVERY)
+            if not _t.is_alive():
+                break
+            try:
+                fl.kv_put(fl.lane_result_key(node),
+                          {"node": node, "state": "BUSY", "job": jid,
+                           "elapsed_s": int(time.time() - t0), "ts": fl.now_iso()},
+                          host=hub, port=port)
+            except Exception:
+                pass
+        rc = _box.get("rc", 125)
+        out = _box.get("out", "")
+        err = _box.get("err", "")
     dur = round(time.time() - t0, 1)
 
     if lease:
