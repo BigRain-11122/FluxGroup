@@ -87,6 +87,17 @@ def evidence_state(paths):
     return best, bestp, "EVIDENCE"
 
 
+def machine_names():
+    """code -> 人话机名. CEO 2026-11-02: 不要用 bm-x 代号，他看不懂是哪台。"""
+    try:
+        import sys as _s
+        _s.path.insert(0, os.path.join(ROOT, "Tools", "fleet"))
+        import fleet_lane as _fl
+        return {k: (v.get("name_cn") or k) for k, v in _fl.LANES.items()}
+    except Exception:
+        return {}
+
+
 def rel(p):
     try:
         return os.path.relpath(p, ROOT)
@@ -194,10 +205,11 @@ def main():
     L.append("- **%s**" % decision)
     L.append("")
     L.append("## 机队事实（来源：lanes/*.json + PULSE.json）")
-    live = ",".join("%s%s" % (n, "(闲)" if not v["jobs"] else "(%d)" % len(v["jobs"]))
+    NAME = machine_names()
+    live = "、".join("%s%s" % (NAME.get(n, n), "" if v["jobs"] else "（空闲）")
                     for n, v in sorted(lanes.items()) if v["online"]) or "无"
-    dead = [n for n, v in lanes.items() if not v["online"]]
-    L.append("- 在线：%s%s" % (live, ("；掉线：" + ",".join(dead)) if dead else ""))
+    dead = [NAME.get(n, n) for n, v in lanes.items() if not v["online"]]
+    L.append("- 在线：%s%s" % (live, ("；掉线：" + "、".join(dead)) if dead else ""))
     L.append("- 队列：跑 %d · 待派 %d · 失败 %d｜主控脉 %s（%s）"
              % (run_n, open_n, len(failed), "ok" if pulse.get("ok") else "DEGRADED",
                 (pulse.get("ts") or "-")[:16]))

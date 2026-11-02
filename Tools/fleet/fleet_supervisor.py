@@ -33,6 +33,15 @@ def load(p, default):
         return default
 
 
+def _name(n):
+    """机名（人话）。CEO 2026-11-02：不要 bm-x 代号，他看不懂是哪台。"""
+    try:
+        import fleet_lane as _fl
+        return (_fl.LANES.get(n) or {}).get("name_cn") or n
+    except Exception:
+        return n
+
+
 def main() -> int:
     ms = load(os.path.join(D, "MASTER-STATE.json"), {})
     pulse = load(os.path.join(D, "PULSE.json"), {})
@@ -60,9 +69,9 @@ def main() -> int:
         if v.get("idle_confirmed") and not v.get("job"):
             reason = (v.get("idle_reason") or "")[:40]
             if reason.startswith("SELF-DISPATCH"):
-                acts.append("%s 自扫积压中；持续 >2 轮=该机无已声明活，需生产席补卡" % n)
+                acts.append("%s 自扫积压中；持续 >2 轮=该机无已声明活，需生产席补卡" % _name(n))
             elif reason.startswith("CAPACITY"):
-                acts.append("%s 容量不足：%s" % (n, reason))
+                acts.append("%s 容量不足：%s" % (_name(n), reason))
             elif reason.startswith("DAY"):
                 acts.append("%s 白天让路（合规，不计闲置）" % n)
 
@@ -92,7 +101,7 @@ def main() -> int:
         if v.get("job") and (lag is None or lag > 15):
             acts.append("%s 有派单但 %s 分钟无执行回执：执行器(lane_agent/HQ-ProductionClaim)没跑"
                         "——本机执行 `%s`"
-                        % (n, "?" if lag is None else int(lag),
+                        % (_name(n), "?" if lag is None else int(lag),
                            "python Tools/fleet/lane_agent.py --node %s" % n))
 
     # 常驻模型与策略不一致 = 悄悄换了脑子（2026-11-01 实锚）
