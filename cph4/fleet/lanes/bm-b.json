@@ -1,8 +1,23 @@
 {
  "node": "bm-b",
- "ts": "2026-11-02T18:45:59",
- "jobs": [],
- "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+ "ts": "2026-11-02T18:47:10",
+ "jobs": [
+  {
+   "id": "C-FIN-EQUITY-ALPHA",
+   "title": "ETF 权益档单列：纯权益 alpha 与债档分离对照",
+   "cmd": "python quant/bigmoney/scripts/etf_equity_alpha.py",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "quant/bigmoney/results/etf_equity_alpha.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  }
+ ],
+ "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 4.1/1.0 GB"
+ "capacity_note": "ram 4.2/1.0 GB"
 }
