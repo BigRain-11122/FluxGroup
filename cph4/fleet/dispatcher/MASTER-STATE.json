@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
  "ts": "2026-11-03T00:16:44",
  "cycle": 1,
  "master_node": "bm-m",
@@ -10,15 +11,36 @@
   "running": 3,
   "done": 99,
   "failed": 2
+=======
+ "ts": "2026-11-02T20:16:10",
+ "cycle": 1486,
+ "master_node": "bm-m",
+ "masquerade_by": null,
+ "master_tick_ts": "2026-11-02T20:16:10",
+ "queue": {
+  "total": 131,
+  "open": 0,
+  "running": 2,
+  "done": 90,
+  "failed": 3
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
  },
  "lanes": {
   "bm-a": {
    "online": true,
+<<<<<<< HEAD
    "hb_age_s": 30.7,
    "cpu_load_pct": 73,
    "ram_free_gb": 22.6,
    "gpu_util_pct": 11,
    "job": "C-TTS-QC-ALL",
+=======
+   "hb_age_s": 56.2,
+   "cpu_load_pct": 68,
+   "ram_free_gb": 36.3,
+   "gpu_util_pct": 7,
+   "job": "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102",
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
    "last_result": {
     "job": "R-PLAN-BIGMONEY-20261103",
     "state": "DONE",
@@ -32,6 +54,7 @@
   },
   "bm-b": {
    "online": true,
+<<<<<<< HEAD
    "hb_age_s": 43.4,
    "cpu_load_pct": 82,
    "ram_free_gb": 0.5,
@@ -60,20 +83,50 @@
     "state": "DONE",
     "rc": 0,
     "ts": "2026-11-03T00:16:27",
+=======
+   "hb_age_s": 18.0,
+   "cpu_load_pct": 90,
+   "ram_free_gb": 3.2,
+   "gpu_util_pct": null,
+   "job": "R-TTS-QC-R2-20261102",
+   "last_result": null,
+   "idle_confirmed": false,
+   "idle_reason": "",
+   "idle_rounds": 0
+  },
+  "bm-c": {
+   "online": true,
+   "hb_age_s": 76.6,
+   "cpu_load_pct": 16,
+   "ram_free_gb": 0.7,
+   "gpu_util_pct": 100,
+   "job": null,
+   "last_result": {
+    "job": "C-TTS-QC-ALL",
+    "state": "FAILED",
+    "rc": 1,
+    "ts": "2026-11-02T20:15:18",
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
     "reason": null
    },
    "idle_confirmed": false,
-   "idle_reason": "",
+   "idle_reason": "CAPACITY-BLOCKED-RAM ram 0.7/1.0 GB",
    "idle_rounds": 0
   },
   "bm-m": {
    "online": true,
    "hb_age_s": 0.6,
+<<<<<<< HEAD
    "cpu_load_pct": 21,
    "ram_free_gb": 17.5,
+=======
+   "cpu_load_pct": 26,
+   "ram_free_gb": 12.4,
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
    "gpu_util_pct": null,
    "job": "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102",
    "last_result": {
+<<<<<<< HEAD
     "job": "R-PLAN-RECON-20261103",
     "state": "DONE",
     "rc": 0,
@@ -83,13 +136,28 @@
    "idle_confirmed": false,
    "idle_reason": "",
    "idle_rounds": 0
+=======
+    "job": null,
+    "state": "IDLE",
+    "rc": null,
+    "ts": "2026-11-02T20:14:47",
+    "reason": "SELF-DISPATCH: lane scans its own backlog"
+   },
+   "idle_confirmed": true,
+   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+   "idle_rounds": 7
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
   "bm-c": 0,
+<<<<<<< HEAD
   "bm-m": 0
+=======
+  "bm-m": 7
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
  },
  "lines": {
   "bigstream-mv": {
@@ -764,12 +832,20 @@
   }
  },
  "judgments": {
+<<<<<<< HEAD
   "open": 3,
   "by_kind": {
    "CAPACITY": 2,
    "LINE-LATE": 1
   },
   "added": 0,
+=======
+  "open": 1,
+  "by_kind": {
+   "CAPACITY": 1
+  },
+  "added": 1,
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
   "tick_tier": "none",
   "judgment_tier": "cloud-smart"
  },
@@ -789,6 +865,7 @@
   "backlog_manifest+2"
  ],
  "events": [
+<<<<<<< HEAD
   "R-PLAN-BIGMONEY-20261103 DONE via bm-a",
   "R-NEXT-BIGSTREAMD-TTS-QC-20261103 -> bm-c (cpu)",
   "C-TTS-QC-ALL -> bm-a (cpu)",
@@ -797,13 +874,26 @@
  "violations": [
   "bm-b CAPACITY-BLOCKED-RAM",
   "STAGE-STALLED bigstream-drama 卡在 剧本/编剧席 (漫剧席)",
+=======
+  "C-TTS-QC-ALL FAILED via bm-c",
+  "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102 -> bm-a (cpu)"
+ ],
+ "violations": [
+  "bm-c CAPACITY-BLOCKED-RAM",
+  "bm-m IDLE-CONFIRMED x7 (SELF-DISPATCH: lane scans its own backlo)",
+  "LINE-BLOCKED bigstream-drama ()",
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
   "STAGE-STALLED bigstream-duanju 卡在 剧本/编剧席 (短剧席)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
+<<<<<<< HEAD
   "bm-a",
   "bm-b",
   "bm-c",
   "bm-m"
+=======
+  "bm-c"
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
  ]
 }
