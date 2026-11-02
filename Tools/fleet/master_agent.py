@@ -574,6 +574,13 @@ def assign(rows, fleet, reports, lines=None):
             continue
         r["state"] = "RUNNING"
         r["owner"] = lane
+        # 2026-11-02：卡声明了 nodes 却被别的机器接走时，必须留下痕迹。
+        # 实测：一张 nodes=["bm-a"] 的卡被 bm-m 领走、无 fallback 标记、直接判 DONE，
+        # 从账面上看像是"公司生产力跑通了"，其实根本没到那台机——静默改派=假绿。
+        _pref = r.get("nodes") or []
+        if _pref and lane not in _pref:
+            r["fallback_from"] = _pref
+            r["fallback_why"] = "pinned node(s) not available at dispatch time"
         r["claimed_at"] = fl.now_iso()
         r["assign_ts"] = r["claimed_at"]
         r["lease_minutes"] = int(r.get("timeout_s") or 0) // 60 or \
