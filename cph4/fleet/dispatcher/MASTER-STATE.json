@@ -1,23 +1,23 @@
 {
- "ts": "2026-11-02T14:39:48",
- "cycle": 1221,
+ "ts": "2026-11-02T14:41:01",
+ "cycle": 1222,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-02T14:39:48",
+ "master_tick_ts": "2026-11-02T14:41:01",
  "queue": {
   "total": 97,
-  "open": 2,
+  "open": 1,
   "running": 4,
   "done": 73,
-  "failed": 0
+  "failed": 1
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 17.5,
-   "cpu_load_pct": 24,
-   "ram_free_gb": 25.0,
-   "gpu_util_pct": 6,
+   "hb_age_s": 46.5,
+   "cpu_load_pct": 49,
+   "ram_free_gb": 23,
+   "gpu_util_pct": 27,
    "job": "R-VB-DISCOVER-R2-20261102",
    "last_result": {
     "job": null,
@@ -32,9 +32,9 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 51.1,
+   "hb_age_s": 4.9,
    "cpu_load_pct": 14,
-   "ram_free_gb": 4.6,
+   "ram_free_gb": 4.8,
    "gpu_util_pct": null,
    "job": "R-TTS-EP001-060-NIGHT",
    "last_result": null,
@@ -44,7 +44,7 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 186.7,
+   "hb_age_s": 259.1,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -57,16 +57,16 @@
   "bm-m": {
    "online": true,
    "hb_age_s": 0.5,
-   "cpu_load_pct": 31,
-   "ram_free_gb": 13.5,
+   "cpu_load_pct": 23,
+   "ram_free_gb": 15.2,
    "gpu_util_pct": null,
-   "job": "R-ART-PUSH-B-20261102",
+   "job": "R-TTS-QC-R2-20261102",
    "last_result": {
-    "job": null,
-    "state": "IDLE",
-    "rc": null,
-    "ts": "2026-11-02T14:38:46",
-    "reason": "SELF-DISPATCH: lane scans its own backlog"
+    "job": "R-ART-PUSH-B-20261102",
+    "state": "FAILED",
+    "rc": 127,
+    "ts": "2026-11-02T14:39:54",
+    "reason": null
    },
    "idle_confirmed": false,
    "idle_reason": "",
@@ -115,9 +115,7 @@
     "R-TTS-QC-R2-20261102"
    ],
    "no_supply": false,
-   "blockers": [
-    "R-TTS-QC-R2-20261102:no-lane"
-   ],
+   "blockers": [],
    "note": null
   },
   "bigstream-shortvideo": {
@@ -700,7 +698,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 2,
+  "local": 1,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -708,19 +706,20 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 2,
+  "cpu": 1,
   "gpu": 0
  },
  "supply_added": [],
  "events": [
-  "R-ART-PUSH-B-20261102 -> bm-m (cpu)",
-  "R-VB-DISCOVER-R2-20261102 -> bm-a (cpu)"
+  "R-ART-PUSH-B-20261102 FAILED via bm-m",
+  "R-TTS-EP001-060-NIGHT -> bm-b (gpu)",
+  "R-ART-PUSH-C-20261102 -> bm-c (cpu)",
+  "R-TTS-QC-R2-20261102 -> bm-m (cpu)"
  ],
  "violations": [
   "LINE-BLOCKED bigstream-drama ()"
  ],
  "lane_files_written": [
-  "bm-a",
   "bm-m"
  ]
 }
