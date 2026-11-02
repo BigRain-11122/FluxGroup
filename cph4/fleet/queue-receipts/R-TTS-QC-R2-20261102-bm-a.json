@@ -1,0 +1,17 @@
+{
+ "id": "R-TTS-QC-R2-20261102",
+ "node": "bm-a",
+ "rc": 1,
+ "seconds": 0.2,
+ "cmd": "python Tools/fleet/tts_batch_check.py --dir media/drama-tts-out --out cph4/fleet/queue-receipts/tts-qc-r2-20261102.json",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "FAIL",
+ "error_class": "E-UNKNOWN",
+ "deliverable": "cph4/fleet/queue-receipts/tts-qc-r2-20261102.json",
+ "deliverable_exists": false,
+ "ts": "2026-11-02T18:49:37",
+ "stdout_tail": "[tts-check] MISSING media/drama-tts-out\n",
+ "stderr_tail": ""
+}
