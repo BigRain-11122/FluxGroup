@@ -212,3 +212,6 @@ media/covers/
 # 2026-11-02 实测：只忽略 *.json 时，canary 的 RUN-*.txt 被执行器的产物提交带进了 git（I6 红）。
 cph4/fleet/state/
 !cph4/fleet/state/invariants-baseline.json
+
+# 每轮被 workgen 重写的生成件：跟踪它只会制造 unmerged（2026-11-02 实测 pull 失败）
+cph4/fleet/plans/workgen-report.md
