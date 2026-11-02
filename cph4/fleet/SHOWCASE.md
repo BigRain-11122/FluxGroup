@@ -1,4 +1,4 @@
-# 作品墙（2026-11-03T00:44）
+# 作品墙（2026-11-03T01:15）
 
 > 只列能看/能玩的东西。抽查就点这里。
 
@@ -14,6 +14,9 @@
 
 | 卡 | 文件 | 机器 |
 |---|---|---|
+| Q-MV-0001-016 | D:\FleetWorker\review\v717_label\full_mv_v717_aigc.mp4 | bm-a |
+| Q-AUD-1002 | C:/Fluxgroup/FluxGroup/media/drama-eps-audio/EP002_AUDIO-r1002.mp4 | bm-b |
+| Q-AUD-1003 | C:/Fluxgroup/FluxGroup/media/drama-eps-audio/EP003_AUDIO-r1003.mp4 | bm-b |
 | Q-MV-0001-016 | D:\FleetWorker\review\v717_label\full_mv_v717_aigc.mp4 | bm-a |
 | Q-AUD-1002 | C:/Fluxgroup/FluxGroup/media/drama-eps-audio/EP002_AUDIO-r1002.mp4 | bm-b |
 | Q-AUD-1003 | C:/Fluxgroup/FluxGroup/media/drama-eps-audio/EP003_AUDIO-r1003.mp4 | bm-b |
