@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-02T17:30:08",
- "cycle": 1364,
+ "ts": "2026-11-02T17:31:21",
+ "cycle": 1365,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-02T17:30:08",
+ "master_tick_ts": "2026-11-02T17:31:21",
  "queue": {
   "total": 103,
   "open": 0,
@@ -14,10 +14,10 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 39.6,
-   "cpu_load_pct": 20,
-   "ram_free_gb": 22.7,
-   "gpu_util_pct": 3,
+   "hb_age_s": 6.4,
+   "cpu_load_pct": 55,
+   "ram_free_gb": 21.3,
+   "gpu_util_pct": 6,
    "job": null,
    "last_result": {
     "job": null,
@@ -32,9 +32,9 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 18.5,
-   "cpu_load_pct": 21,
-   "ram_free_gb": 4.8,
+   "hb_age_s": 30.7,
+   "cpu_load_pct": 8,
+   "ram_free_gb": 4.7,
    "gpu_util_pct": null,
    "job": "R-TTS-QC-R2-20261102",
    "last_result": null,
@@ -44,7 +44,7 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 69.8,
+   "hb_age_s": 71.8,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -56,28 +56,28 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.4,
-   "cpu_load_pct": 41,
-   "ram_free_gb": 13.8,
+   "hb_age_s": 0.6,
+   "cpu_load_pct": 42,
+   "ram_free_gb": 13.7,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-02T17:28:58",
+    "ts": "2026-11-02T17:30:08",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 126
+   "idle_rounds": 127
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 126
+  "bm-m": 127
  },
  "lines": {
   "bigstream-mv": {
@@ -712,10 +712,8 @@
  "supply_added": [],
  "events": [],
  "violations": [
-  "bm-m IDLE-CONFIRMED x126 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-m IDLE-CONFIRMED x127 (SELF-DISPATCH: lane scans its own backlo)",
   "LINE-BLOCKED bigstream-drama ()"
  ],
- "lane_files_written": [
-  "bm-c"
- ]
+ "lane_files_written": []
 }
