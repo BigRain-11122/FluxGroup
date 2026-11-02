@@ -1,8 +1,8 @@
 {
  "node": "bm-b",
- "ts": "2026-11-02T23:24:54",
+ "ts": "2026-11-02T23:26:12",
  "jobs": [],
- "idle_reason": "CAPACITY-BLOCKED-RAM CPU-SATURATED 97%",
- "lane_ok": false,
- "capacity_note": "CPU-SATURATED 97%"
+ "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+ "lane_ok": true,
+ "capacity_note": "ram 2.7/1.0 GB"
 }
