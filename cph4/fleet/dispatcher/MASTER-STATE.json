@@ -1,24 +1,46 @@
 {
+<<<<<<< HEAD
  "ts": "2026-11-03T06:14:04",
  "cycle": 4,
  "master_node": "bm-m",
  "masquerade_by": null,
  "master_tick_ts": "2026-11-03T06:14:04",
+=======
+ "ts": "2026-11-02T20:16:10",
+ "cycle": 1486,
+ "master_node": "bm-m",
+ "masquerade_by": null,
+ "master_tick_ts": "2026-11-02T20:16:10",
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
  "queue": {
   "total": 187,
   "open": 0,
+<<<<<<< HEAD
   "running": 3,
   "done": 112,
   "failed": 2
+=======
+  "running": 2,
+  "done": 90,
+  "failed": 3
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
  },
  "lanes": {
   "bm-a": {
    "online": true,
+<<<<<<< HEAD
    "hb_age_s": 51.2,
    "cpu_load_pct": 42,
    "ram_free_gb": 31.7,
    "gpu_util_pct": 9,
    "job": "R-NEXT-BIGSTREAMD-TTS-QC-20261103",
+=======
+   "hb_age_s": 56.2,
+   "cpu_load_pct": 68,
+   "ram_free_gb": 36.3,
+   "gpu_util_pct": 7,
+   "job": "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102",
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
    "last_result": {
     "job": null,
     "state": "IDLE",
@@ -32,9 +54,15 @@
   },
   "bm-b": {
    "online": true,
+<<<<<<< HEAD
    "hb_age_s": 7.4,
    "cpu_load_pct": 97,
    "ram_free_gb": 0.8,
+=======
+   "hb_age_s": 18.0,
+   "cpu_load_pct": 90,
+   "ram_free_gb": 3.2,
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
    "gpu_util_pct": null,
    "job": null,
    "last_result": null,
@@ -44,6 +72,7 @@
   },
   "bm-c": {
    "online": true,
+<<<<<<< HEAD
    "hb_age_s": 30.8,
    "cpu_load_pct": 10,
    "ram_free_gb": 8.1,
@@ -55,19 +84,38 @@
     "rc": null,
     "ts": "2026-11-03T06:13:38",
     "reason": "ALREADY-CLOSED C-TTS-QC-ALL"
+=======
+   "hb_age_s": 76.6,
+   "cpu_load_pct": 16,
+   "ram_free_gb": 0.7,
+   "gpu_util_pct": 100,
+   "job": null,
+   "last_result": {
+    "job": "C-TTS-QC-ALL",
+    "state": "FAILED",
+    "rc": 1,
+    "ts": "2026-11-02T20:15:18",
+    "reason": null
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
    },
    "idle_confirmed": false,
-   "idle_reason": "",
+   "idle_reason": "CAPACITY-BLOCKED-RAM ram 0.7/1.0 GB",
    "idle_rounds": 0
   },
   "bm-m": {
    "online": true,
    "hb_age_s": 0.6,
+<<<<<<< HEAD
    "cpu_load_pct": 8,
    "ram_free_gb": 15.0,
+=======
+   "cpu_load_pct": 26,
+   "ram_free_gb": 12.4,
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
    "gpu_util_pct": null,
    "job": "R-TTS-QC-R2-20261102",
    "last_result": {
+<<<<<<< HEAD
     "job": "CANARY-20261103T061403",
     "state": "DONE",
     "rc": 0,
@@ -77,13 +125,28 @@
    "idle_confirmed": false,
    "idle_reason": "",
    "idle_rounds": 0
+=======
+    "job": null,
+    "state": "IDLE",
+    "rc": null,
+    "ts": "2026-11-02T20:14:47",
+    "reason": "SELF-DISPATCH: lane scans its own backlog"
+   },
+   "idle_confirmed": true,
+   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+   "idle_rounds": 7
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
   "bm-c": 0,
+<<<<<<< HEAD
   "bm-m": 0
+=======
+  "bm-m": 7
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
  },
  "lines": {
   "bigstream-mv": {
@@ -754,7 +817,11 @@
   "by_kind": {
    "CAPACITY": 1
   },
+<<<<<<< HEAD
   "added": 0,
+=======
+  "added": 1,
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
   "tick_tier": "none",
   "judgment_tier": "cloud-smart"
  },
@@ -772,16 +839,29 @@
  },
  "supply_added": [],
  "events": [
+<<<<<<< HEAD
   "R-TTS-QC-R2-20261102 -> bm-m (cpu)"
  ],
  "violations": [
   "bm-b CAPACITY-BLOCKED-RAM",
+=======
+  "C-TTS-QC-ALL FAILED via bm-c",
+  "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102 -> bm-a (cpu)"
+ ],
+ "violations": [
+  "bm-c CAPACITY-BLOCKED-RAM",
+  "bm-m IDLE-CONFIRMED x7 (SELF-DISPATCH: lane scans its own backlo)",
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
   "LINE-BLOCKED bigstream-drama ()",
   "STAGE-STALLED bigstream-duanju 卡在 剧本/编剧席 (短剧席)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
+<<<<<<< HEAD
   "bm-b",
   "bm-m"
+=======
+  "bm-c"
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
  ]
 }

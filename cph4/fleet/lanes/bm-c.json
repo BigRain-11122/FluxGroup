@@ -1,5 +1,6 @@
 {
  "node": "bm-c",
+<<<<<<< HEAD
  "ts": "2026-11-03T06:10:33",
  "jobs": [
   {
@@ -20,4 +21,11 @@
  "idle_reason": "",
  "lane_ok": true,
  "capacity_note": "ram 8.6/1.0 GB"
+=======
+ "ts": "2026-11-02T20:16:10",
+ "jobs": [],
+ "idle_reason": "CAPACITY-BLOCKED-RAM ram 0.7/1.0 GB",
+ "lane_ok": false,
+ "capacity_note": "ram 0.7/1.0 GB"
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
 }
