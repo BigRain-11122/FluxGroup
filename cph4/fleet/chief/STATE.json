@@ -1,18 +1,19 @@
 {
- "ts": "2026-11-02T21:55:43",
+ "ts": "2026-11-02T22:07:38",
  "stage": 3,
  "adoption": {
   "days": 1,
-  "applied": 52,
-  "total": 49,
-  "rate": 106.1,
+  "applied": 59,
+  "total": 54,
+  "rate": 109.3,
   "eligible_stage4": false
  },
  "decisions": [
   {
    "kind": "flag",
-   "why": "1 台机空转且有活",
+   "why": "2 台机空转且有活",
    "target": [
+    "bm-a",
     "bm-m"
    ],
    "min_stage": 1,
