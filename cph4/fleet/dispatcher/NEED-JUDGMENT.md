@@ -101,3 +101,7 @@
 [2026-11-03 00:3x][PROXY R2.69] DEFECT D-R267-NEEDJUDGMENT-GENSTATE-CLOBBER 第2次实锚（本班亲历）：本班 00:14:0x 暂存的 NJ 裁决 5 条在 add→commit 间隙被 00:14:28 steward pull 轮 GEN_STATE clear 回滚吞件（R2.67 同病·agent.py 仍列 NJ 于 GEN_STATE·非受保护件候 T1 修法=移出 GEN_STATE 或拉取轮对本席作者段豁免）；本班正法=禁 steward 过窗+add/commit 同窗原子化补件。教训=台账批量写入禁跨工具调用窗悬置暂存面。
 
 [2026-11-03 00:3x][PROXY R2.69] 状态更新：bm-c 已复活（hb 34.8s·23:57 领卡 C-TTS-QC-ALL）——POOL-0021/0024 blocked_by=CEO-PHYSICAL:bm-c-desktop-ram 前提候属主复核（物理件零催办）；bm-b 心跳活+23:12 领卡 R-TTS-QC-R2 但树仍分叉（推送腿死·同 R2.61 行正法候本机执行）。
+[2026-11-03 00:4x][PROXY R2.70] 裁决 T1：C-TTS-QC-ALL、R-TTS-QC-R2-20261102 -> CANCELLED(blocked-input)。证据=bm-a 00:44:40 回执 rc=1「MISSING media/drama-tts-out」+ 全机 media 目录无 drama-tts-out。触发条件=短剧 TTS 批落盘后 workgen 重新提升，禁人工直接改回 RUNNING。
+[2026-11-03 00:4x][PROXY R2.70] DEFECT D-R270-QUEUE-DUP-ID（2 次实锚：11-02 00:1x / 11-03 00:4x）：PRODUCTION-QUEUE 同 id 多行（173 行/168 id）-> 主控见非终态行重跑 -> 重复 artifact 提交（本班实测同卡 4 笔）。本班已 prune 清 5 行并备份；根因在写入口（merge_jsonl 按 id 更新但不消除既有重复行），建议 fleet_lane.merge_jsonl 落盘前对 current 做一次按键去重（保留最后写入者），或由 master 慢批加「dup-id 自动合并」断言。
+[2026-11-03 00:4x][PROXY R2.70] DEFECT D-R270-NO-INPUT-PRECHECK：workgen/backlog_fill 提升卡片前不校验输入路径存在性，导致 tts_batch_check 0.2 秒 rc=1 空跑并被反复重提。建议卡面增 precheck（路径存在性）字段，缺失即不提升、记 BLOCKED-INPUT 一次而非轮轮重派。
+[2026-11-03 00:4x][PROXY R2.70] 上游缺口：短剧配音批（media/drama-tts-out）从未产出 -> bigstream-duanju 线「可发布集数清单」不可得。承办=短剧席；产出后自动解锁两张质检卡（不需要新派卡）。
