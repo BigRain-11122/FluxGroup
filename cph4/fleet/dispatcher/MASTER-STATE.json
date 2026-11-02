@@ -1,30 +1,30 @@
 {
- "ts": "2026-11-02T14:08:44",
- "cycle": 1196,
+ "ts": "2026-11-02T14:09:57",
+ "cycle": 1197,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-02T14:08:44",
+ "master_tick_ts": "2026-11-02T14:09:57",
  "queue": {
   "total": 97,
-  "open": 5,
+  "open": 4,
   "running": 4,
-  "done": 70,
+  "done": 71,
   "failed": 0
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 30.4,
-   "cpu_load_pct": 17,
-   "ram_free_gb": 25.5,
-   "gpu_util_pct": 5,
+   "hb_age_s": 26.8,
+   "cpu_load_pct": 19,
+   "ram_free_gb": 26.9,
+   "gpu_util_pct": 38,
    "job": "C-MV-STABILITY",
    "last_result": {
-    "job": "MV-DIRECTOR-PACKET",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-02T14:04:47",
-    "reason": null
+    "job": null,
+    "state": "IDLE",
+    "rc": null,
+    "ts": "2026-11-02T14:09:36",
+    "reason": "DAY-YIELD: work machine, takes over at 19:00"
    },
    "idle_confirmed": false,
    "idle_reason": "",
@@ -32,9 +32,9 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 52.7,
-   "cpu_load_pct": 77,
-   "ram_free_gb": 4.5,
+   "hb_age_s": 63.5,
+   "cpu_load_pct": 100,
+   "ram_free_gb": 3.4,
    "gpu_util_pct": null,
    "job": "R-TTS-EP001-060-NIGHT",
    "last_result": null,
@@ -44,7 +44,7 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 508.6,
+   "hb_age_s": 582.1,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -57,16 +57,16 @@
   "bm-m": {
    "online": true,
    "hb_age_s": 0.5,
-   "cpu_load_pct": 22,
+   "cpu_load_pct": 28,
    "ram_free_gb": 13.5,
    "gpu_util_pct": null,
-   "job": "R-TRIAGE-BIGDOMAIN-BMM-20261102",
+   "job": "R-TRIAGE-BIGHOUSE-BMM-20261102",
    "last_result": {
-    "job": null,
-    "state": "IDLE",
-    "rc": null,
-    "ts": "2026-11-02T14:07:31",
-    "reason": "SELF-DISPATCH: lane scans its own backlog"
+    "job": "R-TRIAGE-BIGDOMAIN-BMM-20261102",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-02T14:08:51",
+    "reason": null
    },
    "idle_confirmed": false,
    "idle_reason": "",
@@ -700,7 +700,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 5,
+  "local": 4,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -708,20 +708,18 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 5,
+  "cpu": 4,
   "gpu": 0
  },
  "supply_added": [],
  "events": [
-  "R-TTS-EP001-060-NIGHT -> bm-b (gpu)",
-  "C-MV-STABILITY -> bm-a (cpu)",
-  "R-TRIAGE-BIGDOMAIN-BMM-20261102 -> bm-m (cpu)"
+  "R-TRIAGE-BIGDOMAIN-BMM-20261102 DONE via bm-m",
+  "R-TRIAGE-BIGHOUSE-BMM-20261102 -> bm-m (cpu)"
  ],
  "violations": [
   "LINE-BLOCKED bigstream-drama ()"
  ],
  "lane_files_written": [
-  "bm-a",
   "bm-m"
  ]
 }
