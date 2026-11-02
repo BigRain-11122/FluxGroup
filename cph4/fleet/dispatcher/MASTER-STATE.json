@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-03T03:46:38",
- "cycle": 17,
+ "ts": "2026-11-03T03:47:49",
+ "cycle": 18,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-03T03:46:38",
+ "master_tick_ts": "2026-11-03T03:47:49",
  "queue": {
   "total": 313,
   "open": 2,
@@ -14,9 +14,9 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 24.3,
-   "cpu_load_pct": 30,
-   "ram_free_gb": 33.6,
+   "hb_age_s": 35.2,
+   "cpu_load_pct": 8,
+   "ram_free_gb": 34,
    "gpu_util_pct": 10,
    "job": "C-TTS-QC-ALL",
    "last_result": {
@@ -32,9 +32,9 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 48.0,
-   "cpu_load_pct": 5,
-   "ram_free_gb": 3.9,
+   "hb_age_s": 59.3,
+   "cpu_load_pct": 21,
+   "ram_free_gb": 3.7,
    "gpu_util_pct": null,
    "job": "R-TTS-QC-R2-20261102",
    "last_result": null,
@@ -44,16 +44,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 71.3,
-   "cpu_load_pct": 9,
-   "ram_free_gb": 1.1,
+   "hb_age_s": 68.2,
+   "cpu_load_pct": 10,
+   "ram_free_gb": 1.0,
    "gpu_util_pct": 100,
    "job": "C-TTS-QC-ALL",
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-03T03:45:31",
+    "ts": "2026-11-03T03:46:46",
     "reason": "ALREADY-CLOSED C-TTS-QC-ALL"
    },
    "idle_confirmed": false,
@@ -63,7 +63,7 @@
   "bm-m": {
    "online": true,
    "hb_age_s": 0.6,
-   "cpu_load_pct": 11,
+   "cpu_load_pct": 8,
    "ram_free_gb": 14.5,
    "gpu_util_pct": null,
    "job": "C-TTS-QC-ALL",
@@ -71,7 +71,7 @@
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-03T03:45:28",
+    "ts": "2026-11-03T03:46:38",
     "reason": "ALREADY-CLOSED C-TTS-QC-ALL"
    },
    "idle_confirmed": false,
