@@ -1,19 +1,18 @@
 {
- "ts": "2026-11-02T21:43:45",
+ "ts": "2026-11-02T21:49:40",
  "stage": 3,
  "adoption": {
   "days": 1,
-  "applied": 45,
-  "total": 44,
-  "rate": 102.3,
+  "applied": 48,
+  "total": 46,
+  "rate": 104.3,
   "eligible_stage4": false
  },
  "decisions": [
   {
    "kind": "flag",
-   "why": "2 台机空转且有活",
+   "why": "1 台机空转且有活",
    "target": [
-    "bm-a",
     "bm-m"
    ],
    "min_stage": 1,
@@ -23,6 +22,17 @@
    "kind": "requeue",
    "why": "1 张卡在跑但 1 小时无回执",
    "target": [
+    "R-TTS-QC-R2-20261102"
+   ],
+   "min_stage": 3,
+   "result": "applied"
+  },
+  {
+   "kind": "promote",
+   "why": "队列空，候选 4 张",
+   "target": [
+    "C-VB-DISCOVER-V03",
+    "C-VB-DISCOVER-V03",
     "R-TTS-QC-R2-20261102"
    ],
    "min_stage": 3,
@@ -45,6 +55,10 @@
    "ids": [
     "R-TTS-QC-R2-20261102"
    ]
+  },
+  {
+   "kind": "promote",
+   "out": "夜间包已在（1 张在跑/待领），不重复灌"
   }
  ],
  "brief": "/Users/junsheng.sun/FluxGroup/cph4/fleet/chief/BRIEF-20261102.md"
