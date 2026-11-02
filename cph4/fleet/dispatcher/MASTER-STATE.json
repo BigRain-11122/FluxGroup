@@ -1,29 +1,29 @@
 {
- "ts": "2026-11-02T14:54:09",
- "cycle": 1233,
+ "ts": "2026-11-02T14:56:27",
+ "cycle": 1235,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-02T14:54:09",
+ "master_tick_ts": "2026-11-02T14:56:27",
  "queue": {
   "total": 97,
   "open": 0,
   "running": 3,
   "done": 73,
-  "failed": 2
+  "failed": 1
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 56.2,
-   "cpu_load_pct": 46,
-   "ram_free_gb": 23.6,
-   "gpu_util_pct": 3,
-   "job": "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102",
+   "hb_age_s": 14.0,
+   "cpu_load_pct": 49,
+   "ram_free_gb": 23.9,
+   "gpu_util_pct": 5,
+   "job": "R-TTS-QC-R2-20261102",
    "last_result": {
-    "job": "R-TTS-QC-R2-20261102",
-    "state": "FAILED",
-    "rc": 1,
-    "ts": "2026-11-02T14:49:42",
+    "job": "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-02T14:54:45",
     "reason": null
    },
    "idle_confirmed": false,
@@ -32,9 +32,9 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 15.8,
-   "cpu_load_pct": 36,
-   "ram_free_gb": 4.2,
+   "hb_age_s": 34.2,
+   "cpu_load_pct": 90,
+   "ram_free_gb": 2.6,
    "gpu_util_pct": null,
    "job": "R-TTS-EP001-060-NIGHT",
    "last_result": null,
@@ -56,8 +56,8 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.4,
-   "cpu_load_pct": 30,
+   "hb_age_s": 0.5,
+   "cpu_load_pct": 29,
    "ram_free_gb": 13.6,
    "gpu_util_pct": null,
    "job": null,
@@ -65,19 +65,19 @@
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-02T14:52:55",
+    "ts": "2026-11-02T14:55:21",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 3
+   "idle_rounds": 5
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 3
+  "bm-m": 5
  },
  "lines": {
   "bigstream-mv": {
@@ -107,12 +107,14 @@
   "bigstream-duanju": {
    "name": "BigStream·短剧",
    "status": "ACTIVE",
-   "verdict": "WAITING",
+   "verdict": "WORKING",
    "age_h": null,
    "stale_after_h": 72.0,
    "owner": "短剧席",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "R-TTS-QC-R2-20261102"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": null
   },
@@ -130,8 +132,8 @@
   },
   "biggame": {
    "name": "Biggame·游戏",
-   "status": "PARKED",
-   "verdict": "PARKED",
+   "status": "ACTIVE",
+   "verdict": "WAITING",
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "游戏席",
@@ -142,8 +144,8 @@
   },
   "fluxverse": {
    "name": "FluxVerse·元宙城",
-   "status": "PARKED",
-   "verdict": "PARKED",
+   "status": "ACTIVE",
+   "verdict": "WAITING",
    "age_h": null,
    "stale_after_h": 36.0,
    "owner": "城市线",
@@ -178,8 +180,8 @@
   },
   "bigcompute": {
    "name": "BigCompute·硅基算力",
-   "status": "PARKED",
-   "verdict": "PARKED",
+   "status": "ACTIVE",
+   "verdict": "WAITING",
    "age_h": null,
    "stale_after_h": 36.0,
    "owner": "算力中枢席",
@@ -190,8 +192,8 @@
   },
   "biglife": {
    "name": "BigLife·数字生命",
-   "status": "PARKED",
-   "verdict": "PARKED",
+   "status": "ACTIVE",
+   "verdict": "WAITING",
    "age_h": null,
    "stale_after_h": 48.0,
    "owner": "生命生产席",
@@ -202,8 +204,8 @@
   },
   "bighouse": {
    "name": "BigHouse·城市安家",
-   "status": "PARKED",
-   "verdict": "PARKED",
+   "status": "ACTIVE",
+   "verdict": "WAITING",
    "age_h": null,
    "stale_after_h": 72.0,
    "owner": "生态运营席",
@@ -214,8 +216,8 @@
   },
   "car-gaming": {
    "name": "车机游戏 BU",
-   "status": "PARKED",
-   "verdict": "PARKED",
+   "status": "ACTIVE",
+   "verdict": "WAITING",
    "age_h": null,
    "stale_after_h": 72.0,
    "owner": "车机 BU",
@@ -248,7 +250,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "WAITING",
-     "age_h": 0.6,
+     "age_h": 0.8,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -259,7 +261,7 @@
      "model": "local-gpu",
      "lane": "bm-c",
      "verdict": "WAITING",
-     "age_h": 7.1,
+     "age_h": 7.3,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -281,7 +283,7 @@
      "model": "none",
      "lane": "bm-a",
      "verdict": "WAITING",
-     "age_h": 1.6,
+     "age_h": 0.0,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -303,7 +305,7 @@
      "model": "none",
      "lane": null,
      "verdict": "WAITING",
-     "age_h": 0.6,
+     "age_h": 0.8,
      "limit_h": 9999.0,
      "jobs": []
     }
@@ -317,7 +319,7 @@
     "model": "cloud-smart",
     "lane": null,
     "verdict": "STALLED",
-    "age_h": 68.0,
+    "age_h": 68.2,
     "limit_h": 48.0,
     "jobs": []
    },
@@ -329,7 +331,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "STALLED",
-     "age_h": 68.0,
+     "age_h": 68.2,
      "limit_h": 48.0,
      "jobs": []
     },
@@ -378,7 +380,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "WAITING",
-     "age_h": 68.0,
+     "age_h": 68.2,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -389,7 +391,7 @@
      "model": "local-gpu",
      "lane": "bm-c",
      "verdict": "WAITING",
-     "age_h": 68.0,
+     "age_h": 68.2,
      "limit_h": 72.0,
      "jobs": []
     }
@@ -405,7 +407,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "PARKED",
-     "age_h": 1.6,
+     "age_h": 1.8,
      "limit_h": 168.0,
      "jobs": []
     },
@@ -416,7 +418,7 @@
      "model": "none",
      "lane": "bm-a",
      "verdict": "PARKED",
-     "age_h": 68.0,
+     "age_h": 68.2,
      "limit_h": 168.0,
      "jobs": []
     }
@@ -431,7 +433,7 @@
      "owner": "游戏席",
      "model": "cloud-smart",
      "lane": null,
-     "verdict": "PARKED",
+     "verdict": "NO-DATA",
      "age_h": null,
      "limit_h": 24.0,
      "jobs": []
@@ -442,7 +444,7 @@
      "owner": "美术席",
      "model": "local-gpu",
      "lane": "bm-c",
-     "verdict": "PARKED",
+     "verdict": "NO-DATA",
      "age_h": null,
      "limit_h": 24.0,
      "jobs": []
@@ -453,7 +455,7 @@
      "owner": "工程席",
      "model": "none",
      "lane": "bm-a",
-     "verdict": "PARKED",
+     "verdict": "NO-DATA",
      "age_h": null,
      "limit_h": 24.0,
      "jobs": []
@@ -469,7 +471,7 @@
      "owner": "地编席",
      "model": "none",
      "lane": "bm-a",
-     "verdict": "PARKED",
+     "verdict": "NO-DATA",
      "age_h": null,
      "limit_h": 36.0,
      "jobs": []
@@ -480,7 +482,7 @@
      "owner": "城市线",
      "model": "none",
      "lane": null,
-     "verdict": "PARKED",
+     "verdict": "NO-DATA",
      "age_h": null,
      "limit_h": 36.0,
      "jobs": []
@@ -491,7 +493,7 @@
      "owner": "城市线",
      "model": "none",
      "lane": null,
-     "verdict": "PARKED",
+     "verdict": "NO-DATA",
      "age_h": null,
      "limit_h": 36.0,
      "jobs": []
@@ -572,7 +574,7 @@
      "owner": "算力中枢席",
      "model": "cloud-smart",
      "lane": null,
-     "verdict": "PARKED",
+     "verdict": "NO-DATA",
      "age_h": null,
      "limit_h": 36.0,
      "jobs": []
@@ -588,7 +590,7 @@
      "owner": "生命生产席",
      "model": "local-llm",
      "lane": null,
-     "verdict": "PARKED",
+     "verdict": "NO-DATA",
      "age_h": null,
      "limit_h": 48.0,
      "jobs": []
@@ -599,7 +601,7 @@
      "owner": "质检席",
      "model": "none",
      "lane": null,
-     "verdict": "PARKED",
+     "verdict": "NO-DATA",
      "age_h": null,
      "limit_h": 48.0,
      "jobs": []
@@ -615,7 +617,7 @@
      "owner": "生态运营席",
      "model": "none",
      "lane": null,
-     "verdict": "PARKED",
+     "verdict": "NO-DATA",
      "age_h": null,
      "limit_h": 72.0,
      "jobs": []
@@ -626,7 +628,7 @@
      "owner": "生态运营席",
      "model": "none",
      "lane": null,
-     "verdict": "PARKED",
+     "verdict": "NO-DATA",
      "age_h": null,
      "limit_h": 72.0,
      "jobs": []
@@ -642,8 +644,8 @@
      "owner": "车机 BU",
      "model": "cloud-smart",
      "lane": null,
-     "verdict": "PARKED",
-     "age_h": 68.0,
+     "verdict": "WAITING",
+     "age_h": 68.2,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -653,7 +655,7 @@
      "owner": "工程席",
      "model": "none",
      "lane": "bm-a",
-     "verdict": "PARKED",
+     "verdict": "NO-DATA",
      "age_h": null,
      "limit_h": 72.0,
      "jobs": []
@@ -670,7 +672,7 @@
      "model": "none",
      "lane": "bm-a",
      "verdict": "WAITING",
-     "age_h": 68.0,
+     "age_h": 68.2,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -681,7 +683,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "WAITING",
-     "age_h": 68.0,
+     "age_h": 68.2,
      "limit_h": 72.0,
      "jobs": []
     }
@@ -708,11 +710,9 @@
   "gpu": 0
  },
  "supply_added": [],
- "events": [
-  "R-TTS-QC-R2-20261102 FAILED via bm-a"
- ],
+ "events": [],
  "violations": [
-  "bm-m IDLE-CONFIRMED x3 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-m IDLE-CONFIRMED x5 (SELF-DISPATCH: lane scans its own backlo)",
   "LINE-BLOCKED bigstream-drama ()"
  ],
  "lane_files_written": []

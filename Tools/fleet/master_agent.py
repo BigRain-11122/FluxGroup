@@ -509,7 +509,17 @@ def assign(rows, fleet, reports, lines=None):
         if r.get("state") == "RUNNING" and r.get("owner"):
             busy[r["owner"]] = r
     pending = [r for r in rows if r.get("state") == "OPEN"]
-    pending.sort(key=lambda r: (prio_rank.get(str(r.get("prio") or "P2"), 2),
+    # 优先级（CEO 2026-11-02：所有子公司都保留，只分优先级）：P0 内容 > P1 游戏 >
+    # P2 量化与前台 > P3 城市与渠道。低优先级不关停，只是排在后面，有书余算力就跑。
+    try:
+        reg = json.load(open(os.path.join(root, "cph4", "fleet", "LINE-REGISTRY.json"),
+                             encoding="utf-8-sig"))
+        pmap = {l.get("id"): int(str(l.get("priority") or "P2").lstrip("Pp")[0])
+                for l in (reg.get("lines") or [])}
+    except Exception:
+        pmap = {}
+    pending.sort(key=lambda r: (pmap.get(r.get("line") or line_of_job(r, lines or []), 2),
+                                prio_rank.get(str(r.get("prio") or "P2"), 2),
                                 str(r.get("created_at") or "")))
     events = []
     for r in pending:

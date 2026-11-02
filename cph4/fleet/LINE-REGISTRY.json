@@ -78,7 +78,8 @@
      ]
     }
    ],
-   "org": "content"
+   "org": "content",
+   "priority": "P0"
   },
   {
    "id": "bigstream-drama",
@@ -131,7 +132,8 @@
      ]
     }
    ],
-   "org": "content"
+   "org": "content",
+   "priority": "P0"
   },
   {
    "id": "bigstream-duanju",
@@ -164,7 +166,8 @@
      ]
     }
    ],
-   "org": "content"
+   "org": "content",
+   "priority": "P0"
   },
   {
    "id": "bigstream-shortvideo",
@@ -197,7 +200,8 @@
      ]
     }
    ],
-   "org": "content"
+   "org": "content",
+   "priority": "P0"
   },
   {
    "id": "biggame",
@@ -242,13 +246,14 @@
      ]
     }
    ],
-   "org": "game"
+   "org": "game",
+   "priority": "P1"
   },
   {
    "id": "fluxverse",
    "name": "FluxVerse·元宙城",
    "owner": "城市线",
-   "status": "PARKED",
+   "status": "ACTIVE",
    "repos": [
     "gaming/FluxVerse"
    ],
@@ -286,7 +291,8 @@
      ]
     }
    ],
-   "org": "parked"
+   "org": "parked",
+   "priority": "P3"
   },
   {
    "id": "bigmoney",
@@ -332,7 +338,8 @@
      ]
     }
    ],
-   "org": "strategy"
+   "org": "strategy",
+   "priority": "P2"
   },
   {
    "id": "bigdomain",
@@ -366,13 +373,14 @@
      ]
     }
    ],
-   "org": "strategy"
+   "org": "strategy",
+   "priority": "P2"
   },
   {
    "id": "bigcompute",
    "name": "BigCompute·硅基算力",
    "owner": "算力中枢席",
-   "status": "PARKED",
+   "status": "ACTIVE",
    "repos": [
     "compute/BigCompute"
    ],
@@ -391,13 +399,14 @@
      ]
     }
    ],
-   "org": "parked"
+   "org": "parked",
+   "priority": "P3"
   },
   {
    "id": "biglife",
    "name": "BigLife·数字生命",
    "owner": "生命生产席",
-   "status": "PARKED",
+   "status": "ACTIVE",
    "repos": [
     "life/BigLife"
    ],
@@ -425,13 +434,14 @@
      ]
     }
    ],
-   "org": "parked"
+   "org": "parked",
+   "priority": "P3"
   },
   {
    "id": "bighouse",
    "name": "BigHouse·城市安家",
    "owner": "生态运营席",
-   "status": "PARKED",
+   "status": "ACTIVE",
    "repos": [
     "house/BigHouse"
    ],
@@ -459,13 +469,14 @@
      ]
     }
    ],
-   "org": "parked"
+   "org": "parked",
+   "priority": "P3"
   },
   {
    "id": "car-gaming",
    "name": "车机游戏 BU",
    "owner": "车机 BU",
-   "status": "PARKED",
+   "status": "ACTIVE",
    "repos": [],
    "stale_after_h": 72,
    "queue_prefix": [
@@ -492,7 +503,8 @@
      ]
     }
    ],
-   "org": "parked"
+   "org": "parked",
+   "priority": "P3"
   },
   {
    "id": "recon",
@@ -525,7 +537,8 @@
      ]
     }
    ],
-   "org": "enabling"
+   "org": "enabling",
+   "priority": "P2"
   }
  ]
 }
