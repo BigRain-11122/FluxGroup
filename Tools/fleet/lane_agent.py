@@ -94,6 +94,15 @@ def git_publish(root, node, jid, paths):
             continue
         if os.path.exists(full):
             keep.append(rel)
+    # R2.61 (2026-11-02): the status write this job makes to the shared queue is part of its
+    # output, but it was never committed. The tree therefore stayed dirty, so when a push lost
+    # the race to the master's once-a-minute commit the retry's own `pull --rebase` refused on
+    # "unstaged changes", the local commit was stranded, and every later ff-only/rebase refused
+    # too -- bm-c sat ahead/behind 1/2 and kept running stale code. Commit it alongside the
+    # artifact so the tree is clean whenever we go to the wire.
+    queue_rel = "cph4/fleet/PRODUCTION-QUEUE.jsonl"
+    if os.path.exists(os.path.join(root, queue_rel.replace("/", os.sep))):
+        keep.append(queue_rel)
     if not keep:
         return "nothing-tracked"
     def git(args, timeout=90):
@@ -109,11 +118,19 @@ def git_publish(root, node, jid, paths):
     r = git(["commit", "-q", "-m", msg, "--"] + keep)
     if r.returncode != 0 and "nothing to commit" not in (r.stdout or "") + (r.stderr or ""):
         return "commit-failed:%s" % (r.stderr or r.stdout)[:80]
-    r = git(["push", "origin", "HEAD:main"], timeout=120)
-    if r.returncode != 0:
-        git(["pull", "--rebase", "--no-autostash"], timeout=120)
+    # R2.61: one retry was not enough against a master that commits every ~60s -- the second
+    # attempt often lost the same race and the artifact stayed local. Give it three, and never
+    # leave a half-finished rebase behind (that residue is what turned into the stuck loop).
+    last = ""
+    for _ in range(3):
         r = git(["push", "origin", "HEAD:main"], timeout=120)
-    return "pushed" if r.returncode == 0 else "push-failed:%s" % (r.stderr or "")[:80]
+        if r.returncode == 0:
+            return "pushed"
+        last = r.stderr or r.stdout
+        rb = git(["pull", "--rebase", "--no-autostash"], timeout=120)
+        if rb.returncode != 0:
+            git(["rebase", "--abort"], timeout=60)
+    return "push-failed:%s" % (last or "")[:80]
 
 
 def already_closed(root, jid):
