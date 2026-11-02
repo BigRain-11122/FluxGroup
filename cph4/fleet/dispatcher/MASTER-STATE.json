@@ -1,23 +1,23 @@
 {
- "ts": "2026-11-02T10:35:17",
- "cycle": 1071,
+ "ts": "2026-11-02T10:36:23",
+ "cycle": 1072,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-02T10:35:17",
+ "master_tick_ts": "2026-11-02T10:36:23",
  "queue": {
   "total": 82,
-  "open": 3,
+  "open": 4,
   "running": 3,
   "done": 57,
-  "failed": 3
+  "failed": 2
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 3.1,
-   "cpu_load_pct": 83,
-   "ram_free_gb": 29.2,
-   "gpu_util_pct": 25,
+   "hb_age_s": 9.5,
+   "cpu_load_pct": 57,
+   "ram_free_gb": 24.2,
+   "gpu_util_pct": 49,
    "job": "R-PLAN-BIGSTREAMMV-20261102",
    "last_result": {
     "job": "Q-TRIAGE-CARGAMING-20261102",
@@ -32,7 +32,7 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 8.0,
+   "hb_age_s": 74.4,
    "cpu_load_pct": 47,
    "ram_free_gb": 0.4,
    "gpu_util_pct": null,
@@ -44,7 +44,7 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 399.2,
+   "hb_age_s": 465.5,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -58,26 +58,26 @@
    "online": true,
    "hb_age_s": 0.5,
    "cpu_load_pct": null,
-   "ram_free_gb": 15.8,
+   "ram_free_gb": 15.7,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
-    "job": "Q-TRIAGE-RECON-20261102",
-    "state": "FAILED",
-    "rc": 127,
-    "ts": "2026-11-02T10:34:12",
-    "reason": null
+    "job": null,
+    "state": "IDLE",
+    "rc": null,
+    "ts": "2026-11-02T10:35:17",
+    "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
-   "idle_confirmed": false,
+   "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 0
+   "idle_rounds": 1
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 0
+  "bm-m": 1
  },
  "lines": {
   "bigstream-mv": {
@@ -718,7 +718,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 3,
+  "local": 4,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -726,21 +726,16 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 3,
+  "cpu": 4,
   "gpu": 0
  },
- "supply_added": [],
- "events": [
-  "Q-TRIAGE-CARGAMING-20261102 UNVERIFIED(no-artifact-yet) via bm-a",
-  "Q-TRIAGE-RECON-20261102 FAILED via bm-m",
-  "R-PLAN-BIGSTREAMMV-20261102 -> bm-a (cpu)"
+ "supply_added": [
+  "backlog_manifest+1"
  ],
+ "events": [],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 立意/分镜/导演席 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED bigstream-drama 卡在 剧本/编剧席 (漫剧席)"
  ],
- "lane_files_written": [
-  "bm-a",
-  "bm-m"
- ]
+ "lane_files_written": []
 }
