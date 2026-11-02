@@ -58,6 +58,7 @@ STAGES = [
     # human remembered - boxes idled with an empty backlog while the generators sat idle.
     # They are queue writers, so they run serially before the dispatcher reads the queue.
     ("night_plan", ["Tools/fleet/night_plan.py"], 120, {0}, False),
+    ("night_fill", ["Tools/fleet/night_fill.py", "--target", "3"], 90, {0}, False),
     ("workgen", ["Tools/fleet/workgen.py", "--root", ROOT], 180, {0}, False),
     ("master", ["Tools/fleet/master_agent.py", "--node", NODE, "--root", ROOT], 240, {0}, False),
     ("lane", ["Tools/fleet/lane_agent.py", "--node", NODE, "--root", ROOT, "--no-fetch"], 300, {0}, False),

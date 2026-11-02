@@ -127,6 +127,18 @@ def main():
                 r["audit"]["upgraded_from"] = "FAILED"
             closed.append(r["id"])
             touched.append(r)
+        elif (not ok) and r.get("state") == "FAILED":
+            # 无人监管的关键一环（2026-11-02）：失败不等人。
+            # 路径类/未知类错误换一台机器再来一次；其余错误保持隔离等人判。
+            cls = str(r.get("error_class") or "")
+            retries = int(r.get("retries") or 0)
+            if cls in ("E-PATH", "E-UNKNOWN", "E-TIMEOUT") and retries < 2:
+                r["state"] = "OPEN"
+                r["owner"] = None
+                r["retries"] = retries + 1
+                r["note"] = "auto-retry: %s 换机重试（第 %d 次）" % (cls, retries + 1)
+                touched.append(r)
+                requeued.append(r["id"])
         elif not ok and r.get("state") == "RUNNING":
             owner = r.get("owner")
             age = beats.get(owner, 1e9)
