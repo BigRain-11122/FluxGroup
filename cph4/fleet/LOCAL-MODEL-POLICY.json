@@ -124,5 +124,28 @@
    ],
    "max_chars": 16
   }
- ]
+ ],
+ "open_items": [
+  {
+   "item": "iogpu.wired_limit_mb",
+   "now": "默认 0",
+   "trigger": "要跑 22GB 封存档且实测换页时"
+  },
+  {
+   "item": "MLX 下的 KV 量化 / prefill_step_size / draft 投机解码",
+   "now": "ollama MLX runner 不暴露",
+   "trigger": "ollama 暴露参数，或转 mlx_lm 直跑路线"
+  },
+  {
+   "item": "mlx_lm 直跑 vs ollama 对比",
+   "now": "未测",
+   "trigger": "出现 ollama 不支持的采样/量化需求"
+  },
+  {
+   "item": "更大模型（8B+）在 MLX 下的并发收益",
+   "now": "4B 实测无收益",
+   "trigger": "现役档升到 8B 以上"
+  }
+ ],
+ "research_doc": "cph4/fleet/LOCAL-INFERENCE-RESEARCH-v1.md"
 }
