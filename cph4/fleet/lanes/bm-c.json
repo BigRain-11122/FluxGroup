@@ -1,17 +1,6 @@
 {
  "node": "bm-c",
-<<<<<<< HEAD
- "ts": "2026-11-04T00:20:02",
- "jobs": [
-  {
-   "id": "Q-ASSET-MKDIR-BMC-20261103",
-   "title": "bm-c 资产目录补齐（media/asset/characters 不存在 → char_gen 必崩）",
-   "cmd": "python -c \"import os,json;ps=['media/asset/characters','media/asset/faces','media/asset/inbox','media/asset/voices'];[os.makedirs(p,exist_ok=True) for p in ps];json.dump({'created':ps},open('cph4/fleet/queue-receipts/bmc-asset-dirs-20261103.json','w',encoding='utf-8'),ensure_ascii=False);print('ok')\"",
-   "cwd": "K:/Fluxgroup/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "K:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/bmc-asset-dirs-20261103.json",
-=======
- "ts": "2026-11-03T22:11:03",
+ "ts": "2026-11-04T00:23:00",
  "jobs": [
   {
    "id": "asset-lib-voice-assemble-2026-11-03",
@@ -20,7 +9,6 @@
    "cwd": "",
    "needs": "cpu",
    "deliverable": "cph4/fleet/queue-receipts/voice-dataset-2026-11-03.json",
->>>>>>> f9ded849 (pulse: dispatch snapshot [via bm-m])
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -31,9 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
-<<<<<<< HEAD
- "capacity_note": "ram 2.8/1.0 GB"
-=======
- "capacity_note": "ram 2.0/1.0 GB"
->>>>>>> f9ded849 (pulse: dispatch snapshot [via bm-m])
+ "capacity_note": "ram 2.4/1.0 GB"
 }
