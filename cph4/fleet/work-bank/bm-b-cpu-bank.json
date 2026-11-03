@@ -44,19 +44,6 @@
    "deliverable": "cph4/fleet/queue-receipts/tts-qc-all.json",
    "accept": "逐集有实测时长与静音判定；缺失集列明「未生成/失败」，不许只给总数",
    "status": "pending"
-  },
-  {
-   "id": "CHK-LIB-20261103",
-   "title": "资产与经验库归集（技能/音色/工作流/台账/产物/内容寻址资产 → 索引进 git）",
-   "cmd": "python Tools/fleet/lib_consolidate.py --check --receipt cph4/fleet/queue-receipts/lib-consolidate-20261103.json",
-   "deliverable": "cph4/fleet/queue-receipts/lib-consolidate-20261103.json",
-   "accept": "rc∈{0,2}；cph4/fleet/lib/ASSET-INDEX.json 与 LIB-STATUS.md 刷新；缺口逐条列出",
-   "needs": "cpu",
-   "prio": "P1",
-   "day_ok": true,
-   "status": "pending",
-   "est_gb": 0,
-   "why": "CEO 2026-11-03 令：生产产物与底层技术（音色/工作流/技能）要形成经验与资产库，由传家宝做归集与 git 备份"
   }
  ]
 }
