@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-03T22:05:31+0800",
+ "ts": "2026-11-03T21:56:29+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -14,7 +14,7 @@
    "blocker": "char-probe 在 bm-c 上 rc=2 零回执，未定位（疑 checkout 落后）",
    "state": "RUNNING",
    "card": "asset-lib-char-prompts-2026-11-03",
-   "running_on": "bm-a"
+   "running_on": "bm-m"
   },
   {
    "id": "biggame",
@@ -44,7 +44,7 @@
    "blocker": "回测产物需在 bm-b 本地生成；主控无 quant 仓",
    "state": "RUNNING",
    "card": "bigmoney-signal-2026-11-03",
-   "running_on": "bm-m"
+   "running_on": "bm-a"
   },
   {
    "id": "bigstream-mv",
