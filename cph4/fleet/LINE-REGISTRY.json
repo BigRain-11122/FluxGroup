@@ -82,7 +82,7 @@
    "priority": "P0",
    "pause_reason": "auto-resume:2026-11-03 冷却到期（原：2026-11-02）",
    "visibility": "OK",
-   "last_artifact_h": 1.3,
+   "last_artifact_h": 22.5,
    "no_autostop": true
   },
   {
@@ -234,7 +234,9 @@
      "owner": "游戏席",
      "model": "cloud-smart",
      "evidence": [
-      "gaming/MiniGame/Design"
+      "gaming/MiniGame/Design",
+      "cph4/fleet/ri/game/CANON-v1.md",
+      "cph4/fleet/company/biggame"
      ]
     },
     {
@@ -264,8 +266,8 @@
    ],
    "org": "game",
    "priority": "P0",
-   "visibility": "BLIND",
-   "last_artifact_h": 0.1
+   "visibility": "OK",
+   "last_artifact_h": null
   },
   {
    "id": "fluxverse",
@@ -287,7 +289,9 @@
      "model": "none",
      "lane": "bm-a",
      "evidence": [
-      "gaming/FluxVerse/City3D"
+      "gaming/FluxVerse/City3D",
+      "cph4/fleet/CITY-FACES-v1.json",
+      "cph4/fleet/state/city-state.json"
      ]
     },
     {
@@ -311,7 +315,7 @@
    ],
    "org": "city",
    "priority": "P2",
-   "visibility": "BLIND",
+   "visibility": "OK",
    "last_artifact_h": null
   },
   {
@@ -334,7 +338,9 @@
      "model": "none",
      "lane": "bm-b",
      "evidence": [
-      "quant/bigmoney/data"
+      "quant/bigmoney/data",
+      "cph4/fleet/ri/strategy/QUANT-AUDIT-20261103.md",
+      "cph4/fleet/ri/strategy/lines"
      ]
     },
     {
@@ -360,8 +366,8 @@
    ],
    "org": "strategy",
    "priority": "P1",
-   "visibility": "BLIND",
-   "last_artifact_h": 0.3
+   "visibility": "OK",
+   "last_artifact_h": null
   },
   {
    "id": "bigdomain",
@@ -382,7 +388,8 @@
      "owner": "域运营席",
      "model": "none",
      "evidence": [
-      "domain/BigDomain"
+      "domain/BigDomain",
+      "cph4/fleet/company/bigdomain/FUNNEL-v1.json"
      ]
     },
     {
@@ -397,7 +404,7 @@
    ],
    "org": "strategy",
    "priority": "P1",
-   "visibility": "BLIND",
+   "visibility": "OK",
    "last_artifact_h": null
   },
   {
@@ -419,14 +426,15 @@
      "owner": "算力中枢席",
      "model": "cloud-smart",
      "evidence": [
-      "compute/BigCompute"
+      "compute/BigCompute",
+      "cph4/fleet/company/bigcompute/CAPACITY-LEDGER-v1.json"
      ]
     }
    ],
    "org": "platform",
    "priority": "P3",
-   "visibility": "BLIND",
-   "last_artifact_h": null
+   "visibility": "OK",
+   "last_artifact_h": 0.4
   },
   {
    "id": "biglife",
@@ -447,7 +455,8 @@
      "owner": "生命生产席",
      "model": "local-llm",
      "evidence": [
-      "life/BigLife/census"
+      "life/BigLife/census",
+      "cph4/fleet/state/city-state.json"
      ]
     },
     {
@@ -462,7 +471,7 @@
    ],
    "org": "city",
    "priority": "P2",
-   "visibility": "BLIND",
+   "visibility": "OK",
    "last_artifact_h": null
   },
   {
@@ -538,7 +547,7 @@
    "org": "platform",
    "priority": "P3",
    "visibility": "OK",
-   "last_artifact_h": 0.1
+   "last_artifact_h": 21.9
   },
   {
    "id": "recon",
@@ -603,7 +612,7 @@
    "org": "platform",
    "priority": "P3",
    "visibility": "OK",
-   "last_artifact_h": 0.1
+   "last_artifact_h": 0.2
   },
   {
    "id": "asset-lib",
@@ -653,7 +662,7 @@
    "pause_reason": "CEO 钦点 P0（储备资产线）：解除指标闸自动停线，恢复供卡",
    "resume_hint": "冷却 24h 后自动回 ACTIVE；期间出卡方停供。CEO 令停/判负的线不在此列（pause_reason 不带 auto-stop）",
    "visibility": "OK",
-   "last_artifact_h": 0.0,
+   "last_artifact_h": 0.3,
    "no_autostop": true
   }
  ]

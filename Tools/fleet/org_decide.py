@@ -110,14 +110,16 @@ def main(argv):
         doc_is_product = (ln.get("org") in ("enabling", "platform"))
         art_t = newest(exist, skip_doc=not doc_is_product)
         doc_t = newest(exist, skip_doc=False)
-        # 回执也当产物证据（按线关键词匹配，找不到就不算）
+        # 回执**不**算产物（2026-11-03 修正）：回执只证明"跑过一张卡"，
+        # 拿它当产物会让体检卡/自检卡把空转记成有产出——那正是这条线最初的问题。
+        receipt_last = None
         keymap = {"bigstream-mv": "mv", "bigstream-drama": "drama", "bigmoney": "quant",
                   "asset-lib": "asset", "biggame": "game", "car-gaming": "game",
                   "fluxverse": "city", "biglife": "city", "bighouse": "city",
                   "bigdomain": "city", "bigcompute": "city"}
         k = keymap.get(ln.get("id"))
         if k and rl.get(k):
-            art_t = max(art_t, max(rl[k]))
+            receipt_last = max(rl[k])
         age_art = (now - art_t) / 3600 if art_t else None
         age_doc = (now - doc_t) / 3600 if doc_t else None
         status = ln.get("status") or "?"
@@ -127,7 +129,10 @@ def main(argv):
             blind.append(ln.get("id"))
         elif status in ("PARKED", "PAUSED", "DORMANT"):
             verdict = "PARKED"
-        elif age_art is None or age_art > stale_after:
+        elif age_art is None:
+            # 看得见台账/正典，但没有任何产物：不是"过期"，是"从来没产出"。
+            verdict = "NO-ARTIFACT"
+        elif age_art > stale_after:
             verdict = "PARK-RECOMMEND"
         elif cap and sum(cap.values()) > 0:
             verdict = "INVEST"
@@ -137,12 +142,15 @@ def main(argv):
                      "evidence_paths": len(ev), "evidence_visible": len(exist),
                      "last_artifact_h": round(age_art, 1) if age_art is not None else None,
                      "last_doc_h": round(age_doc, 1) if age_doc is not None else None,
+                     "last_receipt_h": (round((now - receipt_last) / 3600, 1)
+                                        if receipt_last else None),
                      "stale_after_h": stale_after, "verdict": verdict,
                      "priority": ln.get("priority")})
         if a.apply:
             ln["visibility"] = "OK" if exist else "BLIND"
             ln["last_artifact_h"] = (round(age_art, 1) if age_art is not None else None)
-    order = {"FIX-EVIDENCE": 0, "PARK-RECOMMEND": 1, "INVEST": 2, "KEEP": 3, "PARKED": 4}
+    order = {"FIX-EVIDENCE": 0, "NO-ARTIFACT": 1, "PARK-RECOMMEND": 2, "INVEST": 3,
+             "KEEP": 4, "PARKED": 5}
     rows.sort(key=lambda r: (order.get(r["verdict"], 9),
                              r["last_artifact_h"] if r["last_artifact_h"] is not None else 9999))
     out = {"ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "lines": len(rows),
@@ -159,13 +167,16 @@ def main(argv):
         print(json.dumps(out, ensure_ascii=False, indent=1))
     else:
         bv = out["by_verdict"]
-        print("[decide] %d 条线：可加算力 %d / 正常 %d / 建议停 %d / 证据看不见 %d / 已停 %d"
-              % (len(rows), bv["INVEST"], bv["KEEP"], bv["PARK-RECOMMEND"],
-                 bv["FIX-EVIDENCE"], bv["PARKED"]))
+        print("[decide] %d 条线：可加算力 %d / 正常 %d / 无产物 %d / 建议停 %d / 证据看不见 %d / 已停 %d"
+              % (len(rows), bv["INVEST"], bv["KEEP"], bv["NO-ARTIFACT"],
+                 bv["PARK-RECOMMEND"], bv["FIX-EVIDENCE"], bv["PARKED"]))
         for r in rows:
             if r["verdict"] == "FIX-EVIDENCE":
                 print("  ! %-20s 标 %s 但证据路径 0 条可见（%d 条声明）"
                       % (r["id"], r["status"], r["evidence_paths"]))
+            elif r["verdict"] == "NO-ARTIFACT":
+                print("  ! %-20s 有台账无产物（最后回执 %s h 前）→ 加算力也出不来东西"
+                      % (r["id"], r["last_receipt_h"]))
             elif r["verdict"] == "PARK-RECOMMEND":
                 print("  ! %-20s 产物年龄 %s h > 阈值 %s h → 建议停"
                       % (r["id"], r["last_artifact_h"], r["stale_after_h"]))
