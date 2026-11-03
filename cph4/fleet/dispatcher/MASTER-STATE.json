@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-04T04:37:30",
- "cycle": 2,
+ "ts": "2026-11-04T04:39:44",
+ "cycle": 3,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-04T04:37:30",
+ "master_tick_ts": "2026-11-04T04:39:44",
  "queue": {
   "total": 411,
   "open": 33,
@@ -14,10 +14,10 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 16.8,
-   "cpu_load_pct": 54,
-   "ram_free_gb": 31.6,
-   "gpu_util_pct": 63,
+   "hb_age_s": 30.0,
+   "cpu_load_pct": 19,
+   "ram_free_gb": 40.5,
+   "gpu_util_pct": 92,
    "job": "asset-lib-asset-gen-2026-11-04",
    "last_result": {
     "job": "asset-lib-voice-assemble-2026-11-03",
@@ -32,34 +32,34 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 28.0,
-   "cpu_load_pct": 10,
-   "ram_free_gb": 13.5,
-   "gpu_util_pct": 0,
+   "hb_age_s": 52.7,
+   "cpu_load_pct": 5,
+   "ram_free_gb": 12.7,
+   "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-04T04:36:07",
+    "ts": "2026-11-04T04:37:38",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 2
+   "idle_rounds": 3
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 72.5,
-   "cpu_load_pct": 6,
-   "ram_free_gb": 4.1,
+   "hb_age_s": 11.6,
+   "cpu_load_pct": 7,
+   "ram_free_gb": 4.0,
    "gpu_util_pct": 0,
    "job": "asset-lib-face-caption-2026-11-03",
    "last_result": {
-    "job": "asset-lib-voice-corpus-bmc-2026-11-04",
-    "state": "FAILED",
-    "rc": 3,
-    "ts": "2026-11-04T04:35:49",
+    "job": "asset-lib-face-caption-2026-11-03",
+    "state": "RUNNING",
+    "rc": null,
+    "ts": "2026-11-04T04:38:39",
     "reason": null
    },
    "idle_confirmed": false,
@@ -69,15 +69,15 @@
   "bm-m": {
    "online": true,
    "hb_age_s": 0.7,
-   "cpu_load_pct": 11,
+   "cpu_load_pct": 14,
    "ram_free_gb": 13.5,
    "gpu_util_pct": null,
-   "job": "biggame-playable-2026-11-03",
+   "job": "bigstream-mv-transition-2026-11-04",
    "last_result": {
-    "job": "bigstream-mv-stability-2026-11-04",
+    "job": "biggame-playable-2026-11-03",
     "state": "FAILED",
-    "rc": 1,
-    "ts": "2026-11-04T04:35:21",
+    "rc": 0,
+    "ts": "2026-11-04T04:37:35",
     "reason": null
    },
    "idle_confirmed": false,
@@ -87,7 +87,7 @@
  },
  "idle_rounds": {
   "bm-a": 0,
-  "bm-b": 2,
+  "bm-b": 3,
   "bm-c": 0,
   "bm-m": 0
  },
@@ -101,12 +101,13 @@
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
    "jobs": [
     "R-NEXT-BIGSTREAMM-GATE-20261103",
-    "bigstream-mv-transition-2026-11-04"
+    "bigstream-mv-transition-2026-11-04",
+    "bigstream-mv-stability-2026-11-04"
    ],
    "no_supply": false,
    "blockers": [
     "R-NEXT-BIGSTREAMM-GATE-20261103:no-lane",
-    "bigstream-mv-transition-2026-11-04:no-lane"
+    "bigstream-mv-stability-2026-11-04:no-lane"
    ],
    "note": null,
    "stuck_stage": "mv-kf",
@@ -157,14 +158,12 @@
   "biggame": {
    "name": "Biggame·游戏",
    "status": "ACTIVE",
-   "verdict": "WORKING",
+   "verdict": "WAITING",
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "游戏席",
-   "jobs": [
-    "biggame-playable-2026-11-03"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": null
   },
@@ -881,18 +880,15 @@
   "backlog_manifest+1"
  ],
  "events": [
-  "asset-lib-voice-corpus-bmc-2026-11-04 FAILED via bm-c",
-  "bigstream-mv-stability-2026-11-04 FAILED via bm-m",
-  "asset-lib-face-caption-2026-11-03 -> bm-c (gpu)",
-  "biggame-playable-2026-11-03 -> bm-m (cpu)"
+  "biggame-playable-2026-11-03 FAILED via bm-m",
+  "bigstream-mv-transition-2026-11-04 -> bm-m (cpu)"
  ],
  "violations": [
-  "bm-b IDLE-CONFIRMED x2 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-b IDLE-CONFIRMED x3 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-c",
   "bm-m"
  ]
 }
