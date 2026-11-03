@@ -238,6 +238,38 @@
    ]
   },
   {
+   "id": "asset-gen",
+   "name": "通用资产出图（道具/场景，吃 ASSET-PROMPTS 规格）",
+   "cmd": "python {root_tools}/fleet/asset_gen.py --node bm-c --class props --limit 4 --receipt cph4/fleet/queue-receipts/asset-gen-props-{date}.json",
+   "deliverable": "cph4/fleet/queue-receipts/asset-gen-props-{date}.json",
+   "accept": "回执 made 非空；BLOCKED 时写明 ComfyUI 不可达或模型缺失（rc=3 算如实）",
+   "needs": "gpu",
+   "nodes": [
+    "bm-c"
+   ],
+   "hard_nodes": [
+    "bm-c"
+   ],
+   "minutes": 15,
+   "why": "2026-11-03：128 件规格已有，缺通用执行器 → 道具/场景的规格永远只是纸，机器醒来接不到活"
+  },
+  {
+   "id": "asset-gen-scenes",
+   "name": "通用资产出图·场景（竖屏底图）",
+   "cmd": "python {root_tools}/fleet/asset_gen.py --node bm-c --class scenes --limit 3 --receipt cph4/fleet/queue-receipts/asset-gen-scenes-{date}.json",
+   "deliverable": "cph4/fleet/queue-receipts/asset-gen-scenes-{date}.json",
+   "accept": "回执 made 非空；图落 media/asset/scenes/ 且短边≥1080",
+   "needs": "gpu",
+   "nodes": [
+    "bm-c"
+   ],
+   "hard_nodes": [
+    "bm-c"
+   ],
+   "minutes": 20,
+   "why": "场景是竖屏漫剧的底；规格已有 12 件，缺执行器才是真缺口"
+  },
+  {
    "id": "voice-assemble",
    "name": "音色数据集装配（授权核查→voices/<组> 准入）",
    "cmd": "python {root_tools}/fleet/voice_dataset.py",
