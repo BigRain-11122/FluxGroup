@@ -1,16 +1,22 @@
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
  "ts": "2026-11-03T23:10:03",
  "cycle": 1,
  "master_node": "bm-m",
  "masquerade_by": "bm-a",
  "master_tick_ts": "2026-11-03T23:10:03",
 =======
+=======
+>>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
  "ts": "2026-11-03T22:11:03",
  "cycle": 399,
  "master_node": "bm-m",
  "masquerade_by": null,
  "master_tick_ts": "2026-11-03T22:11:03",
+<<<<<<< HEAD
+>>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
+=======
 >>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
  "queue": {
   "total": 346,
@@ -22,6 +28,7 @@
  "lanes": {
   "bm-a": {
    "online": true,
+<<<<<<< HEAD
 <<<<<<< HEAD
    "hb_age_s": 30.6,
    "cpu_load_pct": 21,
@@ -40,10 +47,21 @@
    "gpu_util_pct": 90,
    "job": "asset-lib-char-gen-2026-11-03",
    "last_result": {
+=======
+   "hb_age_s": 32.9,
+   "cpu_load_pct": 34,
+   "ram_free_gb": 28.9,
+   "gpu_util_pct": 90,
+   "job": "asset-lib-char-gen-2026-11-03",
+   "last_result": {
+>>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
     "job": "asset-lib-face-caption-2026-11-03",
     "state": "FAILED",
     "rc": null,
     "ts": "2026-11-03T22:09:33",
+<<<<<<< HEAD
+>>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
+=======
 >>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
     "reason": null
    },
@@ -54,9 +72,15 @@
   "bm-b": {
    "online": true,
 <<<<<<< HEAD
+<<<<<<< HEAD
    "hb_age_s": 7.7,
    "cpu_load_pct": 28,
    "ram_free_gb": 11.1,
+=======
+   "hb_age_s": 9.8,
+   "cpu_load_pct": 31,
+   "ram_free_gb": 3.8,
+>>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
 =======
    "hb_age_s": 9.8,
    "cpu_load_pct": 31,
@@ -71,6 +95,7 @@
   },
   "bm-c": {
    "online": true,
+<<<<<<< HEAD
 <<<<<<< HEAD
    "hb_age_s": 14.2,
    "cpu_load_pct": 6,
@@ -89,10 +114,21 @@
    "gpu_util_pct": 0,
    "job": "asset-lib-voice-assemble-2026-11-03",
    "last_result": {
+=======
+   "hb_age_s": 45.9,
+   "cpu_load_pct": 13,
+   "ram_free_gb": 2.0,
+   "gpu_util_pct": 0,
+   "job": "asset-lib-voice-assemble-2026-11-03",
+   "last_result": {
+>>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
     "job": "asset-lib-char-prompts-2026-11-03",
     "state": "FAILED",
     "rc": 0,
     "ts": "2026-11-03T22:09:41",
+<<<<<<< HEAD
+>>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
+=======
 >>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
     "reason": null
    },
@@ -102,6 +138,7 @@
   },
   "bm-m": {
    "online": true,
+<<<<<<< HEAD
 <<<<<<< HEAD
    "hb_age_s": 439.1,
    "cpu_load_pct": 10,
@@ -120,10 +157,21 @@
    "gpu_util_pct": null,
    "job": "CHK-DUPES-20261103",
    "last_result": {
+=======
+   "hb_age_s": 0.7,
+   "cpu_load_pct": 13,
+   "ram_free_gb": 13.7,
+   "gpu_util_pct": null,
+   "job": "CHK-DUPES-20261103",
+   "last_result": {
+>>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
     "job": "biggame-playable-2026-11-03",
     "state": "FAILED",
     "rc": 0,
     "ts": "2026-11-03T22:08:54",
+<<<<<<< HEAD
+>>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
+=======
 >>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
     "reason": null
    },
@@ -199,6 +247,7 @@
    "name": "Biggame·游戏",
    "status": "ACTIVE",
 <<<<<<< HEAD
+<<<<<<< HEAD
    "verdict": "WORKING",
    "age_h": 1.0,
    "stale_after_h": 24.0,
@@ -215,6 +264,12 @@
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "游戏席",
+=======
+   "verdict": "WAITING",
+   "age_h": null,
+   "stale_after_h": 24.0,
+   "owner": "游戏席",
+>>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
    "jobs": [],
    "no_supply": true,
    "blockers": [],
@@ -244,12 +299,15 @@
    "owner": "量化席",
    "jobs": [
 <<<<<<< HEAD
+<<<<<<< HEAD
     "bigmoney-signal-2026-11-03"
    ],
    "no_supply": false,
    "blockers": [
     "bigmoney-signal-2026-11-03:no-lane"
 =======
+=======
+>>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
     "bigmoney-signal-2026-11-03",
     "bigmoney-backtest-2026-11-03-v3"
    ],
@@ -371,7 +429,12 @@
    "jobs": [
     "asset-lib-voice-corpus-bmb-2026-11-03",
 <<<<<<< HEAD
+<<<<<<< HEAD
     "asset-lib-face-caption-2026-11-03"
+=======
+    "asset-lib-voice-assemble-2026-11-03",
+    "asset-lib-char-gen-2026-11-03"
+>>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
 =======
     "asset-lib-voice-assemble-2026-11-03",
     "asset-lib-char-gen-2026-11-03"
@@ -944,6 +1007,7 @@
  },
  "supply_added": [
 <<<<<<< HEAD
+<<<<<<< HEAD
   "backlog_manifest+2"
  ],
  "events": [
@@ -952,12 +1016,20 @@
   "backlog_manifest+1"
  ],
  "events": [
+=======
+  "backlog_manifest+1"
+ ],
+ "events": [
+>>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
   "asset-lib-face-caption-2026-11-03 FAILED via bm-a",
   "asset-lib-char-prompts-2026-11-03 FAILED via bm-c",
   "biggame-playable-2026-11-03 FAILED via bm-m",
   "asset-lib-voice-assemble-2026-11-03 -> bm-c (cpu)",
   "asset-lib-char-gen-2026-11-03 -> bm-a (gpu)",
   "CHK-DUPES-20261103 -> bm-m (cpu)"
+<<<<<<< HEAD
+>>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
+=======
 >>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
  ],
  "violations": [
