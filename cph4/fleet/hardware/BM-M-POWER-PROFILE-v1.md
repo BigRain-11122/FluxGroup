@@ -8,20 +8,20 @@ CEO 令：「插电就满性能释放，拔电就回归正常」。
 | 项 | 插电（AC） | 拔电（Battery） | 为什么 |
 |---|---|---|---|
 | lowpowermode | 0（关） | 1（开） | Apple Silicon 唯一的性能/省电开关；插电关掉=满性能，拔电打开=回归正常 |
-| sleep | 0（永不系统睡眠） | 10 分钟 | 插电要 24h 跑主控脉；拔电要正常省电 |
+| sleep | 0（永不系统睡眠） | 15 分钟 | 插电主机常醒（CEO 令「主机正常」）；拔电按系统默认 15 分钟 |
 | displaysleep | 10 分钟 | 5 分钟 | CEO 2026-11-03 令：插电 10 分钟无操作屏幕休眠，主机不休眠；拔电 5 分钟 |
 | disksleep | 0 | 0 | 外置盘一睡就掉卷（11-02 实测 3 小时重枚举 3 次） |
-| powernap | 1 | 0 | 拔电不后台醒来 |
+| powernap | 1 | 1 | 苹果默认，不动 |
 | womp | 1 | 0 | 插电可网络唤醒（远端起服务开会话） |
-| debug.lowpri_throttle_enabled | 0 | 0 | 关掉低压 I/O 节流，后台大量读写（备份/转码）不再被降速 |
+| debug.lowpri_throttle_enabled | 1 | 1 | 苹果默认，不动（CEO 令「其他设置按照苹果系统逻辑走」） |
 
 ## 二、必须说清的事实（别被"满性能"骗了）
 
 1. **Apple Silicon 没有 CPU 调频器**。没有 `cpufreq`、没有 governor、没有倍频可锁。
    能动的只有三样：低电量模式、睡眠/挂起策略、I/O 优先级。
 2. 真正的上限由**散热与功耗墙**决定，任何软件设置都改不了它。温度到线就掉频，属正常保护。
-3. `debug.lowpri_throttle_enabled` 是 debug 级 sysctl，**重启后回到 1**。
-   要常驻需加 LaunchDaemon；目前选择不加（少一个常驻面），需要时再补。
+3. 除「插电屏幕 10 分钟 / 拔电屏幕 5 分钟 / 插电主机不睡」这三条外，其余一律保持苹果默认
+   （powernap、womp、sleep、I/O 节流都不做非标准改动）。
 
 ## 三、执行命令（照抄可用）
 
@@ -29,11 +29,10 @@ CEO 令：「插电就满性能释放，拔电就回归正常」。
 # 插电：满性能
 sudo pmset -c lowpowermode 0 sleep 0 displaysleep 10 powernap 1 womp 1
 # 拔电：回归正常
-sudo pmset -b lowpowermode 1 sleep 10 displaysleep 5 powernap 0
+sudo pmset -b lowpowermode 1 sleep 15 displaysleep 5 powernap 1
 # 两块都不许盘睡（外置盘保命项）
 sudo pmset -a disksleep 0
-# 后台 I/O 不降速（重启失效）
-sudo sysctl -w debug.lowpri_throttle_enabled=0
+# 不关 I/O 节流（苹果默认，2026-11-03 CEO「其他设置按苹果逻辑」）
 ```
 
 本机 sudo 走 GUI 提权，实跑用的是：

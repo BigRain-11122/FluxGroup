@@ -1,26 +1,24 @@
 {
- "ts": "2026-11-03T12:29:21+0800",
+ "ts": "2026-11-03T12:32:56+0800",
  "promoted": [
   {
-   "skill": "ship-ops",
-   "tool": "Tools/fleet/ship_ledger.py",
+   "skill": "agent-librarian",
+   "tool": "Tools/agent-library-audit.py",
    "rc": 0,
-   "lines": 5
+   "lines": 64
   },
   {
-   "skill": "content-recon",
-   "tool": "Tools/recon/drama_recon.py",
-   "rc": 0,
-   "lines": 11
-  },
-  {
-   "skill": "fleet-ops",
-   "tool": "Tools/git-no-reversal-check.py",
+   "skill": "memory-curator",
+   "tool": "Tools/memory-budget-gate.py",
    "rc": 1,
-   "lines": 26
+   "lines": 6
   }
  ],
  "skipped": [
+  {
+   "skill": "ship-ops",
+   "why": "already"
+  },
   {
    "skill": "mv-casting",
    "why": "no-tool",
@@ -30,6 +28,14 @@
    "skill": "asset-audit",
    "why": "no-tool",
    "cands": []
+  },
+  {
+   "skill": "content-recon",
+   "why": "already"
+  },
+  {
+   "skill": "fleet-ops",
+   "why": "already"
   },
   {
    "skill": "compliance-guard",
@@ -67,10 +73,6 @@
    "cands": []
   },
   {
-   "skill": "agent-librarian",
-   "why": "limit"
-  },
-  {
    "skill": "tw-mv-director",
    "why": "no-tool",
    "cands": []
@@ -84,10 +86,6 @@
    "skill": "mv-lighting",
    "why": "no-tool",
    "cands": []
-  },
-  {
-   "skill": "memory-curator",
-   "why": "limit"
   },
   {
    "skill": "llama-params-optimizer",

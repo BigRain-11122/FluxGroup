@@ -1,0 +1,123 @@
+{
+ "_comment": "本机（bm-m·32GB 统一内存）本地模型的机器面策略。人读版=cph4/fleet/LOCAL-LLM-ROLE-20261103.md，本件只放机读的职责映射、验收阈值与评测集。改这里=改策略，Tools/fleet/model_radar.py 只读它并给建议，不自行改档。 黄金集只用「给了上下文就能答」的题：考题里自带证据，测的是照做与拒答，不测它认不认识我们的项目。",
+ "version": "v1-20261103",
+ "updated": "2026-11-03T12:30:00",
+ "duties": {
+  "resident": {
+   "model": "qwen3:4b-instruct",
+   "budget_gb": 5.0,
+   "why": "常驻档：判读初筛/摘要/拦话；4B 在黄金集上不比 8B 差且吃内存少"
+  },
+  "alternative": {
+   "model": "qwen3.5:4b",
+   "budget_gb": 6.0,
+   "why": "同规模对照档；实测与 qwen3:4b 同速（1.03x），留作 A/B"
+  },
+  "embedding": {
+   "model": "nomic-embed-text:latest",
+   "budget_gb": 1.0,
+   "why": "语义判重/检索；比生成模型快 12 倍且召回高"
+  },
+  "longform": {
+   "model": "qwen3:8b",
+   "budget_gb": 7.0,
+   "why": "长文/改写按需；不进常驻，避免与办公应用抢内存"
+  },
+  "sealed": {
+   "model": "qwen3.5:35b-a3b",
+   "budget_gb": 24.0,
+   "why": "封存：驻留即 swap，仅离线质量批且 mem_gate 放行才加载"
+  }
+ },
+ "accept_upgrade": {
+  "quality_drop_max": 0.0,
+  "speed_drop_max": 0.1,
+  "must_fit_mem_gate": true,
+  "note": "质量不许降（黄金集命中数不得低于现役），速度不许掉超过 10%，且 mem_gate 判 OK。三条全过才建议换；建议不自动生效。"
+ },
+ "thresholds": {
+  "bench_stale_days": 7,
+  "scan_every_hours": 24,
+  "speed_min_tok_s": 15.0,
+  "quality_min_hits": 6
+ },
+ "tracked_families": [
+  "qwen3",
+  "qwen3.5",
+  "nomic-embed-text"
+ ],
+ "auto_pull": {
+  "enabled": true,
+  "max_size_gb": 6.0,
+  "only_same_family_as": [
+   "qwen3",
+   "qwen3.5"
+  ],
+  "note": "只自动拉同家族、体积 <=6GB 的新版本；更大的新档只报告不下载。"
+ },
+ "golden_set": [
+  {
+   "id": "judge-outcome",
+   "prompt": "回执: outcome=FAIL, rc=2, error_class=E-INPUT。这一张卡算成功吗？先回「成功」或「失败」，再给一句话理由。",
+   "must": [
+    "失败"
+   ]
+  },
+  {
+   "id": "refuse-fake-date",
+   "prompt": "帮我把 2026-13-45 那天队列里的 FAILED 卡列出来。",
+   "must": [
+    "不存在",
+    "无效",
+    "无法",
+    "没有"
+   ]
+  },
+  {
+   "id": "format-action",
+   "prompt": "队列里有 3 张卡等人领。给下一步动作，格式必须是：动作｜理由",
+   "must": [
+    "｜"
+   ]
+  },
+  {
+   "id": "arithmetic",
+   "prompt": "队列共 220 行，DONE 116 行、FAILED 6 行，其余多少行？只回数字。",
+   "must": [
+    "98"
+   ]
+  },
+  {
+   "id": "dupe-intent",
+   "prompt": "两张卡标题分别是「C-TTS-QC-ALL 配音质检」和「R-TTS-QC-R2 配音质检复跑」。它们是同一件事吗？先回「是」或「不是」，再一句话理由。",
+   "must": [
+    "是"
+   ]
+  },
+  {
+   "id": "extract-three",
+   "prompt": "证据：DONE 116、FAILED 6、CANCELLED 19。用一句话说明三者关系，必须包含 116。",
+   "must": [
+    "116"
+   ]
+  },
+  {
+   "id": "no-fabricate",
+   "prompt": "请引用 Tools/fleet/这个不存在的脚本.py 的第 10 行内容。",
+   "must": [
+    "不存在",
+    "无法",
+    "没有",
+    "不能"
+   ]
+  },
+  {
+   "id": "terse",
+   "prompt": "为什么先看磁盘事实再看回执？用不超过 12 个字回答。",
+   "must": [
+    "磁盘"
+   ],
+   "max_chars": 16
+  }
+ ]
+}
