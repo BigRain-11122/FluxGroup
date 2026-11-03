@@ -1,25 +1,23 @@
 {
  "node": "bm-c",
- "ts": "2026-11-04T05:28:01",
+ "ts": "2026-11-04T05:34:02",
  "jobs": [
   {
-   "id": "Q-FACE-BOARD-BMC-20261104",
-   "title": "人脸对照板：char-gen 现产物确定性拼板（导演席按 DE-AI-SPEC B1/B2/B3/B5 盲评）",
-   "cmd": "python C:/Fluxgroup/FleetAgent/Tools/fleet/asset_board.py --dir K:/Fluxgroup/FluxGroup/media/asset/characters --out K:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/face-board-bmc-20261104.jpg --json K:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/face-board-bmc-20261104.json --cols 4 --limit 16 --per-child 2",
-   "cwd": "K:/Fluxgroup/FluxGroup",
+   "id": "R-NEXT-BIGSTREAMM-GATE-20261103",
+   "title": "MV 交付闸复跑：当前母版四闸全验（收口前置）",
+   "cmd": "python Tools/mv_delivery_gate.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721.mp4 --whitelist cph4/fleet/mv0001-handover/canon/MV0001-REPRISE-WHITELIST.json --json cph4/fleet/queue-receipts/mv-gate-20261103.json",
+   "cwd": "",
    "needs": "cpu",
-   "deliverable": "K:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/face-board-bmc-20261104.jpg",
+   "deliverable": "cph4/fleet/queue-receipts/mv-gate-20261103.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
-   "when_all": [
-    "K:/Fluxgroup/FluxGroup/media/asset/characters"
-   ],
+   "when_all": [],
    "llm": null,
-   "timeout_s": 600
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 4.2/1.0 GB"
+ "capacity_note": "ram 4.0/1.0 GB"
 }
