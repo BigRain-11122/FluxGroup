@@ -1,8 +1,23 @@
 {
  "node": "bm-c",
- "ts": "2026-11-03T13:16:21",
- "jobs": [],
- "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+ "ts": "2026-11-03T13:17:48",
+ "jobs": [
+  {
+   "id": "bigstream-duanju-remux-2026-11-03",
+   "title": "[短剧（配音质检→带声合流→可发集数）] 带声合流（三层混音 → 成片，loudnorm -14）",
+   "cmd": "python Tools/fleet/tts_batch_check.py --dir media/drama-tts-batch",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/duanju-remux-2026-11-03.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  }
+ ],
+ "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 6.3/1.0 GB"
+ "capacity_note": "ram 5.7/1.0 GB"
 }
