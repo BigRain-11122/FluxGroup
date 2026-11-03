@@ -98,7 +98,7 @@ def plan_table(table, day, existing, dry):
             "nodes": st.get("nodes") or [],
             "prio": table.get("priority") or "P1",
             "line": line,
-            "day_ok": True,
+            "day_ok": bool(st.get("day_ok", True)),
             "heavy": bool(st.get("heavy")),
             "verify_on_node": True,
             "ok_rc": st.get("ok_rc") or [0, 3],
