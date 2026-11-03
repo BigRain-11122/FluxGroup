@@ -1,11 +1,11 @@
 {
- "ts": "2026-11-03T12:02:48",
+ "ts": "2026-11-03T12:08:29",
  "stage": 3,
  "adoption": {
   "days": 2,
-  "applied": 310,
-  "total": 259,
-  "rate": 119.7,
+  "applied": 313,
+  "total": 262,
+  "rate": 119.5,
   "eligible_stage4": false
  },
  "decisions": [
@@ -15,17 +15,6 @@
    "target": [
     "bigmoney-backtest-2026-11-03",
     "bigstream-duanju-remux-2026-11-03"
-   ],
-   "min_stage": 3,
-   "result": "applied"
-  },
-  {
-   "kind": "promote",
-   "why": "队列空，候选 6 张",
-   "target": [
-    "C-FIN-ETF-COMPOSITE",
-    "C-VB-DISCOVER-V03",
-    "bigstream-mv-gate-2026-11-03"
    ],
    "min_stage": 3,
    "result": "applied"
@@ -47,10 +36,6 @@
     "bigmoney-backtest-2026-11-03",
     "bigstream-duanju-remux-2026-11-03"
    ]
-  },
-  {
-   "kind": "promote",
-   "out": "积压里有 2 张 READY 是尸体（队列里已了结），不计入供给：C-FIN-ETF-COMPOSITE, C-VB-DISCOVER-V03\n候选卡为 0（README 里没活可补）——这属于供给缺口，不是调度故障"
   }
  ],
  "brief": "/Users/junsheng.sun/FluxGroup/cph4/fleet/chief/BRIEF-20261103.md"
