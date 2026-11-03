@@ -1073,3 +1073,13 @@ am_free 10GB / cpu_load 48%——bm-b 在跑量化轮而非闲着；缺的是本
 - **本班 02:58 实测取证**：poke bm-b/bm-c 均 accepted，但 `last_pull.wakes` 回 `HQ-ProductionClaim:deny`（bm-b）/`HQ-ProductionClaim:off-skip`（bm-c）；两机 `.:updated` 已拉到本班提交 68d70545，但 bm-b `repo_heads["."]` 仍停 fe96d335（幻影头，R6-4 未解）。
 - **结论**：bm-b/bm-c 的 STARVED-EXEC 本班**无可远程解**（poke worker L357 明令 Disabled 不得远程启用=CEO 冻结保护），属物理件，零催办只登记。bm-a（本机）认领器在转、队列 50 OPEN 可被主控改派，但 26 张 bm-b 卡的 `requires`/`when_all` 全是 `C:/Fluxgroup/...` 绝对路径 → 不可跨机执行，不做假改派。
 - **本班已落**：僵尸卡核验后关 DONE（数据）＋ lane_agent 断链回落（代码·已推 68d70545）＋ 4 张重复雷达卡 CANCELLED（去重）。
+
+## 附录 R6 收口（2026-11-04 03:12·BURNING 实证）
+
+| 件 | 状态 | 证据 / 下一步 |
+|---|---|---|
+| **R6-9 占位卡占用 bm-a 唯一 lane 槽（P1·本班已修）** | **FIXED（数据层）** | `VCORP-TRAIN-BATCH-14-20261104` 的 cmd 字面为 `python Tools/voicebank/vb_train_card.py --help`（永不产出声明的 verdict json），且自带门「两试点回执 PASS」而两张试点卡仍 OPEN、输入 `media/asset/inbox` 0 文件 → 结构性过早。它占住 bm-a 单槽、回报 `GPU-LEASE-DENIED (stale lease asset-lib-char-gen-2026-11-03 age=6320s)` 且不 close → 车道被锁。处置=CANCELLED（cancel_reason 记全）+ 释放槽位。 |
+| **R6-10 不可执行卡占槽不自锁（结构性·登记）** | **registered·waiting-CEO（master_agent 受保护面）** | 与 R6-1 同型：`assign()` 每轮把唯一一张卡塞进单槽 lane，卡一旦「跑不动也不 close」（GPU 租约拒/前置缺），整条车道即停摆，而台账仍显示 RUNNING。建议 supervisor 增加「同一卡连续 N 轮 DENY/零产出 → 置 BLOCKED 并让位」；`master_agent.py` 属调度正身，本席不改只呈。 |
+| **R6-11 mv 交付闸卡契约缺陷（P1·本班已修）** | **FIXED + 重排钉机** | 卡 cmd 未带 `--json`，而声明交付物是 `mv-gate-v721-2026-11-04.json` → 永远无法出现（card_contract_check R1 同型）。首次派单还回落 bm-m（Mac 无 cv2，`ModuleNotFoundError`）。处置：cmd 补 `--json <deliverable>`、`nodes=["bm-a"]`（cv2 5.0.0 在位、片 287MB 在盘）、`timeout_s=2400`（本机实测一次跑不完 5 分钟），重开 OPEN。 |
+| **BURNING 实证（本班收尾）** | **PASS** | 03:10:36 `R-NEXT-BIGSTREAMM-GATE-20261103` 回执；03:11:48 `biggame-pack-scan-2026-11-04` rc=0 产出 `game-packs-2026-11-04.json`；03:11:54 `_last_lane_bm-a` state=RESULT rc=0。清除两张占槽卡后 bm-a 车道即刻恢复产出。 |
+| **bm-b/bm-c 认领器 Disabled（承 R5-7）** | **BLOCKED-REMOTE·waiting-CEO（零催办）** | 02:58 实测 `last_pull.wakes`：bm-b `HQ-ProductionClaim:deny`、bm-c `HQ-ProductionClaim:off-skip`。poke worker L357 明令 Disabled 不得远程启用。修法=各机本机 `schtasks /change /tn HQ-ProductionClaim /enable`（或 `Tools\fleet-align.ps1`），bm-b 另需 `git fetch origin && git reset --hard origin/main`。 |
