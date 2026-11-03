@@ -481,8 +481,17 @@ def choose_lane(job, fleet, busy):
         # A pinned node now only ranks first; any compatible lane may take the job.
         pass
     scored = []
+    stale_ok = []
+    HB_STALE_S = 600
     for n in candidates:
         if busy.get(n):
+            continue
+        # 心跳不新鲜就不是候选（2026-11-03 实测）：此前 lane_capacity 拿不到遥测时直接判
+        # "ram-unknown → 可派"，于是 bm-b（执行器已死、无心跳）照样被派卡，0.1 秒 rc=2 回来
+        # 再被反复重排——队列看起来在转，实际是一台死机在吃活。
+        age = (fleet.get(n) or {}).get("age_s")
+        if age is None or float(age) > HB_STALE_S:
+            stale_ok.append(n)
             continue
         ok, why = lane_capacity(n, fleet, needs, vram_min, job)
         if not ok:
@@ -501,6 +510,11 @@ def choose_lane(job, fleet, busy):
         scored.append((rank, n))
     scored.sort()
     if not scored:
+        # 全员失联时不让活停在队列里（CEO 2026-11-01：不许因环境原因闲置）：
+        # 回落到心跳最近的那台并留痕，账面上能看出这是"没得选"。
+        if stale_ok:
+            best = min(stale_ok, key=lambda n: ((fleet.get(n) or {}).get("age_s") or 10 ** 9))
+            return best, "assigned-stale-hb"
         return None, "NO-CAPACITY"
     return scored[0][1], "assigned"
 
@@ -578,6 +592,8 @@ def assign(rows, fleet, reports, lines=None):
             continue
         r["state"] = "RUNNING"
         r["owner"] = lane
+        if why == "assigned-stale-hb":
+            r["dispatch_note"] = "全员心跳过期，回落 %s（其余机器无心跳，非优选）" % lane
         # 2026-11-02：卡声明了 nodes 却被别的机器接走时，必须留下痕迹。
         # 实测：一张 nodes=["bm-a"] 的卡被 bm-m 领走、无 fallback 标记、直接判 DONE，
         # 从账面上看像是"公司生产力跑通了"，其实根本没到那台机——静默改派=假绿。

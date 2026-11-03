@@ -51,6 +51,20 @@ def main(argv):
     caps = quota.get("caps") or {}
 
     q = fl.read_jsonl(QUEUE)
+    # 队列里 READY 的卡必须提成 OPEN（2026-11-03 实测）：晋升记录原本只写在 BACKLOG 侧
+    # （PROMOTED），卡重排后队列侧退回 READY——两边状态一旦不同步，这张卡永远提不上来：
+    # 派单方只看 OPEN，灌料方只看 BACKLOG 的 READY。队列才是派单权威，先自愈。
+    stuck = [r for r in q if r.get("state") == "READY" and r.get("cmd")]
+    if stuck:
+        fixed = [dict(r, state="OPEN", promoted_at=fl.now_iso()) for r in stuck]
+        if a.dry:
+            print("将把队列里 %d 张 READY 提为 OPEN：%s"
+                  % (len(fixed), ", ".join(c["id"] for c in fixed[:5])))
+        else:
+            fl.merge_jsonl(QUEUE, fixed)
+            print("队列里 %d 张 READY 已提为 OPEN" % len(fixed))
+        q = [dict(r, state="OPEN") if (r.get("state") == "READY" and r.get("cmd")) else r
+             for r in q]
     open_cards = [r for r in q if r.get("state") == "OPEN"]
     used = Counter(org_of.get(r.get("line") or "", "platform")
                    for r in q if r.get("state") in ("OPEN", "RUNNING"))
