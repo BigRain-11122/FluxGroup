@@ -5,3 +5,4 @@
 =======
 - POOL-0010[blocked_by:CEO-PHYSICAL:submit-materials] blocked: 2026-11-03 22:01
 >>>>>>> Stashed changes
+[2026-11-04 00:26:04][PROBE] SHIFT-OVERDUE: CEO-PROXY/LOG.md age 12.8h (>6h) (probe alarm -> carrier/patrol revive path)
