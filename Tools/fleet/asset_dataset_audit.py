@@ -15,6 +15,17 @@
     3. 近似重复率 ≤ 30%（同一张图换背景/换尺寸=假多样性，靠 dHash 判）
     4. 细节能量中位数 ≥ 阈值（磨皮/美颜会把高频细节抹平，拉普拉斯方差会掉）
 
+  rights 判据（两种模式都必须过，2026-11-03 CEO 令「克隆对象要非常广泛」后加的硬门）
+
+    数据集目录里必须有 RIGHTS.json（或 --rights 指定），声明三件事：
+      source      来源（自有录制 / 公有领域 / CC 授权库 / 已购买商用授权 / 平台授权）
+      license     own | public-domain | cc0 | cc-by | licensed | unknown
+      real_person 是否含真实人物（true/false）+ consent 是否有其本人书面授权
+
+    判 FAIL 的三种情况：license 缺失或 unknown；real_person=true 且 consent!=true；
+    对真人做声音/肖像克隆而无授权，属民法典 §1019/§1023 与深度合成规定的直接违规，
+    不是"风险偏好"问题。机器先把这条挡住，人才不会因为"别人都这么干"而踩进去。
+
   voice 模式（音色数据集）
     1. 总时长 ≥ 60 秒且条数 ≥ 8（GPT-SoVITS 少样本下限）
     2. 单条时长 2–12 秒占比 ≥ 80%（太长爆显存，太短学不到韵律）
@@ -141,6 +152,39 @@ def texture_energy(path):
     return float(vals[len(vals) // 2])
 
 
+ALLOWED_LICENSES = ("own", "public-domain", "cc0", "cc-by", "licensed")
+
+
+def audit_rights(d, override=""):
+    """来源合规门：没有授权声明就不许进训练。"""
+    path = override or ""
+    if not path:
+        for cand in ("RIGHTS.json", "rights.json"):
+            p = os.path.join(d, cand)
+            if os.path.exists(p):
+                path = p
+                break
+    if not path or not os.path.exists(path):
+        return {"declared": False}, ["缺授权声明：数据集目录里要有 RIGHTS.json（source/license/real_person/consent），"
+                                     "或训练时传 --rights；没有授权声明的数据集一律不许进训练"]
+    try:
+        r = json.load(open(path, encoding="utf-8-sig"))
+    except Exception as e:
+        return {"declared": False, "error": str(e)[:80]}, ["RIGHTS.json 读不了：%s" % e]
+    gaps = []
+    lic = str(r.get("license") or "").strip().lower()
+    if lic not in ALLOWED_LICENSES:
+        gaps.append("license=%r 不在允许清单 %s（unknown 等于没授权）" % (lic, list(ALLOWED_LICENSES)))
+    if not str(r.get("source") or "").strip():
+        gaps.append("RIGHTS.json 没写 source（来源必须可追溯）")
+    rp = r.get("real_person")
+    if rp is True and r.get("consent") is not True:
+        gaps.append("real_person=true 但没有本人同意（consent!=true）：真人声音/肖像克隆必须有书面授权")
+    return {"declared": True, "path": os.path.relpath(path, os.getcwd()) if not os.path.isabs(path) else path,
+            "license": lic, "source": r.get("source"), "real_person": rp,
+            "consent": r.get("consent")}, gaps
+
+
 def audit_face(d):
     gaps, files = [], []
     for n in sorted(os.listdir(d)):
@@ -225,6 +269,7 @@ def main(argv):
     ap.add_argument("--mode", required=True, choices=["face", "voice"])
     ap.add_argument("--dir", required=True)
     ap.add_argument("--out", default="")
+    ap.add_argument("--rights", default="", help="RIGHTS.json 路径（默认在数据集目录里找）")
     a = ap.parse_args(argv)
     if not os.path.isdir(a.dir):
         out = {"ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "mode": a.mode, "dir": a.dir,
@@ -239,7 +284,10 @@ def main(argv):
         emit(out, a.out)
         print("没有 ffmpeg，无法审计")
         return 2
+    rights, rgaps = audit_rights(a.dir, a.rights)
     measured, gaps = audit_face(a.dir) if a.mode == "face" else audit_voice(a.dir)
+    measured["rights"] = rights
+    gaps = rgaps + gaps
     out = {"ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "dir": a.dir,
            "spec": "ASSET-DATASET-GATE-v1", "measured": measured,
            "verdict": "PASS" if not gaps else "FAIL", "gaps": gaps,

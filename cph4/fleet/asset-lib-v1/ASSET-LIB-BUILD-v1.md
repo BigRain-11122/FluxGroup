@@ -34,7 +34,7 @@ python Tools/fleet/asset_env_check.py --out cph4/fleet/queue-receipts/asset-env-
 python Tools/fleet/asset_dataset_audit.py --mode face  --dir media/asset/faces  --out cph4/fleet/queue-receipts/asset-face-$(date +%F).json
 python Tools/fleet/asset_dataset_audit.py --mode voice --dir media/asset/voices --out cph4/fleet/queue-receipts/asset-voice-$(date +%F).json
 ```
-闸只排除"明显不合格"（网红脸/磨皮脸/播音腔/样本太少）。**PASS 不等于有特色**，见第五节。
+闸只排除"明显不合格"（网红脸/磨皮脸/播音腔/样本太少），**并且必须先过来源合规门**（目录里的 RIGHTS.json：license 不在白名单、或 real_person=true 无 consent，一律 FAIL）。**PASS 不等于有特色**，见第五节。来源清单见 `SOURCES-V1.md`。
 
 ### 第 3 步：训练（在 PASS 的机器上，用下面这套参数起步）
 
