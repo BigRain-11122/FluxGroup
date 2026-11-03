@@ -221,6 +221,44 @@
    "depends_on": [
     "char-gen"
    ]
+  },
+  {
+   "id": "voice-assemble",
+   "name": "音色数据集装配（授权核查→voices/<组> 准入）",
+   "cmd": "python {root_tools}/fleet/voice_dataset.py",
+   "deliverable": "cph4/fleet/queue-receipts/voice-dataset-{date}.json",
+   "accept": "passed>0；每组列出 片段数/授权结论/准入结论；缺授权或缺片段写明缺口",
+   "needs": "cpu",
+   "nodes": [
+    "bm-b",
+    "bm-c"
+   ],
+   "minutes": 10,
+   "day_ok": true,
+   "ok_rc": [
+    0,
+    3
+   ],
+   "depends_on": [
+    "voice-corpus-bma"
+   ]
+  },
+  {
+   "id": "char-probe",
+   "name": "角色出图模型探针（问本机 ComfyUI 有哪些模型，不出图）",
+   "cmd": "python {root_tools}/fleet/char_gen.py --node bm-c --probe-only",
+   "deliverable": "cph4/fleet/asset-lib-v1/comfy-bm-c.json",
+   "accept": "配置在盘且 route 非空；route 为空时写明没有任何可用 checkpoint",
+   "needs": "cpu",
+   "nodes": [
+    "bm-c"
+   ],
+   "minutes": 3,
+   "day_ok": true,
+   "ok_rc": [
+    0,
+    3
+   ]
   }
  ]
 }
