@@ -1,6 +1,6 @@
 ---
 name: estimate
-description: "Estimate task effort from complexity, dependencies, velocity, risk. Structured estimate with confidence levels."
+description: "Estimate task effort from complexity, dependencies, velocity, risk. Structured estimate with confidence levels. Use when asked how long something takes, or when a plan needs an effort range instead of a single number."
 ---
 
 

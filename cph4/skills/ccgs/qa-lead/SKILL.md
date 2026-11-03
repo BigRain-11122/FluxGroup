@@ -1,6 +1,6 @@
 ---
 name: qa-lead
-description: "Test strategy and process — test plan creation, bug severity assessment, regression planning, release quality gates, readiness evaluation."
+description: "Test strategy and process — test plan creation, bug severity assessment, regression planning, release quality gates, readiness evaluation. Use when writing a test plan, grading a bug, or deciding release readiness."
 ---
 
 

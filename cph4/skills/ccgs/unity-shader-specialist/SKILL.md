@@ -1,6 +1,6 @@
 ---
 name: unity-shader-specialist
-description: "Unity rendering — Shader Graph, custom HLSL, VFX Graph, render pipeline customization (URP/HDRP), post-processing within performance budgets."
+description: "Unity rendering — Shader Graph, custom HLSL, VFX Graph, render pipeline customization (URP/HDRP), post-processing within performance budgets. Use when writing a shader, tuning URP/HDRP, or a visual effect exceeds its cost budget."
 ---
 
 

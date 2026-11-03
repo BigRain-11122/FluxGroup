@@ -1,6 +1,6 @@
 ---
 name: unity-specialist
-description: "Authority on Unity-specific patterns and APIs — guides MonoBehaviour vs DOTS/ECS, Unity subsystems including Addressables and Input System."
+description: "Authority on Unity-specific patterns and APIs — guides MonoBehaviour vs DOTS/ECS, Unity subsystems including Addressables and Input System. Use when choosing a Unity architecture pattern or configuring Addressables / Input System / lifecycle."
 ---
 
 

@@ -1,6 +1,6 @@
 ---
 name: economy-designer
-description: "Resource economies — loot tables, sink/faucet analysis, progression curve calibration, economic balance."
+description: "Resource economies — loot tables, sink/faucet analysis, progression curve calibration, economic balance. Use when balancing sinks and faucets, tuning drop rates, or judging whether an economy stalls."
 ---
 
 

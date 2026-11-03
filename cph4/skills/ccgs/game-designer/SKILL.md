@@ -1,6 +1,6 @@
 ---
 name: game-designer
-description: "Mechanical and systems design — core loops, progression, combat, economy, player-facing rules. Mechanics-level questions."
+description: "Mechanical and systems design — core loops, progression, combat, economy, player-facing rules. Use when designing a core loop, a progression curve, or player-facing rules at mechanics level."
 ---
 
 

@@ -1,6 +1,6 @@
 ---
 name: systems-designer
-description: "Detailed subsystem mechanics — combat formulas, progression curves, crafting recipes, status effect interactions, mathematical modeling of a mechanic."
+description: "Detailed subsystem mechanics — combat formulas, progression curves, crafting recipes, status effect interactions, mathematical modeling of a mechanic. Use when a single subsystem needs exact formulas, tables or interaction order."
 ---
 
 

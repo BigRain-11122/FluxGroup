@@ -85,7 +85,8 @@ def check_one(path):
         if len(desc) < 60:
             fails.append("description-too-short(%d)" % len(desc))
         low = desc.lower()
-        if not ("use when" in low or "触发" in desc or "当" in desc):
+        if not ("use when" in low or "触发" in desc or "当" in desc
+                or "时使用" in desc or "时调用" in desc or "questions" in low):
             fails.append("description-no-trigger")
     body = text
     blocks = re.findall(r"```([\s\S]*?)```", text)

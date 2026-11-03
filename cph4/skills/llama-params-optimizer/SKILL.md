@@ -2,6 +2,8 @@
 name: llama-params-optimizer
 version: 3.1.0
 description: >
+  Use when tuning llama.cpp or llama-server context length, batch size, GPU offload
+  or KV cache on a fixed machine, or when a model runs partly on CPU.
   Complete methodology for local LLM performance optimization.
   Core principle: maximize context while fully covering GPU memory — find the sweet spot where GPU runs at full speed.
   Step-by-step 4-phase 10-step control variable testing process.

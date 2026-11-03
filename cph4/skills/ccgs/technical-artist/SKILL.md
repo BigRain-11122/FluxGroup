@@ -1,6 +1,6 @@
 ---
 name: technical-artist
-description: "Technical artist bridging art and engineering — shaders, VFX, rendering optimization, art pipeline tools, art-to-engine issues."
+description: "Technical artist bridging art and engineering — shaders, VFX, rendering optimization, art pipeline tools, art-to-engine issues. Use when an art asset breaks in engine, or a visual idea must fit a render budget."
 ---
 
 

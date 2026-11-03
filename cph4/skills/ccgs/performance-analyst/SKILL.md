@@ -1,6 +1,6 @@
 ---
 name: performance-analyst
-description: "Performance analyst — profiling, bottlenecks, memory analysis, frame time investigation, recommends optimizations, tracks metrics over time."
+description: "Performance analyst — profiling, bottlenecks, memory analysis, frame time investigation, recommends optimizations, tracks metrics over time. Use when frame time, memory or load time regress, or before shipping a build."
 ---
 
 
