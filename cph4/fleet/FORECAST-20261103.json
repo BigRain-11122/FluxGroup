@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-03T20:47:16+0800",
+ "ts": "2026-11-03T20:56:01+0800",
  "alert_days": 2.0,
  "lines": [
   {
@@ -184,9 +184,9 @@
    "line": "fleet-ops",
    "status": "ACTIVE",
    "prio": "P3",
-   "stock": 7,
+   "stock": 6,
    "rate_per_day": 7.0,
-   "runway_days": 1.0,
+   "runway_days": 0.9,
    "has_table": false,
    "blocker": null,
    "flags": [
