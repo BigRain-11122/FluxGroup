@@ -390,6 +390,37 @@ def main():
         budget -= 1
         report.append("- R4 declared MV-DIRECTOR-PACKET -> bm-a (no fresh review packet)")
 
+    # R8 MODEL-RADAR: every online box, once a day, searches upstream for newer local models,
+    # benchmarks them against its own baseline, and swaps only when the two-path rule passes
+    # (CEO 2026-11-03: 闲时搜最新、适配、测不过不换). Idle gating lives in the tool itself
+    # (--idle-only), so a box that is producing simply returns a SKIPPED-IDLE receipt.
+    if os.path.exists(os.path.join(root, "Tools", "fleet", "model_radar.py")):
+        day = now.strftime("%Y%m%d")
+        for node in sorted(nodes):
+            if not lane_fresh(root, node):
+                continue
+            cid = "R-MODEL-RADAR-%s-%s" % (node.upper().replace("-", ""), day)
+            deliverable = "cph4/fleet/queue-receipts/model-radar-%s-%s.json" % (node, day)
+            if cid in open_ids():
+                continue
+            if os.path.exists(os.path.join(root, deliverable)):
+                continue
+            added.append({
+                "id": cid,
+                "title": "本地模型日报：扫上游新档+实测+按两条判据决定是否换档（%s）" % node,
+                "cmd": "python Tools/fleet/model_radar.py run --node %s --idle-only --apply" % node,
+                "cwd": "",
+                "requires": ["Tools/fleet/model_radar.py", "cph4/fleet/LOCAL-MODEL-POLICY.json"],
+                "deliverable": deliverable,
+                "accept": "回执 verdict=OK（或 SKIPPED-IDLE 且写明原因）；换档必须带 applied.from/to 与 rollback",
+                "needs": "cpu", "nodes": [node], "prio": "P3",
+                "day_ok": not ("bm-a" == node),   # 公司生产力机白天让路，夜间跑
+                "heavy": False,
+                "why": "R8 fleet model radar: 每台在线机每天一次，闲时搜新模型；测不过不换",
+                "created_by": "workgen", "created_at": stamp, "state": "READY",
+                "verify_on_node": True})
+            report.append("- R8 declared model radar -> %s" % node)
+
     # R6 CLOSE-PRODUCED: a READY card whose deliverable is already on disk is not work.
     # 2026-11-01: 22 such rows sat READY and every box read them as inventory, so the
     # fleet reported "inventory ok" while nothing ran. Closing on a file that exists is a

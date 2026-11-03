@@ -74,3 +74,11 @@
 2. 用同一套埋点把「本地模型调用」的准确率记进 `events.jsonl`，按职责分别记分；不达标的职责直接下线。
 3. 结构化输出的调用统一加 `format` + GGUF 断言；发现返回非 JSON 即判引擎错，不许静默降级。
 4. 9B 档暂不引进：内存只剩 12.8GB，且 4B 已比新 4B 快 2.8 倍，收益不足。
+## 九、机队全机模型雷达（CEO 2026-11-03 令：每台机空闲时搜最新、适配、测不过不换）
+
+1. 每台在线机每天一张卡 `R-MODEL-RADAR-<NODE>-<YYYYMMDD>`（workgen R8 生成），命令：`python Tools/fleet/model_radar.py run --node <node> --idle-only --apply`。
+2. 闲才跑：本机有生产卡在跑 / 可用内存低于地板 / bm-a 工作日 09-19 → 回执 `SKIPPED-IDLE` 并写明原因，不算失败；雷达自己的卡不算「本机忙」。
+3. 换档判据只一处：`accept_upgrade`（质量更高且速度 ≥ 现役 90%，或质量持平且速度 ≥ 105%；质量更低一律不换）。测不过就保持原档。
+4. 每机口径在 `LOCAL-MODEL-POLICY.json → nodes`：能装多大、跟哪些家族、闲时窗口、是否以实装为基线（`auto_baseline`）。未声明的机沿用全局段。
+5. 回执落 `cph4/fleet/queue-receipts/model-radar-<node>-<date>.json`（git 受控，远端可验证），含 attention / discovered（上游最新家族）/ verdicts / applied.from-to-rollback。
+6. 实测（2026-11-03 bm-a）：基线 qwen3:4b-instruct，解码 112.5 tok/s，黄金集 7/8；扫描可发现上游新家族（lfm3 / d3 等），但只报告、不自动拉。

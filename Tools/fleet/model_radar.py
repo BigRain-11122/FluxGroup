@@ -56,6 +56,151 @@ def load_policy():
         return json.load(f)
 
 
+# ---- fleet: per-node policy / idle gate / receipt ---------------------------------
+# CEO 2026-11-03：机队每台机空闲时都要做同样的事——搜最新模型、适配、实测，
+# 测不过就不换。判定阈值只留 policy 一处（accept_upgrade），各机只差"能装多大"。
+def detect_node():
+    n = (os.environ.get("FLUX_NODE") or "").strip()
+    if n:
+        return n
+    import socket
+    try:
+        h = socket.gethostname().lower()
+    except Exception:
+        return ""
+    for k in ("bm-a", "bm-b", "bm-c", "bm-d", "bm-m"):
+        if k in h:
+            return k
+    return h
+
+
+def node_cfg(pol, node):
+    """把 nodes[<node>] 叠加到策略上；未声明的机沿用全局段。
+
+    不猜机器上装了什么：未声明的机由 local_models() 实测，缺基线就报 NEED-BASELINE。
+    """
+    nodes = pol.get("nodes") or {}
+    nd = nodes.get(node) or {}
+    out = dict(pol)
+    for k in ("duties", "tracked_families", "auto_pull", "accept_upgrade", "thresholds",
+              "golden_set", "idle"):
+        if k in nd:
+            out[k] = nd[k]
+    out["node"] = node
+    out["discover"] = bool(nd.get("discover", pol.get("discover", True)))
+    out["auto_baseline"] = bool(nd.get("auto_baseline", pol.get("auto_baseline", False)))
+    return out
+
+
+def _win_avail_gb():
+    """Windows 可用物理内存（mem_gate 只有 vm_stat，跨机不能直接用）。"""
+    import ctypes
+
+    class MS(ctypes.Structure):
+        _fields_ = [("dwLength", ctypes.c_ulong), ("dwMemoryLoad", ctypes.c_ulong),
+                    ("ullTotalPhys", ctypes.c_ulonglong),
+                    ("ullAvailPhys", ctypes.c_ulonglong),
+                    ("ullTotalPageFile", ctypes.c_ulonglong),
+                    ("ullAvailPageFile", ctypes.c_ulonglong),
+                    ("ullTotalVirtual", ctypes.c_ulonglong),
+                    ("ullAvailVirtual", ctypes.c_ulonglong),
+                    ("ullAvailExtendedVirtual", ctypes.c_ulonglong)]
+
+    m = MS()
+    m.dwLength = ctypes.sizeof(MS)
+    ctypes.windll.kernel32.GlobalMemoryStatusEx(ctypes.byref(m))
+    return round(m.ullAvailPhys / 1e9, 1)
+
+
+def avail_gb():
+    if sys.platform == "win32":
+        try:
+            return _win_avail_gb()
+        except Exception:
+            return None
+    try:
+        sys.path.insert(0, HERE)
+        import mem_gate
+        return mem_gate.available_gb()
+    except Exception:
+        return None
+
+
+def queue_busy(root, node):
+    """本机是否有在执行的生产卡（发卡不抢占生产，这是唯一权威的忙闲信号）。"""
+    p = os.path.join(root, "cph4", "fleet", "PRODUCTION-QUEUE.jsonl")
+    try:
+        with open(p, encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    r = json.loads(line)
+                except Exception:
+                    continue
+                if r.get("state") != "RUNNING" or node not in (r.get("nodes") or []):
+                    continue
+                # 自己在跑时不能把自己判成"本机忙"（否则每张雷达卡都 SKIPPED-IDLE）
+                if "model_radar" in str(r.get("cmd") or ""):
+                    continue
+                return r.get("id")
+    except Exception:
+        pass
+    return None
+
+
+def busy_why(cfg):
+    """返回阻塞原因或 None。闲 = 没有在跑的本机卡 + 不在 CEO 用机时段 + 内存够。"""
+    idle = cfg.get("idle") or {}
+    q = queue_busy(ROOT, cfg.get("node") or "")
+    if q and idle.get("queue_blocks", True):
+        return "queue-running:%s" % q
+    win = idle.get("skip_weekday_hours")
+    if win:
+        import datetime as _dt
+        now = _dt.datetime.now()
+        if now.weekday() < 5 and int(win[0]) <= now.hour < int(win[1]):
+            return "workday-window:%02d-%02d" % (int(win[0]), int(win[1]))
+    floor = float(idle.get("min_free_gb") or 0)
+    av = avail_gb()
+    if floor and av is not None and av < floor:
+        return "free-mem:%.1fGB<%.1fGB" % (av, floor)
+    return None
+
+
+def receipt_path(node, out_path=""):
+    if out_path:
+        return out_path if os.path.isabs(out_path) else os.path.join(ROOT, out_path)
+    if not node:
+        return ""
+    return os.path.join(ROOT, "cph4", "fleet", "queue-receipts",
+                        "model-radar-%s-%s.json" % (node, time.strftime("%Y%m%d")))
+
+
+def apply_swap(node, model, why):
+    """把建议落成现行档：只改 policy 里该机的 resident，并留回滚记录。
+
+    建议不自动生效曾是纪律；CEO 2026-11-03 改为「测得好就换，测不好不换」——
+    所以自动落档，但必须同时写入旧档与回滚命令，任何一次换档都可一步退回。
+    """
+    pol = load_policy()
+    nodes = pol.setdefault("nodes", {})
+    nd = nodes.setdefault(node, {})
+    duties = nd.setdefault("duties", json.loads(json.dumps(pol.get("duties") or {})))
+    old = (duties.get("resident") or {}).get("model")
+    if not old or old == model:
+        return {"applied": False, "why": "no-change"}
+    duties.setdefault("resident", {})["model"] = model
+    duties["resident"]["changed_at"] = now_iso()
+    duties["resident"]["changed_why"] = why
+    duties["resident"]["previous"] = old
+    with open(POLICY, "w", encoding="utf-8") as f:
+        json.dump(pol, f, ensure_ascii=False, indent=1)
+    return {"applied": True, "from": old, "to": model,
+            "rollback": "set nodes.%s.duties.resident.model=%s" % (node, old)}
+
+
 def http_json(url, timeout=15, headers=None):
     req = urllib.request.Request(url, headers=headers or {})
     with urllib.request.urlopen(req, timeout=timeout) as r:
@@ -142,11 +287,43 @@ def split_model(name):
     return name, "latest"
 
 
-def scan():
-    pol = load_policy()
+def discover_families(limit=8):
+    """搜上游最新模型家族（CEO：闲时去搜最新的大模型）。
+
+    只作候选提示，不据此换档：页面结构变了就返回空，宁可不报也不造假候选。
+    """
+    for url in ("https://ollama.com/library?sort=newest", "https://ollama.com/library"):
+        try:
+            html = http_text(url)
+        except Exception:
+            continue
+        fams = []
+        i = 0
+        while len(fams) < limit:
+            i = html.find('href="/library/', i)
+            if i < 0:
+                break
+            j = i + len('href="/library/')
+            k = j
+            while k < len(html) and (html[k].isalnum() or html[k] in ".-_"):
+                k += 1
+            name = html[j:k]
+            if name and "/" not in name and name not in fams:
+                fams.append(name)
+            i = k
+        if fams:
+            return fams
+    return []
+
+
+def scan(pol=None):
+    pol = pol or load_policy()
     loc = local_models()
     ap = pol.get("auto_pull") or {}
     size_cap = float(ap.get("max_size_gb") or 6.0)
+    # 下限同样必要：0.6B/0.8B 这类档永远不可能顶替 4B 的职责，全报出来只会把
+    # 真正的候选淹没（实测首跑 attention 8 条里 4 条是小档噪声）。
+    size_floor = float(ap.get("min_size_gb") or 1.5)
     rows = []
     for family in pol.get("tracked_families", []):
         installed = [n for n in loc if n.split(":")[0] == family]
@@ -162,22 +339,48 @@ def scan():
                                    ("SAME" if same else "UPDATED"))})
         # 家族里本机没有的档：只有"够小、能自动拉"的才列成候选，避免几十条噪声
         have = set(split_model(n)[1] for n in installed)
+        seen_dg = set(loc[n]["digest"] for n in loc)
         new = []
         for tag in remote_tags(family):
             if tag in have:
                 continue
             rdig, rsize = remote_manifest(family, tag)
-            if rsize is None or rsize > size_cap:
+            if rsize is None or rsize > size_cap or rsize < size_floor:
                 continue
-            # 同内容改名（latest→8b、v1.5→latest 这类别名）不算新档
-            if rdig and any(rdig.split(":")[-1][:16] == loc[n]["digest"] for n in loc):
+            # 同内容改名（latest→8b、v1.5→latest 这类别名）不算新档（含本次已列出的候选）
+            dg = rdig.split(":")[-1][:16] if rdig else None
+            if dg and dg in seen_dg:
                 continue
+            if dg:
+                seen_dg.add(dg)
             new.append({"model": "%s:%s" % (family, tag), "family": family, "tag": tag,
                         "local_digest": None,
                         "remote_digest": (rdig.split(":")[-1][:16] if rdig else None),
                         "size_gb": rsize, "state": "NEW-TAG"})
         rows.extend(new[:4])                       # 每家族最多 4 个候选，按页面顺序
-    out = {"ts": now_iso(), "installed": len(loc), "rows": rows,
+    # 上游最新家族：只报到，不自动拉（可能是完全不同的任务面，混装会占盘占内存）
+    discovered = []
+    if pol.get("discover"):
+        known = set(f.split(":")[0] for f in loc) | set(pol.get("tracked_families") or [])
+        for fam in discover_families():
+            if fam in known:
+                continue
+            for tag in remote_tags(fam)[:2]:
+                rdig, rsize = remote_manifest(fam, tag)
+                if rsize is None or rsize > size_cap or rsize < size_floor:
+                    continue
+                dg = (rdig.split(":")[-1][:16] if rdig else None)
+                # latest 与具体 tag 常常同 digest，去重否则一个家族占两条
+                if any(x.get("remote_digest") == dg for x in discovered):
+                    continue
+                discovered.append({"model": "%s:%s" % (fam, tag), "family": fam,
+                                   "size_gb": rsize, "state": "NEW-FAMILY",
+                                   "remote_digest": dg})
+            if len(discovered) >= 6:
+                break
+    out = {"ts": now_iso(), "node": pol.get("node") or "", "installed": len(loc),
+           "engine": ("up" if loc else "ollama-unreachable"), "rows": rows,
+           "discovered": discovered,
            "attention": [r["model"] for r in rows if r["state"] in ("UPDATED", "NEW-TAG")]}
     os.makedirs(STATE, exist_ok=True)
     _merge_state("scan", out)
@@ -249,7 +452,13 @@ def served_by(model):
 
 
 def mem_ok(need_gb):
-    """容量判据只留一处：复用 mem_gate.decide。"""
+    """容量判据只留一处：Mac 复用 mem_gate.decide；Windows 用可用物理内存 - 2GB 余量。"""
+    if sys.platform == "win32":
+        av = avail_gb()
+        if av is None:
+            return False, {"verdict": "UNKNOWN", "why": "avail_gb unavailable"}
+        return (av - 2.0) >= float(need_gb or 0), {"avail_gb": av, "need_gb": need_gb,
+                                                   "verdict": "OK" if (av - 2.0) >= float(need_gb or 0) else "DOWNGRADE"}
     try:
         sys.path.insert(0, HERE)
         import mem_gate
@@ -259,8 +468,8 @@ def mem_ok(need_gb):
         return False, {"error": str(e)[:80]}
 
 
-def bench(models, runs=3, skip_quality=False):
-    pol = load_policy()
+def bench(models, runs=3, skip_quality=False, pol=None):
+    pol = pol or load_policy()
     golden = pol.get("golden_set") or []
     res = []
     for m in models:
@@ -294,8 +503,8 @@ def bench(models, runs=3, skip_quality=False):
 
 
 # ---- 3 decide -------------------------------------------------------------------
-def decide():
-    pol = load_policy()
+def decide(pol=None):
+    pol = pol or load_policy()
     st = _read_state()
     bench_rows = {r["model"]: r for r in (st.get("bench") or {}).get("results", [])
                   if not r.get("skipped")}
@@ -398,13 +607,26 @@ def stale_days():
 
 
 # ---- 4 run ----------------------------------------------------------------------
-def run():
-    pol = load_policy()
+def run(node="", idle_only=False, out_path="", apply=False, force=False):
+    node = node or detect_node()
+    pol = node_cfg(load_policy(), node)
     st = _read_state()
     today = time.strftime("%Y-%m-%d")
-    if (st.get("last_run_day") == today) and "--force" not in sys.argv:
+    if force is False and ("--force" in sys.argv):
+        force = True
+    if (st.get("last_run_day") == today) and not force:
+        _write_receipt(node, out_path, {"ts": now_iso(), "node": node, "verdict": "SKIPPED",
+                                        "why": "already ran today", "day": today})
         print(json.dumps({"skipped": "already ran today", "day": today}, ensure_ascii=False))
         return 0
+    if idle_only:
+        why = busy_why(pol)
+        if why:
+            # 不是失败：机器在生产，雷达让路；留回执说明"为什么今天没跑"
+            _write_receipt(node, out_path, {"ts": now_iso(), "node": node, "verdict": "SKIPPED-IDLE",
+                                            "why": why})
+            print(json.dumps({"skipped_idle": why, "node": node}, ensure_ascii=False))
+            return 0
     lock = OUT + ".lock"
     if os.path.exists(lock) and (now_ts() - os.path.getmtime(lock)) < 3600:
         print(json.dumps({"skipped": "another run in progress"}, ensure_ascii=False))
@@ -413,7 +635,7 @@ def run():
     with open(lock, "w", encoding="utf-8") as f:
         f.write(now_iso())
     try:
-        return _run_body(pol, today)
+        return _run_body(pol, today, node, out_path, apply)
     finally:
         try:
             os.remove(lock)
@@ -421,9 +643,11 @@ def run():
             pass
 
 
-def _run_body(pol, today):
-    sc = scan()
-    log = {"ts": now_iso(), "attention": sc["attention"], "bench": None, "decide": None,
+def _run_body(pol, today, node="", out_path="", apply=False):
+    sc = scan(pol)
+    log = {"ts": now_iso(), "node": node, "engine": sc.get("engine"),
+           "attention": sc["attention"], "discovered": sc.get("discovered"),
+           "bench": None, "decide": None, "applied": None, "skipped": [],
            "pulled": [], "stale_days": round(stale_days(), 1)}
     ap = pol.get("auto_pull") or {}
     # 先更新再实测：否则测的是旧版本，结论对不上上游。只拉同家族、够小的（默认 <=6GB）。
@@ -449,14 +673,45 @@ def _run_body(pol, today):
     need_bench = bool(sc["attention"]) or bool(log["pulled"]) or \
         stale_days() > pol["thresholds"]["bench_stale_days"]
     if need_bench:
-        # 只测会答话的档；embedding 档没有黄金集，单列不测
+        # 只测会答话的档；embedding 档没有黄金集，单列不测。
+        # 还要只测本机真装了的档——跨机策略里别的机的档在这里没权重，测了只会刷屏假红。
+        installed = set(local_models())
         emb = (pol["duties"].get("embedding") or {}).get("model")
-        models = [d.get("model") for d in pol["duties"].values()
-                  if d.get("model") and d.get("model") != emb]
-        log["bench"] = bench(models)
-        log["decide"] = decide()
-    ledger({"ts": log["ts"], "attention": log["attention"],
+        # 未声明基线的工作机：以本机实际装着的最大对话模型为基线（不猜外部型号）。
+        res = pol["duties"].get("resident") or {}
+        if (res.get("model") not in installed) and pol.get("auto_baseline"):
+            loc = local_models()
+            cands = [n for n in loc if n != emb and "embed" not in n]
+            if cands:
+                res["model"] = max(cands, key=lambda n: loc[n].get("size_gb") or 0)
+                pol["duties"]["resident"] = res
+                log["baseline_resolved"] = res["model"]
+        models = []
+        for d in pol["duties"].values():
+            m = d.get("model")
+            if not m or m == emb:
+                continue
+            if m in installed:
+                models.append(m)
+            else:
+                log["skipped"].append("not-installed:%s" % m)
+        if models:
+            log["bench"] = bench(models, pol=pol)
+            log["decide"] = decide(pol)
+        else:
+            log["decide"] = {"verdicts": [{"action": "NEED-BASELINE",
+                                           "why": "本机没有任何策略声明的模型，先把基线装上或声明 nodes.<node>.duties"}]}
+    # 换档：只认 SUGGEST-SWAP，且必须是本机已装、实测过的那一档。测不过一律不动。
+    if apply and (log.get("decide") or {}).get("verdicts"):
+        for v in log["decide"]["verdicts"]:
+            if v.get("action") == "SUGGEST-SWAP" and v.get("model") in set(local_models()):
+                log["applied"] = apply_swap(node, v["model"], v.get("why") or "")
+                break
+        if not log.get("applied"):
+            log["applied"] = {"applied": False, "why": "no candidate passed the two-path rule"}
+    ledger({"ts": log["ts"], "node": node, "attention": log["attention"],
             "benched": bool(log["bench"]), "pulled": log["pulled"],
+            "applied": log.get("applied"),
             "suggest": [v for v in ((log["decide"] or {}).get("verdicts") or [])
                         if v.get("action") == "SUGGEST-SWAP"]})
     st2 = _read_state()
@@ -464,8 +719,31 @@ def _run_body(pol, today):
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, "w", encoding="utf-8") as f:
         json.dump(st2, f, ensure_ascii=False, indent=1)
+    _write_receipt(node, out_path, {
+        "ts": log["ts"], "node": node, "verdict": "OK",
+        "engine": sc.get("engine"), "installed": sc.get("installed"),
+        "attention": log["attention"], "discovered": log.get("discovered"),
+        "skipped": log["skipped"], "pulled": log["pulled"],
+        "baseline": (log.get("decide") or {}).get("baseline"),
+        "verdicts": (log.get("decide") or {}).get("verdicts"),
+        "applied": log.get("applied"),
+        "rule": "质量更高且速度>=现役90%，或质量持平且速度>=105%；质量更低一律不换",
+    })
     print(json.dumps(log, ensure_ascii=False)[:600])
     return 2 if sc["attention"] else 0
+
+
+def _write_receipt(node, out_path, body):
+    """回执必须落 git 受控目录，远端才可验证（state/ 是 gitignore）。"""
+    p = receipt_path(node, out_path)
+    if not p:
+        return
+    try:
+        os.makedirs(os.path.dirname(p), exist_ok=True)
+        with open(p, "w", encoding="utf-8") as f:
+            json.dump(body, f, ensure_ascii=False, indent=1)
+    except Exception:
+        pass
 
 
 def main(argv):
@@ -474,17 +752,23 @@ def main(argv):
     ap.add_argument("--models", default="")
     ap.add_argument("--n", type=int, default=3)
     ap.add_argument("--skip-quality", action="store_true")
+    ap.add_argument("--node", default="", help="机名；缺省按 FLUX_NODE/主机名判")
+    ap.add_argument("--idle-only", action="store_true", help="本机有生产卡/用机时段/内存不足则让路")
+    ap.add_argument("--out", default="", help="回执路径；缺省 queue-receipts/model-radar-<node>-<day>.json")
+    ap.add_argument("--apply", action="store_true", help="实测通过两条判据才自动换档（留回滚）")
     a = ap.parse_args(argv)
+    node = a.node or detect_node()
+    pol = node_cfg(load_policy(), node)
 
     if a.cmd == "scan":
-        print(json.dumps(scan(), ensure_ascii=False, indent=1))
+        print(json.dumps(scan(pol), ensure_ascii=False, indent=1))
         return 0
     if a.cmd == "bench":
         ms = [m.strip() for m in a.models.split(",") if m.strip()]
-        print(json.dumps(bench(ms, a.n, a.skip_quality), ensure_ascii=False, indent=1))
+        print(json.dumps(bench(ms, a.n, a.skip_quality, pol=pol), ensure_ascii=False, indent=1))
         return 0
     if a.cmd == "decide":
-        print(json.dumps(decide(), ensure_ascii=False, indent=1))
+        print(json.dumps(decide(pol), ensure_ascii=False, indent=1))
         return 0
     if a.cmd == "status":
         st = _read_state()
@@ -495,7 +779,8 @@ def main(argv):
                           "verdicts": (st.get("decide") or {}).get("verdicts")},
                          ensure_ascii=False, indent=1))
         return 0
-    return run()
+    return run(node=node, idle_only=a.idle_only, out_path=a.out,
+               apply=a.apply, force=("--force" in argv))
 
 
 if __name__ == "__main__":
