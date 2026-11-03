@@ -1,25 +1,23 @@
 {
  "node": "bm-c",
- "ts": "2026-11-04T07:36:03",
+ "ts": "2026-11-04T07:44:03",
  "jobs": [
   {
-   "id": "Q-FACE-BOARD-BMC-20261104",
-   "title": "人脸对照板：char-gen 现产物确定性拼板（导演席按 DE-AI-SPEC B1/B2/B3/B5 盲评）",
-   "cmd": "python C:/Fluxgroup/FleetAgent/Tools/fleet/asset_board.py --dir K:/Fluxgroup/FluxGroup/media/asset/characters --out K:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/face-board-bmc-20261104.jpg --json K:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/face-board-bmc-20261104.json --cols 4 --limit 16 --per-child 2",
-   "cwd": "K:/Fluxgroup/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "K:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/face-board-bmc-20261104.jpg",
+   "id": "asset-lib-char-gen-2026-11-04",
+   "title": "[资产储备（角色 LoRA / 音色库）] 角色包出图（本机 ComfyUI，1024²，同 seed 组）",
+   "cmd": "python Tools/fleet/char_gen.py --node bm-c --limit 12",
+   "cwd": "",
+   "needs": "gpu",
+   "deliverable": "cph4/fleet/queue-receipts/char-gen-bm-c-2026-11-04.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
-   "when_all": [
-    "K:/Fluxgroup/FluxGroup/media/asset/characters"
-   ],
+   "when_all": [],
    "llm": null,
-   "timeout_s": 600
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 3.5/1.0 GB"
+ "capacity_note": "ram 2.7/1.0 GB"
 }
