@@ -1,26 +1,26 @@
 {
- "ts": "2026-11-03T23:01:54",
+ "ts": "2026-11-04T00:21:54",
  "node": "bm-c",
  "paused": false,
  "verdict": "BLOCKED-CAPACITY",
  "capacity": {
   "gpu": {
-   "util_pct": 1,
-   "used_mb": 12494,
+   "util_pct": 0,
+   "used_mb": 6106,
    "total_mb": 16384
   },
-  "ram_free_gb": 0.26,
-  "vram_free_mb": 3890,
+  "ram_free_gb": 2.27,
+  "vram_free_mb": 10278,
   "lease_held": true,
   "can_gpu": false,
   "can_cpu": false
  },
- "idle_min": 0.7,
+ "idle_min": 0.4,
  "assigned": [
   {
    "kind": "assigned",
-   "id": "bigmoney-signal-2026-11-03",
-   "title": "[金融量化（回测 → 一页结论 → 可报价或写清卡点）] 下月持仓信号 CSV（可卖的唯一产物）",
+   "id": "CHK-LIB-20261103",
+   "title": "资产与经验库归集（技能/音色/工作流/台账/产物/内容寻址资产 → 索引进 git）",
    "prio": null,
    "needs": "cpu",
    "feasible": false,
@@ -30,21 +30,12 @@
  "next_actions": [
   {
    "kind": "assigned",
-   "id": "bigmoney-signal-2026-11-03",
-   "title": "[金融量化（回测 → 一页结论 → 可报价或写清卡点）] 下月持仓信号 CSV（可卖的唯一产物）",
+   "id": "CHK-LIB-20261103",
+   "title": "资产与经验库归集（技能/音色/工作流/台账/产物/内容寻址资产 → 索引进 git）",
    "prio": null,
    "needs": "cpu",
    "feasible": false,
    "reason": "master lane file (authority)"
-  },
-  {
-   "kind": "queue",
-   "id": "CHK-LIB-20261103",
-   "title": "资产与经验库归集（技能/音色/工作流/台账/产物/内容寻址资产 → 索引进 git）",
-   "prio": "P1",
-   "needs": "cpu",
-   "feasible": false,
-   "reason": "queue row OPEN"
   },
   {
    "kind": "queue",
@@ -58,6 +49,15 @@
   {
    "kind": "queue",
    "id": "R-MODEL-RADAR-BMC-20261103",
+   "title": "本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-c）",
+   "prio": "P3",
+   "needs": "cpu",
+   "feasible": false,
+   "reason": "queue row OPEN"
+  },
+  {
+   "kind": "queue",
+   "id": "R-MODEL-RADAR-BMC-20261104",
    "title": "本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-c）",
    "prio": "P3",
    "needs": "cpu",
@@ -85,7 +85,7 @@
  "dispatched_now": null,
  "counts": {
   "open_backlog": 0,
-  "open_queue": 16,
+  "open_queue": 18,
   "bank_pending": 0
  }
 }

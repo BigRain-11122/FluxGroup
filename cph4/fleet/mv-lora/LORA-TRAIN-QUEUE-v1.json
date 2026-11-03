@@ -18,7 +18,7 @@
    "name": "学生文艺",
    "trigger": "h01",
    "lora": "her_mv0001_rank32",
-   "status": "trained",
+   "status": "running",
    "base": "a young Taiwanese woman around twenty, softly rounded face with full apple cheeks (natural facial structure), big dark double-lidded rounded-almond eyes, small nose with soft rounded tip, medium-full matte lips, soft natural brows, thick blunt full fringe covering the eyebrows, visible pores and fine film grain, relaxed un-fitted 2001 Taipei style, straight-leg denim, canvas sneakers, slouchy cloth shoulder bag, beige knit sweater",
    "use": [
     "mv",
@@ -31,9 +31,7 @@
    ],
    "needs": "gpu",
    "train_name": "her_mv0001",
-   "note": "历史命名：T01 的权重叫 her_mv0001（触发词 h01），与 job id 不同，一律走 train_name",
-   "weights": "her_mv0001_rank32.safetensors",
-   "images": 15
+   "note": "历史命名：T01 的权重叫 her_mv0001（触发词 h01），与 job id 不同，一律走 train_name"
   },
   {
    "order": 2,
@@ -95,7 +93,7 @@
    "trigger": "h05",
    "lora": "her_T05_r1",
    "status": "queued",
-   "base": "a young Taiwanese woman around twenty, oval face, slightly upturned almond eyes with a soft outer fold, flat natural brows, bare-skin look with pale matte lips, high ponytail with loose strands at the temples, visible pores and fine film grain, relaxed un-fitted 2001 Taipei style, white shirt with sleeves rolled once, straight jeans, canvas backpack",
+   "base": "a young Taiwanese woman around twenty, oval face, flat natural brows, bare-skin look with pale matte lips, high ponytail with loose strands at the temples, visible pores and fine film grain, relaxed un-fitted 2001 Taipei style, white shirt with sleeves rolled once, straight jeans, canvas backpack",
    "use": [
     "mv",
     "drama",
@@ -149,7 +147,7 @@
    "trigger": "h08",
    "lora": "her_T08_r1",
    "status": "queued",
-   "base": "a Taiwanese woman with long narrow face, heavy-lidded narrow eyes, cool pale skin, thin lips, wet hair clinging to the face and temples, visible pores and fine film grain, single street-lamp light with rain, 2001 Taipei night style, dark unfitted trench coat, straight jeans, wet pavement reflections",
+   "base": "a Taiwanese woman with neutral delicate features, cool pale skin, thin lips, wet hair clinging to the face and temples, visible pores and fine film grain, single street-lamp light with rain, 2001 Taipei night style, dark unfitted trench coat, straight jeans, wet pavement reflections",
    "use": [
     "mv",
     "drama"
