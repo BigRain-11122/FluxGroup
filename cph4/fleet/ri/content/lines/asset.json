@@ -199,6 +199,9 @@
    "day_ok": false,
    "depends_on": [
     "char-prompts"
+   ],
+   "hard_nodes": [
+    "bm-c"
    ]
   },
   {
@@ -258,6 +261,9 @@
    "ok_rc": [
     0,
     3
+   ],
+   "hard_nodes": [
+    "bm-c"
    ]
   }
  ]
