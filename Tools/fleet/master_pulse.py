@@ -649,10 +649,14 @@ def main() -> int:
     try:
         _p0 = os.path.join(ROOT, STATE_REL.replace("/", os.sep))
         _t0 = "%s.%d.start" % (_p0, os.getpid())
+        # 必须**合并**旧状态而不是覆盖：整份替换会把 slow_ts 抹掉，
+        # 于是每轮都判"慢批到期"，慢批变成全速空转（2026-11-03 自造坑）。
+        _keep = dict(prev or {})
+        _keep.update({"ts": now(), "node": NODE, "phase": "cycle-start",
+                      "git": git_note, "ok": True})
+        _keep.setdefault("stages", {})
         with open(_t0, "w", encoding="utf-8") as f:
-            json.dump({"ts": now(), "node": NODE, "phase": "cycle-start",
-                       "git": git_note, "stages": {}, "ok": True}, f,
-                      ensure_ascii=False, indent=1)
+            json.dump(_keep, f, ensure_ascii=False, indent=1)
         os.replace(_t0, _p0)
     except Exception:
         pass
