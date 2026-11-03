@@ -89,6 +89,16 @@ LANES = {
              "roles": "brain / backtest / batch", "game_launch_ok": False},
 }
 
+# 模型名唯一来源=cph4/fleet/LOCAL-MODEL-POLICY.json（2026-11-03 实测：同一个"现役模型"
+# 曾在 6 个工具里各写一遍，改策略不生效）。这里只覆盖本机控制面的 llm.model，读不到就保留原值。
+try:
+    import model_policy as _mp
+    _m = _mp.resident()
+    if _m:
+        LANES["bm-m"]["llm"]["model"] = _m
+except Exception:
+    pass
+
 ACTIVE_LANES = [n for n, v in LANES.items() if v.get("enabled")]
 # A pending box stops being theoretical the moment it reports: no code change needed when
 # bm-m finishes its Tailscale join or bm-d comes out of the rack.

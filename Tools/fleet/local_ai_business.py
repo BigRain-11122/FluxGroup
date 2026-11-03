@@ -40,7 +40,11 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 OUT_DIR = os.path.join(ROOT, "cph4", "fleet", "queue-receipts")
 END = "http://127.0.0.1:11434/api/generate"
-MODELS = {"fast": "qwen3:4b-instruct", "deep": "qwen3.5:35b-a3b"}
+try:
+    from model_policy import resident as _resident, duty as _duty
+    MODELS = {"fast": _resident(), "deep": _duty("sealed", "qwen3.5:35b-a3b")}
+except Exception:
+    MODELS = {"fast": "qwen3:4b-instruct", "deep": "qwen3.5:35b-a3b"}
 BANNED = ["绝对", "顶级", "永久", "稳赚", "包过", "全球最强", "全网第一", "销量第一", "官方认证", "零风险"]
 
 # Each job = a real business deliverable the group currently needs, with its sources.

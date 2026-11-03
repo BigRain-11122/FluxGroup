@@ -232,6 +232,22 @@ def score_quality(model, golden, timeout=240):
     return {"hits": hits, "total": len(golden), "detail": detail}
 
 
+def served_by(model):
+    """这个模型由哪个引擎在跑（mlx / llamacpp）。取不到就返回 None，不猜。"""
+    try:
+        out = subprocess.run(["ollama", "ps"], capture_output=True, text=True,
+                             timeout=10).stdout
+    except Exception:
+        return None
+    for line in out.splitlines()[1:]:
+        parts = line.split()
+        if parts and parts[0] == model:
+            for tok in parts:
+                if tok in ("mlx", "llamacpp"):
+                    return tok
+    return None
+
+
 def mem_ok(need_gb):
     """容量判据只留一处：复用 mem_gate.decide。"""
     try:
@@ -264,6 +280,10 @@ def bench(models, runs=3, skip_quality=False):
         sp = [s["decode_tok_s"] for s in samples if s["decode_tok_s"]]
         row = {"model": m, "size_gb": size,
                "decode_tok_s": round(statistics.median(sp), 1) if sp else None,
+               # 引擎必须记下来：同一台机上 MLX 与 llamacpp 是两条不同实现，不记引擎的
+               # "提速"结论过几天没人复现得了（2026-11-03 实测：qwen3.5 系走 mlx，
+               # qwen3:4b-instruct 走 llamacpp，且上游没有它的 -mlx 版）。
+               "engine": served_by(m),
                "runs": samples, "mem": mem}
         if not skip_quality:
             row["quality"] = score_quality(m, golden)

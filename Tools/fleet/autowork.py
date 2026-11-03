@@ -15,7 +15,12 @@ ROOT = os.path.dirname(os.path.dirname(HERE))
 F = os.path.join(ROOT, "cph4", "fleet")
 OUT = os.path.join(F, "dispatcher", "AUTOWORK.md")
 STATE = os.path.join(F, "dispatcher", "autowork-state.json")
-MODEL = "qwen3:4b-instruct"
+# 模型名唯一来源=LOCAL-MODEL-POLICY.json（见 model_policy.py）
+try:
+    from model_policy import resident as _resident
+    MODEL = _resident()
+except Exception:
+    MODEL = "qwen3:4b-instruct"
 
 
 def call(prompt):

@@ -17,7 +17,11 @@ ROOT = os.path.dirname(os.path.dirname(HERE))
 F = os.path.join(ROOT, "cph4", "fleet")
 OUT = os.path.join(F, "dispatcher", "DIGEST.md")
 CACHE = os.path.join(F, "dispatcher", "digest-cache.json")
-MODEL = "qwen3:4b-instruct"
+try:
+    from model_policy import resident as _resident
+    MODEL = _resident()
+except Exception:
+    MODEL = "qwen3:4b-instruct"
 
 
 def jl(p):
