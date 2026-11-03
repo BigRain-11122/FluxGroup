@@ -1,50 +1,41 @@
 {
- "ts": "2026-11-03T23:01:54",
+ "ts": "2026-11-03T23:11:54",
  "node": "bm-c",
  "paused": false,
- "verdict": "BLOCKED-CAPACITY",
+ "verdict": "BUSY",
  "capacity": {
   "gpu": {
-   "util_pct": 1,
-   "used_mb": 12494,
+   "util_pct": 0,
+   "used_mb": 5785,
    "total_mb": 16384
   },
-  "ram_free_gb": 0.26,
-  "vram_free_mb": 3890,
+  "ram_free_gb": 4.83,
+  "vram_free_mb": 10599,
   "lease_held": true,
-  "can_gpu": false,
-  "can_cpu": false
+  "can_gpu": true,
+  "can_cpu": true
  },
- "idle_min": 0.7,
+ "idle_min": 0.0,
  "assigned": [
   {
    "kind": "assigned",
-   "id": "bigmoney-signal-2026-11-03",
-   "title": "[金融量化（回测 → 一页结论 → 可报价或写清卡点）] 下月持仓信号 CSV（可卖的唯一产物）",
+   "id": "CHK-LIB-20261103",
+   "title": "资产与经验库归集（技能/音色/工作流/台账/产物/内容寻址资产 → 索引进 git）",
    "prio": null,
    "needs": "cpu",
-   "feasible": false,
+   "feasible": true,
    "reason": "master lane file (authority)"
   }
  ],
  "next_actions": [
   {
    "kind": "assigned",
-   "id": "bigmoney-signal-2026-11-03",
-   "title": "[金融量化（回测 → 一页结论 → 可报价或写清卡点）] 下月持仓信号 CSV（可卖的唯一产物）",
-   "prio": null,
-   "needs": "cpu",
-   "feasible": false,
-   "reason": "master lane file (authority)"
-  },
-  {
-   "kind": "queue",
    "id": "CHK-LIB-20261103",
    "title": "资产与经验库归集（技能/音色/工作流/台账/产物/内容寻址资产 → 索引进 git）",
-   "prio": "P1",
+   "prio": null,
    "needs": "cpu",
-   "feasible": false,
-   "reason": "queue row OPEN"
+   "feasible": true,
+   "reason": "master lane file (authority)"
   },
   {
    "kind": "queue",
@@ -52,7 +43,7 @@
    "title": "asset-lib 线级体检（本机证据目录实况）",
    "prio": "P3",
    "needs": "cpu",
-   "feasible": false,
+   "feasible": true,
    "reason": "queue row OPEN"
   },
   {
@@ -61,7 +52,7 @@
    "title": "本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-c）",
    "prio": "P3",
    "needs": "cpu",
-   "feasible": false,
+   "feasible": true,
    "reason": "queue row OPEN"
   }
  ],
@@ -85,7 +76,7 @@
  "dispatched_now": null,
  "counts": {
   "open_backlog": 0,
-  "open_queue": 16,
+  "open_queue": 17,
   "bank_pending": 0
  }
 }
