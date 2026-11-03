@@ -69,6 +69,54 @@ def render(tpl, table, stage, day):
             .replace("{stage}", str(stage.get("id"))))
 
 
+def validate_table(table):
+    """工序表自身的结构错误：这种错会让整条线静默停摆，必须报出来而不是"等上一段"。
+
+    2026-11-03 实测：短剧表里 episode-list 依赖的 tts-qc 段根本不存在，plan_table 只在
+    skipped 里写"等上一段 tts-qc"然后 break，accept 段永远轮不到——线从第三天起永久停摆，
+    报表上只是"跳过"，没有任何告警。悬空依赖=表错误，不是等待状态。
+    """
+    errs = []
+    stages = table.get("stages") or []
+    ids = [s.get("id") for s in stages]
+    dup = sorted({i for i in ids if i and ids.count(i) > 1})
+    if dup:
+        errs.append("段 id 重复：%s" % ",".join(dup))
+    known = {i for i in ids if i}
+    for s in stages:
+        sid = s.get("id") or "<无id>"
+        for d in (s.get("depends_on") or []):
+            if d not in known:
+                errs.append("%s 依赖的 %s 段不存在（悬空依赖，该段永远不会被派）" % (sid, d))
+        if not s.get("cmd"):
+            errs.append("%s 没有 cmd" % sid)
+        if not s.get("deliverable"):
+            errs.append("%s 没有 deliverable（无法判完成）" % sid)
+    if "accept" not in known:
+        errs.append("没有 accept 段（交付必须有验收，DONE≠交付）")
+
+    seen, stack = set(), set()
+
+    def walk(n, path):
+        if n in stack:
+            errs.append("依赖成环：%s" % " → ".join(path + [n]))
+            return
+        if n in seen:
+            return
+        stack.add(n)
+        for s in stages:
+            if s.get("id") == n:
+                for d in (s.get("depends_on") or []):
+                    if d in known:
+                        walk(d, path + [n])
+        stack.discard(n)
+        seen.add(n)
+
+    for i in sorted(known):
+        walk(i, [])
+    return errs
+
+
 def plan_table(table, day, existing, dry):
     line = table.get("line")
     stages = table.get("stages") or []
@@ -127,6 +175,7 @@ def main(argv):
         if r.get("id"):
             have[r["id"]] = r.get("state")
     made, report = [], []
+    bad_tables = 0
     files = sorted(glob.glob(TABLES))
     if not files:
         print("没有工序表：%s" % TABLES)
@@ -137,6 +186,13 @@ def main(argv):
             print("工序表读不了：%s" % p)
             return 1
         if a.line and t.get("line") != a.line:
+            continue
+        # 表结构（悬空依赖/无 accept/成环）先判：坏表一律不派卡，否则线会静默停摆。
+        errs = validate_table(t)
+        if errs:
+            bad_tables += 1
+            report.append({"line": t.get("line"), "table": os.path.relpath(p, ROOT), "cards": [],
+                           "skipped": [("BAD-TABLE", e) for e in errs]})
             continue
         # 市场门（2026-11-03 CEO「务必有市场调研，不要产出垃圾」）：
         # 没有合格市场简报就不派生产卡——先调研再开工，不让机器拿体检充数。
@@ -153,16 +209,18 @@ def main(argv):
     if made and not a.dry:
         fl.merge_jsonl(BACKLOG, made)
     if a.json:
-        print(json.dumps({"ts": fl.now_iso(), "dry": a.dry, "made": made, "report": report},
-                         ensure_ascii=False, indent=1))
-        return 0
+        print(json.dumps({"ts": fl.now_iso(), "dry": a.dry, "made": made, "report": report,
+                          "bad_tables": bad_tables}, ensure_ascii=False, indent=1))
+        return 2 if bad_tables else 0
     print("工序推进 %s%s" % (day, "（dry）" if a.dry else ""))
     for r in report:
         print("  %-18s 新卡 %s" % (r["line"], ", ".join(r["cards"]) or "0"))
         for sid, why in r["skipped"]:
             print("      - 跳过 %s：%s" % (sid, why))
     print("合计 %d 张%s" % (len(made), "（已写 BACKLOG READY）" if made and not a.dry else ""))
-    return 0
+    if bad_tables:
+        print("工序表结构错误 %d 张（这些线的卡永远派不出来，先修表）" % bad_tables)
+    return 2 if bad_tables else 0
 
 
 if __name__ == "__main__":

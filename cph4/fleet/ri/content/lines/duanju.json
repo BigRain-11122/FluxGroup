@@ -20,15 +20,19 @@
   {
    "id": "tts-qc",
    "name": "配音质检（逐集检出缺句/静音/削波）",
-   "cmd": "python {root_tools}/fleet/tts_batch_check.py --dir media/drama-tts-batch --out cph4/fleet/queue-receipts/duanju-tts-qc-{date}.json",
-   "deliverable": "cph4/fleet/queue-receipts/duanju-tts-qc-{date}.json",
-   "accept": "每集给出合格/不合格与原因；目录不存在时回执写明 BLOCKED 而不是零产物",
+   "cmd": "python {root_tools}/fleet/tts_batch_check.py --dir media/drama-tts-batch --out cph4/fleet/queue-receipts/duanju-tts-qc-{date}.md",
+   "deliverable": "cph4/fleet/queue-receipts/duanju-tts-qc-{date}.md",
+   "accept": "每集给出合格/不合格与原因；目录不存在时回执写明 BLOCKED - dir missing（rc=3 属正常等上游）",
    "needs": "cpu",
    "nodes": [
     "bm-b",
     "bm-c"
    ],
    "minutes": 15,
+   "ok_rc": [
+    0,
+    3
+   ],
    "depends_on": [
     "inventory"
    ]

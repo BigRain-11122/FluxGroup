@@ -123,13 +123,23 @@ def main(argv):
     ap.add_argument("--subs", default="")
     ap.add_argument("--json", action="store_true")
     a = ap.parse_args(argv)
-    if not os.path.exists(a.src):
-        print("读不了：%s" % a.src)
+    if not os.path.exists(a.src) or not probe(a.src):
+        # 读不了也要留证据（2026-11-03）：工序卡零产物退出会让下游永远判不出"没干"还是
+        # "干不了"，线就静默停摆。写 BLOCKED 回执写明缺哪件，链上看得见。
+        why = ("成片不存在：%s（上游装配未产出）" % a.src) if not os.path.exists(a.src) \
+            else ("ffprobe/ffmpeg 读不出元数据：%s" % a.src)
+        out = {"ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "input": a.src,
+               "spec": "DRAMA-QUALITY-SPEC-v2", "verdict": "BLOCKED", "status": "BLOCKED",
+               "gaps": [why], "measured": {}, "tool": "drama_quality_gate"}
+        print(why)
+        if a.out:
+            d = os.path.dirname(os.path.abspath(a.out))
+            if d:
+                os.makedirs(d, exist_ok=True)
+            with open(a.out, "w", encoding="utf-8") as f:
+                json.dump(out, f, ensure_ascii=False, indent=1)
         return 2
     pr = probe(a.src)
-    if not pr:
-        print("ffprobe 读不出元数据：%s" % a.src)
-        return 2
     v = next((s for s in pr.get("streams") or [] if s.get("codec_type") == "video"), {})
     au = next((s for s in pr.get("streams") or [] if s.get("codec_type") == "audio"), None)
     w, h = int(v.get("width") or 0), int(v.get("height") or 0)

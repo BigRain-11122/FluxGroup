@@ -18,7 +18,7 @@ manifest:
   "subs": [{"text": "…", "from": 0.2, "to": 3.6}],
   "font": "可选"
 }
-Exit: 0 成片已出；1 环境/输入问题。
+Exit: 0 成片已出；1 环境问题（无 ffmpeg/合成失败）；3 输入未到位（manifest 或片段缺）。
 """
 import argparse
 import json
@@ -29,6 +29,28 @@ import sys
 import tempfile
 
 W, H, FPS = 1080, 1920, 30
+
+
+def blocked(qa, why, src=None):
+    """输入未到位时也要留证据：写一份 BLOCKED 回执，写明缺什么。
+
+    2026-11-03 教训：工序卡若在缺素材时"零产物退出"，下游永远判不出是没干还是干不了，
+    线会静默停摆。回执就是"我跑过了、卡在这一项"的机器可读说法。
+    """
+    import time
+    out = {"ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "input": src or "",
+           "spec": "DRAMA-QUALITY-SPEC-v2", "verdict": "BLOCKED", "status": "BLOCKED",
+           "gaps": [why], "tool": "drama_assemble"}
+    if qa:
+        d = os.path.dirname(os.path.abspath(qa))
+        if d:
+            os.makedirs(d, exist_ok=True)
+        try:
+            with open(qa, "w", encoding="utf-8") as f:
+                json.dump(out, f, ensure_ascii=False, indent=1)
+        except Exception:
+            pass
+    return out
 
 
 def ff():
@@ -70,13 +92,25 @@ def main(argv):
     a = ap.parse_args(argv)
     F = ff()
     if not F:
-        print("[asm] 没有 ffmpeg")
+        print("[asm] 没有 ffmpeg（环境问题，rc=1）")
         return 1
+    # rc=3 = 输入还没到位（manifest 或片段没生成），不是工具坏。
+    # 工序卡按 ok_rc=[0,3] 判：缺素材记"等上游"，不制造每天必红的假红。
+    if not os.path.exists(a.manifest):
+        print("[asm] manifest 不存在：%s（上游 i2v 片段未生成，rc=3）" % a.manifest)
+        blocked(a.qa, "manifest 不存在：%s（上游 i2v 片段未生成）" % a.manifest)
+        return 3
     man = json.load(open(a.manifest, encoding="utf-8-sig"))
     clips = man.get("clips") or []
     if not clips:
-        print("[asm] manifest 没有 clips（i2v 片段）")
-        return 1
+        print("[asm] manifest 没有 clips（i2v 片段未生成，rc=3）")
+        blocked(a.qa, "manifest 没有 clips（i2v 片段未生成）", a.manifest)
+        return 3
+    missing = [c for c in clips if not os.path.exists(c)]
+    if missing:
+        print("[asm] 片段不在盘：%s（rc=3）" % ", ".join(missing[:3]))
+        blocked(a.qa, "片段不在盘：%s" % ", ".join(missing[:3]), a.manifest)
+        return 3
     tmp = tempfile.mkdtemp(prefix="drama_asm_")
     norm = []
     for i, c in enumerate(clips, 1):

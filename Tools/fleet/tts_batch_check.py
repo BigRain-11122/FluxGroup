@@ -49,8 +49,20 @@ def main():
 
     d = a.dir
     if not os.path.isdir(d):
-        print("[tts-check] MISSING %s" % d)
-        return 1
+        # 目录不存在也要留证据（2026-11-03）：工序卡零产物退出，下游分不清"没干"还是
+        # "干不了"，线就静默停摆。写 BLOCKED 回执并 rc=3（=等上游，不是工具坏）。
+        rows = ["# TTS batch evidence - %s" % d, "",
+                "checked_at = %s" % datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "host = %s" % os.environ.get("COMPUTERNAME", "?"),
+                "audio_files = 0",
+                "verdict = BLOCKED - dir missing (%s)" % d,
+                "", "## first 10 files", "- (none)"]
+        os.makedirs(os.path.dirname(a.out) or ".", exist_ok=True)
+        with open(a.out, "w", encoding="utf-8") as f:
+            f.write("\n".join(rows) + "\n")
+        print(json.dumps({"dir": d, "files": 0, "verdict": "BLOCKED - dir missing",
+                          "out": a.out}, ensure_ascii=False))
+        return 3
 
     files, total, newest = scan(d)
     age_min = round((time.time() - newest) / 60.0, 1) if newest else None
