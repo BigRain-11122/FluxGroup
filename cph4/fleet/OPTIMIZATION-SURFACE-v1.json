@@ -322,6 +322,71 @@
      "status": "done"
     }
    ]
+  },
+  "quant": {
+   "label": "金融量化（BigMoney）",
+   "doc": "cph4/fleet/ri/strategy/QUANT-AUDIT-20261103.md",
+   "items": [
+    {
+     "id": "qu-product",
+     "what": "主交付物",
+     "now": "定为「每月结论 + 下月持仓信号 CSV」",
+     "status": "done"
+    },
+    {
+     "id": "qu-retarget",
+     "what": "日更验错对象",
+     "now": "已改指 etf_nobond_vt.py（生产候选），旧书停更",
+     "status": "done"
+    },
+    {
+     "id": "qu-signal",
+     "what": "信号产物（可卖物）",
+     "now": "quant_signal.py 已建并双向验过；等回测产出 positions",
+     "status": "partial",
+     "trigger": "回测回执含 positions 即自动生成"
+    },
+    {
+     "id": "qu-conclusion",
+     "what": "一页结论四件齐",
+     "now": "从未产出过任何一份",
+     "status": "open",
+     "trigger": "signal CSV 落地后由 conclusion 段产出"
+    },
+    {
+     "id": "qu-quote",
+     "what": "能不能卖的判定",
+     "now": "从未做过",
+     "status": "open",
+     "trigger": "conclusion 四件齐"
+    },
+    {
+     "id": "qu-survivorship",
+     "what": "ETF 票池幸存者偏差",
+     "now": "票池=现存标的；2020-2023 段仅 5.81%",
+     "status": "open",
+     "trigger": "结论对外时必须声明；长期需退市标的补池"
+    },
+    {
+     "id": "qu-bmd",
+     "what": "重批算力",
+     "now": "bm-d 未入网，重批挤 bm-b",
+     "status": "open",
+     "trigger": "bm-d 上架"
+    },
+    {
+     "id": "qu-stock",
+     "what": "股票面赛道",
+     "now": "已判负（劣于同池等权），停烧",
+     "status": "done"
+    },
+    {
+     "id": "qu-compliance",
+     "what": "合规口径",
+     "now": "不代客实盘/不承诺收益/只讲历史回测",
+     "status": "done"
+    }
+   ]
   }
  }
 }
