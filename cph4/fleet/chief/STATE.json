@@ -1,19 +1,20 @@
 {
- "ts": "2026-11-03T09:56:25",
+ "ts": "2026-11-03T10:32:58",
  "stage": 3,
  "adoption": {
   "days": 2,
-  "applied": 256,
-  "total": 213,
+  "applied": 262,
+  "total": 218,
   "rate": 120.2,
   "eligible_stage4": false
  },
  "decisions": [
   {
    "kind": "flag",
-   "why": "2 台机空转且有活",
+   "why": "3 台机空转且有活",
    "target": [
     "bm-a",
+    "bm-c",
     "bm-m"
    ],
    "min_stage": 1,
@@ -30,10 +31,11 @@
   },
   {
    "kind": "promote",
-   "why": "队列空，候选 2 张",
+   "why": "队列空，候选 4 张",
    "target": [
-    "R-TTS-QC-R2-20261102",
-    "C-TTS-QC-ALL"
+    "C-FIN-ETF-COMPOSITE",
+    "C-VB-DISCOVER-V03",
+    "R-TTS-QC-R2-20261102"
    ],
    "min_stage": 3,
    "result": "applied"
