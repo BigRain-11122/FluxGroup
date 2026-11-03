@@ -8,10 +8,10 @@
   0
  ],
  "outcome": "FAIL",
- "error_class": "E-UNKNOWN",
+ "error_class": "E-BLOCKED-INPUT",
  "deliverable": "cph4/fleet/queue-receipts/inference-audit-bm-b.json",
  "deliverable_exists": true,
- "ts": "2026-11-03T14:38:53",
- "stdout_tail": "{\"node\": \"bm-b\", \"verdict\": \"BLOCKED\", \"out\": \"cph4/fleet/queue-receipts/inference-audit-bm-b.json\"}\n",
+ "ts": "2026-11-03T15:15:23",
+ "stdout_tail": "{\"node\": \"bm-b\", \"verdict\": \"BLOCKED\", \"out\": \"cph4/fleet/queue-receipts/inference-audit-bm-b.json\", \"note\": \"写在 -blocked-* 上，避免被当成卡交付物\"}\n",
  "stderr_tail": ""
 }
