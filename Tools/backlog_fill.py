@@ -170,7 +170,9 @@ def _fill_manifest(root, rows, have, node=None):
                                      "nodes", "day_ok", "heavy", "when_all", "when_none",
                                      "model", "prompt", "llm", "prio", "why", "timeout_s",
                                      "cloud_ok", "need_mb", "est_gb", "verify_on_node", "accept", "line",
-                                     "rescue")}
+                                     # requires 漏拷是 2026-11-03 实测事故：量化卡被派到没有量化仓的
+                                     # 本机，rc=2 E-INPUT。输入门禁必须随卡进队列，否则形同虚设。
+                                     "requires", "ok_rc", "minutes", "rescue")}
         job["state"] = "OPEN"
         job["route"] = "local"
         job["created_by"] = "backlog_fill.py:manifest"
