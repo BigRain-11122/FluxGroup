@@ -1,0 +1,78 @@
+{
+ "id": "OB-20261103-1400-ASSET-LIB",
+ "type": "asset+train",
+ "lanes": ["bm-a", "bm-b", "bm-c", "bm-m"],
+ "issued_at": "2026-11-03T14:00:00",
+ "issued_by": "bm-m（CEO 令 2026-11-03「小钢炮和传家宝先不做短剧漫剧，先储备资产：烧角色 LoRA 和音色库，你去分配，我很讨厌 AI 脸和 AI 声音，要有自己特色」）",
+ "objective": "停掉短剧/漫剧产线，把两台机的算力转去攒资产：传家宝烧角色 LoRA，小钢炮做音色库。所有数据集先过机器闸（反网红脸/反磨皮/反播音腔），过闸才许开训。",
+ "why_now": [
+  "CEO 明确不喜欢「和别的 AI 一样的脸和声音」，这是产品差异化的根，不是审美偏好",
+  "短剧/漫剧已被 PARKED，两条线原本占的 GPU 与 CPU 空出来了",
+  "现有资产库只有 238 条存量，没有角色 LoRA、没有自有音色——等于内容产线没有可复用的人物与声音"
+ ],
+ "workstreams": [
+  {
+   "lane": "bm-c",
+   "name": "角色 LoRA 主力（16GB）",
+   "steps": [
+    "跑 asset_env_check：确认 torch+CUDA 可用、kohya sd-scripts 在位（KOHYA_DIR 或 D:\\AI\\kohya_ss）；缺则装，装完重跑",
+    "按 ASSET-LIB-BUILD-v1.md 第三节造数据集到 media/asset/faces/<角色名>/：12-30 张、跨光位、必须有不对称五官与皮肤纹理、禁磨皮禁网红调色",
+    "跑 asset_dataset_audit --mode face 过闸；FAIL 就补数据，不许带着 FAIL 开训",
+    "开训：network_dim=32/alpha=16、lr=1e-4、AdamW8bit、--fused_backward_pass、resolution=1024、bs=1、10 epochs",
+    "出 5 条训练集未出现过的提示词做抽检图，连同回执一起登记 vault"
+   ],
+   "deliverables": [
+    "cph4/fleet/queue-receipts/asset-env-<date>.json（bm-c）",
+    "cph4/fleet/queue-receipts/asset-face-<date>.json",
+    "media/asset/loras/<角色名>.safetensors",
+    "cph4/fleet/vault/index.jsonl 新条目（含 license 与抽检记录）"
+   ]
+  },
+  {
+   "lane": "bm-b",
+   "name": "音色库主力（8GB）",
+   "steps": [
+    "跑 asset_env_check：确认 GPT-SoVITS 在位（GPTSOVITS_DIR 或 D:\\AI\\GPT-SoVITS）；缺则装",
+    "采集/整理参考音频到 media/asset/voices/<音色名>/：口语化、带情绪、允许口音与气声，禁朗读腔、禁默认 TTS 音色当训练集",
+    "WebUI 流程：切片（2-12s）→ 可选降噪 → ASR 打标 → 人工校对（错标会学错字）",
+    "跑 asset_dataset_audit --mode voice 过闸（特别是停顿密度与 LRA 两条，专卡播音腔）",
+    "微调：SoVITS bs=1/epochs 8-15；GPT bs=1/epochs 10；DPO 不做（8GB 撑不住 2 倍开销）",
+    "盲听 5 条不同文本，答不出「合成音」才算过，结果登记 vault"
+   ],
+   "deliverables": [
+    "cph4/fleet/queue-receipts/asset-env-<date>.json（bm-b）",
+    "cph4/fleet/queue-receipts/asset-voice-<date>.json",
+    "media/asset/voice-models/<音色名>/（SoVITS+GPT 权重）",
+    "cph4/fleet/vault/index.jsonl 新条目"
+   ]
+  },
+  {
+   "lane": "bm-m",
+   "name": "闸、编目与抽检",
+   "steps": [
+    "工序表 cph4/fleet/ri/content/lines/asset.json 已接进 line_plan，自动出卡（env-check → 数据集闸 → 入库 → 验收）",
+    "每批资产入库前核对：数据集闸回执 PASS、license 非空、5 图/5 条抽检记录在位",
+    "抽检由人（CEO 或导演席）做机器判不了的那一半：一眼 AI 就打回"
+   ],
+   "deliverables": ["cph4/fleet/queue-receipts/quality-asset-lib-*.json"]
+  }
+ ],
+ "constraints": {
+  "no_publish": "本单只产出内部资产，不对外发布、不商用",
+  "license": "训练数据必须自有或有明确许可；禁止抓取真人肖像/名人脸做 LoRA；禁止把真人声音未经授权做克隆",
+  "no_generic": "数据集不合格（网红脸/磨皮脸/播音腔）一律不许开训，宁可不训也不攒垃圾资产",
+  "gpu_policy": "bm-c 训练时独占 GPU；bm-b 8GB 不做 SDXL；bm-m 不做训练"
+ },
+ "acceptance": [
+  "两台机各有 asset-env 回执且 verdict=PASS",
+  "至少 1 个角色 LoRA 与 1 个音色模型产出，且各自的数据集闸回执为 PASS",
+  "每件资产在 vault 台账里可查（license 非空、抽检记录在位）",
+  "抽检：角色跨 5 图同一人且不显 AI；音色盲听 5 条听不出合成"
+ ],
+ "known_limits": [
+  "「有特色」无法机器判定，只能人看/人听；闸只保证不把明显垃圾送进训练",
+  "bm-b/bm-c 执行器此前有固定 rc=2 的问题（另单 OB-20261103-1230-REMOTE-EXEC-REPAIR 在修）",
+  "Mac 无 CUDA，不参与训练，只做闸与编目"
+ ],
+ "rollback": "训练产物在 media/asset/（不入 git），删目录即可；工序表 asset.json 停用就是把 LINE-REGISTRY 里 asset-lib 置 PARKED"
+}

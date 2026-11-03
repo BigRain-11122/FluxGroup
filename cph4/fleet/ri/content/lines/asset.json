@@ -1,0 +1,66 @@
+{
+ "line": "asset-lib",
+ "name": "资产储备（角色 LoRA / 音色库）",
+ "group": "content",
+ "internal": true,
+ "priority": "P0",
+ "note": "CEO 2026-11-03 令：先不做短剧与漫剧，先储备资产。这条线不对外卖，所以没有市场门（internal=true）。机器能判的只到「数据集合不合格、环境能不能烧」；「有没有特色」只能人看/人听，故不写成机器判据。训练本身不在工序卡里，因为要先过 env-check 才知道哪台机走哪条路线，见 cph4/fleet/asset-lib-v1/ASSET-LIB-BUILD-v1.md。",
+ "stages": [
+  {
+   "id": "env-check",
+   "name": "训练环境自检（这台机能不能烧）",
+   "cmd": "python {root_tools}/fleet/asset_env_check.py --out cph4/fleet/queue-receipts/asset-env-{date}.json",
+   "deliverable": "cph4/fleet/queue-receipts/asset-env-{date}.json",
+   "accept": "verdict=PASS 且 routes_ok 非空；FAIL 时 gaps 必须点名缺哪套栈（kohya / GPT-SoVITS / CUDA / 磁盘）",
+   "needs": "cpu",
+   "nodes": [],
+   "minutes": 2
+  },
+  {
+   "id": "face-dataset",
+   "name": "人脸数据集准入（反 AI 脸的第一道门）",
+   "cmd": "python {root_tools}/fleet/asset_dataset_audit.py --mode face --dir media/asset/faces --out cph4/fleet/queue-receipts/asset-face-{date}.json",
+   "deliverable": "cph4/fleet/queue-receipts/asset-face-{date}.json",
+   "accept": "verdict=PASS（张数≥12/短边≥768/近似重复≤30%/细节能量达标）；FAIL 时逐条写明是网红脸还是磨皮脸",
+   "needs": "cpu",
+   "nodes": [],
+   "minutes": 5
+  },
+  {
+   "id": "voice-dataset",
+   "name": "音色数据集准入（反播音腔的第一道门）",
+   "cmd": "python {root_tools}/fleet/asset_dataset_audit.py --mode voice --dir media/asset/voices --out cph4/fleet/queue-receipts/asset-voice-{date}.json",
+   "deliverable": "cph4/fleet/queue-receipts/asset-voice-{date}.json",
+   "accept": "verdict=PASS（≥8 条/总时长≥60s/2-12s 占比≥80%/停顿密度≥6 次每分/LRA≥5）；FAIL 时写明是不是播音腔",
+   "needs": "cpu",
+   "nodes": [],
+   "minutes": 5
+  },
+  {
+   "id": "index",
+   "name": "入库登记（没过闸的不许进资产库）",
+   "cmd": "python {root_tools}/fleet/vault.py list --limit 5",
+   "deliverable": "cph4/fleet/queue-receipts/asset-index-{date}.json",
+   "accept": "台账里有本批角色/音色条目，且 license 字段非空；未过闸的数据集不得登记为 cleared",
+   "needs": "cpu",
+   "nodes": [],
+   "minutes": 3,
+   "depends_on": [
+    "face-dataset",
+    "voice-dataset"
+   ]
+  },
+  {
+   "id": "accept",
+   "name": "质量验收（缺一份闸回执就不算交付）",
+   "cmd": "python {root_tools}/fleet/quality_gate.py --line asset-lib --out cph4/fleet/queue-receipts/quality-asset-lib-{date}.json",
+   "deliverable": "cph4/fleet/queue-receipts/quality-asset-lib-{date}.json",
+   "accept": "verdict=PASS；否则列出缺哪份闸",
+   "needs": "cpu",
+   "minutes": 1,
+   "depends_on": [
+    "index"
+   ]
+  }
+ ]
+}

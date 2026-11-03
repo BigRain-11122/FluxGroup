@@ -196,7 +196,12 @@ def main(argv):
             continue
         # 市场门（2026-11-03 CEO「务必有市场调研，不要产出垃圾」）：
         # 没有合格市场简报就不派生产卡——先调研再开工，不让机器拿体检充数。
-        mk = MB.check(t.get("line"))
+        # 内部线（internal=true，如资产储备）不对外卖，没有市场可言：给它编一份市场简报
+        # 就是造假，所以这类线跳过市场门，但仍要过结构与验收。
+        if t.get("internal"):
+            mk = {"verdict": "PASS", "gaps": []}
+        else:
+            mk = MB.check(t.get("line"))
         if mk.get("verdict") != "PASS":
             report.append({"line": t.get("line"), "table": os.path.relpath(p, ROOT), "cards": [],
                            "skipped": [("MARKET-GATE", "; ".join(mk.get("gaps") or []))]})

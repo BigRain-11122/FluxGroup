@@ -86,7 +86,7 @@
    "id": "bigstream-drama",
    "name": "BigStream·漫剧",
    "owner": "漫剧席",
-   "status": "BLOCKED",
+   "status": "PARKED",
    "repos": [],
    "stale_after_h": 48,
    "queue_prefix": [
@@ -134,13 +134,14 @@
     }
    ],
    "org": "content",
-   "priority": "P0"
+   "priority": "P0",
+   "pause_reason": "CEO 2026-11-03 令：先不做短剧和漫剧，先储备资产（烧角色 LoRA 与音色库）"
   },
   {
    "id": "bigstream-duanju",
    "name": "BigStream·短剧",
    "owner": "短剧席",
-   "status": "DORMANT",
+   "status": "PARKED",
    "repos": [],
    "stale_after_h": 72,
    "queue_prefix": [
@@ -169,7 +170,7 @@
    ],
    "org": "content",
    "priority": "P0",
-   "pause_reason": "D-20261103-03 自动收线：11-02 18:00 回执三选一逾期（反馈面末行 10-24·尾写 10-17）；复活需 CEO 令或新立项"
+   "pause_reason": "CEO 2026-11-03 令：先不做短剧和漫剧，先储备资产（烧角色 LoRA 与音色库）"
   },
   {
    "id": "bigstream-shortvideo",
@@ -574,6 +575,52 @@
    ],
    "org": "platform",
    "priority": "P3"
+  },
+  {
+   "id": "asset-lib",
+   "name": "资产储备·角色 LoRA 与音色库",
+   "owner": "资产席",
+   "status": "ACTIVE",
+   "repos": [],
+   "stale_after_h": 72,
+   "queue_prefix": [
+    "Q-ASSET-"
+   ],
+   "stages": [
+    {
+     "id": "asset-env",
+     "name": "训练环境自检",
+     "owner": "资产席",
+     "model": "rule",
+     "lane": "bm-c",
+     "evidence": [
+      "cph4/fleet/asset-lib-v1"
+     ]
+    },
+    {
+     "id": "asset-dataset",
+     "name": "数据集准入闸",
+     "owner": "资产席",
+     "model": "rule",
+     "lane": "bm-b",
+     "evidence": [
+      "cph4/fleet/queue-receipts"
+     ]
+    },
+    {
+     "id": "asset-train",
+     "name": "LoRA/音色训练",
+     "owner": "资产席",
+     "model": "local-gpu",
+     "lane": "bm-c",
+     "evidence": [
+      "cph4/fleet/asset-lib-v1"
+     ]
+    }
+   ],
+   "org": "content",
+   "priority": "P0",
+   "note": "CEO 2026-11-03 令：先不做短剧和漫剧，先储备资产（烧角色 LoRA 与音色库）"
   }
  ]
 }
