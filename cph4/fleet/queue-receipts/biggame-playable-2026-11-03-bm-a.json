@@ -2,7 +2,7 @@
  "id": "biggame-playable-2026-11-03",
  "node": "bm-a",
  "rc": 0,
- "seconds": 25.6,
+ "seconds": 40.3,
  "cmd": "python Tools/fleet/game_pack_scan.py --root gaming --out cph4/fleet/queue-receipts/game-packs-2026-11-03-r2.json",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": "E-ARTIFACT",
  "deliverable": "cph4/fleet/queue-receipts/game-playable-2026-11-03.md",
  "deliverable_exists": false,
- "ts": "2026-11-03T22:50:31",
+ "ts": "2026-11-03T23:00:10",
  "stdout_tail": "[game_pack_scan] OK packs=37 webgl=16 out=cph4/fleet/queue-receipts/game-packs-2026-11-03-r2.json\n",
  "stderr_tail": ""
 }
