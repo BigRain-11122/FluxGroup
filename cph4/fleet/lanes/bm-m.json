@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
- "ts": "2026-11-03T15:03:44",
+ "ts": "2026-11-03T15:05:40",
  "jobs": [
   {
-   "id": "biggame-playable-2026-11-03",
-   "title": "[游戏（可上线清单 → 一款可玩包 → 提审材料）] 一款可玩包（3 关 60–90 秒，2D，儿童不作失败）",
-   "cmd": "python Tools/fleet/game_pack_scan.py --root gaming --out cph4/fleet/queue-receipts/game-packs-2026-11-03-r2.json",
+   "id": "C-INFRA-AUDIT-BM-A-20261103",
+   "title": "本地推理栈体检（bm-a）：引擎/端口归属/环境变量/速度/向量层",
+   "cmd": "python Tools/fleet/local_inference_audit.py --node bm-a --out cph4/fleet/queue-receipts/inference-audit-bm-a.json",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/game-playable-2026-11-03.md",
+   "deliverable": "cph4/fleet/queue-receipts/inference-audit-bm-a.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 16.1/1.0 GB"
+ "capacity_note": "ram 13.7/1.0 GB"
 }
