@@ -1,14 +1,14 @@
 {
  "node": "bm-c",
- "ts": "2026-11-03T22:40:03",
+ "ts": "2026-11-03T22:48:03",
  "jobs": [
   {
-   "id": "asset-lib-char-gen-2026-11-03",
-   "title": "[资产储备（角色 LoRA / 音色库）] 角色包出图（本机 ComfyUI，1024²，同 seed 组）",
-   "cmd": "python Tools/fleet/char_gen.py --node bm-c --limit 12",
+   "id": "R-NEXT-BIGSTREAMM-GATE-20261103",
+   "title": "MV 交付闸复跑：当前母版四闸全验（收口前置）",
+   "cmd": "python Tools/mv_delivery_gate.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721.mp4 --whitelist cph4/fleet/mv0001-handover/canon/MV0001-REPRISE-WHITELIST.json --json cph4/fleet/queue-receipts/mv-gate-20261103.json",
    "cwd": "",
-   "needs": "gpu",
-   "deliverable": "cph4/fleet/queue-receipts/char-gen-bm-c-2026-11-03.json",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/mv-gate-20261103.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 1.9/1.0 GB"
+ "capacity_note": "ram 2.6/1.0 GB"
 }

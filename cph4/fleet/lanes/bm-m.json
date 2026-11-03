@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
- "ts": "2026-11-03T22:40:03",
+ "ts": "2026-11-03T22:46:03",
  "jobs": [
   {
-   "id": "bigmoney-signal-2026-11-03",
-   "title": "[金融量化（回测 → 一页结论 → 可报价或写清卡点）] 下月持仓信号 CSV（可卖的唯一产物）",
-   "cmd": "python Tools/fleet/quant_signal.py --in quant/bigmoney/results/etf_nobond_vt.json --out cph4/fleet/queue-receipts/quant-signal-2026-11-03.csv",
+   "id": "CHK-DUPES-20261103",
+   "title": "重复派单向量重扫（bm-m 兜底体检）",
+   "cmd": "python3 Tools/fleet/semantic_dupes.py --json cph4/fleet/queue-receipts/dupes-scan-20261103.json",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/quant-signal-2026-11-03.csv",
+   "deliverable": "cph4/fleet/dupes-scan-20261103.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 12.0/1.0 GB"
+ "capacity_note": "ram 12.6/1.0 GB"
 }
