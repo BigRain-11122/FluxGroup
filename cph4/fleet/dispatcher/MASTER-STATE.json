@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-03T13:57:57",
- "cycle": 183,
+ "ts": "2026-11-03T13:59:05",
+ "cycle": 184,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-03T13:57:57",
+ "master_tick_ts": "2026-11-03T13:59:05",
  "queue": {
   "total": 252,
   "open": 0,
@@ -14,9 +14,9 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 43.8,
-   "cpu_load_pct": 79,
-   "ram_free_gb": 26.1,
+   "hb_age_s": 44.8,
+   "cpu_load_pct": 55,
+   "ram_free_gb": 26.2,
    "gpu_util_pct": 100,
    "job": "biggame-playable-2026-11-03",
    "last_result": {
@@ -32,7 +32,7 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 492.3,
+   "hb_age_s": 560.8,
    "cpu_load_pct": 32,
    "ram_free_gb": 0.8,
    "gpu_util_pct": 100,
@@ -44,16 +44,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 23.1,
+   "hb_age_s": 91.6,
    "cpu_load_pct": 11,
    "ram_free_gb": 5.4,
    "gpu_util_pct": 0,
-   "job": "bigstream-mv-gate-2026-11-03",
+   "job": "bigstream-duanju-remux-2026-11-03",
    "last_result": {
     "job": "bigstream-mv-gate-2026-11-03",
-    "state": "RUNNING",
-    "rc": null,
-    "ts": "2026-11-03T13:57:39",
+    "state": "FAILED",
+    "rc": 1,
+    "ts": "2026-11-03T13:57:57",
     "reason": null
    },
    "idle_confirmed": false,
@@ -62,41 +62,39 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.7,
-   "cpu_load_pct": 14,
-   "ram_free_gb": 17.3,
+   "hb_age_s": 0.5,
+   "cpu_load_pct": 13,
+   "ram_free_gb": 17.6,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
-    "job": "bigstream-duanju-remux-2026-11-03",
-    "state": "FAILED",
-    "rc": 2,
-    "ts": "2026-11-03T13:56:49",
-    "reason": null
+    "job": null,
+    "state": "IDLE",
+    "rc": null,
+    "ts": "2026-11-03T13:57:57",
+    "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
-   "idle_confirmed": false,
+   "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 0
+   "idle_rounds": 1
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 0
+  "bm-m": 1
  },
  "lines": {
   "bigstream-mv": {
    "name": "BigStream·MV 41 曲",
    "status": "PAUSED",
-   "verdict": "WORKING",
+   "verdict": "WAITING",
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
-   "jobs": [
-    "bigstream-mv-gate-2026-11-03"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": null
   },
@@ -119,8 +117,10 @@
    "age_h": null,
    "stale_after_h": 72.0,
    "owner": "短剧席",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "bigstream-duanju-remux-2026-11-03"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": null,
    "stuck_stage": "duanju-script",
@@ -761,7 +761,8 @@
  },
  "supply_added": [],
  "events": [
-  "bigstream-duanju-remux-2026-11-03 FAILED via bm-m"
+  "bigstream-mv-gate-2026-11-03 FAILED via bm-c",
+  "bigstream-duanju-remux-2026-11-03 -> bm-c (cpu)"
  ],
  "violations": [
   "bm-b CAPACITY-BLOCKED-RAM",
@@ -770,6 +771,6 @@
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-m"
+  "bm-c"
  ]
 }
