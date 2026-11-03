@@ -11,8 +11,13 @@
    "deliverable": "cph4/fleet/queue-receipts/game-packs-{date}.json",
    "accept": "给出可提审候选（<200MB 的包）与各自分区；0 个也要写明扫了哪些目录",
    "needs": "cpu",
-   "nodes": ["bm-a"],
-   "minutes": 3
+   "nodes": [
+    "bm-a"
+   ],
+   "minutes": 3,
+   "requires": [
+    "gaming/MiniGame"
+   ]
   },
   {
    "id": "playable",
@@ -21,9 +26,16 @@
    "deliverable": "cph4/fleet/queue-receipts/game-playable-{date}.md",
    "accept": "写明选中款/三关情绪/单局时长/是否满足 2D 与不作失败",
    "needs": "cpu",
-   "nodes": ["bm-a"],
+   "nodes": [
+    "bm-a"
+   ],
    "minutes": 15,
-   "depends_on": ["pack-scan"]
+   "depends_on": [
+    "pack-scan"
+   ],
+   "requires": [
+    "gaming/MiniGame"
+   ]
   },
   {
    "id": "submit-pack",
@@ -32,9 +44,16 @@
    "deliverable": "cph4/fleet/queue-receipts/game-submit-{date}.md",
    "accept": "四件齐全或明确列出还差哪件（缺的通常是账号资质，属 CEO 物理件）",
    "needs": "cpu",
-   "nodes": ["bm-a"],
+   "nodes": [
+    "bm-a"
+   ],
    "minutes": 10,
-   "depends_on": ["playable"]
+   "depends_on": [
+    "playable"
+   ],
+   "requires": [
+    "gaming/MiniGame"
+   ]
   }
  ]
 }

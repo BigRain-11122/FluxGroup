@@ -5,25 +5,33 @@
  "note": "素材与配音在工作机（bm-b/bm-c）。真正的产出是'可发布集数'而不是报告，所以第三段必须给出集号清单。",
  "stages": [
   {
-   "id": "tts-qc",
-   "name": "配音质检（逐集时长/静音/体积 → 可发布清单）",
-   "cmd": "python {root_tools}/fleet/tts_batch_check.py --dir media/drama-tts-batch",
-   "deliverable": "cph4/fleet/queue-receipts/duanju-tts-qc-{date}.json",
-   "accept": "每集给出 ok/bad 与原因；给出可发布集数",
+   "id": "inventory",
+   "name": "素材盘点（先找到这台机上的真目录）",
+   "cmd": "python {root_tools}/fleet/drama_inventory.py --out cph4/fleet/queue-receipts/duanju-inventory-{date}.json",
+   "deliverable": "cph4/fleet/queue-receipts/duanju-inventory-{date}.json",
+   "accept": "列出每个素材目录的视频/音频文件数与最新时间；0 个目录也要写明 media 是否存在",
    "needs": "cpu",
-   "nodes": ["bm-b"],
+   "nodes": [
+    "bm-b",
+    "bm-c"
+   ],
    "minutes": 10
   },
   {
    "id": "remux",
    "name": "带声合流（三层混音 → 成片，loudnorm -14）",
-   "cmd": "python {root_tools}/backlog_fill.py --root .",
+   "cmd": "python {root_tools}/fleet/tts_batch_check.py --dir media/drama-tts-batch",
    "deliverable": "cph4/fleet/queue-receipts/duanju-remux-{date}.json",
    "accept": "新增成片数>0 时，每集输出路径在盘且 ffprobe 能读",
    "needs": "cpu",
-   "nodes": ["bm-b"],
+   "nodes": [
+    "bm-b",
+    "bm-c"
+   ],
    "minutes": 20,
-   "depends_on": ["tts-qc"]
+   "depends_on": [
+    "inventory"
+   ]
   },
   {
    "id": "episode-list",
@@ -32,9 +40,14 @@
    "deliverable": "cph4/fleet/queue-receipts/duanju-shippable-{date}.md",
    "accept": "给出可直接发的集号，或写明卡在哪一步",
    "needs": "cpu",
-   "nodes": ["bm-b"],
+   "nodes": [
+    "bm-b",
+    "bm-c"
+   ],
    "minutes": 5,
-   "depends_on": ["remux"]
+   "depends_on": [
+    "tts-qc"
+   ]
   }
  ]
 }
