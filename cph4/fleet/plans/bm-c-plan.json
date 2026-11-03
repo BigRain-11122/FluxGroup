@@ -1,21 +1,21 @@
 {
- "ts": "2026-11-03T12:51:55",
+ "ts": "2026-11-03T13:01:55",
  "node": "bm-c",
  "paused": false,
  "verdict": "BUSY",
  "capacity": {
   "gpu": {
    "util_pct": 0,
-   "used_mb": 2113,
+   "used_mb": 2063,
    "total_mb": 16384
   },
-  "ram_free_gb": 4.6,
-  "vram_free_mb": 14271,
+  "ram_free_gb": 5.81,
+  "vram_free_mb": 14321,
   "lease_held": false,
   "can_gpu": true,
   "can_cpu": true
  },
- "idle_min": 0.8,
+ "idle_min": 0.1,
  "assigned": [
   {
    "kind": "assigned",
