@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-03T16:34:20",
- "cycle": 313,
+ "ts": "2026-11-03T16:35:32",
+ "cycle": 314,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-03T16:34:20",
+ "master_tick_ts": "2026-11-03T16:35:32",
  "queue": {
   "total": 309,
   "open": 9,
@@ -14,16 +14,16 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 5.4,
-   "cpu_load_pct": 75,
-   "ram_free_gb": 31.6,
-   "gpu_util_pct": 20,
-   "job": "asset-lib-char-prompts-2026-11-03",
+   "hb_age_s": 16.9,
+   "cpu_load_pct": 80,
+   "ram_free_gb": 31.1,
+   "gpu_util_pct": 0,
+   "job": "asset-lib-index-2026-11-03",
    "last_result": {
-    "job": "asset-lib-voice-corpus-bmb-2026-11-03",
+    "job": "asset-lib-char-prompts-2026-11-03",
     "state": "FAILED",
     "rc": 2,
-    "ts": "2026-11-03T16:29:54",
+    "ts": "2026-11-03T16:34:48",
     "reason": null
    },
    "idle_confirmed": false,
@@ -32,7 +32,7 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 273.8,
+   "hb_age_s": 345.3,
    "cpu_load_pct": 48,
    "ram_free_gb": 3.7,
    "gpu_util_pct": 100,
@@ -50,16 +50,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 83.1,
-   "cpu_load_pct": 7,
-   "ram_free_gb": 5.5,
+   "hb_age_s": 61.4,
+   "cpu_load_pct": 5,
+   "ram_free_gb": 5.4,
    "gpu_util_pct": 0,
-   "job": "asset-lib-voice-corpus-bma-2026-11-03",
+   "job": "asset-lib-char-probe-2026-11-03",
    "last_result": {
-    "job": "asset-lib-voice-corpus-bmc-2026-11-03",
+    "job": "asset-lib-voice-corpus-bma-2026-11-03",
     "state": "FAILED",
     "rc": 2,
-    "ts": "2026-11-03T16:33:17",
+    "ts": "2026-11-03T16:34:49",
     "reason": null
    },
    "idle_confirmed": false,
@@ -68,16 +68,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.7,
+   "hb_age_s": 0.6,
    "cpu_load_pct": 100,
-   "ram_free_gb": 13.7,
+   "ram_free_gb": 13.8,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": "CHK-RECEIPT-20261103",
     "state": "FAILED",
     "rc": 2,
-    "ts": "2026-11-03T16:33:14",
+    "ts": "2026-11-03T16:34:25",
     "reason": null
    },
    "idle_confirmed": false,
@@ -284,17 +284,17 @@
    "stale_after_h": 72.0,
    "owner": "资产席",
    "jobs": [
-    "asset-lib-voice-corpus-bma-2026-11-03",
+    "asset-lib-voice-corpus-bmb-2026-11-03",
+    "asset-lib-voice-corpus-bmc-2026-11-03",
     "asset-lib-index-2026-11-03",
     "asset-lib-face-caption-2026-11-03",
-    "asset-lib-char-prompts-2026-11-03",
     "asset-lib-char-probe-2026-11-03"
    ],
    "no_supply": false,
    "blockers": [
-    "asset-lib-index-2026-11-03:no-lane",
-    "asset-lib-face-caption-2026-11-03:no-lane",
-    "asset-lib-char-probe-2026-11-03:no-lane"
+    "asset-lib-voice-corpus-bmb-2026-11-03:no-lane",
+    "asset-lib-voice-corpus-bmc-2026-11-03:no-lane",
+    "asset-lib-face-caption-2026-11-03:no-lane"
    ],
    "note": "CEO 2026-11-03：先储备资产，角色 LoRA 与音色库为 P0"
   }
@@ -308,7 +308,7 @@
     "model": "none",
     "lane": "bm-a",
     "verdict": "STALLED",
-    "age_h": 25.5,
+    "age_h": 25.7,
     "limit_h": 24.0,
     "jobs": []
    },
@@ -320,7 +320,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "WAITING",
-     "age_h": 3.8,
+     "age_h": 3.9,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -331,7 +331,7 @@
      "model": "local-gpu",
      "lane": "bm-c",
      "verdict": "WAITING",
-     "age_h": 21.0,
+     "age_h": 21.2,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -353,7 +353,7 @@
      "model": "none",
      "lane": "bm-a",
      "verdict": "STALLED",
-     "age_h": 25.5,
+     "age_h": 25.7,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -375,7 +375,7 @@
      "model": "none",
      "lane": null,
      "verdict": "WAITING",
-     "age_h": 26.3,
+     "age_h": 26.4,
      "limit_h": 9999.0,
      "jobs": []
     }
@@ -391,7 +391,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "PARKED",
-     "age_h": 0.0,
+     "age_h": 0.2,
      "limit_h": 48.0,
      "jobs": []
     },
@@ -440,7 +440,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "PARKED",
-     "age_h": 93.7,
+     "age_h": 93.9,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -451,7 +451,7 @@
      "model": "local-gpu",
      "lane": "bm-c",
      "verdict": "PARKED",
-     "age_h": 93.7,
+     "age_h": 93.9,
      "limit_h": 72.0,
      "jobs": []
     }
@@ -467,7 +467,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "PARKED",
-     "age_h": 27.3,
+     "age_h": 27.4,
      "limit_h": 168.0,
      "jobs": []
     },
@@ -478,7 +478,7 @@
      "model": "none",
      "lane": "bm-a",
      "verdict": "PARKED",
-     "age_h": 93.7,
+     "age_h": 93.9,
      "limit_h": 168.0,
      "jobs": []
     }
@@ -705,7 +705,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "PARKED",
-     "age_h": 20.5,
+     "age_h": 20.7,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -730,7 +730,7 @@
     "model": "none",
     "lane": "bm-a",
     "verdict": "STALLED",
-    "age_h": 93.7,
+    "age_h": 93.9,
     "limit_h": 72.0,
     "jobs": []
    },
@@ -742,7 +742,7 @@
      "model": "none",
      "lane": "bm-a",
      "verdict": "STALLED",
-     "age_h": 93.7,
+     "age_h": 93.9,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -753,7 +753,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "STALLED",
-     "age_h": 93.7,
+     "age_h": 93.9,
      "limit_h": 72.0,
      "jobs": []
     }
@@ -785,7 +785,7 @@
      "model": "rule",
      "lane": "bm-c",
      "verdict": "WAITING",
-     "age_h": 0.7,
+     "age_h": 0.9,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -807,7 +807,7 @@
      "model": "local-gpu",
      "lane": "bm-c",
      "verdict": "WAITING",
-     "age_h": 0.7,
+     "age_h": 0.9,
      "limit_h": 72.0,
      "jobs": []
     }
@@ -836,13 +836,14 @@
   "gpu": 1
  },
  "supply_added": [
-  "backlog_manifest+2"
+  "backlog_manifest+3"
  ],
  "events": [
-  "asset-lib-voice-corpus-bmb-2026-11-03 FAILED via bm-a",
-  "asset-lib-voice-corpus-bmc-2026-11-03 FAILED via bm-c",
+  "asset-lib-char-prompts-2026-11-03 FAILED via bm-a",
+  "asset-lib-voice-corpus-bma-2026-11-03 FAILED via bm-c",
   "CHK-RECEIPT-20261103 FAILED via bm-m",
-  "asset-lib-voice-corpus-bma-2026-11-03 -> bm-c (cpu)"
+  "asset-lib-char-probe-2026-11-03 -> bm-c (cpu)",
+  "asset-lib-index-2026-11-03 -> bm-a (cpu)"
  ],
  "violations": [
   "bm-m CAPACITY-BLOCKED-RAM",
@@ -850,6 +851,7 @@
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
+  "bm-a",
   "bm-c"
  ]
 }
