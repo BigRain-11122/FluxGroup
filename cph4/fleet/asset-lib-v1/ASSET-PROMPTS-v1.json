@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-03T18:55:23",
+ "ts": "2026-11-03T19:03:43",
  "model": "qwen3.5:4b-mlx",
  "tier": "p0",
  "items": {
@@ -30,9 +30,17 @@
    "tps": 40.1
   },
   "characters-03": {
+   "subject": "身着复古西装的冷峻都市男角色，手持咖啡杯站立于霓虹雨夜街头",
+   "composition": "中景侧拍，浅景深虚化背景，45 度低角度",
+   "style": "赛璐珞动漫上色 + 现代都市写实光影",
+   "negative": "模糊、多余肢体、变形、低分辨率",
+   "size": "1024x1920",
+   "alpha": true,
+   "use": "作为主角核心身份 Lora 训练源图及多表情动态替换基底",
    "cls": "characters",
-   "raw": "{\"subject\": \"身着未来感战术风衣、佩戴全息眼镜的干练女警，composition\": \"竖屏中景，侧身行走于霓虹雨夜街头，style\": \"赛璐璐动漫风格 + 现代都市写实光影\", \"negative\": \"低分辨率、模糊、多余肢体、油画纹理、卡通渲染\", \"size\": \"1080x1920\", \"alpha\": true, \"use\": \"作为主角在身份层驱动角色造型生成与多表情动作集训练\"}",
-   "status": "MISS"
+   "status": "OK",
+   "model": "qwen3.5:4b-mlx",
+   "tps": 40.7
   },
   "characters-04": {
    "subject": "一位穿着黑色长风衣、手持咖啡杯的干练都市女性，背景为霓虹闪烁的现代写字楼走廊",
@@ -74,9 +82,17 @@
    "tps": 40.4
   },
   "characters-07": {
+   "subject": "身穿黑色风衣手持雨伞的冷峻侦探在雨夜街头行走",
+   "composition": "竖屏近景侧身回眸，背景虚化霓虹灯牌",
+   "style": "赛璐璐动漫 + 现代都市写实",
+   "negative": "低分辨率，模糊，多余人物，卡通渲染过度",
+   "size": "1080x1920",
+   "alpha": false,
+   "use": "用于角色身份建模与多表情生成训练",
    "cls": "characters",
-   "raw": "{\"subject\": \"现代都市背景下身穿职业西装的冷静女律师，构图采用竖屏特写聚焦面部微表情，风格：赛璐珞动漫渲染结合现代都市写实光影，negative: 卡通化过度、模糊、低分辨率、手绘线稿，size: 1080x1920, alpha: true, use\": \"作为主角身份层核心形象用于角色一致性训练及多套服装变体生成\"}",
-   "status": "MISS"
+   "status": "OK",
+   "model": "qwen3.5:4b-mlx",
+   "tps": 40.7
   },
   "characters-08": {
    "subject": "穿着现代都市西装的干练女高管，手持平板电脑站在落地窗前俯瞰城市夜景",
@@ -703,9 +719,17 @@
    "tps": 40.3
   },
   "transitions-01": {
+   "subject": "霓虹雨夜中地铁玻璃门反射着模糊人影的滑动镜头",
+   "composition": "竖屏特写跟随移动，前景虚化雨水滴落",
+   "style": "赛璐璐动漫线条结合现代都市湿冷写实光影",
+   "negative": "白闪、故障风、过曝、噪点、低分辨率",
+   "size": "1080x1920",
+   "alpha": true,
+   "use": "用于角色从室内快速进入雨夜街头的无缝转场",
    "cls": "transitions",
-   "raw": "{\"subject\": \"霓虹雨夜中滑落的金属雨伞与积水倒影，\"composition\": \"竖屏居中特写镜头捕捉动态水花溅射瞬间，\"style\": \"赛璐璐动漫上色 + 现代都市写实光影，\"negative\": \"模糊、噪点、多余文字、卡通风格、非真实质感、白闪、故障风，\"size\": \"1080x1920\",\"alpha\": true,\"use\": \"用于转场衔接主角从室内进入雨夜的场景\"}",
-   "status": "MISS"
+   "status": "OK",
+   "model": "qwen3.5:4b-mlx",
+   "tps": 40.6
   },
   "transitions-02": {
    "subject": "霓虹雨夜中手机屏幕碎裂特写",
@@ -734,9 +758,17 @@
    "tps": 40.3
   },
   "transitions-04": {
+   "subject": "霓虹光影中穿梭的地铁车厢玻璃反光",
+   "composition": "竖屏中心对称构图，镜头轻微手持晃动模拟移动感",
+   "style": "赛璐璐动漫线条结合现代都市写实灯光与纹理",
+   "negative": "无白闪、无故障风、无模糊、无多余水印、非横屏比例",
+   "size": "1080x1920",
+   "alpha": true,
+   "use": "用于剧中列车进站或换线时的快速转场衔接",
    "cls": "transitions",
-   "raw": "{\"subject\": \"手机屏幕裂纹特写，赛璐璐动漫风格叠加现代都市霓虹光影，构图采用对角线动态倾斜视角，1080x1920, true, 用于角色情绪崩溃时的环境氛围转场\"}",
-   "status": "MISS"
+   "status": "OK",
+   "model": "qwen3.5:4b-mlx",
+   "tps": 40.6
   },
   "transitions-05": {
    "subject": "现代都市写字楼玻璃幕墙快速拉远镜头，城市天际线掠过霓虹招牌",
@@ -870,7 +902,7 @@
   },
   "voices-02": {
    "cls": "voices",
-   "raw": "{\"subject\": \"深夜便利店雨声与关东煮沸腾声，composition\": \"竖屏特写镜头聚焦玻璃门倒影，style\": \"赛璐璐动漫 + 现代都市写实\", \"negative\": \"低音质、杂音、过度回声、卡通化音效、画面模糊\", \"size\": \"1080x1920\", \"alpha\": false, \"use\": \"作为背景氛围音增强深夜都市感\"}",
+   "raw": "{subject: \"深夜便利店关东煮沸腾特写\", composition: \"低角度近景 + 浅景深虚化背景\", style: \"赛璐璐动漫风格 + 现代都市写实光影\", negative: \"3D render, low resolution, blurry, cartoon shading only\", size: \"1080x1920\", alpha: false, use: \"作为有声小说旁白起始音的视觉锚点场景\"}",
    "status": "MISS"
   },
   "voices-03": {
@@ -1031,9 +1063,17 @@
    "tps": 40.6
   },
   "audio-sfx-09": {
+   "subject": "金属雨滴落在霓虹灯面罩的特写",
+   "composition": "竖屏特写，微距聚焦水珠滑落轨迹",
+   "style": "赛璐璐动漫 + 现代都市写实",
+   "negative": "低分辨率、模糊、噪点过多、卡通风格过重",
+   "size": "1080x1920",
+   "alpha": false,
+   "use": "配合雨夜街头打斗场景的背景环境音效",
    "cls": "audio-sfx",
-   "raw": "json 格式不支持音频文件元数据，本模型仅能生成图像/视频帧的资产规格。",
-   "status": "MISS"
+   "status": "OK",
+   "model": "qwen3.5:4b-mlx",
+   "tps": 40.5
   },
   "audio-sfx-10": {
    "subject": "雨滴打湿玻璃窗特写",
@@ -1179,14 +1219,30 @@
    "tps": 40.4
   },
   "audio-sfx-21": {
+   "subject": "金属撞击声",
+   "composition": "立体声场",
+   "style": "赛璐璐动漫+现代都市写实",
+   "negative": "失真，杂音，回音",
+   "size": "1080x1920",
+   "alpha": false,
+   "use": "打斗场景中的武器碰撞音效",
    "cls": "audio-sfx",
-   "raw": "无法生成符合要求的 JSON，因为您提供的指令中“资产类别”为\"audio-sfx\"（音频音效），而后续要求的字段（subject, composition, style, negative, size, alpha）均为视觉图像生成的参数（如构图、分辨率、风格词等），两者不兼容；此外，\"alpha\"和\"size\"是视频或图片的必需属性，无法用于描述纯音频文件。",
-   "status": "MISS"
+   "status": "OK",
+   "model": "qwen3.5:4b-mlx",
+   "tps": 40.2
   },
   "audio-sfx-22": {
+   "subject": "现代都市深夜霓虹灯下雨滴滑落玻璃幕墙特写",
+   "composition": "竖屏中心对称构图，浅景深虚化背景，聚焦雨珠撞击瞬间",
+   "style": "赛璐璐动漫线条 + 现代都市写实光影",
+   "negative": "卡通风格插画、手绘草图、低分辨率模糊、过度噪点",
+   "size": "1080x1920",
+   "alpha": "true",
+   "use": "作为背景音效视觉化素材，增强都市夜雨氛围沉浸感",
    "cls": "audio-sfx",
-   "raw": "无法生成 JSON 格式的输出，因为提供的输入中指定了“资产类别：音效（audio-sfx）”，而您要求的字段结构（subject, composition, style, negative, size, alpha, use）完全适用于视觉图像（如竖屏短剧/漫剧的资产库），不适用于音频文件。此外，您未提供第 22 件具体内容的描述或素材，无法生成针对性的生产规格。",
-   "status": "MISS"
+   "status": "OK",
+   "model": "qwen3.5:4b-mlx",
+   "tps": 40.3
   },
   "audio-sfx-23": {
    "subject": "雨滴打在霓虹灯牌上的清脆声",
@@ -1202,9 +1258,17 @@
    "tps": 40.4
   },
   "audio-sfx-24": {
+   "subject": "雨滴撞击玻璃窗的特写",
+   "composition": "特写镜头，微距聚焦于水珠滑落轨迹",
+   "style": "赛璐璐动漫+现代都市写实",
+   "negative": "卡通风格，3D 渲染，噪点过多",
+   "size": "1080x1920",
+   "alpha": true,
+   "use": "作为背景音效层，匹配雨夜都市剧场景",
    "cls": "audio-sfx",
-   "raw": "无法提供符合要求的 JSON 输出，因为您提供的提示中定义的字段（subject, composition, style 等）均针对视觉生成模型（如 Midjourney/Stable Diffusion），而当前任务要求生成的资产类别为“音效（audio-sfx）”，二者在维度上完全不兼容。",
-   "status": "MISS"
+   "status": "OK",
+   "model": "qwen3.5:4b-mlx",
+   "tps": 40.5
   },
   "audio-sfx-25": {
    "subject": "雨夜霓虹灯反射在水洼的倒影",
@@ -1220,9 +1284,17 @@
    "tps": 40.4
   },
   "audio-sfx-26": {
+   "subject": "现代都市地铁站台电子广播播报特写",
+   "composition": "竖屏中心构图，浅景深虚化背景轨道与乘客剪影",
+   "style": "赛璐璐动漫线条结合现代都市写实光影色调",
+   "negative": "模糊、噪点、低分辨率、卡通渲染过度、非竖屏比例",
+   "size": "1080x1920",
+   "alpha": true,
+   "use": "作为地铁场景背景音效触发时的视觉提示符",
    "cls": "audio-sfx",
-   "raw": "json 格式错误：音频文件无法指定像素尺寸、构图或主体，且 alpha 通道仅用于图像/视频；请提供正确的图像资产类别（如“角色特写”）以生成符合上述字段要求的 JSON。",
-   "status": "MISS"
+   "status": "OK",
+   "model": "qwen3.5:4b-mlx",
+   "tps": 40.1
   },
   "audio-sfx-27": {
    "subject": "霓虹闪烁的都市雨夜街角特写镜头",
@@ -1303,19 +1375,43 @@
    "tps": 40.2
   },
   "audio-sfx-33": {
+   "subject": "金属钥匙插入锁芯的特写",
+   "composition": "竖屏特写，微距镜头聚焦旋转瞬间",
+   "style": "赛璐璐动漫线条结合现代都市金属质感光影",
+   "negative": "无人脸、无文字水印、无模糊噪点",
+   "size": "1080x1920",
+   "alpha": false,
+   "use": "配合开锁音效，表现主角突破困境的紧张感",
    "cls": "audio-sfx",
-   "raw": "JSON 格式无法用于描述音频音效资产，且该请求未提供具体场景或物件信息，因此无法生成符合您要求的 production specification。",
-   "status": "MISS"
+   "status": "OK",
+   "model": "qwen3.5:4b-mlx",
+   "tps": 40.6
   },
   "audio-sfx-34": {
+   "subject": "雨夜霓虹倒影在积水路面破碎的清脆回响",
+   "composition": "特写镜头聚焦水滴溅落瞬间与模糊背景对比",
+   "style": "赛璐璐动漫风格渲染结合现代都市写实音效采样",
+   "negative": "卡通式拟声词、纯音乐旋律、过度压缩失真",
+   "size": "2048x1920",
+   "alpha": true,
+   "use": "第 34 集开场雨夜主角逃亡时营造紧张氛围",
    "cls": "audio-sfx",
-   "raw": "json 无法直接用于描述音频文件（如“音效”），因为 JSON 仅支持结构化数据，而音频资产本质是二进制流或波形数据，其核心属性（如时长、采样率、波形）应存储在数据库的 `file_path`、`duration`、`format` 等字段中，而非试图用文本描述；此外，您提供的“硬性规格”中包含非数值字符串 `[0.2, 8]`，这在 JSON 类型约束下是非法的（JSON 不支持数组作为属性值且需包含字符串），因此该格式无法用于生成符合规范的资产库数据。",
-   "status": "MISS"
+   "status": "OK",
+   "model": "qwen3.5:4b-mlx",
+   "tps": 40.5
   },
   "audio-sfx-35": {
+   "subject": "金属链条断裂弹飞场景",
+   "composition": "特写镜头，慢动作，手持摄影感",
+   "style": "赛璐璐动漫风格 + 现代都市写实光影",
+   "negative": "卡通化表情、低分辨率、模糊、噪点过多、非赛璐璐渲染",
+   "size": "1080x1920",
+   "alpha": "true",
+   "use": "用于表现反派机关失效或装备损坏的关键转折音效",
    "cls": "audio-sfx",
-   "raw": "json 格式不支持生成音频文件，且您要求的字段（subject, composition, style, negative, size, alpha, use）均为视觉图像生成参数，无法用于描述音效资产；若需音效资产规格，应使用 audio 专用字段（如 file_format, bpm, channels, genre, loopable）。",
-   "status": "MISS"
+   "status": "OK",
+   "model": "qwen3.5:4b-mlx",
+   "tps": 40.4
   },
   "audio-sfx-36": {
    "subject": "金属门轴摩擦与锁舌弹开的特写",
@@ -1396,9 +1492,17 @@
    "tps": 40.7
   },
   "audio-bgm-02": {
+   "subject": "雨夜便利店暖黄灯光内年轻情侣互道晚安的温馨特写镜头",
+   "composition": "中景，浅景深虚化窗外雨幕，低角度仰拍营造氛围感",
+   "style": "赛璐璐动漫线条结合现代都市写实光影与噪点",
+   "negative": "卡通风格、3D 渲染、电影级胶片颗粒、高饱和度霓虹、恐怖元素",
+   "size": "1080x1920",
+   "alpha": false,
+   "use": "作为第 2 集片尾情感升华背景音，时长 45 秒，匹配雨声与键盘敲击采样",
    "cls": "audio-bgm",
-   "raw": "json 格式不支持音频文件生成，且您提供的“硬性规格”包含音频时长字段（dur），这与图像/视频资产库的视觉规格定义冲突，无法按当前 JSON 模板输出配乐段落的生产规格。",
-   "status": "MISS"
+   "status": "OK",
+   "model": "qwen3.5:4b-mlx",
+   "tps": 40.4
   },
   "audio-bgm-03": {
    "subject": "霓虹雨夜中便利店自动门开启的暖光与金属摩擦声",
@@ -1453,9 +1557,17 @@
    "tps": 40.3
   },
   "audio-bgm-07": {
+   "subject": "深夜便利店自动门与霓虹招牌特写，现代都市氛围感场景",
+   "composition": "竖屏中心构图，低角度仰视",
+   "style": "赛璐璐动漫 + 现代都市写实",
+   "negative": "卡通化人物、写实风景、3D 渲染",
+   "size": "1080x1920",
+   "alpha": true,
+   "use": "作为第 7 集开场背景音乐，营造都市孤独感",
    "cls": "audio-bgm",
-   "raw": "{\"subject\": \"霓虹雨夜都市街头空镜，构图采用竖屏中心对称与动态模糊结合，风格为赛璐璐动漫线条叠加现代都市写实光影，negative：photorealistic, 3d render, raw photo, noise, grain, low resolution, distorted face, watermark, text, signature, blurry, bad quality, deformed, noisy, lowres, jpeg artifacts, 4k, uhd, masterpiece, best quality, detailed, high quality, clear, sharp, realistic, natural lighting, high detail, high definition, ultra-realistic, hype",
-   "status": "MISS"
+   "status": "OK",
+   "model": "qwen3.5:4b-mlx",
+   "tps": 39.9
   },
   "audio-bgm-08": {
    "subject": "雨夜便利店霓虹招牌与玻璃倒影",
@@ -1550,9 +1662,9 @@
   }
  },
  "stats": {
-  "asked": 32,
-  "ok": 17,
-  "miss": 15,
-  "seconds": 83.3
+  "asked": 1,
+  "ok": 0,
+  "miss": 1,
+  "seconds": 5.2
  }
 }
