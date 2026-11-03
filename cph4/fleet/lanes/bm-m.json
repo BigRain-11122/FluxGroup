@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
- "ts": "2026-11-03T11:24:12",
+ "ts": "2026-11-03T11:25:35",
  "jobs": [
   {
-   "id": "C-TTS-QC-ALL",
-   "title": "短剧配音全量质检（逐集时长/静音/体积 → 可发布集数清单）",
-   "cmd": "python Tools/fleet/tts_batch_check.py --dir media/drama-tts-out --out cph4/fleet/queue-receipts/tts-qc-all.json",
+   "id": "R-TTS-QC-R2-20261102",
+   "title": "短剧配音全量质检（出可发布集数清单）",
+   "cmd": "python Tools/fleet/tts_batch_check.py --dir media/drama-tts-out --out cph4/fleet/queue-receipts/tts-qc-r2-20261102.json",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/tts-qc-all.json",
+   "deliverable": "cph4/fleet/queue-receipts/tts-qc-r2-20261102.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
