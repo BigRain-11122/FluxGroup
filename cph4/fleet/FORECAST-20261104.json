@@ -1,14 +1,14 @@
 {
- "ts": "2026-11-04T02:43:05+0800",
+ "ts": "2026-11-04T04:35:15+0800",
  "alert_days": 2.0,
  "lines": [
   {
    "line": "asset-lib",
    "status": "ACTIVE",
    "prio": "P0",
-   "stock": 32,
+   "stock": 11,
    "rate_per_day": 2.33,
-   "runway_days": 13.7,
+   "runway_days": 4.7,
    "has_table": true,
    "blocker": {
     "stage": "env-check",
@@ -55,22 +55,6 @@
    ]
   },
   {
-   "line": "biggame",
-   "status": "ACTIVE",
-   "prio": "P0",
-   "stock": 2,
-   "rate_per_day": 1.0,
-   "runway_days": 2.0,
-   "has_table": true,
-   "blocker": {
-    "stage": "pack-scan",
-    "deliverable": "cph4/fleet/queue-receipts/game-packs-20261104.json",
-    "needs": "cpu",
-    "hard_nodes": []
-   },
-   "flags": []
-  },
-  {
    "line": "bigstream-drama",
    "status": "PARKED",
    "prio": "P0",
@@ -103,22 +87,18 @@
    ]
   },
   {
-   "line": "bigmoney",
+   "line": "biggame",
    "status": "ACTIVE",
-   "prio": "P1",
-   "stock": 3,
-   "rate_per_day": 1.67,
-   "runway_days": 1.8,
+   "prio": "P0",
+   "stock": 0,
+   "rate_per_day": 1.0,
+   "runway_days": 0.0,
    "has_table": true,
    "blocker": {
-    "stage": "backtest",
-    "deliverable": "quant/bigmoney/results/etf_nobond_vt.json",
+    "stage": "pack-scan",
+    "deliverable": "cph4/fleet/queue-receipts/game-packs-20261104.json",
     "needs": "cpu",
-    "hard_nodes": [
-     "bm-a",
-     "bm-b",
-     "bm-d"
-    ]
+    "hard_nodes": []
    },
    "flags": [
     "ALERT"
@@ -135,6 +115,28 @@
    "blocker": null,
    "flags": [
     "NO-TABLE"
+   ]
+  },
+  {
+   "line": "bigmoney",
+   "status": "ACTIVE",
+   "prio": "P1",
+   "stock": 0,
+   "rate_per_day": 2.0,
+   "runway_days": 0.0,
+   "has_table": true,
+   "blocker": {
+    "stage": "backtest",
+    "deliverable": "quant/bigmoney/results/etf_nobond_vt.json",
+    "needs": "cpu",
+    "hard_nodes": [
+     "bm-a",
+     "bm-b",
+     "bm-d"
+    ]
+   },
+   "flags": [
+    "ALERT"
    ]
   },
   {
@@ -233,6 +235,6 @@
    ]
   }
  ],
- "alerts": 3,
+ "alerts": 4,
  "no_table": 6
 }
