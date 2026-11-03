@@ -82,7 +82,8 @@
    "priority": "P0",
    "pause_reason": "auto-resume:2026-11-03 冷却到期（原：2026-11-02）",
    "visibility": "OK",
-   "last_artifact_h": 1.3
+   "last_artifact_h": 1.3,
+   "no_autostop": true
   },
   {
    "id": "bigstream-drama",
@@ -608,7 +609,7 @@
    "id": "asset-lib",
    "name": "资产储备·角色 LoRA 与音色库",
    "owner": "资产席",
-   "status": "PAUSED",
+   "status": "ACTIVE",
    "repos": [],
    "stale_after_h": 72,
    "queue_prefix": [
@@ -649,11 +650,11 @@
    "org": "content",
    "priority": "P0",
    "note": "CEO 2026-11-03：先储备资产，角色 LoRA 与音色库为 P0",
-   "pause_reason": "auto-stop:过闸率<50%且返工>=3（2026-11-03）",
-   "autostop_at": "2026-11-03T17:15:37",
+   "pause_reason": "CEO 钦点 P0（储备资产线）：解除指标闸自动停线，恢复供卡",
    "resume_hint": "冷却 24h 后自动回 ACTIVE；期间出卡方停供。CEO 令停/判负的线不在此列（pause_reason 不带 auto-stop）",
    "visibility": "OK",
-   "last_artifact_h": 0.0
+   "last_artifact_h": 0.0,
+   "no_autostop": true
   }
  ]
 }

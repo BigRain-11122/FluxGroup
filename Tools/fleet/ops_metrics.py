@@ -206,14 +206,20 @@ def main(argv):
         if stops:
             for s in stops:
                 for ln in lines:
-                    if ln.get("id") == s["line"]:
-                        ln["status"] = "PAUSED"
-                        ln["pause_reason"] = "auto-stop:%s（%s）" % (s["why"], out["ts"][:10])
-                        ln["autostop_at"] = out["ts"]
-                        ln["resume_hint"] = ("冷却 %dh 后自动回 ACTIVE；期间出卡方停供。"
-                                             "CEO 令停/判负的线不在此列（pause_reason 不带 auto-stop）"
+                    if ln.get("id") != s["line"]:
+                        continue
+                    # CEO 钦点的线不许被指标闸静默停掉（2026-11-03 实测：asset-lib 因缺输入类
+                    # 失败被判过闸率<50%，停线同时停供给，指标冻结后永远回不来）。
+                    # 钦点=人已在上层决定要做，机器只能报红，不能替代这个决策。
+                    if ln.get("no_autostop") or ln.get("ceo_pinned"):
+                        continue
+                    ln["status"] = "PAUSED"
+                    ln["pause_reason"] = "auto-stop:%s（%s）" % (s["why"], out["ts"][:10])
+                    ln["autostop_at"] = out["ts"]
+                    ln["resume_hint"] = ("冷却 %dh 后自动回 ACTIVE；期间出卡方停供。"
+                                         "CEO 令停/判负的线不在此列（pause_reason 不带 auto-stop）"
                                              % AUTOSTOP_COOLDOWN_H)
-                        applied.append(s["line"])
+                    applied.append(s["line"])
         # 冷却到期自动回线：停线同时停掉供给，指标冻结，没有这一条就永远回不来。
         for ln in lines:
             ts0 = ln.get("autostop_at")
