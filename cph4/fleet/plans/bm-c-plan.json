@@ -1,21 +1,21 @@
 {
- "ts": "2026-11-03T22:01:54",
+ "ts": "2026-11-03T22:41:54",
  "node": "bm-c",
  "paused": false,
  "verdict": "BLOCKED-CAPACITY",
  "capacity": {
   "gpu": {
-   "util_pct": 3,
-   "used_mb": 2024,
+   "util_pct": 72,
+   "used_mb": 12486,
    "total_mb": 16384
   },
-  "ram_free_gb": 2.96,
-  "vram_free_mb": 14360,
+  "ram_free_gb": 1.65,
+  "vram_free_mb": 3898,
   "lease_held": false,
   "can_gpu": false,
   "can_cpu": false
  },
- "idle_min": 0.1,
+ "idle_min": 0.3,
  "assigned": [
   {
    "kind": "assigned",
@@ -39,21 +39,12 @@
   },
   {
    "kind": "queue",
-   "id": "asset-lib-char-prompts-2026-11-03",
-   "title": "[资产储备（角色 LoRA / 音色库）] 角色包出图计划（8 原创角色 × 6 视角提示词包）",
-   "prio": "P0",
-   "needs": "cpu",
-   "feasible": false,
-   "reason": "queue row RUNNING"
-  },
-  {
-   "kind": "queue",
    "id": "asset-lib-voice-assemble-2026-11-03",
    "title": "[资产储备（角色 LoRA / 音色库）] 音色数据集装配（授权核查→voices/<组> 准入）",
    "prio": "P0",
    "needs": "cpu",
    "feasible": false,
-   "reason": "queue row OPEN"
+   "reason": "queue row RUNNING"
   },
   {
    "kind": "queue",
@@ -94,7 +85,7 @@
  "dispatched_now": null,
  "counts": {
   "open_backlog": 0,
-  "open_queue": 19,
+  "open_queue": 18,
   "bank_pending": 0
  }
 }

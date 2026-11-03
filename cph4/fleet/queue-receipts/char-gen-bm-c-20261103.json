@@ -1,12 +1,69 @@
 {
- "rc": 3,
- "verdict": "BLOCKED",
- "status": "BLOCKED",
- "error_class": "E-BLOCKED-INPUT",
- "ts": "2026-11-03T20:01:02+0800",
- "why": "ComfyUI 不可达或 /object_info 失败：http://127.0.0.1:8188",
- "gaps": [
-  "在 bm-c 上启动 ComfyUI 并确认 8188 可连（<urlopen error [Errno 61] Connection refused>）"
+ "rc": 0,
+ "ts": "2026-11-03T22:46:03+0800",
+ "node": "bm-c",
+ "made": [
+  {
+   "character": "CH01",
+   "view": "front",
+   "prompt_id": "a30b5703-befb-4fa5-8b2e-f7ded9b43f49"
+  },
+  {
+   "character": "CH01",
+   "view": "three_quarter_left",
+   "prompt_id": "5795bfdc-ceed-497e-b90d-a95dfc973153"
+  },
+  {
+   "character": "CH01",
+   "view": "profile_left",
+   "prompt_id": "ae6a0f51-ac83-4efd-8455-04849eade4e3"
+  },
+  {
+   "character": "CH01",
+   "view": "back",
+   "prompt_id": "c09f579a-557c-4974-89db-58f58a934e6f"
+  },
+  {
+   "character": "CH01",
+   "view": "expression_soft",
+   "prompt_id": "c6592751-c770-4450-bc83-0cd909ea743b"
+  },
+  {
+   "character": "CH01",
+   "view": "expression_tense",
+   "prompt_id": "f7dd08ec-0542-4920-8ddf-a4f48bfb0cb3"
+  },
+  {
+   "character": "CH02",
+   "view": "front",
+   "prompt_id": "0de714e4-3c51-409a-a77d-5d1512260454"
+  },
+  {
+   "character": "CH02",
+   "view": "three_quarter_left",
+   "prompt_id": "ecb928aa-9cb8-41e2-972e-0324506f4a68"
+  },
+  {
+   "character": "CH02",
+   "view": "profile_left",
+   "prompt_id": "cbdf3851-946d-46fd-a19f-428a0d354dbf"
+  },
+  {
+   "character": "CH02",
+   "view": "back",
+   "prompt_id": "c951c291-8602-4a28-96e5-97d300450a6b"
+  },
+  {
+   "character": "CH02",
+   "view": "expression_soft",
+   "prompt_id": "84046905-a01c-4d18-bd39-acd09c7aa22c"
+  },
+  {
+   "character": "CH02",
+   "view": "expression_tense",
+   "prompt_id": "95f01129-1ac4-416a-af67-74d19d7e7c96"
+  }
  ],
- "tool": "char_gen"
+ "failed": [],
+ "note": "图落 ComfyUI 输出目录后需回拷到 media/asset/characters/<ID>/<view>.png，下一步由 asset_dataset_audit 判准入"
 }
