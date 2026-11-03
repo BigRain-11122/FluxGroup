@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-03T17:15:48+0800",
+ "ts": "2026-11-03T17:22:54+0800",
  "alert_days": 2.0,
  "lines": [
   {
@@ -110,9 +110,9 @@
    "line": "bigmoney",
    "status": "ACTIVE",
    "prio": "P1",
-   "stock": 0,
+   "stock": 2,
    "rate_per_day": 1.0,
-   "runway_days": 0.0,
+   "runway_days": 2.0,
    "has_table": true,
    "blocker": {
     "stage": "backtest",
@@ -120,9 +120,7 @@
     "needs": "cpu",
     "hard_nodes": []
    },
-   "flags": [
-    "ALERT"
-   ]
+   "flags": []
   },
   {
    "line": "bigdomain",
@@ -237,6 +235,6 @@
    ]
   }
  ],
- "alerts": 3,
+ "alerts": 2,
  "no_table": 6
 }

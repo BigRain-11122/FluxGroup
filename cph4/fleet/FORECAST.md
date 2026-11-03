@@ -1,4 +1,4 @@
-# 前瞻：线的弹药与卡点（2026-11-03T17:15:48+0800）
+# 前瞻：线的弹药与卡点（2026-11-03T17:22:54+0800）
 
 | 线 | 优先 | 状态 | 库存 | 日均 | 剩余天 | 卡点 |
 |---|---|---|---|---|---|---|
@@ -8,7 +8,7 @@
 | bigstream-drama | P0 | PARKED | 0 | 1.33 | 0.0 | src-scan ⚠INACTIVE |
 | bigstream-duanju | P0 | PARKED | 0 | 0.67 | 0.0 | inventory ⚠INACTIVE |
 | bigstream-shortvideo | P0 | PARKED | 0 | 0 | — | — ⚠NO-TABLE,INACTIVE |
-| bigmoney | P1 | ACTIVE | 0 | 1.0 | 0.0 | backtest ⚠ALERT |
+| bigmoney | P1 | ACTIVE | 2 | 1.0 | 2.0 | backtest |
 | bigdomain | P1 | ACTIVE | 0 | 0 | — | — ⚠NO-TABLE,NO-HISTORY |
 | fluxverse | P2 | ACTIVE | 0 | 0 | — | — ⚠NO-TABLE,NO-HISTORY |
 | biglife | P2 | ACTIVE | 0 | 0 | — | — ⚠NO-TABLE,NO-HISTORY |

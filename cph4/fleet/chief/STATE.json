@@ -1,11 +1,11 @@
 {
- "ts": "2026-11-03T17:15:49",
+ "ts": "2026-11-03T17:22:54",
  "stage": 3,
  "adoption": {
   "days": 2,
-  "applied": 454,
-  "total": 369,
-  "rate": 123.0,
+  "applied": 460,
+  "total": 373,
+  "rate": 123.3,
   "eligible_stage4": false
  },
  "decisions": [
@@ -22,7 +22,7 @@
    "kind": "requeue",
    "why": "2 张卡在跑但 1 小时无回执",
    "target": [
-    "asset-lib-voice-corpus-bma-2026-11-03",
+    "asset-lib-voice-corpus-bmb-2026-11-03",
     "asset-lib-face-caption-2026-11-03"
    ],
    "min_stage": 3,
@@ -43,7 +43,7 @@
   {
    "kind": "requeue",
    "ids": [
-    "asset-lib-voice-corpus-bma-2026-11-03",
+    "asset-lib-voice-corpus-bmb-2026-11-03",
     "asset-lib-face-caption-2026-11-03"
    ]
   }
