@@ -11,7 +11,7 @@
  "error_class": "E-CONTRACT",
  "deliverable": "cph4/fleet/receipt-attrib-20261103.json",
  "deliverable_exists": false,
- "ts": "2026-11-03T15:02:30",
- "stdout_tail": "receipts=349 rc0=231 fail=5  missing_rc=63 no_error_class=17 bad_json=3\nfail rc: 1 -> E-UNKNOWN, 127 -> E-PATH, 2 -> E-CONTRACT, 3 -> E-BLOCKED-INPUT, 9009 -> E-PATH\nrc!=0 但缺 error_class: C-MV-STABILITY-bm-a.json, Q-MV-0001-015-bm-a.json, Q-MV-0001-017-bm-a.json, Q-TRIAGE-CARGAMING-20261031-bm-a.json, Q-TRIAGE-FLUXVERSE-20261031-bm-a.json, Q-TRIAGE-RECON-20261031-bm-a.json ...\nwrote cph4/fleet/queue-receipts/receipt-attrib-20261103.json verdict=GAPS\n",
+ "ts": "2026-11-03T16:33:09",
+ "stdout_tail": "receipts=382 rc0=252 fail=5  missing_rc=67 no_error_class=17 bad_json=3\nfail rc: 1 -> E-UNKNOWN, 127 -> E-PATH, 2 -> E-CONTRACT, 3 -> E-BLOCKED-INPUT, 9009 -> E-PATH\nrc!=0 但缺 error_class: C-MV-STABILITY-bm-a.json, Q-MV-0001-015-bm-a.json, Q-MV-0001-017-bm-a.json, Q-TRIAGE-CARGAMING-20261031-bm-a.json, Q-TRIAGE-FLUXVERSE-20261031-bm-a.json, Q-TRIAGE-RECON-20261031-bm-a.json ...\nwrote cph4/fleet/queue-receipts/receipt-attrib-20261103.json verdict=GAPS\n",
  "stderr_tail": ""
 }

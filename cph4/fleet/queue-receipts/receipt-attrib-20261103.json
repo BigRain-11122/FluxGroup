@@ -1,6 +1,6 @@
 {
- "ts": "2026-11-03T15:02:30+0800",
- "receipts": 349,
+ "ts": "2026-11-03T16:33:09+0800",
+ "receipts": 382,
  "unparseable": [
   "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/fleet-align-bm-a.json",
   "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/fleet-align-bm-b.json",
@@ -15,7 +15,6 @@
   "POOL-0024-bm-c.json",
   "_last_claim.json",
   "_last_lane_bm-a.json",
-  "_last_lane_bm-m.json",
   "asset-env-2026-11-03.json",
   "asset-env-bm-m.json",
   "asset-face-2026-11-03.json",
@@ -31,6 +30,7 @@
   "biz-mv-publish-checklist-20261102.json",
   "biz-mv-publish-checklist-20261103.json",
   "car-adapt-20261102.json",
+  "drama-assemble-hw-20261103.json",
   "drama-gate-2026-11-03.json",
   "drama-manifest-2026-11-03.json",
   "drama-qa-2026-11-03.json",
@@ -42,10 +42,13 @@
   "game-packs-2026-11-03-r2.json",
   "game-packs-2026-11-03.json",
   "inference-audit-bm-a.json",
+  "inference-audit-bm-b-blocked-20261103.json",
   "inference-audit-bm-b.json",
   "inference-audit-bm-c.json",
   "inference-audit-bm-m-20261103.json",
   "judge-bench-20261102.json",
+  "kf-steps-ab-20261103.json",
+  "model-radar-junshengsundemacbook-pro.local-20261103.json",
   "mv-full-audit-20261101.json",
   "mv-full-audit-20261102.json",
   "mv-full-audit-r2-20261102.json",
@@ -57,6 +60,7 @@
   "mv-gate-v721-20261102.json",
   "mv-gate-v721-24fps-20261103.json",
   "mv-master-locate.json",
+  "mv-perf-20261103.json",
   "mv-stab-20261102.json",
   "mv-stability.json",
   "mv-v718-still-5273.json",
@@ -72,10 +76,10 @@
   "voice-corpus-bm-m-2026-11-03.json"
  ],
  "rc_hist": {
-  "0": 231,
-  "1": 23,
-  "2": 14,
-  "3": 6,
+  "0": 252,
+  "1": 25,
+  "2": 15,
+  "3": 11,
   "127": 6,
   "9009": 1
  },
@@ -106,6 +110,10 @@
   "asset-lib-voice-corpus-bmm-2026-11-03-bm-m.json"
  ],
  "error_class_not_in_taxonomy": [
+  [
+   "C-QUANT-NOBOND-20261103-bm-m.json",
+   "E-INPUT"
+  ],
   [
    "C-TTS-QC-ALL-bm-a.json",
    "E-INPUT"
