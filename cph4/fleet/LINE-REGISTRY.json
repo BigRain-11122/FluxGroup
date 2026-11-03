@@ -7,7 +7,7 @@
    "id": "bigstream-mv",
    "name": "BigStream·MV 41 曲",
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
-   "status": "PAUSED",
+   "status": "ACTIVE",
    "repos": [],
    "stale_after_h": 24,
    "queue_prefix": [
@@ -80,7 +80,7 @@
    ],
    "org": "content",
    "priority": "P0",
-   "pause_reason": "auto-stop:过闸率<50%且返工>=3（2026-11-02）"
+   "pause_reason": "auto-resume:2026-11-03 冷却到期（原：2026-11-02）"
   },
   {
    "id": "bigstream-drama",
@@ -621,7 +621,8 @@
    "org": "content",
    "priority": "P0",
    "note": "CEO 2026-11-03：先储备资产，角色 LoRA 与音色库为 P0",
-   "pause_reason": "auto-stop:过闸率<50%且返工>=3（2026-11-03）"
+   "pause_reason": "auto-stop:过闸率<50%且返工>=3（2026-11-03）",
+   "autostop_at": "2026-11-03T00:00:00"
   }
  ]
 }
