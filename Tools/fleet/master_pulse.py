@@ -116,6 +116,9 @@ STAGES = [
     # 全域优化面日报（2026-11-03 CEO「你要考虑的比我全面和科学」）：把 9 域 42 项里
     # 还没做的条目每轮摆出来，避免只做被点名的那一处。日报，不是闸，永远 rc=0。
     ("surface", ["Tools/fleet/surface_status.py"], 60, {0}, True),
+    # 凌晨记忆归纳总闸（2026-11-03 CEO：每项目记忆都要归纳清理、控膨胀省 token）：
+    # 工具自带 02:00-05:00 时间窗，窗外直接跳过；超预算才调 house 闸下沉（快照零删除）。
+    ("memory_nightly", ["Tools/fleet/memory_nightly.py"], 900, {0, 2}, True),
     ("showcase", ["Tools/fleet/showcase.py"], 60, {0}, True),
     ("vault", ["Tools/fleet/vault.py", "verify"], 120, {0, 2}, True),
     ("handoff", ["Tools/fleet/handoff.py"], 60, {0}, True),
@@ -138,6 +141,10 @@ STAGES = [
     # 实测本机 ollama 同一时刻只能跑一个模型（4B 常驻时 /api/embed 挂死 60s），
     # 所以只保活 resident 一个档；空闲 <25% 时不保活，把内存让给办公与主控脉。
     ("warm", ["Tools/fleet/warm_models.py", "--out", "cph4/fleet/state/warm-models.json"], 120, {0, 1}, True),
+    # 压榨度体检（2026-11-03 CEO「所有本地算力都要科学压榨到位，留余量别卡死」）：
+    # 逐机算 余量→可再派件数，并戳穿"账上有库存、实际派不出去"的假库存。
+    # rc=1=有余量但没活（供给缺口），告警不阻断。
+    ("squeeze", ["Tools/fleet/squeeze.py", "--out", "cph4/fleet/state/squeeze.json"], 60, {0, 1}, True),
     ("autowork", ["Tools/fleet/autowork.py"], 240, {0}, True),
     ("closer", ["Tools/fleet/closer.py"], 60, {0}, True),
     ("deadline", ["Tools/fleet/fleet_deadline.py"], 120, {0}, True),
