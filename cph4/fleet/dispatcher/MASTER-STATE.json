@@ -1,50 +1,29 @@
 {
-<<<<<<< HEAD
- "ts": "2026-11-04T05:50:02",
- "cycle": 21,
- "master_node": "bm-m",
- "masquerade_by": "bm-a",
- "master_tick_ts": "2026-11-04T05:10:02",
-=======
- "ts": "2026-11-03T22:11:03",
- "cycle": 399,
+ "ts": "2026-11-04T05:54:11",
+ "cycle": 1,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-03T22:11:03",
->>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
+ "master_tick_ts": "2026-11-04T05:54:11",
  "queue": {
   "total": 412,
-  "open": 27,
+  "open": 34,
   "running": 3,
-  "done": 156,
-  "failed": 17
+  "done": 155,
+  "failed": 11
  },
  "lanes": {
   "bm-a": {
    "online": true,
-<<<<<<< HEAD
-   "hb_age_s": 35.9,
-   "cpu_load_pct": 26,
-   "ram_free_gb": 40.7,
-   "gpu_util_pct": 59,
-   "job": "bigstream-mv-transition-2026-11-04",
+   "hb_age_s": 57.9,
+   "cpu_load_pct": 42,
+   "ram_free_gb": 33.5,
+   "gpu_util_pct": 87,
+   "job": "asset-lib-voice-assemble-2026-11-03",
    "last_result": {
     "job": "bigstream-mv-transition-2026-11-04",
-    "state": "RUNNING",
-    "rc": null,
-    "ts": "2026-11-04T05:49:29",
-=======
-   "hb_age_s": 32.9,
-   "cpu_load_pct": 34,
-   "ram_free_gb": 28.9,
-   "gpu_util_pct": 90,
-   "job": "asset-lib-char-gen-2026-11-03",
-   "last_result": {
-    "job": "asset-lib-face-caption-2026-11-03",
     "state": "FAILED",
-    "rc": null,
-    "ts": "2026-11-03T22:09:33",
->>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
+    "rc": 0,
+    "ts": "2026-11-04T05:52:07",
     "reason": null
    },
    "idle_confirmed": false,
@@ -53,61 +32,35 @@
   },
   "bm-b": {
    "online": true,
-<<<<<<< HEAD
-   "hb_age_s": 11.8,
-   "cpu_load_pct": 7,
-   "ram_free_gb": 11.9,
+   "hb_age_s": 20.6,
+   "cpu_load_pct": 2,
+   "ram_free_gb": 11.7,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-04T05:48:43",
+    "ts": "2026-11-04T05:52:59",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 21
+   "idle_rounds": 1
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 6.1,
-   "cpu_load_pct": 8,
-   "ram_free_gb": 3.6,
-   "gpu_util_pct": 0,
-   "job": "CANARY-20261103T154230",
+   "hb_age_s": 26.2,
+   "cpu_load_pct": 16,
+   "ram_free_gb": 3.2,
+   "gpu_util_pct": 1,
+   "job": "asset-lib-char-prompts-2026-11-03",
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-04T05:48:43",
+    "ts": "2026-11-04T05:53:49",
     "reason": "ALREADY-CLOSED CANARY-20261103T154230"
-=======
-   "hb_age_s": 9.8,
-   "cpu_load_pct": 31,
-   "ram_free_gb": 3.8,
-   "gpu_util_pct": null,
-   "job": null,
-   "last_result": null,
-   "idle_confirmed": false,
-   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 0
-  },
-  "bm-c": {
-   "online": true,
-   "hb_age_s": 45.9,
-   "cpu_load_pct": 13,
-   "ram_free_gb": 2.0,
-   "gpu_util_pct": 0,
-   "job": "asset-lib-voice-assemble-2026-11-03",
-   "last_result": {
-    "job": "asset-lib-char-prompts-2026-11-03",
-    "state": "FAILED",
-    "rc": 0,
-    "ts": "2026-11-03T22:09:41",
-    "reason": null
->>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
    },
    "idle_confirmed": false,
    "idle_reason": "",
@@ -115,29 +68,16 @@
   },
   "bm-m": {
    "online": true,
-<<<<<<< HEAD
-   "hb_age_s": 287.5,
-   "cpu_load_pct": 13,
-   "ram_free_gb": 13.6,
-   "gpu_util_pct": null,
-   "job": "CHK-DUPES-20261103",
-   "last_result": {
-    "job": "CHK-DUPES-20261103",
-    "state": "BUSY",
-    "rc": null,
-    "ts": "2026-11-04T05:49:53",
-=======
    "hb_age_s": 0.7,
    "cpu_load_pct": 13,
-   "ram_free_gb": 13.7,
+   "ram_free_gb": 18.4,
    "gpu_util_pct": null,
-   "job": "CHK-DUPES-20261103",
+   "job": "biggame-playable-2026-11-03",
    "last_result": {
-    "job": "biggame-playable-2026-11-03",
+    "job": "bigstream-mv-transition-2026-11-04",
     "state": "FAILED",
-    "rc": 0,
-    "ts": "2026-11-03T22:08:54",
->>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
+    "rc": 1,
+    "ts": "2026-11-04T05:52:47",
     "reason": null
    },
    "idle_confirmed": false,
@@ -147,11 +87,7 @@
  },
  "idle_rounds": {
   "bm-a": 0,
-<<<<<<< HEAD
-  "bm-b": 21,
-=======
-  "bm-b": 0,
->>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
+  "bm-b": 1,
   "bm-c": 0,
   "bm-m": 0
  },
@@ -164,11 +100,12 @@
    "stale_after_h": 24.0,
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
    "jobs": [
-    "bigstream-mv-transition-2026-11-04",
+    "R-NEXT-BIGSTREAMM-GATE-20261103",
     "bigstream-mv-stability-2026-11-04"
    ],
    "no_supply": false,
    "blockers": [
+    "R-NEXT-BIGSTREAMM-GATE-20261103:no-lane",
     "bigstream-mv-stability-2026-11-04:no-lane"
    ],
    "note": null,
@@ -220,34 +157,25 @@
   "biggame": {
    "name": "Biggame·游戏",
    "status": "ACTIVE",
-<<<<<<< HEAD
    "verdict": "WORKING",
-   "age_h": 0.6,
+   "age_h": null,
    "stale_after_h": 24.0,
    "owner": "游戏席",
    "jobs": [
+    "biggame-playable-2026-11-03",
     "R-PLAN-BIGGAME-20261104"
    ],
    "no_supply": false,
    "blockers": [
     "R-PLAN-BIGGAME-20261104:no-lane"
    ],
-=======
-   "verdict": "WAITING",
-   "age_h": null,
-   "stale_after_h": 24.0,
-   "owner": "游戏席",
-   "jobs": [],
-   "no_supply": true,
-   "blockers": [],
->>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
    "note": null
   },
   "fluxverse": {
    "name": "FluxVerse·元宙城",
    "status": "ACTIVE",
    "verdict": "STALLED-STAGE",
-   "age_h": 0.4,
+   "age_h": null,
    "stale_after_h": 36.0,
    "owner": "城市线",
    "jobs": [
@@ -265,25 +193,15 @@
    "name": "BigMoney·量化",
    "status": "ACTIVE",
    "verdict": "WORKING",
-   "age_h": 7.2,
+   "age_h": null,
    "stale_after_h": 24.0,
    "owner": "量化席",
    "jobs": [
-<<<<<<< HEAD
     "R-PLAN-BIGMONEY-20261104"
    ],
    "no_supply": false,
    "blockers": [
     "R-PLAN-BIGMONEY-20261104:no-lane"
-=======
-    "bigmoney-signal-2026-11-03",
-    "bigmoney-backtest-2026-11-03-v3"
-   ],
-   "no_supply": false,
-   "blockers": [
-    "bigmoney-signal-2026-11-03:no-lane",
-    "bigmoney-backtest-2026-11-03-v3:no-lane"
->>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
    ],
    "note": null
   },
@@ -291,7 +209,7 @@
    "name": "BigDomain·硅基域商业化",
    "status": "ACTIVE",
    "verdict": "WORKING",
-   "age_h": 0.1,
+   "age_h": null,
    "stale_after_h": 36.0,
    "owner": "域运营席",
    "jobs": [
@@ -307,7 +225,7 @@
    "name": "BigCompute·硅基算力",
    "status": "ACTIVE",
    "verdict": "WORKING",
-   "age_h": 4.3,
+   "age_h": null,
    "stale_after_h": 36.0,
    "owner": "算力中枢席",
    "jobs": [
@@ -323,7 +241,7 @@
    "name": "BigLife·数字生命",
    "status": "ACTIVE",
    "verdict": "WORKING",
-   "age_h": 168.7,
+   "age_h": null,
    "stale_after_h": 48.0,
    "owner": "生命生产席",
    "jobs": [
@@ -339,7 +257,7 @@
    "name": "BigHouse·城市安家",
    "status": "PARKED",
    "verdict": "PARKED",
-   "age_h": 406.5,
+   "age_h": null,
    "stale_after_h": 72.0,
    "owner": "生态运营席",
    "jobs": [],
@@ -394,11 +312,8 @@
    ],
    "no_supply": false,
    "blockers": [
-<<<<<<< HEAD
-=======
+    "CHK-DUPES-20261103:no-lane",
     "CANARY-20261103T154230:no-lane",
-    "CANARY-20261103T160731:no-lane",
->>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
     "CANARY-20261103T200141:no-lane",
     "CANARY-20261103T201026:no-lane",
     "CANARY-20261103T234842:no-lane",
@@ -414,17 +329,21 @@
    "stale_after_h": 72.0,
    "owner": "资产席",
    "jobs": [
-<<<<<<< HEAD
-    "asset-lib-voice-corpus-bmb-2026-11-04"
-=======
-    "asset-lib-voice-corpus-bmb-2026-11-03",
+    "asset-lib-face-caption-2026-11-03",
+    "asset-lib-char-prompts-2026-11-03",
     "asset-lib-voice-assemble-2026-11-03",
-    "asset-lib-char-gen-2026-11-03"
->>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
+    "asset-lib-char-gen-2026-11-03",
+    "Q-FACE-BOARD-BMC-20261104",
+    "asset-lib-voice-corpus-bmb-2026-11-04",
+    "asset-lib-char-gen-2026-11-04"
    ],
    "no_supply": false,
    "blockers": [
-    "asset-lib-voice-corpus-bmb-2026-11-04:no-lane"
+    "asset-lib-face-caption-2026-11-03:no-lane",
+    "asset-lib-char-gen-2026-11-03:no-lane",
+    "Q-FACE-BOARD-BMC-20261104:no-lane",
+    "asset-lib-voice-corpus-bmb-2026-11-04:no-lane",
+    "asset-lib-char-gen-2026-11-04:no-lane"
    ],
    "note": "CEO 2026-11-03：先储备资产，角色 LoRA 与音色库为 P0"
   }
@@ -955,18 +874,14 @@
   }
  },
  "judgments": {
-  "open": 4,
-  "by_kind": {
-   "CAPACITY": 2,
-   "LINE-STALE": 1,
-   "RETRY": 1
-  },
+  "open": 0,
+  "by_kind": {},
   "added": 0,
   "tick_tier": "none",
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 27,
+  "local": 34,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -974,32 +889,26 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 27,
-  "gpu": 0
+  "cpu": 31,
+  "gpu": 3
  },
- "supply_added": [
-  "backlog_manifest+1"
-<<<<<<< HEAD
-=======
- ],
+ "supply_added": [],
  "events": [
-  "asset-lib-face-caption-2026-11-03 FAILED via bm-a",
-  "asset-lib-char-prompts-2026-11-03 FAILED via bm-c",
-  "biggame-playable-2026-11-03 FAILED via bm-m",
-  "asset-lib-voice-assemble-2026-11-03 -> bm-c (cpu)",
-  "asset-lib-char-gen-2026-11-03 -> bm-a (gpu)",
-  "CHK-DUPES-20261103 -> bm-m (cpu)"
->>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
+  "bigstream-mv-transition-2026-11-04 FAILED via bm-a",
+  "CHK-DUPES-20261103 REQUeued attempt=1",
+  "asset-lib-char-gen-2026-11-03 REQUeued attempt=1",
+  "asset-lib-char-prompts-2026-11-03 -> bm-c (cpu)",
+  "asset-lib-voice-assemble-2026-11-03 -> bm-a (cpu)",
+  "biggame-playable-2026-11-03 -> bm-m (cpu)"
  ],
- "events": [],
  "violations": [
-<<<<<<< HEAD
-  "bm-b IDLE-CONFIRMED x21 (SELF-DISPATCH: lane scans its own backlo)",
-=======
->>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED fluxverse 卡在 场景装配/地编席 (城市线)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
- "lane_files_written": []
+ "lane_files_written": [
+  "bm-a",
+  "bm-c",
+  "bm-m"
+ ]
 }
