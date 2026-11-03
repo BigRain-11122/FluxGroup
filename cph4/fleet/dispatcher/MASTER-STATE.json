@@ -1,85 +1,61 @@
 {
- "ts": "2026-11-03T11:00:04",
- "cycle": 31,
+ "ts": "2026-11-03T11:02:27",
+ "cycle": 32,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-03T11:00:04",
+ "master_tick_ts": "2026-11-03T11:02:27",
  "queue": {
   "total": 210,
-  "open": 3,
+  "open": 6,
   "running": 4,
   "done": 114,
-  "failed": 5
+  "failed": 2
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 17.2,
-   "cpu_load_pct": 22,
-   "ram_free_gb": 41.9,
-   "gpu_util_pct": 0,
+   "hb_age_s": 94.4,
+   "cpu_load_pct": null,
+   "ram_free_gb": null,
+   "gpu_util_pct": null,
    "job": "OPS-NODE-PROBE-C-20261103",
-   "last_result": {
-    "job": "bigstream-duanju-tts-qc-2026-11-03",
-    "state": "FAILED",
-    "rc": 2,
-    "ts": "2026-11-03T10:59:57",
-    "reason": null
-   },
+   "last_result": null,
    "idle_confirmed": false,
    "idle_reason": "",
    "idle_rounds": 0
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 9.7,
-   "cpu_load_pct": 77,
-   "ram_free_gb": 3,
+   "hb_age_s": 97.4,
+   "cpu_load_pct": null,
+   "ram_free_gb": null,
    "gpu_util_pct": null,
    "job": "OPS-NODE-PROBE-B-20261103",
-   "last_result": {
-    "job": "biggame-playable-2026-11-03",
-    "state": "FAILED",
-    "rc": 2,
-    "ts": "2026-11-03T11:00:00",
-    "reason": null
-   },
+   "last_result": null,
    "idle_confirmed": false,
    "idle_reason": "",
    "idle_rounds": 0
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 31.5,
-   "cpu_load_pct": 5,
-   "ram_free_gb": 7.0,
-   "gpu_util_pct": 0,
+   "hb_age_s": 757.4,
+   "cpu_load_pct": null,
+   "ram_free_gb": null,
+   "gpu_util_pct": null,
    "job": "C-TTS-QC-ALL",
-   "last_result": {
-    "job": null,
-    "state": "IDLE",
-    "rc": null,
-    "ts": "2026-11-03T10:59:38",
-    "reason": "ALREADY-CLOSED C-TTS-QC-ALL"
-   },
+   "last_result": null,
    "idle_confirmed": false,
    "idle_reason": "",
    "idle_rounds": 0
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.6,
-   "cpu_load_pct": 20,
-   "ram_free_gb": 14.0,
+   "hb_age_s": 88.4,
+   "cpu_load_pct": null,
+   "ram_free_gb": null,
    "gpu_util_pct": null,
    "job": "bigstream-mv-gate-2026-11-03",
-   "last_result": {
-    "job": "bigmoney-backtest-2026-11-03",
-    "state": "FAILED",
-    "rc": 2,
-    "ts": "2026-11-03T10:59:02",
-    "reason": null
-   },
+   "last_result": null,
    "idle_confirmed": false,
    "idle_reason": "",
    "idle_rounds": 0
@@ -128,12 +104,14 @@
    "jobs": [
     "R-TTS-QC-R2-20261102",
     "R-NEXT-BIGSTREAMD-TTS-QC-20261102",
+    "bigstream-duanju-tts-qc-2026-11-03",
     "bigstream-duanju-inventory-2026-11-03"
    ],
    "no_supply": false,
    "blockers": [
     "R-TTS-QC-R2-20261102:no-lane",
     "R-NEXT-BIGSTREAMD-TTS-QC-20261102:no-lane",
+    "bigstream-duanju-tts-qc-2026-11-03:no-lane",
     "bigstream-duanju-inventory-2026-11-03:no-lane"
    ],
    "note": null,
@@ -155,13 +133,17 @@
   "biggame": {
    "name": "Biggame·游戏",
    "status": "ACTIVE",
-   "verdict": "WAITING",
+   "verdict": "WORKING",
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "游戏席",
-   "jobs": [],
-   "no_supply": true,
-   "blockers": [],
+   "jobs": [
+    "biggame-playable-2026-11-03"
+   ],
+   "no_supply": false,
+   "blockers": [
+    "biggame-playable-2026-11-03:no-lane"
+   ],
    "note": null
   },
   "fluxverse": {
@@ -179,13 +161,17 @@
   "bigmoney": {
    "name": "BigMoney·量化",
    "status": "ACTIVE",
-   "verdict": "WAITING",
+   "verdict": "WORKING",
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "量化席",
-   "jobs": [],
-   "no_supply": true,
-   "blockers": [],
+   "jobs": [
+    "bigmoney-backtest-2026-11-03"
+   ],
+   "no_supply": false,
+   "blockers": [
+    "bigmoney-backtest-2026-11-03:no-lane"
+   ],
    "note": null
   },
   "bigdomain": {
@@ -773,7 +759,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 3,
+  "local": 6,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -781,28 +767,17 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 3,
+  "cpu": 6,
   "gpu": 0
  },
  "supply_added": [
   "backlog_manifest+3"
  ],
- "events": [
-  "bigstream-duanju-tts-qc-2026-11-03 FAILED via bm-a",
-  "biggame-playable-2026-11-03 FAILED via bm-b",
-  "bigmoney-backtest-2026-11-03 FAILED via bm-m",
-  "OPS-NODE-PROBE-B-20261103 -> bm-b (cpu)",
-  "OPS-NODE-PROBE-C-20261103 -> bm-a (cpu)",
-  "bigstream-mv-gate-2026-11-03 -> bm-m (cpu)"
- ],
+ "events": [],
  "violations": [
   "LINE-BLOCKED bigstream-drama ()",
   "STAGE-STALLED bigstream-duanju 卡在 剧本/编剧席 (短剧席)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
- "lane_files_written": [
-  "bm-a",
-  "bm-b",
-  "bm-m"
- ]
+ "lane_files_written": []
 }
