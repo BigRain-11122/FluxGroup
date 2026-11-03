@@ -1,14 +1,14 @@
 {
- "ts": "2026-11-03T17:48:32+0800",
+ "ts": "2026-11-03T18:00:12+0800",
  "alert_days": 2.0,
  "lines": [
   {
    "line": "asset-lib",
-   "status": "PAUSED",
+   "status": "ACTIVE",
    "prio": "P0",
-   "stock": 9,
+   "stock": 12,
    "rate_per_day": 0.33,
-   "runway_days": 27.3,
+   "runway_days": 36.4,
    "has_table": true,
    "blocker": {
     "stage": "env-check",
@@ -16,15 +16,13 @@
     "needs": "cpu",
     "hard_nodes": []
    },
-   "flags": [
-    "INACTIVE"
-   ]
+   "flags": []
   },
   {
    "line": "biggame",
    "status": "ACTIVE",
    "prio": "P0",
-   "stock": 1,
+   "stock": 2,
    "rate_per_day": 0,
    "runway_days": null,
    "has_table": true,
@@ -110,15 +108,19 @@
    "line": "bigmoney",
    "status": "ACTIVE",
    "prio": "P1",
-   "stock": 2,
+   "stock": 3,
    "rate_per_day": 1.0,
-   "runway_days": 2.0,
+   "runway_days": 3.0,
    "has_table": true,
    "blocker": {
     "stage": "backtest",
     "deliverable": "quant/bigmoney/results/etf_nobond_vt.json",
     "needs": "cpu",
-    "hard_nodes": []
+    "hard_nodes": [
+     "bm-a",
+     "bm-b",
+     "bm-d"
+    ]
    },
    "flags": []
   },
@@ -182,9 +184,9 @@
    "line": "fleet-ops",
    "status": "ACTIVE",
    "prio": "P3",
-   "stock": 5,
+   "stock": 6,
    "rate_per_day": 7.0,
-   "runway_days": 0.7,
+   "runway_days": 0.9,
    "has_table": false,
    "blocker": null,
    "flags": [
