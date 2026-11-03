@@ -2,14 +2,17 @@
 """lora_queue.py - 年代女主 LoRA 训练单驱动器（无人值守，按 order 顺序跑）。
 
 为什么要有它：CEO 要求「排满训练单」，且同一型要同时供 MV(16:9) 与漫剧/短剧(9:16)。
-每条 job 的流程固定：起 ComfyUI → 出竖+横两批定妆图 → AI 味闸剔除 → build → 关 ComfyUI → train → 记账。
+每条 job 的流程固定：查角色特点 → 起 ComfyUI → 出竖+横两批定妆图 → AI 味闸剔除 → build → 关 ComfyUI → train → 记账。
 用法：python Tools/lora_queue.py [--only T02] [--dry]
 
-三条状态纪律（2026-11-03 加，避免会话死了以后链子自欺）：
+状态纪律（2026-11-03）：
 - 记账只改自己那条 job：整份 q 回写会把他窗的新状态冲掉。
 - status=running 必须先验真：训练进程在就算在跑；进程没了但末轮检查点在盘 = trained；
-  两者都不成立才算 interrupted 并重跑，不把「断了」记成「在跑」。
-- 权重名与 job id 可以不同（T01 的历史权重叫 her_mv0001），一律走 train_name 取，不再靠猜。
+  两者都不成立才算 interrupted 并重跑。
+- 权重名可以不同于 job id（T01 的历史权重叫 her_mv0001），一律走 train_name。
+- 每型开工前重读磁盘，否则改了提示词仍按进程内的旧快照烧图。
+- 烧卡前先过 cast_distinct_check（CAST-DISTINCTIVENESS-LAW-v1）：没特点的角色不烧。
+- 数据集已够量就不再重出定妆图（中断重跑省一轮 ComfyUI）。
 """
 import argparse, json, os, shutil, subprocess, sys, time, urllib.request
 
@@ -35,9 +38,18 @@ def outdir(job):
 
 
 def final_ckpt(job, epochs):
-    """末轮检查点在盘 = 这条真的训完了（不是靠状态字段自证）。"""
-    p = os.path.join(outdir(job), "%s_rank32-%06d.safetensors" % (tn(job), int(epochs)))
-    return p if os.path.exists(p) else None
+    """末轮检查点在盘 = 这条真的训完了（不是靠状态字段自证）。
+
+    musubi 两种命名都要认：每 N epoch 存 `<name>_rank32-000012.safetensors`，
+    最后一轮存 `<name>_rank32.safetensors`（不带轮次后缀）。只认前者会把
+    训完的权重判成"没训完"，白烧一整轮（2026-11-03 实锚，差点重训 T01）。
+    """
+    d = outdir(job)
+    for p in (os.path.join(d, "%s_rank32.safetensors" % tn(job)),
+              os.path.join(d, "%s_rank32-%06d.safetensors" % (tn(job), int(epochs)))):
+        if os.path.exists(p) and os.path.getsize(p) > 1024 * 1024:
+            return p
+    return None
 
 
 def proc_alive(match):
@@ -53,7 +65,7 @@ def proc_alive(match):
 
 
 def save_job(job):
-    """只回写自己那条，锁外读、临时件写、原子替换。"""
+    """只回写自己那条，临时件写、原子替换。"""
     cur = json.load(open(Q, encoding="utf-8"))
     for i, j in enumerate(cur.get("jobs", [])):
         if j.get("id") == job.get("id"):
@@ -137,6 +149,14 @@ def main():
     for job in sorted(q["jobs"], key=lambda x: x["order"]):
         if a.only and job["id"] != a.only:
             continue
+        # 每型开工前重读磁盘：进程内快照会让「改了提示词照样按旧词烧」
+        try:
+            cur = json.load(open(Q, encoding="utf-8"))
+            fresh = [j for j in cur.get("jobs", []) if j.get("id") == job["id"]]
+            if fresh:
+                job = fresh[0]
+        except Exception:
+            pass
         st = job.get("status")
         if st in ("done", "trained"):
             continue
@@ -162,13 +182,24 @@ def main():
         log = os.path.join(logdir, "queue-%s-%s.log" % (job["id"], time.strftime("%Y%m%d")))
         say("%s %s 开工" % (job["id"], job["name"]))
         if a.dry:
-            say("  dry: 出图 %d 张(横竖各半) → 闸 → build → train" % d["count"])
+            say("  dry: 角色特点闸 → 出图 %d 张(横竖各半) → 闸 → build → train" % d["count"])
             continue
 
         # 有训练在跑时不能开 ComfyUI（显存冲突），等着
         while proc_alive("lora_pipeline.+train"):
             say("  等待在训任务结束…")
             time.sleep(120)
+
+        # 烧卡前先过角色特点闸（CEO 2026-11-03 令：训练都要有特点）
+        crc = run([sys.executable, os.path.join(ROOT, "Tools", "cast_distinct_check.py"),
+                   "--only", job["id"]], log)
+        if crc != 0:
+            say("  BLOCKED 角色特点不合格（见 cast_distinct_check），不烧卡")
+            job["status"] = "blocked-cast"
+            save_job(job)
+            receipt(job, "blocked-cast", {"rc": crc,
+                                          "law": "cph4/fleet/mv-lora/CAST-DISTINCTIVENESS-LAW-v1.md"})
+            continue
 
         ds = os.path.join(TRAIN_HOME, "dataset", job["id"])
         have = [f for f in os.listdir(ds) if f.endswith(".png")] if os.path.isdir(ds) else []

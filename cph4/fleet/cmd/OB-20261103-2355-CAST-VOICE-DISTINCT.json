@@ -1,0 +1,39 @@
+{
+ "id": "OB-20261103-2355-CAST-VOICE-DISTINCT",
+ "ts": "2026-11-03T23:55:00+08:00",
+ "type": "CEO-ORDER",
+ "from": "CEO",
+ "broadcast_to": "all-lines",
+ "ceo_text": "训练都要有特点，不要人云亦云，女主男主路人NPC什么的，还有音色也要高清，没有杂音",
+ "scope": [
+  "MV",
+  "漫剧",
+  "短剧",
+  "游戏角色资产"
+ ],
+ "law": "cph4/fleet/mv-lora/CAST-DISTINCTIVENESS-LAW-v1.md",
+ "rules": [
+  "四类角色（女主/男主/路人/NPC）每个必须有三件套：结构锚+记忆点+辨识标签",
+  "同片内任意两角色的（脸型,眼型,发型）三元组不得相同",
+  "群演禁止一个 LoRA 覆盖所有路人：至少拆 3 型（年龄带或体型不同）",
+  "音色：采样率>=44100、峰值<=-0.5dBFS、削波<=0.05%、底噪<=-55dBFS、SNR>=30dB、DC<=0.002",
+  "同片内有名字的角色不得复用同一 voice_id；角色间中位 f0 差>=12% 或音色族不同"
+ ],
+ "enforce": [
+  {
+   "tool": "Tools/cast_distinct_check.py",
+   "stage": "烧定妆图前",
+   "rc_bad": 2
+  },
+  {
+   "tool": "Tools/voice_hd_gate.py",
+   "stage": "配音后交付前",
+   "rc_bad": 2
+  }
+ ],
+ "evidence": {
+  "cast_check": "8 型女主全过（首跑抓出 T05 缺眼型、T08 脸眼含糊，已修提示词）",
+  "voice_gate": "正反对照已验：48k 类语音 PASS（底噪-68.7/SNR58.7），22050+削波 34.9% FAIL（5 条理由全中）"
+ },
+ "note": "本机 voice bank 目前 0 条音频，音色闸等投料后即为硬门"
+}
