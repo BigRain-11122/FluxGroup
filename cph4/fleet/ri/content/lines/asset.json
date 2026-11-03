@@ -112,6 +112,25 @@
    ]
   },
   {
+   "id": "face-caption",
+   "name": "人脸数据集打标（vision 草稿，人只校对）",
+   "cmd": "python {root_tools}/fleet/asset_caption.py --dir media/asset/faces --out cph4/fleet/queue-receipts/asset-caption-{date}.json",
+   "deliverable": "cph4/fleet/queue-receipts/asset-caption-{date}.json",
+   "accept": "每张图产出 <同名>.txt（<触发词>, 可见属性描述）；含推测/身份词的一律退回不写；没有待打标图时 BLOCKED rc=3",
+   "needs": "gpu",
+   "nodes": [
+    "bm-m"
+   ],
+   "minutes": 10,
+   "ok_rc": [
+    0,
+    3
+   ],
+   "depends_on": [
+    "face-dataset"
+   ]
+  },
+  {
    "id": "index",
    "name": "入库登记（没过闸的不许进资产库）",
    "cmd": "python {root_tools}/fleet/vault.py list --limit 5",

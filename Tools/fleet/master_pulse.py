@@ -134,6 +134,10 @@ STAGES = [
     # Unified-memory budget: decide, every cycle, whether a heavier local model may load at
     # all. 32GB is shared with the CEO's apps; the answer must be measured, not assumed.
     ("mem", ["Tools/fleet/mem_gate.py", "--need-gb", "22"], 30, {0}, True),
+    # 常驻模型保活（2026-11-03 CEO「内存有余量，能不能加载常驻模型处理轻量需求」）：
+    # 实测本机 ollama 同一时刻只能跑一个模型（4B 常驻时 /api/embed 挂死 60s），
+    # 所以只保活 resident 一个档；空闲 <25% 时不保活，把内存让给办公与主控脉。
+    ("warm", ["Tools/fleet/warm_models.py", "--out", "cph4/fleet/state/warm-models.json"], 120, {0, 1}, True),
     ("autowork", ["Tools/fleet/autowork.py"], 240, {0}, True),
     ("closer", ["Tools/fleet/closer.py"], 60, {0}, True),
     ("deadline", ["Tools/fleet/fleet_deadline.py"], 120, {0}, True),
