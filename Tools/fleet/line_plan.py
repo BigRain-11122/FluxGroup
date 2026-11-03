@@ -117,6 +117,25 @@ def validate_table(table):
     return errs
 
 
+def done_by_receipt(line, stage_id, day):
+    """跨机产物认回执（2026-11-03 实锚）：量化/城市的产物落在别的机器的独立仓里，
+    主控永远看不到那个路径，于是工序表把"已完成"判成"没做"，线永久停在第一段。
+    判据：queue-receipts 下有当天该段回执且 rc==0，就认这一段落过。"""
+    d = os.path.join(ROOT, "cph4", "fleet", "queue-receipts")
+    if not os.path.isdir(d):
+        return False
+    for n in os.listdir(d):
+        if not n.startswith("%s-%s-%s" % (line, stage_id, day)) or not n.endswith(".json"):
+            continue
+        try:
+            r = json.load(open(os.path.join(d, n), encoding="utf-8"))
+        except Exception:
+            continue
+        if r.get("rc") in (0, "0"):
+            return True
+    return False
+
+
 def plan_table(table, day, existing, dry):
     line = table.get("line")
     stages = table.get("stages") or []
@@ -126,7 +145,8 @@ def plan_table(table, day, existing, dry):
         sid = "%s-%s-%s" % (line, st.get("id"), day)
         dl = render(st.get("deliverable") or "", table, st, day)
         dl_abs = dl if os.path.isabs(dl) else os.path.join(ROOT, dl)
-        if st["id"] in done_today or (dl and os.path.exists(dl_abs)):
+        if st["id"] in done_today or (dl and os.path.exists(dl_abs)) \
+                or done_by_receipt(line, st["id"], day):
             done_today.add(st["id"])
         deps = st.get("depends_on") or []
         if deps and not all(d in done_today for d in deps):

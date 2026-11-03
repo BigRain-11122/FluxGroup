@@ -100,6 +100,8 @@ STAGES = [
     # 冷备（2026-11-02 实测：脚本从来没人调度，备份仓落后 341 个提交而报表全绿）。
     # 盘不在会写 state/backup.json 的 UNMOUNTED，并 rc=0 退出，不让掉盘拖红主控脉。
     ("backup", ["Tools/fleet/backup_sync.sh"], 300, {0}, True),
+    # 一屏：所有业务的最下一步（CEO 2026-11-03「随时能给出下一步任务」）。
+    ("next_actions", ["Tools/fleet/next_actions.py"], 60, {0, 2}, True),
     # 前瞻：每条线剩余弹药与卡点（CEO 2026-11-03「不许等机队没活了」）。
     # 只报告不阻断：runway<2 天会打 ALERT 行，告警由人看或后续接排队。
     ("forecast", ["Tools/fleet/forecast.py"], 60, {0, 2}, True),
