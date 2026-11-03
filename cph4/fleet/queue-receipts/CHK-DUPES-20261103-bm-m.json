@@ -2,7 +2,7 @@
  "id": "CHK-DUPES-20261103",
  "node": "bm-m",
  "rc": 0,
- "seconds": 8.8,
+ "seconds": 9.9,
  "cmd": "python3 Tools/fleet/semantic_dupes.py --json cph4/fleet/queue-receipts/dupes-scan-20261103.json",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": "E-ARTIFACT",
  "deliverable": "cph4/fleet/dupes-scan-20261103.json",
  "deliverable_exists": false,
- "ts": "2026-11-03T19:56:58",
- "stdout_tail": "SEMANTIC-DUPES rows=337 live=19 groups=3 th=0.72\n- 可能同一件事（4 张）：\n    R-MODEL-RADAR-BMA-20261103         OPEN      本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-a）\n    R-MODEL-RADAR-BMB-20261103         OPEN      本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-b）\n    R-MODEL-RADAR-BMC-20261103         OPEN      本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-c）\n    R-MODEL-RADAR-BMM-20261103         OPEN      本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-m）\n- 可能同一件事（2 张）：\n    CANARY-20261103T154230             OPEN      端到端自检：投卡→领取→执行→回执→产物\n    CANARY-20261103T160731             OPEN      端到端自检：投卡→领取→执行→回执→产物\n- 可能同一件事（2 张）：\n    asset-lib-char-probe-2026-11-03    OPEN      [资产储备（角色 LoRA / 音色库）] 角色出图模型探针（问本机 ComfyUI 有哪些模型，不出图\n    asset-lib-char-gen-2026-11-03      OPEN      [资产储备（角色 LoRA / 音色库）] 角色包出图（本机 ComfyUI，1024²，同 seed \n",
+ "ts": "2026-11-04T00:50:59",
+ "stdout_tail": " voices/z06/sliced，纯 CPU）\n    Q-VCORP-PREP-z07-20261104          OPEN      音色语料切片·z07（AISHELL-3 → voices/z07/sliced，纯 CPU）\n- 可能同一件事（2 张）：\n    bigmoney-signal-2026-11-03         OPEN      [金融量化（回测 → 一页结论 → 可报价或写清卡点）] 下月持仓信号 CSV（可卖的唯一产物）\n    bigmoney-signal-2026-11-03         RUNNING   [金融量化（回测 → 一页结论 → 可报价或写清卡点）] 下月持仓信号 CSV（可卖的唯一产物）\n- 可能同一件事（2 张）：\n    asset-lib-char-gen-2026-11-03      RUNNING   [资产储备（角色 LoRA / 音色库）] 角色包出图（本机 ComfyUI，1024²，同 seed \n    asset-lib-char-gen-2026-11-03      RUNNING   [资产储备（角色 LoRA / 音色库）] 角色包出图（本机 ComfyUI，1024²，同 seed \n- 可能同一件事（7 张）：\n    Q-VCORP-PREP-e01-20261104          OPEN      音色语料切片·e01（LibriTTS train-clean-100 → voices/e01/sli\n    Q-VCORP-PREP-e03-20261104          OPEN      音色语料切片·e03（LibriTTS train-clean-100 → voices/e03/sli\n    Q-VCORP-PREP-e05-20261104          OPEN      音色语料切片·e05（LibriTTS train-clean-100 → voices/e05/sli\n    Q-VCORP-PREP-e08-20261104          OPEN      音色语料切片·e08（LibriTTS train-clean-100 → voices/e08/sli\n    Q-VCORP-PREP-z03-20261104          OPEN      音色语料切片·z03（AISHELL-3 → voices/z03/sliced，纯 CPU）\n    Q-VCORP-PREP-z08-20261104          OPEN      音色语料切片·z08（AISHELL-3 → voices/z08/sliced，纯 CPU）\n    Q-VCORP-TRAIN-PILOT-libritts-e01-20261104 OPEN      音色微调试点·libritts-e01（语料→SoVITS s2→权重，DE-AI-SPEC A8 批前\n- 可能同一件事（2 张）：\n    Q-VCORP-PREP-z01-20261104          OPEN      音色语料切片·z01（AISHELL-3 → voices/z01/sliced，纯 CPU）\n    Q-VCORP-TRAIN-PILOT-aishell3-z01-20261104 OPEN      音色微调试点·aishell3-z01（语料→SoVITS s2→权重，DE-AI-SPEC A8 批前\n",
  "stderr_tail": ""
 }

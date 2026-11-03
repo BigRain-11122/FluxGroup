@@ -1,6 +1,7 @@
 {
  "node": "bm-c",
 <<<<<<< HEAD
+<<<<<<< HEAD
  "ts": "2026-11-04T00:49:58",
  "jobs": [],
  "idle_reason": "master-pulse-stalled; node self-dispatching (bm-c 2026-11-04)",
@@ -14,6 +15,17 @@
    "cwd": "",
    "needs": "cpu",
    "deliverable": "cph4/fleet/queue-receipts/quant-signal-2026-11-03.csv",
+=======
+ "ts": "2026-11-03T22:11:03",
+ "jobs": [
+  {
+   "id": "asset-lib-voice-assemble-2026-11-03",
+   "title": "[资产储备（角色 LoRA / 音色库）] 音色数据集装配（授权核查→voices/<组> 准入）",
+   "cmd": "python Tools/fleet/voice_dataset.py",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/voice-dataset-2026-11-03.json",
+>>>>>>> f9ded849 (pulse: dispatch snapshot [via bm-m])
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -25,5 +37,9 @@
  "idle_reason": "",
 >>>>>>> 6e88a446 (job(biggame-playable-2026-11-03): artifact [via bm-a])
  "lane_ok": true,
+<<<<<<< HEAD
  "capacity_note": "ram 2.4/1.0 GB"
+=======
+ "capacity_note": "ram 2.0/1.0 GB"
+>>>>>>> f9ded849 (pulse: dispatch snapshot [via bm-m])
 }
