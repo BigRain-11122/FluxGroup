@@ -54,3 +54,4 @@
 - tool-pitfalls.md（2 条）=.codely-cli/memory/topics\tool-pitfalls.md
 - [memory-gate] 历史瘦身快照=memory\cleanup-* 与 cleanup-gate-*（零删除回滚通道·联合正本冻结件=cph4/fleet/memory/archive/）
 
+- local-inference.md（推理栈 3 条：事件流 S1 / MLX 换档 / 跨系统体检）=.codely-cli/memory/topics/local-inference.md
