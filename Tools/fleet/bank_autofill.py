@@ -52,13 +52,18 @@ CHECKS = {
               ["Tools/fleet/asset_env_check.py", "--json", "cph4/fleet/queue-receipts/asset-env-{date}.json"],
               "asset-env-{date}.json",
               "routes_ok 非空；缺什么写明"),
+    "lib": ("资产与经验库归集（六类清点+缺口对账，索引进 git）",
+            ["Tools/fleet/lib_consolidate.py", "--check",
+             "--receipt", "cph4/fleet/queue-receipts/lib-consolidate-{date}.json"],
+            "lib-consolidate-{date}.json",
+            "rc∈{0,2}；缺口逐条列出（DONE 卡缺产物/vault 缺盘/音色为空）"),
 }
 
 # 机器能力 → 能跑的体检活（bm-d 未入网不列）
 NODE_CHECKS = {
     "bm-m": ["receipt", "skills", "dupes"],
     "bm-a": ["canon", "receipt", "skills"],
-    "bm-b": ["asset", "receipt"],
+    "bm-b": ["lib", "asset", "receipt"],
     "bm-c": ["asset", "dupes"],
 }
 

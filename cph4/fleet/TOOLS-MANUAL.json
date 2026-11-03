@@ -13,6 +13,7 @@
   "skill_install": "把仓内技能同步进本机激活面（装前过 skill_check 闸）",
   "skill_check": "技能结构/触发词/死指针质检，主控脉 skills 阶段调用",
   "skill_promote": "技能 B→A 升级 agent（只写实测跑过的命令）",
-  "bank_autofill": "work-bank 自动补料（主控脉阶段，空档期给空闲机配体检活）"
+  "bank_autofill": "work-bank 自动补料（主控脉阶段，空档期给空闲机配体检活）",
+  "lib_consolidate": "资产与经验库归集器（传家宝 bm-b 常设活，索引进 git）"
  }
 }
