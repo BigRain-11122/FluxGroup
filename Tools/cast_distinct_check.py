@@ -100,12 +100,65 @@ def judge(job):
     }
 
 
+def apply_collision(rows):
+    """跨型撞脸：三元组完全相同即判不合格。唯一一份判据，主流程与自检共用。"""
+    seen = {}
+    for r in rows:
+        if not r["triple"] or "?" in r["triple"]:
+            continue
+        seen.setdefault(tuple(r["triple"]), []).append(r["id"])
+    for key, ids in seen.items():
+        if len(ids) > 1:
+            for r in rows:
+                if r["id"] in ids:
+                    others = ",".join(i for i in ids if i != r["id"])
+                    r["gaps"].append("与 %s 三元组相同（%s）" % (others, "/".join(key)))
+                    r["ok"] = False
+    return rows
+
+
+def selftest():
+    """负控：撞型必须被判不合格，不同型必须放行。任一条不符即闸失效。"""
+    dup = [
+        {"id": "X1", "name": "甲", "base": "rounded face, rounded-almond eyes, "
+         "thick blunt full fringe, small nose, matte lips"},
+        {"id": "X2", "name": "乙", "base": "rounded face, rounded-almond eyes, "
+         "thick blunt full fringe, thin lips, high nose"},
+    ]
+    ok = [
+        {"id": "Y1", "name": "丙", "base": "rounded face, rounded-almond eyes, "
+         "thick blunt full fringe, small nose, matte lips"},
+        {"id": "Y2", "name": "丁", "base": "long narrow face, wide-set dark eyes, "
+         "centre-parted long straight hair, thin lips"},
+    ]
+    fails = 0
+    rows = apply_collision([judge(j) for j in dup])
+    hit = sorted(r["id"] for r in rows if not r["ok"])
+    if hit != ["X1", "X2"]:
+        print("SELFTEST FAIL 撞型没被判出：%s" % hit)
+        fails += 1
+    else:
+        print("SELFTEST OK  撞型被判出（X1/X2）")
+    rows = apply_collision([judge(j) for j in ok])
+    bad = [r["id"] for r in rows if not r["ok"]]
+    if bad:
+        print("SELFTEST FAIL 不同型被误杀：%s" % bad)
+        fails += 1
+    else:
+        print("SELFTEST OK  不同型放行")
+    return 0 if fails == 0 else 2
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--only", default="")
     ap.add_argument("--all", action="store_true")
+    ap.add_argument("--selftest", action="store_true")
     ap.add_argument("--json", default="")
     a = ap.parse_args()
+
+    if a.selftest:
+        return selftest()
 
     if not os.path.exists(QUEUE):
         print("BLOCKED queue missing: %s" % QUEUE)
@@ -118,22 +171,7 @@ def main():
             print("BLOCKED no such job: %s" % a.only)
             return 3
 
-    rows = [judge(j) for j in jobs]
-
-    # 跨型撞脸：三元组完全相同
-    seen = {}
-    for r in rows:
-        if not r["triple"] or "?" in r["triple"]:
-            continue
-        key = tuple(r["triple"])
-        seen.setdefault(key, []).append(r["id"])
-    for key, ids in seen.items():
-        if len(ids) > 1:
-            for r in rows:
-                if r["id"] in ids:
-                    r["gaps"].append("与 %s 三元组相同（%s）" % (
-                        ",".join([i for i in ids if i != r["id"]]), "/".join(key)))
-                    r["ok"] = False
+    rows = apply_collision([judge(j) for j in jobs])
 
     bad = [r for r in rows if not r["ok"]]
     for r in rows:
