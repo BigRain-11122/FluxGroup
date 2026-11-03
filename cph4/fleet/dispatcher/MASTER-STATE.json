@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-03T09:10:52",
- "cycle": 35,
+ "ts": "2026-11-03T09:12:04",
+ "cycle": 36,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-03T09:10:52",
+ "master_tick_ts": "2026-11-03T09:12:04",
  "queue": {
   "total": 194,
   "open": 0,
@@ -14,9 +14,9 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 38.6,
-   "cpu_load_pct": 33,
-   "ram_free_gb": 33,
+   "hb_age_s": 51.1,
+   "cpu_load_pct": 40,
+   "ram_free_gb": 33.5,
    "gpu_util_pct": 10,
    "job": null,
    "last_result": {
@@ -32,9 +32,9 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 46.2,
-   "cpu_load_pct": 91,
-   "ram_free_gb": 3.9,
+   "hb_age_s": 7.1,
+   "cpu_load_pct": 100,
+   "ram_free_gb": 1,
    "gpu_util_pct": null,
    "job": "R-TTS-QC-R2-20261102",
    "last_result": {
@@ -50,16 +50,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 39.8,
+   "hb_age_s": 32.2,
    "cpu_load_pct": 8,
-   "ram_free_gb": 8.8,
-   "gpu_util_pct": 1,
+   "ram_free_gb": 7.1,
+   "gpu_util_pct": 0,
    "job": "C-TTS-QC-ALL",
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-03T09:10:20",
+    "ts": "2026-11-03T09:11:39",
     "reason": "ALREADY-CLOSED C-TTS-QC-ALL"
    },
    "idle_confirmed": false,
@@ -69,7 +69,7 @@
   "bm-m": {
    "online": true,
    "hb_age_s": 0.6,
-   "cpu_load_pct": 9,
+   "cpu_load_pct": 10,
    "ram_free_gb": 13.9,
    "gpu_util_pct": null,
    "job": null,
@@ -77,19 +77,19 @@
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-03T09:09:39",
+    "ts": "2026-11-03T09:10:52",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 3
+   "idle_rounds": 4
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 3
+  "bm-m": 4
  },
  "lines": {
   "bigstream-mv": {
@@ -776,7 +776,7 @@
  "supply_added": [],
  "events": [],
  "violations": [
-  "bm-m IDLE-CONFIRMED x3 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-m IDLE-CONFIRMED x4 (SELF-DISPATCH: lane scans its own backlo)",
   "LINE-BLOCKED bigstream-drama ()",
   "STAGE-STALLED bigstream-duanju 卡在 剧本/编剧席 (短剧席)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
