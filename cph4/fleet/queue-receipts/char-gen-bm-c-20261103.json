@@ -3,7 +3,7 @@
  "verdict": "BLOCKED",
  "status": "BLOCKED",
  "error_class": "E-BLOCKED-INPUT",
- "ts": "2026-11-03T16:06:23+0800",
+ "ts": "2026-11-03T16:26:22+0800",
  "why": "ComfyUI 不可达或 /object_info 失败：http://127.0.0.1:8188",
  "gaps": [
   "在 bm-c 上启动 ComfyUI 并确认 8188 可连（<urlopen error [Errno 61] Connection refused>）"
