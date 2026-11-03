@@ -84,7 +84,7 @@ def main(argv):
                        "note": "全部为原创角色设计，无真人照片输入；如需真人素材必须本人书面授权"},
                       f, ensure_ascii=False, indent=1)
     os.makedirs(RECEIPTS, exist_ok=True)
-    op = os.path.join(RECEIPTS, "char-gen-plan-%s.json" % time.strftime("%Y%m%d"))
+    op = os.path.join(RECEIPTS, "char-gen-plan-%s.json" % time.strftime("%Y-%m-%d"))
     with open(op, "w", encoding="utf-8") as f:
         json.dump({"rc": 0, "ts": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
                    "characters": summary, "views_per_character": 6,
