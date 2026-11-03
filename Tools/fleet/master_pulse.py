@@ -60,6 +60,10 @@ STAGES = [
     ("night_plan", ["Tools/fleet/night_plan.py"], 120, {0}, False),
     # 工序推进（2026-11-03）：把 ri/*/lines/*.json 的工序表变成真生产卡（READY），
     # 必须先于 night_fill，否则补料侧永远只有"体检卡"可提。
+    # 两道门（2026-11-03 CEO：务必有质量验收与市场调研，不产出垃圾）：
+    # 市场门=简报五要素+新鲜度；质量门=交付必须有闸回执。rc=2 是"有缺口"的告警。
+    ("market", ["Tools/fleet/market_brief.py", "check", "--all"], 30, {0, 2}, True),
+    ("quality", ["Tools/fleet/quality_gate.py", "--all", "--json"], 60, {0, 2}, True),
     ("line_plan", ["Tools/fleet/line_plan.py"], 60, {0}, False),
     ("night_fill", ["Tools/fleet/night_fill.py", "--target", "6"], 90, {0}, False),
     ("workgen", ["Tools/fleet/workgen.py", "--root", ROOT], 180, {0}, False),

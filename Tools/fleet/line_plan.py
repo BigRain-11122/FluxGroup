@@ -32,6 +32,7 @@ TABLES = os.path.join(FLEET, "ri", "*", "lines", "*.json")
 
 sys.path.insert(0, HERE)
 import fleet_lane as fl  # noqa: E402
+import market_brief as MB  # noqa: E402
 
 ACTIVE = ("OPEN", "RUNNING", "READY", "DONE", "UNVERIFIED")
 
@@ -136,6 +137,13 @@ def main(argv):
             print("工序表读不了：%s" % p)
             return 1
         if a.line and t.get("line") != a.line:
+            continue
+        # 市场门（2026-11-03 CEO「务必有市场调研，不要产出垃圾」）：
+        # 没有合格市场简报就不派生产卡——先调研再开工，不让机器拿体检充数。
+        mk = MB.check(t.get("line"))
+        if mk.get("verdict") != "PASS":
+            report.append({"line": t.get("line"), "table": os.path.relpath(p, ROOT), "cards": [],
+                           "skipped": [("MARKET-GATE", "; ".join(mk.get("gaps") or []))]})
             continue
         cards, skipped = plan_table(t, day, have, a.dry)
         made.extend(cards)

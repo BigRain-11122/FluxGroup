@@ -51,7 +51,7 @@ def main(argv):
                         pass
             found.append({"dir": p.replace("\\", "/"), "videos": vids, "audio": auds,
                           "newest": time.strftime("%Y-%m-%d %H:%M", time.localtime(newest)) if newest else None})
-    out = {"ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "root": a.root,
+    out = {"ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "status": "OK", "root": a.root,
            "media_exists": os.path.isdir(media), "dirs": found,
            "summary": {"dirs": len(found), "videos": sum(d["videos"] for d in found),
                        "audio": sum(d["audio"] for d in found)}}

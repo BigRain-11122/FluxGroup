@@ -17,6 +17,7 @@ Usage:
   python3 flux_check.py --json             # machine output only
 Exit: 0 = no NEW violations, 2 = new violations, 1 = checker itself failed.
 """
+import glob
 import json
 import os
 import re
@@ -99,8 +100,12 @@ def i1_cards_have_line():
 
 
 def i2_cards_are_portable():
+    """只查"还能被领的卡"；ARCHIVED/CANCELLED 是历史记录，不是待派工单，
+    拿它们要求可移植性只会让历史卡永久红（2026-11-03 实锚：诊断探针卡归档后仍红）。"""
     bad = []
     for r in jlines(QUEUE):
+        if r.get("state") in ("ARCHIVED", "CANCELLED", "SUPERSEDED"):
+            continue
         for e in C.validate("card", _coerce_card(r)):
             if e.startswith("FORBID"):
                 bad.append("card:%s:%s" % (r.get("id"), e.split(":")[0] + ":" + e.split(": ", 1)[-1][:40]))
@@ -320,6 +325,13 @@ def i12_no_orphan_scripts():
                     docs[p] = open(p, encoding="utf-8", errors="ignore").read()
                 except Exception:
                     pass
+    # 工序表（cph4/fleet/ri/**/lines/*.json）里写的 cmd 就是调用关系：
+    # 新工具先被工序表引用、再进队列，不扫它就会把在用的工具判成孤儿（2026-11-03 实锚）。
+    for jp in glob.glob(os.path.join(FLEET, "ri", "*", "lines", "*.json")):
+        try:
+            docs[jp] = open(jp, encoding="utf-8", errors="ignore").read()
+        except Exception:
+            pass
     for extra in ("WORK-RULES.jsonl", "RECURRING-WORK.jsonl", "LINE-REGISTRY.json"):
         p = os.path.join(FLEET, extra)
         if os.path.exists(p):
