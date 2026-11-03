@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-03T19:03:43",
+ "ts": "2026-11-03T19:10:16",
  "model": "qwen3.5:4b-mlx",
  "tier": "p0",
  "items": {
@@ -901,9 +901,17 @@
    "tps": 40.4
   },
   "voices-02": {
+   "subject": "疲惫的都市独居者在深夜电脑前敲击键盘，桌上散落着未完成的剧本与冷掉的咖啡杯",
+   "composition": "低角度特写镜头聚焦于手部动作与桌面细节，背景虚化呈现纵深感",
+   "style": "赛璐璐动漫面部表情细腻过渡 + 现代都市写实光影质感",
+   "negative": "卡通渲染风格、过度美化、低分辨率、画面模糊、噪点过多",
+   "size": "1080x1920",
+   "alpha": "false",
+   "use": "用于有声小说中表现主角深夜创作时的孤独与疲惫状态",
    "cls": "voices",
-   "raw": "{subject: \"深夜便利店关东煮沸腾特写\", composition: \"低角度近景 + 浅景深虚化背景\", style: \"赛璐璐动漫风格 + 现代都市写实光影\", negative: \"3D render, low resolution, blurry, cartoon shading only\", size: \"1080x1920\", alpha: false, use: \"作为有声小说旁白起始音的视觉锚点场景\"}",
-   "status": "MISS"
+   "status": "OK",
+   "model": "qwen3.5:4b-mlx",
+   "tps": 40.8
   },
   "voices-03": {
    "subject": "疲惫都市白领在深夜写字楼走廊独自行走并叹气",
@@ -1663,8 +1671,8 @@
  },
  "stats": {
   "asked": 1,
-  "ok": 0,
-  "miss": 1,
-  "seconds": 5.2
+  "ok": 1,
+  "miss": 0,
+  "seconds": 7.9
  }
 }
