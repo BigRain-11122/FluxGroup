@@ -1,59 +1,41 @@
 {
- "ts": "2026-11-02T20:31:55",
+ "ts": "2026-11-03T12:51:55",
  "node": "bm-c",
  "paused": false,
- "verdict": "BLOCKED-CAPACITY",
+ "verdict": "BUSY",
  "capacity": {
   "gpu": {
-   "util_pct": 100,
-   "used_mb": 15626,
+   "util_pct": 0,
+   "used_mb": 2113,
    "total_mb": 16384
   },
-  "ram_free_gb": 1.67,
-  "vram_free_mb": 758,
+  "ram_free_gb": 4.6,
+  "vram_free_mb": 14271,
   "lease_held": false,
-  "can_gpu": false,
-  "can_cpu": false
+  "can_gpu": true,
+  "can_cpu": true
  },
- "idle_min": 0.3,
+ "idle_min": 0.8,
  "assigned": [
   {
    "kind": "assigned",
-   "id": "C-TTS-QC-ALL",
-   "title": "短剧配音全量质检（逐集时长/静音/体积 → 可发布集数清单）",
+   "id": "bigstream-mv-gate-2026-11-03",
+   "title": "[MV·爱在西元前（v721 终版）] 交付闸（重复/静止/抖动/闪烁）",
    "prio": null,
    "needs": "cpu",
-   "feasible": false,
+   "feasible": true,
    "reason": "master lane file (authority)"
   }
  ],
  "next_actions": [
   {
    "kind": "assigned",
-   "id": "C-TTS-QC-ALL",
-   "title": "短剧配音全量质检（逐集时长/静音/体积 → 可发布集数清单）",
+   "id": "bigstream-mv-gate-2026-11-03",
+   "title": "[MV·爱在西元前（v721 终版）] 交付闸（重复/静止/抖动/闪烁）",
    "prio": null,
    "needs": "cpu",
-   "feasible": false,
+   "feasible": true,
    "reason": "master lane file (authority)"
-  },
-  {
-   "kind": "queue",
-   "id": "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102",
-   "title": "BigStream·漫剧 线证据扫描（bm-c 本机可判面）",
-   "prio": "P3",
-   "needs": "cpu",
-   "feasible": false,
-   "reason": "queue row OPEN"
-  },
-  {
-   "kind": "queue",
-   "id": "LINE-TRIAGE-MV-20261102",
-   "title": "MV 线证据陈旧扫描（line_triage·本机可判面）",
-   "prio": "P3",
-   "needs": "cpu",
-   "feasible": false,
-   "reason": "queue row OPEN"
   }
  ],
  "flags": [
