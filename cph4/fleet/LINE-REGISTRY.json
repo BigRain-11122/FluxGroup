@@ -82,7 +82,7 @@
    "priority": "P0",
    "pause_reason": "auto-resume:2026-11-03 冷却到期（原：2026-11-02）",
    "visibility": "OK",
-   "last_artifact_h": 0.1,
+   "last_artifact_h": 0.2,
    "no_autostop": true
   },
   {
@@ -140,7 +140,7 @@
    "priority": "P0",
    "pause_reason": "CEO 2026-11-03 令：先不做短剧和漫剧，先储备资产（烧角色 LoRA 与音色库）",
    "visibility": "OK",
-   "last_artifact_h": 7.5
+   "last_artifact_h": 7.6
   },
   {
    "id": "bigstream-duanju",
@@ -213,7 +213,7 @@
    "org": "content",
    "priority": "P0",
    "visibility": "OK",
-   "last_artifact_h": 36.7
+   "last_artifact_h": 36.8
   },
   {
    "id": "biggame",
@@ -434,7 +434,7 @@
    "org": "platform",
    "priority": "P3",
    "visibility": "OK",
-   "last_artifact_h": 8.4
+   "last_artifact_h": 8.5
   },
   {
    "id": "biglife",
@@ -547,7 +547,7 @@
    "org": "platform",
    "priority": "P3",
    "visibility": "OK",
-   "last_artifact_h": 29.9
+   "last_artifact_h": 30.0
   },
   {
    "id": "recon",
@@ -583,7 +583,7 @@
    "org": "enabling",
    "priority": "P3",
    "visibility": "OK",
-   "last_artifact_h": 103.1
+   "last_artifact_h": 103.3
   },
   {
    "id": "fleet-ops",
@@ -612,7 +612,7 @@
    "org": "platform",
    "priority": "P3",
    "visibility": "OK",
-   "last_artifact_h": 0.1
+   "last_artifact_h": 0.2
   },
   {
    "id": "asset-lib",
@@ -662,7 +662,7 @@
    "pause_reason": "CEO 钦点 P0（储备资产线）：解除指标闸自动停线，恢复供卡",
    "resume_hint": "冷却 24h 后自动回 ACTIVE；期间出卡方停供。CEO 令停/判负的线不在此列（pause_reason 不带 auto-stop）",
    "visibility": "OK",
-   "last_artifact_h": 0.1,
+   "last_artifact_h": 0.2,
    "no_autostop": true
   }
  ]
