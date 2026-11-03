@@ -170,6 +170,36 @@
    "depends_on": [
     "index"
    ]
+  },
+  {
+   "id": "char-prompts",
+   "name": "角色包出图计划（8 原创角色 × 6 视角提示词包）",
+   "cmd": "python {root_tools}/fleet/char_plan.py",
+   "deliverable": "cph4/fleet/queue-receipts/char-gen-plan-{date}.json",
+   "accept": "8 个角色目录各有 PROMPTS.json；汇总回执 characters=8、total_images_needed=48",
+   "needs": "cpu",
+   "nodes": [
+    "bm-c",
+    "bm-a"
+   ],
+   "minutes": 5,
+   "day_ok": true
+  },
+  {
+   "id": "char-gen",
+   "name": "角色包出图（本机 ComfyUI，1024²，同 seed 组）",
+   "cmd": "python {root_tools}/fleet/char_gen.py --node bm-c --limit 12",
+   "deliverable": "cph4/fleet/queue-receipts/char-gen-bm-c-{date}.json",
+   "accept": "回执 made>0 且无 failed；BLOCKED 时必须写明缺模型配置或 ComfyUI 不可达",
+   "needs": "gpu",
+   "nodes": [
+    "bm-c"
+   ],
+   "minutes": 40,
+   "day_ok": false,
+   "depends_on": [
+    "char-prompts"
+   ]
   }
  ]
 }
