@@ -1,22 +1,22 @@
 {
- "ts": "2026-11-03T14:32:37",
- "cycle": 215,
+ "ts": "2026-11-03T14:33:56",
+ "cycle": 216,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-03T14:32:37",
+ "master_tick_ts": "2026-11-03T14:33:56",
  "queue": {
   "total": 284,
   "open": 9,
   "running": 4,
-  "done": 129,
-  "failed": 9
+  "done": 132,
+  "failed": 6
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 21.3,
-   "cpu_load_pct": 74,
-   "ram_free_gb": 21.5,
+   "hb_age_s": 36.3,
+   "cpu_load_pct": 47,
+   "ram_free_gb": 22.7,
    "gpu_util_pct": 100,
    "job": "asset-lib-index-2026-11-03",
    "last_result": {
@@ -32,7 +32,7 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 291.1,
+   "hb_age_s": 364.0,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -44,16 +44,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 53.7,
-   "cpu_load_pct": 5,
+   "hb_age_s": 20.2,
+   "cpu_load_pct": 6,
    "ram_free_gb": 6.0,
    "gpu_util_pct": 0,
    "job": "asset-lib-voice-corpus-bmc-2026-11-03",
    "last_result": {
-    "job": "asset-lib-voice-corpus-bma-2026-11-03",
-    "state": "FAILED",
-    "rc": 2,
-    "ts": "2026-11-03T14:32:06",
+    "job": "asset-lib-voice-corpus-bmc-2026-11-03",
+    "state": "RUNNING",
+    "rc": null,
+    "ts": "2026-11-03T14:33:35",
     "reason": null
    },
    "idle_confirmed": false,
@@ -62,16 +62,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.5,
-   "cpu_load_pct": 26,
-   "ram_free_gb": 16.4,
+   "hb_age_s": 0.6,
+   "cpu_load_pct": 31,
+   "ram_free_gb": 17.3,
    "gpu_util_pct": null,
-   "job": "asset-lib-voice-dataset-2026-11-03",
+   "job": "asset-lib-library-check-2026-11-03",
    "last_result": {
-    "job": "CANARY-20261103T143231",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-03T14:32:31",
+    "job": "asset-lib-voice-dataset-2026-11-03",
+    "state": "FAILED",
+    "rc": 2,
+    "ts": "2026-11-03T14:32:41",
     "reason": null
    },
    "idle_confirmed": false,
@@ -274,13 +274,13 @@
   },
   "asset-lib": {
    "name": "资产储备·角色 LoRA 与音色库",
-   "status": "ACTIVE",
+   "status": "PAUSED",
    "verdict": "WORKING",
    "age_h": null,
    "stale_after_h": 72.0,
    "owner": "资产席",
    "jobs": [
-    "asset-lib-voice-dataset-2026-11-03",
+    "asset-lib-voice-corpus-bma-2026-11-03",
     "asset-lib-voice-corpus-bmb-2026-11-03",
     "asset-lib-voice-corpus-bmc-2026-11-03",
     "asset-lib-index-2026-11-03",
@@ -288,7 +288,7 @@
    ],
    "no_supply": false,
    "blockers": [
-    "asset-lib-library-check-2026-11-03:no-lane"
+    "asset-lib-voice-corpus-bma-2026-11-03:no-lane"
    ],
    "note": "CEO 2026-11-03 令：先不做短剧和漫剧，先储备资产（烧角色 LoRA 与音色库）"
   }
@@ -818,14 +818,18 @@
   "gpu": 0
  },
  "supply_added": [
-  "backlog_manifest+1"
+  "backlog_manifest+2"
  ],
  "events": [
   "bigstream-mv-gate-2026-11-03 FAILED via bm-a",
-  "asset-lib-voice-corpus-bma-2026-11-03 FAILED via bm-c"
+  "asset-lib-voice-corpus-bmb-2026-11-03 -> bm-b (cpu)",
+  "asset-lib-voice-corpus-bmc-2026-11-03 -> bm-c (cpu)",
+  "asset-lib-library-check-2026-11-03 -> bm-m (cpu)"
  ],
  "violations": [
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
- "lane_files_written": []
+ "lane_files_written": [
+  "bm-m"
+ ]
 }
