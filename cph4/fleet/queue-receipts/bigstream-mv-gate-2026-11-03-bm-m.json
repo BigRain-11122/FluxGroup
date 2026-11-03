@@ -11,7 +11,7 @@
  "error_class": "E-UNKNOWN",
  "deliverable": "cph4/fleet/queue-receipts/mv-gate-v721-2026-11-03.json",
  "deliverable_exists": false,
- "ts": "2026-11-03T15:44:02",
+ "ts": "2026-11-03T15:50:37",
  "stdout_tail": "",
  "stderr_tail": "Traceback (most recent call last):\n  File \"/Users/junsheng.sun/FluxGroup/Tools/mv_delivery_gate.py\", line 32, in <module>\n    import cv2\nModuleNotFoundError: No module named 'cv2'\n"
 }
