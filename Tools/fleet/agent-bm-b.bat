@@ -10,5 +10,5 @@ if not exist "Tools\fleet\agent.py" (
   exit /b 4
 )
 if not exist ".codely-cli" mkdir ".codely-cli"
-python Tools\fleet\agent.py --node bm-b --loop 60 >> .codely-cli\agent-bm-b.log 2>&1
+python Tools\fleet\agent.py --node bm-b --loop 60 --pull-every 3 --push >> .codely-cli\agent-bm-b.log 2>&1
 exit /b %ERRORLEVEL%
