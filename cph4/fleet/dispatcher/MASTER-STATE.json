@@ -1,29 +1,29 @@
 {
- "ts": "2026-11-03T16:29:00",
- "cycle": 309,
+ "ts": "2026-11-03T16:30:14",
+ "cycle": 310,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-03T16:29:00",
+ "master_tick_ts": "2026-11-03T16:30:14",
  "queue": {
   "total": 308,
   "open": 8,
-  "running": 4,
+  "running": 3,
   "done": 133,
-  "failed": 11
+  "failed": 12
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 42.8,
-   "cpu_load_pct": 69,
-   "ram_free_gb": 25.4,
-   "gpu_util_pct": 10,
-   "job": "asset-lib-voice-corpus-bmb-2026-11-03",
+   "hb_age_s": 38.6,
+   "cpu_load_pct": 16,
+   "ram_free_gb": 32.9,
+   "gpu_util_pct": 3,
+   "job": "asset-lib-voice-corpus-bmc-2026-11-03",
    "last_result": {
-    "job": "asset-lib-index-2026-11-03",
+    "job": "asset-lib-voice-corpus-bmb-2026-11-03",
     "state": "FAILED",
-    "rc": 0,
-    "ts": "2026-11-03T16:24:53",
+    "rc": 2,
+    "ts": "2026-11-03T16:29:54",
     "reason": null
    },
    "idle_confirmed": false,
@@ -32,34 +32,34 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 187.3,
-   "cpu_load_pct": 52,
-   "ram_free_gb": 4.4,
+   "hb_age_s": 27.0,
+   "cpu_load_pct": 48,
+   "ram_free_gb": 3.7,
    "gpu_util_pct": 100,
-   "job": "C-INFRA-AUDIT-BM-C-20261103",
+   "job": null,
    "last_result": {
-    "job": "C-INFRA-AUDIT-BM-B-20261103",
+    "job": "C-INFRA-AUDIT-BM-C-20261103",
     "state": "FAILED",
     "rc": 2,
-    "ts": "2026-11-03T16:26:08",
+    "ts": "2026-11-03T16:29:59",
     "reason": null
    },
    "idle_confirmed": false,
-   "idle_reason": "",
+   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
    "idle_rounds": 0
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 55.4,
-   "cpu_load_pct": 6,
+   "hb_age_s": 37.9,
+   "cpu_load_pct": 5,
    "ram_free_gb": 5.5,
    "gpu_util_pct": 0,
-   "job": "asset-lib-voice-corpus-bma-2026-11-03",
+   "job": "asset-lib-face-caption-2026-11-03",
    "last_result": {
-    "job": "asset-lib-char-prompts-2026-11-03",
+    "job": "asset-lib-voice-corpus-bma-2026-11-03",
     "state": "FAILED",
     "rc": 2,
-    "ts": "2026-11-03T16:28:22",
+    "ts": "2026-11-03T16:29:56",
     "reason": null
    },
    "idle_confirmed": false,
@@ -68,16 +68,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.7,
-   "cpu_load_pct": 39,
+   "hb_age_s": 0.8,
+   "cpu_load_pct": 35,
    "ram_free_gb": 16.5,
    "gpu_util_pct": null,
-   "job": "asset-lib-char-probe-2026-11-03",
+   "job": "asset-lib-index-2026-11-03",
    "last_result": {
-    "job": "asset-lib-voice-corpus-bmc-2026-11-03",
+    "job": "asset-lib-char-probe-2026-11-03",
     "state": "FAILED",
-    "rc": 1,
-    "ts": "2026-11-03T16:27:50",
+    "rc": 3,
+    "ts": "2026-11-03T16:29:06",
     "reason": null
    },
    "idle_confirmed": false,
@@ -266,7 +266,6 @@
    "jobs": [
     "CHK-RECEIPT-20261103",
     "CHK-DUPES-20261103",
-    "C-INFRA-AUDIT-BM-C-20261103",
     "CANARY-20261103T154230",
     "CANARY-20261103T160731"
    ],
@@ -287,14 +286,14 @@
    "stale_after_h": 72.0,
    "owner": "资产席",
    "jobs": [
-    "asset-lib-voice-corpus-bma-2026-11-03",
-    "asset-lib-voice-corpus-bmb-2026-11-03",
+    "asset-lib-voice-corpus-bmc-2026-11-03",
+    "asset-lib-index-2026-11-03",
     "asset-lib-face-caption-2026-11-03",
-    "asset-lib-char-probe-2026-11-03"
+    "asset-lib-char-prompts-2026-11-03"
    ],
    "no_supply": false,
    "blockers": [
-    "asset-lib-face-caption-2026-11-03:no-lane"
+    "asset-lib-char-prompts-2026-11-03:no-lane"
    ],
    "note": "CEO 2026-11-03：先储备资产，角色 LoRA 与音色库为 P0"
   }
@@ -830,24 +829,28 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 7,
-  "gpu": 1
+  "cpu": 8,
+  "gpu": 0
  },
  "supply_added": [
   "backlog_manifest+3"
  ],
  "events": [
-  "asset-lib-index-2026-11-03 FAILED via bm-a",
-  "asset-lib-char-prompts-2026-11-03 FAILED via bm-c",
-  "asset-lib-voice-corpus-bmc-2026-11-03 FAILED via bm-m",
-  "asset-lib-voice-corpus-bma-2026-11-03 -> bm-c (cpu)",
-  "asset-lib-char-probe-2026-11-03 -> bm-m (cpu)"
+  "asset-lib-voice-corpus-bmb-2026-11-03 FAILED via bm-a",
+  "C-INFRA-AUDIT-BM-C-20261103 FAILED via bm-b",
+  "asset-lib-voice-corpus-bma-2026-11-03 FAILED via bm-c",
+  "asset-lib-char-probe-2026-11-03 FAILED via bm-m",
+  "asset-lib-face-caption-2026-11-03 -> bm-c (gpu)",
+  "asset-lib-voice-corpus-bmc-2026-11-03 -> bm-a (cpu)",
+  "asset-lib-index-2026-11-03 -> bm-m (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 剪辑/装配/剪辑席 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
+  "bm-a",
+  "bm-b",
   "bm-c",
   "bm-m"
  ]
