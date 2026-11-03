@@ -160,6 +160,10 @@ def git(args, timeout=90):
 # Memory writes are append-only facts, safe to snapshot; hand edits under Tools/ are not.
 # 2026-11-02: CODELY.md / 记忆目录**不**由主控自动提交。多个班的会话同时在维护记忆，主控再自动签入就必然撞冲突（本轮连撞四次，写出冲突标记）。记忆由写它的会话自己提交，主控只碰派单通道。
 STATE_PREFIXES = ("cph4/fleet/", "fleet-console.html")
+# 不许挡住 git 同步的路径（运行时配置，不是手写代码）。2026-11-03 实测：这类文件一脏就
+# skipped，整夜不同步、落后 635 个提交而报表全绿。判据只能有一处定义——此前 commit_state
+# 与 pull_if_clean 各写一份，只修了后者，同步仍照样停摆。
+NONBLOCKING = ("cph4/fleet/", "CODELY.md", ".codely-cli/", "fleet-console.html")
 # 手写脏件挡住 git 超过这么久就不再算「可以容忍的迟到」，而是主控故障（需人/会话处理）。
 GIT_SKIP_ALERT_MIN = 30
 
@@ -215,7 +219,7 @@ def commit_state(tracked: list[str], untracked: list[str], force=False, last_ts=
         except Exception:
             pass
         tracked = [p for p in tracked if p not in mem]
-    hand = [p for p in tracked if not p.startswith(STATE_PREFIXES)]
+    hand = [p for p in tracked if not p.startswith(NONBLOCKING)]
     if hand:
         return "skipped:dirty(hand-edit %s)" % _one_line(hand[0], 60)
     # Only the dispatch channel is committed from now on. Reports (PULSE/SUPERVISOR/
@@ -304,7 +308,7 @@ def pull_if_clean(last_ts=0.0) -> str:
     # 配置（2026-11-03 实测：.codely-cli/settings.json 一脏就 skipped，整夜不同步、
     # 落后 635 个提交）。把这些算作「手写代码」会让同步永久停摆——那正是哑巴病的根。
     # 只有 Tools/ 等真代码脏才拒绝同步。
-    IGNORABLE = ("cph4/fleet/", "CODELY.md", ".codely-cli/", "fleet-console.html")
+    IGNORABLE = NONBLOCKING
     hand = [p for p in tracked2 if not p.startswith(IGNORABLE)]
     if hand:
         return "skipped:dirty(hand-edit %s)" % _one_line(hand[0], 60)
