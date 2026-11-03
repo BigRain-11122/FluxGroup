@@ -1,20 +1,21 @@
 {
- "ts": "2026-11-03T14:33:48",
+ "ts": "2026-11-03T14:40:04",
  "stage": 3,
  "adoption": {
   "days": 2,
-  "applied": 400,
-  "total": 325,
-  "rate": 123.1,
+  "applied": 402,
+  "total": 327,
+  "rate": 122.9,
   "eligible_stage4": false
  },
  "decisions": [
   {
    "kind": "requeue",
-   "why": "2 张卡在跑但 1 小时无回执",
+   "why": "3 张卡在跑但 1 小时无回执",
    "target": [
-    "asset-lib-voice-corpus-bmb-2026-11-03",
-    "asset-lib-voice-corpus-bmc-2026-11-03"
+    "biggame-playable-2026-11-03",
+    "asset-lib-voice-corpus-bma-2026-11-03",
+    "asset-lib-voice-corpus-bmb-2026-11-03"
    ],
    "min_stage": 3,
    "result": "applied"
@@ -34,8 +35,9 @@
   {
    "kind": "requeue",
    "ids": [
-    "asset-lib-voice-corpus-bmb-2026-11-03",
-    "asset-lib-voice-corpus-bmc-2026-11-03"
+    "biggame-playable-2026-11-03",
+    "asset-lib-voice-corpus-bma-2026-11-03",
+    "asset-lib-voice-corpus-bmb-2026-11-03"
    ]
   }
  ],
