@@ -1,14 +1,14 @@
 {
- "ts": "2026-11-04T01:29:00+0800",
+ "ts": "2026-11-04T01:38:10+0800",
  "alert_days": 2.0,
  "lines": [
   {
    "line": "asset-lib",
    "status": "ACTIVE",
    "prio": "P0",
-   "stock": 36,
+   "stock": 38,
    "rate_per_day": 2.33,
-   "runway_days": 15.5,
+   "runway_days": 16.3,
    "has_table": true,
    "blocker": {
     "stage": "env-check",
@@ -37,22 +37,6 @@
    ]
   },
   {
-   "line": "biggame",
-   "status": "ACTIVE",
-   "prio": "P0",
-   "stock": 4,
-   "rate_per_day": 1.0,
-   "runway_days": 4.0,
-   "has_table": true,
-   "blocker": {
-    "stage": "pack-scan",
-    "deliverable": "cph4/fleet/queue-receipts/game-packs-20261104.json",
-    "needs": "cpu",
-    "hard_nodes": []
-   },
-   "flags": []
-  },
-  {
    "line": "bigstream-duanju",
    "status": "PARKED",
    "prio": "P0",
@@ -69,6 +53,22 @@
    "flags": [
     "INACTIVE"
    ]
+  },
+  {
+   "line": "biggame",
+   "status": "ACTIVE",
+   "prio": "P0",
+   "stock": 2,
+   "rate_per_day": 1.0,
+   "runway_days": 2.0,
+   "has_table": true,
+   "blocker": {
+    "stage": "pack-scan",
+    "deliverable": "cph4/fleet/queue-receipts/game-packs-20261104.json",
+    "needs": "cpu",
+    "hard_nodes": []
+   },
+   "flags": []
   },
   {
    "line": "bigstream-drama",
