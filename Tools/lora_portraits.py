@@ -114,9 +114,22 @@ def main():
     random.Random(a.seed).shuffle(combos)
     combos = combos[:a.count]
 
+    # 续编号：队列会分两批调（16:9 一批、9:16 一批），都从 001 起会互相覆盖，
+    # 结果每型恒定只有第一批那么多张（2026-11-04 实锚：每型 12 张，永远凑不够 15）。
+    start = 0
+    for f in os.listdir(out):
+        stem = os.path.splitext(f)[0]
+        head = "%s_" % a.name
+        if f.endswith(".png") and stem.startswith(head):
+            try:
+                start = max(start, int(stem[len(head):]))
+            except ValueError:
+                pass
+
     done = 0
     streak_fail = 0
-    for i, (light, shot, pose) in enumerate(combos, 1):
+    for j, (light, shot, pose) in enumerate(combos, 1):
+        i = start + j
         if streak_fail >= 3:
             print("ABORT: 连失败 3 条，ComfyUI 不可用，停手（不硬烧）")
             break
