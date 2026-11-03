@@ -1,28 +1,23 @@
 {
  "node": "bm-m",
- "ts": "2026-11-04T02:06:07",
+ "ts": "2026-11-04T02:07:53",
  "jobs": [
   {
-   "id": "R-DEAI-20261104-002",
-   "title": "主控巡检：现队列对照 DE-AI-SPEC 的风险卡清单（AI 脸/AI 声风险标红）",
-   "cmd": null,
-   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "id": "bigstream-mv-gate-2026-11-04",
+   "title": "[MV·爱在西元前（v721 终版）] 交付闸（重复/静止/抖动/闪烁）",
+   "cmd": "python Tools/mv_delivery_gate.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721_60fps_1080p.mp4 --card 38.79:40.21 --card 219.71:223.88",
+   "cwd": "",
    "needs": "cpu",
-   "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-deai-queue-audit.md",
+   "deliverable": "cph4/fleet/queue-receipts/mv-gate-v721-2026-11-04.json",
    "need_mb": null,
-   "model": "local-small",
-   "prompt": "只依据 cph4/fleet/quality/DE-AI-SPEC-v1.md 与 cph4/fleet/PRODUCTION-QUEUE.jsonl：扫 state=OPEN/RUNNING 的卡，产出清单（每行：卡 id | 线 | 按哪条 spec 判为风险（B5 底模/A8 直出 TTS/C1 画风 等）| 你建议的 accept 补引条目号）。特别标注：仍在用 SDXL/DreamShaper 系出图的卡、任何『不经 SoVITS 微调直出人声』的卡、以及人脸/音色数据集准入卡是否都带 RIGHTS 检查。≤20 行，不得编造卡外的事实。",
-   "when_all": [
-    "cph4/fleet/quality/DE-AI-SPEC-v1.md",
-    "cph4/fleet/PRODUCTION-QUEUE.jsonl"
-   ],
-   "llm": {
-    "out": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-deai-queue-audit.md"
-   },
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
    "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 19.0/1.0 GB"
+ "capacity_note": "ram 15.4/1.0 GB"
 }

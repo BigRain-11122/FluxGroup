@@ -1,23 +1,23 @@
 {
- "ts": "2026-11-04T02:06:07",
- "cycle": 16,
+ "ts": "2026-11-04T02:07:53",
+ "cycle": 17,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-04T02:06:07",
+ "master_tick_ts": "2026-11-04T02:07:53",
  "queue": {
   "total": 401,
-  "open": 55,
+  "open": 54,
   "running": 4,
-  "done": 146,
+  "done": 147,
   "failed": 9
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 50.2,
-   "cpu_load_pct": 77,
-   "ram_free_gb": 31,
-   "gpu_util_pct": 68,
+   "hb_age_s": 39.9,
+   "cpu_load_pct": 51,
+   "ram_free_gb": 32.2,
+   "gpu_util_pct": 55,
    "job": "asset-lib-face-caption-2026-11-03",
    "last_result": {
     "job": "asset-lib-voice-corpus-bma-2026-11-04",
@@ -32,16 +32,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 13.8,
-   "cpu_load_pct": 7,
-   "ram_free_gb": 11.9,
+   "hb_age_s": 2.8,
+   "cpu_load_pct": 15,
+   "ram_free_gb": 11.6,
    "gpu_util_pct": null,
    "job": "bigmoney-backtest-2026-11-03-v3",
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-04T02:05:41",
+    "ts": "2026-11-04T02:07:17",
     "reason": "ALREADY-CLOSED bigmoney-backtest-2026-11-03-v3"
    },
    "idle_confirmed": false,
@@ -50,9 +50,9 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 67.3,
-   "cpu_load_pct": 10,
-   "ram_free_gb": 3.6,
+   "hb_age_s": 21.8,
+   "cpu_load_pct": 9,
+   "ram_free_gb": 3.7,
    "gpu_util_pct": 0,
    "job": "asset-lib-asset-gen-2026-11-04",
    "last_result": {
@@ -68,16 +68,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.7,
-   "cpu_load_pct": 12,
-   "ram_free_gb": 19.0,
+   "hb_age_s": 0.8,
+   "cpu_load_pct": 6,
+   "ram_free_gb": 15.4,
    "gpu_util_pct": null,
-   "job": "R-DEAI-20261104-002",
+   "job": "bigstream-mv-gate-2026-11-04",
    "last_result": {
-    "job": "CHK-LIB-20261103",
-    "state": "FAILED",
-    "rc": 2,
-    "ts": "2026-11-04T02:04:52",
+    "job": "R-DEAI-20261104-002",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-04T02:06:40",
     "reason": null
    },
    "idle_confirmed": false,
@@ -107,8 +107,7 @@
    "no_supply": false,
    "blockers": [
     "R-NEXT-BIGSTREAMM-GATE-20261103:no-lane",
-    "R-NEXT-BIGSTREAMM-AUDIT-20261103:no-lane",
-    "bigstream-mv-gate-2026-11-04:no-lane"
+    "R-NEXT-BIGSTREAMM-AUDIT-20261103:no-lane"
    ],
    "note": null,
    "stuck_stage": "mv-kf",
@@ -909,32 +908,27 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 55,
+  "local": 51,
   "cloud": 0,
-  "queue": 0,
+  "queue": 3,
   "blocked": 0,
   "cloud_spend_today": 0,
   "waste": []
  },
  "supply_gap": {
-  "cpu": 52,
+  "cpu": 51,
   "gpu": 3
  },
- "supply_added": [
-  "backlog_manifest+2"
- ],
+ "supply_added": [],
  "events": [
-  "asset-lib-voice-corpus-bma-2026-11-04 FAILED via bm-a",
-  "CHK-LIB-20261103 FAILED via bm-m",
-  "asset-lib-face-caption-2026-11-03 -> bm-a (gpu)",
-  "R-DEAI-20261104-002 -> bm-m (cpu)"
+  "R-DEAI-20261104-002 DONE via bm-m",
+  "bigstream-mv-gate-2026-11-04 -> bm-m (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-a",
   "bm-m"
  ]
 }
