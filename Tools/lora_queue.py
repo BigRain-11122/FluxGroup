@@ -170,18 +170,23 @@ def main():
             say("  等待在训任务结束…")
             time.sleep(120)
 
-        if not comfy_up():
-            say("  BLOCKED ComfyUI 起不来，跳过")
-            job["status"] = "blocked-comfy"
-            save_job(job)
-            receipt(job, "blocked-comfy", {"error": "ComfyUI 240s 内未就绪"})
-            continue
-        half = max(8, d["count"] // 2)
-        portraits(job, half, 1344, 768, log)          # MV 16:9
-        portraits(job, d["count"] - half, 768, 1344, log)  # 漫剧/短剧 9:16
-        comfy_down()
-
         ds = os.path.join(TRAIN_HOME, "dataset", job["id"])
+        have = [f for f in os.listdir(ds) if f.endswith(".png")] if os.path.isdir(ds) else []
+        if len(have) >= d["min_keep"]:
+            # 数据集已够量就不再重出定妆图：中断重跑时省掉整轮 ComfyUI（约 1 小时）
+            say("  数据集已有 %d 张，跳过出图" % len(have))
+        else:
+            if not comfy_up():
+                say("  BLOCKED ComfyUI 起不来，跳过")
+                job["status"] = "blocked-comfy"
+                save_job(job)
+                receipt(job, "blocked-comfy", {"error": "ComfyUI 240s 内未就绪"})
+                continue
+            half = max(8, d["count"] // 2)
+            portraits(job, half, 1344, 768, log)          # MV 16:9
+            portraits(job, d["count"] - half, 768, 1344, log)  # 漫剧/短剧 9:16
+            comfy_down()
+
         pngs = [f for f in os.listdir(ds) if f.endswith(".png")] if os.path.isdir(ds) else []
         say("  出图 %d 张" % len(pngs))
         if len(pngs) < d["min_keep"]:
