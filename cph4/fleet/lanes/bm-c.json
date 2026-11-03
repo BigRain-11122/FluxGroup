@@ -1,38 +1,14 @@
 {
  "node": "bm-c",
-<<<<<<< HEAD
-<<<<<<< HEAD
- "ts": "2026-11-03T23:10:03",
+ "ts": "2026-11-03T23:37:24",
  "jobs": [
   {
-   "id": "CHK-LIB-20261103",
-   "title": "资产与经验库归集（技能/音色/工作流/台账/产物/内容寻址资产 → 索引进 git）",
-   "cmd": "python Tools/fleet/lib_consolidate.py --check --receipt cph4/fleet/queue-receipts/lib-consolidate-20261103.json",
+   "id": "asset-lib-char-prompts-2026-11-03",
+   "title": "[资产储备（角色 LoRA / 音色库）] 角色包出图计划（8 原创角色 × 6 视角提示词包）",
+   "cmd": "python Tools/fleet/char_plan.py",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/lib-consolidate-20261103.json",
-=======
- "ts": "2026-11-03T22:11:03",
- "jobs": [
-  {
-   "id": "asset-lib-voice-assemble-2026-11-03",
-   "title": "[资产储备（角色 LoRA / 音色库）] 音色数据集装配（授权核查→voices/<组> 准入）",
-   "cmd": "python Tools/fleet/voice_dataset.py",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/voice-dataset-2026-11-03.json",
->>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
-=======
- "ts": "2026-11-03T22:11:03",
- "jobs": [
-  {
-   "id": "asset-lib-voice-assemble-2026-11-03",
-   "title": "[资产储备（角色 LoRA / 音色库）] 音色数据集装配（授权核查→voices/<组> 准入）",
-   "cmd": "python Tools/fleet/voice_dataset.py",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/voice-dataset-2026-11-03.json",
->>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
+   "deliverable": "cph4/fleet/queue-receipts/char-gen-plan-2026-11-03.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -43,13 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
-<<<<<<< HEAD
-<<<<<<< HEAD
- "capacity_note": "ram 5.5/1.0 GB"
-=======
- "capacity_note": "ram 2.0/1.0 GB"
->>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
-=======
- "capacity_note": "ram 2.0/1.0 GB"
->>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
+ "capacity_note": "ram 3.1/1.0 GB"
 }
