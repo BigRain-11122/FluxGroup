@@ -200,6 +200,27 @@
    "depends_on": [
     "char-prompts"
    ]
+  },
+  {
+   "id": "char-dataset",
+   "name": "角色数据集装配（出图→faces/<ID>+授权→逐角色过准入闸）",
+   "cmd": "python {root_tools}/fleet/char_dataset.py",
+   "deliverable": "cph4/fleet/queue-receipts/char-dataset-{date}.json",
+   "accept": "passed>0；每个角色列出 图数/准入结论；图不足或未过闸的角色写明缺口",
+   "needs": "cpu",
+   "nodes": [
+    "bm-c",
+    "bm-a"
+   ],
+   "minutes": 10,
+   "day_ok": true,
+   "ok_rc": [
+    0,
+    3
+   ],
+   "depends_on": [
+    "char-gen"
+   ]
   }
  ]
 }

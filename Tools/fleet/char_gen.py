@@ -55,6 +55,62 @@ def graph(pos, neg, seed, m, w, h):
     }
 
 
+def graph_ckpt(pos, neg, seed, m, w, h):
+    """整包 checkpoint 路线（只有 CheckpointLoaderSimple 的机器用这条）。"""
+    return {
+        "4": {"class_type": "CheckpointLoaderSimple", "inputs": {"ckpt_name": m["ckpt"]}},
+        "6": {"class_type": "CLIPTextEncode", "inputs": {"text": pos, "clip": ["4", 1]}},
+        "7": {"class_type": "CLIPTextEncode", "inputs": {"text": neg, "clip": ["4", 1]}},
+        "5": {"class_type": "EmptyLatentImage", "inputs": {"width": w, "height": h, "batch_size": 1}},
+        "3": {"class_type": "KSampler", "inputs": {
+            "seed": seed, "steps": int(m.get("steps", 24)), "cfg": float(m.get("cfg", 5.0)),
+            "sampler_name": m.get("sampler", "euler"), "scheduler": m.get("scheduler", "normal"),
+            "denoise": 1.0, "model": ["4", 0], "positive": ["6", 0], "negative": ["7", 0],
+            "latent_image": ["5", 0]}},
+        "8": {"class_type": "VAEDecode", "inputs": {"samples": ["3", 0], "vae": ["4", 2]}},
+        "29": {"class_type": "SaveImage", "inputs": {"images": ["8", 0], "filename_prefix": "char"}},
+    }
+
+
+def _names(info, node, field):
+    try:
+        req = info[node]["input"]["required"][field][0]
+        return [x for x in req if isinstance(x, str)]
+    except Exception:
+        return []
+
+
+def probe(server):
+    """问机器自己有哪些模型，而不是猜。返回可直接落盘的配置。"""
+    info = http_json(server + "/object_info", timeout=25)
+    ckpts = _names(info, "CheckpointLoaderSimple", "ckpt_name")
+    unets = _names(info, "UNETLoader", "unet_name")
+    clips = _names(info, "CLIPLoader", "clip_name")
+    vaes = _names(info, "VAELoader", "vae_name")
+
+    def pref(lst, keys):
+        for k in keys:
+            for x in lst:
+                if k in x.lower():
+                    return x
+        return lst[0] if lst else None
+
+    cfg = {"probed_at": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
+           "available": {"ckpt": len(ckpts), "unet": len(unets), "clip": len(clips), "vae": len(vaes)}}
+    # 人像优先：显式写优先序，别只看第一个
+    if unets:
+        cfg.update({"route": "unet", "unet": pref(unets, ["sdxl", "real", "photo", "jugg", "krea"]),
+                    "clip": pref(clips, ["sdxl", "t5", "qwen", "clip_l"]),
+                    "vae": pref(vaes, ["sdxl", "vae"]), "clip_type": "sdxl",
+                    "steps": 8, "cfg": 1.0, "sampler": "euler", "scheduler": "simple"})
+    elif ckpts:
+        cfg.update({"route": "ckpt", "ckpt": pref(ckpts, ["sdxl", "real", "photo", "jugg", "xl"]),
+                    "steps": 26, "cfg": 5.0, "sampler": "dpmpp_2m", "scheduler": "karras"})
+    else:
+        cfg["route"] = None
+    return cfg
+
+
 def blocked(why, gaps, outpath):
     rec = {"rc": 3, "verdict": "BLOCKED", "status": "BLOCKED", "error_class": "E-BLOCKED-INPUT",
            "ts": time.strftime("%Y-%m-%dT%H:%M:%S%z"), "why": why, "gaps": gaps,
@@ -76,21 +132,32 @@ def main(argv):
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--width", type=int, default=1024)
     ap.add_argument("--height", type=int, default=1024)
+    ap.add_argument("--probe-only", action="store_true",
+                    help="只问机器有哪些模型并写配置，不出图")
     a = ap.parse_args(argv)
     stamp = time.strftime("%Y%m%d")
     outrec = os.path.join(RECEIPTS, "char-gen-%s-%s.json" % (a.node, stamp))
 
     conf_path = os.path.join(CONF, "comfy-%s.json" % a.node)
-    if not os.path.exists(conf_path):
-        return blocked("缺模型配置：%s" % os.path.relpath(conf_path, ROOT),
-                       ["写一份 comfy-%s.json（unet/clip/vae/steps/cfg），不要靠猜模型名" % a.node],
-                       outrec)
-    m = json.load(open(conf_path, encoding="utf-8"))
+    mk = None
+    if os.path.exists(conf_path):
+        mk = json.load(open(conf_path, encoding="utf-8"))
     try:
-        http_json(a.server + "/system_stats", timeout=8)
+        if a.probe_only or not mk:
+            mk = probe(a.server)
+            with open(conf_path, "w", encoding="utf-8") as f:
+                json.dump(mk, f, ensure_ascii=False, indent=1)
+            print("[char_gen] probed -> %s | route=%s" % (os.path.relpath(conf_path, ROOT), mk.get("route")))
+        if a.probe_only:
+            return 0 if mk.get("route") else blocked(
+                "本机 ComfyUI 没有任何可用 checkpoint/unet",
+                ["装一个能出人像的模型（SDXL 系）再跑；不要用 KF 专用模型硬顶人像"],
+                outrec)
     except Exception as e:
-        return blocked("ComfyUI 不可达：%s" % a.server,
+        return blocked("ComfyUI 不可达或 /object_info 失败：%s" % a.server,
                        ["在 %s 上启动 ComfyUI 并确认 8188 可连（%s）" % (a.node, e)], outrec)
+    if not mk.get("route"):
+        return blocked("模型配置为空", ["跑 --probe-only 看机器上有哪些模型"], outrec)
 
     items = []
     for cid in sorted(os.listdir(CHARS)):
@@ -112,7 +179,8 @@ def main(argv):
             fp = os.path.join(d, "%s.png" % view)
             if os.path.exists(fp) and os.path.getsize(fp) > 20000:
                 continue
-            payload = {"prompt": graph(pr["positive"], pr["negative"], seed, m, a.width, a.height),
+            _g = graph_ckpt if mk.get("route") == "ckpt" else graph
+            payload = {"prompt": _g(pr["positive"], pr["negative"], seed, mk, a.width, a.height),
                        "client_id": str(uuid.uuid4())}
             try:
                 r = http_json(a.server + "/prompt", payload, timeout=60)
