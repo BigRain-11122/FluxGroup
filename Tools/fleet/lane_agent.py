@@ -322,6 +322,17 @@ def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
            "stderr_tail": (err or "")[-1500:]}
     with open(rc_path, "w", encoding="utf-8") as f:
         json.dump(rec, f, ensure_ascii=False, indent=1)
+    # 影子期事件（2026-11-03 S1）：回执同时记一条 RECEIPT 事件。只写不读，失败不影响执行。
+    try:
+        import flux_eventlog as _ev
+        _ev.emit("RECEIPT", jid, node, 1,
+                 {"rc": rc, "outcome": rec["outcome"], "error_class": err_cls,
+                  "deliverable_exists": dl_ok, "seconds": dur})
+        # 远端机没有常驻主控脉，只在自己出件时把本机 outbox 推一次：
+        # 否则每台机的 outbox 会永远积压，事件流永远只看得见主控那台。
+        _ev.relay(50)
+    except Exception:
+        pass
 
     # Push the artifact back to the shared surface. Until 2026-11-01 the lane wrote its
     # receipt on the local disk and told the master "done" over NATS; the file never

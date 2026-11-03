@@ -217,6 +217,22 @@ def merge_jsonl(path, rows, key="id"):
                 index[k] = len(current)
                 current.append(r)
         write_jsonl(path, current)
+        # 影子期（2026-11-03 S1）：每一行变化同时记一条事件。只写不读，生产不再等它；
+        # 任何异常都吞掉——事件日志坏了不许影响派单。
+        try:
+            import flux_eventlog as _ev
+            for r in rows:
+                if not isinstance(r, dict) or r.get(key) is None:
+                    continue
+                cid = str(r.get(key))
+                pay = {k: r.get(k) for k in ("state", "line", "owner", "rc", "title",
+                                             "deliverable", "created_by", "created_at",
+                                             "finished_at") if r.get(k) is not None}
+                _ev.emit("CARD", cid, r.get("owner") or "", 1, pay)
+                if str(r.get("state") or "").upper() in ("RUNNING", "CLAIMED") and r.get("owner"):
+                    _ev.emit("CLAIM", cid, r.get("owner"), 1, pay)
+        except Exception:
+            pass
         return len(rows)
     finally:
         try:
