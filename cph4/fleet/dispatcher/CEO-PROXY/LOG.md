@@ -1099,3 +1099,7 @@ am_free 10GB / cpu_load 48%——bm-b 在跑量化轮而非闲着；缺的是本
 
 | **R6-17 主控节拍停 20min + 同卡二次执行（P1·本班已恢复）** | **FIXED（接管一轮）** | 证据：`MASTER-TICK` 停在 03:10:03（HQ-MasterAgent 03:30:01 仍 rc=0 但返回 STANDBY），lane 文件冻结在 03:12:03 → bm-a 的认领循环每轮照旧指 `bigstream-mv-gate`，03:25:04 重跑一遍闸（回执 03:26:01）、03:30:44 又跑一遍（rc=1）。处置=按 `cycle()` 的 fallback 设计执行 `master_agent.py --node bm-a`（declared=b​m-m 已陈旧>900s，自动 masquerade）：MASTER-TICK 03:31:17 by bm-a，lane 三件重写，bm-a 槽位切到 `R-NEXT-BIGSTREAMM-AUDIT-20261103`（=MV 观众级三查，导演席签字依据），bm-b 置 SELF-DISPATCH，闸卡不再重跑。 |
 | **并发窗口告警（登记）** | **registered** | 本班期间另有 2 个 codely 会话于 03:26:08 / 03:28:29 启动（进程 30752/24704，本席=30060@02:46）。同令并发会争抢队列/台账写；本轮已用 merge_jsonl 按 id 合并 + 原子推（推前反转闸）兜住，未丢行。后续班次建议先查 `Get-CimInstance Win32_Process` 的 codely 会话数再动手。 |
+
+| **R6-18 MV 观众级三查已交付（导演席签字依据）** | **delivered** | 03:33:32-03:35:39 bm-a 实跑 `mv_full_audit.py`（24fps v721，5623 帧/98 镜，rc=0）：`cph4/fleet/queue-receipts/mv-full-audit-20261103.json`。逐镜表 98 行 + 重复 9 对（未申报 2 对）+ 时代歧义 25 处 + 短镜 15 个 + 长镜 2 个。与 R6-15 的 60fps 闸判决互为印证（同一母版两种规格）。 |
+| **bm-a 在跑真实生产（观察）** | **standing** | 00:37:33 起 `musubi-tuner` krea2 LoRA 训练常驻（多进程；03:31 实测 gpu=82%），与车队 CPU 卡并行不冲突——GPU 面在烧、CPU 面在派单，机器未闲置。 |
+>>>>>>> 36550e62 (job(bigstream-mv-gate-2026-11-04): artifact [via bm-a])
