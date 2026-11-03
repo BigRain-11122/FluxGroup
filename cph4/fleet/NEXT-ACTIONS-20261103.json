@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-03T19:38:22+0800",
+ "ts": "2026-11-03T19:49:17+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -57,8 +57,8 @@
    "accept": "发布台账有回执行；或 CEO 给出重剪清单",
    "blocker_type": "ENGINE",
    "blocker": "发布决定权在 CEO，但工程侧可先做下一首立意案",
-   "state": "STALLED",
-   "card": null,
+   "state": "QUEUED",
+   "card": "R-NEXT-BIGSTREAMM-GATE-20261103",
    "running_on": null
   },
   {
@@ -229,8 +229,8 @@
  ],
  "counts": {
   "RUNNING": 0,
-  "QUEUED": 4,
-  "STALLED": 11
+  "QUEUED": 5,
+  "STALLED": 10
  },
- "stalled_engine": 4
+ "stalled_engine": 3
 }

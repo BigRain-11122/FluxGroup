@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-03T19:38:22+0800",
+ "ts": "2026-11-03T19:49:17+0800",
  "alert_days": 2.0,
  "lines": [
   {
@@ -19,6 +19,24 @@
    "flags": []
   },
   {
+   "line": "bigstream-mv",
+   "status": "ACTIVE",
+   "prio": "P0",
+   "stock": 2,
+   "rate_per_day": 4.67,
+   "runway_days": 0.4,
+   "has_table": true,
+   "blocker": {
+    "stage": "gate",
+    "deliverable": "cph4/fleet/queue-receipts/mv-gate-v721-20261103.json",
+    "needs": "cpu",
+    "hard_nodes": []
+   },
+   "flags": [
+    "ALERT"
+   ]
+  },
+  {
    "line": "biggame",
    "status": "ACTIVE",
    "prio": "P0",
@@ -34,24 +52,6 @@
    },
    "flags": [
     "NO-HISTORY"
-   ]
-  },
-  {
-   "line": "bigstream-mv",
-   "status": "ACTIVE",
-   "prio": "P0",
-   "stock": 0,
-   "rate_per_day": 4.67,
-   "runway_days": 0.0,
-   "has_table": true,
-   "blocker": {
-    "stage": "gate",
-    "deliverable": "cph4/fleet/queue-receipts/mv-gate-v721-20261103.json",
-    "needs": "cpu",
-    "hard_nodes": []
-   },
-   "flags": [
-    "ALERT"
    ]
   },
   {
