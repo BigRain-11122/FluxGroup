@@ -2,6 +2,9 @@
 
 > 问题：主控笔记本的本地模型，在机队里到底该干什么活、用哪个模型、怎么接。
 > 本件只写实测数字与由此得出的分工；不采信榜单。
+> **机器面**=`cph4/fleet/LOCAL-MODEL-POLICY.json`（职责映射/验收阈值/黄金集/自动拉档规则）；
+> 每日由 `Tools/fleet/model_radar.py run` 扫描上游 + 实测复验，结论落 `state/model-radar.json`
+> 与 `cph4/fleet/model-radar/LEDGER.jsonl`。改阈值/换档判据只改那份 JSON，不在本文件另立一套。
 
 ## 一、结论：按"信息形态"分三层，不按"模型强弱"分
 

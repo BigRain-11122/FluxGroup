@@ -32,8 +32,9 @@
  "accept_upgrade": {
   "quality_drop_max": 0.0,
   "speed_drop_max": 0.1,
+  "speed_gain_min": 1.05,
   "must_fit_mem_gate": true,
-  "note": "质量不许降（黄金集命中数不得低于现役），速度不许掉超过 10%，且 mem_gate 判 OK。三条全过才建议换；建议不自动生效。"
+  "note": "换档只有两条路：①质量更高，且速度不低于现役的 90%；②质量持平，且速度至少快 5%。质量更低一律不换；两点都不占一律不换。建议不自动生效。"
  },
  "thresholds": {
   "bench_stale_days": 7,
