@@ -1,23 +1,25 @@
 {
  "node": "bm-b",
- "ts": "2026-11-03T23:51:57",
+ "ts": "2026-11-03T23:58:49",
  "jobs": [
   {
-   "id": "C-INFRA-AUDIT-BM-A-20261103",
-   "title": "本地推理栈体检（bm-a）：引擎/端口归属/环境变量/速度/向量层",
-   "cmd": "python Tools/fleet/local_inference_audit.py --node bm-a --out cph4/fleet/queue-receipts/inference-audit-bm-a.json",
-   "cwd": "",
+   "id": "bigmoney-backtest-2026-11-03-v3",
+   "title": "[金融量化（回测 → 一页结论 → 可报价或写清卡点）] 生产候选回测（去债档 + 8% 波动目标）（重排 v3：钉机收窄到有仓的机器）",
+   "cmd": "python C:/Fluxgroup/FluxGroup/quant/bigmoney/scripts/etf_nobond_vt.py",
+   "cwd": "C:/Fluxgroup/FluxGroup",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/inference-audit-bm-a.json",
+   "deliverable": "C:/Fluxgroup/FluxGroup/quant/bigmoney/results/etf_nobond_vt.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
-   "when_all": [],
+   "when_all": [
+    "C:/Fluxgroup/FluxGroup/quant/bigmoney/data/daily"
+   ],
    "llm": null,
-   "timeout_s": null
+   "timeout_s": 3600
   }
  ],
  "idle_reason": "",
- "lane_ok": false,
- "capacity_note": "ram 0.4/1.0 GB"
+ "lane_ok": true,
+ "capacity_note": "ram 2.1/1.0 GB"
 }
