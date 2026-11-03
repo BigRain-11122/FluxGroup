@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-03T13:01:55",
+ "ts": "2026-11-03T13:11:55",
  "node": "bm-c",
  "paused": false,
  "verdict": "BUSY",
@@ -9,13 +9,13 @@
    "used_mb": 2063,
    "total_mb": 16384
   },
-  "ram_free_gb": 5.81,
+  "ram_free_gb": 5.85,
   "vram_free_mb": 14321,
   "lease_held": false,
   "can_gpu": true,
   "can_cpu": true
  },
- "idle_min": 0.1,
+ "idle_min": 1.1,
  "assigned": [
   {
    "kind": "assigned",
