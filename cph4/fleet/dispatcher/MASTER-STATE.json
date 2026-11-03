@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-03T12:19:23",
- "cycle": 100,
+ "ts": "2026-11-03T12:20:34",
+ "cycle": 101,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-03T12:19:23",
+ "master_tick_ts": "2026-11-03T12:20:34",
  "queue": {
   "total": 234,
   "open": 0,
@@ -14,16 +14,16 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 10.3,
-   "cpu_load_pct": 52,
-   "ram_free_gb": 54.9,
-   "gpu_util_pct": 98,
+   "hb_age_s": 21.2,
+   "cpu_load_pct": 46,
+   "ram_free_gb": 55.6,
+   "gpu_util_pct": 100,
    "job": "bigmoney-backtest-2026-11-03",
    "last_result": {
-    "job": "bigstream-mv-gate-2026-11-03",
+    "job": "biggame-playable-2026-11-03",
     "state": "FAILED",
-    "rc": 1,
-    "ts": "2026-11-03T12:14:24",
+    "rc": 0,
+    "ts": "2026-11-03T12:20:12",
     "reason": null
    },
    "idle_confirmed": false,
@@ -32,16 +32,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 23.7,
-   "cpu_load_pct": 60,
-   "ram_free_gb": 4.2,
+   "hb_age_s": 38.7,
+   "cpu_load_pct": 68,
+   "ram_free_gb": 4.6,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": "bigstream-drama-accept-2026-11-03",
     "state": "FAILED",
     "rc": 2,
-    "ts": "2026-11-03T12:18:46",
+    "ts": "2026-11-03T12:19:54",
     "reason": null
    },
    "idle_confirmed": false,
@@ -50,16 +50,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 74.9,
-   "cpu_load_pct": 8,
-   "ram_free_gb": 6.5,
-   "gpu_util_pct": 1,
-   "job": "biggame-playable-2026-11-03",
+   "hb_age_s": 48.3,
+   "cpu_load_pct": 5,
+   "ram_free_gb": 6.3,
+   "gpu_util_pct": 0,
+   "job": "bigstream-mv-gate-2026-11-03",
    "last_result": {
     "job": "bigstream-duanju-remux-2026-11-03",
     "state": "FAILED",
     "rc": 2,
-    "ts": "2026-11-03T12:18:29",
+    "ts": "2026-11-03T12:20:07",
     "reason": null
    },
    "idle_confirmed": false,
@@ -68,39 +68,41 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.5,
-   "cpu_load_pct": 17,
-   "ram_free_gb": 15.1,
+   "hb_age_s": 0.6,
+   "cpu_load_pct": 22,
+   "ram_free_gb": 15.2,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-03T12:18:15",
+    "ts": "2026-11-03T12:19:23",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 1
+   "idle_rounds": 2
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 1
+  "bm-m": 2
  },
  "lines": {
   "bigstream-mv": {
    "name": "BigStream·MV 41 曲",
    "status": "PAUSED",
-   "verdict": "WAITING",
+   "verdict": "WORKING",
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "bigstream-mv-gate-2026-11-03"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": null
   },
@@ -145,14 +147,12 @@
   "biggame": {
    "name": "Biggame·游戏",
    "status": "ACTIVE",
-   "verdict": "WORKING",
+   "verdict": "WAITING",
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "游戏席",
-   "jobs": [
-    "biggame-playable-2026-11-03"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": null
   },
@@ -747,10 +747,8 @@
   }
  },
  "judgments": {
-  "open": 1,
-  "by_kind": {
-   "CAPACITY": 1
-  },
+  "open": 0,
+  "by_kind": {},
   "added": 0,
   "tick_tier": "none",
   "judgment_tier": "cloud-smart"
@@ -769,15 +767,17 @@
  },
  "supply_added": [],
  "events": [
-  "bigstream-mv-gate-2026-11-03 FAILED via bm-a",
-  "bigstream-drama-accept-2026-11-03 FAILED via bm-b",
+  "biggame-playable-2026-11-03 FAILED via bm-a",
   "bigstream-duanju-remux-2026-11-03 FAILED via bm-c",
-  "biggame-playable-2026-11-03 -> bm-c (cpu)"
+  "bigstream-mv-gate-2026-11-03 -> bm-c (cpu)"
  ],
  "violations": [
+  "bm-m IDLE-CONFIRMED x2 (SELF-DISPATCH: lane scans its own backlo)",
   "LINE-BLOCKED bigstream-drama ()",
   "STAGE-STALLED bigstream-duanju 卡在 剧本/编剧席 (短剧席)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
- "lane_files_written": []
+ "lane_files_written": [
+  "bm-c"
+ ]
 }
