@@ -165,6 +165,43 @@ def _lock(path, timeout=10.0, stale=180.0):
             time.sleep(0.15)
 
 
+def normalize_line(r):
+    """把卡面的 line 归一成 LINE-REGISTRY 里的真 id（唯一归一入口，2026-11-03）。
+
+    实测：I1 的不合规卡全部来自"生成器各写各的"——backlog_fill 把 voicebank 写进卡，
+    而 registry 里只有 asset-lib；night_fill/workgen 生成的基建卡干脆不带 line。
+    逐个改生成器=打地鼠，改在唯一写入口（merge_jsonl）才是一次性。
+
+    规则只有两条，都可解释：
+      1. 旧线名 → 现役 id（别名表；未登记的新名一律不猜）
+      2. 基建类卡（无 line）→ fleet-ops（它们确实是平台运维活，不是业务产出）
+    不做的是：不按标题猜业务线，不给业务卡编 line——猜错比缺失更坏。
+    """
+    if not isinstance(r, dict):
+        return r
+    ALIAS = {
+        "voicebank": "asset-lib",
+        "voice": "asset-lib",
+        "quant": "bigmoney",
+        "mv": "bigstream-mv",
+        "duanju": "bigstream-duanju",
+        "drama": "bigstream-drama",
+        "car-gaming": "car-gaming",
+        "city": "fluxverse",
+    }
+    ln = (r.get("line") or "").strip()
+    if ln in ALIAS:
+        r["line"] = ALIAS[ln]
+        return r
+    if ln:
+        return r
+    cid = str(r.get("id") or "")
+    INFRA = ("CHK-", "CANARY-", "EVAL-", "DUPES-", "RECEIPT-", "SKILL-", "BANK-", "LINE-TRIAGE-")
+    if cid.startswith(INFRA):
+        r["line"] = "fleet-ops"
+    return r
+
+
 def merge_jsonl(path, rows, key="id"):
     """Commit only the rows this caller touched, merged into what is on disk right now.
 
@@ -192,6 +229,7 @@ def merge_jsonl(path, rows, key="id"):
             deduped.append(r)
         current = deduped
         for r in rows:
+            r = normalize_line(r)
             if not isinstance(r, dict) or r.get(key) is None:
                 continue
             k = r[key]

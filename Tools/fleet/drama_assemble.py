@@ -40,6 +40,7 @@ def blocked(qa, why, src=None):
     import time
     out = {"ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "input": src or "",
            "spec": "DRAMA-QUALITY-SPEC-v2", "verdict": "BLOCKED", "status": "BLOCKED",
+           "rc": 3, "error_class": "E-BLOCKED-INPUT",
            "gaps": [why], "tool": "drama_assemble"}
     if qa:
         d = os.path.dirname(os.path.abspath(qa))

@@ -29,6 +29,7 @@ VERSION = "1.0-20261102"
 # rc -> error class. "rc!=0 but the artifact exists" is no longer success.
 ERROR_CLASS = {
     2: "E-CONTRACT",
+    3: "E-BLOCKED-INPUT",   # 缺上游输入（等投料不是失败，2026-11-03 定：与 E-CONTRACT 分开）
     124: "E-TIMEOUT",
     125: "E-UNKNOWN",
     126: "E-MODEL",
@@ -38,7 +39,7 @@ ERROR_CLASS = {
 DEFAULT_OK_RC = [0]
 
 ERROR_CLASSES = ["E-CONTRACT", "E-PATH", "E-MEM", "E-MODEL", "E-QUOTA",
-                 "E-TIMEOUT", "E-COMPLIANCE", "E-ARTIFACT", "E-UNKNOWN"]
+                 "E-TIMEOUT", "E-COMPLIANCE", "E-ARTIFACT", "E-BLOCKED-INPUT", "E-UNKNOWN"]
 
 MACHINE_RE = re.compile(r"\b(bm-[a-z]|DASHENG)\b")
 DRIVE_RE = re.compile(r"(^|[\s\"'])([A-Za-z]:[\\/])")

@@ -151,6 +151,7 @@ def main(argv):
     if not mine:
         # 没有可处理输入 = 等投料，不是失败（否则每天一片假红）
         receipt.update({"verdict": "BLOCKED", "status": "BLOCKED",
+                        "rc": 3, "error_class": "E-BLOCKED-INPUT",
                         "gaps": ["inbox 里没有本分片的音频（%s，总 %d 个文件）" % (inbox, len(files))]})
         emit(receipt, a.receipt)
         print("[corpus] 本分片无输入（inbox 共 %d 个文件）——等投料，rc=3" % len(files))

@@ -67,6 +67,10 @@ STAGES = [
     # 工序表结构错（悬空依赖/成环/缺 accept）会让整条线静默停摆，rc=2 是"表坏了"的告警。
     ("line_plan", ["Tools/fleet/line_plan.py"], 60, {0, 2}, False),
     ("night_fill", ["Tools/fleet/night_fill.py", "--target", "6"], 90, {0}, False),
+    # 银行自动补料（2026-11-03，曾被并行会话的 STAGES 整表重写静默丢掉一次——重加并留痕）：
+    # workgen 只认 bank 里现成的卡片，bank 空了机器就空转；本阶段按机器能力补体检活，
+    # 并销掉"产物已在盘却仍标 pending"的僵尸条目。必须在 workgen 之前。
+    ("bank_autofill", ["Tools/fleet/bank_autofill.py", "--root", ROOT], 60, {0}, False),
     ("workgen", ["Tools/fleet/workgen.py", "--root", ROOT], 180, {0}, False),
     ("master", ["Tools/fleet/master_agent.py", "--node", NODE, "--root", ROOT], 240, {0}, False),
     ("lane", ["Tools/fleet/lane_agent.py", "--node", NODE, "--root", ROOT, "--no-fetch"], 300, {0}, False),
