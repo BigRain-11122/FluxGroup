@@ -1,28 +1,28 @@
 {
- "ts": "2026-11-03T22:11:54",
+ "ts": "2026-11-03T22:21:54",
  "node": "bm-c",
  "paused": false,
  "verdict": "BLOCKED-CAPACITY",
  "capacity": {
   "gpu": {
-   "util_pct": 0,
-   "used_mb": 8670,
+   "util_pct": 12,
+   "used_mb": 9786,
    "total_mb": 16384
   },
-  "ram_free_gb": 1.56,
-  "vram_free_mb": 7714,
+  "ram_free_gb": 2.71,
+  "vram_free_mb": 6598,
   "lease_held": false,
   "can_gpu": false,
   "can_cpu": false
  },
- "idle_min": 0.3,
+ "idle_min": 1.0,
  "assigned": [
   {
    "kind": "assigned",
-   "id": "asset-lib-char-gen-2026-11-03",
-   "title": "[资产储备（角色 LoRA / 音色库）] 角色包出图（本机 ComfyUI，1024²，同 seed 组）",
+   "id": "asset-lib-char-prompts-2026-11-03",
+   "title": "[资产储备（角色 LoRA / 音色库）] 角色包出图计划（8 原创角色 × 6 视角提示词包）",
    "prio": null,
-   "needs": "gpu",
+   "needs": "cpu",
    "feasible": false,
    "reason": "master lane file (authority)"
   }
@@ -30,21 +30,12 @@
  "next_actions": [
   {
    "kind": "assigned",
-   "id": "asset-lib-char-gen-2026-11-03",
-   "title": "[资产储备（角色 LoRA / 音色库）] 角色包出图（本机 ComfyUI，1024²，同 seed 组）",
-   "prio": null,
-   "needs": "gpu",
-   "feasible": false,
-   "reason": "master lane file (authority)"
-  },
-  {
-   "kind": "queue",
    "id": "asset-lib-char-prompts-2026-11-03",
    "title": "[资产储备（角色 LoRA / 音色库）] 角色包出图计划（8 原创角色 × 6 视角提示词包）",
-   "prio": "P0",
+   "prio": null,
    "needs": "cpu",
    "feasible": false,
-   "reason": "queue row OPEN"
+   "reason": "master lane file (authority)"
   },
   {
    "kind": "queue",
@@ -53,7 +44,16 @@
    "prio": "P0",
    "needs": "cpu",
    "feasible": false,
-   "reason": "queue row RUNNING"
+   "reason": "queue row OPEN"
+  },
+  {
+   "kind": "queue",
+   "id": "asset-lib-char-gen-2026-11-03",
+   "title": "[资产储备（角色 LoRA / 音色库）] 角色包出图（本机 ComfyUI，1024²，同 seed 组）",
+   "prio": "P0",
+   "needs": "gpu",
+   "feasible": false,
+   "reason": "queue row OPEN"
   },
   {
    "kind": "queue",
@@ -94,7 +94,7 @@
  "dispatched_now": null,
  "counts": {
   "open_backlog": 0,
-  "open_queue": 18,
+  "open_queue": 19,
   "bank_pending": 0
  }
 }
