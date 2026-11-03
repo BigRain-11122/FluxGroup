@@ -145,7 +145,19 @@ def main():
                 requeued.append(r["id"])
         elif not ok and r.get("state") == "RUNNING":
             owner = r.get("owner")
-            age = beats.get(owner, 1e9)
+            # No heartbeat for that owner at all is not "a very long lease" - it is a
+            # card whose owner never reported (fallback node, renamed host, stale lane).
+            # Formatting it as 1e9 seconds (2026-11-03: "lease-heartbeat-timeout(1000000000s)")
+            # buried the real reason in a number nobody could read.
+            if owner not in beats:
+                r["state"] = "OPEN"
+                r["owner"] = None
+                r["retries"] = int(r.get("retries") or 0) + 1
+                r["note"] = "lease-owner-unknown: %s 无心跳，释放重排" % (owner or "(none)")
+                requeued.append(r["id"])
+                touched.append(r)
+                continue
+            age = beats.get(owner)
             if age > HEARTBEAT_TIMEOUT_S:      # worker silent -> release, do not hang forever
                 r["state"] = "OPEN"
                 r["owner"] = None

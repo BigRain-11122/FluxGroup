@@ -103,7 +103,7 @@ def main():
         return 0
 
     cmd = [sys.executable, VB_BUILD, "--voice", a.voice, "--raw", raw,
-           "--minutes", str(a.minutes), "--jobs", str(a.jobs), "--corpus-only"]
+           "--minutes", str(a.minutes), "--jobs", str(a.jobs), "--out-root", a.out, "--corpus-only"]
     log(logpath, "run vb_build: %s" % " ".join(cmd[1:]))
     rc = subprocess.call(cmd)
     log(logpath, "vb_build rc=%d" % rc)

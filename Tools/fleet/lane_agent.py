@@ -487,6 +487,17 @@ def self_dispatch(root, node, allow_gpu_workhours, max_seconds, hub, port, dry, 
         req = r.get("requires") or []
         if req and not all(os.path.exists(x) for x in req):
             return False
+        # 2026-11-03 root cause: a card's command can name its real input without
+        # declaring it (`--dir media/drama-tts-out` with requires: []). The Mac and the
+        # other Windows boxes then "ran" it and wrote MISSING receipts three times over.
+        # An input this box cannot see is a skip, never a failure.
+        _imp = [p for p in fl.implicit_inputs(r) if not os.path.exists(os.path.join(root, p))]
+        if _imp:
+            print("SKIP %s: input not on this box: %s" % (r.get("id"), ",".join(_imp[:3])))
+            return False
+        if not fl.requires_bin_ok(r):
+            print("SKIP %s: requires_bin missing" % r.get("id"))
+            return False
         if fl.game_launch_blocked(r.get("cmd") or ""):
             return False
         _gok, _gwhy = _card_gate(r, root, node)

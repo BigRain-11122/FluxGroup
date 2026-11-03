@@ -16,6 +16,7 @@ folds them back in.
 """
 import json
 import os
+import re
 import socket
 import time
 from datetime import datetime
@@ -109,16 +110,95 @@ def node_os(node):
     return ((LANES.get(node) or {}).get("os") or "").lower()
 
 
+_WIN_PATH_RE = re.compile(r"(^|[\s\"'\-(])[A-Za-z]:[\\/]")
+_WIN_CMD_RE = re.compile(r"(^|[\s\"/])powershell(\.exe)?\b", re.I)
+
+# Trees that only exist on a production box. The control plane (bm-m) keeps a sparse
+# checkout: Tools/ and cph4/, never media/ quant/ gaming/. A command that reads from
+# those can only run where that tree really is.
+_LOCAL_TREE_PREFIXES = ("media/", "quant/", "gaming/", "content/", "assets/")
+_INPUT_FLAGS = ("--dir", "--in", "--inbox", "--input", "--src", "--from", "-i")
+_OUTPUT_FLAGS = ("--out", "--outdir", "--output", "-o", "--to")
+
+
+def infer_node_os(card):
+    """Infer the required OS when a card forgets to declare node_os.
+
+    Why: 2026-11-03 - C-TTS-QC-ALL / C-INFRA-AUDIT-* were pinned to Windows boxes, the
+    pinned lane was busy, lane_agent fell back to the Mac, and every run died with
+    E-INPUT (missing media/, or a C:/ path that does not exist). The receipts proved it
+    three times each. A card carrying a Windows drive path or invoking powershell is a
+    Windows card whether or not it says so.
+    """
+    card = card or {}
+    want = str(card.get("node_os") or "").lower()
+    if want:
+        return want
+    blob = " ".join(str(card.get(k) or "") for k in ("cmd", "cwd", "deliverable"))
+    if _WIN_PATH_RE.search(blob) or _WIN_CMD_RE.search(blob) or ".cmd" in blob.lower():
+        return "windows"
+    return ""
+
+
 def card_os_ok(card, node):
     """A card that must run on one OS may only run there.
 
     `nodes` is a preference and may fall back to any capable lane - right for capacity,
     wrong for "audit the Windows box's ollama". On 2026-11-03 three Windows audit cards
     fell back to the Mac three times and each guard BLOCKED receipt was booked as
-    delivery. Cards that depend on the machine's own OS declare node_os and wait.
+    delivery. Cards that depend on the machine's own OS declare node_os and wait; cards
+    that forget are inferred from their command.
     """
-    want = str((card or {}).get("node_os") or "").lower()
+    want = infer_node_os(card)
     return (not want) or node_os(node) == want
+
+
+def implicit_inputs(card):
+    """Production paths a command reads without declaring them in `requires`.
+
+    Why: the same 2026-11-03 incident. `--dir media/drama-tts-out` was a hard input but
+    the card had `requires: []`, so a box with no media/ tree still claimed it and wrote
+    a MISSING receipt. Deriving input paths makes "this box cannot see the data" a skip
+    instead of a failure. A card that really generates the tree can opt out with
+    remote_data: true; output flags are never treated as inputs.
+    """
+    card = card or {}
+    if card.get("remote_data"):
+        return []
+    toks = str(card.get("cmd") or "").replace('"', " ").replace("'", " ").split()
+    out = []
+    for i, tok in enumerate(toks):
+        t = tok.strip().replace("\\", "/")
+        flag = t.lower()
+        if flag in _OUTPUT_FLAGS:
+            continue
+        cand = None
+        if flag in _INPUT_FLAGS and i + 1 < len(toks):
+            cand = toks[i + 1].strip().replace("\\", "/")
+        elif not t.startswith("-"):
+            cand = t
+        if not cand:
+            continue
+        cand = cand.lstrip("./").rstrip("/")
+        if cand.startswith(_LOCAL_TREE_PREFIXES) and not cand.startswith("cph4/"):
+            if cand not in out:
+                out.append(cand)
+    return out
+
+
+def requires_bin_ok(card):
+    """Card-declared binaries must exist on the executing box (ffmpeg lesson).
+
+    Why: asset_dataset_audit / voice_corpus_prep ran on the Mac and returned
+    "没有 ffmpeg" - a capability fact that was knowable in advance. Declaring
+    `requires_bin` turns it into a skip on boxes that cannot do the job, instead of a
+    failed card that has to be requeued by hand.
+    """
+    import shutil as _sh
+    for b in (card or {}).get("requires_bin") or []:
+        if _sh.which(b) is None:
+            return False
+    return True
 
 
 # A pending box stops being theoretical the moment it reports: no code change needed when
