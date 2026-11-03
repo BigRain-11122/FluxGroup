@@ -1,23 +1,14 @@
 {
- "ts": "2026-11-03T15:16:36",
+ "ts": "2026-11-03T15:19:14",
  "stage": 3,
  "adoption": {
   "days": 2,
-  "applied": 413,
-  "total": 338,
-  "rate": 122.2,
+  "applied": 415,
+  "total": 340,
+  "rate": 122.1,
   "eligible_stage4": false
  },
  "decisions": [
-  {
-   "kind": "requeue",
-   "why": "1 张卡在跑但 1 小时无回执",
-   "target": [
-    "C-QUANT-NOBOND-20261103"
-   ],
-   "min_stage": 3,
-   "result": "applied"
-  },
   {
    "kind": "escalate",
    "why": "P0 线 24h 无产物：2 条",
@@ -29,13 +20,6 @@
    "result": "applied"
   }
  ],
- "applied": [
-  {
-   "kind": "requeue",
-   "ids": [
-    "C-QUANT-NOBOND-20261103"
-   ]
-  }
- ],
+ "applied": [],
  "brief": "/Users/junsheng.sun/FluxGroup/cph4/fleet/chief/BRIEF-20261103.md"
 }

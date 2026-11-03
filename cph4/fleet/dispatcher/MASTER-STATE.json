@@ -1,22 +1,22 @@
 {
- "ts": "2026-11-03T15:18:52",
- "cycle": 252,
+ "ts": "2026-11-03T15:19:22",
+ "cycle": 253,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-03T15:18:52",
+ "master_tick_ts": "2026-11-03T15:19:22",
  "queue": {
   "total": 295,
-  "open": 6,
+  "open": 4,
   "running": 4,
   "done": 135,
-  "failed": 8
+  "failed": 10
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 37.8,
-   "cpu_load_pct": 46,
-   "ram_free_gb": 34.5,
+   "hb_age_s": 2.3,
+   "cpu_load_pct": 66,
+   "ram_free_gb": 30.3,
    "gpu_util_pct": 100,
    "job": "asset-lib-voice-corpus-bma-2026-11-03",
    "last_result": {
@@ -32,16 +32,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 53.3,
+   "hb_age_s": 78.3,
    "cpu_load_pct": 40,
    "ram_free_gb": 4.7,
    "gpu_util_pct": 100,
-   "job": "asset-lib-voice-corpus-bmb-2026-11-03",
+   "job": "C-QUANT-NOBOND-20261103",
    "last_result": {
     "job": "asset-lib-voice-corpus-bmb-2026-11-03",
-    "state": "RUNNING",
-    "rc": null,
-    "ts": "2026-11-03T15:18:06",
+    "state": "FAILED",
+    "rc": 2,
+    "ts": "2026-11-03T15:19:01",
     "reason": null
    },
    "idle_confirmed": false,
@@ -50,7 +50,7 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 58.9,
+   "hb_age_s": 83.9,
    "cpu_load_pct": 8,
    "ram_free_gb": 5.1,
    "gpu_util_pct": 0,
@@ -68,16 +68,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.7,
-   "cpu_load_pct": 43,
-   "ram_free_gb": 16.4,
+   "hb_age_s": 0.6,
+   "cpu_load_pct": 40,
+   "ram_free_gb": 16.3,
    "gpu_util_pct": null,
-   "job": "asset-lib-index-2026-11-03",
+   "job": "bigstream-mv-gate-2026-11-03",
    "last_result": {
-    "job": "C-INFRA-AUDIT-BM-C-20261103",
+    "job": "asset-lib-index-2026-11-03",
     "state": "FAILED",
-    "rc": 3,
-    "ts": "2026-11-03T15:17:42",
+    "rc": 0,
+    "ts": "2026-11-03T15:18:57",
     "reason": null
    },
    "idle_confirmed": false,
@@ -103,9 +103,7 @@
     "bigstream-mv-gate-2026-11-03"
    ],
    "no_supply": false,
-   "blockers": [
-    "bigstream-mv-gate-2026-11-03:no-lane"
-   ],
+   "blockers": [],
    "note": null,
    "stuck_stage": "mv-cut",
    "stuck_owner": "剪辑席"
@@ -185,9 +183,7 @@
     "C-QUANT-NOBOND-20261103"
    ],
    "no_supply": false,
-   "blockers": [
-    "C-QUANT-NOBOND-20261103:no-lane"
-   ],
+   "blockers": [],
    "note": null
   },
   "bigdomain": {
@@ -291,8 +287,6 @@
    "owner": "资产席",
    "jobs": [
     "asset-lib-voice-corpus-bma-2026-11-03",
-    "asset-lib-voice-corpus-bmb-2026-11-03",
-    "asset-lib-index-2026-11-03",
     "asset-lib-face-caption-2026-11-03"
    ],
    "no_supply": false,
@@ -823,7 +817,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 6,
+  "local": 4,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -831,7 +825,7 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 6,
+  "cpu": 4,
   "gpu": 0
  },
  "supply_added": [
@@ -839,17 +833,18 @@
  ],
  "events": [
   "biggame-playable-2026-11-03 FAILED via bm-a",
+  "asset-lib-voice-corpus-bmb-2026-11-03 FAILED via bm-b",
   "asset-lib-voice-corpus-bmc-2026-11-03 FAILED via bm-c",
-  "C-INFRA-AUDIT-BM-C-20261103 FAILED via bm-m",
-  "asset-lib-face-caption-2026-11-03 -> bm-c (gpu)",
-  "asset-lib-index-2026-11-03 -> bm-m (cpu)"
+  "asset-lib-index-2026-11-03 FAILED via bm-m",
+  "C-QUANT-NOBOND-20261103 -> bm-b (cpu)",
+  "bigstream-mv-gate-2026-11-03 -> bm-m (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 剪辑/装配/剪辑席 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-c",
+  "bm-b",
   "bm-m"
  ]
 }
