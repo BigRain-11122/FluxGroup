@@ -1,14 +1,24 @@
 {
- "ts": "2026-11-03T09:31:18",
+ "ts": "2026-11-03T09:43:47",
  "stage": 3,
  "adoption": {
   "days": 2,
-  "applied": 241,
-  "total": 201,
-  "rate": 119.9,
+  "applied": 248,
+  "total": 207,
+  "rate": 119.8,
   "eligible_stage4": false
  },
  "decisions": [
+  {
+   "kind": "flag",
+   "why": "2 台机空转且有活",
+   "target": [
+    "bm-a",
+    "bm-m"
+   ],
+   "min_stage": 1,
+   "result": "applied"
+  },
   {
    "kind": "requeue",
    "why": "1 张卡在跑但 1 小时无回执",
