@@ -657,3 +657,4 @@
 {"ts": "2026-11-03T21:56:29", "stage": 3, "read": {"running": 3, "open": 17, "ready": 16, "red": 7}, "judged": "P0 线 24h 无产物：2 条", "action": "escalate", "target": ["p0:bigstream-duanju:no-output", "p0:bigstream-shortvideo:no-output"], "result": "applied"}
 {"ts": "2026-11-03T23:42:20", "stage": 3, "read": {"running": 4, "open": 18, "ready": 12, "red": 8}, "judged": "1 台机空转且有活", "action": "flag", "target": ["bm-b"], "result": "applied"}
 {"ts": "2026-11-03T23:42:20", "stage": 3, "read": {"running": 4, "open": 18, "ready": 12, "red": 8}, "judged": "P0 线 24h 无产物：2 条", "action": "escalate", "target": ["p0:bigstream-duanju:no-output", "p0:bigstream-shortvideo:no-output"], "result": "applied"}
+{"ts": "2026-11-03T23:48:42", "stage": 3, "read": {"running": 4, "open": 17, "ready": 12, "red": 7}, "judged": "P0 线 24h 无产物：2 条", "action": "escalate", "target": ["p0:bigstream-duanju:no-output", "p0:bigstream-shortvideo:no-output"], "result": "applied"}
