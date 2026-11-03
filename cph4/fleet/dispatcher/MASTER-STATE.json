@@ -1,5 +1,6 @@
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
  "ts": "2026-11-03T09:57:48",
  "cycle": 31,
  "master_node": "bm-m",
@@ -12,13 +13,25 @@
  "masquerade_by": null,
  "master_tick_ts": "2026-11-02T20:16:10",
 >>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
+=======
+ "ts": "2026-11-02T20:16:10",
+ "cycle": 1486,
+ "master_node": "bm-m",
+ "masquerade_by": null,
+ "master_tick_ts": "2026-11-02T20:16:10",
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
  "queue": {
   "total": 197,
   "open": 0,
   "running": 2,
 <<<<<<< HEAD
+<<<<<<< HEAD
   "done": 112,
   "failed": 2
+=======
+  "done": 90,
+  "failed": 3
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
 =======
   "done": 90,
   "failed": 3
@@ -28,12 +41,15 @@
   "bm-a": {
    "online": true,
 <<<<<<< HEAD
+<<<<<<< HEAD
    "hb_age_s": 34.4,
    "cpu_load_pct": 29,
    "ram_free_gb": 32.4,
    "gpu_util_pct": 10,
    "job": "R-TTS-QC-R2-20261102",
 =======
+=======
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
    "hb_age_s": 56.2,
    "cpu_load_pct": 68,
    "ram_free_gb": 36.3,
@@ -54,9 +70,15 @@
   "bm-b": {
    "online": true,
 <<<<<<< HEAD
+<<<<<<< HEAD
    "hb_age_s": 42.0,
    "cpu_load_pct": 5,
    "ram_free_gb": 4,
+=======
+   "hb_age_s": 18.0,
+   "cpu_load_pct": 90,
+   "ram_free_gb": 3.2,
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
 =======
    "hb_age_s": 18.0,
    "cpu_load_pct": 90,
@@ -71,6 +93,7 @@
   },
   "bm-c": {
    "online": true,
+<<<<<<< HEAD
 <<<<<<< HEAD
    "hb_age_s": 38.6,
    "cpu_load_pct": 14,
@@ -90,6 +113,14 @@
     "ts": "2026-11-03T09:57:18",
     "reason": "ALREADY-CLOSED C-TTS-QC-ALL"
 =======
+=======
+   "hb_age_s": 76.6,
+   "cpu_load_pct": 16,
+   "ram_free_gb": 0.7,
+   "gpu_util_pct": 100,
+   "job": null,
+   "last_result": {
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
     "job": "C-TTS-QC-ALL",
     "state": "FAILED",
     "rc": 1,
@@ -105,8 +136,13 @@
    "online": true,
    "hb_age_s": 0.6,
 <<<<<<< HEAD
+<<<<<<< HEAD
    "cpu_load_pct": 12,
    "ram_free_gb": 13.8,
+=======
+   "cpu_load_pct": 26,
+   "ram_free_gb": 12.4,
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
 =======
    "cpu_load_pct": 26,
    "ram_free_gb": 12.4,
@@ -118,7 +154,11 @@
     "state": "IDLE",
     "rc": null,
 <<<<<<< HEAD
+<<<<<<< HEAD
     "ts": "2026-11-03T09:56:33",
+=======
+    "ts": "2026-11-02T20:14:47",
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
 =======
     "ts": "2026-11-02T20:14:47",
 >>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
@@ -127,7 +167,11 @@
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
 <<<<<<< HEAD
+<<<<<<< HEAD
    "idle_rounds": 1
+=======
+   "idle_rounds": 7
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
 =======
    "idle_rounds": 7
 >>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
@@ -138,7 +182,11 @@
   "bm-b": 0,
   "bm-c": 0,
 <<<<<<< HEAD
+<<<<<<< HEAD
   "bm-m": 1
+=======
+  "bm-m": 7
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
 =======
   "bm-m": 7
 >>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
@@ -812,7 +860,11 @@
    "CAPACITY": 1
   },
 <<<<<<< HEAD
+<<<<<<< HEAD
   "added": 0,
+=======
+  "added": 1,
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
 =======
   "added": 1,
 >>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
@@ -843,6 +895,9 @@
  "violations": [
   "bm-c CAPACITY-BLOCKED-RAM",
   "bm-m IDLE-CONFIRMED x7 (SELF-DISPATCH: lane scans its own backlo)",
+<<<<<<< HEAD
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
+=======
 >>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
   "LINE-BLOCKED bigstream-drama ()",
   "STAGE-STALLED bigstream-duanju 卡在 剧本/编剧席 (短剧席)",
@@ -850,7 +905,11 @@
  ],
  "lane_files_written": [
 <<<<<<< HEAD
+<<<<<<< HEAD
   "bm-b"
+=======
+  "bm-c"
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
 =======
   "bm-c"
 >>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
