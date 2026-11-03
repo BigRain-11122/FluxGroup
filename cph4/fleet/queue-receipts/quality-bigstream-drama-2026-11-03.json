@@ -1,0 +1,44 @@
+{
+ "ts": "2026-11-03T12:00:26",
+ "line": "bigstream-drama",
+ "day": "2026-11-03",
+ "needed": [
+  "duanju-inventory",
+  "duanju-tts-qc",
+  "duanju-remux",
+  "duanju-shippable"
+ ],
+ "gates": [
+  {
+   "gate": "duanju-inventory",
+   "file": "cph4/fleet/queue-receipts/duanju-inventory-2026-11-03.json",
+   "state": "UNKNOWN",
+   "why": "无判据字段",
+   "mtime": "2026-11-03 11:06"
+  },
+  {
+   "gate": "duanju-tts-qc",
+   "file": null,
+   "state": "MISSING"
+  },
+  {
+   "gate": "duanju-remux",
+   "file": null,
+   "state": "MISSING"
+  },
+  {
+   "gate": "duanju-shippable",
+   "file": null,
+   "state": "MISSING"
+  }
+ ],
+ "gaps": [
+  "duanju-inventory:UNKNOWN(无判据字段)",
+  "duanju-tts-qc:缺",
+  "duanju-remux:缺",
+  "duanju-shippable:缺"
+ ],
+ "verdict": "FAIL",
+ "note": "DONE 不等于交付；这里只看闸回执，缺一份就算没交付。",
+ "status": "FAIL"
+}
