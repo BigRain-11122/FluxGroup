@@ -1,0 +1,141 @@
+{
+ "ts": "2026-11-03T12:29:21+0800",
+ "promoted": [
+  {
+   "skill": "ship-ops",
+   "tool": "Tools/fleet/ship_ledger.py",
+   "rc": 0,
+   "lines": 5
+  },
+  {
+   "skill": "content-recon",
+   "tool": "Tools/recon/drama_recon.py",
+   "rc": 0,
+   "lines": 11
+  },
+  {
+   "skill": "fleet-ops",
+   "tool": "Tools/git-no-reversal-check.py",
+   "rc": 1,
+   "lines": 26
+  }
+ ],
+ "skipped": [
+  {
+   "skill": "mv-casting",
+   "why": "no-tool",
+   "cands": []
+  },
+  {
+   "skill": "asset-audit",
+   "why": "no-tool",
+   "cands": []
+  },
+  {
+   "skill": "compliance-guard",
+   "why": "no-tool",
+   "cands": []
+  },
+  {
+   "skill": "mv-colorist",
+   "why": "no-tool",
+   "cands": []
+  },
+  {
+   "skill": "art-critique",
+   "why": "no-tool",
+   "cands": []
+  },
+  {
+   "skill": "mv-performance",
+   "why": "no-tool",
+   "cands": []
+  },
+  {
+   "skill": "fleet-doctrine",
+   "why": "no-tool",
+   "cands": []
+  },
+  {
+   "skill": "mv-props-era",
+   "why": "no-tool",
+   "cands": []
+  },
+  {
+   "skill": "quant-backtest-gate",
+   "why": "no-tool",
+   "cands": []
+  },
+  {
+   "skill": "agent-librarian",
+   "why": "limit"
+  },
+  {
+   "skill": "tw-mv-director",
+   "why": "no-tool",
+   "cands": []
+  },
+  {
+   "skill": "cph4-research-dispatch",
+   "why": "no-tool",
+   "cands": []
+  },
+  {
+   "skill": "mv-lighting",
+   "why": "no-tool",
+   "cands": []
+  },
+  {
+   "skill": "memory-curator",
+   "why": "limit"
+  },
+  {
+   "skill": "llama-params-optimizer",
+   "why": "no-tool",
+   "cands": []
+  },
+  {
+   "skill": "growth-ops",
+   "why": "no-tool",
+   "cands": []
+  },
+  {
+   "skill": "github-repo-ops",
+   "why": "no-tool",
+   "cands": []
+  },
+  {
+   "skill": "game-recon",
+   "why": "limit"
+  },
+  {
+   "skill": "silicon-city-ops",
+   "why": "no-tool",
+   "cands": []
+  },
+  {
+   "skill": "mv-edit-rhythm",
+   "why": "limit"
+  },
+  {
+   "skill": "llmxray-diagnose-ollama-calls",
+   "why": "no-tool",
+   "cands": []
+  },
+  {
+   "skill": "mv-intent-to-prompt",
+   "why": "no-tool",
+   "cands": []
+  },
+  {
+   "skill": "bigstream-expert-panel",
+   "why": "no-tool",
+   "cands": []
+  },
+  {
+   "skill": "drama-director",
+   "why": "no-tool",
+   "cands": []
+  }
+ ]
+}

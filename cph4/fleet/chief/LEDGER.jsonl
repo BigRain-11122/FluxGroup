@@ -329,3 +329,10 @@
 {"ts": "2026-11-03T12:19:22", "stage": 3, "read": {"running": 2, "open": 3, "ready": 6, "red": 7}, "judged": "1 台机空转且有活", "action": "flag", "target": ["bm-m"], "result": "applied"}
 {"ts": "2026-11-03T12:19:22", "stage": 3, "read": {"running": 2, "open": 3, "ready": 6, "red": 7}, "judged": "1 张卡在跑但 1 小时无回执", "action": "requeue", "target": ["biggame-playable-2026-11-03"], "result": "applied"}
 {"ts": "2026-11-03T12:19:22", "stage": 3, "read": {"running": 2, "open": 3, "ready": 6, "red": 7}, "judged": "P0 线 24h 无产物：1 条", "action": "escalate", "target": ["p0:bigstream-duanju:no-output"], "result": "applied"}
+{"ts": "2026-11-03T12:21:03", "stage": 3, "read": {"running": 2, "open": 2, "ready": 6, "red": 7}, "judged": "2 台机空转且有活", "action": "flag", "target": ["bm-b", "bm-m"], "result": "applied"}
+{"ts": "2026-11-03T12:21:03", "stage": 3, "read": {"running": 2, "open": 2, "ready": 6, "red": 7}, "judged": "1 张卡在跑但 1 小时无回执", "action": "requeue", "target": ["bigstream-mv-gate-2026-11-03"], "result": "applied"}
+{"ts": "2026-11-03T12:21:03", "stage": 3, "read": {"running": 2, "open": 2, "ready": 6, "red": 7}, "judged": "P0 线 24h 无产物：1 条", "action": "escalate", "target": ["p0:bigstream-duanju:no-output"], "result": "applied"}
+{"ts": "2026-11-03T12:26:51", "stage": 3, "read": {"running": 3, "open": 0, "ready": 6, "red": 7}, "judged": "2 台机空转且有活", "action": "flag", "target": ["bm-b", "bm-m"], "result": "applied"}
+{"ts": "2026-11-03T12:26:51", "stage": 3, "read": {"running": 3, "open": 0, "ready": 6, "red": 7}, "judged": "1 张卡在跑但 1 小时无回执", "action": "requeue", "target": ["bigstream-mv-gate-2026-11-03"], "result": "applied"}
+{"ts": "2026-11-03T12:26:51", "stage": 3, "read": {"running": 3, "open": 0, "ready": 6, "red": 7}, "judged": "队列空，候选 6 张", "action": "promote", "target": ["C-FIN-ETF-COMPOSITE", "C-VB-DISCOVER-V03", "bigstream-mv-gate-2026-11-03"], "result": "applied"}
+{"ts": "2026-11-03T12:26:51", "stage": 3, "read": {"running": 3, "open": 0, "ready": 6, "red": 7}, "judged": "P0 线 24h 无产物：1 条", "action": "escalate", "target": ["p0:bigstream-duanju:no-output"], "result": "applied"}

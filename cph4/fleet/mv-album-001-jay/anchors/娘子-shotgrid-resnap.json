@@ -1,0 +1,1905 @@
+{
+  "song": "娘子",
+  "version": "anchor-shotgrid v2.0 resnap (word-onset select / beat place)",
+  "inputs": {
+    "beats_sha_face": 601,
+    "n_beats": 601,
+    "n_downbeats": 150,
+    "duration_sec": 271.0
+  },
+  "bpm_median": 136.1,
+  "snap_tol_sec": 0.1,
+  "max_shot_sec": 3.0,
+  "grid": [
+    {
+      "i": 0,
+      "text": "娘子娘子却依旧每日",
+      "t0": 14.36,
+      "t1": 16.3,
+      "t0_used": 14.36,
+      "t1_used": 16.37,
+      "snapped": true,
+      "snap_deltas": [
+        0.242,
+        -0.07
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 15.511,
+      "cut1": 16.37,
+      "on_beat": true,
+      "word_onset": 15.477,
+      "onset_offset": 0.034,
+      "resnap": "beat"
+    },
+    {
+      "i": 1,
+      "text": "折一枝杨柳你在那里",
+      "t0": 16.3,
+      "t1": 18.3,
+      "t0_used": 16.37,
+      "t1_used": 18.3,
+      "snapped": true,
+      "snap_deltas": [
+        -0.07,
+        0.165
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 16.37,
+      "cut1": 18.135,
+      "on_beat": true,
+      "word_onset": 16.338,
+      "onset_offset": 0.032,
+      "resnap": "beat"
+    },
+    {
+      "i": 2,
+      "text": "在小村外的溪边河口默默等着我",
+      "t0": 18.3,
+      "t1": 21.64,
+      "t0_used": 18.3,
+      "t1_used": 21.687,
+      "snapped": true,
+      "snap_deltas": [
+        0.165,
+        -0.047
+      ],
+      "approx": false,
+      "splits": [
+        20.805
+      ],
+      "cut0": 18.135,
+      "cut1": 21.687,
+      "on_beat": true,
+      "word_onset": 18.319,
+      "onset_offset": 0.184,
+      "resnap": "beat"
+    },
+    {
+      "i": 3,
+      "text": "娘子依旧每日折一枝杨柳",
+      "t0": 21.64,
+      "t1": 24.58,
+      "t0_used": 21.687,
+      "t1_used": 24.58,
+      "snapped": true,
+      "snap_deltas": [
+        -0.047,
+        -0.196
+      ],
+      "approx": false,
+      "splits": [
+        24.335
+      ],
+      "cut0": 21.687,
+      "cut1": 24.776,
+      "on_beat": true,
+      "word_onset": 21.862,
+      "onset_offset": 0.175,
+      "resnap": "beat"
+    },
+    {
+      "i": 4,
+      "text": "你在那里在小村外的溪边",
+      "t0": 24.58,
+      "t1": 27.01,
+      "t0_used": 24.58,
+      "t1_used": 26.982,
+      "snapped": true,
+      "snap_deltas": [
+        -0.196,
+        0.028
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 24.776,
+      "cut1": 26.982,
+      "on_beat": true,
+      "word_onset": 24.625,
+      "onset_offset": 0.151,
+      "resnap": "beat"
+    },
+    {
+      "i": 5,
+      "text": "默默等着 娘子",
+      "t0": 27.01,
+      "t1": 29.15,
+      "t0_used": 26.982,
+      "t1_used": 29.187,
+      "snapped": true,
+      "snap_deltas": [
+        0.028,
+        -0.037
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 26.982,
+      "cut1": 29.187,
+      "on_beat": true,
+      "word_onset": 26.966,
+      "onset_offset": 0.016,
+      "resnap": "beat"
+    },
+    {
+      "i": 6,
+      "text": "一壶好酒 再来一碗热粥",
+      "t0": 29.15,
+      "t1": 31.15,
+      "t0_used": 29.187,
+      "t1_used": 31.15,
+      "snapped": true,
+      "snap_deltas": [
+        -0.037,
+        0.198
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 29.187,
+      "cut1": 30.952,
+      "on_beat": true,
+      "word_onset": 29.308,
+      "onset_offset": 0.121,
+      "resnap": "beat"
+    },
+    {
+      "i": 7,
+      "text": "配上几斤的牛肉",
+      "t0": 31.15,
+      "t1": 32.59,
+      "t0_used": 31.15,
+      "t1_used": 32.59,
+      "snapped": false,
+      "snap_deltas": [
+        0.198,
+        -0.127
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 30.952,
+      "cut1": 32.717,
+      "on_beat": true,
+      "word_onset": 31.09,
+      "onset_offset": 0.138,
+      "resnap": "beat"
+    },
+    {
+      "i": 8,
+      "text": "我说店小二 三两银够不够",
+      "t0": 32.59,
+      "t1": 36.16,
+      "t0_used": 32.59,
+      "t1_used": 36.246,
+      "snapped": true,
+      "snap_deltas": [
+        -0.127,
+        -0.086
+      ],
+      "approx": false,
+      "splits": [
+        35.805
+      ],
+      "cut0": 32.717,
+      "cut1": 36.688,
+      "on_beat": true,
+      "word_onset": 32.531,
+      "onset_offset": 0.186,
+      "resnap": "beat"
+    },
+    {
+      "i": 9,
+      "text": "景色入秋 漫天黄沙掠过",
+      "t0": 36.16,
+      "t1": 38.17,
+      "t0_used": 36.246,
+      "t1_used": 38.17,
+      "snapped": true,
+      "snap_deltas": [
+        -0.086,
+        0.159
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 36.688,
+      "cut1": 38.011,
+      "on_beat": true,
+      "word_onset": 36.474,
+      "onset_offset": 0.214,
+      "resnap": "beat"
+    },
+    {
+      "i": 10,
+      "text": "塞北的客栈人多",
+      "t0": 38.17,
+      "t1": 39.55,
+      "t0_used": 38.17,
+      "t1_used": 39.55,
+      "snapped": false,
+      "snap_deltas": [
+        0.159,
+        -0.226
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 38.011,
+      "cut1": 39.776,
+      "on_beat": true,
+      "word_onset": 38.175,
+      "onset_offset": 0.164,
+      "resnap": "beat"
+    },
+    {
+      "i": 11,
+      "text": "牧草有没有我马儿有些瘦",
+      "t0": 39.55,
+      "t1": 42.99,
+      "t0_used": 39.55,
+      "t1_used": 42.99,
+      "snapped": false,
+      "snap_deltas": [
+        -0.226,
+        0.126
+      ],
+      "approx": false,
+      "splits": [
+        42.864
+      ],
+      "cut0": 39.776,
+      "cut1": 42.864,
+      "on_beat": true,
+      "word_onset": 39.597,
+      "onset_offset": 0.179,
+      "resnap": "beat"
+    },
+    {
+      "i": 12,
+      "text": "世事看透 江湖上潮起潮落",
+      "t0": 42.99,
+      "t1": 45.36,
+      "t0_used": 42.99,
+      "t1_used": 45.36,
+      "snapped": false,
+      "snap_deltas": [
+        0.126,
+        -0.151
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 42.864,
+      "cut1": 45.093,
+      "on_beat": true,
+      "word_onset": 43.038,
+      "onset_offset": 0.174,
+      "resnap": "beat"
+    },
+    {
+      "i": 13,
+      "text": "什么恩怨过错",
+      "t0": 45.36,
+      "t1": 46.68,
+      "t0_used": 45.36,
+      "t1_used": 46.68,
+      "snapped": false,
+      "snap_deltas": [
+        -0.151,
+        -0.155
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 45.093,
+      "cut1": 46.393,
+      "on_beat": true,
+      "word_onset": 45.199,
+      "onset_offset": 0.106,
+      "resnap": "beat"
+    },
+    {
+      "i": 14,
+      "text": "在多年以后 还是让人难过",
+      "t0": 46.68,
+      "t1": 49.93,
+      "t0_used": 46.68,
+      "t1_used": 49.923,
+      "snapped": true,
+      "snap_deltas": [
+        -0.155,
+        0.007
+      ],
+      "approx": false,
+      "splits": [
+        49.041
+      ],
+      "cut0": 46.393,
+      "cut1": 49.923,
+      "on_beat": true,
+      "word_onset": 46.58,
+      "onset_offset": 0.187,
+      "resnap": "beat"
+    },
+    {
+      "i": 15,
+      "text": "心伤透",
+      "t0": 49.93,
+      "t1": 53.3,
+      "t0_used": 49.923,
+      "t1_used": 53.3,
+      "snapped": true,
+      "snap_deltas": [
+        0.007,
+        -0.152
+      ],
+      "approx": false,
+      "splits": [
+        52.57
+      ],
+      "cut0": 49.923,
+      "cut1": 53.011,
+      "on_beat": true,
+      "word_onset": 49.842,
+      "onset_offset": 0.081,
+      "resnap": "beat"
+    },
+    {
+      "i": 16,
+      "text": "娘子她人在江南等我",
+      "t0": 53.3,
+      "t1": 54.99,
+      "t0_used": 53.3,
+      "t1_used": 54.99,
+      "snapped": false,
+      "snap_deltas": [
+        -0.152,
+        0.214
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 53.011,
+      "cut1": 54.776,
+      "on_beat": true,
+      "word_onset": 53.224,
+      "onset_offset": 0.213,
+      "resnap": "beat"
+    },
+    {
+      "i": 17,
+      "text": "泪不休 语沉默",
+      "t0": 54.99,
+      "t1": 57.12,
+      "t0_used": 54.99,
+      "t1_used": 57.12,
+      "snapped": false,
+      "snap_deltas": [
+        0.214,
+        0.138
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 54.776,
+      "cut1": 56.982,
+      "on_beat": true,
+      "word_onset": 54.745,
+      "onset_offset": 0.031,
+      "resnap": "beat"
+    },
+    {
+      "i": 18,
+      "text": "娘子却依旧每日折一枝杨柳",
+      "t0": 57.12,
+      "t1": 64.37,
+      "t0_used": 57.12,
+      "t1_used": 64.37,
+      "snapped": false,
+      "snap_deltas": [
+        0.138,
+        -0.112
+      ],
+      "approx": false,
+      "splits": [
+        59.629,
+        63.158
+      ],
+      "cut0": 56.982,
+      "cut1": 64.482,
+      "on_beat": true,
+      "word_onset": 57.166,
+      "onset_offset": 0.184,
+      "resnap": "beat"
+    },
+    {
+      "i": 19,
+      "text": "在小村外的溪边河口",
+      "t0": 64.37,
+      "t1": 67.68,
+      "t0_used": 64.37,
+      "t1_used": 67.68,
+      "snapped": false,
+      "snap_deltas": [
+        -0.112,
+        0.11
+      ],
+      "approx": false,
+      "splits": [
+        67.57
+      ],
+      "cut0": 64.482,
+      "cut1": 67.57,
+      "on_beat": true,
+      "word_onset": 64.61,
+      "onset_offset": 0.128,
+      "resnap": "beat"
+    },
+    {
+      "i": 20,
+      "text": "默默的在等着我",
+      "t0": 67.68,
+      "t1": 71.3,
+      "t0_used": 67.68,
+      "t1_used": 71.3,
+      "snapped": false,
+      "snap_deltas": [
+        0.11,
+        0.2
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 67.57,
+      "cut1": 68.894,
+      "on_beat": true,
+      "word_onset": 67.752,
+      "onset_offset": 0.182,
+      "resnap": "beat"
+    },
+    {
+      "i": 21,
+      "text": "家乡的爹娘早已苍老了轮廓",
+      "t0": 71.3,
+      "t1": 78.37,
+      "t0_used": 71.3,
+      "t1_used": 78.37,
+      "snapped": false,
+      "snap_deltas": [
+        0.2,
+        0.212
+      ],
+      "approx": false,
+      "splits": [
+        71.982,
+        75.511,
+        79.041
+      ],
+      "cut0": 68.894,
+      "cut1": 78.6,
+      "on_beat": true,
+      "word_onset": 68.833,
+      "onset_offset": 0.061,
+      "resnap": "beat"
+    },
+    {
+      "i": 22,
+      "text": "娘子我欠你太多",
+      "t0": 78.37,
+      "t1": 85.71,
+      "t0_used": 78.37,
+      "t1_used": 85.658,
+      "snapped": true,
+      "snap_deltas": [
+        0.212,
+        0.052
+      ],
+      "approx": false,
+      "splits": [
+        81.688,
+        84.335
+      ],
+      "cut0": 78.6,
+      "cut1": 85.658,
+      "on_beat": true,
+      "word_onset": 78.359,
+      "onset_offset": 0.241,
+      "resnap": "beat"
+    },
+    {
+      "i": 23,
+      "text": "一壶好酒 再来一碗热粥",
+      "t0": 85.71,
+      "t1": 87.59,
+      "t0_used": 85.658,
+      "t1_used": 87.59,
+      "snapped": true,
+      "snap_deltas": [
+        0.052,
+        0.167
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 85.658,
+      "cut1": 87.423,
+      "on_beat": true,
+      "word_onset": 85.802,
+      "onset_offset": 0.144,
+      "resnap": "beat"
+    },
+    {
+      "i": 24,
+      "text": "配上几斤的牛肉",
+      "t0": 87.59,
+      "t1": 89.09,
+      "t0_used": 87.59,
+      "t1_used": 89.188,
+      "snapped": true,
+      "snap_deltas": [
+        0.167,
+        -0.098
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 87.423,
+      "cut1": 89.188,
+      "on_beat": true,
+      "word_onset": 87.563,
+      "onset_offset": 0.14,
+      "resnap": "beat"
+    },
+    {
+      "i": 25,
+      "text": "我说店小二 三两银够不够",
+      "t0": 89.09,
+      "t1": 92.46,
+      "t0_used": 89.188,
+      "t1_used": 92.46,
+      "snapped": true,
+      "snap_deltas": [
+        -0.098,
+        0.207
+      ],
+      "approx": false,
+      "splits": [
+        92.253
+      ],
+      "cut0": 89.188,
+      "cut1": 92.253,
+      "on_beat": true,
+      "word_onset": 89.163,
+      "onset_offset": 0.025,
+      "resnap": "beat"
+    },
+    {
+      "i": 26,
+      "text": "景色入秋 漫天黄沙掠过",
+      "t0": 92.46,
+      "t1": 94.59,
+      "t0_used": 92.46,
+      "t1_used": 94.59,
+      "snapped": false,
+      "snap_deltas": [
+        0.207,
+        0.108
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 92.253,
+      "cut1": 94.482,
+      "on_beat": true,
+      "word_onset": 92.465,
+      "onset_offset": 0.212,
+      "resnap": "beat"
+    },
+    {
+      "i": 27,
+      "text": "塞北的客栈人多",
+      "t0": 94.59,
+      "t1": 95.75,
+      "t0_used": 94.59,
+      "t1_used": 95.806,
+      "snapped": true,
+      "snap_deltas": [
+        0.108,
+        -0.056
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 94.482,
+      "cut1": 95.806,
+      "on_beat": true,
+      "word_onset": 94.586,
+      "onset_offset": 0.104,
+      "resnap": "beat"
+    },
+    {
+      "i": 28,
+      "text": "牧草有没有我马儿有些瘦",
+      "t0": 95.75,
+      "t1": 99.54,
+      "t0_used": 95.806,
+      "t1_used": 99.54,
+      "snapped": true,
+      "snap_deltas": [
+        -0.056,
+        0.228
+      ],
+      "approx": false,
+      "splits": [
+        98.429
+      ],
+      "cut0": 95.806,
+      "cut1": 99.312,
+      "on_beat": true,
+      "word_onset": 95.766,
+      "onset_offset": 0.04,
+      "resnap": "beat"
+    },
+    {
+      "i": 29,
+      "text": "天涯尽头满脸风霜",
+      "t0": 99.54,
+      "t1": 101.29,
+      "t0_used": 99.54,
+      "t1_used": 101.29,
+      "snapped": false,
+      "snap_deltas": [
+        0.228,
+        0.214
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 99.312,
+      "cut1": 101.076,
+      "on_beat": true,
+      "word_onset": 99.528,
+      "onset_offset": 0.216,
+      "resnap": "beat"
+    },
+    {
+      "i": 30,
+      "text": "落寞近乡情怯的我",
+      "t0": 101.29,
+      "t1": 102.66,
+      "t0_used": 101.29,
+      "t1_used": 102.66,
+      "snapped": false,
+      "snap_deltas": [
+        0.214,
+        -0.204
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 101.076,
+      "cut1": 102.864,
+      "on_beat": true,
+      "word_onset": 101.288,
+      "onset_offset": 0.212,
+      "resnap": "beat"
+    },
+    {
+      "i": 32,
+      "text": "相思寄红豆",
+      "t0": 102.47,
+      "t1": 103.52,
+      "t0_used": 102.423,
+      "t1_used": 103.52,
+      "snapped": true,
+      "snap_deltas": [
+        0.047,
+        -0.204
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 102.864,
+      "cut1": 103.306,
+      "on_beat": true,
+      "word_onset": 102.389,
+      "onset_offset": 0.475,
+      "resnap": "beat"
+    },
+    {
+      "i": 31,
+      "text": "相思寄红豆",
+      "t0": 102.66,
+      "t1": 105.66,
+      "t0_used": 102.66,
+      "t1_used": 105.66,
+      "snapped": false,
+      "snap_deltas": [
+        -0.204,
+        0.172
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 103.306,
+      "cut1": 105.488,
+      "on_beat": true,
+      "word_onset": 102.709,
+      "onset_offset": 0.597,
+      "resnap": "beat"
+    },
+    {
+      "i": 33,
+      "text": "无能为力的在人海中漂泊",
+      "t0": 103.52,
+      "t1": 105.8,
+      "t0_used": 103.52,
+      "t1_used": 105.8,
+      "snapped": false,
+      "snap_deltas": [
+        -0.204,
+        -0.129
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 105.488,
+      "cut1": 105.929,
+      "on_beat": true,
+      "word_onset": 103.489,
+      "onset_offset": 1.999,
+      "resnap": "beat"
+    },
+    {
+      "i": 34,
+      "text": "心伤透",
+      "t0": 105.8,
+      "t1": 109.86,
+      "t0_used": 105.8,
+      "t1_used": 109.923,
+      "snapped": true,
+      "snap_deltas": [
+        -0.129,
+        -0.063
+      ],
+      "approx": false,
+      "splits": [
+        109.018
+      ],
+      "cut0": 105.929,
+      "cut1": 109.923,
+      "on_beat": true,
+      "word_onset": 105.93,
+      "onset_offset": 0.001,
+      "resnap": "beat"
+    },
+    {
+      "i": 35,
+      "text": "娘子她人在江南等我",
+      "t0": 109.86,
+      "t1": 111.61,
+      "t0_used": 109.923,
+      "t1_used": 111.688,
+      "snapped": true,
+      "snap_deltas": [
+        -0.063,
+        -0.078
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 109.923,
+      "cut1": 111.688,
+      "on_beat": true,
+      "word_onset": 109.866,
+      "onset_offset": 0.057,
+      "resnap": "beat"
+    },
+    {
+      "i": 36,
+      "text": "泪不休 语沉默",
+      "t0": 111.61,
+      "t1": 142.56,
+      "t0_used": 111.688,
+      "t1_used": 142.547,
+      "snapped": true,
+      "snap_deltas": [
+        -0.078,
+        0.013
+      ],
+      "approx": false,
+      "splits": [
+        114.312,
+        117.841,
+        121.371,
+        124.9,
+        128.43,
+        131.959,
+        135.488,
+        139.018,
+        142.547,
+        146.077,
+        149.606
+      ],
+      "cut0": 111.688,
+      "cut1": 150.489,
+      "on_beat": true,
+      "word_onset": 111.611,
+      "onset_offset": 0.077,
+      "resnap": "beat"
+    },
+    {
+      "i": 37,
+      "text": "一壶好酒 再来一碗热粥",
+      "t0": 142.56,
+      "t1": 144.19,
+      "t0_used": 142.547,
+      "t1_used": 144.19,
+      "snapped": true,
+      "snap_deltas": [
+        0.013,
+        -0.145
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 150.489,
+      "cut1": 150.93,
+      "on_beat": true,
+      "word_onset": 150.225,
+      "onset_offset": 0.264,
+      "resnap": "beat"
+    },
+    {
+      "i": 38,
+      "text": "配上几斤的牛肉",
+      "t0": 144.19,
+      "t1": 145.51,
+      "t0_used": 144.19,
+      "t1_used": 145.51,
+      "snapped": false,
+      "snap_deltas": [
+        -0.145,
+        -0.126
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 150.93,
+      "cut1": 151.371,
+      "on_beat": true,
+      "word_onset": 150.225,
+      "onset_offset": 0.705,
+      "resnap": "beat"
+    },
+    {
+      "i": 39,
+      "text": "我说店小二 三两银够不够",
+      "t0": 145.51,
+      "t1": 148.94,
+      "t0_used": 145.51,
+      "t1_used": 148.94,
+      "snapped": false,
+      "snap_deltas": [
+        -0.126,
+        0.216
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 151.371,
+      "cut1": 151.812,
+      "on_beat": true,
+      "word_onset": 150.225,
+      "onset_offset": 1.146,
+      "resnap": "beat"
+    },
+    {
+      "i": 40,
+      "text": "景色入秋 漫天黄沙掠过",
+      "t0": 148.94,
+      "t1": 150.94,
+      "t0_used": 148.94,
+      "t1_used": 150.93,
+      "snapped": true,
+      "snap_deltas": [
+        0.216,
+        0.01
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 151.812,
+      "cut1": 152.253,
+      "on_beat": true,
+      "word_onset": 150.225,
+      "onset_offset": 1.587,
+      "resnap": "beat"
+    },
+    {
+      "i": 41,
+      "text": "塞北的客栈人多",
+      "t0": 150.94,
+      "t1": 152.38,
+      "t0_used": 150.93,
+      "t1_used": 152.38,
+      "snapped": true,
+      "snap_deltas": [
+        0.01,
+        0.127
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 152.253,
+      "cut1": 152.694,
+      "on_beat": true,
+      "word_onset": 150.865,
+      "onset_offset": 1.388,
+      "resnap": "beat"
+    },
+    {
+      "i": 42,
+      "text": "牧草有没有 我马儿有些瘦",
+      "t0": 152.38,
+      "t1": 155.98,
+      "t0_used": 152.38,
+      "t1_used": 155.98,
+      "snapped": false,
+      "snap_deltas": [
+        0.127,
+        0.197
+      ],
+      "approx": false,
+      "splits": [
+        155.783
+      ],
+      "cut0": 152.694,
+      "cut1": 156.224,
+      "on_beat": true,
+      "word_onset": 152.226,
+      "onset_offset": 0.468,
+      "resnap": "beat"
+    },
+    {
+      "i": 43,
+      "text": "世事看透江湖上",
+      "t0": 155.98,
+      "t1": 157.16,
+      "t0_used": 155.98,
+      "t1_used": 157.106,
+      "snapped": true,
+      "snap_deltas": [
+        0.197,
+        0.054
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 156.224,
+      "cut1": 157.106,
+      "on_beat": true,
+      "word_onset": 156.429,
+      "onset_offset": 0.205,
+      "resnap": "beat"
+    },
+    {
+      "i": 44,
+      "text": "潮起潮落什么恩怨过错",
+      "t0": 157.16,
+      "t1": 159.56,
+      "t0_used": 157.106,
+      "t1_used": 159.56,
+      "snapped": true,
+      "snap_deltas": [
+        0.054,
+        -0.193
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 157.106,
+      "cut1": 159.312,
+      "on_beat": true,
+      "word_onset": 157.05,
+      "onset_offset": 0.056,
+      "resnap": "beat"
+    },
+    {
+      "i": 45,
+      "text": "在多年以后 还是让人难过",
+      "t0": 159.56,
+      "t1": 163.01,
+      "t0_used": 159.56,
+      "t1_used": 163.01,
+      "snapped": false,
+      "snap_deltas": [
+        -0.193,
+        0.168
+      ],
+      "approx": false,
+      "splits": [
+        161.959
+      ],
+      "cut0": 159.312,
+      "cut1": 162.842,
+      "on_beat": true,
+      "word_onset": 159.532,
+      "onset_offset": 0.22,
+      "resnap": "beat"
+    },
+    {
+      "i": 46,
+      "text": "心伤透",
+      "t0": 163.01,
+      "t1": 166.56,
+      "t0_used": 163.01,
+      "t1_used": 166.56,
+      "snapped": false,
+      "snap_deltas": [
+        0.168,
+        0.189
+      ],
+      "approx": false,
+      "splits": [
+        165.489
+      ],
+      "cut0": 162.842,
+      "cut1": 166.371,
+      "on_beat": true,
+      "word_onset": 163.034,
+      "onset_offset": 0.192,
+      "resnap": "beat"
+    },
+    {
+      "i": 47,
+      "text": "娘子她人在江南等我",
+      "t0": 166.56,
+      "t1": 168.12,
+      "t0_used": 166.56,
+      "t1_used": 168.159,
+      "snapped": true,
+      "snap_deltas": [
+        0.189,
+        -0.039
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 166.371,
+      "cut1": 168.159,
+      "on_beat": true,
+      "word_onset": 166.557,
+      "onset_offset": 0.186,
+      "resnap": "beat"
+    },
+    {
+      "i": 48,
+      "text": "泪不休 语沉默",
+      "t0": 168.12,
+      "t1": 170.13,
+      "t0_used": 168.159,
+      "t1_used": 170.13,
+      "snapped": true,
+      "snap_deltas": [
+        -0.039,
+        -0.212
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 168.159,
+      "cut1": 169.9,
+      "on_beat": true,
+      "word_onset": 168.118,
+      "onset_offset": 0.041,
+      "resnap": "beat"
+    },
+    {
+      "i": 49,
+      "text": "娘子却依旧每日折一枝杨柳",
+      "t0": 170.13,
+      "t1": 177.26,
+      "t0_used": 170.13,
+      "t1_used": 177.26,
+      "snapped": false,
+      "snap_deltas": [
+        -0.212,
+        -0.14
+      ],
+      "approx": false,
+      "splits": [
+        172.547,
+        176.077
+      ],
+      "cut0": 169.9,
+      "cut1": 175.636,
+      "on_beat": true,
+      "word_onset": 170.119,
+      "onset_offset": 0.219,
+      "resnap": "beat"
+    },
+    {
+      "i": 50,
+      "text": "在小村外的溪边河口",
+      "t0": 177.26,
+      "t1": 181.01,
+      "t0_used": 177.26,
+      "t1_used": 180.93,
+      "snapped": true,
+      "snap_deltas": [
+        -0.14,
+        0.08
+      ],
+      "approx": false,
+      "splits": [
+        178.724,
+        181.371,
+        184.9
+      ],
+      "cut0": 175.636,
+      "cut1": 184.9,
+      "on_beat": true,
+      "word_onset": 175.423,
+      "onset_offset": 0.213,
+      "resnap": "beat"
+    },
+    {
+      "i": 51,
+      "text": "默默的在等着我",
+      "t0": 181.01,
+      "t1": 184.19,
+      "t0_used": 180.93,
+      "t1_used": 184.19,
+      "snapped": true,
+      "snap_deltas": [
+        0.08,
+        0.172
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 184.9,
+      "cut1": 185.342,
+      "on_beat": true,
+      "word_onset": 184.605,
+      "onset_offset": 0.295,
+      "resnap": "beat"
+    },
+    {
+      "i": 52,
+      "text": "家乡的爹娘早已苍老了轮廓",
+      "t0": 184.19,
+      "t1": 191.25,
+      "t0_used": 184.19,
+      "t1_used": 191.25,
+      "snapped": false,
+      "snap_deltas": [
+        0.172,
+        0.173
+      ],
+      "approx": false,
+      "splits": [
+        188.43
+      ],
+      "cut0": 185.342,
+      "cut1": 191.077,
+      "on_beat": true,
+      "word_onset": 184.605,
+      "onset_offset": 0.737,
+      "resnap": "beat"
+    },
+    {
+      "i": 53,
+      "text": "娘子我欠你太多",
+      "t0": 191.25,
+      "t1": 198.49,
+      "t0_used": 191.25,
+      "t1_used": 198.577,
+      "snapped": true,
+      "snap_deltas": [
+        0.173,
+        -0.087
+      ],
+      "approx": false,
+      "splits": [
+        193.724,
+        197.254
+      ],
+      "cut0": 191.077,
+      "cut1": 198.577,
+      "on_beat": true,
+      "word_onset": 191.268,
+      "onset_offset": 0.191,
+      "resnap": "beat"
+    },
+    {
+      "i": 54,
+      "text": "一壶好酒 再来一碗热粥",
+      "t0": 198.49,
+      "t1": 200.61,
+      "t0_used": 198.577,
+      "t1_used": 200.61,
+      "snapped": true,
+      "snap_deltas": [
+        -0.087,
+        -0.173
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 198.577,
+      "cut1": 200.365,
+      "on_beat": true,
+      "word_onset": 198.771,
+      "onset_offset": 0.194,
+      "resnap": "beat"
+    },
+    {
+      "i": 55,
+      "text": "配上几斤的牛肉",
+      "t0": 200.61,
+      "t1": 202.05,
+      "t0_used": 200.61,
+      "t1_used": 202.106,
+      "snapped": true,
+      "snap_deltas": [
+        -0.173,
+        -0.056
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 200.365,
+      "cut1": 202.106,
+      "on_beat": true,
+      "word_onset": 200.552,
+      "onset_offset": 0.187,
+      "resnap": "beat"
+    },
+    {
+      "i": 56,
+      "text": "我说店小二 三两银够不够",
+      "t0": 202.05,
+      "t1": 205.36,
+      "t0_used": 202.106,
+      "t1_used": 205.36,
+      "snapped": true,
+      "snap_deltas": [
+        -0.056,
+        0.188
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 202.106,
+      "cut1": 202.989,
+      "on_beat": true,
+      "word_onset": 202.073,
+      "onset_offset": 0.033,
+      "resnap": "beat"
+    },
+    {
+      "i": 57,
+      "text": "景色入秋 漫天黄沙掠过",
+      "t0": 205.36,
+      "t1": 207.43,
+      "t0_used": 205.36,
+      "t1_used": 207.401,
+      "snapped": true,
+      "snap_deltas": [
+        0.188,
+        0.029
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 202.989,
+      "cut1": 203.43,
+      "on_beat": true,
+      "word_onset": 202.753,
+      "onset_offset": 0.236,
+      "resnap": "beat"
+    },
+    {
+      "i": 58,
+      "text": "塞北的客栈人多",
+      "t0": 207.43,
+      "t1": 209.13,
+      "t0_used": 207.401,
+      "t1_used": 209.165,
+      "snapped": true,
+      "snap_deltas": [
+        0.029,
+        -0.035
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 203.43,
+      "cut1": 203.871,
+      "on_beat": true,
+      "word_onset": 202.753,
+      "onset_offset": 0.677,
+      "resnap": "beat"
+    },
+    {
+      "i": 59,
+      "text": "牧草有没有 我马儿有些瘦",
+      "t0": 209.13,
+      "t1": 212.44,
+      "t0_used": 209.165,
+      "t1_used": 212.44,
+      "snapped": true,
+      "snap_deltas": [
+        -0.035,
+        0.186
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 203.871,
+      "cut1": 204.312,
+      "on_beat": true,
+      "word_onset": 202.753,
+      "onset_offset": 1.118,
+      "resnap": "beat"
+    },
+    {
+      "i": 60,
+      "text": "天涯尽头 满脸风霜",
+      "t0": 212.44,
+      "t1": 214.02,
+      "t0_used": 212.44,
+      "t1_used": 214.018,
+      "snapped": true,
+      "snap_deltas": [
+        0.186,
+        0.002
+      ],
+      "approx": false,
+      "splits": [
+        207.842,
+        211.371,
+        214.901,
+        218.43,
+        221.96
+      ],
+      "cut0": 204.312,
+      "cut1": 222.842,
+      "on_beat": true,
+      "word_onset": 202.753,
+      "onset_offset": 1.559,
+      "resnap": "beat"
+    },
+    {
+      "i": 61,
+      "text": "落寞 近乡情怯的我",
+      "t0": 214.02,
+      "t1": 215.21,
+      "t0_used": 214.018,
+      "t1_used": 215.21,
+      "snapped": true,
+      "snap_deltas": [
+        0.002,
+        -0.132
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 222.842,
+      "cut1": 223.283,
+      "on_beat": true,
+      "word_onset": 222.813,
+      "onset_offset": 0.029,
+      "resnap": "beat"
+    },
+    {
+      "i": 62,
+      "text": "相思寄红豆",
+      "t0": 215.21,
+      "t1": 215.7,
+      "t0_used": 215.21,
+      "t1_used": 215.783,
+      "snapped": true,
+      "snap_deltas": [
+        -0.132,
+        -0.083
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 223.283,
+      "cut1": 223.724,
+      "on_beat": true,
+      "word_onset": 222.813,
+      "onset_offset": 0.47,
+      "resnap": "beat"
+    },
+    {
+      "i": 63,
+      "text": "相思寄红豆",
+      "t0": 215.7,
+      "t1": 216.31,
+      "t0_used": 215.783,
+      "t1_used": 216.224,
+      "snapped": true,
+      "snap_deltas": [
+        -0.083,
+        0.086
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 223.724,
+      "cut1": 224.165,
+      "on_beat": true,
+      "word_onset": 222.813,
+      "onset_offset": 0.911,
+      "resnap": "beat"
+    },
+    {
+      "i": 64,
+      "text": "无能为力的在人海中漂泊",
+      "t0": 216.31,
+      "t1": 219.47,
+      "t0_used": 216.224,
+      "t1_used": 219.47,
+      "snapped": true,
+      "snap_deltas": [
+        0.086,
+        0.181
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 224.165,
+      "cut1": 224.63,
+      "on_beat": true,
+      "word_onset": 222.813,
+      "onset_offset": 1.352,
+      "resnap": "beat"
+    },
+    {
+      "i": 65,
+      "text": "心伤透",
+      "t0": 219.47,
+      "t1": 222.8,
+      "t0_used": 219.47,
+      "t1_used": 222.842,
+      "snapped": true,
+      "snap_deltas": [
+        0.181,
+        -0.042
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 224.63,
+      "cut1": 225.048,
+      "on_beat": true,
+      "word_onset": 222.813,
+      "onset_offset": 1.817,
+      "resnap": "beat"
+    },
+    {
+      "i": 66,
+      "text": "娘子她人在江南等我",
+      "t0": 222.8,
+      "t1": 224.49,
+      "t0_used": 222.842,
+      "t1_used": 224.49,
+      "snapped": true,
+      "snap_deltas": [
+        -0.042,
+        -0.14
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 225.048,
+      "cut1": 225.489,
+      "on_beat": true,
+      "word_onset": 222.813,
+      "onset_offset": 2.235,
+      "resnap": "beat"
+    },
+    {
+      "i": 67,
+      "text": "泪不休 语沉默",
+      "t0": 224.49,
+      "t1": 226.37,
+      "t0_used": 224.49,
+      "t1_used": 226.371,
+      "snapped": true,
+      "snap_deltas": [
+        -0.14,
+        -0.001
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 225.489,
+      "cut1": 226.371,
+      "on_beat": true,
+      "word_onset": 224.574,
+      "onset_offset": 0.915,
+      "resnap": "beat"
+    },
+    {
+      "i": 68,
+      "text": "娘子 娘子却依旧每日",
+      "t0": 226.37,
+      "t1": 228.11,
+      "t0_used": 226.371,
+      "t1_used": 228.113,
+      "snapped": true,
+      "snap_deltas": [
+        -0.001,
+        -0.003
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 226.371,
+      "cut1": 228.113,
+      "on_beat": true,
+      "word_onset": 226.335,
+      "onset_offset": 0.036,
+      "resnap": "beat"
+    },
+    {
+      "i": 69,
+      "text": "折一枝杨柳你在那里",
+      "t0": 228.11,
+      "t1": 229.99,
+      "t0_used": 228.113,
+      "t1_used": 229.901,
+      "snapped": true,
+      "snap_deltas": [
+        -0.003,
+        0.089
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 228.113,
+      "cut1": 229.901,
+      "on_beat": true,
+      "word_onset": 228.056,
+      "onset_offset": 0.057,
+      "resnap": "beat"
+    },
+    {
+      "i": 70,
+      "text": "在小村外的溪边河口默默等着我",
+      "t0": 229.99,
+      "t1": 233.61,
+      "t0_used": 229.901,
+      "t1_used": 233.61,
+      "snapped": true,
+      "snap_deltas": [
+        0.089,
+        0.18
+      ],
+      "approx": false,
+      "splits": [
+        232.548
+      ],
+      "cut0": 229.901,
+      "cut1": 233.43,
+      "on_beat": true,
+      "word_onset": 230.056,
+      "onset_offset": 0.155,
+      "resnap": "beat"
+    },
+    {
+      "i": 71,
+      "text": "娘子依旧每日折一枝杨柳",
+      "t0": 233.61,
+      "t1": 236.3,
+      "t0_used": 233.61,
+      "t1_used": 236.3,
+      "snapped": false,
+      "snap_deltas": [
+        0.18,
+        -0.218
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 233.43,
+      "cut1": 236.077,
+      "on_beat": true,
+      "word_onset": 233.618,
+      "onset_offset": 0.188,
+      "resnap": "beat"
+    },
+    {
+      "i": 72,
+      "text": "你在那里 在小村外的溪边",
+      "t0": 236.3,
+      "t1": 238.74,
+      "t0_used": 236.3,
+      "t1_used": 238.724,
+      "snapped": true,
+      "snap_deltas": [
+        -0.218,
+        0.016
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 236.077,
+      "cut1": 238.724,
+      "on_beat": true,
+      "word_onset": 236.259,
+      "onset_offset": 0.182,
+      "resnap": "beat"
+    },
+    {
+      "i": 73,
+      "text": "默默等着 娘子",
+      "t0": 238.74,
+      "t1": 240.86,
+      "t0_used": 238.724,
+      "t1_used": 240.93,
+      "snapped": true,
+      "snap_deltas": [
+        0.016,
+        -0.07
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 238.724,
+      "cut1": 240.93,
+      "on_beat": true,
+      "word_onset": 238.701,
+      "onset_offset": 0.023,
+      "resnap": "beat"
+    },
+    {
+      "i": 74,
+      "text": "娘子却依旧每日",
+      "t0": 240.86,
+      "t1": 242.24,
+      "t0_used": 240.93,
+      "t1_used": 242.231,
+      "snapped": true,
+      "snap_deltas": [
+        -0.07,
+        0.009
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 240.93,
+      "cut1": 242.231,
+      "on_beat": true,
+      "word_onset": 240.922,
+      "onset_offset": 0.008,
+      "resnap": "beat"
+    },
+    {
+      "i": 75,
+      "text": "折一枝杨柳你在那里",
+      "t0": 242.24,
+      "t1": 244.12,
+      "t0_used": 242.231,
+      "t1_used": 244.12,
+      "snapped": true,
+      "snap_deltas": [
+        0.009,
+        0.125
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 242.231,
+      "cut1": 243.995,
+      "on_beat": true,
+      "word_onset": 242.202,
+      "onset_offset": 0.029,
+      "resnap": "beat"
+    },
+    {
+      "i": 76,
+      "text": "在小村外的溪边河口默默等着我",
+      "t0": 244.12,
+      "t1": 247.62,
+      "t0_used": 244.12,
+      "t1_used": 247.525,
+      "snapped": true,
+      "snap_deltas": [
+        0.125,
+        0.095
+      ],
+      "approx": false,
+      "splits": [
+        246.666
+      ],
+      "cut0": 243.995,
+      "cut1": 247.107,
+      "on_beat": true,
+      "word_onset": 244.183,
+      "onset_offset": 0.188,
+      "resnap": "beat"
+    },
+    {
+      "i": 77,
+      "text": "娘子依旧每日折一枝杨柳",
+      "t0": 247.62,
+      "t1": 250.36,
+      "t0_used": 247.525,
+      "t1_used": 250.36,
+      "snapped": true,
+      "snap_deltas": [
+        0.095,
+        0.165
+      ],
+      "approx": false,
+      "splits": [
+        250.195
+      ],
+      "cut0": 247.107,
+      "cut1": 251.077,
+      "on_beat": true,
+      "word_onset": 247.084,
+      "onset_offset": 0.023,
+      "resnap": "beat"
+    },
+    {
+      "i": 78,
+      "text": "你在那里 在小村外的溪边",
+      "t0": 250.36,
+      "t1": 252.86,
+      "t0_used": 250.36,
+      "t1_used": 252.842,
+      "snapped": true,
+      "snap_deltas": [
+        0.165,
+        0.018
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 251.077,
+      "cut1": 252.842,
+      "on_beat": true,
+      "word_onset": 250.826,
+      "onset_offset": 0.251,
+      "resnap": "beat"
+    },
+    {
+      "i": 79,
+      "text": "默默等着 娘子",
+      "t0": 252.86,
+      "t1": 259.1,
+      "t0_used": 252.842,
+      "t1_used": 259.1,
+      "snapped": true,
+      "snap_deltas": [
+        0.018,
+        -0.151
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 252.842,
+      "cut1": 253.283,
+      "on_beat": true,
+      "word_onset": 252.815,
+      "onset_offset": 0.027,
+      "resnap": "beat"
+    },
+    {
+      "i": 80,
+      "text": "Guitar：倪方来",
+      "t0": 259.1,
+      "t1": 259.38,
+      "t0_used": 259.1,
+      "t1_used": 259.38,
+      "snapped": false,
+      "snap_deltas": [
+        -0.151,
+        0.129
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 253.283,
+      "cut1": 253.724,
+      "on_beat": true,
+      "word_onset": 253.036,
+      "onset_offset": 0.247,
+      "resnap": "beat"
+    },
+    {
+      "i": 81,
+      "text": "合声编写：周杰伦",
+      "t0": 259.38,
+      "t1": 259.77,
+      "t0_used": 259.38,
+      "t1_used": 259.692,
+      "snapped": true,
+      "snap_deltas": [
+        0.129,
+        0.078
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 253.724,
+      "cut1": 254.166,
+      "on_beat": true,
+      "word_onset": 253.036,
+      "onset_offset": 0.688,
+      "resnap": "beat"
+    },
+    {
+      "i": 82,
+      "text": "过带录音师：Gary Yang (J&A 录音室)",
+      "t0": 259.77,
+      "t1": 259.95,
+      "t0_used": 259.692,
+      "t1_used": 259.95,
+      "snapped": true,
+      "snap_deltas": [
+        0.078,
+        -0.183
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 254.166,
+      "cut1": 254.607,
+      "on_beat": true,
+      "word_onset": 253.036,
+      "onset_offset": 1.13,
+      "resnap": "beat"
+    },
+    {
+      "i": 83,
+      "text": "配唱录音师：Gary Yang、周至诚 (J&A 录音室)",
+      "t0": 259.95,
+      "t1": 260.13,
+      "t0_used": 259.95,
+      "t1_used": 260.133,
+      "snapped": true,
+      "snap_deltas": [
+        -0.183,
+        -0.003
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 254.607,
+      "cut1": 255.094,
+      "on_beat": true,
+      "word_onset": 253.036,
+      "onset_offset": 1.571,
+      "resnap": "beat"
+    },
+    {
+      "i": 84,
+      "text": "混音录音师：杨大纬 (J&A 录音室)",
+      "t0": 260.13,
+      "t1": 260.52,
+      "t0_used": 260.133,
+      "t1_used": 260.574,
+      "snapped": true,
+      "snap_deltas": [
+        -0.003,
+        -0.054
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 255.094,
+      "cut1": 255.582,
+      "on_beat": true,
+      "word_onset": 253.036,
+      "onset_offset": 2.058,
+      "resnap": "beat"
+    },
+    {
+      "i": 85,
+      "text": "ISRC-TW-C23-00-001-04",
+      "t0": 260.52,
+      "t1": 263.52,
+      "t0_used": 260.574,
+      "t1_used": 263.52,
+      "snapped": true,
+      "snap_deltas": [
+        -0.054,
+        -0.143
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 255.582,
+      "cut1": 256.093,
+      "on_beat": true,
+      "word_onset": 253.036,
+      "onset_offset": 2.546,
+      "resnap": "beat"
+    }
+  ],
+  "summary": {
+    "lines": 86,
+    "cuts": 133,
+    "cuts_on_beat": 133,
+    "mean_onset_offset_sec": 0.127,
+    "max_onset_offset_sec": 0.22,
+    "same_window_rows_removed": 0,
+    "degenerate_rows_repaired": 0,
+    "old_lines": 86,
+    "old_snapped": 61
+  },
+  "advisory": true
+}
