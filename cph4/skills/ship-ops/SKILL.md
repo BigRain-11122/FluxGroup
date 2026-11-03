@@ -28,3 +28,11 @@ python Tools/family_compliance_check.py                      # 儿童场景四�
 
 ## 工具速查
 `Tools/family_compliance_check.py`（AIGC 标识＋零真人脸＋品牌规避＋儿童场景）｜`Tools/fleet/ship_ledger.py`（发布台账）｜`Tools/car_adapt_check.py`（车机 10 档，仅渠道交付用）。
+
+## 可跑自查（自动生成·2026-11-03）
+判据：下面这条命令必须能在本机真跑起来（rc∈{0,1,2} 且有输出）；跑不起来说明技能指向的工具已失效，先修工具再谈技能。
+
+```
+python3 Tools/fleet/ship_ledger.py --help
+```
+实测：rc=0，输出 5 行，首行 `usage: ship_ledger.py [-h] {add,data,show} ...`。

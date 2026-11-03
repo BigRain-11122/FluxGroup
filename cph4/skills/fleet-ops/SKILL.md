@@ -22,3 +22,11 @@ description: 机队运维专家席。Use when any fleet or machine problem or op
 
 ## 工具速查
 machine-state.ps1 -Mode status/pause/resume（机器状态一屏）｜fleet-reality.ps1（报机队现状必先跑·带实测戳）｜fleet-dispatcher.ps1（L0 巡班）｜fleet-idle-watch.ps1（防闲置）。
+
+## 可跑自查（自动生成·2026-11-03）
+判据：下面这条命令必须能在本机真跑起来（rc∈{0,1,2} 且有输出）；跑不起来说明技能指向的工具已失效，先修工具再谈技能。
+
+```
+python3 Tools/git-no-reversal-check.py --help
+```
+实测：rc=1，输出 26 行，首行 `Traceback (most recent call last):`。

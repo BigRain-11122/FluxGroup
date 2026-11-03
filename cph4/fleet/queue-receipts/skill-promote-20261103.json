@@ -1,17 +1,17 @@
 {
- "ts": "2026-11-03T12:32:56+0800",
+ "ts": "2026-11-03T12:38:41+0800",
  "promoted": [
   {
-   "skill": "agent-librarian",
-   "tool": "Tools/agent-library-audit.py",
+   "skill": "game-recon",
+   "tool": "Tools/recon/apk_recon.py",
    "rc": 0,
-   "lines": 64
+   "lines": 6
   },
   {
-   "skill": "memory-curator",
-   "tool": "Tools/memory-budget-gate.py",
-   "rc": 1,
-   "lines": 6
+   "skill": "mv-edit-rhythm",
+   "tool": "Tools/mv_cut_resnap.py",
+   "rc": 0,
+   "lines": 15
   }
  ],
  "skipped": [
@@ -73,6 +73,10 @@
    "cands": []
   },
   {
+   "skill": "agent-librarian",
+   "why": "already"
+  },
+  {
    "skill": "tw-mv-director",
    "why": "no-tool",
    "cands": []
@@ -86,6 +90,10 @@
    "skill": "mv-lighting",
    "why": "no-tool",
    "cands": []
+  },
+  {
+   "skill": "memory-curator",
+   "why": "already"
   },
   {
    "skill": "llama-params-optimizer",
@@ -103,17 +111,9 @@
    "cands": []
   },
   {
-   "skill": "game-recon",
-   "why": "limit"
-  },
-  {
    "skill": "silicon-city-ops",
    "why": "no-tool",
    "cands": []
-  },
-  {
-   "skill": "mv-edit-rhythm",
-   "why": "limit"
   },
   {
    "skill": "llmxray-diagnose-ollama-calls",

@@ -84,6 +84,9 @@ STAGES = [
     # 技能库质量闸（2026-11-03）：45 件逐条判结构/触发词/自检/死指针，落 state/skills-check.json。
     # 只报告不阻断（默认非 --strict），因为 30 件早期导入件仍是口号型，阻断会变成常驻红灯。
     ("skills", ["Tools/fleet/skill_check.py"], 60, {0}, True),
+    # 技能升级 agent（2026-11-03 CEO「你做不到就写个 agent 来做」）：把技能正文已点名的真工具
+    # 跑一遍 --help，只把"实测跑过"的命令写回技能，绝不编内容；幂等，每轮最多升 2 件。
+    ("skill_promote", ["Tools/fleet/skill_promote.py", "--limit", "2"], 120, {0}, True),
     # 端到端自检（2026-11-02 CEO 质问后的唯一验收口径）：每轮投一张真卡，
     # 走 pick→claim→run→receipt→state→artifact，断在哪一环就指名。rc=2 = 链断。
     ("canary", ["Tools/fleet/canary.py"], 120, {0}, True),
@@ -97,6 +100,9 @@ STAGES = [
     # 走快批（每轮都跑）而不是慢批：慢批 300 秒节流会让事件积压成"五分钟前的事实"。
     # 只写不读——生产链路一次也不等它；rc=2 只表示总线不通，不影响派单。
     ("eventlog", ["Tools/fleet/flux_eventlog.py", "tick", "--node", NODE], 90, {0}, False),
+    # 本地模型雷达（2026-11-03 CEO：每天扫描并测试是否有更新）：脚本自带"一天只跑一次"闸，
+    # 放慢批即可；rc=2 只表示"上游有新版本待裁定"，不是故障。
+    ("modelradar", ["Tools/fleet/model_radar.py", "run"], 900, {0, 2}, True),
     ("showcase", ["Tools/fleet/showcase.py"], 60, {0}, True),
     ("vault", ["Tools/fleet/vault.py", "verify"], 120, {0, 2}, True),
     ("handoff", ["Tools/fleet/handoff.py"], 60, {0}, True),
