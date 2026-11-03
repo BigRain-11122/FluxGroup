@@ -1,0 +1,94 @@
+{
+ "_comment": "全域优化面登记（CEO 2026-11-03「你要考虑的比我全面和科学，不是我说哪里弄哪里」）。每条=一个可判定的点：现状/判据/状态/触发条件。工具=Tools/fleet/surface_status.py（主控脉慢批每日打印未决项）。规则：改任何一处前先看这张表里同域的其它条，改完把新发现的条入册。",
+ "version": "v1-20261103",
+ "domains": {
+  "inference": {
+   "label": "本地推理栈",
+   "doc": "cph4/fleet/LOCAL-INFERENCE-RESEARCH-v1.md",
+   "items": [
+    {"id": "inf-engine", "what": "推理引擎", "now": "MLX（qwen3.5:4b-mlx），实测 +5~7%", "status": "done"},
+    {"id": "inf-runner-owner", "what": "端口 11434 归属", "now": "app job 已 disable，本仓 job 独占并回读环境", "status": "done"},
+    {"id": "inf-parallel", "what": "NUM_PARALLEL", "now": "3→1（并发实测无收益）", "status": "done"},
+    {"id": "inf-keepalive", "what": "KEEP_ALIVE", "now": "默认 5m→15m（冷载 1.42s）", "status": "done"},
+    {"id": "inf-embedding", "what": "向量层模型", "now": "qwen3-embedding:0.6b，间隔 .586 vs .380", "status": "done"},
+    {"id": "inf-wired", "what": "iogpu.wired_limit_mb", "now": "默认 0", "status": "open", "trigger": "跑 22GB 封存档且实测换页时"},
+    {"id": "inf-kvq", "what": "MLX 的 KV 量化/投机解码", "now": "ollama 不暴露", "status": "open", "trigger": "ollama 暴露参数或转 mlx_lm 直跑"},
+    {"id": "inf-remote", "what": "Windows 三台体检", "now": "卡已派、回执未到", "status": "open", "trigger": "回执落地即按 port_owner/server_env 决定落盘"},
+    {"id": "inf-pernode-policy", "what": "每机策略 resident", "now": "骨架已建、值为空", "status": "open", "trigger": "首次 audit 回执"}
+   ]
+  },
+  "dispatch": {
+   "label": "派单与调度",
+   "items": [
+    {"id": "dis-semantic-dupe", "what": "同活重复派单", "now": "向量闸 0.80 挡活（首跑抓到 3 张同活）", "status": "done"},
+    {"id": "dis-lane-pick", "what": "全忙时误派无心跳机", "now": "已修：只在曾报过心跳的机里回落", "status": "done"},
+    {"id": "dis-bank", "what": "补料断粮", "now": "work-bank 靠人工填；工序表已能自动出卡", "status": "partial"},
+    {"id": "dis-no-receipt", "what": "缺失回执自动补卡", "now": "closer 已有 requeue，但按机维度的体检类卡仍会缺", "status": "partial"},
+    {"id": "dis-lease", "what": "卡租约语义", "now": "owner+lease 计时，过期回收", "status": "done"},
+    {"id": "dis-dedupe-prefix", "what": "标题前缀污染聚类", "now": "已剥 [线名（工序链）] 前缀", "status": "done"},
+    {"id": "dis-dupe-parallel", "what": "并行分片卡被判重", "now": "已加 no_dedupe 标记", "status": "done"}
+   ]
+  },
+  "exec": {
+   "label": "远端执行器",
+   "items": [
+    {"id": "ex-receipt-lag", "what": "bm-b/bm-c 领卡后无回执", "now": "历史 6-7 分钟沉默；审计卡仍未回执", "status": "open", "trigger": "连续 2 次则停派卡先修执行器"},
+    {"id": "ex-python", "what": "解释器不归一（rc=127）", "now": "按 which 自动改 python3", "status": "done"},
+    {"id": "ex-wrong-node", "what": "卡跑到非目标机", "now": "体检类卡加 BLOCKED 闸（rc=3）", "status": "done"},
+    {"id": "ex-bm-d", "what": "bm-d 未入网", "now": "仍无心跳", "status": "open", "trigger": "CEO 物理机上架"}
+   ]
+  },
+  "sync": {
+   "label": "git 同步与协作",
+   "items": [
+    {"id": "sy-dirty", "what": "脏树阻断整机同步", "now": "白名单已含 .codely-cli/", "status": "done"},
+    {"id": "sy-conflict", "what": "冲突标记混进仓", "now": "仍有 CEO-PROXY/LOG.md 残留待清", "status": "open"},
+    {"id": "sy-multi-writer", "what": "多会话同改同文件", "now": "本会话遇到两次（master_pulse/队列）", "status": "partial"},
+    {"id": "sy-pulse-race", "what": "脉冲 git 与人工 git 抢 index.lock", "now": "实测撞过；需手术前先停脉", "status": "partial"}
+   ]
+  },
+  "observe": {
+   "label": "观测与一屏",
+   "items": [
+    {"id": "ob-eventlog", "what": "事件流（消息层）", "now": "S1 影子期跑通，recon aligned", "status": "done"},
+    {"id": "ob-stage-table", "what": "阶段表改动需重启才生效", "now": "deploy_gate --restart 已成规程", "status": "done"},
+    {"id": "ob-canary", "what": "端到端自检", "now": "每日/每轮跑，只证本机链", "status": "partial"},
+    {"id": "ob-inference-audit", "what": "推理栈每日体检", "now": "已接慢批 (inference_audit)", "status": "done"}
+   ]
+  },
+  "memory": {
+   "label": "记忆与上下文预算",
+   "items": [
+    {"id": "me-size", "what": "CODELY.md 体积", "now": "117KB / 164 行 / 126 条 —— 每次会话注入，等于每轮都付这笔 token", "status": "open", "trigger": "超过 60KB 就该做一次下沉（L1→L2 主题文件）"},
+    {"id": "me-dup", "what": "同族条目重复", "now": "未机检", "status": "open", "trigger": "接入去重检查（同 id/同结论）"},
+    {"id": "me-budget-gate", "what": "预算闸", "now": "无", "status": "open", "trigger": "本轮落地"}
+   ]
+  },
+  "skills": {
+   "label": "技能库",
+   "items": [
+    {"id": "sk-tier", "what": "分级（A/B/frozen/external/parked）", "now": "45 件=A8/B19/frozen5/ext11/parked2", "status": "done"},
+    {"id": "sk-install", "what": "装前过闸", "now": "skill_install 已接 skill_check", "status": "done"},
+    {"id": "sk-eval", "what": "挂/不挂对照评测", "now": "ship-ops +0.75、fleet-ops +0.83", "status": "done"},
+    {"id": "sk-slogan", "what": "27 件口号型归属", "now": "待裁定：补判据 or 归档", "status": "open"},
+    {"id": "sk-activation", "what": "激活面 29 个 vs 仓内 45 个", "now": "差额=未装（B 档按需）", "status": "partial"}
+   ]
+  },
+  "storage": {
+   "label": "存储与备份",
+   "items": [
+    {"id": "st-cold", "what": "冷备自动化", "now": "launchd 写可移除卷被 TCC 拦", "status": "open", "trigger": "CEO 授权完全磁盘访问"},
+    {"id": "st-artifact", "what": "产出回收链", "now": "intake/push/status 三件已建", "status": "partial"},
+    {"id": "st-git-state", "what": "状态文件入 git", "now": "state/ 已移出，仍逐轮提交 state 快照", "status": "partial"}
+   ]
+  },
+  "ship": {
+   "label": "发布与合规",
+   "items": [
+    {"id": "sp-gate", "what": "发布前闸", "now": "quality_gate + 四件观众级", "status": "done"},
+    {"id": "sp-license", "what": "资质链（AppID/ICP/软著）", "now": "CEO 物理件，09-16 挂起至今", "status": "open"},
+    {"id": "sp-rights", "what": "真人克隆禁令", "now": "已落机器闸（RIGHTS.json）", "status": "done"}
+   ]
+  }
+ }
+}
