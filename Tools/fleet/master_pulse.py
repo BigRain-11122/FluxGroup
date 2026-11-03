@@ -94,8 +94,9 @@ STAGES = [
     ("checkups", ["Tools/fleet/checkups.py"], 180, {0, 2}, True),
     ("metrics", ["Tools/fleet/ops_metrics.py"], 90, {0}, True),
     # 事件日志（2026-11-03 S1 影子期）：先把本机 outbox 发到 JetStream，再拉本机未消费事件。
+    # 走快批（每轮都跑）而不是慢批：慢批 300 秒节流会让事件积压成"五分钟前的事实"。
     # 只写不读——生产链路一次也不等它；rc=2 只表示总线不通，不影响派单。
-    ("eventlog", ["Tools/fleet/flux_eventlog.py", "tick", "--node", NODE], 90, {0}, True),
+    ("eventlog", ["Tools/fleet/flux_eventlog.py", "tick", "--node", NODE], 90, {0}, False),
     ("showcase", ["Tools/fleet/showcase.py"], 60, {0}, True),
     ("vault", ["Tools/fleet/vault.py", "verify"], 120, {0, 2}, True),
     ("handoff", ["Tools/fleet/handoff.py"], 60, {0}, True),
