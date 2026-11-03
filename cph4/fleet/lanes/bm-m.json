@@ -1,19 +1,24 @@
 {
  "node": "bm-m",
- "ts": "2026-11-04T02:00:36",
+ "ts": "2026-11-04T02:01:49",
  "jobs": [
   {
-   "id": "bigstream-mv-gate-2026-11-04",
-   "title": "[MV·爱在西元前（v721 终版）] 交付闸（重复/静止/抖动/闪烁）",
-   "cmd": "python Tools/mv_delivery_gate.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721_60fps_1080p.mp4 --card 38.79:40.21 --card 219.71:223.88",
-   "cwd": "",
+   "id": "R-DEAI-20261104-001",
+   "title": "主控接入「高质量+去AI感」出厂总闸（CEO 20261104 根本要求令·产出接入简报）",
+   "cmd": null,
+   "cwd": "/Users/junsheng.sun/FluxGroup",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/mv-gate-v721-2026-11-04.json",
+   "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-deai-ack.md",
    "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
+   "model": "local-small",
+   "prompt": "只依据两份文件事实：cph4/fleet/quality/DE-AI-SPEC-v1.md（四域25条出厂闸）与 cph4/fleet/BACKLOG-LEDGER-20261103.md 的 J/K 节。写「主控接入简报」，逐条回答：①你（主控）派单时 accept 字段将引用哪些 spec 条目号（A/B/C/D 各至少2例）；②音色线新序（供给→Q-VCORP-PREP 16槽→微调试点z01/e01→双PASS才批量14）你会怎么排线，旧混组分片卡（已 SUPERSEDED）为何不得复活；③人脸线换模决策流程（Q-FACE-BOARD-BMC 对照板→导演席按B1/B2/B3/B5盲评→CHAR-GEN-V2-QWEN 切换）你在 dispatch 上怎么配合；④你在哪些时点自查是否误派 AI 脸/AI 声风险卡。全文 ≤15 行，只写文件里有的，不得编造。",
+   "when_all": [
+    "cph4/fleet/quality/DE-AI-SPEC-v1.md",
+    "cph4/fleet/BACKLOG-LEDGER-20261103.md"
+   ],
+   "llm": {
+    "out": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-deai-ack.md"
+   },
    "timeout_s": null
   }
  ],

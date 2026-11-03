@@ -1,22 +1,22 @@
 {
- "ts": "2026-11-04T02:00:36",
- "cycle": 12,
+ "ts": "2026-11-04T02:01:49",
+ "cycle": 13,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-04T02:00:36",
+ "master_tick_ts": "2026-11-04T02:01:49",
  "queue": {
   "total": 400,
-  "open": 56,
+  "open": 54,
   "running": 4,
   "done": 144,
-  "failed": 10
+  "failed": 11
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 22.7,
-   "cpu_load_pct": 76,
-   "ram_free_gb": 34.2,
+   "hb_age_s": 36.0,
+   "cpu_load_pct": 43,
+   "ram_free_gb": 34.6,
    "gpu_util_pct": 89,
    "job": "asset-lib-face-caption-2026-11-03",
    "last_result": {
@@ -32,16 +32,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 45.9,
-   "cpu_load_pct": 3,
-   "ram_free_gb": 12.1,
-   "gpu_util_pct": null,
+   "hb_age_s": 35.6,
+   "cpu_load_pct": 7,
+   "ram_free_gb": 13.2,
+   "gpu_util_pct": 0,
    "job": "bigmoney-backtest-2026-11-03-v3",
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-04T01:59:46",
+    "ts": "2026-11-04T02:01:18",
     "reason": "ALREADY-CLOSED bigmoney-backtest-2026-11-03-v3"
    },
    "idle_confirmed": false,
@@ -50,16 +50,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 128.4,
+   "hb_age_s": 201.5,
    "cpu_load_pct": 7,
    "ram_free_gb": 4.3,
    "gpu_util_pct": 0,
-   "job": "asset-lib-asset-gen-scenes-2026-11-04",
+   "job": "asset-lib-asset-gen-2026-11-04",
    "last_result": {
     "job": "asset-lib-asset-gen-scenes-2026-11-04",
-    "state": "BUSY",
-    "rc": null,
-    "ts": "2026-11-04T02:00:05",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-04T02:01:01",
     "reason": null
    },
    "idle_confirmed": false,
@@ -72,12 +72,12 @@
    "cpu_load_pct": 8,
    "ram_free_gb": 19.0,
    "gpu_util_pct": null,
-   "job": "bigstream-mv-gate-2026-11-04",
+   "job": "R-DEAI-20261104-001",
    "last_result": {
-    "job": "biggame-playable-2026-11-03",
+    "job": "bigstream-mv-gate-2026-11-04",
     "state": "FAILED",
-    "rc": 0,
-    "ts": "2026-11-04T01:59:24",
+    "rc": 1,
+    "ts": "2026-11-04T02:00:41",
     "reason": null
    },
    "idle_confirmed": false,
@@ -101,8 +101,7 @@
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
    "jobs": [
     "R-NEXT-BIGSTREAMM-GATE-20261103",
-    "R-NEXT-BIGSTREAMM-AUDIT-20261103",
-    "bigstream-mv-gate-2026-11-04"
+    "R-NEXT-BIGSTREAMM-AUDIT-20261103"
    ],
    "no_supply": false,
    "blockers": [
@@ -353,8 +352,7 @@
     "VCORP-TRAIN-BATCH-14-20261104",
     "asset-lib-voice-corpus-bmb-2026-11-04",
     "asset-lib-voice-corpus-bmc-2026-11-04",
-    "asset-lib-asset-gen-2026-11-04",
-    "asset-lib-asset-gen-scenes-2026-11-04"
+    "asset-lib-asset-gen-2026-11-04"
    ],
    "no_supply": false,
    "blockers": [
@@ -379,8 +377,7 @@
     "Q-FACE-BOARD-BMC-20261104:no-lane",
     "VCORP-TRAIN-BATCH-14-20261104:no-lane",
     "asset-lib-voice-corpus-bmb-2026-11-04:no-lane",
-    "asset-lib-voice-corpus-bmc-2026-11-04:no-lane",
-    "asset-lib-asset-gen-2026-11-04:no-lane"
+    "asset-lib-voice-corpus-bmc-2026-11-04:no-lane"
    ],
    "note": "CEO 2026-11-03：先储备资产，角色 LoRA 与音色库为 P0"
   }
@@ -908,7 +905,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 56,
+  "local": 54,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -916,22 +913,22 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 52,
-  "gpu": 4
+  "cpu": 51,
+  "gpu": 3
  },
  "supply_added": [],
  "events": [
-  "asset-lib-voice-corpus-bma-2026-11-04 FAILED via bm-a",
-  "biggame-playable-2026-11-03 FAILED via bm-m",
-  "asset-lib-face-caption-2026-11-03 -> bm-a (gpu)",
-  "bigstream-mv-gate-2026-11-04 -> bm-m (cpu)"
+  "asset-lib-asset-gen-scenes-2026-11-04 UNVERIFIED(no-artifact-yet) via bm-c",
+  "bigstream-mv-gate-2026-11-04 FAILED via bm-m",
+  "asset-lib-asset-gen-2026-11-04 -> bm-c (gpu)",
+  "R-DEAI-20261104-001 -> bm-m (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-a",
+  "bm-c",
   "bm-m"
  ]
 }
