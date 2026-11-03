@@ -513,7 +513,14 @@ def choose_lane(job, fleet, busy):
         # 全员失联时不让活停在队列里（CEO 2026-11-01：不许因环境原因闲置）：
         # 回落到心跳最近的那台并留痕，账面上能看出这是"没得选"。
         if stale_ok:
-            best = min(stale_ok, key=lambda n: ((fleet.get(n) or {}).get("age_s") or 10 ** 9))
+            # 只在"曾经报过心跳、只是刚刚过期"的机器里回落。age_s is None 表示从来没有
+            # 心跳记录（bm-d 2026-10-29 起未入网）——派给它等于把卡扔进黑洞，实测
+            # 2026-11-03 13:12 DUPES-SCAN 被派到 bm-d，白占一张卡一个租约周期。
+            # 全部在线机都在忙时，正确动作是让卡排队，不是塞给死机。
+            known = [n for n in stale_ok if (fleet.get(n) or {}).get("age_s") is not None]
+            if not known:
+                return None, "ALL-OFFLINE-NO-HB"
+            best = min(known, key=lambda n: float((fleet.get(n) or {}).get("age_s") or 10 ** 9))
             return best, "assigned-stale-hb"
         return None, "NO-CAPACITY"
     return scored[0][1], "assigned"
