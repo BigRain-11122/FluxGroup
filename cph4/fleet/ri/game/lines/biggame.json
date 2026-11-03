@@ -2,11 +2,11 @@
  "line": "biggame",
  "name": "游戏（可上线清单 → 一款可玩包 → 提审材料）",
  "group": "game",
- "note": "游戏仓只在工作机（bm-a）。第一段先回答'哪几款现在就能提审'，避免又扫一遍体检。",
+ "note": "游戏仓在工作机；机器能判的只有'哪几款现在就能提审'。选款/提审材料是判断与资质活，不写成工序卡——写了就必然假红（2026-11-03 实测）。",
  "stages": [
   {
    "id": "pack-scan",
-   "name": "可上线包清单（APK/Win/WebGL 实数）",
+   "name": "可上线包清单（唯一能机器判的段）",
    "cmd": "python {root_tools}/fleet/game_pack_scan.py --root gaming --out cph4/fleet/queue-receipts/game-packs-{date}.json",
    "deliverable": "cph4/fleet/queue-receipts/game-packs-{date}.json",
    "accept": "给出可提审候选（<200MB 的包）与各自分区；0 个也要写明扫了哪些目录",
@@ -15,44 +15,6 @@
     "bm-a"
    ],
    "minutes": 3,
-   "requires": [
-    "gaming/MiniGame"
-   ],
-   "day_ok": false
-  },
-  {
-   "id": "playable",
-   "name": "一款可玩包（3 关 60–90 秒，2D，儿童不作失败）",
-   "cmd": "python {root_tools}/fleet/game_pack_scan.py --root gaming --out cph4/fleet/queue-receipts/game-packs-{date}-r2.json",
-   "deliverable": "cph4/fleet/queue-receipts/game-playable-{date}.md",
-   "accept": "写明选中款/三关情绪/单局时长/是否满足 2D 与不作失败",
-   "needs": "cpu",
-   "nodes": [
-    "bm-a"
-   ],
-   "minutes": 15,
-   "depends_on": [
-    "pack-scan"
-   ],
-   "requires": [
-    "gaming/MiniGame"
-   ],
-   "day_ok": false
-  },
-  {
-   "id": "submit-pack",
-   "name": "提审材料（图标/截图/简介/隐私政策位）",
-   "cmd": "python {root_tools}/fleet/game_pack_scan.py --root gaming --out cph4/fleet/queue-receipts/game-packs-{date}-r3.json",
-   "deliverable": "cph4/fleet/queue-receipts/game-submit-{date}.md",
-   "accept": "四件齐全或明确列出还差哪件（缺的通常是账号资质，属 CEO 物理件）",
-   "needs": "cpu",
-   "nodes": [
-    "bm-a"
-   ],
-   "minutes": 10,
-   "depends_on": [
-    "playable"
-   ],
    "requires": [
     "gaming/MiniGame"
    ],
