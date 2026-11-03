@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-03T15:19:12",
+ "ts": "2026-11-03T15:21:18",
  "mode": "report",
  "files": [
   {
@@ -8,11 +8,11 @@
    "bytes": 32757,
    "entries": 37,
    "lines": 62,
-   "budget_bytes": 40960,
-   "budget_entries": 60,
+   "budget_bytes": 51200,
+   "budget_entries": 120,
    "exists": true,
    "over": false,
-   "warn": true,
+   "warn": false,
    "tokens_est": 10919,
    "root": "/Users/junsheng.sun/FluxGroup"
   },
@@ -22,8 +22,8 @@
    "bytes": 817,
    "entries": 1,
    "lines": 13,
-   "budget_bytes": 30720,
-   "budget_entries": 50,
+   "budget_bytes": 51200,
+   "budget_entries": 120,
    "exists": true,
    "over": false,
    "warn": false,
@@ -36,8 +36,8 @@
    "bytes": 7130,
    "entries": 28,
    "lines": 43,
-   "budget_bytes": 30720,
-   "budget_entries": 50,
+   "budget_bytes": 51200,
+   "budget_entries": 120,
    "exists": true,
    "over": false,
    "warn": false,
@@ -47,15 +47,15 @@
   {
    "key": "sub:gaming",
    "path": "/Users/junsheng.sun/FluxGroup/gaming/CODELY.md",
-   "bytes": 41682,
-   "entries": 129,
-   "lines": 154,
-   "budget_bytes": 30720,
-   "budget_entries": 50,
+   "bytes": 11617,
+   "entries": 14,
+   "lines": 39,
+   "budget_bytes": 51200,
+   "budget_entries": 120,
    "exists": true,
-   "over": true,
+   "over": false,
    "warn": false,
-   "tokens_est": 13894,
+   "tokens_est": 3872,
    "root": "/Users/junsheng.sun/FluxGroup/gaming"
   },
   {
@@ -64,8 +64,8 @@
    "bytes": 3452,
    "entries": 10,
    "lines": 24,
-   "budget_bytes": 30720,
-   "budget_entries": 50,
+   "budget_bytes": 51200,
+   "budget_entries": 120,
    "exists": true,
    "over": false,
    "warn": false,
@@ -78,8 +78,8 @@
    "bytes": 4260,
    "entries": 11,
    "lines": 28,
-   "budget_bytes": 30720,
-   "budget_entries": 50,
+   "budget_bytes": 51200,
+   "budget_entries": 120,
    "exists": true,
    "over": false,
    "warn": false,
@@ -92,22 +92,34 @@
    "bytes": 38058,
    "entries": 54,
    "lines": 82,
-   "budget_bytes": 30720,
-   "budget_entries": 50,
+   "budget_bytes": 51200,
+   "budget_entries": 120,
    "exists": true,
-   "over": true,
-   "warn": false,
+   "over": false,
+   "warn": true,
    "tokens_est": 12686,
    "root": "/Users/junsheng.sun/FluxGroup/quant"
   }
  ],
- "cross_file_dupes": [],
- "total_bytes_before": 128156,
- "total_bytes_after": 128156,
- "saved_tokens_est": 0,
- "still_over_budget": [
-  "sub:gaming",
-  "sub:quant"
+ "cross_file_dupes": [
+  {
+   "key": "-[memory-gate]记忆分层主题索引（按需读·verbatim全量在档）",
+   "in": [
+    "L1",
+    "sub:gaming"
+   ]
+  },
+  {
+   "key": "-[memory-gate]历史瘦身快照=memory\\cleanup-*与cl",
+   "in": [
+    "L1",
+    "sub:gaming"
+   ]
+  }
  ],
- "verdict": "GAPS"
+ "total_bytes_before": 98091,
+ "total_bytes_after": 98091,
+ "saved_tokens_est": 0,
+ "still_over_budget": [],
+ "verdict": "OK"
 }

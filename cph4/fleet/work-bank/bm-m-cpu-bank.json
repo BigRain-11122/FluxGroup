@@ -1,52 +1,8 @@
 {
  "_comment": "本机（MacBook Pro）CPU 银行：只放轻内存、可中断、产物落 git 受控目录的活。CEO 2026-11-03「本地算力没有利用充分」；本机内存是硬约束（可用 <1GB+压缩 4GB），所以这里只放 4B 级或纯规则的批处理，禁放 8B+/多并发大上下文。",
  "node": "bm-m",
+ "kind": "cpu",
  "jobs": [
-  {
-   "id": "EVAL-SKILL-FLEETOPS-20261103",
-   "title": "技能成对评测：fleet-ops（挂/不挂技能各跑 6 题，出 delta）",
-   "cmd": "python3 Tools/fleet/skill_eval.py --skill fleet-ops --json-out cph4/fleet/queue-receipts/skill-eval-fleet-ops-20261103.json",
-   "deliverable": "cph4/fleet/queue-receipts/skill-eval-fleet-ops-20261103.json",
-   "accept": "json 在盘且含 with/without/delta 三字段；delta 记录在案",
-   "needs": "cpu",
-   "prio": "P2",
-   "day_ok": true,
-   "status": "done"
-  },
-  {
-   "id": "EVAL-SKILL-SHIPOPS-20261103",
-   "title": "技能成对评测：ship-ops（发布合规题，通用模型易答反）",
-   "cmd": "python3 Tools/fleet/skill_eval.py --skill ship-ops --json-out cph4/fleet/queue-receipts/skill-eval-ship-ops-r2-20261103.json",
-   "deliverable": "cph4/fleet/queue-receipts/skill-eval-ship-ops-r2-20261103.json",
-   "accept": "json 在盘且 delta > 0；若 delta <= 0 则记该技能对外部模型无增益",
-   "needs": "cpu",
-   "prio": "P2",
-   "day_ok": true,
-   "status": "done"
-  },
-  {
-   "id": "DUPES-SCAN-20261103",
-   "title": "向量查重复派单全量重扫（纯规则+embedding，不占 LLM）",
-   "cmd": "python3 Tools/fleet/semantic_dupes.py --json cph4/fleet/queue-receipts/dupes-scan-20261103.json",
-   "deliverable": "cph4/fleet/queue-receipts/dupes-scan-20261103.json",
-   "accept": "输出重复对清单；与前次相比新增对数量写明",
-   "needs": "cpu",
-   "prio": "P2",
-   "day_ok": true,
-   "status": "done"
-  },
-  {
-   "id": "RECEIPT-ATTRIB-20261103",
-   "title": "回执失败归因全量出表（rc 分类 + 缺 error_class 清单）",
-   "cmd": "python3 Tools/fleet/receipt_attrib.py --out cph4/fleet/queue-receipts/receipt-attrib-20261103.json",
-   "deliverable": "cph4/fleet/queue-receipts/receipt-attrib-20261103.json",
-   "accept": "json 在盘且含 rc_hist/missing_rc/fail_no_error_class；结论写明失败归因是否可统计",
-   "needs": "cpu",
-   "prio": "P1",
-   "day_ok": true,
-   "status": "done",
-   "est_gb": 0
-  },
   {
    "id": "CHK-RECEIPT-20261103",
    "title": "回执卫生体检（rc 缺失/error_class 缺失出表）（bm-m 兜底体检）",
