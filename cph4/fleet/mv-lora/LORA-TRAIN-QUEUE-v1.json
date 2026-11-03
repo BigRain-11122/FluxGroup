@@ -58,7 +58,7 @@
    "name": "甜感笑眼",
    "trigger": "h03",
    "lora": "her_T03_r1",
-   "status": "queued",
+   "status": "running",
    "base": "a young Taiwanese woman around twenty, gently rounded face, dark eyes curving into a smile with a soft under-eye fold, slightly upturned nose tip, defined lip tubercle, half-tied shoulder-length hair turned inward at the ends, visible pores and fine film grain, relaxed un-fitted 2001 Taipei style, pale yellow knit top, pleated skirt, canvas shoes",
    "use": [
     "mv",
@@ -68,7 +68,8 @@
     "bm-c",
     "bm-a"
    ],
-   "needs": "gpu"
+   "needs": "gpu",
+   "images": 29
   },
   {
    "order": 4,
