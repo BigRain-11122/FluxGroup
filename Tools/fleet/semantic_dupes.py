@@ -24,11 +24,16 @@ import urllib.request
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 QUEUE = os.path.join(ROOT, "cph4", "fleet", "PRODUCTION-QUEUE.jsonl")
 URL = os.environ.get("OLLAMA_URL", "http://127.0.0.1:11434")
-MODEL = os.environ.get("EMBED_MODEL", "nomic-embed-text")
-DEFAULT_TH = 0.61          # 30+30 真卡实测最佳：召回 28/30、特异 27/30
+MODEL = os.environ.get("EMBED_MODEL") or "qwen3-embedding:0.6b"
+# 2026-11-03 换模型实测（80 对同活复派 / 80 对随机，同一队列标题）：
+#   nomic-embed-text  正例均值 .964 负例 .584 间隔 .380｜假阳性<=2% 时阈值 .85
+#   qwen3-embedding   正例均值 .977 负例 .391 间隔 .586｜假阳性<=2% 时阈值 .72
+# 间隔大 54%，且真实队列上的假聚（MV 交付闸 vs 音色数据集）不再发生，真重复三例仍全中
+# （.953/.939/.830）。所以默认换成 qwen3-embedding:0.6b。
+DEFAULT_TH = 0.72
 # 挡活用的阈值必须比"报告用"更保守：误杀丢真活，漏判只是多跑一张卡。
-# 实测负例相似度 90 分位 0.623、正例中位 0.867，取 0.75 基本不误杀。
-DEFAULT_BLOCK_TH = float(os.environ.get("DUP_SEMANTIC_TH", "0.75"))
+# 该模型负例均值 .391、正例均值 .977，取 .80 时误杀概率极低而真重复仍全抓。
+DEFAULT_BLOCK_TH = float(os.environ.get("DUP_SEMANTIC_TH", "0.80"))
 
 
 def embed(text):

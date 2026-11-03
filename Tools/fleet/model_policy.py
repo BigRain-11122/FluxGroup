@@ -21,7 +21,7 @@ POLICY = os.path.join(ROOT, "cph4", "fleet", "LOCAL-MODEL-POLICY.json")
 
 FALLBACK = {
     "resident": "qwen3:4b-instruct",
-    "embedding": "nomic-embed-text:latest",
+    "embedding": "qwen3-embedding:0.6b",
     "deep": "qwen3.5:35b-a3b",
 }
 _cache = {}
