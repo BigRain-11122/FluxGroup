@@ -1,19 +1,6 @@
 {
- "ts": "2026-11-03T12:38:41+0800",
- "promoted": [
-  {
-   "skill": "game-recon",
-   "tool": "Tools/recon/apk_recon.py",
-   "rc": 0,
-   "lines": 6
-  },
-  {
-   "skill": "mv-edit-rhythm",
-   "tool": "Tools/mv_cut_resnap.py",
-   "rc": 0,
-   "lines": 15
-  }
- ],
+ "ts": "2026-11-03T13:07:53+0800",
+ "promoted": [],
  "skipped": [
   {
    "skill": "ship-ops",
@@ -111,9 +98,17 @@
    "cands": []
   },
   {
+   "skill": "game-recon",
+   "why": "already"
+  },
+  {
    "skill": "silicon-city-ops",
    "why": "no-tool",
    "cands": []
+  },
+  {
+   "skill": "mv-edit-rhythm",
+   "why": "already"
   },
   {
    "skill": "llmxray-diagnose-ollama-calls",

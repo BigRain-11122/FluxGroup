@@ -35,3 +35,11 @@ description: MV 剪辑节奏席技能（KTV 时代语法：剪在词上、持在
 
 ## 来源分级
 A=CEO 六段模板与 CRAFT-SPEC、本片逐镜判读、四曲 shotgrid 实测；B=Nick Redfern 2022（ASL 不足以描述节奏）；C=beat2cut 等厂商文（数值不采信）。GitHub=librosa 8.7k★ISC、PySceneDetect 5.3k★BSD-3 可用；madmom 模型 CC BY-NC-SA 禁商用。
+
+## 可跑自查（自动生成·2026-11-03）
+判据：下面这条命令必须能在本机真跑起来（rc∈{0,1,2} 且有输出）；跑不起来说明技能指向的工具已失效，先修工具再谈技能。
+
+```
+python3 Tools/mv_cut_resnap.py --help
+```
+实测：rc=0，输出 15 行，首行 `伊斯坦堡	 lines=45	cuts=72	on_beat=72	mean_onset_offset=0.072s	max=0.191s	dedup=2	degen_repair`。

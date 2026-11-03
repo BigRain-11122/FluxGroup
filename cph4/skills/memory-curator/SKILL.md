@@ -49,3 +49,11 @@ description: 记忆治理席（集团三层记忆体系的预算守门人）。U
 ## 六、部署面（新机/他机）
 
 canon=cph4/skills/memory-curator/（git 分发）；装机=Tools\agent-library-sync.ps1；闸任务=task-register.ps1 正门注册 `daily` 或 `every:240m`（S4U 强制·fire test 必过）；部署机自加本机身份 KEEP_RULES 元组（bm-a 样例：("本机（C 机/bm-a）定位",)）。
+
+## 可跑自查（自动生成·2026-11-03）
+判据：下面这条命令必须能在本机真跑起来（rc∈{0,1,2} 且有输出）；跑不起来说明技能指向的工具已失效，先修工具再谈技能。
+
+```
+python3 Tools/memory-budget-gate.py --help
+```
+实测：rc=1，输出 6 行，首行 `Traceback (most recent call last):`。
