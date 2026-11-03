@@ -51,6 +51,7 @@
 **漫剧（bigstream-drama）**
 ```
 src-scan   素材盘点：关键帧/片段/配音/配乐的真目录（drama_inventory.py）
+manifest   装配清单：把盘上片段按镜号排序、认人声/配乐、可选读 srt → manifest（drama_manifest.py）
 assemble   装配：片段+人声+配乐+烧字幕 → 1080×1920@30（drama_assemble.py）
 gate       交付闸：独立复跑，不采信装配器自报（drama_quality_gate.py）
 accept     质量验收：缺一份闸回执就不算交付（quality_gate.py）
@@ -60,7 +61,8 @@ accept     质量验收：缺一份闸回执就不算交付（quality_gate.py）
 ```
 inventory     素材盘点（先找到这台机上的真目录）
 tts-qc        配音质检：逐集缺句/静音/削波（tts_batch_check.py）
-remux         带声合流：片段+人声+配乐 → 成片，loudnorm -14
+manifest      装配清单：片段+人声+配乐 → manifest（drama_manifest.py）
+remux         带声合流：按 manifest 出成片，loudnorm -14（drama_assemble.py）
 episode-list  可发集数清单：集号+时长+体积+闸结论
 accept        质量验收：缺一份闸回执就不算交付
 ```

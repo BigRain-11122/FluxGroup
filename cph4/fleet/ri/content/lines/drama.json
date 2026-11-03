@@ -15,9 +15,26 @@
    "minutes": 5
   },
   {
+   "id": "manifest",
+   "name": "装配清单（把盘上片段/人声/配乐变成 manifest）",
+   "cmd": "python {root_tools}/fleet/drama_manifest.py --dir media/drama-sample-v2 --out cph4/fleet/queue-receipts/drama-manifest-{date}.json",
+   "deliverable": "cph4/fleet/queue-receipts/drama-manifest-{date}.json",
+   "accept": "manifest 里 clips 非空且按镜号排序；没片段时 clips 为空并写 blocked 原因（rc=3 属正常等上游）",
+   "needs": "cpu",
+   "nodes": [],
+   "minutes": 1,
+   "ok_rc": [
+    0,
+    3
+   ],
+   "depends_on": [
+    "src-scan"
+   ]
+  },
+  {
    "id": "assemble",
    "name": "装配（i2v 片段+人声+配乐+烧字幕 → 1080×1920@30）",
-   "cmd": "python {root_tools}/fleet/drama_assemble.py --manifest media/drama-tools/manifest-{date}.json --out media/drama-out/drama-{date}.mp4 --qa cph4/fleet/queue-receipts/drama-qa-{date}.json",
+   "cmd": "python {root_tools}/fleet/drama_assemble.py --manifest cph4/fleet/queue-receipts/drama-manifest-{date}.json --out media/drama-out/drama-{date}.mp4 --qa cph4/fleet/queue-receipts/drama-qa-{date}.json",
    "deliverable": "cph4/fleet/queue-receipts/drama-qa-{date}.json",
    "accept": "verdict=PASS 出成片；缺 manifest/片段时回执 verdict=BLOCKED 并写明缺哪一段（rc=3 属正常等待上游）",
    "needs": "cpu",
@@ -28,15 +45,15 @@
     3
    ],
    "depends_on": [
-    "src-scan"
+    "manifest"
    ]
   },
   {
    "id": "gate",
    "name": "交付闸（独立复跑，不采信装配器自报）",
-   "cmd": "python {root_tools}/fleet/drama_quality_gate.py --in media/drama-out/drama-{date}.mp4 --out cph4/fleet/queue-receipts/drama-gate-{date}.json",
+   "cmd": "python {root_tools}/fleet/drama_quality_gate.py --in media/drama-out/drama-{date}.mp4 --subs media/drama-subs/{date}.srt --out cph4/fleet/queue-receipts/drama-gate-{date}.json",
    "deliverable": "cph4/fleet/queue-receipts/drama-gate-{date}.json",
-   "accept": "六项判据（分辨率/30fps/音轨/-14 LUFS/前3s运动/镜长）全过才 PASS；缺成片则回执写明 BLOCKED",
+   "accept": "六项判据（分辨率/30fps/音轨/-14 LUFS/前3s运动/镜长）+字幕二选一（字幕文件在盘或声明已烧）全过才 PASS；缺字幕文件即 FAIL——这是交付判据不是故障",
    "needs": "cpu",
    "nodes": [],
    "minutes": 5,

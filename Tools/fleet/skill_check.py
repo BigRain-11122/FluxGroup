@@ -90,11 +90,29 @@ def check_one(path):
             fails.append("description-no-trigger")
     body = text
     blocks = re.findall(r"```([\s\S]*?)```", text)
-    has_cmd = any(any(h in b for h in CMD_HINTS) for b in blocks)
-    if not has_cmd and not has_checklist(text) and "无命令" not in text:
-        fails.append("no-runnable-check")
+    # 「可跑校验」不限于代码块：正文里真的点名了可执行工具（Tools/x.py、python …、ffprobe …）
+    # 也算——判断依据是「有没有可被执行的调用」，不是排版格式。
+    CMD_RE = re.compile(r"(Tools/[\w\-]+\.(?:py|sh|ps1)|python3?\s+Tools/|ffprobe\s|\bpwsh\s|"
+                        r"[\w\-]+\.ps1\s+-|[\w\-]+\.py\s+--)")
+    has_cmd = any(any(h in b for h in CMD_HINTS) for b in blocks) or bool(CMD_RE.search(text))
     if len(text) < 1200:
         fails.append("thin(%d字)" % len(text))
+    # 分级（2026-11-03 科学决策）：技能有两种用途，不能用「合格/不合格」一刀切。
+    #   A = 有可跑校验 → 可被工序卡/闸自动执行
+    #   B = 只有编号判据 → 只能人点名调用，不得写进无人值守工序
+    # 分级的依据不是内容好坏，是「能否被机器验证它被照做了」。
+    rel = os.path.relpath(os.path.dirname(path), SKILLS_DIR)
+    status = (fm.get("status") or "").split("#")[0].strip()
+    if rel.startswith("ccgs") or "ccgs" in rel.split(os.sep)[:1]:
+        level = "external"
+    elif status == "parked":
+        level = "parked"
+    elif name.startswith(("city-3d", "lowpoly-city-3d")):
+        level = "frozen"
+    elif has_cmd:
+        level = "A"
+    else:
+        level = "B"
     dead = []
     for p in set(PATH_RE.findall(text)):
         if any(c in p for c in "{*}<>"):
@@ -104,7 +122,7 @@ def check_one(path):
     if dead:
         warns.append("dead-pointer:" + ",".join(sorted(dead)[:3]))
     return {"skill": name, "path": os.path.relpath(path, ROOT), "bytes": len(text),
-            "fails": fails, "warns": warns, "desc_len": len(desc)}
+            "level": level, "fails": fails, "warns": warns, "desc_len": len(desc)}
 
 
 def main(argv):
@@ -131,20 +149,24 @@ def main(argv):
     for r in rows:
         if dup[r["skill"]] > 1:
             r["fails"].append("dup-name(%d)" % dup[r["skill"]])
-    rows.sort(key=lambda r: (len(r["fails"]), r["skill"]))
+    rows.sort(key=lambda r: (len(r["fails"]), r["level"], r["skill"]))
     total = len(rows)
     failn = sum(1 for r in rows if r["fails"])
     warnn = sum(1 for r in rows if r["warns"])
-    print("skills=%d fail=%d warn=%d pass=%d" % (total, failn, warnn, total - failn))
+    from collections import Counter
+    lv = Counter(r["level"] for r in rows)
+    print("skills=%d  A=%d B=%d frozen=%d external=%d parked=%d  fail=%d warn=%d" % (
+        total, lv["A"], lv["B"], lv["frozen"], lv["external"], lv["parked"], failn, warnn))
+    print("  口径：A=有可跑校验（可进无人值守工序）；B=只有编号判据（只能人点名调用）")
     for r in rows:
         if r["fails"] or r["warns"]:
-            print("  %-28s %5d字  %s%s" % (r["skill"], r["bytes"],
+            print("  [%s] %-26s %5d字  %s%s" % (r["level"], r["skill"], r["bytes"],
                   ("FAIL:" + "+".join(r["fails"])) if r["fails"] else "ok",
                   ("  WARN:" + "+".join(r["warns"])) if r["warns"] else ""))
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, "w", encoding="utf-8") as f:
         json.dump({"ts": __import__("datetime").datetime.now().astimezone().isoformat(timespec="seconds"),
-                   "total": total, "fail": failn, "warn": warnn, "rows": rows},
+                   "total": total, "fail": failn, "warn": warnn, "levels": dict(lv), "rows": rows},
                   f, ensure_ascii=False, indent=1)
     print("wrote", os.path.relpath(OUT, ROOT))
     return 2 if (strict and failn) else 0

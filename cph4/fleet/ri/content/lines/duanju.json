@@ -38,9 +38,29 @@
    ]
   },
   {
+   "id": "manifest",
+   "name": "装配清单（把盘上片段/人声/配乐变成 manifest）",
+   "cmd": "python {root_tools}/fleet/drama_manifest.py --dir media/drama-clips --out cph4/fleet/queue-receipts/duanju-manifest-{date}.json",
+   "deliverable": "cph4/fleet/queue-receipts/duanju-manifest-{date}.json",
+   "accept": "manifest 里 clips 非空且按镜号排序；没片段时 clips 为空并写 blocked 原因（rc=3 属正常等上游）",
+   "needs": "cpu",
+   "nodes": [
+    "bm-b",
+    "bm-c"
+   ],
+   "minutes": 1,
+   "ok_rc": [
+    0,
+    3
+   ],
+   "depends_on": [
+    "tts-qc"
+   ]
+  },
+  {
    "id": "remux",
    "name": "带声合流（i2v 片段+人声+配乐 → 成片，loudnorm -14）",
-   "cmd": "python {root_tools}/fleet/drama_assemble.py --manifest media/drama-tools/manifest-{date}.json --out media/drama-out/duanju-{date}.mp4 --qa cph4/fleet/queue-receipts/duanju-qa-{date}.json",
+   "cmd": "python {root_tools}/fleet/drama_assemble.py --manifest cph4/fleet/queue-receipts/duanju-manifest-{date}.json --out media/drama-out/duanju-{date}.mp4 --qa cph4/fleet/queue-receipts/duanju-qa-{date}.json",
    "deliverable": "cph4/fleet/queue-receipts/duanju-qa-{date}.json",
    "accept": "verdict=PASS 出成片；缺 manifest/片段时回执 verdict=BLOCKED 并写明缺哪一段（rc=3 属正常等待上游）",
    "needs": "cpu",
@@ -54,7 +74,7 @@
     3
    ],
    "depends_on": [
-    "tts-qc"
+    "manifest"
    ]
   },
   {
