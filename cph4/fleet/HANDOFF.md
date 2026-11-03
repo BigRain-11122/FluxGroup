@@ -1,44 +1,46 @@
-# 交接一屏（2026-11-03 16:07）
+# 交接一屏（2026-11-03 16:13）
 
 > 新会话先读这一页，再看具体文件。四段：在产 / 待判 / 阻塞 / 下一步。
 
-## 一、在产（3 张）
+## 一、在产（4 张）
 
-- `asset-lib-voice-corpus-bmb-2026-11-03` [资产储备（角色 LoRA / 音色库）] 音色语料工程·分片 1/4（bm-b，纯 CPU）（bm-a，45 分钟租约）
-- `asset-lib-face-caption-2026-11-03` [资产储备（角色 LoRA / 音色库）] 人脸数据集打标（vision 草稿，人只校对）（bm-c，180 分钟租约）
-- `asset-lib-char-probe-2026-11-03` [资产储备（角色 LoRA / 音色库）] 角色出图模型探针（问本机 ComfyUI 有哪些模型，不出图）（bm-m，45 分钟租约）
+- `asset-lib-voice-corpus-bma-2026-11-03` [资产储备（角色 LoRA / 音色库）] 音色语料工程·分片 0/4（bm-a，纯 CPU）（bm-a，45 分钟租约）
+- `C-INFRA-AUDIT-BM-A-20261103` 本地推理栈体检（bm-a）：引擎/端口归属/环境变量/速度/向量层（bm-b，45 分钟租约）
+- `asset-lib-index-2026-11-03` [资产储备（角色 LoRA / 音色库）] 入库登记（没过闸的不许进资产库）（bm-m，45 分钟租约）
+- `asset-lib-char-probe-2026-11-03` [资产储备（角色 LoRA / 音色库）] 角色出图模型探针（问本机 ComfyUI 有哪些模型，不出图）（bm-c，45 分钟租约）
 
 ## 二、待判（10 张在队列等机器）
 
-- `bigstream-mv-gate-2026-11-03` [MV·爱在西元前（v721 终版）] 交付闸（重复/静止/抖动/闪烁）（bigstream-mv）
 - `biggame-playable-2026-11-03` [游戏（可上线清单 → 一款可玩包 → 提审材料）] 一款可玩包（3 关 60–90 秒，2D，儿童不作失败）（biggame）
-- `bigstream-duanju-remux-2026-11-03` [短剧（配音质检→带声合流→可发集数）] 带声合流（三层混音 → 成片，loudnorm -14）（bigstream-duanju）
 - `Q-TRIAGE-ASSETLIB-20261103` asset-lib 线级体检（本机证据目录实况）（无归属）
 - `CHK-RECEIPT-20261103` 回执卫生体检（rc 缺失/error_class 缺失出表）（bm-m 兜底体检）（fleet-ops）
 - `CHK-DUPES-20261103` 重复派单向量重扫（bm-m 兜底体检）（fleet-ops）
+- `C-INFRA-AUDIT-BM-B-20261103` 本地推理栈体检（bm-b）：引擎/端口归属/环境变量/速度/向量层（fleet-ops）
+- `C-INFRA-AUDIT-BM-C-20261103` 本地推理栈体检（bm-c）：引擎/端口归属/环境变量/速度/向量层（fleet-ops）
 - `R-MODEL-RADAR-BMA-20261103` 本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-a）（无归属）
 - `CANARY-20261103T154230` 端到端自检：投卡→领取→执行→回执→产物（fleet-ops）
 - `asset-lib-char-prompts-2026-11-03` [资产储备（角色 LoRA / 音色库）] 角色包出图计划（8 原创角色 × 6 视角提示词包）（asset-lib）
 - `CANARY-20261103T160731` 端到端自检：投卡→领取→执行→回执→产物（fleet-ops）
 
-## 三、阻塞（7 项断言红 / 1 台机不一致）
+## 三、阻塞（7 项断言红 / 2 台机不一致）
 
 - 断言 I1：2 条
-- 断言 I2：127 条
+- 断言 I2：129 条
 - 断言 I3：19 条
 - 断言 I4：11 条
 - 断言 I12：1 条
 - 断言 I13：1 条
 - 断言 I14：2 条
+- 机器 bm-a：NO-RECEIPT-1H
 - 机器 bm-b：IDLE-WITH-QUEUE
 
 ## 四、下一步（P0 两线）
 
-- bigstream-mv：过闸率 83.7，返工 7，产出年龄 3.4
-- bigstream-drama：过闸率 73.3，返工 7，产出年龄 0.5
-- bigstream-duanju：过闸率 62.5，返工 3，产出年龄 93.3
+- bigstream-mv：过闸率 83.7，返工 7，产出年龄 3.5
+- bigstream-drama：过闸率 73.3，返工 7，产出年龄 0.6
+- bigstream-duanju：过闸率 62.5，返工 3，产出年龄 93.4
 - biggame：过闸率 100.0，返工 0，产出年龄 None
-- asset-lib：过闸率 50.0，返工 2，产出年龄 0.0
+- asset-lib：过闸率 50.0，返工 4，产出年龄 0.0
 
 ## 五、已发布（0 条）
 
