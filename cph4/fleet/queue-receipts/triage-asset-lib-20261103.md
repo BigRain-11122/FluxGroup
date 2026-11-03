@@ -1,9 +1,9 @@
-# 线级体检 asset-lib · 2026-11-03 14:22
+# 线级体检 asset-lib · 2026-11-03 16:49
 
 ## 工段与证据目录
-- asset-env      owner=资产席      lane=bm-c   证据 1/1 存在 · 文件 2 · 最新 0.0h
-- asset-dataset  owner=资产席      lane=bm-b   证据 1/1 存在 · 文件 436 · 最新 0.0h
-- asset-train    owner=资产席      lane=bm-c   证据 1/1 存在 · 文件 2 · 最新 0.0h
+- asset-env      owner=资产席      lane=bm-c   证据 1/1 存在 · 文件 5 · 最新 1.1h
+- asset-dataset  owner=资产席      lane=bm-b   证据 1/1 存在 · 文件 504 · 最新 0.0h
+- asset-train    owner=资产席      lane=bm-c   证据 1/1 存在 · 文件 5 · 最新 1.1h
 
 ## 判定
 - 最近产出 0.0h 前（阈值 72.0h）→ FRESH 在阈内
