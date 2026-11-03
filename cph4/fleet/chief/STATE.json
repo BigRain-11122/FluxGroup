@@ -1,11 +1,11 @@
 {
- "ts": "2026-11-03T07:27:17",
+ "ts": "2026-11-03T08:30:25",
  "stage": 3,
  "adoption": {
   "days": 2,
-  "applied": 211,
-  "total": 180,
-  "rate": 117.2,
+  "applied": 214,
+  "total": 182,
+  "rate": 117.6,
   "eligible_stage4": false
  },
  "decisions": [
@@ -13,15 +13,24 @@
    "kind": "flag",
    "why": "2 台机空转且有活",
    "target": [
-    "bm-c",
+    "bm-a",
     "bm-m"
    ],
    "min_stage": 1,
    "result": "applied"
   },
   {
+   "kind": "requeue",
+   "why": "1 张卡在跑但 1 小时无回执",
+   "target": [
+    "R-TTS-QC-R2-20261102"
+   ],
+   "min_stage": 3,
+   "result": "applied"
+  },
+  {
    "kind": "promote",
-   "why": "队列空，候选 5 张",
+   "why": "队列空，候选 4 张",
    "target": [
     "C-FIN-ETF-COMPOSITE",
     "C-VB-DISCOVER-V03",
@@ -42,6 +51,12 @@
   }
  ],
  "applied": [
+  {
+   "kind": "requeue",
+   "ids": [
+    "R-TTS-QC-R2-20261102"
+   ]
+  },
   {
    "kind": "promote",
    "out": "夜间包已在（1 张在跑/待领），不重复灌"
