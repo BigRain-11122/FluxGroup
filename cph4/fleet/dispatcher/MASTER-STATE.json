@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-03T15:58:33",
- "cycle": 286,
+ "ts": "2026-11-03T15:59:51",
+ "cycle": 287,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-03T15:58:33",
+ "master_tick_ts": "2026-11-03T15:59:51",
  "queue": {
   "total": 304,
   "open": 9,
@@ -14,16 +14,16 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 16.9,
-   "cpu_load_pct": 87,
-   "ram_free_gb": 19.7,
+   "hb_age_s": 13.6,
+   "cpu_load_pct": 32,
+   "ram_free_gb": 21.8,
    "gpu_util_pct": 100,
    "job": "asset-lib-voice-corpus-bmb-2026-11-03",
    "last_result": {
-    "job": "asset-lib-index-2026-11-03",
-    "state": "FAILED",
-    "rc": 0,
-    "ts": "2026-11-03T15:55:05",
+    "job": "asset-lib-voice-corpus-bmb-2026-11-03",
+    "state": "RUNNING",
+    "rc": null,
+    "ts": "2026-11-03T15:59:41",
     "reason": null
    },
    "idle_confirmed": false,
@@ -32,7 +32,7 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 105.7,
+   "hb_age_s": 184.2,
    "cpu_load_pct": 20,
    "ram_free_gb": 5.4,
    "gpu_util_pct": 100,
@@ -46,20 +46,20 @@
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 8
+   "idle_rounds": 9
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 18.7,
-   "cpu_load_pct": 7,
+   "hb_age_s": 2.7,
+   "cpu_load_pct": 6,
    "ram_free_gb": 5.5,
    "gpu_util_pct": 0,
-   "job": "asset-lib-voice-corpus-bmc-2026-11-03",
+   "job": "asset-lib-face-caption-2026-11-03",
    "last_result": {
     "job": "asset-lib-voice-corpus-bmc-2026-11-03",
-    "state": "RUNNING",
-    "rc": null,
-    "ts": "2026-11-03T15:58:16",
+    "state": "FAILED",
+    "rc": 2,
+    "ts": "2026-11-03T15:58:33",
     "reason": null
    },
    "idle_confirmed": false,
@@ -69,15 +69,15 @@
   "bm-m": {
    "online": true,
    "hb_age_s": 0.7,
-   "cpu_load_pct": 32,
-   "ram_free_gb": 16.3,
+   "cpu_load_pct": 39,
+   "ram_free_gb": 15.8,
    "gpu_util_pct": null,
-   "job": "asset-lib-voice-corpus-bma-2026-11-03",
+   "job": "asset-lib-index-2026-11-03",
    "last_result": {
-    "job": "asset-lib-char-prompts-2026-11-03",
+    "job": "asset-lib-voice-corpus-bma-2026-11-03",
     "state": "FAILED",
-    "rc": 0,
-    "ts": "2026-11-03T15:57:20",
+    "rc": 1,
+    "ts": "2026-11-03T15:58:38",
     "reason": null
    },
    "idle_confirmed": false,
@@ -87,7 +87,7 @@
  },
  "idle_rounds": {
   "bm-a": 0,
-  "bm-b": 8,
+  "bm-b": 9,
   "bm-c": 0,
   "bm-m": 0
  },
@@ -292,14 +292,14 @@
    "stale_after_h": 72.0,
    "owner": "资产席",
    "jobs": [
-    "asset-lib-voice-corpus-bma-2026-11-03",
     "asset-lib-voice-corpus-bmb-2026-11-03",
-    "asset-lib-voice-corpus-bmc-2026-11-03",
-    "asset-lib-face-caption-2026-11-03"
+    "asset-lib-index-2026-11-03",
+    "asset-lib-face-caption-2026-11-03",
+    "asset-lib-char-prompts-2026-11-03"
    ],
    "no_supply": false,
    "blockers": [
-    "asset-lib-face-caption-2026-11-03:no-lane"
+    "asset-lib-char-prompts-2026-11-03:no-lane"
    ],
    "note": "CEO 2026-11-03 令：先不做短剧和漫剧，先储备资产（烧角色 LoRA 与音色库）"
   }
@@ -835,23 +835,25 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 8,
-  "gpu": 1
+  "cpu": 9,
+  "gpu": 0
  },
  "supply_added": [
-  "backlog_manifest+3"
+  "backlog_manifest+2"
  ],
  "events": [
-  "asset-lib-index-2026-11-03 FAILED via bm-a",
-  "asset-lib-char-prompts-2026-11-03 FAILED via bm-m",
-  "asset-lib-voice-corpus-bma-2026-11-03 -> bm-m (cpu)"
+  "asset-lib-voice-corpus-bmc-2026-11-03 FAILED via bm-c",
+  "asset-lib-voice-corpus-bma-2026-11-03 FAILED via bm-m",
+  "asset-lib-face-caption-2026-11-03 -> bm-c (gpu)",
+  "asset-lib-index-2026-11-03 -> bm-m (cpu)"
  ],
  "violations": [
-  "bm-b IDLE-CONFIRMED x8 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-b IDLE-CONFIRMED x9 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED bigstream-mv 卡在 剪辑/装配/剪辑席 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
+  "bm-c",
   "bm-m"
  ]
 }
