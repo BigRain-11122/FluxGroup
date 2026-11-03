@@ -1,11 +1,11 @@
 {
- "ts": "2026-11-03T11:11:29",
+ "ts": "2026-11-03T11:17:06",
  "stage": 3,
  "adoption": {
   "days": 2,
-  "applied": 282,
-  "total": 232,
-  "rate": 121.6,
+  "applied": 284,
+  "total": 234,
+  "rate": 121.4,
   "eligible_stage4": false
  },
  "decisions": [
@@ -13,7 +13,18 @@
    "kind": "requeue",
    "why": "1 张卡在跑但 1 小时无回执",
    "target": [
-    "OPS-NODE-PROBE-B-20261103"
+    "C-TTS-QC-ALL"
+   ],
+   "min_stage": 3,
+   "result": "applied"
+  },
+  {
+   "kind": "promote",
+   "why": "队列空，候选 8 张",
+   "target": [
+    "C-VB-DISCOVER-V03",
+    "R-TTS-QC-R2-20261102",
+    "C-TTS-QC-ALL"
    ],
    "min_stage": 3,
    "result": "applied"
@@ -33,8 +44,12 @@
   {
    "kind": "requeue",
    "ids": [
-    "OPS-NODE-PROBE-B-20261103"
+    "C-TTS-QC-ALL"
    ]
+  },
+  {
+   "kind": "promote",
+   "out": "积压里有 1 张 READY 是尸体（队列里已了结），不计入供给：C-VB-DISCOVER-V03\n夜间灌入 2 张：R-TTS-QC-R2-20261102, bigstream-duanju-tts-qc-2026-11-03"
   }
  ],
  "brief": "/Users/junsheng.sun/FluxGroup/cph4/fleet/chief/BRIEF-20261103.md"
