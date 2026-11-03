@@ -1,7 +1,6 @@
 {
  "node": "bm-m",
-<<<<<<< HEAD
- "ts": "2026-11-04T01:38:40",
+ "ts": "2026-11-04T01:46:38",
  "jobs": [
   {
    "id": "asset-lib-face-dataset-2026-11-04",
@@ -10,17 +9,6 @@
    "cwd": "",
    "needs": "cpu",
    "deliverable": "cph4/fleet/queue-receipts/asset-face-2026-11-04.json",
-=======
- "ts": "2026-11-03T22:11:03",
- "jobs": [
-  {
-   "id": "CHK-DUPES-20261103",
-   "title": "重复派单向量重扫（bm-m 兜底体检）",
-   "cmd": "python3 Tools/fleet/semantic_dupes.py --json cph4/fleet/queue-receipts/dupes-scan-20261103.json",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/dupes-scan-20261103.json",
->>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -31,9 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
-<<<<<<< HEAD
- "capacity_note": "ram 19.5/1.0 GB"
-=======
- "capacity_note": "ram 13.7/1.0 GB"
->>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
+ "capacity_note": "ram 19.0/1.0 GB"
 }
