@@ -1,0 +1,58 @@
+{
+ "id": "OB-20261103-1215-EVENTBUS-S1",
+ "type": "infra+shadow",
+ "lanes": ["bm-a", "bm-b", "bm-c", "bm-m"],
+ "issued_at": "2026-11-03T12:15:00",
+ "issued_by": "bm-m（CEO 令 2026-11-03「机队靠文档交流很不好，你去调研和深度思考，给科学的根本性解决方案」→ 授权「你科学决策，然后执行，并通知机队」）",
+ "objective": "把机队协调从「共享可变文档 + git 乐观并发」换成事件流：传输=JetStream 事件日志，状态=SQLite（S2），文档=只读投影（S3）。本轮只上 S1 影子期：事件与现有文件双写，生产一次也不等事件链。",
+ "change": [
+  "新增 Tools/fleet/flux_eventlog.py：本机 SQLite outbox -> 流 FLUX_EVENTS；event_id 内容寻址 + 消费侧 inbox 去重（至少一次投递、幂等副作用）；每机 durable consumer + 显式 ack",
+  "fleet_lane.merge_jsonl 每行变化记 CARD（领单时另记 CLAIM）",
+  "lane_agent 每张卡收尾记 RECEIPT，并把自己本机 outbox relay 一次",
+  "主控脉新增 eventlog 阶段（tick = relay + consume），实测 2.3 秒 rc=0",
+  "历史回填 232 卡 + 276 回执；对账 cards_in_file=233 / cards_in_events=233 / missing=[] / pending=0"
+ ],
+ "workstreams": [
+  {
+   "lane": "全部",
+   "name": "S1 影子期纪律（不需要任何额外操作）",
+   "steps": [
+    "照常领卡干活，不要因为事件流改变任何执行动作",
+    "不要读事件日志做决策：本轮事件流只写不读，读了会拿到与队列不一致的中间态",
+    "若本机 outbox 有积压，执行器中每张卡收尾会自动 relay；不必手工跑"
+   ],
+   "deliverables": ["验收只看一处：Tools/fleet/flux_eventlog.py recon 的 aligned=true"]
+  },
+  {
+   "lane": "bm-a",
+   "name": "总线宿主与告警面",
+   "steps": [
+    "nats-server（100.110.185.62:4222，JetStream 已开）承载流 FLUX_EVENTS：limits/30 天/512MB 上限，不建集群",
+    "流被写满（max_bytes）或服务重启后，流内事件自动清零属于预期；本机 outbox 仍持有未发事件，恢复后自动补发",
+    "不要为事件流新增计划任务：主控脉的 eventlog 阶段已覆盖"
+   ],
+   "deliverables": ["cph4/fleet/state/eventbus-recon.json（主控每轮刷新）"]
+  },
+  {
+   "lane": "bm-m",
+   "name": "对账与推进 S2",
+   "steps": [
+    "每轮观察 recon：aligned=false 时先看 outbox_pending（正常应归零）再看 missing_in_events",
+    "S1 满 24 小时后按七条判据决定是否进 S2：git 状态提交降幅、队列文件重写次数、冲突标记、重复派卡、派单到领取延迟、断网补发、投影重建"
+   ],
+   "deliverables": ["cph4/fleet/state/eventbus-recon.json", "S2 切换前置：一屏与 gate 改读 SQLite"]
+  }
+ ],
+ "acceptance": [
+  "recon aligned=true 且 outbox_pending=0",
+  "主控脉 eventlog 阶段连续 rc=0",
+  "队列文件行数与事件里的卡集合一致（missing_in_events=[]）",
+  "生产链路不因事件流变慢：脉冲单轮时长无显著上升"
+ ],
+ "known_limits": [
+  "HPUB 在本 hub 上被静默丢弃（INFO 写 headers=true 不可信），因此没有服务器端去重，去重靠 event_id + inbox",
+  "单点：nats 在 bm-a。它挂=全队事件停发，但执行不停（outbox 本地落盘，恢复后补发）",
+  "本轮事件流不做派单独占：独占仍由租约（owner+lease）表达"
+ ],
+ "rollback": "删掉 eventlog 阶段并还原三个挂钩点即可；事件文件与本机 SQLite 都在 state/（不入 git），不污染工作树"
+}
