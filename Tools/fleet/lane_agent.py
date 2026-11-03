@@ -588,10 +588,17 @@ def run_lane_cycle(node, root=None, dry=False, allow_gpu_workhours=False,
 
     job = jobs[0]
     if already_closed(root, job.get("id")):
-        # Finished on the shared surface: never replay it. Idle is the honest answer.
+        # Finished on the shared surface: never replay it (re-running closes 14x churn).
+        # But never strand the lane on a stale assignment either: 2026-11-04 one
+        # already-closed card held bm-b's ONLY lane slot for 8h+ while 26 OPEN jobs
+        # waited, and the box kept reporting IDLE because this branch returned early.
+        # A lane whose assignment is dead has nothing to do - the same situation as an
+        # empty assignment - so it takes the same self-dispatch leg.
+        print("LANE-SKIP %s :: already closed in queue" % job.get("id"))
+        if self_dispatch(root, node, allow_gpu_workhours, max_seconds, hub, port, dry):
+            return True
         publish(node, "IDLE", {"reason": "ALREADY-CLOSED %s" % job.get("id")}, hub, port)
         write_last(root, node, "IDLE", note="ALREADY-CLOSED")
-        print("LANE-SKIP %s :: already closed in queue" % job.get("id"))
         return True
     if dry:
         print("LANE-DRY %s would run %s :: %s" % (node, job.get("id"), job.get("title")))
