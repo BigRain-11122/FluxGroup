@@ -228,6 +228,36 @@ def inactive_lines(root):
     return out
 
 
+def reconcile_hard_nodes(rows_in, tables):
+    """把工序表声明的 hard_nodes 补到已存在的卡上（2026-11-03 实锚）。
+
+    为什么需要这步：表后来才标 hard_nodes 时，早先排出的卡仍是 None，
+    派单方按"无钉子"处理就会回落——char-probe 因此落到 Mac，127.0.0.1:8188 连不上，
+    产出一份假的"ComfyUI 不可达" BLOCKED，而 bm-c 上其实有 ComfyUI。
+    补钉子只改卡面、不改状态，纯对齐。
+    """
+    want = {}
+    for t in tables:
+        for st in t.get("stages") or []:
+            hn = st.get("hard_nodes") or (
+                list(st.get("nodes") or []) if st.get("requires") else [])
+            if hn:
+                want["%s-%s-" % (t.get("line"), st.get("id"))] = list(hn)
+    if not want:
+        return 0
+    n = 0
+    for r in rows_in:
+        rid = str(r.get("id") or "")
+        if r.get("hard_nodes"):
+            continue
+        for pre, hn in want.items():
+            if rid.startswith(pre):
+                r["hard_nodes"] = hn
+                n += 1
+                break
+    return n
+
+
 def main(argv):
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry", action="store_true")
@@ -281,6 +311,18 @@ def main(argv):
         report.append({"line": t.get("line"), "table": os.path.relpath(p, ROOT),
                        "cards": [c["id"] for c in cards],
                        "skipped": skipped[:6]})
+    fixed = 0
+    if not a.dry:
+        tables = [jload(p) for p in files]
+        tables = [t for t in tables if t]
+        q = rows(QUEUE)
+        b = rows(BACKLOG)
+        fixed = reconcile_hard_nodes(q, tables) + reconcile_hard_nodes(b, tables)
+        if fixed:
+            for path, rs in ((QUEUE, q), (BACKLOG, b)):
+                with open(path, "w", encoding="utf-8") as f:
+                    for r in rs:
+                        f.write(json.dumps(r, ensure_ascii=False) + "\n")
     if made and not a.dry:
         fl.merge_jsonl(BACKLOG, made)
     if a.json:
@@ -292,6 +334,8 @@ def main(argv):
         print("  %-18s 新卡 %s" % (r["line"], ", ".join(r["cards"]) or "0"))
         for sid, why in r["skipped"]:
             print("      - 跳过 %s：%s" % (sid, why))
+    if fixed:
+        print("补钉子 %d 张（工序表已声明 hard_nodes，旧卡缺失）" % fixed)
     print("合计 %d 张%s" % (len(made), "（已写 BACKLOG READY）" if made and not a.dry else ""))
     if bad_tables:
         print("工序表结构错误 %d 张（这些线的卡永远派不出来，先修表）" % bad_tables)
