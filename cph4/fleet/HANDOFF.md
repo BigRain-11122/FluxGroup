@@ -1,11 +1,11 @@
-# 交接一屏（2026-11-03 20:01）
+# 交接一屏（2026-11-03 20:10）
 
 > 新会话先读这一页，再看具体文件。四段：在产 / 待判 / 阻塞 / 下一步。
 
 ## 一、在产（3 张）
 
 - `asset-lib-face-caption-2026-11-03` [资产储备（角色 LoRA / 音色库）] 人脸数据集打标（vision 草稿，人只校对）（bm-a，180 分钟租约）
-- `asset-lib-char-probe-2026-11-03` [资产储备（角色 LoRA / 音色库）] 角色出图模型探针（问本机 ComfyUI 有哪些模型，不出图）（bm-m，45 分钟租约）
+- `asset-lib-voice-assemble-2026-11-03` [资产储备（角色 LoRA / 音色库）] 音色数据集装配（授权核查→voices/<组> 准入）（bm-m，45 分钟租约）
 - `asset-lib-char-gen-2026-11-03` [资产储备（角色 LoRA / 音色库）] 角色包出图（本机 ComfyUI，1024²，同 seed 组）（bm-c，180 分钟租约）
 
 ## 二、待判（18 张在队列等机器）
@@ -17,31 +17,30 @@
 - `CHK-DUPES-20261103` 重复派单向量重扫（bm-m 兜底体检）（fleet-ops）
 - `R-MODEL-RADAR-BMA-20261103` 本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-a）（无归属）
 - `CANARY-20261103T154230` 端到端自检：投卡→领取→执行→回执→产物（fleet-ops）
+- `asset-lib-char-probe-2026-11-03` [资产储备（角色 LoRA / 音色库）] 角色出图模型探针（问本机 ComfyUI 有哪些模型，不出图）（asset-lib）
 - `CANARY-20261103T160731` 端到端自检：投卡→领取→执行→回执→产物（fleet-ops）
 - `R-MODEL-RADAR-BMB-20261103` 本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-b）（无归属）
-- `R-MODEL-RADAR-BMC-20261103` 本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-c）（无归属）
 
-## 三、阻塞（7 项断言红 / 4 台机不一致）
+## 三、阻塞（7 项断言红 / 3 台机不一致）
 
 - 断言 I1：2 条
-- 断言 I2：135 条
+- 断言 I2：138 条
 - 断言 I3：19 条
 - 断言 I4：10 条
 - 断言 I12：4 条
 - 断言 I13：1 条
 - 断言 I14：2 条
-- 机器 bm-a：BUSY-NO-REPORT、NO-RECEIPT-1H
+- 机器 bm-a：NO-RECEIPT-1H
 - 机器 bm-b：IDLE-WITH-QUEUE
-- 机器 bm-c：BUSY-NO-REPORT、NO-RECEIPT-1H
-- 机器 bm-m：BUSY-NO-REPORT
+- 机器 bm-c：NO-RECEIPT-1H
 
 ## 四、下一步（P0 两线）
 
-- bigstream-mv：过闸率 83.7，返工 7，产出年龄 7.3
-- bigstream-drama：过闸率 73.3，返工 7，产出年龄 0.1
-- bigstream-duanju：过闸率 62.5，返工 3，产出年龄 97.2
-- biggame：过闸率 100.0，返工 0，产出年龄 2.6
-- asset-lib：过闸率 41.7，返工 6，产出年龄 0.0
+- bigstream-mv：过闸率 83.7，返工 7，产出年龄 7.4
+- bigstream-drama：过闸率 73.3，返工 7，产出年龄 0.2
+- bigstream-duanju：过闸率 62.5，返工 3，产出年龄 97.3
+- biggame：过闸率 100.0，返工 0，产出年龄 2.7
+- asset-lib：过闸率 38.5，返工 9，产出年龄 0.0
 
 ## 五、已发布（0 条）
 
