@@ -335,6 +335,17 @@ def rebase_generated():
             return "hand-edit-conflict:%s" % _one_line(",".join(conflicts), 80)
         for p in conflicts:
             git(["checkout", "--theirs", "--", p], timeout=30)
+            # 2026-11-04 poison guard: a side that still carries conflict markers must
+            # never be staged (five consecutive poisoned lanes shipped on 2026-11-04).
+            try:
+                with open(os.path.join(ROOT, p), encoding="utf-8", errors="replace") as _fh:
+                    _t = _fh.read()
+                if "<<<<<<<" in _t and ">>>>>>>" in _t:
+                    log("POISON-GUARD: %s still carries conflict markers - abort rebase" % p)
+                    git(["rebase", "--abort"], timeout=60)
+                    return "poison-guard:%s" % p
+            except Exception:
+                pass
             git(["add", "--", p], timeout=30)
     git(["rebase", "--abort"], timeout=60)
     return "loop-limit"

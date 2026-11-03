@@ -31,7 +31,11 @@ ROOT = os.path.dirname(os.path.dirname(HERE))
 PY = sys.executable or "python"
 
 # 提交前兜底只许收自己的状态件（见 commit_state_before_rebase 注释）
-STATE_PREFIXES = ("cph4/fleet/state/", "cph4/fleet/lanes/", "cph4/fleet/dispatcher/")
+# 2026-11-04: lanes/ REMOVED - the lane file is the master's pen, nodes only read it.
+# Snapshotting lanes (including OTHER machines' lanes) re-published stale/merged lane
+# versions after every rebase - that is how conflict-marker poison survived 5 straight
+# commits and blocked all dispatch on 2026-11-04.
+STATE_PREFIXES = ("cph4/fleet/state/", "cph4/fleet/dispatcher/")
 STATE_FILES = ("cph4/fleet/PRODUCTION-QUEUE.jsonl", "cph4/fleet/PRODUCTION-BACKLOG.jsonl")
 
 
@@ -177,10 +181,22 @@ def resolve_rebase_conflicts():
     if not files:
         return 1
     for p in files:
+        # 2026-11-04: lanes/ belongs to the master's pen - on conflict take origin's side.
+        # Nodes re-publishing their stale lane snapshot is the poison vector.
         side = "--ours" if p.startswith("cph4/fleet/PRODUCTION-QUEUE.jsonl") or \
             p.startswith("cph4/fleet/PRODUCTION-BACKLOG.jsonl") or \
+            p.startswith("cph4/fleet/lanes/") or \
             p.startswith("cph4/fleet/plans/") else "--theirs"
         run_msg(["git", "checkout", side, "--", p], 60)
+        # poison guard: never stage a file that still carries conflict markers
+        try:
+            with open(os.path.join(ROOT, p.replace("/", os.sep)), encoding="utf-8", errors="replace") as _fh:
+                _t = _fh.read()
+            if "<<<<<<<" in _t and ">>>>>>>" in _t:
+                note("POISON-GUARD: %s still has conflict markers, NOT staged" % p)
+                continue
+        except Exception:
+            pass
         run_msg(["git", "add", "--", p], 60)
     note("resolved %d rebase conflicts" % len(files))
     r, _ = run_msg(["git", "-c", "core.editor=true", "rebase", "--continue"], 180)
@@ -313,7 +329,13 @@ def pull():
     if rc3 == 0:
         # A rebased node is ahead of the master until it publishes; leaving that commit local
         # is what made the next cycle start diverged again.
-        run_msg(["git", "push", "origin", "HEAD:main"], 120)
+        # 2026-11-04 poison guard: never publish a tree that still carries conflict markers.
+        rc_pg, out_pg = git_full(["git", "grep", "-l", "<<<<<<<", "--", "cph4/fleet/"], 60)
+        if rc_pg == 0:
+            note("POISON-GUARD: conflict markers in tree, push suppressed: %s"
+                 % out_pg.replace("\n", " | ")[:200])
+        else:
+            run_msg(["git", "push", "origin", "HEAD:main"], 120)
     if rc3 != 0:
         # A conflicted replay is recoverable: master wins on shared state, we win on our own
         # artifacts. Only abort when even that fails, so no half-finished rebase is left behind

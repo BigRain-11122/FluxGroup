@@ -2,6 +2,7 @@
  "node": "bm-c",
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
  "ts": "2026-11-04T00:49:58",
  "jobs": [],
  "idle_reason": "master-pulse-stalled; node self-dispatching (bm-c 2026-11-04)",
@@ -36,10 +37,42 @@
  ],
  "idle_reason": "",
 >>>>>>> 6e88a446 (job(biggame-playable-2026-11-03): artifact [via bm-a])
+||||||| parent of 012264d4 (fix(lane): rebuild bm-c lane from conflict-marker poison; keep master 00:26 dispatch intent [via bm-c])
+ "ts": "2026-11-04T00:49:58",
+ "jobs": [],
+ "idle_reason": "master-pulse-stalled; node self-dispatching (bm-c 2026-11-04)",
+=======
+ "ts": "2026-11-04T00:26:02",
+ "jobs": [
+  {
+   "id": "bigmoney-signal-2026-11-03",
+   "title": "[金融量化（回测 → 一页结论 → 可报价或写清卡点）] 下月持仓信号 CSV（可卖的唯一产物）",
+   "cmd": "python Tools/fleet/quant_signal.py --in quant/bigmoney/results/etf_nobond_vt.json --out cph4/fleet/queue-receipts/quant-signal-2026-11-03.csv",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/quant-signal-2026-11-03.csv",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  }
+ ],
+ "idle_reason": "",
+>>>>>>> 012264d4 (fix(lane): rebuild bm-c lane from conflict-marker poison; keep master 00:26 dispatch intent [via bm-c])
  "lane_ok": true,
+<<<<<<< HEAD
 <<<<<<< HEAD
  "capacity_note": "ram 2.4/1.0 GB"
 =======
  "capacity_note": "ram 2.0/1.0 GB"
 >>>>>>> f9ded849 (pulse: dispatch snapshot [via bm-m])
 }
+||||||| parent of 012264d4 (fix(lane): rebuild bm-c lane from conflict-marker poison; keep master 00:26 dispatch intent [via bm-c])
+ "capacity_note": "ram 5.5/1.0 GB"
+}
+=======
+ "capacity_note": "ram 2.0/1.0 GB"
+}
+>>>>>>> 012264d4 (fix(lane): rebuild bm-c lane from conflict-marker poison; keep master 00:26 dispatch intent [via bm-c])
