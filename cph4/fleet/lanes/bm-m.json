@@ -1,23 +1,8 @@
 {
  "node": "bm-m",
- "ts": "2026-11-03T10:48:23",
- "jobs": [
-  {
-   "id": "bigmoney-backtest-2026-11-03",
-   "title": "[金融量化（回测 → 一页结论 → 可报价或写清卡点）] ETF 复合因子回测（年化/夏普/回撤）",
-   "cmd": "python quant/bigmoney/scripts/etf_composite_pf.py",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "quant/bigmoney/results/etf_composite_pf.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  }
- ],
- "idle_reason": "",
+ "ts": "2026-11-03T10:49:34",
+ "jobs": [],
+ "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
  "lane_ok": true,
- "capacity_note": "ram 13.6/1.0 GB"
+ "capacity_note": "ram 13.5/1.0 GB"
 }
