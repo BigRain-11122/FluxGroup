@@ -104,8 +104,14 @@
    "deliverable": "cph4/fleet/queue-receipts/asset-face-{date}.json",
    "accept": "verdict=PASS（张数≥12/短边≥768/近似重复≤30%/细节能量达标）；FAIL 时逐条写明是网红脸还是磨皮脸",
    "needs": "cpu",
-   "nodes": [],
-   "minutes": 5
+   "nodes": [
+    "bm-c"
+   ],
+   "minutes": 5,
+   "hard_nodes": [
+    "bm-c"
+   ],
+   "why": "2026-11-04 事件班：media/ 是各机本地目录（gitignore、无共享盘），faces/ 由 bm-c 上的 char-dataset 产出，未钉死会派到看不见 faces 的机器 → 永远 0 张 BLOCKED。"
   },
   {
    "id": "voice-dataset",
@@ -131,7 +137,7 @@
    "accept": "每张图产出 <同名>.txt（<触发词>, 可见属性描述）；含推测/身份词的一律退回不写；没有待打标图时 BLOCKED rc=3",
    "needs": "gpu",
    "nodes": [
-    "bm-m"
+    "bm-c"
    ],
    "minutes": 10,
    "ok_rc": [
@@ -140,7 +146,11 @@
    ],
    "depends_on": [
     "face-dataset"
-   ]
+   ],
+   "hard_nodes": [
+    "bm-c"
+   ],
+   "why": "2026-11-04：faces/ 只在 bm-c 生产，打标必须同机；bm-m 无 GPU/ffmpeg/torch（env-check 实测 FAIL）。"
   },
   {
    "id": "index",
@@ -224,8 +234,7 @@
    "accept": "passed>0；每个角色列出 图数/准入结论；图不足或未过闸的角色写明缺口",
    "needs": "cpu",
    "nodes": [
-    "bm-c",
-    "bm-a"
+    "bm-c"
    ],
    "minutes": 10,
    "day_ok": true,
@@ -235,7 +244,11 @@
    ],
    "depends_on": [
     "char-gen"
-   ]
+   ],
+   "hard_nodes": [
+    "bm-c"
+   ],
+   "why": "2026-11-04 事件班实证：char-gen 硬钉 bm-c 出 48 图，本段未钉 → 被派到 bm-a（media/asset/characters 不存在）→ images=0、passed=0、每轮 BLOCKED。同机才可装配。"
   },
   {
    "id": "asset-gen",
