@@ -362,3 +362,8 @@
 {"ts": "2026-11-03T13:07:53", "stage": 3, "read": {"running": 1, "open": 0, "ready": 6, "red": 7}, "judged": "P0 线 24h 无产物：1 条", "action": "escalate", "target": ["p0:bigstream-duanju:no-output"], "result": "applied"}
 {"ts": "2026-11-03T13:13:52", "stage": 3, "read": {"running": 4, "open": 2, "ready": 9, "red": 6}, "judged": "3 台机空转且有活", "action": "flag", "target": ["bm-a", "bm-b", "bm-m"], "result": "applied"}
 {"ts": "2026-11-03T13:13:52", "stage": 3, "read": {"running": 4, "open": 2, "ready": 9, "red": 6}, "judged": "P0 线 24h 无产物：1 条", "action": "escalate", "target": ["p0:bigstream-duanju:no-output"], "result": "applied"}
+{"ts": "2026-11-03T13:19:22", "stage": 3, "read": {"running": 3, "open": 0, "ready": 6, "red": 6}, "judged": "队列空，候选 6 张", "action": "promote", "target": ["C-FIN-ETF-COMPOSITE", "C-VB-DISCOVER-V03", "C-FIN-EQUITY-ALPHA"], "result": "applied"}
+{"ts": "2026-11-03T13:19:22", "stage": 3, "read": {"running": 3, "open": 0, "ready": 6, "red": 6}, "judged": "P0 线 24h 无产物：1 条", "action": "escalate", "target": ["p0:bigstream-duanju:no-output"], "result": "applied"}
+{"ts": "2026-11-03T13:25:29", "stage": 3, "read": {"running": 1, "open": 0, "ready": 6, "red": 6}, "judged": "1 台机空转且有活", "action": "flag", "target": ["bm-b"], "result": "applied"}
+{"ts": "2026-11-03T13:25:29", "stage": 3, "read": {"running": 1, "open": 0, "ready": 6, "red": 6}, "judged": "队列空，候选 6 张", "action": "promote", "target": ["C-FIN-ETF-COMPOSITE", "C-VB-DISCOVER-V03", "C-FIN-EQUITY-ALPHA"], "result": "applied"}
+{"ts": "2026-11-03T13:25:29", "stage": 3, "read": {"running": 1, "open": 0, "ready": 6, "red": 6}, "judged": "P0 线 24h 无产物：2 条", "action": "escalate", "target": ["p0:bigstream-duanju:no-output", "p0:bigstream-shortvideo:no-output"], "result": "applied"}
