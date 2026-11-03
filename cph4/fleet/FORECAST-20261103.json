@@ -1,14 +1,14 @@
 {
- "ts": "2026-11-03T20:20:06+0800",
+ "ts": "2026-11-03T20:28:53+0800",
  "alert_days": 2.0,
  "lines": [
   {
    "line": "asset-lib",
    "status": "ACTIVE",
    "prio": "P0",
-   "stock": 11,
+   "stock": 12,
    "rate_per_day": 0.33,
-   "runway_days": 33.3,
+   "runway_days": 36.4,
    "has_table": true,
    "blocker": {
     "stage": "env-check",
@@ -184,9 +184,9 @@
    "line": "fleet-ops",
    "status": "ACTIVE",
    "prio": "P3",
-   "stock": 7,
+   "stock": 8,
    "rate_per_day": 7.0,
-   "runway_days": 1.0,
+   "runway_days": 1.1,
    "has_table": false,
    "blocker": null,
    "flags": [
