@@ -1,20 +1,22 @@
 {
- "ts": "2026-11-03T15:21:18",
- "mode": "report",
+ "ts": "2026-11-03T15:23:20",
+ "mode": "enforce",
  "files": [
   {
    "key": "L1",
    "path": "/Users/junsheng.sun/FluxGroup/CODELY.md",
-   "bytes": 32757,
-   "entries": 37,
-   "lines": 62,
+   "bytes": 34275,
+   "entries": 38,
+   "lines": 63,
    "budget_bytes": 51200,
    "budget_entries": 120,
    "exists": true,
    "over": false,
    "warn": false,
-   "tokens_est": 10919,
-   "root": "/Users/junsheng.sun/FluxGroup"
+   "tokens_est": 11425,
+   "root": "/Users/junsheng.sun/FluxGroup",
+   "pointers_fixed": 10,
+   "pointers_broken": []
   },
   {
    "key": "sub:compute",
@@ -28,7 +30,9 @@
    "over": false,
    "warn": false,
    "tokens_est": 272,
-   "root": "/Users/junsheng.sun/FluxGroup/compute"
+   "root": "/Users/junsheng.sun/FluxGroup/compute",
+   "pointers_fixed": 0,
+   "pointers_broken": []
   },
   {
    "key": "sub:cph4",
@@ -42,7 +46,9 @@
    "over": false,
    "warn": false,
    "tokens_est": 2376,
-   "root": "/Users/junsheng.sun/FluxGroup/cph4"
+   "root": "/Users/junsheng.sun/FluxGroup/cph4",
+   "pointers_fixed": 0,
+   "pointers_broken": []
   },
   {
    "key": "sub:gaming",
@@ -56,7 +62,9 @@
    "over": false,
    "warn": false,
    "tokens_est": 3872,
-   "root": "/Users/junsheng.sun/FluxGroup/gaming"
+   "root": "/Users/junsheng.sun/FluxGroup/gaming",
+   "pointers_fixed": 11,
+   "pointers_broken": []
   },
   {
    "key": "sub:life",
@@ -70,7 +78,9 @@
    "over": false,
    "warn": false,
    "tokens_est": 1150,
-   "root": "/Users/junsheng.sun/FluxGroup/life"
+   "root": "/Users/junsheng.sun/FluxGroup/life",
+   "pointers_fixed": 0,
+   "pointers_broken": []
   },
   {
    "key": "sub:media",
@@ -84,7 +94,9 @@
    "over": false,
    "warn": false,
    "tokens_est": 1420,
-   "root": "/Users/junsheng.sun/FluxGroup/media"
+   "root": "/Users/junsheng.sun/FluxGroup/media",
+   "pointers_fixed": 0,
+   "pointers_broken": []
   },
   {
    "key": "sub:quant",
@@ -98,7 +110,9 @@
    "over": false,
    "warn": true,
    "tokens_est": 12686,
-   "root": "/Users/junsheng.sun/FluxGroup/quant"
+   "root": "/Users/junsheng.sun/FluxGroup/quant",
+   "pointers_fixed": 0,
+   "pointers_broken": []
   }
  ],
  "cross_file_dupes": [
@@ -117,8 +131,8 @@
    ]
   }
  ],
- "total_bytes_before": 98091,
- "total_bytes_after": 98091,
+ "total_bytes_before": 99609,
+ "total_bytes_after": 99609,
  "saved_tokens_est": 0,
  "still_over_budget": [],
  "verdict": "OK"
