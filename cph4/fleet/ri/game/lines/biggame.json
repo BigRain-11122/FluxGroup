@@ -17,7 +17,8 @@
    "minutes": 3,
    "requires": [
     "gaming/MiniGame"
-   ]
+   ],
+   "day_ok": false
   },
   {
    "id": "playable",
@@ -35,7 +36,8 @@
    ],
    "requires": [
     "gaming/MiniGame"
-   ]
+   ],
+   "day_ok": false
   },
   {
    "id": "submit-pack",
@@ -53,7 +55,8 @@
    ],
    "requires": [
     "gaming/MiniGame"
-   ]
+   ],
+   "day_ok": false
   }
  ]
 }

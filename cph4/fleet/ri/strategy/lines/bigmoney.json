@@ -2,7 +2,7 @@
  "line": "bigmoney",
  "name": "金融量化（回测 → 一页结论 → 可报价或写清卡点）",
  "group": "strategy",
- "note": "量化仓只在 Windows 机（bm-b 回测、bm-d 重批）。结论必须四件齐：样本区间/成本假设/失效条件/输入指纹。",
+ "note": "量化仓只在 bm-b/bm-d；白天 bm-a 让路，别派给它。",
  "stages": [
   {
    "id": "backtest",
@@ -11,9 +11,14 @@
    "deliverable": "quant/bigmoney/results/etf_composite_pf.json",
    "accept": "输出 JSON 在盘且含指标字段；失败要留 stderr 尾部",
    "needs": "cpu",
-   "nodes": ["bm-b"],
+   "nodes": [
+    "bm-b",
+    "bm-d"
+   ],
    "minutes": 20,
-   "requires": ["quant/bigmoney/scripts/etf_composite_pf.py"]
+   "requires": [
+    "quant/bigmoney/scripts/etf_composite_pf.py"
+   ]
   },
   {
    "id": "conclusion",
@@ -22,9 +27,14 @@
    "deliverable": "cph4/fleet/queue-receipts/quant-conclusion-{date}.md",
    "accept": "四件齐全→可对外；缺件→写明缺什么（rc=3 也算如实）",
    "needs": "cpu",
-   "nodes": ["bm-b"],
+   "nodes": [
+    "bm-b",
+    "bm-d"
+   ],
    "minutes": 3,
-   "depends_on": ["backtest"]
+   "depends_on": [
+    "backtest"
+   ]
   },
   {
    "id": "quote",
@@ -33,9 +43,14 @@
    "deliverable": "cph4/fleet/queue-receipts/quant-quote-{date}.md",
    "accept": "给一句能卖/不能卖的判断，附证据指针",
    "needs": "cpu",
-   "nodes": ["bm-b"],
+   "nodes": [
+    "bm-b",
+    "bm-d"
+   ],
    "minutes": 3,
-   "depends_on": ["conclusion"]
+   "depends_on": [
+    "conclusion"
+   ]
   }
  ]
 }

@@ -1,14 +1,14 @@
 {
  "node": "bm-b",
- "ts": "2026-11-03T10:50:43",
+ "ts": "2026-11-03T10:54:10",
  "jobs": [
   {
-   "id": "bigmoney-backtest-2026-11-03",
-   "title": "[金融量化（回测 → 一页结论 → 可报价或写清卡点）] ETF 复合因子回测（年化/夏普/回撤）",
-   "cmd": "python quant/bigmoney/scripts/etf_composite_pf.py",
+   "id": "bigstream-duanju-inventory-2026-11-03",
+   "title": "[短剧（配音质检→带声合流→可发集数）] 素材盘点（先找到这台机上的真目录）",
+   "cmd": "python Tools/fleet/drama_inventory.py --out cph4/fleet/queue-receipts/duanju-inventory-2026-11-03.json",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "quant/bigmoney/results/etf_composite_pf.json",
+   "deliverable": "cph4/fleet/queue-receipts/duanju-inventory-2026-11-03.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 2.2/1.0 GB"
+ "capacity_note": "ram 2.4/1.0 GB"
 }
