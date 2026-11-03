@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-04T02:35:05",
+ "ts": "2026-11-04T02:40:05",
  "node": "bm-a",
  "os": "Windows-11-10.0.26200-SP0",
  "python": "3.14.10",
@@ -31,17 +31,17 @@
  },
  "measure": {
   "model": "qwen3:4b-instruct",
-  "decode_tok_s": 156.5,
+  "decode_tok_s": 130.6,
   "engine": "llamacpp",
   "prefix_cache": {
-   "first_wall": 0.12,
-   "second_wall": 0.11,
+   "first_wall": 0.15,
+   "second_wall": 0.18,
    "hit": false
   },
   "concurrency": {
-   "serial_3": 2.07,
-   "parallel_3": 0.29,
-   "speedup": 7.14
+   "serial_3": 2.26,
+   "parallel_3": 0.25,
+   "speedup": 9.04
   }
  },
  "embedding": {
@@ -56,5 +56,5 @@
   "embedding-unusable:None"
  ],
  "verdict": "GAPS",
- "seconds": 14.6
+ "seconds": 6.6
 }
