@@ -1,11 +1,19 @@
 {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
  "ts": "2026-11-03T09:57:48",
  "cycle": 31,
  "master_node": "bm-m",
  "masquerade_by": null,
  "master_tick_ts": "2026-11-03T09:57:48",
+=======
+ "ts": "2026-11-02T20:16:10",
+ "cycle": 1486,
+ "master_node": "bm-m",
+ "masquerade_by": null,
+ "master_tick_ts": "2026-11-02T20:16:10",
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
 =======
  "ts": "2026-11-02T20:16:10",
  "cycle": 1486,
@@ -26,8 +34,13 @@
   "running": 2,
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   "done": 112,
   "failed": 2
+=======
+  "done": 90,
+  "failed": 3
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
 =======
   "done": 90,
   "failed": 3
@@ -42,12 +55,15 @@
    "online": true,
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
    "hb_age_s": 34.4,
    "cpu_load_pct": 29,
    "ram_free_gb": 32.4,
    "gpu_util_pct": 10,
    "job": "R-TTS-QC-R2-20261102",
 =======
+=======
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
 =======
 >>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
    "hb_age_s": 56.2,
@@ -71,9 +87,15 @@
    "online": true,
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
    "hb_age_s": 42.0,
    "cpu_load_pct": 5,
    "ram_free_gb": 4,
+=======
+   "hb_age_s": 18.0,
+   "cpu_load_pct": 90,
+   "ram_free_gb": 3.2,
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
 =======
    "hb_age_s": 18.0,
    "cpu_load_pct": 90,
@@ -93,6 +115,7 @@
   },
   "bm-c": {
    "online": true,
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
    "hb_age_s": 38.6,
@@ -121,6 +144,14 @@
    "job": null,
    "last_result": {
 >>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
+=======
+   "hb_age_s": 76.6,
+   "cpu_load_pct": 16,
+   "ram_free_gb": 0.7,
+   "gpu_util_pct": 100,
+   "job": null,
+   "last_result": {
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
     "job": "C-TTS-QC-ALL",
     "state": "FAILED",
     "rc": 1,
@@ -137,8 +168,13 @@
    "hb_age_s": 0.6,
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
    "cpu_load_pct": 12,
    "ram_free_gb": 13.8,
+=======
+   "cpu_load_pct": 26,
+   "ram_free_gb": 12.4,
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
 =======
    "cpu_load_pct": 26,
    "ram_free_gb": 12.4,
@@ -155,7 +191,11 @@
     "rc": null,
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     "ts": "2026-11-03T09:56:33",
+=======
+    "ts": "2026-11-02T20:14:47",
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
 =======
     "ts": "2026-11-02T20:14:47",
 >>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
@@ -168,7 +208,11 @@
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
    "idle_rounds": 1
+=======
+   "idle_rounds": 7
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
 =======
    "idle_rounds": 7
 >>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
@@ -183,7 +227,11 @@
   "bm-c": 0,
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   "bm-m": 1
+=======
+  "bm-m": 7
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
 =======
   "bm-m": 7
 >>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
@@ -861,7 +909,11 @@
   },
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   "added": 0,
+=======
+  "added": 1,
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
 =======
   "added": 1,
 >>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
@@ -896,6 +948,9 @@
   "bm-c CAPACITY-BLOCKED-RAM",
   "bm-m IDLE-CONFIRMED x7 (SELF-DISPATCH: lane scans its own backlo)",
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
+=======
 >>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
 =======
 >>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
@@ -906,7 +961,11 @@
  "lane_files_written": [
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   "bm-b"
+=======
+  "bm-c"
+>>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
 =======
   "bm-c"
 >>>>>>> f67b1a48 (pulse: dispatch snapshot [via bm-m])
