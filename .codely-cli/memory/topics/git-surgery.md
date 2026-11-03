@@ -10,3 +10,13 @@
 - [2026-11-02 13:22:59] 本仓克隆体检与坏态修复（2026-11-02 实测·FluxGroup/Mac）：①这是 **blobless 部分克隆**（`remote.origin` 带 `[blob:none]`），`git count-objects` 的 size-pack 65MB 不代表全量——**直接拷 `.git` 当备份是假备份**，缺失 blob 要按需回源；真备份只能从远端 `git clone --mirror`/完整 clone。②本仓曾同时卡三态：`interactive rebase in progress`（HEAD 与 main 已分叉）、`sparse checkout 只有 85% 跟踪文件在盘上`、本地 main 落后 origin 多版。修法序（先 `launchctl bootout gui/$(id -u)/com.fluxgroup.pulse` 免并发改 git）：`git rebase --abort` → `git sparse-checkout disable` → `git fetch --prune` → `git reset --hard origin/main` → 跑 deploy_gate 后 `launchctl bootstrap` 起回主控脉。③`reset --hard` 会静默冲掉未提交的记忆与 **stash 里的手写代码**（本次 stash@{1} 有 web_ai.py +24 行）：动手前必须先 `cp CODELY.md` 与 `git show stash@{n}:<path>` 另行存盘，修完再补提。核对产物：跟踪文件数=盘上存在数，缺失应为 0。
 
 - [2026-11-03 12:08:41] [2026-11-03] 技能库分级定谳（CEO「你科学决策」授权·commit 后已推 origin）：把「合格/不合格」二元判据废除，改为按**能否被机器验证被照做**分级——A=有可跑校验（正文点名 Tools/*.py・python・ffprobe・ps1 参数，不要求写在代码块里）可进无人值守工序；B=只有编号判据，只能人点名调用，禁止写进自动工序；另设 frozen（3D 城市 5 件，CEO 全 2D 令）、external（ccgs 11 件外部包，不装）、parked（钱相关 2 件）。实测 45 件=A 8 / B 19 / frozen 5 / external 11 / parked 2，结构缺陷 0、死指针 8 处告警。Why：原口径下 27 件「口号型」既不能补判据（补=把顾问内容编成命令，属造假），也不该删（drama-director/compliance-guard/memory-curator 都在真用），二元判据只会制造永久红灯；分级后 B 照旧装进激活面供人调用，只是不许进自动工序。How：改判据前先问「这条判据是在判断内容好坏，还是在判断可执行性」——只后者能机判。
+
+- [2026-09-28 12:24:11] U272/U273 收口判例（commit fe5db5327 已推·X1329 批）： → 全文档案: .codely-cli/memory/mem-20260930-g-015.md
+
+- [2026-09-30 13:19:57] O-20260930-1250 GitHub 工具取用批（在飞待收口·CEO 令「github上有很多相关工具，调研后取用啊」）： → 全文档案: .codely-cli/memory/mem-20260930-g-078.md
+
+- [2026-10-03 20:21:24] 登记簿落行 SOP 坑律（2026-10-03 两犯实录）：追加登记行的 shell 前必须先写好行内容临时文件（write_file 先行）——漏写时 [IO.File]::ReadAllText 抛错但脚本继续，AppendAllText 追加「$pre+空串+$EOL」=空行入册且 commit 照过；正法=①临时行文件先行②追加 shell 内对 ReadAllText 包 try/catch 硬失败退出③或改用 lines.Add($row) 整文件重写（WriteAllLines）时先验 $row 非空。U346/U347 两批均以「清空行+落真行」补正收口。
+
+- [2026-10-04 23:07:54] 多窗脏树推送竞态管线级正法（10-04 23:0x 实战定谳·全仓适用）：根仓 push 被拒（non-fast-forward·他窗先推）→ pull --rebase 被「unstaged changes」挡（他窗在飞件禁碰）→ merge 被 decisions.md 脏件挡——三常规路全死时的正法=**git plumbing 重放**：fetch → `git show origin/main:<file>` 取远端字节（python subprocess capture）→ 重放己方改动 → hash-object -w → **GIT_INDEX_FILE=临时索引** read-tree <远端树>+update-index --cacheinfo+write-tree（真 index 零触碰）→ commit-tree <树> -p origin/main -F 消息件 → update-ref refs/heads/main <新提交> <旧提交>（**旧值护栏=他窗本地并发提交时 fail-loud**）→ checkout HEAD -- <file>（仅己路径恢复）→ push（新提交父=origin/main=恒 fast-forward）。零触碰他窗脏件·零 merge commit·线性史保全。配套：临时件（tmp blob/index/script/msg）用毕即删。How to apply：多窗活跃期任何「本地有他人未提交改动+远端已前进」的推送死锁一律走本正法·勿 stash 他窗件（stash pop 冲突=毁他窗在飞工作）。
+
+- [2026-09-28 20:0x] 冷层归档批注（C-20260928-02 B1 深压窗·委员会 7/7 附款）：本窗 8 条 ≤2026-09-27 工作日志条目已迁 cph4/research/memory-archive/2026-09.md（全量可查·git 史全保·坑律/细则律条目留热层）。

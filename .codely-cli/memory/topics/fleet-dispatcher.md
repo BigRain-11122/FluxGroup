@@ -54,3 +54,9 @@
 - [2026-11-02] 本轮瘦身下沉档案=mem-20261102-l1-slim-sink.md（10-23~11-01 工艺/执行态原文+L0 被取代政策）；操作台账=cph4/fleet/memory-slim/LEDGER.md；回滚=L0 快照 cleanup-20261102-manual\CODELY-pre.md＋L1 git 史。
 
 - [2026-11-03 11:17:22] 本地模型职责与选型正身索引：cph4/fleet/LOCAL-LLM-ROLE-20261103.md（三层分工规则>向量>生成、五个可用职责/三个禁用职责、MLX-format 坑、下一步排序）；配套工具 Tools/fleet/semantic_dupes.py（向量找重复派单，阈值 0.64，剥 [线名（工序链）] 前缀后再聚类）。改本地模型接入方式、加新职责、或评估要不要上 9B 之前先读这份，不要凭版本号或榜单决策。
+
+- [2026-09-28 18:00:00] GitHub 装机坑律三条（09-28 全面安装波实录·机队装机适用）：①GitHub API 匿名配额 60/h——多窗同日并发调研+安装即打满→API 解析型安装器静默空手而归（gh/rg/magick 三连败根因）·正法=钉版本直链 release URL 免 API 或错峰执行；②zip 顶层单文件型资产（fzf 类）解压须处理文件直移（对 file 调 os.listdir=WinError 267）；③shutil.rmtree(ignore_errors=True) 对 node_modules 长路径半败静默+孤儿 npm 子进程锁 exe——删前 Get-Process 按路径清源、删后必列表复核目录实况（诚实律：不信返回码信盘面）。
+
+- [2026-09-28 18:25:07] U282 2D 资产品质重构轮判例（2026-09-28·X1339·13dc431dd 已推·与 U279 3D 线/U283 组合协调窗三方叠加·车道分工=U282 单件品质层 → 全文档案: .codely-cli/memory/mem-20260930-g-031.md
+
+- [2026-09-30 15:49:28] 机队分工修正律 O-20260930-1555（CEO 令「他们开发别的项目，优先本地有的。 → 全文档案: .codely-cli/memory/mem-20260930-g-090.md

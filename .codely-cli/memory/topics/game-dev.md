@@ -30,3 +30,63 @@
 - [2026-11-03 13:11:02] [2026-11-03 13:12] 主控 MacBook 游戏环境已搭好（正身=cph4/fleet/hardware/BM-M-GAMING-SETUP-v1.md + Tools/fleet/ceo_mode.sh）：①装三条免费路线并清 Gatekeeper 隔离——Steam 6.1（universal 二进制，原生跑）、Whisky 2.3.5（Wine+Apple GPTK 跑 Windows 独占，甜点在 DX11 级/小体量，DX12 大作多失败）、RetroArch 1.22.2（仅 x86_64，走 Rosetta，核心首次启动在线下载）。②新增 ceo_mode.sh start/stop/status：玩游戏时先 bootout watchdog 再 pulse（顺序反了看门狗会把脉拉回来），--with-ai 连 ollama 一起停多让 3-4GB；stop 必须先跑 deploy_gate（闸不过不许起）；来回已实测（start 后三者全停、stop 后六关 PASS 且 PULSE 恢复刷新）。③边界已写进文档：M1 Pro 不是游戏显卡、不要用 Parallels 跑 x86 游戏（二次翻译比 Whisky 更差）、想认真跑 Windows 3A 唯一正解是 CrossOver 26.3（约 74 美元/年，付费决定归 CEO，我不代购）。④坑：bash 里变量名后紧跟中文会被吞进变量名（`$WATCHDOG（` → unbound variable），一律写 `${VAR}`。⑤git 手术前置=先 ceo_mode start 停脉，否则并发写状态文件必在 rebase 的 autostash 上撞冲突。
 
 - [2026-11-03 13:17:50] [2026-11-03 13:20] 游戏环境改走 Switch 路线（CEO 令「不要 steam，不跑大作，大概就用 switch 什么的玩玩」·正身=cph4/fleet/hardware/BM-M-GAMING-SETUP-v1.md v2）：①Steam 已彻底卸载（/Applications 下需 sudo，走 osascript 提权；cask 记录在 $HOME/.homebrew/Caskroom 可无 sudo 删；无用户数据残留）。②Switch 模拟器用官方 Ryubing 分支 1.3.3：brew 里没有（任天堂法律施压后全部下架），真实下载端点=`https://update.ryujinx.app/download/query?os=mac&arch=arm64&rc=stable`（302 → `https://git.ryujinx.app/projects/Ryubing/releases/download/1.3.3/ryujinx-1.3.3-macos_universal.app.tar.gz`，66MB，universal 含 arm64，ad-hoc 签名→必须 `xattr -dr com.apple.quarantine`）；已实跑生成配置，默认 graphics_backend=Vulkan（走 MoltenVK），配置落在 `~/Library/Application Support/Ryujinx/`。③硬前提（我不代劳也不指引来源）：prod.keys/title.keys 放 `.../Ryujinx/system/`，固件从自己机器导出后用 Tools→Install Firmware 装，游戏用自购卡带转出；没有 key+固件则能开但起不了游戏。④M1 Pro 关键设置=分辨率 1x 原生、卡就关 Docked Mode（按掌机 720p 跑）、Texture Recompression 关；崩溃先换 Memory Manager HostMappedUnsafe→HostMapped。⑤老主机走 RetroArch（已装 1.22.2，x86_64 走 Rosetta，核心首批在 Online Updater 下载）。⑥Whisky 保留但不用（那是跑 Windows 游戏的）。
+
+- [2026-09-29 17:16:53] CEO 主角/吉祥物设计双令与偏好（2026-09-29 交互直令）：①「去设计一批吸嘟嘟主角，让我来挑，风格一定要抓人眼球，各种特点，不要千篇一律」——主角探索=候选批制（多款并呈·回复编号挑·可多选混搭），五维差异化（物种/配色/材质/记忆点/性格零重复）；②追加令「3D的先保留，之前的2D水彩风格也生产一批，角色要更加夸张和有记忆点」——**定谳风格不锁死主角探索**（U279 3D 定谳照用 + 旧 2D 水彩复刻并板呈选），且主角设计取向=**夸张记忆点 > 保守可爱**。How to apply：未来角色/吉祥物/生物批默认多风格并呈；每款必带一个放大档记忆点（爆炸呆毛/半身巨嘴/三倍巨尾/巨型蝴蝶结类）；CEO 可指定混搭（如「B02 换 3D 做」）。
+
+- [2026-10-08 20:12:59] [2026-10-08 20:1x] bm-a GimmeAll EditMode 门禁三坑律（10-08 U360-L3/L6 批三跑实录·HeadlessRunner batch 环境在册事实）：①AddComponent 在 batch EditMode 不自跑 Awake/OnEnable/OnDisable（生成/注销全须测试侧补驱）——公共驱动件已落 GimmeAll Assets/_Project/Tests/Editor/EditModeSpawnDrive.cs（DriveAllSpawned/DriveAllOnDisable/Drive），新测试一律用它勿再手写反射驱动；②**双发纪律**：SendMessage 与 GetType().GetMethod 只达最派生私有魔法方法——派生类自定义 OnEnable（如 LandmarkBeacon 总线订阅）会遮蔽基类 SuctionTarget.OnEnable 的注册面，必须基类 MethodInfo 直调（绕遮蔽）+派生面另发；③StopLevel 后 ObjectRegistry 残留已销毁件 C# 引用=OnDisable 同不自跑，DriveAllOnDisable 经基类反射 Unregister（纯 C# 面假 null 安全）。Why：10-08 门禁 11 红→4 红→0 三轮归因全落此三坑。
+
+- [2026-10-08 20:13:20] [2026-10-08 20:1x] bm-a GimmeAll ContentCatalog 时限覆盖层语义（10-08 关7/9 断崖修一跑实录）：All() 第3/3b/3c 步的 timeLimitSec 覆盖=**注入前**位序（签名/变奏层在其后再回补）——终值=覆盖值+变奏回补（关7 41.5→45+1.5=46.5/关9 40.5→44+1.5=45.5）；TestSignatureLevels.ExpectedLimit 硬锁 90 关终值=改任何关注入必同步该表否则秒红。另：「每关恰 1 变奏」锁存于 TestSuctionFamilies+TestSignatureLevels 两处（关4 拍4 双族升格须两测试同改例外档）。垢类/地标类计价 0 件（可跳过爽点）不入 TotalTargets 但入生成面——LevelRunner 契约对账已改权重口径。
+
+- [2026-10-09 12:43:05] bm-a U360-L4B 全屏走查批判例（10-09 12:2x-12:4x·承 CEO「继续优化」令·O-20261008-1438 L4 线 17 屏走查执法）：①**UI 走查正法=源码密度扫（Select-String 长文案模式）→取证工具拍 BEFORE 帧→多模态锐评→手术→gate+AFTER 终验**，锐评比源码扫多挖出三起源码看不出的：抉择横幅真布局崩坏（640 板×280 钮塞 56px 文案=折行溢出互叠不可读·生产稀有路径一直坏·测试只锁流程不锁布局——**新 UI 件必须锁几何**已落 TestU360L4BWalk）+败局副标题 "timeout" 英文码直出（LevelTimer 生产 Reason="timeout"→显示层 HumanizeFailReason 映射正法·总线载荷零改动防 TestCoreBus roundtrip）+商店驻场位空圆占位读感（剪影圆心加锁标=状态视觉化）；②广告披露律（U320 P0/P1「看视频」字样必留）与密度律的调和=去逗号并单短语（「看视频，星沙 ×2」→「看视频领双倍星沙」「续 10 秒（看广告）」→「看广告续 10 秒」）——禁删披露只裁句式；③取证工具复制律生效（U360L4WalkShot=BVersionSevenShot 复制件+新模态幕）·**复制 BVersionSevenShot 时必须带 using System.Reflection**（漏=CS0103 首跑全红实录）；④吸友榜开屏真路径=图鉴底带「吸友榜」钮 ClickButtonByText（无静态 Show·ScreenRouter 持实例）；⑤抉择横幅取证=发布 InLevelChoiceOffered{ExtendAvailable=true} 即现·LevelFailed 同拍自动收横幅（ChoiceBanner 六事件收口在册）。
+
+- [2026-10-09 12:56:07] bm-a U360-L4B 走查批收尾判例（10-09 12:4x-12:5x·gate 6→8 三轮实录）：①**静态改文案必须全扫运行时写入点**——ResultScreen 复活钮改「看视频再吸 10 秒」后帧上仍带逗号，真凶=RefreshReviveFace() 运行时双态刷面（「用羽毛，再吸」/「看视频，再吸」）盖掉静态钮文——改 UI 文案 grep 该 label 全写入点否则帧终验必翻车；②**测试锁同步两坑**：CountTexts 类助手=精确匹配（"已永久解锁"双面同文后计数 1→2 秒红）+Contains 锁可能藏在看似无关的测试文件（TestCompanionRosterUi Contains("视频解锁")）——改串后跑 gate 用三红定位比预扫锁面更稳；③**渲染序陷阱**：懒建模态（图鉴）渲染在 ScreenRouter 预建屏（吸友榜）之上——从 A 屏按钮开 B 屏再拍照=先关 A 才拍得到 B（取证工具幕序修实录）；④图鉴占位「敬请期待～」路径=真机无 LeaderboardService 态才现，编辑器有 mock 服务喂排行行——帧面验不到≠代码没生效；⑤历史遗留布局账单在案待下场=旅程屏三处遮挡（标题被卡压/长卡名截断/CTA 压状态标签）+胜局数据行被明信片板盖+明信片框上下切字。
+
+- [2026-09-28 11:29:44] U271 收口判例三条（开源 UI 自动装配落地批·2026-09-28·MiniGame commit e345212ec 已推）： → 全文档案: .codely-cli/memory/mem-20260930-g-012.md
+
+- [2026-09-28 11:34:51] Tuanjie 批建造 SOP+TD demo 双坑律（09-28 五跑点火实证·FluxVerse City 工程）： → 全文档案: .codely-cli/memory/mem-20260930-g-013.md
+
+- [2026-09-28 13:27:24] MiniGame 仓 GitBloatGate 门禁律（2026-09-28 U274 批三撞实录）：pre-commit 钩子=SOFT 1.5MB（需白名单）+HARD 6MB（永拒）——**证据截图一律 JPEG q88 化再入仓**（1080×1920 水彩风 PNG≈2.5MB→JPEG≈250KB·九成减量·审核板观感无损）；board_all 类全景拼图超 HARD=不入仓留沙盒；git add 目录前先删超限件否则被重暂存连环拦。另：游戏侧资产缺陷三件在案待转办=ui_postcard_frame 邮戳烤调试色值文本（入包提审风险）/icon_star 与 icon_star_dim 形状断裂（星形=漩涡·dim=五角星）/scene_japan 竖向水彩接缝。
+
+- [2026-09-28 15:10:02] FluxVerse 瓦片城 v1 技术面（2026-09-28·TopDownTileCity.unity·FluxVerse 13a5277）： → 全文档案: .codely-cli/memory/mem-20260930-g-020.md
+
+- [2026-09-28 15:53:27] [2026-09-28 15:53] Tuanjie 编辑器+Unity-MCP spike 实弹坑律（P-2026-09-28-10·判据①包解析✓②编译✓桥自启✓·③④在飞）： → 全文档案: .codely-cli/memory/mem-20260930-g-023.md
+
+- [2026-09-28 16:21:23] [2026-09-28 16:25] Unity-MCP v10 深度用法坑律五条（承 15:53 spike 条·样区施工期实证）： → 全文档案: .codely-cli/memory/mem-20260930-g-025.md
+
+- [2026-09-28 17:18:55] lowpoly 3D 域整理+AD标记+P3D_Spike 落盘（CEO 令「清理垃圾·分类整理·统一归lowpoly·分风格大类·按unity规范」+「做好资产的标记和理解」+「 → 全文档案: .codely-cli/memory/mem-20260930-g-026.md
+
+- [2026-09-28 18:01:32] U279/U281 收口判例（2026-09-28·MiniGame e071797d2 已推·六屏 3D 糖瓷卡通重构批·与 U280 审计窗叠加态）： → 全文档案: .codely-cli/memory/mem-20260930-g-030.md
+
+- [2026-09-28 22:39:01] [2026-09-28 22:5x] 城市活性升维方案 v1 立档（CEO 令「重点研究怎么让硅基城市真正的活起来」·FluxVerse 1b34b96·根仓 3c3a315）： → 全文档案: .codely-cli/memory/mem-20260930-g-039.md
+
+- [2026-09-29 10:53:04] U299=Unity_UI自动拼装SOP全员学习令收口态（CEO 令 2026-09-29·orders O-2026-0929-002·HQ 25d14d8）： → 全文档案: .codely-cli/memory/mem-20260930-g-043.md
+
+- [2026-09-29 15:02:09] U304/U305 判例收口（2026-09-29·CEO 双令全闭环·MiniGame 2a63e031a 已推·HQ 998417a 已推）： → 全文档案: .codely-cli/memory/mem-20260930-g-051.md
+
+- [2026-09-29 15:14:01] [2026-09-29 15:2x] Tuanjie 2022.3.62t15 编辑器脚本编译两坑（09-29 Top1 施工批三连败实证）： → 全文档案: .codely-cli/memory/mem-20260930-g-052.md
+
+- [2026-09-29 17:45:42] U308 吸嘟嘟真工程产品级动效改造批收口（2026-09-29·CEO 令「基于最新的流程和知识 去改造一下吸嘟嘟的界面 ui等」·orders O-2026-0929-010· → 全文档案: .codely-cli/memory/mem-20260930-g-057.md
+
+- [2026-09-29 17:53:28] U309 判例收口（2026-09-29·CEO 令「吸嘟嘟的这 2 个不同风格的资产我都非常满意， → 全文档案: .codely-cli/memory/mem-20260930-g-060.md
+
+- [2026-09-29 18:32:09] [2026-09-29 18:3x] U314 判例收口（CEO 令「吸嘟嘟的玩法，系统，流程，体验等等，全部优化一遍，并行工作。 → 全文档案: .codely-cli/memory/mem-20260930-g-066.md
+
+- [2026-09-30 13:19:57] U320 尾巴收口+Unity 构建新鲜度三判例（2026-09-30 13:0x·真包冒烟后台通道收壳）： → 全文档案: .codely-cli/memory/mem-20260930-g-077.md
+
+- [2026-09-30 13:19:57] O-20260930-1316 吸嘟嘟音频 v2+新手关令（在飞）：CEO 复听回执「吸嘟嘟的声音还是不够洗脑，其他的还不错，BGM分场景，每个关卡要有当地的地域或者国家特色。 → 全文档案: .codely-cli/memory/mem-20260930-g-079.md
+
+- [2026-09-30 15:16:16] GimmeAll 批跑链两枚操作事实（U325 收口实测）： → 全文档案: .codely-cli/memory/mem-20260930-g-088.md
+
+- [2026-09-30 16:57:04] 硅基生命元宇宙.html（CEO 令 09-30 起「可视化」恒指件）打磨管道事实： → 全文档案: .codely-cli/memory/mem-20260930-g-096.md
+
+- [2026-09-30 18:08:56] [2026-09-30 18:10] FluxVerse/City3D 团结引擎 meta 加密判例： → 全文档案: .codely-cli/memory/mem-20260930-g-100.md
+
+- [2026-09-30 19:19:37] [2026-09-30 19:2x] O-20260930-1856 三路调研收口（O-1706 追加令执行面·三 R-件入仓 cph4/research/·commits ceef389/f38f847/bc17d8f）：①unity-assembly-01＝8 步组装 SOP+判据表（微信面单线程单帧无法 GC=团结官方在册=数组预载翻帧官方依据；SRP Batcher 不辖 SpriteRenderer→合批验收以 drawcall 实读为准；SpriteAtlas 内包 vs TexturePacker 外包=外包主选）；②prompt-params-01＝12 填空模板卡（6 动作×水彩/糖瓷双锚）+三模型参数 profile（Wan 官方 50 步/CFG5.0/121 帧@24fps/仅 1280×704 两档；Cog 49 帧@8fps 快动作禁排候实测；LTX 30 步/CFG3.0=M1 在官方带内+≤128 token 压缩安全线）；③atlas-precision-01＝判据全表 J1-J18 可机检+SOP 十条。**四枚判负/勘误入产线正法**：a.Allow Rotation 官方存在且默认开（推翻旧内联「SpriteAtlas 不可旋转」）→图集打包必须显式关闭；b.20MB 首资源包=我司内定保守线非微信官方（官方=主包≤4M/总≤30M/单普通分包不限/独立分包≤4M·wx.preDownloadSubpackage 预下载 API 在册）；c.微信转换工具原 GitHub 仓停用（商标）→正源=微信官方文档站+团结 SDK 新仓 minigame-tuanjie-transform-sdk；d.ASTC 6x6=3.56bpp 三源互证但「默认档」无官方逐字=内定线。落实链=SOP 增章+嘟嘟试点件=实验室窗承接（O-1706/O-1856 台账）。How to apply：SOP 立典判据直接抄三件 §0；拼图集先显式关 rotation；包体口径用官方四值；转换工具问题查 SDK 新仓勿查旧仓。
+
+- [2026-10-03 11:08:27] 本地 coder 产线现役态（U340-U345·CEO 令链「QWEN3 新模型 16G 全载」+「承担游戏子公司任务看准确率效率」+「最大化利用本地 coding 算力」+「速度可以缓缓·保证正确率复审和调试好·节省云端 token」）：主力=qwen3.6-coder:35b（34.7B MoE·IQ3_S·12.8GB·全量驻 16G 显存+16k ctx 零卸载·常驻 expires=never），副选 qwen3.8:27b——qwen2.5 老族已清出本机勿再引用；local_coder.py（MiniGame tools/llm/）流程=spec json→生成→机检→复审探针→证据→promote-on-pass；**实弹五坑律**（Windows 编码时区族·①utf-8-sig 读 BOM ②naive 时区禁注入 tz ③subprocess 显式 utf-8 ④stdout reconfigure utf-8 ⑤harness reader 同律）已固化 PROMPT_LAWS 自动追加；**U344 泵**=tools/llm/queue/（NN 升序·done/parked·补货法禁忙工），U345 改版=每 2h 一轮 ≤2 件·三层闸（机检唯一死闸+复审探针+验收实跑）·调试律禁盲跑（失败定病根·一次定向复跑·再败 parked）；**U345 复审校准判例=同族自审 [BUG] 噪声 10/11（自反证条目）——复审当探针不当闸门·[BUG] 人/泵轮分诊（真缺陷特征=可复现/违规格/回退丢失）·首轮分诊抓 2 真缺陷修毕（猴档死稿 main_v2+仓摘要 GIT_FAIL 回退=机检漏检被复审抓到）**；两批 9 任务 14 轮=终态 9/9 收编·首过 88.9%·均 12.2s·89.9-95.2tps（10-03 报告已呈）；真发现=cloudF 172 行补录审计 100%/DDO 20 处无守卫/SortIt 零门禁/登记簿 U259-U262 四组重复行；泵 cron 2cdc463e（7 天过期 10-10 续窗）；权威=登记簿 U340-U345 行。
+
+- [2026-09-24 17:43:18] 硅基生命元宇宙窗（集团唯一指定整体可视化观测窗口·CEO 令 2026-09-24 ~16:45）维护面文件地图 v3： → 全文档案: .codely-cli/memory/mem-20260930-g-102.md
+
+- [2026-09-29 17:16:53] 吸嘟嘟旧版 2D 水彩风格锚真值（2026-09-29 art_backup_v2_watercolor 真图拆解·dudu_full.png+creature_paris.png → 全文档案: .codely-cli/memory/mem-20260930-g-103.md
+
+- [2026-10-04 23:08:06] MiniGame 三台账新分区路径（10-04 实况·旧路径 Design/configs/GLOBAL/ 直挂位已废）：①U 号登记簿活动账=**gaming/MiniGame/Design/configs/GLOBAL/台账/用户限制登记簿.md**（CRLF+BOM 契约不变·「正典/用户限制登记簿.md」=指针存根勿写）；②顶层设计组合过筛矩阵=**Design/configs/GLOBAL/档案/顶层设计组合过筛矩阵.md**（LF 无 BOM 不变·§9.x 节号现用至 §9.96=U351·写前查重）；③GLOBAL 下另有 正典//台账//档案/ 三分区结构（10-01~10-04 重组产物）·定位一律走 git ls-files 过滤勿凭旧路径直读。最新 U 号=U351（10-04）。游戏仓 GitBloatGate/定向提交律照旧。
