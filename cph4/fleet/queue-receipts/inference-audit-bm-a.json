@@ -1,11 +1,60 @@
 {
- "ts": "2026-11-03T15:05:40",
+ "ts": "2026-11-04T02:24:34",
  "node": "bm-a",
- "os": "macOS-27.2-arm64-arm-64bit",
- "verdict": "BLOCKED",
- "gaps": [
-  "wrong-node: bm-a 是 Windows 机，本机是 macOS-27.2-arm64-arm-64bit"
+ "os": "Windows-11-10.0.26200-SP0",
+ "python": "3.14.10",
+ "endpoint": "http://127.0.0.1:11434",
+ "models": [
+  {
+   "name": "qwen3.5:4b",
+   "size_gb": 3.32
+  },
+  {
+   "name": "qwen3:4b-instruct",
+   "size_gb": 2.5
+  }
  ],
- "why": "派单 nodes 只是偏好；本卡必须在目标机上执行",
- "receipt_is_not_deliverable": true
+ "models_error": null,
+ "port_owner": [
+  {
+   "pid": "44276",
+   "image": "ollama.exe"
+  }
+ ],
+ "server_env": {
+  "OLLAMA_KEEP_ALIVE": "5m",
+  "OLLAMA_NUM_PARALLEL": "2",
+  "OLLAMA_MAX_LOADED_MODELS": "1",
+  "OLLAMA_CONTEXT_LENGTH": "16384",
+  "OLLAMA_NUM_CTX": "4096",
+  "_source": "HKCU\\Environment"
+ },
+ "measure": {
+  "model": "qwen3:4b-instruct",
+  "decode_tok_s": 154.6,
+  "engine": "llamacpp",
+  "prefix_cache": {
+   "first_wall": 0.12,
+   "second_wall": 0.12,
+   "hit": false
+  },
+  "concurrency": {
+   "serial_3": 2.24,
+   "parallel_3": 0.31,
+   "speedup": 7.23
+  }
+ },
+ "embedding": {
+  "model": null,
+  "usable": false,
+  "why": "没有可用的 embedding 模型"
+ },
+ "gaps": [
+  "env-value:OLLAMA_NUM_PARALLEL=2(应为 1)",
+  "env-value:OLLAMA_KEEP_ALIVE=5m(应为 15m)",
+  "env-value:OLLAMA_CONTEXT_LENGTH=16384(应为 8192)",
+  "embedding-unusable:None"
+ ],
+ "verdict": "GAPS",
+ "seconds": 9.6
 }
