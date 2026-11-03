@@ -219,3 +219,15 @@ cph4/fleet/state/
 
 # 每轮被 workgen 重写的生成件：跟踪它只会制造 unmerged（2026-11-02 实测 pull 失败）
 cph4/fleet/plans/workgen-report.md
+
+# 资产库二进制留盘、索引进 git（2026-11-03 立·沿用 lib_consolidate 的"索引+sha，不搬二进制"）
+# 理由：20 件道具约 12MB、场景更重，二进制进 git 只会把仓库撑大且无法 diff。
+# 对账入口=cph4/fleet/asset-lib-v1/ASSET-MANIFEST.json（sha256+路径+规格+授权+血缘）。
+media/asset/props/
+media/asset/scenes/
+media/asset/motions/
+media/asset/transitions/
+media/asset/styles/
+media/asset/typography/
+media/asset/characters/
+media/asset/voice-models/

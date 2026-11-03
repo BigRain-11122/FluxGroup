@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-03T18:00:12+0800",
+ "ts": "2026-11-03T18:11:13+0800",
  "alert_days": 2.0,
  "lines": [
   {
@@ -108,9 +108,9 @@
    "line": "bigmoney",
    "status": "ACTIVE",
    "prio": "P1",
-   "stock": 3,
+   "stock": 4,
    "rate_per_day": 1.0,
-   "runway_days": 3.0,
+   "runway_days": 4.0,
    "has_table": true,
    "blocker": {
     "stage": "backtest",

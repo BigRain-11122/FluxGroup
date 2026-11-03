@@ -1,22 +1,21 @@
 {
- "ts": "2026-11-03T18:00:12",
+ "ts": "2026-11-03T18:11:13",
  "stage": 3,
  "adoption": {
   "days": 2,
-  "applied": 471,
-  "total": 381,
-  "rate": 123.6,
+  "applied": 485,
+  "total": 389,
+  "rate": 124.7,
   "eligible_stage4": false
  },
  "decisions": [
   {
-   "kind": "requeue",
-   "why": "2 张卡在跑但 1 小时无回执",
+   "kind": "flag",
+   "why": "1 台机空转且有活",
    "target": [
-    "asset-lib-voice-corpus-bmb-2026-11-03",
-    "asset-lib-face-caption-2026-11-03"
+    "bm-b"
    ],
-   "min_stage": 3,
+   "min_stage": 1,
    "result": "applied"
   },
   {
@@ -30,14 +29,6 @@
    "result": "applied"
   }
  ],
- "applied": [
-  {
-   "kind": "requeue",
-   "ids": [
-    "asset-lib-voice-corpus-bmb-2026-11-03",
-    "asset-lib-face-caption-2026-11-03"
-   ]
-  }
- ],
+ "applied": [],
  "brief": "/Users/junsheng.sun/FluxGroup/cph4/fleet/chief/BRIEF-20261103.md"
 }

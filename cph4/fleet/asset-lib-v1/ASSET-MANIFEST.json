@@ -1,0 +1,49 @@
+{
+ "ts": "2026-11-03T18:11:57",
+ "class": "props",
+ "tier": "p0",
+ "target": 20,
+ "count": 3,
+ "why": "资产库 P0 唯一数字源=LIBRARY-TARGETS.json；本件只记已落盘条目（sha+规格+授权+血缘），二进制留盘不进 git",
+ "items": [
+  {
+   "file": "media/asset/props/P01-contract-papers.png",
+   "name": "协议/合同纸堆+签字笔",
+   "use": "剧集里\"签协议\"桥段的核心锚点物",
+   "sha256": "b8b164e2bd52965cd2743b66ff55e5e924fcbd3c521391a3a2e818f2108737c3",
+   "bytes": 607527,
+   "w": 2048,
+   "h": 2048,
+   "transparent_pct": 59.0,
+   "license": "own",
+   "real_person": false,
+   "source": "doubao-seedream-5.0 自生成"
+  },
+  {
+   "file": "media/asset/props/P02-smartphone.png",
+   "name": "智能手机（现代都市）",
+   "use": "对话/消息/偷拍桥段通用",
+   "sha256": "f009c3a82b5963298665381f4e0677814a2e796a1636b298870eb59bd854b708",
+   "bytes": 251703,
+   "w": 2048,
+   "h": 2048,
+   "transparent_pct": 67.6,
+   "license": "own",
+   "real_person": false,
+   "source": "doubao-seedream-5.0 自生成"
+  },
+  {
+   "file": "media/asset/props/P03-house-keys.png",
+   "name": "钥匙串（含旧皮吊牌）",
+   "use": "\"家/钥匙\"情绪锚点，可做特写与插入镜",
+   "sha256": "1e551745f4881ee4c6fd0abe88d0c5b239c1e30a688c00223f8c3855634522fd",
+   "bytes": 582985,
+   "w": 2048,
+   "h": 2048,
+   "transparent_pct": 82.2,
+   "license": "own",
+   "real_person": false,
+   "source": "doubao-seedream-5.0 自生成"
+  }
+ ]
+}
