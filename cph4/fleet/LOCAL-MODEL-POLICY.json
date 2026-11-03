@@ -34,9 +34,9 @@
   "speed_drop_max": 0.1,
   "speed_gain_min": 1.05,
   "must_fit_mem_gate": true,
-   "auto_apply": true,
-   "note": "换档只有两条路：①质量更高，且速度不低于现役的 90%；②质量持平，且速度至少快 5%。质量更低一律不换；两点都不占一律不换。2026-11-03 CEO 令：机队每台机「测得好就换、测不好不换」→ auto_apply=true；每次换档写 applied.from/to 与 rollback，可一步退回。"
-  },
+  "auto_apply": true,
+  "note": "换档只有两条路：①质量更高，且速度不低于现役的 90%；②质量持平，且速度至少快 5%。质量更低一律不换；两点都不占一律不换。2026-11-03 CEO 令：机队每台机「测得好就换、测不好不换」→ auto_apply=true；每次换档写 applied.from/to 与 rollback，可一步退回。"
+ },
  "thresholds": {
   "bench_stale_days": 7,
   "scan_every_hours": 24,
@@ -67,56 +67,141 @@
   "bm-a": {
    "duties": {
     "resident": {
-     "model": "qwen3:4b-instruct",
+     "model": "qwen3.5:4b",
      "budget_gb": 5.0,
-     "why": "2026-11-03 实测本机唯一已装对话档（2.5GB，llamacpp）；RTX 4070S 12GB 可承受到 ~8GB 档"
+     "why": "2026-11-03 实测本机唯一已装对话档（2.5GB，llamacpp）；RTX 4070S 12GB 可承受到 ~8GB 档",
+     "changed_at": "2026-11-03T16:14:25",
+     "changed_why": "2026-11-03 bm-a 实测：黄金集 7/8 vs 现役 6/8，解码中位 84.6 vs 44.2 tok/s",
+     "previous": "qwen3:4b-instruct"
     }
    },
-   "tracked_families": ["qwen3", "qwen3.5"],
-   "auto_pull": {"enabled": true, "max_size_gb": 8.0, "max_per_day": 2,
-                 "only_same_family_as": ["qwen3", "qwen3.5"], "only_states": ["NEW-TAG"]},
-   "idle": {"queue_blocks": true, "skip_weekday_hours": [9, 19], "min_free_gb": 6.0},
+   "tracked_families": [
+    "qwen3",
+    "qwen3.5"
+   ],
+   "auto_pull": {
+    "enabled": true,
+    "max_size_gb": 8.0,
+    "max_per_day": 2,
+    "only_same_family_as": [
+     "qwen3",
+     "qwen3.5"
+    ],
+    "only_states": [
+     "NEW-TAG"
+    ]
+   },
+   "idle": {
+    "queue_blocks": true,
+    "skip_weekday_hours": [
+     9,
+     19
+    ],
+    "min_free_gb": 6.0
+   },
    "auto_baseline": false,
    "discover": true
   },
   "bm-b": {
    "duties": {
-    "resident": {"model": "qwen3:4b-instruct", "budget_gb": 4.0,
-                 "why": "8GB 显存 + 24GB 内存，只跑 4B 级；型号以本机实装为准（auto_baseline）"}
+    "resident": {
+     "model": "qwen3:4b-instruct",
+     "budget_gb": 4.0,
+     "why": "8GB 显存 + 24GB 内存，只跑 4B 级；型号以本机实装为准（auto_baseline）"
+    }
    },
-   "tracked_families": ["qwen3", "qwen3.5"],
-   "auto_pull": {"enabled": true, "max_size_gb": 5.0, "max_per_day": 2,
-                 "only_same_family_as": ["qwen3", "qwen3.5"], "only_states": ["NEW-TAG"]},
-   "idle": {"queue_blocks": true, "min_free_gb": 4.0},
+   "tracked_families": [
+    "qwen3",
+    "qwen3.5"
+   ],
+   "auto_pull": {
+    "enabled": true,
+    "max_size_gb": 5.0,
+    "max_per_day": 2,
+    "only_same_family_as": [
+     "qwen3",
+     "qwen3.5"
+    ],
+    "only_states": [
+     "NEW-TAG"
+    ]
+   },
+   "idle": {
+    "queue_blocks": true,
+    "min_free_gb": 4.0
+   },
    "auto_baseline": true,
    "discover": true
   },
   "bm-c": {
    "duties": {
-    "resident": {"model": "qwen3:4b-instruct", "budget_gb": 4.0,
-                 "why": "16GB 魔改 3070 + 24GB 内存；哨兵/空闲用 4B，型号以本机实装为准"}
+    "resident": {
+     "model": "qwen3:4b-instruct",
+     "budget_gb": 4.0,
+     "why": "16GB 魔改 3070 + 24GB 内存；哨兵/空闲用 4B，型号以本机实装为准"
+    }
    },
-   "tracked_families": ["qwen3", "qwen3.5"],
-   "auto_pull": {"enabled": true, "max_size_gb": 6.0, "max_per_day": 2,
-                 "only_same_family_as": ["qwen3", "qwen3.5"], "only_states": ["NEW-TAG"]},
-   "idle": {"queue_blocks": true, "min_free_gb": 4.0},
+   "tracked_families": [
+    "qwen3",
+    "qwen3.5"
+   ],
+   "auto_pull": {
+    "enabled": true,
+    "max_size_gb": 6.0,
+    "max_per_day": 2,
+    "only_same_family_as": [
+     "qwen3",
+     "qwen3.5"
+    ],
+    "only_states": [
+     "NEW-TAG"
+    ]
+   },
+   "idle": {
+    "queue_blocks": true,
+    "min_free_gb": 4.0
+   },
    "auto_baseline": true,
    "discover": true
   },
   "bm-d": {
    "duties": {
-    "resident": {"model": "qwen3:4b-instruct", "budget_gb": 4.0,
-                 "why": "256GB 内存机；基线以实装为准，大档（35B-A3B）属 3.6 族，需另立档再测"}
+    "resident": {
+     "model": "qwen3:4b-instruct",
+     "budget_gb": 4.0,
+     "why": "256GB 内存机；基线以实装为准，大档（35B-A3B）属 3.6 族，需另立档再测"
+    }
    },
-   "tracked_families": ["qwen3", "qwen3.5", "qwen3.6"],
-   "auto_pull": {"enabled": true, "max_size_gb": 8.0, "max_per_day": 2,
-                 "only_same_family_as": ["qwen3", "qwen3.5", "qwen3.6"], "only_states": ["NEW-TAG"]},
-   "idle": {"queue_blocks": true, "min_free_gb": 16.0},
+   "tracked_families": [
+    "qwen3",
+    "qwen3.5",
+    "qwen3.6"
+   ],
+   "auto_pull": {
+    "enabled": true,
+    "max_size_gb": 8.0,
+    "max_per_day": 2,
+    "only_same_family_as": [
+     "qwen3",
+     "qwen3.5",
+     "qwen3.6"
+    ],
+    "only_states": [
+     "NEW-TAG"
+    ]
+   },
+   "idle": {
+    "queue_blocks": true,
+    "min_free_gb": 16.0
+   },
    "auto_baseline": true,
    "discover": true
   },
   "bm-m": {
-   "idle": {"queue_blocks": true, "min_free_gb": 5.0},
+   "idle": {
+    "queue_blocks": true,
+    "min_free_gb": 5.0
+   },
    "auto_baseline": false,
    "discover": true,
    "_note": "职责沿用顶层 duties（resident=qwen3.5:4b-mlx 等），不在本节点重复声明"
