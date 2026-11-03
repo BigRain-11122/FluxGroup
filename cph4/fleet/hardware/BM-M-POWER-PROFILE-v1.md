@@ -9,7 +9,7 @@ CEO 令：「插电就满性能释放，拔电就回归正常」。
 |---|---|---|---|
 | lowpowermode | 0（关） | 1（开） | Apple Silicon 唯一的性能/省电开关；插电关掉=满性能，拔电打开=回归正常 |
 | sleep | 0（永不系统睡眠） | 10 分钟 | 插电要 24h 跑主控脉；拔电要正常省电 |
-| displaysleep | 30 分钟 | 5 分钟 | 屏幕是该机最大耗电项，与算力无关 |
+| displaysleep | 10 分钟 | 5 分钟 | CEO 2026-11-03 令：插电 10 分钟无操作屏幕休眠，主机不休眠；拔电 5 分钟 |
 | disksleep | 0 | 0 | 外置盘一睡就掉卷（11-02 实测 3 小时重枚举 3 次） |
 | powernap | 1 | 0 | 拔电不后台醒来 |
 | womp | 1 | 0 | 插电可网络唤醒（远端起服务开会话） |
@@ -27,7 +27,7 @@ CEO 令：「插电就满性能释放，拔电就回归正常」。
 
 ```bash
 # 插电：满性能
-sudo pmset -c lowpowermode 0 sleep 0 displaysleep 30 powernap 1 womp 1
+sudo pmset -c lowpowermode 0 sleep 0 displaysleep 10 powernap 1 womp 1
 # 拔电：回归正常
 sudo pmset -b lowpowermode 1 sleep 10 displaysleep 5 powernap 0
 # 两块都不许盘睡（外置盘保命项）
