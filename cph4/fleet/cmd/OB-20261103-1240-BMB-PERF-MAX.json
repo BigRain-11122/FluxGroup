@@ -1,7 +1,9 @@
 {
  "id": "OB-20261103-1240-BMB-PERF-MAX",
  "type": "perf+tuning",
- "lanes": ["bm-b"],
+ "lanes": [
+  "bm-b"
+ ],
  "issued_at": "2026-11-03T12:40:00",
  "issued_by": "bm-m（CEO 令 2026-11-03「b 把本机的性能释放调到最高」）",
  "objective": "把小钢炮（bm-b）从省电取向调到满性能取向：电源计划拉满、CPU 不掉频、盘与 USB 不休眠、关闭 Windows Power Throttling、NVIDIA 开持久模式。目标是让回测/语料/声音三条 CPU+GPU 活不再被电源策略拖慢。",
@@ -47,5 +49,8 @@
   "脚本只能在 Windows 上跑，我在 macOS 上无法逐步验证，所以每步都写日志并回读电源计划，失败会写 rc=1 而不是假装成功",
   "笔记本若 BIOS/厂商工具限制，PERFBOOSTMODE 与 SYSCOOLPOL 可能被拒——脚本只记 WARN 不中断，最终以电源计划回读判定",
   "满性能会提高功耗与温度；若该机是笔记本且长期满载，需注意散热，必要时回滚到 High performance"
- ]
+ ],
+ "status": "NOT-EXECUTED",
+ "status_reason": "CEO 2026-11-03 12:33 澄清「我说的是我的macbook」——本令是给小钢炮的，CEO 未要求，保留备查但不执行",
+ "note_superseded_by": "主控 MacBook 电源档位正身 = cph4/fleet/hardware/BM-M-POWER-PROFILE-v1.md（插电满性能/拔电回归正常，已实测生效）"
 }
