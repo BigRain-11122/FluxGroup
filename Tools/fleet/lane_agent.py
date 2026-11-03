@@ -436,6 +436,12 @@ def self_dispatch(root, node, allow_gpu_workhours, max_seconds, hub, port, dry, 
             return True
         ms = fl.read_json(os.path.join(root, "cph4", "fleet", "dispatcher", "MASTER-STATE.json"), {}) or {}
         lanes = ms.get("lanes") or {}
+        # 2026-11-03 bm-b 实锚：稀疏控制面克隆没有 dispatcher/MASTER-STATE.json，lanes={}
+        # 曾把"我读不到主控状态"当成"所有钉机都失联"，于是偷跑他机的体检卡
+        # （--node bm-a 在 bm-b 上执行=审计错标机器）。读不到=未知=按钉机还活着处理，
+        # 宁可少接不可错接。
+        if not lanes:
+            return False
         for n in nodes:
             v = lanes.get(n) or {}
             hb = v.get("hb_age_s")
@@ -462,6 +468,11 @@ def self_dispatch(root, node, allow_gpu_workhours, max_seconds, hub, port, dry, 
         if not trust_allows(r):
             return False
         if not fl.card_os_ok(r, node):
+            return False
+        # 2026-11-03：hard_nodes 存在却无人执法（字段只挂在卡上）。机器身份卡
+        # （体检某台机器/读某台机的盘）被回落顶班=错机器执行，比不执行更糟。
+        hard = r.get("hard_nodes") or []
+        if hard and node not in hard:
             return False
         nodes = r.get("nodes") or []
         # 2026-11-02：控制面不接生产活。CEO 立法：这台机第一任务是主控——调度、监督、
