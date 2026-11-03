@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-03T14:27:27",
+ "ts": "2026-11-03T14:27:40",
  "node": "bm-m",
  "os": "macOS-27.2-arm64-arm-64bit",
  "python": "3.9.6",
@@ -64,18 +64,18 @@
   "OLLAMA_KV_CACHE_TYPE": "q8_0"
  },
  "measure": {
-  "model": "qwen3:0.6b",
-  "decode_tok_s": 120.6,
-  "engine": "llamacpp",
+  "model": "qwen3.5:4b-mlx",
+  "decode_tok_s": 32.3,
+  "engine": "mlx",
   "prefix_cache": {
-   "first_wall": 0.21,
-   "second_wall": 0.21,
-   "hit": false
+   "first_wall": 6.57,
+   "second_wall": 0.55,
+   "hit": true
   },
   "concurrency": {
-   "serial_3": 0.77,
-   "parallel_3": 1.01,
-   "speedup": 0.76
+   "serial_3": 1.59,
+   "parallel_3": 1.82,
+   "speedup": 0.87
   }
  },
  "embedding": {
@@ -90,5 +90,5 @@
  },
  "gaps": [],
  "verdict": "PASS",
- "seconds": 4.9
+ "seconds": 15.1
 }
