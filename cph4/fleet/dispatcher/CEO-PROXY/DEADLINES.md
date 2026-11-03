@@ -314,3 +314,19 @@ am_free_gb=10+cpu_load_pct=48——**bm-b 不是闲着，是在跑量化轮**；
 | **R5-5 CLOCK-SKEW 3673ms（承 R4-4）** | **registered·本机提权动作** | bm-b 偏 ~1.4s、bm-c σ≈206ms、hub bm-a 正常；w32time 需提权，非本席可动。 |
 | **R5-6 真阻塞：每角色 6 张 < 准入闸 12 张（P1·本班已修）** | **FIXED（待 bm-c 重出图验证）** | 证据：bm-c 上 char-dataset 01:16 实跑，8 角色各 imgs=6 全部 FAIL，gaps 逐条写「张数 6 < 12（训不出稳定角色）」，故 passed=0/8 与机器无关，是**生产规格与闸值不匹配**。修法：char_plan.py VIEWS 6->12（补 three_quarter_right/profile_right/expression_smile/low_angle/high_angle/mid_shot），不降闸；已补卡 asset-lib-char-prompts-2026-11-04 + asset-lib-char-gen-2026-11-04（--limit 96，钉 bm-c）。 |
 | **R5-7 真供给断点：bm-c/bm-b 的队列执行任务处于 Disabled（P1·本席不可远程修复）** | **BLOCKED·需本机执行** | 证据链：①bm-c 最后一次执行产物 11-04 01:22（git log 无 via bm-c 提交 78 分钟）；②`/status` 的 `last_pull.wakes` 返回 `HQ-ProductionClaim:off-skip`、`Bigmoney-SaturationEngine:off-skip`，即该任务 State=Disabled；bm-b 同类任务返回 `deny`（同名任务不在其白名单则拒）。③`Tools/fleet-poke-worker.ps1` L357-361 明写：Disabled 任务一律 off-skip，**远程 poke 不得启用**（C-20261009-04 CEO 冻结保护）。④对照：同批 poke 里 bm-c 的 `Bigmoney-ResidentDispatcher/Autofill/PoolWorker` 与 7 张 MiniGame*Tick 返回 WAKE（已启动），说明链路本身通，唯独队列认领器被禁用。修法（需在 bm-c/bm-b 本机执行一次）：`schtasks /change /tn "HQ-ProductionClaim" /enable`（bm-b 同）；或本机跑 `powershell -File Tools\fleet-align.ps1 -Node bm-c` 重建执行链。本席无远程启用通道，不越权。 |
+
+## 附录 R6 事件班登记（2026-11-04 02:46-03:0x·承载件触发·DL 00:31/00:41 六旗）
+
+| 件 | 状态 | 证据 / 下一步 |
+|---|---|---|
+| **R6-1 bm-b 车道被僵尸卡死锁 8h+（P1·本班已修）** | **FIXED（数据层）** | 证据：`bigmoney-backtest-2026-11-03-v3` master 侧永远 RUNNING(owner=bm-b)，`assign()` 每轮重写 claimed_at → 租约永不过期；bm-b 侧回 `ALREADY-CLOSED`（本地队列行已终态）；`lane_agent` 见已关闭卡直接 return 空转，而 lane 文件只有 1 张 → 整条 bm-b 车道停摆，26 张 OPEN 卡排队等不到。处置：核验交付物 `quant/bigmoney/results/etf_nobond_vt.json`（runs[].cagr/sharpe/maxdd + OOS 齐）+ 回执 `bigmoney-backtest-2026-11-03-v3-bm-a.json` rc=0 26.1s(11-03 22:55) → 经 `fleet_lane.merge_jsonl` 关为 DONE（带 repair_by 痕迹）。 |
+| **R6-2 lane_agent 断链不回落（P1·本班已修·T1 非受保护件）** | **FIXED（代码层）** | `Tools/fleet/lane_agent.py` already_closed 分支原先 publish IDLE 即 return，不再看自带 backlog。改为先打 LANE-SKIP 再走 `self_dispatch`（与「空指派」同一腿）；实测 py_compile OK + bm-b 干跑打印 LANE-SKIP 后正常回落。根治同类：指派已死但队列有活，不再等于空转。 |
+| **R6-3 assign() 重写 claimed_at 使租约永不过期（P1·受保护面登记）** | **registered·waiting-CEO** | `master_agent.py` 每轮 assign 都把 claimed_at 刷成当前时刻，`supervise()` 的 lease 判据因此永不触发 → 僵尸 RUNNING 只能人工核验。建议一行修：重派保留首次 claimed_at（或写 reassigned_at 另计）。调度正身，本席不改只呈。 |
+| **R6-4 bm-b 克隆 307 ahead / 285 behind（物理件）** | **waiting-CEO（零催办·第 8 次同源）** | /status 实测 repo_heads["."]=fe96d335 ≠ origin f8929f0c；poke accepted 但 pull 不动。修法承 R2.61/R2.63：bm-b 本机 git fetch origin && git reset --hard origin/main + python Tools/fleet/agent.py --node bm-b --loop 60。**不阻断新卡**：新 id 在 bm-b 本地无终态记录时 already_closed 返回 False，可正常执行；只有同 id 本地已关才空转（R6-1 已从主控侧清掉）。 |
+| **R6-5 STARVED-EXEC 三连（承 R4-2/R5-3）** | **假红·已登记不改** | 旗只计 POOL.json（24 卡、唯一 open=POOL-0010 被 CEO 物理件锁死），真供在 PRODUCTION-QUEUE.jsonl（50 OPEN / 3 RUNNING）。本班去重后 OPEN 54→50。 |
+| **R6-6 BLOCKED-RAM bm-c（00:31/00:41 旗）** | **resolved（本班实测）** | /status 02:51 ram_free=3.2G（闸 1.0G）、cpu 91%、GPU 14136MiB 在跑 → 上两轮低内存已随批推进缓解。 |
+| **R6-7 CLOCK-SKEW max 3842ms（承 R4-4/R5-5）** | **registered·数值更新** | 02:44：bm-a +0.1ms(σ0.6)、bm-b +1456.3ms(σ0.8)、bm-c +3842.1ms(σ399.8)。bm-b 自报 clock_offset_ms=152.9(trusted=false) 与 hub 读数不符 → 以 hub 为准；w32time 停转需本机提权。租约 45-180min，4s 级偏差不影响派单，不改闸值。 |
+| **R6-8 重复雷达卡去重（T1）** | **FIXED（本班）** | R-MODEL-RADAR-{BMA,BMB,BMC,BMM}-20261103 四张与 20261104 同日同机双份待跑 → merge_jsonl 置 CANCELLED（superseded），保留 11-04 版。 |
+
+**本班动作**：锁 02:32:44 已过期→接管并 touch；poke bm-b(HQ-ProductionClaim+Bigmoney-IterationLoop)/bm-c(HQ-ProductionClaim) 双双 accepted；主控 tick 停 02:44:28（bm-m 按需主控），HQ-MasterAgent 每 2min 在位，超 900s 自动 masquerade 接续派单。
+**诚实边界**：bm-b 侧生效依赖其克隆同步（R6-4）；R6-1/R6-2 的收益在「新卡可跑」面已成立，在「同 id 已关」面待 bm-b pull。
