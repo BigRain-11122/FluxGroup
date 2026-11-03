@@ -642,6 +642,21 @@ def main() -> int:
 
     stages, alerts, failed = {}, [], []
 
+    # 周期开始就先落一次心跳（2026-11-03 实锚）：心跳原本只在串行段跑完后写，
+    # 而串行段里 master 可以吃到 240s 超时，整段 >420s 时看门狗会在心跳落盘前
+    # 把进程杀掉 → 重启 → 又超时 → 永远跑不完一个周期（PULSE ts 冻在 17:55 两小时）。
+    # 先写一次"这一轮开始了"，看门狗要判的是"多久没开新一轮"，而不是"多久没跑完"。
+    try:
+        _p0 = os.path.join(ROOT, STATE_REL.replace("/", os.sep))
+        _t0 = "%s.%d.start" % (_p0, os.getpid())
+        with open(_t0, "w", encoding="utf-8") as f:
+            json.dump({"ts": now(), "node": NODE, "phase": "cycle-start",
+                       "git": git_note, "stages": {}, "ok": True}, f,
+                      ensure_ascii=False, indent=1)
+        os.replace(_t0, _p0)
+    except Exception:
+        pass
+
     def record(name, rc, sec, tail, ok_rc):
         stages[name] = {"rc": rc, "sec": sec, "tail": tail}
         if rc not in ok_rc:
