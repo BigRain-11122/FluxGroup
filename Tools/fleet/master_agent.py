@@ -493,6 +493,20 @@ def choose_lane(job, fleet, busy):
         if age is None or float(age) > HB_STALE_S:
             stale_ok.append(n)
             continue
+        # 机器准入按"真回执"判（2026-11-03）：心跳在线但近 7 天没回执的机器只接探针卡。
+        # 证据：bm-b 心跳新鲜、近 7 天 3 份回执（24h 2 份），此前照派 20 分钟的重卡，
+        # 结果是活被吃掉再重排——账上 RUNNING，产出为零。
+        try:
+            import lane_trust as _lt
+            tier, _st, why_t = _lt.tier(n)
+        except Exception:
+            tier, why_t = "production", ""
+        if tier in ("silent", "unknown"):
+            stale_ok.append("%s(%s)" % (n, tier))
+            continue
+        if tier == "probe-only" and not job.get("probe"):
+            stale_ok.append("%s(probe-only)" % n)
+            continue
         ok, why = lane_capacity(n, fleet, needs, vram_min, job)
         if not ok:
             continue
