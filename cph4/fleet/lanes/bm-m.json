@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
- "ts": "2026-11-03T11:00:05",
+ "ts": "2026-11-03T11:04:36",
  "jobs": [
   {
-   "id": "bigstream-mv-gate-2026-11-03",
-   "title": "[MV·爱在西元前（v721 终版）] 交付闸（重复/静止/抖动/闪烁）",
-   "cmd": "python Tools/mv_delivery_gate.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721_60fps_1080p.mp4 --card 38.79:40.21 --card 219.71:223.88",
+   "id": "bigstream-duanju-inventory-2026-11-03",
+   "title": "[短剧（配音质检→带声合流→可发集数）] 素材盘点（先找到这台机上的真目录）",
+   "cmd": "python Tools/fleet/drama_inventory.py --out cph4/fleet/queue-receipts/duanju-inventory-2026-11-03.json",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/mv-gate-v721-2026-11-03.json",
+   "deliverable": "cph4/fleet/queue-receipts/duanju-inventory-2026-11-03.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 14.0/1.0 GB"
+ "capacity_note": "ram-unknown"
 }

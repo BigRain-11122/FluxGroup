@@ -1,14 +1,14 @@
 {
  "node": "bm-c",
- "ts": "2026-11-03T10:49:34",
+ "ts": "2026-11-03T11:04:36",
  "jobs": [
   {
-   "id": "C-TTS-QC-ALL",
-   "title": "短剧配音全量质检（逐集时长/静音/体积 → 可发布集数清单）",
-   "cmd": "python Tools/fleet/tts_batch_check.py --dir media/drama-tts-out --out cph4/fleet/queue-receipts/tts-qc-all.json",
+   "id": "OPS-NODE-PROBE-C-20261103",
+   "title": "执行器探针：bm-c 能不能真跑并写回执",
+   "cmd": "python -c \"import sys,os,platform;os.makedirs('cph4/fleet/queue-receipts',exist_ok=True);open('cph4/fleet/queue-receipts/node-probe-bm-c.txt','w',encoding='utf-8').write('\\\\n'.join([sys.version,platform.node(),os.getcwd(),str(os.path.exists('Tools/fleet/drama_inventory.py'))]))\"",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/tts-qc-all.json",
+   "deliverable": "cph4/fleet/queue-receipts/node-probe-bm-c.txt",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 6.9/1.0 GB"
+ "capacity_note": "ram-unknown"
 }

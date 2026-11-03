@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-03T11:02:27",
- "cycle": 32,
+ "ts": "2026-11-03T11:04:36",
+ "cycle": 33,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-03T11:02:27",
+ "master_tick_ts": "2026-11-03T11:04:36",
  "queue": {
   "total": 210,
   "open": 6,
@@ -14,11 +14,11 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 94.4,
+   "hb_age_s": 223.5,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
-   "job": "OPS-NODE-PROBE-C-20261103",
+   "job": "bigstream-mv-gate-2026-11-03",
    "last_result": null,
    "idle_confirmed": false,
    "idle_reason": "",
@@ -26,7 +26,7 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 97.4,
+   "hb_age_s": 226.5,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -38,11 +38,11 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 757.4,
+   "hb_age_s": 886.5,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
-   "job": "C-TTS-QC-ALL",
+   "job": "OPS-NODE-PROBE-C-20261103",
    "last_result": null,
    "idle_confirmed": false,
    "idle_reason": "",
@@ -50,11 +50,11 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 88.4,
+   "hb_age_s": 217.5,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
-   "job": "bigstream-mv-gate-2026-11-03",
+   "job": "bigstream-duanju-inventory-2026-11-03",
    "last_result": null,
    "idle_confirmed": false,
    "idle_reason": "",
@@ -111,8 +111,7 @@
    "blockers": [
     "R-TTS-QC-R2-20261102:no-lane",
     "R-NEXT-BIGSTREAMD-TTS-QC-20261102:no-lane",
-    "bigstream-duanju-tts-qc-2026-11-03:no-lane",
-    "bigstream-duanju-inventory-2026-11-03:no-lane"
+    "bigstream-duanju-tts-qc-2026-11-03:no-lane"
    ],
    "note": null,
    "stuck_stage": "duanju-script",
@@ -770,14 +769,21 @@
   "cpu": 6,
   "gpu": 0
  },
- "supply_added": [
-  "backlog_manifest+3"
+ "supply_added": [],
+ "events": [
+  "OPS-NODE-PROBE-B-20261103 -> bm-b (cpu)",
+  "OPS-NODE-PROBE-C-20261103 -> bm-c (cpu)",
+  "bigstream-mv-gate-2026-11-03 -> bm-a (cpu)",
+  "bigstream-duanju-inventory-2026-11-03 -> bm-m (cpu)"
  ],
- "events": [],
  "violations": [
   "LINE-BLOCKED bigstream-drama ()",
   "STAGE-STALLED bigstream-duanju 卡在 剧本/编剧席 (短剧席)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
- "lane_files_written": []
+ "lane_files_written": [
+  "bm-a",
+  "bm-c",
+  "bm-m"
+ ]
 }
