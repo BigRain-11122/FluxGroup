@@ -341,3 +341,11 @@ am_free_gb=10+cpu_load_pct=48——**bm-b 不是闲着，是在跑量化轮**；
 | **R6-11 mv 交付闸卡契约缺陷（P1·本班已修）** | **FIXED + 重排钉机** | 卡 cmd 未带 `--json`，而声明交付物是 `mv-gate-v721-2026-11-04.json` → 永远无法出现（card_contract_check R1 同型）。首次派单还回落 bm-m（Mac 无 cv2，`ModuleNotFoundError`）。处置：cmd 补 `--json <deliverable>`、`nodes=["bm-a"]`（cv2 5.0.0 在位、片 287MB 在盘）、`timeout_s=2400`（本机实测一次跑不完 5 分钟），重开 OPEN。 |
 | **BURNING 实证（本班收尾）** | **PASS** | 03:10:36 `R-NEXT-BIGSTREAMM-GATE-20261103` 回执；03:11:48 `biggame-pack-scan-2026-11-04` rc=0 产出 `game-packs-2026-11-04.json`；03:11:54 `_last_lane_bm-a` state=RESULT rc=0。清除两张占槽卡后 bm-a 车道即刻恢复产出。 |
 | **bm-b/bm-c 认领器 Disabled（承 R5-7）** | **BLOCKED-REMOTE·waiting-CEO（零催办）** | 02:58 实测 `last_pull.wakes`：bm-b `HQ-ProductionClaim:deny`、bm-c `HQ-ProductionClaim:off-skip`。poke worker L357 明令 Disabled 不得远程启用。修法=各机本机 `schtasks /change /tn HQ-ProductionClaim /enable`（或 `Tools\fleet-align.ps1`），bm-b 另需 `git fetch origin && git reset --hard origin/main`。 |
+
+## 附录 R6 补收（2026-11-04 03:16·可卖产物打通）
+
+| 件 | 状态 | 证据 / 下一步 |
+|---|---|---|
+| **R6-12 quant 信号链断点（P1·本班已修·不跨仓）** | **FIXED + 产物已出** | 证据：`quant_signal.py` 要顶层 positions，而 `etf_nobond_vt.py` 只给 `live_picks` → 唯一可卖产物永久 BLOCKED（03:00 bm-a rc=3「缺持仓字段」）。`quant/bigmoney` 是 BigMoney 独立仓（双公司各自治理·互不写对方仓库）→ **不改对方源码**，改在本仓加桥 `Tools/fleet/quant_positions_bridge.py`：positions = top-5 等权 1/n，**这正是生产脚本自己声明的发布默认**（`etf_robust_pf.open_to_open_equity`：plain top-n 选择 + plain 1/n_hold 权重），非本席新立策略；derivation 字段全程留痕，原回测 JSON 原样不动。产物：`cph4/fleet/queue-receipts/quant-signal-2026-11-03.csv` 5 行（510980/510760/515450/510210/512040 各 0.2，score+class+input_fp），卡 `bigmoney-signal-2026-11-03` 关 DONE。 |
+| **R6-13 复发性根修（工序表）** | **FIXED（T1）** | `cph4/fleet/ri/strategy/lines/bigmoney.json` 的 signal 段 cmd 改为 `bridge && quant_signal` 两步 → 下月卡不再撞同一堵墙。manifest JSON 校验通过。 |
+| **待确认（量化席·非阻断）** | **registered** | 权重口径=生产者发布默认（等权 1/n）。若量化席要改 score 加权，只需改 `etf_robust_pf` 的 weight_hook，桥会自动 passthrough 已有 positions，无需改本仓。 |

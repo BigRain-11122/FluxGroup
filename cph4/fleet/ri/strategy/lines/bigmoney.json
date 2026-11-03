@@ -30,7 +30,7 @@
   {
    "id": "signal",
    "name": "下月持仓信号 CSV（可卖的唯一产物）",
-   "cmd": "python {root_tools}/fleet/quant_signal.py --in quant/bigmoney/results/etf_nobond_vt.json --out cph4/fleet/queue-receipts/quant-signal-{date}.csv",
+   "cmd": "python {root_tools}/fleet/quant_positions_bridge.py --in quant/bigmoney/results/etf_nobond_vt.json --out cph4/fleet/queue-receipts/etf_nobond_vt_with_positions.json && python {root_tools}/fleet/quant_signal.py --in cph4/fleet/queue-receipts/etf_nobond_vt_with_positions.json --out cph4/fleet/queue-receipts/quant-signal-{date}.csv",
    "deliverable": "cph4/fleet/queue-receipts/quant-signal-{date}.csv",
    "accept": "CSV 每行含 代码/权重/因子值/生成时间/输入指纹；空仓也要写（含原因）",
    "needs": "cpu",
