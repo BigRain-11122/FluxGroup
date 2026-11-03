@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-03T22:00:11",
- "cycle": 396,
+ "ts": "2026-11-03T22:04:24",
+ "cycle": 397,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-03T22:00:11",
+ "master_tick_ts": "2026-11-03T22:04:24",
  "queue": {
   "total": 345,
   "open": 14,
@@ -14,16 +14,16 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 57.2,
-   "cpu_load_pct": 68,
-   "ram_free_gb": 28.8,
-   "gpu_util_pct": 90,
-   "job": "asset-lib-voice-assemble-2026-11-03",
+   "hb_age_s": 10.7,
+   "cpu_load_pct": 74,
+   "ram_free_gb": 28.3,
+   "gpu_util_pct": 99,
+   "job": "asset-lib-char-prompts-2026-11-03",
    "last_result": {
-    "job": "bigmoney-signal-2026-11-03",
+    "job": "asset-lib-voice-assemble-2026-11-03",
     "state": "FAILED",
     "rc": 2,
-    "ts": "2026-11-03T21:55:18",
+    "ts": "2026-11-03T22:00:19",
     "reason": null
    },
    "idle_confirmed": false,
@@ -32,8 +32,8 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 17.5,
-   "cpu_load_pct": 25,
+   "hb_age_s": 88.9,
+   "cpu_load_pct": 35,
    "ram_free_gb": 2.9,
    "gpu_util_pct": null,
    "job": null,
@@ -46,20 +46,20 @@
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 14
+   "idle_rounds": 15
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 22.0,
+   "hb_age_s": 78.2,
    "cpu_load_pct": 11,
-   "ram_free_gb": 2.7,
+   "ram_free_gb": 3.4,
    "gpu_util_pct": 0,
    "job": "asset-lib-char-gen-2026-11-03",
    "last_result": {
     "job": "asset-lib-face-caption-2026-11-03",
     "state": "FAILED",
     "rc": null,
-    "ts": "2026-11-03T21:58:55",
+    "ts": "2026-11-03T22:00:12",
     "reason": null
    },
    "idle_confirmed": false,
@@ -69,15 +69,15 @@
   "bm-m": {
    "online": true,
    "hb_age_s": 0.7,
-   "cpu_load_pct": 18,
+   "cpu_load_pct": 12,
    "ram_free_gb": 13.6,
    "gpu_util_pct": null,
-   "job": "biggame-playable-2026-11-03",
+   "job": "bigmoney-signal-2026-11-03",
    "last_result": {
-    "job": "asset-lib-char-prompts-2026-11-03",
+    "job": "biggame-playable-2026-11-03",
     "state": "FAILED",
     "rc": 0,
-    "ts": "2026-11-03T21:58:02",
+    "ts": "2026-11-03T22:00:16",
     "reason": null
    },
    "idle_confirmed": false,
@@ -87,7 +87,7 @@
  },
  "idle_rounds": {
   "bm-a": 0,
-  "bm-b": 14,
+  "bm-b": 15,
   "bm-c": 0,
   "bm-m": 0
  },
@@ -151,14 +151,12 @@
   "biggame": {
    "name": "Biggame·游戏",
    "status": "ACTIVE",
-   "verdict": "WORKING",
+   "verdict": "WAITING",
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "游戏席",
-   "jobs": [
-    "biggame-playable-2026-11-03"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": null
   },
@@ -182,6 +180,7 @@
    "stale_after_h": 24.0,
    "owner": "量化席",
    "jobs": [
+    "bigmoney-signal-2026-11-03",
     "bigmoney-backtest-2026-11-03-v3"
    ],
    "no_supply": false,
@@ -297,7 +296,7 @@
    "owner": "资产席",
    "jobs": [
     "asset-lib-voice-corpus-bmb-2026-11-03",
-    "asset-lib-voice-assemble-2026-11-03",
+    "asset-lib-char-prompts-2026-11-03",
     "asset-lib-char-gen-2026-11-03"
    ],
    "no_supply": false,
@@ -842,22 +841,22 @@
   "gpu": 0
  },
  "supply_added": [
-  "backlog_manifest+1"
+  "backlog_manifest+3"
  ],
  "events": [
-  "bigmoney-signal-2026-11-03 FAILED via bm-a",
+  "asset-lib-voice-assemble-2026-11-03 FAILED via bm-a",
   "asset-lib-face-caption-2026-11-03 FAILED via bm-c",
-  "asset-lib-char-prompts-2026-11-03 FAILED via bm-m",
-  "asset-lib-char-gen-2026-11-03 -> bm-c (gpu)",
-  "biggame-playable-2026-11-03 -> bm-m (cpu)"
+  "biggame-playable-2026-11-03 FAILED via bm-m",
+  "asset-lib-char-prompts-2026-11-03 -> bm-a (cpu)",
+  "bigmoney-signal-2026-11-03 -> bm-m (cpu)"
  ],
  "violations": [
-  "bm-b IDLE-CONFIRMED x14 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-b IDLE-CONFIRMED x15 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-c",
+  "bm-a",
   "bm-m"
  ]
 }
