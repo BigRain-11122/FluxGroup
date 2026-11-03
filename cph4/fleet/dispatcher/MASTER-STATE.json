@@ -1,29 +1,29 @@
 {
- "ts": "2026-11-03T14:28:05",
- "cycle": 210,
+ "ts": "2026-11-03T14:29:18",
+ "cycle": 211,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-03T14:28:05",
+ "master_tick_ts": "2026-11-03T14:29:18",
  "queue": {
-  "total": 275,
-  "open": 6,
+  "total": 279,
+  "open": 10,
   "running": 4,
   "done": 129,
-  "failed": 7
+  "failed": 6
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 51.2,
-   "cpu_load_pct": 75,
-   "ram_free_gb": 25.9,
+   "hb_age_s": 4.0,
+   "cpu_load_pct": 71,
+   "ram_free_gb": 26.9,
    "gpu_util_pct": 100,
    "job": "bigstream-mv-gate-2026-11-03",
    "last_result": {
     "job": "bigstream-mv-gate-2026-11-03",
     "state": "BUSY",
     "rc": null,
-    "ts": "2026-11-03T14:27:26",
+    "ts": "2026-11-03T14:28:56",
     "reason": null
    },
    "idle_confirmed": false,
@@ -32,10 +32,10 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 548.5,
-   "cpu_load_pct": 36,
-   "ram_free_gb": 1.4,
-   "gpu_util_pct": 100,
+   "hb_age_s": 92.3,
+   "cpu_load_pct": null,
+   "ram_free_gb": null,
+   "gpu_util_pct": null,
    "job": "asset-lib-voice-corpus-bmb-2026-11-03",
    "last_result": null,
    "idle_confirmed": false,
@@ -44,16 +44,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 73.1,
-   "cpu_load_pct": 7,
-   "ram_free_gb": 6.1,
+   "hb_age_s": 49.9,
+   "cpu_load_pct": 6,
+   "ram_free_gb": 6.2,
    "gpu_util_pct": 0,
-   "job": "asset-lib-face-dataset-2026-11-03",
+   "job": "asset-lib-voice-corpus-bmm-2026-11-03",
    "last_result": {
-    "job": "asset-lib-voice-corpus-bmm-2026-11-03",
+    "job": "asset-lib-face-dataset-2026-11-03",
     "state": "FAILED",
     "rc": 2,
-    "ts": "2026-11-03T14:27:15",
+    "ts": "2026-11-03T14:28:55",
     "reason": null
    },
    "idle_confirmed": false,
@@ -63,15 +63,15 @@
   "bm-m": {
    "online": true,
    "hb_age_s": 0.6,
-   "cpu_load_pct": 34,
-   "ram_free_gb": 17.8,
+   "cpu_load_pct": 35,
+   "ram_free_gb": 13.7,
    "gpu_util_pct": null,
    "job": "asset-lib-voice-corpus-bmc-2026-11-03",
    "last_result": {
-    "job": "CANARY-20261103T142758",
+    "job": "CANARY-20261103T142843",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-03T14:27:59",
+    "ts": "2026-11-03T14:28:44",
     "reason": null
    },
    "idle_confirmed": false,
@@ -257,13 +257,21 @@
   "fleet-ops": {
    "name": "机队运维·端到端自检（平台服务线）",
    "status": "ACTIVE",
-   "verdict": "WAITING",
+   "verdict": "WORKING",
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
-   "jobs": [],
-   "no_supply": true,
-   "blockers": [],
+   "jobs": [
+    "C-INFRA-AUDIT-BM-A-20261103",
+    "C-INFRA-AUDIT-BM-B-20261103",
+    "C-INFRA-AUDIT-BM-C-20261103"
+   ],
+   "no_supply": false,
+   "blockers": [
+    "C-INFRA-AUDIT-BM-A-20261103:no-lane",
+    "C-INFRA-AUDIT-BM-B-20261103:no-lane",
+    "C-INFRA-AUDIT-BM-C-20261103:no-lane"
+   ],
    "note": null
   },
   "asset-lib": {
@@ -274,14 +282,16 @@
    "stale_after_h": 72.0,
    "owner": "资产席",
    "jobs": [
-    "asset-lib-face-dataset-2026-11-03",
     "asset-lib-voice-dataset-2026-11-03",
+    "asset-lib-voice-corpus-bma-2026-11-03",
     "asset-lib-voice-corpus-bmb-2026-11-03",
-    "asset-lib-voice-corpus-bmc-2026-11-03"
+    "asset-lib-voice-corpus-bmc-2026-11-03",
+    "asset-lib-voice-corpus-bmm-2026-11-03"
    ],
    "no_supply": false,
    "blockers": [
-    "asset-lib-voice-dataset-2026-11-03:no-lane"
+    "asset-lib-voice-dataset-2026-11-03:no-lane",
+    "asset-lib-voice-corpus-bma-2026-11-03:no-lane"
    ],
    "note": "CEO 2026-11-03 令：先不做短剧和漫剧，先储备资产（烧角色 LoRA 与音色库）"
   }
@@ -799,7 +809,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 6,
+  "local": 10,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -807,16 +817,18 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 6,
+  "cpu": 10,
   "gpu": 0
  },
  "supply_added": [],
  "events": [
-  "asset-lib-face-dataset-2026-11-03 -> bm-c (cpu)",
-  "asset-lib-voice-corpus-bmb-2026-11-03 -> bm-b (cpu)"
+  "asset-lib-face-dataset-2026-11-03 FAILED via bm-c",
+  "asset-lib-voice-corpus-bmm-2026-11-03 -> bm-c (cpu)"
  ],
  "violations": [
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
- "lane_files_written": []
+ "lane_files_written": [
+  "bm-c"
+ ]
 }
