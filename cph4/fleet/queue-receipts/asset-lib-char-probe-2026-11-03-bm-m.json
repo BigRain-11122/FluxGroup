@@ -3,7 +3,7 @@
  "node": "bm-m",
  "rc": 3,
  "seconds": 0.1,
- "cmd": "python3 Tools/fleet/char_gen.py --node bm-c --probe-only",
+ "cmd": "python Tools/fleet/char_gen.py --node bm-c --probe-only",
  "ok_rc": [
   0
  ],
@@ -11,7 +11,7 @@
  "error_class": "E-BLOCKED-INPUT",
  "deliverable": "cph4/fleet/asset-lib-v1/comfy-bm-c.json",
  "deliverable_exists": false,
- "ts": "2026-11-03T17:50:39",
+ "ts": "2026-11-03T20:01:02",
  "stdout_tail": "[char_gen] BLOCKED: ComfyUI 不可达或 /object_info 失败：http://127.0.0.1:8188\n   - 在 bm-c 上启动 ComfyUI 并确认 8188 可连（<urlopen error [Errno 61] Connection refused>）\n",
  "stderr_tail": ""
 }
