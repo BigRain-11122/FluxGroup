@@ -1,104 +1,64 @@
 {
- "ts": "2026-11-04T01:16:42+0800",
+ "ts": "2026-11-04T01:25:12+0800",
  "rc": 3,
  "verdict": "BLOCKED",
  "error_class": "E-BLOCKED-INPUT",
  "characters": [
   {
    "character": "CH01",
-   "images": 6,
-   "verdict": "FAIL",
-   "audit": {
-    "rc": 1,
-    "verdict": "FAIL",
-    "gaps": [
-     "张数 6 < 12（训不出稳定角色）"
-    ]
-   }
+   "images": 0,
+   "verdict": "SKIP",
+   "audit": null,
+   "gap": "图不足 6 张（现有 0）"
   },
   {
    "character": "CH02",
-   "images": 6,
-   "verdict": "FAIL",
-   "audit": {
-    "rc": 1,
-    "verdict": "FAIL",
-    "gaps": [
-     "张数 6 < 12（训不出稳定角色）"
-    ]
-   }
+   "images": 0,
+   "verdict": "SKIP",
+   "audit": null,
+   "gap": "图不足 6 张（现有 0）"
   },
   {
    "character": "CH03",
-   "images": 6,
-   "verdict": "FAIL",
-   "audit": {
-    "rc": 1,
-    "verdict": "FAIL",
-    "gaps": [
-     "张数 6 < 12（训不出稳定角色）"
-    ]
-   }
+   "images": 0,
+   "verdict": "SKIP",
+   "audit": null,
+   "gap": "图不足 6 张（现有 0）"
   },
   {
    "character": "CH04",
-   "images": 6,
-   "verdict": "FAIL",
-   "audit": {
-    "rc": 1,
-    "verdict": "FAIL",
-    "gaps": [
-     "张数 6 < 12（训不出稳定角色）"
-    ]
-   }
+   "images": 0,
+   "verdict": "SKIP",
+   "audit": null,
+   "gap": "图不足 6 张（现有 0）"
   },
   {
    "character": "CH05",
-   "images": 6,
-   "verdict": "FAIL",
-   "audit": {
-    "rc": 1,
-    "verdict": "FAIL",
-    "gaps": [
-     "张数 6 < 12（训不出稳定角色）"
-    ]
-   }
+   "images": 0,
+   "verdict": "SKIP",
+   "audit": null,
+   "gap": "图不足 6 张（现有 0）"
   },
   {
    "character": "CH06",
-   "images": 6,
-   "verdict": "FAIL",
-   "audit": {
-    "rc": 1,
-    "verdict": "FAIL",
-    "gaps": [
-     "张数 6 < 12（训不出稳定角色）"
-    ]
-   }
+   "images": 0,
+   "verdict": "SKIP",
+   "audit": null,
+   "gap": "图不足 6 张（现有 0）"
   },
   {
    "character": "CH07",
-   "images": 6,
-   "verdict": "FAIL",
-   "audit": {
-    "rc": 1,
-    "verdict": "FAIL",
-    "gaps": [
-     "张数 6 < 12（训不出稳定角色）"
-    ]
-   }
+   "images": 0,
+   "verdict": "SKIP",
+   "audit": null,
+   "gap": "图不足 6 张（现有 0）"
   },
   {
    "character": "CH08",
-   "images": 6,
-   "verdict": "FAIL",
-   "audit": {
-    "rc": 1,
-    "verdict": "FAIL",
-    "gaps": [
-     "张数 6 < 12（训不出稳定角色）"
-    ]
-   }
+   "images": 0,
+   "verdict": "SKIP",
+   "audit": null,
+   "gap": "图不足 6 张（现有 0）"
   }
  ],
  "passed": 0,
