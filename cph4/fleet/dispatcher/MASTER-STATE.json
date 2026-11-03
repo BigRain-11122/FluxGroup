@@ -1,11 +1,11 @@
 {
- "ts": "2026-11-03T14:29:18",
- "cycle": 211,
+ "ts": "2026-11-03T14:30:04",
+ "cycle": 212,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-03T14:29:18",
+ "master_tick_ts": "2026-11-03T14:30:04",
  "queue": {
-  "total": 279,
+  "total": 280,
   "open": 10,
   "running": 4,
   "done": 129,
@@ -14,7 +14,7 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 4.0,
+   "hb_age_s": 50.5,
    "cpu_load_pct": 71,
    "ram_free_gb": 26.9,
    "gpu_util_pct": 100,
@@ -23,7 +23,7 @@
     "job": "bigstream-mv-gate-2026-11-03",
     "state": "BUSY",
     "rc": null,
-    "ts": "2026-11-03T14:28:56",
+    "ts": "2026-11-03T14:29:41",
     "reason": null
    },
    "idle_confirmed": false,
@@ -32,7 +32,7 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 92.3,
+   "hb_age_s": 138.3,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -44,7 +44,7 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 49.9,
+   "hb_age_s": 96.3,
    "cpu_load_pct": 6,
    "ram_free_gb": 6.2,
    "gpu_util_pct": 0,
@@ -63,15 +63,15 @@
   "bm-m": {
    "online": true,
    "hb_age_s": 0.6,
-   "cpu_load_pct": 35,
+   "cpu_load_pct": 30,
    "ram_free_gb": 13.7,
    "gpu_util_pct": null,
    "job": "asset-lib-voice-corpus-bmc-2026-11-03",
    "last_result": {
-    "job": "CANARY-20261103T142843",
+    "job": "CANARY-20261103T143001",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-03T14:28:44",
+    "ts": "2026-11-03T14:30:02",
     "reason": null
    },
    "idle_confirmed": false,
@@ -821,14 +821,9 @@
   "gpu": 0
  },
  "supply_added": [],
- "events": [
-  "asset-lib-face-dataset-2026-11-03 FAILED via bm-c",
-  "asset-lib-voice-corpus-bmm-2026-11-03 -> bm-c (cpu)"
- ],
+ "events": [],
  "violations": [
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
- "lane_files_written": [
-  "bm-c"
- ]
+ "lane_files_written": []
 }
