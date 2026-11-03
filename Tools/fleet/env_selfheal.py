@@ -37,6 +37,10 @@ EXTRA_PATH = [
     os.path.expandvars(r"%LOCALAPPDATA%\Microsoft\WinGet\Links"),
     os.path.expandvars(r"%ProgramFiles%\ffmpeg\bin"),
 ]
+if os.name != "nt":
+    # 2026-11-03 实锚：Mac 上的 ffmpeg 装在 ~/bin，而 launchd 启动的 lane 只带系统 PATH，
+    # 于是"四机分片"的音色卡全在 bm-m 上报「没有 ffmpeg」被记成失败——工具在盘，PATH 里没有。
+    EXTRA_PATH += [os.path.expanduser("~/bin"), "/usr/local/bin", "/opt/homebrew/bin"]
 
 
 def platform():

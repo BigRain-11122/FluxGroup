@@ -47,6 +47,15 @@ def ff(name="ffmpeg"):
             return c
         if shutil.which(c):
             return c
+    # PATH 里没有就问 env_selfheal 的已知安装位（它会把目录补进 PATH）。
+    # 2026-11-03 实锚：Mac 的 ffmpeg 在 ~/bin，lane 由 launchd 启动时 PATH 不含它，
+    # 三张分片卡因此报「没有 ffmpeg」——工具明明在盘上。
+    try:
+        import env_selfheal
+        if env_selfheal.have(name):
+            return name
+    except Exception:
+        pass
     return None
 
 
