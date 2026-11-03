@@ -1,11 +1,11 @@
 {
- "ts": "2026-11-03T14:24:41",
- "cycle": 205,
+ "ts": "2026-11-03T14:25:06",
+ "cycle": 206,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-03T14:24:41",
+ "master_tick_ts": "2026-11-03T14:25:06",
  "queue": {
-  "total": 266,
+  "total": 268,
   "open": 4,
   "running": 4,
   "done": 128,
@@ -14,7 +14,7 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 26.7,
+   "hb_age_s": 51.9,
    "cpu_load_pct": 71,
    "ram_free_gb": 21.5,
    "gpu_util_pct": 100,
@@ -32,7 +32,7 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 344.5,
+   "hb_age_s": 369.8,
    "cpu_load_pct": 36,
    "ram_free_gb": 1.4,
    "gpu_util_pct": 100,
@@ -50,7 +50,7 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 75.6,
+   "hb_age_s": 100.8,
    "cpu_load_pct": 6,
    "ram_free_gb": 6.2,
    "gpu_util_pct": 0,
@@ -70,14 +70,14 @@
    "online": true,
    "hb_age_s": 0.6,
    "cpu_load_pct": 40,
-   "ram_free_gb": 15.1,
+   "ram_free_gb": 15.4,
    "gpu_util_pct": null,
    "job": "asset-lib-env-check-2026-11-03",
    "last_result": {
-    "job": "CANARY-20261103T142438",
+    "job": "CANARY-20261103T142459",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-03T14:24:38",
+    "ts": "2026-11-03T14:25:00",
     "reason": null
    },
    "idle_confirmed": false,
@@ -817,13 +817,10 @@
  "supply_added": [],
  "events": [
   "biggame-playable-2026-11-03 FAILED via bm-a",
-  "asset-lib-voice-dataset-2026-11-03 FAILED via bm-c",
-  "asset-lib-voice-corpus-bma-2026-11-03 -> bm-c (cpu)"
+  "asset-lib-voice-dataset-2026-11-03 FAILED via bm-c"
  ],
  "violations": [
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
- "lane_files_written": [
-  "bm-c"
- ]
+ "lane_files_written": []
 }
