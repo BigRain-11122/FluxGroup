@@ -1,14 +1,14 @@
 {
  "node": "bm-b",
- "ts": "2026-11-03T11:00:05",
+ "ts": "2026-11-03T11:12:30",
  "jobs": [
   {
-   "id": "OPS-NODE-PROBE-B-20261103",
-   "title": "执行器探针：bm-b 能不能真跑并写回执",
-   "cmd": "python -c \"import sys,os,platform;os.makedirs('cph4/fleet/queue-receipts',exist_ok=True);open('cph4/fleet/queue-receipts/node-probe-bm-b.txt','w',encoding='utf-8').write('\\\\n'.join([sys.version,platform.node(),os.getcwd(),str(os.path.exists('Tools/fleet/drama_inventory.py'))]))\"",
+   "id": "bigmoney-backtest-2026-11-03",
+   "title": "[金融量化（回测 → 一页结论 → 可报价或写清卡点）] ETF 复合因子回测（年化/夏普/回撤）",
+   "cmd": "python quant/bigmoney/scripts/etf_composite_pf.py",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/node-probe-bm-b.txt",
+   "deliverable": "quant/bigmoney/results/etf_composite_pf.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 3.0/1.0 GB"
+ "capacity_note": "ram 4.0/1.0 GB"
 }
