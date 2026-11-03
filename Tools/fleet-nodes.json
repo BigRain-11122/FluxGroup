@@ -124,10 +124,10 @@
     {
       "id": "bm-m",
       "lane": "master-control",
-      "host": "PENDING-MAC",
-      "tailnet_ip": "PENDING-TAILNET",
+      "host": "junshengsundemacbook-pro.local",
+      "tailnet_ip": "100.75.133.10",
       "enabled": false,
-      "root": "/Users/<user>/FluxGroup",
+      "root": "/Users/junsheng.sun/FluxGroup",
       "repos": [
         "."
       ],
@@ -136,7 +136,7 @@
       ],
       "wake_tasks": [],
       "status_files": [],
-      "note": "2026-10-27 CEO: M1 Pro 16 (32G/512G) joins as group master control + iOS build. macOS cannot run the Windows PowerShell/S4U/scheduled-task plane; master duties = git + NATS + Python (order bus, dispatcher, dashboards, iOS builds). FleetLink listener is Windows-only; the Mac joins the state plane via NATS. Enable after onboarding; keep awake (launchd/caffeinate) because a sleeping master cannot dispatch. Compute brain = bm-d (V100x3, assembly in progress)."
+      "note": "2026-10-27 CEO: M1 Pro 16 (32G/512G) joins as group master control (UPDATED 2026-11-04 bm-b: master since 2026-10-29 per MASTER-NODE.json; host/tailnet/root filled with measured facts; enabled stays false BY DESIGN - FleetLink poke is Windows-only, the Mac joins via NATS + its own git pulse; notify bm-m via WORK-RULES/orders.md/queue, not poke) ORIGINAL: M1 Pro 16 joins + iOS build. macOS cannot run the Windows PowerShell/S4U/scheduled-task plane; master duties = git + NATS + Python (order bus, dispatcher, dashboards, iOS builds). FleetLink listener is Windows-only; the Mac joins the state plane via NATS. Enable after onboarding; keep awake (launchd/caffeinate) because a sleeping master cannot dispatch. Compute brain = bm-d (V100x3, assembly in progress)."
     },
     {
       "id": "bm-d",
