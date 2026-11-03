@@ -1,0 +1,12 @@
+{
+ "ts": "2026-11-03T11:57:29",
+ "input": "media/drama-out/drama-2026-11-03.mp4",
+ "spec": "DRAMA-QUALITY-SPEC-v2",
+ "verdict": "BLOCKED",
+ "status": "BLOCKED",
+ "gaps": [
+  "成片不存在：media/drama-out/drama-2026-11-03.mp4（上游装配未产出）"
+ ],
+ "measured": {},
+ "tool": "drama_quality_gate"
+}

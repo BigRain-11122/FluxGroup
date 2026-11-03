@@ -1,22 +1,22 @@
 {
- "ts": "2026-11-03T11:57:06",
- "cycle": 79,
+ "ts": "2026-11-03T11:57:29",
+ "cycle": 80,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-03T11:57:06",
+ "master_tick_ts": "2026-11-03T11:57:29",
  "queue": {
   "total": 226,
-  "open": 2,
+  "open": 1,
   "running": 4,
   "done": 118,
-  "failed": 5
+  "failed": 6
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 53.6,
-   "cpu_load_pct": 39,
-   "ram_free_gb": 47.8,
+   "hb_age_s": 16.6,
+   "cpu_load_pct": 35,
+   "ram_free_gb": 48.9,
    "gpu_util_pct": 100,
    "job": "bigstream-mv-gate-2026-11-03",
    "last_result": {
@@ -32,7 +32,7 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 10.0,
+   "hb_age_s": 32.9,
    "cpu_load_pct": 6,
    "ram_free_gb": 5.1,
    "gpu_util_pct": null,
@@ -50,17 +50,17 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 71.8,
+   "hb_age_s": 17.9,
    "cpu_load_pct": 11,
-   "ram_free_gb": 6.1,
+   "ram_free_gb": 5.7,
    "gpu_util_pct": 0,
    "job": "bigstream-duanju-remux-2026-11-03",
    "last_result": {
-    "job": null,
-    "state": "IDLE",
+    "job": "bigstream-duanju-remux-2026-11-03",
+    "state": "RUNNING",
     "rc": null,
-    "ts": "2026-11-03T11:56:00",
-    "reason": "ALREADY-CLOSED R-TTS-QC-R2-20261102"
+    "ts": "2026-11-03T11:57:16",
+    "reason": null
    },
    "idle_confirmed": false,
    "idle_reason": "",
@@ -68,16 +68,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.4,
-   "cpu_load_pct": 52,
-   "ram_free_gb": 12.3,
+   "hb_age_s": 0.5,
+   "cpu_load_pct": 47,
+   "ram_free_gb": 12.5,
    "gpu_util_pct": null,
-   "job": "biggame-playable-2026-11-03",
+   "job": "bigstream-drama-gate-2026-11-03",
    "last_result": {
-    "job": "bigstream-drama-assemble-2026-11-03",
+    "job": "biggame-playable-2026-11-03",
     "state": "FAILED",
-    "rc": 3,
-    "ts": "2026-11-03T11:56:34",
+    "rc": 0,
+    "ts": "2026-11-03T11:57:10",
     "reason": null
    },
    "idle_confirmed": false,
@@ -117,9 +117,7 @@
     "bigstream-drama-gate-2026-11-03"
    ],
    "no_supply": false,
-   "blockers": [
-    "bigstream-drama-gate-2026-11-03:no-lane"
-   ],
+   "blockers": [],
    "note": null
   },
   "bigstream-duanju": {
@@ -156,14 +154,12 @@
   "biggame": {
    "name": "Biggame·游戏",
    "status": "ACTIVE",
-   "verdict": "WORKING",
+   "verdict": "WAITING",
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "游戏席",
-   "jobs": [
-    "biggame-playable-2026-11-03"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": null
   },
@@ -765,7 +761,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 2,
+  "local": 1,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -773,15 +769,13 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 2,
+  "cpu": 1,
   "gpu": 0
  },
  "supply_added": [],
  "events": [
-  "C-TTS-QC-ALL FAILED via bm-a",
-  "bigmoney-backtest-2026-11-03 -> bm-b (cpu)",
-  "bigstream-duanju-remux-2026-11-03 -> bm-c (cpu)",
-  "biggame-playable-2026-11-03 -> bm-m (cpu)"
+  "biggame-playable-2026-11-03 FAILED via bm-m",
+  "bigstream-drama-gate-2026-11-03 -> bm-m (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-duanju 卡在 剧本/编剧席 (短剧席)",
