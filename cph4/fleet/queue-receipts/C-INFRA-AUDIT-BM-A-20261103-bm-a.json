@@ -2,7 +2,7 @@
  "id": "C-INFRA-AUDIT-BM-A-20261103",
  "node": "bm-a",
  "rc": 2,
- "seconds": 4.5,
+ "seconds": 15.1,
  "cmd": "python Tools/fleet/local_inference_audit.py --node bm-a --out cph4/fleet/queue-receipts/inference-audit-bm-a.json",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": "E-CONTRACT",
  "deliverable": "cph4/fleet/queue-receipts/inference-audit-bm-a.json",
  "deliverable_exists": true,
- "ts": "2026-11-04T02:30:09",
- "stdout_tail": "{\n \"node\": \"bm-a\",\n \"model\": \"qwen3:4b-instruct\",\n \"verdict\": \"GAPS\",\n \"gaps\": [\n  \"env-value:OLLAMA_NUM_PARALLEL=2(应为 1)\",\n  \"env-value:OLLAMA_KEEP_ALIVE=5m(应为 15m)\",\n  \"env-value:OLLAMA_CONTEXT_LENGTH=16384(应为 8192)\",\n  \"embedding-unusable:None\"\n ],\n \"decode_tok_s\": 157.8,\n \"engine\": \"llamacpp\",\n \"out\": \"cph4\\\\fleet\\\\queue-receipts\\\\inference-audit-bm-a.json\"\n}\n",
+ "ts": "2026-11-04T02:34:44",
+ "stdout_tail": "{\n \"node\": \"bm-a\",\n \"model\": \"qwen3:4b-instruct\",\n \"verdict\": \"GAPS\",\n \"gaps\": [\n  \"env-value:OLLAMA_NUM_PARALLEL=2(应为 1)\",\n  \"env-value:OLLAMA_KEEP_ALIVE=5m(应为 15m)\",\n  \"env-value:OLLAMA_CONTEXT_LENGTH=16384(应为 8192)\",\n  \"embedding-unusable:None\"\n ],\n \"decode_tok_s\": 156.7,\n \"engine\": \"llamacpp\",\n \"out\": \"cph4\\\\fleet\\\\queue-receipts\\\\inference-audit-bm-a.json\"\n}\n",
  "stderr_tail": ""
 }
