@@ -37,6 +37,29 @@ def http_json(url, payload=None, timeout=30):
     return json.loads(body) if body.strip().startswith(("{", "[")) else body
 
 
+def fetch_image(server, hist, pid, target):
+    """把 ComfyUI 输出目录里的成品取回本地。之前只记 prompt_id 不落盘，
+    卡上要的 <ID>/<view>.png 实际并不存在。"""
+    import urllib.parse
+    node_out = (hist.get(pid) or {}).get("outputs") or {}
+    for v in node_out.values():
+        for im in v.get("images") or []:
+            q = urllib.parse.urlencode({"filename": im.get("filename", ""),
+                                        "subfolder": im.get("subfolder", ""),
+                                        "type": im.get("type", "output")})
+            try:
+                with urllib.request.urlopen(server + "/view?" + q, timeout=120) as resp:
+                    data = resp.read()
+            except Exception:
+                continue
+            if len(data) > 1024:
+                os.makedirs(os.path.dirname(target), exist_ok=True)
+                with open(target, "wb") as f:
+                    f.write(data)
+                return True
+    return False
+
+
 def graph(pos, neg, seed, m, w, h):
     return {
         "10": {"class_type": "UNETLoader", "inputs": {"unet_name": m["unet"], "weight_dtype": "default"}},
@@ -211,7 +234,10 @@ def main(argv):
                     h = http_json(a.server + "/history/" + str(pid), timeout=15)
                     if h and pid in h:
                         break
-                made.append({"character": cid, "view": view, "prompt_id": pid})
+                saved = fetch_image(a.server, h, pid, fp)
+                made.append({"character": cid, "view": view, "prompt_id": pid,
+                             "file": os.path.relpath(fp, ROOT) if saved else "",
+                             "saved": saved})
                 budget -= 1
             except Exception as e:
                 failed.append({"character": cid, "view": view, "error": str(e)[:160]})

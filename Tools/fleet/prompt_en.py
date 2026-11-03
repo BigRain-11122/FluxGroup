@@ -46,6 +46,61 @@ INSTR_ISO = (
 ISO_CLASSES = ("props", "characters")
 
 
+CHARS = os.path.join(ROOT, "cph4", "fleet", "asset-lib-v1", "CHARACTERS-V1.json")
+CHARS_EN = os.path.join(ROOT, "cph4", "fleet", "asset-lib-v1", "CHARACTERS-EN-v1.json")
+FEELDS = ("region", "role", "build", "face", "skin", "hair", "outfit", "flaw", "avoids")
+FIELD_INSTR = (
+    "Translate this Chinese character-design note into concise English, for a Stable Diffusion "
+    "portrait prompt. Output ONLY the English text, no quotes, no explanation, no Chinese.\n"
+    "field: %(field)s\ncontent: %(text)s"
+)
+
+
+def _ask_raw(tpl, **kw):
+    body = {"model": MODEL, "prompt": tpl % kw, "stream": False, "think": False,
+            "options": {"temperature": 0.2, "num_predict": 220}}
+    req = urllib.request.Request(OLLAMA + "/api/generate",
+                                 data=json.dumps(body).encode(),
+                                 headers={"Content-Type": "application/json"})
+    r = json.load(urllib.request.urlopen(req, timeout=180))
+    return " ".join((r.get("response") or "").split())
+
+
+def translate_chars(force=False):
+    """角色库的 build/face/skin/hair/outfit 都是中文，SDXL 读不懂，逐个字段翻成英文。"""
+    src = json.load(open(CHARS, encoding="utf-8"))
+    cache = {}
+    if os.path.exists(CHARS_EN) and not force:
+        try:
+            cache = json.load(open(CHARS_EN, encoding="utf-8"))
+        except Exception:
+            cache = {}
+    out = cache.setdefault("characters", {})
+    for c in src.get("characters") or []:
+        cid = c.get("id")
+        if cid in out and not force:
+            continue
+        en = {}
+        for f in FEELDS:
+            val = c.get(f)
+            if not val:
+                continue
+            if isinstance(val, list):
+                val = ", ".join(str(x) for x in val)
+            try:
+                en[f] = _ask_raw(FIELD_INSTR, field=f, text=val)
+            except Exception as e:
+                print("[prompt_en] %s.%s FAILED %s" % (cid, f, str(e)[:60]))
+        out[cid] = en
+        print("[prompt_en] %s -> %s" % (cid, en.get("role", "")[:60]))
+    cache["note"] = "CHARACTERS-V1.json 的中文设计字段的英文版；char_plan.py 优先用它组提示词。"
+    cache["generated_at"] = time.strftime("%Y-%m-%dT%H:%M:%S")
+    json.dump(cache, open(CHARS_EN, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+    print("[prompt_en] chars %d/%d -> %s" % (len(out), len(src.get("characters") or []),
+                                             os.path.relpath(CHARS_EN, ROOT)))
+    return 0
+
+
 def ask(item):
     alpha = item.get("alpha") is True or str(item.get("alpha")).lower() == "true"
     tpl = INSTR_ISO if (alpha and item.get("cls") in ISO_CLASSES) else INSTR
@@ -67,7 +122,11 @@ def main(argv):
     ap.add_argument("--force", action="store_true")
     ap.add_argument("--only", default="")
     ap.add_argument("--cls", default="", help="只重翻某一类, 如 props")
+    ap.add_argument("--chars", action="store_true", help="翻译角色设计字段")
     a = ap.parse_args(argv)
+
+    if a.chars:
+        return translate_chars(a.force)
 
     spec = json.load(open(SPEC, encoding="utf-8"))
     items = spec.get("items") or {}

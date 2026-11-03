@@ -63,6 +63,15 @@ def main(argv):
     ap.add_argument("--only", default="")
     a = ap.parse_args(argv)
     spec = json.load(open(SPEC, encoding="utf-8"))
+    # CHARACTERS-V1.json 的设计字段是中文，SDXL 读不懂会出成通用脸；有英译就覆盖过去。
+    en_path = os.path.join(os.path.dirname(SPEC), "CHARACTERS-EN-v1.json")
+    if os.path.exists(en_path):
+        try:
+            en = json.load(open(en_path, encoding="utf-8")).get("characters") or {}
+        except Exception:
+            en = {}
+        for c in spec["characters"]:
+            c.update({k: v for k, v in (en.get(c["id"]) or {}).items() if v})
     made, summary = [], []
     for c in spec["characters"]:
         if a.only and c["id"] != a.only:
