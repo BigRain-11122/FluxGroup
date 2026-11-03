@@ -1,14 +1,14 @@
 {
  "node": "bm-b",
- "ts": "2026-11-03T17:36:09",
+ "ts": "2026-11-03T17:50:34",
  "jobs": [
   {
-   "id": "asset-lib-face-caption-2026-11-03",
-   "title": "[资产储备（角色 LoRA / 音色库）] 人脸数据集打标（vision 草稿，人只校对）",
-   "cmd": "python Tools/fleet/asset_caption.py --dir media/asset/faces --out cph4/fleet/queue-receipts/asset-caption-2026-11-03.json",
+   "id": "bigmoney-signal-2026-11-03",
+   "title": "[金融量化（回测 → 一页结论 → 可报价或写清卡点）] 下月持仓信号 CSV（可卖的唯一产物）",
+   "cmd": "python Tools/fleet/quant_signal.py --in quant/bigmoney/results/etf_nobond_vt.json --out cph4/fleet/queue-receipts/quant-signal-2026-11-03.csv",
    "cwd": "",
-   "needs": "gpu",
-   "deliverable": "cph4/fleet/queue-receipts/asset-caption-2026-11-03.json",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/quant-signal-2026-11-03.csv",
    "need_mb": null,
    "model": "none",
    "prompt": "",

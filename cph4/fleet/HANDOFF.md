@@ -1,17 +1,16 @@
-# 交接一屏（2026-11-03 17:41）
+# 交接一屏（2026-11-03 17:48）
 
 > 新会话先读这一页，再看具体文件。四段：在产 / 待判 / 阻塞 / 下一步。
 
 ## 一、在产（4 张）
 
-- `asset-lib-voice-corpus-bmb-2026-11-03` [资产储备（角色 LoRA / 音色库）] 音色语料工程·分片 1/4（bm-b，纯 CPU）（bm-c，45 分钟租约）
+- `asset-lib-voice-corpus-bmb-2026-11-03` [资产储备（角色 LoRA / 音色库）] 音色语料工程·分片 1/4（bm-b，纯 CPU）（bm-a，45 分钟租约）
 - `asset-lib-face-caption-2026-11-03` [资产储备（角色 LoRA / 音色库）] 人脸数据集打标（vision 草稿，人只校对）（bm-b，180 分钟租约）
-- `asset-lib-char-probe-2026-11-03` [资产储备（角色 LoRA / 音色库）] 角色出图模型探针（问本机 ComfyUI 有哪些模型，不出图）（bm-a，45 分钟租约）
+- `asset-lib-char-prompts-2026-11-03` [资产储备（角色 LoRA / 音色库）] 角色包出图计划（8 原创角色 × 6 视角提示词包）（bm-c，45 分钟租约）
 - `asset-lib-voice-assemble-2026-11-03` [资产储备（角色 LoRA / 音色库）] 音色数据集装配（授权核查→voices/<组> 准入）（bm-m，45 分钟租约）
 
-## 二、待判（12 张在队列等机器）
+## 二、待判（10 张在队列等机器）
 
-- `biggame-playable-2026-11-03` [游戏（可上线清单 → 一款可玩包 → 提审材料）] 一款可玩包（3 关 60–90 秒，2D，儿童不作失败）（biggame）
 - `Q-TRIAGE-ASSETLIB-20261103` asset-lib 线级体检（本机证据目录实况）（无归属）
 - `CHK-RECEIPT-20261103` 回执卫生体检（rc 缺失/error_class 缺失出表）（bm-m 兜底体检）（fleet-ops）
 - `CHK-DUPES-20261103` 重复派单向量重扫（bm-m 兜底体检）（fleet-ops）
@@ -21,26 +20,26 @@
 - `R-MODEL-RADAR-BMB-20261103` 本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-b）（无归属）
 - `R-MODEL-RADAR-BMC-20261103` 本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-c）（无归属）
 - `R-MODEL-RADAR-BMM-20261103` 本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-m）（无归属）
+- `bigmoney-signal-2026-11-03` [金融量化（回测 → 一页结论 → 可报价或写清卡点）] 下月持仓信号 CSV（可卖的唯一产物）（bigmoney）
 
-## 三、阻塞（7 项断言红 / 3 台机不一致）
+## 三、阻塞（6 项断言红 / 3 台机不一致）
 
 - 断言 I1：2 条
 - 断言 I2：135 条
 - 断言 I3：19 条
 - 断言 I4：10 条
 - 断言 I12：4 条
-- 断言 I13：1 条
 - 断言 I14：2 条
-- 机器 bm-a：BUSY-NO-REPORT、NO-RECEIPT-1H
-- 机器 bm-b：IDLE-WITH-QUEUE
+- 机器 bm-a：NO-RECEIPT-1H
+- 机器 bm-b：NO-RECEIPT-1H
 - 机器 bm-c：NO-RECEIPT-1H
 
 ## 四、下一步（P0 两线）
 
-- bigstream-mv：过闸率 83.7，返工 7，产出年龄 4.9
-- bigstream-drama：过闸率 73.3，返工 7，产出年龄 0.1
-- bigstream-duanju：过闸率 62.5，返工 3，产出年龄 94.9
-- biggame：过闸率 100.0，返工 0，产出年龄 None
+- bigstream-mv：过闸率 83.7，返工 7，产出年龄 5.1
+- bigstream-drama：过闸率 73.3，返工 7，产出年龄 0.0
+- bigstream-duanju：过闸率 62.5，返工 3，产出年龄 95.0
+- biggame：过闸率 75.0，返工 0，产出年龄 None
 - asset-lib：过闸率 45.5，返工 6，产出年龄 0.0
 
 ## 五、已发布（0 条）
