@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
- "ts": "2026-11-03T15:38:32",
+ "ts": "2026-11-03T15:39:50",
  "jobs": [
   {
-   "id": "asset-lib-voice-corpus-bmc-2026-11-03",
-   "title": "[资产储备（角色 LoRA / 音色库）] 音色语料工程·分片 2/4（bm-c，纯 CPU）",
-   "cmd": "python Tools/fleet/voice_corpus_prep.py --inbox media/asset/inbox --group batch-2026-11-03 --shard 2/4 --receipt cph4/fleet/queue-receipts/voice-corpus-bm-c-2026-11-03.json",
+   "id": "asset-lib-voice-corpus-bma-2026-11-03",
+   "title": "[资产储备（角色 LoRA / 音色库）] 音色语料工程·分片 0/4（bm-a，纯 CPU）",
+   "cmd": "python Tools/fleet/voice_corpus_prep.py --inbox media/asset/inbox --group batch-2026-11-03 --shard 0/4 --receipt cph4/fleet/queue-receipts/voice-corpus-bm-a-2026-11-03.json",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/voice-corpus-bm-c-2026-11-03.json",
+   "deliverable": "cph4/fleet/queue-receipts/voice-corpus-bm-a-2026-11-03.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",

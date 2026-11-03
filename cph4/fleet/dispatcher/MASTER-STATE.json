@@ -1,29 +1,29 @@
 {
- "ts": "2026-11-03T15:38:32",
- "cycle": 271,
+ "ts": "2026-11-03T15:39:50",
+ "cycle": 272,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-03T15:38:32",
+ "master_tick_ts": "2026-11-03T15:39:50",
  "queue": {
   "total": 300,
-  "open": 5,
+  "open": 7,
   "running": 3,
   "done": 136,
-  "failed": 9
+  "failed": 7
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 16.2,
-   "cpu_load_pct": 50,
-   "ram_free_gb": 28.1,
-   "gpu_util_pct": 30,
+   "hb_age_s": 14.6,
+   "cpu_load_pct": 24,
+   "ram_free_gb": 28.9,
+   "gpu_util_pct": 5,
    "job": "asset-lib-voice-corpus-bmb-2026-11-03",
    "last_result": {
-    "job": "asset-lib-voice-corpus-bma-2026-11-03",
-    "state": "FAILED",
-    "rc": 2,
-    "ts": "2026-11-03T15:35:02",
+    "job": "asset-lib-voice-corpus-bmb-2026-11-03",
+    "state": "RUNNING",
+    "rc": null,
+    "ts": "2026-11-03T15:39:39",
     "reason": null
    },
    "idle_confirmed": false,
@@ -32,7 +32,7 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 384.7,
+   "hb_age_s": 462.1,
    "cpu_load_pct": 43,
    "ram_free_gb": 4.9,
    "gpu_util_pct": 100,
@@ -44,16 +44,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 39.0,
+   "hb_age_s": 16.3,
    "cpu_load_pct": 7,
-   "ram_free_gb": 5.3,
+   "ram_free_gb": 5.2,
    "gpu_util_pct": 0,
    "job": "asset-lib-index-2026-11-03",
    "last_result": {
-    "job": "asset-lib-face-caption-2026-11-03",
-    "state": "FAILED",
-    "rc": 2,
-    "ts": "2026-11-03T15:38:17",
+    "job": "asset-lib-index-2026-11-03",
+    "state": "RUNNING",
+    "rc": null,
+    "ts": "2026-11-03T15:39:37",
     "reason": null
    },
    "idle_confirmed": false,
@@ -62,16 +62,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 1.0,
-   "cpu_load_pct": 26,
+   "hb_age_s": 0.7,
+   "cpu_load_pct": 46,
    "ram_free_gb": 17.0,
    "gpu_util_pct": null,
-   "job": "asset-lib-voice-corpus-bmc-2026-11-03",
+   "job": "asset-lib-voice-corpus-bma-2026-11-03",
    "last_result": {
-    "job": "bigstream-mv-gate-2026-11-03",
+    "job": "asset-lib-voice-corpus-bmc-2026-11-03",
     "state": "FAILED",
     "rc": 1,
-    "ts": "2026-11-03T15:37:18",
+    "ts": "2026-11-03T15:38:38",
     "reason": null
    },
    "idle_confirmed": false,
@@ -93,9 +93,13 @@
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
-   "jobs": [],
-   "no_supply": true,
-   "blockers": [],
+   "jobs": [
+    "bigstream-mv-gate-2026-11-03"
+   ],
+   "no_supply": false,
+   "blockers": [
+    "bigstream-mv-gate-2026-11-03:no-lane"
+   ],
    "note": null,
    "stuck_stage": "mv-cut",
    "stuck_owner": "剪辑席"
@@ -280,12 +284,15 @@
    "stale_after_h": 72.0,
    "owner": "资产席",
    "jobs": [
+    "asset-lib-voice-corpus-bma-2026-11-03",
     "asset-lib-voice-corpus-bmb-2026-11-03",
-    "asset-lib-voice-corpus-bmc-2026-11-03",
-    "asset-lib-index-2026-11-03"
+    "asset-lib-index-2026-11-03",
+    "asset-lib-face-caption-2026-11-03"
    ],
    "no_supply": false,
-   "blockers": [],
+   "blockers": [
+    "asset-lib-face-caption-2026-11-03:no-lane"
+   ],
    "note": "CEO 2026-11-03 令：先不做短剧和漫剧，先储备资产（烧角色 LoRA 与音色库）"
   }
  },
@@ -812,7 +819,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 5,
+  "local": 7,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -820,23 +827,21 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 5,
-  "gpu": 0
+  "cpu": 6,
+  "gpu": 1
  },
- "supply_added": [],
+ "supply_added": [
+  "backlog_manifest+2"
+ ],
  "events": [
-  "asset-lib-voice-corpus-bma-2026-11-03 FAILED via bm-a",
-  "asset-lib-face-caption-2026-11-03 FAILED via bm-c",
-  "bigstream-mv-gate-2026-11-03 FAILED via bm-m",
-  "asset-lib-index-2026-11-03 -> bm-c (cpu)",
-  "asset-lib-voice-corpus-bmc-2026-11-03 -> bm-m (cpu)"
+  "asset-lib-voice-corpus-bmc-2026-11-03 FAILED via bm-m",
+  "asset-lib-voice-corpus-bma-2026-11-03 -> bm-m (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 剪辑/装配/剪辑席 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-c",
   "bm-m"
  ]
 }
