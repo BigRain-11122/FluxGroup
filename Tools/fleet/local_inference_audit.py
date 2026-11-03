@@ -309,12 +309,17 @@ def main(argv):
                "os": platform.platform(), "verdict": "BLOCKED",
                "gaps": ["wrong-node: %s 是 Windows 机，本机是 %s" % (a.node, platform.platform())],
                "why": "派单 nodes 只是偏好；本卡必须在目标机上执行"}
-        out = a.out or os.path.join(OUT_DIR, "inference-audit-%s-%s.json"
+        # 关键：跑错机器的回执**不能**写到卡声明的交付物路径上——
+        # 2026-11-03 实测过：写了同名 BLOCKED 回执，收口逻辑见"交付物在盘"就把三张卡判 DONE，
+        # 结果 Windows 机一次都没被体检，账面全绿。改用 -blocked 后缀 + rc=3，双保险。
+        out = a.out or os.path.join(OUT_DIR, "inference-audit-%s-blocked-%s.json"
                                     % (a.node, time.strftime("%Y%m%d")))
         os.makedirs(os.path.dirname(out), exist_ok=True)
+        rep["receipt_is_not_deliverable"] = True
         json.dump(rep, open(out, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
-        print(json.dumps({"node": a.node, "verdict": "BLOCKED", "out": os.path.relpath(out, ROOT)},
-                         ensure_ascii=False))
+        print(json.dumps({"node": a.node, "verdict": "BLOCKED",
+                          "out": os.path.relpath(out, ROOT),
+                          "note": "写在 -blocked-* 上，避免被当成卡交付物"}, ensure_ascii=False))
         return 3
     t0 = time.time()
     ms, merr = models()
