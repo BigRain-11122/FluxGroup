@@ -1,0 +1,41 @@
+{
+ "line": "bigmoney",
+ "name": "金融量化（回测 → 一页结论 → 可报价或写清卡点）",
+ "group": "strategy",
+ "note": "量化仓只在 Windows 机（bm-b 回测、bm-d 重批）。结论必须四件齐：样本区间/成本假设/失效条件/输入指纹。",
+ "stages": [
+  {
+   "id": "backtest",
+   "name": "ETF 复合因子回测（年化/夏普/回撤）",
+   "cmd": "python quant/bigmoney/scripts/etf_composite_pf.py",
+   "deliverable": "quant/bigmoney/results/etf_composite_pf.json",
+   "accept": "输出 JSON 在盘且含指标字段；失败要留 stderr 尾部",
+   "needs": "cpu",
+   "nodes": ["bm-b"],
+   "minutes": 20,
+   "requires": ["quant/bigmoney/scripts/etf_composite_pf.py"]
+  },
+  {
+   "id": "conclusion",
+   "name": "一页结论（四件齐才许对外）",
+   "cmd": "python {root_tools}/fleet/quant_conclusion.py --in quant/bigmoney/results/etf_composite_pf.json --line bigmoney --out cph4/fleet/queue-receipts/quant-conclusion-{date}.md",
+   "deliverable": "cph4/fleet/queue-receipts/quant-conclusion-{date}.md",
+   "accept": "四件齐全→可对外；缺件→写明缺什么（rc=3 也算如实）",
+   "needs": "cpu",
+   "nodes": ["bm-b"],
+   "minutes": 3,
+   "depends_on": ["backtest"]
+  },
+  {
+   "id": "quote",
+   "name": "19.9 套餐可交付性判定（能不能卖、卡在哪）",
+   "cmd": "python {root_tools}/fleet/line_triage.py --line bigmoney",
+   "deliverable": "cph4/fleet/queue-receipts/quant-quote-{date}.md",
+   "accept": "给一句能卖/不能卖的判断，附证据指针",
+   "needs": "cpu",
+   "nodes": ["bm-b"],
+   "minutes": 3,
+   "depends_on": ["conclusion"]
+  }
+ ]
+}

@@ -66,10 +66,9 @@ def main(argv):
     for r in q:
         qstate[r.get("id")] = r.get("state")
     TERMINAL = ("DONE", "CANCELLED", "ARCHIVED", "SUPERSEDED")
+    # 夜间包"已在"不等于"够了"（2026-11-03 实测：1 张 OPEN 就整轮不补，工序卡全卡在
+    # READY）。改为只看待领总数是否达到 target，不再因为存在夜间卡就整体放弃。
     nights_open = [r for r in q if r.get("night") and r.get("state") in ("OPEN", "RUNNING")]
-    if nights_open:
-        print("夜间包已在（%d 张在跑/待领），不重复灌" % len(nights_open))
-        return 0
 
     cands = []
     stale = []

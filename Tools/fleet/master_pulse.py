@@ -58,7 +58,10 @@ STAGES = [
     # human remembered - boxes idled with an empty backlog while the generators sat idle.
     # They are queue writers, so they run serially before the dispatcher reads the queue.
     ("night_plan", ["Tools/fleet/night_plan.py"], 120, {0}, False),
-    ("night_fill", ["Tools/fleet/night_fill.py", "--target", "3"], 90, {0}, False),
+    # 工序推进（2026-11-03）：把 ri/*/lines/*.json 的工序表变成真生产卡（READY），
+    # 必须先于 night_fill，否则补料侧永远只有"体检卡"可提。
+    ("line_plan", ["Tools/fleet/line_plan.py"], 60, {0}, False),
+    ("night_fill", ["Tools/fleet/night_fill.py", "--target", "6"], 90, {0}, False),
     ("workgen", ["Tools/fleet/workgen.py", "--root", ROOT], 180, {0}, False),
     ("master", ["Tools/fleet/master_agent.py", "--node", NODE, "--root", ROOT], 240, {0}, False),
     ("lane", ["Tools/fleet/lane_agent.py", "--node", NODE, "--root", ROOT, "--no-fetch"], 300, {0}, False),

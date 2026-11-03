@@ -1,0 +1,64 @@
+{
+ "line": "bigstream-mv",
+ "name": "MV·爱在西元前（v721 终版）",
+ "group": "content",
+ "master": "cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721_60fps_1080p.mp4",
+ "car_windows": ["38.79:40.21", "219.71:223.88"],
+ "note": "母版在工作机（bm-a），本机只做派单与收账；每段都必须带 --card 卡窗，否则交付闸必假红（2026-11-02 判例）。",
+ "stages": [
+  {
+   "id": "gate",
+   "name": "交付闸（重复/静止/抖动/闪烁）",
+   "cmd": "python {root_tools}/mv_delivery_gate.py {master} --card 38.79:40.21 --card 219.71:223.88",
+   "deliverable": "cph4/fleet/queue-receipts/mv-gate-v721-{date}.json",
+   "accept": "verdict=PASS；若 FAIL 必须写明是'未申报卡窗'还是真缺陷",
+   "needs": "cpu",
+   "nodes": ["bm-a"],
+   "minutes": 8
+  },
+  {
+   "id": "transition",
+   "name": "转场审计（逐切点方向余弦，OPPOSE 必须 0）",
+   "cmd": "python {root_tools}/mv_transition_audit.py {master}",
+   "deliverable": "cph4/fleet/queue-receipts/mv-transition-v721-{date}.json",
+   "accept": "oppose=0；HARD/MATCH/STATIC_JUMP 三类计数在档",
+   "needs": "cpu",
+   "nodes": ["bm-a"],
+   "minutes": 10,
+   "depends_on": ["gate"]
+  },
+  {
+   "id": "stability",
+   "name": "稳定性闸（seam / freeze 双 0）",
+   "cmd": "python {root_tools}/mv_stability_gate.py {master}",
+   "deliverable": "cph4/fleet/queue-receipts/mv-stability-v721-{date}.json",
+   "accept": "seams=0 且 freezes=0",
+   "needs": "cpu",
+   "nodes": ["bm-a"],
+   "minutes": 8,
+   "depends_on": ["gate"]
+  },
+  {
+   "id": "shot-audit",
+   "name": "逐镜体检（暖度/饱和/运动/重复）",
+   "cmd": "python {root_tools}/mv_full_audit.py {master}",
+   "deliverable": "cph4/fleet/queue-receipts/mv-shot-audit-v721-{date}.json",
+   "accept": "duplicates_unlisted=[]；逐镜表齐全",
+   "needs": "cpu",
+   "nodes": ["bm-a"],
+   "minutes": 12,
+   "depends_on": ["stability"]
+  },
+  {
+   "id": "packet",
+   "name": "导演席拉片包（一页卷：成片+四闸+签字位）",
+   "cmd": "python {root_tools}/fleet/review_packet.py --line mv --root .",
+   "deliverable": "cph4/fleet/queue-receipts/review-packet-mv-{date}.md",
+   "accept": "一页内可读完：四闸结论+证据路径+待签栏",
+   "needs": "cpu",
+   "nodes": ["bm-a"],
+   "minutes": 5,
+   "depends_on": ["shot-audit"]
+  }
+ ]
+}
