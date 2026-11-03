@@ -1,31 +1,23 @@
 {
- "ts": "2026-11-03T08:42:22",
+ "ts": "2026-11-03T08:54:25",
  "stage": 3,
  "adoption": {
   "days": 2,
-  "applied": 222,
-  "total": 188,
-  "rate": 118.1,
+  "applied": 229,
+  "total": 193,
+  "rate": 118.7,
   "eligible_stage4": false
  },
  "decisions": [
   {
    "kind": "flag",
-   "why": "2 台机空转且有活",
+   "why": "3 台机空转且有活",
    "target": [
     "bm-a",
+    "bm-b",
     "bm-m"
    ],
    "min_stage": 1,
-   "result": "applied"
-  },
-  {
-   "kind": "requeue",
-   "why": "1 张卡在跑但 1 小时无回执",
-   "target": [
-    "R-TTS-QC-R2-20261102"
-   ],
-   "min_stage": 3,
    "result": "applied"
   },
   {
@@ -52,14 +44,8 @@
  ],
  "applied": [
   {
-   "kind": "requeue",
-   "ids": [
-    "R-TTS-QC-R2-20261102"
-   ]
-  },
-  {
    "kind": "promote",
-   "out": "夜间包已在（1 张在跑/待领），不重复灌"
+   "out": "积压里有 2 张 READY 是尸体（队列里已了结），不计入供给：C-FIN-ETF-COMPOSITE, C-VB-DISCOVER-V03\n夜间灌入 1 张：R-TTS-QC-R2-20261102"
   }
  ],
  "brief": "/Users/junsheng.sun/FluxGroup/cph4/fleet/chief/BRIEF-20261103.md"
