@@ -23,6 +23,7 @@ import argparse
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 import time
@@ -41,21 +42,42 @@ def sh(cmd, timeout=180):
 
 
 def probe(path):
-    rc, out = sh([FFPROBE, "-v", "error", "-show_streams", "-show_format",
-                  "-of", "json", path], 60)
-    if rc != 0:
+    """优先 ffprobe；本机没有 ffprobe 时退回解析 ffmpeg -i 的 stderr（保底可用）。"""
+    if shutil.which(FFPROBE):
+        rc, out = sh([FFPROBE, "-v", "error", "-show_streams", "-show_format",
+                      "-of", "json", path], 60)
+        if rc == 0:
+            try:
+                return json.loads(out[out.index("{"):])
+            except Exception:
+                pass
+    ff = os.environ.get("FFMPEG") or shutil.which("ffmpeg") or "/Users/%s/bin/ffmpeg" % os.environ.get("USER", "")
+    rc, out = sh([ff, "-hide_banner", "-i", path], 60)
+    if "Duration:" not in (out or ""):
         return None
-    try:
-        return json.loads(out[out.index("{"):])
-    except Exception:
-        return None
+    import re as _re
+    d = _re.search(r"Duration:\s*(\d+):(\d+):([\d.]+)", out)
+    dur = int(d.group(1)) * 3600 + int(d.group(2)) * 60 + float(d.group(3)) if d else 0.0
+    v = _re.search(r"Video:.*?(\d{2,5})x(\d{2,5}).*?([\d.]+) fps", out)
+    has_a = "Audio:" in out
+    return {"streams": ([{"codec_type": "video",
+                          "width": int(v.group(1)), "height": int(v.group(2)),
+                          "r_frame_rate": "%d/1" % int(float(v.group(3)))}] if v else [])
+                         + ([{"codec_type": "audio"}] if has_a else []),
+            "format": {"duration": str(dur)}}
 
 
 def loudness(path):
-    rc, out = sh([FFMPEG, "-hide_banner", "-i", path, "-af", "volumedetect",
-                  "-f", "null", "-"], 120)
+    """Integrated LUFS（不是 mean_volume：RMS 与 LUFS 差 3–5dB，用错就会假红）。"""
+    ff = os.environ.get("FFMPEG") or shutil.which("ffmpeg") or \
+        "/Users/%s/bin/ffmpeg" % os.environ.get("USER", "")
+    rc, out = sh([ff, "-hide_banner", "-i", path, "-af", "loudnorm=print_format=json",
+                  "-f", "null", "-"], 180)
+    m = re.search(r'"input_i"\s*:\s*"?(-?[\d.]+)"?', out or "")
+    if m:
+        return float(m.group(1))
     m = re.search(r"mean_volume:\s*(-?[\d.]+) dB", out or "")
-    return float(m.group(1)) if m else None
+    return float(m.group(1)) + 4.0 if m else None
 
 
 def motion_first3s(path):
