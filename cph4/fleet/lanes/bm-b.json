@@ -1,19 +1,19 @@
 {
  "node": "bm-b",
- "ts": "2026-11-04T03:04:03",
+ "ts": "2026-11-04T03:12:03",
  "jobs": [
   {
-   "id": "Q-VCORP-PREP-e02-20261104",
-   "title": "音色语料切片·e02（LibriTTS train-clean-100 → voices/e02/sliced，纯 CPU）",
-   "cmd": "python C:/Fluxgroup/FleetAgent/Tools/fleet/voice_corpus_prep.py --inbox C:/Fluxgroup/FluxGroup/media/asset/inbox/e02 --group e02 --shard 0/1 --receipt C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-prep-e02-20261104.json",
+   "id": "Q-VCORP-PREP-e03-20261104",
+   "title": "音色语料切片·e03（LibriTTS train-clean-100 → voices/e03/sliced，纯 CPU）",
+   "cmd": "python C:/Fluxgroup/FleetAgent/Tools/fleet/voice_corpus_prep.py --inbox C:/Fluxgroup/FluxGroup/media/asset/inbox/e03 --group e03 --shard 0/1 --receipt C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-prep-e03-20261104.json",
    "cwd": "C:/Fluxgroup/FluxGroup",
    "needs": "cpu",
-   "deliverable": "C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-prep-e02-20261104.json",
+   "deliverable": "C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-prep-e03-20261104.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
    "when_all": [
-    "C:/Fluxgroup/FluxGroup/media/asset/inbox/e02"
+    "C:/Fluxgroup/FluxGroup/media/asset/inbox/e03"
    ],
    "llm": null,
    "timeout_s": 3600
@@ -21,5 +21,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 9.4/1.0 GB"
+ "capacity_note": "ram 12.7/1.0 GB"
 }
