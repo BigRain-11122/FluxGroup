@@ -15,7 +15,17 @@
   "design_doc": "设计正文路径",
   "design_status": "DONE/PENDING"
  },
- "order": ["cph4-labs", "bigstream", "biggame", "bigmoney", "fluxverse", "biglife", "bighouse", "bigdomain", "bigcompute"],
+ "order": [
+  "cph4-labs",
+  "bigstream",
+  "biggame",
+  "bigmoney",
+  "fluxverse",
+  "biglife",
+  "bighouse",
+  "bigdomain",
+  "bigcompute"
+ ],
  "orgs": [
   {
    "id": "cph4-labs",
@@ -53,14 +63,14 @@
    "mission": "2D 小游戏 + 车机家庭游戏（吸嘟嘟），只做 2D 无 3D 场景相机",
    "product": "可玩小游戏包 / 车机可演示包",
    "buyer": "微信小游戏用户；车机 OEM 演示（商务归 CEO）",
-   "first_artifact": "待答（现成物：Build/Win64/吸嘟嘟V0.10.18）",
-   "judge": "待答（四闸=真包实跑/首启30秒/性能档/可玩性盲评）",
-   "lane": "Windows 侧构建；bm-m 只出包与质检",
-   "money_compliance": "48 包商用 gate 未过前不得对外演示",
-   "kill_criteria": "待答",
-   "gaps": "四道产品闸全空白；付费口径两版冲突（锁关卡 vs 明信片）未统一",
+   "first_artifact": "带四闸回执的吸嘟嘟包：media 侧 pack-receipt.json + cph4/fleet/queue-receipts/game-pack-<ver>.json（现成物 吸嘟嘟V0.10.18 未过闸）",
+   "judge": "机器：game_pack_scan.py / asset-audit / 2D 硬约束扫描 / 单局时长实测 / 失败态扫描；人判：可玩性盲评≥3人 48h",
+   "lane": "构建与实跑=Windows（bm-a 或 CEO 工作机）；bm-m 只出包/质检/材料",
+   "money_compliance": "零买量；48 包商用 gate 未过前不得对外演示；儿童场景四条由 family_compliance_check.py 守；定价 28/58/6-18，禁关卡钥匙与广告",
+   "kill_criteria": "单款 30 天无可玩包→换题；开始投流→停；出现失败态或广告→返工；连续 7 天无带闸回执产物→整线挂起",
+   "gaps": "39 款在册/约 9 款有包/0 上线（卡账号资质链，CEO 物理件）；吸嘟嘟 215MB/519 文件构建成功但四闸全空白且包不在本机；F 车道付费口径仍写免费3关锁",
    "design_doc": "cph4/fleet/company/biggame/TOP-DESIGN-v1.md",
-   "design_status": "PENDING"
+   "design_status": "DONE"
   },
   {
    "id": "bigmoney",
@@ -68,14 +78,14 @@
    "mission": "每月一份可复现的市场结论 + 下月持仓信号，不代客实盘",
    "product": "月度结论（四件齐：样本区间/成本假设/失效条件/输入指纹）+ 信号 CSV",
    "buyer": "算力包客户 / 内容粉丝（不荐股）",
-   "first_artifact": "待答（现成物：etf_nobond_vt 回测结果）",
-   "judge": "机器：quant_signal.py + conclusion 四件齐校验",
-   "lane": "bm-a 日更；重批待 bm-d",
-   "money_compliance": "不承诺收益、不代客交易；数据来源须合规",
-   "kill_criteria": "待答",
-   "gaps": "日更验错对象（跑旧书）；conclusion/quote 回执各 0 份；信号 CSV 从未生成",
+   "first_artifact": "signal-<YYYYMM>.csv（下月持仓清单，含因子值与输入指纹）+ quant-conclusion-<month>.json（四件齐）——当前均从未生成",
+   "judge": "机器：quant_signal.py（缺字段写 BLOCKED rc=3）+ 结论四件齐校验；无人工放行口",
+   "lane": "日更=bm-a；重批等 bm-d 入网；Mac 只做闸与编目",
+   "money_compliance": "不代客/不荐股/不承诺收益；报价 19.9/月含结论+信号+可复现命令；必须声明幸存者偏差",
+   "kill_criteria": "连续 2 个月交不出四件齐结论+信号→停线；为出结论放宽四件→按造假停；股票面未换赛道不得重启",
+   "gaps": "日更仍跑旧书 etf_composite_pf.py；conclusion/quote/quality 回执各 0 份；信号 CSV 从未生成；工序表归属 bm-b/bm-d 与实际 bm-a 不符",
    "design_doc": "cph4/fleet/company/bigmoney/TOP-DESIGN-v1.md",
-   "design_status": "PENDING"
+   "design_status": "DONE"
   },
   {
    "id": "fluxverse",
