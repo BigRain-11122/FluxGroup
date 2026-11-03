@@ -1,0 +1,11 @@
+{
+ "ts": "2026-11-03T11:56:30",
+ "input": "",
+ "spec": "DRAMA-QUALITY-SPEC-v2",
+ "verdict": "BLOCKED",
+ "status": "BLOCKED",
+ "gaps": [
+  "manifest 不存在：media/drama-tools/manifest-2026-11-03.json（上游 i2v 片段未生成）"
+ ],
+ "tool": "drama_assemble"
+}
