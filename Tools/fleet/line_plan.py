@@ -171,6 +171,22 @@ def plan_table(table, day, existing, dry):
     return made, skipped
 
 
+def inactive_lines(root):
+    """registry 里 PARKED/PAUSED 的线不许再出卡（2026-11-03 实锚）：
+    短剧/漫剧已 PARKED，但工序表仍在生成卡，调度按 parked 跳过 → 卡永久 OPEN、机器空转。
+    出卡方与派单方必须读同一份状态，否则两边各自正确、合起来卡死。"""
+    try:
+        reg = json.load(open(os.path.join(root, "cph4", "fleet", "LINE-REGISTRY.json"),
+                             encoding="utf-8"))
+    except Exception:
+        return set()
+    out = set()
+    for l in (reg.get("lines") or []):
+        if str(l.get("status") or "").upper() in ("PARKED", "PAUSED"):
+            out.add(l.get("id"))
+    return out
+
+
 def main(argv):
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry", action="store_true")
@@ -184,6 +200,7 @@ def main(argv):
             have[r["id"]] = r.get("state")
     made, report = [], []
     bad_tables = 0
+    INACTIVE = inactive_lines(ROOT)
     files = sorted(glob.glob(TABLES))
     if not files:
         print("没有工序表：%s" % TABLES)
@@ -194,6 +211,10 @@ def main(argv):
             print("工序表读不了：%s" % p)
             return 1
         if a.line and t.get("line") != a.line:
+            continue
+        if t.get("line") in INACTIVE:
+            report.append({"line": t.get("line"), "table": os.path.relpath(p, ROOT), "cards": [],
+                           "skipped": [("LINE-INACTIVE", "registry 里 PARKED/PAUSED：不出卡，避免死卡占队列")]})
             continue
         # 表结构（悬空依赖/无 accept/成环）先判：坏表一律不派卡，否则线会静默停摆。
         errs = validate_table(t)
