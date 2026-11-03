@@ -1,5 +1,5 @@
 {
- "probed_at": "2026-11-03T21:32:51+0800",
+ "probed_at": "2026-11-03T21:36:51+0800",
  "available": {
   "ckpt": 5,
   "unet": 4,
@@ -10,7 +10,7 @@
  "unet": "krea2_turbo_fp8_scaled.safetensors",
  "clip": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
  "vae": "taesdxl",
- "clip_type": "sdxl",
+ "clip_type": "krea2",
  "steps": 8,
  "cfg": 1.0,
  "sampler": "euler",
