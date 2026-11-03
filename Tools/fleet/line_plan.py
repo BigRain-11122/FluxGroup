@@ -145,6 +145,7 @@ def plan_table(table, day, existing, dry):
             "accept": st.get("accept") or "",
             "needs": st.get("needs") or "cpu",
             "nodes": st.get("nodes") or [],
+            "hard_nodes": st.get("hard_nodes") or [],
             "prio": table.get("priority") or "P1",
             "line": line,
             "day_ok": bool(st.get("day_ok", True)),

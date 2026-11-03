@@ -472,6 +472,12 @@ def choose_lane(job, fleet, busy):
     cap = job.get("cap") or ("llm" if (job.get("model") or "") == "local-small" else None)
     vram_min = int(job.get("vram_min_gb") or 0)
     candidates = [n for n in fl.LANES if needs in fl.LANES[n]["needs"]]
+    # hard_nodes = 真钉子（2026-11-03）：依赖本机私有服务（如 127.0.0.1:8188 的 ComfyUI）
+    # 的卡必须在指定机上跑。nodes 只是偏好，hard_nodes 不许回落——否则卡会落到
+    # 没有该服务的机器上，跑出"连不上"的假失败（实测 char-probe 落到主控即如此）。
+    hard = job.get("hard_nodes") or []
+    if hard:
+        candidates = [n for n in candidates if n in hard]
     if cap:
         candidates = [n for n in candidates
                       if cap in (fl.LANES[n].get("caps") or []) or not (fl.LANES[n].get("caps"))]
