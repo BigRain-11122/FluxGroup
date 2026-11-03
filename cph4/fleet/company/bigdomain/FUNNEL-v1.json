@@ -1,0 +1,80 @@
+{
+ "ts": "2026-11-03T17:26:41",
+ "company": "bigdomain",
+ "thesis": "漏斗第 3 环为 0：四家上游的可卖物一个都没过闸。故本司当前唯一真产物是「哪一环断了」的机读结论，不是商业模型。",
+ "funnel": [
+  {
+   "step": "1 内容触达（粉丝/播放）",
+   "value": null,
+   "source": "缺：无任何平台账号数据接入（账号在 CEO 手上）",
+   "why_null": "未接数据源，不能写 0 冒充事实"
+  },
+  {
+   "step": "2 私域承接（咨询/群）",
+   "value": null,
+   "source": "缺：无私域工具与记录",
+   "why_null": "同上"
+  },
+  {
+   "step": "3 可卖物（成片/包/结论/城市）",
+   "value": 0,
+   "source": "上游四家逐个见 upstream[]，判据都未过",
+   "why_null": null
+  },
+  {
+   "step": "4 付费转化（算力包 19.9）",
+   "value": 0,
+   "source": "无定价分母之外的成交；台账见 CAPACITY-LEDGER-v1.json",
+   "why_null": null
+  },
+  {
+   "step": "5 复购",
+   "value": 0,
+   "source": "无首购即无复购",
+   "why_null": null
+  }
+ ],
+ "upstream": [
+  {
+   "source": "BigStream 成片",
+   "line": "bigstream-mv",
+   "done_cards": 42,
+   "gate": "交付闸 v721 真判 FAIL（重复上屏/近静止/死镜），未过",
+   "sellable": false,
+   "why": "有母版但闸未过，且发布位在 CEO 手上"
+  },
+  {
+   "source": "Biggame 可玩包",
+   "line": "biggame",
+   "done_cards": 3,
+   "gate": "产品四闸（真包实跑/首启30秒/性能档/盲评）全空白",
+   "sellable": false,
+   "why": "包不在本机，四闸未跑"
+  },
+  {
+   "source": "BigMoney 结论+信号",
+   "line": "bigmoney",
+   "done_cards": 5,
+   "gate": "conclusion/quote/quality 回执各 0 份；signal CSV 从未生成",
+   "sellable": false,
+   "why": "可复算结论未出，卖点（四件齐）无法自证"
+  },
+  {
+   "source": "FluxVerse 城市",
+   "line": "fluxverse",
+   "done_cards": 1,
+   "gate": "四仓不在本机，无投影件",
+   "sellable": false,
+   "why": "对外形态未定"
+  }
+ ],
+ "capacity": {
+  "sellable_slots_now": 77,
+  "note": "算力包是唯一有分母的候选，但需 BigCompute 定价与需求验证"
+ },
+ "kill_criteria_hit": null,
+ "next_actions": [
+  "把第 1/2 环的数据源补上（或明确写「不做私域」，二选一，不留空）",
+  "上游任一家过闸后，本司再出报价草稿；未过闸不出价"
+ ]
+}

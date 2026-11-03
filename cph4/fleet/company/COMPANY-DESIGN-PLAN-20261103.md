@@ -63,9 +63,9 @@
 | 4 | BigMoney | **DONE** | — |
 | 5 | FluxVerse | **DONE** | — |
 | 6 | BigLife | **DONE** | — |
-| 7 | BigHouse | PENDING | 缺 CEO 取向：安家=资产位还是服务位；复活三条硬条件已写死 |
-| 8 | BigDomain | PENDING | 上游三家都"能出但没东西可卖"，无可卖物即无法定产品与客户 |
-| 9 | BigCompute | PENDING | 缺成本台账（定价无分母）与需求验证；可先出成本台账 |
+| 7 | BigHouse | PENDING | ~~缺 CEO 取向~~ → 已自决=资产位（2026-11-03，CEO 可否决）；仍缺两条盘上事实：FluxVerse 驾驶舱演示件、BigLife 20 居民回执 |
+| 8 | BigDomain | PENDING | 第一件产物已出=`company/bigdomain/FUNNEL-v1.json`（五环漏斗：第 3 环可卖物=0，第 1/2 环无数据源）；上游四家 0 过闸 |
+| 9 | BigCompute | PENDING | 第一件产物已出=`company/bigcompute/CAPACITY-LEDGER-v1.json`（可售槽位 77、可证机时 0.82h、费率 0.6 元粗算）；仍缺电费/折旧/云对照三份证据 + buyer 0 咨询 |
 
 DONE 六家八问全答，无"待定"残留（检查器把"待定"也判缺项，防止用词糊过去）。
 三家 PENDING 的正文都已落盘，写明缺哪份证据才能补齐——这是"卡在事实"而不是"卡在没写"。
