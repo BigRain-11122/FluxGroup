@@ -1,0 +1,8 @@
+{
+ "ts": "2026-11-03T17:15:48",
+ "status": "BLOCKED",
+ "error_class": "E-BLOCKED-INPUT",
+ "why": "没有 ASR 后端（pip install mlx-whisper）",
+ "tool": "subs_asr",
+ "target": "cph4/fleet/drama-dept-v1/subs"
+}

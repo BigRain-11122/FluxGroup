@@ -1,14 +1,14 @@
 {
- "ts": "2026-11-03T17:12:41+0800",
+ "ts": "2026-11-03T17:15:48+0800",
  "alert_days": 2.0,
  "lines": [
   {
    "line": "asset-lib",
-   "status": "ACTIVE",
+   "status": "PAUSED",
    "prio": "P0",
-   "stock": 9,
+   "stock": 11,
    "rate_per_day": 0.33,
-   "runway_days": 27.3,
+   "runway_days": 33.3,
    "has_table": true,
    "blocker": {
     "stage": "env-check",
@@ -16,7 +16,9 @@
     "needs": "cpu",
     "hard_nodes": []
    },
-   "flags": []
+   "flags": [
+    "INACTIVE"
+   ]
   },
   {
    "line": "biggame",
