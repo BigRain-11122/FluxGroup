@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-04T04:35:15+0800",
+ "ts": "2026-11-04T04:40:58+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -13,7 +13,7 @@
    "blocker_type": "ENGINE",
    "blocker": "char-probe 在 bm-c 上 rc=2 零回执，未定位（疑 checkout 落后）",
    "state": "RUNNING",
-   "card": "asset-lib-voice-assemble-2026-11-03",
+   "card": "asset-lib-face-caption-2026-11-03",
    "running_on": "bm-c"
   },
   {
@@ -42,8 +42,8 @@
    "accept": "quant_signal 回执 rc=0 且 CSV 含因子值与输入指纹",
    "blocker_type": "ENGINE",
    "blocker": "回测产物需在 bm-b 本地生成；主控无 quant 仓",
-   "state": "STALLED",
-   "card": null,
+   "state": "QUEUED",
+   "card": "R-PLAN-BIGMONEY-20261104",
    "running_on": null
   },
   {
@@ -57,9 +57,9 @@
    "accept": "发布台账有回执行；或 CEO 给出重剪清单",
    "blocker_type": "ENGINE",
    "blocker": "发布决定权在 CEO，但工程侧可先做下一首立意案",
-   "state": "QUEUED",
-   "card": "R-NEXT-BIGSTREAMM-GATE-20261103",
-   "running_on": null
+   "state": "RUNNING",
+   "card": "bigstream-mv-transition-2026-11-04",
+   "running_on": "bm-m"
   },
   {
    "id": "bigstream-drama",
@@ -222,15 +222,15 @@
    "accept": "flux_check new=0；AUTOMATION-SURFACE 无 RISK 项",
    "blocker_type": "ENGINE",
    "blocker": "I2 存量 125 条卡面路径债、vault 缺盘 651 条",
-   "state": "RUNNING",
-   "card": "CHK-DUPES-20261103",
-   "running_on": "bm-m"
+   "state": "QUEUED",
+   "card": "R-ART-PUSH-B-20261102",
+   "running_on": null
   }
  ],
  "counts": {
   "RUNNING": 2,
-  "QUEUED": 7,
-  "STALLED": 6
+  "QUEUED": 8,
+  "STALLED": 5
  },
- "stalled_engine": 1
+ "stalled_engine": 0
 }
