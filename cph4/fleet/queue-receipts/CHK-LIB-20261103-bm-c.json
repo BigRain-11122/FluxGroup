@@ -5,13 +5,14 @@
  "seconds": 0.2,
  "cmd": "python Tools/fleet/lib_consolidate.py --check --receipt cph4/fleet/queue-receipts/lib-consolidate-20261103.json",
  "ok_rc": [
-  0
+  0,
+  2
  ],
  "outcome": "FAIL",
  "error_class": "E-CONTRACT",
  "deliverable": "cph4/fleet/queue-receipts/lib-consolidate-20261103.json",
  "deliverable_exists": false,
- "ts": "2026-11-04T00:40:26",
+ "ts": "2026-11-04T00:42:03",
  "stdout_tail": "skills=46 voice=0 flows=6/42 docs=73 vault=651 produced=89/136 gaps=3\n  GAP 47 寮� DONE 鍗＄殑浜や骇鐗╀笉鍦ㄧ洏\n  GAP 651 鏉� vault 鐧昏�版寚鍚戜笉瀛樺湪鐨勬枃浠�\n  GAP 闊宠壊搴� 0 涓�闊抽�戞枃浠讹紙绛夋姇鏂欙紝涓嶇畻鏁呴殰浣嗕笉绠楄祫浜э級\nwrote cph4/fleet/lib/ASSET-INDEX.json + LIB-STATUS.md\nreceipt cph4\\fleet\\queue-receipts\\lib-consolidate-20261103.json\n",
  "stderr_tail": ""
 }
