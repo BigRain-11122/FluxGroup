@@ -1,0 +1,178 @@
+{
+ "schema": 1,
+ "note": "年代女主 LoRA 训练单。一条=一型=一条独立 LoRA；按 order 顺序跑，done 不再重跑。定妆图提示词必须遵守 ERA-STYLING-LAW-v1（禁韩系/禁现代物）。",
+ "defaults": {
+  "count": 24,
+  "min_keep": 15,
+  "epochs": 12,
+  "rank": 32,
+  "max_reject_ratio": 0.45,
+  "aspect_mix": "16:9 与 9:16 各半（MV 与漫剧/短剧共用，竖屏不能只剩大头）",
+  "law": "cph4/fleet/mv-lora/ERA-STYLING-LAW-v1.md",
+  "type_lib": "cph4/fleet/mv-lora/FEMALE-LEAD-TYPE-LIB-v1.md"
+ },
+ "jobs": [
+  {
+   "order": 1,
+   "id": "T01",
+   "name": "学生文艺",
+   "trigger": "h01",
+   "lora": "her_mv0001_rank32",
+   "status": "running",
+   "base": "a young Taiwanese woman around twenty, softly rounded face with full apple cheeks (natural facial structure), big dark double-lidded rounded-almond eyes, small nose with soft rounded tip, medium-full matte lips, soft natural brows, thick blunt full fringe covering the eyebrows, visible pores and fine film grain, relaxed un-fitted 2001 Taipei style, straight-leg denim, canvas sneakers, slouchy cloth shoulder bag, beige knit sweater",
+   "use": [
+    "mv",
+    "drama",
+    "short"
+   ],
+   "nodes": [
+    "bm-c",
+    "bm-a"
+   ],
+   "needs": "gpu",
+   "train_name": "her_mv0001",
+   "note": "历史命名：T01 的权重叫 her_mv0001（触发词 h01），与 job id 不同，一律走 train_name"
+  },
+  {
+   "order": 2,
+   "id": "T02",
+   "name": "清冷长直",
+   "trigger": "h02",
+   "lora": "her_T02_r1",
+   "status": "queued",
+   "base": "a young Taiwanese woman in her early twenties, long narrow face, straight thin brows, slightly wide-set dark eyes, flat natural lips, calm unsmiling expression, centre-parted long straight hair falling close to the cheeks, visible pores and fine film grain, relaxed un-fitted 2001 Taipei style, grey knit cardigan over a white tee, straight jeans",
+   "use": [
+    "mv"
+   ],
+   "nodes": [
+    "bm-c",
+    "bm-a"
+   ],
+   "needs": "gpu"
+  },
+  {
+   "order": 3,
+   "id": "T03",
+   "name": "甜感笑眼",
+   "trigger": "h03",
+   "lora": "her_T03_r1",
+   "status": "queued",
+   "base": "a young Taiwanese woman around twenty, gently rounded face, dark eyes curving into a smile with a soft under-eye fold, slightly upturned nose tip, defined lip tubercle, half-tied shoulder-length hair turned inward at the ends, visible pores and fine film grain, relaxed un-fitted 2001 Taipei style, pale yellow knit top, pleated skirt, canvas shoes",
+   "use": [
+    "mv",
+    "short"
+   ],
+   "nodes": [
+    "bm-c",
+    "bm-a"
+   ],
+   "needs": "gpu"
+  },
+  {
+   "order": 4,
+   "id": "T04",
+   "name": "灵动短发",
+   "trigger": "h04",
+   "lora": "her_T04_r1",
+   "status": "queued",
+   "base": "a young Taiwanese woman with a small face and a clear jawline, bright round eyes, slightly raised brow bone, short chin-length bob cut blunt at the ends, visible pores and fine film grain, relaxed un-fitted 2001 Taipei style, striped shirt over a plain tee, straight jeans, canvas shoes",
+   "use": [
+    "mv",
+    "drama"
+   ],
+   "nodes": [
+    "bm-c",
+    "bm-a"
+   ],
+   "needs": "gpu"
+  },
+  {
+   "order": 5,
+   "id": "T05",
+   "name": "邻家马尾",
+   "trigger": "h05",
+   "lora": "her_T05_r1",
+   "status": "queued",
+   "base": "a young Taiwanese woman around twenty, oval face, flat natural brows, bare-skin look with pale matte lips, high ponytail with loose strands at the temples, visible pores and fine film grain, relaxed un-fitted 2001 Taipei style, white shirt with sleeves rolled once, straight jeans, canvas backpack",
+   "use": [
+    "mv",
+    "drama",
+    "short"
+   ],
+   "nodes": [
+    "bm-c",
+    "bm-a"
+   ],
+   "needs": "gpu"
+  },
+  {
+   "order": 6,
+   "id": "T06",
+   "name": "冷感御姐",
+   "trigger": "h06",
+   "lora": "her_T06_r1",
+   "status": "queued",
+   "base": "a Taiwanese woman in her late twenties, high cheekbones, long narrow eyes, thin lips, defined jaw angle, low ponytail with hair smoothed close to the head, visible pores and fine film grain, 2001 Taipei urban style, fitted black turtleneck under an unfitted wool coat, straight trousers",
+   "use": [
+    "mv"
+   ],
+   "nodes": [
+    "bm-c",
+    "bm-a"
+   ],
+   "needs": "gpu"
+  },
+  {
+   "order": 7,
+   "id": "T07",
+   "name": "文学少女",
+   "trigger": "h07",
+   "lora": "her_T07_r1",
+   "status": "queued",
+   "base": "a young Taiwanese woman around twenty, narrow face, long calm eyes usually looking down, faint light brows, half-length straight hair tucked behind one ear, round thin metal-frame glasses, visible pores and fine film grain, relaxed un-fitted 2001 Taipei style, grey knit vest over a white collared shirt, long skirt",
+   "use": [
+    "mv",
+    "drama"
+   ],
+   "nodes": [
+    "bm-c",
+    "bm-a"
+   ],
+   "needs": "gpu"
+  },
+  {
+   "order": 8,
+   "id": "T08",
+   "name": "雨夜疏离",
+   "trigger": "h08",
+   "lora": "her_T08_r1",
+   "status": "queued",
+   "base": "a Taiwanese woman with neutral delicate features, cool pale skin, thin lips, wet hair clinging to the face and temples, visible pores and fine film grain, single street-lamp light with rain, 2001 Taipei night style, dark unfitted trench coat, straight jeans, wet pavement reflections",
+   "use": [
+    "mv",
+    "drama"
+   ],
+   "nodes": [
+    "bm-c",
+    "bm-a"
+   ],
+   "needs": "gpu"
+  }
+ ],
+ "dispatch": {
+  "owner": "bm-m (主控 MacBook) — 只排单/验门/记账",
+  "policy": "cph4/fleet/mv-lora/ASSET-TRAIN-SPLIT-v1.md",
+  "order": [
+   "bm-c",
+   "bm-a"
+  ],
+  "rules": [
+   "同机同时只许一条训练",
+   "bm-c 未核到底模前先派体检卡",
+   "bm-a 白天 day_ok=false",
+   "ComfyUI 依赖卡写 hard_nodes 禁回落"
+  ],
+  "card_cmd": "python Tools/lora_queue.py --only <ID>",
+  "gate_after": "python Tools/lora_pipeline.py gate --name <ID> --ref <定妆图目录> --dir <试烧图目录>"
+ }
+}

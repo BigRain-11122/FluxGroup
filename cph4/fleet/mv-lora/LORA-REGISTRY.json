@@ -1,0 +1,64 @@
+{
+ "schema": 1,
+ "note": "角色 LoRA 台账。一条 LoRA 一个角色：谁在役、数据集多少张、验收分多少、下一版候不候。CEO 令 2026-11-03：MV 开工前先把男女主和路人 LoRA 烧出来，周杰伦的持续更新到最稳。",
+ "law": {
+  "order": "顺序固定：定妆照 → 训 LoRA → 过 gate → 才许出关键帧 → 才许 i2v。LoRA 不过 gate 不许进产线。",
+  "male_lead": "长期资产，一条跨曲复用。只用人像素材（官方照/原版 MV 帧）训；AI 生成帧只用于验收，不许回灌训练——回灌会把生成的缺陷学进权重（自我强化）。",
+  "female_lead": "每支 MV 换人（CEO 2026-11-03 令：换受众群喜爱、记忆深刻的那种），故女主 LoRA 每支单训、不跨曲复用。选角=年代 DNA 四型池（甜感/清冷/文艺/灵动·正身 canon/FEMALE-LEAD-ERA-DNA-v1.md），三条硬规则：①本支型必须与上一支不同型；②同型内也不得复用同一张脸（种子/ID 块必须换）；③记忆点=能被观众一句话复述的一个特征（齐刘海/泪痣/笑眼/丸子头），每支只押一个，不堆。素材来自本支定妆照（krea2 生成 20-30 张多姿态多光位），不从成片抽——v721 实测全片只有 1 帧女主脸过得了尺寸门（其余是远景/暗部/背身）。禁真人复刻：可识别即侵权，四型池是类型不是某个人。",
+  "extras": "路人=固定 4 个群演身份（extras_a..d）+ 一条 crowd2001 群像 LoRA，跨曲复用；路人不承担受众认同，可长期固定。",
+  "recipe": "musubi-tuner krea2_train_network / rank32 / 512 buckets / 12-16 epochs / adamw8bit lr1e-4 / fp8_base+fp8_scaled / blocks_to_swap 26；32 张 12 epoch ≈ 3-4 小时（4070S 12GB，夜间窗）"
+ },
+ "roles": {
+  "jman": {
+   "role": "male_lead",
+   "trigger": "jman",
+   "active": "jman_v1_rank32",
+   "file": "D:\\AI\\comfyui-krea\\ComfyUI_windows_portable\\ComfyUI\\models\\loras\\jman_v1_rank32.safetensors",
+   "dataset": "D:\\FluxGroup-Offload\\15-training\\dataset\\jman_v1",
+   "images": 32,
+   "rank": 32,
+   "checkpoints": "D:\\FluxGroup-Offload\\15-training\\outputs\\jman_v1 (8 档, 每 2 epoch)",
+   "status": "active",
+   "next": "v2 只在新增真人素材后重训；素材缺口=2001 三七分/奶油色衬衫一批官方照（现实缺口，靠找图或让 CEO 给片源）。训练链已备好：lora_pipeline.py build/train --name jman_v2",
+   "usage": "mv_kf_batch.py --lora jman_v1_rank32.safetensors --lora-strength 0.8"
+  },
+  "her_mv0001": {
+   "role": "female_lead",
+   "trigger": "h01",
+   "active": null,
+   "status": "blocked-material",
+   "evidence": "v721 全片 234 帧 @1fps 扫脸：只有 1 帧女主脸宽 >=10%（其余远景/暗部/背身）；probe 还抓出 1 处石刻浮雕误判成人脸——YuNet 对石刻会假阳，别拿浮雕帧当素材",
+   "why": "v721 女主跨镜 3 张脸。要修只能锁脸重烧，而锁脸必须有本角色 LoRA",
+   "next": "krea2 生成 24-30 张定妆组图（黑长直齐刘海米色毛衣·正典造型·多光位多姿态）→ lora_pipeline.py build/train --name her_mv0001 --trigger h01 → gate",
+   "note": "下一支 MV 的女主同样走这条路：先定妆组图，再训，再出帧"
+  },
+  "extras": {
+   "role": "extras",
+   "trigger": "crowd2001",
+   "active": null,
+   "status": "dataset-ready",
+   "dataset": "D:\\FluxGroup-Offload\\15-training\\dataset\\extras_v721",
+   "images": 15,
+   "why": "路人现在全靠提示词，跨曲不统一、容易抢戏；v721 50-56s/84-88s/147-153s/205-212s 四段群演镜抽出 15 张可用帧",
+   "next": "今晚先训 v1 验通路（15 张属低配，只作通路验证）；素材补到 25-30 张（MV 41 曲线其他成片群演镜 + krea2 生成）再训 v2 定版"
+  }
+ },
+ "quota": {
+  "min_images": 15,
+  "gate": "lora_pipeline.py gate（SFace 阈值 0.40 复用 mv_shot_gate，≥80% 产物图达标=PASS）",
+  "gpu_window": "本机工作日 09:00-19:00 让路 CEO 用机，训练一律排夜窗"
+ },
+ "casting_rotation": {
+  "note": "女主轮换台账：新一支开工前先查这里，本支型不得与上一支相同（机读判据，别靠记性）。型=甜感/清冷/文艺/灵动；记忆点每支只押一个。",
+  "history": [
+   {
+    "mv": "mv0001 爱在西元前",
+    "type": "文艺系",
+    "memory_point": "齐刘海黑长直+米色毛衣",
+    "lora": null,
+    "status": "done-film（未训 LoRA，成片女主跨镜 3 张脸=换脸缺陷已知）"
+   }
+  ],
+  "next_mv_rule": "从四型池里挑一个 != 上一支的型；同型内换种子/ID 块；定妆组图过导演席后立刻训 LoRA，训不过 gate 不许开工"
+ }
+}
