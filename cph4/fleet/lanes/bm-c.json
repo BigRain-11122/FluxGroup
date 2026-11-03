@@ -1,27 +1,8 @@
 {
  "node": "bm-c",
- "ts": "2026-11-04T00:44:56",
- "jobs": [
-  {
-   "id": "CHK-LIB-20261103",
-   "title": "资产与经验库归集（技能/音色/工作流/台账/产物/内容寻址资产 → 索引进 git）",
-   "cmd": "python Tools/fleet/lib_consolidate.py --check --receipt cph4/fleet/queue-receipts/lib-consolidate-20261103.json",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/lib/ASSET-INDEX.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null,
-   "ok_rc": [
-    0,
-    2
-   ]
-  }
- ],
- "idle_reason": "",
+ "ts": "2026-11-04T00:49:58",
+ "jobs": [],
+ "idle_reason": "master-pulse-stalled; node self-dispatching (bm-c 2026-11-04)",
  "lane_ok": true,
  "capacity_note": "ram 5.5/1.0 GB"
 }
