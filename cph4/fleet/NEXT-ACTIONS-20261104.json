@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-04T06:54:41+0800",
+ "ts": "2026-11-04T07:05:30+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -13,8 +13,8 @@
    "blocker_type": "ENGINE",
    "blocker": "char-probe 在 bm-c 上 rc=2 零回执，未定位（疑 checkout 落后）",
    "state": "RUNNING",
-   "card": "asset-lib-voice-assemble-2026-11-03",
-   "running_on": "bm-a"
+   "card": "asset-lib-char-gen-2026-11-04",
+   "running_on": "bm-c"
   },
   {
    "id": "biggame",
@@ -58,8 +58,8 @@
    "blocker_type": "ENGINE",
    "blocker": "发布决定权在 CEO，但工程侧可先做下一首立意案",
    "state": "RUNNING",
-   "card": "bigstream-mv-stability-2026-11-04",
-   "running_on": "bm-m"
+   "card": "bigstream-mv-transition-2026-11-04",
+   "running_on": "bm-a"
   },
   {
    "id": "bigstream-drama",
@@ -222,14 +222,14 @@
    "accept": "flux_check new=0；AUTOMATION-SURFACE 无 RISK 项",
    "blocker_type": "ENGINE",
    "blocker": "I2 存量 125 条卡面路径债、vault 缺盘 651 条",
-   "state": "QUEUED",
+   "state": "RUNNING",
    "card": "CHK-DUPES-20261103",
-   "running_on": null
+   "running_on": "bm-m"
   }
  ],
  "counts": {
-  "RUNNING": 2,
-  "QUEUED": 9,
+  "RUNNING": 3,
+  "QUEUED": 8,
   "STALLED": 4
  },
  "stalled_engine": 0

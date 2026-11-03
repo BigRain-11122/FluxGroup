@@ -1,14 +1,14 @@
 {
- "ts": "2026-11-04T06:54:41+0800",
+ "ts": "2026-11-04T07:05:30+0800",
  "alert_days": 2.0,
  "lines": [
   {
    "line": "asset-lib",
    "status": "ACTIVE",
    "prio": "P0",
-   "stock": 8,
-   "rate_per_day": 2.33,
-   "runway_days": 3.4,
+   "stock": 6,
+   "rate_per_day": 2.67,
+   "runway_days": 2.2,
    "has_table": true,
    "blocker": {
     "stage": "env-check",
