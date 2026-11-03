@@ -1,18 +1,14 @@
 {
  "node": "bm-m",
-<<<<<<< HEAD
- "ts": "2026-11-04T03:00:02",
-=======
- "ts": "2026-11-03T22:11:03",
->>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
+ "ts": "2026-11-04T03:47:01",
  "jobs": [
   {
-   "id": "CHK-DUPES-20261103",
-   "title": "重复派单向量重扫（bm-m 兜底体检）",
-   "cmd": "python3 Tools/fleet/semantic_dupes.py --json cph4/fleet/queue-receipts/dupes-scan-20261103.json",
+   "id": "asset-lib-voice-assemble-2026-11-03",
+   "title": "[资产储备（角色 LoRA / 音色库）] 音色数据集装配（授权核查→voices/<组> 准入）",
+   "cmd": "python Tools/fleet/voice_dataset.py",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/dupes-scan-20261103.json",
+   "deliverable": "cph4/fleet/queue-receipts/voice-dataset-2026-11-03.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -23,9 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
-<<<<<<< HEAD
- "capacity_note": "ram 14.3/1.0 GB"
-=======
- "capacity_note": "ram 13.7/1.0 GB"
->>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
+ "capacity_note": "ram 13.5/1.0 GB"
 }
