@@ -301,6 +301,21 @@ def main(argv):
         print(json.dumps({"skipped": "already ran today", "out": os.path.relpath(out, ROOT)},
                          ensure_ascii=False))
         return 0
+    # 防"假绿"：bm-a/bm-b/bm-c 是 Windows 机，本机若是 macOS 就跑错了地方。
+    # 派单里 nodes 只是偏好，指定机失联时任何机器都可能接走——不设这道闸，
+    # 会在 Mac 上跑出一份 inference-audit-bm-b.json，账面全绿而 Windows 机根本没被体检。
+    if (not IS_WIN) and a.node.startswith(("bm-a", "bm-b", "bm-c", "bm-d")):
+        rep = {"ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "node": a.node,
+               "os": platform.platform(), "verdict": "BLOCKED",
+               "gaps": ["wrong-node: %s 是 Windows 机，本机是 %s" % (a.node, platform.platform())],
+               "why": "派单 nodes 只是偏好；本卡必须在目标机上执行"}
+        out = a.out or os.path.join(OUT_DIR, "inference-audit-%s-%s.json"
+                                    % (a.node, time.strftime("%Y%m%d")))
+        os.makedirs(os.path.dirname(out), exist_ok=True)
+        json.dump(rep, open(out, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+        print(json.dumps({"node": a.node, "verdict": "BLOCKED", "out": os.path.relpath(out, ROOT)},
+                         ensure_ascii=False))
+        return 3
     t0 = time.time()
     ms, merr = models()
     pick = a.model
