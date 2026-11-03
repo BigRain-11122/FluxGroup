@@ -1,14 +1,14 @@
 {
  "node": "bm-b",
- "ts": "2026-11-03T11:12:30",
+ "ts": "2026-11-03T11:16:01",
  "jobs": [
   {
-   "id": "bigmoney-backtest-2026-11-03",
-   "title": "[金融量化（回测 → 一页结论 → 可报价或写清卡点）] ETF 复合因子回测（年化/夏普/回撤）",
-   "cmd": "python quant/bigmoney/scripts/etf_composite_pf.py",
+   "id": "C-TTS-QC-ALL",
+   "title": "短剧配音全量质检（逐集时长/静音/体积 → 可发布集数清单）",
+   "cmd": "python Tools/fleet/tts_batch_check.py --dir media/drama-tts-out --out cph4/fleet/queue-receipts/tts-qc-all.json",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "quant/bigmoney/results/etf_composite_pf.json",
+   "deliverable": "cph4/fleet/queue-receipts/tts-qc-all.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 4.0/1.0 GB"
+ "capacity_note": "ram 2.5/1.0 GB"
 }
