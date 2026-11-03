@@ -1,14 +1,14 @@
-# 交接一屏（2026-11-03 21:37）
+# 交接一屏（2026-11-03 21:45）
 
 > 新会话先读这一页，再看具体文件。四段：在产 / 待判 / 阻塞 / 下一步。
 
 ## 一、在产（3 张）
 
-- `asset-lib-face-caption-2026-11-03` [资产储备（角色 LoRA / 音色库）] 人脸数据集打标（vision 草稿，人只校对）（bm-a，180 分钟租约）
+- `asset-lib-face-caption-2026-11-03` [资产储备（角色 LoRA / 音色库）] 人脸数据集打标（vision 草稿，人只校对）（bm-c，180 分钟租约）
+- `asset-lib-char-prompts-2026-11-03` [资产储备（角色 LoRA / 音色库）] 角色包出图计划（8 原创角色 × 6 视角提示词包）（bm-a，45 分钟租约）
 - `asset-lib-voice-assemble-2026-11-03` [资产储备（角色 LoRA / 音色库）] 音色数据集装配（授权核查→voices/<组> 准入）（bm-m，45 分钟租约）
-- `asset-lib-char-gen-2026-11-03` [资产储备（角色 LoRA / 音色库）] 角色包出图（本机 ComfyUI，1024²，同 seed 组）（bm-c，180 分钟租约）
 
-## 二、待判（16 张在队列等机器）
+## 二、待判（15 张在队列等机器）
 
 - `Q-TRIAGE-ASSETLIB-20261103` asset-lib 线级体检（本机证据目录实况）（无归属）
 - `asset-lib-voice-corpus-bmb-2026-11-03` [资产储备（角色 LoRA / 音色库）] 音色语料工程·分片 1/4（bm-b，纯 CPU）（asset-lib）
@@ -21,7 +21,7 @@
 - `R-MODEL-RADAR-BMM-20261103` 本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-m）（无归属）
 - `bigmoney-signal-2026-11-03` [金融量化（回测 → 一页结论 → 可报价或写清卡点）] 下月持仓信号 CSV（可卖的唯一产物）（bigmoney）
 
-## 三、阻塞（7 项断言红 / 3 台机不一致）
+## 三、阻塞（7 项断言红 / 2 台机不一致）
 
 - 断言 I1：2 条
 - 断言 I2：138 条
@@ -30,16 +30,15 @@
 - 断言 I12：4 条
 - 断言 I13：1 条
 - 断言 I14：2 条
-- 机器 bm-a：NO-RECEIPT-1H
+- 机器 bm-a：BUSY-NO-REPORT、NO-RECEIPT-1H
 - 机器 bm-b：IDLE-WITH-QUEUE
-- 机器 bm-c：NO-RECEIPT-1H
 
 ## 四、下一步（P0 两线）
 
-- bigstream-mv：过闸率 83.7，返工 7，产出年龄 8.8
-- bigstream-drama：过闸率 73.3，返工 7，产出年龄 1.6
-- bigstream-duanju：过闸率 62.5，返工 3，产出年龄 98.8
-- biggame：过闸率 75.0，返工 0，产出年龄 4.2
+- bigstream-mv：过闸率 83.7，返工 7，产出年龄 9.0
+- bigstream-drama：过闸率 73.3，返工 7，产出年龄 1.8
+- bigstream-duanju：过闸率 62.5，返工 3，产出年龄 98.9
+- biggame：过闸率 75.0，返工 0，产出年龄 4.3
 - asset-lib：过闸率 50.0，返工 8，产出年龄 0.0
 
 ## 五、已发布（0 条）
