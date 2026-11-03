@@ -1,29 +1,29 @@
 {
- "ts": "2026-11-04T06:23:50",
- "cycle": 1,
+ "ts": "2026-11-04T06:26:03",
+ "cycle": 2,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-04T06:23:50",
+ "master_tick_ts": "2026-11-04T06:26:03",
  "queue": {
-  "total": 418,
-  "open": 33,
+  "total": 412,
+  "open": 30,
   "running": 3,
-  "done": 156,
-  "failed": 17
+  "done": 157,
+  "failed": 13
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 36.8,
-   "cpu_load_pct": 48,
-   "ram_free_gb": 45,
-   "gpu_util_pct": 90,
+   "hb_age_s": 30.9,
+   "cpu_load_pct": 20,
+   "ram_free_gb": 42.4,
+   "gpu_util_pct": 85,
    "job": "bigstream-mv-stability-2026-11-04",
    "last_result": {
-    "job": "bigstream-mv-transition-2026-11-04",
-    "state": "FAILED",
-    "rc": 0,
-    "ts": "2026-11-04T06:21:58",
+    "job": "bigstream-mv-stability-2026-11-04",
+    "state": "RUNNING",
+    "rc": null,
+    "ts": "2026-11-04T06:24:35",
     "reason": null
    },
    "idle_confirmed": false,
@@ -32,8 +32,8 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 59.5,
-   "cpu_load_pct": 2,
+   "hb_age_s": 12.2,
+   "cpu_load_pct": 5,
    "ram_free_gb": 12.3,
    "gpu_util_pct": null,
    "job": null,
@@ -41,26 +41,26 @@
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-04T06:22:53",
+    "ts": "2026-11-04T06:24:30",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 1
+   "idle_rounds": 2
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 51.5,
+   "hb_age_s": 38.9,
    "cpu_load_pct": 9,
-   "ram_free_gb": 3.7,
+   "ram_free_gb": 3.6,
    "gpu_util_pct": 0,
-   "job": "asset-lib-char-gen-2026-11-03",
+   "job": "asset-lib-voice-assemble-2026-11-03",
    "last_result": {
-    "job": null,
-    "state": "IDLE",
-    "rc": null,
-    "ts": "2026-11-04T06:23:07",
-    "reason": "blocked signal card released (upstream backtest data gap on bm-a/bm-b); node self-dispatching READY cards"
+    "job": "asset-lib-char-gen-2026-11-03",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-04T06:24:57",
+    "reason": null
    },
    "idle_confirmed": false,
    "idle_reason": "",
@@ -69,15 +69,15 @@
   "bm-m": {
    "online": true,
    "hb_age_s": 0.7,
-   "cpu_load_pct": 20,
+   "cpu_load_pct": 10,
    "ram_free_gb": 15.1,
    "gpu_util_pct": null,
-   "job": "biggame-playable-2026-11-03",
+   "job": "bigstream-mv-transition-2026-11-04",
    "last_result": {
     "job": "biggame-playable-2026-11-03",
     "state": "FAILED",
     "rc": 0,
-    "ts": "2026-11-04T06:22:42",
+    "ts": "2026-11-04T06:23:55",
     "reason": null
    },
    "idle_confirmed": false,
@@ -87,7 +87,7 @@
  },
  "idle_rounds": {
   "bm-a": 0,
-  "bm-b": 1,
+  "bm-b": 2,
   "bm-c": 0,
   "bm-m": 0
  },
@@ -100,6 +100,7 @@
    "stale_after_h": 24.0,
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
    "jobs": [
+    "bigstream-mv-transition-2026-11-04",
     "bigstream-mv-stability-2026-11-04"
    ],
    "no_supply": false,
@@ -158,7 +159,6 @@
    "stale_after_h": 24.0,
    "owner": "游戏席",
    "jobs": [
-    "biggame-playable-2026-11-03",
     "R-PLAN-BIGGAME-20261104"
    ],
    "no_supply": false,
@@ -298,7 +298,6 @@
    "owner": "中枢（机器判）",
    "jobs": [
     "CHK-DUPES-20261103",
-    "CHK-DUPES-20261103",
     "CANARY-20261103T154230",
     "CANARY-20261103T200141",
     "CANARY-20261103T201026",
@@ -307,7 +306,6 @@
    ],
    "no_supply": false,
    "blockers": [
-    "CHK-DUPES-20261103:no-lane",
     "CHK-DUPES-20261103:no-lane",
     "CANARY-20261103T154230:no-lane",
     "CANARY-20261103T200141:no-lane",
@@ -326,16 +324,12 @@
    "owner": "资产席",
    "jobs": [
     "asset-lib-voice-assemble-2026-11-03",
-    "asset-lib-char-gen-2026-11-03",
-    "asset-lib-char-gen-2026-11-03",
     "Q-FACE-BOARD-BMC-20261104",
     "asset-lib-voice-corpus-bmb-2026-11-04",
     "asset-lib-char-gen-2026-11-04"
    ],
    "no_supply": false,
    "blockers": [
-    "asset-lib-voice-assemble-2026-11-03:no-lane",
-    "asset-lib-char-gen-2026-11-03:no-lane",
     "Q-FACE-BOARD-BMC-20261104:no-lane",
     "asset-lib-voice-corpus-bmb-2026-11-04:no-lane",
     "asset-lib-char-gen-2026-11-04:no-lane"
@@ -866,7 +860,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 33,
+  "local": 30,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -874,22 +868,24 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 31,
-  "gpu": 2
+  "cpu": 29,
+  "gpu": 1
  },
- "supply_added": [],
+ "supply_added": [
+  "backlog_manifest+1"
+ ],
  "events": [
-  "bigstream-mv-transition-2026-11-04 FAILED via bm-a",
-  "CHK-DUPES-20261103 REQUeued attempt=1",
-  "asset-lib-voice-assemble-2026-11-03 REQUeued attempt=1",
-  "asset-lib-char-gen-2026-11-03 REQUeued attempt=1"
+  "asset-lib-char-gen-2026-11-03 DONE via bm-c",
+  "biggame-playable-2026-11-03 FAILED via bm-m",
+  "asset-lib-voice-assemble-2026-11-03 -> bm-c (cpu)",
+  "bigstream-mv-transition-2026-11-04 -> bm-m (cpu)"
  ],
  "violations": [
+  "bm-b IDLE-CONFIRMED x2 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-a",
   "bm-c",
   "bm-m"
  ]
