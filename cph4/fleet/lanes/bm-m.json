@@ -1,8 +1,23 @@
 {
  "node": "bm-m",
- "ts": "2026-11-03T13:10:59",
- "jobs": [],
- "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+ "ts": "2026-11-03T13:12:13",
+ "jobs": [
+  {
+   "id": "EVAL-SKILL-SHIPOPS-20261103",
+   "title": "技能成对评测：ship-ops（发布合规题，通用模型易答反）",
+   "cmd": "python3 Tools/fleet/skill_eval.py --skill ship-ops --json-out cph4/fleet/queue-receipts/skill-eval-ship-ops-r2-20261103.json",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/skill-eval-ship-ops-r2-20261103.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  }
+ ],
+ "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 13.9/1.0 GB"
+ "capacity_note": "ram 14.0/1.0 GB"
 }
