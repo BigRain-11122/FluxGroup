@@ -1,29 +1,29 @@
 {
- "ts": "2026-11-03T16:08:32",
- "cycle": 294,
+ "ts": "2026-11-03T16:09:47",
+ "cycle": 295,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-03T16:08:32",
+ "master_tick_ts": "2026-11-03T16:09:47",
  "queue": {
   "total": 307,
-  "open": 12,
+  "open": 11,
   "running": 3,
   "done": 136,
-  "failed": 7
+  "failed": 8
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 16.5,
-   "cpu_load_pct": 51,
-   "ram_free_gb": 20.9,
+   "hb_age_s": 12.4,
+   "cpu_load_pct": 35,
+   "ram_free_gb": 24.3,
    "gpu_util_pct": 100,
    "job": "asset-lib-voice-corpus-bmb-2026-11-03",
    "last_result": {
-    "job": "asset-lib-voice-corpus-bma-2026-11-03",
-    "state": "FAILED",
-    "rc": 2,
-    "ts": "2026-11-03T16:04:53",
+    "job": "asset-lib-voice-corpus-bmb-2026-11-03",
+    "state": "RUNNING",
+    "rc": null,
+    "ts": "2026-11-03T16:09:37",
     "reason": null
    },
    "idle_confirmed": false,
@@ -32,7 +32,7 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 339.1,
+   "hb_age_s": 413.5,
    "cpu_load_pct": 75,
    "ram_free_gb": 4.0,
    "gpu_util_pct": 100,
@@ -46,20 +46,20 @@
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 16
+   "idle_rounds": 17
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 24.2,
+   "hb_age_s": 98.7,
    "cpu_load_pct": 10,
    "ram_free_gb": 5.4,
    "gpu_util_pct": 0,
-   "job": "asset-lib-char-prompts-2026-11-03",
+   "job": "asset-lib-face-caption-2026-11-03",
    "last_result": {
     "job": "asset-lib-char-prompts-2026-11-03",
-    "state": "RUNNING",
-    "rc": null,
-    "ts": "2026-11-03T16:08:13",
+    "state": "FAILED",
+    "rc": 2,
+    "ts": "2026-11-03T16:08:33",
     "reason": null
    },
    "idle_confirmed": false,
@@ -68,16 +68,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.8,
-   "cpu_load_pct": 43,
+   "hb_age_s": 0.7,
+   "cpu_load_pct": 38,
    "ram_free_gb": 15.9,
    "gpu_util_pct": null,
-   "job": "asset-lib-voice-corpus-bmc-2026-11-03",
+   "job": "asset-lib-index-2026-11-03",
    "last_result": {
-    "job": "CANARY-20261103T160820",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-03T16:08:21",
+    "job": "asset-lib-voice-corpus-bmc-2026-11-03",
+    "state": "FAILED",
+    "rc": 1,
+    "ts": "2026-11-03T16:08:38",
     "reason": null
    },
    "idle_confirmed": false,
@@ -87,7 +87,7 @@
  },
  "idle_rounds": {
   "bm-a": 0,
-  "bm-b": 16,
+  "bm-b": 17,
   "bm-c": 0,
   "bm-m": 0
  },
@@ -294,17 +294,15 @@
    "stale_after_h": 72.0,
    "owner": "资产席",
    "jobs": [
+    "asset-lib-voice-corpus-bma-2026-11-03",
     "asset-lib-voice-corpus-bmb-2026-11-03",
-    "asset-lib-voice-corpus-bmc-2026-11-03",
     "asset-lib-index-2026-11-03",
     "asset-lib-face-caption-2026-11-03",
-    "asset-lib-char-prompts-2026-11-03",
     "asset-lib-char-probe-2026-11-03"
    ],
    "no_supply": false,
    "blockers": [
-    "asset-lib-index-2026-11-03:no-lane",
-    "asset-lib-face-caption-2026-11-03:no-lane",
+    "asset-lib-voice-corpus-bma-2026-11-03:no-lane",
     "asset-lib-char-probe-2026-11-03:no-lane"
    ],
    "note": "CEO 2026-11-03 令：先不做短剧和漫剧，先储备资产（烧角色 LoRA 与音色库）"
@@ -833,7 +831,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 12,
+  "local": 11,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -842,16 +840,24 @@
  },
  "supply_gap": {
   "cpu": 11,
-  "gpu": 1
+  "gpu": 0
  },
- "supply_added": [],
+ "supply_added": [
+  "backlog_manifest+1"
+ ],
  "events": [
-  "asset-lib-voice-corpus-bma-2026-11-03 FAILED via bm-a"
+  "asset-lib-char-prompts-2026-11-03 FAILED via bm-c",
+  "asset-lib-voice-corpus-bmc-2026-11-03 FAILED via bm-m",
+  "asset-lib-face-caption-2026-11-03 -> bm-c (gpu)",
+  "asset-lib-index-2026-11-03 -> bm-m (cpu)"
  ],
  "violations": [
-  "bm-b IDLE-CONFIRMED x16 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-b IDLE-CONFIRMED x17 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED bigstream-mv 卡在 剪辑/装配/剪辑席 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
- "lane_files_written": []
+ "lane_files_written": [
+  "bm-c",
+  "bm-m"
+ ]
 }
