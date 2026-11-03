@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-03T14:43:15",
- "cycle": 224,
+ "ts": "2026-11-03T14:44:27",
+ "cycle": 225,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-03T14:43:15",
+ "master_tick_ts": "2026-11-03T14:44:27",
  "queue": {
   "total": 285,
   "open": 4,
@@ -14,9 +14,9 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 0.9,
-   "cpu_load_pct": 52,
-   "ram_free_gb": 15.1,
+   "hb_age_s": 14.1,
+   "cpu_load_pct": 51,
+   "ram_free_gb": 17.4,
    "gpu_util_pct": 100,
    "job": "asset-lib-voice-corpus-bmc-2026-11-03",
    "last_result": {
@@ -32,7 +32,7 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 140.9,
+   "hb_age_s": 214.1,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -50,16 +50,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 96.9,
-   "cpu_load_pct": 8,
-   "ram_free_gb": 5.6,
+   "hb_age_s": 73.4,
+   "cpu_load_pct": 11,
+   "ram_free_gb": 5.3,
    "gpu_util_pct": 0,
-   "job": "asset-lib-index-2026-11-03",
+   "job": "asset-lib-voice-corpus-bmb-2026-11-03",
    "last_result": {
-    "job": "asset-lib-voice-corpus-bmb-2026-11-03",
+    "job": "asset-lib-index-2026-11-03",
     "state": "FAILED",
-    "rc": 2,
-    "ts": "2026-11-03T14:42:00",
+    "rc": 0,
+    "ts": "2026-11-03T14:43:41",
     "reason": null
    },
    "idle_confirmed": false,
@@ -68,16 +68,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.6,
-   "cpu_load_pct": 26,
+   "hb_age_s": 0.5,
+   "cpu_load_pct": 20,
    "ram_free_gb": 16.8,
    "gpu_util_pct": null,
-   "job": "bigstream-mv-gate-2026-11-03",
+   "job": "biggame-playable-2026-11-03",
    "last_result": {
-    "job": "biggame-playable-2026-11-03",
+    "job": "bigstream-mv-gate-2026-11-03",
     "state": "FAILED",
-    "rc": 0,
-    "ts": "2026-11-03T14:42:06",
+    "rc": 1,
+    "ts": "2026-11-03T14:43:19",
     "reason": null
    },
    "idle_confirmed": false,
@@ -95,14 +95,12 @@
   "bigstream-mv": {
    "name": "BigStream·MV 41 曲",
    "status": "PAUSED",
-   "verdict": "WORKING",
+   "verdict": "WAITING",
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
-   "jobs": [
-    "bigstream-mv-gate-2026-11-03"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": null
   },
@@ -149,12 +147,14 @@
   "biggame": {
    "name": "Biggame·游戏",
    "status": "ACTIVE",
-   "verdict": "WAITING",
+   "verdict": "WORKING",
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "游戏席",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "biggame-playable-2026-11-03"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": null
   },
@@ -278,8 +278,8 @@
    "stale_after_h": 72.0,
    "owner": "资产席",
    "jobs": [
-    "asset-lib-voice-corpus-bmc-2026-11-03",
-    "asset-lib-index-2026-11-03"
+    "asset-lib-voice-corpus-bmb-2026-11-03",
+    "asset-lib-voice-corpus-bmc-2026-11-03"
    ],
    "no_supply": false,
    "blockers": [],
@@ -815,10 +815,10 @@
  ],
  "events": [
   "asset-lib-voice-corpus-bma-2026-11-03 FAILED via bm-a",
-  "asset-lib-voice-corpus-bmb-2026-11-03 FAILED via bm-c",
-  "biggame-playable-2026-11-03 FAILED via bm-m",
-  "asset-lib-index-2026-11-03 -> bm-c (cpu)",
-  "bigstream-mv-gate-2026-11-03 -> bm-m (cpu)"
+  "asset-lib-index-2026-11-03 FAILED via bm-c",
+  "bigstream-mv-gate-2026-11-03 FAILED via bm-m",
+  "asset-lib-voice-corpus-bmb-2026-11-03 -> bm-c (cpu)",
+  "biggame-playable-2026-11-03 -> bm-m (cpu)"
  ],
  "violations": [
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
