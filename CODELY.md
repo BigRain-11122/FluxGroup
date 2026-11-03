@@ -47,16 +47,16 @@
 
 ### Reference
 - [memory-gate] 记忆分层主题索引（按需读·verbatim 全量在档）：
-- archive-misc.md（7 条）=.codely-cli/memory/topics\archive-misc.md
-- fleet-dispatcher.md（28 条）=.codely-cli/memory/topics\fleet-dispatcher.md
-- game-dev.md（15 条）=.codely-cli/memory/topics\game-dev.md
-- git-surgery.md（6 条）=.codely-cli/memory/topics\git-surgery.md
-- governance-council.md（2 条）=.codely-cli/memory/topics\governance-council.md
-- hardware-procurement.md（3 条）=.codely-cli/memory/topics\hardware-procurement.md
-- mv-production.md（22 条）=.codely-cli/memory/topics\mv-production.md
-- quant-backtest.md（6 条）=.codely-cli/memory/topics\quant-backtest.md
-- shortvideo-bili.md（4 条）=.codely-cli/memory/topics\shortvideo-bili.md
-- tool-pitfalls.md（2 条）=.codely-cli/memory/topics\tool-pitfalls.md
+archive-misc.md（7 条）=.codely-cli/memory/topics/archive-misc.md
+fleet-dispatcher.md（28 条）=.codely-cli/memory/topics/fleet-dispatcher.md
+game-dev.md（15 条）=.codely-cli/memory/topics/game-dev.md
+git-surgery.md（6 条）=.codely-cli/memory/topics/git-surgery.md
+governance-council.md（2 条）=.codely-cli/memory/topics/governance-council.md
+hardware-procurement.md（3 条）=.codely-cli/memory/topics/hardware-procurement.md
+mv-production.md（22 条）=.codely-cli/memory/topics/mv-production.md
+quant-backtest.md（6 条）=.codely-cli/memory/topics/quant-backtest.md
+shortvideo-bili.md（4 条）=.codely-cli/memory/topics/shortvideo-bili.md
+tool-pitfalls.md（2 条）=.codely-cli/memory/topics/tool-pitfalls.md
 - [memory-gate] 历史瘦身快照=memory\cleanup-* 与 cleanup-gate-*（零删除回滚通道·联合正本冻结件=cph4/fleet/memory/archive/）
 
 - local-inference.md（推理栈 3 条：事件流 S1 / MLX 换档 / 跨系统体检）=.codely-cli/memory/topics/local-inference.md
