@@ -1002,20 +1002,6 @@ if prev_by and prev_by != owner_node:
 [2026-11-03 00:2x-00:3x][PROXY R2.69-复探收口] BURNING 全绿：①agent-pull 00:14:28 ff-only ok（树收口后复绿·00:19:21 steward 轮 rc=0 跑 ~11min 长卡后正常收口·00:34 起恢复 5min 节律）；②僵尸重放止停（末笔 bm-a artifact=06199ff6 00:14:38 合法 lane 卡·R-TRIAGE 回执已由 bm-m 代收 9501b539 上链）；③树 0/0+四件内容 origin 实证（CODELY 四条目/EVO 值守轮块/LOG 剥离+R2.69 行/NJ 六条裁决）；④origin 主控分秒级活性。步8：删重复班次 cron 007d4701（双注册双触发白烧·保 R2.68 在案重建 b3fe38a2）+清过期残留 108dc4d7+建 R2.69 回访探针 0dacc655@01:56（一次性 durable·prompt 含本班旗清单）。预判注记：origin lane 实证 chief 已将 C-TTS-QC-ALL 改派 bm-a（本机无 media/drama-tts-out→rc=1 失败重试噪声·NJ R2.69 段已登记不干预活队列）；bigdomain 回执留 untracked（与 NJ 同窗被 clear 吞·非关键候下班）。D-R267-GENSTATE-CLOBBER 第2实锚教训=台账批量写入禁跨工具调用窗悬置暂存面（本班已用禁任务过窗+同窗原子化正法）。班毕锁收口。调用≈30。
 
 [2026-11-03 03:56-04:1x][PROXY R2.71 事件班] 承载件触发（DISPATCH-LOG 3.2h）→ 复盘 00:44 后复发两病并当场修死：队列去重折叠（314→181）+ 错节点空烧（requires 前置闸 + E-INPUT 分类 + 三张僵尸卡退役 + 今日卡修派 bm-b）+ 投 bm-b 盘点卡。bm-b poke 04:02:54 accepted。四机在线、主控 cycle 22 正常；bm-c ram 0.1GB 只登记不动作。复探结果见 DISPATCH-LOG 下行。
-<<<<<<<
-||||||| Stash base
-=======
-=======
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
->>>>>>> Stashed changes
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
->>>>>>> Stashed changes
-<<<<<<< HEAD
->>>>>>> 18a81cbb (MV 交付闸首跑定罪 + 两处闸缺陷修 + SUPPLY-DRY 翻案补料)
 
 [2026-11-03 04:1x][PROXY R2.71 复探与三修] 点火成功（bm-b 04:09:06 起跑盘点卡）。新增两修：取消粘滞（merge_jsonl，防在飞腿复活已取消卡）+ 冲突清理（fleet_lane/lane_agent UU 取回 HEAD，markers 0，编译 OK）。队列 183 行/183 id 稳定；E-INPUT 分类已在 bm-m 回执生效。回访探针 4c609b62@05:47 在案。
 
@@ -1102,4 +1088,3 @@ am_free 10GB / cpu_load 48%——bm-b 在跑量化轮而非闲着；缺的是本
 
 | **R6-18 MV 观众级三查已交付（导演席签字依据）** | **delivered** | 03:33:32-03:35:39 bm-a 实跑 `mv_full_audit.py`（24fps v721，5623 帧/98 镜，rc=0）：`cph4/fleet/queue-receipts/mv-full-audit-20261103.json`。逐镜表 98 行 + 重复 9 对（未申报 2 对）+ 时代歧义 25 处 + 短镜 15 个 + 长镜 2 个。与 R6-15 的 60fps 闸判决互为印证（同一母版两种规格）。 |
 | **bm-a 在跑真实生产（观察）** | **standing** | 00:37:33 起 `musubi-tuner` krea2 LoRA 训练常驻（多进程；03:31 实测 gpu=82%），与车队 CPU 卡并行不冲突——GPU 面在烧、CPU 面在派单，机器未闲置。 |
->>>>>>> 36550e62 (job(bigstream-mv-gate-2026-11-04): artifact [via bm-a])

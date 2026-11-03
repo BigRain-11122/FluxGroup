@@ -7,6 +7,17 @@
 # This file MUST stay LF (CRLF breaks sh) - enforced by .gitattributes eol=lf.
 LIMIT_BLOCK=20971520
 LIMIT_WARN=5242880
+# FluxGroup CONFLICT-MARKER-GATE (D-20261103-15 交付物, D-20261104-05 落地)
+# 病根: orders.md 冲突标记四次回归, 每次都是"未提交面被后台路径追加后再被 commit 带走".
+# 故在提交前对 staged blob 做全文件级断言: 命中 <<<<<<< / >>>>>>> 行首标记即拒绝提交.
+# 只用 git plumbing, 零外部工具; 例外走 --no-verify + 令注一行.
+conflict=$(git grep --cached -l -e '^<<<<<<< ' -e '^>>>>>>> ' 2>/dev/null)
+if [ -n "$conflict" ]; then
+  echo "[CONFLICT-MARKER-GATE] BLOCK: unresolved conflict marker in staged file(s):" >&2
+  echo "$conflict" >&2
+  echo "  -> resolve the merge/stash block first (D-20261103-15). Override: --no-verify + note." >&2
+  exit 1
+fi
 git diff --cached --raw | while IFS= read -r line; do
   [ -n "$line" ] || continue
   set -- $line
