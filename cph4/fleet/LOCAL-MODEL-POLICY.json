@@ -49,11 +49,15 @@
  "auto_pull": {
   "enabled": true,
   "max_size_gb": 6.0,
+  "max_per_day": 2,
   "only_same_family_as": [
    "qwen3",
    "qwen3.5"
   ],
-  "note": "只自动拉同家族、体积 <=6GB 的新版本；更大的新档只报告不下载。"
+  "only_states": [
+   "NEW-TAG"
+  ],
+  "note": "只自动拉【新增档】（同家族、<=6GB、每天<=2 个）；【同 tag 上游重发】一律只报告不拉——拉到新版就把旧版基线冲掉，A/B 做不了了。换档必须由 decide 给出建议后由主控/CEO 定。"
  },
  "golden_set": [
   {
