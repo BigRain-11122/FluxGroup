@@ -14,9 +14,9 @@
    "why": "llamacpp 对照档，留作 A/B；它没有 mlx 版（上游 404），跑不上 MLX 引擎"
   },
   "embedding": {
-   "model": "nomic-embed-text:latest",
+   "model": "qwen3-embedding:0.6b",
    "budget_gb": 1.0,
-   "why": "语义判重/检索；比生成模型快 12 倍且召回高"
+   "why": "2026-11-03 实测 80+80 对：正例 .977/负例 .391/间隔 .586（nomic 为 .964/.584/.380）；假阳性<=2% 时阈值 .72；真重复三例 .953/.939/.830 全中，而真实队列上的假聚消失"
   },
   "longform": {
    "model": "qwen3:8b",

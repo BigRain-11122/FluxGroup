@@ -1,22 +1,22 @@
 {
- "ts": "2026-11-03T14:23:52",
- "cycle": 204,
+ "ts": "2026-11-03T14:24:41",
+ "cycle": 205,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-03T14:23:52",
+ "master_tick_ts": "2026-11-03T14:24:41",
  "queue": {
-  "total": 262,
-  "open": 2,
+  "total": 266,
+  "open": 4,
   "running": 4,
   "done": 128,
-  "failed": 6
+  "failed": 7
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 30.1,
-   "cpu_load_pct": 44,
-   "ram_free_gb": 24.6,
+   "hb_age_s": 26.7,
+   "cpu_load_pct": 71,
+   "ram_free_gb": 21.5,
    "gpu_util_pct": 100,
    "job": "bigstream-mv-gate-2026-11-03",
    "last_result": {
@@ -32,7 +32,7 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 296.4,
+   "hb_age_s": 344.5,
    "cpu_load_pct": 36,
    "ram_free_gb": 1.4,
    "gpu_util_pct": 100,
@@ -50,16 +50,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 27.4,
+   "hb_age_s": 75.6,
    "cpu_load_pct": 6,
    "ram_free_gb": 6.2,
    "gpu_util_pct": 0,
-   "job": "asset-lib-voice-dataset-2026-11-03",
+   "job": "asset-lib-voice-corpus-bma-2026-11-03",
    "last_result": {
     "job": "asset-lib-voice-dataset-2026-11-03",
-    "state": "RUNNING",
-    "rc": null,
-    "ts": "2026-11-03T14:23:32",
+    "state": "FAILED",
+    "rc": 2,
+    "ts": "2026-11-03T14:23:52",
     "reason": null
    },
    "idle_confirmed": false,
@@ -68,16 +68,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.7,
-   "cpu_load_pct": 56,
-   "ram_free_gb": 15.5,
+   "hb_age_s": 0.6,
+   "cpu_load_pct": 40,
+   "ram_free_gb": 15.1,
    "gpu_util_pct": null,
    "job": "asset-lib-env-check-2026-11-03",
    "last_result": {
-    "job": "R-TRIAGE-ASSETLIB-BMA-20261103",
+    "job": "CANARY-20261103T142438",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-03T14:22:48",
+    "ts": "2026-11-03T14:24:38",
     "reason": null
    },
    "idle_confirmed": false,
@@ -278,10 +278,15 @@
    "jobs": [
     "asset-lib-env-check-2026-11-03",
     "asset-lib-face-dataset-2026-11-03",
-    "asset-lib-voice-dataset-2026-11-03"
+    "asset-lib-voice-corpus-bma-2026-11-03",
+    "asset-lib-voice-corpus-bmb-2026-11-03",
+    "asset-lib-voice-corpus-bmc-2026-11-03"
    ],
    "no_supply": false,
-   "blockers": [],
+   "blockers": [
+    "asset-lib-voice-corpus-bmb-2026-11-03:no-lane",
+    "asset-lib-voice-corpus-bmc-2026-11-03:no-lane"
+   ],
    "note": "CEO 2026-11-03 令：先不做短剧和漫剧，先储备资产（烧角色 LoRA 与音色库）"
   }
  },
@@ -798,7 +803,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 2,
+  "local": 4,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -806,19 +811,19 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 2,
+  "cpu": 4,
   "gpu": 0
  },
  "supply_added": [],
  "events": [
   "biggame-playable-2026-11-03 FAILED via bm-a",
-  "R-TRIAGE-ASSETLIB-BMA-20261103 DONE via bm-m",
-  "asset-lib-env-check-2026-11-03 -> bm-m (cpu)"
+  "asset-lib-voice-dataset-2026-11-03 FAILED via bm-c",
+  "asset-lib-voice-corpus-bma-2026-11-03 -> bm-c (cpu)"
  ],
  "violations": [
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-m"
+  "bm-c"
  ]
 }
