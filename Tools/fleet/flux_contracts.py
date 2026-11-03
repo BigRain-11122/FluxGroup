@@ -116,6 +116,42 @@ def deliverable_of(card):
     return d or ""
 
 
+def deliverable_blocked(path):
+    """True when a deliverable file is really an interception receipt.
+
+    A guard that refuses to run on the wrong box still leaves a trace, and that trace
+    lands on the path the card promised. Then "the deliverable exists" is true while
+    nothing was delivered (2026-11-03: three Windows audit cards were closed DONE on
+    macOS this way, twice - the guard was fixed to use a -blocked-* path, but a card
+    whose cmd passes --out explicitly walked straight around it). So the check belongs
+    here, at the contract layer, not inside one tool.
+    """
+    if not path:
+        return False
+    try:
+        if not os.path.isfile(path) or os.path.getsize(path) > 262144:
+            return False
+        with open(path, encoding="utf-8-sig", errors="replace") as f:
+            obj = json.load(f)
+    except Exception:
+        return False
+    if not isinstance(obj, dict):
+        return False
+    if obj.get("receipt_is_not_deliverable") is True:
+        return True
+    for k in ("verdict", "status", "state", "outcome"):
+        if str(obj.get(k) or "").strip().upper() == "BLOCKED":
+            return True
+    if obj.get("blocked") is True:
+        return True
+    return str(obj.get("error_class") or "").upper().startswith("E-BLOCKED")
+
+
+def artifact_ok(path):
+    """A declared deliverable counts only if it is on disk AND is not a refusal receipt."""
+    return bool(path) and os.path.isfile(path) and not deliverable_blocked(path)
+
+
 def is_ok(card, rc, deliverable_exists):
     """A step succeeded only if the process exit code is allowed AND its declared
     deliverable is on disk. 'It produced a file' alone no longer means success."""

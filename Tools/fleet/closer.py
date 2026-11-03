@@ -15,6 +15,7 @@ ROOT = os.path.dirname(os.path.dirname(HERE))
 if HERE not in sys.path:
     sys.path.insert(0, HERE)
 import fleet_lane as fl  # noqa: E402
+import flux_contracts as fc  # noqa: E402
 F = os.path.join(ROOT, "cph4", "fleet")
 Q = os.path.join(F, "PRODUCTION-QUEUE.jsonl")
 EV = os.path.join(F, "dispatcher", "events.jsonl")
@@ -91,12 +92,15 @@ def main():
                 if not n.endswith(".json"):
                     continue
                 rec = json.load(open(os.path.join(RECEIPT_DIR, n), encoding="utf-8-sig"))
-                if rec.get("id") == r.get("id") and rec.get("deliverable_exists"):
+                if rec.get("id") == r.get("id") and rec.get("deliverable_exists") \
+                        and str(rec.get("outcome") or "OK").upper() == "OK":
                     receipt_ok = True
                     break
         except Exception:
             pass
-        ok = (bool(dl) and os.path.exists(local)) or receipt_ok
+        # artifact_ok rejects a refusal receipt that landed on the promised path: the
+        # BLOCKED file exists but nothing was produced (2026-11-03, twice).
+        ok = fc.artifact_ok(local) or receipt_ok
         owner = r.get("owner")
         allowed = r.get("ok_rc") if isinstance(r.get("ok_rc"), list) and r.get("ok_rc") else [0]
         allowed = [int(x) for x in allowed]

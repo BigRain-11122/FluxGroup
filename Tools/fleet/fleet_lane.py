@@ -52,16 +52,19 @@ LANES = {
              # 09:00-19:00 weekdays it takes nothing unless a job is marked day_ok.
              "quiet_hours": (9, 19),
              "enabled": True, "ram_gb": 94, "vram_gb": 12, "cuda": True,
+             "os": "windows",
              "caps": ["cpu", "kf768", "i2v768", "audio", "assemble", "llm"],
              "llm": {"endpoint": "http://127.0.0.1:11434", "fallback": "http://100.75.133.10:11434"},
              "roles": "hq-central night gpu", "game_launch_ok": False},
     "bm-b": {"name_cn": "小钢炮", "needs": ["cpu", "gpu"], "ram_floor_gb": 2.0, "gpu_hours": None,
              "enabled": True, "ram_gb": 24, "vram_gb": 8, "cuda": True,
+             "os": "windows",
              "caps": ["cpu", "animatic480", "audio", "tts", "llm"],
              "llm": {"endpoint": "http://127.0.0.1:11434", "fallback": "http://100.75.133.10:11434"},
              "roles": "cpu sound / small gpu", "game_launch_ok": False},
     "bm-c": {"name_cn": "传家宝", "needs": ["cpu", "gpu"], "ram_floor_gb": 3.0, "gpu_hours": None,
              "enabled": True, "ram_gb": 24, "vram_gb": 16, "cuda": True,
+             "os": "windows",
              "caps": ["cpu", "kf768", "i2v768", "audio", "render", "llm"],
              "llm": {"endpoint": "http://127.0.0.1:11434", "fallback": "http://100.75.133.10:11434"},
              "roles": "gpu production", "game_launch_ok": False},
@@ -73,6 +76,7 @@ LANES = {
     "bm-m": {"name_cn": "MacBook Pro", "needs": ["cpu"], "ram_floor_gb": 2.0, "gpu_hours": None,
              "enabled": False, "pending": True, "auto_join": True,
              "ram_gb": 32, "vram_gb": 0, "cuda": False,
+             "os": "darwin",
              "role_class": "control", "disk_free_min_gb": 20, "max_job_gb": 20,
              "caps": ["cpu", "ios-build", "text", "llm", "audio", "tts"],
              "llm": {"endpoint": "http://127.0.0.1:11434",
@@ -84,6 +88,7 @@ LANES = {
     "bm-d": {"name_cn": "算力大脑", "needs": ["cpu", "gpu"], "ram_floor_gb": 4.0, "gpu_hours": None,
              "enabled": False, "pending": True, "auto_join": True,
              "ram_gb": 256, "vram_gb": 48, "cuda": True,
+             "os": "windows",
              "caps": ["cpu", "kf768", "i2v768", "backtest", "brain", "llm"],
              "llm": {"endpoint": "http://127.0.0.1:11434", "fallback": "http://100.75.133.10:11434"},
              "roles": "brain / backtest / batch", "game_launch_ok": False},
@@ -100,6 +105,22 @@ except Exception:
     pass
 
 ACTIVE_LANES = [n for n, v in LANES.items() if v.get("enabled")]
+def node_os(node):
+    return ((LANES.get(node) or {}).get("os") or "").lower()
+
+
+def card_os_ok(card, node):
+    """A card that must run on one OS may only run there.
+
+    `nodes` is a preference and may fall back to any capable lane - right for capacity,
+    wrong for "audit the Windows box's ollama". On 2026-11-03 three Windows audit cards
+    fell back to the Mac three times and each guard BLOCKED receipt was booked as
+    delivery. Cards that depend on the machine's own OS declare node_os and wait.
+    """
+    want = str((card or {}).get("node_os") or "").lower()
+    return (not want) or node_os(node) == want
+
+
 # A pending box stops being theoretical the moment it reports: no code change needed when
 # bm-m finishes its Tailscale join or bm-d comes out of the rack.
 AUTO_JOIN = [n for n, v in LANES.items() if v.get("auto_join")]

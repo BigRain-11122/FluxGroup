@@ -478,6 +478,11 @@ def choose_lane(job, fleet, busy):
     hard = job.get("hard_nodes") or []
     if hard:
         candidates = [n for n in candidates if n in hard]
+    # OS-pinned cards (2026-11-03): an audit of the Windows box's ollama cannot be
+    # answered by the Mac. Falling back there produced a BLOCKED receipt that the
+    # closers booked as delivery - three times. Wait for the right box instead.
+    if job.get("node_os"):
+        candidates = [n for n in candidates if fl.card_os_ok(job, n)]
     if cap:
         candidates = [n for n in candidates
                       if cap in (fl.LANES[n].get("caps") or []) or not (fl.LANES[n].get("caps"))]

@@ -312,8 +312,16 @@ def main(argv):
         # 关键：跑错机器的回执**不能**写到卡声明的交付物路径上——
         # 2026-11-03 实测过：写了同名 BLOCKED 回执，收口逻辑见"交付物在盘"就把三张卡判 DONE，
         # 结果 Windows 机一次都没被体检，账面全绿。改用 -blocked 后缀 + rc=3，双保险。
-        out = a.out or os.path.join(OUT_DIR, "inference-audit-%s-blocked-%s.json"
-                                    % (a.node, time.strftime("%Y%m%d")))
+        # 同日二次踩坑：卡自己的 cmd 显式传 --out（等于交付物路径），于是 `a.out or ...`
+        # 又把 BLOCKED 写回交付物路径。拦截回执必须在任何入参下都改道到 -blocked-*。
+        if a.out:
+            _d, _b = os.path.split(a.out)
+            out = os.path.join(_d, "%s-blocked-%s%s" % (
+                os.path.splitext(_b)[0], time.strftime("%Y%m%d"),
+                os.path.splitext(_b)[1] or ".json"))
+        else:
+            out = os.path.join(OUT_DIR, "inference-audit-%s-blocked-%s.json"
+                               % (a.node, time.strftime("%Y%m%d")))
         os.makedirs(os.path.dirname(out), exist_ok=True)
         rep["receipt_is_not_deliverable"] = True
         json.dump(rep, open(out, "w", encoding="utf-8"), ensure_ascii=False, indent=1)

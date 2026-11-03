@@ -299,7 +299,7 @@ def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
     # deliverable checked against the wrong cwd reported "missing" for a file that exists.
     dl_abs = deliverable if os.path.isabs(deliverable) else (
         os.path.join(root, deliverable) if deliverable else "")
-    dl_ok = bool(dl_abs) and os.path.exists(dl_abs)
+    dl_ok = fc.artifact_ok(dl_abs)
     # Success is a contract, not a feeling (2026-11-02): rc must be in the card's ok_rc
     # AND the declared deliverable must be on disk. Until today "a file exists" alone
     # booked rc=9009 (command not found) as DONE, so the books said done while nothing ran.
@@ -396,8 +396,25 @@ def self_dispatch(root, node, allow_gpu_workhours, max_seconds, hub, port, dry, 
                 return False
         return True
 
+    def trust_allows(row):
+        """本机信任级是否允许接这张卡（与主控同一判据，来自 lane_trust 一处定义）。
+        2026-11-03 实测：主控已按真回执降级 bm-b，但它自己 self-dispatch 时仍会挑重卡，
+        闸就变成装饰——本机必须用同一条规则。"""
+        try:
+            import lane_trust as _lt
+            _tier = _lt.tier(node)[0]
+        except Exception:
+            return True
+        if _tier in ("production", "unknown"):
+            return True
+        return bool(row.get("probe"))
+
     def _eligible(r, strict):
         if only and r.get("id") != only:
+            return False
+        if not trust_allows(r):
+            return False
+        if not fl.card_os_ok(r, node):
             return False
         nodes = r.get("nodes") or []
         # 2026-11-02：控制面不接生产活。CEO 立法：这台机第一任务是主控——调度、监督、
@@ -455,7 +472,10 @@ def self_dispatch(root, node, allow_gpu_workhours, max_seconds, hub, port, dry, 
     rows = fl.read_jsonl(qpath)
     for x in rows:
         if x.get("id") == pick.get("id"):
-            ok = (res.get("rc") == 0 or res.get("deliverable_exists"))
+            # Take run_job's verdict instead of re-deriving it loosely. The old rule
+            # ("rc==0 OR deliverable exists") is exactly how rc=3 BLOCKED receipts got
+            # booked DONE: the refusal file satisfied the second half.
+            ok = bool(res.get("ok"))
             x["state"] = "DONE" if ok else "FAILED"
             x["owner"] = node
             x["finished_at"] = fl.now_iso()
