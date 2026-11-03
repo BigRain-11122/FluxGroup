@@ -1,6 +1,6 @@
 ---
-name: asset-audit
-description: "Audit assets against naming conventions, file size budgets, format standards. Finds orphaned assets, missing references."
+name: ccgs-asset-audit
+description: "Audit assets against naming conventions, file size budgets, format standards. Finds orphaned assets, missing references. Use when auditing a Unity/Tuanjie Assets tree from the CCGS bundle — orphan detection, size/format budgets, NOT ASSESSED discipline; for the group's own naming/alpha/meta rules use the top-level asset-audit skill instead."
 ---
 
 

@@ -1,7 +1,7 @@
 # CCGS 收编技能来源与许可
 
 本目录下列技能适配自 Claude-Code-Game-Studios（github.com/Donchitos/Claude-Code-Game-Studios · 2026-10-02 收编批 P-2026-10-02-07）：
-asset-audit, scope-check, estimate, unity-specialist, unity-shader-specialist, systems-designer, game-designer, economy-designer, technical-artist, performance-analyst, qa-lead
+ccgs-asset-audit, scope-check, estimate, unity-specialist, unity-shader-specialist, systems-designer, game-designer, economy-designer, technical-artist, performance-analyst, qa-lead
 
 上游许可全文：
 
