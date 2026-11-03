@@ -130,13 +130,13 @@ def check(line, day=None):
 
 def main(argv):
     ap = argparse.ArgumentParser()
-    ap.add_argument("--line", required=True)
+    ap.add_argument("--line", default="")
     ap.add_argument("--date", default="")
     ap.add_argument("--json", action="store_true")
     ap.add_argument("--all", action="store_true", help="跑全部已知线")
     ap.add_argument("--out", default="", help="另存一份到指定路径（给验收卡当交付物）")
     a = ap.parse_args(argv)
-    lines = list(DEFAULT_GATES) if a.all else [a.line]
+    lines = list(DEFAULT_GATES) if (a.all or not a.line) else [a.line]
     outs = [check(l, a.date or None) for l in lines]
     if a.out:
         os.makedirs(os.path.dirname(os.path.abspath(a.out)), exist_ok=True)
