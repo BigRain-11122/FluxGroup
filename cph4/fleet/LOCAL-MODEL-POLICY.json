@@ -14,9 +14,9 @@
    "why": "llamacpp 对照档，留作 A/B；它没有 mlx 版（上游 404），跑不上 MLX 引擎"
   },
   "embedding": {
-   "model": "qwen3-embedding:0.6b",
+   "model": "nomic-embed-text:latest",
    "budget_gb": 1.0,
-   "why": "2026-11-03 实测 80+80 对：正例 .977/负例 .391/间隔 .586（nomic 为 .964/.584/.380）；假阳性<=2% 时阈值 .72；真重复三例 .953/.939/.830 全中，而真实队列上的假聚消失"
+   "why": "语义判重/检索；比生成模型快 12 倍且召回高"
   },
   "longform": {
    "model": "qwen3:8b",
@@ -34,8 +34,9 @@
   "speed_drop_max": 0.1,
   "speed_gain_min": 1.05,
   "must_fit_mem_gate": true,
-  "note": "换档只有两条路：①质量更高，且速度不低于现役的 90%；②质量持平，且速度至少快 5%。质量更低一律不换；两点都不占一律不换。建议不自动生效。"
- },
+   "auto_apply": true,
+   "note": "换档只有两条路：①质量更高，且速度不低于现役的 90%；②质量持平，且速度至少快 5%。质量更低一律不换；两点都不占一律不换。2026-11-03 CEO 令：机队每台机「测得好就换、测不好不换」→ auto_apply=true；每次换档写 applied.from/to 与 rollback，可一步退回。"
+  },
  "thresholds": {
   "bench_stale_days": 7,
   "scan_every_hours": 24,
@@ -50,6 +51,7 @@
  "auto_pull": {
   "enabled": true,
   "max_size_gb": 6.0,
+  "min_size_gb": 1.5,
   "max_per_day": 2,
   "only_same_family_as": [
    "qwen3",
@@ -59,6 +61,66 @@
    "NEW-TAG"
   ],
   "note": "只自动拉【新增档】（同家族、<=6GB、每天<=2 个）；【同 tag 上游重发】一律只报告不拉——拉到新版就把旧版基线冲掉，A/B 做不了了。换档必须由 decide 给出建议后由主控/CEO 定。"
+ },
+ "nodes": {
+  "_comment": "机队每台机的模型口径（CEO 2026-11-03：每台机空闲时搜最新、适配、实测，测不过不换）。阈值不在这里重写——accept_upgrade 只留一处；此处只声明本机能装多大、哪些家族、什么时段算闲。auto_baseline=true 表示基线以本机实装为准（未声明型号的机器不自造假基线）。",
+  "bm-a": {
+   "duties": {
+    "resident": {
+     "model": "qwen3:4b-instruct",
+     "budget_gb": 5.0,
+     "why": "2026-11-03 实测本机唯一已装对话档（2.5GB，llamacpp）；RTX 4070S 12GB 可承受到 ~8GB 档"
+    }
+   },
+   "tracked_families": ["qwen3", "qwen3.5"],
+   "auto_pull": {"enabled": true, "max_size_gb": 8.0, "max_per_day": 2,
+                 "only_same_family_as": ["qwen3", "qwen3.5"], "only_states": ["NEW-TAG"]},
+   "idle": {"queue_blocks": true, "skip_weekday_hours": [9, 19], "min_free_gb": 6.0},
+   "auto_baseline": false,
+   "discover": true
+  },
+  "bm-b": {
+   "duties": {
+    "resident": {"model": "qwen3:4b-instruct", "budget_gb": 4.0,
+                 "why": "8GB 显存 + 24GB 内存，只跑 4B 级；型号以本机实装为准（auto_baseline）"}
+   },
+   "tracked_families": ["qwen3", "qwen3.5"],
+   "auto_pull": {"enabled": true, "max_size_gb": 5.0, "max_per_day": 2,
+                 "only_same_family_as": ["qwen3", "qwen3.5"], "only_states": ["NEW-TAG"]},
+   "idle": {"queue_blocks": true, "min_free_gb": 4.0},
+   "auto_baseline": true,
+   "discover": true
+  },
+  "bm-c": {
+   "duties": {
+    "resident": {"model": "qwen3:4b-instruct", "budget_gb": 4.0,
+                 "why": "16GB 魔改 3070 + 24GB 内存；哨兵/空闲用 4B，型号以本机实装为准"}
+   },
+   "tracked_families": ["qwen3", "qwen3.5"],
+   "auto_pull": {"enabled": true, "max_size_gb": 6.0, "max_per_day": 2,
+                 "only_same_family_as": ["qwen3", "qwen3.5"], "only_states": ["NEW-TAG"]},
+   "idle": {"queue_blocks": true, "min_free_gb": 4.0},
+   "auto_baseline": true,
+   "discover": true
+  },
+  "bm-d": {
+   "duties": {
+    "resident": {"model": "qwen3:4b-instruct", "budget_gb": 4.0,
+                 "why": "256GB 内存机；基线以实装为准，大档（35B-A3B）属 3.6 族，需另立档再测"}
+   },
+   "tracked_families": ["qwen3", "qwen3.5", "qwen3.6"],
+   "auto_pull": {"enabled": true, "max_size_gb": 8.0, "max_per_day": 2,
+                 "only_same_family_as": ["qwen3", "qwen3.5", "qwen3.6"], "only_states": ["NEW-TAG"]},
+   "idle": {"queue_blocks": true, "min_free_gb": 16.0},
+   "auto_baseline": true,
+   "discover": true
+  },
+  "bm-m": {
+   "idle": {"queue_blocks": true, "min_free_gb": 5.0},
+   "auto_baseline": false,
+   "discover": true,
+   "_note": "职责沿用顶层 duties（resident=qwen3.5:4b-mlx 等），不在本节点重复声明"
+  }
  },
  "golden_set": [
   {
@@ -124,28 +186,5 @@
    ],
    "max_chars": 16
   }
- ],
- "open_items": [
-  {
-   "item": "iogpu.wired_limit_mb",
-   "now": "默认 0",
-   "trigger": "要跑 22GB 封存档且实测换页时"
-  },
-  {
-   "item": "MLX 下的 KV 量化 / prefill_step_size / draft 投机解码",
-   "now": "ollama MLX runner 不暴露",
-   "trigger": "ollama 暴露参数，或转 mlx_lm 直跑路线"
-  },
-  {
-   "item": "mlx_lm 直跑 vs ollama 对比",
-   "now": "未测",
-   "trigger": "出现 ollama 不支持的采样/量化需求"
-  },
-  {
-   "item": "更大模型（8B+）在 MLX 下的并发收益",
-   "now": "4B 实测无收益",
-   "trigger": "现役档升到 8B 以上"
-  }
- ],
- "research_doc": "cph4/fleet/LOCAL-INFERENCE-RESEARCH-v1.md"
+ ]
 }
