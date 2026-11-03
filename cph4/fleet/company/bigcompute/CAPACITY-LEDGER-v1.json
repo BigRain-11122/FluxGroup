@@ -1,0 +1,163 @@
+{
+ "ts": "2026-11-03T17:26:12",
+ "purpose": "BigCompute 定价分母：每台机每小时成本与实测占用（非会计口径）",
+ "assumptions": {
+  "rate_cny_per_machine_hour": 0.6,
+  "rate_source": "默认值 0.60（非实测，仅为电费+折旧粗算）",
+  "measured_window": "queue-receipts 全量（回执 seconds 求和），不是账单"
+ },
+ "nodes": [
+  {
+   "node": "bm-a",
+   "name_cn": "公司生产力",
+   "enabled": true,
+   "role_class": "worker",
+   "capacity": {
+    "ram_gb": 94,
+    "vram_gb": 12,
+    "cuda": true,
+    "caps": [
+     "cpu",
+     "kf768",
+     "i2v768",
+     "audio",
+     "assemble",
+     "llm"
+    ]
+   },
+   "measured": {
+    "occupied_hours": 0.61,
+    "ok_cards": 11,
+    "ram_free_gb": 71.2,
+    "spare_slots": 68
+   },
+   "cost_cny_at_rate": 0.37
+  },
+  {
+   "node": "bm-b",
+   "name_cn": "小钢炮",
+   "enabled": true,
+   "role_class": "worker",
+   "capacity": {
+    "ram_gb": 24,
+    "vram_gb": 8,
+    "cuda": true,
+    "caps": [
+     "cpu",
+     "animatic480",
+     "audio",
+     "tts",
+     "llm"
+    ]
+   },
+   "measured": {
+    "occupied_hours": 0.0,
+    "ok_cards": 0,
+    "ram_free_gb": null,
+    "spare_slots": null
+   },
+   "cost_cny_at_rate": 0.0
+  },
+  {
+   "node": "bm-c",
+   "name_cn": "传家宝",
+   "enabled": true,
+   "role_class": "worker",
+   "capacity": {
+    "ram_gb": 24,
+    "vram_gb": 16,
+    "cuda": true,
+    "caps": [
+     "cpu",
+     "kf768",
+     "i2v768",
+     "audio",
+     "render",
+     "llm"
+    ]
+   },
+   "measured": {
+    "occupied_hours": 0.04,
+    "ok_cards": 3,
+    "ram_free_gb": 5.7,
+    "spare_slots": 2
+   },
+   "cost_cny_at_rate": 0.02
+  },
+  {
+   "node": "bm-d",
+   "name_cn": "算力大脑",
+   "enabled": false,
+   "role_class": "worker",
+   "capacity": {
+    "ram_gb": 256,
+    "vram_gb": 48,
+    "cuda": true,
+    "caps": [
+     "cpu",
+     "kf768",
+     "i2v768",
+     "backtest",
+     "brain",
+     "llm"
+    ]
+   },
+   "measured": {
+    "occupied_hours": 0.0,
+    "ok_cards": 0,
+    "ram_free_gb": null,
+    "spare_slots": null
+   },
+   "cost_cny_at_rate": 0.0
+  },
+  {
+   "node": "bm-m",
+   "name_cn": "MacBook Pro",
+   "enabled": false,
+   "role_class": "control",
+   "capacity": {
+    "ram_gb": 32,
+    "vram_gb": 0,
+    "cuda": false,
+    "caps": [
+     "cpu",
+     "ios-build",
+     "text",
+     "llm",
+     "audio",
+     "tts"
+    ]
+   },
+   "measured": {
+    "occupied_hours": 0.17,
+    "ok_cards": 166,
+    "ram_free_gb": 13.4,
+    "spare_slots": 7
+   },
+   "cost_cny_at_rate": 0.1
+  }
+ ],
+ "totals": {
+  "occupied_hours": 0.82,
+  "cost_cny_at_rate": 0.49,
+  "sellable_slots_now": 77
+ },
+ "missing_evidence": [
+  {
+   "item": "电费单价",
+   "why": "真边际成本的另一半，当前无任何实测账单",
+   "how_to_fix": "读取本机/机队电表或按功率×电价估算，需 CEO 提供电价"
+  },
+  {
+   "item": "购入价与折旧年限",
+   "why": "机器折旧未入账，rate 只是粗算",
+   "how_to_fix": "买机发票 + 按 3 年直线折旧"
+  },
+  {
+   "item": "云端同规格租价",
+   "why": "对外报价要有对照组，否则 19.9 无锚点",
+   "how_to_fix": "取 3 家云厂商 4090/A100 按小时价，落一份对照表"
+  }
+ ],
+ "pricing_note": "本台账只给分母；19.9 的售价与毛利在缺上述三项前不得对外承诺。"
+}
