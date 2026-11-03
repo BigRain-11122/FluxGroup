@@ -1,23 +1,23 @@
 {
- "ts": "2026-11-03T21:47:24",
- "cycle": 391,
+ "ts": "2026-11-03T21:48:41",
+ "cycle": 392,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-03T21:47:24",
+ "master_tick_ts": "2026-11-03T21:48:41",
  "queue": {
   "total": 344,
-  "open": 15,
+  "open": 16,
   "running": 3,
   "done": 136,
-  "failed": 15
+  "failed": 14
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 10.1,
-   "cpu_load_pct": 90,
-   "ram_free_gb": 17.9,
-   "gpu_util_pct": 92,
+   "hb_age_s": 27.6,
+   "cpu_load_pct": 37,
+   "ram_free_gb": 17.7,
+   "gpu_util_pct": 88,
    "job": "asset-lib-char-prompts-2026-11-03",
    "last_result": {
     "job": null,
@@ -32,36 +32,30 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 32.1,
-   "cpu_load_pct": 30,
-   "ram_free_gb": 2.6,
+   "hb_age_s": 47.6,
+   "cpu_load_pct": 17,
+   "ram_free_gb": 3,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-03T21:44:55",
+    "ts": "2026-11-03T21:47:45",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 9
+   "idle_rounds": 10
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 76.1,
-   "cpu_load_pct": 13,
-   "ram_free_gb": 2.3,
+   "hb_age_s": 44.5,
+   "cpu_load_pct": 8,
+   "ram_free_gb": 2.4,
    "gpu_util_pct": 0,
    "job": "asset-lib-face-caption-2026-11-03",
-   "last_result": {
-    "job": "asset-lib-char-gen-2026-11-03",
-    "state": "FAILED",
-    "rc": 1,
-    "ts": "2026-11-03T21:37:25",
-    "reason": null
-   },
+   "last_result": null,
    "idle_confirmed": false,
    "idle_reason": "",
    "idle_rounds": 0
@@ -69,15 +63,15 @@
   "bm-m": {
    "online": true,
    "hb_age_s": 0.7,
-   "cpu_load_pct": 23,
-   "ram_free_gb": 12.0,
+   "cpu_load_pct": 11,
+   "ram_free_gb": 13.7,
    "gpu_util_pct": null,
-   "job": "biggame-playable-2026-11-03",
+   "job": "asset-lib-voice-assemble-2026-11-03",
    "last_result": {
-    "job": "asset-lib-voice-assemble-2026-11-03",
+    "job": "biggame-playable-2026-11-03",
     "state": "FAILED",
-    "rc": 3,
-    "ts": "2026-11-03T21:44:12",
+    "rc": 0,
+    "ts": "2026-11-03T21:47:33",
     "reason": null
    },
    "idle_confirmed": false,
@@ -87,7 +81,7 @@
  },
  "idle_rounds": {
   "bm-a": 0,
-  "bm-b": 9,
+  "bm-b": 10,
   "bm-c": 0,
   "bm-m": 0
  },
@@ -151,14 +145,12 @@
   "biggame": {
    "name": "Biggame·游戏",
    "status": "ACTIVE",
-   "verdict": "WORKING",
+   "verdict": "WAITING",
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "游戏席",
-   "jobs": [
-    "biggame-playable-2026-11-03"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": null
   },
@@ -300,11 +292,14 @@
    "jobs": [
     "asset-lib-voice-corpus-bmb-2026-11-03",
     "asset-lib-face-caption-2026-11-03",
-    "asset-lib-char-prompts-2026-11-03"
+    "asset-lib-char-prompts-2026-11-03",
+    "asset-lib-voice-assemble-2026-11-03",
+    "asset-lib-char-gen-2026-11-03"
    ],
    "no_supply": false,
    "blockers": [
-    "asset-lib-voice-corpus-bmb-2026-11-03:no-lane"
+    "asset-lib-voice-corpus-bmb-2026-11-03:no-lane",
+    "asset-lib-char-gen-2026-11-03:no-lane"
    ],
    "note": "CEO 2026-11-03：先储备资产，角色 LoRA 与音色库为 P0"
   }
@@ -832,7 +827,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 15,
+  "local": 16,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -841,19 +836,15 @@
  },
  "supply_gap": {
   "cpu": 15,
-  "gpu": 0
+  "gpu": 1
  },
- "supply_added": [
-  "backlog_manifest+2"
- ],
+ "supply_added": [],
  "events": [
-  "asset-lib-char-gen-2026-11-03 FAILED via bm-c",
-  "asset-lib-voice-assemble-2026-11-03 FAILED via bm-m",
-  "asset-lib-char-prompts-2026-11-03 -> bm-a (cpu)",
-  "biggame-playable-2026-11-03 -> bm-m (cpu)"
+  "biggame-playable-2026-11-03 FAILED via bm-m",
+  "asset-lib-voice-assemble-2026-11-03 -> bm-m (cpu)"
  ],
  "violations": [
-  "bm-b IDLE-CONFIRMED x9 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-b IDLE-CONFIRMED x10 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
