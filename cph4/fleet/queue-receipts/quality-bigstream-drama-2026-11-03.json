@@ -1,44 +1,45 @@
 {
- "ts": "2026-11-03T12:00:26",
+ "ts": "2026-11-03T12:20:28",
  "line": "bigstream-drama",
  "day": "2026-11-03",
  "needed": [
-  "duanju-inventory",
-  "duanju-tts-qc",
-  "duanju-remux",
-  "duanju-shippable"
+  "drama-src",
+  "drama-manifest",
+  "drama-qa",
+  "drama-gate"
  ],
  "gates": [
   {
-   "gate": "duanju-inventory",
-   "file": "cph4/fleet/queue-receipts/duanju-inventory-2026-11-03.json",
-   "state": "UNKNOWN",
-   "why": "无判据字段",
-   "mtime": "2026-11-03 11:06"
+   "gate": "drama-src",
+   "file": "cph4/fleet/queue-receipts/drama-src-2026-11-03.json",
+   "state": "PASS",
+   "why": "OK",
+   "mtime": "2026-11-03 11:56"
   },
   {
-   "gate": "duanju-tts-qc",
-   "file": null,
-   "state": "MISSING"
+   "gate": "drama-manifest",
+   "file": "cph4/fleet/queue-receipts/drama-manifest-2026-11-03.json",
+   "state": "PASS",
+   "why": "PASS",
+   "mtime": "2026-11-03 12:08"
   },
   {
-   "gate": "duanju-remux",
-   "file": null,
-   "state": "MISSING"
+   "gate": "drama-qa",
+   "file": "cph4/fleet/queue-receipts/drama-qa-2026-11-03.json",
+   "state": "PASS",
+   "why": "PASS",
+   "mtime": "2026-11-03 12:06"
   },
   {
-   "gate": "duanju-shippable",
-   "file": null,
-   "state": "MISSING"
+   "gate": "drama-gate",
+   "file": "cph4/fleet/queue-receipts/drama-gate-2026-11-03.json",
+   "state": "PASS",
+   "why": "PASS",
+   "mtime": "2026-11-03 12:08"
   }
  ],
- "gaps": [
-  "duanju-inventory:UNKNOWN(无判据字段)",
-  "duanju-tts-qc:缺",
-  "duanju-remux:缺",
-  "duanju-shippable:缺"
- ],
- "verdict": "FAIL",
+ "gaps": [],
+ "verdict": "PASS",
  "note": "DONE 不等于交付；这里只看闸回执，缺一份就算没交付。",
- "status": "FAIL"
+ "status": "PASS"
 }

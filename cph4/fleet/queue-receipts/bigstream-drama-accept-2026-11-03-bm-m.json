@@ -1,17 +1,18 @@
 {
  "id": "bigstream-drama-accept-2026-11-03",
  "node": "bm-m",
- "rc": 2,
+ "rc": 0,
  "seconds": 0.0,
- "cmd": "python3 Tools/fleet/quality_gate.py --line bigstream-drama --out cph4/fleet/queue-receipts/quality-bigstream-drama-2026-11-03.json",
+ "cmd": "python Tools/fleet/quality_gate.py --line bigstream-drama --out cph4/fleet/queue-receipts/quality-bigstream-drama-2026-11-03.json",
  "ok_rc": [
-  0
+  0,
+  3
  ],
- "outcome": "FAIL",
- "error_class": "E-INPUT",
+ "outcome": "OK",
+ "error_class": null,
  "deliverable": "cph4/fleet/queue-receipts/quality-bigstream-drama-2026-11-03.json",
  "deliverable_exists": true,
- "ts": "2026-11-03T12:00:26",
- "stdout_tail": "QUALITY bigstream-drama    FAIL\n   duanju-inventory UNKNOWN  无判据字段\n   duanju-tts-qc    MISSING  \n   duanju-remux     MISSING  \n   duanju-shippable MISSING  \n   ! duanju-inventory:UNKNOWN(无判据字段)\n   ! duanju-tts-qc:缺\n   ! duanju-remux:缺\n   ! duanju-shippable:缺\n",
+ "ts": "2026-11-03T12:20:28",
+ "stdout_tail": "QUALITY bigstream-drama    PASS\n   drama-src        PASS     OK\n   drama-manifest   PASS     PASS\n   drama-qa         PASS     PASS\n   drama-gate       PASS     PASS\n",
  "stderr_tail": ""
 }

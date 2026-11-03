@@ -1,23 +1,8 @@
 {
  "node": "bm-b",
- "ts": "2026-11-03T12:12:44",
- "jobs": [
-  {
-   "id": "bigstream-drama-accept-2026-11-03",
-   "title": "[漫剧（关键帧→i2v→装配→闸）] 质量验收（缺一份闸回执就不算交付）",
-   "cmd": "python Tools/fleet/quality_gate.py --line bigstream-drama --out cph4/fleet/queue-receipts/quality-bigstream-drama-2026-11-03.json",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/quality-bigstream-drama-2026-11-03.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  }
- ],
- "idle_reason": "",
+ "ts": "2026-11-03T12:17:20",
+ "jobs": [],
+ "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
  "lane_ok": true,
- "capacity_note": "ram 1.4/1.0 GB"
+ "capacity_note": "ram 2.7/1.0 GB"
 }
