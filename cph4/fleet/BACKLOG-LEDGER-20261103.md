@@ -103,3 +103,18 @@
 - 任务实例退出会连坐杀 Start-Process 子进程 → 下载必须**实例内**跑+看门狗到点击杀（bm-d-ISO-Pull 同款范式）。
 - `.cmd >> log` 独占句柄与脚本 `Add-Content` 同文件=自锁死；双文件制（main.log 与脚本日志分开）。
 - ModelScope 上的「AISHELL-3」两个条目均为元数据壳（Type:4 外链 / Type:2 空目录），**不实际托管音频**——检索到不等于能下。
+
+## K. 「高质量 · 去 AI 感」细颗粒度规格与扩散（2026-11-04 00:4x，CEO 根本要求令）
+
+**CEO 令（原话）**：「务必解决高质量和去AI感 2 个最根本的要求，你可以扩散一下，把颗粒度做细」。
+
+| # | 事项 | 处置 | 状态 |
+|---|------|------|------|
+| K1 | **规格书正身** | `cph4/fleet/quality/DE-AI-SPEC-v1.md`：四域（A 声音 8 条 / B 人脸 7 条 / C 画面 7 条 / D 文本 3 条）+ E 执法矩阵 + F 验收流向。每条=判据（细）/阈值/测法/执法点/打回动作；机器可量化的量化（hf_ratio≥0.010、ASR≥0.90、身份≥0.65、LRA≥5LU、停顿≥6/min、底噪 −60~−35dB、seam/freeze=0、硬切≤70%、折行 worst≤17/10、G1-G18、照抄<8 字），量化不了的走导演席盲评协议（≥9 线，六面自审） | 已上链 |
+| K2 | 训练卡驱动器 | `Tools/voicebank/vb_train_card.py`：一卡一声线（wav→m4a→vb_build 44.1k 全保真管线→SoVITS 权重→回执）；内置 GPU 卫生（ST-012 三灭+恢复三件；8G 卡上 s2 需 ~7.9GB，不杀常驻模型必 OOM） | 已上链 |
+| K3 | 微调试点卡 ×2（批前抽检律） | `Q-VCORP-TRAIN-PILOT-aishell3-z01 / -libritts-e01`（钉 bm-b·heavy·when_all=槽目录到料）；**双 PASS 后才批量派其余 14 槽**（锚点行 `VCORP-TRAIN-BATCH-14-20261104`） | 已上链，等料 |
+| K4 | 人脸对照板执法 | `Tools/fleet/asset_board.py`（确定性拼板+清单回执，正反例+多模态亲验通过）；卡 `Q-FACE-BOARD-BMC-20261104`（钉 bm-c）：char-gen 现产物拼板 → 导演席按 B1/B2/B3/B5 盲评 = 换模决策证据 | 已上链 |
+| K5 | 底模换轨 backlog | `CHAR-GEN-V2-QWEN-20261104`（P0）：char_gen v2 支持 qwen-image 四件套工作流；**SDXL/DreamShaper 系按 B5 只许出草稿、禁入训练集** | READY 待 bm-c |
+| K6 | 规格与既有检查单的关系 | 旧单（CHK-E 族、三病清零、drama QC 模板、reply G1-G18、mv 四闸）=本 spec 分册；冲突以 spec 为准；修订律=阈值改动必须带实测证据 | — |
+
+**扩散语义**：spec 上链即对全机队可见；本节列出的卡/backlog 行就是各出生站的新闸；导演席审片时按 spec 逐项对号。
