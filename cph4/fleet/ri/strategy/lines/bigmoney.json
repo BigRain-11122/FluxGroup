@@ -19,7 +19,11 @@
    "requires": [
     "quant/bigmoney/scripts/etf_nobond_vt.py"
    ],
-   "why": "2026-11-03 梳理：日更原指 etf_composite_pf.py（旧书，含债档无波动目标），绿的是没人会买的策略"
+   "why": "2026-11-03 梳理：日更原指 etf_composite_pf.py（旧书，含债档无波动目标），绿的是没人会买的策略",
+   "hard_nodes": [
+    "bm-b",
+    "bm-d"
+   ]
   },
   {
    "id": "signal",
@@ -41,7 +45,7 @@
   {
    "id": "conclusion",
    "name": "一页结论（四件齐才许对外）",
-   "cmd": "python {root_tools}/fleet/quant_conclusion.py --in quant/bigmoney/results/etf_composite_pf.json --line bigmoney --out cph4/fleet/queue-receipts/quant-conclusion-{date}.md",
+   "cmd": "python {root_tools}/fleet/quant_conclusion.py --in quant/bigmoney/results/etf_nobond_vt.json --line bigmoney --out cph4/fleet/queue-receipts/quant-conclusion-{date}.md",
    "deliverable": "cph4/fleet/queue-receipts/quant-conclusion-{date}.md",
    "accept": "四件齐全→可对外；缺件→写明缺什么（rc=3 也算如实）",
    "needs": "cpu",
@@ -52,7 +56,8 @@
    "minutes": 3,
    "depends_on": [
     "signal"
-   ]
+   ],
+   "why": "2026-11-03 修：原先喂的是旧书 etf_composite_pf，等于用被弃用的策略写对外结论（验错对象下移一层）"
   },
   {
    "id": "quote",
