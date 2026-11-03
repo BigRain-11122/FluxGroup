@@ -119,6 +119,8 @@ def main(argv):
     ap.add_argument("--shard", default="0/1", help="i/n，本机只处理 1/n 的文件")
     ap.add_argument("--out", default="")
     ap.add_argument("--receipt", default="")
+    ap.add_argument("--qc", type=int, default=5,
+                    help="用 GPU ASR 抽检多少个片段（0=不抽检）")
     a = ap.parse_args(argv)
     if not FFMPEG:
         print("没有 ffmpeg（rc=1）")
@@ -208,6 +210,7 @@ def main(argv):
 
     receipt.update({"segments": len(rows), "total_s": round(total_s, 1),
                     "sliced_dir": os.path.relpath(sliced),
+                    "asr_qc": corpus_qc(sliced, seg_files[:max(0, a.qc)]) if seg_files else {},
                     "verdict": "PASS" if rows else "FAIL",
                     "gaps": [] if rows else ["一条片段都没切出来"]})
     receipt["status"] = receipt["verdict"]
@@ -215,6 +218,33 @@ def main(argv):
     print("[corpus] %s 分片 %s：文件 %d → 片段 %d（%.1fs）"
           % (a.group, a.shard, len(mine), len(rows), total_s))
     return 0 if rows else 1
+
+
+def corpus_qc(sliced, names):
+    """抽检片段「能不能听清」（2026-11-03 接 GPU ASR）。
+
+    为什么：语料库此前只能数条数和总秒数，一条不可辨的录音同样算数；抽检给的是机器事实。
+    后端缺失时 available=False 且不判红——语料准备不该因为 ASR 没装而失败。
+    """
+    if not names:
+        return {"available": False, "why": "没有片段可抽检"}
+    tool = os.path.join(os.path.dirname(os.path.abspath(__file__)), "subs_asr.py")
+    out_dir = os.path.join(sliced, "_asr-qc")
+    os.makedirs(out_dir, exist_ok=True)
+    rows, bad = [], 0
+    for n in names:
+        jf = os.path.join(out_dir, os.path.splitext(n)[0] + ".json")
+        rc, out = run([sys.executable, tool, "--in", os.path.join(sliced, n),
+                       "--json", jf], 900)
+        if rc == 3:
+            return {"available": False, "why": (out or "").strip()[-160:]}
+        if not os.path.exists(jf):
+            continue
+        rec = json.load(open(jf, encoding="utf-8"))
+        rows.append({"file": n, "verdict": rec.get("verdict"), "cps": rec.get("cps"),
+                     "coverage": rec.get("coverage"), "chars": rec.get("chars")})
+        bad += 1 if rec.get("verdict") != "PASS" else 0
+    return {"available": bool(rows), "checked": len(rows), "fail": bad, "rows": rows}
 
 
 def emit(rec, path):

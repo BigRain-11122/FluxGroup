@@ -110,6 +110,11 @@ STAGES = [
     # 本地模型雷达（2026-11-03 CEO：每天扫描并测试是否有更新）：脚本自带"一天只跑一次"闸，
     # 放慢批即可；rc=2 只表示"上游有新版本待裁定"，不是故障。
     ("modelradar", ["Tools/fleet/model_radar.py", "run"], 900, {0, 2}, True),
+    # 字幕自动来源（2026-11-03 CEO「可以 你自动化推进下去」）：成片没有 SRT 就用本机 GPU ASR 补一份，
+    # 落到 drama-dept-v1/subs/，判据 7 从此有链上一手产出，而不是靠人给或靠装配器自己申报。
+    # 吃 GPU 但自带"一天只跑一次"日期闸，放慢批；rc=3 只表示后端没装/目录不在，不算故障。
+    ("asr_subs", ["Tools/fleet/subs_asr.py", "--sync-dir", "media/drama-out",
+                  "--subs-dir", "cph4/fleet/drama-dept-v1/subs", "--days", "7"], 900, {0, 1, 3}, True),
     # 本机推理栈体检（2026-11-03）：端口归属/服务环境/速度/向量层，一天一次。
     # 只是体检，不改配置；rc=2=有 GAPS 待修。
     ("inference_audit", ["Tools/fleet/local_inference_audit.py", "--node", NODE, "--daily"], 300, {0, 2}, True),

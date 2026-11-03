@@ -102,6 +102,41 @@ def ts(sec):
     return "%d:%02d:%05.2f" % (sec // 3600, (sec % 3600) // 60, sec % 60)
 
 
+def srt_time(sec):
+    sec = max(0.0, float(sec))
+    h, r = divmod(sec, 3600)
+    m, s = divmod(r, 60)
+    return "%02d:%02d:%06.3f" % (int(h), int(m), s)
+
+
+def asr_subs(src, tmp):
+    """跑 subs_asr.py 出字幕，读回 [(text, from, to)]；失败就退回空（闸会判字幕缺失）。"""
+    tool = os.path.join(os.path.dirname(os.path.abspath(__file__)), "subs_asr.py")
+    srt = os.path.join(tmp, "auto.srt")
+    rc, out = run([sys.executable, tool, "--in", src, "--out", srt])
+    if rc != 0 or not os.path.exists(srt) or os.path.getsize(srt) == 0:
+        print("[asm] 自动字幕失败（rc=%d），退回无字幕：%s" % (rc, (out or "").strip()[-160:]))
+        return []
+    subs, seg = [], {}
+    for line in open(srt, encoding="utf-8").read().splitlines() + [""]:
+        if "-->" in line:
+            a, b = [x.strip() for x in line.split("-->")]
+            seg = {"from": _s2f(a), "to": _s2f(b), "text": ""}
+        elif line.strip() and seg:
+            seg["text"] = (seg["text"] + line.strip())
+        elif not line.strip() and seg:
+            subs.append(seg)
+            seg = {}
+    print("[asm] 自动字幕 %d 条（源=%s）" % (len(subs), os.path.basename(src)))
+    return subs
+
+
+def _s2f(t):
+    t = t.replace(",", ".")
+    h, m, s = t.split(":")
+    return int(h) * 3600 + int(m) * 60 + float(s)
+
+
 def main(argv):
     ap = argparse.ArgumentParser()
     ap.add_argument("--manifest", required=True)
@@ -164,6 +199,10 @@ def main(argv):
     font = find_font(man.get("font"))
     vf = None
     subs = man.get("subs") or []
+    if subs == "auto":
+        # manifest 写 "subs": "auto" → 用本机 GPU ASR 从人声轨自动出字幕源（2026-11-03）。
+        # 这样判据 7 不再是"人给文件或自己申报"，而是链上真跑出来的一手事实。
+        subs = asr_subs(man.get("voice") or silent, tmp)
     if font and subs:
         ass = os.path.join(tmp, "s.ass")
         with open(ass, "w", encoding="utf-8") as f:
