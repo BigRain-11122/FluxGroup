@@ -12,6 +12,7 @@
    "accept": "JSON 在盘且含 cagr/sharpe/maxdd；同时打印 OOS 段；失败留 stderr 尾部",
    "needs": "cpu",
    "nodes": [
+    "bm-a",
     "bm-b",
     "bm-d"
    ],
@@ -21,6 +22,7 @@
    ],
    "why": "2026-11-03 梳理：日更原指 etf_composite_pf.py（旧书，含债档无波动目标），绿的是没人会买的策略",
    "hard_nodes": [
+    "bm-a",
     "bm-b",
     "bm-d"
    ]
@@ -40,7 +42,15 @@
    "depends_on": [
     "backtest"
    ],
-   "why": "客户买的是下月买什么，不是回测曲线"
+   "why": "客户买的是下月买什么，不是回测曲线",
+   "hard_nodes": [
+    "bm-a",
+    "bm-b",
+    "bm-d"
+   ],
+   "requires": [
+    "quant/bigmoney/results/etf_nobond_vt.json"
+   ]
   },
   {
    "id": "conclusion",
@@ -57,7 +67,13 @@
    "depends_on": [
     "signal"
    ],
-   "why": "2026-11-03 修：原先喂的是旧书 etf_composite_pf，等于用被弃用的策略写对外结论（验错对象下移一层）"
+   "why": "2026-11-03 修：原先喂的是旧书 etf_composite_pf，等于用被弃用的策略写对外结论（验错对象下移一层）",
+   "hard_nodes": [
+    "bm-a",
+    "bm-b",
+    "bm-d"
+   ],
+   "requires": []
   },
   {
    "id": "quote",

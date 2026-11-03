@@ -8,7 +8,7 @@
 本工具只做格式与校验，不重算：拿回测 JSON（或 CSV 摘要）生成 md/json 双份。
 
 用法：
-  python quant_conclusion.py --in quant/bigmoney/results/etf_composite_pf.json \
+  python quant_conclusion.py --in quant/bigmoney/results/etf_nobond_vt.json \
       --line bigmoney --out cph4/fleet/queue-receipts/quant-conclusion-20260101.md
 Exit: 0 合格（四件齐），3 缺件（写出缺什么），1 输入读不了。
 """

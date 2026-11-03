@@ -136,6 +136,15 @@ def done_by_receipt(line, stage_id, day):
     return False
 
 
+def attempts_today(line, stage_id, day):
+    """当天该段跑过几次（按回执计）：失败重排要有上限，否则每轮都重排会风暴。"""
+    d = os.path.join(ROOT, "cph4", "fleet", "queue-receipts")
+    if not os.path.isdir(d):
+        return 0
+    pre = "%s-%s-%s" % (line, stage_id, day)
+    return sum(1 for n in os.listdir(d) if n.startswith(pre) and n.endswith(".json"))
+
+
 def plan_table(table, day, existing, dry):
     line = table.get("line")
     stages = table.get("stages") or []
@@ -153,8 +162,16 @@ def plan_table(table, day, existing, dry):
             skipped.append((sid, "等上一段 " + ",".join(deps)))
             continue
         if sid in existing:
-            skipped.append((sid, "已在队列(%s)" % existing[sid]))
-            continue
+            st0 = str(existing[sid] or "").upper()
+            # 归档/失败/取消的卡不许堵死当天重跑（2026-11-03 实锚：backtest 卡因同日换过书
+            # 被 ARCHIVED，之后 same-day id 永远命中"已在队列"，正确的策略再也排不出去）。
+            if st0 not in ("ARCHIVED", "FAILED", "CANCELLED"):
+                skipped.append((sid, "已在队列(%s)" % st0))
+                continue
+            tries = attempts_today(line, st["id"], day)
+            if tries >= 2:
+                skipped.append((sid, "今日已失败/归档 %d 次，不再重排" % tries))
+                continue
         card = {
             "id": sid,
             "title": "[%s] %s" % (table.get("name") or line, st.get("name") or st["id"]),
@@ -165,7 +182,11 @@ def plan_table(table, day, existing, dry):
             "accept": st.get("accept") or "",
             "needs": st.get("needs") or "cpu",
             "nodes": st.get("nodes") or [],
-            "hard_nodes": st.get("hard_nodes") or [],
+            # requires=依赖仓内脚本/数据（独立仓只存在于特定机器）→ 必须钉死，不许回落。
+            # 2026-11-03 实锚：signal 段只是"读 quant/... 结果"，没有 requires 也没钉，
+            # 于是落到 Mac 报 E-BLOCKED-INPUT，而卡面显示"跑过了"。
+            "hard_nodes": st.get("hard_nodes") or (
+                list(st.get("nodes") or []) if st.get("requires") else []),
             "prio": table.get("priority") or "P1",
             "line": line,
             "day_ok": bool(st.get("day_ok", True)),

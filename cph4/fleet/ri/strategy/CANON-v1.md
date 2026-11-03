@@ -48,12 +48,14 @@
 
 ```
 backtest     ETF 复合因子回测（年化/夏普/回撤）
+signal       下月持仓信号 CSV（可卖的唯一产物；quant_signal.py，缺字段写 BLOCKED）
 conclusion   一页结论（四件齐才许对外；quant_conclusion.py）
 quote        19.9 套餐可交付性判定（能不能卖、卡在哪）
 accept       质量验收：缺一份闸回执就不算交付
 ```
 
-回测卡只能派到有量化仓的机器（bm-b / bm-d）；派到本机等于 E-INPUT。
+回测/信号/结论三段都读量化仓内的文件，只能派到有仓的机器（实测 bm-a/bm-b/bm-d 有，Mac 没有）。
+工序表里这三段已写 `requires` + `hard_nodes`：**不许回落**，落到没有仓的机器只会产出 E-INPUT。
 
 ## 七、成本与定价
 
