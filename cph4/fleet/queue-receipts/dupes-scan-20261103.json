@@ -1,6 +1,15 @@
 {
  "groups": [
   [
+   "CHK-DUPES-20261103",
+   "CHK-DUPES-20261103"
+  ],
+  [
+   "C-INFRA-AUDIT-BM-A-20261103",
+   "C-INFRA-AUDIT-BM-B-20261103",
+   "C-INFRA-AUDIT-BM-C-20261103"
+  ],
+  [
    "R-MODEL-RADAR-BMA-20261103",
    "R-MODEL-RADAR-BMB-20261103",
    "R-MODEL-RADAR-BMC-20261103",
@@ -8,10 +17,12 @@
   ],
   [
    "CANARY-20261103T154230",
-   "CANARY-20261103T160731"
+   "CANARY-20261103T160731",
+   "CANARY-20261103T200141",
+   "CANARY-20261103T201026"
   ],
   [
-   "asset-lib-char-probe-2026-11-03",
+   "asset-lib-char-gen-2026-11-03",
    "asset-lib-char-gen-2026-11-03"
   ]
  ]
