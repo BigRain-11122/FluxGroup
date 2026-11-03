@@ -1,0 +1,17 @@
+{
+ "id": "asset-lib-char-prompts-2026-11-03",
+ "node": "bm-c",
+ "rc": 0,
+ "seconds": 0.1,
+ "cmd": "python Tools/fleet/char_plan.py",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "FAIL",
+ "error_class": "E-ARTIFACT",
+ "deliverable": "cph4/fleet/queue-receipts/char-gen-plan-2026-11-03.json",
+ "deliverable_exists": false,
+ "ts": "2026-11-03T22:09:25",
+ "stdout_tail": "char-plan: 8 瑙掕壊 脳 6 瑙嗚�� = 48 寮�\nwrote PROMPTS.json -> media\\asset\\characters\nreceipt cph4\\fleet\\queue-receipts\\char-gen-plan-20261103.json\n",
+ "stderr_tail": ""
+}
