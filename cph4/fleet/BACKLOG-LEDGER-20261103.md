@@ -55,6 +55,18 @@
 
 ## G. 待续（本轮未做，明记不装成已做）
 
-- F1 的 2243 个删除文件是否恢复：需判断是否为 bm-c 迁移后的有意清理，**不自动恢复**。
+- F1 的 2243 个删除文件是否恢复：需判断是否为 bm-c 迁移后的有意清理，**不自动恢复**。单文件恢复也受阻：`git checkout -- Tools/fleet/artifact_push.ps1` 报 pathspec 不匹配（index 残留态），恢复须走专项窗口。
 - A2 的 `remote_data: true` 逃生门：给确实"由本机生成整棵树"的卡使用；目前无卡需要。
-- 队列里 `R-ART-PUSH-B/C`（rc=127）尚未定谳——需在 bm-b 实跑 `artifact_push.ps1` 取真实 stderr。
+- **R-ART-PUSH-B rc=127 已定谳（23:3x 实跑复现）**：`-File 参数不存在`——根因=主工作树整树删除事故把 `Tools/fleet/artifact_push.ps1` 一并删了（盘上无此文件）。FleetAgent 克隆内有正本 → 车道代理可跑此卡；主树单文件恢复归 F1 专项。bm-c 的 R-ART-PUSH-C 大概率同根因（K: 树同源事故）。
+- 主控收卷依赖 Mac 脉：合盖即停；已执行卡的状态回卷会延迟，回执不丢（落盘在执行机）。
+
+## H. 本窗执行记录（2026-11-03 22:0x–23:3x，全部实测）
+
+| 时点 | 事项 | 证据 |
+|------|------|------|
+| 23:12 | Q-TTS-QC-R1 手动实跑成功：`media/drama-tts-out` 2145 条 / 334.1MB，verdict **COMPLETE-STOPPED**（最新产出已 37.7h，整批停转=无在飞配音） | `C:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/tts-qc-r1-20261103.json` |
+| 23:2x | 推送事故与修复：第一次 CAS 推送把 32 个反斜杠路径写成根级垃圾条目（真文件零更新、新克隆 checkout 即破）→ 修复 commit **9f771df1**：删 32 个垃圾条目 + 按正斜杠重写全部 32 件 | `ls-tree -z` 反斜杠条目=0；目标文件 blob 全部换新 |
+| 23:26 | bm-b 执行腿重建：`C:\Fluxgroup\FleetAgent`（blob:none+sparse：/Tools/fleet/ + backlog_fill/queue_claim + /cph4/fleet/*.json(l) + lanes/）+ `agent-bm-b.bat` 上链（origin 原本没有这个 bat，HQ-Agent 每分钟 rc=1 空转） | 克隆内 infer_node_os / lease-owner-unknown / bat 三补丁全部在位 |
+| 23:29 | **端到端实证**：`agent.py --node bm-b` 单拍 `hb=0 lane=0`——被 Mac 跑坏三次的 C-INFRA-AUDIT-BM-B 在 bm-b 正确执行，DONE rc=2（卡契约允许）164.3s，交付物产出 | `C:\Fluxgroup\FleetAgent\cph4\fleet\queue-receipts\C-INFRA-AUDIT-BM-B-20261103-bm-b.json` |
+| 23:2x | 体检卡真实发现（新病灶，待办）：`env-missing:OLLAMA_NUM_PARALLEL/KEEP_ALIVE/MAX_LOADED_MODELS/CONTEXT_LENGTH` 四项 + 审计探针瞬时 5.3 tok/s + embedding 不可用。**常驻槽复核=合规**（`ollama ps`＝qwen3.8:4b 3.7GB 100%GPU Forever），慢速为探针瞬时，不违槽位法 | 同上回执 stdout_tail |
+| 23:3x | 遗留垃圾：`C:\Fluxgroup\FleetAgent.broken-20261103`、`C:\Fluxgroup\FleetAgent2`（他窗旧尝试残留），确认无人引用后可删 | 目录列表 |

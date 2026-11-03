@@ -1,11 +1,74 @@
 {
- "ts": "2026-11-03T15:15:23",
+ "ts": "2026-11-03T23:26:41",
  "node": "bm-b",
- "os": "macOS-27.2-arm64-arm-64bit",
- "verdict": "BLOCKED",
- "gaps": [
-  "wrong-node: bm-b 是 Windows 机，本机是 macOS-27.2-arm64-arm-64bit"
+ "os": "Windows-10-10.0.26200-SP0",
+ "python": "3.11.9",
+ "endpoint": "http://127.0.0.1:11434",
+ "models": [
+  {
+   "name": "bili-reply-14b:latest",
+   "size_gb": 8.99
+  },
+  {
+   "name": "bili-reply-v38:latest",
+   "size_gb": 4.68
+  },
+  {
+   "name": "bili-reply-v37:latest",
+   "size_gb": 4.68
+  },
+  {
+   "name": "bili-reply:latest",
+   "size_gb": 3.56
+  },
+  {
+   "name": "qwen3.8:4b",
+   "size_gb": 3.56
+  },
+  {
+   "name": "qwen2.5:7b-instruct",
+   "size_gb": 4.68
+  }
  ],
- "why": "派单 nodes 只是偏好；本卡必须在目标机上执行",
- "receipt_is_not_deliverable": true
+ "models_error": null,
+ "port_owner": [
+  {
+   "pid": "14116",
+   "image": "ollama.exe"
+  }
+ ],
+ "server_env": {
+  "_source": "HKCU\\Environment"
+ },
+ "measure": {
+  "model": "bili-reply:latest",
+  "decode_tok_s": 5.3,
+  "engine": null,
+  "prefix_cache": {
+   "first_wall": 9.35,
+   "second_wall": 8.64,
+   "hit": false
+  },
+  "concurrency": {
+   "serial_3": 25.56,
+   "parallel_3": 24.33,
+   "speedup": 1.05
+  }
+ },
+ "embedding": {
+  "model": null,
+  "usable": false,
+  "why": "没有可用的 embedding 模型"
+ },
+ "gaps": [
+  "env-missing:OLLAMA_NUM_PARALLEL(应为 1)",
+  "env-missing:OLLAMA_KEEP_ALIVE(应为 15m)",
+  "env-missing:OLLAMA_MAX_LOADED_MODELS(应为 1)",
+  "env-missing:OLLAMA_CONTEXT_LENGTH(应为 8192)",
+  "decode-slow:5.3 tok/s < 15",
+  "embedding-unusable:None",
+  "hint:真正监听 11434 的是 ollama.exe，参数可能没落到它身上"
+ ],
+ "verdict": "GAPS",
+ "seconds": 163.8
 }
