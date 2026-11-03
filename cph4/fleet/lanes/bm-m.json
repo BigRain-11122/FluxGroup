@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
- "ts": "2026-11-03T21:18:30",
+ "ts": "2026-11-03T21:19:44",
  "jobs": [
   {
-   "id": "asset-lib-voice-assemble-2026-11-03",
-   "title": "[资产储备（角色 LoRA / 音色库）] 音色数据集装配（授权核查→voices/<组> 准入）",
-   "cmd": "python Tools/fleet/voice_dataset.py",
+   "id": "asset-lib-char-prompts-2026-11-03",
+   "title": "[资产储备（角色 LoRA / 音色库）] 角色包出图计划（8 原创角色 × 6 视角提示词包）",
+   "cmd": "python Tools/fleet/char_plan.py",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/voice-dataset-2026-11-03.json",
+   "deliverable": "cph4/fleet/queue-receipts/char-gen-plan-2026-11-03.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 12.5/1.0 GB"
+ "capacity_note": "ram 14.2/1.0 GB"
 }
