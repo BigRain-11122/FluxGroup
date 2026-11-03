@@ -1,23 +1,31 @@
 {
- "ts": "2026-11-03T13:31:42",
+ "ts": "2026-11-03T13:43:11",
  "stage": 3,
  "adoption": {
   "days": 2,
-  "applied": 360,
-  "total": 296,
-  "rate": 121.6,
+  "applied": 366,
+  "total": 300,
+  "rate": 122.0,
   "eligible_stage4": false
  },
  "decisions": [
   {
    "kind": "flag",
-   "why": "3 台机空转且有活",
+   "why": "2 台机空转且有活",
    "target": [
-    "bm-b",
     "bm-c",
     "bm-m"
    ],
    "min_stage": 1,
+   "result": "applied"
+  },
+  {
+   "kind": "requeue",
+   "why": "1 张卡在跑但 1 小时无回执",
+   "target": [
+    "biggame-playable-2026-11-03"
+   ],
+   "min_stage": 3,
    "result": "applied"
   },
   {
@@ -44,8 +52,14 @@
  ],
  "applied": [
   {
+   "kind": "requeue",
+   "ids": [
+    "biggame-playable-2026-11-03"
+   ]
+  },
+  {
    "kind": "promote",
-   "out": "积压里有 3 张 READY 是尸体（队列里已了结），不计入供给：C-FIN-ETF-COMPOSITE, C-VB-DISCOVER-V03, C-FIN-EQUITY-ALPHA\n夜间灌入 2 张：biggame-playable-20"
+   "out": "积压里有 3 张 READY 是尸体（队列里已了结），不计入供给：C-FIN-ETF-COMPOSITE, C-VB-DISCOVER-V03, C-FIN-EQUITY-ALPHA\n夜间灌入 1 张：bigstream-mv-gate-2"
   }
  ],
  "brief": "/Users/junsheng.sun/FluxGroup/cph4/fleet/chief/BRIEF-20261103.md"
