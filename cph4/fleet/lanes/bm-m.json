@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
- "ts": "2026-11-03T13:12:13",
+ "ts": "2026-11-03T13:13:54",
  "jobs": [
   {
-   "id": "EVAL-SKILL-SHIPOPS-20261103",
-   "title": "技能成对评测：ship-ops（发布合规题，通用模型易答反）",
-   "cmd": "python3 Tools/fleet/skill_eval.py --skill ship-ops --json-out cph4/fleet/queue-receipts/skill-eval-ship-ops-r2-20261103.json",
+   "id": "DUPES-SCAN-20261103",
+   "title": "向量查重复派单全量重扫（纯规则+embedding，不占 LLM）",
+   "cmd": "python3 Tools/fleet/semantic_dupes.py --json cph4/fleet/queue-receipts/dupes-scan-20261103.json",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/skill-eval-ship-ops-r2-20261103.json",
+   "deliverable": "cph4/fleet/queue-receipts/dupes-scan-20261103.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 14.0/1.0 GB"
+ "capacity_note": "ram 14.8/1.0 GB"
 }

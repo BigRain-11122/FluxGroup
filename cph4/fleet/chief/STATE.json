@@ -1,11 +1,11 @@
 {
- "ts": "2026-11-03T13:07:53",
+ "ts": "2026-11-03T13:13:52",
  "stage": 3,
  "adoption": {
   "days": 2,
-  "applied": 350,
-  "total": 289,
-  "rate": 121.1,
+  "applied": 353,
+  "total": 291,
+  "rate": 121.3,
   "eligible_stage4": false
  },
  "decisions": [
@@ -21,17 +21,6 @@
    "result": "applied"
   },
   {
-   "kind": "promote",
-   "why": "队列空，候选 6 张",
-   "target": [
-    "C-FIN-ETF-COMPOSITE",
-    "C-VB-DISCOVER-V03",
-    "C-FIN-EQUITY-ALPHA"
-   ],
-   "min_stage": 3,
-   "result": "applied"
-  },
-  {
    "kind": "escalate",
    "why": "P0 线 24h 无产物：1 条",
    "target": [
@@ -41,11 +30,6 @@
    "result": "applied"
   }
  ],
- "applied": [
-  {
-   "kind": "promote",
-   "out": "积压里有 3 张 READY 是尸体（队列里已了结），不计入供给：C-FIN-ETF-COMPOSITE, C-VB-DISCOVER-V03, C-FIN-EQUITY-ALPHA\n夜间灌入 2 张：bigstream-mv-gate-2"
-  }
- ],
+ "applied": [],
  "brief": "/Users/junsheng.sun/FluxGroup/cph4/fleet/chief/BRIEF-20261103.md"
 }
