@@ -356,3 +356,17 @@ am_free_gb=10+cpu_load_pct=48——**bm-b 不是闲着，是在跑量化轮**；
 
 | **R6-18 MV 观众级三查已交付（导演席签字依据）** | **delivered** | 03:33:32-03:35:39 bm-a 实跑 `mv_full_audit.py`（24fps v721，5623 帧/98 镜，rc=0）：`cph4/fleet/queue-receipts/mv-full-audit-20261103.json`。逐镜表 98 行 + 重复 9 对（未申报 2 对）+ 时代歧义 25 处 + 短镜 15 个 + 长镜 2 个。与 R6-15 的 60fps 闸判决互为印证（同一母版两种规格）。 |
 | **bm-a 在跑真实生产（观察）** | **standing** | 00:37:33 起 `musubi-tuner` krea2 LoRA 训练常驻（多进程；03:31 实测 gpu=82%），与车队 CPU 卡并行不冲突——GPU 面在烧、CPU 面在派单，机器未闲置。 |
+
+
+## 附录 R7 事件班登记（2026-11-04 03:26-03:45·承载件触发·DL 01:21/01:31 三连 STARVED + CLOCK-SKEW）
+
+| 件 | 状态 | 证据 / 下一步 |
+|---|---|---|
+| **R7-1 STARVED-EXEC 三连（bm-a/bm-b/bm-c）** | **假红·结构性（承 R4-2/R5-3/R6-5）** | `fleet-dispatcher.ps1` 的 open/exec 只统计 `cph4/fleet/dispatcher/POOL.json`（24 卡，status: open=1 且被 CEO 物理件锁死，其余 done/closed），真供在 `PRODUCTION-QUEUE.jsonl`（OPEN 27，分布 bm-a 6 / bm-c 9 / bm-b 6 / bm-m 6）。每轮必报三行属结构性假红，非供给枯竭。修法涉 L0 受保护件，本席不改只呈。 |
+| **R7-2 bm-c 幻影头 + 认领器 Disabled（P1·本班新证）** | **BLOCKED-REMOTE·需 bm-c 本机** | `/status` 实测 `repo_heads['.']=f16b4e14`，该提交在 origin 对象库中不存在（`git cat-file` fatal）⇒ 工作树永不可快进 ⇒ 沿用旧 `Tools/fleet-nodes.json`。03:36:34 poke accepted，`last_pull.wakes` 回 `HQ-ProductionClaim:off-skip`（任务在册但 State=Disabled）；同批 `Bigmoney-PoolWorker:WAKE` 成功，说明链路通、唯认领器被禁。修法（bm-c 本机）：`git fetch origin` → `git reset --hard origin/main` → `schtasks /change /tn "HQ-ProductionClaim" /enable`。C-20261009-04 明令 poke 不得远程启用 Disabled 任务。 |
+| **R7-3 bm-b 主机不可达（物理件）** | **waiting-CEO（零催办·第 9 次同源）** | TCP 100.104.212.62:8790 closed；`POST /poke` timeout @03:36。承 R6-4/R2.61 判例：修复只在 bm-b 本机（git 收口 + agent 注册 + 禁睡眠）。其 4 张 OPEN 卡中 2 张依赖 bm-b 本地 media，不可转派。 |
+| **R7-4 跨机转派 5 张仓库类 CPU 卡** | **executed·BURNING 已证** | `R-PLAN-BIGDOMAIN-20261104` / `R-PLAN-BIGLIFE-20261104` / `Q-TRIAGE-BIGMONEY-20261104` / `Q-TRIAGE-BIGSTREAMMV-20261104` / `Q-TRIAGE-BIGGAME-20261104` 由 bm-b/bm-c 改为 `nodes=["bm-a"]`（`fleet_lane.merge_jsonl` 原子合队 + `reroute_reason` 留痕）。依据：五卡 cmd 只读仓库与 git，无本机 media 依赖（对比 `Q-FACE-BOARD-BMC` 依赖 K: 盘、`char-gen` 依赖 bm-c ComfyUI，均未动）。转派后 bm-a OPEN 6→11，03:35:32 / 03:35:33 两条新回执实证在执行。 |
+| **R7-5 本机仓分叉（4 behind / 5 ahead，台账冲突）** | **FIXED（本班）** | 本地 5 笔含与 origin 重复的 R5-9（origin 5db04b12 已立）与 DEADLINES/LOG/queue 三处 add/add 冲突。处置=`git reset --mixed origin/main` 外科收口（本地提交留 reflog 可回收）+ 台账与机器态取 origin 版；DEADLINES 本地独有行仅 R5-9 一行，已随本附录补记。现状 0/0，两件真新增证据入链。 |
+| **R7-6 CLOCK-SKEW max 3556ms** | **registered·本机提权动作** | 01:31 旗（precision ±418ms）；bm-b/bm-c 的 w32time 停转需本机提权自启，承 R4-4/R5-5/R6-7 同源，不重复立法。租约 45-180min，4s 级偏差不影响派单。 |
+
+**本班边界**：bm-b 是物理不可达、bm-c 认领器 Disabled——两者都不是本席可远程修复的（CEO 2026-10-23 禁远程调度 + C-20261009-04 禁 poke 启用 Disabled 任务）。本班实做=把可移动的供给移到在产的 bm-a，并把两条本机动作写成可直接照抄的命令。
