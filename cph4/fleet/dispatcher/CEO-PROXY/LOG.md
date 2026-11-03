@@ -1066,3 +1066,10 @@ am_free 10GB / cpu_load 48%——bm-b 在跑量化轮而非闲着；缺的是本
 
 **本班动作**：锁 02:32:44 已过期→接管并 touch；poke bm-b(HQ-ProductionClaim+Bigmoney-IterationLoop)/bm-c(HQ-ProductionClaim) 双双 accepted；主控 tick 停 02:44:28（bm-m 按需主控），HQ-MasterAgent 每 2min 在位，超 900s 自动 masquerade 接续派单。
 **诚实边界**：bm-b 侧生效依赖其克隆同步（R6-4）；R6-1/R6-2 的收益在「新卡可跑」面已成立，在「同 id 已关」面待 bm-b pull。
+
+## 附录 R6 勘注（2026-11-04 03:0x·并窗取证后收口）
+
+- **层次勘正（不与 R5-7 重复立法）**：本班 R6-1/R6-2 修的是「认领器活着时仍会空转」的第二层；与本窗同批的 02:53 事件班已查明**第一层=bm-b/bm-c 的 `HQ-ProductionClaim` 任务本身 Disabled**（登记 R5-7）。三层因果按序为：R5-7（认领器未启用 → 整机不认领）> R6-4（bm-b 克隆幻影头 → 认领器启用后仍可能空转）> R6-1/R6-2（单卡僵尸 + 断链不回落 → 车道被一张卡锁死）。三层都已登记，修法互不替代。
+- **本班 02:58 实测取证**：poke bm-b/bm-c 均 accepted，但 `last_pull.wakes` 回 `HQ-ProductionClaim:deny`（bm-b）/`HQ-ProductionClaim:off-skip`（bm-c）；两机 `.:updated` 已拉到本班提交 68d70545，但 bm-b `repo_heads["."]` 仍停 fe96d335（幻影头，R6-4 未解）。
+- **结论**：bm-b/bm-c 的 STARVED-EXEC 本班**无可远程解**（poke worker L357 明令 Disabled 不得远程启用=CEO 冻结保护），属物理件，零催办只登记。bm-a（本机）认领器在转、队列 50 OPEN 可被主控改派，但 26 张 bm-b 卡的 `requires`/`when_all` 全是 `C:/Fluxgroup/...` 绝对路径 → 不可跨机执行，不做假改派。
+- **本班已落**：僵尸卡核验后关 DONE（数据）＋ lane_agent 断链回落（代码·已推 68d70545）＋ 4 张重复雷达卡 CANCELLED（去重）。
