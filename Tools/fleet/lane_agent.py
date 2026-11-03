@@ -163,6 +163,23 @@ def already_closed(root, jid):
     return False
 
 
+def _card_gate(row, root, node):
+    """卡片可执行性体检（2026-11-03）：返回 (ok, why)。
+
+    把"卡片写错了"和"任务跑失败了"分开：前者不该消耗一台机的可靠性账，
+    更不该让主控以为这台机器不行而把活全自己扛。判据见 card_gate.py。
+    """
+    try:
+        import card_gate as _cg
+        g = _cg.check(row, _cg.default_roots(root), node)
+        if not g["ok"]:
+            why = "; ".join("%s %s" % (i["code"], i["detail"]) for i in g["issues"] if i["fatal"])
+            return False, why
+        return True, ""
+    except Exception as e:
+        return True, "gate-skipped:%s" % str(e)[:80]
+
+
 def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
     jid = str(job.get("id") or "")
     cmd = str(job.get("cmd") or "")
@@ -198,6 +215,36 @@ def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
                         "note": "SELFHEAL-FAILED %s: %s" % (_tool, _det)}
     except Exception as _e:
         print("selfheal skipped:", str(_e)[:100])
+    # 卡面闸（第二道，2026-11-03）：主控指定给本机的卡也验一次。写错的卡当场记
+    # CARD-DEFECT 并落回执，不拿 4 秒"失败"去污染这台机的可靠性账。
+    _gate_cwd = None
+    if cmd:
+        try:
+            import card_gate as _cg2
+            _g = _cg2.check(dict(job, cmd=cmd), _cg2.default_roots(root), node)
+            if not _g["ok"]:
+                _gwhy = "; ".join("%s %s" % (i["code"], i["detail"]) for i in _g["issues"] if i["fatal"])
+                _rp = ""
+                try:
+                    _rd = os.path.join(root, fl.RECEIPT_REL.replace("/", os.sep))
+                    os.makedirs(_rd, exist_ok=True)
+                    _rp = os.path.join(_rd, "%s-%s.json" % (jid, node))
+                    with open(_rp, "w", encoding="utf-8") as _f:
+                        json.dump({"id": jid, "node": node, "rc": 127, "seconds": 0.0,
+                                   "cmd": cmd, "outcome": "CARD-DEFECT",
+                                   "card_defect": _gwhy, "ts": fl.now_iso()},
+                                  _f, ensure_ascii=False, indent=1)
+                except Exception:
+                    pass
+                publish(node, "FAILED", {"job": jid, "card_defect": _gwhy[:300],
+                                         "receipt": _rp}, hub, port)
+                print("%s CARD-DEFECT %s" % (jid, _gwhy[:200]))
+                return {"id": jid, "rc": 127, "note": "CARD-DEFECT: " + _gwhy[:400],
+                        "card_defect": True}
+            _gate_cwd = _g["cwd"]
+        except Exception as _ge:
+            print("card gate skipped:", str(_ge)[:100])
+
     if needs == "gpu" and not fl.gpu_window_open(node) and not allow_gpu_workhours:
         return {"id": jid, "rc": None, "note": "DEFERRED-WORKHOUR-GPU-YIELD",
                 "defer": True}
@@ -258,7 +305,7 @@ def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
 
         def _exec():
             try:
-                r = subprocess.run(cmd, shell=True, cwd=job.get("cwd") or root,
+                r = subprocess.run(cmd, shell=True, cwd=_gate_cwd or job.get("cwd") or root,
                                    capture_output=True, text=True, errors="replace",
                                    timeout=max_seconds, creationflags=CREATE_NO_WINDOW)
                 _box.update(rc=r.returncode, out=r.stdout, err=r.stderr)
@@ -441,6 +488,10 @@ def self_dispatch(root, node, allow_gpu_workhours, max_seconds, hub, port, dry, 
         if req and not all(os.path.exists(x) for x in req):
             return False
         if fl.game_launch_blocked(r.get("cmd") or ""):
+            return False
+        _gok, _gwhy = _card_gate(r, root, node)
+        if not _gok:
+            print("CARD-DEFECT skip %s: %s" % (r.get("id"), _gwhy[:180]))
             return False
         if r.get("heavy") and not fl.heavy_allowed(node) and not allow_gpu_workhours:
             return False
