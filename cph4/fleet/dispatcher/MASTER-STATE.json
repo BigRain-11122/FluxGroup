@@ -1,22 +1,22 @@
 {
- "ts": "2026-11-03T11:06:47",
- "cycle": 34,
+ "ts": "2026-11-03T11:08:00",
+ "cycle": 35,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-03T11:06:47",
+ "master_tick_ts": "2026-11-03T11:08:00",
  "queue": {
   "total": 210,
-  "open": 4,
+  "open": 2,
   "running": 4,
-  "done": 114,
+  "done": 115,
   "failed": 4
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 13.5,
-   "cpu_load_pct": 45,
-   "ram_free_gb": 77.9,
+   "hb_age_s": 46.7,
+   "cpu_load_pct": 34,
+   "ram_free_gb": 76.6,
    "gpu_util_pct": 2,
    "job": "bigstream-mv-gate-2026-11-03",
    "last_result": {
@@ -32,9 +32,9 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 412.7,
-   "cpu_load_pct": 77,
-   "ram_free_gb": 3,
+   "hb_age_s": 4.8,
+   "cpu_load_pct": 11,
+   "ram_free_gb": 5,
    "gpu_util_pct": null,
    "job": "OPS-NODE-PROBE-B-20261103",
    "last_result": {
@@ -50,17 +50,17 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 434.5,
-   "cpu_load_pct": 5,
-   "ram_free_gb": 7.0,
+   "hb_age_s": 48.5,
+   "cpu_load_pct": 7,
+   "ram_free_gb": 6.2,
    "gpu_util_pct": 0,
-   "job": "OPS-NODE-PROBE-C-20261103",
+   "job": "bigmoney-backtest-2026-11-03",
    "last_result": {
-    "job": null,
-    "state": "IDLE",
-    "rc": null,
-    "ts": "2026-11-03T10:59:38",
-    "reason": "ALREADY-CLOSED C-TTS-QC-ALL"
+    "job": "OPS-NODE-PROBE-C-20261103",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-03T11:07:31",
+    "reason": null
    },
    "idle_confirmed": false,
    "idle_reason": "",
@@ -68,16 +68,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 128.7,
-   "cpu_load_pct": null,
-   "ram_free_gb": null,
+   "hb_age_s": 0.5,
+   "cpu_load_pct": 31,
+   "ram_free_gb": 12.6,
    "gpu_util_pct": null,
-   "job": "bigstream-duanju-inventory-2026-11-03",
+   "job": "R-NEXT-BIGSTREAMD-TTS-QC-20261102",
    "last_result": {
-    "job": "bigstream-mv-gate-2026-11-03",
-    "state": "RUNNING",
-    "rc": null,
-    "ts": "2026-11-03T11:00:05",
+    "job": "bigstream-duanju-inventory-2026-11-03",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-03T11:06:52",
     "reason": null
    },
    "idle_confirmed": false,
@@ -127,13 +127,11 @@
    "owner": "短剧席",
    "jobs": [
     "R-TTS-QC-R2-20261102",
-    "R-NEXT-BIGSTREAMD-TTS-QC-20261102",
-    "bigstream-duanju-inventory-2026-11-03"
+    "R-NEXT-BIGSTREAMD-TTS-QC-20261102"
    ],
    "no_supply": false,
    "blockers": [
-    "R-TTS-QC-R2-20261102:no-lane",
-    "R-NEXT-BIGSTREAMD-TTS-QC-20261102:no-lane"
+    "R-TTS-QC-R2-20261102:no-lane"
    ],
    "note": null,
    "stuck_stage": "duanju-script",
@@ -186,9 +184,7 @@
     "bigmoney-backtest-2026-11-03"
    ],
    "no_supply": false,
-   "blockers": [
-    "bigmoney-backtest-2026-11-03:no-lane"
-   ],
+   "blockers": [],
    "note": null
   },
   "bigdomain": {
@@ -273,8 +269,7 @@
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
    "jobs": [
-    "OPS-NODE-PROBE-B-20261103",
-    "OPS-NODE-PROBE-C-20261103"
+    "OPS-NODE-PROBE-B-20261103"
    ],
    "no_supply": false,
    "blockers": [],
@@ -776,7 +771,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 4,
+  "local": 2,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -784,18 +779,27 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 4,
+  "cpu": 2,
   "gpu": 0
  },
- "supply_added": [],
+ "supply_added": [
+  "backlog_manifest+2"
+ ],
  "events": [
   "bigstream-duanju-tts-qc-2026-11-03 FAILED via bm-a",
-  "biggame-playable-2026-11-03 FAILED via bm-b"
+  "biggame-playable-2026-11-03 FAILED via bm-b",
+  "OPS-NODE-PROBE-C-20261103 UNVERIFIED(no-artifact-yet) via bm-c",
+  "bigstream-duanju-inventory-2026-11-03 DONE via bm-m",
+  "bigmoney-backtest-2026-11-03 -> bm-c (cpu)",
+  "R-NEXT-BIGSTREAMD-TTS-QC-20261102 -> bm-m (cpu)"
  ],
  "violations": [
   "LINE-BLOCKED bigstream-drama ()",
   "STAGE-STALLED bigstream-duanju 卡在 剧本/编剧席 (短剧席)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
- "lane_files_written": []
+ "lane_files_written": [
+  "bm-c",
+  "bm-m"
+ ]
 }
