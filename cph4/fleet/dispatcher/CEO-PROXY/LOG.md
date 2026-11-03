@@ -1028,3 +1028,25 @@ am_free 10GB / cpu_load 48%——bm-b 在跑量化轮而非闲着；缺的是本
 
 [2026-11-03 07:26-07:5x][PROXY R2.72 ?????????] L0-DOWN age 3.1h=???(R2.61 ???????)???=TTS-QC ?????(requires ???????bm-a/bm-m ???? E-INPUT 0.1s)?????? bm-b+requires ????????? CANCELLED?fleet_lane ? card_edit_ts ???????? pin(??? D-R272-STALE-WRITEBACK-CLOBBER????)??? live=1???D-R272-ATOMIC-PUSH-GBK-CRASH(??? PYTHONIOENCODING=utf-8 ? atomic-push ? run_gate ??? UnicodeEncodeError ??????)?
 [2026-11-03 08:0x][PROXY R2.72 ??] bm-b ????????? -> ? CANCELLED(blocked-input)?? bigstream-duanju ? BLOCKED on ????????????=backlog_fill manifest ????????(D-R272-MANIFEST-RESURRECTION)??????????? requires pin?fleet_lane card_edit_ts ???bm-a ???????
+
+[2026-11-04 01:21-01:36]｜事件班（承载件触发·DL 23:31 五旗）｜总≈26 调用｜verdict=**真故障 2 件收口·2 旗判假红·执行面实证 BURNING**
+
+触发现四旗逐条判定：
+1. **SUPPLY-DRY（queue_open=0 total=0 @23:30）→ resolved·已自愈**。本班实测 01:21 队列 392 行、OPEN 55、RUNNING 4，01:25/01:27/01:30 三连新认领，01:30:57 一批 6 份回执落盘。补料无需人工。
+2. **STARVED-EXEC bm-b/bm-c（open_cards=0）→ 判假红·非供给失败**。旗由 `fleet-dispatcher.ps1` 从 `POOL.json` 平面计票：该平面只剩 24 卡、唯一 open 的 POOL-0010 被 `CEO-PHYSICAL:submit-materials` 锁死，故三机 exec=0 恒定成立。真供在 `PRODUCTION-QUEUE.jsonl`（55 OPEN 在认领）。**两个供给平面并存且旗只看旧平面 = 永久假红**（受保护件 L0 脚本，只登记不擅改，见 DEADLINES §一 R4-2）。
+3. **bm-a STARVED-EXEC（open_cards=1 blocked=1）→ 同上**，那 1 张就是 POOL-0010，CEO 物理件。
+4. **CLOCK-SKEW max 3101-3542ms → registered·老问题**。01:24 实测 bm-b +1456.3ms、bm-c 大偏（w32time 停转，需本机提权），承 R2.38/R2.47/R2.49 同源，仅更新数值。
+
+**真故障 ①（P1·已修）：卡契约不可满足 → 5 分钟一轮重试风暴**
+- 实证：`biggame-playable-2026-11-03` 的 `cmd` 是 `game_pack_scan.py --out ...game-packs-...-r2.json`，`deliverable` 却写 `game-playable-2026-11-03.md`。cmd 永远产不出该 md ⇒ `backlog_fill` 每 ~5min 判"交付物不在盘"重发一次 ⇒ 00:24→01:00 六轮 `job(...): artifact` 提交，全程零真实产出。
+- 连带伤害：这六轮机器态提交把本仓推进**未完成 rebase**（`.git/rebase-merge` 残留 + 9 文件 UU），队列文件工作树里出现 **5 组 git 冲突标记共 15 行**（`<<<<<<< HEAD` / `>>>>>>> 6e88a446`）——任何解析器读该文件都会当坏行丢弃卡。HEAD/origin 均无标记，属本地工作树中毒，未扩散。
+- 处置：取消该卡（backlog + queue 双面 `state=CANCELLED` + cancel_reason），理由=可玩包/三关情绪属制作人+导演人裁判定，机器可判段已由 `biggame-pack-scan-2026-11-04` 承接。
+- 闸升格（同病复发=升格一档）：新增 `Tools/fleet/card_contract_check.py`——R1 cmd `--out` 必须等于 deliverable（有例外须写 deliverable_note）；R2 交付物需人裁判定而 cmd 不产出它 → SPEC-IMPOSSIBLE；R3 OPEN 卡交付物已在盘且是真交付（剥 BLOCKED/SKIPPED/GAPS）→ LEDGER-LAG。基线 2 违规 → 修后 **PASS 0 违规**。
+
+**真故障 ②（P1·已修）：孤儿 rebase 阻断本仓**
+- 处置：备份（`.codely-cli/tmp/r4-backup/`）→ `git rebase --abort`（autostash 正常回收）→ 本地 16 笔全为失败卡机器态、零源码 ⇒ `reset --mixed origin/main` → 取回 origin 权威状态件 → `checkout -- .`（本地 25 M/28 D 多为旧基线，会反向覆盖 origin 新代码，仅保留 CODELY.md 新记忆）→ `merge --ff-only`。现 **HEAD=8dba1042、0/0 对齐、队列 392 行 0 坏行、markers 0**。
+- 残留风险：`push_lane_files` 冲突后仍缺 `git rebase --abort`（承 D-R255 登记，受保护件），外部兜底 `FluxGroup-GitRebaseGuard` 本次未拦住 → 见 DEADLINES R4-3。
+
+**排除项（未动）**：`inference-audit-bm-a.json`=CLOCK-BLOCKED、`model-radar-bm-c`=SKIPPED-IDLE、`lib-consolidate`=rc2 GAPS——三份"交付物在盘"全是拒绝回执，闸正确拒绝假绿，**不开 DONE**（承"拦截回执≠交付物"律）。
+**未做**：不 poke（三机 FleetLink 1.9.5 三连 200、认领环在转，poke 只会 churn）；不补假卡。
+回访探针：见 cron（+90min 复验失败卡是否复活、队列是否再生冲突标记）。

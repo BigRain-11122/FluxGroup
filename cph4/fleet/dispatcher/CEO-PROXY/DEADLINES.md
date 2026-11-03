@@ -291,3 +291,14 @@ am_free_gb=10+cpu_load_pct=48——**bm-b 不是闲着，是在跑量化轮**；
 | **bm-c 全域不可达（物理件）** | **waiting-CEO（零催办）** | TCP 8790/4222 双 closed @07:27；无 NATS KV state.bm-c。下一步=现场上电/查 Tailscale 服务。 |
 | **bm-b RAM 阻塞** | **缓解（本班复测）** | ram_free 11.7GB（07:30），Q-TTS-1202R RUNNING 在位；CPU 卡可恢复派发。 |
 | **L2 饥饿 SLO 当日违约 3 件** | **registered** | bm-b RAM >90min、bm-c 停机、主控真空 3.8h；承 R2.63/R2.64 计数。回访探针 @09:05。 |
+
+## 附录 R4 事件班注记（2026-11-04 01:21-01:36·承载件触发·DL 23:31 五旗）
+
+| 件 | 状态 | 证据 / 下一步 |
+|---|---|---|
+| **R4-1 可玩包选款（人决件）** | **waiting-decision（制作人席+导演席）** | 卡 `biggame-playable-2026-11-03` 已 CANCELLED——它把「选一款可玩包 + 三关情绪/单局时长/2D 不作失败」写成机器卡的 deliverable，而 cmd 只是 `game_pack_scan.py`（产清单 json）。人裁判定不入机器队列。机器可判段由 `biggame-pack-scan-2026-11-04` 承接；选款结论落 `cph4/fleet/queue-receipts/game-select-*.md` 后即可重启提审链。 |
+| **R4-2 STARVED-EXEC 双供给平面假红（P1·受保护件）** | **registered·waiting-CEO** | `fleet-dispatcher.ps1` 的 open/exec 计票只读 `POOL.json`（24 卡、唯一 open=POOL-0010 被 CEO 物理件锁死）⇒ bm-a/bm-b/bm-c 的 exec=0 恒成立、每轮必报 STARVED-EXEC；真供在 `PRODUCTION-QUEUE.jsonl`（55 OPEN 在认领）。一行修法=旗面改读队列平面（或两平面合并计票），L0 脚本属受保护面，本席不改只呈。 |
+| **R4-3 孤儿 rebase 无人自愈（P1）** | **registered·承 D-R255** | 本次病根=失败卡 6 轮重试把仓推进 `.git/rebase-merge` 残留（9 文件 UU、队列工作树 5 组冲突标记 15 行、HEAD/origin 均干净）。`push_lane_files` 冲突后仍缺 `git rebase --abort`（受保护件）；外部兜底 `FluxGroup-GitRebaseGuard` 本次未拦住 → 建议查该任务是否 Enable+LogonType，或把 abort 作为前置。本班已 abort + ff 对齐至 8dba1042（0/0）。 |
+| **R4-4 CLOCK-SKEW 数值更新** | **registered·本机提权动作** | 01:24 实测 max 3542.4ms：bm-b +1456.3ms（σ±0.8）、bm-c 大偏（σ±206.4）、hub bm-a 正常。w32time 停转需本机提权自启，承 R2.38/R2.47/R2.49 同源，不重复立法。 |
+| **R4-5 卡契约闸上线（新闸）** | **installed·建议接 L0 快批** | `Tools/fleet/card_contract_check.py`：R1 cmd `--out` 必须等于 deliverable（例外写 deliverable_note）/ R2 交付物需人裁判定而 cmd 不产出 / R3 OPEN 卡真交付已在盘。基线 2 违规→修后 PASS 0。建议 L0 每轮跑一次（rc=1 只告警不阻断），防同型卡再进队列。 |
+| **R4-6 执行面 BURNING 实证** | **standing 诚实边界** | 三机 FleetLink 1.9.5 三连 200；队列 01:25/01:27/01:30 三连新认领 + 01:30:57 六份回执。故本班**零 poke**（poke 不造供给、只 churn）。真瓶颈仍是人决件（R4-1）与各线人审，非供给。 |
