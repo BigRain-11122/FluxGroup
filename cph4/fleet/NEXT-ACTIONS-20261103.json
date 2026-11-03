@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-03T17:30:54+0800",
+ "ts": "2026-11-03T17:41:52+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -14,7 +14,7 @@
    "blocker": "char-probe 在 bm-c 上 rc=2 零回执，未定位（疑 checkout 落后）",
    "state": "RUNNING",
    "card": "asset-lib-voice-corpus-bmb-2026-11-03",
-   "running_on": "bm-a"
+   "running_on": "bm-c"
   },
   {
    "id": "biggame",
