@@ -330,3 +330,4 @@ am_free_gb=10+cpu_load_pct=48——**bm-b 不是闲着，是在跑量化轮**；
 
 **本班动作**：锁 02:32:44 已过期→接管并 touch；poke bm-b(HQ-ProductionClaim+Bigmoney-IterationLoop)/bm-c(HQ-ProductionClaim) 双双 accepted；主控 tick 停 02:44:28（bm-m 按需主控），HQ-MasterAgent 每 2min 在位，超 900s 自动 masquerade 接续派单。
 **诚实边界**：bm-b 侧生效依赖其克隆同步（R6-4）；R6-1/R6-2 的收益在「新卡可跑」面已成立，在「同 id 已关」面待 bm-b pull。
+| **R5-8 bm-b 工作树分叉导致白名单过期（P1·本席不可远程修）** | **BLOCKED·需本机执行** | 证据：bm-b `/status` 显示 `last_pull.pulls=[".:updated"]`、`origin_main=68d70545`，但 `repo_heads["."]=fe96d335`，且该 commit 在本仓 `git cat-file -t` 判 unknown（origin 里不存在）→ 本地有分叉提交，fetch 成功但 worktree 合不上。后果：bm-b 用的是旧 `Tools/fleet-nodes.json`，其 wake_tasks 里没有 `HQ-ProductionClaim`，故本次 poke 返回 `HQ-ProductionClaim:deny`（不是 off-skip=任务根本不在白名单）。同时 bm-b 此刻 ram_free 11.4GB / cpu 12%=健康闲置，整台机在空转。修法（bm-b 本机）：`git -C C:\Fluxgroup\FluxGroup status` 看分叉来源 → 把本地提交 rebase 到 origin/main 或 `reset --hard origin/main`（本地只有状态快照时安全）→ 再核对 `schtasks /change /tn "HQ-ProductionClaim" /enable`。 |

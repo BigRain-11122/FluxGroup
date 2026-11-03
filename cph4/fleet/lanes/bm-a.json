@@ -1,23 +1,26 @@
 {
  "node": "bm-a",
- "ts": "2026-11-04T02:44:07",
+ "ts": "2026-11-04T03:00:02",
  "jobs": [
   {
-   "id": "bigmoney-signal-2026-11-03",
-   "title": "[金融量化（回测 → 一页结论 → 可报价或写清卡点）] 下月持仓信号 CSV（可卖的唯一产物）",
-   "cmd": "python Tools/fleet/quant_signal.py --in quant/bigmoney/results/etf_nobond_vt.json --out cph4/fleet/queue-receipts/quant-signal-2026-11-03.csv",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/quant-signal-2026-11-03.csv",
+   "id": "VCORP-TRAIN-BATCH-14-20261104",
+   "title": "音色微调批量（z02-08/e02-08，各一卡）——门=两试点回执 PASS",
+   "cmd": "python Tools/voicebank/vb_train_card.py --help",
+   "cwd": null,
+   "needs": "gpu",
+   "deliverable": "cph4/fleet/queue-receipts/vcorpus-train-batch-verdict-20261104.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
-   "when_all": [],
+   "when_all": [
+    "C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-train-aishell3-z01-20261104.json",
+    "C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-train-libritts-e01-20261104.json"
+   ],
    "llm": null,
    "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 41.4/1.0 GB"
+ "capacity_note": "ram 33.1/1.0 GB"
 }

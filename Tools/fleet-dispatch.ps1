@@ -54,8 +54,14 @@ try { $OriginMain = [string](& 'C:\Program Files\Git\cmd\git.exe' -C $Root rev-p
 $script:WantSha = $ExpectSha
 $script:WantOrigin = $OriginMain
 
-function Poke-Node([string]$ip) {
-  $body = @{ reason = $Reason; tasks = @($Tasks); repos = @($Repos) } | ConvertTo-Json -Compress
+function Poke-Node([string]$ip, [string[]]$nodeTasks) {
+  # 2026-11-04: this used to send tasks=@($Tasks) (empty by default), so a poke only
+  # pulled git and never started anything - measured on bm-c: last_pull.wakes=[] while
+  # it had produced nothing for 78 minutes. Per ROUND step1/appx2, fall back to the
+  # node's own wake_tasks from fleet-nodes.json. The worker still re-filters against
+  # that node's allowlist and leaves Disabled tasks alone (off-skip), so this cannot
+  # re-arm a frozen task.
+  $body = @{ reason = $Reason; tasks = @($nodeTasks); repos = @($Repos) } | ConvertTo-Json -Compress
   $r = Invoke-RestMethod -Uri ('http://' + $ip + ':' + $port + '/poke') -Method Post -Body $Body -ContentType 'application/json' -TimeoutSec $TimeoutSec
   if ($r.ok) { return 'ok' }
   return 'err'
@@ -102,9 +108,12 @@ foreach ($n in @($cfg.nodes)) {
   if ($ip -eq '') { continue }
   if ([string]$n.host -ne '' -and ([string]$n.host -ieq $env:COMPUTERNAME)) { $ip = '127.0.0.1' }
   $ok = $false; $detail = ''; $sync = ''; $elapsed = -1
+  # explicit -Tasks (order-sentinel routing) wins; otherwise wake the node's own list
+  $nodeTasks = @($Tasks)
+  if ($nodeTasks.Count -eq 0) { $nodeTasks = @($n.wake_tasks | Where-Object { $_ }) }
   for ($attempt = 1; $attempt -le 3 -and -not $ok; $attempt++) {
     try {
-      $r = Poke-Node $ip
+      $r = Poke-Node $ip $nodeTasks
       if ($r -eq 'ok') { $ok = $true; $detail = 'accepted' }
       else { $detail = 'err-resp' }
     } catch {
