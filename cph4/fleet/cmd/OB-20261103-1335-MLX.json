@@ -1,0 +1,26 @@
+{
+ "id": "OB-20261103-1335-MLX",
+ "type": "infra+policy",
+ "lanes": ["bm-m"],
+ "issued_at": "2026-11-03T13:35:00",
+ "issued_by": "bm-m（CEO 2026-11-03 问「MLX 针对性的优化都做了吗」→ 查证后执行）",
+ "finding": "ollama 0.40.13 的 MLX 引擎一直可用（10-30 日志里 35B-A3B 就走 mlx runner / MLX 0.32.4），但常驻档 qwen3:4b-instruct 跑的是 llamacpp，且上游没有它的 -mlx 版（registry 404）。MLX 专项配置一项都没动过。",
+ "change": [
+  "现役档改为 qwen3.5:4b-mlx（nvfp4 权重，runner=mlx，100% GPU，4.1GB）",
+  "模型名收敛到单一来源：cph4/fleet/LOCAL-MODEL-POLICY.json + Tools/fleet/model_policy.py；四处调用点（autowork/digest_agent/local_ai_business/fleet_lane）改为从它取，读不到回退旧值",
+  "model_radar 的 bench 现在记录引擎（mlx/llamacpp）——不记引擎的提速结论无法复现"
+ ],
+ "measured": {
+  "qwen3.5:4b-mlx": "38.1-40.0 tok/s 黄金集 6/8 runner=mlx",
+  "qwen3:4b-instruct": "35.9-37.4 tok/s 黄金集 6/8 runner=llamacpp",
+  "prefix_cache": "同一 3k 前缀：预填 420 → 15,615 tok/s，墙钟 2.89s → 0.45s（6.4x）",
+  "structured_output": "format=json 在 MLX 上返回可直接解析（此前『MLX 忽略 format』为外部记录，本机二次未复现）"
+ },
+ "not_done": [
+  "iogpu.wired_limit_mb 仍为默认 0：只对 22GB 封存档（35B-A3B）有意义，需 sudo，暂不动",
+  "KV cache 量化 / prefill_step_size / draft 投机解码：ollama 的 MLX runner 不暴露，属 mlx_lm 直跑路线",
+  "MLX 下的 num_parallel 并发收益未测"
+ ],
+ "rule": "换档必须走 model_radar 的两条判据（质量更高且速度≥现役90%，或质量持平且速度≥105%）；模型名只准从 LOCAL-MODEL-POLICY.json 取，禁止在工具里再写死。",
+ "acceptance": ["ollama ps 的 RUNNER=mlx 且模型=qwen3.5:4b-mlx", "digest_agent 实跑产出正常", "deploy_gate 六关 PASS"]
+}
