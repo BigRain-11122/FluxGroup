@@ -1,18 +1,19 @@
 {
- "ts": "2026-11-03T14:21:10",
+ "ts": "2026-11-03T14:27:31",
  "stage": 3,
  "adoption": {
   "days": 2,
-  "applied": 390,
-  "total": 317,
-  "rate": 123.0,
+  "applied": 393,
+  "total": 319,
+  "rate": 123.2,
   "eligible_stage4": false
  },
  "decisions": [
   {
    "kind": "flag",
-   "why": "1 台机空转且有活",
+   "why": "2 台机空转且有活",
    "target": [
+    "bm-b",
     "bm-m"
    ],
    "min_stage": 1,
@@ -22,7 +23,7 @@
    "kind": "requeue",
    "why": "1 张卡在跑但 1 小时无回执",
    "target": [
-    "asset-lib-env-check-2026-11-03"
+    "asset-lib-voice-corpus-bmm-2026-11-03"
    ],
    "min_stage": 3,
    "result": "applied"
@@ -42,7 +43,7 @@
   {
    "kind": "requeue",
    "ids": [
-    "asset-lib-env-check-2026-11-03"
+    "asset-lib-voice-corpus-bmm-2026-11-03"
    ]
   }
  ],
