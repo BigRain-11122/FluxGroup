@@ -1,6 +1,6 @@
 {
- "ts": "2026-11-03T13:18:08+0800",
- "receipts": 304,
+ "ts": "2026-11-03T14:49:32+0800",
+ "receipts": 344,
  "unparseable": [
   "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/fleet-align-bm-a.json",
   "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/fleet-align-bm-b.json",
@@ -16,6 +16,11 @@
   "_last_claim.json",
   "_last_lane_bm-a.json",
   "_last_lane_bm-m.json",
+  "asset-env-2026-11-03.json",
+  "asset-env-bm-m.json",
+  "asset-face-2026-11-03.json",
+  "asset-library-2026-11-03.json",
+  "asset-voice-2026-11-03.json",
   "biz-car-gaming-20261031.json",
   "biz-car-gaming-20261101.json",
   "biz-car-gaming-20261102.json",
@@ -36,6 +41,9 @@
   "dupes-scan-20261103.json",
   "game-packs-2026-11-03-r2.json",
   "game-packs-2026-11-03.json",
+  "inference-audit-bm-a.json",
+  "inference-audit-bm-b.json",
+  "inference-audit-bm-m-20261103.json",
   "judge-bench-20261102.json",
   "mv-full-audit-20261101.json",
   "mv-full-audit-20261102.json",
@@ -46,6 +54,7 @@
   "mv-gate-latest.json",
   "mv-gate-r2-20261102.json",
   "mv-gate-v721-20261102.json",
+  "mv-gate-v721-24fps-20261103.json",
   "mv-master-locate.json",
   "mv-stab-20261102.json",
   "mv-stability.json",
@@ -58,13 +67,14 @@
   "skill-eval-fleet-ops-20261103.json",
   "skill-eval-ship-ops-20261103.json",
   "skill-eval-ship-ops-r2-20261103.json",
-  "skill-promote-20261103.json"
+  "skill-promote-20261103.json",
+  "voice-corpus-bm-m-2026-11-03.json"
  ],
  "rc_hist": {
-  "0": 206,
-  "1": 20,
-  "2": 12,
-  "3": 2,
+  "0": 229,
+  "1": 23,
+  "2": 13,
+  "3": 5,
   "127": 6,
   "9009": 1
  },
@@ -91,7 +101,8 @@
   "R-PLAN-BIGDOMAIN-20261102-bm-m.json",
   "R-PLAN-BIGSTREAMDRA-20261101-bm-a.json",
   "R-PLAN-BIGSTREAMDRA-20261102-bm-m.json",
-  "R-PLAN-BIGSTREAMMV-20261102-bm-m.json"
+  "R-PLAN-BIGSTREAMMV-20261102-bm-m.json",
+  "asset-lib-voice-corpus-bmm-2026-11-03-bm-m.json"
  ],
  "error_class_not_in_taxonomy": [
   [
