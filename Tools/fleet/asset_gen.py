@@ -130,6 +130,24 @@ def _is_white_bg(arr):
     return True
 
 
+def render_size(w, h):
+    """SDXL 在 9:16 这类极端比例上会把一个主体画成两个（实测怀表出成上下两块）。
+
+    先按模型友好的 832x1472 出图，落盘后再放大到规格尺寸。
+    """
+    if max(w, h) / float(min(w, h)) > 1.6 and max(w, h) > 1440:
+        return (832, 1472) if h > w else (1472, 832)
+    return w, h
+
+
+def upscale_to(target, w, h):
+    from PIL import Image
+    im = Image.open(target)
+    if im.size == (w, h):
+        return
+    im.resize((w, h), Image.LANCZOS).save(target)
+
+
 def matte_rmbg(target):
     """用本机 BRIA RMBG 权重抠图（质量远好于 grabCut）。成功则原地替换 target。"""
     py = os.environ.get("RMBG_PYTHON") or DEFAULT_RMBG_PYTHON
@@ -268,8 +286,9 @@ def main(argv):
             neg += ", bokeh, depth of field, gradient background, background scenery, city, street, crowd, " \
                    "reflection on background"
         seed = 20261103 + abs(hash(key)) % 10000
-        g = cg.graph_ckpt(pos, neg, seed, conf, w, h) if conf["route"] == "ckpt" \
-            else cg.graph(pos, neg, seed, conf, w, h)
+        rw, rh = render_size(w, h)
+        g = cg.graph_ckpt(pos, neg, seed, conf, rw, rh) if conf["route"] == "ckpt" \
+            else cg.graph(pos, neg, seed, conf, rw, rh)
         try:
             ok = submit_and_save(cg, a.server, g, target, matte=alpha)
         except Exception as e:
@@ -278,6 +297,8 @@ def main(argv):
         if not ok:
             failed.append([key, "无返回图"])
             continue
+        if (rw, rh) != (w, h):
+            upscale_to(target, w, h)
         made.append({"key": key, "file": os.path.relpath(target, ROOT),
                      "alpha_missing": ok == 2, "alpha": alpha, "size": [w, h]})
 

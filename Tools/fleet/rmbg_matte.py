@@ -30,6 +30,30 @@ def load_model(device):
     return model
 
 
+def keep_main_object(mask):
+    """只留最大连通域并填掉内部空洞。
+
+    RMBG 偶尔会把一块背景光斑判成主体（实测怀表左上方留了半块霓虹），
+    这类碎块和主体不相连，取最大连通域就能去掉；内部空洞则是模型在
+    物体亮部挖的洞，填掉可避免成品出现透空斑。
+    """
+    import numpy as np
+    from scipy import ndimage
+    m = mask >= 128
+    if not m.any():
+        return mask
+    lbl, n = ndimage.label(m)
+    if n > 1:
+        sizes = ndimage.sum(m, lbl, range(1, n + 1))
+        m = lbl == (int(np.argmax(sizes)) + 1)
+    m = ndimage.binary_fill_holes(m)
+    # 物体内部一律不透明，只有边缘保留模型的软过渡；否则深色玻璃面会透出背景色。
+    interior = ndimage.binary_erosion(m, iterations=2)
+    alpha = np.where(m, mask, 0).astype(np.uint8)
+    alpha[interior] = 255
+    return alpha
+
+
 def run(model, path, device):
     import numpy as np
     import torch
@@ -50,6 +74,7 @@ def run(model, path, device):
     lo, hi = torch.min(out), torch.max(out)
     out = (out - lo) / (hi - lo + 1e-6)
     mask = (out.squeeze().cpu().numpy() * 255).astype(np.uint8)
+    mask = keep_main_object(mask)
     rgba = orig.convert("RGBA")
     rgba.putalpha(Image.fromarray(mask))
     return rgba
