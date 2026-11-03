@@ -370,3 +370,5 @@ am_free_gb=10+cpu_load_pct=48——**bm-b 不是闲着，是在跑量化轮**；
 | **R7-6 CLOCK-SKEW max 3556ms** | **registered·本机提权动作** | 01:31 旗（precision ±418ms）；bm-b/bm-c 的 w32time 停转需本机提权自启，承 R4-4/R5-5/R6-7 同源，不重复立法。租约 45-180min，4s 级偏差不影响派单。 |
 
 **本班边界**：bm-b 是物理不可达、bm-c 认领器 Disabled——两者都不是本席可远程修复的（CEO 2026-10-23 禁远程调度 + C-20261009-04 禁 poke 启用 Disabled 任务）。本班实做=把可移动的供给移到在产的 bm-a，并把两条本机动作写成可直接照抄的命令。
+
+| **R7-7 `git add` 静默不生效（本班新坑·工具面）** | **registered·判例** | 现象：`git add <已跟踪文件>` 返回 rc=0，但 `rev-parse :path` 索引 blob 与 `hash-object path` 磁盘 blob 长期不等，`status`/`diff` 均报无改动。两个叠加成因：①`core.fsmonitor=true` 的陈旧缓存让 add 跳过重哈希；②本仓台账 blob 实为 **CRLF** 而全局 `core.autocrlf=true` 会把新内容转 LF（HEAD 与磁盘 106426B vs 106054B，全文件伪差异 744 行）。判定法：`git rev-parse :<path>` ↔ `git hash-object <path>` 双值比对（本班实测 5e1f045f ≠ dd63d837）。修法：`git rm --cached -q <path>` 重加；提交 CRLF 台账时加 `-c core.autocrlf=false`，否则每次提交都会翻成整文件差异。**影响面=所有靠 git add 提交台账的班次**（会误以为「已提交」而内容未入链）。 |
