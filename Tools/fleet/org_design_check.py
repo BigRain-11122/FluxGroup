@@ -38,7 +38,7 @@ def main(argv):
     rows, gaps = [], []
     for o in orgs:
         miss = [f for f in FIELDS if not (str(o.get(f) or "").strip())
-                or "待答" in str(o.get(f))]
+                or any(w in str(o.get(f)) for w in ("待答", "待定"))]
         doc = o.get("design_doc") or ""
         doc_ok = bool(doc) and os.path.exists(os.path.join(ROOT, doc))
         status = o.get("design_status") or "PENDING"

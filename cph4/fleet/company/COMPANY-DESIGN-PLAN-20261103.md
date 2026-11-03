@@ -53,8 +53,26 @@
 - **设计不是交付**：每家必须挂第一件产物卡（带文件名+验收判据），设计完不出卡 = 没做。
 - 顺序可被 CEO 一句话改；机器不擅自跳序。
 
-## 五、本轮立即执行
+## 五、执行进度（2026-11-03 17:30 实况）
 
-1. 建 `cph4/fleet/company/` 目录与 `ORG-REGISTRY.json`（9 家占位，字段留空表示未做）。
-2. 写 #1 CPH4 Labs、#2 BigStream 两份 TOP-DESIGN，各挂一张第一件产物卡。
-3. 其余七家在 registry 标 `PENDING`，按序推进，不等指令。
+| # | 对象 | 状态 | 卡在哪 |
+|---|---|---|---|
+| 1 | CPH4 Labs | **DONE** | — |
+| 2 | BigStream | **DONE** | — |
+| 3 | Biggame | **DONE** | — |
+| 4 | BigMoney | **DONE** | — |
+| 5 | FluxVerse | **DONE** | — |
+| 6 | BigLife | **DONE** | — |
+| 7 | BigHouse | PENDING | 缺 CEO 取向：安家=资产位还是服务位；复活三条硬条件已写死 |
+| 8 | BigDomain | PENDING | 上游三家都"能出但没东西可卖"，无可卖物即无法定产品与客户 |
+| 9 | BigCompute | PENDING | 缺成本台账（定价无分母）与需求验证；可先出成本台账 |
+
+DONE 六家八问全答，无"待定"残留（检查器把"待定"也判缺项，防止用词糊过去）。
+三家 PENDING 的正文都已落盘，写明缺哪份证据才能补齐——这是"卡在事实"而不是"卡在没写"。
+
+## 六、本轮已完成的具体动作
+
+1. 建 `cph4/fleet/company/` 目录与 `ORG-REGISTRY.json`（九家八问登记，空=未答）。
+2. 写九份 TOP-DESIGN（六份定稿、三份写明缺什么证据）。
+3. 新增 `Tools/fleet/org_design_check.py` 并把 `orgs` 站接进脉冲：每轮点名谁没写、谁标了完成却缺哪一问（"待定"同样判缺）。
+4. CPH4 第一件产物落地：`cph4/fleet/asset-lib-v1/SUPPLY-P0.json`（十类 128 件，实测可用 0 件）。
