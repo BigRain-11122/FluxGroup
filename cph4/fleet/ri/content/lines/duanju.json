@@ -2,7 +2,7 @@
  "line": "bigstream-duanju",
  "name": "短剧（配音质检→带声合流→可发集数）",
  "group": "content",
- "note": "素材与配音在工作机（bm-b/bm-c）。真正的产出是'可发布集数'而不是报告，所以第三段必须给出集号清单。",
+ "note": "素材与配音在工作机（bm-b/bm-c）。真正的产出是'可发布集数'而不是报告，所以第四段必须给出集号清单。每段都必须留证据件：缺素材时回执写 BLOCKED 并写明缺什么，不许零产物退出（否则线会静默停摆）。",
  "stages": [
   {
    "id": "inventory",
@@ -18,19 +18,39 @@
    "minutes": 10
   },
   {
+   "id": "tts-qc",
+   "name": "配音质检（逐集检出缺句/静音/削波）",
+   "cmd": "python {root_tools}/fleet/tts_batch_check.py --dir media/drama-tts-batch --out cph4/fleet/queue-receipts/duanju-tts-qc-{date}.json",
+   "deliverable": "cph4/fleet/queue-receipts/duanju-tts-qc-{date}.json",
+   "accept": "每集给出合格/不合格与原因；目录不存在时回执写明 BLOCKED 而不是零产物",
+   "needs": "cpu",
+   "nodes": [
+    "bm-b",
+    "bm-c"
+   ],
+   "minutes": 15,
+   "depends_on": [
+    "inventory"
+   ]
+  },
+  {
    "id": "remux",
-   "name": "带声合流（三层混音 → 成片，loudnorm -14）",
-   "cmd": "python {root_tools}/fleet/tts_batch_check.py --dir media/drama-tts-batch",
-   "deliverable": "cph4/fleet/queue-receipts/duanju-remux-{date}.json",
-   "accept": "新增成片数>0 时，每集输出路径在盘且 ffprobe 能读",
+   "name": "带声合流（i2v 片段+人声+配乐 → 成片，loudnorm -14）",
+   "cmd": "python {root_tools}/fleet/drama_assemble.py --manifest media/drama-tools/manifest-{date}.json --out media/drama-out/duanju-{date}.mp4 --qa cph4/fleet/queue-receipts/duanju-qa-{date}.json",
+   "deliverable": "cph4/fleet/queue-receipts/duanju-qa-{date}.json",
+   "accept": "verdict=PASS 出成片；缺 manifest/片段时回执 verdict=BLOCKED 并写明缺哪一段（rc=3 属正常等待上游）",
    "needs": "cpu",
    "nodes": [
     "bm-b",
     "bm-c"
    ],
    "minutes": 20,
+   "ok_rc": [
+    0,
+    3
+   ],
    "depends_on": [
-    "inventory"
+    "tts-qc"
    ]
   },
   {
@@ -46,7 +66,7 @@
    ],
    "minutes": 5,
    "depends_on": [
-    "tts-qc"
+    "remux"
    ]
   },
   {

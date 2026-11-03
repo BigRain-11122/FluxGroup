@@ -1,0 +1,65 @@
+{
+ "line": "bigstream-drama",
+ "name": "漫剧（关键帧→i2v→装配→闸）",
+ "group": "content",
+ "note": "漫剧与 MV 同一条链（CEO 2026-11-03 两次纠正）：关键帧→图生视频→剪辑→配音→字幕→闸。禁止静图推拉、禁止改道引擎渲染。创意段（选题/剧本/分镜提示词）是判断活，由人/导演席出稿，不伪装成机器工序卡；本表只收机器真能跑的段。",
+ "stages": [
+  {
+   "id": "src-scan",
+   "name": "素材盘点（关键帧与 i2v 片段的真目录）",
+   "cmd": "python {root_tools}/fleet/drama_inventory.py --out cph4/fleet/queue-receipts/drama-src-{date}.json",
+   "deliverable": "cph4/fleet/queue-receipts/drama-src-{date}.json",
+   "accept": "列出关键帧/片段/配音/配乐目录的文件数与最新 mtime；0 也要写明缺哪一类",
+   "needs": "cpu",
+   "nodes": [],
+   "minutes": 5
+  },
+  {
+   "id": "assemble",
+   "name": "装配（i2v 片段+人声+配乐+烧字幕 → 1080×1920@30）",
+   "cmd": "python {root_tools}/fleet/drama_assemble.py --manifest media/drama-tools/manifest-{date}.json --out media/drama-out/drama-{date}.mp4 --qa cph4/fleet/queue-receipts/drama-qa-{date}.json",
+   "deliverable": "cph4/fleet/queue-receipts/drama-qa-{date}.json",
+   "accept": "verdict=PASS 出成片；缺 manifest/片段时回执 verdict=BLOCKED 并写明缺哪一段（rc=3 属正常等待上游）",
+   "needs": "cpu",
+   "nodes": [],
+   "minutes": 25,
+   "ok_rc": [
+    0,
+    3
+   ],
+   "depends_on": [
+    "src-scan"
+   ]
+  },
+  {
+   "id": "gate",
+   "name": "交付闸（独立复跑，不采信装配器自报）",
+   "cmd": "python {root_tools}/fleet/drama_quality_gate.py --in media/drama-out/drama-{date}.mp4 --out cph4/fleet/queue-receipts/drama-gate-{date}.json",
+   "deliverable": "cph4/fleet/queue-receipts/drama-gate-{date}.json",
+   "accept": "六项判据（分辨率/30fps/音轨/-14 LUFS/前3s运动/镜长）全过才 PASS；缺成片则回执写明 BLOCKED",
+   "needs": "cpu",
+   "nodes": [],
+   "minutes": 5,
+   "ok_rc": [
+    0,
+    1,
+    3
+   ],
+   "depends_on": [
+    "assemble"
+   ]
+  },
+  {
+   "id": "accept",
+   "name": "质量验收（缺一份闸回执就不算交付）",
+   "cmd": "python {root_tools}/fleet/quality_gate.py --line bigstream-drama --out cph4/fleet/queue-receipts/quality-bigstream-drama-{date}.json",
+   "deliverable": "cph4/fleet/queue-receipts/quality-bigstream-drama-{date}.json",
+   "accept": "verdict=PASS；否则列出缺哪份闸/哪份 FAIL",
+   "needs": "cpu",
+   "minutes": 1,
+   "depends_on": [
+    "gate"
+   ]
+  }
+ ]
+}
