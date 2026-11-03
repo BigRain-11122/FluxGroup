@@ -174,7 +174,11 @@ def supply(root, queue, have_ids):
     if rule_added:
         # merge, never blind-overwrite: closer/workgen may have touched other rows in the
         # same cycle, and a whole-list dump erased their work (2026-11-02 review).
-        fl.merge_jsonl(os.path.join(root, fl.QUEUE_REL.replace("/", os.sep)), rows)
+        # Push only the rows this rule pass created (D-R272-MASTER-FULLLIST-CLOBBER).
+        _new_ids = set(str(x) for x in added if ":" not in str(x))
+        _new_rows = [r for r in rows if r.get("id") in _new_ids]
+        if _new_rows:
+            fl.merge_jsonl(os.path.join(root, fl.QUEUE_REL.replace("/", os.sep)), _new_rows)
     if dup_skipped:
         added.append("dedup_skipped:%d" % dup_skipped)
     return added, rows
@@ -690,6 +694,10 @@ def cycle(root, dry=False, push=True, node="bm-a", fallback_stale_s=900):
     fleet.update({n: pending_fleet[n] for n in joined})
     reports = lane_reports(root, nodes)
     added, rows = supply(root, None, set())
+    # Dispatcher edits must survive this cycle (D-R272-MASTER-FULLLIST-CLOBBER, 2026-11-03):
+    # merge_jsonl merges by id, but passing the whole cycle-start list rewrites EVERY row,
+    # silently reverting whatever another leg wrote after we read. Push only what changed.
+    _qsnap = {r.get("id"): json.dumps(r, sort_keys=True, default=str) for r in rows}
     # BUSY-SILENT: a box that holds a RUNNING card and has gone quiet is producing, not
     # dead. Dropping it from dispatch because lane_agent is blocked inside a long job is
     # how a TTS batch looked "offline" while it was working (2026-11-01). Mark it online
@@ -719,7 +727,12 @@ def cycle(root, dry=False, push=True, node="bm-a", fallback_stale_s=900):
     events += assign(rows, fleet, reports, lines)
     if not dry:
         # merge by id under a lock; a whole-list dump lost concurrent closer/workgen edits
-        fl.merge_jsonl(os.path.join(root, fl.QUEUE_REL.replace("/", os.sep)), rows)
+        # and also reverted dispatcher pins (D-R272-MASTER-FULLLIST-CLOBBER): push only the
+        # rows this cycle actually changed.
+        _qchg = [r for r in rows if _qsnap.get(r.get("id"))
+                 != json.dumps(r, sort_keys=True, default=str)]
+        if _qchg:
+            fl.merge_jsonl(os.path.join(root, fl.QUEUE_REL.replace("/", os.sep)), _qchg)
     written, by_lane = write_lane_files(root, rows, fleet, dry, nodes)
 
     # idle ledger: every empty lane must carry a reason, and persistent emptiness escalates
