@@ -63,8 +63,8 @@ CHECKS = {
 NODE_CHECKS = {
     "bm-m": ["receipt", "skills", "dupes"],
     "bm-a": ["canon", "receipt", "skills"],
-    "bm-b": ["lib", "asset", "receipt"],
-    "bm-c": ["asset", "dupes"],
+    "bm-b": ["asset", "receipt"],
+    "bm-c": ["lib", "asset", "dupes"],
 }
 
 
