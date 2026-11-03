@@ -54,11 +54,18 @@ def main(argv):
     os.makedirs(os.path.dirname(os.path.abspath(a.out)), exist_ok=True)
 
     def blocked(why):
-        with open(a.out, "w", encoding="utf-8", newline="") as f:
+        # 拦截回执不能写到交付物路径上（2026-11-03）：这份 CSV 是卖给客户的"下月持仓"，
+        # 写成 BLOCKED 既会被收口逻辑当成"产物已在盘"，也会被误发出去。
+        # 改道 <名>-blocked-<日期>.csv，并保证 --out 一定不被创建。
+        d, b = os.path.split(a.out)
+        stem, ext = os.path.splitext(b)
+        bpath = os.path.join(d, "%s-blocked-%s%s" % (stem, time.strftime("%Y%m%d"), ext or ".csv"))
+        with open(bpath, "w", encoding="utf-8", newline="") as f:
             w = csv.writer(f)
             w.writerow(["status", "reason", "generated_at", "month"])
             w.writerow(["BLOCKED", why, ts, month])
-        print(json.dumps({"verdict": "BLOCKED", "reason": why, "out": a.out}, ensure_ascii=False))
+        print(json.dumps({"verdict": "BLOCKED", "reason": why, "out": bpath,
+                          "receipt_is_not_deliverable": True}, ensure_ascii=False))
         return 3
 
     if not os.path.exists(a.inp):

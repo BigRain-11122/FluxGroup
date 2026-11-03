@@ -128,9 +128,17 @@ def deliverable_blocked(path):
     """
     if not path:
         return False
-    try:
-        if not os.path.isfile(path) or os.path.getsize(path) > 262144:
+    if not os.path.isfile(path) or os.path.getsize(path) > 262144:
+        return False
+    # CSV/text deliverables (the sellable holdings signal) carry the same marker in row 1.
+    if os.path.splitext(path)[1].lower() in (".csv", ".tsv", ".md", ".txt"):
+        try:
+            with open(path, encoding="utf-8-sig", errors="replace") as f:
+                head = f.read(400).upper()
+            return "BLOCKED" in head or "RECEIPT_IS_NOT_DELIVERABLE" in head
+        except Exception:
             return False
+    try:
         with open(path, encoding="utf-8-sig", errors="replace") as f:
             obj = json.load(f)
     except Exception:
@@ -142,7 +150,11 @@ def deliverable_blocked(path):
     for k in ("verdict", "status", "state", "outcome"):
         if str(obj.get(k) or "").strip().upper() == "BLOCKED":
             return True
-    if obj.get("blocked") is True:
+    # Some tools record the refusal as a reason string under "blocked".
+    blk = obj.get("blocked")
+    if blk is True:
+        return True
+    if isinstance(blk, str) and blk.strip().lower() not in ("", "false", "none", "0"):
         return True
     return str(obj.get("error_class") or "").upper().startswith("E-BLOCKED")
 
