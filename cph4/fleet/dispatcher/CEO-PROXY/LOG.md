@@ -601,9 +601,12 @@ bm-b `wake_tasks` 仅 `Bigmoney-IterationLoop`，无 claim 任务 → 音频锚 
 am_free_gb=0.4（24G 机）+ VRAM 空 14899MB + cpu 46%。三源互证（KV 新鲜/state 4 卡 exec/CAPACITY-BLOCKED 旗）一致。**本班零 poke**——CEO 10-23 禁远程调度 + ROUND 附2 已定「非 poke 可解类」，重复 poke 前两班已实证无效。升格：该机已从「bm-c 产线堵」升级为**整机 MV 链咽喉**（W2 59 帧+可爱女人 i2v+星晴 i2v 全在此机），6h 窗过半即复派 P0。
 
 **② bm-b（第 4 轮·结构性维持）**：KV 
-am_free 10GB / cpu_load 48%——bm-b 在跑量化轮而非闲着；缺的是本机 HQ-ProductionClaim。**新判**：leet-idle-watch.ps1 对 bm-b 只吃 GPU/comfy/batch 不吃 cpu_load，故 cpu-sound 车道永远假红 GPU-IDLE → 已登记为工具面缺陷（受保护件只登记候裁）。
+am_free 10GB / cpu_load 48%——bm-b 在跑量化轮而非闲着；缺的是本机 HQ-ProductionClaim。**新判**：
+leet-idle-watch.ps1 对 bm-b 只吃 GPU/comfy/batch 不吃 cpu_load，故 cpu-sound 车道永远假红 GPU-IDLE → 已登记为工具面缺陷（受保护件只登记候裁）。
 
-**③ 新发现（本轮唯一实质新增）：可爱女人 i2v 首帧契约=bm-c 路径亲和**。逐 unit 核对 可爱女人-i2v-PACK-A-v1.json 30 条：rame 全指 media/mv-album-001-jay/frames/KN_KN**.png + 记 rame_bytes/frame_sha12；bm-a 该目录不存在 0/30，本机两套 KN（xingqing 10-24 / batch1 10-27）与契约 sha12 **零匹配**。⇒ **i2v 不可为绕开 bm-c RAM 改派 bm-a**（改派=拿错首帧=一致性崩，CEO 红线面）。此约束写入 DEADLINES，防止日后被「reroute 到空闲机」的错误直觉踩掉。
+**③ 新发现（本轮唯一实质新增）：可爱女人 i2v 首帧契约=bm-c 路径亲和**。逐 unit 核对 可爱女人-i2v-PACK-A-v1.json 30 条：
+rame 全指 media/mv-album-001-jay/frames/KN_KN**.png + 记 
+rame_bytes/frame_sha12；bm-a 该目录不存在 0/30，本机两套 KN（xingqing 10-24 / batch1 10-27）与契约 sha12 **零匹配**。⇒ **i2v 不可为绕开 bm-c RAM 改派 bm-a**（改派=拿错首帧=一致性崩，CEO 红线面）。此约束写入 DEADLINES，防止日后被「reroute 到空闲机」的错误直觉踩掉。
 
 **④ SUPPLY-DRY 定性（第 4 轮）**：_last_claim.json 02:05:01 QUEUE-EMPTY 自报 + 队列 16/16 DONE + backlog_fill 零产出 ⇒ 机器活真做尽。**本班不补假卡**（O-20260928-1820）。bm-a 夜窗 GPU 亦不可烧：llama-server 35B 占 11.4G/12.3G，且待产件全卡人工裁决/bm-c 内存两条真阻塞。
 
@@ -932,7 +935,8 @@ if prev_by and prev_by != owner_node:
 - **根因①**：tick() 按元组解包 push() 的 int 返回值 → TypeError（hb/lane 已跑完，零损失；执行器被误判不健康）。已修。
 - **根因②**：`queue-receipts/_last_lane_*.json` 受 git 跟踪且 lane 每轮改写 → 树永久脏 → ff-only/rebase 恒拒（R2.57 SUPERVISOR.md 同型，节点追不上主线的母因）。已并入 GEN_STATE。
 - **验收**：10:49:30 `agent=0`、agent-push.log `ok: Everything up-to-date`、无 rebase 残留；本地仅剩 GEN_STATE 脏，下轮自动快进。commits 79fca5b8 / 92a199ab。
-
+
+
 ## R2.60 事件班（2026-11-01 13:56-14:0x·承载件触发）
 
 - **触发**：`[2026-11-01 13:56:04][PROBE] L0-DOWN: DISPATCH-LOG.md age 3.1h (>3h)`；锁 mtime 10:52:46（183.6min，已过期）=> 本窗执班。
@@ -1016,5 +1020,5 @@ if prev_by and prev_by != owner_node:
 [2026-11-03 04:1x][PROXY R2.71 复探与三修] 点火成功（bm-b 04:09:06 起跑盘点卡）。新增两修：取消粘滞（merge_jsonl，防在飞腿复活已取消卡）+ 冲突清理（fleet_lane/lane_agent UU 取回 HEAD，markers 0，编译 OK）。队列 183 行/183 id 稳定；E-INPUT 分类已在 bm-m 回执生效。回访探针 4c609b62@05:47 在案。
 
 [2026-11-03 04:2x][PROXY R2.71 收口] 链通四证（队列 183/183·僵尸卡稳定取消·bm-b 盘点回执上链·质检卡由 bm-b 领取）。三修一闸已推：去重折叠、requires 输入前置闸+E-INPUT、取消粘滞；台账+DISPATCH-LOG 全记。班毕锁收口。
-[2026-11-03 07:26-07:5x][PROXY R2.72 ?????????] L0-DOWN age 3.1h=???(R2.61 ???????)???=TTS-QC ?????(requires ???????bm-a/bm-m ???? E-INPUT 0.1s)?????? bm-b+requires ????????? CANCELLED?fleet_lane ? card_edit_ts ???????? pin(??? D-R272-STALE-WRITEBACK-CLOBBER????)??? live=1???D-R272-ATOMIC-PUSH-GBK-CRASH(??? PYTHONIOENCODING=utf-8 ? atomic-push ? run_gate ??? UnicodeEncodeError ??????)?
-[2026-11-03 08:0x][PROXY R2.72 ??] bm-b ????????? -> ? CANCELLED(blocked-input)?? bigstream-duanju ? BLOCKED on ????????????=backlog_fill manifest ????????(D-R272-MANIFEST-RESURRECTION)??????????? requires pin?fleet_lane card_edit_ts ???bm-a ???????
+[2026-11-03 07:26-07:5x][PROXY R2.72 事件班·承载件触发] L0-DOWN age 3.1h=节拍器(R2.61 先例·三源全绿)；真事=TTS-QC 卡六连空烧(requires 未含输入目录→bm-a/bm-m 反复取走 E-INPUT 0.1s)。已修：卡钉 bm-b+requires 输入目录、三僵尸卡 CANCELLED、fleet_lane 增 card_edit_ts 守卫(新缺陷 D-R272-STALE-WRITEBACK-CLOBBER·单测过)。复探 live=1。
+[2026-11-03 08:0x-08:1x][PROXY R2.72 收口] 真根因勘正=master_agent 全表覆盖(D-R272-MASTER-FULLLIST-CLOBBER)而非 manifest 复活；修复已上链，生效前置=bm-m 脉冲重启。线级 bigstream-duanju 判 BLOCKED on 上游配音批(media/drama-tts-out 全机不存在·bm-b 探针亦零交付物)。附：本班台账中文曾被 PowerShell 管道编码毁成问号，已按「中文外置 UTF-8 数据件」律重写修复。
