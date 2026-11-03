@@ -120,6 +120,10 @@ STAGES = [
     # 吃 GPU 但自带"一天只跑一次"日期闸，放慢批；rc=3 只表示后端没装/目录不在，不算故障。
     ("asr_subs", ["Tools/fleet/subs_asr.py", "--sync-dir", "media/drama-out",
                   "--subs-dir", "cph4/fleet/drama-dept-v1/subs", "--days", "7"], 900, {0, 1, 3}, True),
+    # 审片副本（2026-11-03 CEO「好好利用本地算力」）：硬件编码出 720p，一次最多 6 条，幂等。
+    # 目的=CEO 点开就能看，不用等下 12MB 的 1080p 原片；Mac 的正当用法（只做交付，不做创作）。
+    ("review_proxy", ["Tools/fleet/review_proxy.py", "--src", "media/drama-out",
+                      "--out", "media/review-720p", "--max", "6"], 300, {0, 3}, True),
     # 本机推理栈体检（2026-11-03）：端口归属/服务环境/速度/向量层，一天一次。
     # 只是体检，不改配置；rc=2=有 GAPS 待修。
     ("inference_audit", ["Tools/fleet/local_inference_audit.py", "--node", NODE, "--daily"], 300, {0, 2}, True),

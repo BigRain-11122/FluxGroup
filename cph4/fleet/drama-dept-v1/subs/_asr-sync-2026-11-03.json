@@ -1,0 +1,21 @@
+{
+ "ts": "2026-11-03T18:22:01",
+ "dir": "media/drama-out",
+ "backend": "mlx",
+ "model": "/Users/junsheng.sun/.cache/whisper-mlx/large-v3-turbo",
+ "missing_before": 2,
+ "done": 2,
+ "fail": 0,
+ "rows": [
+  {
+   "file": "media/drama-out/asm-sw2.mp4",
+   "srt": "cph4/fleet/drama-dept-v1/subs/asm-sw2.srt",
+   "rc": 0
+  },
+  {
+   "file": "media/drama-out/drama-2026-11-03.mp4",
+   "srt": "cph4/fleet/drama-dept-v1/subs/drama-2026-11-03.srt",
+   "rc": 0
+  }
+ ]
+}

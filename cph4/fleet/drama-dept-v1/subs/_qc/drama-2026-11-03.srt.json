@@ -1,0 +1,21 @@
+{
+ "input": "media/drama-out/drama-2026-11-03.mp4",
+ "segments": 3,
+ "duration_s": 12.0,
+ "speech_s": 4.66,
+ "coverage": 0.388,
+ "chars": 14,
+ "cps": 3.0,
+ "elapsed_s": 0.71,
+ "rtf": 0.059,
+ "gaps": [],
+ "warns": [
+  "有声段占比 0.39（人声稀疏，音乐段偏多属正常，抽查用）"
+ ],
+ "verdict": "PASS",
+ "ts": "2026-11-03T18:22:01",
+ "backend": "mlx",
+ "model": "/Users/junsheng.sun/.cache/whisper-mlx/large-v3-turbo",
+ "srt": "cph4/fleet/drama-dept-v1/subs/drama-2026-11-03.srt",
+ "text": "这次协议你签也得签不签也得签"
+}
