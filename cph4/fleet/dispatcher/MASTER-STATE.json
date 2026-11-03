@@ -1,23 +1,23 @@
 {
- "ts": "2026-11-03T15:33:15",
- "cycle": 267,
+ "ts": "2026-11-03T15:34:35",
+ "cycle": 268,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-03T15:33:15",
+ "master_tick_ts": "2026-11-03T15:34:35",
  "queue": {
   "total": 300,
-  "open": 6,
+  "open": 4,
   "running": 4,
   "done": 136,
-  "failed": 7
+  "failed": 9
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 0.0,
-   "cpu_load_pct": 70,
-   "ram_free_gb": 36.7,
-   "gpu_util_pct": 24,
+   "hb_age_s": 20.4,
+   "cpu_load_pct": 68,
+   "ram_free_gb": 34,
+   "gpu_util_pct": 26,
    "job": "asset-lib-voice-corpus-bma-2026-11-03",
    "last_result": {
     "job": "asset-lib-voice-corpus-bmb-2026-11-03",
@@ -32,7 +32,7 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 67.3,
+   "hb_age_s": 147.8,
    "cpu_load_pct": 43,
    "ram_free_gb": 4.9,
    "gpu_util_pct": 100,
@@ -44,16 +44,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 28.5,
-   "cpu_load_pct": 7,
-   "ram_free_gb": 4.6,
+   "hb_age_s": 3.0,
+   "cpu_load_pct": 6,
+   "ram_free_gb": 4.8,
    "gpu_util_pct": 0,
-   "job": "biggame-playable-2026-11-03",
+   "job": "asset-lib-index-2026-11-03",
    "last_result": {
     "job": "biggame-playable-2026-11-03",
-    "state": "RUNNING",
-    "rc": null,
-    "ts": "2026-11-03T15:32:51",
+    "state": "FAILED",
+    "rc": 0,
+    "ts": "2026-11-03T15:33:15",
     "reason": null
    },
    "idle_confirmed": false,
@@ -62,16 +62,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.6,
-   "cpu_load_pct": 34,
-   "ram_free_gb": 16.9,
+   "hb_age_s": 0.7,
+   "cpu_load_pct": 28,
+   "ram_free_gb": 17.0,
    "gpu_util_pct": null,
-   "job": "asset-lib-voice-corpus-bmc-2026-11-03",
+   "job": "bigstream-mv-gate-2026-11-03",
    "last_result": {
-    "job": "C-QUANT-NOBOND-20261103",
+    "job": "asset-lib-voice-corpus-bmc-2026-11-03",
     "state": "FAILED",
-    "rc": 2,
-    "ts": "2026-11-03T15:32:09",
+    "rc": 1,
+    "ts": "2026-11-03T15:33:22",
     "reason": null
    },
    "idle_confirmed": false,
@@ -97,9 +97,7 @@
     "bigstream-mv-gate-2026-11-03"
    ],
    "no_supply": false,
-   "blockers": [
-    "bigstream-mv-gate-2026-11-03:no-lane"
-   ],
+   "blockers": [],
    "note": null,
    "stuck_stage": "mv-cut",
    "stuck_owner": "剪辑席"
@@ -147,14 +145,12 @@
   "biggame": {
    "name": "Biggame·游戏",
    "status": "ACTIVE",
-   "verdict": "WORKING",
+   "verdict": "WAITING",
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "游戏席",
-   "jobs": [
-    "biggame-playable-2026-11-03"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": null
   },
@@ -283,14 +279,11 @@
    "owner": "资产席",
    "jobs": [
     "asset-lib-voice-corpus-bma-2026-11-03",
-    "asset-lib-voice-corpus-bmc-2026-11-03",
     "asset-lib-index-2026-11-03",
     "asset-lib-face-caption-2026-11-03"
    ],
    "no_supply": false,
-   "blockers": [
-    "asset-lib-index-2026-11-03:no-lane"
-   ],
+   "blockers": [],
    "note": "CEO 2026-11-03 令：先不做短剧和漫剧，先储备资产（烧角色 LoRA 与音色库）"
   }
  },
@@ -817,7 +810,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 6,
+  "local": 4,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -825,22 +818,25 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 6,
+  "cpu": 4,
   "gpu": 0
  },
  "supply_added": [
-  "backlog_manifest+2"
+  "backlog_manifest+1"
  ],
  "events": [
   "asset-lib-voice-corpus-bmb-2026-11-03 FAILED via bm-a",
-  "C-QUANT-NOBOND-20261103 FAILED via bm-m",
-  "asset-lib-voice-corpus-bmc-2026-11-03 -> bm-m (cpu)"
+  "biggame-playable-2026-11-03 FAILED via bm-c",
+  "asset-lib-voice-corpus-bmc-2026-11-03 FAILED via bm-m",
+  "asset-lib-index-2026-11-03 -> bm-c (cpu)",
+  "bigstream-mv-gate-2026-11-03 -> bm-m (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 剪辑/装配/剪辑席 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
+  "bm-c",
   "bm-m"
  ]
 }
