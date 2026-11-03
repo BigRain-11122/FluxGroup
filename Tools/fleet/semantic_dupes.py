@@ -25,7 +25,10 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 QUEUE = os.path.join(ROOT, "cph4", "fleet", "PRODUCTION-QUEUE.jsonl")
 URL = os.environ.get("OLLAMA_URL", "http://127.0.0.1:11434")
 MODEL = os.environ.get("EMBED_MODEL", "nomic-embed-text")
-DEFAULT_TH = 0.64          # 实测最佳：召回 9/10、特异 10/10
+DEFAULT_TH = 0.61          # 30+30 真卡实测最佳：召回 28/30、特异 27/30
+# 挡活用的阈值必须比"报告用"更保守：误杀丢真活，漏判只是多跑一张卡。
+# 实测负例相似度 90 分位 0.623、正例中位 0.867，取 0.75 基本不误杀。
+DEFAULT_BLOCK_TH = float(os.environ.get("DUP_SEMANTIC_TH", "0.75"))
 
 
 def embed(text):
@@ -41,6 +44,36 @@ def cos(a, b):
     na = sum(x * x for x in a) ** 0.5
     nb = sum(y * y for y in b) ** 0.5
     return s / (na * nb) if na and nb else 0.0
+
+
+def duplicate_of(title, live, th=None):
+    """判断 title 是否与某个在办卡语义重复；返回 (id, score) 或 None。
+
+    供 backlog_fill 在把卡提成 OPEN 之前调用。三条硬约束：
+      1) 失败即放行——嵌入服务不可用、超时、返回畸形一律返回 None，
+         绝不因为"判重工具坏了"把真活挡在门外；
+      2) 阈值偏保守（默认 0.75），误杀会丢真活，漏判只是多跑一张卡；
+      3) 在办卡只比前 60 张，避免一轮几百次嵌入把主控脉拖慢。
+    """
+    th = DEFAULT_BLOCK_TH if th is None else th
+    if not title or not live:
+        return None
+    try:
+        v = embed(re.sub(r"^\s*\[[^\]]*\]\s*", "", title))
+    except Exception:
+        return None
+    best = None
+    for cid, ctitle in list(live)[:60]:
+        if not ctitle:
+            continue
+        try:
+            cv = embed(re.sub(r"^\s*\[[^\]]*\]\s*", "", ctitle))
+        except Exception:
+            continue
+        s = cos(v, cv)
+        if s >= th and (best is None or s > best[1]):
+            best = (cid, round(s, 3))
+    return best
 
 
 def main():

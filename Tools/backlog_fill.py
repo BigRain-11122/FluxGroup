@@ -102,6 +102,19 @@ def _fill_manifest(root, rows, have, node=None):
     backlog = _load(man)
     touched = False
     added = 0
+    # 2026-11-03：语义判重（向量）。真事故：同一个配音质检活同时存在 3 张卡（2 跑 1 待）。
+    # 在这里按标题相似度挡一次。任何异常都让 _sd 为 None → 不做判重 → 照常派活，
+    # 绝不因为"判重工具坏了"把真活挡在门外。
+    _sd = None
+    try:
+        import importlib.util as _ilu
+        _sp = _ilu.spec_from_file_location(
+            "_sd_block", os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                      "fleet", "semantic_dupes.py"))
+        _sd = _ilu.module_from_spec(_sp)
+        _sp.loader.exec_module(_sd)
+    except Exception:
+        _sd = None
     for r in backlog:
         jid = r.get("id")
         if not jid:
@@ -174,6 +187,20 @@ def _fill_manifest(root, rows, have, node=None):
                                      # 本机，rc=2 E-INPUT。输入门禁必须随卡进队列，否则形同虚设。
                                      "requires", "ok_rc", "minutes", "rescue")}
         job["state"] = "OPEN"
+        if _sd is not None:
+            try:
+                _live = [(x.get("id"), x.get("title")) for x in rows
+                         if x.get("state") in ("OPEN", "RUNNING", "READY") and x.get("id") != jid]
+                _dup = _sd.duplicate_of(r.get("title") or "", _live)
+                if _dup:
+                    r["state"] = "DUP-SKIP"
+                    r["dup_of"] = _dup[0]
+                    r["dup_score"] = _dup[1]
+                    r["dup_at"] = time.strftime("%Y-%m-%dT%H:%M:%S")
+                    touched = True
+                    continue
+            except Exception:
+                pass
         job["route"] = "local"
         job["created_by"] = "backlog_fill.py:manifest"
         job["created_at"] = time.strftime("%Y-%m-%dT%H:%M:%S")
