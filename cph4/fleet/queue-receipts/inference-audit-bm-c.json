@@ -1,0 +1,10 @@
+{
+ "ts": "2026-11-03T14:54:38",
+ "node": "bm-c",
+ "os": "macOS-27.2-arm64-arm-64bit",
+ "verdict": "BLOCKED",
+ "gaps": [
+  "wrong-node: bm-c 是 Windows 机，本机是 macOS-27.2-arm64-arm-64bit"
+ ],
+ "why": "派单 nodes 只是偏好；本卡必须在目标机上执行"
+}

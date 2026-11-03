@@ -1,0 +1,17 @@
+{
+ "id": "C-INFRA-AUDIT-BM-C-20261103",
+ "node": "bm-m",
+ "rc": 3,
+ "seconds": 0.1,
+ "cmd": "python3 Tools/fleet/local_inference_audit.py --node bm-c --out cph4/fleet/queue-receipts/inference-audit-bm-c.json",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "FAIL",
+ "error_class": "E-UNKNOWN",
+ "deliverable": "cph4/fleet/queue-receipts/inference-audit-bm-c.json",
+ "deliverable_exists": true,
+ "ts": "2026-11-03T14:54:38",
+ "stdout_tail": "{\"node\": \"bm-c\", \"verdict\": \"BLOCKED\", \"out\": \"cph4/fleet/queue-receipts/inference-audit-bm-c.json\"}\n",
+ "stderr_tail": ""
+}
