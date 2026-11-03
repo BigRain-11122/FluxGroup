@@ -124,6 +124,9 @@ STAGES = [
     # 全域优化面日报（2026-11-03 CEO「你要考虑的比我全面和科学」）：把 9 域 42 项里
     # 还没做的条目每轮摆出来，避免只做被点名的那一处。日报，不是闸，永远 rc=0。
     ("surface", ["Tools/fleet/surface_status.py"], 60, {0}, True),
+    # 九家公司顶层设计的缺项体检（2026-11-03 CEO「梳理每个子公司/实验室的公司级顶层设计」）：
+    # 设计文档的风险是写完就烂，这里每轮点名"哪家还没写、哪家标 DONE 却缺哪一问"。rc=2=有缺项。
+    ("orgs", ["Tools/fleet/org_design_check.py", "--out", "cph4/fleet/state/org-design.json"], 30, {0, 2}, True),
     # 凌晨记忆归纳总闸（2026-11-03 CEO：每项目记忆都要归纳清理、控膨胀省 token）：
     # 工具自带 02:00-05:00 时间窗，窗外直接跳过；超预算才调 house 闸下沉（快照零删除）。
     ("memory_nightly", ["Tools/fleet/memory_nightly.py"], 900, {0, 2}, True),
