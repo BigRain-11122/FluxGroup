@@ -1,50 +1,41 @@
 {
- "ts": "2026-11-03T22:41:54",
+ "ts": "2026-11-03T22:51:54",
  "node": "bm-c",
  "paused": false,
- "verdict": "BLOCKED-CAPACITY",
+ "verdict": "BUSY",
  "capacity": {
   "gpu": {
-   "util_pct": 72,
-   "used_mb": 12486,
+   "util_pct": 0,
+   "used_mb": 8673,
    "total_mb": 16384
   },
-  "ram_free_gb": 1.65,
-  "vram_free_mb": 3898,
-  "lease_held": false,
-  "can_gpu": false,
-  "can_cpu": false
+  "ram_free_gb": 3.98,
+  "vram_free_mb": 7711,
+  "lease_held": true,
+  "can_gpu": true,
+  "can_cpu": true
  },
- "idle_min": 0.3,
+ "idle_min": 0.6,
  "assigned": [
   {
    "kind": "assigned",
-   "id": "asset-lib-char-gen-2026-11-03",
-   "title": "[资产储备（角色 LoRA / 音色库）] 角色包出图（本机 ComfyUI，1024²，同 seed 组）",
+   "id": "R-NEXT-BIGSTREAMM-GATE-20261103",
+   "title": "MV 交付闸复跑：当前母版四闸全验（收口前置）",
    "prio": null,
-   "needs": "gpu",
-   "feasible": false,
+   "needs": "cpu",
+   "feasible": true,
    "reason": "master lane file (authority)"
   }
  ],
  "next_actions": [
   {
    "kind": "assigned",
-   "id": "asset-lib-char-gen-2026-11-03",
-   "title": "[资产储备（角色 LoRA / 音色库）] 角色包出图（本机 ComfyUI，1024²，同 seed 组）",
+   "id": "R-NEXT-BIGSTREAMM-GATE-20261103",
+   "title": "MV 交付闸复跑：当前母版四闸全验（收口前置）",
    "prio": null,
-   "needs": "gpu",
-   "feasible": false,
-   "reason": "master lane file (authority)"
-  },
-  {
-   "kind": "queue",
-   "id": "asset-lib-voice-assemble-2026-11-03",
-   "title": "[资产储备（角色 LoRA / 音色库）] 音色数据集装配（授权核查→voices/<组> 准入）",
-   "prio": "P0",
    "needs": "cpu",
-   "feasible": false,
-   "reason": "queue row RUNNING"
+   "feasible": true,
+   "reason": "master lane file (authority)"
   },
   {
    "kind": "queue",
@@ -52,7 +43,7 @@
    "title": "asset-lib 线级体检（本机证据目录实况）",
    "prio": "P3",
    "needs": "cpu",
-   "feasible": false,
+   "feasible": true,
    "reason": "queue row OPEN"
   },
   {
@@ -61,7 +52,7 @@
    "title": "本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-c）",
    "prio": "P3",
    "needs": "cpu",
-   "feasible": false,
+   "feasible": true,
    "reason": "queue row OPEN"
   }
  ],
@@ -85,7 +76,7 @@
  "dispatched_now": null,
  "counts": {
   "open_backlog": 0,
-  "open_queue": 18,
+  "open_queue": 16,
   "bank_pending": 0
  }
 }
