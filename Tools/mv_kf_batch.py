@@ -11,7 +11,15 @@ token / negative-word / scene-anchor checks are enforced as written.
 
 Usage:
   py mv_kf_batch.py --prompts prompts.json --out D:\\FluxGroup\\media\\mv-test\\xingqing
-                     [--only KN01,KN02] [--limit 5] [--unet ...] [--clip ...]
+                     [--only KN01,KN02] [--limit 5] [--unet ...] [--clip ...] [--steps 8]
+
+Step A/B (2026-11-03: 8 步是否为必要，此前只能凭感觉):
+  1) 同一张卡跑两遍，只有 --steps 与 --out 不同
+     py mv_kf_batch.py ... --only KN01 --limit 1 --steps 8 --perf-tag 8s --out <dir8>
+     py mv_kf_batch.py ... --only KN01 --limit 1 --steps 6 --perf-tag 6s --out <dir6>
+  2) 判据：同 seed 同 prompt，6 步图与 8 步图的平均像素差 < 4/255 且无结构丢失（人脸/文字不糊）
+     → 6 步可做默认，省 25% 时间；只要肉眼能看出差就维持 8 步。
+  3) 每次渲染的耗时/步数/出图字节都写进 <out>/_perf.jsonl（不可省，否则结论无法复算）。
 """
 import argparse
 import json
@@ -25,7 +33,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import preflight_gate as G  # noqa: E402
 
 
-def graph(prompt, seed, unet, clip, w, h):
+def graph(prompt, seed, unet, clip, w, h, steps=8):
     return {
         "10": {"class_type": "UNETLoader", "inputs": {"unet_name": unet, "weight_dtype": "default"}},
         "11": {"class_type": "CLIPLoader", "inputs": {"clip_name": clip, "type": "krea2"}},
@@ -33,7 +41,7 @@ def graph(prompt, seed, unet, clip, w, h):
         "6": {"class_type": "CLIPTextEncode", "inputs": {"text": prompt, "clip": ["11", 0]}},
         "5": {"class_type": "EmptyLatentImage", "inputs": {"width": w, "height": h, "batch_size": 1}},
         "3": {"class_type": "KSampler", "inputs": {
-            "seed": seed, "steps": 8, "cfg": 1.0, "sampler_name": "euler", "scheduler": "simple",
+            "seed": seed, "steps": steps, "cfg": 1.0, "sampler_name": "euler", "scheduler": "simple",
             "denoise": 1.0, "model": ["10", 0], "positive": ["6", 0], "negative": ["6", 0],
             "latent_image": ["5", 0]}},
         "8": {"class_type": "VAEDecode", "inputs": {"samples": ["3", 0], "vae": ["12", 0]}},
@@ -53,6 +61,10 @@ def main():
     ap.add_argument("--clip", default="qwen3vl_4b_fp8_scaled.safetensors")
     ap.add_argument("--width", type=int, default=1344)
     ap.add_argument("--height", type=int, default=768)
+    # 2026-11-03: 步数必须可调，否则"8 步是否必要"永远只能用感觉回答。
+    # 同一 prompt 跑 8/6 步各一张、比对后再定默认，判据在 README 里。
+    ap.add_argument("--steps", type=int, default=8)
+    ap.add_argument("--perf-tag", default="", help="写进 _perf.jsonl 的标签（A/B 用 8s/6s 之类）")
     a = ap.parse_args()
 
     os.makedirs(a.out, exist_ok=True)
@@ -97,7 +109,7 @@ def main():
             continue
 
         pid = post("/prompt", {"prompt": graph(r["prompt"], a.seed + i, a.unet, a.clip,
-                                               a.width, a.height),
+                                               a.width, a.height, a.steps),
                                "client_id": str(uuid.uuid4())})["prompt_id"]
         t0 = time.time()
         ok = False
@@ -117,7 +129,16 @@ def main():
                         data = urllib.request.urlopen(url, timeout=120).read()
                         with open(dst, "wb") as f:
                             f.write(data)
-                        print("OK %s (%.1fs)" % (sid, time.time() - t0), flush=True)
+                        sec = time.time() - t0
+                        print("OK %s (%.1fs)" % (sid, sec), flush=True)
+                        # 性能记账：没有这行，任何"加速后更快"的说法都无法复算
+                        perf = {"ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "id": sid,
+                                "tag": a.perf_tag, "steps": a.steps, "sec": round(sec, 1),
+                                "w": a.width, "h": a.height,
+                                "bytes": os.path.getsize(dst) if os.path.isfile(dst) else 0,
+                                "unet": a.unet, "seed": a.seed + i}
+                        with open(os.path.join(a.out, "_perf.jsonl"), "a", encoding="utf-8") as f:
+                            f.write(json.dumps(perf, ensure_ascii=False) + "\n")
                         ok = True
                         G.note_burn(sid)
                 break
