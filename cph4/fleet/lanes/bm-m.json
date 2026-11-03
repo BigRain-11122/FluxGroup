@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
- "ts": "2026-11-03T13:13:54",
+ "ts": "2026-11-03T13:16:21",
  "jobs": [
   {
-   "id": "DUPES-SCAN-20261103",
-   "title": "向量查重复派单全量重扫（纯规则+embedding，不占 LLM）",
-   "cmd": "python3 Tools/fleet/semantic_dupes.py --json cph4/fleet/queue-receipts/dupes-scan-20261103.json",
+   "id": "RECEIPT-ATTRIB-20261103",
+   "title": "回执失败归因全量出表（rc 分类 + 缺 error_class 清单）",
+   "cmd": "python3 Tools/fleet/receipt_attrib.py --out cph4/fleet/queue-receipts/receipt-attrib-20261103.json",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/dupes-scan-20261103.json",
+   "deliverable": "cph4/fleet/queue-receipts/receipt-attrib-20261103.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 14.8/1.0 GB"
+ "capacity_note": "ram 16.1/1.0 GB"
 }
