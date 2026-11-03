@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
- "ts": "2026-11-03T14:22:27",
+ "ts": "2026-11-03T14:23:52",
  "jobs": [
   {
-   "id": "R-TRIAGE-ASSETLIB-BMA-20261103",
-   "title": "资产储备·角色 LoRA 与音色库 线证据扫描（bm-a 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line asset-lib",
+   "id": "asset-lib-env-check-2026-11-03",
+   "title": "[资产储备（角色 LoRA / 音色库）] 训练环境自检（这台机能不能烧）",
+   "cmd": "python Tools/fleet/asset_env_check.py --out cph4/fleet/queue-receipts/asset-env-2026-11-03.json",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-asset-lib-20261103.md",
+   "deliverable": "cph4/fleet/queue-receipts/asset-env-2026-11-03.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 16.0/1.0 GB"
+ "capacity_note": "ram 15.5/1.0 GB"
 }

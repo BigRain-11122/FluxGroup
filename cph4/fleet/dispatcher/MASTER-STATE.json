@@ -1,22 +1,22 @@
 {
- "ts": "2026-11-03T14:22:44",
- "cycle": 203,
+ "ts": "2026-11-03T14:23:52",
+ "cycle": 204,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-03T14:22:44",
+ "master_tick_ts": "2026-11-03T14:23:52",
  "queue": {
   "total": 262,
   "open": 2,
   "running": 4,
-  "done": 127,
-  "failed": 7
+  "done": 128,
+  "failed": 6
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 30.5,
-   "cpu_load_pct": 26,
-   "ram_free_gb": 25,
+   "hb_age_s": 30.1,
+   "cpu_load_pct": 44,
+   "ram_free_gb": 24.6,
    "gpu_util_pct": 100,
    "job": "bigstream-mv-gate-2026-11-03",
    "last_result": {
@@ -32,7 +32,7 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 227.6,
+   "hb_age_s": 296.4,
    "cpu_load_pct": 36,
    "ram_free_gb": 1.4,
    "gpu_util_pct": 100,
@@ -50,16 +50,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 56.3,
-   "cpu_load_pct": 5,
-   "ram_free_gb": 6.1,
+   "hb_age_s": 27.4,
+   "cpu_load_pct": 6,
+   "ram_free_gb": 6.2,
    "gpu_util_pct": 0,
    "job": "asset-lib-voice-dataset-2026-11-03",
    "last_result": {
-    "job": "asset-lib-env-check-2026-11-03",
-    "state": "FAILED",
-    "rc": 2,
-    "ts": "2026-11-03T14:22:11",
+    "job": "asset-lib-voice-dataset-2026-11-03",
+    "state": "RUNNING",
+    "rc": null,
+    "ts": "2026-11-03T14:23:32",
     "reason": null
    },
    "idle_confirmed": false,
@@ -68,16 +68,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.6,
-   "cpu_load_pct": 49,
-   "ram_free_gb": 15.2,
+   "hb_age_s": 0.7,
+   "cpu_load_pct": 56,
+   "ram_free_gb": 15.5,
    "gpu_util_pct": null,
-   "job": "R-TRIAGE-ASSETLIB-BMA-20261103",
+   "job": "asset-lib-env-check-2026-11-03",
    "last_result": {
-    "job": "CANARY-20261103T142237",
+    "job": "R-TRIAGE-ASSETLIB-BMA-20261103",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-03T14:22:38",
+    "ts": "2026-11-03T14:22:48",
     "reason": null
    },
    "idle_confirmed": false,
@@ -276,6 +276,7 @@
    "stale_after_h": 72.0,
    "owner": "资产席",
    "jobs": [
+    "asset-lib-env-check-2026-11-03",
     "asset-lib-face-dataset-2026-11-03",
     "asset-lib-voice-dataset-2026-11-03"
    ],
@@ -811,10 +812,13 @@
  "supply_added": [],
  "events": [
   "biggame-playable-2026-11-03 FAILED via bm-a",
-  "asset-lib-env-check-2026-11-03 FAILED via bm-c"
+  "R-TRIAGE-ASSETLIB-BMA-20261103 DONE via bm-m",
+  "asset-lib-env-check-2026-11-03 -> bm-m (cpu)"
  ],
  "violations": [
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
- "lane_files_written": []
+ "lane_files_written": [
+  "bm-m"
+ ]
 }
