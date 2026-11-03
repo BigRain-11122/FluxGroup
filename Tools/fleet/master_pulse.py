@@ -64,7 +64,8 @@ STAGES = [
     # 市场门=简报五要素+新鲜度；质量门=交付必须有闸回执。rc=2 是"有缺口"的告警。
     ("market", ["Tools/fleet/market_brief.py", "check", "--all"], 30, {0, 2}, True),
     ("quality", ["Tools/fleet/quality_gate.py", "--all", "--json"], 60, {0, 2}, True),
-    ("line_plan", ["Tools/fleet/line_plan.py"], 60, {0}, False),
+    # 工序表结构错（悬空依赖/成环/缺 accept）会让整条线静默停摆，rc=2 是"表坏了"的告警。
+    ("line_plan", ["Tools/fleet/line_plan.py"], 60, {0, 2}, False),
     ("night_fill", ["Tools/fleet/night_fill.py", "--target", "6"], 90, {0}, False),
     ("workgen", ["Tools/fleet/workgen.py", "--root", ROOT], 180, {0}, False),
     ("master", ["Tools/fleet/master_agent.py", "--node", NODE, "--root", ROOT], 240, {0}, False),
@@ -77,6 +78,12 @@ STAGES = [
     # 研究创新席（2026-11-02 CEO 令）：体检四席的边界与空转，顺手刷新 PROPOSALS.json
     # 供派单方择取。rc=2 是有违规的告警，不是工具坏，所以计入 ok_rc。
     ("ri", ["Tools/fleet/ri_dept.py", "check"], 60, {0, 2}, True),
+    # 认知基座校验（2026-11-03 CEO「对这条业务线进行全面的认知改造」）：文档说的和工序跑的
+    # 必须是同一套——基座在位/必填段落齐/≤90 天/工序表段 id 能在基座里找到。rc=2 = 认知漂移。
+    ("canon", ["Tools/fleet/line_canon.py", "--all"], 60, {0, 2}, True),
+    # 技能库质量闸（2026-11-03）：45 件逐条判结构/触发词/自检/死指针，落 state/skills-check.json。
+    # 只报告不阻断（默认非 --strict），因为 30 件早期导入件仍是口号型，阻断会变成常驻红灯。
+    ("skills", ["Tools/fleet/skill_check.py"], 60, {0}, True),
     # 端到端自检（2026-11-02 CEO 质问后的唯一验收口径）：每轮投一张真卡，
     # 走 pick→claim→run→receipt→state→artifact，断在哪一环就指名。rc=2 = 链断。
     ("canary", ["Tools/fleet/canary.py"], 120, {0}, True),
