@@ -1,29 +1,29 @@
 {
- "ts": "2026-11-04T04:04:01",
- "cycle": 3,
+ "ts": "2026-11-04T04:10:02",
+ "cycle": 6,
  "master_node": "bm-m",
  "masquerade_by": "bm-a",
  "master_tick_ts": "2026-11-04T04:00:03",
  "queue": {
   "total": 408,
-  "open": 26,
+  "open": 25,
   "running": 3,
   "done": 155,
-  "failed": 12
+  "failed": 13
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 48.5,
-   "cpu_load_pct": 31,
-   "ram_free_gb": 49.7,
+   "hb_age_s": 35.6,
+   "cpu_load_pct": 19,
+   "ram_free_gb": 54.7,
    "gpu_util_pct": 100,
-   "job": "biggame-accept-2026-11-04",
+   "job": "bigstream-mv-transition-2026-11-04",
    "last_result": {
-    "job": "R-NEXT-BIGSTREAMM-GATE-20261103",
-    "state": "FAILED",
-    "rc": 1,
-    "ts": "2026-11-04T04:01:20",
+    "job": "bigstream-mv-transition-2026-11-04",
+    "state": "RUNNING",
+    "rc": null,
+    "ts": "2026-11-04T04:09:29",
     "reason": null
    },
    "idle_confirmed": false,
@@ -32,35 +32,35 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 11.4,
-   "cpu_load_pct": 2,
-   "ram_free_gb": 12.2,
+   "hb_age_s": 11.2,
+   "cpu_load_pct": 12,
+   "ram_free_gb": 11.2,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-04T04:03:38",
+    "ts": "2026-11-04T04:09:15",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 3
+   "idle_rounds": 6
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 74.9,
-   "cpu_load_pct": 8,
-   "ram_free_gb": 3.7,
+   "hb_age_s": 50.9,
+   "cpu_load_pct": 7,
+   "ram_free_gb": 3.2,
    "gpu_util_pct": 0,
-   "job": "asset-lib-asset-gen-2026-11-04",
+   "job": "asset-lib-voice-corpus-bmc-2026-11-04",
    "last_result": {
-    "job": null,
-    "state": "IDLE",
-    "rc": null,
-    "ts": "2026-11-04T04:00:17",
-    "reason": "blocked signal card released (upstream backtest data gap on bm-a/bm-b); node self-dispatching READY cards"
+    "job": "asset-lib-asset-gen-2026-11-04",
+    "state": "FAILED",
+    "rc": 1,
+    "ts": "2026-11-04T04:09:44",
+    "reason": null
    },
    "idle_confirmed": false,
    "idle_reason": "",
@@ -68,16 +68,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 26.2,
+   "hb_age_s": 386.2,
    "cpu_load_pct": 13,
    "ram_free_gb": 11.8,
    "gpu_util_pct": null,
    "job": "CHK-DUPES-20261103",
    "last_result": {
-    "job": "CANARY-20261104T040334",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-04T04:03:35",
+    "job": "CHK-DUPES-20261103",
+    "state": "BUSY",
+    "rc": null,
+    "ts": "2026-11-04T04:09:11",
     "reason": null
    },
    "idle_confirmed": false,
@@ -87,7 +87,7 @@
  },
  "idle_rounds": {
   "bm-a": 0,
-  "bm-b": 3,
+  "bm-b": 6,
   "bm-c": 0,
   "bm-m": 0
  },
@@ -103,9 +103,7 @@
     "bigstream-mv-transition-2026-11-04"
    ],
    "no_supply": false,
-   "blockers": [
-    "bigstream-mv-transition-2026-11-04:no-lane"
-   ],
+   "blockers": [],
    "note": null,
    "stuck_stage": "mv-kf",
    "stuck_owner": "导演席·美术"
@@ -156,21 +154,23 @@
    "name": "Biggame·游戏",
    "status": "ACTIVE",
    "verdict": "WORKING",
-   "age_h": 0.8,
+   "age_h": 1.0,
    "stale_after_h": 24.0,
    "owner": "游戏席",
    "jobs": [
     "biggame-accept-2026-11-04"
    ],
    "no_supply": false,
-   "blockers": [],
+   "blockers": [
+    "biggame-accept-2026-11-04:no-lane"
+   ],
    "note": null
   },
   "fluxverse": {
    "name": "FluxVerse·元宙城",
    "status": "ACTIVE",
    "verdict": "STALLED-STAGE",
-   "age_h": 0.0,
+   "age_h": 0.1,
    "stale_after_h": 36.0,
    "owner": "城市线",
    "jobs": [
@@ -188,7 +188,7 @@
    "name": "BigMoney·量化",
    "status": "ACTIVE",
    "verdict": "WAITING",
-   "age_h": 5.4,
+   "age_h": 5.5,
    "stale_after_h": 24.0,
    "owner": "量化席",
    "jobs": [],
@@ -200,7 +200,7 @@
    "name": "BigDomain·硅基域商业化",
    "status": "ACTIVE",
    "verdict": "WORKING",
-   "age_h": 0.1,
+   "age_h": 0.2,
    "stale_after_h": 36.0,
    "owner": "域运营席",
    "jobs": [
@@ -216,7 +216,7 @@
    "name": "BigCompute·硅基算力",
    "status": "ACTIVE",
    "verdict": "WORKING",
-   "age_h": 2.5,
+   "age_h": 2.6,
    "stale_after_h": 36.0,
    "owner": "算力中枢席",
    "jobs": [
@@ -232,7 +232,7 @@
    "name": "BigLife·数字生命",
    "status": "ACTIVE",
    "verdict": "WORKING",
-   "age_h": 167.0,
+   "age_h": 167.1,
    "stale_after_h": 48.0,
    "owner": "生命生产席",
    "jobs": [
@@ -248,7 +248,7 @@
    "name": "BigHouse·城市安家",
    "status": "PARKED",
    "verdict": "PARKED",
-   "age_h": 404.7,
+   "age_h": 404.8,
    "stale_after_h": 72.0,
    "owner": "生态运营席",
    "jobs": [],
@@ -320,7 +320,6 @@
     "Q-FACE-BOARD-BMC-20261104",
     "asset-lib-voice-corpus-bmb-2026-11-04",
     "asset-lib-voice-corpus-bmc-2026-11-04",
-    "asset-lib-asset-gen-2026-11-04",
     "asset-lib-char-dataset-2026-11-04",
     "asset-lib-char-prompts-2026-11-04",
     "asset-lib-char-gen-2026-11-04"
@@ -329,7 +328,6 @@
    "blockers": [
     "Q-FACE-BOARD-BMC-20261104:no-lane",
     "asset-lib-voice-corpus-bmb-2026-11-04:no-lane",
-    "asset-lib-voice-corpus-bmc-2026-11-04:no-lane",
     "asset-lib-char-dataset-2026-11-04:no-lane",
     "asset-lib-char-prompts-2026-11-04:no-lane",
     "asset-lib-char-gen-2026-11-04:no-lane"
@@ -874,7 +872,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 26,
+  "local": 25,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -882,16 +880,23 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 25,
+  "cpu": 24,
   "gpu": 1
  },
- "supply_added": [],
- "events": [],
+ "supply_added": [
+  "backlog_manifest+1"
+ ],
+ "events": [
+  "asset-lib-asset-gen-2026-11-04 FAILED via bm-c",
+  "asset-lib-voice-corpus-bmc-2026-11-04 -> bm-c (cpu)"
+ ],
  "violations": [
-  "bm-b IDLE-CONFIRMED x3 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-b IDLE-CONFIRMED x6 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED fluxverse 卡在 场景装配/地编席 (城市线)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
- "lane_files_written": []
+ "lane_files_written": [
+  "bm-c"
+ ]
 }
