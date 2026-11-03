@@ -1,0 +1,51 @@
+{
+ "id": "OB-20261103-1240-BMB-PERF-MAX",
+ "type": "perf+tuning",
+ "lanes": ["bm-b"],
+ "issued_at": "2026-11-03T12:40:00",
+ "issued_by": "bm-m（CEO 令 2026-11-03「b 把本机的性能释放调到最高」）",
+ "objective": "把小钢炮（bm-b）从省电取向调到满性能取向：电源计划拉满、CPU 不掉频、盘与 USB 不休眠、关闭 Windows Power Throttling、NVIDIA 开持久模式。目标是让回测/语料/声音三条 CPU+GPU 活不再被电源策略拖慢。",
+ "why_now": [
+  "bm-b 承担回测、语料、声音三条线；实测它的卡曾长时间无回执、GPU 常驻占用与空闲并存，电源策略是第一嫌疑",
+  "性能释放属于可逆的机器配置，不涉及业务代码与额度，按 CEO 令直接执行"
+ ],
+ "what_changes": [
+  "电源计划：Ultimate Performance（不支持则 High performance）",
+  "CPU：最小/最大状态 100%，boost 激进，主动散热",
+  "磁盘：永不休眠；USB：关闭选择性挂起",
+  "注册表：PowerThrottlingOff=1（Windows 不再给后台进程降频）",
+  "GPU：nvidia-smi -pm 1（持久模式，不超频、不改功耗墙）"
+ ],
+ "explicitly_not_changed": [
+  "不关 Windows Defender 实时保护（安全红线）",
+  "不动 Windows Update 策略（避免补丁债）",
+  "不做超频、不改显卡功耗上限、不改电压（硬件风险）",
+  "不动任何业务代码与队列"
+ ],
+ "how_to_run": [
+  "在 bm-b 打开仓库目录（C:\\Fluxgroup\\FluxGroup）",
+  "双击根目录 BM-B-PERF-MAX.cmd",
+  "出现 UAC 提示时点『是』（脚本要管理员权限改电源与注册表）",
+  "窗口最后一行看 RESULT: PERF-MAX APPLIED"
+ ],
+ "deliverables": [
+  "cph4/fleet/queue-receipts/perf-max-bm-b-<时间戳>.log（脚本自动写）",
+  "cph4/fleet/cmd/OB-20261103-1240-BMB-PERF-MAX.bm-b.ack.json（脚本自动写）"
+ ],
+ "acceptance": [
+  "powercfg /getactivescheme 显示 Ultimate Performance 或 High performance",
+  "CPU 最小状态 = 100%（powercfg /query 可见 PROCTHROTTLEMIN=100）",
+  "log 中 RESULT: PERF-MAX APPLIED，且 ack rc=0",
+  "启用后 24 小时观察：该机卡的回执延迟与 GPU 空闲率下降"
+ ],
+ "rollback": [
+  "恢复电源计划：powercfg /setactive SCHEME_BALANCED",
+  "撤销节流开关：reg delete \"HKLM\\SYSTEM\\CurrentControlSet\\Control\\Power\\PowerThrottling\" /v PowerThrottlingOff /f",
+  "关持久模式：nvidia-smi -pm 0"
+ ],
+ "known_limits": [
+  "脚本只能在 Windows 上跑，我在 macOS 上无法逐步验证，所以每步都写日志并回读电源计划，失败会写 rc=1 而不是假装成功",
+  "笔记本若 BIOS/厂商工具限制，PERFBOOSTMODE 与 SYSCOOLPOL 可能被拒——脚本只记 WARN 不中断，最终以电源计划回读判定",
+  "满性能会提高功耗与温度；若该机是笔记本且长期满载，需注意散热，必要时回滚到 High performance"
+ ]
+}
