@@ -185,9 +185,14 @@ def _fill_manifest(root, rows, have, node=None):
                                      "cloud_ok", "need_mb", "est_gb", "verify_on_node", "accept", "line",
                                      # requires 漏拷是 2026-11-03 实测事故：量化卡被派到没有量化仓的
                                      # 本机，rc=2 E-INPUT。输入门禁必须随卡进队列，否则形同虚设。
-                                     "requires", "ok_rc", "minutes", "rescue")}
+                                     "requires", "ok_rc", "minutes", "rescue",
+                                     "no_dedupe", "parallel")}
         job["state"] = "OPEN"
-        if _sd is not None:
+        # 分片卡（line_plan 对 parallel 段写 no_dedupe）本来就该同时存在多张：它们是
+        # 「同一件事的不同分片」，不是重复派单。2026-11-03 实测：四张语料分片卡标题只差
+        # 分片号与机名，相似度 >0.80 被全部判成 DUP-SKIP，只剩一台在跑——CEO 要的
+        # 「所有机队并行」被自己的去重闸掐死。
+        if _sd is not None and not r.get("no_dedupe"):
             try:
                 _live = [(x.get("id"), x.get("title")) for x in rows
                          if x.get("state") in ("OPEN", "RUNNING", "READY") and x.get("id") != jid]

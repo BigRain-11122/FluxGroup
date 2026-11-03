@@ -157,6 +157,10 @@ def plan_table(table, day, existing, dry):
             "created_at": fl.now_iso(),
             "state": "READY",
         }
+        # 分片卡必须豁免语义判重：四张同题不同片的卡看起来"很像"，判重会把它们并成一张。
+        if st.get("parallel"):
+            card["parallel"] = True
+            card["no_dedupe"] = True
         made.append(card)
         done_today.add(st["id"])
         # 默认一条线一次只推进一步，避免同线堆卡；但分片类工段（parallel=true，例如
