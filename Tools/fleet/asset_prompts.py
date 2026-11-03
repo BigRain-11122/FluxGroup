@@ -67,6 +67,8 @@ def parse(txt):
         d = json.loads(s)
     except Exception:
         return None
+    if not isinstance(d, dict):   # 模型偶尔只吐 null/数组，按缺件处理，不许抛异常打断整批
+        return None
     return d if all(k in d for k in FIELDS) else None
 
 
@@ -77,6 +79,30 @@ def main(argv):
     ap.add_argument("--model", default="qwen3.5:4b-mlx")
     ap.add_argument("--out", default="cph4/fleet/asset-lib-v1/ASSET-PROMPTS-v1.json")
     a = ap.parse_args(argv)
+    # 运行锁（2026-11-03 实测）：脉冲站与我手跑同时写同一个 JSON 会互相覆盖，
+    # 后写者把前者的产出整段冲掉（28 件被回退成 20 件）。加锁后只允许一个写者。
+    lock = os.path.join(ROOT, "cph4", "fleet", "state", "asset_prompts.lock")
+    os.makedirs(os.path.dirname(lock), exist_ok=True)
+    if os.path.exists(lock):
+        age = time.time() - os.path.getmtime(lock)
+        try:
+            pid0 = int((open(lock).read() or "0").strip())
+        except Exception:
+            pid0 = 0
+        alive = False
+        if pid0:
+            try:
+                os.kill(pid0, 0)
+                alive = True
+            except OSError:
+                alive = False
+        if alive and age < 1800:
+            print("[prompts] 另一个实例在跑（锁 %ds），本轮跳过" % int(age))
+            return 0
+    try:
+        open(lock, "w").write(str(os.getpid()))
+    except Exception:
+        pass
     try:
         urllib.request.urlopen(OLLAMA + "/api/tags", timeout=10).read()  # GET，不是 POST
     except Exception as e:
@@ -99,7 +125,9 @@ def main(argv):
         need = int(spec.get(a.tier) or 0)  # 每类要这么多件
         for i in range(1, need + 1):
             key = "%s-%02d" % (cls, i)
-            if key not in items:
+            # MISS 也要重排：模型偶尔吐 null/缺字段，跳过等于把缺件永久钉死（实测 25% MISS）。
+            v = items.get(key)
+            if key not in items or (isinstance(v, dict) and v.get("status") == "MISS"):
                 todo.append((key, cls, spec.get("name") or cls, spec.get("spec") or {}))
     todo = todo[: max(0, a.limit)]
     if not todo:
@@ -133,6 +161,10 @@ def main(argv):
     json.dump(doc, open(out_path, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     print("[prompts] 本轮 %d 件：成 %d / 缺 %d，用时 %.1fs → %s"
           % (len(todo), ok, miss, time.time() - t_start, os.path.relpath(out_path, ROOT)))
+    try:
+        os.remove(lock)
+    except Exception:
+        pass
     return 0 if ok else 1
 
 
