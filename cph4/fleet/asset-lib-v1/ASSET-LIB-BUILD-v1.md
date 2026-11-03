@@ -10,10 +10,15 @@ CEO 令：「机队小钢炮和传家宝，先不做短剧和漫剧，先储备�
 
 | 机器 | 显存 | 干什么 | 不干什么 |
 |---|---|---|---|
-| 传家宝 bm-c | 16GB | **角色 LoRA 主力**：SDXL 1024 训练；第二批试 Flux LoRA | 不做音色（CPU 忙时打架） |
-| 小钢炮 bm-b | 8GB | **音色库主力**：GPT-SoVITS SoVITS 微调（bs=1@10s）+ 语料切分/ASR 清洗 | 不做 SDXL 训练（8GB 要开 fused backward，慢且易爆） |
-| MacBook Pro bm-m | 32GB 统一内存 | 只做：数据集准入闸、编目入库、抽检、发令 | **不做训练**（无 CUDA，MPS 训练慢一个量级；主控第一任务是调度） |
-| 公司生产力 bm-a | 8GB | 夜间可选：批量切分/ASR 语料预处理 | 不做训练主力 |
+| 传家宝 bm-c | 16GB | **角色 LoRA 主力**（SDXL 1024）+ 音色语料分片 2/4 + 音色微调 | — |
+| 小钢炮 bm-b | 8GB | **音色微调主力**（GPT-SoVITS bs=1）+ 语料分片 1/4 | 不做 SDXL 训练（8GB 要开 fused backward，慢且易爆） |
+| 公司生产力 bm-a | 8GB | 语料分片 0/4（纯 CPU）+ 夜间可做 ASR 打标 | 不做训练主力 |
+| MacBook Pro bm-m | 32GB | 语料分片 3/4（**仅夜间**，白天让给主控脉）+ 闸、编目、抽检 | 不做训练（无 CUDA，MPS 慢一个量级） |
+
+**音色库的分工要点（CEO 2026-11-03「CPU 的算力很强，所有机队都可以去烧音色库」）**：
+烧音色库八成工作量是"把脏音频变成训练语料"——转码、静音切分、削波检查、出清单，**纯 CPU、
+可断点续跑、可按分片拆到多台机**。所以四台机同时跑 `voice_corpus_prep.py` 的不同分片，
+只有最后 SoVITS/GPT 微调那一步吃 GPU（在 bm-b 8GB 上 bs=1 即可）。
 
 依据（实测与社区共识一致）：SDXL LoRA 需要 12GB 起、16GB 舒服；8GB 必须用
 `--fused_backward_pass` + Adafactor 才勉强能跑。Flux LoRA 传统要 24GB，kohya v0.9+ 的融合反向传播

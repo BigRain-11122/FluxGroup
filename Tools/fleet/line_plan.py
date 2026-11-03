@@ -159,7 +159,10 @@ def plan_table(table, day, existing, dry):
         }
         made.append(card)
         done_today.add(st["id"])
-        break          # 一条线一次只推进一步，避免同线堆卡
+        # 默认一条线一次只推进一步，避免同线堆卡；但分片类工段（parallel=true，例如
+        # 语料切片按分片拆到四台机）必须同一轮一起派出去，否则"所有机队并行"永远只有一台在跑。
+        if not st.get("parallel"):
+            break
     return made, skipped
 
 

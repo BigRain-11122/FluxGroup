@@ -17,6 +17,75 @@
    "minutes": 2
   },
   {
+   "id": "voice-corpus-bma",
+   "name": "音色语料工程·分片 0/4（bm-a，纯 CPU）",
+   "cmd": "python {root_tools}/fleet/voice_corpus_prep.py --inbox media/asset/inbox --group batch-{date} --shard 0/4 --receipt cph4/fleet/queue-receipts/voice-corpus-bm-a-{date}.json",
+   "deliverable": "cph4/fleet/queue-receipts/voice-corpus-bm-a-{date}.json",
+   "accept": "本分片切出片段并写 index.json；inbox 无本分片输入时回执 BLOCKED 并说明（rc=3 属等投料）",
+   "needs": "cpu",
+   "nodes": [
+    "bm-a"
+   ],
+   "minutes": 40,
+   "parallel": true,
+   "ok_rc": [
+    0,
+    3
+   ]
+  },
+  {
+   "id": "voice-corpus-bmb",
+   "name": "音色语料工程·分片 1/4（bm-b，纯 CPU）",
+   "cmd": "python {root_tools}/fleet/voice_corpus_prep.py --inbox media/asset/inbox --group batch-{date} --shard 1/4 --receipt cph4/fleet/queue-receipts/voice-corpus-bm-b-{date}.json",
+   "deliverable": "cph4/fleet/queue-receipts/voice-corpus-bm-b-{date}.json",
+   "accept": "本分片切出片段并写 index.json；inbox 无本分片输入时回执 BLOCKED 并说明（rc=3 属等投料）",
+   "needs": "cpu",
+   "nodes": [
+    "bm-b"
+   ],
+   "minutes": 40,
+   "parallel": true,
+   "ok_rc": [
+    0,
+    3
+   ]
+  },
+  {
+   "id": "voice-corpus-bmc",
+   "name": "音色语料工程·分片 2/4（bm-c，纯 CPU）",
+   "cmd": "python {root_tools}/fleet/voice_corpus_prep.py --inbox media/asset/inbox --group batch-{date} --shard 2/4 --receipt cph4/fleet/queue-receipts/voice-corpus-bm-c-{date}.json",
+   "deliverable": "cph4/fleet/queue-receipts/voice-corpus-bm-c-{date}.json",
+   "accept": "本分片切出片段并写 index.json；inbox 无本分片输入时回执 BLOCKED 并说明（rc=3 属等投料）",
+   "needs": "cpu",
+   "nodes": [
+    "bm-c"
+   ],
+   "minutes": 40,
+   "parallel": true,
+   "ok_rc": [
+    0,
+    3
+   ]
+  },
+  {
+   "id": "voice-corpus-bmm",
+   "name": "音色语料工程·分片 3/4（bm-m，纯 CPU）",
+   "cmd": "python {root_tools}/fleet/voice_corpus_prep.py --inbox media/asset/inbox --group batch-{date} --shard 3/4 --receipt cph4/fleet/queue-receipts/voice-corpus-bm-m-{date}.json",
+   "deliverable": "cph4/fleet/queue-receipts/voice-corpus-bm-m-{date}.json",
+   "accept": "本分片切出片段并写 index.json（本机是主控，只夜间跑以免抢脉冲）；inbox 无输入时 BLOCKED（rc=3）",
+   "needs": "cpu",
+   "nodes": [
+    "bm-m"
+   ],
+   "minutes": 40,
+   "parallel": true,
+   "ok_rc": [
+    0,
+    3
+   ],
+   "day_ok": false
+  },
+  {
    "id": "face-dataset",
    "name": "人脸数据集准入（反 AI 脸的第一道门）",
    "cmd": "python {root_tools}/fleet/asset_dataset_audit.py --mode face --dir media/asset/faces --out cph4/fleet/queue-receipts/asset-face-{date}.json",
@@ -34,7 +103,13 @@
    "accept": "verdict=PASS（≥8 条/总时长≥60s/2-12s 占比≥80%/停顿密度≥6 次每分/LRA≥5）；FAIL 时写明是不是播音腔",
    "needs": "cpu",
    "nodes": [],
-   "minutes": 5
+   "minutes": 5,
+   "depends_on": [
+    "voice-corpus-bma",
+    "voice-corpus-bmb",
+    "voice-corpus-bmc",
+    "voice-corpus-bmm"
+   ]
   },
   {
    "id": "index",
