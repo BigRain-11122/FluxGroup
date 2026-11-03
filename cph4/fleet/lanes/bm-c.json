@@ -1,14 +1,14 @@
 {
  "node": "bm-c",
- "ts": "2026-11-03T11:59:47",
+ "ts": "2026-11-03T12:02:49",
  "jobs": [
   {
-   "id": "bigstream-duanju-remux-2026-11-03",
-   "title": "[短剧（配音质检→带声合流→可发集数）] 带声合流（三层混音 → 成片，loudnorm -14）",
-   "cmd": "python Tools/fleet/tts_batch_check.py --dir media/drama-tts-batch",
+   "id": "bigmoney-backtest-2026-11-03",
+   "title": "[金融量化（回测 → 一页结论 → 可报价或写清卡点）] ETF 复合因子回测（年化/夏普/回撤）",
+   "cmd": "python quant/bigmoney/scripts/etf_composite_pf.py",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/duanju-remux-2026-11-03.json",
+   "deliverable": "quant/bigmoney/results/etf_composite_pf.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 6.0/1.0 GB"
+ "capacity_note": "ram 5.8/1.0 GB"
 }
