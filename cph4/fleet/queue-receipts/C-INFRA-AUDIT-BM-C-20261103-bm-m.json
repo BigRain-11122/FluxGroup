@@ -11,7 +11,7 @@
  "error_class": "E-BLOCKED-INPUT",
  "deliverable": "cph4/fleet/queue-receipts/inference-audit-bm-c.json",
  "deliverable_exists": true,
- "ts": "2026-11-03T15:17:29",
+ "ts": "2026-11-03T15:17:38",
  "stdout_tail": "{\"node\": \"bm-c\", \"verdict\": \"BLOCKED\", \"out\": \"cph4/fleet/queue-receipts/inference-audit-bm-c.json\", \"note\": \"写在 -blocked-* 上，避免被当成卡交付物\"}\n",
  "stderr_tail": ""
 }
