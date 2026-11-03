@@ -1,6 +1,7 @@
 {
  "node": "bm-a",
 <<<<<<< HEAD
+<<<<<<< HEAD
  "ts": "2026-11-04T00:26:02",
  "jobs": [
   {
@@ -14,12 +15,20 @@
  "ts": "2026-11-03T22:11:03",
  "jobs": [
   {
+=======
+ "ts": "2026-11-03T22:11:03",
+ "jobs": [
+  {
+>>>>>>> f9ded849 (pulse: dispatch snapshot [via bm-m])
    "id": "asset-lib-char-gen-2026-11-03",
    "title": "[资产储备（角色 LoRA / 音色库）] 角色包出图（本机 ComfyUI，1024²，同 seed 组）",
    "cmd": "python Tools/fleet/char_gen.py --node bm-c --limit 12",
    "cwd": "",
    "needs": "gpu",
    "deliverable": "cph4/fleet/queue-receipts/char-gen-bm-c-2026-11-03.json",
+<<<<<<< HEAD
+>>>>>>> f9ded849 (pulse: dispatch snapshot [via bm-m])
+=======
 >>>>>>> f9ded849 (pulse: dispatch snapshot [via bm-m])
    "need_mb": null,
    "model": "none",
@@ -32,7 +41,11 @@
  "idle_reason": "",
  "lane_ok": true,
 <<<<<<< HEAD
+<<<<<<< HEAD
  "capacity_note": "ram 38.7/1.0 GB"
+=======
+ "capacity_note": "ram 28.9/1.0 GB"
+>>>>>>> f9ded849 (pulse: dispatch snapshot [via bm-m])
 =======
  "capacity_note": "ram 28.9/1.0 GB"
 >>>>>>> f9ded849 (pulse: dispatch snapshot [via bm-m])
