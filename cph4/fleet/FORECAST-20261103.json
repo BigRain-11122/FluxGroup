@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-03T20:28:53+0800",
+ "ts": "2026-11-03T20:37:37+0800",
  "alert_days": 2.0,
  "lines": [
   {
@@ -40,7 +40,7 @@
    "line": "biggame",
    "status": "ACTIVE",
    "prio": "P0",
-   "stock": 2,
+   "stock": 1,
    "rate_per_day": 0,
    "runway_days": null,
    "has_table": true,
@@ -184,9 +184,9 @@
    "line": "fleet-ops",
    "status": "ACTIVE",
    "prio": "P3",
-   "stock": 8,
+   "stock": 7,
    "rate_per_day": 7.0,
-   "runway_days": 1.1,
+   "runway_days": 1.0,
    "has_table": false,
    "blocker": null,
    "flags": [
