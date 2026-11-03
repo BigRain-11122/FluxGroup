@@ -98,15 +98,36 @@ def probe(server):
     cfg = {"probed_at": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
            "available": {"ckpt": len(ckpts), "unet": len(unets), "clip": len(clips), "vae": len(vaes)}}
     # 人像优先：显式写优先序，别只看第一个
-    if unets:
-        cfg.update({"route": "unet", "unet": pref(unets, ["sdxl", "real", "photo", "jugg", "krea"]),
-                    "clip": pref(clips, ["sdxl", "t5", "qwen", "clip_l"]),
-                    "vae": pref(vaes, ["sdxl", "vae"]), "clip_type": "sdxl",
-                    "steps": 8, "cfg": 1.0, "sampler": "euler", "scheduler": "simple"})
-    elif ckpts:
-        cfg.update({"route": "ckpt", "ckpt": pref(ckpts, ["sdxl", "real", "photo", "jugg", "xl"]),
-                    "steps": 26, "cfg": 5.0, "sampler": "dpmpp_2m", "scheduler": "karras"})
-    else:
+    # CLIPLoader 的 type 是枚举，写死非法值会让 /prompt 直接 400；按 UNET 家族推导再校验。
+    clip_types = _names(info, "CLIPLoader", "type")
+    family = [("krea2", "krea2"), ("qwen", "qwen_image"), ("minimax", "minimax"),
+              ("flux", "flux"), ("sd3", "sd3"), ("hidream", "hidream"),
+              ("chroma", "chroma"), ("omnigen", "omnigen2"), ("lumina", "lumina2"),
+              ("pixart", "pixart"), ("cosmos", "cosmos")]
+    wants = ["sdxl", "real", "photo", "jugg", "krea", "qwen"]
+    # 有 checkpoint 就优先走它：CLIP/VAE 由 checkpoint 自带，不可能错配；
+    # unet 路线需要人工确认配套文本编码器，探针无法验证，容易到 KSampler 才炸。
+    if not ckpts and unets and clips:
+        unet = pref(unets, wants)
+        ctype = "stable_diffusion"
+        for k, v in family:
+            if k in (unet or "").lower():
+                ctype = v
+                break
+        if ctype in clip_types:
+            cfg.update({"route": "unet", "unet": unet, "clip": pref(clips, wants),
+                        "vae": pref(vaes, ["sdxl", "vae"]), "clip_type": ctype,
+                        "steps": 8, "cfg": 1.0, "sampler": "euler", "scheduler": "simple"})
+    if not cfg.get("route") and ckpts:
+        # 没有能自洽的 unet/clip 组合时退回 checkpoint：clippy 由 checkpoint 自带，无需猜 type。
+        good = [c for c in ckpts if c.lower().endswith((".safetensors", ".ckpt"))] or ckpts
+        ckpt = pref(good, ["sdxl", "real", "photo", "jugg", "xl"])
+        light = "lightning" in (ckpt or "").lower() or "turbo" in (ckpt or "").lower()
+        cfg.update({"route": "ckpt", "ckpt": ckpt,
+                    "steps": 8 if light else 26, "cfg": 2.0 if light else 5.0,
+                    "sampler": "euler" if light else "dpmpp_2m",
+                    "scheduler": "normal" if light else "karras"})
+    if not cfg.get("route"):
         cfg["route"] = None
     return cfg
 
