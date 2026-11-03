@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-03T22:41:01",
+ "ts": "2026-11-03T22:51:16",
  "class": "props",
  "node": "bm-c",
  "made": [
@@ -207,5 +207,12 @@
  "skipped": 0,
  "failed": [],
  "verdict": "PASS",
- "note": "alpha_missing=true 表示规格要求透明底但本机只出白底图，需主控抠图补齐"
+ "note": "alpha_missing=true 表示规格要求透明底但本机只出白底图，需主控抠图补齐",
+ "pipeline": {
+  "prompts": "PROMPTS-EN-v1.json (ollama qwen3.5:4b, isolation mode)",
+  "render": "832x1472 -> LANCZOS 1080x1920",
+  "matte": "BRIA RMBG-1.4 (models/rmbg) + largest-component/fill-holes",
+  "checkpoint": "DreamShaperXL_Lightning-SFW 8 steps cfg 2.0 euler/normal"
+ },
+ "quality_note": "人工目检：20 件中约 17 件为可辨识的孤立道具；props-06(便利店霓虹招牌)、props-15 仍偏向城市场景片，props-02(滑板) 背景残留较多，建议下一轮针对这三条改提示词重出。"
 }
