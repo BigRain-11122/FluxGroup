@@ -1,14 +1,14 @@
 {
- "ts": "2026-11-03T21:56:29+0800",
+ "ts": "2026-11-03T22:05:31+0800",
  "alert_days": 2.0,
  "lines": [
   {
    "line": "asset-lib",
    "status": "ACTIVE",
    "prio": "P0",
-   "stock": 10,
+   "stock": 8,
    "rate_per_day": 0.33,
-   "runway_days": 30.3,
+   "runway_days": 24.2,
    "has_table": true,
    "blocker": {
     "stage": "env-check",
@@ -108,9 +108,9 @@
    "line": "bigmoney",
    "status": "ACTIVE",
    "prio": "P1",
-   "stock": 4,
+   "stock": 3,
    "rate_per_day": 1.0,
-   "runway_days": 4.0,
+   "runway_days": 3.0,
    "has_table": true,
    "blocker": {
     "stage": "backtest",

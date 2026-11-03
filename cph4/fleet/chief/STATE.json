@@ -1,10 +1,10 @@
 {
- "ts": "2026-11-03T21:56:29",
+ "ts": "2026-11-03T22:05:31",
  "stage": 3,
  "adoption": {
   "days": 2,
-  "applied": 645,
-  "total": 475,
+  "applied": 648,
+  "total": 477,
   "rate": 135.8,
   "eligible_stage4": false
  },
@@ -22,7 +22,7 @@
    "kind": "requeue",
    "why": "1 张卡在跑但 1 小时无回执",
    "target": [
-    "bigmoney-signal-2026-11-03"
+    "asset-lib-char-prompts-2026-11-03"
    ],
    "min_stage": 3,
    "result": "applied"
@@ -42,7 +42,7 @@
   {
    "kind": "requeue",
    "ids": [
-    "bigmoney-signal-2026-11-03"
+    "asset-lib-char-prompts-2026-11-03"
    ]
   }
  ],

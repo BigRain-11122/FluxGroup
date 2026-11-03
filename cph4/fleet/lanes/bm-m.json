@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
- "ts": "2026-11-03T22:04:24",
+ "ts": "2026-11-03T22:08:33",
  "jobs": [
   {
-   "id": "bigmoney-signal-2026-11-03",
-   "title": "[金融量化（回测 → 一页结论 → 可报价或写清卡点）] 下月持仓信号 CSV（可卖的唯一产物）",
-   "cmd": "python Tools/fleet/quant_signal.py --in quant/bigmoney/results/etf_nobond_vt.json --out cph4/fleet/queue-receipts/quant-signal-2026-11-03.csv",
+   "id": "biggame-playable-2026-11-03",
+   "title": "[游戏（可上线清单 → 一款可玩包 → 提审材料）] 一款可玩包（3 关 60–90 秒，2D，儿童不作失败）",
+   "cmd": "python Tools/fleet/game_pack_scan.py --root gaming --out cph4/fleet/queue-receipts/game-packs-2026-11-03-r2.json",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/quant-signal-2026-11-03.csv",
+   "deliverable": "cph4/fleet/queue-receipts/game-playable-2026-11-03.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 13.6/1.0 GB"
+ "capacity_note": "ram 11.8/1.0 GB"
 }
