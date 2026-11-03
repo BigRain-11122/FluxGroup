@@ -1,21 +1,21 @@
 {
- "ts": "2026-11-03T11:03:46",
+ "ts": "2026-11-03T11:11:29",
  "stage": 3,
  "adoption": {
   "days": 2,
-  "applied": 280,
-  "total": 231,
-  "rate": 121.2,
+  "applied": 282,
+  "total": 232,
+  "rate": 121.6,
   "eligible_stage4": false
  },
  "decisions": [
   {
-   "kind": "flag",
-   "why": "1 台机空转且有活",
+   "kind": "requeue",
+   "why": "1 张卡在跑但 1 小时无回执",
    "target": [
-    "bm-b"
+    "OPS-NODE-PROBE-B-20261103"
    ],
-   "min_stage": 1,
+   "min_stage": 3,
    "result": "applied"
   },
   {
@@ -29,6 +29,13 @@
    "result": "applied"
   }
  ],
- "applied": [],
+ "applied": [
+  {
+   "kind": "requeue",
+   "ids": [
+    "OPS-NODE-PROBE-B-20261103"
+   ]
+  }
+ ],
  "brief": "/Users/junsheng.sun/FluxGroup/cph4/fleet/chief/BRIEF-20261103.md"
 }

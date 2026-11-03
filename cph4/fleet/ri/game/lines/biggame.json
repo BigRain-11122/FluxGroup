@@ -19,6 +19,18 @@
     "gaming/MiniGame"
    ],
    "day_ok": false
+  },
+  {
+   "id": "accept",
+   "name": "质量验收（缺一份闸回执就不算交付）",
+   "cmd": "python {root_tools}/fleet/quality_gate.py --line biggame --out cph4/fleet/queue-receipts/quality-biggame-{date}.json",
+   "deliverable": "cph4/fleet/queue-receipts/quality-biggame-{date}.json",
+   "accept": "verdict=PASS；否则列出缺哪份闸/哪份 FAIL",
+   "needs": "cpu",
+   "minutes": 1,
+   "depends_on": [
+    "pack-scan"
+   ]
   }
  ]
 }

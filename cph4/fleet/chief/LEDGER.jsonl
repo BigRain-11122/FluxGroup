@@ -289,3 +289,5 @@
 {"ts": "2026-11-03T10:56:24", "stage": 3, "read": {"running": 4, "open": 2, "ready": 8, "red": 6}, "judged": "P0 线 24h 无产物：2 条", "action": "escalate", "target": ["p0:bigstream-drama:no-output", "p0:bigstream-duanju:no-output"], "result": "applied"}
 {"ts": "2026-11-03T11:03:46", "stage": 3, "read": {"running": 4, "open": 6, "ready": 8, "red": 7}, "judged": "1 台机空转且有活", "action": "flag", "target": ["bm-b"], "result": "applied"}
 {"ts": "2026-11-03T11:03:46", "stage": 3, "read": {"running": 4, "open": 6, "ready": 8, "red": 7}, "judged": "P0 线 24h 无产物：2 条", "action": "escalate", "target": ["p0:bigstream-drama:no-output", "p0:bigstream-duanju:no-output"], "result": "applied"}
+{"ts": "2026-11-03T11:11:29", "stage": 3, "read": {"running": 4, "open": 3, "ready": 7, "red": 6}, "judged": "1 张卡在跑但 1 小时无回执", "action": "requeue", "target": ["OPS-NODE-PROBE-B-20261103"], "result": "applied"}
+{"ts": "2026-11-03T11:11:29", "stage": 3, "read": {"running": 4, "open": 3, "ready": 7, "red": 6}, "judged": "P0 线 24h 无产物：2 条", "action": "escalate", "target": ["p0:bigstream-drama:no-output", "p0:bigstream-duanju:no-output"], "result": "applied"}
