@@ -81,6 +81,9 @@ STAGES = [
     # 认知基座校验（2026-11-03 CEO「对这条业务线进行全面的认知改造」）：文档说的和工序跑的
     # 必须是同一套——基座在位/必填段落齐/≤90 天/工序表段 id 能在基座里找到。rc=2 = 认知漂移。
     ("canon", ["Tools/fleet/line_canon.py", "--all"], 60, {0, 2}, True),
+    # 城市面清单（2026-11-03 CEO「梳理硅基城市元宇宙的顶层设计与工作流」）：12 面逐项核对
+    # 盘上证据，自称在役但证据不可见自动降级为受阻（假绿比空白更糟）。rc=1=有受阻/空白，告警不阻断。
+    ("city", ["Tools/fleet/city_state.py", "--out", "cph4/fleet/state/city-state.json"], 60, {0, 1}, True),
     # 技能库质量闸（2026-11-03）：45 件逐条判结构/触发词/自检/死指针，落 state/skills-check.json。
     # 只报告不阻断（默认非 --strict），因为 30 件早期导入件仍是口号型，阻断会变成常驻红灯。
     ("skills", ["Tools/fleet/skill_check.py"], 60, {0}, True),
