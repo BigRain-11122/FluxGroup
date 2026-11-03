@@ -1,0 +1,14 @@
+{
+ "queue_id": "T01",
+ "type": "学生文艺",
+ "trigger": "h01",
+ "train_name": "her_mv0001",
+ "status": "trained",
+ "weights": "her_mv0001_rank32.safetensors",
+ "weights_path": "D:\\FluxGroup-Offload\\15-training\\outputs\\her_mv0001\\her_mv0001_rank32.safetensors",
+ "epochs": 12,
+ "images": 15,
+ "size_mb": 447.6,
+ "ts": "2026-11-03T23:21:41",
+ "next": "gate 需试烧图（占卡），等 T02 训练间隙或队列跑完再跑"
+}
