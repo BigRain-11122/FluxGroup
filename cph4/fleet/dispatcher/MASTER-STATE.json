@@ -1,29 +1,29 @@
 {
- "ts": "2026-11-03T13:10:11",
+ "ts": "2026-11-03T13:09:06",
  "cycle": 143,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-03T13:10:11",
+ "master_tick_ts": "2026-11-03T13:09:06",
  "queue": {
-  "total": 241,
+  "total": 240,
   "open": 0,
-  "running": 3,
+  "running": 2,
   "done": 123,
-  "failed": 7
+  "failed": 6
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 35.5,
-   "cpu_load_pct": 10,
-   "ram_free_gb": 57.3,
-   "gpu_util_pct": 88,
-   "job": "MV-NEWPROC-PACKET-20261103",
+   "hb_age_s": 52.5,
+   "cpu_load_pct": 47,
+   "ram_free_gb": 54.1,
+   "gpu_util_pct": 10,
+   "job": "bigstream-mv-gate-2026-11-03",
    "last_result": {
     "job": "biggame-playable-2026-11-03",
     "state": "FAILED",
     "rc": 0,
-    "ts": "2026-11-03T13:10:06",
+    "ts": "2026-11-03T13:05:01",
     "reason": null
    },
    "idle_confirmed": false,
@@ -32,34 +32,34 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 19.0,
-   "cpu_load_pct": 83,
-   "ram_free_gb": 3.5,
-   "gpu_util_pct": 100,
+   "hb_age_s": 6.4,
+   "cpu_load_pct": 96,
+   "ram_free_gb": 3,
+   "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-03T13:09:59",
+    "ts": "2026-11-03T13:08:53",
     "reason": "CAPACITY-BLOCKED-RAM ram 0.8/1.0 GB"
    },
    "idle_confirmed": true,
-   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+   "idle_reason": "CAPACITY-BLOCKED-RAM CPU-SATURATED 96%",
    "idle_rounds": 4
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 78.6,
+   "hb_age_s": 14.2,
    "cpu_load_pct": 6,
    "ram_free_gb": 6.5,
    "gpu_util_pct": 0,
    "job": "bigstream-duanju-remux-2026-11-03",
    "last_result": {
     "job": "bigstream-mv-gate-2026-11-03",
-    "state": "FAILED",
-    "rc": 1,
-    "ts": "2026-11-03T13:09:07",
+    "state": "RUNNING",
+    "rc": null,
+    "ts": "2026-11-03T13:08:59",
     "reason": null
    },
    "idle_confirmed": false,
@@ -69,19 +69,19 @@
   "bm-m": {
    "online": true,
    "hb_age_s": 0.6,
-   "cpu_load_pct": 46,
-   "ram_free_gb": 13.9,
+   "cpu_load_pct": 50,
+   "ram_free_gb": 14.2,
    "gpu_util_pct": null,
-   "job": "CANARY-20261103T130903",
+   "job": null,
    "last_result": {
-    "job": null,
-    "state": "IDLE",
-    "rc": null,
-    "ts": "2026-11-03T13:09:06",
-    "reason": "SELF-DISPATCH: lane scans its own backlog"
+    "job": "CANARY-20261103T130903",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-03T13:09:04",
+    "reason": null
    },
    "idle_confirmed": false,
-   "idle_reason": "",
+   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
    "idle_rounds": 0
   }
  },
@@ -95,12 +95,14 @@
   "bigstream-mv": {
    "name": "BigStream·MV 41 曲",
    "status": "PAUSED",
-   "verdict": "WAITING",
+   "verdict": "WORKING",
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "bigstream-mv-gate-2026-11-03"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": null
   },
@@ -257,14 +259,12 @@
   "fleet-ops": {
    "name": "机队运维·端到端自检（平台服务线）",
    "status": "ACTIVE",
-   "verdict": "WORKING",
+   "verdict": "WAITING",
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
-   "jobs": [
-    "CANARY-20261103T130903"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": null
   }
@@ -751,7 +751,7 @@
   "by_kind": {
    "CAPACITY": 1
   },
-  "added": 0,
+  "added": 1,
   "tick_tier": "none",
   "judgment_tier": "cloud-smart"
  },
@@ -767,23 +767,19 @@
   "cpu": 0,
   "gpu": 0
  },
- "supply_added": [
-  "backlog_manifest+1"
- ],
+ "supply_added": [],
  "events": [
   "biggame-playable-2026-11-03 FAILED via bm-a",
-  "bigstream-mv-gate-2026-11-03 FAILED via bm-c",
-  "MV-NEWPROC-PACKET-20261103 -> bm-a (cpu)",
-  "CANARY-20261103T130903 -> bm-m (cpu)"
+  "bigstream-mv-gate-2026-11-03 -> bm-a (cpu)"
  ],
  "violations": [
-  "bm-b IDLE-CONFIRMED x4 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-b IDLE-CONFIRMED x4 (CAPACITY-BLOCKED-RAM CPU-SATURATED 96%)",
   "LINE-BLOCKED bigstream-drama ()",
   "STAGE-STALLED bigstream-duanju 卡在 剧本/编剧席 (短剧席)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
   "bm-a",
-  "bm-m"
+  "bm-b"
  ]
 }
