@@ -158,6 +158,10 @@ STAGES = [
     # 逐机算 余量→可再派件数，并戳穿"账上有库存、实际派不出去"的假库存。
     # rc=1=有余量但没活（供给缺口），告警不阻断。
     ("squeeze", ["Tools/fleet/squeeze.py", "--out", "cph4/fleet/state/squeeze.json"], 60, {0, 1}, True),
+    # 决策层（2026-11-03 CEO「你科学决策优化 并落地执行」）：只判定不写状态（状态唯一写入口仍是
+    # ops_metrics），每轮回答"哪条线该加算力、哪条该停、哪条标了在役但证据在本机看不见"。rc=2=有假绿。
+    ("decide", ["Tools/fleet/org_decide.py", "--apply", "--out", "cph4/fleet/state/org-decide.json"],
+     60, {0, 2}, True),
     ("autowork", ["Tools/fleet/autowork.py"], 240, {0}, True),
     ("closer", ["Tools/fleet/closer.py"], 60, {0}, True),
     ("deadline", ["Tools/fleet/fleet_deadline.py"], 120, {0}, True),

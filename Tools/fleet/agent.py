@@ -30,6 +30,10 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 PY = sys.executable or "python"
 
+# 提交前兜底只许收自己的状态件（见 commit_state_before_rebase 注释）
+STATE_PREFIXES = ("cph4/fleet/state/", "cph4/fleet/lanes/", "cph4/fleet/dispatcher/")
+STATE_FILES = ("cph4/fleet/PRODUCTION-QUEUE.jsonl", "cph4/fleet/PRODUCTION-BACKLOG.jsonl")
+
 
 def run(argv, timeout):
     try:
@@ -134,7 +138,10 @@ def commit_state():
         if not ln.strip():
             continue
         p = ln[3:].strip()
-        if p.startswith("cph4/fleet/") and p.endswith((".jsonl", ".json", ".md")):
+        # 只归自己的状态件（2026-11-03 修）：此前是 cph4/fleet/** 全收，把主控手写的设计
+        # 文档、正典和别人刚写的回执一起卷进 "state(bm-c) snapshot before rebase"，
+        # 提交史（CEO 唯一审计面）里于是出现"内容与提交信息完全不相干"的文件。
+        if p.startswith(STATE_PREFIXES) or p in STATE_FILES:
             paths.append(p)
     if not paths:
         return 0
