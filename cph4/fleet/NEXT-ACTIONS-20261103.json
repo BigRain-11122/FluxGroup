@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-03T19:52:06+0800",
+ "ts": "2026-11-03T20:01:41+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -12,9 +12,9 @@
    "accept": "char-gen 回执 made>0 且无 failed；图进 faces/<ID> 并过准入闸",
    "blocker_type": "ENGINE",
    "blocker": "char-probe 在 bm-c 上 rc=2 零回执，未定位（疑 checkout 落后）",
-   "state": "QUEUED",
-   "card": "asset-lib-voice-corpus-bmb-2026-11-03",
-   "running_on": null
+   "state": "RUNNING",
+   "card": "asset-lib-face-caption-2026-11-03",
+   "running_on": "bm-a"
   },
   {
    "id": "biggame",
@@ -43,7 +43,7 @@
    "blocker_type": "ENGINE",
    "blocker": "回测产物需在 bm-b 本地生成；主控无 quant 仓",
    "state": "QUEUED",
-   "card": "bigmoney-backtest-2026-11-03-v3",
+   "card": "bigmoney-signal-2026-11-03",
    "running_on": null
   },
   {
@@ -228,8 +228,8 @@
   }
  ],
  "counts": {
-  "RUNNING": 0,
-  "QUEUED": 5,
+  "RUNNING": 1,
+  "QUEUED": 4,
   "STALLED": 10
  },
  "stalled_engine": 3
