@@ -1,0 +1,113 @@
+{
+ "ts": "2026-11-03T15:18:47",
+ "mode": "report",
+ "files": [
+  {
+   "key": "L1",
+   "path": "/Users/junsheng.sun/FluxGroup/CODELY.md",
+   "bytes": 32757,
+   "entries": 0,
+   "lines": 62,
+   "budget_bytes": 40960,
+   "budget_entries": 60,
+   "exists": true,
+   "over": false,
+   "warn": true,
+   "tokens_est": 10919,
+   "root": "/Users/junsheng.sun/FluxGroup"
+  },
+  {
+   "key": "sub:compute",
+   "path": "/Users/junsheng.sun/FluxGroup/compute/CODELY.md",
+   "bytes": 817,
+   "entries": 0,
+   "lines": 13,
+   "budget_bytes": 30720,
+   "budget_entries": 50,
+   "exists": true,
+   "over": false,
+   "warn": false,
+   "tokens_est": 272,
+   "root": "/Users/junsheng.sun/FluxGroup/compute"
+  },
+  {
+   "key": "sub:cph4",
+   "path": "/Users/junsheng.sun/FluxGroup/cph4/CODELY.md",
+   "bytes": 7130,
+   "entries": 0,
+   "lines": 43,
+   "budget_bytes": 30720,
+   "budget_entries": 50,
+   "exists": true,
+   "over": false,
+   "warn": false,
+   "tokens_est": 2376,
+   "root": "/Users/junsheng.sun/FluxGroup/cph4"
+  },
+  {
+   "key": "sub:gaming",
+   "path": "/Users/junsheng.sun/FluxGroup/gaming/CODELY.md",
+   "bytes": 41682,
+   "entries": 0,
+   "lines": 154,
+   "budget_bytes": 30720,
+   "budget_entries": 50,
+   "exists": true,
+   "over": true,
+   "warn": false,
+   "tokens_est": 13894,
+   "root": "/Users/junsheng.sun/FluxGroup/gaming"
+  },
+  {
+   "key": "sub:life",
+   "path": "/Users/junsheng.sun/FluxGroup/life/CODELY.md",
+   "bytes": 3452,
+   "entries": 0,
+   "lines": 24,
+   "budget_bytes": 30720,
+   "budget_entries": 50,
+   "exists": true,
+   "over": false,
+   "warn": false,
+   "tokens_est": 1150,
+   "root": "/Users/junsheng.sun/FluxGroup/life"
+  },
+  {
+   "key": "sub:media",
+   "path": "/Users/junsheng.sun/FluxGroup/media/CODELY.md",
+   "bytes": 4260,
+   "entries": 0,
+   "lines": 28,
+   "budget_bytes": 30720,
+   "budget_entries": 50,
+   "exists": true,
+   "over": false,
+   "warn": false,
+   "tokens_est": 1420,
+   "root": "/Users/junsheng.sun/FluxGroup/media"
+  },
+  {
+   "key": "sub:quant",
+   "path": "/Users/junsheng.sun/FluxGroup/quant/CODELY.md",
+   "bytes": 38058,
+   "entries": 0,
+   "lines": 82,
+   "budget_bytes": 30720,
+   "budget_entries": 50,
+   "exists": true,
+   "over": true,
+   "warn": false,
+   "tokens_est": 12686,
+   "root": "/Users/junsheng.sun/FluxGroup/quant"
+  }
+ ],
+ "cross_file_dupes": [],
+ "total_bytes_before": 128156,
+ "total_bytes_after": 128156,
+ "saved_tokens_est": 0,
+ "still_over_budget": [
+  "sub:gaming",
+  "sub:quant"
+ ],
+ "verdict": "GAPS"
+}

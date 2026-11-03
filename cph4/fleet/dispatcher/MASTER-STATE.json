@@ -1,22 +1,22 @@
 {
- "ts": "2026-11-03T15:17:38",
- "cycle": 251,
+ "ts": "2026-11-03T15:18:52",
+ "cycle": 252,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-03T15:17:38",
+ "master_tick_ts": "2026-11-03T15:18:52",
  "queue": {
   "total": 295,
-  "open": 7,
+  "open": 6,
   "running": 4,
   "done": 135,
-  "failed": 7
+  "failed": 8
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 24.0,
-   "cpu_load_pct": 68,
-   "ram_free_gb": 30.9,
+   "hb_age_s": 37.8,
+   "cpu_load_pct": 46,
+   "ram_free_gb": 34.5,
    "gpu_util_pct": 100,
    "job": "asset-lib-voice-corpus-bma-2026-11-03",
    "last_result": {
@@ -32,16 +32,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 349.5,
-   "cpu_load_pct": 31,
-   "ram_free_gb": 3.5,
+   "hb_age_s": 53.3,
+   "cpu_load_pct": 40,
+   "ram_free_gb": 4.7,
    "gpu_util_pct": 100,
    "job": "asset-lib-voice-corpus-bmb-2026-11-03",
    "last_result": {
-    "job": "C-QUANT-NOBOND-20261103",
+    "job": "asset-lib-voice-corpus-bmb-2026-11-03",
     "state": "RUNNING",
     "rc": null,
-    "ts": "2026-11-03T15:11:58",
+    "ts": "2026-11-03T15:18:06",
     "reason": null
    },
    "idle_confirmed": false,
@@ -50,16 +50,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 186.4,
-   "cpu_load_pct": 10,
-   "ram_free_gb": 5.2,
+   "hb_age_s": 58.9,
+   "cpu_load_pct": 8,
+   "ram_free_gb": 5.1,
    "gpu_util_pct": 0,
-   "job": "asset-lib-voice-corpus-bmc-2026-11-03",
+   "job": "asset-lib-face-caption-2026-11-03",
    "last_result": {
-    "job": "asset-lib-index-2026-11-03",
+    "job": "asset-lib-voice-corpus-bmc-2026-11-03",
     "state": "FAILED",
-    "rc": 0,
-    "ts": "2026-11-03T15:16:34",
+    "rc": 2,
+    "ts": "2026-11-03T15:18:19",
     "reason": null
    },
    "idle_confirmed": false,
@@ -68,16 +68,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.6,
-   "cpu_load_pct": 35,
-   "ram_free_gb": 16.8,
+   "hb_age_s": 0.7,
+   "cpu_load_pct": 43,
+   "ram_free_gb": 16.4,
    "gpu_util_pct": null,
-   "job": "C-INFRA-AUDIT-BM-C-20261103",
+   "job": "asset-lib-index-2026-11-03",
    "last_result": {
-    "job": "CANARY-20261103T151730",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-03T15:17:31",
+    "job": "C-INFRA-AUDIT-BM-C-20261103",
+    "state": "FAILED",
+    "rc": 3,
+    "ts": "2026-11-03T15:17:42",
     "reason": null
    },
    "idle_confirmed": false,
@@ -273,8 +273,7 @@
    "owner": "中枢（机器判）",
    "jobs": [
     "CHK-RECEIPT-20261103",
-    "CHK-DUPES-20261103",
-    "C-INFRA-AUDIT-BM-C-20261103"
+    "CHK-DUPES-20261103"
    ],
    "no_supply": false,
    "blockers": [
@@ -293,13 +292,11 @@
    "jobs": [
     "asset-lib-voice-corpus-bma-2026-11-03",
     "asset-lib-voice-corpus-bmb-2026-11-03",
-    "asset-lib-voice-corpus-bmc-2026-11-03",
+    "asset-lib-index-2026-11-03",
     "asset-lib-face-caption-2026-11-03"
    ],
    "no_supply": false,
-   "blockers": [
-    "asset-lib-face-caption-2026-11-03:no-lane"
-   ],
+   "blockers": [],
    "note": "CEO 2026-11-03 令：先不做短剧和漫剧，先储备资产（烧角色 LoRA 与音色库）"
   }
  },
@@ -828,23 +825,31 @@
  "routing": {
   "local": 6,
   "cloud": 0,
-  "queue": 1,
+  "queue": 0,
   "blocked": 0,
   "cloud_spend_today": 0,
   "waste": []
  },
  "supply_gap": {
   "cpu": 6,
-  "gpu": 1
+  "gpu": 0
  },
- "supply_added": [],
+ "supply_added": [
+  "backlog_manifest+2"
+ ],
  "events": [
   "biggame-playable-2026-11-03 FAILED via bm-a",
-  "asset-lib-index-2026-11-03 FAILED via bm-c"
+  "asset-lib-voice-corpus-bmc-2026-11-03 FAILED via bm-c",
+  "C-INFRA-AUDIT-BM-C-20261103 FAILED via bm-m",
+  "asset-lib-face-caption-2026-11-03 -> bm-c (gpu)",
+  "asset-lib-index-2026-11-03 -> bm-m (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 剪辑/装配/剪辑席 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
- "lane_files_written": []
+ "lane_files_written": [
+  "bm-c",
+  "bm-m"
+ ]
 }
