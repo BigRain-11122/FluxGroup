@@ -223,7 +223,8 @@ am_free_gb=10+cpu_load_pct=48——**bm-b 不是闲着，是在跑量化轮**；
 | **L0 探针谓词 3h < 班表 4.2h（第6次误报）** | **registered·waiting-CEO（受保护件）** | proxy-probe.ps1:30 `-gt 3`；建议 4.5h 或改读班表。承 R2.54/R2.55 登记，不重复立法。 |
 | **P0 Q-TTS-1202R（lease 11:27 到期）** | **monitoring** | 08:27:24 attempts2 认领，队列 08:29 后零状态变化；到期将再派给同一死执行器（bm-b）。执行器修复前无法推进。 |
 | **lane 指针文件致树恒脏（D-R259-DIRTYTREE）** | **fixed（本班·T1）** | `queue-receipts/_last_lane_*.json` 受跟踪且每轮改写 → ff-only/rebase 恒拒 → 节点追不上主线（R2.57 同型）。已并入 GEN_STATE；实测 10:49:30 agent=0、push ok、无 rebase 残留。 |
-
+
+
 ## 附录 R2.60 事件班登记（2026-11-01 13:56-14:0x·probe L0-DOWN 第7次）
 
 | 件 | 状态 | 证据 / 下一步 |
@@ -302,3 +303,12 @@ am_free_gb=10+cpu_load_pct=48——**bm-b 不是闲着，是在跑量化轮**；
 | **R4-4 CLOCK-SKEW 数值更新** | **registered·本机提权动作** | 01:24 实测 max 3542.4ms：bm-b +1456.3ms（σ±0.8）、bm-c 大偏（σ±206.4）、hub bm-a 正常。w32time 停转需本机提权自启，承 R2.38/R2.47/R2.49 同源，不重复立法。 |
 | **R4-5 卡契约闸上线（新闸）** | **installed·建议接 L0 快批** | `Tools/fleet/card_contract_check.py`：R1 cmd `--out` 必须等于 deliverable（例外写 deliverable_note）/ R2 交付物需人裁判定而 cmd 不产出 / R3 OPEN 卡真交付已在盘。基线 2 违规→修后 PASS 0。建议 L0 每轮跑一次（rc=1 只告警不阻断），防同型卡再进队列。 |
 | **R4-6 执行面 BURNING 实证** | **standing 诚实边界** | 三机 FleetLink 1.9.5 三连 200；队列 01:25/01:27/01:30 三连新认领 + 01:30:57 六份回执。故本班**零 poke**（poke 不造供给、只 churn）。真瓶颈仍是人决件（R4-1）与各线人审，非供给。 |
+
+## 附录 R5 事件班注记（2026-11-04 02:01-02:05·承载件触发·DL 00:01 六旗）
+| 件 | 状态 | 证据 / 下一步 |
+|---|---|---|
+| **R5-1 资产链跨机 media 不可达（P1·本班已修钉子）** | **FIXED（表已改·待 bm-c 认领验证）** | 证据：char-gen 硬钉 bm-c 回执 00:36 48 张 saved=true（media/asset/characters 在 bm-c）；char-dataset 未钉机被派 bm-a，该机 media/asset/characters 不存在 → 回执 images=0/passed=0 判 BLOCKED（01:47）。根因=media/ 各机本地目录（gitignore、无共享盘），消费段没钉产生端。修法：`cph4/fleet/ri/content/lines/asset.json` 给 char-dataset/face-dataset/face-caption 三处加 `hard_nodes:["bm-c"]`（validate_table=[] 通过）+ 补卡 `asset-lib-char-dataset-2026-11-04` 钉 bm-c。 |
+| **R5-2 假供给（注册·待裁）** | **registered** | 队列 58 OPEN 里 16 张 Q-VCORP-PREP*/2 张 TRAIN 依赖 `media/asset/inbox`（实测 0 文件，音源等投料）→ 每轮被认领、0.1s rc=3、回队，形成 churn（近 6h 176 份回执中 E-BLOCKED-INPUT 26 份）。建议：等输入的卡进 BLOCKED 态而不是留 OPEN，或投料后再生成。 |
+| **R5-3 STARVED-EXEC 三连假红（承 R4-2·非新病）** | **registered·受保护件待授权** | 复核 `Tools/fleet-dispatcher.ps1` L60-98：open/exec 只统计 `POOL.json`（24 卡、唯一 open=POOL-0010 被 CEO 物理件锁死），而真供在 `PRODUCTION-QUEUE.jsonl`（58 OPEN/4 RUNNING）。每轮必报 STARVED-EXEC 三行，属结构性假红，不是供给枯竭。 |
+| **R5-4 资产线同受 media 本地面影响（未改·登记）** | **registered** | voice-dataset/index/accept/library-check 都要跨机读 media/（音色分片在 bm-a/bm-b/bm-c/bm-m 各自本地）→ 现口径下无法对账。正法：产出侧写索引+sha 进 git（ASSET-MANIFEST），二进制留本机；未在本班改，避免半修。 |
+| **R5-5 CLOCK-SKEW 3673ms（承 R4-4）** | **registered·本机提权动作** | bm-b 偏 ~1.4s、bm-c σ≈206ms、hub bm-a 正常；w32time 需提权，非本席可动。 |
