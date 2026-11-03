@@ -31,6 +31,23 @@ import tempfile
 W, H, FPS = 1080, 1920, 30
 
 
+def video_codec_args(ffmpeg):
+    """硬件编码优先（2026-11-03 实测 M1 Pro：libx264 preset slow 6.95s/50s CPU，
+    h264_videotoolbox 2.07s/2.3s CPU —— 墙钟 3x、CPU 省 20 倍）。
+    交付兼容性优先时不想要硬件编码，设环境变量 ASSEMBLE_ENCODER=libx264 即可。"""
+    want = (os.environ.get("ASSEMBLE_ENCODER") or "auto").lower()
+    if want == "libx264":
+        return ["-c:v", "libx264", "-crf", "19", "-profile:v", "high"]
+    try:
+        r = subprocess.run([ffmpeg, "-hide_banner", "-encoders"], capture_output=True,
+                           text=True, timeout=30)
+        if "h264_videotoolbox" in (r.stdout or ""):
+            return ["-c:v", "h264_videotoolbox", "-b:v", "8M", "-allow_sw", "1"]
+    except Exception:
+        pass
+    return ["-c:v", "libx264", "-crf", "19", "-profile:v", "high"]
+
+
 def blocked(qa, why, src=None):
     """输入未到位时也要留证据：写一份 BLOCKED 回执，写明缺什么。
 
@@ -119,7 +136,7 @@ def main(argv):
         rc, out = run([F, "-y", "-i", c, "-vf",
                        "scale=%d:%d:force_original_aspect_ratio=increase,crop=%d:%d,fps=%d,format=yuv420p"
                        % (W, H, W, H, FPS),
-                       "-an", "-c:v", "libx264", "-crf", "20", p])
+                       "-an"] + video_codec_args(F) + [p])
         if rc != 0:
             print("[asm] 归一失败 %s: %s" % (c, out[-200:]))
             return 1
@@ -182,7 +199,10 @@ def main(argv):
         labels.append("[m]")
         idx += 1
     if labels:
-        filters.append("%samix=inputs=%d:duration=first:dropout_transition=0,loudnorm=I=-14:TP=-1.5:LRA=11[a]"
+        # loudnorm 内部跑 192k，AAC 上限截到 96k → 交付音轨会变成 96kHz。
+        # 必须显式收敛回 48k（平台一律按 48k/44.1k 收）。
+        filters.append("%samix=inputs=%d:duration=first:dropout_transition=0,"
+                       "loudnorm=I=-14:TP=-1.5:LRA=11,aresample=48000[a]"
                        % ("".join(labels), len(labels)))
         audio = ["-filter_complex", ";".join(filters), "-map", "0:v:0", "-map", "[a]"]
         af = None
@@ -195,9 +215,9 @@ def main(argv):
         pass
     if vf:
         cmd += ["-vf", vf]
-    cmd += audio + ["-t", "%.3f" % dur, "-c:v", "libx264", "-profile:v", "high", "-crf", "19",
-                    "-pix_fmt", "yuv420p", "-r", str(FPS), "-c:a", "aac", "-b:a", "192k",
-                    "-movflags", "+faststart", a.out]
+    cmd += audio + ["-t", "%.3f" % dur] + video_codec_args(F) + [
+        "-pix_fmt", "yuv420p", "-r", str(FPS), "-c:a", "aac", "-ar", "48000", "-b:a", "192k",
+        "-movflags", "+faststart", a.out]
     rc, out = run(cmd)
     if rc != 0:
         print("[asm] 合成失败：%s" % out[-400:])

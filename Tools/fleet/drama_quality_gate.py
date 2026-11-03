@@ -60,10 +60,12 @@ def probe(path):
     dur = int(d.group(1)) * 3600 + int(d.group(2)) * 60 + float(d.group(3)) if d else 0.0
     v = _re.search(r"Video:.*?(\d{2,5})x(\d{2,5}).*?([\d.]+) fps", out)
     has_a = "Audio:" in out
+    sa = _re.search(r"Audio:.*?(\d{4,6}) Hz", out)
     return {"streams": ([{"codec_type": "video",
                           "width": int(v.group(1)), "height": int(v.group(2)),
                           "r_frame_rate": "%d/1" % int(float(v.group(3)))}] if v else [])
-                         + ([{"codec_type": "audio"}] if has_a else []),
+                         + ([{"codec_type": "audio",
+                              "sample_rate": sa.group(1) if sa else "0"}] if has_a else []),
             "format": {"duration": str(dur)}}
 
 
@@ -160,6 +162,11 @@ def main(argv):
     lufs = loudness(a.src) if au else None
     if au and (lufs is None or abs(lufs + 14) > 2.5):
         gaps.append("响度不合规：%s（目标 -14 LUFS ±2）" % (("%.1f dB" % lufs) if lufs is not None else "测不出"))
+    # 采样率也是交付硬指标（2026-11-03 实测坑）：loudnorm 内部跑 192k，AAC 上限截到 96k，
+    # 成片音轨会静默变成 96kHz，平台一律按 48k/44.1k 收。
+    sr = int(au.get("sample_rate") or 0) if au else 0
+    if au and sr not in (48000, 44100):
+        gaps.append("音轨采样率不合规：%d Hz（交付要求 48000/44100）" % sr)
     if not (10 <= dur <= 90):
         gaps.append("时长 %.1fs 不在 10–90 秒" % dur)
     mot = motion_first3s(a.src)
@@ -179,7 +186,7 @@ def main(argv):
            "spec": "DRAMA-QUALITY-SPEC-v2", "verdict": "PASS" if not gaps else "FAIL",
            "gaps": gaps,
            "measured": {"w": w, "h": h, "subs": (a.subs or ("burned" if a.subs_burned else "")), "fps": round(fps, 2), "duration_s": round(dur, 2),
-                        "has_audio": bool(au), "mean_volume_db": lufs,
+                        "has_audio": bool(au), "audio_sr": sr, "mean_volume_db": lufs,
                         "first3s_motion": round(mot, 4), "cuts": ncut,
                         "avg_shot_s": round(avg_shot, 2)}}
     out["status"] = out["verdict"]

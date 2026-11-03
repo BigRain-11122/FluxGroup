@@ -261,7 +261,7 @@ def fill(root=None, node=None):
         out = os.path.join(out_dir, e + "_AUDIO.mp4")
         cmd = (
             'ffmpeg -y -i "{v}" -i "{a}" -map 0:v -map 1:a -c:v copy '
-            '-af loudnorm=I=-14:TP=-1.5:LRA=11 -c:a aac -b:a 192k -shortest "{o}"'
+            '-af loudnorm=I=-14:TP=-1.5:LRA=11 -c:a aac -ar 48000 -b:a 192k -shortest "{o}"'
         ).format(v=video, a=audio[e], o=out)
         rows.append({
             "id": jid,
