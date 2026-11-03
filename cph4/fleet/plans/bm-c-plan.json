@@ -1,21 +1,21 @@
 {
- "ts": "2026-11-04T01:11:54",
+ "ts": "2026-11-04T01:21:54",
  "node": "bm-c",
  "paused": false,
  "verdict": "BLOCKED-CAPACITY",
  "capacity": {
   "gpu": {
    "util_pct": 0,
-   "used_mb": 6019,
+   "used_mb": 6031,
    "total_mb": 16384
   },
-  "ram_free_gb": 2.33,
-  "vram_free_mb": 10365,
+  "ram_free_gb": 2.53,
+  "vram_free_mb": 10353,
   "lease_held": true,
   "can_gpu": false,
   "can_cpu": false
  },
- "idle_min": 0.0,
+ "idle_min": 1.0,
  "assigned": [],
  "next_actions": [
   {
@@ -38,45 +38,9 @@
   },
   {
    "kind": "queue",
-   "id": "asset-lib-char-dataset-2026-11-03",
-   "title": "[资产储备（角色 LoRA / 音色库）] 角色数据集装配（出图→faces/<ID>+授权→逐角色过准入闸）",
-   "prio": "P0",
-   "needs": "cpu",
-   "feasible": false,
-   "reason": "queue row OPEN"
-  },
-  {
-   "kind": "queue",
-   "id": "Q-ASSET-MKDIR-BMC-20261103",
-   "title": "bm-c 资产目录补齐（media/asset/characters 不存在 → char_gen 必崩）",
-   "prio": "P1",
-   "needs": "cpu",
-   "feasible": false,
-   "reason": "queue row OPEN"
-  },
-  {
-   "kind": "queue",
    "id": "Q-FACE-BOARD-BMC-20261104",
    "title": "人脸对照板：char-gen 现产物确定性拼板（导演席按 DE-AI-SPEC B1/B2/B3/B5 盲评）",
    "prio": "P1",
-   "needs": "cpu",
-   "feasible": false,
-   "reason": "queue row OPEN"
-  },
-  {
-   "kind": "queue",
-   "id": "R-MODEL-RADAR-BMC-20261103",
-   "title": "本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-c）",
-   "prio": "P3",
-   "needs": "cpu",
-   "feasible": false,
-   "reason": "queue row OPEN"
-  },
-  {
-   "kind": "queue",
-   "id": "R-MODEL-RADAR-BMC-20261104",
-   "title": "本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-c）",
-   "prio": "P3",
    "needs": "cpu",
    "feasible": false,
    "reason": "queue row OPEN"
@@ -97,7 +61,7 @@
  "dispatched_now": null,
  "counts": {
   "open_backlog": 0,
-  "open_queue": 42,
+  "open_queue": 38,
   "bank_pending": 0
  }
 }
