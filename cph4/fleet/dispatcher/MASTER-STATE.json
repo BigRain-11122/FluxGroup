@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-03T15:06:51",
- "cycle": 244,
+ "ts": "2026-11-03T15:09:01",
+ "cycle": 245,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-03T15:06:51",
+ "master_tick_ts": "2026-11-03T15:09:01",
  "queue": {
   "total": 290,
   "open": 6,
@@ -14,10 +14,10 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 35.1,
-   "cpu_load_pct": 66,
-   "ram_free_gb": 10.5,
-   "gpu_util_pct": 98,
+   "hb_age_s": 46.3,
+   "cpu_load_pct": 78,
+   "ram_free_gb": 9.4,
+   "gpu_util_pct": 93,
    "job": "asset-lib-voice-corpus-bma-2026-11-03",
    "last_result": {
     "job": "bigstream-mv-gate-2026-11-03",
@@ -32,16 +32,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 59.1,
-   "cpu_load_pct": 26,
-   "ram_free_gb": 4.9,
+   "hb_age_s": 17.7,
+   "cpu_load_pct": 36,
+   "ram_free_gb": 5.0,
    "gpu_util_pct": 100,
    "job": "C-INFRA-AUDIT-BM-B-20261103",
    "last_result": {
-    "job": "asset-lib-voice-corpus-bmb-2026-11-03",
-    "state": "FAILED",
-    "rc": 2,
-    "ts": "2026-11-03T15:06:07",
+    "job": "C-INFRA-AUDIT-BM-B-20261103",
+    "state": "RUNNING",
+    "rc": null,
+    "ts": "2026-11-03T15:07:56",
     "reason": null
    },
    "idle_confirmed": false,
@@ -50,9 +50,9 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 31.6,
+   "hb_age_s": 7.2,
    "cpu_load_pct": 7,
-   "ram_free_gb": 5.3,
+   "ram_free_gb": 5.4,
    "gpu_util_pct": 0,
    "job": "asset-lib-index-2026-11-03",
    "last_result": {
@@ -69,15 +69,15 @@
   "bm-m": {
    "online": true,
    "hb_age_s": 0.6,
-   "cpu_load_pct": 50,
-   "ram_free_gb": 13.7,
+   "cpu_load_pct": 45,
+   "ram_free_gb": 11.5,
    "gpu_util_pct": null,
-   "job": "C-INFRA-AUDIT-BM-C-20261103",
+   "job": "asset-lib-voice-corpus-bmb-2026-11-03",
    "last_result": {
-    "job": "C-INFRA-AUDIT-BM-A-20261103",
+    "job": "C-INFRA-AUDIT-BM-C-20261103",
     "state": "FAILED",
     "rc": 3,
-    "ts": "2026-11-03T15:05:44",
+    "ts": "2026-11-03T15:06:56",
     "reason": null
    },
    "idle_confirmed": false,
@@ -274,8 +274,7 @@
    "jobs": [
     "CHK-RECEIPT-20261103",
     "CHK-DUPES-20261103",
-    "C-INFRA-AUDIT-BM-B-20261103",
-    "C-INFRA-AUDIT-BM-C-20261103"
+    "C-INFRA-AUDIT-BM-B-20261103"
    ],
    "no_supply": false,
    "blockers": [
@@ -293,6 +292,7 @@
    "owner": "资产席",
    "jobs": [
     "asset-lib-voice-corpus-bma-2026-11-03",
+    "asset-lib-voice-corpus-bmb-2026-11-03",
     "asset-lib-index-2026-11-03"
    ],
    "no_supply": false,
@@ -839,22 +839,15 @@
  ],
  "events": [
   "bigstream-mv-gate-2026-11-03 FAILED via bm-a",
-  "asset-lib-voice-corpus-bmb-2026-11-03 FAILED via bm-b",
   "asset-lib-voice-corpus-bmc-2026-11-03 FAILED via bm-c",
-  "C-INFRA-AUDIT-BM-A-20261103 FAILED via bm-m",
-  "asset-lib-voice-corpus-bma-2026-11-03 -> bm-a (cpu)",
-  "asset-lib-index-2026-11-03 -> bm-c (cpu)",
-  "C-INFRA-AUDIT-BM-B-20261103 -> bm-b (cpu)",
-  "C-INFRA-AUDIT-BM-C-20261103 -> bm-m (cpu)"
+  "C-INFRA-AUDIT-BM-C-20261103 FAILED via bm-m",
+  "asset-lib-voice-corpus-bmb-2026-11-03 -> bm-m (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 剪辑/装配/剪辑席 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-a",
-  "bm-b",
-  "bm-c",
   "bm-m"
  ]
 }

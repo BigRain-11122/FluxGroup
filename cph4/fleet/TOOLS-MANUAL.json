@@ -8,6 +8,11 @@
   "artifact_status": "产物落盘状态查询",
   "fleet_board": "机队总览页生成",
   "judge_bench": "判定席黄金集基准",
-  "fluxctl": "一个入口：status/check/gate/chief"
+  "fluxctl": "一个入口：status/check/gate/chief",
+  "skill_eval": "技能成对评测（with/without 对照），由 work-bank 的 EVAL- 卡调用",
+  "skill_install": "把仓内技能同步进本机激活面（装前过 skill_check 闸）",
+  "skill_check": "技能结构/触发词/死指针质检，主控脉 skills 阶段调用",
+  "skill_promote": "技能 B→A 升级 agent（只写实测跑过的命令）",
+  "bank_autofill": "work-bank 自动补料（主控脉阶段，空档期给空闲机配体检活）"
  }
 }
