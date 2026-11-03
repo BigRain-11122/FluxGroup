@@ -1,68 +1,75 @@
-# 主控 MacBook 游戏环境与设置 v1（2026-11-03）
+# 主控 MacBook 游戏环境与设置 v2（2026-11-03）
 
-CEO 令：「我可能会用 macbook 去玩一些游戏，帮我搭建好环境和设置」。
-本文件记录**装了什么、为什么装、怎么用、边界在哪**。机器=MacBook Pro 16" M1 Pro / 32GB / macOS 27.2。
+CEO 令：「不要 steam，不跑大作，大概就用 switch 什么的玩玩」。
+本文件记录**装了什么、缺什么、怎么用**。机器=MacBook Pro 16" M1 Pro / 32GB / macOS 27.2。
 
-## 一、已装（免费路线，已实测可启动）
+## 一、现在的状态
 
-| 应用 | 版本 | 干什么 | 备注 |
-|---|---|---|---|
-| Steam | 6.1 | 主力商店：Mac 原生游戏 + 大量独立游戏 | 二进制同时含 x86_64 与 arm64 → 原生跑，不靠 Rosetta |
-| Whisky | 2.3.5 | 跑 Windows 独占游戏（Wine + Apple Game Porting Toolkit） | 每个游戏一个瓶子，独立配置；DX11 级基本可用 |
-| RetroArch | 1.22.2 | 模拟器前端（NES/SNES/GBA/N64/PS1/街机…） | 只有 x86_64，走 Rosetta；首次启动要在线下载核心 |
-
-安装方式（可复现，已去掉 Gatekeeper 隔离标记）：
-
-```bash
-brew install --cask steam whisky retroarch
-xattr -dr com.apple.quarantine /Applications/Steam.app /Applications/Whisky.app /Applications/RetroArch.app
-```
-
-## 二、老实说的边界（别指望它跑 3A）
-
-1. **M1 Pro 不是游戏显卡**。原生 Mac 3A 屈指可数；大型 Windows 3A 即使能启动，帧数也不体面。
-2. **Whisky 的甜点在 DX11 级与小体量游戏**（策略/独立/RPG 老作）。DX12 大作多失败，别浪费时间。
-3. **不要装 Parallels 来玩游戏**：Windows-on-ARM 跑 x86 游戏是二次翻译，性能比 Whisky 更差，只适合办公软件。
-4. **想认真玩 Windows 3A，唯一正解是 CrossOver 26.3（付费，约 74 美元/年）**，它带更新的 D3DMetal。这属于花钱决定，等 CEO 定，我不代购。
-
-## 三、设置（已按苹果逻辑定好）
-
-| 项 | 值 | 为什么 |
+| 项 | 状态 | 说明 |
 |---|---|---|
-| Game Mode | 自动（macOS 14+ 系统级，无需设置） | 焦点在游戏时自动提升 CPU/GPU 优先级、降低蓝牙延迟 |
-| 插电低电量模式 | 关 | 满性能；见 `BM-M-POWER-PROFILE-v1.md` |
-| 插电系统睡眠 | 不睡（屏幕 10 分钟休眠） | 玩游戏时屏幕不会因系统睡眠被掐 |
-| 拔电屏幕休眠 | 5 分钟 | 同上文档 |
-| 手柄 | 系统设置 → 蓝牙 → 配对 | Xbox 无线手柄、DualSense/DualShock 原生支持；无需驱动 |
+| Steam | **已卸载** | 应用、cask 记录、用户数据都已清掉（CEO 令不要） |
+| Ryujinx（Ryubing 分支 1.3.3） | **已装并启动通过** | 官方源 `git.ryujinx.app`，universal 二进制（含 arm64），已清 Gatekeeper 隔离 |
+| RetroArch 1.22.2 | 已装 | 老主机（NES/SNES/GBA/N64/PS1/街机）用它；核心首次启动在线下载 |
+| Whisky | 已装 | 暂时不用：那是跑 Windows 游戏的，Switch 不靠它 |
 
-## 四、玩游戏前必做的一件事：让机队让路
+安装位置：`/Applications/Ryujinx.app`；配置与数据：`~/Library/Application Support/Ryujinx/`。
 
-这台机器 32GB 统一内存同时养 4B 模型 + 主控脉。开游戏不先让路，两边都难受。
+## 二、还差的两件必须你自己提供（我不能也不该代劳）
+
+1. **key 文件**：`prod.keys` 与 `title.keys`，从**你自己的 Switch** 导出。
+   放到：`~/Library/Application Support/Ryujinx/system/`
+2. **固件**：同样从你自己的机器导出，得到一个含 `*.nca` 的文件夹，首次启动后在
+   Ryujinx 菜单里 `Tools → Install Firmware → Install a firmware from a folder / ZIP`。
+3. **游戏**：用你自己卡带/自购数字版转出的文件。
+
+没有第 1、2 两项，模拟器能开但什么游戏都起不来——这是硬前提，不是设置问题。
+我不提供、也不指引任何 key/ROM 的获取渠道。
+
+## 三、首次使用四步
+
+1. 打开 `Ryujinx.app`（已清隔离，双击即可，不会再被拦）。
+2. 放好 key → `Tools → Install Firmware` 装固件。
+3. `Options → Settings → General → Game Directories` 添加你放游戏的文件夹。
+4. 回主界面双击游戏开跑。
+
+## 四、M1 Pro 上建议的设置（默认值已经够用，这两条才是关键）
+
+| 设置 | 建议 | 为什么 |
+|---|---|---|
+| Graphics Backend | **Vulkan**（默认已是） | Metal 后端在这版里还不成熟；Vulkan 走 MoltenVK 最稳 |
+| Resolution Scale | **1x（原生）** | M1 Pro 不是游戏显卡；2x 只适合小体量游戏 |
+| Docked Mode | 卡就关掉 | 关掉=按掌机 720p 跑，负载明显低 |
+| Texture Recompression | 关（默认关） | 省内存，32GB 要和机队共用 |
+| Memory Manager Mode | 默认 `HostMappedUnsafe` | 更快；若崩溃改成 `HostMapped` |
+
+## 五、老主机（NSW 以外）用 RetroArch
+
+`/Applications/RetroArch.app` → 首次启动 → `Online Updater → Core Downloader` → 下你要的核：
+- SNES：`snes9x`
+- GBA/GBC：`mgba`
+- N64：`mupen64plus_next`
+- PS1：`beetle_psx_hw`
+- FC/NES：`fceumm`
+
+ROM 自己准备，本机不预置任何受版权保护的内容。
+
+## 六、玩之前让机队让路（同 v1，仍然必要）
 
 ```bash
-# 让路（停主控脉+看门狗；加 --with-ai 连本地模型一起停，多让出 3-4GB）
-Tools/fleet/ceo_mode.sh start --with-ai
-
-# 玩完恢复（先过 deploy_gate，闸不过不许起，这是 2026-11-02 定的法）
-Tools/fleet/ceo_mode.sh stop
-
-# 随时看状态
-Tools/fleet/ceo_mode.sh status
+Tools/fleet/ceo_mode.sh start --with-ai   # 停主控脉+看门狗+本地模型，让出 3-4GB
+Tools/fleet/ceo_mode.sh stop              # 玩完恢复（先过 deploy_gate）
+Tools/fleet/ceo_mode.sh status            # 看现在谁在跑
 ```
 
-来回已实测：start 后 pulse/watchdog/执行腿全部停止；stop 后 deploy_gate 六关 PASS、三个常驻全部恢复、PULSE.json 继续刷新。
-**让路不改任何配置**，只停常驻进程，`stop` 即回到原样。
+## 七、合规与边界（必须知道）
 
-## 五、首次使用要做的三步
+1. 模拟器本身在很多地区合法，但**内容来源必须是你自己的机器与卡带**。
+2. 任天堂对 Switch 模拟器的态度是持续法律施压（原 Ryujinx 已因此下架，现用社区分支 Ryubing）。
+   自己玩没事，**不要分发、不要商用、不要对外演示**。
+3. 不要为了跑某个游戏去网上抓"整合包"——那类包常带恶意程序和别人的 key，风险大于收益。
 
-1. **Steam**：打开 → 登录 → 库里只显示"支持 macOS"的游戏，别看错平台。
-2. **Whisky**：首次打开会让你建瓶子（选 Windows 10）→ 装完后在瓶子里装游戏平台或直接拖 exe。
-3. **RetroArch**：首次打开 → Online Updater → 下载需要的核心（如 `snes9x`、`mgba`）→ 再加载自己的 ROM。
+## 八、何时候该停下来
 
-ROM 与游戏文件自己准备，本机不预置任何受版权保护的内容。
-
-## 六、何时候该停下来
-
-1. 某游戏在 Whisky 里黑屏/闪退超过两次 → 别硬调，换原生 Mac 版或放弃（调 Wine 是无底洞）。
-2. 游戏时机器风扇持续满转、帧数一路掉 → 是散热墙，不是你设置错；降低画质或改插电通风。
-3. 玩完发现主控脉没恢复（`ceo_mode.sh status` 显示 stopped）→ 立刻 `stop` 拉回来，别让它空跑一夜。
+1. 某游戏在 Ryujinx 里崩溃两次以上 → 换 `HostMapped` 内存模式再试一次；还崩就放下，别陷进配置黑洞。
+2. 帧数低到不能玩 → 先关 Docked、再降 Resolution Scale；M1 Pro 的上限就在这里，不是设置没调对。
+3. 玩完发现 `ceo_mode.sh status` 显示脉冲 stopped → 立刻 `stop` 拉回来，别让它空跑一夜。
