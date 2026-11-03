@@ -378,9 +378,23 @@ try {
   # memory-union commits - node still synced; dispatcher verify reads this field).
   $om = ''
   try { $om = [string](& $git -C $Root rev-parse origin/main) } catch { }
+  # 2026-11-04: report the State of every allowlisted task. A Disabled task is
+  # silently un-wakeable (off-skip) and the node still looks healthy while producing
+  # nothing - measured on bm-c: 78 minutes of zero output with an empty wakes list.
+  # /status passes this stamp through verbatim, so the blind spot becomes visible.
+  $taskStates = [ordered]@{}
+  try {
+    if ($node -and ($node.PSObject.Properties.Name -contains 'wake_tasks')) {
+      foreach ($tn in @($node.wake_tasks)) {
+        if (-not $tn) { continue }
+        $t = Get-ScheduledTask -TaskName ([string]$tn) -ErrorAction SilentlyContinue
+        $taskStates[[string]$tn] = $(if ($t) { [string]$t.State } else { 'no-task' })
+      }
+    }
+  } catch { }
   $st = [ordered]@{ node = $NodeId; ts = (Get-Date -Format s); reason = $Reason
                     pulls = @($heads); wakes = @($woke); repo_heads = $repoHeads
-                    origin_main = $om }
+                    origin_main = $om; task_states = $taskStates }
   [IO.File]::WriteAllText($StampF, ($st | ConvertTo-Json -Depth 4 -Compress), (New-Object System.Text.UTF8Encoding($false)))
 } catch { }
 WK-Log 'worker-done' ('reason=' + $Reason + ' pull=' + ($heads -join ' ') + ' wake=' + ($woke -join ' '))
