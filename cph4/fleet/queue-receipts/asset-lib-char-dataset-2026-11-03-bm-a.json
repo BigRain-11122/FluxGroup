@@ -1,0 +1,17 @@
+{
+ "id": "asset-lib-char-dataset-2026-11-03",
+ "node": "bm-a",
+ "rc": 1,
+ "seconds": 0.1,
+ "cmd": "python Tools/fleet/char_dataset.py",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "FAIL",
+ "error_class": "E-UNKNOWN",
+ "deliverable": "cph4/fleet/queue-receipts/char-dataset-2026-11-03.json",
+ "deliverable_exists": false,
+ "ts": "2026-11-04T00:09:30",
+ "stdout_tail": "",
+ "stderr_tail": "Traceback (most recent call last):\n  File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\Tools\\fleet\\char_dataset.py\", line 89, in <module>\n    sys.exit(main(sys.argv[1:]))\n             ~~~~^^^^^^^^^^^^^^\n  File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\Tools\\fleet\\char_dataset.py\", line 40, in main\n    for cid in sorted(os.listdir(CHARS)):\n                      ~~~~~~~~~~^^^^^^^\nFileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\\\Users\\\\sjs20\\\\Desktop\\\\FluxGroup\\\\media\\\\asset\\\\characters'\n"
+}
