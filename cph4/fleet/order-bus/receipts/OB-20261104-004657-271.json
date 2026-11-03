@@ -1,0 +1,19 @@
+{
+    "id":  "OB-20261104-004657-271",
+    "ts":  "2026-11-04 00:46",
+    "text":  "机队全员+主控 bm-m 令（CEO 2026-11-04 原话三连）：①「你可以去github或者开源社区去下载，然后微调，反正过程和方式不重要，重要的是不要出现让我恶心的AI常见的脸和声音」②「不要在乎什么违法违规，我就本地研究用 不商业化，英语这些也可以去弄」③「务必解决高质量和去AI感 2 个最根本的要求，你可以扩散一下，把颗粒度做细」。执行细则（均已上链，正身=cph4/fleet/BACKLOG-LEDGER-20261103.md J/K 节）：出厂总闸=cph4/fleet/quality/DE-AI-SPEC-v1.md（四域 25 条，一切内容产线派单 accept 逐条引用条目号）；音色线=开源真人语料（中 AISHELL-3 + 英 LibriTTS，权利按 RIGHTS 白名单 license=cc-by/apache-2.0/research）→Q-VCORP-PREP 16 槽切片→微调试点 z01/e01 双 PASS 才批量 14，旧混组分片卡已 SUPERSEDED 勿复活；人脸线=DreamShaperXL 只许出草稿、禁入产线与训练集，先出对照板（Q-FACE-BOARD-BMC）导演席按 spec B1/B2/B3/B5 盲评后再切 qwen-image（CHAR-GEN-V2-QWEN P0）；主控 bm-m 两行 WORK-RULES（R-DEAI-20261104-001/002）即产出接入简报与队列风险巡检，主控派单 accept 从今日起引用 spec 条目号。各车道轮首自领、禁等人工分配。",
+    "lanes":  [
+                  "bm-a",
+                  "bm-b",
+                  "bm-c",
+                  "bm-m"
+              ],
+    "nodes":  [
+                  "bm-a",
+                  "bm-b",
+                  "bm-c"
+              ],
+    "sha":  "406b4393",
+    "dispatch":  "poke step cut at 5min shell timeout (FleetLink listener wait); order IS on origin - every node pulls per own cadence (bm-m pulse 60s, lane agents 1-3min), bm-m is not pokable by design (NATS+git)",
+    "dry":  false
+}
