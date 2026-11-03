@@ -222,6 +222,11 @@ def main(argv):
                 break
             fp = os.path.join(d, "%s.png" % view)
             if os.path.exists(fp) and os.path.getsize(fp) > 20000:
+                # 2026-11-04: an already-produced view IS the deliverable (saved on disk).
+                # Counting it as made keeps "made>0" honest when a rerun finds the batch done;
+                # reporting made=[] made the card FAIL forever while all images sat on disk.
+                made.append({"character": cid, "view": view, "prompt_id": "skip-existing",
+                             "file": os.path.relpath(fp, ROOT), "saved": True})
                 continue
             _g = graph_ckpt if mk.get("route") == "ckpt" else graph
             payload = {"prompt": _g(pr["positive"], pr["negative"], seed, mk, a.width, a.height),
