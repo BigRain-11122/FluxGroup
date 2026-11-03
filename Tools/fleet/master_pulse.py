@@ -124,6 +124,10 @@ STAGES = [
     # 目的=CEO 点开就能看，不用等下 12MB 的 1080p 原片；Mac 的正当用法（只做交付，不做创作）。
     ("review_proxy", ["Tools/fleet/review_proxy.py", "--src", "media/drama-out",
                       "--out", "media/review-720p", "--max", "6"], 300, {0, 3}, True),
+    # 资产生产规格（2026-11-03 CEO「Mac 利用率很低」）：本机常驻 4B 批量写 P0 资产规格，
+    # 幂等可续跑，一轮最多 20 件。实测 GPU 99%、CPU 仍 83% 空闲——低利用率的表象是
+    # "只看 CPU"，真因是没喂本机吃得下的活。rc=3=模型服务不在。
+    ("asset_prompts", ["Tools/fleet/asset_prompts.py", "--limit", "20"], 600, {0, 1, 3}, True),
     # 本机推理栈体检（2026-11-03）：端口归属/服务环境/速度/向量层，一天一次。
     # 只是体检，不改配置；rc=2=有 GAPS 待修。
     ("inference_audit", ["Tools/fleet/local_inference_audit.py", "--node", NODE, "--daily"], 300, {0, 2}, True),

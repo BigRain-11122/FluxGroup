@@ -23,6 +23,8 @@ import argparse
 import glob
 import json
 import os
+import re
+import subprocess
 import sys
 import time
 
@@ -35,6 +37,25 @@ BANKS = os.path.join(ROOT, "cph4", "fleet", "work-bank")
 RESERVE_GB = {"bm-m": 6.0, "default": 3.0}
 CPU_CAP = {"bm-m": 80.0, "default": 90.0}
 EST_GB_PER_JOB = 1.0
+
+
+def gpu_util():
+    """本机 GPU 利用率（Apple Silicon）。
+
+    为什么（2026-11-03 CEO「我看 mac 的 cpu 和 gpu 利用率很低」）：
+      在 Mac 上跑 MLX/Ollama，CPU 常年 80%+ 空闲，因为计算在 Metal 上；
+      只看 CPU 会把"GPU 打满 98%"误读成"机器在闲着"。判压榨度必须同时看 GPU。
+    取 ioreg 的 Device Utilization %；非 Apple Silicon 或读不到时返回 None。
+    """
+    if sys.platform != "darwin":
+        return None
+    try:
+        out = subprocess.run(["ioreg", "-r", "-d", "1", "-w", "0", "-c", "IOAccelerator"],
+                             capture_output=True, text=True, timeout=10).stdout
+    except Exception:
+        return None
+    m = re.search(r'"Device Utilization %"\s*=\s*(\d+)', out or "")
+    return int(m.group(1)) if m else None
 
 
 def reserve(node):
@@ -125,10 +146,11 @@ def main(argv):
             gaps.append("%s 假库存 %d 条（旧格式/已 done），可派仅 %d" % (node, b["fake"], stock))
         rows.append(row)
 
+    gpu = gpu_util()
     uti = [float(r["cpu_pct"]) for r in rows if r.get("cpu_pct") is not None and r["online"]]
     mean_cpu = round(sum(uti) / len(uti), 1) if uti else None
     out = {"ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "spec": "SQUEEZE-v1",
-           "mean_cpu_pct": mean_cpu,
+           "mean_cpu_pct": mean_cpu, "local_gpu_pct": gpu,
            "nodes": rows, "gaps": gaps,
            "verdict": "OK" if not gaps else "GAPS"}
     if a.out:
