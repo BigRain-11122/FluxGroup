@@ -15,6 +15,7 @@
 """
 
 import argparse
+import hashlib
 import json
 import os
 import sys
@@ -62,7 +63,7 @@ def build(c):
         }
     return {
         "character": c["id"], "name": c["name"], "views": prompts,
-        "consistency": {"seed": hash(c["id"]) % 2147483647,
+        "consistency": {"seed": int(hashlib.sha1(c["id"].encode("utf-8")).hexdigest()[:8], 16) % 2147483647,
                         "anchors": [c["face"], c["skin"], c["flaw"]],
                         "note": "同一角色 12 视角必须同 seed 组 + 同一 LoRA/参考图；跨视角不许改缺陷"},
         "dataset_meta": {"source": "own_generated", "license": "own", "real_person": False,
