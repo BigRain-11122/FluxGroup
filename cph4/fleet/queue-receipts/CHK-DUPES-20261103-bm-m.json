@@ -2,7 +2,7 @@
  "id": "CHK-DUPES-20261103",
  "node": "bm-m",
  "rc": 0,
- "seconds": 8.0,
+ "seconds": 8.8,
  "cmd": "python3 Tools/fleet/semantic_dupes.py --json cph4/fleet/queue-receipts/dupes-scan-20261103.json",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": "E-ARTIFACT",
  "deliverable": "cph4/fleet/dupes-scan-20261103.json",
  "deliverable_exists": false,
- "ts": "2026-11-03T14:57:14",
- "stdout_tail": "SEMANTIC-DUPES rows=286 live=6 groups=1 th=0.72\n- 可能同一件事（2 张）：\n    asset-lib-voice-corpus-bma-2026-11-03 RUNNING   [资产储备（角色 LoRA / 音色库）] 音色语料工程·分片 0/4（bm-a，纯 CPU）\n    asset-lib-voice-corpus-bmc-2026-11-03 RUNNING   [资产储备（角色 LoRA / 音色库）] 音色语料工程·分片 2/4（bm-c，纯 CPU）\n",
+ "ts": "2026-11-03T15:00:01",
+ "stdout_tail": "SEMANTIC-DUPES rows=286 live=7 groups=0 th=0.72\n",
  "stderr_tail": ""
 }
