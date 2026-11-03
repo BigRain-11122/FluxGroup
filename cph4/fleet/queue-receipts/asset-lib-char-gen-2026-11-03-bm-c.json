@@ -11,7 +11,7 @@
  "error_class": "E-UNKNOWN",
  "deliverable": "cph4/fleet/queue-receipts/char-gen-bm-c-2026-11-03.json",
  "deliverable_exists": false,
- "ts": "2026-11-03T22:01:34",
+ "ts": "2026-11-03T22:03:10",
  "stdout_tail": "",
  "stderr_tail": "Traceback (most recent call last):\n  File \"K:\\Fluxgroup\\FluxGroup\\Tools\\fleet\\char_gen.py\", line 231, in <module>\n    sys.exit(main(sys.argv[1:]))\n             ~~~~^^^^^^^^^^^^^^\n  File \"K:\\Fluxgroup\\FluxGroup\\Tools\\fleet\\char_gen.py\", line 184, in main\n    for cid in sorted(os.listdir(CHARS)):\n                      ~~~~~~~~~~^^^^^^^\nFileNotFoundError: [WinError 3] 绯荤粺鎵句笉鍒版寚瀹氱殑璺�寰勩��: 'K:\\\\Fluxgroup\\\\FluxGroup\\\\media\\\\asset\\\\characters'\n"
 }
