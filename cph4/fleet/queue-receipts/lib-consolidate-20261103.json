@@ -3,13 +3,19 @@
  "verdict": "GAPS",
  "error_class": "E-BLOCKED-INPUT",
  "summary": {
-  "ts": "2026-11-04T00:49:28+0800",
+  "ts": "2026-11-04T01:56:45+0800",
   "owner": "bm-b（传家宝）· 归集与 git 备份",
   "skills": {
    "count": 46,
-   "levels": {},
+   "levels": {
+    "A": 8,
+    "B": 19,
+    "external": 11,
+    "frozen": 5,
+    "parked": 2
+   },
    "with_eval": 2,
-   "newest": "2026-11-03 13:16"
+   "newest": "2026-11-03 13:10"
   },
   "voice": {
    "audio_files": 0,
@@ -62,19 +68,19 @@
    ]
   },
   "experience": {
-   "docs": 73,
-   "sections": 384,
+   "docs": 64,
+   "sections": 369,
    "top": [
-    "cph4\\fleet\\asset-lib-v1\\ASSET-LIB-BUILD-v1.md",
-    "cph4\\fleet\\asset-lib-v1\\ASSET-LIBRARY-PLAN-v1.md",
-    "cph4\\fleet\\asset-lib-v1\\SOURCES-V1.md",
-    "cph4\\fleet\\BACKLOG-LEDGER-20261103.md",
-    "cph4\\fleet\\CEO-DEFECT-LEDGER-v1.md",
-    "cph4\\fleet\\CONTENT-WINS-LEDGER-v1.md",
-    "cph4\\fleet\\INCIDENT-LEDGER.md",
-    "cph4\\fleet\\LAB-TOOL-LEDGER.jsonl"
+    "cph4/fleet/BACKLOG-LEDGER-20261103.md",
+    "cph4/fleet/CEO-DEFECT-LEDGER-v1.md",
+    "cph4/fleet/CONTENT-WINS-LEDGER-v1.md",
+    "cph4/fleet/INCIDENT-LEDGER.md",
+    "cph4/fleet/LAB-TOOL-LEDGER.jsonl",
+    "cph4/fleet/RESULTS-LEDGER-v1.md",
+    "cph4/fleet/asset-lib-v1/ASSET-LIB-BUILD-v1.md",
+    "cph4/fleet/asset-lib-v1/ASSET-LIBRARY-PLAN-v1.md"
    ],
-   "newest": "2026-11-04 00:42"
+   "newest": "2026-11-04 01:51"
   },
   "vault": {
    "entries": 651,
@@ -83,11 +89,11 @@
     "report": 413
    },
    "missing_on_disk": 651,
-   "index": "cph4\\fleet\\vault\\index.jsonl"
+   "index": "cph4/fleet/vault/index.jsonl"
   },
   "produced": {
-   "done_with_deliverable": 136,
-   "on_disk": 89,
+   "done_with_deliverable": 141,
+   "on_disk": 98,
    "absent": [
     {
      "id": "Q-MV-0001-001",
@@ -170,16 +176,16 @@
      "deliverable": "D:\\FleetWorker\\review\\fidelity_v717.json"
     }
    ],
-   "absent_count": 47
+   "absent_count": 43
   },
   "gaps": [
-   "47 张 DONE 卡的交产物不在盘",
+   "43 张 DONE 卡的交产物不在盘",
    "651 条 vault 登记指向不存在的文件",
    "音色库 0 个音频文件（等投料，不算故障但不算资产）"
   ]
  },
  "gaps": [
-  "47 张 DONE 卡的交产物不在盘",
+  "43 张 DONE 卡的交产物不在盘",
   "651 条 vault 登记指向不存在的文件",
   "音色库 0 个音频文件（等投料，不算故障但不算资产）"
  ]
