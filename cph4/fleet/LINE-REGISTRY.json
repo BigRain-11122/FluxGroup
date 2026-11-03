@@ -580,7 +580,7 @@
    "id": "asset-lib",
    "name": "资产储备·角色 LoRA 与音色库",
    "owner": "资产席",
-   "status": "PAUSED",
+   "status": "ACTIVE",
    "repos": [],
    "stale_after_h": 72,
    "queue_prefix": [
@@ -620,7 +620,7 @@
    ],
    "org": "content",
    "priority": "P0",
-   "note": "CEO 2026-11-03 令：先不做短剧和漫剧，先储备资产（烧角色 LoRA 与音色库）",
+   "note": "CEO 2026-11-03：先储备资产，角色 LoRA 与音色库为 P0",
    "pause_reason": "auto-stop:过闸率<50%且返工>=3（2026-11-03）"
   }
  ]

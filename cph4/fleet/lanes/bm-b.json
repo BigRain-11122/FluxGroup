@@ -1,8 +1,23 @@
 {
  "node": "bm-b",
- "ts": "2026-11-03T15:37:13",
- "jobs": [],
- "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+ "ts": "2026-11-03T16:12:30",
+ "jobs": [
+  {
+   "id": "C-INFRA-AUDIT-BM-A-20261103",
+   "title": "本地推理栈体检（bm-a）：引擎/端口归属/环境变量/速度/向量层",
+   "cmd": "python Tools/fleet/local_inference_audit.py --node bm-a --out cph4/fleet/queue-receipts/inference-audit-bm-a.json",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/inference-audit-bm-a.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  }
+ ],
+ "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 4.9/1.0 GB"
+ "capacity_note": "ram 4.0/1.0 GB"
 }
