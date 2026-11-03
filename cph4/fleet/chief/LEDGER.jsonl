@@ -315,3 +315,5 @@
 {"ts": "2026-11-03T11:52:21", "stage": 3, "read": {"running": 4, "open": 1, "ready": 6, "red": 6}, "judged": "P0 线 24h 无产物：1 条", "action": "escalate", "target": ["p0:bigstream-duanju:no-output"], "result": "applied"}
 {"ts": "2026-11-03T11:56:28", "stage": 3, "read": {"running": 4, "open": 3, "ready": 7, "red": 6}, "judged": "2 张卡在跑但 1 小时无回执", "action": "requeue", "target": ["R-TTS-QC-R2-20261102", "bigmoney-backtest-2026-11-03"], "result": "applied"}
 {"ts": "2026-11-03T11:56:28", "stage": 3, "read": {"running": 4, "open": 3, "ready": 7, "red": 6}, "judged": "P0 线 24h 无产物：1 条", "action": "escalate", "target": ["p0:bigstream-duanju:no-output"], "result": "applied"}
+{"ts": "2026-11-03T11:57:05", "stage": 3, "read": {"running": 4, "open": 3, "ready": 8, "red": 6}, "judged": "2 张卡在跑但 1 小时无回执", "action": "requeue", "target": ["bigmoney-backtest-2026-11-03", "bigstream-duanju-remux-2026-11-03"], "result": "applied"}
+{"ts": "2026-11-03T11:57:05", "stage": 3, "read": {"running": 4, "open": 3, "ready": 8, "red": 6}, "judged": "P0 线 24h 无产物：1 条", "action": "escalate", "target": ["p0:bigstream-duanju:no-output"], "result": "applied"}
