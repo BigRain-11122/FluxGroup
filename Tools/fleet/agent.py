@@ -248,6 +248,41 @@ def pull():
     if rc2 == 0:
         note("ff-only after clear ok: %s" % tail2)
         return rc2
+    # R2.61 (2026-11-03, bm-b 实锚)：本机产出不先落提交，pull 就被自己的输出锁死。
+    # 实测 FleetAgent 树 76 个脏件（回执/队列/docs 汇总）把 ff 与 rebase 挡了 20 小时：
+    # 代码停在 11-02 03:35、回执一条都上不了链，主控读到的却是"这台机器不行"。
+    # 规则：自己名下的产出（回执/lane/队列行）→ 本地 WIP 提交，随 push 正常上链；
+    #       其余脏件（他机回执、docs 汇总等再生件）→ 还原到 HEAD，不让它们继续挡路。
+    #       只处理已跟踪文件；未跟踪件不动。
+    OUR_OUTPUT = ("cph4/fleet/queue-receipts/", "cph4/fleet/lanes/")
+    OWN_FILES = ("cph4/fleet/PRODUCTION-QUEUE.jsonl",)
+    rc_s, dirty = run_msg(["git", "status", "--porcelain"], 60)
+    own, foreign = [], []
+    for ln in (dirty or "").split("|"):
+        ln = ln.rstrip()
+        if len(ln) < 4:
+            continue
+        p = ln[3:].strip()
+        if not p or ln[:2] == "??":
+            continue
+        if p.startswith(OUR_OUTPUT) or p in OWN_FILES:
+            own.append(p)
+        else:
+            foreign.append(p)
+    if foreign:
+        run_msg(["git", "checkout", "HEAD", "--"] + foreign, 120)
+        note("quarantine: reset %d foreign dirty paths" % len(foreign))
+    if own:
+        run_msg(["git", "add", "-A", "--"] + own, 120)
+        _nm = os.environ.get("FLEET_NODE") or os.environ.get("COMPUTERNAME") or "node"
+        run_msg(["git", "-c", "user.name=" + _nm,
+                 "-c", "user.email=" + _nm + "@fleet.fluxgroup.local",
+                 "commit", "-m", "wip(%s): local artifacts before pull" % _nm], 120)
+        note("quarantine: committed %d own output paths" % len(own))
+    rc2b, tail2b = run_msg(["git", "merge", "--ff-only", "origin/main"], 120)
+    if rc2b == 0:
+        note("ff-only after quarantine ok: %s" % tail2b)
+        return rc2b
     # Diverged: local commits exist. Rebase onto the master, but only when the tree is clean --
     # git refuses on its own otherwise, so a shift mid-edit is never destroyed.
     commit_state()
