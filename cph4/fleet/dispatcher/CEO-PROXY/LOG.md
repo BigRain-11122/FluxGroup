@@ -1093,3 +1093,6 @@ am_free 10GB / cpu_load 48%——bm-b 在跑量化轮而非闲着；缺的是本
 | **待确认（量化席·非阻断）** | **registered** | 权重口径=生产者发布默认（等权 1/n）。若量化席要改 score 加权，只需改 `etf_robust_pf` 的 weight_hook，桥会自动 passthrough 已有 positions，无需改本仓。 |
 
 | **R6-14 无投料卡停发（T1·数据卫生）** | **FIXED（本班）** | bm-b 认领器 Disabled 期间，主控仍逐张派 `Q-VCORP-PREP-*` / `Q-VCORP-TRAIN-PILOT-*`（共 18 张）过去，全部超时烧成 FAILED，制造噪声。这些卡的真因是输入缺口（生产脚本自答 `rc=3 本分片无输入（inbox 0 文件）`），不是供给缺口。处置=置 `route=blocked` + `blocked_by=INPUT-DEPOSIT:media/asset/inbox`（`assign()` 与 lane 自派单都会跳过），状态留 OPEN 保持可见。**解除=投料后清 route/blocked_by**。队列可派发 OPEN 43→29，FAILED 14→11。 |
+
+| **R6-15 MV v721 交付闸实跑=FAIL（P1·判负件已成型）** | **delivered·转导演席（人决件·零催办）** | 03:16-03:20 bm-a 实跑 `mv_delivery_gate.py`（cv2 5.0.0，14064 帧/60fps/80 镜）：**VERDICT=FAIL**。判负项：D1 重复镜 6 对（首对 45.20s vs 223.93s，均不在已申报卡窗内=真缺陷）；D2 近静止 24 处（首处 14.57-17.48s，需导演席按「定格是否为设计」复核）；D3 死停 1/2 冻结段（234.18s 处 13 帧≈0.22s，60fps 下人眼可见）；seams/flicker 已清零。判决件=`cph4/fleet/queue-receipts/mv-gate-v721-verdict-20261104.md`，原始回执=`.../mv-gate-v721-2026-11-04.json`。修复属逐镜创作决策（CEO 10-24 红线：重复镜只能重烧/换素材，禁推近裁切），不入机器队列，只登记候导演席。 |
+| **R6-16 停发口径修正（T1·本班）** | **FIXED** | 首版用 `route=blocked` 停发 18 张无投料卡，被主控 assign 每轮重写回 `route=local` 而失效（实测 e02/z01 回到 OPEN 可派）。正法=改 `state=BLOCKED`（assign 只收 OPEN，天然跳过），route/blocked_by/note 一并留痕。现队列 BLOCKED=18、可派发 OPEN=29。**解除=投料后置回 OPEN。** |
