@@ -1,29 +1,29 @@
 {
- "ts": "2026-11-03T14:31:17",
- "cycle": 213,
+ "ts": "2026-11-03T14:32:19",
+ "cycle": 214,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-03T14:31:17",
+ "master_tick_ts": "2026-11-03T14:32:19",
  "queue": {
-  "total": 280,
+  "total": 282,
   "open": 8,
   "running": 4,
   "done": 129,
-  "failed": 8
+  "failed": 9
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 3.0,
-   "cpu_load_pct": 36,
+   "hb_age_s": 2.1,
+   "cpu_load_pct": 74,
    "ram_free_gb": 21.5,
    "gpu_util_pct": 100,
-   "job": "bigstream-mv-gate-2026-11-03",
+   "job": "asset-lib-index-2026-11-03",
    "last_result": {
     "job": "bigstream-mv-gate-2026-11-03",
-    "state": "BUSY",
-    "rc": null,
-    "ts": "2026-11-03T14:31:11",
+    "state": "FAILED",
+    "rc": 1,
+    "ts": "2026-11-03T14:32:02",
     "reason": null
    },
    "idle_confirmed": false,
@@ -32,7 +32,7 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 211.2,
+   "hb_age_s": 271.9,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -44,16 +44,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 69.3,
+   "hb_age_s": 34.5,
    "cpu_load_pct": 5,
-   "ram_free_gb": 6.2,
+   "ram_free_gb": 6.0,
    "gpu_util_pct": 0,
-   "job": "asset-lib-voice-corpus-bma-2026-11-03",
+   "job": "asset-lib-voice-corpus-bmc-2026-11-03",
    "last_result": {
-    "job": "asset-lib-voice-corpus-bmm-2026-11-03",
+    "job": "asset-lib-voice-corpus-bma-2026-11-03",
     "state": "FAILED",
     "rc": 2,
-    "ts": "2026-11-03T14:30:32",
+    "ts": "2026-11-03T14:32:06",
     "reason": null
    },
    "idle_confirmed": false,
@@ -62,16 +62,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.6,
+   "hb_age_s": 0.5,
    "cpu_load_pct": 29,
-   "ram_free_gb": 13.6,
+   "ram_free_gb": 13.4,
    "gpu_util_pct": null,
    "job": "asset-lib-voice-dataset-2026-11-03",
    "last_result": {
-    "job": "asset-lib-voice-corpus-bmc-2026-11-03",
-    "state": "FAILED",
-    "rc": 1,
-    "ts": "2026-11-03T14:30:08",
+    "job": "CANARY-20261103T143211",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-03T14:32:11",
     "reason": null
    },
    "idle_confirmed": false,
@@ -89,14 +89,12 @@
   "bigstream-mv": {
    "name": "BigStream·MV 41 曲",
    "status": "PAUSED",
-   "verdict": "WORKING",
+   "verdict": "WAITING",
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
-   "jobs": [
-    "bigstream-mv-gate-2026-11-03"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": null
   },
@@ -283,8 +281,9 @@
    "owner": "资产席",
    "jobs": [
     "asset-lib-voice-dataset-2026-11-03",
-    "asset-lib-voice-corpus-bma-2026-11-03",
-    "asset-lib-voice-corpus-bmb-2026-11-03"
+    "asset-lib-voice-corpus-bmb-2026-11-03",
+    "asset-lib-voice-corpus-bmc-2026-11-03",
+    "asset-lib-index-2026-11-03"
    ],
    "no_supply": false,
    "blockers": [],
@@ -815,18 +814,20 @@
   "cpu": 8,
   "gpu": 0
  },
- "supply_added": [],
+ "supply_added": [
+  "backlog_manifest+1"
+ ],
  "events": [
-  "asset-lib-voice-corpus-bmm-2026-11-03 FAILED via bm-c",
-  "asset-lib-voice-corpus-bmc-2026-11-03 FAILED via bm-m",
-  "asset-lib-voice-corpus-bma-2026-11-03 -> bm-c (cpu)",
-  "asset-lib-voice-dataset-2026-11-03 -> bm-m (cpu)"
+  "bigstream-mv-gate-2026-11-03 FAILED via bm-a",
+  "asset-lib-voice-corpus-bma-2026-11-03 FAILED via bm-c",
+  "asset-lib-voice-corpus-bmc-2026-11-03 -> bm-c (cpu)",
+  "asset-lib-index-2026-11-03 -> bm-a (cpu)"
  ],
  "violations": [
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-c",
-  "bm-m"
+  "bm-a",
+  "bm-c"
  ]
 }
