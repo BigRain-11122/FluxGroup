@@ -31,9 +31,25 @@ INSTR = (
     "subject: %(subject)s\ncomposition: %(composition)s\nstyle: %(style)s"
 )
 
+# 要走透明底的可视条目必须是孤立物件；brief 里常带「霓虹雨夜/背景虚化城市」这类场景词，
+# 直接翻会让 SDXL 去画整条街（实测 20 件里一半漂移成街景），这里必须把它们剔掉。
+INSTR_ISO = (
+    "The Chinese asset brief below describes ONE object for a game asset library. "
+    "Write ONE English Stable Diffusion prompt describing ONLY that object: its shape, material, "
+    "colors, small details and lighting on the object. "
+    "Omit every location, city, street, background, scenery, weather, reflection and person; "
+    "do not mention 'neon rain night' or any scene context, even if the brief does. "
+    "Output ONLY comma-separated visual tags, max 40 words, no explanation, no quotes.\n"
+    "subject: %(subject)s\ncomposition: %(composition)s\nstyle: %(style)s"
+)
+
+ISO_CLASSES = ("props", "characters")
+
 
 def ask(item):
-    body = {"model": MODEL, "prompt": INSTR % {
+    alpha = item.get("alpha") is True or str(item.get("alpha")).lower() == "true"
+    tpl = INSTR_ISO if (alpha and item.get("cls") in ISO_CLASSES) else INSTR
+    body = {"model": MODEL, "prompt": tpl % {
                 "subject": item.get("subject", ""),
                 "composition": item.get("composition", ""),
                 "style": item.get("style", "")},
@@ -50,6 +66,7 @@ def main(argv):
     ap = argparse.ArgumentParser()
     ap.add_argument("--force", action="store_true")
     ap.add_argument("--only", default="")
+    ap.add_argument("--cls", default="", help="只重翻某一类, 如 props")
     a = ap.parse_args(argv)
 
     spec = json.load(open(SPEC, encoding="utf-8"))
@@ -64,7 +81,7 @@ def main(argv):
 
     todo = [k for k, v in items.items()
             if v.get("cls") in VISUAL and (a.force or k not in entries)
-            and (not a.only or k == a.only)]
+            and (not a.only or k == a.only) and (not a.cls or v.get("cls") == a.cls)]
     missing = []
     for i, key in enumerate(todo, 1):
         try:

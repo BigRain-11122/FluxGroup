@@ -1,366 +1,106 @@
 {
  "items": {
-  "characters-01": {
-   "en": "close-up portrait of young man in modern urban work jacket holding coffee cup, neon-lit street background, determined gaze at camera, vertical frame, shallow depth of field, cel-shaded anime style with realistic urban lighting, centered left composition",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:06"
-  },
-  "characters-02": {
-   "en": "vertical portrait medium shot, professional woman in her thirties with neat hairstyle and business suit, sharp focus on eyes, blurred modern office glass curtain background, cel-shaded anime lines blended with realistic urban lighting and shadows",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:07"
-  },
-  "characters-03": {
-   "en": "cool urban man in retro suit holding coffee cup, neon rain night street, medium shot side view, shallow depth of field background, 45 degree low angle, cel anime coloring, modern city realistic lighting",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:08"
-  },
-  "characters-04": {
-   "en": "confident urban woman in black trench coat holding coffee cup, neon lit modern office corridor background, medium shot focusing on upper body and hand gesture, shallow depth of field blurred background, side backlight outlining silhouette, cel anime lines combined with modern realistic urban lighting and texture",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:08"
-  },
-  "characters-05": {
-   "en": "retro leather jacket cyberpunk female hacker, operating holographic terminal in neon rain night street, vertical medium close-up low angle shot emphasizing intimidation, background blurred to highlight subject, cel anime mixed with modern urban realism, high contrast lighting, cold tone neon atmosphere",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:09"
-  },
-  "characters-06": {
-   "en": "cool detective in black trench coat, rainy night neon street, medium close-up low angle shot emphasizing oppression, cel-shaded anime coloring mixed with modern urban realistic lighting, blurred neon background, dramatic atmosphere",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:10"
-  },
-  "characters-07": {
-   "en": "black trench coat detective holding umbrella walking rainy night street vertical close-up side profile looking back blurred neon signs cel anime modern urban realism",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:10"
-  },
-  "characters-08": {
-   "en": "confident female executive in modern business suit holding tablet, standing by floor-to-ceiling window overlooking city night skyline, medium shot low angle perspective emphasizing presence, blurred background showing bustling urban silhouette, cel-shaded anime coloring blended with realistic urban lighting, intricate details and high saturation.",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:11"
-  },
-  "scenes-01": {
-   "en": "low angle shot, neon rain night rooftop, foreground glass reflecting raindrops, background blurred car lights, cel anime style blended with modern urban realistic lighting and shadows",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:12"
-  },
-  "scenes-02": {
-   "en": "neon flickering late night convenience store entrance, raindrops on glass with blurred reflections, warm yellow interior light, low angle upward shot focusing on tilted glass door and wet ground reflection, cel anime style mixed with modern urban realism",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:12"
-  },
-  "scenes-03": {
-   "en": "low angle shot, modern city apartment living room corner, floor-to-ceiling window with morning sunlight streaming in, coffee cup and magazine on coffee table, plush sofa, blurred city skyline background, cel-shaded anime coloring mixed with realistic urban lighting and shadows, depth of field",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:13"
-  },
-  "scenes-04": {
-   "en": "neon rain night narrow convenience store entrance wet window reflecting sign lights low angle shot focusing on character pushing door cel anime colors overlay modern urban realistic lighting",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:14"
-  },
-  "scenes-05": {
-   "en": "cyberpunk neon rain night convenience store eaves close-up, wet slippery steps low angle upward shot emphasizing architectural lines leading eyes up, cel-shued anime style blended with modern urban realistic lighting and cold tone atmosphere",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:14"
-  },
-  "scenes-06": {
-   "en": "low angle shot, urban convenience store entrance in neon rain night, glass door with raindrops contrasting warm interior light, cel anime style blended with modern realistic city lighting, cinematic atmosphere, detailed reflections, volumetric fog",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:15"
-  },
-  "scenes-07": {
-   "en": "empty convenience store in neon rain night, glass door reflecting blurred cityscape, wide angle low angle shot emphasizing vertical space and cold atmosphere, cel-shued anime style blended with modern urban realistic lighting, delicate color gradients",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:15"
-  },
-  "scenes-08": {
-   "en": "cyberpunk rainy night modern convenience store interior, shelves packed with goods, blurred customer silhouettes, vertical composition, low angle shot of neon sign and rain reflections on glass, focus on foreground checkout counter, cel anime style mixed with realistic urban lighting, cold blue green color palette",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:16"
-  },
-  "scenes-09": {
-   "en": "neon rain night city rooftop, cel animation modern urban realism, low angle upward vertical composition showcasing building lines and character silhouettes, glowing skyscrapers, wet pavement reflections, anime style, cinematic lighting, detailed architecture, dramatic shadows, vibrant colors, high contrast",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:17"
-  },
-  "scenes-10": {
-   "en": "neon-lit late night convenience store, rainy window view, vertical composition, low angle looking up at shop sign and puddle reflections, cel anime style mixed with modern urban realism, vibrant colors, detailed reflections, atmospheric lighting",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:18"
-  },
-  "scenes-11": {
-   "en": "neon-lit late night convenience store entrance, rain streaks on glass, warm yellow interior light glowing through window, vertical composition centered, focus on sign and reflection, blurred background emphasizing foreground rain droplets details, cel-shaded anime style blended with modern urban realistic lighting, high saturation neon colors",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:19"
-  },
-  "scenes-12": {
-   "en": "neon rain night convenience store entrance low angle upward shot tilted eaves water reflection cel-shued anime modern urban realism",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:19"
-  },
   "props-01": {
-   "en": "vertical close-up, glowing virtual pet avatar reflected on wet glass surface in neon rain night, blurred foreground background focus, cel anime style with modern urban realistic lighting and shadows",
+   "en": "glowing virtual pet avatar on smartphone screen, wet glass surface reflection, cel anime style with modern urban realistic lighting, vibrant neon colors, sharp focus, soft bokeh foreground, detailed digital art.",
    "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:19"
+   "at": "2026-11-03T22:41:52"
   },
   "props-02": {
-   "en": "neon rain night, glossy skateboard hero, low angle close-up, shallow depth of field, blurred foreground and background, cel anime style mixed with modern urban realism, vibrant colors, cinematic lighting",
+   "en": "glossy skateboard deck, low angle close-up, blurred foreground background, cel anime style mixed with modern urban realism, vibrant neon colors reflecting on smooth surface, dramatic lighting, sharp details, isolated object.",
    "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:20"
+   "at": "2026-11-03T22:41:52"
   },
   "props-03": {
-   "en": "translucent holographic billboard, neon rain night, cel anime style mixed with modern urban realism, vertical close-up, low angle shot emphasizing floating sensation, glowing edges, wet pavement reflections, cyberpunk city background, sharp focus, vibrant colors, high detail",
+   "en": "translucent holographic billboard, cel-shued anime style mixed with modern urban realism, glowing neon edges, floating vertical panel, soft ambient light, smooth plastic texture, vibrant cyan and magenta colors, intricate circuit details, sharp focus, clean background",
    "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:21"
+   "at": "2026-11-03T22:41:53"
   },
   "props-04": {
-   "en": "retro electronic pocket watch, cracked dial, neon rain night, cel-shaded anime style mixed with modern urban realism, close-up macro shot, blurred city lights background, glowing details, cinematic lighting, high contrast, sharp focus on texture.",
+   "en": "retro electronic pocket watch, cracked dial face, cel-shaded anime style mixed with modern urban realism, glowing neon blue and pink accents, warm city bokeh background blur, intricate mechanical gears, glossy metallic casing, dramatic rim lighting.",
    "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:22"
+   "at": "2026-11-03T22:41:54"
   },
   "props-05": {
-   "en": "metallic high-tech smartwatch, red heart rate alarm and navigation map on screen, extreme close-up, side lighting outlining edges, blurred background, cel anime style with modern urban realistic lighting, detailed texture, vibrant colors, sharp focus",
+   "en": "metal high-tech smartwatch, red heart rate alarm and navigation map on screen, cel anime style with modern urban realistic lighting, side light outlining edges, blurred background, glossy finish, sharp details.",
    "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:22"
+   "at": "2026-11-03T22:41:54"
   },
   "props-06": {
-   "en": "vertical close-up low angle shot glowing red neon sign at convenience store entrance rainy night cel-shaded anime colors modern urban realistic lighting blurred raindrops foreground",
+   "en": "glowing red neon sign, vertical rectangular shape, glossy acrylic surface, vibrant crimson light, raindrops on glass texture, cel-shaded anime colors mixed with realistic urban lighting, soft ambient glow, sharp focus center, blurred foreground water droplets.",
    "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:23"
+   "at": "2026-11-03T22:41:55"
   },
   "props-07": {
-   "en": "retro pocket watch, neon rain night, reflective metallic texture, close-up low angle shot, blurred background, cel anime style mixed with modern urban realism, dramatic lighting, sharp focus on watch face.",
+   "en": "retro pocket watch, brushed metal texture, neon blue and red reflections, rain-slicked surface, cel-shaded anime style mixed with modern urban realism, low angle close-up, soft studio lighting, intricate gears visible through crystal face, glossy finish.",
    "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:23"
+   "at": "2026-11-03T22:41:56"
   },
   "props-08": {
-   "en": "extreme close-up, smartphone screen glowing neon lights, raindrops on glass, cel-shaded anime style, modern urban realistic lighting, blurred rainy city background, cyberpunk atmosphere, vibrant colors, sharp focus on device",
+   "en": "cel-shaded anime smartphone screen glowing blue light, translucent plastic casing, rain droplets clinging to glass surface, vibrant neon green and pink pixelated icons, soft ambient purple rim lighting, sharp focus on display, blurred background bokeh.",
    "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:24"
+   "at": "2026-11-03T22:41:56"
   },
   "props-09": {
-   "en": "cyberpunk neon rain night, shattered holographic projection ad reflected on smartphone screen, close-up shot, blurred foreground raindrops falling, shallow depth of field focusing on glitchy pixels on glowing screen, cel anime style mixed with modern urban realism",
+   "en": "glowing fractured holographic ad pixels, cracked digital projection, translucent cyan and magenta neon light, glossy smartphone screen reflection, wet surface texture, cel-shaded anime style mixed with modern urban realism, sharp focus on glowing pixels, soft bokeh background raindrops, volumetric lighting",
    "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:25"
+   "at": "2026-11-03T22:41:57"
   },
   "props-10": {
-   "en": "retro mechanical watch on wet wooden table, metallic strap reflecting cold light, shallow depth of field focusing on dial texture, cel-shaded anime style mixed with modern urban realism, close-up shot, bokeh background",
+   "en": "vintage mechanical watch, wet wooden table surface, metallic strap reflecting cold light, blurred background, cel anime style mixed with modern urban realism, macro close-up, shallow depth of field focusing on dial texture, soft studio lighting, intricate gears and polished metal details",
    "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:26"
+   "at": "2026-11-03T22:41:58"
   },
   "props-11": {
-   "en": "close-up glowing smartphone screen late night food delivery order interface, blurred urban night city background in distance, cel anime style mixed with modern realistic urban photography, vibrant neon colors, detailed UI elements, shallow depth of field, cinematic lighting, high contrast",
+   "en": "glowing smartphone screen, late night food delivery app interface, translucent blue LCD pixels, crisp white text on dark background, soft ambient light, cel-shaded anime style mixed with modern urban realism, shallow depth of field, isolated object",
    "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:26"
+   "at": "2026-11-03T22:41:59"
   },
   "props-12": {
-   "en": "neon rain night, handheld retro camera reflecting phone screen light, low angle close-up focusing on lens texture and raindrops, cel anime style mixed with modern urban realism, cinematic lighting, wet surfaces, detailed macro shot",
+   "en": "retro camera, cel anime style, glossy plastic body, metallic silver accents, raindrops on lens, glowing blue screen reflection, warm city light, low angle macro shot, detailed texture",
    "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:27"
+   "at": "2026-11-03T22:41:59"
   },
   "props-13": {
-   "en": "neon flickering retro arcade game cabinet, pixel art character on screen, vertical close-up centered shot, low angle upward view emphasizing futuristic technology, cel anime rendering blended with modern urban cool-toned realistic lighting and shadows",
+   "en": "retro arcade cabinet, glowing neon signs, pixel art character on screen, cel-shaded anime style, modern urban cool tones, realistic lighting, vertical close-up low angle.",
    "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:28"
+   "at": "2026-11-03T22:42:00"
   },
   "props-14": {
-   "en": "floating translucent holographic advertising screen with blinking promotional text, neon rain night, close-up low angle shot, blurred background, cel anime style mixed with modern urban realism, high contrast, subtle glow bloom effects",
+   "en": "transparent holographic billboard, floating in neon rain night, glowing promotional text, cel anime style mixed with modern urban realism, high contrast, soft light bloom, close-up low angle shot, blurred background, translucent edges, vibrant cyan and magenta colors, glossy plastic material, intricate circuit patterns",
    "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:28"
+   "at": "2026-11-03T22:42:00"
   },
   "props-15": {
-   "en": "neon rain night, wet reflective puddle reflecting blurred car lights, vertical close-up low angle shot, puddle occupies lower half, empty urban night sky above, cel anime style mixed with modern city realism, cinematic lighting, high detail",
+   "en": "wet puddle, glossy asphalt, blurred car headlights reflection, cel anime style mixed with realistic urban texture, vertical composition, low angle, vibrant neon blue and orange highlights, sharp specular reflections, clean white sky background",
    "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:29"
+   "at": "2026-11-03T22:42:01"
   },
   "props-16": {
-   "en": "cracked smartwatch in neon rain night, shattered screen displaying glitch code, macro close-up capturing raindrops falling on cracks, shallow depth of field blurred urban background, cel anime style mixed with modern city realism",
+   "en": "cracked smartwatch, shattered screen displaying glitch code, wet ceramic casing, neon blue and silver metallic accents, raindrops clinging to surface, cel-shaded anime style mixed with realistic urban textures, dramatic rim lighting, macro close-up, shallow depth of field, intricate fracture lines, glowing digital artifacts.",
    "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:30"
+   "at": "2026-11-03T22:42:02"
   },
   "props-17": {
-   "en": "cyberpunk rainy night, wet reflective glass door of smart convenience store, vertical center symmetrical shot, foreground blurred raindrops close-up, cel anime lines blended with modern urban realistic lighting and cool tone atmosphere",
+   "en": "wet glass smart convenience store door, neon rain reflection, cel-shued anime lines, modern urban realistic lighting, cool tone atmosphere, vertical composition, center symmetry, blurred foreground raindrops, glossy surface, cyan and magenta highlights, sharp focus on texture.",
    "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:31"
+   "at": "2026-11-03T22:42:03"
   },
   "props-18": {
-   "en": "neon holographic billboard, rainy night city street, low angle shot, blurred raindrops foreground, wet road reflections, cel anime lines, modern urban realistic lighting and textures, glowing cyberpunk atmosphere",
+   "en": "holographic projection billboard, floating above wet street, cel-shued anime lines mixed with realistic urban lighting and materials, neon rain night scene context omitted, low angle perspective, blurred foreground raindrops, glossy reflective surface, cyan and magenta glowing edges, sharp geometric structure, volumetric light beams, high contrast shadows, detailed circuit patterns",
    "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:31"
+   "at": "2026-11-03T22:42:04"
   },
   "props-19": {
-   "en": "close-up of glowing mechanical watch held in neon rain night, shallow depth of field blurred background, centered composition on phone stand, cel-shued anime lines blended with modern urban realistic lighting and shadows",
+   "en": "glowing mechanical wristwatch, translucent blue crystal face, brushed silver metal casing, intricate gears, neon light emission, cel-shaded anime lines mixed with realistic urban lighting, soft rim light, shallow depth of field, macro detail",
    "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:32"
+   "at": "2026-11-03T22:42:04"
   },
   "props-20": {
-   "en": "retro motorcycle helmet, neon rain night, cold reflective metallic texture, close-up low angle shot, cel anime style with modern urban realistic lighting, reflections on wet surface",
+   "en": "retro motorcycle helmet, metallic texture, cold neon light reflection, cel anime style with modern urban realistic lighting, close-up low angle, intricate details, glossy chrome finish, vibrant cyan and magenta highlights, sharp focus, dramatic shadows.",
    "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:32"
-  },
-  "motions-01": {
-   "en": "short-haired woman in trench coat turning sharply and pushing glass door, long hair flying, modern city rainy night, low angle shot following camera, handheld photography style with motion blur and raindrop reflections, cel anime mixed with modern urban realism",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:33"
-  },
-  "motions-02": {
-   "en": "close-up low angle tracking shot, hot coffee being handed from convenience store clerk in modern city rain night, cel anime style with realistic urban lighting and shadows, steam rising, wet pavement reflection, detailed hands, cinematic depth of field",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:34"
-  },
-  "motions-03": {
-   "en": "vertical composition, low angle shot, street skateboarder mid-air jump, modern city neon rain night, cel anime lines mixed with realistic urban lighting and perspective, motion blur background, dynamic tension",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:34"
-  },
-  "motions-04": {
-   "en": "neon rain night street, young skateboarder emergency stop slide, low angle tracking shot, dynamic motion blur, cel anime style mixed with modern urban realism, vibrant colors, dramatic lighting",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:35"
-  },
-  "motions-05": {
-   "en": "vertical dynamic long shot, cel anime lines, modern urban realistic lighting, neon rain night, protagonist terrified turning around, car chase drifting behind, handheld camera following subject rotating and panning sideways, cinematic atmosphere, high contrast, motion blur, detailed background cityscape",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:36"
-  },
-  "motions-06": {
-   "en": "vertical portrait, low angle shot, modern city man in suit turning and shaking umbrella, neon rain night background, cel anime lines mixed with realistic urban lighting, depth of field blur, dynamic motion capture, cinematic atmosphere",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:36"
-  },
-  "motions-07": {
-   "en": "low angle tracking shot, close-up of a boy dodging shuriken in modern city neon rain night, cel anime lines mixed with realistic urban lighting and motion blur, tense muscles, splashing raindrops, dramatic shadows, cinematic depth of field, high contrast, dynamic action pose",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:37"
-  },
-  "motions-08": {
-   "en": "vertical portrait, center composition, low angle shot, female silhouette sprinting in modern city neon rain night, motion blur, cel anime lines combined with realistic urban lighting and shadows, dynamic speed",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:38"
-  },
-  "motions-09": {
-   "en": "close-up of female protagonist struggling to break free in neon rain night, handheld camera tracking motion blur and macro water droplets, cel anime lines blended with modern urban realistic lighting and shadows",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:39"
-  },
-  "motions-10": {
-   "en": "low angle tracking shot, main character in high heels running fast, modern city neon rain night, blurred foreground raindrops, blurry background skyscrapers, cel anime style with realistic urban lighting and shadows",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:40"
-  },
-  "motions-11": {
-   "en": "vertical portrait tracking shot handheld shake, female protagonist sprinting in neon rain night, turning head to look back with flowing long hair, cel-shued anime lines mixed with modern urban rain reflection realistic texture, dynamic speed motion blur, cinematic lighting, high contrast",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:40"
-  },
-  "motions-12": {
-   "en": "low angle tracking shot, dynamic motion blur, shallow depth of field, cel anime style mixed with modern urban realism, neon-lit rainy night city background, hero character sliding then quickly standing up adjusting glasses, dramatic lighting, rain droplets, cinematic atmosphere",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:41"
-  },
-  "motions-13": {
-   "en": "modern city rainy night, man in suit shaking wet hair and looking up at sky, low angle shot following hand motion then pulling back to full body close-up, cel anime style mixed with modern urban realism, dramatic lighting, rain droplets on face, cinematic composition",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:42"
-  },
-  "motions-14": {
-   "en": "cyberpunk female character running in neon rain night, low angle follow shot, hero occupies lower half of frame, blurred background, cel shaded modern cyberpunk realistic style",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:43"
-  },
-  "motions-15": {
-   "en": "close-up of urban rain night convenience store clerk scanning payment, handheld shaky camera low angle tilt emphasizing speed, cel anime lines blended with realistic modern city neon lighting and shadows",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:43"
-  },
-  "transitions-01": {
-   "en": "neon rain night subway glass door reflection blurry figures sliding camera vertical close-up tracking motion foreground blurred raindrops cel anime lines modern urban cold realistic lighting",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:44"
-  },
-  "transitions-02": {
-   "en": "cracked smartphone screen close-up, neon rain night, low angle looking up at spreading cracks, blurred city lights background, cel anime lines, modern urban realistic lighting, dramatic shadows, high detail",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:44"
-  },
-  "transitions-03": {
-   "en": "neon rain night city street closeup, glass curtain wall reflecting car light trails, vertical full-screen low angle tilted shot, blurred foreground traffic bokeh leading to midground pedestrian back view, cel anime line art combined with modern urban realistic lighting and wet ground texture",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:45"
-  },
-  "transitions-04": {
-   "en": "neon light reflections, subway car window glass, cel-shued anime lines, modern urban realistic lighting and textures, vertical screen center symmetrical composition, slight handheld camera shake simulating movement",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:46"
-  },
-  "transitions-05": {
-   "en": "vertical screen close-up transition from indoor office to outdoor city skyline, modern skyscraper glass curtain wall, neon signs, cel anime style mixed with realistic urban photography, dynamic zoom out, night time",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:46"
-  },
-  "transitions-06": {
-   "en": "cracked smartphone screen close-up, fingertip touching crack glowing blue light, blurred modern apartment window background, vertical composition, macro focus on foreground fracture, shallow depth of field, urban cool lighting, cel-shaded anime lines mixed with realistic urban textures",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:47"
-  },
-  "transitions-07": {
-   "en": "cracked smartphone screen macro close-up, spreading fracture texture, cel-shaded anime style mixed with modern urban realism, sharp focus on crack details",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:47"
-  },
-  "transitions-08": {
-   "en": "neon rain night subway exit glass door reflecting phone screen blue light and pedestrian reflections, vertical center symmetrical composition, low angle upward shot emphasizing spatial depth and flowing lines, cel-shaded anime coloring combined with modern urban realistic lighting texture",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:48"
-  },
-  "transitions-09": {
-   "en": "neon rain night city street corner, running blurred figure, vertical full-screen wide low-angle tracking shot motion blur, cel anime colors plus modern urban realistic lighting shadows",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:49"
-  },
-  "transitions-10": {
-   "en": "neon rain night, glass door reflecting speeding taxi taillights, vertical composition, center frame, car interior perspective pushing to blurred city background, cel-shaded anime lines blended with modern urban realistic lighting and shadows",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:49"
-  },
-  "styles-01": {
-   "en": "vertical portrait, low angle shot, young couple running on wet reflective city street at night, neon lights and blurred car light trails, modern urban cyberpunk cel anime style with realistic lighting, high contrast neon color grading, shallow depth of field, dynamic motion",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:50"
-  },
-  "styles-02": {
-   "en": "lonely office worker back view, neon rain night street corner, vertical close-up side-rear angle, handheld camera slight shake, cel anime lines mixed with modern urban realistic lighting, cold orange and blue color contrast, urban alienation atmosphere",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:51"
-  },
-  "styles-03": {
-   "en": "close-up of a convenience store sign in neon rain night, low angle shot, blurred raindrops foreground, bokeh city lights background, cel anime lines mixed with modern urban realistic lighting, high saturation cold color palette",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:52"
-  },
-  "typography-01": {
-   "en": "close-up vertical Chinese art typography with English subtitle, cel-shaded anime line art, neon light bokeh background, blurred skyscraper silhouettes, realistic urban lighting, metallic texture, glass reflection, cyberpunk city night",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:53"
-  },
-  "typography-02": {
-   "en": "vertical centered symmetrical composition, modern city neon signs fused with handwritten title text, blurred urban night background, cel-shaded anime style mixed with realistic modern city photography, vibrant neon lights, sharp focus on typography, bokeh cityscape, high contrast, digital art",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:54"
-  },
-  "typography-03": {
-   "en": "vertical centered symmetrical modern city neon signs cel-shaded Chinese and English mixed typography high contrast lighting text outlines cel anime style realistic urban background",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:54"
-  },
-  "typography-04": {
-   "en": "vertical close-up neon city night rain atmospheric title text, cel anime style mixed with modern urban realism, blurred background light bokeh, glowing vertical composition centered hero typography",
-   "model": "qwen3.5:4b-q4_K_M",
-   "at": "2026-11-03T22:02:55"
+   "at": "2026-11-03T22:42:05"
   }
  },
  "note": "中文提示在 SDXL 上会跑题，出图时优先用这里的英文标签；缺条目时调用方回落 ASSET-PROMPTS 原文。",
- "generated_at": "2026-11-03T22:02:55"
+ "generated_at": "2026-11-03T22:42:05"
 }
