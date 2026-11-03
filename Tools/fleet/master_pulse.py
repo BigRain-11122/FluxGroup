@@ -286,9 +286,11 @@ def pull_if_clean(last_ts=0.0) -> str:
     if note.startswith("skipped"):
         return note
     tracked2, _ = tree_state()
-    # 记忆文件是追加型事实，任何会话随时在写；把它算作「手写代码」会让同步永久停摆
-    # （这正是昨夜主控哑巴 8h 的病根）。只有 Tools/ 等真代码脏才拒绝同步。
-    IGNORABLE = ("cph4/fleet/", "CODELY.md", ".codely-cli/memory/", "fleet-console.html")
+    # 记忆文件是追加型事实，任何会话随时在写；.codely-cli/ 下的 settings/tmp 也是运行时
+    # 配置（2026-11-03 实测：.codely-cli/settings.json 一脏就 skipped，整夜不同步、
+    # 落后 635 个提交）。把这些算作「手写代码」会让同步永久停摆——那正是哑巴病的根。
+    # 只有 Tools/ 等真代码脏才拒绝同步。
+    IGNORABLE = ("cph4/fleet/", "CODELY.md", ".codely-cli/", "fleet-console.html")
     hand = [p for p in tracked2 if not p.startswith(IGNORABLE)]
     if hand:
         return "skipped:dirty(hand-edit %s)" % _one_line(hand[0], 60)
