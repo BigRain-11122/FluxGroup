@@ -51,7 +51,7 @@
   {
    "id": "gate",
    "name": "交付闸（独立复跑，不采信装配器自报）",
-   "cmd": "python {root_tools}/fleet/drama_quality_gate.py --in media/drama-out/drama-{date}.mp4 --subs media/drama-subs/{date}.srt --out cph4/fleet/queue-receipts/drama-gate-{date}.json",
+   "cmd": "python {root_tools}/fleet/drama_quality_gate.py --in media/drama-out/drama-{date}.mp4 --subs cph4/fleet/drama-dept-v1/subs/{date}.srt --out cph4/fleet/queue-receipts/drama-gate-{date}.json",
    "deliverable": "cph4/fleet/queue-receipts/drama-gate-{date}.json",
    "accept": "六项判据（分辨率/30fps/音轨/-14 LUFS/前3s运动/镜长）+字幕二选一（字幕文件在盘或声明已烧）全过才 PASS；缺字幕文件即 FAIL——这是交付判据不是故障",
    "needs": "cpu",

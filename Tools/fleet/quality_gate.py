@@ -40,7 +40,9 @@ DEFAULT_GATES = {
                      ["mv-stability", "bigstream-mv-stability"],
                      ["mv-shot-audit", "bigstream-mv-shot-audit"]],
     "bigstream-duanju": ["duanju-inventory", "duanju-tts-qc", "duanju-remux", "duanju-shippable"],
-    "bigstream-drama": ["duanju-inventory", "duanju-tts-qc", "duanju-remux", "duanju-shippable"],
+    # 漫剧不是短剧（2026-11-03 实测：此前这里抄了短剧四条闸，导致漫剧的 accept 永远 FAIL，
+    # 判的是另一条线的产物）。漫剧按自己的链判：盘点 → 装配清单 → 装配闸 → 交付闸。
+    "bigstream-drama": ["drama-src", "drama-manifest", "drama-qa", "drama-gate"],
     "biggame": ["game-packs", "game-10s"],
     "bigmoney": ["quant-conclusion"],
 }

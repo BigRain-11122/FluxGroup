@@ -1,23 +1,8 @@
 {
  "node": "bm-a",
- "ts": "2026-11-03T12:05:20",
- "jobs": [
-  {
-   "id": "bigstream-drama-manifest-2026-11-03",
-   "title": "[漫剧（关键帧→i2v→装配→闸）] 装配清单（把盘上片段/人声/配乐变成 manifest）",
-   "cmd": "python Tools/fleet/drama_manifest.py --dir media/drama-sample-v2 --out media/drama-tools/manifest-drama-2026-11-03.json",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "media/drama-tools/manifest-drama-2026-11-03.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  }
- ],
- "idle_reason": "",
+ "ts": "2026-11-03T12:08:31",
+ "jobs": [],
+ "idle_reason": "DAY-YIELD: work machine, takes over at 19:00",
  "lane_ok": false,
  "capacity_note": "daytime heavy-yield (09:00-19:00); light CPU allowed"
 }

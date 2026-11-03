@@ -121,6 +121,8 @@ def main(argv):
     ap.add_argument("--in", dest="src", required=True)
     ap.add_argument("--out", default="")
     ap.add_argument("--subs", default="")
+    ap.add_argument("--subs-burned", dest="subs_burned", action="store_true",
+                    help="声明字幕已烧进画面（无法从像素反查时的显式申报）")
     ap.add_argument("--json", action="store_true")
     a = ap.parse_args(argv)
     if not os.path.exists(a.src) or not probe(a.src):
@@ -169,10 +171,14 @@ def main(argv):
         gaps.append("平均镜长 %.1fs（v2 要求 ≤4s，头部 2–3s 一切）" % avg_shot)
     if a.subs and not os.path.exists(a.subs):
         gaps.append("字幕文件不存在：%s" % a.subs)
+    elif not a.subs and not a.subs_burned:
+        # 判据 7 必须真判（2026-11-03）：此前不传 --subs 就只提示，等于把 CANON 的
+        # 「字幕」判据做成装饰。改成二选一申报——给字幕文件，或声明已烧进画面。
+        gaps.append("字幕未校验：必须传 --subs <字幕文件> 或声明 --subs-burned")
     out = {"ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "input": a.src,
            "spec": "DRAMA-QUALITY-SPEC-v2", "verdict": "PASS" if not gaps else "FAIL",
            "gaps": gaps,
-           "measured": {"w": w, "h": h, "fps": round(fps, 2), "duration_s": round(dur, 2),
+           "measured": {"w": w, "h": h, "subs": (a.subs or ("burned" if a.subs_burned else "")), "fps": round(fps, 2), "duration_s": round(dur, 2),
                         "has_audio": bool(au), "mean_volume_db": lufs,
                         "first3s_motion": round(mot, 4), "cuts": ncut,
                         "avg_shot_s": round(avg_shot, 2)}}

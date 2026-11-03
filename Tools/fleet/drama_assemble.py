@@ -204,7 +204,8 @@ def main(argv):
     print("[asm] 成片：%s（%.1fs %dx%d@%d 字幕=%s）" % (a.out, dur, W, H, FPS, "有" if vf else "无"))
     gate = os.path.join(os.path.dirname(os.path.abspath(__file__)), "drama_quality_gate.py")
     qa = a.qa or (os.path.splitext(a.out)[0] + "-qa.json")
-    rc2, out2 = run([sys.executable, gate, "--in", a.out, "--out", qa])
+    rc2, out2 = run([sys.executable, gate, "--in", a.out, "--out", qa] +
+                    (["--subs-burned"] if vf else []))
     print("[asm] 闸：" + ((out2.strip().splitlines() or [""])[0]))
     return 0
 
