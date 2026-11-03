@@ -1,11 +1,11 @@
 {
- "ts": "2026-11-03T11:39:30",
- "cycle": 62,
+ "ts": "2026-11-03T11:40:59",
+ "cycle": 63,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-03T11:39:30",
+ "master_tick_ts": "2026-11-03T11:40:59",
  "queue": {
-  "total": 218,
+  "total": 219,
   "open": 0,
   "running": 4,
   "done": 116,
@@ -14,16 +14,16 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 16.9,
-   "cpu_load_pct": 73,
-   "ram_free_gb": 55.8,
-   "gpu_util_pct": 0,
-   "job": "biggame-playable-2026-11-03",
+   "hb_age_s": 45.6,
+   "cpu_load_pct": 36,
+   "ram_free_gb": 55.3,
+   "gpu_util_pct": 100,
+   "job": "bigstream-mv-gate-2026-11-03",
    "last_result": {
-    "job": "bigstream-mv-gate-2026-11-03",
+    "job": "biggame-playable-2026-11-03",
     "state": "FAILED",
-    "rc": 1,
-    "ts": "2026-11-03T11:34:41",
+    "rc": 0,
+    "ts": "2026-11-03T11:40:14",
     "reason": null
    },
    "idle_confirmed": false,
@@ -32,10 +32,10 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 35.0,
-   "cpu_load_pct": 8,
-   "ram_free_gb": 6,
-   "gpu_util_pct": null,
+   "hb_age_s": 8.9,
+   "cpu_load_pct": 70,
+   "ram_free_gb": 5.6,
+   "gpu_util_pct": 100,
    "job": "R-TTS-QC-R2-20261102",
    "last_result": {
     "job": "bigstream-duanju-tts-qc-2026-11-03",
@@ -50,7 +50,7 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 75.4,
+   "hb_age_s": 164.2,
    "cpu_load_pct": 10,
    "ram_free_gb": 5.9,
    "gpu_util_pct": 0,
@@ -68,17 +68,17 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.6,
-   "cpu_load_pct": 20,
-   "ram_free_gb": 15.4,
+   "hb_age_s": 0.5,
+   "cpu_load_pct": 23,
+   "ram_free_gb": 15.3,
    "gpu_util_pct": null,
    "job": "C-TTS-QC-ALL",
    "last_result": {
-    "job": null,
-    "state": "IDLE",
-    "rc": null,
-    "ts": "2026-11-03T11:38:28",
-    "reason": "SELF-DISPATCH: lane scans its own backlog"
+    "job": "CANARY-20261103T114057",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-03T11:40:58",
+    "reason": null
    },
    "idle_confirmed": false,
    "idle_reason": "",
@@ -95,12 +95,14 @@
   "bigstream-mv": {
    "name": "BigStream·MV 41 曲",
    "status": "PAUSED",
-   "verdict": "WAITING",
+   "verdict": "WORKING",
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "bigstream-mv-gate-2026-11-03"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": null
   },
@@ -148,14 +150,12 @@
   "biggame": {
    "name": "Biggame·游戏",
    "status": "ACTIVE",
-   "verdict": "WORKING",
+   "verdict": "WAITING",
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "游戏席",
-   "jobs": [
-    "biggame-playable-2026-11-03"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": null
   },
@@ -768,10 +768,12 @@
  },
  "supply_added": [],
  "events": [
-  "bigstream-mv-gate-2026-11-03 FAILED via bm-a",
+  "biggame-playable-2026-11-03 FAILED via bm-a",
   "bigstream-duanju-tts-qc-2026-11-03 FAILED via bm-b",
   "bigmoney-backtest-2026-11-03 UNVERIFIED(no-artifact-yet) via bm-c",
-  "C-TTS-QC-ALL -> bm-m (cpu)"
+  "bigstream-mv-gate-2026-11-03 -> bm-a (cpu)",
+  "bigstream-duanju-remux-2026-11-03 -> bm-c (cpu)",
+  "R-TTS-QC-R2-20261102 -> bm-b (cpu)"
  ],
  "violations": [
   "LINE-BLOCKED bigstream-drama ()",
@@ -779,6 +781,6 @@
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-m"
+  "bm-a"
  ]
 }
