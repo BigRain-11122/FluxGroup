@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
- "ts": "2026-11-03T10:47:10",
+ "ts": "2026-11-03T10:48:23",
  "jobs": [
   {
-   "id": "biggame-pack-scan-2026-11-03",
-   "title": "[游戏（可上线清单 → 一款可玩包 → 提审材料）] 可上线包清单（APK/Win/WebGL 实数）",
-   "cmd": "python Tools/fleet/game_pack_scan.py --root gaming --out cph4/fleet/queue-receipts/game-packs-2026-11-03.json",
+   "id": "bigmoney-backtest-2026-11-03",
+   "title": "[金融量化（回测 → 一页结论 → 可报价或写清卡点）] ETF 复合因子回测（年化/夏普/回撤）",
+   "cmd": "python quant/bigmoney/scripts/etf_composite_pf.py",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/game-packs-2026-11-03.json",
+   "deliverable": "quant/bigmoney/results/etf_composite_pf.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
