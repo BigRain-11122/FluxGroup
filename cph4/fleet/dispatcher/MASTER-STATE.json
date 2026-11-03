@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-03T15:44:02",
- "cycle": 275,
+ "ts": "2026-11-03T15:45:24",
+ "cycle": 276,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-03T15:44:02",
+ "master_tick_ts": "2026-11-03T15:45:24",
  "queue": {
   "total": 302,
   "open": 7,
@@ -14,16 +14,16 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 46.0,
-   "cpu_load_pct": 33,
-   "ram_free_gb": 20.3,
-   "gpu_util_pct": 1,
-   "job": "asset-lib-voice-corpus-bmc-2026-11-03",
+   "hb_age_s": 8.3,
+   "cpu_load_pct": 63,
+   "ram_free_gb": 30.7,
+   "gpu_util_pct": 94,
+   "job": "asset-lib-voice-corpus-bma-2026-11-03",
    "last_result": {
-    "job": "asset-lib-voice-corpus-bmb-2026-11-03",
+    "job": "asset-lib-voice-corpus-bmc-2026-11-03",
     "state": "FAILED",
     "rc": 2,
-    "ts": "2026-11-03T15:39:56",
+    "ts": "2026-11-03T15:44:56",
     "reason": null
    },
    "idle_confirmed": false,
@@ -32,7 +32,7 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 73.1,
+   "hb_age_s": 155.2,
    "cpu_load_pct": 33,
    "ram_free_gb": 4.9,
    "gpu_util_pct": 100,
@@ -44,16 +44,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 65.4,
-   "cpu_load_pct": 7,
+   "hb_age_s": 51.5,
+   "cpu_load_pct": 5,
    "ram_free_gb": 5.6,
    "gpu_util_pct": 0,
-   "job": "asset-lib-face-caption-2026-11-03",
+   "job": "asset-lib-voice-corpus-bmb-2026-11-03",
    "last_result": {
-    "job": "asset-lib-voice-corpus-bma-2026-11-03",
+    "job": "asset-lib-face-caption-2026-11-03",
     "state": "FAILED",
     "rc": 2,
-    "ts": "2026-11-03T15:43:17",
+    "ts": "2026-11-03T15:44:56",
     "reason": null
    },
    "idle_confirmed": false,
@@ -63,15 +63,15 @@
   "bm-m": {
    "online": true,
    "hb_age_s": 0.7,
-   "cpu_load_pct": 26,
-   "ram_free_gb": 17.0,
+   "cpu_load_pct": 55,
+   "ram_free_gb": 16.9,
    "gpu_util_pct": null,
-   "job": "bigstream-mv-gate-2026-11-03",
+   "job": "asset-lib-index-2026-11-03",
    "last_result": {
-    "job": "asset-lib-index-2026-11-03",
+    "job": "bigstream-mv-gate-2026-11-03",
     "state": "FAILED",
-    "rc": 0,
-    "ts": "2026-11-03T15:42:49",
+    "rc": 1,
+    "ts": "2026-11-03T15:44:08",
     "reason": null
    },
    "idle_confirmed": false,
@@ -93,10 +93,8 @@
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
-   "jobs": [
-    "bigstream-mv-gate-2026-11-03"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": null,
    "stuck_stage": "mv-cut",
@@ -284,8 +282,9 @@
    "stale_after_h": 72.0,
    "owner": "资产席",
    "jobs": [
-    "asset-lib-voice-corpus-bmc-2026-11-03",
-    "asset-lib-face-caption-2026-11-03"
+    "asset-lib-voice-corpus-bma-2026-11-03",
+    "asset-lib-voice-corpus-bmb-2026-11-03",
+    "asset-lib-index-2026-11-03"
    ],
    "no_supply": false,
    "blockers": [],
@@ -826,19 +825,23 @@
   "cpu": 7,
   "gpu": 0
  },
- "supply_added": [],
+ "supply_added": [
+  "backlog_manifest+3"
+ ],
  "events": [
-  "asset-lib-voice-corpus-bmb-2026-11-03 FAILED via bm-a",
-  "asset-lib-voice-corpus-bma-2026-11-03 FAILED via bm-c",
-  "asset-lib-index-2026-11-03 FAILED via bm-m",
-  "asset-lib-face-caption-2026-11-03 -> bm-c (gpu)",
-  "bigstream-mv-gate-2026-11-03 -> bm-m (cpu)"
+  "asset-lib-voice-corpus-bmc-2026-11-03 FAILED via bm-a",
+  "asset-lib-face-caption-2026-11-03 FAILED via bm-c",
+  "bigstream-mv-gate-2026-11-03 FAILED via bm-m",
+  "asset-lib-voice-corpus-bma-2026-11-03 -> bm-a (cpu)",
+  "asset-lib-voice-corpus-bmb-2026-11-03 -> bm-c (cpu)",
+  "asset-lib-index-2026-11-03 -> bm-m (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 剪辑/装配/剪辑席 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
+  "bm-a",
   "bm-c",
   "bm-m"
  ]
