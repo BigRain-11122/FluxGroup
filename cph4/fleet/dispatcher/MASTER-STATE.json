@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-03T14:40:52",
- "cycle": 222,
+ "ts": "2026-11-03T14:42:01",
+ "cycle": 223,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-03T14:40:52",
+ "master_tick_ts": "2026-11-03T14:42:01",
  "queue": {
   "total": 285,
   "open": 5,
@@ -14,9 +14,9 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 38.4,
-   "cpu_load_pct": 73,
-   "ram_free_gb": 10.3,
+   "hb_age_s": 47.6,
+   "cpu_load_pct": 49,
+   "ram_free_gb": 15.5,
    "gpu_util_pct": 100,
    "job": "asset-lib-voice-corpus-bmc-2026-11-03",
    "last_result": {
@@ -32,7 +32,7 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 39.8,
+   "hb_age_s": 68.2,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -50,16 +50,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 63.4,
-   "cpu_load_pct": 7,
-   "ram_free_gb": 5.7,
+   "hb_age_s": 24.1,
+   "cpu_load_pct": 8,
+   "ram_free_gb": 5.6,
    "gpu_util_pct": 0,
    "job": "asset-lib-voice-corpus-bmb-2026-11-03",
    "last_result": {
-    "job": "biggame-playable-2026-11-03",
-    "state": "FAILED",
-    "rc": 0,
-    "ts": "2026-11-03T14:40:14",
+    "job": "asset-lib-voice-corpus-bmb-2026-11-03",
+    "state": "RUNNING",
+    "rc": null,
+    "ts": "2026-11-03T14:41:44",
     "reason": null
    },
    "idle_confirmed": false,
@@ -69,15 +69,15 @@
   "bm-m": {
    "online": true,
    "hb_age_s": 0.6,
-   "cpu_load_pct": 31,
+   "cpu_load_pct": 32,
    "ram_free_gb": 16.8,
    "gpu_util_pct": null,
-   "job": "asset-lib-index-2026-11-03",
+   "job": "biggame-playable-2026-11-03",
    "last_result": {
-    "job": "CANARY-20261103T144050",
-    "state": "DONE",
+    "job": "asset-lib-index-2026-11-03",
+    "state": "FAILED",
     "rc": 0,
-    "ts": "2026-11-03T14:40:50",
+    "ts": "2026-11-03T14:40:57",
     "reason": null
    },
    "idle_confirmed": false,
@@ -151,12 +151,14 @@
   "biggame": {
    "name": "Biggame·游戏",
    "status": "ACTIVE",
-   "verdict": "WAITING",
+   "verdict": "WORKING",
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "游戏席",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "biggame-playable-2026-11-03"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": null
   },
@@ -281,8 +283,7 @@
    "owner": "资产席",
    "jobs": [
     "asset-lib-voice-corpus-bmb-2026-11-03",
-    "asset-lib-voice-corpus-bmc-2026-11-03",
-    "asset-lib-index-2026-11-03"
+    "asset-lib-voice-corpus-bmc-2026-11-03"
    ],
    "no_supply": false,
    "blockers": [],
@@ -813,16 +814,18 @@
   "cpu": 5,
   "gpu": 0
  },
- "supply_added": [],
+ "supply_added": [
+  "backlog_manifest+1"
+ ],
  "events": [
   "asset-lib-voice-corpus-bma-2026-11-03 FAILED via bm-a",
-  "biggame-playable-2026-11-03 FAILED via bm-c",
-  "C-INFRA-AUDIT-BM-C-20261103 -> bm-b (cpu)"
+  "asset-lib-index-2026-11-03 FAILED via bm-m",
+  "biggame-playable-2026-11-03 -> bm-m (cpu)"
  ],
  "violations": [
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-b"
+  "bm-m"
  ]
 }
