@@ -11,7 +11,7 @@
  "error_class": "E-ARTIFACT",
  "deliverable": "cph4/fleet/dupes-scan-20261103.json",
  "deliverable_exists": false,
- "ts": "2026-11-03T15:00:01",
- "stdout_tail": "SEMANTIC-DUPES rows=286 live=7 groups=0 th=0.72\n",
+ "ts": "2026-11-03T19:56:58",
+ "stdout_tail": "SEMANTIC-DUPES rows=337 live=19 groups=3 th=0.72\n- 可能同一件事（4 张）：\n    R-MODEL-RADAR-BMA-20261103         OPEN      本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-a）\n    R-MODEL-RADAR-BMB-20261103         OPEN      本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-b）\n    R-MODEL-RADAR-BMC-20261103         OPEN      本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-c）\n    R-MODEL-RADAR-BMM-20261103         OPEN      本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-m）\n- 可能同一件事（2 张）：\n    CANARY-20261103T154230             OPEN      端到端自检：投卡→领取→执行→回执→产物\n    CANARY-20261103T160731             OPEN      端到端自检：投卡→领取→执行→回执→产物\n- 可能同一件事（2 张）：\n    asset-lib-char-probe-2026-11-03    OPEN      [资产储备（角色 LoRA / 音色库）] 角色出图模型探针（问本机 ComfyUI 有哪些模型，不出图\n    asset-lib-char-gen-2026-11-03      OPEN      [资产储备（角色 LoRA / 音色库）] 角色包出图（本机 ComfyUI，1024²，同 seed \n",
  "stderr_tail": ""
 }

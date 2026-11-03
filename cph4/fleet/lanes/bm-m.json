@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
- "ts": "2026-11-03T17:54:57",
+ "ts": "2026-11-03T19:56:45",
  "jobs": [
   {
-   "id": "asset-lib-char-prompts-2026-11-03",
-   "title": "[资产储备（角色 LoRA / 音色库）] 角色包出图计划（8 原创角色 × 6 视角提示词包）",
-   "cmd": "python Tools/fleet/char_plan.py",
+   "id": "CHK-DUPES-20261103",
+   "title": "重复派单向量重扫（bm-m 兜底体检）",
+   "cmd": "python3 Tools/fleet/semantic_dupes.py --json cph4/fleet/queue-receipts/dupes-scan-20261103.json",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/char-gen-plan-2026-11-03.json",
+   "deliverable": "cph4/fleet/dupes-scan-20261103.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 13.2/1.0 GB"
+ "capacity_note": "ram 21.4/1.0 GB"
 }
