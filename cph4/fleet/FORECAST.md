@@ -1,15 +1,15 @@
-# 前瞻：线的弹药与卡点（2026-11-05T06:37:48+0800）
+# 前瞻：线的弹药与卡点（2026-11-05T06:44:19+0800）
 
 | 线 | 优先 | 状态 | 库存 | 日均 | 剩余天 | 卡点 |
 |---|---|---|---|---|---|---|
-| asset-lib | P0 | ACTIVE | 9 | 4.67 | 1.9 | env-check ⚠ALERT |
+| asset-lib | P0 | ACTIVE | 10 | 4.67 | 2.1 | env-check |
 | bigstream-duanju | P0 | PARKED | 4 | 1.33 | 3.0 | inventory ⚠INACTIVE |
-| bigstream-mv | P0 | ACTIVE | 2 | 4.67 | 0.4 | gate ⚠ALERT |
 | biggame | P0 | ACTIVE | 2 | 1.67 | 1.2 | pack-scan ⚠ALERT |
+| bigstream-mv | P0 | ACTIVE | 1 | 4.67 | 0.2 | gate ⚠ALERT |
 | bigstream-drama | P0 | PARKED | 0 | 2.0 | 0.0 | src-scan ⚠INACTIVE |
 | bigstream-shortvideo | P0 | PARKED | 0 | 0 | — | — ⚠NO-TABLE,INACTIVE |
 | bigdomain | P1 | ACTIVE | 2 | 0.67 | 3.0 | — ⚠NO-TABLE |
-| bigmoney | P1 | PAUSED | 1 | 2.67 | 0.4 | backtest ⚠INACTIVE |
+| bigmoney | P1 | PAUSED | 0 | 2.67 | 0.0 | backtest ⚠INACTIVE |
 | fluxverse | P2 | ACTIVE | 2 | 0.67 | 3.0 | — ⚠NO-TABLE |
 | biglife | P2 | ACTIVE | 2 | 0.67 | 3.0 | — ⚠NO-TABLE |
 | bighouse | P2 | PARKED | 0 | 0 | — | — ⚠NO-TABLE,INACTIVE |
