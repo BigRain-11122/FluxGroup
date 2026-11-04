@@ -111,6 +111,9 @@ STAGES = [
     ("backup", ["Tools/fleet/backup_sync.sh"], 300, {0}, True),
     # 一屏：所有业务的最下一步（CEO 2026-11-03「随时能给出下一步任务」）。
     ("next_actions", ["Tools/fleet/next_actions.py"], 60, {0, 2}, True),
+    # 机队互报（CEO 2026-11-04：信息与产出及时互通，不要孤岛）。
+    # 本机发今日简报（很小的 json 进 git），再把全队简报合成一屏 SYNC-BOARD.md。
+    ("bulletin", ["Tools/fleet/bulletin.py", "--post", "--aggregate", "--node", NODE], 120, {0}, True),
     # 集团雷达（CEO 2026-11-03 令：实验室与各研究席高频合理地扫网）。
     # 频率写在 Tools/fleet/radar.py 的 SOURCES 里（GitHub 20h / arXiv 150h），未到点自跳过；
     # 源挂了记 BLOCKED 不编候选（实测 HF 直连不通）。

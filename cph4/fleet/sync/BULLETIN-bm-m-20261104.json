@@ -1,0 +1,617 @@
+{
+ "node": "bm-m",
+ "date": "20261104",
+ "ts": "2026-11-04T11:40:18+0800",
+ "window_h": 26,
+ "produced": [
+  {
+   "path": "cph4/fleet/queue-receipts/asset-lib-library-check-2026-11-04-bm-a.json",
+   "bytes": 1508,
+   "mtime": "2026-11-04T11:39:45",
+   "sha": "dbdccdab6a5eab97383238915f0717e8b70ebe6440723def0b22fe8533602c82"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/biz-mv-publish-checklist-20261104.md",
+   "bytes": 3453,
+   "mtime": "2026-11-04T11:39:45",
+   "sha": "543d5f6610e344b33ea3c87e4bd17845196e29465262ad8d0fa8c0ae18b4cca5"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/R-NEXT-BIGSTREAMM-GATE-20261103-bm-c.json",
+   "bytes": 2016,
+   "mtime": "2026-11-04T11:39:45",
+   "sha": "8fd1141360f157bafb46a4f2bf75bd7e49c9b889064f43ce04c754ee12b108d7"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/inference-audit-bm-c.json",
+   "bytes": 1399,
+   "mtime": "2026-11-04T11:39:45",
+   "sha": "17edc887546eaa9d25afb9bc867e1026d1ddae02db014865c4ebfda511a4e0b3"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/lora-sheet-her_mv0001.jpg",
+   "bytes": 11974,
+   "mtime": "2026-11-04T11:39:45",
+   "sha": "04e248781003fe6cc6966754b67c23e79e8dbb972529eb3fe7c288c8b2ae4938"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/inference-audit-bm-m-20261104.json",
+   "bytes": 1670,
+   "mtime": "2026-11-04T11:39:45",
+   "sha": "7da2cb0060faaf1a11e7b06000577dbc36fc712dd22c146a8fb25bddb789c74e"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/asset-env-2026-11-04.json",
+   "bytes": 1285,
+   "mtime": "2026-11-04T11:39:45",
+   "sha": "355b8e53894d8566709834706b4e87b961473d2f2c5b3d6d14bdbb061b32aabb"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/lora-sheet-extras_v721.jpg",
+   "bytes": 118825,
+   "mtime": "2026-11-04T11:39:45",
+   "sha": "e10ba226e65c5333c2cc434424a322e6cc18a3cc3c711e454a8a7a029458e03b"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/skill-promote-20261103.json",
+   "bytes": 2002,
+   "mtime": "2026-11-04T11:39:45",
+   "sha": "77c836e31cf812aa2ea095f894f138c58a6a797ca968db9690180e4348d0e58c"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/etf_nobond_vt_with_positions.json",
+   "bytes": 3043,
+   "mtime": "2026-11-04T11:39:45",
+   "sha": "f6e78d449b8bab0b31a9f35ea2f0c437e5d22cbed6f02bc446c6e0cd871c4d1c"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/char-gen-bm-c-2026-11-03.json",
+   "bytes": 8504,
+   "mtime": "2026-11-04T11:39:45",
+   "sha": "4d927999643b43e0cf5523c29a987b5cda308cd53016bff38072ee8450cc3a91"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/R-NEXT-BIGSTREAMM-AUDIT-20261103-bm-a.json",
+   "bytes": 2100,
+   "mtime": "2026-11-04T11:39:45",
+   "sha": "31d2d7e15a7f31b17cc2b5ddf5c5627af6dc8e11fbc45707248ea719619cd0b3"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/skill-promote-20261104.json",
+   "bytes": 2208,
+   "mtime": "2026-11-04T11:39:45",
+   "sha": "550f594425fabbdaea1f77311f8b344062ee47bc9f59a9fecea5a658289ee461"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/asset-gen-props-bm-c-20261103.json",
+   "bytes": 3986,
+   "mtime": "2026-11-04T11:39:45",
+   "sha": "fb3ac46856e09440c10fa886f2489c02eb38042380d8acc00474ca3bde6d72ad"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/game-packs-2026-11-03-r2.json",
+   "bytes": 9498,
+   "mtime": "2026-11-04T11:39:45",
+   "sha": "071747560e62979f30cfdf83a5c75c104688bd6de835b826131294ab7a8750fc"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/R-NEXT-BIGSTREAMM-AUDIT-20261104-bm-a.json",
+   "bytes": 2100,
+   "mtime": "2026-11-04T11:39:45",
+   "sha": "4b3ed554c13bd71bea9b07c327c0757e4466657b1df8c2ad15712e38c495d58a"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/lib-consolidate-20261103.json",
+   "bytes": 4539,
+   "mtime": "2026-11-04T11:39:45",
+   "sha": "973d3afa488a734af52064c8b7a170eaec888d24e85e8ddaabdcb9788a0ef62a"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/asset-gen-props-2026-11-04.json",
+   "bytes": 2519,
+   "mtime": "2026-11-04T11:39:45",
+   "sha": "ee3dbce0ca5294d78163611bb2280286bd7275cce57766920e0cc6e19a017afd"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/char-dataset-20261104.json",
+   "bytes": 1262,
+   "mtime": "2026-11-04T11:39:45",
+   "sha": "f65f6b9dace04cab76ff3616696e3fa8b0e25d839822752792a39f8a262a6351"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/mv-gate-v721-verdict-20261104.md",
+   "bytes": 1718,
+   "mtime": "2026-11-04T11:39:45",
+   "sha": "5bdb42b7542461514820806aad522c08f179881c9a2b7909a44d7897c1e730be"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/CHK-DUPES-20261103-bm-m.json",
+   "bytes": 2789,
+   "mtime": "2026-11-04T11:39:45",
+   "sha": "9c5ffc3f1df847010d87412739565c3fdf536b3e1b284b53821a6ee396446d97"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/mv-gate-v721-corrected-20261104.json",
+   "bytes": 1623,
+   "mtime": "2026-11-04T11:39:45",
+   "sha": "1b2fe8993e3098343cb6b91889017d25f0b79f3fa9e939387e0e7072e8b15bed"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/mv-full-audit-20261104.json",
+   "bytes": 22787,
+   "mtime": "2026-11-04T11:39:45",
+   "sha": "42844a63929a29d19cbb2aa8a826a9f6fb296aaff6d134349e670e0bab5132b5"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/char-gen-bm-c-20261103.json",
+   "bytes": 2186,
+   "mtime": "2026-11-04T11:39:45",
+   "sha": "baafe494612fd29396bf20e3b7633b27599f7f00cde02c139524967a47ba82eb"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/char-gen-plan-2026-11-04.json",
+   "bytes": 1039,
+   "mtime": "2026-11-04T11:39:45",
+   "sha": "d51ec02241ca32998c6f929f34df59b70eb7d3615658258a4bf88b9945442e23"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/asset-library-2026-11-04.json",
+   "bytes": 2886,
+   "mtime": "2026-11-04T11:39:45",
+   "sha": "535ca03ea4bfb56cb7182d106470d694adef7bdd5f95ad4e0f1dfd87cbec4bd2"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/game-packs-2026-11-04.json",
+   "bytes": 9498,
+   "mtime": "2026-11-04T11:39:45",
+   "sha": "fadfe0c3c072d50ded313d9f9d127e7786a8e27fca81b26256b31982368731a7"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/bigmoney-backtest-2026-11-03-v3-bm-a.json",
+   "bytes": 1684,
+   "mtime": "2026-11-04T11:39:45",
+   "sha": "0912a2a852e7095e500b141ee4e3f81815f84283c130a3997a49e22ff3acb360"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/C-INFRA-AUDIT-BM-C-20261103-bm-c.json",
+   "bytes": 1050,
+   "mtime": "2026-11-04T11:39:45",
+   "sha": "00d4345cefcba187005ecf4593c8a6958cc8ff6ada764f835ac4acc0fc6e513a"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/inference-audit-bm-a.json",
+   "bytes": 1186,
+   "mtime": "2026-11-04T11:39:45",
+   "sha": "1d13dbb2a8066f46a7a8fe974c1625760d51e5866941d2cbf6ad383f33981f54"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/mv-gate-v721-2026-11-04.json",
+   "bytes": 1769,
+   "mtime": "2026-11-04T11:39:45",
+   "sha": "954fa727314073e7229507b0c7e7866c21894f82ddcb66c8058657e14b6411bb"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/mv-full-audit-20261103.json",
+   "bytes": 22787,
+   "mtime": "2026-11-04T11:39:45",
+   "sha": "42844a63929a29d19cbb2aa8a826a9f6fb296aaff6d134349e670e0bab5132b5"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/char-gen-plan-2026-11-03.json",
+   "bytes": 1030,
+   "mtime": "2026-11-04T11:39:45",
+   "sha": "5c0c3773eeb5ea8cb0d9f8b3c52f14fb83bc19e66cad7543e93a08f798cd139f"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/char-gen-bm-c-20261104.json",
+   "bytes": 2141,
+   "mtime": "2026-11-04T11:39:45",
+   "sha": "defc8e680e89b060427aefba294cd16cae44d6caf72ad19280c5c580c3026df5"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/bigstream-mv-transition-2026-11-04-bm-a.json",
+   "bytes": 1997,
+   "mtime": "2026-11-04T11:39:45",
+   "sha": "2335ca8802f227c1e3ac59ee60fe8ef2e71c3d9cf8a86e0bf7be8157b348c052"
+  },
+  {
+   "path": "cph4/fleet/lib/ASSET-INDEX.json",
+   "bytes": 4093,
+   "mtime": "2026-11-04T11:39:45",
+   "sha": "2cd9d6f476c56955e13f20e8d5d5dbba3121260fe16bc15be7c2f5c3db5506df"
+  },
+  {
+   "path": "media/asset/characters/CH07/PROMPTS.json",
+   "bytes": 12437,
+   "mtime": "2026-11-04T03:19:09",
+   "sha": "0c57b34ece5452d52577c1c27deed560f9424126cf8f8451a2a7fb5c93a54122"
+  },
+  {
+   "path": "media/asset/characters/CH08/PROMPTS.json",
+   "bytes": 12911,
+   "mtime": "2026-11-04T03:19:09",
+   "sha": "3215955cd5f90746fb0002b1612d5e2c0968408966a00caf22de3061ef97d160"
+  },
+  {
+   "path": "media/asset/characters/CH06/PROMPTS.json",
+   "bytes": 12480,
+   "mtime": "2026-11-04T03:19:09",
+   "sha": "774e4b17fa779175dfa95d6dea913b4b928b00eeb73185ebb2ff00531ef110fa"
+  },
+  {
+   "path": "media/asset/characters/CH01/PROMPTS.json",
+   "bytes": 12656,
+   "mtime": "2026-11-04T03:19:09",
+   "sha": "ddd18997b62b54713ab348f3db04ba2b8aaa59591121c8962e4b738806a04b3e"
+  },
+  {
+   "path": "media/asset/characters/CH04/PROMPTS.json",
+   "bytes": 12818,
+   "mtime": "2026-11-04T03:19:09",
+   "sha": "c6e6baa3b71303ba48f207dbc099d248d26028ea2c254665b8f1bef01c0cae61"
+  },
+  {
+   "path": "media/asset/characters/CH03/PROMPTS.json",
+   "bytes": 13181,
+   "mtime": "2026-11-04T03:19:09",
+   "sha": "8e984341ace80dc7b24f375335ea24268b6efdcb7f5db2ad60a2588f2efb3ee1"
+  },
+  {
+   "path": "media/asset/characters/CH02/PROMPTS.json",
+   "bytes": 13541,
+   "mtime": "2026-11-04T03:19:09",
+   "sha": "f4539a9692486f4f1dd6c5f61b197a9af0e1c47a2064ce20c46f635c82cb82d7"
+  },
+  {
+   "path": "media/asset/characters/CH05/PROMPTS.json",
+   "bytes": 12341,
+   "mtime": "2026-11-04T03:19:09",
+   "sha": "31ee021c8edcc3438d266d98de406ac543164d0a93becd702a5235cd223c1513"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/char-dataset-20261103.json",
+   "bytes": 1262,
+   "mtime": "2026-11-04T00:24:29",
+   "sha": "cea775c952acec8c9512e5fefe934f0be0a14a1634b87a55c408ed16cadd1d48"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/asset-gen-props-2026-11-03.json",
+   "bytes": 1265,
+   "mtime": "2026-11-03T21:57:42",
+   "sha": "a1645f59a405f3b8c8c22bce01d7ac643749f3db13a3e350043649c3a73a1033"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/receipt-attrib-20261103.json",
+   "bytes": 4325,
+   "mtime": "2026-11-03T20:41:53",
+   "sha": "8f4017a4e8e85caa6f57eeee02f27ccb553ab0d836423fd66ceed663f9870e82"
+  },
+  {
+   "path": "media/asset/props/P07-bank-card.png",
+   "bytes": 696919,
+   "mtime": "2026-11-03T18:26:05",
+   "sha": "59769e32d59429cc6d688710d7915f01518b803dc191a32af0467fe04727ca2b"
+  },
+  {
+   "path": "media/asset/props/P09-coffee-cup.png",
+   "bytes": 659041,
+   "mtime": "2026-11-03T18:26:05",
+   "sha": "6ffb4d0eafa6bbc383c9b314013b0d9fa84d2f1147522c1c5e718d014123219f"
+  },
+  {
+   "path": "media/asset/props/P08-suitcase.png",
+   "bytes": 594396,
+   "mtime": "2026-11-03T18:26:05",
+   "sha": "253df2239143f21913b34b1ae65a04d17013c406a42704a3fafd3a18f033aca4"
+  },
+  {
+   "path": "media/review-720p/drama-2026-11-03-720p.mp4",
+   "bytes": 4653826,
+   "mtime": "2026-11-03T18:22:20",
+   "sha": "4e370fa8f6909d5e0454456018b9715d3e48f622b11f1822818db5209270fe9e"
+  },
+  {
+   "path": "media/review-720p/asm-sw2-720p.mp4",
+   "bytes": 4649030,
+   "mtime": "2026-11-03T18:22:19",
+   "sha": "cd36c60f98e29c56ef7f2d34c1d6e9bdb2fb175e4f3fa1d57b77530431299915"
+  },
+  {
+   "path": "media/review-720p/asm-sw-720p.mp4",
+   "bytes": 4649092,
+   "mtime": "2026-11-03T18:22:17",
+   "sha": "c1d7afcf5537cc79c17c3339f0a331f0dc892435e6293a5208f6e26651075a36"
+  },
+  {
+   "path": "media/review-720p/asm-hw2-720p.mp4",
+   "bytes": 4649476,
+   "mtime": "2026-11-03T18:22:16",
+   "sha": "038e36d6969b802e805ddf9f2a8e4dc3b8d943c246243b95b5dcc4b9b904f94b"
+  },
+  {
+   "path": "media/review-720p/asm-hw-720p.mp4",
+   "bytes": 4649538,
+   "mtime": "2026-11-03T18:22:15",
+   "sha": "c7519f4a15c73346873ff576f0af44657f2d2e53e6f3c005b049e3976e947de8"
+  },
+  {
+   "path": "media/review-720p/asm-auto-720p.mp4",
+   "bytes": 4653380,
+   "mtime": "2026-11-03T18:22:14",
+   "sha": "774cb6bc8426b845508ea0b0c90f72361bf2979746df862b711435c0a34ad565"
+  },
+  {
+   "path": "media/asset/props/P06-medical-record.png",
+   "bytes": 381858,
+   "mtime": "2026-11-03T18:18:56",
+   "sha": "924c5cbee85516eed333fc3e61536023c379b836dc98f449df377ada30831a93"
+  },
+  {
+   "path": "media/asset/props/P04-umbrella.png",
+   "bytes": 368637,
+   "mtime": "2026-11-03T18:18:56",
+   "sha": "6f69e7025f53ad380d868f0a6420c31216617e7a8cd1ff4007dc82457c0eb320"
+  },
+  {
+   "path": "media/asset/props/P05-red-envelope.png",
+   "bytes": 848479,
+   "mtime": "2026-11-03T18:18:56",
+   "sha": "95834fca44bb7a63caa021f1193550b86b81be5fd6873eecafc270decc420b69"
+  },
+  {
+   "path": "media/asset/props/P02-smartphone.png",
+   "bytes": 251703,
+   "mtime": "2026-11-03T18:11:40",
+   "sha": "f009c3a82b5963298665381f4e0677814a2e796a1636b298870eb59bd854b708"
+  },
+  {
+   "path": "media/asset/props/P03-house-keys.png",
+   "bytes": 582985,
+   "mtime": "2026-11-03T18:11:40",
+   "sha": "1e551745f4881ee4c6fd0abe88d0c5b239c1e30a688c00223f8c3855634522fd"
+  },
+  {
+   "path": "media/asset/props/P01-contract-papers.png",
+   "bytes": 607527,
+   "mtime": "2026-11-03T18:05:20",
+   "sha": "b8b164e2bd52965cd2743b66ff55e5e924fcbd3c521391a3a2e818f2108737c3"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/asr-subs-20261103.json",
+   "bytes": 2324,
+   "mtime": "2026-11-03T16:52:48",
+   "sha": "aebd958dcf8a063d4b2c423f2a1a4298f54aade14a20728055e7d6a26694d176"
+  },
+  {
+   "path": "media/drama-out/asm-auto.mp4",
+   "bytes": 12278860,
+   "mtime": "2026-11-03T16:52:30",
+   "sha": "2fc2680ccc9fb9a979bbebcc47d808159215997fe87a74382505c9896034c286"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/kf-steps-ab-20261103.json",
+   "bytes": 1575,
+   "mtime": "2026-11-03T16:30:41",
+   "sha": "a8196ddda5c9b928a97124f493d2b650e7d6b35bd09df2d0e6e7b626920c10f7"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/drama-assemble-hw-20261103.json",
+   "bytes": 1690,
+   "mtime": "2026-11-03T15:31:11",
+   "sha": "7f353f0529a3b36518abaac65d9f4ef68205a72d4f2fa2c7b1dc44d444d5c528"
+  },
+  {
+   "path": "media/drama-out/drama-2026-11-03.mp4",
+   "bytes": 12200189,
+   "mtime": "2026-11-03T15:30:36",
+   "sha": "52a562de83cf0d1a05a76e473a2a5a8f78613095b3b6a08e2bd1d47b53a91e74"
+  },
+  {
+   "path": "media/drama-sample-v2/asm-2shot-out.mp4",
+   "bytes": 9003507,
+   "mtime": "2026-11-03T15:30:36",
+   "sha": "ca80d684c298d5064d30bb5feb218b24b4015e53f5054f894573c27dffc051b1"
+  },
+  {
+   "path": "media/drama-out/asm-sw2.mp4",
+   "bytes": 12657528,
+   "mtime": "2026-11-03T15:30:14",
+   "sha": "0cb589c8ebf02e7ebe9834c2ccc5d7927ba5dfc31fb5d32c3b3a7937438a6b62"
+  },
+  {
+   "path": "media/drama-out/asm-hw2.mp4",
+   "bytes": 12272001,
+   "mtime": "2026-11-03T15:29:58",
+   "sha": "f09ed45dae4cf5bbb46ac30246a33b7029536d33f68b23aee530e34cd86afebb"
+  },
+  {
+   "path": "media/drama-out/asm-sw.mp4",
+   "bytes": 12656390,
+   "mtime": "2026-11-03T15:26:52",
+   "sha": "e4630cf1a9d3566bdc940c0478f33f26f77945ed7ce90c9f8cb75f7acdebc798"
+  },
+  {
+   "path": "media/drama-out/asm-hw.mp4",
+   "bytes": 12270863,
+   "mtime": "2026-11-03T15:26:35",
+   "sha": "ede019bce3cc5cca0d99d6897c5d2304be3c924a219e077d3d86aa013b98cca9"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/asset-lib-library-check-2026-11-03-bm-m.json",
+   "bytes": 1509,
+   "mtime": "2026-11-03T14:33:56",
+   "sha": "a10ca55f6c70aa58cae16ddf11772f6e19413ec903fecc5006c88c969f14cf9f"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/asset-library-2026-11-03.json",
+   "bytes": 2886,
+   "mtime": "2026-11-03T14:33:56",
+   "sha": "340385130bc9338b6445d5d2a85eb4a0543e2885e48646b3210718646b99d081"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/inference-audit-bm-m-20261103.json",
+   "bytes": 1558,
+   "mtime": "2026-11-03T14:27:55",
+   "sha": "85658c0794be2ef7db14683fc842d9d14a90f8490c75a0888286e923457c65a7"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/asset-env-2026-11-03.json",
+   "bytes": 1263,
+   "mtime": "2026-11-03T14:26:24",
+   "sha": "a14160baff7d9bc4e166848161a531432c83d79e0c35100fb80ff5374f23e3d1"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/asset-env-bm-m.json",
+   "bytes": 1343,
+   "mtime": "2026-11-03T14:19:04",
+   "sha": "98c75d447e677dcf2b08e7c0f0e3e3cb65da21239edae8613262e02214b9ddeb"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/bigstream-mv-gate-2026-11-03-bm-c.json",
+   "bytes": 1966,
+   "mtime": "2026-11-03T13:16:58",
+   "sha": "1a3e5134fde578ac4735eb5ac2f5086a298510c50b5cd96f674a35ae5475c931"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/review-packet-mv-20261103.md",
+   "bytes": 1117,
+   "mtime": "2026-11-03T13:16:46",
+   "sha": "6e1957c278f75297a46178b927cabff5a0de6b54864554fc4c8f74048e19596b"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/EVAL-SKILL-SHIPOPS-20261103-bm-m.json",
+   "bytes": 1082,
+   "mtime": "2026-11-03T13:12:52",
+   "sha": "cf4d0f5ccc8325f43c10430a811636267f58379bc5029035e5e039a617ee2720"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/skill-eval-ship-ops-r2-20261103.json",
+   "bytes": 5578,
+   "mtime": "2026-11-03T13:12:52",
+   "sha": "4b006c12b951938274de7eccc068b2c02cecbed77517a7e42338d78e748b6b1b"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/remote-exec-repair-bm-c-20261103.json",
+   "bytes": 1108,
+   "mtime": "2026-11-03T12:47:15",
+   "sha": "485608f7b6d55892a7550a5edf208c3b63362c7e31e0edf89c9fa7c483c70c16"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/bigmoney-backtest-2026-11-03-bm-a.json",
+   "bytes": 1886,
+   "mtime": "2026-11-03T12:27:13",
+   "sha": "7a4cc00513c1457c106767df9d9d30198ea0f61fa700b55961af23888e6a1e1b"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/skill-eval-fleet-ops-20261103.json",
+   "bytes": 5466,
+   "mtime": "2026-11-03T11:54:58",
+   "sha": "b62528a0fc2a7efa7bf087092a2f9bacccbd19cee37ab9dcf3b35b240933f8bf"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/skill-eval-ship-ops-20261103.json",
+   "bytes": 5592,
+   "mtime": "2026-11-03T11:54:57",
+   "sha": "6644deac0ba9eb2f1c7a5e8807955a082327584d60860f0d303c7efa926caece"
+  },
+  {
+   "path": "media/drama-sample-v2/frames/f5.jpg",
+   "bytes": 41014,
+   "mtime": "2026-11-03T11:35:13",
+   "sha": "e9a874adaf5718a60df871584d6775475cce25452de67cdebfecbe08555346c4"
+  },
+  {
+   "path": "media/drama-sample-v2/frames/f1.jpg",
+   "bytes": 42396,
+   "mtime": "2026-11-03T11:35:13",
+   "sha": "acbe49604abce8c2097d84d28753d4d11311d908f62ea9b40ad3328c1db89fdb"
+  },
+  {
+   "path": "media/drama-sample-v2/frames/f10.jpg",
+   "bytes": 35396,
+   "mtime": "2026-11-03T11:35:13",
+   "sha": "207fa37144c3980ce99279ffcf92c28ce9e8a132c1727268c6052d891d97c8ee"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/drama-sample-v1.mp4",
+   "bytes": 12198483,
+   "mtime": "2026-11-03T11:35:06",
+   "sha": "86507033ba49ffcec233ff65642fe68a3c6191046a33644feed3618034e05ef9"
+  },
+  {
+   "path": "media/drama-sample-v2/c3.mp4",
+   "bytes": 1518662,
+   "mtime": "2026-11-03T11:34:55",
+   "sha": "34bf438f719d695f7a2c368122eff5d676cff52b12d745611a35018072feb38c"
+  },
+  {
+   "path": "media/drama-sample-v2/c1.mp4",
+   "bytes": 1830672,
+   "mtime": "2026-11-03T11:32:03",
+   "sha": "6f39b43b414cce73d7b9cf0ea317a357c0f029babcdd5cc5287a96bfe0ff79b4"
+  },
+  {
+   "path": "media/drama-sample-v2/c2.mp4",
+   "bytes": 2150162,
+   "mtime": "2026-11-03T11:31:53",
+   "sha": "6c0819e00790620ad93bbc068a752996dd0aee4fd648a55f75b280e6b91dc92c"
+  },
+  {
+   "path": "media/drama-sample-v2/music.wav",
+   "bytes": 2812382,
+   "mtime": "2026-11-03T11:28:56",
+   "sha": "6050091d5964d6fd42d1f163ae976258918671ea402833f0996efc1f6bc5d497"
+  },
+  {
+   "path": "media/drama-sample-v2/voice.mp3",
+   "bytes": 36909,
+   "mtime": "2026-11-03T11:28:55",
+   "sha": "935568e3c772e9a12f9ede64d487eb312537b27129799ed6518b51b5bbbd048b"
+  },
+  {
+   "path": "media/drama-sample-v2/shot1.jpg",
+   "bytes": 1608760,
+   "mtime": "2026-11-03T11:25:06",
+   "sha": "f580b042006cc1bf05adde429a441c222b2e031ae4815151ae885e42e42a9415"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/biz-car-gaming-20261103.md",
+   "bytes": 1043,
+   "mtime": "2026-11-03T10:23:55",
+   "sha": "6c01dee2e2bca1f4b8c8525e1ef4bd1e86d9bcbcd7567b1c34a3f1799beef4d4"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/biz-mv-publish-checklist-20261103.md",
+   "bytes": 2322,
+   "mtime": "2026-11-03T10:23:55",
+   "sha": "04ade1817584a23520d7b9b334273e4842208e3b43d1b6be76226ec46648bc86"
+  }
+ ],
+ "blocked": [
+  {
+   "what": "asset-lib-env-check-2026-11-03",
+   "why": "E-UNKNOWN ASSET-ENV FAIL  bm-m\n  可用路线: 无\n  ! 没有 ffmpeg（切分/抽帧/审计都要）\n  ! 没有 torch（No module "
+  },
+  {
+   "what": "_last_lane_bm-m.json",
+   "why": "rc=None "
+  },
+  {
+   "what": "asset-lib-voice-corpus-bmm-2026-11-03",
+   "why": "rc=3 [corpus] 本分片无输入（inbox 共 0 个文件）——等投料，rc=3\n"
+  },
+  {
+   "what": "asset-lib-voice-corpus-bmb-2026-11-03",
+   "why": "E-UNKNOWN 没有 ffmpeg（rc=1）\n"
+  },
+  {
+   "what": "C-INFRA-AUDIT-BM-C-20261103",
+   "why": "E-BLOCKED-INPUT {\"node\": \"bm-c\", \"verdict\": \"BLOCKED\", \"out\": \"cph4/fleet/queue-receipts/inferen"
+  },
+  {
+   "what": "voice-corpus-bm-m-2026-11-04.json",
+   "why": "E-BLOCKED-INPUT "
+  }
+ ],
+ "job": null
+}
