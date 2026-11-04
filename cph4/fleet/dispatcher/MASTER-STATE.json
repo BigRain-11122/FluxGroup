@@ -1,50 +1,29 @@
 {
-<<<<<<< HEAD
- "ts": "2026-11-04T10:04:05",
- "cycle": 9,
+ "ts": "2026-11-04T10:07:25",
+ "cycle": 1,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-04T10:04:05",
-=======
- "ts": "2026-11-03T22:11:03",
- "cycle": 399,
- "master_node": "bm-m",
- "masquerade_by": null,
- "master_tick_ts": "2026-11-03T22:11:03",
->>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
+ "master_tick_ts": "2026-11-04T10:07:25",
  "queue": {
   "total": 421,
-  "open": 27,
+  "open": 30,
   "running": 3,
-  "done": 158,
-  "failed": 15
+  "done": 156,
+  "failed": 14
  },
  "lanes": {
   "bm-a": {
    "online": true,
-<<<<<<< HEAD
-   "hb_age_s": 50.7,
-   "cpu_load_pct": 57,
-   "ram_free_gb": 33.6,
-   "gpu_util_pct": 85,
-   "job": "asset-lib-voice-assemble-2026-11-03",
+   "hb_age_s": 12.0,
+   "cpu_load_pct": 43,
+   "ram_free_gb": 37.9,
+   "gpu_util_pct": 84,
+   "job": "biggame-playable-2026-11-03",
    "last_result": {
-    "job": "biggame-playable-2026-11-03",
+    "job": "asset-lib-voice-assemble-2026-11-03",
     "state": "FAILED",
-    "rc": 0,
-    "ts": "2026-11-04T10:00:58",
-=======
-   "hb_age_s": 32.9,
-   "cpu_load_pct": 34,
-   "ram_free_gb": 28.9,
-   "gpu_util_pct": 90,
-   "job": "asset-lib-char-gen-2026-11-03",
-   "last_result": {
-    "job": "asset-lib-face-caption-2026-11-03",
-    "state": "FAILED",
-    "rc": null,
-    "ts": "2026-11-03T22:09:33",
->>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
+    "rc": 3,
+    "ts": "2026-11-04T10:05:18",
     "reason": null
    },
    "idle_confirmed": false,
@@ -53,59 +32,34 @@
   },
   "bm-b": {
    "online": true,
-<<<<<<< HEAD
-   "hb_age_s": 10.8,
-   "cpu_load_pct": 5,
-   "ram_free_gb": 10.8,
+   "hb_age_s": 31.5,
+   "cpu_load_pct": 7,
+   "ram_free_gb": 11.6,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-04T10:03:30",
+    "ts": "2026-11-04T10:06:39",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 9
+   "idle_rounds": 1
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 48.5,
+   "hb_age_s": 30.5,
    "cpu_load_pct": 10,
-   "ram_free_gb": 3.3,
+   "ram_free_gb": 3.7,
    "gpu_util_pct": 0,
-   "job": "bigstream-mv-transition-2026-11-04",
+   "job": "asset-lib-char-prompts-2026-11-03",
    "last_result": {
-    "job": "asset-lib-char-gen-2026-11-04",
+    "job": "bigstream-mv-transition-2026-11-04",
     "state": "FAILED",
     "rc": 0,
-    "ts": "2026-11-04T10:03:50",
-=======
-   "hb_age_s": 9.8,
-   "cpu_load_pct": 31,
-   "ram_free_gb": 3.8,
-   "gpu_util_pct": null,
-   "job": null,
-   "last_result": null,
-   "idle_confirmed": false,
-   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 0
-  },
-  "bm-c": {
-   "online": true,
-   "hb_age_s": 45.9,
-   "cpu_load_pct": 13,
-   "ram_free_gb": 2.0,
-   "gpu_util_pct": 0,
-   "job": "asset-lib-voice-assemble-2026-11-03",
-   "last_result": {
-    "job": "asset-lib-char-prompts-2026-11-03",
-    "state": "FAILED",
-    "rc": 0,
-    "ts": "2026-11-03T22:09:41",
->>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
+    "ts": "2026-11-04T10:07:23",
     "reason": null
    },
    "idle_confirmed": false,
@@ -115,27 +69,15 @@
   "bm-m": {
    "online": true,
    "hb_age_s": 0.7,
-<<<<<<< HEAD
-   "cpu_load_pct": 6,
-   "ram_free_gb": 18.7,
+   "cpu_load_pct": 11,
+   "ram_free_gb": 18.6,
    "gpu_util_pct": null,
-   "job": "CHK-DUPES-20261103",
+   "job": "bigstream-mv-stability-2026-11-04",
    "last_result": {
-    "job": "bigstream-mv-stability-2026-11-04",
-    "state": "FAILED",
-    "rc": 1,
-    "ts": "2026-11-04T10:02:59",
-=======
-   "cpu_load_pct": 13,
-   "ram_free_gb": 13.7,
-   "gpu_util_pct": null,
-   "job": "CHK-DUPES-20261103",
-   "last_result": {
-    "job": "biggame-playable-2026-11-03",
+    "job": "CHK-DUPES-20261103",
     "state": "FAILED",
     "rc": 0,
-    "ts": "2026-11-03T22:08:54",
->>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
+    "ts": "2026-11-04T10:06:05",
     "reason": null
    },
    "idle_confirmed": false,
@@ -145,11 +87,7 @@
  },
  "idle_rounds": {
   "bm-a": 0,
-<<<<<<< HEAD
-  "bm-b": 9,
-=======
-  "bm-b": 0,
->>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
+  "bm-b": 1,
   "bm-c": 0,
   "bm-m": 0
  },
@@ -162,7 +100,7 @@
    "stale_after_h": 24.0,
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
    "jobs": [
-    "bigstream-mv-transition-2026-11-04"
+    "bigstream-mv-stability-2026-11-04"
    ],
    "no_supply": false,
    "blockers": [],
@@ -215,23 +153,18 @@
   "biggame": {
    "name": "Biggame·游戏",
    "status": "ACTIVE",
-   "verdict": "WAITING",
+   "verdict": "WORKING",
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "游戏席",
-<<<<<<< HEAD
    "jobs": [
+    "biggame-playable-2026-11-03",
     "R-PLAN-BIGGAME-20261104"
    ],
    "no_supply": false,
    "blockers": [
     "R-PLAN-BIGGAME-20261104:no-lane"
    ],
-=======
-   "jobs": [],
-   "no_supply": true,
-   "blockers": [],
->>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
    "note": null
   },
   "fluxverse": {
@@ -258,21 +191,11 @@
    "stale_after_h": 24.0,
    "owner": "量化席",
    "jobs": [
-<<<<<<< HEAD
     "R-PLAN-BIGMONEY-20261104"
    ],
    "no_supply": false,
    "blockers": [
     "R-PLAN-BIGMONEY-20261104:no-lane"
-=======
-    "bigmoney-signal-2026-11-03",
-    "bigmoney-backtest-2026-11-03-v3"
-   ],
-   "no_supply": false,
-   "blockers": [
-    "bigmoney-signal-2026-11-03:no-lane",
-    "bigmoney-backtest-2026-11-03-v3:no-lane"
->>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
    ],
    "note": null
   },
@@ -374,7 +297,6 @@
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
    "jobs": [
-    "CHK-DUPES-20261103",
     "CANARY-20261103T154230",
     "CANARY-20261103T200141",
     "CANARY-20261103T201026",
@@ -399,18 +321,18 @@
    "stale_after_h": 72.0,
    "owner": "资产席",
    "jobs": [
-<<<<<<< HEAD
-    "asset-lib-voice-assemble-2026-11-03",
-    "asset-lib-voice-corpus-bmb-2026-11-04"
-=======
-    "asset-lib-voice-corpus-bmb-2026-11-03",
-    "asset-lib-voice-assemble-2026-11-03",
-    "asset-lib-char-gen-2026-11-03"
->>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
+    "asset-lib-face-caption-2026-11-03",
+    "asset-lib-char-prompts-2026-11-03",
+    "asset-lib-char-gen-2026-11-03",
+    "asset-lib-voice-corpus-bmb-2026-11-04",
+    "asset-lib-char-gen-2026-11-04"
    ],
    "no_supply": false,
    "blockers": [
-    "asset-lib-voice-corpus-bmb-2026-11-04:no-lane"
+    "asset-lib-face-caption-2026-11-03:no-lane",
+    "asset-lib-char-gen-2026-11-03:no-lane",
+    "asset-lib-voice-corpus-bmb-2026-11-04:no-lane",
+    "asset-lib-char-gen-2026-11-04:no-lane"
    ],
    "note": "CEO 2026-11-03：先储备资产，角色 LoRA 与音色库为 P0"
   }
@@ -424,7 +346,7 @@
     "model": "local-gpu",
     "lane": "bm-c",
     "verdict": "STALLED",
-    "age_h": 38.5,
+    "age_h": 38.7,
     "limit_h": 24.0,
     "jobs": []
    },
@@ -447,7 +369,7 @@
      "model": "local-gpu",
      "lane": "bm-c",
      "verdict": "STALLED",
-     "age_h": 38.5,
+     "age_h": 38.7,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -469,7 +391,7 @@
      "model": "none",
      "lane": "bm-a",
      "verdict": "STALLED",
-     "age_h": 43.0,
+     "age_h": 43.2,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -556,7 +478,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "PARKED",
-     "age_h": 111.2,
+     "age_h": 111.4,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -567,7 +489,7 @@
      "model": "local-gpu",
      "lane": "bm-c",
      "verdict": "PARKED",
-     "age_h": 111.2,
+     "age_h": 111.4,
      "limit_h": 72.0,
      "jobs": []
     }
@@ -583,7 +505,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "PARKED",
-     "age_h": 44.7,
+     "age_h": 45.0,
      "limit_h": 168.0,
      "jobs": []
     },
@@ -594,7 +516,7 @@
      "model": "none",
      "lane": "bm-a",
      "verdict": "PARKED",
-     "age_h": 111.2,
+     "age_h": 111.4,
      "limit_h": 168.0,
      "jobs": []
     }
@@ -610,7 +532,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "WAITING",
-     "age_h": 16.6,
+     "age_h": 16.8,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -821,7 +743,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "PARKED",
-     "age_h": 38.0,
+     "age_h": 38.2,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -846,7 +768,7 @@
     "model": "none",
     "lane": "bm-a",
     "verdict": "STALLED",
-    "age_h": 111.2,
+    "age_h": 111.4,
     "limit_h": 72.0,
     "jobs": []
    },
@@ -858,7 +780,7 @@
      "model": "none",
      "lane": "bm-a",
      "verdict": "STALLED",
-     "age_h": 111.2,
+     "age_h": 111.4,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -869,7 +791,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "STALLED",
-     "age_h": 111.2,
+     "age_h": 111.4,
      "limit_h": 72.0,
      "jobs": []
     }
@@ -938,7 +860,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 27,
+  "local": 30,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -947,34 +869,24 @@
  },
  "supply_gap": {
   "cpu": 27,
-  "gpu": 0
+  "gpu": 3
  },
- "supply_added": [
-  "backlog_manifest+1"
- ],
+ "supply_added": [],
  "events": [
-<<<<<<< HEAD
-  "asset-lib-char-gen-2026-11-04 FAILED via bm-c",
-  "bigstream-mv-stability-2026-11-04 FAILED via bm-m",
-  "bigstream-mv-transition-2026-11-04 -> bm-c (cpu)",
-  "CHK-DUPES-20261103 -> bm-m (cpu)"
+  "asset-lib-voice-assemble-2026-11-03 FAILED via bm-a",
+  "bigstream-mv-transition-2026-11-04 FAILED via bm-c",
+  "CHK-DUPES-20261103 FAILED via bm-m",
+  "asset-lib-char-gen-2026-11-03 REQUeued attempt=1",
+  "asset-lib-char-prompts-2026-11-03 -> bm-c (cpu)",
+  "biggame-playable-2026-11-03 -> bm-a (cpu)",
+  "bigstream-mv-stability-2026-11-04 -> bm-m (cpu)"
  ],
  "violations": [
-  "bm-b IDLE-CONFIRMED x9 (SELF-DISPATCH: lane scans its own backlo)",
-=======
-  "asset-lib-face-caption-2026-11-03 FAILED via bm-a",
-  "asset-lib-char-prompts-2026-11-03 FAILED via bm-c",
-  "biggame-playable-2026-11-03 FAILED via bm-m",
-  "asset-lib-voice-assemble-2026-11-03 -> bm-c (cpu)",
-  "asset-lib-char-gen-2026-11-03 -> bm-a (gpu)",
-  "CHK-DUPES-20261103 -> bm-m (cpu)"
- ],
- "violations": [
->>>>>>> f9ded849d (pulse: dispatch snapshot [via bm-m])
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
+  "bm-a",
   "bm-c",
   "bm-m"
  ]
