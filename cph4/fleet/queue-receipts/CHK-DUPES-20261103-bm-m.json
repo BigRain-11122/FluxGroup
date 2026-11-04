@@ -2,7 +2,7 @@
  "id": "CHK-DUPES-20261103",
  "node": "bm-m",
  "rc": 0,
- "seconds": 16.5,
+ "seconds": 11.0,
  "cmd": "python3 Tools/fleet/semantic_dupes.py --json cph4/fleet/queue-receipts/dupes-scan-20261103.json",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": "E-ARTIFACT",
  "deliverable": "cph4/fleet/dupes-scan-20261103.json",
  "deliverable_exists": false,
- "ts": "2026-11-04T23:22:19",
- "stdout_tail": "SEMANTIC-DUPES rows=433 live=7 groups=1 th=0.72\n- 可能同一件事（2 张）：\n    CANARY-20261104T201032             RUNNING   端到端自检：投卡→领取→执行→回执→产物\n    CANARY-20261104T202057             RUNNING   端到端自检：投卡→领取→执行→回执→产物\n",
+ "ts": "2026-11-04T23:24:59",
+ "stdout_tail": "SEMANTIC-DUPES rows=433 live=5 groups=0 th=0.72\n",
  "stderr_tail": ""
 }
