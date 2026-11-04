@@ -1,7 +1,6 @@
 {
  "node": "bm-b",
-<<<<<<< HEAD
- "ts": "2026-11-05T03:00:53",
+ "ts": "2026-11-05T04:12:14",
  "jobs": [
   {
    "id": "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105",
@@ -10,17 +9,6 @@
    "cwd": "C:/Fluxgroup/FleetAgent",
    "needs": "gpu",
    "deliverable": "C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-train-libritts-e01-r3-20261105.json",
-=======
- "ts": "2026-11-04T20:34:51",
- "jobs": [
-  {
-   "id": "MV-NEWPROC-PACKET-20261104",
-   "title": "导演席新流程卷：四曲立意/分镜/合规矩阵一页卷",
-   "cmd": "python Tools/fleet/review_packet.py --line mv --root .",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/review-packet-mv-20261104.md",
->>>>>>> b0d0b3f07 (pulse: dispatch snapshot [via bm-m])
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -33,9 +21,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
-<<<<<<< HEAD
- "capacity_note": "ram 13.0/1.0 GB"
-=======
- "capacity_note": "ram 12.1/1.0 GB"
->>>>>>> b0d0b3f07 (pulse: dispatch snapshot [via bm-m])
+ "capacity_note": "ram 14.4/1.0 GB"
 }
