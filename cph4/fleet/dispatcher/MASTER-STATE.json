@@ -1,29 +1,29 @@
 {
- "ts": "2026-11-04T18:12:03",
- "cycle": 166,
+ "ts": "2026-11-04T18:14:02",
+ "cycle": 167,
  "master_node": "bm-m",
  "masquerade_by": "bm-a",
  "master_tick_ts": "2026-11-04T17:11:43",
  "queue": {
   "total": 417,
-  "open": 25,
+  "open": 24,
   "running": 4,
   "done": 156,
-  "failed": 22
+  "failed": 23
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 48.2,
-   "cpu_load_pct": 80,
-   "ram_free_gb": 32.7,
-   "gpu_util_pct": 49,
-   "job": "bigstream-mv-stability-2026-11-04",
+   "hb_age_s": 49.0,
+   "cpu_load_pct": 40,
+   "ram_free_gb": 32.2,
+   "gpu_util_pct": 31,
+   "job": "R-PLAN-RECON-20261104",
    "last_result": {
     "job": "bigstream-mv-stability-2026-11-04",
-    "state": "BUSY",
-    "rc": null,
-    "ts": "2026-11-04T18:11:40",
+    "state": "FAILED",
+    "rc": 1,
+    "ts": "2026-11-04T18:12:45",
     "reason": null
    },
    "idle_confirmed": false,
@@ -32,16 +32,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 40.3,
-   "cpu_load_pct": 5,
-   "ram_free_gb": 12.6,
-   "gpu_util_pct": 0,
+   "hb_age_s": 4.8,
+   "cpu_load_pct": 2,
+   "ram_free_gb": 11.7,
+   "gpu_util_pct": null,
    "job": "biggame-playable-2026-11-03",
    "last_result": {
     "job": "R-PLAN-BIGDOMAIN-20261104",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-04T18:11:39",
+    "ts": "2026-11-04T18:13:35",
     "reason": null
    },
    "idle_confirmed": false,
@@ -50,16 +50,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 98.5,
-   "cpu_load_pct": 8,
-   "ram_free_gb": 3.3,
+   "hb_age_s": 71.3,
+   "cpu_load_pct": 7,
+   "ram_free_gb": 3.0,
    "gpu_util_pct": 0,
    "job": "R-PLAN-BIGLIFE-20261104",
    "last_result": {
     "job": "CHK-DUPES-20261103",
     "state": "FAILED",
     "rc": 9009,
-    "ts": "2026-11-04T18:11:15",
+    "ts": "2026-11-04T18:13:51",
     "reason": null
    },
    "idle_confirmed": false,
@@ -68,16 +68,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 64.5,
+   "hb_age_s": 184.5,
    "cpu_load_pct": 25,
    "ram_free_gb": 13.3,
    "gpu_util_pct": null,
    "job": "bigstream-mv-transition-2026-11-04",
    "last_result": {
-    "job": "CANARY-20261104T181057",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-04T18:11:57",
+    "job": "bigstream-mv-transition-2026-11-04",
+    "state": "RUNNING",
+    "rc": null,
+    "ts": "2026-11-04T18:13:59",
     "reason": null
    },
    "idle_confirmed": false,
@@ -100,8 +100,7 @@
    "stale_after_h": 24.0,
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
    "jobs": [
-    "bigstream-mv-transition-2026-11-04",
-    "bigstream-mv-stability-2026-11-04"
+    "bigstream-mv-transition-2026-11-04"
    ],
    "no_supply": false,
    "blockers": [],
@@ -155,7 +154,7 @@
    "name": "Biggame·游戏",
    "status": "ACTIVE",
    "verdict": "WORKING",
-   "age_h": 1.0,
+   "age_h": 0.0,
    "stale_after_h": 24.0,
    "owner": "游戏席",
    "jobs": [
@@ -186,7 +185,7 @@
    "name": "BigMoney·量化",
    "status": "PAUSED",
    "verdict": "WORKING",
-   "age_h": 19.5,
+   "age_h": 19.6,
    "stale_after_h": 24.0,
    "owner": "量化席",
    "jobs": [
@@ -214,7 +213,7 @@
    "name": "BigCompute·硅基算力",
    "status": "ACTIVE",
    "verdict": "WAITING",
-   "age_h": 11.9,
+   "age_h": 12.0,
    "stale_after_h": 36.0,
    "owner": "算力中枢席",
    "jobs": [],
@@ -240,7 +239,7 @@
    "name": "BigHouse·城市安家",
    "status": "PARKED",
    "verdict": "PARKED",
-   "age_h": 418.8,
+   "age_h": 418.9,
    "stale_after_h": 72.0,
    "owner": "生态运营席",
    "jobs": [],
@@ -271,9 +270,7 @@
     "R-PLAN-RECON-20261104"
    ],
    "no_supply": false,
-   "blockers": [
-    "R-PLAN-RECON-20261104:no-lane"
-   ],
+   "blockers": [],
    "note": null,
    "stuck_stage": "recon-scan",
    "stuck_owner": "拆解部"
@@ -858,7 +855,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 25,
+  "local": 24,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -866,19 +863,23 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 25,
+  "cpu": 24,
   "gpu": 0
  },
  "supply_added": [
   "backlog_manifest+1"
  ],
  "events": [
-  "CHK-DUPES-20261103 FAILED via bm-c"
+  "bigstream-mv-stability-2026-11-04 FAILED via bm-a",
+  "CHK-DUPES-20261103 FAILED via bm-c",
+  "R-PLAN-RECON-20261104 -> bm-a (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED fluxverse 卡在 场景装配/地编席 (城市线)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
- "lane_files_written": []
+ "lane_files_written": [
+  "bm-a"
+ ]
 }
