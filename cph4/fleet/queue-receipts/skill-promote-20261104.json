@@ -1,6 +1,19 @@
 {
- "ts": "2026-11-04T08:53:44+0800",
- "promoted": [],
+ "ts": "2026-11-04T09:59:15+0800",
+ "promoted": [
+  {
+   "skill": "gate-rigor",
+   "tool": "Tools/gate_rigor_check.py",
+   "rc": 0,
+   "lines": 8
+  },
+  {
+   "skill": "session-handoff",
+   "tool": "Tools/fleet/handoff.py",
+   "rc": 0,
+   "lines": 37
+  }
+ ],
  "skipped": [
   {
    "skill": "ship-ops",
