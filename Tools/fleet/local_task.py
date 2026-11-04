@@ -195,6 +195,7 @@ def main(argv):
     e.add_argument("--text", default=""); e.add_argument("--file", default="")
     e.add_argument("--tag", default="")
     d = sub.add_parser("drain"); d.add_argument("--limit", type=int, default=3)
+    d.add_argument("--seed", action="store_true", help="先从当前状态补料再消化（持续赋能的关键）")
     sub.add_parser("stats"); sub.add_parser("self-test")
     a = ap.parse_args(argv)
 
@@ -223,6 +224,65 @@ def main(argv):
         return 0
 
     if a.cmd == "drain":
+        if a.seed:
+            # 补料：把「还没人问过」的当前缺口变成题型请求，否则队列永远是空的，
+            # 本地模型只在人想起来时干活——那就不是"持续赋能"。
+            seeded = 0
+            try:
+                st = json.load(open(os.path.join(FLEET, "state", "supply-targets.json"),
+                                    encoding="utf-8"))
+                have = set()
+                for src in (PENDING, STATE):
+                    if os.path.exists(src):
+                        for ln in open(src, encoding="utf-8"):
+                            try:
+                                have.add(json.loads(ln).get("tag"))
+                            except Exception:
+                                pass
+                # 除缺料外，也把当日告警压成一句摘要（主控自己每天要读一屏的东西）
+                try:
+                    pj = json.load(open(os.path.join(FLEET, "dispatcher", "PULSE.json"),
+                                        encoding="utf-8"))
+                    al = [x for x in (pj.get("alerts") or []) if x]
+                    if al:
+                        tag = "alerts:%s" % datetime.now().strftime("%Y%m%d")
+                        if tag not in have:
+                            req = {"id": "LT-SEED-ALERT-%s" % datetime.now().strftime("%m%d"),
+                                   "task": "summarize", "tag": tag,
+                                   "text": "；".join(str(x) for x in al)[:MAX_CHARS],
+                                   "ts": datetime.now().isoformat(timespec="seconds"),
+                                   "state": "PENDING"}
+                            os.makedirs(os.path.dirname(PENDING), exist_ok=True)
+                            with open(PENDING, "a", encoding="utf-8") as f:
+                                f.write(json.dumps(req, ensure_ascii=False) + "\n")
+                            have.add(tag)
+                            seeded += 1
+                except Exception:
+                    pass
+                for r in st.get("items") or []:
+                    if r.get("status") != "NEEDS-PRODUCER":
+                        continue
+                    tag = "supply:" + str(r.get("artifact"))
+                    if tag in have:
+                        continue
+                    req = {"id": "LT-SEED-%s" % abs(hash(tag)) % 100000,
+                           "task": "classify", "tag": tag,
+                           "text": "产物 %s 无人生产；等它的卡=%s；所属线=%s 承办=%s 卡点=%s"
+                                   % (r.get("artifact"), r.get("waited_by"), r.get("line"),
+                                      r.get("owner"), r.get("line_blocker")),
+                           "ts": datetime.now().isoformat(timespec="seconds"),
+                           "state": "PENDING"}
+                    os.makedirs(os.path.dirname(PENDING), exist_ok=True)
+                    with open(PENDING, "a", encoding="utf-8") as f:
+                        f.write(json.dumps(req, ensure_ascii=False) + "\n")
+                    have.add(tag)
+                    seeded += 1
+                    if seeded >= a.limit:
+                        break
+            except Exception as e:
+                print("[local-task] seed 失败：%s" % e)
+            if seeded:
+                print("[local-task] seeded=%d" % seeded)
         if not os.path.exists(PENDING):
             print("[local-task] 队列为空")
             return 0
