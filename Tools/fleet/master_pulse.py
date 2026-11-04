@@ -64,6 +64,11 @@ STAGES = [
     # 市场门=简报五要素+新鲜度；质量门=交付必须有闸回执。rc=2 是"有缺口"的告警。
     ("market", ["Tools/fleet/market_brief.py", "check", "--all"], 30, {0, 2}, True),
     ("quality", ["Tools/fleet/quality_gate.py", "--all", "--json"], 60, {0, 2}, True),
+    # 标准六问体检（2026-11-04 CEO 令「标准和方法都要严谨和科学」）：
+    # 扫全部 LAW/SPEC/QC 文档，缺"标定依据/负控/能力边界/唯一判据/失效条件/验证记录"就点名。
+    # rc=2 是"这份标准还答不出六问之一"，属告警不是工具坏，所以计入 ok_rc。
+    ("gate_rigor", ["Tools/gate_rigor_check.py", "--all",
+                    "--json", "cph4/fleet/state/gate-rigor.json"], 60, {0, 2}, True),
     # 工序表结构错（悬空依赖/成环/缺 accept）会让整条线静默停摆，rc=2 是"表坏了"的告警。
     ("line_plan", ["Tools/fleet/line_plan.py"], 60, {0, 2}, False),
     ("night_fill", ["Tools/fleet/night_fill.py", "--target", "6"], 90, {0}, False),
