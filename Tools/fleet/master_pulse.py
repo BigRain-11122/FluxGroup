@@ -692,6 +692,9 @@ def checks(prev: dict | None = None) -> list[dict]:
     po = pageouts()
     prev_po = int((prev or {}).get("swap_pageouts") or 0)
     growing = prev_po > 0 and po > prev_po
+    # 2026-11-04：实测 swap total=0.00M 时 pageouts 仍可能在涨（那是压缩/映射账，不是换页），
+    # 只按 pageouts 判红会给出假警报。判据收紧为「有 swap 且还在涨」才算阻塞。
+    growing = growing and (swap_used_gb() > 0)
     out.append({"name": "swap", "ok": not growing,
                 "detail": "live swap %s%s (2GB line unloads extra models; red only while "
                           "pageouts still grow: %s->%s)"
