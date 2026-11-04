@@ -799,10 +799,23 @@ def thermal_state():
 # 吃 GPU/持续满载的阶段：热压 >=1 时跳过本轮（宁可少干活，不把笔记本烤了）
 HEAT_GATED = {"mac_farm", "asset_prompts", "modelradar", "brain", "judge", "digest"}
 
+# 轻重交替（2026-11-04 CEO「交替轻活重活，不要持续满载」）
+HEAVY_STAGES = {"mac_farm", "asset_prompts", "modelradar"}
+HEAVY_COOLDOWN_S = 600      # 重活之间至少隔 10 分钟（≈两轮慢批），中间只跑轻活
+_LAST_HEAVY = 0.0
+
 
 def run_stage(argv, timeout_s):
     t0 = time.time()
+    global _LAST_HEAVY
     _name = os.path.basename(str(argv[0]))
+    _stem = _name[:-3] if _name.endswith(".py") else _name
+    if _stem in HEAVY_STAGES:
+        gap = time.time() - _LAST_HEAVY
+        if _LAST_HEAVY and gap < HEAVY_COOLDOWN_S:
+            return 0, round(time.time() - t0, 1), \
+                "duty-cycle: 距上次重活 %ds < %ds，本轮跑轻活" % (int(gap), HEAVY_COOLDOWN_S)
+        _LAST_HEAVY = time.time()
     for k in HEAT_GATED:
         if _name == k + ".py" or (len(argv) > 1 and k in str(argv[1]) and _name.startswith("asset")):
             lvl = thermal_state()
@@ -848,6 +861,8 @@ def main() -> int:
     git_note = "skipped" if no_pull else _one_line(
         pull_if_clean(last_snapshot_ts()), 120)
 
+    global _LAST_HEAVY
+    _LAST_HEAVY = float(prev.get("last_heavy_ts") or 0)
     stages, alerts, failed = {}, [], []
 
     # 周期开始就先落一次心跳（2026-11-03 实锚）：心跳原本只在串行段跑完后写，
@@ -959,6 +974,7 @@ def main() -> int:
         "node": NODE,
         "sec": round(time.time() - started, 1),
         "slow_ts": time.time() if slow_due else float(prev.get("slow_ts") or 0),
+        "last_heavy_ts": _LAST_HEAVY,
         "git": git_note,
         "git_skip_since": skip_since,
         "push": git_push,
