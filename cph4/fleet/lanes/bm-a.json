@@ -1,14 +1,14 @@
 {
  "node": "bm-a",
- "ts": "2026-11-04T20:27:07",
+ "ts": "2026-11-04T20:30:11",
  "jobs": [
   {
-   "id": "CANARY-20261104T175030",
+   "id": "CANARY-20261104T125141",
    "title": "端到端自检：投卡→领取→执行→回执→产物",
-   "cmd": "python -c \"import os;os.makedirs(r'cph4/fleet/state/canary',exist_ok=True);open(r'cph4/fleet/state/canary/RUN-20261104T175030.txt','w',encoding='utf-8').write('canary 20261104T175030 — 端到端自检产物，不是业务活')\"",
+   "cmd": "python -c \"import os;os.makedirs(r'cph4/fleet/state/canary',exist_ok=True);open(r'cph4/fleet/state/canary/RUN-20261104T125141.txt','w',encoding='utf-8').write('canary 20261104T125141 — 端到端自检产物，不是业务活')\"",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/state/canary/RUN-20261104T175030.txt",
+   "deliverable": "cph4/fleet/state/canary/RUN-20261104T125141.txt",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 27.9/1.0 GB"
+ "capacity_note": "ram 28.8/1.0 GB"
 }
