@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-04T19:44:21+0800",
+ "ts": "2026-11-04T19:54:40+0800",
  "alert_days": 2.0,
  "lines": [
   {
@@ -21,16 +21,16 @@
    ]
   },
   {
-   "line": "biggame",
+   "line": "asset-lib",
    "status": "ACTIVE",
    "prio": "P0",
    "stock": 1,
-   "rate_per_day": 1.0,
-   "runway_days": 1.0,
+   "rate_per_day": 2.67,
+   "runway_days": 0.4,
    "has_table": true,
    "blocker": {
-    "stage": "pack-scan",
-    "deliverable": "cph4/fleet/queue-receipts/game-packs-20261104.json",
+    "stage": "env-check",
+    "deliverable": "cph4/fleet/queue-receipts/asset-env-20261104.json",
     "needs": "cpu",
     "hard_nodes": []
    },
@@ -89,16 +89,16 @@
    ]
   },
   {
-   "line": "asset-lib",
+   "line": "biggame",
    "status": "ACTIVE",
    "prio": "P0",
    "stock": 0,
-   "rate_per_day": 2.67,
+   "rate_per_day": 1.0,
    "runway_days": 0.0,
    "has_table": true,
    "blocker": {
-    "stage": "env-check",
-    "deliverable": "cph4/fleet/queue-receipts/asset-env-20261104.json",
+    "stage": "pack-scan",
+    "deliverable": "cph4/fleet/queue-receipts/game-packs-20261104.json",
     "needs": "cpu",
     "hard_nodes": []
    },
@@ -186,9 +186,9 @@
    "line": "fleet-ops",
    "status": "ACTIVE",
    "prio": "P3",
-   "stock": 5,
+   "stock": 4,
    "rate_per_day": 6.33,
-   "runway_days": 0.8,
+   "runway_days": 0.6,
    "has_table": false,
    "blocker": null,
    "flags": [
