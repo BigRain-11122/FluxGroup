@@ -1,4 +1,4 @@
-# 机队互报（2026-11-04T14:28:38+0800）
+# 机队互报（2026-11-04T14:36:17+0800）
 
 上报 1 / 名册 5 台；本机看不到的他人产物 0 件（传输通道度量，不是错误）
 
@@ -12,7 +12,7 @@
 
 ## bm-m（20261104，窗口 26h）
 - 产出 87 件
-  - `cph4/fleet/queue-receipts/skill-promote-20261104.json`（2KB, e8d7f9c0a9…）
+  - `cph4/fleet/queue-receipts/skill-promote-20261104.json`（2KB, 7102acac7b…）
   - `cph4/fleet/lib/ASSET-INDEX.json`（3KB, 996db96209…）
   - `cph4/fleet/queue-receipts/receipt-attrib-20261104.json`（5KB, aa912ebe60…）
   - `cph4/fleet/queue-receipts/asset-lib-voice-dataset-2026-11-04-bm-m.json`（1KB, 3d8028b6ef…）

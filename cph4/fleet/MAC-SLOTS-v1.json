@@ -1,0 +1,30 @@
+{
+ "_comment": "本机（bm-m·M1 Pro 32GB 统一内存·10 核）的并行槽位账。CEO 2026-11-04「利用好 macbook 32g 统一内存和强大的 gpu cpu 算力」——用足并行之前先把账算清：哪些活能同时开、各吃多少内存、几条槽位封顶。实测口径：free 9.5GB + inactive 7.3GB（共约 16.8GB 可回收），wired 3.8GB，swap 0。",
+ "version": "v1-20261104",
+ "machine": {"model": "MacBook Pro M1 Pro", "ram_gb": 32, "cpu_cores": 10,
+             "gpu": "16-core M1 Pro", "observed": {"gpu_pct": 41, "swap_mb": 0, "rss_gb": 21.0}},
+ "reserve_gb": 6.0,
+ "reserve_why": "CEO 办公应用与主控脉冲共用同一池子；低于 6GB 余量就停开新活（memory: 不许硬扛 swap）",
+ "slots": [
+  {"id": "gpu_model", "conc": 1, "est_gb": 5.5, "kind": "ollama/4B",
+   "why": "同一时刻只跑一个模型（实测 4B 驻留时 /api/embed 会挂死），并发无收益"},
+  {"id": "gpu_asr", "conc": 1, "est_gb": 2.5, "kind": "mlx-whisper large-v3-turbo",
+   "why": "ASR 与常驻模型抢 GPU；串行跑，rtf≈0.08 已经够快"},
+  {"id": "cpu_ffmpeg", "conc": 2, "est_gb": 1.2, "kind": "ffmpeg 720p 代理/转码",
+   "why": "10 核里留 2 条给媒体编码；再多会和脉冲与办公抢 CPU"},
+  {"id": "cpu_rules", "conc": 3, "est_gb": 0.3, "kind": "纯规则脚本/校验/台账",
+   "why": "几乎不吃内存，可随时并行，不占 GPU"}
+ ],
+ "jobs": {
+  "caption": {"slot": "gpu_model", "measure_s_per_item": 6.9,
+              "pick": "移动盘资产库里没有同名 .txt 的图片",
+              "cmd": "python3 Tools/fleet/asset_caption.py --dir {dir} --recursive --limit {n} --out cph4/fleet/asset-lib-v1/CAPTIONS.jsonl"},
+  "proxy": {"slot": "cpu_ffmpeg", "measure_s_per_item": 0, "pick": "media/inbox 里没有 720p 代理的视频",
+            "cmd": "python3 Tools/fleet/review_proxy.py --src {dir} --out media/review-720p --max {n}"},
+  "asr": {"slot": "gpu_asr", "measure_s_per_item": 0, "pick": "media/inbox 里没有 .srt 的音频/视频",
+          "cmd": "python3 Tools/fleet/subs_asr.py --sync-dir {dir} --subs-dir cph4/fleet/drama-dept-v1/subs --days 3"}
+ },
+ "gates": ["free+inactive ≥ reserve + Σ(起用槽位 est_gb) 才开新槽",
+           "swap used > 0 且仍在增长 → 立即停开新槽（不许换页跑生产）",
+           "同一槽位同一工具不并发（模型类天生串行）"]
+}
