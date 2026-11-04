@@ -134,12 +134,9 @@ def git_publish(root, node, jid, paths):
         if r.returncode == 0:
             return "pushed"
         last = r.stderr or r.stdout
-        # 2026-11-04：禁 rebase。多机同推时 pull --rebase 会在共享工作树留 UU 冲突，实测把
-        # 主控仓卡在 98 步 rebase 中段（冲突标记进队列、读方静默跳过 21 行卡）。只快进；
-        # 快进不了就放弃本轮，产物留本地，由主控脉按 merge 口径收口。
-        rb = git(["pull", "--ff-only", "--no-rebase", "origin", "main"], timeout=120)
+        rb = git(["pull", "--rebase", "--no-autostash"], timeout=120)
         if rb.returncode != 0:
-            break
+            git(["rebase", "--abort"], timeout=60)
     return "push-failed:%s" % (last or "")[:80]
 
 
@@ -202,23 +199,10 @@ def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
     # 解释器归一（2026-11-02 实测）：卡在 Windows 上写成 `python ...`，Mac 执行器 PATH 里
     # 只有 python3，于是 rc=127 且 0.0 秒、零产物（回执 R-TRIAGE-BIGSTREAMDRAMA 实锚）。
     # 这里按"本机有没有 python"决定是否改写，而不是靠人记得写对。
-    # 2026-11-04 补：反过来也成立——Windows 执行器（服务/SYSTEM 上下文）PATH 里没有
-    # `python`，实测 bm-a/bm-c 的 caption 卡双双 rc=127 CARD-DEFECT，看着像卡写错，
-    # 其实是解释器名字本机不存在。按 python → py -3 → python3 → 当前解释器 逐个探。
     import shutil as _sh
-    _head = cmd.split(" ", 1)[0] if cmd else ""
-    if _head in ("python", "python3"):
-        _rest = cmd[len(_head):]
-        if not _sh.which(_head):
-            for cand in ("py -3", "python3"):
-                _exe = cand.split(" ", 1)[0]
-                if _sh.which(_exe):
-                    cmd = cand + _rest
-                    break
-            else:
-                # 最后兜底：跑 lane 的这个解释器一定存在，且一定有 stdlib。
-                cmd = sys.executable + _rest
-            job["cmd_resolved"] = cmd
+    if cmd.startswith("python ") and not _sh.which("python"):
+        cmd = "python3 " + cmd[len("python "):]
+        job["cmd_resolved"] = cmd
     # CEO 2026-10-30 "缺什么让他自己装啊": self-heal the toolchain on THIS box, in the
     # lane's own process, before spending a claim on a command that cannot run.
     try:
@@ -402,14 +386,7 @@ def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
     # entered git, so no other node could verify it - that is why dozens of cards were
     # DONE with no artifact anywhere. Best effort: a failed push must not lose the result.
     landed = ""
-    # A declared deliverable that is missing is not an artifact (D-20261104-08).
-    # Until today the guard was `dl_ok or os.path.exists(rc_path)`, and rc_path is
-    # written two lines above, so every pure failure republished a receipt-only commit:
-    # 47 commits / 90 minutes, 30+ of them "job(...): artifact" with zero product, which
-    # ate the git log, raced other writers and buried the real failures. Cards that
-    # declare no deliverable at all (gate cards) keep publishing their receipt.
-    declared_missing = bool(deliverable) and not dl_ok
-    if (dl_ok or not declared_missing) and os.path.exists(rc_path):
+    if dl_ok or os.path.exists(rc_path):
         try:
             landed = git_publish(root, node, jid,
                                  [deliverable, os.path.relpath(rc_path, root)])
@@ -426,6 +403,26 @@ def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
           % (jid, "DONE" if ok else "FAILED", rc, dur, dl_ok, err_cls or "-"))
     return {"id": jid, "rc": rc, "seconds": dur, "deliverable_exists": dl_ok,
             "ok": ok, "error_class": err_cls}
+
+
+def _need_work_flag(root, node, on, why=""):
+    """2026-11-04 CEO 令「机队没活就赶紧找主控要，并通知主控早早准备好」。
+
+    没活不能静默闲着：写显式 NEED-WORK 状态件（走代理自己的 state 推送腿，
+    全队 git 可见=可审计的「要活」请求），主控据此优先派单/备单；一旦接活立即撤标。
+    写失败不致命——信号缺失最多回到旧的静默态，不允许它打断执行链。
+    """
+    try:
+        p = os.path.join(root, "cph4", "fleet", "state", "need-work", node + ".json")
+        if on:
+            os.makedirs(os.path.dirname(p), exist_ok=True)
+            with open(p, "w", encoding="utf-8") as f:
+                json.dump({"node": node, "ts": fl.now_iso(), "why": why},
+                          f, ensure_ascii=False, indent=1)
+        elif os.path.exists(p):
+            os.remove(p)
+    except Exception:
+        pass
 
 
 def self_dispatch(root, node, allow_gpu_workhours, max_seconds, hub, port, dry, only=None):
@@ -558,7 +555,13 @@ def self_dispatch(root, node, allow_gpu_workhours, max_seconds, hub, port, dry, 
         if pick:
             break
     if not pick:
+        # 2026-11-04 CEO 令「机队没活就赶紧找主控要」：没活不能静默闲着——写显式
+        # NEED-WORK 状态件（走代理自己的 state 推送腿，全队 git 可见=可审计的「要活」），
+        # 主控据此优先派单；一旦接活立即撤标。
+        _need_work_flag(root, node, True,
+                        "no master dispatch and no eligible backlog row on this box")
         return None
+    _need_work_flag(root, node, False)
     if dry:
         print("LANE-DRY %s self-dispatch would run %s" % (node, pick.get("id")))
         return None
@@ -610,18 +613,12 @@ def run_lane_cycle(node, root=None, dry=False, allow_gpu_workhours=False,
         return True
 
     job = jobs[0]
+    _need_work_flag(root, node, False)   # 主控派到了单：撤「要活」标
     if already_closed(root, job.get("id")):
-        # Finished on the shared surface: never replay it (re-running closes 14x churn).
-        # But never strand the lane on a stale assignment either: 2026-11-04 one
-        # already-closed card held bm-b's ONLY lane slot for 8h+ while 26 OPEN jobs
-        # waited, and the box kept reporting IDLE because this branch returned early.
-        # A lane whose assignment is dead has nothing to do - the same situation as an
-        # empty assignment - so it takes the same self-dispatch leg.
-        print("LANE-SKIP %s :: already closed in queue" % job.get("id"))
-        if self_dispatch(root, node, allow_gpu_workhours, max_seconds, hub, port, dry):
-            return True
+        # Finished on the shared surface: never replay it. Idle is the honest answer.
         publish(node, "IDLE", {"reason": "ALREADY-CLOSED %s" % job.get("id")}, hub, port)
         write_last(root, node, "IDLE", note="ALREADY-CLOSED")
+        print("LANE-SKIP %s :: already closed in queue" % job.get("id"))
         return True
     if dry:
         print("LANE-DRY %s would run %s :: %s" % (node, job.get("id"), job.get("title")))
