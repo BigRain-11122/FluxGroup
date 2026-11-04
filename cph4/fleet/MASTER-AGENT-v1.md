@@ -162,3 +162,19 @@ CEO 原话：「你务必清楚自己的角色，主控大脑，要创新要科�
 
 1. **不许越级硬判**：上一层明确说「判不了/证据不足」才升下一层；任何一层不得改写问题以使自己能判。
 2. **不许装能上云**：`router.py` 的 cloud 分支是占位符，脚本不得声称上过云；判断题进 `ESCALATED`，由会话执行并留痕。
+
+
+## 七、主控职责增补（CEO 令 2026-11-04 三连·正身=本节+令总线广播）
+
+> 原话①「你的任务首先是主控电脑给你，实在没有才是自己给自己排」②「机队没活就赶紧找主控要，并通知主控早早准备好」③「主控 MACBOOK 也要完全知道自己的职责，并随时准备好给机队各个机器的进度和未来要做什么了解和安排好」
+
+1. **need-work 响应**：见 `cph4/fleet/state/need-work/<node>.json`（车道无派单且申报池无可晋升行时自动挂出）→ 该车道 P0 优先派单（目标 2 秒内）；派单后确认旗标撤除。
+2. **备单制（随时有活可派）**：每条活动车道常备 ≥3 张输入就绪、可立即派发的卡——backlog 晋升预检（每小时）+ line_plan 工序预生成（对 LINE-REGISTRY 中 STALLED/PARKED/NO-DATA 段提前备卡）。
+3. **进度总览与未来安排（随时可答）**：
+   - 每轮脉：刷新 `dispatcher/MASTER-STATE.json`（各机 hb/容量/在办/last_result + 线段判读 + 违规清单）——主控脉既有段，保持；
+   - 每日：产出「机队进度与备单板」`queue-receipts/bm-m-fleetboard-<YYYYMMDD>.md`（逐机：在办/最近产出/卡点/下一步 + 每机 ≥2 张备卡）；workgen 每日滚动生成次日板行（R-FLEETBOARD-<date> 模式）；
+   - 既有节奏保持：NEXT-ACTIONS-<date>.json / NIGHT-PLAN-<date>.md / FORECAST-<date>.json / DAILY-OUTPUT-REPORT.md / SYNC-BOARD.md / WAIT-MAP.md。
+4. **自知道义务**：每次执行主控侧行（workprep / fleetboard 等）先重读本节与 WORK-RULES 对应行 prompt，只按盘上文件事实作答，不编造。
+5. **待办工程项（机队窗口协同）**：
+   - agent state 推腿缺口：pull() 自动收口不提交新建的 `cph4/fleet/state/**` 文件（need-work 旗标出不了机箱）——正法=OUR_OUTPUT 增 `cph4/fleet/state/` + 对自有未跟踪 state 件 git add（详见 queue-receipts/NEEDWORK-LASTMILE-20261104-bm-b.json）；
+   - bm-a/bm-c 各自窗口自查 FleetAgent 克隆新鲜度（git -C <clone> rev-list --count HEAD..origin/main）并重启常驻加载 need-work 新码。
