@@ -1,24 +1,19 @@
 {
- "ts": "2026-11-05T00:34:30",
+ "ts": "2026-11-05T00:57:16",
  "stage": 3,
  "adoption": {
-  "days": 3,
-  "applied": 823,
-  "total": 596,
-  "rate": 138.1,
+  "days": 4,
+  "applied": 825,
+  "total": 598,
+  "rate": 138.0,
   "eligible_stage4": false
  },
  "decisions": [
   {
    "kind": "requeue",
-   "why": "6 张卡在跑但 1 小时无回执",
+   "why": "1 张卡在跑但 1 小时无回执",
    "target": [
-    "biggame-playable-2026-11-03",
-    "bigstream-mv-stability-2026-11-04",
-    "bigstream-mv-gate-2026-11-05",
-    "CANARY-20261104T125141",
-    "CANARY-20261104T132721",
-    "MV-NEWPROC-PACKET-20261104"
+    "asset-lib-face-dataset-2026-11-05"
    ],
    "min_stage": 3,
    "result": "applied"
@@ -38,12 +33,7 @@
   {
    "kind": "requeue",
    "ids": [
-    "biggame-playable-2026-11-03",
-    "bigstream-mv-stability-2026-11-04",
-    "bigstream-mv-gate-2026-11-05",
-    "CANARY-20261104T125141",
-    "CANARY-20261104T132721",
-    "MV-NEWPROC-PACKET-20261104"
+    "asset-lib-face-dataset-2026-11-05"
    ]
   }
  ],

@@ -1,7 +1,7 @@
 {
- "date": "20261104",
+ "date": "20261105",
  "done": {
-  "triage": "CHK-RECEIPT-20261103 | rc=2 捕获失败 | 运维立即重跑并检查日志\nasset-lib-char-dataset-2026-11-03 | rc=3 无输出 | 运维排查依赖与资源",
-  "digest": "今日产出共 29 件，覆盖 BM-C、BM-M、BM-A 及 V3 四条线。  \n其中 BM-A 线明显偏少，仅产出 4 件文件。  \n建议明天优先补全 BM-A 线的资产生成任务。"
+  "triage": "卡片 -> 最可能原因 | 下一步动作(谁做什么)\nR-ART-PUSH-B/C/NEXT-BIGSTREAMD-TTS-QC/bigstream-duanju-tts-qc-2026-11-03 | rc=None 且无记录表明系统未捕获异常或日志缺失，需排查监控配置。运维检查日志采集是否生效；开发复核代码逻辑。",
+  "digest": "今日共产出 25 件文件，覆盖 BMA、BM-A、BM-B、BM-M 及 CANARY、CHK、MV 等七类线。其中 BMA 与 MV 线产出较少，仅各 1 件，而 CANARY 与 CHK 线产出较多。建议明天优先处理 BMA 与 MV 线的少量产出，确保数据完整性。"
  }
 }
