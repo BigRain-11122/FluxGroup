@@ -1,31 +1,28 @@
 {
  "node": "bm-b",
-<<<<<<< HEAD
- "ts": "2026-11-04T23:31:33",
- "jobs": [],
- "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
- "lane_ok": true,
- "capacity_note": "ram 12.6/1.0 GB"
-=======
- "ts": "2026-11-04T20:34:51",
+ "ts": "2026-11-04T23:49:58",
  "jobs": [
   {
-   "id": "MV-NEWPROC-PACKET-20261104",
-   "title": "导演席新流程卷：四曲立意/分镜/合规矩阵一页卷",
-   "cmd": "python Tools/fleet/review_packet.py --line mv --root .",
-   "cwd": "",
+   "id": "R-FLEETBOARD-20261104-002",
+   "title": "机队进度与备单板·20261105（CEO 令 2026-11-04：主控随时掌握各机进度并安排好未来）",
+   "cmd": null,
+   "cwd": "/Users/junsheng.sun/FluxGroup",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/review-packet-mv-20261104.md",
+   "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-fleetboard-20261105.md",
    "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
+   "model": "local-small",
+   "prompt": "先读 cph4/fleet/MASTER-AGENT-v1.md 第七节（主控职责增补），再写「机队进度与备单板」：①逐机器（bm-a/bm-b/bm-c/bm-d/bm-m）各一行：在办/最近产出/卡点（依据 dispatcher/MASTER-STATE.json 的 lanes 与 lines 字段）；②每台执行机列 ≥2 张已备好可立即派发的卡（从 PRODUCTION-BACKLOG.jsonl state=READY 行取，写 id 与输入就绪判定；不足写缺口）；③今夜与明日安排各一行（依据 NEXT-ACTIONS / NIGHT-PLAN / FORECAST 最新日档与 WAIT-MAP.md）。≤40 行，不得编造文件外的事实。",
+   "when_all": [
+    "cph4/fleet/MASTER-AGENT-v1.md",
+    "cph4/fleet/dispatcher/MASTER-STATE.json"
+   ],
+   "llm": {
+    "out": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-fleetboard-20261105.md"
+   },
    "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 12.1/1.0 GB"
->>>>>>> b0d0b3f07 (pulse: dispatch snapshot [via bm-m])
+ "capacity_note": "ram 12.8/1.0 GB"
 }
