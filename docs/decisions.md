@@ -268,3 +268,5 @@
 > 本班三处硬实证：①**「提交不在 HEAD 链上」≠「内容丢了」**——44 批正文在 `origin/main:docs/decisions.md` 实读 7 行，而承载它的 `c04a6dbde` 已不可达；D-02 腿(c) 用提交身份做判据＝判错对象，这是「假绿」的镜像「假红」。②**为不成立的前提付代价是纯亏**——「本地 main 必须是 origin 祖先」在本仓不成立（交付由车道各自 push 达成），却让 80 条 churn 提交反复 replay，05:44 又一次 abort；正解是**取消该前提**而不是更努力地满足它。③**冻结一条 CEO 令总线＝拿最贵的资产换最便宜的整洁**——`orders.md` 第 6 次带标记，按旧律应冻结写入路径，本班量化否决（冻结即停 OB 分发），改走 D-03 的出生地拦截。
 
 > [SELF-CHECK] 2026-11-05 06:2x 落账自证（D-20261101-09 闸）：写入后实读 `docs/decisions.md` 含「第 45 批」=True／「D-20261105-06」=True／「D-20261105-11」=True／「假红」=True／「D-20261026-22」=False（本批未引用该先例，改用 D-06 判据改判路径，属 T2 自决射程）。
+
+> [PUSH-OK] 2026-11-05 06:3x 本批已交付 origin：本地 main 因 80/28 分叉无法 ff（D-07 禁 rebase），改走「独立 worktree 基于 origin/main 提交」＝内容地址交付；origin/main 由 `bdd8bbd93` → `82b344964`，git ls-remote 实读确认，git rev-list --count HEAD..origin/main=0（提交时点）。本地 main 的 `aed37acc1` 为同内容副本，不再回推。
