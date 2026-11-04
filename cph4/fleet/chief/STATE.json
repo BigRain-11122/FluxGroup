@@ -1,11 +1,11 @@
 {
- "ts": "2026-11-05T06:50:50",
+ "ts": "2026-11-05T06:57:19",
  "stage": 3,
  "adoption": {
   "days": 4,
-  "applied": 869,
-  "total": 642,
-  "rate": 135.4,
+  "applied": 871,
+  "total": 644,
+  "rate": 135.2,
   "eligible_stage4": false
  },
  "decisions": [
@@ -13,7 +13,7 @@
    "kind": "requeue",
    "why": "1 张卡在跑但 1 小时无回执",
    "target": [
-    "asset-lib-face-dataset-2026-11-05"
+    "asset-lib-char-gen-2026-11-05"
    ],
    "min_stage": 3,
    "result": "applied"
@@ -33,7 +33,7 @@
   {
    "kind": "requeue",
    "ids": [
-    "asset-lib-face-dataset-2026-11-05"
+    "asset-lib-char-gen-2026-11-05"
    ]
   }
  ],
