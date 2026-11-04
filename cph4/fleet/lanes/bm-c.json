@@ -1,7 +1,6 @@
 {
  "node": "bm-c",
-<<<<<<< HEAD
- "ts": "2026-11-04T23:04:02",
+ "ts": "2026-11-04T23:17:17",
  "jobs": [
   {
    "id": "R-TRIAGE-FLEETOPS-BMA-20261104",
@@ -10,17 +9,6 @@
    "cwd": "",
    "needs": "cpu",
    "deliverable": "cph4/fleet/queue-receipts/triage-fleet-ops-20261104.md",
-=======
- "ts": "2026-11-04T20:34:51",
- "jobs": [
-  {
-   "id": "CANARY-20261104T132721",
-   "title": "端到端自检：投卡→领取→执行→回执→产物",
-   "cmd": "python -c \"import os;os.makedirs(r'cph4/fleet/state/canary',exist_ok=True);open(r'cph4/fleet/state/canary/RUN-20261104T132721.txt','w',encoding='utf-8').write('canary 20261104T132721 — 端到端自检产物，不是业务活')\"",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/state/canary/RUN-20261104T132721.txt",
->>>>>>> b0d0b3f07 (pulse: dispatch snapshot [via bm-m])
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -31,9 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
-<<<<<<< HEAD
- "capacity_note": "ram 3.3/1.0 GB"
-=======
- "capacity_note": "ram 3.0/1.0 GB"
->>>>>>> b0d0b3f07 (pulse: dispatch snapshot [via bm-m])
+ "capacity_note": "ram 3.4/1.0 GB"
 }

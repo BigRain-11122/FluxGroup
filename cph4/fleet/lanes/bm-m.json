@@ -1,23 +1,28 @@
 {
  "node": "bm-m",
- "ts": "2026-11-04T20:14:46",
+ "ts": "2026-11-04T23:17:17",
  "jobs": [
   {
-   "id": "CHK-DUPES-20261103",
-   "title": "重复派单向量重扫（bm-m 兜底体检）",
-   "cmd": "python3 Tools/fleet/semantic_dupes.py --json cph4/fleet/queue-receipts/dupes-scan-20261103.json",
-   "cwd": "",
+   "id": "R-NEEDWORK-20261104-001",
+   "title": "主控备单制 + NEED-WORK 响应（CEO 令「没活就赶紧找主控要，通知主控早早准备好」）",
+   "cmd": null,
+   "cwd": "/Users/junsheng.sun/FluxGroup",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/dupes-scan-20261103.json",
+   "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-workprep.md",
    "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
+   "model": "local-small",
+   "prompt": "只依据两份文件事实写「工单预备清单」：①逐条活动车道（bm-a/bm-b/bm-c）列出现在可立即派发的卡是否 ≥3 张（输入在承办机真实存在才算），不足的列缺口；②说明你对 NEED-WORK 状态件（cph4/fleet/state/need-work/*.json，车道没活时自动挂出）的响应规则：看到即优先派单、多久内响应；③列出你将如何提前备单（backlog 晋升预检、line_plan 工序预生成）。≤15 行，不得编造文件外的事实。",
+   "when_all": [
+    "cph4/fleet/dispatcher/MASTER-STATE.json",
+    "cph4/fleet/PRODUCTION-QUEUE.jsonl"
+   ],
+   "llm": {
+    "out": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-workprep.md"
+   },
    "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 13.6/1.0 GB"
+ "capacity_note": "ram 14.3/1.0 GB"
 }
