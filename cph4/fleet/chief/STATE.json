@@ -1,10 +1,10 @@
 {
- "ts": "2026-11-04T15:07:37",
+ "ts": "2026-11-04T15:15:27",
  "stage": 3,
  "adoption": {
   "days": 3,
-  "applied": 751,
-  "total": 540,
+  "applied": 754,
+  "total": 542,
   "rate": 139.1,
   "eligible_stage4": false
  },
@@ -22,7 +22,7 @@
    "kind": "requeue",
    "why": "1 张卡在跑但 1 小时无回执",
    "target": [
-    "bigstream-mv-stability-2026-11-04"
+    "asset-lib-voice-assemble-2026-11-03"
    ],
    "min_stage": 3,
    "result": "applied"
@@ -42,7 +42,7 @@
   {
    "kind": "requeue",
    "ids": [
-    "bigstream-mv-stability-2026-11-04"
+    "asset-lib-voice-assemble-2026-11-03"
    ]
   }
  ],
