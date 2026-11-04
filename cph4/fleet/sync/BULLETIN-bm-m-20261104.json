@@ -1,14 +1,38 @@
 {
  "node": "bm-m",
  "date": "20261104",
- "ts": "2026-11-04T16:52:14+0800",
+ "ts": "2026-11-04T16:58:33+0800",
  "window_h": 26,
  "produced": [
   {
    "path": "cph4/fleet/queue-receipts/skill-promote-20261104.json",
    "bytes": 2172,
-   "mtime": "2026-11-04T16:52:14",
-   "sha": "fb5e6f4551835e4df263e6e90c95f0f45e2d1a43bb0c5c1dec985b2a7547497e"
+   "mtime": "2026-11-04T16:58:33",
+   "sha": "d8b552bfa55cb224cb988dcf5a656fee28df7e9667e0190bb3c1176c513e01d7"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/Q-MV-0001-017-bm-a.json",
+   "bytes": 1077,
+   "mtime": "2026-11-04T16:55:08",
+   "sha": "5ebc1b50e41f80601af6c6c3276a89a24df1819f9cf10ce9cd13022d9bc5e3c5"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/R-MV-V718-GATE-bm-a.json",
+   "bytes": 1202,
+   "mtime": "2026-11-04T16:55:08",
+   "sha": "4e7caecdefd7ea54fe84940f30c9f51b6adda4bb71e7d84ed72398f678f7578b"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/C-INFRA-AUDIT-BM-C-20261103-bm-c.json",
+   "bytes": 1136,
+   "mtime": "2026-11-04T16:55:08",
+   "sha": "c732addd3324a3f2e909b256526bc246f70b153c2ed2c04bfb1ec154080d7ffb"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/R-ART-PUSH-A-20261102-bm-a.json",
+   "bytes": 2800,
+   "mtime": "2026-11-04T16:55:08",
+   "sha": "a497040249ad5a5afddd8b209f535960531f3c3c704bf0e54f2aafb55f423740"
   },
   {
    "path": "cph4/fleet/lib/ASSET-INDEX.json",
@@ -27,12 +51,6 @@
    "bytes": 2723,
    "mtime": "2026-11-04T15:51:09",
    "sha": "1da6b9d372186cebb7bcc44b13964fca9e5a0d39e22dfceae3354fa5070ab767"
-  },
-  {
-   "path": "cph4/fleet/queue-receipts/receipt-attrib-20261104.json",
-   "bytes": 6064,
-   "mtime": "2026-11-04T13:56:58",
-   "sha": "aa912ebe60092bd95158ccf9cae66845daffd8ab2ac42f200a8b40d058fb8bb8"
   },
   {
    "path": "cph4/fleet/queue-receipts/asset-lib-voice-dataset-2026-11-04-bm-m.json",
@@ -213,12 +231,6 @@
    "bytes": 1684,
    "mtime": "2026-11-04T12:04:19",
    "sha": "0912a2a852e7095e500b141ee4e3f81815f84283c130a3997a49e22ff3acb360"
-  },
-  {
-   "path": "cph4/fleet/queue-receipts/C-INFRA-AUDIT-BM-C-20261103-bm-c.json",
-   "bytes": 1050,
-   "mtime": "2026-11-04T12:04:19",
-   "sha": "00d4345cefcba187005ecf4593c8a6958cc8ff6ada764f835ac4acc0fc6e513a"
   },
   {
    "path": "cph4/fleet/queue-receipts/inference-audit-bm-a.json",
@@ -469,7 +481,11 @@
  ],
  "blocked": [
   {
-   "what": "asset-lib-voice-corpus-bmb-2026-11-03",
+   "what": "_last_lane_bm-m.json",
+   "why": "rc=3 "
+  },
+  {
+   "what": "asset-lib-voice-corpus-bmm-2026-11-03",
    "why": "E-BLOCKED-INPUT [corpus] 本分片无输入（inbox 共 0 个文件）——等投料，rc=3\n"
   },
   {
@@ -487,10 +503,6 @@
   {
    "what": "inference-audit-bm-m-20261104.json",
    "why": "rc=None "
-  },
-  {
-   "what": "R-NEXT-BIGSTREAMM-AUDIT-20261103",
-   "why": "E-UNKNOWN "
   }
  ],
  "job": null
