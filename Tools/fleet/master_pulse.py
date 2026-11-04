@@ -158,9 +158,10 @@ STAGES = [
     # "只看 CPU"，真因是没喂本机吃得下的活。rc=3=模型服务不在。
     # 资产打标（2026-11-04 移动盘到位后）：529 张素材在盘、实测 6.9s/张，是本机最实在的
     # GPU 活。慢批一轮 10 张（约 1 分钟），既压得动算力又不占满内存。rc=3=模型或目录不在。
-    ("caption", ["Tools/fleet/asset_caption.py", "--dir", "/Volumes/移动硬盘/FluxAssets/store",
-                 "--recursive", "--limit", "10",
-                 "--out", "cph4/fleet/asset-lib-v1/CAPTIONS.jsonl"], 400, {0, 2, 3}, True),
+    # 本机槽位农场（2026-11-04 CEO「利用好 32G 统一内存与 GPU/CPU」）：按实测内存余额开槽，
+    # 模型槽/ASR 槽/编码槽可同时开；批量按预算定，避免被 kill 成"超时假故障"。
+    # rc=1=有槽位软告警（质量门判次），rc=3=槽位表缺失。旧的 caption 单站已被它取代。
+    ("mac_farm", ["Tools/fleet/mac_farm.py", "--budget", "240"], 420, {0, 1, 3}, True),
     ("asset_prompts", ["Tools/fleet/asset_prompts.py", "--limit", "20"], 600, {0, 1, 3}, True),
     # 本机推理栈体检（2026-11-03）：端口归属/服务环境/速度/向量层，一天一次。
     # 只是体检，不改配置；rc=2=有 GAPS 待修。
