@@ -1,14 +1,14 @@
 {
  "node": "bm-b",
- "ts": "2026-11-04T22:33:51",
+ "ts": "2026-11-04T22:46:12",
  "jobs": [
   {
-   "id": "CANARY-20261104T132721",
-   "title": "端到端自检：投卡→领取→执行→回执→产物",
-   "cmd": "python -c \"import os;os.makedirs(r'cph4/fleet/state/canary',exist_ok=True);open(r'cph4/fleet/state/canary/RUN-20261104T132721.txt','w',encoding='utf-8').write('canary 20261104T132721 — 端到端自检产物，不是业务活')\"",
+   "id": "CHK-RECEIPT-20261103",
+   "title": "回执卫生体检（rc 缺失/error_class 缺失出表）（bm-m 兜底体检）",
+   "cmd": "python3 Tools/fleet/receipt_attrib.py --out cph4/fleet/queue-receipts/receipt-attrib-20261103.json",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/state/canary/RUN-20261104T132721.txt",
+   "deliverable": "cph4/fleet/receipt-attrib-20261103.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 11.4/1.0 GB"
+ "capacity_note": "ram 10.3/1.0 GB"
 }
