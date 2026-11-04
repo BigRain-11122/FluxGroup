@@ -196,6 +196,7 @@ def main(argv):
     e.add_argument("--tag", default="")
     d = sub.add_parser("drain"); d.add_argument("--limit", type=int, default=3)
     d.add_argument("--seed", action="store_true", help="先从当前状态补料再消化（持续赋能的关键）")
+    d.add_argument("--adaptive", action="store_true", help="按队列深度扩批（上限 12，仍串行）")
     sub.add_parser("stats"); sub.add_parser("self-test")
     a = ap.parse_args(argv)
 
@@ -287,7 +288,12 @@ def main(argv):
             print("[local-task] 队列为空")
             return 0
         rows = fl.read_jsonl(PENDING)
-        todo = [x for x in rows if str(x.get("state")) == "PENDING"][:a.limit]
+        pend = [x for x in rows if str(x.get("state")) == "PENDING"]
+        # 按队列深度自适应（2026-11-04 CEO「本机算力利用不充分」）：
+        # 实测本机 CPU 66% 空闲而每轮只吃 3 件，队列深时应当多吃几件；
+        # 上限 12 是给内存留余量（余量 1.4GB，不加并发，只加串行件数）。
+        limit = max(a.limit, min(len(pend), 12)) if a.adaptive else a.limit
+        todo = pend[:limit]
         if not todo:
             print("[local-task] 没有待办")
             return 0
