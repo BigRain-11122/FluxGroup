@@ -1,11 +1,11 @@
 {
- "ts": "2026-11-04T14:36:17",
+ "ts": "2026-11-04T14:45:08",
  "stage": 3,
  "adoption": {
   "days": 3,
-  "applied": 739,
-  "total": 532,
-  "rate": 138.9,
+  "applied": 742,
+  "total": 534,
+  "rate": 139.0,
   "eligible_stage4": false
  },
  "decisions": [
@@ -22,7 +22,7 @@
    "kind": "requeue",
    "why": "2 张卡在跑但 1 小时无回执",
    "target": [
-    "asset-lib-voice-assemble-2026-11-03",
+    "biggame-playable-2026-11-03",
     "bigstream-mv-transition-2026-11-04"
    ],
    "min_stage": 3,
@@ -43,7 +43,7 @@
   {
    "kind": "requeue",
    "ids": [
-    "asset-lib-voice-assemble-2026-11-03",
+    "biggame-playable-2026-11-03",
     "bigstream-mv-transition-2026-11-04"
    ]
   }
