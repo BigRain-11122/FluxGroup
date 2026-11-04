@@ -202,10 +202,23 @@ def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
     # 解释器归一（2026-11-02 实测）：卡在 Windows 上写成 `python ...`，Mac 执行器 PATH 里
     # 只有 python3，于是 rc=127 且 0.0 秒、零产物（回执 R-TRIAGE-BIGSTREAMDRAMA 实锚）。
     # 这里按"本机有没有 python"决定是否改写，而不是靠人记得写对。
+    # 2026-11-04 补：反过来也成立——Windows 执行器（服务/SYSTEM 上下文）PATH 里没有
+    # `python`，实测 bm-a/bm-c 的 caption 卡双双 rc=127 CARD-DEFECT，看着像卡写错，
+    # 其实是解释器名字本机不存在。按 python → py -3 → python3 → 当前解释器 逐个探。
     import shutil as _sh
-    if cmd.startswith("python ") and not _sh.which("python"):
-        cmd = "python3 " + cmd[len("python "):]
-        job["cmd_resolved"] = cmd
+    _head = cmd.split(" ", 1)[0] if cmd else ""
+    if _head in ("python", "python3"):
+        _rest = cmd[len(_head):]
+        if not _sh.which(_head):
+            for cand in ("py -3", "python3"):
+                _exe = cand.split(" ", 1)[0]
+                if _sh.which(_exe):
+                    cmd = cand + _rest
+                    break
+            else:
+                # 最后兜底：跑 lane 的这个解释器一定存在，且一定有 stdlib。
+                cmd = sys.executable + _rest
+            job["cmd_resolved"] = cmd
     # CEO 2026-10-30 "缺什么让他自己装啊": self-heal the toolchain on THIS box, in the
     # lane's own process, before spending a claim on a command that cannot run.
     try:

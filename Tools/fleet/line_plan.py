@@ -154,6 +154,19 @@ def plan_table(table, day, existing, dry):
         sid = "%s-%s-%s" % (line, st.get("id"), day)
         dl = render(st.get("deliverable") or "", table, st, day)
         dl_abs = dl if os.path.isabs(dl) else os.path.join(ROOT, dl)
+        # 投料目录为空就不出卡（2026-11-04 实锚）：音色四张分片连挂两天，回执都是
+        # "本分片无输入（inbox 共 0 个文件）"。盲派=每天造四张必然失败的卡。
+        in_dir = st.get("input_dir")
+        if in_dir:
+            p_dir = in_dir if os.path.isabs(in_dir) else os.path.join(ROOT, in_dir)
+            try:
+                files = [f for f in os.listdir(p_dir)
+                         if not f.startswith(".") and f.upper() != "README.MD"]
+            except OSError:
+                files = []
+            if not files:
+                skipped.append((sid, "NO-INPUT %s 为空（等投料）" % in_dir))
+                continue
         if st["id"] in done_today or (dl and os.path.exists(dl_abs)) \
                 or done_by_receipt(line, st["id"], day):
             done_today.add(st["id"])
