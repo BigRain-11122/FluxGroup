@@ -12,7 +12,7 @@
   {
    "id": "gate",
    "name": "交付闸（重复/静止/抖动/闪烁）",
-   "cmd": "python {root_tools}/mv_delivery_gate.py {master} --card 38.79:40.21 --card 219.71:223.88",
+   "cmd": "python {root_tools}/mv_delivery_gate.py {master} --card 38.79:40.21 --card 219.71:223.88 --json cph4/fleet/queue-receipts/mv-gate-v721-{date}.json",
    "deliverable": "cph4/fleet/queue-receipts/mv-gate-v721-{date}.json",
    "accept": "verdict=PASS；若 FAIL 必须写明是'未申报卡窗'还是真缺陷",
    "needs": "cpu",
@@ -25,7 +25,7 @@
   {
    "id": "transition",
    "name": "转场审计（逐切点方向余弦，OPPOSE 必须 0）",
-   "cmd": "python {root_tools}/mv_transition_audit.py {master}",
+   "cmd": "python {root_tools}/mv_transition_audit.py {master} --json cph4/fleet/queue-receipts/mv-transition-v721-{date}.json",
    "deliverable": "cph4/fleet/queue-receipts/mv-transition-v721-{date}.json",
    "accept": "oppose=0；HARD/MATCH/STATIC_JUMP 三类计数在档",
    "needs": "cpu",
@@ -41,7 +41,7 @@
   {
    "id": "stability",
    "name": "稳定性闸（seam / freeze 双 0）",
-   "cmd": "python {root_tools}/mv_stability_gate.py {master}",
+   "cmd": "python {root_tools}/mv_stability_gate.py {master} --json cph4/fleet/queue-receipts/mv-stability-v721-{date}.json",
    "deliverable": "cph4/fleet/queue-receipts/mv-stability-v721-{date}.json",
    "accept": "seams=0 且 freezes=0",
    "needs": "cpu",
@@ -57,7 +57,7 @@
   {
    "id": "shot-audit",
    "name": "逐镜体检（暖度/饱和/运动/重复）",
-   "cmd": "python {root_tools}/mv_full_audit.py {master}",
+   "cmd": "python {root_tools}/mv_full_audit.py {master} --json cph4/fleet/queue-receipts/mv-shot-audit-v721-{date}.json",
    "deliverable": "cph4/fleet/queue-receipts/mv-shot-audit-v721-{date}.json",
    "accept": "duplicates_unlisted=[]；逐镜表齐全",
    "needs": "cpu",

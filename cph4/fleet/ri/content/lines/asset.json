@@ -148,7 +148,7 @@
   {
    "id": "char-gen",
    "name": "角色包出图（本机 ComfyUI，1024²，同 seed 组）",
-   "cmd": "python {root_tools}/fleet/char_gen.py --node bm-c --limit 12",
+   "cmd": "python {root_tools}/fleet/char_gen.py --node bm-c --limit 12 --receipt cph4/fleet/queue-receipts/char-gen-bm-c-{date}.json",
    "deliverable": "cph4/fleet/queue-receipts/char-gen-bm-c-{date}.json",
    "accept": "回执 made>0 且无 failed；BLOCKED 时必须写明缺模型配置或 ComfyUI 不可达",
    "needs": "gpu",
@@ -223,7 +223,7 @@
   {
    "id": "voice-assemble",
    "name": "音色数据集装配（授权核查→voices/<组> 准入）",
-   "cmd": "python {root_tools}/fleet/voice_dataset.py",
+   "cmd": "python {root_tools}/fleet/voice_dataset.py --out cph4/fleet/queue-receipts/voice-dataset-{date}.json",
    "deliverable": "cph4/fleet/queue-receipts/voice-dataset-{date}.json",
    "accept": "passed>0；每组列出 片段数/授权结论/准入结论；缺授权或缺片段写明缺口",
    "needs": "cpu",

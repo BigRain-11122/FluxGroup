@@ -402,3 +402,18 @@ am_free_gb=10+cpu_load_pct=48——**bm-b 不是闲着，是在跑量化轮**；
 
 **本班边界**：bm-b/bm-c 认领器属物理件（CEO 2026-10-23 禁远程调度 + C-20261009-04），本席只做「把可移动的供给移到在产的 bm-a」+ 把本机动作写成可照抄命令。
 
+
+## 附录 R10 事件班登记（2026-11-05 02:06-02:2x·承载件触发·DL 三连 STARVED-EXEC + CLOCK-SKEW）
+
+| 件 | 状态 | 证据 / 下一步 |
+|---|---|---|
+| **R10-1 STARVED-EXEC 三连（第 9 次同源）** | **半假红·已登记（L0 受保护件）** | `fleet-dispatcher.ps1` 的 open/exec 只读 `POOL.json`（24 卡，open=1=POOL-0010 被 `CEO-PHYSICAL:submit-materials` 锁死），真供给在 `PRODUCTION-QUEUE.jsonl`：**OPEN 26（bm-a 14 / bm-m 10 / bm-b 2）+ RUNNING 4**。旗面每轮必亮三行属结构性假红；修法涉 L0 受保护件，本席不改只呈。 |
+| **R10-2 mv.json 四段全缺 `--json`（P0·本班已根修）** | **FIXED** | 实证：`gate` 卡 381.5s 跑完、stdout 有完整判决（FAIL D1 6对/D2 24处/D3 1处），但 `deliverable_exists=false`——因为 cmd 从未要求写文件。核 `mv_transition_audit.py / mv_stability_gate.py / mv_full_audit.py / mv_delivery_gate.py` **四件全部支持 `--json`**，四段 cmd 却都没传 → 每日生成四张注定 FAIL 并重试的卡。处置：mv.json 四段 cmd 各补 `--json <对应 deliverable>`。**这是 R6-11（同类）之后第二次，属复发，修在生成源而非单卡。** |
+| **R10-3 `bigstream-mv-gate-2026-11-05` 单卡** | **FIXED（重开 OPEN）** | cmd 补 `--json cph4/fleet/queue-receipts/mv-gate-v721-2026-11-05.json`，state FAILED→OPEN。判据：交付物落盘后按 deliverable 记 DONE（闸 VERDICT=FAIL 是设计行为，不是执行失败——R2.46/r2 判例）。 |
+| **R10-4 `Q-VCORP-PREP-e01-R3` 跨机路径错（P1·本班已修）** | **FIXED（重开 OPEN·钉 bm-a）** | 实证：cmd 硬编码 `C:/Fluxgroup/FleetAgent/Tools/...`，本机 `Test-Path=False`，bm-a/bm-m 双机 rc=127；`--inbox media/asset/inbox/e01` 目录不存在。**真投料在盘**：`media/asset/inbox` 10 件 / 258MB（cartoons 4/36.6MB、films 2/198.2MB、librivox 4/23.8MB）。处置：改仓库相对路径 + `--group batch-2026-11-05 --shard 0/1` + `nodes/hard_nodes=["bm-a"]` + `input_dir`。与 R8-5「持料机才能跑」同律。 |
+| **R10-5 `asset-lib-char-gen` 命名+阻塞（P1）** | **FIXED（命名）+ BLOCKED（comfyui-down:bm-c）** | 命名：`char_gen.py` 写 `%Y%m%d`，卡声明 `{date}`=YYYY-MM-DD → 永久对不上；已给工具加 `--receipt` 并在 asset.json 传参对齐。真阻塞：bm-c `127.0.0.1:8188` 与 `100.123.74.104:8188` 双探均不通（WinError 10061，bm-b 回执同证）→ 48 张角色图全部失败。解除=bm-c 本机起 ComfyUI 后置回 OPEN。 |
+| **R10-6 `asset-lib-voice-assemble-2026-11-04`** | **BLOCKED（voice-corpus-empty）** | 同日孪生 `voice-dataset-20261104.json` 是 **rc=3 BLOCKED 回执**（clips=0、缺 RIGHTS.json），按「拦截回执≠交付物」律**不记 DONE**；上游 voice-corpus 从未产出片段。另根修 asset.json 该段 cmd 补 `--out`（工具默认写 `%Y%m%d`，与 `{date}` 不符）。 |
+| **R10-7 bm-b/bm-c 认领器（历史第 9 轮 deny/off-skip）** | **RESOLVED（本班实测）** | poke 回执（02:14:43 / 02:14:55）：两机 `task_states.HQ-ProductionClaim = "Ready"`、`wakes=["HQ-ProductionClaim:WAKE"]`；且 `repo_heads["."] == origin_main == 77b3f1c3`（bm-b/bm-c 双机）→ 历轮 R2.61/R6-4/R7-2 的「幻影头」「认领器 Disabled」两个结构病**均已消失**。**注：** bm-b 的 `Bigmoney-IterationLoop` 仍 Disabled、bm-c 多条 MiniGame tick 仍 Disabled（非本班射程，登记）。 |
+| **R10-8 真供给缺口=bm-c 0 张 OPEN 卡** | **registered·结构性** | 队列 OPEN 分布 bm-a 14 / bm-m 10 / bm-b 2，**bm-c 0**。bm-c 认领器已 Ready 却无卡可领——因其唯一 GPU 活（char-gen/asset-gen/face-caption 均 hard_nodes=bm-c）全部串在 ComfyUI 上。结论：bm-c 的「饥饿」是真饥饿，但根因是 ComfyUI 未起 + 无 CPU 类卡供给，不是调度失败。 |
+| **R10-9 CLOCK-SKEW max 3589.8ms** | **降级为噪声（承 R8-6）** | 02:04 CLOCK-SKEW.json：hub bm-a −0.1ms（σ0.7）、bm-b +1456.3ms（σ0.8）、bm-c +3589.8ms（σ412）。承 R4-4/R5-5/R6-7/R8-6/R9-5：两机 w32time 停转需本机提权；R8-6 已实证 3s 级偏差是环回执口径而非节点时钟漂移，且 45-180min 租约下不影响派单。不重复立法。 |
+| **R10-10 卡契约闸缺口（新·建议升格）** | **registered** | `Tools/fleet/card_contract_check.py` 本班跑出 8 违规（1×OUT-MISMATCH + 7×LEDGER-LAG），但**没抓到** mv-gate 这类「卡声明 deliverable、cmd 却无任何写该路径的参数」的缺陷（R1 只比对 cmd 里已有的 `--out` 值，缺参数时不触发）。建议加 R4 规则：`deliverable` 非空且 cmd 中不含该路径/`--json`/`--out`/`--receipt` → 直接判违规。闸属工具面，本席登记待批。 |

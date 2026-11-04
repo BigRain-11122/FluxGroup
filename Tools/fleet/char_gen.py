@@ -178,9 +178,14 @@ def main(argv):
     ap.add_argument("--height", type=int, default=1024)
     ap.add_argument("--probe-only", action="store_true",
                     help="只问机器有哪些模型并写配置，不出图")
+    ap.add_argument("--receipt", default="",
+                    help="回执落点（默认 cph4/fleet/queue-receipts/char-gen-<node>-<YYYYMMDD>.json）")
     a = ap.parse_args(argv)
     stamp = time.strftime("%Y%m%d")
-    outrec = os.path.join(RECEIPTS, "char-gen-%s-%s.json" % (a.node, stamp))
+    outrec = a.receipt or os.path.join(RECEIPTS, "char-gen-%s-%s.json" % (a.node, stamp))
+    if a.receipt and not os.path.isabs(outrec):
+        outrec = os.path.join(ROOT, outrec)
+    os.makedirs(os.path.dirname(outrec), exist_ok=True)
 
     conf_path = os.path.join(CONF, "comfy-%s.json" % a.node)
     mk = None
