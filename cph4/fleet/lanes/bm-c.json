@@ -1,14 +1,14 @@
 {
  "node": "bm-c",
- "ts": "2026-11-04T23:52:44",
+ "ts": "2026-11-04T23:53:57",
  "jobs": [
   {
-   "id": "MV-NEWPROC-PACKET-20261104",
-   "title": "导演席新流程卷：四曲立意/分镜/合规矩阵一页卷",
-   "cmd": "python Tools/fleet/review_packet.py --line mv --root .",
+   "id": "CHK-CANON-20261104",
+   "title": "五线认知基座一致性（工序段 id 与表同源）（bm-a 兜底体检）",
+   "cmd": "python3 Tools/fleet/line_canon.py --all",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/review-packet-mv-20261104.md",
+   "deliverable": "",
    "need_mb": null,
    "model": "none",
    "prompt": "",

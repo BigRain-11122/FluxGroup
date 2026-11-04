@@ -1,28 +1,23 @@
 {
  "node": "bm-b",
- "ts": "2026-11-04T23:49:58",
+ "ts": "2026-11-04T23:53:57",
  "jobs": [
   {
-   "id": "R-FLEETBOARD-20261104-002",
-   "title": "机队进度与备单板·20261105（CEO 令 2026-11-04：主控随时掌握各机进度并安排好未来）",
-   "cmd": null,
-   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "id": "CANARY-20261104T132721",
+   "title": "端到端自检：投卡→领取→执行→回执→产物",
+   "cmd": "python -c \"import os;os.makedirs(r'cph4/fleet/state/canary',exist_ok=True);open(r'cph4/fleet/state/canary/RUN-20261104T132721.txt','w',encoding='utf-8').write('canary 20261104T132721 — 端到端自检产物，不是业务活')\"",
+   "cwd": "",
    "needs": "cpu",
-   "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-fleetboard-20261105.md",
+   "deliverable": "cph4/fleet/state/canary/RUN-20261104T132721.txt",
    "need_mb": null,
-   "model": "local-small",
-   "prompt": "先读 cph4/fleet/MASTER-AGENT-v1.md 第七节（主控职责增补），再写「机队进度与备单板」：①逐机器（bm-a/bm-b/bm-c/bm-d/bm-m）各一行：在办/最近产出/卡点（依据 dispatcher/MASTER-STATE.json 的 lanes 与 lines 字段）；②每台执行机列 ≥2 张已备好可立即派发的卡（从 PRODUCTION-BACKLOG.jsonl state=READY 行取，写 id 与输入就绪判定；不足写缺口）；③今夜与明日安排各一行（依据 NEXT-ACTIONS / NIGHT-PLAN / FORECAST 最新日档与 WAIT-MAP.md）。≤40 行，不得编造文件外的事实。",
-   "when_all": [
-    "cph4/fleet/MASTER-AGENT-v1.md",
-    "cph4/fleet/dispatcher/MASTER-STATE.json"
-   ],
-   "llm": {
-    "out": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-fleetboard-20261105.md"
-   },
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
    "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 12.8/1.0 GB"
+ "capacity_note": "ram 13.1/1.0 GB"
 }
