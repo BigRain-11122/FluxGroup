@@ -1,14 +1,14 @@
 {
  "node": "bm-c",
- "ts": "2026-11-04T20:22:59",
+ "ts": "2026-11-04T20:27:07",
  "jobs": [
   {
-   "id": "CHK-RECEIPT-20261103",
-   "title": "回执卫生体检（rc 缺失/error_class 缺失出表）（bm-m 兜底体检）",
-   "cmd": "python3 Tools/fleet/receipt_attrib.py --out cph4/fleet/queue-receipts/receipt-attrib-20261103.json",
-   "cwd": "",
+   "id": "PROBE-BMB-AUDIOQC-20261104",
+   "title": "bm-b 音频质检探针（inbox 音轨响度/采样率/时长）",
+   "cmd": "python Tools/fleet/tts_batch_check.py --dir media/asset/inbox --out cph4/fleet/queue-receipts/audio-qc-bmb-20261104.json",
+   "cwd": null,
    "needs": "cpu",
-   "deliverable": "cph4/fleet/receipt-attrib-20261103.json",
+   "deliverable": "cph4/fleet/queue-receipts/audio-qc-bmb-20261104.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 3.6/1.0 GB"
+ "capacity_note": "ram 3.5/1.0 GB"
 }
