@@ -1,13 +1,6 @@
 {
- "ts": "2026-11-04T13:34:37+0800",
- "promoted": [
-  {
-   "skill": "local-task",
-   "tool": "Tools/fleet/local_task.py",
-   "rc": 0,
-   "lines": 5
-  }
- ],
+ "ts": "2026-11-04T13:40:46+0800",
+ "promoted": [],
  "skipped": [
   {
    "skill": "ship-ops",
@@ -134,6 +127,10 @@
    "skill": "mv-intent-to-prompt",
    "why": "no-tool",
    "cands": []
+  },
+  {
+   "skill": "local-task",
+   "why": "already"
   },
   {
    "skill": "bigstream-expert-panel",

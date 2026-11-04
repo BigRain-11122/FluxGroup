@@ -1,11 +1,11 @@
 {
- "ts": "2026-11-04T13:34:37",
+ "ts": "2026-11-04T13:40:46",
  "stage": 3,
  "adoption": {
   "days": 3,
-  "applied": 718,
-  "total": 518,
-  "rate": 138.6,
+  "applied": 721,
+  "total": 520,
+  "rate": 138.7,
   "eligible_stage4": false
  },
  "decisions": [
@@ -22,8 +22,8 @@
    "kind": "requeue",
    "why": "2 张卡在跑但 1 小时无回执",
    "target": [
-    "asset-lib-face-caption-2026-11-04",
-    "asset-lib-index-2026-11-04"
+    "bigmoney-signal-2026-11-03",
+    "bigstream-mv-transition-2026-11-04"
    ],
    "min_stage": 3,
    "result": "applied"
@@ -43,8 +43,8 @@
   {
    "kind": "requeue",
    "ids": [
-    "asset-lib-face-caption-2026-11-04",
-    "asset-lib-index-2026-11-04"
+    "bigmoney-signal-2026-11-03",
+    "bigstream-mv-transition-2026-11-04"
    ]
   }
  ],

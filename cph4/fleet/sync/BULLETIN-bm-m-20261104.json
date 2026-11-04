@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
  "date": "20261104",
- "ts": "2026-11-04T13:34:37+0800",
+ "ts": "2026-11-04T13:40:46+0800",
  "window_h": 26,
  "produced": [
   {
    "path": "cph4/fleet/queue-receipts/skill-promote-20261104.json",
-   "bytes": 2117,
-   "mtime": "2026-11-04T13:27:21",
-   "sha": "b279e4bed7208a92a88be8b2c4e0255f83b94deb407a2572cbc71fc29a1e7853"
+   "bytes": 2172,
+   "mtime": "2026-11-04T13:40:46",
+   "sha": "346a51904a9cb7b243e1ad0ee7bef72ef7a4832dfcb97d2ae7fb7197e3070acd"
   },
   {
    "path": "cph4/fleet/queue-receipts/asset-lib-voice-dataset-2026-11-04-bm-m.json",
@@ -537,46 +537,12 @@
    "bytes": 5592,
    "mtime": "2026-11-03T11:54:57",
    "sha": "6644deac0ba9eb2f1c7a5e8807955a082327584d60860f0d303c7efa926caece"
-  },
-  {
-   "path": "media/drama-sample-v2/frames/f5.jpg",
-   "bytes": 41014,
-   "mtime": "2026-11-03T11:35:13",
-   "sha": "e9a874adaf5718a60df871584d6775475cce25452de67cdebfecbe08555346c4"
-  },
-  {
-   "path": "media/drama-sample-v2/frames/f1.jpg",
-   "bytes": 42396,
-   "mtime": "2026-11-03T11:35:13",
-   "sha": "acbe49604abce8c2097d84d28753d4d11311d908f62ea9b40ad3328c1db89fdb"
-  },
-  {
-   "path": "media/drama-sample-v2/frames/f10.jpg",
-   "bytes": 35396,
-   "mtime": "2026-11-03T11:35:13",
-   "sha": "207fa37144c3980ce99279ffcf92c28ce9e8a132c1727268c6052d891d97c8ee"
-  },
-  {
-   "path": "cph4/fleet/queue-receipts/drama-sample-v1.mp4",
-   "bytes": 12198483,
-   "mtime": "2026-11-03T11:35:06",
-   "sha": "86507033ba49ffcec233ff65642fe68a3c6191046a33644feed3618034e05ef9"
-  },
-  {
-   "path": "media/drama-sample-v2/c3.mp4",
-   "bytes": 1518662,
-   "mtime": "2026-11-03T11:34:55",
-   "sha": "34bf438f719d695f7a2c368122eff5d676cff52b12d745611a35018072feb38c"
   }
  ],
  "blocked": [
   {
    "what": "asset-lib-env-check-2026-11-03",
    "why": "E-UNKNOWN ASSET-ENV FAIL  bm-m\n  可用路线: 无\n  ! 没有 ffmpeg（切分/抽帧/审计都要）\n  ! 没有 torch（No module "
-  },
-  {
-   "what": "_last_lane_bm-m.json",
-   "why": "rc=1 "
   },
   {
    "what": "asset-lib-voice-corpus-bmm-2026-11-03",
@@ -593,6 +559,10 @@
   {
    "what": "asset-lib-library-check-2026-11-04",
    "why": "E-UNKNOWN 资产库体检 tier=p0  合计 19/128（15%）  GAPS\n  OK characters    8/8    授权 8\n      - CH01："
+  },
+  {
+   "what": "voice-corpus-bm-m-2026-11-04.json",
+   "why": "E-BLOCKED-INPUT "
   }
  ],
  "job": null
