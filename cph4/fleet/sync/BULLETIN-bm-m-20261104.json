@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
  "date": "20261104",
- "ts": "2026-11-04T17:18:27+0800",
+ "ts": "2026-11-04T17:04:29+0800",
  "window_h": 26,
  "produced": [
   {
    "path": "cph4/fleet/queue-receipts/skill-promote-20261104.json",
    "bytes": 2172,
-   "mtime": "2026-11-04T17:18:27",
-   "sha": "7efd40db4a62eb689b2a122ec6a2637a367a3093f5ac42df954176afe9515533"
+   "mtime": "2026-11-04T17:04:29",
+   "sha": "9afd458fe799e64fa52ab13516f78e98f4c7b14ce9f5808483f3a6a0a3b81dba"
   },
   {
    "path": "cph4/fleet/queue-receipts/CHK-DUPES-20261103-bm-m.json",
@@ -481,12 +481,12 @@
  ],
  "blocked": [
   {
-   "what": "_last_lane_bm-m.json",
-   "why": "rc=None "
-  },
-  {
    "what": "asset-lib-voice-corpus-bmm-2026-11-03",
    "why": "E-BLOCKED-INPUT [corpus] 本分片无输入（inbox 共 0 个文件）——等投料，rc=3\n"
+  },
+  {
+   "what": "C-INFRA-AUDIT-BM-C-20261103",
+   "why": "E-BLOCKED-INPUT {\"node\": \"bm-c\", \"verdict\": \"BLOCKED\", \"out\": \"cph4/fleet/queue-receipts/inferen"
   },
   {
    "what": "asset-lib-library-check-2026-11-04",
@@ -497,12 +497,12 @@
    "why": "E-BLOCKED-INPUT "
   },
   {
-   "what": "R-NEXT-BIGSTREAMM-AUDIT-20261103",
-   "why": "E-UNKNOWN "
+   "what": "inference-audit-bm-m-20261104.json",
+   "why": "rc=None "
   },
   {
-   "what": "asset-lib-face-dataset-2026-11-04",
-   "why": "E-UNKNOWN DATASET FAIL  media/asset/faces\n  {\"mode\": \"face\", \"count\": 0, \"min_side\": null,"
+   "what": "R-NEXT-BIGSTREAMM-AUDIT-20261103",
+   "why": "E-UNKNOWN "
   }
  ],
  "job": null
