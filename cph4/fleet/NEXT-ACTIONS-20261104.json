@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-04T10:24:52+0800",
+ "ts": "2026-11-04T10:31:08+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -12,9 +12,9 @@
    "accept": "char-gen 回执 made>0 且无 failed；图进 faces/<ID> 并过准入闸",
    "blocker_type": "ENGINE",
    "blocker": "char-probe 在 bm-c 上 rc=2 零回执，未定位（疑 checkout 落后）",
-   "state": "QUEUED",
-   "card": "asset-lib-voice-corpus-bmb-2026-11-04",
-   "running_on": null
+   "state": "RUNNING",
+   "card": "asset-lib-char-gen-2026-11-04",
+   "running_on": "bm-c"
   },
   {
    "id": "biggame",
@@ -58,7 +58,7 @@
    "blocker_type": "ENGINE",
    "blocker": "发布决定权在 CEO，但工程侧可先做下一首立意案",
    "state": "RUNNING",
-   "card": "bigstream-mv-stability-2026-11-04",
+   "card": "bigstream-mv-transition-2026-11-04",
    "running_on": "bm-m"
   },
   {
@@ -228,8 +228,8 @@
   }
  ],
  "counts": {
-  "RUNNING": 2,
-  "QUEUED": 9,
+  "RUNNING": 3,
+  "QUEUED": 8,
   "STALLED": 4
  },
  "stalled_engine": 0
