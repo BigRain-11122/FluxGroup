@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-05T06:57:19+0800",
+ "ts": "2026-11-05T07:03:48+0800",
  "alert_days": 2.0,
  "lines": [
   {
@@ -39,6 +39,24 @@
    ]
   },
   {
+   "line": "bigstream-mv",
+   "status": "ACTIVE",
+   "prio": "P0",
+   "stock": 2,
+   "rate_per_day": 4.67,
+   "runway_days": 0.4,
+   "has_table": true,
+   "blocker": {
+    "stage": "gate",
+    "deliverable": "cph4/fleet/queue-receipts/mv-gate-v721-20261105.json",
+    "needs": "cpu",
+    "hard_nodes": []
+   },
+   "flags": [
+    "ALERT"
+   ]
+  },
+  {
    "line": "biggame",
    "status": "ACTIVE",
    "prio": "P0",
@@ -49,24 +67,6 @@
    "blocker": {
     "stage": "pack-scan",
     "deliverable": "cph4/fleet/queue-receipts/game-packs-20261105.json",
-    "needs": "cpu",
-    "hard_nodes": []
-   },
-   "flags": [
-    "ALERT"
-   ]
-  },
-  {
-   "line": "bigstream-mv",
-   "status": "ACTIVE",
-   "prio": "P0",
-   "stock": 1,
-   "rate_per_day": 4.67,
-   "runway_days": 0.2,
-   "has_table": true,
-   "blocker": {
-    "stage": "gate",
-    "deliverable": "cph4/fleet/queue-receipts/mv-gate-v721-20261105.json",
     "needs": "cpu",
     "hard_nodes": []
    },
@@ -185,9 +185,9 @@
    "line": "fleet-ops",
    "status": "ACTIVE",
    "prio": "P3",
-   "stock": 6,
+   "stock": 4,
    "rate_per_day": 7.0,
-   "runway_days": 0.9,
+   "runway_days": 0.6,
    "has_table": false,
    "blocker": null,
    "flags": [
