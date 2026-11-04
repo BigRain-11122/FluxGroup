@@ -1,14 +1,14 @@
 {
  "node": "bm-c",
- "ts": "2026-11-05T04:30:04",
+ "ts": "2026-11-05T06:00:05",
  "jobs": [
   {
-   "id": "OPS-CLOCK-RESYNC-BMC-20261105",
-   "title": "????+??????w32time ???/resync ???@bm-c",
-   "cmd": "python Tools/fleet/clock_resync.py --out K:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/clock-resync-bm-c.json",
-   "cwd": "K:/Fluxgroup/FluxGroup",
+   "id": "asset-lib-face-dataset-2026-11-05",
+   "title": "[资产储备（角色 LoRA / 音色库）] 人脸数据集准入（反 AI 脸的第一道门）",
+   "cmd": "python Tools/fleet/asset_dataset_audit.py --mode face --dir media/asset/faces --out cph4/fleet/queue-receipts/asset-face-2026-11-05.json",
+   "cwd": "",
    "needs": "cpu",
-   "deliverable": "K:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/clock-resync-bm-c.json",
+   "deliverable": "cph4/fleet/queue-receipts/asset-face-2026-11-05.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 2.7/1.0 GB"
+ "capacity_note": "ram 3.0/1.0 GB"
 }
