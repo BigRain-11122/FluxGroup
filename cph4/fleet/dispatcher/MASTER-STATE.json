@@ -1,29 +1,29 @@
 {
- "ts": "2026-11-04T18:44:02",
- "cycle": 182,
+ "ts": "2026-11-04T18:48:02",
+ "cycle": 184,
  "master_node": "bm-m",
  "masquerade_by": "bm-a",
  "master_tick_ts": "2026-11-04T17:11:43",
  "queue": {
   "total": 417,
-  "open": 18,
+  "open": 17,
   "running": 4,
-  "done": 159,
+  "done": 160,
   "failed": 24
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 47.7,
-   "cpu_load_pct": 76,
-   "ram_free_gb": 36.7,
-   "gpu_util_pct": 86,
-   "job": "R-MODEL-RADAR-BMM-20261104",
+   "hb_age_s": 48.0,
+   "cpu_load_pct": 17,
+   "ram_free_gb": 36.9,
+   "gpu_util_pct": 96,
+   "job": "R-MODEL-RADAR-BMA-20261104",
    "last_result": {
-    "job": "bigstream-mv-transition-2026-11-04",
-    "state": "FAILED",
+    "job": "R-MODEL-RADAR-BMM-20261104",
+    "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-04T18:42:05",
+    "ts": "2026-11-04T18:45:48",
     "reason": null
    },
    "idle_confirmed": false,
@@ -33,15 +33,15 @@
   "bm-b": {
    "online": true,
    "hb_age_s": 6.0,
-   "cpu_load_pct": 4,
-   "ram_free_gb": 11.7,
+   "cpu_load_pct": 3,
+   "ram_free_gb": 11.9,
    "gpu_util_pct": null,
    "job": "bigstream-mv-stability-2026-11-04",
    "last_result": {
     "job": "CHK-DUPES-20261103",
     "state": "FAILED",
     "rc": 9009,
-    "ts": "2026-11-04T18:42:10",
+    "ts": "2026-11-04T18:46:32",
     "reason": null
    },
    "idle_confirmed": false,
@@ -50,16 +50,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 90.9,
+   "hb_age_s": 71.0,
    "cpu_load_pct": 7,
-   "ram_free_gb": 3.5,
+   "ram_free_gb": 3.1,
    "gpu_util_pct": 0,
    "job": "Q-TRIAGE-RECON-20261104",
    "last_result": {
     "job": "biggame-playable-2026-11-03",
     "state": "FAILED",
     "rc": 0,
-    "ts": "2026-11-04T18:43:17",
+    "ts": "2026-11-04T18:47:56",
     "reason": null
    },
    "idle_confirmed": false,
@@ -68,16 +68,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 59.3,
-   "cpu_load_pct": 54,
-   "ram_free_gb": 16.6,
+   "hb_age_s": 85.5,
+   "cpu_load_pct": 19,
+   "ram_free_gb": 17.0,
    "gpu_util_pct": null,
    "job": "Q-TRIAGE-BIGMONEY-20261104",
    "last_result": {
-    "job": "ART-PUSH-BMA-20261104",
+    "job": "bigstream-mv-transition-2026-11-04",
     "state": "FAILED",
-    "rc": null,
-    "ts": "2026-11-04T18:43:04",
+    "rc": 1,
+    "ts": "2026-11-04T18:46:40",
     "reason": null
    },
    "idle_confirmed": false,
@@ -154,7 +154,7 @@
    "name": "Biggame·游戏",
    "status": "ACTIVE",
    "verdict": "WORKING",
-   "age_h": 0.5,
+   "age_h": 0.6,
    "stale_after_h": 24.0,
    "owner": "游戏席",
    "jobs": [
@@ -170,7 +170,7 @@
    "name": "FluxVerse·元宙城",
    "status": "ACTIVE",
    "verdict": "STALLED-STAGE",
-   "age_h": 8.0,
+   "age_h": 8.1,
    "stale_after_h": 36.0,
    "owner": "城市线",
    "jobs": [],
@@ -200,7 +200,7 @@
    "name": "BigDomain·硅基域商业化",
    "status": "ACTIVE",
    "verdict": "WAITING",
-   "age_h": 0.6,
+   "age_h": 0.7,
    "stale_after_h": 36.0,
    "owner": "域运营席",
    "jobs": [],
@@ -224,7 +224,7 @@
    "name": "BigLife·数字生命",
    "status": "ACTIVE",
    "verdict": "STALE",
-   "age_h": 181.6,
+   "age_h": 181.7,
    "stale_after_h": 48.0,
    "owner": "生命生产席",
    "jobs": [],
@@ -850,7 +850,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 18,
+  "local": 17,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -858,22 +858,22 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 18,
+  "cpu": 17,
   "gpu": 0
  },
  "supply_added": [
   "backlog_manifest+2"
  ],
  "events": [
-  "bigstream-mv-transition-2026-11-04 FAILED via bm-a",
   "CHK-DUPES-20261103 FAILED via bm-b",
   "biggame-playable-2026-11-03 FAILED via bm-c",
-  "R-MODEL-RADAR-BMM-20261104 -> bm-a (cpu)"
+  "bigstream-mv-transition-2026-11-04 FAILED via bm-m",
+  "R-MODEL-RADAR-BMA-20261104 -> bm-a (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED fluxverse 卡在 场景装配/地编席 (城市线)",
-  "LINE-STALE biglife 181.6h>48.0h (生命生产席)",
+  "LINE-STALE biglife 181.7h>48.0h (生命生产席)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
