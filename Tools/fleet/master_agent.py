@@ -515,8 +515,11 @@ def choose_lane(job, fleet, busy):
         if tier in ("silent", "unknown"):
             stale_ok.append("%s(%s)" % (n, tier))
             continue
-        if tier == "probe-only" and not job.get("probe"):
-            stale_ok.append("%s(probe-only)" % n)
+        # probe-only 的机器不是永远不能用：短活（est_min<=5）派的成本低、又必须让它交回执
+        # 才能爬回 production。旧逻辑一律拒派，于是 bm-b 连续 18 轮 IDLE——越不派越没回执，
+        # 永远出不了 probe-only（自我强化的死循环，2026-11-04 实测）。
+        if tier == "probe-only" and not job.get("probe") and int(job.get("est_min") or 0) > 5:
+            stale_ok.append("%s(probe-only: 只接短活/探针卡)" % n)
             continue
         ok, why = lane_capacity(n, fleet, needs, vram_min, job)
         if not ok:
