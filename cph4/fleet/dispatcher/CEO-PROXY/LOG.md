@@ -1011,7 +1011,8 @@ if prev_by and prev_by != owner_node:
 [2026-11-03 11:11-11:3x]｜事件班（承载件触发·节拍器第17次）｜总≈24（例行面≤10+真故障手术面另计）｜verdict=例行巡班+真故障 1 件收口（CODELY pull-pop UU 两侧合并上链 d49a0d3e·0/0·stash 清）+班表 cron 重建（7 天蒸发·D-R273）+回访探针 12:41；在飞 P0/P1=bm-b 三卡+bm-a mv-gate；短剧线工序推进实证（inventory→TTS-QC requeued）；bm-b/bm-c 执行器旗=monitoring 零 poke
 am_free 10GB / cpu_load 48%——bm-b 在跑量化轮而非闲着；缺的是本机 HQ-ProductionClaim。**新判**：leet-idle-watch.ps1 对 bm-b 只吃 GPU/comfy/batch 不吃 cpu_load，故 cpu-sound 车道永远假红 GPU-IDLE → 已登记为工具面缺陷（受保护件只登记候裁）。
 **③ 新发现（本轮唯一实质新增）：可爱女人 i2v 首帧契约=bm-c 路径亲和**。逐 unit 核对 可爱女人-i2v-PACK-A-v1.json 30 条：rame 全指 media/mv-album-001-jay/frames/KN_KN**.png + 记 rame_bytes/frame_sha12；bm-a 该目录不存在 0/30，本机两套 KN（xingqing 10-24 / batch1 10-27）与契约 sha12 **零匹配**。⇒ **i2v 不可为绕开 bm-c RAM 改派 bm-a**（改派=拿错首帧=一致性崩，CEO 红线面）。此约束写入 DEADLINES，防止日后被「reroute 到空闲机」的错误直觉踩掉。
-
+
+
 [2026-11-03 07:26-07:5x][PROXY R2.72 ?????????] L0-DOWN age 3.1h=???(R2.61 ???????)???=TTS-QC ?????(requires ???????bm-a/bm-m ???? E-INPUT 0.1s)?????? bm-b+requires ????????? CANCELLED?fleet_lane ? card_edit_ts ???????? pin(??? D-R272-STALE-WRITEBACK-CLOBBER????)??? live=1???D-R272-ATOMIC-PUSH-GBK-CRASH(??? PYTHONIOENCODING=utf-8 ? atomic-push ? run_gate ??? UnicodeEncodeError ??????)?
 [2026-11-03 08:0x][PROXY R2.72 ??] bm-b ????????? -> ? CANCELLED(blocked-input)?? bigstream-duanju ? BLOCKED on ????????????=backlog_fill manifest ????????(D-R272-MANIFEST-RESURRECTION)??????????? requires pin?fleet_lane card_edit_ts ???bm-a ???????
 
@@ -1088,3 +1089,18 @@ am_free 10GB / cpu_load 48%——bm-b 在跑量化轮而非闲着；缺的是本
 
 | **R6-18 MV 观众级三查已交付（导演席签字依据）** | **delivered** | 03:33:32-03:35:39 bm-a 实跑 `mv_full_audit.py`（24fps v721，5623 帧/98 镜，rc=0）：`cph4/fleet/queue-receipts/mv-full-audit-20261103.json`。逐镜表 98 行 + 重复 9 对（未申报 2 对）+ 时代歧义 25 处 + 短镜 15 个 + 长镜 2 个。与 R6-15 的 60fps 闸判决互为印证（同一母版两种规格）。 |
 | **bm-a 在跑真实生产（观察）** | **standing** | 00:37:33 起 `musubi-tuner` krea2 LoRA 训练常驻（多进程；03:31 实测 gpu=82%），与车队 CPU 卡并行不冲突——GPU 面在烧、CPU 面在派单，机器未闲置。 |
+
+## 附录 R8b 事件班登记（2026-11-05 00:46-01:0x·承载件触发·DL 三连 STARVED-EXEC + CLOCK-SKEW）
+
+| 件 | 状态 | 证据 / 下一步 |
+|---|---|---|
+| **R8b-1 生产队列被 mid-rebase autostash 拼成 952 行（P0·本班已修）** | **FIXED** | `.git/rebase-merge` 停在 msgnum 1/1 且 `UU PRODUCTION-QUEUE.jsonl`：文件含 3 组 `<<<<<<< / ======= / >>>>>>>` 标记、946 JSON 行、DUP-ID=463（近似两份拼接）。所有读队列脚本 try/except 跳过坏行 → 主控静默少看卡（R8-1 病根同族第二次）。处置：先从冲突文件抢救出 483 张唯一卡做对照 → `git rebase --abort` → 备份两份台账到 `.codely-cli/tmp/r8b-backup-20261105/` → `git reset --mixed origin/main` → 机器生成态一律取 origin、台账真内容回灌 → `queue_integrity` VERDICT=GREEN（critical 1→0）。现存 484 行 / OPEN 34。 |
+| **R8b-2 四张僵尸 RUNNING（claimed_by=null）占槽（P0·本班已修）** | **FIXED** | `bigstream-mv-stability-2026-11-04` / `asset-lib-env-check-2026-11-05` / `asset-lib-asset-gen-2026-11-05` / `asset-lib-char-gen-2026-11-05` 全部状态 RUNNING 而 `claimed_by=None`（主控 assign 每轮重写 claimed_at，租约永不过期 = R6-3 判例未修）。处置：`fleet_lane.merge_jsonl` 置回 OPEN + `requeue_reason` 留痕；现 RUNNING=0、OPEN=38。 |
+| **R8b-3 钉 bm-c 的 GPU 卡被派进 bm-a/bm-b 车道（P1·本班已修）** | **FIXED（数据层）** | `asset-lib-char-gen-2026-11-05` 卡面 `nodes=[bm-c]` 但 `hard_nodes=None`，于是被 bm-a 车道领走并 00:51:38 报 `GPU-LEASE-DENIED: LEASE-FAIL free=3143MB need=12000MB`（bm-a 显存被 CEO 桌面占住：8 个 Tuanjie 编辑器 + Photoshop，实测 free 2858MiB）。处置=给 char-gen / asset-gen 两张卡补 `hard_nodes=["bm-c"]`；工序表 `asset.json` 本身已带 hard_nodes，缺的是存量卡的钉子同步。 |
+| **R8b-4 ComfyUI :8188 三机全不可连（P1·R8-9 复发·本席不可远程修）** | **BLOCKED·需 bm-c 本机动作** | 00:58 实测 `100.123.74.104:8188` / `100.104.212.62:8188` / `127.0.0.1:8188` 全部 False。这正是 char-gen rc=1 的真因（回执 12 个视角全部 `<urlopen error [WinError 10061] 目标计算机积极拒绝>`），不是路由问题、不是显存问题。后果：char-gen / asset-gen / face-caption 等全部出图卡客观不可跑。修法（bm-c 本机）=启动 ComfyUI 并确认 8188 可连。 |
+| **R8b-5 bm-b 主机不可达 + CPU-SATURATED 100%（P1·物理件·零催办）** | **waiting-CEO** | `/health`（100.104.212.62:8790）三次超时（00:53/00:57）；poke 无法落地；`lanes/bm-b.json` lane_ok=false / `capacity_note=CPU-SATURATED 100%`；`_last_lane_bm-b` 停在 23:16 IDLE。其 OPEN 卡 6 张（含音频锚类，whisperX/allin1 只装 bm-b，禁改派）。下一步=bm-b 本机上电/查 Tailscale/重启 FleetLink（CEO 10-23 令禁远程调度）。 |
+| **R8b-6 bm-c 车道零回执（认领器未起·本席不可远程修）** | **BLOCKED·需 bm-c 本机动作** | FleetLink `/health` 200（v1.9.5，ts 00:57:52）、poke accepted，但 `queue-receipts/_last_lane_bm-c.json` **不存在**（从未产出过车道回执）⇒ 执行器/认领器没在跑。承 R8-3：`schtasks /change /tn "HQ-ProductionClaim" /enable`（C-20261009-04 明令 poke 不得远程启用 Disabled 任务）。 |
+| **R8b-7 两条执行面事实（登记）** | **registered** | ① char_gen 回执 `deliverable_exists=false`（声明 `char-gen-bm-c-2026-11-05.json`，实写 `char-gen-bm-c-20261105.json`＝无连字符）→ 命名不一致会让验收永远判缺件；② `asset-lib-face-dataset-2026-11-05` rc=127 `CARD-DEFECT: INPUT-MISSING media/asset/faces`（该目录在本机各工作根都不存在）＝真卡缺陷，非机器问题。两条均不属本班可代造。 |
+| **R8b-8 CLOCK-SKEW 实测为精度噪声（承 R8-6）** | **registered·无需动作** | 00:57 实测 bm-c `/health` 节点 ts 与本机差 **-3.72s**（RTT 973ms，扣半 RTT 后约 -2.7s），与旗面 max=3255.7ms precision ±419.8ms 同量级；属环形回执/loop-round 口径，非节点系统钟跑飞。bm-b 不可达故无法测。升 >30s 再查 w32time。 |
+| **R8b-9 台账第 44 批补提交并推送（本班收口）** | **FIXED** | 00:00 决策轮产出（decisions 第 44 批 4 行 + reflection-journal 复盘行）此前只在本机工作树（D-20261105-02 起因）。本班 abort 后补提交 `1d17d398f` → 与 origin 并发提交 merge → push 成功（`cee992df7..083b36fe8`），现 0 ahead / 0 behind。判例更新：`git rev-parse :path` 与 `git hash-object path` **本来就不应相等**（前者存索引原样、后者默认过 check-in 过滤）——R7-7 的比对法只在能确认 filter 一致时成立，更稳判据是 `git diff --cached --stat` 的改动行数是否等于真实改动。 |
+| **诚实边界（本班）** | **standing** | STARVED-EXEC 三行=两半：**假红面**=旗只统计 `POOL.json`（24 卡，唯一 open 被 `CEO-PHYSICAL:submit-materials` 锁死），真供在 `PRODUCTION-QUEUE.jsonl`（38 OPEN），承 R4-2/R5-3/R6-5/R7-1/R8-2；**真红面**=ComfyUI 三机全闭 + bm-c/bm-b 执行器未起，这两条都不是本席可远程修的。本班实做=修队列、清僵尸、补钉子、把台账推上链；未造任何假卡、未代创创作裁决。 |
