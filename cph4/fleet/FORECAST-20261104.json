@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-04T18:21:06+0800",
+ "ts": "2026-11-04T18:54:05+0800",
  "alert_days": 2.0,
  "lines": [
   {
@@ -42,9 +42,9 @@
    "line": "biggame",
    "status": "ACTIVE",
    "prio": "P0",
-   "stock": 4,
+   "stock": 3,
    "rate_per_day": 1.0,
-   "runway_days": 4.0,
+   "runway_days": 3.0,
    "has_table": true,
    "blocker": {
     "stage": "pack-scan",
@@ -156,9 +156,9 @@
    "line": "biglife",
    "status": "ACTIVE",
    "prio": "P2",
-   "stock": 2,
+   "stock": 1,
    "rate_per_day": 0.33,
-   "runway_days": 6.1,
+   "runway_days": 3.0,
    "has_table": false,
    "blocker": null,
    "flags": [
@@ -183,9 +183,9 @@
    "line": "fleet-ops",
    "status": "ACTIVE",
    "prio": "P3",
-   "stock": 11,
+   "stock": 10,
    "rate_per_day": 6.33,
-   "runway_days": 1.7,
+   "runway_days": 1.6,
    "has_table": false,
    "blocker": null,
    "flags": [

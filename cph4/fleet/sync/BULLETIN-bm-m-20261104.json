@@ -1,14 +1,20 @@
 {
  "node": "bm-m",
  "date": "20261104",
- "ts": "2026-11-04T18:21:06+0800",
+ "ts": "2026-11-04T18:54:05+0800",
  "window_h": 26,
  "produced": [
   {
    "path": "cph4/fleet/queue-receipts/skill-promote-20261104.json",
    "bytes": 2172,
-   "mtime": "2026-11-04T18:21:06",
-   "sha": "33a770d8e720f0485fe30f69f26460d6b5bf30d1177d721b422c0eb44026c179"
+   "mtime": "2026-11-04T18:54:05",
+   "sha": "f493ddf0e326dfd284e7aa7a56d32989e03c77f299537f052b67262f4606ebfe"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/CHK-DUPES-20261103-bm-m.json",
+   "bytes": 2791,
+   "mtime": "2026-11-04T18:52:50",
+   "sha": "d941001effb27ae1b2c31f15688622e4f194237df0567f171c113b237c890f3e"
   },
   {
    "path": "media/review-720p/T_glyphs_f1-720p.mp4",
@@ -93,12 +99,6 @@
    "bytes": 1676,
    "mtime": "2026-11-04T17:26:56",
    "sha": "381cf8d1a950870a57dd46c87107872c1393ceb94e6c82e9a753117af4d0a8c8"
-  },
-  {
-   "path": "cph4/fleet/queue-receipts/CHK-DUPES-20261103-bm-m.json",
-   "bytes": 2723,
-   "mtime": "2026-11-04T17:03:16",
-   "sha": "00855add18dcd253c12ad7a7f28d407239f41f8bb01e8db77fcb55faa5f6113a"
   },
   {
    "path": "cph4/fleet/queue-receipts/Q-MV-0001-017-bm-a.json",
@@ -501,27 +501,13 @@
    "bytes": 607527,
    "mtime": "2026-11-03T18:05:20",
    "sha": "b8b164e2bd52965cd2743b66ff55e5e924fcbd3c521391a3a2e818f2108737c3"
-  },
-  {
-   "path": "cph4/fleet/queue-receipts/asr-subs-20261103.json",
-   "bytes": 2324,
-   "mtime": "2026-11-03T16:52:48",
-   "sha": "aebd958dcf8a063d4b2c423f2a1a4298f54aade14a20728055e7d6a26694d176"
-  },
-  {
-   "path": "media/drama-out/asm-auto.mp4",
-   "bytes": 12278860,
-   "mtime": "2026-11-03T16:52:30",
-   "sha": "2fc2680ccc9fb9a979bbebcc47d808159215997fe87a74382505c9896034c286"
-  },
-  {
-   "path": "cph4/fleet/queue-receipts/kf-steps-ab-20261103.json",
-   "bytes": 1575,
-   "mtime": "2026-11-03T16:30:41",
-   "sha": "a8196ddda5c9b928a97124f493d2b650e7d6b35bd09df2d0e6e7b626920c10f7"
   }
  ],
  "blocked": [
+  {
+   "what": "_last_lane_bm-m.json",
+   "why": "rc=None "
+  },
   {
    "what": "asset-lib-voice-corpus-bmm-2026-11-03",
    "why": "E-BLOCKED-INPUT [corpus] 本分片无输入（inbox 共 0 个文件）——等投料，rc=3\n"
@@ -533,10 +519,6 @@
   {
    "what": "voice-corpus-bm-m-2026-11-04.json",
    "why": "E-BLOCKED-INPUT "
-  },
-  {
-   "what": "inference-audit-bm-m-20261104.json",
-   "why": "rc=None "
   },
   {
    "what": "R-NEXT-BIGSTREAMM-AUDIT-20261103",
