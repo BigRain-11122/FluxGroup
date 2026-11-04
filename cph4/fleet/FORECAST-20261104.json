@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-04T17:04:29+0800",
+ "ts": "2026-11-04T19:29:19+0800",
  "alert_days": 2.0,
  "lines": [
   {
@@ -21,28 +21,12 @@
    ]
   },
   {
-   "line": "biggame",
-   "status": "ACTIVE",
-   "prio": "P0",
-   "stock": 4,
-   "rate_per_day": 1.0,
-   "runway_days": 4.0,
-   "has_table": true,
-   "blocker": {
-    "stage": "pack-scan",
-    "deliverable": "cph4/fleet/queue-receipts/game-packs-20261104.json",
-    "needs": "cpu",
-    "hard_nodes": []
-   },
-   "flags": []
-  },
-  {
    "line": "bigstream-mv",
    "status": "ACTIVE",
    "prio": "P0",
-   "stock": 3,
+   "stock": 2,
    "rate_per_day": 4.67,
-   "runway_days": 0.6,
+   "runway_days": 0.4,
    "has_table": true,
    "blocker": {
     "stage": "gate",
@@ -55,16 +39,16 @@
    ]
   },
   {
-   "line": "asset-lib",
+   "line": "biggame",
    "status": "ACTIVE",
    "prio": "P0",
-   "stock": 3,
-   "rate_per_day": 2.67,
-   "runway_days": 1.1,
+   "stock": 1,
+   "rate_per_day": 1.0,
+   "runway_days": 1.0,
    "has_table": true,
    "blocker": {
-    "stage": "env-check",
-    "deliverable": "cph4/fleet/queue-receipts/asset-env-20261104.json",
+    "stage": "pack-scan",
+    "deliverable": "cph4/fleet/queue-receipts/game-packs-20261104.json",
     "needs": "cpu",
     "hard_nodes": []
    },
@@ -105,12 +89,30 @@
    ]
   },
   {
+   "line": "asset-lib",
+   "status": "ACTIVE",
+   "prio": "P0",
+   "stock": 0,
+   "rate_per_day": 2.67,
+   "runway_days": 0.0,
+   "has_table": true,
+   "blocker": {
+    "stage": "env-check",
+    "deliverable": "cph4/fleet/queue-receipts/asset-env-20261104.json",
+    "needs": "cpu",
+    "hard_nodes": []
+   },
+   "flags": [
+    "ALERT"
+   ]
+  },
+  {
    "line": "bigmoney",
    "status": "PAUSED",
    "prio": "P1",
-   "stock": 3,
+   "stock": 2,
    "rate_per_day": 1.67,
-   "runway_days": 1.8,
+   "runway_days": 1.2,
    "has_table": true,
    "blocker": {
     "stage": "backtest",
@@ -130,22 +132,9 @@
    "line": "bigdomain",
    "status": "ACTIVE",
    "prio": "P1",
-   "stock": 2,
+   "stock": 1,
    "rate_per_day": 0.33,
-   "runway_days": 6.1,
-   "has_table": false,
-   "blocker": null,
-   "flags": [
-    "NO-TABLE"
-   ]
-  },
-  {
-   "line": "fluxverse",
-   "status": "ACTIVE",
-   "prio": "P2",
-   "stock": 2,
-   "rate_per_day": 0.33,
-   "runway_days": 6.1,
+   "runway_days": 3.0,
    "has_table": false,
    "blocker": null,
    "flags": [
@@ -156,13 +145,27 @@
    "line": "biglife",
    "status": "ACTIVE",
    "prio": "P2",
-   "stock": 2,
+   "stock": 1,
    "rate_per_day": 0.33,
-   "runway_days": 6.1,
+   "runway_days": 3.0,
    "has_table": false,
    "blocker": null,
    "flags": [
     "NO-TABLE"
+   ]
+  },
+  {
+   "line": "fluxverse",
+   "status": "ACTIVE",
+   "prio": "P2",
+   "stock": 0,
+   "rate_per_day": 0.33,
+   "runway_days": 0.0,
+   "has_table": false,
+   "blocker": null,
+   "flags": [
+    "NO-TABLE",
+    "ALERT"
    ]
   },
   {
@@ -183,9 +186,9 @@
    "line": "fleet-ops",
    "status": "ACTIVE",
    "prio": "P3",
-   "stock": 12,
+   "stock": 11,
    "rate_per_day": 6.33,
-   "runway_days": 1.9,
+   "runway_days": 1.7,
    "has_table": false,
    "blocker": null,
    "flags": [
@@ -197,27 +200,14 @@
    "line": "bigcompute",
    "status": "ACTIVE",
    "prio": "P3",
-   "stock": 2,
+   "stock": 0,
    "rate_per_day": 0.33,
-   "runway_days": 6.1,
-   "has_table": false,
-   "blocker": null,
-   "flags": [
-    "NO-TABLE"
-   ]
-  },
-  {
-   "line": "recon",
-   "status": "ACTIVE",
-   "prio": "P3",
-   "stock": 2,
-   "rate_per_day": 0,
-   "runway_days": null,
+   "runway_days": 0.0,
    "has_table": false,
    "blocker": null,
    "flags": [
     "NO-TABLE",
-    "NO-HISTORY"
+    "ALERT"
    ]
   },
   {
@@ -233,8 +223,22 @@
     "NO-TABLE",
     "INACTIVE"
    ]
+  },
+  {
+   "line": "recon",
+   "status": "ACTIVE",
+   "prio": "P3",
+   "stock": 0,
+   "rate_per_day": 0,
+   "runway_days": null,
+   "has_table": false,
+   "blocker": null,
+   "flags": [
+    "NO-TABLE",
+    "NO-HISTORY"
+   ]
   }
  ],
- "alerts": 3,
+ "alerts": 6,
  "no_table": 6
 }
