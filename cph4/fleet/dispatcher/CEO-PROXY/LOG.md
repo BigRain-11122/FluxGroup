@@ -1104,3 +1104,19 @@ am_free 10GB / cpu_load 48%——bm-b 在跑量化轮而非闲着；缺的是本
 | **R8b-8 CLOCK-SKEW 实测为精度噪声（承 R8-6）** | **registered·无需动作** | 00:57 实测 bm-c `/health` 节点 ts 与本机差 **-3.72s**（RTT 973ms，扣半 RTT 后约 -2.7s），与旗面 max=3255.7ms precision ±419.8ms 同量级；属环形回执/loop-round 口径，非节点系统钟跑飞。bm-b 不可达故无法测。升 >30s 再查 w32time。 |
 | **R8b-9 台账第 44 批补提交并推送（本班收口）** | **FIXED** | 00:00 决策轮产出（decisions 第 44 批 4 行 + reflection-journal 复盘行）此前只在本机工作树（D-20261105-02 起因）。本班 abort 后补提交 `1d17d398f` → 与 origin 并发提交 merge → push 成功（`cee992df7..083b36fe8`），现 0 ahead / 0 behind。判例更新：`git rev-parse :path` 与 `git hash-object path` **本来就不应相等**（前者存索引原样、后者默认过 check-in 过滤）——R7-7 的比对法只在能确认 filter 一致时成立，更稳判据是 `git diff --cached --stat` 的改动行数是否等于真实改动。 |
 | **诚实边界（本班）** | **standing** | STARVED-EXEC 三行=两半：**假红面**=旗只统计 `POOL.json`（24 卡，唯一 open 被 `CEO-PHYSICAL:submit-materials` 锁死），真供在 `PRODUCTION-QUEUE.jsonl`（38 OPEN），承 R4-2/R5-3/R6-5/R7-1/R8-2；**真红面**=ComfyUI 三机全闭 + bm-c/bm-b 执行器未起，这两条都不是本席可远程修的。本班实做=修队列、清僵尸、补钉子、把台账推上链；未造任何假卡、未代创创作裁决。 |
+<<<<<<<
+||||||| Stash base
+=======
+=======
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
+<<<<<<< HEAD
+>>>>>>> 18a81cbb (MV 交付闸首跑定罪 + 两处闸缺陷修 + SUPPLY-DRY 翻案补料)
+
+>>>>>>> 36550e62 (job(bigstream-mv-gate-2026-11-04): artifact [via bm-a])
