@@ -11,7 +11,7 @@
  "error_class": "E-ARTIFACT",
  "deliverable": "cph4/fleet/dupes-scan-20261103.json",
  "deliverable_exists": false,
- "ts": "2026-11-04T23:54:08",
- "stdout_tail": "SEMANTIC-DUPES rows=437 live=8 groups=1 th=0.72\n- 可能同一件事（3 张）：\n    CANARY-20261104T132721             RUNNING   端到端自检：投卡→领取→执行→回执→产物\n    CANARY-20261104T201032             OPEN      端到端自检：投卡→领取→执行→回执→产物\n    CANARY-20261104T202057             OPEN      端到端自检：投卡→领取→执行→回执→产物\n",
+ "ts": "2026-11-04T23:59:21",
+ "stdout_tail": "SEMANTIC-DUPES rows=437 live=6 groups=0 th=0.72\n",
  "stderr_tail": ""
 }
