@@ -1,6 +1,26 @@
 {
- "ts": "2026-11-04T12:41:33+0800",
+ "ts": "2026-11-04T12:42:44+0800",
  "nodes": 1,
+ "roster": [
+  "bm-a",
+  "bm-b",
+  "bm-c",
+  "bm-d",
+  "bm-m"
+ ],
+ "missing_nodes": [
+  "bm-a",
+  "bm-d",
+  "bm-c",
+  "bm-b"
+ ],
+ "age_h": {
+  "bm-a": null,
+  "bm-m": 0.0,
+  "bm-d": null,
+  "bm-c": null,
+  "bm-b": null
+ },
  "islands": 0,
  "island_sample": []
 }
