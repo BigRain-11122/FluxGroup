@@ -1,14 +1,14 @@
 {
  "node": "bm-c",
- "ts": "2026-11-04T20:14:46",
+ "ts": "2026-11-04T20:30:11",
  "jobs": [
   {
-   "id": "R-MODEL-RADAR-BMM-20261103",
-   "title": "本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-m）",
-   "cmd": "python Tools/fleet/model_radar.py run --node bm-m --idle-only --apply",
-   "cwd": "",
+   "id": "PROBE-BMB-AUDIOQC-20261104",
+   "title": "bm-b 音频质检探针（inbox 音轨响度/采样率/时长）",
+   "cmd": "python Tools/fleet/tts_batch_check.py --dir media/asset/inbox --out cph4/fleet/queue-receipts/audio-qc-bmb-20261104.json",
+   "cwd": null,
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/model-radar-bm-m-20261103.json",
+   "deliverable": "cph4/fleet/queue-receipts/audio-qc-bmb-20261104.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 3.5/1.0 GB"
+ "capacity_note": "ram 3.7/1.0 GB"
 }
