@@ -2,7 +2,7 @@
  "id": "CHK-DUPES-20261103",
  "node": "bm-m",
  "rc": 0,
- "seconds": 1.9,
+ "seconds": 11.1,
  "cmd": "python3 Tools/fleet/semantic_dupes.py --json cph4/fleet/queue-receipts/dupes-scan-20261103.json",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": "E-ARTIFACT",
  "deliverable": "cph4/fleet/dupes-scan-20261103.json",
  "deliverable_exists": false,
- "ts": "2026-11-04T23:16:02",
- "stdout_tail": "RP-PREP-e05-R2-20261104 (HTTP Error 503: Service Unavailable)\nskip Q-VCORP-PREP-e06-R2-20261104 (HTTP Error 503: Service Unavailable)\nskip Q-VCORP-PREP-e07-R2-20261104 (HTTP Error 503: Service Unavailable)\nskip Q-VCORP-PREP-e08-R2-20261104 (HTTP Error 503: Service Unavailable)\nskip Q-VCORP-PREP-z01-R2-20261104 (HTTP Error 503: Service Unavailable)\nskip Q-VCORP-PREP-z02-R2-20261104 (HTTP Error 503: Service Unavailable)\nskip Q-VCORP-PREP-z03-R2-20261104 (HTTP Error 503: Service Unavailable)\nskip Q-VCORP-PREP-z04-R2-20261104 (HTTP Error 503: Service Unavailable)\nskip Q-VCORP-PREP-z05-R2-20261104 (HTTP Error 503: Service Unavailable)\nskip Q-VCORP-PREP-z06-R2-20261104 (HTTP Error 503: Service Unavailable)\nskip Q-VCORP-PREP-z07-R2-20261104 (HTTP Error 503: Service Unavailable)\nskip Q-VCORP-PREP-z08-R2-20261104 (HTTP Error 503: Service Unavailable)\nskip Q-VCORP-TRAIN-PILOT-aishell3-z01-R2-20261104 (HTTP Error 503: Service Unavailable)\nskip Q-VCORP-TRAIN-PILOT-libritts-e01-R2-20261104 (HTTP Error 503: Service Unavailable)\nskip Q-FACE-BOARD-BMC-R2-20261104 (HTTP Error 503: Service Unavailable)\nskip Q-PLATFORM-PACK-SAMPLE-R2-20261104 (HTTP Error 503: Service Unavailable)\nskip CANARY-20261104T201032 (HTTP Error 503: Service Unavailable)\nskip PROBE-BMB-AUDIOQC-20261104 (HTTP Error 503: Service Unavailable)\nskip CANARY-20261104T202057 (HTTP Error 503: Service Unavailable)\nskip MV-NEWPROC-PACKET-20261104 (HTTP Error 503: Service Unavailable)\nSEMANTIC-DUPES rows=440 live=0 groups=0 th=0.72\n",
+ "ts": "2026-11-04T23:20:48",
+ "stdout_tail": "SEMANTIC-DUPES rows=434 live=8 groups=1 th=0.72\n- 可能同一件事（3 张）：\n    CANARY-20261104T132721             RUNNING   端到端自检：投卡→领取→执行→回执→产物\n    CANARY-20261104T201032             OPEN      端到端自检：投卡→领取→执行→回执→产物\n    CANARY-20261104T202057             OPEN      端到端自检：投卡→领取→执行→回执→产物\n",
  "stderr_tail": ""
 }
