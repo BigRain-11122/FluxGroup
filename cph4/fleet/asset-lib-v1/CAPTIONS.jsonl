@@ -1,55 +1,27 @@
 {
- "ts": "2026-11-04T15:46:55",
+ "ts": "2026-11-04T17:07:55",
  "dir": "/Volumes/移动硬盘/FluxAssets/store",
  "model": "qwen3.5:4b-mlx",
  "trigger": "",
- "pending": 10,
- "written": 2,
+ "pending": 2,
+ "written": 0,
  "rejected": [
   [
    "0374016d46ea8e8b94d0ff794a7dea360d3f18586356929f41ea865193c46805.png",
-   "只命中 1 个可见属性，像空话",
-   "A hand reaches upward against a twilight sky with a water tower in the distance, surrounded by floating paper airplane f"
+   "只命中 2 个可见属性，像空话",
+   "A hand reaches upward against a twilight sky with a water tower in the background, as paper airplanes and golden streaks"
   ],
   [
    "041126a5b8f9eb7df7133c0f81248c566858c8881c26741854ca2b0d137dbf3e.png",
-   "只命中 1 个可见属性，像空话",
-   "A black screen with small white text at the bottom reading \"欢迎转载，请注明出处：大喵没鱼吃\" flanked by two small downward-pointing tri"
-  ],
-  [
-   "04c9f2b53663ff9a51deb3f9805acab2a1e5f0be3f0cfd3aeb3963add638f014.png",
    "只命中 0 个可见属性，像空话",
-   "A close-up of a small fire burning inside a bamboo structure, with glowing embers and flames illuminating the scene from"
-  ],
-  [
-   "0af90220f22a87951c6dc81e8df4ea2db90d35d37b1e0a4415247d6cf1594d09.png",
-   "只命中 2 个可见属性，像空话",
-   "A pixelated cityscape at dusk with a central tower reflecting pink and orange hues in the sky, surrounded by buildings w"
-  ],
-  [
-   "0f4f65e4d8d313553b1b2f4a054111f338a7091f4758992bb09debd97954aebf.png",
-   "只命中 1 个可见属性，像空话",
-   "Young woman with long black hair and bangs, wearing a beige knit sweater, gazing thoughtfully at ancient stone carvings "
-  ],
-  [
-   "14d8ed58489fea61a96bcb6414a8669aa391a17dbb2754ce9c5ad1fc6ace6123.png",
-   "只命中 1 个可见属性，像空话",
-   "A young woman in a white robe holds a stone tablet, her expression neutral, standing in a dimly lit ancient marketplace "
-  ],
-  [
-   "19e73c37e9aaf6a3472d2ecc7d5bf2885c1f80cc04f9e1e5b5e1f9489aef4dc4.jpg",
-   "只命中 1 个可见属性，像空话",
-   "Two people on a bicycle ride through golden hour light with a cloud-shaped figure beside them, set against a grassy fiel"
-  ],
-  [
-   "1c23af2f41be31fb0e85c478b308575af12c134d6dead29debb33442cb9aeb56.png",
-   "只命中 1 个可见属性，像空话",
-   "A pixelated cityscape at dusk with a river reflecting orange lights, surrounded by tall buildings and smaller structures"
+   "A black screen with small text at the bottom reading \"欢迎转载，请注明出处：大喵没鱼吃\" in Chinese characters."
   ]
  ],
- "seconds": 66.3,
- "per_image_s": 6.6,
- "verdict": "PASS",
- "gaps": [],
- "status": "PASS"
+ "seconds": 68.2,
+ "per_image_s": 34.1,
+ "verdict": "FAIL",
+ "gaps": [
+  "一条都没写成功，看 rejected 的原因"
+ ],
+ "status": "FAIL"
 }
