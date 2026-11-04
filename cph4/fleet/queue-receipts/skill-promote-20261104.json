@@ -1,19 +1,6 @@
 {
- "ts": "2026-11-04T10:12:37+0800",
- "promoted": [
-  {
-   "skill": "gate-rigor",
-   "tool": "Tools/gate_rigor_check.py",
-   "rc": 0,
-   "lines": 8
-  },
-  {
-   "skill": "session-handoff",
-   "tool": "Tools/fleet/handoff.py",
-   "rc": 0,
-   "lines": 37
-  }
- ],
+ "ts": "2026-11-04T10:18:35+0800",
+ "promoted": [],
  "skipped": [
   {
    "skill": "ship-ops",
@@ -111,7 +98,15 @@
    "cands": []
   },
   {
+   "skill": "gate-rigor",
+   "why": "already"
+  },
+  {
    "skill": "game-recon",
+   "why": "already"
+  },
+  {
+   "skill": "session-handoff",
    "why": "already"
   },
   {
