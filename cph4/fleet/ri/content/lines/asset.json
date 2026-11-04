@@ -305,7 +305,8 @@
    ],
    "depends_on": [
     "voice-corpus-bma"
-   ]
+   ],
+   "input_dir": "media/asset/inbox"
   },
   {
    "id": "char-probe",

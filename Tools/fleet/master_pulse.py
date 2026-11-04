@@ -53,6 +53,9 @@ HOT_PREFIXES = ("cph4/fleet/lanes/", "cph4/fleet/PRODUCTION-QUEUE.jsonl",
 # (name, argv, timeout_s, ok_rc, slow)
 STAGES = [
     ("hb", ["Tools/fleet/fleet_hb.py", "--node", NODE, "--root", ROOT], 60, {0}, False),
+    # 产物回传（2026-11-04）：基础设施动作按节拍跑，不进抢车道的队列排序。
+    # 非 Windows 直接跳过；Windows 一天一次，产物落 cph4/fleet/artifacts/<node>/PUSHED.jsonl。
+    ("artifact_push", ["Tools/fleet/artifact_push_stage.py"], 3600, {0, 1, 3}, False),
     # SUPPLY FIRST (CEO 2026-11-01: 不许因为是"没人宣告"就闲置). Both declare-work seats
     # existed since 10-31 but were never wired into the pulse, so they only ran when a
     # human remembered - boxes idled with an empty backlog while the generators sat idle.
