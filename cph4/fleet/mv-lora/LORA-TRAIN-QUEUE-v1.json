@@ -78,7 +78,7 @@
    "name": "灵动短发",
    "trigger": "h04",
    "lora": "her_T04_r1",
-   "status": "queued",
+   "status": "running",
    "base": "a young Taiwanese woman with a small face and a clear jawline, bright round eyes, slightly raised brow bone, short chin-length bob cut blunt at the ends, visible pores and fine film grain, relaxed un-fitted 2001 Taipei style, striped shirt over a plain tee, straight jeans, canvas shoes",
    "use": [
     "mv",
@@ -88,7 +88,8 @@
     "bm-c",
     "bm-a"
    ],
-   "needs": "gpu"
+   "needs": "gpu",
+   "images": 36
   },
   {
    "order": 5,
