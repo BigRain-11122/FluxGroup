@@ -2,7 +2,7 @@
  "id": "R-MODEL-RADAR-BMM-20261103",
  "node": "bm-a",
  "rc": 0,
- "seconds": 0.2,
+ "seconds": 0.3,
  "cmd": "python Tools/fleet/model_radar.py run --node bm-m --idle-only --apply",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": "E-ARTIFACT",
  "deliverable": "cph4/fleet/queue-receipts/model-radar-bm-m-20261103.json",
  "deliverable_exists": false,
- "ts": "2026-11-05T07:14:38",
+ "ts": "2026-11-05T07:19:41",
  "stdout_tail": "{\"skipped_idle\": \"queue-running:CHK-DUPES-20261103\", \"node\": \"bm-m\"}\n",
  "stderr_tail": ""
 }
