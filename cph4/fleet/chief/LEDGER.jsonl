@@ -776,3 +776,4 @@
 {"ts": "2026-11-04T15:46:55", "stage": 3, "read": {"running": 3, "open": 35, "ready": 21, "red": 8}, "judged": "1 台机空转且有活", "action": "flag", "target": ["bm-b"], "result": "applied"}
 {"ts": "2026-11-04T15:46:55", "stage": 3, "read": {"running": 3, "open": 35, "ready": 21, "red": 8}, "judged": "1 张卡在跑但 1 小时无回执", "action": "requeue", "target": ["asset-lib-voice-assemble-2026-11-03"], "result": "applied"}
 {"ts": "2026-11-04T15:46:55", "stage": 3, "read": {"running": 3, "open": 35, "ready": 21, "red": 8}, "judged": "P0 线 24h 无产物：2 条", "action": "escalate", "target": ["p0:bigstream-duanju:no-output", "p0:bigstream-shortvideo:no-output"], "result": "applied"}
+{"ts": "2026-11-04T16:30:39", "stage": 3, "read": {"running": 4, "open": 33, "ready": 23, "red": 7}, "judged": "P0 线 24h 无产物：2 条", "action": "escalate", "target": ["p0:bigstream-duanju:no-output", "p0:bigstream-shortvideo:no-output"], "result": "applied"}

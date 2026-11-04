@@ -1,26 +1,32 @@
 {
  "node": "bm-m",
  "date": "20261104",
- "ts": "2026-11-04T15:46:55+0800",
+ "ts": "2026-11-04T16:30:39+0800",
  "window_h": 26,
  "produced": [
   {
    "path": "cph4/fleet/queue-receipts/skill-promote-20261104.json",
    "bytes": 2172,
-   "mtime": "2026-11-04T15:46:55",
-   "sha": "04eb2453d2c3093d52b8c7ce4da39128183c7e8f20774fafa0603657cf434896"
-  },
-  {
-   "path": "cph4/fleet/queue-receipts/CHK-DUPES-20261103-bm-m.json",
-   "bytes": 2723,
-   "mtime": "2026-11-04T15:43:10",
-   "sha": "d8d0680451ea893cb3c812e3ac7d74fd95e35117ea50598a2d4702aab83fa288"
+   "mtime": "2026-11-04T16:30:39",
+   "sha": "807afd60bdf37835337f19a3c63608f889b7af0946f981052a660349a43a775f"
   },
   {
    "path": "cph4/fleet/queue-receipts/bigstream-mv-transition-2026-11-04-bm-a.json",
    "bytes": 1997,
-   "mtime": "2026-11-04T15:37:39",
-   "sha": "2a3c8781515df46dab9866598e733c6aaed490057d515d0735f12d2b2d8848a3"
+   "mtime": "2026-11-04T16:26:37",
+   "sha": "3cf1fa7774c5fc65cb242fc62b14da7dffc1d28a9fd38306199e597cd2767f5e"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/game-packs-2026-11-03-r2.json",
+   "bytes": 5061,
+   "mtime": "2026-11-04T16:01:47",
+   "sha": "a420b419e933c2ecf15f9a2503d8e757efa60f02710baabefe72aad179a980d7"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/CHK-DUPES-20261103-bm-m.json",
+   "bytes": 2723,
+   "mtime": "2026-11-04T15:51:09",
+   "sha": "1da6b9d372186cebb7bcc44b13964fca9e5a0d39e22dfceae3354fa5070ab767"
   },
   {
    "path": "cph4/fleet/lib/ASSET-INDEX.json",
@@ -477,34 +483,12 @@
    "bytes": 2886,
    "mtime": "2026-11-03T14:33:56",
    "sha": "340385130bc9338b6445d5d2a85eb4a0543e2885e48646b3210718646b99d081"
-  },
-  {
-   "path": "cph4/fleet/queue-receipts/inference-audit-bm-m-20261103.json",
-   "bytes": 1558,
-   "mtime": "2026-11-03T14:27:55",
-   "sha": "85658c0794be2ef7db14683fc842d9d14a90f8490c75a0888286e923457c65a7"
-  },
-  {
-   "path": "cph4/fleet/queue-receipts/asset-env-2026-11-03.json",
-   "bytes": 1263,
-   "mtime": "2026-11-03T14:26:24",
-   "sha": "a14160baff7d9bc4e166848161a531432c83d79e0c35100fb80ff5374f23e3d1"
-  },
-  {
-   "path": "cph4/fleet/queue-receipts/asset-env-bm-m.json",
-   "bytes": 1343,
-   "mtime": "2026-11-03T14:19:04",
-   "sha": "98c75d447e677dcf2b08e7c0f0e3e3cb65da21239edae8613262e02214b9ddeb"
   }
  ],
  "blocked": [
   {
-   "what": "asset-lib-env-check-2026-11-03",
-   "why": "E-UNKNOWN ASSET-ENV FAIL  bm-m\n  可用路线: 无\n  ! 没有 ffmpeg（切分/抽帧/审计都要）\n  ! 没有 torch（No module "
-  },
-  {
-   "what": "asset-lib-voice-corpus-bmm-2026-11-03",
-   "why": "rc=3 [corpus] 本分片无输入（inbox 共 0 个文件）——等投料，rc=3\n"
+   "what": "_last_lane_bm-m.json",
+   "why": "rc=3 "
   },
   {
    "what": "asset-lib-voice-corpus-bmb-2026-11-03",
@@ -521,6 +505,10 @@
   {
    "what": "voice-corpus-bm-m-2026-11-04.json",
    "why": "E-BLOCKED-INPUT "
+  },
+  {
+   "what": "asset-lib-voice-dataset-2026-11-03",
+   "why": "E-CONTRACT 没有 ffmpeg，无法审计\n"
   }
  ],
  "job": null

@@ -318,17 +318,18 @@ def pull():
                 note("parked local edits in stash before rebase")
     except Exception:
         pass
-    rc3, full3 = git_full(["git", "rebase", "--no-autostash", "origin/main"], 180)
+    # 禁 rebase 硬律（2026-11-04 事故）：多机同推时 rebase 会把共享工作树卡在中段，
+    # 冲突标记留在队列里，读队列的脚本 try/except 跳过坏行 → 静默少看卡。
+    # 这里改成 merge --ff-only：能快进就快进，不能就让主控去收，绝不重放提交。
+    rc3, full3 = git_full(["git", "fetch", "origin"], 120)
+    rc3, full3 = git_full(["git", "merge", "--ff-only", "origin/main"], 180)
     tail3 = full3.replace("\n", " | ")[:240]
     if rc3 != 0 and "would be overwritten by checkout" in full3:
-        run_msg(["git", "rebase", "--abort"], 60)
         moved = stash_untracked_collisions(full3)
-        note("moved %d untracked collisions aside, retrying rebase" % moved)
-        rc3, full3 = git_full(["git", "rebase", "--no-autostash", "origin/main"], 180)
+        note("moved %d untracked collisions aside, retrying merge" % moved)
+        rc3, full3 = git_full(["git", "merge", "--ff-only", "origin/main"], 180)
         tail3 = full3.replace("\n", " | ")[:240]
     if rc3 == 0:
-        # A rebased node is ahead of the master until it publishes; leaving that commit local
-        # is what made the next cycle start diverged again.
         # 2026-11-04 poison guard: never publish a tree that still carries conflict markers.
         rc_pg, out_pg = git_full(["git", "grep", "-l", "<<<<<<<", "--", "cph4/fleet/"], 60)
         if rc_pg == 0:
@@ -336,15 +337,6 @@ def pull():
                  % out_pg.replace("\n", " | ")[:200])
         else:
             run_msg(["git", "push", "origin", "HEAD:main"], 120)
-    if rc3 != 0:
-        # A conflicted replay is recoverable: master wins on shared state, we win on our own
-        # artifacts. Only abort when even that fails, so no half-finished rebase is left behind
-        # (that residue is exactly what turned into the stuck-rebase / detached-HEAD loop).
-        if resolve_rebase_conflicts() == 0:
-            rc3 = 0
-            tail3 = "rebase completed after conflict resolution"
-    if rc3 != 0:
-        run_msg(["git", "rebase", "--abort"], 60)
     if parked:
         rc_p, _ = run_msg(["git", "stash", "pop"], 120)
         if rc_p != 0:
@@ -388,10 +380,11 @@ def push():
         return 0
     # origin moved under us (the master pulses every minute): re-anchor and retry once.
     run_msg(["git", "fetch", "--quiet", "origin", "main"], 120)
-    rc1, t1 = run_msg(["git", "rebase", "--no-autostash", "origin/main"], 180)
+    # 禁 rebase 硬律（2026-11-04）：这里原本 push 失败后 rebase 重放，多机同推时会把
+    # 共享工作树卡在中段。改成 ff-only：能快进就快进，不能就如实跳过留给主控收。
+    rc1, t1 = run_msg(["git", "merge", "--ff-only", "origin/main"], 180)
     if rc1 != 0:
-        run_msg(["git", "rebase", "--abort"], 60)
-        note("skip (rebase refused): %s" % t1, "agent-push.log")
+        note("skip (ff-only merge refused): %s" % t1, "agent-push.log")
         return rc1
     rc2, tail2 = run_msg(["git", "push", "origin", "HEAD:main"], 300)
     note("retry rc=%s %s" % (rc2, tail2), "agent-push.log")
