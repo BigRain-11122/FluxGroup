@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
- "ts": "2026-11-05T01:46:18",
+ "ts": "2026-11-05T01:47:45",
  "jobs": [
   {
-   "id": "bigstream-mv-gate-2026-11-05",
-   "title": "[MV·爱在西元前（v721 终版）] 交付闸（重复/静止/抖动/闪烁）",
-   "cmd": "python Tools/mv_delivery_gate.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721_60fps_1080p.mp4 --card 38.79:40.21 --card 219.71:223.88",
+   "id": "CHK-DUPES-20261103",
+   "title": "重复派单向量重扫（bm-m 兜底体检）",
+   "cmd": "python3 Tools/fleet/semantic_dupes.py --json cph4/fleet/queue-receipts/dupes-scan-20261103.json",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/mv-gate-v721-2026-11-05.json",
+   "deliverable": "cph4/fleet/dupes-scan-20261103.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 18.4/1.0 GB"
+ "capacity_note": "ram 18.8/1.0 GB"
 }

@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-05T01:40:50+0800",
+ "ts": "2026-11-05T01:47:34+0800",
  "alert_days": 2.0,
  "lines": [
   {
@@ -19,30 +19,12 @@
    "flags": []
   },
   {
-   "line": "bigstream-duanju",
-   "status": "PARKED",
-   "prio": "P0",
-   "stock": 6,
-   "rate_per_day": 1.33,
-   "runway_days": 4.5,
-   "has_table": true,
-   "blocker": {
-    "stage": "inventory",
-    "deliverable": "cph4/fleet/queue-receipts/duanju-inventory-20261105.json",
-    "needs": "cpu",
-    "hard_nodes": []
-   },
-   "flags": [
-    "INACTIVE"
-   ]
-  },
-  {
    "line": "bigstream-mv",
    "status": "ACTIVE",
    "prio": "P0",
-   "stock": 5,
+   "stock": 6,
    "rate_per_day": 4.33,
-   "runway_days": 1.2,
+   "runway_days": 1.4,
    "has_table": true,
    "blocker": {
     "stage": "gate",
@@ -52,6 +34,24 @@
    },
    "flags": [
     "ALERT"
+   ]
+  },
+  {
+   "line": "bigstream-duanju",
+   "status": "PARKED",
+   "prio": "P0",
+   "stock": 4,
+   "rate_per_day": 1.33,
+   "runway_days": 3.0,
+   "has_table": true,
+   "blocker": {
+    "stage": "inventory",
+    "deliverable": "cph4/fleet/queue-receipts/duanju-inventory-20261105.json",
+    "needs": "cpu",
+    "hard_nodes": []
+   },
+   "flags": [
+    "INACTIVE"
    ]
   },
   {
@@ -184,13 +184,14 @@
    "line": "fleet-ops",
    "status": "ACTIVE",
    "prio": "P3",
-   "stock": 15,
+   "stock": 11,
    "rate_per_day": 6.67,
-   "runway_days": 2.2,
+   "runway_days": 1.6,
    "has_table": false,
    "blocker": null,
    "flags": [
-    "NO-TABLE"
+    "NO-TABLE",
+    "ALERT"
    ]
   },
   {
@@ -234,6 +235,6 @@
    ]
   }
  ],
- "alerts": 3,
+ "alerts": 4,
  "no_table": 6
 }
