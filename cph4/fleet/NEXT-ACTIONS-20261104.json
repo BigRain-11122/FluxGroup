@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-04T20:52:51+0800",
+ "ts": "2026-11-04T21:05:15+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -44,7 +44,7 @@
    "blocker": "回测产物需在 bm-b 本地生成；主控无 quant 仓",
    "state": "RUNNING",
    "card": "R-PLAN-BIGMONEY-20261104",
-   "running_on": "bm-b"
+   "running_on": "bm-c"
   },
   {
    "id": "bigstream-mv",

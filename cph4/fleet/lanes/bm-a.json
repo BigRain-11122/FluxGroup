@@ -1,14 +1,14 @@
 {
  "node": "bm-a",
- "ts": "2026-11-04T20:52:53",
+ "ts": "2026-11-04T21:05:17",
  "jobs": [
   {
-   "id": "MV-NEWPROC-PACKET-20261104",
-   "title": "导演席新流程卷：四曲立意/分镜/合规矩阵一页卷",
-   "cmd": "python Tools/fleet/review_packet.py --line mv --root .",
-   "cwd": "",
+   "id": "ART-PUSH-BMA-20261104",
+   "title": "bm-a 产物回传（artifact_push 全量）",
+   "cmd": "powershell -ExecutionPolicy Bypass -File Tools\\fleet\\artifact_push.ps1 -Root C:\\Fluxgroup\\FluxGroup -Node bm-a -MaxMB 2048",
+   "cwd": null,
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/review-packet-mv-20261104.md",
+   "deliverable": "cph4/fleet/artifacts/bm-a/PUSHED.jsonl",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 18.7/1.0 GB"
+ "capacity_note": "ram 15.1/1.0 GB"
 }

@@ -1,4 +1,4 @@
-# 前瞻：线的弹药与卡点（2026-11-04T20:52:51+0800）
+# 前瞻：线的弹药与卡点（2026-11-04T21:05:15+0800）
 
 | 线 | 优先 | 状态 | 库存 | 日均 | 剩余天 | 卡点 |
 |---|---|---|---|---|---|---|
@@ -13,7 +13,7 @@
 | biglife | P2 | ACTIVE | 1 | 0.33 | 3.0 | — ⚠NO-TABLE |
 | fluxverse | P2 | ACTIVE | 0 | 0.33 | 0.0 | — ⚠NO-TABLE,ALERT |
 | bighouse | P2 | PARKED | 0 | 0 | — | — ⚠NO-TABLE,INACTIVE |
-| fleet-ops | P3 | ACTIVE | 8 | 6.33 | 1.3 | — ⚠NO-TABLE,ALERT |
+| fleet-ops | P3 | ACTIVE | 7 | 6.33 | 1.1 | — ⚠NO-TABLE,ALERT |
 | bigcompute | P3 | ACTIVE | 0 | 0.33 | 0.0 | — ⚠NO-TABLE,ALERT |
 | car-gaming | P3 | PARKED | 0 | 0 | — | — ⚠NO-TABLE,INACTIVE |
 | recon | P3 | ACTIVE | 0 | 0 | — | — ⚠NO-TABLE,NO-HISTORY |

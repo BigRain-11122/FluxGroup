@@ -1,21 +1,20 @@
 {
- "ts": "2026-11-04T20:52:52",
+ "ts": "2026-11-04T21:05:16",
  "stage": 3,
  "adoption": {
   "days": 3,
-  "applied": 803,
-  "total": 576,
-  "rate": 139.4,
+  "applied": 805,
+  "total": 578,
+  "rate": 139.3,
   "eligible_stage4": false
  },
  "decisions": [
   {
    "kind": "requeue",
-   "why": "3 张卡在跑但 1 小时无回执",
+   "why": "2 张卡在跑但 1 小时无回执",
    "target": [
     "CANARY-20261104T132721",
-    "R-PLAN-BIGMONEY-20261104",
-    "MV-NEWPROC-PACKET-20261104"
+    "R-PLAN-BIGMONEY-20261104"
    ],
    "min_stage": 3,
    "result": "applied"
@@ -36,8 +35,7 @@
    "kind": "requeue",
    "ids": [
     "CANARY-20261104T132721",
-    "R-PLAN-BIGMONEY-20261104",
-    "MV-NEWPROC-PACKET-20261104"
+    "R-PLAN-BIGMONEY-20261104"
    ]
   }
  ],
