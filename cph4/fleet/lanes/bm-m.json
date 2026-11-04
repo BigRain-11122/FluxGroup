@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
- "ts": "2026-11-04T18:36:03",
+ "ts": "2026-11-04T19:01:02",
  "jobs": [
   {
-   "id": "Q-TRIAGE-BIGMONEY-20261104",
-   "title": "bigmoney 线级体检（本机证据目录实况）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigmoney",
+   "id": "CHK-DUPES-20261103",
+   "title": "重复派单向量重扫（bm-m 兜底体检）",
+   "cmd": "python3 Tools/fleet/semantic_dupes.py --json cph4/fleet/queue-receipts/dupes-scan-20261103.json",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigmoney-20261104.md",
+   "deliverable": "cph4/fleet/dupes-scan-20261103.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 12.0/1.0 GB"
+ "capacity_note": "ram 13.9/1.0 GB"
 }

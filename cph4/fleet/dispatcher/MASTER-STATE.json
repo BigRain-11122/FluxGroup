@@ -1,29 +1,29 @@
 {
- "ts": "2026-11-04T18:58:05",
- "cycle": 186,
+ "ts": "2026-11-04T19:01:02",
+ "cycle": 187,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-04T18:58:05",
+ "master_tick_ts": "2026-11-04T19:01:02",
  "queue": {
   "total": 418,
-  "open": 21,
+  "open": 18,
   "running": 3,
-  "done": 160,
-  "failed": 22
+  "done": 162,
+  "failed": 23
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 50.6,
-   "cpu_load_pct": 72,
-   "ram_free_gb": 29.4,
-   "gpu_util_pct": 84,
+   "hb_age_s": 48.0,
+   "cpu_load_pct": 40,
+   "ram_free_gb": 30.5,
+   "gpu_util_pct": 92,
    "job": "R-MODEL-RADAR-BMA-20261104",
    "last_result": {
     "job": "bigstream-mv-transition-2026-11-04",
-    "state": "BUSY",
-    "rc": null,
-    "ts": "2026-11-04T18:57:01",
+    "state": "FAILED",
+    "rc": 0,
+    "ts": "2026-11-04T18:57:26",
     "reason": null
    },
    "idle_confirmed": false,
@@ -32,16 +32,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 10.9,
-   "cpu_load_pct": 3,
-   "ram_free_gb": 11.3,
+   "hb_age_s": 6.0,
+   "cpu_load_pct": 8,
+   "ram_free_gb": 11,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": "biggame-playable-2026-11-03",
     "state": "FAILED",
     "rc": 0,
-    "ts": "2026-11-04T18:54:26",
+    "ts": "2026-11-04T18:58:33",
     "reason": null
    },
    "idle_confirmed": false,
@@ -50,16 +50,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 49.7,
+   "hb_age_s": 93.2,
    "cpu_load_pct": 7,
-   "ram_free_gb": 2.8,
-   "gpu_util_pct": 1,
-   "job": "Q-TRIAGE-RECON-20261104",
+   "ram_free_gb": 2.9,
+   "gpu_util_pct": 0,
+   "job": "bigstream-mv-stability-2026-11-04",
    "last_result": {
     "job": "Q-TRIAGE-RECON-20261104",
-    "state": "RUNNING",
-    "rc": null,
-    "ts": "2026-11-04T18:56:29",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-04T18:59:27",
     "reason": null
    },
    "idle_confirmed": false,
@@ -68,16 +68,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.8,
-   "cpu_load_pct": 36,
-   "ram_free_gb": 14.0,
+   "hb_age_s": 1.0,
+   "cpu_load_pct": 24,
+   "ram_free_gb": 13.9,
    "gpu_util_pct": null,
-   "job": "Q-TRIAGE-BIGMONEY-20261104",
+   "job": "CHK-DUPES-20261103",
    "last_result": {
-    "job": "R-MODEL-RADAR-BMC-20261103",
-    "state": "FAILED",
+    "job": "Q-TRIAGE-BIGMONEY-20261104",
+    "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-04T18:55:22",
+    "ts": "2026-11-04T18:58:39",
     "reason": null
    },
    "idle_confirmed": false,
@@ -100,14 +100,10 @@
    "stale_after_h": 24.0,
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
    "jobs": [
-    "bigstream-mv-transition-2026-11-04",
     "bigstream-mv-stability-2026-11-04"
    ],
    "no_supply": false,
-   "blockers": [
-    "bigstream-mv-transition-2026-11-04:no-lane",
-    "bigstream-mv-stability-2026-11-04:no-lane"
-   ],
+   "blockers": [],
    "note": null,
    "stuck_stage": "mv-kf",
    "stuck_owner": "导演席·美术"
@@ -295,7 +291,6 @@
    ],
    "no_supply": false,
    "blockers": [
-    "CHK-DUPES-20261103:no-lane",
     "CANARY-20261104T125141:no-lane",
     "CANARY-20261104T125241:no-lane",
     "CANARY-20261104T131747:no-lane",
@@ -854,7 +849,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 21,
+  "local": 18,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -862,14 +857,19 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 21,
+  "cpu": 18,
   "gpu": 0
  },
  "supply_added": [
   "backlog_manifest+1"
  ],
  "events": [
-  "biggame-playable-2026-11-03 FAILED via bm-b"
+  "bigstream-mv-transition-2026-11-04 FAILED via bm-a",
+  "biggame-playable-2026-11-03 FAILED via bm-b",
+  "Q-TRIAGE-RECON-20261104 DONE via bm-c",
+  "Q-TRIAGE-BIGMONEY-20261104 DONE via bm-m",
+  "bigstream-mv-stability-2026-11-04 -> bm-c (cpu)",
+  "CHK-DUPES-20261103 -> bm-m (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
@@ -877,6 +877,7 @@
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-b"
+  "bm-c",
+  "bm-m"
  ]
 }
