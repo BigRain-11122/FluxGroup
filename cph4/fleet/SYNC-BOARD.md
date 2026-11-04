@@ -1,4 +1,4 @@
-# 机队互报（2026-11-04T17:18:27+0800）
+# 机队互报（2026-11-04T17:34:27+0800）
 
 上报 1 / 名册 5 台；本机看不到的他人产物 0 件（传输通道度量，不是错误）
 
@@ -11,13 +11,13 @@
 - bm-m：最近一份 0.0h 前
 
 ## bm-m（20261104，窗口 26h）
-- 产出 79 件
-  - `cph4/fleet/queue-receipts/skill-promote-20261104.json`（2KB, 7efd40db4a…）
-  - `cph4/fleet/queue-receipts/CHK-DUPES-20261103-bm-m.json`（2KB, 00855add18…）
-  - `cph4/fleet/queue-receipts/Q-MV-0001-017-bm-a.json`（1KB, 5ebc1b50e4…）
-  - `cph4/fleet/queue-receipts/R-MV-V718-GATE-bm-a.json`（1KB, 4e7caecdef…）
-  - `cph4/fleet/queue-receipts/C-INFRA-AUDIT-BM-C-20261103-bm-c.json`（1KB, c732addd33…）
-  - `cph4/fleet/queue-receipts/R-ART-PUSH-A-20261102-bm-a.json`（2KB, a497040249…）
+- 产出 82 件
+  - `cph4/fleet/queue-receipts/skill-promote-20261104.json`（2KB, f9ae7a149a…）
+  - `media/review-720p/S7_hall-720p.mp4`（1948KB, 6c850186bf…）
+  - `media/review-720p/S6_chisel-720p.mp4`（2073KB, ead41e7c76…）
+  - `media/review-720p/S5_columns-720p.mp4`（1953KB, 54614894cb…）
+  - `media/review-720p/S4_crown-720p.mp4`（1965KB, a7ee27daa1…）
+  - `media/review-720p/TEST_judder_fix_KF7_interpolated-720p.mp4`（759KB, 097276ff1e…）
 - 受阻 6 条
   - _last_lane_bm-m.json：rc=None 
   - asset-lib-voice-corpus-bmm-2026-11-03：E-BLOCKED-INPUT [corpus] 本分片无输入（inbox 共 0 个文件）——等投料，rc=3

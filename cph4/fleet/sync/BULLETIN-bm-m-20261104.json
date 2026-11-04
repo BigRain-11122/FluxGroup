@@ -1,14 +1,74 @@
 {
  "node": "bm-m",
  "date": "20261104",
- "ts": "2026-11-04T17:18:27+0800",
+ "ts": "2026-11-04T17:34:27+0800",
  "window_h": 26,
  "produced": [
   {
    "path": "cph4/fleet/queue-receipts/skill-promote-20261104.json",
    "bytes": 2172,
-   "mtime": "2026-11-04T17:18:27",
-   "sha": "7efd40db4a62eb689b2a122ec6a2637a367a3093f5ac42df954176afe9515533"
+   "mtime": "2026-11-04T17:34:27",
+   "sha": "f9ae7a149ac02b692a6e7d1a097deebbe18a71f4e84afb085be1e7a6e028b127"
+  },
+  {
+   "path": "media/review-720p/S7_hall-720p.mp4",
+   "bytes": 1995670,
+   "mtime": "2026-11-04T17:30:44",
+   "sha": "6c850186bf01c00fdde868274a433f488b5502ba1458515174aaef48a0dc7ad0"
+  },
+  {
+   "path": "media/review-720p/S6_chisel-720p.mp4",
+   "bytes": 2123627,
+   "mtime": "2026-11-04T17:30:43",
+   "sha": "ead41e7c76cec8093561f86da569adeb402a9fb1d39502f0a9884180d07bd997"
+  },
+  {
+   "path": "media/review-720p/S5_columns-720p.mp4",
+   "bytes": 2000006,
+   "mtime": "2026-11-04T17:30:42",
+   "sha": "54614894cb89fa97605574f993b35ddfae5ed31f78b051c8d5c32f7b271e82da"
+  },
+  {
+   "path": "media/review-720p/S4_crown-720p.mp4",
+   "bytes": 2012230,
+   "mtime": "2026-11-04T17:30:41",
+   "sha": "a7ee27daa1d587da0ec19bcd2a5777bbc43cee5c529fcaf843dffad5dd7ecc52"
+  },
+  {
+   "path": "media/review-720p/TEST_judder_fix_KF7_interpolated-720p.mp4",
+   "bytes": 777315,
+   "mtime": "2026-11-04T17:30:40",
+   "sha": "097276ff1eae886d25c570ebbd6f54c6e062a98acb30b2e239232bf39c488a62"
+  },
+  {
+   "path": "media/review-720p/S3_stele-720p.mp4",
+   "bytes": 2068147,
+   "mtime": "2026-11-04T17:27:14",
+   "sha": "3f3535fc8f9582d236a5df4d3d31513e43346178b524344877e8b287dab4bd30"
+  },
+  {
+   "path": "media/review-720p/S2_sweep-720p.mp4",
+   "bytes": 1966553,
+   "mtime": "2026-11-04T17:27:13",
+   "sha": "4948490cda5ae85466d5347210e0f7945987d301d4b1b846845233efa3aea396"
+  },
+  {
+   "path": "media/review-720p/S1_fire_wake-720p.mp4",
+   "bytes": 1995510,
+   "mtime": "2026-11-04T17:27:12",
+   "sha": "6f1ec3cb317c3da4fdf14c85ba0175553fb548ed37e7cfd5b0fe7ef1a67cbf57"
+  },
+  {
+   "path": "media/review-720p/S10_walkaway-720p.mp4",
+   "bytes": 1969164,
+   "mtime": "2026-11-04T17:27:10",
+   "sha": "64902d874b5c0992f21c48949922328500b2a7936c069a1f1a3a066d901126bf"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/C-QUANT-NOBOND-20261103-bm-a.json",
+   "bytes": 1676,
+   "mtime": "2026-11-04T17:26:56",
+   "sha": "381cf8d1a950870a57dd46c87107872c1393ceb94e6c82e9a753117af4d0a8c8"
   },
   {
    "path": "cph4/fleet/queue-receipts/CHK-DUPES-20261103-bm-m.json",
@@ -435,48 +495,6 @@
    "bytes": 1575,
    "mtime": "2026-11-03T16:30:41",
    "sha": "a8196ddda5c9b928a97124f493d2b650e7d6b35bd09df2d0e6e7b626920c10f7"
-  },
-  {
-   "path": "cph4/fleet/queue-receipts/drama-assemble-hw-20261103.json",
-   "bytes": 1690,
-   "mtime": "2026-11-03T15:31:11",
-   "sha": "7f353f0529a3b36518abaac65d9f4ef68205a72d4f2fa2c7b1dc44d444d5c528"
-  },
-  {
-   "path": "media/drama-out/drama-2026-11-03.mp4",
-   "bytes": 12200189,
-   "mtime": "2026-11-03T15:30:36",
-   "sha": "52a562de83cf0d1a05a76e473a2a5a8f78613095b3b6a08e2bd1d47b53a91e74"
-  },
-  {
-   "path": "media/drama-sample-v2/asm-2shot-out.mp4",
-   "bytes": 9003507,
-   "mtime": "2026-11-03T15:30:36",
-   "sha": "ca80d684c298d5064d30bb5feb218b24b4015e53f5054f894573c27dffc051b1"
-  },
-  {
-   "path": "media/drama-out/asm-sw2.mp4",
-   "bytes": 12657528,
-   "mtime": "2026-11-03T15:30:14",
-   "sha": "0cb589c8ebf02e7ebe9834c2ccc5d7927ba5dfc31fb5d32c3b3a7937438a6b62"
-  },
-  {
-   "path": "media/drama-out/asm-hw2.mp4",
-   "bytes": 12272001,
-   "mtime": "2026-11-03T15:29:58",
-   "sha": "f09ed45dae4cf5bbb46ac30246a33b7029536d33f68b23aee530e34cd86afebb"
-  },
-  {
-   "path": "media/drama-out/asm-sw.mp4",
-   "bytes": 12656390,
-   "mtime": "2026-11-03T15:26:52",
-   "sha": "e4630cf1a9d3566bdc940c0478f33f26f77945ed7ce90c9f8cb75f7acdebc798"
-  },
-  {
-   "path": "media/drama-out/asm-hw.mp4",
-   "bytes": 12270863,
-   "mtime": "2026-11-03T15:26:35",
-   "sha": "ede019bce3cc5cca0d99d6897c5d2304be3c924a219e077d3d86aa013b98cca9"
   }
  ],
  "blocked": [
