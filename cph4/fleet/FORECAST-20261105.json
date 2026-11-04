@@ -1,14 +1,14 @@
 {
- "ts": "2026-11-05T05:21:47+0800",
+ "ts": "2026-11-05T06:14:08+0800",
  "alert_days": 2.0,
  "lines": [
   {
    "line": "asset-lib",
    "status": "ACTIVE",
    "prio": "P0",
-   "stock": 7,
-   "rate_per_day": 4.67,
-   "runway_days": 1.5,
+   "stock": 8,
+   "rate_per_day": 4.33,
+   "runway_days": 1.8,
    "has_table": true,
    "blocker": {
     "stage": "env-check",
@@ -24,9 +24,9 @@
    "line": "bigstream-duanju",
    "status": "PARKED",
    "prio": "P0",
-   "stock": 4,
+   "stock": 3,
    "rate_per_day": 1.33,
-   "runway_days": 3.0,
+   "runway_days": 2.3,
    "has_table": true,
    "blocker": {
     "stage": "inventory",
@@ -43,8 +43,8 @@
    "status": "ACTIVE",
    "prio": "P0",
    "stock": 2,
-   "rate_per_day": 4.67,
-   "runway_days": 0.4,
+   "rate_per_day": 4.33,
+   "runway_days": 0.5,
    "has_table": true,
    "blocker": {
     "stage": "gate",
@@ -110,9 +110,9 @@
    "line": "bigmoney",
    "status": "PAUSED",
    "prio": "P1",
-   "stock": 3,
+   "stock": 2,
    "rate_per_day": 2.67,
-   "runway_days": 1.1,
+   "runway_days": 0.7,
    "has_table": true,
    "blocker": {
     "stage": "backtest",
@@ -146,26 +146,28 @@
    "line": "fluxverse",
    "status": "ACTIVE",
    "prio": "P2",
-   "stock": 2,
+   "stock": 1,
    "rate_per_day": 0.67,
-   "runway_days": 3.0,
+   "runway_days": 1.5,
    "has_table": false,
    "blocker": null,
    "flags": [
-    "NO-TABLE"
+    "NO-TABLE",
+    "ALERT"
    ]
   },
   {
    "line": "biglife",
    "status": "ACTIVE",
    "prio": "P2",
-   "stock": 2,
+   "stock": 1,
    "rate_per_day": 0.67,
-   "runway_days": 3.0,
+   "runway_days": 1.5,
    "has_table": false,
    "blocker": null,
    "flags": [
-    "NO-TABLE"
+    "NO-TABLE",
+    "ALERT"
    ]
   },
   {
@@ -186,9 +188,9 @@
    "line": "fleet-ops",
    "status": "ACTIVE",
    "prio": "P3",
-   "stock": 10,
-   "rate_per_day": 7.0,
-   "runway_days": 1.4,
+   "stock": 8,
+   "rate_per_day": 6.67,
+   "runway_days": 1.2,
    "has_table": false,
    "blocker": null,
    "flags": [
@@ -200,9 +202,9 @@
    "line": "recon",
    "status": "ACTIVE",
    "prio": "P3",
-   "stock": 2,
+   "stock": 1,
    "rate_per_day": 0.33,
-   "runway_days": 6.1,
+   "runway_days": 3.0,
    "has_table": false,
    "blocker": null,
    "flags": [
@@ -213,9 +215,9 @@
    "line": "bigcompute",
    "status": "ACTIVE",
    "prio": "P3",
-   "stock": 1,
+   "stock": 0,
    "rate_per_day": 0.67,
-   "runway_days": 1.5,
+   "runway_days": 0.0,
    "has_table": false,
    "blocker": null,
    "flags": [
@@ -238,6 +240,6 @@
    ]
   }
  ],
- "alerts": 6,
+ "alerts": 8,
  "no_table": 6
 }

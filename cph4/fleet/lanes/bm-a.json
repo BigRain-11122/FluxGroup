@@ -1,14 +1,14 @@
 {
  "node": "bm-a",
- "ts": "2026-11-05T04:35:32",
+ "ts": "2026-11-05T06:26:32",
  "jobs": [
   {
-   "id": "bigstream-mv-gate-2026-11-05",
-   "title": "[MV·爱在西元前（v721 终版）] 交付闸（重复/静止/抖动/闪烁）",
-   "cmd": "python Tools/mv_delivery_gate.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721_60fps_1080p.mp4 --card 38.79:40.21 --card 219.71:223.88",
-   "cwd": "",
+   "id": "ART-PUSH-BMA-20261104",
+   "title": "bm-a 产物回传（artifact_push 全量）",
+   "cmd": "powershell -ExecutionPolicy Bypass -File Tools\\fleet\\artifact_push.ps1 -Root C:\\Fluxgroup\\FluxGroup -Node bm-a -MaxMB 2048",
+   "cwd": null,
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/mv-gate-v721-2026-11-05.json",
+   "deliverable": "cph4/fleet/artifacts/bm-a/PUSHED.jsonl",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 18.8/1.0 GB"
+ "capacity_note": "ram 20.3/1.0 GB"
 }

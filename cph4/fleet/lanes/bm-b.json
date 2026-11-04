@@ -1,14 +1,14 @@
 {
  "node": "bm-b",
- "ts": "2026-11-05T05:11:26",
+ "ts": "2026-11-05T06:26:32",
  "jobs": [
   {
-   "id": "OPS-CLOCK-RESYNC-BMB-20261105",
-   "title": "????+??????w32time ???/resync ???@bm-b",
-   "cmd": "python Tools/fleet/clock_resync.py --out C:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/clock-resync-bm-b.json",
-   "cwd": "C:/Fluxgroup/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "C:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/clock-resync-bm-b.json",
+   "id": "asset-lib-asset-gen-2026-11-05",
+   "title": "[资产储备（角色 LoRA / 音色库）] 通用资产出图（道具/场景，吃 ASSET-PROMPTS 规格）",
+   "cmd": "python Tools/fleet/asset_gen.py --node bm-c --class props --limit 4 --receipt cph4/fleet/queue-receipts/asset-gen-props-2026-11-05.json",
+   "cwd": "",
+   "needs": "gpu",
+   "deliverable": "cph4/fleet/queue-receipts/asset-gen-props-2026-11-05.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 13.1/1.0 GB"
+ "capacity_note": "ram 12.6/1.0 GB"
 }

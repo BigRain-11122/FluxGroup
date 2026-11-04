@@ -1,11 +1,11 @@
 {
- "ts": "2026-11-05T05:21:47",
+ "ts": "2026-11-05T06:14:08",
  "stage": 3,
  "adoption": {
   "days": 4,
-  "applied": 860,
-  "total": 633,
-  "rate": 135.9,
+  "applied": 862,
+  "total": 635,
+  "rate": 135.7,
   "eligible_stage4": false
  },
  "decisions": [
@@ -13,9 +13,9 @@
    "kind": "requeue",
    "why": "3 张卡在跑但 1 小时无回执",
    "target": [
-    "bigstream-mv-gate-2026-11-05",
-    "Q-VCORP-PREP-e01-R3-20261105",
-    "OPS-CLOCK-RESYNC-BMB-20261105"
+    "CANARY-20261104T125141",
+    "CANARY-20261104T132721",
+    "MV-NEWPROC-PACKET-20261104"
    ],
    "min_stage": 3,
    "result": "applied"
@@ -35,9 +35,9 @@
   {
    "kind": "requeue",
    "ids": [
-    "bigstream-mv-gate-2026-11-05",
-    "Q-VCORP-PREP-e01-R3-20261105",
-    "OPS-CLOCK-RESYNC-BMB-20261105"
+    "CANARY-20261104T125141",
+    "CANARY-20261104T132721",
+    "MV-NEWPROC-PACKET-20261104"
    ]
   }
  ],
