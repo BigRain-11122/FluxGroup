@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-04T17:04:29+0800",
+ "ts": "2026-11-04T17:18:27+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -7,11 +7,11 @@
    "prio": "P0",
    "goal": "8 个原创角色包 + 音色库，反 AI 脸/反播音腔，成为所有内容线的可复用底座",
    "stage": "角色提示词包已出（48 张），出图未通；音色等投料",
-   "next_product": "传家宝出第一批角色图（8 角色 × 6 视角）",
+   "next_product": "修好打标判据后批量跑完 458 张，产 Caption 并进检索",
    "owner": "bm-c",
    "accept": "char-gen 回执 made>0 且无 failed；图进 faces/<ID> 并过准入闸",
    "blocker_type": "ENGINE",
-   "blocker": "char-probe 在 bm-c 上 rc=2 零回执，未定位（疑 checkout 落后）",
+   "blocker": "打标质量门与当前素材不匹配：抽 20 张 0 通过（理由是「只命中 0-2 个可见属性，像空话」），需改提示词/判据；另有 458 张待打",
    "state": "QUEUED",
    "card": "asset-lib-voice-corpus-bmb-2026-11-03",
    "running_on": null
@@ -27,9 +27,9 @@
    "accept": "SUBMIT-PACK 里『隐私政策』『提审台账』两类缺件归零",
    "blocker_type": "CEO",
    "blocker": "截图需跑游戏取图，受 2026-10-28『不许自动跑游戏包』令约束，等放行",
-   "state": "RUNNING",
-   "card": "biggame-playable-2026-11-03",
-   "running_on": "bm-c"
+   "state": "QUEUED",
+   "card": "R-PLAN-BIGGAME-20261104",
+   "running_on": null
   },
   {
    "id": "bigmoney",
@@ -57,9 +57,9 @@
    "accept": "发布台账有回执行；或 CEO 给出重剪清单",
    "blocker_type": "ENGINE",
    "blocker": "发布决定权在 CEO，但工程侧可先做下一首立意案",
-   "state": "RUNNING",
-   "card": "bigstream-mv-stability-2026-11-04",
-   "running_on": "bm-a"
+   "state": "QUEUED",
+   "card": "bigstream-mv-transition-2026-11-04",
+   "running_on": null
   },
   {
    "id": "bigstream-drama",
@@ -222,14 +222,14 @@
    "accept": "flux_check new=0；AUTOMATION-SURFACE 无 RISK 项",
    "blocker_type": "ENGINE",
    "blocker": "I2 存量 125 条卡面路径债、vault 缺盘 651 条",
-   "state": "QUEUED",
-   "card": "CANARY-20261103T200141",
-   "running_on": null
+   "state": "RUNNING",
+   "card": "CHK-DUPES-20261103",
+   "running_on": "bm-m"
   }
  ],
  "counts": {
-  "RUNNING": 2,
-  "QUEUED": 9,
+  "RUNNING": 1,
+  "QUEUED": 10,
   "STALLED": 4
  },
  "stalled_engine": 0
