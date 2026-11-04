@@ -470,6 +470,13 @@
      "now": "Tools/fleet/done_audit.py（2026-11-04）：DONE 卡逐条核交付物——OK 191 / 跨机不可核验 45 / 被 gitignore 的独立仓 6 / 真缺失 1（已降级 UNVERIFIED）/ 字段写成一句话 1",
      "status": "partial",
      "trigger": "只在「仓内相对路径且文件不在」时降级；跨机与外盘不改状态（看不见不等于没做）"
+    },
+    {
+     "id": "mc-llm",
+     "what": "本地模型赋能机队：固定题型、schema 校验、调用账、规则复核",
+     "now": "Tools/fleet/local_task.py + 脉冲 local_tasks 慢批（2026-11-04）：classify/summarize/score/extract 四题型，自检 4/4，单次 0.7-2.0s；带日上限 300 次；supply: 类分类自动用 BUSINESS-MAP 做规则复核（实测 3/3 被纠正并留痕）",
+     "status": "done",
+     "trigger": "题型成功率 <80% 或连续两批 FAILED 即判能力退化；classify 在缺料归因上目前无增益，需补题型定义后再评"
     }
    ]
   }

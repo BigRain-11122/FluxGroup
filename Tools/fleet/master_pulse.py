@@ -183,6 +183,10 @@ STAGES = [
     ("contingency", ["Tools/fleet/fleet_contingency.py"], 120, {0}, True),
     # 裁决收敛环（2026-11-04）：local_judge 只收敛 OPEN 行，4B 判不了的 ESCALATED 之前无人处理
     # （实测 5 件挂 12–36h）。这里先按盘上事实结案，再让 local_judge 处理新题。rc=2=仍有待 CEO 项。
+    # 本地模型任务层（2026-11-04 CEO：本地模型能力要持续赋能机队）：慢批每轮消化最多 3 件
+    # 待办（分类/摘要/打分/抽取），一次一件、串行，避免和 judge 抢同一个模型的槽位。
+    # rc=2=本批有失败（模型退化或题型不适配），rc=3=模型不可达。
+    ("local_tasks", ["Tools/fleet/local_task.py", "drain", "--limit", "3"], 240, {0, 2, 3}, True),
     ("decision_close", ["Tools/fleet/decision_close.py"], 60, {0, 2}, True),
     ("judge", ["Tools/fleet/local_judge.py"], 180, {0}, True),
     ("brain", ["Tools/fleet/brain_service.py"], 240, {0}, True),
