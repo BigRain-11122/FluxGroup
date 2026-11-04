@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-05T02:41:49",
- "cycle": 1,
+ "ts": "2026-11-05T02:43:09",
+ "cycle": 2,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-05T02:41:49",
+ "master_tick_ts": "2026-11-05T02:43:09",
  "queue": {
   "total": 467,
   "open": 26,
@@ -14,10 +14,10 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 31.4,
-   "cpu_load_pct": 67,
-   "ram_free_gb": 11.7,
-   "gpu_util_pct": 88,
+   "hb_age_s": 50.4,
+   "cpu_load_pct": 40,
+   "ram_free_gb": 12.1,
+   "gpu_util_pct": 91,
    "job": "Q-VCORP-PREP-e01-R3-20261105",
    "last_result": {
     "job": "R-NEXT-BIGSTREAMM-AUDIT-20261105",
@@ -32,16 +32,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 55.0,
-   "cpu_load_pct": 9,
-   "ram_free_gb": 12.9,
+   "hb_age_s": 11.8,
+   "cpu_load_pct": 2,
+   "ram_free_gb": 13.2,
    "gpu_util_pct": null,
-   "job": "fleet-node-sync-report-bm-b-2026-11-05",
+   "job": "asset-lib-asset-gen-2026-11-05",
    "last_result": {
-    "job": "asset-lib-asset-gen-2026-11-05",
+    "job": "fleet-node-sync-report-bm-b-2026-11-05",
     "state": "FAILED",
-    "rc": 3,
-    "ts": "2026-11-05T02:40:56",
+    "rc": 129,
+    "ts": "2026-11-05T02:42:34",
     "reason": null
    },
    "idle_confirmed": false,
@@ -50,9 +50,9 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 22.5,
-   "cpu_load_pct": 6,
-   "ram_free_gb": 3.0,
+   "hb_age_s": 9.1,
+   "cpu_load_pct": 8,
+   "ram_free_gb": 3.4,
    "gpu_util_pct": 0,
    "job": "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105",
    "last_result": {
@@ -69,15 +69,15 @@
   "bm-m": {
    "online": true,
    "hb_age_s": 1.0,
-   "cpu_load_pct": 32,
-   "ram_free_gb": 17.4,
+   "cpu_load_pct": 25,
+   "ram_free_gb": 17.3,
    "gpu_util_pct": null,
-   "job": "CHK-RECEIPT-20261104",
+   "job": "bigstream-mv-gate-2026-11-05",
    "last_result": {
-    "job": "bigstream-mv-gate-2026-11-05",
+    "job": "CHK-RECEIPT-20261104",
     "state": "FAILED",
-    "rc": 1,
-    "ts": "2026-11-05T02:40:24",
+    "rc": 2,
+    "ts": "2026-11-05T02:41:54",
     "reason": null
    },
    "idle_confirmed": false,
@@ -100,7 +100,8 @@
    "stale_after_h": 24.0,
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
    "jobs": [
-    "R-NEXT-BIGSTREAMM-GATE-20261105"
+    "R-NEXT-BIGSTREAMM-GATE-20261105",
+    "bigstream-mv-gate-2026-11-05"
    ],
    "no_supply": false,
    "blockers": [
@@ -303,9 +304,7 @@
     "CANARY-20261104T140742",
     "CANARY-20261104T175030",
     "CANARY-20261104T201032",
-    "CANARY-20261104T202057",
-    "CHK-RECEIPT-20261104",
-    "fleet-node-sync-report-bm-b-2026-11-05"
+    "CANARY-20261104T202057"
    ],
    "no_supply": false,
    "blockers": [
@@ -329,7 +328,8 @@
    "owner": "资产席",
    "jobs": [
     "Q-VCORP-PREP-e01-R3-20261105",
-    "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105"
+    "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105",
+    "asset-lib-asset-gen-2026-11-05"
    ],
    "no_supply": false,
    "blockers": [],
@@ -880,18 +880,15 @@
   "cpu": 26,
   "gpu": 0
  },
- "supply_added": [],
+ "supply_added": [
+  "backlog_manifest+3"
+ ],
  "events": [
-  "R-NEXT-BIGSTREAMM-AUDIT-20261105 UNVERIFIED(no-artifact-yet) via bm-a",
-  "asset-lib-asset-gen-2026-11-05 FAILED via bm-b",
+  "fleet-node-sync-report-bm-b-2026-11-05 FAILED via bm-b",
   "asset-lib-face-dataset-2026-11-05 FAILED via bm-c",
-  "bigstream-mv-gate-2026-11-05 FAILED via bm-m",
-  "CHK-DUPES-20261103 REQUeued attempt=1",
-  "CANARY-20261104T132721 REQUeued attempt=2",
-  "MV-NEWPROC-PACKET-20261104 REQUeued attempt=1",
-  "fleet-node-sync-report-bm-b-2026-11-05 -> bm-b (cpu)",
-  "Q-VCORP-PREP-e01-R3-20261105 -> bm-a (cpu)",
-  "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105 -> bm-c (gpu)"
+  "CHK-RECEIPT-20261104 FAILED via bm-m",
+  "asset-lib-asset-gen-2026-11-05 -> bm-b (gpu)",
+  "bigstream-mv-gate-2026-11-05 -> bm-m (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
@@ -899,8 +896,7 @@
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-a",
   "bm-b",
-  "bm-c"
+  "bm-m"
  ]
 }
