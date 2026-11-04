@@ -1,20 +1,19 @@
 {
- "ts": "2026-11-04T21:41:34",
+ "ts": "2026-11-04T21:55:02",
  "stage": 3,
  "adoption": {
   "days": 3,
-  "applied": 811,
-  "total": 584,
-  "rate": 138.9,
+  "applied": 813,
+  "total": 586,
+  "rate": 138.7,
   "eligible_stage4": false
  },
  "decisions": [
   {
    "kind": "requeue",
-   "why": "2 张卡在跑但 1 小时无回执",
+   "why": "1 张卡在跑但 1 小时无回执",
    "target": [
-    "R-PLAN-BIGLIFE-20261104",
-    "CANARY-20261104T202057"
+    "R-PLAN-BIGLIFE-20261104"
    ],
    "min_stage": 3,
    "result": "applied"
@@ -34,8 +33,7 @@
   {
    "kind": "requeue",
    "ids": [
-    "R-PLAN-BIGLIFE-20261104",
-    "CANARY-20261104T202057"
+    "R-PLAN-BIGLIFE-20261104"
    ]
   }
  ],
