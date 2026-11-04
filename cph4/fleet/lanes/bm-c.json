@@ -1,23 +1,23 @@
 {
  "node": "bm-c",
- "ts": "2026-11-05T01:44:58",
+ "ts": "2026-11-05T01:46:18",
  "jobs": [
   {
-   "id": "fleet-node-sync-report-bm-c-2026-11-05",
-   "title": "[机队] bm-c 仓面自报：分支/HEAD/origin/main/领先落后/脏文件（纯 git，不依赖仓内脚本）",
-   "cmd": "git fetch origin --prune ; (echo BRANCH=$(git rev-parse --abbrev-ref HEAD) ; echo HEAD=$(git rev-parse HEAD) ; echo ORIGIN=$(git rev-parse origin/main) ; echo LEFT_RIGHT=$(git rev-list --left-right --count HEAD...origin/main) ; echo DIRTY: ; git status --porcelain -uno) > cph4/fleet/queue-receipts/node-sync-bm-c-2026-11-05.txt",
-   "cwd": null,
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/node-sync-bm-c-2026-11-05.txt",
+   "id": "asset-lib-asset-gen-2026-11-05",
+   "title": "[资产储备（角色 LoRA / 音色库）] 通用资产出图（道具/场景，吃 ASSET-PROMPTS 规格）",
+   "cmd": "python Tools/fleet/asset_gen.py --node bm-c --class props --limit 4 --receipt cph4/fleet/queue-receipts/asset-gen-props-2026-11-05.json",
+   "cwd": "",
+   "needs": "gpu",
+   "deliverable": "cph4/fleet/queue-receipts/asset-gen-props-2026-11-05.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
    "when_all": [],
    "llm": null,
-   "timeout_s": 600
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 3.1/1.0 GB"
+ "capacity_note": "ram 1.8/1.0 GB"
 }
