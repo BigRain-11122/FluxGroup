@@ -1,11 +1,11 @@
 {
- "ts": "2026-11-05T01:27:23",
+ "ts": "2026-11-05T01:34:07",
  "stage": 3,
  "adoption": {
   "days": 4,
-  "applied": 831,
-  "total": 604,
-  "rate": 137.6,
+  "applied": 833,
+  "total": 606,
+  "rate": 137.5,
   "eligible_stage4": false
  },
  "decisions": [
@@ -13,7 +13,7 @@
    "kind": "requeue",
    "why": "1 张卡在跑但 1 小时无回执",
    "target": [
-    "fleet-node-sync-report-bm-c-2026-11-05"
+    "asset-lib-char-gen-2026-11-05"
    ],
    "min_stage": 3,
    "result": "applied"
@@ -33,7 +33,7 @@
   {
    "kind": "requeue",
    "ids": [
-    "fleet-node-sync-report-bm-c-2026-11-05"
+    "asset-lib-char-gen-2026-11-05"
    ]
   }
  ],

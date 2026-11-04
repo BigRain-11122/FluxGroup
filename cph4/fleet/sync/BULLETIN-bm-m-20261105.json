@@ -1,20 +1,20 @@
 {
  "node": "bm-m",
  "date": "20261105",
- "ts": "2026-11-05T01:27:23+0800",
+ "ts": "2026-11-05T01:34:07+0800",
  "window_h": 26,
  "produced": [
   {
    "path": "cph4/fleet/queue-receipts/skill-promote-20261105.json",
    "bytes": 2172,
-   "mtime": "2026-11-05T01:27:23",
-   "sha": "14e8abf6e7796f936b11aeb536d7667c1b24004f674c6b9cad2a74bf2b998b01"
+   "mtime": "2026-11-05T01:34:07",
+   "sha": "c3c6f4c4191db03951765fa756b38870b0a5e8444736605c8abd1acd2c186193"
   },
   {
    "path": "cph4/fleet/queue-receipts/review-packet-mv-20261105.md",
    "bytes": 1111,
-   "mtime": "2026-11-05T01:26:12",
-   "sha": "620161f38695e95f32792ce6edd08cbf087e38cca79d26b6bf2426c7a1cde9ca"
+   "mtime": "2026-11-05T01:27:40",
+   "sha": "519d9e5b1f3a3744a981859f0703d7179f44fcaa20530f08a39113230d522142"
   },
   {
    "path": "cph4/fleet/queue-receipts/CHK-DUPES-20261103-bm-m.json",
@@ -577,6 +577,10 @@
  ],
  "blocked": [
   {
+   "what": "_last_lane_bm-m.json",
+   "why": "rc=1 "
+  },
+  {
    "what": "Q-VCORP-PREP-e01-R3-20261105",
    "why": "rc=127 "
   },
@@ -595,10 +599,6 @@
   {
    "what": "inference-audit-bm-m-20261105.json",
    "why": "rc=None "
-  },
-  {
-   "what": "R-NEXT-BIGSTREAMM-AUDIT-20261103",
-   "why": "E-UNKNOWN "
   }
  ],
  "job": null
