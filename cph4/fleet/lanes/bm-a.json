@@ -1,14 +1,14 @@
 {
  "node": "bm-a",
- "ts": "2026-11-05T06:35:15",
+ "ts": "2026-11-05T07:20:22",
  "jobs": [
   {
-   "id": "MV-NEWPROC-PACKET-20261104",
-   "title": "导演席新流程卷：四曲立意/分镜/合规矩阵一页卷",
-   "cmd": "python Tools/fleet/review_packet.py --line mv --root .",
+   "id": "asset-lib-face-dataset-2026-11-05",
+   "title": "[资产储备（角色 LoRA / 音色库）] 人脸数据集准入（反 AI 脸的第一道门）",
+   "cmd": "python Tools/fleet/asset_dataset_audit.py --mode face --dir media/asset/faces --out cph4/fleet/queue-receipts/asset-face-2026-11-05.json",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/review-packet-mv-20261104.md",
+   "deliverable": "cph4/fleet/queue-receipts/asset-face-2026-11-05.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 9.6/1.0 GB"
+ "capacity_note": "ram 16.6/1.0 GB"
 }
