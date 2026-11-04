@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
- "ts": "2026-11-04T10:07:25",
+ "ts": "2026-11-04T10:08:40",
  "jobs": [
   {
-   "id": "bigstream-mv-stability-2026-11-04",
-   "title": "[MV·爱在西元前（v721 终版）] 稳定性闸（seam / freeze 双 0）",
-   "cmd": "python Tools/mv_stability_gate.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721_60fps_1080p.mp4",
+   "id": "CHK-DUPES-20261103",
+   "title": "重复派单向量重扫（bm-m 兜底体检）",
+   "cmd": "python3 Tools/fleet/semantic_dupes.py --json cph4/fleet/queue-receipts/dupes-scan-20261103.json",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/mv-stability-v721-2026-11-04.json",
+   "deliverable": "cph4/fleet/dupes-scan-20261103.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 18.6/1.0 GB"
+ "capacity_note": "ram 18.1/1.0 GB"
 }
