@@ -1,0 +1,173 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""queue_integrity.py - 主控事实面的完整性闸：队列/积压/台账不许带着冲突标记或坏行运行。
+
+为什么（2026-11-04 实测抓到的真事故）：
+  cph4/fleet/PRODUCTION-QUEUE.jsonl 与 PRODUCTION-BACKLOG.jsonl 曾有 12 + 4 行
+  git 冲突标记（<<<<<<< HEAD / ======= / >>>>>>>）被**提交进 git**。所有解析器
+  （next_actions / master_agent / lane_agent / ops_metrics）都是逐行 json.loads 后
+  try/except 跳过坏行，于是主控少看 21 行卡片却一切"正常"：供给看起来不足、
+  判定线看起来迟到、卡片账对不上，没有一处会报错。假绿里最贵的一种是**看不见**。
+
+  更阴的是：脉冲下一轮 write_jsonl 会把坏行直接写没（文件变干净、行数变少），
+  事故痕迹也随之消失——所以只查工作区不够，必须同时查 git 里的存量 blob。
+
+它查五件（都是可判定的，不猜）：
+  C1 冲突标记（工作区）        critical
+  C2 坏行：非空行 json.loads 失败  critical
+  C3 冲突标记（git HEAD blob）   critical —— 已提交的脏账本会随 git 分发到其它机器
+  C4 重复 id（merge_jsonl 会 collapsing，重复行可能遮蔽后写）  warn
+  C5 缺 state / 非法 state 词    warn
+
+用法：
+  python3 Tools/fleet/queue_integrity.py                # 一屏 + 落 state/queue-integrity.json
+  python3 Tools/fleet/queue_integrity.py --json         # 只输出 JSON
+  python3 Tools/fleet/queue_integrity.py --no-git       # 跳过 C3（无 git 环境时）
+Exit: 0 全绿；2 有 critical（坏账本必须当轮处理，不许继续跑派单）
+"""
+import argparse
+import glob
+import json
+import os
+import subprocess
+import sys
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.dirname(os.path.dirname(HERE))
+FLEET = os.path.join(ROOT, "cph4", "fleet")
+OUT = os.path.join(FLEET, "state", "queue-integrity.json")
+
+MARKERS = ("<<<<<<<", "=======", ">>>>>>>")
+# 队列/积压/判定/回执台账：这些文件被逐行解析，坏一行就少一张卡
+KEY_FILES = ("PRODUCTION-QUEUE.jsonl", "PRODUCTION-BACKLOG.jsonl",
+             "dispatcher/JUDGMENT-QUEUE.jsonl", "dispatcher/DISPATCH-REQUESTS.jsonl")
+STATES = {"OPEN", "READY", "RUNNING", "CLAIMED", "DONE", "FAILED", "CANCELLED",
+          "PROMOTED", "ARCHIVED", "UNVERIFIED", "BLOCKED", "PENDING"}
+MAX_BYTES = 8 * 1024 * 1024
+
+
+def scan_file(path, rel):
+    # state 词表只对"卡片队列"成立：LANE-REGISTRY / events / 各种台账各有自己的词，
+    # 拿卡片词表去拦它们只会制造噪声（实测 5 个文件误报 40+ 行），闸一吵就没人看。
+    check_state = rel in KEY_FILES
+    bad_marker, bad_json, dup_ids, bad_state, no_state = [], [], [], [], []
+    n = 0
+    seen = {}
+    try:
+        if os.path.getsize(path) > MAX_BYTES:
+            return {"file": rel, "skipped": "too-large"}
+        with open(path, encoding="utf-8", errors="replace") as f:
+            for i, line in enumerate(f, 1):
+                s = line.strip()
+                if not s:
+                    continue
+                if s.startswith(MARKERS):
+                    bad_marker.append(i)
+                    continue
+                n += 1
+                try:
+                    r = json.loads(s)
+                except Exception:
+                    bad_json.append(i)
+                    continue
+                if not isinstance(r, dict):
+                    bad_json.append(i)
+                    continue
+                k = r.get("id") or r.get("key")
+                if k is not None:
+                    seen[k] = seen.get(k, 0) + 1
+                st = r.get("state")
+                if not check_state:
+                    continue
+                if st is None:
+                    no_state.append(i)
+                elif str(st).upper() not in STATES:
+                    bad_state.append({"line": i, "state": st})
+    except FileNotFoundError:
+        return {"file": rel, "missing": True}
+    dup_ids = sorted(k for k, c in seen.items() if c > 1)
+    return {"file": rel, "rows": n, "conflict_marker_lines": bad_marker,
+            "bad_json_lines": bad_json, "dup_ids": dup_ids[:20],
+            "dup_id_count": len(dup_ids), "missing_state_lines": no_state[:10],
+            "unknown_state": bad_state[:10]}
+
+
+def git_blob_markers(rel):
+    """已提交版本里的冲突标记——工作区干净也拦不住它随 git 分发出去。"""
+    try:
+        out = subprocess.run(["git", "show", "HEAD:%s" % rel], cwd=ROOT,
+                             capture_output=True, text=True, timeout=30)
+    except Exception as e:
+        return {"file": rel, "git": "ERROR:%s" % e}
+    if out.returncode != 0:
+        return {"file": rel, "git": "NOT-IN-HEAD"}
+    lines = out.stdout.splitlines()
+    hits = [i for i, l in enumerate(lines, 1) if l.strip().startswith(MARKERS)]
+    return {"file": rel, "git_marker_lines": hits, "git_rows": len(lines)}
+
+
+def main(argv):
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--json", action="store_true")
+    ap.add_argument("--no-git", action="store_true")
+    a = ap.parse_args(argv)
+
+    files = list(KEY_FILES)
+    # 其余队列类台账也扫（回执/事件/账本），但只在 fleet 一层与 dispatcher 一层，避免扫进大归档
+    for p in sorted(glob.glob(os.path.join(FLEET, "*.jsonl")) +
+                    glob.glob(os.path.join(FLEET, "dispatcher", "*.jsonl"))):
+        rel = os.path.relpath(p, ROOT)
+        if rel not in files:
+            files.append(rel)
+
+    report, critical = [], 0
+    for rel in files:
+        path = os.path.join(ROOT, rel.replace("/", os.sep))
+        r = scan_file(path, rel)
+        if not a.no_git and r.get("rows"):
+            g = git_blob_markers(rel)
+            if g.get("git_marker_lines"):
+                r["git_conflict_marker_lines"] = g["git_marker_lines"]
+        if r.get("conflict_marker_lines") or r.get("bad_json_lines") \
+                or r.get("git_conflict_marker_lines"):
+            critical += 1
+        report.append(r)
+
+    state = {"ts": __import__("datetime").datetime.now().isoformat(timespec="seconds"),
+             "critical_files": critical, "files": report}
+    os.makedirs(os.path.dirname(OUT), exist_ok=True)
+    with open(OUT, "w", encoding="utf-8") as f:
+        json.dump(state, f, ensure_ascii=False, indent=1)
+
+    if a.json:
+        print(json.dumps(state, ensure_ascii=False))
+        return 2 if critical else 0
+
+    print("[queue-integrity] files=%d critical=%d" % (len(report), critical))
+    for r in report:
+        if r.get("missing") or r.get("skipped"):
+            continue
+        flags = []
+        if r.get("conflict_marker_lines"):
+            flags.append("CONFLICT(marker@%d)" % len(r["conflict_marker_lines"]))
+        if r.get("git_conflict_marker_lines"):
+            flags.append("CONFLICT-IN-GIT(@%d)" % len(r["git_conflict_marker_lines"]))
+        if r.get("bad_json_lines"):
+            flags.append("BAD-JSON(%d)" % len(r["bad_json_lines"]))
+        if r.get("dup_id_count"):
+            flags.append("DUP-ID(%d)" % r["dup_id_count"])
+        if r.get("unknown_state"):
+            flags.append("BAD-STATE(%d)" % len(r["unknown_state"]))
+        if r.get("missing_state_lines"):
+            flags.append("NO-STATE(%d)" % len(r["missing_state_lines"]))
+        if flags:
+            print("  %-52s rows=%-5s %s" % (r["file"], r.get("rows"), " ".join(flags)))
+    if critical:
+        print("[queue-integrity] VERDICT=RED 坏账本会让主控静默少看卡，先修文件再派单")
+    else:
+        print("[queue-integrity] VERDICT=GREEN 逐行可解析、无冲突标记、无提交态脏账本")
+    return 2 if critical else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))

@@ -73,8 +73,11 @@ def sync_card(node, why, dry):
     have = {r.get("id") for r in jl(BACKLOG) + jl(QUEUE)}
     if jid in have:
         return None
-    card = {"id": jid, "title": "%s 工作树收口（fetch+rebase，勿 hard reset）" % node,
-            "cmd": "git pull --rebase --autostash origin main", "cwd": "",
+    card = {"id": jid, "title": "%s 工作树收口（fetch+ff-only，禁 rebase）" % node,
+            # 2026-11-04：原卡是 `git pull --rebase --autostash`，实测在多机同推的共享工作树上
+            # 反复留下冲突标记（主控仓被卡在 98 步 rebase、队列静默少 21 行）。收口只做 fetch+
+            # 快进，收不动的交给主控脉按 merge 口径处理，绝不在执行机改写历史。
+            "cmd": "git fetch --prune origin && git merge --ff-only origin/main", "cwd": "",
             "requires": [], "needs": "cpu", "nodes": [node], "prio": "P2", "day_ok": True,
             "why": why, "created_by": "master_solver:A1",
             "created_at": datetime.now().isoformat(timespec="seconds")}

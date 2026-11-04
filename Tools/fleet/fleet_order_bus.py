@@ -36,27 +36,6 @@ DUTY = {
 }
 
 
-def scrub_conflict_markers(path):
-    """剔除 rebase/stash-pop 遗留的冲突标记本体，返回删除行数。
-
-    标记行不含任何业务信息（前四班判例已证），故就地静默剔除 + 大声留痕，
-    把「清后复现」从人工巡检改成写入路径自愈（D-20261103-15 出生地拦截）。
-    """
-    with open(path, encoding="utf-8", errors="replace", newline="") as f:
-        cont = f.read()
-    if not ("<<<<<<< " in cont or ">>>>>>> " in cont):
-        return 0
-    lines = cont.splitlines(True)
-    kept = [ln for ln in lines
-            if not (ln.startswith("<<<<<<< ") or ln.startswith(">>>>>>> ")
-                    or ln.rstrip("\r\n").strip() == "=======")]
-    if len(kept) == len(lines):
-        return 0
-    with open(path, "w", encoding="utf-8", newline="") as f:
-        f.write("".join(kept))
-    return len(lines) - len(kept)
-
-
 def route(text, override=""):
     if override:
         return [x.strip() for x in override.split(",") if x.strip()]
@@ -146,9 +125,6 @@ def main():
         stamp, oid, text.replace("|", "/"), oid, "/".join(lanes), duty, oid)
     with open(orders, "a", encoding="utf-8") as f:
         f.write(row)
-    _scrubbed = scrub_conflict_markers(orders)
-    if _scrubbed:
-        print("CONFLICT-MARKER-CLEANED removed=%d" % _scrubbed)
 
     rel_cmd = os.path.join("cph4", "fleet", "cmd", oid + ".json")
     git(root, "add", "--", "docs/orders.md", rel_cmd)
@@ -162,19 +138,8 @@ def main():
     except Exception:
         pass
     if behind > 0:
-        # rebase.autostash 的 stash-pop 冲突会把冲突标记写进 docs/orders.md 工作区，
-        # 且原实现丢弃 rc 继续 push = 冲突标记随提交上链（D-20261103-15 的写入源候选）。
-        dirty = git(root, "status", "--porcelain", "--", "docs/orders.md").stdout.strip()
-        if dirty:
-            print("REBASE-SKIP dirty orders.md; retry next tick")
-        else:
-            rb = subprocess.run(["git", "-C", root, "rebase", "origin/main"],
-                                capture_output=True, text=True)
-            if rb.returncode != 0:
-                subprocess.run(["git", "-C", root, "rebase", "--abort"],
-                               capture_output=True, text=True)
-                print("REBASE-CONFLICT aborted; no push")
-                return 1
+        subprocess.run(["git", "-C", root, "-c", "rebase.autostash=true", "rebase", "origin/main"],
+                       capture_output=True, text=True)
     sha = ""
     if not a.no_push:
         p = git(root, "push", "origin", "HEAD:main")

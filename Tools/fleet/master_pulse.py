@@ -75,6 +75,10 @@ STAGES = [
                     "--json", "cph4/fleet/state/gate-rigor.json"], 60, {0, 2}, True),
     # 工序表结构错（悬空依赖/成环/缺 accept）会让整条线静默停摆，rc=2 是"表坏了"的告警。
     ("line_plan", ["Tools/fleet/line_plan.py"], 60, {0, 2}, False),
+    # 队列完整性闸（2026-11-04）：实测两张队列里出现过 12+4 行 git 冲突标记，而读队列的每个
+    # 脚本都 try/except 跳过坏行 → 主控静默少看 21 张卡、没有一处报错。放在所有读写队列的
+    # 阶段之前，快批每轮跑（14 个文件、约 0.1s）。rc=2 = 账本已脏，先修文件再派单。
+    ("qcheck", ["Tools/fleet/queue_integrity.py"], 60, {0, 2}, False),
     ("night_fill", ["Tools/fleet/night_fill.py", "--target", "6"], 90, {0}, False),
     # 银行自动补料（2026-11-03，曾被并行会话的 STAGES 整表重写静默丢掉一次——重加并留痕）：
     # workgen 只认 bank 里现成的卡片，bank 空了机器就空转；本阶段按机器能力补体检活，
@@ -318,36 +322,115 @@ GENERATED = ("cph4/fleet/dispatcher/", "cph4/fleet/lanes/", "cph4/fleet/queue-re
              "cph4/fleet/vault/index.jsonl")
 
 
+def _abort_stuck_rebase():
+    """卡在中间的 rebase 是静默毒药，必须先清掉再谈同步。
+
+    2026-11-04 实测：仓库卡在 98 步交互式 rebase 的中段（1 步已 pick、5 个文件 UU），
+    工作区带着 <<<<<<< 冲突标记，而读队列的每个脚本都 try/except 跳过坏行 →
+    队列少 21 行卡片、没有任何一处报错。脉冲自己还每轮试 rebase --continue 失败。
+    """
+    if not _rebase_in_progress():
+        return False
+    git(["rebase", "--abort"], timeout=90)
+    return True
+
+
+def _local_only_open_cards(paths):
+    """合并前把本机独有的 OPEN/READY 卡留底，避免"取远端版本"把它们一起抹掉。"""
+    keep = []
+    for rel in paths:
+        p = os.path.join(ROOT, rel.replace("/", os.sep))
+        try:
+            with open(p, encoding="utf-8") as f:
+                for line in f:
+                    line = line.strip()
+                    if not line or line.startswith("<<<<<<<") \
+                            or line.startswith("=======") or line.startswith(">>>>>>>"):
+                        continue
+                    try:
+                        r = json.loads(line)
+                    except Exception:
+                        continue
+                    if isinstance(r, dict) and r.get("id") \
+                            and str(r.get("state") or "").upper() in ("OPEN", "READY"):
+                        keep.append((rel, r))
+        except FileNotFoundError:
+            pass
+    return keep
+
+
+def _restore_local_only_cards(keep):
+    """合并后把远端没有的本机卡补回（只补 OPEN/READY，绝不复活 CANCELLED/DONE）。"""
+    restored = 0
+    by_rel = {}
+    for rel, r in keep:
+        by_rel.setdefault(rel, []).append(r)
+    for rel, rows in by_rel.items():
+        p = os.path.join(ROOT, rel.replace("/", os.sep))
+        have = set()
+        try:
+            with open(p, encoding="utf-8") as f:
+                for line in f:
+                    line = line.strip()
+                    if not line:
+                        continue
+                    try:
+                        have.add(json.loads(line).get("id"))
+                    except Exception:
+                        continue
+        except FileNotFoundError:
+            continue
+        add = [r for r in rows if r.get("id") not in have]
+        if not add:
+            continue
+        with open(p, "a", encoding="utf-8") as f:
+            for r in add:
+                f.write(json.dumps(r, ensure_ascii=False) + "\n")
+        restored += len(add)
+    return restored
+
+
 def rebase_generated():
-    """分叉收口：只对"生成态文件"取远端版本，代码一律不rebase。
+    """分叉收口：只对"生成态文件"取远端版本，代码一律不动。
 
     为什么需要（2026-11-02 实测）：多机同时 push 时 fast-forward 必然失败，
     主控脉报 DIVERGED/rejected，整夜同步停摆而报表还绿——就是"哑巴 8 小时"那类病。
     安全边界：一旦冲突落在 Tools/ 或文档（手写件），立即 abort，绝不替人做选择。
+
+    2026-11-04 改（rebase → merge）：旧实现 rebase --autostash origin/main 会把本机
+    几十个 pulse 快照逐个重放，每个都撞同一批队列/lane 冲突，于是 continue-failed →
+    abort → 下一轮再来；实测把仓库卡在 98 步 rebase 里，工作区留冲突标记、队列被静默
+    吞行。merge 不重写历史、不必逐个重放，同样能实现"生成态取远端"的口径。
     """
+    stuck = _abort_stuck_rebase()
+    if stuck:
+        log("[git] aborted a stuck rebase before merging (2026-11-04 fix)")
+    # 先把自己这半边的生成态快照提交，脏工作区不许挡住 merge
+    tracked, untracked = tree_state()
+    if tracked or untracked:
+        commit_state(tracked, untracked)
     r = git(["fetch", "--prune", "origin"], timeout=120)
     if r.returncode != 0:
         return "fetch-failed"
-    r = git(["rebase", "--autostash", "origin/main"], timeout=180)
+    ahead = git(["rev-list", "--count", "origin/main..HEAD"], timeout=30)
+    behind = git(["rev-list", "--count", "HEAD..origin/main"], timeout=30)
+    if (ahead.stdout or "0").strip() in ("", "0"):
+        return "ok (no local commits)"
+
+    keep = _local_only_open_cards(
+        ["cph4/fleet/PRODUCTION-QUEUE.jsonl", "cph4/fleet/PRODUCTION-BACKLOG.jsonl"])
+    r = git(["merge", "--no-edit", "-m",
+             "pulse: merge origin (generated files take remote)", "origin/main"], timeout=180)
     for _ in range(3):
         r = git(["diff", "--name-only", "--diff-filter=U"], timeout=30)
-        conflicts = [p for p in (r.stdout or "").split() if p]
         if r.returncode != 0:
+            git(["merge", "--abort"], timeout=60)
             return "status-failed"
+        conflicts = [p for p in (r.stdout or "").split() if p]
         if not conflicts:
-            if _rebase_in_progress():
-                r2 = git(["-c", "core.editor=true", "rebase", "--continue"], timeout=120)
-                if r2.returncode != 0:
-                    # rebase 可能已在最后一步自行收口（"no rebase in progress"），
-                    # 只要不再处于 rebase 且无冲突，就算成功，不 abort 掉已完成的成果。
-                    if not _rebase_in_progress():
-                        return "ok"
-                    git(["rebase", "--abort"], timeout=60)
-                    return "continue-failed"
-                continue
-            return "ok"
+            break
         if any(not p.startswith(GENERATED) for p in conflicts):
-            git(["rebase", "--abort"], timeout=60)
+            git(["merge", "--abort"], timeout=60)
             return "hand-edit-conflict:%s" % _one_line(",".join(conflicts), 80)
         for p in conflicts:
             git(["checkout", "--theirs", "--", p], timeout=30)
@@ -363,8 +446,29 @@ def rebase_generated():
             except Exception:
                 pass
             git(["add", "--", p], timeout=30)
-    git(["rebase", "--abort"], timeout=60)
-    return "loop-limit"
+    else:
+        git(["merge", "--abort"], timeout=60)
+        return "loop-limit"
+    if _rebase_in_progress():
+        git(["merge", "--abort"], timeout=60)
+        return "still-in-rebase"
+    r = git(["diff", "--name-only", "--diff-filter=U"], timeout=30)
+    if (r.stdout or "").strip():
+        git(["merge", "--abort"], timeout=60)
+        return "conflicts-left"
+    if git(["rev-parse", "-q", "--verify", "MERGE_HEAD"], timeout=20).returncode == 0:
+        r = git(["commit", "-q", "--no-edit"], timeout=90)
+        if r.returncode != 0:
+            git(["merge", "--abort"], timeout=60)
+            return "merge-commit-failed"
+    n = _restore_local_only_cards(keep)
+    if n:
+        git(["add", "--", "cph4/fleet/PRODUCTION-QUEUE.jsonl",
+             "cph4/fleet/PRODUCTION-BACKLOG.jsonl"], timeout=30)
+        git(["commit", "-q", "-m", "pulse: restore %d local-only cards after merge" % n],
+            timeout=60)
+        log("[git] restored %d local-only OPEN/READY cards after merge" % n)
+    return "ok"
 
 
 def _rebase_in_progress():

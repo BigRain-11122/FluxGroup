@@ -134,9 +134,12 @@ def git_publish(root, node, jid, paths):
         if r.returncode == 0:
             return "pushed"
         last = r.stderr or r.stdout
-        rb = git(["pull", "--rebase", "--no-autostash"], timeout=120)
+        # 2026-11-04：禁 rebase。多机同推时 pull --rebase 会在共享工作树留 UU 冲突，实测把
+        # 主控仓卡在 98 步 rebase 中段（冲突标记进队列、读方静默跳过 21 行卡）。只快进；
+        # 快进不了就放弃本轮，产物留本地，由主控脉按 merge 口径收口。
+        rb = git(["pull", "--ff-only", "--no-rebase", "origin", "main"], timeout=120)
         if rb.returncode != 0:
-            git(["rebase", "--abort"], timeout=60)
+            break
     return "push-failed:%s" % (last or "")[:80]
 
 
