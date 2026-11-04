@@ -64,6 +64,10 @@ STAGES = [
     # 市场门=简报五要素+新鲜度；质量门=交付必须有闸回执。rc=2 是"有缺口"的告警。
     ("market", ["Tools/fleet/market_brief.py", "check", "--all"], 30, {0, 2}, True),
     ("quality", ["Tools/fleet/quality_gate.py", "--all", "--json"], 60, {0, 2}, True),
+    # 开源风向雷达（2026-11-04 CEO 令「经常去 GitHub 看上升快/潜力大的开源，学习并储备」）：
+    # 原 radar-daily-sweep.ps1 只扫不上电，实际是人想起来才跑；这里按日期闸每天跑一次，
+    # 产出 cph4/fleet/oss/{STOCKPILE.json,OSS-RADAR.md} 随 git 分发；rc=2 表示本轮有 API 异常。
+    ("ossradar", ["Tools/fleet/oss_radar.py", "scan"], 120, {0, 2}, True),
     # 标准六问体检（2026-11-04 CEO 令「标准和方法都要严谨和科学」）：
     # 扫全部 LAW/SPEC/QC 文档，缺"标定依据/负控/能力边界/唯一判据/失效条件/验证记录"就点名。
     # rc=2 是"这份标准还答不出六问之一"，属告警不是工具坏，所以计入 ok_rc。
