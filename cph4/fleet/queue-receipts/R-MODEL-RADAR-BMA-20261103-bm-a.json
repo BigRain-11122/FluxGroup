@@ -2,7 +2,7 @@
  "id": "R-MODEL-RADAR-BMA-20261103",
  "node": "bm-a",
  "rc": 0,
- "seconds": 0.3,
+ "seconds": 0.2,
  "cmd": "python Tools/fleet/model_radar.py run --node bm-a --idle-only --apply",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": "E-ARTIFACT",
  "deliverable": "cph4/fleet/queue-receipts/model-radar-bm-a-20261103.json",
  "deliverable_exists": false,
- "ts": "2026-11-05T07:34:39",
+ "ts": "2026-11-05T07:35:05",
  "stdout_tail": "{\"skipped_idle\": \"queue-running:R-PLAN-BIGGAME-20261105\", \"node\": \"bm-a\"}\n",
  "stderr_tail": ""
 }
