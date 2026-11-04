@@ -1,14 +1,14 @@
 {
  "node": "bm-c",
- "ts": "2026-11-04T16:41:54",
+ "ts": "2026-11-04T16:40:02",
  "jobs": [
   {
-   "id": "ART-PUSH-BMA-20261104",
-   "title": "bm-a 产物回传（artifact_push 全量）",
-   "cmd": "powershell -ExecutionPolicy Bypass -File Tools\\fleet\\artifact_push.ps1 -Root C:\\Fluxgroup\\FluxGroup -Node bm-a -MaxMB 2048",
-   "cwd": null,
+   "id": "CANARY-20261103T160731",
+   "title": "端到端自检：投卡→领取→执行→回执→产物",
+   "cmd": "python -c \"import os;os.makedirs(r'cph4/fleet/state/canary',exist_ok=True);open(r'cph4/fleet/state/canary/RUN-20261103T160731.txt','w',encoding='utf-8').write('canary 20261103T160731 — 端到端自检产物，不是业务活')\"",
+   "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/artifacts/bm-a/PUSHED.jsonl",
+   "deliverable": "cph4/fleet/state/canary/RUN-20261103T160731.txt",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 2.4/1.0 GB"
+ "capacity_note": "ram 2.5/1.0 GB"
 }
