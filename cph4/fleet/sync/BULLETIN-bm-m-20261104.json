@@ -1,14 +1,26 @@
 {
  "node": "bm-m",
  "date": "20261104",
- "ts": "2026-11-04T14:52:18+0800",
+ "ts": "2026-11-04T15:00:23+0800",
  "window_h": 26,
  "produced": [
   {
    "path": "cph4/fleet/queue-receipts/skill-promote-20261104.json",
    "bytes": 2172,
-   "mtime": "2026-11-04T14:52:18",
-   "sha": "cae1eb91394cab4174a89947ca1f2028d4fb844d4a4cc9beb9b171fad612d4e9"
+   "mtime": "2026-11-04T15:00:23",
+   "sha": "6a7a57ae072e0783e390e1b80afa5427aa82427b59c02e36b40c4782c93fa8eb"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/game-packs-2026-11-03-r2.json",
+   "bytes": 5061,
+   "mtime": "2026-11-04T15:00:23",
+   "sha": "053af9a39a29ce01fcda032680a3b5dadcbbd42cf3a7e13e6fa7e3946e911878"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/CHK-DUPES-20261103-bm-m.json",
+   "bytes": 2723,
+   "mtime": "2026-11-04T14:59:06",
+   "sha": "0c68f10dd265cd93fb6637e45f0b4f80c9758f92b004450bec7987ed31c6a5e5"
   },
   {
    "path": "cph4/fleet/lib/ASSET-INDEX.json",
@@ -75,12 +87,6 @@
    "bytes": 1285,
    "mtime": "2026-11-04T12:04:39",
    "sha": "355b8e53894d8566709834706b4e87b961473d2f2c5b3d6d14bdbb061b32aabb"
-  },
-  {
-   "path": "cph4/fleet/queue-receipts/CHK-DUPES-20261103-bm-m.json",
-   "bytes": 2789,
-   "mtime": "2026-11-04T12:04:39",
-   "sha": "9c5ffc3f1df847010d87412739565c3fdf536b3e1b284b53821a6ee396446d97"
   },
   {
    "path": "cph4/fleet/queue-receipts/asset-library-2026-11-04.json",
@@ -527,10 +533,6 @@
    "why": "E-UNKNOWN ASSET-ENV FAIL  bm-m\n  可用路线: 无\n  ! 没有 ffmpeg（切分/抽帧/审计都要）\n  ! 没有 torch（No module "
   },
   {
-   "what": "_last_lane_bm-m.json",
-   "why": "rc=3 "
-  },
-  {
    "what": "asset-lib-voice-corpus-bmm-2026-11-03",
    "why": "rc=3 [corpus] 本分片无输入（inbox 共 0 个文件）——等投料，rc=3\n"
   },
@@ -545,6 +547,10 @@
   {
    "what": "asset-lib-library-check-2026-11-04",
    "why": "E-UNKNOWN 资产库体检 tier=p0  合计 19/128（15%）  GAPS\n  OK characters    8/8    授权 8\n      - CH01："
+  },
+  {
+   "what": "voice-corpus-bm-m-2026-11-04.json",
+   "why": "E-BLOCKED-INPUT "
   }
  ],
  "job": null

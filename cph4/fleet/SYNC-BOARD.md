@@ -1,4 +1,4 @@
-# 机队互报（2026-11-04T14:52:18+0800）
+# 机队互报（2026-11-04T15:00:23+0800）
 
 上报 1 / 名册 5 台；本机看不到的他人产物 0 件（传输通道度量，不是错误）
 
@@ -11,21 +11,21 @@
 - bm-m：最近一份 0.0h 前
 
 ## bm-m（20261104，窗口 26h）
-- 产出 86 件
-  - `cph4/fleet/queue-receipts/skill-promote-20261104.json`（2KB, cae1eb9139…）
+- 产出 87 件
+  - `cph4/fleet/queue-receipts/skill-promote-20261104.json`（2KB, 6a7a57ae07…）
+  - `cph4/fleet/queue-receipts/game-packs-2026-11-03-r2.json`（4KB, 053af9a39a…）
+  - `cph4/fleet/queue-receipts/CHK-DUPES-20261103-bm-m.json`（2KB, 0c68f10dd2…）
   - `cph4/fleet/lib/ASSET-INDEX.json`（3KB, 996db96209…）
   - `cph4/fleet/queue-receipts/receipt-attrib-20261104.json`（5KB, aa912ebe60…）
   - `cph4/fleet/queue-receipts/asset-lib-voice-dataset-2026-11-04-bm-m.json`（1KB, 3d8028b6ef…）
-  - `cph4/fleet/queue-receipts/asset-lib-library-check-2026-11-04-bm-m.json`（1KB, 3483a6f9e5…）
-  - `cph4/fleet/queue-receipts/brain-bigstream-mv-2026-11-04.md`（1KB, 585c2bc880…）
 - 受阻 6 条
   - asset-lib-env-check-2026-11-03：E-UNKNOWN ASSET-ENV FAIL  bm-m
   可用路线: 无
   ! 没有 ffmpeg（切分/抽帧/审计都要）
   ! 没有 torch（No module 
-  - _last_lane_bm-m.json：rc=3 
   - asset-lib-voice-corpus-bmm-2026-11-03：rc=3 [corpus] 本分片无输入（inbox 共 0 个文件）——等投料，rc=3
 
   - asset-lib-voice-corpus-bmb-2026-11-03：E-UNKNOWN 没有 ffmpeg（rc=1）
 
+  - C-INFRA-AUDIT-BM-C-20261103：E-BLOCKED-INPUT {"node": "bm-c", "verdict": "BLOCKED", "out": "cph4/fleet/queue-receipts/inferen
 
