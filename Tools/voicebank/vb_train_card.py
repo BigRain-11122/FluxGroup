@@ -115,6 +115,36 @@ def ensure_torch_python():
     raise SystemExit("no torch in %s and no runtime venv at %s" % (sys.executable, venv_py))
 
 
+def _pid_alive(pid):
+    try:
+        k = subprocess.run(["tasklist", "/FI", "PID eq %d" % pid], capture_output=True, text=True)
+        return str(pid) in (k.stdout or "")
+    except Exception:
+        return False
+
+
+def single_flight_lock(voice):
+    """2026-11-05 bm-b fix: heavy GPU card with no lock = two claims OOM each other.
+    Lock file carries the owning pid; a stale lock (dead pid) is self-healed."""
+    d = os.path.join(VB_ROOT, "_locks")
+    os.makedirs(d, exist_ok=True)
+    lk = os.path.join(d, voice + ".lock")
+    if os.path.exists(lk):
+        try:
+            pid = int(open(lk).read().strip() or 0)
+        except Exception:
+            pid = 0
+        if pid and pid != os.getpid() and _pid_alive(pid):
+            return None  # busy: another training for this voice is running
+        try:
+            os.remove(lk)  # stale lock self-heal
+        except Exception:
+            pass
+    with open(lk, "w") as f:
+        f.write(str(os.getpid()))
+    return lk
+
+
 def main(argv):
     ap = argparse.ArgumentParser()
     ap.add_argument("--voice", required=True)
@@ -149,6 +179,15 @@ def main(argv):
     os.environ["VB_ROOT"] = VB_ROOT
     os.environ["VB_GPT_ROOT"] = GPT_ROOT
 
+    lock = single_flight_lock(a.voice)
+    if lock is None:
+        rec.update({"verdict": "BLOCKED", "rc": 3,
+                    "gaps": ["another training for this voice is already running (single-flight lock)"]})
+        os.makedirs(os.path.dirname(a.receipt), exist_ok=True)
+        json.dump(rec, open(a.receipt, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+        print("BLOCKED single-flight")
+        return 3
+
     valve_open(rec)
     try:
         cmd = [sys.executable, os.path.join(HERE, "vb_build.py"),
@@ -160,6 +199,11 @@ def main(argv):
         rec["train_tail"] = out[-2000:]
     finally:
         valve_close(rec)
+        try:
+            if lock and os.path.exists(lock):
+                os.remove(lock)
+        except Exception:
+            pass
 
     weights = find_weights(a.voice)
     rec["weights"] = weights
