@@ -1,10 +1,10 @@
 {
  "node": "bm-b",
- "ts": "2026-11-05T02:46:05",
+ "ts": "2026-11-05T03:00:53",
  "jobs": [
   {
    "id": "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105",
-   "title": "音色微调试点·libritts-e01（语料→SoVITS s2→权重，DE-AI-SPEC A8 批前抽检）",
+   "title": "闊宠壊寰�璋冭瘯鐐孤穕ibritts-e01锛堣��鏂欌啋SoVITS s2鈫掓潈閲嶏紝DE-AI-SPEC A8 鎵瑰墠鎶芥��锛�",
    "cmd": "python C:/Fluxgroup/FleetAgent/Tools/voicebank/vb_train_card.py --voice libritts-e01 --raw C:/Fluxgroup/FluxGroup/media/asset/inbox/e01 --receipt C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-train-libritts-e01-r3-20261105.json",
    "cwd": "C:/Fluxgroup/FleetAgent",
    "needs": "gpu",
@@ -21,5 +21,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 13.3/1.0 GB"
+ "capacity_note": "ram 13.0/1.0 GB"
 }
