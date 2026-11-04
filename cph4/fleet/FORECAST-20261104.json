@@ -1,7 +1,25 @@
 {
- "ts": "2026-11-04T16:30:39+0800",
+ "ts": "2026-11-04T16:41:52+0800",
  "alert_days": 2.0,
  "lines": [
+  {
+   "line": "bigstream-mv",
+   "status": "ACTIVE",
+   "prio": "P0",
+   "stock": 4,
+   "rate_per_day": 4.67,
+   "runway_days": 0.9,
+   "has_table": true,
+   "blocker": {
+    "stage": "gate",
+    "deliverable": "cph4/fleet/queue-receipts/mv-gate-v721-20261104.json",
+    "needs": "cpu",
+    "hard_nodes": []
+   },
+   "flags": [
+    "ALERT"
+   ]
+  },
   {
    "line": "bigstream-duanju",
    "status": "PARKED",
@@ -37,30 +55,12 @@
    "flags": []
   },
   {
-   "line": "bigstream-mv",
-   "status": "ACTIVE",
-   "prio": "P0",
-   "stock": 3,
-   "rate_per_day": 4.67,
-   "runway_days": 0.6,
-   "has_table": true,
-   "blocker": {
-    "stage": "gate",
-    "deliverable": "cph4/fleet/queue-receipts/mv-gate-v721-20261104.json",
-    "needs": "cpu",
-    "hard_nodes": []
-   },
-   "flags": [
-    "ALERT"
-   ]
-  },
-  {
    "line": "asset-lib",
    "status": "ACTIVE",
    "prio": "P0",
-   "stock": 2,
+   "stock": 4,
    "rate_per_day": 2.67,
-   "runway_days": 0.7,
+   "runway_days": 1.5,
    "has_table": true,
    "blocker": {
     "stage": "env-check",

@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
  "date": "20261104",
- "ts": "2026-11-04T16:30:39+0800",
+ "ts": "2026-11-04T16:41:52+0800",
  "window_h": 26,
  "produced": [
   {
    "path": "cph4/fleet/queue-receipts/skill-promote-20261104.json",
    "bytes": 2172,
-   "mtime": "2026-11-04T16:30:39",
-   "sha": "807afd60bdf37835337f19a3c63608f889b7af0946f981052a660349a43a775f"
+   "mtime": "2026-11-04T16:41:52",
+   "sha": "e6fe620c2513b48b62f77da6c73e565dd848147398db531f13a38f5b31657f7a"
   },
   {
    "path": "cph4/fleet/queue-receipts/bigstream-mv-transition-2026-11-04-bm-a.json",
@@ -471,24 +471,12 @@
    "bytes": 12270863,
    "mtime": "2026-11-03T15:26:35",
    "sha": "ede019bce3cc5cca0d99d6897c5d2304be3c924a219e077d3d86aa013b98cca9"
-  },
-  {
-   "path": "cph4/fleet/queue-receipts/asset-lib-library-check-2026-11-03-bm-m.json",
-   "bytes": 1509,
-   "mtime": "2026-11-03T14:33:56",
-   "sha": "a10ca55f6c70aa58cae16ddf11772f6e19413ec903fecc5006c88c969f14cf9f"
-  },
-  {
-   "path": "cph4/fleet/queue-receipts/asset-library-2026-11-03.json",
-   "bytes": 2886,
-   "mtime": "2026-11-03T14:33:56",
-   "sha": "340385130bc9338b6445d5d2a85eb4a0543e2885e48646b3210718646b99d081"
   }
  ],
  "blocked": [
   {
    "what": "_last_lane_bm-m.json",
-   "why": "rc=3 "
+   "why": "rc=None "
   },
   {
    "what": "asset-lib-voice-corpus-bmb-2026-11-03",
@@ -507,8 +495,8 @@
    "why": "E-BLOCKED-INPUT "
   },
   {
-   "what": "asset-lib-voice-dataset-2026-11-03",
-   "why": "E-CONTRACT 没有 ffmpeg，无法审计\n"
+   "what": "R-NEXT-BIGSTREAMM-AUDIT-20261103",
+   "why": "E-UNKNOWN "
   }
  ],
  "job": null
