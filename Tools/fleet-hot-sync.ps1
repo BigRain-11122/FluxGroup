@@ -1,8 +1,9 @@
 ﻿# fleet-hot-sync.ps1 - bring a node's command plane to origin/main without losing local work.
 # Why: every machine appends to docs/orders.md, so the worktree diverges; FleetLink then
 # reports "updated-kept-local" and the node never receives new orders/tools.
-# This does fetch -> rebase (autostash). On conflict it stops and lists the files; it never
-# hard-resets, so no local round bookkeeping is destroyed.
+# This does fetch -> merge --ff-only (no rebase: C-20261104 hard law). If it cannot fast-forward
+# it stops and lists the files; it never rebases and never hard-resets, so no local round
+# bookkeeping is destroyed and no conflict marker can be left in shared ledgers.
 param(
     [string]$Root = '',
     [switch]$Push
