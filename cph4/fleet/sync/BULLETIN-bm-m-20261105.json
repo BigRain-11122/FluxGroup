@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
  "date": "20261105",
- "ts": "2026-11-05T07:16:27+0800",
+ "ts": "2026-11-05T07:22:46+0800",
  "window_h": 26,
  "produced": [
   {
    "path": "cph4/fleet/queue-receipts/skill-promote-20261105.json",
    "bytes": 2172,
-   "mtime": "2026-11-05T07:16:27",
-   "sha": "612a66e52cc6addf4da9cd99b6910a73efd16a857c0ae6001a198ca03222e3e2"
+   "mtime": "2026-11-05T07:22:46",
+   "sha": "35e4a83bebc1980bad496cbd16d0e76d29b9128aded206244c26d751c6b43844"
   },
   {
    "path": "cph4/fleet/queue-receipts/bm-m-fleetboard-20261105.md",
@@ -602,15 +602,11 @@
  "blocked": [
   {
    "what": "_last_lane_bm-m.json",
-   "why": "rc=1 "
+   "why": "rc=127 "
   },
   {
    "what": "R-NEXT-BIGSTREAMM-AUDIT-20261105",
    "why": "E-UNKNOWN "
-  },
-  {
-   "what": "Q-VCORP-PREP-e01-R3-20261105",
-   "why": "rc=127 "
   },
   {
    "what": "asset-lib-voice-corpus-bmm-2026-11-03",
@@ -623,6 +619,10 @@
   {
    "what": "voice-corpus-bm-m-2026-11-04.json",
    "why": "E-BLOCKED-INPUT "
+  },
+  {
+   "what": "inference-audit-bm-m-20261105.json",
+   "why": "rc=None "
   }
  ],
  "job": null
