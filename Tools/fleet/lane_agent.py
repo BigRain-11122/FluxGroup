@@ -126,18 +126,164 @@ def git_publish(root, node, jid, paths):
     if r.returncode != 0 and "nothing to commit" not in (r.stdout or "") + (r.stderr or ""):
         return "commit-failed:%s" % (r.stderr or r.stdout)[:80]
     # R2.61: one retry was not enough against a master that commits every ~60s -- the second
-    # attempt often lost the same race and the artifact stayed local. Give it three, and never
-    # leave a half-finished rebase behind (that residue is what turned into the stuck loop).
+    # attempt often lost the same race and the artifact stayed local. Give it three.
+    # 2026-11-05（R11 事件班）：共享工作树禁 rebase。push 失败后 `pull --rebase` 会把本机
+    # 生成态快照逐个重放、每次都撞同一批队列/lane 冲突，`rebase --abort` 只是把分叉原样
+    # 留回去——实测 02:44-02:46 每 30 秒空转一轮，ahead/behind 只增不减（5/8）。
+    # 改走 merge 收口：生成态取远端，Tools/ 等手写件冲突立即放弃本轮。
     last = ""
     for _ in range(3):
         r = git(["push", "origin", "HEAD:main"], timeout=120)
         if r.returncode == 0:
             return "pushed"
         last = r.stderr or r.stdout
-        rb = git(["pull", "--rebase", "--no-autostash"], timeout=120)
-        if rb.returncode != 0:
-            git(["rebase", "--abort"], timeout=60)
+        recon = _merge_origin(root)
+        if recon != "ok":
+            return "push-failed:%s (reconcile=%s)" % ((last or "")[:60], recon[:60])
     return "push-failed:%s" % (last or "")[:80]
+
+
+def _git_ro(root, args, timeout=120):
+    return subprocess.run(["git", "-C", root] + args, capture_output=True, text=True,
+                          timeout=timeout, creationflags=CREATE_NO_WINDOW)
+
+
+# 生成态路径（镜像 master_pulse.GENERATED；那边 import 了 fcntl，Windows 导不进来，
+# 所以这里留一份同名清单，两边语义必须一致）。
+GENERATED_PREFIXES = (
+    "cph4/fleet/dispatcher/", "cph4/fleet/lanes/", "cph4/fleet/queue-receipts/",
+    "cph4/fleet/chief/", "cph4/fleet/social/", "cph4/fleet/plans/",
+    "cph4/fleet/state/", "cph4/fleet/PRODUCTION-QUEUE.jsonl",
+    "cph4/fleet/PRODUCTION-BACKLOG.jsonl", "cph4/fleet/SHOWCASE.md",
+    "cph4/fleet/HANDOFF.md", "cph4/fleet/ri/PROPOSALS.json",
+    "cph4/fleet/vault/index.jsonl",
+)
+QUEUE_FILES = ("cph4/fleet/PRODUCTION-QUEUE.jsonl", "cph4/fleet/PRODUCTION-BACKLOG.jsonl")
+
+
+def _card_rows(root, spec):
+    """解析队列某个版本（HEAD / origin/main）成 {id: row}；坏行跳过不动。"""
+    r = _git_ro(root, ["show", spec], timeout=60)
+    if r.returncode != 0:
+        return {}
+    rows = {}
+    for line in (r.stdout or "").splitlines():
+        line = line.strip()
+        if not line.startswith("{"):
+            continue
+        try:
+            row = json.loads(line)
+        except Exception:
+            continue
+        if row.get("id"):
+            rows[row["id"]] = row
+    return rows
+
+
+def _local_only_cards(root):
+    """合并前留底本机独有的 OPEN/READY 卡：取远端版本会把它们一起抹掉。"""
+    keep = []
+    for path in QUEUE_FILES:
+        ours = _card_rows(root, "HEAD:" + path)
+        theirs = _card_rows(root, "origin/main:" + path)
+        for cid, row in ours.items():
+            if cid in theirs:
+                continue
+            if str(row.get("state") or "").upper() in ("OPEN", "READY"):
+                keep.append((path, row))
+    return keep
+
+
+def _restore_cards(root, keep):
+    """把留底的卡补回队列并提交；不补 = 卡片凭空消失（读队列的一律静默跳坏行）。"""
+    if not keep:
+        return 0
+    by_path = {}
+    for path, row in keep:
+        by_path.setdefault(path, []).append(row)
+    restored = 0
+    for path, rows in by_path.items():
+        full = os.path.join(root, path)
+        have = set()
+        try:
+            with open(full, encoding="utf-8-sig") as fh:
+                for line in fh:
+                    line = line.strip()
+                    if line.startswith("{"):
+                        try:
+                            cid = json.loads(line).get("id")
+                        except Exception:
+                            continue
+                        if cid:
+                            have.add(cid)
+        except FileNotFoundError:
+            pass
+        add = [r for r in rows if r.get("id") not in have]
+        if not add:
+            continue
+        with open(full, "a", encoding="utf-8", newline="\n") as fh:
+            for row in add:
+                fh.write(json.dumps(row, ensure_ascii=False) + "\n")
+        _git_ro(root, ["add", "--", path], timeout=60)
+        _git_ro(root, ["commit", "-q", "-m",
+                       "lane: restore %d local-only card(s) after merge" % len(add)], timeout=90)
+        restored += len(add)
+    return restored
+
+
+def _merge_origin(root):
+    """分叉收口一律走 merge，禁 rebase（2026-11-04 硬律 / 2026-11-05 R11 复发实证）。
+
+    为什么：本仓是多机共用同一工作树，push 失败后 rebase 要逐个重放本机生成态快照，
+    每个都撞同一批队列/lane 冲突，abort 之后下一轮再来——2026-11-04 实测卡死 98 步，
+    2026-11-05 02:44-02:46 又每 30 秒复发一轮、ahead/behind 只增不减。
+    口径照抄 master_pulse.rebase_generated 的实证做法（它在 Windows 因 fcntl 导不进来）：
+    生成态取远端、把本机独有 OPEN 卡补回、Tools/ 等手写件冲突立即放弃本轮。
+    """
+    for d in ("rebase-merge", "rebase-apply"):
+        if os.path.isdir(os.path.join(root, ".git", d)):
+            _git_ro(root, ["rebase", "--abort"], timeout=90)
+            break
+    if _git_ro(root, ["fetch", "--prune", "origin"], timeout=180).returncode != 0:
+        return "fetch-failed"
+    behind = (_git_ro(root, ["rev-list", "--count", "HEAD..origin/main"], timeout=30).stdout or "0").strip()
+    if behind in ("", "0"):
+        return "ok"
+    keep = _local_only_cards(root)
+    r = _git_ro(root, ["merge", "--no-edit", "-m",
+                       "lane: merge origin (generated files take remote)", "origin/main"], timeout=240)
+    for _ in range(3):
+        d = _git_ro(root, ["diff", "--name-only", "--diff-filter=U"], timeout=30)
+        conflicts = [p for p in (d.stdout or "").split() if p]
+        if not conflicts:
+            break
+        if any(not p.startswith(GENERATED_PREFIXES) for p in conflicts):
+            _git_ro(root, ["merge", "--abort"], timeout=90)
+            return "hand-edit-conflict:%s" % conflicts[0][:60]
+        for p in conflicts:
+            _git_ro(root, ["checkout", "--theirs", "--", p], timeout=60)
+            # 2026-11-04 毒标记守门：带冲突标记的一侧永不许入库。
+            try:
+                with open(os.path.join(root, p), encoding="utf-8", errors="replace") as fh:
+                    text = fh.read()
+                if "<<<<<<<" in text and ">>>>>>>" in text:
+                    _git_ro(root, ["merge", "--abort"], timeout=90)
+                    return "poison-guard:%s" % p[:60]
+            except Exception:
+                pass
+            _git_ro(root, ["add", "--", p], timeout=60)
+    else:
+        _git_ro(root, ["merge", "--abort"], timeout=90)
+        return "loop-limit"
+    if _git_ro(root, ["rev-parse", "-q", "--verify", "MERGE_HEAD"], timeout=20).returncode == 0:
+        if _git_ro(root, ["commit", "-q", "--no-edit"], timeout=120).returncode != 0:
+            _git_ro(root, ["merge", "--abort"], timeout=90)
+            return "merge-commit-failed"
+    elif r.returncode != 0:
+        _git_ro(root, ["merge", "--abort"], timeout=90)
+        return "merge-failed"
+    _restore_cards(root, keep)
+    return "ok"
 
 
 def already_closed(root, jid):
