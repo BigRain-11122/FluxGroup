@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-05T02:06:17",
+ "ts": "2026-11-05T02:45:54",
  "mode": "enforce",
  "files": [
   {
@@ -21,25 +21,18 @@
   {
    "key": "L1",
    "path": "/Users/junsheng.sun/FluxGroup/CODELY.md",
-   "bytes": 64083,
-   "entries": 63,
-   "lines": 91,
+   "bytes": 26132,
+   "entries": 34,
+   "lines": 59,
    "budget_bytes": 51200,
    "budget_entries": 120,
    "exists": true,
-   "over": true,
+   "over": false,
    "warn": false,
-   "tokens_est": 21361,
+   "tokens_est": 8710,
    "root": "/Users/junsheng.sun/FluxGroup",
    "pointers_fixed": 11,
-   "pointers_broken": [],
-   "gate_rc": 0,
-   "gate_tail": "GATE-EXEC 64083->26132B 63->32条 MOVED=11 topics=11 snapshot=.codely-cli/memory/cleanup-gate-2026-11-05",
-   "bytes_after": 26132,
-   "entries_after": 34,
-   "saved_bytes": 37951,
-   "saved_tokens_est": 12650,
-   "still_over": false
+   "pointers_broken": []
   },
   {
    "key": "sub:compute",
@@ -154,9 +147,9 @@
    ]
   }
  ],
- "total_bytes_before": 130130,
+ "total_bytes_before": 92179,
  "total_bytes_after": 92179,
- "saved_tokens_est": 12650,
+ "saved_tokens_est": 0,
  "still_over_budget": [],
  "verdict": "OK"
 }
