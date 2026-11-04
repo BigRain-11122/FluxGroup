@@ -1,38 +1,32 @@
 {
  "node": "bm-m",
  "date": "20261104",
- "ts": "2026-11-04T16:41:52+0800",
+ "ts": "2026-11-04T16:52:14+0800",
  "window_h": 26,
  "produced": [
   {
    "path": "cph4/fleet/queue-receipts/skill-promote-20261104.json",
    "bytes": 2172,
-   "mtime": "2026-11-04T16:41:52",
-   "sha": "e6fe620c2513b48b62f77da6c73e565dd848147398db531f13a38f5b31657f7a"
+   "mtime": "2026-11-04T16:52:14",
+   "sha": "fb5e6f4551835e4df263e6e90c95f0f45e2d1a43bb0c5c1dec985b2a7547497e"
+  },
+  {
+   "path": "cph4/fleet/lib/ASSET-INDEX.json",
+   "bytes": 4042,
+   "mtime": "2026-11-04T16:50:06",
+   "sha": "dac3f702433f1b13868adb79a7ff1da772c1d8fadd2995f57f549d585924ce57"
   },
   {
    "path": "cph4/fleet/queue-receipts/bigstream-mv-transition-2026-11-04-bm-a.json",
    "bytes": 1997,
-   "mtime": "2026-11-04T16:26:37",
-   "sha": "3cf1fa7774c5fc65cb242fc62b14da7dffc1d28a9fd38306199e597cd2767f5e"
-  },
-  {
-   "path": "cph4/fleet/queue-receipts/game-packs-2026-11-03-r2.json",
-   "bytes": 5061,
-   "mtime": "2026-11-04T16:01:47",
-   "sha": "a420b419e933c2ecf15f9a2503d8e757efa60f02710baabefe72aad179a980d7"
+   "mtime": "2026-11-04T16:44:51",
+   "sha": "cad9de6133dfa3868d0f696c012018df48a7443466fa5b2c3d8f77e73bbdac96"
   },
   {
    "path": "cph4/fleet/queue-receipts/CHK-DUPES-20261103-bm-m.json",
    "bytes": 2723,
    "mtime": "2026-11-04T15:51:09",
    "sha": "1da6b9d372186cebb7bcc44b13964fca9e5a0d39e22dfceae3354fa5070ab767"
-  },
-  {
-   "path": "cph4/fleet/lib/ASSET-INDEX.json",
-   "bytes": 4042,
-   "mtime": "2026-11-04T14:11:41",
-   "sha": "996db962096f13ee873938ea4c86f0e1560a85d8164e77825a8093043171ed6e"
   },
   {
    "path": "cph4/fleet/queue-receipts/receipt-attrib-20261104.json",
@@ -475,12 +469,8 @@
  ],
  "blocked": [
   {
-   "what": "_last_lane_bm-m.json",
-   "why": "rc=None "
-  },
-  {
    "what": "asset-lib-voice-corpus-bmb-2026-11-03",
-   "why": "E-UNKNOWN 没有 ffmpeg（rc=1）\n"
+   "why": "E-BLOCKED-INPUT [corpus] 本分片无输入（inbox 共 0 个文件）——等投料，rc=3\n"
   },
   {
    "what": "C-INFRA-AUDIT-BM-C-20261103",
@@ -493,6 +483,10 @@
   {
    "what": "voice-corpus-bm-m-2026-11-04.json",
    "why": "E-BLOCKED-INPUT "
+  },
+  {
+   "what": "inference-audit-bm-m-20261104.json",
+   "why": "rc=None "
   },
   {
    "what": "R-NEXT-BIGSTREAMM-AUDIT-20261103",
