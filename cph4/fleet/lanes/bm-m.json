@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
- "ts": "2026-11-04T17:48:51",
+ "ts": "2026-11-04T17:52:32",
  "jobs": [
   {
-   "id": "bigstream-mv-stability-2026-11-04",
-   "title": "[MV·爱在西元前（v721 终版）] 稳定性闸（seam / freeze 双 0）",
-   "cmd": "python Tools/mv_stability_gate.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721_60fps_1080p.mp4",
+   "id": "biggame-playable-2026-11-03",
+   "title": "[游戏（可上线清单 → 一款可玩包 → 提审材料）] 一款可玩包（3 关 60–90 秒，2D，儿童不作失败）",
+   "cmd": "python Tools/fleet/game_pack_scan.py --root gaming --out cph4/fleet/queue-receipts/game-packs-2026-11-03-r2.json",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/mv-stability-v721-2026-11-04.json",
+   "deliverable": "cph4/fleet/queue-receipts/game-playable-2026-11-03.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 15.4/1.0 GB"
+ "capacity_note": "ram 13.5/1.0 GB"
 }
