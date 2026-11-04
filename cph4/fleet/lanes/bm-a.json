@@ -1,14 +1,14 @@
 {
  "node": "bm-a",
- "ts": "2026-11-05T02:07:45",
+ "ts": "2026-11-05T02:41:49",
  "jobs": [
   {
    "id": "Q-VCORP-PREP-e01-R3-20261105",
    "title": "音色语料切片·e01（LibriTTS → voices/e01/sliced，纯 CPU）",
-   "cmd": "python C:/Fluxgroup/FleetAgent/Tools/fleet/voice_corpus_prep.py --inbox C:/Fluxgroup/FluxGroup/media/asset/inbox/e01 --group e01 --shard 0/1 --receipt C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-prep-e01-r3-20261105.json",
+   "cmd": "python Tools/fleet/voice_corpus_prep.py --inbox media/asset/inbox --group batch-2026-11-05 --shard 0/1 --receipt cph4/fleet/queue-receipts/voice-corpus-2026-11-05.json",
    "cwd": "C:/Fluxgroup/FluxGroup",
    "needs": "cpu",
-   "deliverable": "C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-prep-e01-r3-20261105.json",
+   "deliverable": "cph4/fleet/queue-receipts/voice-corpus-2026-11-05.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -21,5 +21,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 18.0/1.0 GB"
+ "capacity_note": "ram 11.7/1.0 GB"
 }
