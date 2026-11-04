@@ -1,0 +1,32 @@
+{
+ "_comment": "本机（bm-m·M1 Pro 32GB 统一内存）算力利用面。CEO 2026-11-04「本机算力利用不充分」——这面账回答：到底哪一环卡住利用率，哪一项该改、哪一项改不了。判据只用实测数字，不用印象。",
+ "version": "v1-20261104",
+ "measured": {
+  "ts": "2026-11-04T13:10+08:00",
+  "cpu_idle_pct": 66.3,
+  "gpu_util_pct": 56,
+  "mem_unused_gb": 1.4,
+  "mem_compressor_gb": 3.2,
+  "resident_model": "qwen3.5:4b-mlx (4.3GB)",
+  "bm_m_can_take_more": 7,
+  "bm_m_stock": 2,
+  "local_media_files": 9,
+  "vault_ledger": 651,
+  "vault_reachable": 0,
+  "avg_fleet_cpu_pct": 11.8
+ },
+ "levers": [
+  {"id": "mac-supply", "what": "本机可派活库存", "now": "银行 pending 2 张、local-tasks 队列每轮自动补 1–2 条", "verdict": "BLOCKED-BY-SUPPLY", "trigger": "库存 < 可再派 7 时，利用率低是供给问题，不是调度问题；调脉冲参数只会空转"},
+  {"id": "mac-media", "what": "可加工的媒体素材", "now": "本机 media/ 只有 9 件；vault 651 条在未挂载移动盘", "verdict": "BLOCKED-BY-MOUNT", "trigger": "挂盘后立刻多 651 条可打标/转码/ASR 素材；不挂盘任何「提高利用率」都是空话"},
+  {"id": "mac-gpu", "what": "GPU 通道（MLX/4B/ASR）", "now": "Device Utilization 56%，常驻 4.3GB 4B 一个", "verdict": "HEALTHY", "trigger": "GPU <30% 且队列有模型活 → 才需要加喂；GPU 已 56% 说明推理通道在用"},
+  {"id": "mac-ram", "what": "内存余量", "now": "unused 1.4GB / compressor 3.2GB", "verdict": "LIMIT", "trigger": "余量 <4GB 时禁止再起第二个模型或并发 ffmpeg（会 swap，违反 CEO 2026-11-01 令）"},
+  {"id": "mac-slowbatch", "what": "慢批 300s 节流", "now": "慢批每 300s 一次，快批 60–190s", "verdict": "KEEP", "trigger": "只有「有活却在等窗口」才算缺陷；实测队列空，提前跑只会空转 CPU"},
+  {"id": "mac-light", "what": "轻活批（分类/摘要/打分）", "now": "local_tasks 每轮 ≤3 件、自动补料", "verdict": "ADJUSTED", "trigger": "队列深度 ≥6 时按深度扩批到 12，避免小模型空转等窗口"},
+  {"id": "mac-supervise", "what": "监督类 CPU 活（回执归因/去重/台账核）", "now": "receipt_attrib 全量 570 份 0.4s；semantic_dupes 在脉冲", "verdict": "FEASIBLE", "trigger": "这类活是真产出但秒级，撑不满 CPU；应常态化而不是拿它充利用率"},
+  {"id": "mac-asr", "what": "GPU 字幕（ASR）", "now": "一天一次日期闸、最多 2 条", "verdict": "BLOCKED-BY-INPUT", "trigger": "本机 media/drama-out 没有新片就无事可做；片子来自 bm-a/bm-c"},
+  {"id": "mac-pull", "what": "从别的机器取件", "now": "跨机取件通道未建（NATS 对象存储/移动盘都没有）", "verdict": "OPEN", "trigger": "这是把 bm-a/bm-c 媒体活分给 Mac 的前提；不建通道，Mac 永远只能看 git 里的小文件"},
+  {"id": "mac-warm", "what": "常驻模型保活", "now": "resident 保活；空闲 <25% 不保活", "verdict": "KEEP", "trigger": "余量 <4GB 时保活 4.3GB 模型本身就在挤内存，不应再加档"},
+  {"id": "mac-nofake", "what": "不许为满负荷造活", "now": "CEO 2026-11-02 顶层决定：不为「满负荷」造活", "verdict": "GUARD", "trigger": "自检卡不能算产出；利用率低必须以「缺素材/缺活源」如实上报，不许灌体检活充数"}
+ ],
+ "conclusion": "本机 CPU 66% 空闲、GPU 56% 的主因是**可加工素材与活源不足**（本机 9 件素材、银行 2 张、vault 651 不可达），不是调度参数不对。能立刻改的只有轻活按队列深度扩批；真正的杠杆是挂盘与建跨机取件通道。"
+}
