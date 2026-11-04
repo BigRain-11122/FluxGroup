@@ -1,23 +1,23 @@
 {
- "ts": "2026-11-05T02:43:09",
- "cycle": 2,
+ "ts": "2026-11-05T02:44:30",
+ "cycle": 3,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-05T02:43:09",
+ "master_tick_ts": "2026-11-05T02:44:30",
  "queue": {
   "total": 467,
-  "open": 26,
+  "open": 25,
   "running": 4,
   "done": 180,
-  "failed": 18
+  "failed": 19
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 50.4,
-   "cpu_load_pct": 40,
+   "hb_age_s": 12.0,
+   "cpu_load_pct": 45,
    "ram_free_gb": 12.1,
-   "gpu_util_pct": 91,
+   "gpu_util_pct": 58,
    "job": "Q-VCORP-PREP-e01-R3-20261105",
    "last_result": {
     "job": "R-NEXT-BIGSTREAMM-AUDIT-20261105",
@@ -32,8 +32,8 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 11.8,
-   "cpu_load_pct": 2,
+   "hb_age_s": 35.7,
+   "cpu_load_pct": 4,
    "ram_free_gb": 13.2,
    "gpu_util_pct": null,
    "job": "asset-lib-asset-gen-2026-11-05",
@@ -50,16 +50,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 9.1,
-   "cpu_load_pct": 8,
-   "ram_free_gb": 3.4,
+   "hb_age_s": 15.7,
+   "cpu_load_pct": 7,
+   "ram_free_gb": 3.3,
    "gpu_util_pct": 0,
-   "job": "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105",
+   "job": "asset-lib-face-dataset-2026-11-05",
    "last_result": {
-    "job": "asset-lib-face-dataset-2026-11-05",
+    "job": "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105",
     "state": "FAILED",
-    "rc": 1,
-    "ts": "2026-11-05T02:41:42",
+    "rc": null,
+    "ts": "2026-11-05T02:44:15",
     "reason": null
    },
    "idle_confirmed": false,
@@ -72,12 +72,12 @@
    "cpu_load_pct": 25,
    "ram_free_gb": 17.3,
    "gpu_util_pct": null,
-   "job": "bigstream-mv-gate-2026-11-05",
+   "job": "CHK-DUPES-20261103",
    "last_result": {
-    "job": "CHK-RECEIPT-20261104",
+    "job": "bigstream-mv-gate-2026-11-05",
     "state": "FAILED",
-    "rc": 2,
-    "ts": "2026-11-05T02:41:54",
+    "rc": 1,
+    "ts": "2026-11-05T02:43:18",
     "reason": null
    },
    "idle_confirmed": false,
@@ -100,8 +100,7 @@
    "stale_after_h": 24.0,
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
    "jobs": [
-    "R-NEXT-BIGSTREAMM-GATE-20261105",
-    "bigstream-mv-gate-2026-11-05"
+    "R-NEXT-BIGSTREAMM-GATE-20261105"
    ],
    "no_supply": false,
    "blockers": [
@@ -309,7 +308,6 @@
    "no_supply": false,
    "blockers": [
     "CHK-RECEIPT-20261103:no-lane",
-    "CHK-DUPES-20261103:no-lane",
     "CANARY-20261104T125141:no-lane",
     "CANARY-20261104T132721:no-lane",
     "CANARY-20261104T140742:no-lane",
@@ -327,8 +325,8 @@
    "stale_after_h": 72.0,
    "owner": "资产席",
    "jobs": [
+    "asset-lib-face-dataset-2026-11-05",
     "Q-VCORP-PREP-e01-R3-20261105",
-    "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105",
     "asset-lib-asset-gen-2026-11-05"
    ],
    "no_supply": false,
@@ -869,7 +867,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 26,
+  "local": 25,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -877,18 +875,17 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 26,
+  "cpu": 25,
   "gpu": 0
  },
  "supply_added": [
-  "backlog_manifest+3"
+  "backlog_manifest+1"
  ],
  "events": [
-  "fleet-node-sync-report-bm-b-2026-11-05 FAILED via bm-b",
-  "asset-lib-face-dataset-2026-11-05 FAILED via bm-c",
-  "CHK-RECEIPT-20261104 FAILED via bm-m",
-  "asset-lib-asset-gen-2026-11-05 -> bm-b (gpu)",
-  "bigstream-mv-gate-2026-11-05 -> bm-m (cpu)"
+  "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105 FAILED via bm-c",
+  "bigstream-mv-gate-2026-11-05 FAILED via bm-m",
+  "asset-lib-face-dataset-2026-11-05 -> bm-c (cpu)",
+  "CHK-DUPES-20261103 -> bm-m (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
@@ -896,7 +893,7 @@
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-b",
+  "bm-c",
   "bm-m"
  ]
 }
