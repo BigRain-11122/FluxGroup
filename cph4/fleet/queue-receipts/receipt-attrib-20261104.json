@@ -1,26 +1,37 @@
 {
- "ts": "2026-11-04T16:57:01+0800",
- "receipts": 443,
- "files_scanned": 583,
- "non_receipt_files": 140,
+ "ts": "2026-11-04T23:31:33+0800",
+ "receipts": 514,
+ "files_scanned": 663,
+ "non_receipt_files": 149,
  "unparseable": [],
- "missing_rc": [],
+ "missing_rc": [
+  "NEEDWORK-LASTMILE-20261104-bm-b.json",
+  "NEEDWORK-MECH-20261104-bm-b.json"
+ ],
  "rc_hist": {
-  "0": 346,
-  "1": 42,
-  "2": 22,
-  "3": 23,
-  "127": 8,
-  "9009": 2
+  "0": 399,
+  "1": 43,
+  "2": 23,
+  "3": 30,
+  "127": 12,
+  "9009": 4,
+  "4294967295": 1
  },
  "fail_rc_map": [
   "1 -> E-UNKNOWN",
   "127 -> E-PATH",
   "2 -> E-CONTRACT",
   "3 -> E-BLOCKED-INPUT",
+  "4294967295 -> E-UNKNOWN",
   "9009 -> E-PATH"
  ],
- "fail_no_error_class": [],
+ "fail_no_error_class": [
+  "ART-PUSH-BMA-20261104-bm-m.json",
+  "C-INFRA-AUDIT-BM-C-20261103-bm-b.json",
+  "PROBE-BMB-AUDIOQC-20261104-bm-b.json",
+  "asset-lib-face-caption-2026-11-03-bm-b.json",
+  "bigstream-mv-stability-2026-11-04-bm-b.json"
+ ],
  "error_class_not_in_taxonomy": [],
- "verdict": "PASS"
+ "verdict": "GAPS"
 }
