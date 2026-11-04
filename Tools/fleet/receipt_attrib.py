@@ -27,8 +27,14 @@ from collections import Counter
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 RC_CLASS = {0: "E-OK", 2: "E-CONTRACT", 3: "E-BLOCKED-INPUT", 124: "E-TIMEOUT",
             126: "E-MODEL", 127: "E-PATH", 9009: "E-PATH"}
-KNOWN = {"E-OK", "E-CONTRACT", "E-PATH", "E-MEM", "E-MODEL", "E-QUOTA",
-         "E-TIMEOUT", "E-COMPLIANCE", "E-UNKNOWN", "E-BLOCKED-INPUT"}
+# 判据只认 flux_contracts 一处（2026-11-04：这里曾自己抄一份旧表，把 E-INPUT 判成非法类）。
+try:
+    import flux_contracts as _fc
+    KNOWN = set(_fc.ERROR_CLASSES)
+except Exception:
+    KNOWN = {"E-OK", "E-CONTRACT", "E-PATH", "E-MEM", "E-MODEL", "E-QUOTA",
+             "E-TIMEOUT", "E-COMPLIANCE", "E-ARTIFACT", "E-BLOCKED-INPUT", "E-INPUT",
+             "E-UNKNOWN"}
 
 
 def main(argv):
@@ -37,14 +43,36 @@ def main(argv):
     a = ap.parse_args(argv)
     files = sorted(glob.glob(os.path.join(ROOT, "cph4", "fleet", "queue-receipts", "*.json")))
     bad, no_rc, no_class, wrong_class = [], [], [], []
+    other = []          # 目录里的工具产物（体检/索引/漏斗），不是执行回执
     rcs = Counter()
     for p in files:
-        try:
-            d = json.load(open(p, encoding="utf-8"))
-        except Exception:
-            bad.append(p)
+        d = None
+        raw = b""
+        # Windows/PowerShell 写出来的 JSON 常是 UTF-16 带 BOM（实测 fleet-align-*.json），
+        # 只按 utf-8 读会把它误判成"坏 JSON"——真债要被看见，不能和编码问题混在一起。
+        for enc in ("utf-8-sig", "utf-16", "utf-8"):
+            try:
+                with open(p, "rb") as f:
+                    raw = f.read()
+                d = json.loads(raw.decode(enc))
+                break
+            except Exception:
+                d = None
+        if d is None:
+            if raw.lstrip()[:1] not in (b"{", b"["):
+                # 扩展名是 .json 但内容是文本/表格：写错格式，不是坏 JSON。
+                other.append(os.path.basename(p))
+            else:
+                bad.append(p)
             continue
         if not isinstance(d, dict):
+            other.append(os.path.basename(p))
+            continue
+        # 回执的判据是"有 id + 有 node"（lane_agent 写的那份）。
+        # 2026-11-04 实锚：不加这一层，工具产物（inference-audit/asset-index/FUNNEL 等）
+        # 全被算成"缺 rc 的回执"，70 条假红把真债埋掉了——红必须可解释，否则等于没有。
+        if not (d.get("id") and d.get("node")):
+            other.append(os.path.basename(p))
             continue
         rc = d.get("rc")
         if rc is None:
@@ -64,13 +92,15 @@ def main(argv):
                 wrong_class.append((os.path.basename(p), ec))
     fails = sorted({("%d -> %s" % (r, RC_CLASS.get(r, "E-UNKNOWN"))) for r in rcs if r != 0})
     out = {"ts": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
-           "receipts": len(files), "unparseable": bad,
+           "receipts": len(files) - len(other) - len(bad), "files_scanned": len(files),
+           "non_receipt_files": len(other), "unparseable": bad,
            "missing_rc": no_rc, "rc_hist": dict(sorted(rcs.items())),
            "fail_rc_map": fails, "fail_no_error_class": no_class,
            "error_class_not_in_taxonomy": wrong_class,
            "verdict": "PASS" if not (bad or no_rc or no_class or wrong_class) else "GAPS"}
-    print("receipts=%d rc0=%d fail=%d  missing_rc=%d no_error_class=%d bad_json=%d"
-          % (len(files), rcs.get(0, 0), len(fails), len(no_rc), len(no_class), len(bad)))
+    print("receipts=%d（另有工具产物 %d 不计） rc0=%d fail=%d  missing_rc=%d no_error_class=%d bad_json=%d"
+          % (len(files) - len(other) - len(bad), len(other), rcs.get(0, 0), len(fails),
+             len(no_rc), len(no_class), len(bad)))
     print("fail rc: " + (", ".join(fails) or "none"))
     if no_class:
         print("rc!=0 但缺 error_class: " + ", ".join(no_class[:6]) + (" ..." if len(no_class) > 6 else ""))

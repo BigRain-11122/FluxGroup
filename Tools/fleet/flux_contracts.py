@@ -38,8 +38,11 @@ ERROR_CLASS = {
 }
 DEFAULT_OK_RC = [0]
 
-ERROR_CLASSES = ["E-CONTRACT", "E-PATH", "E-MEM", "E-MODEL", "E-QUOTA",
-                 "E-TIMEOUT", "E-COMPLIANCE", "E-ARTIFACT", "E-BLOCKED-INPUT", "E-UNKNOWN"]
+ERROR_CLASSES = ["E-OK", "E-CONTRACT", "E-PATH", "E-MEM", "E-MODEL", "E-QUOTA",
+                 "E-TIMEOUT", "E-COMPLIANCE", "E-ARTIFACT", "E-BLOCKED-INPUT", "E-INPUT",
+                 "E-UNKNOWN"]
+# E-INPUT=本机缺输入（不是失败，是换机信号）；E-OK=成功回执也带类别。
+# 2026-11-04 实锚：receipt_attrib 自己抄了一份旧表，把 12 份 E-INPUT 判成"不在分类学内"。
 
 MACHINE_RE = re.compile(r"\b(bm-[a-z]|DASHENG)\b")
 DRIVE_RE = re.compile(r"(^|[\s\"'])([A-Za-z]:[\\/])")
