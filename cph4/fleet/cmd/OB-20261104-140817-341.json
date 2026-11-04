@@ -1,0 +1,10 @@
+{
+ "id": "OB-20261104-140817-341",
+ "ts": "2026-11-04 14:08",
+ "text": "bm-a 立即执行产物回传：powershell -ExecutionPolicy Bypass -File Tools\\fleet\\artifact_push.ps1 -Root C:\\Fluxgroup\\FluxGroup -Node bm-a -MaxMB 2048 ；执行完把 PUSHED.jsonl 落盘并提交。主控收件口已修好（内盘暂存，盘不在也能收），实测 200 OK。",
+ "lanes": [
+  "bm-a"
+ ],
+ "src": "junshengsundeMacBook-Pro.local",
+ "status": "dispatched"
+}
