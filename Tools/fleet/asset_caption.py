@@ -30,10 +30,28 @@ HOST = os.environ.get("OLLAMA_HOST") or "127.0.0.1:11434"
 HOST = HOST if "://" in HOST else "http://" + HOST
 MODEL = os.environ.get("CAPTION_MODEL") or "qwen3.5:4b-mlx"
 
-PROMPT = ("Describe this image as a Stable Diffusion LoRA training caption. "
-          "Include only visible attributes: subject, apparent age, hair, clothing, expression, "
-          "lighting, camera angle, background. One sentence, under 40 words, English. "
-          "Do not name anyone, do not guess identity, do not add style words.")
+# 两套词表（2026-11-04 实测）：资产库里多数是道具/物件，旧提示词只问 hair/coat/expression，
+# 物件图必然 0-2 命中被判空话（抽 20 张 20 拒）。人像与物件必须分开判，不能一套词打天下。
+PROMPT_PORTRAIT = ("Describe this image as a Stable Diffusion LoRA training caption. "
+                   "Include only visible attributes: subject, apparent age, hair, clothing, "
+                   "expression, lighting, camera angle, background. "
+                   "One sentence, under 40 words, English. "
+                   "Do not name anyone, do not guess identity, do not add style words.")
+
+PROMPT_OBJECT = ("Describe this image as a Stable Diffusion LoRA training caption of an object "
+                 "or scene. Include only visible attributes: what the object is, its material, "
+                 "colour, shape, surface condition, how it is arranged, and the background. "
+                 "One sentence, under 40 words, English. "
+                 "Do not guess brands, do not name people, do not add style words.")
+
+SLOTS_PORTRAIT = ("hair", "coat", "shirt", "cloth", "dress", "jacket", "expression", "light",
+                  "background", "angle", "face", "eyes", "window", "room", "street",
+                  "indoor", "outdoor")
+SLOTS_OBJECT = ("object", "item", "material", "wood", "metal", "fabric", "paper", "plastic",
+                "glass", "leather", "ceramic", "stone", "colour", "color", "red", "blue",
+                "white", "black", "grey", "gray", "brown", "green", "yellow", "shape",
+                "round", "square", "flat", "surface", "texture", "background", "table",
+                "floor", "wall", "arranged", "placed", "light", "shadow", "angle")
 
 # caption 必须覆盖到的可见属性（至少命中 3 个），否则判废——防模型输出空话
 SLOTS = ("hair", "coat", "shirt", "cloth", "dress", "jacket", "expression", "light",
@@ -49,10 +67,17 @@ def post(path, body, timeout=300):
         return json.loads(r.read().decode())
 
 
-def caption(path):
+def kind_of(path, forced=""):
+    if forced in ("portrait", "object"):
+        return forced
+    return "portrait" if "/faces/" in str(path).replace("\\", "/") else "object"
+
+
+def caption(path, kind="object"):
     img = base64.b64encode(open(path, "rb").read()).decode()
+    prompt = PROMPT_PORTRAIT if kind == "portrait" else PROMPT_OBJECT
     t0 = time.time()
-    d = post("/api/generate", {"model": MODEL, "prompt": PROMPT, "images": [img],
+    d = post("/api/generate", {"model": MODEL, "prompt": prompt, "images": [img],
                                "stream": False, "think": False, "keep_alive": "30m",
                                "options": {"temperature": 0.2, "num_predict": 90}})
     text = (d.get("response") or "").strip()
@@ -61,14 +86,15 @@ def caption(path):
     return text, sec, toks
 
 
-def validate(text):
+def validate(text, kind="object"):
     """返回 (ok, why)。宁可退回人工，也不写一条猜身份的 caption 进训练集。"""
     low = text.lower()
     if not text:
         return False, "空回复（多半是没关 think）"
     if len(text) < 20 or len(text) > 300:
         return False, "长度异常 %d" % len(text)
-    hits = sum(1 for s in SLOTS if s in low)
+    slots = SLOTS_PORTRAIT if kind == "portrait" else SLOTS_OBJECT
+    hits = sum(1 for s in slots if s in low)
     if hits < 3:
         return False, "只命中 %d 个可见属性，像空话" % hits
     for b in BAD:
@@ -89,6 +115,8 @@ def main(argv):
     ap.add_argument("--trigger", default="")
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--out", default="")
+    ap.add_argument("--kind", default="auto", choices=["auto", "portrait", "object"],
+                    help="auto=按路径判：/faces/ 走人像词表，其余走物件词表")
     ap.add_argument("--recursive", action="store_true",
                     help="递归子目录（资产库按 00/01/… 分片存放，不递归会判成没有待打标图片）")
     a = ap.parse_args(argv)
@@ -122,11 +150,11 @@ def main(argv):
     t0 = time.time()
     for p, txt in todo:
         try:
-            text, sec, toks = caption(p)
+            text, sec, toks = caption(p, kind_of(p, a.kind))
         except Exception as e:
             rec["rejected"].append([os.path.basename(p), "请求失败 %s" % str(e)[:80]])
             continue
-        ok, why = validate(text)
+        ok, why = validate(text, kind_of(p, a.kind))
         if not ok:
             rec["rejected"].append([os.path.basename(p), why, text[:120]])
             # 早停闸（2026-11-04 实测）：连续 3 张被拒且一张没写成，说明这批图与当前提示词/
