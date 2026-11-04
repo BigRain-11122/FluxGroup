@@ -104,7 +104,10 @@ Add-Content -LiteralPath $ordersF -Value $row -Encoding UTF8
 $behind = 0
 try { $behind = [int](& $git -C $Root rev-list --count 'HEAD..origin/main') } catch { }
 if ($behind -gt 0) {
-    & $git -C $Root -c rebase.autostash=true rebase origin/main 2>$null | Out-Null
+    # 2026-11-05 R9: 禁 rebase（C-20261104 硬律）。autostash pop 冲突会污染共享台账（队列带
+    # <<<<<<< 标记 → 读方静默跳行）。--ff-only 失败就放弃本次推送，交给下一轮，不冒险。
+    & $git -C $Root merge --ff-only origin/main 2>$null | Out-Null
+    if ($LASTEXITCODE -ne 0) { Write-Output 'ORDER-BUS NOT-FF: local commits diverge; not rebasing (hard law 2026-11-04)' }
 }
 $pushOut = & $git -C $Root push origin HEAD:main 2>&1
 if ($LASTEXITCODE -ne 0) {

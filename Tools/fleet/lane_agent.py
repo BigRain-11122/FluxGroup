@@ -542,11 +542,41 @@ def self_dispatch(root, node, allow_gpu_workhours, max_seconds, hub, port, dry, 
         return True
 
     pick = None
+    # 2026-11-05 R9 事件班实证：本地队列副本会被并发 auto-sync 覆盖/半写（一小时内两次），
+    # 车道据此选卡会把已钉他机（hard_nodes）或已关闭的卡当活干——bm-a 连续领到
+    # hard_nodes=[bm-c] 的 char-gen，白烧 GPU lease 并霸占供给位。执行前按 origin 复核一次。
+    _orows = {}
+    try:
+        _raw = subprocess.run(["git", "-C", root, "show", "origin/main:cph4/fleet/PRODUCTION-QUEUE.jsonl"],
+                              capture_output=True, timeout=20).stdout.decode("utf-8", "replace")
+        for _l in _raw.split("\n"):
+            _l = _l.strip()
+            if not _l.startswith("{"):
+                continue
+            try:
+                _d = json.loads(_l)
+            except Exception:
+                continue
+            if _d.get("id"):
+                _orows[_d["id"]] = _d
+    except Exception:
+        _orows = {}
+
+    pick = None
     for strict in (True, False):
         for r in rows:
             if r.get("state") != "OPEN":
                 continue
             if _eligible(r, strict):
+                _o = _orows.get(r.get("id"))
+                if _o is not None:
+                    _oh = _o.get("hard_nodes") or []
+                    if _o.get("state") != "OPEN":
+                        print("SKIP %s: origin state=%s (local queue stale)" % (r.get("id"), _o.get("state")))
+                        continue
+                    if _oh and node not in _oh:
+                        print("SKIP %s: origin hard_nodes=%s (local queue stale)" % (r.get("id"), _oh))
+                        continue
                 pick = r
                 if not strict:
                     pick["fallback_from"] = r.get("nodes")
