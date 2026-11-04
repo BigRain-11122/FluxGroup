@@ -33,6 +33,9 @@ VAULT = "/Volumes/移动硬盘/FluxAssets/store"
 INBOX = os.path.join(ROOT, "media", "inbox")
 
 
+RELEASE_FLAG = os.path.expanduser("~/.fluxgroup-disk-release")
+
+
 def mem_gb():
     """(可回收GB, wiredGB, swapMB)。可回收 = free + inactive（macOS 会把 inactive 让出来）。"""
     try:
@@ -129,6 +132,9 @@ def main(argv):
         print("[mac-farm] 缺槽位表 %s（rc=3）" % SLOTS)
         return 3
     cfg = json.load(open(SLOTS, encoding="utf-8"))
+    if os.path.exists(RELEASE_FLAG):
+        print("[mac-farm] 盘已置「可拔线」旗标，本轮不碰外盘素材（rc=0）")
+        return 0
     reserve = float(cfg.get("reserve_gb") or 6.0)
     slots = {s["id"]: s for s in cfg.get("slots") or []}
 

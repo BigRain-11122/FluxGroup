@@ -50,6 +50,15 @@ def main(argv):
     ap.add_argument("--json", action="store_true")
     a = ap.parse_args(argv)
 
+    if os.path.exists(os.path.expanduser("~/.fluxgroup-disk-release")):
+        print("[asset-reach] 盘已置「可拔线」旗标，本轮不扫（verdict=RELEASED）")
+        os.makedirs(os.path.dirname(OUT), exist_ok=True)
+        json.dump({"ts": __import__("datetime").datetime.now().isoformat(timespec="seconds"),
+                   "verdict": "RELEASED", "ledger_total": 0, "reachable": 0,
+                   "note": "用户要拔盘，机队已让路"},
+                  open(OUT, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+        return 0
+
     rows = []
     if os.path.exists(IDX):
         for ln in open(IDX, encoding="utf-8"):

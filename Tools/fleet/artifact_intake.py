@@ -54,6 +54,9 @@ IDX_STAGE = os.path.join(STAGE, "artifacts-index.jsonl")
 ARCHIVE_MAX = int(os.environ.get("INTAKE_ARCHIVE_MAX_MB", "200")) * 1024 * 1024
 
 
+RELEASE_FLAG = os.path.expanduser("~/.fluxgroup-disk-release")
+
+
 def dest_now():
     """返回 (落盘目录, 索引路径, 模式)。
 
@@ -62,6 +65,9 @@ def dest_now():
     本机照旧没活干（"盘在但脉看不到"与"盘不在"是同一种病）。
     """
     os.makedirs(STAGE, exist_ok=True)
+    if os.path.exists(RELEASE_FLAG):
+        # 用户要拔盘：仍收到内盘暂存（不丢件），但不碰外盘
+        return os.path.join(STAGE, "intake"), IDX_STAGE, "stage(disk-released)"
     return os.path.join(STAGE, "intake"), IDX_STAGE, ("stage+archive" if os.path.isdir(EXT) else "stage")
 
 

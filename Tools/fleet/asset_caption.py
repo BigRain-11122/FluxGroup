@@ -80,6 +80,9 @@ def validate(text):
     return True, "ok"
 
 
+RELEASE_FLAG = os.path.expanduser("~/.fluxgroup-disk-release")
+
+
 def main(argv):
     ap = argparse.ArgumentParser()
     ap.add_argument("--dir", required=True)
@@ -89,6 +92,9 @@ def main(argv):
     ap.add_argument("--recursive", action="store_true",
                     help="递归子目录（资产库按 00/01/… 分片存放，不递归会判成没有待打标图片）")
     a = ap.parse_args(argv)
+    if os.path.exists(RELEASE_FLAG) and "/Volumes/" in str(a.dir):
+        print("[caption] 盘已置「可拔线」旗标，跳过该卷（rc=0）")
+        return 0
     if not os.path.isdir(a.dir):
         print("目录不存在：%s（rc=2）" % a.dir)
         return 2
