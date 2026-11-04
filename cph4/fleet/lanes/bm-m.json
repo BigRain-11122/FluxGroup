@@ -1,28 +1,25 @@
 {
  "node": "bm-m",
- "ts": "2026-11-05T06:27:53",
+ "ts": "2026-11-05T06:30:04",
  "jobs": [
   {
-   "id": "R-FLEETBOARD-20261104-002",
-   "title": "机队进度与备单板·20261105（CEO 令 2026-11-04：主控随时掌握各机进度并安排好未来）",
-   "cmd": null,
-   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "id": "Q-VCORP-PREP-e01-R3-20261105",
+   "title": "音色语料切片·e01（LibriTTS → voices/e01/sliced，纯 CPU）",
+   "cmd": "python C:/Fluxgroup/FleetAgent/Tools/fleet/voice_corpus_prep.py --inbox C:/Fluxgroup/FluxGroup/media/asset/inbox/e01 --group e01 --shard 0/1 --receipt C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-prep-e01-r3-20261105.json",
+   "cwd": "C:/Fluxgroup/FluxGroup",
    "needs": "cpu",
-   "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-fleetboard-20261105.md",
+   "deliverable": "C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-prep-e01-r3-20261105.json",
    "need_mb": null,
-   "model": "local-small",
-   "prompt": "先读 cph4/fleet/MASTER-AGENT-v1.md 第七节（主控职责增补），再写「机队进度与备单板」：①逐机器（bm-a/bm-b/bm-c/bm-d/bm-m）各一行：在办/最近产出/卡点（依据 dispatcher/MASTER-STATE.json 的 lanes 与 lines 字段）；②每台执行机列 ≥2 张已备好可立即派发的卡（从 PRODUCTION-BACKLOG.jsonl state=READY 行取，写 id 与输入就绪判定；不足写缺口）；③今夜与明日安排各一行（依据 NEXT-ACTIONS / NIGHT-PLAN / FORECAST 最新日档与 WAIT-MAP.md）。≤40 行，不得编造文件外的事实。",
+   "model": "none",
+   "prompt": "",
    "when_all": [
-    "cph4/fleet/MASTER-AGENT-v1.md",
-    "cph4/fleet/dispatcher/MASTER-STATE.json"
+    "C:/Fluxgroup/FluxGroup/media/asset/inbox/e01"
    ],
-   "llm": {
-    "out": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-fleetboard-20261105.md"
-   },
-   "timeout_s": null
+   "llm": null,
+   "timeout_s": 3600
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 18.6/1.0 GB"
+ "capacity_note": "ram 15.8/1.0 GB"
 }
