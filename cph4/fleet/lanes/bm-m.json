@@ -1,20 +1,22 @@
 {
  "node": "bm-m",
- "ts": "2026-11-05T03:00:53",
+ "ts": "2026-11-05T03:02:11",
  "jobs": [
   {
-   "id": "CHK-RECEIPT-20261104",
-   "title": "鍥炴墽鍗�鐢熶綋妫�锛坮c 缂哄け/error_class 缂哄け鍑鸿〃锛夛紙bm-m 鍏滃簳浣撴��锛�",
-   "cmd": "python3 Tools/fleet/receipt_attrib.py --out cph4/fleet/queue-receipts/receipt-attrib-20261104.json",
-   "cwd": "",
+   "id": "Q-VCORP-PREP-e01-R3-20261105",
+   "title": "闊宠壊璇�鏂欏垏鐗嚶積01锛圠ibriTTS 鈫� voices/e01/sliced锛岀函 CPU锛�",
+   "cmd": "python C:/Fluxgroup/FleetAgent/Tools/fleet/voice_corpus_prep.py --inbox C:/Fluxgroup/FluxGroup/media/asset/inbox/e01 --group e01 --shard 0/1 --receipt C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-prep-e01-r3-20261105.json",
+   "cwd": "C:/Fluxgroup/FluxGroup",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/receipt-attrib-20261104.json",
+   "deliverable": "C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-prep-e01-r3-20261105.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
-   "when_all": [],
+   "when_all": [
+    "C:/Fluxgroup/FluxGroup/media/asset/inbox/e01"
+   ],
    "llm": null,
-   "timeout_s": null
+   "timeout_s": 3600
   }
  ],
  "idle_reason": "",
