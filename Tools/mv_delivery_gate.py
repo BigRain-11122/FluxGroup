@@ -230,7 +230,11 @@ def main():
         avg_s = float(seg_s.mean()) if seg_s.size else 0.0
         # still means the picture barely changes AND the frame does not travel:
         # a slow crane has low MAD but real displacement and must not be failed.
-        if avg < STILL_MAD and avg_s < SHOT_SHIFT_MIN and not in_card(s0 / fps, s1 / fps):
+        # SHOT_SHIFT_MIN is defined in px/frame at a 30fps baseline. The same physical
+        # camera move yields half the per-frame displacement at 60fps, so the threshold
+        # must be scaled or every 60fps deliverable false-fails as "still".
+        shift_min = SHOT_SHIFT_MIN * (fps / 30.0)
+        if avg < STILL_MAD and avg_s < shift_min and not in_card(s0 / fps, s1 / fps):
             still_shots.append((s0, s1, round(avg, 2), round(avg_s, 2)))
     if still_shots:
         fails.append("D2 near-static shots: %d (first %.2f-%.2fs mean_mad=%.2f)" %
@@ -243,7 +247,8 @@ def main():
                      (len(st["seams"]), st["seams"][0]["t"], st["seams"][0]["shift_px"]))
     if st.get("freezes"):
         live = [f for f in st["freezes"] if not in_card(f["t"], f["t"] + f["run"] / fps)]
-        long_holds = [f for f in live if f["run"] >= 6]
+        # 0.25s is the declared criterion; frame count must be converted, not compared raw.
+        long_holds = [f for f in live if f["run"] / fps >= 0.25]
         if long_holds:
             fails.append("D3 dead holds >=0.25s: %d of %d freeze runs (worst run=%d frames at %.2fs)" %
                          (len(long_holds), len(live),
