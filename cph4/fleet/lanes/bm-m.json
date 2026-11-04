@@ -1,23 +1,8 @@
 {
  "node": "bm-m",
- "ts": "2026-11-04T23:24:48",
- "jobs": [
-  {
-   "id": "CHK-DUPES-20261103",
-   "title": "重复派单向量重扫（bm-m 兜底体检）",
-   "cmd": "python3 Tools/fleet/semantic_dupes.py --json cph4/fleet/queue-receipts/dupes-scan-20261103.json",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/dupes-scan-20261103.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  }
- ],
- "idle_reason": "",
+ "ts": "2026-11-04T23:26:15",
+ "jobs": [],
+ "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
  "lane_ok": true,
  "capacity_note": "ram 18.8/1.0 GB"
 }
