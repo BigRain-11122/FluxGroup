@@ -1,12 +1,12 @@
 {
- "ts": "2026-11-04T18:04:02",
- "cycle": 162,
+ "ts": "2026-11-04T18:12:03",
+ "cycle": 166,
  "master_node": "bm-m",
  "masquerade_by": "bm-a",
  "master_tick_ts": "2026-11-04T17:11:43",
  "queue": {
   "total": 417,
-  "open": 27,
+  "open": 25,
   "running": 4,
   "done": 156,
   "failed": 22
@@ -14,16 +14,16 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 49.1,
-   "cpu_load_pct": 17,
-   "ram_free_gb": 27.2,
-   "gpu_util_pct": 100,
-   "job": "biggame-playable-2026-11-03",
+   "hb_age_s": 48.2,
+   "cpu_load_pct": 80,
+   "ram_free_gb": 32.7,
+   "gpu_util_pct": 49,
+   "job": "bigstream-mv-stability-2026-11-04",
    "last_result": {
     "job": "bigstream-mv-stability-2026-11-04",
-    "state": "FAILED",
-    "rc": 1,
-    "ts": "2026-11-04T18:02:53",
+    "state": "BUSY",
+    "rc": null,
+    "ts": "2026-11-04T18:11:40",
     "reason": null
    },
    "idle_confirmed": false,
@@ -32,16 +32,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 8.8,
-   "cpu_load_pct": 1,
-   "ram_free_gb": 12.2,
-   "gpu_util_pct": null,
-   "job": "R-PLAN-BIGDOMAIN-20261104",
+   "hb_age_s": 40.3,
+   "cpu_load_pct": 5,
+   "ram_free_gb": 12.6,
+   "gpu_util_pct": 0,
+   "job": "biggame-playable-2026-11-03",
    "last_result": {
-    "job": "CANARY-20261103T200141",
+    "job": "R-PLAN-BIGDOMAIN-20261104",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-04T18:03:04",
+    "ts": "2026-11-04T18:11:39",
     "reason": null
    },
    "idle_confirmed": false,
@@ -50,16 +50,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 37.4,
-   "cpu_load_pct": 10,
-   "ram_free_gb": 3.1,
+   "hb_age_s": 98.5,
+   "cpu_load_pct": 8,
+   "ram_free_gb": 3.3,
    "gpu_util_pct": 0,
    "job": "R-PLAN-BIGLIFE-20261104",
    "last_result": {
     "job": "CHK-DUPES-20261103",
-    "state": "RUNNING",
-    "rc": null,
-    "ts": "2026-11-04T18:03:34",
+    "state": "FAILED",
+    "rc": 9009,
+    "ts": "2026-11-04T18:11:15",
     "reason": null
    },
    "idle_confirmed": false,
@@ -68,16 +68,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 182.0,
-   "cpu_load_pct": 20,
-   "ram_free_gb": 13.6,
+   "hb_age_s": 64.5,
+   "cpu_load_pct": 25,
+   "ram_free_gb": 13.3,
    "gpu_util_pct": null,
    "job": "bigstream-mv-transition-2026-11-04",
    "last_result": {
-    "job": "CANARY-20261103T201026",
+    "job": "CANARY-20261104T181057",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-04T18:02:02",
+    "ts": "2026-11-04T18:11:57",
     "reason": null
    },
    "idle_confirmed": false,
@@ -100,7 +100,8 @@
    "stale_after_h": 24.0,
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
    "jobs": [
-    "bigstream-mv-transition-2026-11-04"
+    "bigstream-mv-transition-2026-11-04",
+    "bigstream-mv-stability-2026-11-04"
    ],
    "no_supply": false,
    "blockers": [],
@@ -154,7 +155,7 @@
    "name": "Biggame·游戏",
    "status": "ACTIVE",
    "verdict": "WORKING",
-   "age_h": 0.9,
+   "age_h": 1.0,
    "stale_after_h": 24.0,
    "owner": "游戏席",
    "jobs": [
@@ -171,16 +172,12 @@
    "name": "FluxVerse·元宙城",
    "status": "ACTIVE",
    "verdict": "STALLED-STAGE",
-   "age_h": 7.4,
+   "age_h": 7.5,
    "stale_after_h": 36.0,
    "owner": "城市线",
-   "jobs": [
-    "R-PLAN-FLUXVERSE-20261104"
-   ],
-   "no_supply": false,
-   "blockers": [
-    "R-PLAN-FLUXVERSE-20261104:no-lane"
-   ],
+   "jobs": [],
+   "no_supply": true,
+   "blockers": [],
    "note": null,
    "stuck_stage": "city-assemble",
    "stuck_owner": "地编席"
@@ -189,7 +186,7 @@
    "name": "BigMoney·量化",
    "status": "PAUSED",
    "verdict": "WORKING",
-   "age_h": 19.4,
+   "age_h": 19.5,
    "stale_after_h": 24.0,
    "owner": "量化席",
    "jobs": [
@@ -204,14 +201,12 @@
   "bigdomain": {
    "name": "BigDomain·硅基域商业化",
    "status": "ACTIVE",
-   "verdict": "WORKING",
-   "age_h": 0.3,
+   "verdict": "WAITING",
+   "age_h": 0.1,
    "stale_after_h": 36.0,
    "owner": "域运营席",
-   "jobs": [
-    "R-PLAN-BIGDOMAIN-20261104"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": null
   },
@@ -219,7 +214,7 @@
    "name": "BigCompute·硅基算力",
    "status": "ACTIVE",
    "verdict": "WAITING",
-   "age_h": 11.8,
+   "age_h": 11.9,
    "stale_after_h": 36.0,
    "owner": "算力中枢席",
    "jobs": [],
@@ -231,7 +226,7 @@
    "name": "BigLife·数字生命",
    "status": "ACTIVE",
    "verdict": "WORKING",
-   "age_h": 181.0,
+   "age_h": 181.1,
    "stale_after_h": 48.0,
    "owner": "生命生产席",
    "jobs": [
@@ -245,7 +240,7 @@
    "name": "BigHouse·城市安家",
    "status": "PARKED",
    "verdict": "PARKED",
-   "age_h": 418.7,
+   "age_h": 418.8,
    "stale_after_h": 72.0,
    "owner": "生态运营席",
    "jobs": [],
@@ -291,7 +286,6 @@
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
    "jobs": [
-    "CHK-DUPES-20261103",
     "CANARY-20261104T125141",
     "CANARY-20261104T125241",
     "CANARY-20261104T131747",
@@ -303,7 +297,6 @@
    ],
    "no_supply": false,
    "blockers": [
-    "CHK-DUPES-20261103:no-lane",
     "CANARY-20261104T125141:no-lane",
     "CANARY-20261104T125241:no-lane",
     "CANARY-20261104T131747:no-lane",
@@ -865,7 +858,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 27,
+  "local": 25,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -873,14 +866,14 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 27,
+  "cpu": 25,
   "gpu": 0
  },
  "supply_added": [
   "backlog_manifest+1"
  ],
  "events": [
-  "bigstream-mv-stability-2026-11-04 FAILED via bm-a"
+  "CHK-DUPES-20261103 FAILED via bm-c"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
