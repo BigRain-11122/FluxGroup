@@ -1,4 +1,4 @@
-# 所有业务的下一步（2026-11-05T02:45:54+0800）
+# 所有业务的下一步（2026-11-05T03:59:01+0800）
 
 运行 2 · 排队 9 · 停滞 4（其中工程可自解 0）
 
@@ -18,4 +18,4 @@
 | 短视频（B站运营） | P9 | STALLED | 一条可发短内容（切片或梗） | bm-a | CEO(CEO 令暂停（先铺资产库/MV/游戏/城市）) |
 | BigHouse | P9 | STALLED | — | - | CEO(无需求证据，恢复需 CEO 明令) |
 | 车机（吸嘟嘟家庭版） | P9 | STALLED | OEM 一页材料送出（需 CEO 渠道） | bm-m | EXTERNAL(等 OEM 意向，不投产能) |
-| 短剧 | P9 | QUEUED · Q-PLATFORM-PACK-SAMPLE-R3-20261105 | 素材盘点 + 配音质检报告 | bm-b | CEO(CEO 令暂停（先铺资产库/MV/游戏/城市）) |
+| 短剧 | P9 | QUEUED · R-NEXT-BIGSTREAMD-TTS-QC-20261104 | 素材盘点 + 配音质检报告 | bm-b | CEO(CEO 令暂停（先铺资产库/MV/游戏/城市）) |

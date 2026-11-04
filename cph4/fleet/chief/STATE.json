@@ -1,20 +1,22 @@
 {
- "ts": "2026-11-05T02:45:54",
+ "ts": "2026-11-05T03:59:02",
  "stage": 3,
  "adoption": {
   "days": 4,
-  "applied": 843,
-  "total": 616,
-  "rate": 136.9,
+  "applied": 845,
+  "total": 618,
+  "rate": 136.7,
   "eligible_stage4": false
  },
  "decisions": [
   {
    "kind": "requeue",
-   "why": "2 张卡在跑但 1 小时无回执",
+   "why": "4 张卡在跑但 1 小时无回执",
    "target": [
+    "CANARY-20261104T132721",
+    "MV-NEWPROC-PACKET-20261104",
     "asset-lib-face-dataset-2026-11-05",
-    "asset-lib-asset-gen-2026-11-05"
+    "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105"
    ],
    "min_stage": 3,
    "result": "applied"
@@ -34,8 +36,10 @@
   {
    "kind": "requeue",
    "ids": [
+    "CANARY-20261104T132721",
+    "MV-NEWPROC-PACKET-20261104",
     "asset-lib-face-dataset-2026-11-05",
-    "asset-lib-asset-gen-2026-11-05"
+    "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105"
    ]
   }
  ],
