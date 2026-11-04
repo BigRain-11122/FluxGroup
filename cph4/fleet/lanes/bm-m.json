@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
- "ts": "2026-11-05T00:22:03",
+ "ts": "2026-11-05T00:30:06",
  "jobs": [
   {
-   "id": "asset-lib-voice-dataset-2026-11-05",
-   "title": "[资产储备（角色 LoRA / 音色库）] 音色数据集准入（反播音腔的第一道门）",
-   "cmd": "python Tools/fleet/asset_dataset_audit.py --mode voice --dir media/asset/voices --out cph4/fleet/queue-receipts/asset-voice-2026-11-05.json",
+   "id": "biggame-accept-2026-11-05",
+   "title": "[游戏（可上线清单 → 一款可玩包 → 提审材料）] 质量验收（缺一份闸回执就不算交付）",
+   "cmd": "python Tools/fleet/quality_gate.py --line biggame --out cph4/fleet/queue-receipts/quality-biggame-2026-11-05.json",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/asset-voice-2026-11-05.json",
+   "deliverable": "cph4/fleet/queue-receipts/quality-biggame-2026-11-05.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 20.3/1.0 GB"
+ "capacity_note": "ram 18.9/1.0 GB"
 }
