@@ -137,6 +137,10 @@ def infer_node_os(card):
     blob = " ".join(str(card.get(k) or "") for k in ("cmd", "cwd", "deliverable"))
     if _WIN_PATH_RE.search(blob) or _WIN_CMD_RE.search(blob) or ".cmd" in blob.lower():
         return "windows"
+    if "python3 " in blob or "python3/" in blob:
+        # 2026-11-04 bm-b hygiene (discipline law clause 6): python3 exists on no Windows
+        # box in this fleet - CHK-RECEIPT-20261103 fell back to bm-b and died rc=9009 twice.
+        return "macos"
     return ""
 
 
