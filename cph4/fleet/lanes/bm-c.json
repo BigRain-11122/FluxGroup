@@ -1,23 +1,25 @@
 {
  "node": "bm-c",
- "ts": "2026-11-05T06:33:56",
+ "ts": "2026-11-05T06:38:00",
  "jobs": [
   {
-   "id": "asset-lib-char-gen-2026-11-05",
-   "title": "[资产储备（角色 LoRA / 音色库）] 角色包出图（本机 ComfyUI，1024²，同 seed 组）",
-   "cmd": "python Tools/fleet/char_gen.py --node bm-c --limit 12",
-   "cwd": "",
-   "needs": "gpu",
-   "deliverable": "cph4/fleet/queue-receipts/char-gen-bm-c-2026-11-05.json",
+   "id": "Q-VCORP-PREP-e01-R3-20261105",
+   "title": "音色语料切片·e01（LibriTTS → voices/e01/sliced，纯 CPU）",
+   "cmd": "python C:/Fluxgroup/FleetAgent/Tools/fleet/voice_corpus_prep.py --inbox C:/Fluxgroup/FluxGroup/media/asset/inbox/e01 --group e01 --shard 0/1 --receipt C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-prep-e01-r3-20261105.json",
+   "cwd": "C:/Fluxgroup/FluxGroup",
+   "needs": "cpu",
+   "deliverable": "C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-prep-e01-r3-20261105.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
-   "when_all": [],
+   "when_all": [
+    "C:/Fluxgroup/FluxGroup/media/asset/inbox/e01"
+   ],
    "llm": null,
-   "timeout_s": null
+   "timeout_s": 3600
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 3.3/1.0 GB"
+ "capacity_note": "ram 3.1/1.0 GB"
 }
