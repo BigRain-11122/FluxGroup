@@ -78,7 +78,13 @@ def count_caption_todo():
 
 # 编码/字幕槽的素材源：收件暂存 + 本机成片目录。只看 media/inbox 会让 CPU 槽永远没活
 # （收件靠别机推送，今天还卡在 bm-a 车道上），而 media/drama-out 的成片一直有代理可做。
-MEDIA_SRCS = [INBOX, os.path.join(ROOT, "media", "drama-out")]
+MEDIA_SRCS = [INBOX, os.path.join(ROOT, "media", "drama-out"),
+              # 移动盘备份树里的镜头/样本（2026-11-04 CEO「没有素材自己去找」）：
+              # 机队媒体件长期躺在备份盘上，主控不主动去取就等于没有素材。
+              os.path.join("/Volumes/移动硬盘/Backup/FluxGroup/cph4/fleet",
+                           "mv0001-handover/outbound/krea2/30s-reel-v1/fleet-shots"),
+              os.path.join("/Volumes/移动硬盘/Backup/FluxGroup/cph4/fleet",
+                           "drama-dept-v1/samples")]
 PROXY_DIR = os.path.join(ROOT, "media", "review-720p")
 
 
@@ -171,11 +177,26 @@ def main(argv):
                                  "--recursive", "--limit", str(n),
                                  "--out", "cph4/fleet/asset-lib-v1/CAPTIONS.jsonl"]))
     if "cpu_ffmpeg" in plan and todo["proxy"] > 0:
-        src = next((x for x in MEDIA_SRCS if os.path.isdir(x) and
-                    count_media_todo("proxy") > 0), INBOX)
-        jobs.append(("proxy", ["python3", "Tools/fleet/review_proxy.py", "--src", src,
-                               "--out", "media/review-720p", "--max",
-                               str(int(slots["cpu_ffmpeg"]["conc"]))]))
+        # review_proxy 只扫一层目录（2026-11-04 实测：镜头都在 fleet-shots/FLUXGROUP 这种子目录里，
+        # 传父目录会报"出 0 条，已是最新"），所以按"真正有缺代理的目录"逐个喂，最多开 conc 条。
+        dirs = []
+        for src in MEDIA_SRCS:
+            if not os.path.isdir(src):
+                continue
+            for d, _s, fs in os.walk(src):
+                if d in dirs:
+                    continue
+                for f in fs:
+                    low = f.lower()
+                    if low.endswith((".mp4", ".mov", ".mkv")) and "-proxy" not in low:
+                        stem = os.path.splitext(f)[0]
+                        if not os.path.exists(os.path.join(PROXY_DIR, stem + "-720p.mp4")):
+                            dirs.append(d)
+                            break
+        for d in dirs[:int(slots["cpu_ffmpeg"]["conc"])]:
+            jobs.append(("proxy:%s" % os.path.basename(d),
+                         ["python3", "Tools/fleet/review_proxy.py", "--src", d,
+                          "--out", "media/review-720p", "--max", "4"]))
     if "gpu_asr" in plan and todo["asr"] > 0:
         jobs.append(("asr", ["python3", "Tools/fleet/subs_asr.py", "--sync-dir", INBOX,
                              "--subs-dir", "cph4/fleet/drama-dept-v1/subs", "--days", "3"]))
