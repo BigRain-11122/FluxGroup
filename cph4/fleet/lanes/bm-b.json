@@ -1,14 +1,14 @@
 {
  "node": "bm-b",
- "ts": "2026-11-04T11:42:03",
+ "ts": "2026-11-04T11:50:02",
  "jobs": [
   {
-   "id": "asset-lib-voice-corpus-bmb-2026-11-04",
-   "title": "[资产储备（角色 LoRA / 音色库）] 音色语料工程·分片 1/4（bm-b，纯 CPU）",
-   "cmd": "python Tools/fleet/voice_corpus_prep.py --inbox media/asset/inbox --group batch-2026-11-04 --shard 1/4 --receipt cph4/fleet/queue-receipts/voice-corpus-bm-b-2026-11-04.json",
+   "id": "asset-lib-char-gen-2026-11-04",
+   "title": "[资产储备（角色 LoRA / 音色库）] 角色包出图（本机 ComfyUI，1024²，同 seed 组）",
+   "cmd": "python Tools/fleet/char_gen.py --node bm-c --limit 12",
    "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/voice-corpus-bm-b-2026-11-04.json",
+   "needs": "gpu",
+   "deliverable": "cph4/fleet/queue-receipts/char-gen-bm-c-2026-11-04.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 11.5/1.0 GB"
+ "capacity_note": "ram 10.6/1.0 GB"
 }
