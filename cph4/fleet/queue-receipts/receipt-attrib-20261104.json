@@ -1,13 +1,9 @@
 {
- "ts": "2026-11-04T16:52:50+0800",
+ "ts": "2026-11-04T16:55:08+0800",
  "receipts": 443,
  "files_scanned": 583,
- "non_receipt_files": 137,
- "unparseable": [
-  "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/fleet-align-bm-a.json",
-  "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/fleet-align-bm-b.json",
-  "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/tts-qc-r2-20261102.json"
- ],
+ "non_receipt_files": 140,
+ "unparseable": [],
  "missing_rc": [],
  "rc_hist": {
   "0": 346,
@@ -24,29 +20,7 @@
   "3 -> E-BLOCKED-INPUT",
   "9009 -> E-PATH"
  ],
- "fail_no_error_class": [
-  "C-INFRA-AUDIT-BM-C-20261103-bm-c.json",
-  "C-MV-STABILITY-bm-a.json",
-  "CHK-LIB-20261103-bm-c.json",
-  "Q-MV-0001-015-bm-a.json",
-  "Q-MV-0001-017-bm-a.json",
-  "Q-TRIAGE-CARGAMING-20261031-bm-a.json",
-  "Q-TRIAGE-FLUXVERSE-20261031-bm-a.json",
-  "Q-TRIAGE-RECON-20261031-bm-a.json",
-  "Q-TRIAGE-RECON-20261102-bm-m.json",
-  "R-ART-PUSH-A-20261102-bm-a.json",
-  "R-MV-GATE-1D-bm-a.json",
-  "R-MV-V718-GATE-bm-a.json",
-  "R-NEXT-BIGSTREAMM-GATE-20261101-bm-a.json",
-  "R-NEXT-BIGSTREAMM-GATE-20261102-bm-a.json",
-  "R-PLAN-BIGDOMAIN-20261102-bm-m.json",
-  "R-PLAN-BIGSTREAMDRA-20261101-bm-a.json",
-  "R-PLAN-BIGSTREAMDRA-20261102-bm-m.json",
-  "R-PLAN-BIGSTREAMMV-20261102-bm-m.json",
-  "asset-lib-face-caption-2026-11-03-bm-a.json",
-  "asset-lib-face-caption-2026-11-03-bm-c.json",
-  "asset-lib-voice-corpus-bmm-2026-11-03-bm-m.json"
- ],
+ "fail_no_error_class": [],
  "error_class_not_in_taxonomy": [
   [
    "C-QUANT-NOBOND-20261103-bm-m.json",
