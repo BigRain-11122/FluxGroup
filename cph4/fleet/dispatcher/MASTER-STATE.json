@@ -1,29 +1,29 @@
 {
- "ts": "2026-11-04T21:05:17",
- "cycle": 222,
+ "ts": "2026-11-04T21:11:32",
+ "cycle": 223,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-04T21:05:17",
+ "master_tick_ts": "2026-11-04T21:11:32",
  "queue": {
   "total": 414,
-  "open": 5,
+  "open": 6,
   "running": 4,
   "done": 176,
-  "failed": 22
+  "failed": 21
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 4.0,
-   "cpu_load_pct": 69,
-   "ram_free_gb": 15.1,
-   "gpu_util_pct": 53,
+   "hb_age_s": 18.9,
+   "cpu_load_pct": 52,
+   "ram_free_gb": 14.1,
+   "gpu_util_pct": 90,
    "job": "ART-PUSH-BMA-20261104",
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-04T21:05:06",
+    "ts": "2026-11-04T21:10:05",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": false,
@@ -32,16 +32,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 82.0,
-   "cpu_load_pct": 0,
-   "ram_free_gb": 11,
-   "gpu_util_pct": null,
+   "hb_age_s": 89.2,
+   "cpu_load_pct": 6,
+   "ram_free_gb": 11.9,
+   "gpu_util_pct": 0,
    "job": "MV-NEWPROC-PACKET-20261104",
    "last_result": {
     "job": "CANARY-20261104T132721",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-04T21:04:03",
+    "ts": "2026-11-04T21:08:39",
     "reason": null
    },
    "idle_confirmed": false,
@@ -50,16 +50,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 33.4,
-   "cpu_load_pct": 6,
-   "ram_free_gb": 3.2,
+   "hb_age_s": 14.2,
+   "cpu_load_pct": 7,
+   "ram_free_gb": 2.7,
    "gpu_util_pct": 0,
    "job": "R-MODEL-RADAR-BMM-20261103",
    "last_result": {
     "job": "R-PLAN-BIGMONEY-20261104",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-04T21:05:08",
+    "state": "RUNNING",
+    "rc": null,
+    "ts": "2026-11-04T21:11:26",
     "reason": null
    },
    "idle_confirmed": false,
@@ -69,15 +69,15 @@
   "bm-m": {
    "online": true,
    "hb_age_s": 0.9,
-   "cpu_load_pct": 34,
-   "ram_free_gb": 12.6,
+   "cpu_load_pct": 21,
+   "ram_free_gb": 14.2,
    "gpu_util_pct": null,
    "job": "CHK-DUPES-20261103",
    "last_result": {
-    "job": "CANARY-20261104T210515",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-04T21:05:16",
+    "job": "CHK-DUPES-20261103",
+    "state": "BUSY",
+    "rc": null,
+    "ts": "2026-11-04T21:09:48",
     "reason": null
    },
    "idle_confirmed": false,
@@ -268,6 +268,7 @@
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
    "jobs": [
+    "CHK-RECEIPT-20261103",
     "CHK-DUPES-20261103",
     "ART-PUSH-BMA-20261104",
     "CANARY-20261104T175030",
@@ -275,6 +276,7 @@
    ],
    "no_supply": false,
    "blockers": [
+    "CHK-RECEIPT-20261103:no-lane",
     "CANARY-20261104T175030:no-lane",
     "CANARY-20261104T202057:no-lane"
    ],
@@ -826,7 +828,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 5,
+  "local": 6,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -834,25 +836,15 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 5,
+  "cpu": 6,
   "gpu": 0
  },
  "supply_added": [],
- "events": [
-  "CANARY-20261104T132721 DONE via bm-b",
-  "R-PLAN-BIGMONEY-20261104 DONE via bm-c",
-  "ART-PUSH-BMA-20261104 -> bm-a (cpu)",
-  "MV-NEWPROC-PACKET-20261104 -> bm-b (cpu)",
-  "R-MODEL-RADAR-BMM-20261103 -> bm-c (cpu)"
- ],
+ "events": [],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
- "lane_files_written": [
-  "bm-a",
-  "bm-b",
-  "bm-c"
- ]
+ "lane_files_written": []
 }
