@@ -1,14 +1,14 @@
 {
  "node": "bm-a",
- "ts": "2026-11-04T22:46:12",
+ "ts": "2026-11-04T23:04:02",
  "jobs": [
   {
-   "id": "CANARY-20261104T202057",
-   "title": "端到端自检：投卡→领取→执行→回执→产物",
-   "cmd": "python -c \"import os;os.makedirs(r'cph4/fleet/state/canary',exist_ok=True);open(r'cph4/fleet/state/canary/RUN-20261104T202057.txt','w',encoding='utf-8').write('canary 20261104T202057 — 端到端自检产物，不是业务活')\"",
+   "id": "R-TRIAGE-BIGLIFE-BMA-20261104",
+   "title": "BigLife·数字生命 线证据扫描（bm-a 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line biglife",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/state/canary/RUN-20261104T202057.txt",
+   "deliverable": "cph4/fleet/queue-receipts/triage-biglife-20261104.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 25.0/1.0 GB"
+ "capacity_note": "ram 11.8/1.0 GB"
 }
