@@ -1,14 +1,14 @@
 {
  "node": "bm-c",
- "ts": "2026-11-04T23:49:58",
+ "ts": "2026-11-04T23:52:44",
  "jobs": [
   {
-   "id": "PROBE-BMB-AUDIOQC-20261104",
-   "title": "bm-b 音频质检探针（inbox 音轨响度/采样率/时长）",
-   "cmd": "python Tools/fleet/tts_batch_check.py --dir media/asset/inbox --out cph4/fleet/queue-receipts/audio-qc-bmb-20261104.json",
-   "cwd": null,
+   "id": "MV-NEWPROC-PACKET-20261104",
+   "title": "导演席新流程卷：四曲立意/分镜/合规矩阵一页卷",
+   "cmd": "python Tools/fleet/review_packet.py --line mv --root .",
+   "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/audio-qc-bmb-20261104.json",
+   "deliverable": "cph4/fleet/queue-receipts/review-packet-mv-20261104.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 3.4/1.0 GB"
+ "capacity_note": "ram 3.6/1.0 GB"
 }
