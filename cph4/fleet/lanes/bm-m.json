@@ -1,22 +1,20 @@
 {
  "node": "bm-m",
- "ts": "2026-11-05T04:55:11",
+ "ts": "2026-11-05T04:57:24",
  "jobs": [
   {
-   "id": "Q-VCORP-PREP-e01-R3-20261105",
-   "title": "音色语料切片·e01（LibriTTS → voices/e01/sliced，纯 CPU）",
-   "cmd": "python C:/Fluxgroup/FleetAgent/Tools/fleet/voice_corpus_prep.py --inbox C:/Fluxgroup/FluxGroup/media/asset/inbox/e01 --group e01 --shard 0/1 --receipt C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-prep-e01-r3-20261105.json",
-   "cwd": "C:/Fluxgroup/FluxGroup",
+   "id": "R-NEXT-BIGSTREAMM-GATE-20261105",
+   "title": "MV 浜や粯闂稿�嶈窇锛氬綋鍓嶆瘝鐗堝洓闂稿叏楠岋紙鏀跺彛鍓嶇疆锛�",
+   "cmd": "python Tools/mv_delivery_gate.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721.mp4 --whitelist cph4/fleet/mv0001-handover/canon/MV0001-REPRISE-WHITELIST.json --json cph4/fleet/queue-receipts/mv-gate-20261105.json",
+   "cwd": "",
    "needs": "cpu",
-   "deliverable": "C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-prep-e01-r3-20261105.json",
+   "deliverable": "cph4/fleet/queue-receipts/mv-gate-20261105.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
-   "when_all": [
-    "C:/Fluxgroup/FluxGroup/media/asset/inbox/e01"
-   ],
+   "when_all": [],
    "llm": null,
-   "timeout_s": 3600
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
