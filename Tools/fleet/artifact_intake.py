@@ -39,8 +39,21 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 NODES = {"bm-a", "bm-b", "bm-c", "bm-m", "bm-d"}
 MAX_BYTES = int(os.environ.get("INTAKE_MAX_BYTES", str(8 * 1024 ** 3)))  # 单件 8GB 上限
 EXT = os.environ.get("INTAKE_ROOT", "/Volumes/移动硬盘")
-DEST = os.path.join(EXT, "产出归档")
-INDEX = os.path.join(EXT, "Backup", "artifacts-index.jsonl")
+# 2026-11-04：以前 DEST 直接落在移动盘上，盘不在就一律 503 —— bm-a 声明了 53 件产物，
+# 从 11-02 起一件都没进来（PUSHED.jsonl 至今不存在），机队媒体因此永远到不了 Mac。
+# 正法=内盘暂存永远可用，外盘只作归档副本；两种落点都记账，Health 如实报。
+STAGE = os.environ.get("INTAKE_STAGE", os.path.expanduser("~/FluxInbox"))
+DEST = os.path.join(EXT, "产出归档")          # 归档位（挂盘时）
+IDX_EXT = os.path.join(EXT, "Backup", "artifacts-index.jsonl")
+IDX_STAGE = os.path.join(STAGE, "artifacts-index.jsonl")
+
+
+def dest_now():
+    """返回 (落盘目录, 索引路径, 模式)。外盘在就归档到外盘，否则落到内盘暂存。"""
+    if os.path.isdir(EXT):
+        return DEST, IDX_EXT, "external"
+    os.makedirs(STAGE, exist_ok=True)
+    return os.path.join(STAGE, "产出归档"), IDX_STAGE, "stage"
 TOKEN_FILE = os.path.expanduser("~/.codely-cli/fleet-intake-token")
 LOG = "/tmp/fluxgroup-intake.log"
 
@@ -81,11 +94,14 @@ class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
         u = urlparse(self.path)
         if u.path == "/health":
-            return self._json(200, {"ok": True, "dest": DEST, "mounted": os.path.isdir(EXT)})
+            _d, _i, _mode = dest_now()
+            return self._json(200, {"ok": True, "dest": _d, "mounted": os.path.isdir(EXT),
+                                    "stage": STAGE, "mode": _mode})
         if u.path == "/stats":
             n, tot = 0, 0
             try:
-                for ln in open(INDEX, encoding="utf-8"):
+                for ln in open(IDX_EXT if os.path.exists(IDX_EXT) else IDX_STAGE,
+                               encoding="utf-8"):
                     ln = ln.strip()
                     if not ln:
                         continue
@@ -115,8 +131,7 @@ class Handler(BaseHTTPRequestHandler):
         name = safe((q.get("name") or ["artifact.bin"])[0])
         if node not in NODES:
             return self._json(400, {"ok": False, "err": "bad-node"})
-        if not os.path.isdir(EXT):
-            return self._json(503, {"ok": False, "err": "drive-not-mounted"})
+        dest, index, mode = dest_now()
         try:
             n = int(self.headers.get("Content-Length") or 0)
         except ValueError:
@@ -126,7 +141,7 @@ class Handler(BaseHTTPRequestHandler):
         want_sha = (self.headers.get("X-Sha256") or "").strip().lower()
 
         day = datetime.now().strftime("%Y-%m-%d")
-        outdir = os.path.join(DEST, node, day)
+        outdir = os.path.join(dest, node, day)
         # 这里必须自己接住异常：TCC 拒写「可移除卷」时若让它冒泡，连接会被直接断掉，
         # 上传端只看到一个空响应，查不出是权限问题还是盘没插。
         try:
@@ -181,13 +196,14 @@ class Handler(BaseHTTPRequestHandler):
 
         rec = {"ts": datetime.now().isoformat(timespec="seconds"), "node": node,
                "card": card, "name": name, "bytes": got, "sha256": digest,
-               "stored": final}
+               "stored": final, "mode": mode}
         with _lock:
-            os.makedirs(os.path.dirname(INDEX), exist_ok=True)
-            with open(INDEX, "a", encoding="utf-8") as f:
+            os.makedirs(os.path.dirname(index), exist_ok=True)
+            with open(index, "a", encoding="utf-8") as f:
                 f.write(json.dumps(rec, ensure_ascii=False) + "\n")
         log("OK %s/%s %d bytes sha=%s" % (node, name, got, digest[:12]))
-        return self._json(200, {"ok": True, "stored": final, "bytes": got, "sha256": digest})
+        return self._json(200, {"ok": True, "stored": final, "bytes": got,
+                                "sha256": digest, "mode": mode})
 
 
 def pick_bind():

@@ -138,7 +138,9 @@ def main():
     except Exception:
         pass
     if behind > 0:
-        subprocess.run(["git", "-C", root, "-c", "rebase.autostash=true", "rebase", "origin/main"],
+        # 2026-11-04 全链禁 rebase：多机同推时 rebase 会在共享工作树留冲突（实测卡 98 步）。
+        # 只快进；快进不了就让这次下单失败重试，不许改写历史。
+        subprocess.run(["git", "-C", root, "merge", "--ff-only", "origin/main"],
                        capture_output=True, text=True)
     sha = ""
     if not a.no_push:
