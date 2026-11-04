@@ -1,20 +1,20 @@
 {
  "node": "bm-m",
  "date": "20261104",
- "ts": "2026-11-04T15:23:04+0800",
+ "ts": "2026-11-04T15:30:34+0800",
  "window_h": 26,
  "produced": [
   {
    "path": "cph4/fleet/queue-receipts/skill-promote-20261104.json",
    "bytes": 2172,
-   "mtime": "2026-11-04T15:23:04",
-   "sha": "543124efa9f62b584297f069e353046bef0615d52342972baa89d21f857fc5e2"
+   "mtime": "2026-11-04T15:30:34",
+   "sha": "cc095883afe11539178285d4280c578aa00ed8aecf3655b4dd8646ddd9479cea"
   },
   {
    "path": "cph4/fleet/queue-receipts/CHK-DUPES-20261103-bm-m.json",
    "bytes": 2723,
-   "mtime": "2026-11-04T15:16:50",
-   "sha": "9f3418811c8469f06a7de1efb6e3c2348c8c96ebf4eb6d7812886c1e62a70e58"
+   "mtime": "2026-11-04T15:29:23",
+   "sha": "180be881a9c9d97efe5fc9283edaec7bc4186d80f34a0986d4163e7d15165351"
   },
   {
    "path": "cph4/fleet/queue-receipts/bigstream-mv-transition-2026-11-04-bm-a.json",
@@ -503,10 +503,6 @@
    "why": "E-UNKNOWN ASSET-ENV FAIL  bm-m\n  可用路线: 无\n  ! 没有 ffmpeg（切分/抽帧/审计都要）\n  ! 没有 torch（No module "
   },
   {
-   "what": "_last_lane_bm-m.json",
-   "why": "rc=1 "
-  },
-  {
    "what": "asset-lib-voice-corpus-bmm-2026-11-03",
    "why": "rc=3 [corpus] 本分片无输入（inbox 共 0 个文件）——等投料，rc=3\n"
   },
@@ -521,6 +517,10 @@
   {
    "what": "asset-lib-library-check-2026-11-04",
    "why": "E-UNKNOWN 资产库体检 tier=p0  合计 19/128（15%）  GAPS\n  OK characters    8/8    授权 8\n      - CH01："
+  },
+  {
+   "what": "voice-corpus-bm-m-2026-11-04.json",
+   "why": "E-BLOCKED-INPUT "
   }
  ],
  "job": null
