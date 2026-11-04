@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-05T01:02:55",
- "cycle": 2,
+ "ts": "2026-11-05T01:04:15",
+ "cycle": 3,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-05T01:02:55",
+ "master_tick_ts": "2026-11-05T01:04:15",
  "queue": {
   "total": 468,
   "open": 40,
@@ -14,10 +14,10 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 17.6,
-   "cpu_load_pct": 71,
-   "ram_free_gb": 16.8,
-   "gpu_util_pct": 90,
+   "hb_age_s": 55.1,
+   "cpu_load_pct": 61,
+   "ram_free_gb": 12.2,
+   "gpu_util_pct": 63,
    "job": "asset-lib-voice-dataset-2026-11-05",
    "last_result": {
     "job": "asset-lib-char-gen-2026-11-05",
@@ -32,7 +32,7 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 381.4,
+   "hb_age_s": 478.8,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -44,17 +44,17 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 4.1,
+   "hb_age_s": 10.4,
    "cpu_load_pct": 13,
-   "ram_free_gb": 2.8,
+   "ram_free_gb": 3.0,
    "gpu_util_pct": 0,
    "job": "asset-lib-face-dataset-2026-11-05",
    "last_result": {
-    "job": null,
-    "state": "IDLE",
+    "job": "asset-lib-face-dataset-2026-11-05",
+    "state": "RUNNING",
     "rc": null,
-    "ts": "2026-11-05T01:01:15",
-    "reason": "blocked signal card released (upstream backtest data gap on bm-a/bm-b); node self-dispatching READY cards"
+    "ts": "2026-11-05T01:04:03",
+    "reason": null
    },
    "idle_confirmed": false,
    "idle_reason": "",
@@ -62,16 +62,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.9,
-   "cpu_load_pct": 19,
-   "ram_free_gb": 14.4,
+   "hb_age_s": 1.0,
+   "cpu_load_pct": 30,
+   "ram_free_gb": 18.7,
    "gpu_util_pct": null,
-   "job": "ART-PUSH-BMA-20261104",
+   "job": "asset-lib-library-check-2026-11-05",
    "last_result": {
-    "job": "Q-VCORP-PREP-e01-R3-20261105",
+    "job": "ART-PUSH-BMA-20261104",
     "state": "FAILED",
     "rc": null,
-    "ts": "2026-11-05T01:01:18",
+    "ts": "2026-11-05T01:02:55",
     "reason": null
    },
    "idle_confirmed": false,
@@ -311,7 +311,6 @@
     "CANARY-20261104T125141",
     "CANARY-20261104T132721",
     "CANARY-20261104T140742",
-    "ART-PUSH-BMA-20261104",
     "CANARY-20261104T175030",
     "CANARY-20261104T201032",
     "CANARY-20261104T202057",
@@ -349,13 +348,14 @@
     "asset-lib-face-dataset-2026-11-05",
     "asset-lib-voice-dataset-2026-11-05",
     "asset-lib-library-check-2026-11-05",
+    "Q-VCORP-PREP-e01-R3-20261105",
     "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105",
     "asset-lib-asset-gen-2026-11-05"
    ],
    "no_supply": false,
    "blockers": [
     "asset-lib-env-check-2026-11-05:no-lane",
-    "asset-lib-library-check-2026-11-05:no-lane",
+    "Q-VCORP-PREP-e01-R3-20261105:no-lane",
     "asset-lib-asset-gen-2026-11-05:no-lane"
    ],
    "note": "CEO 2026-11-03：先储备资产，角色 LoRA 与音色库为 P0"
@@ -910,8 +910,8 @@
  ],
  "events": [
   "asset-lib-char-gen-2026-11-05 FAILED via bm-a",
-  "Q-VCORP-PREP-e01-R3-20261105 FAILED via bm-m",
-  "ART-PUSH-BMA-20261104 -> bm-m (cpu)"
+  "ART-PUSH-BMA-20261104 FAILED via bm-m",
+  "asset-lib-library-check-2026-11-05 -> bm-m (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
