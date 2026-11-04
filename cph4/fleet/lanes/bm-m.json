@@ -1,23 +1,25 @@
 {
  "node": "bm-m",
- "ts": "2026-11-05T04:22:11",
+ "ts": "2026-11-05T04:55:11",
  "jobs": [
   {
-   "id": "CHK-DUPES-20261103",
-   "title": "重复派单向量重扫（bm-m 兜底体检）",
-   "cmd": "python3 Tools/fleet/semantic_dupes.py --json cph4/fleet/queue-receipts/dupes-scan-20261103.json",
-   "cwd": "",
+   "id": "Q-VCORP-PREP-e01-R3-20261105",
+   "title": "音色语料切片·e01（LibriTTS → voices/e01/sliced，纯 CPU）",
+   "cmd": "python C:/Fluxgroup/FleetAgent/Tools/fleet/voice_corpus_prep.py --inbox C:/Fluxgroup/FluxGroup/media/asset/inbox/e01 --group e01 --shard 0/1 --receipt C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-prep-e01-r3-20261105.json",
+   "cwd": "C:/Fluxgroup/FluxGroup",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/dupes-scan-20261103.json",
+   "deliverable": "C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-prep-e01-r3-20261105.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
-   "when_all": [],
+   "when_all": [
+    "C:/Fluxgroup/FluxGroup/media/asset/inbox/e01"
+   ],
    "llm": null,
-   "timeout_s": null
+   "timeout_s": 3600
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 12.5/1.0 GB"
+ "capacity_note": "ram 13.8/1.0 GB"
 }
