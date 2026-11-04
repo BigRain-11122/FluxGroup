@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
- "ts": "2026-11-05T04:16:43",
+ "ts": "2026-11-05T04:19:57",
  "jobs": [
   {
-   "id": "CHK-RECEIPT-20261104",
-   "title": "鍥炴墽鍗�鐢熶綋妫�锛坮c 缂哄け/error_class 缂哄け鍑鸿〃锛夛紙bm-m 鍏滃簳浣撴��锛�",
-   "cmd": "python3 Tools/fleet/receipt_attrib.py --out cph4/fleet/queue-receipts/receipt-attrib-20261104.json",
+   "id": "bigstream-mv-gate-2026-11-05",
+   "title": "[MV·爱在西元前（v721 终版）] 交付闸（重复/静止/抖动/闪烁）",
+   "cmd": "python Tools/mv_delivery_gate.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721_60fps_1080p.mp4 --card 38.79:40.21 --card 219.71:223.88",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/receipt-attrib-20261104.json",
+   "deliverable": "cph4/fleet/queue-receipts/mv-gate-v721-2026-11-05.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
