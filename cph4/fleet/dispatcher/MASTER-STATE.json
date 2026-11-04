@@ -1,23 +1,23 @@
 {
- "ts": "2026-11-05T02:07:45",
- "cycle": 11,
+ "ts": "2026-11-05T02:09:03",
+ "cycle": 12,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-05T02:07:45",
+ "master_tick_ts": "2026-11-05T02:09:03",
  "queue": {
   "total": 467,
-  "open": 26,
+  "open": 25,
   "running": 4,
   "done": 181,
-  "failed": 30
+  "failed": 31
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 27.2,
-   "cpu_load_pct": 43,
-   "ram_free_gb": 18,
-   "gpu_util_pct": 90,
+   "hb_age_s": 44.4,
+   "cpu_load_pct": 71,
+   "ram_free_gb": 19.7,
+   "gpu_util_pct": 58,
    "job": "Q-VCORP-PREP-e01-R3-20261105",
    "last_result": {
     "job": "bigstream-mv-gate-2026-11-05",
@@ -32,10 +32,10 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 41.7,
-   "cpu_load_pct": 87,
-   "ram_free_gb": 15.3,
-   "gpu_util_pct": 0,
+   "hb_age_s": 4.0,
+   "cpu_load_pct": 5,
+   "ram_free_gb": 13.1,
+   "gpu_util_pct": null,
    "job": "asset-lib-asset-gen-2026-11-05",
    "last_result": {
     "job": "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105",
@@ -50,16 +50,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 70.3,
-   "cpu_load_pct": 8,
+   "hb_age_s": 63.1,
+   "cpu_load_pct": 9,
    "ram_free_gb": 3.9,
    "gpu_util_pct": 0,
-   "job": "asset-lib-char-gen-2026-11-05",
+   "job": "asset-lib-face-dataset-2026-11-05",
    "last_result": {
-    "job": "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105",
+    "job": "asset-lib-char-gen-2026-11-05",
     "state": "FAILED",
-    "rc": null,
-    "ts": "2026-11-05T02:06:36",
+    "rc": 0,
+    "ts": "2026-11-05T02:08:16",
     "reason": null
    },
    "idle_confirmed": false,
@@ -69,15 +69,15 @@
   "bm-m": {
    "online": true,
    "hb_age_s": 0.9,
-   "cpu_load_pct": 16,
+   "cpu_load_pct": 18,
    "ram_free_gb": 18.2,
    "gpu_util_pct": null,
-   "job": "R-NEXT-BIGSTREAMM-AUDIT-20261105",
+   "job": "CHK-RECEIPT-20261104",
    "last_result": {
-    "job": "asset-lib-face-dataset-2026-11-05",
+    "job": "R-NEXT-BIGSTREAMM-AUDIT-20261105",
     "state": "FAILED",
-    "rc": null,
-    "ts": "2026-11-05T02:06:28",
+    "rc": 1,
+    "ts": "2026-11-05T02:07:50",
     "reason": null
    },
    "idle_confirmed": false,
@@ -100,8 +100,7 @@
    "stale_after_h": 24.0,
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
    "jobs": [
-    "R-NEXT-BIGSTREAMM-GATE-20261105",
-    "R-NEXT-BIGSTREAMM-AUDIT-20261105"
+    "R-NEXT-BIGSTREAMM-GATE-20261105"
    ],
    "no_supply": false,
    "blockers": [
@@ -316,7 +315,6 @@
     "CANARY-20261104T175030:no-lane",
     "CANARY-20261104T201032:no-lane",
     "CANARY-20261104T202057:no-lane",
-    "CHK-RECEIPT-20261104:no-lane",
     "fleet-node-sync-report-bm-b-2026-11-05:no-lane"
    ],
    "note": null
@@ -329,9 +327,9 @@
    "stale_after_h": 72.0,
    "owner": "资产席",
    "jobs": [
+    "asset-lib-face-dataset-2026-11-05",
     "Q-VCORP-PREP-e01-R3-20261105",
-    "asset-lib-asset-gen-2026-11-05",
-    "asset-lib-char-gen-2026-11-05"
+    "asset-lib-asset-gen-2026-11-05"
    ],
    "no_supply": false,
    "blockers": [],
@@ -871,7 +869,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 26,
+  "local": 25,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -879,18 +877,19 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 26,
+  "cpu": 25,
   "gpu": 0
  },
  "supply_added": [
-  "backlog_manifest+1"
+  "backlog_manifest+3"
  ],
  "events": [
   "bigstream-mv-gate-2026-11-05 FAILED via bm-a",
   "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105 FAILED via bm-b",
-  "asset-lib-face-dataset-2026-11-05 FAILED via bm-m",
-  "Q-VCORP-PREP-e01-R3-20261105 -> bm-a (cpu)",
-  "R-NEXT-BIGSTREAMM-AUDIT-20261105 -> bm-m (cpu)"
+  "asset-lib-char-gen-2026-11-05 FAILED via bm-c",
+  "R-NEXT-BIGSTREAMM-AUDIT-20261105 FAILED via bm-m",
+  "asset-lib-face-dataset-2026-11-05 -> bm-c (cpu)",
+  "CHK-RECEIPT-20261104 -> bm-m (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
@@ -898,7 +897,7 @@
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-a",
+  "bm-c",
   "bm-m"
  ]
 }
