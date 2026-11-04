@@ -1,14 +1,26 @@
 {
  "node": "bm-m",
  "date": "20261104",
- "ts": "2026-11-04T20:04:08+0800",
+ "ts": "2026-11-04T20:20:57+0800",
  "window_h": 26,
  "produced": [
   {
    "path": "cph4/fleet/queue-receipts/skill-promote-20261104.json",
    "bytes": 2172,
-   "mtime": "2026-11-04T20:04:08",
-   "sha": "eeb382de150fff2442b0c6e7b853372d5f4e5e6ec6ebf1eeb5c6e481406ccd70"
+   "mtime": "2026-11-04T20:20:57",
+   "sha": "465da9f9e6a3fdc7117b4c9953c83af87cab92ace50161175a96d10e800544c7"
+  },
+  {
+   "path": "media/asset/inbox/rt_audio_head.mp3",
+   "bytes": 417269,
+   "mtime": "2026-11-04T20:10:17",
+   "sha": "fe64f171aec1afe068b656a66a40c8ff21dbd720aa0a25cbf54676f328f8688b"
+  },
+  {
+   "path": "media/asset/inbox/rt_audio_tail.mp3",
+   "bytes": 469096,
+   "mtime": "2026-11-04T20:10:17",
+   "sha": "11a190f4c8a13cb7b521e5e3fb51c89c5baf1d26452951a94ac7ad272bf5792a"
   },
   {
    "path": "cph4/fleet/queue-receipts/bigstream-mv-transition-2026-11-04-bm-a.json",
@@ -401,12 +413,6 @@
    "sha": "a1645f59a405f3b8c8c22bce01d7ac643749f3db13a3e350043649c3a73a1033"
   },
   {
-   "path": "cph4/fleet/queue-receipts/receipt-attrib-20261103.json",
-   "bytes": 4325,
-   "mtime": "2026-11-03T20:41:53",
-   "sha": "8f4017a4e8e85caa6f57eeee02f27ccb553ab0d836423fd66ceed663f9870e82"
-  },
-  {
    "path": "media/asset/props/P07-bank-card.png",
    "bytes": 696919,
    "mtime": "2026-11-03T18:26:05",
@@ -459,45 +465,13 @@
    "bytes": 4653380,
    "mtime": "2026-11-03T18:22:14",
    "sha": "774cb6bc8426b845508ea0b0c90f72361bf2979746df862b711435c0a34ad565"
-  },
-  {
-   "path": "media/asset/props/P06-medical-record.png",
-   "bytes": 381858,
-   "mtime": "2026-11-03T18:18:56",
-   "sha": "924c5cbee85516eed333fc3e61536023c379b836dc98f449df377ada30831a93"
-  },
-  {
-   "path": "media/asset/props/P04-umbrella.png",
-   "bytes": 368637,
-   "mtime": "2026-11-03T18:18:56",
-   "sha": "6f69e7025f53ad380d868f0a6420c31216617e7a8cd1ff4007dc82457c0eb320"
-  },
-  {
-   "path": "media/asset/props/P05-red-envelope.png",
-   "bytes": 848479,
-   "mtime": "2026-11-03T18:18:56",
-   "sha": "95834fca44bb7a63caa021f1193550b86b81be5fd6873eecafc270decc420b69"
-  },
-  {
-   "path": "media/asset/props/P02-smartphone.png",
-   "bytes": 251703,
-   "mtime": "2026-11-03T18:11:40",
-   "sha": "f009c3a82b5963298665381f4e0677814a2e796a1636b298870eb59bd854b708"
-  },
-  {
-   "path": "media/asset/props/P03-house-keys.png",
-   "bytes": 582985,
-   "mtime": "2026-11-03T18:11:40",
-   "sha": "1e551745f4881ee4c6fd0abe88d0c5b239c1e30a688c00223f8c3855634522fd"
-  },
-  {
-   "path": "media/asset/props/P01-contract-papers.png",
-   "bytes": 607527,
-   "mtime": "2026-11-03T18:05:20",
-   "sha": "b8b164e2bd52965cd2743b66ff55e5e924fcbd3c521391a3a2e818f2108737c3"
   }
  ],
  "blocked": [
+  {
+   "what": "_last_lane_bm-m.json",
+   "why": "rc=None "
+  },
   {
    "what": "asset-lib-voice-corpus-bmm-2026-11-03",
    "why": "E-BLOCKED-INPUT [corpus] 本分片无输入（inbox 共 0 个文件）——等投料，rc=3\n"
@@ -509,10 +483,6 @@
   {
    "what": "voice-corpus-bm-m-2026-11-04.json",
    "why": "E-BLOCKED-INPUT "
-  },
-  {
-   "what": "inference-audit-bm-m-20261104.json",
-   "why": "rc=None "
   },
   {
    "what": "R-NEXT-BIGSTREAMM-AUDIT-20261103",

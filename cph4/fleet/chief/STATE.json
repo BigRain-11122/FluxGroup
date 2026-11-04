@@ -1,11 +1,11 @@
 {
- "ts": "2026-11-04T20:04:08",
+ "ts": "2026-11-04T20:20:57",
  "stage": 3,
  "adoption": {
   "days": 3,
-  "applied": 794,
-  "total": 570,
-  "rate": 139.3,
+  "applied": 800,
+  "total": 574,
+  "rate": 139.4,
   "eligible_stage4": false
  },
  "decisions": [
@@ -22,7 +22,7 @@
    "kind": "requeue",
    "why": "1 张卡在跑但 1 小时无回执",
    "target": [
-    "CHK-RECEIPT-20261103"
+    "R-MODEL-RADAR-BMM-20261103"
    ],
    "min_stage": 3,
    "result": "applied"
@@ -42,7 +42,7 @@
   {
    "kind": "requeue",
    "ids": [
-    "CHK-RECEIPT-20261103"
+    "R-MODEL-RADAR-BMM-20261103"
    ]
   }
  ],

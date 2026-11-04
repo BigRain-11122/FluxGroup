@@ -2,7 +2,7 @@
  "id": "CHK-DUPES-20261103",
  "node": "bm-m",
  "rc": 0,
- "seconds": 10.6,
+ "seconds": 13.4,
  "cmd": "python3 Tools/fleet/semantic_dupes.py --json cph4/fleet/queue-receipts/dupes-scan-20261103.json",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": "E-ARTIFACT",
  "deliverable": "cph4/fleet/dupes-scan-20261103.json",
  "deliverable_exists": false,
- "ts": "2026-11-04T20:01:48",
- "stdout_tail": "SEMANTIC-DUPES rows=412 live=10 groups=1 th=0.72\n- 可能同一件事（3 张）：\n    R-MODEL-RADAR-BMA-20261103         OPEN      本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-a）\n    R-MODEL-RADAR-BMB-20261103         OPEN      本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-b）\n    R-MODEL-RADAR-BMM-20261103         OPEN      本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-m）\n",
+ "ts": "2026-11-04T20:09:21",
+ "stdout_tail": "SEMANTIC-DUPES rows=412 live=9 groups=1 th=0.72\n- 可能同一件事（2 张）：\n    R-MODEL-RADAR-BMA-20261103         OPEN      本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-a）\n    R-MODEL-RADAR-BMB-20261103         RUNNING   本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-b）\n",
  "stderr_tail": ""
 }
