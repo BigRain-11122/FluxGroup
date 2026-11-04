@@ -1,14 +1,14 @@
 {
  "node": "bm-a",
- "ts": "2026-11-05T04:10:03",
+ "ts": "2026-11-05T04:30:04",
  "jobs": [
   {
-   "id": "MV-NEWPROC-PACKET-20261104",
-   "title": "导演席新流程卷：四曲立意/分镜/合规矩阵一页卷",
-   "cmd": "python Tools/fleet/review_packet.py --line mv --root .",
+   "id": "asset-lib-asset-gen-2026-11-05",
+   "title": "[资产储备（角色 LoRA / 音色库）] 通用资产出图（道具/场景，吃 ASSET-PROMPTS 规格）",
+   "cmd": "python Tools/fleet/asset_gen.py --node bm-c --class props --limit 4 --receipt cph4/fleet/queue-receipts/asset-gen-props-2026-11-05.json",
    "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/review-packet-mv-20261104.md",
+   "needs": "gpu",
+   "deliverable": "cph4/fleet/queue-receipts/asset-gen-props-2026-11-05.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 14.1/1.0 GB"
+ "capacity_note": "ram 18.9/1.0 GB"
 }
