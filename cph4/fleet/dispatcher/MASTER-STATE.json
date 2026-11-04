@@ -1,29 +1,29 @@
 {
- "ts": "2026-11-04T16:20:03",
- "cycle": 118,
+ "ts": "2026-11-04T16:22:01",
+ "cycle": 119,
  "master_node": "bm-m",
  "masquerade_by": "bm-a",
  "master_tick_ts": "2026-11-04T15:56:41",
  "queue": {
   "total": 415,
-  "open": 36,
+  "open": 35,
   "running": 4,
   "done": 153,
-  "failed": 19
+  "failed": 20
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 35.5,
-   "cpu_load_pct": 17,
-   "ram_free_gb": 39.0,
-   "gpu_util_pct": 71,
+   "hb_age_s": 48.0,
+   "cpu_load_pct": 59,
+   "ram_free_gb": 34.2,
+   "gpu_util_pct": 88,
    "job": "bigstream-mv-stability-2026-11-04",
    "last_result": {
     "job": "bigstream-mv-stability-2026-11-04",
-    "state": "RUNNING",
+    "state": "BUSY",
     "rc": null,
-    "ts": "2026-11-04T16:19:30",
+    "ts": "2026-11-04T16:21:45",
     "reason": null
    },
    "idle_confirmed": false,
@@ -32,16 +32,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 31.6,
-   "cpu_load_pct": 10,
-   "ram_free_gb": 13.1,
-   "gpu_util_pct": 0,
+   "hb_age_s": 8.2,
+   "cpu_load_pct": 1,
+   "ram_free_gb": 12.6,
+   "gpu_util_pct": null,
    "job": "asset-lib-voice-corpus-bmb-2026-11-03",
    "last_result": {
     "job": "asset-lib-voice-corpus-bmb-2026-11-04",
     "state": "FAILED",
     "rc": 3,
-    "ts": "2026-11-04T16:19:36",
+    "ts": "2026-11-04T16:21:05",
     "reason": null
    },
    "idle_confirmed": false,
@@ -50,16 +50,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 20.8,
-   "cpu_load_pct": 6,
-   "ram_free_gb": 3.4,
+   "hb_age_s": 42.6,
+   "cpu_load_pct": 5,
+   "ram_free_gb": 3.3,
    "gpu_util_pct": 0,
    "job": "asset-lib-voice-assemble-2026-11-03",
    "last_result": {
     "job": "biggame-playable-2026-11-03",
-    "state": "RUNNING",
-    "rc": null,
-    "ts": "2026-11-04T16:19:47",
+    "state": "FAILED",
+    "rc": 0,
+    "ts": "2026-11-04T16:21:42",
     "reason": null
    },
    "idle_confirmed": false,
@@ -68,16 +68,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 220.5,
-   "cpu_load_pct": 16,
-   "ram_free_gb": 13.2,
+   "hb_age_s": 17.1,
+   "cpu_load_pct": 68,
+   "ram_free_gb": 11.5,
    "gpu_util_pct": null,
    "job": "CHK-DUPES-20261103",
    "last_result": {
-    "job": "CHK-DUPES-20261103",
-    "state": "BUSY",
-    "rc": null,
-    "ts": "2026-11-04T16:19:21",
+    "job": "CANARY-20261104T162143",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-04T16:21:44",
     "reason": null
    },
    "idle_confirmed": false,
@@ -157,16 +157,14 @@
    "name": "Biggame·游戏",
    "status": "ACTIVE",
    "verdict": "WORKING",
-   "age_h": 0.1,
+   "age_h": 0.2,
    "stale_after_h": 24.0,
    "owner": "游戏席",
    "jobs": [
-    "biggame-playable-2026-11-03",
     "R-PLAN-BIGGAME-20261104"
    ],
    "no_supply": false,
    "blockers": [
-    "biggame-playable-2026-11-03:no-lane",
     "R-PLAN-BIGGAME-20261104:no-lane"
    ],
    "note": null
@@ -175,7 +173,7 @@
    "name": "FluxVerse·元宙城",
    "status": "ACTIVE",
    "verdict": "STALLED-STAGE",
-   "age_h": 5.6,
+   "age_h": 5.7,
    "stale_after_h": 36.0,
    "owner": "城市线",
    "jobs": [
@@ -209,7 +207,7 @@
    "name": "BigDomain·硅基域商业化",
    "status": "ACTIVE",
    "verdict": "WORKING",
-   "age_h": 0.2,
+   "age_h": 0.3,
    "stale_after_h": 36.0,
    "owner": "域运营席",
    "jobs": [
@@ -241,7 +239,7 @@
    "name": "BigLife·数字生命",
    "status": "ACTIVE",
    "verdict": "WORKING",
-   "age_h": 179.2,
+   "age_h": 179.3,
    "stale_after_h": 48.0,
    "owner": "生命生产席",
    "jobs": [
@@ -887,7 +885,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 36,
+  "local": 35,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -895,22 +893,17 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 36,
+  "cpu": 35,
   "gpu": 0
  },
- "supply_added": [
-  "backlog_manifest+2"
- ],
+ "supply_added": [],
  "events": [
-  "asset-lib-voice-corpus-bmb-2026-11-04 FAILED via bm-b",
-  "asset-lib-voice-corpus-bmb-2026-11-03 -> bm-b (cpu)"
+  "biggame-playable-2026-11-03 FAILED via bm-c"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED fluxverse 卡在 场景装配/地编席 (城市线)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
- "lane_files_written": [
-  "bm-b"
- ]
+ "lane_files_written": []
 }
