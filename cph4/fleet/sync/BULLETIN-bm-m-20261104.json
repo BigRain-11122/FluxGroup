@@ -1,14 +1,20 @@
 {
  "node": "bm-m",
  "date": "20261104",
- "ts": "2026-11-04T12:25:18+0800",
+ "ts": "2026-11-04T12:32:58+0800",
  "window_h": 26,
  "produced": [
   {
    "path": "cph4/fleet/queue-receipts/skill-promote-20261104.json",
    "bytes": 2117,
-   "mtime": "2026-11-04T12:25:18",
-   "sha": "a5574e0b8ff2dfa6903dfc913b831a7a7007f033d427aadd6aad761f94791c0a"
+   "mtime": "2026-11-04T12:32:58",
+   "sha": "8d428fa3efab7d833e15e3d75411c38d3a3329835abc07bcf29ed81a34872ae1"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/asset-lib-voice-dataset-2026-11-04-bm-m.json",
+   "bytes": 1051,
+   "mtime": "2026-11-04T12:31:50",
+   "sha": "3d8028b6ef122029c4439134344b9dc01cd6567467f0e22c30cfaf4801af682d"
   },
   {
    "path": "cph4/fleet/queue-receipts/asset-lib-library-check-2026-11-04-bm-m.json",
@@ -600,7 +606,7 @@
   },
   {
    "what": "_last_lane_bm-m.json",
-   "why": "rc=3 "
+   "why": "rc=1 "
   },
   {
    "what": "asset-lib-voice-corpus-bmm-2026-11-03",

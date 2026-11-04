@@ -1,6 +1,6 @@
-# 谁在等谁的产物（wait-map）2026-11-04T12:25
+# 谁在等谁的产物（wait-map）2026-11-04T12:32
 
-在办卡 63 · 依赖边 0 · 未知输入 9 · 等待环 0
+在办卡 62 · 依赖边 0 · 未知输入 9 · 等待环 0
 
 - [等输入] biggame-playable-2026-11-03 需要 MiniGame —— 没有任何卡的 deliverable 对应它
 - [等输入] R-NEXT-BIGSTREAMM-GATE-20261103 需要 full_mv_v721.mp4 —— 没有任何卡的 deliverable 对应它

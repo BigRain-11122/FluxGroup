@@ -1,10 +1,10 @@
-# 所有业务的下一步（2026-11-04T12:25:18+0800）
+# 所有业务的下一步（2026-11-04T12:32:58+0800）
 
 运行 1 · 排队 10 · 停滞 4（其中工程可自解 0）
 
 | 业务 | 优先 | 状态 | 下一个产物 | 承办 | 卡点 |
 |---|---|---|---|---|---|
-| 资产储备（角色 LoRA + 音色库） | P0 | RUNNING · asset-lib-face-caption-2026-11-04 | 传家宝出第一批角色图（8 角色 × 6 视角） | bm-c | ENGINE(char-probe 在 bm-c 上 rc=2 零回执，未定位（疑 checkout 落后）) |
+| 资产储备（角色 LoRA + 音色库） | P0 | RUNNING · asset-lib-voice-corpus-bma-2026-11-04 | 传家宝出第一批角色图（8 角色 × 6 视角） | bm-c | ENGINE(char-probe 在 bm-c 上 rc=2 零回执，未定位（疑 checkout 落后）) |
 | 游戏（39 款在册 / 0 上线） | P0 | QUEUED · biggame-playable-2026-11-03 | 36 款隐私政策 + 台账补登（机队能做完的那一半） | bm-a | CEO(截图需跑游戏取图，受 2026-10-28『不许自动跑游戏包』令约束，等放行) |
 | MV（41 曲 / 爱在西元前） | P0 | QUEUED · R-NEXT-BIGSTREAMM-GATE-20261103 | 发布回执，或下一首的选题+立意六轴案 | bm-m | ENGINE(发布决定权在 CEO，但工程侧可先做下一首立意案) |
 | 量化（19.9 算力包） | P1 | QUEUED · bigmoney-signal-2026-11-03 | 下月持仓信号 CSV + 四件齐结论一页 | bm-b | ENGINE(回测产物需在 bm-b 本地生成；主控无 quant 仓) |
