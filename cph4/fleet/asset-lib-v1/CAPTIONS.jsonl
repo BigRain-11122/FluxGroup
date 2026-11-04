@@ -1,13 +1,54 @@
 {
- "ts": "2026-11-04T14:25:42",
+ "ts": "2026-11-04T14:28:38",
  "dir": "/Volumes/移动硬盘/FluxAssets/store",
  "model": "qwen3.5:4b-mlx",
  "trigger": "",
- "pending": 4,
- "written": 4,
- "rejected": [],
- "seconds": 27.5,
- "per_image_s": 6.9,
+ "pending": 10,
+ "written": 2,
+ "rejected": [
+  [
+   "010859954565b88fcbbbdb6862f46c3bedac07c58c5e4624b895196eea29d543.jpg",
+   "只命中 2 个可见属性，像空话",
+   "Two young women face each other in a dimly lit cave with stone walls; one wears a white sweater, the other a draped robe"
+  ],
+  [
+   "032bc0ca2e89cb3f46c3454b649e9f5cef29ab6a3823e13dc1a34845f79f6c3a.jpg",
+   "只命中 2 个可见属性，像空话",
+   "A young woman with long dark hair and a neutral expression stands in a dimly lit museum, wearing a beige sweater, gazing"
+  ],
+  [
+   "032e5581d4334cdede3981e5484d28af3d49c41b5b020575bf0b44924309d3b7.png",
+   "只命中 1 个可见属性，像空话",
+   "Two young people and one older person stand in a dimly lit museum, gazing at ancient stone tablets inside glass display "
+  ],
+  [
+   "0366e88c8c8c9322aa422c096b3a979c20f62c4420665f1929193d2b4eaa5476.jpg",
+   "只命中 2 个可见属性，像空话",
+   "A young woman with long dark hair and a white sweater stands in profile, gazing at her shadowy reflection of a man besid"
+  ],
+  [
+   "0374016d46ea8e8b94d0ff794a7dea360d3f18586356929f41ea865193c46805.png",
+   "只命中 1 个可见属性，像空话",
+   "A hand reaches upward against a twilight sky with water towers in the distance, as a paper airplane disintegrates into g"
+  ],
+  [
+   "0388c19e838ebbcea0c7b9891989f14f704f47c960f1df70534ea0a8c38ef7bb.jpg",
+   "只命中 1 个可见属性，像空话",
+   "A dark scene with a glowing geometric pattern on the wall, illuminated by warm light, creating an abstract and mysteriou"
+  ],
+  [
+   "03ff176798a8034b16fb3c136d0f98b3dc59a14b6d3e5dcee667002d2f4c2049.png",
+   "只命中 1 个可见属性，像空话",
+   "A young woman with long black hair in a white robe holds a carved tablet, standing in a dimly lit ancient marketplace at"
+  ],
+  [
+   "041126a5b8f9eb7df7133c0f81248c566858c8881c26741854ca2b0d137dbf3e.png",
+   "只命中 1 个可见属性，像空话",
+   "A black screen with small golden text at the bottom reading \"欢迎转载，请注明出处：大喵没鱼吃\" flanked by two small triangles."
+  ]
+ ],
+ "seconds": 74.1,
+ "per_image_s": 7.4,
  "verdict": "PASS",
  "gaps": [],
  "status": "PASS"
