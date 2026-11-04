@@ -1,27 +1,27 @@
-# 交接一屏（2026-11-04 11:24）
+# 交接一屏（2026-11-04 12:15）
 
 > 新会话先读这一页，再看具体文件。四段：在产 / 待判 / 阻塞 / 下一步。
 
 ## 一、在产（3 张）
 
-- `asset-lib-face-caption-2026-11-03` [资产储备（角色 LoRA / 音色库）] 人脸数据集打标（vision 草稿，人只校对）（bm-c，180 分钟租约）
-- `bigstream-mv-transition-2026-11-04` [MV·爱在西元前（v721 终版）] 转场审计（逐切点方向余弦，OPPOSE 必须 0）（bm-m，45 分钟租约）
-- `bigstream-mv-stability-2026-11-04` [MV·爱在西元前（v721 终版）] 稳定性闸（seam / freeze 双 0）（bm-a，45 分钟租约）
+- `asset-lib-voice-assemble-2026-11-03` [资产储备（角色 LoRA / 音色库）] 音色数据集装配（授权核查→voices/<组> 准入）（bm-m，45 分钟租约）
+- `asset-lib-voice-corpus-bma-2026-11-04` [资产储备（角色 LoRA / 音色库）] 音色语料工程·分片 0/4（bm-a，纯 CPU）（bm-a，45 分钟租约）
+- `asset-lib-face-caption-2026-11-04` [资产储备（角色 LoRA / 音色库）] 人脸数据集打标（vision 草稿，人只校对）（bm-c，180 分钟租约）
 
-## 二、待判（33 张在队列等机器）
+## 二、待判（37 张在队列等机器）
 
+- `biggame-playable-2026-11-03` [游戏（可上线清单 → 一款可玩包 → 提审材料）] 一款可玩包（3 关 60–90 秒，2D，儿童不作失败）（biggame）
+- `asset-lib-voice-corpus-bmb-2026-11-03` [资产储备（角色 LoRA / 音色库）] 音色语料工程·分片 1/4（bm-b，纯 CPU）（asset-lib）
 - `CHK-DUPES-20261103` 重复派单向量重扫（bm-m 兜底体检）（fleet-ops）
-- `R-MODEL-RADAR-BMA-20261103` 本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-a）（无归属）
 - `CANARY-20261103T154230` 端到端自检：投卡→领取→执行→回执→产物（fleet-ops）
-- `R-MODEL-RADAR-BMB-20261103` 本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-b）（无归属）
+- `CANARY-20261103T160731` 端到端自检：投卡→领取→执行→回执→产物（fleet-ops）
 - `R-MODEL-RADAR-BMC-20261103` 本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-c）（无归属）
 - `R-MODEL-RADAR-BMM-20261103` 本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-m）（无归属）
-- `asset-lib-char-gen-2026-11-03` [资产储备（角色 LoRA / 音色库）] 角色包出图（本机 ComfyUI，1024²，同 seed 组）（asset-lib）
-- `CANARY-20261103T200141` 端到端自检：投卡→领取→执行→回执→产物（fleet-ops）
-- `CANARY-20261103T201026` 端到端自检：投卡→领取→执行→回执→产物（fleet-ops）
-- `Q-TTS-QC-R1-20261103` 短剧配音全量质检（唯一正卡：逐集时长/静音/体积 → 可发布集数清单）（bigstream-duanju）
+- `bigmoney-signal-2026-11-03` [金融量化（回测 → 一页结论 → 可报价或写清卡点）] 下月持仓信号 CSV（可卖的唯一产物）（bigmoney）
+- `R-NEXT-BIGSTREAMM-GATE-20261103` MV 交付闸复跑：当前母版四闸全验（收口前置）（bigstream-mv）
+- `R-NEXT-BIGSTREAMM-AUDIT-20261103` MV 观众级三查：逐镜暖度/重复/转场/稳定性（导演席签字依据）（bigstream-mv）
 
-## 三、阻塞（8 项断言红 / 3 台机不一致）
+## 三、阻塞（7 项断言红 / 0 台机不一致）
 
 - 断言 I1：4 条
 - 断言 I2：208 条
@@ -29,19 +29,15 @@
 - 断言 I4：15 条
 - 断言 I7：1 条
 - 断言 I12：11 条
-- 断言 I13：1 条
 - 断言 I14：2 条
-- 机器 bm-a：NO-RECEIPT-1H
-- 机器 bm-b：IDLE-WITH-QUEUE
-- 机器 bm-c：NO-RECEIPT-1H
 
 ## 四、下一步（P0 两线）
 
-- bigstream-mv：过闸率 80.9，返工 9，产出年龄 22.6
+- bigstream-mv：过闸率 81.8，返工 9，产出年龄 23.4
 - bigstream-drama：过闸率 73.3，返工 7，产出年龄 0.0
-- bigstream-duanju：过闸率 83.3，返工 3，产出年龄 112.6
-- biggame：过闸率 83.3，返工 1，产出年龄 17.9
-- asset-lib：过闸率 44.0，返工 18，产出年龄 0.0
+- bigstream-duanju：过闸率 62.5，返工 3，产出年龄 113.3
+- biggame：过闸率 100.0，返工 0，产出年龄 18.7
+- asset-lib：过闸率 42.9，返工 13，产出年龄 0.0
 
 ## 五、已发布（0 条）
 

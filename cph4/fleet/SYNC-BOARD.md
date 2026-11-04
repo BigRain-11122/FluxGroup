@@ -1,14 +1,14 @@
-# 机队互报（2026-11-04T11:40:18+0800）
+# 机队互报（2026-11-04T12:15:52+0800）
 
 在册机器 1 台；本机看不到的他人产物 0 件（传输通道度量，不是错误）
 
 ## bm-m（20261104，窗口 26h）
-- 产出 97 件
-  - `cph4/fleet/queue-receipts/asset-lib-library-check-2026-11-04-bm-a.json`（1KB, dbdccdab6a…）
+- 产出 100 件
+  - `cph4/fleet/queue-receipts/asset-lib-library-check-2026-11-04-bm-m.json`（1KB, 3483a6f9e5…）
+  - `cph4/fleet/queue-receipts/brain-bigstream-mv-2026-11-04.md`（1KB, 585c2bc880…）
+  - `cph4/fleet/queue-receipts/brain-bigstream-duanju-2026-11-04.md`（1KB, 8a8cd2f230…）
+  - `cph4/fleet/queue-receipts/brain-bigstream-drama-2026-11-04.md`（1KB, af73fc9921…）
   - `cph4/fleet/queue-receipts/biz-mv-publish-checklist-20261104.md`（3KB, 543d5f6610…）
-  - `cph4/fleet/queue-receipts/R-NEXT-BIGSTREAMM-GATE-20261103-bm-c.json`（1KB, 8fd1141360…）
-  - `cph4/fleet/queue-receipts/inference-audit-bm-c.json`（1KB, 17edc88754…）
-  - `cph4/fleet/queue-receipts/lora-sheet-her_mv0001.jpg`（11KB, 04e2487810…）
   - `cph4/fleet/queue-receipts/inference-audit-bm-m-20261104.json`（1KB, 7da2cb0060…）
 - 受阻 6 条
   - asset-lib-env-check-2026-11-03：E-UNKNOWN ASSET-ENV FAIL  bm-m
