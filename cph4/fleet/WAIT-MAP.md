@@ -1,9 +1,8 @@
-# 谁在等谁的产物（wait-map）2026-11-05T04:58
+# 谁在等谁的产物（wait-map）2026-11-05T05:08
 
-在办卡 56 · 依赖边 0 · 未知输入 11 · 等待环 0
+在办卡 55 · 依赖边 0 · 未知输入 10 · 等待环 0
 
 - [等输入] R-NEXT-BIGSTREAMD-TTS-QC-20261104 需要 r1202_ep001_060 —— 真产物缺失：没有任何卡在生产它
-- [等输入] R-NEXT-BIGSTREAMM-GATE-20261105 需要 full_mv_v721.mp4 —— 真产物缺失：没有任何卡在生产它
 - [等输入] Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105 需要 vb_train_card.py —— 外盘/另一台机上的产物，本机看不见
 - [等输入] Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105 需要 vb_build.py —— 外盘/另一台机上的产物，本机看不见
 - [等输入] Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105 需要 GPT_SoVITS —— 外盘/另一台机上的产物，本机看不见

@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
  "date": "20261105",
- "ts": "2026-11-05T04:58:36+0800",
+ "ts": "2026-11-05T05:08:08+0800",
  "window_h": 26,
  "produced": [
   {
    "path": "cph4/fleet/queue-receipts/skill-promote-20261105.json",
    "bytes": 2172,
-   "mtime": "2026-11-05T04:58:36",
-   "sha": "e57114d947ddf4aabbcac0c5facbbbe6ad604e280765d50c4ebf4114e5293222"
+   "mtime": "2026-11-05T05:08:08",
+   "sha": "2aabb1af5b8b06dda9a08dc213b2e9c732dbc0fe91b62775ce8fe0fcd67ea53f"
   },
   {
    "path": "cph4/fleet/queue-receipts/R-NEXT-BIGSTREAMM-AUDIT-20261105-bm-a.json",
@@ -590,7 +590,7 @@
  "blocked": [
   {
    "what": "_last_lane_bm-m.json",
-   "why": "rc=1 "
+   "why": "rc=None "
   },
   {
    "what": "R-NEXT-BIGSTREAMM-AUDIT-20261105",

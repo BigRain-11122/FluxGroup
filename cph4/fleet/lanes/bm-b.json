@@ -1,25 +1,23 @@
 {
  "node": "bm-b",
- "ts": "2026-11-05T04:12:14",
+ "ts": "2026-11-05T05:11:26",
  "jobs": [
   {
-   "id": "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105",
-   "title": "闊宠壊寰�璋冭瘯鐐孤穕ibritts-e01锛堣��鏂欌啋SoVITS s2鈫掓潈閲嶏紝DE-AI-SPEC A8 鎵瑰墠鎶芥��锛�",
-   "cmd": "python C:/Fluxgroup/FleetAgent/Tools/voicebank/vb_train_card.py --voice libritts-e01 --raw C:/Fluxgroup/FluxGroup/media/asset/inbox/e01 --receipt C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-train-libritts-e01-r3-20261105.json",
-   "cwd": "C:/Fluxgroup/FleetAgent",
-   "needs": "gpu",
-   "deliverable": "C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-train-libritts-e01-r3-20261105.json",
+   "id": "OPS-CLOCK-RESYNC-BMB-20261105",
+   "title": "????+??????w32time ???/resync ???@bm-b",
+   "cmd": "python Tools/fleet/clock_resync.py --out C:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/clock-resync-bm-b.json",
+   "cwd": "C:/Fluxgroup/FluxGroup",
+   "needs": "cpu",
+   "deliverable": "C:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/clock-resync-bm-b.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
-   "when_all": [
-    "C:/Fluxgroup/FluxGroup/media/asset/voices/e01/sliced"
-   ],
+   "when_all": [],
    "llm": null,
-   "timeout_s": 14400
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 14.4/1.0 GB"
+ "capacity_note": "ram 13.1/1.0 GB"
 }
