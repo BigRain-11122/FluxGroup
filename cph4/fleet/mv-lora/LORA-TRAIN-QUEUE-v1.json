@@ -118,7 +118,7 @@
    "name": "冷感御姐",
    "trigger": "h06",
    "lora": "her_T06_r1",
-   "status": "running",
+   "status": "trained",
    "base": "a Taiwanese woman in her late twenties, high cheekbones, long narrow eyes, thin lips, defined jaw angle, low ponytail with hair smoothed close to the head, visible pores and fine film grain, 2001 Taipei urban style, fitted black turtleneck under an unfitted wool coat, straight trousers",
    "use": [
     "mv"
@@ -128,7 +128,8 @@
     "bm-a"
    ],
    "needs": "gpu",
-   "images": 15
+   "images": 15,
+   "weights": "T06_rank32.safetensors"
   },
   {
    "order": 7,
