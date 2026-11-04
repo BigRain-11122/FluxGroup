@@ -1,23 +1,23 @@
 {
- "ts": "2026-11-04T19:42:00",
- "cycle": 194,
+ "ts": "2026-11-04T19:43:09",
+ "cycle": 195,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-04T19:42:00",
+ "master_tick_ts": "2026-11-04T19:43:09",
  "queue": {
   "total": 419,
-  "open": 9,
+  "open": 8,
   "running": 3,
-  "done": 168,
+  "done": 169,
   "failed": 26
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 44.8,
-   "cpu_load_pct": 63,
-   "ram_free_gb": 9.8,
-   "gpu_util_pct": 2,
+   "hb_age_s": 54.9,
+   "cpu_load_pct": 80,
+   "ram_free_gb": 12.1,
+   "gpu_util_pct": 59,
    "job": "R-PLAN-BIGGAME-20261104",
    "last_result": {
     "job": "CANARY-20261104T140742",
@@ -32,16 +32,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 66.3,
-   "cpu_load_pct": 2,
-   "ram_free_gb": 11.8,
-   "gpu_util_pct": null,
+   "hb_age_s": 63.8,
+   "cpu_load_pct": 12,
+   "ram_free_gb": 12.6,
+   "gpu_util_pct": 0,
    "job": null,
    "last_result": {
     "job": "Q-TRIAGE-BIGMONEY-20261104",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-04T19:40:30",
+    "ts": "2026-11-04T19:42:14",
     "reason": null
    },
    "idle_confirmed": false,
@@ -50,16 +50,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 29.8,
-   "cpu_load_pct": 6,
-   "ram_free_gb": 3.1,
+   "hb_age_s": 10.8,
+   "cpu_load_pct": 7,
+   "ram_free_gb": 3.4,
    "gpu_util_pct": 0,
    "job": "MV-DIRECTOR-PACKET-20261104",
    "last_result": {
     "job": "CANARY-20261104T125241",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-04T19:41:37",
+    "ts": "2026-11-04T19:43:05",
     "reason": null
    },
    "idle_confirmed": false,
@@ -68,16 +68,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.9,
-   "cpu_load_pct": 21,
-   "ram_free_gb": 21.5,
+   "hb_age_s": 0.8,
+   "cpu_load_pct": 18,
+   "ram_free_gb": 21.4,
    "gpu_util_pct": null,
-   "job": "CANARY-20261104T132721",
+   "job": "CANARY-20261104T134046",
    "last_result": {
-    "job": "CANARY-20261104T125141",
+    "job": "CANARY-20261104T132721",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-04T19:40:27",
+    "ts": "2026-11-04T19:42:01",
     "reason": null
    },
    "idle_confirmed": false,
@@ -274,7 +274,6 @@
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
    "jobs": [
-    "CANARY-20261104T132721",
     "CANARY-20261104T134046",
     "CANARY-20261104T155338",
     "CANARY-20261104T170429",
@@ -282,7 +281,6 @@
    ],
    "no_supply": false,
    "blockers": [
-    "CANARY-20261104T134046:no-lane",
     "CANARY-20261104T155338:no-lane",
     "CANARY-20261104T170429:no-lane",
     "CANARY-20261104T175030:no-lane"
@@ -835,7 +833,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 9,
+  "local": 8,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -843,19 +841,13 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 9,
+  "cpu": 8,
   "gpu": 0
  },
- "supply_added": [
-  "backlog_manifest+1"
- ],
+ "supply_added": [],
  "events": [
-  "CANARY-20261104T140742 DONE via bm-a",
-  "Q-TRIAGE-BIGMONEY-20261104 DONE via bm-b",
-  "CANARY-20261104T125241 UNVERIFIED(no-artifact-yet) via bm-c",
-  "CANARY-20261104T125141 DONE via bm-m",
-  "MV-DIRECTOR-PACKET-20261104 -> bm-c (cpu)",
-  "CANARY-20261104T132721 -> bm-m (cpu)"
+  "CANARY-20261104T132721 DONE via bm-m",
+  "CANARY-20261104T134046 -> bm-m (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
@@ -863,8 +855,6 @@
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-b",
-  "bm-c",
   "bm-m"
  ]
 }
