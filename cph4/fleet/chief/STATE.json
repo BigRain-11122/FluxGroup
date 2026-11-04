@@ -1,10 +1,10 @@
 {
- "ts": "2026-11-04T14:45:08",
+ "ts": "2026-11-04T14:52:18",
  "stage": 3,
  "adoption": {
   "days": 3,
-  "applied": 742,
-  "total": 534,
+  "applied": 745,
+  "total": 536,
   "rate": 139.0,
   "eligible_stage4": false
  },
@@ -23,7 +23,7 @@
    "why": "2 张卡在跑但 1 小时无回执",
    "target": [
     "biggame-playable-2026-11-03",
-    "bigstream-mv-transition-2026-11-04"
+    "ART-PUSH-BMA-20261104"
    ],
    "min_stage": 3,
    "result": "applied"
@@ -44,7 +44,7 @@
    "kind": "requeue",
    "ids": [
     "biggame-playable-2026-11-03",
-    "bigstream-mv-transition-2026-11-04"
+    "ART-PUSH-BMA-20261104"
    ]
   }
  ],
