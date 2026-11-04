@@ -42,18 +42,44 @@ EXT = os.environ.get("INTAKE_ROOT", "/Volumes/移动硬盘")
 # 2026-11-04：以前 DEST 直接落在移动盘上，盘不在就一律 503 —— bm-a 声明了 53 件产物，
 # 从 11-02 起一件都没进来（PUSHED.jsonl 至今不存在），机队媒体因此永远到不了 Mac。
 # 正法=内盘暂存永远可用，外盘只作归档副本；两种落点都记账，Health 如实报。
-STAGE = os.environ.get("INTAKE_STAGE", os.path.expanduser("~/FluxInbox"))
+# 暂存必须落在仓内 media/inbox：脉冲的 ASR/转码/打标读的是 media/，若落到家目录，
+# 文件收进来了也没有任何阶段会去加工——"通道通了但本机依旧闲着"。
+_REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+STAGE = os.environ.get("INTAKE_STAGE", os.path.join(_REPO, "media", "inbox"))
 DEST = os.path.join(EXT, "产出归档")          # 归档位（挂盘时）
 IDX_EXT = os.path.join(EXT, "Backup", "artifacts-index.jsonl")
 IDX_STAGE = os.path.join(STAGE, "artifacts-index.jsonl")
 
 
+ARCHIVE_MAX = int(os.environ.get("INTAKE_ARCHIVE_MAX_MB", "200")) * 1024 * 1024
+
+
 def dest_now():
-    """返回 (落盘目录, 索引路径, 模式)。外盘在就归档到外盘，否则落到内盘暂存。"""
-    if os.path.isdir(EXT):
-        return DEST, IDX_EXT, "external"
+    """返回 (落盘目录, 索引路径, 模式)。
+
+    2026-11-04 第二次修正：加工链（ASR/转码/打标）读的是仓内 media/inbox，所以
+    **主落点必须是暂存**，外盘只作归档副本；否则盘一挂上，文件又跑到外盘去，
+    本机照旧没活干（"盘在但脉看不到"与"盘不在"是同一种病）。
+    """
     os.makedirs(STAGE, exist_ok=True)
-    return os.path.join(STAGE, "产出归档"), IDX_STAGE, "stage"
+    return os.path.join(STAGE, "intake"), IDX_STAGE, ("stage+archive" if os.path.isdir(EXT) else "stage")
+
+
+def archive_copy(final, node, day, card, name):
+    """外盘在时留一份归档副本（≤上限才复制，避免大文件回传时双倍 IO）。"""
+    try:
+        if not os.path.isdir(EXT) or os.path.getsize(final) > ARCHIVE_MAX:
+            return None
+        adir = os.path.join(DEST, node, day)
+        os.makedirs(adir, exist_ok=True)
+        dst = os.path.join(adir, "%s__%s" % (card, name))
+        with open(final, "rb") as src, open(dst, "wb") as out:
+            for chunk in iter(lambda: src.read(1 << 20), b""):
+                out.write(chunk)
+        return dst
+    except Exception as e:
+        log("ARCHIVE-SKIP %s/%s %s" % (node, name, str(e)[:80]))
+        return None
 TOKEN_FILE = os.path.expanduser("~/.codely-cli/fleet-intake-token")
 LOG = "/tmp/fluxgroup-intake.log"
 
@@ -201,7 +227,10 @@ class Handler(BaseHTTPRequestHandler):
             os.makedirs(os.path.dirname(index), exist_ok=True)
             with open(index, "a", encoding="utf-8") as f:
                 f.write(json.dumps(rec, ensure_ascii=False) + "\n")
-        log("OK %s/%s %d bytes sha=%s" % (node, name, got, digest[:12]))
+        arch = archive_copy(final, node, day, card, name)
+        if arch:
+            log("ARCHIVED %s -> %s" % (name, arch))
+        log("OK %s/%s %d bytes sha=%s mode=%s" % (node, name, got, digest[:12], mode))
         return self._json(200, {"ok": True, "stored": final, "bytes": got,
                                 "sha256": digest, "mode": mode})
 

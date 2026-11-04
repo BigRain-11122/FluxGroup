@@ -86,17 +86,22 @@ def main(argv):
     ap.add_argument("--trigger", default="")
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--out", default="")
+    ap.add_argument("--recursive", action="store_true",
+                    help="递归子目录（资产库按 00/01/… 分片存放，不递归会判成没有待打标图片）")
     a = ap.parse_args(argv)
     if not os.path.isdir(a.dir):
         print("目录不存在：%s（rc=2）" % a.dir)
         return 2
     todo = []
-    for n in sorted(os.listdir(a.dir)):
-        p = os.path.join(a.dir, n)
-        if os.path.isfile(p) and n.lower().endswith(IMG):
-            txt = os.path.splitext(p)[0] + ".txt"
-            if not os.path.exists(txt):
-                todo.append((p, txt))
+    walker = ([(d, _s, fs) for d, _s, fs in os.walk(a.dir)] if a.recursive
+              else [(a.dir, [], sorted(os.listdir(a.dir)))])
+    for d, _sub, files in walker:
+        for n in sorted(files):
+            p = os.path.join(d, n)
+            if os.path.isfile(p) and n.lower().endswith(IMG):
+                txt = os.path.splitext(p)[0] + ".txt"
+                if not os.path.exists(txt):
+                    todo.append((p, txt))
     if a.limit:
         todo = todo[:a.limit]
     rec = {"ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "dir": a.dir, "model": MODEL,

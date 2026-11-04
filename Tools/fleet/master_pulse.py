@@ -156,6 +156,11 @@ STAGES = [
     # 资产生产规格（2026-11-03 CEO「Mac 利用率很低」）：本机常驻 4B 批量写 P0 资产规格，
     # 幂等可续跑，一轮最多 20 件。实测 GPU 99%、CPU 仍 83% 空闲——低利用率的表象是
     # "只看 CPU"，真因是没喂本机吃得下的活。rc=3=模型服务不在。
+    # 资产打标（2026-11-04 移动盘到位后）：529 张素材在盘、实测 6.9s/张，是本机最实在的
+    # GPU 活。慢批一轮 10 张（约 1 分钟），既压得动算力又不占满内存。rc=3=模型或目录不在。
+    ("caption", ["Tools/fleet/asset_caption.py", "--dir", "/Volumes/移动硬盘/FluxAssets/store",
+                 "--recursive", "--limit", "10",
+                 "--out", "cph4/fleet/asset-lib-v1/CAPTIONS.jsonl"], 400, {0, 2, 3}, True),
     ("asset_prompts", ["Tools/fleet/asset_prompts.py", "--limit", "20"], 600, {0, 1, 3}, True),
     # 本机推理栈体检（2026-11-03）：端口归属/服务环境/速度/向量层，一天一次。
     # 只是体检，不改配置；rc=2=有 GAPS 待修。
