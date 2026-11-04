@@ -1,23 +1,8 @@
 {
  "node": "bm-b",
- "ts": "2026-11-04T21:56:04",
- "jobs": [
-  {
-   "id": "PROBE-BMB-AUDIOQC-20261104",
-   "title": "bm-b 音频质检探针（inbox 音轨响度/采样率/时长）",
-   "cmd": "python Tools/fleet/tts_batch_check.py --dir media/asset/inbox --out cph4/fleet/queue-receipts/audio-qc-bmb-20261104.json",
-   "cwd": null,
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/audio-qc-bmb-20261104.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  }
- ],
- "idle_reason": "",
+ "ts": "2026-11-04T22:06:33",
+ "jobs": [],
+ "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
  "lane_ok": true,
- "capacity_note": "ram 11.9/1.0 GB"
+ "capacity_note": "ram 10.7/1.0 GB"
 }
