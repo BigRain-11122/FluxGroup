@@ -1,22 +1,22 @@
 {
- "ts": "2026-11-04T14:27:31",
- "cycle": 62,
+ "ts": "2026-11-04T14:29:43",
+ "cycle": 63,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-04T14:27:31",
+ "master_tick_ts": "2026-11-04T14:29:43",
  "queue": {
   "total": 409,
-  "open": 39,
+  "open": 38,
   "running": 3,
   "done": 151,
-  "failed": 18
+  "failed": 19
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 16.9,
-   "cpu_load_pct": 45,
-   "ram_free_gb": 37.6,
+   "hb_age_s": 27.8,
+   "cpu_load_pct": 32,
+   "ram_free_gb": 38.3,
    "gpu_util_pct": 69,
    "job": "asset-lib-voice-assemble-2026-11-03",
    "last_result": {
@@ -32,34 +32,34 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 37.4,
-   "cpu_load_pct": 2,
-   "ram_free_gb": 12.4,
+   "hb_age_s": 48.7,
+   "cpu_load_pct": 1,
+   "ram_free_gb": 12.3,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-04T14:25:32",
+    "ts": "2026-11-04T14:26:57",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 51
+   "idle_rounds": 52
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 16.3,
-   "cpu_load_pct": 7,
-   "ram_free_gb": 3.3,
+   "hb_age_s": 34.7,
+   "cpu_load_pct": 9,
+   "ram_free_gb": 3.8,
    "gpu_util_pct": 0,
    "job": "asset-lib-face-caption-2026-11-04",
    "last_result": {
-    "job": "asset-lib-voice-assemble-2026-11-03",
+    "job": "asset-lib-face-caption-2026-11-04",
     "state": "RUNNING",
     "rc": null,
-    "ts": "2026-11-04T14:26:19",
+    "ts": "2026-11-04T14:28:13",
     "reason": null
    },
    "idle_confirmed": false,
@@ -68,16 +68,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 1.0,
-   "cpu_load_pct": 40,
-   "ram_free_gb": 12.5,
+   "hb_age_s": 1.1,
+   "cpu_load_pct": 31,
+   "ram_free_gb": 10.9,
    "gpu_util_pct": null,
-   "job": "bigstream-mv-transition-2026-11-04",
+   "job": "bigstream-mv-stability-2026-11-04",
    "last_result": {
-    "job": "CHK-DUPES-20261103",
-    "state": "BUSY",
-    "rc": null,
-    "ts": "2026-11-04T14:26:07",
+    "job": "bigstream-mv-transition-2026-11-04",
+    "state": "FAILED",
+    "rc": 1,
+    "ts": "2026-11-04T14:27:36",
     "reason": null
    },
    "idle_confirmed": false,
@@ -87,7 +87,7 @@
  },
  "idle_rounds": {
   "bm-a": 0,
-  "bm-b": 51,
+  "bm-b": 52,
   "bm-c": 0,
   "bm-m": 0
  },
@@ -101,13 +101,11 @@
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
    "jobs": [
     "R-NEXT-BIGSTREAMM-GATE-20261103",
-    "bigstream-mv-transition-2026-11-04",
     "bigstream-mv-stability-2026-11-04"
    ],
    "no_supply": false,
    "blockers": [
-    "R-NEXT-BIGSTREAMM-GATE-20261103:no-lane",
-    "bigstream-mv-stability-2026-11-04:no-lane"
+    "R-NEXT-BIGSTREAMM-GATE-20261103:no-lane"
    ],
    "note": null,
    "stuck_stage": "mv-kf",
@@ -870,16 +868,14 @@
   }
  },
  "judgments": {
-  "open": 1,
-  "by_kind": {
-   "CAPACITY": 1
-  },
+  "open": 0,
+  "by_kind": {},
   "added": 0,
   "tick_tier": "none",
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 39,
+  "local": 38,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -887,7 +883,7 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 39,
+  "cpu": 38,
   "gpu": 0
  },
  "supply_added": [
@@ -895,16 +891,17 @@
  ],
  "events": [
   "ART-PUSH-BMA-20261104 FAILED via bm-a",
+  "bigstream-mv-transition-2026-11-04 FAILED via bm-m",
+  "asset-lib-face-caption-2026-11-04 -> bm-c (gpu)",
   "asset-lib-voice-assemble-2026-11-03 -> bm-a (cpu)",
-  "bigstream-mv-transition-2026-11-04 -> bm-m (cpu)"
+  "bigstream-mv-stability-2026-11-04 -> bm-m (cpu)"
  ],
  "violations": [
-  "bm-b IDLE-CONFIRMED x51 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-b IDLE-CONFIRMED x52 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-a",
   "bm-m"
  ]
 }

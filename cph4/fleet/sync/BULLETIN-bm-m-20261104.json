@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
  "date": "20261104",
- "ts": "2026-11-04T14:19:39+0800",
+ "ts": "2026-11-04T14:28:38+0800",
  "window_h": 26,
  "produced": [
   {
    "path": "cph4/fleet/queue-receipts/skill-promote-20261104.json",
    "bytes": 2172,
-   "mtime": "2026-11-04T14:19:39",
-   "sha": "a756c158b0f23cf11d2550c8d18f72aa30e66a5e74d89d33708b12aa2bc557fc"
+   "mtime": "2026-11-04T14:28:38",
+   "sha": "e8d7f9c0a9420585ec8059849f3be4f970ffc95322bbaec49ebfbec6f74384dc"
   },
   {
    "path": "cph4/fleet/lib/ASSET-INDEX.json",
@@ -525,18 +525,16 @@
    "bytes": 1108,
    "mtime": "2026-11-03T12:47:15",
    "sha": "485608f7b6d55892a7550a5edf208c3b63362c7e31e0edf89c9fa7c483c70c16"
-  },
-  {
-   "path": "cph4/fleet/queue-receipts/bigmoney-backtest-2026-11-03-bm-a.json",
-   "bytes": 1886,
-   "mtime": "2026-11-03T12:27:13",
-   "sha": "7a4cc00513c1457c106767df9d9d30198ea0f61fa700b55961af23888e6a1e1b"
   }
  ],
  "blocked": [
   {
    "what": "asset-lib-env-check-2026-11-03",
    "why": "E-UNKNOWN ASSET-ENV FAIL  bm-m\n  可用路线: 无\n  ! 没有 ffmpeg（切分/抽帧/审计都要）\n  ! 没有 torch（No module "
+  },
+  {
+   "what": "_last_lane_bm-m.json",
+   "why": "rc=1 "
   },
   {
    "what": "asset-lib-voice-corpus-bmm-2026-11-03",
@@ -553,10 +551,6 @@
   {
    "what": "asset-lib-library-check-2026-11-04",
    "why": "E-UNKNOWN 资产库体检 tier=p0  合计 19/128（15%）  GAPS\n  OK characters    8/8    授权 8\n      - CH01："
-  },
-  {
-   "what": "voice-corpus-bm-m-2026-11-04.json",
-   "why": "E-BLOCKED-INPUT "
   }
  ],
  "job": null

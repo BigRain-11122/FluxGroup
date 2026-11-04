@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-04T14:19:39+0800",
+ "ts": "2026-11-04T14:28:38+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -27,9 +27,9 @@
    "accept": "SUBMIT-PACK 里『隐私政策』『提审台账』两类缺件归零",
    "blocker_type": "CEO",
    "blocker": "截图需跑游戏取图，受 2026-10-28『不许自动跑游戏包』令约束，等放行",
-   "state": "RUNNING",
+   "state": "QUEUED",
    "card": "biggame-playable-2026-11-03",
-   "running_on": "bm-m"
+   "running_on": null
   },
   {
    "id": "bigmoney",
@@ -57,9 +57,9 @@
    "accept": "发布台账有回执行；或 CEO 给出重剪清单",
    "blocker_type": "ENGINE",
    "blocker": "发布决定权在 CEO，但工程侧可先做下一首立意案",
-   "state": "QUEUED",
-   "card": "R-NEXT-BIGSTREAMM-GATE-20261103",
-   "running_on": null
+   "state": "RUNNING",
+   "card": "bigstream-mv-transition-2026-11-04",
+   "running_on": "bm-m"
   },
   {
    "id": "bigstream-drama",
