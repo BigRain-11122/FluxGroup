@@ -1,14 +1,14 @@
 {
  "node": "bm-c",
- "ts": "2026-11-04T23:55:27",
+ "ts": "2026-11-04T23:56:42",
  "jobs": [
   {
-   "id": "CANARY-20261104T132721",
-   "title": "端到端自检：投卡→领取→执行→回执→产物",
-   "cmd": "python -c \"import os;os.makedirs(r'cph4/fleet/state/canary',exist_ok=True);open(r'cph4/fleet/state/canary/RUN-20261104T132721.txt','w',encoding='utf-8').write('canary 20261104T132721 — 端到端自检产物，不是业务活')\"",
-   "cwd": "",
+   "id": "PROBE-BMB-AUDIOQC-20261104",
+   "title": "bm-b 音频质检探针（inbox 音轨响度/采样率/时长）",
+   "cmd": "python Tools/fleet/tts_batch_check.py --dir media/asset/inbox --out cph4/fleet/queue-receipts/audio-qc-bmb-20261104.json",
+   "cwd": null,
    "needs": "cpu",
-   "deliverable": "cph4/fleet/state/canary/RUN-20261104T132721.txt",
+   "deliverable": "cph4/fleet/queue-receipts/audio-qc-bmb-20261104.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 3.6/1.0 GB"
+ "capacity_note": "ram 3.2/1.0 GB"
 }

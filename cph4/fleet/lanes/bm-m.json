@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
- "ts": "2026-11-04T23:55:27",
+ "ts": "2026-11-04T23:56:42",
  "jobs": [
   {
-   "id": "CHK-RECEIPT-20261104",
+   "id": "CHK-RECEIPT-20261103",
    "title": "回执卫生体检（rc 缺失/error_class 缺失出表）（bm-m 兜底体检）",
-   "cmd": "python3 Tools/fleet/receipt_attrib.py --out cph4/fleet/queue-receipts/receipt-attrib-20261104.json",
+   "cmd": "python3 Tools/fleet/receipt_attrib.py --out cph4/fleet/queue-receipts/receipt-attrib-20261103.json",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/receipt-attrib-20261104.json",
+   "deliverable": "cph4/fleet/receipt-attrib-20261103.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 17.0/1.0 GB"
+ "capacity_note": "ram 18.6/1.0 GB"
 }
