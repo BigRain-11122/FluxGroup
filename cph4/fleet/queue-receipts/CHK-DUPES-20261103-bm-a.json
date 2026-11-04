@@ -2,7 +2,7 @@
  "id": "CHK-DUPES-20261103",
  "node": "bm-a",
  "rc": 9009,
- "seconds": 0.2,
+ "seconds": 0.3,
  "cmd": "python3 Tools/fleet/semantic_dupes.py --json cph4/fleet/queue-receipts/dupes-scan-20261103.json",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": "E-PATH",
  "deliverable": "cph4/fleet/dupes-scan-20261103.json",
  "deliverable_exists": false,
- "ts": "2026-11-05T05:55:05",
+ "ts": "2026-11-05T05:59:43",
  "stdout_tail": "",
  "stderr_tail": ""
 }
