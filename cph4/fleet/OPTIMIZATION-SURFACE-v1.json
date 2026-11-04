@@ -401,9 +401,9 @@
     {
      "id": "mc-supply",
      "what": "造活/供给：队列不许空",
-     "now": "night_plan→market/quality→line_plan→night_fill→bank_autofill→workgen 六站串行",
+     "now": "六站造活 + Tools/fleet/supply_target.py（2026-11-04）：把 wait_map 的等输入接到「谁该产」。实测产物类等输入 5 条、5 条无人生产（MiniGame×2 / full_mv_v721.mp4×2 / r1202_ep001_060），已逐条给出承办线与卡点",
      "status": "partial",
-     "trigger": "可派库存 11 < 机队可再吃 38 件（squeeze 口径）；库存长期低于可再派即判供给缺陷"
+     "trigger": "needs_producer>0 即供给缺口；每条必须有承办线与下一件产物，否则不许再报「库存充足」"
     },
     {
      "id": "mc-dispatch",
@@ -440,9 +440,9 @@
     {
      "id": "mc-sync",
      "what": "同步：机队互报，不要信息孤岛",
-     "now": "bulletin.py 互报 + Tools/fleet/wait_map.py（2026-11-04）：把在办卡 requires 与全队列 deliverable 对上，输出「谁等谁」与等待环。实测 63 张在办卡、9 条真实等输入（如 full_mv_v721.mp4 没有任何卡在生产）",
+     "now": "bulletin.py 增加名册与新鲜度（2026-11-04）：实测上报 1 / 名册 5 台，bm-a/b/c/d 均无简报——不能声称全队同步；另加 wait_map 的「谁等谁」",
      "status": "partial",
-     "trigger": "目前仍只有 bm-m 一份简报（其余机未升级到本版）；等待环为 0 但等输入 9 条，需补产卡或改卡"
+     "trigger": "missing_nodes 非空即信息孤岛；等其余机拉到本版并各发一份 BULLETIN 后此指标才有意义"
     },
     {
      "id": "mc-git",
@@ -460,9 +460,9 @@
     {
      "id": "mc-asset",
      "what": "资产/经验回灌：产物与底层技术要成库并可备份",
-     "now": "lib_consolidate 六面归集（索引+sha 指针）+ memory_nightly 记忆瘦身",
+     "now": "Tools/fleet/asset_reach.py（2026-11-04）：台账与可达分开报，判定 UNREACHABLE 时明写「盘不在、账不作数」；sha 抽样复核。实测台账 651 / 可达 0 / 卷 /Volumes/移动硬盘 未挂载",
      "status": "partial",
-     "trigger": "vault 651 条指向未挂载移动盘（可达 0）；音色库 0 音频——挂盘/投料前任何「资产已备份」都不成立"
+     "trigger": "台账>0 且可达=0 → 任何「已归集/已备份」说法不成立；卷挂载后重跑自动恢复"
     },
     {
      "id": "mc-self",

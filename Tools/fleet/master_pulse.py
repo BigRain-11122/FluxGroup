@@ -124,6 +124,9 @@ STAGES = [
     # 跨机依赖（2026-11-04）：SYNC-BOARD 缺「谁等谁的产物」列，这里把在办卡的 requires 与
     # 全队列 deliverable 对上，画出等待边并报环。rc=2=有等待环（结构病，必须改卡）。
     ("wait_map", ["Tools/fleet/wait_map.py"], 60, {0, 2}, True),
+    # 供给目标（2026-11-04）：wait_map 只画"谁等谁"，这一站回答"等的那一头谁该产"。
+    # rc=1 表示仍有产物无人生产（供给缺口告警，不是工具坏）。
+    ("supply_target", ["Tools/fleet/supply_target.py"], 60, {0, 1}, True),
     # 集团雷达（CEO 2026-11-03 令：实验室与各研究席高频合理地扫网）。
     # 频率写在 Tools/fleet/radar.py 的 SOURCES 里（GitHub 20h / arXiv 150h），未到点自跳过；
     # 源挂了记 BLOCKED 不编候选（实测 HF 直连不通）。
@@ -168,6 +171,9 @@ STAGES = [
     ("memory_nightly", ["Tools/fleet/memory_nightly.py"], 900, {0, 2}, True),
     ("showcase", ["Tools/fleet/showcase.py"], 60, {0}, True),
     ("vault", ["Tools/fleet/vault.py", "verify"], 120, {0, 2}, True),
+    # 资产可达性（2026-11-04）：台账条数≠可达条数。盘不在就判 UNREACHABLE，
+    # 禁止任何"已归集/已备份"的说法。rc=2=账面有、可达 0。
+    ("asset_reach", ["Tools/fleet/asset_reach.py"], 60, {0, 2}, True),
     ("handoff", ["Tools/fleet/handoff.py"], 60, {0}, True),
     ("chief", ["Tools/fleet/chief.py"], 120, {0}, True),
     ("health", ["Tools/fleet/fleet_health.py"], 90, {0}, True),

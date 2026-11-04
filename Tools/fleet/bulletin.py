@@ -25,6 +25,7 @@ import os
 import subprocess
 import sys
 import time
+from datetime import datetime
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 FLEET = os.path.join(ROOT, "cph4", "fleet")
@@ -151,12 +152,42 @@ def aggregate():
             if not here:
                 island.append({"from": node, "path": a["path"], "bytes": a["bytes"]})
         rows.append(c)
+    # 名册与新鲜度（2026-11-04）：只报"收到几份"会掩盖"四台机只有一台在报"。
+    # 名册取 lanes/ 下真实存在的机器文件；每台给最近一份简报的年龄。
+    roster = []
+    lanes_dir = os.path.join(FLEET, "lanes")
+    if os.path.isdir(lanes_dir):
+        roster = [f[:-5] for f in os.listdir(lanes_dir) if f.endswith(".json")]
+    fresh, stale = {}, []
+    for n in roster:
+        c = cards.get(n)
+        if not c:
+            fresh[n] = None
+            stale.append(n)
+            continue
+        try:
+            t = datetime.strptime(str(c.get("ts"))[:19], "%Y-%m-%dT%H:%M:%S")
+            fresh[n] = round((datetime.now() - t).total_seconds() / 3600, 1)
+        except Exception:
+            fresh[n] = None
+            stale.append(n)
+
     rec = {"ts": time.strftime("%Y-%m-%dT%H:%M:%S%z"), "nodes": len(cards),
-           "islands": len(island), "island_sample": island[:10]}
+           "roster": sorted(set(roster)), "missing_nodes": stale,
+           "age_h": fresh, "islands": len(island), "island_sample": island[:10]}
     json.dump(rec, open(os.path.join(FLEET, "ISLANDS.json"), "w", encoding="utf-8"),
               ensure_ascii=False, indent=1)
     md = ["# 机队互报（%s）" % rec["ts"], "",
-          "在册机器 %d 台；本机看不到的他人产物 %d 件（传输通道度量，不是错误）" % (len(cards), len(island)), ""]
+          "上报 %d / 名册 %d 台；本机看不到的他人产物 %d 件（传输通道度量，不是错误）"
+          % (len(cards), len(rec["roster"]), len(island)), ""]
+    if rec["missing_nodes"]:
+        md.append("**未上报**：%s —— 这些机的产出主控看不见，不能当成「全队同步」"
+                  % "、".join(rec["missing_nodes"]))
+        md.append("")
+    for n in rec["roster"]:
+        age = rec["age_h"].get(n)
+        md.append("- %s：%s" % (n, ("无简报" if age is None else "最近一份 %.1fh 前" % age)))
+    md.append("")
     for node, c in sorted(cards.items()):
         md.append("## %s（%s，窗口 %sh）" % (node, c.get("date"), c.get("window_h")))
         md.append("- 产出 %d 件" % len(c.get("produced") or []))

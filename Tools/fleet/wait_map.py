@@ -77,9 +77,21 @@ def main(argv):
                 continue                      # 输入就在盘上：不算"在等"
             cand = prod.get(base) or []
             if not cand:
-                kind = ("cross-machine" if (":" in str(p) or str(p).startswith("\\\\")
-                                           or str(p).startswith("/Volumes"))
-                        else "no-producer")
+                # 三类分开：产物缺失 vs 工具/代码输入 vs 外盘/跨机路径。
+                # 实测 9 条"等输入"里多数是 .py/.json/MiniGame 这类工具与工程目录——
+                # 那不是"没人产卡"，而是"这张卡本来就必须在持有该工具的机器上跑"，
+                # 混在一起会让人以为 9 条都要补产卡，反而找不到该修的 2 条。
+                ext = os.path.splitext(base)[1].lower()
+                rel = str(p).replace("\\", "/")
+                head = rel.split("/")[0] if "/" in rel else ""
+                if ":" in str(p) or str(p).startswith("\\\\") or str(p).startswith("/Volumes"):
+                    kind = "cross-machine"        # 外盘 / Windows 盘符：产物在别的机器上
+                elif head and not os.path.exists(os.path.join(ROOT, head)):
+                    kind = "subrepo-absent"       # 整个子仓/目录本机就没有（quant、gaming…）
+                elif ext in (".py", ".sh", ".ps1", ".bat", ".cmd", ".exe"):
+                    kind = "tool-input"           # 该在持有工具的机器上跑
+                else:
+                    kind = "artifact-missing"     # 真产物缺失：媒资/目录，应该有人产它
                 unknown.append({"card": r.get("id"), "owner": r.get("owner"), "needs": base,
                                 "path": str(p)[:80], "kind": kind})
                 continue
@@ -130,8 +142,10 @@ def main(argv):
             tag = "同机" if owner == po else "跨机"
             lines.append("- %s 等 %s（%s）：%s" % (owner, po, tag, "、".join(sorted(set(cards))[:6])))
     for u in unknown[:12]:
-        why = ("另一台机上的产物，本机看不见" if u["kind"] == "cross-machine"
-               else "没有任何卡的 deliverable 对应它")
+        why = {"cross-machine": "外盘/另一台机上的产物，本机看不见",
+               "subrepo-absent": "子仓/目录本机不存在（主控只能读投影，不能读正文）",
+               "tool-input": "工具输入（该卡应钉在持有该工具的机器上跑）",
+               "artifact-missing": "真产物缺失：没有任何卡在生产它"}[u["kind"]]
         lines.append("- [等输入] %s 需要 %s —— %s" % (u["card"], u["needs"], why))
     for c in cycles:
         lines.append("- [环] %s 与下游互相等待，必须改卡（拆小或补输入）" % c)
