@@ -1,34 +1,18 @@
 {
- "ts": "2026-11-05T01:20:32+0800",
+ "ts": "2026-11-05T01:27:23+0800",
  "alert_days": 2.0,
  "lines": [
   {
    "line": "asset-lib",
    "status": "ACTIVE",
    "prio": "P0",
-   "stock": 10,
+   "stock": 8,
    "rate_per_day": 4.33,
-   "runway_days": 2.3,
+   "runway_days": 1.8,
    "has_table": true,
    "blocker": {
     "stage": "env-check",
     "deliverable": "cph4/fleet/queue-receipts/asset-env-20261105.json",
-    "needs": "cpu",
-    "hard_nodes": []
-   },
-   "flags": []
-  },
-  {
-   "line": "bigstream-mv",
-   "status": "ACTIVE",
-   "prio": "P0",
-   "stock": 6,
-   "rate_per_day": 4.33,
-   "runway_days": 1.4,
-   "has_table": true,
-   "blocker": {
-    "stage": "gate",
-    "deliverable": "cph4/fleet/queue-receipts/mv-gate-v721-20261105.json",
     "needs": "cpu",
     "hard_nodes": []
    },
@@ -52,6 +36,24 @@
    },
    "flags": [
     "INACTIVE"
+   ]
+  },
+  {
+   "line": "bigstream-mv",
+   "status": "ACTIVE",
+   "prio": "P0",
+   "stock": 5,
+   "rate_per_day": 4.33,
+   "runway_days": 1.2,
+   "has_table": true,
+   "blocker": {
+    "stage": "gate",
+    "deliverable": "cph4/fleet/queue-receipts/mv-gate-v721-20261105.json",
+    "needs": "cpu",
+    "hard_nodes": []
+   },
+   "flags": [
+    "ALERT"
    ]
   },
   {
@@ -233,6 +235,6 @@
    ]
   }
  ],
- "alerts": 2,
+ "alerts": 3,
  "no_table": 6
 }
