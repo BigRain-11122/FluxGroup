@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
  "date": "20261105",
- "ts": "2026-11-05T01:59:49+0800",
+ "ts": "2026-11-05T02:06:17+0800",
  "window_h": 26,
  "produced": [
   {
    "path": "cph4/fleet/queue-receipts/skill-promote-20261105.json",
    "bytes": 2172,
-   "mtime": "2026-11-05T01:59:49",
-   "sha": "3452ffb9c6cc4a14f05661fb699e9e7d90a111d7bae72db7f973f9e9c6667204"
+   "mtime": "2026-11-05T02:06:17",
+   "sha": "3c2d81a4cddec5033ac6383e4c8c62d0e1b1ba56e4712b33664497a0e63fb2a4"
   },
   {
    "path": "cph4/fleet/queue-receipts/review-packet-mv-20261105.md",
@@ -577,12 +577,12 @@
  ],
  "blocked": [
   {
-   "what": "R-NEXT-BIGSTREAMM-AUDIT-20261105",
-   "why": "E-UNKNOWN "
+   "what": "_last_lane_bm-m.json",
+   "why": "rc=127 "
   },
   {
-   "what": "Q-VCORP-PREP-e01-R3-20261105",
-   "why": "rc=127 "
+   "what": "R-NEXT-BIGSTREAMM-AUDIT-20261105",
+   "why": "E-UNKNOWN "
   },
   {
    "what": "asset-lib-voice-corpus-bmm-2026-11-03",
