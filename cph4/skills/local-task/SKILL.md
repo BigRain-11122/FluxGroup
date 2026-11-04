@@ -46,3 +46,11 @@ python3 Tools/fleet/local_task.py self-test
 
 ## 退出码
 - 0 正常；2 有失败/题型自检未通过；3 模型不可达或入参非法。
+
+## 可跑自查（自动生成·2026-11-03）
+判据：下面这条命令必须能在本机真跑起来（rc∈{0,1,2} 且有输出）；跑不起来说明技能指向的工具已失效，先修工具再谈技能。
+
+```
+python3 Tools/fleet/local_task.py --help
+```
+实测：rc=0，输出 5 行，首行 `usage: local_task.py [-h] {run,enqueue,drain,stats,self-test} ...`。

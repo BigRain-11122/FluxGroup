@@ -48,3 +48,11 @@ python Tools/fleet/handoff.py --json     # 机读
 - 长期事实 → 记忆（CODELY.md L0/L1）
 - 项目正典 → `cph4/fleet/**` 下的 LAW/SPEC/CANON
 - **本会话的现场** → HANDOFF.md（只保留最近一轮，旧轮次由 git 历史承载）
+
+## 可跑自查（自动生成·2026-11-03）
+判据：下面这条命令必须能在本机真跑起来（rc∈{0,1,2} 且有输出）；跑不起来说明技能指向的工具已失效，先修工具再谈技能。
+
+```
+python3 Tools/fleet/handoff.py --help
+```
+实测：rc=0，输出 35 行，首行 `# 交接一屏（2026-11-04 12:15）`。
