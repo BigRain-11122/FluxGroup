@@ -603,7 +603,23 @@ def assign(rows, fleet, reports, lines=None):
                     red_lines.add(s.split(":")[1])
     except Exception:
         pass
+    # 解锁下游数量优先（CEO 2026-11-03 定的排序判据 A：解锁下游多者先做）。
+    # 2026-11-04 实测病：产物回传卡挂在 fleet-ops（P3），于是永远让给 P0 内容卡，
+    # 3 条线（mv/drama/game）其实都在等它的产物——线优先级压住了真实解锁量，通道卡永远排不上。
+    _unlocks = {}
+    _deliv = {}
+    for _r in list(pending) + [r for r in rows]:
+        _d = _r.get("deliverable")
+        if _d:
+            _deliv[os.path.basename(str(_d).replace("\\", "/"))] = _r.get("id")
+    for _r in pending:
+        for _req in (_r.get("requires") or []):
+            _b = os.path.basename(str(_req).replace("\\", "/"))
+            _prod = _deliv.get(_b)
+            if _prod:
+                _unlocks[_prod] = _unlocks.get(_prod, 0) + 1
     pending.sort(key=lambda r: (0 if (r.get("line") or line_of_job(r, lines or [])) in red_lines else 1,
+                                -_unlocks.get(r.get("id"), 0),
                                 pmap.get(r.get("line") or line_of_job(r, lines or []), 2),
                                 prio_rank.get(str(r.get("prio") or "P2"), 2),
                                 str(r.get("created_at") or "")))

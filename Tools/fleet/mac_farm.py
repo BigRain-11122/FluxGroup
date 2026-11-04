@@ -76,19 +76,28 @@ def count_caption_todo():
     return n
 
 
+# 编码/字幕槽的素材源：收件暂存 + 本机成片目录。只看 media/inbox 会让 CPU 槽永远没活
+# （收件靠别机推送，今天还卡在 bm-a 车道上），而 media/drama-out 的成片一直有代理可做。
+MEDIA_SRCS = [INBOX, os.path.join(ROOT, "media", "drama-out")]
+PROXY_DIR = os.path.join(ROOT, "media", "review-720p")
+
+
 def count_media_todo(sub):
-    """media/inbox 下需要代理(.mp4 无同名 -proxy)或字幕(.srt 不存在)的文件数。"""
+    """需要代理（同名 -720p 不存在）或字幕（同名 .srt 不存在）的文件数。"""
     n = 0
-    if not os.path.isdir(INBOX):
-        return 0
-    for d, _s, fs in os.walk(INBOX):
-        for f in fs:
-            low = f.lower()
-            if sub == "proxy" and low.endswith((".mp4", ".mov", ".mkv")) and "-proxy" not in low:
-                n += 1
-            if sub == "asr" and low.endswith((".mp4", ".mov", ".mkv", ".wav", ".mp3")):
-                if not os.path.exists(os.path.join(d, os.path.splitext(f)[0] + ".srt")):
-                    n += 1
+    for src in MEDIA_SRCS:
+        if not os.path.isdir(src):
+            continue
+        for d, _s, fs in os.walk(src):
+            for f in fs:
+                low = f.lower()
+                stem = os.path.splitext(f)[0]
+                if sub == "proxy" and low.endswith((".mp4", ".mov", ".mkv")) and "-proxy" not in low:
+                    if not os.path.exists(os.path.join(PROXY_DIR, stem + "-720p.mp4")):
+                        n += 1
+                if sub == "asr" and low.endswith((".mp4", ".mov", ".mkv", ".wav", ".mp3")):
+                    if not os.path.exists(os.path.join(d, stem + ".srt")):
+                        n += 1
     return n
 
 
@@ -147,12 +156,15 @@ def main(argv):
         # 批量按"预算能跑完"来定（实测 6.9s/张）：超预算会被 kill 成 rc=124，
         # 那一批的账就只剩"超时"，看起来像工具坏——其实是我给多了。
         per = float(((cfg.get("jobs") or {}).get("caption") or {}).get("measure_s_per_item") or 7.0)
-        n = max(1, min(40, todo["caption"], int(max(10, a.budget - 20) / per)))
+        # 留 40% 余量：与 ASR 同抢 GPU 时单张会慢于 6.9s，实测按满预算算会被 kill 成 rc=124。
+        n = max(1, min(40, todo["caption"], int(max(10, a.budget * 0.6) / per)))
         jobs.append(("caption", ["python3", "Tools/fleet/asset_caption.py", "--dir", VAULT,
                                  "--recursive", "--limit", str(n),
                                  "--out", "cph4/fleet/asset-lib-v1/CAPTIONS.jsonl"]))
     if "cpu_ffmpeg" in plan and todo["proxy"] > 0:
-        jobs.append(("proxy", ["python3", "Tools/fleet/review_proxy.py", "--src", INBOX,
+        src = next((x for x in MEDIA_SRCS if os.path.isdir(x) and
+                    count_media_todo("proxy") > 0), INBOX)
+        jobs.append(("proxy", ["python3", "Tools/fleet/review_proxy.py", "--src", src,
                                "--out", "media/review-720p", "--max",
                                str(int(slots["cpu_ffmpeg"]["conc"]))]))
     if "gpu_asr" in plan and todo["asr"] > 0:
@@ -181,7 +193,8 @@ def main(argv):
 
     # rc=1 是工具自己的质量门（例如打标判定"只命中 1 个可见属性，像空话"），
     # 那是产出被判次不是调度失败——算软告警，不阻断本轮。
-    bad = [r for r in results if r.get("rc") not in (0, 1)]
+    # rc=124 = 本轮预算用尽（批量没跑完，但已产出的都落了盘）；算软告警不算失败。
+    bad = [r for r in results if r.get("rc") not in (0, 1, 124)]
     print("[mac-farm] 开槽=%s free %.1f→%.1fGB swap=%.1fMB" %
           (",".join(plan) or "无", free, free2, swap2))
     for r in results:
