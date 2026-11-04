@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
  "date": "20261104",
- "ts": "2026-11-04T19:29:19+0800",
+ "ts": "2026-11-04T19:44:21+0800",
  "window_h": 26,
  "produced": [
   {
    "path": "cph4/fleet/queue-receipts/skill-promote-20261104.json",
    "bytes": 2172,
-   "mtime": "2026-11-04T19:29:19",
-   "sha": "92884dbc3ace74194fe9e7ca50f363bb64b3c55a519737c0bfdc6721e652177d"
+   "mtime": "2026-11-04T19:44:21",
+   "sha": "e5efa671bd53db2bbbdb576c59b28df7dbcd72368691add3737e2ee02b1935ab"
   },
   {
    "path": "cph4/fleet/queue-receipts/game-packs-2026-11-03-r2.json",
@@ -511,10 +511,6 @@
  ],
  "blocked": [
   {
-   "what": "_last_lane_bm-m.json",
-   "why": "rc=None "
-  },
-  {
    "what": "asset-lib-voice-corpus-bmm-2026-11-03",
    "why": "E-BLOCKED-INPUT [corpus] 本分片无输入（inbox 共 0 个文件）——等投料，rc=3\n"
   },
@@ -525,6 +521,10 @@
   {
    "what": "voice-corpus-bm-m-2026-11-04.json",
    "why": "E-BLOCKED-INPUT "
+  },
+  {
+   "what": "inference-audit-bm-m-20261104.json",
+   "why": "rc=None "
   },
   {
    "what": "R-NEXT-BIGSTREAMM-AUDIT-20261103",

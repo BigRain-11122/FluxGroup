@@ -1,28 +1,19 @@
 {
- "ts": "2026-11-04T19:29:19",
+ "ts": "2026-11-04T19:44:21",
  "stage": 3,
  "adoption": {
   "days": 3,
-  "applied": 786,
-  "total": 564,
+  "applied": 789,
+  "total": 566,
   "rate": 139.4,
   "eligible_stage4": false
  },
  "decisions": [
   {
-   "kind": "flag",
-   "why": "1 台机空转且有活",
-   "target": [
-    "bm-b"
-   ],
-   "min_stage": 1,
-   "result": "applied"
-  },
-  {
    "kind": "requeue",
    "why": "1 张卡在跑但 1 小时无回执",
    "target": [
-    "CHK-DUPES-20261103"
+    "MV-DIRECTOR-PACKET-20261104"
    ],
    "min_stage": 3,
    "result": "applied"
@@ -42,7 +33,7 @@
   {
    "kind": "requeue",
    "ids": [
-    "CHK-DUPES-20261103"
+    "MV-DIRECTOR-PACKET-20261104"
    ]
   }
  ],
