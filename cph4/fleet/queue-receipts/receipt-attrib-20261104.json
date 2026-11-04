@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-04T16:55:08+0800",
+ "ts": "2026-11-04T16:57:01+0800",
  "receipts": 443,
  "files_scanned": 583,
  "non_receipt_files": 140,
@@ -21,55 +21,6 @@
   "9009 -> E-PATH"
  ],
  "fail_no_error_class": [],
- "error_class_not_in_taxonomy": [
-  [
-   "C-QUANT-NOBOND-20261103-bm-m.json",
-   "E-INPUT"
-  ],
-  [
-   "C-TTS-QC-ALL-bm-a.json",
-   "E-INPUT"
-  ],
-  [
-   "C-TTS-QC-ALL-bm-m.json",
-   "E-INPUT"
-  ],
-  [
-   "R-NEXT-BIGSTREAMD-TTS-QC-20261102-bm-m.json",
-   "E-INPUT"
-  ],
-  [
-   "R-NEXT-BIGSTREAMD-TTS-QC-20261103-bm-a.json",
-   "E-INPUT"
-  ],
-  [
-   "R-NEXT-BIGSTREAMD-TTS-QC-20261103-bm-m.json",
-   "E-INPUT"
-  ],
-  [
-   "R-NEXT-BIGSTREAMM-GATE-20261103-bm-c.json",
-   "E-INPUT"
-  ],
-  [
-   "R-TTS-QC-R2-20261102-bm-a.json",
-   "E-INPUT"
-  ],
-  [
-   "biggame-accept-2026-11-03-bm-m.json",
-   "E-INPUT"
-  ],
-  [
-   "biggame-accept-2026-11-04-bm-a.json",
-   "E-INPUT"
-  ],
-  [
-   "bigmoney-backtest-2026-11-03-bm-m.json",
-   "E-INPUT"
-  ],
-  [
-   "bigstream-mv-gate-2026-11-03-bm-c.json",
-   "E-INPUT"
-  ]
- ],
- "verdict": "GAPS"
+ "error_class_not_in_taxonomy": [],
+ "verdict": "PASS"
 }
