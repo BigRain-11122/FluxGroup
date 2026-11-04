@@ -162,7 +162,7 @@ STAGES = [
     # 模型槽/ASR 槽/编码槽可同时开；批量按预算定，避免被 kill 成"超时假故障"。
     # rc=1=有槽位软告警（质量门判次），rc=3=槽位表缺失。旧的 caption 单站已被它取代。
     ("mac_farm", ["Tools/fleet/mac_farm.py", "--budget", "240"], 420, {0, 1, 3}, True),
-    ("asset_prompts", ["Tools/fleet/asset_prompts.py", "--limit", "20"], 600, {0, 1, 3}, True),
+    ("asset_prompts", ["Tools/fleet/asset_prompts.py", "--limit", "10"], 600, {0, 1, 3}, True),
     # 本机推理栈体检（2026-11-03）：端口归属/服务环境/速度/向量层，一天一次。
     # 只是体检，不改配置；rc=2=有 GAPS 待修。
     ("inference_audit", ["Tools/fleet/local_inference_audit.py", "--node", NODE, "--daily"], 300, {0, 2}, True),
@@ -761,8 +761,53 @@ def checks(prev: dict | None = None) -> list[dict]:
     return out
 
 
+def thermal_state():
+    """读本机热压（2026-11-04 CEO「注意散热，毕竟是笔记本」）。
+
+    口径：pmset -g therm 的 CPU_Scheduler_Limit / thermal warning level。
+    有热警就返回等级；读不到按 0 处理（不因读不到就停活，那会变成另一种假红）。
+    """
+    if sys.platform != "darwin":
+        return 0
+    try:
+        out = subprocess.run(["pmset", "-g", "therm"], capture_output=True,
+                             text=True, timeout=10).stdout or ""
+    except Exception:
+        return 0
+    m = re.search(r"CPU_Scheduler_Limit\s*=\s*(\d+)", out)
+    if m:
+        limit = int(m.group(1))
+        if limit <= 60:
+            return 2
+        if limit <= 80:
+            return 1
+        return 0
+    # 本机实测 pmset 不给限速值时（"No CPU power status has been recorded"），
+    # 退回负载代理：load 逼近/超过核数就是持续满载，笔记本上这等于在积热。
+    try:
+        cores = os.cpu_count() or 8
+        la = os.getloadavg()[0]
+        if la >= cores * 1.2:
+            return 2
+        if la >= cores * 0.9:
+            return 1
+    except Exception:
+        return 0
+    return 0
+
+
+# 吃 GPU/持续满载的阶段：热压 >=1 时跳过本轮（宁可少干活，不把笔记本烤了）
+HEAT_GATED = {"mac_farm", "asset_prompts", "modelradar", "brain", "judge", "digest"}
+
+
 def run_stage(argv, timeout_s):
     t0 = time.time()
+    _name = os.path.basename(str(argv[0]))
+    for k in HEAT_GATED:
+        if _name == k + ".py" or (len(argv) > 1 and k in str(argv[1]) and _name.startswith("asset")):
+            lvl = thermal_state()
+            if lvl >= 1:
+                return 0, round(time.time() - t0, 1), "thermal-deferral level=%d（热压偏高，本轮跳过）" % lvl
     try:
         # 周期件禁云（CEO 2026-11-02）：给每个阶段打标记，router 见到就拒绝升云。
         _env = dict(os.environ, FLUX_AUTOMATION="1")
@@ -836,7 +881,9 @@ def main() -> int:
     # with no extra memory, so the slow batch is latency-bound on nothing but serialisation).
     # Queue writers (master, contingency, inventory) must never run concurrently or they
     # clobber each other's rows; everything else is read-mostly and model-bound.
-    SLOW_SERIAL = {"census", "inventory", "contingency", "solver", "line_agents"}
+    SLOW_SERIAL = {"census", "inventory", "contingency", "solver", "line_agents",
+                   # 2026-11-04 CEO「注意散热」：两类 GPU 重活必须串行，不许并发叠热
+                   "mac_farm", "asset_prompts"}
     serial = [s for s in STAGES if not s[4]]
     slow_serial = [s for s in STAGES if s[4] and s[0] in SLOW_SERIAL]
     parallel = [s for s in STAGES if s[4] and s[0] not in SLOW_SERIAL]
