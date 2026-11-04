@@ -1,11 +1,11 @@
 {
- "ts": "2026-11-04T11:22:50",
- "cycle": 2,
+ "ts": "2026-11-04T11:25:28",
+ "cycle": 3,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-04T11:22:50",
+ "master_tick_ts": "2026-11-04T11:25:28",
  "queue": {
-  "total": 429,
+  "total": 430,
   "open": 32,
   "running": 3,
   "done": 157,
@@ -14,10 +14,10 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 36.6,
-   "cpu_load_pct": 74,
-   "ram_free_gb": 40.7,
-   "gpu_util_pct": 65,
+   "hb_age_s": 14.7,
+   "cpu_load_pct": 70,
+   "ram_free_gb": 41.6,
+   "gpu_util_pct": 54,
    "job": "bigstream-mv-stability-2026-11-04",
    "last_result": {
     "job": "asset-lib-voice-assemble-2026-11-03",
@@ -32,34 +32,34 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 51.4,
-   "cpu_load_pct": 8,
-   "ram_free_gb": 12.2,
-   "gpu_util_pct": 0,
+   "hb_age_s": 33.3,
+   "cpu_load_pct": 3,
+   "ram_free_gb": 11.7,
+   "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-04T11:20:03",
+    "ts": "2026-11-04T11:23:05",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 2
+   "idle_rounds": 3
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 47.4,
-   "cpu_load_pct": 6,
-   "ram_free_gb": 4.0,
+   "hb_age_s": 43.1,
+   "cpu_load_pct": 7,
+   "ram_free_gb": 3.9,
    "gpu_util_pct": 0,
-   "job": "asset-lib-face-caption-2026-11-03",
+   "job": "asset-lib-char-gen-2026-11-03",
    "last_result": {
-    "job": "asset-lib-char-prompts-2026-11-03",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-04T11:20:37",
+    "job": "asset-lib-face-caption-2026-11-03",
+    "state": "FAILED",
+    "rc": 3,
+    "ts": "2026-11-04T11:24:22",
     "reason": null
    },
    "idle_confirmed": false,
@@ -68,16 +68,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.7,
-   "cpu_load_pct": 16,
-   "ram_free_gb": 13.5,
+   "hb_age_s": 0.6,
+   "cpu_load_pct": 37,
+   "ram_free_gb": 11.7,
    "gpu_util_pct": null,
    "job": "bigstream-mv-transition-2026-11-04",
    "last_result": {
-    "job": "R-NEXT-BIGSTREAMM-GATE-20261104",
-    "state": "FAILED",
-    "rc": 1,
-    "ts": "2026-11-04T11:19:40",
+    "job": "CANARY-20261104T112426",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-04T11:24:27",
     "reason": null
    },
    "idle_confirmed": false,
@@ -87,7 +87,7 @@
  },
  "idle_rounds": {
   "bm-a": 0,
-  "bm-b": 2,
+  "bm-b": 3,
   "bm-c": 0,
   "bm-m": 0
  },
@@ -102,10 +102,12 @@
    "jobs": [
     "bigstream-mv-transition-2026-11-04",
     "bigstream-mv-stability-2026-11-04",
+    "R-NEXT-BIGSTREAMM-GATE-20261104",
     "R-NEXT-BIGSTREAMM-AUDIT-20261104"
    ],
    "no_supply": false,
    "blockers": [
+    "R-NEXT-BIGSTREAMM-GATE-20261104:no-lane",
     "R-NEXT-BIGSTREAMM-AUDIT-20261104:no-lane"
    ],
    "note": null,
@@ -328,14 +330,12 @@
    "stale_after_h": 72.0,
    "owner": "资产席",
    "jobs": [
-    "asset-lib-face-caption-2026-11-03",
     "asset-lib-char-gen-2026-11-03",
     "asset-lib-voice-corpus-bmb-2026-11-04",
     "asset-lib-char-gen-2026-11-04"
    ],
    "no_supply": false,
    "blockers": [
-    "asset-lib-char-gen-2026-11-03:no-lane",
     "asset-lib-voice-corpus-bmb-2026-11-04:no-lane",
     "asset-lib-char-gen-2026-11-04:no-lane"
    ],
@@ -873,28 +873,23 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 30,
-  "gpu": 2
+  "cpu": 31,
+  "gpu": 1
  },
  "supply_added": [
-  "backlog_manifest+2"
+  "backlog_manifest+1"
  ],
  "events": [
-  "asset-lib-voice-assemble-2026-11-03 FAILED via bm-a",
-  "asset-lib-char-prompts-2026-11-03 DONE via bm-c",
-  "R-NEXT-BIGSTREAMM-GATE-20261104 FAILED via bm-m",
-  "asset-lib-face-caption-2026-11-03 -> bm-c (gpu)",
-  "bigstream-mv-stability-2026-11-04 -> bm-a (cpu)",
-  "bigstream-mv-transition-2026-11-04 -> bm-m (cpu)"
+  "asset-lib-face-caption-2026-11-03 FAILED via bm-c",
+  "asset-lib-char-gen-2026-11-03 -> bm-c (gpu)",
+  "bigstream-mv-stability-2026-11-04 -> bm-a (cpu)"
  ],
  "violations": [
-  "bm-b IDLE-CONFIRMED x2 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-b IDLE-CONFIRMED x3 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-a",
-  "bm-c",
-  "bm-m"
+  "bm-c"
  ]
 }
