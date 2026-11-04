@@ -144,7 +144,10 @@ def git_publish(root, node, jid, paths):
 
 
 def _git_ro(root, args, timeout=120):
+    # encoding 必须写死 utf-8：Windows 的 text=True 走 cp936，而 git 输出的是 UTF-8
+    # （中文提交信息/回执名），解码错会让整个收口被判成 merge-failed（2026-11-05 实测）。
     return subprocess.run(["git", "-C", root] + args, capture_output=True, text=True,
+                          encoding="utf-8", errors="replace",
                           timeout=timeout, creationflags=CREATE_NO_WINDOW)
 
 
