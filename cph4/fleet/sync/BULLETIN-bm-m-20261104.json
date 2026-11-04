@@ -1,14 +1,20 @@
 {
  "node": "bm-m",
  "date": "20261104",
- "ts": "2026-11-04T16:58:33+0800",
+ "ts": "2026-11-04T17:04:29+0800",
  "window_h": 26,
  "produced": [
   {
    "path": "cph4/fleet/queue-receipts/skill-promote-20261104.json",
    "bytes": 2172,
-   "mtime": "2026-11-04T16:58:33",
-   "sha": "d8b552bfa55cb224cb988dcf5a656fee28df7e9667e0190bb3c1176c513e01d7"
+   "mtime": "2026-11-04T17:04:29",
+   "sha": "9afd458fe799e64fa52ab13516f78e98f4c7b14ce9f5808483f3a6a0a3b81dba"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/CHK-DUPES-20261103-bm-m.json",
+   "bytes": 2723,
+   "mtime": "2026-11-04T17:03:16",
+   "sha": "00855add18dcd253c12ad7a7f28d407239f41f8bb01e8db77fcb55faa5f6113a"
   },
   {
    "path": "cph4/fleet/queue-receipts/Q-MV-0001-017-bm-a.json",
@@ -45,12 +51,6 @@
    "bytes": 1997,
    "mtime": "2026-11-04T16:44:51",
    "sha": "cad9de6133dfa3868d0f696c012018df48a7443466fa5b2c3d8f77e73bbdac96"
-  },
-  {
-   "path": "cph4/fleet/queue-receipts/CHK-DUPES-20261103-bm-m.json",
-   "bytes": 2723,
-   "mtime": "2026-11-04T15:51:09",
-   "sha": "1da6b9d372186cebb7bcc44b13964fca9e5a0d39e22dfceae3354fa5070ab767"
   },
   {
    "path": "cph4/fleet/queue-receipts/asset-lib-voice-dataset-2026-11-04-bm-m.json",
@@ -481,10 +481,6 @@
  ],
  "blocked": [
   {
-   "what": "_last_lane_bm-m.json",
-   "why": "rc=3 "
-  },
-  {
    "what": "asset-lib-voice-corpus-bmm-2026-11-03",
    "why": "E-BLOCKED-INPUT [corpus] 本分片无输入（inbox 共 0 个文件）——等投料，rc=3\n"
   },
@@ -503,6 +499,10 @@
   {
    "what": "inference-audit-bm-m-20261104.json",
    "why": "rc=None "
+  },
+  {
+   "what": "R-NEXT-BIGSTREAMM-AUDIT-20261103",
+   "why": "E-UNKNOWN "
   }
  ],
  "job": null

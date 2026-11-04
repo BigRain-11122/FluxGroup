@@ -1,11 +1,11 @@
 {
- "ts": "2026-11-04T16:58:33",
+ "ts": "2026-11-04T17:04:29",
  "stage": 3,
  "adoption": {
   "days": 3,
-  "applied": 775,
-  "total": 557,
-  "rate": 139.1,
+  "applied": 778,
+  "total": 559,
+  "rate": 139.2,
   "eligible_stage4": false
  },
  "decisions": [
@@ -19,15 +19,6 @@
    "result": "applied"
   },
   {
-   "kind": "requeue",
-   "why": "1 张卡在跑但 1 小时无回执",
-   "target": [
-    "bigstream-mv-transition-2026-11-04"
-   ],
-   "min_stage": 3,
-   "result": "applied"
-  },
-  {
    "kind": "escalate",
    "why": "P0 线 24h 无产物：2 条",
    "target": [
@@ -38,13 +29,6 @@
    "result": "applied"
   }
  ],
- "applied": [
-  {
-   "kind": "requeue",
-   "ids": [
-    "bigstream-mv-transition-2026-11-04"
-   ]
-  }
- ],
+ "applied": [],
  "brief": "/Users/junsheng.sun/FluxGroup/cph4/fleet/chief/BRIEF-20261104.md"
 }
