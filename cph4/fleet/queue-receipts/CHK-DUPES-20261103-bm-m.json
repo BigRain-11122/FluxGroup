@@ -2,7 +2,7 @@
  "id": "CHK-DUPES-20261103",
  "node": "bm-m",
  "rc": 0,
- "seconds": 13.4,
+ "seconds": 1.9,
  "cmd": "python3 Tools/fleet/semantic_dupes.py --json cph4/fleet/queue-receipts/dupes-scan-20261103.json",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": "E-ARTIFACT",
  "deliverable": "cph4/fleet/dupes-scan-20261103.json",
  "deliverable_exists": false,
- "ts": "2026-11-04T20:09:21",
- "stdout_tail": "SEMANTIC-DUPES rows=412 live=9 groups=1 th=0.72\n- 可能同一件事（2 张）：\n    R-MODEL-RADAR-BMA-20261103         OPEN      本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-a）\n    R-MODEL-RADAR-BMB-20261103         RUNNING   本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-b）\n",
+ "ts": "2026-11-04T23:16:02",
+ "stdout_tail": "RP-PREP-e05-R2-20261104 (HTTP Error 503: Service Unavailable)\nskip Q-VCORP-PREP-e06-R2-20261104 (HTTP Error 503: Service Unavailable)\nskip Q-VCORP-PREP-e07-R2-20261104 (HTTP Error 503: Service Unavailable)\nskip Q-VCORP-PREP-e08-R2-20261104 (HTTP Error 503: Service Unavailable)\nskip Q-VCORP-PREP-z01-R2-20261104 (HTTP Error 503: Service Unavailable)\nskip Q-VCORP-PREP-z02-R2-20261104 (HTTP Error 503: Service Unavailable)\nskip Q-VCORP-PREP-z03-R2-20261104 (HTTP Error 503: Service Unavailable)\nskip Q-VCORP-PREP-z04-R2-20261104 (HTTP Error 503: Service Unavailable)\nskip Q-VCORP-PREP-z05-R2-20261104 (HTTP Error 503: Service Unavailable)\nskip Q-VCORP-PREP-z06-R2-20261104 (HTTP Error 503: Service Unavailable)\nskip Q-VCORP-PREP-z07-R2-20261104 (HTTP Error 503: Service Unavailable)\nskip Q-VCORP-PREP-z08-R2-20261104 (HTTP Error 503: Service Unavailable)\nskip Q-VCORP-TRAIN-PILOT-aishell3-z01-R2-20261104 (HTTP Error 503: Service Unavailable)\nskip Q-VCORP-TRAIN-PILOT-libritts-e01-R2-20261104 (HTTP Error 503: Service Unavailable)\nskip Q-FACE-BOARD-BMC-R2-20261104 (HTTP Error 503: Service Unavailable)\nskip Q-PLATFORM-PACK-SAMPLE-R2-20261104 (HTTP Error 503: Service Unavailable)\nskip CANARY-20261104T201032 (HTTP Error 503: Service Unavailable)\nskip PROBE-BMB-AUDIOQC-20261104 (HTTP Error 503: Service Unavailable)\nskip CANARY-20261104T202057 (HTTP Error 503: Service Unavailable)\nskip MV-NEWPROC-PACKET-20261104 (HTTP Error 503: Service Unavailable)\nSEMANTIC-DUPES rows=440 live=0 groups=0 th=0.72\n",
  "stderr_tail": ""
 }

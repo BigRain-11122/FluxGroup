@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
  "ts": 1793804543.3245292,
  "ages": {
   "bigstream-mv/mv-plan": 22.9,
@@ -39,5 +40,47 @@
   "asset-lib/asset-env": 2.9,
   "asset-lib/asset-dataset": 0.0,
   "asset-lib/asset-train": 2.9
+=======
+ "ts": 1793795227.971513,
+ "ages": {
+  "bigstream-mv/mv-plan": 8.4,
+  "bigstream-mv/mv-kf": 49.1,
+  "bigstream-mv/mv-i2v": null,
+  "bigstream-mv/mv-cut": 53.5,
+  "bigstream-mv/mv-gate": null,
+  "bigstream-mv/mv-approve": 8.4,
+  "bigstream-drama/drama-script": 1.0,
+  "bigstream-drama/drama-kf": null,
+  "bigstream-drama/drama-voice": null,
+  "bigstream-drama/drama-mix": null,
+  "bigstream-duanju/duanju-script": 121.7,
+  "bigstream-duanju/duanju-board": 121.7,
+  "bigstream-shortvideo/sv-script": 55.3,
+  "bigstream-shortvideo/sv-cut": 121.7,
+  "biggame/game-design": 27.1,
+  "biggame/game-art": null,
+  "biggame/game-build": null,
+  "fluxverse/city-assemble": null,
+  "fluxverse/city-data": null,
+  "fluxverse/city-viz": null,
+  "bigmoney/quant-data": 8.4,
+  "bigmoney/quant-backtest": null,
+  "bigmoney/quant-audit": null,
+  "bigdomain/domain-lead": null,
+  "bigdomain/domain-order": null,
+  "bigcompute/compute-deal": null,
+  "biglife/life-gen": null,
+  "biglife/life-gate": null,
+  "bighouse/house-movein": null,
+  "bighouse/house-neighbor": null,
+  "car-gaming/car-market": 48.5,
+  "car-gaming/car-build": null,
+  "recon/recon-scan": 121.7,
+  "recon/recon-proto": 121.7,
+  "fleet-ops/ops-canary": 0.1,
+  "asset-lib/asset-env": 0.5,
+  "asset-lib/asset-dataset": 0.0,
+  "asset-lib/asset-train": 0.5
+>>>>>>> b0d0b3f07 (pulse: dispatch snapshot [via bm-m])
  }
 }
