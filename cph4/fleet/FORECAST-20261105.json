@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-05T01:47:34+0800",
+ "ts": "2026-11-05T01:59:49+0800",
  "alert_days": 2.0,
  "lines": [
   {
@@ -40,9 +40,9 @@
    "line": "bigstream-duanju",
    "status": "PARKED",
    "prio": "P0",
-   "stock": 4,
+   "stock": 2,
    "rate_per_day": 1.33,
-   "runway_days": 3.0,
+   "runway_days": 1.5,
    "has_table": true,
    "blocker": {
     "stage": "inventory",

@@ -1,6 +1,6 @@
-# 雷达（2026-11-05T01:47:34+0800）
+# 雷达（2026-11-05T01:59:49+0800）
 
-源状态：github=SKIP(next in 4.9h) · arxiv=SKIP(next in 134.9h)
+源状态：github=SKIP(next in 4.7h) · arxiv=SKIP(next in 134.7h)
 
 本周新见 0 条，够格进研判 0 条（阈值 score≥7）
 

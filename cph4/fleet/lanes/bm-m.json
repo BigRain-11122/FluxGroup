@@ -1,25 +1,23 @@
 {
  "node": "bm-m",
- "ts": "2026-11-05T02:00:00",
+ "ts": "2026-11-05T02:01:18",
  "jobs": [
   {
-   "id": "Q-VCORP-PREP-e01-R3-20261105",
-   "title": "音色语料切片·e01（LibriTTS → voices/e01/sliced，纯 CPU）",
-   "cmd": "python C:/Fluxgroup/FleetAgent/Tools/fleet/voice_corpus_prep.py --inbox C:/Fluxgroup/FluxGroup/media/asset/inbox/e01 --group e01 --shard 0/1 --receipt C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-prep-e01-r3-20261105.json",
-   "cwd": "C:/Fluxgroup/FluxGroup",
+   "id": "CHK-RECEIPT-20261103",
+   "title": "回执卫生体检（rc 缺失/error_class 缺失出表）（bm-m 兜底体检）",
+   "cmd": "python3 Tools/fleet/receipt_attrib.py --out cph4/fleet/queue-receipts/receipt-attrib-20261103.json",
+   "cwd": "",
    "needs": "cpu",
-   "deliverable": "C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-prep-e01-r3-20261105.json",
+   "deliverable": "cph4/fleet/receipt-attrib-20261103.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
-   "when_all": [
-    "C:/Fluxgroup/FluxGroup/media/asset/inbox/e01"
-   ],
+   "when_all": [],
    "llm": null,
-   "timeout_s": 3600
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 18.7/1.0 GB"
+ "capacity_note": "ram 18.3/1.0 GB"
 }
