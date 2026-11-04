@@ -1,8 +1,25 @@
 {
  "node": "bm-b",
- "ts": "2026-11-05T01:35:38",
- "jobs": [],
- "idle_reason": "CAPACITY-BLOCKED-RAM CPU-SATURATED 100%",
+ "ts": "2026-11-05T01:36:58",
+ "jobs": [
+  {
+   "id": "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105",
+   "title": "音色微调试点·libritts-e01（语料→SoVITS s2→权重，DE-AI-SPEC A8 批前抽检）",
+   "cmd": "python C:/Fluxgroup/FleetAgent/Tools/voicebank/vb_train_card.py --voice libritts-e01 --raw C:/Fluxgroup/FluxGroup/media/asset/inbox/e01 --receipt C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-train-libritts-e01-r3-20261105.json",
+   "cwd": "C:/Fluxgroup/FleetAgent",
+   "needs": "gpu",
+   "deliverable": "C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-train-libritts-e01-r3-20261105.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [
+    "C:/Fluxgroup/FluxGroup/media/asset/voices/e01/sliced"
+   ],
+   "llm": null,
+   "timeout_s": 14400
+  }
+ ],
+ "idle_reason": "",
  "lane_ok": false,
  "capacity_note": "CPU-SATURATED 100%"
 }
