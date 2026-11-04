@@ -1,29 +1,29 @@
 {
- "ts": "2026-11-05T01:19:16",
- "cycle": 9,
+ "ts": "2026-11-05T01:20:44",
+ "cycle": 10,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-05T01:19:16",
+ "master_tick_ts": "2026-11-05T01:20:44",
  "queue": {
   "total": 469,
-  "open": 35,
+  "open": 34,
   "running": 4,
   "done": 179,
-  "failed": 26
+  "failed": 27
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 58.0,
-   "cpu_load_pct": 32,
-   "ram_free_gb": 14,
-   "gpu_util_pct": 64,
-   "job": "asset-lib-env-check-2026-11-05",
+   "hb_age_s": 20.7,
+   "cpu_load_pct": 48,
+   "ram_free_gb": 19.8,
+   "gpu_util_pct": 91,
+   "job": "Q-VCORP-PREP-e01-R3-20261105",
    "last_result": {
-    "job": "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105",
+    "job": "asset-lib-env-check-2026-11-05",
     "state": "FAILED",
-    "rc": null,
-    "ts": "2026-11-05T01:15:04",
+    "rc": 1,
+    "ts": "2026-11-05T01:20:07",
     "reason": null
    },
    "idle_confirmed": false,
@@ -32,9 +32,9 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 544.5,
-   "cpu_load_pct": null,
-   "ram_free_gb": null,
+   "hb_age_s": 36.0,
+   "cpu_load_pct": 100,
+   "ram_free_gb": 9.9,
    "gpu_util_pct": null,
    "job": "asset-lib-asset-gen-2026-11-05",
    "last_result": null,
@@ -44,16 +44,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 47.5,
-   "cpu_load_pct": 14,
-   "ram_free_gb": 4.0,
+   "hb_age_s": 42.2,
+   "cpu_load_pct": 10,
+   "ram_free_gb": 3.9,
    "gpu_util_pct": 0,
-   "job": "asset-lib-face-dataset-2026-11-05",
+   "job": "asset-lib-char-gen-2026-11-05",
    "last_result": {
-    "job": "asset-lib-voice-dataset-2026-11-05",
+    "job": "asset-lib-face-dataset-2026-11-05",
     "state": "FAILED",
     "rc": 1,
-    "ts": "2026-11-05T01:18:41",
+    "ts": "2026-11-05T01:20:11",
     "reason": null
    },
    "idle_confirmed": false,
@@ -62,16 +62,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.9,
-   "cpu_load_pct": 29,
-   "ram_free_gb": 18.5,
+   "hb_age_s": 1.0,
+   "cpu_load_pct": 20,
+   "ram_free_gb": 19.0,
    "gpu_util_pct": null,
-   "job": "bigstream-mv-gate-2026-11-05",
+   "job": "CHK-DUPES-20261103",
    "last_result": {
-    "job": "Q-VCORP-PREP-e01-R3-20261105",
+    "job": "bigstream-mv-gate-2026-11-05",
     "state": "FAILED",
-    "rc": null,
-    "ts": "2026-11-05T01:18:03",
+    "rc": 1,
+    "ts": "2026-11-05T01:19:21",
     "reason": null
    },
    "idle_confirmed": false,
@@ -95,8 +95,7 @@
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
    "jobs": [
     "R-NEXT-BIGSTREAMM-GATE-20261105",
-    "R-NEXT-BIGSTREAMM-AUDIT-20261105",
-    "bigstream-mv-gate-2026-11-05"
+    "R-NEXT-BIGSTREAMM-AUDIT-20261105"
    ],
    "no_supply": false,
    "blockers": [
@@ -317,7 +316,6 @@
    "no_supply": false,
    "blockers": [
     "CHK-RECEIPT-20261103:no-lane",
-    "CHK-DUPES-20261103:no-lane",
     "CANARY-20261104T125141:no-lane",
     "CANARY-20261104T132721:no-lane",
     "CANARY-20261104T140742:no-lane",
@@ -339,14 +337,14 @@
    "stale_after_h": 72.0,
    "owner": "资产席",
    "jobs": [
-    "asset-lib-env-check-2026-11-05",
-    "asset-lib-face-dataset-2026-11-05",
+    "Q-VCORP-PREP-e01-R3-20261105",
+    "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105",
     "asset-lib-asset-gen-2026-11-05",
     "asset-lib-char-gen-2026-11-05"
    ],
    "no_supply": false,
    "blockers": [
-    "asset-lib-char-gen-2026-11-05:no-lane"
+    "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105:no-lane"
    ],
    "note": "CEO 2026-11-03：先储备资产，角色 LoRA 与音色库为 P0"
   }
@@ -886,22 +884,25 @@
  "routing": {
   "local": 34,
   "cloud": 0,
-  "queue": 1,
+  "queue": 0,
   "blocked": 0,
   "cloud_spend_today": 0,
   "waste": []
  },
  "supply_gap": {
-  "cpu": 34,
+  "cpu": 33,
   "gpu": 1
  },
  "supply_added": [
   "backlog_manifest+2"
  ],
  "events": [
-  "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105 FAILED via bm-a",
-  "Q-VCORP-PREP-e01-R3-20261105 FAILED via bm-m",
-  "bigstream-mv-gate-2026-11-05 -> bm-m (cpu)"
+  "asset-lib-env-check-2026-11-05 FAILED via bm-a",
+  "asset-lib-face-dataset-2026-11-05 FAILED via bm-c",
+  "bigstream-mv-gate-2026-11-05 FAILED via bm-m",
+  "asset-lib-char-gen-2026-11-05 -> bm-c (gpu)",
+  "Q-VCORP-PREP-e01-R3-20261105 -> bm-a (cpu)",
+  "CHK-DUPES-20261103 -> bm-m (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
@@ -909,6 +910,8 @@
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
+  "bm-a",
+  "bm-c",
   "bm-m"
  ]
 }
