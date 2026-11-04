@@ -1,25 +1,7 @@
 {
- "ts": "2026-11-04T17:39:54+0800",
+ "ts": "2026-11-04T18:00:59+0800",
  "alert_days": 2.0,
  "lines": [
-  {
-   "line": "bigstream-mv",
-   "status": "ACTIVE",
-   "prio": "P0",
-   "stock": 4,
-   "rate_per_day": 4.67,
-   "runway_days": 0.9,
-   "has_table": true,
-   "blocker": {
-    "stage": "gate",
-    "deliverable": "cph4/fleet/queue-receipts/mv-gate-v721-20261104.json",
-    "needs": "cpu",
-    "hard_nodes": []
-   },
-   "flags": [
-    "ALERT"
-   ]
-  },
   {
    "line": "bigstream-duanju",
    "status": "PARKED",
@@ -42,9 +24,9 @@
    "line": "biggame",
    "status": "ACTIVE",
    "prio": "P0",
-   "stock": 3,
+   "stock": 4,
    "rate_per_day": 1.0,
-   "runway_days": 3.0,
+   "runway_days": 4.0,
    "has_table": true,
    "blocker": {
     "stage": "pack-scan",
@@ -55,16 +37,16 @@
    "flags": []
   },
   {
-   "line": "asset-lib",
+   "line": "bigstream-mv",
    "status": "ACTIVE",
    "prio": "P0",
-   "stock": 1,
-   "rate_per_day": 2.67,
-   "runway_days": 0.4,
+   "stock": 3,
+   "rate_per_day": 4.67,
+   "runway_days": 0.6,
    "has_table": true,
    "blocker": {
-    "stage": "env-check",
-    "deliverable": "cph4/fleet/queue-receipts/asset-env-20261104.json",
+    "stage": "gate",
+    "deliverable": "cph4/fleet/queue-receipts/mv-gate-v721-20261104.json",
     "needs": "cpu",
     "hard_nodes": []
    },
@@ -102,6 +84,24 @@
    "flags": [
     "NO-TABLE",
     "INACTIVE"
+   ]
+  },
+  {
+   "line": "asset-lib",
+   "status": "ACTIVE",
+   "prio": "P0",
+   "stock": 0,
+   "rate_per_day": 2.67,
+   "runway_days": 0.0,
+   "has_table": true,
+   "blocker": {
+    "stage": "env-check",
+    "deliverable": "cph4/fleet/queue-receipts/asset-env-20261104.json",
+    "needs": "cpu",
+    "hard_nodes": []
+   },
+   "flags": [
+    "ALERT"
    ]
   },
   {
@@ -183,13 +183,14 @@
    "line": "fleet-ops",
    "status": "ACTIVE",
    "prio": "P3",
-   "stock": 13,
+   "stock": 12,
    "rate_per_day": 6.33,
-   "runway_days": 2.1,
+   "runway_days": 1.9,
    "has_table": false,
    "blocker": null,
    "flags": [
-    "NO-TABLE"
+    "NO-TABLE",
+    "ALERT"
    ]
   },
   {
@@ -234,6 +235,6 @@
    ]
   }
  ],
- "alerts": 2,
+ "alerts": 3,
  "no_table": 6
 }

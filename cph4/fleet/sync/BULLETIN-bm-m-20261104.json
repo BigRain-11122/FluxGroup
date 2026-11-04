@@ -1,14 +1,38 @@
 {
  "node": "bm-m",
  "date": "20261104",
- "ts": "2026-11-04T17:39:54+0800",
+ "ts": "2026-11-04T18:00:59+0800",
  "window_h": 26,
  "produced": [
   {
    "path": "cph4/fleet/queue-receipts/skill-promote-20261104.json",
    "bytes": 2172,
-   "mtime": "2026-11-04T17:39:54",
-   "sha": "d92bc2b43ab16dfe5fcae79ee1f6ff1f90261980258c185a7ac30cc3edde19bb"
+   "mtime": "2026-11-04T18:00:59",
+   "sha": "8a738ee80a050d4bf266215110507c0c46a425f7fb818622ccb6b9cea872b9a9"
+  },
+  {
+   "path": "media/review-720p/T_glyphs_f1-720p.mp4",
+   "bytes": 1198405,
+   "mtime": "2026-11-04T17:42:12",
+   "sha": "eb7d5fbaf71aa6f403c50c8188d59088a4d2db3fadeb4d13335ecc82c897c032"
+  },
+  {
+   "path": "media/review-720p/drama-sample-v1-720p.mp4",
+   "bytes": 4653898,
+   "mtime": "2026-11-04T17:42:11",
+   "sha": "7c67b7c9edf96451a29a17b37f23cea0bc4eb20eadbf142693d6d1606df26088"
+  },
+  {
+   "path": "media/review-720p/S9_profile-720p.mp4",
+   "bytes": 1798064,
+   "mtime": "2026-11-04T17:42:11",
+   "sha": "e1aafc22ecc6f2690be1bb2918d9f7727c565a71e498259cef441e86bf5c23d0"
+  },
+  {
+   "path": "media/review-720p/S8_case-720p.mp4",
+   "bytes": 2032709,
+   "mtime": "2026-11-04T17:42:10",
+   "sha": "8661c964cf0fc0500c838439fcf8453eebf8025444165cb87f825bc1b63ec896"
   },
   {
    "path": "media/review-720p/S7_hall-720p.mp4",
@@ -500,7 +524,7 @@
  "blocked": [
   {
    "what": "_last_lane_bm-m.json",
-   "why": "rc=None "
+   "why": "rc=1 "
   },
   {
    "what": "asset-lib-voice-corpus-bmm-2026-11-03",
@@ -515,12 +539,12 @@
    "why": "E-BLOCKED-INPUT "
   },
   {
-   "what": "R-NEXT-BIGSTREAMM-AUDIT-20261103",
-   "why": "E-UNKNOWN "
+   "what": "inference-audit-bm-m-20261104.json",
+   "why": "rc=None "
   },
   {
-   "what": "asset-lib-face-dataset-2026-11-04",
-   "why": "E-UNKNOWN DATASET FAIL  media/asset/faces\n  {\"mode\": \"face\", \"count\": 0, \"min_side\": null,"
+   "what": "R-NEXT-BIGSTREAMM-AUDIT-20261103",
+   "why": "E-UNKNOWN "
   }
  ],
  "job": null

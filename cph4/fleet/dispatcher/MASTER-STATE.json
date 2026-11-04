@@ -1,29 +1,29 @@
 {
- "ts": "2026-11-04T17:52:32",
- "cycle": 152,
+ "ts": "2026-11-04T18:02:01",
+ "cycle": 153,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-04T17:52:32",
+ "master_tick_ts": "2026-11-04T18:02:01",
  "queue": {
   "total": 420,
-  "open": 33,
+  "open": 31,
   "running": 3,
   "done": 154,
-  "failed": 22
+  "failed": 23
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 18.7,
-   "cpu_load_pct": 43,
-   "ram_free_gb": 29,
-   "gpu_util_pct": 92,
-   "job": "R-MODEL-RADAR-BMC-20261103",
+   "hb_age_s": 47.5,
+   "cpu_load_pct": 65,
+   "ram_free_gb": 27.9,
+   "gpu_util_pct": 89,
+   "job": "bigstream-mv-transition-2026-11-04",
    "last_result": {
     "job": "biggame-playable-2026-11-03",
-    "state": "RUNNING",
-    "rc": null,
-    "ts": "2026-11-04T17:50:15",
+    "state": "FAILED",
+    "rc": 0,
+    "ts": "2026-11-04T18:00:57",
     "reason": null
    },
    "idle_confirmed": false,
@@ -32,16 +32,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 24.6,
-   "cpu_load_pct": 4,
-   "ram_free_gb": 12.1,
+   "hb_age_s": 6.8,
+   "cpu_load_pct": 3,
+   "ram_free_gb": 12.3,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
-    "job": "asset-lib-voice-corpus-bmb-2026-11-03",
-    "state": "FAILED",
-    "rc": 3,
-    "ts": "2026-11-04T17:49:17",
+    "job": "CANARY-20261103T200141",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-04T17:59:31",
     "reason": null
    },
    "idle_confirmed": false,
@@ -50,16 +50,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 7.8,
-   "cpu_load_pct": 8,
-   "ram_free_gb": 2.9,
+   "hb_age_s": 145.3,
+   "cpu_load_pct": 10,
+   "ram_free_gb": 2.7,
    "gpu_util_pct": 0,
-   "job": "bigstream-mv-transition-2026-11-04",
+   "job": "R-MODEL-RADAR-BMC-20261103",
    "last_result": {
     "job": "CHK-DUPES-20261103",
     "state": "FAILED",
     "rc": 9009,
-    "ts": "2026-11-04T17:49:13",
+    "ts": "2026-11-04T17:59:52",
     "reason": null
    },
    "idle_confirmed": false,
@@ -69,15 +69,15 @@
   "bm-m": {
    "online": true,
    "hb_age_s": 0.8,
-   "cpu_load_pct": 16,
-   "ram_free_gb": 13.5,
+   "cpu_load_pct": 20,
+   "ram_free_gb": 13.6,
    "gpu_util_pct": null,
-   "job": "biggame-playable-2026-11-03",
+   "job": "CANARY-20261103T201026",
    "last_result": {
     "job": "bigstream-mv-stability-2026-11-04",
     "state": "FAILED",
     "rc": 1,
-    "ts": "2026-11-04T17:49:16",
+    "ts": "2026-11-04T17:58:31",
     "reason": null
    },
    "idle_confirmed": false,
@@ -158,7 +158,6 @@
    "stale_after_h": 24.0,
    "owner": "游戏席",
    "jobs": [
-    "biggame-playable-2026-11-03",
     "R-PLAN-BIGGAME-20261104"
    ],
    "no_supply": false,
@@ -299,7 +298,6 @@
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
    "jobs": [
-    "CANARY-20261103T200141",
     "CANARY-20261103T201026",
     "CANARY-20261103T221514",
     "CANARY-20261104T125141",
@@ -314,8 +312,6 @@
    ],
    "no_supply": false,
    "blockers": [
-    "CANARY-20261103T200141:no-lane",
-    "CANARY-20261103T201026:no-lane",
     "CANARY-20261103T221514:no-lane",
     "CANARY-20261104T125141:no-lane",
     "CANARY-20261104T125241:no-lane",
@@ -875,7 +871,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 33,
+  "local": 31,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -883,16 +879,19 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 33,
+  "cpu": 31,
   "gpu": 0
  },
  "supply_added": [
-  "backlog_manifest+2"
+  "backlog_manifest+1"
  ],
  "events": [
-  "CHK-DUPES-20261103 FAILED via bm-c",
+  "biggame-playable-2026-11-03 FAILED via bm-a",
+  "CANARY-20261103T200141 UNVERIFIED(no-artifact-yet) via bm-b",
   "bigstream-mv-stability-2026-11-04 FAILED via bm-m",
-  "biggame-playable-2026-11-03 -> bm-m (cpu)"
+  "bigstream-mv-transition-2026-11-04 -> bm-a (cpu)",
+  "R-MODEL-RADAR-BMC-20261103 -> bm-c (cpu)",
+  "CANARY-20261103T201026 -> bm-m (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
@@ -900,6 +899,8 @@
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
+  "bm-a",
+  "bm-c",
   "bm-m"
  ]
 }

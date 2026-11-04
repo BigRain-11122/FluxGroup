@@ -793,3 +793,7 @@
 {"ts": "2026-11-04T17:34:27", "stage": 3, "read": {"running": 3, "open": 35, "ready": 18, "red": 8}, "judged": "P0 线 24h 无产物：2 条", "action": "escalate", "target": ["p0:bigstream-duanju:no-output", "p0:bigstream-shortvideo:no-output"], "result": "applied"}
 {"ts": "2026-11-04T17:39:54", "stage": 3, "read": {"running": 3, "open": 34, "ready": 18, "red": 8}, "judged": "1 台机空转且有活", "action": "flag", "target": ["bm-b"], "result": "applied"}
 {"ts": "2026-11-04T17:39:54", "stage": 3, "read": {"running": 3, "open": 34, "ready": 18, "red": 8}, "judged": "P0 线 24h 无产物：2 条", "action": "escalate", "target": ["p0:bigstream-duanju:no-output", "p0:bigstream-shortvideo:no-output"], "result": "applied"}
+{"ts": "2026-11-04T17:50:30", "stage": 3, "read": {"running": 3, "open": 33, "ready": 18, "red": 8}, "judged": "1 台机空转且有活", "action": "flag", "target": ["bm-b"], "result": "applied"}
+{"ts": "2026-11-04T17:50:30", "stage": 3, "read": {"running": 3, "open": 33, "ready": 18, "red": 8}, "judged": "P0 线 24h 无产物：2 条", "action": "escalate", "target": ["p0:bigstream-duanju:no-output", "p0:bigstream-shortvideo:no-output"], "result": "applied"}
+{"ts": "2026-11-04T18:00:59", "stage": 3, "read": {"running": 3, "open": 33, "ready": 17, "red": 8}, "judged": "1 台机空转且有活", "action": "flag", "target": ["bm-b"], "result": "applied"}
+{"ts": "2026-11-04T18:00:59", "stage": 3, "read": {"running": 3, "open": 33, "ready": 17, "red": 8}, "judged": "P0 线 24h 无产物：2 条", "action": "escalate", "target": ["p0:bigstream-duanju:no-output", "p0:bigstream-shortvideo:no-output"], "result": "applied"}
