@@ -1,24 +1,24 @@
 {
- "ts": "2026-11-04T23:20:37",
- "cycle": 3,
+ "ts": "2026-11-04T23:22:02",
+ "cycle": 4,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-04T23:20:37",
+ "master_tick_ts": "2026-11-04T23:22:02",
  "queue": {
-  "total": 434,
-  "open": 4,
+  "total": 433,
+  "open": 3,
   "running": 4,
-  "done": 179,
+  "done": 180,
   "failed": 25
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 23.3,
-   "cpu_load_pct": 60,
-   "ram_free_gb": 9,
-   "gpu_util_pct": 60,
-   "job": "R-TRIAGE-BIGLIFE-BMA-20261104",
+   "hb_age_s": 48.2,
+   "cpu_load_pct": 70,
+   "ram_free_gb": 13.8,
+   "gpu_util_pct": 88,
+   "job": "CANARY-20261104T202057",
    "last_result": {
     "job": null,
     "state": "IDLE",
@@ -32,10 +32,10 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 53.6,
+   "hb_age_s": 23.4,
    "cpu_load_pct": 25,
-   "ram_free_gb": 9.2,
-   "gpu_util_pct": 9,
+   "ram_free_gb": 10.5,
+   "gpu_util_pct": 5,
    "job": "PROBE-BMB-AUDIOQC-20261104",
    "last_result": {
     "job": null,
@@ -50,16 +50,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 56.7,
-   "cpu_load_pct": 6,
-   "ram_free_gb": 3.3,
-   "gpu_util_pct": 1,
-   "job": "CANARY-20261104T132721",
+   "hb_age_s": 22.7,
+   "cpu_load_pct": 7,
+   "ram_free_gb": 3.2,
+   "gpu_util_pct": 4,
+   "job": "CANARY-20261104T201032",
    "last_result": {
-    "job": "MV-NEWPROC-PACKET-20261104",
+    "job": "CANARY-20261104T132721",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-04T23:20:11",
+    "ts": "2026-11-04T23:21:49",
     "reason": null
    },
    "idle_confirmed": false,
@@ -68,16 +68,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.9,
-   "cpu_load_pct": 12,
-   "ram_free_gb": 19.0,
+   "hb_age_s": 1.1,
+   "cpu_load_pct": 25,
+   "ram_free_gb": 19.6,
    "gpu_util_pct": null,
    "job": "CHK-DUPES-20261103",
    "last_result": {
-    "job": "CHK-RECEIPT-20261103",
-    "state": "FAILED",
-    "rc": 2,
-    "ts": "2026-11-04T23:19:24",
+    "job": "CANARY-20261104T232200",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-04T23:22:00",
     "reason": null
    },
    "idle_confirmed": false,
@@ -269,15 +269,11 @@
    "owner": "中枢（机器判）",
    "jobs": [
     "CHK-DUPES-20261103",
-    "CANARY-20261104T132721",
     "CANARY-20261104T201032",
     "CANARY-20261104T202057"
    ],
    "no_supply": false,
-   "blockers": [
-    "CANARY-20261104T201032:no-lane",
-    "CANARY-20261104T202057:no-lane"
-   ],
+   "blockers": [],
    "note": null
   },
   "asset-lib": {
@@ -830,7 +826,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 4,
+  "local": 3,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -838,15 +834,15 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 4,
+  "cpu": 3,
   "gpu": 0
  },
  "supply_added": [],
  "events": [
-  "MV-NEWPROC-PACKET-20261104 DONE via bm-c",
-  "CHK-RECEIPT-20261103 FAILED via bm-m",
-  "CHK-DUPES-20261103 -> bm-m (cpu)",
-  "CANARY-20261104T132721 -> bm-c (cpu)"
+  "CANARY-20261104T132721 DONE via bm-c",
+  "PROBE-BMB-AUDIOQC-20261104 -> bm-b (cpu)",
+  "CANARY-20261104T201032 -> bm-c (cpu)",
+  "CANARY-20261104T202057 -> bm-a (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
@@ -854,7 +850,7 @@
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-c",
-  "bm-m"
+  "bm-a",
+  "bm-c"
  ]
 }

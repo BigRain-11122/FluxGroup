@@ -1,26 +1,74 @@
 {
  "node": "bm-m",
  "date": "20261104",
- "ts": "2026-11-04T22:46:09+0800",
+ "ts": "2026-11-04T23:22:00+0800",
  "window_h": 26,
  "produced": [
   {
    "path": "cph4/fleet/queue-receipts/skill-promote-20261104.json",
    "bytes": 2172,
-   "mtime": "2026-11-04T22:46:09",
-   "sha": "57d643d27df43af57322e0e8560ff586633fe9940418259dec2fceebd777d1ac"
+   "mtime": "2026-11-04T23:22:00",
+   "sha": "8232df201f8bc9702ad3eda9f3c7b82deba42ce82194c3c1d692ed55cf9f38c1"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/bigmoney-backtest-2026-11-03-v3-bm-b.json",
+   "bytes": 1738,
+   "mtime": "2026-11-04T23:20:35",
+   "sha": "96c5f3fc2cb846c696e59feffc55024e9c069ee0d41f18f708c4e2e986314c6d"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/NEEDWORK-MECH-20261104-bm-b.json",
+   "bytes": 2149,
+   "mtime": "2026-11-04T23:20:35",
+   "sha": "c106168f06571fb3f554483d286b534d4403b84dff14fafea9f560901aff10f0"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/model-radar-bm-b-20261103.json",
+   "bytes": 1040,
+   "mtime": "2026-11-04T23:20:35",
+   "sha": "b1ce1c5110e7db0a5edf7f1ceb16de3a24736f2810f673e5d39c5f12542c0b64"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/C-INFRA-AUDIT-BM-C-20261103-bm-b.json",
+   "bytes": 1050,
+   "mtime": "2026-11-04T23:20:35",
+   "sha": "0f1d5ac9518845817010c9ca21e08aaa48378bdd58bffea2536c53b6745ac72e"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/R-NEEDWORK-20261104-001-bm-m.json",
+   "bytes": 1760,
+   "mtime": "2026-11-04T23:18:04",
+   "sha": "dbd06f9f0b2a5073c6833b3aa2b230b562a5b6a7baf6276e39a3cfff829e26bf"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/bm-m-workprep.md",
+   "bytes": 1403,
+   "mtime": "2026-11-04T23:18:04",
+   "sha": "b0c90e262e68f23044cbf378417e30088c854fc9e6974e1ce21faae6d38d05fd"
   },
   {
    "path": "cph4/fleet/queue-receipts/review-packet-kn-20261104.md",
    "bytes": 1184,
-   "mtime": "2026-11-04T22:26:53",
+   "mtime": "2026-11-04T23:16:00",
    "sha": "55b73f500d64787a0b98373efa3d166edc0aae1d606564e56cb828a73394cb29"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/char-dataset-20261104.json",
+   "bytes": 1272,
+   "mtime": "2026-11-04T23:16:00",
+   "sha": "78e6ba8896a270b96ed83eff0a55f2cd222a744f2fe9009155c2d097191feb68"
   },
   {
    "path": "cph4/fleet/queue-receipts/review-packet-mv-20261104.md",
    "bytes": 1117,
-   "mtime": "2026-11-04T22:26:53",
+   "mtime": "2026-11-04T23:16:00",
    "sha": "1c70d1f9a91155e837916be3a1e0d38146183b49ea04925d17bea2a77753910a"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/char-gen-bm-c-20261104.json",
+   "bytes": 17960,
+   "mtime": "2026-11-04T23:16:00",
+   "sha": "af60ca7c869e85dd251928b4fababc8fb60d9ede285c06c1044b06fac92bf18b"
   },
   {
    "path": "cph4/fleet/queue-receipts/bigmoney-backtest-2026-11-04-bm-a.json",
@@ -293,12 +341,6 @@
    "sha": "ee3dbce0ca5294d78163611bb2280286bd7275cce57766920e0cc6e19a017afd"
   },
   {
-   "path": "cph4/fleet/queue-receipts/char-dataset-20261104.json",
-   "bytes": 1262,
-   "mtime": "2026-11-04T12:04:19",
-   "sha": "f65f6b9dace04cab76ff3616696e3fa8b0e25d839822752792a39f8a262a6351"
-  },
-  {
    "path": "cph4/fleet/queue-receipts/mv-gate-v721-verdict-20261104.md",
    "bytes": 1718,
    "mtime": "2026-11-04T12:04:19",
@@ -365,12 +407,6 @@
    "sha": "5c0c3773eeb5ea8cb0d9f8b3c52f14fb83bc19e66cad7543e93a08f798cd139f"
   },
   {
-   "path": "cph4/fleet/queue-receipts/char-gen-bm-c-20261104.json",
-   "bytes": 2141,
-   "mtime": "2026-11-04T12:04:19",
-   "sha": "defc8e680e89b060427aefba294cd16cae44d6caf72ad19280c5c580c3026df5"
-  },
-  {
    "path": "media/asset/characters/CH07/PROMPTS.json",
    "bytes": 12437,
    "mtime": "2026-11-04T03:19:09",
@@ -433,10 +469,6 @@
  ],
  "blocked": [
   {
-   "what": "_last_lane_bm-m.json",
-   "why": "rc=None "
-  },
-  {
    "what": "asset-lib-voice-corpus-bmm-2026-11-03",
    "why": "E-BLOCKED-INPUT [corpus] 本分片无输入（inbox 共 0 个文件）——等投料，rc=3\n"
   },
@@ -447,6 +479,10 @@
   {
    "what": "voice-corpus-bm-m-2026-11-04.json",
    "why": "E-BLOCKED-INPUT "
+  },
+  {
+   "what": "inference-audit-bm-m-20261104.json",
+   "why": "rc=None "
   },
   {
    "what": "R-NEXT-BIGSTREAMM-AUDIT-20261103",
