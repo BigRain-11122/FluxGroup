@@ -97,6 +97,24 @@ def find_weights(voice):
     return sorted(set(out))
 
 
+def ensure_torch_python():
+    """2026-11-05 bm-b fix: queue cards run with whatever `python` is first on PATH, and
+    on this node that interpreter has no torch (verified). vb_build is spawned with
+    sys.executable, so the whole card would die on `import torch`. Re-exec under the
+    GPT-SoVITS runtime venv (same interpreter for vb_build) - fixes every future
+    voice-train card regardless of how its cmd spells python."""
+    try:
+        import torch  # noqa: F401
+        return
+    except ImportError:
+        pass
+    venv_py = os.path.join(GPT_ROOT, "runtime", "Scripts", "python.exe")
+    if os.path.exists(venv_py) and os.path.abspath(sys.executable).lower() != os.path.abspath(venv_py).lower():
+        os.environ["VB_REEXEC_PY"] = sys.executable
+        os.execv(venv_py, [venv_py] + sys.argv)
+    raise SystemExit("no torch in %s and no runtime venv at %s" % (sys.executable, venv_py))
+
+
 def main(argv):
     ap = argparse.ArgumentParser()
     ap.add_argument("--voice", required=True)
@@ -105,6 +123,8 @@ def main(argv):
     ap.add_argument("--epochs", type=int, default=20)
     ap.add_argument("--minutes", type=float, default=30.0)
     a = ap.parse_args(argv)
+
+    ensure_torch_python()
 
     rec = {"ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "voice": a.voice, "raw": a.raw,
            "epochs": a.epochs, "minutes_target": a.minutes,
