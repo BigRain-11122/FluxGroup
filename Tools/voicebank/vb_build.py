@@ -310,13 +310,27 @@ def main():
         if off:
             log("PITCH-FILTER %s dropped %d gross-outlier clips" % (os.path.basename(line), off))
         base = len(clips)
+        kept2 = []
         for i, c in enumerate(keep):
             # rename to a stable global index so list.txt and the seg dir agree
             new = os.path.join(seg_dir, "%04d_%s" % (base + i + 1, os.path.basename(c["wav"])))
-            if os.path.exists(new):
-                os.remove(new)
-            os.replace(c["wav"], new)
-            c["wav"] = new
+            try:
+                if os.path.exists(new):
+                    os.remove(new)
+                os.replace(c["wav"], new)
+                c["wav"] = new
+                kept2.append(c)
+            except FileNotFoundError:
+                # 2026-11-05 fix (three live catches): a previous crashed run or a
+                # concurrent build already consumed this tmp segment. Adopt the
+                # renamed target when present, otherwise drop the clip - never crash.
+                if os.path.exists(new):
+                    c["wav"] = new
+                    kept2.append(c)
+                else:
+                    log("SEG-DROP %s (tmp consumed elsewhere, no target)"
+                        % os.path.basename(c["wav"]))
+        keep = kept2
         clips.extend(keep)
         f0_all.extend(c["f0"] for c in keep)
         log(line)
