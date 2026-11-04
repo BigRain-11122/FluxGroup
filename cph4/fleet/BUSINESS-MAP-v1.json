@@ -8,11 +8,11 @@
    "prio": "P0",
    "goal": "8 个原创角色包 + 音色库，反 AI 脸/反播音腔，成为所有内容线的可复用底座",
    "stage": "角色提示词包已出（48 张），出图未通；音色等投料",
-   "next_product": "传家宝出第一批角色图（8 角色 × 6 视角）",
+   "next_product": "修好打标判据后批量跑完 458 张，产 Caption 并进检索",
    "owner": "bm-c",
    "accept": "char-gen 回执 made>0 且无 failed；图进 faces/<ID> 并过准入闸",
    "blocker_type": "ENGINE",
-   "blocker": "char-probe 在 bm-c 上 rc=2 零回执，未定位（疑 checkout 落后）"
+   "blocker": "打标质量门与当前素材不匹配：抽 20 张 0 通过（理由是「只命中 0-2 个可见属性，像空话」），需改提示词/判据；另有 458 张待打"
   },
   {
    "id": "biggame",

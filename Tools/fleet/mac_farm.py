@@ -142,16 +142,25 @@ def main(argv):
         if used + est <= max(0.0, cap - reserve):
             plan.append(sid)
             used += est
-    if swap > 0:
-        plan = [p for p in plan if p == "cpu_rules"]     # 已经在换页：只跑不吃内存的规则活
+    # 换页判据不能是 swap>0：macOS 只要写过一次就留着零点几 MB，实测 0.5MB 就把 GPU 槽永久锁死。
+    # 用与脉冲 relieve_swap 同一口径：>1GB 才让路，1GB 以下视为历史残留。
+    if swap > 1024:
+        plan = [p for p in plan if p == "cpu_rules"]
 
-    if a.dry:
-        print("[mac-farm] free=%.1fGB wired=%.1fGB swap=%.1fMB reserve=%.1f → 可开槽=%s（占 %.1fGB）"
-              % (free, wired, swap, reserve, ",".join(plan) or "无", used))
-        print("[mac-farm] 排队：caption=%d proxy=%d asr=%d" % (todo["caption"], todo["proxy"], todo["asr"]))
-        return 0
+    # 打标熔断（2026-11-04 实测）：新图连续被质量门拒收、且单张从 6.9s 涨到 34s，
+    # 继续跑就是烧 GPU 换垃圾。最近一次 CAPTIONS 记录 verdict=FAIL 时本轮不再开模型槽，
+    # 把问题交给资产线改提示词/判据，而不是每小时重刷一遍。
+    cap_blocked = ""
+    try:
+        j = json.load(open(os.path.join(FLEET, "state", "caption-last.json"), encoding="utf-8"))
+        if str(j.get("verdict")).upper() == "FAIL":
+            cap_blocked = "上次打标 verdict=FAIL（%s）" % str((j.get("gaps") or ["全被拒"])[0])[:60]
+    except Exception:
+        pass
 
     jobs = []
+    if cap_blocked:
+        todo["caption"] = 0
     if "gpu_model" in plan and todo["caption"] > 0 and os.path.isdir(VAULT):
         # 批量按"预算能跑完"来定（实测 6.9s/张）：超预算会被 kill 成 rc=124，
         # 那一批的账就只剩"超时"，看起来像工具坏——其实是我给多了。

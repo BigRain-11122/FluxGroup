@@ -1,27 +1,34 @@
 {
- "ts": "2026-11-04T17:07:55",
+ "ts": "2026-11-04T17:12:06",
  "dir": "/Volumes/移动硬盘/FluxAssets/store",
  "model": "qwen3.5:4b-mlx",
  "trigger": "",
- "pending": 2,
+ "pending": 20,
  "written": 0,
  "rejected": [
   [
    "0374016d46ea8e8b94d0ff794a7dea360d3f18586356929f41ea865193c46805.png",
    "只命中 2 个可见属性，像空话",
-   "A hand reaches upward against a twilight sky with a water tower in the background, as paper airplanes and golden streaks"
+   "A hand reaches upward against a twilight sky with a water tower in the background, surrounded by floating paper airplane"
   ],
   [
    "041126a5b8f9eb7df7133c0f81248c566858c8881c26741854ca2b0d137dbf3e.png",
+   "只命中 1 个可见属性，像空话",
+   "A black screen with small yellow text at the bottom reading \"欢迎转载，请注明出处：大喵没鱼吃\" flanked by two downward-pointing triangle"
+  ],
+  [
+   "04c9f2b53663ff9a51deb3f9805acab2a1e5f0be3f0cfd3aeb3963add638f014.png",
    "只命中 0 个可见属性，像空话",
-   "A black screen with small text at the bottom reading \"欢迎转载，请注明出处：大喵没鱼吃\" in Chinese characters."
+   "A close-up view of a fire burning within a bamboo structure, with glowing embers and flames illuminating the scene from "
   ]
  ],
- "seconds": 68.2,
- "per_image_s": 34.1,
+ "seconds": 27.5,
+ "early_abort": "连续 3 张被拒且 0 成功，判提示词/判据不匹配",
+ "per_image_s": 1.4,
  "verdict": "FAIL",
  "gaps": [
-  "一条都没写成功，看 rejected 的原因"
+  "一条都没写成功，看 rejected 的原因",
+  "连续 3 张被拒且 0 成功，判提示词/判据不匹配"
  ],
  "status": "FAIL"
 }

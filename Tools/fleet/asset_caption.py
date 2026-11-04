@@ -123,6 +123,11 @@ def main(argv):
         ok, why = validate(text)
         if not ok:
             rec["rejected"].append([os.path.basename(p), why, text[:120]])
+            # 早停闸（2026-11-04 实测）：连续 3 张被拒且一张没写成，说明这批图与当前提示词/
+            # 判据不匹配，再跑就是每张 34 秒烧 GPU 换垃圾。停下来把问题交回资产线，而不是硬刷。
+            if not rec["written"] and len(rec["rejected"]) >= 3:
+                rec["early_abort"] = "连续 %d 张被拒且 0 成功，判提示词/判据不匹配" % len(rec["rejected"])
+                break
             continue
         body = ("%s, %s" % (a.trigger, text)) if a.trigger else text
         with open(txt, "w", encoding="utf-8") as f:
@@ -133,8 +138,17 @@ def main(argv):
     rec.update({"verdict": "PASS" if rec["written"] else "FAIL", "gaps": []})
     if not rec["written"]:
         rec["gaps"] = ["一条都没写成功，看 rejected 的原因"]
+        if rec.get("early_abort"):
+            rec["gaps"].append(rec["early_abort"])
     rec["status"] = rec["verdict"]
     emit(rec, a.out)
+    try:
+        st = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(
+            os.path.abspath(__file__)))), "cph4", "fleet", "state", "caption-last.json")
+        os.makedirs(os.path.dirname(st), exist_ok=True)
+        json.dump(rec, open(st, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+    except Exception:
+        pass
     print("[caption] 写 %d / 待 %d（%.1fs/张）%s"
           % (rec["written"], len(todo), rec["per_image_s"],
              "" if rec["written"] else "，全部被拒，看 rejected"))
