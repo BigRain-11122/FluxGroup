@@ -1,21 +1,21 @@
 {
- "ts": "2026-11-04T18:00:59",
+ "ts": "2026-11-04T18:21:06",
  "stage": 3,
  "adoption": {
   "days": 3,
-  "applied": 788,
-  "total": 564,
-  "rate": 139.7,
+  "applied": 790,
+  "total": 565,
+  "rate": 139.8,
   "eligible_stage4": false
  },
  "decisions": [
   {
-   "kind": "flag",
-   "why": "1 台机空转且有活",
+   "kind": "requeue",
+   "why": "1 张卡在跑但 1 小时无回执",
    "target": [
-    "bm-b"
+    "R-MODEL-RADAR-BMC-20261103"
    ],
-   "min_stage": 1,
+   "min_stage": 3,
    "result": "applied"
   },
   {
@@ -29,6 +29,13 @@
    "result": "applied"
   }
  ],
- "applied": [],
+ "applied": [
+  {
+   "kind": "requeue",
+   "ids": [
+    "R-MODEL-RADAR-BMC-20261103"
+   ]
+  }
+ ],
  "brief": "/Users/junsheng.sun/FluxGroup/cph4/fleet/chief/BRIEF-20261104.md"
 }
