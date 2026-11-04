@@ -387,6 +387,91 @@
      "status": "done"
     }
    ]
+  },
+  "mc": {
+   "label": "主控职责面（大脑的 12 个职责，逐条要证据）",
+   "doc": "cph4/fleet/MASTER-AGENT-v1.md",
+   "items": [
+    {
+     "id": "mc-sense",
+     "what": "感知：自家账本先自证干净",
+     "now": "Tools/fleet/queue_integrity.py + 脉冲 qcheck 站（2026-11-04）：冲突标记/坏行/重复 id/提交态脏账本一体检",
+     "status": "done"
+    },
+    {
+     "id": "mc-supply",
+     "what": "造活/供给：队列不许空",
+     "now": "night_plan→market/quality→line_plan→night_fill→bank_autofill→workgen 六站串行",
+     "status": "partial",
+     "trigger": "可派库存 11 < 机队可再吃 38 件（squeeze 口径）；库存长期低于可再派即判供给缺陷"
+    },
+    {
+     "id": "mc-dispatch",
+     "what": "派单：nodes 偏好可回落、hard_nodes 硬钉子、全离线则排队",
+     "now": "master_agent.choose_lane + fleet_lane.card_os_ok 双闸",
+     "status": "done"
+    },
+    {
+     "id": "mc-supervise",
+     "what": "监督/收口：DONE 必须有盘上交付物",
+     "now": "closer.artifact_ok（拒绝型回执不算交付）+ ops_metrics 状态唯一写入口",
+     "status": "done"
+    },
+    {
+     "id": "mc-solve",
+     "what": "解题：失败卡重排有上限并升级",
+     "now": "master_solver：一卡最多 2 次，超限写 SOLVER.md 的「谁/缺什么/怎么解」",
+     "status": "done"
+    },
+    {
+     "id": "mc-decide",
+     "what": "裁决收敛：ESCALATED 必须有 SLA 与到期默认",
+     "now": "local_judge.autodecide 只收敛 state=OPEN；4B 判不了的转 ESCALATED 后无人处理，实测 5 件自 2026-11-03 挂着（4 件 LINE-LATE + 1 件 CAPACITY）",
+     "status": "open",
+     "trigger": "ESCALATED 行年龄 > 24h 即到期；到期按题型给规则裁决，不许无声挂着"
+    },
+    {
+     "id": "mc-ceo",
+     "what": "待裁件默认推进：不许因为等 CEO 停工",
+     "now": "无机制。CEO 最高规则要求默认自动放行+事后复核，但 BUSINESS-MAP 里 4 条 STALLED 线全是 CEO/EXTERNAL 卡点，NEXT-ACTIONS 只写「CEO: —」就结束",
+     "status": "open",
+     "trigger": "卡点=CEO/EXTERNAL 时必须同时给「机队先做的准备件」+「到期未裁按默认继续」；只有不可逆/对外/花钱三类留给人"
+    },
+    {
+     "id": "mc-sync",
+     "what": "同步：机队互报，不要信息孤岛",
+     "now": "bulletin.py 发 BULLETIN-<机>-<日>.json 并合成 SYNC-BOARD，进脉冲慢批",
+     "status": "partial",
+     "trigger": "目前只有 bm-m 一份简报（其余机未升级到本版）；SYNC-BOARD 缺「谁等谁的产物」列"
+    },
+    {
+     "id": "mc-git",
+     "what": "版本面自愈：分叉收口不许用 rebase",
+     "now": "2026-11-04 三处禁 rebase：脉冲收口改 merge（生成态取远端、手写件冲突 abort）、lane 推送改 fetch+快进、solver 的 Q-SYNC 卡改 fetch+ff-only",
+     "status": "done"
+    },
+    {
+     "id": "mc-research",
+     "what": "调研：各席按频率扫网，不许重复扫",
+     "now": "radar 7 席（20h–150h）+ oss_radar 每日 1 次，负面词扣分",
+     "status": "partial",
+     "trigger": "部分源不可达（HF 直连超时）；席位未满 7 席产出时按 SEATS-v1 频率闸补扫"
+    },
+    {
+     "id": "mc-asset",
+     "what": "资产/经验回灌：产物与底层技术要成库并可备份",
+     "now": "lib_consolidate 六面归集（索引+sha 指针）+ memory_nightly 记忆瘦身",
+     "status": "partial",
+     "trigger": "vault 651 条指向未挂载移动盘（可达 0）；音色库 0 音频——挂盘/投料前任何「资产已备份」都不成立"
+    },
+    {
+     "id": "mc-self",
+     "what": "自我审计：宣称 vs 磁盘，交接要带事实",
+     "now": "handoff.py + digest/supervisor 一屏；每轮 pulse 四信号",
+     "status": "partial",
+     "trigger": "DONE 卡交付物不在盘（实测 42/132）时必须在交接页点名，不许只报绿"
+    }
+   ]
   }
  }
 }
