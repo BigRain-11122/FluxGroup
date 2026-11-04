@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-04T21:16:38+0800",
+ "ts": "2026-11-04T21:29:05+0800",
  "alert_days": 2.0,
  "lines": [
   {
@@ -24,9 +24,9 @@
    "line": "asset-lib",
    "status": "ACTIVE",
    "prio": "P0",
-   "stock": 1,
+   "stock": 2,
    "rate_per_day": 2.67,
-   "runway_days": 0.4,
+   "runway_days": 0.7,
    "has_table": true,
    "blocker": {
     "stage": "env-check",
@@ -108,7 +108,7 @@
   },
   {
    "line": "bigmoney",
-   "status": "ACTIVE",
+   "status": "PAUSED",
    "prio": "P1",
    "stock": 0,
    "rate_per_day": 1.67,
@@ -125,7 +125,7 @@
     ]
    },
    "flags": [
-    "ALERT"
+    "INACTIVE"
    ]
   },
   {
@@ -187,9 +187,9 @@
    "line": "fleet-ops",
    "status": "ACTIVE",
    "prio": "P3",
-   "stock": 7,
+   "stock": 6,
    "rate_per_day": 6.33,
-   "runway_days": 1.1,
+   "runway_days": 0.9,
    "has_table": false,
    "blocker": null,
    "flags": [
@@ -240,6 +240,6 @@
    ]
   }
  ],
- "alerts": 8,
+ "alerts": 7,
  "no_table": 6
 }
