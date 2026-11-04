@@ -1,25 +1,14 @@
 {
- "ts": "2026-11-05T06:14:08",
+ "ts": "2026-11-05T06:31:11",
  "stage": 3,
  "adoption": {
   "days": 4,
-  "applied": 862,
-  "total": 635,
-  "rate": 135.7,
+  "applied": 864,
+  "total": 637,
+  "rate": 135.6,
   "eligible_stage4": false
  },
  "decisions": [
-  {
-   "kind": "requeue",
-   "why": "3 张卡在跑但 1 小时无回执",
-   "target": [
-    "CANARY-20261104T125141",
-    "CANARY-20261104T132721",
-    "MV-NEWPROC-PACKET-20261104"
-   ],
-   "min_stage": 3,
-   "result": "applied"
-  },
   {
    "kind": "escalate",
    "why": "P0 线 24h 无产物：2 条",
@@ -31,15 +20,6 @@
    "result": "applied"
   }
  ],
- "applied": [
-  {
-   "kind": "requeue",
-   "ids": [
-    "CANARY-20261104T125141",
-    "CANARY-20261104T132721",
-    "MV-NEWPROC-PACKET-20261104"
-   ]
-  }
- ],
+ "applied": [],
  "brief": "/Users/junsheng.sun/FluxGroup/cph4/fleet/chief/BRIEF-20261105.md"
 }

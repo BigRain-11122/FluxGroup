@@ -1,14 +1,26 @@
 {
  "node": "bm-m",
  "date": "20261105",
- "ts": "2026-11-05T06:14:08+0800",
+ "ts": "2026-11-05T06:31:11+0800",
  "window_h": 26,
  "produced": [
   {
    "path": "cph4/fleet/queue-receipts/skill-promote-20261105.json",
    "bytes": 2172,
-   "mtime": "2026-11-05T06:14:08",
-   "sha": "1e052379da0cd90823379fa7f694fbd4e538f3cae09a2d705f8b61b529b22987"
+   "mtime": "2026-11-05T06:31:11",
+   "sha": "17b04135694f5ba02de73d74d742feea479600682c8cb820f8825dc295344a96"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/bm-m-fleetboard-20261105.md",
+   "bytes": 2395,
+   "mtime": "2026-11-05T06:28:44",
+   "sha": "18e56dd54c476236b4338e056b64089ad00da423d88382bd161be62998ad464a"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/R-FLEETBOARD-20261104-002-bm-m.json",
+   "bytes": 2739,
+   "mtime": "2026-11-05T06:28:44",
+   "sha": "7f1abdce1b17df3cf53d5798a35f249e62ea56d1236531d524f15df1455e21e2"
   },
   {
    "path": "cph4/fleet/queue-receipts/R-NEXT-BIGSTREAMM-AUDIT-20261105-bm-a.json",
@@ -590,15 +602,11 @@
  "blocked": [
   {
    "what": "_last_lane_bm-m.json",
-   "why": "rc=None "
+   "why": "rc=127 "
   },
   {
    "what": "R-NEXT-BIGSTREAMM-AUDIT-20261105",
    "why": "E-UNKNOWN "
-  },
-  {
-   "what": "Q-VCORP-PREP-e01-R3-20261105",
-   "why": "rc=127 "
   },
   {
    "what": "asset-lib-voice-corpus-bmm-2026-11-03",
@@ -611,6 +619,10 @@
   {
    "what": "voice-corpus-bm-m-2026-11-04.json",
    "why": "E-BLOCKED-INPUT "
+  },
+  {
+   "what": "inference-audit-bm-m-20261105.json",
+   "why": "rc=None "
   }
  ],
  "job": null

@@ -1,14 +1,14 @@
 {
- "ts": "2026-11-05T06:14:08+0800",
+ "ts": "2026-11-05T06:31:11+0800",
  "alert_days": 2.0,
  "lines": [
   {
    "line": "asset-lib",
    "status": "ACTIVE",
    "prio": "P0",
-   "stock": 8,
-   "rate_per_day": 4.33,
-   "runway_days": 1.8,
+   "stock": 11,
+   "rate_per_day": 4.67,
+   "runway_days": 2.4,
    "has_table": true,
    "blocker": {
     "stage": "env-check",
@@ -16,17 +16,15 @@
     "needs": "cpu",
     "hard_nodes": []
    },
-   "flags": [
-    "ALERT"
-   ]
+   "flags": []
   },
   {
    "line": "bigstream-duanju",
    "status": "PARKED",
    "prio": "P0",
-   "stock": 3,
+   "stock": 4,
    "rate_per_day": 1.33,
-   "runway_days": 2.3,
+   "runway_days": 3.0,
    "has_table": true,
    "blocker": {
     "stage": "inventory",
@@ -43,8 +41,8 @@
    "status": "ACTIVE",
    "prio": "P0",
    "stock": 2,
-   "rate_per_day": 4.33,
-   "runway_days": 0.5,
+   "rate_per_day": 4.67,
+   "runway_days": 0.4,
    "has_table": true,
    "blocker": {
     "stage": "gate",
@@ -107,12 +105,25 @@
    ]
   },
   {
+   "line": "bigdomain",
+   "status": "ACTIVE",
+   "prio": "P1",
+   "stock": 2,
+   "rate_per_day": 0.67,
+   "runway_days": 3.0,
+   "has_table": false,
+   "blocker": null,
+   "flags": [
+    "NO-TABLE"
+   ]
+  },
+  {
    "line": "bigmoney",
    "status": "PAUSED",
    "prio": "P1",
-   "stock": 2,
+   "stock": 1,
    "rate_per_day": 2.67,
-   "runway_days": 0.7,
+   "runway_days": 0.4,
    "has_table": true,
    "blocker": {
     "stage": "backtest",
@@ -129,45 +140,29 @@
    ]
   },
   {
-   "line": "bigdomain",
-   "status": "ACTIVE",
-   "prio": "P1",
-   "stock": 1,
-   "rate_per_day": 0.67,
-   "runway_days": 1.5,
-   "has_table": false,
-   "blocker": null,
-   "flags": [
-    "NO-TABLE",
-    "ALERT"
-   ]
-  },
-  {
    "line": "fluxverse",
    "status": "ACTIVE",
    "prio": "P2",
-   "stock": 1,
+   "stock": 2,
    "rate_per_day": 0.67,
-   "runway_days": 1.5,
+   "runway_days": 3.0,
    "has_table": false,
    "blocker": null,
    "flags": [
-    "NO-TABLE",
-    "ALERT"
+    "NO-TABLE"
    ]
   },
   {
    "line": "biglife",
    "status": "ACTIVE",
    "prio": "P2",
-   "stock": 1,
+   "stock": 2,
    "rate_per_day": 0.67,
-   "runway_days": 1.5,
+   "runway_days": 3.0,
    "has_table": false,
    "blocker": null,
    "flags": [
-    "NO-TABLE",
-    "ALERT"
+    "NO-TABLE"
    ]
   },
   {
@@ -189,8 +184,8 @@
    "status": "ACTIVE",
    "prio": "P3",
    "stock": 8,
-   "rate_per_day": 6.67,
-   "runway_days": 1.2,
+   "rate_per_day": 7.0,
+   "runway_days": 1.1,
    "has_table": false,
    "blocker": null,
    "flags": [
@@ -202,9 +197,9 @@
    "line": "recon",
    "status": "ACTIVE",
    "prio": "P3",
-   "stock": 1,
+   "stock": 2,
    "rate_per_day": 0.33,
-   "runway_days": 3.0,
+   "runway_days": 6.1,
    "has_table": false,
    "blocker": null,
    "flags": [
@@ -240,6 +235,6 @@
    ]
   }
  ],
- "alerts": 8,
+ "alerts": 4,
  "no_table": 6
 }
