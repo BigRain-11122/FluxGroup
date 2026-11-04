@@ -174,6 +174,9 @@ STAGES = [
     # 资产可达性（2026-11-04）：台账条数≠可达条数。盘不在就判 UNREACHABLE，
     # 禁止任何"已归集/已备份"的说法。rc=2=账面有、可达 0。
     ("asset_reach", ["Tools/fleet/asset_reach.py"], 60, {0, 2}, True),
+    # DONE 卡交付物审计（2026-11-04）：回执≠产出。只把「仓内相对路径且文件真不在」的卡
+    # 降级 UNVERIFIED；跨机/被 gitignore 的独立仓产物不改状态（主控本来就看不见）。
+    ("done_audit", ["Tools/fleet/done_audit.py", "--apply"], 60, {0, 2}, True),
     ("handoff", ["Tools/fleet/handoff.py"], 60, {0}, True),
     ("chief", ["Tools/fleet/chief.py"], 120, {0}, True),
     ("health", ["Tools/fleet/fleet_health.py"], 90, {0}, True),

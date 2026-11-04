@@ -467,9 +467,9 @@
     {
      "id": "mc-self",
      "what": "自我审计：宣称 vs 磁盘，交接要带事实",
-     "now": "handoff.py + digest/supervisor 一屏；每轮 pulse 四信号",
+     "now": "Tools/fleet/done_audit.py（2026-11-04）：DONE 卡逐条核交付物——OK 191 / 跨机不可核验 45 / 被 gitignore 的独立仓 6 / 真缺失 1（已降级 UNVERIFIED）/ 字段写成一句话 1",
      "status": "partial",
-     "trigger": "DONE 卡交付物不在盘（实测 42/132）时必须在交接页点名，不许只报绿"
+     "trigger": "只在「仓内相对路径且文件不在」时降级；跨机与外盘不改状态（看不见不等于没做）"
     }
    ]
   }
