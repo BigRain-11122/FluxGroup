@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-05T01:11:22",
- "cycle": 3,
+ "ts": "2026-11-05T01:12:37",
+ "cycle": 4,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-05T01:11:22",
+ "master_tick_ts": "2026-11-05T01:12:37",
  "queue": {
   "total": 488,
   "open": 34,
@@ -14,10 +14,10 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 5.0,
-   "cpu_load_pct": 65,
-   "ram_free_gb": 8.1,
-   "gpu_util_pct": 61,
+   "hb_age_s": 18.2,
+   "cpu_load_pct": 12,
+   "ram_free_gb": 13.3,
+   "gpu_util_pct": 66,
    "job": "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105",
    "last_result": {
     "job": "asset-lib-env-check-2026-11-05",
@@ -32,7 +32,7 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 72.6,
+   "hb_age_s": 144.8,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -44,16 +44,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 54.5,
-   "cpu_load_pct": 7,
-   "ram_free_gb": 3.3,
+   "hb_age_s": 36.3,
+   "cpu_load_pct": 8,
+   "ram_free_gb": 3.0,
    "gpu_util_pct": 0,
    "job": "asset-lib-char-gen-2026-11-05",
    "last_result": {
     "job": "asset-lib-face-dataset-2026-11-05",
     "state": "FAILED",
     "rc": 1,
-    "ts": "2026-11-05T01:10:44",
+    "ts": "2026-11-05T01:12:16",
     "reason": null
    },
    "idle_confirmed": false,
@@ -62,16 +62,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.9,
-   "cpu_load_pct": 39,
-   "ram_free_gb": 18.4,
+   "hb_age_s": 1.0,
+   "cpu_load_pct": 19,
+   "ram_free_gb": 18.5,
    "gpu_util_pct": null,
-   "job": "Q-VCORP-PREP-e01-R3-20261105",
+   "job": "bigstream-mv-gate-2026-11-05",
    "last_result": {
-    "job": "bigstream-mv-gate-2026-11-05",
+    "job": "Q-VCORP-PREP-e01-R3-20261105",
     "state": "FAILED",
-    "rc": 1,
-    "ts": "2026-11-05T01:10:11",
+    "rc": null,
+    "ts": "2026-11-05T01:11:23",
     "reason": null
    },
    "idle_confirmed": false,
@@ -95,7 +95,8 @@
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
    "jobs": [
     "R-NEXT-BIGSTREAMM-GATE-20261105",
-    "R-NEXT-BIGSTREAMM-AUDIT-20261105"
+    "R-NEXT-BIGSTREAMM-AUDIT-20261105",
+    "bigstream-mv-gate-2026-11-05"
    ],
    "no_supply": false,
    "blockers": [
@@ -338,7 +339,6 @@
    "stale_after_h": 72.0,
    "owner": "资产席",
    "jobs": [
-    "Q-VCORP-PREP-e01-R3-20261105",
     "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105",
     "asset-lib-asset-gen-2026-11-05",
     "asset-lib-char-gen-2026-11-05"
@@ -892,12 +892,13 @@
   "cpu": 34,
   "gpu": 0
  },
- "supply_added": [],
+ "supply_added": [
+  "backlog_manifest+2"
+ ],
  "events": [
   "asset-lib-face-dataset-2026-11-05 FAILED via bm-c",
-  "bigstream-mv-gate-2026-11-05 FAILED via bm-m",
-  "asset-lib-char-gen-2026-11-05 -> bm-c (gpu)",
-  "Q-VCORP-PREP-e01-R3-20261105 -> bm-m (cpu)"
+  "Q-VCORP-PREP-e01-R3-20261105 FAILED via bm-m",
+  "bigstream-mv-gate-2026-11-05 -> bm-m (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
@@ -905,7 +906,6 @@
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-c",
   "bm-m"
  ]
 }
