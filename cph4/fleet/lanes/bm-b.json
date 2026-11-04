@@ -1,25 +1,23 @@
 {
  "node": "bm-b",
- "ts": "2026-11-05T01:36:58",
+ "ts": "2026-11-05T01:42:21",
  "jobs": [
   {
-   "id": "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105",
-   "title": "音色微调试点·libritts-e01（语料→SoVITS s2→权重，DE-AI-SPEC A8 批前抽检）",
-   "cmd": "python C:/Fluxgroup/FleetAgent/Tools/voicebank/vb_train_card.py --voice libritts-e01 --raw C:/Fluxgroup/FluxGroup/media/asset/inbox/e01 --receipt C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-train-libritts-e01-r3-20261105.json",
-   "cwd": "C:/Fluxgroup/FleetAgent",
-   "needs": "gpu",
-   "deliverable": "C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-train-libritts-e01-r3-20261105.json",
+   "id": "fleet-node-sync-report-bm-b-2026-11-05",
+   "title": "[机队] bm-b 仓面自报：分支/HEAD/origin/main/领先落后/脏文件（纯 git，不依赖仓内脚本）",
+   "cmd": "git fetch origin --prune ; (echo BRANCH=$(git rev-parse --abbrev-ref HEAD) ; echo HEAD=$(git rev-parse HEAD) ; echo ORIGIN=$(git rev-parse origin/main) ; echo LEFT_RIGHT=$(git rev-list --left-right --count HEAD...origin/main) ; echo DIRTY: ; git status --porcelain -uno) > cph4/fleet/queue-receipts/node-sync-bm-b-2026-11-05.txt",
+   "cwd": null,
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/node-sync-bm-b-2026-11-05.txt",
    "need_mb": null,
    "model": "none",
    "prompt": "",
-   "when_all": [
-    "C:/Fluxgroup/FluxGroup/media/asset/voices/e01/sliced"
-   ],
+   "when_all": [],
    "llm": null,
-   "timeout_s": 14400
+   "timeout_s": 600
   }
  ],
  "idle_reason": "",
- "lane_ok": false,
- "capacity_note": "CPU-SATURATED 100%"
+ "lane_ok": true,
+ "capacity_note": "ram 13.2/1.0 GB"
 }
