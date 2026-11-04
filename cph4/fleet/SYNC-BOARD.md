@@ -1,4 +1,4 @@
-# 机队互报（2026-11-04T13:17:47+0800）
+# 机队互报（2026-11-04T13:27:21+0800）
 
 上报 1 / 名册 5 台；本机看不到的他人产物 0 件（传输通道度量，不是错误）
 
@@ -11,8 +11,8 @@
 - bm-m：最近一份 0.0h 前
 
 ## bm-m（20261104，窗口 26h）
-- 产出 99 件
-  - `cph4/fleet/queue-receipts/skill-promote-20261104.json`（2KB, 5f660ce4c9…）
+- 产出 98 件
+  - `cph4/fleet/queue-receipts/skill-promote-20261104.json`（2KB, b279e4bed7…）
   - `cph4/fleet/queue-receipts/asset-lib-voice-dataset-2026-11-04-bm-m.json`（1KB, 3d8028b6ef…）
   - `cph4/fleet/queue-receipts/asset-lib-library-check-2026-11-04-bm-m.json`（1KB, 3483a6f9e5…）
   - `cph4/fleet/queue-receipts/brain-bigstream-mv-2026-11-04.md`（1KB, 585c2bc880…）
@@ -23,9 +23,9 @@
   可用路线: 无
   ! 没有 ffmpeg（切分/抽帧/审计都要）
   ! 没有 torch（No module 
+  - _last_lane_bm-m.json：rc=2 
   - asset-lib-voice-corpus-bmm-2026-11-03：rc=3 [corpus] 本分片无输入（inbox 共 0 个文件）——等投料，rc=3
 
   - asset-lib-voice-corpus-bmb-2026-11-03：E-UNKNOWN 没有 ffmpeg（rc=1）
 
-  - C-INFRA-AUDIT-BM-C-20261103：E-BLOCKED-INPUT {"node": "bm-c", "verdict": "BLOCKED", "out": "cph4/fleet/queue-receipts/inferen
 
