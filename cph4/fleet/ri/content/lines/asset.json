@@ -35,7 +35,8 @@
    "hard_nodes": [
     "bm-a"
    ],
-   "input_dir": "media/asset/inbox"
+   "input_dir": "media/asset/inbox",
+   "why": "2026-11-05: media/ is gitignored, so the inbox exists only on the machine that holds the material (bm-a). Runners on bm-b/bm-c read an empty inbox and every shard came back E-BLOCKED-INPUT for two days. Pin to bm-a until material is distributed to a machine."
   },
   {
    "id": "voice-corpus-bmb",
@@ -45,7 +46,7 @@
    "accept": "本分片切出片段并写 index.json；inbox 无本分片输入时回执 BLOCKED 并说明（rc=3 属等投料）",
    "needs": "cpu",
    "nodes": [
-    "bm-b"
+    "bm-a"
    ],
    "minutes": 40,
    "parallel": true,
@@ -54,9 +55,10 @@
     3
    ],
    "hard_nodes": [
-    "bm-b"
+    "bm-a"
    ],
-   "input_dir": "media/asset/inbox"
+   "input_dir": "media/asset/inbox",
+   "why": "2026-11-05: media/ is gitignored, so the inbox exists only on the machine that holds the material (bm-a). Runners on bm-b/bm-c read an empty inbox and every shard came back E-BLOCKED-INPUT for two days. Pin to bm-a until material is distributed to a machine."
   },
   {
    "id": "voice-corpus-bmc",
@@ -66,7 +68,7 @@
    "accept": "本分片切出片段并写 index.json；inbox 无本分片输入时回执 BLOCKED 并说明（rc=3 属等投料）",
    "needs": "cpu",
    "nodes": [
-    "bm-c"
+    "bm-a"
    ],
    "minutes": 40,
    "parallel": true,
@@ -75,9 +77,10 @@
     3
    ],
    "hard_nodes": [
-    "bm-c"
+    "bm-a"
    ],
-   "input_dir": "media/asset/inbox"
+   "input_dir": "media/asset/inbox",
+   "why": "2026-11-05: media/ is gitignored, so the inbox exists only on the machine that holds the material (bm-a). Runners on bm-b/bm-c read an empty inbox and every shard came back E-BLOCKED-INPUT for two days. Pin to bm-a until material is distributed to a machine."
   },
   {
    "id": "voice-corpus-bmm",
@@ -87,7 +90,7 @@
    "accept": "本分片切出片段并写 index.json（本机是主控，只夜间跑以免抢脉冲）；inbox 无输入时 BLOCKED（rc=3）",
    "needs": "cpu",
    "nodes": [
-    "bm-m"
+    "bm-a"
    ],
    "minutes": 40,
    "parallel": true,
@@ -97,9 +100,10 @@
    ],
    "day_ok": false,
    "hard_nodes": [
-    "bm-m"
+    "bm-a"
    ],
-   "input_dir": "media/asset/inbox"
+   "input_dir": "media/asset/inbox",
+   "why": "2026-11-05: media/ is gitignored, so the inbox exists only on the machine that holds the material (bm-a). Runners on bm-b/bm-c read an empty inbox and every shard came back E-BLOCKED-INPUT for two days. Pin to bm-a until material is distributed to a machine."
   },
   {
    "id": "face-dataset",
