@@ -1,14 +1,23 @@
 {
- "ts": "2026-11-04T12:15:52",
+ "ts": "2026-11-04T12:25:18",
  "stage": 3,
  "adoption": {
   "days": 3,
-  "applied": 697,
-  "total": 506,
+  "applied": 698,
+  "total": 507,
   "rate": 137.7,
   "eligible_stage4": false
  },
  "decisions": [
+  {
+   "kind": "flag",
+   "why": "1 台机空转且有活",
+   "target": [
+    "bm-b"
+   ],
+   "min_stage": 1,
+   "result": "applied"
+  },
   {
    "kind": "escalate",
    "why": "P0 线 24h 无产物：2 条",

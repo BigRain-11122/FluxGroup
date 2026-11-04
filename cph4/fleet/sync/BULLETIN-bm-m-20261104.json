@@ -1,9 +1,15 @@
 {
  "node": "bm-m",
  "date": "20261104",
- "ts": "2026-11-04T12:15:52+0800",
+ "ts": "2026-11-04T12:25:18+0800",
  "window_h": 26,
  "produced": [
+  {
+   "path": "cph4/fleet/queue-receipts/skill-promote-20261104.json",
+   "bytes": 2117,
+   "mtime": "2026-11-04T12:25:18",
+   "sha": "a5574e0b8ff2dfa6903dfc913b831a7a7007f033d427aadd6aad761f94791c0a"
+  },
   {
    "path": "cph4/fleet/queue-receipts/asset-lib-library-check-2026-11-04-bm-m.json",
    "bytes": 1659,
@@ -45,12 +51,6 @@
    "bytes": 2002,
    "mtime": "2026-11-04T12:04:40",
    "sha": "77c836e31cf812aa2ea095f894f138c58a6a797ca968db9690180e4348d0e58c"
-  },
-  {
-   "path": "cph4/fleet/queue-receipts/skill-promote-20261104.json",
-   "bytes": 2208,
-   "mtime": "2026-11-04T12:04:40",
-   "sha": "550f594425fabbdaea1f77311f8b344062ee47bc9f59a9fecea5a658289ee461"
   },
   {
    "path": "cph4/fleet/queue-receipts/asset-env-2026-11-04.json",
@@ -591,18 +591,6 @@
    "bytes": 1608760,
    "mtime": "2026-11-03T11:25:06",
    "sha": "f580b042006cc1bf05adde429a441c222b2e031ae4815151ae885e42e42a9415"
-  },
-  {
-   "path": "cph4/fleet/queue-receipts/biz-car-gaming-20261103.md",
-   "bytes": 1043,
-   "mtime": "2026-11-03T10:23:55",
-   "sha": "6c01dee2e2bca1f4b8c8525e1ef4bd1e86d9bcbcd7567b1c34a3f1799beef4d4"
-  },
-  {
-   "path": "cph4/fleet/queue-receipts/biz-mv-publish-checklist-20261103.md",
-   "bytes": 2322,
-   "mtime": "2026-11-03T10:23:55",
-   "sha": "04ade1817584a23520d7b9b334273e4842208e3b43d1b6be76226ec46648bc86"
   }
  ],
  "blocked": [
@@ -612,7 +600,7 @@
   },
   {
    "what": "_last_lane_bm-m.json",
-   "why": "rc=None "
+   "why": "rc=3 "
   },
   {
    "what": "asset-lib-voice-corpus-bmm-2026-11-03",
