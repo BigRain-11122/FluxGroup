@@ -1,29 +1,29 @@
 {
- "ts": "2026-11-04T16:14:02",
- "cycle": 115,
+ "ts": "2026-11-04T16:20:03",
+ "cycle": 118,
  "master_node": "bm-m",
  "masquerade_by": "bm-a",
  "master_tick_ts": "2026-11-04T15:56:41",
  "queue": {
   "total": 415,
-  "open": 34,
+  "open": 36,
   "running": 4,
   "done": 153,
-  "failed": 21
+  "failed": 19
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 48.5,
-   "cpu_load_pct": 43,
-   "ram_free_gb": 27.4,
-   "gpu_util_pct": 91,
-   "job": "ART-PUSH-BMA-20261104",
+   "hb_age_s": 35.5,
+   "cpu_load_pct": 17,
+   "ram_free_gb": 39.0,
+   "gpu_util_pct": 71,
+   "job": "bigstream-mv-stability-2026-11-04",
    "last_result": {
-    "job": "bigstream-mv-transition-2026-11-04",
-    "state": "FAILED",
-    "rc": 0,
-    "ts": "2026-11-04T16:12:27",
+    "job": "bigstream-mv-stability-2026-11-04",
+    "state": "RUNNING",
+    "rc": null,
+    "ts": "2026-11-04T16:19:30",
     "reason": null
    },
    "idle_confirmed": false,
@@ -32,16 +32,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 67.2,
-   "cpu_load_pct": 1,
-   "ram_free_gb": 12.2,
-   "gpu_util_pct": null,
-   "job": "asset-lib-voice-corpus-bmb-2026-11-04",
+   "hb_age_s": 31.6,
+   "cpu_load_pct": 10,
+   "ram_free_gb": 13.1,
+   "gpu_util_pct": 0,
+   "job": "asset-lib-voice-corpus-bmb-2026-11-03",
    "last_result": {
-    "job": "asset-lib-voice-corpus-bmb-2026-11-03",
+    "job": "asset-lib-voice-corpus-bmb-2026-11-04",
     "state": "FAILED",
     "rc": 3,
-    "ts": "2026-11-04T16:12:44",
+    "ts": "2026-11-04T16:19:36",
     "reason": null
    },
    "idle_confirmed": false,
@@ -50,16 +50,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 77.8,
-   "cpu_load_pct": 8,
-   "ram_free_gb": 2.8,
+   "hb_age_s": 20.8,
+   "cpu_load_pct": 6,
+   "ram_free_gb": 3.4,
    "gpu_util_pct": 0,
-   "job": "biggame-playable-2026-11-03",
+   "job": "asset-lib-voice-assemble-2026-11-03",
    "last_result": {
-    "job": "asset-lib-voice-assemble-2026-11-03",
-    "state": "FAILED",
-    "rc": 3,
-    "ts": "2026-11-04T16:13:07",
+    "job": "biggame-playable-2026-11-03",
+    "state": "RUNNING",
+    "rc": null,
+    "ts": "2026-11-04T16:19:47",
     "reason": null
    },
    "idle_confirmed": false,
@@ -68,16 +68,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 572.6,
-   "cpu_load_pct": null,
-   "ram_free_gb": null,
+   "hb_age_s": 220.5,
+   "cpu_load_pct": 16,
+   "ram_free_gb": 13.2,
    "gpu_util_pct": null,
    "job": "CHK-DUPES-20261103",
    "last_result": {
     "job": "CHK-DUPES-20261103",
     "state": "BUSY",
     "rc": null,
-    "ts": "2026-11-04T16:10:12",
+    "ts": "2026-11-04T16:19:21",
     "reason": null
    },
    "idle_confirmed": false,
@@ -100,11 +100,12 @@
    "stale_after_h": 24.0,
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
    "jobs": [
+    "bigstream-mv-transition-2026-11-04",
     "bigstream-mv-stability-2026-11-04"
    ],
    "no_supply": false,
    "blockers": [
-    "bigstream-mv-stability-2026-11-04:no-lane"
+    "bigstream-mv-transition-2026-11-04:no-lane"
    ],
    "note": null,
    "stuck_stage": "mv-kf",
@@ -156,7 +157,7 @@
    "name": "Biggame·游戏",
    "status": "ACTIVE",
    "verdict": "WORKING",
-   "age_h": 0.0,
+   "age_h": 0.1,
    "stale_after_h": 24.0,
    "owner": "游戏席",
    "jobs": [
@@ -165,6 +166,7 @@
    ],
    "no_supply": false,
    "blockers": [
+    "biggame-playable-2026-11-03:no-lane",
     "R-PLAN-BIGGAME-20261104:no-lane"
    ],
    "note": null
@@ -173,7 +175,7 @@
    "name": "FluxVerse·元宙城",
    "status": "ACTIVE",
    "verdict": "STALLED-STAGE",
-   "age_h": 5.5,
+   "age_h": 5.6,
    "stale_after_h": 36.0,
    "owner": "城市线",
    "jobs": [
@@ -191,7 +193,7 @@
    "name": "BigMoney·量化",
    "status": "PAUSED",
    "verdict": "WORKING",
-   "age_h": 17.6,
+   "age_h": 17.7,
    "stale_after_h": 24.0,
    "owner": "量化席",
    "jobs": [
@@ -207,7 +209,7 @@
    "name": "BigDomain·硅基域商业化",
    "status": "ACTIVE",
    "verdict": "WORKING",
-   "age_h": 0.1,
+   "age_h": 0.2,
    "stale_after_h": 36.0,
    "owner": "域运营席",
    "jobs": [
@@ -223,7 +225,7 @@
    "name": "BigCompute·硅基算力",
    "status": "ACTIVE",
    "verdict": "WORKING",
-   "age_h": 10.0,
+   "age_h": 10.1,
    "stale_after_h": 36.0,
    "owner": "算力中枢席",
    "jobs": [
@@ -239,7 +241,7 @@
    "name": "BigLife·数字生命",
    "status": "ACTIVE",
    "verdict": "WORKING",
-   "age_h": 179.1,
+   "age_h": 179.2,
    "stale_after_h": 48.0,
    "owner": "生命生产席",
    "jobs": [
@@ -255,7 +257,7 @@
    "name": "BigHouse·城市安家",
    "status": "PARKED",
    "verdict": "PARKED",
-   "age_h": 416.9,
+   "age_h": 417.0,
    "stale_after_h": 72.0,
    "owner": "生态运营席",
    "jobs": [],
@@ -327,6 +329,7 @@
     "CANARY-20261104T132721:no-lane",
     "CANARY-20261104T134046:no-lane",
     "CANARY-20261104T140742:no-lane",
+    "ART-PUSH-BMA-20261104:no-lane",
     "CANARY-20261104T155338:no-lane"
    ],
    "note": null
@@ -339,7 +342,8 @@
    "stale_after_h": 72.0,
    "owner": "资产席",
    "jobs": [
-    "asset-lib-voice-corpus-bmb-2026-11-04"
+    "asset-lib-voice-corpus-bmb-2026-11-03",
+    "asset-lib-voice-assemble-2026-11-03"
    ],
    "no_supply": false,
    "blockers": [],
@@ -883,7 +887,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 34,
+  "local": 36,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -891,18 +895,15 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 34,
+  "cpu": 36,
   "gpu": 0
  },
  "supply_added": [
   "backlog_manifest+2"
  ],
  "events": [
-  "bigstream-mv-transition-2026-11-04 FAILED via bm-a",
-  "asset-lib-voice-corpus-bmb-2026-11-03 FAILED via bm-b",
-  "asset-lib-voice-assemble-2026-11-03 FAILED via bm-c",
-  "asset-lib-voice-corpus-bmb-2026-11-04 -> bm-b (cpu)",
-  "biggame-playable-2026-11-03 -> bm-c (cpu)"
+  "asset-lib-voice-corpus-bmb-2026-11-04 FAILED via bm-b",
+  "asset-lib-voice-corpus-bmb-2026-11-03 -> bm-b (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
@@ -910,7 +911,6 @@
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-b",
-  "bm-c"
+  "bm-b"
  ]
 }
