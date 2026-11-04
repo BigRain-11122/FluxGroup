@@ -1,14 +1,14 @@
 {
  "node": "bm-c",
- "ts": "2026-11-04T23:53:57",
+ "ts": "2026-11-04T23:55:27",
  "jobs": [
   {
-   "id": "CHK-CANON-20261104",
-   "title": "五线认知基座一致性（工序段 id 与表同源）（bm-a 兜底体检）",
-   "cmd": "python3 Tools/fleet/line_canon.py --all",
+   "id": "CANARY-20261104T132721",
+   "title": "端到端自检：投卡→领取→执行→回执→产物",
+   "cmd": "python -c \"import os;os.makedirs(r'cph4/fleet/state/canary',exist_ok=True);open(r'cph4/fleet/state/canary/RUN-20261104T132721.txt','w',encoding='utf-8').write('canary 20261104T132721 — 端到端自检产物，不是业务活')\"",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "",
+   "deliverable": "cph4/fleet/state/canary/RUN-20261104T132721.txt",
    "need_mb": null,
    "model": "none",
    "prompt": "",

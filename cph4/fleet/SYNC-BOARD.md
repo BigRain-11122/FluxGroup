@@ -1,4 +1,4 @@
-# 机队互报（2026-11-04T23:28:54+0800）
+# 机队互报（2026-11-04T23:55:19+0800）
 
 上报 1 / 名册 5 台；本机看不到的他人产物 0 件（传输通道度量，不是错误）
 
@@ -11,13 +11,13 @@
 - bm-m：最近一份 0.0h 前
 
 ## bm-m（20261104，窗口 26h）
-- 产出 78 件
-  - `cph4/fleet/queue-receipts/skill-promote-20261104.json`（2KB, 43d1e99dfc…）
-  - `cph4/fleet/queue-receipts/NEEDWORK-LASTMILE-20261104-bm-b.json`（1KB, 007e9a425e…）
+- 产出 80 件
+  - `cph4/fleet/queue-receipts/skill-promote-20261104.json`（2KB, 3c200a0022…）
+  - `cph4/fleet/queue-receipts/R-FLEETBOARD-20261104-001-bm-m.json`（2KB, 17cfbd6037…）
+  - `cph4/fleet/queue-receipts/bm-m-fleetboard-20261104.md`（2KB, e293368c22…）
+  - `cph4/fleet/queue-receipts/R-NEEDWORK-20261104-001-bm-m.json`（1KB, dbd06f9f0b…）
   - `cph4/fleet/queue-receipts/bigmoney-backtest-2026-11-03-v3-bm-b.json`（1KB, 96c5f3fc2c…）
   - `cph4/fleet/queue-receipts/NEEDWORK-MECH-20261104-bm-b.json`（2KB, c106168f06…）
-  - `cph4/fleet/queue-receipts/model-radar-bm-b-20261103.json`（1KB, b1ce1c5110…）
-  - `cph4/fleet/queue-receipts/C-INFRA-AUDIT-BM-C-20261103-bm-b.json`（1KB, 0f1d5ac951…）
 - 受阻 6 条
   - asset-lib-voice-corpus-bmm-2026-11-03：E-BLOCKED-INPUT [corpus] 本分片无输入（inbox 共 0 个文件）——等投料，rc=3
 

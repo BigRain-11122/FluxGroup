@@ -1,14 +1,14 @@
 {
  "node": "bm-a",
- "ts": "2026-11-04T23:30:07",
+ "ts": "2026-11-04T23:55:27",
  "jobs": [
   {
-   "id": "R-TRIAGE-BIGSTREAMMV-BMA-20261104",
-   "title": "BigStream·MV 41 曲 线证据扫描（bm-a 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigstream-mv",
+   "id": "CHK-CANON-20261104",
+   "title": "五线认知基座一致性（工序段 id 与表同源）（bm-a 兜底体检）",
+   "cmd": "python3 Tools/fleet/line_canon.py --all",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigstream-mv-20261104.md",
+   "deliverable": "",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 24.1/1.0 GB"
+ "capacity_note": "ram 8.1/1.0 GB"
 }

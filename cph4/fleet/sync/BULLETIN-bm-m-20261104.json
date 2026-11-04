@@ -1,79 +1,91 @@
 {
  "node": "bm-m",
  "date": "20261104",
- "ts": "2026-11-04T23:28:54+0800",
+ "ts": "2026-11-04T23:55:19+0800",
  "window_h": 26,
  "produced": [
   {
    "path": "cph4/fleet/queue-receipts/skill-promote-20261104.json",
    "bytes": 2172,
-   "mtime": "2026-11-04T23:28:54",
-   "sha": "43d1e99dfce48b135a77fc6ce678cc7811070e3a6e171986f2afbd043a9a6622"
+   "mtime": "2026-11-04T23:55:19",
+   "sha": "3c200a0022a0ffbc4ccfd68f93138f8ffb83bf351f583e21c891a6c3b186c004"
   },
   {
-   "path": "cph4/fleet/queue-receipts/NEEDWORK-LASTMILE-20261104-bm-b.json",
-   "bytes": 1394,
-   "mtime": "2026-11-04T23:28:54",
-   "sha": "007e9a425e4551dbad802350108b5eb41815a8d2eac82802a85df2098d18aacc"
+   "path": "cph4/fleet/queue-receipts/R-FLEETBOARD-20261104-001-bm-m.json",
+   "bytes": 2450,
+   "mtime": "2026-11-04T23:50:56",
+   "sha": "17cfbd60373149c8331888e3043eb21b07a54e567308c828a22d1e07be1e7cff"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/bm-m-fleetboard-20261104.md",
+   "bytes": 2962,
+   "mtime": "2026-11-04T23:50:56",
+   "sha": "e293368c224a198371f947e3f0cb85db73f51a2deecb0b74db6eacc9fc745032"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/R-NEEDWORK-20261104-001-bm-m.json",
+   "bytes": 1760,
+   "mtime": "2026-11-04T23:48:44",
+   "sha": "dbd06f9f0b2a5073c6833b3aa2b230b562a5b6a7baf6276e39a3cfff829e26bf"
   },
   {
    "path": "cph4/fleet/queue-receipts/bigmoney-backtest-2026-11-03-v3-bm-b.json",
    "bytes": 1738,
-   "mtime": "2026-11-04T23:20:35",
+   "mtime": "2026-11-04T23:48:44",
    "sha": "96c5f3fc2cb846c696e59feffc55024e9c069ee0d41f18f708c4e2e986314c6d"
   },
   {
    "path": "cph4/fleet/queue-receipts/NEEDWORK-MECH-20261104-bm-b.json",
    "bytes": 2149,
-   "mtime": "2026-11-04T23:20:35",
+   "mtime": "2026-11-04T23:48:44",
    "sha": "c106168f06571fb3f554483d286b534d4403b84dff14fafea9f560901aff10f0"
-  },
-  {
-   "path": "cph4/fleet/queue-receipts/model-radar-bm-b-20261103.json",
-   "bytes": 1040,
-   "mtime": "2026-11-04T23:20:35",
-   "sha": "b1ce1c5110e7db0a5edf7f1ceb16de3a24736f2810f673e5d39c5f12542c0b64"
-  },
-  {
-   "path": "cph4/fleet/queue-receipts/C-INFRA-AUDIT-BM-C-20261103-bm-b.json",
-   "bytes": 1050,
-   "mtime": "2026-11-04T23:20:35",
-   "sha": "0f1d5ac9518845817010c9ca21e08aaa48378bdd58bffea2536c53b6745ac72e"
-  },
-  {
-   "path": "cph4/fleet/queue-receipts/R-NEEDWORK-20261104-001-bm-m.json",
-   "bytes": 1760,
-   "mtime": "2026-11-04T23:18:04",
-   "sha": "dbd06f9f0b2a5073c6833b3aa2b230b562a5b6a7baf6276e39a3cfff829e26bf"
-  },
-  {
-   "path": "cph4/fleet/queue-receipts/bm-m-workprep.md",
-   "bytes": 1403,
-   "mtime": "2026-11-04T23:18:04",
-   "sha": "b0c90e262e68f23044cbf378417e30088c854fc9e6974e1ce21faae6d38d05fd"
   },
   {
    "path": "cph4/fleet/queue-receipts/review-packet-kn-20261104.md",
    "bytes": 1184,
-   "mtime": "2026-11-04T23:16:00",
+   "mtime": "2026-11-04T23:48:44",
    "sha": "55b73f500d64787a0b98373efa3d166edc0aae1d606564e56cb828a73394cb29"
   },
   {
    "path": "cph4/fleet/queue-receipts/char-dataset-20261104.json",
    "bytes": 1272,
-   "mtime": "2026-11-04T23:16:00",
+   "mtime": "2026-11-04T23:48:44",
    "sha": "78e6ba8896a270b96ed83eff0a55f2cd222a744f2fe9009155c2d097191feb68"
   },
   {
    "path": "cph4/fleet/queue-receipts/review-packet-mv-20261104.md",
    "bytes": 1117,
-   "mtime": "2026-11-04T23:16:00",
+   "mtime": "2026-11-04T23:48:44",
    "sha": "1c70d1f9a91155e837916be3a1e0d38146183b49ea04925d17bea2a77753910a"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/NEEDWORK-LASTMILE-20261104-bm-b.json",
+   "bytes": 1394,
+   "mtime": "2026-11-04T23:48:44",
+   "sha": "007e9a425e4551dbad802350108b5eb41815a8d2eac82802a85df2098d18aacc"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/model-radar-bm-b-20261103.json",
+   "bytes": 1040,
+   "mtime": "2026-11-04T23:48:44",
+   "sha": "b1ce1c5110e7db0a5edf7f1ceb16de3a24736f2810f673e5d39c5f12542c0b64"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/bm-m-workprep.md",
+   "bytes": 1403,
+   "mtime": "2026-11-04T23:48:44",
+   "sha": "b0c90e262e68f23044cbf378417e30088c854fc9e6974e1ce21faae6d38d05fd"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/C-INFRA-AUDIT-BM-C-20261103-bm-b.json",
+   "bytes": 1050,
+   "mtime": "2026-11-04T23:48:44",
+   "sha": "0f1d5ac9518845817010c9ca21e08aaa48378bdd58bffea2536c53b6745ac72e"
   },
   {
    "path": "cph4/fleet/queue-receipts/char-gen-bm-c-20261104.json",
    "bytes": 17960,
-   "mtime": "2026-11-04T23:16:00",
+   "mtime": "2026-11-04T23:48:44",
    "sha": "af60ca7c869e85dd251928b4fababc8fb60d9ede285c06c1044b06fac92bf18b"
   },
   {
