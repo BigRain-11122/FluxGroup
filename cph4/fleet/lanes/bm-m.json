@@ -1,20 +1,22 @@
 {
  "node": "bm-m",
- "ts": "2026-11-05T01:16:38",
+ "ts": "2026-11-05T01:18:02",
  "jobs": [
   {
-   "id": "bigstream-mv-gate-2026-11-05",
-   "title": "[MV·爱在西元前（v721 终版）] 交付闸（重复/静止/抖动/闪烁）",
-   "cmd": "python Tools/mv_delivery_gate.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721_60fps_1080p.mp4 --card 38.79:40.21 --card 219.71:223.88",
-   "cwd": "",
+   "id": "Q-VCORP-PREP-e01-R3-20261105",
+   "title": "音色语料切片·e01（LibriTTS → voices/e01/sliced，纯 CPU）",
+   "cmd": "python C:/Fluxgroup/FleetAgent/Tools/fleet/voice_corpus_prep.py --inbox C:/Fluxgroup/FluxGroup/media/asset/inbox/e01 --group e01 --shard 0/1 --receipt C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-prep-e01-r3-20261105.json",
+   "cwd": "C:/Fluxgroup/FluxGroup",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/mv-gate-v721-2026-11-05.json",
+   "deliverable": "C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-prep-e01-r3-20261105.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
-   "when_all": [],
+   "when_all": [
+    "C:/Fluxgroup/FluxGroup/media/asset/inbox/e01"
+   ],
    "llm": null,
-   "timeout_s": null
+   "timeout_s": 3600
   }
  ],
  "idle_reason": "",
