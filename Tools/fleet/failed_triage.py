@@ -91,7 +91,7 @@ def main(argv):
                 nr["state"] = "CANCELLED"
                 nr["cancel_reason"] = "空投料销卡：" + why
             else:
-                nr["error_class"] = {"KEEP-ENV": "E-ENV", "KEEP-CONTRACT": "E-CONTRACT",
+                nr["error_class"] = {"KEEP-ENV": "E-PATH", "KEEP-CONTRACT": "E-CONTRACT",
                                      "KEEP-UNKNOWN": "E-UNKNOWN"}[verdict]
             patch.append(nr)
     if a.apply and patch_q:

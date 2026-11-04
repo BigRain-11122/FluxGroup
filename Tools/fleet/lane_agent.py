@@ -616,6 +616,10 @@ def self_dispatch(root, node, allow_gpu_workhours, max_seconds, hub, port, dry, 
                 x["failure"] = (res.get("stderr_tail") or res.get("stdout_tail")
                                 or res.get("reason") or "rc=%s, no output captured"
                                 % res.get("rc"))[:400]
+                # 2026-11-05 R9-6：回执已按 fc.error_class 定性，但写回队列时丢了 → 01:07-01:33
+                # 实测 10+ 张 FAILED 卡 error_class 全空，solver 无定性可依只会原样重试。
+                # 判据沿用 flux_contracts 单源，不在此另立规则。
+                x["error_class"] = res.get("error_class") or fc.error_class(res.get("rc"))
             x["created_by"] = (x.get("created_by") or "") + "+lane-self"
             fl.merge_jsonl(qpath, [x])
             break
