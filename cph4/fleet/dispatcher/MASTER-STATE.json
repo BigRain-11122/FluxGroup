@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-04T19:09:21",
- "cycle": 188,
+ "ts": "2026-11-04T19:13:42",
+ "cycle": 189,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-04T19:09:21",
+ "master_tick_ts": "2026-11-04T19:13:42",
  "queue": {
   "total": 417,
   "open": 18,
@@ -14,16 +14,16 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 6.9,
-   "cpu_load_pct": 36,
-   "ram_free_gb": 29.4,
-   "gpu_util_pct": 76,
+   "hb_age_s": 27.6,
+   "cpu_load_pct": 70,
+   "ram_free_gb": 17.8,
+   "gpu_util_pct": 42,
    "job": "bigstream-mv-stability-2026-11-04",
    "last_result": {
-    "job": "biggame-playable-2026-11-03",
+    "job": "bigstream-mv-transition-2026-11-04",
     "state": "FAILED",
     "rc": 0,
-    "ts": "2026-11-04T19:05:43",
+    "ts": "2026-11-04T19:12:25",
     "reason": null
    },
    "idle_confirmed": false,
@@ -32,34 +32,34 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 47.0,
-   "cpu_load_pct": 15,
-   "ram_free_gb": 11.6,
+   "hb_age_s": 23.4,
+   "cpu_load_pct": 25,
+   "ram_free_gb": 9.5,
    "gpu_util_pct": 0,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-04T19:06:52",
+    "ts": "2026-11-04T19:12:38",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 1
+   "idle_rounds": 2
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 28.7,
-   "cpu_load_pct": 11,
-   "ram_free_gb": 3.1,
+   "hb_age_s": 80.4,
+   "cpu_load_pct": 8,
+   "ram_free_gb": 2.5,
    "gpu_util_pct": 0,
-   "job": "bigstream-mv-transition-2026-11-04",
+   "job": "biggame-playable-2026-11-03",
    "last_result": {
     "job": "Q-TRIAGE-RECON-20261104",
-    "state": "RUNNING",
-    "rc": null,
-    "ts": "2026-11-04T19:07:07",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-04T19:12:21",
     "reason": null
    },
    "idle_confirmed": false,
@@ -68,16 +68,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.8,
-   "cpu_load_pct": 24,
+   "hb_age_s": 0.9,
+   "cpu_load_pct": 17,
    "ram_free_gb": 12.5,
    "gpu_util_pct": null,
    "job": "CHK-DUPES-20261103",
    "last_result": {
-    "job": "CANARY-20261104T190718",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-04T19:07:19",
+    "job": "CHK-DUPES-20261103",
+    "state": "BUSY",
+    "rc": null,
+    "ts": "2026-11-04T19:11:49",
     "reason": null
    },
    "idle_confirmed": false,
@@ -87,7 +87,7 @@
  },
  "idle_rounds": {
   "bm-a": 0,
-  "bm-b": 1,
+  "bm-b": 2,
   "bm-c": 0,
   "bm-m": 0
  },
@@ -100,7 +100,6 @@
    "stale_after_h": 24.0,
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
    "jobs": [
-    "bigstream-mv-transition-2026-11-04",
     "bigstream-mv-stability-2026-11-04"
    ],
    "no_supply": false,
@@ -159,6 +158,7 @@
    "stale_after_h": 24.0,
    "owner": "游戏席",
    "jobs": [
+    "biggame-playable-2026-11-03",
     "R-PLAN-BIGGAME-20261104"
    ],
    "no_supply": false,
@@ -862,20 +862,19 @@
   "gpu": 0
  },
  "supply_added": [
-  "backlog_manifest+2"
+  "backlog_manifest+1"
  ],
  "events": [
-  "biggame-playable-2026-11-03 FAILED via bm-a",
-  "bigstream-mv-stability-2026-11-04 -> bm-a (cpu)",
-  "bigstream-mv-transition-2026-11-04 -> bm-c (cpu)"
+  "bigstream-mv-transition-2026-11-04 FAILED via bm-a",
+  "biggame-playable-2026-11-03 -> bm-c (cpu)"
  ],
  "violations": [
+  "bm-b IDLE-CONFIRMED x2 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-a",
   "bm-c"
  ]
 }
