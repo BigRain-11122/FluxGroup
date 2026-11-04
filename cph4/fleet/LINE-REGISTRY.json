@@ -82,7 +82,7 @@
    "priority": "P0",
    "pause_reason": "auto-resume:2026-11-03 冷却到期（原：2026-11-02）",
    "visibility": "OK",
-   "last_artifact_h": 8.8,
+   "last_artifact_h": 9.2,
    "no_autostop": true
   },
   {
@@ -140,7 +140,7 @@
    "priority": "P0",
    "pause_reason": "CEO 2026-11-03 令：先不做短剧和漫剧，先储备资产（烧角色 LoRA 与音色库）",
    "visibility": "OK",
-   "last_artifact_h": 26.5
+   "last_artifact_h": 26.9
   },
   {
    "id": "bigstream-duanju",
@@ -213,7 +213,7 @@
    "org": "content",
    "priority": "P0",
    "visibility": "OK",
-   "last_artifact_h": 55.7
+   "last_artifact_h": 56.1
   },
   {
    "id": "biggame",
@@ -322,7 +322,7 @@
    "id": "bigmoney",
    "name": "BigMoney·量化",
    "owner": "量化席",
-   "status": "ACTIVE",
+   "status": "PAUSED",
    "repos": [
     "quant/bigmoney"
    ],
@@ -369,7 +369,7 @@
    "visibility": "OK",
    "last_artifact_h": null,
    "pause_reason": "auto-stop:过闸率<50%且返工>=3（2026-11-04）",
-   "autostop_at": "2026-11-04T13:34:37",
+   "autostop_at": "2026-11-04T21:16:38",
    "resume_hint": "冷却 24h 后自动回 ACTIVE；期间出卡方停供。CEO 令停/判负的线不在此列（pause_reason 不带 auto-stop）",
    "note": "2026-11-04 夜班重启：原回测阶段钉 bm-d，而 bm-d 自 10-29 离线；改由 bm-b（有 quant 仓与数据）出「下月持仓信号 CSV」，主控按 P1 恢复派单。"
   },
@@ -438,7 +438,7 @@
    "org": "platform",
    "priority": "P3",
    "visibility": "OK",
-   "last_artifact_h": 27.4
+   "last_artifact_h": 27.8
   },
   {
    "id": "biglife",
@@ -551,7 +551,7 @@
    "org": "platform",
    "priority": "P3",
    "visibility": "OK",
-   "last_artifact_h": 49.0
+   "last_artifact_h": 49.3
   },
   {
    "id": "recon",
@@ -587,7 +587,7 @@
    "org": "enabling",
    "priority": "P3",
    "visibility": "OK",
-   "last_artifact_h": 122.2
+   "last_artifact_h": 122.6
   },
   {
    "id": "fleet-ops",
@@ -666,7 +666,7 @@
    "pause_reason": "CEO 钦点 P0（储备资产线）：解除指标闸自动停线，恢复供卡",
    "resume_hint": "冷却 24h 后自动回 ACTIVE；期间出卡方停供。CEO 令停/判负的线不在此列（pause_reason 不带 auto-stop）",
    "visibility": "OK",
-   "last_artifact_h": 8.8,
+   "last_artifact_h": 9.2,
    "no_autostop": true
   }
  ]
