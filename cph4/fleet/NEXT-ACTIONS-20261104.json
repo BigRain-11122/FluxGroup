@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-04T13:27:21+0800",
+ "ts": "2026-11-04T13:34:37+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -13,8 +13,8 @@
    "blocker_type": "ENGINE",
    "blocker": "char-probe 在 bm-c 上 rc=2 零回执，未定位（疑 checkout 落后）",
    "state": "RUNNING",
-   "card": "asset-lib-voice-assemble-2026-11-03",
-   "running_on": "bm-a"
+   "card": "asset-lib-face-caption-2026-11-04",
+   "running_on": "bm-c"
   },
   {
    "id": "biggame",
@@ -28,7 +28,7 @@
    "blocker_type": "CEO",
    "blocker": "截图需跑游戏取图，受 2026-10-28『不许自动跑游戏包』令约束，等放行",
    "state": "QUEUED",
-   "card": "biggame-playable-2026-11-03",
+   "card": "R-PLAN-BIGGAME-20261104",
    "running_on": null
   },
   {
@@ -57,9 +57,9 @@
    "accept": "发布台账有回执行；或 CEO 给出重剪清单",
    "blocker_type": "ENGINE",
    "blocker": "发布决定权在 CEO，但工程侧可先做下一首立意案",
-   "state": "QUEUED",
-   "card": "R-NEXT-BIGSTREAMM-GATE-20261103",
-   "running_on": null
+   "state": "RUNNING",
+   "card": "bigstream-mv-transition-2026-11-04",
+   "running_on": "bm-m"
   },
   {
    "id": "bigstream-drama",
@@ -228,8 +228,8 @@
   }
  ],
  "counts": {
-  "RUNNING": 1,
-  "QUEUED": 10,
+  "RUNNING": 2,
+  "QUEUED": 9,
   "STALLED": 4
  },
  "stalled_engine": 0

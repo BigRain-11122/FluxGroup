@@ -1,12 +1,10 @@
-# 谁在等谁的产物（wait-map）2026-11-04T13:27
+# 谁在等谁的产物（wait-map）2026-11-04T13:34
 
-在办卡 66 · 依赖边 0 · 未知输入 8 · 等待环 0
+在办卡 60 · 依赖边 0 · 未知输入 6 · 等待环 0
 
-- [等输入] biggame-playable-2026-11-03 需要 MiniGame —— 真产物缺失：没有任何卡在生产它
 - [等输入] R-NEXT-BIGSTREAMM-GATE-20261103 需要 full_mv_v721.mp4 —— 真产物缺失：没有任何卡在生产它
 - [等输入] R-NEXT-BIGSTREAMM-AUDIT-20261103 需要 full_mv_v721.mp4 —— 真产物缺失：没有任何卡在生产它
 - [等输入] R-NEXT-BIGSTREAMD-TTS-QC-20261104 需要 r1202_ep001_060 —— 真产物缺失：没有任何卡在生产它
-- [等输入] bigmoney-backtest-2026-11-04 需要 etf_nobond_vt.py —— 工具输入（该卡应钉在持有该工具的机器上跑）
 - [等输入] biggame-playable-2026-11-03 需要 MiniGame —— 真产物缺失：没有任何卡在生产它
 - [等输入] R-NEXT-BIGSTREAMD-TTS-QC-20261104 需要 r1202_ep001_060 —— 真产物缺失：没有任何卡在生产它
 - [等输入] bigmoney-backtest-2026-11-04 需要 etf_nobond_vt.py —— 工具输入（该卡应钉在持有该工具的机器上跑）

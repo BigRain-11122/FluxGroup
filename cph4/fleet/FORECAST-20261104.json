@@ -1,14 +1,14 @@
 {
- "ts": "2026-11-04T13:27:21+0800",
+ "ts": "2026-11-04T13:34:37+0800",
  "alert_days": 2.0,
  "lines": [
   {
    "line": "asset-lib",
    "status": "ACTIVE",
    "prio": "P0",
-   "stock": 11,
+   "stock": 7,
    "rate_per_day": 2.67,
-   "runway_days": 4.1,
+   "runway_days": 2.6,
    "has_table": true,
    "blocker": {
     "stage": "env-check",
@@ -58,9 +58,9 @@
    "line": "biggame",
    "status": "ACTIVE",
    "prio": "P0",
-   "stock": 4,
+   "stock": 3,
    "rate_per_day": 1.0,
-   "runway_days": 4.0,
+   "runway_days": 3.0,
    "has_table": true,
    "blocker": {
     "stage": "pack-scan",
@@ -106,9 +106,9 @@
    "line": "bigmoney",
    "status": "ACTIVE",
    "prio": "P1",
-   "stock": 3,
+   "stock": 2,
    "rate_per_day": 1.67,
-   "runway_days": 1.8,
+   "runway_days": 1.2,
    "has_table": true,
    "blocker": {
     "stage": "backtest",

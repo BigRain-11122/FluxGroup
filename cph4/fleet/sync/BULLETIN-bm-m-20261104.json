@@ -1,7 +1,7 @@
 {
  "node": "bm-m",
  "date": "20261104",
- "ts": "2026-11-04T13:27:21+0800",
+ "ts": "2026-11-04T13:34:37+0800",
  "window_h": 26,
  "produced": [
   {
@@ -567,30 +567,6 @@
    "bytes": 1518662,
    "mtime": "2026-11-03T11:34:55",
    "sha": "34bf438f719d695f7a2c368122eff5d676cff52b12d745611a35018072feb38c"
-  },
-  {
-   "path": "media/drama-sample-v2/c1.mp4",
-   "bytes": 1830672,
-   "mtime": "2026-11-03T11:32:03",
-   "sha": "6f39b43b414cce73d7b9cf0ea317a357c0f029babcdd5cc5287a96bfe0ff79b4"
-  },
-  {
-   "path": "media/drama-sample-v2/c2.mp4",
-   "bytes": 2150162,
-   "mtime": "2026-11-03T11:31:53",
-   "sha": "6c0819e00790620ad93bbc068a752996dd0aee4fd648a55f75b280e6b91dc92c"
-  },
-  {
-   "path": "media/drama-sample-v2/music.wav",
-   "bytes": 2812382,
-   "mtime": "2026-11-03T11:28:56",
-   "sha": "6050091d5964d6fd42d1f163ae976258918671ea402833f0996efc1f6bc5d497"
-  },
-  {
-   "path": "media/drama-sample-v2/voice.mp3",
-   "bytes": 36909,
-   "mtime": "2026-11-03T11:28:55",
-   "sha": "935568e3c772e9a12f9ede64d487eb312537b27129799ed6518b51b5bbbd048b"
   }
  ],
  "blocked": [
@@ -600,7 +576,7 @@
   },
   {
    "what": "_last_lane_bm-m.json",
-   "why": "rc=2 "
+   "why": "rc=1 "
   },
   {
    "what": "asset-lib-voice-corpus-bmm-2026-11-03",
