@@ -1,14 +1,20 @@
 {
  "node": "bm-m",
  "date": "20261104",
- "ts": "2026-11-04T20:20:57+0800",
+ "ts": "2026-11-04T20:52:51+0800",
  "window_h": 26,
  "produced": [
   {
    "path": "cph4/fleet/queue-receipts/skill-promote-20261104.json",
    "bytes": 2172,
-   "mtime": "2026-11-04T20:20:57",
-   "sha": "465da9f9e6a3fdc7117b4c9953c83af87cab92ace50161175a96d10e800544c7"
+   "mtime": "2026-11-04T20:52:51",
+   "sha": "f24419aefb193cc1520af001e9d9ae9d6e12269d5e3120df1666e1651086fab6"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/bigmoney-backtest-2026-11-04-bm-a.json",
+   "bytes": 1681,
+   "mtime": "2026-11-04T20:32:40",
+   "sha": "6eb950ca60553a1f4b82f6d1bdf8a1dde6e085f448d826ccd71a1e34b9a2c952"
   },
   {
    "path": "media/asset/inbox/rt_audio_head.mp3",
@@ -411,60 +417,6 @@
    "bytes": 1265,
    "mtime": "2026-11-03T21:57:42",
    "sha": "a1645f59a405f3b8c8c22bce01d7ac643749f3db13a3e350043649c3a73a1033"
-  },
-  {
-   "path": "media/asset/props/P07-bank-card.png",
-   "bytes": 696919,
-   "mtime": "2026-11-03T18:26:05",
-   "sha": "59769e32d59429cc6d688710d7915f01518b803dc191a32af0467fe04727ca2b"
-  },
-  {
-   "path": "media/asset/props/P09-coffee-cup.png",
-   "bytes": 659041,
-   "mtime": "2026-11-03T18:26:05",
-   "sha": "6ffb4d0eafa6bbc383c9b314013b0d9fa84d2f1147522c1c5e718d014123219f"
-  },
-  {
-   "path": "media/asset/props/P08-suitcase.png",
-   "bytes": 594396,
-   "mtime": "2026-11-03T18:26:05",
-   "sha": "253df2239143f21913b34b1ae65a04d17013c406a42704a3fafd3a18f033aca4"
-  },
-  {
-   "path": "media/review-720p/drama-2026-11-03-720p.mp4",
-   "bytes": 4653826,
-   "mtime": "2026-11-03T18:22:20",
-   "sha": "4e370fa8f6909d5e0454456018b9715d3e48f622b11f1822818db5209270fe9e"
-  },
-  {
-   "path": "media/review-720p/asm-sw2-720p.mp4",
-   "bytes": 4649030,
-   "mtime": "2026-11-03T18:22:19",
-   "sha": "cd36c60f98e29c56ef7f2d34c1d6e9bdb2fb175e4f3fa1d57b77530431299915"
-  },
-  {
-   "path": "media/review-720p/asm-sw-720p.mp4",
-   "bytes": 4649092,
-   "mtime": "2026-11-03T18:22:17",
-   "sha": "c1d7afcf5537cc79c17c3339f0a331f0dc892435e6293a5208f6e26651075a36"
-  },
-  {
-   "path": "media/review-720p/asm-hw2-720p.mp4",
-   "bytes": 4649476,
-   "mtime": "2026-11-03T18:22:16",
-   "sha": "038e36d6969b802e805ddf9f2a8e4dc3b8d943c246243b95b5dcc4b9b904f94b"
-  },
-  {
-   "path": "media/review-720p/asm-hw-720p.mp4",
-   "bytes": 4649538,
-   "mtime": "2026-11-03T18:22:15",
-   "sha": "c7519f4a15c73346873ff576f0af44657f2d2e53e6f3c005b049e3976e947de8"
-  },
-  {
-   "path": "media/review-720p/asm-auto-720p.mp4",
-   "bytes": 4653380,
-   "mtime": "2026-11-03T18:22:14",
-   "sha": "774cb6bc8426b845508ea0b0c90f72361bf2979746df862b711435c0a34ad565"
   }
  ],
  "blocked": [
