@@ -372,3 +372,18 @@ am_free_gb=10+cpu_load_pct=48——**bm-b 不是闲着，是在跑量化轮**；
 **本班边界**：bm-b 是物理不可达、bm-c 认领器 Disabled——两者都不是本席可远程修复的（CEO 2026-10-23 禁远程调度 + C-20261009-04 禁 poke 启用 Disabled 任务）。本班实做=把可移动的供给移到在产的 bm-a，并把两条本机动作写成可直接照抄的命令。
 
 | **R7-7 `git add` 静默不生效（本班新坑·工具面）** | **registered·判例** | 现象：`git add <已跟踪文件>` 返回 rc=0，但 `rev-parse :path` 索引 blob 与 `hash-object path` 磁盘 blob 长期不等，`status`/`diff` 均报无改动。两个叠加成因：①`core.fsmonitor=true` 的陈旧缓存让 add 跳过重哈希；②本仓台账 blob 实为 **CRLF** 而全局 `core.autocrlf=true` 会把新内容转 LF（HEAD 与磁盘 106426B vs 106054B，全文件伪差异 744 行）。判定法：`git rev-parse :<path>` ↔ `git hash-object <path>` 双值比对（本班实测 5e1f045f ≠ dd63d837）。修法：`git rm --cached -q <path>` 重加；提交 CRLF 台账时加 `-c core.autocrlf=false`，否则每次提交都会翻成整文件差异。**影响面=所有靠 git add 提交台账的班次**（会误以为「已提交」而内容未入链）。 |
+
+
+## 附录 R8 事件班登记（2026-11-05 00:01-00:20·承载件触发·DL 三连 STARVED-EXEC + CLOCK-SKEW）
+
+| 件 | 状态 | 证据 / 下一步 |
+|---|---|---|
+| **R8-1 生产队列含合并冲突标记（P0·本班已修）** | **FIXED** | `cph4/fleet/PRODUCTION-QUEUE.jsonl` 实测 24 行 `<<<<<<< / ======= / >>>>>>>` + 12 张重复 ID（同日重放）。所有读队列的脚本 try/except 跳过坏行 → 主控静默少看卡且无一处报错。处置：新增 `Tools/fleet/queue_repair.py`（默认演练，`--apply` 带 `.bak-<ts>` 备份）→ 保留 451 行；`queue_integrity.py` VERDICT=GREEN（critical 1→0）。判据：重跑 `python Tools/fleet/queue_integrity.py` 应恒 GREEN。 |
+| **R8-2 STARVED-EXEC 三连（真因分层）** | **一半真·一半假红** | 假红面=R7-1 未修：`fleet-dispatcher.ps1` 的 pools 只统计 POOL.json（24 卡，open=1 且被 `CEO-PHYSICAL:submit-materials` 锁死），真正的队列是 PRODUCTION-QUEUE.jsonl；该脚本属 L0 受保护件，本席不改只登记。真红面=bm-b/bm-c 认领器不起（见 R8-3）。 |
+| **R8-3 bm-b/bm-c 认领器 Disabled（P1·第 5 次复发）** | **waiting-CEO（物理件·零催办）** | 硬证据：`POST /poke` accepted 后 `last_pull.wakes = ["HQ-ProductionClaim:deny","Bigmoney-IterationLoop:busy-skip"]`（bm-b）；两机 11-05 00:12 均 accepted，卡仍 OPEN 未被认领。修法只在各机本机执行：`schtasks /change /tn "HQ-ProductionClaim" /enable`（bm-c 另需 `git fetch origin && git reset --hard origin/main`）。C-20261009-04 禁 poke 远程启用 Disabled 任务，本席不越线。 |
+| **R8-4 两机分支分叉（收不到新工具）** | **已在机派自报卡** | bm-b HEAD=124d6964、bm-c HEAD=4f5cc086（且 10 分钟内从 037a2808 变到 4f5cc086=仍在本地提交），两者在 origin 均不存在（origin/main 最新）。后果实证：bm-b 跑 `mv_stability_gate.py` 报 SCRIPT-MISSING、`char_gen` 回落 bm-b 却连 127.0.0.1:8188（bm-c 的 ComfyUI）失败。处置：派 `fleet-node-sync-report-bm-b/bm-c-2026-11-05`（纯 git 命令，不依赖仓内脚本）取事实；reset 需先确认本地提交无独有产物。 |
+| **R8-5 音色四张分片连挂两天的真因** | **FIXED（T1）** | 回执原文「本分片无输入（inbox 共 0 个文件）」；实测 bm-a 的 `media/asset/inbox` 有 8 件（2 个 wav 共 268MB + 3 个 RIGHTS/子目录），而 media/ 不入 git → 其它机的 inbox 永远是空的。处置：`asset.json` 四条 voice-corpus 段 `nodes/hard_nodes` 改为 `["bm-a"]`（持料机），`input_dir` 闸保留；line_plan 已按新钉出 4 张 bm-a 卡。 |
+| **R8-6 CLOCK-SKEW max=3100ms** | **降级为噪声（实测）** | 00:15 直测：bm-b `/health` ts 与本机时间差 ≤1s（rtt 1082ms），bm-c 同理（rtt 1009ms）。3.1s 是环形回执/loop-round 口径，不是节点时钟。无需动作，若升 >30s 再查 w32time。 |
+| **R8-7 PARKED 线僵尸卡** | **FIXED** | `R-NEXT-BIGSTREAMD-TTS-QC-20261104`、`R-PLAN-BIGSTREAMDUA-20261104` 属 bigstream-duanju（LINE-REGISTRY=PARKED），是 line_plan 加 LINE-INACTIVE 过滤前生成的孤儿，占 bm-c 供给位。已 CANCELLED 并写 cancel_reason。 |
+| **R8-8 bm-a BURNING 实证** | **PASS** | 00:15:06 `CHK-CANON-20261104-bm-a.json` 落盘；00:04:38 `game-packs-2026-11-05.json`（bm-m）；bm-a 4 卡 RUNNING（env-check / biggame-pack-scan / mv-gate / CHK-CANON），队列 OPEN 由 2 升到 25。 |
+| **R8-9 ComfyUI 在 bm-c 未起（GPU 只能空转）** | **registered·本机动作** | 从 bm-a 探 `100.123.74.104:8188` 不通；bm-b 回执亦证 `WinError 10061 拒绝连接`。后果：`char-gen` / `asset-gen` / `face-caption`（均 hard_nodes=bm-c）全部只能写 BLOCKED。修法（bm-c 本机）：启动 ComfyUI 并确认 8188 可连。 |
