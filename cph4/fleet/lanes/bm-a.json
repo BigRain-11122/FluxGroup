@@ -1,14 +1,14 @@
 {
  "node": "bm-a",
- "ts": "2026-11-05T06:00:05",
+ "ts": "2026-11-05T06:10:04",
  "jobs": [
   {
-   "id": "asset-lib-asset-gen-2026-11-05",
-   "title": "[资产储备（角色 LoRA / 音色库）] 通用资产出图（道具/场景，吃 ASSET-PROMPTS 规格）",
-   "cmd": "python Tools/fleet/asset_gen.py --node bm-c --class props --limit 4 --receipt cph4/fleet/queue-receipts/asset-gen-props-2026-11-05.json",
+   "id": "CHK-DUPES-20261103",
+   "title": "重复派单向量重扫（bm-m 兜底体检）",
+   "cmd": "python3 Tools/fleet/semantic_dupes.py --json cph4/fleet/queue-receipts/dupes-scan-20261103.json",
    "cwd": "",
-   "needs": "gpu",
-   "deliverable": "cph4/fleet/queue-receipts/asset-gen-props-2026-11-05.json",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/dupes-scan-20261103.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 17.4/1.0 GB"
+ "capacity_note": "ram 7.9/1.0 GB"
 }
