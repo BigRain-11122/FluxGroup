@@ -387,3 +387,18 @@ am_free_gb=10+cpu_load_pct=48——**bm-b 不是闲着，是在跑量化轮**；
 | **R8-7 PARKED 线僵尸卡** | **FIXED** | `R-NEXT-BIGSTREAMD-TTS-QC-20261104`、`R-PLAN-BIGSTREAMDUA-20261104` 属 bigstream-duanju（LINE-REGISTRY=PARKED），是 line_plan 加 LINE-INACTIVE 过滤前生成的孤儿，占 bm-c 供给位。已 CANCELLED 并写 cancel_reason。 |
 | **R8-8 bm-a BURNING 实证** | **PASS** | 00:15:06 `CHK-CANON-20261104-bm-a.json` 落盘；00:04:38 `game-packs-2026-11-05.json`（bm-m）；bm-a 4 卡 RUNNING（env-check / biggame-pack-scan / mv-gate / CHK-CANON），队列 OPEN 由 2 升到 25。 |
 | **R8-9 ComfyUI 在 bm-c 未起（GPU 只能空转）** | **registered·本机动作** | 从 bm-a 探 `100.123.74.104:8188` 不通；bm-b 回执亦证 `WinError 10061 拒绝连接`。后果：`char-gen` / `asset-gen` / `face-caption`（均 hard_nodes=bm-c）全部只能写 BLOCKED。修法（bm-c 本机）：启动 ComfyUI 并确认 8188 可连。 |
+
+## 附录 R9 事件班登记（2026-11-05 01:48·承载件触发·DL 三连 STARVED-EXEC + CLOCK-SKEW/UNALIGNED）
+
+| 件 | 状态 | 证据 / 下一步 |
+|---|---|---|
+| **R9-1 队列合并冲突复发（P0·本班已修）** | **FIXED（本班）** | 01:36 实测 `PRODUCTION-QUEUE.jsonl` 3 行冲突标记 + unmerged stage 1/2/3 且无 MERGE_HEAD（幻影合并·R990 家族），根因=并发 auto-sync 的 stash pop 冲突未收口。处置=保留带 reroute 的一侧+并 prior_attempt+去重，469 行，`queue_integrity VERDICT=GREEN`。真闸应落在 sync 收口前 abort 卡死合并（承 C-20261104 律） |
+| **R9-2 未提交队列/台账改动被 auto-sync 覆盖（P0·结构性）** | **registered·流程已改** | 本班 01:29-01:31 写入的 2 取消 + 5 转派在 01:45 复查时已被整体回滚为 origin 版本（`R-PLAN-BIGMONEY-20261104` 又回 `FAILED@bm-b`）；同病随即复发一次：DEADLINES 的 R9 附录在推送前被覆盖丢失。成因=队列/台账是共享生成态，他窗 pull/stash-pop 以 origin 为准覆盖工作区。正法（本班采用）=改完立即 `Tools/git-atomic-push.py` 原子推（blob 守卫+闭环重放），不在工作区留过夜 |
+| **R9-3 STARVED-EXEC 三连（半假红·第 8 次同源）** | **registered·L0 受保护件** | 旗只统计 `POOL.json`（4 卡·open=1 且被 `CEO-PHYSICAL:submit-materials` 锁死）；真供给= `PRODUCTION-QUEUE.jsonl` OPEN 29-33 张。修法仍待 CEO 决定是否允许改 L0 派单脚本口径（历次均只登记不改） |
+| **R9-4 bm-b/bm-c 认领器 deny/Disabled（P1·第 6 次复发）** | **waiting-CEO（物理件·零催办）** | 直连 poke 两机均 `ok=true`（侦听器在线 01:27:10-12），但 bm-b `last_pull.wakes` 仍见 `HQ-ProductionClaim:deny`；01:29:56 `R-PLAN-BIGMONEY-20261104` 在 bm-b 上 `FAILED` 且 last_error/error_class 全空（E-UNKNOWN）=认领链路半通、执行不可信。修法只在各机本机：`schtasks /change /tn "HQ-ProductionClaim" /enable`（C-20261009-04 禁远程启用） |
+| **R9-5 CLOCK-SKEW bm-b 1456ms / bm-c 3478ms** | **registered·本机提权动作** | CLOCK-SKEW.json 01:34:15 实测（precision bm-b 0.8ms / bm-c 436ms；`missing=0 old_schema=0` 证早前 CLOCK-UNALIGNED 为瞬时）。承 R4-4/R5-5/R6-7/R8-6 同源=两机 w32time 停转，需本机提权自启；秒级偏差不影响派单 |
+| **R9-6 账实方向相反：回执已落盘但卡记 FAILED（新发现·待立案）** | **registered·建议升闸** | 01:07-01:33 有 10+ 张卡 state=FAILED 而对应回执已在 `queue-receipts` 落地（`asset-lib-env-check` rc=1、`CHK-RECEIPT` rc=2、`asset-lib-library-check` rc=1）；抽验回执 `error_class=E-UNKNOWN` 且 error/reason 全空 → solver 无定性可依、只会原样重试。建议=回执写手强制写 error_class + solver 按 rc 推导（`failed_triage.py` 规则接进 lane 写回路径） |
+| **R9-7 本班供给处置结果** | **PUSHED 7eb6a2e56** | 2 张 PARKED 线（bigstream-duanju）僵尸卡 CANCELLED；5 张纯仓库类卡转派 bm-a（R7-4 判例），落地 4 张（`R-PLAN-BIGDOMAIN-20261105` 在推前已被他窗置 UNVERIFIED，未动）；OPEN 由 33 降至 29（bm-a 16 / bm-m 10 / bm-b 2 / bm-c 1） |
+
+**本班边界**：bm-b/bm-c 认领器属物理件（CEO 2026-10-23 禁远程调度 + C-20261009-04），本席只做「把可移动的供给移到在产的 bm-a」+ 把本机动作写成可照抄命令。
+
