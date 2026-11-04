@@ -1,0 +1,84 @@
+{
+ "_comment": "各研究席的雷达关注面（2026-11-03 CEO 令：实验室与各子公司研究部门都要有雷达）。frequency_h=该席独立扫网的最小间隔；keywords=判定归属用的词面。雷达按命中词把候选分给席位。",
+ "seats": {
+  "labs": {
+   "name": "集团实验室",
+   "frequency_h": 150,
+   "focus": "跨线通用能力：agent 编排/评测/实验方法/新框架",
+   "keywords": [
+    "agent",
+    "orchestration",
+    "evaluation",
+    "benchmark",
+    "framework",
+    "harness"
+   ]
+  },
+  "content": {
+   "name": "BigStream 内容",
+   "frequency_h": 20,
+   "focus": "角色一致性/LoRA/i2v/配音/字幕",
+   "keywords": [
+    "lora",
+    "character consistency",
+    "image-to-video",
+    "i2v",
+    "tts",
+    "voice",
+    "subtitle",
+    "asr"
+   ]
+  },
+  "game": {
+   "name": "Biggame 游戏",
+   "frequency_h": 48,
+   "focus": "2D 表现/关卡生成/小游戏变现/引擎插件",
+   "keywords": [
+    "2d",
+    "pixel",
+    "platformer",
+    "game",
+    "unity",
+    "level generation"
+   ]
+  },
+  "money": {
+   "name": "BigMoney 量化",
+   "frequency_h": 72,
+   "focus": "因子/回测工程/数据源/成本模型",
+   "keywords": [
+    "backtest",
+    "factor",
+    "quant",
+    "alpha",
+    "portfolio"
+   ]
+  },
+  "city": {
+   "name": "FluxVerse 城市",
+   "frequency_h": 120,
+   "focus": "lowpoly/程序化/实时渲染/城市仿真",
+   "keywords": [
+    "lowpoly",
+    "procedural",
+    "city",
+    "terrain",
+    "lighting",
+    "shader"
+   ]
+  },
+  "asset": {
+   "name": "CPH4 资产（实验室直辖）",
+   "frequency_h": 24,
+   "focus": "数据集工程/抠图/打标/资产管线",
+   "keywords": [
+    "dataset",
+    "caption",
+    "segmentation",
+    "matting",
+    "retrieval",
+    "embedding"
+   ]
+  }
+ }
+}

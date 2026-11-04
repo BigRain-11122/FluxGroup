@@ -111,6 +111,10 @@ STAGES = [
     ("backup", ["Tools/fleet/backup_sync.sh"], 300, {0}, True),
     # 一屏：所有业务的最下一步（CEO 2026-11-03「随时能给出下一步任务」）。
     ("next_actions", ["Tools/fleet/next_actions.py"], 60, {0, 2}, True),
+    # 集团雷达（CEO 2026-11-03 令：实验室与各研究席高频合理地扫网）。
+    # 频率写在 Tools/fleet/radar.py 的 SOURCES 里（GitHub 20h / arXiv 150h），未到点自跳过；
+    # 源挂了记 BLOCKED 不编候选（实测 HF 直连不通）。
+    ("radar", ["Tools/fleet/radar.py"], 180, {0}, True),
     # 前瞻：每条线剩余弹药与卡点（CEO 2026-11-03「不许等机队没活了」）。
     # 只报告不阻断：runway<2 天会打 ALERT 行，告警由人看或后续接排队。
     ("forecast", ["Tools/fleet/forecast.py"], 60, {0, 2}, True),
