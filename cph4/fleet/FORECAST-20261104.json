@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-04T15:15:26+0800",
+ "ts": "2026-11-04T15:23:04+0800",
  "alert_days": 2.0,
  "lines": [
   {
@@ -13,6 +13,24 @@
    "blocker": {
     "stage": "env-check",
     "deliverable": "cph4/fleet/queue-receipts/asset-env-20261104.json",
+    "needs": "cpu",
+    "hard_nodes": []
+   },
+   "flags": [
+    "ALERT"
+   ]
+  },
+  {
+   "line": "bigstream-mv",
+   "status": "ACTIVE",
+   "prio": "P0",
+   "stock": 4,
+   "rate_per_day": 4.67,
+   "runway_days": 0.9,
+   "has_table": true,
+   "blocker": {
+    "stage": "gate",
+    "deliverable": "cph4/fleet/queue-receipts/mv-gate-v721-20261104.json",
     "needs": "cpu",
     "hard_nodes": []
    },
@@ -42,9 +60,9 @@
    "line": "biggame",
    "status": "ACTIVE",
    "prio": "P0",
-   "stock": 4,
+   "stock": 3,
    "rate_per_day": 1.0,
-   "runway_days": 4.0,
+   "runway_days": 3.0,
    "has_table": true,
    "blocker": {
     "stage": "pack-scan",
@@ -53,24 +71,6 @@
     "hard_nodes": []
    },
    "flags": []
-  },
-  {
-   "line": "bigstream-mv",
-   "status": "ACTIVE",
-   "prio": "P0",
-   "stock": 2,
-   "rate_per_day": 4.67,
-   "runway_days": 0.4,
-   "has_table": true,
-   "blocker": {
-    "stage": "gate",
-    "deliverable": "cph4/fleet/queue-receipts/mv-gate-v721-20261104.json",
-    "needs": "cpu",
-    "hard_nodes": []
-   },
-   "flags": [
-    "ALERT"
-   ]
   },
   {
    "line": "bigstream-drama",
