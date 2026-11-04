@@ -1,23 +1,23 @@
 {
- "ts": "2026-11-04T15:18:04",
- "cycle": 91,
+ "ts": "2026-11-04T15:19:20",
+ "cycle": 92,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-04T15:18:04",
+ "master_tick_ts": "2026-11-04T15:19:20",
  "queue": {
   "total": 412,
-  "open": 34,
+  "open": 35,
   "running": 3,
   "done": 153,
-  "failed": 21
+  "failed": 20
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 50.8,
-   "cpu_load_pct": 8,
-   "ram_free_gb": 33.4,
-   "gpu_util_pct": 57,
+   "hb_age_s": 3.9,
+   "cpu_load_pct": 45,
+   "ram_free_gb": 33.9,
+   "gpu_util_pct": 69,
    "job": "bigstream-mv-transition-2026-11-04",
    "last_result": {
     "job": "ART-PUSH-BMA-20261104",
@@ -32,7 +32,7 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 25.9,
+   "hb_age_s": 99.2,
    "cpu_load_pct": 16,
    "ram_free_gb": 11.9,
    "gpu_util_pct": 0,
@@ -46,20 +46,20 @@
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 80
+   "idle_rounds": 81
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 33.8,
+   "hb_age_s": 10.5,
    "cpu_load_pct": 8,
-   "ram_free_gb": 4.1,
+   "ram_free_gb": 4.3,
    "gpu_util_pct": 0,
    "job": "asset-lib-voice-assemble-2026-11-03",
    "last_result": {
-    "job": "bigstream-mv-stability-2026-11-04",
-    "state": "FAILED",
-    "rc": 2,
-    "ts": "2026-11-04T15:17:56",
+    "job": "asset-lib-voice-assemble-2026-11-03",
+    "state": "RUNNING",
+    "rc": null,
+    "ts": "2026-11-04T15:19:13",
     "reason": null
    },
    "idle_confirmed": false,
@@ -69,15 +69,15 @@
   "bm-m": {
    "online": true,
    "hb_age_s": 0.8,
-   "cpu_load_pct": 31,
+   "cpu_load_pct": 28,
    "ram_free_gb": 18.6,
    "gpu_util_pct": null,
-   "job": "biggame-playable-2026-11-03",
+   "job": "bigstream-mv-stability-2026-11-04",
    "last_result": {
-    "job": "CHK-DUPES-20261103",
+    "job": "biggame-playable-2026-11-03",
     "state": "FAILED",
     "rc": 0,
-    "ts": "2026-11-04T15:16:54",
+    "ts": "2026-11-04T15:18:08",
     "reason": null
    },
    "idle_confirmed": false,
@@ -87,7 +87,7 @@
  },
  "idle_rounds": {
   "bm-a": 0,
-  "bm-b": 80,
+  "bm-b": 81,
   "bm-c": 0,
   "bm-m": 0
  },
@@ -100,7 +100,8 @@
    "stale_after_h": 24.0,
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
    "jobs": [
-    "bigstream-mv-transition-2026-11-04"
+    "bigstream-mv-transition-2026-11-04",
+    "bigstream-mv-stability-2026-11-04"
    ],
    "no_supply": false,
    "blockers": [],
@@ -158,7 +159,6 @@
    "stale_after_h": 24.0,
    "owner": "游戏席",
    "jobs": [
-    "biggame-playable-2026-11-03",
     "R-PLAN-BIGGAME-20261104"
    ],
    "no_supply": false,
@@ -297,6 +297,7 @@
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
    "jobs": [
+    "CHK-DUPES-20261103",
     "CANARY-20261103T160731",
     "CANARY-20261103T200141",
     "CANARY-20261103T201026",
@@ -310,6 +311,7 @@
    ],
    "no_supply": false,
    "blockers": [
+    "CHK-DUPES-20261103:no-lane",
     "CANARY-20261103T160731:no-lane",
     "CANARY-20261103T200141:no-lane",
     "CANARY-20261103T201026:no-lane",
@@ -866,7 +868,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 34,
+  "local": 35,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -874,24 +876,23 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 34,
+  "cpu": 35,
   "gpu": 0
  },
- "supply_added": [],
+ "supply_added": [
+  "backlog_manifest+3"
+ ],
  "events": [
   "ART-PUSH-BMA-20261104 FAILED via bm-a",
-  "bigstream-mv-stability-2026-11-04 FAILED via bm-c",
-  "CHK-DUPES-20261103 FAILED via bm-m",
-  "asset-lib-voice-assemble-2026-11-03 -> bm-c (cpu)",
-  "biggame-playable-2026-11-03 -> bm-m (cpu)"
+  "biggame-playable-2026-11-03 FAILED via bm-m",
+  "bigstream-mv-stability-2026-11-04 -> bm-m (cpu)"
  ],
  "violations": [
-  "bm-b IDLE-CONFIRMED x80 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-b IDLE-CONFIRMED x81 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-c",
   "bm-m"
  ]
 }
