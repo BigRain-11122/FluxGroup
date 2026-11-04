@@ -1,23 +1,23 @@
 {
- "ts": "2026-11-05T05:11:26",
- "cycle": 16,
+ "ts": "2026-11-05T05:15:40",
+ "cycle": 17,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-05T05:11:26",
+ "master_tick_ts": "2026-11-05T05:15:40",
  "queue": {
   "total": 470,
-  "open": 29,
+  "open": 28,
   "running": 4,
   "done": 192,
-  "failed": 28
+  "failed": 29
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 12.9,
-   "cpu_load_pct": 49,
-   "ram_free_gb": 11.2,
-   "gpu_util_pct": 86,
+   "hb_age_s": 26.9,
+   "cpu_load_pct": 30,
+   "ram_free_gb": 16.2,
+   "gpu_util_pct": 63,
    "job": "bigstream-mv-gate-2026-11-05",
    "last_result": {
     "job": "asset-lib-face-dataset-2026-11-05",
@@ -32,10 +32,10 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 34.5,
-   "cpu_load_pct": 51,
-   "ram_free_gb": 13.1,
-   "gpu_util_pct": null,
+   "hb_age_s": 6.3,
+   "cpu_load_pct": 76,
+   "ram_free_gb": 14.9,
+   "gpu_util_pct": 0,
    "job": "OPS-CLOCK-RESYNC-BMB-20261105",
    "last_result": {
     "job": "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105",
@@ -50,16 +50,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 52.2,
-   "cpu_load_pct": 9,
-   "ram_free_gb": 2.7,
-   "gpu_util_pct": 1,
-   "job": "asset-lib-asset-gen-2026-11-05",
+   "hb_age_s": 51.4,
+   "cpu_load_pct": 10,
+   "ram_free_gb": 2.5,
+   "gpu_util_pct": 0,
+   "job": "Q-VCORP-PREP-e01-R3-20261105",
    "last_result": {
-    "job": "OPS-CLOCK-RESYNC-BMC-20261105",
+    "job": "asset-lib-asset-gen-2026-11-05",
     "state": "FAILED",
-    "rc": null,
-    "ts": "2026-11-05T05:10:38",
+    "rc": 1,
+    "ts": "2026-11-05T05:12:09",
     "reason": null
    },
    "idle_confirmed": false,
@@ -68,16 +68,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.8,
-   "cpu_load_pct": 36,
-   "ram_free_gb": 13.8,
+   "hb_age_s": 1.0,
+   "cpu_load_pct": 19,
+   "ram_free_gb": 13.7,
    "gpu_util_pct": null,
-   "job": "R-NEXT-BIGSTREAMM-GATE-20261105",
+   "job": "CHK-DUPES-20261103",
    "last_result": {
-    "job": "Q-VCORP-PREP-e01-R3-20261105",
+    "job": "R-NEXT-BIGSTREAMM-GATE-20261105",
     "state": "FAILED",
-    "rc": null,
-    "ts": "2026-11-05T05:10:15",
+    "rc": 1,
+    "ts": "2026-11-05T05:11:31",
     "reason": null
    },
    "idle_confirmed": false,
@@ -100,7 +100,6 @@
    "stale_after_h": 24.0,
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
    "jobs": [
-    "R-NEXT-BIGSTREAMM-GATE-20261105",
     "bigstream-mv-gate-2026-11-05"
    ],
    "no_supply": false,
@@ -311,7 +310,6 @@
    ],
    "no_supply": false,
    "blockers": [
-    "CHK-DUPES-20261103:no-lane",
     "CANARY-20261104T125141:no-lane",
     "CANARY-20261104T132721:no-lane",
     "CANARY-20261104T140742:no-lane",
@@ -330,7 +328,7 @@
    "stale_after_h": 72.0,
    "owner": "资产席",
    "jobs": [
-    "asset-lib-asset-gen-2026-11-05"
+    "Q-VCORP-PREP-e01-R3-20261105"
    ],
    "no_supply": false,
    "blockers": [],
@@ -872,7 +870,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 29,
+  "local": 28,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -880,18 +878,19 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 29,
+  "cpu": 28,
   "gpu": 0
  },
- "supply_added": [],
+ "supply_added": [
+  "backlog_manifest+3"
+ ],
  "events": [
   "asset-lib-face-dataset-2026-11-05 FAILED via bm-a",
   "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105 FAILED via bm-b",
-  "OPS-CLOCK-RESYNC-BMC-20261105 FAILED via bm-c",
-  "Q-VCORP-PREP-e01-R3-20261105 FAILED via bm-m",
-  "asset-lib-asset-gen-2026-11-05 -> bm-c (gpu)",
-  "OPS-CLOCK-RESYNC-BMB-20261105 -> bm-b (cpu)",
-  "R-NEXT-BIGSTREAMM-GATE-20261105 -> bm-m (cpu)"
+  "asset-lib-asset-gen-2026-11-05 FAILED via bm-c",
+  "R-NEXT-BIGSTREAMM-GATE-20261105 FAILED via bm-m",
+  "Q-VCORP-PREP-e01-R3-20261105 -> bm-c (cpu)",
+  "CHK-DUPES-20261103 -> bm-m (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
@@ -899,7 +898,6 @@
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-b",
   "bm-c",
   "bm-m"
  ]
