@@ -1,14 +1,14 @@
 {
  "node": "bm-b",
- "ts": "2026-11-05T00:35:02",
+ "ts": "2026-11-05T00:42:58",
  "jobs": [
   {
-   "id": "asset-lib-voice-dataset-2026-11-05",
-   "title": "[资产储备（角色 LoRA / 音色库）] 音色数据集准入（反播音腔的第一道门）",
-   "cmd": "python Tools/fleet/asset_dataset_audit.py --mode voice --dir media/asset/voices --out cph4/fleet/queue-receipts/asset-voice-2026-11-05.json",
+   "id": "asset-lib-asset-gen-2026-11-05",
+   "title": "[资产储备（角色 LoRA / 音色库）] 通用资产出图（道具/场景，吃 ASSET-PROMPTS 规格）",
+   "cmd": "python Tools/fleet/asset_gen.py --node bm-c --class props --limit 4 --receipt cph4/fleet/queue-receipts/asset-gen-props-2026-11-05.json",
    "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/asset-voice-2026-11-05.json",
+   "needs": "gpu",
+   "deliverable": "cph4/fleet/queue-receipts/asset-gen-props-2026-11-05.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -18,6 +18,6 @@
   }
  ],
  "idle_reason": "",
- "lane_ok": true,
- "capacity_note": "ram 5.3/1.0 GB"
+ "lane_ok": false,
+ "capacity_note": "CPU-SATURATED 100%"
 }
