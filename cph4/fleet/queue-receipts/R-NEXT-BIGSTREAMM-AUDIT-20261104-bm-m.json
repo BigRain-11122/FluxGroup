@@ -11,7 +11,7 @@
  "error_class": "E-UNKNOWN",
  "deliverable": "cph4/fleet/queue-receipts/mv-full-audit-20261104.json",
  "deliverable_exists": false,
- "ts": "2026-11-04T10:27:23",
+ "ts": "2026-11-04T10:34:23",
  "stdout_tail": "",
  "stderr_tail": "Traceback (most recent call last):\n  File \"/Users/junsheng.sun/FluxGroup/Tools/mv_full_audit.py\", line 21, in <module>\n    import cv2\nModuleNotFoundError: No module named 'cv2'\n"
 }
