@@ -1,4 +1,4 @@
-# 机队互报（2026-11-05T07:22:46+0800）
+# 机队互报（2026-11-05T07:29:07+0800）
 
 上报 1 / 名册 5 台；本机看不到的他人产物 0 件（传输通道度量，不是错误）
 
@@ -12,12 +12,12 @@
 
 ## bm-m（20261105，窗口 26h）
 - 产出 99 件
-  - `cph4/fleet/queue-receipts/skill-promote-20261105.json`（2KB, 35e4a83beb…）
+  - `cph4/fleet/queue-receipts/skill-promote-20261105.json`（2KB, 28e752292e…）
+  - `cph4/fleet/queue-receipts/review-packet-mv-20261105.md`（1KB, 77262f76a6…）
   - `cph4/fleet/queue-receipts/bm-m-fleetboard-20261105.md`（2KB, 18e56dd54c…）
   - `cph4/fleet/queue-receipts/R-FLEETBOARD-20261104-002-bm-m.json`（2KB, 7f1abdce1b…）
   - `cph4/fleet/queue-receipts/R-NEXT-BIGSTREAMM-AUDIT-20261105-bm-a.json`（2KB, 51531b1591…）
   - `cph4/fleet/queue-receipts/inference-audit-bm-m-20261105.json`（1KB, 2173edc7bc…）
-  - `cph4/fleet/queue-receipts/R-NEEDWORK-20261104-001-bm-m.json`（1KB, dbd06f9f0b…）
 - 受阻 6 条
   - _last_lane_bm-m.json：rc=127 
   - R-NEXT-BIGSTREAMM-AUDIT-20261105：E-UNKNOWN 

@@ -1,11 +1,11 @@
 {
- "ts": "2026-11-05T07:22:46",
+ "ts": "2026-11-05T07:29:07",
  "stage": 3,
  "adoption": {
   "days": 4,
-  "applied": 879,
-  "total": 652,
-  "rate": 134.8,
+  "applied": 881,
+  "total": 654,
+  "rate": 134.7,
   "eligible_stage4": false
  },
  "decisions": [
@@ -13,7 +13,7 @@
    "kind": "requeue",
    "why": "3 张卡在跑但 1 小时无回执",
    "target": [
-    "asset-lib-face-dataset-2026-11-05",
+    "bigstream-mv-gate-2026-11-05",
     "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105",
     "asset-lib-asset-gen-2026-11-05"
    ],
@@ -35,7 +35,7 @@
   {
    "kind": "requeue",
    "ids": [
-    "asset-lib-face-dataset-2026-11-05",
+    "bigstream-mv-gate-2026-11-05",
     "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105",
     "asset-lib-asset-gen-2026-11-05"
    ]
