@@ -1,22 +1,20 @@
 {
  "node": "bm-m",
- "ts": "2026-11-05T06:56:08",
+ "ts": "2026-11-05T06:58:48",
  "jobs": [
   {
-   "id": "Q-VCORP-PREP-e01-R3-20261105",
-   "title": "音色语料切片·e01（LibriTTS → voices/e01/sliced，纯 CPU）",
-   "cmd": "python C:/Fluxgroup/FleetAgent/Tools/fleet/voice_corpus_prep.py --inbox C:/Fluxgroup/FluxGroup/media/asset/inbox/e01 --group e01 --shard 0/1 --receipt C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-prep-e01-r3-20261105.json",
-   "cwd": "C:/Fluxgroup/FluxGroup",
+   "id": "CANARY-20261104T140742",
+   "title": "端到端自检：投卡→领取→执行→回执→产物",
+   "cmd": "python -c \"import os;os.makedirs(r'cph4/fleet/state/canary',exist_ok=True);open(r'cph4/fleet/state/canary/RUN-20261104T140742.txt','w',encoding='utf-8').write('canary 20261104T140742 — 端到端自检产物，不是业务活')\"",
+   "cwd": "",
    "needs": "cpu",
-   "deliverable": "C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-prep-e01-r3-20261105.json",
+   "deliverable": "cph4/fleet/state/canary/RUN-20261104T140742.txt",
    "need_mb": null,
    "model": "none",
    "prompt": "",
-   "when_all": [
-    "C:/Fluxgroup/FluxGroup/media/asset/inbox/e01"
-   ],
+   "when_all": [],
    "llm": null,
-   "timeout_s": 3600
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
