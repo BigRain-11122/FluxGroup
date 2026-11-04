@@ -1,6 +1,6 @@
 {
- "ts": "2026-11-04T12:00:02",
- "cycle": 9,
+ "ts": "2026-11-04T12:02:02",
+ "cycle": 10,
  "master_node": "bm-m",
  "masquerade_by": "bm-a",
  "master_tick_ts": "2026-11-04T11:44:02",
@@ -14,16 +14,16 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 35.3,
-   "cpu_load_pct": 24,
-   "ram_free_gb": 45.3,
-   "gpu_util_pct": 92,
+   "hb_age_s": 48.0,
+   "cpu_load_pct": 57,
+   "ram_free_gb": 40.2,
+   "gpu_util_pct": 55,
    "job": "bigstream-mv-stability-2026-11-04",
    "last_result": {
     "job": "bigstream-mv-stability-2026-11-04",
-    "state": "RUNNING",
+    "state": "BUSY",
     "rc": null,
-    "ts": "2026-11-04T11:59:30",
+    "ts": "2026-11-04T12:01:45",
     "reason": null
    },
    "idle_confirmed": false,
@@ -32,16 +32,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 7.4,
-   "cpu_load_pct": 14,
-   "ram_free_gb": 10.9,
+   "hb_age_s": 9.2,
+   "cpu_load_pct": 4,
+   "ram_free_gb": 10.7,
    "gpu_util_pct": null,
    "job": "asset-lib-char-gen-2026-11-04",
    "last_result": {
     "job": "asset-lib-voice-corpus-bmb-2026-11-04",
     "state": "FAILED",
     "rc": 3,
-    "ts": "2026-11-04T11:59:12",
+    "ts": "2026-11-04T12:00:41",
     "reason": null
    },
    "idle_confirmed": false,
@@ -50,8 +50,8 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 88.3,
-   "cpu_load_pct": 7,
+   "hb_age_s": 97.1,
+   "cpu_load_pct": 6,
    "ram_free_gb": 4.0,
    "gpu_util_pct": 0,
    "job": "R-MODEL-RADAR-BMA-20261103",
@@ -59,7 +59,7 @@
     "job": "R-NEXT-BIGSTREAMM-GATE-20261104",
     "state": "FAILED",
     "rc": 1,
-    "ts": "2026-11-04T11:59:13",
+    "ts": "2026-11-04T12:01:02",
     "reason": null
    },
    "idle_confirmed": false,
@@ -68,7 +68,7 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 244.5,
+   "hb_age_s": 364.5,
    "cpu_load_pct": 34,
    "ram_free_gb": 13.9,
    "gpu_util_pct": null,
@@ -77,7 +77,7 @@
     "job": "CHK-DUPES-20261103",
     "state": "BUSY",
     "rc": null,
-    "ts": "2026-11-04T11:59:56",
+    "ts": "2026-11-04T12:00:41",
     "reason": null
    },
    "idle_confirmed": false,
@@ -191,7 +191,7 @@
    "name": "BigMoney·量化",
    "status": "ACTIVE",
    "verdict": "WORKING",
-   "age_h": 13.3,
+   "age_h": 13.4,
    "stale_after_h": 24.0,
    "owner": "量化席",
    "jobs": [
@@ -223,7 +223,7 @@
    "name": "BigCompute·硅基算力",
    "status": "ACTIVE",
    "verdict": "WORKING",
-   "age_h": 5.7,
+   "age_h": 5.8,
    "stale_after_h": 36.0,
    "owner": "算力中枢席",
    "jobs": [
@@ -255,7 +255,7 @@
    "name": "BigHouse·城市安家",
    "status": "PARKED",
    "verdict": "PARKED",
-   "age_h": 412.6,
+   "age_h": 412.7,
    "stale_after_h": 72.0,
    "owner": "生态运营席",
    "jobs": [],
@@ -884,18 +884,15 @@
   "gpu": 0
  },
  "supply_added": [
-  "backlog_manifest+2"
+  "backlog_manifest+1"
  ],
  "events": [
-  "asset-lib-voice-corpus-bmb-2026-11-04 FAILED via bm-b",
-  "asset-lib-char-gen-2026-11-04 -> bm-b (gpu)"
+  "asset-lib-voice-corpus-bmb-2026-11-04 FAILED via bm-b"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED fluxverse 卡在 场景装配/地编席 (城市线)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
- "lane_files_written": [
-  "bm-b"
- ]
+ "lane_files_written": []
 }
