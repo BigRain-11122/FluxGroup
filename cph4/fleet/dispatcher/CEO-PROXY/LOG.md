@@ -1120,3 +1120,5 @@ am_free 10GB / cpu_load 48%——bm-b 在跑量化轮而非闲着；缺的是本
 >>>>>>> 18a81cbb (MV 交付闸首跑定罪 + 两处闸缺陷修 + SUPPLY-DRY 翻案补料)
 
 >>>>>>> 36550e62 (job(bigstream-mv-gate-2026-11-04): artifact [via bm-a])
+| **R8b-10 并行会话在同一工作树再起 rebase（今晚第 3 次·登记）** | **registered·P1（结构）** | 本班收口过程中，另有两个会话连续在**同一 worktree** 起 `git rebase`（1/1 onto 2250d02bb、1/3 onto ee0a99dbd），每次都由 autostash 把 `PRODUCTION-QUEUE.jsonl` 重新拼成冲突态，本班被迫二次/三次 abort 并重建。旁证：`git stash list` 已堆到 **77 条**（绝大多数是 `autostash` / `auto-sync-bm-c`），正是反复 abort 的沉积物。这不是机器故障，是**多窗口共享一棵工作树 + 多处代码仍在走 rebase**的机制病；根治仍是「禁 rebase + 收口前自清 `.git/rebase-merge`」落到 lane/脉冲/order-bus 三处（R8-1/D-20261105-03 同族）。本班未改任何调度代码（受保护面），只登记。 |
+| **R8b-11 收口终态（本班）** | **PASS** | 队列 488 行 / OPEN 42 / 僵尸 RUNNING 已清零 / `queue_integrity=VERDICT=GREEN`；车道四件 JSON 可解析（bm-a lane_ok=true、bm-b=false CPU-SATURATED、bm-c=true、bm-m=true）；`git rev-list --left-right --count HEAD...origin/main = 0 0`（已推送）。回访探针已在班会话内建一次性 cron（+90min）。 |
