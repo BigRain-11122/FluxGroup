@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-04T12:52:41+0800",
+ "ts": "2026-11-04T13:01:15+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -14,7 +14,7 @@
    "blocker": "char-probe 在 bm-c 上 rc=2 零回执，未定位（疑 checkout 落后）",
    "state": "RUNNING",
    "card": "asset-lib-voice-assemble-2026-11-03",
-   "running_on": "bm-c"
+   "running_on": "bm-m"
   },
   {
    "id": "biggame",
@@ -27,9 +27,9 @@
    "accept": "SUBMIT-PACK 里『隐私政策』『提审台账』两类缺件归零",
    "blocker_type": "CEO",
    "blocker": "截图需跑游戏取图，受 2026-10-28『不许自动跑游戏包』令约束，等放行",
-   "state": "RUNNING",
-   "card": "biggame-playable-2026-11-03",
-   "running_on": "bm-m"
+   "state": "QUEUED",
+   "card": "biggame-pack-scan-2026-11-04",
+   "running_on": null
   },
   {
    "id": "bigmoney",
@@ -228,8 +228,8 @@
   }
  ],
  "counts": {
-  "RUNNING": 2,
-  "QUEUED": 9,
+  "RUNNING": 1,
+  "QUEUED": 10,
   "STALLED": 4
  },
  "stalled_engine": 0

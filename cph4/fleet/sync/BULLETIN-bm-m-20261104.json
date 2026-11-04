@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
  "date": "20261104",
- "ts": "2026-11-04T12:52:41+0800",
+ "ts": "2026-11-04T13:01:15+0800",
  "window_h": 26,
  "produced": [
   {
    "path": "cph4/fleet/queue-receipts/skill-promote-20261104.json",
    "bytes": 2117,
-   "mtime": "2026-11-04T12:52:41",
-   "sha": "31c331dc7ad5cca760c71a72a677fdedb739b7c0d200102e36f760f21599259b"
+   "mtime": "2026-11-04T13:01:15",
+   "sha": "6f397ee8d78a24a0e9fdde2f2cd957a4c06c181860c5b454ca090f6f595047fa"
   },
   {
    "path": "cph4/fleet/queue-receipts/asset-lib-voice-dataset-2026-11-04-bm-m.json",
@@ -605,6 +605,10 @@
    "why": "E-UNKNOWN ASSET-ENV FAIL  bm-m\n  可用路线: 无\n  ! 没有 ffmpeg（切分/抽帧/审计都要）\n  ! 没有 torch（No module "
   },
   {
+   "what": "_last_lane_bm-m.json",
+   "why": "rc=3 "
+  },
+  {
    "what": "asset-lib-voice-corpus-bmm-2026-11-03",
    "why": "rc=3 [corpus] 本分片无输入（inbox 共 0 个文件）——等投料，rc=3\n"
   },
@@ -619,10 +623,6 @@
   {
    "what": "asset-lib-library-check-2026-11-04",
    "why": "E-UNKNOWN 资产库体检 tier=p0  合计 19/128（15%）  GAPS\n  OK characters    8/8    授权 8\n      - CH01："
-  },
-  {
-   "what": "voice-corpus-bm-m-2026-11-04.json",
-   "why": "E-BLOCKED-INPUT "
   }
  ],
  "job": null
