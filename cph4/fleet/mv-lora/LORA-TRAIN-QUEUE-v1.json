@@ -18,7 +18,7 @@
    "name": "学生文艺",
    "trigger": "h01",
    "lora": "her_mv0001_rank32",
-   "status": "running",
+   "status": "trained",
    "base": "a young Taiwanese woman around twenty, softly rounded face with full apple cheeks (natural facial structure), big dark double-lidded rounded-almond eyes, small nose with soft rounded tip, medium-full matte lips, soft natural brows, thick blunt full fringe covering the eyebrows, visible pores and fine film grain, relaxed un-fitted 2001 Taipei style, straight-leg denim, canvas sneakers, slouchy cloth shoulder bag, beige knit sweater",
    "use": [
     "mv",
@@ -31,7 +31,8 @@
    ],
    "needs": "gpu",
    "train_name": "her_mv0001",
-   "note": "历史命名：T01 的权重叫 her_mv0001（触发词 h01），与 job id 不同，一律走 train_name"
+   "note": "历史命名：T01 的权重叫 her_mv0001（触发词 h01），与 job id 不同，一律走 train_name",
+   "weights": "her_mv0001_rank32.safetensors"
   },
   {
    "order": 2,
@@ -116,7 +117,7 @@
    "name": "冷感御姐",
    "trigger": "h06",
    "lora": "her_T06_r1",
-   "status": "running",
+   "status": "failed-1073807364",
    "base": "a Taiwanese woman in her late twenties, high cheekbones, long narrow eyes, thin lips, defined jaw angle, low ponytail with hair smoothed close to the head, visible pores and fine film grain, 2001 Taipei urban style, fitted black turtleneck under an unfitted wool coat, straight trousers",
    "use": [
     "mv"
@@ -134,7 +135,7 @@
    "name": "文学少女",
    "trigger": "h07",
    "lora": "her_T07_r1",
-   "status": "queued",
+   "status": "blocked-cast",
    "base": "a young Taiwanese woman around twenty, narrow face, long calm eyes usually looking down, faint light brows, half-length straight hair tucked behind one ear, round thin metal-frame glasses, visible pores and fine film grain, relaxed un-fitted 2001 Taipei style, grey knit vest over a white collared shirt, long skirt",
    "use": [
     "mv",
@@ -152,7 +153,7 @@
    "name": "雨夜疏离",
    "trigger": "h08",
    "lora": "her_T08_r1",
-   "status": "queued",
+   "status": "blocked-cast",
    "base": "a Taiwanese woman with neutral delicate features, cool pale skin, thin lips, wet hair clinging to the face and temples, visible pores and fine film grain, single street-lamp light with rain, 2001 Taipei night style, dark unfitted trench coat, straight jeans, wet pavement reflections",
    "use": [
     "mv",
