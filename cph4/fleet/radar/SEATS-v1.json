@@ -79,6 +79,27 @@
     "retrieval",
     "embedding"
    ]
+  },
+  "control": {
+   "name": "主控（MacBook Pro）",
+   "frequency_h": 48,
+   "focus": "机队自身：调度可靠性/持久执行/资源与内存/本地推理效率/可观测性",
+   "keywords": [
+    "scheduler",
+    "durable execution",
+    "workflow engine",
+    "cron",
+    "queue",
+    "resource allocation",
+    "memory management",
+    "local inference",
+    "quantization",
+    "observability",
+    "tracing",
+    "self-healing",
+    "retry",
+    "idempotent"
+   ]
   }
  }
 }

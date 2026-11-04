@@ -209,6 +209,34 @@ def main(argv):
         md.append("   - %s" % (c.get("desc") or "")[:160])
         md.append("   - %s" % (c.get("url") or ""))
     open(os.path.join(RD, "RADAR.md"), "w", encoding="utf-8").write("\n".join(md) + "\n")
+
+    # 分席摘报（CEO 2026-11-03：各席位各取所需，不重复）：
+    # 全网只扫一次，按命中词分给唯一席位；每席只看自己那份，避免所有人读同一堆噪声。
+    by_seat = {}
+    for c in picked:
+        by_seat.setdefault(c.get("seat", "labs"), []).append(c)
+    for sid, items in by_seat.items():
+        lines = ["# %s 雷达摘报（%s）" % (sid, rec["ts"]), ""]
+        for c in items:
+            lines.append("- **[%d] %s**（命中 %s）" % (c["score"], c["title"], ",".join(c["hits"]) or "-"))
+            lines.append("  - %s" % (c.get("desc") or "")[:160])
+            lines.append("  - %s" % (c.get("url") or ""))
+        open(os.path.join(RD, "RADAR-%s.md" % sid), "w", encoding="utf-8").write("\n".join(lines) + "\n")
+
+    # 词面重复自检：同词出现在两个席=两边会抢同一条候选，属配置缺陷
+    try:
+        seats = (json.load(open(SEATS, encoding="utf-8")).get("seats") or {})
+        seen_w, dups = {}, []
+        for sid, sdef in seats.items():
+            for k in (sdef.get("keywords") or []):
+                if k in seen_w and seen_w[k] != sid:
+                    dups.append("%s(%s/%s)" % (k, seen_w[k], sid))
+                seen_w[k] = sid
+        if dups:
+            print("  SEAT-WORD-DUP:", ", ".join(dups))
+    except Exception:
+        pass
+    print("  by seat: %s" % ", ".join("%s=%d" % (k, len(v)) for k, v in sorted(by_seat.items())))
     print("radar: %s" % " · ".join("%s=%s" % (k, v) for k, v in status.items()))
     print("new=%d picked=%d -> cph4/fleet/radar/RADAR.md" % (len(new), len(picked)))
     for c in picked[:6]:
