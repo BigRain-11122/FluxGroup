@@ -1,23 +1,23 @@
 {
- "ts": "2026-11-05T01:12:37",
- "cycle": 4,
+ "ts": "2026-11-05T01:14:00",
+ "cycle": 5,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-05T01:12:37",
+ "master_tick_ts": "2026-11-05T01:14:00",
  "queue": {
-  "total": 488,
-  "open": 34,
+  "total": 469,
+  "open": 35,
   "running": 4,
   "done": 179,
-  "failed": 27
+  "failed": 26
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 18.2,
-   "cpu_load_pct": 12,
-   "ram_free_gb": 13.3,
-   "gpu_util_pct": 66,
+   "hb_age_s": 36.7,
+   "cpu_load_pct": 20,
+   "ram_free_gb": 18.5,
+   "gpu_util_pct": 56,
    "job": "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105",
    "last_result": {
     "job": "asset-lib-env-check-2026-11-05",
@@ -32,7 +32,7 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 144.8,
+   "hb_age_s": 223.4,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -44,9 +44,9 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 36.3,
-   "cpu_load_pct": 8,
-   "ram_free_gb": 3.0,
+   "hb_age_s": 11.0,
+   "cpu_load_pct": 15,
+   "ram_free_gb": 2.9,
    "gpu_util_pct": 0,
    "job": "asset-lib-char-gen-2026-11-05",
    "last_result": {
@@ -63,15 +63,15 @@
   "bm-m": {
    "online": true,
    "hb_age_s": 1.0,
-   "cpu_load_pct": 19,
-   "ram_free_gb": 18.5,
+   "cpu_load_pct": 35,
+   "ram_free_gb": 19.0,
    "gpu_util_pct": null,
    "job": "bigstream-mv-gate-2026-11-05",
    "last_result": {
-    "job": "Q-VCORP-PREP-e01-R3-20261105",
-    "state": "FAILED",
-    "rc": null,
-    "ts": "2026-11-05T01:11:23",
+    "job": "CANARY-20261105T011348",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-05T01:13:48",
     "reason": null
    },
    "idle_confirmed": false,
@@ -339,12 +339,15 @@
    "stale_after_h": 72.0,
    "owner": "资产席",
    "jobs": [
+    "Q-VCORP-PREP-e01-R3-20261105",
     "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105",
     "asset-lib-asset-gen-2026-11-05",
     "asset-lib-char-gen-2026-11-05"
    ],
    "no_supply": false,
-   "blockers": [],
+   "blockers": [
+    "Q-VCORP-PREP-e01-R3-20261105:no-lane"
+   ],
    "note": "CEO 2026-11-03：先储备资产，角色 LoRA 与音色库为 P0"
   }
  },
@@ -881,7 +884,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 34,
+  "local": 35,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -889,7 +892,7 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 34,
+  "cpu": 35,
   "gpu": 0
  },
  "supply_added": [
@@ -897,15 +900,12 @@
  ],
  "events": [
   "asset-lib-face-dataset-2026-11-05 FAILED via bm-c",
-  "Q-VCORP-PREP-e01-R3-20261105 FAILED via bm-m",
-  "bigstream-mv-gate-2026-11-05 -> bm-m (cpu)"
+  "asset-lib-char-gen-2026-11-05 -> bm-c (gpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
- "lane_files_written": [
-  "bm-m"
- ]
+ "lane_files_written": []
 }
