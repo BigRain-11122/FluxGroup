@@ -9,7 +9,9 @@
  "lines": {
   "bigstream-mv": {
    "prio": "P1",
-   "nodes": ["bm-a"],
+   "nodes": [
+    "bm-a"
+   ],
    "needs": "cpu",
    "cards": [
     {
@@ -39,7 +41,9 @@
   },
   "bigstream-duanju": {
    "prio": "P2",
-   "nodes": ["bm-b"],
+   "nodes": [
+    "bm-b"
+   ],
    "needs": "cpu",
    "cards": [
     {
@@ -48,13 +52,18 @@
      "cmd": "python Tools/fleet/tts_batch_check.py --dir media/drama-tts-out/r1202_ep001_060 --out cph4/fleet/queue-receipts/tts-qc-{date}.json",
      "deliverable": "cph4/fleet/queue-receipts/tts-qc-{date}.json",
      "accept": "每集有实测时长与静音判定；缺失集列明是「未生成」还是「生成失败」，不许只给总数",
-     "requires": ["Tools/fleet/tts_batch_check.py", "media/drama-tts-out/r1202_ep001_060"]
+     "requires": [
+      "Tools/fleet/tts_batch_check.py",
+      "media/drama-tts-out/r1202_ep001_060"
+     ]
     }
    ]
   },
   "bigstream-drama": {
    "prio": "P2",
-   "nodes": ["bm-b"],
+   "nodes": [
+    "bm-b"
+   ],
    "needs": "cpu",
    "cards": [
     {
@@ -63,7 +72,9 @@
      "cmd": "python Tools/fleet/line_triage.py --line bigstream-drama",
      "deliverable": "cph4/fleet/queue-receipts/triage-bigstream-drama-{date}.md",
      "accept": "逐工段列证据目录存在性/文件数/最新时间，并对空目录给出「是本机没有素材还是从未生产」的判定",
-     "requires": ["Tools/fleet/line_triage.py"]
+     "requires": [
+      "Tools/fleet/line_triage.py"
+     ]
     }
    ]
   }
