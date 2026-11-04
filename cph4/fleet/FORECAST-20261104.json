@@ -1,23 +1,7 @@
 {
- "ts": "2026-11-04T13:49:20+0800",
+ "ts": "2026-11-04T13:59:07+0800",
  "alert_days": 2.0,
  "lines": [
-  {
-   "line": "asset-lib",
-   "status": "ACTIVE",
-   "prio": "P0",
-   "stock": 8,
-   "rate_per_day": 2.67,
-   "runway_days": 3.0,
-   "has_table": true,
-   "blocker": {
-    "stage": "env-check",
-    "deliverable": "cph4/fleet/queue-receipts/asset-env-20261104.json",
-    "needs": "cpu",
-    "hard_nodes": []
-   },
-   "flags": []
-  },
   {
    "line": "bigstream-mv",
    "status": "ACTIVE",
@@ -35,6 +19,22 @@
    "flags": [
     "ALERT"
    ]
+  },
+  {
+   "line": "asset-lib",
+   "status": "ACTIVE",
+   "prio": "P0",
+   "stock": 6,
+   "rate_per_day": 2.67,
+   "runway_days": 2.2,
+   "has_table": true,
+   "blocker": {
+    "stage": "env-check",
+    "deliverable": "cph4/fleet/queue-receipts/asset-env-20261104.json",
+    "needs": "cpu",
+    "hard_nodes": []
+   },
+   "flags": []
   },
   {
    "line": "bigstream-duanju",
@@ -103,12 +103,25 @@
    ]
   },
   {
+   "line": "bigdomain",
+   "status": "ACTIVE",
+   "prio": "P1",
+   "stock": 2,
+   "rate_per_day": 0.33,
+   "runway_days": 6.1,
+   "has_table": false,
+   "blocker": null,
+   "flags": [
+    "NO-TABLE"
+   ]
+  },
+  {
    "line": "bigmoney",
    "status": "PAUSED",
    "prio": "P1",
-   "stock": 2,
+   "stock": 1,
    "rate_per_day": 1.67,
-   "runway_days": 1.2,
+   "runway_days": 0.6,
    "has_table": true,
    "blocker": {
     "stage": "backtest",
@@ -122,19 +135,6 @@
    },
    "flags": [
     "INACTIVE"
-   ]
-  },
-  {
-   "line": "bigdomain",
-   "status": "ACTIVE",
-   "prio": "P1",
-   "stock": 2,
-   "rate_per_day": 0.33,
-   "runway_days": 6.1,
-   "has_table": false,
-   "blocker": null,
-   "flags": [
-    "NO-TABLE"
    ]
   },
   {
@@ -181,13 +181,14 @@
    "line": "fleet-ops",
    "status": "ACTIVE",
    "prio": "P3",
-   "stock": 13,
+   "stock": 12,
    "rate_per_day": 6.33,
-   "runway_days": 2.1,
+   "runway_days": 1.9,
    "has_table": false,
    "blocker": null,
    "flags": [
-    "NO-TABLE"
+    "NO-TABLE",
+    "ALERT"
    ]
   },
   {
@@ -232,6 +233,6 @@
    ]
   }
  ],
- "alerts": 1,
+ "alerts": 2,
  "no_table": 6
 }

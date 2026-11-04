@@ -1,14 +1,20 @@
 {
  "node": "bm-m",
  "date": "20261104",
- "ts": "2026-11-04T13:49:20+0800",
+ "ts": "2026-11-04T13:59:07+0800",
  "window_h": 26,
  "produced": [
   {
    "path": "cph4/fleet/queue-receipts/skill-promote-20261104.json",
    "bytes": 2172,
-   "mtime": "2026-11-04T13:49:20",
-   "sha": "1a6c9e017bd61ef4226101f6866732fb4fa97ec4b1f5ba9a1b0bf1e9717b577b"
+   "mtime": "2026-11-04T13:59:07",
+   "sha": "f3de7049a353b2bbc0c4d7374683371d9b73544c76e7bf388648ac42fc4986f8"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/receipt-attrib-20261104.json",
+   "bytes": 6064,
+   "mtime": "2026-11-04T13:56:58",
+   "sha": "aa912ebe60092bd95158ccf9cae66845daffd8ab2ac42f200a8b40d058fb8bb8"
   },
   {
    "path": "cph4/fleet/queue-receipts/asset-lib-voice-dataset-2026-11-04-bm-m.json",
@@ -525,18 +531,6 @@
    "bytes": 1886,
    "mtime": "2026-11-03T12:27:13",
    "sha": "7a4cc00513c1457c106767df9d9d30198ea0f61fa700b55961af23888e6a1e1b"
-  },
-  {
-   "path": "cph4/fleet/queue-receipts/skill-eval-fleet-ops-20261103.json",
-   "bytes": 5466,
-   "mtime": "2026-11-03T11:54:58",
-   "sha": "b62528a0fc2a7efa7bf087092a2f9bacccbd19cee37ab9dcf3b35b240933f8bf"
-  },
-  {
-   "path": "cph4/fleet/queue-receipts/skill-eval-ship-ops-20261103.json",
-   "bytes": 5592,
-   "mtime": "2026-11-03T11:54:57",
-   "sha": "6644deac0ba9eb2f1c7a5e8807955a082327584d60860f0d303c7efa926caece"
   }
  ],
  "blocked": [
@@ -546,7 +540,7 @@
   },
   {
    "what": "_last_lane_bm-m.json",
-   "why": "rc=3 "
+   "why": "rc=1 "
   },
   {
    "what": "asset-lib-voice-corpus-bmm-2026-11-03",
