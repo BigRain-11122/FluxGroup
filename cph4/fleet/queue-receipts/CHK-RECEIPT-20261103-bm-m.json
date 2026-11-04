@@ -11,7 +11,7 @@
  "error_class": "E-CONTRACT",
  "deliverable": "cph4/fleet/receipt-attrib-20261103.json",
  "deliverable_exists": true,
- "ts": "2026-11-05T01:30:19",
- "stdout_tail": "receipts=533（另有工具产物 164 不计） rc0=408 fail=6  missing_rc=2 no_error_class=7 bad_json=0\nfail rc: 1 -> E-UNKNOWN, 127 -> E-PATH, 2 -> E-CONTRACT, 3 -> E-BLOCKED-INPUT, 4294967295 -> E-UNKNOWN, 9009 -> E-PATH\nrc!=0 但缺 error_class: ART-PUSH-BMA-20261104-bm-m.json, C-INFRA-AUDIT-BM-C-20261103-bm-b.json, PROBE-BMB-AUDIOQC-20261104-bm-b.json, Q-VCORP-PREP-e01-R3-20261105-bm-m.json, asset-lib-face-caption-2026-11-03-bm-b.json, asset-lib-face-dataset-2026-11-05-bm-a.json ...\nwrote cph4/fleet/queue-receipts/receipt-attrib-20261103.json verdict=GAPS\n",
+ "ts": "2026-11-05T01:56:06",
+ "stdout_tail": "receipts=537（另有工具产物 164 不计） rc0=410 fail=6  missing_rc=2 no_error_class=7 bad_json=0\nfail rc: 1 -> E-UNKNOWN, 127 -> E-PATH, 2 -> E-CONTRACT, 3 -> E-BLOCKED-INPUT, 4294967295 -> E-UNKNOWN, 9009 -> E-PATH\nrc!=0 但缺 error_class: ART-PUSH-BMA-20261104-bm-m.json, C-INFRA-AUDIT-BM-C-20261103-bm-b.json, PROBE-BMB-AUDIOQC-20261104-bm-b.json, Q-VCORP-PREP-e01-R3-20261105-bm-m.json, asset-lib-face-caption-2026-11-03-bm-b.json, asset-lib-face-dataset-2026-11-05-bm-a.json ...\nwrote cph4/fleet/queue-receipts/receipt-attrib-20261103.json verdict=GAPS\n",
  "stderr_tail": ""
 }

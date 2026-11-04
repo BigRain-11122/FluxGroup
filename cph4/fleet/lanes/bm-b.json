@@ -1,6 +1,6 @@
 {
  "node": "bm-b",
- "ts": "2026-11-05T01:44:58",
+ "ts": "2026-11-05T01:54:56",
  "jobs": [
   {
    "id": "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105",
@@ -20,6 +20,6 @@
   }
  ],
  "idle_reason": "",
- "lane_ok": true,
- "capacity_note": "ram 12.6/1.0 GB"
+ "lane_ok": false,
+ "capacity_note": "CPU-SATURATED 100%"
 }
