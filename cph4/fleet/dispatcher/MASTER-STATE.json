@@ -1,29 +1,29 @@
 {
- "ts": "2026-11-04T21:16:39",
- "cycle": 224,
+ "ts": "2026-11-04T21:22:54",
+ "cycle": 225,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-04T21:16:39",
+ "master_tick_ts": "2026-11-04T21:22:54",
  "queue": {
   "total": 414,
   "open": 4,
   "running": 4,
   "done": 176,
-  "failed": 22
+  "failed": 23
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 26.3,
-   "cpu_load_pct": 54,
-   "ram_free_gb": 17.9,
-   "gpu_util_pct": 89,
+   "hb_age_s": 40.9,
+   "cpu_load_pct": 60,
+   "ram_free_gb": 17.3,
+   "gpu_util_pct": 65,
    "job": "CANARY-20261104T175030",
    "last_result": {
     "job": "ART-PUSH-BMA-20261104",
     "state": "FAILED",
     "rc": 0,
-    "ts": "2026-11-04T21:15:05",
+    "ts": "2026-11-04T21:20:05",
     "reason": null
    },
    "idle_confirmed": false,
@@ -32,16 +32,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 77.5,
-   "cpu_load_pct": 5,
-   "ram_free_gb": 11.6,
+   "hb_age_s": 78.7,
+   "cpu_load_pct": 7,
+   "ram_free_gb": 11.9,
    "gpu_util_pct": 0,
    "job": "CHK-RECEIPT-20261103",
    "last_result": {
     "job": "MV-NEWPROC-PACKET-20261104",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-04T21:15:28",
+    "ts": "2026-11-04T21:21:48",
     "reason": null
    },
    "idle_confirmed": false,
@@ -50,16 +50,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 13.0,
-   "cpu_load_pct": 9,
-   "ram_free_gb": 3.2,
+   "hb_age_s": 82.3,
+   "cpu_load_pct": 8,
+   "ram_free_gb": 2.8,
    "gpu_util_pct": 0,
-   "job": "R-MODEL-RADAR-BMM-20261103",
+   "job": "PROBE-BMB-AUDIOQC-20261104",
    "last_result": {
     "job": "R-MODEL-RADAR-BMM-20261103",
-    "state": "RUNNING",
-    "rc": null,
-    "ts": "2026-11-04T21:16:33",
+    "state": "FAILED",
+    "rc": 0,
+    "ts": "2026-11-04T21:21:56",
     "reason": null
    },
    "idle_confirmed": false,
@@ -68,16 +68,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.9,
-   "cpu_load_pct": 26,
-   "ram_free_gb": 12.5,
+   "hb_age_s": 1.0,
+   "cpu_load_pct": 49,
+   "ram_free_gb": 14.1,
    "gpu_util_pct": null,
    "job": "CHK-DUPES-20261103",
    "last_result": {
-    "job": "CANARY-20261104T211637",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-04T21:16:38",
+    "job": "CHK-DUPES-20261103",
+    "state": "BUSY",
+    "rc": null,
+    "ts": "2026-11-04T21:21:11",
     "reason": null
    },
    "idle_confirmed": false,
@@ -282,12 +282,14 @@
   "asset-lib": {
    "name": "资产储备·角色 LoRA 与音色库",
    "status": "ACTIVE",
-   "verdict": "WAITING",
+   "verdict": "WORKING",
    "age_h": null,
    "stale_after_h": 72.0,
    "owner": "资产席",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "PROBE-BMB-AUDIOQC-20261104"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": "CEO 2026-11-03：先储备资产，角色 LoRA 与音色库为 P0"
   }
@@ -839,10 +841,8 @@
  "supply_added": [],
  "events": [
   "ART-PUSH-BMA-20261104 FAILED via bm-a",
-  "MV-NEWPROC-PACKET-20261104 UNVERIFIED(no-artifact-yet) via bm-b",
-  "CHK-RECEIPT-20261103 -> bm-b (cpu)",
-  "R-MODEL-RADAR-BMM-20261103 -> bm-c (cpu)",
-  "CANARY-20261104T175030 -> bm-a (cpu)"
+  "R-MODEL-RADAR-BMM-20261103 FAILED via bm-c",
+  "PROBE-BMB-AUDIOQC-20261104 -> bm-c (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
@@ -850,7 +850,6 @@
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-a",
-  "bm-b"
+  "bm-c"
  ]
 }
