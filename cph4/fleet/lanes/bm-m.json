@@ -1,23 +1,23 @@
 {
  "node": "bm-m",
- "ts": "2026-11-05T00:44:20",
+ "ts": "2026-11-05T00:45:44",
  "jobs": [
   {
-   "id": "asset-lib-char-prompts-2026-11-05",
-   "title": "[资产储备（角色 LoRA / 音色库）] 角色包出图计划（8 原创角色 × 6 视角提示词包）",
-   "cmd": "python Tools/fleet/char_plan.py",
+   "id": "bigstream-mv-stability-2026-11-04",
+   "title": "[MV·爱在西元前（v721 终版）] 稳定性闸（seam / freeze 双 0）",
+   "cmd": "python Tools/mv_stability_gate.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721_60fps_1080p.mp4 --json cph4/fleet/queue-receipts/mv-stability-v721-2026-11-04.json",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/char-gen-plan-2026-11-05.json",
+   "deliverable": "cph4/fleet/queue-receipts/mv-stability-v721-2026-11-04.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
    "when_all": [],
    "llm": null,
-   "timeout_s": null
+   "timeout_s": 2400
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 18.7/1.0 GB"
+ "capacity_note": "ram 18.8/1.0 GB"
 }
