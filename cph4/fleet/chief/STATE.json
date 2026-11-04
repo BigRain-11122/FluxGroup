@@ -1,11 +1,11 @@
 {
- "ts": "2026-11-05T07:29:07",
+ "ts": "2026-11-05T07:46:14",
  "stage": 3,
  "adoption": {
   "days": 4,
-  "applied": 881,
-  "total": 654,
-  "rate": 134.7,
+  "applied": 885,
+  "total": 658,
+  "rate": 134.5,
   "eligible_stage4": false
  },
  "decisions": [
@@ -15,7 +15,7 @@
    "target": [
     "bigstream-mv-gate-2026-11-05",
     "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105",
-    "asset-lib-asset-gen-2026-11-05"
+    "asset-lib-char-gen-2026-11-05"
    ],
    "min_stage": 3,
    "result": "applied"
@@ -37,7 +37,7 @@
    "ids": [
     "bigstream-mv-gate-2026-11-05",
     "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105",
-    "asset-lib-asset-gen-2026-11-05"
+    "asset-lib-char-gen-2026-11-05"
    ]
   }
  ],
