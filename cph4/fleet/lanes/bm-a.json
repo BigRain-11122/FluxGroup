@@ -1,14 +1,14 @@
 {
  "node": "bm-a",
- "ts": "2026-11-04T19:40:15",
+ "ts": "2026-11-04T19:32:01",
  "jobs": [
   {
-   "id": "ART-PUSH-BMA-20261104",
-   "title": "bm-a 产物回传（artifact_push 全量）",
-   "cmd": "powershell -ExecutionPolicy Bypass -File Tools\\fleet\\artifact_push.ps1 -Root C:\\Fluxgroup\\FluxGroup -Node bm-a -MaxMB 2048",
-   "cwd": null,
+   "id": "R-PLAN-BIGGAME-20261104",
+   "title": "Biggame·游戏 线级体检与缺口清单",
+   "cmd": "python Tools/fleet/line_triage.py --line biggame",
+   "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/artifacts/bm-a/PUSHED.jsonl",
+   "deliverable": "cph4/fleet/queue-receipts/triage-biggame-20261104.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 9.4/1.0 GB"
+ "capacity_note": "ram 21.1/1.0 GB"
 }
