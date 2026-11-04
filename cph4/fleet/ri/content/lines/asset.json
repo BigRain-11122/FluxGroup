@@ -34,7 +34,8 @@
    ],
    "hard_nodes": [
     "bm-a"
-   ]
+   ],
+   "input_dir": "media/asset/inbox"
   },
   {
    "id": "voice-corpus-bmb",
@@ -54,7 +55,8 @@
    ],
    "hard_nodes": [
     "bm-b"
-   ]
+   ],
+   "input_dir": "media/asset/inbox"
   },
   {
    "id": "voice-corpus-bmc",
@@ -74,7 +76,8 @@
    ],
    "hard_nodes": [
     "bm-c"
-   ]
+   ],
+   "input_dir": "media/asset/inbox"
   },
   {
    "id": "voice-corpus-bmm",
@@ -95,7 +98,8 @@
    "day_ok": false,
    "hard_nodes": [
     "bm-m"
-   ]
+   ],
+   "input_dir": "media/asset/inbox"
   },
   {
    "id": "face-dataset",
@@ -155,7 +159,7 @@
   {
    "id": "index",
    "name": "入库登记（没过闸的不许进资产库）",
-   "cmd": "python {root_tools}/fleet/vault.py list --limit 5",
+   "cmd": "python {root_tools}/fleet/lib_consolidate.py --receipt cph4/fleet/queue-receipts/asset-index-{date}.json",
    "deliverable": "cph4/fleet/queue-receipts/asset-index-{date}.json",
    "accept": "台账里有本批角色/音色条目，且 license 字段非空；未过闸的数据集不得登记为 cleared",
    "needs": "cpu",
