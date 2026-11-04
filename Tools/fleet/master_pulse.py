@@ -115,9 +115,15 @@ STAGES = [
     ("backup", ["Tools/fleet/backup_sync.sh"], 300, {0}, True),
     # 一屏：所有业务的最下一步（CEO 2026-11-03「随时能给出下一步任务」）。
     ("next_actions", ["Tools/fleet/next_actions.py"], 60, {0, 2}, True),
+    # 待裁件默认推进（2026-11-04）：CEO/EXTERNAL 卡点过去只写「等」，这里给问句+准备件+到期，
+    # 方向类 48h 未裁按默认继续，只有对外/花钱/不可逆留给人。rc=2=有到期未裁的对外件。
+    ("ceo_queue", ["Tools/fleet/ceo_default.py"], 30, {0, 2}, True),
     # 机队互报（CEO 2026-11-04：信息与产出及时互通，不要孤岛）。
     # 本机发今日简报（很小的 json 进 git），再把全队简报合成一屏 SYNC-BOARD.md。
     ("bulletin", ["Tools/fleet/bulletin.py", "--post", "--aggregate", "--node", NODE], 120, {0}, True),
+    # 跨机依赖（2026-11-04）：SYNC-BOARD 缺「谁等谁的产物」列，这里把在办卡的 requires 与
+    # 全队列 deliverable 对上，画出等待边并报环。rc=2=有等待环（结构病，必须改卡）。
+    ("wait_map", ["Tools/fleet/wait_map.py"], 60, {0, 2}, True),
     # 集团雷达（CEO 2026-11-03 令：实验室与各研究席高频合理地扫网）。
     # 频率写在 Tools/fleet/radar.py 的 SOURCES 里（GitHub 20h / arXiv 150h），未到点自跳过；
     # 源挂了记 BLOCKED 不编候选（实测 HF 直连不通）。
@@ -166,6 +172,9 @@ STAGES = [
     ("chief", ["Tools/fleet/chief.py"], 120, {0}, True),
     ("health", ["Tools/fleet/fleet_health.py"], 90, {0}, True),
     ("contingency", ["Tools/fleet/fleet_contingency.py"], 120, {0}, True),
+    # 裁决收敛环（2026-11-04）：local_judge 只收敛 OPEN 行，4B 判不了的 ESCALATED 之前无人处理
+    # （实测 5 件挂 12–36h）。这里先按盘上事实结案，再让 local_judge 处理新题。rc=2=仍有待 CEO 项。
+    ("decision_close", ["Tools/fleet/decision_close.py"], 60, {0, 2}, True),
     ("judge", ["Tools/fleet/local_judge.py"], 180, {0}, True),
     ("brain", ["Tools/fleet/brain_service.py"], 240, {0}, True),
     # Business production (2026-10-31 CEO: 本地 AI 赋能业务). Biz drafts one deliverable per

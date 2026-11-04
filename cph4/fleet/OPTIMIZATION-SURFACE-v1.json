@@ -426,23 +426,23 @@
     {
      "id": "mc-decide",
      "what": "裁决收敛：ESCALATED 必须有 SLA 与到期默认",
-     "now": "local_judge.autodecide 只收敛 state=OPEN；4B 判不了的转 ESCALATED 后无人处理，实测 5 件自 2026-11-03 挂着（4 件 LINE-LATE + 1 件 CAPACITY）",
-     "status": "open",
+     "now": "Tools/fleet/decision_close.py + 脉冲 decision_close 站（2026-11-04）：ESCALATED/超期 OPEN 按盘上事实结案；LINE-LATE 查 BUSINESS-MAP 与在跑卡、CAPACITY 读实测内存、RETRY 按重排次数归因；CEO/EXTERNAL 卡点转待裁件并带到期时间。首跑结案 3 件（其中 2 件证据已过期、1 件转默认继续），CAPACITY 与 recon 未到 24h",
+     "status": "done",
      "trigger": "ESCALATED 行年龄 > 24h 即到期；到期按题型给规则裁决，不许无声挂着"
     },
     {
      "id": "mc-ceo",
      "what": "待裁件默认推进：不许因为等 CEO 停工",
-     "now": "无机制。CEO 最高规则要求默认自动放行+事后复核，但 BUSINESS-MAP 里 4 条 STALLED 线全是 CEO/EXTERNAL 卡点，NEXT-ACTIONS 只写「CEO: —」就结束",
-     "status": "open",
+     "now": "Tools/fleet/ceo_default.py + 脉冲 ceo_queue 站（2026-11-04）：8 件待裁件逐件给问句/机队准备件/48h 到期；方向类到期按默认继续，对外·花钱·不可逆三类永不自动执行（只出待签草稿）",
+     "status": "done",
      "trigger": "卡点=CEO/EXTERNAL 时必须同时给「机队先做的准备件」+「到期未裁按默认继续」；只有不可逆/对外/花钱三类留给人"
     },
     {
      "id": "mc-sync",
      "what": "同步：机队互报，不要信息孤岛",
-     "now": "bulletin.py 发 BULLETIN-<机>-<日>.json 并合成 SYNC-BOARD，进脉冲慢批",
+     "now": "bulletin.py 互报 + Tools/fleet/wait_map.py（2026-11-04）：把在办卡 requires 与全队列 deliverable 对上，输出「谁等谁」与等待环。实测 63 张在办卡、9 条真实等输入（如 full_mv_v721.mp4 没有任何卡在生产）",
      "status": "partial",
-     "trigger": "目前只有 bm-m 一份简报（其余机未升级到本版）；SYNC-BOARD 缺「谁等谁的产物」列"
+     "trigger": "目前仍只有 bm-m 一份简报（其余机未升级到本版）；等待环为 0 但等输入 9 条，需补产卡或改卡"
     },
     {
      "id": "mc-git",
