@@ -1,30 +1,30 @@
 {
- "ts": "2026-11-04T15:30:35",
+ "ts": "2026-11-04T15:38:53",
  "dir": "/Volumes/移动硬盘/FluxAssets/store",
  "model": "qwen3.5:4b-mlx",
  "trigger": "",
  "pending": 10,
- "written": 2,
+ "written": 1,
  "rejected": [
   [
    "0374016d46ea8e8b94d0ff794a7dea360d3f18586356929f41ea865193c46805.png",
    "只命中 2 个可见属性，像空话",
-   "A hand reaches upward against a twilight sky with a water tower in the background, as a paper airplane disintegrates int"
+   "A hand reaches upward against a twilight sky with a water tower in the background, surrounded by floating paper airplane"
   ],
   [
    "041126a5b8f9eb7df7133c0f81248c566858c8881c26741854ca2b0d137dbf3e.png",
    "只命中 1 个可见属性，像空话",
-   "A black screen with small white text at the bottom reading \"欢迎转载，请注明出处：大喵没鱼吃\" flanked by two small downward-pointing tri"
+   "A black screen with small golden text at the bottom reading \"欢迎转载，请注明出处：大喵没鱼吃\" flanked by two small downward-pointing tr"
   ],
   [
    "04c9f2b53663ff9a51deb3f9805acab2a1e5f0be3f0cfd3aeb3963add638f014.png",
    "只命中 0 个可见属性，像空话",
-   "A close-up view of a small fire burning within a bamboo enclosure, with glowing embers and flames illuminating the inter"
+   "A close-up view of a fire burning inside a bamboo structure, with glowing embers and flames illuminating the scene from "
   ],
   [
    "0af90220f22a87951c6dc81e8df4ea2db90d35d37b1e0a4415247d6cf1594d09.png",
    "只命中 2 个可见属性，像空话",
-   "A pixelated cityscape at dusk with a central river reflecting pink and orange hues, surrounded by tall buildings and sca"
+   "A pixelated cityscape at dusk with a river reflecting orange and purple hues, surrounded by tall buildings and scattered"
   ],
   [
    "0f4f65e4d8d313553b1b2f4a054111f338a7091f4758992bb09debd97954aebf.png",
@@ -33,22 +33,27 @@
   ],
   [
    "14d8ed58489fea61a96bcb6414a8669aa391a17dbb2754ce9c5ad1fc6ace6123.png",
-   "只命中 2 个可见属性，像空话",
-   "A young woman in a white robe holds a stone tablet, her dark hair loose and face neutral, standing in a dimly lit ancien"
+   "只命中 1 个可见属性，像空话",
+   "A young woman in a white robe holds a stone tablet, surrounded by people in dark robes carrying baskets and jars in an a"
   ],
   [
    "19e73c37e9aaf6a3472d2ecc7d5bf2885c1f80cc04f9e1e5b5e1f9489aef4dc4.jpg",
    "只命中 2 个可见属性，像空话",
-   "Two young adults ride bicycles through a field with butterflies; golden hour light illuminates their casual attire and s"
+   "Two young adults riding bicycles together in a field with butterflies on wheels, golden hour light, soft focus backgroun"
   ],
   [
    "1c23af2f41be31fb0e85c478b308575af12c134d6dead29debb33442cb9aeb56.png",
    "只命中 0 个可见属性，像空话",
-   "A pixelated cityscape at dusk with a central illuminated tower, surrounded by high-rise buildings and low structures, ba"
+   "A pixelated cityscape at dusk with glowing skyscrapers and a central illuminated tower, set against a gradient sky of pu"
+  ],
+  [
+   "1d2d81629a3b102b8ae7eb1cf1a4450a8f83ce449e475c8c16277f36b0ba37e6.png",
+   "只命中 1 个可见属性，像空话",
+   "A pixelated character with a blue head and body, wearing a simple outfit, standing against a plain background, viewed fr"
   ]
  ],
- "seconds": 65.1,
- "per_image_s": 6.5,
+ "seconds": 64.3,
+ "per_image_s": 6.4,
  "verdict": "PASS",
  "gaps": [],
  "status": "PASS"

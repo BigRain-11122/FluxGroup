@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-04T15:30:34+0800",
+ "ts": "2026-11-04T15:38:53+0800",
  "alert_days": 2.0,
  "lines": [
   {
@@ -42,9 +42,9 @@
    "line": "biggame",
    "status": "ACTIVE",
    "prio": "P0",
-   "stock": 3,
+   "stock": 4,
    "rate_per_day": 1.0,
-   "runway_days": 3.0,
+   "runway_days": 4.0,
    "has_table": true,
    "blocker": {
     "stage": "pack-scan",

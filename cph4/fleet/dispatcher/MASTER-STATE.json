@@ -1,29 +1,29 @@
 {
- "ts": "2026-11-04T15:37:04",
- "cycle": 103,
+ "ts": "2026-11-04T15:40:01",
+ "cycle": 104,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-04T15:37:04",
+ "master_tick_ts": "2026-11-04T15:40:01",
  "queue": {
-  "total": 413,
-  "open": 34,
+  "total": 414,
+  "open": 35,
   "running": 3,
   "done": 153,
-  "failed": 21
+  "failed": 20
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 48.3,
-   "cpu_load_pct": 59,
-   "ram_free_gb": 33.5,
-   "gpu_util_pct": 82,
+   "hb_age_s": 41.7,
+   "cpu_load_pct": 65,
+   "ram_free_gb": 26.2,
+   "gpu_util_pct": 100,
    "job": "biggame-playable-2026-11-03",
    "last_result": {
     "job": "bigstream-mv-transition-2026-11-04",
     "state": "FAILED",
     "rc": 0,
-    "ts": "2026-11-04T15:36:47",
+    "ts": "2026-11-04T15:37:06",
     "reason": null
    },
    "idle_confirmed": false,
@@ -32,34 +32,34 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 45.5,
-   "cpu_load_pct": 9,
-   "ram_free_gb": 12.5,
-   "gpu_util_pct": 0,
+   "hb_age_s": 60.9,
+   "cpu_load_pct": 1,
+   "ram_free_gb": 11.3,
+   "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-04T15:36:23",
+    "ts": "2026-11-04T15:37:58",
     "reason": "SELF-DISPATCH: lane scans its own backlog"
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 92
+   "idle_rounds": 93
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 47.1,
-   "cpu_load_pct": 9,
-   "ram_free_gb": 3.1,
+   "hb_age_s": 65.8,
+   "cpu_load_pct": 11,
+   "ram_free_gb": 3.0,
    "gpu_util_pct": 0,
-   "job": "asset-lib-voice-assemble-2026-11-03",
+   "job": "ART-PUSH-BMA-20261104",
    "last_result": {
-    "job": "ART-PUSH-BMA-20261104",
+    "job": "asset-lib-voice-assemble-2026-11-03",
     "state": "FAILED",
-    "rc": 0,
-    "ts": "2026-11-04T15:36:37",
+    "rc": 3,
+    "ts": "2026-11-04T15:38:12",
     "reason": null
    },
    "idle_confirmed": false,
@@ -69,15 +69,15 @@
   "bm-m": {
    "online": true,
    "hb_age_s": 0.9,
-   "cpu_load_pct": 16,
-   "ram_free_gb": 18.4,
+   "cpu_load_pct": 21,
+   "ram_free_gb": 18.9,
    "gpu_util_pct": null,
    "job": "CHK-DUPES-20261103",
    "last_result": {
-    "job": "bigstream-mv-stability-2026-11-04",
-    "state": "FAILED",
-    "rc": 1,
-    "ts": "2026-11-04T15:35:48",
+    "job": "CANARY-20261104T153853",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-04T15:38:53",
     "reason": null
    },
    "idle_confirmed": false,
@@ -87,7 +87,7 @@
  },
  "idle_rounds": {
   "bm-a": 0,
-  "bm-b": 92,
+  "bm-b": 93,
   "bm-c": 0,
   "bm-m": 0
  },
@@ -99,9 +99,13 @@
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
-   "jobs": [],
-   "no_supply": true,
-   "blockers": [],
+   "jobs": [
+    "bigstream-mv-stability-2026-11-04"
+   ],
+   "no_supply": false,
+   "blockers": [
+    "bigstream-mv-stability-2026-11-04:no-lane"
+   ],
    "note": null,
    "stuck_stage": "mv-kf",
    "stuck_owner": "导演席·美术"
@@ -305,7 +309,8 @@
     "CANARY-20261104T131747",
     "CANARY-20261104T132721",
     "CANARY-20261104T134046",
-    "CANARY-20261104T140742"
+    "CANARY-20261104T140742",
+    "ART-PUSH-BMA-20261104"
    ],
    "no_supply": false,
    "blockers": [
@@ -331,7 +336,6 @@
    "owner": "资产席",
    "jobs": [
     "asset-lib-voice-corpus-bmb-2026-11-03",
-    "asset-lib-voice-assemble-2026-11-03",
     "asset-lib-voice-corpus-bmb-2026-11-04"
    ],
    "no_supply": false,
@@ -865,7 +869,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 34,
+  "local": 35,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -873,28 +877,23 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 34,
+  "cpu": 35,
   "gpu": 0
  },
  "supply_added": [
-  "backlog_manifest+2"
+  "backlog_manifest+3"
  ],
  "events": [
   "bigstream-mv-transition-2026-11-04 FAILED via bm-a",
-  "ART-PUSH-BMA-20261104 FAILED via bm-c",
-  "bigstream-mv-stability-2026-11-04 FAILED via bm-m",
-  "asset-lib-voice-assemble-2026-11-03 -> bm-c (cpu)",
-  "biggame-playable-2026-11-03 -> bm-a (cpu)",
-  "CHK-DUPES-20261103 -> bm-m (cpu)"
+  "asset-lib-voice-assemble-2026-11-03 FAILED via bm-c",
+  "ART-PUSH-BMA-20261104 -> bm-c (cpu)"
  ],
  "violations": [
-  "bm-b IDLE-CONFIRMED x92 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-b IDLE-CONFIRMED x93 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-a",
-  "bm-c",
-  "bm-m"
+  "bm-c"
  ]
 }
