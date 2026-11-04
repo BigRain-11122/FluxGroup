@@ -2,7 +2,7 @@
  "id": "CHK-DUPES-20261103",
  "node": "bm-m",
  "rc": 0,
- "seconds": 13.0,
+ "seconds": 10.4,
  "cmd": "python3 Tools/fleet/semantic_dupes.py --json cph4/fleet/queue-receipts/dupes-scan-20261103.json",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": "E-ARTIFACT",
  "deliverable": "cph4/fleet/dupes-scan-20261103.json",
  "deliverable_exists": false,
- "ts": "2026-11-05T03:03:37",
- "stdout_tail": "SEMANTIC-DUPES rows=493 live=32 groups=3 th=0.72\n- 可能同一件事（2 张）：\n    R-MODEL-RADAR-BMA-20261103         OPEN      本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-a）\n    R-MODEL-RADAR-BMM-20261103         OPEN      本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-m）\n- 可能同一件事（6 张）：\n    CANARY-20261104T125141             OPEN      端到端自检：投卡→领取→执行→回执→产物\n    CANARY-20261104T132721             OPEN      端到端自检：投卡→领取→执行→回执→产物\n    CANARY-20261104T140742             OPEN      端到端自检：投卡→领取→执行→回执→产物\n    CANARY-20261104T175030             OPEN      端到端自检：投卡→领取→执行→回执→产物\n    CANARY-20261104T201032             OPEN      端到端自检：投卡→领取→执行→回执→产物\n    CANARY-20261104T202057             OPEN      端到端自检：投卡→领取→执行→回执→产物\n- 可能同一件事（2 张）：\n    R-PLAN-BIGGAME-20261105            OPEN      Biggame路娓告垙 绾跨骇浣撴��涓庣己鍙ｆ竻鍗�\n    R-TRIAGE-BIGGAME-BMM-20261105      OPEN      Biggame路娓告垙 绾胯瘉鎹�鎵�鎻忥紙bm-m 鏈�鏈哄彲鍒ら潰锛�\n",
+ "ts": "2026-11-05T07:33:14",
+ "stdout_tail": "SEMANTIC-DUPES rows=405 live=23 groups=5 th=0.72\n- 可能同一件事（2 张）：\n    R-MODEL-RADAR-BMA-20261103         RUNNING   本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-a）\n    R-MODEL-RADAR-BMC-20261105         OPEN      本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-c）\n- 可能同一件事（2 张）：\n    R-PLAN-BIGGAME-20261105            OPEN      Biggame·游戏 线级体检与缺口清单\n    R-TRIAGE-BIGGAME-BMM-20261105      OPEN      Biggame·游戏 线证据扫描（bm-m 本机可判面）\n- 可能同一件事（2 张）：\n    R-PLAN-BIGSTREAMDUA-20261104       OPEN      BigStream·短剧 线级体检与缺口清单\n    Q-TRIAGE-BIGSTREAMMV-20261105      OPEN      bigstream-mv 线级体检（本机证据目录实况）\n- 可能同一件事（2 张）：\n    CANARY-20261104T202057             OPEN      端到端自检：投卡→领取→执行→回执→产物\n    CANARY-20261105T061408             OPEN      端到端自检：投卡→领取→执行→回执→产物\n- 可能同一件事（2 张）：\n    R-PLAN-RECON-20261105              OPEN      RECON·竞品拆解 线级体检与缺口清单\n    Q-TRIAGE-RECON-20261105            OPEN      recon 线级体检（本机证据目录实况）\n",
  "stderr_tail": ""
 }
