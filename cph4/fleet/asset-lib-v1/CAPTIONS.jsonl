@@ -1,15 +1,15 @@
 {
- "ts": "2026-11-04T14:42:19",
+ "ts": "2026-11-04T14:45:08",
  "dir": "/Volumes/移动硬盘/FluxAssets/store",
  "model": "qwen3.5:4b-mlx",
  "trigger": "",
- "pending": 14,
- "written": 0,
+ "pending": 10,
+ "written": 4,
  "rejected": [
   [
    "0374016d46ea8e8b94d0ff794a7dea360d3f18586356929f41ea865193c46805.png",
-   "只命中 2 个可见属性，像空话",
-   "A hand reaches upward against a twilight sky with a water tower in the background, as a paper airplane disintegrates int"
+   "只命中 1 个可见属性，像空话",
+   "A hand reaches upward against a twilight sky with a water tower in the distance, surrounded by floating paper airplane f"
   ],
   [
    "041126a5b8f9eb7df7133c0f81248c566858c8881c26741854ca2b0d137dbf3e.png",
@@ -19,69 +19,27 @@
   [
    "04c9f2b53663ff9a51deb3f9805acab2a1e5f0be3f0cfd3aeb3963add638f014.png",
    "只命中 0 个可见属性，像空话",
-   "A close-up view of a small fire burning within a bamboo structure, with glowing embers and flames illuminating the scene"
-  ],
-  [
-   "08e5500bd45cd9f0be721f280507d2a71df7892dd0d3b882cac5bb59ad1cdb85.png",
-   "只命中 1 个可见属性，像空话",
-   "Golden Chinese text on a black background, centered horizontally and vertically, with no visible subjects or additional "
-  ],
-  [
-   "097b44535b99b14e6f707649474d1d8c134297febc399888c2ac6eb82e7ac4f0.png",
-   "只命中 2 个可见属性，像空话",
-   "A group of Chinese characters displayed on a black background with gold and white text, no visible subjects or expressio"
-  ],
-  [
-   "0aa9ac6e88cec85c5db9ad0183009c79b4e43aeba5c42508066d28152003add9.jpg",
-   "只命中 2 个可见属性，像空话",
-   "Two young people with long dark hair ride bicycles on a sunlit road, wearing casual tops and jeans, viewed from behind a"
+   "A close-up view of a small fire burning inside a bamboo structure, with glowing embers and flames illuminating the scene"
   ],
   [
    "0af90220f22a87951c6dc81e8df4ea2db90d35d37b1e0a4415247d6cf1594d09.png",
    "只命中 2 个可见属性，像空话",
-   "A pixelated cityscape at dusk with a river reflecting orange and purple hues, surrounded by tall buildings and scattered"
-  ],
-  [
-   "0dffb3187dc517808a4be7c4eee158728d84cd23be8c55c04ef22449aa60e2ad.jpg",
-   "只命中 2 个可见属性，像空话",
-   "A man and a young girl ride bicycles through golden fields at sunset, with butterflies resting on the wheel spokes; warm"
+   "A pixelated cityscape at dusk with purple and orange hues, featuring tall skyscrapers and illuminated windows, viewed fr"
   ],
   [
    "0f4f65e4d8d313553b1b2f4a054111f338a7091f4758992bb09debd97954aebf.png",
    "只命中 1 个可见属性，像空话",
-   "A young woman with long black hair and bangs, wearing a beige knit sweater, gazes thoughtfully at an ancient stone sculp"
+   "Young woman with long black hair and bangs, wearing a beige knitted sweater, gazing thoughtfully at ancient stone carvin"
   ],
   [
    "111a8646caa78667ea65885351c89d7cb8f82c0fc80e6b55b21e171031d763d2.png",
    "只命中 1 个可见属性，像空话",
    "Silhouette of a man with short dark hair and beard, wearing long robes, holding a flaming torch aloft in a dimly lit sto"
-  ],
-  [
-   "14d8ed58489fea61a96bcb6414a8669aa391a17dbb2754ce9c5ad1fc6ace6123.png",
-   "只命中 1 个可见属性，像空话",
-   "A young woman with long dark hair wears a white robe and holds a stone tablet, standing in a dimly lit ancient marketpla"
-  ],
-  [
-   "1502499e2be4a4167cc63a1734af85bdfde6bf32e6d70a21ae8fef5e5133061d.png",
-   "只命中 2 个可见属性，像空话",
-   "A young man and woman in white tunics face each other near a fire pit, their hands reaching toward flames, set against a"
-  ],
-  [
-   "158d1c351c72482d081b80a4c4aa8cd43898df1dce884c1546c056eaa3cc66c7.jpg",
-   "只命中 2 个可见属性，像空话",
-   "A young man with dark hair sits in dim light, wearing a beige tunic, gazing downward near a flickering torch in a sandy "
-  ],
-  [
-   "19e73c37e9aaf6a3472d2ecc7d5bf2885c1f80cc04f9e1e5b5e1f9489aef4dc4.jpg",
-   "只命中 1 个可见属性，像空话",
-   "Two young adults on a bicycle ride through golden hour light with fluffy clouds in the sky and butterflies fluttering ne"
   ]
  ],
- "seconds": 14.8,
- "per_image_s": 1.1,
- "verdict": "FAIL",
- "gaps": [
-  "一条都没写成功，看 rejected 的原因"
- ],
- "status": "FAIL"
+ "seconds": 65.1,
+ "per_image_s": 6.5,
+ "verdict": "PASS",
+ "gaps": [],
+ "status": "PASS"
 }
