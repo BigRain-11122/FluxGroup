@@ -17,10 +17,10 @@
    "minutes": 2
   },
   {
-   "id": "voice-corpus-bma",
-   "name": "音色语料工程·分片 0/4（bm-a，纯 CPU）",
-   "cmd": "python {root_tools}/fleet/voice_corpus_prep.py --inbox media/asset/inbox --group batch-{date} --shard 0/4 --receipt cph4/fleet/queue-receipts/voice-corpus-bm-a-{date}.json",
-   "deliverable": "cph4/fleet/queue-receipts/voice-corpus-bm-a-{date}.json",
+   "id": "voice-corpus",
+   "name": "音色语料工程（一卡全量·持料机 bm-a）",
+   "cmd": "python {root_tools}/fleet/voice_corpus_prep.py --inbox media/asset/inbox --group batch-{date} --shard 0/1 --receipt cph4/fleet/queue-receipts/voice-corpus-{date}.json",
+   "deliverable": "cph4/fleet/queue-receipts/voice-corpus-{date}.json",
    "accept": "本分片切出片段并写 index.json；inbox 无本分片输入时回执 BLOCKED 并说明（rc=3 属等投料）",
    "needs": "cpu",
    "nodes": [
@@ -36,74 +36,7 @@
     "bm-a"
    ],
    "input_dir": "media/asset/inbox",
-   "why": "2026-11-05: media/ is gitignored, so the inbox exists only on the machine that holds the material (bm-a). Runners on bm-b/bm-c read an empty inbox and every shard came back E-BLOCKED-INPUT for two days. Pin to bm-a until material is distributed to a machine."
-  },
-  {
-   "id": "voice-corpus-bmb",
-   "name": "音色语料工程·分片 1/4（bm-b，纯 CPU）",
-   "cmd": "python {root_tools}/fleet/voice_corpus_prep.py --inbox media/asset/inbox --group batch-{date} --shard 1/4 --receipt cph4/fleet/queue-receipts/voice-corpus-bm-b-{date}.json",
-   "deliverable": "cph4/fleet/queue-receipts/voice-corpus-bm-b-{date}.json",
-   "accept": "本分片切出片段并写 index.json；inbox 无本分片输入时回执 BLOCKED 并说明（rc=3 属等投料）",
-   "needs": "cpu",
-   "nodes": [
-    "bm-a"
-   ],
-   "minutes": 40,
-   "parallel": true,
-   "ok_rc": [
-    0,
-    3
-   ],
-   "hard_nodes": [
-    "bm-a"
-   ],
-   "input_dir": "media/asset/inbox",
-   "why": "2026-11-05: media/ is gitignored, so the inbox exists only on the machine that holds the material (bm-a). Runners on bm-b/bm-c read an empty inbox and every shard came back E-BLOCKED-INPUT for two days. Pin to bm-a until material is distributed to a machine."
-  },
-  {
-   "id": "voice-corpus-bmc",
-   "name": "音色语料工程·分片 2/4（bm-c，纯 CPU）",
-   "cmd": "python {root_tools}/fleet/voice_corpus_prep.py --inbox media/asset/inbox --group batch-{date} --shard 2/4 --receipt cph4/fleet/queue-receipts/voice-corpus-bm-c-{date}.json",
-   "deliverable": "cph4/fleet/queue-receipts/voice-corpus-bm-c-{date}.json",
-   "accept": "本分片切出片段并写 index.json；inbox 无本分片输入时回执 BLOCKED 并说明（rc=3 属等投料）",
-   "needs": "cpu",
-   "nodes": [
-    "bm-a"
-   ],
-   "minutes": 40,
-   "parallel": true,
-   "ok_rc": [
-    0,
-    3
-   ],
-   "hard_nodes": [
-    "bm-a"
-   ],
-   "input_dir": "media/asset/inbox",
-   "why": "2026-11-05: media/ is gitignored, so the inbox exists only on the machine that holds the material (bm-a). Runners on bm-b/bm-c read an empty inbox and every shard came back E-BLOCKED-INPUT for two days. Pin to bm-a until material is distributed to a machine."
-  },
-  {
-   "id": "voice-corpus-bmm",
-   "name": "音色语料工程·分片 3/4（bm-m，纯 CPU）",
-   "cmd": "python {root_tools}/fleet/voice_corpus_prep.py --inbox media/asset/inbox --group batch-{date} --shard 3/4 --receipt cph4/fleet/queue-receipts/voice-corpus-bm-m-{date}.json",
-   "deliverable": "cph4/fleet/queue-receipts/voice-corpus-bm-m-{date}.json",
-   "accept": "本分片切出片段并写 index.json（本机是主控，只夜间跑以免抢脉冲）；inbox 无输入时 BLOCKED（rc=3）",
-   "needs": "cpu",
-   "nodes": [
-    "bm-a"
-   ],
-   "minutes": 40,
-   "parallel": true,
-   "ok_rc": [
-    0,
-    3
-   ],
-   "day_ok": false,
-   "hard_nodes": [
-    "bm-a"
-   ],
-   "input_dir": "media/asset/inbox",
-   "why": "2026-11-05: media/ is gitignored, so the inbox exists only on the machine that holds the material (bm-a). Runners on bm-b/bm-c read an empty inbox and every shard came back E-BLOCKED-INPUT for two days. Pin to bm-a until material is distributed to a machine."
+   "why": "2026-11-05: 4-shard split over a 2-file inbox makes 3 of 4 shards structurally empty (receipt: my_files=0 for shard 2/4). One card, shard 0/1, on the machine that actually holds media/ (gitignored, so other nodes see an empty inbox)."
   },
   {
    "id": "face-dataset",
@@ -131,10 +64,7 @@
    "nodes": [],
    "minutes": 5,
    "depends_on": [
-    "voice-corpus-bma",
-    "voice-corpus-bmb",
-    "voice-corpus-bmc",
-    "voice-corpus-bmm"
+    "voice-corpus"
    ]
   },
   {
@@ -308,7 +238,7 @@
     3
    ],
    "depends_on": [
-    "voice-corpus-bma"
+    "voice-corpus"
    ],
    "input_dir": "media/asset/inbox"
   },
