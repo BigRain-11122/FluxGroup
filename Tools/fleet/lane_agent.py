@@ -402,7 +402,14 @@ def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
     # entered git, so no other node could verify it - that is why dozens of cards were
     # DONE with no artifact anywhere. Best effort: a failed push must not lose the result.
     landed = ""
-    if dl_ok or os.path.exists(rc_path):
+    # A declared deliverable that is missing is not an artifact (D-20261104-08).
+    # Until today the guard was `dl_ok or os.path.exists(rc_path)`, and rc_path is
+    # written two lines above, so every pure failure republished a receipt-only commit:
+    # 47 commits / 90 minutes, 30+ of them "job(...): artifact" with zero product, which
+    # ate the git log, raced other writers and buried the real failures. Cards that
+    # declare no deliverable at all (gate cards) keep publishing their receipt.
+    declared_missing = bool(deliverable) and not dl_ok
+    if (dl_ok or not declared_missing) and os.path.exists(rc_path):
         try:
             landed = git_publish(root, node, jid,
                                  [deliverable, os.path.relpath(rc_path, root)])
