@@ -1,0 +1,85 @@
+{
+  "_comment": "本机(32GB统一内存)模型常驻分配表 v1。数字全部为 2026-11-05 实测，不写估算值。改档先改此文件，再改 ollama plist。",
+  "version": 1,
+  "measured_at": "2026-11-05T18:20:00+08:00",
+  "hardware": {
+    "model": "MacBook Pro M-series 32GB",
+    "context_length": 8192,
+    "kv_cache_type": "q8_0",
+    "ollama_version": "0.40.13"
+  },
+  "ollama_env": {
+    "OLLAMA_MAX_LOADED_MODELS": "3",
+    "OLLAMA_NUM_PARALLEL": "2",
+    "OLLAMA_KEEP_ALIVE": "30m",
+    "plist": "~/Library/LaunchAgents/com.fluxgroup.ollama.plist"
+  },
+  "slots": [
+    {
+      "id": "vision",
+      "role": "图像打标 / 关键帧描述 / 素材质检",
+      "model": "qwen3.5:4b-mlx",
+      "resident_gb": 4.39,
+      "chores": ["asset_caption", "kf_describe", "asset_qc"],
+      "when": "按需（打标批次运行时独占优先；空闲 30m 自动回收）",
+      "measured": {"per_image_s": 14.4, "concurrent_s": 4.1}
+    },
+    {
+      "id": "fast",
+      "role": "分类 / 摘要 / 抽取 / 短判定（local_task 四题型）",
+      "model": "qwen3:1.7b",
+      "resident_gb": 2.06,
+      "chores": ["local_task:classify", "local_task:summarize", "local_task:extract", "queue_triage"],
+      "when": "24h 常驻",
+      "measured": {"short_prompt_s": 2.7, "concurrent_s": 7.7, "note": "首载 1.6s；指令跟随弱，必须配 schema + rule_check"}
+    },
+    {
+      "id": "embed",
+      "role": "语义判重 / 素材索引 / 检索",
+      "model": "qwen3-embedding:0.6b",
+      "resident_gb": 1.28,
+      "chores": ["semantic_dupes", "asset_index", "caption_search"],
+      "when": "24h 常驻",
+      "measured": {"one_shot_s": 0.1, "dim": 1024}
+    }
+  ],
+  "measured_total_gb": 7.73,
+  "available_gb_at_measure": 12.3,
+  "reserve_gb": 6.0,
+  "headroom_gb": 4.57,
+  "on_demand": [
+    {
+      "model": "qwen3:4b-instruct",
+      "gb": 2.5,
+      "when": "需要比 1.7b 更强的本地判定，且 vision 未驻留时",
+      "rule": "先 keep_alive=0 卸载 vision 再载入"
+    },
+    {
+      "model": "qwen3:8b",
+      "gb": 5.2,
+      "when": "夜窗且无打标批次",
+      "rule": "只在 available>13GB 时载入"
+    },
+    {
+      "model": "qwen3.5:35b-a3b",
+      "gb": 21,
+      "when": "禁止常驻（32GB 与 CEO 办公共用，会触发 swap）",
+      "rule": "仅在 CEO 明确要求且关闭其他槽时临时载入"
+    }
+  ],
+  "eviction_policy": {
+    "order": ["8b", "4b-instruct", "vision", "fast", "embed"],
+    "why": "vision 回收代价最高（打标批次会中断）；embed 最便宜且用得最勤",
+    "hard_rule": "swap>1024MB 时不再开新槽，改为排队或 ROUTED"
+  },
+  "disabled_duplicates": [
+    {"model": "nomic-embed-text:latest", "why": "策略曾写它但从未安装/未验证，已由 qwen3-embedding:0.6b 取代"},
+    {"model": "embeddinggemma:300m", "why": "与 embed 同职责，保留备选不进槽位"},
+    {"model": "qwen3.5:4b / qwen3:4b / qwen3:4b-instruct", "why": "同量级重复；只保留 4b-instruct 作按需档"}
+  ],
+  "concurrency_evidence": {
+    "test": "vision+fast+embed 三线程同时请求",
+    "total_s": 7.7,
+    "result": "三档同时驻留成功，无相互顶替"
+  }
+}
