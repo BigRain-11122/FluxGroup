@@ -1,23 +1,23 @@
 {
  "node": "bm-a",
- "ts": "2026-11-06T02:10:02",
+ "ts": "2026-11-06T02:20:02",
  "jobs": [
   {
-   "id": "MV-ANCHOR-BATCH3-20261106",
-   "title": "[MV 41 曲锚点线] 第三批 7 首：扩单+歌词对齐+结构锚（ready 14→21/41）",
-   "cmd": "python cph4/fleet/mv-album-001-jay/lyric_calibration.py",
+   "id": "CLOCK-RESYNC-bm-b-20261106",
+   "title": "bm-b 本机时钟重同步（w32time status+resync；CLOCK-SKEW offset=1456.3ms 源头修）",
+   "cmd": "python Tools/fleet/clock_resync.py --out cph4/fleet/queue-receipts/clock-resync-bm-b-20261106.json",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/mv-album-001-jay/anchors/POOL-0018-0019-anchor-matrix.json",
+   "deliverable": "cph4/fleet/queue-receipts/clock-resync-bm-b-20261106.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
    "when_all": [],
    "llm": null,
-   "timeout_s": 7200
+   "timeout_s": 300
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 21.3/1.0 GB"
+ "capacity_note": "ram 50.2/1.0 GB"
 }
