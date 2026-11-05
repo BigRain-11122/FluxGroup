@@ -1,14 +1,14 @@
 {
  "node": "bm-b",
- "ts": "2026-11-05T17:26:32",
+ "ts": "2026-11-05T17:29:14",
  "jobs": [
   {
-   "id": "CNV-20261105T172556-2",
-   "title": "转化·02-加工（MV 第7曲四闸复核并出母版）",
-   "cmd": "python3 Tools/fleet/plan_convert.py --probe {conv} {inputs}",
+   "id": "CNV-20261105T172828-2",
+   "title": "转化·02-加工（资产库：把可用角色打包成别人能直接用的包）",
+   "cmd": "python3 Tools/fleet/plan_convert.py --step 2 --conv cph4/fleet/conversions/20261105/资产库-把可用角色打包成别人能直接用的包 ",
    "cwd": "/Users/junsheng.sun/FluxGroup",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/conversions/20261105/MV-第7曲四闸复核并出母版/step2-加工.json",
+   "deliverable": "cph4/fleet/conversions/20261105/资产库-把可用角色打包成别人能直接用的包/step2-加工.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 12.8/1.0 GB"
+ "capacity_note": "ram 12.5/1.0 GB"
 }

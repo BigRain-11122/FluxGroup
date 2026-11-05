@@ -1,0 +1,54 @@
+{
+ "ts": "2026-11-05T17:25:57",
+ "idea": "MV 第7曲四闸复核并出母版",
+ "line": "bigstream-mv",
+ "kind": "mv",
+ "conv": "cph4/fleet/conversions/20261105/MV-第7曲四闸复核并出母版",
+ "seconds": 0.08,
+ "steps": [
+  {
+   "n": 1,
+   "stage": "01-取证",
+   "why": "确认输入在盘、算出基线（多少件、指纹、缺口）",
+   "cmd": "python3 Tools/fleet/plan_convert.py --probe cph4/fleet/conversions/20261105/MV-第7曲四闸复核并出母版 media",
+   "minutes": 3,
+   "deliverable": "cph4/fleet/conversions/20261105/MV-第7曲四闸复核并出母版/step1-取证.json",
+   "accept": "产物可解析且非空；输入清单与指纹齐"
+  },
+  {
+   "n": 2,
+   "stage": "02-加工",
+   "why": "对输入做本方案的核心加工（工具由 --tool 指定，没有就先落 0 号规格）",
+   "cmd": "python3 Tools/fleet/plan_convert.py --probe {conv} {inputs}",
+   "minutes": 8,
+   "deliverable": "cph4/fleet/conversions/20261105/MV-第7曲四闸复核并出母版/step2-加工.json",
+   "accept": "产物可解析且非空；有 PASS/FAIL 清单"
+  },
+  {
+   "n": 3,
+   "stage": "03-验收",
+   "why": "用机器可判的判据过一遍，产出 PASS/FAIL 清单",
+   "cmd": "python3 Tools/fleet/verify_done.py --hours 24",
+   "minutes": 4,
+   "deliverable": "cph4/fleet/conversions/20261105/MV-第7曲四闸复核并出母版/step3-验收.json",
+   "accept": "产物可解析且非空；有 PASS/FAIL 清单"
+  },
+  {
+   "n": 4,
+   "stage": "04-交付",
+   "why": "把可交付件落到对外路径，写回执",
+   "cmd": "python3 Tools/fleet/ship_ledger.py --dry",
+   "minutes": 4,
+   "deliverable": "cph4/fleet/conversions/20261105/MV-第7曲四闸复核并出母版/step4-交付.json",
+   "accept": "产物可解析且非空；有 PASS/FAIL 清单"
+  }
+ ],
+ "checks": {
+  "C1_every_step_has_deliverable": true,
+  "C2_steps_under_10min": true,
+  "C3_step1_artifact_now": true,
+  "C4_cards_queued": true
+ },
+ "all_green": true,
+ "next": "主控下一轮（≤45s）接走 CNV 卡；现在就能看 step1-取证.json"
+}
