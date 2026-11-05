@@ -152,6 +152,11 @@ def main(argv):
     ap.add_argument("--receipt", required=True)
     ap.add_argument("--epochs", type=int, default=20)
     ap.add_argument("--minutes", type=float, default=30.0)
+    # 2026-11-05 root fix: LibriTTS is continuous audiobook reading -- long utterances
+    # with no -35dB silence gaps. vb_build's default 3-10s clip window dropped whole
+    # files ("+0 clips" x66, pilot e01-r4 honest BLOCKED). En voices pass --max-clip 25;
+    # zh (AISHELL-3 command-style speech, clear pauses) keeps the default 10.
+    ap.add_argument("--max-clip", type=float, default=10.0)
     a = ap.parse_args(argv)
 
     ensure_torch_python()
@@ -192,7 +197,8 @@ def main(argv):
     try:
         cmd = [sys.executable, os.path.join(HERE, "vb_build.py"),
                "--voice", a.voice, "--raw", m4a_dir,
-               "--epochs", str(a.epochs), "--minutes", str(a.minutes)]
+               "--epochs", str(a.epochs), "--minutes", str(a.minutes),
+               "--max-clip", str(a.max_clip)]
         rec["train_cmd"] = " ".join(cmd)
         rc, out = sh(cmd, timeout=14400)
         rec["train_rc"] = rc
