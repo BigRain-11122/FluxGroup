@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-05T08:49:32+0800",
+ "ts": "2026-11-05T09:04:43+0800",
  "alert_days": 2.0,
  "lines": [
   {
@@ -42,9 +42,9 @@
    "line": "bigstream-mv",
    "status": "ACTIVE",
    "prio": "P0",
-   "stock": 2,
+   "stock": 1,
    "rate_per_day": 4.67,
-   "runway_days": 0.4,
+   "runway_days": 0.2,
    "has_table": true,
    "blocker": {
     "stage": "gate",
