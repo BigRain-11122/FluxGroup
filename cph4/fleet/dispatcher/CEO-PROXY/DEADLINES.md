@@ -442,3 +442,14 @@ am_free_gb=10+cpu_load_pct=48——**bm-b 不是闲着，是在跑量化轮**；
 | **R11-5 bm-c BLOCKED-RAM + ComfyUI 缺失** | **registered·物理件（零催办）** | IdleWatch 23:44-23:59 实测 `ram_free 8.75-9.58%`（24GB 机≈2.1GB）、`hb_verdict=GPU_COMFY_MISSING\|RAM_LOW`、comfy=0。bm-c 是 GPU 唯一产线，其全部 GPU 卡（asset-lib-char-gen / asset-gen）都串在 8188 上。修法只在 bm-c 本机：`free_mem.py --apply` 释放驻留 + 起 ComfyUI（C-20261009-04 / CEO 2026-10-23 禁远程，本席不做） |
 | **R11-6 bm-b/bm-c w32time 停转（CLOCK-SKEW 3492ms）** | **registered·物理件（零催办）** | CLOCK-SKEW.json 23:59:15：hub bm-a 0ms、bm-b +1456.3ms、bm-c ≈+3966ms（4ms/min 漂移），`old_schema=0 missing=0`→CLOCK-UNALIGNED 已自愈。承 R4-4/R5-5/R6-7/R8-6/R9-5/R10-9：两机 `sc query w32time`=STOPPED，需本机提权 `sc config w32time start= auto && net start w32time`。秒级偏差不影响派单租约，不重复立法 |
 | **R11-7 队列双源分叉（结构隐患·登记）** | **registered** | 本机 `main` 与 `origin/main` 实测 **ahead 497 / behind 244**；两边都有对方没有的卡（origin 侧 `DOCS-_报审提交区`、`VER-E-195423`；本机侧两张 VCORP）。本班用 append-only 外科推避开合并，但「双源各写各的」仍会持续制造幻影供给。收口正法=按 bm-a 卡死合并判例（reset --mixed origin/main + 定向 checkout + 台账行在 origin 最新版重提），须在无他窗在写的窗口做 |
+
+## 附录 R12 事件班登记（2026-11-06 00:52·承载件触发·DL 三连 STARVED-EXEC + CLOCK-SKEW）
+
+| 件 | 状态 | 证据 / 下一步 |
+|---|---|---|
+| **R12-1 队列原文件结构性损毁（P0·真根因）** | **registered·待无写手窗口收口** | origin `cph4/fleet/PRODUCTION-QUEUE.jsonl` 2111 行里仅 334 行可解析（1774 行=1.29MB 跨行 JSON 碎片，raw_decode 拼接后仍不可恢复）、整份重复一遍（每 id 两条）、3 处 `<<<<<<<` 冲突标记；本地工作树 496 行干净但与 origin 各持对方没有的卡（本地独有 431、origin 独有 102）。后果=认领器读到的唯一 OPEN 只有 `VER-E-195423` 垃圾双行 → 三线「无活可领」的一半是真损失。处置边界=本班不整文件重写（`backlog_fill.py` 00:50 仍在写队列，重写会与他窗赛跑·R9-2 判例），只走 append 通道补真卡；收口正法=`queue_repair.py`（dedupe+去标记）在**无写手窗口**基于 origin 跑，逐行判读后外科推。 |
+| **R12-2 `Q-VCORP-PREP-e01-R3` 跨机路径错（P1·第 3 次复发）** | **registered·待改行** | 该卡 `cwd=C:/Fluxgroup/FluxGroup`、`deliverable=C:/Fluxgroup/FleetAgent/...`，而 bm-c 根为 `K:/Fluxgroup/FluxGroup`、bm-b 根为 `C:/Fluxgroup/FluxGroup`（无 FleetAgent 段）。现态被 fallback 分到 bm-c（`fallback_from=[bm-b]`），cwd 在 bm-c 不存在 → 必失败。承 R10-4/R11-2 同族。修法=两字段改仓库相对路径 + `nodes` 钉持料机 bm-a；因整文件重写有赛跑风险，留晨检无写手窗口改。 |
+| **R12-3 `asset-lib-asset-gen` 僵尸 RUNNING（P1·账实不符）** | **registered** | 本地队列 `state=RUNNING owner=bm-b claimed=2026-11-05T23:06`，而其 deliverable 回执 `asset-gen-props-2026-11-05.json` 停在 11-05 06:30 且内容全是 `WinError 10061`（ComfyUI 拒绝连接）。origin 侧同 id 已是 `CANCELLED(hard_nodes=[bm-c])` → 本地这条是旧世代的幽灵。正法=按 origin 终态覆盖（repair 去重时「最新终态优先」会自动处理）+ 恢复时须先解 bm-c ComfyUI。 |
+| **R12-4 时钟偏移（物理件·第 7 次）** | **waiting-CEO·零催办** | 00:44 `CLOCK-SKEW.json`：hub bm-a −0.4ms（σ0.4）、bm-b +1456.3ms（σ0.8）、bm-c +3656.2ms（σ407.5）。承 R4-4/R5-5/R6-7/R8-6/R9-5/R10-9/R11-6：两机 `w32time` 为 SERVICE-STOPPED，需本机提权 `sc config w32time start= auto && net start w32time && w32tm /resync /force`。秒级偏差不影响租约派单，不重复立法。 |
+| **R12-5 bm-c 真饥饿（结构性·非调度失败）** | **registered** | bm-c 队列 0 张可执行 CPU 卡，其 GPU 活（char-gen/asset-gen/face-caption）全串在 ComfyUI 8188，而 23:44-23:59 IdleWatch 实测 `ram_free 2.1GB` + `comfy=0`。bm-c 的饥饿诚实存在，根因是物理面（RAM+ComfyUI），不是派单缺口——不拿假卡去刷绿。 |
+
