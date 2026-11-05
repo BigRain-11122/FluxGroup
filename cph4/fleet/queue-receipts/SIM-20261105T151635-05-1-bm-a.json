@@ -2,7 +2,7 @@
  "id": "SIM-20261105T151635-05-1",
  "node": "bm-a",
  "rc": 9009,
- "seconds": 0.3,
+ "seconds": 0.2,
  "cmd": "python3 -c \"import json,os;os.makedirs('cph4/fleet/state/rehearsal',exist_ok=True);json.dump({'id':'SIM-20261105T151635-05-1','ok':True},open('cph4/fleet/state/rehearsal/SIM-20261105T151635-05-1.json','w'))\"",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": "E-PATH",
  "deliverable": "cph4/fleet/state/rehearsal/SIM-20261105T151635-05-1.json",
  "deliverable_exists": false,
- "ts": "2026-11-05T15:50:05",
+ "ts": "2026-11-05T15:54:39",
  "stdout_tail": "",
  "stderr_tail": ""
 }
