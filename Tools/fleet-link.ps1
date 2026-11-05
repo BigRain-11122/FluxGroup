@@ -87,7 +87,12 @@ try {
 if ($NodeId -eq '') { $NodeId = $env:COMPUTERNAME }
 
 # ---- bind (node tailnet IP + loopback; skip missing) + v1.1 self-upgrade ----
-$Vers = '1.9.5'
+# v1.9.6 (2026-11-06 event round): /poke truncated the task list to First 10, but
+# bm-c's roster carries 13 wake tasks - HQ-ProductionClaim sits at #13, so the one
+# task that lets that box claim any work could never be requested by name (measured:
+# bm-c wakes stopped at MiniGameRadarTick while its roster had three more). Cap is
+# now the roster's own size, kept finite so a hand-crafted body cannot fan out.
+$Vers = '1.9.6'
 # v1.9.4: a same-version listener already owning the port means "healthy";
 # exit silently. Before this, every supervisor run logged 2 bind-fail lines,
 # which rotated the real sync history out of log.jsonl (200-line cap).
@@ -476,7 +481,7 @@ function Handle-Client($client) {
     try {
       $b = ([string]$req.body) | ConvertFrom-Json
       if ($b.PSObject.Properties.Name -contains 'reason') { $reason = [string]$b.reason }
-      if ($b.PSObject.Properties.Name -contains 'tasks') { $tasks = @($b.tasks) | ForEach-Object { [string]$_ } | Select-Object -First 10 }
+      if ($b.PSObject.Properties.Name -contains 'tasks') { $tasks = @($b.tasks) | ForEach-Object { [string]$_ } | Select-Object -First 32 }
       if ($b.PSObject.Properties.Name -contains 'repos') { $repos = @($b.repos) | ForEach-Object { [string]$_ } | Select-Object -First 8 }
     } catch { }
     $o = [ordered]@{ ok = $true; accepted = $true; node = $NodeId; version = $Vers; ts = (Get-Date -Format s) }
