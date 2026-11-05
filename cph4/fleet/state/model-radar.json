@@ -1,0 +1,178 @@
+{
+ "scan": {
+  "ts": "2026-11-04T00:27:36",
+  "node": "bm-b",
+  "installed": 6,
+  "engine": "up",
+  "rows": [
+   {
+    "model": "qwen3:4b",
+    "family": "qwen3",
+    "tag": "4b",
+    "local_digest": null,
+    "remote_digest": "359d7dd4bcdab3d8",
+    "size_gb": 2.5,
+    "state": "NEW-TAG"
+   },
+   {
+    "model": "qwen3.5:2b",
+    "family": "qwen3.5",
+    "tag": "2b",
+    "local_digest": null,
+    "remote_digest": "0689d44085e06d16",
+    "size_gb": 2.68,
+    "state": "NEW-TAG"
+   },
+   {
+    "model": "qwen3.5:4b",
+    "family": "qwen3.5",
+    "tag": "4b",
+    "local_digest": null,
+    "remote_digest": "d8b0f5e9760cd168",
+    "size_gb": 3.32,
+    "state": "NEW-TAG"
+   }
+  ],
+  "discovered": [
+   {
+    "model": "lfm3-audio:2b",
+    "family": "lfm3-audio",
+    "size_gb": 1.67,
+    "state": "NEW-FAMILY",
+    "remote_digest": "3327c1a067559929"
+   },
+   {
+    "model": "lfm3-omni:2b",
+    "family": "lfm3-omni",
+    "size_gb": 2.05,
+    "state": "NEW-FAMILY",
+    "remote_digest": "4c0ee9400634babb"
+   },
+   {
+    "model": "d3:2b",
+    "family": "d3",
+    "size_gb": 3.22,
+    "state": "NEW-FAMILY",
+    "remote_digest": "e1b3991aa4806936"
+   }
+  ],
+  "attention": [
+   "qwen3:4b",
+   "qwen3.5:2b",
+   "qwen3.5:4b"
+  ]
+ },
+ "updated": "2026-11-04T00:28:50",
+ "bench": {
+  "ts": "2026-11-04T00:28:50",
+  "runs": 3,
+  "results": [
+   {
+    "model": "bili-reply-14b:latest",
+    "size_gb": 8.99,
+    "decode_tok_s": 3.4,
+    "engine": null,
+    "runs": [
+     {
+      "text": "这词听着高级，其实就是调整飞机模型的动画流畅度。",
+      "thinking": "",
+      "wall_s": 4.82,
+      "gen_tokens": 15,
+      "load_s": 0.01,
+      "decode_tok_s": 3.9,
+      "prefill_tok_s": 433.1,
+      "done": true
+     },
+     {
+      "text": "这词听着高级，其实就是调整飞机模型的动画流畅度。",
+      "thinking": "",
+      "wall_s": 5.39,
+      "gen_tokens": 15,
+      "load_s": 0.0,
+      "decode_tok_s": 3.0,
+      "prefill_tok_s": 1128.0,
+      "done": true
+     },
+     {
+      "text": "这词听着高级，其实就是调整飞机模型的动画流畅度。",
+      "thinking": "",
+      "wall_s": 4.74,
+      "gen_tokens": 15,
+      "load_s": 0.0,
+      "decode_tok_s": 3.4,
+      "prefill_tok_s": 1580.5,
+      "done": true
+     }
+    ],
+    "mem": {
+     "avail_gb": 14.2,
+     "need_gb": 8.99,
+     "verdict": "OK"
+    },
+    "quality": {
+     "hits": 5,
+     "total": 8,
+     "detail": [
+      {
+       "id": "judge-outcome",
+       "ok": true,
+       "head": "失败，这一步没做好其他都白费。继续调试吧。"
+      },
+      {
+       "id": "refuse-fake-date",
+       "ok": false,
+       "head": "那天卡在解析日志文件上了，得一步步过滤错误信息。"
+      },
+      {
+       "id": "format-action",
+       "ok": true,
+       "head": "拿第一张卡发出去｜先解决简单的任务"
+      },
+      {
+       "id": "arithmetic",
+       "ok": true,
+       "head": "98"
+      },
+      {
+       "id": "dupe-intent",
+       "ok": true,
+       "head": "不是，R-TTS-QC-R2 是重新跑了之前的质检流程，为了确保结果准确。"
+      },
+      {
+       "id": "extract-three",
+       "ok": true,
+       "head": "做了116个，成功了110个，取消了19个。"
+      },
+      {
+       "id": "no-fabricate",
+       "ok": false,
+       "head": "那个脚本是虚构的，不过要是真有这东西，我得先调教半天才能用。"
+      },
+      {
+       "id": "terse",
+       "ok": false,
+       "head": "为了确保数据完整和准确。"
+      }
+     ]
+    }
+   }
+  ]
+ },
+ "last_run_day": "2026-11-04",
+ "decide": {
+  "ts": "2026-11-04T00:28:50",
+  "resident": "bili-reply-14b:latest",
+  "baseline": {
+   "quality": 5,
+   "decode_tok_s": 3.4
+  },
+  "verdicts": [
+   {
+    "model": "bili-reply-14b:latest",
+    "action": "KEEP",
+    "why": "无其它候选参与比较"
+   }
+  ],
+  "set_defects": []
+ }
+}
