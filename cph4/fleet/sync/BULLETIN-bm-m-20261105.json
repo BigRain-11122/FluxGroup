@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
  "date": "20261105",
- "ts": "2026-11-05T14:10:38+0800",
+ "ts": "2026-11-05T14:23:21+0800",
  "window_h": 26,
  "produced": [
   {
    "path": "cph4/fleet/queue-receipts/skill-promote-20261105.json",
    "bytes": 2172,
-   "mtime": "2026-11-05T14:10:38",
-   "sha": "e644ba876bfa37d6d0f320da74edeccdcc418ce6d875c651fd22f92be679e302"
+   "mtime": "2026-11-05T14:23:21",
+   "sha": "d1cda218658f515a78bd65d0cbb6751321ae8a63b4fa9e30e05569cb3c3e344b"
   },
   {
    "path": "cph4/fleet/queue-receipts/R-NEXT-BIGSTREAMM-AUDIT-20261105-bm-a.json",
@@ -387,30 +387,6 @@
    "bytes": 1051,
    "mtime": "2026-11-04T12:31:50",
    "sha": "3d8028b6ef122029c4439134344b9dc01cd6567467f0e22c30cfaf4801af682d"
-  },
-  {
-   "path": "cph4/fleet/queue-receipts/asset-lib-library-check-2026-11-04-bm-m.json",
-   "bytes": 1659,
-   "mtime": "2026-11-04T12:13:53",
-   "sha": "3483a6f9e54f7aed8ab1175eec64ba37468acec8844abff82d007a5d7c95599d"
-  },
-  {
-   "path": "cph4/fleet/queue-receipts/brain-bigstream-mv-2026-11-04.md",
-   "bytes": 1589,
-   "mtime": "2026-11-04T12:13:53",
-   "sha": "585c2bc880242ae1de985fa05ef1f7833686f3609699853e0585f4058ab09c2c"
-  },
-  {
-   "path": "cph4/fleet/queue-receipts/brain-bigstream-duanju-2026-11-04.md",
-   "bytes": 1257,
-   "mtime": "2026-11-04T12:13:53",
-   "sha": "8a8cd2f23034987407a01b24ec3be17738fa68e457a7ca2c60908b9cdb24452f"
-  },
-  {
-   "path": "cph4/fleet/queue-receipts/brain-bigstream-drama-2026-11-04.md",
-   "bytes": 1327,
-   "mtime": "2026-11-04T12:13:53",
-   "sha": "af73fc9921e31fc8250783d7fb452c1b41dbb06f6d740461f7348f9730ce1eb1"
   }
  ],
  "blocked": [
@@ -419,24 +395,24 @@
    "why": "E-CONTRACT products=36 ready=0 not_ready=36\n  缺 图标≥256px                     35 款\n  缺 截图目录("
   },
   {
-   "what": "_last_lane_bm-m.json",
-   "why": "rc=127 "
-  },
-  {
    "what": "R-NEXT-BIGSTREAMM-AUDIT-20261105",
    "why": "E-UNKNOWN "
+  },
+  {
+   "what": "Q-VCORP-PREP-e01-R3-20261105",
+   "why": "rc=127 "
   },
   {
    "what": "asset-lib-voice-corpus-bmm-2026-11-03",
    "why": "E-BLOCKED-INPUT [corpus] 本分片无输入（inbox 共 0 个文件）——等投料，rc=3\n"
   },
   {
-   "what": "asset-lib-library-check-2026-11-04",
-   "why": "E-UNKNOWN 资产库体检 tier=p0  合计 19/128（15%）  GAPS\n  OK characters    8/8    授权 8\n      - CH01："
-  },
-  {
    "what": "inference-audit-bm-m-20261105.json",
    "why": "rc=None "
+  },
+  {
+   "what": "R-PLAN-BIGDOMAIN-20261102",
+   "why": "E-PATH "
   }
  ],
  "job": null

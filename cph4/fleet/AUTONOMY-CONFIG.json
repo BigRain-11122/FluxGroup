@@ -161,5 +161,22 @@
     "canary_every_cycles": 4,
     "lane_timeout_s": 120,
     "loop_seconds": 180
+  },
+  "capacity": {
+    "_why": "CEO 2026-11-05「如何保障自动化和集团业务齐头并进」：机制活不许吃满产能。",
+    "business_min_ratio": 0.6,
+    "infra_max_cards_per_node": 2,
+    "infra_lines": [
+      "fleet-ops"
+    ],
+    "business_stall_hours": 24,
+    "stall_action": "infra_max=1 且该线提到最高优先",
+    "mechanism_changes_per_day": 3,
+    "publishable_def": {
+      "bigstream-mv": "母版 mp4 + 四闸回执",
+      "biggame": "可提交包 + 提审材料齐",
+      "asset-lib": "可用角色包/音色（能被别的线直接用）",
+      "bigmoney": "信号 CSV + 四件齐结论"
+    }
   }
 }

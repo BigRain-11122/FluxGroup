@@ -295,6 +295,20 @@ def main():
                 if any(str(r.get("id")) == i and node in (r.get("nodes") or [])
                        for r in backlog + queue
                        if r.get("state") == "RUNNING" or runnable(r))]
+        # 产能配额（CEO 2026-11-05「自动化和业务齐头并进」）：机制卡（fleet-ops 等）
+        # 每机最多 infra_max_cards_per_node 张。实测曾出现 12 张在飞里 8 张是机制活，
+        # 业务线反而没卡——机制把产能吃光了。
+        _cap = (_CFG.get("capacity") or {})
+        _infra_lines = set(_cap.get("infra_lines") or ["fleet-ops"])
+        _infra_cap = int(_cap.get("infra_max_cards_per_node") or 2)
+        _held_infra = [i for i in held
+                       if any(str(r.get("id")) == i and (r.get("line") or "") in _infra_lines
+                              for r in backlog + queue)]
+        infra_full = len(_held_infra) >= _infra_cap
+
+        def infra_ok(card):
+            return (str(card.get("line") or "") not in _infra_lines) or (not infra_full)
+
         if len(held) >= FLOOR:
             report.append("- %s inventory ok (%d open)" % (node, len(held)))
             continue

@@ -165,6 +165,15 @@ def render_screen(rows, decision, ts):
         lines += ["", "## 需要你决定的（其余已自决）", ""]
         for i, it in enumerate(decision["ceo_items"], 1):
             lines.append("%d. %s" % (i, it))
+    cap = decision.get("capacity") or {}
+    if cap:
+        lines += ["", "## 产能配比（机制 vs 业务）", "",
+                  "在飞 %s 张，业务线 %s 张（%.0f%%，底线 %.0f%%）" % (
+                      cap.get("active"), cap.get("business"),
+                      float(cap.get("ratio") or 0) * 100, float(cap.get("min_ratio") or 0) * 100), "",
+                  "**四条线的「可发物」定义**（做不到就不算产出）："]
+        for k, v in (cap.get("publishable") or {}).items():
+            lines.append("- %s：%s" % (k, v))
     lines += ["", "_规则：ENGINE=机队自解 / CEO=物理件 / INPUT=缺投料 / EXTERNAL=等外部。_"]
     return "\n".join(lines) + "\n"
 
@@ -223,6 +232,13 @@ def main(argv):
     squeeze = jload(os.path.join(f, "state", "squeeze.json"), {}) or {}
 
     prio_lines = cfg.get("priority_lines") or list(biz)[:4]
+    # 产能配比（CEO 2026-11-05「自动化和业务齐头并进」）：机制活不许吃满产能。
+    _cap = cfg.get("capacity") or {}
+    _infra_lines = set(_cap.get("infra_lines") or ["fleet-ops"])
+    _min_ratio = float(_cap.get("business_min_ratio") or 0.6)
+    _act = [x for x in queue if x.get("state") in ("OPEN", "RUNNING")]
+    _biz_act = [x for x in _act if (x.get("line") or "UNKNOWN") not in _infra_lines]
+    _ratio = (len(_biz_act) / len(_act)) if _act else 1.0
     rows = [line_row(l, cfg, truth_by_id, queue, biz, squeeze) for l in prio_lines]
 
     did = []
@@ -239,6 +255,9 @@ def main(argv):
              "ASK-CEO": 4, "WAIT-EXTERNAL": 5, "HOLD": 6}
     worst = sorted(rows, key=lambda r: (order.get(r["action"], 9), str(r["prio"])))[0]
     top = "%s：%s（%s）" % (worst["name"], worst["action"], worst["why"])
+    if _ratio < _min_ratio:
+        top = ("业务产能不足：在飞 %d 张里只有 %d 张是业务卡（%.0f%%，底线 %.0f%%）｜%s"
+               % (len(_act), len(_biz_act), _ratio * 100, _min_ratio * 100, top))
 
     ceo_items = ["%s：%s" % (r["name"], r["why"]) for r in rows if r["action"] == "ASK-CEO"]
     decision = {"ts": datetime.now().isoformat(timespec="seconds"),
@@ -250,6 +269,9 @@ def main(argv):
     os.makedirs(os.path.join(f, "state"), exist_ok=True)
     with open(os.path.join(f, "state", "master-decision.json"), "w", encoding="utf-8") as fh:
         json.dump(decision, fh, ensure_ascii=False, indent=1)
+    decision["capacity"] = {"active": len(_act), "business": len(_biz_act),
+                            "ratio": round(_ratio, 2), "min_ratio": _min_ratio,
+                            "publishable": _cap.get("publishable_def") or {}}
     screen = render_screen(rows, decision, decision["ts"])
     with open(os.path.join(f, "MASTER-SCREEN.md"), "w", encoding="utf-8") as fh:
         fh.write(screen)

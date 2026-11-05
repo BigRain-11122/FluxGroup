@@ -1,6 +1,6 @@
-# 分层决策台账 2026-11-05T14:17:35
+# 分层决策台账 2026-11-05T14:23:22
 
-分布：L0=0, L1=0, L2=10, L3=0, CEO=3
+分布：L0=0, L1=1, L2=10, L3=0, CEO=3
 
 ## 需要你（其余各层自决，不占你带宽）
 
@@ -17,8 +17,9 @@
 | 子公司层 | 闸红 I1 × 3（FAIL） | 11-06T14:17 | business-map-next |
 | 子公司层 | 闸红 I2 × 156（FAIL） | 11-06T14:17 | business-map-next |
 | 子公司层 | 闸红 I3 × 11（FAIL） | 11-06T14:17 | business-map-next |
-| 子公司层 | 闸红 I4 × 14（FAIL） | 11-06T14:17 | business-map-next |
+| 子公司层 | 闸红 I4 × 15（FAIL） | 11-06T14:17 | business-map-next |
 | 子公司层 | 闸红 I6 × 1（FAIL） | 11-06T14:17 | business-map-next |
 | 子公司层 | 闸红 I7 × 2（FAIL） | 11-06T14:17 | business-map-next |
-| 子公司层 | 闸红 I12 × 15（FAIL） | 11-06T14:17 | business-map-next |
+| 子公司层 | 闸红 I12 × 16（FAIL） | 11-06T14:17 | business-map-next |
 | 子公司层 | 闸红 I14 × 4（FAIL） | 11-06T14:17 | business-map-next |
+| 线内/部门层 | 停线卡 ART-PUSH-BMA-20261104 需根因 | 11-06T14:23 | last-passing-standard |

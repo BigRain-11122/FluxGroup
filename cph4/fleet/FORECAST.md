@@ -1,8 +1,8 @@
-# 前瞻：线的弹药与卡点（2026-11-05T14:10:38+0800）
+# 前瞻：线的弹药与卡点（2026-11-05T14:23:21+0800）
 
 | 线 | 优先 | 状态 | 库存 | 日均 | 剩余天 | 卡点 |
 |---|---|---|---|---|---|---|
-| asset-lib | P0 | ACTIVE | 4 | 4.67 | 0.9 | env-check ⚠ALERT |
+| asset-lib | P0 | ACTIVE | 3 | 4.67 | 0.6 | env-check ⚠ALERT |
 | bigstream-duanju | P0 | PARKED | 1 | 1.33 | 0.8 | inventory ⚠INACTIVE |
 | bigstream-mv | P0 | ACTIVE | 0 | 4.67 | 0.0 | gate ⚠ALERT |
 | bigstream-drama | P0 | PARKED | 0 | 2.0 | 0.0 | src-scan ⚠INACTIVE |
@@ -13,7 +13,7 @@
 | fluxverse | P2 | ACTIVE | 0 | 0.67 | 0.0 | — ⚠NO-TABLE,ALERT |
 | biglife | P2 | ACTIVE | 0 | 0.67 | 0.0 | — ⚠NO-TABLE,ALERT |
 | bighouse | P2 | PARKED | 0 | 0 | — | — ⚠NO-TABLE,INACTIVE |
-| fleet-ops | P3 | ACTIVE | 14 | 7.0 | 2.0 | — ⚠NO-TABLE |
+| fleet-ops | P3 | ACTIVE | 11 | 7.0 | 1.6 | — ⚠NO-TABLE,ALERT |
 | bigcompute | P3 | ACTIVE | 0 | 0.67 | 0.0 | — ⚠NO-TABLE,ALERT |
 | car-gaming | P3 | PARKED | 0 | 0 | — | — ⚠NO-TABLE,INACTIVE |
 | recon | P3 | ACTIVE | 0 | 0.33 | 0.0 | — ⚠NO-TABLE,ALERT |

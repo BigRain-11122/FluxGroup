@@ -1,11 +1,11 @@
 {
- "ts": "2026-11-05T14:10:38",
+ "ts": "2026-11-05T14:23:21",
  "stage": 3,
  "adoption": {
   "days": 4,
-  "applied": 945,
-  "total": 718,
-  "rate": 131.6,
+  "applied": 947,
+  "total": 720,
+  "rate": 131.5,
   "eligible_stage4": false
  },
  "decisions": [
@@ -13,8 +13,8 @@
    "kind": "requeue",
    "why": "3 张卡在跑但 1 小时无回执",
    "target": [
-    "ART-PUSH-BMA-20261104",
-    "asset-lib-char-gen-2026-11-05",
+    "C-TTS-QC-ALL",
+    "LINE-TRIAGE-MV-20261105",
     "asset-lib-asset-gen-scenes-2026-11-05"
    ],
    "min_stage": 3,
@@ -35,8 +35,8 @@
   {
    "kind": "requeue",
    "ids": [
-    "ART-PUSH-BMA-20261104",
-    "asset-lib-char-gen-2026-11-05",
+    "C-TTS-QC-ALL",
+    "LINE-TRIAGE-MV-20261105",
     "asset-lib-asset-gen-scenes-2026-11-05"
    ]
   }
