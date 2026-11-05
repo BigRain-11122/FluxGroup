@@ -423,7 +423,8 @@ def _pid_alive(pid):
     if os.name == "nt":
         try:
             r = subprocess.run(["tasklist", "/FI", "PID eq %d" % pid],
-                               capture_output=True, text=True, timeout=30)
+                               capture_output=True, text=True, timeout=30,
+                               encoding="utf-8", errors="replace")
             return str(pid) in (r.stdout or "")
         except Exception:
             return False
