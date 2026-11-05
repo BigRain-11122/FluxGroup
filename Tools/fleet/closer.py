@@ -25,6 +25,58 @@ RECEIPT_DIR = os.path.join(F, "queue-receipts")
 HEARTBEAT_TIMEOUT_S = 600   # Temporal-style heartbeat: no sign of life = the worker is gone
 
 
+def _cfg():
+    try:
+        with open(os.path.join(F, "AUTONOMY-CONFIG.json"), encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+
+CFG = _cfg()
+STALL_S = int((CFG.get("progress") or {}).get("stall_after_s") or 1800)
+MAX_ATTEMPTS = int((CFG.get("failures") or {}).get("max_attempts") or 3)
+
+
+def lane_progress():
+    """owner -> (job, out_bytes, ts) from MASTER-STATE.
+
+    2026-11-05 起因：心跳只证明进程活着。lane_agent 现在每 45s 报一次子进程已捕获的
+    stdout 字节数（out_bytes），这个数不涨 = 命令没有产生任何新输出，才算真的卡住。
+    """
+    try:
+        ms = json.load(open(os.path.join(F, "dispatcher", "MASTER-STATE.json"),
+                            encoding="utf-8-sig"))
+    except Exception:
+        return {}
+    out = {}
+    for n, v in (ms.get("lanes") or {}).items():
+        lr = v.get("last_result") or {}
+        if lr.get("job"):
+            out[n] = (lr.get("job"), int(lr.get("out_bytes") or 0), lr.get("ts"))
+    return out
+
+
+def release(r, why):
+    """Open the card again, or stop it for good once the same card keeps failing.
+
+    3 次未成 = 停线落根因（AUTONOMY-CONFIG.failures）。此前同一任务连续三天对四台机
+    重派、全失败、error_class 为空，谁也不知道为什么——重派不是解决。
+    """
+    att = int(r.get("retries") or 0) + 1
+    r["retries"] = att
+    if att >= MAX_ATTEMPTS:
+        r["state"] = "FAILED"
+        r["error_class"] = (CFG.get("failures") or {}).get("error_class") or "E-ROOTCAUSE-3X"
+        r["note"] = "3 次未成，停线待根因：%s" % why
+        r.pop("owner", None)
+        return "blocked"
+    r["state"] = "OPEN"
+    r["owner"] = None
+    r["note"] = why
+    return "requeued"
+
+
 def lane_beat():
     """owner -> newest sign of life (seconds ago). Absence counts as infinite."""
     import time as _t
@@ -70,7 +122,9 @@ def main():
     rows = [json.loads(l) for l in open(Q, encoding="utf-8") if l.strip()]
     beats = lane_beat()
     rcs = lane_rc()
-    closed, waiting, requeued, awaiting = [], [], [], []
+    progs = lane_progress()
+    now_iso = datetime.now().isoformat(timespec="seconds")
+    closed, waiting, requeued, awaiting, blocked = [], [], [], [], []
     touched = []
     for r in rows:
         # UNVERIFIED is a legitimate holding state: the lane said done but the artifact had
@@ -136,7 +190,7 @@ def main():
             # 路径类/未知类错误换一台机器再来一次；其余错误保持隔离等人判。
             cls = str(r.get("error_class") or "")
             retries = int(r.get("retries") or 0)
-            if cls in ("E-PATH", "E-UNKNOWN", "E-TIMEOUT") and retries < 2:
+            if cls in ("E-PATH", "E-UNKNOWN", "E-TIMEOUT") and retries < MAX_ATTEMPTS - 1:
                 r["state"] = "OPEN"
                 r["owner"] = None
                 r["retries"] = retries + 1
@@ -150,33 +204,64 @@ def main():
             # Formatting it as 1e9 seconds (2026-11-03: "lease-heartbeat-timeout(1000000000s)")
             # buried the real reason in a number nobody could read.
             if owner not in beats:
-                r["state"] = "OPEN"
-                r["owner"] = None
-                r["retries"] = int(r.get("retries") or 0) + 1
-                r["note"] = "lease-owner-unknown: %s 无心跳，释放重排" % (owner or "(none)")
-                requeued.append(r["id"])
+                if release(r, "lease-owner-unknown: %s 无心跳，释放重排" % (owner or "(none)")) == "blocked":
+                    blocked.append(r["id"])
+                else:
+                    requeued.append(r["id"])
                 touched.append(r)
                 continue
             age = beats.get(owner)
             if age > HEARTBEAT_TIMEOUT_S:      # worker silent -> release, do not hang forever
-                r["state"] = "OPEN"
-                r["owner"] = None
-                r["retries"] = int(r.get("retries") or 0) + 1
-                r["note"] = "lease-heartbeat-timeout(%.0fs)" % age
-                requeued.append(r["id"])
+                if release(r, "lease-heartbeat-timeout(%.0fs)" % age) == "blocked":
+                    blocked.append(r["id"])
+                else:
+                    requeued.append(r["id"])
                 touched.append(r)
-            else:
+                continue
+
+            # 进展判据（2026-11-05）：心跳在跳 ≠ 活在干。机器握着 RUNNING 卡、心跳新鲜，
+            # 卡却几小时没有任何输出来——实测 bm-a/bm-b 4.2h、bm-c 17.5h 回执为零而三台都
+            # "online"。这里用 stdout 字节数 + 交付物大小作为进展信号，30 分钟不涨即 STALL。
+            job, out_bytes, _ts = progs.get(owner, (None, 0, None))
+            dl_bytes = 0
+            try:
+                if local and os.path.exists(local):
+                    dl_bytes = os.path.getsize(local) if os.path.isfile(local) else len(os.listdir(local))
+            except Exception:
+                dl_bytes = 0
+            sig = max(int(out_bytes or 0) if job == r.get("id") else 0, dl_bytes)
+            prev = r.get("progress_bytes")
+            if prev is None or sig > int(prev):
+                r["progress_bytes"] = sig
+                r["progress_ts"] = now_iso
+                touched.append(r)
                 waiting.append(r["id"])
+            else:
+                try:
+                    idle_s = (datetime.now() - datetime.fromisoformat(str(r.get("progress_ts")))).total_seconds()
+                except Exception:
+                    idle_s = None
+                    r["progress_ts"] = now_iso
+                    touched.append(r)
+                if idle_s is not None and idle_s > STALL_S:
+                    if release(r, "STALL: %ds 无新输出（sig=%s），释放" % (int(idle_s), sig)) == "blocked":
+                        blocked.append(r["id"])
+                    else:
+                        requeued.append(r["id"])
+                    touched.append(r)
+                else:
+                    waiting.append(r["id"])
     if touched:
         # commit only the rows this leg changed; a whole-file rewrite erased the master's
         # dispatch in the same cycle (lost update, 2026-11-02 review).
         fl.merge_jsonl(Q, touched)
         with open(EV, "a", encoding="utf-8") as f:
             f.write(json.dumps({"ts": datetime.now().isoformat(timespec="seconds"),
-                                "kind": "close", "cards": closed}, ensure_ascii=False) + "\n")
-    print("[closer] closed=%d requeued=%d waiting=%d awaiting-evidence=%d %s"
-          % (len(closed), len(requeued), len(waiting), len(awaiting),
-             ",".join(requeued[:3] or awaiting[:3] or waiting[:3])))
+                                "kind": "close", "cards": closed,
+                                "requeued": requeued, "blocked": blocked}, ensure_ascii=False) + "\n")
+    print("[closer] closed=%d requeued=%d blocked=%d waiting=%d awaiting-evidence=%d %s"
+          % (len(closed), len(requeued), len(blocked), len(waiting), len(awaiting),
+             ",".join(requeued[:3] or blocked[:3] or awaiting[:3] or waiting[:3])))
     return 0
 
 

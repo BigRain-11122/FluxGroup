@@ -28,8 +28,36 @@ QUEUE = os.path.join(FLEET, "PRODUCTION-QUEUE.jsonl")
 WD_DRIVE = ("D:", "K:", "C:", "E:", "F:")
 
 
+def _load_cfg():
+    try:
+        with open(os.path.join(FLEET, "AUTONOMY-CONFIG.json"), encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+
+CFG = _load_cfg()
+
+
+def book_prefixes():
+    """记账目录（state/receipts/dispatcher）由配置给出，算在用到时，避免模块加载顺序问题。"""
+    raw = ((CFG.get("truth") or {}).get("bookkeeping_prefixes") or
+           ["cph4/fleet/state/", "cph4/fleet/queue-receipts/", "cph4/fleet/dispatcher/"])
+    return tuple(norm(p) for p in raw)
+
+
 def norm(p):
     return p.replace("\\", "/")
+
+
+def is_bookkeeping(p):
+    q = norm(p)
+    if os.path.isabs(q):
+        try:
+            q = norm(os.path.relpath(q, ROOT))
+        except ValueError:
+            return False
+    return any(q.startswith(pref) for pref in book_prefixes())
 
 
 def classify(p):
@@ -51,12 +79,13 @@ def stat_path(p):
         return {"kind": kind, "files": None, "bytes": None, "newest": None}
     q = norm(p)
     path = q if os.path.isabs(q) else os.path.join(ROOT, q)
+    book = is_bookkeeping(p)
     files = 0
     total = 0
     newest = 0.0
     if os.path.isfile(path):
         st = os.stat(path)
-        return {"kind": "local", "files": 1, "bytes": st.st_size,
+        return {"kind": "bookkeeping" if book else "local", "files": 1, "bytes": st.st_size,
                 "newest": datetime.fromtimestamp(st.st_mtime).isoformat(timespec="seconds")}
     for dirpath, dirs, names in os.walk(path):
         dirs[:] = [d for d in dirs if d not in (".git", "__pycache__", "node_modules")]
@@ -70,7 +99,7 @@ def stat_path(p):
             total += st.st_size
             if st.st_mtime > newest:
                 newest = st.st_mtime
-    return {"kind": "local", "files": files, "bytes": total,
+    return {"kind": "bookkeeping" if book else "local", "files": files, "bytes": total,
             "newest": datetime.fromtimestamp(newest).isoformat(timespec="seconds") if newest else None}
 
 
@@ -88,14 +117,22 @@ def declared_status(line):
 
 
 def observed_status(evidence):
-    """What the disk says, independent of the declaration."""
+    """What the disk says, independent of the declaration.
+
+    2026-11-05: ONLY real artifacts count as output. A path under state/ or
+    queue-receipts/ is bookkeeping written by the loop itself; counting it made every
+    line look fresh (fluxverse/biglife showed 0.1h off state/city-state.json).
+    """
     local = [e for e in evidence if e["stat"]["kind"] == "local"]
     remote = [e for e in evidence if e["stat"]["kind"] == "remote"]
     missing = [e for e in evidence if e["stat"]["kind"] == "missing"]
+    book = [e for e in evidence if e["stat"]["kind"] == "bookkeeping"]
     live = [e for e in local if (e["stat"]["files"] or 0) > 0]
     newest = max([e["stat"]["newest"] for e in live if e["stat"]["newest"]] or [""])
     if live:
         return "OBSERVED", age_h(newest), newest
+    if book and not remote and not missing:
+        return "BOOKKEEPING", None, ""
     if remote:
         return "REMOTE", None, ""
     if missing and len(missing) == len(evidence):
@@ -170,7 +207,7 @@ def main(argv):
             "age_h": age,
             "newest": newest,
             "evidence": ev,
-            "drift": (declared_status(line) == "ACTIVE" and obs in ("NO-DISK", "EMPTY")),
+            "drift": (declared_status(line) == "ACTIVE" and obs in ("NO-DISK", "EMPTY", "BOOKKEEPING")),
         })
 
     # queue reality, same idea: count what the books say vs what is on disk

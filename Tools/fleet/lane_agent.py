@@ -450,19 +450,49 @@ def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
         # 期间一个字节都不上报，主控只能看到"心跳停了 137 分钟"，把正在干活的机器判成掉线，
         # 还可能按租约超时把卡重排。改为后台线程跑命令、主线程每 PROGRESS_EVERY 秒发一次
         # BUSY 进度（只报活性与已跑时长，不改任务语义、不改 stdout/stderr 处理）。
-        _box = {}
+        _box = {"rc": 125, "out": "", "err": "", "out_bytes": 0}
+
+        def _reader(pipe, key, ctr):
+            parts = []
+            try:
+                while True:
+                    chunk = pipe.read(4096)
+                    if not chunk:
+                        break
+                    parts.append(chunk)
+                    _box[ctr] = _box.get(ctr, 0) + len(chunk)
+            except Exception as e:
+                parts.append("[read-error %s]" % e)
+            finally:
+                try:
+                    pipe.close()
+                except Exception:
+                    pass
+            _box[key] = "".join(parts)
 
         def _exec():
             try:
-                r = subprocess.run(cmd, shell=True, cwd=_gate_cwd or job.get("cwd") or root,
-                                   capture_output=True, text=True, errors="replace",
-                                   timeout=max_seconds, creationflags=CREATE_NO_WINDOW)
-                _box.update(rc=r.returncode, out=r.stdout, err=r.stderr)
-            except subprocess.TimeoutExpired as e:
-                _box.update(rc=124, out=(e.stdout or ""),
-                            err=(e.stderr or "") + "\n[timeout %ss]" % max_seconds)
+                p = subprocess.Popen(cmd, shell=True, cwd=_gate_cwd or job.get("cwd") or root,
+                                     stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                     text=True, errors="replace",
+                                     creationflags=CREATE_NO_WINDOW)
             except Exception as e:
-                _box.update(rc=125, out="", err="exec-failed: %s" % e)
+                _box.update(rc=125, err="exec-failed: %s" % e)
+                return
+            t_out = threading.Thread(target=_reader, args=(p.stdout, "out", "out_bytes"), daemon=True)
+            t_err = threading.Thread(target=_reader, args=(p.stderr, "err", "err_bytes"), daemon=True)
+            t_out.start()
+            t_err.start()
+            try:
+                _box["rc"] = p.wait(timeout=max_seconds)
+            except subprocess.TimeoutExpired:
+                p.kill()
+                _box["rc"] = 124
+                _box["err"] = (_box.get("err") or "") + "\n[timeout %ss]" % max_seconds
+            except Exception as e:
+                _box.update(rc=125, err="exec-failed: %s" % e)
+            t_out.join(timeout=10)
+            t_err.join(timeout=10)
 
         _t = threading.Thread(target=_exec, daemon=True)
         _t.start()
@@ -471,9 +501,13 @@ def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
             if not _t.is_alive():
                 break
             try:
+                # out_bytes = 子进程已产出的 stdout 字节数。主控用它判"有没有新输出"，
+                # 光靠 elapsed_s 只能证明进程还在，卡死的进程也会一直报 elapsed。
                 fl.kv_put(fl.lane_result_key(node),
                           {"node": node, "state": "BUSY", "job": jid,
-                           "elapsed_s": int(time.time() - t0), "ts": fl.now_iso()},
+                           "elapsed_s": int(time.time() - t0),
+                           "out_bytes": int(_box.get("out_bytes") or 0),
+                           "ts": fl.now_iso()},
                           host=hub, port=port)
             except Exception:
                 pass

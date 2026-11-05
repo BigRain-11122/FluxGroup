@@ -827,7 +827,7 @@ def cycle(root, dry=False, push=True, node="bm-a", fallback_stale_s=900):
             "ram_free_gb": st.get("ram_free_gb"),
             "gpu_util_pct": st.get("gpu_util_pct"),
             "job": (jobs[0]["id"] if jobs else None),
-            "last_result": {k: rep.get(k) for k in ("job", "state", "rc", "ts", "reason")} if rep else None,
+            "last_result": {k: rep.get(k) for k in ("job", "state", "rc", "ts", "reason", "out_bytes", "elapsed_s")} if rep else None,
             "idle_confirmed": confirmed_idle,
             "idle_reason": reason,
             "idle_rounds": idle_rounds[n],

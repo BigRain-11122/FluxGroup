@@ -137,6 +137,9 @@ STAGES = [
     # 前瞻：每条线剩余弹药与卡点（CEO 2026-11-03「不许等机队没活了」）。
     # 只报告不阻断：runway<2 天会打 ALERT 行，告警由人看或后续接排队。
     ("forecast", ["Tools/fleet/forecast.py"], 60, {0, 2}, True),
+    # 云端日预算闸（CEO 2026-11-05「按日预算放开，硬上限 ¥100/天」）：每轮报余额；
+    # rc=1 = 今天已用完（告警不是工具坏，计入 ok_rc）。任何上云调用先问这一站。
+    ("budget", ["Tools/fleet/cloud_budget.py", "check"], 30, {0, 1}, True),
     ("gate", ["Tools/fleet/gate_report.py"], 180, {0}, True),
     ("checkups", ["Tools/fleet/checkups.py"], 180, {0, 2}, True),
     ("metrics", ["Tools/fleet/ops_metrics.py"], 90, {0}, True),

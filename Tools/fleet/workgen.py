@@ -35,6 +35,39 @@ STALL_HOURS = 3
 MAX_CARDS_PER_RUN = 8
 ONLINE_MIN = 30  # lane ts fresher than this counts as an online box
 
+
+def _autonomy_cfg():
+    try:
+        with open(os.path.join(ROOT if "ROOT" in globals() else
+                               os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+                               "cph4", "fleet", "AUTONOMY-CONFIG.json"), encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+
+_CFG = _autonomy_cfg()
+FLOOR = int((_CFG.get("supply") or {}).get("floor_cards_per_node") or FLOOR)
+MAX_ATTEMPTS = int((_CFG.get("failures") or {}).get("max_attempts") or 3)
+
+
+def blocked_stems(rows):
+    """同一任务（去掉日期后缀）失败到上限 = 停线，不许第四天换个日期号再派。
+
+    2026-11-05 实测：asset-lib-voice-corpus 11-03/11-04/11-05 连续三天对四台机重派、
+    全 FAILED、error_class 为空。重派不是解决，必须先有根因。
+    """
+    import collections
+    import re
+    fails = collections.Counter()
+    for r in rows or []:
+        rid = str(r.get("id") or "")
+        hard = str(r.get("state") or "") == "FAILED"
+        many = int(r.get("retries") or 0) >= MAX_ATTEMPTS
+        if hard or many:
+            fails[re.sub(r"-20\d{6}(T\d{6})?$", "", rid)] += 1
+    return {k for k, v in fails.items() if v >= MAX_ATTEMPTS}
+
 # A machine that migrated its tree leaves cards pointing at a dead prefix. Left alone
 # they look like declared work but can never pass the lane-side input check.
 LEGACY_ROOTS = {
@@ -109,10 +142,26 @@ def read_json(p, default=None):
 
 
 def lane_fresh(root, node):
+    """机器在线与否。
+
+    2026-11-05：原判据只看 cph4/fleet/lanes/<node>.json 的 mtime。机器一进长任务就不再
+    写这个文件（实测 bm-a 42 分钟、bm-m 34 分钟），于是被当成离线跳过——而它正是空槽最多
+    的那台（31 个）。心跳新鲜（MASTER-STATE.hb_age_s）同样证明在线，取两者之一即可。
+    """
     p = os.path.join(root, "cph4", "fleet", "lanes", "%s.json" % node)
-    if not os.path.exists(p):
-        return False
-    return (time.time() - os.path.getmtime(p)) / 3600.0 * 60 <= ONLINE_MIN
+    if os.path.exists(p):
+        if (time.time() - os.path.getmtime(p)) / 60.0 <= ONLINE_MIN:
+            return True
+    try:
+        ms = json.load(open(os.path.join(root, "cph4", "fleet", "dispatcher",
+                                         "MASTER-STATE.json"), encoding="utf-8-sig"))
+        lane = (ms.get("lanes") or {}).get(node) or {}
+        hb = lane.get("hb_age_s")
+        if lane.get("online") and hb is not None and float(hb) <= ONLINE_MIN * 60:
+            return True
+    except Exception:
+        pass
+    return False
 
 
 def recent_receipt(root, card_id):
@@ -449,8 +498,19 @@ def main():
     # appended after this write, so it was reported as declared and never reached the
     # backlog - a silent no-op that left the director seat idle.
     if added and not a.dry:
+        # 停线判据：同一任务已失败到上限就不再新造卡（换日期号也不行）。
+        _blocked = blocked_stems(list(queue) + list(backlog))
+        _keep = []
+        for c in added:
+            _stem = re.sub(r"-20\d{6}(T\d{6})?$", "", str(c.get("id") or ""))
+            if _stem in _blocked:
+                report.append("- BLOCKED `%s`: 同一任务已失败 %d 次，先落根因再派" % (c.get("id"), MAX_ATTEMPTS))
+                continue
+            _keep.append(c)
+        added = _keep
         # 只合并新卡；别人的行原样留在盘上（旧写法先整表重写再 append，既丢更新又可能写重）。
-        merge_rows(backlog_p, added)
+        if added:
+            merge_rows(backlog_p, added)
 
     # Declaring is not enough: backlog rows only become queue jobs when the box-side
     # promotion pass runs. Do that here (after the persist) so a declared card cannot
