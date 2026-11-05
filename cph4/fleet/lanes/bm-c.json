@@ -1,23 +1,8 @@
 {
  "node": "bm-c",
- "ts": "2026-11-05T19:46:28",
- "jobs": [
-  {
-   "id": "VER-E-194510",
-   "title": "验证·VER-E-194510",
-   "cmd": "python3 -c \"import json,os;os.makedirs('cph4/fleet/state/fleet-verify',exist_ok=True);json.dump({'ok':1},open('/Users/junsheng.sun/FluxGroup/cph4/fleet/state/fleet-verify/VER-E-194510.json','w'))\"",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/state/fleet-verify/VER-E-194510.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  }
- ],
- "idle_reason": "",
+ "ts": "2026-11-05T19:48:19",
+ "jobs": [],
+ "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
  "lane_ok": true,
- "capacity_note": "ram 2.8/1.0 GB"
+ "capacity_note": "ram 3.0/1.0 GB"
 }
