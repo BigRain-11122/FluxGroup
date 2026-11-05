@@ -104,7 +104,9 @@ def i2_cards_are_portable():
     拿它们要求可移植性只会让历史卡永久红（2026-11-03 实锚：诊断探针卡归档后仍红）。"""
     bad = []
     for r in jlines(QUEUE):
-        if r.get("state") in ("ARCHIVED", "CANCELLED", "SUPERSEDED"):
+        # 2026-11-05：只查"还能被领的卡"。DONE/FAILED 已经执行过，拿可移植性要求它们
+        # 等于让历史卡永久红（实测 I2 156 条几乎全是历史 DONE 卡），红灯一多就没人看。
+        if r.get("state") not in ("OPEN", "READY", "RUNNING"):
             continue
         for e in C.validate("card", _coerce_card(r)):
             if e.startswith("FORBID"):
@@ -123,8 +125,12 @@ def _coerce_card(r):
     return c
 
 
+RECEIPT_WINDOW_DAYS = 7   # 回执只查近 7 天：历史回执是既成事实，改不了也不代表现状
+
+
 def i3_receipts_have_rc():
     bad = []
+    import time as _t
     if not os.path.isdir(RECEIPTS):
         return bad
     for n in sorted(os.listdir(RECEIPTS)):
@@ -134,7 +140,13 @@ def i3_receipts_have_rc():
         # and business reports (mv-gate/biz/triage) are not receipts and carry no rc.
         if not re.search(r"-bm-[a-z]\.json$", n):
             continue
-        d = jload(os.path.join(RECEIPTS, n), None)
+        _fp = os.path.join(RECEIPTS, n)
+        try:
+            if (_t.time() - os.path.getmtime(_fp)) > RECEIPT_WINDOW_DAYS * 86400:
+                continue
+        except OSError:
+            pass
+        d = jload(_fp, None)
         if not isinstance(d, dict):
             continue
         if "rc" not in d:

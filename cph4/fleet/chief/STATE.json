@@ -1,21 +1,20 @@
 {
- "ts": "2026-11-05T15:16:36",
+ "ts": "2026-11-05T15:23:10",
  "stage": 3,
  "adoption": {
   "days": 4,
-  "applied": 961,
-  "total": 734,
-  "rate": 130.9,
+  "applied": 963,
+  "total": 736,
+  "rate": 130.8,
   "eligible_stage4": false
  },
  "decisions": [
   {
    "kind": "requeue",
-   "why": "3 张卡在跑但 1 小时无回执",
+   "why": "2 张卡在跑但 1 小时无回执",
    "target": [
-    "asset-lib-char-gen-2026-11-05",
-    "B-MV-AUDIT-20261105",
-    "SIM-20261105T151259-01-0"
+    "C-TTS-QC-ALL",
+    "asset-lib-asset-gen-2026-11-05"
    ],
    "min_stage": 3,
    "result": "applied"
@@ -35,9 +34,8 @@
   {
    "kind": "requeue",
    "ids": [
-    "asset-lib-char-gen-2026-11-05",
-    "B-MV-AUDIT-20261105",
-    "SIM-20261105T151259-01-0"
+    "C-TTS-QC-ALL",
+    "asset-lib-asset-gen-2026-11-05"
    ]
   }
  ],

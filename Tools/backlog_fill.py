@@ -188,6 +188,9 @@ def _fill_manifest(root, rows, have, node=None):
                                      "requires", "ok_rc", "minutes", "rescue",
                                      "no_dedupe", "parallel")}
         job["state"] = "OPEN"
+        # 无主卡=债（I1）：源里没 line 的（manifest/bank 体检件）一律落 fleet-ops，
+        # 不留空字段，否则每轮新卡都在长新的"无主"红项。
+        job["line"] = job.get("line") or "fleet-ops"
         # 分片卡（line_plan 对 parallel 段写 no_dedupe）本来就该同时存在多张：它们是
         # 「同一件事的不同分片」，不是重复派单。2026-11-03 实测：四张语料分片卡标题只差
         # 分片号与机名，相似度 >0.80 被全部判成 DUP-SKIP，只剩一台在跑——CEO 要的

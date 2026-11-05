@@ -1,14 +1,14 @@
 {
  "node": "bm-a",
- "ts": "2026-11-05T15:06:46",
+ "ts": "2026-11-05T15:23:12",
  "jobs": [
   {
-   "id": "B-MV-AUDIT-20261105",
-   "title": "MV 逐镜体检：6 对重复镜 + 24 个近静止镜的具体镜号与时间码（修片前置）",
-   "cmd": "python Tools/mv_full_audit.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721_60fps_1080p.mp4 --json cph4/fleet/queue-receipts/mv-audit-20261105.json",
+   "id": "SIM-20261105T151635-05-1",
+   "title": "演练·量化信号",
+   "cmd": "python3 -c \"import json,os;os.makedirs('cph4/fleet/state/rehearsal',exist_ok=True);json.dump({'id':'SIM-20261105T151635-05-1','ok':True},open('cph4/fleet/state/rehearsal/SIM-20261105T151635-05-1.json','w'))\"",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/mv-audit-20261105.json",
+   "deliverable": "cph4/fleet/state/rehearsal/SIM-20261105T151635-05-1.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",

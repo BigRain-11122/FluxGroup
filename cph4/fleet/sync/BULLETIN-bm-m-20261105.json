@@ -1,14 +1,20 @@
 {
  "node": "bm-m",
  "date": "20261105",
- "ts": "2026-11-05T15:16:36+0800",
+ "ts": "2026-11-05T15:23:10+0800",
  "window_h": 26,
  "produced": [
   {
    "path": "cph4/fleet/queue-receipts/skill-promote-20261105.json",
    "bytes": 2172,
-   "mtime": "2026-11-05T15:16:35",
-   "sha": "e6104ca39276e414c5dab1c6dde55d7cf8f1590d8e44ae19b0c33d5c5b201e00"
+   "mtime": "2026-11-05T15:23:10",
+   "sha": "e760b3b2c36d6ea1cb80eadca131c3d068fc6e77a08f10b722e2b32be4216f65"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/asset-env-2026-11-05.json",
+   "bytes": 1430,
+   "mtime": "2026-11-05T15:16:45",
+   "sha": "f3cd3ff21fa52f9561848b03f0377f24f69f4a67313f542b6253b3ab9f88a389"
   },
   {
    "path": "cph4/fleet/queue-receipts/triage-bigstream-mv-20261105.md",
@@ -411,8 +417,8 @@
    "why": "rc=None "
   },
   {
-   "what": "R-PLAN-BIGDOMAIN-20261102",
-   "why": "E-PATH "
+   "what": "asset-lib-env-check-2026-11-05",
+   "why": "E-UNKNOWN ASSET-ENV FAIL  bm-m\n  可用路线: 无\n  ! torch 已装但 CUDA 不可用（CPU 训练 LoRA 不现实）\n  ! 没有 ko"
   }
  ],
  "job": null

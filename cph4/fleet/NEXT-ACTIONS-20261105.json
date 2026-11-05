@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-05T15:16:35+0800",
+ "ts": "2026-11-05T15:23:10+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -13,8 +13,8 @@
    "blocker_type": "ENGINE",
    "blocker": "打标质量门与当前素材不匹配：抽 20 张 0 通过（理由是「只命中 0-2 个可见属性，像空话」），需改提示词/判据；另有 458 张待打",
    "state": "RUNNING",
-   "card": "asset-lib-env-check-2026-11-05",
-   "running_on": "bm-m"
+   "card": "asset-lib-asset-gen-2026-11-05",
+   "running_on": "bm-c"
   },
   {
    "id": "biggame",
@@ -43,7 +43,7 @@
    "blocker_type": "ENGINE",
    "blocker": "回测产物需在 bm-b 本地生成；主控无 quant 仓",
    "state": "QUEUED",
-   "card": "SIM-20261105T151324-03-1",
+   "card": "SIM-20261105T151635-05-1",
    "running_on": null
   },
   {
@@ -57,9 +57,9 @@
    "accept": "发布台账有回执行；或 CEO 给出重剪清单",
    "blocker_type": "ENGINE",
    "blocker": "发布决定权在 CEO，但工程侧可先做下一首立意案",
-   "state": "RUNNING",
-   "card": "B-MV-AUDIT-20261105",
-   "running_on": "bm-a"
+   "state": "QUEUED",
+   "card": "SIM-20261105T151647-06-0",
+   "running_on": null
   },
   {
    "id": "bigstream-drama",
@@ -223,13 +223,13 @@
    "blocker_type": "ENGINE",
    "blocker": "I2 存量 125 条卡面路径债、vault 缺盘 651 条",
    "state": "QUEUED",
-   "card": "SIM-20261105T151037-01-infra",
+   "card": "CHT-20261105T134829-99",
    "running_on": null
   }
  ],
  "counts": {
-  "RUNNING": 2,
-  "QUEUED": 3,
+  "RUNNING": 1,
+  "QUEUED": 4,
   "STALLED": 10
  },
  "stalled_engine": 3
