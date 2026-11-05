@@ -1,0 +1,18 @@
+{
+ "id": "MV-AUDIT-V722G-20261106",
+ "node": "bm-a",
+ "rc": 1,
+ "seconds": 151.1,
+ "cmd": "python Tools/mv_full_audit.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v722g_60fps_1080p.mp4 --json cph4/fleet/queue-receipts/mv-audit-v722g-20261106.json",
+ "ok_rc": [
+  0,
+  3
+ ],
+ "outcome": "FAIL",
+ "error_class": "E-UNKNOWN",
+ "deliverable": "cph4/fleet/queue-receipts/mv-audit-v722g-20261106.json",
+ "deliverable_exists": false,
+ "ts": "2026-11-06T01:25:15",
+ "stdout_tail": "",
+ "stderr_tail": "numpy._core._exceptions._ArrayMemoryError: Unable to allocate 6.02 MiB for an array with shape (1096, 1920, 3) and data type uint8\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\Tools\\mv_full_audit.py\", line 176, in <module>\n    main()\n    ~~~~^^\n  File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\Tools\\mv_full_audit.py\", line 62, in main\n    ok, f = cap.read()\n            ~~~~~~~~^^\nSystemError: <method 'read' of 'cv2.VideoCapture' objects> returned a result with an exception set\n"
+}
