@@ -1,6 +1,6 @@
 {
- "ts": "2026-11-05T08:08:03",
- "cycle": 31,
+ "ts": "2026-11-05T08:10:02",
+ "cycle": 32,
  "master_node": "bm-m",
  "masquerade_by": "bm-a",
  "master_tick_ts": "2026-11-05T03:03:23",
@@ -14,16 +14,16 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 48.1,
-   "cpu_load_pct": 74,
-   "ram_free_gb": 29.9,
+   "hb_age_s": 48.3,
+   "cpu_load_pct": 43,
+   "ram_free_gb": 28.3,
    "gpu_util_pct": 2,
    "job": "R-PLAN-BIGCOMPUTE-20261105",
    "last_result": {
     "job": "bigstream-mv-gate-2026-11-05",
-    "state": "BUSY",
-    "rc": null,
-    "ts": "2026-11-05T08:07:38",
+    "state": "FAILED",
+    "rc": 1,
+    "ts": "2026-11-05T08:09:53",
     "reason": null
    },
    "idle_confirmed": false,
@@ -32,16 +32,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 11.6,
-   "cpu_load_pct": 3,
-   "ram_free_gb": 12,
+   "hb_age_s": 11.2,
+   "cpu_load_pct": 8,
+   "ram_free_gb": 11.7,
    "gpu_util_pct": null,
    "job": "CANARY-20261104T201032",
    "last_result": {
-    "job": "asset-lib-face-dataset-2026-11-05",
+    "job": "bigstream-mv-gate-2026-11-05",
     "state": "FAILED",
     "rc": null,
-    "ts": "2026-11-05T08:07:21",
+    "ts": "2026-11-05T08:08:46",
     "reason": null
    },
    "idle_confirmed": false,
@@ -50,16 +50,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 53.8,
-   "cpu_load_pct": 9,
-   "ram_free_gb": 3.3,
+   "hb_age_s": 84.1,
+   "cpu_load_pct": 7,
+   "ram_free_gb": 3.5,
    "gpu_util_pct": 0,
    "job": "CHK-DUPES-20261103",
    "last_result": {
     "job": "asset-lib-asset-gen-2026-11-05",
     "state": "FAILED",
     "rc": 1,
-    "ts": "2026-11-05T08:07:28",
+    "ts": "2026-11-05T08:08:58",
     "reason": null
    },
    "idle_confirmed": false,
@@ -68,9 +68,9 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 396.6,
-   "cpu_load_pct": 17,
-   "ram_free_gb": 13.2,
+   "hb_age_s": 20.3,
+   "cpu_load_pct": 19,
+   "ram_free_gb": 14.8,
    "gpu_util_pct": null,
    "job": "CANARY-20261104T202057",
    "last_result": {
@@ -99,13 +99,9 @@
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
-   "jobs": [
-    "bigstream-mv-gate-2026-11-05"
-   ],
-   "no_supply": false,
-   "blockers": [
-    "bigstream-mv-gate-2026-11-05:no-lane"
-   ],
+   "jobs": [],
+   "no_supply": true,
+   "blockers": [],
    "note": null,
    "stuck_stage": "mv-plan",
    "stuck_owner": "导演席"
@@ -230,7 +226,7 @@
    "name": "BigLife·数字生命",
    "status": "ACTIVE",
    "verdict": "WORKING",
-   "age_h": 195.0,
+   "age_h": 195.1,
    "stale_after_h": 48.0,
    "owner": "生命生产席",
    "jobs": [
@@ -303,13 +299,17 @@
   "asset-lib": {
    "name": "资产储备·角色 LoRA 与音色库",
    "status": "ACTIVE",
-   "verdict": "WAITING",
+   "verdict": "WORKING",
    "age_h": null,
    "stale_after_h": 72.0,
    "owner": "资产席",
-   "jobs": [],
-   "no_supply": true,
-   "blockers": [],
+   "jobs": [
+    "asset-lib-face-dataset-2026-11-05"
+   ],
+   "no_supply": false,
+   "blockers": [
+    "asset-lib-face-dataset-2026-11-05:no-lane"
+   ],
    "note": "CEO 2026-11-03：先储备资产，角色 LoRA 与音色库为 P0"
   }
  },
@@ -863,7 +863,7 @@
   "backlog_manifest+2"
  ],
  "events": [
-  "asset-lib-face-dataset-2026-11-05 FAILED via bm-b",
+  "bigstream-mv-gate-2026-11-05 FAILED via bm-a",
   "asset-lib-asset-gen-2026-11-05 FAILED via bm-c"
  ],
  "violations": [
