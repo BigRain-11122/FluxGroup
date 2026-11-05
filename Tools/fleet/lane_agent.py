@@ -21,6 +21,7 @@ Usage:
 import argparse
 import json
 import os
+import re
 import subprocess
 import sys
 import threading
@@ -36,7 +37,7 @@ import flux_contracts as fc  # noqa: E402
 
 CREATE_NO_WINDOW = 0x08000000 if os.name == "nt" else 0
 # 长任务存活上报间隔：既不刷爆 NATS，又能让主控在 1-2 分钟内看出一台机"在忙"而不是"死了"。
-PROGRESS_EVERY = 10   # 2026-11-05 CEO「状态要及时」：45s 对分钟级卡等于不报；默认 10s
+PROGRESS_EVERY = 45
 
 
 def live_state(root, node, hub, port):
@@ -126,167 +127,18 @@ def git_publish(root, node, jid, paths):
     if r.returncode != 0 and "nothing to commit" not in (r.stdout or "") + (r.stderr or ""):
         return "commit-failed:%s" % (r.stderr or r.stdout)[:80]
     # R2.61: one retry was not enough against a master that commits every ~60s -- the second
-    # attempt often lost the same race and the artifact stayed local. Give it three.
-    # 2026-11-05（R11 事件班）：共享工作树禁 rebase。push 失败后 `pull --rebase` 会把本机
-    # 生成态快照逐个重放、每次都撞同一批队列/lane 冲突，`rebase --abort` 只是把分叉原样
-    # 留回去——实测 02:44-02:46 每 30 秒空转一轮，ahead/behind 只增不减（5/8）。
-    # 改走 merge 收口：生成态取远端，Tools/ 等手写件冲突立即放弃本轮。
+    # attempt often lost the same race and the artifact stayed local. Give it three, and never
+    # leave a half-finished rebase behind (that residue is what turned into the stuck loop).
     last = ""
     for _ in range(3):
         r = git(["push", "origin", "HEAD:main"], timeout=120)
         if r.returncode == 0:
             return "pushed"
         last = r.stderr or r.stdout
-        recon = _merge_origin(root)
-        if recon != "ok":
-            return "push-failed:%s (reconcile=%s)" % ((last or "")[:60], recon[:60])
+        rb = git(["pull", "--rebase", "--no-autostash"], timeout=120)
+        if rb.returncode != 0:
+            git(["rebase", "--abort"], timeout=60)
     return "push-failed:%s" % (last or "")[:80]
-
-
-def _git_ro(root, args, timeout=120):
-    # encoding 必须写死 utf-8：Windows 的 text=True 走 cp936，而 git 输出的是 UTF-8
-    # （中文提交信息/回执名），解码错会让整个收口被判成 merge-failed（2026-11-05 实测）。
-    return subprocess.run(["git", "-C", root] + args, capture_output=True, text=True,
-                          encoding="utf-8", errors="replace",
-                          timeout=timeout, creationflags=CREATE_NO_WINDOW)
-
-
-# 生成态路径（镜像 master_pulse.GENERATED；那边 import 了 fcntl，Windows 导不进来，
-# 所以这里留一份同名清单，两边语义必须一致）。
-GENERATED_PREFIXES = (
-    "cph4/fleet/dispatcher/", "cph4/fleet/lanes/", "cph4/fleet/queue-receipts/",
-    "cph4/fleet/chief/", "cph4/fleet/social/", "cph4/fleet/plans/",
-    "cph4/fleet/state/", "cph4/fleet/PRODUCTION-QUEUE.jsonl",
-    "cph4/fleet/PRODUCTION-BACKLOG.jsonl", "cph4/fleet/SHOWCASE.md",
-    "cph4/fleet/HANDOFF.md", "cph4/fleet/ri/PROPOSALS.json",
-    "cph4/fleet/vault/index.jsonl",
-)
-QUEUE_FILES = ("cph4/fleet/PRODUCTION-QUEUE.jsonl", "cph4/fleet/PRODUCTION-BACKLOG.jsonl")
-
-
-def _card_rows(root, spec):
-    """解析队列某个版本（HEAD / origin/main）成 {id: row}；坏行跳过不动。"""
-    r = _git_ro(root, ["show", spec], timeout=60)
-    if r.returncode != 0:
-        return {}
-    rows = {}
-    for line in (r.stdout or "").splitlines():
-        line = line.strip()
-        if not line.startswith("{"):
-            continue
-        try:
-            row = json.loads(line)
-        except Exception:
-            continue
-        if row.get("id"):
-            rows[row["id"]] = row
-    return rows
-
-
-def _local_only_cards(root):
-    """合并前留底本机独有的 OPEN/READY 卡：取远端版本会把它们一起抹掉。"""
-    keep = []
-    for path in QUEUE_FILES:
-        ours = _card_rows(root, "HEAD:" + path)
-        theirs = _card_rows(root, "origin/main:" + path)
-        for cid, row in ours.items():
-            if cid in theirs:
-                continue
-            if str(row.get("state") or "").upper() in ("OPEN", "READY"):
-                keep.append((path, row))
-    return keep
-
-
-def _restore_cards(root, keep):
-    """把留底的卡补回队列并提交；不补 = 卡片凭空消失（读队列的一律静默跳坏行）。"""
-    if not keep:
-        return 0
-    by_path = {}
-    for path, row in keep:
-        by_path.setdefault(path, []).append(row)
-    restored = 0
-    for path, rows in by_path.items():
-        full = os.path.join(root, path)
-        have = set()
-        try:
-            with open(full, encoding="utf-8-sig") as fh:
-                for line in fh:
-                    line = line.strip()
-                    if line.startswith("{"):
-                        try:
-                            cid = json.loads(line).get("id")
-                        except Exception:
-                            continue
-                        if cid:
-                            have.add(cid)
-        except FileNotFoundError:
-            pass
-        add = [r for r in rows if r.get("id") not in have]
-        if not add:
-            continue
-        with open(full, "a", encoding="utf-8", newline="\n") as fh:
-            for row in add:
-                fh.write(json.dumps(row, ensure_ascii=False) + "\n")
-        _git_ro(root, ["add", "--", path], timeout=60)
-        _git_ro(root, ["commit", "-q", "-m",
-                       "lane: restore %d local-only card(s) after merge" % len(add)], timeout=90)
-        restored += len(add)
-    return restored
-
-
-def _merge_origin(root):
-    """分叉收口一律走 merge，禁 rebase（2026-11-04 硬律 / 2026-11-05 R11 复发实证）。
-
-    为什么：本仓是多机共用同一工作树，push 失败后 rebase 要逐个重放本机生成态快照，
-    每个都撞同一批队列/lane 冲突，abort 之后下一轮再来——2026-11-04 实测卡死 98 步，
-    2026-11-05 02:44-02:46 又每 30 秒复发一轮、ahead/behind 只增不减。
-    口径照抄 master_pulse.rebase_generated 的实证做法（它在 Windows 因 fcntl 导不进来）：
-    生成态取远端、把本机独有 OPEN 卡补回、Tools/ 等手写件冲突立即放弃本轮。
-    """
-    for d in ("rebase-merge", "rebase-apply"):
-        if os.path.isdir(os.path.join(root, ".git", d)):
-            _git_ro(root, ["rebase", "--abort"], timeout=90)
-            break
-    if _git_ro(root, ["fetch", "--prune", "origin"], timeout=180).returncode != 0:
-        return "fetch-failed"
-    behind = (_git_ro(root, ["rev-list", "--count", "HEAD..origin/main"], timeout=30).stdout or "0").strip()
-    if behind in ("", "0"):
-        return "ok"
-    keep = _local_only_cards(root)
-    r = _git_ro(root, ["merge", "--no-edit", "-m",
-                       "lane: merge origin (generated files take remote)", "origin/main"], timeout=240)
-    for _ in range(3):
-        d = _git_ro(root, ["diff", "--name-only", "--diff-filter=U"], timeout=30)
-        conflicts = [p for p in (d.stdout or "").split() if p]
-        if not conflicts:
-            break
-        if any(not p.startswith(GENERATED_PREFIXES) for p in conflicts):
-            _git_ro(root, ["merge", "--abort"], timeout=90)
-            return "hand-edit-conflict:%s" % conflicts[0][:60]
-        for p in conflicts:
-            _git_ro(root, ["checkout", "--theirs", "--", p], timeout=60)
-            # 2026-11-04 毒标记守门：带冲突标记的一侧永不许入库。
-            try:
-                with open(os.path.join(root, p), encoding="utf-8", errors="replace") as fh:
-                    text = fh.read()
-                if "<<<<<<<" in text and ">>>>>>>" in text:
-                    _git_ro(root, ["merge", "--abort"], timeout=90)
-                    return "poison-guard:%s" % p[:60]
-            except Exception:
-                pass
-            _git_ro(root, ["add", "--", p], timeout=60)
-    else:
-        _git_ro(root, ["merge", "--abort"], timeout=90)
-        return "loop-limit"
-    if _git_ro(root, ["rev-parse", "-q", "--verify", "MERGE_HEAD"], timeout=20).returncode == 0:
-        if _git_ro(root, ["commit", "-q", "--no-edit"], timeout=120).returncode != 0:
-            _git_ro(root, ["merge", "--abort"], timeout=90)
-            return "merge-commit-failed"
-    elif r.returncode != 0:
-        _git_ro(root, ["merge", "--abort"], timeout=90)
-        return "merge-failed"
-    _restore_cards(root, keep)
-    return "ok"
 
 
 def already_closed(root, jid):
@@ -296,7 +148,34 @@ def already_closed(root, jid):
     the same card back, so the box re-runs a finished job every cycle - the same triage
     artifact was rewritten and re-committed 14 times on the night of 11-01/02. The lane
     must trust the shared queue's terminal states, not only its local assignment.
+
+    2026-11-05: read ORIGIN's queue first. During the ahead-1268/behind-1041 divergence
+    the local worktree QUEUE went stale for two days, the terminal states never landed on
+    disk, and one DONE triage card re-ran 183 times. The stale local copy IS the failure
+    mode - origin (fetched every cycle) is the truth source, the local file is only a
+    fallback for offline operation.
     """
+    try:
+        r = subprocess.run(["git", "-C", root, "show",
+                             "origin/main:cph4/fleet/PRODUCTION-QUEUE.jsonl"],
+                            capture_output=True, text=True, timeout=30,
+                            encoding="utf-8", errors="replace",
+                            creationflags=CREATE_NO_WINDOW)
+        if r.returncode == 0 and r.stdout:
+            for ln in r.stdout.splitlines():
+                ln = ln.strip()
+                if not ln:
+                    continue
+                try:
+                    row = json.loads(ln)
+                except Exception:
+                    continue
+                if row.get("id") == jid:
+                    return str(row.get("state") or "").upper() in \
+                        ("DONE", "UNVERIFIED", "CANCELLED", "ARCHIVED")
+            return False
+    except Exception:
+        pass
     try:
         qp = os.path.join(root, "cph4", "fleet", "PRODUCTION-QUEUE.jsonl")
         with open(qp, encoding="utf-8") as fh:
@@ -329,19 +208,14 @@ def _card_gate(row, root, node):
         return True, "gate-skipped:%s" % str(e)[:80]
 
 
-def _progress_every(root):
-    try:
-        with open(os.path.join(root, "cph4", "fleet", "AUTONOMY-CONFIG.json"),
-                  encoding="utf-8-sig") as f:
-            return max(3, int(((json.load(f).get("progress") or {})
-                               .get("report_every_s") or PROGRESS_EVERY)))
-    except Exception:
-        return PROGRESS_EVERY
-
-
 def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
     jid = str(job.get("id") or "")
     cmd = str(job.get("cmd") or "")
+    # 2026-11-05: cards authored on macOS say "python3" - Windows boxes have no such
+    # command and the whole AUD-SOFT batch died rc=127 for exactly this. Rewrite the
+    # first interpreter word on nt; the rest of the command string is untouched.
+    if os.name == "nt":
+        cmd = re.sub(r"\bpython3\b", "python", cmd, count=1)
     needs = str(job.get("needs") or "cpu")
     model = str(job.get("model") or "none")
     prompt = str(job.get("prompt") or "")
@@ -374,17 +248,6 @@ def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
                         "note": "SELFHEAL-FAILED %s: %s" % (_tool, _det)}
     except Exception as _e:
         print("selfheal skipped:", str(_e)[:100])
-    # 本机能力闸（2026-11-05 实测包络）：GPU 卡开工前必须确认
-    # ①swap 没有在涨 ②可用内存减去保留量够用 ③退掉不该驻留的模型。
-    if str(needs).lower() in ("gpu", "gpu-encode", "gpu-vision"):
-        try:
-            import capacity_guard as _cg
-            _ok, _why = _cg.before_gpu(need_gb=float(job.get("need_gb") or 10))
-            if not _ok:
-                return {"id": jid, "rc": None, "note": "CAPACITY-BLOCK %s" % _why}
-        except Exception as _e:
-            print("capacity guard skipped:", str(_e)[:80])
-
     # 卡面闸（第二道，2026-11-03）：主控指定给本机的卡也验一次。写错的卡当场记
     # CARD-DEFECT 并落回执，不拿 4 秒"失败"去污染这台机的可靠性账。
     _gate_cwd = None
@@ -471,67 +334,30 @@ def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
         # 期间一个字节都不上报，主控只能看到"心跳停了 137 分钟"，把正在干活的机器判成掉线，
         # 还可能按租约超时把卡重排。改为后台线程跑命令、主线程每 PROGRESS_EVERY 秒发一次
         # BUSY 进度（只报活性与已跑时长，不改任务语义、不改 stdout/stderr 处理）。
-        _box = {"rc": 125, "out": "", "err": "", "out_bytes": 0}
-
-        def _reader(pipe, key, ctr):
-            parts = []
-            try:
-                # 2026-11-05 实测：text 模式 pipe.read(4096) 会攒满或等 EOF 才返回，
-                # 小批量输出（每秒一行）一个字节都读不到 → out_bytes 恒 0 → 主控的
-                # "字节有没有增长"判据失效，慢卡全被判成假忙。改为按行读。
-                while True:
-                    line = pipe.readline()
-                    if not line:
-                        break
-                    parts.append(line)
-                    _box[ctr] = _box.get(ctr, 0) + len(line)
-            except Exception as e:
-                parts.append("[read-error %s]" % e)
-            finally:
-                try:
-                    pipe.close()
-                except Exception:
-                    pass
-            _box[key] = "".join(parts)
+        _box = {}
 
         def _exec():
             try:
-                p = subprocess.Popen(cmd, shell=True, cwd=_gate_cwd or job.get("cwd") or root,
-                                     stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                                     text=True, errors="replace",
-                                     creationflags=CREATE_NO_WINDOW)
+                r = subprocess.run(cmd, shell=True, cwd=_gate_cwd or job.get("cwd") or root,
+                                   capture_output=True, text=True, errors="replace",
+                                   timeout=max_seconds, creationflags=CREATE_NO_WINDOW)
+                _box.update(rc=r.returncode, out=r.stdout, err=r.stderr)
+            except subprocess.TimeoutExpired as e:
+                _box.update(rc=124, out=(e.stdout or ""),
+                            err=(e.stderr or "") + "\n[timeout %ss]" % max_seconds)
             except Exception as e:
-                _box.update(rc=125, err="exec-failed: %s" % e)
-                return
-            t_out = threading.Thread(target=_reader, args=(p.stdout, "out", "out_bytes"), daemon=True)
-            t_err = threading.Thread(target=_reader, args=(p.stderr, "err", "err_bytes"), daemon=True)
-            t_out.start()
-            t_err.start()
-            try:
-                _box["rc"] = p.wait(timeout=max_seconds)
-            except subprocess.TimeoutExpired:
-                p.kill()
-                _box["rc"] = 124
-                _box["err"] = (_box.get("err") or "") + "\n[timeout %ss]" % max_seconds
-            except Exception as e:
-                _box.update(rc=125, err="exec-failed: %s" % e)
-            t_out.join(timeout=10)
-            t_err.join(timeout=10)
+                _box.update(rc=125, out="", err="exec-failed: %s" % e)
 
         _t = threading.Thread(target=_exec, daemon=True)
         _t.start()
         while _t.is_alive():
-            _t.join(timeout=_progress_every(root))
+            _t.join(timeout=PROGRESS_EVERY)
             if not _t.is_alive():
                 break
             try:
-                # out_bytes = 子进程已产出的 stdout 字节数。主控用它判"有没有新输出"，
-                # 光靠 elapsed_s 只能证明进程还在，卡死的进程也会一直报 elapsed。
                 fl.kv_put(fl.lane_result_key(node),
                           {"node": node, "state": "BUSY", "job": jid,
-                           "elapsed_s": int(time.time() - t0),
-                           "out_bytes": int(_box.get("out_bytes") or 0),
-                           "ts": fl.now_iso()},
+                           "elapsed_s": int(time.time() - t0), "ts": fl.now_iso()},
                           host=hub, port=port)
             except Exception:
                 pass
@@ -610,26 +436,6 @@ def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
           % (jid, "DONE" if ok else "FAILED", rc, dur, dl_ok, err_cls or "-"))
     return {"id": jid, "rc": rc, "seconds": dur, "deliverable_exists": dl_ok,
             "ok": ok, "error_class": err_cls}
-
-
-def _need_work_flag(root, node, on, why=""):
-    """2026-11-04 CEO 令「机队没活就赶紧找主控要，并通知主控早早准备好」。
-
-    没活不能静默闲着：写显式 NEED-WORK 状态件（走代理自己的 state 推送腿，
-    全队 git 可见=可审计的「要活」请求），主控据此优先派单/备单；一旦接活立即撤标。
-    写失败不致命——信号缺失最多回到旧的静默态，不允许它打断执行链。
-    """
-    try:
-        p = os.path.join(root, "cph4", "fleet", "state", "need-work", node + ".json")
-        if on:
-            os.makedirs(os.path.dirname(p), exist_ok=True)
-            with open(p, "w", encoding="utf-8") as f:
-                json.dump({"node": node, "ts": fl.now_iso(), "why": why},
-                          f, ensure_ascii=False, indent=1)
-        elif os.path.exists(p):
-            os.remove(p)
-    except Exception:
-        pass
 
 
 def self_dispatch(root, node, allow_gpu_workhours, max_seconds, hub, port, dry, only=None):
@@ -749,41 +555,11 @@ def self_dispatch(root, node, allow_gpu_workhours, max_seconds, hub, port, dry, 
         return True
 
     pick = None
-    # 2026-11-05 R9 事件班实证：本地队列副本会被并发 auto-sync 覆盖/半写（一小时内两次），
-    # 车道据此选卡会把已钉他机（hard_nodes）或已关闭的卡当活干——bm-a 连续领到
-    # hard_nodes=[bm-c] 的 char-gen，白烧 GPU lease 并霸占供给位。执行前按 origin 复核一次。
-    _orows = {}
-    try:
-        _raw = subprocess.run(["git", "-C", root, "show", "origin/main:cph4/fleet/PRODUCTION-QUEUE.jsonl"],
-                              capture_output=True, timeout=20).stdout.decode("utf-8", "replace")
-        for _l in _raw.split("\n"):
-            _l = _l.strip()
-            if not _l.startswith("{"):
-                continue
-            try:
-                _d = json.loads(_l)
-            except Exception:
-                continue
-            if _d.get("id"):
-                _orows[_d["id"]] = _d
-    except Exception:
-        _orows = {}
-
-    pick = None
     for strict in (True, False):
         for r in rows:
             if r.get("state") != "OPEN":
                 continue
             if _eligible(r, strict):
-                _o = _orows.get(r.get("id"))
-                if _o is not None:
-                    _oh = _o.get("hard_nodes") or []
-                    if _o.get("state") != "OPEN":
-                        print("SKIP %s: origin state=%s (local queue stale)" % (r.get("id"), _o.get("state")))
-                        continue
-                    if _oh and node not in _oh:
-                        print("SKIP %s: origin hard_nodes=%s (local queue stale)" % (r.get("id"), _oh))
-                        continue
                 pick = r
                 if not strict:
                     pick["fallback_from"] = r.get("nodes")
@@ -792,13 +568,7 @@ def self_dispatch(root, node, allow_gpu_workhours, max_seconds, hub, port, dry, 
         if pick:
             break
     if not pick:
-        # 2026-11-04 CEO 令「机队没活就赶紧找主控要」：没活不能静默闲着——写显式
-        # NEED-WORK 状态件（走代理自己的 state 推送腿，全队 git 可见=可审计的「要活」），
-        # 主控据此优先派单；一旦接活立即撤标。
-        _need_work_flag(root, node, True,
-                        "no master dispatch and no eligible backlog row on this box")
         return None
-    _need_work_flag(root, node, False)
     if dry:
         print("LANE-DRY %s self-dispatch would run %s" % (node, pick.get("id")))
         return None
@@ -823,10 +593,6 @@ def self_dispatch(root, node, allow_gpu_workhours, max_seconds, hub, port, dry, 
                 x["failure"] = (res.get("stderr_tail") or res.get("stdout_tail")
                                 or res.get("reason") or "rc=%s, no output captured"
                                 % res.get("rc"))[:400]
-                # 2026-11-05 R9-6：回执已按 fc.error_class 定性，但写回队列时丢了 → 01:07-01:33
-                # 实测 10+ 张 FAILED 卡 error_class 全空，solver 无定性可依只会原样重试。
-                # 判据沿用 flux_contracts 单源，不在此另立规则。
-                x["error_class"] = res.get("error_class") or fc.error_class(res.get("rc"))
             x["created_by"] = (x.get("created_by") or "") + "+lane-self"
             fl.merge_jsonl(qpath, [x])
             break
@@ -853,55 +619,7 @@ def run_lane_cycle(node, root=None, dry=False, allow_gpu_workhours=False,
         print("LANE-IDLE %s :: %s" % (node, reason))
         return True
 
-    # 选卡（2026-11-05 全链路实测修）：原来只认 jobs[0]，而主控车道第一张常年是
-    # 重卡或已关的卡——车道被一张跑不动的卡永久占住，队列有活却一动不动，后面
-    # 的卡永远轮不到。改成跳过"本机跑不了/已关"的，取第一张能跑的。
-    def _runnable(x):
-        if already_closed(root, x.get("id")):
-            return False
-        if node == "bm-m" and (x.get("needs") == "gpu" or x.get("heavy")
-                               or int(x.get("minutes") or 0) > 3):
-            return False
-        if x.get("heavy") and not fl.heavy_allowed(node) and not allow_gpu_workhours:
-            return False
-        return True
-
-    _cand = [x for x in jobs if _runnable(x)]
-    if not _cand:
-        _id = (jobs[0] or {}).get("id")
-        publish(node, "DEFERRED", {"job": _id, "reason": "NO-RUNNABLE-ASSIGNMENT"}, hub, port)
-        write_last(root, node, "DEFERRED", job=_id, note="NO-RUNNABLE-ASSIGNMENT")
-        print("LANE-DEFER %s :: nothing in this assignment is runnable here" % _id)
-        return True
-    # 并发槽位（2026-11-05）：一台机能同时跑几张卡，由配置决定；GPU 同一时刻只跑一张。
-    try:
-        with open(os.path.join(root, "cph4", "fleet", "AUTONOMY-CONFIG.json"),
-                  encoding="utf-8") as _f:
-            _slots = int((((json.load(_f).get("supply") or {}).get("slots_per_node") or {})
-                          .get(node, 1)) or 1)
-    except Exception:
-        _slots = 1
-    if _slots > 1:
-        _picked, _gpu_taken = [], False
-        for _j in _cand:
-            if len(_picked) >= _slots:
-                break
-            if _j.get("needs") == "gpu":
-                if _gpu_taken:
-                    continue
-                _gpu_taken = True
-            _picked.append(_j)
-        if len(_picked) > 1:
-            from concurrent.futures import ThreadPoolExecutor
-            print("LANE-SLOTS %s :: %d job(s): %s" % (node, len(_picked),
-                  ",".join(str(_x.get("id")) for _x in _picked)))
-            with ThreadPoolExecutor(max_workers=len(_picked)) as _ex:
-                list(_ex.map(lambda _x: _run_one_job(_x, root, node, hub, port,
-                                                     allow_gpu_workhours, max_seconds, dry),
-                             _picked))
-            return True
-    job = _cand[0]
-    _need_work_flag(root, node, False)   # 主控派到了单：撤「要活」标
+    job = jobs[0]
     if already_closed(root, job.get("id")):
         # Finished on the shared surface: never replay it. Idle is the honest answer.
         publish(node, "IDLE", {"reason": "ALREADY-CLOSED %s" % job.get("id")}, hub, port)
