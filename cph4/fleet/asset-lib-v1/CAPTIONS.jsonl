@@ -1,30 +1,30 @@
 {
- "ts": "2026-11-05T15:51:29",
+ "ts": "2026-11-05T17:34:44",
  "dir": "/Volumes/移动硬盘/FluxAssets/store",
  "model": "qwen3.5:4b-mlx",
  "trigger": "",
- "pending": 20,
+ "pending": 40,
  "written": 0,
  "rejected": [
   [
    "0af90220f22a87951c6dc81e8df4ea2db90d35d37b1e0a4415247d6cf1594d09.png",
-   "只命中 0 个可见属性，像空话",
-   "A pixelated cityscape at dusk with purple and orange hues, featuring tall skyscrapers and illuminated windows against a "
+   "只命中 2 个可见属性，像空话",
+   "A pixelated cityscape with tall skyscrapers and low-rise buildings, illuminated by warm orange lights against a pinkish-"
   ],
   [
    "2f33fcdd9a5155577c96cf682c79c96ef4ead220bab523d090e80173d0baa624.jpg",
    "只命中 2 个可见属性，像空话",
-   "A black bicycle seat with a smooth surface, positioned on a road where two individuals are walking in silhouette against"
+   "A black bicycle seat with a smooth surface, positioned on a road with two people walking beside it in silhouette against"
   ],
   [
-   "37ffa44cba612b7c1bbdd689936199ce512eb1caf34de02c4e9e064fc978cf0e.jpg",
-   "只命中 0 个可见属性，像空话",
-   "A group of people stands in a dimly lit room, observing an illuminated display case with text panels, creating a reflect"
+   "3b83b210b34e63bf35b1b4493684ae9f4ca9cbb4f2679ac815fe4e28041c397e.jpg",
+   "含推测/身份词：appears to be",
+   "A close-up of a person's profile with dark hair, wearing a black shirt, set against an orange-hued background. The indiv"
   ]
  ],
- "seconds": 36.4,
+ "seconds": 8.1,
  "early_abort": "连续 3 张被拒且 0 成功，判提示词/判据不匹配",
- "per_image_s": 1.8,
+ "per_image_s": 0.2,
  "verdict": "FAIL",
  "gaps": [
   "一条都没写成功，看 rejected 的原因",

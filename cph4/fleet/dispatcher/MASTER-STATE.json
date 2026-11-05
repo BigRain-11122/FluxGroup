@@ -1,30 +1,30 @@
 {
- "ts": "2026-11-05T17:34:34",
- "cycle": 202,
+ "ts": "2026-11-05T17:35:29",
+ "cycle": 203,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-05T17:34:34",
+ "master_tick_ts": "2026-11-05T17:35:29",
  "queue": {
   "total": 625,
-  "open": 3,
-  "running": 1,
-  "done": 343,
-  "failed": 33
+  "open": 2,
+  "running": 2,
+  "done": 344,
+  "failed": 32
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 21.2,
-   "cpu_load_pct": 22,
-   "ram_free_gb": 56.9,
-   "gpu_util_pct": 6,
+   "hb_age_s": 16.4,
+   "cpu_load_pct": 59,
+   "ram_free_gb": 57.1,
+   "gpu_util_pct": 2,
    "job": null,
    "last_result": {
-    "job": "CNV-20261105T172828-3",
-    "state": "FAILED",
+    "job": null,
+    "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-05T17:30:05",
-    "reason": null,
+    "ts": "2026-11-05T17:35:05",
+    "reason": "DAY-YIELD: work machine, takes over at 19:00",
     "out_bytes": null,
     "elapsed_s": null
    },
@@ -34,56 +34,56 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 100.3,
-   "cpu_load_pct": 100,
-   "ram_free_gb": 9.4,
-   "gpu_util_pct": null,
-   "job": null,
-   "last_result": {
-    "job": "Q-VCORP-TRAIN-PILOT-libritts-e01-R4-20261105",
-    "state": "BUSY",
-    "rc": null,
-    "ts": "2026-11-05T17:33:34",
-    "reason": null,
-    "out_bytes": null,
-    "elapsed_s": 460
-   },
-   "idle_confirmed": false,
-   "idle_reason": "CAPACITY-BLOCKED-RAM CPU-SATURATED 100%",
-   "idle_rounds": 0
-  },
-  "bm-c": {
-   "online": true,
-   "hb_age_s": 78.1,
-   "cpu_load_pct": 7,
-   "ram_free_gb": 3.1,
+   "hb_age_s": 11.2,
+   "cpu_load_pct": 25,
+   "ram_free_gb": 12.4,
    "gpu_util_pct": 0,
    "job": null,
    "last_result": {
-    "job": "asset-lib-char-gen-2026-11-05",
-    "state": "FAILED",
-    "rc": 2,
-    "ts": "2026-11-05T17:33:36",
-    "reason": null,
+    "job": null,
+    "state": "IDLE",
+    "rc": null,
+    "ts": "2026-11-05T17:35:27",
+    "reason": "CAPACITY-BLOCKED-RAM CPU-SATURATED 100%",
+    "out_bytes": null,
+    "elapsed_s": null
+   },
+   "idle_confirmed": true,
+   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+   "idle_rounds": 1
+  },
+  "bm-c": {
+   "online": true,
+   "hb_age_s": 42.4,
+   "cpu_load_pct": 7,
+   "ram_free_gb": 3.1,
+   "gpu_util_pct": 0,
+   "job": "asset-lib-char-gen-2026-11-05",
+   "last_result": {
+    "job": null,
+    "state": "IDLE",
+    "rc": null,
+    "ts": "2026-11-05T17:34:53",
+    "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": false,
-   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+   "idle_reason": "",
    "idle_rounds": 0
   },
   "bm-m": {
    "online": true,
    "hb_age_s": 1.0,
-   "cpu_load_pct": 34,
-   "ram_free_gb": 16.2,
+   "cpu_load_pct": 44,
+   "ram_free_gb": 15.8,
    "gpu_util_pct": null,
-   "job": "CNV-20261105T173200-3",
+   "job": "CNV-20261105T173200-4",
    "last_result": {
-    "job": "CNV-20261105T173200-2",
+    "job": "CNV-20261105T173200-3",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-05T17:33:44",
+    "ts": "2026-11-05T17:34:39",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -95,7 +95,7 @@
  },
  "idle_rounds": {
   "bm-a": 0,
-  "bm-b": 0,
+  "bm-b": 1,
   "bm-c": 0,
   "bm-m": 0
  },
@@ -290,13 +290,11 @@
    "stale_after_h": 72.0,
    "owner": "资产席",
    "jobs": [
-    "CNV-20261105T173200-3",
+    "asset-lib-char-gen-2026-11-05",
     "CNV-20261105T173200-4"
    ],
    "no_supply": false,
-   "blockers": [
-    "CNV-20261105T173200-4:no-lane"
-   ],
+   "blockers": [],
    "note": "CEO 2026-11-03：先储备资产，角色 LoRA 与音色库为 P0"
   }
  },
@@ -835,7 +833,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 3,
+  "local": 2,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -843,22 +841,22 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 3,
+  "cpu": 2,
   "gpu": 0
  },
  "supply_added": [],
  "events": [
-  "asset-lib-char-gen-2026-11-05 FAILED via bm-c",
-  "CNV-20261105T173200-2 DONE via bm-m",
-  "CNV-20261105T173200-3 -> bm-m (cpu)"
+  "CNV-20261105T173200-3 DONE via bm-m",
+  "asset-lib-char-gen-2026-11-05 -> bm-c (gpu)",
+  "CNV-20261105T173200-4 -> bm-m (cpu)"
  ],
  "violations": [
-  "bm-b CAPACITY-BLOCKED-RAM",
   "STAGE-STALLED bigstream-mv 卡在 立意/分镜/导演席 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
  "lane_files_written": [
+  "bm-b",
   "bm-c",
   "bm-m"
  ]
