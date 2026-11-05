@@ -14,9 +14,9 @@
    "why": "llamacpp 对照档，留作 A/B；它没有 mlx 版（上游 404），跑不上 MLX 引擎"
   },
   "embedding": {
-   "model": "nomic-embed-text:latest",
+   "model": "qwen3-embedding:0.6b",
    "budget_gb": 1.0,
-   "why": "语义判重/检索；比生成模型快 12 倍且召回高"
+   "why": "语义判重/检索。2026-11-05 实测纠错：原写 nomic-embed-text 但本机从未安装，任何调用都会挂到超时（Ollama 去上游拉未果）；已装且实测更优的是 qwen3-embedding:0.6b（正例 .977 / 负例 .391，间隔比 nomic 大 54%）。换嵌入档必须同时改 AUTONOMY-CONFIG.local_priority.fleet_model_whitelist。"
   },
   "longform": {
    "model": "qwen3:8b",

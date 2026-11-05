@@ -1,188 +1,224 @@
 {
-  "_comment": "24h 无人值守自动化系统的唯一阈值源（v1·2026-11-05）。改阈值只改这里，代码内禁止再写字面量。契约说明见 AUTONOMY-SYSTEM-v1.md。",
-  "version": "v1-20261105c",
-  "owner": "中枢",
-  "orders": [
-    "CEO 2026-11-05：云端按日预算放开，硬上限 ¥100/天",
-    "CEO 2026-11-05：优先本地算力互相赋能，其次云端，有必要才用，不要浪费",
-    "CEO 2026-11-05：bm-d 本周入网，先按一等节点留位",
-    "CEO 2026-11-05：24h 主推进线 = MV 41 曲 / 游戏 / 资产库 / 金融回测",
-    "CEO 2026-11-05：要多个智能体分工协作，MacBook 专门做这些"
+ "_comment": "24h 无人值守自动化系统的唯一阈值源（v1·2026-11-05）。改阈值只改这里，代码内禁止再写字面量。契约说明见 AUTONOMY-SYSTEM-v1.md。",
+ "version": "v1-20261105c",
+ "owner": "中枢",
+ "orders": [
+  "CEO 2026-11-05：云端按日预算放开，硬上限 ¥100/天",
+  "CEO 2026-11-05：优先本地算力互相赋能，其次云端，有必要才用，不要浪费",
+  "CEO 2026-11-05：bm-d 本周入网，先按一等节点留位",
+  "CEO 2026-11-05：24h 主推进线 = MV 41 曲 / 游戏 / 资产库 / 金融回测",
+  "CEO 2026-11-05：要多个智能体分工协作，MacBook 专门做这些"
+ ],
+ "cloud": {
+  "mode": "last-resort",
+  "daily_cny_cap": 100,
+  "over_cap_action": "hard-stop",
+  "ledger": "cph4/fleet/token-ledger/SPEND.jsonl",
+  "require_local_evidence": true,
+  "local_evidence_fields": [
+   "local_checked",
+   "why_not_local"
   ],
-  "cloud": {
-    "mode": "last-resort",
-    "daily_cny_cap": 100,
-    "over_cap_action": "hard-stop",
-    "ledger": "cph4/fleet/token-ledger/SPEND.jsonl",
-    "require_local_evidence": true,
-    "local_evidence_fields": [
-      "local_checked",
-      "why_not_local"
-    ],
-    "allowed_when": [
-      "本地没有该能力（重 GPU 生成 / 最强判断 / 实时云端 API）",
-      "本地产能已排满且有明确等待成本（不是「我这台忙」而是「全队同类能力都在飞」）",
-      "本地在飞的同类批不重复上云"
-    ],
-    "forbidden": [
-      "用云端替代本地 CPU 可做的批量活",
-      "本地有余量时上云",
-      "同一批活本地已跑过又花钱重跑",
-      "单次 >500 积分不签字",
-      "把凭据写进任何提交"
-    ]
-  },
-  "local_first": {
-    "_why": "本地算力互相赋能：一台机的产物就是下一台的输入，不让机器互相等、不让能力重复买。",
-    "chain": [
-      "bm-c 出关键帧/生图 → bm-c/bm-a 图生视频 → bm-a 剪辑装配 → bm-b 配音配乐 → bm-a 终检",
-      "bm-d 入网后：LLM 服务/评审/代码代理全部走 bm-d，三机不再各自跑本地小模型",
-      "资产库(asset-lib) 复用到 MV/游戏/漫剧，先查库再生成"
-    ],
-    "reuse_before_generate": true,
-    "start_local_before_claim_busy": true
-  },
-  "supply": {
-    "floor_cards_per_node": 5,
-    "cap_cards_per_node": 40,
-    "require_deliverable_and_accept": true,
-    "allow_cross_node_fallback": true,
-    "slots_per_node": {
-      "bm-a": 3,
-      "bm-b": 3,
-      "bm-c": 2,
-      "bm-m": 1,
-      "bm-d": 8
-    },
-    "_slots_why": "每机并发槽位数（一次一张卡=假容量）。GPU 卡在车道侧串行；主控固定 1 且只吃轻活。",
-    "meta_card_prefixes": [
-      "CHK-",
-      "CANARY-",
-      "Q-TRIAGE-",
-      "R-TRIAGE-",
-      "R-MODEL-RADAR-",
-      "R-PLAN-"
-    ],
-    "meta_cards_max_per_node": 1
-  },
-  "progress": {
-    "report_every_s": 45,
-    "stall_after_s": 1800,
-    "stall_signal": "stdout_bytes_or_deliverable_size_growth",
-    "on_stall": "release-card-and-count-attempt"
-  },
-  "failures": {
-    "max_attempts": 3,
-    "on_max": "block-with-rootcause",
-    "blocked_state": "BLOCKED",
-    "error_class": "E-ROOTCAUSE-3X"
-  },
-  "truth": {
-    "_why": "自指证据会把记账当产出：state 文件、回执目录、自检目录一律不计入线的产出年龄。",
-    "bookkeeping_prefixes": [
-      "cph4/fleet/state/",
-      "cph4/fleet/queue-receipts/",
-      "cph4/fleet/dispatcher/",
-      "cph4/fleet/inbox/"
-    ],
-    "min_real_bytes": 1024
-  },
-  "quality": {
-    "require_gate_receipt_for_done": true,
-    "kpi": [
-      "first_pass_rate_pct",
-      "real_output_age_h",
-      "rework_ratio"
-    ],
-    "sample_review_ratio": 0.2
-  },
-  "nodes": {
-    "bm-a": {
-      "role": "中枢+装配",
-      "needs": [
-        "cpu",
-        "io"
-      ],
-      "work_hours_gpu": "night"
-    },
-    "bm-b": {
-      "role": "声音",
-      "needs": [
-        "cpu",
-        "audio"
-      ]
-    },
-    "bm-c": {
-      "role": "画图",
-      "needs": [
-        "gpu"
-      ],
-      "ram_floor_gb": 8
-    },
-    "bm-d": {
-      "role": "大脑",
-      "needs": [
-        "cpu",
-        "gpu"
-      ],
-      "status": "installing-2026-11-05",
-      "ram_gb": 256,
-      "vram_gb": 48
-    },
-    "bm-m": {
-      "role": "主控",
-      "needs": [
-        "light"
-      ],
-      "heavy_forbidden": true
-    }
-  },
-  "priority_lines": [
-    "bigstream-mv",
-    "biggame",
-    "asset-lib",
-    "bigmoney"
+  "allowed_when": [
+   "本地没有该能力（重 GPU 生成 / 最强判断 / 实时云端 API）",
+   "本地产能已排满且有明确等待成本（不是「我这台忙」而是「全队同类能力都在飞」）",
+   "本地在飞的同类批不重复上云"
   ],
-  "git": {
-    "mode": "off",
-    "_why": "脉不做 rebase/merge/commit/push：一天 4 次覆盖人工工作。独立工作树落地后改回 full。",
-    "sync_owner": "bm-m 人工会话 或 S4 账房（安静窗口）"
+  "forbidden": [
+   "用云端替代本地 CPU 可做的批量活",
+   "本地有余量时上云",
+   "同一批活本地已跑过又花钱重跑",
+   "单次 >500 积分不签字",
+   "把凭据写进任何提交"
+  ]
+ },
+ "local_first": {
+  "_why": "本地算力互相赋能：一台机的产物就是下一台的输入，不让机器互相等、不让能力重复买。",
+  "chain": [
+   "bm-c 出关键帧/生图 → bm-c/bm-a 图生视频 → bm-a 剪辑装配 → bm-b 配音配乐 → bm-a 终检",
+   "bm-d 入网后：LLM 服务/评审/代码代理全部走 bm-d，三机不再各自跑本地小模型",
+   "资产库(asset-lib) 复用到 MV/游戏/漫剧，先查库再生成"
+  ],
+  "reuse_before_generate": true,
+  "start_local_before_claim_busy": true
+ },
+ "supply": {
+  "floor_cards_per_node": 5,
+  "cap_cards_per_node": 40,
+  "require_deliverable_and_accept": true,
+  "allow_cross_node_fallback": true,
+  "slots_per_node": {
+   "bm-a": 3,
+   "bm-b": 3,
+   "bm-c": 2,
+   "bm-m": 1,
+   "bm-d": 8
   },
-  "pulse": {
-    "disabled_stages": [
-      "showcase",
-      "forecast",
-      "surface",
-      "orgs",
-      "gate_rigor",
-      "warm",
-      "decide"
-    ],
-    "canary_every_cycles": 4,
-    "lane_timeout_s": 120,
-    "loop_seconds": 180
+  "_slots_why": "每机并发槽位数（一次一张卡=假容量）。GPU 卡在车道侧串行；主控固定 1 且只吃轻活。",
+  "meta_card_prefixes": [
+   "CHK-",
+   "CANARY-",
+   "Q-TRIAGE-",
+   "R-TRIAGE-",
+   "R-MODEL-RADAR-",
+   "R-PLAN-"
+  ],
+  "meta_cards_max_per_node": 1
+ },
+ "progress": {
+  "report_every_s": 45,
+  "stall_after_s": 1800,
+  "stall_signal": "stdout_bytes_or_deliverable_size_growth",
+  "on_stall": "release-card-and-count-attempt"
+ },
+ "failures": {
+  "max_attempts": 3,
+  "on_max": "block-with-rootcause",
+  "blocked_state": "BLOCKED",
+  "error_class": "E-ROOTCAUSE-3X"
+ },
+ "truth": {
+  "_why": "自指证据会把记账当产出：state 文件、回执目录、自检目录一律不计入线的产出年龄。",
+  "bookkeeping_prefixes": [
+   "cph4/fleet/state/",
+   "cph4/fleet/queue-receipts/",
+   "cph4/fleet/dispatcher/",
+   "cph4/fleet/inbox/"
+  ],
+  "min_real_bytes": 1024
+ },
+ "quality": {
+  "require_gate_receipt_for_done": true,
+  "kpi": [
+   "first_pass_rate_pct",
+   "real_output_age_h",
+   "rework_ratio"
+  ],
+  "sample_review_ratio": 0.2
+ },
+ "nodes": {
+  "bm-a": {
+   "role": "中枢+装配",
+   "needs": [
+    "cpu",
+    "io"
+   ],
+   "work_hours_gpu": "night"
   },
-  "capacity": {
-    "_why": "CEO 2026-11-05「如何保障自动化和集团业务齐头并进」：机制活不许吃满产能。",
-    "business_min_ratio": 0.6,
-    "infra_max_cards_per_node": 2,
-    "infra_lines": [
-      "fleet-ops"
-    ],
-    "business_stall_hours": 24,
-    "stall_action": "infra_max=1 且该线提到最高优先",
-    "mechanism_changes_per_day": 3,
-    "publishable_def": {
-      "bigstream-mv": "母版 mp4 + 四闸回执",
-      "biggame": "可提交包 + 提审材料齐",
-      "asset-lib": "可用角色包/音色（能被别的线直接用）",
-      "bigmoney": "信号 CSV + 四件齐结论"
-    },
-    "blocked_active": {
-      "bigdomain": "商户号/支付资质未签（CEO 物理件）",
-      "bigcompute": "bm-d 未入网（需现场装机）",
-      "biglife": "居民 3D 接入未通（缺模型资产）",
-      "recon": "缺对标样片（需指定片子或授权下载）"
-    }
+  "bm-b": {
+   "role": "声音",
+   "needs": [
+    "cpu",
+    "audio"
+   ]
+  },
+  "bm-c": {
+   "role": "画图",
+   "needs": [
+    "gpu"
+   ],
+   "ram_floor_gb": 8
+  },
+  "bm-d": {
+   "role": "大脑",
+   "needs": [
+    "cpu",
+    "gpu"
+   ],
+   "status": "installing-2026-11-05",
+   "ram_gb": 256,
+   "vram_gb": 48
+  },
+  "bm-m": {
+   "role": "主控",
+   "needs": [
+    "light"
+   ],
+   "heavy_forbidden": true
   }
+ },
+ "priority_lines": [
+  "bigstream-mv",
+  "biggame",
+  "asset-lib",
+  "bigmoney"
+ ],
+ "git": {
+  "mode": "off",
+  "_why": "脉不做 rebase/merge/commit/push：一天 4 次覆盖人工工作。独立工作树落地后改回 full。",
+  "sync_owner": "bm-m 人工会话 或 S4 账房（安静窗口）"
+ },
+ "pulse": {
+  "disabled_stages": [
+   "showcase",
+   "forecast",
+   "surface",
+   "orgs",
+   "gate_rigor",
+   "warm",
+   "decide"
+  ],
+  "canary_every_cycles": 4,
+  "lane_timeout_s": 120,
+  "loop_seconds": 180
+ },
+ "capacity": {
+  "_why": "CEO 2026-11-05「如何保障自动化和集团业务齐头并进」：机制活不许吃满产能。",
+  "business_min_ratio": 0.6,
+  "infra_max_cards_per_node": 2,
+  "infra_lines": [
+   "fleet-ops"
+  ],
+  "business_stall_hours": 24,
+  "stall_action": "infra_max=1 且该线提到最高优先",
+  "mechanism_changes_per_day": 3,
+  "publishable_def": {
+   "bigstream-mv": "母版 mp4 + 四闸回执",
+   "biggame": "可提交包 + 提审材料齐",
+   "asset-lib": "可用角色包/音色（能被别的线直接用）",
+   "bigmoney": "信号 CSV + 四件齐结论"
+  },
+  "blocked_active": {
+   "bigdomain": "商户号/支付资质未签（CEO 物理件）",
+   "bigcompute": "bm-d 未入网（需现场装机）",
+   "biglife": "居民 3D 接入未通（缺模型资产）",
+   "recon": "缺对标样片（需指定片子或授权下载）"
+  }
+ },
+ "local_priority": {
+  "_why": "CEO 2026-11-05「本机算力和内存、大模型，要赋能本机的主控职责和别的，然后才是赋能机队」：本机是主控的身体，不是机队的免费服务器。优先级只认这一处，代码不许另写死值。",
+  "ladder": [
+   {
+    "rank": 0,
+    "who": "本机主控",
+    "how": "直连 127.0.0.1:11434，不认证不排队；常驻 4B 与 6GB 余量先留给它"
+   },
+   {
+    "rank": 1,
+    "who": "本机业务/轻量批",
+    "how": "同样直连本机；与主控串行，但优先于任何机队请求"
+   },
+   {
+    "rank": 2,
+    "who": "机队借用",
+    "how": "只许走 11435 网关：带 token、并发上限 1、上下文上限 8192、单请求死线 120s、仅白名单模型、内存余量不足即拒"
+   }
+  ],
+  "reserve_gb": 6.0,
+  "fleet_max_conc": 1,
+  "fleet_max_ctx": 8192,
+  "fleet_timeout_s": 120,
+  "fleet_model_whitelist": [
+   "qwen3.5:4b-mlx",
+   "qwen3:4b-instruct",
+   "qwen3-embedding:0.6b"
+  ],
+  "local_models_any": true,
+  "min_free_gb_for_fleet": 7.0,
+  "max_fleet_requests_per_hour": 60,
+  "bypass_detector": {
+   "what": "非 127.0.0.1 的 11434 请求=绕闸，记 cph4/fleet/state/local-bypass.json",
+   "action": "24h 内 0 次绕过才允许把 Ollama 绑到 127.0.0.1"
+  }
+ }
 }

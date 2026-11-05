@@ -1,30 +1,21 @@
 {
- "ts": "2026-11-05T15:51:22",
+ "ts": "2026-11-05T16:29:40",
  "stage": 3,
  "adoption": {
   "days": 4,
-  "applied": 974,
-  "total": 745,
-  "rate": 130.7,
+  "applied": 990,
+  "total": 758,
+  "rate": 130.6,
   "eligible_stage4": false
  },
  "decisions": [
   {
-   "kind": "flag",
-   "why": "2 台机空转且有活",
-   "target": [
-    "bm-b",
-    "bm-m"
-   ],
-   "min_stage": 1,
-   "result": "applied"
-  },
-  {
    "kind": "requeue",
-   "why": "2 张卡在跑但 1 小时无回执",
+   "why": "3 张卡在跑但 1 小时无回执",
    "target": [
+    "asset-lib-voice-assemble-2026-11-05",
     "asset-lib-char-gen-2026-11-05",
-    "CHT-20261105T134829-99"
+    "SIM-20261105T155828-01-1"
    ],
    "min_stage": 3,
    "result": "applied"
@@ -44,8 +35,9 @@
   {
    "kind": "requeue",
    "ids": [
+    "asset-lib-voice-assemble-2026-11-05",
     "asset-lib-char-gen-2026-11-05",
-    "CHT-20261105T134829-99"
+    "SIM-20261105T155828-01-1"
    ]
   }
  ],

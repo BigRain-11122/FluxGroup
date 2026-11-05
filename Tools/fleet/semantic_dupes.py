@@ -49,12 +49,12 @@ def embed(text):
     global _EMBED_DOWN
     if _EMBED_DOWN:
         raise RuntimeError("embedding-down (circuit open)")
-    body = json.dumps({"model": MODEL, "prompt": text[:800]}).encode()
-    req = urllib.request.Request(URL + "/api/embeddings", data=body,
-                                 headers={"Content-Type": "application/json"})
+    # 2026-11-05 优先级：派单判重属主控职责，必须走 local_model 正门——
+    # 它会打"本机让路"信号，让机队借模型的请求排队，主控不被自己机队挡住。
     try:
-        with urllib.request.urlopen(req, timeout=5) as r:
-            return json.loads(r.read())["embedding"]
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        import local_model as _lm
+        return _lm.embed(text, cls="master", model=MODEL, timeout=5, why="dispatch-dedupe")
     except Exception:
         _EMBED_DOWN = True
         raise

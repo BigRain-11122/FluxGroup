@@ -7,7 +7,9 @@
  "reserve_why": "CEO 办公应用与主控脉冲共用同一池子；低于 6GB 余量就停开新活（memory: 不许硬扛 swap）",
  "slots": [
   {"id": "gpu_model", "conc": 1, "est_gb": 5.5, "kind": "ollama/4B",
-   "why": "同一时刻只跑一个模型（实测 4B 驻留时 /api/embed 会挂死），并发无收益"},
+   "why": "生成模型同一时刻只跑一个，并发无收益。2026-11-05 实测纠正：原结论「4B 驻留时 /api/embed 会挂死」的根因是 OLLAMA_MAX_LOADED_MODELS=1——MLX 常驻模型不会被驱逐，嵌入请求于是永久排队（实测 90s 超时、日志里连请求记录都没有）。已改 MAX_LOADED_MODELS=2，嵌入(0.6B)与生成(4B)共存实测合计 5.0GB、生成 1.0s、嵌入 1.1s。"},
+  {"id": "gpu_embed", "conc": 1, "est_gb": 0.8, "kind": "qwen3-embedding:0.6b",
+   "why": "判重/检索专用，常驻与 gpu_model 共存；优先服务主控派单判重，其次机队借用（经 11435 网关）"},
   {"id": "gpu_asr", "conc": 1, "est_gb": 2.5, "kind": "mlx-whisper large-v3-turbo",
    "why": "ASR 与常驻模型抢 GPU；串行跑，rtf≈0.08 已经够快"},
   {"id": "cpu_ffmpeg", "conc": 2, "est_gb": 1.2, "kind": "ffmpeg 720p 代理/转码",

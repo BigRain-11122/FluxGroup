@@ -328,12 +328,33 @@ def scenarios():
     return results
 
 
+def _cleanup():
+    """演练自己的卡不许留在生产账本里（2026-11-05 实测）：早几轮的 SIM-infra 卡
+    以 RUNNING 卡在 bm-m，占满机制槽位，下一轮直接红 A5/A6/A9——看着像系统坏了，
+    其实是测试件没扫干净。跑前跑后各清一次。"""
+    try:
+        import fleet_lane as fl
+        dead = []
+        for r in rows(Q):
+            cb = str(r.get("created_by") or "")
+            if cb.startswith("rehearsal") and r.get("state") in (
+                    "OPEN", "RUNNING", "CLAIMED", "READY"):
+                dead.append({"id": r.get("id"), "state": "CANCELLED",
+                             "note": "rehearsal cleanup"})
+        if dead:
+            fl.merge_jsonl(Q, dead)
+        return len(dead)
+    except Exception:
+        return 0
+
+
 def main(argv):
     ap = argparse.ArgumentParser()
     ap.add_argument("--cycles", type=int, default=10)
     ap.add_argument("--json", action="store_true")
     ap.add_argument("--scenarios", action="store_true", help="故障注入测试（S1-S6）")
     a = ap.parse_args(argv)
+    _cleanup()
 
     if a.scenarios:
         rs = scenarios()
@@ -376,6 +397,7 @@ def main(argv):
             fails.append({"cycle": c, "check": k})
 
     hard = sorted({f["check"] for f in fails})
+    _cleanup()
     out = {"ts": datetime.now().isoformat(timespec="seconds"), "cycles": a.cycles,
            "seconds": round(time.time() - started, 1),
            "hard_failures": hard, "checks_seen": len(history),

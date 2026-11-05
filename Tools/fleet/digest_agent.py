@@ -73,12 +73,16 @@ def main():
         prompt = ("你是机队汇总席。只依据下面的事实写 5 行中文结论，每行<=40字："
                   "①今天产出了什么 ②哪里卡住 ③下一步谁该动 ④方向是否对齐 ⑤风险一句。"
                   "不得编造事实、命令、文件名。\n\n事实：\n" + blob[:3000])
-        import urllib.request
-        body = json.dumps({"model": MODEL, "prompt": prompt, "stream": False, "think": False,
-                           "keep_alive": "5m", "options": {"num_ctx": 8192, "temperature": 0.2}}).encode()
-        req = urllib.request.Request("http://127.0.0.1:11434/api/generate", data=body,
-                                     headers={"Content-Type": "application/json"})
-        text = (json.load(urllib.request.urlopen(req, timeout=180)).get("response") or "").strip()
+        # 一屏汇总是主控职责：走 local_model 正门，机队借模型的请求要为它让路。
+        import sys as _sys
+        _sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        try:
+            import local_model as _lm
+            text = _lm.generate(prompt, cls="master", model=MODEL, timeout=180,
+                                keep_alive="5m", why="master-digest")
+        except Exception as e:
+            print("[digest] model unavailable:", str(e)[:120])
+            text = ""
         if text:
             json.dump({"hash": h, "text": text}, open(CACHE, "w", encoding="utf-8"),
                       ensure_ascii=False)
