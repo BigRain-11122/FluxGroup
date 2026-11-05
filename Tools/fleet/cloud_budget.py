@@ -83,6 +83,10 @@ def main(argv):
     sp.add_argument("--what", default="")
     sp.add_argument("--credits", type=float, default=None)
     sp.add_argument("--node", default="bm-m")
+    # 本地优先的凭证（CEO 2026-11-05「优先本地算力互相赋能，其次云端，有必要才用」）：
+    # 上云必须先说明本地为什么不行，空口不许花钱。
+    sp.add_argument("--local-checked", default="", help="本地已尝试/已排查的证据，如 squeeze.json 结论或排满的卡号")
+    sp.add_argument("--why-not-local", default="", help="本地为什么做不了（能力缺失/排队成本）")
     sub.add_parser("report")
     a = ap.parse_args(argv or ["check"])
 
@@ -91,6 +95,13 @@ def main(argv):
 
     if a.cmd == "spend":
         cny = float(a.cny)
+        need_ev = bool((cfg().get("cloud") or {}).get("require_local_evidence"))
+        if need_ev and not (a.local_checked and a.why_not_local):
+            print(json.dumps({"allowed": False,
+                              "why": "cloud is last-resort: pass --local-checked and --why-not-local",
+                              "hint": "先看 cph4/fleet/state/squeeze.json 与 PRODUCTION-QUEUE.jsonl：本地有余量就先派本地"},
+                             ensure_ascii=False))
+            return 2
         if c > 0 and used + cny > c:
             print(json.dumps({"allowed": False, "why": "would exceed daily cap",
                               "spent_cny": used, "request_cny": cny, "cap_cny": c},
@@ -99,7 +110,8 @@ def main(argv):
         p = ledger_path()
         os.makedirs(os.path.dirname(p), exist_ok=True)
         rec = {"ts": datetime.now().isoformat(timespec="seconds"), "node": a.node,
-               "cny": round(cny, 3), "credits": a.credits, "what": a.what}
+               "cny": round(cny, 3), "credits": a.credits, "what": a.what,
+               "local_checked": a.local_checked, "why_not_local": a.why_not_local}
         with open(p, "a", encoding="utf-8") as f:
             f.write(json.dumps(rec, ensure_ascii=False) + "\n")
         print(json.dumps({"allowed": True, "recorded": rec,
@@ -117,9 +129,21 @@ def main(argv):
         return 0
 
     allowed = (c <= 0) or (used < c)
+    # 本机队还有多少可派余量：给调用方一个"本地其实没满"的提示，不是自动放行。
+    idle = None
+    try:
+        sq = json.load(open(os.path.join(F, "state", "squeeze.json"), encoding="utf-8"))
+        idle = {"mean_cpu_pct": sq.get("mean_cpu_pct"), "local_gpu_pct": sq.get("local_gpu_pct"),
+                "total_idle_slots": sum(int(n.get("idle_slots") or 0)
+                                        for n in (sq.get("nodes") or []))}
+    except Exception:
+        idle = None
     print(json.dumps({"allowed": allowed, "spent_cny": used, "cap_cny": c,
                       "remaining_cny": round(max(0.0, c - used), 2),
-                      "mode": (cfg().get("cloud") or {}).get("mode") or "budget"},
+                      "mode": (cfg().get("cloud") or {}).get("mode") or "last-resort",
+                      "require_local_evidence": bool((cfg().get("cloud") or {}).get("require_local_evidence")),
+                      "local_idle": idle,
+                      "policy": "本地优先；有余量就派本地，云端只在本地做不了时用"},
                      ensure_ascii=False))
     return 0 if allowed else 1
 

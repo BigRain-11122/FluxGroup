@@ -4,24 +4,41 @@
   "owner": "中枢",
   "orders": [
     "CEO 2026-11-05：云端按日预算放开，硬上限 ¥100/天",
+    "CEO 2026-11-05：优先本地算力互相赋能，其次云端，有必要才用，不要浪费",
     "CEO 2026-11-05：bm-d 本周入网，先按一等节点留位",
     "CEO 2026-11-05：24h 主推进线 = MV 41 曲 / 游戏 / 资产库 / 金融回测"
   ],
 
   "cloud": {
-    "mode": "budget",
+    "mode": "last-resort",
     "daily_cny_cap": 100,
     "over_cap_action": "hard-stop",
     "ledger": "cph4/fleet/token-ledger/SPEND.jsonl",
+    "require_local_evidence": true,
+    "local_evidence_fields": ["local_checked", "why_not_local"],
     "allowed_when": [
       "本地没有该能力（重 GPU 生成 / 最强判断 / 实时云端 API）",
+      "本地产能已排满且有明确等待成本（不是「我这台忙」而是「全队同类能力都在飞」）",
       "本地在飞的同类批不重复上云"
     ],
     "forbidden": [
       "用云端替代本地 CPU 可做的批量活",
+      "本地有余量时上云",
+      "同一批活本地已跑过又花钱重跑",
       "单次 >500 积分不签字",
       "把凭据写进任何提交"
     ]
+  },
+
+  "local_first": {
+    "_why": "本地算力互相赋能：一台机的产物就是下一台的输入，不让机器互相等、不让能力重复买。",
+    "chain": [
+      "bm-c 出关键帧/生图 → bm-c/bm-a 图生视频 → bm-a 剪辑装配 → bm-b 配音配乐 → bm-a 终检",
+      "bm-d 入网后：LLM 服务/评审/代码代理全部走 bm-d，三机不再各自跑本地小模型",
+      "资产库(asset-lib) 复用到 MV/游戏/漫剧，先查库再生成"
+    ],
+    "reuse_before_generate": true,
+    "start_local_before_claim_busy": true
   },
 
   "supply": {
