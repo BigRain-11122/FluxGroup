@@ -1,25 +1,23 @@
 {
  "node": "bm-b",
- "ts": "2026-11-06T02:10:02",
+ "ts": "2026-11-06T03:50:04",
  "jobs": [
   {
-   "id": "Q-VCORP-PREP-e01-R3-20261105",
-   "title": "音色语料切片·e01（LibriTTS → voices/e01/sliced，纯 CPU）",
-   "cmd": "python Tools/fleet/voice_corpus_prep.py --inbox media/asset/inbox/e01 --group e01 --shard 0/1 --receipt cph4/fleet/queue-receipts/vcorpus-prep-e01-r3-20261105.json",
+   "id": "Q-MV-ANCHOR-WORDS-DRAIN-20261106",
+   "title": "[MV 41 曲锚点线] whisper 词级锚全量排水：剩余 27 首（words 14→41/41，CPU 夜窗）",
+   "cmd": "python cph4/fleet/mv-album-001-jay/whisper_album.py && python cph4/fleet/mv-album-001-jay/lyric_calibration.py && python cph4/fleet/mv-album-001-jay/anchor_shotgrid.py --matrix",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/vcorpus-prep-e01-r3-20261105.json",
+   "deliverable": "cph4/fleet/mv-album-001-jay/POOL-0018-0019-anchor-matrix.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
-   "when_all": [
-    "media/asset/inbox/e01"
-   ],
+   "when_all": [],
    "llm": null,
-   "timeout_s": 3600
+   "timeout_s": 21600
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 9.5/1.0 GB"
+ "capacity_note": "ram 9.6/1.0 GB"
 }
