@@ -1,20 +1,20 @@
 {
  "node": "bm-m",
  "date": "20261105",
- "ts": "2026-11-05T11:42:15+0800",
+ "ts": "2026-11-05T11:49:54+0800",
  "window_h": 26,
  "produced": [
   {
    "path": "cph4/fleet/queue-receipts/skill-promote-20261105.json",
    "bytes": 2172,
-   "mtime": "2026-11-05T11:42:15",
-   "sha": "98e44ba6929b22c8fae78905f54987946f0194382ea0c6a394d54eb3fabe0576"
+   "mtime": "2026-11-05T11:49:54",
+   "sha": "8c4765638307bc2e5765951311a7a36cc9ad51db1ca2354a79ef1107d3beee67"
   },
   {
    "path": "cph4/fleet/queue-receipts/CHK-DUPES-20261103-bm-m.json",
-   "bytes": 1737,
-   "mtime": "2026-11-05T07:33:14",
-   "sha": "450cc23944806a587112b6da2c5c1124c59d7966b2bbfd1349b9ad42d027121e"
+   "bytes": 1146,
+   "mtime": "2026-11-05T11:48:42",
+   "sha": "542250cdf87197c5f3525fef1a86c5cdc249557a6c88730851fd79cc88804331"
   },
   {
    "path": "cph4/fleet/queue-receipts/review-packet-mv-20261105.md",
@@ -601,10 +601,6 @@
  ],
  "blocked": [
   {
-   "what": "_last_lane_bm-m.json",
-   "why": "rc=None "
-  },
-  {
    "what": "R-NEXT-BIGSTREAMM-AUDIT-20261105",
    "why": "E-UNKNOWN "
   },
@@ -623,6 +619,10 @@
   {
    "what": "voice-corpus-bm-m-2026-11-04.json",
    "why": "E-BLOCKED-INPUT "
+  },
+  {
+   "what": "inference-audit-bm-m-20261105.json",
+   "why": "rc=None "
   }
  ],
  "job": null

@@ -1,14 +1,14 @@
 {
  "node": "bm-a",
- "ts": "2026-11-05T11:38:55",
+ "ts": "2026-11-05T11:52:57",
  "jobs": [
   {
-   "id": "R-NEXT-BIGGAME-SUBMIT-P-20261105",
-   "title": "游戏提审·真实缺件重盘（隐私已齐，重算图标/截图/台账/包体）",
-   "cmd": "python Tools/fleet/game_submit_pack.py",
+   "id": "CHK-RECEIPT-20261104",
+   "title": "回执卫生体检（rc 缺失/error_class 缺失出表）（bm-m 兜底体检）",
+   "cmd": "python3 Tools/fleet/receipt_attrib.py --out cph4/fleet/queue-receipts/receipt-attrib-20261104.json",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/game-v1/SUBMIT-PACK-20261105.json",
+   "deliverable": "cph4/fleet/receipt-attrib-20261104.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
