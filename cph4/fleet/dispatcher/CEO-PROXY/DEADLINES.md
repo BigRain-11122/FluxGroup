@@ -465,3 +465,10 @@ am_free_gb=10+cpu_load_pct=48——**bm-b 不是闲着，是在跑量化轮**；
 | **R12-10 本班供给产出（实证）** | **已执行** | 两张真卡入队并推 origin：`MV-AUDIT-V722G-20261106`(bm-a) / `MV-ANCHOR-BATCH3-20261106`(bm-b)，push 77bfcbd56 → 42b209d78，均 NO-REVERSAL（6501/6410 行零消失）。bm-a 卡已本机点火执行（`Tools/mv_full_audit.py <v722g> --json ...`，交付物 `cph4/fleet/queue-receipts/mv-audit-v722g-20261106.json`）。bm-b 卡因 R12-6（认领器 Disabled + 仓面 ff 不动）暂时领不到，非卡本身缺陷。 |
 
 | 2026-11-06 01:46 R6-2 STARVED-EXEC 平价误红第三次复发（POOL 台账 vs 活队列） | 全局 | CEO-PROXY 事件班 2026-11-06 01:46 | **registered·waiting-CEO（受保护件 L0 脚本·需 CEO 定谳）**：修法一行=fleet-dispatcher.ps1 L145 的 $exec[] 由只数 POOL.json 改为同时读 PRODUCTION-QUEUE.jsonl 中 nodes 含该机且 state=OPEN 的行（取大者），否则每班恒报 x3 假 P1。证据=本班实测 bm-a 01:27 有产物提交、bm-c 有 5-15min 快照，而 POOL 唯一 open 是 CEO 物理件。 |
+
+### R12 勘误（同班·2026-11-06 01:33）
+
+| 件 | 状态 | 证据 / 下一步 |
+|---|---|---|
+| **R12-8 勘误（本班自我更正）** | **撤回缺陷定性→改进为注入测试** | 01:27:08 官方认领链路回执 MV-AUDIT-V722G-20261106-bm-a.json 实证 rc=0/722.3s/outcome=OK/deliverable_exists=true → **自派循环并未吞卡**，本班 01:22 那次 IDLE 是与我手工起的同时段实例/认领竞态所致，非结构性缺陷。原 R12-8 归因撤回。保留可执行改进=给 self_dispatch 加 --explain 打印 reject/skip 原因，避免下次把竞态误读成缺陷。 |
+
