@@ -272,6 +272,24 @@ def probes(quick=False):
     except Exception as e:
         res["P9_power"] = {"ok": False, "detail": str(e)[:60]}
 
+    # P10 机队回传（2026-11-05 CEO「机队状态要及时回传主控」）：把"主控能不能看到
+    # 每张在跑卡的活口"变成硬探针。回传通道断了 → 在跑卡没有心跳 → 这里必须红，
+    # 不许再出现"卡标 RUNNING 但没人跑，主控以为在干活"。
+    try:
+        import subprocess as _sp
+        _r = _sp.run([sys.executable, os.path.join(HERE, "fleet_status.py"), "--json"],
+                     cwd=ROOT, capture_output=True, text=True, timeout=60)
+        _j = json.loads(_r.stdout or "{}")
+        _dead = int(_j.get("dead") or 0)
+        _run = int(_j.get("running_total") or 0)
+        _nostat = sum(1 for c in (_j.get("cards") or [])
+                      if str(c.get("verdict") or "").startswith("NO-STATUS"))
+        res["P10_fleet_status"] = {
+            "ok": _dead == 0,
+            "detail": "running=%d dead=%d no-heartbeat-channel=%d" % (_run, _dead, _nostat)}
+    except Exception as e:
+        res["P10_fleet_status"] = {"ok": False, "detail": "status read failed: %s" % str(e)[:80]}
+
     # P7 配置指纹
     fp = fingerprint()
     base = jload(BASE, {}) or {}

@@ -576,8 +576,24 @@ def kv_put(key, obj, host=HUB_DEFAULT, port=PORT_DEFAULT, timeout=3.0):
         data = json.dumps(obj, ensure_ascii=False).encode("utf-8")
         subject = ("$KV.%s.%s" % (KV_BUCKET, key)).encode()
         s.sendall(b"PUB " + subject + b" " + str(len(data)).encode() + b"\r\n" + data + b"\r\nPING\r\n")
+        # 2026-11-05 实测事故：原来发完立刻 close，不等 PONG——消息在服务端处理前就断了，
+        # KV 流最后一次写入停在 11:00（8 小时空档），主控因此一直"收不到机队进度"。
+        # 必须等到 PONG 才算写成功。
+        s.settimeout(timeout)
+        end = time.time() + timeout
+        buf = b""
+        while time.time() < end:
+            try:
+                chunk = s.recv(4096)
+            except Exception:
+                break
+            if not chunk:
+                break
+            buf += chunk
+            if b"PONG" in buf:
+                break
         s.close()
-        return True
+        return b"PONG" in buf
     except Exception:
         return False
 
