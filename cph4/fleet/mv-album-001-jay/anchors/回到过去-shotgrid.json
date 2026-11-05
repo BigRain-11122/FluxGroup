@@ -1,0 +1,940 @@
+{
+ "song": "回到过去",
+ "version": "anchor-shotgrid v1.0 (r1070 bm-b)",
+ "inputs": {
+  "beats_sha_face": 637,
+  "n_beats": 637,
+  "n_downbeats": 159,
+  "duration_sec": 233.47
+ },
+ "bpm_median": 172.4,
+ "snap_tol_sec": 0.1,
+ "max_shot_sec": 3.0,
+ "grid": [
+  {
+   "i": 0,
+   "text": "一盏黄黄旧旧的灯",
+   "t0": 7.72,
+   "t1": 13.22,
+   "t0_used": 7.663,
+   "t1_used": 13.259,
+   "snapped": true,
+   "snap_deltas": [
+    0.057,
+    -0.039
+   ],
+   "approx": false,
+   "splits": [
+    10.449
+   ]
+  },
+  {
+   "i": 1,
+   "text": "时间在旁闷不吭声",
+   "t0": 13.22,
+   "t1": 18.81,
+   "t0_used": 13.259,
+   "t1_used": 18.81,
+   "snapped": true,
+   "snap_deltas": [
+    -0.039,
+    -0.114
+   ],
+   "approx": false,
+   "splits": [
+    16.068
+   ]
+  },
+  {
+   "i": 2,
+   "text": "寂寞下手毫无分寸",
+   "t0": 18.81,
+   "t1": 24.41,
+   "t0_used": 18.81,
+   "t1_used": 24.41,
+   "snapped": false,
+   "snap_deltas": [
+    -0.114,
+    -0.133
+   ],
+   "approx": false,
+   "splits": [
+    21.734
+   ]
+  },
+  {
+   "i": 3,
+   "text": "不懂得轻重之分",
+   "t0": 24.41,
+   "t1": 30.11,
+   "t0_used": 24.41,
+   "t1_used": 30.209,
+   "snapped": true,
+   "snap_deltas": [
+    -0.133,
+    -0.099
+   ],
+   "approx": false,
+   "splits": [
+    27.376
+   ]
+  },
+  {
+   "i": 4,
+   "text": "沉默支撑跃过陌生",
+   "t0": 30.11,
+   "t1": 35.92,
+   "t0_used": 30.209,
+   "t1_used": 35.828,
+   "snapped": true,
+   "snap_deltas": [
+    -0.099,
+    0.092
+   ],
+   "approx": false,
+   "splits": [
+    33.019
+   ]
+  },
+  {
+   "i": 5,
+   "text": "静静看着凌晨黄昏",
+   "t0": 35.92,
+   "t1": 41.56,
+   "t0_used": 35.828,
+   "t1_used": 41.517,
+   "snapped": true,
+   "snap_deltas": [
+    0.092,
+    0.043
+   ],
+   "approx": false,
+   "splits": [
+    38.661
+   ]
+  },
+  {
+   "i": 6,
+   "text": "你的身影",
+   "t0": 41.56,
+   "t1": 44.35,
+   "t0_used": 41.517,
+   "t1_used": 44.304,
+   "snapped": true,
+   "snap_deltas": [
+    0.043,
+    0.046
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 7,
+   "text": "失去平衡",
+   "t0": 44.35,
+   "t1": 46.03,
+   "t0_used": 44.304,
+   "t1_used": 46.092,
+   "snapped": true,
+   "snap_deltas": [
+    0.046,
+    -0.062
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 8,
+   "text": "慢慢下沉",
+   "t0": 46.03,
+   "t1": 52.09,
+   "t0_used": 46.092,
+   "t1_used": 52.036,
+   "snapped": true,
+   "snap_deltas": [
+    -0.062,
+    0.054
+   ],
+   "approx": false,
+   "splits": [
+    48.948
+   ]
+  },
+  {
+   "i": 9,
+   "text": "黑暗已在空中盘旋",
+   "t0": 52.09,
+   "t1": 56.02,
+   "t0_used": 52.036,
+   "t1_used": 55.937,
+   "snapped": true,
+   "snap_deltas": [
+    0.054,
+    0.083
+   ],
+   "approx": false,
+   "splits": [
+    53.801
+   ]
+  },
+  {
+   "i": 10,
+   "text": "该往哪我看不见",
+   "t0": 56.02,
+   "t1": 61.2,
+   "t0_used": 55.937,
+   "t1_used": 61.231,
+   "snapped": true,
+   "snap_deltas": [
+    0.083,
+    -0.031
+   ],
+   "approx": false,
+   "splits": [
+    58.421
+   ]
+  },
+  {
+   "i": 11,
+   "text": "也许爱在梦的另一端",
+   "t0": 61.2,
+   "t1": 66.67,
+   "t0_used": 61.231,
+   "t1_used": 66.595,
+   "snapped": true,
+   "snap_deltas": [
+    -0.031,
+    0.075
+   ],
+   "approx": false,
+   "splits": [
+    64.064
+   ]
+  },
+  {
+   "i": 12,
+   "text": "无法存活在真实的空间",
+   "t0": 66.67,
+   "t1": 72.31,
+   "t0_used": 66.595,
+   "t1_used": 72.31,
+   "snapped": true,
+   "snap_deltas": [
+    0.075,
+    0.142
+   ],
+   "approx": false,
+   "splits": [
+    69.381
+   ]
+  },
+  {
+   "i": 13,
+   "text": "想回到过去",
+   "t0": 72.31,
+   "t1": 75.47,
+   "t0_used": 72.31,
+   "t1_used": 75.372,
+   "snapped": true,
+   "snap_deltas": [
+    0.142,
+    0.098
+   ],
+   "approx": false,
+   "splits": [
+    73.979
+   ]
+  },
+  {
+   "i": 14,
+   "text": "试着抱你在怀里",
+   "t0": 75.47,
+   "t1": 78.97,
+   "t0_used": 75.372,
+   "t1_used": 78.901,
+   "snapped": true,
+   "snap_deltas": [
+    0.098,
+    0.069
+   ],
+   "approx": false,
+   "splits": [
+    77.137
+   ]
+  },
+  {
+   "i": 15,
+   "text": "羞怯的脸带有一点稚气",
+   "t0": 78.97,
+   "t1": 84.22,
+   "t0_used": 78.901,
+   "t1_used": 84.196,
+   "snapped": true,
+   "snap_deltas": [
+    0.069,
+    0.024
+   ],
+   "approx": false,
+   "splits": [
+    81.386
+   ]
+  },
+  {
+   "i": 16,
+   "text": "想看你看的世界",
+   "t0": 84.22,
+   "t1": 87.14,
+   "t0_used": 84.196,
+   "t1_used": 87.14,
+   "snapped": true,
+   "snap_deltas": [
+    0.024,
+    0.112
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 17,
+   "text": "想在你梦的画面",
+   "t0": 87.14,
+   "t1": 89.87,
+   "t0_used": 87.14,
+   "t1_used": 89.838,
+   "snapped": true,
+   "snap_deltas": [
+    0.112,
+    0.032
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 18,
+   "text": "只要靠在一起",
+   "t0": 89.87,
+   "t1": 92.16,
+   "t0_used": 89.838,
+   "t1_used": 92.16,
+   "snapped": true,
+   "snap_deltas": [
+    0.032,
+    -0.139
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 19,
+   "text": "就能感觉甜蜜",
+   "t0": 92.16,
+   "t1": 95.04,
+   "t0_used": 92.16,
+   "t1_used": 95.04,
+   "snapped": false,
+   "snap_deltas": [
+    -0.139,
+    -0.115
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 20,
+   "text": "想回到过去",
+   "t0": 95.04,
+   "t1": 97.99,
+   "t0_used": 95.04,
+   "t1_used": 97.965,
+   "snapped": true,
+   "snap_deltas": [
+    -0.115,
+    0.025
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 21,
+   "text": "试着让故事继续",
+   "t0": 97.99,
+   "t1": 101.54,
+   "t0_used": 97.965,
+   "t1_used": 101.494,
+   "snapped": true,
+   "snap_deltas": [
+    0.025,
+    0.046
+   ],
+   "approx": false,
+   "splits": [
+    99.73
+   ]
+  },
+  {
+   "i": 22,
+   "text": "至少不再让你离我而去",
+   "t0": 101.54,
+   "t1": 106.82,
+   "t0_used": 101.494,
+   "t1_used": 106.789,
+   "snapped": true,
+   "snap_deltas": [
+    0.046,
+    0.031
+   ],
+   "approx": false,
+   "splits": [
+    104.304
+   ]
+  },
+  {
+   "i": 23,
+   "text": "分散时间的注意",
+   "t0": 106.82,
+   "t1": 109.57,
+   "t0_used": 106.789,
+   "t1_used": 109.598,
+   "snapped": true,
+   "snap_deltas": [
+    0.031,
+    -0.028
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 24,
+   "text": "这次会抱得更紧",
+   "t0": 109.57,
+   "t1": 112.47,
+   "t0_used": 109.598,
+   "t1_used": 112.431,
+   "snapped": true,
+   "snap_deltas": [
+    -0.028,
+    0.039
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 25,
+   "text": "这样挽留不知",
+   "t0": 112.47,
+   "t1": 114.53,
+   "t0_used": 112.431,
+   "t1_used": 114.544,
+   "snapped": true,
+   "snap_deltas": [
+    0.039,
+    -0.014
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 26,
+   "text": "还来不来得及",
+   "t0": 114.53,
+   "t1": 117.17,
+   "t0_used": 114.544,
+   "t1_used": 117.17,
+   "snapped": true,
+   "snap_deltas": [
+    -0.014,
+    0.141
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 27,
+   "text": "想回到过去",
+   "t0": 117.17,
+   "t1": 125.22,
+   "t0_used": 117.17,
+   "t1_used": 125.132,
+   "snapped": true,
+   "snap_deltas": [
+    0.141,
+    0.088
+   ],
+   "approx": false,
+   "splits": [
+    119.838,
+    122.648
+   ]
+  },
+  {
+   "i": 28,
+   "text": "思绪不断",
+   "t0": 125.22,
+   "t1": 126.66,
+   "t0_used": 125.132,
+   "t1_used": 126.66,
+   "snapped": true,
+   "snap_deltas": [
+    0.088,
+    0.111
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 29,
+   "text": "阻挡着回忆播放",
+   "t0": 126.66,
+   "t1": 129.4,
+   "t0_used": 126.66,
+   "t1_used": 129.382,
+   "snapped": true,
+   "snap_deltas": [
+    0.111,
+    0.018
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 30,
+   "text": "盲目的追寻",
+   "t0": 129.4,
+   "t1": 131.24,
+   "t0_used": 129.382,
+   "t1_used": 131.24,
+   "snapped": true,
+   "snap_deltas": [
+    0.018,
+    0.117
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 31,
+   "text": "仍然空空荡荡",
+   "t0": 131.24,
+   "t1": 135.09,
+   "t0_used": 131.24,
+   "t1_used": 135.024,
+   "snapped": true,
+   "snap_deltas": [
+    0.117,
+    0.066
+   ],
+   "approx": false,
+   "splits": [
+    133.259
+   ]
+  },
+  {
+   "i": 32,
+   "text": "灰蒙蒙的夜晚",
+   "t0": 135.09,
+   "t1": 137.2,
+   "t0_used": 135.024,
+   "t1_used": 137.137,
+   "snapped": true,
+   "snap_deltas": [
+    0.066,
+    0.063
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 33,
+   "text": "睡意又不知躲到哪去",
+   "t0": 137.2,
+   "t1": 141.09,
+   "t0_used": 137.137,
+   "t1_used": 141.015,
+   "snapped": true,
+   "snap_deltas": [
+    0.063,
+    0.075
+   ],
+   "approx": false,
+   "splits": [
+    138.902
+   ]
+  },
+  {
+   "i": 34,
+   "text": "一转身孤单",
+   "t0": 141.09,
+   "t1": 142.85,
+   "t0_used": 141.015,
+   "t1_used": 142.78,
+   "snapped": true,
+   "snap_deltas": [
+    0.075,
+    0.07
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 35,
+   "text": "已躺在身旁",
+   "t0": 142.85,
+   "t1": 148.51,
+   "t0_used": 142.78,
+   "t1_used": 148.51,
+   "snapped": true,
+   "snap_deltas": [
+    0.07,
+    0.111
+   ],
+   "approx": false,
+   "splits": [
+    145.589
+   ]
+  },
+  {
+   "i": 36,
+   "text": "想回到过去",
+   "t0": 148.51,
+   "t1": 151.68,
+   "t0_used": 148.51,
+   "t1_used": 151.603,
+   "snapped": true,
+   "snap_deltas": [
+    0.111,
+    0.077
+   ],
+   "approx": false,
+   "splits": [
+    150.21
+   ]
+  },
+  {
+   "i": 37,
+   "text": "试着抱你在怀里",
+   "t0": 151.68,
+   "t1": 155.17,
+   "t0_used": 151.603,
+   "t1_used": 155.133,
+   "snapped": true,
+   "snap_deltas": [
+    0.077,
+    0.037
+   ],
+   "approx": false,
+   "splits": [
+    153.368
+   ]
+  },
+  {
+   "i": 38,
+   "text": "羞怯的脸带有一点稚气",
+   "t0": 155.17,
+   "t1": 160.47,
+   "t0_used": 155.133,
+   "t1_used": 160.427,
+   "snapped": true,
+   "snap_deltas": [
+    0.037,
+    0.043
+   ],
+   "approx": false,
+   "splits": [
+    157.617
+   ]
+  },
+  {
+   "i": 39,
+   "text": "想看你看的世界",
+   "t0": 160.47,
+   "t1": 163.2,
+   "t0_used": 160.427,
+   "t1_used": 163.26,
+   "snapped": true,
+   "snap_deltas": [
+    0.043,
+    -0.06
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 40,
+   "text": "想在你梦的画面",
+   "t0": 163.2,
+   "t1": 166.07,
+   "t0_used": 163.26,
+   "t1_used": 166.092,
+   "snapped": true,
+   "snap_deltas": [
+    -0.06,
+    -0.022
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 41,
+   "text": "只要靠在一起",
+   "t0": 166.07,
+   "t1": 168.37,
+   "t0_used": 166.092,
+   "t1_used": 168.37,
+   "snapped": true,
+   "snap_deltas": [
+    -0.022,
+    -0.16
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 42,
+   "text": "就能感觉甜蜜",
+   "t0": 168.37,
+   "t1": 171.09,
+   "t0_used": 168.37,
+   "t1_used": 171.015,
+   "snapped": true,
+   "snap_deltas": [
+    -0.16,
+    0.075
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 43,
+   "text": "想回到过去",
+   "t0": 171.09,
+   "t1": 174.23,
+   "t0_used": 171.015,
+   "t1_used": 174.196,
+   "snapped": true,
+   "snap_deltas": [
+    0.075,
+    0.034
+   ],
+   "approx": false,
+   "splits": [
+    172.431
+   ]
+  },
+  {
+   "i": 44,
+   "text": "试着让故事继续",
+   "t0": 174.23,
+   "t1": 177.79,
+   "t0_used": 174.196,
+   "t1_used": 177.726,
+   "snapped": true,
+   "snap_deltas": [
+    0.034,
+    0.064
+   ],
+   "approx": false,
+   "splits": [
+    175.961
+   ]
+  },
+  {
+   "i": 45,
+   "text": "至少不再让你离我而去",
+   "t0": 177.79,
+   "t1": 183.03,
+   "t0_used": 177.726,
+   "t1_used": 183.02,
+   "snapped": true,
+   "snap_deltas": [
+    0.064,
+    0.01
+   ],
+   "approx": false,
+   "splits": [
+    180.21
+   ]
+  },
+  {
+   "i": 46,
+   "text": "分散时间的注意",
+   "t0": 183.03,
+   "t1": 185.82,
+   "t0_used": 183.02,
+   "t1_used": 185.853,
+   "snapped": true,
+   "snap_deltas": [
+    0.01,
+    -0.033
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 47,
+   "text": "这次会抱得更紧",
+   "t0": 185.82,
+   "t1": 188.73,
+   "t0_used": 185.853,
+   "t1_used": 188.662,
+   "snapped": true,
+   "snap_deltas": [
+    -0.033,
+    0.068
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 48,
+   "text": "这样挽留不知",
+   "t0": 188.73,
+   "t1": 190.81,
+   "t0_used": 188.662,
+   "t1_used": 190.775,
+   "snapped": true,
+   "snap_deltas": [
+    0.068,
+    0.035
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 49,
+   "text": "还来不来得及",
+   "t0": 190.81,
+   "t1": 193.4,
+   "t0_used": 190.775,
+   "t1_used": 193.4,
+   "snapped": true,
+   "snap_deltas": [
+    0.035,
+    0.14
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 50,
+   "text": "想回到过去",
+   "t0": 193.4,
+   "t1": 202.48,
+   "t0_used": 193.4,
+   "t1_used": 202.432,
+   "snapped": true,
+   "snap_deltas": [
+    0.14,
+    0.048
+   ],
+   "approx": false,
+   "splits": [
+    195.744,
+    197.834,
+    200.319
+   ]
+  },
+  {
+   "i": 51,
+   "text": "沉默支撑跃过陌生",
+   "t0": 202.48,
+   "t1": 208.11,
+   "t0_used": 202.432,
+   "t1_used": 208.074,
+   "snapped": true,
+   "snap_deltas": [
+    0.048,
+    0.036
+   ],
+   "approx": false,
+   "splits": [
+    205.264
+   ]
+  },
+  {
+   "i": 52,
+   "text": "静静看着凌晨黄昏",
+   "t0": 208.11,
+   "t1": 213.76,
+   "t0_used": 208.074,
+   "t1_used": 213.716,
+   "snapped": true,
+   "snap_deltas": [
+    0.036,
+    0.044
+   ],
+   "approx": false,
+   "splits": [
+    210.907
+   ]
+  },
+  {
+   "i": 53,
+   "text": "你的身影",
+   "t0": 213.76,
+   "t1": 216.56,
+   "t0_used": 213.716,
+   "t1_used": 216.549,
+   "snapped": true,
+   "snap_deltas": [
+    0.044,
+    0.011
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 54,
+   "text": "失去平衡",
+   "t0": 216.56,
+   "t1": 219.39,
+   "t0_used": 216.549,
+   "t1_used": 219.382,
+   "snapped": true,
+   "snap_deltas": [
+    0.011,
+    0.008
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 55,
+   "text": "慢慢下沉",
+   "t0": 219.39,
+   "t1": 222.13,
+   "t0_used": 219.382,
+   "t1_used": 222.192,
+   "snapped": true,
+   "snap_deltas": [
+    0.008,
+    -0.062
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 56,
+   "text": "想回到过去",
+   "t0": 222.13,
+   "t1": 225.13,
+   "t0_used": 222.192,
+   "t1_used": 225.13,
+   "snapped": true,
+   "snap_deltas": [
+    -0.062,
+    0.175
+   ],
+   "approx": false,
+   "splits": []
+  }
+ ],
+ "summary": {
+  "lines": 57,
+  "lines_untimed": 0,
+  "lines_snapped": 55,
+  "lines_unsnapped": 2,
+  "lines_need_split": 29,
+  "total_splits": 32
+ },
+ "advisory": true
+}
