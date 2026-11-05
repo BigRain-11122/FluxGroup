@@ -1,36 +1,14 @@
 {
- "ts": "2026-11-05T18:31:38",
+ "ts": "2026-11-05T18:53:10",
  "stage": 3,
  "adoption": {
   "days": 4,
-  "applied": 1029,
-  "total": 789,
-  "rate": 130.4,
+  "applied": 1032,
+  "total": 792,
+  "rate": 130.3,
   "eligible_stage4": false
  },
  "decisions": [
-  {
-   "kind": "requeue",
-   "why": "14 张卡在跑但 1 小时无回执",
-   "target": [
-    "CANARY-20261104T132721",
-    "MV-NEWPROC-PACKET-20261104",
-    "AUD-SOFT-20261105T181824-09",
-    "AUD-SOFT-20261105T181824-10",
-    "AUD-SOFT-20261105T181824-11",
-    "AUD-SOFT-20261105T181824-12",
-    "AUD-SOFT-20261105T181824-14",
-    "AUD-SOFT-20261105T181824-15",
-    "AUD-SOFT-20261105T181824-17",
-    "AUD-SOFT-20261105T181824-18",
-    "AUD-SOFT-20261105T181824-19",
-    "AUD-GAME-20261105T181824-11",
-    "AUD-GAME-20261105T181824-22",
-    "AUD-GAME-20261105T181824-23"
-   ],
-   "min_stage": 3,
-   "result": "applied"
-  },
   {
    "kind": "escalate",
    "why": "P0 线 24h 无产物：2 条",
@@ -42,26 +20,6 @@
    "result": "applied"
   }
  ],
- "applied": [
-  {
-   "kind": "requeue",
-   "ids": [
-    "CANARY-20261104T132721",
-    "MV-NEWPROC-PACKET-20261104",
-    "AUD-SOFT-20261105T181824-09",
-    "AUD-SOFT-20261105T181824-10",
-    "AUD-SOFT-20261105T181824-11",
-    "AUD-SOFT-20261105T181824-12",
-    "AUD-SOFT-20261105T181824-14",
-    "AUD-SOFT-20261105T181824-15",
-    "AUD-SOFT-20261105T181824-17",
-    "AUD-SOFT-20261105T181824-18",
-    "AUD-SOFT-20261105T181824-19",
-    "AUD-GAME-20261105T181824-11",
-    "AUD-GAME-20261105T181824-22",
-    "AUD-GAME-20261105T181824-23"
-   ]
-  }
- ],
+ "applied": [],
  "brief": "/Users/junsheng.sun/FluxGroup/cph4/fleet/chief/BRIEF-20261105.md"
 }
