@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
- "ts": "2026-11-05T18:18:45",
+ "ts": "2026-11-05T18:24:15",
  "jobs": [
   {
-   "id": "AUD-SOFT-20261105T181824-01",
-   "title": "软著材料清点：G02_TimeRepairShop",
-   "cmd": "python3 Tools/fleet/supply_batch.py --audit soft G02_TimeRepairShop",
+   "id": "AUD-SOFT-20261105T181824-29",
+   "title": "软著材料清点：_已封存_盛永康旧软著",
+   "cmd": "python3 Tools/fleet/supply_batch.py --audit soft _已封存_盛永康旧软著",
    "cwd": "/Users/junsheng.sun/FluxGroup",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/soft/G02_TimeRepairShop.json",
+   "deliverable": "cph4/fleet/audits/soft/_已封存_盛永康旧软著.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -17,12 +17,12 @@
    "timeout_s": null
   },
   {
-   "id": "AUD-SOFT-20261105T181824-02",
-   "title": "软著材料清点：G05_ReelRiot",
-   "cmd": "python3 Tools/fleet/supply_batch.py --audit soft G05_ReelRiot",
+   "id": "AUD-SOFT-20261105T181824-30",
+   "title": "软著材料清点：_报审提交区",
+   "cmd": "python3 Tools/fleet/supply_batch.py --audit soft _报审提交区",
    "cwd": "/Users/junsheng.sun/FluxGroup",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/soft/G05_ReelRiot.json",
+   "deliverable": "cph4/fleet/audits/soft/_报审提交区.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -31,12 +31,12 @@
    "timeout_s": null
   },
   {
-   "id": "AUD-SOFT-20261105T181824-03",
-   "title": "软著材料清点：G06_ArrowRush",
-   "cmd": "python3 Tools/fleet/supply_batch.py --audit soft G06_ArrowRush",
+   "id": "AUD-GAME-20261105T181824-01",
+   "title": "提审缺口落单：FluxVerse_FluxVerse",
+   "cmd": "python3 Tools/fleet/supply_batch.py --audit game FluxVerse_FluxVerse",
    "cwd": "/Users/junsheng.sun/FluxGroup",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/soft/G06_ArrowRush.json",
+   "deliverable": "cph4/fleet/audits/game/FluxVerse_FluxVerse.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -45,12 +45,12 @@
    "timeout_s": null
   },
   {
-   "id": "AUD-SOFT-20261105T181824-04",
-   "title": "软著材料清点：G09_GimmeAll",
-   "cmd": "python3 Tools/fleet/supply_batch.py --audit soft G09_GimmeAll",
+   "id": "AUD-GAME-20261105T181824-02",
+   "title": "提审缺口落单：TimeRepairShop",
+   "cmd": "python3 Tools/fleet/supply_batch.py --audit game TimeRepairShop",
    "cwd": "/Users/junsheng.sun/FluxGroup",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/soft/G09_GimmeAll.json",
+   "deliverable": "cph4/fleet/audits/game/TimeRepairShop.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -59,12 +59,12 @@
    "timeout_s": null
   },
   {
-   "id": "AUD-SOFT-20261105T181824-05",
-   "title": "软著材料清点：G10_涨停板",
-   "cmd": "python3 Tools/fleet/supply_batch.py --audit soft G10_涨停板",
+   "id": "AUD-GAME-20261105T181824-03",
+   "title": "提审缺口落单：MergeMania",
+   "cmd": "python3 Tools/fleet/supply_batch.py --audit game MergeMania",
    "cwd": "/Users/junsheng.sun/FluxGroup",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/soft/G10_涨停板.json",
+   "deliverable": "cph4/fleet/audits/game/MergeMania.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -73,12 +73,12 @@
    "timeout_s": null
   },
   {
-   "id": "AUD-SOFT-20261105T181824-06",
-   "title": "软著材料清点：G12_LineRescue",
-   "cmd": "python3 Tools/fleet/supply_batch.py --audit soft G12_LineRescue",
+   "id": "AUD-GAME-20261105T181824-04",
+   "title": "提审缺口落单：ScrewOut",
+   "cmd": "python3 Tools/fleet/supply_batch.py --audit game ScrewOut",
    "cwd": "/Users/junsheng.sun/FluxGroup",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/soft/G12_LineRescue.json",
+   "deliverable": "cph4/fleet/audits/game/ScrewOut.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -89,5 +89,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 11.4/1.0 GB"
+ "capacity_note": "ram 11.5/1.0 GB"
 }
