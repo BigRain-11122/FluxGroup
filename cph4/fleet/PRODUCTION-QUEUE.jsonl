@@ -1007,9 +1007,13 @@
 {"id": "VER-C-192446", "state": "CANCELLED", "note": "fleet_verify cleanup"}
 {"id": "VER-D-192451", "state": "CANCELLED", "note": "fleet_verify cleanup"}
 {"id": "VER-E-192452", "state": "CANCELLED", "note": "fleet_verify cleanup"}
-{"id": "PREVIEW-30S-20261105", "state": "OPEN", "owner": null, "released_by": "fleet_status", "release_reason": "owner heartbeat stale 74s (aging 0min)"}
+{"id": "PREVIEW-30S-20261105", "state": "RUNNING", "owner": "bm-b", "released_by": "fleet_status", "release_reason": "owner heartbeat stale 87s (aging 0min)", "route": "local", "route_note": "deterministic script -> local (zero token)", "claimed_at": "2026-11-05T19:37:05", "assign_ts": "2026-11-05T19:37:05", "lease_minutes": 45}
 {"id": "VER-B-192844", "state": "CANCELLED", "note": "fleet_verify cleanup"}
 {"id": "VER-B-192950", "state": "CANCELLED", "note": "fleet_verify cleanup"}
 {"id": "VER-E-193108", "state": "CANCELLED", "note": "fleet_verify cleanup"}
-{"id": "VER-E-193230", "state": "OPEN", "owner": null, "released_by": "fleet_status", "release_reason": "owner heartbeat stale 15s (aging 0min)"}
-{"id": "DEDUPE-BMC-20261105", "state": "OPEN", "owner": null, "released_by": "fleet_status", "release_reason": "owner heartbeat stale 271s (aging 0min)"}
+{"id": "VER-E-193230", "state": "CANCELLED", "note": "fleet_verify cleanup"}
+{"id": "DEDUPE-BMC-20261105", "state": "RUNNING", "owner": "bm-c", "released_by": "fleet_status", "release_reason": "owner heartbeat stale 99s (aging 0min)", "route": "local", "route_note": "deterministic script -> local (zero token)", "claimed_at": "2026-11-05T19:37:05", "assign_ts": "2026-11-05T19:37:05", "lease_minutes": 45}
+{"id": "VER-A-193645", "state": "CANCELLED", "note": "fleet_verify cleanup"}
+{"id": "VER-B-193646", "state": "CANCELLED", "note": "fleet_verify cleanup"}
+{"id": "VER-C-193713", "state": "CANCELLED", "note": "fleet_verify cleanup"}
+{"id": "VER-D-193718", "state": "CANCELLED", "note": "fleet_verify cleanup"}

@@ -1,8 +1,23 @@
 {
  "node": "bm-c",
- "ts": "2026-11-05T19:27:45",
- "jobs": [],
- "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+ "ts": "2026-11-05T19:37:06",
+ "jobs": [
+  {
+   "id": "DEDUPE-BMC-20261105",
+   "title": null,
+   "cmd": null,
+   "cwd": null,
+   "needs": null,
+   "deliverable": null,
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  }
+ ],
+ "idle_reason": "",
  "lane_ok": true,
  "capacity_note": "ram 2.4/1.0 GB"
 }
