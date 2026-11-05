@@ -1,24 +1,24 @@
 {
- "ts": "2026-11-05T19:51:15",
- "cycle": 75,
+ "ts": "2026-11-05T19:52:14",
+ "cycle": 76,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-05T19:51:15",
+ "master_tick_ts": "2026-11-05T19:52:14",
  "queue": {
-  "total": 1032,
+  "total": 1036,
   "open": 1,
-  "running": 3,
-  "done": 394,
-  "failed": 27
+  "running": 4,
+  "done": 396,
+  "failed": 28
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 1.2,
-   "cpu_load_pct": 76,
-   "ram_free_gb": 45.5,
-   "gpu_util_pct": 26,
-   "job": null,
+   "hb_age_s": 0.1,
+   "cpu_load_pct": 80,
+   "ram_free_gb": 46.2,
+   "gpu_util_pct": 22,
+   "job": "VER-C-195157",
    "last_result": {
     "job": null,
     "state": "IDLE",
@@ -28,17 +28,17 @@
     "out_bytes": null,
     "elapsed_s": null
    },
-   "idle_confirmed": true,
-   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 6
+   "idle_confirmed": false,
+   "idle_reason": "",
+   "idle_rounds": 0
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 11.5,
-   "cpu_load_pct": 16,
-   "ram_free_gb": 11.7,
-   "gpu_util_pct": 0,
-   "job": "VER-B-195055",
+   "hb_age_s": 20.1,
+   "cpu_load_pct": 9,
+   "ram_free_gb": 10.9,
+   "gpu_util_pct": null,
+   "job": "VER-C-195152",
    "last_result": {
     "job": null,
     "state": "IDLE",
@@ -54,17 +54,17 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 49.6,
-   "cpu_load_pct": 6,
-   "ram_free_gb": 3.0,
-   "gpu_util_pct": 1,
-   "job": "DOCS-_报审提交区",
+   "hb_age_s": 32.5,
+   "cpu_load_pct": 7,
+   "ram_free_gb": 3.2,
+   "gpu_util_pct": 0,
+   "job": "VER-C-195147",
    "last_result": {
-    "job": null,
-    "state": "IDLE",
-    "rc": null,
-    "ts": "2026-11-05T19:50:30",
-    "reason": "SELF-DISPATCH: lane scans its own backlog",
+    "job": "DOCS-_报审提交区",
+    "state": "FAILED",
+    "rc": 9009,
+    "ts": "2026-11-05T19:51:50",
+    "reason": null,
     "out_bytes": null,
     "elapsed_s": null
    },
@@ -75,18 +75,18 @@
   "bm-m": {
    "online": true,
    "hb_age_s": 1.1,
-   "cpu_load_pct": 42,
+   "cpu_load_pct": 35,
    "ram_free_gb": 10.8,
    "gpu_util_pct": null,
    "job": "DOCS-_已封存_盛永康旧软著",
    "last_result": {
-    "job": "VER-B-195055",
+    "job": "VER-C-195152",
     "state": "BUSY",
     "rc": null,
-    "ts": "2026-11-05T19:51:05",
+    "ts": "2026-11-05T19:52:12",
     "reason": null,
-    "out_bytes": 70,
-    "elapsed_s": 10
+    "out_bytes": 0,
+    "elapsed_s": 20
    },
    "idle_confirmed": false,
    "idle_reason": "",
@@ -94,7 +94,7 @@
   }
  },
  "idle_rounds": {
-  "bm-a": 6,
+  "bm-a": 0,
   "bm-b": 0,
   "bm-c": 0,
   "bm-m": 0
@@ -274,8 +274,9 @@
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
    "jobs": [
-    "DOCS-_报审提交区",
-    "VER-B-195055"
+    "VER-C-195147",
+    "VER-C-195152",
+    "VER-C-195157"
    ],
    "no_supply": false,
    "blockers": [],
@@ -842,19 +843,19 @@
  },
  "supply_added": [],
  "events": [
-  "DOCS-_已封存_盛永康旧软著 -> bm-m (cpu)",
-  "DOCS-_报审提交区 -> bm-c (cpu)",
-  "VER-B-195055 -> bm-b (cpu)"
+  "DOCS-_报审提交区 FAILED via bm-c",
+  "VER-C-195147 -> bm-c (cpu)",
+  "VER-C-195152 -> bm-b (cpu)",
+  "VER-C-195157 -> bm-a (cpu)"
  ],
  "violations": [
-  "bm-a IDLE-CONFIRMED x6 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED bigstream-mv 卡在 立意/分镜/导演席 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
  "lane_files_written": [
+  "bm-a",
   "bm-b",
-  "bm-c",
-  "bm-m"
+  "bm-c"
  ]
 }

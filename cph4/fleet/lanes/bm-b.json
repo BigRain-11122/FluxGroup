@@ -1,14 +1,14 @@
 {
  "node": "bm-b",
- "ts": "2026-11-05T19:51:15",
+ "ts": "2026-11-05T19:52:14",
  "jobs": [
   {
-   "id": "VER-B-195055",
-   "title": "验证·VER-B-195055",
-   "cmd": "python3 -c \"import time,json,os;os.makedirs('cph4/fleet/state/fleet-verify',exist_ok=True);[ (print('tick',i,flush=True), time.sleep(1)) for i in range(25)];json.dump({'ok':1},open('/Users/junsheng.sun/FluxGroup/cph4/fleet/state/fleet-verify/VER-B-195055.json','w'))\"",
+   "id": "VER-C-195152",
+   "title": "验证·VER-C-195152",
+   "cmd": "python3 -c \"import time;time.sleep(120)\"",
    "cwd": "/Users/junsheng.sun/FluxGroup",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/state/fleet-verify/VER-B-195055.json",
+   "deliverable": "cph4/fleet/state/fleet-verify/VER-C-195152.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 11.7/1.0 GB"
+ "capacity_note": "ram 10.9/1.0 GB"
 }
