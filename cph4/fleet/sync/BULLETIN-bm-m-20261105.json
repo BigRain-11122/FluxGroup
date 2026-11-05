@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
  "date": "20261105",
- "ts": "2026-11-05T13:15:19+0800",
+ "ts": "2026-11-05T13:57:56+0800",
  "window_h": 26,
  "produced": [
   {
    "path": "cph4/fleet/queue-receipts/skill-promote-20261105.json",
    "bytes": 2172,
-   "mtime": "2026-11-05T13:15:19",
-   "sha": "fbd3b138fa94872595a57615db4b831c5f09623c5dbc632b951ce9973fd9844b"
+   "mtime": "2026-11-05T13:57:56",
+   "sha": "61741145c7b446d8784484b4a8beba01e52d06157518cc00ba0248136f0871c7"
   },
   {
    "path": "cph4/fleet/queue-receipts/R-NEXT-BIGSTREAMM-AUDIT-20261105-bm-a.json",
@@ -583,16 +583,16 @@
  ],
  "blocked": [
   {
+   "what": "R-NEXT-BIGGAME-SUBMIT-P-20261105",
+   "why": "E-CONTRACT products=36 ready=0 not_ready=36\n  缺 图标≥256px                     35 款\n  缺 截图目录("
+  },
+  {
    "what": "_last_lane_bm-m.json",
-   "why": "rc=None "
+   "why": "rc=127 "
   },
   {
    "what": "R-NEXT-BIGSTREAMM-AUDIT-20261105",
    "why": "E-UNKNOWN "
-  },
-  {
-   "what": "Q-VCORP-PREP-e01-R3-20261105",
-   "why": "rc=127 "
   },
   {
    "what": "asset-lib-voice-corpus-bmm-2026-11-03",

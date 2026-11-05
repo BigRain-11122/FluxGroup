@@ -1,14 +1,14 @@
 {
- "ts": "2026-11-05T13:15:19+0800",
+ "ts": "2026-11-05T13:57:56+0800",
  "alert_days": 2.0,
  "lines": [
   {
    "line": "asset-lib",
    "status": "ACTIVE",
    "prio": "P0",
-   "stock": 3,
+   "stock": 10,
    "rate_per_day": 4.67,
-   "runway_days": 0.6,
+   "runway_days": 2.1,
    "has_table": true,
    "blocker": {
     "stage": "env-check",
@@ -16,27 +16,7 @@
     "needs": "cpu",
     "hard_nodes": []
    },
-   "flags": [
-    "ALERT"
-   ]
-  },
-  {
-   "line": "bigstream-mv",
-   "status": "ACTIVE",
-   "prio": "P0",
-   "stock": 1,
-   "rate_per_day": 4.67,
-   "runway_days": 0.2,
-   "has_table": true,
-   "blocker": {
-    "stage": "gate",
-    "deliverable": "cph4/fleet/queue-receipts/mv-gate-v721-20261105.json",
-    "needs": "cpu",
-    "hard_nodes": []
-   },
-   "flags": [
-    "ALERT"
-   ]
+   "flags": []
   },
   {
    "line": "bigstream-duanju",
@@ -57,16 +37,16 @@
    ]
   },
   {
-   "line": "biggame",
+   "line": "bigstream-mv",
    "status": "ACTIVE",
    "prio": "P0",
-   "stock": 1,
-   "rate_per_day": 1.67,
-   "runway_days": 0.6,
+   "stock": 0,
+   "rate_per_day": 4.67,
+   "runway_days": 0.0,
    "has_table": true,
    "blocker": {
-    "stage": "pack-scan",
-    "deliverable": "cph4/fleet/queue-receipts/game-packs-20261105.json",
+    "stage": "gate",
+    "deliverable": "cph4/fleet/queue-receipts/mv-gate-v721-20261105.json",
     "needs": "cpu",
     "hard_nodes": []
    },
@@ -104,6 +84,24 @@
    "flags": [
     "NO-TABLE",
     "INACTIVE"
+   ]
+  },
+  {
+   "line": "biggame",
+   "status": "ACTIVE",
+   "prio": "P0",
+   "stock": 0,
+   "rate_per_day": 1.67,
+   "runway_days": 0.0,
+   "has_table": true,
+   "blocker": {
+    "stage": "pack-scan",
+    "deliverable": "cph4/fleet/queue-receipts/game-packs-20261105.json",
+    "needs": "cpu",
+    "hard_nodes": []
+   },
+   "flags": [
+    "ALERT"
    ]
   },
   {
@@ -188,14 +186,13 @@
    "line": "fleet-ops",
    "status": "ACTIVE",
    "prio": "P3",
-   "stock": 4,
+   "stock": 20,
    "rate_per_day": 7.0,
-   "runway_days": 0.6,
+   "runway_days": 2.9,
    "has_table": false,
    "blocker": null,
    "flags": [
-    "NO-TABLE",
-    "ALERT"
+    "NO-TABLE"
    ]
   },
   {
@@ -241,6 +238,6 @@
    ]
   }
  ],
- "alerts": 9,
+ "alerts": 7,
  "no_table": 6
 }

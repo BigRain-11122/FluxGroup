@@ -1,14 +1,14 @@
 {
  "node": "bm-a",
- "ts": "2026-11-05T11:52:57",
+ "ts": "2026-11-05T13:46:37",
  "jobs": [
   {
-   "id": "CHK-RECEIPT-20261104",
-   "title": "回执卫生体检（rc 缺失/error_class 缺失出表）（bm-m 兜底体检）",
-   "cmd": "python3 Tools/fleet/receipt_attrib.py --out cph4/fleet/queue-receipts/receipt-attrib-20261104.json",
-   "cwd": "",
+   "id": "ART-PUSH-BMA-20261104",
+   "title": "bm-a 产物回传（artifact_push 全量）",
+   "cmd": "powershell -ExecutionPolicy Bypass -File Tools\\fleet\\artifact_push.ps1 -Root C:\\Fluxgroup\\FluxGroup -Node bm-a -MaxMB 2048",
+   "cwd": null,
    "needs": "cpu",
-   "deliverable": "cph4/fleet/receipt-attrib-20261104.json",
+   "deliverable": "cph4/fleet/artifacts/bm-a/PUSHED.jsonl",
    "need_mb": null,
    "model": "none",
    "prompt": "",
