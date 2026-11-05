@@ -1140,3 +1140,7 @@ am_free 10GB / cpu_load 48%——bm-b 在跑量化轮而非闲着；缺的是本
 ③处置：把已执行的 8 条 READY 体检项在 PRODUCTION-BACKLOG 标 DONE（挂今日 `triage-<line>-20261106.md` 指针），READY 18→10，防下轮重复派单（这正是 CEO 骂过的「各种命令重复」）。未整修线灯生成代码：它在大文件里且属主控面，盲改风险大于收益，改为登记实证供下轮与 CEO 复核。
 ④补位：模型雷达实测 `bench_ts=2026-11-04`、`stale_days=1.9`（CEO 11-03 令「每天扫描测试」），声明面那条仍 READY，落卡 `R-MODEL-RADAR-BMA-20261106`（bm-a·cpu·40min）交车道跑，不占本会话。
 ⑤仍未碰：一台机都不动（bm-b `b82c9834`、bm-c `f1bbe729` 双双分叉；bm-c `ram_free` 已掉到 1.8G，时钟 4640ms）。
+[2026-11-06 05:4x] 事件班·R13 末笔 calls~145 | verdict=雷达补位已交付，并抓到一个收口缺陷：
+①`R-MODEL-RADAR-BMA-20261106` 已跑完：回执 `cph4/fleet/queue-receipts/model-radar-bm-a-20261106.json`（verdict OK），`status` 实测 bench_ts=2026-11-06T05:38:23、stale_days=0.0（此前已积 1.9→2.0 天），attention 由 4 项收窄到 2 项（qwen3.5:2b/9b），判定 qwen3.5:4b=NEED-BENCH（现役档缺实测，先跑 bench，不换档）。CEO 11-03「每天扫描测试」今日已兑现。
+②缺陷（记一笔，供机制面修，本班不做）：**认领进程中途被杀时，活已经干完但队列行会停在 RUNNING**——本卡 05:26:11 起跑、05:38:23 出回执，可 queue_claim 进程已不在（实测无 queue_claim 存活），该行直到下一次 tick 才被置 DONE，且 rc/receipt 字段留空。若无人或没下一次 tick，就会在租约到期后**把整套 bench 重跑一遍**。同族于 R12-8（lane_agent 自派循环吞卡）。建议修法：queue_claim 在父进程消失时先写 orphaned 标记，或由 supervisor 按「deliverable 新鲜即收口」补偿。
+③本轮供给线收口：隔离 2 张永久不可执行卡（`asset-lib-face-dataset` 输入 media/asset/faces 不存在 rc=127；`Q-VCORP-PREP-e01-R3` 输入 media/asset/inbox/e01 不存在 rc=2/E-INPUT），队列只剩真能做的项；READY 声明项 18→10，8 条已执行体检挂今日 `triage-<line>-20261106.md` 指针（已入 origin）。
