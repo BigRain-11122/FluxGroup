@@ -1,29 +1,29 @@
 {
- "ts": "2026-11-05T07:56:30",
- "cycle": 56,
+ "ts": "2026-11-05T08:03:26",
+ "cycle": 57,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-05T07:56:30",
+ "master_tick_ts": "2026-11-05T08:03:26",
  "queue": {
-  "total": 408,
-  "open": 22,
+  "total": 409,
+  "open": 21,
   "running": 4,
   "done": 188,
-  "failed": 23
+  "failed": 24
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 17.1,
-   "cpu_load_pct": 11,
-   "ram_free_gb": 34.7,
-   "gpu_util_pct": 0,
-   "job": "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105",
+   "hb_age_s": 12.9,
+   "cpu_load_pct": 40,
+   "ram_free_gb": 30.9,
+   "gpu_util_pct": 2,
+   "job": "Q-VCORP-PREP-e01-R3-20261105",
    "last_result": {
-    "job": "asset-lib-face-dataset-2026-11-05",
+    "job": "bigstream-mv-gate-2026-11-05",
     "state": "FAILED",
-    "rc": null,
-    "ts": "2026-11-05T07:50:05",
+    "rc": 1,
+    "ts": "2026-11-05T08:00:12",
     "reason": null
    },
    "idle_confirmed": false,
@@ -32,28 +32,34 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 8.7,
-   "cpu_load_pct": 9,
-   "ram_free_gb": 12.2,
-   "gpu_util_pct": 0,
-   "job": "bigstream-mv-gate-2026-11-05",
-   "last_result": null,
+   "hb_age_s": 34.2,
+   "cpu_load_pct": 3,
+   "ram_free_gb": 11.7,
+   "gpu_util_pct": null,
+   "job": "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105",
+   "last_result": {
+    "job": "asset-lib-face-dataset-2026-11-05",
+    "state": "FAILED",
+    "rc": null,
+    "ts": "2026-11-05T08:00:08",
+    "reason": null
+   },
    "idle_confirmed": false,
    "idle_reason": "",
    "idle_rounds": 0
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 87.3,
-   "cpu_load_pct": 12,
-   "ram_free_gb": 3.3,
+   "hb_age_s": 33.9,
+   "cpu_load_pct": 7,
+   "ram_free_gb": 3.4,
    "gpu_util_pct": 0,
-   "job": "asset-lib-asset-gen-2026-11-05",
+   "job": "asset-lib-char-gen-2026-11-05",
    "last_result": {
-    "job": "asset-lib-char-gen-2026-11-05",
+    "job": "asset-lib-asset-gen-2026-11-05",
     "state": "FAILED",
-    "rc": 0,
-    "ts": "2026-11-05T07:53:23",
+    "rc": 1,
+    "ts": "2026-11-05T08:01:13",
     "reason": null
    },
    "idle_confirmed": false,
@@ -63,15 +69,15 @@
   "bm-m": {
    "online": true,
    "hb_age_s": 0.8,
-   "cpu_load_pct": 16,
-   "ram_free_gb": 14.9,
+   "cpu_load_pct": 17,
+   "ram_free_gb": 13.2,
    "gpu_util_pct": null,
    "job": "CHK-DUPES-20261103",
    "last_result": {
-    "job": "CHK-DUPES-20261103",
-    "state": "BUSY",
-    "rc": null,
-    "ts": "2026-11-05T07:52:47",
+    "job": "CANARY-20261105T080124",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-05T08:01:25",
     "reason": null
    },
    "idle_confirmed": false,
@@ -93,10 +99,8 @@
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
-   "jobs": [
-    "bigstream-mv-gate-2026-11-05"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": null,
    "stuck_stage": "mv-kf",
@@ -305,12 +309,10 @@
    "jobs": [
     "Q-VCORP-PREP-e01-R3-20261105",
     "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105",
-    "asset-lib-asset-gen-2026-11-05"
+    "asset-lib-char-gen-2026-11-05"
    ],
    "no_supply": false,
-   "blockers": [
-    "Q-VCORP-PREP-e01-R3-20261105:no-lane"
-   ],
+   "blockers": [],
    "note": "CEO 2026-11-03：先储备资产，角色 LoRA 与音色库为 P0"
   }
  },
@@ -847,7 +849,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 22,
+  "local": 21,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -855,16 +857,19 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 22,
+  "cpu": 21,
   "gpu": 0
  },
  "supply_added": [
   "backlog_manifest+2"
  ],
  "events": [
-  "asset-lib-face-dataset-2026-11-05 FAILED via bm-a",
-  "asset-lib-char-gen-2026-11-05 FAILED via bm-c",
-  "bigstream-mv-gate-2026-11-05 -> bm-b (cpu)"
+  "bigstream-mv-gate-2026-11-05 FAILED via bm-a",
+  "asset-lib-face-dataset-2026-11-05 FAILED via bm-b",
+  "asset-lib-asset-gen-2026-11-05 FAILED via bm-c",
+  "asset-lib-char-gen-2026-11-05 -> bm-c (gpu)",
+  "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105 -> bm-b (gpu)",
+  "Q-VCORP-PREP-e01-R3-20261105 -> bm-a (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
@@ -872,6 +877,8 @@
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-b"
+  "bm-a",
+  "bm-b",
+  "bm-c"
  ]
 }

@@ -1,23 +1,25 @@
 {
  "node": "bm-b",
- "ts": "2026-11-05T07:56:30",
+ "ts": "2026-11-05T08:03:26",
  "jobs": [
   {
-   "id": "bigstream-mv-gate-2026-11-05",
-   "title": "[MV·爱在西元前（v721 终版）] 交付闸（重复/静止/抖动/闪烁）",
-   "cmd": "python Tools/mv_delivery_gate.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721_60fps_1080p.mp4 --card 38.79:40.21 --card 219.71:223.88",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/mv-gate-v721-2026-11-05.json",
+   "id": "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105",
+   "title": "音色微调试点·libritts-e01（语料→SoVITS s2→权重，DE-AI-SPEC A8 批前抽检）",
+   "cmd": "python C:/Fluxgroup/FleetAgent/Tools/voicebank/vb_train_card.py --voice libritts-e01 --raw C:/Fluxgroup/FluxGroup/media/asset/inbox/e01 --receipt C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-train-libritts-e01-r3-20261105.json",
+   "cwd": "C:/Fluxgroup/FleetAgent",
+   "needs": "gpu",
+   "deliverable": "C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-train-libritts-e01-r3-20261105.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
-   "when_all": [],
+   "when_all": [
+    "C:/Fluxgroup/FluxGroup/media/asset/voices/e01/sliced"
+   ],
    "llm": null,
-   "timeout_s": null
+   "timeout_s": 14400
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 12.2/1.0 GB"
+ "capacity_note": "ram 11.7/1.0 GB"
 }
