@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-05T09:38:51+0800",
+ "ts": "2026-11-05T09:59:25+0800",
  "alert_days": 2.0,
  "lines": [
   {
@@ -158,13 +158,14 @@
    "line": "biglife",
    "status": "ACTIVE",
    "prio": "P2",
-   "stock": 2,
+   "stock": 1,
    "rate_per_day": 0.67,
-   "runway_days": 3.0,
+   "runway_days": 1.5,
    "has_table": false,
    "blocker": null,
    "flags": [
-    "NO-TABLE"
+    "NO-TABLE",
+    "ALERT"
    ]
   },
   {
@@ -237,6 +238,6 @@
    ]
   }
  ],
- "alerts": 5,
+ "alerts": 6,
  "no_table": 6
 }
