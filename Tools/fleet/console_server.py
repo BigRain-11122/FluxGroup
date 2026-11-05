@@ -66,6 +66,19 @@ def page():
         mo.get("level", "-"), _m.get("free_gb", "-"), _m.get("gpu_pct", "-"),
         _m.get("swap_mb", "-"), round(float(_m.get("load1") or 0), 2),
         ", ".join("%s×%s" % (d.get("task"), d.get("n")) for d in (mo.get("did") or [])) or "-")
+    # 24h 运转闭环：独立探针的账本（soak_watch.py），不是我自己写的 verdict
+    sk = _json(os.path.join(F, "state", "soak-summary.json"), {}) or {}
+    _last = sk.get("last") or {}
+    _red = "".join("<li>%s：%s</li>" % (k, (_last.get("detail") or {}).get(k, "-"))
+                   for k in (_last.get("red") or []))
+    soak_html = ("<div class='box %s'><h2>24h 运转：%s（绿 %.1f%%，采样 %d）</h2>"
+                 "<p class='small'>判据：独立探针 8 项（进程/端口/HTTP/产物/配置指纹/磁盘）。"
+                 "窗口 %.0fh，够不够判 24h=%s</p>%s</div>") % (
+        "red" if _last.get("verdict") != "GREEN" else "",
+        _last.get("verdict", "未跑"), float(sk.get("green_pct") or 0), int(sk.get("samples") or 0),
+        float(sk.get("window_hours") or 24),
+        "是" if sk.get("claimable_24h") else "否",
+        ("<ul>%s</ul>" % _red) if _red else "")
     seats = []
     _ag = os.path.join(F, "state", "agents")
     for sid in ("S1", "S2", "S3", "S4", "S5", "S6", "S7"):
@@ -160,12 +173,13 @@ iframe{width:100%%;height:720px;border:1px solid #262b36;border-radius:8px;backg
 %s
 %s
 <div class="box"><h2>主控一屏</h2>%s</div>
+%s
 <div class="box"><h2>分层决策（只有 ≤3 条需要你）</h2>%s</div>
 <div class="box"><h2>机队实况</h2><table><tr><th>机器</th><th>状态</th><th>在跑</th><th>无回执</th><th>旗标</th></tr>%s</table></div>
 <div class="box"><h2>旧看板</h2><iframe src="/fleet-console.html"></iframe></div>
 <p class="small">数据源：MASTER-SCREEN.md / DECISIONS.md / state/*.json。只读、只绑 localhost。</p>
 </body></html>""" % (time.strftime("%H:%M:%S"), orders_html, unlock_html, duty_html, mac_html, seat_html, agent_html, md2html(screen),
-                      md2html(decisions), "".join(nodes))
+                      soak_html, md2html(decisions), "".join(nodes))
 
 
 class H(BaseHTTPRequestHandler):

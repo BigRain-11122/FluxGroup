@@ -43,3 +43,43 @@
 1. 判重阈值：短中文标题（「配音质检」vs「配音质检复跑」）相似度仅 0.61，低于 0.80 闸 → 会漏判。改闸须先按 gate-rigor 标定正负样例。
 2. 机队仍可直连 11434 绕过网关（第 10 项）——需先证明 24h 无绕过再绑本地回环。
 3. 主控目前只有判重与摘要真正用到本机模型；「裁决辅助/根因归类」仍是纯规则。要不要上模型，须先证明比规则更准。
+## 五、判定闭环（2026-11-05 追加，回应 CEO「你是怎么判断正确的？要闭环」）
+
+### 5.1 我上一轮的"正确"是怎么来的，以及它的问题
+- 来源：我自己写的 chain_test / rehearsal 读我自己写进 state 的 verdict。
+- 问题：**度量自指**。它能证明代码跑通，不能证明系统在运转；今天发现的两处真缺陷
+  （嵌入档从未安装、MAX_LOADED_MODELS=1 导致嵌入永久挂死）都是自测完全没看见的。
+
+### 5.2 现在的取证件（独立探针，不采信任何自制 verdict）
+`Tools/fleet/soak_watch.py`，8 项黑盒，每 5 分钟一次（launchd `com.fluxgroup.soak`，不弹窗）：
+
+| 项 | 取证方式 | 红了说明什么 |
+|---|---|---|
+| P1 | 进程存在 + MASTER-STATE tick 龄 <300s | 主控脉停了或在空转 |
+| P2 | 网关 /healthz 200 且可用内存 ≥7GB | 机队借模型的门坏了/内存让给办公了 |
+| P3 | **真打一次 1-token 生成 + 一次嵌入** | 模型装没装不重要，**能不能用**才重要 |
+| P4 | 控制台 8787 HTTP 200 | CEO 面看不到 |
+| P5 | 队列里最近 DONE 的关闭时间 ≤12h | 只有心跳没有产出 |
+| P6 | 磁盘 ≥15GB；swap 三连涨且 >1GB | 硬扛 swap 跑生产 |
+| P7 | 5 个关键配置的 sha256 与基线比对 | 今天一天被冲 4 次的漂移 |
+| P8 | 最近演练 PASS 且 ≤26h | 回归停了 |
+
+### 5.3 探针自身的负向验证（证明它不是摆设）
+- `--negative` 故意把 P2/P5 注入为红 → 必须整轮判 RED，实测 PASS。
+- 真实注入：`launchctl unload` 网关 → 探针报 P2 RED → 自愈 `load+kickstart` → 下一轮
+  GREEN 且 streak 归零。**自愈逻辑本身也修过一次**：只 kickstart 叫不回已 unload 的作业，
+  第一版自愈是假的，被这次实测抓出来。
+
+### 5.4 24 小时怎么才算过
+- 窗口在 `state/soak.jsonl`，摘要 `state/soak-summary.json`，重起窗口必须带理由
+  （`--reset-window --reason "..."`，旧账本归档、不删除）。
+- 判据：采样 ≥48 次 且 绿 ≥99% 且 无任何红项 → `claimable_24h=true`。
+- **当前不能说 24 小时没问题**：窗口 2026-11-05 17:15 起算，已观察不足 1 小时。
+  24h 后按 `soak_watch.py --report` 的数字说话。
+
+### 5.5 回滚（一条命令，可逆）
+- 代码：`git revert --no-edit db619ac5f`（本机优先级）与 `git revert --no-edit <本次提交>`。
+- Ollama：`OLLAMA_MAX_LOADED_MODELS` 改回 `1` 后 `launchctl unload/load com.fluxgroup.ollama`。
+- 网关：`GATEWAY_MAX_CONC` 改回 `3`，或 `launchctl unload com.fluxgroup.gateway`（机队回直连）。
+- 探针：`launchctl unload ~/Library/LaunchAgents/com.fluxgroup.soak.plist`。
+- 回滚后必须重跑 `soak_watch.py --baseline`，否则 P7 会报配置漂移（这是设计如此）。
