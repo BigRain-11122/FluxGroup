@@ -134,3 +134,5 @@
 > 本批（第 48 批·2026-11-06 06:0x 委员会决策轮）**4 行成立**：executed 2（D-01 分卷/D-03 白名单）／dispatched 1（D-02）／no-op 1（D-04）／ceo-pending 0／escalated 0／overruled 复扫 **0**／T1-v2 **0**。**外部调研 0 次**：四项全部由仓内实读闭合（git rev-list/字节/任务态/Actions 实参/白名单 JSON），业界先例无增益，按 token-economy §十不烧云端。
 
 > 本班两处判据修正：①**「能追平」≠「该追平」**——D-20261105-22 把分叉当操作事故，本班实测日增 +143/+58 证明它是 artifact 提交频率与主干前进的结构性冲突；再多的 cherry-pick 批次也跑不赢 5 分钟一条产物提交。②**「Disabled 就是坏」≠ 成立**——LaneTaskGuard 停用 3 天被连班当故障，实读其 Action 才知道它是「拉回 Bigmoney 三件」的保活器，在 S4U 重注册窗口内停用才是正确态；未读 Action 就点名＝误判源。
+
+> [PUBLISH-OK] 2026-11-06 06:3x 侧分支无损发布实锤：`git push origin HEAD:main` 被拒（behind 283，与 D-20261105-22 同因）；按 D-02(a) 改推 `refs/heads/bm-a/pending-20261106` **rc=0 成功**（new branch），本轮四件产出（decisions／decisions-archive-2026-11／task-expected-disabled／reflection-journal）已在远端可见。主干收口仍归 @HQ 机制席（夜轮承接·死线 11-06 18:00 不变）。
