@@ -327,14 +327,15 @@
   "title": "MV 41 曲锚点线·词级锚全量排水（剩余 27 首·CPU 夜窗·words 14→41/41）",
   "lane": "bm-b",
   "priority": "P1",
-  "status": "open",
+  "status": "done",
   "created_by": "CEO-PROXY event 2026-11-06 03:40（承 STARVED-EXEC 三车道零可执行卡·供给修复）",
   "spec": "执行体=cph4/fleet/PRODUCTION-QUEUE.jsonl 的 Q-MV-ANCHOR-WORDS-DRAIN-20261106；链=whisper_album.py（27 首词锚）→ lyric_calibration.py（有官方词面的自动校准）→ anchor_shotgrid.py --matrix（矩阵重建）。",
   "card": "[调度卡 POOL-0025]\n①@机名+lane：@bm-b（cpu-sound）·纯 CPU·不占 GPU/VRAM\n②回执窗：10h（27 首 small 模型逐首转写）\n③验收物+证据指针：anchors/<曲>.json + .txt 新增≥1（whisper 覆盖 41/41）+ POOL-0018-0019-anchor-matrix.json 已重建且 ready 不低于 14/41 + 队列回执 receipt\n④spec 指针：whisper_album.py / lyric_calibration.py / anchor_shotgrid.py 三件\n⑤依赖：无（音源 42/42 已在盘）·比 POOL-0018 晚于其收口，不冲突\n⑥卡 ID：POOL-0025",
   "depends_on": [],
   "blocked_by": [],
-  "result_ref": "",
-  "claimed_by": "",
-  "job_ref": "Q-MV-ANCHOR-WORDS-DRAIN-20261106"
+  "result_ref": "DONE 2026-11-06 05:0x on bm-a: album anchor line 14/41 -> 41/41. words 41 (whisper small, GPU ~2min/track under LoRA contention), beats 41, calibrated 41, shotgrid 41, matrix ready=41/41, gaps=[]. Receipt cph4/fleet/queue-receipts/Q-MV-ANCHOR-ALBUM-41of41-bm-a.json. Note: 163 search only returned covers for several tracks, so QQ Music became the second official-lyric source with self-verifying [ti:]/[ar:] tags.",
+  "claimed_by": "bm-a (event round R13; bm-b unreachable per R13-3)",
+  "job_ref": "Q-MV-ANCHOR-WORDS-DRAIN-20261106",
+  "claimed_at": "2026-11-06T04:22:04"
  }
 ]

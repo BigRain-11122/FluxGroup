@@ -33,6 +33,12 @@ def main(argv):
     for f in sorted(os.listdir(SRC)):
         if not f.endswith(".mp3"):
             continue
+        # Only album tracks are named "<artist> - <song>". The folder also holds
+        # mv001_source_320k.mp3, a whole-album master; transcribing it produced a
+        # 496-word junk anchor under the name mv001_source_320k (caught 2026-11-06
+        # smoke). Explicit --songs still wins so a rename never hides real work.
+        if not f.startswith("周杰伦 - ") and f[:-4] not in a.songs:
+            continue
         sid = f.replace("周杰伦 - ", "").replace(".mp3", "")
         if a.songs and sid not in a.songs:
             continue
@@ -69,9 +75,13 @@ def main(argv):
         done += 1
         print("DONE %s words=%d lines=%d last=%.2f" % (sid, len(words), len(lines), lines[-1]["t1"]),
               flush=True)
-    print("ALBUM ANCHORS DONE built=%d remaining_pending=%d"
-          % (done, max(0, len([1 for f in os.listdir(SRC) if f.endswith('.mp3')]) - len(
-              [1 for f in os.listdir(OUT) if f.endswith('.json')]))), flush=True)
+    # Readiness is deliberately NOT reported as a ratio here: five first-batch anchors
+# were named by hand (jiandanan / kaibuliaokou / 安静-words / 晴天-words / ...), so a
+# "<song>.json exists" count under-reports (measured 11/41 while 15 songs really had
+# words). The authoritative number is anchor_shotgrid.py --matrix, which checks all
+# four artifacts per song.
+    print("ALBUM ANCHORS DONE built=%d (authoritative readiness: anchor_shotgrid.py --matrix)"
+          % done, flush=True)
     # exit 0 only when this run actually produced something (a silent no-op must not
     # look like success to the queue).
     return 0 if done else 2

@@ -215,22 +215,36 @@ def selftest():
 
 
 def matrix():
-    """POOL-0018/0019 就绪矩阵：words/beats/calibrated/shotgrid 四件在位性（幂等，无墙钟）。"""
+    """POOL-0018/0019 就绪矩阵：words/beats/calibrated/shotgrid 四件在位性（幂等，无墙钟）。
+
+    2026-11-06 (event round): the words leg had two naming conventions - the first batch
+    was hand-renamed to <曲>-words.json, while whisper_album.py writes <曲>.json - and
+    this matrix only looked for the first, so it reported ready=14/41 while 39 songs
+    actually had all four artifacts. A readiness gate that undercounts is worse than no
+    gate: it hides finished work and keeps a lane "starved". Both names now count, and
+    the row records which one satisfied it.
+    """
     rows = []
     for s in SONGS:
         r = {"song": s}
-        for kind, suffix in (("words", "-words.json"), ("beats", "-beats.json"),
+        words_p = os.path.join(ANC, s + "-words.json")
+        if not os.path.exists(words_p):
+            words_p = os.path.join(ANC, s + ".json")
+            r["words_file"] = os.path.basename(words_p)
+        for kind, suffix in (("beats", "-beats.json"),
                              ("calibrated", "-calibrated.json"), ("shotgrid", "-shotgrid.json")):
             p = os.path.join(ANC, s + suffix)
             r[kind] = os.path.getsize(p) if os.path.exists(p) else 0
+        r["words"] = os.path.getsize(words_p) if os.path.exists(words_p) else 0
         r["ready"] = all(r[k] > 0 for k in ("words", "beats", "calibrated", "shotgrid"))
         rows.append(r)
-    doc = {"stage": "POOL-0018(words)+POOL-0019(beats) first-batch-7 readiness",
+    doc = {"stage": "POOL-0018(words)+POOL-0019(beats) album readability",
            "version": VERSION,
-           "machine": "bm-b", "rows": rows,
+           "machine": "bm-a", "rows": rows,
            "ready_count": sum(1 for r in rows if r["ready"]),
            "total": len(rows),
-           "note": "audio supply = 7/7 staged; remaining 34 album tracks have no source audio on this node"}
+           "note": "words accepts <曲>.json (whisper_album.py) or <曲>-words.json (hand-named first batch); "
+                   "audio supply = 41/41 staged on bm-a"}
     out = os.path.join(BASE, "POOL-0018-0019-anchor-matrix.json")
     with open(out, "w", encoding="utf-8") as f:
         json.dump(doc, f, ensure_ascii=False, indent=1)
