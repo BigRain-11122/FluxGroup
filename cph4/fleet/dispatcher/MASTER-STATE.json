@@ -1,29 +1,29 @@
 {
- "ts": "2026-11-05T09:34:02",
- "cycle": 41,
+ "ts": "2026-11-05T09:40:03",
+ "cycle": 42,
  "master_node": "bm-m",
  "masquerade_by": "bm-a",
  "master_tick_ts": "2026-11-05T03:03:23",
  "queue": {
   "total": 496,
-  "open": 15,
+  "open": 14,
   "running": 4,
   "done": 187,
-  "failed": 38
+  "failed": 39
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 48.8,
-   "cpu_load_pct": 48,
-   "ram_free_gb": 27.2,
-   "gpu_util_pct": 2,
-   "job": "bigstream-mv-gate-2026-11-05",
+   "hb_age_s": 28.5,
+   "cpu_load_pct": 23,
+   "ram_free_gb": 34.0,
+   "gpu_util_pct": 1,
+   "job": "CHK-DUPES-20261103",
    "last_result": {
     "job": "bigstream-mv-gate-2026-11-05",
-    "state": "BUSY",
+    "state": "RUNNING",
     "rc": null,
-    "ts": "2026-11-05T09:33:50",
+    "ts": "2026-11-05T09:39:37",
     "reason": null
    },
    "idle_confirmed": false,
@@ -32,34 +32,28 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 10.3,
-   "cpu_load_pct": 9,
-   "ram_free_gb": 11.4,
-   "gpu_util_pct": null,
-   "job": "CANARY-20261104T201032",
-   "last_result": {
-    "job": "Q-VCORP-PREP-e01-R3-20261105",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-05T09:25:28",
-    "reason": null
-   },
+   "hb_age_s": 7.1,
+   "cpu_load_pct": 22,
+   "ram_free_gb": 9.8,
+   "gpu_util_pct": 0,
+   "job": "asset-lib-face-dataset-2026-11-05",
+   "last_result": null,
    "idle_confirmed": false,
    "idle_reason": "",
    "idle_rounds": 0
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 75.6,
-   "cpu_load_pct": 9,
-   "ram_free_gb": 2.7,
-   "gpu_util_pct": 4,
+   "hb_age_s": 63.1,
+   "cpu_load_pct": 7,
+   "ram_free_gb": 2.5,
+   "gpu_util_pct": 0,
    "job": "asset-lib-asset-gen-2026-11-05",
    "last_result": {
     "job": "asset-lib-char-gen-2026-11-05",
     "state": "FAILED",
     "rc": 0,
-    "ts": "2026-11-05T09:33:08",
+    "ts": "2026-11-05T09:39:21",
     "reason": null
    },
    "idle_confirmed": false,
@@ -68,16 +62,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 83.1,
-   "cpu_load_pct": 17,
-   "ram_free_gb": 13.8,
+   "hb_age_s": 70.4,
+   "cpu_load_pct": 20,
+   "ram_free_gb": 12.2,
    "gpu_util_pct": null,
    "job": "CANARY-20261104T202057",
    "last_result": {
     "job": "CHK-DUPES-20261103",
-    "state": "BUSY",
+    "state": "RUNNING",
     "rc": null,
-    "ts": "2026-11-05T09:33:25",
+    "ts": "2026-11-05T09:39:57",
     "reason": null
    },
    "idle_confirmed": false,
@@ -103,7 +97,9 @@
     "bigstream-mv-gate-2026-11-05"
    ],
    "no_supply": false,
-   "blockers": [],
+   "blockers": [
+    "bigstream-mv-gate-2026-11-05:no-lane"
+   ],
    "note": null,
    "stuck_stage": "mv-plan",
    "stuck_owner": "导演席"
@@ -156,7 +152,7 @@
    "name": "Biggame·游戏",
    "status": "ACTIVE",
    "verdict": "WAITING",
-   "age_h": 0.4,
+   "age_h": 0.5,
    "stale_after_h": 24.0,
    "owner": "游戏席",
    "jobs": [],
@@ -168,7 +164,7 @@
    "name": "FluxVerse·元宙城",
    "status": "ACTIVE",
    "verdict": "STALLED-STAGE",
-   "age_h": 0.2,
+   "age_h": 0.0,
    "stale_after_h": 36.0,
    "owner": "城市线",
    "jobs": [
@@ -186,7 +182,7 @@
    "name": "BigMoney·量化",
    "status": "PAUSED",
    "verdict": "WORKING",
-   "age_h": 9.6,
+   "age_h": 9.7,
    "stale_after_h": 24.0,
    "owner": "量化席",
    "jobs": [
@@ -202,7 +198,7 @@
    "name": "BigDomain·硅基域商业化",
    "status": "ACTIVE",
    "verdict": "WAITING",
-   "age_h": 0.1,
+   "age_h": 0.2,
    "stale_after_h": 36.0,
    "owner": "域运营席",
    "jobs": [],
@@ -214,7 +210,7 @@
    "name": "BigCompute·硅基算力",
    "status": "ACTIVE",
    "verdict": "WAITING",
-   "age_h": 2.5,
+   "age_h": 2.6,
    "stale_after_h": 36.0,
    "owner": "算力中枢席",
    "jobs": [],
@@ -226,7 +222,7 @@
    "name": "BigLife·数字生命",
    "status": "ACTIVE",
    "verdict": "WORKING",
-   "age_h": 196.5,
+   "age_h": 196.6,
    "stale_after_h": 48.0,
    "owner": "生命生产席",
    "jobs": [
@@ -242,7 +238,7 @@
    "name": "BigHouse·城市安家",
    "status": "PARKED",
    "verdict": "PARKED",
-   "age_h": 434.2,
+   "age_h": 434.3,
    "stale_after_h": 72.0,
    "owner": "生态运营席",
    "jobs": [],
@@ -289,13 +285,10 @@
    "owner": "中枢（机器判）",
    "jobs": [
     "CHK-DUPES-20261103",
-    "CANARY-20261104T201032",
     "CANARY-20261104T202057"
    ],
    "no_supply": false,
-   "blockers": [
-    "CHK-DUPES-20261103:no-lane"
-   ],
+   "blockers": [],
    "note": null
   },
   "asset-lib": {
@@ -310,9 +303,7 @@
     "asset-lib-asset-gen-2026-11-05"
    ],
    "no_supply": false,
-   "blockers": [
-    "asset-lib-face-dataset-2026-11-05:no-lane"
-   ],
+   "blockers": [],
    "note": "CEO 2026-11-03：先储备资产，角色 LoRA 与音色库为 P0"
   }
  },
@@ -851,7 +842,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 15,
+  "local": 14,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -859,20 +850,20 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 15,
+  "cpu": 14,
   "gpu": 0
  },
- "supply_added": [],
- "events": [
-  "CHK-DUPES-20261103 REQUeued attempt=2",
-  "asset-lib-asset-gen-2026-11-05 -> bm-c (gpu)"
+ "supply_added": [
+  "backlog_manifest+1"
  ],
+ "events": [],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 立意/分镜/导演席 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED fluxverse 卡在 场景装配/地编席 (城市线)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-c"
+  "bm-a",
+  "bm-b"
  ]
 }
