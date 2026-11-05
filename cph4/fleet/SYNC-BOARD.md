@@ -1,4 +1,4 @@
-# 机队互报（2026-11-05T19:32:48+0800）
+# 机队互报（2026-11-05T19:43:56+0800）
 
 上报 1 / 名册 5 台；本机看不到的他人产物 0 件（传输通道度量，不是错误）
 
@@ -11,8 +11,8 @@
 - bm-m：最近一份 0.0h 前
 
 ## bm-m（20261105，窗口 26h）
-- 产出 50 件
-  - `cph4/fleet/queue-receipts/skill-promote-20261105.json`（2KB, bc262507b0…）
+- 产出 46 件
+  - `cph4/fleet/queue-receipts/skill-promote-20261105.json`（2KB, f72ca748bf…）
   - `cph4/fleet/queue-receipts/asset-env-2026-11-05.json`（1KB, f3cd3ff21f…）
   - `cph4/fleet/queue-receipts/R-NEXT-BIGSTREAMM-AUDIT-20261105-bm-a.json`（2KB, 51531b1591…）
   - `cph4/fleet/queue-receipts/inference-audit-bm-m-20261105.json`（1KB, 2173edc7bc…）

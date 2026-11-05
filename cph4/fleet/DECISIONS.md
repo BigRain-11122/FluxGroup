@@ -1,6 +1,6 @@
-# 分层决策台账 2026-11-05T19:32:48
+# 分层决策台账 2026-11-05T19:43:57
 
-分布：L0=0, L1=4, L2=10, L3=0, CEO=3
+分布：L0=0, L1=4, L2=11, L3=0, CEO=3
 
 ## 需要你（其余各层自决，不占你带宽）
 
@@ -22,6 +22,7 @@
 | 子公司层 | bigstream-mv 的下一步产物 | 11-06T19:21 | business-map-next |
 | 子公司层 | asset-lib 的下一步产物 | 11-06T19:21 | business-map-next |
 | 子公司层 | bigmoney 的下一步产物 | 11-06T19:21 | business-map-next |
+| 子公司层 | 闸红 I13 × 1（FAIL） | 11-06T19:38 | business-map-next |
 | 线内/部门层 | 停线卡 ART-PUSH-BMA-20261104 需根因 | 11-06T18:53 | last-passing-standard |
 | 线内/部门层 | 停线卡 asset-lib-voice-assemble-2026-11-05 需根因 | 11-06T18:53 | last-passing-standard |
 | 线内/部门层 | 停线卡 B-MV-AUDIT-20261105 需根因 | 11-06T18:53 | last-passing-standard |

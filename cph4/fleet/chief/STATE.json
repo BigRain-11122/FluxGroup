@@ -1,21 +1,21 @@
 {
- "ts": "2026-11-05T19:32:48",
+ "ts": "2026-11-05T19:43:57",
  "stage": 3,
  "adoption": {
   "days": 4,
-  "applied": 1044,
-  "total": 799,
+  "applied": 1048,
+  "total": 802,
   "rate": 130.7,
   "eligible_stage4": false
  },
  "decisions": [
   {
-   "kind": "requeue",
-   "why": "1 张卡在跑但 1 小时无回执",
+   "kind": "flag",
+   "why": "1 台机空转且有活",
    "target": [
-    "DEDUPE-BMC-20261105"
+    "bm-a"
    ],
-   "min_stage": 3,
+   "min_stage": 1,
    "result": "applied"
   },
   {
@@ -29,13 +29,6 @@
    "result": "applied"
   }
  ],
- "applied": [
-  {
-   "kind": "requeue",
-   "ids": [
-    "DEDUPE-BMC-20261105"
-   ]
-  }
- ],
+ "applied": [],
  "brief": "/Users/junsheng.sun/FluxGroup/cph4/fleet/chief/BRIEF-20261105.md"
 }

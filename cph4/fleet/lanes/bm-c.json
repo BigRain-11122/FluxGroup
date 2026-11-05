@@ -1,14 +1,14 @@
 {
  "node": "bm-c",
- "ts": "2026-11-05T19:37:06",
+ "ts": "2026-11-05T19:44:09",
  "jobs": [
   {
-   "id": "DEDUPE-BMC-20261105",
-   "title": null,
-   "cmd": null,
-   "cwd": null,
-   "needs": null,
-   "deliverable": null,
+   "id": "DOCS-_报审提交区",
+   "title": "隐私政策 _报审提交区",
+   "cmd": "python3 Tools/fleet/submit_docs.py --only _报审提交区",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "软著申请材料/_报审提交区/privacy-policy.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 2.4/1.0 GB"
+ "capacity_note": "ram 2.8/1.0 GB"
 }

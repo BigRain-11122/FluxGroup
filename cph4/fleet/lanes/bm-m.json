@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
- "ts": "2026-11-05T19:37:06",
+ "ts": "2026-11-05T19:44:09",
  "jobs": [
   {
-   "id": "VER-B-193646",
-   "title": "验证·VER-B-193646",
-   "cmd": "python3 -c \"import time,json,os;os.makedirs('cph4/fleet/state/fleet-verify',exist_ok=True);[ (print('tick',i,flush=True), time.sleep(1)) for i in range(25)];json.dump({'ok':1},open('/Users/junsheng.sun/FluxGroup/cph4/fleet/state/fleet-verify/VER-B-193646.json','w'))\"",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "id": "DOCS-_已封存_盛永康旧软著",
+   "title": "隐私政策 _已封存_盛永康旧软著",
+   "cmd": "python3 Tools/fleet/submit_docs.py --only _已封存_盛永康旧软著",
+   "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/state/fleet-verify/VER-B-193646.json",
+   "deliverable": "软著申请材料/_已封存_盛永康旧软著/privacy-policy.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 14.8/1.0 GB"
+ "capacity_note": "ram 13.0/1.0 GB"
 }
