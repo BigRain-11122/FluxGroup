@@ -343,6 +343,7 @@ def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
             try:
                 r = subprocess.run(cmd, shell=True, cwd=_gate_cwd or job.get("cwd") or root,
                                    capture_output=True, text=True, errors="replace",
+                                   encoding="utf-8",
                                    timeout=max_seconds, creationflags=CREATE_NO_WINDOW)
                 _box.update(rc=r.returncode, out=r.stdout, err=r.stderr)
             except subprocess.TimeoutExpired as e:
