@@ -1,14 +1,14 @@
 {
  "node": "bm-a",
- "ts": "2026-11-05T10:00:03",
+ "ts": "2026-11-05T10:10:02",
  "jobs": [
   {
-   "id": "R-PLAN-BIGMONEY-20261105",
-   "title": "BigMoney路閲忓寲 绾跨骇浣撴��涓庣己鍙ｆ竻鍗�",
-   "cmd": "python Tools/fleet/line_triage.py --line bigmoney",
+   "id": "R-PLAN-FLUXVERSE-20261105",
+   "title": "FluxVerse路鍏冨畽鍩� 绾跨骇浣撴��涓庣己鍙ｆ竻鍗�",
+   "cmd": "python Tools/fleet/line_triage.py --line fluxverse",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigmoney-20261105.md",
+   "deliverable": "cph4/fleet/queue-receipts/triage-fluxverse-20261105.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
