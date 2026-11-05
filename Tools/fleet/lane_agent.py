@@ -442,6 +442,23 @@ def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
             "ok": ok, "error_class": err_cls}
 
 
+def _need_work_flag(root, node, on, why=""):
+    """2026-11-04 CEO 令「机队没活就赶紧找主控要」；2026-11-06 重建（昨夜重写冲掉后由
+    loop_liveness.py 抓回归再落）。没活挂显式 NEED-WORK 状态件（走 state 面·全队 git
+    可见=可审计的「要活」），主控据此优先派单；接活即撤。写失败不致命。"""
+    try:
+        p = os.path.join(root, "cph4", "fleet", "state", "need-work", node + ".json")
+        if on:
+            os.makedirs(os.path.dirname(p), exist_ok=True)
+            with open(p, "w", encoding="utf-8") as f:
+                json.dump({"node": node, "ts": fl.now_iso(), "why": why},
+                          f, ensure_ascii=False, indent=1)
+        elif os.path.exists(p):
+            os.remove(p)
+    except Exception:
+        pass
+
+
 def self_dispatch(root, node, allow_gpu_workhours, max_seconds, hub, port, dry, only=None):
     """When the master has nothing for me, look at my own disks for ready work.
 
@@ -572,7 +589,13 @@ def self_dispatch(root, node, allow_gpu_workhours, max_seconds, hub, port, dry, 
         if pick:
             break
     if not pick:
+        # 2026-11-04 CEO 令「机队没活就赶紧找主控要」+2026-11-06 重建（昨夜 self_dispatch
+        # 重写把本机制整段冲掉——宣布过的机制无人验证存活=口嗨实锚）：没活挂 NEED-WORK
+        # 状态件（走 state 面·全队可见），接活即撤；loop_liveness.py 持续验证本机制在库。
+        _need_work_flag(root, node, True,
+                        "no master dispatch and no eligible backlog row on this box")
         return None
+    _need_work_flag(root, node, False)
     if dry:
         print("LANE-DRY %s self-dispatch would run %s" % (node, pick.get("id")))
         return None
@@ -624,6 +647,7 @@ def run_lane_cycle(node, root=None, dry=False, allow_gpu_workhours=False,
         return True
 
     job = jobs[0]
+    _need_work_flag(root, node, False)   # 主控派到了单：撤「要活」标（2026-11-06 重建）
     # 2026-11-05 bm-b defense-in-depth: the dispatcher has sent Mac-only cards
     # (python3 ...) straight into windows lanes - gate dispatched jobs on OS too,
     # not just queue claims (card_os_ok already exists for the claim path).
@@ -633,6 +657,13 @@ def run_lane_cycle(node, root=None, dry=False, allow_gpu_workhours=False,
         write_last(root, node, "OS-MISMATCH",
                    note="dispatched job os mismatch: %s" % job.get("id"))
         print("LANE-OS-MISMATCH %s :: %s" % (node, job.get("id")))
+        # 2026-11-06 自我迭代修（DOCS 卡占死 bm-b 车道数小时、z01 试点在队列躺死实锚）：
+        # 本机跑不了的卡不许吞掉整个车道——与 already-closed（11-04 判例）同修法，
+        # 落到 self-dispatch 继续吃申报池，投毒派单不再饿死机器。
+        res = self_dispatch(root, node, allow_gpu_workhours, max_seconds, hub, port, dry)
+        if res:
+            return True
+        print("LANE-IDLE %s :: after OS-MISMATCH, no eligible fallback work" % node)
         return True
     if already_closed(root, job.get("id")):
         # Finished on the shared surface: never replay it (re-running closes 14x churn).
