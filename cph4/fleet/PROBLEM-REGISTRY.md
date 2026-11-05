@@ -1,4 +1,4 @@
-# PROBLEM-REGISTRY — 问题追溯台账（正身）
+﻿# PROBLEM-REGISTRY — 问题追溯台账（正身）
 
 - 立法: docs/governance.md §9 问题追溯闭环律（C-20261017-01·2026-10-17）
 - 审计: python Tools/problem-registry-audit.py（CEO-PROXY 日 23:43 夜移交班点火·FAIL 阻断次日派单；周日深复盘全条目对账）
@@ -149,8 +149,9 @@
 - 复发史·根因: 首录（同族=旗面不读 idle verdict）·根因=Tools/fleet-dispatcher.ps1 的 STARVED-EXEC 判据只看 exec 计数，不读 idle-watch verdict；对 bm-a 的 EXPECTED-IDLE-WORKHOURS（CEO 10-15 AutoYield 工作日让路律，pausedLite 09:00-19:00）仍按 P1 supply failure 报旗→每日约 10h 持续假红旗，稀释真红旗信噪比
 - 出生地闸: 旗面生成环节·修法=`if ($verdicts[$lane] -eq 'EXPECTED-IDLE-WORKHOURS') { 记 PAUSED-BY-POLICY 不计旗 }`
 - 阻塞: fleet-dispatcher.ps1 ∈ BLUEPRINT §九 受保护件（Tools 核心四件）→改动须 CEO 令/群审通道，本席不擅改
+- 复发 2026-11-06 02:1x（事件班）：同族换根——exec 判据读 POOL.json（停更 6 天，仅 1 open 且 blocked_by=CEO-PHYSICAL），真实供给在 PRODUCTION-QUEUE（open=25/run=4）+三机 lanes 均在执；同一脚本内 STARVED-EXEC 与 SUPPLY-DRY 读不同面→自相矛盾，每 10min 全三车道刷假 P1。修法同族（判据换供给面或停用 POOL 面）仍需受保护件通道。
 - 验证证据: 本班实测 idle state.json verdicts.bm-a=EXPECTED-IDLE-WORKHOURS（16:39:29）+ .codely-cli/machine-state.flag=pausedLite 2026-10-27T09:00 + a.json gpu util 99%（机器在人用）
-- 复发计数: 1
+- 复发计数: 2
 - 状态: open
 - 升格记录: 2026-10-27 首录（R2.36 事件班）·候选修法入 DEADLINES waiting-CEO 受保护件通道
 
@@ -198,3 +199,22 @@
 - ????: 5?????????????????????????????? DEADLINES ???
 - ??: open
 - ????: 2026-11-05 ???R10 ??????????=?????????????+??????????????=CEO ?????? L0 ????????????????
+
+### PR-20261106-01 偏好回落 + 机器绝对路径 = 首跑必死（rc=127）
+- 来源: 2026-11-06 02:05 事件班实测 Q-VCORP-PREP-z02-R4（bm-a rc=127 CWD-MISSING；02:06 z03 同形被领）
+- 复发史·根因: 同族=2026-11-03 implicit_inputs/E-INPUT 案（卡未声明真实输入，落到没有数据的机器）。新面=卡同时写了「nodes=[bm-b] 偏好」与「C:/Fluxgroup/FleetAgent 绝对路径/cwd」，choose_lane 按 2026-11-02 设计把 nodes 当偏好而非过滤，bm-b 忙即回落 bm-a，路径与输入都不存在→确定性 rc=127，一次 16 张卡全废而账面像「机器懒」
+- 出生地闸: 开卡环节（卡作者）——凡 cmd/cwd/requires/when_all 出现非本机绝对路径或依赖某机私有目录，必须同时写 hard_nodes（硬钉）或改仓内相对路径；建议 Tools/card-lint.py 增断言：绝对盘符路径 + 无 hard_nodes = 打回
+- 验证证据: cph4/fleet/queue-receipts/Q-VCORP-PREP-z02-R4-20261105-bm-a.json（rc=127，card_defect=CWD-MISSING 且点名 C:/Fluxgroup/FleetAgent）+ lanes/bm-a.json 02:06:02 job=z03 + 队列原行 nodes=[bm-b] cwd=C:/Fluxgroup/FleetAgent
+- 复发计数: 1
+- 状态: open（当窗已修 42 行：相对路径+hard_nodes；卡作者侧闸待立）
+- 升格记录: 2026-11-06 首录（事件班）·当窗直修台账；出生地闸候选入 card-lint
+
+### PR-20261106-02 OS 硬约束只在显式 node_os 时生效（空领一轮）
+- 来源: 2026-11-06 02:05:40 事件班实测 bm-b last_result state=OS-MISMATCH（DOCS-* 卡，cmd 用 python3，nodes=[bm-m]）
+- 复发史·根因: fleet_lane.infer_node_os 已能从 python3/盘符推断 OS，card_os_ok 也已实现，但 master_agent.choose_lane 只在 job.node_os 显式存在时才过滤候选→未显式写 node_os 的 OS 绑定卡仍会被派到反 OS 机器，靠 lane_agent 事后拒收（白占一个租约轮次）；同族已见 2026-11-03 CHK-RECEIPT 落 bm-b rc=9009
+- 出生地闸: 派单环节·修法=candidates 无条件过 fl.card_os_ok(job, n)（infer 已含「空=不限」语义）
+- 验证证据: MASTER-STATE.json lanes.bm-b.last_result={state: OS-MISMATCH, reason: "dispatched job requires a different OS", ts: 2026-11-06T02:05:40}；队列 DOCS 两行 node_os 原本缺失（已补 macos）
+- 复发计数: 1
+- 状态: open（卡侧已补 node_os+hard_nodes；派单侧代码改动候裁）
+- 升格记录: 2026-11-06 首录（事件班）·修法一行，候受保护件通道
+

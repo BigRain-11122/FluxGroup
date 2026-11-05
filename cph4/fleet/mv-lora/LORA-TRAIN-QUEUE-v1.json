@@ -79,7 +79,7 @@
    "name": "灵动短发",
    "trigger": "h04",
    "lora": "her_T04_r1",
-   "status": "running",
+   "status": "trained",
    "base": "a young Taiwanese woman with a small face and a clear jawline, bright round eyes, slightly raised brow bone, short chin-length bob cut blunt at the ends, visible pores and fine film grain, relaxed un-fitted 2001 Taipei style, striped shirt over a plain tee, straight jeans, canvas shoes",
    "use": [
     "mv",
@@ -90,7 +90,8 @@
     "bm-a"
    ],
    "needs": "gpu",
-   "images": 36
+   "images": 36,
+   "weights": "T04_rank32.safetensors"
   },
   {
    "order": 5,
@@ -98,8 +99,8 @@
    "name": "邻家马尾",
    "trigger": "h05",
    "lora": "her_T05_r1",
-   "status": "queued",
-   "base": "a young Taiwanese woman around twenty, oval face, flat natural brows, bare-skin look with pale matte lips, high ponytail with loose strands at the temples, visible pores and fine film grain, relaxed un-fitted 2001 Taipei style, white shirt with sleeves rolled once, straight jeans, canvas backpack",
+   "status": "blocked-cast",
+   "base": "a young Taiwanese woman around twenty, oval face, wide-set dark eyes, flat natural brows, bare-skin look with pale matte lips, high ponytail with loose strands at the temples, visible pores and fine film grain, relaxed un-fitted 2001 Taipei style, white shirt with sleeves rolled once, straight jeans, canvas backpack",
    "use": [
     "mv",
     "drama",
@@ -109,7 +110,8 @@
     "bm-c",
     "bm-a"
    ],
-   "needs": "gpu"
+   "needs": "gpu",
+   "cast_fix": "R-20261106: added face/eye qualifier (CAST-DISTINCTIVENESS-LAW v1)"
   },
   {
    "order": 6,
@@ -117,7 +119,7 @@
    "name": "冷感御姐",
    "trigger": "h06",
    "lora": "her_T06_r1",
-   "status": "failed-1073807364",
+   "status": "trained",
    "base": "a Taiwanese woman in her late twenties, high cheekbones, long narrow eyes, thin lips, defined jaw angle, low ponytail with hair smoothed close to the head, visible pores and fine film grain, 2001 Taipei urban style, fitted black turtleneck under an unfitted wool coat, straight trousers",
    "use": [
     "mv"
@@ -127,7 +129,8 @@
     "bm-a"
    ],
    "needs": "gpu",
-   "images": 15
+   "images": 15,
+   "weights": "T06_rank32.safetensors"
   },
   {
    "order": 7,
@@ -135,7 +138,7 @@
    "name": "文学少女",
    "trigger": "h07",
    "lora": "her_T07_r1",
-   "status": "blocked-cast",
+   "status": "trained",
    "base": "a young Taiwanese woman around twenty, narrow face, long calm eyes usually looking down, faint light brows, half-length straight hair tucked behind one ear, round thin metal-frame glasses, visible pores and fine film grain, relaxed un-fitted 2001 Taipei style, grey knit vest over a white collared shirt, long skirt",
    "use": [
     "mv",
@@ -145,7 +148,9 @@
     "bm-c",
     "bm-a"
    ],
-   "needs": "gpu"
+   "needs": "gpu",
+   "images": 36,
+   "weights": "T07_rank32.safetensors"
   },
   {
    "order": 8,
@@ -154,7 +159,7 @@
    "trigger": "h08",
    "lora": "her_T08_r1",
    "status": "blocked-cast",
-   "base": "a Taiwanese woman with neutral delicate features, cool pale skin, thin lips, wet hair clinging to the face and temples, visible pores and fine film grain, single street-lamp light with rain, 2001 Taipei night style, dark unfitted trench coat, straight jeans, wet pavement reflections",
+   "base": "a Taiwanese woman with a long narrow face, rounded-almond eyes, neutral delicate features, cool pale skin, thin lips, wet hair clinging to the face and temples, visible pores and fine film grain, single street-lamp light with rain, 2001 Taipei night style, dark unfitted trench coat, straight jeans, wet pavement reflections",
    "use": [
     "mv",
     "drama"
@@ -163,7 +168,8 @@
     "bm-c",
     "bm-a"
    ],
-   "needs": "gpu"
+   "needs": "gpu",
+   "cast_fix": "R-20261106: added face/eye qualifier (CAST-DISTINCTIVENESS-LAW v1)"
   }
  ],
  "dispatch": {
