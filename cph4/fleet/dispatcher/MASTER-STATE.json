@@ -1,29 +1,29 @@
 {
- "ts": "2026-11-05T14:59:34",
- "cycle": 56,
+ "ts": "2026-11-05T15:06:46",
+ "cycle": 58,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-05T14:59:34",
+ "master_tick_ts": "2026-11-05T15:06:46",
  "queue": {
-  "total": 388,
+  "total": 390,
   "open": 4,
   "running": 4,
   "done": 204,
-  "failed": 26
+  "failed": 27
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 14.8,
-   "cpu_load_pct": 29,
-   "ram_free_gb": 39.6,
-   "gpu_util_pct": 5,
-   "job": "R-NEXT-FLUXVERSE-CITY-STA-20261105",
+   "hb_age_s": 31.9,
+   "cpu_load_pct": 82,
+   "ram_free_gb": 37.4,
+   "gpu_util_pct": 2,
+   "job": "B-MV-AUDIT-20261105",
    "last_result": {
-    "job": "bigstream-mv-gate-2026-11-05",
+    "job": "R-NEXT-FLUXVERSE-CITY-STA-20261105",
     "state": "FAILED",
     "rc": 1,
-    "ts": "2026-11-05T14:55:09",
+    "ts": "2026-11-05T15:05:06",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -34,16 +34,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 35.1,
+   "hb_age_s": 21.4,
    "cpu_load_pct": 3,
-   "ram_free_gb": 12.4,
-   "gpu_util_pct": null,
-   "job": "CHT-20261105T134821-03",
+   "ram_free_gb": 12.2,
+   "gpu_util_pct": 0,
+   "job": "CHT-20261105T134950-99",
    "last_result": {
-    "job": "asset-lib-env-check-2026-11-05",
+    "job": "CHT-20261105T134821-03",
     "state": "FAILED",
-    "rc": 1,
-    "ts": "2026-11-05T14:58:31",
+    "rc": 9009,
+    "ts": "2026-11-05T15:03:19",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -54,16 +54,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 34.0,
-   "cpu_load_pct": 10,
-   "ram_free_gb": 2.1,
+   "hb_age_s": 54.2,
+   "cpu_load_pct": 9,
+   "ram_free_gb": 3.1,
    "gpu_util_pct": 0,
-   "job": "asset-lib-char-gen-2026-11-05",
+   "job": "asset-lib-asset-gen-2026-11-05",
    "last_result": {
-    "job": "asset-lib-asset-gen-2026-11-05",
+    "job": "asset-lib-char-gen-2026-11-05",
     "state": "FAILED",
-    "rc": 1,
-    "ts": "2026-11-05T14:59:19",
+    "rc": 2,
+    "ts": "2026-11-05T15:06:16",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -74,16 +74,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.9,
-   "cpu_load_pct": 32,
-   "ram_free_gb": 20.7,
+   "hb_age_s": 1.2,
+   "cpu_load_pct": 44,
+   "ram_free_gb": 16.0,
    "gpu_util_pct": null,
-   "job": "asset-lib-voice-assemble-2026-11-05",
+   "job": "CHT-20261105T134829-99",
    "last_result": {
-    "job": "CANARY-20261105T145926",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-05T14:59:27",
+    "job": "asset-lib-voice-assemble-2026-11-05",
+    "state": "FAILED",
+    "rc": 3,
+    "ts": "2026-11-05T14:59:39",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -107,8 +107,10 @@
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "B-MV-AUDIT-20261105"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": null,
    "stuck_stage": "mv-plan",
@@ -171,14 +173,12 @@
   "fluxverse": {
    "name": "FluxVerse·元宙城",
    "status": "ACTIVE",
-   "verdict": "WORKING",
+   "verdict": "WAITING",
    "age_h": null,
    "stale_after_h": 36.0,
    "owner": "城市线",
-   "jobs": [
-    "R-NEXT-FLUXVERSE-CITY-STA-20261105"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": null
   },
@@ -189,9 +189,13 @@
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "量化席",
-   "jobs": [],
-   "no_supply": true,
-   "blockers": [],
+   "jobs": [
+    "B-QNT-SIGNAL-20261105"
+   ],
+   "no_supply": false,
+   "blockers": [
+    "B-QNT-SIGNAL-20261105:no-lane"
+   ],
    "note": "2026-11-04 夜班重启：原回测阶段钉 bm-d，而 bm-d 自 10-29 离线；改由 bm-b（有 quant 仓与数据）出「下月持仓信号 CSV」，主控按 P1 恢复派单。",
    "stuck_stage": "quant-data",
    "stuck_owner": "数据席"
@@ -278,15 +282,11 @@
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
    "jobs": [
-    "CHT-20261105T134821-03",
     "CHT-20261105T134829-99",
     "CHT-20261105T134950-99"
    ],
    "no_supply": false,
-   "blockers": [
-    "CHT-20261105T134829-99:no-lane",
-    "CHT-20261105T134950-99:no-lane"
-   ],
+   "blockers": [],
    "note": null
   },
   "asset-lib": {
@@ -297,8 +297,7 @@
    "stale_after_h": 72.0,
    "owner": "资产席",
    "jobs": [
-    "asset-lib-voice-assemble-2026-11-05",
-    "asset-lib-char-gen-2026-11-05"
+    "asset-lib-asset-gen-2026-11-05"
    ],
    "no_supply": false,
    "blockers": [],
@@ -859,15 +858,13 @@
   "cpu": 4,
   "gpu": 0
  },
- "supply_added": [
-  "backlog_manifest+1"
- ],
+ "supply_added": [],
  "events": [
-  "asset-lib-env-check-2026-11-05 FAILED via bm-b",
-  "asset-lib-asset-gen-2026-11-05 FAILED via bm-c",
-  "asset-lib-char-gen-2026-11-05 -> bm-c (gpu)",
-  "R-NEXT-FLUXVERSE-CITY-STA-20261105 -> bm-a (cpu)",
-  "CHT-20261105T134821-03 -> bm-b (cpu)"
+  "R-NEXT-FLUXVERSE-CITY-STA-20261105 FAILED via bm-a",
+  "CHT-20261105T134821-03 FAILED via bm-b",
+  "asset-lib-char-gen-2026-11-05 FAILED via bm-c",
+  "asset-lib-asset-gen-2026-11-05 -> bm-c (gpu)",
+  "B-MV-AUDIT-20261105 -> bm-a (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 立意/分镜/导演席 (导演席（自决推进，CEO 巡视可随时否决）)",
@@ -877,7 +874,6 @@
  ],
  "lane_files_written": [
   "bm-a",
-  "bm-b",
   "bm-c"
  ]
 }

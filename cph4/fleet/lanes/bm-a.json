@@ -1,14 +1,14 @@
 {
  "node": "bm-a",
- "ts": "2026-11-05T14:59:34",
+ "ts": "2026-11-05T15:06:46",
  "jobs": [
   {
-   "id": "R-NEXT-FLUXVERSE-CITY-STA-20261105",
-   "title": "元宙城 12 面状态实盘（在役/受阻/空白逐面点名）",
-   "cmd": "python Tools/fleet/city_state.py --out cph4/fleet/state/city-state.json",
+   "id": "B-MV-AUDIT-20261105",
+   "title": "MV 逐镜体检：6 对重复镜 + 24 个近静止镜的具体镜号与时间码（修片前置）",
+   "cmd": "python Tools/mv_full_audit.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721_60fps_1080p.mp4 --json cph4/fleet/queue-receipts/mv-audit-20261105.json",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/state/city-state.json",
+   "deliverable": "cph4/fleet/queue-receipts/mv-audit-20261105.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
