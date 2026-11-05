@@ -77,6 +77,26 @@
      ]
     }
    ]
+  },
+  "biggame": {
+   "prio": "P0",
+   "nodes": [
+    "bm-a"
+   ],
+   "needs": "cpu",
+   "cards": [
+    {
+     "key": "submit-pack",
+     "title": "游戏提审·真实缺件重盘（隐私已齐，重算图标/截图/台账/包体）",
+     "cmd": "python Tools/fleet/game_submit_pack.py",
+     "deliverable": "cph4/fleet/game-v1/SUBMIT-PACK-{date}.json",
+     "accept": "products>=36；missing_by_kind 四类均为当日实测；与 SUBMIT-PACK-20261103.json 对比写出增减，不许照抄旧数",
+     "requires": [
+      "Tools/fleet/game_submit_pack.py",
+      "软著申请材料"
+     ]
+    }
+   ]
   }
  }
 }
