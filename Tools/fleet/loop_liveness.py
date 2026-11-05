@@ -82,6 +82,13 @@ PROBES = [
     {"loop": "回执卫生基线表", "kind": "artifact",
      "file": "cph4/fleet/receipt-attrib-20261103.json",
      "why": "全量回执体检基座（缺 rc=0/缺 class=1）"},
+    {"loop": "兜底自治法正身", "kind": "artifact",
+     "file": "cph4/fleet/cross-talk/CT-20261106-bmb-resilience-map.md",
+     "why": "CEO 11-06 令：兜底+防空转+主控恢复协议"},
+    {"loop": "主控脉", "kind": "master_pulse",
+     "file": "cph4/fleet/dispatcher/MASTER-STATE.json",
+     "max_stale_min": 30,
+     "why": "主控脉超 30 分钟未更新=MacBook 合盖/断网/脚本挂——worker 靠申报池自转不停，但须显式标记"},
 ]
 
 
@@ -106,6 +113,20 @@ def run_probes(root):
             cache["WORK-RULES"] = wr
             ok = p["id"] in wr
             evidence = "row in WORK-RULES" if ok else "ROW GONE from WORK-RULES: %s" % p["id"]
+        elif p["kind"] == "master_pulse":
+            ms = _read_origin(root, p["file"])
+            if not ms:
+                ok, evidence = False, "MASTER-STATE.json unreadable"
+            else:
+                try:
+                    ts = json.loads(ms).get("ts", "")
+                    age_min = round((time.time() - time.mktime(
+                        time.strptime(ts[:19], "%Y-%m-%dT%H:%M:%S"))) / 60)
+                    ok = age_min <= p.get("max_stale_min", 30)
+                    evidence = ("ts=%s age=%dmin (limit=%dmin)" % (
+                        ts[:19], age_min, p.get("max_stale_min", 30)))
+                except Exception as e:
+                    ok, evidence = False, "parse error: %s" % str(e)[:80]
         r = {"loop": p["loop"], "alive": ok, "evidence": evidence, "why": p.get("why", "")}
         if p.get("regression"):
             r["known_regression"] = p["regression"]
