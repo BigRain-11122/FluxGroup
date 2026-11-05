@@ -55,19 +55,19 @@ LANES = {
              "enabled": True, "ram_gb": 94, "vram_gb": 12, "cuda": True,
              "os": "windows",
              "caps": ["cpu", "kf768", "i2v768", "audio", "assemble", "llm"],
-             "llm": {"endpoint": "http://127.0.0.1:11434", "fallback": "http://100.75.133.10:11434"},
+             "llm": {"endpoint": "http://127.0.0.1:11434", "fallback": "http://100.75.133.10:11435"},
              "roles": "hq-central night gpu", "game_launch_ok": False},
     "bm-b": {"name_cn": "小钢炮", "needs": ["cpu", "gpu"], "ram_floor_gb": 2.0, "gpu_hours": None,
              "enabled": True, "ram_gb": 24, "vram_gb": 8, "cuda": True,
              "os": "windows",
              "caps": ["cpu", "animatic480", "audio", "tts", "llm"],
-             "llm": {"endpoint": "http://127.0.0.1:11434", "fallback": "http://100.75.133.10:11434"},
+             "llm": {"endpoint": "http://127.0.0.1:11434", "fallback": "http://100.75.133.10:11435"},
              "roles": "cpu sound / small gpu", "game_launch_ok": False},
     "bm-c": {"name_cn": "传家宝", "needs": ["cpu", "gpu"], "ram_floor_gb": 3.0, "gpu_hours": None,
              "enabled": True, "ram_gb": 24, "vram_gb": 16, "cuda": True,
              "os": "windows",
              "caps": ["cpu", "kf768", "i2v768", "audio", "render", "llm"],
-             "llm": {"endpoint": "http://127.0.0.1:11434", "fallback": "http://100.75.133.10:11434"},
+             "llm": {"endpoint": "http://127.0.0.1:11434", "fallback": "http://100.75.133.10:11435"},
              "roles": "gpu production", "game_launch_ok": False},
     # bm-m is a full agent, not a thin client: M1 Pro 32GB runs local models (MLX/Ollama),
     # so it takes text work as well as iOS builds. No CUDA, so never a GPU job.
@@ -91,7 +91,7 @@ LANES = {
              "ram_gb": 256, "vram_gb": 48, "cuda": True,
              "os": "windows",
              "caps": ["cpu", "kf768", "i2v768", "backtest", "brain", "llm"],
-             "llm": {"endpoint": "http://127.0.0.1:11434", "fallback": "http://100.75.133.10:11434"},
+             "llm": {"endpoint": "http://127.0.0.1:11434", "fallback": "http://100.75.133.10:11435"},
              "roles": "brain / backtest / batch", "game_launch_ok": False},
 }
 
@@ -745,6 +745,14 @@ def _llm_tags(endpoint, timeout=5):
         return []
 
 
+GATEWAY_TOKENS = {"bm-a": "tok-a", "bm-b": "tok-b", "bm-c": "tok-c", "bm-d": "tok-d"}
+
+
+def _gateway_token(node):
+    """机队借用本机模型必须带 token（网关并发 1、上下文 8192、死线 120s）。"""
+    return GATEWAY_TOKENS.get(str(node or ""), "")
+
+
 def local_llm(prompt, policy=None, timeout=120, node=None):
     """Ask that box's own model. Cheap tier for text work; returns text or None.
 
@@ -772,19 +780,40 @@ def local_llm(prompt, policy=None, timeout=120, node=None):
                        "think": spec.get("think", True),
                        "options": {"num_ctx": int(spec.get("num_ctx", _pol.get("num_ctx", 4096)))},
                        }).encode()
-    urls = [base]
+    # 三级阶梯（CEO 2026-11-05：「机队优先用自己的本地算力，其次是 macbook 的，
+    # 搞不定或者长时间没回应就上云」）：
+    #   rank1 自己的 11434 → rank2 Mac 的 11435 网关（带 token、并发 1、死线 120s）→ 云候选记账
+    # 主控自己（bm-m）只走本机直连，不进网关队列。
+    urls = [(base, None)]
     fb = spec.get("fallback") or pol.get("fallback")
-    if fb:
-        urls.append(fb)          # shared brain: bm-m's resident 35B, reachable over Tailscale
-    for u in urls:
-        req = urllib.request.Request(u.rstrip("/") + "/api/generate", data=body,
-                                     headers={"Content-Type": "application/json"})
+    if fb and node != "bm-m":
+        urls.append((fb, _gateway_token(node)))
+    last_err = ""
+    for i, (u, tok) in enumerate(urls):
+        hdrs = {"Content-Type": "application/json"}
+        if tok:
+            hdrs["Authorization"] = "Bearer " + tok
+        req = urllib.request.Request(u.rstrip("/") + "/api/generate", data=body, headers=hdrs)
         try:
             with urllib.request.urlopen(req, timeout=timeout) as r:
                 data = json.loads(r.read().decode("utf-8", "replace"))
             out = (data.get("response") or "").strip()
             if out:
                 return out
-        except Exception:
-            continue            # own box down -> shared brain; both down -> None (loud)
+            last_err = "empty-response"
+        except Exception as e:
+            last_err = "%s:%s" % ("own" if i == 0 else "gateway", str(e)[:80])
+            continue
+    # 两档都拿不到答案：不静默吞掉，记成"该上云"的候选，由预算闸决定是否花钱。
+    try:
+        import datetime as _dt
+        _p = os.path.join(ROOT_DEFAULT, "cph4", "fleet", "state", "cloud-candidates.jsonl")
+        os.makedirs(os.path.dirname(_p), exist_ok=True)
+        with open(_p, "a", encoding="utf-8") as f:
+            f.write(json.dumps({"ts": _dt.datetime.now().isoformat(timespec="seconds"),
+                                "node": node or "", "why": last_err or "no-answer",
+                                "chars": len(prompt or ""),
+                                "prompt_head": (prompt or "")[:120]}, ensure_ascii=False) + "\n")
+    except Exception:
+        pass
     return None

@@ -63,8 +63,9 @@
   "keep_alive": "30m",
   "num_ctx": 4096,
   "why": "CEO 2026-11-02：本机主要赋能 AI → 常驻 4B（3.3GB）提高机队调用响应，办公仍留 4GB",
-  "fallback": "http://100.75.133.10:11434",
-  "shared_brain": "bm-m qwen3.5:35b-a3b (Tailscale 100.75.133.10, resident, keep_alive=-1)"
+  "fallback": "http://100.75.133.10:11435",
+  "shared_brain": "bm-m qwen3.5:35b-a3b (Tailscale 100.75.133.10, resident, keep_alive=-1)",
+  "fallback_why": "CEO 2026-11-05：机队优先级=自己的本地算力 > Mac 的（必须走 11435 网关：token/并发1/上下文8192/死线120s/内存余量<7GB 拒）> 云（搞不定或长时间无响应才上，受日预算闸）"
  },
  "cloud_seat": {
   "state": "OPEN",
