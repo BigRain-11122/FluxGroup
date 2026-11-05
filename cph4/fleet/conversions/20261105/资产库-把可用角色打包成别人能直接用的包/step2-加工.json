@@ -1,0 +1,18 @@
+{
+ "ts": "2026-11-05T17:31:18",
+ "conv": "cph4/fleet/conversions/20261105/资产库-把可用角色打包成别人能直接用的包",
+ "step": 2,
+ "stage": "加工",
+ "idea": "资产库：把可用角色打包成别人能直接用的包",
+ "ok": true,
+ "tool": null,
+ "contract": {
+  "input": "见 step1-取证.json",
+  "output": "本方案第 4 步交付件",
+  "owner": "未指定工具",
+  "next": "指定 --tool 后重跑本步"
+ },
+ "blocked": [
+  "未指定加工工具：本步只落骨架，不算交付"
+ ]
+}
