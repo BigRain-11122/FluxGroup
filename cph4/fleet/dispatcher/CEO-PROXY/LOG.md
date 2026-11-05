@@ -1134,3 +1134,9 @@ am_free 10GB / cpu_load 48%——bm-b 在跑量化轮而非闲着；缺的是本
 ④落单与收口：`Q-MV-ANCHOR-WORDS-DRAIN-BMA-20261106` 已 DONE（bm-a 执行，回执 `cph4/fleet/queue-receipts/Q-MV-ANCHOR-ALBUM-41of41-bm-a.json`）；bm-b 那张从未被领到的卡按 SUPERSEDED 置 CANCELLED（本地队列；origin 队列结构损坏 R12-1，整文件改写留修复窗）；POOL-0025 置 done。
 ⑤顺带隔离一条永久不可执行卡 `asset-lib-face-dataset-2026-11-05`（media/asset/faces 不存在、rc=127 每轮空烧一个租约），它当时正挡在 P1 卡前面。
 ⑥未做：节点工作树收口（R13-3）仍等修复窗；本班只在 bm-a 侧推进，没碰他机文件。
+[2026-11-06 05:3x] 事件班·R13 续（线级体检实证+供给补位）calls~130 | verdict=「多条线停滞」大半是**灯太粗**，真停的工序被点名了：
+①实测 8 条线今日体检（`Tools/fleet/line_triage.py`，各 7 秒）：bigcompute 0.0h / fluxverse 0.1h / biggame 0.1h / bigstream-mv 0.4h / bigmoney 4.6h / biglife 6.3h / asset-lib 0.0h **全部 FRESH**；唯一整线真停=**RECON 306.4h**（recon-scan + recon-proto 双死）。
+②根因：线灯取「该线最旧工序」，所以一条 6.3h 前还在产出的线，只要有一段休眠就被报成 `STALE 214h`——NEED-SUPPLY 里那张吓人的表大半由此而来。真停工的具体工序：**quant-audit 318h、mv-gate 194.5h、mv-kf 81.7h**（这三条才是该催的）。
+③处置：把已执行的 8 条 READY 体检项在 PRODUCTION-BACKLOG 标 DONE（挂今日 `triage-<line>-20261106.md` 指针），READY 18→10，防下轮重复派单（这正是 CEO 骂过的「各种命令重复」）。未整修线灯生成代码：它在大文件里且属主控面，盲改风险大于收益，改为登记实证供下轮与 CEO 复核。
+④补位：模型雷达实测 `bench_ts=2026-11-04`、`stale_days=1.9`（CEO 11-03 令「每天扫描测试」），声明面那条仍 READY，落卡 `R-MODEL-RADAR-BMA-20261106`（bm-a·cpu·40min）交车道跑，不占本会话。
+⑤仍未碰：一台机都不动（bm-b `b82c9834`、bm-c `f1bbe729` 双双分叉；bm-c `ram_free` 已掉到 1.8G，时钟 4640ms）。
