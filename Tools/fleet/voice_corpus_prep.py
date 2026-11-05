@@ -148,10 +148,16 @@ def main(argv):
 
     files = []
     if os.path.isdir(inbox):
-        for n in sorted(os.listdir(inbox)):
-            p = os.path.join(inbox, n)
-            if os.path.isfile(p) and n.lower().endswith(AUD_EXT):
-                files.append(p)
+        # 2026-11-05 CEO 令「多找数据集，优质的，不要偷懒」: real multi-speaker corpora
+        # (AISHELL-3 / CommonVoice / VCTK) all arrive as <speaker>/<utterance>.wav.
+        # Top-level-only scanning saw 0 files against a 168-clip seeded inbox (rc=3).
+        # Walk recursively; the speaker dir becomes part of the segment name so
+        # rights/attribution survives slicing.
+        for root_dir, _dirs, names in os.walk(inbox):
+            for n in sorted(names):
+                p = os.path.join(root_dir, n)
+                if os.path.isfile(p) and n.lower().endswith(AUD_EXT):
+                    files.append(p)
     mine = [p for p in files if shard_of(os.path.basename(p), si, sn)]
 
     receipt = {"ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "group": a.group,
@@ -171,6 +177,13 @@ def main(argv):
     made = 0
     for p in mine:
         base = os.path.splitext(os.path.basename(p))[0]
+        # keep the speaker folder in the segment name (recursive inbox: attribution)
+        try:
+            rel = os.path.relpath(p, inbox)
+            if os.sep in rel:
+                base = os.path.splitext(rel.replace(os.sep, "_"))[0]
+        except Exception:
+            pass
         dur = duration(p)
         if dur < MIN_SEG:
             receipt["skipped_files"].append([os.path.basename(p), "太短 %.1fs" % dur])
