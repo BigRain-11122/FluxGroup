@@ -623,6 +623,16 @@ def run_lane_cycle(node, root=None, dry=False, allow_gpu_workhours=False,
         return True
 
     job = jobs[0]
+    # 2026-11-05 bm-b defense-in-depth: the dispatcher has sent Mac-only cards
+    # (python3 ...) straight into windows lanes - gate dispatched jobs on OS too,
+    # not just queue claims (card_os_ok already exists for the claim path).
+    if not fl.card_os_ok(job, node):
+        publish(node, "OS-MISMATCH", {"reason": "dispatched job requires a different OS",
+                                     "job": job.get("id")}, hub, port)
+        write_last(root, node, "OS-MISMATCH",
+                   note="dispatched job os mismatch: %s" % job.get("id"))
+        print("LANE-OS-MISMATCH %s :: %s" % (node, job.get("id")))
+        return True
     if already_closed(root, job.get("id")):
         # Finished on the shared surface: never replay it (re-running closes 14x churn).
         # But never strand the lane on a stale assignment either: 2026-11-04 one
