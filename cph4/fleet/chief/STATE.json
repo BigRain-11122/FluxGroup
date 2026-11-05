@@ -1,11 +1,11 @@
 {
- "ts": "2026-11-05T16:29:40",
+ "ts": "2026-11-05T17:01:55",
  "stage": 3,
  "adoption": {
   "days": 4,
-  "applied": 990,
-  "total": 758,
-  "rate": 130.6,
+  "applied": 999,
+  "total": 767,
+  "rate": 130.2,
   "eligible_stage4": false
  },
  "decisions": [
@@ -13,9 +13,9 @@
    "kind": "requeue",
    "why": "3 张卡在跑但 1 小时无回执",
    "target": [
-    "asset-lib-voice-assemble-2026-11-05",
     "asset-lib-char-gen-2026-11-05",
-    "SIM-20261105T155828-01-1"
+    "SIM-20261105T155828-01-infra",
+    "SIM-20261105T160855-01-infra"
    ],
    "min_stage": 3,
    "result": "applied"
@@ -35,9 +35,9 @@
   {
    "kind": "requeue",
    "ids": [
-    "asset-lib-voice-assemble-2026-11-05",
     "asset-lib-char-gen-2026-11-05",
-    "SIM-20261105T155828-01-1"
+    "SIM-20261105T155828-01-infra",
+    "SIM-20261105T160855-01-infra"
    ]
   }
  ],

@@ -1,0 +1,17 @@
+{
+ "id": "R-BIZ-CAR-1D",
+ "node": "bm-m",
+ "rc": 0,
+ "seconds": 14.1,
+ "cmd": "python3 Tools/fleet/local_ai_business.py --job car-gaming",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "cph4/fleet/queue-receipts/biz-car-gaming-20261031.md",
+ "deliverable_exists": true,
+ "ts": "2026-11-05T17:05:21",
+ "stdout_tail": "[biz] car-gaming   DONE     qwen3.5:4b-mlx     13.6s /Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/biz-car-gaming-20261105.md\n",
+ "stderr_tail": ""
+}
