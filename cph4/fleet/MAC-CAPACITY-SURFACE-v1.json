@@ -18,30 +18,52 @@
       "model": "qwen3-embedding:0.6b",
       "resident_gb": 1.28,
       "when": "24h 常驻",
-      "chores": ["语义判重", "素材索引", "caption 检索"]
+      "chores": [
+        "语义判重",
+        "素材索引",
+        "caption 检索"
+      ]
     },
     {
       "id": "fast",
       "model": "qwen3:1.7b",
       "resident_gb": 2.06,
       "when": "24h 常驻",
-      "chores": ["分类", "摘要", "抽取", "队列分诊"],
-      "measured": {"short_prompt_s": 2.7}
+      "chores": [
+        "分类",
+        "摘要",
+        "抽取",
+        "队列分诊"
+      ],
+      "measured": {
+        "short_prompt_s": 2.7
+      }
     },
     {
       "id": "vision",
       "model": "qwen3.5:4b-mlx",
       "resident_gb": 4.39,
       "when": "按需（打标批次期间）；与 generate 槽互斥",
-      "chores": ["图像打标", "关键帧描述", "素材质检"],
-      "measured": {"per_image_s": 14.4, "note": "只能串行：四片并行 1 张/分 < 单流 7 张/分"}
+      "chores": [
+        "图像打标",
+        "关键帧描述",
+        "素材质检"
+      ],
+      "measured": {
+        "per_image_s": 14.4,
+        "note": "只能串行：四片并行 1 张/分 < 单流 7 张/分"
+      }
     },
     {
       "id": "generate",
       "model": "sdxl-turbo (diffusers, MPS)",
       "resident_gb": 10.0,
       "when": "GPU 窗口（与 vision 互斥）；无云端额度限制",
-      "chores": ["缺件素材生成", "角色多角度补图", "无品牌道具"],
+      "chores": [
+        "缺件素材生成",
+        "角色多角度补图",
+        "无品牌道具"
+      ],
       "why": "云端每日 100 次上限会卡死补货；本地可无限次"
     },
     {
@@ -49,16 +71,30 @@
       "model": "h264_videotoolbox / 媒体引擎",
       "resident_gb": 0.5,
       "when": "任意时刻，可与上面任意槽并行",
-      "chores": ["横转竖重排", "720p 代理", "预览片拼接"],
-      "measured": {"25_clips_s": 12, "cpu_impact": "接近 0（媒体引擎独立）"}
+      "chores": [
+        "横转竖重排",
+        "720p 代理",
+        "预览片拼接"
+      ],
+      "measured": {
+        "25_clips_s": 12,
+        "cpu_impact": "接近 0（媒体引擎独立）"
+      }
     },
     {
       "id": "cpu-lane",
       "model": "PIL / hashlib / mlx_whisper",
       "resident_gb": 1.0,
       "when": "任意时刻",
-      "chores": ["感知哈希去重", "ASR 字幕", "素材索引"],
-      "measured": {"690_images_dedupe_s": 25.1, "asr_12s_audio_s": 4.3}
+      "chores": [
+        "感知哈希去重",
+        "ASR 字幕",
+        "素材索引"
+      ],
+      "measured": {
+        "690_images_dedupe_s": 25.1,
+        "asr_12s_audio_s": 4.3
+      }
     }
   ],
   "rules": [
@@ -67,5 +103,41 @@
     "常驻只用 embed + fast（3.4GB），vision/generate 按需加载",
     "所有生成产物落 /Volumes/移动硬盘/FluxAssets/incoming/generated，机队经 asset_pull 自取"
   ],
-  "role_boundary": "主控亲跑批量生产视为与机队重复，禁止；本机承担的是机队无法完成的生成/模型/媒体作业，且必须落成卡由车道执行"
+  "role_boundary": "主控亲跑批量生产视为与机队重复，禁止；本机承担的是机队无法完成的生成/模型/媒体作业，且必须落成卡由车道执行",
+  "measured_envelope": {
+    "measured_at": "2026-11-05T19:5x",
+    "cpu": {
+      "levels": {
+        "1": 57.2,
+        "2": 142.3,
+        "4": 279.9,
+        "6": 414.0,
+        "8": 518.0,
+        "10": 536.7
+      },
+      "unit": "units/s（纯计算，多进程）",
+      "knee_concurrency": 8,
+      "why": "并发 10 只比 8 多 3.6%，再加只是加热不增产",
+      "swap_delta_mb": "全程 0"
+    },
+    "memory": {
+      "max_new_incompressible_gb": 8.0,
+      "start_compressor_gb": 4.5,
+      "stop_condition": "不可压缩数据分配 8GB 后 compressor 增量 1.66GB 触阈值",
+      "lesson": "必须用不可压缩数据测；填零页会得到『26GB 零 swap』的假象（实际被压缩器吃掉 5GB）"
+    },
+    "thermal": {
+      "readable": "否（powermetrics 需 root，pmset -g therm 无数据）",
+      "proxy": "用同等工作量的吞吐衰减当降频信号；本次 25s×6 档全程未见衰减",
+      "rule": "持续压测时每 5 分钟复测一次基准吞吐，掉 >15% 判已降频"
+    }
+  },
+  "operating_rules": [
+    "常驻只用 embed(1.3G)+fast(2.1G)=3.4G；vision 与 generate 互斥",
+    "生成窗口：先卸 vision/fast，只留 embed，给 SDXL 约 11G",
+    "新增不可压缩负载上限 ≈ 8GB；超过它先压缩再交换，延迟会塌",
+    "CPU 并发上限 8（10 核里 8 个性能核）；第 9、10 路无收益",
+    "swap 已用 >1500MB 时不开生成槽，先让系统回收",
+    "热：无温度读数，用吞吐衰减 >15% 当降频判据"
+  ]
 }
