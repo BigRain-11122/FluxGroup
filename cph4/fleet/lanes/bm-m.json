@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
- "ts": "2026-11-05T18:01:34",
+ "ts": "2026-11-05T18:02:30",
  "jobs": [
   {
-   "id": "AUD-SOFT-20261105T175945-01",
-   "title": "软著材料清点：FluxVerse_FluxVerse",
-   "cmd": "python3 Tools/fleet/supply_batch.py --audit soft FluxVerse_FluxVerse",
+   "id": "AUD-SOFT-20261105T175945-05",
+   "title": "软著材料清点：G08_CrazyCampus",
+   "cmd": "python3 Tools/fleet/supply_batch.py --audit soft G08_CrazyCampus",
    "cwd": "/Users/junsheng.sun/FluxGroup",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/soft/FluxVerse_FluxVerse.json",
+   "deliverable": "cph4/fleet/audits/soft/G08_CrazyCampus.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 13.0/1.0 GB"
+ "capacity_note": "ram 9.7/1.0 GB"
 }
