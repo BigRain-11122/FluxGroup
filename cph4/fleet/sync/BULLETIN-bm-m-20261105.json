@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
  "date": "20261105",
- "ts": "2026-11-05T18:53:09+0800",
+ "ts": "2026-11-05T19:26:41+0800",
  "window_h": 26,
  "produced": [
   {
    "path": "cph4/fleet/queue-receipts/skill-promote-20261105.json",
    "bytes": 2172,
-   "mtime": "2026-11-05T18:53:09",
-   "sha": "10357c449c6ec15aa39721da1df519a0f9c260c136ce9eb4893f295b2d3f052a"
+   "mtime": "2026-11-05T19:26:41",
+   "sha": "3e818f2b675848c6c5199a966750c60e8bfb1e8fc9c36e795f5fbfe4c7ca3083"
   },
   {
    "path": "cph4/fleet/queue-receipts/asset-env-2026-11-05.json",
@@ -363,36 +363,16 @@
    "bytes": 1676,
    "mtime": "2026-11-04T17:26:56",
    "sha": "381cf8d1a950870a57dd46c87107872c1393ceb94e6c82e9a753117af4d0a8c8"
-  },
-  {
-   "path": "cph4/fleet/queue-receipts/Q-MV-0001-017-bm-a.json",
-   "bytes": 1077,
-   "mtime": "2026-11-04T16:55:08",
-   "sha": "5ebc1b50e41f80601af6c6c3276a89a24df1819f9cf10ce9cd13022d9bc5e3c5"
-  },
-  {
-   "path": "cph4/fleet/queue-receipts/R-MV-V718-GATE-bm-a.json",
-   "bytes": 1202,
-   "mtime": "2026-11-04T16:55:08",
-   "sha": "4e7caecdefd7ea54fe84940f30c9f51b6adda4bb71e7d84ed72398f678f7578b"
-  },
-  {
-   "path": "cph4/fleet/queue-receipts/C-INFRA-AUDIT-BM-C-20261103-bm-c.json",
-   "bytes": 1136,
-   "mtime": "2026-11-04T16:55:08",
-   "sha": "c732addd3324a3f2e909b256526bc246f70b153c2ed2c04bfb1ec154080d7ffb"
-  },
-  {
-   "path": "cph4/fleet/queue-receipts/R-ART-PUSH-A-20261102-bm-a.json",
-   "bytes": 2800,
-   "mtime": "2026-11-04T16:55:08",
-   "sha": "a497040249ad5a5afddd8b209f535960531f3c3c704bf0e54f2aafb55f423740"
   }
  ],
  "blocked": [
   {
    "what": "R-NEXT-BIGGAME-SUBMIT-P-20261105",
    "why": "E-CONTRACT products=36 ready=0 not_ready=36\n  缺 图标≥256px                     35 款\n  缺 截图目录("
+  },
+  {
+   "what": "_last_lane_bm-m.json",
+   "why": "rc=None "
   },
   {
    "what": "R-NEXT-BIGSTREAMM-AUDIT-20261105",
@@ -403,16 +383,12 @@
    "why": "rc=127 "
   },
   {
-   "what": "asset-lib-voice-corpus-bmm-2026-11-03",
-   "why": "E-BLOCKED-INPUT [corpus] 本分片无输入（inbox 共 0 个文件）——等投料，rc=3\n"
-  },
-  {
-   "what": "inference-audit-bm-m-20261105.json",
-   "why": "rc=None "
-  },
-  {
    "what": "asset-lib-env-check-2026-11-05",
    "why": "E-UNKNOWN ASSET-ENV FAIL  bm-m\n  可用路线: 无\n  ! torch 已装但 CUDA 不可用（CPU 训练 LoRA 不现实）\n  ! 没有 ko"
+  },
+  {
+   "what": "CNV-20261105T174044-2",
+   "why": "E-CONTRACT "
   }
  ],
  "job": null

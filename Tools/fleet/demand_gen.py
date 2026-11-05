@@ -44,6 +44,18 @@ def rows(path):
     return out
 
 
+def active_deliverables():
+    """活跃卡（RUNNING/OPEN/READY）占用的 deliverable，用于去重。"""
+    out = set()
+    for p in (QUEUE, BACKLOG):
+        for r in rows(p):
+            if str(r.get("state", "")).upper() in ("RUNNING", "OPEN", "READY"):
+                d = r.get("deliverable")
+                if d:
+                    out.add(str(d))
+    return out
+
+
 def known_ids():
     ids = set()
     for p in (QUEUE, BACKLOG):
@@ -105,6 +117,42 @@ def src_media_proxy():
     return out
 
 
+def src_bm_a_preview(vault=None):
+    """bm-a 装配：竖屏素材已齐 → 拼一条 30s 预览片（真产物，不是清单）。"""
+    vdir = os.path.join(vault, "incoming", "motions-vertical")
+    out = os.path.join(vault, "incoming", "preview-30s.mp4")
+    if not os.path.isdir(vdir) or os.path.exists(out):
+        return []
+    clips = sorted(f for f in os.listdir(vdir) if f.endswith(".mp4"))[:6]
+    if not clips:
+        return []
+    return [{"clips": clips, "out": out, "dir": vdir}]
+
+
+def src_bm_b_asr():
+    """bm-b 声音：成片没有字幕就出字幕（输入在仓内，无需外拉）。"""
+    base = os.path.join(ROOT, "media", "drama-out")
+    out = []
+    if not os.path.isdir(base):
+        return out
+    for n in sorted(os.listdir(base)):
+        if not n.endswith(".mp4"):
+            continue
+        srt = os.path.join(ROOT, "cph4", "fleet", "state", "asr",
+                           os.path.splitext(n)[0] + ".srt")
+        if not os.path.exists(srt):
+            out.append({"src": os.path.join("media", "drama-out", n),
+                        "srt": os.path.relpath(srt, ROOT)})
+    return out
+
+
+def src_bm_c_dedupe(vault=None):
+    """bm-c 质检：整库感知哈希去重（纯 CPU，重活，适合算力机）。"""
+    if not os.path.isdir(vault):
+        return []
+    return [{"dir": vault}]
+
+
 SOURCES = [
     ("caption", src_caption, "bm-m"),
     ("asset-gap", src_asset_gap, "bm-m"),
@@ -112,6 +160,9 @@ SOURCES = [
     # 产物落 media/review-720p，谁跑都可复算。这是「按机型分源」的样板。
     ("media-proxy", src_media_proxy, "bm-a"),
     ("media-proxy-local", src_media_proxy, "bm-m"),
+    ("bm-a-preview", src_bm_a_preview, "bm-a"),
+    ("bm-b-asr", src_bm_b_asr, "bm-b"),
+    ("bm-c-dedupe", src_bm_c_dedupe, "bm-c"),
 ]
 
 
@@ -122,10 +173,15 @@ def main(argv=None):
     a = ap.parse_args(argv)
 
     ids = known_ids()
+    busy = active_deliverables()
     made, summary = [], []
     for name, fn, node in SOURCES:
         try:
-            gaps = fn(VAULT) if name == "caption" else fn()
+            # 各源签名不一致（有的要 vault，有的不要）：先带参试，TypeError 再退回无参。
+            try:
+                gaps = fn(VAULT)
+            except TypeError:
+                gaps = fn()
         except Exception as e:
             summary.append({"source": name, "error": str(e)[:120]})
             continue
@@ -152,6 +208,40 @@ def main(argv=None):
                     "deliverable": os.path.join(F, "state", "asset-gap.json"),
                     "why": "P0 缺口 %d 件（目标 %d），需按 collectors 补" % (g["gap"], g["p0"]),
                 }
+            elif name == "bm-a-preview":
+                cid = "PREVIEW-30S-20261105"
+                lst = os.path.join(F, "state", "preview-clips.txt")
+                card = {
+                    "id": cid, "title": "竖屏素材拼 30s 预览片",
+                    "needs": "gpu-encode", "nodes": [node], "prio": "P2",
+                    "cmd": "python3 Tools/fleet/preview_concat.py --dir %s --out %s"
+                           % (g["dir"], g["out"]),
+                    "cwd": "", "requires": ["Tools/fleet/preview_concat.py"],
+                    "deliverable": os.path.relpath(g["out"], "/Volumes/移动硬盘/FluxAssets"),
+                    "why": "装配线产线验证：竖屏素材齐了，拼一条能看的 30s 预览",
+                }
+            elif name == "bm-b-asr":
+                cid = "ASR-%s" % os.path.basename(g["src"]).split(".")[0][:18].upper()
+                card = {
+                    "id": cid, "title": "ASR 字幕 %s" % os.path.basename(g["src"])[:30],
+                    "needs": "cpu", "nodes": [node], "prio": "P2",
+                    "cmd": "python3 Tools/fleet/subs_asr.py --in %s --out %s"
+                           % (g["src"], g["srt"]),
+                    "cwd": "", "requires": ["Tools/fleet/subs_asr.py"],
+                    "deliverable": g["srt"],
+                    "why": "成片无字幕（机检：state/asr 下无同名 .srt）",
+                }
+            elif name == "bm-c-dedupe":
+                cid = "DEDUPE-ASSETLIB-20261105"
+                card = {
+                    "id": cid, "title": "素材库感知哈希去重",
+                    "needs": "cpu", "nodes": [node], "prio": "P3",
+                    "cmd": "python3 Tools/fleet/asset_dedupe.py --dir %s --recursive --jobs 8"
+                           % g["dir"],
+                    "cwd": "", "requires": ["Tools/fleet/asset_dedupe.py"],
+                    "deliverable": os.path.join(F, "state", "asset-dedupe.json"),
+                    "why": "训练前去重（感知哈希），纯 CPU 重活，适合算力机",
+                }
             else:
                 cid = "PROXY-%s" % os.path.basename(g["src"]).split(".")[0][:20]
                 card = {
@@ -162,7 +252,7 @@ def main(argv=None):
                     "cwd": "", "requires": [], "deliverable": g["dst"],
                     "why": "审片代理缺口（机检：源视频无 -720p 成片）",
                 }
-            if cid in ids:
+            if cid in ids or (card.get("deliverable") in busy):
                 continue
             card["state"] = "READY"
             card["created_at"] = time.strftime("%Y-%m-%dT%H:%M:%S")

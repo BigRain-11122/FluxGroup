@@ -1,23 +1,8 @@
 {
  "node": "bm-c",
- "ts": "2026-11-05T18:53:12",
- "jobs": [
-  {
-   "id": "SIM-20261105T182043-01-infra",
-   "title": "演练·机制卡（应被配额拦）",
-   "cmd": "python3 -c \"print('infra')\"",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/state/rehearsal/infra-20261105T182043.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  }
- ],
- "idle_reason": "",
+ "ts": "2026-11-05T19:27:45",
+ "jobs": [],
+ "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
  "lane_ok": true,
- "capacity_note": "ram 3.2/1.0 GB"
+ "capacity_note": "ram 2.4/1.0 GB"
 }

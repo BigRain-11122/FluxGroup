@@ -347,14 +347,18 @@ def _mirror_ledger(path, rows, key):
             continue
         srow = cur[idx[k]]
         if isinstance(srow, dict) and srow.get("state") != st:
-            m = {"state": st, "mirrored_from": "PRODUCTION-QUEUE" if auth_is_queue else
-                 "PRODUCTION-BACKLOG"}
+            # 2026-11-05 实锚：原先只写 state+note，把备队列里的整张卡降成空壳
+            # （{"state":"OPEN","mirrored_from":...}），车道扫到没 cmd 就跳过 →
+            # 机队明明有活却全报 SELF-DISPATCH。镜像必须保留原行字段，只同步状态。
+            m = dict(srow) if isinstance(srow, dict) else {}
+            m["state"] = st
+            m["mirrored_from"] = ("PRODUCTION-QUEUE" if auth_is_queue else "PRODUCTION-BACKLOG")
             if auth_is_queue:
                 for _k in ("note", "closed_at", "error_class", "retries", "owner"):
                     if _k in r:
                         m[_k] = r[_k]
             else:
-                m["note"] = "备队列声明被队列状态覆盖（队列为权威）"
+                m.setdefault("note", "备队列声明被队列状态覆盖（队列为权威）")
             m[key] = k
             upd.append(m)
     if upd:
