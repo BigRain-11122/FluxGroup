@@ -228,6 +228,15 @@
       "reason": "B站账号安全令(2026-10-14)停用；bm-a-BiliAutoReply 目标脚本不在盘=BROKEN-LINK 待 retire-or-retarget 委员会裁定",
       "evidence": "task-health 2026-10-26 03:1x 实测 State=Disabled",
       "review_by": "2026-11-08"
+    },
+    {
+      "task": "BigCompute-LaneTaskGuard",
+      "flag": "EXPECTED-DISABLED",
+      "owner": "@HQ 机队席",
+      "reason": "resume 态 Disabled（末跑 2026-11-03 04:34 result=0）；其动作＝lane-task-guard.ps1 -Apply 对 Bigmoney-IterationLoop/LoopWatchdog/HQ-Patrol-BigMoney 保活重启，属 CEO 物理件 S4U 重注册窗口（D-20261105-20）内，启用会以 Interactive 态复活黑窗件并与重注册竞态",
+      "evidence": "D-20261106-04 实读：Get-ScheduledTask State=Disabled + Actions 实参 + LastRunTime 11-03 04:34",
+      "review_by": "2026-11-10",
+      "decision": "D-20261106-04"
     }
   ]
 }
