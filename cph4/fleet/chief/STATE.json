@@ -1,23 +1,34 @@
 {
- "ts": "2026-11-05T17:57:43",
+ "ts": "2026-11-05T18:21:14",
  "stage": 3,
  "adoption": {
   "days": 4,
-  "applied": 1022,
-  "total": 783,
+  "applied": 1027,
+  "total": 787,
   "rate": 130.5,
   "eligible_stage4": false
  },
  "decisions": [
   {
-   "kind": "flag",
-   "why": "3 台机空转且有活",
+   "kind": "requeue",
+   "why": "14 张卡在跑但 1 小时无回执",
    "target": [
-    "bm-a",
-    "bm-b",
-    "bm-m"
+    "AUD-SOFT-20261105T181824-07",
+    "AUD-SOFT-20261105T181824-08",
+    "AUD-SOFT-20261105T181824-09",
+    "AUD-SOFT-20261105T181824-10",
+    "AUD-SOFT-20261105T181824-11",
+    "AUD-SOFT-20261105T181824-12",
+    "AUD-SOFT-20261105T181824-21",
+    "AUD-SOFT-20261105T181824-22",
+    "AUD-SOFT-20261105T181824-23",
+    "AUD-SOFT-20261105T181824-24",
+    "AUD-SOFT-20261105T181824-25",
+    "AUD-SOFT-20261105T181824-26",
+    "AUD-SOFT-20261105T181824-27",
+    "AUD-SOFT-20261105T181824-28"
    ],
-   "min_stage": 1,
+   "min_stage": 3,
    "result": "applied"
   },
   {
@@ -31,6 +42,26 @@
    "result": "applied"
   }
  ],
- "applied": [],
+ "applied": [
+  {
+   "kind": "requeue",
+   "ids": [
+    "AUD-SOFT-20261105T181824-07",
+    "AUD-SOFT-20261105T181824-08",
+    "AUD-SOFT-20261105T181824-09",
+    "AUD-SOFT-20261105T181824-10",
+    "AUD-SOFT-20261105T181824-11",
+    "AUD-SOFT-20261105T181824-12",
+    "AUD-SOFT-20261105T181824-21",
+    "AUD-SOFT-20261105T181824-22",
+    "AUD-SOFT-20261105T181824-23",
+    "AUD-SOFT-20261105T181824-24",
+    "AUD-SOFT-20261105T181824-25",
+    "AUD-SOFT-20261105T181824-26",
+    "AUD-SOFT-20261105T181824-27",
+    "AUD-SOFT-20261105T181824-28"
+   ]
+  }
+ ],
  "brief": "/Users/junsheng.sun/FluxGroup/cph4/fleet/chief/BRIEF-20261105.md"
 }

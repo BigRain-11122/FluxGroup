@@ -15,7 +15,7 @@
    "why": "音色库整线卡在「没有 BV 清单」；先发现候选再生语料，避免白下载",
    "deliverable": "cph4/fleet/voicebank/discover/discover_v01.json",
    "accept": "JSON 含候选数与每人时长/播放/UP；status 必须明确 OK 或 BLOCKED+原因",
-   "status": "pending"
+   "status": "done"
   },
   {
    "id": "C-VB-DISCOVER-V02",
@@ -29,7 +29,7 @@
    "why": "60 席矩阵需要多语域取样，讲解/课堂是「播音腔」之外最缺的一档",
    "deliverable": "cph4/fleet/voicebank/discover/discover_v02.json",
    "accept": "同上：候选数 + 时长分布 + status",
-   "status": "pending"
+   "status": "done"
   },
   {
    "id": "C-VB-DISCOVER-V03",
@@ -54,9 +54,22 @@
    "needs": "cpu",
    "prio": "P1",
    "day_ok": true,
-   "status": "pending",
+   "status": "done",
    "est_gb": 0,
    "why": "CEO 2026-11-03 令：生产产物与底层技术（音色/工作流/技能）要形成经验与资产库，由传家宝做归集与 git 备份"
+  },
+  {
+   "id": "CHK-LIB-20261105",
+   "title": "资产与经验库归集（六类清点+缺口对账，索引进 git）（bm-c 兜底体检）",
+   "cmd": "python3 Tools/fleet/lib_consolidate.py --check --receipt cph4/fleet/queue-receipts/lib-consolidate-20261105.json",
+   "deliverable": "cph4/fleet/lib-consolidate-20261105.json",
+   "accept": "rc∈{0,2}；缺口逐条列出（DONE 卡缺产物/vault 缺盘/音色为空）",
+   "needs": "cpu",
+   "prio": "P2",
+   "day_ok": true,
+   "status": "pending",
+   "est_gb": 0,
+   "why": "bank_autofill: 空闲机兜底体检活，产物落 queue-receipts"
   }
  ]
 }

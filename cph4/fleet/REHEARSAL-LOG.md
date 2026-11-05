@@ -16,3 +16,5 @@
 | 11-05T17:04 | 5 | PASS | - | 38.9s |
 | 11-05T17:44 | 3 | FAIL | A9_p0_has_work | 28.2s |
 | 11-05T17:47 | 2 | PASS | - | 12.6s |
+| 11-05T18:16 | 2 | FAIL | A8_cards_complete | 22.1s |
+| 11-05T18:21 | 2 | FAIL | A9_p0_has_work | 22.2s |
