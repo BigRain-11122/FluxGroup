@@ -139,15 +139,7 @@
           "needs": "cpu"
         }
       ],
-      "prework": [
-        {
-          "step": "bm-d 装机前置：模型清单与迁移脚本清单（不装机也能写）",
-          "deliverable": "cph4/fleet/BMD-ONBOARD-CHECKLIST.md",
-          "accept": "含模型清单/端口/并发/回滚四节；每条能照做",
-          "owner": "bm-m",
-          "needs": "cpu"
-        }
-      ]
+      "prework": []
     },
     {
       "id": "U-RECON-SRC",
@@ -167,15 +159,7 @@
           "needs": "cpu"
         }
       ],
-      "prework": [
-        {
-          "step": "拆解模板就绪：拿任何一条片子都能直接套的四项结论骨架",
-          "deliverable": "cph4/fleet/recon-dept-v1/TEMPLATE-v1.md",
-          "accept": "钩子/集结构/反转/镜头节奏四栏+标定要求；空模板不许填假数",
-          "owner": "bm-m",
-          "needs": "cpu"
-        }
-      ]
+      "prework": []
     }
   ]
 }

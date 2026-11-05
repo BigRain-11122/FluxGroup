@@ -87,7 +87,33 @@ def main(argv):
     today = time.strftime("%Y%m%d")
 
     waiting, unlocked, created, need_build = [], [], [], []
+    prework_done, prework_new = [], []
     for plan in spec.get("plans") or []:
+        # 前置件（不依赖物理件）：现在就派，不等触发。
+        # CEO 2026-11-05：「虽然物理件卡住了，后续工作可以提前开展而不是等待」。
+        for pw in (plan.get("prework") or []):
+            wid = "PW-%s-%s" % (plan.get("id", "X").replace("U-", ""),
+                                abs(hash(pw.get("step"))) % 1000)
+            if wid in have:
+                prework_done.append(wid)
+                continue
+            if not pw.get("cmd"):
+                need_build.append({"plan": plan.get("id"), "step": pw.get("step"),
+                                   "build": pw.get("needs_build") or "缺可执行命令",
+                                   "deliverable": pw.get("deliverable")})
+                continue
+            dl = str(pw.get("deliverable") or "").replace("{date}", today)
+            if dl and os.path.exists(os.path.join(ROOT, dl)):
+                prework_done.append(wid)          # 产物已在盘 = 前置件已完成
+                continue
+            prework_new.append({"id": wid, "title": "[前置] " + str(pw.get("step")),
+                                "cmd": pw["cmd"].replace("{date}", today), "cwd": "",
+                                "needs": pw.get("needs") or "cpu", "minutes": 3,
+                                "deliverable": dl, "accept": pw.get("accept") or "",
+                                "nodes": [pw.get("owner") or "bm-m"], "prio": "P1",
+                                "line": plan.get("line"), "state": "OPEN",
+                                "created_by": "unlock:prework",
+                                "created_at": datetime.now().isoformat(timespec="seconds")})
         ok = triggered(plan.get("trigger") or {})
         rec = {"id": plan.get("id"), "line": plan.get("line"),
                "waiting_on": plan.get("waiting_on"), "triggered": ok}
@@ -121,6 +147,9 @@ def main(argv):
         rec["steps"] = steps
         unlocked.append(rec)
 
+    for c in prework_new:
+        if c["id"] not in have:
+            created.append(c)
     if created and not a.dry:
         try:
             import fleet_lane as fl
@@ -131,6 +160,7 @@ def main(argv):
     out = {"ts": datetime.now().isoformat(timespec="seconds"),
            "waiting": waiting, "unlocked": unlocked,
            "created": [c["id"] for c in created], "need_build": need_build,
+           "prework_ready": prework_done,
            "note": "已解锁但缺工具的步骤不造卡，转 L2 决策：先建工具再派"}
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, "w", encoding="utf-8") as f:
@@ -157,8 +187,8 @@ def main(argv):
     if a.json:
         print(json.dumps(out, ensure_ascii=False, indent=1))
     else:
-        print("[unlock] waiting=%d unlocked=%d created=%d need-build=%d"
-              % (len(waiting), len(unlocked), len(created), len(need_build)))
+        print("[unlock] waiting=%d unlocked=%d created=%d need-build=%d prework-done=%d"
+              % (len(waiting), len(unlocked), len(created), len(need_build), len(prework_done)))
         for w in waiting:
             print("  等：%s ← %s" % (w["line"], w["waiting_on"]))
         for c in out["created"]:
