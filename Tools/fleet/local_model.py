@@ -115,8 +115,59 @@ def generate(prompt, cls="master", model=None, timeout=90, keep_alive="15m",
         release()
 
 
+_EMB_CACHE = {}
+_EMB_CACHE_PATH = None
+
+
+def _emb_cache_path():
+    global _EMB_CACHE_PATH
+    if _EMB_CACHE_PATH is None:
+        import os as _os
+        root = _os.path.dirname(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+        _EMB_CACHE_PATH = _os.path.join(root, "cph4", "fleet", "state", "embed-cache.json")
+    return _EMB_CACHE_PATH
+
+
+def _emb_cached(key):
+    """同一段文本的向量只算一次（2026-11-05 实测：一天 3.6 万次 embeddings，全是重复算同一批卡）。"""
+    global _EMB_CACHE
+    if not _EMB_CACHE:
+        try:
+            import json as _json
+            _EMB_CACHE = _json.load(open(_emb_cache_path(), encoding="utf-8"))
+        except Exception:
+            _EMB_CACHE = {}
+    return _EMB_CACHE.get(key)
+
+
+def _emb_store(key, vec, cap=6000):
+    global _EMB_CACHE
+    try:
+        import json as _json
+        _EMB_CACHE[key] = vec
+        if len(_EMB_CACHE) > cap:                      # 简单封顶：丢最早的一半
+            for k in list(_EMB_CACHE)[: len(_EMB_CACHE) - cap // 2]:
+                _EMB_CACHE.pop(k, None)
+        tmp = _emb_cache_path() + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as f:
+            _json.dump(_EMB_CACHE, f, ensure_ascii=False)
+        import os as _os
+        _os.replace(tmp, _emb_cache_path())
+    except Exception:
+        pass
+
+
 def embed(text, cls="master", model=None, timeout=5, why=""):
-    """嵌入向量。失败抛异常（语义判重的调用方自己做熔断）。"""
+    """嵌入向量。失败抛异常（语义判重的调用方自己做熔断）。
+
+    带内容哈希缓存：重复文本（同一批卡在多轮判重里反复出现）直接命中，不再打模型。
+    """
+    import hashlib as _hl
+    key = _hl.sha256(((model or "") + "|" + (text or "")[:800]).encode("utf-8")).hexdigest()[:24]
+    hit = _emb_cached(key)
+    if hit:
+        _audit({"cls": cls, "op": "embed-cache-hit", "why": why})
+        return hit
     hold(cls, why or "embed", seconds=20)
     t0 = time.time()
     try:
@@ -124,6 +175,8 @@ def embed(text, cls="master", model=None, timeout=5, why=""):
                 or "qwen3-embedding:0.6b", "prompt": (text or "")[:800]}
         v = _post("/api/embeddings", body, timeout).get("embedding")
         _audit({"cls": cls, "op": "embed", "sec": round(time.time() - t0, 2), "why": why})
+        if v:
+            _emb_store(key, v)
         return v
     finally:
         release()

@@ -122,7 +122,11 @@ def main():
     path = os.path.join(root, fl.JUDGMENT_REL.replace("/", os.sep))
     rows = fl.read_jsonl(path)
     auto = autodecide(rows)          # 先让超时项按默认动作结案，再让模型处理新的
-    todo = [r for r in rows if r.get("state") == "OPEN"][:MAX_PER_CYCLE]
+    # 路由 v2（2026-11-05）：这几类题型已有规则裁决（decision_close 跑在本阶段之前），
+    # 再让 4B 跑一遍只是浪费一轮——实测这类题在 4B 上几乎全 escalate，且缺料归因 3/3 判错。
+    RULE_KINDS = {"LINE-LATE", "LINE-STALE", "LINE-BLOCKED", "CAPACITY", "RETRY"}
+    todo = [r for r in rows if r.get("state") == "OPEN"
+            and str(r.get("kind") or "").upper() not in RULE_KINDS][:MAX_PER_CYCLE]
     # Parallel on purpose: 2026-10-31 measured 3 concurrent 4B calls at ~41 tok/s each with
     # no extra memory, so serialising judgments burns wall-clock for nothing.
     with ThreadPoolExecutor(max_workers=MAX_PER_CYCLE) as ex:

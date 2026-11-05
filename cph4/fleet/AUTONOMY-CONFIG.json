@@ -220,5 +220,10 @@
    "what": "非 127.0.0.1 的 11434 请求=绕闸，记 cph4/fleet/state/local-bypass.json",
    "action": "24h 内 0 次绕过才允许把 Ollama 绑到 127.0.0.1"
   }
+ },
+ "model_routing": {
+  "source": "cph4/fleet/MODEL-ROUTING-v2.json",
+  "note": "按题型路由（deterministic/embed/text-small/judgment/long-form/gpu-production/overflow）；任一档超时或空答即切下一档不重试；上云仍受 daily_cny_cap 与 local_evidence 约束",
+  "embed_cache": "cph4/fleet/state/embed-cache.json（内容哈希，命中不调模型）"
  }
 }
