@@ -1,12 +1,13 @@
 {
   "_comment": "24h 无人值守自动化系统的唯一阈值源（v1·2026-11-05）。改阈值只改这里，代码内禁止再写字面量。契约说明见 AUTONOMY-SYSTEM-v1.md。",
-  "version": "v1-20261105",
+  "version": "v1-20261105c",
   "owner": "中枢",
   "orders": [
     "CEO 2026-11-05：云端按日预算放开，硬上限 ¥100/天",
     "CEO 2026-11-05：优先本地算力互相赋能，其次云端，有必要才用，不要浪费",
     "CEO 2026-11-05：bm-d 本周入网，先按一等节点留位",
-    "CEO 2026-11-05：24h 主推进线 = MV 41 曲 / 游戏 / 资产库 / 金融回测"
+    "CEO 2026-11-05：24h 主推进线 = MV 41 曲 / 游戏 / 资产库 / 金融回测",
+    "CEO 2026-11-05：要多个智能体分工协作，MacBook 专门做这些"
   ],
   "cloud": {
     "mode": "last-resort",
@@ -45,7 +46,24 @@
     "floor_cards_per_node": 5,
     "cap_cards_per_node": 40,
     "require_deliverable_and_accept": true,
-    "allow_cross_node_fallback": true
+    "allow_cross_node_fallback": true,
+    "slots_per_node": {
+      "bm-a": 3,
+      "bm-b": 3,
+      "bm-c": 2,
+      "bm-m": 1,
+      "bm-d": 8
+    },
+    "_slots_why": "每机并发槽位数（一次一张卡=假容量）。GPU 卡在车道侧串行；主控固定 1 且只吃轻活。",
+    "meta_card_prefixes": [
+      "CHK-",
+      "CANARY-",
+      "Q-TRIAGE-",
+      "R-TRIAGE-",
+      "R-MODEL-RADAR-",
+      "R-PLAN-"
+    ],
+    "meta_cards_max_per_node": 1
   },
   "progress": {
     "report_every_s": 45,
@@ -129,5 +147,19 @@
     "mode": "off",
     "_why": "脉不做 rebase/merge/commit/push：一天 4 次覆盖人工工作。独立工作树落地后改回 full。",
     "sync_owner": "bm-m 人工会话 或 S4 账房（安静窗口）"
+  },
+  "pulse": {
+    "disabled_stages": [
+      "showcase",
+      "forecast",
+      "surface",
+      "orgs",
+      "gate_rigor",
+      "warm",
+      "decide"
+    ],
+    "canary_every_cycles": 4,
+    "lane_timeout_s": 120,
+    "loop_seconds": 180
   }
 }
