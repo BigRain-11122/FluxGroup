@@ -1,32 +1,32 @@
 {
- "ts": "2026-11-05T15:16:43",
- "cycle": 77,
+ "ts": "2026-11-05T15:17:17",
+ "cycle": 80,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-05T15:16:43",
+ "master_tick_ts": "2026-11-05T15:17:17",
  "queue": {
-  "total": 447,
-  "open": 9,
+  "total": 456,
+  "open": 10,
   "running": 4,
-  "done": 232,
-  "failed": 27
+  "done": 237,
+  "failed": 26
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 24.0,
-   "cpu_load_pct": 57,
-   "ram_free_gb": 20.3,
-   "gpu_util_pct": 4,
+   "hb_age_s": -1.9,
+   "cpu_load_pct": 29,
+   "ram_free_gb": 20.5,
+   "gpu_util_pct": 3,
    "job": "B-MV-AUDIT-20261105",
    "last_result": {
-    "job": "bigstream-mv-gate-2026-11-05",
-    "state": "FAILED",
-    "rc": 1,
-    "ts": "2026-11-05T15:16:39",
+    "job": "B-MV-AUDIT-20261105",
+    "state": "BUSY",
+    "rc": null,
+    "ts": "2026-11-05T15:17:11",
     "reason": null,
     "out_bytes": null,
-    "elapsed_s": null
+    "elapsed_s": 450
    },
    "idle_confirmed": false,
    "idle_reason": "",
@@ -34,7 +34,7 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 37.3,
+   "hb_age_s": 71.2,
    "cpu_load_pct": 14,
    "ram_free_gb": 12.1,
    "gpu_util_pct": null,
@@ -54,7 +54,7 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 42.1,
+   "hb_age_s": 76.0,
    "cpu_load_pct": 7,
    "ram_free_gb": 3.2,
    "gpu_util_pct": 4,
@@ -74,16 +74,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 1.0,
+   "hb_age_s": 34.9,
    "cpu_load_pct": 21,
    "ram_free_gb": 12.7,
    "gpu_util_pct": null,
-   "job": "asset-lib-env-check-2026-11-05",
+   "job": "SIM-20261105T151324-03-1",
    "last_result": {
-    "job": "SIM-20261105T151623-04-1",
+    "job": "SIM-20261105T151659-07-1",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-05T15:16:30",
+    "ts": "2026-11-05T15:17:06",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -110,13 +110,15 @@
    "jobs": [
     "B-MV-AUDIT-20261105",
     "SIM-20261105T151259-01-0",
-    "SIM-20261105T151324-03-0",
-    "SIM-20261105T151635-05-0"
+    "SIM-20261105T151635-05-0",
+    "SIM-20261105T151647-06-0",
+    "SIM-20261105T151711-08-0"
    ],
    "no_supply": false,
    "blockers": [
-    "SIM-20261105T151324-03-0:no-lane",
-    "SIM-20261105T151635-05-0:no-lane"
+    "SIM-20261105T151635-05-0:no-lane",
+    "SIM-20261105T151647-06-0:no-lane",
+    "SIM-20261105T151711-08-0:no-lane"
    ],
    "note": null,
    "stuck_stage": "mv-plan",
@@ -197,12 +199,13 @@
    "owner": "量化席",
    "jobs": [
     "SIM-20261105T151324-03-1",
-    "SIM-20261105T151635-05-1"
+    "SIM-20261105T151635-05-1",
+    "SIM-20261105T151711-08-1"
    ],
    "no_supply": false,
    "blockers": [
-    "SIM-20261105T151324-03-1:no-lane",
-    "SIM-20261105T151635-05-1:no-lane"
+    "SIM-20261105T151635-05-1:no-lane",
+    "SIM-20261105T151711-08-1:no-lane"
    ],
    "note": "2026-11-04 夜班重启：原回测阶段钉 bm-d，而 bm-d 自 10-29 离线；改由 bm-b（有 quant 仓与数据）出「下月持仓信号 CSV」，主控按 P1 恢复派单。",
    "stuck_stage": "quant-data",
@@ -288,15 +291,15 @@
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
    "jobs": [
+    "CHT-20261105T134829-99",
     "SIM-20261105T151037-01-infra",
-    "SIM-20261105T151049-02-infra",
-    "SIM-20261105T151635-05-infra"
+    "SIM-20261105T151711-08-infra"
    ],
    "no_supply": false,
    "blockers": [
+    "CHT-20261105T134829-99:no-lane",
     "SIM-20261105T151037-01-infra:no-lane",
-    "SIM-20261105T151049-02-infra:no-lane",
-    "SIM-20261105T151635-05-infra:no-lane"
+    "SIM-20261105T151711-08-infra:no-lane"
    ],
    "note": null
   },
@@ -308,7 +311,6 @@
    "stale_after_h": 72.0,
    "owner": "资产席",
    "jobs": [
-    "asset-lib-env-check-2026-11-05",
     "asset-lib-char-gen-2026-11-05"
    ],
    "no_supply": false,
@@ -849,7 +851,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 9,
+  "local": 10,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -857,22 +859,21 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 9,
+  "cpu": 10,
   "gpu": 0
  },
  "supply_added": [
-  "backlog_manifest+2"
+  "backlog_manifest+1"
  ],
  "events": [
-  "asset-lib-asset-gen-2026-11-05 FAILED via bm-c",
-  "B-MV-AUDIT-20261105 -> bm-a (cpu)",
-  "asset-lib-char-gen-2026-11-05 -> bm-c (gpu)",
-  "SIM-20261105T151259-01-0 -> bm-b (cpu)"
+  "SIM-20261105T151324-03-1 -> bm-m (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 立意/分镜/导演席 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
- "lane_files_written": []
+ "lane_files_written": [
+  "bm-m"
+ ]
 }

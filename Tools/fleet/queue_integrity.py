@@ -107,6 +107,62 @@ def git_blob_markers(rel):
     return {"file": rel, "git_marker_lines": hits, "git_rows": len(lines)}
 
 
+def _cap_infra():
+    """机制卡每机不许超上限（CEO 2026-11-05 产能配额）。
+
+    实测：bm-m 上堆了 5 张 fleet-ops 卡（上限 2），业务线却缺卡。
+    保留优先级：RUNNING > 新创建；超出的归档，并写明原因。
+    """
+    try:
+        cfg = json.load(open(os.path.join(FLEET, "AUTONOMY-CONFIG.json"), encoding="utf-8"))
+    except Exception:
+        return 0
+    cap = cfg.get("capacity") or {}
+    infra = set(cap.get("infra_lines") or ["fleet-ops"])
+    limit = int(cap.get("infra_max_cards_per_node") or 2)
+    if not infra:
+        return 0
+    touched = []
+    for name in ("PRODUCTION-QUEUE.jsonl", "PRODUCTION-BACKLOG.jsonl"):
+        pth = os.path.join(FLEET, name)
+        try:
+            rows = [json.loads(l) for l in open(pth, encoding="utf-8") if l.strip()]
+        except Exception:
+            continue
+        per = {}
+        for r in rows:
+            if r.get("state") not in ("OPEN", "RUNNING"):
+                continue
+            if (r.get("line") or "") not in infra:
+                continue
+            for n in (r.get("nodes") or ["?"]):
+                per.setdefault(n, []).append(r)
+        for node, lst in per.items():
+            if len(lst) <= limit:
+                continue
+            # 先保 RUNNING，其余按创建时间新→旧保留
+            lst.sort(key=lambda r: (r.get("state") != "RUNNING",
+                                    str(r.get("created_at") or "")))
+            for r in lst[limit:]:
+                if r.get("state") == "RUNNING":
+                    continue
+                r["state"] = "ARCHIVED"
+                r["note"] = "infra-cap: 机制卡每机上限 %d，本机超额归档" % limit
+                r["closed_at"] = datetime.now().isoformat(timespec="seconds")
+                touched.append((name, r))
+    if touched:
+        try:
+            import fleet_lane as fl
+            by = {}
+            for name, r in touched:
+                by.setdefault(name, []).append(r)
+            for name, rs in by.items():
+                fl.merge_jsonl(os.path.join(FLEET, name), rs)
+        except Exception:
+            pass
+    return len(touched)
+
+
 def _reconcile():
     """QUEUE 是状态权威，BACKLOG 只保存声明（2026-11-05：同 id 状态冲突实测 118 处，
     导致做过的重做、停掉的复活）。冲突时把 QUEUE 的状态写回 BACKLOG。"""
@@ -201,11 +257,17 @@ def main(argv):
     ap = argparse.ArgumentParser()
     ap.add_argument("--json", action="store_true")
     ap.add_argument("--no-git", action="store_true")
+    ap.add_argument("--cap-infra", action="store_true",
+                    help="机制卡每机超额部分归档（产能配额）")
     ap.add_argument("--purge-meta", action="store_true",
                     help="把自检/分诊/盘点卡从活跃队列里归档（它们只该在主控脉跑）")
     ap.add_argument("--reconcile", action="store_true",
                     help="以 PRODUCTION-QUEUE 为准回写 PRODUCTION-BACKLOG 的状态")
     a = ap.parse_args(argv)
+    if a.cap_infra:
+        n = _cap_infra()
+        if n:
+            print("[queue-integrity] infra-cap: archived %d card(s)" % n)
     if a.purge_meta:
         n = _purge_meta()
         if n:
