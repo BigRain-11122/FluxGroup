@@ -374,6 +374,17 @@ def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
                         "note": "SELFHEAL-FAILED %s: %s" % (_tool, _det)}
     except Exception as _e:
         print("selfheal skipped:", str(_e)[:100])
+    # 本机能力闸（2026-11-05 实测包络）：GPU 卡开工前必须确认
+    # ①swap 没有在涨 ②可用内存减去保留量够用 ③退掉不该驻留的模型。
+    if str(needs).lower() in ("gpu", "gpu-encode", "gpu-vision"):
+        try:
+            import capacity_guard as _cg
+            _ok, _why = _cg.before_gpu(need_gb=float(job.get("need_gb") or 10))
+            if not _ok:
+                return {"id": jid, "rc": None, "note": "CAPACITY-BLOCK %s" % _why}
+        except Exception as _e:
+            print("capacity guard skipped:", str(_e)[:80])
+
     # 卡面闸（第二道，2026-11-03）：主控指定给本机的卡也验一次。写错的卡当场记
     # CARD-DEFECT 并落回执，不拿 4 秒"失败"去污染这台机的可靠性账。
     _gate_cwd = None

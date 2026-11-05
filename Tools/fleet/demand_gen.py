@@ -117,6 +117,24 @@ def src_media_proxy():
     return out
 
 
+def src_game_docs():
+    """提审缺口：产品目录缺隐私政策就派一张（标准件，机器可生成）。"""
+    base = os.path.join(ROOT, "软著申请材料")
+    out = []
+    if not os.path.isdir(base):
+        return out
+    for n in sorted(os.listdir(base)):
+        # 排除归档/临时目录：实测车道会挑到「已封存_xxx」「_报审提交区」这类无效活
+        if n.startswith("_") or "封存" in n or "提交区" in n or "旧" in n:
+            continue
+        d = os.path.join(base, n)
+        if not os.path.isdir(d):
+            continue
+        if not os.path.exists(os.path.join(d, "privacy-policy.md")):
+            out.append({"product": n})
+    return out
+
+
 def src_bm_a_preview(vault=None):
     """bm-a 装配：竖屏素材已齐 → 拼一条 30s 预览片（真产物，不是清单）。"""
     vdir = os.path.join(vault, "incoming", "motions-vertical")
@@ -160,6 +178,7 @@ SOURCES = [
     # 产物落 media/review-720p，谁跑都可复算。这是「按机型分源」的样板。
     ("media-proxy", src_media_proxy, "bm-a"),
     ("media-proxy-local", src_media_proxy, "bm-m"),
+    ("game-docs", src_game_docs, "bm-m"),
     ("bm-a-preview", src_bm_a_preview, "bm-a"),
     ("bm-b-asr", src_bm_b_asr, "bm-b"),
     ("bm-c-dedupe", src_bm_c_dedupe, "bm-c"),
@@ -207,6 +226,16 @@ def main(argv=None):
                     "cwd": "", "requires": ["Tools/fleet/asset_gap_audit.py"],
                     "deliverable": os.path.join(F, "state", "asset-gap.json"),
                     "why": "P0 缺口 %d 件（目标 %d），需按 collectors 补" % (g["gap"], g["p0"]),
+                }
+            elif name == "game-docs":
+                cid = "DOCS-%s" % g["product"][:24]
+                card = {
+                    "id": cid, "title": "隐私政策 %s" % g["product"][:26],
+                    "needs": "cpu", "nodes": [node], "prio": "P3",
+                    "cmd": "python3 Tools/fleet/submit_docs.py --only %s" % g["product"],
+                    "cwd": "", "requires": ["Tools/fleet/submit_docs.py"],
+                    "deliverable": os.path.join("软著申请材料", g["product"], "privacy-policy.md"),
+                    "why": "提审包缺隐私政策（机检：产品目录无 privacy-policy.md）",
                 }
             elif name == "bm-a-preview":
                 cid = "PREVIEW-30S-20261105"
