@@ -1,4 +1,4 @@
-# 交接一屏（2026-11-05 10:58）
+# 交接一屏（2026-11-05 11:11）
 
 > 新会话先读这一页，再看具体文件。四段：在产 / 待判 / 阻塞 / 下一步。
 
@@ -6,10 +6,10 @@
 
 - `CHK-DUPES-20261103` 重复派单向量重扫（bm-m 兜底体检）（bm-m，45 分钟租约）
 - `bigstream-mv-gate-2026-11-05` [MV·爱在西元前（v721 终版）] 交付闸（重复/静止/抖动/闪烁）（bm-a，45 分钟租约）
-- `asset-lib-asset-gen-2026-11-05` [资产储备（角色 LoRA / 音色库）] 通用资产出图（道具/场景，吃 ASSET-PROMPTS 规格）（bm-b，180 分钟租约）
+- `Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105` 音色微调试点·libritts-e01（语料→SoVITS s2→权重，DE-AI-SPEC A8 批前抽检）（bm-b，240 分钟租约）
 - `asset-lib-char-gen-2026-11-05` [资产储备（角色 LoRA / 音色库）] 角色包出图（本机 ComfyUI，1024²，同 seed 组）（bm-c，180 分钟租约）
 
-## 二、待判（19 张在队列等机器）
+## 二、待判（20 张在队列等机器）
 
 - `R-NEXT-BIGSTREAMD-TTS-QC-20261104` 配音批质检：r1202 目录逐集时长/静音/体积（出可发布集数清单）（bigstream-duanju）
 - `R-PLAN-BIGSTREAMDUA-20261104` BigStream·短剧 线级体检与缺口清单（bigstream-duanju）
@@ -33,17 +33,17 @@
 - 断言 I12：15 条
 - 断言 I14：3 条
 - 机器 bm-a：BUSY-NO-REPORT、NO-RECEIPT-1H
-- 机器 bm-b：BUSY-NO-REPORT、NO-RECEIPT-1H
-- 机器 bm-c：BUSY-NO-REPORT、NO-RECEIPT-1H
+- 机器 bm-b：NO-RECEIPT-1H
+- 机器 bm-c：NO-RECEIPT-1H
 - 机器 bm-m：BUSY-NO-REPORT
 
 ## 四、下一步（P0 两线）
 
-- bigstream-mv：过闸率 73.5，返工 14，产出年龄 22.8
-- bigstream-drama：过闸率 73.3，返工 7，产出年龄 4.6
-- bigstream-duanju：过闸率 50.0，返工 3，产出年龄 136.1
-- biggame：过闸率 57.1，返工 2，产出年龄 41.5
-- asset-lib：过闸率 37.5，返工 22，产出年龄 0.1
+- bigstream-mv：过闸率 73.5，返工 14，产出年龄 23.0
+- bigstream-drama：过闸率 73.3，返工 7，产出年龄 4.9
+- bigstream-duanju：过闸率 50.0，返工 3，产出年龄 136.3
+- biggame：过闸率 57.1，返工 2，产出年龄 41.7
+- asset-lib：过闸率 37.5，返工 23，产出年龄 0.1
 
 ## 五、已发布（0 条）
 
