@@ -1,14 +1,14 @@
 {
  "node": "bm-c",
- "ts": "2026-11-05T19:44:09",
+ "ts": "2026-11-05T19:45:18",
  "jobs": [
   {
-   "id": "DOCS-_报审提交区",
-   "title": "隐私政策 _报审提交区",
-   "cmd": "python3 Tools/fleet/submit_docs.py --only _报审提交区",
-   "cwd": "",
+   "id": "VER-D-194509",
+   "title": "验证·VER-D-194509",
+   "cmd": "python3 -c \"print(1)\"",
+   "cwd": "/Users/junsheng.sun/FluxGroup",
    "needs": "cpu",
-   "deliverable": "软著申请材料/_报审提交区/privacy-policy.md",
+   "deliverable": "cph4/fleet/state/fleet-verify/VER-D-194509.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
