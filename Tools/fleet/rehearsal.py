@@ -223,11 +223,12 @@ def scenarios():
     import shutil
     results = []
     today = datetime.now().strftime("%Y%m%d")
+    stamp = datetime.now().strftime("%Y%m%dT%H%M%S")
 
     # S1 自检卡洪水 → 读口清洗后应归零
     flood = []
     for i in range(3):
-        cid = "CHK-FLOOD-%s-%d" % (today, i)
+        cid = "CHK-FLOOD-%s-%d" % (stamp, i)
         flood.append({"id": cid, "title": "故障注入：自检卡", "cmd": "python3 -c \"print(1)\"",
                       "cwd": "", "needs": "cpu", "deliverable": "%s/%s.json" % (SIMDIR, cid),
                       "accept": "-", "nodes": ["bm-m"], "line": "fleet-ops", "prio": "P3",
@@ -240,7 +241,7 @@ def scenarios():
                     "ok": not alive, "detail": "%d 张仍活跃" % len(alive)})
 
     # S2 同 id 两状态 → 对账后应一致
-    dup_id = "SIM-DUP-%s" % today
+    dup_id = "SIM-DUP-%s" % stamp
     fl.merge_jsonl(Q, [{"id": dup_id, "title": "故障注入：队列里 OPEN", "cmd": "python3 -c \"print(1)\"",
                         "needs": "cpu", "deliverable": "%s/dup.json" % SIMDIR, "accept": "-",
                         "nodes": ["bm-m"], "line": "biggame", "state": "OPEN",
@@ -257,12 +258,12 @@ def scenarios():
                     "detail": "queue=%s backlog=%s" % (qm.get(dup_id), bm2.get(dup_id))})
 
     # S3 缺命令的卡 → 必须被识别为缺陷（不能被当正常活）
-    fl.merge_jsonl(Q, [{"id": "SIM-NOCMD-%s" % today, "title": "故障注入：无命令",
+    fl.merge_jsonl(Q, [{"id": "SIM-NOCMD-%s" % stamp, "title": "故障注入：无命令",
                         "needs": "cpu", "deliverable": "%s/nocmd.json" % SIMDIR,
                         "nodes": ["bm-m"], "line": "biggame", "state": "OPEN",
                         "created_by": "rehearsal:scenario"}])
     q = rows(Q)
-    bad = [r for r in q if r.get("id") == "SIM-NOCMD-%s" % today
+    bad = [r for r in q if r.get("id") == "SIM-NOCMD-%s" % stamp
            and r.get("state") in ("OPEN", "RUNNING")]
     results.append({"scenario": "S3 无命令卡", "expect": "A8 断言判红（缺陷可见）",
                     "ok": bool(bad), "detail": "断言会判红=可见" if bad else "被静默放过"})
@@ -272,7 +273,7 @@ def scenarios():
     capn = int((cfg.get("capacity") or {}).get("infra_max_cards_per_node") or 2)
     many = []
     for i in range(4):
-        many.append({"id": "SIM-INFRA-%s-%d" % (today, i), "title": "故障注入：机制卡",
+        many.append({"id": "SIM-INFRA-%s-%d" % (stamp, i), "title": "故障注入：机制卡",
                      "cmd": "python3 -c \"print(1)\"", "needs": "cpu",
                      "deliverable": "%s/infra%d.json" % (SIMDIR, i), "accept": "-",
                      "nodes": ["bm-a"], "line": "fleet-ops", "state": "OPEN",
@@ -285,7 +286,7 @@ def scenarios():
                     "ok": n <= capn, "detail": "%d 张仍活跃" % n})
 
     # S5 输入缺失的卡 → 不应被派去白跑
-    miss = "SIM-MISSING-%s" % today
+    miss = "SIM-MISSING-%s" % stamp
     fl.merge_jsonl(Q, [{"id": miss, "title": "故障注入：输入缺失",
                         "cmd": "python3 -c \"print(1)\"", "needs": "cpu",
                         "deliverable": "%s/miss.json" % SIMDIR,
