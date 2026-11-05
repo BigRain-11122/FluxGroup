@@ -1,25 +1,23 @@
 {
  "node": "bm-b",
- "ts": "2026-11-05T10:00:27",
+ "ts": "2026-11-05T10:21:24",
  "jobs": [
   {
-   "id": "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105",
-   "title": "音色微调试点·libritts-e01（语料→SoVITS s2→权重，DE-AI-SPEC A8 批前抽检）",
-   "cmd": "python C:/Fluxgroup/FleetAgent/Tools/voicebank/vb_train_card.py --voice libritts-e01 --raw C:/Fluxgroup/FluxGroup/media/asset/inbox/e01 --receipt C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-train-libritts-e01-r3-20261105.json",
-   "cwd": "C:/Fluxgroup/FleetAgent",
+   "id": "asset-lib-char-gen-2026-11-05",
+   "title": "[资产储备（角色 LoRA / 音色库）] 角色包出图（本机 ComfyUI，1024²，同 seed 组）",
+   "cmd": "python Tools/fleet/char_gen.py --node bm-c --limit 12",
+   "cwd": "",
    "needs": "gpu",
-   "deliverable": "C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-train-libritts-e01-r3-20261105.json",
+   "deliverable": "cph4/fleet/queue-receipts/char-gen-bm-c-2026-11-05.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
-   "when_all": [
-    "C:/Fluxgroup/FluxGroup/media/asset/voices/e01/sliced"
-   ],
+   "when_all": [],
    "llm": null,
-   "timeout_s": 14400
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 13.6/1.0 GB"
+ "capacity_note": "ram 13.2/1.0 GB"
 }

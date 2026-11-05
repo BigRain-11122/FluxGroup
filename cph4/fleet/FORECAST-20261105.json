@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-05T10:04:37+0800",
+ "ts": "2026-11-05T10:20:21+0800",
  "alert_days": 2.0,
  "lines": [
   {
@@ -145,13 +145,14 @@
    "line": "fluxverse",
    "status": "ACTIVE",
    "prio": "P2",
-   "stock": 2,
+   "stock": 1,
    "rate_per_day": 0.67,
-   "runway_days": 3.0,
+   "runway_days": 1.5,
    "has_table": false,
    "blocker": null,
    "flags": [
-    "NO-TABLE"
+    "NO-TABLE",
+    "ALERT"
    ]
   },
   {
@@ -186,9 +187,9 @@
    "line": "fleet-ops",
    "status": "ACTIVE",
    "prio": "P3",
-   "stock": 5,
+   "stock": 6,
    "rate_per_day": 7.0,
-   "runway_days": 0.7,
+   "runway_days": 0.9,
    "has_table": false,
    "blocker": null,
    "flags": [
@@ -238,6 +239,6 @@
    ]
   }
  ],
- "alerts": 6,
+ "alerts": 7,
  "no_table": 6
 }
