@@ -1,29 +1,29 @@
 {
- "ts": "2026-11-05T08:24:07",
- "cycle": 60,
+ "ts": "2026-11-05T08:31:23",
+ "cycle": 61,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-05T08:24:07",
+ "master_tick_ts": "2026-11-05T08:31:23",
  "queue": {
   "total": 410,
-  "open": 22,
+  "open": 23,
   "running": 4,
   "done": 188,
-  "failed": 23
+  "failed": 22
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 53.5,
-   "cpu_load_pct": 33,
-   "ram_free_gb": 32.6,
-   "gpu_util_pct": 0,
+   "hb_age_s": 9.0,
+   "cpu_load_pct": 45,
+   "ram_free_gb": 33.3,
+   "gpu_util_pct": 2,
    "job": "Q-VCORP-PREP-e01-R3-20261105",
    "last_result": {
-    "job": "asset-lib-face-dataset-2026-11-05",
-    "state": "FAILED",
+    "job": "bigstream-mv-gate-2026-11-05",
+    "state": "RUNNING",
     "rc": null,
-    "ts": "2026-11-05T08:20:05",
+    "ts": "2026-11-05T08:30:05",
     "reason": null
    },
    "idle_confirmed": false,
@@ -32,28 +32,34 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 15.5,
-   "cpu_load_pct": 6,
-   "ram_free_gb": 12,
+   "hb_age_s": 30.5,
+   "cpu_load_pct": 2,
+   "ram_free_gb": 10.9,
    "gpu_util_pct": null,
    "job": "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105",
-   "last_result": null,
+   "last_result": {
+    "job": "asset-lib-asset-gen-2026-11-05",
+    "state": "FAILED",
+    "rc": 3,
+    "ts": "2026-11-05T08:28:54",
+    "reason": null
+   },
    "idle_confirmed": false,
    "idle_reason": "",
    "idle_rounds": 0
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 63.3,
-   "cpu_load_pct": 6,
-   "ram_free_gb": 3.5,
+   "hb_age_s": 8.1,
+   "cpu_load_pct": 9,
+   "ram_free_gb": 2.9,
    "gpu_util_pct": 0,
-   "job": "asset-lib-asset-gen-2026-11-05",
+   "job": "asset-lib-char-gen-2026-11-05",
    "last_result": {
-    "job": "asset-lib-char-gen-2026-11-05",
-    "state": "FAILED",
-    "rc": 0,
-    "ts": "2026-11-05T08:21:24",
+    "job": "asset-lib-face-dataset-2026-11-05",
+    "state": "RUNNING",
+    "rc": null,
+    "ts": "2026-11-05T08:30:19",
     "reason": null
    },
    "idle_confirmed": false,
@@ -62,16 +68,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.9,
-   "cpu_load_pct": 12,
-   "ram_free_gb": 13.0,
+   "hb_age_s": 1.0,
+   "cpu_load_pct": 20,
+   "ram_free_gb": 14.5,
    "gpu_util_pct": null,
-   "job": "CHK-DUPES-20261103",
+   "job": "asset-lib-face-dataset-2026-11-05",
    "last_result": {
     "job": "CHK-DUPES-20261103",
     "state": "BUSY",
     "rc": null,
-    "ts": "2026-11-05T08:21:57",
+    "ts": "2026-11-05T08:28:43",
     "reason": null
    },
    "idle_confirmed": false,
@@ -291,6 +297,7 @@
    ],
    "no_supply": false,
    "blockers": [
+    "CHK-DUPES-20261103:no-lane",
     "CANARY-20261104T202057:no-lane",
     "CANARY-20261105T061408:no-lane",
     "CANARY-20261105T073536:no-lane"
@@ -305,9 +312,10 @@
    "stale_after_h": 72.0,
    "owner": "资产席",
    "jobs": [
+    "asset-lib-face-dataset-2026-11-05",
     "Q-VCORP-PREP-e01-R3-20261105",
     "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105",
-    "asset-lib-asset-gen-2026-11-05"
+    "asset-lib-char-gen-2026-11-05"
    ],
    "no_supply": false,
    "blockers": [],
@@ -847,7 +855,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 22,
+  "local": 23,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -855,18 +863,17 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 22,
+  "cpu": 23,
   "gpu": 0
  },
  "supply_added": [
-  "backlog_manifest+2"
+  "backlog_manifest+1"
  ],
  "events": [
-  "asset-lib-face-dataset-2026-11-05 FAILED via bm-a",
-  "asset-lib-char-gen-2026-11-05 FAILED via bm-c",
-  "asset-lib-asset-gen-2026-11-05 -> bm-c (gpu)",
-  "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105 -> bm-b (gpu)",
-  "Q-VCORP-PREP-e01-R3-20261105 -> bm-a (cpu)"
+  "asset-lib-asset-gen-2026-11-05 FAILED via bm-b",
+  "CHK-DUPES-20261103 REQUeued attempt=1",
+  "asset-lib-char-gen-2026-11-05 -> bm-c (gpu)",
+  "asset-lib-face-dataset-2026-11-05 -> bm-m (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
@@ -874,8 +881,7 @@
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-a",
-  "bm-b",
-  "bm-c"
+  "bm-c",
+  "bm-m"
  ]
 }
