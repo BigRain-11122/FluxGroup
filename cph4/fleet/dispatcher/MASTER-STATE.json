@@ -1,29 +1,29 @@
 {
- "ts": "2026-11-05T11:52:57",
- "cycle": 98,
+ "ts": "2026-11-05T11:59:34",
+ "cycle": 99,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-05T11:52:57",
+ "master_tick_ts": "2026-11-05T11:59:34",
  "queue": {
   "total": 408,
-  "open": 12,
+  "open": 13,
   "running": 4,
   "done": 191,
-  "failed": 26
+  "failed": 25
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 22.2,
-   "cpu_load_pct": 23,
-   "ram_free_gb": 30.4,
-   "gpu_util_pct": 38,
+   "hb_age_s": 15.6,
+   "cpu_load_pct": 38,
+   "ram_free_gb": 27.9,
+   "gpu_util_pct": 5,
    "job": "CHK-RECEIPT-20261104",
    "last_result": {
-    "job": "R-NEXT-BIGGAME-SUBMIT-P-20261105",
+    "job": "bigstream-mv-gate-2026-11-05",
     "state": "FAILED",
-    "rc": 2,
-    "ts": "2026-11-05T11:49:49",
+    "rc": 1,
+    "ts": "2026-11-05T11:55:17",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -34,36 +34,28 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 3.1,
-   "cpu_load_pct": 8,
-   "ram_free_gb": 10.8,
-   "gpu_util_pct": null,
-   "job": "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105",
-   "last_result": {
-    "job": "asset-lib-face-dataset-2026-11-05",
-    "state": "FAILED",
-    "rc": null,
-    "ts": "2026-11-05T11:46:14",
-    "reason": null,
-    "out_bytes": null,
-    "elapsed_s": null
-   },
+   "hb_age_s": 55.3,
+   "cpu_load_pct": 3,
+   "ram_free_gb": 13.3,
+   "gpu_util_pct": 0,
+   "job": "asset-lib-face-dataset-2026-11-05",
+   "last_result": null,
    "idle_confirmed": false,
    "idle_reason": "",
    "idle_rounds": 0
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 77.6,
+   "hb_age_s": 26.3,
    "cpu_load_pct": 9,
-   "ram_free_gb": 2.1,
-   "gpu_util_pct": 0,
+   "ram_free_gb": 2.0,
+   "gpu_util_pct": 2,
    "job": "asset-lib-asset-gen-2026-11-05",
    "last_result": {
-    "job": "asset-lib-char-gen-2026-11-05",
+    "job": "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105",
     "state": "FAILED",
-    "rc": 0,
-    "ts": "2026-11-05T11:49:04",
+    "rc": null,
+    "ts": "2026-11-05T11:57:13",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -74,19 +66,19 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.8,
-   "cpu_load_pct": 32,
-   "ram_free_gb": 20.2,
+   "hb_age_s": 0.9,
+   "cpu_load_pct": 20,
+   "ram_free_gb": 14.5,
    "gpu_util_pct": null,
    "job": "CHK-DUPES-20261103",
    "last_result": {
-    "job": "CANARY-20261105T114954",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-05T11:49:55",
+    "job": "CHK-DUPES-20261103",
+    "state": "BUSY",
+    "rc": null,
+    "ts": "2026-11-05T11:56:48",
     "reason": null,
-    "out_bytes": null,
-    "elapsed_s": null
+    "out_bytes": 0,
+    "elapsed_s": 225
    },
    "idle_confirmed": false,
    "idle_reason": "",
@@ -300,11 +292,14 @@
    "stale_after_h": 72.0,
    "owner": "资产席",
    "jobs": [
-    "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105",
-    "asset-lib-asset-gen-2026-11-05"
+    "asset-lib-face-dataset-2026-11-05",
+    "asset-lib-asset-gen-2026-11-05",
+    "asset-lib-char-gen-2026-11-05"
    ],
    "no_supply": false,
-   "blockers": [],
+   "blockers": [
+    "asset-lib-char-gen-2026-11-05:no-lane"
+   ],
    "note": "CEO 2026-11-03：先储备资产，角色 LoRA 与音色库为 P0"
   }
  },
@@ -841,7 +836,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 12,
+  "local": 13,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -850,17 +845,15 @@
  },
  "supply_gap": {
   "cpu": 12,
-  "gpu": 0
+  "gpu": 1
  },
  "supply_added": [
-  "backlog_manifest+3"
+  "backlog_manifest+2"
  ],
  "events": [
-  "R-NEXT-BIGGAME-SUBMIT-P-20261105 FAILED via bm-a",
-  "asset-lib-face-dataset-2026-11-05 FAILED via bm-b",
-  "asset-lib-char-gen-2026-11-05 FAILED via bm-c",
+  "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105 FAILED via bm-c",
   "asset-lib-asset-gen-2026-11-05 -> bm-c (gpu)",
-  "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105 -> bm-b (gpu)",
+  "asset-lib-face-dataset-2026-11-05 -> bm-b (cpu)",
   "CHK-RECEIPT-20261104 -> bm-a (cpu)"
  ],
  "violations": [
@@ -869,8 +862,6 @@
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-a",
-  "bm-b",
-  "bm-c"
+  "bm-b"
  ]
 }
