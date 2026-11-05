@@ -227,6 +227,10 @@ STAGES = [
      60, {0, 2}, True),
     ("autowork", ["Tools/fleet/autowork.py"], 240, {0}, True),
     ("closer", ["Tools/fleet/closer.py"], 60, {0}, True),
+    # 主控决策大脑（CEO 2026-11-05：规则大脑 + 四线四行）。它不是又一个报告：
+    # 每轮给出四条 P0 线各自唯一的动作，并在 --act 下真的触发 closer/night_plan/workgen。
+    # 放在 closer 之后，看到的是本轮的干净事实。
+    ("master_loop", ["Tools/fleet/master_loop.py", "--act"], 180, {0}, True),
     ("deadline", ["Tools/fleet/fleet_deadline.py"], 120, {0}, True),
     ("supervisor", ["Tools/fleet/fleet_supervisor.py"], 60, {0}, True),
     # One page that names the single decision that moves the fleet now, from disk facts

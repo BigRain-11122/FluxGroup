@@ -43,7 +43,7 @@ def book_prefixes():
     """记账目录（state/receipts/dispatcher）由配置给出，算在用到时，避免模块加载顺序问题。"""
     raw = ((CFG.get("truth") or {}).get("bookkeeping_prefixes") or
            ["cph4/fleet/state/", "cph4/fleet/queue-receipts/", "cph4/fleet/dispatcher/"])
-    return tuple(norm(p) for p in raw)
+    return tuple(norm(p).rstrip("/") for p in raw)
 
 
 def norm(p):
@@ -57,7 +57,9 @@ def is_bookkeeping(p):
             q = norm(os.path.relpath(q, ROOT))
         except ValueError:
             return False
-    return any(q.startswith(pref) for pref in book_prefixes())
+    # 目录本身不带结尾斜杠（cph4/fleet/queue-receipts）也必须算进记账，
+    # 否则证据里一条目录路径就能把整条线判成"刚产出"。
+    return any(q == pref or q.startswith(pref + "/") for pref in book_prefixes())
 
 
 def classify(p):
