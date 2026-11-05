@@ -1,19 +1,83 @@
 {
- "ts": "2026-11-05T17:57:55",
+ "ts": "2026-11-05T18:31:43",
  "dir": "/Volumes/移动硬盘/FluxAssets/store",
  "model": "qwen3.5:4b-mlx",
  "trigger": "",
  "pending": 20,
- "written": 19,
+ "written": 3,
  "rejected": [
   [
-   "6d2a970879a3405c09c93352754479fd0033af0c5aee2499acee828e8b1ff27c.jpg",
-   "长度异常 384",
-   "A dark stone stele with intricate carvings stands in a dimly lit museum exhibit, surrounded by other artifacts under war"
+   "8a42859f6f77a81d0df2cfd38a98cbba0d4fdea7af794e987e2de9960ab3e052.jpg",
+   "只命中 0 个可见属性，像空话",
+   "A rural road flanked by golden rice fields and distant hills, with a small brick house visible on the right side under c"
+  ],
+  [
+   "c6053f71c2df3b141ebd71470e241079f5af53c86c1499d7e6f39e7c529c5be9.jpg",
+   "请求失败 Remote end closed connection without response"
+  ],
+  [
+   "c65395e5cc45b4d970ac3c44a986436add682158524abc2e5e5e045cf76d3192.jpg",
+   "请求失败 <urlopen error [Errno 61] Connection refused>"
+  ],
+  [
+   "c6937ae1eafa826d0a543e5b7dc5ea0f975a438a034f646ad7f7655f157bf8ea.jpg",
+   "请求失败 <urlopen error [Errno 61] Connection refused>"
+  ],
+  [
+   "c78c4c187e9d2fc91ac2512dbeb78b318a02bd6c0439a1ff2800d7b329595d6a.png",
+   "请求失败 <urlopen error [Errno 61] Connection refused>"
+  ],
+  [
+   "c88ceecc87a1f30c683ee0a500f394a8c1cf7384e2754fcc144fe561fda21692.jpg",
+   "请求失败 <urlopen error [Errno 61] Connection refused>"
+  ],
+  [
+   "c8f2faea17d108e3beb66a9e01237fe6358e8ee6185938245ed180f2cef24ef7.jpg",
+   "请求失败 <urlopen error [Errno 61] Connection refused>"
+  ],
+  [
+   "c95dd25a659873f58d1e28cf86d2da85c576bc2c45524453325b0d88ddcba8e6.jpg",
+   "请求失败 <urlopen error [Errno 61] Connection refused>"
+  ],
+  [
+   "c9d4411d864f5f948c225a4f2acd6affde66c765f3967dcb9e6687cf7faf9152.jpg",
+   "请求失败 <urlopen error [Errno 61] Connection refused>"
+  ],
+  [
+   "c9f8c707bc4582bd9bd037bb5b348f8560350c1a4266ca120ae6e721b66666bc.jpg",
+   "请求失败 <urlopen error [Errno 61] Connection refused>"
+  ],
+  [
+   "ca60b4852de0e5d1f775095f897b3f16047934590085520d148c4eec654fc258.jpg",
+   "请求失败 <urlopen error [Errno 61] Connection refused>"
+  ],
+  [
+   "cb7d80b30d8c048d041179f3bc4fd340c716bc227a079f38f123e5937acbae6f.jpg",
+   "请求失败 <urlopen error [Errno 61] Connection refused>"
+  ],
+  [
+   "cbd0758e210775b844684ea14cc0af2b57a96915d291a24cd2678498f3c1460f.png",
+   "请求失败 <urlopen error [Errno 61] Connection refused>"
+  ],
+  [
+   "cc5071329f59f2c280490e2fa6e495a2f539441c68a6f504860baaf2531167ec.jpg",
+   "请求失败 <urlopen error [Errno 61] Connection refused>"
+  ],
+  [
+   "cceadffc2aaba87e7d6dd69943151ac7e42b34179b85c0db3a28e83b28b3ac17.jpg",
+   "请求失败 <urlopen error [Errno 61] Connection refused>"
+  ],
+  [
+   "cd460ebdfba761bc5201de93fa06bb15d4df47d0c3b997464403969a54acaec3.png",
+   "请求失败 <urlopen error [Errno 61] Connection refused>"
+  ],
+  [
+   "cde9c568130dc7f75d2d8cf45039e673b218784855e709f32f886ec24a35e029.png",
+   "请求失败 <urlopen error [Errno 61] Connection refused>"
   ]
  ],
- "seconds": 167.9,
- "per_image_s": 8.4,
+ "seconds": 45.4,
+ "per_image_s": 2.3,
  "verdict": "PASS",
  "gaps": [],
  "status": "PASS"
