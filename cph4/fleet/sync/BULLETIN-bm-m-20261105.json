@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
  "date": "20261105",
- "ts": "2026-11-05T19:43:56+0800",
+ "ts": "2026-11-05T19:50:15+0800",
  "window_h": 26,
  "produced": [
   {
    "path": "cph4/fleet/queue-receipts/skill-promote-20261105.json",
    "bytes": 2172,
-   "mtime": "2026-11-05T19:43:56",
-   "sha": "f72ca748bf4e2cc130c6213097d3474a5fcd9ad368c07fe0c810faa7f2834f0c"
+   "mtime": "2026-11-05T19:50:15",
+   "sha": "2cc360cd752fa36b40837cb0360cab03eb522d7551246f02205b8835b15b3ad5"
   },
   {
    "path": "cph4/fleet/queue-receipts/asset-env-2026-11-05.json",
@@ -303,8 +303,8 @@
    "why": "rc=127 "
   },
   {
-   "what": "asset-lib-env-check-2026-11-05",
-   "why": "E-UNKNOWN ASSET-ENV FAIL  bm-m\n  可用路线: 无\n  ! torch 已装但 CUDA 不可用（CPU 训练 LoRA 不现实）\n  ! 没有 ko"
+   "what": "VER-C-194502",
+   "why": "E-TIMEOUT "
   }
  ],
  "job": null

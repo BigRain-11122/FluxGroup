@@ -14693,3 +14693,4 @@
 {"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-05T19:44:07"}
 {"cls": "master", "op": "embed", "sec": 0.06, "why": "dispatch-dedupe", "ts": "2026-11-05T19:44:07"}
 {"cls": "master", "op": "embed", "sec": 0.06, "why": "dispatch-dedupe", "ts": "2026-11-05T19:44:08"}
+{"cls": "master", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 6.2, "chars": 131, "why": "master-digest", "ts": "2026-11-05T19:50:21"}
