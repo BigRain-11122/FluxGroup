@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
- "ts": "2026-11-05T17:52:48",
+ "ts": "2026-11-05T17:54:56",
  "jobs": [
   {
-   "id": "CNV-20261105T174044-2",
-   "title": "转化·02-加工（复盘：今天演练暴露的漂移全部收口）",
-   "cmd": "python3 Tools/fleet/plan_convert.py --step 2 --conv cph4/fleet/conversions/20261105/复盘-今天演练暴露的漂移全部收口 --tool echo tool-ok > /tmp/conv-tool.txt",
+   "id": "AUD-SOFT-20261105T175432-04",
+   "title": "软著材料清点：G04_ScrewOut",
+   "cmd": "python3 Tools/fleet/supply_batch.py --audit soft G04_ScrewOut",
    "cwd": "/Users/junsheng.sun/FluxGroup",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/conversions/20261105/复盘-今天演练暴露的漂移全部收口/step2-加工.json",
+   "deliverable": "cph4/fleet/audits/soft/G04_ScrewOut.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 9.6/1.0 GB"
+ "capacity_note": "ram 8.4/1.0 GB"
 }
