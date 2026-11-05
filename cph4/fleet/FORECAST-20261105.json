@@ -1,25 +1,7 @@
 {
- "ts": "2026-11-05T11:49:54+0800",
+ "ts": "2026-11-05T12:39:05+0800",
  "alert_days": 2.0,
  "lines": [
-  {
-   "line": "asset-lib",
-   "status": "ACTIVE",
-   "prio": "P0",
-   "stock": 7,
-   "rate_per_day": 4.67,
-   "runway_days": 1.5,
-   "has_table": true,
-   "blocker": {
-    "stage": "env-check",
-    "deliverable": "cph4/fleet/queue-receipts/asset-env-20261105.json",
-    "needs": "cpu",
-    "hard_nodes": []
-   },
-   "flags": [
-    "ALERT"
-   ]
-  },
   {
    "line": "bigstream-duanju",
    "status": "PARKED",
@@ -39,16 +21,16 @@
    ]
   },
   {
-   "line": "biggame",
+   "line": "asset-lib",
    "status": "ACTIVE",
    "prio": "P0",
-   "stock": 2,
-   "rate_per_day": 1.67,
-   "runway_days": 1.2,
+   "stock": 1,
+   "rate_per_day": 4.33,
+   "runway_days": 0.2,
    "has_table": true,
    "blocker": {
-    "stage": "pack-scan",
-    "deliverable": "cph4/fleet/queue-receipts/game-packs-20261105.json",
+    "stage": "env-check",
+    "deliverable": "cph4/fleet/queue-receipts/asset-env-20261105.json",
     "needs": "cpu",
     "hard_nodes": []
    },
@@ -61,7 +43,7 @@
    "status": "ACTIVE",
    "prio": "P0",
    "stock": 0,
-   "rate_per_day": 4.67,
+   "rate_per_day": 4.33,
    "runway_days": 0.0,
    "has_table": true,
    "blocker": {
@@ -107,25 +89,30 @@
    ]
   },
   {
-   "line": "bigdomain",
+   "line": "biggame",
    "status": "ACTIVE",
-   "prio": "P1",
-   "stock": 2,
-   "rate_per_day": 0.67,
-   "runway_days": 3.0,
-   "has_table": false,
-   "blocker": null,
+   "prio": "P0",
+   "stock": 0,
+   "rate_per_day": 1.67,
+   "runway_days": 0.0,
+   "has_table": true,
+   "blocker": {
+    "stage": "pack-scan",
+    "deliverable": "cph4/fleet/queue-receipts/game-packs-20261105.json",
+    "needs": "cpu",
+    "hard_nodes": []
+   },
    "flags": [
-    "NO-TABLE"
+    "ALERT"
    ]
   },
   {
    "line": "bigmoney",
    "status": "PAUSED",
    "prio": "P1",
-   "stock": 0,
-   "rate_per_day": 2.67,
-   "runway_days": 0.0,
+   "stock": 1,
+   "rate_per_day": 2.33,
+   "runway_days": 0.4,
    "has_table": true,
    "blocker": {
     "stage": "backtest",
@@ -142,12 +129,12 @@
    ]
   },
   {
-   "line": "fluxverse",
+   "line": "bigdomain",
    "status": "ACTIVE",
-   "prio": "P2",
-   "stock": 1,
+   "prio": "P1",
+   "stock": 0,
    "rate_per_day": 0.67,
-   "runway_days": 1.5,
+   "runway_days": 0.0,
    "has_table": false,
    "blocker": null,
    "flags": [
@@ -160,8 +147,21 @@
    "status": "ACTIVE",
    "prio": "P2",
    "stock": 1,
+   "rate_per_day": 0.33,
+   "runway_days": 3.0,
+   "has_table": false,
+   "blocker": null,
+   "flags": [
+    "NO-TABLE"
+   ]
+  },
+  {
+   "line": "fluxverse",
+   "status": "ACTIVE",
+   "prio": "P2",
+   "stock": 0,
    "rate_per_day": 0.67,
-   "runway_days": 1.5,
+   "runway_days": 0.0,
    "has_table": false,
    "blocker": null,
    "flags": [
@@ -187,27 +187,14 @@
    "line": "fleet-ops",
    "status": "ACTIVE",
    "prio": "P3",
-   "stock": 4,
-   "rate_per_day": 7.0,
-   "runway_days": 0.6,
+   "stock": 9,
+   "rate_per_day": 6.67,
+   "runway_days": 1.3,
    "has_table": false,
    "blocker": null,
    "flags": [
     "NO-TABLE",
     "ALERT"
-   ]
-  },
-  {
-   "line": "recon",
-   "status": "ACTIVE",
-   "prio": "P3",
-   "stock": 1,
-   "rate_per_day": 0.33,
-   "runway_days": 3.0,
-   "has_table": false,
-   "blocker": null,
-   "flags": [
-    "NO-TABLE"
    ]
   },
   {
@@ -237,8 +224,22 @@
     "NO-TABLE",
     "INACTIVE"
    ]
+  },
+  {
+   "line": "recon",
+   "status": "ACTIVE",
+   "prio": "P3",
+   "stock": 0,
+   "rate_per_day": 0.33,
+   "runway_days": 0.0,
+   "has_table": false,
+   "blocker": null,
+   "flags": [
+    "NO-TABLE",
+    "ALERT"
+   ]
   }
  ],
- "alerts": 7,
+ "alerts": 8,
  "no_table": 6
 }

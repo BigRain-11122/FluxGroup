@@ -1,49 +1,45 @@
-# 交接一屏（2026-11-05 11:49）
+# 交接一屏（2026-11-05 12:39）
 
 > 新会话先读这一页，再看具体文件。四段：在产 / 待判 / 阻塞 / 下一步。
 
 ## 一、在产（4 张）
 
 - `CHK-DUPES-20261103` 重复派单向量重扫（bm-m 兜底体检）（bm-m，45 分钟租约）
-- `Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105` 音色微调试点·libritts-e01（语料→SoVITS s2→权重，DE-AI-SPEC A8 批前抽检）（bm-c，240 分钟租约）
-- `asset-lib-asset-gen-2026-11-05` [资产储备（角色 LoRA / 音色库）] 通用资产出图（道具/场景，吃 ASSET-PROMPTS 规格）（bm-b，180 分钟租约）
-- `R-NEXT-BIGGAME-SUBMIT-P-20261105` 游戏提审·真实缺件重盘（隐私已齐，重算图标/截图/台账/包体）（bm-a，45 分钟租约）
+- `CANARY-20261104T125141` 端到端自检：投卡→领取→执行→回执→产物（bm-a，45 分钟租约）
+- `CANARY-20261104T132721` 端到端自检：投卡→领取→执行→回执→产物（bm-c，45 分钟租约）
+- `MV-NEWPROC-PACKET-20261104` 导演席新流程卷：四曲立意/分镜/合规矩阵一页卷（bm-b，45 分钟租约）
 
-## 二、待判（13 张在队列等机器）
+## 二、待判（9 张在队列等机器）
 
+- `R-MODEL-RADAR-BMA-20261103` 本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-a）（无归属）
 - `R-NEXT-BIGSTREAMD-TTS-QC-20261104` 配音批质检：r1202 目录逐集时长/静音/体积（出可发布集数清单）（bigstream-duanju）
 - `R-PLAN-BIGSTREAMDUA-20261104` BigStream·短剧 线级体检与缺口清单（bigstream-duanju）
-- `R-TRIAGE-BIGSTREAMMV-BMA-20261104` BigStream·MV 41 曲 线证据扫描（bm-a 本机可判面）（无归属）
-- `R-TRIAGE-FLEETOPS-BMA-20261104` 机队运维·端到端自检（平台服务线） 线证据扫描（bm-a 本机可判面）（无归属）
-- `R-PLAN-BIGDOMAIN-20261105` BigDomain·硅基域商业化 线级体检与缺口清单（bigdomain）
-- `Q-TRIAGE-BIGSTREAMMV-20261105` bigstream-mv 线级体检（本机证据目录实况）（无归属）
-- `Q-PLATFORM-PACK-SAMPLE-R3-20261105` 平台发布包样批：有声版 EP001/EP030/EP060 → 抖音/快手 9:16 + 小红书九宫格 + 知乎/微博封面（bigstream-duanju）
-- `Q-TRIAGE-ASSETLIB-20261105` asset-lib 线级体检（本机证据目录实况）（无归属）
-- `R-MODEL-RADAR-BMC-20261105` 本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-c）（无归属）
-- `CANARY-20261105T073536` 端到端自检：投卡→领取→执行→回执→产物（fleet-ops）
+- `R-PLAN-BIGMONEY-20261104` BigMoney·量化 线级体检与缺口清单（bigmoney）
+- `CANARY-20261104T140742` 端到端自检：投卡→领取→执行→回执→产物（fleet-ops）
+- `CANARY-20261104T175030` 端到端自检：投卡→领取→执行→回执→产物（fleet-ops）
+- `CANARY-20261104T201032` 端到端自检：投卡→领取→执行→回执→产物（fleet-ops）
+- `CANARY-20261104T202057` 端到端自检：投卡→领取→执行→回执→产物（fleet-ops）
+- `CANARY-20261105T123905` 端到端自检：投卡→领取→执行→回执→产物（fleet-ops）
 
-## 三、阻塞（8 项断言红 / 4 台机不一致）
+## 三、阻塞（7 项断言红 / 2 台机不一致）
 
-- 断言 I1：4 条
-- 断言 I2：174 条
-- 断言 I3：10 条
-- 断言 I4：13 条
-- 断言 I6：1 条
+- 断言 I1：2 条
+- 断言 I2：126 条
+- 断言 I3：4 条
+- 断言 I4：9 条
 - 断言 I7：1 条
-- 断言 I12：16 条
-- 断言 I14：3 条
-- 机器 bm-a：NO-RECEIPT-1H
-- 机器 bm-b：BUSY-NO-REPORT、NO-RECEIPT-1H
+- 断言 I12：12 条
+- 断言 I14：4 条
+- 机器 bm-b：NO-RECEIPT-1H
 - 机器 bm-c：NO-RECEIPT-1H
-- 机器 bm-m：BUSY-NO-REPORT
 
 ## 四、下一步（P0 两线）
 
-- bigstream-mv：过闸率 72.0，返工 14，产出年龄 23.7
-- bigstream-drama：过闸率 73.3，返工 7，产出年龄 5.5
-- bigstream-duanju：过闸率 50.0，返工 3，产出年龄 137.0
-- biggame：过闸率 57.1，返工 3，产出年龄 42.4
-- asset-lib：过闸率 35.3，返工 22，产出年龄 15.8
+- bigstream-mv：过闸率 75.0，返工 12，产出年龄 24.4
+- bigstream-drama：过闸率 73.3，返工 7，产出年龄 0.0
+- bigstream-duanju：过闸率 50.0，返工 3，产出年龄 137.7
+- biggame：过闸率 66.7，返工 2，产出年龄 43.1
+- asset-lib：过闸率 38.7，返工 19，产出年龄 16.5
 
 ## 五、已发布（0 条）
 
