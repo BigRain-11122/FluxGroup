@@ -101,6 +101,17 @@ def main():
     cfg = run(["w32tm", "/query", "/configuration"], a.timeout)
     steps.append({"step": "query-configuration", "result": cfg})
 
+    # 2026-11-06 (event round): w32tm is useless while the service is stopped, and the
+    # only exit from STOPPED is an elevated start. Try it here so any node whose claim
+    # task already runs at high privilege can heal itself; a refusal is recorded, not
+    # papered over.
+    if svc_before != "RUNNING":
+        steps.append({"step": "service-start", "result": run(["net", "start", "w32time"], a.timeout)})
+        svc_after_start, _ = service_state()
+        steps.append({"step": "sc-query-after-start", "result": {"state": svc_after_start}})
+        if svc_after_start == "RUNNING":
+            svc_before = "STOPPED-RECOVERED"
+
     resync = run(["w32tm", "/resync", "/force"], a.timeout)
     steps.append({"step": "resync-force", "result": resync})
     verdict = classify(resync)
@@ -156,7 +167,11 @@ def main():
     print("node=%s svc=%s->%s verdict=%s rc=%s" % (node, svc_before, svc_after,
                                                    verdict, resync.get("rc")))
     print("receipt=%s" % out)
-    return 0
+    # 2026-11-06 (event round, false-green fix): this used to return 0 for every
+    # verdict, so a card whose whole purpose was the resync was recorded OK while
+    # nothing had happened (bm-b 2026-11-06 02:25 receipt: verdict=SERVICE-STOPPED,
+    # outcome=OK). Exit must follow the verdict or the queue cannot tell the two apart.
+    return 0 if verdict == "RESYNCED" else 3
 
 
 if __name__ == "__main__":

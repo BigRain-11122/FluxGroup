@@ -341,6 +341,41 @@ try {
 } catch { WK-Log 'listener-refresh-fail' ([string]$_.Exception.Message) }
 
 # ---- wake allowlisted tasks ----
+# v1.9 (2026-11-06 event round): missing claim task self-heal. STARVED-EXEC on
+# bm-b/bm-c was structural, not supply: the roster lists HQ-ProductionClaim but that
+# task only ever existed on bm-a, so two boxes could never claim queue work
+# ("no-task"/"deny" every round). MISSING is not the same as Disabled: Disabled is a
+# CEO freeze face and stays off-skip untouched; missing is an absence, and re-creating
+# it is the same idempotent heal register-fleet-link.ps1 already does for the listener.
+# Scope is deliberately narrow - roster tasks whose name starts with HQ-.
+function WK-EnsureClaimTask([string]$name) {
+  if ($name -notlike 'HQ-*') { return $false }
+  $pyw = ''
+  try { $pyw = [string](Get-Command pythonw.exe -ErrorAction SilentlyContinue).Source } catch { }
+  if (-not $pyw) { WK-Log 'claim-task-heal-skip' ($name + ' no-pythonw'); return $false }
+  $qh = Join-Path $Root 'Tools\queue_claim.py'
+  if (-not (Test-Path -LiteralPath $qh)) { WK-Log 'claim-task-heal-skip' ($name + ' no-script'); return $false }
+  $argz = '"' + $qh + '" --node ' + $NodeId
+  # RAM is the binding constraint on the GPU box (2-3GB free at 2026-11-06 03:3x).
+  # CPU-only claims keep it honest until the memory gate clears; GPU work reaches it
+  # by explicit card, never by poll.
+  $ramGb = 0
+  try { $ramGb = [math]::Round((Get-CimInstance Win32_OperatingSystem).FreePhysicalMemory / 1048576, 1) } catch { }
+  if ($ramGb -gt 0 -and $ramGb -lt 6) { $argz += ' --needs cpu' }
+  try {
+    $act = New-ScheduledTaskAction -Execute $pyw -Argument $argz -WorkingDirectory $Root
+    $trg = New-ScheduledTaskTrigger -Once -At ((Get-Date).AddMinutes(2)) -RepetitionInterval (New-TimeSpan -Minutes 5) -RepetitionDuration ([TimeSpan]::MaxValue)
+    $prn = New-ScheduledTaskPrincipal -UserId ([string]$env:USERDOMAIN + '\' + [string]$env:USERNAME) -LogonType S4U -RunLevel Limited
+    $set = New-ScheduledTaskSettingsSet -MultipleInstances IgnoreNew -StartWhenAvailable -ExecutionTimeLimit (New-TimeSpan -Hours 1) -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries
+    Register-ScheduledTask -TaskName $name -Action $act -Trigger $trg -Principal $prn -Settings $set -Force -ErrorAction Stop | Out-Null
+    WK-Log 'claim-task-heal' ($name + ' args=' + $argz + ' ram_free_gb=' + $ramGb)
+    return $true
+  } catch {
+    WK-Log 'claim-task-heal-fail' ($name + ' ' + [string]$_.Exception.Message)
+    return $false
+  }
+}
+
 $woke = @()
 $reqTasks = @()
 try { $reqTasks = @((($TasksJson) | ConvertFrom-Json) | ForEach-Object { [string]$_ }) } catch { }
@@ -351,7 +386,12 @@ foreach ($t in $reqTasks) {
   $ts = [string]$t
   if ($allow -notcontains $ts) { $woke += ($ts + ':deny'); continue }
   $task = Get-ScheduledTask -TaskName $ts -ErrorAction SilentlyContinue
-  if (-not $task) { $woke += ($ts + ':no-task'); continue }
+  if (-not $task) {
+    # missing (not frozen) -> heal once, then start it this same round
+    if (WK-EnsureClaimTask $ts) { $task = Get-ScheduledTask -TaskName $ts -ErrorAction SilentlyContinue }
+    if (-not $task) { $woke += ($ts + ':no-task'); continue }
+    $woke += ($ts + ':healed')
+  }
   if ($task.State.ToString() -eq 'Running') { $woke += ($ts + ':busy-skip'); continue }
   # v1.3 (C-20261009-04): CEO freeze faces (design-state Disabled tasks) must not
   # be re-armed by a remote wake - same off-skip protection as the local sentinel.

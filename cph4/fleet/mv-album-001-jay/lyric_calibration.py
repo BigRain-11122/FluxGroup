@@ -19,6 +19,24 @@ SONGS = {"星晴": "星晴", "可爱女人": "可爱女人", "龙卷风": "龙�
          "伊斯坦堡": "伊斯坦堡-words", "印第安老斑鸠": "印第安老斑鸠-words",
          "反方向的钟": "反方向的钟-words", "娘子": "娘子-words", "完美主义": "完美主义-words"}
 
+# 2026-11-06 (CEO-PROXY event round): the dict above was hand-maintained, so batch 3+
+# needed a code edit per batch; 27 of 41 tracks had beats but no calibrated words and
+# nobody could reach them. Any anchor written by whisper_album.py (anchors/<曲>.json,
+# keyed by the audio title) is now picked up automatically, and only when an official
+# lyric file exists - calibration against nothing is worse than a visible GAP. The
+# explicit rows stay because those anchor files were named by hand.
+_DERIVED_SUFFIX = ("-words", "-beats", "-calibrated", "-shotgrid", "-shotgrid-resnap")
+if os.path.isdir(ANC):
+    for _f in sorted(os.listdir(ANC)):
+        if not _f.endswith(".json"):
+            continue
+        _stem = _f[:-5]
+        if _stem in SONGS or any(_stem.endswith(_s) for _s in _DERIVED_SUFFIX):
+            continue
+        if (os.path.exists(os.path.join(LYR, _stem + ".lrc"))
+                or os.path.exists(os.path.join(LYR, _stem + ".txt"))):
+            SONGS[_stem] = _stem
+
 
 def norm(s):
     return re.sub(r"\s+", "", s or "")
