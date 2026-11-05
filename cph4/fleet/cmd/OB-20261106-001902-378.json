@@ -1,0 +1,11 @@
+﻿{
+    "id":  "OB-20261106-001902-378",
+    "ts":  "2026-11-06 00:19",
+    "text":  "全机队翻转令（CEO 2026-11-06 原话「你修掉的同事，机队其他电脑也一样要解决这些问题」）：bm-a 与 bm-c 立即执行以下三步（代码已在 origin，只须重启常驻代理让新码生效）：①杀常驻代理 python 进程（命令行含 agent.py --node bm-a / bm-c 的那个进程）；②等 every:1m 计划任务自动带新码重启（不会超 1 分钟）；③跑 python Tools/fleet/loop_liveness.py --node \u003c你的节点名\u003e --root \u003c你的克隆根\u003e 验证回执 verdict=ALIVE（≥12/14 即可，主控脉沉默 256min 是已知项）。bm-b 已完成此翻转并 14/14 中 13 项 ALIVE（唯一 BROKEN=主控沉默）。修复内容=①agent.py v3（回执自动上链 --sparse -f·不修则你的回执也滞留本地）②lane_agent.py（need-work 机制重建+OS 投毒不吞车道+钉机执法）③loop_liveness.py（14 项存活探针）。各车道轮首自领、禁等人工分配。",
+    "lanes":  [
+                  "bm-a",
+                  "bm-c"
+              ],
+    "src":  "BIGMONEY",
+    "status":  "dispatched"
+}
