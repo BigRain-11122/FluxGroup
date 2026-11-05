@@ -6,5 +6,5 @@
  "cmd": "python C:/Fluxgroup/FleetAgent/Tools/voicebank/vb_train_card.py --voice libritts-e01 --raw C:/Fluxgroup/FluxGroup/media/asset/inbox/e01 --receipt C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-train-libritts-e01-r3-20261105.json",
  "outcome": "CARD-DEFECT",
  "card_defect": "CWD-MISSING 卡片 cwd 在本机不存在：C:/Fluxgroup/FleetAgent; SCRIPT-MISSING 脚本不存在：C:/Fluxgroup/FleetAgent/Tools/voicebank/vb_train_card.py",
- "ts": "2026-11-05T08:45:05"
+ "ts": "2026-11-05T08:49:39"
 }
