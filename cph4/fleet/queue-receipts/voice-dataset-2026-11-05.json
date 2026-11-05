@@ -1,9 +1,26 @@
 {
+ "ts": "2026-11-05T14:04:19+0800",
  "rc": 3,
  "verdict": "BLOCKED",
  "error_class": "E-BLOCKED-INPUT",
- "gaps": [
-  "没有 media/asset/voices 目录"
+ "groups": [
+  {
+   "group": "batch-2026-11-04",
+   "clips": 0,
+   "rights": "缺 RIGHTS.json（来源不明一律不进训练）",
+   "verdict": "SKIP",
+   "gap": "缺 RIGHTS.json（来源不明一律不进训练）"
+  },
+  {
+   "group": "batch-2026-11-05",
+   "clips": 0,
+   "rights": "缺 RIGHTS.json（来源不明一律不进训练）",
+   "verdict": "SKIP",
+   "gap": "缺 RIGHTS.json（来源不明一律不进训练）"
+  }
  ],
- "ts": "2026-11-05T14:59:34+0800"
+ "passed": 0,
+ "gaps": [
+  "没有任何音色组同时满足 有授权 且 有片段 且 过准入闸"
+ ]
 }

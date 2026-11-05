@@ -1,13 +1,14 @@
 # 《可爱女人》KN PACK-A 复核卷
 
-- 生成：2026-11-04 22:25 · 机：bm-c · 脚本：Tools/fleet/review_packet.py
+- 生成：2026-11-04 19:49 · 机：bm-c · 脚本：Tools/fleet/review_packet.py
 - 用途：导演席一次读完即可 PASS/REVISE，不必逐档翻找。
 
 ## 一、成片
-- **缺件**：`C:\Users\sjs20\Desktop\FluxGroup\media/mv-album-001-jay/assembly-packA/KN-PACKA-CONFORM-v1-c2171.mp4` 不在盘上
+- `K:\Fluxgroup\FluxGroup\media/mv-album-001-jay/assembly-packA/KN-PACKA-CONFORM-v1-c2171.mp4`（24.39 MB，mtime 2026-11-01 19:40）
 
 ## 二、机器闸（最近一次）
-- 无闸档：**不可签**，先跑闸。
+- `media\mv-album-001-jay\logs\kn-film-gate-gate-rerun.json`
+- {"verdict": "PASS", "duplicate_pairs": 0}
 
 ## 三、证据件
 - `cph4\fleet\mv-album-001-jay\KN-GALAXY-PROBE-RECEIPT-c2185.md`
@@ -18,7 +19,10 @@
 - `cph4\fleet\mv-album-001-jay\DIRECTOR-REVIEW-KN-FILM-v3-C2198.md`
 
 ## 四、对照板
-- 无
+- `media\mv-album-001-jay\qc-boards\KN-FILM-v3-C2198-JUNCTION.jpg`
+- `media\mv-album-001-jay\qc-boards\KN-FULL-C2191-BOARD.jpg`
+- `media\mv-album-001-jay\qc-boards\KN-GALAXY-PROD-c2190.jpg`
+- `media\mv-album-001-jay\qc-boards\KN-GALAXY-R4-c2189.jpg`
 
 ## 五、签字位
 

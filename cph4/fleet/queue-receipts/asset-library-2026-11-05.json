@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-05T01:04:15",
+ "ts": "2026-11-05T01:08:58",
  "spec": "ASSET-LIBRARY-v1",
  "tier": "p0",
  "classes": [
@@ -8,36 +8,32 @@
    "target": 8,
    "pct": 100.0,
    "license_ok": 8,
-   "spec_ok": 0,
-   "issues": [
-    "CH01：目录里没有可用文件",
-    "CH02：目录里没有可用文件",
-    "CH03：目录里没有可用文件",
-    "CH04：目录里没有可用文件",
-    "CH05：目录里没有可用文件"
-   ],
+   "spec_ok": 8,
+   "issues": [],
    "class": "characters",
    "name": "角色包（身份层）"
   },
   {
-   "count": 0,
+   "count": 3,
    "target": 12,
-   "pct": 0.0,
+   "pct": 25.0,
    "license_ok": 0,
-   "spec_ok": 0,
+   "spec_ok": 3,
    "issues": [
-    "空目录（目标 12）"
+    "整类没有授权声明（目录级 RIGHTS.json 缺失，条目级也没有）"
    ],
    "class": "scenes",
    "name": "场景模板"
   },
   {
-   "count": 9,
+   "count": 20,
    "target": 20,
-   "pct": 45.0,
-   "license_ok": 9,
-   "spec_ok": 9,
-   "issues": [],
+   "pct": 100.0,
+   "license_ok": 0,
+   "spec_ok": 20,
+   "issues": [
+    "整类没有授权声明（目录级 RIGHTS.json 缺失，条目级也没有）"
+   ],
    "class": "props",
    "name": "道具/关键锚点物"
   },
@@ -85,7 +81,7 @@
    "spec_ok": 0,
    "issues": [
     "整类没有授权声明（目录级 RIGHTS.json 缺失，条目级也没有）",
-    "batch-2026-11-03：目录里没有可用文件",
+    "batch-2026-11-04：目录里没有可用文件",
     "batch-2026-11-05：目录里没有可用文件"
    ],
    "class": "voices",
@@ -129,17 +125,17 @@
   }
  ],
  "totals": {
-  "have": 19,
+  "have": 33,
   "need": 128,
-  "fill_pct": 14.8
+  "fill_pct": 25.8
  },
  "classes_ready": [
-  "characters"
+  "characters",
+  "props"
  ],
  "verdict": "GAPS",
  "gaps": [
-  "场景模板 差 12（0/12）",
-  "道具/关键锚点物 差 11（9/20）",
+  "场景模板 差 9（3/12）",
   "动作/镜头运动片段 差 15（0/15）",
   "转场/物质过场 差 10（0/10）",
   "风格包（画风/调色） 差 3（0/3）",

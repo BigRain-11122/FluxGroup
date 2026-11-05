@@ -1,10 +1,17 @@
 {
  "id": "C-TTS-QC-ALL",
  "node": "bm-m",
- "rc": 127,
+ "rc": 1,
  "seconds": 0.0,
- "cmd": "python Tools/fleet/tts_batch_check.py --dir media/drama-tts-out --out cph4/fleet/queue-receipts/tts-qc-all.json",
- "outcome": "CARD-DEFECT",
- "card_defect": "INPUT-MISSING --dir 指向的相对路径在本机各工作根下都不存在：media/drama-tts-out",
- "ts": "2026-11-05T14:17:07"
+ "cmd": "python3 Tools/fleet/tts_batch_check.py --dir media/drama-tts-out --out cph4/fleet/queue-receipts/tts-qc-all.json",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "FAIL",
+ "error_class": "E-INPUT",
+ "deliverable": "cph4/fleet/queue-receipts/tts-qc-all.json",
+ "deliverable_exists": false,
+ "ts": "2026-11-03T11:45:42",
+ "stdout_tail": "[tts-check] MISSING media/drama-tts-out\n",
+ "stderr_tail": ""
 }

@@ -1,12 +1,12 @@
 {
- "ts": "2026-11-04T01:16:40",
+ "ts": "2026-11-04T23:04:23",
  "dir": "K:\\Fluxgroup\\FluxGroup\\media\\asset\\faces\\CH07",
  "spec": "ASSET-DATASET-GATE-v1",
  "measured": {
   "mode": "face",
-  "count": 6,
+  "count": 12,
   "min_side": 1024,
-  "dup_ratio": 0.067,
+  "dup_ratio": 0.03,
   "texture_median": 100.0,
   "rights": {
    "declared": true,
@@ -17,10 +17,8 @@
    "consent": null
   }
  },
- "verdict": "FAIL",
- "gaps": [
-  "张数 6 < 12（训不出稳定角色）"
- ],
+ "verdict": "PASS",
+ "gaps": [],
  "note": "PASS=允许进训练，不代表这数据集有特色；特色只能人看/人听",
- "status": "FAIL"
+ "status": "PASS"
 }
