@@ -1,22 +1,22 @@
 {
- "ts": "2026-11-05T17:55:53",
- "cycle": 230,
+ "ts": "2026-11-05T17:56:49",
+ "cycle": 231,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-05T17:55:53",
+ "master_tick_ts": "2026-11-05T17:56:49",
  "queue": {
   "total": 712,
-  "open": 62,
+  "open": 59,
   "running": 4,
-  "done": 354,
-  "failed": 37
+  "done": 355,
+  "failed": 39
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 40.4,
-   "cpu_load_pct": 49,
-   "ram_free_gb": 57.6,
+   "hb_age_s": 36.6,
+   "cpu_load_pct": 34,
+   "ram_free_gb": 61,
    "gpu_util_pct": 4,
    "job": "AUD-SOFT-20261105T175432-06",
    "last_result": {
@@ -34,17 +34,17 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 2.7,
-   "cpu_load_pct": 11,
-   "ram_free_gb": 10.8,
-   "gpu_util_pct": null,
-   "job": "AUD-SOFT-20261105T175432-03",
+   "hb_age_s": 46.2,
+   "cpu_load_pct": 14,
+   "ram_free_gb": 11.5,
+   "gpu_util_pct": 0,
+   "job": "AUD-SOFT-20261105T175432-08",
    "last_result": {
-    "job": null,
-    "state": "IDLE",
+    "job": "AUD-SOFT-20261105T175432-03",
+    "state": "FAILED",
     "rc": null,
-    "ts": "2026-11-05T17:54:32",
-    "reason": "SELF-DISPATCH: lane scans its own backlog",
+    "ts": "2026-11-05T17:56:13",
+    "reason": null,
     "out_bytes": null,
     "elapsed_s": null
    },
@@ -54,16 +54,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 42.8,
-   "cpu_load_pct": 9,
-   "ram_free_gb": 2.0,
+   "hb_age_s": 22.5,
+   "cpu_load_pct": 14,
+   "ram_free_gb": 2.8,
    "gpu_util_pct": 0,
-   "job": "AUD-SOFT-20261105T175432-05",
+   "job": "AUD-SOFT-20261105T175432-09",
    "last_result": {
-    "job": "AUD-SOFT-20261105T175432-02",
+    "job": "AUD-SOFT-20261105T175432-05",
     "state": "FAILED",
     "rc": null,
-    "ts": "2026-11-05T17:55:16",
+    "ts": "2026-11-05T17:56:31",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -75,15 +75,15 @@
   "bm-m": {
    "online": true,
    "hb_age_s": 1.2,
-   "cpu_load_pct": 27,
-   "ram_free_gb": 10.1,
+   "cpu_load_pct": 21,
+   "ram_free_gb": 9.4,
    "gpu_util_pct": null,
-   "job": "AUD-SOFT-20261105T175432-07",
+   "job": "AUD-SOFT-20261105T175432-10",
    "last_result": {
-    "job": "AUD-SOFT-20261105T175432-04",
+    "job": "AUD-SOFT-20261105T175432-07",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-05T17:55:02",
+    "ts": "2026-11-05T17:55:59",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -166,10 +166,7 @@
    "stale_after_h": 24.0,
    "owner": "游戏席",
    "jobs": [
-    "AUD-SOFT-20261105T175432-03",
-    "AUD-SOFT-20261105T175432-05",
     "AUD-SOFT-20261105T175432-06",
-    "AUD-SOFT-20261105T175432-07",
     "AUD-SOFT-20261105T175432-08",
     "AUD-SOFT-20261105T175432-09",
     "AUD-SOFT-20261105T175432-10",
@@ -233,9 +230,6 @@
    ],
    "no_supply": false,
    "blockers": [
-    "AUD-SOFT-20261105T175432-08:no-lane",
-    "AUD-SOFT-20261105T175432-09:no-lane",
-    "AUD-SOFT-20261105T175432-10:no-lane",
     "AUD-SOFT-20261105T175432-11:no-lane",
     "AUD-SOFT-20261105T175432-12:no-lane",
     "AUD-SOFT-20261105T175432-13:no-lane",
@@ -956,7 +950,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 62,
+  "local": 59,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -964,17 +958,17 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 62,
+  "cpu": 59,
   "gpu": 0
  },
  "supply_added": [],
  "events": [
-  "AUD-SOFT-20261105T175432-01 FAILED via bm-a",
-  "AUD-SOFT-20261105T175432-02 FAILED via bm-c",
-  "AUD-SOFT-20261105T175432-04 DONE via bm-m",
-  "AUD-SOFT-20261105T175432-05 -> bm-c (cpu)",
-  "AUD-SOFT-20261105T175432-06 -> bm-a (cpu)",
-  "AUD-SOFT-20261105T175432-07 -> bm-m (cpu)"
+  "AUD-SOFT-20261105T175432-03 FAILED via bm-b",
+  "AUD-SOFT-20261105T175432-05 FAILED via bm-c",
+  "AUD-SOFT-20261105T175432-07 DONE via bm-m",
+  "AUD-SOFT-20261105T175432-08 -> bm-b (cpu)",
+  "AUD-SOFT-20261105T175432-09 -> bm-c (cpu)",
+  "AUD-SOFT-20261105T175432-10 -> bm-m (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 立意/分镜/导演席 (导演席（自决推进，CEO 巡视可随时否决）)",
@@ -982,7 +976,7 @@
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
  "lane_files_written": [
-  "bm-a",
+  "bm-b",
   "bm-c",
   "bm-m"
  ]
