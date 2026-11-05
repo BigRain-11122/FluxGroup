@@ -45,6 +45,19 @@
    "status": "pending",
    "est_gb": 0,
    "why": "bank_autofill: 空闲机兜底体检活，产物落 queue-receipts"
+  },
+  {
+   "id": "CHK-CANON-20261105",
+   "title": "五线认知基座一致性（工序段 id 与表同源）（bm-a 兜底体检）",
+   "cmd": "python3 Tools/fleet/line_canon.py --all",
+   "deliverable": "",
+   "accept": "rc∈{0,2}；rc=2 时列出不一致的线段",
+   "needs": "cpu",
+   "prio": "P2",
+   "day_ok": true,
+   "status": "pending",
+   "est_gb": 0,
+   "why": "bank_autofill: 空闲机兜底体检活，产物落 queue-receipts"
   }
  ]
 }

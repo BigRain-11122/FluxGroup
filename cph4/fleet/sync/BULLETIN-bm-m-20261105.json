@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
  "date": "20261105",
- "ts": "2026-11-05T15:09:55+0800",
+ "ts": "2026-11-05T15:16:36+0800",
  "window_h": 26,
  "produced": [
   {
    "path": "cph4/fleet/queue-receipts/skill-promote-20261105.json",
    "bytes": 2172,
-   "mtime": "2026-11-05T15:09:55",
-   "sha": "5f89c35ad7de8d375bbf53e7524a527b419d1eaa7e6279bd6ac9efe1c9047eb2"
+   "mtime": "2026-11-05T15:16:35",
+   "sha": "e6104ca39276e414c5dab1c6dde55d7cf8f1590d8e44ae19b0c33d5c5b201e00"
   },
   {
    "path": "cph4/fleet/queue-receipts/triage-bigstream-mv-20261105.md",
@@ -395,10 +395,6 @@
    "why": "E-CONTRACT products=36 ready=0 not_ready=36\n  缺 图标≥256px                     35 款\n  缺 截图目录("
   },
   {
-   "what": "_last_lane_bm-m.json",
-   "why": "rc=7 "
-  },
-  {
    "what": "R-NEXT-BIGSTREAMM-AUDIT-20261105",
    "why": "E-UNKNOWN "
   },
@@ -413,6 +409,10 @@
   {
    "what": "inference-audit-bm-m-20261105.json",
    "why": "rc=None "
+  },
+  {
+   "what": "R-PLAN-BIGDOMAIN-20261102",
+   "why": "E-PATH "
   }
  ],
  "job": null

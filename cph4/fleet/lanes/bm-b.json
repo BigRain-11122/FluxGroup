@@ -1,14 +1,14 @@
 {
  "node": "bm-b",
- "ts": "2026-11-05T15:10:03",
+ "ts": "2026-11-05T15:13:06",
  "jobs": [
   {
-   "id": "B-QNT-SIGNAL-20261105",
-   "title": "量化：下月持仓信号（含因子值与输入指纹）",
-   "cmd": "python Tools/fleet/quant_signal.py --in quant/bigmoney/results/etf_nobond_vt.json --out cph4/fleet/queue-receipts/quant-signal-20261105.json",
+   "id": "SIM-20261105T151259-01-0",
+   "title": "演练·MV闸",
+   "cmd": "python3 -c \"import json,os;os.makedirs('cph4/fleet/state/rehearsal',exist_ok=True);json.dump({'id':'SIM-20261105T151259-01-0','ok':True},open('cph4/fleet/state/rehearsal/SIM-20261105T151259-01-0.json','w'))\"",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/quant-signal-20261105.json",
+   "deliverable": "cph4/fleet/state/rehearsal/SIM-20261105T151259-01-0.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 12.3/1.0 GB"
+ "capacity_note": "ram 11.5/1.0 GB"
 }

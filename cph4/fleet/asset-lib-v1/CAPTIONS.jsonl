@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-04T19:54:54",
+ "ts": "2026-11-05T15:10:11",
  "dir": "/Volumes/移动硬盘/FluxAssets/store",
  "model": "qwen3.5:4b-mlx",
  "trigger": "",
@@ -14,17 +14,17 @@
   [
    "2207dc95546559fb1468fc4872fb94ad1d353d718b445d423ceded75c31a2180.jpg",
    "只命中 2 个可见属性，像空话",
-   "A dimly lit room with a single spotlight illuminating a group of five individuals standing in a line, their backs turned"
+   "A dimly lit room with a single spotlight illuminating a group of five individuals standing in a line, their backs to the"
   ],
   [
    "2f33fcdd9a5155577c96cf682c79c96ef4ead220bab523d090e80173d0baa624.jpg",
-   "只命中 2 个可见属性，像空话",
-   "A black bicycle seat with a smooth surface, positioned on a road where two individuals are walking away in silhouette ag"
+   "只命中 1 个可见属性，像空话",
+   "Silhouettes of two people walking on a road at sunset, with one person holding hands with another, set against a warm sk"
   ]
  ],
- "seconds": 182.8,
+ "seconds": 12.2,
  "early_abort": "连续 3 张被拒且 0 成功，判提示词/判据不匹配",
- "per_image_s": 9.1,
+ "per_image_s": 0.6,
  "verdict": "FAIL",
  "gaps": [
   "一条都没写成功，看 rejected 的原因",

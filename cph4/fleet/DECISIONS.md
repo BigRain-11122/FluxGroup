@@ -1,6 +1,6 @@
-# 分层决策台账 2026-11-05T15:09:56
+# 分层决策台账 2026-11-05T15:16:36
 
-分布：L0=0, L1=2, L2=10, L3=0, CEO=3
+分布：L0=0, L1=1, L2=8, L3=0, CEO=3
 
 ## 需要你（其余各层自决，不占你带宽）
 
@@ -12,15 +12,12 @@
 
 | 层 | 事项 | 到期 | 兜底 |
 |---|---|---|---|
-| 子公司层 | bigstream-mv 的下一步产物 | 11-06T14:10 | business-map-next |
 | 子公司层 | 闸红 I1 × 3（FAIL） | 11-06T14:17 | business-map-next |
 | 子公司层 | 闸红 I2 × 156（FAIL） | 11-06T14:17 | business-map-next |
 | 子公司层 | 闸红 I3 × 11（FAIL） | 11-06T14:17 | business-map-next |
-| 子公司层 | 闸红 I4 × 15（FAIL） | 11-06T14:17 | business-map-next |
+| 子公司层 | 闸红 I4 × 17（FAIL） | 11-06T14:17 | business-map-next |
 | 子公司层 | 闸红 I6 × 1（FAIL） | 11-06T14:17 | business-map-next |
 | 子公司层 | 闸红 I7 × 2（FAIL） | 11-06T14:17 | business-map-next |
 | 子公司层 | 闸红 I12 × 18（FAIL） | 11-06T14:17 | business-map-next |
 | 子公司层 | 闸红 I14 × 4（FAIL） | 11-06T14:17 | business-map-next |
-| 子公司层 | bigmoney 的下一步产物 | 11-06T14:59 | business-map-next |
 | 线内/部门层 | 停线卡 ART-PUSH-BMA-20261104 需根因 | 11-06T14:23 | last-passing-standard |
-| 线内/部门层 | 停线卡 C-TTS-QC-ALL 需根因 | 11-06T14:59 | last-passing-standard |
