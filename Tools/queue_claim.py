@@ -246,9 +246,14 @@ ap.add_argument("--pool-list", action="store_true", help="list claimable POOL ca
 ap.add_argument("--pool-republish", action="store_true",
                 help="re-emit an existing intent receipt instead of only bumping last_seen")
 ap.add_argument("--pool-selftest", action="store_true", help="offline selftest of the pool picker")
+ap.add_argument("--allow-foreign", action="store_true",
+                help="claim rows pinned to other nodes (emergency only; breaks hard-node pins)")
+ap.add_argument("--node-selftest", action="store_true", help="offline selftest of the node-affinity guard")
 a = ap.parse_args()
 if a.pool_selftest:
     sys.exit(pool_selftest())
+if a.node_selftest:
+    sys.exit(node_selftest())
 
 if a.pool or a.pool_list:
     sys.exit(run_pool(a))
@@ -272,8 +277,31 @@ weekday = datetime.now().weekday() < 5
 # CEO work-hour yield on bm-a: GPU production is off 09:00-19:00 on weekdays.
 gpu_blocked = (a.node == "bm-a" and weekday and 9 <= hour < 19 and not a.allow_gpu_workhours)
 
+def node_ok(row, node, allow_foreign=False):
+    """Node-affinity guard (2026-11-06 event shift).
+
+    The legacy global path used to ignore nodes/hard_nodes entirely, so bm-a claimed a
+    hard_nodes=[bm-b] clock card, ran clock_resync.py locally and wrote rc=0 -- a green
+    receipt that calibrated bm-a's own clock. Same mechanism let bm-a eat the 17
+    voice-corpus cards pinned to bm-b while bm-b's lane sat starved for 26h.
+    Rows that carry fallback_from/fallback_why were re-routed on purpose, so soft
+    `nodes` yields to that; `hard_nodes` never yields without --allow-foreign.
+    """
+    if allow_foreign:
+        return True, ""
+    hard = [str(x) for x in (row.get("hard_nodes") or []) if x]
+    if hard and node not in hard:
+        return False, "HARD-NODE:" + ",".join(hard)
+    pinned = [str(x) for x in (row.get("nodes") or []) if x]
+    routed = bool(row.get("fallback_from") or row.get("fallback_why"))
+    if pinned and node not in pinned and not routed:
+        return False, "NODE:" + ",".join(pinned)
+    return True, ""
+
+
 def pick(candidates):
     skipped = 0
+    foreign = []
     for r in candidates:
         if r.get("state") != "OPEN":
             continue
@@ -282,18 +310,39 @@ def pick(candidates):
         if gpu_blocked and r.get("needs") == "gpu":
             skipped += 1
             continue
-        return r, skipped
-    return None, skipped
+        ok, why = node_ok(r, a.node, a.allow_foreign)
+        if not ok:
+            foreign.append("%s(%s)" % (r.get("id"), why))
+            continue
+        return r, skipped, foreign
+    return None, skipped, foreign
 
 
-job, skipped_gpu = pick(rows)
+def node_selftest():
+    mine = {"id": "A", "hard_nodes": ["bm-b"]}
+    assert node_ok(mine, "bm-a")[0] is False, "hard pin must block other nodes"
+    assert node_ok(mine, "bm-b")[0] is True, "hard pin must allow its owner"
+    assert node_ok(mine, "bm-a", True)[0] is True, "--allow-foreign is the only override"
+    soft = {"id": "B", "nodes": ["bm-c"]}
+    assert node_ok(soft, "bm-a")[0] is False, "soft pin blocks a random node"
+    assert node_ok(soft, "bm-c")[0] is True, "soft pin allows its owner"
+    routed = {"id": "C", "nodes": ["bm-c"], "fallback_from": ["bm-c"], "fallback_why": "down"}
+    assert node_ok(routed, "bm-b")[0] is True, "declared re-route yields soft nodes"
+    routed_hard = {"id": "D", "hard_nodes": ["bm-c"], "fallback_from": ["bm-c"]}
+    assert node_ok(routed_hard, "bm-b")[0] is False, "re-route must not bypass hard pin"
+    assert node_ok({"id": "E"}, "bm-a")[0] is True, "unpinned rows stay claimable"
+    print("node_selftest 6/6 PASS")
+    return 0
+
+
+job, skipped_gpu, skipped_foreign = pick(rows)
 if job is None:
     # Self-refill: enqueue only jobs whose inputs already exist on this machine.
     try:
         from backlog_fill import fill as fill_backlog
         if fill_backlog(ROOT) > 0:
             rows = load()
-            job, skipped_gpu = pick(rows)
+            job, skipped_gpu, skipped_foreign = pick(rows)
     except Exception as e:
         print("backlog_fill skipped:", e)
 
@@ -301,7 +350,10 @@ if not job:
     note = "QUEUE-EMPTY (no OPEN job%s)" % (" for " + a.needs if a.needs else "")
     if skipped_gpu:
         note += " [gpu jobs skipped: %d, bm-a work-hour yield]" % skipped_gpu
-    write_last("QUEUE-EMPTY", node=a.node, needs=a.needs, skipped_gpu=skipped_gpu)
+    if skipped_foreign:
+        note += " [pinned elsewhere: %d]" % len(skipped_foreign)
+    write_last("QUEUE-EMPTY", node=a.node, needs=a.needs, skipped_gpu=skipped_gpu,
+               skipped_foreign=skipped_foreign[:20])
     print(note)
     sys.exit(0)
 
