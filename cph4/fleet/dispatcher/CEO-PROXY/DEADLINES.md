@@ -472,3 +472,4 @@ am_free_gb=10+cpu_load_pct=48——**bm-b 不是闲着，是在跑量化轮**；
 |---|---|---|
 | **R12-8 勘误（本班自我更正）** | **撤回缺陷定性→改进为注入测试** | 01:27:08 官方认领链路回执 MV-AUDIT-V722G-20261106-bm-a.json 实证 rc=0/722.3s/outcome=OK/deliverable_exists=true → **自派循环并未吞卡**，本班 01:22 那次 IDLE 是与我手工起的同时段实例/认领竞态所致，非结构性缺陷。原 R12-8 归因撤回。保留可执行改进=给 self_dispatch 加 --explain 打印 reject/skip 原因，避免下次把竞态误读成缺陷。 |
 
+| 2026-11-06 02:20 R6-4 bm-b/bm-c 工作树分叉（未推送本地提交）阻塞取卡 | bm-b head=b82c9834 / bm-c head=904d636d（均 `not our ref`，从未推 origin） | CEO-PROXY 事件班 2026-11-06 02:20 | **registered·需在各自机器上跑一次（主控无远端执行通道）**：`git -C <repo> fetch origin && git reset --mixed origin/main`（先备份本地未提交改动）。证据：两机 /status last_pull 报 `.:updated` 但 repo_heads 不动，origin_main=a53ea6fbd；两机 lane 仍挂旧卡，新卡看不见。bm-c 的 Bigmoney-IterationLoop 当前 Disabled，不会自愈。 |
