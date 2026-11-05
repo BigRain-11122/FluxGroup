@@ -95,10 +95,17 @@ def run(seconds=None):
             if j < 0:
                 break
             head = buf[i:j].split()
+            # MSG <subject> <sid> [reply-to] <#bytes>：带 reply 主题时长度在第 5 段，
+            # 2026-11-05 实测这里按第 4 段取长度会 TypeError/ValueError 崩掉常驻订阅。
             if len(head) < 4:
                 buf = buf[j + 2:]
                 continue
-            subj, size = head[1].decode("utf-8", "replace"), int(head[3])
+            try:
+                size = int(head[-1])
+            except Exception:
+                buf = buf[j + 2:]
+                continue
+            subj = head[1].decode("utf-8", "replace")
             start = j + 2
             if len(buf) < start + size + 2:
                 break
