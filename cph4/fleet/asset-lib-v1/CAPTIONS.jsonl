@@ -1,34 +1,35 @@
 {
- "ts": "2026-11-05T15:10:11",
+ "ts": "2026-11-05T15:23:16",
  "dir": "/Volumes/移动硬盘/FluxAssets/store",
  "model": "qwen3.5:4b-mlx",
  "trigger": "",
  "pending": 20,
- "written": 0,
+ "written": 16,
  "rejected": [
   [
    "0af90220f22a87951c6dc81e8df4ea2db90d35d37b1e0a4415247d6cf1594d09.png",
-   "只命中 0 个可见属性，像空话",
-   "A pixelated cityscape at dusk with purple and orange hues, featuring tall skyscrapers and illuminated windows against a "
-  ],
-  [
-   "2207dc95546559fb1468fc4872fb94ad1d353d718b445d423ceded75c31a2180.jpg",
    "只命中 2 个可见属性，像空话",
-   "A dimly lit room with a single spotlight illuminating a group of five individuals standing in a line, their backs to the"
+   "A pixelated cityscape with purple buildings and orange sky, featuring a central tower reflecting light in a river below,"
   ],
   [
    "2f33fcdd9a5155577c96cf682c79c96ef4ead220bab523d090e80173d0baa624.jpg",
-   "只命中 1 个可见属性，像空话",
-   "Silhouettes of two people walking on a road at sunset, with one person holding hands with another, set against a warm sk"
+   "只命中 2 个可见属性，像空话",
+   "A black bicycle seat with a smooth, glossy surface, positioned on a road where two individuals are walking in silhouette"
+  ],
+  [
+   "30003335d4c412e985c54f8afeed6b8365d00a40565fe9a20a087537e125f738.jpg",
+   "含推测/身份词：appears to be",
+   "A person holding a lit torch with a glowing flame at the top, set against a dark background. The torch appears to be mad"
+  ],
+  [
+   "301338cdd8ae5405ce4edfcd746c7e164a5eb6d486ad110c0a453d364208cd73.jpg",
+   "只命中 2 个可见属性，像空话",
+   "Two bicycles with two riders each ride side by side on a dirt path through green rice fields, white smoke trails rise fr"
   ]
  ],
- "seconds": 12.2,
- "early_abort": "连续 3 张被拒且 0 成功，判提示词/判据不匹配",
- "per_image_s": 0.6,
- "verdict": "FAIL",
- "gaps": [
-  "一条都没写成功，看 rejected 的原因",
-  "连续 3 张被拒且 0 成功，判提示词/判据不匹配"
- ],
- "status": "FAIL"
+ "seconds": 86.4,
+ "per_image_s": 4.3,
+ "verdict": "PASS",
+ "gaps": [],
+ "status": "PASS"
 }

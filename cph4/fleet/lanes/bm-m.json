@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
- "ts": "2026-11-05T15:23:12",
+ "ts": "2026-11-05T15:24:26",
  "jobs": [
   {
-   "id": "SIM-20261105T151647-06-0",
-   "title": "演练·MV闸",
-   "cmd": "python3 -c \"import json,os;os.makedirs('cph4/fleet/state/rehearsal',exist_ok=True);json.dump({'id':'SIM-20261105T151647-06-0','ok':True},open('cph4/fleet/state/rehearsal/SIM-20261105T151647-06-0.json','w'))\"",
+   "id": "CHT-20261105T134829-99",
+   "title": "全链路自测 99 (负向)",
+   "cmd": "python3 -c \"import sys;print('boom');sys.exit(7)\"",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/state/rehearsal/SIM-20261105T151647-06-0.json",
+   "deliverable": "cph4/fleet/state/chain-test/CHT-20261105T134829-99.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
