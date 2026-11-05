@@ -453,3 +453,14 @@ am_free_gb=10+cpu_load_pct=48——**bm-b 不是闲着，是在跑量化轮**；
 | **R12-4 时钟偏移（物理件·第 7 次）** | **waiting-CEO·零催办** | 00:44 `CLOCK-SKEW.json`：hub bm-a −0.4ms（σ0.4）、bm-b +1456.3ms（σ0.8）、bm-c +3656.2ms（σ407.5）。承 R4-4/R5-5/R6-7/R8-6/R9-5/R10-9/R11-6：两机 `w32time` 为 SERVICE-STOPPED，需本机提权 `sc config w32time start= auto && net start w32time && w32tm /resync /force`。秒级偏差不影响租约派单，不重复立法。 |
 | **R12-5 bm-c 真饥饿（结构性·非调度失败）** | **registered** | bm-c 队列 0 张可执行 CPU 卡，其 GPU 活（char-gen/asset-gen/face-caption）全串在 ComfyUI 8188，而 23:44-23:59 IdleWatch 实测 `ram_free 2.1GB` + `comfy=0`。bm-c 的饥饿诚实存在，根因是物理面（RAM+ComfyUI），不是派单缺口——不拿假卡去刷绿。 |
 
+
+### R12 追加登记（同班二次深挖·01:2x）
+
+| 件 | 状态 | 证据 / 下一步 |
+|---|---|---|
+| **R12-6 两机认领器不可用（P1·第 8 次同源）** | **waiting-CEO·物理件零催办** | 01:13/01:15 直读两机 `/status.last_pull.wakes`：bm-b `HQ-ProductionClaim:deny`；bm-c `task_states.HQ-ProductionClaim=Disabled`（另 Bigmoney-IterationLoop / SaturationEngine 亦 Disabled）。同刻 `pulls=[".:updated"]` 但 `repo_heads["."]` 仍停在 b82c9834(bm-b) / 904d636d(bm-c)，而 `origin_main=42b209d78` → **两机既拉不到新卡、也没有认领器**。修法只在各机本机（C-20261009-04 禁远程启用 Disabled 任务）：`schtasks /change /tn "HQ-ProductionClaim" /enable` + 修 ff 分叉。 |
+| **R12-7 本机 HQ-ProductionClaim 违反 S4U 律且持续失败（P1·物理件）** | **waiting-CEO·需提权** | `Get-ScheduledTask` 实读 `LogonType=InteractiveToken`（违反 2026-09-29 判例「一切车道任务一律 S4U，禁 InteractiveToken」）；`LastTaskResult=2147946720 (0x800710E0)`、每 5 分钟一跑、`State=Running` 但无匹配 `queue_claim` worker（有 2 个 pythonw 残实例）。证据备份 `%TEMP%\hq-claim-backup-20261106-012204.xml`。修法（本班非提权 IsInRole=Administrator False）：管理员窗 `Register-ScheduledTask -LogonType S4U` 重建同名任务，保留 Action=`pythonw.exe Tools\queue_claim.py --node bm-a`。 |
+| **R12-8 lane_agent 自派循环吞掉合格卡（P1·新发现·工具面）** | **registered** | 同卡同判据两种结果：`queue_claim --node bm-a --dry` 打印 `LANE-DRY bm-a self-dispatch would run MV-AUDIT-V722G-20261106`（pick 非空）；同命令真实模式却落到 `LANE-IDLE`（`self_dispatch` 返回 None → L789-795 分支）。逐项复核该卡准入判据全部通过：`implicit_inputs=[]`、`card_os_ok=True`、`requires_bin_ok=True`、`game_launch_blocked=False`、nodes=[bm-a] 命中本机。后果=**供给在队列里、判据也过，但自派循环不接** → 这是「有活没人干」的第二个真因（第一个是 R12-6 认领器不可用）。下一步=给 `self_dispatch` 加 `--explain` 输出 reject 原因（工具面小改·非受保护件，可 T1 落地）。 |
+| **R12-9 `CARD-DEFECT/CWD-MISSING` 第 4 次复发（P1·升格）** | **registered·闸升格提案** | 硬证据=01:20:05 回执 `Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105-bm-a.json`：`rc=127 outcome=CARD-DEFECT card_defect="CWD-MISSING 切片 cwd 在本机不存在：C:/Fluxgroup/FleetAgent"`。承 R10-4/R11-2/R12-2 同族。闸升格（同病复发即升一档）：`Tools/card-lint.py` 增两条断言——①卡 `cwd` 必须是仓库相对路径或空；②`deliverable` 不得出现 `C:/Fluxgroup/...` 这类跨机绝对路径。断言在**生成源**（backlog_fill/line_plan）出卡时拦截，而不是等执行机 rc=127。 |
+| **R12-10 本班供给产出（实证）** | **已执行** | 两张真卡入队并推 origin：`MV-AUDIT-V722G-20261106`(bm-a) / `MV-ANCHOR-BATCH3-20261106`(bm-b)，push 77bfcbd56 → 42b209d78，均 NO-REVERSAL（6501/6410 行零消失）。bm-a 卡已本机点火执行（`Tools/mv_full_audit.py <v722g> --json ...`，交付物 `cph4/fleet/queue-receipts/mv-audit-v722g-20261106.json`）。bm-b 卡因 R12-6（认领器 Disabled + 仓面 ff 不动）暂时领不到，非卡本身缺陷。 |
+
