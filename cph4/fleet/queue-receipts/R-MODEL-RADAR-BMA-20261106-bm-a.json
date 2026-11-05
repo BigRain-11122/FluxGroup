@@ -1,0 +1,17 @@
+{
+ "id": "R-MODEL-RADAR-BMA-20261106",
+ "node": "bm-a",
+ "rc": 2,
+ "seconds": 731.2,
+ "cmd": "python Tools/fleet/model_radar.py run --node bm-a --idle-only --apply",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "FAIL",
+ "error_class": "E-CONTRACT",
+ "deliverable": "cph4/fleet/queue-receipts/model-radar-bm-a-20261106.json",
+ "deliverable_exists": true,
+ "ts": "2026-11-06T05:38:23",
+ "stdout_tail": "{\"ts\": \"2026-11-06T05:26:52\", \"node\": \"bm-a\", \"engine\": \"up\", \"attention\": [\"qwen3.5:2b\", \"qwen3.5:9b\"], \"discovered\": [{\"model\": \"pplx-decider-flash:4b\", \"family\": \"pplx-decider-flash\", \"size_gb\": 5.65, \"state\": \"NEW-FAMILY\", \"remote_digest\": \"4b41cf615edca873\"}, {\"model\": \"mimo-v2.6:9b\", \"family\": \"mimo-v2.6\", \"size_gb\": 6.55, \"state\": \"NEW-FAMILY\", \"remote_digest\": \"cc58eacf0e3e4a96\"}, {\"model\": \"lfm3-audio:2b\", \"family\": \"lfm3-audio\", \"size_gb\": 1.67, \"state\": \"NEW-FAMILY\", \"remote_digest\": \"3327c1a067559929\"}, {\"model\": \"lfm3-omni:2b\", \"family\": \"lfm3-omni\", \"size_gb\": 2.05, \"state\": \"NEW\n",
+ "stderr_tail": ""
+}
