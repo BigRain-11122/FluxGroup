@@ -2,7 +2,7 @@
  "id": "CHK-DUPES-20261103",
  "node": "bm-m",
  "rc": 0,
- "seconds": 10.6,
+ "seconds": 10.5,
  "cmd": "python3 Tools/fleet/semantic_dupes.py --json cph4/fleet/queue-receipts/dupes-scan-20261103.json",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": "E-ARTIFACT",
  "deliverable": "cph4/fleet/dupes-scan-20261103.json",
  "deliverable_exists": false,
- "ts": "2026-11-05T11:46:06",
- "stdout_tail": "SEMANTIC-DUPES rows=407 live=18 groups=3 th=0.72\n- 可能同一件事（2 张）：\n    R-PLAN-BIGSTREAMDUA-20261104       OPEN      BigStream·短剧 线级体检与缺口清单\n    Q-TRIAGE-BIGSTREAMMV-20261105      OPEN      bigstream-mv 线级体检（本机证据目录实况）\n- 可能同一件事（2 张）：\n    CANARY-20261105T061408             OPEN      端到端自检：投卡→领取→执行→回执→产物\n    CANARY-20261105T073536             OPEN      端到端自检：投卡→领取→执行→回执→产物\n- 可能同一件事（3 张）：\n    R-MODEL-RADAR-BMC-20261105         OPEN      本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-c）\n    R-MODEL-RADAR-BMM-20261105         OPEN      本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-m）\n    R-MODEL-RADAR-BMB-20261105         OPEN      本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-b）\n",
+ "ts": "2026-11-05T11:48:42",
+ "stdout_tail": "SEMANTIC-DUPES rows=407 live=16 groups=2 th=0.72\n- 可能同一件事（2 张）：\n    R-PLAN-BIGSTREAMDUA-20261104       OPEN      BigStream·短剧 线级体检与缺口清单\n    Q-TRIAGE-BIGSTREAMMV-20261105      OPEN      bigstream-mv 线级体检（本机证据目录实况）\n- 可能同一件事（3 张）：\n    R-MODEL-RADAR-BMC-20261105         OPEN      本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-c）\n    R-MODEL-RADAR-BMM-20261105         OPEN      本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-m）\n    R-MODEL-RADAR-BMB-20261105         OPEN      本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-b）\n",
  "stderr_tail": ""
 }
