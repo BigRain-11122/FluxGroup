@@ -1,25 +1,23 @@
 {
  "node": "bm-m",
- "ts": "2026-11-06T02:00:02",
+ "ts": "2026-11-06T02:10:02",
  "jobs": [
   {
-   "id": "Q-VCORP-PREP-z01-R4-20261105",
-   "title": "音色语料切片·z01（开源语料 → voices/z01/sliced，纯 CPU）",
-   "cmd": "python C:/Fluxgroup/FleetAgent/Tools/fleet/voice_corpus_prep.py --inbox C:/Fluxgroup/FluxGroup/media/asset/inbox/z01 --group z01 --receipt C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-prep-z01-r4-20261105.json",
-   "cwd": "C:/Fluxgroup/FleetAgent",
+   "id": "CLOCK-RESYNC-bm-c-20261106",
+   "title": "bm-c 本机时钟重同步（w32time status+resync；CLOCK-SKEW offset=3817.2ms 源头修）",
+   "cmd": "python Tools/fleet/clock_resync.py --out cph4/fleet/queue-receipts/clock-resync-bm-c-20261106.json",
+   "cwd": "",
    "needs": "cpu",
-   "deliverable": "C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-prep-z01-r4-20261105.json",
+   "deliverable": "cph4/fleet/queue-receipts/clock-resync-bm-c-20261106.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
-   "when_all": [
-    "C:/Fluxgroup/FluxGroup/media/asset/inbox/z01"
-   ],
+   "when_all": [],
    "llm": null,
-   "timeout_s": 3600
+   "timeout_s": 300
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 13.8/1.0 GB"
+ "capacity_note": "ram 12.4/1.0 GB"
 }

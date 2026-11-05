@@ -1,25 +1,23 @@
 {
  "node": "bm-a",
- "ts": "2026-11-06T02:00:02",
+ "ts": "2026-11-06T02:10:02",
  "jobs": [
   {
-   "id": "Q-VCORP-PREP-z02-R4-20261105",
-   "title": "音色语料切片·z02（开源语料 → voices/z02/sliced，纯 CPU）",
-   "cmd": "python C:/Fluxgroup/FleetAgent/Tools/fleet/voice_corpus_prep.py --inbox C:/Fluxgroup/FluxGroup/media/asset/inbox/z02 --group z02 --receipt C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-prep-z02-r4-20261105.json",
-   "cwd": "C:/Fluxgroup/FleetAgent",
+   "id": "MV-ANCHOR-BATCH3-20261106",
+   "title": "[MV 41 曲锚点线] 第三批 7 首：扩单+歌词对齐+结构锚（ready 14→21/41）",
+   "cmd": "python cph4/fleet/mv-album-001-jay/lyric_calibration.py",
+   "cwd": "",
    "needs": "cpu",
-   "deliverable": "C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-prep-z02-r4-20261105.json",
+   "deliverable": "cph4/fleet/mv-album-001-jay/anchors/POOL-0018-0019-anchor-matrix.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
-   "when_all": [
-    "C:/Fluxgroup/FluxGroup/media/asset/inbox/z02"
-   ],
+   "when_all": [],
    "llm": null,
-   "timeout_s": 3600
+   "timeout_s": 7200
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 20.3/1.0 GB"
+ "capacity_note": "ram 21.3/1.0 GB"
 }
