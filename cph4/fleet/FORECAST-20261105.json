@@ -1,14 +1,14 @@
 {
- "ts": "2026-11-05T08:01:24+0800",
+ "ts": "2026-11-05T08:16:54+0800",
  "alert_days": 2.0,
  "lines": [
   {
    "line": "asset-lib",
    "status": "ACTIVE",
    "prio": "P0",
-   "stock": 9,
+   "stock": 10,
    "rate_per_day": 4.67,
-   "runway_days": 1.9,
+   "runway_days": 2.1,
    "has_table": true,
    "blocker": {
     "stage": "env-check",
@@ -16,9 +16,7 @@
     "needs": "cpu",
     "hard_nodes": []
    },
-   "flags": [
-    "ALERT"
-   ]
+   "flags": []
   },
   {
    "line": "bigstream-duanju",
@@ -42,9 +40,9 @@
    "line": "bigstream-mv",
    "status": "ACTIVE",
    "prio": "P0",
-   "stock": 2,
+   "stock": 1,
    "rate_per_day": 4.67,
-   "runway_days": 0.4,
+   "runway_days": 0.2,
    "has_table": true,
    "blocker": {
     "stage": "gate",
@@ -237,6 +235,6 @@
    ]
   }
  ],
- "alerts": 5,
+ "alerts": 4,
  "no_table": 6
 }

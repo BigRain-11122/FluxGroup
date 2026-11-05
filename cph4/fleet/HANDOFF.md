@@ -1,13 +1,13 @@
-# 交接一屏（2026-11-05 08:01）
+# 交接一屏（2026-11-05 08:16）
 
 > 新会话先读这一页，再看具体文件。四段：在产 / 待判 / 阻塞 / 下一步。
 
 ## 一、在产（4 张）
 
 - `CHK-DUPES-20261103` 重复派单向量重扫（bm-m 兜底体检）（bm-m，45 分钟租约）
-- `bigstream-mv-gate-2026-11-05` [MV·爱在西元前（v721 终版）] 交付闸（重复/静止/抖动/闪烁）（bm-b，45 分钟租约）
-- `Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105` 音色微调试点·libritts-e01（语料→SoVITS s2→权重，DE-AI-SPEC A8 批前抽检）（bm-a，240 分钟租约）
-- `asset-lib-asset-gen-2026-11-05` [资产储备（角色 LoRA / 音色库）] 通用资产出图（道具/场景，吃 ASSET-PROMPTS 规格）（bm-c，180 分钟租约）
+- `Q-VCORP-PREP-e01-R3-20261105` 音色语料切片·e01（LibriTTS → voices/e01/sliced，纯 CPU）（bm-a，60 分钟租约）
+- `Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105` 音色微调试点·libritts-e01（语料→SoVITS s2→权重，DE-AI-SPEC A8 批前抽检）（bm-b，240 分钟租约）
+- `asset-lib-char-gen-2026-11-05` [资产储备（角色 LoRA / 音色库）] 角色包出图（本机 ComfyUI，1024²，同 seed 组）（bm-c，180 分钟租约）
 
 ## 二、待判（23 张在队列等机器）
 
@@ -22,10 +22,10 @@
 - `R-PLAN-BIGLIFE-20261105` BigLife·数字生命 线级体检与缺口清单（biglife）
 - `R-PLAN-FLUXVERSE-20261105` FluxVerse·元宙城 线级体检与缺口清单（fluxverse）
 
-## 三、阻塞（8 项断言红 / 3 台机不一致）
+## 三、阻塞（8 项断言红 / 4 台机不一致）
 
 - 断言 I1：4 条
-- 断言 I2：172 条
+- 断言 I2：174 条
 - 断言 I3：10 条
 - 断言 I4：13 条
 - 断言 I6：1 条
@@ -33,16 +33,17 @@
 - 断言 I12：15 条
 - 断言 I14：3 条
 - 机器 bm-a：NO-RECEIPT-1H
-- 机器 bm-b：BUSY-NO-REPORT、NO-RECEIPT-1H
+- 机器 bm-b：NO-RECEIPT-1H
 - 机器 bm-c：NO-RECEIPT-1H
+- 机器 bm-m：BUSY-NO-REPORT
 
 ## 四、下一步（P0 两线）
 
-- bigstream-mv：过闸率 73.5，返工 14，产出年龄 19.8
-- bigstream-drama：过闸率 73.3，返工 7，产出年龄 1.7
-- bigstream-duanju：过闸率 50.0，返工 3，产出年龄 133.2
-- biggame：过闸率 57.1，返工 2，产出年龄 38.6
-- asset-lib：过闸率 36.4，返工 20，产出年龄 0.1
+- bigstream-mv：过闸率 72.0，返工 13，产出年龄 20.1
+- bigstream-drama：过闸率 73.3，返工 7，产出年龄 1.9
+- bigstream-duanju：过闸率 50.0，返工 3，产出年龄 133.4
+- biggame：过闸率 57.1，返工 2，产出年龄 38.8
+- asset-lib：过闸率 37.5，返工 22，产出年龄 0.1
 
 ## 五、已发布（0 条）
 
