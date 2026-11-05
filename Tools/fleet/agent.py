@@ -388,26 +388,20 @@ def push():
     # 2026-11-05 根因修复（bm-b 实锚）：ff-only 拉取成功时，工作树里的自有面改动
     # （回执 / lane 副本 / 状态件删除——含 need-work 撤标）原样躺着永不提交——
     # bm-b 的 18 份切片回执 + 2 份训练回执滞留本地一整天、远端 need-work 死旗不撤，
-    # 主控对 bm-b 实况半盲。正法：push 前无条件把自有面 add -A（-A 才收删除）+ 提交。
+    # 主控对 bm-b 实况半盲。正法：push 前按前缀整体 add -A + 提交。
+    # 坑修（同日实弹）：逐路径从 status 收集=中文回执名被 git 转成八进制转义，
+    # pathspec 不匹配→整个 add fatal→提交静默失败（与 CAS ls-tree/mktree -z 判例同族）。
+    # 前缀式 add 让 git 自己解析目录内容，天然免疫非 ASCII 与文件竞态。
     # 队列/申报清单不进这里（行合并走既有专用路径，避免收据被队列冲突扣为人质）。
     try:
-        st = subprocess.run(["git", "status", "--porcelain"], cwd=ROOT,
-                            capture_output=True, text=True, timeout=60,
-                            encoding="utf-8", errors="replace").stdout or ""
-        own = []
-        for ln in st.splitlines():
-            p = ln[3:].strip().strip('"')
-            if not p:
-                continue
-            if p.startswith(OUR_OUTPUT) or p.startswith(STATE_PREFIXES):
-                own.append(p)
-        if own:
-            run_msg(["git", "add", "-A", "--"] + own, 120)
-            rc_c, _ = run_msg(["git", "commit", "-q", "-m",
-                               "state: own deltas (receipts/state/lane) [via agent]",
-                               "--"] + own, 120)
-            if rc_c == 0:
-                note("committed %d own-delta paths before push" % len(own), "agent-push.log")
+        prefixes = list(OUR_OUTPUT) + list(STATE_PREFIXES)
+        run_msg(["git", "add", "-A", "--"] + prefixes, 120)
+        rc_d, _ = run_msg(["git", "diff", "--cached", "--quiet"], 60)
+        if rc_d != 0:
+            run_msg(["git", "commit", "-q", "-m",
+                     "state: own deltas (receipts/state/lane) [via agent]",
+                     "--"] + prefixes, 120)
+            note("committed own deltas before push", "agent-push.log")
     except Exception as e:
         note("own-delta commit skipped: %s" % str(e)[:120], "agent-push.log")
     rc, tail = run_msg(["git", "push", "origin", "HEAD:main"], 300)
