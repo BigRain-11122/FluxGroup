@@ -385,17 +385,16 @@ def push():
     Safety: never force, and only push after a rebase has proven the branch is origin/main
     plus our commits (an append). A diverged tree that will not rebase is left alone and the
     skip is logged, so a broken worktree can never overwrite the master's history."""
-    # 2026-11-05 根因修复（bm-b 实锚）：ff-only 拉取成功时，工作树里的自有面改动
+    # 2026-11-05 根因修复（bm-b 实锚·v3 定稿）：ff-only 拉取成功时，工作树里的自有面改动
     # （回执 / lane 副本 / 状态件删除——含 need-work 撤标）原样躺着永不提交——
-    # bm-b 的 18 份切片回执 + 2 份训练回执滞留本地一整天、远端 need-work 死旗不撤，
-    # 主控对 bm-b 实况半盲。正法：push 前按前缀整体 add -A + 提交。
-    # 坑修（同日实弹）：逐路径从 status 收集=中文回执名被 git 转成八进制转义，
-    # pathspec 不匹配→整个 add fatal→提交静默失败（与 CAS ls-tree/mktree -z 判例同族）。
-    # 前缀式 add 让 git 自己解析目录内容，天然免疫非 ASCII 与文件竞态。
-    # 队列/申报清单不进这里（行合并走既有专用路径，避免收据被队列冲突扣为人质）。
+    # bm-b 的 60+ 份回执滞留本地一整天、远端 need-work 死旗不撤，主控对 bm-b 实况半盲。
+    # v1 逐路径收集撞中文八进制转义；v2 前缀法撞稀疏锥外+ignore 规则；v3=前缀式
+    # add -A --sparse -f（--sparse 让锥外自有件可入索引；-f 穿 state/ 的 ignore；
+    # 拉取面只物化本机已提交件=零额外 blob 成本）。队列/申报清单不进这里
+    # （行合并走既有专用路径，避免收据被队列冲突扣为人质）。
     try:
         prefixes = list(OUR_OUTPUT) + list(STATE_PREFIXES)
-        run_msg(["git", "add", "-A", "--"] + prefixes, 120)
+        run_msg(["git", "add", "-A", "-f", "--sparse", "--"] + prefixes, 120)
         rc_d, _ = run_msg(["git", "diff", "--cached", "--quiet"], 60)
         if rc_d != 0:
             run_msg(["git", "commit", "-q", "-m",
