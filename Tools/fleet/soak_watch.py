@@ -119,7 +119,16 @@ def fingerprint():
     return out
 
 
-def probes():
+def _timed(res, key, fn, *a, **kw):
+    """每个探针单独计时：只知"红/绿"看不出退化，今天嵌入从 0.1s 变 90s 就是这样被漏的。"""
+    t = time.time()
+    v = fn(*a, **kw)
+    v["ms"] = int((time.time() - t) * 1000)
+    res[key] = v
+    return v
+
+
+def probes(quick=False):
     c = cfg()
     lp = c.get("local_priority") or {}
     min_free = float(lp.get("min_free_gb_for_fleet") or 7.0)
@@ -134,6 +143,7 @@ def probes():
                                  % (alive, int(tick_age) if tick_age < 1e8 else -1, ms.get("cycle"))}
 
     # P2 网关
+    _t = time.time()
     ok, body = http_ok("http://127.0.0.1:11435/healthz")
     free = -1.0
     try:
@@ -141,6 +151,7 @@ def probes():
     except Exception:
         pass
     res["P2_gateway"] = {"ok": ok and (free < 0 or free >= min_free),
+                         "ms": int((time.time() - _t) * 1000),
                          "detail": "http=%s free_gb=%s need>=%s" % (ok, free, min_free)}
 
     # P3 模型真能用（2026-11-05 教训：装没装 ≠ 能不能用。今天嵌入服务挂死 90s，
@@ -155,6 +166,7 @@ def probes():
     pol = jload(os.path.join(F, "LOCAL-MODEL-POLICY.json"), {}) or {}
     gen_model = ((pol.get("duties") or {}).get("resident") or {}).get("model") or "qwen3.5:4b-mlx"
     emb_model = ((pol.get("duties") or {}).get("embedding") or {}).get("model") or "qwen3-embedding:0.6b"
+    _t3 = time.time()
     t = time.time()
     try:
         g = (_post("/api/generate", {"model": gen_model, "prompt": "1+1=", "stream": False,
@@ -170,12 +182,21 @@ def probes():
     except Exception as e:
         emb_ok, emb_detail = False, str(e)[:60]
     res["P3_models"] = {"ok": gen_ok and emb_ok,
+                        "ms": int((time.time() - _t3) * 1000),
                         "detail": "gen[%s]:%s emb[%s]:%s"
                                   % (gen_model, gen_detail, emb_model, emb_detail)}
 
     # P4 控制台
+    _t = time.time()
     ok, _ = http_ok("http://127.0.0.1:8787/")
-    res["P4_console"] = {"ok": ok, "detail": "http=%s" % ok}
+    res["P4_console"] = {"ok": ok, "ms": int((time.time() - _t) * 1000),
+                         "detail": "http=%s" % ok}
+
+    if quick:
+        for k, v in res.items():
+            v["probe"] = k.split("_")[0]
+        return res, {"swap_mb": -1, "disk_gb": -1, "free_gb": free,
+                     "free_pct": -1.0, "last_pageouts": None}
 
     # P5 真产出（读队列里的关闭时间，不看任何 verdict）
     fresh_h = float((c.get("truth") or {}).get("done_fresh_hours") or 12)
@@ -312,8 +333,9 @@ def heal(res):
     return acts
 
 
-def run(negative=False):
-    res, extra = probes()
+def run(negative=False, quick=False):
+    _t_all = time.time()
+    res, extra = probes(quick=quick)
     if negative:
         # 负向自检：故意把两项做成必红，验证探针不是摆设（结果不落账本）
         res["P2_gateway"] = {"ok": False, "detail": "NEGATIVE-CONTROL", "probe": "N2"}
@@ -343,7 +365,9 @@ def run(negative=False):
         except Exception:
             pass
 
-    row = {"ts": now, "verdict": verdict, "red": bad,
+    row = {"ts": now, "verdict": verdict, "red": bad, "quick": quick,
+           "total_ms": int((time.time() - _t_all) * 1000),
+           "ms": {k: v.get("ms") for k, v in res.items()},
            "probes": {k: v["ok"] for k, v in res.items()},
            "detail": {k: v["detail"] for k, v in res.items()},
            "healed": acts, "red_streak": streak, **extra}
@@ -383,6 +407,7 @@ def run(negative=False):
         "green_pct": round(100.0 * green / n, 1),
         "red_by_probe": per, "verdict": verdict, "red": bad,
         "red_streak": streak, "last": row,
+        "last_full_ts": (now if not row.get("quick") else prev.get("last_full_ts")),
         "last_pageouts": row.get("last_pageouts"),
         "slo": {"green_pct_min": 99.0, "max_consecutive_red": 2,
                 "enough_samples": enough, "samples_needed": capped},
@@ -458,6 +483,9 @@ def main(argv):
     ap.add_argument("--baseline", action="store_true")
     ap.add_argument("--negative", action="store_true")
     ap.add_argument("--report", action="store_true")
+    ap.add_argument("--quick", action="store_true", help="轻检：只验脉/网关/模型/控制台（15s 档）")
+    ap.add_argument("--auto", action="store_true",
+                    help="按配置自动升降档：距上次全检超过 soak_full_seconds 就跑全检")
     ap.add_argument("--reset-window", action="store_true", help="把 24h 窗口从此刻重算")
     ap.add_argument("--reason", default="", help="重起理由（必填，写进 cutover 件）")
     a = ap.parse_args(argv)
@@ -470,7 +498,14 @@ def main(argv):
             print("拒绝：--reset-window 必须带 --reason（不许无理由洗账）")
             return 2
         return reset_window(a.reason)
-    row, s = run(negative=a.negative)
+    quick = a.quick
+    if a.auto:
+        # 15 秒一次太密，全检（9 项）不必每次都跑：距上次全检超过阈值就升档。
+        prev = jload(SUMMARY, {}) or {}
+        full_s = float((cfg().get("truth") or {}).get("soak_full_seconds") or 60)
+        last_full = age_s(prev.get("last_full_ts") or "")
+        quick = last_full < full_s
+    row, s = run(negative=a.negative, quick=quick)
     if a.json:
         print(json.dumps(row, ensure_ascii=False, indent=1))
     else:
