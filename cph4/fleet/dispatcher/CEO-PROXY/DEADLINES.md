@@ -431,3 +431,15 @@ am_free_gb=10+cpu_load_pct=48——**bm-b 不是闲着，是在跑量化轮**；
 | **R10-7 ????????** | **monitoring??? +90min?** | bm-a DONE?bm-b/bm-c OPEN ????????????????????????????=SERVICE-STOPPED ?????? |
 | **R10-8 HQ-ProductionClaim deny?bm-b/bm-c?? 7 ??** | **waiting-CEO?????????** | ? R8-3/R9-4???????????C-20261009-04? |
 > ?? 2026-11-05 03:47??????? 2026-10-14 ??????R10 ???????? `04:0x`???????=03:26?????03:47??????? PR-20261105-01?04:0x / 04:02 ???????? 03:26-03:47 / 03:26?????????????????????????
+
+## 附录 R11 事件班登记（2026-11-06 00:05-00:22·承载件触发·DL 三连 STARVED-EXEC + BLOCKED-RAM bm-c + CLOCK-SKEW 3492ms）
+
+| 件 | 状态 | 证据 / 下一步 |
+|---|---|---|
+| **R11-1 真饥饿成立（POOL 假红之外的第二层）** | **FIXED（本班点火）** | 队列真 OPEN 只有 2 张，且 `R-NEXT-BIGSTREAMD-TTS-QC-20261104` / `R-PLAN-BIGSTREAMDUA-20261104` 全属 `bigstream-duanju`，LINE-REGISTRY 标 **PARKED** → 三机确实无合规活可领。处置：两卡 CANCELLED（R9-7 判例） |
+| **R11-2 备料 20 行 READY 全部升不上去** | **诊断完成·根因登记** | 逐行验：绝大多数「已在队（DONE/UNVERIFIED/RUNNING）或交付物已在盘」，属数据陈旧；真缺陷=2 行 bm-b 语音卡持 **bm-b 绝对路径**（`C:/Fluxgroup/FleetAgent/...`），主控 `backlog_fill` 路径闸在本机判 False → 永久升不上去 = bm-b 结构性饥饿源。**R10-4 家族第 2 次复发** |
+| **R11-3 两张真卡已升队并点火** | **BURNING（实证）** | 修后补料 `BACKLOG-ADDED 2`：`Q-VCORP-PREP-e01-R3`（导入 e01 语料切片）+ `Q-VCORP-TRAIN-PILOT-libritts-e01-R3`（SoVITS s2 微调）。poke 后 **3 分钟**首张被 bm-c 认领 RUNNING（00:12:01·lease 60min）。第二张 OPEN 待认领（其 `requires` 含 bm-b 本机 GPT-SoVITS，lane 严格自检后才收） |
+| **R11-4 推送通道 HTTP 500（新坑·已绕开）** | **FIXED（本班）** | `Tools/git-atomic-push.py` 对 `PRODUCTION-QUEUE.jsonl`（origin 788KB）两连 `blob 创建失败 HTTP 500`——整文件 base64 逾网关 1MB 体限。正法=同工具的反转闸 + 本地 `commit-tree -p origin/main` + `git push origin <sha>:refs/heads/main`（协议传增量）→ 87cdab202 成功，`NO-REVERSAL 2389 增行零消失`。**建议把「大文件走协议外科、小台账走 API」写进 versioning §4.4 附则** |
+| **R11-5 bm-c BLOCKED-RAM + ComfyUI 缺失** | **registered·物理件（零催办）** | IdleWatch 23:44-23:59 实测 `ram_free 8.75-9.58%`（24GB 机≈2.1GB）、`hb_verdict=GPU_COMFY_MISSING\|RAM_LOW`、comfy=0。bm-c 是 GPU 唯一产线，其全部 GPU 卡（asset-lib-char-gen / asset-gen）都串在 8188 上。修法只在 bm-c 本机：`free_mem.py --apply` 释放驻留 + 起 ComfyUI（C-20261009-04 / CEO 2026-10-23 禁远程，本席不做） |
+| **R11-6 bm-b/bm-c w32time 停转（CLOCK-SKEW 3492ms）** | **registered·物理件（零催办）** | CLOCK-SKEW.json 23:59:15：hub bm-a 0ms、bm-b +1456.3ms、bm-c ≈+3966ms（4ms/min 漂移），`old_schema=0 missing=0`→CLOCK-UNALIGNED 已自愈。承 R4-4/R5-5/R6-7/R8-6/R9-5/R10-9：两机 `sc query w32time`=STOPPED，需本机提权 `sc config w32time start= auto && net start w32time`。秒级偏差不影响派单租约，不重复立法 |
+| **R11-7 队列双源分叉（结构隐患·登记）** | **registered** | 本机 `main` 与 `origin/main` 实测 **ahead 497 / behind 244**；两边都有对方没有的卡（origin 侧 `DOCS-_报审提交区`、`VER-E-195423`；本机侧两张 VCORP）。本班用 append-only 外科推避开合并，但「双源各写各的」仍会持续制造幻影供给。收口正法=按 bm-a 卡死合并判例（reset --mixed origin/main + 定向 checkout + 台账行在 origin 最新版重提），须在无他窗在写的窗口做 |
