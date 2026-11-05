@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
- "ts": "2026-11-05T17:37:18",
+ "ts": "2026-11-05T17:38:17",
  "jobs": [
   {
-   "id": "CNV-20261105T173656-1",
-   "title": "转化·01-取证（金融回测：沪深300 月度因子信号出 CSV）",
-   "cmd": "python3 Tools/fleet/plan_convert.py --probe cph4/fleet/conversions/20261105/金融回测-沪深300-月度因子信号出-CSV quant",
+   "id": "CNV-20261105T173656-2",
+   "title": "转化·02-加工（金融回测：沪深300 月度因子信号出 CSV）",
+   "cmd": "python3 Tools/fleet/plan_convert.py --step 2 --conv cph4/fleet/conversions/20261105/金融回测-沪深300-月度因子信号出-CSV ",
    "cwd": "/Users/junsheng.sun/FluxGroup",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/conversions/20261105/金融回测-沪深300-月度因子信号出-CSV/step1-取证.json",
+   "deliverable": "cph4/fleet/conversions/20261105/金融回测-沪深300-月度因子信号出-CSV/step2-加工.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 14.5/1.0 GB"
+ "capacity_note": "ram 13.0/1.0 GB"
 }

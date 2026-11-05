@@ -1,23 +1,23 @@
 {
- "ts": "2026-11-05T17:37:18",
- "cycle": 205,
+ "ts": "2026-11-05T17:38:17",
+ "cycle": 206,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-05T17:37:18",
+ "master_tick_ts": "2026-11-05T17:38:17",
  "queue": {
   "total": 628,
-  "open": 4,
-  "running": 1,
-  "done": 345,
-  "failed": 33
+  "open": 3,
+  "running": 2,
+  "done": 346,
+  "failed": 32
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 3.4,
-   "cpu_load_pct": 63,
-   "ram_free_gb": 57.4,
-   "gpu_util_pct": 29,
+   "hb_age_s": 3.9,
+   "cpu_load_pct": 13,
+   "ram_free_gb": 56.4,
+   "gpu_util_pct": 39,
    "job": null,
    "last_result": {
     "job": null,
@@ -34,7 +34,7 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 26.0,
+   "hb_age_s": 86.6,
    "cpu_load_pct": 7,
    "ram_free_gb": 13.6,
    "gpu_util_pct": 0,
@@ -50,41 +50,41 @@
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 3
+   "idle_rounds": 4
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 71.9,
-   "cpu_load_pct": 8,
-   "ram_free_gb": 3.7,
+   "hb_age_s": 21.8,
+   "cpu_load_pct": 11,
+   "ram_free_gb": 2.6,
    "gpu_util_pct": 0,
-   "job": null,
-   "last_result": {
-    "job": "asset-lib-char-gen-2026-11-05",
-    "state": "FAILED",
-    "rc": 2,
-    "ts": "2026-11-05T17:36:27",
-    "reason": null,
-    "out_bytes": null,
-    "elapsed_s": null
-   },
-   "idle_confirmed": false,
-   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 0
-  },
-  "bm-m": {
-   "online": true,
-   "hb_age_s": 1.1,
-   "cpu_load_pct": 40,
-   "ram_free_gb": 14.5,
-   "gpu_util_pct": null,
-   "job": "CNV-20261105T173656-1",
+   "job": "asset-lib-char-gen-2026-11-05",
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-05T17:36:25",
+    "ts": "2026-11-05T17:38:01",
     "reason": "SELF-DISPATCH: lane scans its own backlog",
+    "out_bytes": null,
+    "elapsed_s": null
+   },
+   "idle_confirmed": false,
+   "idle_reason": "",
+   "idle_rounds": 0
+  },
+  "bm-m": {
+   "online": true,
+   "hb_age_s": 1.0,
+   "cpu_load_pct": 41,
+   "ram_free_gb": 13.0,
+   "gpu_util_pct": null,
+   "job": "CNV-20261105T173656-2",
+   "last_result": {
+    "job": "CNV-20261105T173656-1",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-05T17:37:24",
+    "reason": null,
     "out_bytes": null,
     "elapsed_s": null
    },
@@ -95,7 +95,7 @@
  },
  "idle_rounds": {
   "bm-a": 0,
-  "bm-b": 3,
+  "bm-b": 4,
   "bm-c": 0,
   "bm-m": 0
  },
@@ -192,13 +192,11 @@
    "stale_after_h": 24.0,
    "owner": "量化席",
    "jobs": [
-    "CNV-20261105T173656-1",
     "CNV-20261105T173656-2",
     "CNV-20261105T173656-3"
    ],
    "no_supply": false,
    "blockers": [
-    "CNV-20261105T173656-2:no-lane",
     "CNV-20261105T173656-3:no-lane"
    ],
    "note": "2026-11-04 夜班重启：原回测阶段钉 bm-d，而 bm-d 自 10-29 离线；改由 bm-b（有 quant 仓与数据）出「下月持仓信号 CSV」，主控按 P1 恢复派单。",
@@ -292,12 +290,14 @@
   "asset-lib": {
    "name": "资产储备·角色 LoRA 与音色库",
    "status": "ACTIVE",
-   "verdict": "WAITING",
+   "verdict": "WORKING",
    "age_h": null,
    "stale_after_h": 72.0,
    "owner": "资产席",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "asset-lib-char-gen-2026-11-05"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": "CEO 2026-11-03：先储备资产，角色 LoRA 与音色库为 P0"
   }
@@ -837,7 +837,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 4,
+  "local": 3,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -845,16 +845,17 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 4,
+  "cpu": 3,
   "gpu": 0
  },
  "supply_added": [],
  "events": [
-  "asset-lib-char-gen-2026-11-05 FAILED via bm-c",
-  "CNV-20261105T173656-1 -> bm-m (cpu)"
+  "CNV-20261105T173656-1 DONE via bm-m",
+  "asset-lib-char-gen-2026-11-05 -> bm-c (gpu)",
+  "CNV-20261105T173656-2 -> bm-m (cpu)"
  ],
  "violations": [
-  "bm-b IDLE-CONFIRMED x3 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-b IDLE-CONFIRMED x4 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED bigstream-mv 卡在 立意/分镜/导演席 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"

@@ -1,0 +1,18 @@
+{
+ "ts": "2026-11-05T17:38:17",
+ "conv": "cph4/fleet/conversions/20261105/金融回测-沪深300-月度因子信号出-CSV",
+ "step": 2,
+ "stage": "加工",
+ "idea": "金融回测：沪深300 月度因子信号出 CSV",
+ "ok": true,
+ "tool": null,
+ "contract": {
+  "input": "见 step1-取证.json",
+  "output": "本方案第 4 步交付件",
+  "owner": "未指定工具",
+  "next": "指定 --tool 后重跑本步"
+ },
+ "blocked": [
+  "未指定加工工具：本步只落骨架，不算交付"
+ ]
+}
