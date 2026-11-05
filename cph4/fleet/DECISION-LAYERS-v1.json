@@ -3,58 +3,138 @@
   "version": "v1-20261105",
   "source": "cph4/decision-chain.md §0 §8",
   "principle": "底层优先：能在最低层解决的不上抬；低层越权必须升层，禁闷头自决。",
-
   "layers": {
     "L0": {
       "name": "机器/工单层",
-      "decides": ["卡内技术路线", "实现选型", "重试方式", "同一卡换机重跑"],
+      "decides": [
+        "卡内技术路线",
+        "实现选型",
+        "重试方式",
+        "同一卡换机重跑"
+      ],
       "sla_h": 0,
       "fallback": "conservative-default",
       "fallback_note": "本轮不动现状：保留原产物、记录一次尝试，不扩大影响面"
     },
     "L1": {
       "name": "线内/部门层",
-      "decides": ["线内验收标准", "卡失败根因处置", "线内优先级", "闸未过时的返工范围"],
+      "decides": [
+        "线内验收标准",
+        "卡失败根因处置",
+        "线内优先级",
+        "闸未过时的返工范围"
+      ],
       "sla_h": 24,
       "fallback": "last-passing-standard",
       "fallback_note": "沿用上一次通过的判据继续推进，把争议写进线台账，不阻塞其他卡"
     },
     "L2": {
       "name": "子公司层",
-      "decides": ["司域重大", "线级下一步产物", "资源在本司内调配", "停线/挂起本司某线"],
+      "decides": [
+        "司域重大",
+        "线级下一步产物",
+        "资源在本司内调配",
+        "停线/挂起本司某线"
+      ],
       "sla_h": 24,
       "fallback": "business-map-next",
       "fallback_note": "按 BUSINESS-MAP 里该线的 next_product 继续推进，不等人"
     },
     "L3": {
       "name": "集团层",
-      "decides": ["跨司规则", "平台机制变更", "多线资源冲突", "T1/T2 级事项"],
+      "decides": [
+        "跨司规则",
+        "平台机制变更",
+        "多线资源冲突",
+        "T1/T2 级事项"
+      ],
       "sla_h": 12,
       "fallback": "delegated-self-decide",
       "fallback_note": "委托决策令 v2：调研+预注册判据后自决，落 decisions 台账，CEO 可一句话翻案"
     },
     "CEO": {
       "name": "CEO 保留域",
-      "decides": ["方向变更", "红线裁决", "现实物理件", "命名与人设", "对外发布与署名", "花钱超预算"],
+      "decides": [
+        "方向变更",
+        "红线裁决",
+        "现实物理件",
+        "命名与人设",
+        "对外发布与署名",
+        "花钱超预算"
+      ],
       "sla_h": null,
       "fallback": "hold-and-continue-others",
       "fallback_note": "该事项本身不推进（不代签不代发），但其他线照常跑；到期只在屏上提醒，不催办"
     }
   },
-
   "routing_rules": [
-    {"kind": "REDLINE", "match": "红线/密钥泄露/数据险情/肖像侵权", "layer": "CEO", "why": "保留域，禁自决"},
-    {"kind": "DIRECTION", "match": "新方向/开线收线/使命变更", "layer": "CEO", "why": "方向权在 CEO"},
-    {"kind": "PHYSICAL", "match": "购买/注册/认证/账号/合同", "layer": "CEO", "why": "现实世界必须 CEO 本人"},
-    {"kind": "PUBLISH", "match": "对外发布/署名/声明位", "layer": "CEO", "why": "发布决定权"},
-    {"kind": "COST", "match": "云端花费超日预算", "layer": "CEO", "why": "花钱要签字；但硬上限先停住"},
-    {"kind": "CROSS_LINE", "match": "两条以上线抢同一算力/同一产物", "layer": "L3", "why": "跨司资源冲突"},
-    {"kind": "LINE_NEXT", "match": "线缺下一张卡/该线该做什么", "layer": "L2", "why": "司域自治"},
-    {"kind": "ROOT_CAUSE", "match": "同一卡 3 次未成已停线", "layer": "L1", "why": "线内技术根因，不该上抬"},
-    {"kind": "GATE_DISPUTE", "match": "闸连续不过/判据可疑", "layer": "L1", "why": "线内标准"},
-    {"kind": "CARD_TECH", "match": "卡内路径/参数/重试", "layer": "L0", "why": "工单内事务"}
+    {
+      "kind": "REDLINE",
+      "match": "红线/密钥泄露/数据险情/肖像侵权",
+      "layer": "CEO",
+      "why": "保留域，禁自决"
+    },
+    {
+      "kind": "DIRECTION",
+      "match": "新方向/开线收线/使命变更",
+      "layer": "CEO",
+      "why": "方向权在 CEO"
+    },
+    {
+      "kind": "PHYSICAL",
+      "match": "购买/注册/认证/账号/合同",
+      "layer": "CEO",
+      "why": "现实世界必须 CEO 本人"
+    },
+    {
+      "kind": "PUBLISH",
+      "match": "对外发布/署名/声明位",
+      "layer": "CEO",
+      "why": "发布决定权"
+    },
+    {
+      "kind": "COST",
+      "match": "云端花费超日预算",
+      "layer": "CEO",
+      "why": "花钱要签字；但硬上限先停住"
+    },
+    {
+      "kind": "CROSS_LINE",
+      "match": "两条以上线抢同一算力/同一产物",
+      "layer": "L3",
+      "why": "跨司资源冲突"
+    },
+    {
+      "kind": "LINE_NEXT",
+      "match": "线缺下一张卡/该线该做什么",
+      "layer": "L2",
+      "why": "司域自治"
+    },
+    {
+      "kind": "ROOT_CAUSE",
+      "match": "同一卡 3 次未成已停线",
+      "layer": "L1",
+      "why": "线内技术根因，不该上抬"
+    },
+    {
+      "kind": "GATE_DISPUTE",
+      "match": "闸连续不过/判据可疑",
+      "layer": "L1",
+      "why": "线内标准"
+    },
+    {
+      "kind": "CARD_TECH",
+      "match": "卡内路径/参数/重试",
+      "layer": "L0",
+      "why": "工单内事务"
+    },
+    {
+      "kind": "GATE_RED",
+      "match": "不变量红项/闸连续不过",
+      "layer": "L2",
+      "why": "卡/回执/产出规范属线内与账房域，不上抬 CEO"
+    }
   ],
-
   "conflict_rule": "两层结论冲突 → 取更严者（更保守、更慢、更多证据的一方）；仍冲突才升一层",
   "evidence_rule": "无证据不得拍板：缺证决策一律退回补证，不许用默认值硬判",
   "no_skip_rule": "升级只升一层，禁跳级；两轮驳回才上升一层"

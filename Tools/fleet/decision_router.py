@@ -86,6 +86,19 @@ def build_pool():
             pool.append({"key": "supply:%s" % a.get("line"), "kind": "LINE_NEXT",
                          "subject": "%s 的下一步产物" % a.get("line"),
                          "evidence": a.get("why") or "", "line": a.get("line") or ""})
+    # 闸红灯必须有消费者（2026-11-05 暴露：不变量 FAIL 挂了整天没人管，只写在报告里）。
+    # 每条红项变成一条 L2 决策，到期按兜底走，不再"红着等"。
+    gate = jload(os.path.join(F, "state", "gate-report.json"), {}) or {}
+    inv = gate.get("invariants") or {}
+    for iid, cnt in (inv.get("red") or []):
+        if int(cnt or 0) <= 0:
+            continue
+        pool.append({"key": "gate:%s" % iid, "kind": "GATE_RED",
+                     "subject": "闸红 %s × %d（%s）" % (iid, int(cnt),
+                                                       inv.get("verdict") or "FAIL"),
+                     "evidence": "cph4/fleet/state/gate-report.json",
+                     "fallback_hint": "修到该项归零（修卡/修闸/改判据三选一），不许以沉默结案",
+                     "line": "fleet-ops"})
     cq = jload(os.path.join(F, "state", "ceo-queue.json"), {}) or {}
     for it in cq.get("items") or []:
         bt = str(it.get("blocker_type") or "").upper()
@@ -160,7 +173,7 @@ def main(argv):
                       "line": it["line"], "why_routed": why, "sla_h": sla,
                       "first_seen": first, "due_at": due, "overdue": overdue,
                       "status": state_now, "fallback": fallback,
-                      "fallback_note": spec.get("fallback_note"),
+                      "fallback_note": it.get("fallback_hint") or spec.get("fallback_note"),
                       "fallback_used": used, "evidence": it.get("evidence") or "",
                       "settled": settled})
 

@@ -940,9 +940,42 @@ def main() -> int:
     SLOW_SERIAL = {"census", "inventory", "contingency", "solver", "line_agents",
                    # 2026-11-04 CEO「注意散热」：两类 GPU 重活必须串行，不许并发叠热
                    "mac_farm", "asset_prompts"}
-    serial = [s for s in STAGES if not s[4]]
-    slow_serial = [s for s in STAGES if s[4] and s[0] in SLOW_SERIAL]
-    parallel = [s for s in STAGES if s[4] and s[0] not in SLOW_SERIAL]
+    # 瘦身 + 编辑锁（2026-11-05）：停掉没有消费者的纯报告阶段；人工手术期间只保留心跳。
+    # 阈值在 AUTONOMY-CONFIG.pulse，锁在 .codely-cli/tmp/EDITING.lock。
+    try:
+        with open(os.path.join(ROOT, "cph4", "fleet", "AUTONOMY-CONFIG.json"),
+                  encoding="utf-8") as _f:
+            _pol = (json.load(_f).get("pulse") or {})
+    except Exception:
+        _pol = {}
+    _off = set(_pol.get("disabled_stages") or [])
+    _every = int(_pol.get("canary_every_cycles") or 1)
+    if _every > 1:
+        try:
+            _cd = os.path.join(ROOT, "cph4", "fleet", "state", "canary")
+            _newest = max(os.path.getmtime(os.path.join(_cd, n)) for n in os.listdir(_cd))
+            if (time.time() - _newest) < _every * 18 * 60:
+                _off.add("canary")
+        except Exception:
+            pass
+    try:
+        with open(os.path.join(ROOT, ".codely-cli", "tmp", "EDITING.lock"),
+                  encoding="utf-8") as _lf:
+            _lock = json.load(_lf)
+        if (time.time() - float(_lock.get("ts_epoch") or 0)) < 1800:
+            _keep = {"hb"}
+            _off |= {x[0] for x in STAGES if x[0] not in _keep}
+            log("edit-lock ON (%s): heartbeat only" % (_lock.get("why") or "-"))
+    except FileNotFoundError:
+        pass
+    except Exception as _e:
+        log("edit-lock check failed: %s" % str(_e)[:60])
+    if _off:
+        log("slim: skip %d stage(s): %s" % (len(_off), ",".join(sorted(_off))))
+    _active = [x for x in STAGES if x[0] not in _off]
+    serial = [s for s in _active if not s[4]]
+    slow_serial = [s for s in _active if s[4] and s[0] in SLOW_SERIAL]
+    parallel = [s for s in _active if s[4] and s[0] not in SLOW_SERIAL]
     # Two pools by resource, not by "more workers = faster":
     #   MODEL_STAGES share Ollama's 3 slots; giving them 6 threads only queues work.
     #   IO stages are pure python (files/git) and are cheap to run wide.
