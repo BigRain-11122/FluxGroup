@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-05T17:01:55+0800",
+ "ts": "2026-11-05T17:08:30+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -27,8 +27,8 @@
    "accept": "SUBMIT-PACK 里『隐私政策』『提审台账』两类缺件归零",
    "blocker_type": "CEO",
    "blocker": "截图需跑游戏取图，受 2026-10-28『不许自动跑游戏包』令约束，等放行",
-   "state": "STALLED",
-   "card": null,
+   "state": "QUEUED",
+   "card": "SIM-DUP-20261105T170329",
    "running_on": null
   },
   {
@@ -223,14 +223,14 @@
    "blocker_type": "ENGINE",
    "blocker": "I2 存量 125 条卡面路径债、vault 缺盘 651 条",
    "state": "RUNNING",
-   "card": "SIM-20261105T155828-01-infra",
-   "running_on": "bm-b"
+   "card": "R-BIZ-CAR-1D",
+   "running_on": "bm-m"
   }
  ],
  "counts": {
   "RUNNING": 2,
-  "QUEUED": 2,
-  "STALLED": 11
+  "QUEUED": 3,
+  "STALLED": 10
  },
  "stalled_engine": 5
 }

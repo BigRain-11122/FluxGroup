@@ -1,20 +1,19 @@
 {
- "ts": "2026-11-05T17:01:55",
+ "ts": "2026-11-05T17:08:31",
  "stage": 3,
  "adoption": {
   "days": 4,
-  "applied": 999,
-  "total": 767,
+  "applied": 1001,
+  "total": 769,
   "rate": 130.2,
   "eligible_stage4": false
  },
  "decisions": [
   {
    "kind": "requeue",
-   "why": "3 张卡在跑但 1 小时无回执",
+   "why": "2 张卡在跑但 1 小时无回执",
    "target": [
     "asset-lib-char-gen-2026-11-05",
-    "SIM-20261105T155828-01-infra",
     "SIM-20261105T160855-01-infra"
    ],
    "min_stage": 3,
@@ -36,7 +35,6 @@
    "kind": "requeue",
    "ids": [
     "asset-lib-char-gen-2026-11-05",
-    "SIM-20261105T155828-01-infra",
     "SIM-20261105T160855-01-infra"
    ]
   }
