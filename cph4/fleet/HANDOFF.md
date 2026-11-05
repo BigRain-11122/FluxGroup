@@ -1,4 +1,4 @@
-# 交接一屏（2026-11-05 11:11）
+# 交接一屏（2026-11-05 11:23）
 
 > 新会话先读这一页，再看具体文件。四段：在产 / 待判 / 阻塞 / 下一步。
 
@@ -6,10 +6,10 @@
 
 - `CHK-DUPES-20261103` 重复派单向量重扫（bm-m 兜底体检）（bm-m，45 分钟租约）
 - `bigstream-mv-gate-2026-11-05` [MV·爱在西元前（v721 终版）] 交付闸（重复/静止/抖动/闪烁）（bm-a，45 分钟租约）
+- `asset-lib-face-dataset-2026-11-05` [资产储备（角色 LoRA / 音色库）] 人脸数据集准入（反 AI 脸的第一道门）（bm-c，45 分钟租约）
 - `Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105` 音色微调试点·libritts-e01（语料→SoVITS s2→权重，DE-AI-SPEC A8 批前抽检）（bm-b，240 分钟租约）
-- `asset-lib-char-gen-2026-11-05` [资产储备（角色 LoRA / 音色库）] 角色包出图（本机 ComfyUI，1024²，同 seed 组）（bm-c，180 分钟租约）
 
-## 二、待判（20 张在队列等机器）
+## 二、待判（18 张在队列等机器）
 
 - `R-NEXT-BIGSTREAMD-TTS-QC-20261104` 配音批质检：r1202 目录逐集时长/静音/体积（出可发布集数清单）（bigstream-duanju）
 - `R-PLAN-BIGSTREAMDUA-20261104` BigStream·短剧 线级体检与缺口清单（bigstream-duanju）
@@ -18,9 +18,9 @@
 - `R-TRIAGE-BIGSTREAMMV-BMA-20261104` BigStream·MV 41 曲 线证据扫描（bm-a 本机可判面）（无归属）
 - `R-TRIAGE-FLEETOPS-BMA-20261104` 机队运维·端到端自检（平台服务线） 线证据扫描（bm-a 本机可判面）（无归属）
 - `R-PLAN-BIGDOMAIN-20261105` BigDomain·硅基域商业化 线级体检与缺口清单（bigdomain）
-- `asset-lib-face-dataset-2026-11-05` [资产储备（角色 LoRA / 音色库）] 人脸数据集准入（反 AI 脸的第一道门）（asset-lib）
 - `Q-TRIAGE-BIGSTREAMMV-20261105` bigstream-mv 线级体检（本机证据目录实况）（无归属）
-- `Q-TRIAGE-FLUXVERSE-20261105` fluxverse 线级体检（本机证据目录实况）（无归属）
+- `asset-lib-asset-gen-2026-11-05` [资产储备（角色 LoRA / 音色库）] 通用资产出图（道具/场景，吃 ASSET-PROMPTS 规格）（asset-lib）
+- `Q-PLATFORM-PACK-SAMPLE-R3-20261105` 平台发布包样批：有声版 EP001/EP030/EP060 → 抖音/快手 9:16 + 小红书九宫格 + 知乎/微博封面（bigstream-duanju）
 
 ## 三、阻塞（8 项断言红 / 4 台机不一致）
 
@@ -34,16 +34,16 @@
 - 断言 I14：3 条
 - 机器 bm-a：BUSY-NO-REPORT、NO-RECEIPT-1H
 - 机器 bm-b：NO-RECEIPT-1H
-- 机器 bm-c：NO-RECEIPT-1H
+- 机器 bm-c：BUSY-NO-REPORT、NO-RECEIPT-1H
 - 机器 bm-m：BUSY-NO-REPORT
 
 ## 四、下一步（P0 两线）
 
-- bigstream-mv：过闸率 73.5，返工 14，产出年龄 23.0
-- bigstream-drama：过闸率 73.3，返工 7，产出年龄 4.9
-- bigstream-duanju：过闸率 50.0，返工 3，产出年龄 136.3
-- biggame：过闸率 57.1，返工 2，产出年龄 41.7
-- asset-lib：过闸率 37.5，返工 23，产出年龄 0.1
+- bigstream-mv：过闸率 73.5，返工 14，产出年龄 23.2
+- bigstream-drama：过闸率 73.3，返工 7，产出年龄 5.1
+- bigstream-duanju：过闸率 50.0，返工 3，产出年龄 136.6
+- biggame：过闸率 57.1，返工 2，产出年龄 41.9
+- asset-lib：过闸率 36.4，返工 23，产出年龄 0.1
 
 ## 五、已发布（0 条）
 
