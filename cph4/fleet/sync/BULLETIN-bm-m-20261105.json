@@ -1,14 +1,20 @@
 {
  "node": "bm-m",
  "date": "20261105",
- "ts": "2026-11-05T14:29:45+0800",
+ "ts": "2026-11-05T14:36:13+0800",
  "window_h": 26,
  "produced": [
   {
    "path": "cph4/fleet/queue-receipts/skill-promote-20261105.json",
    "bytes": 2172,
-   "mtime": "2026-11-05T14:29:45",
-   "sha": "de38e29278af2a50a871530be49baf8178db344564c1951d64256ea038b4ca2f"
+   "mtime": "2026-11-05T14:36:13",
+   "sha": "83720476c72371cff668646bca715c19c0dd9a0878867b48b9889b9cd7aaa613"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/triage-bigstream-mv-20261105.md",
+   "bytes": 1361,
+   "mtime": "2026-11-05T14:29:53",
+   "sha": "1c50938e35b2520308b02edbb87fee1b16c664bf001dfd94432be6ab863e8395"
   },
   {
    "path": "cph4/fleet/queue-receipts/R-NEXT-BIGSTREAMM-AUDIT-20261105-bm-a.json",
@@ -381,12 +387,6 @@
    "bytes": 2800,
    "mtime": "2026-11-04T16:55:08",
    "sha": "a497040249ad5a5afddd8b209f535960531f3c3c704bf0e54f2aafb55f423740"
-  },
-  {
-   "path": "cph4/fleet/queue-receipts/asset-lib-voice-dataset-2026-11-04-bm-m.json",
-   "bytes": 1051,
-   "mtime": "2026-11-04T12:31:50",
-   "sha": "3d8028b6ef122029c4439134344b9dc01cd6567467f0e22c30cfaf4801af682d"
   }
  ],
  "blocked": [

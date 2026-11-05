@@ -1,4 +1,4 @@
-# 机队互报（2026-11-05T14:29:45+0800）
+# 机队互报（2026-11-05T14:36:14+0800）
 
 上报 1 / 名册 5 台；本机看不到的他人产物 0 件（传输通道度量，不是错误）
 
@@ -12,12 +12,12 @@
 
 ## bm-m（20261105，窗口 26h）
 - 产出 64 件
-  - `cph4/fleet/queue-receipts/skill-promote-20261105.json`（2KB, de38e29278…）
+  - `cph4/fleet/queue-receipts/skill-promote-20261105.json`（2KB, 83720476c7…）
+  - `cph4/fleet/queue-receipts/triage-bigstream-mv-20261105.md`（1KB, 1c50938e35…）
   - `cph4/fleet/queue-receipts/R-NEXT-BIGSTREAMM-AUDIT-20261105-bm-a.json`（2KB, 51531b1591…）
   - `cph4/fleet/queue-receipts/inference-audit-bm-m-20261105.json`（1KB, 2173edc7bc…）
   - `cph4/fleet/queue-receipts/R-NEEDWORK-20261104-001-bm-m.json`（1KB, dbd06f9f0b…）
   - `cph4/fleet/queue-receipts/asset-lib-voice-dataset-2026-11-05-bm-a.json`（1KB, 87dd2c1126…）
-  - `cph4/fleet/queue-receipts/bigmoney-backtest-2026-11-03-v3-bm-b.json`（1KB, 96c5f3fc2c…）
 - 受阻 6 条
   - R-NEXT-BIGGAME-SUBMIT-P-20261105：E-CONTRACT products=36 ready=0 not_ready=36
   缺 图标≥256px                     35 款
