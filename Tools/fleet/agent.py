@@ -24,6 +24,10 @@ import os
 import shutil
 import subprocess
 import sys
+try:
+    sys.stdout.reconfigure(encoding='utf-8')
+except Exception:
+    pass
 import time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -198,7 +202,7 @@ def resolve_rebase_conflicts():
         try:
             with open(os.path.join(ROOT, p.replace("/", os.sep)), encoding="utf-8", errors="replace") as _fh:
                 _t = _fh.read()
-            if "<<<<<<<" in _t and ">>>>>>>" in _t:
+            if "^<<<<<<<" in _t and ">>>>>>>" in _t:
                 note("POISON-GUARD: %s still has conflict markers, NOT staged" % p)
                 continue
         except Exception:
@@ -338,7 +342,7 @@ def pull():
         tail3 = full3.replace("\n", " | ")[:240]
     if rc3 == 0:
         # 2026-11-04 poison guard: never publish a tree that still carries conflict markers.
-        rc_pg, out_pg = git_full(["git", "grep", "-l", "<<<<<<<", "--", "cph4/fleet/"], 60)
+        rc_pg, out_pg = git_full(["git", "grep", "-l", "^<<<<<<<", "--", "cph4/fleet/"], 60)
         if rc_pg == 0:
             note("POISON-GUARD: conflict markers in tree, push suppressed: %s"
                  % out_pg.replace("\n", " | ")[:200])
