@@ -1,8 +1,23 @@
 {
  "node": "bm-b",
- "ts": "2026-11-05T19:53:29",
- "jobs": [],
- "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+ "ts": "2026-11-05T19:57:14",
+ "jobs": [
+  {
+   "id": "DOCS-_报审提交区",
+   "title": "隐私政策 _报审提交区",
+   "cmd": "python3 Tools/fleet/submit_docs.py --only _报审提交区",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "软著申请材料/_报审提交区/privacy-policy.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  }
+ ],
+ "idle_reason": "",
  "lane_ok": true,
  "capacity_note": "ram 11.2/1.0 GB"
 }
