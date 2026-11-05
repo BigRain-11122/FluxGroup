@@ -1,0 +1,799 @@
+{
+ "song": "上海一九四三",
+ "version": "anchor-shotgrid v1.0 (r1070 bm-b)",
+ "inputs": {
+  "beats_sha_face": 548,
+  "n_beats": 548,
+  "n_downbeats": 137,
+  "duration_sec": 195.8
+ },
+ "bpm_median": 172.4,
+ "snap_tol_sec": 0.1,
+ "max_shot_sec": 3.0,
+ "grid": [
+  {
+   "i": 0,
+   "text": "泛黄的春联还残留在墙上",
+   "t0": 3.45,
+   "t1": 7.49,
+   "t0_used": 3.437,
+   "t1_used": 7.546,
+   "snapped": true,
+   "snap_deltas": [
+    0.013,
+    -0.056
+   ],
+   "approx": false,
+   "splits": [
+    5.48
+   ]
+  },
+  {
+   "i": 1,
+   "text": "依稀可见几个字岁岁平安",
+   "t0": 7.49,
+   "t1": 11.58,
+   "t0_used": 7.546,
+   "t1_used": 11.58,
+   "snapped": true,
+   "snap_deltas": [
+    -0.056,
+    -0.123
+   ],
+   "approx": false,
+   "splits": [
+    9.613
+   ]
+  },
+  {
+   "i": 2,
+   "text": "在我没有回去过的老家米缸",
+   "t0": 11.58,
+   "t1": 15.76,
+   "t0_used": 11.58,
+   "t1_used": 15.836,
+   "snapped": true,
+   "snap_deltas": [
+    -0.123,
+    -0.076
+   ],
+   "approx": false,
+   "splits": [
+    13.746
+   ]
+  },
+  {
+   "i": 3,
+   "text": "爷爷用楷书写一个满",
+   "t0": 15.76,
+   "t1": 19.84,
+   "t0_used": 15.836,
+   "t1_used": 19.84,
+   "snapped": true,
+   "snap_deltas": [
+    -0.076,
+    -0.129
+   ],
+   "approx": false,
+   "splits": [
+    17.903
+   ]
+  },
+  {
+   "i": 4,
+   "text": "黄金葛爬满了雕花的门窗",
+   "t0": 19.84,
+   "t1": 24.0,
+   "t0_used": 19.84,
+   "t1_used": 24.0,
+   "snapped": false,
+   "snap_deltas": [
+    -0.129,
+    -0.126
+   ],
+   "approx": false,
+   "splits": [
+    22.036
+   ]
+  },
+  {
+   "i": 5,
+   "text": "夕阳斜斜映在斑驳的砖墙",
+   "t0": 24.0,
+   "t1": 28.09,
+   "t0_used": 24.0,
+   "t1_used": 28.09,
+   "snapped": false,
+   "snap_deltas": [
+    -0.126,
+    -0.145
+   ],
+   "approx": false,
+   "splits": [
+    26.169
+   ]
+  },
+  {
+   "i": 6,
+   "text": "铺着榉木板的屋内还弥漫",
+   "t0": 28.09,
+   "t1": 32.26,
+   "t0_used": 28.09,
+   "t1_used": 32.26,
+   "snapped": false,
+   "snap_deltas": [
+    -0.145,
+    -0.132
+   ],
+   "approx": false,
+   "splits": [
+    30.302
+   ]
+  },
+  {
+   "i": 7,
+   "text": "姥姥当年酿的豆瓣酱",
+   "t0": 32.26,
+   "t1": 36.65,
+   "t0_used": 32.26,
+   "t1_used": 36.65,
+   "snapped": false,
+   "snap_deltas": [
+    -0.132,
+    0.125
+   ],
+   "approx": false,
+   "splits": [
+    34.458
+   ]
+  },
+  {
+   "i": 8,
+   "text": "我对着黑白照片开始想象",
+   "t0": 36.65,
+   "t1": 40.62,
+   "t0_used": 36.65,
+   "t1_used": 40.658,
+   "snapped": true,
+   "snap_deltas": [
+    0.125,
+    -0.038
+   ],
+   "approx": false,
+   "splits": [
+    38.592
+   ]
+  },
+  {
+   "i": 9,
+   "text": "爸和妈当年的模样",
+   "t0": 40.62,
+   "t1": 45.84,
+   "t0_used": 40.658,
+   "t1_used": 45.836,
+   "snapped": true,
+   "snap_deltas": [
+    -0.038,
+    0.004
+   ],
+   "approx": false,
+   "splits": [
+    43.073
+   ]
+  },
+  {
+   "i": 10,
+   "text": "说着一口吴侬软语的姑娘",
+   "t0": 45.84,
+   "t1": 49.55,
+   "t0_used": 45.836,
+   "t1_used": 49.621,
+   "snapped": true,
+   "snap_deltas": [
+    0.004,
+    -0.071
+   ],
+   "approx": false,
+   "splits": [
+    47.554
+   ]
+  },
+  {
+   "i": 11,
+   "text": "缓缓走过外滩",
+   "t0": 49.55,
+   "t1": 54.12,
+   "t0_used": 49.621,
+   "t1_used": 54.102,
+   "snapped": true,
+   "snap_deltas": [
+    -0.071,
+    0.018
+   ],
+   "approx": false,
+   "splits": [
+    51.688
+   ]
+  },
+  {
+   "i": 12,
+   "text": "消失的旧时光",
+   "t0": 54.12,
+   "t1": 56.4,
+   "t0_used": 54.102,
+   "t1_used": 56.4,
+   "snapped": true,
+   "snap_deltas": [
+    0.018,
+    -0.117
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 13,
+   "text": "一九四三",
+   "t0": 56.4,
+   "t1": 58.22,
+   "t0_used": 56.4,
+   "t1_used": 58.259,
+   "snapped": true,
+   "snap_deltas": [
+    -0.117,
+    -0.039
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 14,
+   "text": "在回忆的路上",
+   "t0": 58.22,
+   "t1": 60.45,
+   "t0_used": 58.259,
+   "t1_used": 60.45,
+   "snapped": true,
+   "snap_deltas": [
+    -0.039,
+    0.125
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 15,
+   "text": "时间变好慢",
+   "t0": 60.45,
+   "t1": 62.53,
+   "t0_used": 60.45,
+   "t1_used": 62.53,
+   "snapped": false,
+   "snap_deltas": [
+    0.125,
+    0.138
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 16,
+   "text": "老街坊 小弄堂",
+   "t0": 62.53,
+   "t1": 64.69,
+   "t0_used": 62.53,
+   "t1_used": 64.69,
+   "snapped": false,
+   "snap_deltas": [
+    0.138,
+    -0.117
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 17,
+   "text": "是属于那年代白墙黑瓦的",
+   "t0": 64.69,
+   "t1": 68.48,
+   "t0_used": 64.69,
+   "t1_used": 68.48,
+   "snapped": false,
+   "snap_deltas": [
+    -0.117,
+    -0.112
+   ],
+   "approx": false,
+   "splits": [
+    66.525
+   ]
+  },
+  {
+   "i": 18,
+   "text": "淡淡的忧伤",
+   "t0": 68.48,
+   "t1": 70.58,
+   "t0_used": 68.48,
+   "t1_used": 70.658,
+   "snapped": true,
+   "snap_deltas": [
+    -0.112,
+    -0.078
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 19,
+   "text": "消失的旧时光",
+   "t0": 70.58,
+   "t1": 73.01,
+   "t0_used": 70.658,
+   "t1_used": 73.073,
+   "snapped": true,
+   "snap_deltas": [
+    -0.078,
+    -0.063
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 20,
+   "text": "一九四三",
+   "t0": 73.01,
+   "t1": 74.76,
+   "t0_used": 73.073,
+   "t1_used": 74.815,
+   "snapped": true,
+   "snap_deltas": [
+    -0.063,
+    -0.055
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 21,
+   "text": "回头看的片段",
+   "t0": 74.76,
+   "t1": 77.1,
+   "t0_used": 74.815,
+   "t1_used": 77.1,
+   "snapped": true,
+   "snap_deltas": [
+    -0.055,
+    -0.106
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 22,
+   "text": "有一些风霜",
+   "t0": 77.1,
+   "t1": 79.15,
+   "t0_used": 77.1,
+   "t1_used": 79.15,
+   "snapped": false,
+   "snap_deltas": [
+    -0.106,
+    -0.123
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 23,
+   "text": "老唱盘 旧皮箱",
+   "t0": 79.15,
+   "t1": 81.24,
+   "t0_used": 79.15,
+   "t1_used": 81.24,
+   "snapped": false,
+   "snap_deltas": [
+    -0.123,
+    -0.1
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 24,
+   "text": "装满了明信片的铁盒里",
+   "t0": 81.24,
+   "t1": 84.69,
+   "t0_used": 81.24,
+   "t1_used": 84.69,
+   "snapped": false,
+   "snap_deltas": [
+    -0.1,
+    -0.109
+   ],
+   "approx": false,
+   "splits": [
+    83.081
+   ]
+  },
+  {
+   "i": 25,
+   "text": "藏着一片玫瑰花瓣",
+   "t0": 84.69,
+   "t1": 103.86,
+   "t0_used": 84.69,
+   "t1_used": 103.77,
+   "snapped": true,
+   "snap_deltas": [
+    -0.109,
+    0.09
+   ],
+   "approx": false,
+   "splits": [
+    87.562,
+    89.977,
+    92.717,
+    95.48,
+    98.244,
+    100.984
+   ]
+  },
+  {
+   "i": 26,
+   "text": "黄金葛爬满了雕花的门窗",
+   "t0": 103.86,
+   "t1": 107.86,
+   "t0_used": 103.77,
+   "t1_used": 107.903,
+   "snapped": true,
+   "snap_deltas": [
+    0.09,
+    -0.043
+   ],
+   "approx": false,
+   "splits": [
+    105.837
+   ]
+  },
+  {
+   "i": 27,
+   "text": "夕阳斜斜映在斑驳的砖墙",
+   "t0": 107.86,
+   "t1": 111.92,
+   "t0_used": 107.903,
+   "t1_used": 111.92,
+   "snapped": true,
+   "snap_deltas": [
+    -0.043,
+    -0.116
+   ],
+   "approx": false,
+   "splits": [
+    109.97
+   ]
+  },
+  {
+   "i": 28,
+   "text": "铺着榉木板的屋内还弥漫",
+   "t0": 111.92,
+   "t1": 116.11,
+   "t0_used": 111.92,
+   "t1_used": 116.169,
+   "snapped": true,
+   "snap_deltas": [
+    -0.116,
+    -0.059
+   ],
+   "approx": false,
+   "splits": [
+    114.103
+   ]
+  },
+  {
+   "i": 29,
+   "text": "姥姥当年酿的豆瓣酱",
+   "t0": 116.11,
+   "t1": 120.47,
+   "t0_used": 116.169,
+   "t1_used": 120.47,
+   "snapped": true,
+   "snap_deltas": [
+    -0.059,
+    0.144
+   ],
+   "approx": false,
+   "splits": [
+    118.236
+   ]
+  },
+  {
+   "i": 30,
+   "text": "我对着黑白照片开始想象",
+   "t0": 120.47,
+   "t1": 124.32,
+   "t0_used": 120.47,
+   "t1_used": 124.32,
+   "snapped": false,
+   "snap_deltas": [
+    0.144,
+    -0.139
+   ],
+   "approx": false,
+   "splits": [
+    122.392
+   ]
+  },
+  {
+   "i": 31,
+   "text": "爸和妈当年的模样",
+   "t0": 124.32,
+   "t1": 129.87,
+   "t0_used": 124.32,
+   "t1_used": 129.962,
+   "snapped": true,
+   "snap_deltas": [
+    -0.139,
+    -0.092
+   ],
+   "approx": false,
+   "splits": [
+    127.222
+   ]
+  },
+  {
+   "i": 32,
+   "text": "说着一口吴侬软语的姑娘",
+   "t0": 129.87,
+   "t1": 133.38,
+   "t0_used": 129.962,
+   "t1_used": 133.422,
+   "snapped": true,
+   "snap_deltas": [
+    -0.092,
+    -0.042
+   ],
+   "approx": false,
+   "splits": [
+    131.704
+   ]
+  },
+  {
+   "i": 33,
+   "text": "缓缓走过外滩",
+   "t0": 133.38,
+   "t1": 138.82,
+   "t0_used": 133.422,
+   "t1_used": 138.902,
+   "snapped": true,
+   "snap_deltas": [
+    -0.042,
+    -0.082
+   ],
+   "approx": false,
+   "splits": [
+    136.185
+   ]
+  },
+  {
+   "i": 34,
+   "text": "消失的旧时光",
+   "t0": 138.82,
+   "t1": 141.25,
+   "t0_used": 138.902,
+   "t1_used": 141.34,
+   "snapped": true,
+   "snap_deltas": [
+    -0.082,
+    -0.09
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 35,
+   "text": "一九四三",
+   "t0": 141.25,
+   "t1": 143.03,
+   "t0_used": 141.34,
+   "t1_used": 143.081,
+   "snapped": true,
+   "snap_deltas": [
+    -0.09,
+    -0.051
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 36,
+   "text": "在回忆的路上",
+   "t0": 143.03,
+   "t1": 145.54,
+   "t0_used": 143.081,
+   "t1_used": 145.496,
+   "snapped": true,
+   "snap_deltas": [
+    -0.051,
+    0.044
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 37,
+   "text": "时间变好慢",
+   "t0": 145.54,
+   "t1": 147.39,
+   "t0_used": 145.496,
+   "t1_used": 147.39,
+   "snapped": true,
+   "snap_deltas": [
+    0.044,
+    -0.173
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 38,
+   "text": "老街坊 小弄堂",
+   "t0": 147.39,
+   "t1": 149.49,
+   "t0_used": 147.39,
+   "t1_used": 149.49,
+   "snapped": false,
+   "snap_deltas": [
+    -0.173,
+    -0.139
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 39,
+   "text": "是属于那年代白墙黑瓦的",
+   "t0": 149.49,
+   "t1": 153.26,
+   "t0_used": 149.49,
+   "t1_used": 153.26,
+   "snapped": false,
+   "snap_deltas": [
+    -0.139,
+    -0.154
+   ],
+   "approx": false,
+   "splits": [
+    151.348
+   ]
+  },
+  {
+   "i": 40,
+   "text": "淡淡的忧伤",
+   "t0": 153.26,
+   "t1": 155.25,
+   "t0_used": 153.26,
+   "t1_used": 155.156,
+   "snapped": true,
+   "snap_deltas": [
+    -0.154,
+    0.094
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 41,
+   "text": "消失的旧时光",
+   "t0": 155.25,
+   "t1": 157.77,
+   "t0_used": 155.156,
+   "t1_used": 157.77,
+   "snapped": true,
+   "snap_deltas": [
+    0.094,
+    -0.126
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 42,
+   "text": "一九四三",
+   "t0": 157.77,
+   "t1": 159.63,
+   "t0_used": 157.77,
+   "t1_used": 159.637,
+   "snapped": true,
+   "snap_deltas": [
+    -0.126,
+    -0.007
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 43,
+   "text": "回头看的片段",
+   "t0": 159.63,
+   "t1": 161.9,
+   "t0_used": 159.637,
+   "t1_used": 161.9,
+   "snapped": true,
+   "snap_deltas": [
+    -0.007,
+    -0.152
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 44,
+   "text": "有一些风霜",
+   "t0": 161.9,
+   "t1": 163.91,
+   "t0_used": 161.9,
+   "t1_used": 163.91,
+   "snapped": false,
+   "snap_deltas": [
+    -0.152,
+    0.14
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 45,
+   "text": "老唱盘 旧皮箱",
+   "t0": 163.91,
+   "t1": 166.02,
+   "t0_used": 163.91,
+   "t1_used": 166.02,
+   "snapped": false,
+   "snap_deltas": [
+    0.14,
+    -0.165
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 46,
+   "text": "装满了明信片的铁盒里",
+   "t0": 166.02,
+   "t1": 169.53,
+   "t0_used": 166.02,
+   "t1_used": 169.622,
+   "snapped": true,
+   "snap_deltas": [
+    -0.165,
+    -0.092
+   ],
+   "approx": false,
+   "splits": [
+    167.903
+   ]
+  },
+  {
+   "i": 47,
+   "text": "藏着一片玫瑰花瓣",
+   "t0": 169.53,
+   "t1": 172.53,
+   "t0_used": 169.622,
+   "t1_used": 172.53,
+   "snapped": true,
+   "snap_deltas": [
+    -0.092,
+    0.145
+   ],
+   "approx": false,
+   "splits": []
+  }
+ ],
+ "summary": {
+  "lines": 48,
+  "lines_untimed": 0,
+  "lines_snapped": 33,
+  "lines_unsnapped": 15,
+  "lines_need_split": 25,
+  "total_splits": 30
+ },
+ "advisory": true
+}

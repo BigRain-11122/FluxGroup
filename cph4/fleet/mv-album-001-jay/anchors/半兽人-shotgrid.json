@@ -1,0 +1,971 @@
+{
+ "song": "半兽人",
+ "version": "anchor-shotgrid v1.0 (r1070 bm-b)",
+ "inputs": {
+  "beats_sha_face": 389,
+  "n_beats": 389,
+  "n_downbeats": 97,
+  "duration_sec": 247.4
+ },
+ "bpm_median": 95.7,
+ "snap_tol_sec": 0.1,
+ "max_shot_sec": 3.0,
+ "grid": [
+  {
+   "i": 0,
+   "text": "再也没有纯白的灵魂",
+   "t0": 63.47,
+   "t1": 65.59,
+   "t0_used": 63.47,
+   "t1_used": 65.573,
+   "snapped": true,
+   "snap_deltas": [
+    -0.246,
+    0.017
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 1,
+   "text": "自人类堕落为半兽人",
+   "t0": 65.59,
+   "t1": 68.38,
+   "t0_used": 65.573,
+   "t1_used": 68.38,
+   "snapped": true,
+   "snap_deltas": [
+    0.017,
+    0.299
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 2,
+   "text": "我开始使用第一人称",
+   "t0": 68.38,
+   "t1": 70.51,
+   "t0_used": 68.38,
+   "t1_used": 70.589,
+   "snapped": true,
+   "snap_deltas": [
+    0.299,
+    -0.079
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 3,
+   "text": "记录眼前所有的发生",
+   "t0": 70.51,
+   "t1": 73.49,
+   "t0_used": 70.589,
+   "t1_used": 73.49,
+   "snapped": true,
+   "snap_deltas": [
+    -0.079,
+    -0.233
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 4,
+   "text": "嗜血森林醒来的早晨",
+   "t0": 73.49,
+   "t1": 75.5,
+   "t0_used": 73.49,
+   "t1_used": 75.581,
+   "snapped": true,
+   "snap_deltas": [
+    -0.233,
+    -0.081
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 5,
+   "text": "任何侵略都成为可能",
+   "t0": 75.5,
+   "t1": 78.36,
+   "t0_used": 75.581,
+   "t1_used": 78.36,
+   "snapped": true,
+   "snap_deltas": [
+    -0.081,
+    0.271
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 6,
+   "text": "我用古老的咒语重温",
+   "t0": 78.36,
+   "t1": 80.54,
+   "t0_used": 78.36,
+   "t1_used": 80.596,
+   "snapped": true,
+   "snap_deltas": [
+    0.271,
+    -0.056
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 7,
+   "text": "吟唱灵魂序曲寻根",
+   "t0": 80.54,
+   "t1": 83.57,
+   "t0_used": 80.596,
+   "t1_used": 83.57,
+   "snapped": true,
+   "snap_deltas": [
+    -0.056,
+    -0.138
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 8,
+   "text": "面对魔界的邪吻",
+   "t0": 83.57,
+   "t1": 86.14,
+   "t0_used": 83.57,
+   "t1_used": 86.216,
+   "snapped": true,
+   "snap_deltas": [
+    -0.138,
+    -0.076
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 9,
+   "text": "不被污染的转身",
+   "t0": 86.14,
+   "t1": 88.64,
+   "t0_used": 86.216,
+   "t1_used": 88.723,
+   "snapped": true,
+   "snap_deltas": [
+    -0.076,
+    -0.083
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 10,
+   "text": "维持纯白的象征",
+   "t0": 88.64,
+   "t1": 91.13,
+   "t0_used": 88.723,
+   "t1_used": 91.208,
+   "snapped": true,
+   "snap_deltas": [
+    -0.083,
+    -0.078
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 11,
+   "text": "然后还原为人",
+   "t0": 91.13,
+   "t1": 103.16,
+   "t0_used": 91.208,
+   "t1_used": 103.097,
+   "snapped": true,
+   "snap_deltas": [
+    -0.078,
+    0.063
+   ],
+   "approx": false,
+   "splits": [
+    94.343,
+    97.454,
+    99.962
+   ]
+  },
+  {
+   "i": 12,
+   "text": "让我们半兽人的灵魂翻滚",
+   "t0": 103.16,
+   "t1": 105.62,
+   "t0_used": 103.097,
+   "t1_used": 105.604,
+   "snapped": true,
+   "snap_deltas": [
+    0.063,
+    0.016
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 13,
+   "text": "收起残忍",
+   "t0": 105.62,
+   "t1": 106.48,
+   "t0_used": 105.604,
+   "t1_used": 106.48,
+   "snapped": true,
+   "snap_deltas": [
+    0.016,
+    0.272
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 14,
+   "text": "回忆兽化的过程",
+   "t0": 106.48,
+   "t1": 108.01,
+   "t0_used": 106.48,
+   "t1_used": 108.089,
+   "snapped": true,
+   "snap_deltas": [
+    0.272,
+    -0.079
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 15,
+   "text": "让我们半兽人的眼神单纯",
+   "t0": 108.01,
+   "t1": 110.79,
+   "t0_used": 108.089,
+   "t1_used": 110.79,
+   "snapped": true,
+   "snap_deltas": [
+    -0.079,
+    0.193
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 16,
+   "text": "而非贪婪着永恒",
+   "t0": 110.79,
+   "t1": 111.91,
+   "t0_used": 110.79,
+   "t1_used": 111.827,
+   "snapped": true,
+   "snap_deltas": [
+    0.193,
+    0.083
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 17,
+   "text": "只对暴力忠诚",
+   "t0": 111.91,
+   "t1": 113.03,
+   "t0_used": 111.827,
+   "t1_used": 113.104,
+   "snapped": true,
+   "snap_deltas": [
+    0.083,
+    -0.074
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 18,
+   "text": "让我们半兽人的灵魂翻滚",
+   "t0": 113.03,
+   "t1": 115.51,
+   "t0_used": 113.104,
+   "t1_used": 115.589,
+   "snapped": true,
+   "snap_deltas": [
+    -0.074,
+    -0.079
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 19,
+   "text": "停止忿恨永无止尽的战争",
+   "t0": 115.51,
+   "t1": 118.1,
+   "t0_used": 115.589,
+   "t1_used": 118.097,
+   "snapped": true,
+   "snap_deltas": [
+    -0.079,
+    0.003
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 20,
+   "text": "让我们半兽人的眼神单纯",
+   "t0": 118.1,
+   "t1": 120.75,
+   "t0_used": 118.097,
+   "t1_used": 120.75,
+   "snapped": true,
+   "snap_deltas": [
+    0.003,
+    0.146
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 21,
+   "text": "对远古存在的神",
+   "t0": 120.75,
+   "t1": 121.77,
+   "t0_used": 120.75,
+   "t1_used": 121.835,
+   "snapped": true,
+   "snap_deltas": [
+    0.146,
+    -0.065
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 22,
+   "text": "用谦卑的身份",
+   "t0": 121.77,
+   "t1": 128.31,
+   "t0_used": 121.835,
+   "t1_used": 128.31,
+   "snapped": true,
+   "snap_deltas": [
+    -0.065,
+    0.229
+   ],
+   "approx": false,
+   "splits": [
+    123.716,
+    126.224
+   ]
+  },
+  {
+   "i": 23,
+   "text": "再也没有纯白的灵魂",
+   "t0": 128.31,
+   "t1": 130.52,
+   "t0_used": 128.31,
+   "t1_used": 130.589,
+   "snapped": true,
+   "snap_deltas": [
+    0.229,
+    -0.069
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 24,
+   "text": "自人类堕落为半兽人",
+   "t0": 130.52,
+   "t1": 133.37,
+   "t0_used": 130.589,
+   "t1_used": 133.37,
+   "snapped": true,
+   "snap_deltas": [
+    -0.069,
+    0.273
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 25,
+   "text": "我开始使用第一人称",
+   "t0": 133.37,
+   "t1": 135.5,
+   "t0_used": 133.37,
+   "t1_used": 135.581,
+   "snapped": true,
+   "snap_deltas": [
+    0.273,
+    -0.081
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 26,
+   "text": "记录眼前所有的发生",
+   "t0": 135.5,
+   "t1": 138.37,
+   "t0_used": 135.581,
+   "t1_used": 138.37,
+   "snapped": true,
+   "snap_deltas": [
+    -0.081,
+    0.281
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 27,
+   "text": "嗜血森林醒来的早晨",
+   "t0": 138.37,
+   "t1": 140.47,
+   "t0_used": 138.37,
+   "t1_used": 140.47,
+   "snapped": false,
+   "snap_deltas": [
+    0.281,
+    -0.127
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 28,
+   "text": "任何侵略都成为可能",
+   "t0": 140.47,
+   "t1": 143.35,
+   "t0_used": 140.47,
+   "t1_used": 143.35,
+   "snapped": false,
+   "snap_deltas": [
+    -0.127,
+    0.269
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 29,
+   "text": "我用古老的咒语重温",
+   "t0": 143.35,
+   "t1": 145.45,
+   "t0_used": 143.35,
+   "t1_used": 145.45,
+   "snapped": false,
+   "snap_deltas": [
+    0.269,
+    -0.139
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 30,
+   "text": "吟唱灵魂序曲寻根",
+   "t0": 145.45,
+   "t1": 148.65,
+   "t0_used": 145.45,
+   "t1_used": 148.724,
+   "snapped": true,
+   "snap_deltas": [
+    -0.139,
+    -0.074
+   ],
+   "approx": false,
+   "splits": [
+    146.843
+   ]
+  },
+  {
+   "i": 31,
+   "text": "面对魔界的邪吻",
+   "t0": 148.65,
+   "t1": 151.11,
+   "t0_used": 148.724,
+   "t1_used": 151.208,
+   "snapped": true,
+   "snap_deltas": [
+    -0.074,
+    -0.098
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 32,
+   "text": "不被污染的转身",
+   "t0": 151.11,
+   "t1": 153.63,
+   "t0_used": 151.208,
+   "t1_used": 153.716,
+   "snapped": true,
+   "snap_deltas": [
+    -0.098,
+    -0.086
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 33,
+   "text": "维持纯白的象征",
+   "t0": 153.63,
+   "t1": 156.1,
+   "t0_used": 153.716,
+   "t1_used": 156.1,
+   "snapped": true,
+   "snap_deltas": [
+    -0.086,
+    -0.124
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 34,
+   "text": "然后还原",
+   "t0": 156.1,
+   "t1": 158.24,
+   "t0_used": 156.1,
+   "t1_used": 158.24,
+   "snapped": false,
+   "snap_deltas": [
+    -0.124,
+    0.135
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 35,
+   "text": "让我们半兽人的灵魂翻滚",
+   "t0": 158.24,
+   "t1": 160.54,
+   "t0_used": 158.24,
+   "t1_used": 160.612,
+   "snapped": true,
+   "snap_deltas": [
+    0.135,
+    -0.072
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 36,
+   "text": "收起残忍 回忆兽化的过程",
+   "t0": 160.54,
+   "t1": 163.07,
+   "t0_used": 160.612,
+   "t1_used": 163.097,
+   "snapped": true,
+   "snap_deltas": [
+    -0.072,
+    -0.027
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 37,
+   "text": "让我们半兽人的眼神单纯",
+   "t0": 163.07,
+   "t1": 165.73,
+   "t0_used": 163.097,
+   "t1_used": 165.73,
+   "snapped": true,
+   "snap_deltas": [
+    -0.027,
+    0.125
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 38,
+   "text": "而非贪婪着永恒",
+   "t0": 165.73,
+   "t1": 166.79,
+   "t0_used": 165.73,
+   "t1_used": 166.835,
+   "snapped": true,
+   "snap_deltas": [
+    0.125,
+    -0.045
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 39,
+   "text": "只对暴力忠诚",
+   "t0": 166.79,
+   "t1": 168.12,
+   "t0_used": 166.835,
+   "t1_used": 168.089,
+   "snapped": true,
+   "snap_deltas": [
+    -0.045,
+    0.031
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 40,
+   "text": "让我们半兽人的灵魂翻滚",
+   "t0": 168.12,
+   "t1": 170.6,
+   "t0_used": 168.089,
+   "t1_used": 170.597,
+   "snapped": true,
+   "snap_deltas": [
+    0.031,
+    0.003
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 41,
+   "text": "停止忿恨 永无止尽的战争",
+   "t0": 170.6,
+   "t1": 173.08,
+   "t0_used": 170.597,
+   "t1_used": 173.082,
+   "snapped": true,
+   "snap_deltas": [
+    0.003,
+    -0.002
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 42,
+   "text": "让我们半兽人的眼神单纯",
+   "t0": 173.08,
+   "t1": 175.68,
+   "t0_used": 173.082,
+   "t1_used": 175.589,
+   "snapped": true,
+   "snap_deltas": [
+    -0.002,
+    0.091
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 43,
+   "text": "对远古存在的神",
+   "t0": 175.68,
+   "t1": 176.75,
+   "t0_used": 175.589,
+   "t1_used": 176.843,
+   "snapped": true,
+   "snap_deltas": [
+    0.091,
+    -0.093
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 44,
+   "text": "用谦卑的身份",
+   "t0": 176.75,
+   "t1": 193.44,
+   "t0_used": 176.843,
+   "t1_used": 193.44,
+   "snapped": true,
+   "snap_deltas": [
+    -0.093,
+    -0.284
+   ],
+   "approx": false,
+   "splits": [
+    179.351,
+    182.462,
+    184.97,
+    188.128,
+    190.613
+   ]
+  },
+  {
+   "i": 45,
+   "text": "泪沸腾 风异常的冰冷",
+   "t0": 193.44,
+   "t1": 195.86,
+   "t0_used": 193.44,
+   "t1_used": 195.86,
+   "snapped": false,
+   "snap_deltas": [
+    -0.284,
+    0.255
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 46,
+   "text": "马蹄声 让人睡不安稳",
+   "t0": 195.86,
+   "t1": 198.36,
+   "t0_used": 195.86,
+   "t1_used": 198.36,
+   "snapped": false,
+   "snap_deltas": [
+    0.255,
+    0.271
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 47,
+   "text": "我在等 灵魂序曲完成",
+   "t0": 198.36,
+   "t1": 200.85,
+   "t0_used": 198.36,
+   "t1_used": 200.85,
+   "snapped": false,
+   "snap_deltas": [
+    0.271,
+    0.253
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 48,
+   "text": "带领族人写下祈祷文",
+   "t0": 200.85,
+   "t1": 203.29,
+   "t0_used": 200.85,
+   "t1_used": 203.29,
+   "snapped": false,
+   "snap_deltas": [
+    0.253,
+    0.185
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 49,
+   "text": "那城镇 无谓的在牺牲",
+   "t0": 203.29,
+   "t1": 205.88,
+   "t0_used": 203.29,
+   "t1_used": 205.88,
+   "snapped": false,
+   "snap_deltas": [
+    0.185,
+    0.291
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 50,
+   "text": "战火焚 祭坛开始下沉",
+   "t0": 205.88,
+   "t1": 208.33,
+   "t0_used": 205.88,
+   "t1_used": 208.33,
+   "snapped": false,
+   "snap_deltas": [
+    0.291,
+    0.233
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 51,
+   "text": "我在等 觉悟后的族人",
+   "t0": 208.33,
+   "t1": 210.74,
+   "t0_used": 208.33,
+   "t1_used": 210.74,
+   "snapped": false,
+   "snap_deltas": [
+    0.233,
+    0.135
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 52,
+   "text": "往南方大地重新开垦",
+   "t0": 210.74,
+   "t1": 213.42,
+   "t0_used": 210.74,
+   "t1_used": 213.42,
+   "snapped": false,
+   "snap_deltas": [
+    0.135,
+    -0.296
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 53,
+   "text": "泪沸腾 风异常的冰冷",
+   "t0": 213.42,
+   "t1": 215.83,
+   "t0_used": 213.42,
+   "t1_used": 215.83,
+   "snapped": false,
+   "snap_deltas": [
+    -0.296,
+    0.233
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 54,
+   "text": "马蹄声 让人睡不安稳",
+   "t0": 215.83,
+   "t1": 218.34,
+   "t0_used": 215.83,
+   "t1_used": 218.34,
+   "snapped": false,
+   "snap_deltas": [
+    0.233,
+    0.235
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 55,
+   "text": "我在等 灵魂序曲完成",
+   "t0": 218.34,
+   "t1": 220.87,
+   "t0_used": 218.34,
+   "t1_used": 220.87,
+   "snapped": false,
+   "snap_deltas": [
+    0.235,
+    0.28
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 56,
+   "text": "带领族人写下祈祷文",
+   "t0": 220.87,
+   "t1": 224.38,
+   "t0_used": 220.87,
+   "t1_used": 224.351,
+   "snapped": true,
+   "snap_deltas": [
+    0.28,
+    0.029
+   ],
+   "approx": false,
+   "splits": [
+    222.47
+   ]
+  },
+  {
+   "i": 57,
+   "text": "让我们半兽人的灵魂翻滚",
+   "t0": 224.38,
+   "t1": 226.81,
+   "t0_used": 224.351,
+   "t1_used": 226.836,
+   "snapped": true,
+   "snap_deltas": [
+    0.029,
+    -0.026
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 58,
+   "text": "停止忿恨 永无止尽的战争",
+   "t0": 226.81,
+   "t1": 229.32,
+   "t0_used": 226.836,
+   "t1_used": 229.367,
+   "snapped": true,
+   "snap_deltas": [
+    -0.026,
+    -0.047
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 59,
+   "text": "让我们半兽人的眼神单纯",
+   "t0": 229.32,
+   "t1": 232.0,
+   "t0_used": 229.367,
+   "t1_used": 232.0,
+   "snapped": true,
+   "snap_deltas": [
+    -0.047,
+    0.149
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 60,
+   "text": "对远古存在的神",
+   "t0": 232.0,
+   "t1": 233.04,
+   "t0_used": 232.0,
+   "t1_used": 233.082,
+   "snapped": true,
+   "snap_deltas": [
+    0.149,
+    -0.042
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 61,
+   "text": "用谦卑的身份",
+   "t0": 233.04,
+   "t1": 236.04,
+   "t0_used": 233.082,
+   "t1_used": 236.04,
+   "snapped": true,
+   "snap_deltas": [
+    -0.042,
+    -0.177
+   ],
+   "approx": false,
+   "splits": []
+  }
+ ],
+ "summary": {
+  "lines": 62,
+  "lines_untimed": 0,
+  "lines_snapped": 47,
+  "lines_unsnapped": 15,
+  "lines_need_split": 5,
+  "total_splits": 12
+ },
+ "advisory": true
+}

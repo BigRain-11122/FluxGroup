@@ -1,0 +1,867 @@
+{
+ "song": "双刀",
+ "version": "anchor-shotgrid v1.0 (r1070 bm-b)",
+ "inputs": {
+  "beats_sha_face": 500,
+  "n_beats": 500,
+  "n_downbeats": 125,
+  "duration_sec": 291.41
+ },
+ "bpm_median": 103.4,
+ "snap_tol_sec": 0.1,
+ "max_shot_sec": 3.0,
+ "grid": [
+  {
+   "i": 0,
+   "text": "透过镜头重新接剪",
+   "t0": 48.85,
+   "t1": 51.13,
+   "t0_used": 48.924,
+   "t1_used": 51.13,
+   "snapped": true,
+   "snap_deltas": [
+    -0.074,
+    -0.116
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 1,
+   "text": "历史给人的想象",
+   "t0": 51.13,
+   "t1": 53.22,
+   "t0_used": 51.13,
+   "t1_used": 53.22,
+   "snapped": false,
+   "snap_deltas": [
+    -0.116,
+    0.232
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 2,
+   "text": "八厘米纪录片的桥段",
+   "t0": 53.22,
+   "t1": 55.89,
+   "t0_used": 53.22,
+   "t1_used": 55.844,
+   "snapped": true,
+   "snap_deltas": [
+    0.232,
+    0.046
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 3,
+   "text": "隔着距离欣赏",
+   "t0": 55.89,
+   "t1": 57.85,
+   "t0_used": 55.844,
+   "t1_used": 57.85,
+   "snapped": true,
+   "snap_deltas": [
+    0.046,
+    0.288
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 4,
+   "text": "正邪对立的两方",
+   "t0": 57.85,
+   "t1": 59.92,
+   "t0_used": 57.85,
+   "t1_used": 59.884,
+   "snapped": true,
+   "snap_deltas": [
+    0.288,
+    0.036
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 5,
+   "text": "我握紧拳头开始习惯",
+   "t0": 59.92,
+   "t1": 63.67,
+   "t0_used": 59.884,
+   "t1_used": 63.67,
+   "snapped": true,
+   "snap_deltas": [
+    0.036,
+    -0.255
+   ],
+   "approx": false,
+   "splits": [
+    61.649
+   ]
+  },
+  {
+   "i": 6,
+   "text": "以牙还牙的手段",
+   "t0": 63.67,
+   "t1": 67.09,
+   "t0_used": 63.67,
+   "t1_used": 67.09,
+   "snapped": false,
+   "snap_deltas": [
+    -0.255,
+    -0.294
+   ],
+   "approx": false,
+   "splits": [
+    65.666
+   ]
+  },
+  {
+   "i": 7,
+   "text": "风 盘旋烟雾弥漫",
+   "t0": 67.09,
+   "t1": 74.23,
+   "t0_used": 67.09,
+   "t1_used": 74.327,
+   "snapped": true,
+   "snap_deltas": [
+    -0.294,
+    -0.097
+   ],
+   "approx": false,
+   "splits": [
+    69.683,
+    72.005
+   ]
+  },
+  {
+   "i": 8,
+   "text": "我虔诚点的香",
+   "t0": 74.23,
+   "t1": 78.71,
+   "t0_used": 74.327,
+   "t1_used": 78.71,
+   "snapped": true,
+   "snap_deltas": [
+    -0.097,
+    -0.238
+   ],
+   "approx": false,
+   "splits": [
+    76.626
+   ]
+  },
+  {
+   "i": 9,
+   "text": "在祈祷着平安",
+   "t0": 78.71,
+   "t1": 85.68,
+   "t0_used": 78.71,
+   "t1_used": 85.68,
+   "snapped": false,
+   "snap_deltas": [
+    -0.238,
+    -0.187
+   ],
+   "approx": false,
+   "splits": [
+    81.247,
+    83.592
+   ]
+  },
+  {
+   "i": 10,
+   "text": "从天台向下俯瞰暴力在原地打转",
+   "t0": 85.68,
+   "t1": 90.12,
+   "t0_used": 85.68,
+   "t1_used": 90.12,
+   "snapped": false,
+   "snap_deltas": [
+    -0.187,
+    0.236
+   ],
+   "approx": false,
+   "splits": [
+    88.166
+   ]
+  },
+  {
+   "i": 11,
+   "text": "上一代解决的答案是微笑不抵抗",
+   "t0": 90.12,
+   "t1": 94.74,
+   "t0_used": 90.12,
+   "t1_used": 94.74,
+   "snapped": false,
+   "snap_deltas": [
+    0.236,
+    0.235
+   ],
+   "approx": false,
+   "splits": [
+    92.206
+   ]
+  },
+  {
+   "i": 12,
+   "text": "被雨淋湿的唐装那股叹息很东方",
+   "t0": 94.74,
+   "t1": 99.39,
+   "t0_used": 94.74,
+   "t1_used": 99.39,
+   "snapped": false,
+   "snap_deltas": [
+    0.235,
+    0.264
+   ],
+   "approx": false,
+   "splits": [
+    96.827
+   ]
+  },
+  {
+   "i": 13,
+   "text": "我看不惯尊严受伤家族如此不堪",
+   "t0": 99.39,
+   "t1": 113.19,
+   "t0_used": 99.39,
+   "t1_used": 113.19,
+   "snapped": false,
+   "snap_deltas": [
+    0.264,
+    0.178
+   ],
+   "approx": false,
+   "splits": [
+    102.005,
+    104.885,
+    107.787,
+    110.666
+   ]
+  },
+  {
+   "i": 14,
+   "text": "风",
+   "t0": 113.19,
+   "t1": 115.62,
+   "t0_used": 113.19,
+   "t1_used": 115.62,
+   "snapped": false,
+   "snap_deltas": [
+    0.178,
+    -0.224
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 15,
+   "text": "缓缓绕过武馆",
+   "t0": 115.62,
+   "t1": 118.43,
+   "t0_used": 115.62,
+   "t1_used": 118.43,
+   "snapped": false,
+   "snap_deltas": [
+    -0.224,
+    0.287
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 16,
+   "text": "缓缓绕过武馆",
+   "t0": 118.43,
+   "t1": 120.48,
+   "t0_used": 118.43,
+   "t1_used": 120.465,
+   "snapped": true,
+   "snap_deltas": [
+    0.287,
+    0.015
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 17,
+   "text": "正上方的月亮",
+   "t0": 120.48,
+   "t1": 122.88,
+   "t0_used": 120.465,
+   "t1_used": 122.88,
+   "snapped": true,
+   "snap_deltas": [
+    0.015,
+    0.116
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 18,
+   "text": "正上方的月亮",
+   "t0": 122.88,
+   "t1": 125.14,
+   "t0_used": 122.88,
+   "t1_used": 125.086,
+   "snapped": true,
+   "snap_deltas": [
+    0.116,
+    0.054
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 19,
+   "text": "那颜色中国黄",
+   "t0": 125.14,
+   "t1": 127.29,
+   "t0_used": 125.086,
+   "t1_used": 127.385,
+   "snapped": true,
+   "snap_deltas": [
+    0.054,
+    -0.095
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 20,
+   "text": "那颜色中国黄",
+   "t0": 127.29,
+   "t1": 131.88,
+   "t0_used": 127.385,
+   "t1_used": 131.88,
+   "snapped": true,
+   "snap_deltas": [
+    -0.095,
+    -0.125
+   ],
+   "approx": false,
+   "splits": [
+    129.707
+   ]
+  },
+  {
+   "i": 21,
+   "text": "透过透过镜头",
+   "t0": 131.88,
+   "t1": 133.49,
+   "t0_used": 131.88,
+   "t1_used": 133.49,
+   "snapped": false,
+   "snap_deltas": [
+    -0.125,
+    -0.234
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 22,
+   "text": "重新接剪历史给人的想象",
+   "t0": 133.49,
+   "t1": 135.66,
+   "t0_used": 133.49,
+   "t1_used": 135.66,
+   "snapped": false,
+   "snap_deltas": [
+    -0.234,
+    0.195
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 23,
+   "text": "八厘米纪录片的桥段在播放",
+   "t0": 135.66,
+   "t1": 138.2,
+   "t0_used": 135.66,
+   "t1_used": 138.2,
+   "snapped": false,
+   "snap_deltas": [
+    0.195,
+    -0.144
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 24,
+   "text": "隔着距离欣赏正邪对立的两方",
+   "t0": 138.2,
+   "t1": 141.65,
+   "t0_used": 138.2,
+   "t1_used": 141.65,
+   "snapped": false,
+   "snap_deltas": [
+    -0.144,
+    -0.177
+   ],
+   "approx": false,
+   "splits": [
+    140.086
+   ]
+  },
+  {
+   "i": 25,
+   "text": "我握紧拳头开始习惯",
+   "t0": 141.65,
+   "t1": 143.98,
+   "t0_used": 141.65,
+   "t1_used": 143.98,
+   "snapped": false,
+   "snap_deltas": [
+    -0.177,
+    -0.146
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 26,
+   "text": "那以牙还牙的手段",
+   "t0": 143.98,
+   "t1": 146.19,
+   "t0_used": 143.98,
+   "t1_used": 146.19,
+   "snapped": false,
+   "snap_deltas": [
+    -0.146,
+    -0.212
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 27,
+   "text": "恐惧来自退让",
+   "t0": 146.19,
+   "t1": 182.64,
+   "t0_used": 146.19,
+   "t1_used": 182.64,
+   "snapped": false,
+   "snap_deltas": [
+    -0.212,
+    -0.147
+   ],
+   "approx": false,
+   "splits": [
+    148.747,
+    151.626,
+    154.529,
+    157.431,
+    160.287,
+    163.074,
+    165.999,
+    168.53,
+    171.317,
+    174.359,
+    177.168,
+    180.071
+   ]
+  },
+  {
+   "i": 28,
+   "text": "从天台向下俯瞰暴力在原地打转",
+   "t0": 182.64,
+   "t1": 186.99,
+   "t0_used": 182.64,
+   "t1_used": 186.99,
+   "snapped": false,
+   "snap_deltas": [
+    -0.147,
+    0.162
+   ],
+   "approx": false,
+   "splits": [
+    185.086
+   ]
+  },
+  {
+   "i": 29,
+   "text": "上一代解决的答案是微笑不抵抗",
+   "t0": 186.99,
+   "t1": 191.7,
+   "t0_used": 186.99,
+   "t1_used": 191.7,
+   "snapped": false,
+   "snap_deltas": [
+    0.162,
+    0.275
+   ],
+   "approx": false,
+   "splits": [
+    189.103
+   ]
+  },
+  {
+   "i": 30,
+   "text": "被雨淋湿的唐装那股叹息很东方",
+   "t0": 191.7,
+   "t1": 196.31,
+   "t0_used": 191.7,
+   "t1_used": 196.31,
+   "snapped": false,
+   "snap_deltas": [
+    0.275,
+    0.264
+   ],
+   "approx": false,
+   "splits": [
+    193.724
+   ]
+  },
+  {
+   "i": 31,
+   "text": "我看不惯尊严受伤家族如此不堪",
+   "t0": 196.31,
+   "t1": 221.82,
+   "t0_used": 196.31,
+   "t1_used": 221.82,
+   "snapped": false,
+   "snap_deltas": [
+    0.264,
+    -0.186
+   ],
+   "approx": false,
+   "splits": [
+    198.925,
+    201.805,
+    204.684,
+    207.586,
+    210.466,
+    213.345,
+    216.247,
+    218.732
+   ]
+  },
+  {
+   "i": 32,
+   "text": "从天台向下俯瞰暴力在原地打转",
+   "t0": 221.82,
+   "t1": 226.36,
+   "t0_used": 221.82,
+   "t1_used": 226.36,
+   "snapped": false,
+   "snap_deltas": [
+    -0.186,
+    -0.244
+   ],
+   "approx": false,
+   "splits": [
+    224.305
+   ]
+  },
+  {
+   "i": 33,
+   "text": "上一代解决的答案是微笑不抵抗",
+   "t0": 226.36,
+   "t1": 230.88,
+   "t0_used": 226.36,
+   "t1_used": 230.88,
+   "snapped": false,
+   "snap_deltas": [
+    -0.244,
+    0.213
+   ],
+   "approx": false,
+   "splits": [
+    228.345
+   ]
+  },
+  {
+   "i": 34,
+   "text": "被雨淋湿的唐装那股叹息很东方",
+   "t0": 230.88,
+   "t1": 235.45,
+   "t0_used": 230.88,
+   "t1_used": 235.45,
+   "snapped": false,
+   "snap_deltas": [
+    0.213,
+    0.162
+   ],
+   "approx": false,
+   "splits": [
+    232.966
+   ]
+  },
+  {
+   "i": 35,
+   "text": "我看不惯尊严受伤家族如此不堪",
+   "t0": 235.45,
+   "t1": 239.86,
+   "t0_used": 235.45,
+   "t1_used": 239.909,
+   "snapped": true,
+   "snap_deltas": [
+    0.162,
+    -0.049
+   ],
+   "approx": false,
+   "splits": [
+    237.587
+   ]
+  },
+  {
+   "i": 36,
+   "text": "双刀的正前方",
+   "t0": 239.86,
+   "t1": 240.74,
+   "t0_used": 239.909,
+   "t1_used": 240.74,
+   "snapped": true,
+   "snap_deltas": [
+    -0.049,
+    0.274
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 37,
+   "text": "我杀气不转弯",
+   "t0": 240.74,
+   "t1": 241.94,
+   "t0_used": 240.74,
+   "t1_used": 241.94,
+   "snapped": false,
+   "snap_deltas": [
+    0.274,
+    -0.244
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 38,
+   "text": "背对我的力量",
+   "t0": 241.94,
+   "t1": 242.98,
+   "t0_used": 241.94,
+   "t1_used": 242.98,
+   "snapped": false,
+   "snap_deltas": [
+    -0.244,
+    0.215
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 39,
+   "text": "它自己却受伤",
+   "t0": 242.98,
+   "t1": 244.24,
+   "t0_used": 242.98,
+   "t1_used": 244.24,
+   "snapped": false,
+   "snap_deltas": [
+    0.215,
+    -0.266
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 40,
+   "text": "双刀的右下方",
+   "t0": 244.24,
+   "t1": 245.38,
+   "t0_used": 244.24,
+   "t1_used": 245.38,
+   "snapped": false,
+   "snap_deltas": [
+    -0.266,
+    -0.287
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 41,
+   "text": "我挥刀去了断",
+   "t0": 245.38,
+   "t1": 246.54,
+   "t0_used": 245.38,
+   "t1_used": 246.54,
+   "snapped": false,
+   "snap_deltas": [
+    -0.287,
+    -0.288
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 42,
+   "text": "将恩怨全看穿",
+   "t0": 246.54,
+   "t1": 247.54,
+   "t0_used": 246.54,
+   "t1_used": 247.54,
+   "snapped": false,
+   "snap_deltas": [
+    -0.288,
+    0.155
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 43,
+   "text": "丹凤眼的目光",
+   "t0": 247.54,
+   "t1": 248.92,
+   "t0_used": 247.54,
+   "t1_used": 248.92,
+   "snapped": false,
+   "snap_deltas": [
+    0.155,
+    -0.207
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 44,
+   "text": "双刀的正前方",
+   "t0": 248.92,
+   "t1": 250.03,
+   "t0_used": 248.92,
+   "t1_used": 250.03,
+   "snapped": false,
+   "snap_deltas": [
+    -0.207,
+    -0.235
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 45,
+   "text": "我杀气不转弯",
+   "t0": 250.03,
+   "t1": 251.13,
+   "t0_used": 250.03,
+   "t1_used": 251.13,
+   "snapped": false,
+   "snap_deltas": [
+    -0.235,
+    0.285
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 46,
+   "text": "背对我的力量",
+   "t0": 251.13,
+   "t1": 252.29,
+   "t0_used": 251.13,
+   "t1_used": 252.29,
+   "snapped": false,
+   "snap_deltas": [
+    0.285,
+    -0.273
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 47,
+   "text": "它自己却受伤",
+   "t0": 252.29,
+   "t1": 253.49,
+   "t0_used": 252.29,
+   "t1_used": 253.49,
+   "snapped": false,
+   "snap_deltas": [
+    -0.273,
+    -0.258
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 48,
+   "text": "双刀的右下方",
+   "t0": 253.49,
+   "t1": 254.58,
+   "t0_used": 253.49,
+   "t1_used": 254.58,
+   "snapped": false,
+   "snap_deltas": [
+    -0.258,
+    0.275
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 49,
+   "text": "我挥刀去了断",
+   "t0": 254.58,
+   "t1": 255.75,
+   "t0_used": 254.58,
+   "t1_used": 255.75,
+   "snapped": false,
+   "snap_deltas": [
+    0.275,
+    0.284
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 50,
+   "text": "将恩怨全看穿",
+   "t0": 255.75,
+   "t1": 256.91,
+   "t0_used": 255.75,
+   "t1_used": 256.91,
+   "snapped": false,
+   "snap_deltas": [
+    0.284,
+    -0.297
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 51,
+   "text": "丹凤眼的目光",
+   "t0": 256.91,
+   "t1": 259.91,
+   "t0_used": 256.91,
+   "t1_used": 259.91,
+   "snapped": false,
+   "snap_deltas": [
+    -0.297,
+    0.311
+   ],
+   "approx": false,
+   "splits": []
+  }
+ ],
+ "summary": {
+  "lines": 52,
+  "lines_untimed": 0,
+  "lines_snapped": 14,
+  "lines_unsnapped": 38,
+  "lines_need_split": 20,
+  "total_splits": 43
+ },
+ "advisory": true
+}

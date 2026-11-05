@@ -1,0 +1,1818 @@
+{
+ "song": "以父之名",
+ "version": "anchor-shotgrid v1.0 (r1070 bm-b)",
+ "inputs": {
+  "beats_sha_face": 490,
+  "n_beats": 490,
+  "n_downbeats": 123,
+  "duration_sec": 342.0
+ },
+ "bpm_median": 89.0,
+ "snap_tol_sec": 0.1,
+ "max_shot_sec": 3.0,
+ "grid": [
+  {
+   "i": 0,
+   "text": "Ave Maria grazia ricevuta per la mia famiglia",
+   "t0": 2.39,
+   "t1": 15.34,
+   "t0_used": 2.39,
+   "t1_used": 15.325,
+   "snapped": true,
+   "snap_deltas": [
+    0.254,
+    0.015
+   ],
+   "approx": false,
+   "splits": [
+    4.899,
+    7.825,
+    9.892,
+    12.585
+   ]
+  },
+  {
+   "i": 1,
+   "text": "Con risentito con un'amorevole divino amen",
+   "t0": 15.34,
+   "t1": 30.29,
+   "t0_used": 15.325,
+   "t1_used": 30.29,
+   "snapped": true,
+   "snap_deltas": [
+    0.015,
+    0.197
+   ],
+   "approx": false,
+   "splits": [
+    18.042,
+    21.432,
+    24.195,
+    27.539
+   ]
+  },
+  {
+   "i": 2,
+   "text": "Grazie chiedo a te o signore divino",
+   "t0": 30.29,
+   "t1": 34.74,
+   "t0_used": 30.29,
+   "t1_used": 34.807,
+   "snapped": true,
+   "snap_deltas": [
+    0.197,
+    -0.067
+   ],
+   "approx": false,
+   "splits": [
+    32.763
+   ]
+  },
+  {
+   "i": 3,
+   "text": "In questo giorno di grazia prego per te",
+   "t0": 34.74,
+   "t1": 38.66,
+   "t0_used": 34.807,
+   "t1_used": 38.66,
+   "snapped": true,
+   "snap_deltas": [
+    -0.067,
+    -0.187
+   ],
+   "approx": false,
+   "splits": [
+    36.734
+   ]
+  },
+  {
+   "i": 4,
+   "text": "Ave Maria piena di grazia",
+   "t0": 38.66,
+   "t1": 40.87,
+   "t0_used": 38.66,
+   "t1_used": 40.87,
+   "snapped": false,
+   "snap_deltas": [
+    -0.187,
+    -0.113
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 5,
+   "text": "Il signore e con te",
+   "t0": 40.87,
+   "t1": 42.58,
+   "t0_used": 40.87,
+   "t1_used": 42.58,
+   "snapped": false,
+   "snap_deltas": [
+    -0.113,
+    0.157
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 6,
+   "text": "Sia fatta la tua volonta",
+   "t0": 42.58,
+   "t1": 44.22,
+   "t0_used": 42.58,
+   "t1_used": 44.22,
+   "snapped": false,
+   "snap_deltas": [
+    0.157,
+    -0.269
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 7,
+   "text": "Così in cielo e così in terra neil nome",
+   "t0": 44.22,
+   "t1": 47.09,
+   "t0_used": 44.22,
+   "t1_used": 46.997,
+   "snapped": true,
+   "snap_deltas": [
+    -0.269,
+    0.093
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 8,
+   "text": "Del padre del figliolo e dello spirito santo amen",
+   "t0": 47.09,
+   "t1": 87.14,
+   "t0_used": 46.997,
+   "t1_used": 87.121,
+   "snapped": true,
+   "snap_deltas": [
+    0.093,
+    0.019
+   ],
+   "approx": false,
+   "splits": [
+    49.598,
+    52.849,
+    55.589,
+    58.329,
+    61.068,
+    64.482,
+    67.245,
+    69.985,
+    72.725,
+    75.465,
+    78.205,
+    81.618,
+    84.358
+   ]
+  },
+  {
+   "i": 9,
+   "text": "微凉的晨露沾湿黑礼服",
+   "t0": 87.14,
+   "t1": 89.85,
+   "t0_used": 87.121,
+   "t1_used": 89.861,
+   "snapped": true,
+   "snap_deltas": [
+    0.019,
+    -0.011
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 10,
+   "text": "石板路有雾父在低诉",
+   "t0": 89.85,
+   "t1": 92.65,
+   "t0_used": 89.861,
+   "t1_used": 92.601,
+   "snapped": true,
+   "snap_deltas": [
+    -0.011,
+    0.049
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 11,
+   "text": "无奈的觉悟只能更残酷",
+   "t0": 92.65,
+   "t1": 95.5,
+   "t0_used": 92.601,
+   "t1_used": 95.5,
+   "snapped": true,
+   "snap_deltas": [
+    0.049,
+    0.159
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 12,
+   "text": "一切都为了通往圣堂的路",
+   "t0": 95.5,
+   "t1": 98.18,
+   "t0_used": 95.5,
+   "t1_used": 98.18,
+   "snapped": false,
+   "snap_deltas": [
+    0.159,
+    0.145
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 13,
+   "text": "吹不散的雾隐没了意图",
+   "t0": 98.18,
+   "t1": 100.78,
+   "t0_used": 98.18,
+   "t1_used": 100.821,
+   "snapped": true,
+   "snap_deltas": [
+    0.145,
+    -0.041
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 14,
+   "text": "谁轻柔踱步停住",
+   "t0": 100.78,
+   "t1": 103.21,
+   "t0_used": 100.821,
+   "t1_used": 103.21,
+   "snapped": true,
+   "snap_deltas": [
+    -0.041,
+    0.346
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 15,
+   "text": "还来不及哭穿过的子弹就带走温度",
+   "t0": 103.21,
+   "t1": 108.77,
+   "t0_used": 103.21,
+   "t1_used": 108.77,
+   "snapped": false,
+   "snap_deltas": [
+    0.346,
+    -0.271
+   ],
+   "approx": false,
+   "splits": [
+    106.301
+   ]
+  },
+  {
+   "i": 16,
+   "text": "我们每个人都有罪",
+   "t0": 108.77,
+   "t1": 110.26,
+   "t0_used": 108.77,
+   "t1_used": 110.26,
+   "snapped": false,
+   "snap_deltas": [
+    -0.271,
+    -0.151
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 17,
+   "text": "犯着不同的罪",
+   "t0": 110.26,
+   "t1": 111.65,
+   "t0_used": 110.26,
+   "t1_used": 111.65,
+   "snapped": false,
+   "snap_deltas": [
+    -0.151,
+    -0.131
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 18,
+   "text": "我能决定谁对",
+   "t0": 111.65,
+   "t1": 113.03,
+   "t0_used": 111.65,
+   "t1_used": 113.03,
+   "snapped": false,
+   "snap_deltas": [
+    -0.131,
+    -0.121
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 19,
+   "text": "谁又该要沉睡",
+   "t0": 113.03,
+   "t1": 114.45,
+   "t0_used": 113.03,
+   "t1_used": 114.498,
+   "snapped": true,
+   "snap_deltas": [
+    -0.121,
+    -0.048
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 20,
+   "text": "争论不能解决",
+   "t0": 114.45,
+   "t1": 115.87,
+   "t0_used": 114.498,
+   "t1_used": 115.868,
+   "snapped": true,
+   "snap_deltas": [
+    -0.048,
+    0.002
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 21,
+   "text": "在永无止境的夜",
+   "t0": 115.87,
+   "t1": 117.26,
+   "t0_used": 115.868,
+   "t1_used": 117.261,
+   "snapped": true,
+   "snap_deltas": [
+    0.002,
+    -0.001
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 22,
+   "text": "关掉你的嘴",
+   "t0": 117.26,
+   "t1": 118.55,
+   "t0_used": 117.261,
+   "t1_used": 118.631,
+   "snapped": true,
+   "snap_deltas": [
+    -0.001,
+    -0.081
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 23,
+   "text": "唯一的恩惠",
+   "t0": 118.55,
+   "t1": 119.6,
+   "t0_used": 118.631,
+   "t1_used": 119.6,
+   "snapped": true,
+   "snap_deltas": [
+    -0.081,
+    0.273
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 24,
+   "text": "挡在前面的人都有罪",
+   "t0": 119.6,
+   "t1": 121.21,
+   "t0_used": 119.6,
+   "t1_used": 121.21,
+   "snapped": false,
+   "snap_deltas": [
+    0.273,
+    -0.161
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 25,
+   "text": "后悔也无路可退",
+   "t0": 121.21,
+   "t1": 122.68,
+   "t0_used": 121.21,
+   "t1_used": 122.741,
+   "snapped": true,
+   "snap_deltas": [
+    -0.161,
+    -0.061
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 26,
+   "text": "以父之名判决",
+   "t0": 122.68,
+   "t1": 123.95,
+   "t0_used": 122.741,
+   "t1_used": 123.95,
+   "snapped": true,
+   "snap_deltas": [
+    -0.061,
+    -0.161
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 27,
+   "text": "那感觉没有适合字汇",
+   "t0": 123.95,
+   "t1": 125.71,
+   "t0_used": 123.95,
+   "t1_used": 125.71,
+   "snapped": false,
+   "snap_deltas": [
+    -0.161,
+    0.206
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 28,
+   "text": "就像边笑边掉泪",
+   "t0": 125.71,
+   "t1": 127.09,
+   "t0_used": 125.71,
+   "t1_used": 127.09,
+   "snapped": false,
+   "snap_deltas": [
+    0.206,
+    0.216
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 29,
+   "text": "凝视着完全的黑",
+   "t0": 127.09,
+   "t1": 128.42,
+   "t0_used": 127.09,
+   "t1_used": 128.42,
+   "snapped": false,
+   "snap_deltas": [
+    0.216,
+    0.176
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 30,
+   "text": "阻挡悲剧蔓延的悲剧会让我沉醉",
+   "t0": 128.42,
+   "t1": 130.9,
+   "t0_used": 128.42,
+   "t1_used": 130.984,
+   "snapped": true,
+   "snap_deltas": [
+    0.176,
+    -0.084
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 31,
+   "text": "低头亲吻我的左手",
+   "t0": 130.9,
+   "t1": 132.23,
+   "t0_used": 130.984,
+   "t1_used": 132.23,
+   "snapped": true,
+   "snap_deltas": [
+    -0.084,
+    -0.101
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 32,
+   "text": "换取被宽恕的承诺",
+   "t0": 132.23,
+   "t1": 133.63,
+   "t0_used": 132.23,
+   "t1_used": 133.724,
+   "snapped": true,
+   "snap_deltas": [
+    -0.101,
+    -0.094
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 33,
+   "text": "老旧管风琴在角落",
+   "t0": 133.63,
+   "t1": 135.05,
+   "t0_used": 133.724,
+   "t1_used": 135.094,
+   "snapped": true,
+   "snap_deltas": [
+    -0.094,
+    -0.044
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 34,
+   "text": "一直一直一直伴奏",
+   "t0": 135.05,
+   "t1": 136.38,
+   "t0_used": 135.094,
+   "t1_used": 136.464,
+   "snapped": true,
+   "snap_deltas": [
+    -0.044,
+    -0.084
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 35,
+   "text": "黑色帘幕被风吹动",
+   "t0": 136.38,
+   "t1": 137.73,
+   "t0_used": 136.464,
+   "t1_used": 137.81,
+   "snapped": true,
+   "snap_deltas": [
+    -0.084,
+    -0.08
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 36,
+   "text": "阳光无言地穿透",
+   "t0": 137.73,
+   "t1": 139.1,
+   "t0_used": 137.81,
+   "t1_used": 139.1,
+   "snapped": true,
+   "snap_deltas": [
+    -0.08,
+    -0.104
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 37,
+   "text": "洒向那群被我驯服后的兽",
+   "t0": 139.1,
+   "t1": 141.78,
+   "t0_used": 139.1,
+   "t1_used": 141.78,
+   "snapped": false,
+   "snap_deltas": [
+    -0.104,
+    -0.164
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 38,
+   "text": "沉默地喊叫沉默地喊叫",
+   "t0": 141.78,
+   "t1": 143.3,
+   "t0_used": 141.78,
+   "t1_used": 143.314,
+   "snapped": true,
+   "snap_deltas": [
+    -0.164,
+    -0.014
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 39,
+   "text": "孤单开始发酵",
+   "t0": 143.3,
+   "t1": 144.58,
+   "t0_used": 143.314,
+   "t1_used": 144.58,
+   "snapped": true,
+   "snap_deltas": [
+    -0.014,
+    -0.104
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 40,
+   "text": "不停对着我嘲笑",
+   "t0": 144.58,
+   "t1": 145.91,
+   "t0_used": 144.58,
+   "t1_used": 145.91,
+   "snapped": false,
+   "snap_deltas": [
+    -0.104,
+    -0.144
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 41,
+   "text": "回忆逐渐延烧",
+   "t0": 145.91,
+   "t1": 147.36,
+   "t0_used": 145.91,
+   "t1_used": 147.4,
+   "snapped": true,
+   "snap_deltas": [
+    -0.144,
+    -0.04
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 42,
+   "text": "曾经纯真的画面",
+   "t0": 147.36,
+   "t1": 148.68,
+   "t0_used": 147.4,
+   "t1_used": 148.747,
+   "snapped": true,
+   "snap_deltas": [
+    -0.04,
+    -0.067
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 43,
+   "text": "残忍地温柔出现",
+   "t0": 148.68,
+   "t1": 150.08,
+   "t0_used": 148.747,
+   "t1_used": 150.117,
+   "snapped": true,
+   "snap_deltas": [
+    -0.067,
+    -0.037
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 44,
+   "text": "脆弱时间到",
+   "t0": 150.08,
+   "t1": 151.31,
+   "t0_used": 150.117,
+   "t1_used": 151.31,
+   "snapped": true,
+   "snap_deltas": [
+    -0.037,
+    -0.223
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 45,
+   "text": "我们一起来祷告",
+   "t0": 151.31,
+   "t1": 152.81,
+   "t0_used": 151.31,
+   "t1_used": 152.88,
+   "snapped": true,
+   "snap_deltas": [
+    -0.223,
+    -0.07
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 46,
+   "text": "仁慈的父我已坠入",
+   "t0": 152.81,
+   "t1": 156.05,
+   "t0_used": 152.88,
+   "t1_used": 156.05,
+   "snapped": true,
+   "snap_deltas": [
+    -0.07,
+    -0.267
+   ],
+   "approx": false,
+   "splits": [
+    154.273
+   ]
+  },
+  {
+   "i": 47,
+   "text": "看不见罪的国度",
+   "t0": 156.05,
+   "t1": 158.61,
+   "t0_used": 156.05,
+   "t1_used": 158.61,
+   "snapped": false,
+   "snap_deltas": [
+    -0.267,
+    0.227
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 48,
+   "text": "请原谅我的自负",
+   "t0": 158.61,
+   "t1": 161.35,
+   "t0_used": 158.61,
+   "t1_used": 161.35,
+   "snapped": false,
+   "snap_deltas": [
+    0.227,
+    0.227
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 49,
+   "text": "Ah ya ya check it check it ah ya",
+   "t0": 161.35,
+   "t1": 164.02,
+   "t0_used": 161.35,
+   "t1_used": 164.02,
+   "snapped": false,
+   "snap_deltas": [
+    0.227,
+    0.157
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 50,
+   "text": "没人能说没人可说",
+   "t0": 164.02,
+   "t1": 166.86,
+   "t0_used": 164.02,
+   "t1_used": 166.86,
+   "snapped": false,
+   "snap_deltas": [
+    0.157,
+    0.257
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 51,
+   "text": "好难承受",
+   "t0": 166.86,
+   "t1": 168.35,
+   "t0_used": 166.86,
+   "t1_used": 168.35,
+   "snapped": false,
+   "snap_deltas": [
+    0.257,
+    -0.297
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 52,
+   "text": "荣耀的背后刻着一道孤独",
+   "t0": 168.35,
+   "t1": 172.26,
+   "t0_used": 168.35,
+   "t1_used": 172.26,
+   "snapped": false,
+   "snap_deltas": [
+    -0.297,
+    0.177
+   ],
+   "approx": false,
+   "splits": [
+    170.04
+   ]
+  },
+  {
+   "i": 53,
+   "text": "Ah ya ya check it check it ah ya",
+   "t0": 172.26,
+   "t1": 174.86,
+   "t0_used": 172.26,
+   "t1_used": 174.823,
+   "snapped": true,
+   "snap_deltas": [
+    0.177,
+    0.037
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 54,
+   "text": "闭上双眼我又看见",
+   "t0": 174.86,
+   "t1": 177.78,
+   "t0_used": 174.823,
+   "t1_used": 177.78,
+   "snapped": true,
+   "snap_deltas": [
+    0.037,
+    0.194
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 55,
+   "text": "当年那梦的画面",
+   "t0": 177.78,
+   "t1": 180.48,
+   "t0_used": 177.78,
+   "t1_used": 180.48,
+   "snapped": false,
+   "snap_deltas": [
+    0.194,
+    0.177
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 56,
+   "text": "天空是濛濛的雾",
+   "t0": 180.48,
+   "t1": 183.29,
+   "t0_used": 180.48,
+   "t1_used": 183.29,
+   "snapped": false,
+   "snap_deltas": [
+    0.177,
+    0.224
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 57,
+   "text": "Ah ya ya check it check it ah ya",
+   "t0": 183.29,
+   "t1": 185.79,
+   "t0_used": 183.29,
+   "t1_used": 185.806,
+   "snapped": true,
+   "snap_deltas": [
+    0.224,
+    -0.016
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 58,
+   "text": "父亲牵着我的双手",
+   "t0": 185.79,
+   "t1": 188.9,
+   "t0_used": 185.806,
+   "t1_used": 188.9,
+   "snapped": true,
+   "snap_deltas": [
+    -0.016,
+    -0.296
+   ],
+   "approx": false,
+   "splits": [
+    187.176
+   ]
+  },
+  {
+   "i": 59,
+   "text": "轻轻走过",
+   "t0": 188.9,
+   "t1": 190.3,
+   "t0_used": 188.9,
+   "t1_used": 190.3,
+   "snapped": false,
+   "snap_deltas": [
+    -0.296,
+    -0.266
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 60,
+   "text": "清晨那安安静静的石板路",
+   "t0": 190.3,
+   "t1": 194.18,
+   "t0_used": 190.3,
+   "t1_used": 194.18,
+   "snapped": false,
+   "snap_deltas": [
+    -0.266,
+    0.177
+   ],
+   "approx": false,
+   "splits": [
+    191.959
+   ]
+  },
+  {
+   "i": 61,
+   "text": "Ah ya ya check it check it ah ya",
+   "t0": 194.18,
+   "t1": 203.25,
+   "t0_used": 194.18,
+   "t1_used": 203.25,
+   "snapped": false,
+   "snap_deltas": [
+    0.177,
+    -0.273
+   ],
+   "approx": false,
+   "splits": [
+    196.789,
+    198.809,
+    200.829
+   ]
+  },
+  {
+   "i": 62,
+   "text": "Pie Jesu",
+   "t0": 203.25,
+   "t1": 208.43,
+   "t0_used": 203.25,
+   "t1_used": 208.43,
+   "snapped": false,
+   "snap_deltas": [
+    -0.273,
+    0.217
+   ],
+   "approx": false,
+   "splits": [
+    205.52
+   ]
+  },
+  {
+   "i": 63,
+   "text": "Qui tollis peccata",
+   "t0": 208.43,
+   "t1": 213.62,
+   "t0_used": 208.43,
+   "t1_used": 213.62,
+   "snapped": false,
+   "snap_deltas": [
+    0.217,
+    -0.213
+   ],
+   "approx": false,
+   "splits": [
+    211.046
+   ]
+  },
+  {
+   "i": 64,
+   "text": "Dona eis requiem",
+   "t0": 213.62,
+   "t1": 226.37,
+   "t0_used": 213.62,
+   "t1_used": 226.37,
+   "snapped": false,
+   "snap_deltas": [
+    -0.213,
+    -0.164
+   ],
+   "approx": false,
+   "splits": [
+    215.853,
+    218.546,
+    221.193,
+    223.956
+   ]
+  },
+  {
+   "i": 65,
+   "text": "低头亲吻我的左手",
+   "t0": 226.37,
+   "t1": 227.92,
+   "t0_used": 226.37,
+   "t1_used": 227.92,
+   "snapped": false,
+   "snap_deltas": [
+    -0.164,
+    -0.146
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 66,
+   "text": "换取被宽恕的承诺",
+   "t0": 227.92,
+   "t1": 229.23,
+   "t0_used": 227.92,
+   "t1_used": 229.23,
+   "snapped": false,
+   "snap_deltas": [
+    -0.146,
+    -0.206
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 67,
+   "text": "老旧管风琴在角落",
+   "t0": 229.23,
+   "t1": 230.63,
+   "t0_used": 229.23,
+   "t1_used": 230.63,
+   "snapped": false,
+   "snap_deltas": [
+    -0.206,
+    -0.107
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 68,
+   "text": "一直一直一直伴奏",
+   "t0": 230.63,
+   "t1": 232.06,
+   "t0_used": 230.63,
+   "t1_used": 232.06,
+   "snapped": false,
+   "snap_deltas": [
+    -0.107,
+    -0.116
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 69,
+   "text": "黑色帘幕被风吹动",
+   "t0": 232.06,
+   "t1": 233.43,
+   "t0_used": 232.06,
+   "t1_used": 233.523,
+   "snapped": true,
+   "snap_deltas": [
+    -0.116,
+    -0.093
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 70,
+   "text": "阳光无言地穿透",
+   "t0": 233.43,
+   "t1": 234.81,
+   "t0_used": 233.523,
+   "t1_used": 234.87,
+   "snapped": true,
+   "snap_deltas": [
+    -0.093,
+    -0.06
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 71,
+   "text": "洒向那群被我驯服后的兽",
+   "t0": 234.81,
+   "t1": 237.53,
+   "t0_used": 234.87,
+   "t1_used": 237.53,
+   "snapped": true,
+   "snap_deltas": [
+    -0.06,
+    -0.126
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 72,
+   "text": "沉默地喊叫沉默地喊叫",
+   "t0": 237.53,
+   "t1": 239.02,
+   "t0_used": 237.53,
+   "t1_used": 239.026,
+   "snapped": true,
+   "snap_deltas": [
+    -0.126,
+    -0.006
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 73,
+   "text": "孤单开始发酵",
+   "t0": 239.02,
+   "t1": 240.31,
+   "t0_used": 239.026,
+   "t1_used": 240.373,
+   "snapped": true,
+   "snap_deltas": [
+    -0.006,
+    -0.063
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 74,
+   "text": "不停对着我嘲笑",
+   "t0": 240.31,
+   "t1": 241.68,
+   "t0_used": 240.373,
+   "t1_used": 241.743,
+   "snapped": true,
+   "snap_deltas": [
+    -0.063,
+    -0.063
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 75,
+   "text": "回忆逐渐延烧",
+   "t0": 241.68,
+   "t1": 243.09,
+   "t0_used": 241.743,
+   "t1_used": 243.113,
+   "snapped": true,
+   "snap_deltas": [
+    -0.063,
+    -0.023
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 76,
+   "text": "曾经纯真的画面",
+   "t0": 243.09,
+   "t1": 244.4,
+   "t0_used": 243.113,
+   "t1_used": 244.483,
+   "snapped": true,
+   "snap_deltas": [
+    -0.023,
+    -0.083
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 77,
+   "text": "残忍地温柔出现",
+   "t0": 244.4,
+   "t1": 245.77,
+   "t0_used": 244.483,
+   "t1_used": 245.853,
+   "snapped": true,
+   "snap_deltas": [
+    -0.083,
+    -0.083
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 78,
+   "text": "脆弱时间到",
+   "t0": 245.77,
+   "t1": 246.9,
+   "t0_used": 245.853,
+   "t1_used": 246.9,
+   "snapped": true,
+   "snap_deltas": [
+    -0.083,
+    -0.346
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 79,
+   "text": "我们一起来祷告",
+   "t0": 246.9,
+   "t1": 248.56,
+   "t0_used": 246.9,
+   "t1_used": 248.616,
+   "snapped": true,
+   "snap_deltas": [
+    -0.346,
+    -0.056
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 80,
+   "text": "仁慈的父我已坠入",
+   "t0": 248.56,
+   "t1": 251.79,
+   "t0_used": 248.616,
+   "t1_used": 251.79,
+   "snapped": true,
+   "snap_deltas": [
+    -0.056,
+    -0.239
+   ],
+   "approx": false,
+   "splits": [
+    249.986
+   ]
+  },
+  {
+   "i": 81,
+   "text": "看不见罪的国度",
+   "t0": 251.79,
+   "t1": 254.34,
+   "t0_used": 251.79,
+   "t1_used": 254.34,
+   "snapped": false,
+   "snap_deltas": [
+    -0.239,
+    0.244
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 82,
+   "text": "请原谅我的自负",
+   "t0": 254.34,
+   "t1": 257.04,
+   "t0_used": 254.34,
+   "t1_used": 257.04,
+   "snapped": false,
+   "snap_deltas": [
+    0.244,
+    0.204
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 83,
+   "text": "Ah ya ya check it check it ah ya",
+   "t0": 257.04,
+   "t1": 259.57,
+   "t0_used": 257.04,
+   "t1_used": 259.576,
+   "snapped": true,
+   "snap_deltas": [
+    0.204,
+    -0.006
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 84,
+   "text": "没人能说没人可说",
+   "t0": 259.57,
+   "t1": 262.51,
+   "t0_used": 259.576,
+   "t1_used": 262.51,
+   "snapped": true,
+   "snap_deltas": [
+    -0.006,
+    0.194
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 85,
+   "text": "好难承受",
+   "t0": 262.51,
+   "t1": 264.27,
+   "t0_used": 262.51,
+   "t1_used": 264.27,
+   "snapped": false,
+   "snap_deltas": [
+    0.194,
+    -0.112
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 86,
+   "text": "荣耀的背后刻着一道孤独",
+   "t0": 264.27,
+   "t1": 267.97,
+   "t0_used": 264.27,
+   "t1_used": 267.97,
+   "snapped": false,
+   "snap_deltas": [
+    -0.112,
+    0.174
+   ],
+   "approx": false,
+   "splits": [
+    266.426
+   ]
+  },
+  {
+   "i": 87,
+   "text": "Ah ya ya check it check it ah ya",
+   "t0": 267.97,
+   "t1": 271.09,
+   "t0_used": 267.97,
+   "t1_used": 271.09,
+   "snapped": false,
+   "snap_deltas": [
+    0.174,
+    -0.142
+   ],
+   "approx": false,
+   "splits": [
+    269.839
+   ]
+  },
+  {
+   "i": 88,
+   "text": "仁慈的父我已坠入",
+   "t0": 271.09,
+   "t1": 276.25,
+   "t0_used": 271.09,
+   "t1_used": 276.25,
+   "snapped": false,
+   "snap_deltas": [
+    -0.142,
+    0.211
+   ],
+   "approx": false,
+   "splits": [
+    273.972
+   ]
+  },
+  {
+   "i": 89,
+   "text": "看不见罪的国度",
+   "t0": 276.25,
+   "t1": 281.77,
+   "t0_used": 276.25,
+   "t1_used": 281.77,
+   "snapped": false,
+   "snap_deltas": [
+    0.211,
+    0.298
+   ],
+   "approx": false,
+   "splits": [
+    278.732
+   ]
+  },
+  {
+   "i": 90,
+   "text": "请原谅我 我的自负",
+   "t0": 281.77,
+   "t1": 287.35,
+   "t0_used": 281.77,
+   "t1_used": 287.35,
+   "snapped": false,
+   "snap_deltas": [
+    0.298,
+    -0.276
+   ],
+   "approx": false,
+   "splits": [
+    284.886
+   ]
+  },
+  {
+   "i": 91,
+   "text": "刻着一道孤独",
+   "t0": 287.35,
+   "t1": 292.58,
+   "t0_used": 287.35,
+   "t1_used": 292.58,
+   "snapped": false,
+   "snap_deltas": [
+    -0.276,
+    0.194
+   ],
+   "approx": false,
+   "splits": [
+    289.669
+   ]
+  },
+  {
+   "i": 92,
+   "text": "仁慈的父我已坠入",
+   "t0": 292.58,
+   "t1": 295.49,
+   "t0_used": 292.58,
+   "t1_used": 295.49,
+   "snapped": false,
+   "snap_deltas": [
+    0.194,
+    -0.332
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 93,
+   "text": "看不见罪的国度",
+   "t0": 295.49,
+   "t1": 298.11,
+   "t0_used": 295.49,
+   "t1_used": 298.11,
+   "snapped": false,
+   "snap_deltas": [
+    -0.332,
+    0.244
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 94,
+   "text": "请原谅我的自负",
+   "t0": 298.11,
+   "t1": 300.76,
+   "t0_used": 298.11,
+   "t1_used": 300.76,
+   "snapped": false,
+   "snap_deltas": [
+    0.244,
+    0.154
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 95,
+   "text": "Ah ya ya check it check it ah ya",
+   "t0": 300.76,
+   "t1": 303.29,
+   "t0_used": 300.76,
+   "t1_used": 303.345,
+   "snapped": true,
+   "snap_deltas": [
+    0.154,
+    -0.055
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 96,
+   "text": "没人能说没人可说",
+   "t0": 303.29,
+   "t1": 306.33,
+   "t0_used": 303.345,
+   "t1_used": 306.33,
+   "snapped": true,
+   "snap_deltas": [
+    -0.055,
+    0.245
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 97,
+   "text": "好难承受",
+   "t0": 306.33,
+   "t1": 308.07,
+   "t0_used": 306.33,
+   "t1_used": 308.129,
+   "snapped": true,
+   "snap_deltas": [
+    0.245,
+    -0.059
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 98,
+   "text": "荣耀的背后刻着一道孤独",
+   "t0": 308.07,
+   "t1": 311.77,
+   "t0_used": 308.129,
+   "t1_used": 311.77,
+   "snapped": true,
+   "snap_deltas": [
+    -0.059,
+    0.205
+   ],
+   "approx": false,
+   "splits": [
+    310.195
+   ]
+  },
+  {
+   "i": 99,
+   "text": "Ah ya ya check it check it ah ya",
+   "t0": 311.77,
+   "t1": 314.29,
+   "t0_used": 311.77,
+   "t1_used": 314.305,
+   "snapped": true,
+   "snap_deltas": [
+    0.205,
+    -0.015
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 100,
+   "text": "闭上双眼我又看见",
+   "t0": 314.29,
+   "t1": 315.48,
+   "t0_used": 314.305,
+   "t1_used": 315.48,
+   "snapped": true,
+   "snap_deltas": [
+    -0.015,
+    -0.219
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 101,
+   "text": "（斑驳的家徽擦拭了一夜）",
+   "t0": 315.48,
+   "t1": 317.13,
+   "t0_used": 315.48,
+   "t1_used": 317.068,
+   "snapped": true,
+   "snap_deltas": [
+    -0.219,
+    0.062
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 102,
+   "text": "当年那梦的画面",
+   "t0": 317.13,
+   "t1": 318.18,
+   "t0_used": 317.068,
+   "t1_used": 318.18,
+   "snapped": true,
+   "snap_deltas": [
+    0.062,
+    -0.235
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 103,
+   "text": "（孤独的光辉 才懂的感觉）",
+   "t0": 318.18,
+   "t1": 320.06,
+   "t0_used": 318.18,
+   "t1_used": 320.06,
+   "snapped": false,
+   "snap_deltas": [
+    -0.235,
+    0.275
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 104,
+   "text": "天空是濛濛的雾",
+   "t0": 320.06,
+   "t1": 321.12,
+   "t0_used": 320.06,
+   "t1_used": 321.132,
+   "snapped": true,
+   "snap_deltas": [
+    0.275,
+    -0.012
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 105,
+   "text": "（烛光 不不停的摇晃）",
+   "t0": 321.12,
+   "t1": 322.91,
+   "t0_used": 321.132,
+   "t1_used": 322.91,
+   "snapped": true,
+   "snap_deltas": [
+    -0.012,
+    -0.265
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 106,
+   "text": "猫头鹰在窗棂上 对着远方眺望",
+   "t0": 322.91,
+   "t1": 325.2,
+   "t0_used": 322.91,
+   "t1_used": 325.265,
+   "snapped": true,
+   "snap_deltas": [
+    -0.265,
+    -0.065
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 107,
+   "text": "父亲牵着我的双手",
+   "t0": 325.2,
+   "t1": 326.45,
+   "t0_used": 325.265,
+   "t1_used": 326.45,
+   "snapped": true,
+   "snap_deltas": [
+    -0.065,
+    -0.185
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 108,
+   "text": "（通向大厅的长廊）",
+   "t0": 326.45,
+   "t1": 328.23,
+   "t0_used": 326.45,
+   "t1_used": 328.23,
+   "snapped": false,
+   "snap_deltas": [
+    -0.185,
+    0.202
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 109,
+   "text": "轻轻走过 清晨那",
+   "t0": 328.23,
+   "t1": 329.3,
+   "t0_used": 328.23,
+   "t1_used": 329.375,
+   "snapped": true,
+   "snap_deltas": [
+    0.202,
+    -0.075
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 110,
+   "text": "（一样说不出的沧桑）",
+   "t0": 329.3,
+   "t1": 330.98,
+   "t0_used": 329.375,
+   "t1_used": 330.98,
+   "snapped": true,
+   "snap_deltas": [
+    -0.075,
+    0.235
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 111,
+   "text": "安安静静的石板路",
+   "t0": 330.98,
+   "t1": 331.94,
+   "t0_used": 330.98,
+   "t1_used": 331.94,
+   "snapped": false,
+   "snap_deltas": [
+    0.235,
+    -0.175
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 112,
+   "text": "（没有喧嚣 只有宁静围绕）",
+   "t0": 331.94,
+   "t1": 333.5,
+   "t0_used": 331.94,
+   "t1_used": 333.508,
+   "snapped": true,
+   "snap_deltas": [
+    -0.175,
+    -0.008
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 113,
+   "text": "我 慢慢睡着",
+   "t0": 333.5,
+   "t1": 334.94,
+   "t0_used": 333.508,
+   "t1_used": 334.855,
+   "snapped": true,
+   "snap_deltas": [
+    -0.008,
+    0.085
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 114,
+   "text": "天 刚刚破晓",
+   "t0": 334.94,
+   "t1": 337.94,
+   "t0_used": 334.855,
+   "t1_used": 337.94,
+   "snapped": true,
+   "snap_deltas": [
+    0.085,
+    1.831
+   ],
+   "approx": false,
+   "splits": [
+    336.109
+   ]
+  }
+ ],
+ "summary": {
+  "lines": 115,
+  "lines_untimed": 0,
+  "lines_snapped": 68,
+  "lines_unsnapped": 47,
+  "lines_need_split": 23,
+  "total_splits": 46
+ },
+ "advisory": true
+}
