@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
- "ts": "2026-11-05T14:17:46",
+ "ts": "2026-11-05T14:29:53",
  "jobs": [
   {
-   "id": "CHT-20261105T134717-01",
-   "title": "全链路自测 1",
-   "cmd": "python3 -c \"import json,os;os.makedirs('cph4/fleet/state/chain-test',exist_ok=True);json.dump({'id':'CHT-20261105T134717-01','ts':'20261105T134717'},open('cph4/fleet/state/chain-test/CHT-20261105T134717-01.json','w'))\"",
+   "id": "LINE-TRIAGE-MV-20261105",
+   "title": "MV 线证据陈旧扫描（line_triage·本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line bigstream-mv",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/state/chain-test/CHT-20261105T134717-01.json",
+   "deliverable": "",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 14.0/1.0 GB"
+ "capacity_note": "ram 13.0/1.0 GB"
 }

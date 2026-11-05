@@ -1,32 +1,32 @@
 {
- "ts": "2026-11-05T14:23:29",
- "cycle": 40,
+ "ts": "2026-11-05T14:29:53",
+ "cycle": 42,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-05T14:23:29",
+ "master_tick_ts": "2026-11-05T14:29:53",
  "queue": {
-  "total": 389,
-  "open": 9,
+  "total": 391,
+  "open": 10,
   "running": 4,
-  "done": 196,
-  "failed": 24
+  "done": 198,
+  "failed": 23
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 10.0,
-   "cpu_load_pct": 32,
-   "ram_free_gb": 45,
-   "gpu_util_pct": 44,
-   "job": "LINE-TRIAGE-MV-20261105",
+   "hb_age_s": 13.3,
+   "cpu_load_pct": 13,
+   "ram_free_gb": 44.4,
+   "gpu_util_pct": 3,
+   "job": "C-TTS-QC-ALL",
    "last_result": {
-    "job": "bigstream-mv-gate-2026-11-05",
-    "state": "BUSY",
-    "rc": null,
-    "ts": "2026-11-05T14:23:05",
+    "job": "ART-PUSH-BMA-20261104",
+    "state": "FAILED",
+    "rc": 0,
+    "ts": "2026-11-05T14:29:48",
     "reason": null,
     "out_bytes": null,
-    "elapsed_s": 180
+    "elapsed_s": null
    },
    "idle_confirmed": false,
    "idle_reason": "",
@@ -34,16 +34,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 75.2,
+   "hb_age_s": 53.9,
    "cpu_load_pct": 3,
-   "ram_free_gb": 13.0,
-   "gpu_util_pct": 0,
-   "job": "C-TTS-QC-ALL",
+   "ram_free_gb": 11.8,
+   "gpu_util_pct": null,
+   "job": "asset-lib-env-check-2026-11-05",
    "last_result": {
     "job": "asset-lib-char-gen-2026-11-05",
     "state": "FAILED",
     "rc": 2,
-    "ts": "2026-11-05T14:22:15",
+    "ts": "2026-11-05T14:26:49",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -54,16 +54,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 85.4,
-   "cpu_load_pct": 7,
-   "ram_free_gb": 3.6,
+   "hb_age_s": 58.4,
+   "cpu_load_pct": 10,
+   "ram_free_gb": 3.1,
    "gpu_util_pct": 0,
    "job": "asset-lib-asset-gen-scenes-2026-11-05",
    "last_result": {
     "job": "asset-lib-asset-gen-2026-11-05",
     "state": "FAILED",
     "rc": 1,
-    "ts": "2026-11-05T14:22:21",
+    "ts": "2026-11-05T14:29:12",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -75,15 +75,15 @@
   "bm-m": {
    "online": true,
    "hb_age_s": 0.9,
-   "cpu_load_pct": 12,
-   "ram_free_gb": 12.8,
+   "cpu_load_pct": 23,
+   "ram_free_gb": 13.0,
    "gpu_util_pct": null,
-   "job": "CHT-20261105T134717-01",
+   "job": "LINE-TRIAGE-MV-20261105",
    "last_result": {
-    "job": "CANARY-20261105T142321",
+    "job": "CHT-20261105T134725-02",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-05T14:23:22",
+    "ts": "2026-11-05T14:26:42",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -277,8 +277,6 @@
    "owner": "中枢（机器判）",
    "jobs": [
     "LINE-TRIAGE-MV-20261105",
-    "CHT-20261105T134717-01",
-    "CHT-20261105T134725-02",
     "CHT-20261105T134733-03",
     "CHT-20261105T134806-01",
     "CHT-20261105T134813-02",
@@ -288,7 +286,6 @@
    ],
    "no_supply": false,
    "blockers": [
-    "CHT-20261105T134725-02:no-lane",
     "CHT-20261105T134733-03:no-lane",
     "CHT-20261105T134806-01:no-lane",
     "CHT-20261105T134813-02:no-lane",
@@ -306,6 +303,7 @@
    "stale_after_h": 72.0,
    "owner": "资产席",
    "jobs": [
+    "asset-lib-env-check-2026-11-05",
     "asset-lib-face-dataset-2026-11-05",
     "asset-lib-asset-gen-scenes-2026-11-05"
    ],
@@ -859,7 +857,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 9,
+  "local": 10,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -867,17 +865,17 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 9,
+  "cpu": 10,
   "gpu": 0
  },
  "supply_added": [
-  "backlog_manifest+1"
+  "backlog_manifest+3"
  ],
  "events": [
-  "asset-lib-char-gen-2026-11-05 FAILED via bm-b",
   "asset-lib-asset-gen-scenes-2026-11-05 -> bm-c (gpu)",
-  "C-TTS-QC-ALL -> bm-b (cpu)",
-  "LINE-TRIAGE-MV-20261105 -> bm-a (cpu)"
+  "asset-lib-env-check-2026-11-05 -> bm-b (cpu)",
+  "C-TTS-QC-ALL -> bm-a (cpu)",
+  "LINE-TRIAGE-MV-20261105 -> bm-m (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 立意/分镜/导演席 (导演席（自决推进，CEO 巡视可随时否决）)",
@@ -887,6 +885,7 @@
  ],
  "lane_files_written": [
   "bm-a",
-  "bm-b"
+  "bm-b",
+  "bm-m"
  ]
 }
