@@ -108,7 +108,10 @@ def src_media_proxy():
 SOURCES = [
     ("caption", src_caption, "bm-m"),
     ("asset-gap", src_asset_gap, "bm-m"),
-    ("media-proxy", src_media_proxy, "bm-m"),
+    # 同一批缺口按机型分工：装配活派给 bm-a（白天让路由车道时段控制），
+    # 产物落 media/review-720p，谁跑都可复算。这是「按机型分源」的样板。
+    ("media-proxy", src_media_proxy, "bm-a"),
+    ("media-proxy-local", src_media_proxy, "bm-m"),
 ]
 
 
