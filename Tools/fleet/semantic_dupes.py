@@ -36,12 +36,28 @@ DEFAULT_TH = 0.72
 DEFAULT_BLOCK_TH = float(os.environ.get("DUP_SEMANTIC_TH", "0.80"))
 
 
+_EMBED_DOWN = False
+
+
 def embed(text):
+    """取嵌入向量。超时 5 秒 + 熔断：一次失败后本进程不再尝试。
+
+    2026-11-05 实测：派单曾卡 2 分钟以上——原因是这里 timeout=60，而 Ollama 正在
+    跑生成（GPU 占用 90%），每张候选卡都等满 60 秒，8 张就是 8 分钟。
+    判重是"锦上添花"，绝不能拖住派单：失败即放行（返回 None 视为不重复）。
+    """
+    global _EMBED_DOWN
+    if _EMBED_DOWN:
+        raise RuntimeError("embedding-down (circuit open)")
     body = json.dumps({"model": MODEL, "prompt": text[:800]}).encode()
     req = urllib.request.Request(URL + "/api/embeddings", data=body,
                                  headers={"Content-Type": "application/json"})
-    with urllib.request.urlopen(req, timeout=60) as r:
-        return json.loads(r.read())["embedding"]
+    try:
+        with urllib.request.urlopen(req, timeout=5) as r:
+            return json.loads(r.read())["embedding"]
+    except Exception:
+        _EMBED_DOWN = True
+        raise
 
 
 def cos(a, b):

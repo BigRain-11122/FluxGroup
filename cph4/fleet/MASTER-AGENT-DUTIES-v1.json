@@ -1,0 +1,99 @@
+{
+  "_comment": "主控智能体职责全表 v1（2026-11-05）。颗粒度=可执行动作，每项都有输入/动作/产出/判据/兜底。串行执行：同一时刻只跑一项，见 day_plan.py。",
+  "version": "v1-20261105",
+  "principle": "一个身体、一条时间轴、串行执行。不并行——并行是今天三次撞车的根因。",
+
+  "windows": [
+    {"id": "W0", "name": "夜窗", "from": "00:00", "to": "06:00", "mode": "heavy",
+     "why": "本地 GPU/CPU 全量可用，重活只允许在这段时间跑"},
+    {"id": "W1", "name": "交班", "from": "06:00", "to": "07:00", "mode": "light",
+     "why": "出夜报、收夜窗产物、给白天排产"},
+    {"id": "W2", "name": "上午产线", "from": "07:00", "to": "12:00", "mode": "normal",
+     "why": "生产监控 + 轻量补料；bm-a 白天让路"},
+    {"id": "W3", "name": "决策轮", "from": "12:00", "to": "13:00", "mode": "decision",
+     "why": "分层决策、待裁收敛、午后重排"},
+    {"id": "W4", "name": "下午产线", "from": "13:00", "to": "18:00", "mode": "normal",
+     "why": "生产监控 + 验收"},
+    {"id": "W5", "name": "收口", "from": "18:00", "to": "21:00", "mode": "normal",
+     "why": "验收、日报、次日排产"},
+    {"id": "W6", "name": "夜前准备", "from": "21:00", "to": "24:00", "mode": "light",
+     "why": "派夜窗卡、预热模型、备份、账目收口"}
+  ],
+
+  "cadences": [
+    {"id": "T3", "every_min": 3, "name": "快拍", "allowed_modes": ["heavy", "light", "normal", "decision"]},
+    {"id": "T15", "every_min": 15, "name": "监拍"},
+    {"id": "T60", "every_min": 60, "name": "巡拍"},
+    {"id": "D1", "daily": true, "name": "日班"}
+  ],
+
+  "duties": [
+    {"id": "A01", "domain": "值守", "name": "时钟漂移检测", "cad": "T60", "windows": ["W0","W1","W2","W3","W4","W5","W6"], "input": "本机/机队时钟", "action": "比对 NTP 偏移，超阈值告警", "out": "state/clock.json", "verify": "偏移<2s", "fallback": "只告警，不改系统时间"},
+    {"id": "A02", "domain": "值守", "name": "心跳采集与在线判定", "cad": "T3", "input": "NATS/Master-State", "action": "取各机 hb_age_s，>30min 判离线", "out": "state/comms.json", "verify": "在线机数与 roster 一致", "fallback": "宁可报离线，不许猜在线"},
+    {"id": "A03", "domain": "值守", "name": "派单新鲜度", "cad": "T15", "input": "lanes/*.json", "action": "车道文件年龄>60min 且有 OPEN 卡→告警", "out": "state/dispatch-age.json", "verify": "无静默停派", "fallback": "强制重写车道文件"},
+    {"id": "A04", "domain": "值守", "name": "队列完整性", "cad": "T15", "input": "全部 jsonl", "action": "查冲突标记/坏行/重复 id/非法 state", "out": "state/queue-integrity.json", "verify": "critical=0", "fallback": "critical>0 立即停派并修"},
+    {"id": "A05", "domain": "值守", "name": "双账本对账", "cad": "T15", "input": "QUEUE/BACKLOG", "action": "QUEUE 为准回写 BACKLOG", "out": "修正行数", "verify": "冲突=0", "fallback": "失败则停派"},
+    {"id": "A06", "domain": "值守", "name": "自检卡清洗", "cad": "T15", "input": "队列", "action": "把 CHK/CANARY/TRIAGE/MODEL-RADAR/R-PLAN 从活跃态归档", "out": "清理数", "verify": "活跃态自检卡=0", "fallback": "生成端未拦住时读口兜住"},
+    {"id": "A07", "domain": "值守", "name": "读取 CEO 令", "cad": "T3", "input": "order-bus/receipts", "action": "新增令入 orders-new.json 并置最高优先", "out": "state/orders-new.json", "verify": "新令数可见", "fallback": "首跑只建基线"},
+
+    {"id": "B01", "domain": "监督", "name": "各机回执年龄", "cad": "T15", "input": "receipts 目录", "action": "算每机最近回执，>1h 标 NO-RECEIPT", "out": "comms.flags", "verify": "旗标与事实一致", "fallback": "只标不催"},
+    {"id": "B02", "domain": "监督", "name": "RUNNING 进展判定", "cad": "T3", "input": "lane BUSY out_bytes + 交付物大小", "action": "算 progress_bytes 增量", "out": "queue rows", "verify": "有增量即算推进", "fallback": "无信号=无进展"},
+    {"id": "B03", "domain": "监督", "name": "STALL 释放", "cad": "T3", "input": "progress_ts", "action": "30 分钟无增长→释放并计一次尝试", "out": "queue rows", "verify": "释放有 note", "fallback": "3 次即停线"},
+    {"id": "B04", "domain": "监督", "name": "失败停线", "cad": "T3", "input": "retries", "action": ">=3 判 FAILED+E-ROOTCAUSE-3X", "out": "queue rows", "verify": "不再第 4 次派", "fallback": "补料侧 blocked_stems 兜底"},
+    {"id": "B05", "domain": "监督", "name": "线级真值", "cad": "T60", "input": "LINE-REGISTRY 证据路径", "action": "只认非记账产物算产出年龄", "out": "state/lines.json", "verify": "BOOKKEEPING 不计入", "fallback": "记账目录不进证据"},
+    {"id": "B06", "domain": "监督", "name": "假绿检测", "cad": "T60", "input": "lines.json + 声明", "action": "声明 ACTIVE 却 NO-DISK/BOOKKEEPING→DRIFT", "out": "lines.drift", "verify": "DRIFT 上屏", "fallback": "不自动改声明"},
+    {"id": "B07", "domain": "监督", "name": "阶段卡点", "cad": "T60", "input": "工序表 + 产物", "action": "找每条线卡在第几段", "out": "master LINES 摘要", "verify": "卡点可指认", "fallback": "不明则标 UNKNOWN"},
+    {"id": "B08", "domain": "监督", "name": "资源余量", "cad": "T15", "input": "机器指标", "action": "算可再吃件数与空槽真伪", "out": "state/squeeze.json", "verify": "空槽与库存对齐", "fallback": "内存<底线只派轻活"},
+
+    {"id": "C01", "domain": "派单", "name": "下一步声明缺失", "cad": "T60", "input": "LINE-NEXT-STEPS", "action": "P0 线无声明→记 SUPPLY 缺口", "out": "master-decision", "verify": "四线都有来源", "fallback": "退回 BUSINESS-MAP next_product"},
+    {"id": "C02", "domain": "派单", "name": "卡契约校验", "cad": "T15", "input": "卡字段", "action": "缺 cmd/deliverable/accept 不入队", "out": "拒收清单", "verify": "SPEC-REQUIRED 生效", "fallback": "补全后下轮再派"},
+    {"id": "C03", "domain": "派单", "name": "输入可见性", "cad": "T15", "input": "requires/when_all", "action": "目标机看不到输入→不派", "out": "跳过原因", "verify": "不产生 MISSING 回执", "fallback": "转给有输入的机"},
+    {"id": "C04", "domain": "派单", "name": "依赖环检测", "cad": "T60", "input": "工序表", "action": "画等待边找环", "out": "state/wait-map.json", "verify": "环=0", "fallback": "有环则断一条边并记录"},
+    {"id": "C05", "domain": "派单", "name": "常备库存补料", "cad": "T15", "input": "每机活跃卡数", "action": "不足 FLOOR 就补生产卡", "out": "backlog 新增", "verify": "每机>=5 可派", "fallback": "无料则标 SUPPLY-DRY"},
+    {"id": "C06", "domain": "派单", "name": "跨机回落", "cad": "T15", "input": "机器能力与空闲", "action": "本机满/离线→同能力机接手", "out": "指派变更", "verify": "卡不困在死机", "fallback": "无人可接则挂起"},
+    {"id": "C07", "domain": "派单", "name": "并发槽位分配", "cad": "T3", "input": "slots_per_node", "action": "每机最多 N 张并行（GPU 串行）", "out": "lanes/*.json", "verify": "槽位不超配", "fallback": "主控固定 1"},
+    {"id": "C08", "domain": "派单", "name": "时段限制", "cad": "T3", "input": "当前窗口", "action": "白天重活不派 bm-a；夜窗才放重活", "out": "DEFER 记录", "verify": "白天无重活", "fallback": "CEO 特批可 override"},
+    {"id": "C09", "domain": "派单", "name": "重复卡抑制", "cad": "T15", "input": "队列历史", "action": "同 stem 已失败 3 次不造新卡", "out": "BLOCKED 行", "verify": "无第 4 次", "fallback": "需根因后才解禁"},
+    {"id": "C10", "domain": "派单", "name": "派单理由留痕", "cad": "T3", "input": "决策过程", "action": "每张卡的 why/route 落盘", "out": "master-decision.json", "verify": "随机抽一条可追", "fallback": "无理由不派"},
+
+    {"id": "D01", "domain": "验收", "name": "DONE 交付物存在", "cad": "T15", "input": "DONE 卡", "action": "路径真在盘上才算", "out": "done-audit", "verify": "MISSING=0 或标跨机", "fallback": "降 UNVERIFIED"},
+    {"id": "D02", "domain": "验收", "name": "空文件/过小", "cad": "T15", "input": "文件大小", "action": "<64B 标可疑", "out": "verify-done", "verify": "可疑清单可核", "fallback": "退回重做"},
+    {"id": "D03", "domain": "验收", "name": "结构校验", "cad": "T15", "input": "扩展名", "action": "JSON 必须可解析；视频必须有时长", "out": "verify-done", "verify": "解析失败=FAIL", "fallback": "ffprobe 不可用则标待核"},
+    {"id": "D04", "domain": "验收", "name": "拒答文本识别", "cad": "T15", "input": "文本产物", "action": "命中 blocked/无法完成/not found→FAIL", "out": "verify-done", "verify": "不把拒答当产物", "fallback": "人工复核"},
+    {"id": "D05", "domain": "验收", "name": "闸回执匹配", "cad": "T60", "input": "卡声明的闸", "action": "有闸声明就必须有对应回执", "out": "gate 结果", "verify": "无闸回执不算 DONE", "fallback": "缺闸则标 UNGATED"},
+    {"id": "D06", "domain": "验收", "name": "首过率统计", "cad": "D1", "input": "队列历史", "action": "按线算首过率/返工数", "out": "state/metrics.json", "verify": "数字来自队列非估算", "fallback": "样本不足标 N/A"},
+    {"id": "D07", "domain": "验收", "name": "抽检 20%", "cad": "D1", "input": "当日 DONE", "action": "抽 20% 人工/模型复核", "out": "抽检记录", "verify": "抽检有结论", "fallback": "抽检不过→整批返工"},
+    {"id": "D08", "domain": "验收", "name": "不合格退回", "cad": "T15", "input": "验收结论", "action": "退回 OPEN 并写明原因", "out": "queue rows", "verify": "退回可追", "fallback": "3 次停线"},
+
+    {"id": "E01", "domain": "资产", "name": "产物回传覆盖", "cad": "T60", "input": "机端 PUSHED", "action": "核对每机产物是否到主控", "out": "artifact_status", "verify": "回传率可算", "fallback": "缺件点名"},
+    {"id": "E02", "domain": "资产", "name": "台账可达性", "cad": "T60", "input": "资产台账", "action": "逐条查可达", "out": "asset-reachability", "verify": "可达=总数", "fallback": "盘不在判 UNREACHABLE"},
+    {"id": "E03", "domain": "资产", "name": "冗余检测", "cad": "D1", "input": "资产哈希", "action": "找重复/近似重复", "out": "dupes 清单", "verify": "重复可合并", "fallback": "只报告不删"},
+    {"id": "E04", "domain": "资产", "name": "外盘备份", "cad": "T60", "input": "git + 产物", "action": "移动盘在位则同步", "out": "backup.json", "verify": "status=OK", "fallback": "盘不在记 UNMOUNTED"},
+    {"id": "E05", "domain": "成本", "name": "云端日预算", "cad": "T15", "input": "SPEND.jsonl", "action": "算今日花费与余额", "out": "cloud check", "verify": "<=100", "fallback": "到限硬停"},
+    {"id": "E06", "domain": "成本", "name": "积分/账单核对", "cad": "D1", "input": "台账", "action": "对账云端调用与实际产物", "out": "对账记录", "verify": "无花钱无产物", "fallback": "异常点名"},
+    {"id": "E07", "domain": "成本", "name": "本地模型驻留", "cad": "T60", "input": "内存余量", "action": "有余量才驻留，否则释放", "out": "warm-models", "verify": "不触发 swap", "fallback": "swap>阈值强释放"},
+    {"id": "E08", "domain": "成本", "name": "磁盘水位", "cad": "T60", "input": "磁盘使用", "action": ">85% 告警并清临时件", "out": "disk 报告", "verify": "<85%", "fallback": "不删用户文件"},
+
+    {"id": "F01", "domain": "账本", "name": "分层决策路由", "cad": "T60", "input": "待决池", "action": "L0-L3/CEO 定级+时限+兜底", "out": "DECISIONS.md", "verify": "缺配置硬失败", "fallback": "到期走该层兜底"},
+    {"id": "F02", "domain": "账本", "name": "待裁去重", "cad": "T60", "input": "ceo-queue", "action": "已按令停线的线不再重复问", "out": "ALREADY-DECIDED", "verify": "CEO 面<=3", "fallback": "恢复需新令"},
+    {"id": "F03", "domain": "账本", "name": "兜底执行", "cad": "T60", "input": "到期项", "action": "按层兜底动作执行并记 fallback_used", "out": "decisions.json", "verify": "不无限等", "fallback": "冲突取更严者"},
+    {"id": "F04", "domain": "账本", "name": "令台账落行", "cad": "T3", "input": "新令", "action": "orders.md 追加一行（原话+落点+状态）", "out": "docs/orders.md", "verify": "无令不入账", "fallback": "格式错则补行"},
+    {"id": "F05", "domain": "账本", "name": "回执归因", "cad": "T60", "input": "receipts", "action": "谁做的、什么时候、rc 多少", "out": "attrib 记录", "verify": "每张 DONE 有归属", "fallback": "无归属标 UNKNOWN"},
+    {"id": "F06", "domain": "账本", "name": "事件日志", "cad": "T3", "input": "状态变更", "action": "写事件流供回放", "out": "events.jsonl", "verify": "可回放", "fallback": "丢失可重建"},
+
+    {"id": "G01", "domain": "汇报", "name": "一屏四线四行", "cad": "T15", "input": "真值+队列", "action": "生成 CEO 面四行+理由", "out": "MASTER-SCREEN.md", "verify": "每分钟能答最重要的一件事", "fallback": "缺数据写 UNKNOWN"},
+    {"id": "G02", "domain": "汇报", "name": "日报", "cad": "D1", "input": "当日事实", "action": "产出/失败/花费/卡点", "out": "DAILY-REPORT", "verify": "数字可核", "fallback": "当日无产出要明说"},
+    {"id": "G03", "domain": "汇报", "name": "夜报", "cad": "D1", "input": "夜窗结果", "action": "夜窗推进了什么、卡在哪", "out": "夜报", "verify": "不夸大战果", "fallback": "空夜要如实报空"},
+    {"id": "G04", "domain": "汇报", "name": "异常清单", "cad": "T60", "input": "各闸", "action": "只列需要动手的", "out": "告警一屏", "verify": "无噪音", "fallback": "重复告警合并"},
+    {"id": "G05", "domain": "汇报", "name": "可视面刷新", "cad": "T3", "input": "上述产物", "action": "8787 页面 15 秒自刷", "out": "http", "verify": "HTTP 200", "fallback": "服务挂了 watchdog 起"},
+
+    {"id": "H01", "domain": "自愈", "name": "脉存活看门狗", "cad": "T3", "input": "PULSE.json 年龄", "action": ">5min 判停摆并拉起", "out": "watchdog 日志", "verify": "脉不长时间停", "fallback": "连拉 3 次失败报 CEO"},
+    {"id": "H02", "domain": "自愈", "name": "卡死进程清理", "cad": "T60", "input": "进程表", "action": "超时子进程杀掉并记账", "out": "清理记录", "verify": "不留僵尸", "fallback": "不杀非本系统进程"},
+    {"id": "H03", "domain": "自愈", "name": "git 分叉处理", "cad": "T15", "input": "HEAD/origin", "action": "分叉则合并（生成物取远端、代码取本地），abort 前建 rescue ref", "out": "rescue/*", "verify": "不丢提交", "fallback": "冲突不可解则停并报 CEO"},
+    {"id": "H04", "domain": "自愈", "name": "配置缺失检测", "cad": "T3", "input": "配置文件", "action": "缺/空即硬失败，禁止静默默认", "out": "FATAL", "verify": "不出现假绿", "fallback": "从最近提交恢复"},
+    {"id": "H05", "domain": "自愈", "name": "工具编译自检", "cad": "D1", "input": "Tools/fleet/*.py", "action": "py_compile 全量", "out": "编译报告", "verify": "0 错", "fallback": "坏的立即回滚"},
+    {"id": "H06", "domain": "演进", "name": "规则瘦身", "cad": "D1", "input": "阶段/工具引用数", "action": "产出被引用 0-1 次的阶段停用", "out": "disabled_stages", "verify": "只减不增", "fallback": "配置可回滚"},
+    {"id": "H07", "domain": "演进", "name": "判例回灌", "cad": "D1", "input": "当日事故", "action": "写成可执行判据进配置/契约", "out": "契约更新", "verify": "下次同类可拦", "fallback": "只记录不改码"},
+    {"id": "H08", "domain": "自愈", "name": "灾备演练", "cad": "D1", "input": "备份仓", "action": "校验备份可恢复（抽查一个文件）", "out": "灾备记录", "verify": "抽检可恢复", "fallback": "失败报 CEO"}
+  ]
+}

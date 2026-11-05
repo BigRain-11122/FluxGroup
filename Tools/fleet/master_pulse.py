@@ -1000,7 +1000,12 @@ def main() -> int:
     # 同步停摆必须可见（2026-11-02）：commit_state 遇手写脏件就整体跳过 git，
     # 而 PULSE 过去仍报 ok=true —— 与昨夜主控哑巴 8h 同一类「假绿」。
     skip_since = prev.get("git_skip_since")
-    if str(git_note).startswith("skipped"):
+    if "git-off" in str(git_note) or str(git_note).strip() == "skipped:git-off":
+        # 策略性关闭（git.mode=off，见部署设计 §八）：不是故障，不许长期挂红灯。
+        skip_since = None
+        chk.append({"name": "git-sync", "ok": True,
+                    "detail": "disabled by policy (AUTONOMY-CONFIG.git.mode=off)"})
+    elif str(git_note).startswith("skipped"):
         skip_since = skip_since or time.time()
         stuck_min = int((time.time() - float(skip_since)) / 60)
         chk.append({"name": "git-sync", "ok": stuck_min < GIT_SKIP_ALERT_MIN,

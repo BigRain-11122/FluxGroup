@@ -1,32 +1,14 @@
 {
- "ts": "2026-11-05T12:39:05+0800",
+ "ts": "2026-11-05T13:15:19+0800",
  "alert_days": 2.0,
  "lines": [
-  {
-   "line": "bigstream-duanju",
-   "status": "PARKED",
-   "prio": "P0",
-   "stock": 4,
-   "rate_per_day": 1.33,
-   "runway_days": 3.0,
-   "has_table": true,
-   "blocker": {
-    "stage": "inventory",
-    "deliverable": "cph4/fleet/queue-receipts/duanju-inventory-20261105.json",
-    "needs": "cpu",
-    "hard_nodes": []
-   },
-   "flags": [
-    "INACTIVE"
-   ]
-  },
   {
    "line": "asset-lib",
    "status": "ACTIVE",
    "prio": "P0",
-   "stock": 1,
-   "rate_per_day": 4.33,
-   "runway_days": 0.2,
+   "stock": 3,
+   "rate_per_day": 4.67,
+   "runway_days": 0.6,
    "has_table": true,
    "blocker": {
     "stage": "env-check",
@@ -42,13 +24,49 @@
    "line": "bigstream-mv",
    "status": "ACTIVE",
    "prio": "P0",
-   "stock": 0,
-   "rate_per_day": 4.33,
-   "runway_days": 0.0,
+   "stock": 1,
+   "rate_per_day": 4.67,
+   "runway_days": 0.2,
    "has_table": true,
    "blocker": {
     "stage": "gate",
     "deliverable": "cph4/fleet/queue-receipts/mv-gate-v721-20261105.json",
+    "needs": "cpu",
+    "hard_nodes": []
+   },
+   "flags": [
+    "ALERT"
+   ]
+  },
+  {
+   "line": "bigstream-duanju",
+   "status": "PARKED",
+   "prio": "P0",
+   "stock": 1,
+   "rate_per_day": 1.33,
+   "runway_days": 0.8,
+   "has_table": true,
+   "blocker": {
+    "stage": "inventory",
+    "deliverable": "cph4/fleet/queue-receipts/duanju-inventory-20261105.json",
+    "needs": "cpu",
+    "hard_nodes": []
+   },
+   "flags": [
+    "INACTIVE"
+   ]
+  },
+  {
+   "line": "biggame",
+   "status": "ACTIVE",
+   "prio": "P0",
+   "stock": 1,
+   "rate_per_day": 1.67,
+   "runway_days": 0.6,
+   "has_table": true,
+   "blocker": {
+    "stage": "pack-scan",
+    "deliverable": "cph4/fleet/queue-receipts/game-packs-20261105.json",
     "needs": "cpu",
     "hard_nodes": []
    },
@@ -89,30 +107,12 @@
    ]
   },
   {
-   "line": "biggame",
-   "status": "ACTIVE",
-   "prio": "P0",
-   "stock": 0,
-   "rate_per_day": 1.67,
-   "runway_days": 0.0,
-   "has_table": true,
-   "blocker": {
-    "stage": "pack-scan",
-    "deliverable": "cph4/fleet/queue-receipts/game-packs-20261105.json",
-    "needs": "cpu",
-    "hard_nodes": []
-   },
-   "flags": [
-    "ALERT"
-   ]
-  },
-  {
    "line": "bigmoney",
    "status": "PAUSED",
    "prio": "P1",
-   "stock": 1,
-   "rate_per_day": 2.33,
-   "runway_days": 0.4,
+   "stock": 0,
+   "rate_per_day": 2.67,
+   "runway_days": 0.0,
    "has_table": true,
    "blocker": {
     "stage": "backtest",
@@ -143,20 +143,21 @@
    ]
   },
   {
-   "line": "biglife",
+   "line": "fluxverse",
    "status": "ACTIVE",
    "prio": "P2",
-   "stock": 1,
-   "rate_per_day": 0.33,
-   "runway_days": 3.0,
+   "stock": 0,
+   "rate_per_day": 0.67,
+   "runway_days": 0.0,
    "has_table": false,
    "blocker": null,
    "flags": [
-    "NO-TABLE"
+    "NO-TABLE",
+    "ALERT"
    ]
   },
   {
-   "line": "fluxverse",
+   "line": "biglife",
    "status": "ACTIVE",
    "prio": "P2",
    "stock": 0,
@@ -187,9 +188,9 @@
    "line": "fleet-ops",
    "status": "ACTIVE",
    "prio": "P3",
-   "stock": 9,
-   "rate_per_day": 6.67,
-   "runway_days": 1.3,
+   "stock": 4,
+   "rate_per_day": 7.0,
+   "runway_days": 0.6,
    "has_table": false,
    "blocker": null,
    "flags": [
@@ -240,6 +241,6 @@
    ]
   }
  ],
- "alerts": 8,
+ "alerts": 9,
  "no_table": 6
 }

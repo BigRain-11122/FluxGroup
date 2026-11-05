@@ -1246,6 +1246,16 @@ def push_lane_files(root):
         "cph4/fleet/dispatcher/NEED-SUPPLY.md",
         "cph4/fleet/dispatcher/STAGE-CACHE.json",
     ]
+    # 2026-11-05 止血（部署设计 v1 §八）：git.mode=off 时不做任何 push/rebase。
+    # 实测这段每次派单要卡 120s（git push 超时 + fetch + rebase 重试），且 rebase
+    # 是"人工提交被摘掉"的另一个源头。关掉后派单回到秒级，同步交给 S4 账房。
+    try:
+        with open(os.path.join(root, "cph4", "fleet", "AUTONOMY-CONFIG.json"),
+                  encoding="utf-8") as _gf:
+            if str(((json.load(_gf).get("git") or {}).get("mode") or "full")) == "off":
+                return True
+    except Exception:
+        pass
     stamp = os.path.join(root, ".codely-cli", "tmp", "lanepush.stamp")
     try:
         if os.path.exists(stamp) and (time.time() - os.path.getmtime(stamp)) < 600:

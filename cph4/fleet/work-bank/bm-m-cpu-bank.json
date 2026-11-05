@@ -41,6 +41,19 @@
    "status": "pending",
    "est_gb": 0,
    "why": "bank_autofill: 空闲机兜底体检活，产物落 queue-receipts"
+  },
+  {
+   "id": "CHK-RECEIPT-20261105",
+   "title": "回执卫生体检（rc 缺失/error_class 缺失出表）（bm-m 兜底体检）",
+   "cmd": "python3 Tools/fleet/receipt_attrib.py --out cph4/fleet/queue-receipts/receipt-attrib-20261105.json",
+   "deliverable": "cph4/fleet/receipt-attrib-20261105.json",
+   "accept": "verdict 字段在盘；GAPS 时列出缺 rc 与缺 error_class 的张数",
+   "needs": "cpu",
+   "prio": "P2",
+   "day_ok": true,
+   "status": "pending",
+   "est_gb": 0,
+   "why": "bank_autofill: 空闲机兜底体检活，产物落 queue-receipts"
   }
  ]
 }

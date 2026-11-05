@@ -144,6 +144,14 @@ def infer_node_os(card):
     return ""
 
 
+def _norm_os(x):
+    """OS 名称归一（2026-11-05 实测 bug）：推断侧返回 "macos"，车道表里写的是
+    platform.system() 的 "darwin"——两者不相等，于是所有 cmd 含 python3 的卡在这台
+    Mac 上永远被判"不属于本机 OS"，一条都跑不了。"""
+    x = str(x or "").lower()
+    return {"darwin": "macos", "osx": "macos", "win32": "windows", "win": "windows"}.get(x, x)
+
+
 def card_os_ok(card, node):
     """A card that must run on one OS may only run there.
 
@@ -153,8 +161,8 @@ def card_os_ok(card, node):
     delivery. Cards that depend on the machine's own OS declare node_os and wait; cards
     that forget are inferred from their command.
     """
-    want = infer_node_os(card)
-    return (not want) or node_os(node) == want
+    want = _norm_os(infer_node_os(card))
+    return (not want) or _norm_os(node_os(node)) == want
 
 
 def implicit_inputs(card):

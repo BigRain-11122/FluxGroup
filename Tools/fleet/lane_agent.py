@@ -829,7 +829,27 @@ def run_lane_cycle(node, root=None, dry=False, allow_gpu_workhours=False,
         print("LANE-IDLE %s :: %s" % (node, reason))
         return True
 
-    job = jobs[0]
+    # 选卡（2026-11-05 全链路实测修）：原来只认 jobs[0]，而主控车道第一张常年是
+    # 重卡或已关的卡——车道被一张跑不动的卡永久占住，队列有活却一动不动，后面
+    # 的卡永远轮不到。改成跳过"本机跑不了/已关"的，取第一张能跑的。
+    def _runnable(x):
+        if already_closed(root, x.get("id")):
+            return False
+        if node == "bm-m" and (x.get("needs") == "gpu" or x.get("heavy")
+                               or int(x.get("minutes") or 0) > 3):
+            return False
+        if x.get("heavy") and not fl.heavy_allowed(node) and not allow_gpu_workhours:
+            return False
+        return True
+
+    _cand = [x for x in jobs if _runnable(x)]
+    if not _cand:
+        _id = (jobs[0] or {}).get("id")
+        publish(node, "DEFERRED", {"job": _id, "reason": "NO-RUNNABLE-ASSIGNMENT"}, hub, port)
+        write_last(root, node, "DEFERRED", job=_id, note="NO-RUNNABLE-ASSIGNMENT")
+        print("LANE-DEFER %s :: nothing in this assignment is runnable here" % _id)
+        return True
+    job = _cand[0]
     _need_work_flag(root, node, False)   # 主控派到了单：撤「要活」标
     if already_closed(root, job.get("id")):
         # Finished on the shared surface: never replay it. Idle is the honest answer.
