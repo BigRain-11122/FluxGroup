@@ -204,16 +204,52 @@ def probes():
     disk = scale_gb()
     sw = swap_mb()
     prev = jload(SUMMARY, {}) or {}
-    hist_sw = list(prev.get("swap_history") or [])
-    hist_sw = (hist_sw + [sw])[-5:]
-    # 2026-11-05 实测修正：单次 swap 涨 256MB 会误报（macOS 会正常回收/抖动）。
-    # 判"硬扛 swap"要三连涨且已过 1GB 才红，否则只看作观察项。
-    grew = (len(hist_sw) >= 3
-            and all(hist_sw[i] < hist_sw[i + 1] for i in range(len(hist_sw) - 3, len(hist_sw) - 1))
-            and sw > 1024)
-    res["P6_machine"] = {"ok": disk >= 15 and not grew,
-                         "detail": "disk=%.1fGB swap=%.0fMB 3连涨=%s"
-                                   % (disk, sw, grew)}
+    # 2026-11-05 实测：swap 绝对值毫无意义——macOS 不会把已分配的 swap 还回去
+    # （本机 swap 3.3GB 但可用 73%、pageouts 仅 1854，属历史占用不是压力）。
+    # 判内存压力只认两件可核的事实：可用率过低，或两次采样间缺页在真的增长。
+    free_pct, pageouts = -1.0, -1
+    try:
+        mp = subprocess.run(["memory_pressure"], capture_output=True, text=True, timeout=10).stdout
+        for line in mp.splitlines():
+            if "free percentage" in line:
+                free_pct = float(line.strip().split()[-1].rstrip("%"))
+    except Exception:
+        pass
+    try:
+        vs = subprocess.run(["vm_stat"], capture_output=True, text=True, timeout=10).stdout
+        for line in vs.splitlines():
+            if line.startswith("Pageouts:"):
+                pageouts = int(line.split(":")[1].strip().rstrip("."))
+    except Exception:
+        pass
+    prev_po = prev.get("last_pageouts")
+    po_delta = (pageouts - prev_po) if (pageouts >= 0 and isinstance(prev_po, int)) else 0
+    pressure = (free_pct >= 0 and free_pct < 15) or po_delta > 5000
+    res["P6_machine"] = {"ok": disk >= 15 and not pressure,
+                         "detail": "disk=%.1fGB free=%.0f%% pageouts+%d swap=%.0fMB"
+                                   % (disk, free_pct, po_delta, sw)}
+
+    # P9 物理前提（2026-11-05）：24h 运转靠插电 + 插电时不休眠 + caffeinate 活着。
+    # 只验软件不验这个，等于半夜一睡全停还报绿。
+    try:
+        ac = "AC Power" in (subprocess.run(["pmset", "-g", "batt"], capture_output=True,
+                                           text=True, timeout=8).stdout or "")
+        custom = subprocess.run(["pmset", "-g", "custom"], capture_output=True, text=True,
+                                timeout=8).stdout or ""
+        seg = custom.split("AC Power:", 1)[1] if "AC Power:" in custom else ""
+        ac_sleep = None
+        for line in seg.splitlines():
+            if line.strip().startswith("sleep "):
+                try:
+                    ac_sleep = int(line.split()[1])
+                except Exception:
+                    pass
+                break
+        caf = proc_alive("caffeinate")
+        res["P9_power"] = {"ok": ac and ac_sleep == 0 and caf,
+                           "detail": "ac=%s ac_sleep=%s caffeinate=%s" % (ac, ac_sleep, caf)}
+    except Exception as e:
+        res["P9_power"] = {"ok": False, "detail": str(e)[:60]}
 
     # P7 配置指纹
     fp = fingerprint()
@@ -231,7 +267,7 @@ def probes():
     for k, v in res.items():
         v["probe"] = k.split("_")[0]
     return res, {"swap_mb": sw, "disk_gb": disk, "free_gb": free,
-                 "_swap_history": hist_sw}
+                 "free_pct": free_pct, "last_pageouts": pageouts}
 
 
 def _launchd_job(label):
@@ -347,7 +383,7 @@ def run(negative=False):
         "green_pct": round(100.0 * green / n, 1),
         "red_by_probe": per, "verdict": verdict, "red": bad,
         "red_streak": streak, "last": row,
-        "swap_history": row.get("_swap_history") or [],
+        "last_pageouts": row.get("last_pageouts"),
         "slo": {"green_pct_min": 99.0, "max_consecutive_red": 2,
                 "enough_samples": enough, "samples_needed": capped},
         "claimable_24h": False if not enough else (round(100.0 * green / n, 1) >= 99.0
