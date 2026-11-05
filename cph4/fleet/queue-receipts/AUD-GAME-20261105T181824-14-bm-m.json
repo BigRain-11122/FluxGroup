@@ -1,0 +1,17 @@
+{
+ "id": "AUD-GAME-20261105T181824-14",
+ "node": "bm-m",
+ "rc": 0,
+ "seconds": 0.3,
+ "cmd": "python3 Tools/fleet/supply_batch.py --audit game LineRescue",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "cph4/fleet/audits/game/LineRescue.json",
+ "deliverable_exists": true,
+ "ts": "2026-11-05T18:26:09",
+ "stdout_tail": "AUDIT game LineRescue gaps=4\n",
+ "stderr_tail": ""
+}

@@ -1,21 +1,7 @@
 {
  "node": "bm-c",
- "ts": "2026-11-05T18:25:11",
+ "ts": "2026-11-05T18:26:08",
  "jobs": [
-  {
-   "id": "AUD-SOFT-20261105T181824-08",
-   "title": "软著材料清点：G14_大不了开饭馆",
-   "cmd": "python3 Tools/fleet/supply_batch.py --audit soft G14_大不了开饭馆",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/soft/G14_大不了开饭馆.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
   {
    "id": "AUD-SOFT-20261105T181824-09",
    "title": "软著材料清点：G15_PetWorkCrew",
@@ -85,9 +71,23 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
+  },
+  {
+   "id": "AUD-GAME-20261105T181824-22",
+   "title": "提审缺口落单：PalacePlunder",
+   "cmd": "python3 Tools/fleet/supply_batch.py --audit game PalacePlunder",
+   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/audits/game/PalacePlunder.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 2.6/1.0 GB"
+ "capacity_note": "ram 2.5/1.0 GB"
 }
