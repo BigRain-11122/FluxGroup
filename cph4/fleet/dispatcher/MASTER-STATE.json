@@ -1,29 +1,29 @@
 {
- "ts": "2026-11-05T08:31:23",
- "cycle": 61,
+ "ts": "2026-11-05T08:33:36",
+ "cycle": 62,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-05T08:31:23",
+ "master_tick_ts": "2026-11-05T08:33:36",
  "queue": {
   "total": 410,
-  "open": 23,
+  "open": 22,
   "running": 4,
   "done": 188,
-  "failed": 22
+  "failed": 23
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 9.0,
-   "cpu_load_pct": 45,
-   "ram_free_gb": 33.3,
-   "gpu_util_pct": 2,
+   "hb_age_s": 21.9,
+   "cpu_load_pct": 36,
+   "ram_free_gb": 32.2,
+   "gpu_util_pct": 1,
    "job": "Q-VCORP-PREP-e01-R3-20261105",
    "last_result": {
     "job": "bigstream-mv-gate-2026-11-05",
-    "state": "RUNNING",
+    "state": "BUSY",
     "rc": null,
-    "ts": "2026-11-05T08:30:05",
+    "ts": "2026-11-05T08:32:20",
     "reason": null
    },
    "idle_confirmed": false,
@@ -32,9 +32,9 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 30.5,
-   "cpu_load_pct": 2,
-   "ram_free_gb": 10.9,
+   "hb_age_s": 44.5,
+   "cpu_load_pct": 5,
+   "ram_free_gb": 10.8,
    "gpu_util_pct": null,
    "job": "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105",
    "last_result": {
@@ -50,16 +50,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 8.1,
-   "cpu_load_pct": 9,
+   "hb_age_s": 52.3,
+   "cpu_load_pct": 7,
    "ram_free_gb": 2.9,
    "gpu_util_pct": 0,
    "job": "asset-lib-char-gen-2026-11-05",
    "last_result": {
-    "job": "asset-lib-face-dataset-2026-11-05",
-    "state": "RUNNING",
-    "rc": null,
-    "ts": "2026-11-05T08:30:19",
+    "job": "asset-lib-asset-gen-2026-11-05",
+    "state": "FAILED",
+    "rc": 1,
+    "ts": "2026-11-05T08:32:05",
     "reason": null
    },
    "idle_confirmed": false,
@@ -68,16 +68,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 1.0,
-   "cpu_load_pct": 20,
+   "hb_age_s": 0.8,
+   "cpu_load_pct": 21,
    "ram_free_gb": 14.5,
    "gpu_util_pct": null,
-   "job": "asset-lib-face-dataset-2026-11-05",
+   "job": "bigstream-mv-gate-2026-11-05",
    "last_result": {
-    "job": "CHK-DUPES-20261103",
-    "state": "BUSY",
+    "job": "asset-lib-face-dataset-2026-11-05",
+    "state": "FAILED",
     "rc": null,
-    "ts": "2026-11-05T08:28:43",
+    "ts": "2026-11-05T08:31:23",
     "reason": null
    },
    "idle_confirmed": false,
@@ -103,9 +103,7 @@
     "bigstream-mv-gate-2026-11-05"
    ],
    "no_supply": false,
-   "blockers": [
-    "bigstream-mv-gate-2026-11-05:no-lane"
-   ],
+   "blockers": [],
    "note": null,
    "stuck_stage": "mv-kf",
    "stuck_owner": "导演席·美术"
@@ -312,7 +310,6 @@
    "stale_after_h": 72.0,
    "owner": "资产席",
    "jobs": [
-    "asset-lib-face-dataset-2026-11-05",
     "Q-VCORP-PREP-e01-R3-20261105",
     "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105",
     "asset-lib-char-gen-2026-11-05"
@@ -855,7 +852,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 23,
+  "local": 22,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -863,7 +860,7 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 23,
+  "cpu": 22,
   "gpu": 0
  },
  "supply_added": [
@@ -871,9 +868,8 @@
  ],
  "events": [
   "asset-lib-asset-gen-2026-11-05 FAILED via bm-b",
-  "CHK-DUPES-20261103 REQUeued attempt=1",
-  "asset-lib-char-gen-2026-11-05 -> bm-c (gpu)",
-  "asset-lib-face-dataset-2026-11-05 -> bm-m (cpu)"
+  "asset-lib-face-dataset-2026-11-05 FAILED via bm-m",
+  "bigstream-mv-gate-2026-11-05 -> bm-m (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
@@ -881,7 +877,6 @@
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-c",
   "bm-m"
  ]
 }
