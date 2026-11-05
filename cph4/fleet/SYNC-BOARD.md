@@ -1,4 +1,4 @@
-# 机队互报（2026-11-05T14:42:37+0800）
+# 机队互报（2026-11-05T14:49:01+0800）
 
 上报 1 / 名册 5 台；本机看不到的他人产物 0 件（传输通道度量，不是错误）
 
@@ -12,7 +12,7 @@
 
 ## bm-m（20261105，窗口 26h）
 - 产出 64 件
-  - `cph4/fleet/queue-receipts/skill-promote-20261105.json`（2KB, 6440719447…）
+  - `cph4/fleet/queue-receipts/skill-promote-20261105.json`（2KB, 26881e45e5…）
   - `cph4/fleet/queue-receipts/triage-bigstream-mv-20261105.md`（1KB, 1c50938e35…）
   - `cph4/fleet/queue-receipts/R-NEXT-BIGSTREAMM-AUDIT-20261105-bm-a.json`（2KB, 51531b1591…）
   - `cph4/fleet/queue-receipts/inference-audit-bm-m-20261105.json`（1KB, 2173edc7bc…）
@@ -22,8 +22,7 @@
   - R-NEXT-BIGGAME-SUBMIT-P-20261105：E-CONTRACT products=36 ready=0 not_ready=36
   缺 图标≥256px                     35 款
   缺 截图目录(
+  - _last_lane_bm-m.json：rc=1 
   - R-NEXT-BIGSTREAMM-AUDIT-20261105：E-UNKNOWN 
   - Q-VCORP-PREP-e01-R3-20261105：rc=127 
-  - asset-lib-voice-corpus-bmm-2026-11-03：E-BLOCKED-INPUT [corpus] 本分片无输入（inbox 共 0 个文件）——等投料，rc=3
-
 
