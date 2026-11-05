@@ -1,14 +1,14 @@
 {
- "ts": "2026-11-05T11:36:53+0800",
+ "ts": "2026-11-05T11:42:15+0800",
  "alert_days": 2.0,
  "lines": [
   {
    "line": "asset-lib",
    "status": "ACTIVE",
    "prio": "P0",
-   "stock": 7,
+   "stock": 8,
    "rate_per_day": 4.67,
-   "runway_days": 1.5,
+   "runway_days": 1.7,
    "has_table": true,
    "blocker": {
     "stage": "env-check",
@@ -60,9 +60,9 @@
    "line": "bigstream-mv",
    "status": "ACTIVE",
    "prio": "P0",
-   "stock": 1,
+   "stock": 0,
    "rate_per_day": 4.67,
-   "runway_days": 0.2,
+   "runway_days": 0.0,
    "has_table": true,
    "blocker": {
     "stage": "gate",
@@ -187,9 +187,9 @@
    "line": "fleet-ops",
    "status": "ACTIVE",
    "prio": "P3",
-   "stock": 6,
+   "stock": 5,
    "rate_per_day": 7.0,
-   "runway_days": 0.9,
+   "runway_days": 0.7,
    "has_table": false,
    "blocker": null,
    "flags": [
