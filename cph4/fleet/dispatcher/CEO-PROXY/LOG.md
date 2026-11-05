@@ -1144,3 +1144,8 @@ am_free 10GB / cpu_load 48%——bm-b 在跑量化轮而非闲着；缺的是本
 ①`R-MODEL-RADAR-BMA-20261106` 已跑完：回执 `cph4/fleet/queue-receipts/model-radar-bm-a-20261106.json`（verdict OK），`status` 实测 bench_ts=2026-11-06T05:38:23、stale_days=0.0（此前已积 1.9→2.0 天），attention 由 4 项收窄到 2 项（qwen3.5:2b/9b），判定 qwen3.5:4b=NEED-BENCH（现役档缺实测，先跑 bench，不换档）。CEO 11-03「每天扫描测试」今日已兑现。
 ②缺陷（记一笔，供机制面修，本班不做）：**认领进程中途被杀时，活已经干完但队列行会停在 RUNNING**——本卡 05:26:11 起跑、05:38:23 出回执，可 queue_claim 进程已不在（实测无 queue_claim 存活），该行直到下一次 tick 才被置 DONE，且 rc/receipt 字段留空。若无人或没下一次 tick，就会在租约到期后**把整套 bench 重跑一遍**。同族于 R12-8（lane_agent 自派循环吞卡）。建议修法：queue_claim 在父进程消失时先写 orphaned 标记，或由 supervisor 按「deliverable 新鲜即收口」补偿。
 ③本轮供给线收口：隔离 2 张永久不可执行卡（`asset-lib-face-dataset` 输入 media/asset/faces 不存在 rc=127；`Q-VCORP-PREP-e01-R3` 输入 media/asset/inbox/e01 不存在 rc=2/E-INPUT），队列只剩真能做的项；READY 声明项 18→10，8 条已执行体检挂今日 `triage-<line>-20261106.md` 指针（已入 origin）。
+[2026-11-06 05:5x] 事件班·R13 步8 丢行守望（`python Tools/git-no-reversal-check.py origin/main origin/main --depth 30 --audit`）calls~150 | verdict=**PASS·153 处 REVERSAL 全部判为正当改写，零卡丢失**：
+①12 组命中（9 个提交 × PRODUCTION-QUEUE.jsonl + 38158d05 × PROBLEM-REGISTRY.md + 本班 f4d8be87 × POOL.json/whisper_album.py）。
+②方法比结论重要：审计按「整行文本」比对，**行状态一改（OPEN→DONE/CANCELLED）就整行算消失**，所以 153 这个数字天然虚高。改用 id 级核对：把这 9 个提交里被删的整行逐条解析、取 id、与 origin 现行队列取差集 → **被删且仍不在 origin 的卡 = 0**；再抽验四个最可疑的（`CLOCK-RESYNC-bm-b/bm-c-20261106`、`Q-VCORP-TRAIN-PILOT-libritts-e01-R3`、`Q-VCORP-PREP-e01-R3`）全部在册；`PROBLEM-REGISTRY.md` 表头（BOM+标题）完好 22929B。
+③故 R12-1 说的「队列损坏」=**可解析性/重复行**问题，不是丢卡；本班不动 origin 队列整文件（会与在写窗赛跑），只记豁免。
+④本班至此收口：LOG 累计 6 笔（含 R13/R13-2 修正/R13-3/体检/雷达/末笔/本笔），POOL-0025 done，锚点线 41/41，队列闸与完整性闸双绿，锁已 touch。
