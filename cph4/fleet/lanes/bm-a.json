@@ -1,14 +1,14 @@
 {
  "node": "bm-a",
- "ts": "2026-11-05T11:10:01",
+ "ts": "2026-11-05T11:20:02",
  "jobs": [
   {
-   "id": "Q-TRIAGE-FLUXVERSE-20261105",
-   "title": "fluxverse 绾跨骇浣撴��锛堟湰鏈鸿瘉鎹�鐩�褰曞疄鍐碉級",
-   "cmd": "python Tools/fleet/line_triage.py --line fluxverse",
+   "id": "Q-TRIAGE-RECON-20261105",
+   "title": "recon 绾跨骇浣撴��锛堟湰鏈鸿瘉鎹�鐩�褰曞疄鍐碉級",
+   "cmd": "python Tools/fleet/line_triage.py --line recon",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-fluxverse-20261105.md",
+   "deliverable": "cph4/fleet/queue-receipts/triage-recon-20261105.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
