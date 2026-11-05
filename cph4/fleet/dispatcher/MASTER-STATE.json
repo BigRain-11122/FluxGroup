@@ -1,23 +1,23 @@
 {
- "ts": "2026-11-05T18:02:30",
- "cycle": 234,
+ "ts": "2026-11-05T18:03:27",
+ "cycle": 235,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-05T18:02:30",
+ "master_tick_ts": "2026-11-05T18:03:27",
  "queue": {
   "total": 853,
-  "open": 60,
+  "open": 59,
   "running": 4,
-  "done": 356,
+  "done": 357,
   "failed": 35
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 17.5,
-   "cpu_load_pct": 7,
-   "ram_free_gb": 59.8,
-   "gpu_util_pct": 3,
+   "hb_age_s": 13.8,
+   "cpu_load_pct": 37,
+   "ram_free_gb": 59.7,
+   "gpu_util_pct": 4,
    "job": "AUD-SOFT-20261105T175945-04",
    "last_result": {
     "job": "AUD-SOFT-20261105T175742-02",
@@ -34,10 +34,10 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 25.5,
-   "cpu_load_pct": 4,
-   "ram_free_gb": 12.8,
-   "gpu_util_pct": 0,
+   "hb_age_s": 34.6,
+   "cpu_load_pct": 2,
+   "ram_free_gb": 12.3,
+   "gpu_util_pct": null,
    "job": "AUD-SOFT-20261105T175945-06",
    "last_result": {
     "job": "AUD-SOFT-20261105T175945-02",
@@ -54,7 +54,7 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 14.4,
+   "hb_age_s": 70.8,
    "cpu_load_pct": 11,
    "ram_free_gb": 2.7,
    "gpu_util_pct": 0,
@@ -75,15 +75,15 @@
   "bm-m": {
    "online": true,
    "hb_age_s": 1.2,
-   "cpu_load_pct": 31,
-   "ram_free_gb": 9.7,
+   "cpu_load_pct": 27,
+   "ram_free_gb": 10.7,
    "gpu_util_pct": null,
-   "job": "AUD-SOFT-20261105T175945-05",
+   "job": "AUD-SOFT-20261105T175945-08",
    "last_result": {
-    "job": "AUD-SOFT-20261105T175945-01",
+    "job": "AUD-SOFT-20261105T175945-05",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-05T18:01:39",
+    "ts": "2026-11-05T18:02:36",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -167,7 +167,6 @@
    "owner": "游戏席",
    "jobs": [
     "AUD-SOFT-20261105T175945-04",
-    "AUD-SOFT-20261105T175945-05",
     "AUD-SOFT-20261105T175945-06",
     "AUD-SOFT-20261105T175945-07",
     "AUD-SOFT-20261105T175945-08",
@@ -229,7 +228,6 @@
    ],
    "no_supply": false,
    "blockers": [
-    "AUD-SOFT-20261105T175945-08:no-lane",
     "AUD-SOFT-20261105T175945-09:no-lane",
     "AUD-SOFT-20261105T175945-10:no-lane",
     "AUD-SOFT-20261105T175945-11:no-lane",
@@ -956,7 +954,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 60,
+  "local": 59,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -964,17 +962,13 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 60,
+  "cpu": 59,
   "gpu": 0
  },
  "supply_added": [],
  "events": [
-  "AUD-SOFT-20261105T175945-02 FAILED via bm-b",
-  "AUD-SOFT-20261105T175945-03 FAILED via bm-c",
-  "AUD-SOFT-20261105T175945-01 DONE via bm-m",
-  "AUD-SOFT-20261105T175945-05 -> bm-m (cpu)",
-  "AUD-SOFT-20261105T175945-06 -> bm-b (cpu)",
-  "AUD-SOFT-20261105T175945-07 -> bm-c (cpu)"
+  "AUD-SOFT-20261105T175945-05 DONE via bm-m",
+  "AUD-SOFT-20261105T175945-08 -> bm-m (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 立意/分镜/导演席 (导演席（自决推进，CEO 巡视可随时否决）)",
@@ -982,8 +976,6 @@
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
  "lane_files_written": [
-  "bm-b",
-  "bm-c",
   "bm-m"
  ]
 }
