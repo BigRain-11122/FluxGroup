@@ -140,6 +140,10 @@ STAGES = [
     # 云端日预算闸（CEO 2026-11-05「按日预算放开，硬上限 ¥100/天」）：每轮报余额；
     # rc=1 = 今天已用完（告警不是工具坏，计入 ok_rc）。任何上云调用先问这一站。
     ("budget", ["Tools/fleet/cloud_budget.py", "check"], 30, {0, 1}, True),
+    # CEO 令当轮进视野（他有时在别的机器下令）+ 当日时间轴 + 验收腿。
+    ("order_watch", ["Tools/fleet/order_watch.py"], 30, {0}, False),
+    ("day_plan", ["Tools/fleet/day_plan.py"], 30, {0}, False),
+    ("verify_done", ["Tools/fleet/verify_done.py"], 120, {0}, True),
     ("gate", ["Tools/fleet/gate_report.py"], 180, {0}, True),
     ("checkups", ["Tools/fleet/checkups.py"], 180, {0, 2}, True),
     ("metrics", ["Tools/fleet/ops_metrics.py"], 90, {0}, True),
@@ -364,6 +368,22 @@ GENERATED = ("cph4/fleet/dispatcher/", "cph4/fleet/lanes/", "cph4/fleet/queue-re
              "cph4/fleet/vault/index.jsonl")
 
 
+
+def git_enabled():
+    """脉是否允许做 git 手术（rebase/merge/commit/push）。
+
+    2026-11-05 止血：脉每轮的 rebase/merge 会按远端版本覆盖人工会话的未提交工作与新建
+    文件（实测一天 4 次：order_watch.py 消失、--purge-meta 回退、配置段丢失）。
+    独立工作树落地之前，配置 git.mode=off 让脉只写工作区，同步交人工/专席。
+    """
+    try:
+        with open(os.path.join(ROOT, "cph4", "fleet", "AUTONOMY-CONFIG.json"),
+                  encoding="utf-8") as f:
+            return str(((json.load(f).get("git") or {}).get("mode") or "full")) != "off"
+    except Exception:
+        return True
+
+
 def _abort_stuck_rebase():
     """卡在中间的 rebase 是静默毒药，必须先清掉再谈同步。
 
@@ -433,6 +453,8 @@ def _restore_local_only_cards(keep):
 
 
 def rebase_generated():
+    if not git_enabled():
+        return "skipped:git-off"
     """分叉收口：只对"生成态文件"取远端版本，代码一律不动。
 
     为什么需要（2026-11-02 实测）：多机同时 push 时 fast-forward 必然失败，
@@ -519,6 +541,8 @@ def _rebase_in_progress():
 
 
 def pull_if_clean(last_ts=0.0) -> str:
+    if not git_enabled():
+        return "skipped:git-off"
     """Sync without ever letting a dirty worktree block the plane.
 
     Two hard-won rules (2026-11-02):
@@ -565,6 +589,8 @@ def pull_if_clean(last_ts=0.0) -> str:
 
 
 def push_if_ahead() -> str:
+    if not git_enabled():
+        return "skipped:git-off"
     """Other nodes read lanes from origin, so an unpushed dispatch is a silent no-op.
     Pushing does not need a clean tree (unlike rebase) - no stash, no loss."""
     try:
@@ -871,6 +897,8 @@ def main() -> int:
     resident_note = align_resident()
     prev = read_state()
     slow_due = force_slow or (time.time() - float(prev.get("slow_ts") or 0) > SLOW_EVERY)
+    git_note = "skipped" if no_pull else _one_line(
+        pull_if_clean(last_snapshot_ts()), 120)
     git_note = "skipped" if no_pull else _one_line(
         pull_if_clean(last_snapshot_ts()), 120)
 

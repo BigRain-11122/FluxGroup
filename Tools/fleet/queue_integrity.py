@@ -31,6 +31,7 @@ import json
 import os
 import subprocess
 import sys
+from datetime import datetime
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
@@ -106,11 +107,113 @@ def git_blob_markers(rel):
     return {"file": rel, "git_marker_lines": hits, "git_rows": len(lines)}
 
 
+def _reconcile():
+    """QUEUE 是状态权威，BACKLOG 只保存声明（2026-11-05：同 id 状态冲突实测 118 处，
+    导致做过的重做、停掉的复活）。冲突时把 QUEUE 的状态写回 BACKLOG。"""
+    qp = os.path.join(FLEET, "PRODUCTION-QUEUE.jsonl")
+    bp = os.path.join(FLEET, "PRODUCTION-BACKLOG.jsonl")
+
+    def load(p):
+        out = []
+        try:
+            for line in open(p, encoding="utf-8"):
+                line = line.strip()
+                if line:
+                    try:
+                        out.append(json.loads(line))
+                    except Exception:
+                        pass
+        except FileNotFoundError:
+            pass
+        return out
+
+    q, b = load(qp), load(bp)
+    qm = {r.get("id"): r for r in q if r.get("id")}
+    fix = []
+    for r in b:
+        qr = qm.get(r.get("id"))
+        if not qr or r.get("state") == qr.get("state"):
+            continue
+        r["state"] = qr.get("state")
+        for k in ("note", "closed_at", "error_class", "retries", "owner"):
+            if k in qr:
+                r[k] = qr[k]
+        fix.append(r)
+    if fix:
+        try:
+            import fleet_lane as fl
+            fl.merge_jsonl(bp, fix)
+        except Exception:
+            with open(bp, "w", encoding="utf-8") as f:
+                for r in b:
+                    f.write(json.dumps(r, ensure_ascii=False) + "\n")
+    return len(fix)
+
+
+def _purge_meta():
+    """自检/分诊/盘点卡不是产物，不许占生产车道。
+
+    2026-11-05 实测：清掉 36 张后，night_plan/backlog_fill/canary/bank_autofill 四个
+    生成点下一轮又把它们造回来。与其逐个改生成器，不如在唯一的读口做一轮清洗——
+    生成端没拦住，读口必须兜住。
+    """
+    import re as _re
+    try:
+        cfg = json.load(open(os.path.join(FLEET, "AUTONOMY-CONFIG.json"), encoding="utf-8"))
+    except Exception:
+        cfg = {}
+    pre = [str(p).upper() for p in
+           ((cfg.get("supply") or {}).get("meta_card_prefixes") or [])]
+    if not pre:
+        return 0
+
+    def is_meta(cid):
+        u = str(cid or "").upper()
+        return any(u.startswith(p) for p in pre)
+
+    touched = []
+    for name in ("PRODUCTION-QUEUE.jsonl", "PRODUCTION-BACKLOG.jsonl"):
+        p = os.path.join(FLEET, name)
+        try:
+            lines = [json.loads(l) for l in open(p, encoding="utf-8") if l.strip()]
+        except Exception:
+            continue
+        for r in lines:
+            if r.get("state") in ("OPEN", "READY", "PROMOTED", "RUNNING") and is_meta(r.get("id")):
+                r["state"] = "ARCHIVED"
+                r["note"] = "meta-card purged: 自检/分诊只在主控脉跑，不占生产车道"
+                r["closed_at"] = datetime.now().isoformat(timespec="seconds")
+                touched.append((name, r))
+    if touched:
+        try:
+            import fleet_lane as fl
+            by = {}
+            for name, r in touched:
+                by.setdefault(name, []).append(r)
+            for name, rows in by.items():
+                fl.merge_jsonl(os.path.join(FLEET, name), rows)
+        except Exception:
+            pass
+    return len(touched)
+
+
 def main(argv):
     ap = argparse.ArgumentParser()
     ap.add_argument("--json", action="store_true")
     ap.add_argument("--no-git", action="store_true")
+    ap.add_argument("--purge-meta", action="store_true",
+                    help="把自检/分诊/盘点卡从活跃队列里归档（它们只该在主控脉跑）")
+    ap.add_argument("--reconcile", action="store_true",
+                    help="以 PRODUCTION-QUEUE 为准回写 PRODUCTION-BACKLOG 的状态")
     a = ap.parse_args(argv)
+    if a.purge_meta:
+        n = _purge_meta()
+        if n:
+            print("[queue-integrity] purged %d meta card(s) from the production lane" % n)
+    if a.reconcile:
+        n = _reconcile()
+        if n:
+            print("[queue-integrity] reconciled %d row(s) from QUEUE" % n)
 
     files = list(KEY_FILES)
     # 其余队列类台账也扫（回执/事件/账本），但只在 fleet 一层与 dispatcher 一层，避免扫进大归档

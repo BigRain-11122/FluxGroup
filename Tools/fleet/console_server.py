@@ -52,6 +52,22 @@ def page():
     comms = (_json(os.path.join(F, "state", "comms.json"), {}) or {})
     q = (_json(os.path.join(F, "state", "metrics.json"), {}) or {})
 
+    seats = []
+    _ag = os.path.join(F, "state", "agents")
+    for sid in ("S1", "S2", "S3", "S4", "S5", "S6", "S7"):
+        b = _json(os.path.join(_ag, sid, "beat.json"), {}) or {}
+        seats.append("<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>" % (
+            sid, b.get("name", "-"), b.get("ts", "未跑过"),
+            ",".join(b.get("failed") or []) or "正常"))
+    seat_html = ("<div class='box'><h2>智能体席位（7 席轮转）</h2>"
+                 "<table><tr><th>席</th><th>专责</th><th>最近一次</th><th>失败</th></tr>%s</table></div>"
+                 % "".join(seats))
+    dp = _json(os.path.join(F, "state", "day-plan.json"), {}) or {}
+    win = dp.get("window") or {}
+    duty_html = "<div class='box'><h2>当前班次：%s（%s–%s）</h2><p class='small'>%s</p><ol>%s</ol></div>" % (
+        win.get("name", "-"), win.get("from", "-"), win.get("to", "-"), win.get("why", ""),
+        "".join("<li><b>%s</b>·%s — %s</li>" % (d.get("domain"), d.get("name"), d.get("action"))
+                for d in (dp.get("now_duties") or [])[:12]))
     beat = _json(os.path.join(F, "state", "agent-beat.json"), {}) or {}
     verify = _json(os.path.join(F, "state", "verify-done.json"), {}) or {}
     agent_html = (
@@ -125,12 +141,14 @@ iframe{width:100%%;height:720px;border:1px solid #262b36;border-radius:8px;backg
 <h1>主控台 · %s · 每 15 秒自动刷新</h1>
 %s
 %s
+%s
+%s
 <div class="box"><h2>主控一屏</h2>%s</div>
 <div class="box"><h2>分层决策（只有 ≤3 条需要你）</h2>%s</div>
 <div class="box"><h2>机队实况</h2><table><tr><th>机器</th><th>状态</th><th>在跑</th><th>无回执</th><th>旗标</th></tr>%s</table></div>
 <div class="box"><h2>旧看板</h2><iframe src="/fleet-console.html"></iframe></div>
 <p class="small">数据源：MASTER-SCREEN.md / DECISIONS.md / state/*.json。只读、只绑 localhost。</p>
-</body></html>""" % (time.strftime("%H:%M:%S"), orders_html, agent_html, md2html(screen),
+</body></html>""" % (time.strftime("%H:%M:%S"), orders_html, duty_html, seat_html, agent_html, md2html(screen),
                       md2html(decisions), "".join(nodes))
 
 

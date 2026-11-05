@@ -8,14 +8,16 @@
     "CEO 2026-11-05：bm-d 本周入网，先按一等节点留位",
     "CEO 2026-11-05：24h 主推进线 = MV 41 曲 / 游戏 / 资产库 / 金融回测"
   ],
-
   "cloud": {
     "mode": "last-resort",
     "daily_cny_cap": 100,
     "over_cap_action": "hard-stop",
     "ledger": "cph4/fleet/token-ledger/SPEND.jsonl",
     "require_local_evidence": true,
-    "local_evidence_fields": ["local_checked", "why_not_local"],
+    "local_evidence_fields": [
+      "local_checked",
+      "why_not_local"
+    ],
     "allowed_when": [
       "本地没有该能力（重 GPU 生成 / 最强判断 / 实时云端 API）",
       "本地产能已排满且有明确等待成本（不是「我这台忙」而是「全队同类能力都在飞」）",
@@ -29,7 +31,6 @@
       "把凭据写进任何提交"
     ]
   },
-
   "local_first": {
     "_why": "本地算力互相赋能：一台机的产物就是下一台的输入，不让机器互相等、不让能力重复买。",
     "chain": [
@@ -40,28 +41,24 @@
     "reuse_before_generate": true,
     "start_local_before_claim_busy": true
   },
-
   "supply": {
     "floor_cards_per_node": 5,
     "cap_cards_per_node": 40,
     "require_deliverable_and_accept": true,
     "allow_cross_node_fallback": true
   },
-
   "progress": {
     "report_every_s": 45,
     "stall_after_s": 1800,
     "stall_signal": "stdout_bytes_or_deliverable_size_growth",
     "on_stall": "release-card-and-count-attempt"
   },
-
   "failures": {
     "max_attempts": 3,
     "on_max": "block-with-rootcause",
     "blocked_state": "BLOCKED",
     "error_class": "E-ROOTCAUSE-3X"
   },
-
   "truth": {
     "_why": "自指证据会把记账当产出：state 文件、回执目录、自检目录一律不计入线的产出年龄。",
     "bookkeeping_prefixes": [
@@ -72,20 +69,65 @@
     ],
     "min_real_bytes": 1024
   },
-
   "quality": {
     "require_gate_receipt_for_done": true,
-    "kpi": ["first_pass_rate_pct", "real_output_age_h", "rework_ratio"],
+    "kpi": [
+      "first_pass_rate_pct",
+      "real_output_age_h",
+      "rework_ratio"
+    ],
     "sample_review_ratio": 0.2
   },
-
   "nodes": {
-    "bm-a": {"role": "中枢+装配", "needs": ["cpu", "io"], "work_hours_gpu": "night"},
-    "bm-b": {"role": "声音", "needs": ["cpu", "audio"]},
-    "bm-c": {"role": "画图", "needs": ["gpu"], "ram_floor_gb": 8},
-    "bm-d": {"role": "大脑", "needs": ["cpu", "gpu"], "status": "installing-2026-11-05", "ram_gb": 256, "vram_gb": 48},
-    "bm-m": {"role": "主控", "needs": ["light"], "heavy_forbidden": true}
+    "bm-a": {
+      "role": "中枢+装配",
+      "needs": [
+        "cpu",
+        "io"
+      ],
+      "work_hours_gpu": "night"
+    },
+    "bm-b": {
+      "role": "声音",
+      "needs": [
+        "cpu",
+        "audio"
+      ]
+    },
+    "bm-c": {
+      "role": "画图",
+      "needs": [
+        "gpu"
+      ],
+      "ram_floor_gb": 8
+    },
+    "bm-d": {
+      "role": "大脑",
+      "needs": [
+        "cpu",
+        "gpu"
+      ],
+      "status": "installing-2026-11-05",
+      "ram_gb": 256,
+      "vram_gb": 48
+    },
+    "bm-m": {
+      "role": "主控",
+      "needs": [
+        "light"
+      ],
+      "heavy_forbidden": true
+    }
   },
-
-  "priority_lines": ["bigstream-mv", "biggame", "asset-lib", "bigmoney"]
+  "priority_lines": [
+    "bigstream-mv",
+    "biggame",
+    "asset-lib",
+    "bigmoney"
+  ],
+  "git": {
+    "mode": "off",
+    "_why": "脉不做 rebase/merge/commit/push：一天 4 次覆盖人工工作。独立工作树落地后改回 full。",
+    "sync_owner": "bm-m 人工会话 或 S4 账房（安静窗口）"
+  }
 }
