@@ -79,6 +79,17 @@ def page():
         float(sk.get("window_hours") or 24),
         "是" if sk.get("claimable_24h") else "否",
         ("<ul>%s</ul>" % _red) if _red else "")
+    fs = _json(os.path.join(F, "state", "fleet-status.json"), {}) or {}
+    _fs_cards = fs.get("cards") or []
+    fleet_html = ("<div class='box %s'><h2>机队工作状态：%s（在跑 %d｜死卡 %d｜假忙 %d｜待派 %d）</h2>"
+                  "<table><tr><th>卡</th><th>机</th><th>判定</th><th>心跳龄</th></tr>%s</table></div>") % (
+        "red" if (fs.get("dead") or fs.get("fake_busy")) else "",
+        fs.get("verdict", "未跑"), int(fs.get("running_total") or 0), int(fs.get("dead") or 0),
+        int(fs.get("fake_busy") or 0), int(fs.get("open_total") or 0),
+        "".join("<tr><td>%s</td><td>%s</td><td>%s</td><td>%ss</td></tr>"
+                % (c.get("id"), c.get("owner") or "-", c.get("verdict"),
+                   c.get("heartbeat_age_s") if c.get("heartbeat_age_s") is not None else "-")
+                for c in _fs_cards[:12]))
     seats = []
     _ag = os.path.join(F, "state", "agents")
     for sid in ("S1", "S2", "S3", "S4", "S5", "S6", "S7"):
@@ -174,12 +185,13 @@ iframe{width:100%%;height:720px;border:1px solid #262b36;border-radius:8px;backg
 %s
 <div class="box"><h2>主控一屏</h2>%s</div>
 %s
+%s
 <div class="box"><h2>分层决策（只有 ≤3 条需要你）</h2>%s</div>
 <div class="box"><h2>机队实况</h2><table><tr><th>机器</th><th>状态</th><th>在跑</th><th>无回执</th><th>旗标</th></tr>%s</table></div>
 <div class="box"><h2>旧看板</h2><iframe src="/fleet-console.html"></iframe></div>
 <p class="small">数据源：MASTER-SCREEN.md / DECISIONS.md / state/*.json。只读、只绑 localhost。</p>
 </body></html>""" % (time.strftime("%H:%M:%S"), orders_html, unlock_html, duty_html, mac_html, seat_html, agent_html, md2html(screen),
-                      soak_html, md2html(decisions), "".join(nodes))
+                      soak_html, fleet_html, md2html(decisions), "".join(nodes))
 
 
 class H(BaseHTTPRequestHandler):
