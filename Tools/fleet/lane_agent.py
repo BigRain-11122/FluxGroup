@@ -135,9 +135,12 @@ def git_publish(root, node, jid, paths):
         if r.returncode == 0:
             return "pushed"
         last = r.stderr or r.stdout
-        rb = git(["pull", "--rebase", "--no-autostash"], timeout=120)
+        # 2026-11-04：禁 rebase。多机同推时 pull --rebase 会在共享工作树留 UU 冲突，实测把
+        # 主控仓卡在 98 步 rebase 中段（冲突标记进队列、读方静默跳过 21 行卡）。只快进；
+        # 快进不了就放弃本轮，产物留本地，由主控脉按 merge 口径收口。
+        rb = git(["pull", "--ff-only", "--no-rebase", "origin", "main"], timeout=120)
         if rb.returncode != 0:
-            git(["rebase", "--abort"], timeout=60)
+            break
     return "push-failed:%s" % (last or "")[:80]
 
 
@@ -157,10 +160,10 @@ def already_closed(root, jid):
     """
     try:
         r = subprocess.run(["git", "-C", root, "show",
-                             "origin/main:cph4/fleet/PRODUCTION-QUEUE.jsonl"],
-                            capture_output=True, text=True, timeout=30,
-                            encoding="utf-8", errors="replace",
-                            creationflags=CREATE_NO_WINDOW)
+                            "origin/main:cph4/fleet/PRODUCTION-QUEUE.jsonl"],
+                           capture_output=True, text=True, timeout=30,
+                           encoding="utf-8", errors="replace",
+                           creationflags=CREATE_NO_WINDOW)
         if r.returncode == 0 and r.stdout:
             for ln in r.stdout.splitlines():
                 ln = ln.strip()
@@ -621,10 +624,17 @@ def run_lane_cycle(node, root=None, dry=False, allow_gpu_workhours=False,
 
     job = jobs[0]
     if already_closed(root, job.get("id")):
-        # Finished on the shared surface: never replay it. Idle is the honest answer.
+        # Finished on the shared surface: never replay it (re-running closes 14x churn).
+        # But never strand the lane on a stale assignment either: 2026-11-04 one
+        # already-closed card held bm-b's ONLY lane slot for 8h+ while 26 OPEN jobs
+        # waited, and the box kept reporting IDLE because this branch returned early.
+        # A lane whose assignment is dead has nothing to do - the same situation as an
+        # empty assignment - so it takes the same self-dispatch leg.
+        print("LANE-SKIP %s :: already closed in queue" % job.get("id"))
+        if self_dispatch(root, node, allow_gpu_workhours, max_seconds, hub, port, dry):
+            return True
         publish(node, "IDLE", {"reason": "ALREADY-CLOSED %s" % job.get("id")}, hub, port)
         write_last(root, node, "IDLE", note="ALREADY-CLOSED")
-        print("LANE-SKIP %s :: already closed in queue" % job.get("id"))
         return True
     if dry:
         print("LANE-DRY %s would run %s :: %s" % (node, job.get("id"), job.get("title")))
