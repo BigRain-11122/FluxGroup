@@ -1,25 +1,25 @@
 {
  "node": "bm-a",
- "ts": "2026-11-05T08:24:07",
+ "ts": "2026-11-05T08:36:50",
  "jobs": [
   {
-   "id": "Q-VCORP-PREP-e01-R3-20261105",
-   "title": "音色语料切片·e01（LibriTTS → voices/e01/sliced，纯 CPU）",
-   "cmd": "python C:/Fluxgroup/FleetAgent/Tools/fleet/voice_corpus_prep.py --inbox C:/Fluxgroup/FluxGroup/media/asset/inbox/e01 --group e01 --shard 0/1 --receipt C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-prep-e01-r3-20261105.json",
-   "cwd": "C:/Fluxgroup/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-prep-e01-r3-20261105.json",
+   "id": "Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105",
+   "title": "音色微调试点·libritts-e01（语料→SoVITS s2→权重，DE-AI-SPEC A8 批前抽检）",
+   "cmd": "python C:/Fluxgroup/FleetAgent/Tools/voicebank/vb_train_card.py --voice libritts-e01 --raw C:/Fluxgroup/FluxGroup/media/asset/inbox/e01 --receipt C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-train-libritts-e01-r3-20261105.json",
+   "cwd": "C:/Fluxgroup/FleetAgent",
+   "needs": "gpu",
+   "deliverable": "C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-train-libritts-e01-r3-20261105.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
    "when_all": [
-    "C:/Fluxgroup/FluxGroup/media/asset/inbox/e01"
+    "C:/Fluxgroup/FluxGroup/media/asset/voices/e01/sliced"
    ],
    "llm": null,
-   "timeout_s": 3600
+   "timeout_s": 14400
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 32.6/1.0 GB"
+ "capacity_note": "ram 32.4/1.0 GB"
 }
