@@ -1,11 +1,11 @@
 {
- "ts": "2026-11-05T14:59:26",
+ "ts": "2026-11-05T15:09:55",
  "stage": 3,
  "adoption": {
   "days": 4,
-  "applied": 957,
-  "total": 730,
-  "rate": 131.1,
+  "applied": 959,
+  "total": 732,
+  "rate": 131.0,
   "eligible_stage4": false
  },
  "decisions": [
@@ -13,9 +13,9 @@
    "kind": "requeue",
    "why": "3 张卡在跑但 1 小时无回执",
    "target": [
-    "asset-lib-env-check-2026-11-05",
     "asset-lib-asset-gen-2026-11-05",
-    "CHT-20261105T134821-03"
+    "CHT-20261105T134950-99",
+    "B-MV-AUDIT-20261105"
    ],
    "min_stage": 3,
    "result": "applied"
@@ -35,9 +35,9 @@
   {
    "kind": "requeue",
    "ids": [
-    "asset-lib-env-check-2026-11-05",
     "asset-lib-asset-gen-2026-11-05",
-    "CHT-20261105T134821-03"
+    "CHT-20261105T134950-99",
+    "B-MV-AUDIT-20261105"
    ]
   }
  ],

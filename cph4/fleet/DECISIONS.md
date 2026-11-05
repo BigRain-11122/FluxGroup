@@ -1,4 +1,4 @@
-# 分层决策台账 2026-11-05T14:59:27
+# 分层决策台账 2026-11-05T15:09:56
 
 分布：L0=0, L1=2, L2=10, L3=0, CEO=3
 
@@ -19,7 +19,7 @@
 | 子公司层 | 闸红 I4 × 15（FAIL） | 11-06T14:17 | business-map-next |
 | 子公司层 | 闸红 I6 × 1（FAIL） | 11-06T14:17 | business-map-next |
 | 子公司层 | 闸红 I7 × 2（FAIL） | 11-06T14:17 | business-map-next |
-| 子公司层 | 闸红 I12 × 17（FAIL） | 11-06T14:17 | business-map-next |
+| 子公司层 | 闸红 I12 × 18（FAIL） | 11-06T14:17 | business-map-next |
 | 子公司层 | 闸红 I14 × 4（FAIL） | 11-06T14:17 | business-map-next |
 | 子公司层 | bigmoney 的下一步产物 | 11-06T14:59 | business-map-next |
 | 线内/部门层 | 停线卡 ART-PUSH-BMA-20261104 需根因 | 11-06T14:23 | last-passing-standard |
