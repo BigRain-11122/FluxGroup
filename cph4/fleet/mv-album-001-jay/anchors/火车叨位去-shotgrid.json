@@ -1,0 +1,1169 @@
+{
+ "song": "火车叨位去",
+ "version": "anchor-shotgrid v1.0 (r1070 bm-b)",
+ "inputs": {
+  "beats_sha_face": 551,
+  "n_beats": 551,
+  "n_downbeats": 138,
+  "duration_sec": 276.0
+ },
+ "bpm_median": 123.0,
+ "snap_tol_sec": 0.1,
+ "max_shot_sec": 3.0,
+ "grid": [
+  {
+   "i": 0,
+   "text": "听我讲 庄脚ㄟ路边 蝉躲在树枝",
+   "t0": 27.7,
+   "t1": 31.7,
+   "t0_used": 27.771,
+   "t1_used": 31.718,
+   "snapped": true,
+   "snap_deltas": [
+    -0.071,
+    -0.018
+   ],
+   "approx": false,
+   "splits": [
+    29.745
+   ]
+  },
+  {
+   "i": 1,
+   "text": "七月天 闹热ㄟ唱戏",
+   "t0": 31.7,
+   "t1": 33.84,
+   "t0_used": 31.718,
+   "t1_used": 33.84,
+   "snapped": true,
+   "snap_deltas": [
+    -0.018,
+    0.148
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 2,
+   "text": "ㄒㄧ ㄌㄚ ㄙㄡ ㄈㄚ ㄇㄧ",
+   "t0": 33.84,
+   "t1": 35.72,
+   "t0_used": 33.84,
+   "t1_used": 35.643,
+   "snapped": true,
+   "snap_deltas": [
+    0.148,
+    0.077
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 3,
+   "text": "听我讲 风景这呢水 火车叨位去",
+   "t0": 35.72,
+   "t1": 39.56,
+   "t0_used": 35.643,
+   "t1_used": 39.59,
+   "snapped": true,
+   "snap_deltas": [
+    0.077,
+    -0.03
+   ],
+   "approx": false,
+   "splits": [
+    37.616
+   ]
+  },
+  {
+   "i": 4,
+   "text": "拿纸笔 写歌思念你",
+   "t0": 39.56,
+   "t1": 41.77,
+   "t0_used": 39.59,
+   "t1_used": 41.77,
+   "snapped": true,
+   "snap_deltas": [
+    -0.03,
+    0.206
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 5,
+   "text": "ㄒㄧ ㄌㄚ ㄙㄡ ㄈㄚ ㄇㄧ",
+   "t0": 41.77,
+   "t1": 43.24,
+   "t0_used": 41.77,
+   "t1_used": 43.24,
+   "snapped": false,
+   "snap_deltas": [
+    0.206,
+    0.213
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 6,
+   "text": "车过山洞变成 暗瞑",
+   "t0": 43.24,
+   "t1": 47.16,
+   "t0_used": 43.24,
+   "t1_used": 47.16,
+   "snapped": false,
+   "snap_deltas": [
+    0.213,
+    0.186
+   ],
+   "approx": false,
+   "splits": [
+    45.0
+   ]
+  },
+  {
+   "i": 7,
+   "text": "但是连咪都ㄟ 过去",
+   "t0": 47.16,
+   "t1": 51.09,
+   "t0_used": 47.16,
+   "t1_used": 51.09,
+   "snapped": false,
+   "snap_deltas": [
+    0.186,
+    0.192
+   ],
+   "approx": false,
+   "splits": [
+    48.948
+   ]
+  },
+  {
+   "i": 8,
+   "text": "按怎你走那个 当时",
+   "t0": 51.09,
+   "t1": 55.01,
+   "t0_used": 51.09,
+   "t1_used": 55.01,
+   "snapped": false,
+   "snap_deltas": [
+    0.192,
+    0.164
+   ],
+   "approx": false,
+   "splits": [
+    52.872
+   ]
+  },
+  {
+   "i": 9,
+   "text": "没留半张批纸 加字",
+   "t0": 55.01,
+   "t1": 58.95,
+   "t0_used": 55.01,
+   "t1_used": 58.95,
+   "snapped": false,
+   "snap_deltas": [
+    0.164,
+    0.18
+   ],
+   "approx": false,
+   "splits": [
+    56.819
+   ]
+  },
+  {
+   "i": 10,
+   "text": "过去",
+   "t0": 58.95,
+   "t1": 59.48,
+   "t0_used": 58.95,
+   "t1_used": 59.48,
+   "snapped": false,
+   "snap_deltas": [
+    0.18,
+    0.223
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 11,
+   "text": "过去 像溪边ㄟ田蝇",
+   "t0": 59.48,
+   "t1": 61.24,
+   "t0_used": 59.48,
+   "t1_used": 61.208,
+   "snapped": true,
+   "snap_deltas": [
+    0.223,
+    0.032
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 12,
+   "text": "拢是",
+   "t0": 61.24,
+   "t1": 61.6,
+   "t0_used": 61.208,
+   "t1_used": 61.6,
+   "snapped": true,
+   "snap_deltas": [
+    0.032,
+    -0.119
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 13,
+   "text": "拢是 逗阵飞ㄟ日子",
+   "t0": 61.6,
+   "t1": 63.3,
+   "t0_used": 61.6,
+   "t1_used": 63.205,
+   "snapped": true,
+   "snap_deltas": [
+    -0.119,
+    0.095
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 14,
+   "text": "这时",
+   "t0": 63.3,
+   "t1": 63.72,
+   "t0_used": 63.205,
+   "t1_used": 63.692,
+   "snapped": true,
+   "snap_deltas": [
+    0.095,
+    0.028
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 15,
+   "text": "这时 我像离水ㄟ鱼",
+   "t0": 63.72,
+   "t1": 65.4,
+   "t0_used": 63.692,
+   "t1_used": 65.4,
+   "snapped": true,
+   "snap_deltas": [
+    0.028,
+    0.245
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 16,
+   "text": "放抹记",
+   "t0": 65.4,
+   "t1": 65.89,
+   "t0_used": 65.4,
+   "t1_used": 65.89,
+   "snapped": false,
+   "snap_deltas": [
+    0.245,
+    0.224
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 17,
+   "text": "放抹记 剩最后一口气",
+   "t0": 65.89,
+   "t1": 67.32,
+   "t0_used": 65.89,
+   "t1_used": 67.32,
+   "snapped": false,
+   "snap_deltas": [
+    0.224,
+    0.191
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 18,
+   "text": "放抹记",
+   "t0": 67.32,
+   "t1": 67.77,
+   "t0_used": 67.32,
+   "t1_used": 67.77,
+   "snapped": false,
+   "snap_deltas": [
+    0.191,
+    0.153
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 19,
+   "text": "过去",
+   "t0": 67.77,
+   "t1": 68.49,
+   "t0_used": 67.77,
+   "t1_used": 68.49,
+   "snapped": false,
+   "snap_deltas": [
+    0.153,
+    -0.125
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 20,
+   "text": "过去 你迷人ㄟ气质",
+   "t0": 68.49,
+   "t1": 69.91,
+   "t0_used": 68.49,
+   "t1_used": 69.91,
+   "snapped": false,
+   "snap_deltas": [
+    -0.125,
+    -0.168
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 21,
+   "text": "拢是",
+   "t0": 69.91,
+   "t1": 70.28,
+   "t0_used": 69.91,
+   "t1_used": 70.28,
+   "snapped": false,
+   "snap_deltas": [
+    -0.168,
+    0.202
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 22,
+   "text": "拢是 笑容酸甘呀甜",
+   "t0": 70.28,
+   "t1": 71.7,
+   "t0_used": 70.28,
+   "t1_used": 71.7,
+   "snapped": false,
+   "snap_deltas": [
+    0.202,
+    0.136
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 23,
+   "text": "返去",
+   "t0": 71.7,
+   "t1": 72.02,
+   "t0_used": 71.7,
+   "t1_used": 72.052,
+   "snapped": true,
+   "snap_deltas": [
+    0.136,
+    -0.032
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 24,
+   "text": "返去 故事到这为止",
+   "t0": 72.02,
+   "t1": 74.5,
+   "t0_used": 72.052,
+   "t1_used": 74.513,
+   "snapped": true,
+   "snap_deltas": [
+    -0.032,
+    -0.013
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 25,
+   "text": "你那ㄟ全然拢没消息",
+   "t0": 74.5,
+   "t1": 78.39,
+   "t0_used": 74.513,
+   "t1_used": 78.437,
+   "snapped": true,
+   "snap_deltas": [
+    -0.013,
+    -0.047
+   ],
+   "approx": false,
+   "splits": [
+    76.487
+   ]
+  },
+  {
+   "i": 26,
+   "text": "我亲像一只蜂找没蜜",
+   "t0": 78.39,
+   "t1": 82.33,
+   "t0_used": 78.437,
+   "t1_used": 82.384,
+   "snapped": true,
+   "snap_deltas": [
+    -0.047,
+    -0.054
+   ],
+   "approx": false,
+   "splits": [
+    80.411
+   ]
+  },
+  {
+   "i": 27,
+   "text": "将过去一张一张ㄟ撕",
+   "t0": 82.33,
+   "t1": 86.23,
+   "t0_used": 82.384,
+   "t1_used": 86.309,
+   "snapped": true,
+   "snap_deltas": [
+    -0.054,
+    -0.079
+   ],
+   "approx": false,
+   "splits": [
+    84.358
+   ]
+  },
+  {
+   "i": 28,
+   "text": "这日历 马撕到何时才有你ㄟ字",
+   "t0": 86.23,
+   "t1": 90.17,
+   "t0_used": 86.309,
+   "t1_used": 90.256,
+   "snapped": true,
+   "snap_deltas": [
+    -0.079,
+    -0.086
+   ],
+   "approx": false,
+   "splits": [
+    88.282
+   ]
+  },
+  {
+   "i": 29,
+   "text": "你那 全然拢没讯息",
+   "t0": 90.17,
+   "t1": 94.09,
+   "t0_used": 90.256,
+   "t1_used": 94.18,
+   "snapped": true,
+   "snap_deltas": [
+    -0.086,
+    -0.09
+   ],
+   "approx": false,
+   "splits": [
+    92.23
+   ]
+  },
+  {
+   "i": 30,
+   "text": "像往南ㄟ燕子断翅",
+   "t0": 94.09,
+   "t1": 98.1,
+   "t0_used": 94.18,
+   "t1_used": 98.128,
+   "snapped": true,
+   "snap_deltas": [
+    -0.09,
+    -0.028
+   ],
+   "approx": false,
+   "splits": [
+    96.154
+   ]
+  },
+  {
+   "i": 31,
+   "text": "不曾搁返来巢看厝边",
+   "t0": 98.1,
+   "t1": 101.94,
+   "t0_used": 98.128,
+   "t1_used": 101.94,
+   "snapped": true,
+   "snap_deltas": [
+    -0.028,
+    -0.112
+   ],
+   "approx": false,
+   "splits": [
+    100.101
+   ]
+  },
+  {
+   "i": 32,
+   "text": "为啥咪铁支路直直",
+   "t0": 101.94,
+   "t1": 104.45,
+   "t0_used": 101.94,
+   "t1_used": 104.513,
+   "snapped": true,
+   "snap_deltas": [
+    -0.112,
+    -0.063
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 33,
+   "text": "火车叨位去",
+   "t0": 104.45,
+   "t1": 138.7,
+   "t0_used": 104.513,
+   "t1_used": 138.7,
+   "snapped": true,
+   "snap_deltas": [
+    -0.063,
+    0.239
+   ],
+   "approx": false,
+   "splits": [
+    107.462,
+    110.434,
+    112.872,
+    115.821,
+    118.793,
+    121.742,
+    124.691,
+    127.152,
+    130.101,
+    133.05,
+    135.999
+   ]
+  },
+  {
+   "i": 34,
+   "text": "车过山洞变成 暗瞑",
+   "t0": 138.7,
+   "t1": 142.54,
+   "t0_used": 138.7,
+   "t1_used": 142.54,
+   "snapped": false,
+   "snap_deltas": [
+    0.239,
+    0.132
+   ],
+   "approx": false,
+   "splits": [
+    140.434
+   ]
+  },
+  {
+   "i": 35,
+   "text": "但是连咪都ㄟ 过去",
+   "t0": 142.54,
+   "t1": 146.49,
+   "t0_used": 142.54,
+   "t1_used": 146.49,
+   "snapped": false,
+   "snap_deltas": [
+    0.132,
+    0.158
+   ],
+   "approx": false,
+   "splits": [
+    144.358
+   ]
+  },
+  {
+   "i": 36,
+   "text": "按怎你走那个 当时",
+   "t0": 146.49,
+   "t1": 150.33,
+   "t0_used": 146.49,
+   "t1_used": 150.256,
+   "snapped": true,
+   "snap_deltas": [
+    0.158,
+    0.074
+   ],
+   "approx": false,
+   "splits": [
+    148.306
+   ]
+  },
+  {
+   "i": 37,
+   "text": "没留半张批纸 加字",
+   "t0": 150.33,
+   "t1": 154.3,
+   "t0_used": 150.256,
+   "t1_used": 154.204,
+   "snapped": true,
+   "snap_deltas": [
+    0.074,
+    0.096
+   ],
+   "approx": false,
+   "splits": [
+    152.23
+   ]
+  },
+  {
+   "i": 38,
+   "text": "过去",
+   "t0": 154.3,
+   "t1": 155.07,
+   "t0_used": 154.204,
+   "t1_used": 155.07,
+   "snapped": true,
+   "snap_deltas": [
+    0.096,
+    -0.109
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 39,
+   "text": "过去 像溪边ㄟ田蝇",
+   "t0": 155.07,
+   "t1": 156.63,
+   "t0_used": 155.07,
+   "t1_used": 156.642,
+   "snapped": true,
+   "snap_deltas": [
+    -0.109,
+    -0.012
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 40,
+   "text": "拢是",
+   "t0": 156.63,
+   "t1": 157.02,
+   "t0_used": 156.642,
+   "t1_used": 157.02,
+   "snapped": true,
+   "snap_deltas": [
+    -0.012,
+    -0.109
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 41,
+   "text": "拢是 逗阵飞ㄟ日子",
+   "t0": 157.02,
+   "t1": 158.68,
+   "t0_used": 157.02,
+   "t1_used": 158.616,
+   "snapped": true,
+   "snap_deltas": [
+    -0.109,
+    0.064
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 42,
+   "text": "这时",
+   "t0": 158.68,
+   "t1": 159.1,
+   "t0_used": 158.616,
+   "t1_used": 159.126,
+   "snapped": true,
+   "snap_deltas": [
+    0.064,
+    -0.026
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 43,
+   "text": "这时 我像离水ㄟ鱼",
+   "t0": 159.1,
+   "t1": 160.63,
+   "t0_used": 159.126,
+   "t1_used": 160.589,
+   "snapped": true,
+   "snap_deltas": [
+    -0.026,
+    0.041
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 44,
+   "text": "放抹记",
+   "t0": 160.63,
+   "t1": 161.08,
+   "t0_used": 160.589,
+   "t1_used": 161.077,
+   "snapped": true,
+   "snap_deltas": [
+    0.041,
+    0.003
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 45,
+   "text": "放抹记 剩最后一口气",
+   "t0": 161.08,
+   "t1": 162.54,
+   "t0_used": 161.077,
+   "t1_used": 162.54,
+   "snapped": true,
+   "snap_deltas": [
+    0.003,
+    0.0
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 46,
+   "text": "放抹记",
+   "t0": 162.54,
+   "t1": 162.94,
+   "t0_used": 162.54,
+   "t1_used": 162.94,
+   "snapped": true,
+   "snap_deltas": [
+    0.0,
+    -0.111
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 47,
+   "text": "过去",
+   "t0": 162.94,
+   "t1": 163.25,
+   "t0_used": 162.94,
+   "t1_used": 163.25,
+   "snapped": false,
+   "snap_deltas": [
+    -0.111,
+    0.199
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 48,
+   "text": "过去 你迷人ㄟ气质",
+   "t0": 163.25,
+   "t1": 165.04,
+   "t0_used": 163.25,
+   "t1_used": 165.001,
+   "snapped": true,
+   "snap_deltas": [
+    0.199,
+    0.039
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 49,
+   "text": "拢是",
+   "t0": 165.04,
+   "t1": 165.43,
+   "t0_used": 165.001,
+   "t1_used": 165.489,
+   "snapped": true,
+   "snap_deltas": [
+    0.039,
+    -0.059
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 50,
+   "text": "拢是 笑容酸甘呀甜",
+   "t0": 165.43,
+   "t1": 167.07,
+   "t0_used": 165.489,
+   "t1_used": 166.975,
+   "snapped": true,
+   "snap_deltas": [
+    -0.059,
+    0.095
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 51,
+   "text": "返去",
+   "t0": 167.07,
+   "t1": 167.41,
+   "t0_used": 166.975,
+   "t1_used": 167.462,
+   "snapped": true,
+   "snap_deltas": [
+    0.095,
+    -0.052
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 52,
+   "text": "返去 故事到这为止",
+   "t0": 167.41,
+   "t1": 169.91,
+   "t0_used": 167.462,
+   "t1_used": 169.947,
+   "snapped": true,
+   "snap_deltas": [
+    -0.052,
+    -0.037
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 53,
+   "text": "你那ㄟ全然拢没消息",
+   "t0": 169.91,
+   "t1": 173.78,
+   "t0_used": 169.947,
+   "t1_used": 173.871,
+   "snapped": true,
+   "snap_deltas": [
+    -0.037,
+    -0.091
+   ],
+   "approx": false,
+   "splits": [
+    171.921
+   ]
+  },
+  {
+   "i": 54,
+   "text": "我亲像一只蜂找没蜜",
+   "t0": 173.78,
+   "t1": 177.75,
+   "t0_used": 173.871,
+   "t1_used": 177.818,
+   "snapped": true,
+   "snap_deltas": [
+    -0.091,
+    -0.068
+   ],
+   "approx": false,
+   "splits": [
+    175.845
+   ]
+  },
+  {
+   "i": 55,
+   "text": "将过去一张一张ㄟ撕",
+   "t0": 177.75,
+   "t1": 181.6,
+   "t0_used": 177.818,
+   "t1_used": 181.6,
+   "snapped": true,
+   "snap_deltas": [
+    -0.068,
+    -0.143
+   ],
+   "approx": false,
+   "splits": [
+    179.769
+   ]
+  },
+  {
+   "i": 56,
+   "text": "这日历 马撕到何时才有你ㄟ字",
+   "t0": 181.6,
+   "t1": 185.54,
+   "t0_used": 181.6,
+   "t1_used": 185.54,
+   "snapped": false,
+   "snap_deltas": [
+    -0.143,
+    -0.15
+   ],
+   "approx": false,
+   "splits": [
+    183.716
+   ]
+  },
+  {
+   "i": 57,
+   "text": "你那 全然拢没讯息",
+   "t0": 185.54,
+   "t1": 189.55,
+   "t0_used": 185.54,
+   "t1_used": 189.614,
+   "snapped": true,
+   "snap_deltas": [
+    -0.15,
+    -0.064
+   ],
+   "approx": false,
+   "splits": [
+    187.64
+   ]
+  },
+  {
+   "i": 58,
+   "text": "像往南ㄟ燕子断翅",
+   "t0": 189.55,
+   "t1": 193.54,
+   "t0_used": 189.614,
+   "t1_used": 193.538,
+   "snapped": true,
+   "snap_deltas": [
+    -0.064,
+    0.002
+   ],
+   "approx": false,
+   "splits": [
+    191.588
+   ]
+  },
+  {
+   "i": 59,
+   "text": "不曾搁返来巢看厝边",
+   "t0": 193.54,
+   "t1": 197.36,
+   "t0_used": 193.538,
+   "t1_used": 197.36,
+   "snapped": true,
+   "snap_deltas": [
+    0.002,
+    -0.126
+   ],
+   "approx": false,
+   "splits": [
+    195.512
+   ]
+  },
+  {
+   "i": 60,
+   "text": "为啥咪铁支路直直",
+   "t0": 197.36,
+   "t1": 199.83,
+   "t0_used": 197.36,
+   "t1_used": 199.83,
+   "snapped": false,
+   "snap_deltas": [
+    -0.126,
+    -0.117
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 61,
+   "text": "火车叨位去",
+   "t0": 199.83,
+   "t1": 217.09,
+   "t0_used": 199.83,
+   "t1_used": 217.153,
+   "snapped": true,
+   "snap_deltas": [
+    -0.117,
+    -0.063
+   ],
+   "approx": false,
+   "splits": [
+    202.896,
+    205.845,
+    208.306,
+    211.255,
+    214.181
+   ]
+  },
+  {
+   "i": 62,
+   "text": "你那ㄟ全然拢没消息",
+   "t0": 217.09,
+   "t1": 221.02,
+   "t0_used": 217.153,
+   "t1_used": 221.1,
+   "snapped": true,
+   "snap_deltas": [
+    -0.063,
+    -0.08
+   ],
+   "approx": false,
+   "splits": [
+    219.127
+   ]
+  },
+  {
+   "i": 63,
+   "text": "我亲像一只蜂找没蜜",
+   "t0": 221.02,
+   "t1": 224.96,
+   "t0_used": 221.1,
+   "t1_used": 225.025,
+   "snapped": true,
+   "snap_deltas": [
+    -0.08,
+    -0.065
+   ],
+   "approx": false,
+   "splits": [
+    223.074
+   ]
+  },
+  {
+   "i": 64,
+   "text": "将过去一张一张ㄟ撕",
+   "t0": 224.96,
+   "t1": 228.9,
+   "t0_used": 225.025,
+   "t1_used": 228.972,
+   "snapped": true,
+   "snap_deltas": [
+    -0.065,
+    -0.072
+   ],
+   "approx": false,
+   "splits": [
+    226.998
+   ]
+  },
+  {
+   "i": 65,
+   "text": "这日历 马撕到何时才有你ㄟ字",
+   "t0": 228.9,
+   "t1": 232.83,
+   "t0_used": 228.972,
+   "t1_used": 232.919,
+   "snapped": true,
+   "snap_deltas": [
+    -0.072,
+    -0.089
+   ],
+   "approx": false,
+   "splits": [
+    230.946
+   ]
+  },
+  {
+   "i": 66,
+   "text": "你那 全然拢没讯息",
+   "t0": 232.83,
+   "t1": 236.85,
+   "t0_used": 232.919,
+   "t1_used": 236.844,
+   "snapped": true,
+   "snap_deltas": [
+    -0.089,
+    0.006
+   ],
+   "approx": false,
+   "splits": [
+    234.87
+   ]
+  },
+  {
+   "i": 67,
+   "text": "像往南ㄟ燕子断翅",
+   "t0": 236.85,
+   "t1": 240.71,
+   "t0_used": 236.844,
+   "t1_used": 240.768,
+   "snapped": true,
+   "snap_deltas": [
+    0.006,
+    -0.058
+   ],
+   "approx": false,
+   "splits": [
+    238.817
+   ]
+  },
+  {
+   "i": 68,
+   "text": "不曾搁返来巢看厝边",
+   "t0": 240.71,
+   "t1": 244.61,
+   "t0_used": 240.768,
+   "t1_used": 244.61,
+   "snapped": true,
+   "snap_deltas": [
+    -0.058,
+    -0.105
+   ],
+   "approx": false,
+   "splits": [
+    242.741
+   ]
+  },
+  {
+   "i": 69,
+   "text": "为啥咪铁支路直直",
+   "t0": 244.61,
+   "t1": 247.19,
+   "t0_used": 244.61,
+   "t1_used": 247.153,
+   "snapped": true,
+   "snap_deltas": [
+    -0.105,
+    0.037
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 70,
+   "text": "火车叨位去",
+   "t0": 247.19,
+   "t1": 250.19,
+   "t0_used": 247.153,
+   "t1_used": 250.125,
+   "snapped": true,
+   "snap_deltas": [
+    0.037,
+    0.065
+   ],
+   "approx": false,
+   "splits": []
+  }
+ ],
+ "summary": {
+  "lines": 71,
+  "lines_untimed": 0,
+  "lines_snapped": 53,
+  "lines_unsnapped": 18,
+  "lines_need_split": 33,
+  "total_splits": 47
+ },
+ "advisory": true
+}

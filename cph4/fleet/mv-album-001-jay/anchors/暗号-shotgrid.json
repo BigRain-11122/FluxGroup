@@ -1,0 +1,786 @@
+{
+ "song": "暗号",
+ "version": "anchor-shotgrid v1.0 (r1070 bm-b)",
+ "inputs": {
+  "beats_sha_face": 557,
+  "n_beats": 557,
+  "n_downbeats": 140,
+  "duration_sec": 271.76
+ },
+ "bpm_median": 123.2,
+ "snap_tol_sec": 0.1,
+ "max_shot_sec": 3.0,
+ "grid": [
+  {
+   "i": 0,
+   "text": "我想要的 想做的 你比谁都了",
+   "t0": 16.21,
+   "t1": 20.02,
+   "t0_used": 16.277,
+   "t1_used": 20.085,
+   "snapped": true,
+   "snap_deltas": [
+    -0.067,
+    -0.065
+   ],
+   "approx": false,
+   "splits": [
+    18.181
+   ]
+  },
+  {
+   "i": 1,
+   "text": "你想说的 想给的 我全都知道",
+   "t0": 20.02,
+   "t1": 23.72,
+   "t0_used": 20.085,
+   "t1_used": 23.72,
+   "snapped": true,
+   "snap_deltas": [
+    -0.065,
+    -0.173
+   ],
+   "approx": false,
+   "splits": [
+    21.989
+   ]
+  },
+  {
+   "i": 2,
+   "text": "未接来电 没留言",
+   "t0": 23.72,
+   "t1": 25.76,
+   "t0_used": 23.72,
+   "t1_used": 25.797,
+   "snapped": true,
+   "snap_deltas": [
+    -0.173,
+    -0.037
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 3,
+   "text": "一定是你孤单的想念",
+   "t0": 25.76,
+   "t1": 28.15,
+   "t0_used": 25.797,
+   "t1_used": 28.189,
+   "snapped": true,
+   "snap_deltas": [
+    -0.037,
+    -0.039
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 4,
+   "text": "任何人都 猜不到",
+   "t0": 28.15,
+   "t1": 30.04,
+   "t0_used": 28.189,
+   "t1_used": 30.093,
+   "snapped": true,
+   "snap_deltas": [
+    -0.039,
+    -0.053
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 5,
+   "text": "这是我们的暗号",
+   "t0": 30.04,
+   "t1": 31.97,
+   "t0_used": 30.093,
+   "t1_used": 31.997,
+   "snapped": true,
+   "snap_deltas": [
+    -0.053,
+    -0.027
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 6,
+   "text": "他们猜 随便猜 不重要",
+   "t0": 31.97,
+   "t1": 35.28,
+   "t0_used": 31.997,
+   "t1_used": 35.341,
+   "snapped": true,
+   "snap_deltas": [
+    -0.027,
+    -0.061
+   ],
+   "approx": false,
+   "splits": [
+    33.901
+   ]
+  },
+  {
+   "i": 7,
+   "text": "连上彼此的讯号 才有个依靠",
+   "t0": 35.28,
+   "t1": 38.96,
+   "t0_used": 35.341,
+   "t1_used": 38.96,
+   "snapped": true,
+   "snap_deltas": [
+    -0.061,
+    -0.166
+   ],
+   "approx": false,
+   "splits": [
+    37.245
+   ]
+  },
+  {
+   "i": 8,
+   "text": "有太多人太多事",
+   "t0": 38.96,
+   "t1": 40.97,
+   "t0_used": 38.96,
+   "t1_used": 41.053,
+   "snapped": true,
+   "snap_deltas": [
+    -0.166,
+    -0.083
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 9,
+   "text": "夹在我们之间咆哮",
+   "t0": 40.97,
+   "t1": 43.33,
+   "t0_used": 41.053,
+   "t1_used": 43.33,
+   "snapped": true,
+   "snap_deltas": [
+    -0.083,
+    -0.115
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 10,
+   "text": "杂讯太多讯号弱",
+   "t0": 43.33,
+   "t1": 45.19,
+   "t0_used": 43.33,
+   "t1_used": 45.19,
+   "snapped": false,
+   "snap_deltas": [
+    -0.115,
+    -0.135
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 11,
+   "text": "就连风吹都要干扰",
+   "t0": 45.19,
+   "t1": 47.44,
+   "t0_used": 45.19,
+   "t1_used": 47.44,
+   "snapped": false,
+   "snap_deltas": [
+    -0.135,
+    0.211
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 12,
+   "text": "可是你不想一直走在黑暗地下道",
+   "t0": 47.44,
+   "t1": 54.21,
+   "t0_used": 47.44,
+   "t1_used": 54.21,
+   "snapped": false,
+   "snap_deltas": [
+    0.211,
+    -0.171
+   ],
+   "approx": false,
+   "splits": [
+    49.621,
+    51.989
+   ]
+  },
+  {
+   "i": 13,
+   "text": "想吹风 想自由 想要一起手牵手",
+   "t0": 54.21,
+   "t1": 58.13,
+   "t0_used": 54.21,
+   "t1_used": 58.189,
+   "snapped": true,
+   "snap_deltas": [
+    -0.171,
+    -0.059
+   ],
+   "approx": false,
+   "splits": [
+    56.285
+   ]
+  },
+  {
+   "i": 14,
+   "text": "去看海 绕世界流浪",
+   "t0": 58.13,
+   "t1": 62.51,
+   "t0_used": 58.189,
+   "t1_used": 62.462,
+   "snapped": true,
+   "snap_deltas": [
+    -0.059,
+    0.048
+   ],
+   "approx": false,
+   "splits": [
+    60.093
+   ]
+  },
+  {
+   "i": 15,
+   "text": "我害怕你心碎没人帮你擦眼泪",
+   "t0": 62.51,
+   "t1": 70.07,
+   "t0_used": 62.462,
+   "t1_used": 70.101,
+   "snapped": true,
+   "snap_deltas": [
+    0.048,
+    -0.031
+   ],
+   "approx": false,
+   "splits": [
+    64.877,
+    67.709
+   ]
+  },
+  {
+   "i": 16,
+   "text": "别管那是非 只要我们感觉对",
+   "t0": 70.07,
+   "t1": 77.72,
+   "t0_used": 70.101,
+   "t1_used": 77.717,
+   "snapped": true,
+   "snap_deltas": [
+    -0.031,
+    0.003
+   ],
+   "approx": false,
+   "splits": [
+    72.469,
+    75.326
+   ]
+  },
+  {
+   "i": 17,
+   "text": "我害怕你心碎没人帮你擦眼泪",
+   "t0": 77.72,
+   "t1": 85.27,
+   "t0_used": 77.717,
+   "t1_used": 85.333,
+   "snapped": true,
+   "snap_deltas": [
+    0.003,
+    -0.063
+   ],
+   "approx": false,
+   "splits": [
+    80.086,
+    82.942
+   ]
+  },
+  {
+   "i": 18,
+   "text": "别离开身边",
+   "t0": 85.27,
+   "t1": 88.63,
+   "t0_used": 85.333,
+   "t1_used": 88.654,
+   "snapped": true,
+   "snap_deltas": [
+    -0.063,
+    -0.024
+   ],
+   "approx": false,
+   "splits": [
+    86.773
+   ]
+  },
+  {
+   "i": 19,
+   "text": "拥有你我的世界才能完美",
+   "t0": 88.63,
+   "t1": 108.29,
+   "t0_used": 88.654,
+   "t1_used": 108.29,
+   "snapped": true,
+   "snap_deltas": [
+    -0.024,
+    0.108
+   ],
+   "approx": false,
+   "splits": [
+    91.533,
+    94.389,
+    97.245,
+    100.101,
+    102.493,
+    105.326
+   ]
+  },
+  {
+   "i": 20,
+   "text": "他们猜 随便猜 不重要",
+   "t0": 108.29,
+   "t1": 111.43,
+   "t0_used": 108.29,
+   "t1_used": 111.525,
+   "snapped": true,
+   "snap_deltas": [
+    0.108,
+    -0.095
+   ],
+   "approx": false,
+   "splits": [
+    110.086
+   ]
+  },
+  {
+   "i": 21,
+   "text": "连上彼此的讯号 才有个依靠",
+   "t0": 111.43,
+   "t1": 115.19,
+   "t0_used": 111.525,
+   "t1_used": 115.19,
+   "snapped": true,
+   "snap_deltas": [
+    -0.095,
+    -0.144
+   ],
+   "approx": false,
+   "splits": [
+    113.429
+   ]
+  },
+  {
+   "i": 22,
+   "text": "有太多人太多事",
+   "t0": 115.19,
+   "t1": 117.18,
+   "t0_used": 115.19,
+   "t1_used": 117.238,
+   "snapped": true,
+   "snap_deltas": [
+    -0.144,
+    -0.058
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 23,
+   "text": "夹在我们之间咆哮",
+   "t0": 117.18,
+   "t1": 119.56,
+   "t0_used": 117.238,
+   "t1_used": 119.629,
+   "snapped": true,
+   "snap_deltas": [
+    -0.058,
+    -0.069
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 24,
+   "text": "杂讯太多讯号弱",
+   "t0": 119.56,
+   "t1": 121.33,
+   "t0_used": 119.629,
+   "t1_used": 121.33,
+   "snapped": true,
+   "snap_deltas": [
+    -0.069,
+    -0.18
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 25,
+   "text": "就连风吹都要干扰",
+   "t0": 121.33,
+   "t1": 123.56,
+   "t0_used": 121.33,
+   "t1_used": 123.56,
+   "snapped": false,
+   "snap_deltas": [
+    -0.18,
+    0.123
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 26,
+   "text": "可是你不想一直走在黑暗地下道",
+   "t0": 123.56,
+   "t1": 130.41,
+   "t0_used": 123.56,
+   "t1_used": 130.41,
+   "snapped": false,
+   "snap_deltas": [
+    0.123,
+    -0.179
+   ],
+   "approx": false,
+   "splits": [
+    125.806,
+    128.174
+   ]
+  },
+  {
+   "i": 27,
+   "text": "想吹风 想自由 想要一起手牵手",
+   "t0": 130.41,
+   "t1": 134.35,
+   "t0_used": 130.41,
+   "t1_used": 134.374,
+   "snapped": true,
+   "snap_deltas": [
+    -0.179,
+    -0.024
+   ],
+   "approx": false,
+   "splits": [
+    132.47
+   ]
+  },
+  {
+   "i": 28,
+   "text": "去看海 绕世界流浪",
+   "t0": 134.35,
+   "t1": 138.67,
+   "t0_used": 134.374,
+   "t1_used": 138.646,
+   "snapped": true,
+   "snap_deltas": [
+    -0.024,
+    0.024
+   ],
+   "approx": false,
+   "splits": [
+    136.301
+   ]
+  },
+  {
+   "i": 29,
+   "text": "我害怕你心碎没人帮你擦眼泪",
+   "t0": 138.67,
+   "t1": 146.28,
+   "t0_used": 138.646,
+   "t1_used": 146.286,
+   "snapped": true,
+   "snap_deltas": [
+    0.024,
+    -0.006
+   ],
+   "approx": false,
+   "splits": [
+    141.061,
+    143.894
+   ]
+  },
+  {
+   "i": 30,
+   "text": "别管那是非 只要我们感觉对",
+   "t0": 146.28,
+   "t1": 153.81,
+   "t0_used": 146.286,
+   "t1_used": 153.902,
+   "snapped": true,
+   "snap_deltas": [
+    -0.006,
+    -0.092
+   ],
+   "approx": false,
+   "splits": [
+    148.677,
+    151.533
+   ]
+  },
+  {
+   "i": 31,
+   "text": "我害怕你心碎没人帮你擦眼泪",
+   "t0": 153.81,
+   "t1": 161.43,
+   "t0_used": 153.902,
+   "t1_used": 161.518,
+   "snapped": true,
+   "snap_deltas": [
+    -0.092,
+    -0.088
+   ],
+   "approx": false,
+   "splits": [
+    156.294,
+    159.15
+   ]
+  },
+  {
+   "i": 32,
+   "text": "别离开身边",
+   "t0": 161.43,
+   "t1": 164.8,
+   "t0_used": 161.518,
+   "t1_used": 164.862,
+   "snapped": true,
+   "snap_deltas": [
+    -0.088,
+    -0.062
+   ],
+   "approx": false,
+   "splits": [
+    162.958
+   ]
+  },
+  {
+   "i": 33,
+   "text": "拥有你我的世界才能完美",
+   "t0": 164.8,
+   "t1": 177.24,
+   "t0_used": 164.862,
+   "t1_used": 177.238,
+   "snapped": true,
+   "snap_deltas": [
+    -0.062,
+    0.002
+   ],
+   "approx": false,
+   "splits": [
+    167.23,
+    169.622,
+    172.478,
+    174.846
+   ]
+  },
+  {
+   "i": 34,
+   "text": "你说你想逃开松手",
+   "t0": 177.24,
+   "t1": 180.73,
+   "t0_used": 177.238,
+   "t1_used": 180.73,
+   "snapped": true,
+   "snap_deltas": [
+    0.002,
+    0.148
+   ],
+   "approx": false,
+   "splits": [
+    179.142
+   ]
+  },
+  {
+   "i": 35,
+   "text": "爱太累爱得不自由",
+   "t0": 180.73,
+   "t1": 184.69,
+   "t0_used": 180.73,
+   "t1_used": 184.69,
+   "snapped": false,
+   "snap_deltas": [
+    0.148,
+    -0.164
+   ],
+   "approx": false,
+   "splits": [
+    182.486
+   ]
+  },
+  {
+   "i": 36,
+   "text": "因为我给不起最简单的承诺",
+   "t0": 184.69,
+   "t1": 190.95,
+   "t0_used": 184.69,
+   "t1_used": 190.95,
+   "snapped": false,
+   "snap_deltas": [
+    -0.164,
+    -0.104
+   ],
+   "approx": false,
+   "splits": [
+    186.735,
+    188.662
+   ]
+  },
+  {
+   "i": 37,
+   "text": "你停止收讯号 我开始搜寻不到",
+   "t0": 190.95,
+   "t1": 198.7,
+   "t0_used": 190.95,
+   "t1_used": 198.647,
+   "snapped": true,
+   "snap_deltas": [
+    -0.104,
+    0.053
+   ],
+   "approx": false,
+   "splits": [
+    193.422,
+    196.255
+   ]
+  },
+  {
+   "i": 38,
+   "text": "到底有谁知道 是几点钟方向",
+   "t0": 198.7,
+   "t1": 203.62,
+   "t0_used": 198.647,
+   "t1_used": 203.62,
+   "snapped": true,
+   "snap_deltas": [
+    0.053,
+    0.19
+   ],
+   "approx": false,
+   "splits": [
+    201.038
+   ]
+  },
+  {
+   "i": 39,
+   "text": "你才会收到暗号",
+   "t0": 203.62,
+   "t1": 207.25,
+   "t0_used": 203.62,
+   "t1_used": 207.215,
+   "snapped": true,
+   "snap_deltas": [
+    0.19,
+    0.035
+   ],
+   "approx": false,
+   "splits": [
+    205.334
+   ]
+  },
+  {
+   "i": 40,
+   "text": "我害怕你心碎没人帮你擦眼泪",
+   "t0": 207.25,
+   "t1": 214.81,
+   "t0_used": 207.215,
+   "t1_used": 214.854,
+   "snapped": true,
+   "snap_deltas": [
+    0.035,
+    -0.044
+   ],
+   "approx": false,
+   "splits": [
+    209.63,
+    212.463
+   ]
+  },
+  {
+   "i": 41,
+   "text": "别管那是非 只要我们感觉对",
+   "t0": 214.81,
+   "t1": 222.4,
+   "t0_used": 214.854,
+   "t1_used": 222.47,
+   "snapped": true,
+   "snap_deltas": [
+    -0.044,
+    -0.07
+   ],
+   "approx": false,
+   "splits": [
+    217.246,
+    220.079
+   ]
+  },
+  {
+   "i": 42,
+   "text": "我害怕你心碎没人帮你擦眼泪",
+   "t0": 222.4,
+   "t1": 230.13,
+   "t0_used": 222.47,
+   "t1_used": 230.087,
+   "snapped": true,
+   "snap_deltas": [
+    -0.07,
+    0.043
+   ],
+   "approx": false,
+   "splits": [
+    224.862,
+    227.718
+   ]
+  },
+  {
+   "i": 43,
+   "text": "别离开身边",
+   "t0": 230.13,
+   "t1": 233.48,
+   "t0_used": 230.087,
+   "t1_used": 233.407,
+   "snapped": true,
+   "snap_deltas": [
+    0.043,
+    0.073
+   ],
+   "approx": false,
+   "splits": [
+    231.526
+   ]
+  },
+  {
+   "i": 44,
+   "text": "拥有你我的世界才能完美",
+   "t0": 233.48,
+   "t1": 236.48,
+   "t0_used": 233.407,
+   "t1_used": 236.48,
+   "snapped": true,
+   "snap_deltas": [
+    0.073,
+    0.194
+   ],
+   "approx": false,
+   "splits": [
+    234.847
+   ]
+  }
+ ],
+ "summary": {
+  "lines": 45,
+  "lines_untimed": 0,
+  "lines_snapped": 38,
+  "lines_unsnapped": 7,
+  "lines_need_split": 33,
+  "total_splits": 54
+ },
+ "advisory": true
+}

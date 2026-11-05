@@ -1,0 +1,768 @@
+{
+ "song": "最后的战役",
+ "version": "anchor-shotgrid v1.0 (r1070 bm-b)",
+ "inputs": {
+  "beats_sha_face": 487,
+  "n_beats": 487,
+  "n_downbeats": 122,
+  "duration_sec": 251.16
+ },
+ "bpm_median": 117.4,
+ "snap_tol_sec": 0.1,
+ "max_shot_sec": 3.0,
+ "grid": [
+  {
+   "i": 0,
+   "text": "机枪扫射声中我们寻找遮蔽的战壕",
+   "t0": 40.28,
+   "t1": 44.23,
+   "t0_used": 40.333,
+   "t1_used": 44.23,
+   "snapped": true,
+   "snap_deltas": [
+    -0.053,
+    -0.12
+   ],
+   "approx": false,
+   "splits": [
+    42.33
+   ]
+  },
+  {
+   "i": 1,
+   "text": "儿时沙雕的城堡毁坏了重新盖就好",
+   "t0": 44.23,
+   "t1": 48.25,
+   "t0_used": 44.23,
+   "t1_used": 48.25,
+   "snapped": false,
+   "snap_deltas": [
+    -0.12,
+    -0.164
+   ],
+   "approx": false,
+   "splits": [
+    46.37
+   ]
+  },
+  {
+   "i": 2,
+   "text": "可是你那件染血布满弹孔的军外套",
+   "t0": 48.25,
+   "t1": 52.3,
+   "t0_used": 48.25,
+   "t1_used": 52.3,
+   "snapped": false,
+   "snap_deltas": [
+    -0.164,
+    0.125
+   ],
+   "approx": false,
+   "splits": [
+    50.294
+   ]
+  },
+  {
+   "i": 3,
+   "text": "却就连祷告手都举不好",
+   "t0": 52.3,
+   "t1": 56.84,
+   "t0_used": 52.3,
+   "t1_used": 56.912,
+   "snapped": true,
+   "snap_deltas": [
+    0.125,
+    -0.072
+   ],
+   "approx": false,
+   "splits": [
+    54.706
+   ]
+  },
+  {
+   "i": 4,
+   "text": "在硝烟中想起冰棒汽水的味道",
+   "t0": 56.84,
+   "t1": 60.32,
+   "t0_used": 56.912,
+   "t1_used": 60.32,
+   "snapped": true,
+   "snap_deltas": [
+    -0.072,
+    -0.168
+   ],
+   "approx": false,
+   "splits": [
+    58.491
+   ]
+  },
+  {
+   "i": 5,
+   "text": "和那些无所事事一整个夏天的年少",
+   "t0": 60.32,
+   "t1": 64.42,
+   "t0_used": 60.32,
+   "t1_used": 64.42,
+   "snapped": false,
+   "snap_deltas": [
+    -0.168,
+    -0.108
+   ],
+   "approx": false,
+   "splits": [
+    62.531
+   ]
+  },
+  {
+   "i": 6,
+   "text": "我放下枪回忆去年一起毕业的学校",
+   "t0": 64.42,
+   "t1": 68.4,
+   "t0_used": 64.42,
+   "t1_used": 68.4,
+   "snapped": false,
+   "snap_deltas": [
+    -0.108,
+    -0.169
+   ],
+   "approx": false,
+   "splits": [
+    66.548
+   ]
+  },
+  {
+   "i": 7,
+   "text": "而眼泪 一直都忘记要掉",
+   "t0": 68.4,
+   "t1": 73.96,
+   "t0_used": 68.4,
+   "t1_used": 73.96,
+   "snapped": false,
+   "snap_deltas": [
+    -0.169,
+    -0.158
+   ],
+   "approx": false,
+   "splits": [
+    71.076
+   ]
+  },
+  {
+   "i": 8,
+   "text": "嘲笑的声音在风中不断被练习",
+   "t0": 73.96,
+   "t1": 82.13,
+   "t0_used": 73.96,
+   "t1_used": 82.175,
+   "snapped": true,
+   "snap_deltas": [
+    -0.158,
+    -0.045
+   ],
+   "approx": false,
+   "splits": [
+    76.603,
+    79.644
+   ]
+  },
+  {
+   "i": 9,
+   "text": "这树林间充满了敌意",
+   "t0": 82.13,
+   "t1": 88.12,
+   "t0_used": 82.175,
+   "t1_used": 88.213,
+   "snapped": true,
+   "snap_deltas": [
+    -0.045,
+    -0.093
+   ],
+   "approx": false,
+   "splits": [
+    84.196,
+    86.216
+   ]
+  },
+  {
+   "i": 10,
+   "text": "部队弃守阵地你坚持要我也离去",
+   "t0": 88.12,
+   "t1": 95.85,
+   "t0_used": 88.213,
+   "t1_used": 95.782,
+   "snapped": true,
+   "snap_deltas": [
+    -0.093,
+    0.068
+   ],
+   "approx": false,
+   "splits": [
+    90.767,
+    93.275
+   ]
+  },
+  {
+   "i": 11,
+   "text": "我怎么能放弃",
+   "t0": 95.85,
+   "t1": 101.69,
+   "t0_used": 95.782,
+   "t1_used": 101.69,
+   "snapped": true,
+   "snap_deltas": [
+    0.068,
+    -0.153
+   ],
+   "approx": false,
+   "splits": [
+    98.824
+   ]
+  },
+  {
+   "i": 12,
+   "text": "我留着陪你",
+   "t0": 101.69,
+   "t1": 103.63,
+   "t0_used": 101.69,
+   "t1_used": 103.63,
+   "snapped": false,
+   "snap_deltas": [
+    -0.153,
+    -0.186
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 13,
+   "text": "强忍着泪滴",
+   "t0": 103.63,
+   "t1": 105.55,
+   "t0_used": 103.63,
+   "t1_used": 105.55,
+   "snapped": false,
+   "snap_deltas": [
+    -0.186,
+    0.178
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 14,
+   "text": "有些事真的来不及回不去",
+   "t0": 105.55,
+   "t1": 109.57,
+   "t0_used": 105.55,
+   "t1_used": 109.57,
+   "snapped": false,
+   "snap_deltas": [
+    0.178,
+    0.158
+   ],
+   "approx": false,
+   "splits": [
+    107.392
+   ]
+  },
+  {
+   "i": 15,
+   "text": "你脸在抽搐",
+   "t0": 109.57,
+   "t1": 111.51,
+   "t0_used": 109.57,
+   "t1_used": 111.51,
+   "snapped": false,
+   "snap_deltas": [
+    0.158,
+    0.124
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 16,
+   "text": "就快没力气",
+   "t0": 111.51,
+   "t1": 113.41,
+   "t0_used": 111.51,
+   "t1_used": 113.453,
+   "snapped": true,
+   "snap_deltas": [
+    0.124,
+    -0.043
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 17,
+   "text": "家乡事不准我再提",
+   "t0": 113.41,
+   "t1": 117.8,
+   "t0_used": 113.453,
+   "t1_used": 117.8,
+   "snapped": true,
+   "snap_deltas": [
+    -0.043,
+    -0.157
+   ],
+   "approx": false,
+   "splits": [
+    115.426
+   ]
+  },
+  {
+   "i": 18,
+   "text": "我留着陪你",
+   "t0": 117.8,
+   "t1": 119.69,
+   "t0_used": 117.8,
+   "t1_used": 119.69,
+   "snapped": false,
+   "snap_deltas": [
+    -0.157,
+    0.2
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 19,
+   "text": "最后的距离",
+   "t0": 119.69,
+   "t1": 121.77,
+   "t0_used": 119.69,
+   "t1_used": 121.77,
+   "snapped": false,
+   "snap_deltas": [
+    0.2,
+    -0.228
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 20,
+   "text": "是你的侧脸倒在我的怀里",
+   "t0": 121.77,
+   "t1": 125.74,
+   "t0_used": 121.77,
+   "t1_used": 125.74,
+   "snapped": false,
+   "snap_deltas": [
+    -0.228,
+    0.19
+   ],
+   "approx": false,
+   "splits": [
+    123.53
+   ]
+  },
+  {
+   "i": 21,
+   "text": "你慢慢睡去",
+   "t0": 125.74,
+   "t1": 127.64,
+   "t0_used": 125.74,
+   "t1_used": 127.547,
+   "snapped": true,
+   "snap_deltas": [
+    0.19,
+    0.093
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 22,
+   "text": "我摇不醒你",
+   "t0": 127.64,
+   "t1": 129.67,
+   "t0_used": 127.547,
+   "t1_used": 129.67,
+   "snapped": true,
+   "snap_deltas": [
+    0.093,
+    0.103
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 23,
+   "text": "泪水在战壕里 决了堤",
+   "t0": 129.67,
+   "t1": 135.91,
+   "t0_used": 129.67,
+   "t1_used": 135.91,
+   "snapped": false,
+   "snap_deltas": [
+    0.103,
+    -0.229
+   ],
+   "approx": false,
+   "splits": [
+    131.587,
+    133.608
+   ]
+  },
+  {
+   "i": 24,
+   "text": "Yeah",
+   "t0": 135.91,
+   "t1": 149.67,
+   "t0_used": 135.91,
+   "t1_used": 149.699,
+   "snapped": true,
+   "snap_deltas": [
+    -0.229,
+    -0.029
+   ],
+   "approx": false,
+   "splits": [
+    138.646,
+    141.665,
+    144.196,
+    146.704
+   ]
+  },
+  {
+   "i": 25,
+   "text": "在硝烟中想起冰棒汽水的味道",
+   "t0": 149.67,
+   "t1": 153.08,
+   "t0_used": 149.699,
+   "t1_used": 153.08,
+   "snapped": true,
+   "snap_deltas": [
+    -0.029,
+    -0.195
+   ],
+   "approx": false,
+   "splits": [
+    151.255
+   ]
+  },
+  {
+   "i": 26,
+   "text": "和那些无所事事一整个夏天的年少",
+   "t0": 153.08,
+   "t1": 157.15,
+   "t0_used": 153.08,
+   "t1_used": 157.15,
+   "snapped": false,
+   "snap_deltas": [
+    -0.195,
+    -0.142
+   ],
+   "approx": false,
+   "splits": [
+    155.272
+   ]
+  },
+  {
+   "i": 27,
+   "text": "我放下枪回忆去年一起毕业的学校",
+   "t0": 157.15,
+   "t1": 161.14,
+   "t0_used": 157.15,
+   "t1_used": 161.14,
+   "snapped": false,
+   "snap_deltas": [
+    -0.142,
+    -0.192
+   ],
+   "approx": false,
+   "splits": [
+    159.312
+   ]
+  },
+  {
+   "i": 28,
+   "text": "而眼泪 一直都忘记要掉",
+   "t0": 161.14,
+   "t1": 166.77,
+   "t0_used": 161.14,
+   "t1_used": 166.77,
+   "snapped": false,
+   "snap_deltas": [
+    -0.192,
+    -0.112
+   ],
+   "approx": false,
+   "splits": [
+    163.863
+   ]
+  },
+  {
+   "i": 29,
+   "text": "嘲笑的声音在风中不断被练习",
+   "t0": 166.77,
+   "t1": 174.88,
+   "t0_used": 166.77,
+   "t1_used": 174.939,
+   "snapped": true,
+   "snap_deltas": [
+    -0.112,
+    -0.059
+   ],
+   "approx": false,
+   "splits": [
+    169.39,
+    172.431
+   ]
+  },
+  {
+   "i": 30,
+   "text": "这树林间充满了敌意",
+   "t0": 174.88,
+   "t1": 181.05,
+   "t0_used": 174.939,
+   "t1_used": 181.0,
+   "snapped": true,
+   "snap_deltas": [
+    -0.059,
+    0.05
+   ],
+   "approx": false,
+   "splits": [
+    176.959,
+    178.979
+   ]
+  },
+  {
+   "i": 31,
+   "text": "部队弃守阵地你坚持要我也离去",
+   "t0": 181.05,
+   "t1": 188.52,
+   "t0_used": 181.0,
+   "t1_used": 188.546,
+   "snapped": true,
+   "snap_deltas": [
+    0.05,
+    -0.026
+   ],
+   "approx": false,
+   "splits": [
+    183.531,
+    186.061
+   ]
+  },
+  {
+   "i": 32,
+   "text": "我怎么能放弃",
+   "t0": 188.52,
+   "t1": 194.51,
+   "t0_used": 188.546,
+   "t1_used": 194.606,
+   "snapped": true,
+   "snap_deltas": [
+    -0.026,
+    -0.096
+   ],
+   "approx": false,
+   "splits": [
+    190.589,
+    192.61
+   ]
+  },
+  {
+   "i": 33,
+   "text": "我留着陪你",
+   "t0": 194.51,
+   "t1": 196.52,
+   "t0_used": 194.606,
+   "t1_used": 196.603,
+   "snapped": true,
+   "snap_deltas": [
+    -0.096,
+    -0.083
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 34,
+   "text": "强忍着泪滴",
+   "t0": 196.52,
+   "t1": 198.45,
+   "t0_used": 196.603,
+   "t1_used": 198.45,
+   "snapped": true,
+   "snap_deltas": [
+    -0.083,
+    -0.197
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 35,
+   "text": "有些事真的来不及回不去",
+   "t0": 198.45,
+   "t1": 202.4,
+   "t0_used": 198.45,
+   "t1_used": 202.4,
+   "snapped": false,
+   "snap_deltas": [
+    -0.197,
+    0.224
+   ],
+   "approx": false,
+   "splits": [
+    200.667
+   ]
+  },
+  {
+   "i": 36,
+   "text": "你脸在抽搐",
+   "t0": 202.4,
+   "t1": 204.3,
+   "t0_used": 202.4,
+   "t1_used": 204.3,
+   "snapped": false,
+   "snap_deltas": [
+    0.224,
+    0.15
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 37,
+   "text": "就快没力气",
+   "t0": 204.3,
+   "t1": 206.11,
+   "t0_used": 204.3,
+   "t1_used": 206.11,
+   "snapped": false,
+   "snap_deltas": [
+    0.15,
+    -0.106
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 38,
+   "text": "家乡事不准我再提",
+   "t0": 206.11,
+   "t1": 210.47,
+   "t0_used": 206.11,
+   "t1_used": 210.47,
+   "snapped": false,
+   "snap_deltas": [
+    -0.106,
+    0.237
+   ],
+   "approx": false,
+   "splits": [
+    208.213
+   ]
+  },
+  {
+   "i": 39,
+   "text": "我留着陪你",
+   "t0": 210.47,
+   "t1": 212.51,
+   "t0_used": 210.47,
+   "t1_used": 212.51,
+   "snapped": false,
+   "snap_deltas": [
+    0.237,
+    -0.254
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 40,
+   "text": "最后的距离",
+   "t0": 212.51,
+   "t1": 214.58,
+   "t0_used": 212.51,
+   "t1_used": 214.58,
+   "snapped": false,
+   "snap_deltas": [
+    -0.254,
+    -0.205
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 41,
+   "text": "是你的侧脸倒在我的怀里",
+   "t0": 214.58,
+   "t1": 218.56,
+   "t0_used": 214.58,
+   "t1_used": 218.56,
+   "snapped": false,
+   "snap_deltas": [
+    -0.205,
+    0.246
+   ],
+   "approx": false,
+   "splits": [
+    216.781
+   ]
+  },
+  {
+   "i": 42,
+   "text": "你慢慢睡去",
+   "t0": 218.56,
+   "t1": 220.62,
+   "t0_used": 218.56,
+   "t1_used": 220.62,
+   "snapped": false,
+   "snap_deltas": [
+    0.246,
+    -0.202
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 43,
+   "text": "我摇不醒你",
+   "t0": 220.62,
+   "t1": 222.37,
+   "t0_used": 220.62,
+   "t1_used": 222.354,
+   "snapped": true,
+   "snap_deltas": [
+    -0.202,
+    0.016
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 44,
+   "text": "泪水在战壕里决了堤",
+   "t0": 222.37,
+   "t1": 225.37,
+   "t0_used": 222.354,
+   "t1_used": 225.373,
+   "snapped": true,
+   "snap_deltas": [
+    0.016,
+    -0.003
+   ],
+   "approx": false,
+   "splits": [
+    223.864
+   ]
+  }
+ ],
+ "summary": {
+  "lines": 45,
+  "lines_untimed": 0,
+  "lines_snapped": 21,
+  "lines_unsnapped": 24,
+  "lines_need_split": 29,
+  "total_splits": 40
+ },
+ "advisory": true
+}

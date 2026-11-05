@@ -1,0 +1,894 @@
+{
+ "song": "爱情悬崖",
+ "version": "anchor-shotgrid v1.0 (r1070 bm-b)",
+ "inputs": {
+  "beats_sha_face": 596,
+  "n_beats": 596,
+  "n_downbeats": 149,
+  "duration_sec": 262.21
+ },
+ "bpm_median": 143.5,
+ "snap_tol_sec": 0.1,
+ "max_shot_sec": 3.0,
+ "grid": [
+  {
+   "i": 0,
+   "text": "你说我像一个小孩",
+   "t0": 10.37,
+   "t1": 18.75,
+   "t0_used": 10.426,
+   "t1_used": 18.739,
+   "snapped": true,
+   "snap_deltas": [
+    -0.056,
+    0.011
+   ],
+   "approx": false,
+   "splits": [
+    13.305,
+    15.859
+   ]
+  },
+  {
+   "i": 1,
+   "text": "总爱让你猜",
+   "t0": 18.75,
+   "t1": 24.33,
+   "t0_used": 18.739,
+   "t1_used": 24.33,
+   "snapped": true,
+   "snap_deltas": [
+    0.011,
+    0.181
+   ],
+   "approx": false,
+   "splits": [
+    21.687
+   ]
+  },
+  {
+   "i": 2,
+   "text": "我说你才像个小孩",
+   "t0": 24.33,
+   "t1": 32.41,
+   "t0_used": 24.33,
+   "t1_used": 32.41,
+   "snapped": false,
+   "snap_deltas": [
+    0.181,
+    0.134
+   ],
+   "approx": false,
+   "splits": [
+    27.098,
+    29.768
+   ]
+  },
+  {
+   "i": 3,
+   "text": "总要我说才明白",
+   "t0": 32.41,
+   "t1": 38.2,
+   "t0_used": 32.41,
+   "t1_used": 38.174,
+   "snapped": true,
+   "snap_deltas": [
+    0.134,
+    0.026
+   ],
+   "approx": false,
+   "splits": [
+    35.225
+   ]
+  },
+  {
+   "i": 4,
+   "text": "有些事太快",
+   "t0": 38.2,
+   "t1": 41.64,
+   "t0_used": 38.174,
+   "t1_used": 41.64,
+   "snapped": true,
+   "snap_deltas": [
+    0.026,
+    0.123
+   ],
+   "approx": false,
+   "splits": [
+    39.799
+   ]
+  },
+  {
+   "i": 5,
+   "text": "失去了等待 障碍",
+   "t0": 41.64,
+   "t1": 46.56,
+   "t0_used": 41.64,
+   "t1_used": 46.649,
+   "snapped": true,
+   "snap_deltas": [
+    0.123,
+    -0.089
+   ],
+   "approx": false,
+   "splits": [
+    44.164
+   ]
+  },
+  {
+   "i": 6,
+   "text": "没了期待",
+   "t0": 46.56,
+   "t1": 49.16,
+   "t0_used": 46.649,
+   "t1_used": 49.25,
+   "snapped": true,
+   "snap_deltas": [
+    -0.089,
+    -0.09
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 7,
+   "text": "我们的爱怎么才自然",
+   "t0": 49.16,
+   "t1": 55.13,
+   "t0_used": 49.25,
+   "t1_used": 55.101,
+   "snapped": true,
+   "snap_deltas": [
+    -0.09,
+    0.029
+   ],
+   "approx": false,
+   "splits": [
+    52.129
+   ]
+  },
+  {
+   "i": 8,
+   "text": "每次沟通不来",
+   "t0": 55.13,
+   "t1": 60.42,
+   "t0_used": 55.101,
+   "t1_used": 60.42,
+   "snapped": true,
+   "snap_deltas": [
+    0.029,
+    -0.161
+   ],
+   "approx": false,
+   "splits": [
+    57.632
+   ]
+  },
+  {
+   "i": 9,
+   "text": "就要离开就说不要爱",
+   "t0": 60.42,
+   "t1": 64.15,
+   "t0_used": 60.42,
+   "t1_used": 64.15,
+   "snapped": false,
+   "snap_deltas": [
+    -0.161,
+    0.156
+   ],
+   "approx": false,
+   "splits": [
+    62.276
+   ]
+  },
+  {
+   "i": 10,
+   "text": "我掉进爱情悬崖",
+   "t0": 64.15,
+   "t1": 67.43,
+   "t0_used": 64.15,
+   "t1_used": 67.361,
+   "snapped": true,
+   "snap_deltas": [
+    0.156,
+    0.069
+   ],
+   "approx": false,
+   "splits": [
+    65.666
+   ]
+  },
+  {
+   "i": 11,
+   "text": "跌太深爬不出来",
+   "t0": 67.43,
+   "t1": 70.81,
+   "t0_used": 67.361,
+   "t1_used": 70.728,
+   "snapped": true,
+   "snap_deltas": [
+    0.069,
+    0.082
+   ],
+   "approx": false,
+   "splits": [
+    69.056
+   ]
+  },
+  {
+   "i": 12,
+   "text": "下降的速度太快",
+   "t0": 70.81,
+   "t1": 74.16,
+   "t0_used": 70.728,
+   "t1_used": 74.118,
+   "snapped": true,
+   "snap_deltas": [
+    0.082,
+    0.042
+   ],
+   "approx": false,
+   "splits": [
+    72.423
+   ]
+  },
+  {
+   "i": 13,
+   "text": "来不及踏上未来",
+   "t0": 74.16,
+   "t1": 77.37,
+   "t0_used": 74.118,
+   "t1_used": 77.37,
+   "snapped": true,
+   "snap_deltas": [
+    0.042,
+    -0.138
+   ],
+   "approx": false,
+   "splits": [
+    75.813
+   ]
+  },
+  {
+   "i": 14,
+   "text": "你的爱反复徘徊",
+   "t0": 77.37,
+   "t1": 80.92,
+   "t0_used": 77.37,
+   "t1_used": 80.875,
+   "snapped": true,
+   "snap_deltas": [
+    -0.138,
+    0.045
+   ],
+   "approx": false,
+   "splits": [
+    79.18
+   ]
+  },
+  {
+   "i": 15,
+   "text": "打乱我呼吸节拍",
+   "t0": 80.92,
+   "t1": 86.04,
+   "t0_used": 80.875,
+   "t1_used": 86.04,
+   "snapped": true,
+   "snap_deltas": [
+    0.045,
+    0.103
+   ],
+   "approx": false,
+   "splits": [
+    83.383
+   ]
+  },
+  {
+   "i": 16,
+   "text": "该怎么逃开",
+   "t0": 86.04,
+   "t1": 88.51,
+   "t0_used": 86.04,
+   "t1_used": 88.468,
+   "snapped": true,
+   "snap_deltas": [
+    0.103,
+    0.042
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 17,
+   "text": "我控制不来",
+   "t0": 88.51,
+   "t1": 91.09,
+   "t0_used": 88.468,
+   "t1_used": 90.999,
+   "snapped": true,
+   "snap_deltas": [
+    0.042,
+    0.091
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 18,
+   "text": "我掉进爱情悬崖",
+   "t0": 91.09,
+   "t1": 94.53,
+   "t0_used": 90.999,
+   "t1_used": 94.53,
+   "snapped": true,
+   "snap_deltas": [
+    0.091,
+    0.141
+   ],
+   "approx": false,
+   "splits": [
+    92.671
+   ]
+  },
+  {
+   "i": 19,
+   "text": "回想起你的可爱",
+   "t0": 94.53,
+   "t1": 97.66,
+   "t0_used": 94.53,
+   "t1_used": 97.756,
+   "snapped": true,
+   "snap_deltas": [
+    0.141,
+    -0.096
+   ],
+   "approx": false,
+   "splits": [
+    96.084
+   ]
+  },
+  {
+   "i": 20,
+   "text": "傻傻地还在等待",
+   "t0": 97.66,
+   "t1": 100.42,
+   "t0_used": 97.756,
+   "t1_used": 100.42,
+   "snapped": true,
+   "snap_deltas": [
+    -0.096,
+    0.133
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 21,
+   "text": "以为你还会回来",
+   "t0": 100.42,
+   "t1": 104.58,
+   "t0_used": 100.42,
+   "t1_used": 104.536,
+   "snapped": true,
+   "snap_deltas": [
+    0.133,
+    0.044
+   ],
+   "approx": false,
+   "splits": [
+    102.423
+   ]
+  },
+  {
+   "i": 22,
+   "text": "你的脸慢慢离开",
+   "t0": 104.58,
+   "t1": 108.01,
+   "t0_used": 104.536,
+   "t1_used": 107.926,
+   "snapped": true,
+   "snap_deltas": [
+    0.044,
+    0.084
+   ],
+   "approx": false,
+   "splits": [
+    106.231
+   ]
+  },
+  {
+   "i": 23,
+   "text": "时间快将我掩埋",
+   "t0": 108.01,
+   "t1": 113.38,
+   "t0_used": 107.926,
+   "t1_used": 113.406,
+   "snapped": true,
+   "snap_deltas": [
+    0.084,
+    -0.026
+   ],
+   "approx": false,
+   "splits": [
+    110.457
+   ]
+  },
+  {
+   "i": 24,
+   "text": "消失得太快",
+   "t0": 113.38,
+   "t1": 116.06,
+   "t0_used": 113.406,
+   "t1_used": 116.06,
+   "snapped": true,
+   "snap_deltas": [
+    -0.026,
+    0.1
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 25,
+   "text": "我负荷不来",
+   "t0": 116.06,
+   "t1": 132.36,
+   "t0_used": 116.06,
+   "t1_used": 132.447,
+   "snapped": true,
+   "snap_deltas": [
+    0.1,
+    -0.087
+   ],
+   "approx": false,
+   "splits": [
+    118.909,
+    121.44,
+    124.389,
+    126.943,
+    129.892
+   ]
+  },
+  {
+   "i": 26,
+   "text": "你说我像一个小孩",
+   "t0": 132.36,
+   "t1": 140.93,
+   "t0_used": 132.447,
+   "t1_used": 140.875,
+   "snapped": true,
+   "snap_deltas": [
+    -0.087,
+    0.055
+   ],
+   "approx": false,
+   "splits": [
+    135.396,
+    137.95
+   ]
+  },
+  {
+   "i": 27,
+   "text": "总爱让你猜",
+   "t0": 140.93,
+   "t1": 145.6,
+   "t0_used": 140.875,
+   "t1_used": 145.6,
+   "snapped": true,
+   "snap_deltas": [
+    0.055,
+    0.104
+   ],
+   "approx": false,
+   "splits": [
+    143.383
+   ]
+  },
+  {
+   "i": 28,
+   "text": "我说你才像个小孩",
+   "t0": 145.6,
+   "t1": 154.19,
+   "t0_used": 145.6,
+   "t1_used": 154.19,
+   "snapped": false,
+   "snap_deltas": [
+    0.104,
+    -0.176
+   ],
+   "approx": false,
+   "splits": [
+    148.492,
+    151.441
+   ]
+  },
+  {
+   "i": 29,
+   "text": "总要我说才明白",
+   "t0": 154.19,
+   "t1": 160.05,
+   "t0_used": 154.19,
+   "t1_used": 160.05,
+   "snapped": false,
+   "snap_deltas": [
+    -0.176,
+    0.157
+   ],
+   "approx": false,
+   "splits": [
+    156.944
+   ]
+  },
+  {
+   "i": 30,
+   "text": "有些事太快",
+   "t0": 160.05,
+   "t1": 163.14,
+   "t0_used": 160.05,
+   "t1_used": 163.236,
+   "snapped": true,
+   "snap_deltas": [
+    0.157,
+    -0.096
+   ],
+   "approx": false,
+   "splits": [
+    161.541
+   ]
+  },
+  {
+   "i": 31,
+   "text": "失去了等待 障碍",
+   "t0": 163.14,
+   "t1": 168.21,
+   "t0_used": 163.236,
+   "t1_used": 168.21,
+   "snapped": true,
+   "snap_deltas": [
+    -0.096,
+    -0.135
+   ],
+   "approx": false,
+   "splits": [
+    165.79
+   ]
+  },
+  {
+   "i": 32,
+   "text": "没了期待",
+   "t0": 168.21,
+   "t1": 170.75,
+   "t0_used": 168.21,
+   "t1_used": 170.75,
+   "snapped": false,
+   "snap_deltas": [
+    -0.135,
+    -0.126
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 33,
+   "text": "我们的爱怎么才自然",
+   "t0": 170.75,
+   "t1": 176.68,
+   "t0_used": 170.75,
+   "t1_used": 176.68,
+   "snapped": false,
+   "snap_deltas": [
+    -0.126,
+    -0.117
+   ],
+   "approx": false,
+   "splits": [
+    173.825
+   ]
+  },
+  {
+   "i": 34,
+   "text": "每次沟通不来",
+   "t0": 176.68,
+   "t1": 181.96,
+   "t0_used": 176.68,
+   "t1_used": 181.96,
+   "snapped": false,
+   "snap_deltas": [
+    -0.117,
+    0.101
+   ],
+   "approx": false,
+   "splits": [
+    179.328
+   ]
+  },
+  {
+   "i": 35,
+   "text": "就要离开就说不要爱",
+   "t0": 181.96,
+   "t1": 185.8,
+   "t0_used": 181.96,
+   "t1_used": 185.8,
+   "snapped": false,
+   "snap_deltas": [
+    0.101,
+    0.156
+   ],
+   "approx": false,
+   "splits": [
+    183.948
+   ]
+  },
+  {
+   "i": 36,
+   "text": "我掉进爱情悬崖",
+   "t0": 185.8,
+   "t1": 188.99,
+   "t0_used": 185.8,
+   "t1_used": 189.034,
+   "snapped": true,
+   "snap_deltas": [
+    0.156,
+    -0.044
+   ],
+   "approx": false,
+   "splits": [
+    187.339
+   ]
+  },
+  {
+   "i": 37,
+   "text": "跌太深爬不出来",
+   "t0": 188.99,
+   "t1": 192.44,
+   "t0_used": 189.034,
+   "t1_used": 192.424,
+   "snapped": true,
+   "snap_deltas": [
+    -0.044,
+    0.016
+   ],
+   "approx": false,
+   "splits": [
+    190.752
+   ]
+  },
+  {
+   "i": 38,
+   "text": "下降的速度太快",
+   "t0": 192.44,
+   "t1": 195.94,
+   "t0_used": 192.424,
+   "t1_used": 195.94,
+   "snapped": true,
+   "snap_deltas": [
+    0.016,
+    0.126
+   ],
+   "approx": false,
+   "splits": [
+    194.119
+   ]
+  },
+  {
+   "i": 39,
+   "text": "来不及踏上未来",
+   "t0": 195.94,
+   "t1": 199.24,
+   "t0_used": 195.94,
+   "t1_used": 199.181,
+   "snapped": true,
+   "snap_deltas": [
+    0.126,
+    0.059
+   ],
+   "approx": false,
+   "splits": [
+    197.486
+   ]
+  },
+  {
+   "i": 40,
+   "text": "你的爱反复徘徊",
+   "t0": 199.24,
+   "t1": 202.67,
+   "t0_used": 199.181,
+   "t1_used": 202.571,
+   "snapped": true,
+   "snap_deltas": [
+    0.059,
+    0.099
+   ],
+   "approx": false,
+   "splits": [
+    200.899
+   ]
+  },
+  {
+   "i": 41,
+   "text": "打乱我呼吸节拍",
+   "t0": 202.67,
+   "t1": 207.95,
+   "t0_used": 202.571,
+   "t1_used": 208.028,
+   "snapped": true,
+   "snap_deltas": [
+    0.099,
+    -0.078
+   ],
+   "approx": false,
+   "splits": [
+    205.102
+   ]
+  },
+  {
+   "i": 42,
+   "text": "该怎么逃开",
+   "t0": 207.95,
+   "t1": 210.62,
+   "t0_used": 208.028,
+   "t1_used": 210.559,
+   "snapped": true,
+   "snap_deltas": [
+    -0.078,
+    0.061
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 43,
+   "text": "我控制不来",
+   "t0": 210.62,
+   "t1": 213.09,
+   "t0_used": 210.559,
+   "t1_used": 213.136,
+   "snapped": true,
+   "snap_deltas": [
+    0.061,
+    -0.046
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 44,
+   "text": "我掉进爱情悬崖",
+   "t0": 213.09,
+   "t1": 216.17,
+   "t0_used": 213.136,
+   "t1_used": 216.085,
+   "snapped": true,
+   "snap_deltas": [
+    -0.046,
+    0.085
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 45,
+   "text": "回想起你的可爱",
+   "t0": 216.17,
+   "t1": 219.59,
+   "t0_used": 216.085,
+   "t1_used": 219.59,
+   "snapped": true,
+   "snap_deltas": [
+    0.085,
+    0.138
+   ],
+   "approx": false,
+   "splits": [
+    217.78
+   ]
+  },
+  {
+   "i": 46,
+   "text": "傻傻地还在等待",
+   "t0": 219.59,
+   "t1": 222.92,
+   "t0_used": 219.59,
+   "t1_used": 222.842,
+   "snapped": true,
+   "snap_deltas": [
+    0.138,
+    0.078
+   ],
+   "approx": false,
+   "splits": [
+    221.17
+   ]
+  },
+  {
+   "i": 47,
+   "text": "以为你还会回来",
+   "t0": 222.92,
+   "t1": 226.24,
+   "t0_used": 222.842,
+   "t1_used": 226.186,
+   "snapped": true,
+   "snap_deltas": [
+    0.078,
+    0.054
+   ],
+   "approx": false,
+   "splits": [
+    224.514
+   ]
+  },
+  {
+   "i": 48,
+   "text": "你的脸慢慢离开",
+   "t0": 226.24,
+   "t1": 229.59,
+   "t0_used": 226.186,
+   "t1_used": 229.622,
+   "snapped": true,
+   "snap_deltas": [
+    0.054,
+    -0.032
+   ],
+   "approx": false,
+   "splits": [
+    227.904
+   ]
+  },
+  {
+   "i": 49,
+   "text": "时间快将我掩埋",
+   "t0": 229.59,
+   "t1": 235.11,
+   "t0_used": 229.622,
+   "t1_used": 235.125,
+   "snapped": true,
+   "snap_deltas": [
+    -0.032,
+    -0.015
+   ],
+   "approx": false,
+   "splits": [
+    232.571
+   ]
+  },
+  {
+   "i": 50,
+   "text": "消失得太快",
+   "t0": 235.11,
+   "t1": 237.77,
+   "t0_used": 235.125,
+   "t1_used": 237.77,
+   "snapped": true,
+   "snap_deltas": [
+    -0.015,
+    0.137
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 51,
+   "text": "我负荷不来",
+   "t0": 237.77,
+   "t1": 240.77,
+   "t0_used": 237.77,
+   "t1_used": 240.77,
+   "snapped": false,
+   "snap_deltas": [
+    0.137,
+    0.165
+   ],
+   "approx": false,
+   "splits": []
+  }
+ ],
+ "summary": {
+  "lines": 52,
+  "lines_untimed": 0,
+  "lines_snapped": 43,
+  "lines_unsnapped": 9,
+  "lines_need_split": 41,
+  "total_splits": 49
+ },
+ "advisory": true
+}

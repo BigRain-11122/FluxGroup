@@ -1,0 +1,930 @@
+{
+ "song": "爱在西元前",
+ "version": "anchor-shotgrid v1.0 (r1070 bm-b)",
+ "inputs": {
+  "beats_sha_face": 486,
+  "n_beats": 486,
+  "n_downbeats": 121,
+  "duration_sec": 234.25
+ },
+ "bpm_median": 129.0,
+ "snap_tol_sec": 0.1,
+ "max_shot_sec": 3.0,
+ "grid": [
+  {
+   "i": 0,
+   "text": "古巴比伦王颁布了",
+   "t0": 31.75,
+   "t1": 33.42,
+   "t0_used": 31.765,
+   "t1_used": 33.42,
+   "snapped": true,
+   "snap_deltas": [
+    -0.015,
+    -0.226
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 1,
+   "text": "汉摩拉比法典",
+   "t0": 33.42,
+   "t1": 35.17,
+   "t0_used": 33.42,
+   "t1_used": 35.17,
+   "snapped": false,
+   "snap_deltas": [
+    -0.226,
+    0.108
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 2,
+   "text": "刻在黑色的玄武岩",
+   "t0": 35.17,
+   "t1": 37.0,
+   "t0_used": 35.17,
+   "t1_used": 36.943,
+   "snapped": true,
+   "snap_deltas": [
+    0.108,
+    0.057
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 3,
+   "text": "距今已经三千七百多年",
+   "t0": 37.0,
+   "t1": 39.42,
+   "t0_used": 36.943,
+   "t1_used": 39.42,
+   "snapped": true,
+   "snap_deltas": [
+    0.057,
+    0.109
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 4,
+   "text": "你在橱窗前",
+   "t0": 39.42,
+   "t1": 40.79,
+   "t0_used": 39.42,
+   "t1_used": 40.728,
+   "snapped": true,
+   "snap_deltas": [
+    0.109,
+    0.062
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 5,
+   "text": "凝视碑文的字眼",
+   "t0": 40.79,
+   "t1": 43.03,
+   "t0_used": 40.728,
+   "t1_used": 43.096,
+   "snapped": true,
+   "snap_deltas": [
+    0.062,
+    -0.066
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 6,
+   "text": "我却在旁静静欣赏",
+   "t0": 43.03,
+   "t1": 44.52,
+   "t0_used": 43.096,
+   "t1_used": 44.536,
+   "snapped": true,
+   "snap_deltas": [
+    -0.066,
+    -0.016
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 7,
+   "text": "你那张我深爱的脸",
+   "t0": 44.52,
+   "t1": 47.21,
+   "t0_used": 44.536,
+   "t1_used": 47.21,
+   "snapped": true,
+   "snap_deltas": [
+    -0.016,
+    -0.159
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 8,
+   "text": "祭司神殿征战",
+   "t0": 47.21,
+   "t1": 49.14,
+   "t0_used": 47.21,
+   "t1_used": 49.14,
+   "snapped": false,
+   "snap_deltas": [
+    -0.159,
+    -0.11
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 9,
+   "text": "弓箭是谁的从前",
+   "t0": 49.14,
+   "t1": 51.0,
+   "t0_used": 49.14,
+   "t1_used": 51.0,
+   "snapped": false,
+   "snap_deltas": [
+    -0.11,
+    -0.154
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 10,
+   "text": "喜欢在人潮中",
+   "t0": 51.0,
+   "t1": 52.09,
+   "t0_used": 51.0,
+   "t1_used": 52.106,
+   "snapped": true,
+   "snap_deltas": [
+    -0.154,
+    -0.016
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 11,
+   "text": "你只属于我的那画面",
+   "t0": 52.09,
+   "t1": 54.69,
+   "t0_used": 52.106,
+   "t1_used": 54.69,
+   "snapped": true,
+   "snap_deltas": [
+    -0.016,
+    0.216
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 12,
+   "text": "经过苏美女神身边",
+   "t0": 54.69,
+   "t1": 56.72,
+   "t0_used": 54.69,
+   "t1_used": 56.819,
+   "snapped": true,
+   "snap_deltas": [
+    0.216,
+    -0.099
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 13,
+   "text": "我以女神之名许愿",
+   "t0": 56.72,
+   "t1": 58.95,
+   "t0_used": 56.819,
+   "t1_used": 58.95,
+   "snapped": true,
+   "snap_deltas": [
+    -0.099,
+    0.227
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 14,
+   "text": "思念像底格里斯河般的漫延",
+   "t0": 58.95,
+   "t1": 62.81,
+   "t0_used": 58.95,
+   "t1_used": 62.81,
+   "snapped": false,
+   "snap_deltas": [
+    0.227,
+    -0.163
+   ],
+   "approx": false,
+   "splits": [
+    61.068
+   ]
+  },
+  {
+   "i": 15,
+   "text": "当古文明只剩下难解的语言",
+   "t0": 62.81,
+   "t1": 69.2,
+   "t0_used": 62.81,
+   "t1_used": 69.149,
+   "snapped": true,
+   "snap_deltas": [
+    -0.163,
+    0.051
+   ],
+   "approx": false,
+   "splits": [
+    64.877,
+    67.245
+   ]
+  },
+  {
+   "i": 16,
+   "text": "传说就成了永垂不朽的诗篇",
+   "t0": 69.2,
+   "t1": 77.96,
+   "t0_used": 69.149,
+   "t1_used": 77.96,
+   "snapped": true,
+   "snap_deltas": [
+    0.051,
+    -0.152
+   ],
+   "approx": false,
+   "splits": [
+    71.982,
+    74.815
+   ]
+  },
+  {
+   "i": 17,
+   "text": "我给你的爱写在西元前",
+   "t0": 77.96,
+   "t1": 80.51,
+   "t0_used": 77.96,
+   "t1_used": 80.48,
+   "snapped": true,
+   "snap_deltas": [
+    -0.152,
+    0.03
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 18,
+   "text": "深埋在美索不达米亚平原",
+   "t0": 80.51,
+   "t1": 85.54,
+   "t0_used": 80.48,
+   "t1_used": 85.54,
+   "snapped": true,
+   "snap_deltas": [
+    0.03,
+    -0.142
+   ],
+   "approx": false,
+   "splits": [
+    82.849
+   ]
+  },
+  {
+   "i": 19,
+   "text": "几十个世纪后出土发现",
+   "t0": 85.54,
+   "t1": 88.05,
+   "t0_used": 85.54,
+   "t1_used": 88.073,
+   "snapped": true,
+   "snap_deltas": [
+    -0.142,
+    -0.023
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 20,
+   "text": "泥板上的字迹依然清晰可见",
+   "t0": 88.05,
+   "t1": 93.13,
+   "t0_used": 88.073,
+   "t1_used": 93.13,
+   "snapped": true,
+   "snap_deltas": [
+    -0.023,
+    -0.121
+   ],
+   "approx": false,
+   "splits": [
+    90.419
+   ]
+  },
+  {
+   "i": 21,
+   "text": "我给你的爱写在西元前",
+   "t0": 93.13,
+   "t1": 95.65,
+   "t0_used": 93.13,
+   "t1_used": 95.643,
+   "snapped": true,
+   "snap_deltas": [
+    -0.121,
+    0.007
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 22,
+   "text": "深埋在美索不达米亚平原",
+   "t0": 95.65,
+   "t1": 100.69,
+   "t0_used": 95.643,
+   "t1_used": 100.69,
+   "snapped": true,
+   "snap_deltas": [
+    0.007,
+    -0.154
+   ],
+   "approx": false,
+   "splits": [
+    97.988
+   ]
+  },
+  {
+   "i": 23,
+   "text": "用楔形文字刻下了永远",
+   "t0": 100.69,
+   "t1": 103.34,
+   "t0_used": 100.69,
+   "t1_used": 103.34,
+   "snapped": false,
+   "snap_deltas": [
+    -0.154,
+    0.151
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 24,
+   "text": "那已风化千年的誓言",
+   "t0": 103.34,
+   "t1": 106.76,
+   "t0_used": 103.34,
+   "t1_used": 106.76,
+   "snapped": false,
+   "snap_deltas": [
+    0.151,
+    -0.238
+   ],
+   "approx": false,
+   "splits": [
+    105.094
+   ]
+  },
+  {
+   "i": 25,
+   "text": "一切又重演",
+   "t0": 106.76,
+   "t1": 111.14,
+   "t0_used": 106.76,
+   "t1_used": 111.14,
+   "snapped": false,
+   "snap_deltas": [
+    -0.238,
+    -0.107
+   ],
+   "approx": false,
+   "splits": [
+    108.878
+   ]
+  },
+  {
+   "i": 26,
+   "text": "祭司神殿征战",
+   "t0": 111.14,
+   "t1": 112.86,
+   "t0_used": 111.14,
+   "t1_used": 112.86,
+   "snapped": false,
+   "snap_deltas": [
+    -0.107,
+    0.197
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 27,
+   "text": "弓箭是谁的从前",
+   "t0": 112.86,
+   "t1": 115.33,
+   "t0_used": 112.86,
+   "t1_used": 115.33,
+   "snapped": false,
+   "snap_deltas": [
+    0.197,
+    -0.166
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 28,
+   "text": "喜欢在人潮中",
+   "t0": 115.33,
+   "t1": 116.42,
+   "t0_used": 115.33,
+   "t1_used": 116.448,
+   "snapped": true,
+   "snap_deltas": [
+    -0.166,
+    -0.028
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 29,
+   "text": "你只属于我的那画面",
+   "t0": 116.42,
+   "t1": 119.07,
+   "t0_used": 116.448,
+   "t1_used": 119.07,
+   "snapped": true,
+   "snap_deltas": [
+    -0.028,
+    -0.211
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 30,
+   "text": "经过苏美女神身边",
+   "t0": 119.07,
+   "t1": 120.98,
+   "t0_used": 119.07,
+   "t1_used": 120.98,
+   "snapped": false,
+   "snap_deltas": [
+    -0.211,
+    -0.205
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 31,
+   "text": "我以女神之名许愿",
+   "t0": 120.98,
+   "t1": 123.36,
+   "t0_used": 120.98,
+   "t1_used": 123.36,
+   "snapped": false,
+   "snap_deltas": [
+    -0.205,
+    -0.17
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 32,
+   "text": "思念像底格里斯河般的漫延",
+   "t0": 123.36,
+   "t1": 127.17,
+   "t0_used": 123.36,
+   "t1_used": 127.17,
+   "snapped": false,
+   "snap_deltas": [
+    -0.17,
+    -0.145
+   ],
+   "approx": false,
+   "splits": [
+    125.434
+   ]
+  },
+  {
+   "i": 33,
+   "text": "当古文明只剩下难解的语言",
+   "t0": 127.17,
+   "t1": 133.48,
+   "t0_used": 127.17,
+   "t1_used": 133.468,
+   "snapped": true,
+   "snap_deltas": [
+    -0.145,
+    0.012
+   ],
+   "approx": false,
+   "splits": [
+    129.219,
+    131.611
+   ]
+  },
+  {
+   "i": 34,
+   "text": "传说就成了永垂不朽的诗篇",
+   "t0": 133.48,
+   "t1": 142.33,
+   "t0_used": 133.468,
+   "t1_used": 142.33,
+   "snapped": true,
+   "snap_deltas": [
+    0.012,
+    -0.148
+   ],
+   "approx": false,
+   "splits": [
+    136.324,
+    139.157
+   ]
+  },
+  {
+   "i": 35,
+   "text": "我给你的爱写在西元前",
+   "t0": 142.33,
+   "t1": 144.88,
+   "t0_used": 142.33,
+   "t1_used": 144.846,
+   "snapped": true,
+   "snap_deltas": [
+    -0.148,
+    0.034
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 36,
+   "text": "深埋在美索不达米亚平原",
+   "t0": 144.88,
+   "t1": 149.9,
+   "t0_used": 144.846,
+   "t1_used": 149.9,
+   "snapped": true,
+   "snap_deltas": [
+    0.034,
+    -0.147
+   ],
+   "approx": false,
+   "splits": [
+    147.215
+   ]
+  },
+  {
+   "i": 37,
+   "text": "几十个世纪后出土发现",
+   "t0": 149.9,
+   "t1": 152.38,
+   "t0_used": 149.9,
+   "t1_used": 152.416,
+   "snapped": true,
+   "snap_deltas": [
+    -0.147,
+    -0.036
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 38,
+   "text": "泥板上的字迹依然清晰可见",
+   "t0": 152.38,
+   "t1": 157.48,
+   "t0_used": 152.416,
+   "t1_used": 157.48,
+   "snapped": true,
+   "snap_deltas": [
+    -0.036,
+    -0.137
+   ],
+   "approx": false,
+   "splits": [
+    154.784
+   ]
+  },
+  {
+   "i": 39,
+   "text": "我给你的爱写在西元前",
+   "t0": 157.48,
+   "t1": 160.02,
+   "t0_used": 157.48,
+   "t1_used": 159.985,
+   "snapped": true,
+   "snap_deltas": [
+    -0.137,
+    0.035
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 40,
+   "text": "深埋在美索不达米亚平原",
+   "t0": 160.02,
+   "t1": 165.06,
+   "t0_used": 159.985,
+   "t1_used": 165.06,
+   "snapped": true,
+   "snap_deltas": [
+    0.035,
+    -0.127
+   ],
+   "approx": false,
+   "splits": [
+    162.354
+   ]
+  },
+  {
+   "i": 41,
+   "text": "用楔形文字刻下了永远",
+   "t0": 165.06,
+   "t1": 167.59,
+   "t0_used": 165.06,
+   "t1_used": 167.555,
+   "snapped": true,
+   "snap_deltas": [
+    -0.127,
+    0.035
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 42,
+   "text": "那已风化千年的誓言",
+   "t0": 167.59,
+   "t1": 171.06,
+   "t0_used": 167.555,
+   "t1_used": 171.06,
+   "snapped": true,
+   "snap_deltas": [
+    0.035,
+    0.208
+   ],
+   "approx": false,
+   "splits": [
+    169.459
+   ]
+  },
+  {
+   "i": 43,
+   "text": "一切又重演",
+   "t0": 171.06,
+   "t1": 172.1,
+   "t0_used": 171.06,
+   "t1_used": 172.1,
+   "snapped": false,
+   "snap_deltas": [
+    0.208,
+    -0.192
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 44,
+   "text": "我感到很疲倦离家乡还是很远",
+   "t0": 172.1,
+   "t1": 178.84,
+   "t0_used": 172.1,
+   "t1_used": 178.91,
+   "snapped": true,
+   "snap_deltas": [
+    -0.192,
+    -0.07
+   ],
+   "approx": false,
+   "splits": [
+    174.173,
+    176.541
+   ]
+  },
+  {
+   "i": 45,
+   "text": "害怕再也不能回到你身边",
+   "t0": 178.84,
+   "t1": 187.81,
+   "t0_used": 178.91,
+   "t1_used": 187.896,
+   "snapped": true,
+   "snap_deltas": [
+    -0.07,
+    -0.086
+   ],
+   "approx": false,
+   "splits": [
+    181.766,
+    185.063
+   ]
+  },
+  {
+   "i": 46,
+   "text": "我给你的爱写在西元前",
+   "t0": 187.81,
+   "t1": 190.3,
+   "t0_used": 187.896,
+   "t1_used": 190.288,
+   "snapped": true,
+   "snap_deltas": [
+    -0.086,
+    0.012
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 47,
+   "text": "深埋在美索不达米亚平原",
+   "t0": 190.3,
+   "t1": 195.32,
+   "t0_used": 190.288,
+   "t1_used": 195.32,
+   "snapped": true,
+   "snap_deltas": [
+    0.012,
+    -0.146
+   ],
+   "approx": false,
+   "splits": [
+    192.633
+   ]
+  },
+  {
+   "i": 48,
+   "text": "几十个世纪后出土发现",
+   "t0": 195.32,
+   "t1": 197.81,
+   "t0_used": 195.32,
+   "t1_used": 197.834,
+   "snapped": true,
+   "snap_deltas": [
+    -0.146,
+    -0.024
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 49,
+   "text": "泥板上的字迹依然清晰可见",
+   "t0": 197.81,
+   "t1": 202.87,
+   "t0_used": 197.834,
+   "t1_used": 202.87,
+   "snapped": true,
+   "snap_deltas": [
+    -0.024,
+    -0.165
+   ],
+   "approx": false,
+   "splits": [
+    200.202
+   ]
+  },
+  {
+   "i": 50,
+   "text": "我给你的爱写在西元前",
+   "t0": 202.87,
+   "t1": 205.36,
+   "t0_used": 202.87,
+   "t1_used": 205.427,
+   "snapped": true,
+   "snap_deltas": [
+    -0.165,
+    -0.067
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 51,
+   "text": "深埋在美索不达米亚平原",
+   "t0": 205.36,
+   "t1": 210.45,
+   "t0_used": 205.427,
+   "t1_used": 210.45,
+   "snapped": true,
+   "snap_deltas": [
+    -0.067,
+    -0.155
+   ],
+   "approx": false,
+   "splits": [
+    207.772
+   ]
+  },
+  {
+   "i": 52,
+   "text": "用楔形文字刻下了永远",
+   "t0": 210.45,
+   "t1": 212.96,
+   "t0_used": 210.45,
+   "t1_used": 212.973,
+   "snapped": true,
+   "snap_deltas": [
+    -0.155,
+    -0.013
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 53,
+   "text": "那已风化千年的誓言",
+   "t0": 212.96,
+   "t1": 216.39,
+   "t0_used": 212.973,
+   "t1_used": 216.294,
+   "snapped": true,
+   "snap_deltas": [
+    -0.013,
+    0.096
+   ],
+   "approx": false,
+   "splits": [
+    214.877
+   ]
+  },
+  {
+   "i": 54,
+   "text": "一切又重演",
+   "t0": 216.39,
+   "t1": 217.82,
+   "t0_used": 216.294,
+   "t1_used": 217.82,
+   "snapped": true,
+   "snap_deltas": [
+    0.096,
+    0.11
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 55,
+   "text": "爱在西元前",
+   "t0": 217.82,
+   "t1": 224.66,
+   "t0_used": 217.82,
+   "t1_used": 224.66,
+   "snapped": false,
+   "snap_deltas": [
+    0.11,
+    -0.156
+   ],
+   "approx": false,
+   "splits": [
+    220.079,
+    222.447
+   ]
+  },
+  {
+   "i": 56,
+   "text": "爱在西元前",
+   "t0": 224.66,
+   "t1": 227.66,
+   "t0_used": 224.66,
+   "t1_used": 227.648,
+   "snapped": true,
+   "snap_deltas": [
+    -0.156,
+    0.012
+   ],
+   "approx": false,
+   "splits": []
+  }
+ ],
+ "summary": {
+  "lines": 57,
+  "lines_untimed": 0,
+  "lines_snapped": 43,
+  "lines_unsnapped": 14,
+  "lines_need_split": 22,
+  "total_splits": 29
+ },
+ "advisory": true
+}
