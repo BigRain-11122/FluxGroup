@@ -1,34 +1,39 @@
 {
- "ts": "2026-11-05T15:23:16",
+ "ts": "2026-11-05T15:37:12",
  "dir": "/Volumes/移动硬盘/FluxAssets/store",
  "model": "qwen3.5:4b-mlx",
  "trigger": "",
  "pending": 20,
- "written": 16,
+ "written": 15,
  "rejected": [
   [
    "0af90220f22a87951c6dc81e8df4ea2db90d35d37b1e0a4415247d6cf1594d09.png",
    "只命中 2 个可见属性，像空话",
-   "A pixelated cityscape with purple buildings and orange sky, featuring a central tower reflecting light in a river below,"
+   "A pixelated cityscape with tall skyscrapers and low-rise buildings, featuring a central illuminated tower reflecting pin"
   ],
   [
    "2f33fcdd9a5155577c96cf682c79c96ef4ead220bab523d090e80173d0baa624.jpg",
    "只命中 2 个可见属性，像空话",
-   "A black bicycle seat with a smooth, glossy surface, positioned on a road where two individuals are walking in silhouette"
+   "A black bicycle seat with a smooth, glossy surface, positioned on a road with two individuals holding hands in front of "
   ],
   [
-   "30003335d4c412e985c54f8afeed6b8365d00a40565fe9a20a087537e125f738.jpg",
-   "含推测/身份词：appears to be",
-   "A person holding a lit torch with a glowing flame at the top, set against a dark background. The torch appears to be mad"
-  ],
-  [
-   "301338cdd8ae5405ce4edfcd746c7e164a5eb6d486ad110c0a453d364208cd73.jpg",
+   "37ffa44cba612b7c1bbdd689936199ce512eb1caf34de02c4e9e064fc978cf0e.jpg",
    "只命中 2 个可见属性，像空话",
-   "Two bicycles with two riders each ride side by side on a dirt path through green rice fields, white smoke trails rise fr"
+   "A group of people stands in a dimly lit room, observing an illuminated display case with text panels, their reflections "
+  ],
+  [
+   "3b83b210b34e63bf35b1b4493684ae9f4ca9cbb4f2679ac815fe4e28041c397e.jpg",
+   "含推测/身份词：appears to be",
+   "A close-up of a person's face in profile, illuminated by warm orange light, with blurred background elements suggesting "
+  ],
+  [
+   "3c3240fd9e736af3aeb9ce88b1b70999ddc893cacb740fd807afaeecf24ecac2.png",
+   "含疑似专名（引号+大写）",
+   "A dark blue digital interface displaying text-based game options for \"Oasis City License Desk,\" featuring green and whit"
   ]
  ],
- "seconds": 86.4,
- "per_image_s": 4.3,
+ "seconds": 109.7,
+ "per_image_s": 5.5,
  "verdict": "PASS",
  "gaps": [],
  "status": "PASS"

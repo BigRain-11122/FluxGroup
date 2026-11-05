@@ -269,6 +269,13 @@ def main():
         if not a.dry:
             merge_rows(backlog_p, dead)
 
+    # 已存在卡的状态表（2026-11-05 十轮演练实证）：补料器原只查"开放态"是否重复，
+    # 于是把已经 DONE/FAILED/ARCHIVED 的卡重新声明成 READY——每轮制造 12 处双账本冲突，
+    # 还可能导致做完的活被重派。任何已存在的 id 都不许再造。
+    existing_states = {}
+    for _r in queue + backlog:
+        if _r.get("id"):
+            existing_states[str(_r["id"])] = str(_r.get("state") or "")
     budget = MAX_CARDS_PER_RUN
     triaged_lines = set()   # one triage card per line per run, whichever box holds it
 
@@ -516,6 +523,10 @@ def main():
         _blocked = blocked_stems(list(queue) + list(backlog))
         _keep = []
         for c in added:
+            _old = existing_states.get(str(c.get("id")))
+            if _old:
+                report.append("- SKIP `%s`: id 已存在（state=%s），不许重声明" % (c.get("id"), _old))
+                continue
             _stem = re.sub(r"-20\d{6}(T\d{6})?$", "", str(c.get("id") or ""))
             if _stem in _blocked:
                 report.append("- BLOCKED `%s`: 同一任务已失败 %d 次，先落根因再派" % (c.get("id"), MAX_ATTEMPTS))

@@ -87,6 +87,19 @@ def _tool_ok(cmd, root):
     return True, ""
 
 
+def _infra_cap_cfg(root):
+    """机制卡配额（2026-11-05）：这道闸原只在自愈阶段跑，搬卡时照搬，于是每轮演练
+    先红一次、再由 cap-infra 归档——那是事后擦屁股，不是闸。把闸上移到搬卡口。"""
+    try:
+        with open(os.path.join(root, "cph4", "fleet", "AUTONOMY-CONFIG.json"),
+                  encoding="utf-8-sig") as f:
+            cap = json.load(f).get("capacity") or {}
+        return (set(cap.get("infra_lines") or ["fleet-ops"]),
+                int(cap.get("infra_max_cards_per_node") or 2))
+    except Exception:
+        return {"fleet-ops"}, 2
+
+
 def _fill_manifest(root, rows, have, node=None):
     """Generic declarative rule.
 
@@ -100,6 +113,13 @@ def _fill_manifest(root, rows, have, node=None):
     queue_path = os.path.join(root, "cph4", "fleet", "PRODUCTION-QUEUE.jsonl")
     rows_by_id = {x.get("id"): x for x in rows}
     backlog = _load(man)
+    _infra_lines, _infra_max = _infra_cap_cfg(root)
+    _infra_active = {}
+    for _x in rows:
+        if _x.get("state") in ("OPEN", "RUNNING", "CLAIMED") \
+                and (_x.get("line") or "") in _infra_lines:
+            for _n in (_x.get("nodes") or ["?"]):
+                _infra_active[_n] = _infra_active.get(_n, 0) + 1
     touched = False
     added = 0
     # 2026-11-03：语义判重（向量）。真事故：同一个配音质检活同时存在 3 张卡（2 跑 1 待）。
@@ -191,6 +211,17 @@ def _fill_manifest(root, rows, have, node=None):
         # 无主卡=债（I1）：源里没 line 的（manifest/bank 体检件）一律落 fleet-ops，
         # 不留空字段，否则每轮新卡都在长新的"无主"红项。
         job["line"] = job.get("line") or "fleet-ops"
+        _cap_nodes = job.get("nodes") or ["?"]
+        if job["line"] in _infra_lines:
+            _over = [_n for _n in _cap_nodes if _infra_active.get(_n, 0) >= _infra_max]
+            if _over:
+                r["state"] = "BLOCKED"
+                r["blocked_reason"] = ("机制卡配额已满：%s 上活跃机制卡 %d ≥ %d（业务优先）"
+                                       % (",".join(_over),
+                                          _infra_active.get(_over[0], _infra_max), _infra_max))
+                r["blocked_at"] = time.strftime("%Y-%m-%dT%H:%M:%S")
+                touched = True
+                continue
         # 分片卡（line_plan 对 parallel 段写 no_dedupe）本来就该同时存在多张：它们是
         # 「同一件事的不同分片」，不是重复派单。2026-11-03 实测：四张语料分片卡标题只差
         # 分片号与机名，相似度 >0.80 被全部判成 DUP-SKIP，只剩一台在跑——CEO 要的
@@ -213,6 +244,9 @@ def _fill_manifest(root, rows, have, node=None):
         job["created_by"] = "backlog_fill.py:manifest"
         job["created_at"] = time.strftime("%Y-%m-%dT%H:%M:%S")
         rows.append(job)
+        if job["line"] in _infra_lines:
+            for _n in _cap_nodes:
+                _infra_active[_n] = _infra_active.get(_n, 0) + 1
         have.add(jid)
         rows_by_id[jid] = job
         added += 1

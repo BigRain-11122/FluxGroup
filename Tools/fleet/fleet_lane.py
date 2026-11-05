@@ -315,7 +315,53 @@ def normalize_line(r):
     return r
 
 
-def merge_jsonl(path, rows, key="id"):
+LEDGER_SIBLING = {"PRODUCTION-QUEUE.jsonl": "PRODUCTION-BACKLOG.jsonl",
+                  "PRODUCTION-BACKLOG.jsonl": "PRODUCTION-QUEUE.jsonl"}
+# 队列是状态权威（2026-11-05 契约 §五）：备队列里同一 id 只能是同一状态的声明镜像。
+LEDGER_AUTHORITY = {"PRODUCTION-QUEUE.jsonl", "PRODUCTION-BACKLOG.jsonl"}
+
+
+def _mirror_ledger(path, rows, key):
+    """把本次写入的 id 状态同步到另一本账，缺行则补一行声明镜像。
+
+    为什么（2026-11-05 十轮演练实证）：造卡器有十几个（line_agents:recurring、
+    line_plan、workgen、prep_work、unlock…），每个都只写自己那本账；于是同一 id
+    一边 ARCHIVED、一边 READY，A2/A7 每轮先红，自愈只是把红刷掉，漂移照样复发。
+    修单个造卡器只能修一处，正法是在唯一写入口做镜像：谁写都要两本账同镜。
+    """
+    sib = os.path.join(os.path.dirname(path), LEDGER_SIBLING[os.path.basename(path)])
+    try:
+        cur = read_jsonl(sib)
+    except Exception:
+        return
+    idx = {}
+    for i, r in enumerate(cur):
+        if isinstance(r, dict) and r.get(key) is not None:
+            idx[r[key]] = i
+    upd, auth_is_queue = [], os.path.basename(path) == "PRODUCTION-QUEUE.jsonl"
+    for r in rows:
+        if not isinstance(r, dict) or r.get(key) is None:
+            continue
+        k, st = r[key], r.get("state")
+        if not st or k not in idx:
+            continue
+        srow = cur[idx[k]]
+        if isinstance(srow, dict) and srow.get("state") != st:
+            m = {"state": st, "mirrored_from": "PRODUCTION-QUEUE" if auth_is_queue else
+                 "PRODUCTION-BACKLOG"}
+            if auth_is_queue:
+                for _k in ("note", "closed_at", "error_class", "retries", "owner"):
+                    if _k in r:
+                        m[_k] = r[_k]
+            else:
+                m["note"] = "备队列声明被队列状态覆盖（队列为权威）"
+            m[key] = k
+            upd.append(m)
+    if upd:
+        merge_jsonl(sib, upd, key=key, mirror=False)
+
+
+def merge_jsonl(path, rows, key="id", mirror=True):
     """Commit only the rows this caller touched, merged into what is on disk right now.
 
     write_jsonl(dump the whole list) is how one leg erased another leg's dispatch inside
@@ -378,6 +424,11 @@ def merge_jsonl(path, rows, key="id"):
                 index[k] = len(current)
                 current.append(r)
         write_jsonl(path, current)
+        if mirror and os.path.basename(path) in LEDGER_AUTHORITY:
+            try:
+                _mirror_ledger(path, rows, key)
+            except Exception:
+                pass
         # 影子期（2026-11-03 S1）：每一行变化同时记一条事件。只写不读，生产不再等它；
         # 任何异常都吞掉——事件日志坏了不许影响派单。
         try:
