@@ -97,6 +97,25 @@
      ]
     }
    ]
+  },
+  "fluxverse": {
+   "prio": "P2",
+   "nodes": [
+    "bm-m"
+   ],
+   "needs": "cpu",
+   "cards": [
+    {
+     "key": "city-state",
+     "title": "元宙城 12 面状态实盘（在役/受阻/空白逐面点名）",
+     "cmd": "python Tools/fleet/city_state.py --out cph4/fleet/state/city-state.json",
+     "deliverable": "cph4/fleet/state/city-state.json",
+     "accept": "12 面逐面有状态与证据路径；自称在役但证据不可见必须降级为受阻",
+     "requires": [
+      "Tools/fleet/city_state.py"
+     ]
+    }
+   ]
   }
  }
 }

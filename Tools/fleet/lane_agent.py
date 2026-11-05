@@ -849,6 +849,33 @@ def run_lane_cycle(node, root=None, dry=False, allow_gpu_workhours=False,
         write_last(root, node, "DEFERRED", job=_id, note="NO-RUNNABLE-ASSIGNMENT")
         print("LANE-DEFER %s :: nothing in this assignment is runnable here" % _id)
         return True
+    # 并发槽位（2026-11-05）：一台机能同时跑几张卡，由配置决定；GPU 同一时刻只跑一张。
+    try:
+        with open(os.path.join(root, "cph4", "fleet", "AUTONOMY-CONFIG.json"),
+                  encoding="utf-8") as _f:
+            _slots = int((((json.load(_f).get("supply") or {}).get("slots_per_node") or {})
+                          .get(node, 1)) or 1)
+    except Exception:
+        _slots = 1
+    if _slots > 1:
+        _picked, _gpu_taken = [], False
+        for _j in _cand:
+            if len(_picked) >= _slots:
+                break
+            if _j.get("needs") == "gpu":
+                if _gpu_taken:
+                    continue
+                _gpu_taken = True
+            _picked.append(_j)
+        if len(_picked) > 1:
+            from concurrent.futures import ThreadPoolExecutor
+            print("LANE-SLOTS %s :: %d job(s): %s" % (node, len(_picked),
+                  ",".join(str(_x.get("id")) for _x in _picked)))
+            with ThreadPoolExecutor(max_workers=len(_picked)) as _ex:
+                list(_ex.map(lambda _x: _run_one_job(_x, root, node, hub, port,
+                                                     allow_gpu_workhours, max_seconds, dry),
+                             _picked))
+            return True
     job = _cand[0]
     _need_work_flag(root, node, False)   # 主控派到了单：撤「要活」标
     if already_closed(root, job.get("id")):

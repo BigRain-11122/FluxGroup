@@ -706,7 +706,16 @@ def write_lane_files(root, rows, fleet, dry=False, nodes=None):
                 # scans its OWN backlog first (drama/audio tracks exist only on bm-b). Idle
                 # is only confirmed when the lane itself reports IDLE back over NATS.
                 idle_reason = "SELF-DISPATCH: lane scans its own backlog"
-        payload = {"node": n, "ts": fl.now_iso(), "jobs": jobs[:1],
+        # 并发槽位（CEO 2026-11-05「不许没满负荷」）：一次只给一张卡 = 空槽是假容量。
+        # 槽位数在 AUTONOMY-CONFIG.supply.slots_per_node；GPU 卡由车道侧再串行一层。
+        try:
+            with open(os.path.join(root, "cph4", "fleet", "AUTONOMY-CONFIG.json"),
+                      encoding="utf-8") as _cf:
+                _slots = int((((json.load(_cf).get("supply") or {}).get("slots_per_node")
+                               or {}).get(n, 1)) or 1)
+        except Exception:
+            _slots = 1
+        payload = {"node": n, "ts": fl.now_iso(), "jobs": jobs[:max(1, _slots)],
                    "idle_reason": idle_reason,
                    "lane_ok": ok, "capacity_note": why}
         path = fl.lane_file(root, n)
