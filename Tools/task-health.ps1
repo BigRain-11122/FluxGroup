@@ -40,6 +40,22 @@ if (Test-Path $pauseSidecar) {
     }
 }
 
+# D-20261105-12: consume the registry Tools\task-expected-disabled.json (schema task-expected-disabled/v1)
+# instead of a second hardcoded array. Entry with review_by >= today = EXPECTED-DISABLED (E3 register,
+# not a fault); review_by in the past = EXPIRED (stays a fault so the 11-08 re-enable review cannot rot).
+$ExpectedDisabled = @{}
+$expectedPath = Join-Path (Split-Path $PSScriptRoot -Parent) 'Tools\task-expected-disabled.json'
+if (Test-Path $expectedPath) {
+    try {
+        $expDoc = Get-Content -Path $expectedPath -Raw -Encoding UTF8 | ConvertFrom-Json
+        foreach ($e in @($expDoc.tasks)) {
+            if ($e -and $e.task) { $ExpectedDisabled[[string]$e.task] = [string]$e.review_by }
+        }
+    } catch {
+        Write-Output ('EXPECTED-DISABLED-UNREADABLE: ' + $_.Exception.Message)
+    }
+}
+
 function Convert-IsoDuration([string]$iso) {
     # ISO8601 duration like PT10M / PT1H / P1D -> minutes. Returns -1 when unparsable.
     if ([string]::IsNullOrWhiteSpace($iso)) { return -1 }
@@ -119,7 +135,12 @@ Get-ScheduledTask -TaskPath "\" | Where-Object { $_.TaskName -notmatch '^(Micros
         $flag = 'EXEMPT-ENABLED'
     } elseif ($_.State -eq 'Disabled') {
         $inYieldWindow = ($now.DayOfWeek -ge [DayOfWeek]::Monday -and $now.DayOfWeek -le [DayOfWeek]::Friday) -and ($now.TimeOfDay -ge (New-Object TimeSpan 9, 0, 0)) -and ($now.TimeOfDay -lt (New-Object TimeSpan 19, 0, 0))
-        if ($KnownDisabled -contains $name) { $flag = 'DESIGNED-DISABLED' }
+        if ($ExpectedDisabled.ContainsKey($name)) {
+            $rv = [datetime]::MinValue
+            $ok = [datetime]::TryParse([string]$ExpectedDisabled[$name], [ref]$rv)
+            if ($ok -and $rv -ge $now.Date) { $flag = 'EXPECTED-DISABLED' } else { $flag = 'EXPIRED' }
+        }
+        elseif ($KnownDisabled -contains $name) { $flag = 'DESIGNED-DISABLED' }
         elseif (($AutoYieldPaused -contains $name) -and $inYieldWindow) { $flag = 'AUTOYIELD-PAUSE' }
         else { $flag = 'UNEXPECTED-DISABLED' }
     } elseif ($neverRan) {
@@ -152,14 +173,14 @@ Get-ScheduledTask -TaskPath "\" | Where-Object { $_.TaskName -notmatch '^(Micros
 Write-Output ('TASK HEALTH ' + $now.ToString('yyyy-MM-dd HH:mm') + ' - tasks audited: ' + $rows.Count)
 $rows | Sort-Object flag, task | Format-Table -AutoSize | Out-String -Width 200 | Write-Output
 
-$bad = @($rows | Where-Object { $_.flag -ne 'OK' -and $_.flag -ne 'EVENT-BOUND' -and $_.flag -ne 'DESIGNED-STALE' -and $_.flag -ne 'GATED-INFO' -and $_.flag -ne 'DESIGNED-DISABLED' -and $_.flag -ne 'AUTOYIELD-PAUSE' -and $_.flag -ne 'EXEMPT-ENABLED' })
+$bad = @($rows | Where-Object { $_.flag -ne 'OK' -and $_.flag -ne 'EVENT-BOUND' -and $_.flag -ne 'DESIGNED-STALE' -and $_.flag -ne 'GATED-INFO' -and $_.flag -ne 'DESIGNED-DISABLED' -and $_.flag -ne 'AUTOYIELD-PAUSE' -and $_.flag -ne 'EXEMPT-ENABLED' -and $_.flag -ne 'EXPECTED-DISABLED' })
 $codes = @($rows | Where-Object { $_.result -like 'CODE-*' })
 Write-Output ('SUMMARY unhealthy=' + $bad.Count + ' (of ' + $rows.Count + ')  odd-result-codes=' + $codes.Count)
 if ($bad.Count -gt 0) {
     Write-Output ('FLAGS: ' + (($bad | ForEach-Object { ($_.flag + '=' + $_.task) }) -join ', '))
     Write-Output 'Routing: UNEXPECTED-DISABLED/NEVER-RAN/STALE -> night report line + E2; two consecutive nights same flag -> E1 (errors.md circuit-breaker).'
 }
-$designed = @($rows | Where-Object { $_.flag -eq 'DESIGNED-STALE' -or $_.flag -eq 'GATED-INFO' -or $_.flag -eq 'DESIGNED-DISABLED' -or $_.flag -eq 'AUTOYIELD-PAUSE' -or $_.flag -eq 'EXEMPT-ENABLED' })
+$designed = @($rows | Where-Object { $_.flag -eq 'DESIGNED-STALE' -or $_.flag -eq 'GATED-INFO' -or $_.flag -eq 'DESIGNED-DISABLED' -or $_.flag -eq 'AUTOYIELD-PAUSE' -or $_.flag -eq 'EXEMPT-ENABLED' -or $_.flag -eq 'EXPECTED-DISABLED' })
 if ($designed.Count -gt 0) {
     Write-Output ('E3-REGISTER (designed/exempt, not faults): ' + (($designed | ForEach-Object { ($_.task + '=' + $_.flag) }) -join ', '))
 }
