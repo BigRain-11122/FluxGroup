@@ -64,6 +64,11 @@ SEATS = {
         ["Tools/fleet/day_plan.py"],
         ["Tools/fleet/ops_metrics.py"],
     ], "只写自己的报表"),
+    # S8 算力席：MacBook 的 CPU/GPU/内存按余量阶梯吃轻活（抽检/打标），
+    # 主控不做重生产；内存不足自动降到只做规则任务。
+    "S8": ("算力", ["算力"], [
+        ["Tools/fleet/mac_loadout.py"],
+    ], "只写自己的测量与抽检结果"),
     "S7": ("自愈", ["自愈", "演进"], [
         ["Tools/fleet/fleet_health.py"],
         ["Tools/fleet/fleet_contingency.py"],

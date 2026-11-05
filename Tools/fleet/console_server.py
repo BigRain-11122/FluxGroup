@@ -52,6 +52,15 @@ def page():
     comms = (_json(os.path.join(F, "state", "comms.json"), {}) or {})
     q = (_json(os.path.join(F, "state", "metrics.json"), {}) or {})
 
+    mo = _json(os.path.join(F, "state", "mac-loadout.json"), {}) or {}
+    _m = mo.get("measured") or {}
+    mac_html = ("<div class='box'><h2>MacBook 算力阶梯：%s</h2>"
+                "<table><tr><th>可用内存</th><td>%s GB</td><th>GPU</th><td>%s%%</td>"
+                "<th>swap</th><td>%s MB</td><th>负载</th><td>%s</td></tr>"
+                "<tr><th>在跑什么</th><td colspan='7'>%s</td></tr></table></div>") % (
+        mo.get("level", "-"), _m.get("free_gb", "-"), _m.get("gpu_pct", "-"),
+        _m.get("swap_mb", "-"), round(float(_m.get("load1") or 0), 2),
+        ", ".join("%s×%s" % (d.get("task"), d.get("n")) for d in (mo.get("did") or [])) or "-")
     seats = []
     _ag = os.path.join(F, "state", "agents")
     for sid in ("S1", "S2", "S3", "S4", "S5", "S6", "S7"):
@@ -143,12 +152,13 @@ iframe{width:100%%;height:720px;border:1px solid #262b36;border-radius:8px;backg
 %s
 %s
 %s
+%s
 <div class="box"><h2>主控一屏</h2>%s</div>
 <div class="box"><h2>分层决策（只有 ≤3 条需要你）</h2>%s</div>
 <div class="box"><h2>机队实况</h2><table><tr><th>机器</th><th>状态</th><th>在跑</th><th>无回执</th><th>旗标</th></tr>%s</table></div>
 <div class="box"><h2>旧看板</h2><iframe src="/fleet-console.html"></iframe></div>
 <p class="small">数据源：MASTER-SCREEN.md / DECISIONS.md / state/*.json。只读、只绑 localhost。</p>
-</body></html>""" % (time.strftime("%H:%M:%S"), orders_html, duty_html, seat_html, agent_html, md2html(screen),
+</body></html>""" % (time.strftime("%H:%M:%S"), orders_html, duty_html, mac_html, seat_html, agent_html, md2html(screen),
                       md2html(decisions), "".join(nodes))
 
 

@@ -111,3 +111,21 @@ python3 Tools/fleet/workgen.py --dry          # 供给与停产拦截
 python3 Tools/fleet/cloud_budget.py check     # 云端余额
 python3 -m py_compile Tools/fleet/{census,closer,lane_agent,workgen,master_agent,cloud_budget}.py
 ```
+## 十一、MacBook 算力阶梯（2026-11-05）
+
+实测底账：Apple M1 Pro / 10 核（8P+2E）/ 32GB 统一内存。典型空转态=CPU ~28%、内存空 74%、GPU 50-90%（4B 模型常驻时高）。
+
+**边界**：bm-m 是主控机，**不做重生产**（i2v/渲染/回测/批量转码）。它吃的是"控制面智能"——本地模型抽检、资产打标、字幕、摘要。
+
+**阶梯（内存优先，宁可少跑也不许换成 swap）**：
+
+| 档 | 条件 | 允许干 |
+|---|---|---|
+| L3 | 可用≥14GB 且 GPU≤85% | 4B 常驻 + 抽检 4 件 + 打标 4 张 |
+| L2 | 可用≥8GB | 单任务串行（抽检 2 件 或 打标 4 张） |
+| L1 | 可用≥4GB | 只做规则任务，不加载模型 |
+| L0 | <4GB 或 swap>600MB | 只测量，必要时卸载模型 |
+
+**实现**：`Tools/fleet/mac_loadout.py`（S8 算力席，随七席轮转），产出 `state/mac-loadout.json` 与 `state/sample-review.json`；页面顶部显示当前档位/内存/GPU/在跑什么。
+
+**判据**：抽检结论**只是提示**（本地 4B 会编理由，实测把"2026 年"当异常），改卡状态仍以规则与闸为准。
