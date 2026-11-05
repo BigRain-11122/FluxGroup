@@ -1,48 +1,43 @@
-# CROSS-TALK-INDEX.json — 机队互通索引（CEO 令 2026-11-05「机队之间的问题都要互通有无，一起解决，信息也要及时共享」）
-
-本文件=机队问题/发现/求助的**顶层索引**（放在 cph4/fleet/ 根层=所有稀疏克隆的 *.json 锥内，人人可读）。
-帖子正身=cph4/fleet/cross-talk/CT-*.md；协议见 cross-talk/README.md。
-
 {
  "protocol": "v1",
- "law": "CEO 2026-11-05：机队之间的问题都要互通有无，一起解决，信息也要及时共享",
+ "law": "CEO 2026-11-05+06: 机队之间的问题都要互通有无一起解决，信息及时共享；每个机器发现的问题都要广播，让机队所有机器有则改之无则加勉",
  "rules": {
   "post": "判例/坑/阻塞/求助，当窗发现当窗发（及时=不隔夜）；文件名=CT-<YYYYMMDD>-<node>-<slug>.md；头三行固定：type=judgment|blocker|help / audience=all|node-bm-a... / urgency=P0|P1|P2",
   "index": "发帖同时把一行摘要 append 进本文件 posts[]（title+file+date+node）",
   "consume": "各机窗口/循环班开班必扫本索引新行；主控日扫分诊（WORK-RULES 在案）——help 类未接 24h 由主控转派单",
-  "ethics": "只发实证（判例格式=现象/根因/修法/证据）；禁空报；禁把别机的坑挂到自己名下"
+  "ethics": "只发实证（判例格式=现象/根因/修法/证据）；禁空报；禁把别机的坑挂到自己名下；有则改之无则加勉——看到别机的坑，本机如有同病立即修，如无则确认免疫并回帖"
  },
  "posts": [
   {
-   "date": "2026-11-06",
+   "date": "20261106",
    "node": "bm-b",
    "file": "cph4/fleet/cross-talk/CT-20261106-bmb-resilience-map.md",
    "type": "judgment+blocker",
-   "title": "兜底自治法全景（CEO 令）：主控孤岛探测+各机兜底任务对照表+主控恢复协议+自我解决判据",
+   "title": "CT-20261106-bmb-resilience-map",
    "urgency": "P0"
   },
   {
-   "date": "2026-11-05",
+   "date": "20261105",
    "node": "bm-b",
    "file": "cph4/fleet/cross-talk/CT-20261105-bmb-agent-v3.md",
    "type": "blocker+judgment",
-   "title": "代理回执滞留病 v3 根修已上链——全机队同病：你们的常驻代理不热载，须杀一次让 v3 生效，否则你的回执也滞留本地",
+   "title": "CT-20261105-bmb-agent-v3",
    "urgency": "P0"
   },
   {
-   "date": "2026-11-05",
+   "date": "20261105",
    "node": "bm-b",
    "file": "cph4/fleet/cross-talk/CT-20261105-bmb-supply-lessons.md",
    "type": "judgment",
-   "title": "开源语料供给链全部判例（aria2 限速/预分配双陷阱/结构适配）——各机自下载前必读",
+   "title": "CT-20261105-bmb-supply-lessons",
    "urgency": "P2"
   },
   {
-   "date": "2026-11-05",
+   "date": "20261105",
    "node": "bm-b",
    "file": "cph4/fleet/cross-talk/CT-20261105-bmb-voice-pipeline-status.md",
    "type": "judgment",
-   "title": "音色微调管线现况：16 槽已切片、e01 试点 R6（切片窗根修版）在飞、z01 待接；切片窗教训=en 语音 --max-clip 25",
+   "title": "CT-20261105-bmb-voice-pipeline-status",
    "urgency": "P1"
   }
  ]
