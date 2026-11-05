@@ -1,14 +1,14 @@
 {
  "node": "bm-b",
- "ts": "2026-11-05T09:40:03",
+ "ts": "2026-11-05T09:42:02",
  "jobs": [
   {
-   "id": "asset-lib-face-dataset-2026-11-05",
-   "title": "[资产储备（角色 LoRA / 音色库）] 人脸数据集准入（反 AI 脸的第一道门）",
-   "cmd": "python Tools/fleet/asset_dataset_audit.py --mode face --dir media/asset/faces --out cph4/fleet/queue-receipts/asset-face-2026-11-05.json",
+   "id": "bigstream-mv-gate-2026-11-05",
+   "title": "[MV·爱在西元前（v721 终版）] 交付闸（重复/静止/抖动/闪烁）",
+   "cmd": "python Tools/mv_delivery_gate.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721_60fps_1080p.mp4 --card 38.79:40.21 --card 219.71:223.88",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/asset-face-2026-11-05.json",
+   "deliverable": "cph4/fleet/queue-receipts/mv-gate-v721-2026-11-05.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 9.8/1.0 GB"
+ "capacity_note": "ram 8.6/1.0 GB"
 }
