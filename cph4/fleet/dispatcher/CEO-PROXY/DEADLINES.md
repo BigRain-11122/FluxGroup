@@ -1,4 +1,4 @@
-# DEADLINES — 死线台账（CEO 总调度代理席维护）
+﻿# DEADLINES — 死线台账（CEO 总调度代理席维护）
 
 > 用法：每轮步2 死线雷达逐行核对 orders 最新回执翻新状态列；新死线=当窗入行（来源=orders 行/O- 号）；已过窗死线如实标注（延误披露禁抹除）。
 > **waiting-CEO 区=物理件/保留面登记，零催办**（CEO 有空弄·本席只记账）。
@@ -443,3 +443,4 @@ am_free_gb=10+cpu_load_pct=48——**bm-b 不是闲着，是在跑量化轮**；
 | **R11-5 bm-c BLOCKED-RAM + ComfyUI 缺失** | **registered·物理件（零催办）** | IdleWatch 23:44-23:59 实测 `ram_free 8.75-9.58%`（24GB 机≈2.1GB）、`hb_verdict=GPU_COMFY_MISSING\|RAM_LOW`、comfy=0。bm-c 是 GPU 唯一产线，其全部 GPU 卡（asset-lib-char-gen / asset-gen）都串在 8188 上。修法只在 bm-c 本机：`free_mem.py --apply` 释放驻留 + 起 ComfyUI（C-20261009-04 / CEO 2026-10-23 禁远程，本席不做） |
 | **R11-6 bm-b/bm-c w32time 停转（CLOCK-SKEW 3492ms）** | **registered·物理件（零催办）** | CLOCK-SKEW.json 23:59:15：hub bm-a 0ms、bm-b +1456.3ms、bm-c ≈+3966ms（4ms/min 漂移），`old_schema=0 missing=0`→CLOCK-UNALIGNED 已自愈。承 R4-4/R5-5/R6-7/R8-6/R9-5/R10-9：两机 `sc query w32time`=STOPPED，需本机提权 `sc config w32time start= auto && net start w32time`。秒级偏差不影响派单租约，不重复立法 |
 | **R11-7 队列双源分叉（结构隐患·登记）** | **registered** | 本机 `main` 与 `origin/main` 实测 **ahead 497 / behind 244**；两边都有对方没有的卡（origin 侧 `DOCS-_报审提交区`、`VER-E-195423`；本机侧两张 VCORP）。本班用 append-only 外科推避开合并，但「双源各写各的」仍会持续制造幻影供给。收口正法=按 bm-a 卡死合并判例（reset --mixed origin/main + 定向 checkout + 台账行在 origin 最新版重提），须在无他窗在写的窗口做 |
+| **CLOCK-SKEW 提权面（w32time 停止·三机同型）** | 2026-11-06 事件班实测：bm-a 本机 `w32time=STOPPED/StartType=Manual`，`Start-Service` 拒绝（会话 token 未提权，虽属 Administrators）；bm-b offset +1456ms、bm-c +4236ms（precision ±0.8/±414ms，真偏不是 RTT 噪声）。自动面已试尽：net start 被拒、w32tm/resync 报 0x80070426。**需一次提权**（任选其一：以管理员开一次会话跑 `sc config w32time start= auto && net start w32time && w32tm /resync /force`；或把对应 loop 任务改成「最高权限」重注册）。影响=时间戳排序/心跳新鲜度轻微失真，**corrected_ts 已在补偿**，非阻断。已把工具改诚实（verdict≠RESYNCED → exit 3），不再假绿。 | CEO（提权动作） | 2026-11-06 事件班 | 工具面已修（clock_resync.py）；提权面零催办，等 CEO 有空 |
