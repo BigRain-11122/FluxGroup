@@ -327,4 +327,4 @@
 
 > 本班两处硬实证：①**「本地文件完好」与「已交付」之间隔着一整条分叉**——第 47 批全班产出加 7 个决策号在 origin 逐个零命中，而本地台账读起来毫无异常；唯一可信的交付判据是 `git show origin/main:<path>` 能不能读到。②**自设的 dry-run 终点会把备货锁成账面数字**——`dry_run_end` 只该是提醒、不该是锁；把「过期」当「禁止」的结果是 6 张卡 31 天 STOCKED、`effective=0`。
 
-> [SELF-CHECK-PENDING] 落账自证将在 commit 后由 origin 实读回填（本班按 D-20261106-03 把断言从本地改为 origin 面）。
+> [SELF-CHECK] 2026-11-06 00:2x 落账自证（判据=origin 面，按 D-20261106-03）：git show origin/main:docs/decisions.md 实读断言——「第 47 批」=7「D-20261105-17」=4「D-20261105-23」=3「第 48 批」=3「D-20261106-02」=2「D-20261106-05」=1，全部命中；git show origin/main:cph4/reflection-journal.md 含「第48批」=1。推送实读 ce7989c71..7795b643b HEAD -> main。
