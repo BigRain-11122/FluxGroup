@@ -52,6 +52,11 @@ def page():
     comms = (_json(os.path.join(F, "state", "comms.json"), {}) or {})
     q = (_json(os.path.join(F, "state", "metrics.json"), {}) or {})
 
+    un = _json(os.path.join(F, "state", "unlocks.json"), {}) or {}
+    _w = un.get("waiting") or []
+    unlock_html = ("<div class='box red'><h2>等你手上的 %d 件（办好后自动解锁）</h2><ul>%s</ul></div>"
+                   % (len(_w), "".join("<li><b>%s</b>：%s</li>" % (x.get("line"), x.get("waiting_on"))
+                                       for x in _w))) if _w else ""
     mo = _json(os.path.join(F, "state", "mac-loadout.json"), {}) or {}
     _m = mo.get("measured") or {}
     mac_html = ("<div class='box'><h2>MacBook 算力阶梯：%s</h2>"
@@ -153,12 +158,13 @@ iframe{width:100%%;height:720px;border:1px solid #262b36;border-radius:8px;backg
 %s
 %s
 %s
+%s
 <div class="box"><h2>主控一屏</h2>%s</div>
 <div class="box"><h2>分层决策（只有 ≤3 条需要你）</h2>%s</div>
 <div class="box"><h2>机队实况</h2><table><tr><th>机器</th><th>状态</th><th>在跑</th><th>无回执</th><th>旗标</th></tr>%s</table></div>
 <div class="box"><h2>旧看板</h2><iframe src="/fleet-console.html"></iframe></div>
 <p class="small">数据源：MASTER-SCREEN.md / DECISIONS.md / state/*.json。只读、只绑 localhost。</p>
-</body></html>""" % (time.strftime("%H:%M:%S"), orders_html, duty_html, mac_html, seat_html, agent_html, md2html(screen),
+</body></html>""" % (time.strftime("%H:%M:%S"), orders_html, unlock_html, duty_html, mac_html, seat_html, agent_html, md2html(screen),
                       md2html(decisions), "".join(nodes))
 
 

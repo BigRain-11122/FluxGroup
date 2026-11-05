@@ -142,6 +142,9 @@ STAGES = [
     ("budget", ["Tools/fleet/cloud_budget.py", "check"], 30, {0, 1}, True),
     # CEO 令当轮进视野（他有时在别的机器下令）+ 当日时间轴 + 验收腿。
     ("order_watch", ["Tools/fleet/order_watch.py"], 30, {0}, False),
+    # 解锁预案（CEO 2026-11-05「我办好了证件他们接下来做什么」）：每轮检测触发条件，
+    # 一触发就把后续活派下去；缺工具的步骤转决策，不造没有命令的卡。
+    ("unlock", ["Tools/fleet/unlock.py"], 30, {0}, False),
     ("day_plan", ["Tools/fleet/day_plan.py"], 30, {0}, False),
     ("verify_done", ["Tools/fleet/verify_done.py"], 120, {0}, True),
     ("gate", ["Tools/fleet/gate_report.py"], 180, {0}, True),
