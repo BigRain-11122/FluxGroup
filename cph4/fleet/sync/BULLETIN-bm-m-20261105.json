@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
  "date": "20261105",
- "ts": "2026-11-05T17:08:30+0800",
+ "ts": "2026-11-05T17:26:27+0800",
  "window_h": 26,
  "produced": [
   {
    "path": "cph4/fleet/queue-receipts/skill-promote-20261105.json",
    "bytes": 2172,
-   "mtime": "2026-11-05T17:08:30",
-   "sha": "765ca640bc1526a746b82f7fd275511ead3b481d66fbf2036b761840ce8bdfa8"
+   "mtime": "2026-11-05T17:26:27",
+   "sha": "d1365024bf2a5eb3715f07b6683636b2017a34f6f0a09060779d3b03410484ce"
   },
   {
    "path": "cph4/fleet/queue-receipts/asset-env-2026-11-05.json",
@@ -391,8 +391,16 @@
  ],
  "blocked": [
   {
+   "what": "idle",
+   "why": "SELF-DISPATCH: lane scans its own backlog"
+  },
+  {
    "what": "R-NEXT-BIGGAME-SUBMIT-P-20261105",
    "why": "E-CONTRACT products=36 ready=0 not_ready=36\n  缺 图标≥256px                     35 款\n  缺 截图目录("
+  },
+  {
+   "what": "_last_lane_bm-m.json",
+   "why": "rc=None "
   },
   {
    "what": "R-NEXT-BIGSTREAMM-AUDIT-20261105",
@@ -405,14 +413,6 @@
   {
    "what": "asset-lib-voice-corpus-bmm-2026-11-03",
    "why": "E-BLOCKED-INPUT [corpus] 本分片无输入（inbox 共 0 个文件）——等投料，rc=3\n"
-  },
-  {
-   "what": "inference-audit-bm-m-20261105.json",
-   "why": "rc=None "
-  },
-  {
-   "what": "asset-lib-env-check-2026-11-05",
-   "why": "E-UNKNOWN ASSET-ENV FAIL  bm-m\n  可用路线: 无\n  ! torch 已装但 CUDA 不可用（CPU 训练 LoRA 不现实）\n  ! 没有 ko"
   }
  ],
  "job": null

@@ -85,7 +85,11 @@
    "cph4/fleet/dispatcher/",
    "cph4/fleet/inbox/"
   ],
-  "min_real_bytes": 1024
+  "min_real_bytes": 1024,
+  "soak_quick_seconds": 15,
+  "soak_full_seconds": 60,
+  "soak_window_hours": 24,
+  "soak_min_samples": 1440
  },
  "quality": {
   "require_gate_receipt_for_done": true,
@@ -160,7 +164,8 @@
   ],
   "canary_every_cycles": 4,
   "lane_timeout_s": 120,
-  "loop_seconds": 180
+  "loop_seconds": 45,
+  "_why_loop": "2026-11-05 CEO「不要等很久」：实测一轮 8.6s，睡 180s 等于 95% 空等；改 45s 后新卡最长等 45s 就有机器接手，代价是单核 19%。"
  },
  "capacity": {
   "_why": "CEO 2026-11-05「如何保障自动化和集团业务齐头并进」：机制活不许吃满产能。",

@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
- "ts": "2026-11-05T17:05:07",
+ "ts": "2026-11-05T17:26:32",
  "jobs": [
   {
-   "id": "R-BIZ-CAR-1D",
-   "title": "车机 BU 当日价值主张与追问清单（4B）",
-   "cmd": "python3 Tools/fleet/local_ai_business.py --job car-gaming",
-   "cwd": "",
+   "id": "CNV-20261105T172556-1",
+   "title": "转化·01-取证（MV 第7曲四闸复核并出母版）",
+   "cmd": "python3 Tools/fleet/plan_convert.py --probe cph4/fleet/conversions/20261105/MV-第7曲四闸复核并出母版 media",
+   "cwd": "/Users/junsheng.sun/FluxGroup",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/biz-car-gaming-20261031.md",
+   "deliverable": "cph4/fleet/conversions/20261105/MV-第7曲四闸复核并出母版/step1-取证.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 13.0/1.0 GB"
+ "capacity_note": "ram 15.5/1.0 GB"
 }
