@@ -80,13 +80,41 @@ def runnable_for(node, rows):
 
 
 def online_nodes():
-    if not os.path.isfile(COMMS):
-        return []
-    try:
-        d = json.load(open(COMMS, encoding="utf-8"))
-    except Exception:
-        return []
-    return [n.get("node") for n in (d.get("nodes") or []) if n.get("online")]
+    """在线判据：优先 comms.json；comms 过期或为空时退回 lanes/*.json 的心跳龄。
+
+    2026-11-05 实测：冻结主控脉后 comms.json 不再刷新，守卫就报「在线 0 台」——
+    在线判据不能吊死在单一易失文件上。
+    """
+    nodes = []
+    fresh = False
+    if os.path.isfile(COMMS):
+        try:
+            d = json.load(open(COMMS, encoding="utf-8"))
+            ts = str(d.get("ts") or "")
+            if ts:
+                age = time.time() - time.mktime(time.strptime(ts[:19], "%Y-%m-%dT%H:%M:%S"))
+                fresh = age < 600
+            nodes = [n.get("node") for n in (d.get("nodes") or []) if n.get("online")]
+        except Exception:
+            nodes, fresh = [], False
+    if nodes and fresh:
+        return nodes
+    lanes = os.path.join(F, "lanes")
+    if os.path.isdir(lanes):
+        now = time.time()
+        out = []
+        for fn in os.listdir(lanes):
+            if not fn.endswith(".json"):
+                continue
+            p = os.path.join(lanes, fn)
+            try:
+                if now - os.path.getmtime(p) < 1800:
+                    out.append(fn[:-5])
+            except OSError:
+                pass
+        if out:
+            return sorted(set(out))
+    return nodes
 
 
 def tool_check():
