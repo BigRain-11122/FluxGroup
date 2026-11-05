@@ -1,14 +1,14 @@
 {
  "node": "bm-a",
- "ts": "2026-11-05T10:40:02",
+ "ts": "2026-11-05T10:50:03",
  "jobs": [
   {
-   "id": "R-TRIAGE-BIGGAME-BMM-20261105",
-   "title": "Biggame路娓告垙 绾胯瘉鎹�鎵�鎻忥紙bm-m 鏈�鏈哄彲鍒ら潰锛�",
-   "cmd": "python Tools/fleet/line_triage.py --line biggame",
+   "id": "R-MODEL-RADAR-BMA-20261105",
+   "title": "鏈�鍦版ā鍨嬫棩鎶ワ細鎵�涓婃父鏂版。+瀹炴祴+鎸変袱鏉″垽鎹�鍐冲畾鏄�鍚︽崲妗ｏ紙bm-a锛�",
+   "cmd": "python Tools/fleet/model_radar.py run --node bm-a --idle-only --apply",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-biggame-20261105.md",
+   "deliverable": "cph4/fleet/queue-receipts/model-radar-bm-a-20261105.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
