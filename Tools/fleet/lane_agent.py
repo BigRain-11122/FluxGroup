@@ -36,7 +36,7 @@ import flux_contracts as fc  # noqa: E402
 
 CREATE_NO_WINDOW = 0x08000000 if os.name == "nt" else 0
 # 长任务存活上报间隔：既不刷爆 NATS，又能让主控在 1-2 分钟内看出一台机"在忙"而不是"死了"。
-PROGRESS_EVERY = 45
+PROGRESS_EVERY = 10   # 2026-11-05 CEO「状态要及时」：45s 对分钟级卡等于不报；默认 10s
 
 
 def live_state(root, node, hub, port):
@@ -329,6 +329,16 @@ def _card_gate(row, root, node):
         return True, "gate-skipped:%s" % str(e)[:80]
 
 
+def _progress_every(root):
+    try:
+        with open(os.path.join(root, "cph4", "fleet", "AUTONOMY-CONFIG.json"),
+                  encoding="utf-8-sig") as f:
+            return max(3, int(((json.load(f).get("progress") or {})
+                               .get("report_every_s") or PROGRESS_EVERY)))
+    except Exception:
+        return PROGRESS_EVERY
+
+
 def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
     jid = str(job.get("id") or "")
     cmd = str(job.get("cmd") or "")
@@ -455,12 +465,15 @@ def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
         def _reader(pipe, key, ctr):
             parts = []
             try:
+                # 2026-11-05 实测：text 模式 pipe.read(4096) 会攒满或等 EOF 才返回，
+                # 小批量输出（每秒一行）一个字节都读不到 → out_bytes 恒 0 → 主控的
+                # "字节有没有增长"判据失效，慢卡全被判成假忙。改为按行读。
                 while True:
-                    chunk = pipe.read(4096)
-                    if not chunk:
+                    line = pipe.readline()
+                    if not line:
                         break
-                    parts.append(chunk)
-                    _box[ctr] = _box.get(ctr, 0) + len(chunk)
+                    parts.append(line)
+                    _box[ctr] = _box.get(ctr, 0) + len(line)
             except Exception as e:
                 parts.append("[read-error %s]" % e)
             finally:
@@ -497,7 +510,7 @@ def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
         _t = threading.Thread(target=_exec, daemon=True)
         _t.start()
         while _t.is_alive():
-            _t.join(timeout=PROGRESS_EVERY)
+            _t.join(timeout=_progress_every(root))
             if not _t.is_alive():
                 break
             try:

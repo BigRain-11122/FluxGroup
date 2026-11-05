@@ -65,6 +65,7 @@ def main(argv=None):
     ap.add_argument("--recursive", action="store_true")
     ap.add_argument("--jobs", type=int, default=8)
     ap.add_argument("--threshold", type=int, default=6)
+    ap.add_argument("--json", default=OUT)
     a = ap.parse_args(argv)
     if not os.path.isdir(a.dir):
         print("[dedupe] 目录不存在 %s（rc=2）" % a.dir)
@@ -103,8 +104,8 @@ def main(argv=None):
            "duplicate_pairs": dup[:500], "dup_pairs": len(dup),
            "seconds": round(time.time() - t0, 1),
            "verdict": "DUPES" if dup else "CLEAN"}
-    os.makedirs(os.path.dirname(OUT), exist_ok=True)
-    with open(OUT, "w", encoding="utf-8") as f:
+    os.makedirs(os.path.dirname(a.json), exist_ok=True)
+    with open(a.json, "w", encoding="utf-8") as f:
         json.dump(res, f, ensure_ascii=False, indent=1)
     print("[dedupe] %d 张，用时 %.1fs，近重复对 %d%s"
           % (n, res["seconds"], len(dup), ("（失败 %d）" % len(failed)) if failed else ""))

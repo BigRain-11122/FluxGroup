@@ -191,7 +191,7 @@ def main(argv=None):
                 cid = "CAP-%s" % os.path.basename(g["rel"]).split(".")[0][:16]
                 card = {
                     "id": cid, "title": "打标 %s" % os.path.basename(g["rel"])[:40],
-                    "needs": "gpu-vision", "nodes": [node], "prio": "P2",
+                    "needs": "gpu", "nodes": [node], "prio": "P2",
                     "cmd": "python3 Tools/fleet/asset_caption.py --dir %s --kind auto --limit 1"
                            % os.path.dirname(g["abs"]),
                     "cwd": "", "requires": ["Tools/fleet/asset_caption.py"],
@@ -213,7 +213,7 @@ def main(argv=None):
                 lst = os.path.join(F, "state", "preview-clips.txt")
                 card = {
                     "id": cid, "title": "竖屏素材拼 30s 预览片",
-                    "needs": "gpu-encode", "nodes": [node], "prio": "P2",
+                    "needs": "gpu", "nodes": [node], "prio": "P2",
                     "cmd": "python3 Tools/fleet/preview_concat.py --dir %s --out %s"
                            % (g["dir"], g["out"]),
                     "cwd": "", "requires": ["Tools/fleet/preview_concat.py"],
@@ -232,14 +232,14 @@ def main(argv=None):
                     "why": "成片无字幕（机检：state/asr 下无同名 .srt）",
                 }
             elif name == "bm-c-dedupe":
-                cid = "DEDUPE-ASSETLIB-20261105"
+                cid = "DEDUPE-BMC-20261105"
                 card = {
                     "id": cid, "title": "素材库感知哈希去重",
                     "needs": "cpu", "nodes": [node], "prio": "P3",
-                    "cmd": "python3 Tools/fleet/asset_dedupe.py --dir %s --recursive --jobs 8"
-                           % g["dir"],
+                    "cmd": "python3 Tools/fleet/asset_dedupe.py --dir %s --recursive --jobs 8 --json %s"
+                           % (g["dir"], os.path.join(F, "state", "asset-dedupe-bmc.json")),
                     "cwd": "", "requires": ["Tools/fleet/asset_dedupe.py"],
-                    "deliverable": os.path.join(F, "state", "asset-dedupe.json"),
+                    "deliverable": os.path.join(F, "state", "asset-dedupe-bmc.json"),
                     "why": "训练前去重（感知哈希），纯 CPU 重活，适合算力机",
                 }
             else:
