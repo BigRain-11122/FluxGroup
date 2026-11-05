@@ -51,10 +51,10 @@
    "bm-a": 3,
    "bm-b": 3,
    "bm-c": 2,
-   "bm-m": 1,
+   "bm-m": 3,
    "bm-d": 8
   },
-  "_slots_why": "每机并发槽位数（一次一张卡=假容量）。GPU 卡在车道侧串行；主控固定 1 且只吃轻活。",
+  "_slots_why": "2026-11-05 CEO「不要等很久」：bm-m 是 10 核 32GB，原只开 1 槽，四张 3 秒的 CPU 卡串行要 3 分钟。放到 3 槽（对齐 MAC-SLOTS cpu_rules conc=3）；GPU 仍由 lane 的 _gpu_taken 保证同刻 1 张。",
   "meta_card_prefixes": [
    "CHK-",
    "CANARY-",

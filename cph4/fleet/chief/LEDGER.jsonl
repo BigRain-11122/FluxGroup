@@ -1022,3 +1022,6 @@
 {"ts": "2026-11-05T17:31:48", "stage": 3, "read": {"running": 2, "open": 2, "ready": 0, "red": 9}, "judged": "3 台机空转且有活", "action": "flag", "target": ["bm-a", "bm-b", "bm-m"], "result": "applied"}
 {"ts": "2026-11-05T17:31:48", "stage": 3, "read": {"running": 2, "open": 2, "ready": 0, "red": 9}, "judged": "1 张卡在跑但 1 小时无回执", "action": "requeue", "target": ["asset-lib-char-gen-2026-11-05"], "result": "applied"}
 {"ts": "2026-11-05T17:31:48", "stage": 3, "read": {"running": 2, "open": 2, "ready": 0, "red": 9}, "judged": "P0 线 24h 无产物：2 条", "action": "escalate", "target": ["p0:bigstream-mv:no-output", "p0:bigstream-duanju:no-output"], "result": "applied"}
+{"ts": "2026-11-05T17:37:13", "stage": 3, "read": {"running": 1, "open": 2, "ready": 4, "red": 8}, "judged": "2 台机空转且有活", "action": "flag", "target": ["bm-a", "bm-m"], "result": "applied"}
+{"ts": "2026-11-05T17:37:13", "stage": 3, "read": {"running": 1, "open": 2, "ready": 4, "red": 8}, "judged": "1 张卡在跑但 1 小时无回执", "action": "requeue", "target": ["asset-lib-char-gen-2026-11-05"], "result": "applied"}
+{"ts": "2026-11-05T17:37:13", "stage": 3, "read": {"running": 1, "open": 2, "ready": 4, "red": 8}, "judged": "P0 线 24h 无产物：2 条", "action": "escalate", "target": ["p0:bigstream-mv:no-output", "p0:bigstream-duanju:no-output"], "result": "applied"}

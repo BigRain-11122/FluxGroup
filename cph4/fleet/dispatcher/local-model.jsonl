@@ -1318,3 +1318,10 @@
 {"cls": "master", "op": "embed", "sec": 0.1, "why": "dispatch-dedupe", "ts": "2026-11-05T17:26:31"}
 {"cls": "master", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 6.6, "chars": 128, "why": "master-digest", "ts": "2026-11-05T17:26:34"}
 {"cls": "master", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 7.1, "chars": 132, "why": "master-digest", "ts": "2026-11-05T17:31:55"}
+{"cls": "master", "op": "embed", "sec": 0.16, "why": "dispatch-dedupe", "ts": "2026-11-05T17:37:17"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-05T17:37:17"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-05T17:37:17"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-05T17:37:17"}
+{"cls": "master", "op": "embed", "sec": 0.12, "why": "dispatch-dedupe", "ts": "2026-11-05T17:37:17"}
+{"cls": "master", "op": "embed", "sec": 0.13, "why": "dispatch-dedupe", "ts": "2026-11-05T17:37:17"}
+{"cls": "master", "op": "embed", "sec": 0.11, "why": "dispatch-dedupe", "ts": "2026-11-05T17:37:18"}
