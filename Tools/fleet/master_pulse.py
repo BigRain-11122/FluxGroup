@@ -231,6 +231,9 @@ STAGES = [
     # 每轮给出四条 P0 线各自唯一的动作，并在 --act 下真的触发 closer/night_plan/workgen。
     # 放在 closer 之后，看到的是本轮的干净事实。
     ("master_loop", ["Tools/fleet/master_loop.py", "--act"], 180, {0}, True),
+    # 分层决策路由（CEO 2026-11-05「不是每个都要到你这里决策」）：按 decision-chain §0/§8
+    # 给待决事项定级 L0-L3/CEO，各层带时限与兜底；只有真保留域才上屏给 CEO。
+    ("decision_router", ["Tools/fleet/decision_router.py"], 60, {0}, True),
     ("deadline", ["Tools/fleet/fleet_deadline.py"], 120, {0}, True),
     ("supervisor", ["Tools/fleet/fleet_supervisor.py"], 60, {0}, True),
     # One page that names the single decision that moves the fleet now, from disk facts
