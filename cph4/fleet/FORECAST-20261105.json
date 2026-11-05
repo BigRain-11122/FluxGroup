@@ -1,14 +1,14 @@
 {
- "ts": "2026-11-05T13:57:56+0800",
+ "ts": "2026-11-05T14:04:15+0800",
  "alert_days": 2.0,
  "lines": [
   {
    "line": "asset-lib",
    "status": "ACTIVE",
    "prio": "P0",
-   "stock": 10,
+   "stock": 5,
    "rate_per_day": 4.67,
-   "runway_days": 2.1,
+   "runway_days": 1.1,
    "has_table": true,
    "blocker": {
     "stage": "env-check",
@@ -16,7 +16,27 @@
     "needs": "cpu",
     "hard_nodes": []
    },
-   "flags": []
+   "flags": [
+    "ALERT"
+   ]
+  },
+  {
+   "line": "bigstream-mv",
+   "status": "ACTIVE",
+   "prio": "P0",
+   "stock": 1,
+   "rate_per_day": 4.67,
+   "runway_days": 0.2,
+   "has_table": true,
+   "blocker": {
+    "stage": "gate",
+    "deliverable": "cph4/fleet/queue-receipts/mv-gate-v721-20261105.json",
+    "needs": "cpu",
+    "hard_nodes": []
+   },
+   "flags": [
+    "ALERT"
+   ]
   },
   {
    "line": "bigstream-duanju",
@@ -34,24 +54,6 @@
    },
    "flags": [
     "INACTIVE"
-   ]
-  },
-  {
-   "line": "bigstream-mv",
-   "status": "ACTIVE",
-   "prio": "P0",
-   "stock": 0,
-   "rate_per_day": 4.67,
-   "runway_days": 0.0,
-   "has_table": true,
-   "blocker": {
-    "stage": "gate",
-    "deliverable": "cph4/fleet/queue-receipts/mv-gate-v721-20261105.json",
-    "needs": "cpu",
-    "hard_nodes": []
-   },
-   "flags": [
-    "ALERT"
    ]
   },
   {
@@ -186,9 +188,9 @@
    "line": "fleet-ops",
    "status": "ACTIVE",
    "prio": "P3",
-   "stock": 20,
+   "stock": 14,
    "rate_per_day": 7.0,
-   "runway_days": 2.9,
+   "runway_days": 2.0,
    "has_table": false,
    "blocker": null,
    "flags": [
@@ -238,6 +240,6 @@
    ]
   }
  ],
- "alerts": 7,
+ "alerts": 8,
  "no_table": 6
 }

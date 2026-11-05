@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
  "date": "20261105",
- "ts": "2026-11-05T13:57:56+0800",
+ "ts": "2026-11-05T14:04:15+0800",
  "window_h": 26,
  "produced": [
   {
    "path": "cph4/fleet/queue-receipts/skill-promote-20261105.json",
    "bytes": 2172,
-   "mtime": "2026-11-05T13:57:56",
-   "sha": "61741145c7b446d8784484b4a8beba01e52d06157518cc00ba0248136f0871c7"
+   "mtime": "2026-11-05T14:04:15",
+   "sha": "103053272f2eb3d09cad610061fb65e4d1418bd0ab83fd006d0993a9bacb6f8d"
   },
   {
    "path": "cph4/fleet/queue-receipts/R-NEXT-BIGSTREAMM-AUDIT-20261105-bm-a.json",
@@ -588,11 +588,15 @@
   },
   {
    "what": "_last_lane_bm-m.json",
-   "why": "rc=127 "
+   "why": "rc=1 "
   },
   {
    "what": "R-NEXT-BIGSTREAMM-AUDIT-20261105",
    "why": "E-UNKNOWN "
+  },
+  {
+   "what": "Q-VCORP-PREP-e01-R3-20261105",
+   "why": "rc=127 "
   },
   {
    "what": "asset-lib-voice-corpus-bmm-2026-11-03",
@@ -601,10 +605,6 @@
   {
    "what": "asset-lib-library-check-2026-11-04",
    "why": "E-UNKNOWN 资产库体检 tier=p0  合计 19/128（15%）  GAPS\n  OK characters    8/8    授权 8\n      - CH01："
-  },
-  {
-   "what": "voice-corpus-bm-m-2026-11-04.json",
-   "why": "E-BLOCKED-INPUT "
   }
  ],
  "job": null
