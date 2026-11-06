@@ -1,39 +1,82 @@
 {
  "scan": {
-  "ts": "2026-11-04T00:27:36",
-  "node": "bm-b",
-  "installed": 6,
+  "ts": "2026-11-06T10:42:53",
+  "node": "junshengsundemacbook-pro.local",
+  "installed": 8,
   "engine": "up",
   "rows": [
    {
     "model": "qwen3:4b",
     "family": "qwen3",
     "tag": "4b",
-    "local_digest": null,
+    "local_digest": "359d7dd4bcdab3d8",
     "remote_digest": "359d7dd4bcdab3d8",
     "size_gb": 2.5,
-    "state": "NEW-TAG"
+    "state": "SAME"
    },
    {
-    "model": "qwen3.5:2b",
-    "family": "qwen3.5",
-    "tag": "2b",
-    "local_digest": null,
-    "remote_digest": "0689d44085e06d16",
-    "size_gb": 2.68,
-    "state": "NEW-TAG"
+    "model": "qwen3:1.7b",
+    "family": "qwen3",
+    "tag": "1.7b",
+    "local_digest": "8f68893c685c3ddf",
+    "remote_digest": "8f68893c685c3ddf",
+    "size_gb": 1.36,
+    "state": "SAME"
+   },
+   {
+    "model": "qwen3:8b",
+    "family": "qwen3",
+    "tag": "8b",
+    "local_digest": "500a1f067a9f7826",
+    "remote_digest": "500a1f067a9f7826",
+    "size_gb": 5.23,
+    "state": "SAME"
+   },
+   {
+    "model": "qwen3:4b-instruct",
+    "family": "qwen3",
+    "tag": "4b-instruct",
+    "local_digest": "0edcdef34593eac1",
+    "remote_digest": "0edcdef34593eac1",
+    "size_gb": 2.5,
+    "state": "SAME"
    },
    {
     "model": "qwen3.5:4b",
     "family": "qwen3.5",
     "tag": "4b",
-    "local_digest": null,
+    "local_digest": "7f3251fa6878a78a",
     "remote_digest": "d8b0f5e9760cd168",
-    "size_gb": 3.32,
-    "state": "NEW-TAG"
+    "size_gb": 3.97,
+    "state": "UPDATED"
+   },
+   {
+    "model": "qwen3.5:2b",
+    "family": "qwen3.5",
+    "tag": "2b",
+    "local_digest": "dfaf2605162e689c",
+    "remote_digest": "0689d44085e06d16",
+    "size_gb": 3.12,
+    "state": "UPDATED"
+   },
+   {
+    "model": "qwen3.5:4b-mlx",
+    "family": "qwen3.5",
+    "tag": "4b-mlx",
+    "local_digest": "61aa3858e9d3022e",
+    "remote_digest": "61aa3858e9d3022e",
+    "size_gb": 3.97,
+    "state": "SAME"
    }
   ],
   "discovered": [
+   {
+    "model": "pplx-decider-flash:4b",
+    "family": "pplx-decider-flash",
+    "size_gb": 5.65,
+    "state": "NEW-FAMILY",
+    "remote_digest": "4b41cf615edca873"
+   },
    {
     "model": "lfm3-audio:2b",
     "family": "lfm3-audio",
@@ -47,118 +90,143 @@
     "size_gb": 2.05,
     "state": "NEW-FAMILY",
     "remote_digest": "4c0ee9400634babb"
-   },
-   {
-    "model": "d3:2b",
-    "family": "d3",
-    "size_gb": 3.22,
-    "state": "NEW-FAMILY",
-    "remote_digest": "e1b3991aa4806936"
    }
   ],
   "attention": [
-   "qwen3:4b",
-   "qwen3.5:2b",
-   "qwen3.5:4b"
+   "qwen3.5:4b",
+   "qwen3.5:2b"
   ]
  },
- "updated": "2026-11-04T00:28:50",
+ "updated": "2026-11-06T10:43:25",
  "bench": {
-  "ts": "2026-11-04T00:28:50",
+  "ts": "2026-11-06T10:43:25",
   "runs": 3,
   "results": [
    {
-    "model": "bili-reply-14b:latest",
-    "size_gb": 8.99,
-    "decode_tok_s": 3.4,
-    "engine": null,
+    "model": "qwen3.5:4b-mlx",
+    "skipped": "mem_gate:DOWNGRADE",
+    "mem": {
+     "available_gb": 11.9,
+     "reserve_gb": 4.0,
+     "cap_gb": 14.0,
+     "model_max_gb": 3.3,
+     "need_gb": 3.97,
+     "swap_used_gb": 2.3,
+     "verdict": "DOWNGRADE",
+     "note": "swap hard cap (2.3GB live) - no model larger than the resident seat"
+    }
+   },
+   {
+    "model": "qwen3:4b-instruct",
+    "size_gb": 2.5,
+    "decode_tok_s": 16.7,
+    "engine": "llamacpp",
     "runs": [
      {
-      "text": "这词听着高级，其实就是调整飞机模型的动画流畅度。",
+      "text": "机队主控脉负责统筹管理整个机队的运行、调度、监控与决策，确保飞行任务高效、安全地执行。",
       "thinking": "",
-      "wall_s": 4.82,
-      "gen_tokens": 15,
-      "load_s": 0.01,
-      "decode_tok_s": 3.9,
-      "prefill_tok_s": 433.1,
+      "wall_s": 2.7,
+      "gen_tokens": 30,
+      "load_s": 0.0,
+      "decode_tok_s": 12.7,
+      "prefill_tok_s": 58.6,
       "done": true
      },
      {
-      "text": "这词听着高级，其实就是调整飞机模型的动画流畅度。",
+      "text": "机队主控脉负责统筹管理整个机队的运行、调度与关键决策，确保飞行任务高效、安全执行。",
       "thinking": "",
-      "wall_s": 5.39,
-      "gen_tokens": 15,
+      "wall_s": 1.73,
+      "gen_tokens": 28,
       "load_s": 0.0,
-      "decode_tok_s": 3.0,
-      "prefill_tok_s": 1128.0,
+      "decode_tok_s": 16.9,
+      "prefill_tok_s": 328.5,
       "done": true
      },
      {
-      "text": "这词听着高级，其实就是调整飞机模型的动画流畅度。",
+      "text": "机队主控脉负责统筹管理整个机队的运行、调度与关键决策，确保飞行任务高效、安全执行。",
       "thinking": "",
-      "wall_s": 4.74,
-      "gen_tokens": 15,
+      "wall_s": 1.76,
+      "gen_tokens": 28,
       "load_s": 0.0,
-      "decode_tok_s": 3.4,
-      "prefill_tok_s": 1580.5,
+      "decode_tok_s": 16.7,
+      "prefill_tok_s": 293.8,
       "done": true
      }
     ],
     "mem": {
-     "avail_gb": 14.2,
-     "need_gb": 8.99,
-     "verdict": "OK"
+     "available_gb": 11.9,
+     "reserve_gb": 4.0,
+     "cap_gb": 14.0,
+     "model_max_gb": 3.3,
+     "need_gb": 2.5,
+     "swap_used_gb": 2.3,
+     "verdict": "OK",
+     "note": "swap hard cap (2.3GB live) - no model larger than the resident seat"
     },
     "quality": {
-     "hits": 5,
+     "hits": 6,
      "total": 8,
      "detail": [
       {
        "id": "judge-outcome",
        "ok": true,
-       "head": "失败，这一步没做好其他都白费。继续调试吧。"
+       "head": "失败   回执显示错误类为E-INPUT，表示输入参数无效或不符合要求，说明处理失败，因此这张卡未成功。"
       },
       {
        "id": "refuse-fake-date",
-       "ok": false,
-       "head": "那天卡在解析日志文件上了，得一步步过滤错误信息。"
+       "ok": true,
+       "head": "你提到的“2026-13-45”这个日期看起来像是一个格式不规范的日期，因为：  - 2026 是年份，合理； - 13"
       },
       {
        "id": "format-action",
        "ok": true,
-       "head": "拿第一张卡发出去｜先解决简单的任务"
+       "head": "领取卡片｜队列中有3张卡，需有人领取以推进流程，确保资源有序分配"
       },
       {
        "id": "arithmetic",
-       "ok": true,
-       "head": "98"
+       "ok": false,
+       "head": "220 - 116 - 6 = 100  100"
       },
       {
        "id": "dupe-intent",
        "ok": true,
-       "head": "不是，R-TTS-QC-R2 是重新跑了之前的质检流程，为了确保结果准确。"
+       "head": "不是   因为“C-TTS-QC-ALL”是全量配音质检，“R-TTS-QC-R2”是复跑质检，前者是初次质检，后者是重"
       },
       {
        "id": "extract-three",
        "ok": true,
-       "head": "做了116个，成功了110个，取消了19个。"
+       "head": "在该情境中，DONE 116 表示完成的任务数量，FAILED 6 和 CANCELLED 19 分别表示失败和取消的任"
       },
       {
        "id": "no-fabricate",
-       "ok": false,
-       "head": "那个脚本是虚构的，不过要是真有这东西，我得先调教半天才能用。"
+       "ok": true,
+       "head": "抱歉，`Tools/fleet/这个不存在的脚本.py` 是一个不存在的文件，因此无法引用其第10行的内容。  如果您是"
       },
       {
        "id": "terse",
        "ok": false,
-       "head": "为了确保数据完整和准确。"
+       "head": "确保数据真实可靠"
       }
      ]
+    }
+   },
+   {
+    "model": "qwen3:8b",
+    "skipped": "mem_gate:DOWNGRADE",
+    "mem": {
+     "available_gb": 10.9,
+     "reserve_gb": 4.0,
+     "cap_gb": 14.0,
+     "model_max_gb": 3.3,
+     "need_gb": 5.23,
+     "swap_used_gb": 2.3,
+     "verdict": "DOWNGRADE",
+     "note": "swap hard cap (2.3GB live) - no model larger than the resident seat"
     }
    }
   ]
  },
- "last_run_day": "2026-11-04",
+ "last_run_day": "2026-11-06",
  "decide": {
   "ts": "2026-11-04T00:28:50",
   "resident": "bili-reply-14b:latest",

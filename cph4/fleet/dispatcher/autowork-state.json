@@ -1,7 +1,7 @@
 {
- "date": "20261105",
+ "date": "20261106",
  "done": {
-  "triage": "卡片 -> 最可能原因 | 下一步动作(谁做什么)\nR-ART-PUSH-B/C/NEXT-BIGSTREAMD-TTS-QC/bigstream-duanju-tts-qc-2026-11-03 | rc=None 且无记录表明系统未捕获异常或日志缺失，需排查监控配置。运维检查日志采集是否生效；开发复核代码逻辑。",
-  "digest": "今日共产出 25 件文件，覆盖 BMA、BM-A、BM-B、BM-M 及 CANARY、CHK、MV 等七类线。其中 BMA 与 MV 线产出较少，仅各 1 件，而 CANARY 与 CHK 线产出较多。建议明天优先处理 BMA 与 MV 线的少量产出，确保数据完整性。"
+  "triage": "R-NEXT-BIGSTREAMD-TTS-QC-20261102 -> 数据未捕获 | 运维检查日志确认输出缺失\nbigstream-duanju-tts-qc-2026-11-03 -> 无记录 | 运维核查任务状态\nbiggame-playable-2026-11-03 -> 无输出捕获 | 运维验证执行结果",
+  "digest": "今日共产出 28 件文件，覆盖 BMA、GAME、SOFT 三条线。其中 BMA 线仅产出 2 件，明显偏少。建议明天优先排查 BMA 线落库延迟原因。"
  }
 }

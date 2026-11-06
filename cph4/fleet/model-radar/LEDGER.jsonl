@@ -1,2 +1,3 @@
 {"ts": "2026-11-03T12:39:07", "attention": ["qwen3:0.6b", "qwen3:1.7b", "qwen3:4b", "qwen3.5:4b", "qwen3.5:35b-a3b", "qwen3.5:0.8b", "qwen3.5:2b"], "benched": true, "pulled": [], "suggest": []}
 {"ts": "2026-11-03T12:39:58", "attention": ["qwen3:0.6b", "qwen3:1.7b", "qwen3:4b", "qwen3.5:4b", "qwen3.5:35b-a3b", "qwen3.5:0.8b", "qwen3.5:2b"], "benched": true, "pulled": ["qwen3:0.6b", "qwen3:1.7b"], "suggest": [{"model": "qwen3.5:4b", "action": "SUGGEST-SWAP", "why": "黄金集 6/8（现役 6）・解码 35.2 tok/s（现役 37.6）"}]}
+{"ts": "2026-11-06T10:42:53", "node": "junshengsundemacbook-pro.local", "attention": ["qwen3.5:4b", "qwen3.5:2b"], "benched": true, "pulled": [], "applied": null, "suggest": []}
