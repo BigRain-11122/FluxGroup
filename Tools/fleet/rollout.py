@@ -78,10 +78,10 @@ def push_local():
     return local_sha(), "pushed"
 
 
-def poke(node, tasks, t0_iso):
+def poke(node, tasks, t0_iso, reason="rollout: pull and reload"):
     # ASCII only: the listener's Read-Request rejects bodies with multibyte chars
     # (live 2026-11-06: Chinese reason -> 400 bad-request in 31s, ASCII -> 200 in 1s).
-    body = {"reason": "rollout: pull and reload", "tasks": tasks}
+    body = {"reason": reason, "tasks": tasks}
     for _ in range(3):
         code, _j = http("http://%s:8790/poke" % node, body, timeout=12)
         if code == 200:
@@ -117,6 +117,24 @@ def wait_receipt(node, cid, seconds=180):
     return False, {}
 
 
+def enable_tasks(node):
+    try:
+        d = json.load(open(os.path.join(ROOT, "Tools", "fleet-nodes.json"), encoding="utf-8-sig"))
+        for n in d.get("nodes") or []:
+            if n.get("id") == node:
+                return n.get("enable_tasks") or []
+    except Exception:
+        pass
+    return []
+
+
+def wakes_of(node):
+    """last_pull.wakes —— 节点对每个任务的真实处理结果（WAKE/off-skip/deny/REENABLED）。"""
+    j = status(node)
+    lp = j.get("last_pull") or {}
+    return lp.get("wakes") or [], lp
+
+
 def live_tasks(node):
     try:
         d = json.load(open(os.path.join(ROOT, "Tools", "fleet-nodes.json"), encoding="utf-8-sig"))
@@ -133,6 +151,8 @@ def main(argv):
     ap.add_argument("--only", default="")
     ap.add_argument("--no-canary", action="store_true")
     ap.add_argument("--no-push", action="store_true")
+    ap.add_argument("--enable", action="store_true",
+                    help="对被禁用且在 roster enable_tasks 内的执行器发受控启用请求")
     a = ap.parse_args(argv)
     nodes = [x.strip() for x in a.only.split(",") if x.strip()] or list(NODES)
     t0 = datetime.now()
@@ -174,6 +194,26 @@ def main(argv):
         head = heads.get(".") or heads.get("repo") or ""
         rec["L3"] = "PASS" if str(head).startswith(sha[:7]) or sha[:7] in str(head) \
             else "FAIL(node HEAD=%s 我方=%s)" % (str(head)[:7], sha[:7])
+
+        # L2c 唤醒：看节点对任务的真实处置；被禁用且在 enable_tasks 名单内 → 受控启用一次
+        ws, lp = wakes_of(node)
+        off = [w.split(":")[0] for w in ws if str(w).endswith(":off-skip")]
+        want = enable_tasks(node)
+        target = [t for t in off if t in want]
+        if target and a.enable:
+            ok2, err2 = poke(node, target, datetime.now().isoformat(timespec="seconds"),
+                             reason="rollout: enable-tasks")
+            time.sleep(25)
+            ws2, lp2 = wakes_of(node)
+            got = [w for w in ws2 if ":REENABLED" in str(w)]
+            rec["L2c"] = "PASS(%s)" % ",".join(x.split(":")[0] for x in got) if got \
+                else "FAIL(enable 无回执 %s)" % (" ".join(str(x) for x in ws2)[:60])
+        elif target:
+            rec["L2c"] = "SKIP(禁用待启用: %s)" % ",".join(target)
+        else:
+            rec["L2c"] = "n/a"
+        # 老 worker 没有 fork 字段 = Tools 尚未更新到含 v2.1 的版本
+        rec["code"] = "fresh" if "fork" in str(lp) else "stale Tools/（拉不到新码）"
         if a.no_canary:
             rows.append(rec)
             continue
@@ -182,10 +222,12 @@ def main(argv):
         rec["L4"] = "PASS(rc=%s)" % rcpt.get("rc") if got else "FAIL(180s 无回执 %s)" % cid
         rows.append(rec)
 
-    print("\n%-6s %-22s %-14s %-26s %s" % ("机器", "L1 可达", "L2 会拉", "L3 是新码", "L4 会跑"))
+    print("\n%-6s %-10s %-12s %-24s %-22s %-28s %s" % (
+        "机器", "L1 可达", "L2 会拉", "L2c 唤醒", "L3 是新码", "代码态", "L4 会跑"))
     for r in rows:
-        print("%-6s %-22s %-14s %-26s %s" % (r["node"], r["L1"], r.get("L2b", "-"),
-                                             r.get("L3", "-"), r.get("L4", "-")))
+        print("%-6s %-10s %-12s %-24s %-22s %-28s %s" % (
+            r["node"], r["L1"], r.get("L2b", "-"), r.get("L2c", "-"),
+            r.get("L3", "-"), r.get("code", "-"), r.get("L4", "-")))
     bad = [r for r in rows if any(str(v).startswith("FAIL") for k, v in r.items() if k != "node")]
     print("\n断链机器：%s" % (", ".join(r["node"] for r in bad) or "无"))
     return 0 if not bad else 2
