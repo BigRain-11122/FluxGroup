@@ -99,7 +99,7 @@
    "name": "邻家马尾",
    "trigger": "h05",
    "lora": "her_T05_r1",
-   "status": "running",
+   "status": "trained",
    "base": "a young Taiwanese woman around twenty, oval face, wide-set dark eyes, flat natural brows, bare-skin look with pale matte lips, high ponytail with loose strands at the temples, visible pores and fine film grain, relaxed un-fitted 2001 Taipei style, white shirt with sleeves rolled once, straight jeans, canvas backpack",
    "use": [
     "mv",
@@ -112,7 +112,8 @@
    ],
    "needs": "gpu",
    "cast_fix": "R-20261106: added face/eye qualifier (CAST-DISTINCTIVENESS-LAW v1)",
-   "images": 36
+   "images": 36,
+   "weights": "T05_rank32.safetensors"
   },
   {
    "order": 6,
@@ -159,7 +160,7 @@
    "name": "雨夜疏离",
    "trigger": "h08",
    "lora": "her_T08_r1",
-   "status": "blocked-cast",
+   "status": "failed-1",
    "base": "a Taiwanese woman with a long narrow face, rounded-almond eyes, neutral delicate features, cool pale skin, thin lips, wet hair clinging to the face and temples, visible pores and fine film grain, single street-lamp light with rain, 2001 Taipei night style, dark unfitted trench coat, straight jeans, wet pavement reflections",
    "use": [
     "mv",
@@ -170,7 +171,27 @@
     "bm-a"
    ],
    "needs": "gpu",
-   "cast_fix": "R-20261106: added face/eye qualifier (CAST-DISTINCTIVENESS-LAW v1)"
+   "cast_fix": "R-20261106: added face/eye qualifier (CAST-DISTINCTIVENESS-LAW v1)",
+   "images": 17
+  },
+  {
+   "order": 9,
+   "id": "T09",
+   "name": "龙卷风女主C造型",
+   "trigger": "hermv2",
+   "status": "queued",
+   "use": [
+    "mv"
+   ],
+   "nodes": [
+    "bm-a"
+   ],
+   "needs": "gpu",
+   "train_name": "her_mv0002",
+   "images": 18,
+   "dataset": "D:\\FluxGroup-Offload\\15-training\\dataset\\her_mv0002",
+   "weights": "her_mv0002_rank32.safetensors",
+   "note": "CEO 2026-11-06 空闲即烧令：数据集 18 图+18 标注已备齐（11-03 定妆 C 造型），mv0002 KF 前置门"
   }
  ],
  "dispatch": {
