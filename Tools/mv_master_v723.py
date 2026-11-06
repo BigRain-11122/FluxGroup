@@ -40,7 +40,7 @@ V5_RESTORE = {
     "INT2_paper_fight", "INT4_rubbing_glow", "INT5_head_bow", "C01_carver_face",
     "C04_words_alive", "R06_museum_verse", "D01_carver_words", "D03b_direct_gaze",
     "D04_her_brush", "D05_words_warm", "B01_weary", "SIL4", "E04_replay_faces",
-    "SING3b_v4", "D08_world_flip",  # V56 pair -- chunk 08 seeding bug caught 2026-11-06
+    "SING3b_v4", "D08_world_flip", "E04a_words_warm",  # V56 pair + E04a reprise fix
 }
 
 if not os.path.exists(SRC):

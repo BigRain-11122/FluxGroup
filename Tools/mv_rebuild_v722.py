@@ -60,6 +60,12 @@ V5_RESTORE = {
     "B01_weary": "B01_weary_v5.mp4",
     "SIL4": "SIL4_crowd_edge_v5.mp4",
     "E04_replay_faces": "E04_replay_faces_v5.mp4",
+    # 2026-11-06 addendum: E04a is the D05 reprise row but still pointed at the
+    # legacy D05 take, which carries a real ~0.4s dead hold at 203.4s (measured
+    # 1.34%->0.27% frame-diff, persistent across v722g/v723). The v5 take has
+    # the verified slow push (r955) and restores the D05<->E04a reprise pair
+    # to identical content, as the whitelist design intends.
+    "E04a_words_warm": "D05_words_warm_v5.mp4",
 }
 for _sid, _f in V5_RESTORE.items():
     _p = os.path.join(V5RESTORE_DIR, _f)
