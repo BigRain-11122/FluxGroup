@@ -49,7 +49,10 @@
         "quant/bigmoney/fleet/machines/bm-a.json"
       ],
       "note": "O-20261010-1815: house/BigHouse remote CREATED (BigRain-11122/BigHouse, private, main@56ad205 first push done; CEO approval same day) and re-added to repos list. WARM tier note: BigHouse has no own OS loop yet - bm-a is the owner machine, local is source of truth. TIER: '.'=HOT (poke); all product repos=WARM (own OS loops self-pull on round cadence).",
-      "_ceo_pause": "2026-11-06 11:46 CEO 让路令（原话「我在工作」）——本机暂停接单，主控不得唤醒"
+      "enable_tasks": [
+        "HQ-ProductionClaim"
+      ],
+      "_note_enable": "2026-11-06 23:46 全面开工令后恢复受控启用权（让路态已解除）"
     },
     {
       "id": "bm-b",
