@@ -307,16 +307,36 @@ def already_closed(root, jid):
     artifact was rewritten and re-committed 14 times on the night of 11-01/02. The lane
     must trust the shared queue's terminal states, not only its local assignment.
     """
+    # 2026-11-06 实测（bm-c 同一张 SELF-IMPROVE 每 2 分钟重跑一次）：本函数只读本地队列
+    # 文件，而 Windows 节点的本地队列是**分叉的陈旧副本**——主控在 origin 上翻成 UNVERIFIED
+    # 的卡，节点永远看不到，于是无限重跑。正解：先读 origin/main 的 blob（那是权威面），
+    # 本地文件只作离线兜底。这与 already_closed 的既有判例同源（11-05 记录）。
+    def _states(text):
+        out = {}
+        for ln in (text or "").splitlines():
+            ln = ln.strip()
+            if not ln.startswith("{"):
+                continue
+            try:
+                r = json.loads(ln)
+            except Exception:
+                continue
+            if r.get("id") == jid:
+                out[r.get("id")] = r
+        return out
+    try:
+        blob = subprocess.run(["git", "-C", root, "show",
+                               "origin/main:cph4/fleet/PRODUCTION-QUEUE.jsonl"],
+                              capture_output=True, timeout=30).stdout.decode("utf-8", "replace")
+        for r in _states(blob).values():
+            return str(r.get("state") or "").upper() in ("DONE", "UNVERIFIED", "CANCELLED")
+    except Exception:
+        pass
     try:
         qp = os.path.join(root, "cph4", "fleet", "PRODUCTION-QUEUE.jsonl")
         with open(qp, encoding="utf-8") as fh:
-            for ln in fh:
-                ln = ln.strip()
-                if not ln:
-                    continue
-                r = json.loads(ln)
-                if r.get("id") == jid:
-                    return str(r.get("state") or "").upper() in ("DONE", "UNVERIFIED", "CANCELLED")
+            for r in _states(fh.read()).values():
+                return str(r.get("state") or "").upper() in ("DONE", "UNVERIFIED", "CANCELLED")
     except Exception:
         pass
     return False
