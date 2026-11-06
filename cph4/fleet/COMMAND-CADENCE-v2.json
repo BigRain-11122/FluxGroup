@@ -567,6 +567,21 @@
    "output": "cph4/fleet/CEO-NEXT.md",
    "accept": "有 top 且带 why/action/done_check 三段",
    "on_fail": "无候选时明确写「没有需要你做的事」，不许空文件"
+  },
+  {
+   "id": "T32",
+   "domain": "方向",
+   "stage": "fact_check",
+   "period_s": 86400,
+   "phase_s": 4100,
+   "actor": "rule",
+   "action": "情报审查：雷达越界数字拿去 GitHub API 核对，漂移超 10% 判 STALE",
+   "input": [
+    "oss/STOCKPILE.json"
+   ],
+   "output": "state/fact-check.json",
+   "accept": "每条越界候选有 VERIFIED/STALE 回执",
+   "on_fail": "无网一律 UNVERIFIED，不许判假"
   }
  ],
  "schedule_rules": {

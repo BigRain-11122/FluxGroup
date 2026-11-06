@@ -129,6 +129,9 @@ STAGES = [
     # 带做器（CEO 2026-11-07「带我去做，高频科学的频次」）：六源合一打分，30 分钟重算，
     # 只有换题才更新正文（同题标「仍等你」），避免高频=刷屏。产出 CEO-NEXT.md。
     ("ceo_pilot", ["Tools/fleet/ceo_pilot.py"], 1800, {0}, False),
+    # 情报审查（2026-11-07）：雷达自标「星数超 10 万需人工核实」却没人核 = 假情报源头。
+    # 每日把越界条目拿去 GitHub API 对一遍，差异超 10% 判 STALE；无网一律 UNVERIFIED，不判假。
+    ("fact_check", ["Tools/fleet/fact_check.py"], 86400, {0, 1}, True),
     # 研究创新席（2026-11-02 CEO 令）：体检四席的边界与空转，顺手刷新 PROPOSALS.json
     # 供派单方择取。rc=2 是有违规的告警，不是工具坏，所以计入 ok_rc。
     ("ri", ["Tools/fleet/ri_dept.py", "check"], 60, {0, 2}, True),
