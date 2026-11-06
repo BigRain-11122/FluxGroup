@@ -60,6 +60,9 @@ STAGES = [
     # 而主控侧没有角色负责"发现被禁并重新启用"，只能靠人记得 poke。这里每 60s 幂等检查一次：
     # 只处理 roster.enable_tasks 明示的任务、CEO 让路态整机跳过、只调既有 /poke 入口。
     ("executor_guard", ["Tools/fleet/executor_guard.py"], 60, {0, 2}, False),
+    # 报审台账（2026-11-07）：从盘上事实重建 50 款产品的四件套状态，产品级隐私政策缺了就补齐。
+    # 一天一次足够；确定性、零 token，产物是可交付的台账而不是报告。
+    ("submit_ledger", ["Tools/fleet/submit_ledger_fill.py", "--fill-privacy"], 86400, {0, 2}, False),
     # SUPPLY FIRST (CEO 2026-11-01: 不许因为是"没人宣告"就闲置). Both declare-work seats
     # existed since 10-31 but were never wired into the pulse, so they only ran when a
     # human remembered - boxes idled with an empty backlog while the generators sat idle.
