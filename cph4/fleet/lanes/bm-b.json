@@ -1,14 +1,14 @@
 {
  "node": "bm-b",
- "ts": "2026-11-07T01:26:07",
+ "ts": "2026-11-07T01:30:44",
  "jobs": [
   {
-   "id": "R-TRIAGE-FLEETOPS-BMB-20261107",
-   "title": "机队运维·端到端自检（平台服务线） 线证据扫描（bm-b 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line fleet-ops",
+   "id": "asset-lib-env-check-2026-11-07",
+   "title": "[资产储备（角色 LoRA / 音色库）] 训练环境自检（这台机能不能烧）",
+   "cmd": "python Tools/fleet/asset_env_check.py --out cph4/fleet/queue-receipts/asset-env-2026-11-07.json",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-fleet-ops-20261107.md",
+   "deliverable": "cph4/fleet/queue-receipts/asset-env-2026-11-07.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 11.5/1.0 GB"
+ "capacity_note": "ram 9.1/1.0 GB"
 }
