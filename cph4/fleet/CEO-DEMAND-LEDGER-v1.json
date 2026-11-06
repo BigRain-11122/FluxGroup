@@ -1,0 +1,441 @@
+{
+ "_comment": "CEO 需求总账 v1（2026-11-07）。每一行=一条他真正要的东西，带原话锚点、可机检判据、缺口动作。核验器=Tools/fleet/demand_audit.py；人读=CEO-DEMAND-BOARD.md。原则：能被机器判的写成 check，判不了的标 manual 并说明谁判。",
+ "version": "v1-20261107",
+ "source": [
+  "CODELY.md User/Feedback 段 22 条",
+  "docs/orders.md 319 行命令台账",
+  "2026-11-06/07 本会话 9 条诉求"
+ ],
+ "domains": [
+  {
+   "id": "A",
+   "name": "自治与不等人"
+  },
+  {
+   "id": "B",
+   "name": "主控边界"
+  },
+  {
+   "id": "C",
+   "name": "机队满负荷"
+  },
+  {
+   "id": "D",
+   "name": "本地算力与模型"
+  },
+  {
+   "id": "E",
+   "name": "产物真实"
+  },
+  {
+   "id": "F",
+   "name": "同步与分发"
+  },
+  {
+   "id": "G",
+   "name": "素材与资产"
+  },
+  {
+   "id": "H",
+   "name": "内容质量"
+  },
+  {
+   "id": "I",
+   "name": "汇报形式"
+  },
+  {
+   "id": "J",
+   "name": "边界与合规"
+  }
+ ],
+ "demands": [
+  {
+   "id": "A1",
+   "domain": "A",
+   "demand": "任何环节禁以「等 CEO / 等授权 / 等确认」停工，按既有规则自决推进",
+   "quote": "所有的你们都可以按以前制定的规则和方案自我决策和推进，不要等我…不能因为等我而不去推进，这是最高的规则",
+   "check": {
+    "type": "probe",
+    "name": "stalled_cards"
+   },
+   "accept": "0 张卡以「等」为由停住",
+   "gap": "把等因改成默认继续+事后复核"
+  },
+  {
+   "id": "A2",
+   "domain": "A",
+   "demand": "闸只留三类：不可逆 / 对外发布 / 花钱超限",
+   "quote": "你做的门槛太多了，经常出现闲置等的情况",
+   "check": {
+    "type": "manual",
+    "who": "主控每轮",
+    "note": "新增闸须在 AUTONOMY-CONFIG 登记类别，非三类即拒"
+   },
+   "accept": "无第四类闸",
+   "gap": "审计现有闸清单，超出三类的降级"
+  },
+  {
+   "id": "A3",
+   "domain": "A",
+   "demand": "机器或线闲置而队列有活 = 流程缺陷，当场改流程",
+   "quote": "凡机器/agent/条线闲置而队列有活，即判流程缺陷并当场改流程",
+   "check": {
+    "type": "probe",
+    "name": "idle_with_work"
+   },
+   "accept": "有活时在飞>0",
+   "gap": "立即补卡并把空槽原因写进一屏"
+  },
+  {
+   "id": "A4",
+   "domain": "A",
+   "demand": "7×24 无人监管，不要「你不看就闲置」",
+   "quote": "机队 7×24 无监管自动化，别等你催 / 要有人替你盯着",
+   "check": {
+    "type": "file_fresh",
+    "file": "cph4/fleet/COMMAND-BOARD.md",
+    "max_age_s": 900
+   },
+   "accept": "一屏每 ≤15 分钟自动刷新",
+   "gap": "脉阶段未跑则查锁/实例"
+  },
+  {
+   "id": "B1",
+   "domain": "B",
+   "demand": "主控只做调度/监督/协调/裁决，禁亲跑生产",
+   "quote": "你主要的职责还是调度和监控，主控 懂吗？",
+   "check": {
+    "type": "probe",
+    "name": "master_no_production"
+   },
+   "accept": "主控无生产产物提交",
+   "gap": "越界即改派"
+  },
+  {
+   "id": "B2",
+   "domain": "B",
+   "demand": "主控要替我盯着：不及时看也不许闲置",
+   "quote": "要有人替你盯着，别「你不看就闲置」",
+   "check": {
+    "type": "probe",
+    "name": "cadence_ok"
+   },
+   "accept": "节奏表校验通过",
+   "gap": "表坏=排期失效，先修表"
+  },
+  {
+   "id": "B3",
+   "domain": "B",
+   "demand": "主控产出必须落在执行机交付物路径，不许用回执/心跳冒充产出",
+   "quote": "产出必须落在磁盘事实（交付物文件+最新 mtime），不得用回执/心跳/自述冒充产出",
+   "check": {
+    "type": "probe",
+    "name": "e_artifact"
+   },
+   "accept": "E-ARTIFACT=0",
+   "gap": "同机 3 次→停派只派诊断卡"
+  },
+  {
+   "id": "C1",
+   "domain": "C",
+   "demand": "机队满负荷，CPU/GPU 不许浪费",
+   "quote": "调动起 cpu 去干该干的事，不要浪费 cpu 这一块的算力",
+   "check": {
+    "type": "probe",
+    "name": "idle_with_work"
+   },
+   "accept": "有活时每机在飞≥1",
+   "gap": "补料；确实无活则如实报 E-NO-WORK"
+  },
+  {
+   "id": "C2",
+   "domain": "C",
+   "demand": "机队不许重复劳动",
+   "quote": "机队不许重复劳动",
+   "check": {
+    "type": "probe",
+    "name": "dup_cards"
+   },
+   "accept": "同交付物不出现两张活卡",
+   "gap": "去重闸 + 同 stem 第 4 次拒跑"
+  },
+  {
+   "id": "C3",
+   "domain": "C",
+   "demand": "让机队知道怎么干（命令要下发到机队，不只在主控）",
+   "quote": "你不仅要自己布置，机队也要知道这样干，去发布我的 ceo 命令",
+   "check": {
+    "type": "file_fresh",
+    "file": "cph4/fleet/PRODUCTION-QUEUE.jsonl",
+    "max_age_s": 86400
+   },
+   "accept": "队列每日有更新",
+   "gap": "同步断则先修投码"
+  },
+  {
+   "id": "D1",
+   "domain": "D",
+   "demand": "本地模型必须针对 MLX 优化，且跨系统同样优化",
+   "quote": "mlx 针对性的优化都做了吗 / 机队电脑不同系统也要同时优化",
+   "check": {
+    "type": "probe",
+    "name": "model_radar"
+   },
+   "accept": "常驻档走 MLX 且雷达有结论",
+   "gap": "跑 model_radar bench"
+  },
+  {
+   "id": "D2",
+   "domain": "D",
+   "demand": "每天扫描测试本地模型是否有更新（建机制）",
+   "quote": "每天都要扫描和测试是否有更新的，可以创建一个机制",
+   "check": {
+    "type": "file_fresh",
+    "file": "cph4/fleet/state/model-radar.json",
+    "max_age_s": 90000
+   },
+   "accept": "雷达每日刷新",
+   "gap": "日期闸失效则修"
+  },
+  {
+   "id": "D3",
+   "domain": "D",
+   "demand": "32G 算力用到位，但不许换页、不许过热",
+   "quote": "本机 32G 算力要用到位，但不许换页、不许过热",
+   "check": {
+    "type": "probe",
+    "name": "no_swap"
+   },
+   "accept": "无新增换页",
+   "gap": "过闸失败即 ROUTED"
+  },
+  {
+   "id": "D4",
+   "domain": "D",
+   "demand": "数字不许交给小模型算",
+   "quote": "（实测教训）4B 两次算术全错 → 所有数字由规则算",
+   "check": {
+    "type": "manual",
+    "who": "规则复核",
+    "note": "模型输出中的数字必须来自输入，不得新增"
+   },
+   "accept": "无一例模型新算数字",
+   "gap": "发现即改该环节为规则"
+  },
+  {
+   "id": "E1",
+   "domain": "E",
+   "demand": "不许假绿、不许假完成",
+   "quote": "CEO 的考核面只有可看/可玩的产物，假绿比空转更糟",
+   "check": {
+    "type": "probe",
+    "name": "false_green"
+   },
+   "accept": "rc=0 但无产物=0 例",
+   "gap": "verify_done 收紧判据"
+  },
+  {
+   "id": "E2",
+   "domain": "E",
+   "demand": "度量不许自指（不能拿自己写的文件当产出证据）",
+   "quote": "（实测教训）把 state/*.json 当产出证据会让线永远新鲜",
+   "check": {
+    "type": "probe",
+    "name": "census_not_selfref"
+   },
+   "accept": "无自指证据",
+   "gap": "修口径并列证据路径"
+  },
+  {
+   "id": "E3",
+   "domain": "E",
+   "demand": "宣称必须可核验，结论要带证据指针",
+   "quote": "准确——每个结论要有证据指针（文件/回执/命令输出），不靠印象",
+   "check": {
+    "type": "manual",
+    "who": "汇报时",
+    "note": "每条结论附文件路径"
+   },
+   "accept": "汇报全部带指针",
+   "gap": "无指针即改写"
+  },
+  {
+   "id": "F1",
+   "domain": "F",
+   "demand": "机队靠文档交流不好的病要根治（介质错配）",
+   "quote": "我总觉得现在机队靠文档交流很不好，你去调研和深度思考，给科学的根本性解决方案",
+   "check": {
+    "type": "probe",
+    "name": "fork_clean"
+   },
+   "accept": "各机 ahead=0",
+   "gap": "分叉即投码断，先收口"
+  },
+  {
+   "id": "F2",
+   "domain": "F",
+   "demand": "代码改动必须真的到机队手上（入库≠生效要配套重载）",
+   "quote": "你给他们全部推送，或者 git 留单让他们执行",
+   "check": {
+    "type": "probe",
+    "name": "stale_nodes"
+   },
+   "accept": "无节点跑旧码",
+   "gap": "推 + poke + 重启执行器，缺一为未生效"
+  },
+  {
+   "id": "F3",
+   "domain": "F",
+   "demand": "git 只装代码与卡，不装记账（否则天天冲突）",
+   "quote": "（复盘结论）把「记账」当成「代码」在提交",
+   "check": {
+    "type": "probe",
+    "name": "state_not_in_git"
+   },
+   "accept": "无状态文件进 git",
+   "gap": "移出跟踪"
+  },
+  {
+   "id": "G1",
+   "domain": "G",
+   "demand": "素材机队自己取，不要等主控分发",
+   "quote": "素材「机队自己取」，不要等主控分发",
+   "check": {
+    "type": "json_field",
+    "file": "cph4/fleet/state/asset-gap.json",
+    "expr": "exists"
+   },
+   "accept": "有缺口清单且机队可取",
+   "gap": "自供给通道 8790/8791 通否"
+  },
+  {
+   "id": "G2",
+   "domain": "G",
+   "demand": "训练素材多路搜集、放移动盘、随时给机队",
+   "quote": "训练素材要多路搜集、放移动盘、随时给机队",
+   "check": {
+    "type": "probe",
+    "name": "usb_mounted"
+   },
+   "accept": "清单可达",
+   "gap": "未挂载如实报"
+  },
+  {
+   "id": "G3",
+   "domain": "G",
+   "demand": "测完不用的就删，笔记本空间宝贵",
+   "quote": "测完不用的就删，笔记本空间宝贵",
+   "check": {
+    "type": "probe",
+    "name": "disk_free"
+   },
+   "accept": "可用盘 ≥80G",
+   "gap": "低于即触发清理"
+  },
+  {
+   "id": "H1",
+   "domain": "H",
+   "demand": "交付纪律：没改好不给人看，先出逐镜体检+修复计划",
+   "quote": "以后没改好别给我看，哪怕我催…修任何问题前必须先出逐镜体检+修复计划",
+   "check": {
+    "type": "manual",
+    "who": "内容线",
+    "note": "交付件须带体检单"
+   },
+   "accept": "无无单交付",
+   "gap": "补单或退回"
+  },
+  {
+   "id": "H2",
+   "domain": "H",
+   "demand": "漫剧=关键帧→i2v→剪辑→配音→字幕，走 MV 那条链",
+   "quote": "屁啊 就和 mv 一样走图生视频，剪辑 配音等，怎么还不理解",
+   "check": {
+    "type": "manual",
+    "who": "漫剧线",
+    "note": "禁用推拉式会动的 PPT、禁改道引擎渲染"
+   },
+   "accept": "工序=MV 同构",
+   "gap": "改道即退回"
+  },
+  {
+   "id": "H3",
+   "domain": "H",
+   "demand": "前三关三种不同强情绪，爽点前置，付费点=第 3 关情绪爆点",
+   "quote": "前三个关卡一定要有付费下载的欲望，把最好最强的都放在前面",
+   "check": {
+    "type": "manual",
+    "who": "游戏线",
+    "note": "三关情绪不得重复"
+   },
+   "accept": "情绪表存在且不重复",
+   "gap": "重设计"
+  },
+  {
+   "id": "I1",
+   "domain": "I",
+   "demand": "汇报用编号列表、短句、大白话，能扫读",
+   "quote": "我说了列表简单清晰让我看到，我看到不对的会指出",
+   "check": {
+    "type": "probe",
+    "name": "board_readable"
+   },
+   "accept": "可扫读",
+   "gap": "改写"
+  },
+  {
+   "id": "I2",
+   "domain": "I",
+   "demand": "先给结论，再给证据；最重要的决定放最前",
+   "quote": "你做为大脑要及时，准确，创新，严格…汇报先给结论再给证据指针",
+   "check": {
+    "type": "manual",
+    "who": "汇报时",
+    "note": "首句即结论"
+   },
+   "accept": "首句为结论",
+   "gap": "改写"
+  },
+  {
+   "id": "J1",
+   "domain": "J",
+   "demand": "对外只出草稿，签名/发言权在 CEO",
+   "quote": "对外的活只出草稿不代发（平台账号与发言权在 CEO）",
+   "check": {
+    "type": "manual",
+    "who": "主控",
+    "note": "无代发动作"
+   },
+   "accept": "0 次代发",
+   "gap": "立即停止并报告"
+  },
+  {
+   "id": "J2",
+   "domain": "J",
+   "demand": "成片不加 AI 标识，标识走平台声明位",
+   "quote": "不要加 ai 标识",
+   "check": {
+    "type": "manual",
+    "who": "发布线",
+    "note": "成片无 AI 水印；上传勾选由 CEO"
+   },
+   "accept": "成片无标识",
+   "gap": "撤回加标"
+  },
+  {
+   "id": "J3",
+   "domain": "J",
+   "demand": "静默：不许弹窗骚扰 CEO 电脑",
+   "quote": "ceo 命令，所有都是静默，不要弹窗到电脑上骚扰我！",
+   "check": {
+    "type": "manual",
+    "who": "运维",
+    "note": "一切任务 S4U/headless"
+   },
+   "accept": "0 弹窗",
+   "gap": "改 headless"
+  }
+ ],
+ "board": "cph4/fleet/CEO-DEMAND-BOARD.md",
+ "state": "cph4/fleet/state/demand-audit.json"
+}

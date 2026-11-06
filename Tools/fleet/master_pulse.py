@@ -123,6 +123,9 @@ STAGES = [
     ("useful_load", ["Tools/fleet/useful_load.py", "--seconds", "8"], 3600, {0, 1}, True),
     # 每日只交 CEO 三件（规则排优先级，模型只写一句）。
     ("ceo_three", ["Tools/fleet/ceo_three.py"], 86400, {0}, False),
+    # 需求总账核验（CEO 2026-11-07「纵览所有命令，把自动化做到极致」）：31 条需求
+    # 逐条机检；rc=1 表示有缺口（告警，不是工具故障），缺口可 --dispatch 变卡。
+    ("demand_audit", ["Tools/fleet/demand_audit.py"], 86400, {0, 1}, True),
     # 研究创新席（2026-11-02 CEO 令）：体检四席的边界与空转，顺手刷新 PROPOSALS.json
     # 供派单方择取。rc=2 是有违规的告警，不是工具坏，所以计入 ok_rc。
     ("ri", ["Tools/fleet/ri_dept.py", "check"], 60, {0, 2}, True),
