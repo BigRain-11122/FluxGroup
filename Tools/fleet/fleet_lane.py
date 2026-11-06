@@ -667,6 +667,26 @@ def cpu_load_pct(root, node):
     except Exception:
         cores = 1
     if os.name != "nt":
+        # 2026-11-06 实测修正：macOS/Linux 的 loadavg 包含「不可中断 I/O 等待」，一个
+        # 狂扫磁盘的系统进程就能把 load 顶到 ≥cores，本函数报 100%，master 的
+        # CPU-SATURATED 闸随即停掉全部 CPU 活——bm-m 车道因此整天 LANE-IDLE 而机器
+        # 实际只有 13% 忙（同一刻实测：loadavg 6.98/10 核 = 70%，ps 口径 13%）。
+        # 改为实测 CPU 忙占比（各进程 %cpu 之和 / 核数），ps 不可用时再退回 loadavg。
+        try:
+            import subprocess
+            out = subprocess.run(["ps", "-Ao", "pcpu="], capture_output=True,
+                                 text=True, timeout=10).stdout
+            tot = 0.0
+            for x in out.split():
+                try:
+                    tot += float(x)
+                except Exception:
+                    pass
+            busy = int(round(min(100.0, tot / cores)))
+            if busy >= 0:
+                return busy
+        except Exception:
+            pass
         try:
             return int(round(100.0 * min(os.getloadavg()[0], cores) / cores))
         except Exception:
