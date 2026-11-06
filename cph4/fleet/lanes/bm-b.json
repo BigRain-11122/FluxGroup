@@ -1,23 +1,23 @@
 {
  "node": "bm-b",
- "ts": "2026-11-06T17:51:23",
+ "ts": "2026-11-07T00:30:46",
  "jobs": [
   {
-   "id": "SELF-IMPROVE-bm-b-20261106",
-   "title": "机队自改：码龄/空壳卡/依赖三闸自检并修复（bm-b）",
-   "cmd": "python3 Tools/fleet/self_improve.py --apply --node bm-b --out cph4/fleet/queue-receipts/self-improve-bm-b-latest.json",
+   "id": "asset-lib-env-check-2026-11-07",
+   "title": "[资产储备（角色 LoRA / 音色库）] 训练环境自检（这台机能不能烧）",
+   "cmd": "python Tools/fleet/asset_env_check.py --out cph4/fleet/queue-receipts/asset-env-2026-11-07.json",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/self-improve-bm-b-latest.json",
+   "deliverable": "cph4/fleet/queue-receipts/asset-env-2026-11-07.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
    "when_all": [],
    "llm": null,
-   "timeout_s": 300
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 10.4/1.0 GB"
+ "capacity_note": "ram-unknown"
 }

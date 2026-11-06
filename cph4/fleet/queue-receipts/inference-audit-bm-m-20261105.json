@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-05T00:14:13",
+ "ts": "2026-11-05T00:27:04",
  "node": "bm-m",
  "os": "macOS-27.2-arm64-arm-64bit-Mach-O",
  "python": "3.13.18",
@@ -73,27 +73,30 @@
  },
  "measure": {
   "model": "qwen3.5:4b-mlx",
-  "decode_tok_s": 38.9,
-  "engine": "mlx",
+  "decode_tok_s": 39.1,
+  "engine": null,
   "prefix_cache": {
-   "first_wall": 0.41,
-   "second_wall": 0.44,
+   "first_wall": 2.33,
+   "second_wall": 2.4,
    "hit": false
   },
   "concurrency": {
-   "serial_3": 1.3,
-   "parallel_3": 1.32,
-   "speedup": 0.98
+   "serial_3": 7.18,
+   "parallel_3": 3.29,
+   "speedup": 2.18
   }
  },
  "embedding": {
-  "model": null,
-  "usable": false,
-  "why": "没有可用的 embedding 模型"
+  "model": "qwen3-embedding:0.6b",
+  "dim": 1024,
+  "true_dupe_sims": [
+   0.953,
+   0.939,
+   0.83
+  ],
+  "usable": true
  },
- "gaps": [
-  "embedding-unusable:None"
- ],
- "verdict": "GAPS",
- "seconds": 214.0
+ "gaps": [],
+ "verdict": "PASS",
+ "seconds": 40.4
 }

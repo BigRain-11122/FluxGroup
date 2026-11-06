@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-06T10:42:12",
+ "ts": "2026-11-06T17:09:53",
  "node": "bm-m",
  "os": "macOS-27.2-arm64-arm-64bit-Mach-O",
  "python": "3.13.18",
@@ -47,27 +47,28 @@
   }
  ],
  "server_env": {
-  "OLLAMA_NUM_PARALLEL": "2",
-  "OLLAMA_HOST": "0.0.0.0:11434",
-  "OLLAMA_MAX_LOADED_MODELS": "3",
-  "OLLAMA_FLASH_ATTENTION": "1",
   "OLLAMA_CONTEXT_LENGTH": "4096",
+  "OLLAMA_FLASH_ATTENTION": "1",
+  "OLLAMA_HOST": "0.0.0.0:11434",
   "OLLAMA_KEEP_ALIVE": "30m",
-  "OLLAMA_KV_CACHE_TYPE": "q8_0"
+  "OLLAMA_KV_CACHE_TYPE": "q8_0",
+  "OLLAMA_MAX_LOADED_MODELS": "3",
+  "OLLAMA_NUM_PARALLEL": "2",
+  "_source": "plist(未在进程里读到)"
  },
  "measure": {
   "model": "qwen3.5:4b-mlx",
-  "decode_tok_s": 21.7,
+  "decode_tok_s": 38.6,
   "engine": "mlx",
   "prefix_cache": {
-   "first_wall": 1.07,
-   "second_wall": 1.22,
+   "first_wall": 0.62,
+   "second_wall": 0.62,
    "hit": false
   },
   "concurrency": {
-   "serial_3": 3.73,
-   "parallel_3": 3.83,
-   "speedup": 0.97
+   "serial_3": 1.94,
+   "parallel_3": 1.94,
+   "speedup": 1.0
   }
  },
  "embedding": {
@@ -87,5 +88,5 @@
   "env-value:OLLAMA_CONTEXT_LENGTH=4096(应为 8192)"
  ],
  "verdict": "GAPS",
- "seconds": 69.1
+ "seconds": 63.4
 }

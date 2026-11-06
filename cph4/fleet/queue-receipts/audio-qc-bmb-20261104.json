@@ -1,21 +1,13 @@
 # TTS batch evidence - media/asset/inbox
 
-checked_at = 2026-11-04 23:57:58
-host = FLUXGROUP
-audio_files = 168
-bytes = 51049040 (51.0 MB)
-newest_write_age_min = 56.6
-dir_write_age_min = 60.7
-verdict = COMPLETE-STOPPED - newest file is 56.6 min old
+checked_at = 2026-11-05 02:57:41
+host = ?
+audio_files = 2
+bytes = 886365 (0.9 MB)
+newest_write_age_min = 407.4
+dir_write_age_min = 407.4
+verdict = COMPLETE-STOPPED - newest file is 407.4 min old
 
 ## first 10 files
-- voices-aishell3\SSB0016\SSB00160001.wav
-- voices-aishell3\SSB0016\SSB00160002.wav
-- voices-aishell3\SSB0016\SSB00160003.wav
-- voices-aishell3\SSB0016\SSB00160004.wav
-- voices-aishell3\SSB0016\SSB00160005.wav
-- voices-aishell3\SSB0016\SSB00160006.wav
-- voices-aishell3\SSB0016\SSB00160007.wav
-- voices-aishell3\SSB0016\SSB00160008.wav
-- voices-aishell3\SSB0016\SSB00160009.wav
-- voices-aishell3\SSB0016\SSB00160010.wav
+- rt_audio_head.mp3
+- rt_audio_tail.mp3

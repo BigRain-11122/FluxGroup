@@ -1,681 +1,69 @@
 {
- "rc": 0,
- "ts": "2026-11-04T22:59:15+0800",
+ "rc": 1,
+ "ts": "2026-11-04T08:34:55+0800",
  "node": "bm-c",
- "made": [
+ "made": [],
+ "failed": [
   {
    "character": "CH01",
    "view": "front",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH01\\front.png",
-   "saved": true
+   "error": "<urlopen error [WinError 10061] 由于目标计算机积极拒绝，无法连接。>"
   },
   {
    "character": "CH01",
    "view": "three_quarter_left",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH01\\three_quarter_left.png",
-   "saved": true
+   "error": "<urlopen error [WinError 10061] 由于目标计算机积极拒绝，无法连接。>"
   },
   {
    "character": "CH01",
    "view": "three_quarter_right",
-   "prompt_id": "0cebe17a-9186-4e7d-a1fa-191e6e2ae971",
-   "file": "media\\asset\\characters\\CH01\\three_quarter_right.png",
-   "saved": true
+   "error": "<urlopen error [WinError 10061] 由于目标计算机积极拒绝，无法连接。>"
   },
   {
    "character": "CH01",
    "view": "profile_left",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH01\\profile_left.png",
-   "saved": true
+   "error": "<urlopen error [WinError 10061] 由于目标计算机积极拒绝，无法连接。>"
   },
   {
    "character": "CH01",
    "view": "profile_right",
-   "prompt_id": "086a4ce3-47ba-4268-8d0a-2aec7ee82aed",
-   "file": "media\\asset\\characters\\CH01\\profile_right.png",
-   "saved": true
+   "error": "<urlopen error [WinError 10061] 由于目标计算机积极拒绝，无法连接。>"
   },
   {
    "character": "CH01",
    "view": "back",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH01\\back.png",
-   "saved": true
+   "error": "<urlopen error [WinError 10061] 由于目标计算机积极拒绝，无法连接。>"
   },
   {
    "character": "CH01",
    "view": "expression_soft",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH01\\expression_soft.png",
-   "saved": true
+   "error": "<urlopen error [WinError 10061] 由于目标计算机积极拒绝，无法连接。>"
   },
   {
    "character": "CH01",
    "view": "expression_smile",
-   "prompt_id": "e9ebbfc9-fe74-4fde-b4aa-e11c97ca8ac3",
-   "file": "media\\asset\\characters\\CH01\\expression_smile.png",
-   "saved": true
+   "error": "<urlopen error [WinError 10061] 由于目标计算机积极拒绝，无法连接。>"
   },
   {
    "character": "CH01",
    "view": "expression_tense",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH01\\expression_tense.png",
-   "saved": true
+   "error": "<urlopen error [WinError 10061] 由于目标计算机积极拒绝，无法连接。>"
   },
   {
    "character": "CH01",
    "view": "low_angle",
-   "prompt_id": "90df4bbc-4021-4d45-8881-09f77e9f2a67",
-   "file": "media\\asset\\characters\\CH01\\low_angle.png",
-   "saved": true
+   "error": "<urlopen error [WinError 10061] 由于目标计算机积极拒绝，无法连接。>"
   },
   {
    "character": "CH01",
    "view": "high_angle",
-   "prompt_id": "d0be2696-a1c7-418e-9e97-0f03a48566e9",
-   "file": "media\\asset\\characters\\CH01\\high_angle.png",
-   "saved": true
+   "error": "<urlopen error [WinError 10061] 由于目标计算机积极拒绝，无法连接。>"
   },
   {
    "character": "CH01",
    "view": "mid_shot",
-   "prompt_id": "1177f68e-46fe-4649-9413-1fa367d238c7",
-   "file": "media\\asset\\characters\\CH01\\mid_shot.png",
-   "saved": true
-  },
-  {
-   "character": "CH02",
-   "view": "front",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH02\\front.png",
-   "saved": true
-  },
-  {
-   "character": "CH02",
-   "view": "three_quarter_left",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH02\\three_quarter_left.png",
-   "saved": true
-  },
-  {
-   "character": "CH02",
-   "view": "three_quarter_right",
-   "prompt_id": "8b4300ff-be47-4d1d-baf5-b40512070900",
-   "file": "media\\asset\\characters\\CH02\\three_quarter_right.png",
-   "saved": true
-  },
-  {
-   "character": "CH02",
-   "view": "profile_left",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH02\\profile_left.png",
-   "saved": true
-  },
-  {
-   "character": "CH02",
-   "view": "profile_right",
-   "prompt_id": "45f0cc60-c092-4118-8195-53436362517c",
-   "file": "media\\asset\\characters\\CH02\\profile_right.png",
-   "saved": true
-  },
-  {
-   "character": "CH02",
-   "view": "back",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH02\\back.png",
-   "saved": true
-  },
-  {
-   "character": "CH02",
-   "view": "expression_soft",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH02\\expression_soft.png",
-   "saved": true
-  },
-  {
-   "character": "CH02",
-   "view": "expression_smile",
-   "prompt_id": "d2e0d5a2-4793-4036-972c-ccfbf3deedfc",
-   "file": "media\\asset\\characters\\CH02\\expression_smile.png",
-   "saved": true
-  },
-  {
-   "character": "CH02",
-   "view": "expression_tense",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH02\\expression_tense.png",
-   "saved": true
-  },
-  {
-   "character": "CH02",
-   "view": "low_angle",
-   "prompt_id": "7cb74d43-d73e-4894-8d11-f4ab879cbe4b",
-   "file": "media\\asset\\characters\\CH02\\low_angle.png",
-   "saved": true
-  },
-  {
-   "character": "CH02",
-   "view": "high_angle",
-   "prompt_id": "dfae6b15-53d1-437d-8f9a-d5dd6d270ee1",
-   "file": "media\\asset\\characters\\CH02\\high_angle.png",
-   "saved": true
-  },
-  {
-   "character": "CH02",
-   "view": "mid_shot",
-   "prompt_id": "7c3e3694-fb60-4dac-8095-85dd906056a0",
-   "file": "media\\asset\\characters\\CH02\\mid_shot.png",
-   "saved": true
-  },
-  {
-   "character": "CH03",
-   "view": "front",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH03\\front.png",
-   "saved": true
-  },
-  {
-   "character": "CH03",
-   "view": "three_quarter_left",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH03\\three_quarter_left.png",
-   "saved": true
-  },
-  {
-   "character": "CH03",
-   "view": "three_quarter_right",
-   "prompt_id": "dea087e9-b3ec-4b64-ae71-df9de2d968e3",
-   "file": "media\\asset\\characters\\CH03\\three_quarter_right.png",
-   "saved": true
-  },
-  {
-   "character": "CH03",
-   "view": "profile_left",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH03\\profile_left.png",
-   "saved": true
-  },
-  {
-   "character": "CH03",
-   "view": "profile_right",
-   "prompt_id": "d119a699-fcb7-4ee7-b9ec-ed4b614dd801",
-   "file": "media\\asset\\characters\\CH03\\profile_right.png",
-   "saved": true
-  },
-  {
-   "character": "CH03",
-   "view": "back",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH03\\back.png",
-   "saved": true
-  },
-  {
-   "character": "CH03",
-   "view": "expression_soft",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH03\\expression_soft.png",
-   "saved": true
-  },
-  {
-   "character": "CH03",
-   "view": "expression_smile",
-   "prompt_id": "af49f7ec-5bac-4a2d-8835-7a12d93a0679",
-   "file": "media\\asset\\characters\\CH03\\expression_smile.png",
-   "saved": true
-  },
-  {
-   "character": "CH03",
-   "view": "expression_tense",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH03\\expression_tense.png",
-   "saved": true
-  },
-  {
-   "character": "CH03",
-   "view": "low_angle",
-   "prompt_id": "7671370d-d543-4d5a-ae69-a711e96db11e",
-   "file": "media\\asset\\characters\\CH03\\low_angle.png",
-   "saved": true
-  },
-  {
-   "character": "CH03",
-   "view": "high_angle",
-   "prompt_id": "2ec81398-87bf-471b-8f55-a9fcd1ee21c5",
-   "file": "media\\asset\\characters\\CH03\\high_angle.png",
-   "saved": true
-  },
-  {
-   "character": "CH03",
-   "view": "mid_shot",
-   "prompt_id": "27f18323-9de4-4124-96aa-066f9bfa1d64",
-   "file": "media\\asset\\characters\\CH03\\mid_shot.png",
-   "saved": true
-  },
-  {
-   "character": "CH04",
-   "view": "front",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH04\\front.png",
-   "saved": true
-  },
-  {
-   "character": "CH04",
-   "view": "three_quarter_left",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH04\\three_quarter_left.png",
-   "saved": true
-  },
-  {
-   "character": "CH04",
-   "view": "three_quarter_right",
-   "prompt_id": "5b11f696-ef82-4529-8ebc-2076f30b9b81",
-   "file": "media\\asset\\characters\\CH04\\three_quarter_right.png",
-   "saved": true
-  },
-  {
-   "character": "CH04",
-   "view": "profile_left",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH04\\profile_left.png",
-   "saved": true
-  },
-  {
-   "character": "CH04",
-   "view": "profile_right",
-   "prompt_id": "2e83a5ef-90fa-4bf5-a114-c3a23b5da20e",
-   "file": "media\\asset\\characters\\CH04\\profile_right.png",
-   "saved": true
-  },
-  {
-   "character": "CH04",
-   "view": "back",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH04\\back.png",
-   "saved": true
-  },
-  {
-   "character": "CH04",
-   "view": "expression_soft",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH04\\expression_soft.png",
-   "saved": true
-  },
-  {
-   "character": "CH04",
-   "view": "expression_smile",
-   "prompt_id": "c0fb64f6-2dd4-4344-8742-254ab25f4125",
-   "file": "media\\asset\\characters\\CH04\\expression_smile.png",
-   "saved": true
-  },
-  {
-   "character": "CH04",
-   "view": "expression_tense",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH04\\expression_tense.png",
-   "saved": true
-  },
-  {
-   "character": "CH04",
-   "view": "low_angle",
-   "prompt_id": "b2c27189-142b-42a3-8b03-13cd0b193463",
-   "file": "media\\asset\\characters\\CH04\\low_angle.png",
-   "saved": true
-  },
-  {
-   "character": "CH04",
-   "view": "high_angle",
-   "prompt_id": "9f5d4373-dab4-4f91-8d25-2cd3c92bb4ca",
-   "file": "media\\asset\\characters\\CH04\\high_angle.png",
-   "saved": true
-  },
-  {
-   "character": "CH04",
-   "view": "mid_shot",
-   "prompt_id": "0a7dea19-4f7d-4499-b76e-4b419c2ec136",
-   "file": "media\\asset\\characters\\CH04\\mid_shot.png",
-   "saved": true
-  },
-  {
-   "character": "CH05",
-   "view": "front",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH05\\front.png",
-   "saved": true
-  },
-  {
-   "character": "CH05",
-   "view": "three_quarter_left",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH05\\three_quarter_left.png",
-   "saved": true
-  },
-  {
-   "character": "CH05",
-   "view": "three_quarter_right",
-   "prompt_id": "7aa09278-29b9-44dc-a887-ba393578069b",
-   "file": "media\\asset\\characters\\CH05\\three_quarter_right.png",
-   "saved": true
-  },
-  {
-   "character": "CH05",
-   "view": "profile_left",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH05\\profile_left.png",
-   "saved": true
-  },
-  {
-   "character": "CH05",
-   "view": "profile_right",
-   "prompt_id": "8910b949-c72a-4795-a5b0-64ce7e893630",
-   "file": "media\\asset\\characters\\CH05\\profile_right.png",
-   "saved": true
-  },
-  {
-   "character": "CH05",
-   "view": "back",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH05\\back.png",
-   "saved": true
-  },
-  {
-   "character": "CH05",
-   "view": "expression_soft",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH05\\expression_soft.png",
-   "saved": true
-  },
-  {
-   "character": "CH05",
-   "view": "expression_smile",
-   "prompt_id": "06ee74f1-8ee8-48e0-be3e-7aeb6745fc63",
-   "file": "media\\asset\\characters\\CH05\\expression_smile.png",
-   "saved": true
-  },
-  {
-   "character": "CH05",
-   "view": "expression_tense",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH05\\expression_tense.png",
-   "saved": true
-  },
-  {
-   "character": "CH05",
-   "view": "low_angle",
-   "prompt_id": "be62e75f-1b84-4675-aa6e-d5a0594adbfa",
-   "file": "media\\asset\\characters\\CH05\\low_angle.png",
-   "saved": true
-  },
-  {
-   "character": "CH05",
-   "view": "high_angle",
-   "prompt_id": "c5f1e4cd-be45-40fb-9034-9090fb818e82",
-   "file": "media\\asset\\characters\\CH05\\high_angle.png",
-   "saved": true
-  },
-  {
-   "character": "CH05",
-   "view": "mid_shot",
-   "prompt_id": "35d16c34-3e39-4820-a364-82964d78b4b6",
-   "file": "media\\asset\\characters\\CH05\\mid_shot.png",
-   "saved": true
-  },
-  {
-   "character": "CH06",
-   "view": "front",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH06\\front.png",
-   "saved": true
-  },
-  {
-   "character": "CH06",
-   "view": "three_quarter_left",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH06\\three_quarter_left.png",
-   "saved": true
-  },
-  {
-   "character": "CH06",
-   "view": "three_quarter_right",
-   "prompt_id": "4c7fcf3a-da48-4452-b726-d5a7cabb404c",
-   "file": "media\\asset\\characters\\CH06\\three_quarter_right.png",
-   "saved": true
-  },
-  {
-   "character": "CH06",
-   "view": "profile_left",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH06\\profile_left.png",
-   "saved": true
-  },
-  {
-   "character": "CH06",
-   "view": "profile_right",
-   "prompt_id": "2d14afe8-4529-4bc3-aeba-4a1135f5fd17",
-   "file": "media\\asset\\characters\\CH06\\profile_right.png",
-   "saved": true
-  },
-  {
-   "character": "CH06",
-   "view": "back",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH06\\back.png",
-   "saved": true
-  },
-  {
-   "character": "CH06",
-   "view": "expression_soft",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH06\\expression_soft.png",
-   "saved": true
-  },
-  {
-   "character": "CH06",
-   "view": "expression_smile",
-   "prompt_id": "5bff224c-82d8-47f4-8b65-cb3f4534cdcf",
-   "file": "media\\asset\\characters\\CH06\\expression_smile.png",
-   "saved": true
-  },
-  {
-   "character": "CH06",
-   "view": "expression_tense",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH06\\expression_tense.png",
-   "saved": true
-  },
-  {
-   "character": "CH06",
-   "view": "low_angle",
-   "prompt_id": "bc4e0f0a-e66c-49d6-999f-641f13098565",
-   "file": "media\\asset\\characters\\CH06\\low_angle.png",
-   "saved": true
-  },
-  {
-   "character": "CH06",
-   "view": "high_angle",
-   "prompt_id": "f0331c97-38d7-48ce-a5e6-5b42ddb549ef",
-   "file": "media\\asset\\characters\\CH06\\high_angle.png",
-   "saved": true
-  },
-  {
-   "character": "CH06",
-   "view": "mid_shot",
-   "prompt_id": "29fc9a99-6d2f-4ede-9ffe-20a72e5a6443",
-   "file": "media\\asset\\characters\\CH06\\mid_shot.png",
-   "saved": true
-  },
-  {
-   "character": "CH07",
-   "view": "front",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH07\\front.png",
-   "saved": true
-  },
-  {
-   "character": "CH07",
-   "view": "three_quarter_left",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH07\\three_quarter_left.png",
-   "saved": true
-  },
-  {
-   "character": "CH07",
-   "view": "three_quarter_right",
-   "prompt_id": "589d102a-431f-4242-8ddd-12de0da86b35",
-   "file": "media\\asset\\characters\\CH07\\three_quarter_right.png",
-   "saved": true
-  },
-  {
-   "character": "CH07",
-   "view": "profile_left",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH07\\profile_left.png",
-   "saved": true
-  },
-  {
-   "character": "CH07",
-   "view": "profile_right",
-   "prompt_id": "573e96ba-7d93-4450-836b-535674083092",
-   "file": "media\\asset\\characters\\CH07\\profile_right.png",
-   "saved": true
-  },
-  {
-   "character": "CH07",
-   "view": "back",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH07\\back.png",
-   "saved": true
-  },
-  {
-   "character": "CH07",
-   "view": "expression_soft",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH07\\expression_soft.png",
-   "saved": true
-  },
-  {
-   "character": "CH07",
-   "view": "expression_smile",
-   "prompt_id": "4fe06c8d-1fcc-4aa4-9562-be05471e9106",
-   "file": "media\\asset\\characters\\CH07\\expression_smile.png",
-   "saved": true
-  },
-  {
-   "character": "CH07",
-   "view": "expression_tense",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH07\\expression_tense.png",
-   "saved": true
-  },
-  {
-   "character": "CH07",
-   "view": "low_angle",
-   "prompt_id": "c0a24c6b-9e0f-4876-ab74-38dfbb61a9d5",
-   "file": "media\\asset\\characters\\CH07\\low_angle.png",
-   "saved": true
-  },
-  {
-   "character": "CH07",
-   "view": "high_angle",
-   "prompt_id": "fc4cbbe7-8446-490b-b48a-0039290d410f",
-   "file": "media\\asset\\characters\\CH07\\high_angle.png",
-   "saved": true
-  },
-  {
-   "character": "CH07",
-   "view": "mid_shot",
-   "prompt_id": "da843ea6-ce3a-4f42-abfd-e803a78c1769",
-   "file": "media\\asset\\characters\\CH07\\mid_shot.png",
-   "saved": true
-  },
-  {
-   "character": "CH08",
-   "view": "front",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH08\\front.png",
-   "saved": true
-  },
-  {
-   "character": "CH08",
-   "view": "three_quarter_left",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH08\\three_quarter_left.png",
-   "saved": true
-  },
-  {
-   "character": "CH08",
-   "view": "three_quarter_right",
-   "prompt_id": "2679cbdf-ffe6-4b82-ad04-c15127324bf5",
-   "file": "media\\asset\\characters\\CH08\\three_quarter_right.png",
-   "saved": true
-  },
-  {
-   "character": "CH08",
-   "view": "profile_left",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH08\\profile_left.png",
-   "saved": true
-  },
-  {
-   "character": "CH08",
-   "view": "profile_right",
-   "prompt_id": "c231b202-a535-42bb-a1b2-f342e7e05c69",
-   "file": "media\\asset\\characters\\CH08\\profile_right.png",
-   "saved": true
-  },
-  {
-   "character": "CH08",
-   "view": "back",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH08\\back.png",
-   "saved": true
-  },
-  {
-   "character": "CH08",
-   "view": "expression_soft",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH08\\expression_soft.png",
-   "saved": true
-  },
-  {
-   "character": "CH08",
-   "view": "expression_smile",
-   "prompt_id": "709f0f6b-5a45-4ed1-8dc9-136f8dc8e34a",
-   "file": "media\\asset\\characters\\CH08\\expression_smile.png",
-   "saved": true
-  },
-  {
-   "character": "CH08",
-   "view": "expression_tense",
-   "prompt_id": "skip-existing",
-   "file": "media\\asset\\characters\\CH08\\expression_tense.png",
-   "saved": true
-  },
-  {
-   "character": "CH08",
-   "view": "low_angle",
-   "prompt_id": "63c8c1a4-870b-4e0b-a927-a739589e1e1d",
-   "file": "media\\asset\\characters\\CH08\\low_angle.png",
-   "saved": true
-  },
-  {
-   "character": "CH08",
-   "view": "high_angle",
-   "prompt_id": "d835e23f-5b3d-4b22-b725-4dbe82628f42",
-   "file": "media\\asset\\characters\\CH08\\high_angle.png",
-   "saved": true
-  },
-  {
-   "character": "CH08",
-   "view": "mid_shot",
-   "prompt_id": "ec944848-4474-472c-82dc-00e6d5203d09",
-   "file": "media\\asset\\characters\\CH08\\mid_shot.png",
-   "saved": true
+   "error": "<urlopen error [WinError 10061] 由于目标计算机积极拒绝，无法连接。>"
   }
  ],
- "failed": [],
  "note": "图落 ComfyUI 输出目录后需回拷到 media/asset/characters/<ID>/<view>.png，下一步由 asset_dataset_audit 判准入"
 }

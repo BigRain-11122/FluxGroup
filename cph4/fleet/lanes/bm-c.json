@@ -1,23 +1,23 @@
 {
  "node": "bm-c",
- "ts": "2026-11-06T17:51:23",
+ "ts": "2026-11-07T00:30:46",
  "jobs": [
   {
-   "id": "SELF-IMPROVE-bm-c-20261106",
-   "title": "机队自改：码龄/空壳卡/依赖三闸自检并修复（bm-c）",
-   "cmd": "python3 Tools/fleet/self_improve.py --apply --node bm-c --out cph4/fleet/queue-receipts/self-improve-bm-c-latest.json",
+   "id": "R-NEXT-BIGSTREAMM-GATE-20261107",
+   "title": "MV 交付闸复跑：当前母版四闸全验（收口前置）",
+   "cmd": "python Tools/mv_delivery_gate.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721.mp4 --whitelist cph4/fleet/mv0001-handover/canon/MV0001-REPRISE-WHITELIST.json --json cph4/fleet/queue-receipts/mv-gate-20261107.json",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/self-improve-bm-c-latest.json",
+   "deliverable": "cph4/fleet/queue-receipts/mv-gate-20261107.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
    "when_all": [],
    "llm": null,
-   "timeout_s": 300
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 3.5/1.0 GB"
+ "capacity_note": "ram 1.7/1.0 GB"
 }

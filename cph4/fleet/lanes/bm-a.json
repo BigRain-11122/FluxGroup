@@ -1,23 +1,23 @@
 {
  "node": "bm-a",
- "ts": "2026-11-06T17:48:19",
+ "ts": "2026-11-07T00:30:46",
  "jobs": [
   {
-   "id": "SELF-IMPROVE-bm-a-20261106",
-   "title": "机队自改：码龄/空壳卡/依赖三闸自检并修复（bm-a）",
-   "cmd": "python3 Tools/fleet/self_improve.py --apply --node bm-a --out cph4/fleet/queue-receipts/self-improve-bm-a-latest.json",
+   "id": "asset-lib-voice-corpus-bma-2026-11-07",
+   "title": "[资产储备（角色 LoRA / 音色库）] 音色语料工程·分片 0/4（bm-a，纯 CPU）",
+   "cmd": "python Tools/fleet/voice_corpus_prep.py --inbox media/asset/inbox --group batch-2026-11-07 --shard 0/4 --receipt cph4/fleet/queue-receipts/voice-corpus-bm-a-2026-11-07.json",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/self-improve-bm-a-latest.json",
+   "deliverable": "cph4/fleet/queue-receipts/voice-corpus-bm-a-2026-11-07.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
    "when_all": [],
    "llm": null,
-   "timeout_s": 300
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
- "lane_ok": false,
- "capacity_note": "daytime heavy-yield (09:00-19:00); light CPU allowed"
+ "lane_ok": true,
+ "capacity_note": "ram 33.5/1.0 GB"
 }
