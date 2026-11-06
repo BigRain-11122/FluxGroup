@@ -1,8 +1,8 @@
-# 线级体检 bigdomain · 2026-11-07 01:04
+# 线级体检 bigdomain · 2026-11-07 01:05
 
 ## 工段与证据目录
-- domain-lead    owner=域运营席     lane=-      证据 2/2 存在 · 文件 46397 · 最新 0.0h
-- domain-order   owner=域运营席     lane=-      证据 1/1 存在 · 文件 46396 · 最新 0.0h
+- domain-lead    owner=域运营席     lane=-      证据 2/2 存在 · 文件 46398 · 最新 0.0h
+- domain-order   owner=域运营席     lane=-      证据 1/1 存在 · 文件 46397 · 最新 0.0h
 
 ## 判定
 - 最近产出 0.0h 前（阈值 36.0h）→ FRESH 在阈内
