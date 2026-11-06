@@ -477,3 +477,16 @@ am_free_gb=10+cpu_load_pct=48——**bm-b 不是闲着，是在跑量化轮**；
 | **R13-2 两机认领器结构缺失（P1·已修）** | **fixed·待复探确认** | bm-b `HQ-ProductionClaim:deny`、bm-c `Disabled`：该任务只注册过 bm-a。承 R12-6/R10-8/R8-3 第 7 次。修法=Tools/fleet-poke-worker.ps1 v1.9 缺任务自愈（仅 HQ-* 前缀·Disabled 仍 off-skip·bm-c RAM<6G 自动 --needs cpu）。确认判据=下一次 poke 的 /status.last_pull.wakes 出现 `HQ-ProductionClaim:healed` 或 `:WAKE`，且 `_last_lane_bm-b.json` 出现新 ts。 |
 | **R13-3 两机工作树分叉=认领器失效真根因（P0·待修复窗）** | **registered·待无写手窗口收口** | `git merge-base --is-ancestor` 实测：bm-b head `b82c9834`、bm-c head `f1bbe729` **均非 origin/main 祖先**（各带本地提交），两台 fetch 到最新但 `pull --ff-only` 必然失败 → 代码/卡/白名单都进不去，7 班 deny/off-skip 由此而来。收口正法（承 R12-1，禁远程无人值守做）：选无写手窗口，在各机 `git fetch origin && git reset --mixed origin/main && git checkout -- <节点自有文件清单>`（或对本地提交做一次显式 merge+解决冲突），再 `git reset` 后重放节点自产台账；顺带查谁在节点上写 state 快照（fleet_agent 明文禁节点写组仓）。戒律：不清 `--hard`、不带病自动 merge。 |
 | **R13-2 修正（撤回「已修」判词）** | **armed-in-code·部署受阻** | poke-worker v1.9 缺任务自愈 + listener 1.9.6 唤醒清单截断修复均已在 origin（60fd78520）验证存在，但被 R13-3 堵在节点门外，**未生效**。生效判据=修复窗后一次 poke 的 `/status.last_pull.wakes` 出现 `HQ-ProductionClaim:healed` 或 `:WAKE`。 |
+
+## 附录 R14 事件班登记（2026-11-07 00:41-00:5x·承载件触发·DL 22:41/22:51 五旗）
+
+| 件 | 状态 | 证据 / 下一步 |
+|---|---|---|
+| **BLOCKED-RAM bm-c（22:41/22:51 双旗）** | **resolved（自愈缓解·监控中）** | 00:45 /status ram_free=2.7G（闸 1.0G 与 10% 地板 2.4G 均过）+GPU 14G 在烧+认领器 Running；L0 00:41 已不报。前班 FREE-MEM-APPLY-bm-c-20261107 卡被 bm-a 跨机错领（释放的是 bm-a 自机内存）后 E-ARTIFACT FAIL——本班本地销卡；RAM 再破闸才重立且必须 hard_nodes=["bm-c"]+修 deliverable 契约。02:22 探针复验。 |
+| **CLOCK 家族（SKEW 1456.3ms→UNALIGNED missing=1）** | **waiting-CEO（提权物理件·零催办）** | 三 Windows 机 w32time 全 STOPPED：bm-a 今晚新实证（clock-resync-bm-b-20261107.json verdict=SERVICE-STOPPED·net start 拒绝访问 0x5）+bm-b/bm-c 慢性（R2.38/R4-4/R11-6 在册）。missing=1 判=bm-m 不在 NATS 总线（11-06 已知盲区）。秒级偏差不影响派单租约（R8-6）。修法=各机本机提权 `sc config w32time start= auto && net start w32time`——并入 S4U 提权 waiting-CEO 行合并办理。CLOCK-RESYNC-bm-b（FAILED）/bm-c（被 bm-m 错领）双卡本班本地销。 |
+| **LANE-DOWN bm-b（SVC_DOWN·00:41 旗）** | **resolved（瞬时误报·实证自愈）** | 00:45 /health 200 v1.9.5 + /status 200 ram 10.5G/cpu 9% + NATS 心跳 00:44:58 seq6010 + 00:38:02 新认领 Q-VCORP-PREP-e01-R3 + Bigmoney-IterationLoop busy-skip（量化环在跑）。承 fleet-nodes 注记「listener 探针超时假象」家族。另 bm-b HQ-ProductionClaim:deny=白名单陈旧（D-R261-POKECFG-STALE 在册）。 |
+| **Q-VCORP-PREP-e01-R3-20261105（留观件）** | **watching·二次失败即销** | bm-b 00:38 新领可能是真活（禁杀）；反证=bm-a e01 inbox=0 件实测（00:4x）+R13 11-06 bm-a rc=2 E-INPUT 在档+bm-c 11-06 领取零回执。若本轮再 E-BLOCKED-INPUT→按 R9-7 销卡（投料后由工序表重立）。02:22 探针验回执。 |
+| **跨机错领三连（新证据）** | **registered·PR-20261106-02 复发+3** | 今夜 bm-a 错领 FREE-MEM-APPLY-bm-c+CLOCK-RESYNC-bm-b（00:20/00:30 回执 node=bm-a）、bm-m 错领 CLOCK-RESYNC-bm-c（00:14 owner=bm-m·Mac 无 w32time 面）。nodes= 偏好非硬钉=lane_agent R9 已知面；hard_nodes 纪律（11-03 判例）执法面=建卡必带硬钉。 |
+| **STARVED-EXEC bm-a/bm-c（22:41 旗）** | **假红·结构性（承 R4-2/R11-1）** | 旗只读 POOL.json（唯一 open=POOL-0010 被 CEO-PHYSICAL 锁死）；本地队列 OPEN=2/RUNNING=3 三机在产 BURNING。POOL-0010=物理件已登记零催（00:41 INFO WAITING-CEO）。PR-20261027-14 受保护件候裁维持。 |
+| **队列双源分叉加深（R11-7 升级实证）** | **registered·收口须专项窗** | origin 队列 1248 行完全不含今夜新卡（FREE-MEM/CLOCK-RESYNC/e01 全缺）·本地 1100 行含之——两源卡群不相交·本地 main ahead 710/behind 360·DISPATCH-LOG 11-06 03:00→11-07 00:33 段同步覆盖丢失同族（另新证：DISPATCH-LOG.md 本身 origin 不在档=本地专有文件）。本班队列销卡仅落本地面（推本地版=覆盖 origin 148 张独有卡=破坏性禁止）；跨机传播受阻登记。收口=无他窗在写的专项窗按 bm-a 卡死合并判例执行（承 R11-7 正法）。 |
+
