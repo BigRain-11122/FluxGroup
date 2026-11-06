@@ -135,6 +135,9 @@ STAGES = [
     # 情报审查（2026-11-07）：雷达自标「星数超 10 万需人工核实」却没人核 = 假情报源头。
     # 每日把越界条目拿去 GitHub API 对一遍，差异超 10% 判 STALE；无网一律 UNVERIFIED，不判假。
     ("fact_check", ["Tools/fleet/fact_check.py"], 86400, {0, 1}, True),
+    # 模型排班体检（2026-11-07 实测三模型 10.4GB 事故后立）：核对驻留是否超预算、
+    # 矩阵里的模型名是否都在单一源、P0 是否有降级路径。rc=1 是告警不是故障。
+    ("model_plan", ["Tools/fleet/model_plan.py"], 3600, {0, 1}, True),
     # 研究创新席（2026-11-02 CEO 令）：体检四席的边界与空转，顺手刷新 PROPOSALS.json
     # 供派单方择取。rc=2 是有违规的告警，不是工具坏，所以计入 ok_rc。
     ("ri", ["Tools/fleet/ri_dept.py", "check"], 60, {0, 2}, True),

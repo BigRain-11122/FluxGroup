@@ -1,0 +1,186 @@
+{
+ "_comment": "本地算力·监控任务与模型匹配矩阵 v1（CEO 2026-11-07「本地算力要选合适的大模型，这么多同时或轮着监控的，一定要合理安排」）。本件是模型侧唯一调度事实源；模型名与档位仍以 LOCAL-MODEL-POLICY.duties 为准，这里只写「哪类任务用哪个座位、并发几条、超时多少、失败怎么降级」。",
+ "version": "v1-20261107",
+ "measured": {
+  "at": "2026-11-07T00:42",
+  "host": "bm-m 32GB 统一内存",
+  "resident_gb": 6.8,
+  "detail": "qwen3.5:4b-mlx 5.8GB + qwen3-embedding:0.6b 0.9GB；卸载多余备用档 qwen3:4b-instruct 后由 10.4GB 降至 6.8GB",
+  "concurrency": [
+   {
+    "n": 1,
+    "wall_s": 0.2,
+    "mem_gb": 6.8
+   },
+   {
+    "n": 2,
+    "wall_s": 1.3,
+    "mem_gb": 6.8
+   },
+   {
+    "n": 3,
+    "wall_s": 1.5,
+    "mem_gb": 7.3
+   },
+   {
+    "n": 4,
+    "wall_s": 0.9,
+    "mem_gb": 7.6,
+    "note": "服务端 num_parallel=3，第 4 路排队，墙钟不代表更快"
+   }
+  ],
+  "caution": "测速必须用不同内容，同一张图/同一句反复调用测到的是缓存命中，不是推理成本"
+ },
+ "seats": {
+  "rule": {
+   "cost_gb": 0,
+   "use": "一切数字、状态、超时、去重、打分、派单",
+   "why": "4B 算术有两次全错实锚（220-116-6 答成 100/104）"
+  },
+  "resident": {
+   "model": "qwen3.5:4b-mlx",
+   "cost_gb": 5.8,
+   "num_ctx": 8192,
+   "keep_alive": "15m",
+   "use": "短判定：归类、摘要、抽字段、写一句理由",
+   "max_out_tokens": 400
+  },
+  "embedding": {
+   "model": "qwen3-embedding:0.6b",
+   "cost_gb": 0.9,
+   "use": "语义判重/检索，常驻不卸载"
+  },
+  "on_demand": {
+   "model": "qwen3:8b",
+   "cost_gb": 7.0,
+   "use": "长文改写/多段摘要，用完即卸，不入常驻"
+  },
+  "cloud": {
+   "when": "本地无能力或本地全排满且卡下游",
+   "cap_cny_per_day": 100,
+   "note": "见 AUTONOMY-CONFIG.cloud"
+  },
+  "forbidden": {
+   "model": "qwen3.5:35b-a3b",
+   "why": "24GB 驻留即 swap+2GB，本机禁常驻"
+  }
+ },
+ "budget": {
+  "resident_cap_gb": 8.0,
+  "peak_cap_gb": 10.0,
+  "office_reserve_gb": 20.0,
+  "server_num_parallel": 3,
+  "pulse_model_threads": 2,
+  "why_threads_2": "留 1 槽给车道/交互调用；脉占满 3 槽会让车道调用排队到超时"
+ },
+ "tasks": [
+  {
+   "id": "M01",
+   "name": "告警归类（五类）",
+   "seat": "resident",
+   "tier": "P0",
+   "cad": "1h",
+   "max_in_tokens": 1200,
+   "max_out_tokens": 200,
+   "timeout_s": 60,
+   "degrade": "按 error_class 规则直分",
+   "why": "阻断类必须快；模型只归类别，不做统计"
+  },
+  {
+   "id": "M02",
+   "name": "卡/素材语义判重",
+   "seat": "embedding",
+   "tier": "P0",
+   "cad": "随派单",
+   "timeout_s": 20,
+   "degrade": "退回标题相似度规则",
+   "why": "0.9GB 常驻换来不重复劳动；比 4B 便宜且更稳"
+  },
+  {
+   "id": "M03",
+   "name": "本机自检结论一句话",
+   "seat": "rule",
+   "tier": "P0",
+   "cad": "5m",
+   "why": "状态判定全规则；模型写一句话反而可能编"
+  },
+  {
+   "id": "M04",
+   "name": "六小时战报（四线各一句）",
+   "seat": "resident",
+   "tier": "P2",
+   "cad": "6h",
+   "max_in_tokens": 2000,
+   "max_out_tokens": 400,
+   "timeout_s": 180,
+   "degrade": "规则生成四行数字版",
+   "why": "慢批串行，不与 P0 抢槽"
+  },
+  {
+   "id": "M05",
+   "name": "每日三件事排序",
+   "seat": "rule+resident",
+   "tier": "P2",
+   "cad": "24h",
+   "max_out_tokens": 200,
+   "timeout_s": 120,
+   "degrade": "纯规则取最高 prio 三条",
+   "why": "排序是规则，模型只润色措辞"
+  },
+  {
+   "id": "M06",
+   "name": "带做器理由润色",
+   "seat": "rule",
+   "tier": "P1",
+   "cad": "30m",
+   "why": "打分必须可解释，不许模型参与评分"
+  },
+  {
+   "id": "M07",
+   "name": "情报审查（雷达真伪）",
+   "seat": "rule",
+   "tier": "P1",
+   "cad": "24h",
+   "why": "GitHub API 比对，模型不参与核数"
+  },
+  {
+   "id": "M08",
+   "name": "长文改写 / 研究报告初稿",
+   "seat": "on_demand",
+   "tier": "P3",
+   "cad": "按需",
+   "max_out_tokens": 2000,
+   "timeout_s": 600,
+   "degrade": "拆成多段交 4B 或转云端",
+   "why": "唯一会用 8B 的场景，用完卸载",
+   "preempt_resident": true
+  },
+  {
+   "id": "M09",
+   "name": "深度推理（回测解释/方向判断）",
+   "seat": "cloud",
+   "tier": "P3",
+   "cad": "按需",
+   "degrade": "本地不硬扛",
+   "why": "4B/8B 都会编理由，宁可花预算或交人"
+  }
+ ],
+ "rotation": {
+  "rule": "同一时刻最多 1 个 P2 在跑，P0 可抢占；P0+P1 不排队等待 P2",
+  "order": [
+   "P0（阻断/时效）",
+   "P1（高频巡检）",
+   "P2（日报类）",
+   "P3（按需长文）"
+  ],
+  "preempt": "P0 到达时若 P2 在跑，P2 让位（其产物可下一轮重算）",
+  "dedupe": "同一任务同一输入 15 分钟内不重复调用模型（结果复用+记账）"
+ },
+ "guards": {
+  "before_call": "内存 > peak_cap_gb 或 swap 增量 > 0 → 该任务降级为规则",
+  "after_call": "输出必须能被规则复核（类别在白名单、数字来自输入），否则丢弃重算",
+  "single_source": "模型名只认 LOCAL-MODEL-POLICY；本件出现新模型名即为缺陷",
+  "on_demand_preempt": "加载 on_demand 档（8B≈7GB）前必须先让常驻 4B 让位（keep_alive=0），否则峰值=7.6+7=14.6GB 挤压办公；让位后峰值≈8.5GB"
+ },
+ "board": "cph4/fleet/MODEL-PLAN.md"
+}
