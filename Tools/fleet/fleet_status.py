@@ -119,6 +119,17 @@ def main(argv):
 
     # 2026-11-05 实测：bm-b 心跳正常（16s）但 22 小时没有产出——心跳在线 ≠ 在干活。
     # 判"这台机还能不能接活"必须看它最后一次提交/产物的年龄，而不是心跳。
+    def _last_receipt_h(node):
+        """远端回执也是产出证据：git 推不上去时，回执已证明它干完过活。"""
+        try:
+            import glob as _g
+            fs = _g.glob(os.path.join(ST, "remote-receipts", "*-%s.json" % node))
+            if not fs:
+                return None
+            return round((time.time() - max(os.path.getmtime(p) for p in fs)) / 3600.0, 1)
+        except Exception:
+            return None
+
     def _last_output_h(node):
         try:
             out = subprocess.run(["git", "-C", ROOT, "log", "-1", "--format=%ct",
@@ -131,6 +142,10 @@ def main(argv):
     workers = {}
     for n in ("bm-a", "bm-b", "bm-c", "bm-m"):
         h = _last_output_h(n)
+        rh = _last_receipt_h(n)
+        # 取两者中更近的一个：git 提交与回执都是"它干完过活"的证据。
+        if rh is not None and (h is None or rh < h):
+            h = rh
         workers[n] = {"last_output_h": h,
                       "verdict": "OK" if h <= 6 else "STALE-WORKER"}
 

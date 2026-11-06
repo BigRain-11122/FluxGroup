@@ -1,26 +1,27 @@
 # 自动推进事实页
 
-> 生成：2026-11-06T10:49:42（每轮主控脉自动刷新；只列盘上事实，无结论、无自评）
+> 生成：2026-11-06T10:50:10（每轮主控脉自动刷新；只列盘上事实，无结论、无自评）
 
 ## 一、现在在跑（队列 RUNNING）
 
 （无）
 
-待派 OPEN：22 张
+待派 OPEN：21 张
 
 ## 二、机队实况（每机最后一次心跳 + 最后产出）
 
 | 机器 | 心跳状态 | 在跑的卡 | out_bytes | 心跳龄 | 最后产出 |
 |---|---|---|---|---|---|
-| bm-a | RUNNING | R-MODEL-RADAR-BMA-20261106 | None | 7s | 4.9h |
-| bm-b | DONE | R-CROSSTALK-POST-20261106-001 | None | 93s | 11.2h |
-| bm-c | DONE | OPS-CLOCK-RESYNC-BMC-20261105 | None | 14s | 10.4h |
-| bm-m | DONE | R-CROSSTALK-SWEEP-20261105-001 | None | 229s | 0.1h |
+| bm-a | IDLE | - | None | 4s | 4.9h |
+| bm-b | DONE | R-CROSSTALK-POST-20261106-001 | None | 4s | 11.3h |
+| bm-c | DONE | OPS-CLOCK-RESYNC-BMC-20261105 | None | 42s | 10.4h |
+| bm-m | DONE | R-CROSSTALK-SWEEP-20261105-001 | None | 257s | 0.1h |
 
 ## 三、最近完成（含谁跑的）
 
 | 卡 | 机器 | 时间 | 产物 |
 |---|---|---|---|
+| R-MODEL-RADAR-BMA-20261106 | - | 2026-11-06T10:49:50 | - |
 | R-CROSSTALK-POST-20261106-001 | - | 2026-11-06T10:46:25 | - |
 | OPS-CLOCK-RESYNC-BMC-20261105 | - | 2026-11-06T10:46:14 | - |
 | R-CROSSTALK-SWEEP-20261105-001 | bm-m | 2026-11-06T10:45:53 | /Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-crosstalk-sweep.md |
@@ -35,7 +36,6 @@
 | C-TTS-QC-ALL | - | 2026-11-06T10:41:37 | cph4/fleet/queue-receipts/tts-qc-all.json |
 | QUEUE-CARD-AUDIT-20261106 | bm-a | 2026-11-06T02:57:45 | cph4/fleet/queue-receipts/queue-card-audit-20261106.json |
 | R-NEXT-BIGSTREAMM-GATE-20261105 | bm-m | 2026-11-06T01:31:38 | cph4/fleet/queue-receipts/mv-gate-20261105.json |
-| R-NEXT-BIGSTREAMM-AUDIT-20261105 | - | 2026-11-06T01:31:38 | cph4/fleet/queue-receipts/mv-full-audit-20261105.json |
 
 ## 四、最近失败（附原因原文）
 
@@ -61,7 +61,6 @@
 
 | 回执 | 状态 | rc | 定性 | 命令 | stderr |
 |---|---|---|---|---|---|
-| asset-lib-env-check-2026-11-06-bm-m.json | FAILED | 1 | E-UNKNOWN | python3 Tools/fleet/asset_env_check.py --out cph4/fleet/queu | - |
 | Q-VCORP-PREP-e01-R3-20261105-bm-a.json | FAILED | 2 | E-INPUT | - | - |
 | CHK-RECEIPT-20261103-bm-m.json | FAILED | 2 | E-CONTRACT | python3 Tools/fleet/receipt_attrib.py --out cph4/fleet/queue | - |
 | R-GPUWORK-20261105-001-bm-m.json | DONE | 0 | - | - | - |
@@ -74,16 +73,17 @@
 | asset-lib-char-gen-2026-11-06-bm-c.json | DONE | 0 | - | - | - |
 | MV-ANCHOR-BATCH3-20261106-bm-a.json | FAILED | 0 | E-ARTIFACT | - | - |
 | R-CROSSTALK-SWEEP-20261105-001-bm-m.json | DONE | 0 | - | - | - |
-| R-CROSSTALK-POST-20261106-001-bm-b.json | DONE | 0 | - | - | - |
 | OPS-CLOCK-RESYNC-BMC-20261105-bm-c.json | DONE | 0 | - | - | - |
+| R-MODEL-RADAR-BMA-20261106-bm-a.json | DONE | 0 | - | - | - |
+| R-CROSSTALK-POST-20261106-001-bm-b.json | DONE | 0 | - | - | - |
 
 ## 六、最近退回的卡（谁退的、为什么）
 
 | 卡 | 退回者 | 原因 |
 |---|---|---|
-| FREE-MEM-DIAG-bm-c-20261106 | fleet_status | owner is stale-worker (>6h no output) (aging 0min) |
-| Q-MV-ANCHOR-WORDS-DRAIN-20261106 | fleet_status | owner heartbeat stale 227s (aging 0min) |
-| Q-MV-ANCHOR-WORDS-DRAIN-BMA-20261106 | fleet_status | owner heartbeat stale 190s (aging 0min) |
+| FREE-MEM-DIAG-bm-c-20261106 | fleet_status | owner heartbeat stale 16s (aging 0min) |
+| Q-MV-ANCHOR-WORDS-DRAIN-20261106 | fleet_status | owner heartbeat stale 24s (aging 0min) |
+| Q-MV-ANCHOR-WORDS-DRAIN-BMA-20261106 | fleet_status | owner heartbeat stale 253s (aging 0min) |
 | R-MODEL-RADAR-BMA-20261106 | fleet_status | owner heartbeat stale 23s (aging 0min) |
 | asset-lib-env-check-2026-11-06 | fleet_status | owner is stale-worker (>6h no output) (aging 1min) |
 | bigstream-mv-gate-2026-11-06 | fleet_status | owner heartbeat stale 74s (aging 0min) |
@@ -99,7 +99,7 @@
 
 ## 七、24h 运转探针
 
-- 结论：GREEN｜绿 73.9%｜采样 3757 次｜够不够判 24h：否
+- 结论：GREEN｜绿 73.9%｜采样 3758 次｜够不够判 24h：否
 - 当前红项：无
 
 ---

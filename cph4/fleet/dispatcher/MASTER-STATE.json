@@ -1,29 +1,29 @@
 {
- "ts": "2026-11-06T10:49:00",
- "cycle": 93,
+ "ts": "2026-11-06T10:50:03",
+ "cycle": 94,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-06T10:49:00",
+ "master_tick_ts": "2026-11-06T10:50:03",
  "queue": {
   "total": 1119,
-  "open": 18,
+  "open": 17,
   "running": 4,
-  "done": 417,
+  "done": 418,
   "failed": 24
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 47.2,
-   "cpu_load_pct": 63,
-   "ram_free_gb": 55.8,
+   "hb_age_s": 30.2,
+   "cpu_load_pct": 11,
+   "ram_free_gb": 61.1,
    "gpu_util_pct": 64,
-   "job": "Q-MV-ANCHOR-WORDS-DRAIN-20261106",
+   "job": "FREE-MEM-DIAG-bm-c-20261106",
    "last_result": {
-    "job": "MV-ANCHOR-BATCH3-20261106",
-    "state": "FAILED",
+    "job": "R-MODEL-RADAR-BMA-20261106",
+    "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-06T10:45:16",
+    "ts": "2026-11-06T10:49:50",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -34,16 +34,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 66.8,
-   "cpu_load_pct": 27,
-   "ram_free_gb": 9.8,
-   "gpu_util_pct": null,
-   "job": "FREE-MEM-DIAG-bm-c-20261106",
+   "hb_age_s": 25.6,
+   "cpu_load_pct": 17,
+   "ram_free_gb": 11.5,
+   "gpu_util_pct": 3,
+   "job": "Q-MV-ANCHOR-WORDS-DRAIN-20261106",
    "last_result": {
     "job": "R-CROSSTALK-POST-20261106-001",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-06T10:48:08",
+    "state": "RUNNING",
+    "rc": null,
+    "ts": "2026-11-06T10:49:42",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -54,8 +54,8 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 94.6,
-   "cpu_load_pct": 10,
+   "hb_age_s": 60.7,
+   "cpu_load_pct": 8,
    "ram_free_gb": 2.7,
    "gpu_util_pct": 0,
    "job": "OPS-CLOCK-RESYNC-BMB-20261105",
@@ -63,7 +63,7 @@
     "job": "OPS-CLOCK-RESYNC-BMC-20261105",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-06T10:47:39",
+    "ts": "2026-11-06T10:49:25",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -74,9 +74,9 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 0.9,
-   "cpu_load_pct": 25,
-   "ram_free_gb": 11.1,
+   "hb_age_s": 1.1,
+   "cpu_load_pct": 31,
+   "ram_free_gb": 12.6,
    "gpu_util_pct": null,
    "job": "Q-MV-ANCHOR-WORDS-DRAIN-BMA-20261106",
    "last_result": {
@@ -856,7 +856,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 18,
+  "local": 17,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -864,14 +864,15 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 18,
+  "cpu": 17,
   "gpu": 0
  },
  "supply_added": [],
  "events": [
+  "R-MODEL-RADAR-BMA-20261106 DONE via bm-a",
   "OPS-CLOCK-RESYNC-BMB-20261105 -> bm-c (cpu)",
-  "FREE-MEM-DIAG-bm-c-20261106 -> bm-b (cpu)",
-  "Q-MV-ANCHOR-WORDS-DRAIN-20261106 -> bm-a (cpu)",
+  "FREE-MEM-DIAG-bm-c-20261106 -> bm-a (cpu)",
+  "Q-MV-ANCHOR-WORDS-DRAIN-20261106 -> bm-b (cpu)",
   "Q-MV-ANCHOR-WORDS-DRAIN-BMA-20261106 -> bm-m (cpu)"
  ],
  "violations": [
@@ -880,7 +881,7 @@
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
  "lane_files_written": [
-  "bm-b",
-  "bm-c"
+  "bm-a",
+  "bm-b"
  ]
 }
