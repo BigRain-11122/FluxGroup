@@ -139,8 +139,18 @@ def git_publish(root, node, jid, paths):
         last = r.stderr or r.stdout
         recon = _merge_origin(root)
         if recon != "ok":
-            return "push-failed:%s (reconcile=%s)" % ((last or "")[:60], recon[:60])
-    return "push-failed:%s" % (last or "")[:80]
+            break
+    # 2026-11-06 实测：主干推送在分叉时永远失败，产物于是留在本机、主控看不见
+    # （bm-c 出了图但 origin 上没有）。兜底=推自己的分支 node/<node>：单写者、永不冲突，
+    # 主控侧按分支取产物。这一步成功就算"产物上了共享面"。
+    try:
+        r = git(["push", "-f", "origin", "HEAD:refs/heads/node/%s" % node], timeout=180)
+        if r.returncode == 0:
+            return "pushed:node/%s" % node
+        return "push-failed:%s (node-branch:%s)" % (
+            (last or "")[:50], (r.stderr or r.stdout or "")[:50])
+    except Exception as e:
+        return "push-failed:%s (node-branch-err:%s)" % ((last or "")[:40], str(e)[:40])
 
 
 def _git_ro(root, args, timeout=120):

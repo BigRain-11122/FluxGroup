@@ -1,13 +1,13 @@
-# 主控一屏 2026-11-06T14:06:50
+# 主控一屏 2026-11-06T15:41:10
 
 **现在最重要的一件事**：MV（41 曲 / 爱在西元前）：STOP-DIAGNOSE（1 张卡已停线待根因：B-MV-AUDIT-20261105）
 
 | 线 | 最后真实产出 | 今天完成 | 卡点 | 本轮动作 |
 |---|---|---|---|---|
-| MV（41 曲 / 爱在西元前） | 3.4h 前 | 3 张 | ENGINE | STOP-DIAGNOSE |
-| 游戏（39 款在册 / 0 上线） | 68.7h 前 | 0 张 | ENGINE | DISPATCH |
-| 资产储备（角色 LoRA + 音色库） | 3.2h 前 | 3 张 | ENGINE | STOP-DIAGNOSE |
-| 量化（19.9 算力包） | 50.0h 前 | 0 张 | ENGINE | STOP-DIAGNOSE |
+| MV（41 曲 / 爱在西元前） | 4.9h 前 | 3 张 | ENGINE | STOP-DIAGNOSE |
+| 游戏（39 款在册 / 0 上线） | 70.3h 前 | 0 张 | ENGINE | DISPATCH |
+| 资产储备（角色 LoRA + 音色库） | 4.8h 前 | 3 张 | ENGINE | STOP-DIAGNOSE |
+| 量化（19.9 算力包） | 51.5h 前 | 0 张 | ENGINE | STOP-DIAGNOSE |
 
 ## 每条线的理由（可核）
 
