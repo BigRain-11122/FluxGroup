@@ -1,23 +1,8 @@
 {
  "node": "bm-m",
- "ts": "2026-11-06T10:47:42",
- "jobs": [
-  {
-   "id": "Q-MV-ANCHOR-WORDS-DRAIN-BMA-20261106",
-   "title": null,
-   "cmd": null,
-   "cwd": null,
-   "needs": null,
-   "deliverable": null,
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  }
- ],
- "idle_reason": "",
- "lane_ok": true,
- "capacity_note": "ram 12.8/1.0 GB"
+ "ts": "2026-11-06T11:43:02",
+ "jobs": [],
+ "idle_reason": "CAPACITY-BLOCKED-RAM CPU-SATURATED 96%",
+ "lane_ok": false,
+ "capacity_note": "CPU-SATURATED 96%"
 }

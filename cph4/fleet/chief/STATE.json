@@ -1,11 +1,11 @@
 {
- "ts": "2026-11-06T10:48:58",
+ "ts": "2026-11-06T11:40:25",
  "stage": 3,
  "adoption": {
   "days": 5,
-  "applied": 1055,
-  "total": 806,
-  "rate": 130.9,
+  "applied": 1064,
+  "total": 815,
+  "rate": 130.6,
   "eligible_stage4": false
  },
  "decisions": [
@@ -13,8 +13,8 @@
    "kind": "escalate",
    "why": "P0 线 24h 无产物：2 条",
    "target": [
-    "p0:bigstream-mv:no-output",
-    "p0:bigstream-duanju:no-output"
+    "p0:bigstream-duanju:no-output",
+    "p0:bigstream-shortvideo:no-output"
    ],
    "min_stage": 1,
    "result": "applied"

@@ -1,6 +1,6 @@
 # 自动推进事实页
 
-> 生成：2026-11-06T10:50:10（每轮主控脉自动刷新；只列盘上事实，无结论、无自评）
+> 生成：2026-11-06T10:52:18（每轮主控脉自动刷新；只列盘上事实，无结论、无自评）
 
 ## 一、现在在跑（队列 RUNNING）
 
@@ -12,10 +12,10 @@
 
 | 机器 | 心跳状态 | 在跑的卡 | out_bytes | 心跳龄 | 最后产出 |
 |---|---|---|---|---|---|
-| bm-a | IDLE | - | None | 4s | 4.9h |
-| bm-b | DONE | R-CROSSTALK-POST-20261106-001 | None | 4s | 11.3h |
-| bm-c | DONE | OPS-CLOCK-RESYNC-BMC-20261105 | None | 42s | 10.4h |
-| bm-m | DONE | R-CROSSTALK-SWEEP-20261105-001 | None | 257s | 0.1h |
+| bm-a | IDLE | - | None | 131s | 5.0h |
+| bm-b | DONE | R-CROSSTALK-POST-20261106-001 | None | 131s | 11.3h |
+| bm-c | DONE | OPS-CLOCK-RESYNC-BMC-20261105 | None | 169s | 10.4h |
+| bm-m | DONE | R-CROSSTALK-SWEEP-20261105-001 | None | 384s | 0.1h |
 
 ## 三、最近完成（含谁跑的）
 
@@ -81,9 +81,9 @@
 
 | 卡 | 退回者 | 原因 |
 |---|---|---|
-| FREE-MEM-DIAG-bm-c-20261106 | fleet_status | owner heartbeat stale 16s (aging 0min) |
-| Q-MV-ANCHOR-WORDS-DRAIN-20261106 | fleet_status | owner heartbeat stale 24s (aging 0min) |
-| Q-MV-ANCHOR-WORDS-DRAIN-BMA-20261106 | fleet_status | owner heartbeat stale 253s (aging 0min) |
+| FREE-MEM-DIAG-bm-c-20261106 | fleet_status | owner heartbeat stale 105s (aging 0min) |
+| Q-MV-ANCHOR-WORDS-DRAIN-20261106 | fleet_status | owner heartbeat stale 101s (aging 0min) |
+| Q-MV-ANCHOR-WORDS-DRAIN-BMA-20261106 | fleet_status | owner heartbeat stale 354s (aging 0min) |
 | R-MODEL-RADAR-BMA-20261106 | fleet_status | owner heartbeat stale 23s (aging 0min) |
 | asset-lib-env-check-2026-11-06 | fleet_status | owner is stale-worker (>6h no output) (aging 1min) |
 | bigstream-mv-gate-2026-11-06 | fleet_status | owner heartbeat stale 74s (aging 0min) |
@@ -99,7 +99,7 @@
 
 ## 七、24h 运转探针
 
-- 结论：GREEN｜绿 73.9%｜采样 3758 次｜够不够判 24h：否
+- 结论：GREEN｜绿 73.9%｜采样 3767 次｜够不够判 24h：否
 - 当前红项：无
 
 ---
