@@ -2,8 +2,8 @@
  "id": "R-NEXT-BIGSTREAMM-AUDIT-20261107",
  "node": "bm-m",
  "rc": 1,
- "seconds": 0.7,
- "cmd": "python Tools/mv_full_audit.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721.mp4 --whitelist cph4/fleet/mv0001-handover/canon/MV0001-REPRISE-WHITELIST.json --json cph4/fleet/queue-receipts/mv-full-audit-20261107.json",
+ "seconds": 0.1,
+ "cmd": "python3 Tools/mv_full_audit.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721.mp4 --whitelist cph4/fleet/mv0001-handover/canon/MV0001-REPRISE-WHITELIST.json --json cph4/fleet/queue-receipts/mv-full-audit-20261107.json",
  "ok_rc": [
   0
  ],
@@ -11,7 +11,7 @@
  "error_class": "E-UNKNOWN",
  "deliverable": "cph4/fleet/queue-receipts/mv-full-audit-20261107.json",
  "deliverable_exists": false,
- "ts": "2026-11-07T00:34:17",
+ "ts": "2026-11-07T00:35:15",
  "stdout_tail": "",
- "stderr_tail": "Traceback (most recent call last):\n  File \"/Users/junsheng.sun/FluxGroup/Tools/mv_full_audit.py\", line 176, in <module>\n    main()\n    ~~~~^^\n  File \"/Users/junsheng.sun/FluxGroup/Tools/mv_full_audit.py\", line 52, in main\n    cuts, err = RG.detect_cuts(a.video, threshold=15.0)\n                ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/junsheng.sun/FluxGroup/Tools/release_gate.py\", line 34, in detect_cuts\n    v = open_video(path)\n  File \"/Users/junsheng.sun/.pyenv/versions/3.13.18/lib/python3.13/site-packages/scenedetect/__init__.py\", line 138, in open_video\n    return backend_type(path, frame_rate, **kwargs)\n  File \"/Users/junsheng.sun/.pyenv/versions/3.13.18/lib/python3.13/site-packages/scenedetect/backends/opencv.py\", line 162, in __init__\n    self._open_capture(frame_rate)\n    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^\n  File \"/Users/junsheng.sun/.pyenv/versions/3.13.18/lib/python3.13/site-packages/scenedetect/backends/opencv.py\", line 360, in _open_capture\n    raise OSError(\"Video file not found.\")\nOSError: Video file not found.\n"
+ "stderr_tail": "Traceback (most recent call last):\n  File \"/Users/junsheng.sun/FluxGroup/Tools/mv_full_audit.py\", line 21, in <module>\n    import cv2\nModuleNotFoundError: No module named 'cv2'\n"
 }
