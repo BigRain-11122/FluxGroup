@@ -47,6 +47,8 @@ def has(dirpath, keys, exts=None):
 def main(argv):
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", default="")
+    ap.add_argument("--strict", action="store_true",
+                    help="没有可提交款时返回 rc=2（CI 语义）；盘点本身默认 rc=0")
     a = ap.parse_args(argv)
     if not os.path.isdir(SW):
         print("没有软著材料目录")
@@ -84,10 +86,43 @@ def main(argv):
            "items": items}
     os.makedirs(OUTDIR, exist_ok=True)
     op = a.out or os.path.join(OUTDIR, "SUBMIT-PACK-%s.json" % time.strftime("%Y%m%d"))
+    # 2026-11-07：卡上 accept 明确要求「与上一版对比写出增减，不许照抄旧数」。只给当日快照
+    # 等于把"变化"这项验收交给读的人自己算，机检无从核验——所以对比要由工具自己写进产物。
+    cmp_ = None
+    try:
+        prevs = sorted(x for x in os.listdir(OUTDIR)
+                       if re.match(r"^SUBMIT-PACK-\d{8}\.json$", x)
+                       and os.path.join(OUTDIR, x) != op)
+        if prevs:
+            prev_path = os.path.join(OUTDIR, prevs[-1])
+            prev = json.load(open(prev_path, encoding="utf-8"))
+            pk = prev.get("missing_by_kind") or {}
+            kinds = set(pk) | set(rec["missing_by_kind"])
+            cmp_ = {
+                "against": os.path.basename(prev_path),
+                "products": {"prev": prev.get("products"), "now": len(items)},
+                "ready": {"prev": prev.get("ready"), "now": ready},
+                "missing_by_kind": {
+                    k: {"prev": pk.get(k, 0), "now": rec["missing_by_kind"].get(k, 0),
+                        "delta": rec["missing_by_kind"].get(k, 0) - pk.get(k, 0)}
+                    for k in sorted(kinds)
+                },
+            }
+            rec["compare"] = cmp_
+    except Exception as e:
+        rec["compare_error"] = str(e)[:120]
     json.dump(rec, open(op, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     md = ["# 提审包盘点（%s）" % rec["ts"], "",
           "在册 %d 款：可提交 %d / 待补 %d" % (len(items), ready, len(items) - ready), "", "## 缺件聚合", ""]
     md += ["- %s：%d 款" % (k, v) for k, v in rec["missing_by_kind"].items()]
+    if cmp_:
+        d_ready = cmp_["ready"]["now"] - (cmp_["ready"]["prev"] or 0)
+        md += ["", "## 与上一版对比（%s）" % cmp_["against"], "",
+               "- 在册款数：%s → %s" % (cmp_["products"]["prev"], cmp_["products"]["now"]),
+               "- 可提交：%s → %s（%+d）" % (cmp_["ready"]["prev"], cmp_["ready"]["now"], d_ready),
+               "", "| 缺件类型 | 上一版 | 本次 | 增减 |", "|---|---|---|---|"]
+        for k, v in cmp_["missing_by_kind"].items():
+            md.append("| %s | %s | %s | %+d |" % (k, v["prev"], v["now"], v["delta"]))
     md += ["", "## 逐款", "", "| 产品 | 结论 | 缺什么 |", "|---|---|---|"]
     for x in items:
         md.append("| %s | %s | %s |" % (x["product"], x["verdict"],
@@ -97,7 +132,12 @@ def main(argv):
     for k, v in list(rec["missing_by_kind"].items())[:6]:
         print("  缺 %-28s %d 款" % (k, v))
     print("wrote", os.path.relpath(op, ROOT), "+ SUBMIT-PACK.md")
-    return 0 if ready else 2
+    if cmp_:
+        print("对比 %s：可提交 %s -> %s" % (cmp_["against"], cmp_["ready"]["prev"], ready))
+    # 2026-11-07：本卡是「盘点/枚举缺口」，盘点成功本身就是成功。旧的 `return 0 if ready else 2`
+    # 让"一条都没齐"变成脚本失败 → 车道每轮判 E-CONTRACT 无限重试（实测 bm-m 连续两次
+    # rc=2 0.1s）。rc=2 只保留给真正的机制故障；需要 CI 语义时用 --strict。
+    return 2 if (a.strict and not ready) else 0
 
 
 if __name__ == "__main__":
