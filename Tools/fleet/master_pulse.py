@@ -99,6 +99,23 @@ STAGES = [
     # 节奏表=COMMAND-CADENCE-v1.json，本阶段只做规则汇总（零 token），产出 COMMAND-BOARD.md。
     # 必须排在 census 之后：它读 state/lines.json 的产出年龄，绝不自己算产出。
     ("commander", ["Tools/fleet/commander.py"], 180, {0}, False),
+    # 以下六阶段按 COMMAND-CADENCE-v2.json 补接线（2026-11-06 校验器报 W-STAGE 才补的）：
+    # 之前表里写了、脉里没跑，等于纸上自动化。每条的周期与表一致，改表必须同步改这里，
+    # cadence.py --check 会把不一致报出来（不许两处各写一套还互相以为在跑）。
+    # 卡契约 lint：cmd 里的 --out 必须等于 deliverable；缺 accept/deliverable 点名。
+    ("card_contract_check", ["Tools/fleet/card_contract_check.py"], 180, {0, 1, 2}, True),
+    # 自改：码龄不重载/空壳卡/缺依赖，本机自己修（回执固定路径，主控按盘验）。
+    ("self_improve", ["Tools/fleet/self_improve.py", "--node", NODE, "--apply",
+                      "--out", "cph4/fleet/queue-receipts/self-improve-%s-latest.json" % NODE],
+     300, {0, 1}, False),
+    # 分叉诊断：只报 ahead/behind 与真实文件数，绝不自动 reset（含真产物的分叉必须人判）。
+    ("fork_close", ["Tools/fleet/fork_close.py"], 600, {0, 1}, True),
+    # 常驻工具完整性：launchd/任务指向的脚本没了当场报警（实锚：load_watch.py 已删仍被调）。
+    ("tool_watch", ["Tools/fleet/tool_watch.py"], 600, {0, 1, 2}, True),
+    # 算力占用归因：占着 CPU/GPU 却没有产出，--seconds 压低避免与生产抢 IO。
+    ("useful_load", ["Tools/fleet/useful_load.py", "--seconds", "8"], 3600, {0, 1}, True),
+    # 每日只交 CEO 三件（规则排优先级，模型只写一句）。
+    ("ceo_three", ["Tools/fleet/ceo_three.py"], 86400, {0}, False),
     # 研究创新席（2026-11-02 CEO 令）：体检四席的边界与空转，顺手刷新 PROPOSALS.json
     # 供派单方择取。rc=2 是有违规的告警，不是工具坏，所以计入 ok_rc。
     ("ri", ["Tools/fleet/ri_dept.py", "check"], 60, {0, 2}, True),
