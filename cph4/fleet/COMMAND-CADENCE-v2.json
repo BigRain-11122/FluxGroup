@@ -548,6 +548,25 @@
    "output": "线状态变更 + 理由",
    "accept": "无僵尸线",
    "on_fail": "无产物却有产出声明 → 判假绿"
+  },
+  {
+   "id": "T31",
+   "domain": "方向",
+   "stage": "ceo_pilot",
+   "period_s": 1800,
+   "phase_s": 900,
+   "actor": "rule",
+   "action": "带做器：六源合一打分，只推一条（同题不刷屏）",
+   "input": [
+    "state/lines.json",
+    "队列",
+    "oss/STOCKPILE.json",
+    "state/demand-audit.json",
+    "state/alerts.json"
+   ],
+   "output": "cph4/fleet/CEO-NEXT.md",
+   "accept": "有 top 且带 why/action/done_check 三段",
+   "on_fail": "无候选时明确写「没有需要你做的事」，不许空文件"
   }
  ],
  "schedule_rules": {
