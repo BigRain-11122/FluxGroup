@@ -1,14 +1,14 @@
 {
  "node": "bm-c",
- "ts": "2026-11-06T10:45:16",
+ "ts": "2026-11-06T10:49:00",
  "jobs": [
   {
-   "id": "OPS-CLOCK-RESYNC-BMC-20261105",
-   "title": "????+??????w32time ???/resync ???@bm-c",
-   "cmd": "python Tools/fleet/clock_resync.py --out K:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/clock-resync-bm-c.json",
-   "cwd": "K:/Fluxgroup/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "K:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/clock-resync-bm-c.json",
+   "id": "OPS-CLOCK-RESYNC-BMB-20261105",
+   "title": null,
+   "cmd": null,
+   "cwd": null,
+   "needs": null,
+   "deliverable": null,
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 2.6/1.0 GB"
+ "capacity_note": "ram 2.7/1.0 GB"
 }

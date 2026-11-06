@@ -1,14 +1,80 @@
 {
  "node": "bm-m",
  "date": "20261106",
- "ts": "2026-11-06T10:42:12+0800",
+ "ts": "2026-11-06T10:48:58+0800",
  "window_h": 26,
  "produced": [
   {
    "path": "cph4/fleet/queue-receipts/skill-promote-20261106.json",
    "bytes": 2172,
-   "mtime": "2026-11-06T10:42:12",
-   "sha": "02b161b6dbe7f883a7fdbc2be68d477209ddf64fda948a9196093d93e08e8634"
+   "mtime": "2026-11-06T10:48:58",
+   "sha": "3c87def14b15635b27c907b53cc7d36d7b380a2cd66db7aa6110dc2b34379957"
+  },
+  {
+   "path": "media/asset/characters/CH07/PROMPTS.json",
+   "bytes": 12437,
+   "mtime": "2026-11-06T10:43:31",
+   "sha": "0c57b34ece5452d52577c1c27deed560f9424126cf8f8451a2a7fb5c93a54122"
+  },
+  {
+   "path": "media/asset/characters/CH08/PROMPTS.json",
+   "bytes": 12911,
+   "mtime": "2026-11-06T10:43:31",
+   "sha": "3215955cd5f90746fb0002b1612d5e2c0968408966a00caf22de3061ef97d160"
+  },
+  {
+   "path": "media/asset/characters/CH06/PROMPTS.json",
+   "bytes": 12480,
+   "mtime": "2026-11-06T10:43:31",
+   "sha": "774e4b17fa779175dfa95d6dea913b4b928b00eeb73185ebb2ff00531ef110fa"
+  },
+  {
+   "path": "media/asset/characters/CH01/PROMPTS.json",
+   "bytes": 12656,
+   "mtime": "2026-11-06T10:43:31",
+   "sha": "ddd18997b62b54713ab348f3db04ba2b8aaa59591121c8962e4b738806a04b3e"
+  },
+  {
+   "path": "media/asset/characters/CH04/PROMPTS.json",
+   "bytes": 12818,
+   "mtime": "2026-11-06T10:43:31",
+   "sha": "c6e6baa3b71303ba48f207dbc099d248d26028ea2c254665b8f1bef01c0cae61"
+  },
+  {
+   "path": "media/asset/characters/CH03/PROMPTS.json",
+   "bytes": 13181,
+   "mtime": "2026-11-06T10:43:31",
+   "sha": "8e984341ace80dc7b24f375335ea24268b6efdcb7f5db2ad60a2588f2efb3ee1"
+  },
+  {
+   "path": "media/asset/characters/CH02/PROMPTS.json",
+   "bytes": 13541,
+   "mtime": "2026-11-06T10:43:31",
+   "sha": "f4539a9692486f4f1dd6c5f61b197a9af0e1c47a2064ce20c46f635c82cb82d7"
+  },
+  {
+   "path": "media/asset/characters/CH05/PROMPTS.json",
+   "bytes": 12341,
+   "mtime": "2026-11-06T10:43:31",
+   "sha": "31ee021c8edcc3438d266d98de406ac543164d0a93becd702a5235cd223c1513"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/model-radar-junshengsundemacbook-pro.local-20261106.json",
+   "bytes": 1148,
+   "mtime": "2026-11-06T10:43:25",
+   "sha": "1a647aad3d9eaeb8c78d7125d6d3f9006d43707d46862ffbea606d7590404dc4"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/inference-audit-bm-m-20261106.json",
+   "bytes": 1636,
+   "mtime": "2026-11-06T10:43:21",
+   "sha": "590a09801b7a78f30992aa506a189a106c876d6f36c2e97a37dc083fb5650b4d"
+  },
+  {
+   "path": "cph4/fleet/queue-receipts/biz-mv-publish-checklist-20261106.md",
+   "bytes": 2115,
+   "mtime": "2026-11-06T10:42:38",
+   "sha": "5cea620bb16e0b8af5be4539cd109f4b7d9259d932225a27a951dcedf98b36cd"
   },
   {
    "path": "cph4/fleet/queue-receipts/voice-corpus-bmc-20261105b.json",
@@ -495,64 +561,20 @@
    "bytes": 4574,
    "mtime": "2026-11-06T10:40:19",
    "sha": "c43f8edffcb1a83dc516633cfb9a29e10af8fbe24f7a4f95489f1134a4edb4ea"
-  },
-  {
-   "path": "media/asset/characters/CH07/PROMPTS.json",
-   "bytes": 12437,
-   "mtime": "2026-11-06T00:07:34",
-   "sha": "0c57b34ece5452d52577c1c27deed560f9424126cf8f8451a2a7fb5c93a54122"
-  },
-  {
-   "path": "media/asset/characters/CH08/PROMPTS.json",
-   "bytes": 12911,
-   "mtime": "2026-11-06T00:07:34",
-   "sha": "3215955cd5f90746fb0002b1612d5e2c0968408966a00caf22de3061ef97d160"
-  },
-  {
-   "path": "media/asset/characters/CH06/PROMPTS.json",
-   "bytes": 12480,
-   "mtime": "2026-11-06T00:07:34",
-   "sha": "774e4b17fa779175dfa95d6dea913b4b928b00eeb73185ebb2ff00531ef110fa"
-  },
-  {
-   "path": "media/asset/characters/CH01/PROMPTS.json",
-   "bytes": 12656,
-   "mtime": "2026-11-06T00:07:34",
-   "sha": "ddd18997b62b54713ab348f3db04ba2b8aaa59591121c8962e4b738806a04b3e"
-  },
-  {
-   "path": "media/asset/characters/CH04/PROMPTS.json",
-   "bytes": 12818,
-   "mtime": "2026-11-06T00:07:34",
-   "sha": "c6e6baa3b71303ba48f207dbc099d248d26028ea2c254665b8f1bef01c0cae61"
-  },
-  {
-   "path": "media/asset/characters/CH03/PROMPTS.json",
-   "bytes": 13181,
-   "mtime": "2026-11-06T00:07:34",
-   "sha": "8e984341ace80dc7b24f375335ea24268b6efdcb7f5db2ad60a2588f2efb3ee1"
-  },
-  {
-   "path": "media/asset/characters/CH02/PROMPTS.json",
-   "bytes": 13541,
-   "mtime": "2026-11-06T00:07:34",
-   "sha": "f4539a9692486f4f1dd6c5f61b197a9af0e1c47a2064ce20c46f635c82cb82d7"
-  },
-  {
-   "path": "media/asset/characters/CH05/PROMPTS.json",
-   "bytes": 12341,
-   "mtime": "2026-11-06T00:07:34",
-   "sha": "31ee021c8edcc3438d266d98de406ac543164d0a93becd702a5235cd223c1513"
   }
  ],
  "blocked": [
+  {
+   "what": "bigstream-mv-gate-2026-11-06",
+   "why": "E-UNKNOWN "
+  },
   {
    "what": "R-NEXT-BIGGAME-SUBMIT-P-20261105",
    "why": "E-CONTRACT products=36 ready=0 not_ready=36\n  缺 图标≥256px                     35 款\n  缺 截图目录("
   },
   {
-   "what": "R-NEXT-BIGSTREAMM-AUDIT-20261105",
-   "why": "E-UNKNOWN "
+   "what": "_last_lane_bm-m.json",
+   "why": "rc=None "
   },
   {
    "what": "Q-VCORP-PREP-e01-R3-20261105",
@@ -565,10 +587,6 @@
   {
    "what": "VER-C-194502",
    "why": "E-TIMEOUT "
-  },
-  {
-   "what": "asset-lib-voice-corpus-bmb-2026-11-03",
-   "why": "E-UNKNOWN 没有 ffmpeg（rc=1）\n"
   }
  ],
  "job": null

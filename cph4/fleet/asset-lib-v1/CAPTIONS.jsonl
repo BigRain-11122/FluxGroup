@@ -1,34 +1,27 @@
 {
- "ts": "2026-11-05T19:09:13",
+ "ts": "2026-11-06T10:49:04",
  "dir": "/Volumes/移动硬盘/FluxAssets/store",
  "model": "qwen3.5:4b-mlx",
  "trigger": "",
- "pending": 3,
+ "pending": 2,
  "written": 0,
  "rejected": [
   [
-   "dc18b30222c205a301849279161d7fd8f287d59ada1854598d80685e95e44a56.jpg",
-   "只命中 1 个可见属性，像空话",
-   "Ancient stone stele with cuneiform inscriptions, illuminated by flickering torches in a dimly lit chamber."
-  ],
-  [
    "dc26cb1f7d3275412e871054f7a4a540174d0bcc2c0d6538f7f227898459ba01.jpg",
-   "只命中 1 个可见属性，像空话",
-   "Three black minivans parked side by side on a concrete road with orange traffic cones nearby, under a clear sky."
+   "只命中 2 个可见属性，像空话",
+   "Three black minivans parked in a row on an asphalt track with orange cones, under a clear sky; below them, a factory sce"
   ],
   [
    "f122738913e824718c185fa8d117ded2215acace44c1313bdff80ce8b74857b4.png",
    "含疑似专名（引号+大写）",
-   "A dark blue screen with white text reading \"Sideways | Market x1.00\" and \"Expert: buying a home is like buying scallions"
+   "A dark blue screen with white text reading \"Sideways | Market x1.00\" and an expert quote about buying a home like scalli"
   ]
  ],
- "seconds": 45.2,
- "early_abort": "连续 3 张被拒且 0 成功，判提示词/判据不匹配",
- "per_image_s": 15.1,
+ "seconds": 10.8,
+ "per_image_s": 5.4,
  "verdict": "FAIL",
  "gaps": [
-  "一条都没写成功，看 rejected 的原因",
-  "连续 3 张被拒且 0 成功，判提示词/判据不匹配"
+  "一条都没写成功，看 rejected 的原因"
  ],
  "status": "FAIL"
 }
