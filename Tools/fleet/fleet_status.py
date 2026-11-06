@@ -25,6 +25,7 @@ Exit: 0 全健康｜1 有死卡/假忙（告警）｜2 有 owner 缺失（已退
 import argparse
 import json
 import os
+import subprocess
 import sys
 import time
 from datetime import datetime
@@ -116,6 +117,23 @@ def main(argv):
                          "deliverable_bytes": d.get("deliverable_bytes"),
                          "state": d.get("state")}
 
+    # 2026-11-05 实测：bm-b 心跳正常（16s）但 22 小时没有产出——心跳在线 ≠ 在干活。
+    # 判"这台机还能不能接活"必须看它最后一次提交/产物的年龄，而不是心跳。
+    def _last_output_h(node):
+        try:
+            out = subprocess.run(["git", "-C", ROOT, "log", "-1", "--format=%ct",
+                                  "--grep=via %s" % node],
+                                 capture_output=True, text=True, timeout=15).stdout.strip()
+            return round((time.time() - int(out)) / 3600.0, 1) if out else 999.0
+        except Exception:
+            return 999.0
+
+    workers = {}
+    for n in ("bm-a", "bm-b", "bm-c", "bm-m"):
+        h = _last_output_h(n)
+        workers[n] = {"last_output_h": h,
+                      "verdict": "OK" if h <= 6 else "STALE-WORKER"}
+
     # 逐卡判活
     detail, dead, fake = [], [], []
     by_owner = {}
@@ -144,7 +162,12 @@ def main(argv):
             verdict = "NO-HEARTBEAT"
         elif not grew:
             verdict = "NO-PROGRESS"
-        if verdict == "UNOWNED":
+        # 2026-11-05 CEO「现在的状态等待」：卡被派给已停产的机器（>6h 无产出）时，
+        # 心跳可能还是"新鲜"的，但活永远不来。这种必须回收，否则机器恢复前一直挂着。
+        _wv = (workers.get(owner) or {}).get("verdict") if owner else None
+        if owner and _wv == "STALE-WORKER":
+            dead.append((r, "owner is stale-worker (>6h no output)"))
+        elif verdict == "UNOWNED":
             dead.append((r, "no-owner"))
         elif verdict.startswith("NO-STATUS"):
             pass   # 只记录不判死：等生产机升级回传腿
@@ -161,7 +184,7 @@ def main(argv):
                   for n in set(list(slots) + list(by_owner))}
     out = {"ts": datetime.now().isoformat(timespec="seconds"),
            "running_total": len(running), "dead": len(dead), "fake_busy": len(fake),
-           "nodes": nodes, "slots": slots_view, "cards": detail,
+           "nodes": nodes, "slots": slots_view, "workers": workers, "cards": detail,
            "open_total": sum(1 for r in cards if r.get("state") == "OPEN"),
            "verdict": "GREEN" if not dead and not fake else "RED"}
 
@@ -195,7 +218,10 @@ def main(argv):
               % (out["verdict"], out["running_total"], out["dead"], out["fake_busy"],
                  out["open_total"]))
         for n, v in sorted(slots_view.items()):
-            print("  %-5s %d/%d 槽" % (n, v["running"], v["slots"]))
+            w = workers.get(n) or {}
+            print("  %-5s %d/%d 槽｜最后产出 %.1fh 前 %s"
+                  % (n, v["running"], v["slots"], w.get("last_output_h", -1),
+                     "" if w.get("verdict") == "OK" else "← STALE"))
         for r, why in dead[:6]:
             print("  死卡 %s ← %s" % (r["id"], why))
         for r, why in fake[:4]:

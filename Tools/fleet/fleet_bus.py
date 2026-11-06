@@ -41,6 +41,16 @@ def _write(subject, payload):
         return None
     ts = datetime.now().isoformat(timespec="seconds")
     data.setdefault("received_at", ts)
+    # 完工回执单独落盘：状态件会被后续 IDLE 覆盖，回执必须留得住。
+    if data.get("job") and data.get("rc") is not None:
+        try:
+            rd = os.path.join(ST, "remote-receipts")
+            os.makedirs(rd, exist_ok=True)
+            rp = os.path.join(rd, "%s-%s.json" % (data.get("job"), data.get("node") or "?"))
+            with open(rp, "w", encoding="utf-8") as f:
+                json.dump(data, f, ensure_ascii=False, indent=1)
+        except Exception:
+            pass
     if key.startswith("lane.result."):
         node = key.split(".", 2)[-1]
         d = os.path.join(ST, "lane-status")

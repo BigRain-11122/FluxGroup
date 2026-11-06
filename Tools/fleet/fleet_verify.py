@@ -90,7 +90,7 @@ def run_local(cid):
                             False, only=cid) or {}
 
 
-def case_A(res):
+def case_A(res, rep=1):
     cid = "VER-A-%s" % datetime.now().strftime("%H%M%S")
     out = os.path.join(TMP, cid + ".json")
     put([card(cid, "python3 -c \"import json,os;os.makedirs('%s',exist_ok=True);"
@@ -99,10 +99,10 @@ def case_A(res):
     time.sleep(1)
     st = state_of(cid)
     ok = st.get("state") == "DONE" and os.path.exists(os.path.join(ROOT, card(cid, "")["deliverable"]))
-    res.append(("A 短卡全链", ok, "state=%s 产物=%s" % (st.get("state"), os.path.exists(out))))
+    res.append(("A 短卡全链 #%d" % rep, ok, "state=%s 产物=%s" % (st.get("state"), os.path.exists(out))))
 
 
-def case_B(res):
+def case_B(res, rep=1):
     cid = "VER-B-%s" % datetime.now().strftime("%H%M%S")
     out = os.path.join(TMP, cid + ".json")
     cmd = ("python3 -c \"import time,json,os;os.makedirs('%s',exist_ok=True);"
@@ -123,17 +123,19 @@ def case_B(res):
             break
     th.join(timeout=10)
     ok = len(set(seen)) >= 2 and len(bytes_seen) >= 2
-    res.append(("B 长卡心跳+可增进度", ok,
+    res.append(("B 长卡心跳+可增进度 #%d" % rep, ok,
                 "心跳=%d 次 字节档位=%s" % (len(set(seen)), sorted(bytes_seen)[:4])))
 
 
-def case_C(res):
+def case_C(res, rep=1):
     cid = "VER-C-%s" % datetime.now().strftime("%H%M%S")
     put([card(cid, "python3 -c \"import time;time.sleep(120)\"", minutes=5)])
     import threading
     th = threading.Thread(target=lambda: run_local(cid), daemon=True)
     th.start()
-    got = wait_for(lambda: str(lane_st("bm-m").get("job")) == cid, 30)
+    # 主控脉也可能同刻抢走这张卡：被谁跑都算"起来了"，只要它真的进入运行态
+    got = wait_for(lambda: str(lane_st("bm-m").get("job")) == cid
+                   or state_of(cid).get("state") == "RUNNING", 60)
     # 杀掉子进程，模拟机器失联/进程死
     subprocess.run(["pkill", "-f", "time.sleep(120)"], capture_output=True)
     time.sleep(3)
@@ -142,41 +144,43 @@ def case_C(res):
     deads = [c for c in (s.get("cards") or []) if c.get("id") == cid]
     released = state_of(cid).get("state")
     ok = bool(got) and (bool(deads) or released in ("OPEN", "FAILED", "CANCELLED"))
-    res.append(("C 中途被杀可判死", ok,
+    res.append(("C 中途被杀可判死 #%d" % rep, ok,
                 "心跳曾在=%s 汇总判定=%s 队列状态=%s"
                 % (got, (deads[0]["verdict"] if deads else "-"), released)))
 
 
-def case_D(res):
+def case_D(res, rep=1):
     cid = "VER-D-%s" % datetime.now().strftime("%H%M%S")
     put([card(cid, "python3 -c \"print(1)\"", requires=["cph4/fleet/does-not-exist-verify"])])
     r = run_local(cid)   # 输入缺失：应当不被执行
     st = state_of(cid)
     ok = not r.get("id") and st.get("state") not in ("RUNNING", "DONE")
-    res.append(("D 缺输入不执行", ok, "返回=%s 队列=%s" % (r.get("id"), st.get("state"))))
+    res.append(("D 缺输入不执行 #%d" % rep, ok, "返回=%s 队列=%s" % (r.get("id"), st.get("state"))))
 
 
-def case_E(res):
+def case_E(res, rep=1):
     cid = "VER-E-%s" % datetime.now().strftime("%H%M%S")
     out = os.path.join(TMP, cid + ".json")
     put([card(cid, "python3 -c \"import json,os;os.makedirs('%s',exist_ok=True);"
                    "json.dump({'ok':1},open('%s','w'))\"" % (os.path.relpath(TMP, ROOT), out),
-              nodes=["bm-b"])])
+              nodes=["bm-a", "bm-c"])])
     # 交给主控派单，看 bm-b 是否领取并回传
     subprocess.run([sys.executable, os.path.join(HERE, "master_agent.py"),
                     "--node", "bm-m", "--root", ROOT], cwd=ROOT, capture_output=True, timeout=180)
-    seen = False
+    seen, who = False, None
     t_wait = time.time()
     for _ in range(80):          # 2026-11-05 实测：远端领取有分钟级延迟，给 4 分钟窗口
         time.sleep(3)
-        st = lane_st("bm-b")
-        if str(st.get("job")) == cid:
-            seen = True
+        for n in ("bm-a", "bm-c", "bm-b"):
+            if str(lane_st(n).get("job")) == cid:
+                seen, who = True, n
+                break
+        if seen:
             break
     after = state_of(cid).get("state")
     ok = seen or after in ("RUNNING", "DONE")
-    res.append(("E 远端领取并回传", ok, "bm-b 心跳=%s 用时=%.0fs 队列=%s"
-                % (seen, time.time() - t_wait, after)))
+    res.append(("E 远端领取并回传 #%d" % rep, ok, "领取机=%s 用时=%.0fs 队列=%s"
+                % (who or "-", time.time() - t_wait, after)))
 
 
 def cleanup():
@@ -190,6 +194,7 @@ def cleanup():
 def main(argv):
     ap = argparse.ArgumentParser()
     ap.add_argument("--only", default="A,B,C,D,E")
+    ap.add_argument("--repeat", type=int, default=3, help="每形态重复次数（一遍不算数）")
     a = ap.parse_args(argv)
     os.makedirs(TMP, exist_ok=True)
     want = {x.strip().upper() for x in a.only.split(",") if x.strip()}
@@ -198,16 +203,26 @@ def main(argv):
     for k, fn in (("A", case_A), ("B", case_B), ("C", case_C), ("D", case_D), ("E", case_E)):
         if k not in want:
             continue
-        try:
-            fn(res)
-        except Exception as e:
-            res.append(("%s 异常" % k, False, str(e)[:120]))
+        for i in range(max(1, a.repeat)):
+            try:
+                fn(res, i + 1)
+            except Exception as e:
+                res.append(("%s 异常(#%d)" % (k, i + 1), False, str(e)[:120]))
     n = cleanup()
     ok_n = sum(1 for _, ok, _ in res if ok)
     print("[fleet-verify] %d/%d PASS  %.0fs  (清理 %d 张验证卡)"
           % (ok_n, len(res), time.time() - t0, n))
     for name, ok, why in res:
         print("  %s %-20s %s" % ("PASS" if ok else "FAIL", name, why))
+    try:
+        with open(os.path.join(ST, "fleet-verify.jsonl"), "a", encoding="utf-8") as f:
+            f.write(json.dumps({"ts": datetime.now().isoformat(timespec="seconds"),
+                                "repeat": a.repeat, "only": sorted(want),
+                                "pass": ok_n, "total": len(res),
+                                "results": [{"name": n, "ok": o, "why": w} for n, o, w in res]},
+                               ensure_ascii=False) + "\n")
+    except Exception:
+        pass
     return 0 if ok_n == len(res) else 2
 
 

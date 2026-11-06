@@ -135,11 +135,20 @@ def _fill_manifest(root, rows, have, node=None):
         _sp.loader.exec_module(_sd)
     except Exception:
         _sd = None
+    # 2026-11-05 实测闭环漏洞：卡失败后仍留在备队列，下一轮又被提成 OPEN，
+    # 于是唯一活着的机器整晚在同一张必败卡上空转。失败≥2 次或已判根因的 id 不许再提。
+    _failed = {}
+    for _x in rows + backlog:
+        if _x.get("state") == "FAILED" or _x.get("state") == "BLOCKED":
+            _failed[str(_x.get("id"))] = _failed.get(str(_x.get("id")), 0) + 1
     for r in backlog:
         jid = r.get("id")
         if not jid:
             continue
         if r.get("state") not in (None, "READY"):
+            continue
+        if _failed.get(str(jid), 0) >= 2:
+            report_note = True
             continue
         nodes = r.get("nodes")
         if node and nodes and node not in nodes:
