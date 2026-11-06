@@ -60,6 +60,9 @@ STAGES = [
     # 而主控侧没有角色负责"发现被禁并重新启用"，只能靠人记得 poke。这里每 60s 幂等检查一次：
     # 只处理 roster.enable_tasks 明示的任务、CEO 让路态整机跳过、只调既有 /poke 入口。
     ("executor_guard", ["Tools/fleet/executor_guard.py"], 60, {0, 2}, False),
+    # 状态面推送（2026-11-07）：队列/回执在独立 worktree 提交推送，绕开主工作树的手改/分叉。
+    # 没有这一腿，卡永远不在 origin 翻面，车道会把同一张卡一遍遍重跑（实测连跑 3 次）。
+    ("state_push", ["Tools/fleet/state_push.py"], 300, {0, 2}, False),
     # 报审台账（2026-11-07）：从盘上事实重建 50 款产品的四件套状态，产品级隐私政策缺了就补齐。
     # 一天一次足够；确定性、零 token，产物是可交付的台账而不是报告。
     ("submit_ledger", ["Tools/fleet/submit_ledger_fill.py", "--fill-privacy"], 86400, {0, 2}, False),
