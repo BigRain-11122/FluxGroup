@@ -1,0 +1,17 @@
+{
+ "id": "R-GPUWORK-20261105-001",
+ "node": "bm-m",
+ "rc": 0,
+ "seconds": 25.1,
+ "cmd": "",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-gpuwork-reply.md",
+ "deliverable_exists": true,
+ "ts": "2026-11-06T10:41:14",
+ "stdout_tail": "当前 **bm-b** 车道 GPU 可用数：0（当前利用率仅 3%，无空闲卡）。\n**缺口**：若需立即派发 ≥3 张卡，需调度外部或等待其他任务释放。\n**优先序建议**：\n1. **bigmoney·量化**（P1 恢复中）：数据席驻场，算力需求刚恢复，优先保障“下月持仓信号 CSV”产出。\n2. **bigstream-drama·漫剧**（P0/P3 混合）：画面/配音/混音均在 bm-b 队列，需 GPU 支持渲染，优先级高于其他离线线。\n3. **fleet-ops·机队运维**：处于“WORKING\"状态，需监控其 `DOCS-_报审提交区` 任务是否释放资源以转回量化或漫剧线。\n\n（注：无输入就绪清单；当前车道无可用 GPU 资源。）",
+ "stderr_tail": ""
+}

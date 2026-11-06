@@ -1,23 +1,23 @@
 {
  "node": "bm-b",
- "ts": "2026-11-05T19:57:14",
+ "ts": "2026-11-06T10:40:38",
  "jobs": [
   {
-   "id": "DOCS-_报审提交区",
-   "title": "隐私政策 _报审提交区",
-   "cmd": "python3 Tools/fleet/submit_docs.py --only _报审提交区",
+   "id": "Q-MV-ANCHOR-WORDS-DRAIN-20261106",
+   "title": "[MV 41 曲锚点线] whisper 词级锚全量排水：剩余 27 首（words 14→41/41，CPU 夜窗）",
+   "cmd": "python cph4/fleet/mv-album-001-jay/whisper_album.py && python cph4/fleet/mv-album-001-jay/lyric_calibration.py && python cph4/fleet/mv-album-001-jay/anchor_shotgrid.py --matrix",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "软著申请材料/_报审提交区/privacy-policy.md",
+   "deliverable": "cph4/fleet/mv-album-001-jay/POOL-0018-0019-anchor-matrix.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
    "when_all": [],
    "llm": null,
-   "timeout_s": null
+   "timeout_s": 21600
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 11.2/1.0 GB"
+ "capacity_note": "ram 10.6/1.0 GB"
 }

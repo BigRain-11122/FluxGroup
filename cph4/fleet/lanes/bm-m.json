@@ -1,23 +1,27 @@
 {
  "node": "bm-m",
- "ts": "2026-11-05T19:57:14",
+ "ts": "2026-11-06T10:40:38",
  "jobs": [
   {
-   "id": "DOCS-_已封存_盛永康旧软著",
-   "title": "隐私政策 _已封存_盛永康旧软著",
-   "cmd": "python3 Tools/fleet/submit_docs.py --only _已封存_盛永康旧软著",
-   "cwd": "",
+   "id": "R-GPUWORK-20261105-001",
+   "title": "主控 GPU 备单响应（CEO 令 2026-11-05「你本地gpu算力利用不充分，找主控要活」）",
+   "cmd": null,
+   "cwd": "/Users/junsheng.sun/FluxGroup",
    "needs": "cpu",
-   "deliverable": "软著申请材料/_已封存_盛永康旧软著/privacy-policy.md",
+   "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-gpuwork-reply.md",
    "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
+   "model": "local-small",
+   "prompt": "读 dispatcher/MASTER-STATE.json 的 lanes.bm-b（gpu_util_pct/容量）与 PRODUCTION-BACKLOG.jsonl 中 needs=gpu 且 nodes 含 bm-b 的 state=READY 行，写「GPU 备单回复」：①当前 bm-b 可立即派发的 GPU 卡 ≥3 张清单（id+输入就绪判定；不足则写明缺口）；②bm-b 车道 GPU 派单的优先序建议（对照 asset-lib 线）。≤15 行，不得编造文件外的事实。",
+   "when_all": [
+    "cph4/fleet/dispatcher/MASTER-STATE.json"
+   ],
+   "llm": {
+    "out": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-gpuwork-reply.md"
+   },
    "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 13.3/1.0 GB"
+ "capacity_note": "ram 13.2/1.0 GB"
 }

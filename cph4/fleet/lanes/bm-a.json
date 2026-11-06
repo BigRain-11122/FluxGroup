@@ -1,8 +1,23 @@
 {
  "node": "bm-a",
- "ts": "2026-11-05T19:53:29",
- "jobs": [],
- "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
- "lane_ok": true,
- "capacity_note": "ram 44.9/1.0 GB"
+ "ts": "2026-11-06T10:40:38",
+ "jobs": [
+  {
+   "id": "Q-MV-ANCHOR-WORDS-DRAIN-BMA-20261106",
+   "title": "[MV 41 曲锚点线] whisper 词锚排水（bm-a 代执行·剩余约 20 首）",
+   "cmd": "python cph4/fleet/mv-album-001-jay/whisper_album.py && python cph4/fleet/mv-album-001-jay/lyric_calibration.py && python cph4/fleet/mv-album-001-jay/anchor_shotgrid.py --matrix",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/mv-album-001-jay/POOL-0018-0019-anchor-matrix.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": 5400
+  }
+ ],
+ "idle_reason": "",
+ "lane_ok": false,
+ "capacity_note": "daytime heavy-yield (09:00-19:00); light CPU allowed"
 }
