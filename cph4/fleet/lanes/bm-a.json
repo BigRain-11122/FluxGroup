@@ -1,14 +1,14 @@
 {
  "node": "bm-a",
- "ts": "2026-11-07T01:35:18",
+ "ts": "2026-11-07T01:41:51",
  "jobs": [
   {
-   "id": "asset-lib-voice-corpus-bma-2026-11-07",
-   "title": "[资产储备（角色 LoRA / 音色库）] 音色语料工程·分片 0/4（bm-a，纯 CPU）",
-   "cmd": "python Tools/fleet/voice_corpus_prep.py --inbox media/asset/inbox --group batch-2026-11-07 --shard 0/4 --receipt cph4/fleet/queue-receipts/voice-corpus-bm-a-2026-11-07.json",
+   "id": "CHK-CANON-20261107",
+   "title": "五线认知基座一致性（工序段 id 与表同源）（bm-a 兜底体检）",
+   "cmd": "python3 Tools/fleet/line_canon.py --all",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/voice-corpus-bm-a-2026-11-07.json",
+   "deliverable": "",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 45.5/1.0 GB"
+ "capacity_note": "ram 35.3/1.0 GB"
 }
