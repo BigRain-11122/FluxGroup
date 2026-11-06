@@ -372,12 +372,17 @@ def commit_state(tracked: list[str], untracked: list[str], force=False, last_ts=
         # 判据改成内容比较：与 origin 相同就 checkout 归位（零损失），不同才算手改。
         real_hand = []
         for p in hand:
-            r = git(["diff", "--quiet", "origin/main", "--", p], timeout=30)
-            if r.returncode != 0:
+            # 三个方向必须分开（2026-11-07 实测两次都栽在这里）：
+            #   本地==origin        -> 假脏，放行走 autostash
+            #   本地缺 origin 的内容 -> 只是落后，直接对齐 origin（安全）
+            #   本地有 origin 没有的 -> 真手改，阻塞同步（绝不能 autostash，会藏起来）
+            r = git(["diff", "--numstat", "origin/main", "--", p], timeout=30)
+            parts = (r.stdout or "").split()
+            added = int(parts[0]) if parts and parts[0].isdigit() else 0
+            if added > 0:
                 real_hand.append(p)
-            # 内容等于 origin 的文件不阻塞同步：交给 pull 的 --autostash 吸收，
-            # fast-forward 之后它们自然与 HEAD 一致。绝不能 checkout——那会恢复
-            # 落后的 HEAD 版本，把文件变旧（2026-11-07 本机实测：改完后文件被回滚）。
+            elif parts:
+                git(["checkout", "origin/main", "--", p], timeout=30)
         hand = real_hand
     if hand:
         return "skipped:dirty(hand-edit %s)" % _one_line(hand[0], 60)
