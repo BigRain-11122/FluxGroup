@@ -366,6 +366,19 @@ def commit_state(tracked: list[str], untracked: list[str], force=False, last_ts=
         tracked = [p for p in tracked if p not in mem]
     hand = [p for p in tracked if not p.startswith(NONBLOCKING)]
     if hand:
+        # 假脏归位（2026-11-07 实测解死锁）：HEAD 落后于 origin 时，工作区文件内容
+        # 明明等于 origin，`git status` 仍报 M，于是脉把它当"手写改动"阻塞同步，
+        # 而真正的手写改动一个都没有——同步整夜停摆、push 连续被拒，报表全绿。
+        # 判据改成内容比较：与 origin 相同就 checkout 归位（零损失），不同才算手改。
+        real_hand = []
+        for p in hand:
+            r = git(["diff", "--quiet", "origin/main", "--", p], timeout=30)
+            if r.returncode == 0:
+                git(["checkout", "--", p], timeout=30)
+            else:
+                real_hand.append(p)
+        hand = real_hand
+    if hand:
         return "skipped:dirty(hand-edit %s)" % _one_line(hand[0], 60)
     # Only the dispatch channel is committed from now on. Reports (PULSE/SUPERVISOR/
     # BRAIN/DIGEST...) are gitignored runtime files: they are rewritten every cycle, and a
