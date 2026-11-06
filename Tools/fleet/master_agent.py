@@ -466,12 +466,40 @@ def lane_capacity(node, fleet, needs="cpu", vram_min=0, job=None):
     return ok, "ram %.1f/%.1f GB" % (float(ram), floor)
 
 
+_PAUSED_CACHE = {}
+
+
+def _paused_nodes():
+    """CEO 暂停窗内的机器集合（AUTONOMY-CONFIG nodes.<id>.paused_by_ceo）。
+
+    Why（2026-11-06 11:46 CEO 原话「我在工作」）：bm-a 被让路令暂停后，主控派单只看
+    needs/心跳，照样把生产卡派到 CEO 正在用的桌面机上。暂停必须是一等状态。
+    """
+    try:
+        cfg = os.path.join(os.path.dirname(os.path.dirname(HERE)),
+                           "cph4", "fleet", "AUTONOMY-CONFIG.json")
+        if not os.path.exists(cfg):
+            return set()
+        if "_ts" in _PAUSED_CACHE and time.time() - _PAUSED_CACHE["_ts"] < 60:
+            return _PAUSED_CACHE["s"]
+        d = json.load(open(cfg, encoding="utf-8"))
+        out = {k for k, v in (d.get("nodes") or {}).items()
+               if isinstance(v, dict) and v.get("paused_by_ceo")}
+        _PAUSED_CACHE.update({"s": out, "_ts": time.time()})
+        return out
+    except Exception:
+        return set()
+
+
 def choose_lane(job, fleet, busy):
     needs = job.get("needs") or "cpu"
     pref = job.get("nodes") or []
     cap = job.get("cap") or ("llm" if (job.get("model") or "") == "local-small" else None)
     vram_min = int(job.get("vram_min_gb") or 0)
     candidates = [n for n in fl.LANES if needs in fl.LANES[n]["needs"]]
+    _paused = _paused_nodes()
+    if _paused:
+        candidates = [n for n in candidates if n not in _paused]
     # hard_nodes = 真钉子（2026-11-03）：依赖本机私有服务（如 127.0.0.1:8188 的 ComfyUI）
     # 的卡必须在指定机上跑。nodes 只是偏好，hard_nodes 不许回落——否则卡会落到
     # 没有该服务的机器上，跑出"连不上"的假失败（实测 char-probe 落到主控即如此）。
