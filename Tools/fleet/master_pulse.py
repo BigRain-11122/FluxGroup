@@ -56,6 +56,10 @@ STAGES = [
     # 产物回传（2026-11-04）：基础设施动作按节拍跑，不进抢车道的队列排序。
     # 非 Windows 直接跳过；Windows 一天一次，产物落 cph4/fleet/artifacts/<node>/PUSHED.jsonl。
     ("artifact_push", ["Tools/fleet/artifact_push_stage.py"], 3600, {0, 1, 3}, False),
+    # 执行器守护（2026-11-06 夜实测）：bm-c 被执行器被本机机制禁回 Disabled 后，机队静默停产，
+    # 而主控侧没有角色负责"发现被禁并重新启用"，只能靠人记得 poke。这里每 60s 幂等检查一次：
+    # 只处理 roster.enable_tasks 明示的任务、CEO 让路态整机跳过、只调既有 /poke 入口。
+    ("executor_guard", ["Tools/fleet/executor_guard.py"], 60, {0, 2}, False),
     # SUPPLY FIRST (CEO 2026-11-01: 不许因为是"没人宣告"就闲置). Both declare-work seats
     # existed since 10-31 but were never wired into the pulse, so they only ran when a
     # human remembered - boxes idled with an empty backlog while the generators sat idle.
