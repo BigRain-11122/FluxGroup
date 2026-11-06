@@ -415,6 +415,23 @@ foreach ($t in $reqTasks) {
   try { Start-ScheduledTask -TaskName $ts; $woke += ($ts + ':WAKE') } catch { $woke += ($ts + ':wake-fail') }
 }
 
+# ---- v2.1 (2026-11-06): fork 可见性。ff-only 拉不动分叉时旧版只写一行 pull-fail 日志，
+# 于是「本机 HEAD 不在任何远端分支上」这件事实对主控完全不可见，要靠人花半天重新发现。
+# 这里把每个 repo 的 ahead/behind 一并塞进 status stamp（rollout L3 之外的第二道眼）。
+$forkInfo = [ordered]@{}
+try {
+  if ($node -and ($node.PSObject.Properties.Name -contains 'poke_repos')) {
+    foreach ($fr in @($node.poke_repos)) {
+      $fp = Join-Path $Root ([string]$fr)
+      if (-not (Test-Path (Join-Path $fp '.git'))) { continue }
+      $fbr = ''
+      try { $fbr = @(& $git -C $fp rev-parse --abbrev-ref HEAD 2>$null | ForEach-Object { [string]$_ })[0] } catch { }
+      if (-not $fbr -or $fbr -eq 'HEAD') { continue }
+      $cnt = @(& $git -C $fp rev-list --left-right --count ('HEAD...origin/' + $fbr) 2>$null | ForEach-Object { [string]$_ })
+      if ($cnt.Count -ge 1) { $forkInfo[[string]$fr] = ($cnt[0] + '/' + $fbr) }
+    }
+  }
+} catch { }
 # ---- stamp (repo HEADs for /status + dispatcher verification) ----
 $repoHeads = @{}
 try {
@@ -450,7 +467,7 @@ try {
   } catch { }
   $st = [ordered]@{ node = $NodeId; ts = (Get-Date -Format s); reason = $Reason
                     pulls = @($heads); wakes = @($woke); repo_heads = $repoHeads
-                    origin_main = $om; task_states = $taskStates }
+                    origin_main = $om; task_states = $taskStates; fork = $forkInfo }
   [IO.File]::WriteAllText($StampF, ($st | ConvertTo-Json -Depth 4 -Compress), (New-Object System.Text.UTF8Encoding($false)))
 } catch { }
 WK-Log 'worker-done' ('reason=' + $Reason + ' pull=' + ($heads -join ' ') + ' wake=' + ($woke -join ' '))
