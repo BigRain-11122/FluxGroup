@@ -205,8 +205,20 @@ def run_actions(cmd, root):
             out.append({"kind": kind, "ok": True})
         elif kind == "sync":
             run(["git", "-C", root, "fetch", "--quiet", "origin", "main"], timeout=120)
-            out.append({"kind": kind, "ok": True,
-                        "origin_main": run(["git", "-C", root, "rev-parse", "--short", "origin/main"])})
+            detail = {}
+            # fetch alone never clears a fork: the poke worker only merges --ff-only, so a
+            # box with local bookkeeping commits stays behind forever (bm-b: ahead 450 /
+            # behind 295). Close the fork here, but only when every ahead commit is
+            # bookkeeping - one real artifact commit and we refuse (fork_close decides).
+            try:
+                import fork_close
+                detail = fork_close.close_out(root=root, apply_=True, fetch=False)
+            except Exception as e:
+                detail = {"verdict": "E-CLOSE", "detail": str(e)[:200]}
+            out.append({"kind": kind, "ok": detail.get("verdict") in
+                        ("FF-OK", "CLOSED", "WOULD-CLOSE"),
+                        "origin_main": run(["git", "-C", root, "rev-parse", "--short", "origin/main"]),
+                        "fork": detail})
         else:
             out.append({"kind": kind, "ok": False, "note": "not-whitelisted"})
     return out
