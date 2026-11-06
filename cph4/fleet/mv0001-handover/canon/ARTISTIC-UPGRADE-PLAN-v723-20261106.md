@@ -63,5 +63,22 @@
 - 验收：①表演=时序帧差（反应延迟 3-8 帧）+眨眼存在+5 人静音盲评「他在做什么」≥4/5 一致（A/B 制：情绪词版 vs 八维版对照烧）；②运镜=加速度非恒定（缓入缓出）+ OPPOSE=0 + 与表演节拍对位；③转场=逐切点六门复跑+A 组逐项判据。
 - 出片：v724 装配 → 交付闸（--card 卡窗）+稳定性+逐镜+联系表六面审 → 导演签 → 呈 CEO。
 
+## 五、夜窗执行附录（交接面·2026-11-06 晚补）
+
+**KF 提取**（复用已签定妆帧=当前 take 首帧，保脸/构图零漂移）：
+```
+# A/B 三镜的 KF（其余 B/C 镜同法，源=mv_rebuild_v722.py 解析出的当前槽位源片）
+ffmpeg -y -i <源片> -frames:v 1 canon/kf-reburn-v723/<槽位>_kf.png
+```
+A/B 首批三镜源：D03b_direct_gaze_v5.mp4 / B01_weary_v5.mp4 / V718_S1_OPEN.mp4（均在 15 槽位恢复后的现行源，见 DIRECTOR-REVIEW-V723 §一表）。
+
+**工作流**：h3_i2v_local_480p_v4.json（试烧）/ h3_i2v_local_768p_v4.json（正片），模型家底见 mv-production 记忆 [2026-11-03]（H3 i2v 52.8G 全在 D:\AI\comfyui-krea）。ComfyUI 起服：Tools/mv-render-up.ps1 --listen（先 Set-ExecutionPolicy Process Bypass——PSSecurityException 判例）。
+
+**A/B 协议**（AI-ACTOR-PERFORMANCE-v2 §五）：同 KF 同模型同参数；A=情绪词版（如 "He looks weary, emotional"）；B=八维动作版（§二的行）。各烧 480P 一条 → 静音盲评（5 席：本机 4B 模型+多模态 2 眼+导演席）→ 记「猜出意图」比例。**B 未显著优于 A=方法不成立，回炉改法，禁直接放全波**。
+
+**词面纪律**：零否定词（preflight_gate 会拦）；意图（②）只进导演卡不进 i2v 词；一镜 1 主导情绪+≤2 微手势；时序词 ≥1（then/after/as）；C-组运镜用 H3 方括号语法（[slow push in] 等）且动机挂表演节拍（C1/C2/C3）。
+
+**夜窗顺序**：A/B 三镜 → 判定 → 过线则全波 B 组 10 镜+C 组 7 镜（约 4-5h GPU）→ v724 装配 → 闸+六面审 → 呈 CEO。不过线=如实回炉，禁烧全波。
+
 ---
 导演席 · 2026-11-06 · 承 CEO 三连令 · 消费方=夜窗重烧 runner+v724 装配
