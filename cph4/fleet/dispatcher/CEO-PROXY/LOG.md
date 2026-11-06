@@ -1149,3 +1149,4 @@ am_free 10GB / cpu_load 48%——bm-b 在跑量化轮而非闲着；缺的是本
 ②方法比结论重要：审计按「整行文本」比对，**行状态一改（OPEN→DONE/CANCELLED）就整行算消失**，所以 153 这个数字天然虚高。改用 id 级核对：把这 9 个提交里被删的整行逐条解析、取 id、与 origin 现行队列取差集 → **被删且仍不在 origin 的卡 = 0**；再抽验四个最可疑的（`CLOCK-RESYNC-bm-b/bm-c-20261106`、`Q-VCORP-TRAIN-PILOT-libritts-e01-R3`、`Q-VCORP-PREP-e01-R3`）全部在册；`PROBLEM-REGISTRY.md` 表头（BOM+标题）完好 22929B。
 ③故 R12-1 说的「队列损坏」=**可解析性/重复行**问题，不是丢卡；本班不动 origin 队列整文件（会与在写窗赛跑），只记豁免。
 ④本班至此收口：LOG 累计 6 笔（含 R13/R13-2 修正/R13-3/体检/雷达/末笔/本笔），POOL-0025 done，锚点线 41/41，队列闸与完整性闸双绿，锁已 touch。
+- 2026-11-07 00:19｜事件班（承载件触发 DL 00:01 五连旗）｜verdict=5 旗中 3 条是算法假旗（不看车道是否有 RUNNING/派单活、把等 CEO 物理件当断供、把 CPU 车道 GPU 空闲当整机空闲）→ 旗标重写后同类状态复跑仅剩 1 真旗（CLOCK-UNALIGNED old_schema=1）；落 31 份 <曲>-words.json 入库（上游只跟 10 份，卡 done 但产物没落仓）；补 3 张真维护单（bm-c 内存回收 / bm-c+bm-b 校时，均 nodes 钉机）；补 bm-b 认领壳执行腿；commit 8b114fe5b
