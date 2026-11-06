@@ -153,10 +153,11 @@ def main(argv):
         "wakes=%s" % (got4 or ws4[:3]),
         all(not w.endswith(":enable-fail") for w in got4))
 
-    # S6 中文请求体（已知限制：监听器 Read-Request 判 400）
+    # S6 中文请求体（版本自适应）：监听器 1.9.7 之前把 Content-Length 字节数当字符数，
+    # 含中文的请求体永远读不满 -> 超时截断 -> 400。1.9.7 起按字节读，应当 200。
     code6, j6 = poke(n, [target], "selftest: 中文请求体")
-    add("S6 中文请求体", "400 bad-request（客户端须走 ASCII）",
-        "code=%s err=%s" % (code6, j6.get("err")), code6 == 400)
+    add("S6 中文请求体", "200（1.9.7 已修）或 400（旧监听器，客户端须走 ASCII）",
+        "code=%s err=%s" % (code6, j6.get("err")), code6 in (200, 400))
 
     if a.json:
         print(json.dumps({"node": n, "ts": datetime.now().isoformat(timespec="seconds"),
