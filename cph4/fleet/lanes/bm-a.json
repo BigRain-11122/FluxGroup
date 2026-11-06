@@ -1,20 +1,20 @@
 {
  "node": "bm-a",
- "ts": "2026-11-06T10:44:15",
+ "ts": "2026-11-06T10:45:16",
  "jobs": [
   {
-   "id": "MV-ANCHOR-BATCH3-20261106",
-   "title": "[MV 41 曲锚点线] 第三批 7 首：扩单+歌词对齐+结构锚（ready 14→21/41）",
-   "cmd": "python cph4/fleet/mv-album-001-jay/lyric_calibration.py",
+   "id": "R-MODEL-RADAR-BMA-20261106",
+   "title": "本地模型日报·bm-a：扫上游新档+实测+按两条判据决定是否换档（已 1.9 天未跑）",
+   "cmd": "python Tools/fleet/model_radar.py run --node bm-a --idle-only --apply",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/mv-album-001-jay/anchors/POOL-0018-0019-anchor-matrix.json",
+   "deliverable": "cph4/fleet/queue-receipts/model-radar-bm-a-20261106.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
    "when_all": [],
    "llm": null,
-   "timeout_s": 7200
+   "timeout_s": 3600
   }
  ],
  "idle_reason": "",

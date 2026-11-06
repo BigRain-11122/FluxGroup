@@ -1,29 +1,29 @@
 {
- "ts": "2026-11-06T10:44:15",
- "cycle": 87,
+ "ts": "2026-11-06T10:45:16",
+ "cycle": 88,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-06T10:44:15",
+ "master_tick_ts": "2026-11-06T10:45:16",
  "queue": {
   "total": 1117,
-  "open": 21,
+  "open": 18,
   "running": 4,
-  "done": 414,
+  "done": 415,
   "failed": 26
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": -0.0,
-   "cpu_load_pct": 40,
-   "ram_free_gb": 75.4,
-   "gpu_util_pct": 0,
-   "job": "MV-ANCHOR-BATCH3-20261106",
+   "hb_age_s": 2.9,
+   "cpu_load_pct": 68,
+   "ram_free_gb": 58.7,
+   "gpu_util_pct": 18,
+   "job": "R-MODEL-RADAR-BMA-20261106",
    "last_result": {
-    "job": "Q-VCORP-PREP-e01-R3-20261105",
+    "job": "MV-ANCHOR-BATCH3-20261106",
     "state": "FAILED",
-    "rc": 2,
-    "ts": "2026-11-06T10:40:15",
+    "rc": 0,
+    "ts": "2026-11-06T10:45:16",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -34,11 +34,11 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 11.4,
-   "cpu_load_pct": 4,
-   "ram_free_gb": 10.5,
-   "gpu_util_pct": null,
-   "job": "OPS-CLOCK-RESYNC-BMB-20261105",
+   "hb_age_s": 37.0,
+   "cpu_load_pct": 12,
+   "ram_free_gb": 11.4,
+   "gpu_util_pct": 3,
+   "job": "R-CROSSTALK-POST-20261106-001",
    "last_result": {
     "job": "asset-lib-library-check-2026-11-06",
     "state": "FAILED",
@@ -54,16 +54,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 64.2,
-   "cpu_load_pct": 10,
-   "ram_free_gb": 2.7,
-   "gpu_util_pct": 1,
-   "job": "asset-lib-char-gen-2026-11-06",
+   "hb_age_s": 43.5,
+   "cpu_load_pct": 7,
+   "ram_free_gb": 2.6,
+   "gpu_util_pct": 0,
+   "job": "OPS-CLOCK-RESYNC-BMC-20261105",
    "last_result": {
-    "job": "asset-lib-face-dataset-2026-11-06",
-    "state": "FAILED",
-    "rc": 1,
-    "ts": "2026-11-06T10:43:19",
+    "job": "asset-lib-char-gen-2026-11-06",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-06T10:44:45",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -75,15 +75,15 @@
   "bm-m": {
    "online": true,
    "hb_age_s": 1.2,
-   "cpu_load_pct": 26,
-   "ram_free_gb": 11.5,
+   "cpu_load_pct": 24,
+   "ram_free_gb": 11.8,
    "gpu_util_pct": null,
-   "job": "bigstream-mv-gate-2026-11-06",
+   "job": "R-CROSSTALK-SWEEP-20261105-001",
    "last_result": {
-    "job": "asset-lib-char-prompts-2026-11-06",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-06T10:43:36",
+    "job": "bigstream-mv-gate-2026-11-06",
+    "state": "FAILED",
+    "rc": 1,
+    "ts": "2026-11-06T10:44:41",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -108,12 +108,10 @@
    "stale_after_h": 24.0,
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
    "jobs": [
-    "MV-ANCHOR-BATCH3-20261106",
     "Q-MV-ANCHOR-WORDS-DRAIN-20261106",
     "Q-MV-ANCHOR-WORDS-DRAIN-BMA-20261106",
     "R-NEXT-BIGSTREAMM-GATE-20261106",
-    "R-NEXT-BIGSTREAMM-AUDIT-20261106",
-    "bigstream-mv-gate-2026-11-06"
+    "R-NEXT-BIGSTREAMM-AUDIT-20261106"
    ],
    "no_supply": false,
    "blockers": [
@@ -306,7 +304,6 @@
    "jobs": [
     "DOCS-_报审提交区",
     "VER-E-195423",
-    "OPS-CLOCK-RESYNC-BMB-20261105",
     "OPS-CLOCK-RESYNC-BMC-20261105",
     "FREE-MEM-DIAG-bm-c-20261106",
     "CHK-LIB-20261105"
@@ -315,7 +312,6 @@
    "blockers": [
     "DOCS-_报审提交区:no-lane",
     "VER-E-195423:no-lane",
-    "OPS-CLOCK-RESYNC-BMC-20261105:no-lane",
     "FREE-MEM-DIAG-bm-c-20261106:no-lane",
     "CHK-LIB-20261105:no-lane"
    ],
@@ -324,14 +320,12 @@
   "asset-lib": {
    "name": "资产储备·角色 LoRA 与音色库",
    "status": "ACTIVE",
-   "verdict": "WORKING",
+   "verdict": "WAITING",
    "age_h": null,
    "stale_after_h": 72.0,
    "owner": "资产席",
-   "jobs": [
-    "asset-lib-char-gen-2026-11-06"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": "CEO 2026-11-03：先储备资产，角色 LoRA 与音色库为 P0"
   }
@@ -868,12 +862,12 @@
    "LINE-LATE": 2,
    "RETRY": 1
   },
-  "added": 1,
+  "added": 0,
   "tick_tier": "none",
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 21,
+  "local": 18,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -881,20 +875,18 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 21,
+  "cpu": 18,
   "gpu": 0
  },
- "supply_added": [
-  "backlog_manifest+1"
- ],
+ "supply_added": [],
  "events": [
-  "asset-lib-library-check-2026-11-06 FAILED via bm-b",
-  "asset-lib-face-dataset-2026-11-06 FAILED via bm-c",
-  "asset-lib-char-prompts-2026-11-06 DONE via bm-m",
-  "asset-lib-char-gen-2026-11-06 -> bm-c (gpu)",
-  "OPS-CLOCK-RESYNC-BMB-20261105 -> bm-b (cpu)",
-  "MV-ANCHOR-BATCH3-20261106 -> bm-a (cpu)",
-  "bigstream-mv-gate-2026-11-06 -> bm-m (cpu)"
+  "MV-ANCHOR-BATCH3-20261106 FAILED via bm-a",
+  "asset-lib-char-gen-2026-11-06 DONE via bm-c",
+  "bigstream-mv-gate-2026-11-06 FAILED via bm-m",
+  "OPS-CLOCK-RESYNC-BMC-20261105 -> bm-c (cpu)",
+  "R-MODEL-RADAR-BMA-20261106 -> bm-a (cpu)",
+  "R-CROSSTALK-SWEEP-20261105-001 -> bm-m (cpu)",
+  "R-CROSSTALK-POST-20261106-001 -> bm-b (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
