@@ -68,10 +68,17 @@ def code_age_s():
 
 
 def newest_receipt_age_s():
+    """Age of the newest receipt written by real work - NOT by this tool.
+
+    度量不能自指（2026-11-05 铁律）: including self-improve receipts makes this check
+    read its own output and call a stale executor fresh forever.
+    """
     if not os.path.isdir(RECEIPT_DIR):
         return None
     newest = 0.0
     for f in os.listdir(RECEIPT_DIR):
+        if f.startswith("self-improve-"):
+            continue
         p = os.path.join(RECEIPT_DIR, f)
         if os.path.isfile(p):
             newest = max(newest, os.path.getmtime(p))
@@ -209,6 +216,12 @@ def check_deps(apply_):
         item["note"] = "env_selfheal unavailable: %s" % e
         return item
     missing = [t for t in env_selfheal.DEPS if not env_selfheal.have(t)]
+    # `python` is a Windows-only name; posix boxes ship `python3` and the executor
+    # already rewrites python3<->python both ways (lane_agent D-WIN-PY3). Reporting
+    # it missing on a Mac is a false alarm that would look like a real install fix.
+    if os.name != "nt" and "python3" in (os.environ.get("PATH") or "") and \
+            __import__("shutil").which("python3"):
+        missing = [t for t in missing if t != "python"]
     item["missing"] = missing
     if not missing:
         item["verdict"] = "OK"
@@ -219,7 +232,11 @@ def check_deps(apply_):
     healed = []
     for tool in missing:
         try:
-            healed.append({"tool": tool, "ok": bool(env_selfheal.ensure(tool, log=_quiet))})
+            # ensure() returns (ok, detail). Wrapping it in bool() made every install
+            # "succeed" (a non-empty tuple is always true) - the first bm-m run reported
+            # INSTALLED for a tool it never installed.
+            ok, detail = env_selfheal.ensure(tool, log=_quiet)
+            healed.append({"tool": tool, "ok": bool(ok), "detail": str(detail)[:200]})
         except Exception as e:
             healed.append({"tool": tool, "ok": False, "err": str(e)[:200]})
     item["acted"] = True
