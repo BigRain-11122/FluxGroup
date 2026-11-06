@@ -1,0 +1,32 @@
+{
+ "node": "bm-c",
+ "ts": "2026-11-06T23:45:22",
+ "mode": "apply",
+ "verdict": "SELF-OK",
+ "checks": [
+  {
+   "check": "reload",
+   "code_age_s": 14,
+   "receipt_age_s": 1,
+   "targets": [],
+   "acted": false,
+   "note": "executor produced a receipt after the last code edit",
+   "stale": false,
+   "verdict": "OK"
+  },
+  {
+   "check": "shells",
+   "cards": 1,
+   "shells": 0,
+   "ids": [],
+   "acted": false,
+   "verdict": "OK"
+  },
+  {
+   "check": "deps",
+   "missing": [],
+   "acted": false,
+   "verdict": "OK"
+  }
+ ]
+}
