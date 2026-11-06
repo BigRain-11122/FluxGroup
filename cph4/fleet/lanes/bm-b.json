@@ -1,23 +1,23 @@
 {
  "node": "bm-b",
- "ts": "2026-11-06T10:40:38",
+ "ts": "2026-11-06T10:42:15",
  "jobs": [
   {
-   "id": "Q-MV-ANCHOR-WORDS-DRAIN-20261106",
-   "title": "[MV 41 曲锚点线] whisper 词级锚全量排水：剩余 27 首（words 14→41/41，CPU 夜窗）",
-   "cmd": "python cph4/fleet/mv-album-001-jay/whisper_album.py && python cph4/fleet/mv-album-001-jay/lyric_calibration.py && python cph4/fleet/mv-album-001-jay/anchor_shotgrid.py --matrix",
+   "id": "asset-lib-library-check-2026-11-06",
+   "title": "[资产储备（角色 LoRA / 音色库）] 库体检（数量/规格/授权/缺口）",
+   "cmd": "python Tools/fleet/asset_library_check.py --tier p0 --out cph4/fleet/queue-receipts/asset-library-2026-11-06.json",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/mv-album-001-jay/POOL-0018-0019-anchor-matrix.json",
+   "deliverable": "cph4/fleet/queue-receipts/asset-library-2026-11-06.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
    "when_all": [],
    "llm": null,
-   "timeout_s": 21600
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 10.6/1.0 GB"
+ "capacity_note": "ram 9.5/1.0 GB"
 }
