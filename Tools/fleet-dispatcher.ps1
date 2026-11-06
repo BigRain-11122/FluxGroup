@@ -44,7 +44,11 @@ foreach ($c in $pool) { $statusById[[string]$c.id] = [string]$c.status }
 
 # ---- per-card pass: route / open / executable ----
 $open = @{}; $exec = @{}; $blocked = @{}
-foreach ($lane in @('bm-a', 'bm-b', 'bm-c')) { $open[$lane] = 0; $exec[$lane] = 0; $blocked[$lane] = 0 }
+$ceoWaits = @{}; $execRef = @{}; $execCmd = @{}; $busy = @{}
+foreach ($lane in @('bm-a', 'bm-b', 'bm-c')) {
+    $open[$lane] = 0; $exec[$lane] = 0; $blocked[$lane] = 0
+    $ceoWaits[$lane] = 0; $execRef[$lane] = @(); $execCmd[$lane] = 0
+}
 $needJudge = @(); $chase = @(); $blockedDetail = @()
 $hh = [int](Get-Date -Format 'HH')
 $isWeekend = ((Get-Date).DayOfWeek -eq [DayOfWeek]::Saturday) -or ((Get-Date).DayOfWeek -eq [DayOfWeek]::Sunday)
@@ -76,17 +80,60 @@ foreach ($c in $pool) {
     if (-not $why -and $c.deadline) { try { if ([datetime]::Parse([string]$c.deadline) -lt (Get-Date)) { $why = 'deadline-expired' } } catch { } }
     if (-not $why -and $lane -eq 'bm-a' -and $workWindow -and (Is-GpuCard (([string]$c.title) + ' ' + ([string]$c.spec)))) { $why = 'bm-a-workhour-gpu-yield' }
 
-    if ($why) { $blocked[$lane] = $blocked[$lane] + 1; $blockedDetail += ('{0}[{1}]' -f $c.id, $why) }
-    else { $exec[$lane] = $exec[$lane] + 1 }
+    if ($why) {
+        $blocked[$lane] = $blocked[$lane] + 1; $blockedDetail += ('{0}[{1}]' -f $c.id, $why)
+        # A card held by a CEO physical item is not a supply failure - it is a legitimate
+        # wait (zero-chase law). Counted apart so the flag can say WAITING-CEO, not STARVED.
+        if ($why -match 'CEO-PHYSICAL') { $ceoWaits[$lane] = $ceoWaits[$lane] + 1 }
+    }
+    else {
+        $exec[$lane] = $exec[$lane] + 1
+        if ($c.cmd) { $execCmd[$lane] = $execCmd[$lane] + 1 }
+        $jr = [string]$c.job_ref
+        if (-not $jr) { $jr = [string]$c.job_id }
+        if ($jr) { $execRef[$lane] = @($execRef[$lane]) + $jr }
+    }
 }
 
 # ---- production queue supply (the actual work source) ----
 $qOpen = 0; $qRun = 0; $qTotal = 0
+$runLane = @{}; $qState = @{}
+foreach ($lane in @('bm-a', 'bm-b', 'bm-c')) { $runLane[$lane] = 0 }
 if (Test-Path $queueF) {
     foreach ($line in @(Get-Content $queueF -Encoding UTF8 | Where-Object { $_ -match '\S' })) {
-        try { $r = $line | ConvertFrom-Json; $qTotal = $qTotal + 1; if ($r.state -eq 'OPEN') { $qOpen = $qOpen + 1 } elseif ($r.state -eq 'RUNNING') { $qRun = $qRun + 1 } } catch { }
+        try {
+            $r = $line | ConvertFrom-Json; $qTotal = $qTotal + 1
+            $qState[[string]$r.id] = [string]$r.state
+            if ($r.state -eq 'OPEN') { $qOpen = $qOpen + 1 }
+            elseif ($r.state -eq 'RUNNING') {
+                $qRun = $qRun + 1
+                # A lane with a RUNNING job of its own is busy with declared work. Before
+                # 2026-11-07 the flag ignored this and called every such lane STARVED.
+                $o = [string]$r.owner
+                if ($runLane.ContainsKey($o)) { $runLane[$o] = $runLane[$o] + 1 }
+            }
+        } catch { }
     }
 }
+# ---- lane-file work (the master's own assignment face) ----
+# queue RUNNING is not the only way a lane is busy: the master assigns through
+# cph4/fleet/lanes/<node>.json and lane_agent runs it without touching the shared queue.
+# Counting only queue rows made an assigned-and-running lane look starved (2026-11-07).
+# A lane file older than 30 minutes is stale and is NOT evidence of work.
+$laneJobs = @{}
+foreach ($lane in @('bm-a', 'bm-b', 'bm-c')) {
+    $laneJobs[$lane] = 0
+    $lf = Join-Path $root ('cph4\fleet\lanes\' + $lane + '.json')
+    if (Test-Path $lf) {
+        try {
+            $lj = Get-Content $lf -Raw -Encoding UTF8 | ConvertFrom-Json
+            $fresh = $true
+            if ($lj.ts) { try { $fresh = (((Get-Date) - [datetime]$lj.ts).TotalMinutes -lt 30) } catch { } }
+            if ($fresh) { $laneJobs[$lane] = @($lj.jobs).Count }
+        } catch { }
+    }
+}
+
 $lastClaim = ''
 if (Test-Path $claimF) {
     try { $lc = Get-Content $claimF -Raw -Encoding UTF8 | ConvertFrom-Json; $lastClaim = [string]$lc.state + '@' + [string]$lc.ts } catch { }
@@ -129,21 +176,45 @@ if ($clockOld -gt 0 -or $clockMissing -gt 0) {
 }
 
 # ---- flags ----
+# 2026-11-07 event round: five P1s repeated every 10 minutes for hours while the fleet was
+# demonstrably working. Three of them were the flag's own defects, not the fleet's:
+#   * STARVED-EXEC fired on a lane whose only open card was held by CEO-PHYSICAL, and on a
+#     lane that was at that moment RUNNING a declared job (owner+lane match).
+#   * IDLE-WITH-WORK used the GPU verdict on bm-b, whose lane is cpu-sound - a CPU job on a
+#     GPU-idle box is normal, not an idle machine.
+#   * A POOL card can be OPEN with a job_ref pointing at a FAILED/nonexistent job: it then
+#     counts as "executable work" forever while nothing can run. That is phantom supply.
 $idleBad = @('OFFLINE', 'SVC_DOWN', 'HB-STALE', 'GPU-IDLE', 'GPU-IDLE-WORK', 'BLOCKED-RAM')
+$gpuVerdictLanes = @('bm-a', 'bm-c')   # bm-b is cpu-sound: its GPU idleness says nothing
 foreach ($lane in @('bm-a', 'bm-b', 'bm-c')) {
     if ($verdicts[$lane] -eq 'OFFLINE' -or $verdicts[$lane] -eq 'SVC_DOWN' -or $verdicts[$lane] -eq 'HB-STALE') {
         $out += ('[{0}] FLAG LANE-DOWN lane={1} verdict={2} -> P1 page lane owner' -f $stamp, $lane, $verdicts[$lane])
     } elseif ($verdicts[$lane] -eq 'BLOCKED-RAM') {
         $out += ('[{0}] FLAG BLOCKED-RAM lane={1} -> P1 free memory before assigning' -f $stamp, $lane)
     }
-    if (($verdicts[$lane] -in @('GPU-IDLE', 'GPU-IDLE-WORK')) -and ($exec[$lane] -gt 0)) {
+    # phantom supply: cards count as executable but none has a leg that can actually run
+    $liveRefs = 0
+    foreach ($jr in @($execRef[$lane])) {
+        if ($jr -and $qState.ContainsKey($jr) -and $qState[$jr] -in @('OPEN', 'RUNNING')) { $liveRefs = $liveRefs + 1 }
+    }
+    if (($exec[$lane] -gt 0) -and ($execCmd[$lane] -eq 0) -and ($liveRefs -eq 0)) {
+        $out += ('[{0}] FLAG POOL-PHANTOM lane={1} exec_cards={2} live_legs=0 -> P1 card has no runnable job_ref (materialize a queue job or close it)' -f $stamp, $lane, $exec[$lane])
+    }
+    $busy[$lane] = $runLane[$lane] + $laneJobs[$lane]
+    if (($verdicts[$lane] -in @('GPU-IDLE', 'GPU-IDLE-WORK')) -and ($exec[$lane] -gt 0) -and ($busy[$lane] -eq 0) -and ($gpuVerdictLanes -contains $lane)) {
         $out += ('[{0}] FLAG IDLE-WITH-WORK lane={1} exec_cards={2} -> P1 claim now (work exists, machine idle)' -f $stamp, $lane, $exec[$lane])
     }
     if (($exec[$lane] -gt 0) -and ($capacity[$lane] -eq 0)) {
         $out += ('[{0}] FLAG CAPACITY-BLOCKED lane={1} exec_cards={2} dispatchable=0 -> P1 free capacity or reroute' -f $stamp, $lane, $exec[$lane])
     }
     if ($exec[$lane] -eq 0) {
-        $out += ('[{0}] FLAG STARVED-EXEC lane={1} open_cards={2} blocked={3} -> P1 supply failure: no executable card' -f $stamp, $lane, $open[$lane], $blocked[$lane])
+        if ($busy[$lane] -gt 0) {
+            # busy on declared work: no flag, the pools line already shows running=N
+        } elseif (($open[$lane] -gt 0) -and ($ceoWaits[$lane] -eq $open[$lane])) {
+            $out += ('[{0}] INFO WAITING-CEO lane={1} open={2} all CEO-physical -> registered, zero chase' -f $stamp, $lane, $open[$lane])
+        } else {
+            $out += ('[{0}] FLAG STARVED-EXEC lane={1} open_cards={2} blocked={3} running={4} -> P1 supply failure: no executable card' -f $stamp, $lane, $open[$lane], $blocked[$lane], $busy[$lane])
+        }
     }
 }
 if ($qOpen -eq 0) {
@@ -152,15 +223,16 @@ if ($qOpen -eq 0) {
 foreach ($ch in $chase) { $out += ('[{0}] FLAG CHASE {1} -> poke owner + escalate' -f $stamp, $ch) }
 foreach ($bd in $blockedDetail) { $needJudge += ('- {0} blocked: {1}' -f $bd, $stamp) }
 
+$flagN = @($out | Where-Object { $_ -match '\] FLAG ' }).Count
 $allGreen = $true
-foreach ($lane in @('bm-a', 'bm-b', 'bm-c')) { if ($exec[$lane] -le 0) { $allGreen = $false } }
+foreach ($lane in @('bm-a', 'bm-b', 'bm-c')) { if (($exec[$lane] -le 0) -and ($busy[$lane] -le 0)) { $allGreen = $false } }
 if ($qOpen -le 0) { $allGreen = $false }
-if ($out.Count -gt 0) { $allGreen = $false }
+if ($flagN -gt 0) { $allGreen = $false }
 if ($allGreen) {
     $out += ('[{0}] OK supply: bm-a={1} bm-b={2} bm-c={3} exec; queue_open={4}; lanes busy' -f $stamp, $exec['bm-a'], $exec['bm-b'], $exec['bm-c'], $qOpen)
 } else {
-    $out += ('[{0}] pools: bm-a={1}open/{2}exec bm-b={3}open/{4}exec bm-c={5}open/{6}exec; queue_open={7} run={8}; idle: a={9} b={10} c={11}; flags={12}' -f `
-        $stamp, $open['bm-a'], $exec['bm-a'], $open['bm-b'], $exec['bm-b'], $open['bm-c'], $exec['bm-c'], $qOpen, $qRun, $verdicts['bm-a'], $verdicts['bm-b'], $verdicts['bm-c'], $out.Count)
+    $out += ('[{0}] pools: bm-a={1}open/{2}exec/{3}run bm-b={4}open/{5}exec/{6}run bm-c={7}open/{8}exec/{9}run; queue_open={10} run={11} lanejobs: a={16} b={17} c={18}; idle: a={12} b={13} c={14}; flags={15}' -f `
+        $stamp, $open['bm-a'], $exec['bm-a'], $runLane['bm-a'], $open['bm-b'], $exec['bm-b'], $runLane['bm-b'], $open['bm-c'], $exec['bm-c'], $runLane['bm-c'], $qOpen, $qRun, $verdicts['bm-a'], $verdicts['bm-b'], $verdicts['bm-c'], $flagN, $laneJobs['bm-a'], $laneJobs['bm-b'], $laneJobs['bm-c'])
 }
 
 # ---- machine-readable state for idle-watch / rounds / dashboards ----
@@ -168,12 +240,12 @@ $state = [ordered]@{
     ts = (Get-Date).ToString('s')
     work_window = $workWindow
     lanes = [ordered]@{
-        'bm-a' = [ordered]@{ open = $open['bm-a']; exec = $exec['bm-a']; blocked = $blocked['bm-a']; dispatchable = $capacity['bm-a']; idle = $verdicts['bm-a'] }
-        'bm-b' = [ordered]@{ open = $open['bm-b']; exec = $exec['bm-b']; blocked = $blocked['bm-b']; dispatchable = $capacity['bm-b']; idle = $verdicts['bm-b'] }
-        'bm-c' = [ordered]@{ open = $open['bm-c']; exec = $exec['bm-c']; blocked = $blocked['bm-c']; dispatchable = $capacity['bm-c']; idle = $verdicts['bm-c'] }
+        'bm-a' = [ordered]@{ open = $open['bm-a']; exec = $exec['bm-a']; blocked = $blocked['bm-a']; ceo_wait = $ceoWaits['bm-a']; running = $runLane['bm-a']; lane_jobs = $laneJobs['bm-a']; dispatchable = $capacity['bm-a']; idle = $verdicts['bm-a'] }
+        'bm-b' = [ordered]@{ open = $open['bm-b']; exec = $exec['bm-b']; blocked = $blocked['bm-b']; ceo_wait = $ceoWaits['bm-b']; running = $runLane['bm-b']; lane_jobs = $laneJobs['bm-b']; dispatchable = $capacity['bm-b']; idle = $verdicts['bm-b'] }
+        'bm-c' = [ordered]@{ open = $open['bm-c']; exec = $exec['bm-c']; blocked = $blocked['bm-c']; ceo_wait = $ceoWaits['bm-c']; running = $runLane['bm-c']; lane_jobs = $laneJobs['bm-c']; dispatchable = $capacity['bm-c']; idle = $verdicts['bm-c'] }
     }
     queue = [ordered]@{ total = $qTotal; open = $qOpen; running = $qRun; last_claim = $lastClaim }
-    flags = $out.Count
+    flags = $flagN
 }
 $state | ConvertTo-Json -Depth 6 | Set-Content -Path $stateF -Encoding UTF8
 

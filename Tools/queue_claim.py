@@ -266,8 +266,12 @@ if a.pool or a.pool_list:
 sys.path.insert(0, os.path.join(ROOT, "Tools", "fleet"))
 try:
     from lane_agent import run_lane_cycle
-    if run_lane_cycle(a.node, ROOT, a.dry, a.allow_gpu_workhours):
+    lane_res = run_lane_cycle(a.node, ROOT, a.dry, a.allow_gpu_workhours)
+    if lane_res != "NO-JOBS":
         sys.exit(0)
+    # 2026-11-07: lane file exists but is empty and nothing self-dispatchable ->
+    # the shared queue is the last real supply. Without this the OPEN jobs never ran.
+    print("lane-mode: empty lane + nothing self-dispatchable -> falling back to shared queue")
 except Exception as _e:
     print("lane-mode skipped: %s" % str(_e)[:200])
 

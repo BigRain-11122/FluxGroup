@@ -955,7 +955,11 @@ def run_lane_cycle(node, root=None, dry=False, allow_gpu_workhours=False,
         publish(node, "IDLE", {"reason": reason}, hub, port)
         write_last(root, node, "IDLE", note=reason)
         print("LANE-IDLE %s :: %s" % (node, reason))
-        return True
+# NO-JOBS (2026-11-07): an empty lane file plus nothing self-dispatchable used to
+# return True, so queue_claim exited here and the shared PRODUCTION-QUEUE was never
+# read again - real OPEN jobs sat unclaimable for days. The lane is empty, not
+# sovereign: tell the caller so it may take a global OPEN job.
+        return "NO-JOBS"
 
     # 选卡（2026-11-05 全链路实测修）：原来只认 jobs[0]，而主控车道第一张常年是
     # 重卡或已关的卡——车道被一张跑不动的卡永久占住，队列有活却一动不动，后面
