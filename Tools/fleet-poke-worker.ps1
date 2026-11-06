@@ -382,6 +382,8 @@ try { $reqTasks = @((($TasksJson) | ConvertFrom-Json) | ForEach-Object { [string
 $reqTasks = @($reqTasks | Where-Object { $_ -and $_.Trim() -ne '' })
 $allow = @()
 if ($node -and ($node.PSObject.Properties.Name -contains 'wake_tasks')) { $allow = @($node.wake_tasks) | ForEach-Object { [string]$_ } }
+$enableAllow = @()
+if ($node -and ($node.PSObject.Properties.Name -contains 'enable_tasks')) { $enableAllow = @($node.enable_tasks) | ForEach-Object { [string]$_ } }
 foreach ($t in $reqTasks) {
   $ts = [string]$t
   if ($allow -notcontains $ts) { $woke += ($ts + ':deny'); continue }
@@ -395,7 +397,21 @@ foreach ($t in $reqTasks) {
   if ($task.State.ToString() -eq 'Running') { $woke += ($ts + ':busy-skip'); continue }
   # v1.3 (C-20261009-04): CEO freeze faces (design-state Disabled tasks) must not
   # be re-armed by a remote wake - same off-skip protection as the local sentinel.
-  if ($task.State.ToString() -eq 'Disabled') { $woke += ($ts + ':off-skip'); continue }
+  if ($task.State.ToString() -eq 'Disabled') {
+    # v2.0 (2026-11-06): 受控远端启用。off-skip 的本意是「一次意外 poke 不许把 CEO 冻结面拉起来」；
+    # 但执行器自己被执行层兜底禁用（silence-enforce wrap 失败即 disable）时，机队就永久停产且
+    # 主控无从到场（无 SSH、无 WinRM）。折中三条件同时成立才启用：①在 roster 的 enable_tasks 名单；
+    # ②reason 明写 enable-tasks（一次请求一处显式意图）；③启用与启动分开记账，全部落 wakes 留痕。
+    if (($enableAllow -contains $ts) -and ($Reason -like '*enable-tasks*')) {
+      try {
+        Enable-ScheduledTask -TaskName $ts -ErrorAction Stop | Out-Null
+        $woke += ($ts + ':REENABLED')
+        try { Start-ScheduledTask -TaskName $ts; $woke += ($ts + ':WAKE') } catch { $woke += ($ts + ':wake-fail') }
+      } catch { $woke += ($ts + ':enable-fail') }
+      continue
+    }
+    $woke += ($ts + ':off-skip'); continue
+  }
   try { Start-ScheduledTask -TaskName $ts; $woke += ($ts + ':WAKE') } catch { $woke += ($ts + ':wake-fail') }
 }
 

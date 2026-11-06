@@ -49,6 +49,10 @@ if ($quarkTask.Count -gt 0) {
 #     action into the group InvisibleRunner hidden chain (work preserved, window killed);
 #     fallback = disable. Every remediation is recorded in JSON for patrol.
 $vbsPath = Join-Path $PSScriptRoot 'InvisibleRunner.vbs'
+# 2026-11-06 根因修：本文件的兜底曾把执行器任务直接禁用（bm-a 六条 prod 循环 + 三机
+# HQ-ProductionClaim 全 Disabled），机队静默停产而心跳照常绿。静默只许「包裹」，永不
+# 「停产」：名单内任务 wrap 失败一律保留运行（宁可一次闪窗，不可一条线停一天）。
+$NeverDisable = @('HQ-ProductionClaim','BigStream-OSLoop','BigLife-OSLoop','BigDomain-OSLoop','FluxVerseTick','MiniGameEngineTick','Bigmoney-IterationLoop','Bigmoney-SaturationEngine','Bigmoney-ResidentDispatcher','Bigmoney-Autofill','Bigmoney-PoolWorker')
 foreach ($tk in (Get-ScheduledTask -ErrorAction SilentlyContinue)) {
     if ($tk.TaskPath -like '\Microsoft\*') { continue }
     if ($tk.State -eq 'Disabled') { continue }
@@ -72,7 +76,10 @@ foreach ($tk in (Get-ScheduledTask -ErrorAction SilentlyContinue)) {
     } catch {
         # Fail closed only where a window can actually appear (interactive principal).
         # Anything else keeps running: a disabled lane costs far more than one flash.
-        if ("$($tk.Principal.LogonType)" -match 'Interactive') {
+        if ($NeverDisable -contains [string]$tk.TaskName) {
+            $r.action = 'protected-kept'
+            $r.detail = $_.Exception.Message
+        } elseif ("$($tk.Principal.LogonType)" -match 'Interactive') {
             try { Disable-ScheduledTask -TaskPath $tk.TaskPath -TaskName $tk.TaskName | Out-Null; $r.action = 'disabled' }
             catch { $r.action = 'failed'; $r.detail = $_.Exception.Message }
         } else {
