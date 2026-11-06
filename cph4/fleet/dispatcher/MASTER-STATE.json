@@ -1,44 +1,36 @@
 {
- "ts": "2026-11-06T11:43:02",
- "cycle": 158,
+ "ts": "2026-11-06T14:08:41",
+ "cycle": 335,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-06T11:43:02",
+ "master_tick_ts": "2026-11-06T14:08:41",
  "queue": {
-  "total": 1129,
-  "open": 16,
+  "total": 1083,
+  "open": 15,
   "running": 3,
-  "done": 418,
-  "failed": 24
+  "done": 411,
+  "failed": 25
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 47.9,
-   "cpu_load_pct": 68,
-   "ram_free_gb": 20.7,
-   "gpu_util_pct": 55,
-   "job": "Q-MV-ANCHOR-WORDS-DRAIN-20261106",
-   "last_result": {
-    "job": null,
-    "state": "IDLE",
-    "rc": null,
-    "ts": "2026-11-06T11:40:06",
-    "reason": "DAY-YIELD: work machine, takes over at 19:00",
-    "out_bytes": null,
-    "elapsed_s": null
-   },
+   "hb_age_s": 26.9,
+   "cpu_load_pct": 5,
+   "ram_free_gb": 70.8,
+   "gpu_util_pct": 0,
+   "job": "OPS-CLOCK-RESYNC-BMB-20261105",
+   "last_result": null,
    "idle_confirmed": false,
    "idle_reason": "",
    "idle_rounds": 0
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 10.3,
-   "cpu_load_pct": 2,
-   "ram_free_gb": 10,
-   "gpu_util_pct": null,
-   "job": "OPS-CLOCK-RESYNC-BMB-20261105",
+   "hb_age_s": 56.8,
+   "cpu_load_pct": 13,
+   "ram_free_gb": 10.2,
+   "gpu_util_pct": 1,
+   "job": "Q-MV-ANCHOR-WORDS-DRAIN-20261106",
    "last_result": null,
    "idle_confirmed": false,
    "idle_reason": "",
@@ -46,10 +38,10 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 68.5,
-   "cpu_load_pct": 9,
-   "ram_free_gb": 1.6,
-   "gpu_util_pct": 0,
+   "hb_age_s": 66.9,
+   "cpu_load_pct": 8,
+   "ram_free_gb": 2.1,
+   "gpu_util_pct": 3,
    "job": "FREE-MEM-DIAG-bm-c-20261106",
    "last_result": null,
    "idle_confirmed": false,
@@ -58,14 +50,14 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 1.0,
-   "cpu_load_pct": 96,
-   "ram_free_gb": 13.2,
+   "hb_age_s": 2.1,
+   "cpu_load_pct": 100,
+   "ram_free_gb": 13.1,
    "gpu_util_pct": null,
    "job": null,
    "last_result": null,
    "idle_confirmed": false,
-   "idle_reason": "CAPACITY-BLOCKED-RAM CPU-SATURATED 96%",
+   "idle_reason": "CAPACITY-BLOCKED-RAM CPU-SATURATED 100%",
    "idle_rounds": 0
   }
  },
@@ -299,7 +291,7 @@
     "model": "local-gpu",
     "lane": "bm-c",
     "verdict": "STALLED",
-    "age_h": 88.3,
+    "age_h": 90.7,
     "limit_h": 24.0,
     "jobs": []
    },
@@ -311,7 +303,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "WAITING",
-     "age_h": 1.0,
+     "age_h": 3.4,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -322,7 +314,7 @@
      "model": "local-gpu",
      "lane": "bm-c",
      "verdict": "STALLED",
-     "age_h": 88.3,
+     "age_h": 90.7,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -344,7 +336,7 @@
      "model": "none",
      "lane": "bm-a",
      "verdict": "STALLED",
-     "age_h": 92.8,
+     "age_h": 95.2,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -366,7 +358,7 @@
      "model": "none",
      "lane": null,
      "verdict": "WAITING",
-     "age_h": 47.6,
+     "age_h": 50.0,
      "limit_h": 9999.0,
      "jobs": []
     }
@@ -382,7 +374,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "PARKED",
-     "age_h": 1.0,
+     "age_h": 3.4,
      "limit_h": 48.0,
      "jobs": []
     },
@@ -431,7 +423,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "PARKED",
-     "age_h": 161.0,
+     "age_h": 163.4,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -442,7 +434,7 @@
      "model": "local-gpu",
      "lane": "bm-c",
      "verdict": "PARKED",
-     "age_h": 161.0,
+     "age_h": 163.4,
      "limit_h": 72.0,
      "jobs": []
     }
@@ -458,7 +450,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "PARKED",
-     "age_h": 94.5,
+     "age_h": 96.9,
      "limit_h": 168.0,
      "jobs": []
     },
@@ -469,7 +461,7 @@
      "model": "none",
      "lane": "bm-a",
      "verdict": "PARKED",
-     "age_h": 161.0,
+     "age_h": 163.4,
      "limit_h": 168.0,
      "jobs": []
     }
@@ -483,7 +475,7 @@
     "model": "cloud-smart",
     "lane": null,
     "verdict": "STALLED",
-    "age_h": 66.4,
+    "age_h": 68.8,
     "limit_h": 24.0,
     "jobs": []
    },
@@ -495,7 +487,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "STALLED",
-     "age_h": 66.4,
+     "age_h": 68.8,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -569,7 +561,7 @@
     "model": "none",
     "lane": "bm-b",
     "verdict": "STALLED",
-    "age_h": 47.6,
+    "age_h": 50.0,
     "limit_h": 24.0,
     "jobs": []
    },
@@ -581,7 +573,7 @@
      "model": "none",
      "lane": "bm-b",
      "verdict": "STALLED",
-     "age_h": 47.6,
+     "age_h": 50.0,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -716,7 +708,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "PARKED",
-     "age_h": 87.8,
+     "age_h": 90.1,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -743,7 +735,7 @@
      "model": "none",
      "lane": "bm-a",
      "verdict": "WAITING",
-     "age_h": 1.0,
+     "age_h": 3.4,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -754,7 +746,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "WAITING",
-     "age_h": 1.0,
+     "age_h": 3.4,
      "limit_h": 72.0,
      "jobs": []
     }
@@ -770,7 +762,7 @@
      "model": "none",
      "lane": null,
      "verdict": "WAITING",
-     "age_h": 1.0,
+     "age_h": 0.8,
      "limit_h": 24.0,
      "jobs": []
     }
@@ -786,7 +778,7 @@
      "model": "rule",
      "lane": "bm-c",
      "verdict": "WAITING",
-     "age_h": 0.9,
+     "age_h": 3.3,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -808,7 +800,7 @@
      "model": "local-gpu",
      "lane": "bm-c",
      "verdict": "WAITING",
-     "age_h": 0.9,
+     "age_h": 3.3,
      "limit_h": 72.0,
      "jobs": []
     }
@@ -827,7 +819,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 16,
+  "local": 15,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -835,14 +827,14 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 16,
+  "cpu": 15,
   "gpu": 0
  },
  "supply_added": [],
  "events": [
-  "OPS-CLOCK-RESYNC-BMB-20261105 -> bm-b (cpu)",
+  "OPS-CLOCK-RESYNC-BMB-20261105 -> bm-a (cpu)",
   "FREE-MEM-DIAG-bm-c-20261106 -> bm-c (cpu)",
-  "Q-MV-ANCHOR-WORDS-DRAIN-20261106 -> bm-a (cpu)"
+  "Q-MV-ANCHOR-WORDS-DRAIN-20261106 -> bm-b (cpu)"
  ],
  "violations": [
   "bm-m CAPACITY-BLOCKED-RAM",
