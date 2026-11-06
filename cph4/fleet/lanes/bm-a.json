@@ -1,23 +1,8 @@
 {
  "node": "bm-a",
- "ts": "2026-11-07T01:10:38",
- "jobs": [
-  {
-   "id": "R-TRIAGE-FLEETOPS-BMA-20261107",
-   "title": "机队运维·端到端自检（平台服务线） 线证据扫描（bm-a 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line fleet-ops",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-fleet-ops-20261107.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  }
- ],
- "idle_reason": "",
+ "ts": "2026-11-07T01:15:01",
+ "jobs": [],
+ "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
  "lane_ok": true,
- "capacity_note": "ram 35.0/1.0 GB"
+ "capacity_note": "ram 38.9/1.0 GB"
 }
