@@ -203,9 +203,29 @@ def host_stats(node=None, root=None):
     try:
         stats["load1"] = round(os.getloadavg()[0], 2)
         # 2026-11-02: macOS 之前只有 load1、没有占用率，主控因此对 CPU 完全盲。
+        # 2026-11-06 修正：load1 含「不可中断 I/O 等待」，一个狂扫磁盘的系统进程就能把它顶到
+        # ≥核数 → 占用率恒 100% → 主控 CPU-SATURATED 闸停掉本机全部 CPU 活（实测 load 6.98/10
+        # 核=70% 而 ps 口径仅 13%，bm-m 车道整天 LANE-IDLE）。改用具名指标 cpu_busy_pct
+        # （实测忙占比），load1 原样保留供诊断；cpu_load_pct 仍写忙占比以免下游口径分裂。
         cores = os.cpu_count() or 1
         stats["cpu_cores"] = cores
-        stats["cpu_load_pct"] = int(round(100.0 * min(stats["load1"], cores) / cores))
+        busy = None
+        if os.name != "nt":
+            try:
+                out = subprocess.run(["ps", "-Ao", "pcpu="], capture_output=True,
+                                     text=True, timeout=10).stdout
+                tot = 0.0
+                for x in out.split():
+                    try:
+                        tot += float(x)
+                    except Exception:
+                        pass
+                busy = int(round(min(100.0, tot / cores)))
+            except Exception:
+                busy = None
+        stats["cpu_busy_pct"] = busy
+        stats["cpu_load_pct"] = (busy if busy is not None
+                                 else int(round(100.0 * min(stats["load1"], cores) / cores)))
     except Exception:
         pass
     try:
