@@ -687,8 +687,21 @@ def align_resident() -> str:
     want = ((pol.get("lane_local_llm") or {}).get("model")) or ""
     if not want:
         return "no-policy"
+    # 精确白名单，不用同族前缀（2026-11-07 实测事故）：三个模型都叫 qwen3*，
+    # 以 "qwen3" 前缀判同类 → 互相视为同类 → 一个都不卸，10.4GB 常驻。
+    keep = {want}
+    try:
+        with open(os.path.join(ROOT, "cph4", "fleet", "LOCAL-MODEL-POLICY.json"),
+                  encoding="utf-8") as f:
+            lp = (json.load(f).get("duties") or {})
+        for seat in ("resident", "embedding"):
+            m = ((lp.get(seat) or {}).get("model") or "").strip()
+            if m:
+                keep.add(m)
+    except Exception:
+        pass
     stray = [m.get("name") or m.get("model") for m in models
-             if not (m.get("name") or m.get("model") or "").startswith(want.split(":")[0])]
+             if (m.get("name") or m.get("model")) not in keep]
     for name in stray:
         try:
             urllib.request.urlopen(urllib.request.Request(
