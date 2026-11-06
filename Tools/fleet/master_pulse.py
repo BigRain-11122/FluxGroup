@@ -373,10 +373,11 @@ def commit_state(tracked: list[str], untracked: list[str], force=False, last_ts=
         real_hand = []
         for p in hand:
             r = git(["diff", "--quiet", "origin/main", "--", p], timeout=30)
-            if r.returncode == 0:
-                git(["checkout", "--", p], timeout=30)
-            else:
+            if r.returncode != 0:
                 real_hand.append(p)
+            # 内容等于 origin 的文件不阻塞同步：交给 pull 的 --autostash 吸收，
+            # fast-forward 之后它们自然与 HEAD 一致。绝不能 checkout——那会恢复
+            # 落后的 HEAD 版本，把文件变旧（2026-11-07 本机实测：改完后文件被回滚）。
         hand = real_hand
     if hand:
         return "skipped:dirty(hand-edit %s)" % _one_line(hand[0], 60)
