@@ -388,9 +388,27 @@ def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
     # 2026-11-05 远端实测（rc=9009）：Windows 没有 `python3` 这个命令，所有写
     # `python3 Tools/...` 的卡在 bm-a/b/b/c 全部 0 秒失败——机队"在跑但没产出"的根源。
     # 反向归一：本机没有 python3 但有 python 时改写；两个都没有则保留原命令让它报错（可见）。
-    if cmd.startswith("python3 ") and not _sh.which("python3") and _sh.which("python"):
-        cmd = "python " + cmd[len("python3 "):]
-        job["cmd_resolved"] = cmd
+    # 2026-11-06 二次实测（bm-c 复跑 SELF-IMPROVE 卡仍 rc=9009）：Windows 自带一个
+    # **商店占位别名** %LOCALAPPDATA%\Microsoft\WindowsApps\python3.exe——`which`
+    # 查得到，一执行就 9009（"不是可用的应用"）。所以"能不能解析"不等于"能不能跑"，
+    # 旧判据在这类机器上永远不改写，整队 python3 卡全部 0 秒失败。正解：Windows 上
+    # 只要 `python` 在就直接改写；解析不到时再退一步做真跑一次（-c print）验证。
+    def _runs(exe):
+        try:
+            return subprocess.run([exe, "-c", "import sys;sys.exit(0)"],
+                                  capture_output=True, timeout=15).returncode == 0
+        except Exception:
+            return False
+    if cmd.startswith("python3 "):
+        py = _sh.which("python")
+        if os.name == "nt" and py:
+            cmd = "python " + cmd[len("python3 "):]
+            job["cmd_resolved"] = cmd
+        else:
+            p3 = _sh.which("python3")
+            if p3 and py and not _runs(p3):
+                cmd = "python " + cmd[len("python3 "):]
+                job["cmd_resolved"] = cmd
     # CEO 2026-10-30 "缺什么让他自己装啊": self-heal the toolchain on THIS box, in the
     # lane's own process, before spending a claim on a command that cannot run.
     try:
