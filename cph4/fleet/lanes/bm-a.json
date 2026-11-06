@@ -1,23 +1,8 @@
 {
  "node": "bm-a",
- "ts": "2026-11-07T01:41:51",
- "jobs": [
-  {
-   "id": "CHK-CANON-20261107",
-   "title": "五线认知基座一致性（工序段 id 与表同源）（bm-a 兜底体检）",
-   "cmd": "python3 Tools/fleet/line_canon.py --all",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  }
- ],
- "idle_reason": "",
+ "ts": "2026-11-07T01:46:09",
+ "jobs": [],
+ "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
  "lane_ok": true,
- "capacity_note": "ram 35.3/1.0 GB"
+ "capacity_note": "ram 38.5/1.0 GB"
 }
