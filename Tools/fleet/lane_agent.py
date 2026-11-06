@@ -339,6 +339,19 @@ def _card_gate(row, root, node):
         return True, "gate-skipped:%s" % str(e)[:80]
 
 
+def _hub_post(path, payload, timeout=5):
+    """状态直推主控（tailnet HTTP，毫秒级）。失败一律吞掉：这条腿坏不许影响执行。"""
+    try:
+        import urllib.request as _u
+        host = os.environ.get("FLEET_HUB") or "http://100.75.133.10:8791"
+        req = _u.Request(host + path, data=json.dumps(payload).encode(),
+                         headers={"Content-Type": "application/json"})
+        with _u.urlopen(req, timeout=timeout) as r:
+            return r.status == 200
+    except Exception:
+        return False
+
+
 def _progress_every(root):
     try:
         with open(os.path.join(root, "cph4", "fleet", "AUTONOMY-CONFIG.json"),
@@ -543,12 +556,12 @@ def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
             try:
                 # out_bytes = 子进程已产出的 stdout 字节数。主控用它判"有没有新输出"，
                 # 光靠 elapsed_s 只能证明进程还在，卡死的进程也会一直报 elapsed。
-                fl.kv_put(fl.lane_result_key(node),
-                          {"node": node, "state": "BUSY", "job": jid,
-                           "elapsed_s": int(time.time() - t0),
-                           "out_bytes": int(_box.get("out_bytes") or 0),
-                           "ts": fl.now_iso()},
-                          host=hub, port=port)
+                _prog = {"node": node, "state": "BUSY", "job": jid,
+                         "elapsed_s": int(time.time() - t0),
+                         "out_bytes": int(_box.get("out_bytes") or 0),
+                         "ts": fl.now_iso()}
+                fl.kv_put(fl.lane_result_key(node), _prog, host=hub, port=port)
+                _hub_post("/status", _prog)
             except Exception:
                 pass
         rc = _box.get("rc", 125)
@@ -619,6 +632,11 @@ def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
     # rc!=0 is not always a failure (gate cards declare ok_rc:[0,1]); the card decides.
     # 2026-11-05 实测：远端 FAILED 时主控只收到"FAILED"三个字，原因留在对方盘上，
     # 于是永远无法科学处理。回执内容必须随状态一起上报（截断，几十字节级）。
+    _hub_post("/status", {"node": node, "state": "DONE" if ok else "FAILED", "job": jid,
+                          "rc": rc, "seconds": dur, "error_class": err_cls,
+                          "deliverable": deliverable, "deliverable_exists": dl_ok,
+                          "cmd": cmd[:300], "ts": fl.now_iso(),
+                          "stderr_tail": (err or "")[-600:], "stdout_tail": (out or "")[-400:]})
     publish(node, "DONE" if ok else "FAILED",
             {"job": jid, "rc": rc, "seconds": dur, "deliverable_exists": dl_ok,
              "error_class": err_cls, "outcome": "OK" if ok else "FAIL",
