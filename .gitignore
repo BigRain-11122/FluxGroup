@@ -236,3 +236,12 @@ media/asset/voice-models/
 media/review-720p/
 media/inbox/
 media/asset/inbox/
+
+# 2026-11-06 机队同步复盘：高频运行时状态不进 git（走 tailnet 直传 + 快照）
+# 判据：这些路径每天产生数百次提交，是分叉与冲突的唯一来源
+cph4/fleet/state/
+cph4/fleet/lanes/
+cph4/fleet/radar/
+cph4/fleet/chief/
+cph4/fleet/sync/
+cph4/fleet/memory-slim/
