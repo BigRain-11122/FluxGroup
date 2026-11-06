@@ -81,7 +81,7 @@ STAGES = [
     # 队列完整性闸（2026-11-04）：实测两张队列里出现过 12+4 行 git 冲突标记，而读队列的每个
     # 脚本都 try/except 跳过坏行 → 主控静默少看 21 张卡、没有一处报错。放在所有读写队列的
     # 阶段之前，快批每轮跑（14 个文件、约 0.1s）。rc=2 = 账本已脏，先修文件再派单。
-    ("qcheck", ["Tools/fleet/queue_integrity.py"], 60, {0, 2}, False),
+    ("qcheck", ["Tools/fleet/queue_integrity.py", "--reconcile"], 60, {0, 2}, False),
     ("night_fill", ["Tools/fleet/night_fill.py", "--target", "6"], 90, {0}, False),
     # 银行自动补料（2026-11-03，曾被并行会话的 STAGES 整表重写静默丢掉一次——重加并留痕）：
     # workgen 只认 bank 里现成的卡片，bank 空了机器就空转；本阶段按机器能力补体检活，
@@ -89,12 +89,16 @@ STAGES = [
     ("bank_autofill", ["Tools/fleet/bank_autofill.py", "--root", ROOT], 60, {0}, False),
     ("workgen", ["Tools/fleet/workgen.py", "--root", ROOT], 180, {0}, False),
     ("master", ["Tools/fleet/master_agent.py", "--node", NODE, "--root", ROOT], 240, {0}, False),
-    ("lane", ["Tools/fleet/lane_agent.py", "--node", NODE, "--root", ROOT, "--no-fetch"], 300, {0}, False),
+    ("lane", ["Tools/fleet/lane_agent.py", "--node", NODE, "--root", ROOT, "--no-fetch"], 120, {0}, False),
     # inventory exits 1 to say "a lane is STARVED"; that is an alert, not a tool failure.
     ("inventory", ["Tools/fleet/inventory_guard.py"], 120, {0, 1}, True),
     # 事实层（2026-11-02 FLUX OS v2）：先把磁盘事实与结构断言跑一遍，再谈派单。
     # census 写 state/lines.json（I14 与 metrics 都依赖它），因此放在慢批串行最前。
     ("census", ["Tools/fleet/census.py"], 180, {0}, True),
+    # 指挥一屏（CEO 2026-11-06「常驻本地模型列好高频自动化任务，代替我做各个指挥工作」）：
+    # 节奏表=COMMAND-CADENCE-v1.json，本阶段只做规则汇总（零 token），产出 COMMAND-BOARD.md。
+    # 必须排在 census 之后：它读 state/lines.json 的产出年龄，绝不自己算产出。
+    ("commander", ["Tools/fleet/commander.py"], 180, {0}, False),
     # 研究创新席（2026-11-02 CEO 令）：体检四席的边界与空转，顺手刷新 PROPOSALS.json
     # 供派单方择取。rc=2 是有违规的告警，不是工具坏，所以计入 ok_rc。
     ("ri", ["Tools/fleet/ri_dept.py", "check"], 60, {0, 2}, True),
@@ -140,13 +144,6 @@ STAGES = [
     # 云端日预算闸（CEO 2026-11-05「按日预算放开，硬上限 ¥100/天」）：每轮报余额；
     # rc=1 = 今天已用完（告警不是工具坏，计入 ok_rc）。任何上云调用先问这一站。
     ("budget", ["Tools/fleet/cloud_budget.py", "check"], 30, {0, 1}, True),
-    # CEO 令当轮进视野（他有时在别的机器下令）+ 当日时间轴 + 验收腿。
-    ("order_watch", ["Tools/fleet/order_watch.py"], 30, {0}, False),
-    # 解锁预案（CEO 2026-11-05「我办好了证件他们接下来做什么」）：每轮检测触发条件，
-    # 一触发就把后续活派下去；缺工具的步骤转决策，不造没有命令的卡。
-    ("unlock", ["Tools/fleet/unlock.py"], 30, {0}, False),
-    ("day_plan", ["Tools/fleet/day_plan.py"], 30, {0}, False),
-    ("verify_done", ["Tools/fleet/verify_done.py"], 120, {0}, True),
     ("gate", ["Tools/fleet/gate_report.py"], 180, {0}, True),
     ("checkups", ["Tools/fleet/checkups.py"], 180, {0, 2}, True),
     ("metrics", ["Tools/fleet/ops_metrics.py"], 90, {0}, True),
@@ -234,9 +231,6 @@ STAGES = [
      60, {0, 2}, True),
     ("autowork", ["Tools/fleet/autowork.py"], 240, {0}, True),
     ("closer", ["Tools/fleet/closer.py"], 60, {0}, True),
-    # 机队状态回传（2026-11-05 CEO「机队状态要及时回传主控」）：在 closer 之后跑，
-    # 把"谁在跑什么、有没有心跳、有没有真在动"汇成主控可判的事实；--act 把死卡退回。
-    ("fleet_status", ["Tools/fleet/fleet_status.py", "--act"], 60, {0, 1}, False),
     # 主控决策大脑（CEO 2026-11-05：规则大脑 + 四线四行）。它不是又一个报告：
     # 每轮给出四条 P0 线各自唯一的动作，并在 --act 下真的触发 closer/night_plan/workgen。
     # 放在 closer 之后，看到的是本轮的干净事实。
@@ -244,6 +238,9 @@ STAGES = [
     # 分层决策路由（CEO 2026-11-05「不是每个都要到你这里决策」）：按 decision-chain §0/§8
     # 给待决事项定级 L0-L3/CEO，各层带时限与兜底；只有真保留域才上屏给 CEO。
     ("decision_router", ["Tools/fleet/decision_router.py"], 60, {0}, True),
+    # 验收（CEO 2026-11-05「常驻智能体要监督/派单/验收」）：DONE≠做对。
+    # 对近 24h 的 DONE 卡做机器验收（空文件/坏 JSON/0 时长/拒答文稿）。
+    ("verify_done", ["Tools/fleet/verify_done.py"], 120, {0}, True),
     ("deadline", ["Tools/fleet/fleet_deadline.py"], 120, {0}, True),
     ("supervisor", ["Tools/fleet/fleet_supervisor.py"], 60, {0}, True),
     # One page that names the single decision that moves the fleet now, from disk facts
@@ -374,22 +371,6 @@ GENERATED = ("cph4/fleet/dispatcher/", "cph4/fleet/lanes/", "cph4/fleet/queue-re
              "cph4/fleet/vault/index.jsonl")
 
 
-
-def git_enabled():
-    """脉是否允许做 git 手术（rebase/merge/commit/push）。
-
-    2026-11-05 止血：脉每轮的 rebase/merge 会按远端版本覆盖人工会话的未提交工作与新建
-    文件（实测一天 4 次：order_watch.py 消失、--purge-meta 回退、配置段丢失）。
-    独立工作树落地之前，配置 git.mode=off 让脉只写工作区，同步交人工/专席。
-    """
-    try:
-        with open(os.path.join(ROOT, "cph4", "fleet", "AUTONOMY-CONFIG.json"),
-                  encoding="utf-8") as f:
-            return str(((json.load(f).get("git") or {}).get("mode") or "full")) != "off"
-    except Exception:
-        return True
-
-
 def _abort_stuck_rebase():
     """卡在中间的 rebase 是静默毒药，必须先清掉再谈同步。
 
@@ -399,6 +380,18 @@ def _abort_stuck_rebase():
     """
     if not _rebase_in_progress():
         return False
+    # 2026-11-05 事故（必须防）：rebase --abort 会把分支指回 rebase 开始前的 ref，
+    # 于是 rebase 期间刚做的提交不在任何分支上 = 静默丢失。实测一次 abort 让主控当天
+    # 6 个功能提交（AUTONOMY-CONFIG/master_loop/decision_router 等）全部掉链。
+    # 规则：abort 之前先把 HEAD 钉到 rescue ref，丢分支指向可以，丢对象不行。
+    try:
+        head = (git(["rev-parse", "HEAD"], timeout=30).stdout or "").strip()
+        if head:
+            ref = "rescue/rebase-abort-%s" % time.strftime("%Y%m%dT%H%M%S")
+            git(["branch", "-f", ref, head], timeout=60)
+            log("rescue: HEAD %s -> %s (abort 前留底)" % (head[:8], ref))
+    except Exception as e:
+        log("rescue-failed: %s" % str(e)[:80])
     git(["rebase", "--abort"], timeout=90)
     return True
 
@@ -459,8 +452,6 @@ def _restore_local_only_cards(keep):
 
 
 def rebase_generated():
-    if not git_enabled():
-        return "skipped:git-off"
     """分叉收口：只对"生成态文件"取远端版本，代码一律不动。
 
     为什么需要（2026-11-02 实测）：多机同时 push 时 fast-forward 必然失败，
@@ -547,8 +538,6 @@ def _rebase_in_progress():
 
 
 def pull_if_clean(last_ts=0.0) -> str:
-    if not git_enabled():
-        return "skipped:git-off"
     """Sync without ever letting a dirty worktree block the plane.
 
     Two hard-won rules (2026-11-02):
@@ -595,8 +584,6 @@ def pull_if_clean(last_ts=0.0) -> str:
 
 
 def push_if_ahead() -> str:
-    if not git_enabled():
-        return "skipped:git-off"
     """Other nodes read lanes from origin, so an unpushed dispatch is a silent no-op.
     Pushing does not need a clean tree (unlike rebase) - no stash, no loss."""
     try:
@@ -905,8 +892,6 @@ def main() -> int:
     slow_due = force_slow or (time.time() - float(prev.get("slow_ts") or 0) > SLOW_EVERY)
     git_note = "skipped" if no_pull else _one_line(
         pull_if_clean(last_snapshot_ts()), 120)
-    git_note = "skipped" if no_pull else _one_line(
-        pull_if_clean(last_snapshot_ts()), 120)
 
     global _LAST_HEAVY
     _LAST_HEAVY = float(prev.get("last_heavy_ts") or 0)
@@ -946,39 +931,27 @@ def main() -> int:
     SLOW_SERIAL = {"census", "inventory", "contingency", "solver", "line_agents",
                    # 2026-11-04 CEO「注意散热」：两类 GPU 重活必须串行，不许并发叠热
                    "mac_farm", "asset_prompts"}
-    # 瘦身 + 编辑锁（2026-11-05）：停掉没有消费者的纯报告阶段；人工手术期间只保留心跳。
-    # 阈值在 AUTONOMY-CONFIG.pulse，锁在 .codely-cli/tmp/EDITING.lock。
+    # 瘦身（CEO 2026-11-05「规则和流程空转」）：停掉没有消费者的纯报告阶段，
+    # 自检降频。阈值在 AUTONOMY-CONFIG.pulse，代码不写死。
     try:
-        with open(os.path.join(ROOT, "cph4", "fleet", "AUTONOMY-CONFIG.json"),
-                  encoding="utf-8") as _f:
-            _pol = (json.load(_f).get("pulse") or {})
+        _cfg = json.load(open(os.path.join(ROOT, "cph4", "fleet", "AUTONOMY-CONFIG.json"),
+                              encoding="utf-8"))
     except Exception:
-        _pol = {}
+        _cfg = {}
+    _pol = _cfg.get("pulse") or {}
     _off = set(_pol.get("disabled_stages") or [])
-    _every = int(_pol.get("canary_every_cycles") or 1)
-    if _every > 1:
+    if "canary" in {s[0] for s in STAGES}:
+        _every = int(_pol.get("canary_every_cycles") or 1)
+        _dir = os.path.join(ROOT, "cph4", "fleet", "state", "canary")
         try:
-            _cd = os.path.join(ROOT, "cph4", "fleet", "state", "canary")
-            _newest = max(os.path.getmtime(os.path.join(_cd, n)) for n in os.listdir(_cd))
-            if (time.time() - _newest) < _every * 18 * 60:
+            _newest = max(os.path.getmtime(os.path.join(_dir, n)) for n in os.listdir(_dir))
+            if _every > 1 and (time.time() - _newest) < _every * 18 * 60:
                 _off.add("canary")
         except Exception:
             pass
-    try:
-        with open(os.path.join(ROOT, ".codely-cli", "tmp", "EDITING.lock"),
-                  encoding="utf-8") as _lf:
-            _lock = json.load(_lf)
-        if (time.time() - float(_lock.get("ts_epoch") or 0)) < 1800:
-            _keep = {"hb"}
-            _off |= {x[0] for x in STAGES if x[0] not in _keep}
-            log("edit-lock ON (%s): heartbeat only" % (_lock.get("why") or "-"))
-    except FileNotFoundError:
-        pass
-    except Exception as _e:
-        log("edit-lock check failed: %s" % str(_e)[:60])
     if _off:
         log("slim: skip %d stage(s): %s" % (len(_off), ",".join(sorted(_off))))
-    _active = [x for x in STAGES if x[0] not in _off]
+    _active = [s for s in STAGES if s[0] not in _off]
     serial = [s for s in _active if not s[4]]
     slow_serial = [s for s in _active if s[4] and s[0] in SLOW_SERIAL]
     parallel = [s for s in _active if s[4] and s[0] not in SLOW_SERIAL]
@@ -1039,12 +1012,7 @@ def main() -> int:
     # 同步停摆必须可见（2026-11-02）：commit_state 遇手写脏件就整体跳过 git，
     # 而 PULSE 过去仍报 ok=true —— 与昨夜主控哑巴 8h 同一类「假绿」。
     skip_since = prev.get("git_skip_since")
-    if "git-off" in str(git_note) or str(git_note).strip() == "skipped:git-off":
-        # 策略性关闭（git.mode=off，见部署设计 §八）：不是故障，不许长期挂红灯。
-        skip_since = None
-        chk.append({"name": "git-sync", "ok": True,
-                    "detail": "disabled by policy (AUTONOMY-CONFIG.git.mode=off)"})
-    elif str(git_note).startswith("skipped"):
+    if str(git_note).startswith("skipped"):
         skip_since = skip_since or time.time()
         stuck_min = int((time.time() - float(skip_since)) / 60)
         chk.append({"name": "git-sync", "ok": stuck_min < GIT_SKIP_ALERT_MIN,
@@ -1102,6 +1070,31 @@ def main() -> int:
     except Exception:
         pass
 
+
+    try:
+        import json as _j
+        _beat = os.path.join(ROOT, "cph4", "fleet", "state", "agent-beat.json")
+        _dec = {}
+        try:
+            with open(os.path.join(ROOT, "cph4", "fleet", "state", "master-decision.json"),
+                      encoding="utf-8") as _df:
+                _dec = _j.load(_df)
+        except Exception:
+            _dec = {}
+        with open(_beat, "w", encoding="utf-8") as _bf:
+            _j.dump({"ts": fl_now() if "fl_now" in globals() else time.strftime("%Y-%m-%dT%H:%M:%S"),
+                     "stages": len(stages),
+                     "failed": failed,
+                     "alerts": alerts[:6],
+                     "top": _dec.get("top"),
+                     "did": _dec.get("did") or [],
+                     "order_new": (lambda: (_j.load(open(os.path.join(
+                         ROOT, "cph4/fleet/state/orders-new.json"), encoding="utf-8"))
+                         .get("new_count", 0)) if os.path.exists(os.path.join(
+                         ROOT, "cph4/fleet/state/orders-new.json")) else 0)()},
+                    _bf, ensure_ascii=False, indent=1)
+    except Exception as _e:
+        log("beat-failed: %s" % str(_e)[:80])
 
     summary = " ".join("%s=%s/%ss" % (k, v["rc"], v["sec"]) for k, v in stages.items()
                        if v.get("rc") is not None)

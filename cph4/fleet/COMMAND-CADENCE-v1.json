@@ -1,0 +1,98 @@
+{
+ "_comment": "指挥层高频任务表 v1（CEO 2026-11-06「常驻本地大模型列好高频自动化任务，代替我做各个指挥工作」）。人读版=COMMAND-CADENCE-v1.md。阈值一律来自 AUTONOMY-CONFIG.json，本表只写节奏与分工，不另立数字。",
+ "version": "v1-20261106",
+ "owner": "中枢（bm-m 常驻）",
+ "law": [
+  "数字一律规则算，不交 4B（2026-11-03 实锚：4B 两次算术全错）",
+  "产出必须落盘（文件+mtime），禁心跳/回执自述冒充产出；度量不得引用自己写的文件",
+  "模型只做归类/摘要/打分/抽一句话，全部可被规则复核；模型不可用一律降级为规则，不许停工",
+  "只保留三类人工闸：不可逆、对外发布、花钱超限。其余默认自动继续",
+  "机器/线闲置而队列有活 = 流程缺陷，当场改流程，不许解释为在等"
+ ],
+ "actors": {
+  "rule": {"what": "纯 Python 判定，零 token，可复算", "where": "Tools/fleet/*.py"},
+  "model": {"what": "常驻轻量模型（LOCAL-MODEL-POLICY.duties.resident）", "model": "qwen3.5:4b-mlx", "budget_gb": 5.0, "max_out_tokens": 400, "think": false,
+            "why_think_false": "qwen3 系思考模型答案在 thinking 段，response 为空，评测会误判 0 命中"},
+  "embed": {"what": "语义判重/近似检索", "model": "qwen3-embedding:0.6b", "budget_gb": 1.0}
+ },
+ "ticks": [
+  {"tier": "A", "every_s": 45, "name": "值守四件", "acts": [
+    {"id": "A1", "decide": "有机器闲且队列有活 → 立刻补卡（不许等下一轮）",
+     "rule": "workgen.py --root .", "basis": "PRODUCTION-QUEUE.jsonl 的 OPEN/READY 计数 vs 各机在飞",
+     "out": "cph4/fleet/PRODUCTION-QUEUE.jsonl（新卡）", "accept": "每机待派 ≥ supply.floor_cards_per_node",
+     "fail": "连续 2 轮仍空 → 记 E-SUPPLY-STUCK 并出告警"},
+    {"id": "A2", "decide": "卡被占着但超时 → 收回重排，不等人",
+     "rule": "master_agent.py（lease 超时释放）", "basis": "claim 时间 vs AUTONOMY-CONFIG.failures.lease 规则",
+     "out": "队列 state 回 OPEN + 释放原因", "accept": "无 RUNNING 超过 lease 的卡",
+     "fail": "释放后同一张卡 3 次未成 → E-ROOTCAUSE-3X 停线"},
+    {"id": "A3", "decide": "卡没有可执行内容 → 判缺陷，不许上车",
+     "rule": "fleet_lane.merge_jsonl 派前闸", "basis": "state∈{OPEN,READY} 且无 cmd/prompt",
+     "out": "该卡 state=CARD-DEFECT", "accept": "活卡 100% 带 cmd 或 prompt",
+     "fail": "同一造卡器再次产出空壳 → 点名造卡器"},
+    {"id": "A4", "decide": "账本脏了（冲突标记/坏行）→ 先修账再派单",
+     "rule": "queue_integrity.py --reconcile", "basis": "队列/看板文件的可解析行数",
+     "out": "state/queue-integrity.json", "accept": "0 行坏", "fail": "rc=2 连续 3 轮 → 告警"}
+  ]},
+  {"tier": "B", "every_s": 180, "name": "机队实况", "acts": [
+    {"id": "B1", "decide": "这台机为什么停：分叉/禁用/缺依赖/缺输入",
+     "rule": "self_improve.py --node <n>（dry-run 先报）", "basis": "本机码龄 vs 回执年龄、车道空壳、依赖",
+     "out": "queue-receipts/self-improve-<node>-latest.json",
+     "accept": "verdict=SELF-OK 或 SELF-GAPS 带原因", "fail": "NEED-RELOAD 连续 2 轮 → 派重启卡"},
+    {"id": "B2", "decide": "跑成功了但没产物 = 假完成，重派并降权",
+     "rule": "closer.py / verify_done（rc=0 且 deliverable 缺失或空）", "basis": "回执 rc + 交付物存在与大小",
+     "out": "state/alerts.json 的 E-ARTIFACT 条目", "accept": "E-ARTIFACT ≤ 0",
+     "fail": "同机同日 3 次 → 该机停派，只派诊断卡"},
+    {"id": "B3", "decide": "机器看着在线但其实拉不到码 → 报分叉，不报在线",
+     "rule": "fork_close.close_out(dry-run) + hb_age_s", "basis": "ahead/behind + 机器心跳",
+     "out": "一屏「分叉」行", "accept": "三台 ahead=0", "fail": "分叉且无自愈入口 → 升 CEO 待办"}
+  ]},
+  {"tier": "C", "every_s": 900, "name": "线与产出", "acts": [
+    {"id": "C1", "decide": "这条线是不是真的在产出（不看心跳，看产物年龄）",
+     "rule": "census.py", "basis": "磁盘产物 mtime + git 提交（禁认 state/ 与回执目录）",
+     "out": "state/lines.json + MASTER-SCREEN.md", "accept": "四线产出年龄 < 线 SLA",
+     "fail": ">7 天无产物 → 自动挂起该线"},
+    {"id": "C2", "decide": "同一个错第三次 → 停线查根因，不许第 4 次重派",
+     "rule": "closer 的 3X 判据", "basis": "同 stem 失败次数", "out": "STOP-DIAGNOSE 决策",
+     "accept": "无 3X 未处理", "fail": "停线超 2h 无人解 → 派诊断卡给最强闲机"},
+    {"id": "C3", "decide": "今天还能不能上云",
+     "rule": "cloud_budget.py", "basis": "token-ledger/SPEND.jsonl 日累计 vs daily_cny_cap",
+     "out": "state/cloud-budget.json", "accept": "未超上限", "fail": "超限 → hard-stop，转本地队列"}
+  ]},
+  {"tier": "D", "every_s": 3600, "name": "一屏与归因", "acts": [
+    {"id": "D1", "decide": "此刻最该干的一件事是哪件",
+     "rule": "master_loop.py（四线四行）", "basis": "C1+C2+C3 的结论",
+     "out": "cph4/fleet/MASTER-SCREEN.md", "accept": "四线各一行 + 一行最重要",
+     "fail": "决策日志缺失 → 视为未决策"},
+    {"id": "D2", "decide": "把一堆告警归成 5 类，别让 CEO 读原始报错",
+     "model": "4B 分类（输入=告警标题+error_class，输出=JSON {class,why}）+ 规则复核 class 在白名单",
+     "basis": "state/alerts.jsonl 近 1 小时", "out": "state/alert-triage.json",
+     "accept": "每条告警有 class；白名单外一律归 OTHER",
+     "fail": "模型超时 → 按 error_class 规则直分，不停工"}
+  ]},
+  {"tier": "E", "every_s": 21600, "name": "指挥质量", "acts": [
+    {"id": "E1", "decide": "我今天派的卡有多少真变成产物（命中率）",
+     "rule": "派卡数 vs DONE 且有产物数", "basis": "队列 created_at + 回执 + 交付物",
+     "out": "state/command-quality.json", "accept": "命中率 ≥ 60%，否则改派卡规则",
+     "fail": "连续 3 天 <40% → 停派并复审造卡器"},
+    {"id": "E2", "decide": "哪些卡在原地打转（返工率）",
+     "rule": "同 id retries 分布", "basis": "队列 retries 字段",
+     "out": "返工 TOP10", "accept": "无 retries≥3 的活卡", "fail": "有 → 造卡缺陷，回炉"}
+  ]},
+  {"tier": "F", "every_s": 86400, "name": "方向与交人", "acts": [
+    {"id": "F1", "decide": "只把必须 CEO 拍的三件事挑出来（其余自决）",
+     "model": "4B 从候选清单里选 3 条并写一句理由，规则校验每条都能指到文件",
+     "basis": "alerts + BLOCKED 线 + 花钱/对外事项", "out": "cph4/fleet/CEO-THREE.md",
+     "accept": "≤3 条，每条带证据指针", "fail": "模型失败 → 规则取最高 prio 三条"},
+    {"id": "F2", "decide": "哪条线该继续、哪条该挂起",
+     "rule": "7 天无产物 → 挂起（AUTONOMY-SYSTEM 硬规则）",
+     "basis": "C1 的产出年龄", "out": "线状态变更 + 理由", "accept": "无僵尸线",
+     "fail": "无产物却有产出声明 → 判假绿"}
+  ]}
+ ],
+ "escalation": {
+  "auto": ["补卡", "释放超时", "重派 E-ARTIFACT", "空壳卡隔离", "分叉收口（仅记账提交）", "预算硬停"],
+  "to_ceo": ["不可逆操作", "对外发布", "单次花钱超阈值", "同一根因 3 次未解", "需人上机的物理动作"],
+  "never": ["代 CEO 签字", "代发对外内容", "把凭据写进提交", "为满负荷造假活"]
+ },
+ "board": "cph4/fleet/COMMAND-BOARD.md（commander.py 每 3 分钟刷新，CEO 只看这一屏）"
+}
