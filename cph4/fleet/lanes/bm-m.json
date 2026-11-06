@@ -1,23 +1,8 @@
 {
  "node": "bm-m",
- "ts": "2026-11-06T17:48:19",
- "jobs": [
-  {
-   "id": "SELF-IMPROVE-bm-m-20261106",
-   "title": "机队自改：码龄/空壳卡/依赖三闸自检并修复（bm-m）",
-   "cmd": "python3 Tools/fleet/self_improve.py --apply --node bm-m --out cph4/fleet/queue-receipts/self-improve-bm-m-latest.json",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/self-improve-bm-m-latest.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": 300
-  }
- ],
- "idle_reason": "",
- "lane_ok": true,
- "capacity_note": "ram 7.7/1.0 GB"
+ "ts": "2026-11-06T17:49:18",
+ "jobs": [],
+ "idle_reason": "CAPACITY-BLOCKED-RAM CPU-SATURATED 100%",
+ "lane_ok": false,
+ "capacity_note": "CPU-SATURATED 100%"
 }
