@@ -1,0 +1,98 @@
+{
+ "_comment": "机队与主控·根因总账 v1（CEO 2026-11-07「倒查所有问题，站在全局从根本上统筹解决」）。原则：症状不单独立账，全部归到 6 条根因；每条根因必须有「结构性根治」+「可机检复验」，复验器=Tools/fleet/root_cause_audit.py。判「已治」以复验器为准，不以文档声明为准。",
+ "version": "v1-20261107",
+ "window": "2026-11-02 ~ 2026-11-07",
+ "roots": [
+  {
+   "id": "R1",
+   "name": "单一真相源缺失：同一事实有多份定义",
+   "why_root": "多份定义必然漂移，且每处修完都以为自己修好了——这是'修了很多次还是有问题'的第一原因。",
+   "symptoms": [
+    {"at": "2026-11-07", "what": "模型现役有两个答案：MODEL-POLICY=qwen3:4b-instruct vs LOCAL-MODEL-POLICY=qwen3.5:4b-mlx，导致三模型同时驻留 10.4GB"},
+    {"at": "2026-11-06", "what": "状态文件同时存在于 git 与运行目录，两本账各说各话"},
+    {"at": "2026-11-05", "what": "节奏/阶段两处各写一套：表里登记了、脉里没跑（6 个阶段纸上自动化）"},
+    {"at": "2026-11-04", "what": "队列与备队列同 id 两状态（ARCHIVED vs READY）"}
+   ],
+   "cure": "每类事实指定唯一 owner 文件，其余文件只许指针不许副本；新增校验器扫'同义多源'（同名/同义键在两处定义）。",
+   "verify": "probe_multi_source",
+   "residual": "历史遗留副本仍可能与 owner 漂移，需在每次改配置时跑校验"
+  },
+  {
+   "id": "R2",
+   "name": "生成态与代码共用 git：git 被当消息总线",
+   "why_root": "状态每秒变、代码偶尔变；混在一起提交就必然分叉、冲突、推送被拒，而每一次冲突都会冻结同步。",
+   "symptoms": [
+    {"at": "2026-11-02", "what": "24h 内 461 次提交中 63% 是状态噪音；8 小时 push 全部 rejected，bm-a 判主控真空接管"},
+    {"at": "2026-11-06", "what": "main 与 origin 分叉 482/85，单日 722 次提交，冲突 96% 来自 cph4/fleet 状态文件"},
+    {"at": "2026-11-07", "what": "主控脉自身 push rejected(3-attempts)，主树 ahead 120/behind 508"}
+   ],
+   "cure": "state/lanes/radar/chief/sync/queue-receipts/看板一律不进 git；git 只装代码、正典、卡与产物。残留的运行时文件先归位再同步。",
+   "verify": "probe_state_in_git",
+   "residual": "队列本身仍是分发通道（未解耦），队列冲突会再生；正解=tailnet GET /queue"
+  },
+  {
+   "id": "R3",
+   "name": "判据可被'看起来'骗：绿=rc、在线=心跳、新鲜=回执、完成=DONE",
+   "why_root": "假绿比空转更糟：它让所有后续决策建立在错误前提上，且没人会再去查。",
+   "symptoms": [
+    {"at": "2026-11-06", "what": "soak 窗口绿 80% 仍写 GREEN（单轮判定）；quick 模式不测盘/swap"},
+    {"at": "2026-11-05", "what": "度量自指：把 state/city-state.json 当产出证据，线永远显示 0.1h"},
+    {"at": "2026-11-06", "what": "bm-b 有卡无产物 E-ARTIFACT；素材报 17 张可用实测 6 个文件未替换（mtime 停在 18:2x）"},
+    {"at": "2026-11-05", "what": "lease-heartbeat-timeout 算成 1e9 秒（31.7 年），心跳缺失被当超时秒杀卡"},
+    {"at": "2026-11-04", "what": "执行器跑旧码 22 小时，DONE 卡循环 183 次，每轮一个 artifact 提交"}
+   ],
+   "cure": "一切'绿/新鲜/完成'必须可复算且带负控：绿=交付物存在且非空；新鲜=产物 mtime 且排除自指路径；缺失≠超时（判未知并重排）；完成=交付物+闸回执。",
+   "verify": "probe_false_green",
+   "residual": "远端产物本机不可判，只能标'待查'——不许判缺失（本轮探针四次误报的教训）"
+  },
+  {
+   "id": "R4",
+   "name": "修复不配套生效动作：改码不重载、推码不重启、改表不校验",
+   "why_root": "修复写进了文件但我们没让它跑起来，于是'修了 13 次还是老样子'，且每次都误以为已修。",
+   "symptoms": [
+    {"at": "2026-11-06", "what": "执行器进程不重载新码 → 疫苗上链 22 小时零生效"},
+    {"at": "2026-11-06", "what": "load_watch.py 已删但 launchd 仍在调（悬空引用）"},
+    {"at": "2026-11-07", "what": "本地 master_pulse.py 被 checkout 回旧版，我加的 6 个阶段一度全没在跑"},
+    {"at": "2026-11-05", "what": "改了配置但没重建计划任务，任务仍读旧参数"}
+   ],
+   "cure": "任何修复必须成对：改码→重载执行器；推码→poke+重启；改表→跑 cadence 校验；改配置→重建任务。'生效'以日志出现新行为为准，不以 commit 成功为准。",
+   "verify": "probe_code_age",
+   "residual": "跨机重载仍靠 poke 与人工 reset，无远程杀进程通道"
+  },
+  {
+   "id": "R5",
+   "name": "无收口责任人：告警只有生产方，没有消费方",
+   "why_root": "问题被记录不等于被解决；没有 owner 与复验判据的告警，只会累积成背景噪音。",
+   "symptoms": [
+    {"at": "2026-11-06", "what": "incoherent=4（四机全空闲有活）只有生产方，无消费方"},
+    {"at": "2026-11-06", "what": "监管脚本一天内被冲掉 13 个，无人复核"},
+    {"at": "2026-11-07", "what": "雷达自标「星数超 10 万需人工核实」却无人核（假情报源头）"},
+    {"at": "2026-11-07", "what": "同一交付物 bm-b 与 bm-m 同时在飞，claim 后无人拦（DUP-AT-CLAIM）"}
+   ],
+   "cure": "每个告警必须带 owner + 复验判据 + 自动复验；无 owner 的告警不许进一屏，只进清理队列。需求总账（demand_audit）即此模式的样板。",
+   "verify": "probe_unowned_alerts",
+   "residual": "需要人判的（内容质量/对外）永远有 owner=人，只能保证'有人'"
+  },
+  {
+   "id": "R6",
+   "name": "跨机不可达：没有远程执行通道，一切收口退化为等人",
+   "why_root": "无 SSH/WinRM/SMB，fleet.cmd 只允许 selfcheck/noop/sync；于是'改码'与'让机器用上新码'被硬切断，只能等人上机。",
+   "symptoms": [
+    {"at": "2026-11-06", "what": "三台 Windows HEAD 在 origin 不存在，ff-only 永远失败，需人工 reset"},
+    {"at": "2026-11-02", "what": "bm-b 内存枯竭到 0.2GB，连释放内存的救援脚本都跑不起来"},
+    {"at": "2026-11-07", "what": "bm-a 全任务 Disabled 被误判为故障，实为 CEO 11:46 让路令（合规状态）"}
+   ],
+   "cure": "承认约束，把收口做成'一次人工、之后全自动'：节点自带 self_improve/fork_close，脉只诊断不跨机执行；所有跨机动作必须留一条本机可跑的命令与验收判据。",
+   "verify": "probe_cross_machine",
+   "residual": "首次 reset 与物理动作仍必须人/CEO，无法消除，只能最小化"
+  }
+ ],
+ "cross_cutting": [
+  {"rule": "任何'已修'必须给出复验命令与输出，不给=未修（AI 诚实律）"},
+  {"rule": "任何数字由规则算，模型不参与（4B 算术两次全错的实锚）"},
+  {"rule": "主控只判自己盘上的东西，别机产物一律'待查'"},
+  {"rule": "同一问题第三次复发 → 停线查根因，不许第四次重派"}
+ ],
+ "board": "cph4/fleet/ROOT-CAUSE-BOARD.md",
+ "state": "cph4/fleet/state/root-cause.json"
+}
