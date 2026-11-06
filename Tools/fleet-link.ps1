@@ -92,7 +92,7 @@ if ($NodeId -eq '') { $NodeId = $env:COMPUTERNAME }
 # task that lets that box claim any work could never be requested by name (measured:
 # bm-c wakes stopped at MiniGameRadarTick while its roster had three more). Cap is
 # now the roster's own size, kept finite so a hand-crafted body cannot fan out.
-$Vers = '1.9.6'
+$Vers = '1.9.7'
 # v1.9.4: a same-version listener already owning the port means "healthy";
 # exit silently. Before this, every supervisor run logged 2 bind-fail lines,
 # which rotated the real sync history out of log.jsonl (200-line cap).
@@ -230,16 +230,25 @@ function Read-Request($client) {
       return @{ m = $parts[0]; path = $path; body = ''; bigbody = $true }
     }
     if ($cl -gt 0 -and $cl -lt 4194304) {
-      # v1.8: loop until Content-Length chars - a single Read() returns only what
-      # the reader buffered, truncating large bodies (C-20261016-02 Cure-5 fix).
-      $buf = New-Object char[] $cl
-      $got = 0
-      while ($got -lt $cl) {
-        $n = $r.Read($buf, $got, ($cl - $got))
+      # v2.0 (2026-11-06): Content-Length is a BYTE count, but v1.8 sized a char[]
+      # by $cl and read until $cl CHARS. Any non-ASCII body (Chinese reasons are
+      # 3 UTF-8 bytes/char) can never reach $cl chars -> the read blocks until the
+      # socket timeout, the body is truncated, JSON parse fails and the whole
+      # request is answered 400 bad-request (live: 31s + 400 on a CN reason, 1s +
+      # 200 on the same body in ASCII). Master routinely sends CN reasons, so this
+      # silently killed poke delivery. Fix: accumulate chars until the UTF-8 BYTE
+      # count reaches $cl; ASCII behaviour is unchanged, and StreamReader buffering
+      # stays internal (never mix in raw stream reads or buffered bytes are lost).
+      $sb = New-Object System.Text.StringBuilder
+      $acc = 0
+      while ($acc -lt $cl) {
+        $chunk = New-Object char[] 4096
+        $n = $r.Read($chunk, 0, 4096)
         if ($n -le 0) { break }
-        $got += $n
+        $null = $sb.Append($chunk, 0, $n)
+        $acc = [System.Text.Encoding]::UTF8.GetByteCount($sb.ToString())
       }
-      if ($got -gt 0) { $body = -join $buf[0..($got - 1)] }
+      $body = $sb.ToString()
     }
     return @{ m = $parts[0]; path = $path; body = $body }
   } catch { return $null }
