@@ -1,14 +1,28 @@
 {
  "node": "bm-c",
- "ts": "2026-11-08T01:44:35",
+ "ts": "2026-11-08T01:37:55",
  "jobs": [
   {
-   "id": "AUD-GAME-20261108T012729-26",
-   "title": "提审缺口落单：CardRogue",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game CardRogue",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "id": "ROLL-bmc-000533",
+   "title": "rollout 探针（bm-c）",
+   "cmd": "python -c \"print('ok')\"",
+   "cwd": ".",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/CardRogue.json",
+   "deliverable": "cph4/fleet/queue-receipts/ROLL-bmc-000533.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "asset-lib-asset-gen-2026-11-08",
+   "title": "[资产储备（角色 LoRA / 音色库）] 通用资产出图（道具/场景，吃 ASSET-PROMPTS 规格）",
+   "cmd": "python Tools/fleet/asset_gen.py --node bm-c --class props --limit 4 --receipt cph4/fleet/queue-receipts/asset-gen-props-2026-11-08.json",
+   "cwd": "",
+   "needs": "gpu",
+   "deliverable": "cph4/fleet/queue-receipts/asset-gen-props-2026-11-08.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -71,23 +85,9 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
-  },
-  {
-   "id": "R-TRIAGE-BIGSTREAMMV-BMC-20261108",
-   "title": "BigStream·MV 41 曲 线证据扫描（bm-c 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigstream-mv",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigstream-mv-20261108.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 1.1/1.0 GB"
+ "capacity_note": "ram 3.1/1.0 GB"
 }
