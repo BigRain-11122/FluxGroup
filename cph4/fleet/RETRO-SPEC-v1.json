@@ -1,0 +1,29 @@
+{
+ "_comment": "复盘席判据（CEO 2026-11-07「也要复盘总结并推广经验的智能体」）。核心一条：**推广 ≠ 写在报告里**——每条经验必须挂一个机器可核验的落点，否则只能算「待落点」，不许算已推广。",
+ "_law": [
+  "经验三要素：症状（可观察）/ 根因（为什么）/ 落点（下次怎么被机器拦住）",
+  "落点只有四类：rg=回归断言 / symbol=代码里的具名判据 / doc=正身件 / card=卡模板或工具入口",
+  "声称有落点但核验不到 = 假绿（rc=2），比没有落点更严重",
+  "同一经验只许有一条：按 (class, 症状词干) 去重，旧条保留、新条并证据",
+  "复盘只提候选与证据，不自动改阈值、不自动写记忆"
+ ],
+ "sources": {
+  "queue_failures": {"path": "cph4/fleet/PRODUCTION-QUEUE.jsonl", "keep": ["FAILED", "CARD-DEFECT"], "group_by": "error_class", "min_occurrences": 2},
+  "cancel_reasons": {"path": "cph4/fleet/PRODUCTION-QUEUE.jsonl", "keep": ["CANCELLED"], "group_by": "cancel_reason_prefix", "min_occurrences": 2},
+  "patrol_now": {"path": "cph4/fleet/state/patrol.json", "use": "current_actions"},
+  "regression": {"path": "Tools/fleet/regression.py", "use": "landing_verify"}
+ },
+ "landing": {
+  "rg": {"file": "Tools/fleet/regression.py", "marker": "@case(\"%s\""},
+  "symbol": {"file": "<path>:<symbol>", "marker": "def %s"},
+  "doc": {"file": "<path>", "marker": null},
+  "card": {"file": "<path>", "marker": null}
+ },
+ "classes": ["false-red", "false-green", "dispatch", "data", "gate", "supply", "safety"],
+ "outputs": {
+  "board": "cph4/fleet/RETRO.md",
+  "machine": "cph4/fleet/state/retro.json",
+  "ledger": "cph4/fleet/LESSONS-LEDGER.jsonl"
+ },
+ "rc": {"ok": 0, "has_pending_landing": 1, "claimed_but_missing": 2}
+}

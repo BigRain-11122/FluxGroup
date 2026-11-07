@@ -1,0 +1,96 @@
+{
+ "_comment": "已确认经验的种子条目（人工署名，机器只负责核验落点是否真的存在）。新增条目走 retro.py 的派生候选，或人工按同结构追加。",
+ "lessons": [
+  {
+   "id": "L-20261107-01",
+   "class": "false-green",
+   "symptom": "节奏表里登记了 verify_done，主控脉里却从未接线，91 张 DONE 里 11 张可疑无人过问",
+   "root": "校验方向单一：只查「脉→表」不查「表→脉」，warning 不升级成红",
+   "fix": "RG-11 改双向，W-STAGE 也算红",
+   "landing": {"kind": "rg", "ref": "RG-11"},
+   "evidence": ["Tools/fleet/master_pulse.py", "Tools/fleet/regression.py"]
+  },
+  {
+   "id": "L-20261107-02",
+   "class": "false-green",
+   "symptom": "卡 claim 后 3 分钟必被杀，因为无心跳记录被算成静默 1e9 秒",
+   "root": "lane_beat 把「没有记录」当成「很久以前」",
+   "fix": "无记录按 1 次正常心跳计，只有真过期才算静默",
+   "landing": {"kind": "rg", "ref": "RG-13"},
+   "evidence": ["Tools/fleet/queue_claim.py"]
+  },
+  {
+   "id": "L-20261107-03",
+   "class": "dispatch",
+   "symptom": "同一张卡被四套阈值来回改状态：600s / 1h / 3 次 / 2 次各写一套",
+   "root": "重排阈值没有单一源，四个入口各写数字",
+   "fix": "唯一源 CARD-POLICY-v1.json + card_policy.py，四入口改读它",
+   "landing": {"kind": "rg", "ref": "RG-14"},
+   "evidence": ["cph4/fleet/CARD-POLICY-v1.json", "Tools/fleet/card_policy.py"]
+  },
+  {
+   "id": "L-20261107-04",
+   "class": "data",
+   "symptom": "216 个脚本里 26 个写同一份队列，整文件覆盖会吞掉并发新增的卡",
+   "root": "没有统一的写入通道，谁都能整文件重写",
+   "fix": "只许行级合并写（merge_jsonl），禁整文件覆盖",
+   "landing": {"kind": "rg", "ref": "RG-15"},
+   "evidence": ["Tools/fleet/fleet_lane.py"]
+  },
+  {
+   "id": "L-20261107-05",
+   "class": "gate",
+   "symptom": "21 条质量判据里有 3 条连自己的反例都放行（恒 0 的偏差、空目录打不到上限）",
+   "root": "闸只被「真产物」喂过，从没被「坏样本」喂过",
+   "fix": "每条判据配专属反例，--selftest 逐条自证；拦不住坏样本的闸不许上线",
+   "landing": {"kind": "rg", "ref": "RG-16"},
+   "evidence": ["cph4/fleet/QUALITY-AGENTS-v1.json", "Tools/fleet/quality_agents.py"]
+  },
+  {
+   "id": "L-20261107-06",
+   "class": "safety",
+   "symptom": "内存不足时把模型硬塞进统一内存，swap 涨到 4GB 还报「正常运行」",
+   "root": "判据用 swap 账上总量（macOS 用过不回落）与单模型大小，量错了对象",
+   "fix": "判据改为换页速率（页/分），可用内存按 总-(wired+active+compressor) 算",
+   "landing": {"kind": "rg", "ref": "RG-17"},
+   "evidence": ["cph4/fleet/MEM-GUARD-v1.json", "Tools/fleet/mem_guard.py"]
+  },
+  {
+   "id": "L-20261107-07",
+   "class": "false-red",
+   "symptom": "巡查把 PARKED 的线（短视频 129h、车机 122h）报成供给失败，责令铺卡",
+   "root": "R2 只读了 lines.json 的 age_h，没读 declared 字段——「故意停下」被当成「停摆」",
+   "fix": "只对 declared=ACTIVE 的线报红，非 ACTIVE 记入 parked_skipped",
+   "landing": {"kind": "rg", "ref": "RG-18"},
+   "evidence": ["Tools/fleet/patrol.py", "cph4/fleet/state/lines.json"]
+  },
+  {
+   "id": "L-20261107-08",
+   "class": "dispatch",
+   "symptom": "fluxverse 派完一张 DONE 卡，线的产物年龄停在 103h 一动不动",
+   "root": "声明给的是体检卡：交付物是 state/city-state.json 自述文件，产物目录 gaming/FluxVerse 根本不存在",
+   "fix": "体检卡不算产物；这种线要么定第一件真产物，要么改声明 PARKED",
+   "landing": {"kind": "symbol", "ref": "Tools/fleet/patrol.py:is_selfreport"},
+   "evidence": ["cph4/fleet/LINE-NEXT-STEPS.json"]
+  },
+  {
+   "id": "L-20261107-09",
+   "class": "supply",
+   "symptom": "同一交付物连铺两天两张 OPEN（G18_PalacePlunder）",
+   "root": "按卡 id 去重，而 id 带批次时间戳，每批都算新卡",
+   "fix": "按交付物去重：已有 READY/OPEN/RUNNING/CLAIMED 的交付物不再铺",
+   "landing": {"kind": "symbol", "ref": "Tools/fleet/supply_batch.py:按交付物去重"},
+   "also_matches": ["零新增信息"],
+   "evidence": ["cph4/fleet/PRODUCTION-QUEUE.jsonl"]
+  },
+  {
+   "id": "L-20261107-10",
+   "class": "supply",
+   "symptom": "队列报 42 张活卡像供给充足，实际 39 张 nodes=[\"bm-m\"] 钉死主控机，bm-a/b/c 各只 1 张",
+   "root": "看总数不看分布；主控被 CEO 明令禁止做生产，钉在它上面的卡等于不可执行",
+   "fix": "供给判据要看「可执行分布」：按节点归并活卡，主控不应超过调度所需",
+   "landing": {"kind": "doc", "ref": "cph4/fleet/PATROL.md"},
+   "evidence": ["cph4/fleet/PRODUCTION-QUEUE.jsonl", "cph4/fleet/lanes/"]
+  }
+ ]
+}
