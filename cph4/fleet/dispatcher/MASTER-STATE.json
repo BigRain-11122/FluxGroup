@@ -1,23 +1,23 @@
 {
- "ts": "2026-11-08T01:47:54",
- "cycle": 339,
+ "ts": "2026-11-08T01:50:34",
+ "cycle": 340,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-08T01:47:54",
+ "master_tick_ts": "2026-11-08T01:50:34",
  "queue": {
   "total": 1410,
-  "open": 6,
+  "open": 5,
   "running": 26,
   "done": 518,
-  "failed": 3
+  "failed": 4
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 26.5,
-   "cpu_load_pct": 59,
-   "ram_free_gb": 33.7,
-   "gpu_util_pct": 89,
+   "hb_age_s": 4.9,
+   "cpu_load_pct": 65,
+   "ram_free_gb": 27.9,
+   "gpu_util_pct": 90,
    "job": "bigstream-mv-gate-2026-11-08",
    "last_result": null,
    "idle_confirmed": false,
@@ -26,17 +26,17 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 1.9,
-   "cpu_load_pct": 13,
-   "ram_free_gb": 1.2,
-   "gpu_util_pct": 1,
-   "job": "bigmoney-signal-2026-11-08",
+   "hb_age_s": 26.3,
+   "cpu_load_pct": 15,
+   "ram_free_gb": 1.6,
+   "gpu_util_pct": 0,
+   "job": "R-TRIAGE-FLUXVERSE-BMB-20261108",
    "last_result": {
-    "job": null,
-    "state": "IDLE",
+    "job": "bigmoney-signal-2026-11-08",
+    "state": "FAILED",
     "rc": null,
-    "ts": "2026-11-08T01:47:47",
-    "reason": "CAPACITY-BLOCKED-RAM ram 0.9/1.0 GB",
+    "ts": "2026-11-08T01:49:44",
+    "reason": null,
     "out_bytes": null,
     "elapsed_s": null
    },
@@ -46,9 +46,9 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 4.9,
-   "cpu_load_pct": 15,
-   "ram_free_gb": 2.1,
+   "hb_age_s": 29.5,
+   "cpu_load_pct": 8,
+   "ram_free_gb": 2.6,
    "gpu_util_pct": 0,
    "job": "BMB-SELFHEAL-20261108",
    "last_result": {
@@ -66,8 +66,8 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 17.4,
-   "cpu_load_pct": 17,
+   "hb_age_s": 16.7,
+   "cpu_load_pct": 18,
    "ram_free_gb": 13.1,
    "gpu_util_pct": null,
    "job": "AUD-GAME-20261108T012729-09",
@@ -96,9 +96,7 @@
     "R-PLAN-BIGSTREAMMV-20261108"
    ],
    "no_supply": false,
-   "blockers": [
-    "R-PLAN-BIGSTREAMMV-20261108:no-lane"
-   ],
+   "blockers": [],
    "note": null,
    "stuck_stage": "mv-kf",
    "stuck_owner": "导演席·美术"
@@ -201,10 +199,8 @@
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "量化席",
-   "jobs": [
-    "bigmoney-signal-2026-11-08"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": "2026-11-04 夜班重启：原回测阶段钉 bm-d，而 bm-d 自 10-29 离线；改由 bm-b（有 quant 仓与数据）出「下月持仓信号 CSV」，主控按 P1 恢复派单。",
    "stuck_stage": "quant-data",
@@ -849,27 +845,21 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 6,
+  "local": 2,
   "cloud": 0,
-  "queue": 0,
+  "queue": 3,
   "blocked": 0,
   "cloud_spend_today": 0,
   "waste": []
  },
  "supply_gap": {
-  "cpu": 3,
+  "cpu": 2,
   "gpu": 3
  },
  "supply_added": [],
  "events": [
-  "bigstream-mv-gate-2026-11-08 -> bm-a (cpu)",
-  "biggame-pack-scan-2026-11-08 -> bm-a (cpu)",
-  "bigmoney-signal-2026-11-08 -> bm-b (cpu)",
-  "AUD-GAME-20261108T012729-23 -> bm-b (cpu)",
-  "AUD-GAME-20261108T012729-24 -> bm-b (cpu)",
-  "AUD-GAME-20261108T012729-25 -> bm-b (cpu)",
-  "AUD-GAME-20261108T012729-26 -> bm-b (cpu)",
-  "R-TRIAGE-FLUXVERSE-BMB-20261108 -> bm-b (cpu)"
+  "bigmoney-signal-2026-11-08 FAILED via bm-b",
+  "R-PLAN-BIGSTREAMMV-20261108 -> bm-b (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
