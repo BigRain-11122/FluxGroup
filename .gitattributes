@@ -1,5 +1,5 @@
 # C-20261016-02 Cure-4: fleet memory union + per-host inboxes - no eol
-# normalization (CRLF accident family), no union merge driver (conflicts stay
+# normalization (CRLF accident family), no GLOBAL union merge driver (conflicts stay
 # loud instead of silently concatenating/losing lines).
 cph4/fleet/memory/CODELY-fleet-global.md -text
 cph4/fleet/memory/inbox/** -text
@@ -8,3 +8,21 @@ cph4/fleet/memory/inbox/** -text
 # and would block every commit on every machine.
 Tools/hooks/** text eol=lf
 *.sh text eol=lf
+
+# ---- 2026-11-07 分层（GIT-LAYERS-v1.md）------------------------------------
+# L2 账本：只追加的文件才允许 union。状态型账本（队列/lanes）绝不用 union——
+# union 会合并出重复 id 的坏行，那正是我们反复踩的坑。
+cph4/fleet/queue-receipts/** merge=union
+cph4/fleet/ARCHIVE-LEDGER.jsonl merge=union
+cph4/fleet/INTAKE-PENDING.jsonl merge=union
+
+# L3 归档与大件：不进 diff，标记为生成物（让 clone/对比不变慢，也让 code review 不误读）
+cph4/fleet/archive/** -diff linguist-generated
+cph4/fleet/_archive-*/** -diff linguist-generated
+cph4/fleet/audits/** -diff linguist-generated
+cph4/fleet/conversions/** -diff linguist-generated
+media/** -diff linguist-generated
+
+# L0 代码：只对 Python 强制 LF。.ps1 保持现状——生产脚本的换行行为不在此刻改动
+# （PS 5.1 我们已因 GBK 与编码踩过坑，不在无实测的情况下再动一次）。
+*.py text eol=lf

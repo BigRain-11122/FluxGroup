@@ -154,6 +154,9 @@ STAGES = [
     ("dr_check", ["Tools/fleet/dr_check.py"], 86400, {0}, True),
     # 三层产出审核 + 入档入库（CEO 2026-11-07）：DONE 只表示执行结束，不代表合格。
     ("review_artifacts", ["Tools/fleet/artifact_review.py", "--limit", "40", "--apply"], 21600, {0, 1}, True),
+    # 仓库分层体检（CEO 2026-11-07「git 也要好好分类分层」）：管住新文件落在哪一层，
+    # 不搬旧文件（被脉/卡/文档引用，批量 mv 会断链）。rc=1 是告警。
+    ("repo_layers", ["Tools/fleet/repo_layers.py"], 86400, {0, 1}, True),
     # 研究创新席（2026-11-02 CEO 令）：体检四席的边界与空转，顺手刷新 PROPOSALS.json
     # 供派单方择取。rc=2 是有违规的告警，不是工具坏，所以计入 ok_rc。
     ("ri", ["Tools/fleet/ri_dept.py", "check"], 60, {0, 2}, True),

@@ -245,3 +245,7 @@ cph4/fleet/radar/
 cph4/fleet/chief/
 cph4/fleet/sync/
 cph4/fleet/memory-slim/
+
+# 2026-11-07 分层：运行时散件与一次性报告不留在根下
+cph4/fleet/local-tasks.jsonl
+cph4/fleet/receipt-attrib-*.json
