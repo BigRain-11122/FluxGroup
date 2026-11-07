@@ -1,14 +1,14 @@
 {
   "schema": "machine-roster/v1",
   "created": "2026-11-07T00:15:00+08:00",
-  "authority": "D-20261106-05 落位补注 + D-20261107-03 建件（一文件五字段·属登记不属机制）",
+  "authority": "D-20261106-05 落位补注 + D-20261107-03 建件（一文件五字段·属登记不属机制）+ D-20261107-20 每轮与 machine-state.flag 对账（不一致当场改）",
   "fields": ["node", "state", "since", "evidence", "owner"],
   "machines": [
     {
       "node": "bm-a",
-      "state": "PAUSED-CEO-YIELD",
-      "since": "2026-11-06T11:43:23+08:00",
-      "evidence": ".codely-cli/machine-state.flag = 'paused 2026-11-06T11:43:23+08:00'（本轮 00:00 校时仍 paused，未见 resume）；machine-state.disabled.json 同窗落盘",
+      "state": "ACTIVE",
+      "since": "2026-11-07T09:11:22+08:00",
+      "evidence": ".codely-cli/machine-state.flag = 'resumed 2026-11-07T09:11:22+08:00'（D-20261107-20 当班实测；此前 PAUSED-CEO-YIELD since 2026-11-06T11:43:23 已失效）",
       "owner": "@HQ 机队席"
     },
     {
