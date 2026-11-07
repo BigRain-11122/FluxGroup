@@ -1247,6 +1247,11 @@ def main() -> int:
         except Exception:
             _sl = {}
         _ts = now()
+        # 已删除/改名的阶段会在 stage-last.json 里留成孤儿键，RG-21 会报
+        # "记录里有脉里不存在的阶段"。脉是这份数据的唯一写者，孤儿只能由脉自己剪。
+        _known = set(stages.keys()) | {s[0] for s in STAGES if s}
+        for _k in [k for k in _sl if k not in _known]:
+            _sl.pop(_k, None)
         for _n, _v in stages.items():
             if isinstance(_v, dict) and _v.get("rc") is not None:
                 _sl[_n] = {"ts": _ts, "rc": _v.get("rc"), "sec": _v.get("sec")}
