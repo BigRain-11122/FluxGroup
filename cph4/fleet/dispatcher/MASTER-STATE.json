@@ -1,20 +1,20 @@
 {
- "ts": "2026-11-07T17:43:29",
- "cycle": 114,
+ "ts": "2026-11-07T17:46:59",
+ "cycle": 115,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-07T17:43:29",
+ "master_tick_ts": "2026-11-07T17:46:59",
  "queue": {
   "total": 1263,
-  "open": 3,
+  "open": 2,
   "running": 2,
   "done": 472,
-  "failed": 32
+  "failed": 33
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 464.0,
+   "hb_age_s": 190.7,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -26,10 +26,10 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 712.9,
-   "cpu_load_pct": null,
-   "ram_free_gb": null,
-   "gpu_util_pct": null,
+   "hb_age_s": 52.3,
+   "cpu_load_pct": 7,
+   "ram_free_gb": 10.2,
+   "gpu_util_pct": 1,
    "job": null,
    "last_result": null,
    "idle_confirmed": false,
@@ -38,11 +38,11 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 35.0,
-   "cpu_load_pct": 36,
-   "ram_free_gb": 0.6,
-   "gpu_util_pct": 96,
-   "job": "asset-lib-face-dataset-2026-11-07",
+   "hb_age_s": 16.9,
+   "cpu_load_pct": 39,
+   "ram_free_gb": 1.9,
+   "gpu_util_pct": 95,
+   "job": "asset-lib-asset-gen-2026-11-07",
    "last_result": null,
    "idle_confirmed": false,
    "idle_reason": "",
@@ -245,7 +245,6 @@
    "stale_after_h": 72.0,
    "owner": "资产席",
    "jobs": [
-    "asset-lib-face-dataset-2026-11-07",
     "asset-lib-asset-gen-2026-11-07"
    ],
    "no_supply": false,
@@ -788,7 +787,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 3,
+  "local": 2,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -797,14 +796,18 @@
  },
  "supply_gap": {
   "cpu": 2,
-  "gpu": 1
+  "gpu": 0
  },
  "supply_added": [],
- "events": [],
+ "events": [
+  "asset-lib-asset-gen-2026-11-07 -> bm-c (gpu)"
+ ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
- "lane_files_written": []
+ "lane_files_written": [
+  "bm-c"
+ ]
 }
