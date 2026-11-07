@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-07T18:19:37",
- "cycle": 128,
+ "ts": "2026-11-07T18:23:31",
+ "cycle": 129,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-07T18:19:37",
+ "master_tick_ts": "2026-11-07T18:23:31",
  "queue": {
   "total": 1263,
   "open": 3,
@@ -14,7 +14,7 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 464.5,
+   "hb_age_s": 690.3,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -26,7 +26,7 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 631.8,
+   "hb_age_s": 857.6,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -38,10 +38,10 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 266.4,
-   "cpu_load_pct": null,
-   "ram_free_gb": null,
-   "gpu_util_pct": null,
+   "hb_age_s": 209.1,
+   "cpu_load_pct": 29,
+   "ram_free_gb": 2.0,
+   "gpu_util_pct": 96,
    "job": "asset-lib-face-dataset-2026-11-07",
    "last_result": null,
    "idle_confirmed": false,
@@ -800,9 +800,7 @@
   "gpu": 1
  },
  "supply_added": [],
- "events": [
-  "asset-lib-face-dataset-2026-11-07 -> bm-c (cpu)"
- ],
+ "events": [],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
