@@ -1,26 +1,7 @@
 {
  "node": "bm-m",
-<<<<<<< HEAD
- "ts": "2026-11-08T03:20:17",
- "jobs": [],
- "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-=======
- "ts": "2026-11-08T02:19:33",
+ "ts": "2026-11-08T04:46:55",
  "jobs": [
-  {
-   "id": "AUD-GAME-20261108T012729-09",
-   "title": "提审缺口落单：GimmeAll",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game GimmeAll",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/GimmeAll.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
   {
    "id": "AUD-GAME-20261108T012729-11",
    "title": "提审缺口落单：涨停板",
@@ -76,10 +57,37 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
+  },
+  {
+   "id": "AUD-GAME-20261108T012729-26",
+   "title": "提审缺口落单：CardRogue",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game CardRogue",
+   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/audits/game/CardRogue.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "AUD-GAME-20261108T012729-27",
+   "title": "提审缺口落单：ExileFarm",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game ExileFarm",
+   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/audits/game/ExileFarm.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
->>>>>>> e365df198 (job(AUD-GAME-20261108T012729-12): artifact [via bm-m])
  "lane_ok": true,
- "capacity_note": "ram 14.3/1.0 GB"
+ "capacity_note": "ram 11.9/1.0 GB"
 }

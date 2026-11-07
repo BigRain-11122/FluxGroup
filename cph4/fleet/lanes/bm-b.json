@@ -1,25 +1,14 @@
 {
  "node": "bm-b",
-<<<<<<< HEAD
- "ts": "2026-11-08T04:45:42",
+ "ts": "2026-11-08T04:46:55",
  "jobs": [
   {
-   "id": "AUD-GAME-20261108T044314-28",
-   "title": "提审缺口落单：ArrowOut",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game ArrowOut",
+   "id": "AUD-GAME-20261108T012729-29",
+   "title": "提审缺口落单：LanternSlayer",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game LanternSlayer",
    "cwd": "/Users/junsheng.sun/FluxGroup",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/ArrowOut.json",
-=======
- "ts": "2026-11-08T02:19:33",
- "jobs": [
-  {
-   "id": "AUD-GAME-20261108T012729-26",
-   "title": "提审缺口落单：CardRogue",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game CardRogue",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/CardRogue.json",
+   "deliverable": "cph4/fleet/audits/game/LanternSlayer.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -28,12 +17,12 @@
    "timeout_s": null
   },
   {
-   "id": "AUD-GAME-20261108T012729-27",
-   "title": "提审缺口落单：ExileFarm",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game ExileFarm",
+   "id": "AUD-GAME-20261108T012729-30",
+   "title": "提审缺口落单：FateGate",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game FateGate",
    "cwd": "/Users/junsheng.sun/FluxGroup",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/ExileFarm.json",
+   "deliverable": "cph4/fleet/audits/game/FateGate.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -42,8 +31,8 @@
    "timeout_s": null
   },
   {
-   "id": "R-TRIAGE-BIGSTREAMMV-BMA-20261108",
-   "title": "BigStream·MV 41 曲 线证据扫描（bm-a 本机可判面）",
+   "id": "R-TRIAGE-BIGSTREAMMV-BMC-20261108",
+   "title": "BigStream·MV 41 曲 线证据扫描（bm-c 本机可判面）",
    "cmd": "python Tools/fleet/line_triage.py --line bigstream-mv",
    "cwd": "",
    "needs": "cpu",
@@ -62,7 +51,34 @@
    "cwd": "",
    "needs": "cpu",
    "deliverable": "cph4/fleet/queue-receipts/triage-fluxverse-20261108.md",
->>>>>>> e365df198 (job(AUD-GAME-20261108T012729-12): artifact [via bm-m])
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "R-TRIAGE-BIGMONEY-BMB-20261108",
+   "title": "BigMoney·量化 线证据扫描（bm-b 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line bigmoney --node bm-b",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigmoney-bm-b-20261108.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "AUD-GAME-20261108T044314-28",
+   "title": "提审缺口落单：ArrowOut",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game ArrowOut",
+   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/audits/game/ArrowOut.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -72,11 +88,6 @@
   }
  ],
  "idle_reason": "",
-<<<<<<< HEAD
  "lane_ok": true,
- "capacity_note": "ram 9.0/1.0 GB"
-=======
- "lane_ok": false,
- "capacity_note": "ram 0.4/1.0 GB"
->>>>>>> e365df198 (job(AUD-GAME-20261108T012729-12): artifact [via bm-m])
+ "capacity_note": "ram 11.8/1.0 GB"
 }
