@@ -116,6 +116,29 @@ def close_out(root=None, base="origin/main", apply_=False, fetch=True):
 STATE_DIR = os.path.join(ROOT, "cph4", "fleet", "state")
 
 
+
+def _node_id():
+    """Resolve the fleet node id, not the hostname (hostname put bm-m data under
+    'junshengsundeMacBook-Pro' and no consumer could match it)."""
+    for k in ("FLUX_NODE", "NODE"):
+        v = (os.environ.get(k) or "").strip()
+        if v:
+            return v
+    try:
+        cfg = json.load(open(os.path.join(ROOT, "Tools", "fleet-nodes.json"), encoding="utf-8-sig"))
+        here = os.path.abspath(ROOT).lower().replace("\\", "/")
+        for n in cfg.get("nodes") or []:
+            r = str(n.get("root") or "").lower().replace("\\", "/").rstrip("/")
+            if r and (r == here or here.endswith(r.split("/")[-1])):
+                if r.split("/")[-1].lower() in here:
+                    return str(n.get("id"))
+    except Exception:
+        pass
+    import socket
+    h = socket.gethostname().lower()
+    return "bm-m" if "macbook" in h else h.split(".")[0]
+
+
 def write_status(res):
     """Persist fork state so other stages can judge it without re-running git.
 
@@ -132,8 +155,7 @@ def write_status(res):
         except Exception:
             prev = {}
         nodes = prev.get("nodes") or {}
-        node = os.environ.get("FLUX_NODE") or os.environ.get("NODE") or \
-            os.uname().nodename.split(".")[0] if hasattr(os, "uname") else "bm-m"
+        node = _node_id()
         nodes[node] = {"ahead": int(res.get("ahead") or 0),
                        "behind": int(res.get("behind") or 0),
                        "real": int(res.get("real") or 0),
