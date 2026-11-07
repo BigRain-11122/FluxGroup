@@ -1,8 +1,23 @@
 {
  "node": "bm-c",
- "ts": "2026-11-07T23:21:59",
- "jobs": [],
- "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+ "ts": "2026-11-07T23:23:53",
+ "jobs": [
+  {
+   "id": "ASSET-GEN-CHARACTERS-20261107",
+   "title": "资产生产：角色包身份层出图（8 件）",
+   "cmd": "python Tools/fleet/asset_gen.py --class characters --limit 8 --node bm-c --receipt cph4/fleet/queue-receipts/asset-gen-characters-20261107.json",
+   "cwd": ".",
+   "needs": "gpu",
+   "deliverable": "cph4/fleet/queue-receipts/asset-gen-characters-20261107.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  }
+ ],
+ "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 1.2/1.0 GB"
+ "capacity_note": "ram 2.6/1.0 GB"
 }
