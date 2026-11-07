@@ -3,7 +3,7 @@
 # CODELY 全局结构记忆 — 分层制 v3（2026-10-15 立·2026-10-18 记忆治理席 memory-curator 接管）
 > 机制：注入面预算（预警 35KB/80 条·执法 50KB/120 条）·Tools/memory-budget-gate.py v2 每 4h 静默闸（S4U·快照零删除·法条自动保留+同题去重）；长文/状态/领域细节=memory/topics/（按需读·索引见 ### Reference）；>300 字新条目=先落主题文件再回写指针；跨机价值一律走 git 正典+L1（memory.md §8/§10·联合回灌已退役）；写入纪律正身=skill memory-curator（cph4/skills/）。
 - [2026-11-07 00:19:37] [2026-11-07] 机队自动化与指挥层正身（十节·按需读）：§1-7 闲置根因（fleet_lane 只写 state 降 347 空壳）·同步冲突 96% 来自状态文件·假绿五型·本机硬标定（8 核拐点/不可压 8GB/降采样 1024 提速 6 倍/ollama 优于 mlx-vlm/qwen3-vl:4b 禁批量）·自供给 8790+8791；§8 自改闸 self_improve+四卡（bm-m 闭环 DONE）与三处假绿（ensure 元组被 bool 吞/回执自指/posix python）；§9 指挥节奏 v1 六节拍上脉实测；§10 节奏表 v2 30 条可排期单元+cadence.py 校验器 PASS+6 阶段接线实测，同步死锁三方向判据（numstat：本地有新增=真手改阻塞，只删=落后可对齐，无差异=假脏放行 autostash；checkout 会回滚成旧版这条坑），结构未解=共用工作树持续手改= .codely-cli/memory/topics/mem-20261106-fleet-autonomy-recap.md
-
+- [2026-11-07 14:34:37] [2026-11-07 14:4x] 免版权素材取源通道实测（做音色/配乐库必读）：①archive.org 全域名不可达——本地 DNS 被污染（archive.org 解析到 108.160.165.x=Dropbox 网段），用真实 IP `--resolve 207.241.224.2` 仍 000，存储节点 `ia*.us.archive.org` 也 000；LibriVox **API** 仍通（librivox.org/api/feed 200，含 sections[].listen_url/playtime/readers），但 listen_url 指向 archive.org → 音频下不来。②Wikimedia/commons 同样 000。③OpenGameArt 可用（页面 200，每页抓取约 9.5 秒），但其 /sites/default/files/*.mp3 **下载被限速到 2–16 KB/s**（实测 1.3MB 文件要 9 分钟），所以"逐候选爬页再下载"的脚本单段常 >400s 超时；正法=先 HEAD 看 Content-Length 挑小文件、curl -C - 断点续传并打印进度、长曲用 ffmpeg 裁 60s 片段（仍是同一 CC0 作品）。④FreePD.com 已关站（Site Closed）。⑤KiCad 无关。结论：免版权音频目前只有 OGA 一条活路，批量取素材要按"小文件优先 + 断点续传 + 裁切"设计，别按正常带宽估算工期。
 
 ### User
 - [2026-09-23 14:49:30] Jason 的 CEO 运转模式（2026-09-23 宣言并已立法）：AI 赋能自治——他只做决策、发号施令、定方向，不碰执行细节；子公司由 OS 循环无人值守运作/运转/迭代。CEO 输入面=方向变更、P1 新方向署名、红线裁决、资源调配。向他的汇报应聚焦：待决策项+实况证据+一句话可选方案，不汇报过程细节。
