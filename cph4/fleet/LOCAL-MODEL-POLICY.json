@@ -4,9 +4,12 @@
  "updated": "2026-11-03T13:30:00",
  "duties": {
   "resident": {
+   "_why": "主力默认档：摘要/抽字段/写一句理由/短判定（未知 cls 都走这里）",
    "model": "qwen3.5:4b-mlx",
-   "budget_gb": 5.0,
-   "why": "2026-11-03 实测：MLX 引擎 + nvfp4 权重，解码 38-40 tok/s（llamacpp 的 qwen3:4b-instruct 35.9-37.4），黄金集同为 6/8；且带 tools+vision、262k 上下文。引擎差别必须记：qwen3.5 系走 mlx runner，qwen3:4b-instruct 走 llamacpp 且上游无 -mlx 版。"
+   "cost_gb": 4.1,
+   "num_ctx": 8192,
+   "keep_alive": "15m",
+   "measured_tok_s": "38-40"
   },
   "alternative": {
    "model": "qwen3:4b-instruct",
@@ -29,19 +32,18 @@
    "why": "封存：驻留即 swap，仅离线质量批且 mem_gate 放行才加载"
   },
   "triage": {
-   "_why": "常驻快车道（2026-11-07 CEO「不要只加载一个大的」）：高频、只需一句判断的任务用它，比 4B 快一倍多且只占 1.4GB，避免为大模型让路而反复装卸",
+   "_why": "快车道：归类/打标/过筛。不常驻（真实调用少，装载仅 0.4s），用时临时拉、用完即卸",
    "model": "qwen3:1.7b",
-   "cost_gb": 1.4,
+   "cost_gb": 1.5,
    "num_ctx": 4096,
-   "keep_alive": "30m",
-   "max_out_tokens": 160
+   "keep_alive": "0"
   },
-  "on_demand": {
+  "big": {
+   "_why": "难活常驻：质量复核/长文改写/代码审查/创意文案。实测 8B 与 4B、向量三档共存 11.0GB，不必每次临时装卸（装卸一次要 3-6 秒且在内存紧时会挤掉主力）",
    "model": "qwen3:8b",
-   "cost_gb": 5.2,
-   "num_ctx": 4096,
-   "keep_alive": "0",
-   "use": "难判断/长改写/代码审查；用完立即卸载（keep_alive=0），不占常驻"
+   "cost_gb": 5.9,
+   "num_ctx": 8192,
+   "keep_alive": "30m"
   }
  },
  "accept_upgrade": {
@@ -288,8 +290,14 @@
   }
  ],
  "budget": {
-  "resident_gb_limit": 11.0,
+  "resident_gb_limit": 12.5,
   "peak_gb_limit": 16.0,
-  "rule": "常驻= resident+triage+embedding 三档；装载 on_demand 前必须让 8B 与 4B 不共存"
+  "rule": "常驻= resident+triage+embedding 三档；装载 on_demand 前必须让 8B 与 4B 不共存",
+  "office_reserve_gb": 12.0,
+  "resident_set": [
+   "big",
+   "resident",
+   "embedding"
+  ]
  }
 }

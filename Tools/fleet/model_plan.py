@@ -72,12 +72,14 @@ def main():
 
     # 1b) 分档规格（v2）：三档常驻必须齐；按需档必须用完即卸
     if mx.get("tiers"):
-        for need in ("triage", "resident", "embedding"):
+        want_res = (budget.get("resident_set") or ["big", "resident", "embedding"])
+        for need in want_res:
             if need not in (mx.get("tiers") or {}):
-                errs.append("E-TIER: 缺常驻档 %s（只剩大模型=CEO 明确反对的单档）" % need)
-        od = (mx.get("tiers") or {}).get("on_demand") or {}
-        if od and str(od.get("keep_alive")) != "0":
-            errs.append("E-KEEPALIVE: on_demand 必须 keep_alive=0（否则会常驻挤掉主力档）")
+                errs.append("E-TIER: 缺常驻档 %s（只剩单一大模型=CEO 明确反对）" % need)
+        for k, t in (mx.get("tiers") or {}).items():
+            if t.get("resident") is False and str(t.get("keep_alive")) not in ("0", "0s"):
+                errs.append("E-KEEPALIVE: %s 非常驻却 keep_alive=%s（会悄悄占住常驻）"
+                            % (k, t.get("keep_alive")))
 
     # 2) P0 必须有降级
     for t in mx.get("tasks") or []:

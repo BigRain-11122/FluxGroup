@@ -48,8 +48,8 @@ def _cfg():
 SEAT_BY_CLS = {
     "triage": "triage", "class": "triage", "classify": "triage", "tag": "triage",
     "quick": "triage", "filter": "triage",
-    "deep": "on_demand", "review": "on_demand", "code": "on_demand",
-    "rewrite": "on_demand", "longform": "on_demand",
+    "deep": "big", "review": "big", "code": "big",
+    "rewrite": "big", "longform": "big", "creative": "big",
 }
 
 
@@ -145,11 +145,12 @@ def generate(prompt, cls="master", model=None, timeout=90, keep_alive="15m",
     if seat == "triage":
         keep_alive = cfg.get("keep_alive") or keep_alive
         num_ctx = min(int(cfg.get("num_ctx") or num_ctx), num_ctx)
-    elif seat == "on_demand":
-        keep_alive = "0"      # 用完即卸，不占常驻
-        # 装 8B 前先让快车道让位（1.5GB），否则 8B+4B+emb 会顶到内存上限把 4B 挤掉，
-        # 下次调用要重载 2.2s（实测）。让位成本远低于重载。
-        _unload(_duties().get("triage", {}).get("model") or "qwen3:1.7b")
+    elif seat == "big":
+        # 大档已经常驻（8B），不需要再装卸；keep_alive 用策略里的 30m 保持温暖
+        keep_alive = cfg.get("keep_alive") or "30m"
+        num_ctx = min(int(cfg.get("num_ctx") or 8192), num_ctx)
+    elif seat in ("triage",):
+        keep_alive = "0"      # 快车道用完即卸，装载仅 0.4s，不占常驻
         num_ctx = min(int(cfg.get("num_ctx") or 4096), num_ctx)
     else:
         keep_alive = cfg.get("keep_alive") or keep_alive
