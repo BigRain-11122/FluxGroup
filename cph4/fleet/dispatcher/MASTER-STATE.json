@@ -1,40 +1,32 @@
 {
- "ts": "2026-11-07T23:34:08",
- "cycle": 294,
+ "ts": "2026-11-07T23:34:16",
+ "cycle": 295,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-07T23:34:08",
+ "master_tick_ts": "2026-11-07T23:34:16",
  "queue": {
   "total": 1337,
-  "open": 9,
-  "running": 4,
+  "open": 6,
+  "running": 7,
   "done": 505,
   "failed": 16
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 36.9,
-   "cpu_load_pct": 32,
-   "ram_free_gb": 34.1,
-   "gpu_util_pct": 72,
-   "job": "ASSET-GEN-SCENES-20261107",
-   "last_result": {
-    "job": "R-NEXT-BIGSTREAMM-REBUILD-20261107",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-07T23:25:35",
-    "reason": null,
-    "out_bytes": null,
-    "elapsed_s": null
-   },
+   "hb_age_s": 401.0,
+   "cpu_load_pct": null,
+   "ram_free_gb": null,
+   "gpu_util_pct": null,
+   "job": "R-SUB-ASSESS-BIGDOMAIN-20261107",
+   "last_result": null,
    "idle_confirmed": false,
    "idle_reason": "",
    "idle_rounds": 0
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 713.5,
+   "hb_age_s": 736.5,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -46,10 +38,10 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 67.1,
-   "cpu_load_pct": 13,
-   "ram_free_gb": 1.9,
-   "gpu_util_pct": 0,
+   "hb_age_s": 623.3,
+   "cpu_load_pct": null,
+   "ram_free_gb": null,
+   "gpu_util_pct": null,
    "job": "ASSET-GEN-CHARACTERS-20261107",
    "last_result": null,
    "idle_confirmed": false,
@@ -58,9 +50,9 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 12.2,
-   "cpu_load_pct": 26,
-   "ram_free_gb": 9.7,
+   "hb_age_s": 8.1,
+   "cpu_load_pct": null,
+   "ram_free_gb": null,
    "gpu_util_pct": null,
    "job": "VAULT-VERIFY-20261107",
    "last_result": null,
@@ -171,9 +163,7 @@
     "R-SUB-ASSESS-BIGMONEY-20261107"
    ],
    "no_supply": false,
-   "blockers": [
-    "R-SUB-ASSESS-BIGMONEY-20261107:no-lane"
-   ],
+   "blockers": [],
    "note": "2026-11-04 夜班重启：原回测阶段钉 bm-d，而 bm-d 自 10-29 离线；改由 bm-b（有 quant 仓与数据）出「下月持仓信号 CSV」，主控按 P1 恢复派单。",
    "stuck_stage": "quant-data",
    "stuck_owner": "数据席"
@@ -189,9 +179,7 @@
     "R-SUB-ASSESS-BIGDOMAIN-20261107"
    ],
    "no_supply": false,
-   "blockers": [
-    "R-SUB-ASSESS-BIGDOMAIN-20261107:no-lane"
-   ],
+   "blockers": [],
    "note": null
   },
   "bigcompute": {
@@ -266,9 +254,7 @@
     "QUALITY-SCAN-20261107"
    ],
    "no_supply": false,
-   "blockers": [
-    "QUALITY-SCAN-20261107:no-lane"
-   ],
+   "blockers": [],
    "note": null
   },
   "asset-lib": {
@@ -831,7 +817,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 5,
+  "local": 2,
   "cloud": 0,
   "queue": 4,
   "blocked": 0,
@@ -839,12 +825,14 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 5,
+  "cpu": 2,
   "gpu": 4
  },
  "supply_added": [],
  "events": [
-  "VAULT-VERIFY-20261107 -> bm-m (cpu)"
+  "QUALITY-SCAN-20261107 -> bm-a (cpu)",
+  "R-SUB-ASSESS-BIGDOMAIN-20261107 -> bm-a (cpu)",
+  "R-SUB-ASSESS-BIGMONEY-20261107 -> bm-a (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
@@ -852,6 +840,6 @@
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
  "lane_files_written": [
-  "bm-m"
+  "bm-a"
  ]
 }

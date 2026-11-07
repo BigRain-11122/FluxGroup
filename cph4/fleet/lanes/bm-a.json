@@ -1,7 +1,35 @@
 {
  "node": "bm-a",
- "ts": "2026-11-07T23:27:35",
+ "ts": "2026-11-07T23:34:16",
  "jobs": [
+  {
+   "id": "R-SUB-ASSESS-BIGDOMAIN-20261107",
+   "title": "BigDomain·硅基域商业化 子仓产物体检：这台机器能看见仓，说清现在能产出什么",
+   "cmd": "python Tools/fleet/line_triage.py --line bigdomain",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigdomain-20261107.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "R-SUB-ASSESS-BIGMONEY-20261107",
+   "title": "BigMoney·量化 子仓产物体检：这台机器能看见仓，说清现在能产出什么",
+   "cmd": "python Tools/fleet/line_triage.py --line bigmoney",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigmoney-20261107.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
   {
    "id": "ASSET-GEN-SCENES-20261107",
    "title": "资产生产：场景底图出图（6 件）",
@@ -15,9 +43,23 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
+  },
+  {
+   "id": "QUALITY-SCAN-20261107",
+   "title": "五线产物质量闸扫描（21 条判据，含反例自证）",
+   "cmd": "python Tools/fleet/quality_agents.py --selftest --scan",
+   "cwd": ".",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/QUALITY-BOARD.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 38.2/1.0 GB"
+ "capacity_note": "ram-unknown"
 }
