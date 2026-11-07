@@ -332,3 +332,15 @@ ilm grain 重复句。复核=warm skin 0 条、grain 重复 0 条。③包内语
 - 2026-11-07 00:13 OB-20261107-0013-EVENTS 事件班（承载件触发：00:01 五连 P1 = BLOCKED-RAM bm-c / CLOCK-SKEW 1031ms / IDLE-WITH-WORK bm-b / STARVED-EXEC bm-a+bm-c）：五条里三条是旗标算法自身的缺陷——它不看该车道是否正有 RUNNING 活、不看卡是否只是等 CEO 物理件（POOL-0010）、还把 cpu-sound 车道的 GPU 空闲当成整机空闲。①旗标重写（Tools/fleet-dispatcher.ps1：加 per-lane running / ceo_wait / job_ref 活腿判定，新增 POOL-PHANTOM 与 INFO WAITING-CEO）→ 同类班次复跑 5 旗降 2 真旗；②车道模式加「无派单即回落全局队列」（Tools/fleet/lane_agent.py NO-JOBS 哨 + Tools/queue_claim.py 落穿）——此前空车道直接 return True，全局 OPEN 工单永远没人领；③bm-b 认领壳补执行腿（Tools/hq-production-claim.bat 原只跑 --pool，而 --pool 无执行腿）；④补三张真维护单 FREE-MEM-APPLY-bm-c / CLOCK-RESYNC-bm-c / CLOCK-RESYNC-bm-b（都按 nodes 钉机）；⑤落 31 份 <曲>-words.json 到 git（上游只跟了 10 份，卡已 done 但产物没入库）。POOL-0025 上游已于 11-06 关闭，本班不重复关闭，只补产物入库。
 - 2026-11-07 00:19 OB-20261107-0019-EVENTS 事件班（承载件触发：00:01 五连 P1 = BLOCKED-RAM bm-c / CLOCK-SKEW 1031ms / IDLE-WITH-WORK bm-b / STARVED-EXEC bm-a+bm-c）。裁决：五条里三条是旗标算法自身缺陷，不是机队问题——①它只看 POOL 卡不看车道是否正有活（队列 RUNNING(owner) 与 lanes/<node>.json 的新鲜派单都不算）；②把「只等 CEO 物理件」的 POOL-0010 当成供给失败（现单列 ceo_wait，输出 INFO WAITING-CEO，零催办）；③把 cpu-sound 车道的 GPU 空闲当成整机空闲（bm-b 长期假红）。另新增 POOL-PHANTOM：卡 OPEN 但 job_ref 指向 FAILED/不存在＝幻影供给。落地（origin 8b114fe5b）：Tools/fleet-dispatcher.ps1 旗标重写 + POOL-PHANTOM/WAITING-CEO；Tools/fleet/lane_agent.py 空车道返回 NO-JOBS 哨 + Tools/queue_claim.py 回落全局队列（此前空车道直接 return True，共享队列再没被读过）；Tools/hq-production-claim.bat 只跑 --pool（无执行腿）→ 补 --node 执行腿。同批产出入库：<曲>-words.json 现为 41/41 在 origin（此前仅 10 在库，而 POOL-0025 已标 done＝产物没落仓）。验证：同类状态复跑 5 旗→1 真旗（CLOCK-UNALIGNED old_schema=1）；queue_claim --pool-selftest 9/9。如实披露：本班另加的三张维护单（FREE-MEM-APPLY-bm-c / CLOCK-RESYNC-bm-c / CLOCK-RESYNC-bm-b）已被主控 bm-m 00:2x 的供给收编（队列 3→1 OPEN，退死卡）一并收掉，未抢回；仍无归属件的真缺口＝bm-b/bm-c 钟偏 ≈1s（只影响毫秒级排序，非产线阻塞），留主控重发。
 
+| 2026-11-07 18:01（自动分发 OB-20261107-180106-609） | CEO 令（原话）：「【主控令·溯源 CEO 2026-11-07「你给我搞定」+ CEO 2026-11-06 23:46 全面开工令】
+
+各机立即做一次仓库收口（一次人工动作压成令，30 秒）：
+
+1. 在**本机仓库根目录**双击或执行 `Tools\fleet\node_closeout.ps1`（纯 ASCII、幂等、绝不 --hard）。
+2. 它会：救生分支 → fetch → reset --mixed origin/main → 自校验 → 写 closeout-<node>.json 回执。
+3. 收口原因（实测）：bm-b ahead 542 / behind 316，bm-a 亦分叉。分叉导致新工具文件到不了本机，
+   卡片 requires 拿不到 → 卡在车道里 claim 后无法执行，表现为"队列有活、机器空转"。
+4. 收口后请立刻执行一次：`python Tools/fleet/audio_bgm_fill.py --receipt cph4/fleet/queue-receipts/audio-bgm-fill-20261107.json`
+   （资产已入档在仓库里，正常应 10/10 SKIP，rc=0）
+5. 回执落 cph4/fleet/queue-receipts/，并在 cph4/fleet/closeout-<node>.json 记录 before/after 提交号。
+6. 禁：git reset --hard、禁删未提交业务文件、禁动 .codely-cli/memory 主题文件。」 | **机队自动分发令（id=OB-20261107-180106-609）**：车道=bm-a/bm-b/bm-c；bm-a=拆解/装配/核验/回执；HQ 车道可执行件立即开工；bm-b=配音/混音/词锚/声音车道可执行件立即开工；bm-c=KF/i2v/渲染/画质链可执行件立即开工；各车道轮首自领、禁等人工分配；回执落 cph4/fleet/order-bus/receipts/ | dispatched OB-20261107-180106-609 | [via fleet-order-bus.py] |
