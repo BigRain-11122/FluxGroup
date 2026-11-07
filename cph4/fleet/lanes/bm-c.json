@@ -1,6 +1,10 @@
 {
  "node": "bm-c",
+<<<<<<< HEAD
  "ts": "2026-11-08T00:20:46",
+=======
+ "ts": "2026-11-08T00:09:13",
+>>>>>>> 666be2f52 (pulse: dispatch snapshot [via bm-m])
  "jobs": [
   {
    "id": "asset-lib-env-check-2026-11-08",
@@ -17,6 +21,7 @@
    "timeout_s": null
   },
   {
+<<<<<<< HEAD
    "id": "asset-lib-face-dataset-2026-11-08",
    "title": "[资产储备（角色 LoRA / 音色库）] 人脸数据集准入（反 AI 脸的第一道门）",
    "cmd": "python Tools/fleet/asset_dataset_audit.py --mode face --dir media/asset/faces --out cph4/fleet/queue-receipts/asset-face-2026-11-08.json",
@@ -36,6 +41,13 @@
    "cmd": "python Tools/fleet/asset_library_check.py --tier p0 --out cph4/fleet/queue-receipts/asset-library-2026-11-08.json",
    "cwd": "",
    "needs": "cpu",
+=======
+   "id": "asset-lib-library-check-2026-11-08",
+   "title": "[资产储备（角色 LoRA / 音色库）] 库体检（数量/规格/授权/缺口）",
+   "cmd": "python Tools/fleet/asset_library_check.py --tier p0 --out cph4/fleet/queue-receipts/asset-library-2026-11-08.json",
+   "cwd": "",
+   "needs": "cpu",
+>>>>>>> 666be2f52 (pulse: dispatch snapshot [via bm-m])
    "deliverable": "cph4/fleet/queue-receipts/asset-library-2026-11-08.json",
    "need_mb": null,
    "model": "none",

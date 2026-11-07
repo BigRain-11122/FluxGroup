@@ -1,6 +1,10 @@
 {
  "node": "bm-b",
+<<<<<<< HEAD
  "ts": "2026-11-08T00:24:10",
+=======
+ "ts": "2026-11-08T00:09:39",
+>>>>>>> 666be2f52 (pulse: dispatch snapshot [via bm-m])
  "jobs": [
   {
    "id": "bigmoney-signal-2026-11-08",
@@ -51,6 +55,20 @@
    "cwd": "",
    "needs": "cpu",
    "deliverable": "cph4/fleet/queue-receipts/triage-biggame-20261108.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "ASSET-GEN-STYLES-20261107",
+   "title": "资产生产：风格样张出图（3 件）",
+   "cmd": "python Tools/fleet/asset_gen.py --class styles --limit 3 --node bm-c --receipt cph4/fleet/queue-receipts/asset-gen-styles-20261107.json",
+   "cwd": ".",
+   "needs": "gpu",
+   "deliverable": "cph4/fleet/queue-receipts/asset-gen-styles-20261107.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
