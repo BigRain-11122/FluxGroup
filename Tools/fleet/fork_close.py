@@ -113,6 +113,40 @@ def close_out(root=None, base="origin/main", apply_=False, fetch=True):
     return res
 
 
+STATE_DIR = os.path.join(ROOT, "cph4", "fleet", "state")
+
+
+def write_status(res):
+    """Persist fork state so other stages can judge it without re-running git.
+
+    Without this file every consumer (root_cause R6, ceo_pilot CLS-1) reported
+    UNVERIFIED and the divergence stayed invisible - the box looked merely "slow".
+    """
+    try:
+        os.makedirs(STATE_DIR, exist_ok=True)
+        p = os.path.join(STATE_DIR, "fork-status.json")
+        prev = {}
+        try:
+            with open(p, encoding="utf-8") as f:
+                prev = json.load(f) or {}
+        except Exception:
+            prev = {}
+        nodes = prev.get("nodes") or {}
+        node = os.environ.get("FLUX_NODE") or os.environ.get("NODE") or \
+            os.uname().nodename.split(".")[0] if hasattr(os, "uname") else "bm-m"
+        nodes[node] = {"ahead": int(res.get("ahead") or 0),
+                       "behind": int(res.get("behind") or 0),
+                       "real": int(res.get("real") or 0),
+                       "verdict": res.get("verdict"),
+                       "ts": time.strftime("%Y-%m-%dT%H:%M:%S")}
+        out = {"ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "nodes": nodes,
+               "note": "只有本机条目由本机写；别机数据由各自上报，缺失即未知"}
+        with open(p, "w", encoding="utf-8") as f:
+            json.dump(out, f, ensure_ascii=False, indent=1)
+    except Exception:
+        pass
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--apply", action="store_true", help="perform the close-out")
@@ -120,6 +154,7 @@ def main():
     ap.add_argument("--root", default="", help="repo root (defaults to this script's repo)")
     a = ap.parse_args()
     r = close_out(root=(a.root or None), base=a.base, apply_=a.apply)
+    write_status(r)
     print(json.dumps(r, ensure_ascii=False))
     return 0 if r["verdict"] in ("FF-OK", "CLOSED", "WOULD-CLOSE", "ALREADY-CLEAN") else 1
 

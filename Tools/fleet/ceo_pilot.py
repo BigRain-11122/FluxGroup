@@ -116,6 +116,16 @@ def build_pool():
                          "我已用 GitHub API 核实过 1 个（真），其余要不要我批量核实", 5,
                          "每条的 stars/license/pushed 都有 API 回执", ready=1))
 
+    # --- 跨机收口（R6）：仓库分叉的机器拿不到新码，只能人工一次 ---
+    fs = jload(os.path.join(STATE, "fork-status.json"), {}) or {}
+    forks = [n for n, v in ((fs.get("nodes") or {}).items())
+             if int((v or {}).get("ahead") or 0) > 0]
+    if forks:
+        pool.append(cand("CLS-1", "收口", "%d 台机器仓库分叉，跑一次自愈脚本" % len(forks),
+                         "分叉机器拿不到新码：%s" % ",".join(forks[:4]),
+                         "在每台机器上执行 Tools/fleet/node_closeout.ps1（双击或一条命令，30 秒）",
+                         5, "closeout-<node>.json 回执且 ahead=0", blocks=1, urgent=1))
+
     # --- 验收 ---
     dv = jload(os.path.join(STATE, "demand-audit.json"), {}) or {}
     gaps = [r for r in (dv.get("results") or []) if r.get("state") == "GAP"]
