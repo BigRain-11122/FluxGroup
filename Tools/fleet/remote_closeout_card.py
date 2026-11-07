@@ -53,7 +53,7 @@ $bh=(& git -C $root rev-list --count HEAD..origin/main) -join ''
 $h=((& git -C $root rev-parse HEAD) -join '').Trim()
 $o=((& git -C $root rev-parse origin/main) -join '').Trim()
 $ok='false'; if($h -eq $o){ $ok='true' }
-$node=$env:COMPUTERNAME
+$node='__NODE__'
 $rd=Join-Path $root 'cph4\fleet\queue-receipts'
 New-Item -ItemType Directory -Force -Path $rd | Out-Null
 $rec='{"node":"'+$node+'","ts":"'+(Get-Date).ToString('o')+'","before_ahead":'+$ah+',"before_behind":'+$bh+',"head":"'+$h+'","origin":"'+$o+'","aligned":'+$ok+',"salvage":"'+$tag+'"}'
@@ -64,6 +64,10 @@ Write-Output $rec
 
 def encoded(ps_text):
     return base64.b64encode(ps_text.encode("utf-16-le")).decode("ascii")
+
+
+def ps_for(node):
+    return PS.replace("__NODE__", node)
 
 
 def card_for(node, cmd):
@@ -91,12 +95,14 @@ def main(argv):
     a = ap.parse_args(argv)
     cmd = 'powershell -NoProfile -ExecutionPolicy Bypass -EncodedCommand ' + encoded(PS)
     if a.print_cmd:
-        print(cmd)
+        node = [n.strip() for n in a.nodes.split(",") if n.strip()][0]
+        print('powershell -NoProfile -ExecutionPolicy Bypass -EncodedCommand ' + encoded(ps_for(node)))
         return 0
     nodes = [n.strip() for n in a.nodes.split(",") if n.strip()]
     made = []
     for n in nodes:
-        c = card_for(n, cmd)
+        c = card_for(n, 'powershell -NoProfile -ExecutionPolicy Bypass -EncodedCommand '
+                        + encoded(ps_for(n)))
         if not a.apply:
             made.append(c["id"])
             print("[dry] %s  cmd_len=%d" % (c["id"], len(cmd)))
