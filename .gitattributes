@@ -25,4 +25,5 @@ media/** -diff linguist-generated
 
 # L0 代码：只对 Python 强制 LF。.ps1 保持现状——生产脚本的换行行为不在此刻改动
 # （PS 5.1 我们已因 GBK 与编码踩过坑，不在无实测的情况下再动一次）。
-*.py text eol=lfcph4/fleet/archive/asset-lib/**/*.mp3 binary -diff linguist-generated
+*.py text eol=lf
+cph4/fleet/archive/asset-lib/**/*.mp3 binary -diff linguist-generated
