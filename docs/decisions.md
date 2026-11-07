@@ -225,4 +225,6 @@ efs/heads/bm-a/pending-20261107；git ls-remote 实读该枝头 = 本地 HEAD 42
 
 > 本班两处判据修正：①**「配置写了属主」≠「有观测」**——lane_hosts 声明 9 条道、板子只覆盖 6 条、属主机退役 8 天零告警；观测面的第一判据是覆盖集合关系（keys ⊆ board），不是任一条的阈值。②**「登记件建档即正确」**——roster 建档采的是当时实证，flag 一变即失真；登记件必须与源状态每轮对账，否则下游会把它当权威引用（假态比缺件更贵）。
 
-> [SELF-CHECK] 2026-11-07 18:2x 落账自证（D-20261101-09 闸）：写入后实读 `docs/decisions.md` 含「第 53 批」＝True／「D-20261107-19」＝True／「197.3h」＝True／「SUSPENDED-DECOMMISSIONED」＝True。
+> [SELF-CHECK] 2026-11-07 18:2x 落账自证（D-20261101-09 闸）：写入后实读 `docs/decisions.md` 含「第 53 批」＝True／「D-20261107-19」＝True／「197.3h」＝True／「SUSPENDED-DECOMMISSIONED」＝True；`cph4/fleet/MACHINE-ROSTER.json` JSON 解析通过且 bm-a.state=ACTIVE；`cph4/reflection-journal.md` 含「第 53 批」＝True。
+
+> [PUSH-OK] 2026-11-07 18:2x 本批已交付 origin：本地 main 与 origin/main 分叉 **847/885**（承 D-20261107-11(a)「侧分支无损发布」），本轮三件走侧分支 refs/heads/bm-a/pending-20261107；push 实读 `2d404b792..2751c4ffc HEAD -> bm-a/pending-20261107`。主干不追平、不 rebase、不强推。
