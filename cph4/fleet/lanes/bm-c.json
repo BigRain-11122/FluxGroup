@@ -1,8 +1,42 @@
 {
  "node": "bm-c",
+<<<<<<< HEAD
  "ts": "2026-11-08T01:55:27",
  "jobs": [
   {
+=======
+ "ts": "2026-11-08T01:15:43",
+ "jobs": [
+  {
+   "id": "ROLL-bmc-000533",
+   "title": "rollout 探针（bm-c）",
+   "cmd": "python -c \"print('ok')\"",
+   "cwd": ".",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/ROLL-bmc-000533.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "asset-lib-face-dataset-2026-11-08",
+   "title": "[资产储备（角色 LoRA / 音色库）] 人脸数据集准入（反 AI 脸的第一道门）",
+   "cmd": "python Tools/fleet/asset_dataset_audit.py --mode face --dir media/asset/faces --out cph4/fleet/queue-receipts/asset-face-2026-11-08.json",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/asset-face-2026-11-08.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+>>>>>>> d55c02d7d (pulse: dispatch snapshot [via bm-m])
    "id": "asset-lib-asset-gen-2026-11-08",
    "title": "[资产储备（角色 LoRA / 音色库）] 通用资产出图（道具/场景，吃 ASSET-PROMPTS 规格）",
    "cmd": "python Tools/fleet/asset_gen.py --node bm-c --class props --limit 4 --receipt cph4/fleet/queue-receipts/asset-gen-props-2026-11-08.json",
@@ -89,5 +123,9 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
+<<<<<<< HEAD
  "capacity_note": "ram 3.2/1.0 GB"
+=======
+ "capacity_note": "ram 1.1/1.0 GB"
+>>>>>>> d55c02d7d (pulse: dispatch snapshot [via bm-m])
 }
