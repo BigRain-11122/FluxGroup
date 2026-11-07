@@ -1,0 +1,85 @@
+{
+  "_comment": "本地模型分工矩阵 v2（2026-11-07 CEO「不要只加载一个大的，要符合机队和你自己的需要」）。本件是模型侧唯一调度事实源：哪档模型干什么、怎么卸、预算多少。改模型改这里，不要在代码里写模型名。",
+  "version": "v2-20261107",
+  "host": "bm-m · 32GB 统一内存（与 CEO 办公应用共用同一池）",
+  "principle": "按时长分档，不按'越大越好'：高频短判断用小模型常驻，主力判断用 4B 常驻，难判断才临时拉 8B 并立刻卸。常驻三档加起来的预算必须给办公留够余量。",
+  "tiers": {
+    "triage": {
+      "role": "快车道：归类、打标、过筛、抽一个短字段",
+      "model": "qwen3:1.7b",
+      "num_ctx": 4096,
+      "keep_alive": "30m",
+      "resident": true,
+      "measured_gb": 1.5,
+      "why": "这类任务一轮几十次，4B 每次 2-4s 太贵；1.7B 实测亚秒级，且小到不会挤别人"
+    },
+    "resident": {
+      "role": "主力：摘要、抽字段、写一句理由、判定短文本",
+      "model": "qwen3.5:4b-mlx",
+      "num_ctx": 8192,
+      "keep_alive": "15m",
+      "resident": true,
+      "measured_gb": 4.1,
+      "measured_tok_s": "38-40",
+      "why": "黄金集 6/8，速度是 8B 的两倍；ctx 8192 后实测常驻 4.1GB"
+    },
+    "embedding": {
+      "role": "语义判重 / 检索 / 向量",
+      "model": "qwen3-embedding:0.6b",
+      "keep_alive": "30m",
+      "resident": true,
+      "measured_gb": 1.0
+    },
+    "on_demand": {
+      "role": "难判断：长文改写、质量复核、代码审查、跨段推理",
+      "model": "qwen3:8b",
+      "num_ctx": 4096,
+      "keep_alive": "0",
+      "resident": false,
+      "measured_gb": 5.2,
+      "rules": [
+        "装载前必须先释放 triage（1.5GB），否则 8B+4B+emb 会把 4B 挤出，下次要重载 2.2s",
+        "用完立即卸载（keep_alive=0），绝不常驻",
+        "禁用情形：swap>0、或办公应用已占满、或本机正在跑 i2v/渲染"
+      ]
+    },
+    "cloud": {
+      "role": "本地无能力 / 本地全排满且卡下游 / 需要更强推理",
+      "when": "见 AUTONOMY-CONFIG.cloud",
+      "cap_cny_per_day": 100
+    }
+  },
+  "routing": {
+    "_comment": "座椅由调用方 cls 决定（Tools/fleet/local_model.py SEAT_BY_CLS），未知 cls 一律走 resident，绝不默认拉大的。",
+    "triage": ["triage", "class", "classify", "tag", "quick", "filter"],
+    "on_demand": ["deep", "review", "code", "rewrite", "longform"],
+    "resident": ["*其余*"]
+  },
+  "budget": {
+    "resident_gb_limit": 11.0,
+    "peak_gb_limit": 16.0,
+    "office_reserve_gb": 12.0,
+    "rule": "三档常驻合计 ≤ resident_gb_limit；任何时刻含 on_demand 的峰值 ≤ peak_gb_limit；办公保留量低于 office_reserve 时禁止装载 on_demand"
+  },
+  "swap": {
+    "order": ["on_demand", "triage", "resident", "embedding"],
+    "_comment": "要腾内存时按这个顺序让位：先卸按需档，最后才动 embedding（它最便宜且大量任务依赖）",
+    "preload_evict": "装载 on_demand 前先卸 triage"
+  },
+  "measured": {
+    "at": "2026-11-07T20:2x",
+    "resident_3tier_gb": 6.7,
+    "after_deep_call_gb": 4.1,
+    "notes": [
+      "三档共存实测 6.7GB（4B 4.1 + 1.7B 1.5 + emb 1.0）",
+      "8B 跑完即卸，4B 未被挤出（因为先释放了 triage）；不预先释放时 8B 会把 4B 挤掉",
+      "4B 被卸后重载 2.2s——所以宁可让 triage 让位，也别让 4B 让位"
+    ]
+  },
+  "forbidden": [
+    "常驻任何 30B 级以上模型（24GB 即触发 swap，CEO 明令不许硬扛 swap）",
+    "把数字类判断交给 1.7B/4B/8B（历史上 4B 算术两次全错：220-116-6 答成 100/104）",
+    "在 swap>0 时装载 on_demand",
+    "同时驻留 4B 与 8B 却不释放 triage"
+  ]
+}

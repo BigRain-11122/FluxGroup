@@ -43,10 +43,48 @@ def _cfg():
         return {}
 
 
+# 座位路由（2026-11-07 CEO「不要只加载一个大的」）：任务按难度分三档，别用大炮打蚊子，
+# 也别拿 1.7B 去干需要 8B 的判断。座位定义在 LOCAL-MODEL-POLICY.duties。
+SEAT_BY_CLS = {
+    "triage": "triage", "class": "triage", "classify": "triage", "tag": "triage",
+    "quick": "triage", "filter": "triage",
+    "deep": "on_demand", "review": "on_demand", "code": "on_demand",
+    "rewrite": "on_demand", "longform": "on_demand",
+}
+
+
+def _duties():
+    try:
+        with open(os.path.join(ROOT, "cph4", "fleet", "LOCAL-MODEL-POLICY.json"),
+                  encoding="utf-8-sig") as f:
+            return json.load(f).get("duties") or {}
+    except Exception:
+        return {}
+
+
+def seat_of(cls):
+    return SEAT_BY_CLS.get(str(cls or "").lower(), "resident")
+
+
 def _model():
     if DEFAULT_MODEL != "\x00":
         return DEFAULT_MODEL
     return _cfg().get("model") or "qwen3.5:4b-mlx"
+
+
+def _unload(model):
+    """把某个模型立刻卸掉（keep_alive=0），失败静默——不让清理动作影响主流程。"""
+    try:
+        _post("/api/generate", {"model": model, "keep_alive": 0}, 30)
+    except Exception:
+        try:
+            import urllib.request as _u
+            req = _u.Request(URL + "/api/generate", method="POST",
+                             data=json.dumps({"model": model, "keep_alive": 0}).encode())
+            req.add_header("Content-Type", "application/json")
+            _u.urlopen(req, timeout=30).read()
+        except Exception:
+            pass
 
 
 def _audit(row):
@@ -100,12 +138,27 @@ def generate(prompt, cls="master", model=None, timeout=90, keep_alive="15m",
     """本机生成。超时/失败返回 ""（调用方必须能接受空结果，不许编造）。"""
     hold(cls, why or prompt[:40])
     t0 = time.time()
+    seat = seat_of(cls)
+    cfg = _duties().get(seat) or {}
+    if model is None:
+        model = cfg.get("model") or _model()
+    if seat == "triage":
+        keep_alive = cfg.get("keep_alive") or keep_alive
+        num_ctx = min(int(cfg.get("num_ctx") or num_ctx), num_ctx)
+    elif seat == "on_demand":
+        keep_alive = "0"      # 用完即卸，不占常驻
+        # 装 8B 前先让快车道让位（1.5GB），否则 8B+4B+emb 会顶到内存上限把 4B 挤掉，
+        # 下次调用要重载 2.2s（实测）。让位成本远低于重载。
+        _unload(_duties().get("triage", {}).get("model") or "qwen3:1.7b")
+        num_ctx = min(int(cfg.get("num_ctx") or 4096), num_ctx)
+    else:
+        keep_alive = cfg.get("keep_alive") or keep_alive
     try:
-        body = {"model": model or _model(), "prompt": prompt, "stream": False,
+        body = {"model": model, "prompt": prompt, "stream": False,
                 "think": think, "keep_alive": keep_alive,
                 "options": dict({"num_ctx": num_ctx, "temperature": temperature}, **opts)}
         out = (_post("/api/generate", body, timeout).get("response") or "").strip()
-        _audit({"cls": cls, "op": "generate", "model": body["model"],
+        _audit({"cls": cls, "seat": seat, "op": "generate", "model": body["model"],
                 "sec": round(time.time() - t0, 1), "chars": len(out), "why": why})
         return out
     except Exception as e:

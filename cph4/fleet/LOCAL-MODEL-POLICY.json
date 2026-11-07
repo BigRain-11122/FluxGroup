@@ -27,6 +27,21 @@
    "model": "qwen3.5:35b-a3b",
    "budget_gb": 24.0,
    "why": "封存：驻留即 swap，仅离线质量批且 mem_gate 放行才加载"
+  },
+  "triage": {
+   "_why": "常驻快车道（2026-11-07 CEO「不要只加载一个大的」）：高频、只需一句判断的任务用它，比 4B 快一倍多且只占 1.4GB，避免为大模型让路而反复装卸",
+   "model": "qwen3:1.7b",
+   "cost_gb": 1.4,
+   "num_ctx": 4096,
+   "keep_alive": "30m",
+   "max_out_tokens": 160
+  },
+  "on_demand": {
+   "model": "qwen3:8b",
+   "cost_gb": 5.2,
+   "num_ctx": 4096,
+   "keep_alive": "0",
+   "use": "难判断/长改写/代码审查；用完立即卸载（keep_alive=0），不占常驻"
   }
  },
  "accept_upgrade": {
@@ -271,5 +286,10 @@
    ],
    "max_chars": 16
   }
- ]
+ ],
+ "budget": {
+  "resident_gb_limit": 11.0,
+  "peak_gb_limit": 16.0,
+  "rule": "常驻= resident+triage+embedding 三档；装载 on_demand 前必须让 8B 与 4B 不共存"
+ }
 }

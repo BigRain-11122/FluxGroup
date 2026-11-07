@@ -749,7 +749,8 @@ def align_resident() -> str:
         with open(os.path.join(ROOT, "cph4", "fleet", "LOCAL-MODEL-POLICY.json"),
                   encoding="utf-8") as f:
             lp = (json.load(f).get("duties") or {})
-        for seat in ("resident", "embedding"):
+        # 三档常驻白名单（2026-11-07）：resident(4B 主力) + triage(1.7B 快车道) + embedding
+        for seat in ("resident", "triage", "embedding"):
             m = ((lp.get(seat) or {}).get("model") or "").strip()
             if m:
                 keep.add(m)
