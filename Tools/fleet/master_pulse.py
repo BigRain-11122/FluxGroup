@@ -152,6 +152,8 @@ STAGES = [
     ("security", ["Tools/fleet/security_ledger.py"], 86400, {0}, True),
     # 灾难恢复体检：备份新鲜度/关键文件在不在 git/接管六步，RTO 30min·RPO 24h。
     ("dr_check", ["Tools/fleet/dr_check.py"], 86400, {0}, True),
+    # 三层产出审核 + 入档入库（CEO 2026-11-07）：DONE 只表示执行结束，不代表合格。
+    ("review_artifacts", ["Tools/fleet/artifact_review.py", "--limit", "40", "--apply"], 21600, {0, 1}, True),
     # 研究创新席（2026-11-02 CEO 令）：体检四席的边界与空转，顺手刷新 PROPOSALS.json
     # 供派单方择取。rc=2 是有违规的告警，不是工具坏，所以计入 ok_rc。
     ("ri", ["Tools/fleet/ri_dept.py", "check"], 60, {0, 2}, True),
