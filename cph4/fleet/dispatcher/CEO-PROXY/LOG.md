@@ -1167,3 +1167,5 @@ am_free 10GB / cpu_load 48%——bm-b 在跑量化轮而非闲着；缺的是本
   零新派单（bm-m 主控每 1-2 分钟在写队列，本班改写=双写竞态，按 01:39 判例让路）；waiting-CEO=两机 w32time + bm-b/bm-c 桌面 RAM；DEADLINES.md 仍是本地未跟踪件（重置风险在档）。
 
 - [2026-11-08 02:22]R18 追记（台账结构发现·高价值）：`cph4/fleet/dispatcher/DEADLINES.md` **不是手工台账，是 `Tools/fleet/fleet_deadline.py` 每轮整份重写的生成件**（OUT_MD）。因此历届事件班把 R 系列附录追加进去 = 下一次雷达跑就整块消失（本班亲测：读时 494 行 → 十几分钟后被重写为 50 行的雷达版，附录随之蒸发）。正法：**事件记录只写已跟踪的 `CEO-PROXY/LOG.md`**；DEADLINES.md 只读不写。本班已把误追加的 R18 附录收回，只保留正文一条 R18 事件行 + 本条追记。
+
+- [2026-11-08 02:28]R18 补记（真活·资产线）：`asset-lib-voice-dataset-2026-11-07` 在 bm-m（无 ffmpeg）与 bm-b（静默 STALL）双机失败后已被 CANCELLED；本班在 **bm-a 实测同一命令能跑通**（ffmpeg 9.0.2 + `media/asset/voices` 3419 件/891MB 都在本机），得到的是**真判决不是拦截回执**：VERDICT=FAIL，3408 段/19452.8s，四条缺口=①`license='unknown'` 不在 own/public-domain/cc0/cc-by/licensed 清单内（=无授权）②RIGHTS.json 缺 `source`（来源不可追溯）③停顿密度 4.9 次/分 < 6（一级判据：播音腔）④响度动态 LRA 1.3 LU < 5（压得太平：播音腔）。结论：891MB 音色库**目前不可用于训练**，卡住的不是调度而是数据质量+授权；正法=补 RIGHTS.json 的 source/license、重切片段提停顿密度、不做响度压缩。产物入链 `cph4/fleet/queue-receipts/asset-voice-2026-11-08.json`；**不重开卡**（缺的是数据修补，不是执行）。
