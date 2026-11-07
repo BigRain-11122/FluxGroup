@@ -85,9 +85,12 @@ def rg03():
 
 @case("RG-04", "lanes 与 queue-receipts 必须在 git 里", "撤销我 11-06 切断派单通道的错误")
 def rg04():
-    gi = open(os.path.join(ROOT, ".gitignore"), encoding="utf-8").read()
+    # 只判「整目录被忽略」，不能做子串匹配：.gitignore 里有一条
+    # cph4/fleet/queue-receipts/_last_lane_*.json（具体文件），子串判断会误伤。
+    lines = [ln.strip() for ln in
+             open(os.path.join(ROOT, ".gitignore"), encoding="utf-8").read().splitlines()]
     for bad in ("cph4/fleet/lanes/", "cph4/fleet/queue-receipts/"):
-        assert bad not in gi, "%s 被忽略 = 切断机队取卡/上报通道" % bad
+        assert bad not in lines, "%s 整目录被忽略 = 切断机队取卡/上报通道" % bad
     rc, out = subprocess.run(["git", "-C", ROOT, "ls-tree", "-r", "origin/main",
                               "--name-only"], capture_output=True, text=True,
                              encoding="utf-8", errors="replace").returncode, ""
