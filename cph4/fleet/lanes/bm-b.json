@@ -1,6 +1,6 @@
 {
  "node": "bm-b",
- "ts": "2026-11-08T03:34:18",
+ "ts": "2026-11-08T03:35:06",
  "jobs": [
   {
    "id": "bigmoney-signal-2026-11-08",
@@ -17,7 +17,7 @@
    "timeout_s": null
   },
   {
-   "id": "AUD-GAME-20261108T012729-28",
+   "id": "AUD-GAME-20261108T030701-28",
    "title": "提审缺口落单：ArrowOut",
    "cmd": "python Tools/fleet/supply_batch.py --audit game ArrowOut",
    "cwd": "/Users/junsheng.sun/FluxGroup",
@@ -31,54 +31,26 @@
    "timeout_s": null
   },
   {
-   "id": "AUD-GAME-20261108T012729-30",
-   "title": "提审缺口落单：FateGate",
+   "id": "AUD-GAME-20261108T022403-26-R1",
+   "title": "游戏缺附单：CardRogue（cwd 修正重发）",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game CardRogue",
+   "cwd": ".",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/audits/game/CardRogue.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "AUD-GAME-20261108T022403-30-R1",
+   "title": "游戏缺附单：FateGate（cwd 修正重发）",
    "cmd": "python Tools/fleet/supply_batch.py --audit game FateGate",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "cwd": ".",
    "needs": "cpu",
    "deliverable": "cph4/fleet/audits/game/FateGate.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "AUD-GAME-20261108T012729-31",
-   "title": "提审缺口落单：StrategistDefense",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game StrategistDefense",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/StrategistDefense.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "AUD-GAME-20261108T012729-32",
-   "title": "提审缺口落单：DemonTamer",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game DemonTamer",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/DemonTamer.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "AUD-GAME-20261108T012729-34",
-   "title": "提审缺口落单：SongOfScents",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game SongOfScents",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/SongOfScents.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -89,5 +61,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 8.9/1.0 GB"
+ "capacity_note": "ram 9.0/1.0 GB"
 }
