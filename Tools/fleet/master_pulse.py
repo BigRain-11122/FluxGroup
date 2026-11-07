@@ -146,6 +146,12 @@ STAGES = [
     # 运营度量（2026-11-07 维度盘点后补）：错误预算/燃尽、产物质量 rubric、成本归因。
     # 过去只有二元绿，看不出「四条服务都在超支、同步 0%」。rc=1 表示有服务超预算。
     ("ops_metrics", ["Tools/fleet/ops_metrics.py"], 3600, {0, 1}, True),
+    # 回归用例集（2026-11-07）：把踩过的每个坑变成断言，改码后自动跑，防越修越乱。
+    ("regression", ["Tools/fleet/regression.py"], 21600, {0}, True),
+    # 安全与供应链台账：凭据泄漏/越权动作/许可传染/素材授权，红线变每日计数。
+    ("security", ["Tools/fleet/security_ledger.py"], 86400, {0}, True),
+    # 灾难恢复体检：备份新鲜度/关键文件在不在 git/接管六步，RTO 30min·RPO 24h。
+    ("dr_check", ["Tools/fleet/dr_check.py"], 86400, {0}, True),
     # 研究创新席（2026-11-02 CEO 令）：体检四席的边界与空转，顺手刷新 PROPOSALS.json
     # 供派单方择取。rc=2 是有违规的告警，不是工具坏，所以计入 ok_rc。
     ("ri", ["Tools/fleet/ri_dept.py", "check"], 60, {0, 2}, True),

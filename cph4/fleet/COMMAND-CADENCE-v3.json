@@ -3,7 +3,7 @@
  "version": "v3-20261107",
  "base_tick_s": 45,
  "scope": {
-  "covers": "脉里全部 86 个阶段（值守/派单/执行/线/一屏/方向）",
+  "covers": "脉里全部 90 个阶段（值守/派单/执行/线/一屏/方向）",
   "excludes": "各产品线自己的业务流程（不进脉，不进本表）"
  },
  "law": [
@@ -1270,7 +1270,7 @@
    "domain": "方向",
    "stage": "model_plan",
    "period_s": 3600,
-   "phase_s": 1200,
+   "phase_s": 900,
    "actor": "rule",
    "action": "执行 model_plan 阶段",
    "input": [],
@@ -1280,11 +1280,25 @@
    "on_fail": "无候选时须写明「没有需要你做的事」，不许空文件"
   },
   {
+   "id": "S-ops_metrics",
+   "domain": "一屏",
+   "stage": "ops_metrics",
+   "period_s": 3600,
+   "phase_s": 1800,
+   "actor": "rule",
+   "action": "执行 ops_metrics 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/ops_metrics.json",
+   "output_inferred": true,
+   "accept": "文件 mtime 前进且内容非空",
+   "on_fail": "未更新 → 视为阶段未执行，报 E-STAGE-SILENT"
+  },
+  {
    "id": "S-useful_load",
    "domain": "运维",
    "stage": "useful_load",
    "period_s": 3600,
-   "phase_s": 2400,
+   "phase_s": 2700,
    "actor": "rule",
    "action": "占着算力却没有产出 → 判无用负载",
    "input": [
@@ -1294,6 +1308,20 @@
    "output_inferred": false,
    "accept": "无用负载 ≤1",
    "on_fail": "连续 3h 无产出 → 建议释放"
+  },
+  {
+   "id": "S-regression",
+   "domain": "一屏",
+   "stage": "regression",
+   "period_s": 21600,
+   "phase_s": 0,
+   "actor": "rule",
+   "action": "执行 regression 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/regression.json",
+   "output_inferred": true,
+   "accept": "文件 mtime 前进且内容非空",
+   "on_fail": "未更新 → 视为阶段未执行，报 E-STAGE-SILENT"
   },
   {
    "id": "S-ceo_three",
@@ -1322,7 +1350,7 @@
    "domain": "方向",
    "stage": "demand_audit",
    "period_s": 86400,
-   "phase_s": 21600,
+   "phase_s": 14400,
    "actor": "rule",
    "action": "执行 demand_audit 阶段",
    "input": [],
@@ -1330,6 +1358,20 @@
    "output_inferred": true,
    "accept": "结论带证据指针，否则视为未出结论",
    "on_fail": "无候选时须写明「没有需要你做的事」，不许空文件"
+  },
+  {
+   "id": "S-dr_check",
+   "domain": "一屏",
+   "stage": "dr_check",
+   "period_s": 86400,
+   "phase_s": 28800,
+   "actor": "rule",
+   "action": "执行 dr_check 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/dr_check.json",
+   "output_inferred": true,
+   "accept": "文件 mtime 前进且内容非空",
+   "on_fail": "未更新 → 视为阶段未执行，报 E-STAGE-SILENT"
   },
   {
    "id": "S-fact_check",
@@ -1348,23 +1390,37 @@
    "on_fail": "无网一律 UNVERIFIED，不许判假"
   },
   {
-   "id": "S-submit_ledger",
-   "domain": "值守",
-   "stage": "submit_ledger",
+   "id": "S-root_cause",
+   "domain": "一屏",
+   "stage": "root_cause",
    "period_s": 86400,
-   "phase_s": 64800,
+   "phase_s": 57600,
    "actor": "rule",
-   "action": "执行 submit_ledger 阶段",
+   "action": "执行 root_cause 阶段",
    "input": [],
-   "output": "cph4/fleet/state/submit_ledger_fill.json",
+   "output": "cph4/fleet/state/root_cause_audit.json",
    "output_inferred": true,
-   "accept": "rc 在 ok_rc 内且产出落在指定路径",
-   "on_fail": "连续 3 轮失败 → 告警并停该阶段"
+   "accept": "文件 mtime 前进且内容非空",
+   "on_fail": "未更新 → 视为阶段未执行，报 E-STAGE-SILENT"
+  },
+  {
+   "id": "S-security",
+   "domain": "一屏",
+   "stage": "security",
+   "period_s": 86400,
+   "phase_s": 72000,
+   "actor": "rule",
+   "action": "执行 security 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/security_ledger.json",
+   "output_inferred": true,
+   "accept": "文件 mtime 前进且内容非空",
+   "on_fail": "未更新 → 视为阶段未执行，报 E-STAGE-SILENT"
   }
  ],
  "generated": {
   "from": "Tools/fleet/master_pulse.py:STAGES",
-  "stages": 86,
+  "stages": 90,
   "orphans": []
  }
 }
