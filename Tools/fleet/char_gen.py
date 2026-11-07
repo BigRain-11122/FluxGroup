@@ -239,11 +239,16 @@ def main(argv):
             try:
                 r = http_json(a.server + "/prompt", payload, timeout=60)
                 pid = r.get("prompt_id")
-                for _ in range(180):
+                for i in range(180):
                     time.sleep(2)
                     h = http_json(a.server + "/history/" + str(pid), timeout=15)
                     if h and pid in h:
                         break
+                    # stdout 就是执行器的进度信号：静默等待会被 closer 判 30min STALL 并杀线
+                    if i and i % 15 == 0:
+                        print("WAIT pid=%s elapsed=%ds" % (pid, (i + 1) * 2), flush=True)
+                if not (h and pid in h):
+                    print("TIMEOUT pid=%s after 360s (comfy history empty)" % pid, flush=True)
                 saved = fetch_image(a.server, h, pid, fp)
                 made.append({"character": cid, "view": view, "prompt_id": pid,
                              "file": os.path.relpath(fp, ROOT) if saved else "",
