@@ -306,7 +306,9 @@ def rg18():
         assert patrol.main([]) == 0, "patrol 跑不起来"
     assert os.path.exists(json_p), "patrol 没写机读件（cph4/fleet/state/patrol.json）"
     j = json.load(open(json_p, encoding="utf-8"))
-    assert isinstance(j.get("items"), list) and j["items"], "机读件里没有 items"
+    # items 允许为空：0 条 = 机队当前没有待办，这是好状态，不是断点。
+    # 首版写成 `and j["items"]`（要求非空），把「干净」判成了失败——假红。
+    assert isinstance(j.get("items"), list), "机读件里没有 items 字段"
 
     lines = (json.load(open(os.path.join(ROOT, "cph4", "fleet", "state", "lines.json"),
                             encoding="utf-8-sig")) or {}).get("lines") or []
