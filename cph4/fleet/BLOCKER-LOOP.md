@@ -1,9 +1,16 @@
-# 堵/坏/卡点闭环 2026-11-08T00:30:27
+# 堵/坏/卡点闭环 2026-11-08T00:33:24
 
 分类表：`cph4/fleet/BLOCKER-TAXONOMY-v1.json`（每类四件套：判据/解法/周期/升级轮次）。
-本轮命中 0 项 · 已解 0 · 待升级 0 · 未到周期跳过 11 类
+本轮命中 6 项 · 已解 6 · 待升级 0 · 未到周期跳过 13 类
 
-**本轮无命中。**
+## UNVERIFIED-STUCK（6）
+
+- `R-QUANT-ETF-DAILY-20261102` 回执未对上 ✅receipt_match rc=0 [receipt-match] 可收口 0 张｜歧义 0｜证据
+- `RCANARY2-20261102T181500` 回执未对上 ✅receipt_match rc=0 [receipt-match] 可收口 0 张｜歧义 0｜证据
+- `CLOCK-RESYNC-bm-b-20261106` 回执未对上 ✅receipt_match rc=0 [receipt-match] 可收口 0 张｜歧义 0｜证据
+- `Q-MV-ANCHOR-WORDS-DRAIN-BMA-20261106` 回执未对上 ✅receipt_match rc=0 [receipt-match] 可收口 0 张｜歧义 0｜证据
+- `R-MODEL-RADAR-BMA-20261106` 回执未对上 ✅receipt_match rc=0 [receipt-match] 可收口 0 张｜歧义 0｜证据
+- `asset-lib-char-gen-2026-11-06` 回执未对上 ✅receipt_match rc=0 [receipt-match] 可收口 0 张｜歧义 0｜证据
 
 ---
 _自动解只做确定性动作；解不了的按轮次升级，不许静默留着_

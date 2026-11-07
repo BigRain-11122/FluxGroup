@@ -18724,3 +18724,5 @@
 {"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-08T00:33:13"}
 {"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-08T00:33:13"}
 {"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-08T00:33:13"}
+{"cls": "big", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 70.3, "chars": 596, "why": "", "ts": "2026-11-08T00:34:05"}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 43.7, "chars": 53, "why": "fleet_brain:pick", "ts": "2026-11-08T00:34:08"}
