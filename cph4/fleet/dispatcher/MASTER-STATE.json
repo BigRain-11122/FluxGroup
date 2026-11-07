@@ -1,24 +1,24 @@
 {
- "ts": "2026-11-08T01:05:24",
- "cycle": 330,
+ "ts": "2026-11-08T01:08:11",
+ "cycle": 331,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-08T01:05:24",
+ "master_tick_ts": "2026-11-08T01:08:11",
  "queue": {
   "total": 1386,
-  "open": 6,
-  "running": 12,
-  "done": 519,
-  "failed": 2
+  "open": 4,
+  "running": 10,
+  "done": 518,
+  "failed": 7
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 29.8,
-   "cpu_load_pct": 30,
-   "ram_free_gb": 23.1,
-   "gpu_util_pct": 49,
-   "job": "ASSET-GEN-SCENES-20261107",
+   "hb_age_s": 39.5,
+   "cpu_load_pct": 62,
+   "ram_free_gb": 22.9,
+   "gpu_util_pct": 88,
+   "job": "bigstream-mv-gate-2026-11-08",
    "last_result": null,
    "idle_confirmed": false,
    "idle_reason": "",
@@ -26,23 +26,31 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 82.2,
+   "hb_age_s": 247.2,
    "cpu_load_pct": 12,
    "ram_free_gb": 8.8,
    "gpu_util_pct": 1,
-   "job": "ASSET-GEN-STYLES-20261107",
-   "last_result": null,
+   "job": "bigmoney-signal-2026-11-08",
+   "last_result": {
+    "job": "ASSET-GEN-STYLES-20261107",
+    "state": "FAILED",
+    "rc": 3,
+    "ts": "2026-11-08T01:07:22",
+    "reason": null,
+    "out_bytes": null,
+    "elapsed_s": null
+   },
    "idle_confirmed": false,
    "idle_reason": "",
    "idle_rounds": 0
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 8.1,
+   "hb_age_s": 173.2,
    "cpu_load_pct": 8,
    "ram_free_gb": 3.3,
    "gpu_util_pct": 0,
-   "job": "ASSET-GEN-CHARACTERS-20261107",
+   "job": "asset-lib-env-check-2026-11-08",
    "last_result": null,
    "idle_confirmed": false,
    "idle_reason": "",
@@ -50,30 +58,30 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 14.0,
-   "cpu_load_pct": 11,
-   "ram_free_gb": 13.7,
+   "hb_age_s": 13.5,
+   "cpu_load_pct": 27,
+   "ram_free_gb": 12.6,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-08T01:04:33",
+    "ts": "2026-11-08T01:07:32",
     "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 1
+   "idle_rounds": 2
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 1
+  "bm-m": 2
  },
  "lines": {
   "bigstream-mv": {
@@ -84,7 +92,6 @@
    "stale_after_h": 24.0,
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
    "jobs": [
-    "R-NEXT-BIGSTREAMM-REBUILD-20261108",
     "bigstream-mv-gate-2026-11-08"
    ],
    "no_supply": false,
@@ -259,7 +266,6 @@
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
    "jobs": [
-    "ROLL-bma-000148",
     "ROLL-bmc-000533"
    ],
    "no_supply": false,
@@ -274,12 +280,10 @@
    "stale_after_h": 72.0,
    "owner": "资产席",
    "jobs": [
-    "ASSET-GEN-CHARACTERS-20261107",
-    "ASSET-GEN-SCENES-20261107",
-    "ASSET-GEN-STYLES-20261107",
     "asset-lib-env-check-2026-11-08",
     "asset-lib-voice-corpus-2026-11-08",
     "asset-lib-face-dataset-2026-11-08",
+    "asset-lib-library-check-2026-11-08",
     "asset-lib-char-prompts-2026-11-08",
     "asset-lib-asset-gen-2026-11-08"
    ],
@@ -821,28 +825,40 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 3,
+  "local": 4,
   "cloud": 0,
-  "queue": 3,
+  "queue": 0,
   "blocked": 0,
   "cloud_spend_today": 0,
   "waste": []
  },
  "supply_gap": {
-  "cpu": 3,
-  "gpu": 3
+  "cpu": 2,
+  "gpu": 2
  },
  "supply_added": [],
  "events": [
+  "ASSET-GEN-STYLES-20261107 FAILED via bm-b",
   "asset-lib-env-check-2026-11-08 -> bm-c (cpu)",
-  "asset-lib-face-dataset-2026-11-08 -> bm-c (cpu)"
+  "asset-lib-voice-corpus-2026-11-08 -> bm-a (cpu)",
+  "asset-lib-face-dataset-2026-11-08 -> bm-c (cpu)",
+  "asset-lib-library-check-2026-11-08 -> bm-c (cpu)",
+  "asset-lib-char-prompts-2026-11-08 -> bm-c (cpu)",
+  "asset-lib-asset-gen-2026-11-08 -> bm-c (gpu)",
+  "bigstream-mv-gate-2026-11-08 -> bm-a (cpu)",
+  "biggame-pack-scan-2026-11-08 -> bm-a (cpu)",
+  "bigmoney-signal-2026-11-08 -> bm-b (cpu)",
+  "ROLL-bmc-000533 -> bm-c (cpu)"
  ],
  "violations": [
+  "bm-m IDLE-CONFIRMED x2 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
  "lane_files_written": [
+  "bm-a",
+  "bm-b",
   "bm-c"
  ]
 }
