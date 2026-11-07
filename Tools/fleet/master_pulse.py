@@ -164,6 +164,10 @@ STAGES = [
     ("dr_check", ["Tools/fleet/dr_check.py"], 86400, {0}, True),
     # 三层产出审核 + 入档入库（CEO 2026-11-07）：DONE 只表示执行结束，不代表合格。
     ("review_artifacts", ["Tools/fleet/artifact_review.py", "--limit", "40", "--apply"], 21600, {0, 1}, True),
+    # 分线质量席（CEO 2026-11-07「给各个业务和研发提升质量的智能体，要先进可靠」）：
+    # 五条线（影片/图像/构建/回测/文档）21 条判据，每条自带反例、--selftest 自证闸有效，
+    # 任一强制项不过即整体 FAIL（不许加权分把硬伤放过去）。4 小时一次，rc=2 表示闸失效。
+    ("quality_agents", ["Tools/fleet/quality_agents.py", "--scan"], 300, {0, 2}, True),
     # 仓库分层体检（CEO 2026-11-07「git 也要好好分类分层」）：管住新文件落在哪一层，
     # 不搬旧文件（被脉/卡/文档引用，批量 mv 会断链）。rc=1 是告警。
     ("repo_layers", ["Tools/fleet/repo_layers.py"], 86400, {0, 1}, True),

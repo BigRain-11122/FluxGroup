@@ -267,6 +267,17 @@ def rg15():
     return "全部写者走行级合并（merge_jsonl），无整文件覆盖"
 
 
+@case("RG-16", "分线质量判据必须能拦住自己的反例",
+      "没有反例自证的质量闸=永远绿的空闸；21 条判据里曾有 3 条连坏样本都放行")
+def rg16():
+    sys.path.insert(0, os.path.join(ROOT, "Tools", "fleet"))
+    import quality_agents as qa
+    rc, info = qa.selftest(verbose=False)
+    assert rc == 0, "质量闸自证失败（%d 条拦不住反例）：%s" % (
+        len(info.get("problems") or []), (info.get("problems") or [])[:3])
+    return "%d 条判据全部能拦住专属反例" % info["items"]
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--json", action="store_true")
