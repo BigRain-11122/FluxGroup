@@ -555,11 +555,15 @@ _SLOTS_CACHE = {}
 
 
 def _slots_of(node):
-    """一台机可同时接几张卡（AUTONOMY-CONFIG.supply.slots_per_node，缺省 1）。"""
+    """一台机可同时接几张卡（AUTONOMY-CONFIG.supply.slots_per_node，缺省 1）。
+    注意：本模块没有全局 ROOT（各函数都收 root 参数），这里自行解析，
+    否则会抛异常静默回落到 1——首版就是这么写的，槽位等于没改。"""
     if _SLOTS_CACHE:
         return _SLOTS_CACHE.get(node, 1)
     try:
-        with open(os.path.join(ROOT, "cph4", "fleet", "AUTONOMY-CONFIG.json"),
+        here = os.path.dirname(os.path.abspath(__file__))
+        root = os.path.dirname(os.path.dirname(here))
+        with open(os.path.join(root, "cph4", "fleet", "AUTONOMY-CONFIG.json"),
                   encoding="utf-8") as f:
             m = (json.load(f).get("supply") or {}).get("slots_per_node") or {}
         _SLOTS_CACHE.update({k: int(v) for k, v in m.items()})
@@ -611,7 +615,19 @@ def choose_lane(job, fleet, busy):
         # "ram-unknown → 可派"，于是 bm-b（执行器已死、无心跳）照样被派卡，0.1 秒 rc=2 回来
         # 再被反复重排——队列看起来在转，实际是一台死机在吃活。
         age = (fleet.get(n) or {}).get("age_s")
-        if age is None or float(age) > HB_STALE_S:
+        # 2026-11-08：age 为 None 只表示"这个来源没读到"，不等于机器死了。
+        # lane_capacity 已经会用车道文件兜底，这里也必须一致，否则 bm-c 明明在跑卡
+        # 却因为 KV 没读到被判 ALL-OFFLINE-NO-HB，队列在排、机器在空。
+        if age is None:
+            try:
+                lp = os.path.join(ROOT, "cph4", "fleet", "lanes", "%s.json" % n)
+                fresh = os.path.exists(lp) and (time.time() - os.path.getmtime(lp)) <= HB_STALE_S
+            except Exception:
+                fresh = False
+            if not fresh:
+                stale_ok.append(n)
+                continue
+        elif float(age) > HB_STALE_S:
             stale_ok.append(n)
             continue
         # 机器准入按"真回执"判（2026-11-03）：心跳在线但近 7 天没回执的机器只接探针卡。
