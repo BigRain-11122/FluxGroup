@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-07T19:15:05",
- "cycle": 161,
+ "ts": "2026-11-07T19:16:41",
+ "cycle": 162,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-07T19:15:05",
+ "master_tick_ts": "2026-11-07T19:16:41",
  "queue": {
   "total": 1265,
   "open": 3,
@@ -14,7 +14,7 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 452.4,
+   "hb_age_s": 548.9,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -26,7 +26,7 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 452.4,
+   "hb_age_s": 548.9,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -38,7 +38,7 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 282.0,
+   "hb_age_s": 378.5,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -802,9 +802,7 @@
   "gpu": 1
  },
  "supply_added": [],
- "events": [
-  "asset-lib-asset-gen-2026-11-07 -> bm-c (gpu)"
- ],
+ "events": [],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
