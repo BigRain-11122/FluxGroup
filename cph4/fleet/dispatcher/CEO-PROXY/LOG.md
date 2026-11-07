@@ -1165,3 +1165,5 @@ am_free 10GB / cpu_load 48%——bm-b 在跑量化轮而非闲着；缺的是本
   ④ **真缺陷（本班修复）**：asset_gen.py / char_gen.py 在等 comfy /history 时 360s 完全静默，closer 按 stdout 字节判 STALL 30min → asset-lib-asset-gen-2026-11-08 连吃三次 STALL(2900s) 被判 E-ROOTCAUSE-3X 停线，而 GPU 其实闲着。修法=每 30s 打 WAIT、超时打 TIMEOUT（flush），外科推 98f230f1 上链；**bm-b 3 分钟内拉到该提交（head=98f230f1）=投放通道正常实证**，同时推翻 R14「bm-b 半僵死」定性。
   ⑤ 另登记未修：bm-c 的 c.json 心跳仍被 PS 六法① 包裹（content 实测键为 value/PSPath/PSParentPath/...，非机器态字段），按 content 直解的心跳消费方会拿错键（R2.42b 家族）。
   零新派单（bm-m 主控每 1-2 分钟在写队列，本班改写=双写竞态，按 01:39 判例让路）；waiting-CEO=两机 w32time + bm-b/bm-c 桌面 RAM；DEADLINES.md 仍是本地未跟踪件（重置风险在档）。
+
+- [2026-11-08 02:22]R18 追记（台账结构发现·高价值）：`cph4/fleet/dispatcher/DEADLINES.md` **不是手工台账，是 `Tools/fleet/fleet_deadline.py` 每轮整份重写的生成件**（OUT_MD）。因此历届事件班把 R 系列附录追加进去 = 下一次雷达跑就整块消失（本班亲测：读时 494 行 → 十几分钟后被重写为 50 行的雷达版，附录随之蒸发）。正法：**事件记录只写已跟踪的 `CEO-PROXY/LOG.md`**；DEADLINES.md 只读不写。本班已把误追加的 R18 附录收回，只保留正文一条 R18 事件行 + 本条追记。
