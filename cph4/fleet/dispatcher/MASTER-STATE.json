@@ -1,73 +1,41 @@
 {
- "ts": "2026-11-07T13:11:13",
- "cycle": 4,
+ "ts": "2026-11-07T13:14:34",
+ "cycle": 5,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-07T13:11:13",
+ "master_tick_ts": "2026-11-07T13:14:34",
  "queue": {
   "total": 1268,
-  "open": 6,
-  "running": 0,
+  "open": 3,
+  "running": 2,
   "done": 471,
-  "failed": 32
+  "failed": 33
  },
  "lanes": {
   "bm-a": {
-   "online": false,
-   "hb_age_s": null,
+   "online": true,
+   "hb_age_s": 180.3,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
-   "job": null,
+   "job": "asset-lib-voice-corpus-2026-11-07",
    "last_result": null,
    "idle_confirmed": false,
-   "idle_reason": "CAPACITY-BLOCKED-RAM OFFLINE (hb age Nones)",
+   "idle_reason": "",
    "idle_rounds": 0
   },
   "bm-b": {
-   "online": false,
-   "hb_age_s": null,
-   "cpu_load_pct": null,
-   "ram_free_gb": null,
-   "gpu_util_pct": null,
-   "job": null,
-   "last_result": null,
-   "idle_confirmed": false,
-   "idle_reason": "CAPACITY-BLOCKED-RAM OFFLINE (hb age Nones)",
-   "idle_rounds": 0
-  },
-  "bm-c": {
-   "online": false,
-   "hb_age_s": null,
-   "cpu_load_pct": null,
-   "ram_free_gb": null,
-   "gpu_util_pct": null,
-   "job": null,
-   "last_result": {
-    "job": "asset-lib-face-dataset-2026-11-07",
-    "state": "RUNNING",
-    "rc": null,
-    "ts": "2026-11-07T13:10:59",
-    "reason": null,
-    "out_bytes": null,
-    "elapsed_s": null
-   },
-   "idle_confirmed": false,
-   "idle_reason": "CAPACITY-BLOCKED-RAM OFFLINE (hb age Nones)",
-   "idle_rounds": 0
-  },
-  "bm-m": {
    "online": true,
-   "hb_age_s": 38.7,
-   "cpu_load_pct": 36,
-   "ram_free_gb": 10.7,
+   "hb_age_s": 183.3,
+   "cpu_load_pct": null,
+   "ram_free_gb": null,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-07T13:10:41",
+    "ts": "2026-11-07T13:13:45",
     "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
@@ -75,13 +43,32 @@
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
    "idle_rounds": 1
+  },
+  "bm-c": {
+   "online": true,
+   "hb_age_s": 186.3,
+   "cpu_load_pct": null,
+   "ram_free_gb": null,
+   "gpu_util_pct": null,
+   "job": "asset-lib-asset-gen-2026-11-07",
+   "last_result": {
+    "job": "asset-lib-face-dataset-2026-11-07",
+    "state": "FAILED",
+    "rc": 1,
+    "ts": "2026-11-07T13:13:09",
+    "reason": null,
+    "out_bytes": null,
+    "elapsed_s": null
+   },
+   "idle_confirmed": false,
+   "idle_reason": "",
+   "idle_rounds": 0
   }
  },
  "idle_rounds": {
   "bm-a": 0,
-  "bm-b": 0,
-  "bm-c": 0,
-  "bm-m": 1
+  "bm-b": 1,
+  "bm-c": 0
  },
  "lines": {
   "bigstream-mv": {
@@ -278,14 +265,11 @@
    "stale_after_h": 72.0,
    "owner": "资产席",
    "jobs": [
-    "asset-lib-face-dataset-2026-11-07",
     "asset-lib-asset-gen-2026-11-07",
     "asset-lib-voice-corpus-2026-11-07"
    ],
    "no_supply": false,
-   "blockers": [
-    "asset-lib-voice-corpus-2026-11-07:no-lane"
-   ],
+   "blockers": [],
    "note": "CEO 2026-11-03：先储备资产，角色 LoRA 与音色库为 P0"
   }
  },
@@ -822,23 +806,24 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 5,
+  "local": 3,
   "cloud": 0,
-  "queue": 1,
+  "queue": 0,
   "blocked": 0,
   "cloud_spend_today": 0,
   "waste": []
  },
  "supply_gap": {
-  "cpu": 5,
-  "gpu": 1
+  "cpu": 3,
+  "gpu": 0
  },
  "supply_added": [],
- "events": [],
+ "events": [
+  "asset-lib-face-dataset-2026-11-07 FAILED via bm-c",
+  "asset-lib-asset-gen-2026-11-07 -> bm-c (gpu)",
+  "asset-lib-voice-corpus-2026-11-07 -> bm-a (cpu)"
+ ],
  "violations": [
-  "bm-a OFFLINE",
-  "bm-b OFFLINE",
-  "bm-c OFFLINE",
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
