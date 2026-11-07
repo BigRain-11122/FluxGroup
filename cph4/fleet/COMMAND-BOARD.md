@@ -1,4 +1,4 @@
-# 指挥一屏 2026-11-07T23:48:35
+# 指挥一屏 2026-11-07T23:53:21
 
 _节奏表=COMMAND-CADENCE-v1.json｜本屏由规则从盘上事实算出，未用模型猜数_
 
@@ -8,7 +8,7 @@ _节奏表=COMMAND-CADENCE-v1.json｜本屏由规则从盘上事实算出，未�
 
 ## A 值守（45 秒档，纯规则）
 
-1. 可派卡 **4** 张｜在飞 **3** 张｜空壳卡隔离 **0** 张
+1. 可派卡 **3** 张｜在飞 **3** 张｜空壳卡隔离 **0** 张
 2. 在飞分布：bm-a=1, bm-b=1, bm-c=1
 3. 返工≥3 次的活卡：**0** 张
 
@@ -16,7 +16,7 @@ _节奏表=COMMAND-CADENCE-v1.json｜本屏由规则从盘上事实算出，未�
 
 - **bm-a** SELF-OK｜reload=OK shells=OK deps=OK｜2026-11-07T22:25
 - **bm-c** SELF-OK｜reload=OK shells=OK deps=OK｜2026-11-06T23:55
-- **bm-m** SELF-OK｜reload=OK shells=OK deps=OK｜2026-11-07T23:46
+- **bm-m** SELF-OK｜reload=OK shells=OK deps=OK｜2026-11-07T23:50
 
 ## C 线与产出（15 分钟档）
 
