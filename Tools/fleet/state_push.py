@@ -94,31 +94,37 @@ def main(argv):
     if not ensure_worktree():
         print("[state-push] worktree 建立失败")
         return 2
-    copied = sync_into_worktree()
-    rc, dirty, _ = sh(["git", "status", "--porcelain"], cwd=WT)
-    if not dirty.strip():
-        print("[state-push] 无状态变化（%d 个文件已同步）" % copied)
-        return 0
-    if a.dry:
-        print("[state-push] would push:\n" + dirty[:1200])
-        return 0
-    sh(["git", "add", "-A"], cwd=WT)
-    msg = "state: 队列/回执同步 %s [via bm-m]" % time.strftime("%Y-%m-%dT%H:%M")
-    rc, out, err = sh(["git", "-c", "user.name=" + sh(["git", "config", "user.name"])[1],
-                       "-c", "user.email=" + sh(["git", "config", "user.email"])[1],
-                       "commit", "-q", "-m", msg], cwd=WT)
-    if rc != 0:
-        print("[state-push] commit 失败:", (err or out)[:200])
-        return 2
-    sh(["git", "fetch", "--quiet", "origin", "main"], cwd=WT)
-    sh(["git", "rebase", "-q", "origin/main"], cwd=WT)
-    rc, out, err = sh(["git", "push", "-q", "origin", "HEAD:main"], cwd=WT)
-    if rc != 0:
-        print("[state-push] push 失败:", (err or out)[:200])
-        return 2
-    rc2, head, _ = sh(["git", "rev-parse", "--short", "HEAD"], cwd=WT)
-    print("[state-push] pushed", head, "files=%d" % copied)
-    return 0
+    # 顺序很重要：先把工作树对齐到最新 origin，再复制状态面，再提交推送。
+    # 反过来（先复制再 rebase）在有并发推送时必然冲突——队列是 append log，同一行必撞。
+    copied = 0
+    for attempt in range(1, 5):
+        sh(["git", "fetch", "--quiet", "origin", "main"], cwd=WT)
+        sh(["git", "reset", "-q", "--hard", "origin/main"], cwd=WT)
+        copied = sync_into_worktree()
+        rc, dirty, _ = sh(["git", "status", "--porcelain"], cwd=WT)
+        if not dirty.strip():
+            print("[state-push] 无状态变化（%d 个文件已同步）" % copied)
+            return 0
+        if a.dry:
+            print("[state-push] would push:\n" + dirty[:1200])
+            return 0
+        sh(["git", "add", "-A"], cwd=WT)
+        name = sh(["git", "config", "user.name"])[1] or "fleet"
+        mail = sh(["git", "config", "user.email"])[1] or "fleet@local"
+        msg = "state: 队列/回执同步 %s [via bm-m]" % time.strftime("%Y-%m-%dT%H:%M")
+        rc, out, err = sh(["git", "-c", "user.name=" + name, "-c", "user.email=" + mail,
+                           "commit", "-q", "-m", msg], cwd=WT)
+        if rc != 0:
+            print("[state-push] commit 失败:", (err or out)[:160])
+            return 2
+        rc, out, err = sh(["git", "push", "-q", "origin", "HEAD:main"], cwd=WT)
+        if rc == 0:
+            head = sh(["git", "rev-parse", "--short", "HEAD"], cwd=WT)[1]
+            print("[state-push] pushed", head, "files=%d attempt=%d" % (copied, attempt))
+            return 0
+        time.sleep(2)
+    print("[state-push] push 失败（4 次，并发推送太密）")
+    return 2
 
 
 if __name__ == "__main__":

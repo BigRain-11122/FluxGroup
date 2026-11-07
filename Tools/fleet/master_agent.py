@@ -551,6 +551,23 @@ def _paused_nodes():
         return set()
 
 
+_SLOTS_CACHE = {}
+
+
+def _slots_of(node):
+    """一台机可同时接几张卡（AUTONOMY-CONFIG.supply.slots_per_node，缺省 1）。"""
+    if _SLOTS_CACHE:
+        return _SLOTS_CACHE.get(node, 1)
+    try:
+        with open(os.path.join(ROOT, "cph4", "fleet", "AUTONOMY-CONFIG.json"),
+                  encoding="utf-8") as f:
+            m = (json.load(f).get("supply") or {}).get("slots_per_node") or {}
+        _SLOTS_CACHE.update({k: int(v) for k, v in m.items()})
+    except Exception:
+        pass
+    return _SLOTS_CACHE.get(node, 1)
+
+
 def choose_lane(job, fleet, busy):
     needs = job.get("needs") or "cpu"
     pref = job.get("nodes") or []
@@ -583,7 +600,12 @@ def choose_lane(job, fleet, busy):
     stale_ok = []
     HB_STALE_S = 600
     for n in candidates:
-        if busy.get(n):
+        # 槽位并发（2026-11-08）：一台机同时能接几张由 AUTONOMY-CONFIG.supply.slots_per_node
+        # 决定；GPU 活仍按物理卡串行（同一时刻只给一张），避免两个 ComfyUI 抢显存。
+        _cur = busy.get(n) or []
+        if len(_cur) >= _slots_of(n):
+            continue
+        if needs == "gpu" and any((j.get("needs") or "cpu") == "gpu" for j in _cur):
             continue
         # 心跳不新鲜就不是候选（2026-11-03 实测）：此前 lane_capacity 拿不到遥测时直接判
         # "ram-unknown → 可派"，于是 bm-b（执行器已死、无心跳）照样被派卡，0.1 秒 rc=2 回来
@@ -648,7 +670,11 @@ def assign(rows, fleet, reports, lines=None):
     busy = {}
     for r in rows:
         if r.get("state") == "RUNNING" and r.get("owner"):
-            busy[r["owner"]] = r
+            # 2026-11-08：busy 从「一机一卡」改成「一机一个卡列表」。
+            # 以前 busy[owner]=卡 只记最后一张，choose_lane 又用 if busy.get(n) 一票否决，
+            # 于是配置里 bm-a 8 槽 / bm-c 6 槽形同虚设——每台机永远只干一张，
+            # 队列里排着 GPU 出图卡、机器却在报 SELF-DISPATCH。
+            busy.setdefault(r["owner"], []).append(r)
     pending = [r for r in rows if r.get("state") == "OPEN"]
     # 优先级（CEO 2026-11-02：所有子公司都保留，只分优先级）：P0 内容 > P1 游戏 >
     # P2 量化与前台 > P3 城市与渠道。低优先级不关停，只是排在后面，有书余算力就跑。
@@ -744,7 +770,7 @@ def assign(rows, fleet, reports, lines=None):
         r["assign_ts"] = r["claimed_at"]
         r["lease_minutes"] = int(r.get("timeout_s") or 0) // 60 or \
             DEFAULT_LEASE.get(r.get("needs") or "cpu", 45)
-        busy[lane] = r
+        busy.setdefault(lane, []).append(r)
         used[_org] = used.get(_org, 0) + 1
         events.append("%s -> %s (%s)" % (r["id"], lane, r.get("needs") or "cpu"))
     return events
