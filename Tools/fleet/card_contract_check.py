@@ -82,6 +82,36 @@ def cmd_out(cmd):
     return norm(m.group(1)) if m else None
 
 
+def _tool_literals(cmd, root):
+    """取 cmd 里那个工具源码中的 .md/.csv 字符串字面量（含模板）。"""
+    m = re.search(r'([\w./\\-]+\.py)', cmd or '')
+    if not m:
+        return []
+    path = os.path.join(root, m.group(1).replace('\\', '/'))
+    try:
+        src = open(path, encoding='utf-8', errors='replace').read(400000)
+    except Exception:
+        return []
+    return re.findall(r'''["']([^"'\n]{2,120}\.(?:md|csv))["']''', src)
+
+
+def name_is_derived(cmd, deliverable, root):
+    """没写 --out 但工具按模板拼文件名（如 'triage-%s-%s.md'）时，也算它产得出交付物。
+
+    否则契约检查会把能正常跑的真卡判成 SPEC-IMPOSSIBLE——假红和假绿一样伤信任。
+    """
+    base = os.path.basename(norm(deliverable))
+    if not base:
+        return False
+    for lit in _tool_literals(cmd, root):
+        parts = re.split(r'(%s|%d|\{[^}]*\}|\*)', lit)
+        pat = ''.join('.*' if re.fullmatch(r'%s|%d|\{[^}]*\}|\*', p) else re.escape(p)
+                      for p in parts)
+        if re.fullmatch(pat, base, re.I):
+            return True
+    return False
+
+
 def deliverable_is_real(path):
     """存在 && 内容不是拒绝回执。解析不了就当缺席（不让坏文件假绿）。"""
     if not path or not os.path.exists(path):
@@ -128,7 +158,12 @@ def check(root):
                 continue
             # R2
             if d.lower().endswith(('.md', '.csv')) and not o and \
-                    any(w in (r.get('accept') or '') for w in HUMAN_WORDS):
+                    any(w in (r.get('accept') or '') for w in HUMAN_WORDS) and \
+                    not name_is_derived(r.get('cmd'), d, root) and \
+                    'cph4/fleet/queue-receipts/' not in d:
+                # queue-receipts 下的交付物按约定就是执行机写的回执（如 line_triage 按
+                # 行名拼文件名），accept 里出现"写明"只是在描述回执内容，不是要人判。
+                # 实测假红：两张子仓体检卡因 accept 含"写明"被连续 3 轮判不可满足。
                 v.append({'rule': 'SPEC-IMPOSSIBLE', 'src': src, 'id': rid,
                           'deliverable': d,
                           'why': '交付物需人裁判定而 cmd 不产出它 ⇒ 机器队列不可满足'})

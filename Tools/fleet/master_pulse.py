@@ -172,6 +172,10 @@ STAGES = [
     # 把七八个报告面归并成一条按"断链→供给→执行→质量→方向"排序的清单，每条带责任人。
     # 10 分钟一次，纯规则零 token。
     ("patrol", ["Tools/fleet/patrol.py"], 180, {0}, False),
+    # 堵/坏/卡点闭环（CEO 2026-11-08「堵点坏点卡点都要有相应的循环策略去检测和解决」）：
+    # 八类问题各带判据/解法/复查周期/升级轮次；能自动解的当场解（补供给、修卡字段、
+    # 补推同步、重跑超期阶段、派自证卡），解不了的按轮次升级。表=BLOCKER-TAXONOMY-v1.json。
+    ("blocker_loop", ["Tools/fleet/blocker_loop.py", "--apply"], 240, {0, 1, 2}, True),
     # 回执名不匹配导致的永久 UNVERIFIED（实测堵死 4 条线）：按词干匹配回执并收口。
     # 宁可不判也不假绿——歧义/无证据一律交人。
     ("receipt_match", ["Tools/fleet/receipt_match.py", "--apply"], 180, {0}, False),

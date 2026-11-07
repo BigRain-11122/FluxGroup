@@ -427,6 +427,54 @@ def rg22():
     return "%d 个阶段名互不重复" % len({t[0] for t in mp.STAGES})
 
 
+@case("RG-23", "堵/坏/卡点每一类都必须在代码里有判据和解法",
+      "只写分类表不实现=纸面政策：过去每一类都是「这次发现了才修」，下次换形态复发")
+def rg23():
+    sys.path.insert(0, os.path.join(ROOT, "Tools", "fleet"))
+    import blocker_loop as bl
+    miss = bl.coverage()
+    assert not miss, "分类表点名但没实现：%s" % miss[:5]
+    classes = bl.spec().get("classes") or []
+    assert len(classes) >= 6, "分类表只有 %d 类，覆盖太窄" % len(classes)
+    for c in classes:
+        assert int(c.get("every_s") or 0) > 0, "%s 没有复查周期" % c.get("id")
+        assert int(c.get("escalate_after") or 0) > 0, "%s 没有升级条件" % c.get("id")
+        assert c.get("owner"), "%s 没有责任人" % c.get("id")
+    # 负控：摘掉一个检测器，覆盖检查必须报出来（否则 coverage 恒绿=空闸）
+    real = bl.DETECTORS.pop("lane_empty_and_queue_thin")
+    try:
+        assert any("lane_empty_and_queue_thin" in m for m in bl.coverage()), \
+            "负控失败：缺检测器没被 coverage 抓到"
+    finally:
+        bl.DETECTORS["lane_empty_and_queue_thin"] = real
+    return "%d 类，判据/解法/周期/升级/责任人齐全" % len(classes)
+
+
+@case("RG-24", "工具解析与交付物派生名都不许判成缺件（两类假红）",
+      "2026-11-07 实锚：launchd 的 PATH 不含 ~/bin，asset_dataset_audit 把有 ffmpeg 的机器报成"
+      "『没有 ffmpeg』；card_contract_check 把『工具按模板拼文件名』的真卡判成 SPEC-IMPOSSIBLE")
+def rg24():
+    sys.path.insert(0, os.path.join(ROOT, "Tools", "fleet"))
+    import asset_dataset_audit as ad
+    import card_contract_check as cc
+    tool = ad.ff("ffmpeg")
+    visible = (os.path.exists(os.path.join(os.path.expanduser("~"), "bin",
+                                           "ffmpeg" + (".exe" if os.name == "nt" else "")))
+               or bool(shutil.which("ffmpeg")))
+    if visible:
+        assert tool and os.path.exists(tool), \
+            "本机有 ffmpeg 但解析成 %r（PATH 之外的常见目录必须也查）" % tool
+    # 派生名：工具源码里的 'triage-%s-%s.md' 模板必须认成产得出交付物
+    assert cc.name_is_derived("python Tools/fleet/line_triage.py --line bigdomain",
+                              "cph4/fleet/queue-receipts/triage-bigdomain-20261107.md",
+                              ROOT), "派生名没被认出来"
+    # 负控：工具里没有对应模板时必须仍是"产不出"
+    assert not cc.name_is_derived("python Tools/fleet/quality_agents.py --scan",
+                                  "cph4/fleet/queue-receipts/不存在的报告.md", ROOT), \
+        "负控失败：没有模板也判成产得出"
+    return "ffmpeg=%s · 派生名正/负控均正确" % (tool if visible else "本机无 ffmpeg（跳过）")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--json", action="store_true")
