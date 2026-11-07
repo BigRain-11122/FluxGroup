@@ -492,3 +492,17 @@ am_free_gb=10+cpu_load_pct=48——**bm-b 不是闲着，是在跑量化轮**；
 
 | **bm-b 整机失联 48h+（P1·CEO-PROXY 事件班 2026-11-08 00:40 实证）** | **waiting-CEO（物理件·零催办）** | 证据三面：①bm-a→bm-b tailscale ping 两发全超时（对比 bm-c 同法 pong 3.936s=探针本身可用）②status Online 但 LastSeen=2026-11-07T02:22:42+08 ③生产回执末笔 2026-11-05T23:33·机器心跳 ts=2026-10-30T12:44（round 1277）。恢复=现场开机+任务自愈（Bigmoney-IterationLoop / HQ-ProductionClaim 均在 wake_tasks 白名单，S4U 注册）。本席无远程通道（FleetLink 无命令端点；bm-a→bm-b TCP 全断），只能登记候人。 |
 | **探针面缺陷登记（P1·事件班 2026-11-08 00:42 实测）** | **registered·待立闸** | 症状：tailnet 无直连、纯 DERP 中继（pong 0.58~4.3s）时，5-10 秒 TCP 探测会把**活机判成 SVC_DOWN**（bm-c 同分钟内 /health 先 200 后 rc=28 可复现）。当前旗语只看单一 TCP 探测结果，缺判别器。建议修法（待闸升格落地）：SVC_DOWN 判定须三信号——①`tailscale ping` 是否有 pong（区分「机器/守护进程死」）②Connect 超时是否 <=15s 且 `direct connection not established`（区分「中继慢」）③生产回执龄（区分「服务死 vs 只是慢」）。三者不一致时降级为 DEGRADED-RELAY，不报 SVC_DOWN、不 page owner。 |
+| **【二次勘误】bm-b 恢复=已发起，无需现场动手（2026-11-08 00:52）** | **closed-as-diagnosed（不占 CEO 手）** | 撤回 00:40/00:42 两行的「整机失联」「机上服务死」措辞。实证：:8790 /health 00:46:13 返回 200（v1.9.7），POST /poke 00:47:22 accepted=true（Bigmoney-IterationLoop + HQ-ProductionClaim 均已下发唤醒）。两行被判死的唯一原因是探测超时太短（5s/30s/60s 均不足，需 90s）。真正待观察项=bm-b 是否在 24h 内产出新回执；由 2026-11-08 02:17 回访探针复核，无需 CEO 动作。 |
+
+## 附录 R15 事件班登记（2026-11-08 00:41-01:0x·承载件触发·队列丢行根因）
+
+| 件 | 状态 | 证据 / 下一步 |
+|---|---|---|
+| **队列卡被 state_push 整文件覆盖（P1·可复发·本班已修）** | **FIXED（修法已上链·待线上验证）** | 实锚：`RESCUE-FREEMEM-BM-C-20261108`（00:45 窗 append 推 ce524cf21）在 00:50/00:51 两轮 bm-m 同步后被抹掉（`f1246e864→9c1e58012` numstat **15/15**，删侧首行即该卡）；本班 00:47 再恢复一次、同样被抹。根因=`Tools/fleet/state_push.py:sync_into_worktree` 把主工作树的**陈旧本地队列**整文件拷进独立工作树再提交，origin 上别窗 append 的卡即丢。修法=STATE_FILES 改「origin ∪ 本地 按 id 合并」（终态优先、字节不重编码），提交 **4aec20ac2**；离线自测 1385+1 零丢失零重复。验收=下一次 bm-m 同步后卡仍在 origin + bm-c 认领回执（回执窗 ≤2h）。同族：R11-7/R12-1/R14-7。 |
+| **bm-b/bm-c 可达性抖动（承 00:52 二次勘误）** | **registered·探针口径** | 本窗 00:45–01:00 对两机 :8790 的探测全部失败（含 90s 超时后「无法连接到远程服务器」），但 sibling 窗 00:46:13 对 bm-b、本窗 00:51:22/00:51:31 对 bm-c 均拿到 200，且 bm-c 随后 connect-fail ⇒ 纯 DERP 中继路径抖动，**不是机器死**。正法=探针放宽超时+多次采样+以 /health 200 为准（TCP 单发不可作死判）。 |
+| **CLOCK-UNALIGNED missing=1** | **registered（非新增）** | 三台 Windows 机 w32time 仍 STOPPED（R13 wating-CEO 提权行）；missing=1 对应 bm-m 不在 NATS 总线（tailscale `last seen 9d ago`，11-06 已知盲区）。秒级偏差不影响派单租约。 |
+| **bm-b 生产回执自 2026-11-05T23:33 零** | **waiting-CEO/域席（零催办）** | 机器与服务在线，产出面 48h+ 无新回执；两窗均已 poke（sibling 00:47:22 accepted，本窗 00:47:41 bm-c accepted），执行面待验。 |
+
+**本班边界**：不重复判旗、不重复派卡；唯一实质动作=修「队列被整文件覆盖」这一使 append 派发凭空消失的写手缺陷，并把救援卡重新 append 回 origin。
+
+| **【修法验证】第三次抹卡=bm-m ROOT 陈旧致修法空转（P1·waiting-CEO·bm-m 本机）** | **registered（本席已停手）** | 三次实测：ce524cf21→抹、4aec20ac2→抹（702afaccd 00:58，父链含修法提交）、ee9639199(01:01)+立即 poke→100 秒内被 ffb3d208c 抹掉。机理=`state_push.py` 的 reset --hard 只对隔离工作树 `.fluxgroup-state-wt` 生效，**执行的是 ROOT 工作树里的脚本**；ROOT 不前进=旧行为（本地陈旧队列整文件覆盖 origin）。逻辑自证=用 origin 版模块对真实 blob 复算（80a2bf064 ∪ 5023fd112）→卡在、零丢 id、零重复。解闸（bm-m 本机一次）：`cd <root> && git fetch origin && git reset --mixed origin/main && git status` → 下一次 state_push 即按 id 合并。**禁继续重投该卡**（无效 churn；bm-c RAM 2.1-2.5G 且 char-gen 在跑，非阻断）。 |

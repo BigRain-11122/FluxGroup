@@ -150,10 +150,11 @@
 - 出生地闸: 旗面生成环节·修法=`if ($verdicts[$lane] -eq 'EXPECTED-IDLE-WORKHOURS') { 记 PAUSED-BY-POLICY 不计旗 }`
 - 阻塞: fleet-dispatcher.ps1 ∈ BLUEPRINT §九 受保护件（Tools 核心四件）→改动须 CEO 令/群审通道，本席不擅改
 - 复发 2026-11-06 02:1x（事件班）：同族换根——exec 判据读 POOL.json（停更 6 天，仅 1 open 且 blocked_by=CEO-PHYSICAL），真实供给在 PRODUCTION-QUEUE（open=25/run=4）+三机 lanes 均在执；同一脚本内 STARVED-EXEC 与 SUPPLY-DRY 读不同面→自相矛盾，每 10min 全三车道刷假 P1。修法同族（判据换供给面或停用 POOL 面）仍需受保护件通道。
+- 复发 2026-11-08 00:11-00:21（事件班·新面=LANE-DOWN/SVC_DOWN）：同一脚本的 LANE-DOWN 判据只看单一 TCP 探测结果；tailnet 无直连、纯 DERP 中继（pong 0.58~4.3s）时 5-10 秒探测把**活机判死**——bm-c 同一分钟内 /health 先返回 200（v1.9.7，00:35:40）再 rc=28（00:39:37），可复现。修法同族=三信号判别（①tailscale ping 有无 pong ②直连/中继+connect 超时 ③生产回执龄），三者不一致一律降级 DEGRADED-RELAY、不 page lane owner。
 - 验证证据: 本班实测 idle state.json verdicts.bm-a=EXPECTED-IDLE-WORKHOURS（16:39:29）+ .codely-cli/machine-state.flag=pausedLite 2026-10-27T09:00 + a.json gpu util 99%（机器在人用）
-- 复发计数: 2
+- 复发计数: 3
 - 状态: open
-- 升格记录: 2026-10-27 首录（R2.36 事件班）·候选修法入 DEADLINES waiting-CEO 受保护件通道
+- 升格记录: 2026-10-27 首录（R2.36 事件班）·候选修法入 DEADLINES waiting-CEO 受保护件通道·2026-11-08 事件班加录 LANE-DOWN 中继假红面（同族计数 2→3）
 
 ### PR-20261027-15 POOL 阻断源不随签发清除（P1 卡停滞 7 日）
 - 来源: R2.36 事件班实测——POOL-0022 blocked_by=director-signoff:L2-FIX，而签发件 2026-10-20 12:4x 已落盘
@@ -169,7 +170,8 @@
 - 复发史·根因: 同族已登记（10-17 三维资源盘点「27b 驻卡 free 918MB」、10-21 bm-a 角色清理「常驻 LLM 驻卡堵生成道」）·根因=驻卡 LLM 与生成视觉道共用同一张 16GB 卡，停卡动作需本机会话执行且无持久守门（重启/自愈即复占）
 - 出生地闸: 车道分配/驻卡守护环节·既有法条已明（常驻 LLM 驻卡堵生成道 → ollama stop + pin 任务 disable，整卡还生成线），缺的是「生成道有待烧 P1 卡时自动让卡」的判据
 - 验证证据: 17:04:30 /status ram_free_gb=0.5 / cpu_load_pct=82 / gpu=RTX3070 14884MiB（16GB 卡余 ~1.4GB）；对照 14:59 c.json vram_free=15095 = 陈旧假象；后果=POOL-0022（CEO O-20261020-1124 P1）清障后仍点不着火
-- 复发计数: 3
+- 复发 2026-11-08 00:11（事件班）：bm-c 车道 free 1.4G/23.9G，驻留 5 个 ollama 模型（qwen3.5:9b-q4_K_M / qwen3.5:4b-q4_K_M / qwen3.8:27b / glm-4.7-flash:30b / qwen3.6-coder:35b）→ GPU 车道 BLOCKED-RAM。处置=开救援卡 RESCUE-FREEMEM-BM-C-20261108（Tools/fleet/free_mem.py --apply：只关浏览器/聊天类 + ollama stop，NEVER 表内 ffmpeg/python/ComfyUI 零触碰）走 git 数据面自领，不依赖 poke（该机 :8790 时通时断）。
+- 复发计数: 4
 - 状态: open
 - 升格记录: 2026-10-27 首录（R2.36 事件班）·候选修法=生成道有待烧 P1 卡时置让卡标志、驻卡守护读标志即停（受保护件外流程面，需 bm-c 本机执行通道；24h 无 KF 产出升 E1）
 

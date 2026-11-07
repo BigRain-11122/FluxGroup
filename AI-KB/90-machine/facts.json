@@ -1,0 +1,3539 @@
+{
+ "generated_at": "2026-11-08T00:59:40",
+ "repo_root": "/Users/junsheng.sun/FluxGroup",
+ "lines": [
+  {
+   "id": "bigstream-mv",
+   "name": "BigStream·MV 41 曲",
+   "priority": "P0",
+   "org": "content",
+   "status": "ACTIVE",
+   "owner": "导演席（自决推进，CEO 巡视可随时否决）",
+   "stale_after_h": 24,
+   "stages": [
+    {
+     "id": "mv-plan",
+     "name": "立意/分镜",
+     "owner": "导演席",
+     "model": "cloud-smart",
+     "lane": null,
+     "evidence": [
+      "cph4/fleet/mv-album-001-jay/anchors",
+      "cph4/fleet/mv0001-handover/canon"
+     ]
+    },
+    {
+     "id": "mv-kf",
+     "name": "关键帧",
+     "owner": "导演席·美术",
+     "model": "local-gpu",
+     "lane": "bm-c",
+     "evidence": [
+      "cph4/fleet/mv-album-001-jay/local-i2v"
+     ]
+    },
+    {
+     "id": "mv-i2v",
+     "name": "出片",
+     "owner": "导演席",
+     "model": "local-gpu",
+     "lane": "bm-c",
+     "evidence": [
+      "D:/FluxGroup/media/mv-album-001-jay/clips-local-768"
+     ]
+    },
+    {
+     "id": "mv-cut",
+     "name": "剪辑/装配",
+     "owner": "剪辑席",
+     "model": "none",
+     "lane": "bm-a",
+     "evidence": [
+      "cph4/fleet/mv0001-handover/outbound"
+     ]
+    },
+    {
+     "id": "mv-gate",
+     "name": "质检/交付",
+     "owner": "质检席",
+     "model": "none",
+     "lane": "bm-a",
+     "evidence": [
+      "D:/FleetWorker/review"
+     ]
+    },
+    {
+     "id": "mv-approve",
+     "name": "呈审",
+     "owner": "导演席（自决放行）",
+     "model": "none",
+     "lane": null,
+     "evidence": [
+      "cph4/fleet/mv0001-handover/canon"
+     ]
+    }
+   ],
+   "repos": [],
+   "observed": "OBSERVED",
+   "age_h": 2.4,
+   "newest": "2026-11-07T22:27:30",
+   "queue": {
+    "total": 131,
+    "by_state": {
+     "DONE": 115,
+     "CANCELLED": 6,
+     "ARCHIVED": 8,
+     "RUNNING": 2
+    },
+    "last_done": "2026-11-05T18:20:56"
+   }
+  },
+  {
+   "id": "bigstream-drama",
+   "name": "BigStream·漫剧",
+   "priority": "P0",
+   "org": "content",
+   "status": "PARKED",
+   "owner": "漫剧席",
+   "stale_after_h": 48,
+   "stages": [
+    {
+     "id": "drama-script",
+     "name": "剧本",
+     "owner": "编剧席",
+     "model": "cloud-smart",
+     "lane": null,
+     "evidence": [
+      "cph4/fleet/drama-dept-v1"
+     ]
+    },
+    {
+     "id": "drama-kf",
+     "name": "画面/分镜",
+     "owner": "漫剧席",
+     "model": "local-gpu",
+     "lane": "bm-b",
+     "evidence": [
+      "media/drama-eps"
+     ]
+    },
+    {
+     "id": "drama-voice",
+     "name": "配音",
+     "owner": "声音席",
+     "model": "local-llm",
+     "lane": "bm-b",
+     "evidence": [
+      "media/drama-mix-out"
+     ]
+    },
+    {
+     "id": "drama-mix",
+     "name": "混音/合成",
+     "owner": "声音席",
+     "model": "none",
+     "lane": "bm-b",
+     "evidence": [
+      "media/drama-eps-audio"
+     ]
+    }
+   ],
+   "repos": [],
+   "observed": "OBSERVED",
+   "age_h": 0.4,
+   "newest": "2026-11-08T00:27:29",
+   "queue": {
+    "total": 25,
+    "by_state": {
+     "DONE": 15,
+     "CANCELLED": 7,
+     "OPEN": 1,
+     "ARCHIVED": 2
+    },
+    "last_done": "2026-11-06T19:22:49"
+   }
+  },
+  {
+   "id": "bigstream-duanju",
+   "name": "BigStream·短剧",
+   "priority": "P0",
+   "org": "content",
+   "status": "PARKED",
+   "owner": "短剧席",
+   "stale_after_h": 72,
+   "stages": [
+    {
+     "id": "duanju-script",
+     "name": "剧本",
+     "owner": "编剧席",
+     "model": "cloud-smart",
+     "lane": null,
+     "evidence": [
+      "cph4/fleet/duanju-dept-v1"
+     ]
+    },
+    {
+     "id": "duanju-board",
+     "name": "试构图",
+     "owner": "短剧席",
+     "model": "local-gpu",
+     "lane": "bm-c",
+     "evidence": [
+      "cph4/fleet/duanju-dept-v1"
+     ]
+    }
+   ],
+   "repos": [],
+   "observed": "OBSERVED",
+   "age_h": 198.2,
+   "newest": "2026-10-30T18:42:56",
+   "queue": {
+    "total": 19,
+    "by_state": {
+     "DONE": 6,
+     "CANCELLED": 7,
+     "FAILED": 1,
+     "ARCHIVED": 3,
+     "OPEN": 2
+    },
+    "last_done": "2026-11-05T17:17:59"
+   }
+  },
+  {
+   "id": "bigstream-shortvideo",
+   "name": "BigStream·短视频/切片",
+   "priority": "P0",
+   "org": "content",
+   "status": "PARKED",
+   "owner": "短视频席",
+   "stale_after_h": 168,
+   "stages": [
+    {
+     "id": "sv-script",
+     "name": "选题/脚本",
+     "owner": "短视频席",
+     "model": "cloud-smart",
+     "lane": null,
+     "evidence": [
+      "cph4/fleet/meme-daily-v1"
+     ]
+    },
+    {
+     "id": "sv-cut",
+     "name": "剪辑",
+     "owner": "剪辑席",
+     "model": "none",
+     "lane": "bm-a",
+     "evidence": [
+      "cph4/fleet/video-remix-dept"
+     ]
+    }
+   ],
+   "repos": [],
+   "observed": "OBSERVED",
+   "age_h": 131.7,
+   "newest": "2026-11-02T13:09:30",
+   "queue": {
+    "total": 0,
+    "by_state": {},
+    "last_done": ""
+   }
+  },
+  {
+   "id": "biggame",
+   "name": "Biggame·游戏",
+   "priority": "P0",
+   "org": "game",
+   "status": "ACTIVE",
+   "owner": "游戏席",
+   "stale_after_h": 24,
+   "stages": [
+    {
+     "id": "game-design",
+     "name": "玩法/数值",
+     "owner": "游戏席",
+     "model": "cloud-smart",
+     "lane": null,
+     "evidence": [
+      "gaming/MiniGame/Design",
+      "cph4/fleet/ri/game/CANON-v1.md"
+     ]
+    },
+    {
+     "id": "game-art",
+     "name": "美术资产",
+     "owner": "美术席",
+     "model": "local-gpu",
+     "lane": "bm-c",
+     "evidence": [
+      "gaming/MiniGame/Art"
+     ]
+    },
+    {
+     "id": "game-build",
+     "name": "构建/打包",
+     "owner": "工程席",
+     "model": "none",
+     "lane": "bm-a",
+     "evidence": [
+      "gaming/MiniGame/Builds"
+     ]
+    }
+   ],
+   "repos": [
+    "gaming/MiniGame"
+   ],
+   "observed": "OBSERVED",
+   "age_h": 103.5,
+   "newest": "2026-11-03T17:19:36",
+   "queue": {
+    "total": 232,
+    "by_state": {
+     "DONE": 74,
+     "CANCELLED": 155,
+     "ARCHIVED": 1,
+     "OPEN": 1,
+     "RUNNING": 1
+    },
+    "last_done": "2026-11-07T23:26:36"
+   }
+  },
+  {
+   "id": "fluxverse",
+   "name": "FluxVerse·元宙城",
+   "priority": "P2",
+   "org": "city",
+   "status": "ACTIVE",
+   "owner": "城市线",
+   "stale_after_h": 36,
+   "stages": [
+    {
+     "id": "city-assemble",
+     "name": "场景装配",
+     "owner": "地编席",
+     "model": "none",
+     "lane": "bm-a",
+     "evidence": [
+      "gaming/FluxVerse/City3D",
+      "cph4/fleet/CITY-FACES-v1.json"
+     ]
+    },
+    {
+     "id": "city-data",
+     "name": "数据面",
+     "owner": "城市线",
+     "model": "none",
+     "lane": null,
+     "evidence": [
+      "gaming/FluxVerse/world"
+     ]
+    },
+    {
+     "id": "city-viz",
+     "name": "可视化",
+     "owner": "城市线",
+     "model": "none",
+     "lane": null,
+     "evidence": [
+      "gaming/MiniGame/Design/configs/GLOBAL"
+     ]
+    }
+   ],
+   "repos": [
+    "gaming/FluxVerse"
+   ],
+   "observed": "OBSERVED",
+   "age_h": 105.8,
+   "newest": "2026-11-03T15:03:14",
+   "queue": {
+    "total": 7,
+    "by_state": {
+     "DONE": 5,
+     "ARCHIVED": 2
+    },
+    "last_done": "2026-11-07T12:47:43"
+   }
+  },
+  {
+   "id": "bigmoney",
+   "name": "BigMoney·量化",
+   "priority": "P1",
+   "org": "strategy",
+   "status": "ACTIVE",
+   "owner": "量化席",
+   "stale_after_h": 24,
+   "stages": [
+    {
+     "id": "quant-data",
+     "name": "数据",
+     "owner": "数据席",
+     "model": "none",
+     "lane": "bm-b",
+     "evidence": [
+      "quant/bigmoney/data",
+      "cph4/fleet/ri/strategy/QUANT-AUDIT-20261103.md"
+     ]
+    },
+    {
+     "id": "quant-backtest",
+     "name": "回测",
+     "owner": "量化席",
+     "model": "none",
+     "lane": "bm-d",
+     "evidence": [
+      "quant/bigmoney/results"
+     ]
+    },
+    {
+     "id": "quant-audit",
+     "name": "审计/闸",
+     "owner": "风控席",
+     "model": "none",
+     "lane": "bm-b",
+     "evidence": [
+      "quant/bigmoney/results/automation_line_audit.json"
+     ]
+    }
+   ],
+   "repos": [
+    "quant/bigmoney"
+   ],
+   "observed": "OBSERVED",
+   "age_h": 84.8,
+   "newest": "2026-11-04T12:04:19",
+   "queue": {
+    "total": 94,
+    "by_state": {
+     "DONE": 86,
+     "UNVERIFIED": 1,
+     "CANCELLED": 1,
+     "ARCHIVED": 5,
+     "RUNNING": 1
+    },
+    "last_done": "2026-11-07T23:45:55"
+   }
+  },
+  {
+   "id": "bigdomain",
+   "name": "BigDomain·硅基域商业化",
+   "priority": "P1",
+   "org": "strategy",
+   "status": "ACTIVE",
+   "owner": "域运营席",
+   "stale_after_h": 36,
+   "stages": [
+    {
+     "id": "domain-lead",
+     "name": "引流线索",
+     "owner": "域运营席",
+     "model": "none",
+     "lane": null,
+     "evidence": [
+      "domain/BigDomain",
+      "cph4/fleet/company/bigdomain/FUNNEL-v1.json"
+     ]
+    },
+    {
+     "id": "domain-order",
+     "name": "订单簿记",
+     "owner": "域运营席",
+     "model": "none",
+     "lane": null,
+     "evidence": [
+      "domain/BigDomain"
+     ]
+    }
+   ],
+   "repos": [
+    "domain/BigDomain"
+   ],
+   "observed": "OBSERVED",
+   "age_h": 103.4,
+   "newest": "2026-11-03T17:26:41",
+   "queue": {
+    "total": 8,
+    "by_state": {
+     "CANCELLED": 1,
+     "DONE": 5,
+     "ARCHIVED": 2
+    },
+    "last_done": "2026-11-07T23:45:55"
+   }
+  },
+  {
+   "id": "bigcompute",
+   "name": "BigCompute·硅基算力",
+   "priority": "P3",
+   "org": "platform",
+   "status": "ACTIVE",
+   "owner": "算力中枢席",
+   "stale_after_h": 36,
+   "stages": [
+    {
+     "id": "compute-deal",
+     "name": "成交环",
+     "owner": "算力中枢席",
+     "model": "cloud-smart",
+     "lane": null,
+     "evidence": [
+      "compute/BigCompute",
+      "cph4/fleet/company/bigcompute/CAPACITY-LEDGER-v1.json"
+     ]
+    }
+   ],
+   "repos": [
+    "compute/BigCompute"
+   ],
+   "observed": "OBSERVED",
+   "age_h": 103.4,
+   "newest": "2026-11-03T17:26:47",
+   "queue": {
+    "total": 5,
+    "by_state": {
+     "DONE": 4,
+     "ARCHIVED": 1
+    },
+    "last_done": "2026-11-07T00:34:13"
+   }
+  },
+  {
+   "id": "biglife",
+   "name": "BigLife·数字生命",
+   "priority": "P2",
+   "org": "city",
+   "status": "ACTIVE",
+   "owner": "生命生产席",
+   "stale_after_h": 48,
+   "stages": [
+    {
+     "id": "life-gen",
+     "name": "人设生产",
+     "owner": "生命生产席",
+     "model": "local-llm",
+     "lane": null,
+     "evidence": [
+      "life/BigLife/census",
+      "cph4/fleet/state/city-state.json"
+     ]
+    },
+    {
+     "id": "life-gate",
+     "name": "生命体征闸",
+     "owner": "质检席",
+     "model": "none",
+     "lane": null,
+     "evidence": [
+      "life/BigLife/census"
+     ]
+    }
+   ],
+   "repos": [
+    "life/BigLife"
+   ],
+   "observed": "EMPTY",
+   "age_h": null,
+   "newest": "",
+   "queue": {
+    "total": 5,
+    "by_state": {
+     "DONE": 3,
+     "ARCHIVED": 2
+    },
+    "last_done": "2026-11-07T00:11:21"
+   }
+  },
+  {
+   "id": "bighouse",
+   "name": "BigHouse·城市安家",
+   "priority": "P2",
+   "org": "city",
+   "status": "PARKED",
+   "owner": "生态运营席",
+   "stale_after_h": 72,
+   "stages": [
+    {
+     "id": "house-movein",
+     "name": "安家",
+     "owner": "生态运营席",
+     "model": "none",
+     "lane": null,
+     "evidence": [
+      "house/BigHouse"
+     ]
+    },
+    {
+     "id": "house-neighbor",
+     "name": "邻里/共长",
+     "owner": "生态运营席",
+     "model": "none",
+     "lane": null,
+     "evidence": [
+      "house/BigHouse"
+     ]
+    }
+   ],
+   "repos": [
+    "house/BigHouse"
+   ],
+   "observed": "NO-DISK",
+   "age_h": null,
+   "newest": "",
+   "queue": {
+    "total": 0,
+    "by_state": {},
+    "last_done": ""
+   }
+  },
+  {
+   "id": "car-gaming",
+   "name": "车机游戏 BU",
+   "priority": "P3",
+   "org": "platform",
+   "status": "PARKED",
+   "owner": "车机 BU",
+   "stale_after_h": 72,
+   "stages": [
+    {
+     "id": "car-market",
+     "name": "市场/立项",
+     "owner": "车机 BU",
+     "model": "cloud-smart",
+     "lane": null,
+     "evidence": [
+      "cph4/fleet/car-gaming-v1"
+     ]
+    },
+    {
+     "id": "car-build",
+     "name": "研发/适配闸",
+     "owner": "工程席",
+     "model": "none",
+     "lane": "bm-a",
+     "evidence": [
+      "gaming/MiniGame/09_吸嘟嘟GimmeAll/GimmeAll/Tools"
+     ]
+    }
+   ],
+   "repos": [],
+   "observed": "OBSERVED",
+   "age_h": 124.9,
+   "newest": "2026-11-02T19:55:49",
+   "queue": {
+    "total": 0,
+    "by_state": {},
+    "last_done": ""
+   }
+  },
+  {
+   "id": "recon",
+   "name": "RECON·竞品拆解",
+   "priority": "P3",
+   "org": "enabling",
+   "status": "ACTIVE",
+   "owner": "拆解部",
+   "stale_after_h": 72,
+   "stages": [
+    {
+     "id": "recon-scan",
+     "name": "扒榜/拆包",
+     "owner": "拆解部",
+     "model": "none",
+     "lane": "bm-a",
+     "evidence": [
+      "cph4/fleet/recon-dept-v1"
+     ]
+    },
+    {
+     "id": "recon-proto",
+     "name": "48h 原型",
+     "owner": "拆解部",
+     "model": "cloud-smart",
+     "lane": null,
+     "evidence": [
+      "cph4/fleet/recon-dept-v1"
+     ]
+    }
+   ],
+   "repos": [],
+   "observed": "OBSERVED",
+   "age_h": 12.2,
+   "newest": "2026-11-07T12:38:24",
+   "queue": {
+    "total": 6,
+    "by_state": {
+     "DONE": 3,
+     "ARCHIVED": 2,
+     "CANCELLED": 1
+    },
+    "last_done": "2026-11-07T00:36:08"
+   }
+  },
+  {
+   "id": "fleet-ops",
+   "name": "机队运维·端到端自检（平台服务线）",
+   "priority": "P3",
+   "org": "platform",
+   "status": "ACTIVE",
+   "owner": "中枢（机器判）",
+   "stale_after_h": 24,
+   "stages": [
+    {
+     "id": "ops-canary",
+     "name": "端到端自检",
+     "owner": "中枢",
+     "model": "none",
+     "lane": null,
+     "evidence": [
+      "cph4/fleet/state/canary"
+     ]
+    }
+   ],
+   "repos": [],
+   "observed": "BOOKKEEPING",
+   "age_h": null,
+   "newest": "",
+   "queue": {
+    "total": 362,
+    "by_state": {
+     "DONE": 123,
+     "CANCELLED": 75,
+     "UNVERIFIED": 1,
+     "ARCHIVED": 157,
+     "NONE": 3,
+     "FAILED": 1,
+     "RUNNING": 1,
+     "OPEN": 1
+    },
+    "last_done": "2026-11-08T00:44:24"
+   }
+  },
+  {
+   "id": "asset-lib",
+   "name": "资产储备·角色 LoRA 与音色库",
+   "priority": "P0",
+   "org": "content",
+   "status": "ACTIVE",
+   "owner": "资产席",
+   "stale_after_h": 72,
+   "stages": [
+    {
+     "id": "asset-env",
+     "name": "训练环境自检",
+     "owner": "资产席",
+     "model": "rule",
+     "lane": "bm-c",
+     "evidence": [
+      "cph4/fleet/asset-lib-v1"
+     ]
+    },
+    {
+     "id": "asset-dataset",
+     "name": "数据集准入闸",
+     "owner": "资产席",
+     "model": "rule",
+     "lane": "bm-b",
+     "evidence": [
+      "cph4/fleet/queue-receipts"
+     ]
+    },
+    {
+     "id": "asset-train",
+     "name": "LoRA/音色训练",
+     "owner": "资产席",
+     "model": "local-gpu",
+     "lane": "bm-c",
+     "evidence": [
+      "cph4/fleet/asset-lib-v1"
+     ]
+    }
+   ],
+   "repos": [],
+   "observed": "OBSERVED",
+   "age_h": 5.3,
+   "newest": "2026-11-07T19:32:03",
+   "queue": {
+    "total": 79,
+    "by_state": {
+     "CANCELLED": 19,
+     "DONE": 44,
+     "ARCHIVED": 7,
+     "OPEN": 4,
+     "RUNNING": 5
+    },
+    "last_done": "2026-11-07T23:40:12"
+   }
+  }
+ ],
+ "fleet": {
+  "nodes": [
+   {
+    "id": "bm-a",
+    "host": "DASHENG",
+    "lanes": 5,
+    "lane_ts": "2026-11-08T00:54:04",
+    "idle_reason": ""
+   },
+   {
+    "id": "bm-b",
+    "host": "BIGMONEY",
+    "lanes": 3,
+    "lane_ts": "2026-11-08T00:56:48",
+    "idle_reason": ""
+   },
+   {
+    "id": "bm-c",
+    "host": "FLUXGROUP",
+    "lanes": 2,
+    "lane_ts": "2026-11-08T00:56:48",
+    "idle_reason": ""
+   },
+   {
+    "id": "bm-m",
+    "host": "junshengsundemacbook-pro.local",
+    "lanes": 0,
+    "lane_ts": "2026-11-08T00:45:15",
+    "idle_reason": "SELF-DISPATCH: lane scans its own backlog"
+   },
+   {
+    "id": "bm-d",
+    "host": "PENDING-TAILNET",
+    "lanes": 0,
+    "lane_ts": "2026-11-06T17:48:19",
+    "idle_reason": "SELF-DISPATCH: lane scans its own backlog"
+   }
+  ],
+  "slots": {
+   "bm-a": 8,
+   "bm-b": 6,
+   "bm-c": 6,
+   "bm-m": 6,
+   "bm-d": 8
+  },
+  "pulse_ts": "2026-11-08T00:59:25+08:00",
+  "pulse_sec": 93.7,
+  "pulse_stages": 92
+ },
+ "queue": {
+  "total": 1385,
+  "by_state": {
+   "DONE": 517,
+   "CANCELLED": 611,
+   "FAILED": 2,
+   "ARCHIVED": 227,
+   "UNVERIFIED": 6,
+   "OPEN": 9,
+   "NONE": 3,
+   "RUNNING": 10
+  },
+  "by_line": {
+   "bigstream-mv": 131,
+   "fleet-ops": 362,
+   "bigstream-drama": 25,
+   "bigstream-duanju": 19,
+   "asset-lib": 79,
+   "bigmoney": 94,
+   "bigdomain": 8,
+   "unfiled": 412,
+   "bigcompute": 5,
+   "biggame": 232,
+   "biglife": 5,
+   "fluxverse": 7,
+   "recon": 6
+  },
+  "by_day": {
+   "2026-10-27": 5,
+   "2026-10-28": 12,
+   "2026-10-29": 11,
+   "2026-10-30": 13,
+   "2026-10-31": 5,
+   "2026-11-01": 21,
+   "2026-11-02": 45,
+   "2026-11-03": 64,
+   "2026-11-04": 43,
+   "2026-11-05": 413,
+   "2026-11-06": 74,
+   "2026-11-07": 120,
+   "2026-11-08": 35
+  },
+  "live_cards": [
+   {
+    "id": "OPS-I2V-CAP-BMA-20261103",
+    "cmd": "python -c \"import os,json,glob;roots=[r'D:/AI',r'C:/AI',os.path.expanduser('~')];wf=[];mods=[];[wf.extend(glob.glob(os.p",
+    "deliverable": "cph4/fleet/queue-receipts/i2v-cap-bma.json",
+    "line": "bigstream-drama"
+   },
+   {
+    "id": "ASSET-GEN-CHARACTERS-20261107",
+    "cmd": "python Tools/fleet/asset_gen.py --class characters --limit 8 --node bm-c --receipt cph4/fleet/queue-receipts/asset-gen-c",
+    "deliverable": "cph4/fleet/queue-receipts/asset-gen-characters-20261107.json",
+    "line": "asset-lib"
+   },
+   {
+    "id": "ASSET-GEN-SCENES-20261107",
+    "cmd": "python Tools/fleet/asset_gen.py --class scenes --limit 6 --node bm-c --receipt cph4/fleet/queue-receipts/asset-gen-scene",
+    "deliverable": "cph4/fleet/queue-receipts/asset-gen-scenes-20261107.json",
+    "line": "asset-lib"
+   },
+   {
+    "id": "ASSET-GEN-STYLES-20261107",
+    "cmd": "python Tools/fleet/asset_gen.py --class styles --limit 3 --node bm-c --receipt cph4/fleet/queue-receipts/asset-gen-style",
+    "deliverable": "cph4/fleet/queue-receipts/asset-gen-styles-20261107.json",
+    "line": "asset-lib"
+   },
+   {
+    "id": "ASSET-GEN-TYPOGRAPHY-20261108",
+    "cmd": "python Tools/fleet/asset_gen.py --class typography --limit 6 --node bm-c --receipt cph4/fleet/queue-receipts/asset-gen-t",
+    "deliverable": "cph4/fleet/queue-receipts/asset-gen-typography-20261108.json",
+    "line": "biggame"
+   },
+   {
+    "id": "VCORP-GEN-r1202-EP001-060-20261108",
+    "cmd": "if not exist \"C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\repos\\index-tts\\.venv\\Scripts\\python.exe\" (echo BLOCKED: index-tt",
+    "deliverable": "media/drama-tools/voicegen_r1202_ep001_060.DONE.json",
+    "line": "bigstream-duanju"
+   },
+   {
+    "id": "R-NEXT-BIGSTREAMM-REBUILD-20261108",
+    "cmd": "python Tools/mv_rebuild_from_edl.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721.mp4",
+    "deliverable": "cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721.mp4",
+    "line": "bigstream-mv"
+   },
+   {
+    "id": "R-NEXT-BIGSTREAMD-TTS-QC-20261108",
+    "cmd": "python Tools/fleet/tts_batch_check.py --dir media/drama-tts-out/r1202_ep001_060 --out cph4/fleet/queue-receipts/tts-qc-2",
+    "deliverable": "cph4/fleet/queue-receipts/tts-qc-20261108.json",
+    "line": "bigstream-duanju"
+   },
+   {
+    "id": "asset-lib-env-check-2026-11-08",
+    "cmd": "python Tools/fleet/asset_env_check.py --out cph4/fleet/queue-receipts/asset-env-2026-11-08.json",
+    "deliverable": "cph4/fleet/queue-receipts/asset-env-2026-11-08.json",
+    "line": "asset-lib"
+   },
+   {
+    "id": "bigstream-mv-gate-2026-11-08",
+    "cmd": "python Tools/mv_delivery_gate.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721_60fps_1080p.mp4 --ca",
+    "deliverable": "cph4/fleet/queue-receipts/mv-gate-v721-2026-11-08.json",
+    "line": "bigstream-mv"
+   },
+   {
+    "id": "biggame-pack-scan-2026-11-08",
+    "cmd": "python Tools/fleet/game_pack_scan.py --root gaming --out cph4/fleet/queue-receipts/game-packs-2026-11-08.json",
+    "deliverable": "cph4/fleet/queue-receipts/game-packs-2026-11-08.json",
+    "line": "biggame"
+   },
+   {
+    "id": "ROLL-bma-000148",
+    "cmd": "python -c \"print('ok')\"",
+    "deliverable": "cph4/fleet/queue-receipts/ROLL-bma-000148.json",
+    "line": "fleet-ops"
+   },
+   {
+    "id": "asset-lib-voice-corpus-2026-11-08",
+    "cmd": "python Tools/fleet/voice_corpus_prep.py --inbox media/asset/inbox --group batch-2026-11-08 --shard 0/1 --receipt cph4/fl",
+    "deliverable": "cph4/fleet/queue-receipts/voice-corpus-2026-11-08.json",
+    "line": "asset-lib"
+   },
+   {
+    "id": "ROLL-bmc-000533",
+    "cmd": "python -c \"print('ok')\"",
+    "deliverable": "cph4/fleet/queue-receipts/ROLL-bmc-000533.json",
+    "line": "fleet-ops"
+   },
+   {
+    "id": "asset-lib-face-dataset-2026-11-08",
+    "cmd": "python Tools/fleet/asset_dataset_audit.py --mode face --dir media/asset/faces --out cph4/fleet/queue-receipts/asset-face",
+    "deliverable": "cph4/fleet/queue-receipts/asset-face-2026-11-08.json",
+    "line": "asset-lib"
+   },
+   {
+    "id": "bigmoney-signal-2026-11-08",
+    "cmd": "python Tools/fleet/quant_positions_bridge.py --in quant/bigmoney/results/etf_nobond_vt.json --out cph4/fleet/queue-recei",
+    "deliverable": "cph4/fleet/queue-receipts/quant-signal-2026-11-08.csv",
+    "line": "bigmoney"
+   },
+   {
+    "id": "asset-lib-library-check-2026-11-08",
+    "cmd": "python Tools/fleet/asset_library_check.py --tier p0 --out cph4/fleet/queue-receipts/asset-library-2026-11-08.json",
+    "deliverable": "cph4/fleet/queue-receipts/asset-library-2026-11-08.json",
+    "line": "asset-lib"
+   },
+   {
+    "id": "asset-lib-char-prompts-2026-11-08",
+    "cmd": "python Tools/fleet/char_plan.py",
+    "deliverable": "cph4/fleet/queue-receipts/char-gen-plan-2026-11-08.json",
+    "line": "asset-lib"
+   },
+   {
+    "id": "asset-lib-asset-gen-2026-11-08",
+    "cmd": "python Tools/fleet/asset_gen.py --node bm-c --class props --limit 4 --receipt cph4/fleet/queue-receipts/asset-gen-props-",
+    "deliverable": "cph4/fleet/queue-receipts/asset-gen-props-2026-11-08.json",
+    "line": "asset-lib"
+   }
+  ]
+ },
+ "skills": [
+  {
+   "name": "agent-librarian",
+   "scope": "global",
+   "path": "~/.codely-cli/skills/agent-librarian/SKILL.md",
+   "description": "智能体库库长席（集团 Agent/Skill 总册管理）。Use when discovering which agent, expert, skill or seat handles a task, registering a new agent or skill into the library, auditing library consistency, running the weekly library review, translating a CEO plain-language request into the right expert invocation chain, or when any session asks who owns a responsibility. Triggers on 智能体库/找专家/找席位/谁负责/登记新专家/库审计/库周审."
+  },
+  {
+   "name": "art-critique",
+   "scope": "global",
+   "path": "~/.codely-cli/skills/art-critique/SKILL.md",
+   "description": "逐帧/逐镜的审美批判席。用于成片、关键帧、界面、海报的审美审查：构图、光、色、材质、表演、叙事六个面各自打分并给出可执行的修改指令。当需要\"看得更专业\"而不是\"看得更多\"时使用。"
+  },
+  {
+   "name": "asset-audit",
+   "scope": "global",
+   "path": "~/.codely-cli/skills/asset-audit/SKILL.md",
+   "description": "集团资源规范审核技能（Unity/团结引擎资产：命名硬规则、切图尺寸、UI alpha 通道、导入设置 meta、同内容冗余→Atlas 候选；上游包豁免）。当需要对游戏项目 Assets 做资源审核、批量切图/生成资产入库把关、或发布前资产体检时使用。执行 Tools/asset-audit.ps1，把英文报告渲染成中文审核结论。"
+  },
+  {
+   "name": "bigstream-expert-panel",
+   "scope": "global",
+   "path": "~/.codely-cli/skills/bigstream-expert-panel/SKILL.md",
+   "description": "BigStream 内容产线专家评审团机制（十三席两波评审+四闸流水+经验台账回灌）。进行 BigStream/MV/短视频/图像的创意生产、专家评审、关键帧生成、图生视频提示词撰写、剪辑装配、发布合规检查时使用。"
+  },
+  {
+   "name": "compliance-guard",
+   "scope": "global",
+   "path": "~/.codely-cli/skills/compliance-guard/SKILL.md",
+   "description": "合规法务专家席（肖像版权/平台红线/AIGC 知识库·阶段门控——现役=轻量顾问模式不拦产线，商业化触发后转全检硬门·CEO 令 2026-10-16）。Use when touching celebrity likeness, copyright, trademark, memes or影射 boundaries, AIGC labeling, platform takedown risk, any content review gate, or when commercialization/上线/变现/提审/接广告/带货 is announced. Triggers on 合规/肖像权/版权/侵权/商标/下架风险/AIGC标识/平台审核/影射边界/商业化触发."
+  },
+  {
+   "name": "content-recon",
+   "scope": "global",
+   "path": "~/.codely-cli/skills/content-recon/SKILL.md",
+   "description": "短剧/漫剧竞品拆解技能。当需要拆解爆款短剧、AI 漫剧、出海短剧的结构与工艺（钩子、集结构、反转节拍、镜头节奏、字幕规格、AI 痕迹），或要把竞品结论转成可执行配方卡时使用。触发词=短剧拆解/漫剧拆解/爆款拆解/拉片/钩子/付费点/对标。"
+  },
+  {
+   "name": "cph4-research-dispatch",
+   "scope": "global",
+   "path": "~/.codely-cli/skills/cph4-research-dispatch/SKILL.md",
+   "description": "CPH4 Labs 调研派工纪律 (P-65 research law execution). Use when dispatching background research waves (调研员/外部锚点波), writing R-YYYYMMDD research deliverables to cph4/research/, or verifying researcher output. Covers: dispatch prompt discipline (early-disk-write, unverified leads, sub-repo anchor access, read budget), deliverable standards (≤60 lines, verification statement, graded sources, mandatory applic"
+  },
+  {
+   "name": "drama-director",
+   "scope": "global",
+   "path": "~/.codely-cli/skills/drama-director/SKILL.md",
+   "description": "专业漫剧/短剧总控导演席（连载剧审查+平台对标判据+双轨工艺）。Use when reviewing drama scripts, episode hooks, storyboards, KF panels, episode cuts, voice casting, or producing AI 漫剧/AI 短剧 for BigStream drama-dept. CEO 令 2026-10-19 漫剧彻底改造令：一切漫剧/短剧剧本/分镜/样片/成片必须过本导演席审查定稿才放生产（承 MV tw-mv-director 同构机制·画质对齐红果头部 AI 仿真人及格线）。"
+  },
+  {
+   "name": "fleet-doctrine",
+   "scope": "global",
+   "path": "~/.codely-cli/skills/fleet-doctrine/SKILL.md",
+   "description": "Model routing strategy for a multi-model AI fleet. Use when spawning sub-agents, choosing models for scheduled jobs, delegating coding tasks, or deciding which model should handle a task."
+  },
+  {
+   "name": "fleet-ops",
+   "scope": "global",
+   "path": "~/.codely-cli/skills/fleet-ops/SKILL.md",
+   "description": "机队运维专家席。Use when any fleet or machine problem or operation: scheduled task issues, popup or black console windows, FleetLink/poke/sync failures, heartbeat stall, machine-state pause/resume, GPU/CPU lane allocation, dispatching work to bm-a/bm-b/bm-c/bm-d, waking a stalled machine, or fleet git surgery. Triggers on 机队/计划任务/弹窗/黑窗/同步/poke/心跳/停摆/让路/派单/车道/新机入网."
+  },
+  {
+   "name": "game-asset-ship",
+   "scope": "global",
+   "path": "~/.codely-cli/skills/game-asset-ship/SKILL.md",
+   "description": "Produce and vet 2D mini-game assets and package builds for the Biggame line so they pass size, density and compliance gates before release. Use when asked to make or review game UI/buttons/icons, cut sprites from a sheet, build a WeChat/Tuanjie mini-game package, or decide whether an asset set or build is shippable."
+  },
+  {
+   "name": "game-recon",
+   "scope": "global",
+   "path": "~/.codely-cli/skills/game-recon/SKILL.md",
+   "description": "小游戏竞品拆解技能。当需要扒爆款小游戏的包体结构、引擎、UI 规格、核心循环、数值与商业化点位，或把结论转成自家可执行规格时使用。触发词=小游戏拆解/扒包/反编译/包体分析/UI 对标/商业化拆解/榜单前10。"
+  },
+  {
+   "name": "gate-rigor",
+   "scope": "global",
+   "path": "~/.codely-cli/skills/gate-rigor/SKILL.md",
+   "description": "造闸/立标准前的六问体检（标定依据、负控、能力边界、唯一判据、失效条件、验证记录）。Use when writing or revising any threshold, gate, QC checklist, quality spec or acceptance rule, when a gate is about to block production, when someone claims a number is \"standard\", or when a previous gate turned out to block good work. Triggers on 立标准/写闸/定阈值/加门禁/闸太严/闸太松/误杀/废闸/标定/负控."
+  },
+  {
+   "name": "github-repo-ops",
+   "scope": "global",
+   "path": "~/.codely-cli/skills/github-repo-ops/SKILL.md",
+   "description": "> GitHub repository operations and analysis. Use when working with GitHub repos: analyzing code, checking issues, reviewing PRs, tracking stars/releases, searching for repositories, or understanding repo structure. Provides structured access to GitHub API data without needing a GitHub token."
+  },
+  {
+   "name": "growth-ops",
+   "scope": "global",
+   "path": "~/.codely-cli/skills/growth-ops/SKILL.md",
+   "description": "增长运营专家席（账号/粉丝/评论区/发布节奏/数据看板）。Use when planning account growth, fan engagement, comment-section operations, posting cadence and timing, follower conversion, private-domain layering, or reviewing account metrics dashboards for B站/抖音/视频号. Triggers on 涨粉/粉丝经营/账号运营/评论区经营/发布时间/发布节奏/数据看板/私域/转化."
+  },
+  {
+   "name": "llama-params-optimizer",
+   "scope": "global",
+   "path": "~/.codely-cli/skills/llama-params-optimizer/SKILL.md",
+   "description": "> Use when tuning llama.cpp or llama-server context length, batch size, GPU offload or KV cache on a fixed machine, or when a model runs partly on CPU. Complete methodology for local LLM performance optimization. Core principle: maximize context while fully covering GPU memory — find the sweet spot where GPU runs at full speed. Step-by-step 4-phase 10-step control variable testing process. Works f"
+  },
+  {
+   "name": "llmxray-diagnose-ollama-calls",
+   "scope": "global",
+   "path": "~/.codely-cli/skills/llmxray-diagnose-ollama-calls/SKILL.md",
+   "description": "Find out what went wrong with your own Ollama calls and fix it, using LLMxRay's local, read-only MCP tools. Use when a local model is slow, a prompt is rejected or silently cut for exceeding the context, the prompt cache seems lost between turns, a model runs partly on CPU, tool schemas crowd the prompt, or you must choose which local model and context length fit in video memory. Keywords - Ollama"
+  },
+  {
+   "name": "local-task",
+   "scope": "global",
+   "path": "~/.codely-cli/skills/local-task/SKILL.md",
+   "description": "用本机常驻轻量模型做分类/摘要/打分/抽取，走统一题型与 JSON schema，带调用账与规则复核。当需要把一段文本归到固定类别、压成一句摘要、给产出打完成度、或抽出\"谁等什么\"关系时使用；不要自己临时拼 prompt。"
+  },
+  {
+   "name": "memory-curator",
+   "scope": "global",
+   "path": "~/.codely-cli/skills/memory-curator/SKILL.md",
+   "description": "记忆治理席（集团三层记忆体系的预算守门人）。Use whenever a session is about to write memory (append_memory/update_memory), receives any memory-bloat / slimming / audit / budget task, sees CRIT-FLAG or MERGE-QUEUE from the 4h gate, or needs to know what belongs in L0/L1/L2/git. Triggers on 记忆膨胀/记忆瘦身/记忆审计/记忆预算/写入记忆/CODELY 膨胀/记忆治理/清理记忆."
+  },
+  {
+   "name": "mv-casting",
+   "scope": "global",
+   "path": "~/.codely-cli/skills/mv-casting/SKILL.md",
+   "description": "MV 选角/面孔席技能（2000 年代脸谱 × AI 面孔双门）。Use when casting or auditing a female lead for period music videos — average AI faces, era makeup drift, cross-song face reuse, likeness risk. 含四锚点数值预算、反向测试、跨曲向量阈值与年代妆发分期。正身=research/SEAT-casting-20261020.md"
+  },
+  {
+   "name": "mv-colorist",
+   "scope": "global",
+   "path": "~/.codely-cli/skills/mv-colorist/SKILL.md",
+   "description": "MV 调色席技能（2000 telecine 底 × ffmpeg 实参）。Use when building or auditing a grade chain — black lift vs curves, skin turning uniformly red, whole-frame blue cast at night, grain/vignette/halation ordering. 含本机实测带位与暗角标定，防止把 PI 系暗角当轻档。正身=research/SEAT-colorist-20261020.md"
+  },
+  {
+   "name": "mv-edit-rhythm",
+   "scope": "global",
+   "path": "~/.codely-cli/skills/mv-edit-rhythm/SKILL.md",
+   "description": "MV 剪辑节奏席技能（KTV 时代语法：剪在词上、持在乐句里）。Use when cutting or auditing a music video edit — cut placement, shot-length by BPM bars, density curve, dissolve budget, same-source reuse, cut-on-action. 含切点重吸附工具与四曲实测。正身=research/SEAT-editor-20261020.md + Tools/mv_cut_resnap.py"
+  },
+  {
+   "name": "mv-intent-to-prompt",
+   "scope": "global",
+   "path": "~/.codely-cli/skills/mv-intent-to-prompt/SKILL.md",
+   "description": "立意→关键词转译技能（把导演意图变成模型能执行的词面，并验证它真执行了）。Use when a script/idea is good but the generated frames don't match — writing generation prompts from design intent, auditing prompt specificity, or measuring execution hit rate. 正身=cph4/fleet/mv-album-001-jay/INTENT-TO-KEYWORD-v1.md"
+  },
+  {
+   "name": "mv-lighting",
+   "scope": "global",
+   "path": "~/.codely-cli/skills/mv-lighting/SKILL.md",
+   "description": "MV 摄影灯光席技能（2000 台式布光 × AI 可控光句）。Use when writing or auditing lighting in AI-generated video — night shots going cyan, \"face has two lamps\", indoor looking like a studio, sodium streetlight correction, halation without a source. 正身=research/SEAT-lighting-20261020.md"
+  },
+  {
+   "name": "mv-performance",
+   "scope": "global",
+   "path": "~/.codely-cli/skills/mv-performance/SKILL.md",
+   "description": "MV 表演指导席技能（AI 演员表演：意图动作化/反应延迟/情绪弧/减法治）。Use when directing or reviewing character performance in AI-generated video — writing i2v performance prompts, diagnosing \"face jumps / one-beat emotion / dead eyes\", or setting timing gates. 正身=cph4/fleet/mv-album-001-jay/AI-ACTOR-PERFORMANCE-v2.md + research/SEAT-performance-20261020.md"
+  },
+  {
+   "name": "mv-props-era",
+   "scope": "global",
+   "path": "~/.codely-cli/skills/mv-props-era/SKILL.md",
+   "description": "MV 道具/年代考据席技能（2000-2003 台湾物件谱 × 使用痕迹链）。Use when specifying or auditing props and set dressing for period music videos — brand-new-looking props, era anachronism, tool-media logic breaks, regional form differences (cassette vs CD walkman, mainland 复读机 vs Taiwan 收录机). 正身=research/SEAT-props-20261020.md"
+  },
+  {
+   "name": "mv-release-gate",
+   "scope": "global",
+   "path": "~/.codely-cli/skills/mv-release-gate/SKILL.md",
+   "description": "Run the four audience-level checks before any music video is delivered or published in the mv0001 line, and decide whether a cut is publishable. Use when asked to review, re-audit, gate, or ship an MV cut, when a gate run reports FAIL and you must tell a real defect from a structural false red, or when a canon PASS needs to be reproduced for a newer master."
+  },
+  {
+   "name": "quant-backtest-gate",
+   "scope": "global",
+   "path": "~/.codely-cli/skills/quant-backtest-gate/SKILL.md",
+   "description": "Design, run and judge A-share and ETF backtests for the BigMoney line with correct return accounting and honest significance, and decide whether a strategy is real money-ready. Use when asked to backtest a factor or strategy, verify a claimed annualized return or Sharpe, compare against a benchmark, or judge whether a research result is a real finding or an artefact."
+  },
+  {
+   "name": "session-handoff",
+   "scope": "global",
+   "path": "~/.codely-cli/skills/session-handoff/SKILL.md",
+   "description": "会话交接书（跨会话/跨机接续：在产、待判、阻塞、下一步、已试并失败的路、决策与理由）。Use when ending a session, when context is about to be compacted, when another agent or machine must continue the same work, when a new session starts and must pick up where the last one stopped, or when the same mistake keeps being repeated across sessions. Triggers on 交接/接手/接续/换会话/上下文压缩/压缩后失忆/上个会话做到哪/继续之前的活."
+  },
+  {
+   "name": "ship-ops",
+   "scope": "global",
+   "path": "~/.codely-cli/skills/ship-ops/SKILL.md",
+   "description": "分发与上架席（C4 SHIP）。Use when publishing or submitting any output — platform declaration checkbox, AIGC dual marking, micro-drama filing (备案), WeChat mini-game submission chain, ICP/软著 prerequisites, release receipt, or deciding whether a piece may go out at all. Triggers on 发布/上架/提审/备案/标识/声明位/平台/回执/下架/B站/抖音/微信小游戏."
+  },
+  {
+   "name": "silicon-city-ops",
+   "scope": "global",
+   "path": "~/.codely-cli/skills/silicon-city-ops/SKILL.md",
+   "description": "硅基城市生态运营席（城市非渲染面：居民生命/人口/安家/商业化/可视化）。Use when working on silicon-life canon, citizen census or population files, BigHouse 安家/邻里/共长 line, BigDomain 城市商业化, city data docs (world-state/world-events), or the CEO 可视化 dashboard (硅基生命元宇宙.html). City render/assembly/lighting/terrain work goes to lowpoly-city-3d skill instead. Triggers on 城市居民/户籍/人口/安家/硅基生命/城市数据/可视化/城市商业化."
+  },
+  {
+   "name": "tw-mv-director",
+   "scope": "global",
+   "path": "~/.codely-cli/skills/tw-mv-director/SKILL.md",
+   "description": "专业台湾音乐 MV 导演（导演审查+分镜工艺）。Use when reviewing MV scripts/storyboards, directing shot design, cutting rhythm, camera language, actor performance direction, or producing Taiwan 2000s-style music videos for BigStream. CEO 令 2026-10-11：一切 MV 剧本/分镜必须过本导演席审查定稿才放生产。"
+  },
+  {
+   "name": "agent-librarian",
+   "scope": "group",
+   "path": "cph4/skills/agent-librarian/SKILL.md",
+   "description": "智能体库库长席（集团 Agent/Skill 总册管理）。Use when discovering which agent, expert, skill or seat handles a task, registering a new agent or skill into the library, auditing library consistency, running the weekly library review, translating a CEO plain-language request into the right expert invocation chain, or when any session asks who owns a responsibility. Triggers on 智能体库/找专家/找席位/谁负责/登记新专家/库审计/库周审."
+  },
+  {
+   "name": "art-critique",
+   "scope": "group",
+   "path": "cph4/skills/art-critique/SKILL.md",
+   "description": "逐帧/逐镜的审美批判席。用于成片、关键帧、界面、海报的审美审查：构图、光、色、材质、表演、叙事六个面各自打分并给出可执行的修改指令。当需要\"看得更专业\"而不是\"看得更多\"时使用。"
+  },
+  {
+   "name": "asset-audit",
+   "scope": "group",
+   "path": "cph4/skills/asset-audit/SKILL.md",
+   "description": "集团资源规范审核技能（Unity/团结引擎资产：命名硬规则、切图尺寸、UI alpha 通道、导入设置 meta、同内容冗余→Atlas 候选；上游包豁免）。当需要对游戏项目 Assets 做资源审核、批量切图/生成资产入库把关、或发布前资产体检时使用。执行 Tools/asset-audit.ps1，把英文报告渲染成中文审核结论。"
+  },
+  {
+   "name": "bigstream-expert-panel",
+   "scope": "group",
+   "path": "cph4/skills/bigstream-expert-panel/SKILL.md",
+   "description": "BigStream 内容产线专家评审团机制（十三席两波评审+四闸流水+经验台账回灌）。进行 BigStream/MV/短视频/图像的创意生产、专家评审、关键帧生成、图生视频提示词撰写、剪辑装配、发布合规检查时使用。"
+  },
+  {
+   "name": "city-3d-assembly",
+   "scope": "group",
+   "path": "cph4/skills/city-3d-assembly/SKILL.md",
+   "description": "硅基生命城市 3D 线·装配专家技能：Synty POLYGON 装配范式（乐高式模块拼装·官方 75 demo=老师）、四阶段定式（blockout→验证→dress→优化）、prefab variants 律、多场景 additive 三坑、构图密度（Phase 0 demo 实测收口）。当在 City3D 做街区装配、场景编辑、建筑摆放或 demo 学习时使用。总控=`lowpoly-city-3d`；映射表=方案 §四。"
+  },
+  {
+   "name": "city-3d-lighting",
+   "scope": "group",
+   "path": "cph4/skills/city-3d-lighting/SKILL.md",
+   "description": "硅基生命城市 3D 线·灯光专家技能：URP 日夜色轮（真实北京时间驱动·旋转+曲线+环境光三件套）、五色律 emission 窗灯改造（AD-022 自带 Emissive_01~05 贴图直供）、bloom 后处理（官方默认值与性能序）、渲染判例（雾距判例族/夜黑场三连乘/光池埋没/夜材质可逆换装）、烘焙策略（只烘 AO+Light Probes）、shadowDistance 高机位坑、WebGL 灯预算（9 灯帽/16 保守）。当在 City3D 做灯光施工、窗灯/霓虹发光改造、昼夜循环、夜景调试或后处理时使用。总控=`lowpoly-city-3d`；参数=`docs/lowpoly3d-implementation-params.md`。"
+  },
+  {
+   "name": "city-3d-procedural",
+   "scope": "group",
+   "path": "cph4/skills/city-3d-procedural/SKILL.md",
+   "description": "硅基生命城市 3D 线·程序化专家技能：散布双轨制（自写最小 scatter 主径+PrefabScatterTool 手涂补笔）、16 方向掩码→AD-022 路面件映射选择器、建筑足迹校验（XZ 半径法+Y Raycast）、Y 排序不承袭律（URP Decal）、扩展期参数化街区填充（结构锚内）、WFC 不引入判定。当在 City3D 做程序化散布、数据驱动摆放算法或城市扩展填充时使用。总控=`lowpoly-city-3d`；判定律=只做重复件分布不做城市结构。"
+  },
+  {
+   "name": "city-3d-terrain",
+   "scope": "group",
+   "path": "cph4/skills/city-3d-terrain/SKILL.md",
+   "description": "硅基生命城市 3D 线·地编专家技能：地面系统（32m chunk 分块·禁 Terrain 基线确认+高程触发器 ±2m 判据）、水系方案（InteractiveStylizedWater·MIT）、地面细节定序（材质分区→路面件自带标线→decal）、大世界流送（additive 首期/Addressables 三坑检查表+卡顿三律）。当在 City3D 做地面施工、地形处理、水系、贴花或城市扩容时使用。总控=`lowpoly-city-3d`；参数=`docs/lowpoly3d-implementation-params.md` §三。"
+  },
+  {
+   "name": "compliance-guard",
+   "scope": "group",
+   "path": "cph4/skills/compliance-guard/SKILL.md",
+   "description": "合规法务专家席（肖像版权/平台红线/AIGC 知识库·阶段门控——现役=轻量顾问模式不拦产线，商业化触发后转全检硬门·CEO 令 2026-10-16）。Use when touching celebrity likeness, copyright, trademark, memes or影射 boundaries, AIGC labeling, platform takedown risk, any content review gate, or when commercialization/上线/变现/提审/接广告/带货 is announced. Triggers on 合规/肖像权/版权/侵权/商标/下架风险/AIGC标识/平台审核/影射边界/商业化触发."
+  },
+  {
+   "name": "content-recon",
+   "scope": "group",
+   "path": "cph4/skills/content-recon/SKILL.md",
+   "description": "短剧/漫剧竞品拆解技能。当需要拆解爆款短剧、AI 漫剧、出海短剧的结构与工艺（钩子、集结构、反转节拍、镜头节奏、字幕规格、AI 痕迹），或要把竞品结论转成可执行配方卡时使用。触发词=短剧拆解/漫剧拆解/爆款拆解/拉片/钩子/付费点/对标。"
+  },
+  {
+   "name": "cost-ledger",
+   "scope": "group",
+   "path": "cph4/skills/cost-ledger/SKILL.md",
+   "description": "成本与单位经济席。Use when computing what a deliverable actually cost, judging unit economics per episode/piece/order, auditing cloud credit spend, deciding whether a line is worth running, or answering \"这单赚不赚\". Triggers on 成本/机时/积分/单位经济/毛利/亏/报价底线/云端花费/credits."
+  },
+  {
+   "name": "cph4-research-dispatch",
+   "scope": "group",
+   "path": "cph4/skills/cph4-research-dispatch/SKILL.md",
+   "description": "CPH4 Labs 调研派工纪律 (P-65 research law execution). Use when dispatching background research waves (调研员/外部锚点波), writing R-YYYYMMDD research deliverables to cph4/research/, or verifying researcher output. Covers: dispatch prompt discipline (early-disk-write, unverified leads, sub-repo anchor access, read budget), deliverable standards (≤60 lines, verification statement, graded sources, mandatory applic"
+  },
+  {
+   "name": "deal-desk",
+   "scope": "group",
+   "path": "cph4/skills/deal-desk/SKILL.md",
+   "description": "商务与定价席（C6 DEAL）。Use when pricing a product, writing a quote or one-page offer, deciding what to charge for a delivery, drafting OEM/channel materials, or judging whether a commercial promise is safe to make. Triggers on 报价/定价/商务/合同草案/OEM/渠道/售卖/买断/订阅/19.9/明信片/不代客实盘."
+  },
+  {
+   "name": "drama-director",
+   "scope": "group",
+   "path": "cph4/skills/drama-director/SKILL.md",
+   "description": "专业漫剧/短剧总控导演席（连载剧审查+平台对标判据+双轨工艺）。Use when reviewing drama scripts, episode hooks, storyboards, KF panels, episode cuts, voice casting, or producing AI 漫剧/AI 短剧 for BigStream drama-dept. CEO 令 2026-10-19 漫剧彻底改造令：一切漫剧/短剧剧本/分镜/样片/成片必须过本导演席审查定稿才放生产（承 MV tw-mv-director 同构机制·画质对齐红果头部 AI 仿真人及格线）。"
+  },
+  {
+   "name": "fleet-doctrine",
+   "scope": "group",
+   "path": "cph4/skills/fleet-doctrine/SKILL.md",
+   "description": "Model routing strategy for a multi-model AI fleet. Use when spawning sub-agents, choosing models for scheduled jobs, delegating coding tasks, or deciding which model should handle a task."
+  },
+  {
+   "name": "fleet-ops",
+   "scope": "group",
+   "path": "cph4/skills/fleet-ops/SKILL.md",
+   "description": "机队运维专家席。Use when any fleet or machine problem or operation: scheduled task issues, popup or black console windows, FleetLink/poke/sync failures, heartbeat stall, machine-state pause/resume, GPU/CPU lane allocation, dispatching work to bm-a/bm-b/bm-c/bm-d, waking a stalled machine, or fleet git surgery. Triggers on 机队/计划任务/弹窗/黑窗/同步/poke/心跳/停摆/让路/派单/车道/新机入网."
+  },
+  {
+   "name": "game-recon",
+   "scope": "group",
+   "path": "cph4/skills/game-recon/SKILL.md",
+   "description": "小游戏竞品拆解技能。当需要扒爆款小游戏的包体结构、引擎、UI 规格、核心循环、数值与商业化点位，或把结论转成自家可执行规格时使用。触发词=小游戏拆解/扒包/反编译/包体分析/UI 对标/商业化拆解/榜单前10。"
+  },
+  {
+   "name": "gate-rigor",
+   "scope": "group",
+   "path": "cph4/skills/gate-rigor/SKILL.md",
+   "description": "造闸/立标准前的六问体检（标定依据、负控、能力边界、唯一判据、失效条件、验证记录）。Use when writing or revising any threshold, gate, QC checklist, quality spec or acceptance rule, when a gate is about to block production, when someone claims a number is \"standard\", or when a previous gate turned out to block good work. Triggers on 立标准/写闸/定阈值/加门禁/闸太严/闸太松/误杀/废闸/标定/负控."
+  },
+  {
+   "name": "github-repo-ops",
+   "scope": "group",
+   "path": "cph4/skills/github-repo-ops/SKILL.md",
+   "description": "> GitHub repository operations and analysis. Use when working with GitHub repos: analyzing code, checking issues, reviewing PRs, tracking stars/releases, searching for repositories, or understanding repo structure. Provides structured access to GitHub API data without needing a GitHub token."
+  },
+  {
+   "name": "growth-ops",
+   "scope": "group",
+   "path": "cph4/skills/growth-ops/SKILL.md",
+   "description": "增长运营专家席（账号/粉丝/评论区/发布节奏/数据看板）。Use when planning account growth, fan engagement, comment-section operations, posting cadence and timing, follower conversion, private-domain layering, or reviewing account metrics dashboards for B站/抖音/视频号. Triggers on 涨粉/粉丝经营/账号运营/评论区经营/发布时间/发布节奏/数据看板/私域/转化."
+  },
+  {
+   "name": "llama-params-optimizer",
+   "scope": "group",
+   "path": "cph4/skills/llama-params-optimizer/SKILL.md",
+   "description": "> Use when tuning llama.cpp or llama-server context length, batch size, GPU offload or KV cache on a fixed machine, or when a model runs partly on CPU. Complete methodology for local LLM performance optimization. Core principle: maximize context while fully covering GPU memory — find the sweet spot where GPU runs at full speed. Step-by-step 4-phase 10-step control variable testing process. Works f"
+  },
+  {
+   "name": "llmxray-diagnose-ollama-calls",
+   "scope": "group",
+   "path": "cph4/skills/llmxray-diagnose-ollama-calls/SKILL.md",
+   "description": "Find out what went wrong with your own Ollama calls and fix it, using LLMxRay's local, read-only MCP tools. Use when a local model is slow, a prompt is rejected or silently cut for exceeding the context, the prompt cache seems lost between turns, a model runs partly on CPU, tool schemas crowd the prompt, or you must choose which local model and context length fit in video memory. Keywords - Ollama"
+  },
+  {
+   "name": "local-task",
+   "scope": "group",
+   "path": "cph4/skills/local-task/SKILL.md",
+   "description": "用本机常驻轻量模型做分类/摘要/打分/抽取，走统一题型与 JSON schema，带调用账与规则复核。当需要把一段文本归到固定类别、压成一句摘要、给产出打完成度、或抽出\"谁等什么\"关系时使用；不要自己临时拼 prompt。"
+  },
+  {
+   "name": "lowpoly-city-3d",
+   "scope": "group",
+   "path": "cph4/skills/lowpoly-city-3d/SKILL.md",
+   "description": "硅基生命城市（FluxVerse/City3D）lowpoly 3D 美术线常备技能：48 包 Synty 库 AD 引用法、俯视角 3D 装配 SOP（数据驱动）、URP 定谳参数（CEO 令）、摄像机三档、地编与程序化判定律、L1 许可红线、库=唯一源律（3D 资源禁云端生成·CEO 令 09-29）、资产利用律（调用最大化+生产零重复·三查闸/三登记·CEO 令 09-29）、U288 五闸同构门禁、坑律速查。当在 City 3D 线做城市装配、资产选型、渲染决策、性能调优或 3D 资产入库时使用。"
+  },
+  {
+   "name": "memory-curator",
+   "scope": "group",
+   "path": "cph4/skills/memory-curator/SKILL.md",
+   "description": "记忆治理席（集团三层记忆体系的预算守门人）。Use whenever a session is about to write memory (append_memory/update_memory), receives any memory-bloat / slimming / audit / budget task, sees CRIT-FLAG or MERGE-QUEUE from the 4h gate, or needs to know what belongs in L0/L1/L2/git. Triggers on 记忆膨胀/记忆瘦身/记忆审计/记忆预算/写入记忆/CODELY 膨胀/记忆治理/清理记忆."
+  },
+  {
+   "name": "mv-casting",
+   "scope": "group",
+   "path": "cph4/skills/mv-casting/SKILL.md",
+   "description": "MV 选角/面孔席技能（2000 年代脸谱 × AI 面孔双门）。Use when casting or auditing a female lead for period music videos — average AI faces, era makeup drift, cross-song face reuse, likeness risk. 含四锚点数值预算、反向测试、跨曲向量阈值与年代妆发分期。正身=research/SEAT-casting-20261020.md"
+  },
+  {
+   "name": "mv-colorist",
+   "scope": "group",
+   "path": "cph4/skills/mv-colorist/SKILL.md",
+   "description": "MV 调色席技能（2000 telecine 底 × ffmpeg 实参）。Use when building or auditing a grade chain — black lift vs curves, skin turning uniformly red, whole-frame blue cast at night, grain/vignette/halation ordering. 含本机实测带位与暗角标定，防止把 PI 系暗角当轻档。正身=research/SEAT-colorist-20261020.md"
+  },
+  {
+   "name": "mv-edit-rhythm",
+   "scope": "group",
+   "path": "cph4/skills/mv-edit-rhythm/SKILL.md",
+   "description": "MV 剪辑节奏席技能（KTV 时代语法：剪在词上、持在乐句里）。Use when cutting or auditing a music video edit — cut placement, shot-length by BPM bars, density curve, dissolve budget, same-source reuse, cut-on-action. 含切点重吸附工具与四曲实测。正身=research/SEAT-editor-20261020.md + Tools/mv_cut_resnap.py"
+  },
+  {
+   "name": "mv-intent-to-prompt",
+   "scope": "group",
+   "path": "cph4/skills/mv-intent-to-prompt/SKILL.md",
+   "description": "立意→关键词转译技能（把导演意图变成模型能执行的词面，并验证它真执行了）。Use when a script/idea is good but the generated frames don't match — writing generation prompts from design intent, auditing prompt specificity, or measuring execution hit rate. 正身=cph4/fleet/mv-album-001-jay/INTENT-TO-KEYWORD-v1.md"
+  },
+  {
+   "name": "mv-lighting",
+   "scope": "group",
+   "path": "cph4/skills/mv-lighting/SKILL.md",
+   "description": "MV 摄影灯光席技能（2000 台式布光 × AI 可控光句）。Use when writing or auditing lighting in AI-generated video — night shots going cyan, \"face has two lamps\", indoor looking like a studio, sodium streetlight correction, halation without a source. 正身=research/SEAT-lighting-20261020.md"
+  },
+  {
+   "name": "mv-performance",
+   "scope": "group",
+   "path": "cph4/skills/mv-performance/SKILL.md",
+   "description": "MV 表演指导席技能（AI 演员表演：意图动作化/反应延迟/情绪弧/减法治）。Use when directing or reviewing character performance in AI-generated video — writing i2v performance prompts, diagnosing \"face jumps / one-beat emotion / dead eyes\", or setting timing gates. 正身=cph4/fleet/mv-album-001-jay/AI-ACTOR-PERFORMANCE-v2.md + research/SEAT-performance-20261020.md"
+  },
+  {
+   "name": "mv-props-era",
+   "scope": "group",
+   "path": "cph4/skills/mv-props-era/SKILL.md",
+   "description": "MV 道具/年代考据席技能（2000-2003 台湾物件谱 × 使用痕迹链）。Use when specifying or auditing props and set dressing for period music videos — brand-new-looking props, era anachronism, tool-media logic breaks, regional form differences (cassette vs CD walkman, mainland 复读机 vs Taiwan 收录机). 正身=research/SEAT-props-20261020.md"
+  },
+  {
+   "name": "quant-backtest-gate",
+   "scope": "group",
+   "path": "cph4/skills/quant-backtest-gate/SKILL.md",
+   "description": "Design, run and judge A-share and ETF backtests for the BigMoney line with correct return accounting and honest significance, and decide whether a strategy is real money-ready. Use when asked to backtest a factor or strategy, verify a claimed annualized return or Sharpe, compare against a benchmark, or judge whether a research result is a real finding or an artefact."
+  },
+  {
+   "name": "session-handoff",
+   "scope": "group",
+   "path": "cph4/skills/session-handoff/SKILL.md",
+   "description": "会话交接书（跨会话/跨机接续：在产、待判、阻塞、下一步、已试并失败的路、决策与理由）。Use when ending a session, when context is about to be compacted, when another agent or machine must continue the same work, when a new session starts and must pick up where the last one stopped, or when the same mistake keeps being repeated across sessions. Triggers on 交接/接手/接续/换会话/上下文压缩/压缩后失忆/上个会话做到哪/继续之前的活."
+  },
+  {
+   "name": "ship-ops",
+   "scope": "group",
+   "path": "cph4/skills/ship-ops/SKILL.md",
+   "description": "分发与上架席（C4 SHIP）。Use when publishing or submitting any output — platform declaration checkbox, AIGC dual marking, micro-drama filing (备案), WeChat mini-game submission chain, ICP/软著 prerequisites, release receipt, or deciding whether a piece may go out at all. Triggers on 发布/上架/提审/备案/标识/声明位/平台/回执/下架/B站/抖音/微信小游戏."
+  },
+  {
+   "name": "silicon-city-ops",
+   "scope": "group",
+   "path": "cph4/skills/silicon-city-ops/SKILL.md",
+   "description": "硅基城市生态运营席（城市非渲染面：居民生命/人口/安家/商业化/可视化）。Use when working on silicon-life canon, citizen census or population files, BigHouse 安家/邻里/共长 line, BigDomain 城市商业化, city data docs (world-state/world-events), or the CEO 可视化 dashboard (硅基生命元宇宙.html). City render/assembly/lighting/terrain work goes to lowpoly-city-3d skill instead. Triggers on 城市居民/户籍/人口/安家/硅基生命/城市数据/可视化/城市商业化."
+  },
+  {
+   "name": "tw-mv-director",
+   "scope": "group",
+   "path": "cph4/skills/tw-mv-director/SKILL.md",
+   "description": "专业台湾音乐 MV 导演（导演审查+分镜工艺）。Use when reviewing MV scripts/storyboards, directing shot design, cutting rhythm, camera language, actor performance direction, or producing Taiwan 2000s-style music videos for BigStream. CEO 令 2026-10-11：一切 MV 剧本/分镜必须过本导演席审查定稿才放生产。"
+  }
+ ],
+ "tools": [
+  {
+   "file": "Tools/fleet/ack_write.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/agent.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/artifact_intake.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/artifact_push_stage.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/artifact_review.py",
+   "scope": "fleet",
+   "one_line": "artifact_review.py - 三层审核 + 入档 + 入库（真读内容，不看存在性）。 CEO 2026-11-07：「不仅要查文档，还要真实的审核产出，要几层审核，确定后入档入库， 入机队里面的仓库。」 DONE 只表示执行结束，不表示产物合格。本工具把 DONE 卡真正打开、读内容、交叉核对， 三层都过才"
+  },
+  {
+   "file": "Tools/fleet/artifact_status.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/asset_board.py",
+   "scope": "fleet",
+   "one_line": "asset_board.py - contact-sheet board + inventory receipt for image-set audits. DE-AI-SPEC B1/B2/B3: the anti-AI-face gate is a HUMAN gate (director's seat), but"
+  },
+  {
+   "file": "Tools/fleet/asset_caption.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/asset_dataset_audit.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/asset_dedupe.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/asset_env_check.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/asset_gap_audit.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/asset_gen.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/asset_incoming_verify.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/asset_library_check.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/asset_prompts.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/asset_pull.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/asset_reach.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/asset_relay.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/asset_share.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/audio_bgm_fill.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/audit_dupes.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/autowork.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/backlog_fill.py",
+   "scope": "fleet",
+   "one_line": "Shim. The LIVE implementation is Tools/backlog_fill.py -- that is the one master_agent.py and lane_agent.py import (they put os.path.dirname(HERE)=Tools on sys."
+  },
+  {
+   "file": "Tools/fleet/bank_autofill.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/blocker_ledger.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/blocker_loop.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/brain_brief.py",
+   "scope": "fleet",
+   "one_line": "brain_brief.py - the control plane's own one-page brief, computed from facts. Why (CEO 2026-11-01: 大脑要「及时、准确、创新、严格」): * 及时 - it runs on the pulse, so the page i"
+  },
+  {
+   "file": "Tools/fleet/brain_service.py",
+   "scope": "fleet",
+   "one_line": "brain_service.py - bm-m as the fleet's SECOND BRAIN (CEO 2026-10-30 令). Master was already dispatch + judgment seat. This adds the production leg: every busines"
+  },
+  {
+   "file": "Tools/fleet/bu_survey.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/bulletin.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/bus_land.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/cadence.py",
+   "scope": "fleet",
+   "one_line": "cadence.py - 节奏表的校验器与排期器（不执行任务，避免与主控脉双调度）。 三个问题它必须能回答： 1. 这张表本身科不科学：周期/相位/依赖/撞车/预算/环。 2. 表与执行体是否一致：表里的 stage 在 master_pulse.STAGES 存在吗？脉在跑的阶段 有没有漏登记？（两处各写一套是所有漂"
+  },
+  {
+   "file": "Tools/fleet/cadence_build.py",
+   "scope": "fleet",
+   "one_line": "cadence_build.py - 从主控脉的 STAGES 生成细分节奏表（v3）。 为什么生成而不是手写：脉里 86 个阶段在跑，手写的表只登记了 32 条，剩下 54 条的 周期/判据没人管——\"节奏表\"就成了部分真相。这台机器负责把两边对齐： * STAGES 有的、表里没有 -> 补条目（周期取代码，域按规"
+  },
+  {
+   "file": "Tools/fleet/canary.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/capacity_guard.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/capacity_probe.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/card_contract_check.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/card_gate.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/card_policy.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/census.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/ceo_default.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/ceo_pilot.py",
+   "scope": "fleet",
+   "one_line": "ceo_pilot.py - 带 CEO 做事：一次只推一件，带理由、命令、耗时与验收。 CEO 2026-11-07：「我要做的事情非常多…让常驻大模型带我去做，监督/派发/雷达/找工具/ 验收/审查…高频率的科学频次」。高频不等于频繁打扰：候选全进池子，规则打分取最高一条， 同一个题不重复刷屏（除非它变坏）。 Si"
+  },
+  {
+   "file": "Tools/fleet/ceo_three.py",
+   "scope": "fleet",
+   "one_line": "ceo_three.py - 每天只交 CEO 三件事（其余自决）。 CEO 2026-11-06：「代替我做好各个指挥工作」。指挥里唯一不能代签的就是三类： 不可逆、对外发布、花钱超限；再加「同一根因三次未解」和「必须人上机的物理动作」。 Rules decide, model only words it. Orde"
+  },
+  {
+   "file": "Tools/fleet/chain_test.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/char_dataset.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/char_gen.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/char_plan.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/checkups.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/chief.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/city_state.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/clock_resync.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/closer.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/cloud_budget.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/comfy_guard.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/commander.py",
+   "scope": "fleet",
+   "one_line": "commander.py - 指挥层一屏（CEO 只看这一屏）。 按 cph4/fleet/COMMAND-CADENCE-v1.json 的六个节拍做结论，不重复跑工具： A 值守四件 / B 机队实况 / C 线与产出 / D 一屏 / E 指挥质量 / F 手交 CEO。 Iron rules it obeys:"
+  },
+  {
+   "file": "Tools/fleet/comms_check.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/compute_ledger.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/console_server.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/contact_sheet.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/day_plan.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/decision_close.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/decision_router.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/demand_audit.py",
+   "scope": "fleet",
+   "one_line": "demand_audit.py - 逐条核验 CEO 需求总账，把缺口变成卡。 Why 需要它：CEO 的命令散在 319 行台账和 22 条口头指令里，靠人记必然漏，靠文档声称 必然假绿。这台机器只做一件事——每条需求一个可判定的探针，判不了的明确标 UNVERIFIED 并写清谁判，绝不含糊过关。 Usage: d"
+  },
+  {
+   "file": "Tools/fleet/demand_gen.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/deploy_gate.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/digest_agent.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/docbus.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/domain_funnel.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/domain_prep.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/done_audit.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/dr_check.py",
+   "scope": "fleet",
+   "one_line": "dr_check.py - 灾难恢复体检：这台机器坏了之后，多久能重新站起来。 不真做恢复（危险且耗资源），只核对三件会被忽略的事： 1. 备份是否新鲜、是否可解析（备份存在但打不开 = 没有备份）； 2. 关键配置是否都在 git 里（不在 git 的配置 = 机器死了就永久丢失）； 3. 接管清单是否可执行（新机要"
+  },
+  {
+   "file": "Tools/fleet/drama_assemble.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/drama_inventory.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/drama_manifest.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/drama_quality_gate.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/dsh_local.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/edit_lock.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/enable_selftest.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/env_selfheal.py",
+   "scope": "fleet",
+   "one_line": "env_selfheal.py - a node installs its own missing dependencies (CEO 2026-10-30: \"缺什么让他自己装啊\"). Runs ON THE WORKER BOX, by the lane agent, before a job starts. Th"
+  },
+  {
+   "file": "Tools/fleet/executor_guard.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/fact_check.py",
+   "scope": "fleet",
+   "one_line": "fact_check.py - 审查情报本身是否可信（不是审查产物，是审查结论的来源）。 Why: OSS 雷达自己会标「⚠星数超 10 万需人工核实」，但没人核。情报不可信 → 选错工具 → 整条线白干。这台机器只做一件事：把雷达里越界的数字拿去 GitHub API 对一遍，差异超阈值 判 STALE，对得上判 V"
+  },
+  {
+   "file": "Tools/fleet/failed_triage.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/fleet_agent.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/fleet_board.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/fleet_brain.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/fleet_bus.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/fleet_contingency.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/fleet_dashboard.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/fleet_deadline.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/fleet_hb.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/fleet_health.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/fleet_lane.py",
+   "scope": "fleet",
+   "one_line": "fleet_lane.py - shared lane vocabulary for the master agent and the lane executors. Why: the 2026-10-27/28 post-mortems all landed on the same sentence - \"there"
+  },
+  {
+   "file": "Tools/fleet/fleet_order_bus.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/fleet_status.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/fleet_supervisor.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/fleet_verify.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/flux_check.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/flux_contracts.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/flux_eventlog.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/fluxctl.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/forecast.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/fork_close.py",
+   "scope": "fleet",
+   "one_line": "fork_close.py - 一台机自己收口它与本仓 origin/main 的分叉。 Why: poke worker 只做 `merge --ff-only`（fleet-hot-sync 也禁 rebase，C-20261104 硬法）。 一台机一旦 ahead>0（本地攒了记账提交），ff 永远失败 -> 它"
+  },
+  {
+   "file": "Tools/fleet/free_mem.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/game_pack_scan.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/game_submit_pack.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/gate_report.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/git-rebase-guard.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/gpu_lease.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/handoff.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/inventory_guard.py",
+   "scope": "fleet",
+   "one_line": "inventory_guard.py - the \"no machine may sit idle\" gate (bm-m master). Root cause it closes (2026-10-30): supply, promotion and claiming each broke silently at "
+  },
+  {
+   "file": "Tools/fleet/job_kf_batch.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/judge_bench.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/lane_agent.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/lane_registry.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/lane_trust.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/lib_consolidate.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/line_agents.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/line_canon.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/line_gate.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/line_plan.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/line_triage.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/llm_gateway.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/load_watch.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/local_ai_business.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/local_decide.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/local_gen.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/local_inference_audit.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/local_judge.py",
+   "scope": "fleet",
+   "one_line": "local_judge.py - answer the smart-tier judgment queue, and escalate what is beyond it. CEO 2026-11-01: 「你做的事情不要超过你的能力，要上云还是上云，不要频繁触发硬盘交换，合理使用 你 macbook 的算力」。So "
+  },
+  {
+   "file": "Tools/fleet/local_llm_bench.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/local_model.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/local_task.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/loop_liveness.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/mac_farm.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/mac_loadout.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/market_brief.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/master_agent.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/master_loop.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/master_pulse.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/master_solver.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/mem_gate.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/mem_guard.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/memory_nightly.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/mlx_bench.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/model_gateway.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/model_plan.py",
+   "scope": "fleet",
+   "one_line": "model_plan.py - 模型侧排班体检：现在驻留多少、超没超预算、矩阵与策略是否一致。 Why: 2026-11-07 实测三模型同时驻留 10.4GB（其中 3.7GB 是不该常驻的备用档），根因是 两份策略文件各写一个\"现役模型\"，且驻留判据用同族前缀。这台机器每天核对三件事， 让\"合理安排\"不靠人记： 1"
+  },
+  {
+   "file": "Tools/fleet/model_policy.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/model_radar.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/next_actions.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/night_fill.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/night_plan.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/node_sync.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/ops_metrics.py",
+   "scope": "fleet",
+   "one_line": "ops_metrics.py - 三块缺失维度的度量：允许失败率(SLO)、产物质量(rubric)、成本归因。 为什么要有它：此前只有二元绿。偶发失败会误触发停线，系统性劣化却每轮都\"绿\"。 外部调研（LangChain/StackAI/Google SRE）一致的三条： 1. 故障常藏在 HTTP 200 背后 -"
+  },
+  {
+   "file": "Tools/fleet/order_watch.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/org_decide.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/org_design_check.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/oss_radar.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/patrol.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/pause_integrity.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/plan_convert.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/planner.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/prep_work.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/preview_concat.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/progress_view.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/prompt_en.py",
+   "scope": "fleet",
+   "one_line": "把 ASSET-PROMPTS 里的中文提示翻成 SDXL 读得懂的英文标签，结果落 PROMPTS-EN-v1.json 缓存。 SDXL 的 CLIP 基本读不懂中文，直接用中文提示出图会跑题（实测把道具画成街景）。 本机有 ollama 时用它做转换；没有就直接跳过，调用方回落中文原文。 用法： python T"
+  },
+  {
+   "file": "Tools/fleet/pulse_watchdog.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/quality_agents.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/quality_gate.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/quant_conclusion.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/quant_positions_bridge.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/quant_signal.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/queue_card_audit.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/queue_integrity.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/queue_repair.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/radar.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/receipt_attrib.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/receipt_match.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/receipts_reconcile.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/regression.py",
+   "scope": "fleet",
+   "one_line": "regression.py - 回归用例集：把踩过的每个坑变成一条会自动跑的断言。 为什么要有它：这几天修了上百处，每次都靠当场验证。改一个地方碰坏另一个地方没人知道， 于是\"修了 13 次还是老问题\"。这个文件把历史故障固化成用例，每次改码后跑一遍。 用例设计原则（负控优先）： * 每条都必须能在 3 秒内跑完、不联"
+  },
+  {
+   "file": "Tools/fleet/rehearsal.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/remote_closeout_card.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/repo_layers.py",
+   "scope": "fleet",
+   "one_line": "repo_layers.py - 管住\"新文件落在哪一层\"，而不是搬家。 背景：6102 个跟踪文件里 4300 个在 cph4/fleet，根下平铺 164 个且还在长；冲突 96% 来自 状态与代码混放。批量搬家会制造一波断链（这些文件被脉/卡/文档引用），所以先用闸管增量。 检查项（都能在本地算）： C1 根下小"
+  },
+  {
+   "file": "Tools/fleet/retro.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/review_packet.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/review_proxy.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/ri_dept.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/rmbg_matte.py",
+   "scope": "fleet",
+   "one_line": "用本机 BRIA RMBG-1.4 权重给图片抠出透明底（离线，无需登录）。 ComfyUI 的 BRIA 节点需要登录，但 models/rmbg 下的权重是完整可用的， 直接用 ComfyUI 自带的 torch 环境加载即可。GPU 被 ComfyUI 占满时可 --cpu。 用法（必须用 ComfyUI 的 p"
+  },
+  {
+   "file": "Tools/fleet/rollout.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/root_cause_audit.py",
+   "scope": "fleet",
+   "one_line": "root_cause_audit.py - 六条根因的复验器（判「已治」只认这台机器）。 为什么要有它：这段时间修了几十处，但每次都是\"修完自己说修好了\"。根因账不靠声明， 靠每天复验——治好了是 PASS，没治好就点名是哪条根因复发、证据是什么。 R1 单一真相源 R2 生成态进 git R3 假绿判据 R4 修复未"
+  },
+  {
+   "file": "Tools/fleet/router.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/seat_runner.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/security_ledger.py",
+   "scope": "fleet",
+   "one_line": "security_ledger.py - 安全与供应链台账：把写在文档里的红线变成每天可算的数字。 四类检查（都能在本地算，不联网）： 1. 凭据泄漏：git 跟踪文件里出现 sk-/ghp_/AKIA/xoxb/私钥块 -> 高危 2. 越权动作：队列卡的命令触碰受保护路径（凭据目录、.git 内部、系统目录） 3."
+  },
+  {
+   "file": "Tools/fleet/self_improve.py",
+   "scope": "fleet",
+   "one_line": "self_improve.py - 机队自改（runs ON THE WORKER BOX, by the lane agent). CEO 2026-11-06: \"你不仅要自己改进，主要是拉着机队一起改。\" Each box fixes its own three chronic defects instead o"
+  },
+  {
+   "file": "Tools/fleet/semantic_dupes.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/ship_ledger.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/showcase.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/skill_check.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/skill_eval.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/skill_install.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/skill_promote.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/skill_rollout.py",
+   "scope": "fleet",
+   "one_line": "skill_rollout.py - 一台机上的技能对齐（质检 → 安装 → 回执）。 为什么要有它：技能源在 cph4/skills/（随 git 分发），但只有装进本机激活面 （~/.codely-cli/skills/）才会被真正激活——\"仓里写得再好，没装=不存在\"。 机队每台机都要能自己跑这一步，并且留下**"
+  },
+  {
+   "file": "Tools/fleet/soak_watch.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/social_drafts.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/squeeze.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/stage_liveness.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/state_push.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/steward.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/submit_docs.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/submit_ledger_fill.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/subs_asr.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/supply_batch.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/supply_guard.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/supply_target.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/surface_status.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/tailnet_hub.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/tool_watch.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/tts_batch_check.py",
+   "scope": "fleet",
+   "one_line": "tts_batch_check.py - prove a TTS batch actually produced audio, from any box. Why: on 2026-10-31 a claim (Q-TTS-1202R) sat in RUNNING for two hours with no lane"
+  },
+  {
+   "file": "Tools/fleet/unlock.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/useful_load.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/vault.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/verify_done.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/vertical_reframe.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/voice_corpus_prep.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/voice_dataset.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/wait_map.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/warm_models.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/web_ai.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet/workgen.py",
+   "scope": "fleet",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/_inspect_cli_config.py",
+   "scope": "root",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/agent-library-audit.py",
+   "scope": "root",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/ai_smell_gate.py",
+   "scope": "root",
+   "one_line": "ai_smell_gate.py - AI 脸 / AI 味 / AI 穿帮 闸（CEO：讨厌 AI 感，AI 是工具，成品要是艺术）。 十项机判（每项都能落到具体像素原因），外加人眼清单： skin 皮肤高频<42 · sym 镜像差<6.5 · catch 眼神光∉[1,3] · noise 噪声σ<1.2 sat"
+  },
+  {
+   "file": "Tools/asset_index.py",
+   "scope": "root",
+   "one_line": "asset_index.py —— 素材单一索引（SOP §七 BOM） 用法: python asset_index.py seed # 写入当前已定片 python asset_index.py add --shot X --window \"a-b\" --file F --take T --verdict V --"
+  },
+  {
+   "file": "Tools/automation_health.py",
+   "scope": "root",
+   "one_line": "automation_health.py —— 自动化健康检查（PROCESS-REVIEW-v1 M10） 检查：计划任务是否还会触发、inbox 是否积压、worker 日志是否在写。 异常只写台账，不弹窗。"
+  },
+  {
+   "file": "Tools/backlog_fill.py",
+   "scope": "root",
+   "one_line": "backlog_fill.py - deterministic real-backlog -> production-queue filler. Why this exists: the queue had 3 jobs total (all DONE), so the claim loop exited QUEUE-"
+  },
+  {
+   "file": "Tools/banned_direction_gate.py",
+   "scope": "root",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/banned_dispatch.py",
+   "scope": "root",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/banned_waste.py",
+   "scope": "root",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/bench_coder.py",
+   "scope": "root",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/card-lint.py",
+   "scope": "root",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/cast_distinct_check.py",
+   "scope": "root",
+   "one_line": "cast_distinct_check.py - 角色特点机检（CAST-DISTINCTIVENESS-LAW-v1 §二）。 为什么要有它：8 型女主的提示词是人写的，靠自觉就会出现\"只换衣服没换脸\"， 到出图才发现就白烧一轮 ComfyUI。这里只看文本：结构锚写没写清、跨型三元组撞不撞。 判据（全部可机判）： "
+  },
+  {
+   "file": "Tools/chunk_vote_gate.py",
+   "scope": "root",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/cloud_lane_lint.py",
+   "scope": "root",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/cloud_off_banner_r1020.py",
+   "scope": "root",
+   "one_line": "T0 云道停用令落地：给执行面正典加统一抬头注记（幂等）。 CEO 令 2026-10-20「集团业务全部停止走云端，全部走本地」。 只改执行面文档抬头，不改写任何历史调用记录与判例正文。"
+  },
+  {
+   "file": "Tools/cloud_off_guard_patch_r1020.py",
+   "scope": "root",
+   "one_line": "T0 云道停用（2026-10-20）：给所有会自动拉起 codely 云端会话的脚本插入统一闸门。 闸门逻辑：从脚本目录向上找到仓库根（含 cph4/fleet/CLOUD-OFF-LOCAL-ONLY-v1.md）， 命中即在 Start-Process 之前记一行日志并 exit 0 —— 本地前置工作照常完成，"
+  },
+  {
+   "file": "Tools/council_vote.py",
+   "scope": "root",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/decisions-arch-certify.py",
+   "scope": "root",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/decisions_trim_20261027.py",
+   "scope": "root",
+   "one_line": "Trim decisions hot file under the 250KB line: move executed rows dated < 2026-10-21 into the monthly volume (byte-faithful, append-only)."
+  },
+  {
+   "file": "Tools/director.py",
+   "scope": "root",
+   "one_line": "director.py —— 导演介入权（SOP §十二） 四权： hold 叫停任意工单（任何状态 → HOLD） release 解除叫停（HOLD → READY） art 艺术判定（S/A/B/C + 理由）；C 档可直接否决技术 PASS note 纯记录（不改变状态） 边界（不可越过）： - 不能改硬指标（"
+  },
+  {
+   "file": "Tools/doc_inventory.py",
+   "scope": "root",
+   "one_line": "doc_inventory.py - find version clusters, exact duplicates and orphan docs. Read-only. Prints three sections: 1. CLUSTERS same topic, several version-suffixed f"
+  },
+  {
+   "file": "Tools/final_audit_local.py",
+   "scope": "root",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/fleet-sync.py",
+   "scope": "root",
+   "one_line": "fleet-sync: 把「控制面」文件从主仓对象直接物化到 FleetRuntime（bm-b 车道运行副本）。 为什么不用稀疏检出：本机 partial clone 逐 blob 经 SSH 代理拉取极慢（单文件一次往返）， 主仓已缓存这些对象，直接从主仓 git show 出来是秒级。运行副本不做提交，只跑车道。"
+  },
+  {
+   "file": "Tools/frame_gate.py",
+   "scope": "root",
+   "one_line": "frame_gate.py —— 首尾帧闸（逐镜取帧版，稳） 用法: python Tools/frame_gate.py <video> <plan-cuts.json> <out_dir>"
+  },
+  {
+   "file": "Tools/fullchain_audit.py",
+   "scope": "root",
+   "one_line": "fullchain_audit.py —— 全链条机器体检（一次跑完所有可测项） 覆盖：时长/帧率 · 响度 · 硬跳 · 孤岛 · 重复帧 · 场景切点 · 节奏分布 · 黑场 · 近黑镜 · 字幕资产（繁简混排）· 素材索引一致性 不可机测项（人脸一致性/鬼影/构图）明确列为\"需人工或多模态\"。"
+  },
+  {
+   "file": "Tools/gate_fused.py",
+   "scope": "root",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/gate_rigor_check.py",
+   "scope": "root",
+   "one_line": "gate_rigor_check.py - 标准/闸的严谨性体检（六问）。 为什么要有它：2026-11-03 的音色闸第一版把阈值拍了出来（44.1k/SNR30/底噪-55）， 用 10 条真实素材一验，10/10 全判负 = 废闸。同类病在 ai_smell_gate 首版也发生过 （判死 32 张真人）。病根不"
+  },
+  {
+   "file": "Tools/gate_selftest.py",
+   "scope": "root",
+   "one_line": "gate_selftest.py —— 闸上线前的双向验证（PROCESS-REVIEW-v1 M1） 每个闸必须同时满足：该通过的能过（正样本）、该拦的能拦（负样本）。 跑不过 → 闸不许上线。"
+  },
+  {
+   "file": "Tools/git-atomic-push.py",
+   "scope": "root",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/git-no-reversal-check.py",
+   "scope": "root",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/kf_pack_extract.py",
+   "scope": "root",
+   "one_line": "kf_pack_extract.py - machine-truth extractor for MV KF packs. Loads a <song>-shots-v2.py module by path, walks the NEW tuple list, and reports per-frame: id, wi"
+  },
+  {
+   "file": "Tools/kf_sheet.py",
+   "scope": "root",
+   "one_line": "kf_sheet.py - contact sheets for a KF (key-frame) still batch. Why: mv_shot_sheets.py only reads VIDEO. KF batches (30 stills per pack) had no review surface, s"
+  },
+  {
+   "file": "Tools/l1-client.py",
+   "scope": "root",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/ledger_append.py",
+   "scope": "root",
+   "one_line": "ledger_append.py - append text to a repo ledger using the file's own newline/encoding. Why: these ledgers are read by both humans and grep-based gates; mixing L"
+  },
+  {
+   "file": "Tools/ledger_split_20261027.py",
+   "scope": "root",
+   "one_line": "Ledger split: move dated table rows older than cutoff into a monthly volume. Implements D-20261027-12 (orders/decisions both exceed 250KB hot-file line). Determ"
+  },
+  {
+   "file": "Tools/ledger_vol_fix_20261027.py",
+   "scope": "root",
+   "one_line": "Repair orders volume: restore HEAD bytes, then append moved rows byte-faithfully."
+  },
+  {
+   "file": "Tools/local_coding_bench.py",
+   "scope": "root",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/local_gate_llm.py",
+   "scope": "root",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/lora_pipeline.py",
+   "scope": "root",
+   "one_line": "lora_pipeline.py - 角色 LoRA 训练流水线（选中素材 → 建库 → 训 → 验收）。 为什么要有这个：CEO 令「以后 MV 开始前，先把男女主和路人的 LoRA 烧出来，周杰伦的可 以一直更新到最稳」。此前 jman 是一个手写 bat + 手写 toml，换角色就得重抄一遍，且没有 验收口径—"
+  },
+  {
+   "file": "Tools/lora_portraits.py",
+   "scope": "root",
+   "one_line": "lora_portraits.py - 角色定妆组图生成（给 LoRA 训练备素材）。 为什么单独一个脚本：LoRA 的素材不能从成片里抽（v721 全片 234 帧只有 1 帧女主脸宽达标）， 必须先用 krea2 按正典 ID 块生成 20-30 张多光位多姿态的同一个人，才能训。 本脚本不吃 mv_kf_batc"
+  },
+  {
+   "file": "Tools/lora_queue.py",
+   "scope": "root",
+   "one_line": "lora_queue.py - 年代女主 LoRA 训练单驱动器（无人值守，按 order 顺序跑）。 为什么要有它：CEO 要求「排满训练单」，且同一型要同时供 MV(16:9) 与漫剧/短剧(9:16)。 每条 job 的流程固定：查角色特点 → 起 ComfyUI → 出竖+横两批定妆图 → AI 味闸剔除 → "
+  },
+  {
+   "file": "Tools/mail-direct-send.py",
+   "scope": "root",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/memory-budget-gate.py",
+   "scope": "root",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/memory-slim.py",
+   "scope": "root",
+   "one_line": "memory-slim.py — CODELY.md 记忆件无损压缩器（C-20260930-05 长判例下钻律执法件） 法：条目 >400 字 → 全文逐字节保真下钻 <同域>/.codely-cli/memory/mem-<日期>-<序号>.md， 原位留一行指针（原时间戳+一句话判读+档名）。零删改·字节对账·压"
+  },
+  {
+   "file": "Tools/memory_patch_cloudoff_auto_r1020.py",
+   "scope": "root",
+   "one_line": "L1 记忆补丁：把「自动化全本地」追加令并进既有 T0 条目（幂等）。"
+  },
+  {
+   "file": "Tools/memory_patch_cloudoff_r1020.py",
+   "scope": "root",
+   "one_line": "L1 记忆补丁：云道停用令（memory 工具 project-scope EEXIST 在册故障 → 外置 UTF-8 字节补丁正法）。"
+  },
+  {
+   "file": "Tools/merge-mcp-config.py",
+   "scope": "root",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/mesa_census_demo.py",
+   "scope": "root",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/model-lane-smoke.py",
+   "scope": "root",
+   "one_line": "model-lane-smoke.py - 模型车道常备冒烟（O-20261015-1505 优化点⑥·换装回归标准件） Why: 10-15 换装现场手搓验证脚本的收编——任何模型换装/迁移/bm-d 切换后跑一遍， 五分钟出四车道绿红，不再现搭脚手架。车道与默认值按 bm-a v3 架构；全部可用 环境变量改指（b"
+  },
+  {
+   "file": "Tools/model-whitelist-probe.py",
+   "scope": "root",
+   "one_line": "model-whitelist-probe.py - 机队模型白名单探针（O-20261015-1505 优化点④·防复活） Why: 10-15 实录——CEO 令已删的 qwen2.5 旧款被消费方残留引用自动回拉复活两度 （flash 槽引用+脚本硬编码）。本探针每小时对 Ollama 清单做白名单对账： - 命"
+  },
+  {
+   "file": "Tools/model_slot.py",
+   "scope": "root",
+   "one_line": "Model slot switcher (bm-b, deterministic). Why: 8GB card cannot hold the image lane (ComfyUI SD1.5 ~6-7GB) and a 7B text model (5.9GB) at the same time; and the"
+  },
+  {
+   "file": "Tools/model_slot_bench.py",
+   "scope": "root",
+   "one_line": "bm-b 模型槽位实测（确定性，本地 Ollama，零云端）。 对每个候选模型：加载 -> 固定 prompt -> 记 tok/s 与首字延迟 -> 采样 VRAM -> 卸载。 输出 JSON 供 MACHINE-PROFILE 与槽位策略引用。必须绕过系统代理（Clash 会截 127.0.0.1）。"
+  },
+  {
+   "file": "Tools/mv_aesthetic_gate.py",
+   "scope": "root",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/mv_aigc_label.py",
+   "scope": "root",
+   "one_line": "mv_aigc_label.py - burn the AIGC label onto a finished cut. Why: the S5 assembly chain carries the AIGC label (AIGC 标识办法 = publish gate), but `mv_rebuild_from_e"
+  },
+  {
+   "file": "Tools/mv_anomaly_map.py",
+   "scope": "root",
+   "one_line": "mv_anomaly_map.py —— 把成片的硬跳/孤岛/重复帧定位到镜头与帧号（只读诊断） 输出：每条异常的 时间/帧号/帧差值/所属镜号/与最近计划切点的偏差， 以及逐镜帧差基线，便于判断是\"素材内部抖动\"还是\"多切了一刀\"。"
+  },
+  {
+   "file": "Tools/mv_assemble_v602.py",
+   "scope": "root",
+   "one_line": "mv_assemble_v602.py —— 在 v601 上做单次成型修补（不重复编码多次） 修补项： · R02 整镜替换（2754..2843 共 90 帧，来自 R02_fix3.mp4） · 单帧弹出平滑（对指定帧把突变摊到 7 帧，不删帧不动时间轴） 用法： python mv_assemble_v602."
+  },
+  {
+   "file": "Tools/mv_beats_anchor.py",
+   "scope": "root",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/mv_build_r02.py",
+   "scope": "root",
+   "one_line": "mv_build_r02.py —— 重建 R02 镜（去人群重影，时长不变） 问题：源镜尾部（约等于成片 118.0s 之后）人群里长出一张与女主同脸的头， 属于 i2v 身份复制，必须切掉；但整镜窗长 90 帧不能变。 做法：干净段 1:1 使用（帧 2754..2803），剩下 40 帧用干净尾段 （帧 2804"
+  },
+  {
+   "file": "Tools/mv_ceo_items_pack.py",
+   "scope": "root",
+   "one_line": "mv_ceo_items_pack.py - build the evidence packs for the three remaining mv0001 CEO items. Why: after Q-MV-0001-001..011 the machine side is done; what still blo"
+  },
+  {
+   "file": "Tools/mv_cut_resnap.py",
+   "scope": "root",
+   "one_line": "mv_cut_resnap.py — 词头选位 + 拍点落刀（MV 剪辑网格重吸附） 问题：旧网格把「词行边界」硬吸到 ±0.10s 的拍点/词首，但词行边界来自 whisper 行级估计、 经常落在词中间，所以吸附率只有 29%-76%。 正法（剪辑席 2026-10-20 判据 #1/#5）： 1. 每行切点 = "
+  },
+  {
+   "file": "Tools/mv_delivery_gate.py",
+   "scope": "root",
+   "one_line": "mv_delivery_gate.py - one gate for every defect class the director keeps catching. CEO 2026-10-24: \"之前的MV剪辑和转场一直出问题，还有镜头运镜，AI视频的瑕疵和重复的 重大问题，所以务必去规避和检查\" -> every"
+  },
+  {
+   "file": "Tools/mv_emit_prompts.py",
+   "scope": "root",
+   "one_line": "mv_emit_prompts.py - dump a shot script's KF prompts plus the structured tokens the preflight gate needs (shot / angle / grade / texture / scene / light). The s"
+  },
+  {
+   "file": "Tools/mv_event_strip.py",
+   "scope": "root",
+   "one_line": "mv_event_strip.py - contact strip around suspect events, for human classification. Each event becomes one PNG: 3x3 frames centred on the event, 2 frames apart, "
+  },
+  {
+   "file": "Tools/mv_fidelity.py",
+   "scope": "root",
+   "one_line": "mv_fidelity.py - how much a re-encode cost, measured instead of guessed. Why: rebuilding a master through a filter (label burn, subtitle burn, grade) always re-"
+  },
+  {
+   "file": "Tools/mv_flag_frames.py",
+   "scope": "root",
+   "one_line": "mv_flag_frames.py - cut per-anomaly evidence strips so a human can adjudicate flags. Why this exists: mv_jitter_scan.py flags frames (SNAP/POP/FREEZE) but emits"
+  },
+  {
+   "file": "Tools/mv_full_audit.py",
+   "scope": "root",
+   "one_line": "mv_full_audit.py - whole-film audience-level audit (not just frame correctness). Per shot (scene-detected): duration, mean luma, mean saturation, warmth (R/B), "
+  },
+  {
+   "file": "Tools/mv_island_check.py",
+   "scope": "root",
+   "one_line": "mv_island_check.py —— 孤岛真伪判定（跨岛净变化量） 对每个孤岛 (s..e)： D3 = |f(e) - f(s-1)| —— 跨岛之后画面到底变了多少 Dm = 岛内最大单帧差 真转场：D3 大（画面确实换掉），岛只是\"切点 + 新镜首帧还在动\"； 真假叠化/鬼影：D3 小（画面几乎没变）却被抬"
+  },
+  {
+   "file": "Tools/mv_jitter_analyze.py",
+   "scope": "root",
+   "one_line": "mv_jitter_analyze.py - classify every frame anomaly in a cut as CUT / JUMP / POP / FLASH / FREEZE. Rationale: a fixed scene-detect threshold misses dark cuts (M"
+  },
+  {
+   "file": "Tools/mv_jitter_scan.py",
+   "scope": "root",
+   "one_line": "mv_jitter_scan.py - locate *visible* shot jitter in a finished cut. Why this exists: frame-diff spikes alone cannot separate a planned cut, a single-frame pop, "
+  },
+  {
+   "file": "Tools/mv_kf_batch.py",
+   "scope": "root",
+   "one_line": "mv_kf_batch.py - batch Krea2 keyframe generation with the preflight gate in the loop. Reads a prompts JSON produced by mv_emit_prompts.py: [{\"id\": \"...\", \"promp"
+  },
+  {
+   "file": "Tools/mv_kf_smoke.py",
+   "scope": "root",
+   "one_line": "mv_kf_smoke.py - one-shot Krea2 keyframe smoke test against a local ComfyUI. Why: the legacy mv_full_kf.py still names krea2_turbo_fp8_scaled + qwen3vl_4b_fp8, "
+  },
+  {
+   "file": "Tools/mv_lift_windows.py",
+   "scope": "root",
+   "one_line": "mv_lift_windows.py - exposure lift on measured-dark windows, ramped, single encode. Only the exposure changes: no re-timing, no re-framing, no frame count chang"
+  },
+  {
+   "file": "Tools/mv_local_patch.py",
+   "scope": "root",
+   "one_line": "mv_local_patch.py —— 局部去鬼影补丁（羽化椭圆内做模糊+压暗） 用途：玻璃/镜面里淡入的可辨人脸，用\"该区域失焦\"的方式消掉可辨认度， 不改变构图、不改帧数、不动时间轴。 用法： python mv_local_patch.py in.mp4 out.mp4 --cx 1240 --cy 240 -"
+  },
+  {
+   "file": "Tools/mv_lora_eval.py",
+   "scope": "root",
+   "one_line": "mv_lora_eval.py - 角色 LoRA 验收闸。训完先过这道，过了才准开 MV。 为什么有它：2026-11-03 CEO 令「以后 MV 开始前，先把男女主和路人的 LoRA 给我烧出来， 周杰伦的可以一直更新直到最稳」。光有 LoRA 文件不等于脸稳——必须用同一套脸判据 （SFace 余弦）在多个角度"
+  },
+  {
+   "file": "Tools/mv_merge_replays.py",
+   "scope": "root",
+   "one_line": "mv_merge_replays.py - collapse replay slices into one continuous shot. The master cuts some continuous shots into 0.3-0.6 s slices that restart at nearly the sa"
+  },
+  {
+   "file": "Tools/mv_perf_report.py",
+   "scope": "root",
+   "one_line": "mv_perf_report.py - 把 MV 渲染的耗时记账汇成一页，供\"优化到底有没有用\"取证。 为什么（2026-11-03）：装了加速库/改了步数之后，判断只能靠\"感觉变快了\"——这不成立。 每次渲染必须留下 steps/sec/尺寸/字节（mv_kf_batch.py 已写 <out>/_perf.json"
+  },
+  {
+   "file": "Tools/mv_pop_reversal.py",
+   "scope": "root",
+   "one_line": "mv_pop_reversal.py - detect one-frame displacement pops by shift reversal. Signature: |shift(i-1 -> i)| and |shift(i -> i+1)| are both large, but they cancel: s"
+  },
+  {
+   "file": "Tools/mv_pop_scan.py",
+   "scope": "root",
+   "one_line": "mv_pop_scan.py —— 区分「真切点」与「单帧弹出(flash/pop)」 判据（不需要计划切点表）： 对每一处帧差突跳 N，量三个差： D1 = |f(N) - f(N-1)| D2 = |f(N+1) - f(N) | D3 = |f(N+1) - f(N-1)| · 真切点：画面整体换成新内容 → D"
+  },
+  {
+   "file": "Tools/mv_rebuild_from_edl.py",
+   "scope": "root",
+   "one_line": "mv_rebuild_from_edl.py - rebuild the cut from the EDL rows, with no patching. Why: the v6xx/v7xx masters were repaired layer on layer, and the repairs themselve"
+  },
+  {
+   "file": "Tools/mv_rebuild_v718.py",
+   "scope": "root",
+   "one_line": "mv_rebuild_v718.py - v718: four-row source substitution on top of the v717 rebuild. Changes vs Tools/mv_rebuild_from_edl.py (v713/v717 lineage): 1. REPLACE_SRC "
+  },
+  {
+   "file": "Tools/mv_reburn_when_idle.py",
+   "scope": "root",
+   "one_line": "mv_reburn_when_idle.py - queue the static-take reburn behind whatever is on the GPU. Why: the stability gate (D-20261024-05) fails 5 source takes because the i2"
+  },
+  {
+   "file": "Tools/mv_relock.py",
+   "scope": "root",
+   "one_line": "mv_relock.py - re-lock locked-off shots' picture to a static background patch. Streaming version (no full-film buffering). For each frame t inside a window: - p"
+  },
+  {
+   "file": "Tools/mv_replay_scan.py",
+   "scope": "root",
+   "one_line": "mv_replay_scan.py - find spans where the same source frame is replayed as several cuts. Why: the current master cuts some continuous shots into 0.3-0.6 s slices"
+  },
+  {
+   "file": "Tools/mv_reverse_spans.py",
+   "scope": "root",
+   "one_line": "mv_reverse_spans.py - play given spans backwards (used to fix camera-direction reversals). Only carving / texture shots are safe to reverse: no faces, no text, "
+  },
+  {
+   "file": "Tools/mv_review.py",
+   "scope": "root",
+   "one_line": "mv_review.py - 产物进门即裁决：PASS / REVISE / NEEDS-EYES，当场给结论，不排队。 为什么有它：2026-11-03 CEO 令「所有的人都给我好好干活 及时审核 打回或者放行，为什么让别人等」。 以前\"审核\"是一个只会生成空白签核表的脚本，谁来签、多久签、超时怎么办都没定， 于是"
+  },
+  {
+   "file": "Tools/mv_seam_scan.py",
+   "scope": "root",
+   "one_line": "mv_seam_scan.py - list *intra-shot* camera/seam jumps (not cuts). Cut test: aligned residual high AND the shot does not return. Seam test: global shift spike AN"
+  },
+  {
+   "file": "Tools/mv_shot_audit.py",
+   "scope": "root",
+   "one_line": "mv_shot_audit.py - per-shot temporal-stability audit for a finished cut. Scores every shot on four human-visible failure modes: FLICKER high-frequency luma chan"
+  },
+  {
+   "file": "Tools/mv_shot_gate.py",
+   "scope": "root",
+   "one_line": "mv_shot_gate.py - 每镜入片闸（镜头级\"护照\"），不是整片事后体检。 为什么要这个：2026-11-03 CEO 连挑五类问题（换脸/穿帮/没运镜/裂帧/风格断层）， 每一类都是\"某个镜头单独看不对\"，而 mv_delivery_gate 只按整片统计查技术指标， 没有任何一环在\"这一镜能不能进片\"上做"
+  },
+  {
+   "file": "Tools/mv_shot_reconcile.py",
+   "scope": "root",
+   "one_line": "mv_shot_reconcile.py - align the three shot/cut counts before any sign-off. Why this exists: the same v717 file is reported as 83 shots (scene scan), 95 shots /"
+  },
+  {
+   "file": "Tools/mv_shot_sheets.py",
+   "scope": "root",
+   "one_line": "mv_shot_sheets.py - per-shot review sheets for the director pass. Samples 5 frames per shot (0/25/50/75/100%) and lays each shot out as a labelled row; eight sh"
+  },
+  {
+   "file": "Tools/mv_stability_gate.py",
+   "scope": "root",
+   "one_line": "mv_stability_gate.py - release gate for timeline stability (CEO defect D-20261024-01). Fails (exit 1) when the cut contains: - intra-shot whole-frame jumps (dis"
+  },
+  {
+   "file": "Tools/mv_stabilize_locked.py",
+   "scope": "root",
+   "one_line": "mv_stabilize_locked.py - remove global displacement/drift from locked-off shots. Why: the i2v sources for these shots are static, but the assembled cut shows a "
+  },
+  {
+   "file": "Tools/mv_step_lock.py",
+   "scope": "root",
+   "one_line": "mv_step_lock.py - remove a persistent picture step in a locked-off shot. A step jump (picture shifts and STAYS) cannot be fixed by neighbour averaging. But the "
+  },
+  {
+   "file": "Tools/mv_temporal_outliers.py",
+   "scope": "root",
+   "one_line": "mv_temporal_outliers.py - find frames that disagree with BOTH neighbours after motion compensation (the signature of an i2v pop / local teleport / one-frame sea"
+  },
+  {
+   "file": "Tools/mv_thaw.py",
+   "scope": "root",
+   "one_line": "mv_thaw.py - replace frozen runs with optical-flow interpolated frames. The picture is interpolated between the frame before and after the run; the subtitle ban"
+  },
+  {
+   "file": "Tools/mv_transition_audit.py",
+   "scope": "root",
+   "one_line": "mv_transition_audit.py - quantify every cut: motion continuity and \"pull-out\" transitions. For each cut time t: tail : 0.5s before the cut head : 0.5s after the"
+  },
+  {
+   "file": "Tools/mv_v700_final.py",
+   "scope": "root",
+   "one_line": "mv_v700_final.py - one-pass final repair of the mv0001 cut (frame count unchanged). A. single-frame pops -> replace the pop frame with the previous frame (no fr"
+  },
+  {
+   "file": "Tools/mv_workorder.py",
+   "scope": "root",
+   "one_line": "mv_workorder.py - deterministic defect workorder + cut consensus for mv0001. Why: the v717 delivery gate, the shot audit and the outlier scan each produce their"
+  },
+  {
+   "file": "Tools/orders-arch-certify.py",
+   "scope": "root",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/orders_append_cloudoff_auto_r1020.py",
+   "scope": "root",
+   "one_line": "orders 台账追加：自动化任务全部本地（T0 追加令·脚本闸门）。"
+  },
+  {
+   "file": "Tools/orders_append_cloudoff_r1020.py",
+   "scope": "root",
+   "one_line": "orders 台账追加一行：T0 云道停用令落地（幂等）。"
+  },
+  {
+   "file": "Tools/pool_lint.py",
+   "scope": "root",
+   "one_line": "pool_lint.py - POOL.json supply-truth gate (dispatcher seat). Why this exists (2026-10-29, 8th consecutive SUPPLY-DRY round): The dispatcher counted \"5 open POO"
+  },
+  {
+   "file": "Tools/preflight_gate.py",
+   "scope": "root",
+   "one_line": "preflight_gate.py — 烧片前机械闸（见 prompt-writing-spec-v1/PREFLIGHT-GATE-v1.md） 用法： import preflight_gate as G fails = G.guard(shot_id=\"S9_profile\", prompt_text=P, to"
+  },
+  {
+   "file": "Tools/problem-registry-audit.py",
+   "scope": "root",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/prompt_budget_check.py",
+   "scope": "root",
+   "one_line": "Prompt budget checker (deterministic, no network, no model). Why: SD1.5 CLIP silently truncates at 77 tokens and the tail (usually the STYLE layer) is what gets"
+  },
+  {
+   "file": "Tools/queue_claim.py",
+   "scope": "root",
+   "one_line": "queue_claim.py - the self-serving work loop the fleet was missing. Problem it fixes: the machines had hundreds of \"Ready\" supervision tasks but no queue of actu"
+  },
+  {
+   "file": "Tools/release_gate.py",
+   "scope": "root",
+   "one_line": "release_gate.py —— 成片出品闸（PIPELINE-MODULE-REVIEW-v1 §9 四项硬指标） 用法： python release_gate.py <video> [--planned N] 输出：四项实测 + PASS/FAIL。任何一项 FAIL → 不得签 PASS、不得发布。"
+  },
+  {
+   "file": "Tools/rename_resubmit_detector.py",
+   "scope": "root",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/research_health_baseline.py",
+   "scope": "root",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/round_write_20261027_1800.py",
+   "scope": "root",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/shot_inspect.py",
+   "scope": "root",
+   "one_line": "shot_inspect.py —— 抽指定时间段的帧做带时间戳拼板（定位用，不定罪） 用法： python shot_inspect.py <video> <start_s> <end_s> <out.jpg> [--fps N] [--cols N] [--width N] 单次 ffmpeg 调用完成抽帧+缩放+"
+  },
+  {
+   "file": "Tools/signoff.py",
+   "scope": "root",
+   "one_line": "signoff.py —— 专家签核台账写入器（GATE-SPEC-v1 §三） 用法： python Tools/signoff.py --version v5.19 --station S5 --seat E --verdict PASS \\ --criteria '{\"offplan\":3,\"islands\":0"
+  },
+  {
+   "file": "Tools/video_qc.py",
+   "scope": "root",
+   "one_line": ""
+  },
+  {
+   "file": "Tools/voice_hd_gate.py",
+   "scope": "root",
+   "one_line": "voice_hd_gate.py - 音色质检（CAST-DISTINCTIVENESS-LAW-v1 §三/§四）。 CEO 令 2026-11-03：「音色也要高清，没有杂音。」 现有 tts_batch_check.py 只数文件在不在，判不了音质；这里补音质这一层。 **两档口径（2026-11-04 按真实素"
+  },
+  {
+   "file": "Tools/workflow_audit_daily.py",
+   "scope": "root",
+   "one_line": "Daily workflow audit collector (deterministic, zero LLM, zero network). CEO order 2026-10-27: \"这样的复盘，每天来一次\". Writes cph4/fleet/workflow-audit/AUDIT-<date>.md + "
+  },
+  {
+   "file": "Tools/woticket.py",
+   "scope": "root",
+   "one_line": "woticket.py —— 工单状态机（SOP §三） 状态: NEW → READY → IN_PROGRESS → QA → PASS → BURNED ↘ FAIL → READY 任意 → BLOCKED 用法: python woticket.py new --id R6_water_reflection "
+  }
+ ],
+ "outputs": {
+  "media": {
+   "exists": true,
+   "files": 107,
+   "by_ext": {
+    ".mp4": 29,
+    ".json": 24,
+    ".md": 10,
+    ".png": 10,
+    ".txt": 9,
+    ".jpg": 9,
+    ".py": 5,
+    ".mp3": 3
+   },
+   "newest": "2026-11-08T00:50:28",
+   "newest_file": "media/review-720p/_last.json"
+  },
+  "archive": {
+   "exists": true,
+   "files": 121,
+   "by_ext": {
+    ".json": 62,
+    ".md": 46,
+    ".mp3": 10,
+    ".csv": 2,
+    ".jsonl": 1
+   },
+   "newest": "2026-11-08T00:44:18",
+   "newest_file": "cph4/fleet/archive/fleet-ops/20261108/93d7d072-triage-asset-lib-20261108.md"
+  },
+  "gaming": {
+   "exists": true,
+   "files": 106,
+   "by_ext": {
+    ".md": 105,
+    ".json": 1
+   },
+   "newest": "2026-11-03T15:23:20",
+   "newest_file": "gaming/CODELY.md"
+  },
+  "quant": {
+   "exists": true,
+   "files": 21,
+   "by_ext": {
+    ".md": 20,
+    ".json": 1
+   },
+   "newest": "2026-11-02T13:09:38",
+   "newest_file": "quant/round_reports-bm-a.md"
+  },
+  "软著申请材料": {
+   "exists": true,
+   "files": 427,
+   "by_ext": {
+    ".pdf": 175,
+    ".md": 131,
+    ".ps1": 40,
+    ".txt": 39,
+    ".html": 13,
+    ".png": 13,
+    ".py": 5,
+    "(none)": 5
+   },
+   "newest": "2026-11-07T23:35:03",
+   "newest_file": "软著申请材料/_报审提交区/报审台账.md"
+  }
+ },
+ "progress": {
+  "lines_summary": {
+   "declared_active_no_disk": 2,
+   "observed": 12,
+   "remote": 0
+  },
+  "declared_active_no_disk": [
+   {
+    "id": "biglife",
+    "name": "BigLife·数字生命",
+    "declared": "ACTIVE",
+    "observed": "EMPTY",
+    "age_h": null,
+    "newest": "",
+    "evidence": [
+     {
+      "path": "life/BigLife/census",
+      "stat": {
+       "kind": "missing",
+       "files": null,
+       "bytes": null,
+       "newest": null
+      }
+     },
+     {
+      "path": "cph4/fleet/state/city-state.json",
+      "stat": {
+       "kind": "bookkeeping",
+       "files": 1,
+       "bytes": 6795,
+       "newest": "2026-11-08T00:50:26"
+      }
+     },
+     {
+      "path": "life/BigLife",
+      "stat": {
+       "kind": "missing",
+       "files": null,
+       "bytes": null,
+       "newest": null
+      },
+      "is_repo": true
+     }
+    ],
+    "drift": true
+   },
+   {
+    "id": "fleet-ops",
+    "name": "机队运维·端到端自检（平台服务线）",
+    "declared": "ACTIVE",
+    "observed": "BOOKKEEPING",
+    "age_h": null,
+    "newest": "",
+    "evidence": [
+     {
+      "path": "cph4/fleet/state/canary",
+      "stat": {
+       "kind": "bookkeeping",
+       "files": 389,
+       "bytes": 25727,
+       "newest": "2026-11-08T00:50:32"
+      }
+     }
+    ],
+    "drift": true
+   }
+  ],
+  "invariants": {
+   "ts": "2026-11-08T00:50:28",
+   "version": "1.0-20261102",
+   "new_violations": 118,
+   "checks": [
+    {
+     "id": "I1",
+     "desc": "每张卡有 line 且 line 存在",
+     "count": 6,
+     "new": 4,
+     "error": null,
+     "samples": [
+      "src:backlog_fill.py:manifest:no-line",
+      "src:master_agent:rule:no-line",
+      "src:night_fill+lane-self:no-line",
+      "src:night_fill:no-line",
+      "src:remote_closeout_card:no-line"
+     ],
+     "new_samples": [
+      "I1|src:master_agent:rule:no-line",
+      "I1|src:night_fill+lane-self:no-line",
+      "I1|src:remote_closeout_card:no-line",
+      "I1|src:unknown:no-line"
+     ],
+     "ms": 13
+    },
+    {
+     "id": "I2",
+     "desc": "卡不含机器名/绝对主机路径",
+     "count": 7,
+     "new": 7,
+     "error": null,
+     "samples": [
+      "card:OPS-I2V-CAP-BMA-20261103:FORBID:cmd carries an absolute host path (use r",
+      "card:ASSET-GEN-CHARACTERS-20261107:FORBID:cmd names a machine (cards declare needs",
+      "card:ASSET-GEN-SCENES-20261107:FORBID:cmd names a machine (cards declare needs",
+      "card:ASSET-GEN-STYLES-20261107:FORBID:cmd names a machine (cards declare needs",
+      "card:ASSET-GEN-TYPOGRAPHY-20261108:FORBID:cmd names a machine (cards declare needs"
+     ],
+     "new_samples": [
+      "I2|card:ASSET-GEN-CHARACTERS-20261107:FORBID:cmd names a machine (cards declare needs",
+      "I2|card:ASSET-GEN-SCENES-20261107:FORBID:cmd names a machine (cards declare needs",
+      "I2|card:ASSET-GEN-STYLES-20261107:FORBID:cmd names a machine (cards declare needs",
+      "I2|card:ASSET-GEN-TYPOGRAPHY-20261108:FORBID:cmd names a machine (cards declare needs",
+      "I2|card:OPS-I2V-CAP-BMA-20261103:FORBID:cmd carries an absolute host path (use r"
+     ],
+     "ms": 11
+    },
+    {
+     "id": "I3",
+     "desc": "回执有 rc；rc!=0 带 error_class",
+     "count": 51,
+     "new": 51,
+     "error": null,
+     "samples": [
+      "receipt:ART-PUSH-BMA-20261104-bm-m.json:rc=127-no-error-class",
+      "receipt:ASSET-BGM-FILL-20261107-bm-a.json:rc=127-no-error-class",
+      "receipt:AUD-SOFT-20261105T175432-01-bm-a.json:rc=127-no-error-class",
+      "receipt:AUD-SOFT-20261105T175432-02-bm-c.json:rc=127-no-error-class",
+      "receipt:AUD-SOFT-20261105T175432-03-bm-b.json:rc=127-no-error-class"
+     ],
+     "new_samples": [
+      "I3|receipt:ART-PUSH-BMA-20261104-bm-m.json:rc=127-no-error-class",
+      "I3|receipt:ASSET-BGM-FILL-20261107-bm-a.json:rc=127-no-error-class",
+      "I3|receipt:AUD-SOFT-20261105T175432-01-bm-a.json:rc=127-no-error-class",
+      "I3|receipt:AUD-SOFT-20261105T175432-02-bm-c.json:rc=127-no-error-class",
+      "I3|receipt:AUD-SOFT-20261105T175432-03-bm-b.json:rc=127-no-error-class"
+     ],
+     "ms": 42
+    },
+    {
+     "id": "I4",
+     "desc": "DONE 卡的交付物有资产登记",
+     "count": 24,
+     "new": 16,
+     "error": null,
+     "samples": [
+      "src:CEO-PROXY-event-round:done-without-artifact",
+      "src:CEO-PROXY:done-without-artifact",
+      "src:backlog_fill.py:manifest+lane-self+lane-self:done-without-artifact",
+      "src:backlog_fill.py:manifest+lane-self:done-without-artifact",
+      "src:backlog_fill.py:manifest:done-without-artifact"
+     ],
+     "new_samples": [
+      "I4|src:CEO-PROXY:done-without-artifact",
+      "I4|src:backlog_fill.py:manifest+lane-self+lane-self:done-without-artifact",
+      "I4|src:backlog_fill.py:manifest+lane-self:done-without-artifact",
+      "I4|src:chain_test+lane-self:done-without-artifact",
+      "I4|src:chain_test:done-without-artifact"
+     ],
+     "ms": 33
+    },
+    {
+     "id": "I5",
+     "desc": "资产有 provenance",
+     "count": 0,
+     "new": 0,
+     "error": null,
+     "samples": [],
+     "new_samples": [],
+     "ms": 3
+    },
+    {
+     "id": "I6",
+     "desc": "state/ 不被 git 跟踪",
+     "count": 0,
+     "new": 0,
+     "error": null,
+     "samples": [],
+     "new_samples": [],
+     "ms": 24
+    },
+    {
+     "id": "I7",
+     "desc": "每个队列只有一个写入口",
+     "count": 4,
+     "new": 4,
+     "error": null,
+     "samples": [
+      "queue:extra-writer:Tools/lora_queue.py",
+      "queue:extra-writer:Tools/fleet/remote_closeout_card.py",
+      "queue:extra-writer:Tools/fleet/demand_gen.py",
+      "queue:extra-writer:Tools/fleet/chain_test.py"
+     ],
+     "new_samples": [
+      "I7|queue:extra-writer:Tools/fleet/chain_test.py",
+      "I7|queue:extra-writer:Tools/fleet/demand_gen.py",
+      "I7|queue:extra-writer:Tools/fleet/remote_closeout_card.py",
+      "I7|queue:extra-writer:Tools/lora_queue.py"
+     ],
+     "ms": 87
+    },
+    {
+     "id": "I8",
+     "desc": "GPU 租约带身份",
+     "count": 0,
+     "new": 0,
+     "error": null,
+     "samples": [],
+     "new_samples": [],
+     "ms": 0
+    },
+    {
+     "id": "I9",
+     "desc": "闸判可复现（版本+输入哈希）",
+     "count": 0,
+     "new": 0,
+     "error": null,
+     "samples": [],
+     "new_samples": [],
+     "ms": 0
+    },
+    {
+     "id": "I10",
+     "desc": "发布件有 AIGC 隐式标识",
+     "count": 0,
+     "new": 0,
+     "error": null,
+     "samples": [],
+     "new_samples": [],
+     "ms": 0
+    },
+    {
+     "id": "I11",
+     "desc": "每条产品配方有 kill_criteria",
+     "count": 0,
+     "new": 0,
+     "error": null,
+     "samples": [],
+     "new_samples": [],
+     "ms": 0
+    },
+    {
+     "id": "I12",
+     "desc": "无孤儿脚本",
+     "count": 33,
+     "new": 33,
+     "error": null,
+     "samples": [
+      "script:capacity_probe:no-caller",
+      "script:remote_closeout_card:no-caller",
+      "script:mlx_bench:no-caller",
+      "script:local_decide:no-caller",
+      "script:failed_triage:no-caller"
+     ],
+     "new_samples": [
+      "I12|script:asset_board:no-caller",
+      "I12|script:asset_incoming_verify:no-caller",
+      "I12|script:audio_bgm_fill:no-caller",
+      "I12|script:blocker_ledger:no-caller",
+      "I12|script:bu_survey:no-caller"
+     ],
+     "ms": 436
+    },
+    {
+     "id": "I13",
+     "desc": "有机空闲且有它能干的活",
+     "count": 1,
+     "new": 1,
+     "error": null,
+     "samples": [
+      "idle:bm-m:could-run:asset-lib-library-check-2026-11-08"
+     ],
+     "new_samples": [
+      "I13|idle:bm-m:could-run:asset-lib-library-check-2026-11-08"
+     ],
+     "ms": 17
+    },
+    {
+     "id": "I14",
+     "desc": "P0 线 24 小时必须有产物",
+     "count": 3,
+     "new": 2,
+     "error": null,
+     "samples": [
+      "p0:bigstream-duanju:no-output",
+      "p0:bigstream-shortvideo:no-output",
+      "p0:biggame:no-output"
+     ],
+     "new_samples": [
+      "I14|p0:biggame:no-output",
+      "I14|p0:bigstream-shortvideo:no-output"
+     ],
+     "ms": 0
+    },
+    {
+     "id": "I15",
+     "desc": "发布件授权已清、24h 数据回填",
+     "count": 0,
+     "new": 0,
+     "error": null,
+     "samples": [],
+     "new_samples": [],
+     "ms": 0
+    },
+    {
+     "id": "I16",
+     "desc": "一条内容只有一个当前版",
+     "count": 0,
+     "new": 0,
+     "error": null,
+     "samples": [],
+     "new_samples": [],
+     "ms": 0
+    },
+    {
+     "id": "I17",
+     "desc": "active 产品组都有研究创新席",
+     "count": 0,
+     "new": 0,
+     "error": null,
+     "samples": [],
+     "new_samples": [],
+     "ms": 2
+    },
+    {
+     "id": "I18",
+     "desc": "创新席不越界写平台核心",
+     "count": 0,
+     "new": 0,
+     "error": null,
+     "samples": [],
+     "new_samples": [],
+     "ms": 0
+    },
+    {
+     "id": "I19",
+     "desc": "创新席不空转（简报/工单超期）",
+     "count": 0,
+     "new": 0,
+     "error": null,
+     "samples": [],
+     "new_samples": [],
+     "ms": 0
+    }
+   ],
+   "verdict": "FAIL"
+  },
+  "fork_status": {
+   "ts": "2026-11-07T11:51:03",
+   "nodes": {
+    "junshengsundeMacBook-Pro": {
+     "ahead": 521,
+     "behind": 851,
+     "real": 257,
+     "verdict": "REFUSE-NON-BOOKKEEPING",
+     "ts": "2026-11-07T11:51:03"
+    }
+   },
+   "note": "只有本机条目由本机写；别机数据由各自上报，缺失即未知"
+  }
+ }
+}
