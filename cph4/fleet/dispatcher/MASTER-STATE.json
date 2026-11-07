@@ -1,23 +1,23 @@
 {
- "ts": "2026-11-08T02:25:04",
- "cycle": 352,
+ "ts": "2026-11-08T02:27:47",
+ "cycle": 353,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-08T02:25:04",
+ "master_tick_ts": "2026-11-08T02:27:47",
  "queue": {
-  "total": 1421,
-  "open": 4,
-  "running": 19,
-  "done": 521,
-  "failed": 10
+  "total": 1422,
+  "open": 3,
+  "running": 14,
+  "done": 527,
+  "failed": 8
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 9.2,
-   "cpu_load_pct": 26,
-   "ram_free_gb": 33.7,
-   "gpu_util_pct": 59,
+   "hb_age_s": 18.7,
+   "cpu_load_pct": 25,
+   "ram_free_gb": 25.5,
+   "gpu_util_pct": 56,
    "job": "bigstream-mv-gate-2026-11-08",
    "last_result": null,
    "idle_confirmed": false,
@@ -26,16 +26,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 10.6,
-   "cpu_load_pct": 14,
-   "ram_free_gb": 1.6,
-   "gpu_util_pct": 98,
-   "job": "AUD-GAME-20261108T012729-27",
+   "hb_age_s": 41.3,
+   "cpu_load_pct": 1,
+   "ram_free_gb": 2,
+   "gpu_util_pct": 1,
+   "job": "bigmoney-signal-2026-11-08",
    "last_result": {
-    "job": "bigmoney-signal-2026-11-08",
+    "job": "AUD-GAME-20261108T012729-27",
     "state": "FAILED",
-    "rc": null,
-    "ts": "2026-11-08T02:24:48",
+    "rc": 2,
+    "ts": "2026-11-08T02:26:56",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -46,16 +46,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 23.1,
-   "cpu_load_pct": 19,
-   "ram_free_gb": 3.1,
+   "hb_age_s": 8.5,
+   "cpu_load_pct": 15,
+   "ram_free_gb": 3.3,
    "gpu_util_pct": 0,
-   "job": "AUD-GAME-20261108T012729-29",
+   "job": "ASSET-GEN-TYPOGRAPHY-20261108",
    "last_result": {
-    "job": "AUD-GAME-20261108T012729-28",
+    "job": "AUD-GAME-20261108T012729-33",
     "state": "FAILED",
     "rc": null,
-    "ts": "2026-11-08T02:24:39",
+    "ts": "2026-11-08T02:27:30",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -66,16 +66,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 16.4,
-   "cpu_load_pct": 17,
-   "ram_free_gb": 12.6,
+   "hb_age_s": 15.9,
+   "cpu_load_pct": 21,
+   "ram_free_gb": 12.1,
    "gpu_util_pct": null,
-   "job": "AUD-GAME-20261108T012729-09",
+   "job": "AUD-GAME-20261108T012729-31",
    "last_result": {
-    "job": "AUD-GAME-20261108T012729-11",
+    "job": "AUD-GAME-20261108T012729-16",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-08T02:24:59",
+    "ts": "2026-11-08T02:27:34",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -159,20 +159,11 @@
    "jobs": [
     "ASSET-GEN-TYPOGRAPHY-20261108",
     "biggame-pack-scan-2026-11-08",
-    "AUD-GAME-20261108T012729-09",
-    "AUD-GAME-20261108T012729-16",
-    "AUD-GAME-20261108T012729-19",
-    "AUD-GAME-20261108T012729-27",
-    "AUD-GAME-20261108T012729-29",
     "AUD-GAME-20261108T012729-31",
     "AUD-GAME-20261108T012729-32",
-    "AUD-GAME-20261108T012729-33",
     "AUD-GAME-20261108T012729-34",
     "AUD-GAME-20261108T012729-35",
     "AUD-GAME-20261108T012729-36",
-    "AUD-GAME-20261108T022403-22",
-    "AUD-GAME-20261108T022403-23",
-    "AUD-GAME-20261108T022403-24",
     "AUD-GAME-20261108T022403-25",
     "AUD-GAME-20261108T022403-26",
     "AUD-GAME-20261108T022403-30"
@@ -202,8 +193,10 @@
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "量化席",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "bigmoney-signal-2026-11-08"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": "2026-11-04 夜班重启：原回测阶段钉 bm-d，而 bm-d 自 10-29 离线；改由 bm-b（有 quant 仓与数据）出「下月持仓信号 CSV」，主控按 P1 恢复派单。",
    "stuck_stage": "quant-data",
@@ -284,12 +277,15 @@
   "fleet-ops": {
    "name": "机队运维·端到端自检（平台服务线）",
    "status": "ACTIVE",
-   "verdict": "WAITING",
+   "verdict": "WORKING",
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "R-TRIAGE-FLUXVERSE-BMB-20261108",
+    "R-TRIAGE-BIGGAME-BMC-20261108"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": null
   },
@@ -842,30 +838,33 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 2,
+  "local": 3,
   "cloud": 0,
-  "queue": 2,
+  "queue": 0,
   "blocked": 0,
   "cloud_spend_today": 0,
   "waste": []
  },
  "supply_gap": {
   "cpu": 2,
-  "gpu": 2
+  "gpu": 1
  },
  "supply_added": [
-  "backlog_manifest+6"
+  "backlog_manifest+1"
  ],
  "events": [
-  "bigmoney-signal-2026-11-08 FAILED via bm-b",
-  "AUD-GAME-20261108T012729-28 FAILED via bm-c",
-  "AUD-GAME-20261108T012729-11 DONE via bm-m",
-  "AUD-GAME-20261108T022403-22 -> bm-m (cpu)",
-  "AUD-GAME-20261108T022403-23 -> bm-m (cpu)",
-  "AUD-GAME-20261108T022403-24 -> bm-m (cpu)",
-  "AUD-GAME-20261108T022403-25 -> bm-b (cpu)",
-  "AUD-GAME-20261108T022403-26 -> bm-b (cpu)",
-  "AUD-GAME-20261108T022403-30 -> bm-b (cpu)"
+  "AUD-GAME-20261108T012729-33 FAILED via bm-c",
+  "bigstream-mv-gate-2026-11-08 -> bm-a (cpu)",
+  "biggame-pack-scan-2026-11-08 -> bm-a (cpu)",
+  "bigmoney-signal-2026-11-08 -> bm-b (cpu)",
+  "AUD-GAME-20261108T012729-31 -> bm-m (cpu)",
+  "AUD-GAME-20261108T012729-32 -> bm-m (cpu)",
+  "AUD-GAME-20261108T012729-34 -> bm-m (cpu)",
+  "AUD-GAME-20261108T012729-35 -> bm-m (cpu)",
+  "AUD-GAME-20261108T012729-36 -> bm-m (cpu)",
+  "ASSET-GEN-TYPOGRAPHY-20261108 -> bm-c (gpu)",
+  "R-TRIAGE-FLUXVERSE-BMB-20261108 -> bm-b (cpu)",
+  "R-TRIAGE-BIGGAME-BMC-20261108 -> bm-c (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
