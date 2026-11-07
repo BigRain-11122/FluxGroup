@@ -1,18 +1,31 @@
 {
- "ts": "2026-11-07T10:15:05",
+ "ts": "2026-11-07T10:25:05",
  "group": "batch-2026-11-07",
  "shard": "0/4",
  "inbox": "media\\asset\\inbox",
- "inbox_files": 2,
- "my_files": 0,
- "segments": 0,
+ "inbox_files": 5,
+ "my_files": 2,
+ "segments": 351,
  "skipped_files": [],
- "peak_warnings": [],
- "verdict": "BLOCKED",
- "status": "BLOCKED",
- "rc": 3,
- "error_class": "E-BLOCKED-INPUT",
- "gaps": [
-  "inbox 里没有本分片的音频（C:\\Users\\sjs20\\Desktop\\FluxGroup\\media\\asset\\inbox，总 2 个文件）"
- ]
+ "peak_warnings": [
+  [
+   "thelostcontinent_03_burroughs_64kb.mp3",
+   0.0
+  ],
+  [
+   "thelostcontinent_07_burroughs_64kb.mp3",
+   0.0
+  ]
+ ],
+ "total_s": 1653.3,
+ "sliced_dir": "media\\asset\\voices\\batch-2026-11-07\\sliced",
+ "asr_qc": {
+  "available": false,
+  "checked": 0,
+  "fail": 0,
+  "rows": []
+ },
+ "verdict": "PASS",
+ "gaps": [],
+ "status": "PASS"
 }
