@@ -1,12 +1,12 @@
 {
- "ts": "2026-11-07T18:43:09",
- "cycle": 141,
+ "ts": "2026-11-07T18:44:12",
+ "cycle": 142,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-07T18:43:09",
+ "master_tick_ts": "2026-11-07T18:44:12",
  "queue": {
-  "total": 1264,
-  "open": 2,
+  "total": 1265,
+  "open": 3,
   "running": 1,
   "done": 473,
   "failed": 33
@@ -14,7 +14,7 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 729.6,
+   "hb_age_s": 789.6,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -26,7 +26,7 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 603.9,
+   "hb_age_s": 666.9,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -38,7 +38,7 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 352.3,
+   "hb_age_s": 415.3,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -245,10 +245,13 @@
    "stale_after_h": 72.0,
    "owner": "资产席",
    "jobs": [
-    "asset-lib-face-dataset-2026-11-07"
+    "asset-lib-face-dataset-2026-11-07",
+    "asset-lib-face-caption-2026-11-07"
    ],
    "no_supply": false,
-   "blockers": [],
+   "blockers": [
+    "asset-lib-face-caption-2026-11-07:no-lane"
+   ],
    "note": "CEO 2026-11-03：先储备资产，角色 LoRA 与音色库为 P0"
   }
  },
@@ -787,7 +790,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 2,
+  "local": 3,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -796,7 +799,7 @@
  },
  "supply_gap": {
   "cpu": 2,
-  "gpu": 0
+  "gpu": 1
  },
  "supply_added": [],
  "events": [],
