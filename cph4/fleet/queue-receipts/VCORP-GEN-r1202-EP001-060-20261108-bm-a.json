@@ -1,0 +1,9 @@
+{
+ "id": "VCORP-GEN-r1202-EP001-060-20261108",
+ "node": "bm-a",
+ "rc": 3,
+ "seconds": 0.0,
+ "cmd": "if not exist \"C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\repos\\index-tts\\.venv\\Scripts\\python.exe\" (echo BLOCKED: index-tts venv missing & exit /b 3) else (call \"C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\voicegen_batch_ep004_060.cmd\")",
+ "stdout_tail": "BLOCKED: index-tts venv missing \n",
+ "stderr_tail": ""
+}
