@@ -59,3 +59,23 @@ cd <FluxGroup 根> && git fetch origin && git reset --mixed origin/main && git s
 R11-7（双源分叉）、R12-1（队列结构性损毁）、R14-7（append 卡被覆盖）、R9-2（未提交台账被 auto-sync 覆盖）
 ——此前都记成「同步把台账冲了」，但没有一处指到 `state_push.py` 的**整文件覆盖**这一行逻辑。
 本次用「同一张卡三次复现 + 版本对照（祖先关系证明拿到新码仍丢）」把责任定死。
+
+## 七、事故回放（2026-11-08 01:1x·对已上链修法的实测）
+
+用 origin 上的修法模块，对真实事故做一次回放：
+`merge(ee9639199 的队列, ffb3d208c 的队列)` —— 前者含卡，后者是 bm-m 覆盖后的结果。
+
+```
+origin_ids=1386 local_ids=1385 merged_ids=1386
+card_kept=True lost_ids=0 dup_ids=0
+VERDICT: FIX-WOULD-HAVE-PREVENTED-LOSS
+```
+
+结论：修法本身**确实能挡住这次丢卡**；唯一未解的是「bm-m 上的执行体仍加载旧代码」。
+
+补充证据（强化定性）：`ffb3d208c` 的**直接父提交就是 `ee9639199`**（含卡那一笔），
+即 bm-m 是在「已经看到这张卡」的基线上把它删掉的 ⇒ 覆盖来自它本地的队列快照，而不是并发竞态、
+不是分支回退、也不是 git 层面的丢失。这排除了「push 竞态/被 rebase 掉」等解释。
+
+因此解闸条件只有一个：让 bm-m 执行体跑新代码（ROOT 收口或重启其状态同步循环）。
+收口后本文件第五节的验收判据即可用：新 append 的卡在 origin 存活 ≥10 分钟。
