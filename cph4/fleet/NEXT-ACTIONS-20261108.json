@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-08T03:06:29+0800",
+ "ts": "2026-11-08T03:20:35+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -42,9 +42,9 @@
    "accept": "quant_signal 回执 rc=0 且 CSV 含因子值与输入指纹",
    "blocker_type": "ENGINE",
    "blocker": "回测产物需在 bm-b 本地生成；主控无 quant 仓",
-   "state": "STALLED",
-   "card": null,
-   "running_on": null
+   "state": "RUNNING",
+   "card": "bigmoney-signal-2026-11-08",
+   "running_on": "bm-b"
   },
   {
    "id": "bigstream-mv",
@@ -222,15 +222,15 @@
    "accept": "flux_check new=0；AUTOMATION-SURFACE 无 RISK 项",
    "blocker_type": "ENGINE",
    "blocker": "I2 存量 125 条卡面路径债、vault 缺盘 651 条",
-   "state": "RUNNING",
-   "card": "R-TRIAGE-FLUXVERSE-BMB-20261108",
-   "running_on": "bm-b"
+   "state": "QUEUED",
+   "card": "R-TRIAGE-BIGGAME-BMC-20261108",
+   "running_on": null
   }
  ],
  "counts": {
   "RUNNING": 3,
-  "QUEUED": 2,
-  "STALLED": 10
+  "QUEUED": 3,
+  "STALLED": 9
  },
- "stalled_engine": 5
+ "stalled_engine": 4
 }

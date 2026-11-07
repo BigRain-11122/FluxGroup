@@ -1,37 +1,37 @@
-# 指挥一屏 2026-11-08T03:04:20
+# 指挥一屏 2026-11-08T03:21:07
 
 _节奏表=COMMAND-CADENCE-v1.json｜本屏由规则从盘上事实算出，未用模型猜数_
 
 ## 现在最重要的一件事
 
-**3 张卡返工≥3 次，根因未解 —— 停线诊断，别重派（C2）**
+**2 张卡返工≥3 次，根因未解 —— 停线诊断，别重派（C2）**
 
 ## A 值守（45 秒档，纯规则）
 
 1. 可派卡 **3** 张｜在飞 **8** 张｜空壳卡隔离 **0** 张
-2. 在飞分布：bm-a=2, bm-b=5, bm-c=1
-3. 返工≥3 次的活卡：**3** 张（bigstream-mv-gate-2026-11-08, biggame-pack-scan-2026-11-08, bigmoney-signal-2026-11-08）
+2. 在飞分布：bm-a=5, bm-b=1, bm-c=2
+3. 返工≥3 次的活卡：**2** 张（bigstream-mv-gate-2026-11-08, biggame-pack-scan-2026-11-08）
 
 ## B 机队实况（3 分钟档）
 
 - **bm-a** SELF-OK｜reload=OK shells=OK deps=OK｜2026-11-07T22:25
 - **bm-c** SELF-OK｜reload=OK shells=OK deps=OK｜2026-11-06T23:55
-- **bm-m** SELF-OK｜reload=OK shells=OK deps=OK｜2026-11-08T02:40
+- **bm-m** SELF-OK｜reload=OK shells=OK deps=OK｜2026-11-08T03:20
 
 ## C 线与产出（15 分钟档）
 
 | 线 | 声明 | 产出年龄 |
 |---|---|---|
-| BigStream·短剧 | PARKED | 200.3h ⚠ |
-| BigStream·短视频/切片 | PARKED | 133.9h ⚠ |
-| 车机游戏 BU | PARKED | 127.1h ⚠ |
-| FluxVerse·元宙城 | ACTIVE | 108.0h ⚠ |
-| Biggame·游戏 | ACTIVE | 105.7h ⚠ |
-| BigDomain·硅基域商业化 | ACTIVE | 105.6h ⚠ |
-| BigCompute·硅基算力 | ACTIVE | 105.6h ⚠ |
-| BigMoney·量化 | ACTIVE | 87.0h ⚠ |
-| RECON·竞品拆解 | ACTIVE | 14.4h |
-| 资产储备·角色 LoRA 与音色库 | ACTIVE | 7.5h |
+| BigStream·短剧 | PARKED | 200.6h ⚠ |
+| BigStream·短视频/切片 | PARKED | 134.1h ⚠ |
+| 车机游戏 BU | PARKED | 127.4h ⚠ |
+| FluxVerse·元宙城 | ACTIVE | 108.2h ⚠ |
+| Biggame·游戏 | ACTIVE | 106.0h ⚠ |
+| BigDomain·硅基域商业化 | ACTIVE | 105.8h ⚠ |
+| BigCompute·硅基算力 | ACTIVE | 105.8h ⚠ |
+| BigMoney·量化 | ACTIVE | 87.2h ⚠ |
+| RECON·竞品拆解 | ACTIVE | 14.6h |
+| 资产储备·角色 LoRA 与音色库 | ACTIVE | 7.7h |
 
 ACTIVE 线 10 条｜超 72h 无产物 8 条
 
@@ -41,11 +41,11 @@ ACTIVE 线 10 条｜超 72h 无产物 8 条
 
 ## E 指挥质量（6 小时档）
 
-1. 队列 1422 行：DONE 532｜FAILED 3｜UNVERIFIED 7｜CANCELLED 635
-2. 完成占比 98%（DONE/542）
+1. 队列 1427 行：DONE 534｜FAILED 7｜UNVERIFIED 6｜CANCELLED 635
+2. 完成占比 98%（DONE/547）
 3. 空壳卡累计隔离 0 张（越少越好，涨了就是造卡器又出错）
 
 ## F 需要 CEO 的（≤3 条，其余自决）
 
-1. BigStream·短剧 已 200h 无产物，需定去留
+1. BigStream·短剧 已 201h 无产物，需定去留
 2. BigStream·短视频/切片 已 134h 无产物，需定去留
