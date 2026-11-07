@@ -31,6 +31,7 @@ import time
 from datetime import datetime
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT_DIR = os.path.dirname(os.path.dirname(HERE))
 if HERE not in sys.path:
     sys.path.insert(0, HERE)
 
@@ -68,6 +69,40 @@ def kv_get(key, root, host=fl.HUB_DEFAULT, port=fl.PORT_DEFAULT):
     return None
 
 
+_PROBE_CACHE = {}       # node -> (ts, payload|None)
+PROBE_TTL_S = 120
+
+
+def _probe_status(node):
+    """FleetLink /status 直读（tailnet）。仅在 NATS 与车道文件都不作证时使用。"""
+    import time as _t
+    c = _PROBE_CACHE.get(node)
+    if c and _t.time() - c[0] < PROBE_TTL_S:
+        return c[1]
+    res = None
+    try:
+        nodes_path = os.path.join(ROOT_DIR, "Tools", "fleet-nodes.json")
+        doc = json.load(open(nodes_path, encoding="utf-8"))
+        for item in doc.get("nodes") or []:
+            if isinstance(item, dict) and item.get("id") == node:
+                ip = item.get("tailnet_ip")
+                if not ip:
+                    break
+                import urllib.request
+                url = "http://%s:8790/status" % ip
+                with urllib.request.urlopen(url, timeout=3.5) as r:
+                    d = json.loads(r.read().decode("utf-8", "ignore"))
+                if d.get("ok"):
+                    res = {"ram_free_gb": d.get("ram_free_gb"),
+                           "gpu_util_pct": d.get("gpu") and None,
+                           "probe_ts": d.get("ts"), "host": d.get("host")}
+                break
+    except Exception:
+        res = None
+    _PROBE_CACHE[node] = (_t.time(), res)
+    return res
+
+
 def sense(root, nodes):
     out = {}
     now_ms = int(time.time() * 1000)
@@ -97,6 +132,17 @@ def sense(root, nodes):
                     s["lane"] = lj
             except Exception:
                 pass
+        if not online:
+            # 第三信号（2026-11-07 实测）：NATS 死、车道文件又因为我这侧没重写而过期，
+            # 于是三台在线机器全被判 OFFLINE、卡一张都派不出去。FleetLink 的 tailnet
+            # /status 是活的（bm-b 100.82.175.0:8790 直读 200），所以最后一层用它。
+            pr = _probe_status(n)
+            if pr:
+                online = True
+                age = age if age is not None else 0.0
+                s = s or {"source": "fleeklink-status"}
+                s["state_source"] = "fleeklink-status"
+                s.update(pr)
         out[n] = {"state": s, "age_s": age, "online": online}
     return out
 
