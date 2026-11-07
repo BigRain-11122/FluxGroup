@@ -1,23 +1,23 @@
 {
- "ts": "2026-11-07T23:34:16",
- "cycle": 295,
+ "ts": "2026-11-07T23:36:57",
+ "cycle": 296,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-07T23:34:16",
+ "master_tick_ts": "2026-11-07T23:36:57",
  "queue": {
   "total": 1337,
-  "open": 6,
+  "open": 5,
   "running": 7,
   "done": 505,
-  "failed": 16
+  "failed": 17
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 401.0,
-   "cpu_load_pct": null,
-   "ram_free_gb": null,
-   "gpu_util_pct": null,
+   "hb_age_s": 26.8,
+   "cpu_load_pct": 63,
+   "ram_free_gb": 30.4,
+   "gpu_util_pct": 91,
    "job": "R-SUB-ASSESS-BIGDOMAIN-20261107",
    "last_result": null,
    "idle_confirmed": false,
@@ -26,7 +26,7 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 736.5,
+   "hb_age_s": 884.5,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -38,10 +38,10 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 623.3,
-   "cpu_load_pct": null,
-   "ram_free_gb": null,
-   "gpu_util_pct": null,
+   "hb_age_s": 64.5,
+   "cpu_load_pct": 12,
+   "ram_free_gb": 2.1,
+   "gpu_util_pct": 0,
    "job": "ASSET-GEN-CHARACTERS-20261107",
    "last_result": null,
    "idle_confirmed": false,
@@ -50,12 +50,20 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 8.1,
-   "cpu_load_pct": null,
-   "ram_free_gb": null,
+   "hb_age_s": 16.6,
+   "cpu_load_pct": 29,
+   "ram_free_gb": 9.8,
    "gpu_util_pct": null,
    "job": "VAULT-VERIFY-20261107",
-   "last_result": null,
+   "last_result": {
+    "job": "asset-lib-voice-dataset-2026-11-07",
+    "state": "FAILED",
+    "rc": 2,
+    "ts": "2026-11-07T23:36:04",
+    "reason": null,
+    "out_bytes": null,
+    "elapsed_s": null
+   },
    "idle_confirmed": false,
    "idle_reason": "",
    "idle_rounds": 0
@@ -265,7 +273,6 @@
    "stale_after_h": 72.0,
    "owner": "资产席",
    "jobs": [
-    "asset-lib-char-gen-2026-11-07",
     "ASSET-GEN-CHARACTERS-20261107",
     "ASSET-GEN-SCENES-20261107",
     "ASSET-GEN-PROPS-20261107",
@@ -819,18 +826,20 @@
  "routing": {
   "local": 2,
   "cloud": 0,
-  "queue": 4,
+  "queue": 3,
   "blocked": 0,
   "cloud_spend_today": 0,
   "waste": []
  },
  "supply_gap": {
   "cpu": 2,
-  "gpu": 4
+  "gpu": 3
  },
  "supply_added": [],
  "events": [
-  "QUALITY-SCAN-20261107 -> bm-a (cpu)",
+  "asset-lib-voice-dataset-2026-11-07 FAILED via bm-m",
+  "VAULT-VERIFY-20261107 -> bm-m (cpu)",
+  "QUALITY-SCAN-20261107 -> bm-c (cpu)",
   "R-SUB-ASSESS-BIGDOMAIN-20261107 -> bm-a (cpu)",
   "R-SUB-ASSESS-BIGMONEY-20261107 -> bm-a (cpu)"
  ],
@@ -840,6 +849,8 @@
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
  "lane_files_written": [
-  "bm-a"
+  "bm-a",
+  "bm-c",
+  "bm-m"
  ]
 }

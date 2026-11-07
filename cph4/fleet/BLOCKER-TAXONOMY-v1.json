@@ -1,0 +1,100 @@
+{
+ "_comment": "堵点/坏点/卡点分类表（CEO 2026-11-08「堵点坏点卡点都要有相应的循环策略去检测和解决」）。每类必须四件齐：detect 判据、resolve 解法、every_s 复查周期、escalate_after 升级轮次。缺任一件=纸面政策，RG-23 会红。",
+ "_law": [
+  "自动解只允许确定性的、可逆的动作（补卡/改字段/推同步/重跑阶段）；不许自动改阈值、不许自动删数据、不许自动对外",
+  "解不了就按轮次升级，不许静默留着：同一类连续 escalate_after 轮未解 → 进上班长/CEO 面",
+  "每类都要留痕：state/blocker-ledger.jsonl 一行一次命中，按 (class, key) 去重，同一件事不重复记账",
+  "检测器必须能抓到自己的合成反例（--selftest），抓不到=闸失效",
+  "假红与真堵同等有害：能定性为 PARKED/远端/无产物的，必须降级成非行动项，不许天天报"
+ ],
+ "classes": [
+  {
+   "id": "SUPPLY-SHORT",
+   "name": "供给断供：有机器空转但没有可跑的卡",
+   "symptom": "在线车道空着，而队列 OPEN 卡数 < 车道数×2",
+   "detect": "lane_empty_and_queue_thin",
+   "resolve": "run:night_fill+workgen+supply_batch",
+   "auto": true,
+   "every_s": 300,
+   "escalate_after": 3,
+   "owner": "bm-m"
+  },
+  {
+   "id": "DECL-UNDISPATCHED",
+   "name": "声明未派：线上写了下一步，队列里没有那张卡",
+   "symptom": "ACTIVE 线在 LINE-NEXT-STEPS 有声明，无在飞卡，产物不在盘",
+   "detect": "declared_but_no_card",
+   "resolve": "run:night_plan",
+   "auto": true,
+   "every_s": 300,
+   "escalate_after": 2,
+   "owner": "bm-m"
+  },
+  {
+   "id": "CARD-DEFECT-LOOP",
+   "name": "坏卡循环：同一张卡反复被判缺陷",
+   "symptom": "同 (line, error_class) 失败≥2 或同 id 失败≥2 且 defect 文本非空",
+   "detect": "card_defect_repeat",
+   "resolve": "cancel_and_record",
+   "auto": true,
+   "every_s": 600,
+   "escalate_after": 2,
+   "owner": "bm-m"
+  },
+  {
+   "id": "CONTRACT-BAD",
+   "name": "卡契约坏：needs 非法 / 钉错机器 / 输入在未挂载卷",
+   "symptom": "card_contract_check 报 violations",
+   "detect": "card_contract_violations",
+   "resolve": "fix_card_fields",
+   "auto": true,
+   "every_s": 600,
+   "escalate_after": 2,
+   "owner": "bm-m"
+  },
+  {
+   "id": "NODE-UNSERVICEABLE",
+   "name": "节点取不到卡：在线却长期无回执",
+   "symptom": "心跳/车道可见，但最近回执 >24h",
+   "detect": "node_no_receipt",
+   "resolve": "dispatch_probe",
+   "auto": true,
+   "every_s": 3600,
+   "escalate_after": 4,
+   "owner": "bm-m"
+  },
+  {
+   "id": "SYNC-BEHIND",
+   "name": "同步落后：本地有未推提交，机队拿不到新码/新卡",
+   "symptom": "origin/main..HEAD 非空",
+   "detect": "local_ahead_of_origin",
+   "resolve": "state_push",
+   "auto": true,
+   "every_s": 300,
+   "escalate_after": 3,
+   "owner": "bm-m"
+  },
+  {
+   "id": "STAGE-STALE",
+   "name": "阶段不跑：登记在节奏表却长时间没有真跑",
+   "symptom": "stage_liveness 判 STALE",
+   "detect": "stage_liveness_stale",
+   "resolve": "run_stale_stage_once",
+   "auto": true,
+   "every_s": 900,
+   "escalate_after": 3,
+   "owner": "bm-m"
+  },
+  {
+   "id": "FAKE-RED",
+   "name": "假红：报红但已定性为不需行动（PARKED/远端/无产物）",
+   "symptom": "patrol 项的证据指向非 ACTIVE 线、远端子仓或本机无产物",
+   "detect": "patrol_fake_red",
+   "resolve": "classify_only",
+   "auto": false,
+   "every_s": 600,
+   "escalate_after": 99,
+   "owner": "bm-m"
+  }
+ ]
+}
