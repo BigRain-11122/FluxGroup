@@ -1,23 +1,23 @@
 {
- "ts": "2026-11-08T02:19:33",
- "cycle": 350,
+ "ts": "2026-11-08T02:22:45",
+ "cycle": 351,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-08T02:19:33",
+ "master_tick_ts": "2026-11-08T02:22:45",
  "queue": {
   "total": 1415,
   "open": 4,
-  "running": 23,
-  "done": 519,
-  "failed": 6
+  "running": 18,
+  "done": 520,
+  "failed": 8
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 4.6,
-   "cpu_load_pct": 67,
-   "ram_free_gb": 33.6,
-   "gpu_util_pct": 58,
+   "hb_age_s": 17.2,
+   "cpu_load_pct": 53,
+   "ram_free_gb": 27.5,
+   "gpu_util_pct": 62,
    "job": "bigstream-mv-gate-2026-11-08",
    "last_result": null,
    "idle_confirmed": false,
@@ -26,16 +26,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 26.1,
-   "cpu_load_pct": 34,
-   "ram_free_gb": 0.4,
-   "gpu_util_pct": 0,
-   "job": "AUD-GAME-20261108T012729-26",
+   "hb_age_s": 35.7,
+   "cpu_load_pct": 1,
+   "ram_free_gb": 2.1,
+   "gpu_util_pct": 100,
+   "job": "bigmoney-signal-2026-11-08",
    "last_result": {
-    "job": "AUD-GAME-20261108T012729-25",
+    "job": "AUD-GAME-20261108T012729-26",
     "state": "FAILED",
     "rc": 2,
-    "ts": "2026-11-08T02:19:07",
+    "ts": "2026-11-08T02:21:56",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -46,17 +46,17 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 11.0,
-   "cpu_load_pct": 21,
-   "ram_free_gb": 3.0,
+   "hb_age_s": 69.5,
+   "cpu_load_pct": 20,
+   "ram_free_gb": 1.1,
    "gpu_util_pct": 0,
    "job": "AUD-GAME-20261108T012729-28",
    "last_result": {
-    "job": "asset-lib-face-caption-2026-11-07",
-    "state": "DEFERRED",
+    "job": "AUD-GAME-20261108T012729-30",
+    "state": "FAILED",
     "rc": null,
-    "ts": "2026-11-08T02:13:28",
-    "reason": "NO-RUNNABLE-ASSIGNMENT",
+    "ts": "2026-11-08T02:21:28",
+    "reason": null,
     "out_bytes": null,
     "elapsed_s": null
    },
@@ -66,16 +66,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 30.7,
-   "cpu_load_pct": 19,
-   "ram_free_gb": 13.0,
+   "hb_age_s": 16.2,
+   "cpu_load_pct": 17,
+   "ram_free_gb": 12.8,
    "gpu_util_pct": null,
    "job": "AUD-GAME-20261108T012729-09",
    "last_result": {
-    "job": "AUD-GAME-20261108T012729-13",
+    "job": "AUD-GAME-20261108T012729-12",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-08T02:18:50",
+    "ts": "2026-11-08T02:22:26",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -161,14 +161,11 @@
     "biggame-pack-scan-2026-11-08",
     "AUD-GAME-20261108T012729-09",
     "AUD-GAME-20261108T012729-11",
-    "AUD-GAME-20261108T012729-12",
     "AUD-GAME-20261108T012729-16",
     "AUD-GAME-20261108T012729-19",
-    "AUD-GAME-20261108T012729-26",
     "AUD-GAME-20261108T012729-27",
     "AUD-GAME-20261108T012729-28",
     "AUD-GAME-20261108T012729-29",
-    "AUD-GAME-20261108T012729-30",
     "AUD-GAME-20261108T012729-31",
     "AUD-GAME-20261108T012729-32",
     "AUD-GAME-20261108T012729-33",
@@ -290,8 +287,6 @@
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
    "jobs": [
-    "R-TRIAGE-BIGSTREAMMV-BMC-20261108",
-    "R-TRIAGE-BIGSTREAMMV-BMA-20261108",
     "R-TRIAGE-FLUXVERSE-BMC-20261108",
     "R-TRIAGE-BIGMONEY-BMB-20261108"
    ],
@@ -859,16 +854,14 @@
   "cpu": 2,
   "gpu": 2
  },
- "supply_added": [
-  "backlog_manifest+1"
- ],
+ "supply_added": [],
  "events": [
-  "AUD-GAME-20261108T012729-25 FAILED via bm-b",
-  "AUD-GAME-20261108T012729-13 DONE via bm-m",
+  "AUD-GAME-20261108T012729-26 FAILED via bm-b",
+  "AUD-GAME-20261108T012729-30 FAILED via bm-c",
+  "AUD-GAME-20261108T012729-12 DONE via bm-m",
   "bigstream-mv-gate-2026-11-08 -> bm-a (cpu)",
   "biggame-pack-scan-2026-11-08 -> bm-a (cpu)",
-  "bigmoney-signal-2026-11-08 -> bm-a (cpu)",
-  "R-TRIAGE-BIGMONEY-BMB-20261108 -> bm-a (cpu)"
+  "bigmoney-signal-2026-11-08 -> bm-b (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
@@ -878,6 +871,7 @@
  "lane_files_written": [
   "bm-a",
   "bm-b",
+  "bm-c",
   "bm-m"
  ]
 }
