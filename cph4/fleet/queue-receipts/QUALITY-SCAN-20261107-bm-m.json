@@ -1,0 +1,17 @@
+{
+ "id": "QUALITY-SCAN-20261107",
+ "node": "bm-m",
+ "rc": 2,
+ "seconds": 0.2,
+ "cmd": "python3 Tools/fleet/quality_agents.py --selftest --scan",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "FAIL",
+ "error_class": "E-CONTRACT",
+ "deliverable": "cph4/fleet/QUALITY-BOARD.md",
+ "deliverable_exists": true,
+ "ts": "2026-11-07T23:27:40",
+ "stdout_tail": "[quality-selftest] items=21 verdict=FAIL\n   - content-mv/VD-01: 反例上量不出 duration_s\n   - content-mv/VD-02: 反例上量不出 height_px\n   - content-mv/VD-03: 反例上量不出 has_audio\n   - content-mv/VD-04: 反例上量不出 black_ratio\n   - content-mv/VD-05: 反例上量不出 bitrate_kbps\n   - content-image/IM-01: 反例上量不出 min_side_px\n   - content-image/IM-02: 反例上量不出 aspect_in_set\n   - content-image/IM-03: 反例上量不出 file_kb\n   - content-image/IM-04: 反例上量不出 unique_color_ratio\n",
+ "stderr_tail": ""
+}

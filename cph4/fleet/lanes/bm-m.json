@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
- "ts": "2026-11-07T23:25:40",
+ "ts": "2026-11-07T23:27:35",
  "jobs": [
   {
-   "id": "LEDGER-REFRESH-20261107",
-   "title": "报审台账刷新（50 款四件套状态 + 产品级隐私政策补齐）",
-   "cmd": "python Tools/fleet/submit_ledger_fill.py --fill-privacy",
+   "id": "QUALITY-SCAN-20261107",
+   "title": "五线产物质量闸扫描（21 条判据，含反例自证）",
+   "cmd": "python Tools/fleet/quality_agents.py --selftest --scan",
    "cwd": ".",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/submit-ledger-20261107.json",
+   "deliverable": "cph4/fleet/QUALITY-BOARD.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 9.9/1.0 GB"
+ "capacity_note": "ram 9.8/1.0 GB"
 }

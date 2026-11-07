@@ -1,14 +1,14 @@
 {
  "node": "bm-a",
- "ts": "2026-11-07T23:18:38",
+ "ts": "2026-11-07T23:27:35",
  "jobs": [
   {
-   "id": "R-NEXT-BIGSTREAMM-REBUILD-20261107",
-   "title": "MV 合成本片：按 EDL 行表重建成片 v721（缺的是成片，不是闸）",
-   "cmd": "python Tools/mv_rebuild_from_edl.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721.mp4",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721.mp4",
+   "id": "ASSET-GEN-SCENES-20261107",
+   "title": "资产生产：场景底图出图（6 件）",
+   "cmd": "python Tools/fleet/asset_gen.py --class scenes --limit 6 --node bm-c --receipt cph4/fleet/queue-receipts/asset-gen-scenes-20261107.json",
+   "cwd": ".",
+   "needs": "gpu",
+   "deliverable": "cph4/fleet/queue-receipts/asset-gen-scenes-20261107.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 41.3/1.0 GB"
+ "capacity_note": "ram 38.2/1.0 GB"
 }
