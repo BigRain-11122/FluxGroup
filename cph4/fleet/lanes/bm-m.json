@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-08T01:37:55",
+ "ts": "2026-11-08T02:19:33",
  "jobs": [
   {
    "id": "AUD-GAME-20261108T012729-09",
@@ -37,20 +37,6 @@
    "cwd": "/Users/junsheng.sun/FluxGroup",
    "needs": "cpu",
    "deliverable": "cph4/fleet/audits/game/CrazyWorker.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "AUD-GAME-20261108T012729-13",
-   "title": "提审缺口落单：摸鱼也升职_CCPC提交格式",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game 摸鱼也升职_CCPC提交格式",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/摸鱼也升职_CCPC提交格式.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
