@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-07T19:40:03",
- "cycle": 153,
+ "ts": "2026-11-07T19:41:35",
+ "cycle": 154,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-07T19:40:03",
+ "master_tick_ts": "2026-11-07T19:41:35",
  "queue": {
   "total": 1266,
   "open": 3,
@@ -14,10 +14,10 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 479.4,
-   "cpu_load_pct": null,
-   "ram_free_gb": null,
-   "gpu_util_pct": null,
+   "hb_age_s": 11.2,
+   "cpu_load_pct": 25,
+   "ram_free_gb": 29.8,
+   "gpu_util_pct": 63,
    "job": null,
    "last_result": null,
    "idle_confirmed": false,
@@ -26,7 +26,7 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 26.4,
+   "hb_age_s": 114.7,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -38,7 +38,7 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 189.3,
+   "hb_age_s": 281.7,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -50,9 +50,9 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 476.3,
-   "cpu_load_pct": null,
-   "ram_free_gb": null,
+   "hb_age_s": 17.7,
+   "cpu_load_pct": 37,
+   "ram_free_gb": 10.7,
    "gpu_util_pct": null,
    "job": null,
    "last_result": null,
