@@ -93,6 +93,10 @@ def build_cards():
     for name in sorted(os.listdir(SOFT_ROOT)) if os.path.isdir(SOFT_ROOT) else []:
         if not os.path.isdir(os.path.join(SOFT_ROOT, name)):
             continue
+        # 跳过非产品目录：__pycache__、_已封存_*、_报审提交区 之类会被误判成"缺件 4 类"，
+        # 让"还缺材料"这件事失真（实测 3 条假缺件全是这类目录）。
+        if name.startswith("_"):
+            continue
         out = os.path.join("cph4", "fleet", "audits", "soft", name + ".json")
         if os.path.exists(os.path.join(ROOT, out)):
             continue
@@ -140,6 +144,22 @@ def main(argv):
     cards = build_cards()
     have = {r.get("id") for r in rows(BACKLOG)}
     cards = [c for c in cards if c["id"] not in have]
+
+    # 按交付物去重，不只按卡 id：id 带时间戳，每个批次都算"新卡"，
+    # 于是同一交付物会被反复铺（实测 G18_PalacePlunder 连铺两天两张 OPEN）。
+    # 判据=交付物已经有活卡（READY/OPEN/RUNNING/CLAIMED）就不再铺。
+    LIVE = ("READY", "OPEN", "RUNNING", "CLAIMED", "PENDING")
+    live_out = {}
+    for p in (BACKLOG, os.path.join(F, "PRODUCTION-QUEUE.jsonl")):
+        for r in rows(p):
+            if str(r.get("state") or "").upper() in LIVE and r.get("deliverable"):
+                live_out[r["deliverable"]] = r.get("id")
+    dup = [c for c in cards if c.get("deliverable") in live_out]
+    if dup:
+        for c in dup[:5]:
+            print("SKIP 已有活卡 %s <- %s" % (live_out[c["deliverable"]], c["deliverable"]))
+        print("按交付物去重：跳过 %d 张" % len(dup))
+    cards = [c for c in cards if c.get("deliverable") not in live_out]
     print("可铺卡 %d 张" % len(cards))
     if not a.apply:
         print("干跑；加 --apply 才写进备队列")
