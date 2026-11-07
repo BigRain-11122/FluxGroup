@@ -1,14 +1,14 @@
 {
  "node": "bm-b",
- "ts": "2026-11-08T01:55:27",
+ "ts": "2026-11-08T02:02:42",
  "jobs": [
   {
-   "id": "AUD-GAME-20261108T012729-23",
-   "title": "提审缺口落单：BloomHaven",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game BloomHaven",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "id": "bigmoney-signal-2026-11-08",
+   "title": "[金融量化（回测 → 一页结论 → 可报价或写清卡点）] 下月持仓信号 CSV（可卖的唯一产物）",
+   "cmd": "python Tools/fleet/quant_positions_bridge.py --in quant/bigmoney/results/etf_nobond_vt.json --out cph4/fleet/queue-receipts/etf_nobond_vt_with_positions.json && python Tools/fleet/quant_signal.py --in cph4/fleet/queue-receipts/etf_nobond_vt_with_positions.json --out cph4/fleet/queue-receipts/quant-signal-2026-11-08.csv",
+   "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/BloomHaven.json",
+   "deliverable": "cph4/fleet/queue-receipts/quant-signal-2026-11-08.csv",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -59,8 +59,8 @@
    "timeout_s": null
   },
   {
-   "id": "R-PLAN-BIGSTREAMMV-20261108",
-   "title": "BigStream·MV 41 曲 线级体检与缺口清单",
+   "id": "R-TRIAGE-BIGSTREAMMV-BMA-20261108",
+   "title": "BigStream·MV 41 曲 线证据扫描（bm-a 本机可判面）",
    "cmd": "python Tools/fleet/line_triage.py --line bigstream-mv",
    "cwd": "",
    "needs": "cpu",
@@ -71,9 +71,23 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
+  },
+  {
+   "id": "R-TRIAGE-FLUXVERSE-BMC-20261108",
+   "title": "FluxVerse·元宙城 线证据扫描（bm-c 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line fluxverse",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-fluxverse-20261108.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
- "lane_ok": false,
- "capacity_note": "ram 0.9/1.0 GB"
+ "lane_ok": true,
+ "capacity_note": "ram 2.1/1.0 GB"
 }
