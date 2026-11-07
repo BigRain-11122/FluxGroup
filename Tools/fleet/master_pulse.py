@@ -647,8 +647,11 @@ def pull_if_clean(last_ts=0.0) -> str:
     msg = _one_line(r.stderr or r.stdout, 120)
     # 任何"非快进"类失败都按分叉处理：远端文案随 git 版本变（有时只说
     # "Diverging branches can't be fast-forwarded"），不靠字符串猜，直接试收口。
-    if "Not possible to fast-forward" in msg or "diverg" in msg or "fetch first" in msg \
-            or "rejected" in msg or "cannot" in msg.lower():
+    # 大小写敏感曾让这段从未触发：git 报的是 "Diverging branches"，而这里比的是小写
+    # "diverg"。必须先 lower 再比，否则分叉分支形同不存在（2026-11-07 实测）。
+    if "not possible to fast-forward" in msg.lower() or "diverg" in msg.lower() \
+            or "fetch first" in msg.lower() or "rejected" in msg.lower() \
+            or "cannot" in msg.lower():
         # 分叉处理（2026-11-07 修死锁）：本脉每轮都提交自己的产物，所以永远 ahead>0，
         # 纯 ff-only 必然失败 → 永远拉不到远端。rebase 被 C-20261104 禁止，
         # 故改用「受控 merge」：--no-commit 先试，冲突立刻 abort 并如实报告，
