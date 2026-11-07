@@ -1,23 +1,23 @@
 {
- "ts": "2026-11-08T02:32:52",
- "cycle": 355,
+ "ts": "2026-11-08T02:33:56",
+ "cycle": 356,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-08T02:32:52",
+ "master_tick_ts": "2026-11-08T02:33:56",
  "queue": {
   "total": 1422,
   "open": 3,
-  "running": 11,
-  "done": 529,
+  "running": 10,
+  "done": 530,
   "failed": 8
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 25.7,
-   "cpu_load_pct": 71,
-   "ram_free_gb": 20.1,
-   "gpu_util_pct": 60,
+   "hb_age_s": 28.6,
+   "cpu_load_pct": 73,
+   "ram_free_gb": 22.1,
+   "gpu_util_pct": 64,
    "job": "bigstream-mv-gate-2026-11-08",
    "last_result": null,
    "idle_confirmed": false,
@@ -26,16 +26,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 0.4,
-   "cpu_load_pct": 21,
+   "hb_age_s": 3.9,
+   "cpu_load_pct": 13,
    "ram_free_gb": 0.7,
-   "gpu_util_pct": 98,
+   "gpu_util_pct": 1,
    "job": "R-TRIAGE-FLUXVERSE-BMB-20261108",
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-08T02:32:45",
+    "ts": "2026-11-08T02:33:49",
     "reason": "ALREADY-CLOSED R-TRIAGE-FLUXVERSE-BMB-20261108",
     "out_bytes": null,
     "elapsed_s": null
@@ -46,9 +46,9 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 55.8,
-   "cpu_load_pct": 12,
-   "ram_free_gb": 0.7,
+   "hb_age_s": 47.7,
+   "cpu_load_pct": 16,
+   "ram_free_gb": 3.4,
    "gpu_util_pct": 0,
    "job": "ASSET-GEN-TYPOGRAPHY-20261108",
    "last_result": {
@@ -66,16 +66,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 16.4,
+   "hb_age_s": 79.4,
    "cpu_load_pct": 10,
    "ram_free_gb": 13.3,
    "gpu_util_pct": null,
    "job": "AUD-GAME-20261108T012729-32",
    "last_result": {
-    "job": "AUD-GAME-20261108T012729-34",
+    "job": "AUD-GAME-20261108T012729-35",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-08T02:32:40",
+    "ts": "2026-11-08T02:33:42",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -160,7 +160,6 @@
     "ASSET-GEN-TYPOGRAPHY-20261108",
     "biggame-pack-scan-2026-11-08",
     "AUD-GAME-20261108T012729-32",
-    "AUD-GAME-20261108T012729-35",
     "AUD-GAME-20261108T012729-36",
     "AUD-GAME-20261108T022403-25",
     "AUD-GAME-20261108T022403-26",
@@ -848,8 +847,7 @@
  },
  "supply_added": [],
  "events": [
-  "AUD-GAME-20261108T012729-34 DONE via bm-m",
-  "bigmoney-signal-2026-11-08 -> bm-a (cpu)"
+  "AUD-GAME-20261108T012729-35 DONE via bm-m"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
@@ -857,7 +855,6 @@
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
  "lane_files_written": [
-  "bm-a",
   "bm-m"
  ]
 }
