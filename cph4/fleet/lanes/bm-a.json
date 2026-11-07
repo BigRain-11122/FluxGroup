@@ -1,6 +1,6 @@
 {
  "node": "bm-a",
- "ts": "2026-11-08T03:09:22",
+ "ts": "2026-11-08T03:10:08",
  "jobs": [
   {
    "id": "bigstream-mv-gate-2026-11-08",
@@ -31,76 +31,6 @@
    "timeout_s": null
   },
   {
-   "id": "AUD-GAME-20261108T012729-32",
-   "title": "提审缺口落单：DemonTamer",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game DemonTamer",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/DemonTamer.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "AUD-GAME-20261108T012729-33",
-   "title": "提审缺口落单：NightWatch",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game NightWatch",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/NightWatch.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "AUD-GAME-20261108T012729-34",
-   "title": "提审缺口落单：SongOfScents",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game SongOfScents",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/SongOfScents.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "AUD-GAME-20261108T012729-35",
-   "title": "提审缺口落单：TreasureDive",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game TreasureDive",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/TreasureDive.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "AUD-GAME-20261108T012729-36",
-   "title": "提审缺口落单：GhostMarshal",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game GhostMarshal",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/GhostMarshal.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
    "id": "R-TRIAGE-BIGSTREAMMV-BMC-20261108",
    "title": "BigStream·MV 41 曲 线证据扫描（bm-c 本机可判面）",
    "cmd": "python Tools/fleet/line_triage.py --line bigstream-mv",
@@ -117,5 +47,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 31.2/1.0 GB"
+ "capacity_note": "ram 28.3/1.0 GB"
 }
