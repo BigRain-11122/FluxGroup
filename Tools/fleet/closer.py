@@ -78,7 +78,15 @@ def release(r, why):
 
 
 def lane_beat():
-    """owner -> newest sign of life (seconds ago). Absence counts as infinite."""
+    """owner -> seconds since that lane last reported a result; None = never reported.
+
+    Why None instead of 1e9 (2026-11-07 实锚): MASTER-STATE.json 里三台机的
+    last_result.ts 全是 None（它们从来没跑完过一张卡），旧实现把"没有记录"当成
+    "已经静默 1e9 秒"，于是任何卡 claim 后 ~3 分钟就被 lease-heartbeat-timeout
+    (1000000000s) 杀掉、重试三次转 FAILED——派单→执行整条链对全部机器失效，
+    症状恰好是"车道永远空、机器报 IDLE、队列有活派不出去"。
+    "没有记录"不是"静默很久"，两者必须分开：没有记录时由调用方按卡的 claim 时间算。
+    """
     import time as _t
     try:
         ms = json.load(open(os.path.join(F, "dispatcher", "MASTER-STATE.json"),
@@ -89,12 +97,25 @@ def lane_beat():
     for n, v in (ms.get("lanes") or {}).items():
         lr = v.get("last_result") or {}
         ts = lr.get("ts")
+        if not ts:
+            out[n] = None          # 无记录 ≠ 长期静默
+            continue
         try:
             from datetime import datetime as _d
             out[n] = _t.time() - _d.fromisoformat(ts).timestamp()
         except Exception:
-            out[n] = 1e9
+            out[n] = None
     return out
+
+
+def _since(ts_text):
+    """卡片自 claim 以来的秒数；解析不了返回 None（不猜）。"""
+    try:
+        from datetime import datetime as _d
+        import time as _t
+        return _t.time() - _d.fromisoformat(str(ts_text)).timestamp()
+    except Exception:
+        return None
 
 
 def lane_rc():
@@ -211,7 +232,22 @@ def main():
                 touched.append(r)
                 continue
             age = beats.get(owner)
-            if age > HEARTBEAT_TIMEOUT_S:      # worker silent -> release, do not hang forever
+            if age is None:
+                # 该车道从未报过结果：没有证据说它静默，就按卡自己握了多久来判。
+                # 超过租约仍无任何回执/产出，才释放——这是"卡被占着没动"，可判。
+                age = _since(r.get("claimed_at") or r.get("assign_ts"))
+                if age is None:
+                    continue          # 连 claim 时间都没有：不判，留给 master 侧
+                lease_s = int(r.get("lease_minutes") or 45) * 60
+                if age > lease_s:
+                    if release(r, "lease-no-heartbeat: 已握 %.0fs（租约 %ds）且该车道从无回执"
+                                      % (age, lease_s)) == "blocked":
+                        blocked.append(r["id"])
+                    else:
+                        requeued.append(r["id"])
+                    touched.append(r)
+                    continue
+            elif age > HEARTBEAT_TIMEOUT_S:      # worker silent -> release, do not hang forever
                 if release(r, "lease-heartbeat-timeout(%.0fs)" % age) == "blocked":
                     blocked.append(r["id"])
                 else:

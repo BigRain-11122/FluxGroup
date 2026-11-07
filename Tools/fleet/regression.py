@@ -205,6 +205,21 @@ def rg12():
     return "两处一致：%s" % a
 
 
+@case("RG-13", "无心跳记录不得当成静默 1e9 秒",
+      "三机 last_result.ts 全空 → 任何卡 claim 后 3 分钟被判超时，派单链对全部机器失效")
+def rg13():
+    sys.path.insert(0, os.path.join(ROOT, "Tools", "fleet"))
+    import closer
+    beats = closer.lane_beat()
+    assert beats, "lane_beat 返回空：MASTER-STATE 读不到，心跳判定等于瞎"
+    absurd = {k: v for k, v in beats.items() if v is not None and v > 1e8}
+    assert not absurd, "心跳年龄出现荒谬值（无记录被当成很久）：%s" % absurd
+    neg = [k for k, v in beats.items() if v is not None and v <= 0]
+    assert not neg, "心跳年龄为负/零：%s" % neg
+    return "%d 条车道心跳年龄正常（无记录=%d）" % (
+        len(beats), sum(1 for v in beats.values() if v is None))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--json", action="store_true")
