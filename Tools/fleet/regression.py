@@ -475,6 +475,25 @@ def rg24():
     return "ffmpeg=%s · 派生名正/负控均正确" % (tool if visible else "本机无 ffmpeg（跳过）")
 
 
+@case("RG-25", "归档必须是终态（旧 claim 不许把死卡写回 RUNNING）",
+      "2026-11-07 实锚：mv-gate 卡归档后又被旧 claim 回写 RUNNING，继续指不存在的成片空转；"
+      "过去只保护了 CANCELLED，ARCHIVED 不在保护名单里")
+def rg25():
+    import tempfile
+    sys.path.insert(0, os.path.join(ROOT, "Tools", "fleet"))
+    from fleet_lane import merge_jsonl, read_jsonl
+    p = os.path.join(tempfile.mkdtemp(), "q.jsonl")
+    open(p, "w").write(json.dumps({"id": "T1", "cmd": "x", "state": "RUNNING"}) + "\n")
+    merge_jsonl(p, [{"id": "T1", "state": "ARCHIVED", "closed_at": "2026-11-07T23:50:00"}],
+                mirror=False)
+    merge_jsonl(p, [{"id": "T1", "state": "RUNNING", "claimed_at": "2026-11-07T23:43:59"}],
+                mirror=False)
+    assert read_jsonl(p)[0]["state"] == "ARCHIVED", "归档卡被旧 claim 复活"
+    merge_jsonl(p, [{"id": "T1", "state": "OPEN", "requeued_by": "ceo"}], mirror=False)
+    assert read_jsonl(p)[0]["state"] == "OPEN", "显式重开被拦死（闸太紧）"
+    return "归档终态守得住，显式重开也放得开"
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--json", action="store_true")

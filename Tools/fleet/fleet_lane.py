@@ -396,15 +396,18 @@ def merge_jsonl(path, rows, key="id", mirror=True):
             k = r[key]
             if k in index:
                 prev = current[index[k]]
-                # Cancellation is terminal (D-R271-CANCEL-RESURRECTION, 2026-11-03):
-                # a lane that claimed the card before the cancel landed wrote RUNNING
-                # back over CANCELLED, so the same empty-input card kept burning on
-                # three boxes. Only an explicit re-queue may revive it.
-                if (isinstance(prev, dict) and prev.get("state") == "CANCELLED"
+                # Cancellation/archival is terminal (D-R271-CANCEL-RESURRECTION,
+                # 2026-11-03；2026-11-07 补 ARCHIVED)：a lane that claimed the card
+                # before the cancel/archive landed wrote RUNNING back over it, so the
+                # same empty-input card kept burning on three boxes. Only an explicit
+                # re-queue may revive it. 实锚：bigstream-mv-gate 卡 23:4x 被归档后又被
+                # 旧 claim 写回 RUNNING，继续指一个不存在的成片。
+                _prev_st = (prev.get("state") if isinstance(prev, dict) else None)
+                if (_prev_st in ("CANCELLED", "ARCHIVED")
                         and r.get("state") in ("OPEN", "READY", "RUNNING", "CLAIMED")
                         and not r.get("requeued_by")):
                     r = dict(r)
-                    r["state"] = "CANCELLED"
+                    r["state"] = _prev_st
                     r["cancel_kept_by"] = "fleet_lane"
                 # Dispatcher card edits must survive stale write-backs
                 # (D-R272-STALE-WRITEBACK-CLOBBER, 2026-11-03): a lane that claimed the
