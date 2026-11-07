@@ -35,8 +35,28 @@ BACKLOG = os.path.join('cph4', 'fleet', 'PRODUCTION-BACKLOG.jsonl')
 HUMAN_WORDS = ('写明', '判定', '选款', '选出', '评分', '评审', '签名', '评价')
 NOT_DELIVERED = ('BLOCKED', 'SKIPPED', 'GAPS', 'FAIL', 'ERROR')
 
-# 车道可接受的 needs 集合（取自 fleet_lane.LANES 的并集；写卡的人不能随手发明新值）
-LANE_NEEDS = {'cpu', 'gpu'}
+# 车道可接受的 needs 集合：从 fleet_lane.LANES 自动取（别在这里抄一份——
+# 抄一份的结果就是两处各自漂移，之前 MODEL-POLICY 两份各写一个现役就是同一个坑）
+def _lane_caps():
+    try:
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        import fleet_lane as fl
+        return {n: set(v.get('needs') or []) for n, v in fl.LANES.items()}
+    except Exception:
+        return {}
+
+
+LANE_CAPS = _lane_caps()
+LANE_NEEDS = set().union(*LANE_CAPS.values()) if LANE_CAPS else {'cpu', 'gpu'}
+VOLUME_RE = re.compile(r'^/Volumes/([^/]+)/')
+
+
+def unmounted_volume(path):
+    """路径在 /Volumes/<卷>/ 下而该卷当前没挂载 → 返回卷名，否则 None。"""
+    m = VOLUME_RE.match(str(path or '').replace('\\', '/'))
+    if not m:
+        return None
+    return None if os.path.isdir('/Volumes/%s' % m.group(1)) else m.group(1)
 
 
 def norm(p):
@@ -127,6 +147,26 @@ def check(root):
                 v.append({'rule': 'NEEDS-INVISIBLE', 'src': src, 'id': rid,
                           'needs': nd, 'allowed': sorted(LANE_NEEDS),
                           'why': 'needs 不在车道可接受集合内 ⇒ 该卡永远不会被派出去'})
+                # 不 continue：一张卡常常同时犯多条（非法 needs + 钉错机器 + 输入在未挂载卷），
+                # 只报第一条会让人修完一层又发现一层。
+            # R5 NODE-CAP-MISMATCH（2026-11-07 实锚）：needs="gpu-vision" 且钉在 bm-m——
+            # 那台机只有 cpu。合法 needs + 错误的机器，同样是"队列有活、永远不派"。
+            for n in (r.get('hard_nodes') or r.get('nodes') or []):
+                caps = LANE_CAPS.get(n)
+                if caps is not None and nd not in caps:
+                    v.append({'rule': 'NODE-CAP-MISMATCH', 'src': src, 'id': rid,
+                              'needs': nd, 'node': n, 'node_caps': sorted(caps),
+                              'why': '钉在 %s 但它没有 %s 能力 ⇒ 该卡永远不派' % (n, nd)})
+                    break
+            # R6 DEAD-INPUT（2026-11-07 实锚）：输入在未挂载的移动硬盘上，卡却挂着 OPEN，
+            # 看起来是"供给"，实际谁都跑不了；应当标 BLOCKED 并写清等什么。
+            for p in [r.get('deliverable')] + list(r.get('requires') or []):
+                vol = unmounted_volume(p)
+                if vol:
+                    v.append({'rule': 'DEAD-INPUT', 'src': src, 'id': rid,
+                              'volume': vol, 'path': str(p)[:80],
+                              'why': '输入/产物在未挂载的卷 %s 上 ⇒ 应标 BLOCKED 而不是 OPEN' % vol})
+                    break
     return v, bad_lines
 
 

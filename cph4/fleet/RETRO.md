@@ -1,7 +1,7 @@
-# 复盘（经验与落点）2026-11-07T22:43:48
+# 复盘（经验与落点）2026-11-07T22:50:05
 
 判据：**没有落点的不算已推广**。落点四类＝断言(rg) / 码里判据(symbol) / 正身件(doc) / 卡模板(card)。
-已落点 13 条 · 待落点 0 条 · 声称有落点但核验不到 0 条（这一栏最严重）
+已落点 19 条 · 待落点 0 条 · 声称有落点但核验不到 0 条（这一栏最严重）
 
 ## 已落点：下次会被机器拦住
 
@@ -20,6 +20,12 @@
 | L-20261107-11 | 21 张失败卡没有 error_class，复盘时只能人逐张看 | symbol `Tools/fleet/flux_contracts.py:error_class` |
 | L-20261107-12 | 卡里写 python3，在 Windows 上是商店假壳，rc=9009 且 e | symbol `Tools/fleet/failed_triage.py:classify` |
 | L-20261107-13 | 同一交付物重试到第 4 次才被人发现「不是偶发」，前三轮都当成正常重派 | symbol `Tools/fleet/card_policy.py:max_attempts` |
+| L-20261107-14 | blockers 永久亮 stage:metrics：ops_metrics 与 | rg `RG-20` |
+| L-20261107-15 | brain_service 与 brain_brief 都叫 brain，sta | rg `RG-22` |
+| L-20261107-16 | 看 PULSE 永远只看到这一轮跑了什么，某阶段三小时没跑在盘上查不到 | rg `RG-21` |
+| L-20261107-17 | 移动硬盘没插时 vault 报「台账 651 条，盘上缺失 651 条」——像数 | symbol `Tools/fleet/vault.py:cmd_verify` |
+| L-20261107-18 | needs=gpu-vision 合法外值且钉在没有 GPU 的 bm-m，卡挂 | symbol `Tools/fleet/card_contract_check.py:NODE-CAP-MISMATCH` |
+| L-20261107-19 | 脉常年挂 swap 假红：只要 pageouts 比上一轮涨一点就判阻塞，而 m | symbol `Tools/fleet/master_pulse.py:swap_rate_limit` |
 
 ---
 _复盘只提候选与核验；改阈值、写记忆都归各自的席，不在这里自动做_

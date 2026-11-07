@@ -233,7 +233,9 @@ STAGES = [
     ("budget", ["Tools/fleet/cloud_budget.py", "check"], 30, {0, 1}, True),
     ("gate", ["Tools/fleet/gate_report.py"], 180, {0}, True),
     ("checkups", ["Tools/fleet/checkups.py"], 180, {0, 2}, True),
-    ("metrics", ["Tools/fleet/ops_metrics.py"], 90, {0}, True),
+    # 2026-11-07 删掉重复的 ("metrics", ops_metrics.py, {0})：ops_metrics 上线后这里没撤，
+    # 同一个工具每轮跑两遍，而且两处契约相反（此处只许 rc=0，那边许 {0,1}）——
+    # 于是 ops_metrics 每轮报的「燃尽告警」被这条旧登记判成故障，blockers 永久亮 stage:metrics。
     # 事件日志（2026-11-03 S1 影子期）：先把本机 outbox 发到 JetStream，再拉本机未消费事件。
     # 走快批（每轮都跑）而不是慢批：慢批 300 秒节流会让事件积压成"五分钟前的事实"。
     # 只写不读——生产链路一次也不等它；rc=2 只表示总线不通，不影响派单。
@@ -274,7 +276,13 @@ STAGES = [
     # 工具自带 02:00-05:00 时间窗，窗外直接跳过；超预算才调 house 闸下沉（快照零删除）。
     ("memory_nightly", ["Tools/fleet/memory_nightly.py"], 900, {0, 2}, True),
     ("showcase", ["Tools/fleet/showcase.py"], 60, {0}, True),
-    ("vault", ["Tools/fleet/vault.py", "verify"], 120, {0, 2}, True),
+    # rc=3 = 资产卷未挂载（例如移动硬盘没插）：这是"不可判定"，不是"资产丢了"。
+    # 旧口径把 651 条全报丢失，一次假红就没人再信这条。
+    ("vault", ["Tools/fleet/vault.py", "verify"], 120, {0, 2, 3}, True),
+    # 阶段自证（CEO 2026-11-07「我感觉还是不放心」）：拿 stage-last.json 对节奏表周期，
+    # 逐个阶段判"最后一次真跑"是否超期。专治"登记在表、脉里不跑"这个盲区
+    # （ops_metrics 被重复登记、verify_done 从未接线都是长在这个盲区里的）。
+    ("stage_liveness", ["Tools/fleet/stage_liveness.py"], 3600, {0, 1, 2}, True),
     # 资产可达性（2026-11-04）：台账条数≠可达条数。盘不在就判 UNREACHABLE，
     # 禁止任何"已归集/已备份"的说法。rc=2=账面有、可达 0。
     ("asset_reach", ["Tools/fleet/asset_reach.py"], 60, {0, 2}, True),
@@ -332,7 +340,9 @@ STAGES = [
     ("supervisor", ["Tools/fleet/fleet_supervisor.py"], 60, {0}, True),
     # One page that names the single decision that moves the fleet now, from disk facts
     # only (CEO 2026-11-01: 大脑要及时/准确/创新/严格). Read-only, so it cannot stall.
-    ("brain", ["Tools/fleet/brain_brief.py", "--root", ROOT], 60, {0}, True),
+    # 2026-11-07 改名：这条与 brain_service 同名 "brain"，后一条把前一条的执行记录覆盖掉
+    # （stages 是 dict），于是 brain_service 跑没跑、成没成在盘上都查不到。
+    ("brain_brief", ["Tools/fleet/brain_brief.py", "--root", ROOT], 60, {0}, True),
     # Aggregator: turns receipts+queue+verdicts into one screen for the CEO.
     ("digest", ["Tools/fleet/digest_agent.py"], 200, {0}, True),
     # Solve leg: requeues failed cards (capped), warns on starvation, and coordinates the
@@ -903,20 +913,35 @@ def relieve_swap() -> str:
     return "thrash(%.0f页/分)%s" % (per_min, (" unloaded:" + ",".join(dropped)) if dropped else "")
 
 
+def swap_rate_limit():
+    """换页速率上限只认 MEM-GUARD-v1.json（单一源）。脉里原来写的是"只要 pageouts 涨就红"，
+    而 mem_guard 判的是页/分、阈 120——两处口径不一致的结果是脉常年挂着 swap 假红，
+    真抖动反而麻木。取不到配置就退回 120。"""
+    try:
+        cfg = json.load(open(os.path.join(ROOT, "cph4", "fleet", "MEM-GUARD-v1.json"),
+                             encoding="utf-8"))
+        return float(cfg.get("pageouts_max_per_min") or 120)
+    except Exception:
+        return 120.0
+
+
 def checks(prev: dict | None = None) -> list[dict]:
     out = []
     sw = relieve_swap()
     po = pageouts()
     prev_po = int((prev or {}).get("swap_pageouts") or 0)
-    growing = prev_po > 0 and po > prev_po
-    # 2026-11-04：实测 swap total=0.00M 时 pageouts 仍可能在涨（那是压缩/映射账，不是换页），
-    # 只按 pageouts 判红会给出假警报。判据收紧为「有 swap 且还在涨」才算阻塞。
-    growing = growing and (swap_used_gb() > 0)
+    # 判据＝换页速率（页/分），与 mem_guard 同源；不再用"涨了就红"。
+    try:
+        prev_ts = datetime.strptime(str((prev or {}).get("ts"))[:19], "%Y-%m-%dT%H:%M:%S")
+        mins = max((datetime.now() - prev_ts).total_seconds() / 60.0, 0.5)
+    except Exception:
+        mins = 1.0
+    rate = ((po - prev_po) / mins) if (prev_po > 0 and po >= prev_po) else 0.0
+    limit = swap_rate_limit()
+    growing = rate > limit
     out.append({"name": "swap", "ok": not growing,
-                "detail": "live swap %s%s (2GB line unloads extra models; red only while "
-                          "pageouts still grow: %s->%s)"
-                          % (sw, " GROWING" if growing else "",
-                             prev_po or "-", po if po >= 0 else "-")})
+                "detail": "live swap %s, 换页 %.1f 页/分（上限 %.0f）%s"
+                          % (sw, rate, limit, " THRASHING" if growing else "")})
     ev = evict_heavy_models()
     out.append({"name": "resident-model-size", "ok": ev in ("ok", "unknown"),
                 "detail": "limit %.0fGB (control plane, not a production box): %s"
@@ -1123,7 +1148,7 @@ def main() -> int:
     # Two pools by resource, not by "more workers = faster":
     #   MODEL_STAGES share Ollama's 3 slots; giving them 6 threads only queues work.
     #   IO stages are pure python (files/git) and are cheap to run wide.
-    MODEL_STAGES = {"judge", "brain", "social", "biz", "autowork", "digest"}
+    MODEL_STAGES = {"judge", "brain", "brain_brief", "social", "biz", "autowork", "digest"}
     pool_model = ThreadPoolExecutor(max_workers=3)
     pool_io = ThreadPoolExecutor(max_workers=8)
     pool = pool_model
@@ -1205,6 +1230,27 @@ def main() -> int:
         "ok": not blockers,
     }
     pulse["resident"] = resident_note
+
+    # 每阶段最后一次「真跑」（rc 不是 None）的记录。慢批阶段每轮只跑一部分，
+    # 而 PULSE.json 每轮被整份覆盖 —— 于是"这个阶段到底跑没跑过"无法回溯，
+    # 只能靠翻 /tmp 日志。这份 stage-last.json 是给小屏自证用的唯一凭据。
+    try:
+        _sl_p = os.path.join(ROOT, "cph4", "fleet", "state", "stage-last.json")
+        try:
+            _sl = json.load(open(_sl_p, encoding="utf-8"))
+        except Exception:
+            _sl = {}
+        _ts = now()
+        for _n, _v in stages.items():
+            if isinstance(_v, dict) and _v.get("rc") is not None:
+                _sl[_n] = {"ts": _ts, "rc": _v.get("rc"), "sec": _v.get("sec")}
+        os.makedirs(os.path.dirname(_sl_p), exist_ok=True)
+        _t2 = "%s.%d.tmp" % (_sl_p, os.getpid())
+        with open(_t2, "w", encoding="utf-8") as f:
+            json.dump(_sl, f, ensure_ascii=False, indent=1)
+        os.replace(_t2, _sl_p)
+    except Exception as e:
+        log("W-STAGE-LAST %s" % str(e)[:80])
     path = os.path.join(ROOT, STATE_REL.replace("/", os.sep))
     os.makedirs(os.path.dirname(path), exist_ok=True)
     tmp = "%s.%d.tmp" % (path, os.getpid())

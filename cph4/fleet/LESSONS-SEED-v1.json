@@ -203,6 +203,92 @@
    "also_matches": [
     "E-ROOTCAUSE-3X"
    ]
+  },
+  {
+   "id": "L-20261107-14",
+   "class": "false-red",
+   "symptom": "blockers 永久亮 stage:metrics：ops_metrics 与 metrics 是同一个工具的两次登记，一处许 rc=1 一处只许 rc=0",
+   "root": "ops_metrics 上线后旧登记没撤，同一份燃尽告警被旧契约判成故障；没人知道该改哪一处",
+   "fix": "删掉重复登记；RG-20 禁止同一工具被两个阶段登记（带负控）",
+   "landing": {
+    "kind": "rg",
+    "ref": "RG-20"
+   },
+   "evidence": [
+    "Tools/fleet/master_pulse.py"
+   ]
+  },
+  {
+   "id": "L-20261107-15",
+   "class": "false-green",
+   "symptom": "brain_service 与 brain_brief 都叫 brain，stages 是 dict，后者覆盖前者，其中一个跑没跑查不到",
+   "root": "阶段名没有唯一性校验，重名即静默丢记录",
+   "fix": "改名 brain_brief；RG-22 禁止阶段重名（带负控）",
+   "landing": {
+    "kind": "rg",
+    "ref": "RG-22"
+   },
+   "evidence": [
+    "Tools/fleet/master_pulse.py"
+   ]
+  },
+  {
+   "id": "L-20261107-16",
+   "class": "gate",
+   "symptom": "看 PULSE 永远只看到这一轮跑了什么，某阶段三小时没跑在盘上查不到",
+   "root": "PULSE.json 每轮整份覆盖，慢批每 300 秒只跑一部分，没有'最后一次真跑'的持久记录",
+   "fix": "脉每轮写 state/stage-last.json；stage_liveness 对比节奏表周期判超期；RG-21 守数据面",
+   "landing": {
+    "kind": "rg",
+    "ref": "RG-21"
+   },
+   "evidence": [
+    "Tools/fleet/stage_liveness.py",
+    "cph4/fleet/STAGE-LIVENESS.md"
+   ]
+  },
+  {
+   "id": "L-20261107-17",
+   "class": "false-red",
+   "symptom": "移动硬盘没插时 vault 报「台账 651 条，盘上缺失 651 条」——像数据全丢了",
+   "root": "把'卷未挂载'与'文件真丢失'当同一件事判，一次假红之后真丢失也没人信",
+   "fix": "先判卷在不在，不在则报'不可判定'并返回 rc=3；ok_rc 收 3",
+   "landing": {
+    "kind": "symbol",
+    "ref": "Tools/fleet/vault.py:cmd_verify"
+   },
+   "evidence": [
+    "Tools/fleet/asset_reach.py"
+   ]
+  },
+  {
+   "id": "L-20261107-18",
+   "class": "dispatch",
+   "symptom": "needs=gpu-vision 合法外值且钉在没有 GPU 的 bm-m，卡挂 OPEN 永远不派；输入还在未挂载盘上",
+   "root": "契约检查只看 needs 是否在全集里，不看'这台机器有没有这个能力'，也不看输入卷在不在",
+   "fix": "R5 NODE-CAP-MISMATCH + R6 DEAD-INPUT；车道能力从 fleet_lane.LANES 自动取，不再抄一份",
+   "landing": {
+    "kind": "symbol",
+    "ref": "Tools/fleet/card_contract_check.py:NODE-CAP-MISMATCH"
+   },
+   "evidence": [
+    "cph4/fleet/PRODUCTION-QUEUE.jsonl"
+   ]
+  },
+  {
+   "id": "L-20261107-19",
+   "class": "false-red",
+   "symptom": "脉常年挂 swap 假红：只要 pageouts 比上一轮涨一点就判阻塞，而 mem_guard 按页/分判（阈 120）",
+   "root": "同一个事实两处判据：一处看绝对增量、一处看速率，严格的那处每天都红，真抖动反而麻木",
+   "fix": "脉改读 MEM-GUARD-v1.json 的 pageouts_max_per_min，按页/分算，与护栏同源",
+   "landing": {
+    "kind": "symbol",
+    "ref": "Tools/fleet/master_pulse.py:swap_rate_limit"
+   },
+   "evidence": [
+    "cph4/fleet/MEM-GUARD-v1.json",
+    "Tools/fleet/mem_guard.py"
+   ]
   }
  ]
 }

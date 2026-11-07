@@ -19,6 +19,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -169,11 +170,26 @@ def cmd_find(a):
     return 0
 
 
+def _volume_of(path):
+    m = re.match(r"^/Volumes/([^/]+)/", str(path or ""))
+    return m.group(1) if m else None
+
+
 def cmd_verify(a):
-    missing = [r for r in load() if not os.path.exists(r.get("path") or "")]
+    rows = load()
+    # 2026-11-07 实锚：移动硬盘没插时，旧口径把这 651 条全报「丢失」——「盘没挂载」
+    # 和「资产真的没了」是两件事，混报一次就没人再信这个红。先判卷在不在，
+    # 不在就明确说「不可判定」，赋 rc=3（UNREACHABLE），不冒充丢失。
+    unmounted = sorted({v for v in (_volume_of(r.get("path")) for r in rows)
+                        if v and not os.path.isdir("/Volumes/%s" % v)})
+    if unmounted:
+        print("台账 %d 条，卷未挂载：%s ⇒ 不可判定（不是丢失）"
+              % (len(rows), "、".join("/Volumes/%s" % v for v in unmounted)))
+        return 3
+    missing = [r for r in rows if not os.path.exists(r.get("path") or "")]
     for r in missing[:20]:
         print("丢失：%s  %s" % (r["sha256"][:12], r.get("path")))
-    print("台账 %d 条，盘上缺失 %d 条" % (len(load()), len(missing)))
+    print("台账 %d 条，盘上缺失 %d 条" % (len(rows), len(missing)))
     return 0 if not missing else 2
 
 

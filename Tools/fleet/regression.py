@@ -353,6 +353,80 @@ def rg19():
         len(items), len(landed), len(items) - len(landed))
 
 
+def dup_stage_argv(stages):
+    """同一工具被两个阶段跑（不论参数）= 重复劳动，且两处 ok_rc 一旦不一致，
+    其中一处会把另一处认定的「告警」判成「故障」，blockers 永久亮着。"""
+    seen = {}
+    dup = []
+    for name, argv, _to, ok, _ in stages:
+        key = str(argv[0])
+        if key in seen:
+            dup.append((seen[key], name, key))
+        else:
+            seen[key] = name
+    return dup
+
+
+@case("RG-20", "同一工具不得被两个阶段重复登记",
+      "ops_metrics.py 同时以 ops_metrics{0,1} 与 metrics{0} 登记：同一份燃尽告警被后者"
+      "判成故障，blockers 永久亮 stage:metrics，而没有人知道该改哪一处")
+def rg20():
+    sys.path.insert(0, os.path.join(ROOT, "Tools", "fleet"))
+    import master_pulse as mp
+    dup = dup_stage_argv(mp.STAGES)
+    assert not dup, "重复登记：%s" % dup[:3]
+    # 负控：判据必须能抓到一对重复，并且不误伤不同工具
+    fake = [("a", ["Tools/x.py"], 1, {0}, False),
+            ("b", ["Tools/x.py", "--y"], 1, {0}, False),
+            ("c", ["Tools/z.py"], 1, {0}, False)]
+    d2 = dup_stage_argv(fake)
+    assert len(d2) == 1 and d2[0][:2] == ("a", "b"), "负控失败：%s" % d2
+    return "%d 个阶段跑 %d 个不同工具，无重复" % (
+        len(mp.STAGES), len({str(t[1][0]) for t in mp.STAGES}))
+
+
+@case("RG-21", "每个阶段必须留下「最后一次真跑」的记录",
+      "PULSE.json 每轮整份覆盖、慢批每 300 秒只跑一部分，于是「某阶段三小时没跑」"
+      "在盘上根本查不到；ops_metrics 重复登记与 verify_done 从未接线都活在这个盲区里")
+def rg21():
+    sys.path.insert(0, os.path.join(ROOT, "Tools", "fleet"))
+    import master_pulse as mp
+    names = {t[0] for t in mp.STAGES}
+    src = open(os.path.join(ROOT, "Tools", "fleet", "master_pulse.py"), encoding="utf-8").read()
+    assert "stage-last.json" in src, "脉没有写阶段执行记录（自证无据）"
+    assert "stage_liveness" in names, "阶段自证没有接在脉里"
+    p = os.path.join(ROOT, "cph4", "fleet", "state", "stage-last.json")
+    assert os.path.exists(p), "stage-last.json 不存在（还没有一轮完整的执行记录）"
+    rec = json.load(open(p, encoding="utf-8"))
+    unknown = sorted(set(rec) - names)
+    assert not unknown, "记录里有脉里不存在的阶段：%s" % unknown[:4]
+    assert len(rec) >= 20, "记录只覆盖 %d 个阶段，覆盖太窄等于没自证" % len(rec)
+    return "%d 个阶段有最后真跑记录（脉共 %d 个阶段）" % (len(rec), len(names))
+
+
+def dup_stage_names(stages):
+    seen, dup = set(), []
+    for s in stages:
+        n = s[0]
+        if n in seen:
+            dup.append(n)
+        seen.add(n)
+    return dup
+
+
+@case("RG-22", "阶段名不得重复（重复的名字会互相覆盖执行记录）",
+      "brain_service 与 brain_brief 都叫 brain，stages 是 dict，后者把前者结果覆盖掉，"
+      "于是其中一个跑没跑、成没成在盘上都查不到")
+def rg22():
+    sys.path.insert(0, os.path.join(ROOT, "Tools", "fleet"))
+    import master_pulse as mp
+    dup = dup_stage_names(mp.STAGES)
+    assert not dup, "阶段名重复：%s" % dup
+    assert dup_stage_names([("a", [], 1, {0}, False),
+                            ("a", [], 1, {0}, False)]), "负控失败：同名没被抓到"
+    return "%d 个阶段名互不重复" % len({t[0] for t in mp.STAGES})
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--json", action="store_true")
