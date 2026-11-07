@@ -404,8 +404,28 @@ def _bad_for(item, kind, reg):
     return None
 
 
+def have_tools():
+    """工具缺失 ≠ 判据失效：先分清是哪一种，否则会把"本机没 ffmpeg"报成 21 条假闸。"""
+    miss = []
+    for name, path in (("ffmpeg", FFMPEG), ("ffprobe", FFPROBE)):
+        try:
+            rc, _, _ = _run([path, "-version"], timeout=15)
+        except Exception:
+            rc = 127
+        if rc != 0:
+            miss.append(name)
+    return miss
+
+
 def selftest(verbose=True):
     """逐条判据：为它造专属反例，必须判 FAIL。拦不住的判据 = 假闸。"""
+    miss = have_tools()
+    if miss:
+        msg = ("本机缺 %s（PATH 与常见安装目录都没找到），无法造反例自证 → "
+               "换到有 ffmpeg 的机器跑，不要判成判据失效" % "、".join(miss))
+        if verbose:
+            print("[quality-selftest] BLOCKED: " + msg)
+        return 3, {"items": 0, "problems": ["E-NO-FFMPEG: " + msg], "missing_tools": miss}
     reg = registry()
     bad, checked = [], 0
     for key, spec in (reg.get("lines") or {}).items():

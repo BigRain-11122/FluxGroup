@@ -67,13 +67,22 @@ VOICE_MIN_LRA = 5.0
 
 
 def ff(name):
+    # 无人值守时 PATH 不含 ~/bin（实测本机 ffmpeg 就在那里），只查 PATH
+    # 会把"有工具"误判成"没有 ffmpeg"，卡片永远 BLOCKED。
     for c in (os.environ.get(name.upper()) or "", name):
         if not c:
             continue
         if os.path.isabs(c) and os.path.exists(c):
             return c
         if shutil.which(c):
-            return c
+            # 返回解析后的绝对路径：返回裸名字会让"能不能找到"看起来一样（RG-24 实锚）
+            return shutil.which(c)
+    exe = name + (".exe" if os.name == "nt" else "")
+    for d in (os.path.expanduser("~/bin"), "/opt/homebrew/bin", "/usr/local/bin",
+              r"C:\ffmpeg\bin", r"C:\Program Files\ffmpeg\bin"):
+        p = os.path.join(d, exe)
+        if os.path.exists(p):
+            return p
     return None
 
 

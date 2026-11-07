@@ -237,14 +237,28 @@ def cmd_verify(a):
         print("  根 %s：%d 条" % (k, v))
     for r in missing[:10]:
         print("  缺失：%s  %s" % (r["sha256"][:12], r.get("path")))
-    if missing:
-        return 2
-    if rebuildable:
+    rc = 2 if missing else (3 if rebuildable else 0)
+    if rc == 3:
         # 有派生物没落地：不是丢失，但也没到"齐"，用 rc=3 与"不可判定"区分开
         print("  提示：跑 `vault.py rebuild` 把这 %d 条从仓内 origin 落地到 primary 根"
               % len(rebuildable))
-        return 3
-    return 0
+    out = getattr(a, "json", "")
+    if out:
+        report = {
+            "ts": datetime.now().isoformat(timespec="seconds"),
+            "roots": roots, "rows": len(rows), "reachable": len(found),
+            "rebuildable": len(rebuildable), "snapshots": len(snapshots),
+            "missing": [{"sha256": r.get("sha256"), "path": r.get("path")}
+                        for r in missing],
+            "missing_count": len(missing),
+            "by_root": {k: v for k, v in by_root.items()},
+            "rc": rc,
+        }
+        os.makedirs(os.path.dirname(os.path.abspath(out)), exist_ok=True)
+        with open(out, "w", encoding="utf-8") as f:
+            json.dump(report, f, ensure_ascii=False, indent=1)
+        print("  回执：%s" % out)
+    return rc
 
 
 def cmd_rebuild(a):
@@ -304,7 +318,8 @@ def main(argv):
     ls.add_argument("--limit", type=int, default=20)
     fd = sub.add_parser("find")
     fd.add_argument("q")
-    sub.add_parser("verify")
+    vf = sub.add_parser("verify")
+    vf.add_argument("--json", default="", help="把核验结果写成 JSON 回执到该路径")
     rb = sub.add_parser("rebuild")
     rb.add_argument("--dry", action="store_true")
     a = ap.parse_args(argv)
