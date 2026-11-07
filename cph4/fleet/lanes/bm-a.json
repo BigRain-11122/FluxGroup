@@ -1,6 +1,6 @@
 {
  "node": "bm-a",
- "ts": "2026-11-08T04:56:22",
+ "ts": "2026-11-08T04:38:30",
  "jobs": [
   {
    "id": "bigstream-mv-gate-2026-11-08",
@@ -23,34 +23,6 @@
    "cwd": "",
    "needs": "cpu",
    "deliverable": "cph4/fleet/queue-receipts/game-packs-2026-11-08.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "AUD-GAME-20261108T012729-35",
-   "title": "提审缺口落单：TreasureDive",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game TreasureDive",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/TreasureDive.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "AUD-GAME-20261108T012729-36",
-   "title": "提审缺口落单：GhostMarshal",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game GhostMarshal",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/GhostMarshal.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -117,5 +89,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 30.5/1.0 GB"
+ "capacity_note": "ram 33.8/1.0 GB"
 }
