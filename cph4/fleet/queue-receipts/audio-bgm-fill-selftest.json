@@ -1,0 +1,25 @@
+{
+ "ts": "2026-11-07T15:01:37+08:00",
+ "node": "?",
+ "out_dir": "/Users/junsheng.sun/FluxAssets/incoming/audio-bgm",
+ "spec": "cph4/fleet/AUDIO-BGM-SPEC-v1.json",
+ "ready": 2,
+ "gaps": 0,
+ "results": [
+  {
+   "slug": "calm",
+   "status": "SKIP",
+   "dur_s": 97.454,
+   "file": "/Users/junsheng.sun/FluxAssets/incoming/audio-bgm/calm.mp3",
+   "detail": "already present and verified"
+  },
+  {
+   "slug": "epic",
+   "status": "SKIP",
+   "dur_s": 91.115,
+   "file": "/Users/junsheng.sun/FluxAssets/incoming/audio-bgm/epic.mp3",
+   "detail": "already present and verified"
+  }
+ ],
+ "rc": 0
+}
