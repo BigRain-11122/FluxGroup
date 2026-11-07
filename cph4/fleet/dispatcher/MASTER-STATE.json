@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-08T04:54:05",
- "cycle": 378,
+ "ts": "2026-11-08T04:59:15",
+ "cycle": 379,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-08T04:54:05",
+ "master_tick_ts": "2026-11-08T04:59:15",
  "queue": {
   "total": 1434,
   "open": 3,
@@ -14,10 +14,10 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 39.2,
-   "cpu_load_pct": 24,
-   "ram_free_gb": 34.9,
-   "gpu_util_pct": 56,
+   "hb_age_s": 50.5,
+   "cpu_load_pct": 17,
+   "ram_free_gb": 36.2,
+   "gpu_util_pct": 89,
    "job": "bigstream-mv-gate-2026-11-08",
    "last_result": {
     "job": null,
@@ -34,17 +34,17 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 1.9,
-   "cpu_load_pct": 39,
-   "ram_free_gb": 9.6,
-   "gpu_util_pct": 1,
+   "hb_age_s": 2.0,
+   "cpu_load_pct": 17,
+   "ram_free_gb": 8.7,
+   "gpu_util_pct": 90,
    "job": "AUD-GAME-20261108T044314-28",
    "last_result": {
-    "job": null,
-    "state": "IDLE",
-    "rc": null,
-    "ts": "2026-11-08T04:53:46",
-    "reason": "ALREADY-CLOSED R-TRIAGE-FLUXVERSE-BMB-20261108",
+    "job": "bigmoney-signal-2026-11-08",
+    "state": "FAILED",
+    "rc": 3,
+    "ts": "2026-11-08T04:58:48",
+    "reason": null,
     "out_bytes": null,
     "elapsed_s": null
    },
@@ -54,37 +54,37 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 36.0,
-   "cpu_load_pct": 26,
+   "hb_age_s": 52.6,
+   "cpu_load_pct": 18,
    "ram_free_gb": 0.7,
    "gpu_util_pct": 0,
    "job": null,
    "last_result": {
-    "job": "ASSET-GEN-TYPOGRAPHY-20261108",
-    "state": "DEFERRED",
+    "job": null,
+    "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-08T04:53:22",
-    "reason": "NO-RUNNABLE-ASSIGNMENT",
+    "ts": "2026-11-08T04:58:16",
+    "reason": "CAPACITY-BLOCKED-RAM ram 0.3/1.0 GB",
     "out_bytes": null,
     "elapsed_s": null
    },
-   "idle_confirmed": false,
+   "idle_confirmed": true,
    "idle_reason": "CAPACITY-BLOCKED-RAM ram 0.7/1.0 GB",
-   "idle_rounds": 0
+   "idle_rounds": 1
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 15.1,
-   "cpu_load_pct": 18,
-   "ram_free_gb": 12.4,
+   "hb_age_s": 16.0,
+   "cpu_load_pct": 6,
+   "ram_free_gb": 12.5,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
-    "job": "AUD-GAME-20261108T012729-34",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-08T04:53:54",
-    "reason": null,
+    "job": "AUD-GAME-20261108T012729-11",
+    "state": "DEFERRED",
+    "rc": null,
+    "ts": "2026-11-08T04:58:16",
+    "reason": "NO-RUNNABLE-ASSIGNMENT",
     "out_bytes": null,
     "elapsed_s": null
    },
@@ -96,7 +96,7 @@
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
-  "bm-c": 0,
+  "bm-c": 1,
   "bm-m": 0
  },
  "lines": {
@@ -849,14 +849,14 @@
   "gpu": 1
  },
  "supply_added": [],
- "events": [],
+ "events": [
+  "bigmoney-signal-2026-11-08 FAILED via bm-b"
+ ],
  "violations": [
   "bm-c CAPACITY-BLOCKED-RAM",
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
- "lane_files_written": [
-  "bm-c"
- ]
+ "lane_files_written": []
 }
