@@ -1,23 +1,23 @@
 {
- "ts": "2026-11-08T03:26:58",
- "cycle": 366,
+ "ts": "2026-11-08T03:29:17",
+ "cycle": 367,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-08T03:26:58",
+ "master_tick_ts": "2026-11-08T03:29:17",
  "queue": {
   "total": 1428,
   "open": 3,
-  "running": 10,
+  "running": 9,
   "done": 534,
   "failed": 6
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 30.3,
-   "cpu_load_pct": 71,
-   "ram_free_gb": 22.2,
-   "gpu_util_pct": 16,
+   "hb_age_s": 51.0,
+   "cpu_load_pct": 61,
+   "ram_free_gb": 25.9,
+   "gpu_util_pct": 88,
    "job": "bigstream-mv-gate-2026-11-08",
    "last_result": {
     "job": null,
@@ -34,16 +34,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 3.4,
-   "cpu_load_pct": 14,
-   "ram_free_gb": 8.4,
+   "hb_age_s": 7.0,
+   "cpu_load_pct": 12,
+   "ram_free_gb": 9.8,
    "gpu_util_pct": 1,
    "job": "bigmoney-signal-2026-11-08",
    "last_result": {
-    "job": "AUD-GAME-20261108T030701-28",
+    "job": "bigmoney-signal-2026-11-08",
     "state": "RUNNING",
     "rc": null,
-    "ts": "2026-11-08T03:26:50",
+    "ts": "2026-11-08T03:29:12",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -54,17 +54,17 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": -0.7,
-   "cpu_load_pct": 23,
-   "ram_free_gb": 1.3,
+   "hb_age_s": 52.4,
+   "cpu_load_pct": 26,
+   "ram_free_gb": 1.2,
    "gpu_util_pct": 0,
    "job": "R-TRIAGE-BIGGAME-BMC-20261108",
    "last_result": {
-    "job": "R-TRIAGE-BIGGAME-BMC-20261108",
-    "state": "DEFERRED",
-    "rc": null,
-    "ts": "2026-11-08T03:26:51",
-    "reason": "NO-RUNNABLE-ASSIGNMENT",
+    "job": "R-TRIAGE-BIGMONEY-BMC-20261108",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-08T03:28:47",
+    "reason": null,
     "out_bytes": null,
     "elapsed_s": null
    },
@@ -74,30 +74,30 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 19.7,
+   "hb_age_s": 15.3,
    "cpu_load_pct": 9,
    "ram_free_gb": 13.4,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
-    "job": "AUD-GAME-20261108T012729-26",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-08T03:26:48",
-    "reason": null,
+    "job": null,
+    "state": "IDLE",
+    "rc": null,
+    "ts": "2026-11-08T03:28:55",
+    "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
-   "idle_confirmed": false,
+   "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 0
+   "idle_rounds": 1
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 0
+  "bm-m": 1
  },
  "lines": {
   "bigstream-mv": {
@@ -286,8 +286,7 @@
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
    "jobs": [
-    "R-TRIAGE-BIGGAME-BMC-20261108",
-    "R-TRIAGE-BIGMONEY-BMC-20261108"
+    "R-TRIAGE-BIGGAME-BMC-20261108"
    ],
    "no_supply": false,
    "blockers": [],
@@ -842,9 +841,9 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 3,
+  "local": 2,
   "cloud": 0,
-  "queue": 0,
+  "queue": 1,
   "blocked": 0,
   "cloud_spend_today": 0,
   "waste": []
@@ -853,15 +852,9 @@
   "cpu": 2,
   "gpu": 1
  },
- "supply_added": [
-  "backlog_manifest+1"
- ],
+ "supply_added": [],
  "events": [
-  "R-TRIAGE-BIGGAME-BMC-20261108 DEFERRED by bm-c",
-  "bigmoney-signal-2026-11-08 -> bm-b (cpu)",
-  "AUD-GAME-20261108T030701-27 -> bm-c (cpu)",
-  "R-TRIAGE-BIGGAME-BMC-20261108 -> bm-c (cpu)",
-  "R-TRIAGE-BIGMONEY-BMC-20261108 -> bm-c (cpu)"
+  "R-TRIAGE-BIGMONEY-BMC-20261108 UNVERIFIED(no-artifact-yet) via bm-c"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
@@ -869,7 +862,6 @@
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
  "lane_files_written": [
-  "bm-b",
   "bm-c"
  ]
 }
