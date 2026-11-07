@@ -1,0 +1,39 @@
+{
+ "_comment": "服务等级与度量口径 v1（2026-11-07）。补的是「允许坏多少」这一维：过去只有二元绿，偶发失败与系统性劣化分不开。SLI 一律由盘上事实算，模型不参与；窗口默认 7 天滚动。",
+ "version": "v1-20261107",
+ "window_days": 7,
+ "services": [
+  {"id": "dispatch", "name": "派卡成交",
+   "sli": "有 owner 的卡里 DONE 且交付物可判的比例",
+   "slo": 0.90, "why": "派出去的卡能变成产物，是最核心的一条"},
+  {"id": "execution", "name": "执行成功",
+   "sli": "回执 rc=0 的占比（只看有回执的执行）",
+   "slo": 0.88, "why": "rc 非零多半是缺输入或卡缺陷，不全是执行方问题"},
+  {"id": "pulse", "name": "脉轮次健康",
+   "sli": "无阶段异常（rc 不在 ok_rc 或超时）的轮次占比",
+   "slo": 0.95, "why": "控制面稳定是一切的前提"},
+  {"id": "sync", "name": "同步成功",
+   "sli": "git 拉取与推送均成功的轮次占比",
+   "slo": 0.85, "why": "分叉期间机队拿不到码，这条低就是投码断了"},
+  {"id": "demand", "name": "需求机检通过",
+   "sli": "OK / (OK + GAP)，人判项不计入",
+   "slo": 0.90, "why": "CEO 命令的可核验兑现率"}
+ ],
+ "burn_rate": {
+  "fast": {"multiple": 10, "window_min": 5, "action": "立即告警：突发劣化"},
+  "slow": {"multiple": 6, "window_h": 1, "action": "警告：持续吃预算"},
+  "why": "Google SRE Workbook 的快燃/慢燃两档：只报影响，不报噪音"
+ },
+ "quality_rubric": {
+  "items": ["字段齐（交付物/验收/命令三样）", "可复现（卡上有 cmd）", "有证据（回执含 rc）", "新鲜（产物 mtime 与完成时间相差 <1h）"],
+  "scale": "0-4 分，低于 2 分判低质，只提示不阻断",
+  "why": "rc=0 且文件存在仍可能是垃圾：外部调研的「故障藏在 200 背后」"
+ },
+ "cost": {
+  "local_cny_per_min": 0.02,
+  "why": "本地机时也要计价，否则「免费」会让重活无成本地堆积；数值待实测校准（电费+折旧）",
+  "attrib_by": ["line", "stage"]
+ },
+ "board": "cph4/fleet/OPS-METRICS.md",
+ "state": "cph4/fleet/state/ops-metrics.json"
+}
