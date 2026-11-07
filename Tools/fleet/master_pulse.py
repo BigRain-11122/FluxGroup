@@ -649,8 +649,16 @@ def pull_if_clean(last_ts=0.0) -> str:
     # "Diverging branches can't be fast-forwarded"），不靠字符串猜，直接试收口。
     if "Not possible to fast-forward" in msg or "diverg" in msg or "fetch first" in msg \
             or "rejected" in msg or "cannot" in msg.lower():
-        rb = rebase_generated()
-        return "ok(divergence-resolved)" if rb == "ok" else "%s:%s" % (rb, msg)
+        # 分叉处理（2026-11-07 修死锁）：本脉每轮都提交自己的产物，所以永远 ahead>0，
+        # 纯 ff-only 必然失败 → 永远拉不到远端。rebase 被 C-20261104 禁止，
+        # 故改用「受控 merge」：--no-commit 先试，冲突立刻 abort 并如实报告，
+        # 绝不留下冲突标记（那会让队列静默少看卡）。
+        m = git(["merge", "--no-edit", "--no-commit", "origin/main"], timeout=120)
+        if m.returncode == 0:
+            git(["commit", "-q", "-m", "pulse: merge origin/main (divergence)"], timeout=60)
+            return "ok(merged-divergence)"
+        git(["merge", "--abort"], timeout=60)
+        return "merge-conflict:%s" % _one_line(m.stderr or m.stdout, 100)
     return "failed:%s" % msg
 
 
