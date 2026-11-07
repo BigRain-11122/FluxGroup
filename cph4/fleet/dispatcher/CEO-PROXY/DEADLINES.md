@@ -506,3 +506,5 @@ am_free_gb=10+cpu_load_pct=48——**bm-b 不是闲着，是在跑量化轮**；
 **本班边界**：不重复判旗、不重复派卡；唯一实质动作=修「队列被整文件覆盖」这一使 append 派发凭空消失的写手缺陷，并把救援卡重新 append 回 origin。
 
 | **【修法验证】第三次抹卡=bm-m ROOT 陈旧致修法空转（P1·waiting-CEO·bm-m 本机）** | **registered（本席已停手）** | 三次实测：ce524cf21→抹、4aec20ac2→抹（702afaccd 00:58，父链含修法提交）、ee9639199(01:01)+立即 poke→100 秒内被 ffb3d208c 抹掉。机理=`state_push.py` 的 reset --hard 只对隔离工作树 `.fluxgroup-state-wt` 生效，**执行的是 ROOT 工作树里的脚本**；ROOT 不前进=旧行为（本地陈旧队列整文件覆盖 origin）。逻辑自证=用 origin 版模块对真实 blob 复算（80a2bf064 ∪ 5023fd112）→卡在、零丢 id、零重复。解闸（bm-m 本机一次）：`cd <root> && git fetch origin && git reset --mixed origin/main && git status` → 下一次 state_push 即按 id 合并。**禁继续重投该卡**（无效 churn；bm-c RAM 2.1-2.5G 且 char-gen 在跑，非阻断）。 |
+
+| **【口径更正】R15「修法空转」定性** | **corrected** | 早前写「bm-m ROOT 工作树陈旧」属过度断言：可证的只有①抹卡提交的父链都含「含卡」提交（bm-m 看得见卡）②随后按本地快照整文件重写；「为何拿到新提交仍跑旧逻辑」未取证（ROOT 未更新／长驻进程加载旧副本 皆可能）。第 5 次复现：`16e5f3a4e`(01:12:32)+poke 01:12:40 → 01:15:19 复查已丢。新增防线 `d659f51e68`：读不到 origin 时保留 origin 版（原为退回本地覆盖）。 |
