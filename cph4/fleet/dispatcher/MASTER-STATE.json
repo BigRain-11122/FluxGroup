@@ -1,20 +1,20 @@
 {
- "ts": "2026-11-07T19:26:04",
- "cycle": 172,
+ "ts": "2026-11-07T19:27:32",
+ "cycle": 173,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-07T19:26:04",
+ "master_tick_ts": "2026-11-07T19:27:32",
  "queue": {
   "total": 1268,
-  "open": 3,
+  "open": 4,
   "running": 3,
   "done": 479,
-  "failed": 33
+  "failed": 32
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 7.0,
+   "hb_age_s": 94.6,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -26,7 +26,7 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 7.0,
+   "hb_age_s": 97.6,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -38,9 +38,9 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 0.0,
+   "hb_age_s": 88.2,
    "cpu_load_pct": null,
-   "ram_free_gb": 2.5,
+   "ram_free_gb": null,
    "gpu_util_pct": null,
    "job": "REMOTE-CLOSEOUT-bm-c-20261107",
    "last_result": null,
@@ -50,9 +50,9 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 79.4,
-   "cpu_load_pct": null,
-   "ram_free_gb": null,
+   "hb_age_s": 102.2,
+   "cpu_load_pct": 49,
+   "ram_free_gb": 10.6,
    "gpu_util_pct": null,
    "job": null,
    "last_result": null,
@@ -258,6 +258,7 @@
    "stale_after_h": 72.0,
    "owner": "资产席",
    "jobs": [
+    "asset-lib-asset-gen-2026-11-07",
     "asset-lib-face-caption-2026-11-07"
    ],
    "no_supply": false,
@@ -802,27 +803,23 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 3,
+  "local": 2,
   "cloud": 0,
-  "queue": 0,
+  "queue": 2,
   "blocked": 0,
   "cloud_spend_today": 0,
   "waste": []
  },
  "supply_gap": {
   "cpu": 2,
-  "gpu": 1
+  "gpu": 2
  },
  "supply_added": [],
- "events": [
-  "REMOTE-CLOSEOUT-bm-c-20261107 -> bm-c (cpu)"
- ],
+ "events": [],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
- "lane_files_written": [
-  "bm-c"
- ]
+ "lane_files_written": []
 }
