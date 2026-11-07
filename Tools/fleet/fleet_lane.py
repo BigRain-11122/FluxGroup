@@ -55,19 +55,31 @@ LANES = {
              "enabled": True, "ram_gb": 94, "vram_gb": 12, "cuda": True,
              "os": "windows",
              "caps": ["cpu", "kf768", "i2v768", "audio", "assemble", "llm"],
-             "llm": {"endpoint": "http://127.0.0.1:11434", "fallback": "http://100.75.133.10:11434"},
+             "llm": {"endpoint": "http://127.0.0.1:11434",
+                     # 跨机一律走网关（8792）：裸 11434 无认证无白名单，任何机器
+                     # 都能要求 35B 或把对照档拉起来顶掉常驻（2026-11-08 实锚）。
+                     "fallback": "http://100.75.133.10:8792",
+                     "token_env": "FLUX_LLM_TOKEN"},
              "roles": "hq-central night gpu", "game_launch_ok": False},
     "bm-b": {"name_cn": "小钢炮", "needs": ["cpu", "gpu"], "ram_floor_gb": 2.0, "gpu_hours": None,
              "enabled": True, "ram_gb": 24, "vram_gb": 8, "cuda": True,
              "os": "windows",
              "caps": ["cpu", "animatic480", "audio", "tts", "llm"],
-             "llm": {"endpoint": "http://127.0.0.1:11434", "fallback": "http://100.75.133.10:11434"},
+             "llm": {"endpoint": "http://127.0.0.1:11434",
+                     # 跨机一律走网关（8792）：裸 11434 无认证无白名单，任何机器
+                     # 都能要求 35B 或把对照档拉起来顶掉常驻（2026-11-08 实锚）。
+                     "fallback": "http://100.75.133.10:8792",
+                     "token_env": "FLUX_LLM_TOKEN"},
              "roles": "cpu sound / small gpu", "game_launch_ok": False},
     "bm-c": {"name_cn": "传家宝", "needs": ["cpu", "gpu"], "ram_floor_gb": 3.0, "gpu_hours": None,
              "enabled": True, "ram_gb": 24, "vram_gb": 16, "cuda": True,
              "os": "windows",
              "caps": ["cpu", "kf768", "i2v768", "audio", "render", "llm"],
-             "llm": {"endpoint": "http://127.0.0.1:11434", "fallback": "http://100.75.133.10:11434"},
+             "llm": {"endpoint": "http://127.0.0.1:11434",
+                     # 跨机一律走网关（8792）：裸 11434 无认证无白名单，任何机器
+                     # 都能要求 35B 或把对照档拉起来顶掉常驻（2026-11-08 实锚）。
+                     "fallback": "http://100.75.133.10:8792",
+                     "token_env": "FLUX_LLM_TOKEN"},
              "roles": "gpu production", "game_launch_ok": False},
     # bm-m is a full agent, not a thin client: M1 Pro 32GB runs local models (MLX/Ollama),
     # so it takes text work as well as iOS builds. No CUDA, so never a GPU job.
@@ -91,7 +103,11 @@ LANES = {
              "ram_gb": 256, "vram_gb": 48, "cuda": True,
              "os": "windows",
              "caps": ["cpu", "kf768", "i2v768", "backtest", "brain", "llm"],
-             "llm": {"endpoint": "http://127.0.0.1:11434", "fallback": "http://100.75.133.10:11434"},
+             "llm": {"endpoint": "http://127.0.0.1:11434",
+                     # 跨机一律走网关（8792）：裸 11434 无认证无白名单，任何机器
+                     # 都能要求 35B 或把对照档拉起来顶掉常驻（2026-11-08 实锚）。
+                     "fallback": "http://100.75.133.10:8792",
+                     "token_env": "FLUX_LLM_TOKEN"},
              "roles": "brain / backtest / batch", "game_launch_ok": False},
 }
 

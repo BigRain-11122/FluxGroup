@@ -18787,3 +18787,34 @@
 {"cls": "master", "op": "generate", "err": "timed out", "why": "fleet_brain:pick", "ts": "2026-11-08T00:42:30"}
 {"cls": "master", "op": "generate", "err": "timed out", "why": "master-digest", "ts": "2026-11-08T00:43:42"}
 {"cls": "big", "op": "generate", "err": "timed out", "why": "", "ts": "2026-11-08T00:43:54"}
+{"cls": "big", "op": "generate", "err": "timed out", "why": "", "ts": "2026-11-08T00:44:26"}
+{"cls": "big", "op": "generate", "err": "HTTP Error 500: Internal Server Error", "why": "", "ts": "2026-11-08T00:44:41"}
+{"cls": "big", "op": "generate", "err": "HTTP Error 500: Internal Server Error", "why": "", "ts": "2026-11-08T00:44:41"}
+{"cls": "big", "op": "generate", "err": "timed out", "why": "", "ts": "2026-11-08T00:45:46"}
+{"cls": "big", "op": "generate", "err": "Remote end closed connection without response", "why": "", "ts": "2026-11-08T00:45:48"}
+{"cls": "big", "op": "generate", "err": "Remote end closed connection without response", "why": "", "ts": "2026-11-08T00:45:48"}
+{"cls": "big", "op": "generate", "err": "<urlopen error [Errno 61] Connection refused>", "why": "", "ts": "2026-11-08T00:45:48"}
+{"cls": "master", "op": "generate", "err": "Remote end closed connection without response", "why": "fleet_brain:pick", "ts": "2026-11-08T00:45:48"}
+{"cls": "big", "op": "generate", "err": "<urlopen error [Errno 61] Connection refused>", "why": "", "ts": "2026-11-08T00:45:48"}
+{"cls": "big", "op": "generate", "err": "<urlopen error [Errno 61] Connection refused>", "why": "", "ts": "2026-11-08T00:45:48"}
+{"cls": "big", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 62.3, "chars": 47, "why": "", "ts": "2026-11-08T00:47:07"}
+{"cls": "big", "op": "generate", "err": "Remote end closed connection without response", "why": "", "ts": "2026-11-08T00:47:28"}
+{"cls": "big", "op": "generate", "err": "<urlopen error [Errno 61] Connection refused>", "why": "", "ts": "2026-11-08T00:47:28"}
+{"cls": "big", "op": "generate", "err": "<urlopen error [Errno 61] Connection refused>", "why": "", "ts": "2026-11-08T00:47:28"}
+{"cls": "big", "op": "generate", "err": "<urlopen error [Errno 61] Connection refused>", "why": "", "ts": "2026-11-08T00:47:28"}
+{"cls": "big", "op": "generate", "err": "<urlopen error [Errno 61] Connection refused>", "why": "", "ts": "2026-11-08T00:47:28"}
+{"cls": "big", "op": "generate", "err": "<urlopen error [Errno 61] Connection refused>", "why": "", "ts": "2026-11-08T00:47:28"}
+{"cls": "big", "op": "generate", "err": "<urlopen error [Errno 61] Connection refused>", "why": "", "ts": "2026-11-08T00:47:28"}
+{"cls": "big", "op": "generate", "err": "<urlopen error [Errno 61] Connection refused>", "why": "", "ts": "2026-11-08T00:47:28"}
+{"cls": "big", "op": "generate", "err": "<urlopen error [Errno 61] Connection refused>", "why": "", "ts": "2026-11-08T00:47:28"}
+{"cls": "big", "op": "generate", "err": "<urlopen error [Errno 61] Connection refused>", "why": "", "ts": "2026-11-08T00:47:28"}
+{"cls": "big", "op": "generate", "err": "<urlopen error [Errno 61] Connection refused>", "why": "", "ts": "2026-11-08T00:47:28"}
+{"cls": "big", "op": "generate", "err": "<urlopen error [Errno 61] Connection refused>", "why": "", "ts": "2026-11-08T00:47:28"}
+{"cls": "big", "op": "generate", "err": "<urlopen error [Errno 61] Connection refused>", "why": "", "ts": "2026-11-08T00:47:28"}
+{"cls": "big", "op": "generate", "err": "<urlopen error [Errno 61] Connection refused>", "why": "", "ts": "2026-11-08T00:47:28"}
+{"cls": "big", "op": "generate", "err": "<urlopen error [Errno 61] Connection refused>", "why": "", "ts": "2026-11-08T00:47:28"}
+{"cls": "big", "op": "generate", "err": "<urlopen error [Errno 61] Connection refused>", "why": "", "ts": "2026-11-08T00:47:28"}
+{"cls": "big", "op": "generate", "err": "<urlopen error [Errno 61] Connection refused>", "why": "", "ts": "2026-11-08T00:47:28"}
+{"cls": "big", "op": "generate", "err": "<urlopen error [Errno 61] Connection refused>", "why": "", "ts": "2026-11-08T00:47:28"}
+{"cls": "big", "op": "generate", "err": "<urlopen error [Errno 61] Connection refused>", "why": "", "ts": "2026-11-08T00:47:28"}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 42.1, "chars": 55, "why": "fleet_brain:pick", "ts": "2026-11-08T00:48:29"}

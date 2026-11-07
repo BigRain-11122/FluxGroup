@@ -526,6 +526,30 @@ def rg27():
     return "在飞命令跳过，重复命令只留一张"
 
 
+@case("RG-28", "机队调本地模型必须过网关：令牌/白名单/驻留策略",
+      "裸 11434 无认证无白名单：任何机器都能要 35B 或把对照档拉起来顶掉常驻"
+      "（2026-11-08 实锚：13GB 越界模型把主力挤到不可用）")
+def rg28():
+    sys.path.insert(0, os.path.join(ROOT, "Tools", "fleet"))
+    import llm_gateway as gw
+    allow = gw.allowlist()
+    assert allow, "网关白名单为空（等于把模型全关掉）"
+    # 封存档与对照档绝不许放出：35B 驻留即 swap，对照档会顶掉常驻
+    for bad in ("qwen3.5:35b-a3b", "qwen3:4b-instruct"):
+        assert bad not in allow, "越界模型被放进白名单：%s" % bad
+    # 策略强制：远端无权把模型钉死
+    for m, spec in allow.items():
+        assert str(spec.get("keep_alive") or ""), "%s 没有强制 keep_alive" % m
+        assert int(spec.get("num_ctx") or 0) > 0, "%s 没有 num_ctx 上限" % m
+    plist = os.path.expanduser("~/Library/LaunchAgents/com.fluxgroup.llmgateway.plist")
+    if os.path.exists(plist):
+        txt = open(plist, encoding="utf-8").read()
+        assert "llm_gateway.py" in txt, "网关服务没有指向 llm_gateway.py"
+    src = open(os.path.join(ROOT, "Tools", "fleet", "fleet_lane.py"), encoding="utf-8").read()
+    assert "8792" in src, "机队跨机端点没有指向网关"
+    return "白名单 %d 个模型，封存/对照档已排除，跨机端点走 8792" % len(allow)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--json", action="store_true")
