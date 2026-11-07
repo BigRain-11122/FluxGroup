@@ -52,7 +52,9 @@ HOT_PREFIXES = ("cph4/fleet/lanes/", "cph4/fleet/PRODUCTION-QUEUE.jsonl",
 
 # (name, argv, timeout_s, ok_rc, slow)
 STAGES = [
-    ("hb", ["Tools/fleet/fleet_hb.py", "--node", NODE, "--root", ROOT], 60, {0}, False),
+    ("hb", ["Tools/fleet/fleet_hb.py", "--node", NODE, "--root", ROOT], 60, {0, 2}, False),
+    # rc=2 = LOKAL-ONLY（hub 不可达，心跳没发出去）：这是链路告警不是工具坏，
+    # 计入 ok_rc 才不会每轮被当成阶段故障（2026-11-07 实测 hub 长期不可达）。
     # 产物回传（2026-11-04）：基础设施动作按节拍跑，不进抢车道的队列排序。
     # 非 Windows 直接跳过；Windows 一天一次，产物落 cph4/fleet/artifacts/<node>/PUSHED.jsonl。
     ("artifact_push", ["Tools/fleet/artifact_push_stage.py"], 3600, {0, 1, 3}, False),

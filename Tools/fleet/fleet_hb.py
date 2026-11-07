@@ -102,9 +102,12 @@ def probe_offset(hub, port, samples=5):
     # 先做一次短超时可达性探针（2026-11-07 实测）：hub 不通时 5 个样本 × 3s 连接超时
     # 会让本阶段每轮白等 ~20s 再 HB-FAIL——心跳是最高频阶段，不该为一条死链付这个钱。
     # 不通就直接返回空，由调用方记 DEGRADED，一次 1.5s 结束。
+    # 注意：光 TCP 连上不能算通——实测 tailnet 上 create_connection 会成功，
+    # 但服务器不回 NATS INFO，握手仍要耗满 Nats() 内的多次超时。所以这里做的是
+    # 一次真实握手探针（1.5s 封顶），任何异常直接返回空。
     try:
-        _probe = socket.create_connection((hub, port), timeout=1.5)
-        _probe.close()
+        _probe = Nats(hub, port, timeout=1.5)
+        _probe.sock.close()
     except Exception:
         return vals
     # One connection per sample: a reused connection drifts out of sync on the
@@ -337,6 +340,15 @@ def main():
     state.update(host_stats(a.node, a.root))
     payload = json.dumps(state, ensure_ascii=False, separators=(",", ":"))
 
+    # hub 不可达时，Nats() 内部分步超时累计可到十几秒（实测 hb 27s/轮），而心跳本身
+    # 是最高频阶段。先做 1.5s 可达性判定：不通就当场记 LOKAL-ONLY 并返回 2（告警级），
+    # 不把节拍交给一条死链。
+    try:
+        _p = socket.create_connection((a.hub, a.port), timeout=1.5)
+        _p.close()
+    except Exception:
+        print("HB-LOKAL-ONLY hub %s:%s unreachable (no retry this round)" % (a.hub, a.port))
+        return 2
     try:
         c = Nats(a.hub, a.port, timeout=5.0)
         c.publish("$KV.FLEET_STATE.state.%s" % a.node, payload)
