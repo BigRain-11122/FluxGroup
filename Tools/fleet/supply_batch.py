@@ -99,7 +99,7 @@ def build_cards():
         n += 1
         cards.append({"id": "AUD-SOFT-%s-%02d" % (stamp, n),
                       "title": "软著材料清点：%s" % name,
-                      "cmd": "python3 Tools/fleet/supply_batch.py --audit soft %s" % name,
+                      "cmd": "python Tools/fleet/supply_batch.py --audit soft %s" % name,
                       "cwd": ROOT, "needs": "cpu", "minutes": 1, "heavy": False,
                       "requires": [os.path.join("软著申请材料", name)],
                       "deliverable": out,
@@ -116,7 +116,7 @@ def build_cards():
                 continue
             cards.append({"id": "AUD-GAME-%s-%02d" % (stamp, i),
                           "title": "提审缺口落单：%s" % name,
-                          "cmd": "python3 Tools/fleet/supply_batch.py --audit game %s" % name,
+                          "cmd": "python Tools/fleet/supply_batch.py --audit game %s" % name,
                           "cwd": ROOT, "needs": "cpu", "minutes": 1, "heavy": False,
                           "requires": ["cph4/fleet/game-v1/SUBMIT-PACK-20261105.json"],
                           "deliverable": out,

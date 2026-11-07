@@ -1,0 +1,213 @@
+{
+ "_note": "分线质量判据 v1（2026-11-07 立）。每条判据必须有可执行的反例（negative control）：反例必须判 FAIL，否则这条闸是假的，quality_agents.py --selftest 会报 vc-fake。改阈值改这里，不要改代码。",
+ "version": 1,
+ "why": "CEO「给各个业务和研发提升质量的智能体，要先进可靠」：可靠的前提是判据能拦人。分线判据 + 反例自证 + 历史漂移，才算质量席，不是又一份报告。",
+ "lines": {
+  "content-mv": {
+   "name": "MV / 短剧 / 漫剧（影片类）",
+   "artifact": "video",
+   "items": [
+    {
+     "id": "VD-01",
+     "metric": "duration_s",
+     "op": ">=",
+     "value": 30,
+     "why": "成片时长下限：低于 30 秒不是作品而是片段"
+    },
+    {
+     "id": "VD-02",
+     "metric": "height_px",
+     "op": ">=",
+     "value": 720,
+     "why": "交付分辨率不低于 720p"
+    },
+    {
+     "id": "VD-03",
+     "metric": "has_audio",
+     "op": "==",
+     "value": true,
+     "why": "MV/漫剧必须有声轨（静默成片=漏装配）"
+    },
+    {
+     "id": "VD-04",
+     "metric": "black_ratio",
+     "op": "<=",
+     "value": 0.25,
+     "why": "黑场占比过高=素材没接上或渲染失败"
+    },
+    {
+     "id": "VD-05",
+     "metric": "bitrate_kbps",
+     "op": ">=",
+     "value": 800,
+     "why": "码率过低在平台二次压缩后会糊"
+    }
+   ],
+   "globs": [
+    "media/drama-eps/**/*.mp4",
+    "cph4/fleet/mv0001*/outbound/**/*.mp4",
+    "media/*.mp4"
+   ]
+  },
+  "content-image": {
+   "name": "关键帧 / 美术图（图像类）",
+   "artifact": "image",
+   "items": [
+    {
+     "id": "IM-01",
+     "metric": "min_side_px",
+     "op": ">=",
+     "value": 512,
+     "why": "短边小于 512 无法进 i2v 或做 UI"
+    },
+    {
+     "id": "IM-02",
+     "metric": "aspect_in_set",
+     "op": "==",
+     "value": true,
+     "why": "关键帧只收 16:9 / 9:16；但道具/图标类允许方图，故此项为建议项不硬拦",
+     "mandatory": false
+    },
+    {
+     "id": "IM-03",
+     "metric": "file_kb",
+     "op": ">=",
+     "value": 20,
+     "why": "<20KB 通常是纯色/占位图"
+    },
+    {
+     "id": "IM-04",
+     "metric": "unique_color_ratio",
+     "op": ">=",
+     "value": 0.05,
+     "why": "颜色种类过少=空白图或单色错误帧"
+    }
+   ],
+   "globs": [
+    "media/**/*.png",
+    "cph4/fleet/archive/**/*.png"
+   ]
+  },
+  "game-build": {
+   "name": "小游戏 / 车机包（构建类）",
+   "artifact": "build",
+   "items": [
+    {
+     "id": "GB-01",
+     "metric": "entry_exists",
+     "op": "==",
+     "value": true,
+     "why": "缺入口清单=包不可启动"
+    },
+    {
+     "id": "GB-02",
+     "metric": "total_mb",
+     "op": "<=",
+     "value": 200,
+     "why": "小游戏首包上限（超过要拆分包）"
+    },
+    {
+     "id": "GB-03",
+     "metric": "total_mb",
+     "op": ">=",
+     "value": 0.5,
+     "why": "小于 0.5MB 多半是空构建"
+    },
+    {
+     "id": "GB-04",
+     "metric": "broken_refs",
+     "op": "==",
+     "value": 0,
+     "why": "入口清单里引用了不存在的文件=白包"
+    }
+   ],
+   "globs": [
+    "gaming/**/Build",
+    "gaming/**/build",
+    "Build",
+    "build"
+   ]
+  },
+  "bigmoney-quant": {
+   "name": "量化回测（报告类）",
+   "artifact": "report",
+   "items": [
+    {
+     "id": "QT-01",
+     "metric": "has_fields",
+     "op": "==",
+     "value": true,
+     "why": "必须含 sharpe / max_drawdown / trades / benchmark / period"
+    },
+    {
+     "id": "QT-02",
+     "metric": "trades",
+     "op": ">=",
+     "value": 30,
+     "why": "样本过少的收益率没有统计意义"
+    },
+    {
+     "id": "QT-03",
+     "metric": "period_days",
+     "op": ">=",
+     "value": 365,
+     "why": "回测期不足一年无法跨市场状态"
+    },
+    {
+     "id": "QT-04",
+     "metric": "has_benchmark",
+     "op": "==",
+     "value": true,
+     "why": "没有基准的超额收益无法判断是策略还是 Beta"
+    }
+   ],
+   "globs": [
+    "quant/**/reports/*.json",
+    "cph4/fleet/archive/**/*backtest*.json"
+   ]
+  },
+  "doc-report": {
+   "name": "调研 / 方案（文档类）",
+   "artifact": "doc",
+   "items": [
+    {
+     "id": "DC-01",
+     "metric": "sections",
+     "op": ">=",
+     "value": 3,
+     "why": "少于 3 个小节通常是口号而非分析"
+    },
+    {
+     "id": "DC-02",
+     "metric": "placeholder_hits",
+     "op": "==",
+     "value": 0,
+     "why": "含 TODO/TBD/待补/占位=未完工"
+    },
+    {
+     "id": "DC-03",
+     "metric": "chars",
+     "op": ">=",
+     "value": 800,
+     "why": "过短无法支撑结论"
+    },
+    {
+     "id": "DC-04",
+     "metric": "evidence_links",
+     "op": ">=",
+     "value": 1,
+     "why": "无任何可核验引用=结论无据"
+    }
+   ],
+   "globs": [
+    "cph4/fleet/CROSS-MACHINE-EXEC-v1.md",
+    "docs/*.md"
+   ]
+  }
+ },
+ "thresholds": {
+  "pass_score": 0.8,
+  "drift_drop_pct": 15,
+  "history_keep": 60
+ }
+}

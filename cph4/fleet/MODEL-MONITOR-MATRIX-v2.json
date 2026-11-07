@@ -1,0 +1,109 @@
+{
+ "_comment": "本地模型分工矩阵 v3（2026-11-07 CEO「好好想一下用哪些大模型常驻，能跑顺现在的规则」）。结论=**大模型常驻**：8B 与 4B、向量三档同时驻留 11.0GB（实测），难活不再临时装卸。",
+ "version": "v3-20261107",
+ "host": "bm-m · 32GB 统一内存（与 CEO 办公应用共用同一池）",
+ "principle": "按时长分档，不按'越大越好'：高频短判断用小模型常驻，主力判断用 4B 常驻，难判断才临时拉 8B 并立刻卸。常驻三档加起来的预算必须给办公留够余量。",
+ "tiers": {
+  "triage": {
+   "role": "快车道：归类、打标、过筛、抽一个短字段",
+   "model": "qwen3:1.7b",
+   "num_ctx": 4096,
+   "keep_alive": "25m",
+   "resident": true,
+   "measured_gb": 1.5,
+   "why": "高频归类走它，亚秒级；四档常驻合计约 13.1GB，仍在 16GB 预算内"
+  },
+  "resident": {
+   "role": "主力：摘要、抽字段、写一句理由、判定短文本",
+   "model": "qwen3.5:4b-mlx",
+   "num_ctx": 8192,
+   "keep_alive": "15m",
+   "resident": true,
+   "measured_gb": 4.1,
+   "measured_tok_s": "38-40",
+   "why": "黄金集 6/8，速度是 8B 的两倍；ctx 8192 后实测常驻 4.1GB"
+  },
+  "embedding": {
+   "role": "语义判重 / 检索 / 向量",
+   "model": "qwen3-embedding:0.6b",
+   "keep_alive": "30m",
+   "resident": true,
+   "measured_gb": 1.0
+  },
+  "cloud": {
+   "role": "本地无能力 / 本地全排满且卡下游 / 需要更强推理",
+   "when": "见 AUTONOMY-CONFIG.cloud",
+   "cap_cny_per_day": 100
+  },
+  "big": {
+   "_why": "难活常驻档：质量复核、长文改写、代码审查、创意文案。实测与 4B/向量共存 11.0GB，不挤占。",
+   "role": "难活：质量复核/长文改写/代码/创意",
+   "model": "qwen3:8b",
+   "num_ctx": 8192,
+   "keep_alive": "30m",
+   "resident": true,
+   "measured_gb": 5.9,
+   "measured_note": "ctx8192 时 5.9GB；ctx4096 时 5.2GB。代码题实测一次给对（重复 id 检查函数）"
+  }
+ },
+ "routing": {
+  "triage": [
+   "triage",
+   "class",
+   "classify",
+   "tag",
+   "quick",
+   "filter"
+  ],
+  "big": [
+   "deep",
+   "review",
+   "code",
+   "rewrite",
+   "longform",
+   "creative"
+  ],
+  "resident": [
+   "*其余*"
+  ]
+ },
+ "budget": {
+  "resident_gb_limit": 16.0,
+  "peak_gb_limit": 20.0,
+  "office_reserve_gb": 4.0,
+  "resident_set": [
+   "big",
+   "resident",
+   "triage",
+   "embedding"
+  ],
+  "rule": "四档常驻 ≤16GB；硬性前提 OLLAMA_MAX_LOADED_MODELS ≥ 档数（3 会互驱逐）"
+ },
+ "swap": {
+  "order": [
+   "triage",
+   "big",
+   "resident",
+   "embedding"
+  ],
+  "_comment": "内存告急时先卸快车道（装载 8s，最便宜），大档最后动"
+ },
+ "measured": {
+  "at": "2026-11-07T20:4x",
+  "resident_3tier_gb": 11.0,
+  "detail": [
+   "四档跨脉存活实测 14.6GB：8B 5.9 + 4B 4.7 + 1.7B 1.5 + emb 1.0",
+   "两分钟窗口换出 25 页（≈12 页/分，护栏上限 120 页/分）→ 没有拿硬盘当内存",
+   "OLLAMA_MAX_LOADED_MODELS 必须 ≥4（=3 时第 4 档必挤掉一档）",
+   "主控脉两处曾按『swap 账上 >2GB / 单模型 >8GB』卸模型，导致反复冷加载 20-40s；已改为按换页速率"
+  ],
+  "code_probe": "8B 生成 jsonl 重复 id 检查函数，一次正确",
+  "resident_4tier_gb": 14.6
+ },
+ "forbidden": [
+  "常驻任何 30B 级以上模型（24GB 即触发 swap，CEO 明令不许硬扛 swap）",
+  "把数字类判断交给 1.7B/4B/8B（历史上 4B 算术两次全错：220-116-6 答成 100/104）",
+  "在 swap>0 时装载 on_demand",
+  "同时驻留 4B 与 8B 却不释放 triage"
+ ]
+}

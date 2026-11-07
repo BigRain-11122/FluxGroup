@@ -19,7 +19,8 @@ import urllib.request
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 FLEET = os.path.join(ROOT, "cph4", "fleet")
-MATRIX = os.path.join(FLEET, "MODEL-MONITOR-MATRIX-v1.json")
+MATRIX_V2 = os.path.join(FLEET, "MODEL-MONITOR-MATRIX-v2.json")
+MATRIX = MATRIX_V2 if os.path.exists(MATRIX_V2) else os.path.join(FLEET, "MODEL-MONITOR-MATRIX-v1.json")
 LOCAL = os.path.join(FLEET, "LOCAL-MODEL-POLICY.json")
 out_board = os.path.join(FLEET, "MODEL-PLAN.md")
 
@@ -54,10 +55,12 @@ def main():
         return 2
 
     duties = lp.get("duties") or {}
-    known = {((duties.get(k) or {}).get("model") or "").strip()
-             for k in ("resident", "embedding", "longform", "sealed", "alternative")}
+    # 白名单取自"策略文件里所有座位声明的模型"，不再手写座位名——
+    # 手写名单会漏（加了 triage/on_demand 后本项立刻误报 E-NAME）。
+    known = {((v or {}).get("model") or "").strip()
+             for v in duties.values() if isinstance(v, dict)}
     known.discard("")
-    seats = mx.get("seats") or {}
+    seats = mx.get("tiers") or mx.get("seats") or {}
     budget = mx.get("budget") or {}
     warns, errs = [], []
 
@@ -66,6 +69,29 @@ def main():
         m = str((s or {}).get("model") or "").strip()
         if m and m not in known:
             errs.append("E-NAME: 座位 %s 的模型 %s 不在 LOCAL-MODEL-POLICY（单一源）" % (sid, m))
+
+    # 1b) 分档规格（v2）：三档常驻必须齐；按需档必须用完即卸
+    if mx.get("tiers"):
+        want_res = (budget.get("resident_set") or ["big", "resident", "embedding"])
+        for need in want_res:
+            if need not in (mx.get("tiers") or {}):
+                errs.append("E-TIER: 缺常驻档 %s（只剩单一大模型=CEO 明确反对）" % need)
+        # 加载槽位必须 ≥ 常驻档数，否则新档进来会挤掉旧档（实测 3 槽挤掉 8B）
+        try:
+            env_txt = subprocess.run(["ps", "-E", "-p",
+                                      subprocess.run(["pgrep", "-f", "ollama serve"],
+                                                     capture_output=True, text=True).stdout.split()[0]],
+                                     capture_output=True, text=True, timeout=10).stdout
+            _m = re.search(r"OLLAMA_MAX_LOADED_MODELS=(\d+)", env_txt)
+            if _m and int(_m.group(1)) < len(want_res):
+                errs.append("E-SLOTS: OLLAMA_MAX_LOADED_MODELS=%s 小于常驻档数 %d（会互相驱逐）"
+                            % (_m.group(1), len(want_res)))
+        except Exception:
+            pass
+        for k, t in (mx.get("tiers") or {}).items():
+            if t.get("resident") is False and str(t.get("keep_alive")) not in ("0", "0s"):
+                errs.append("E-KEEPALIVE: %s 非常驻却 keep_alive=%s（会悄悄占住常驻）"
+                            % (k, t.get("keep_alive")))
 
     # 2) P0 必须有降级
     for t in mx.get("tasks") or []:
@@ -80,8 +106,10 @@ def main():
         warns.append("W-OLLAMA: 读不到驻留（%s），本项跳过" % live.get("_error"))
     else:
         peak = round(sum(x["gb"] for x in live), 1)
-        cap = float(budget.get("resident_cap_gb") or 8.0)
-        hard = float(budget.get("peak_cap_gb") or 10.0)
+        cap = float(budget.get("resident_gb_limit")
+                    or budget.get("resident_cap_gb") or 11.0)
+        hard = float(budget.get("peak_gb_limit")
+                     or budget.get("peak_cap_gb") or 16.0)
         if peak > hard:
             errs.append("E-MEM: 驻留 %.1fGB 超峰值上限 %.1fGB" % (peak, hard))
         elif peak > cap:
@@ -93,7 +121,8 @@ def main():
     verdict = "FAIL" if errs else ("WARN" if warns else "PASS")
     L = ["# 模型排班 %s" % __import__("time").strftime("%Y-%m-%dT%H:%M:%S"), ""]
     L.append("判据：**%s**｜常驻上限 %sGB / 峰值 %sGB / 办公预留 %sGB"
-             % (verdict, budget.get("resident_cap_gb"), budget.get("peak_cap_gb"),
+             % (verdict, budget.get("resident_gb_limit") or budget.get("resident_cap_gb"),
+                budget.get("peak_gb_limit") or budget.get("peak_cap_gb"),
                 budget.get("office_reserve_gb")))
     L.append("")
     L.append("## 现在驻留")
