@@ -31,8 +31,25 @@ ROOT = os.path.dirname(os.path.dirname(HERE))
 F = os.path.join(ROOT, "cph4", "fleet")
 REG = os.path.join(F, "QUALITY-AGENTS-v1.json")
 STATE = os.path.join(F, "state", "quality")
-FFPROBE = os.environ.get("FFPROBE") or "ffprobe"
-FFMPEG = os.environ.get("FFMPEG") or "ffmpeg"
+def _tool(name):
+    """找一个真能跑的可执行文件（launchd 的 PATH 不含 ~/bin，实测把 ffmpeg 判成缺失）。"""
+    import shutil
+    cand = os.environ.get(name.upper()) or ""
+    if cand and os.path.exists(cand):
+        return cand
+    hit = shutil.which(name)
+    if hit:
+        return hit
+    for d in (os.path.expanduser("~/bin"), "/opt/homebrew/bin", "/usr/local/bin",
+              r"C:\ffmpeg\bin", r"C:\Program Files\ffmpeg\bin"):
+        p2 = os.path.join(d, name + (".exe" if os.name == "nt" else ""))
+        if os.path.exists(p2):
+            return p2
+    return name
+
+
+FFPROBE = _tool("ffprobe")
+FFMPEG = _tool("ffmpeg")
 
 
 def now():

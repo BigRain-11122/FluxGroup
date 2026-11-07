@@ -103,6 +103,31 @@ def main(argv):
         copied = sync_into_worktree()
         rc, dirty, _ = sh(["git", "status", "--porcelain"], cwd=WT)
         if not dirty.strip():
+            # 2026-11-08 假绿修复：状态面没变化 ≠ 已同步。以前到这里直接 return 0，
+            # 而主工作树可能有未推的提交（实测：报"1429 个文件已同步"，实际本地领先
+            # origin 2 个提交、机队拿不到新代码/新卡）——ops_metrics 的"同步成功 0%"就是这个。
+            rc, ahead, _ = sh(["git", "rev-list", "--count", "origin/main..HEAD"], cwd=ROOT)
+            rc2, behind, _ = sh(["git", "rev-list", "--count", "HEAD..origin/main"], cwd=ROOT)
+            try:
+                n_ahead, n_behind = int((ahead or "0").strip()), int((behind or "0").strip())
+            except Exception:
+                n_ahead = n_behind = 0
+            if n_ahead and not n_behind:
+                if a.dry:
+                    print("[state-push] would push %d pending commit(s)" % n_ahead)
+                    return 0
+                rc3, out3, err3 = sh(["git", "push", "-q", "origin", "HEAD:main"], cwd=ROOT)
+                if rc3 == 0:
+                    print("[state-push] 补推 %d 个未推提交（状态面本已同步，%d 个文件）"
+                          % (n_ahead, copied))
+                    return 0
+                print("[state-push] 补推失败(%d 提交):%s" % (n_ahead, (err3 or out3)[:160]))
+                return 2
+            if n_ahead and n_behind:
+                # 既领先又落后：不在共享工作树里 rebase（会与脉/并发车道抢树），显式报出。
+                print("[state-push] DIVERGED 本地领先 %d / 落后 %d，未自动处理"
+                      % (n_ahead, n_behind))
+                return 2
             print("[state-push] 无状态变化（%d 个文件已同步）" % copied)
             return 0
         if a.dry:
