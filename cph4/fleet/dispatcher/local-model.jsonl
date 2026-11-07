@@ -18818,3 +18818,14 @@
 {"cls": "big", "op": "generate", "err": "<urlopen error [Errno 61] Connection refused>", "why": "", "ts": "2026-11-08T00:47:28"}
 {"cls": "big", "op": "generate", "err": "<urlopen error [Errno 61] Connection refused>", "why": "", "ts": "2026-11-08T00:47:28"}
 {"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 42.1, "chars": 55, "why": "fleet_brain:pick", "ts": "2026-11-08T00:48:29"}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 22.5, "chars": 144, "why": "master-digest", "ts": "2026-11-08T00:50:47"}
+{"cls": "big", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 43.5, "chars": 658, "why": "", "ts": "2026-11-08T00:52:15"}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 34.0, "chars": 56, "why": "fleet_brain:pick", "ts": "2026-11-08T00:52:16"}
+{"cls": "big", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 11.4, "chars": 289, "why": "", "ts": "2026-11-08T00:52:26"}
+{"cls": "big", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 12.4, "chars": 700, "why": "", "ts": "2026-11-08T00:52:39"}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 1.4, "chars": 53, "why": "fleet_brain:pick", "ts": "2026-11-08T01:05:39"}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 4.4, "chars": 116, "why": "master-digest", "ts": "2026-11-08T01:07:38"}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 1.4, "chars": 55, "why": "fleet_brain:pick", "ts": "2026-11-08T01:08:24"}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 5.1, "chars": 147, "why": "master-digest", "ts": "2026-11-08T01:14:19"}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 4.1, "chars": 99, "why": "master-digest", "ts": "2026-11-08T01:14:36"}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 4.0, "chars": 101, "why": "master-digest", "ts": "2026-11-08T01:14:52"}
