@@ -93,6 +93,10 @@ def build_cards():
     for name in sorted(os.listdir(SOFT_ROOT)) if os.path.isdir(SOFT_ROOT) else []:
         if not os.path.isdir(os.path.join(SOFT_ROOT, name)):
             continue
+        # 跳过非产品目录：__pycache__、_已封存_*、_报审提交区 之类会被误判成"缺件 4 类"，
+        # 让"还缺材料"这件事失真（实测 3 条假缺件全是这类目录）。
+        if name.startswith("_"):
+            continue
         out = os.path.join("cph4", "fleet", "audits", "soft", name + ".json")
         if os.path.exists(os.path.join(ROOT, out)):
             continue
