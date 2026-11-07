@@ -1,12 +1,12 @@
 {
- "ts": "2026-11-07T19:29:12",
- "cycle": 174,
+ "ts": "2026-11-07T19:31:42",
+ "cycle": 176,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-07T19:29:12",
+ "master_tick_ts": "2026-11-07T19:31:42",
  "queue": {
   "total": 1268,
-  "open": 4,
+  "open": 5,
   "running": 3,
   "done": 479,
   "failed": 32
@@ -14,7 +14,7 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 197.4,
+   "hb_age_s": 342.1,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -26,7 +26,7 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 197.4,
+   "hb_age_s": 347.7,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -38,7 +38,7 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 188.0,
+   "hb_age_s": 338.3,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -50,9 +50,9 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 269.9,
-   "cpu_load_pct": null,
-   "ram_free_gb": null,
+   "hb_age_s": 349.8,
+   "cpu_load_pct": 49,
+   "ram_free_gb": 10.6,
    "gpu_util_pct": null,
    "job": null,
    "last_result": null,
@@ -803,7 +803,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 2,
+  "local": 3,
   "cloud": 0,
   "queue": 2,
   "blocked": 0,
@@ -811,7 +811,7 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 2,
+  "cpu": 3,
   "gpu": 2
  },
  "supply_added": [],
