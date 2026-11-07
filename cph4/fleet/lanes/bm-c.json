@@ -1,6 +1,6 @@
 {
  "node": "bm-c",
- "ts": "2026-11-08T01:17:00",
+ "ts": "2026-11-08T01:37:55",
  "jobs": [
   {
    "id": "ROLL-bmc-000533",
@@ -29,9 +29,65 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
+  },
+  {
+   "id": "AUD-GAME-20261108T012729-27",
+   "title": "提审缺口落单：ExileFarm",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game ExileFarm",
+   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/audits/game/ExileFarm.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "AUD-GAME-20261108T012729-28",
+   "title": "提审缺口落单：ArrowOut",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game ArrowOut",
+   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/audits/game/ArrowOut.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "AUD-GAME-20261108T012729-29",
+   "title": "提审缺口落单：LanternSlayer",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game LanternSlayer",
+   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/audits/game/LanternSlayer.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "AUD-GAME-20261108T012729-30",
+   "title": "提审缺口落单：FateGate",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game FateGate",
+   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/audits/game/FateGate.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 1.0/1.0 GB"
+ "capacity_note": "ram 3.1/1.0 GB"
 }
