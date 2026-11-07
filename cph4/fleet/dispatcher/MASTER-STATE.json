@@ -1,20 +1,20 @@
 {
- "ts": "2026-11-07T19:23:55",
- "cycle": 167,
+ "ts": "2026-11-07T19:26:04",
+ "cycle": 172,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-07T19:23:55",
+ "master_tick_ts": "2026-11-07T19:26:04",
  "queue": {
   "total": 1268,
   "open": 3,
-  "running": 4,
+  "running": 3,
   "done": 479,
-  "failed": 32
+  "failed": 33
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 0.8,
+   "hb_age_s": 7.0,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -26,7 +26,7 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 0.8,
+   "hb_age_s": 7.0,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -38,11 +38,11 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 812.0,
+   "hb_age_s": 0.0,
    "cpu_load_pct": null,
-   "ram_free_gb": null,
+   "ram_free_gb": 2.5,
    "gpu_util_pct": null,
-   "job": "asset-lib-asset-gen-2026-11-07",
+   "job": "REMOTE-CLOSEOUT-bm-c-20261107",
    "last_result": null,
    "idle_confirmed": false,
    "idle_reason": "",
@@ -50,14 +50,14 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 16.5,
-   "cpu_load_pct": 31,
-   "ram_free_gb": 10.7,
+   "hb_age_s": 79.4,
+   "cpu_load_pct": null,
+   "ram_free_gb": null,
    "gpu_util_pct": null,
-   "job": "REMOTE-CLOSEOUT-bm-c-20261107",
+   "job": null,
    "last_result": null,
    "idle_confirmed": false,
-   "idle_reason": "",
+   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
    "idle_rounds": 0
   }
  },
@@ -258,7 +258,6 @@
    "stale_after_h": 72.0,
    "owner": "资产席",
    "jobs": [
-    "asset-lib-asset-gen-2026-11-07",
     "asset-lib-face-caption-2026-11-07"
    ],
    "no_supply": false,
@@ -816,9 +815,7 @@
  },
  "supply_added": [],
  "events": [
-  "REMOTE-CLOSEOUT-bm-a-20261107 -> bm-a (cpu)",
-  "REMOTE-CLOSEOUT-bm-b-20261107 -> bm-b (cpu)",
-  "REMOTE-CLOSEOUT-bm-c-20261107 -> bm-m (cpu)"
+  "REMOTE-CLOSEOUT-bm-c-20261107 -> bm-c (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
@@ -826,8 +823,6 @@
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
  "lane_files_written": [
-  "bm-a",
-  "bm-b",
-  "bm-m"
+  "bm-c"
  ]
 }
