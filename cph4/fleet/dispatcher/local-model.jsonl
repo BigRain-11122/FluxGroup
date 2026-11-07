@@ -18682,3 +18682,20 @@
 {"cls": "big", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 12.1, "chars": 663, "why": "", "ts": "2026-11-08T00:29:40"}
 {"cls": "big", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 10.6, "chars": 661, "why": "", "ts": "2026-11-08T00:29:50"}
 {"cls": "big", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 14.1, "chars": 687, "why": "", "ts": "2026-11-08T00:30:05"}
+{"cls": "big", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 13.4, "chars": 759, "why": "", "ts": "2026-11-08T00:30:25"}
+{"cls": "master", "op": "generate", "err": "timed out", "why": "fleet_brain:pick", "ts": "2026-11-08T00:31:12"}
+{"cls": "big", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 63.7, "chars": 635, "why": "", "ts": "2026-11-08T00:31:29"}
+{"cls": "big", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 10.5, "chars": 561, "why": "", "ts": "2026-11-08T00:31:39"}
+{"cls": "big", "op": "generate", "err": "Remote end closed connection without response", "why": "", "ts": "2026-11-08T00:32:35"}
+{"cls": "big", "op": "generate", "err": "<urlopen error [Errno 61] Connection refused>", "why": "", "ts": "2026-11-08T00:32:35"}
+{"cls": "big", "op": "generate", "err": "<urlopen error [Errno 61] Connection refused>", "why": "", "ts": "2026-11-08T00:32:35"}
+{"cls": "big", "op": "generate", "err": "<urlopen error [Errno 61] Connection refused>", "why": "", "ts": "2026-11-08T00:32:35"}
+{"cls": "big", "op": "generate", "err": "<urlopen error [Errno 61] Connection refused>", "why": "", "ts": "2026-11-08T00:32:35"}
+{"cls": "big", "op": "generate", "err": "<urlopen error [Errno 61] Connection refused>", "why": "", "ts": "2026-11-08T00:32:35"}
+{"cls": "big", "op": "generate", "err": "<urlopen error [Errno 61] Connection refused>", "why": "", "ts": "2026-11-08T00:32:35"}
+{"cls": "big", "op": "generate", "err": "<urlopen error [Errno 61] Connection refused>", "why": "", "ts": "2026-11-08T00:32:35"}
+{"cls": "big", "op": "generate", "err": "<urlopen error [Errno 61] Connection refused>", "why": "", "ts": "2026-11-08T00:32:35"}
+{"cls": "big", "op": "generate", "err": "<urlopen error [Errno 61] Connection refused>", "why": "", "ts": "2026-11-08T00:32:35"}
+{"cls": "big", "op": "generate", "err": "<urlopen error [Errno 61] Connection refused>", "why": "", "ts": "2026-11-08T00:32:35"}
+{"cls": "big", "op": "generate", "err": "<urlopen error [Errno 61] Connection refused>", "why": "", "ts": "2026-11-08T00:32:35"}
+{"cls": "master", "op": "generate", "err": "Remote end closed connection without response", "why": "master-digest", "ts": "2026-11-08T00:32:35"}
