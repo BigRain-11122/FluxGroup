@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-05T00:19:34+0800",
+ "ts": "2026-11-07T22:55:05+0800",
  "owner": "bm-b（传家宝）· 归集与 git 备份",
  "skills": {
   "count": 49,
@@ -15,7 +15,7 @@
  },
  "voice": {
   "audio_files": 5,
-  "blocked_receipts": 1,
+  "blocked_receipts": 2,
   "dirs_present": [
    "cph4/fleet/voicebank",
    "media/asset/inbox"
@@ -24,7 +24,7 @@
  },
  "workflow": {
   "line_tables": 6,
-  "stage_rows": 42,
+  "stage_rows": 39,
   "recipes": [
    "content.yaml",
    "game.yaml",
@@ -33,7 +33,7 @@
   "detail": [
    {
     "line": "asset-lib",
-    "stages": 18,
+    "stages": 15,
     "parallel": false
    },
    {
@@ -64,19 +64,19 @@
   ]
  },
  "experience": {
-  "docs": 73,
-  "sections": 385,
+  "docs": 85,
+  "sections": 437,
   "top": [
    "cph4\\fleet\\asset-lib-v1\\ASSET-LIB-BUILD-v1.md",
    "cph4\\fleet\\asset-lib-v1\\ASSET-LIBRARY-PLAN-v1.md",
    "cph4\\fleet\\asset-lib-v1\\SOURCES-V1.md",
+   "cph4\\fleet\\ARCHIVE-LEDGER.jsonl",
    "cph4\\fleet\\BACKLOG-LEDGER-20261103.md",
    "cph4\\fleet\\CEO-DEFECT-LEDGER-v1.md",
-   "cph4\\fleet\\CONTENT-WINS-LEDGER-v1.md",
-   "cph4\\fleet\\INCIDENT-LEDGER.md",
-   "cph4\\fleet\\LAB-TOOL-LEDGER.jsonl"
+   "cph4\\fleet\\CEO-DEMAND-LEDGER-v1.json",
+   "cph4\\fleet\\CONTENT-WINS-LEDGER-v1.md"
   ],
-  "newest": "2026-11-05 00:00"
+  "newest": "2026-11-07 22:54"
  },
  "vault": {
   "entries": 651,
@@ -88,8 +88,8 @@
   "index": "cph4\\fleet\\vault\\index.jsonl"
  },
  "produced": {
-  "done_with_deliverable": 185,
-  "on_disk": 157,
+  "done_with_deliverable": 490,
+  "on_disk": 290,
   "absent": [
    {
     "id": "Q-MV-0001-003",
@@ -172,10 +172,10 @@
     "deliverable": "K:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/bm-c-gpu-lease-receipt.md"
    }
   ],
-  "absent_count": 28
+  "absent_count": 200
  },
  "gaps": [
-  "28 张 DONE 卡的交产物不在盘",
+  "200 张 DONE 卡的交产物不在盘",
   "651 条 vault 登记指向不存在的文件"
  ]
 }
