@@ -1,14 +1,14 @@
 {
  "node": "bm-c",
- "ts": "2026-11-07T11:39:10",
+ "ts": "2026-11-07T11:42:34",
  "jobs": [
   {
-   "id": "asset-lib-face-dataset-2026-11-07",
-   "title": "[资产储备（角色 LoRA / 音色库）] 人脸数据集准入（反 AI 脸的第一道门）",
-   "cmd": "python Tools/fleet/asset_dataset_audit.py --mode face --dir media/asset/faces --out cph4/fleet/queue-receipts/asset-face-2026-11-07.json",
+   "id": "asset-lib-char-prompts-2026-11-07",
+   "title": "[资产储备（角色 LoRA / 音色库）] 角色包出图计划（8 原创角色 × 6 视角提示词包）",
+   "cmd": "python Tools/fleet/char_plan.py",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/asset-face-2026-11-07.json",
+   "deliverable": "cph4/fleet/queue-receipts/char-gen-plan-2026-11-07.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 2.9/1.0 GB"
+ "capacity_note": "ram 3.5/1.0 GB"
 }
