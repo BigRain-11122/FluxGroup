@@ -2,7 +2,7 @@
  "id": "VAULT-VERIFY-20261107",
  "node": "bm-m",
  "rc": 2,
- "seconds": 0.2,
+ "seconds": 0.1,
  "cmd": "python3 Tools/fleet/vault.py verify --json cph4/fleet/queue-receipts/vault-verify-20261107.json",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": "E-CONTRACT",
  "deliverable": "cph4/fleet/queue-receipts/vault-verify-20261107.json",
  "deliverable_exists": false,
- "ts": "2026-11-07T23:23:55",
+ "ts": "2026-11-07T23:25:00",
  "stdout_tail": "",
  "stderr_tail": "usage: vault.py [-h] {add,list,find,verify,rebuild} ...\nvault.py: error: unrecognized arguments: --json cph4/fleet/queue-receipts/vault-verify-20261107.json\n"
 }
