@@ -1,32 +1,32 @@
 {
- "ts": "2026-11-07T14:01:49",
- "cycle": 21,
+ "ts": "2026-11-07T14:04:43",
+ "cycle": 22,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-07T14:01:49",
+ "master_tick_ts": "2026-11-07T14:04:43",
  "queue": {
   "total": 1266,
-  "open": 5,
-  "running": 0,
+  "open": 3,
+  "running": 2,
   "done": 471,
   "failed": 32
  },
  "lanes": {
   "bm-a": {
-   "online": false,
-   "hb_age_s": null,
+   "online": true,
+   "hb_age_s": 159.3,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
-   "job": null,
+   "job": "biggame-pack-scan-2026-11-07",
    "last_result": null,
    "idle_confirmed": false,
-   "idle_reason": "CAPACITY-BLOCKED-RAM OFFLINE (hb age Nones)",
+   "idle_reason": "",
    "idle_rounds": 0
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 368.4,
+   "hb_age_s": 549.8,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -37,35 +37,22 @@
    "idle_rounds": 0
   },
   "bm-c": {
-   "online": false,
-   "hb_age_s": null,
+   "online": true,
+   "hb_age_s": 165.3,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
-   "job": null,
+   "job": "asset-lib-face-dataset-2026-11-07",
    "last_result": null,
    "idle_confirmed": false,
-   "idle_reason": "CAPACITY-BLOCKED-RAM OFFLINE (hb age Nones)",
-   "idle_rounds": 0
-  },
-  "bm-m": {
-   "online": true,
-   "hb_age_s": 212.3,
-   "cpu_load_pct": 34,
-   "ram_free_gb": 12.0,
-   "gpu_util_pct": null,
-   "job": null,
-   "last_result": null,
-   "idle_confirmed": false,
-   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+   "idle_reason": "",
    "idle_rounds": 0
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
-  "bm-c": 0,
-  "bm-m": 0
+  "bm-c": 0
  },
  "lines": {
   "bigstream-mv": {
@@ -801,7 +788,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 5,
+  "local": 3,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -809,14 +796,15 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 4,
+  "cpu": 2,
   "gpu": 1
  },
  "supply_added": [],
- "events": [],
+ "events": [
+  "asset-lib-face-dataset-2026-11-07 -> bm-c (cpu)",
+  "biggame-pack-scan-2026-11-07 -> bm-a (cpu)"
+ ],
  "violations": [
-  "bm-a OFFLINE",
-  "bm-c OFFLINE",
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
