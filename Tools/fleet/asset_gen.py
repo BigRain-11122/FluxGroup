@@ -189,11 +189,16 @@ def submit_and_save(cg, server, graph, target, matte=False):
     if not pid:
         return False
     h = {}
-    for _ in range(180):
+    for i in range(180):
         time.sleep(2)
         h = cg.http_json(server + "/history/" + str(pid), timeout=15) or {}
         if pid in h:
             break
+        # stdout 就是执行器的进度信号：静默等待会被 closer 判 30min STALL 并杀线
+        if i and i % 15 == 0:
+            print("WAIT pid=%s elapsed=%ds" % (pid, (i + 1) * 2), flush=True)
+    if pid not in h:
+        print("TIMEOUT pid=%s after 360s (comfy history empty)" % pid, flush=True)
     node_out = (h.get(pid) or {}).get("outputs") or {}
     for v in node_out.values():
         for im in v.get("images") or []:

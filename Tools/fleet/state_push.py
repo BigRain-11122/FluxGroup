@@ -141,7 +141,15 @@ def sync_into_worktree():
             continue
         with open(src, "rb") as fh:
             local = fh.read()
-        merged = merge_jsonl(origin_blob(rel), local)
+        ob = origin_blob(rel)
+        if not ob:
+            # Never fall back to "local wins" when origin is unreadable
+            # (partial/promisor clone, transient git error): that is exactly
+            # how appended cards disappeared. Keep origin's copy instead.
+            print("[state-push] W-SKIP-NO-ORIGIN %s（保留 origin 版，不覆盖）" % rel)
+            n += 1
+            continue
+        merged = merge_jsonl(ob, local)
         os.makedirs(os.path.dirname(dst), exist_ok=True)
         with open(dst, "wb") as fh:
             fh.write(merged)
