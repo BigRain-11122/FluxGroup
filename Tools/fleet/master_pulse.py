@@ -657,6 +657,14 @@ def pull_if_clean(last_ts=0.0) -> str:
         # 故改用「受控 merge」：--no-commit 先试，冲突立刻 abort 并如实报告，
         # 绝不留下冲突标记（那会让队列静默少看卡）。
         m = git(["merge", "--no-edit", "--no-commit", "origin/main"], timeout=120)
+        if m.returncode != 0 and "would be overwritten" in (m.stderr or "").lower():
+            # 脉自己刚写的生成态挡住了 merge。这些文件可重生成，先对齐 origin 再试一次；
+            # 只处理 merge 点名的路径，绝不整树 checkout。
+            import re as _re
+            names = _re.findall(r"^\s+(\S+)\s*$", m.stderr or "", _re.M)
+            if names:
+                git(["checkout", "origin/main", "--"] + names, timeout=60)
+                m = git(["merge", "--no-edit", "--no-commit", "origin/main"], timeout=120)
         if m.returncode == 0:
             git(["commit", "-q", "-m", "pulse: merge origin/main (divergence)"], timeout=60)
             return "ok(merged-divergence)"
