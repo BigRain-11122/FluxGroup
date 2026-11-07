@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-08T04:40:57",
- "cycle": 375,
+ "ts": "2026-11-08T04:43:12",
+ "cycle": 376,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-08T04:40:57",
+ "master_tick_ts": "2026-11-08T04:43:12",
  "queue": {
   "total": 1433,
   "open": 3,
@@ -14,10 +14,10 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 30.4,
-   "cpu_load_pct": 65,
-   "ram_free_gb": 34.7,
-   "gpu_util_pct": 62,
+   "hb_age_s": 45.9,
+   "cpu_load_pct": 24,
+   "ram_free_gb": 37.5,
+   "gpu_util_pct": 68,
    "job": "bigstream-mv-gate-2026-11-08",
    "last_result": {
     "job": null,
@@ -34,16 +34,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 4.3,
-   "cpu_load_pct": 10,
-   "ram_free_gb": 8.8,
+   "hb_age_s": 8.9,
+   "cpu_load_pct": 1,
+   "ram_free_gb": 8.1,
    "gpu_util_pct": 1,
-   "job": "AUD-GAME-20261108T043743-28",
+   "job": "bigmoney-signal-2026-11-08",
    "last_result": {
-    "job": "bigmoney-signal-2026-11-08",
+    "job": "AUD-GAME-20261108T043743-28",
     "state": "FAILED",
-    "rc": 3,
-    "ts": "2026-11-08T04:40:48",
+    "rc": 2,
+    "ts": "2026-11-08T04:42:48",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -54,50 +54,50 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 77.2,
-   "cpu_load_pct": 14,
-   "ram_free_gb": 1.4,
-   "gpu_util_pct": 0,
-   "job": null,
-   "last_result": {
-    "job": "R-TRIAGE-RECON-BMA-20261108",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-08T04:40:03",
-    "reason": null,
-    "out_bytes": null,
-    "elapsed_s": null
-   },
-   "idle_confirmed": false,
-   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 0
-  },
-  "bm-m": {
-   "online": true,
-   "hb_age_s": 15.6,
-   "cpu_load_pct": 17,
-   "ram_free_gb": 12.6,
-   "gpu_util_pct": null,
+   "hb_age_s": 63.3,
+   "cpu_load_pct": 26,
+   "ram_free_gb": 1.6,
+   "gpu_util_pct": 3,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-08T04:40:39",
+    "ts": "2026-11-08T04:42:02",
     "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 3
+   "idle_rounds": 1
+  },
+  "bm-m": {
+   "online": true,
+   "hb_age_s": 11.3,
+   "cpu_load_pct": 17,
+   "ram_free_gb": 12.4,
+   "gpu_util_pct": null,
+   "job": null,
+   "last_result": {
+    "job": null,
+    "state": "IDLE",
+    "rc": null,
+    "ts": "2026-11-08T04:42:41",
+    "reason": "SELF-DISPATCH: lane scans its own backlog",
+    "out_bytes": null,
+    "elapsed_s": null
+   },
+   "idle_confirmed": true,
+   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+   "idle_rounds": 4
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
-  "bm-c": 0,
-  "bm-m": 3
+  "bm-c": 1,
+  "bm-m": 4
  },
  "lines": {
   "bigstream-mv": {
@@ -169,7 +169,6 @@
     "R-NEXT-BIGGAME-SUBMIT-P-20261108",
     "AUD-GAME-20261108T043743-09",
     "AUD-GAME-20261108T043743-25",
-    "AUD-GAME-20261108T043743-28",
     "AUD-GAME-20261108T043743-33"
    ],
    "no_supply": false,
@@ -197,8 +196,10 @@
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "量化席",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "bigmoney-signal-2026-11-08"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": "2026-11-04 夜班重启：原回测阶段钉 bm-d，而 bm-d 自 10-29 离线；改由 bm-b（有 quant 仓与数据）出「下月持仓信号 CSV」，主控按 P1 恢复派单。",
    "stuck_stage": "quant-data",
@@ -850,16 +851,16 @@
  },
  "supply_added": [],
  "events": [
-  "bigmoney-signal-2026-11-08 FAILED via bm-b"
+  "AUD-GAME-20261108T043743-28 FAILED via bm-b",
+  "bigmoney-signal-2026-11-08 -> bm-b (cpu)"
  ],
  "violations": [
-  "bm-m IDLE-CONFIRMED x3 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-m IDLE-CONFIRMED x4 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
  "lane_files_written": [
-  "bm-b",
-  "bm-c"
+  "bm-b"
  ]
 }
