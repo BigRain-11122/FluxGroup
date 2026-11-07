@@ -1,6 +1,6 @@
 {
  "node": "bm-a",
- "ts": "2026-11-08T01:57:59",
+ "ts": "2026-11-08T01:37:55",
  "jobs": [
   {
    "id": "bigstream-mv-gate-2026-11-08",
@@ -23,20 +23,6 @@
    "cwd": "",
    "needs": "cpu",
    "deliverable": "cph4/fleet/queue-receipts/game-packs-2026-11-08.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "asset-lib-voice-corpus-2026-11-08",
-   "title": "[资产储备（角色 LoRA / 音色库）] 音色语料工程（一卡全量·持料机 bm-a）",
-   "cmd": "python Tools/fleet/voice_corpus_prep.py --inbox media/asset/inbox --group batch-2026-11-08 --shard 0/1 --receipt cph4/fleet/queue-receipts/voice-corpus-2026-11-08.json",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/voice-corpus-2026-11-08.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -113,9 +99,23 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
+  },
+  {
+   "id": "AUD-GAME-20261108T012729-36",
+   "title": "提审缺口落单：GhostMarshal",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game GhostMarshal",
+   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/audits/game/GhostMarshal.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 32.5/1.0 GB"
+ "capacity_note": "ram 27.8/1.0 GB"
 }
