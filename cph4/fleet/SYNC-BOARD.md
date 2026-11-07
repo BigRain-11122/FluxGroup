@@ -1,4 +1,4 @@
-# 机队互报（2026-11-07T13:29:24+0800）
+# 机队互报（2026-11-07T14:45:24+0800）
 
 上报 1 / 名册 5 台；本机看不到的他人产物 0 件（传输通道度量，不是错误）
 
@@ -12,17 +12,17 @@
 
 ## bm-m（20261107，窗口 26h）
 - 产出 105 件
-  - `cph4/fleet/queue-receipts/skill-promote-20261107.json`（2KB, 2de8a8b604…）
+  - `cph4/fleet/queue-receipts/skill-promote-20261107.json`（2KB, dabac2f547…）
   - `cph4/fleet/queue-receipts/brain-recon-2026-11-07.md`（1KB, f78d715d7d…）
   - `cph4/fleet/queue-receipts/brain-fleet-ops-2026-11-05.md`（1KB, 70f05dc31d…）
   - `cph4/fleet/queue-receipts/brain-bigstream-duanju-2026-11-07.md`（1KB, 130cb6fafd…）
   - `cph4/fleet/queue-receipts/brain-voicebank-2026-11-07.md`（1KB, 7b96fbe4ce…）
   - `cph4/fleet/queue-receipts/brain-bigstream-drama-2026-11-07.md`（1KB, 7323040ae8…）
 - 受阻 6 条
+  - idle：SELF-DISPATCH: lane scans its own backlog
   - bigstream-mv-gate-2026-11-06：E-UNKNOWN 
   - R-NEXT-BIGGAME-SUBMIT-P-20261105：E-CONTRACT products=36 ready=0 not_ready=36
   缺 图标≥256px                     35 款
   缺 截图目录(
   - _last_lane_bm-m.json：rc=None 
-  - Q-VCORP-PREP-e01-R3-20261105：rc=127 
 
