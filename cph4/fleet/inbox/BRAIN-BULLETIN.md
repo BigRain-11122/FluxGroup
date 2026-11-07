@@ -1,5 +1,14 @@
 # 副大脑公告栏（bm-m 本地判读席每日产出·车道自动同步）
 
+- **2026-11-08** # 2026-11-06 机队运行周报 → [brain-fleet-ops-2026-11-08.md](/cph4/fleet/queue-receipts/brain-fleet-ops-2026-11-08.md)
+# 副大脑公告栏（bm-m 本地判读席每日产出·车道自动同步）
+
+- **2026-11-08** # 2026-10-28 竞品拆解晨报 → [brain-recon-2026-11-08.md](/cph4/fleet/queue-receipts/brain-recon-2026-11-08.md)
+# 副大脑公告栏（bm-m 本地判读席每日产出·车道自动同步）
+
+- **2026-11-08** # 2026-10-29 推进清单 → [brain-voicebank-2026-11-08.md](/cph4/fleet/queue-receipts/brain-voicebank-2026-11-08.md)
+# 副大脑公告栏（bm-m 本地判读席每日产出·车道自动同步）
+
 - **2026-11-04** # 2026-11-04 漫剧线解堵方案 → [brain-bigstream-drama-2026-11-04.md](/cph4/fleet/queue-receipts/brain-bigstream-drama-2026-11-04.md)
 # 副大脑公告栏（bm-m 本地判读席每日产出·车道自动同步）
 
