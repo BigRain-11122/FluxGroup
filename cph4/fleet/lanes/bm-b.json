@@ -1,14 +1,14 @@
 {
  "node": "bm-b",
- "ts": "2026-11-07T12:28:24",
+ "ts": "2026-11-07T12:47:17",
  "jobs": [
   {
-   "id": "asset-lib-voice-corpus-bmb-2026-11-07",
-   "title": "[资产储备（角色 LoRA / 音色库）] 音色语料工程·分片 1/4（bm-b，纯 CPU）",
-   "cmd": "python Tools/fleet/voice_corpus_prep.py --inbox media/asset/inbox --group batch-2026-11-07 --shard 1/4 --receipt cph4/fleet/queue-receipts/voice-corpus-bm-b-2026-11-07.json",
+   "id": "R-NEXT-FLUXVERSE-CITY-STA-20261107",
+   "title": "元宙城 12 面状态实盘（在役/受阻/空白逐面点名）",
+   "cmd": "python Tools/fleet/city_state.py --out cph4/fleet/state/city-state.json",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/voice-corpus-bm-b-2026-11-07.json",
+   "deliverable": "cph4/fleet/state/city-state.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
