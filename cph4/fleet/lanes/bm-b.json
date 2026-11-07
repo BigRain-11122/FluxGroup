@@ -1,6 +1,6 @@
 {
  "node": "bm-b",
- "ts": "2026-11-08T04:47:42",
+ "ts": "2026-11-08T04:49:25",
  "jobs": [
   {
    "id": "bigmoney-signal-2026-11-08",
@@ -9,6 +9,20 @@
    "cwd": "",
    "needs": "cpu",
    "deliverable": "cph4/fleet/queue-receipts/quant-signal-2026-11-08.csv",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "AUD-GAME-20261108T012729-36",
+   "title": "提审缺口落单：GhostMarshal",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game GhostMarshal",
+   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/audits/game/GhostMarshal.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -45,6 +59,20 @@
    "timeout_s": null
   },
   {
+   "id": "AUD-GAME-20261108T022403-23",
+   "title": "提审缺口落单：BloomHaven",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game BloomHaven",
+   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/audits/game/BloomHaven.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
    "id": "AUD-GAME-20261108T044314-28",
    "title": "提审缺口落单：ArrowOut",
    "cmd": "python Tools/fleet/supply_batch.py --audit game ArrowOut",
@@ -61,5 +89,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 11.0/1.0 GB"
+ "capacity_note": "ram 8.5/1.0 GB"
 }
