@@ -9,11 +9,25 @@ import argparse
 import json
 import os
 import posixpath
+import sys
 import urllib.parse
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 ROOT_REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-ROOTS = {"/assets": "/Volumes/移动硬盘/FluxAssets",
+
+
+def _asset_root():
+    """资产根按 ASSET-STORE.json 解析（primary=本机固定盘）。
+    以前写死 /Volumes/移动硬盘/FluxAssets，盘一拔这个服务就对外提供空目录。"""
+    try:
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        import vault
+        return vault.store_roots()[0]
+    except Exception:
+        return os.path.expanduser("~/FluxAssets")
+
+
+ROOTS = {"/assets": _asset_root(),
          "/media": os.path.join(ROOT_REPO, "media")}
 
 

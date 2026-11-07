@@ -1,0 +1,14 @@
+{
+ "_comment": "资产库根（按顺序解析）。primary 必须是本机固定盘——可移动盘一拔，全机队的素材通道就一起死（2026-11-07 实锚：651 条台账全部不可达、asset_share 服务同根失效）。",
+ "_law": [
+  "台账存相对路径 store/<sha前2>/<sha><ext>，不存绝对路径；绝对路径只作历史兼容",
+  "解析顺序 roots 从前到后，命中即用；legacy 根只读，不往里写",
+  "缺件先看 origin（仓内原始路径）能不能按 sha 重建，能重建的算「可恢复」，不算丢失",
+  "rebuild 只往 primary 写，且必须校验 sha 一致才写入"
+ ],
+ "roots": [
+  {"path": "~/FluxAssets", "role": "primary", "writable": true},
+  {"path": "/Volumes/移动硬盘/FluxAssets", "role": "legacy-readonly", "writable": false}
+ ],
+ "layout": "store/<sha前2>/<sha><ext>"
+}

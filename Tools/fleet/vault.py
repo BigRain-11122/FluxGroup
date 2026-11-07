@@ -30,7 +30,40 @@ ROOT = os.path.dirname(os.path.dirname(HERE))
 FLEET = os.path.join(ROOT, "cph4", "fleet")
 VAULT_DIR = os.path.join(FLEET, "vault")
 INDEX = os.path.join(VAULT_DIR, "index.jsonl")
-STORE_ROOT = "/Volumes/移动硬盘/FluxAssets"
+STORE_CFG = os.path.join(FLEET, "ASSET-STORE.json")
+
+
+def store_roots():
+    """资产库根按 ASSET-STORE.json 的顺序解析。以前这里写死 /Volumes/移动硬盘/FluxAssets，
+    盘一拔整个资产面（台账 651 条 + asset_share 服务）一起失效（2026-11-07 实锚）。"""
+    try:
+        cfg = json.load(open(STORE_CFG, encoding="utf-8"))
+        rs = [os.path.expanduser(str(r.get("path"))) for r in (cfg.get("roots") or [])]
+    except Exception:
+        rs = []
+    return rs or [os.path.expanduser("~/FluxAssets")]
+
+
+STORE_ROOT = store_roots()[0]
+REL_RE = re.compile(r"/FluxAssets/(store/.+)$")
+
+
+def rel_of(path):
+    """绝对路径 → 相对路径 store/<xx>/<file>（换根后照样能认）。"""
+    m = REL_RE.search(str(path or "").replace("\\", "/"))
+    return m.group(1) if m else None
+
+
+def resolve(row):
+    """按 roots 顺序找这条台账的真身；找不到返回 None。"""
+    rel = row.get("store") or rel_of(row.get("path"))
+    if not rel:
+        return None
+    for r in store_roots():
+        p = os.path.join(r, rel)
+        if os.path.exists(p):
+            return p
+    return None
 FFMPEG = shutil.which("ffmpeg") or "/Users/junsheng.sun/bin/ffmpeg"
 
 VIDEO_EXT = (".mp4", ".mov", ".mkv", ".webm")
@@ -112,7 +145,8 @@ def add_one(path, kind, license_, line, note):
     if not os.path.exists(dst):
         shutil.copy2(path, dst)
     prox = proxy(sha, dst, kind)
-    return {"sha256": sha, "kind": kind, "path": dst, "bytes": os.path.getsize(dst),
+    return {"sha256": sha, "kind": kind, "path": dst, "store": rel_of(dst) or
+            os.path.join("store", rel), "bytes": os.path.getsize(dst),
             "license": license_, "line": line, "note": note,
             "proxy": prox, "created_at": datetime.now().isoformat(timespec="seconds"),
             "origin": path,
@@ -177,20 +211,83 @@ def _volume_of(path):
 
 def cmd_verify(a):
     rows = load()
-    # 2026-11-07 实锚：移动硬盘没插时，旧口径把这 651 条全报「丢失」——「盘没挂载」
-    # 和「资产真的没了」是两件事，混报一次就没人再信这个红。先判卷在不在，
-    # 不在就明确说「不可判定」，赋 rc=3（UNREACHABLE），不冒充丢失。
-    unmounted = sorted({v for v in (_volume_of(r.get("path")) for r in rows)
-                        if v and not os.path.isdir("/Volumes/%s" % v)})
-    if unmounted:
-        print("台账 %d 条，卷未挂载：%s ⇒ 不可判定（不是丢失）"
-              % (len(rows), "、".join("/Volumes/%s" % v for v in unmounted)))
+    roots = store_roots()
+    found, rebuildable, missing, snapshots = [], [], [], []
+    for r in rows:
+        p = resolve(r)
+        if p:
+            found.append((r, p))
+            continue
+        if r.get("snapshot_only"):
+            snapshots.append(r)
+            continue
+        o = r.get("origin") or ""
+        if o and (os.path.exists(os.path.join(ROOT, o)) or os.path.exists(o)):
+            rebuildable.append(r)
+        else:
+            missing.append(r)
+    print("台账 %d 条 · 可达 %d（根 %s）· 可从 origin 重建 %d · 历史快照 %d · 真缺失 %d"
+          % (len(rows), len(found), "、".join(roots), len(rebuildable),
+             len(snapshots), len(missing)))
+    by_root = {}
+    for r, p in found:
+        by_root[os.path.dirname(os.path.dirname(os.path.dirname(p)))] = \
+            by_root.get(os.path.dirname(os.path.dirname(os.path.dirname(p))), 0) + 1
+    for k, v in sorted(by_root.items(), key=lambda kv: -kv[1]):
+        print("  根 %s：%d 条" % (k, v))
+    for r in missing[:10]:
+        print("  缺失：%s  %s" % (r["sha256"][:12], r.get("path")))
+    if missing:
+        return 2
+    if rebuildable:
+        # 有派生物没落地：不是丢失，但也没到"齐"，用 rc=3 与"不可判定"区分开
+        print("  提示：跑 `vault.py rebuild` 把这 %d 条从仓内 origin 落地到 primary 根"
+              % len(rebuildable))
         return 3
-    missing = [r for r in rows if not os.path.exists(r.get("path") or "")]
-    for r in missing[:20]:
-        print("丢失：%s  %s" % (r["sha256"][:12], r.get("path")))
-    print("台账 %d 条，盘上缺失 %d 条" % (len(rows), len(missing)))
-    return 0 if not missing else 2
+    return 0
+
+
+def cmd_rebuild(a):
+    """从 origin（仓内原始路径）把缺件落地到 primary 根，校验 sha 一致才写入。"""
+    rows = load()
+    primary = store_roots()[0]
+    made = skipped = failed = drifted = 0
+    changed = False
+    for r in rows:
+        if resolve(r):
+            skipped += 1
+            continue
+        o = r.get("origin") or ""
+        src = o if os.path.isabs(o) else os.path.join(ROOT, o)
+        if not o or not os.path.exists(src):
+            failed += 1
+            continue
+        h = sha256(src)
+        if h != r.get("sha256"):
+            # origin 是「活的文档」，入库后又被改过：仓里这份是新版，台账记的是旧快照。
+            # 不是丢失，也不能拿新版冒充旧版——标成历史快照，只存在于当时的存储根。
+            r["snapshot_only"] = True
+            r["snapshot_note"] = ("origin 内容已漂移（现 sha %s），本行是入库时快照" % h[:12])
+            changed = True
+            drifted += 1
+            continue
+        ext = r.get("store") or rel_of(r.get("path")) or ""
+        rel = ext if ext.startswith("store/") else os.path.join(
+            "store", h[:2], h + os.path.splitext(src)[1].lower())
+        dst = os.path.join(primary, rel)
+        if not os.path.exists(dst):
+            os.makedirs(os.path.dirname(dst), exist_ok=True)
+            shutil.copy2(src, dst)
+        r["store"] = rel
+        r["path"] = dst
+        r["rebuilt_at"] = datetime.now().isoformat(timespec="seconds")
+        changed = True
+        made += 1
+    if changed and not a.dry:
+        save(rows)
+    print("重建 %d 条（已可达跳过 %d，历史快照 %d，无法重建 %d）→ 根 %s"
+          % (made, skipped, drifted, failed, primary))
+    return 0 if not failed else 2
 
 
 def main(argv):
@@ -208,6 +305,8 @@ def main(argv):
     fd = sub.add_parser("find")
     fd.add_argument("q")
     sub.add_parser("verify")
+    rb = sub.add_parser("rebuild")
+    rb.add_argument("--dry", action="store_true")
     a = ap.parse_args(argv)
     if a.cmd == "add":
         return cmd_add(a)
@@ -217,6 +316,8 @@ def main(argv):
         return cmd_find(a)
     if a.cmd == "verify":
         return cmd_verify(a)
+    if a.cmd == "rebuild":
+        return cmd_rebuild(a)
     print(__doc__)
     return 0
 
