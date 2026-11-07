@@ -49,18 +49,18 @@
 
 ### Reference
 - [memory-gate] 记忆分层主题索引（按需读·verbatim 全量在档）：
-- archive-misc.md（45 条）=.codely-cli/memory/topics\archive-misc.md
-- fleet-dispatcher.md（70 条）=.codely-cli/memory/topics\fleet-dispatcher.md
-- game-dev.md（53 条）=.codely-cli/memory/topics\game-dev.md
-- git-surgery.md（17 条）=.codely-cli/memory/topics\git-surgery.md
-- governance-council.md（5 条）=.codely-cli/memory/topics\governance-council.md
-- hardware-procurement.md（6 条）=.codely-cli/memory/topics\hardware-procurement.md
-- local-inference.md（3 条）=.codely-cli/memory/topics\local-inference.md
-- mem-20261106-fleet-autonomy-recap.md（0 条）=.codely-cli/memory/topics\mem-20261106-fleet-autonomy-recap.md
-- mem-20261107-fleet-code-delivery.md（0 条）=.codely-cli/memory/topics\mem-20261107-fleet-code-delivery.md
-- mv-production.md（32 条）=.codely-cli/memory/topics\mv-production.md
-- quant-backtest.md（20 条）=.codely-cli/memory/topics\quant-backtest.md
-- shortvideo-bili.md（7 条）=.codely-cli/memory/topics\shortvideo-bili.md
-- tool-pitfalls.md（44 条）=.codely-cli/memory/topics\tool-pitfalls.md
+- archive-misc.md（45 条）=.codely-cli/memory/topics/archive-misc.md
+- fleet-dispatcher.md（70 条）=.codely-cli/memory/topics/fleet-dispatcher.md
+- game-dev.md（53 条）=.codely-cli/memory/topics/game-dev.md
+- git-surgery.md（17 条）=.codely-cli/memory/topics/git-surgery.md
+- governance-council.md（5 条）=.codely-cli/memory/topics/governance-council.md
+- hardware-procurement.md（6 条）=.codely-cli/memory/topics/hardware-procurement.md
+- local-inference.md（3 条）=.codely-cli/memory/topics/local-inference.md
+- mem-20261106-fleet-autonomy-recap.md（0 条）=.codely-cli/memory/topics/mem-20261106-fleet-autonomy-recap.md
+- mem-20261107-fleet-code-delivery.md（0 条）=.codely-cli/memory/topics/mem-20261107-fleet-code-delivery.md
+- mv-production.md（32 条）=.codely-cli/memory/topics/mv-production.md
+- quant-backtest.md（20 条）=.codely-cli/memory/topics/quant-backtest.md
+- shortvideo-bili.md（7 条）=.codely-cli/memory/topics/shortvideo-bili.md
+- tool-pitfalls.md（44 条）=.codely-cli/memory/topics/tool-pitfalls.md
 - [memory-gate] 历史瘦身快照=memory\cleanup-* 与 cleanup-gate-*（零删除回滚通道·联合正本冻结件=cph4/fleet/memory/archive/）
 
