@@ -3,7 +3,7 @@
  "version": "v3-20261107",
  "base_tick_s": 45,
  "scope": {
-  "covers": "脉里全部 96 个阶段（值守/派单/执行/线/一屏/方向）",
+  "covers": "脉里全部 97 个阶段（值守/派单/执行/线/一屏/方向）",
   "excludes": "各产品线自己的业务流程（不进脉，不进本表）"
  },
  "law": [
@@ -1312,7 +1312,7 @@
    "domain": "方向",
    "stage": "model_plan",
    "period_s": 3600,
-   "phase_s": 900,
+   "phase_s": 720,
    "actor": "rule",
    "action": "执行 model_plan 阶段",
    "input": [],
@@ -1326,7 +1326,7 @@
    "domain": "一屏",
    "stage": "ops_metrics",
    "period_s": 3600,
-   "phase_s": 1800,
+   "phase_s": 1440,
    "actor": "rule",
    "action": "执行 ops_metrics 阶段",
    "input": [],
@@ -1336,11 +1336,25 @@
    "on_fail": "未更新 → 视为阶段未执行，报 E-STAGE-SILENT"
   },
   {
+   "id": "S-stage_liveness",
+   "domain": "一屏",
+   "stage": "stage_liveness",
+   "period_s": 3600,
+   "phase_s": 2160,
+   "actor": "rule",
+   "action": "执行 stage_liveness 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/stage_liveness.json",
+   "output_inferred": true,
+   "accept": "文件 mtime 前进且内容非空",
+   "on_fail": "未更新 → 视为阶段未执行，报 E-STAGE-SILENT"
+  },
+  {
    "id": "S-useful_load",
    "domain": "运维",
    "stage": "useful_load",
    "period_s": 3600,
-   "phase_s": 2700,
+   "phase_s": 2880,
    "actor": "rule",
    "action": "占着算力却没有产出 → 判无用负载",
    "input": [
@@ -1504,7 +1518,7 @@
  ],
  "generated": {
   "from": "Tools/fleet/master_pulse.py:STAGES",
-  "stages": 96,
+  "stages": 97,
   "orphans": []
  }
 }
