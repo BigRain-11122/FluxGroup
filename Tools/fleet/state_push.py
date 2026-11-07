@@ -24,6 +24,7 @@ Exit: 0 正常（含无变化）｜2 推送失败（已回滚工作树，不影�
 """
 import argparse
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -48,6 +49,71 @@ def sh(args, cwd=None, timeout=180):
     return p.returncode, (p.stdout or "").strip(), (p.stderr or "").strip()
 
 
+CARD_ID_RE = re.compile(rb'"id"\s*:\s*"([^"]+)"')
+STATE_RE = re.compile(rb'"state"\s*:\s*"([A-Za-z_]+)"')
+TERMINAL_STATES = {b"DONE", b"CANCELLED", b"FAILED", b"UNVERIFIED", b"BLOCKED"}
+
+
+def _split_lines(blob):
+    return [ln.rstrip(b"\r") for ln in blob.split(b"\n") if ln.strip()]
+
+
+def _line_id(line):
+    m = CARD_ID_RE.search(line)
+    return m.group(1) if m else None
+
+
+def _rank(line):
+    """Terminal states outrank in-flight ones, so a stale local OPEN cannot
+    resurrect a card origin already closed."""
+    m = STATE_RE.search(line)
+    return 2 if (m and m.group(1) in TERMINAL_STATES) else 1
+
+
+def merge_jsonl(origin_bytes, local_bytes):
+    """Union JSONL cards by id: origin-only cards survive, local wins on ties.
+    Line bytes are never re-decoded, so mixed/GBK JSONL stays intact."""
+    if not origin_bytes:
+        return local_bytes
+    if not local_bytes:
+        return origin_bytes
+    origin_lines = _split_lines(origin_bytes)
+    local_lines = _split_lines(local_bytes)
+    local_by_id = {}
+    local_plain = []
+    for ln in local_lines:
+        cid = _line_id(ln)
+        if cid is None:
+            local_plain.append(ln)
+        else:
+            local_by_id[cid] = ln
+    seen = set()
+    out = []
+    for ln in origin_lines:
+        cid = _line_id(ln)
+        if cid is None:
+            out.append(ln)
+            continue
+        if cid in seen:
+            continue
+        seen.add(cid)
+        loc = local_by_id.get(cid)
+        out.append(loc if (loc is not None and _rank(loc) >= _rank(ln)) else ln)
+    out.extend(local_plain)
+    for cid, ln in local_by_id.items():
+        if cid not in seen:
+            out.append(ln)
+    nl = b"\r\n" if b"\r\n" in origin_bytes else b"\n"
+    return nl.join(out) + nl
+
+
+def origin_blob(rel):
+    """Raw bytes of origin/main:<rel> (no text decoding)."""
+    p = subprocess.run(["git", "show", "origin/main:" + rel], cwd=ROOT,
+                       capture_output=True, timeout=120)
+    return p.stdout if p.returncode == 0 else b""
+
+
 def ensure_worktree():
     """独立工作树：不存在就基于 origin/main 建一个（detached，不占分支名）。"""
     if os.path.isdir(os.path.join(WT, ".git")) or os.path.isfile(os.path.join(WT, ".git")):
@@ -59,15 +125,27 @@ def ensure_worktree():
 
 
 def sync_into_worktree():
-    """把状态面从主工作树复制进独立工作树。返回是否有变化。"""
+    """把状态面复制进独立工作树。返回是否有变化。
+
+    2026-11-08：队列/备料改为「origin ∪ 本地 按 id 合并」，不再整文件覆盖。
+    病理实锚＝本席 00:47 恢复的 RESCUE-FREEMEM-BM-C-20261108 在 00:50/00:51
+    两轮同步后被本地陈旧队列整文件覆盖（numstat 15/15），append 派发的卡
+    凭空消失（同族 R11-7/R12-1/R14-7）。
+    """
     n = 0
+    sh(["git", "fetch", "--quiet", "origin", "main"])
     for rel in STATE_FILES:
         src = os.path.join(ROOT, rel)
         dst = os.path.join(WT, rel)
-        if os.path.isfile(src):
-            os.makedirs(os.path.dirname(dst), exist_ok=True)
-            shutil.copyfile(src, dst)
-            n += 1
+        if not os.path.isfile(src):
+            continue
+        with open(src, "rb") as fh:
+            local = fh.read()
+        merged = merge_jsonl(origin_blob(rel), local)
+        os.makedirs(os.path.dirname(dst), exist_ok=True)
+        with open(dst, "wb") as fh:
+            fh.write(merged)
+        n += 1
     for rel in STATE_DIRS:
         src = os.path.join(ROOT, rel)
         if not os.path.isdir(src):
