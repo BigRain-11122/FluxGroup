@@ -1,23 +1,23 @@
 {
  "node": "bm-a",
- "ts": "2026-11-07T22:12:07",
+ "ts": "2026-11-07T22:16:08",
  "jobs": [
   {
-   "id": "AUD-SOFT-20261107T220908-08",
-   "title": "软著材料清点：G18_PalacePlunder",
-   "cmd": "python3 Tools/fleet/supply_batch.py --audit soft G18_PalacePlunder",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "id": "SELF-IMPROVE-bm-a-20261106",
+   "title": "机队自改：码龄/空壳卡/依赖三闸自检并修复（bm-a）",
+   "cmd": "python Tools/fleet/self_improve.py --apply --node bm-a --out cph4/fleet/queue-receipts/self-improve-bm-a-latest.json",
+   "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/soft/G18_PalacePlunder.json",
+   "deliverable": "cph4/fleet/queue-receipts/self-improve-bm-a-latest.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
    "when_all": [],
    "llm": null,
-   "timeout_s": null
+   "timeout_s": 300
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 28.5/1.0 GB"
+ "capacity_note": "ram 31.3/1.0 GB"
 }
