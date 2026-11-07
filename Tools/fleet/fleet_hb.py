@@ -107,14 +107,6 @@ def probe_offset(hub, port, samples=5):
         _probe.close()
     except Exception:
         return vals
-    # 先做一次短超时可达性探针（2026-11-07 实测）：hub 不通时 5 个样本 × 3s 连接超时
-    # 会让本阶段每轮白等 ~20s 再 HB-FAIL——心跳是最高频阶段，不该为一条死链付这个钱。
-    # 不通就直接返回空，由调用方记 DEGRADED，一次 1.5s 结束。
-    try:
-        _probe = socket.create_connection((hub, port), timeout=1.5)
-        _probe.close()
-    except Exception:
-        return vals
     # One connection per sample: a reused connection drifts out of sync on the
     # trailing PING of the previous reply (measured: request 2+ times out).
     for _ in range(samples):
