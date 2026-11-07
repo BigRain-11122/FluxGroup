@@ -87,6 +87,15 @@ def main():
         if r.get("state") in ("OPEN", "RUNNING"):
             inflight[r.get("line") or r.get("id")] = r.get("id")
     have = {r.get("id") for r in queue + jl(B)}
+    # 2026-11-07 去堵点：只把「在飞」的卡算作已在册。以前用 have（含全部历史）判，
+    # 于是今天派过一次（哪怕已 DONE/CANCELLED）当天就再也不派 —— 症状是
+    # "线上写着下一步、队列里没卡、机器空转"（biggame submit-pack 实锚，逐线全显示"已在册"）。
+    LIVE = ("READY", "OPEN", "RUNNING", "CLAIMED", "PENDING")
+    live = {r.get("id") for r in queue + jl(B)
+            if str(r.get("state") or "").upper() in LIVE}
+
+    def _delivered(p):
+        return bool(p) and os.path.exists(os.path.join(ROOT, p))
     now = datetime.now()
     made, waiting, lines = [], [], []
 
@@ -102,7 +111,11 @@ def main():
             lines.append("- %s：在途 %s，不重复派" % (lid, inflight[lid]))
             continue
         age_h = (now.timestamp() - newest(spec.get("outputs"))) / 3600 if newest(spec.get("outputs")) else 999
-        if age_h < float(spec.get("cadence_h") or 24):
+        # 2026-11-07 去堵点：**声明了就该派**。以前"未到点"会把已声明的卡一起挡住，
+        # 于是出现"线上写着下一步、队列里没卡、机器空转"（biggame submit-pack 实锚）。
+        # 声明本身就是"这一条线唯一要动的产物"，只要没有在途卡就派，周期只用来挡无声明的线。
+        _decl = ((STEPS.get("lines") or {}).get(lid) or {}).get("cards") or []
+        if age_h < float(spec.get("cadence_h") or 24) and not _decl:
             lines.append("- %s：%.1fh 前有产出，未到点" % (lid, age_h))
             continue
         # Declared lanes first; otherwise any online box. Five lines (bigcompute /
@@ -131,10 +144,13 @@ def main():
         for card_t in ((STEPS.get("lines") or {}).get(lid) or {}).get("cards") or []:
             scid = "R-NEXT-%s-%s-%s" % (lid.upper().replace("-", "")[:10],
                                         str(card_t.get("key") or "x").upper()[:8], day)
-            if scid in have:
-                continue
             deliverable_n = (card_t.get("deliverable") or "").replace("{date}", day).replace("{line}", lid)
             if not deliverable_n:
+                continue
+            # 同上：只有在飞、或"今天已做完且产物真在盘"才跳过；否则照派。
+            if scid in live:
+                continue
+            if scid in have and _delivered(deliverable_n):
                 continue
             card_n = {
                 "id": scid,
@@ -159,8 +175,11 @@ def main():
             made_here += 1
         if made_here:
             continue
-        if cid in have:
-            lines.append("- %s：今日计划卡已在册" % lid)
+        if cid in live:
+            lines.append("- %s：今日计划卡在飞（%s）" % (lid, cid))
+            continue
+        if cid in have and _delivered("cph4/fleet/queue-receipts/triage-%s-%s.md" % (lid, day)):
+            lines.append("- %s：今日计划卡已完成且产物在盘" % lid)
             continue
         deliverable = (spec.get("outputs") or ["cph4/fleet/queue-receipts/"])[0].replace("*", "plan-%s.md" % lid)
         if deliverable.endswith("/"):

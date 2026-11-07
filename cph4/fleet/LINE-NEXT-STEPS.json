@@ -15,27 +15,31 @@
    "needs": "cpu",
    "cards": [
     {
-     "key": "gate",
-     "title": "MV 交付闸复跑：当前母版四闸全验（收口前置）",
-     "cmd": "python Tools/mv_delivery_gate.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721.mp4 --whitelist cph4/fleet/mv0001-handover/canon/MV0001-REPRISE-WHITELIST.json --json cph4/fleet/queue-receipts/mv-gate-{date}.json",
-     "deliverable": "cph4/fleet/queue-receipts/mv-gate-{date}.json",
-     "accept": "JSON 内四闸齐全且 mtime 为当日；OPPOSE=0、seam=0、freeze=0；任何一项不为 0 必须在回执里写明具体镜号",
+     "key": "rebuild",
+     "title": "MV 合成本片：按 EDL 行表重建成片 v721（缺的是成片，不是闸）",
+     "cmd": "python Tools/mv_rebuild_from_edl.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721.mp4",
+     "deliverable": "cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721.mp4",
+     "accept": "ffprobe 能读出时长与音轨；帧数≈5623；无 patching 叠补",
      "requires": [
-      "Tools/mv_delivery_gate.py",
-      "cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721.mp4",
-      "cph4/fleet/mv0001-handover/canon/MV0001-REPRISE-WHITELIST.json"
-     ]
+      "Tools/mv_rebuild_from_edl.py"
+     ],
+     "needs": "cpu",
+     "nodes": [
+      "bm-a"
+     ],
+     "prio": "P1"
+    }
+   ],
+   "_next_after_rebuild": [
+    {
+     "key": "gate",
+     "why": "成片在盘后才跑",
+     "cmd": "python Tools/mv_delivery_gate.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721.mp4 --whitelist cph4/fleet/mv0001-handover/canon/MV0001-REPRISE-WHITELIST.json --json cph4/fleet/queue-receipts/mv-gate-{date}.json"
     },
     {
      "key": "audit",
-     "title": "MV 观众级三查：逐镜暖度/重复/转场/稳定性（导演席签字依据）",
-     "cmd": "python Tools/mv_full_audit.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721.mp4 --whitelist cph4/fleet/mv0001-handover/canon/MV0001-REPRISE-WHITELIST.json --json cph4/fleet/queue-receipts/mv-full-audit-{date}.json",
-     "deliverable": "cph4/fleet/queue-receipts/mv-full-audit-{date}.json",
-     "accept": "重复镜按镜号白名单判定后为 0；逐镜暖度/饱和度分布有结论；非计划硬跳逐条列镜号",
-     "requires": [
-      "Tools/mv_full_audit.py",
-      "cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721.mp4"
-     ]
+     "why": "成片在盘后才跑",
+     "cmd": "python Tools/mv_full_audit.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721.mp4 --whitelist cph4/fleet/mv0001-handover/canon/MV0001-REPRISE-WHITELIST.json --json cph4/fleet/queue-receipts/mv-full-audit-{date}.json"
     }
    ]
   },

@@ -214,6 +214,11 @@ def metrics_doc(path):
     m["sections"] = len(re.findall(r"(?m)^#{2,3}\s+\S", s))
     m["placeholder_hits"] = len(re.findall(r"(?i)\bTODO\b|\bTBD\b|待补|占位|待定", s))
     m["evidence_links"] = len(re.findall(r"https?://", s))
+    # 正身件引仓内文件路径（反引号包住的 cph4/… 、Tools/…）同样是证据。
+    # 只认 http 链接会把"路径即证据"的文档全判死（CROSS-MACHINE-EXEC-v1.md 实锚）。
+    for cand in re.findall(r"`([\w./\-]+\.(?:md|json|jsonl|py|ps1|mp4|png|jpg|csv))`", s):
+        if os.path.exists(os.path.join(ROOT, cand)):
+            m["evidence_links"] += 1
     return m
 
 
@@ -462,10 +467,11 @@ def board(reg=None):
                     rows.append(json.loads(line))
                 except Exception:
                     pass
-        rows = [r for r in rows if r.get("score") is not None]
-        if not rows:
+        rows = [r for r in rows]
+        if not rows or rows[-1].get("score") is None:
             out.append("| %s | - | 未评分（本机无产物） | - | - | - |" % spec.get("name", key))
             continue
+        rows = [r for r in rows if r.get("score") is not None]
         last = rows[-1]
         hist = sorted(float(r["score"]) for r in rows)
         med = hist[len(hist) // 2]
@@ -511,8 +517,26 @@ def scan(reg=None, only=None):
         for pat in spec.get("globs") or []:
             cands += [p for p in _g.glob(os.path.join(ROOT, pat), recursive=True)
                       if os.path.isfile(p) or os.path.isdir(p)]
+        # exclude：样机/冒烟/演示件不是交付物。以前把 lp_smoke_*.mp4 当成成片判 VD-01
+        # （时长<30s、无音轨）→ 影片线常年 FAIL，而真正该看的是 full_mv_*。
+        ex = spec.get("exclude") or []
+        if ex:
+            def _excluded(p):
+                rel = os.path.relpath(p, ROOT).replace(os.sep, "/").lower()
+                return any(_g.fnmatch.fnmatch(rel, e.lower()) for e in ex)
+            cands = [p for p in cands if not _excluded(p)]
         p = _newest(cands)
         if not p:
+            # 本机没产物也要留一行：否则屏上永远显示上一次的旧分（收窄取样后仍挂着
+            # 早已不该判的 FAIL，谁也没法修）。
+            try:
+                os.makedirs(STATE, exist_ok=True)
+                with open(os.path.join(STATE, "%s.jsonl" % key), "a",
+                          encoding="utf-8") as f:
+                    f.write(json.dumps({"ts": now(), "score": None,
+                                        "state": "NO-ARTIFACT"}, ensure_ascii=False) + "\n")
+            except Exception:
+                pass
             out.append({"line": key, "state": "NO-ARTIFACT"})
             continue
         res = score_line(key, p, reg)

@@ -44,10 +44,19 @@
     }
    ],
    "globs": [
+    "cph4/fleet/mv0001*/outbound/**/full_mv*.mp4",
     "media/drama-eps/**/*.mp4",
-    "cph4/fleet/mv0001*/outbound/**/*.mp4",
     "media/*.mp4"
-   ]
+   ],
+   "exclude": [
+    "**/kf-demo*/**",
+    "**/*smoke*",
+    "**/*demo*",
+    "**/*test*",
+    "**/*_r[0-9]*",
+    "**/_tmp/**"
+   ],
+   "_why_globs": "只判交付名（full_mv*/成片），不判镜头样片与测试片：本机 30s-reel 目录下全是 fleet-shots 与 TEST_*/T_* 试片，拿它们判 VD-01/VD-03 是假 FAIL；真成片在持有子仓的机器上，本机应报 NO-ARTIFACT。"
   },
   "content-image": {
    "name": "关键帧 / 美术图（图像类）",
@@ -84,9 +93,18 @@
     }
    ],
    "globs": [
-    "media/**/*.png",
-    "cph4/fleet/archive/**/*.png"
-   ]
+    "cph4/fleet/mv0001*/outbound/**/*.png",
+    "cph4/fleet/mv0001*/outbound/**/*.jpg",
+    "media/art/**/*.png"
+   ],
+   "exclude": [
+    "**/_tmp/**",
+    "**/*smoke*",
+    "**/*test*",
+    "**/props/**",
+    "**/inbox/**"
+   ],
+   "_why_globs": "只判关键帧/美术定稿。以前 media/**/*.png 会把 720px 的道具图当\"美术图\"按图形规格判 → 恒 FAIL，属取样错位不是产物差。"
   },
   "game-build": {
    "name": "小游戏 / 车机包（构建类）",

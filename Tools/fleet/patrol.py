@@ -53,19 +53,40 @@ def is_selfreport(card):
     return d.endswith(".json") and any(k in d for k in ("state", "receipt", "audit"))
 
 
+def remote_repos():
+    """子仓清单：quant/bigmoney、gaming/FluxVerse、compute/BigCompute、domain/BigDomain
+    这些是别的机器上的**独立仓库**（见 Tools/fleet-nodes.json），本机当然没有。
+    对它们判"目录不存在"= 把远端产物当本地缺失，是假红。"""
+    out = {}
+    try:
+        cfg = jload(os.path.join(ROOT, "Tools", "fleet-nodes.json"), {}) or {}
+        for n in (cfg.get("nodes") or []):
+            for r in (n.get("repos") or []):
+                r = str(r).strip("./")
+                if r and r != ".":
+                    out.setdefault(r, set()).add(n.get("id"))
+    except Exception:
+        pass
+    return out
+
+
 def outputs_missing(lid):
-    """线的"产物面"目录是否存在。三条 ACTIVE 线（fluxverse/bigdomain/bigcompute）
-    声明的产物目录根本不存于盘，唯一在盘的是设计台账 JSON——这种线给它铺卡只会
-    再生成一张自述文件，所以必须先定产物或改声明。"""
+    """线的"产物面"目录是否真的没有。返回 (missing, remote_nodes)：
+    remote_nodes 非空表示产物面在别的机器的子仓里——本机不可判，不算缺失。"""
     spec = jload(os.path.join(F, "lines", "%s.json" % lid), {}) or {}
     outs = spec.get("outputs") or []
     if not outs:
-        return False
+        return False, set()
+    rr = remote_repos()
+    remote = set()
     for o in outs:
         base = str(o).split("**")[0].rstrip("/*")
         if base and os.path.exists(os.path.join(ROOT, base)):
-            return False
-    return True
+            return False, set()
+        for repo, nodes in rr.items():
+            if base == repo or base.startswith(repo + "/"):
+                remote |= nodes
+    return (not remote), remote
 
 
 def now():
@@ -173,6 +194,14 @@ def collect():
         def _is_selfreport(c):
             return is_selfreport(c)
         real = [c for c in decl_cards if not _is_selfreport(c)]
+        # 声明卡今天已经跑完、产物在盘 → 不是堵点，别再报（否则同一条线每天挂一遍）
+        _done_today = any(
+            str(r.get("id", "")).startswith("R-NEXT-%s" % lid.upper().replace("-", "")[:10])
+            and str(r.get("state") or "").upper() == "DONE"
+            and os.path.exists(os.path.join(ROOT, str(r.get("deliverable") or "")))
+            for r in jl(os.path.join(F, "PRODUCTION-QUEUE.jsonl")))
+        if _done_today:
+            continue
         if decl_cards and not real and age >= STALE_H:
             add("R2", "decl:%s" % lid,
                 "%s 的下一步声明只有体检/自述卡（%s），没有产物卡" % (
@@ -190,7 +219,19 @@ def collect():
                 "把 LINE-NEXT-STEPS 的声明转成卡（night_plan/backlog_fill），不要再手写一张",
                 "cph4/fleet/LINE-NEXT-STEPS.json", age_h=age, blocks=2, cost=1)
         elif age >= STALE_H:
-            if outputs_missing(lid):
+            _miss, _remote = outputs_missing(lid)
+            if _remote:
+                # 产物面在别的机器的子仓里：本机不可判，判"不存在"是假红。
+                # 该做的是把真产物卡派到持有子仓的机器，而不是在本机悬着一条红。
+                add("R2", "remote:%s" % lid,
+                    "%s 的产物面在子仓（%s），本机不可判；最后一次可得证据已停 %.0f 小时" % (
+                        ln.get("name") or lid, "、".join(sorted(_remote)), age),
+                    _owners.get(lid) or sorted(_remote)[0],
+                    "派一张真产物卡到持有子仓的机器（%s）；本机只做监督不做生产"
+                    % "、".join(sorted(_remote)),
+                    "Tools/fleet-nodes.json", age_h=age, blocks=2, cost=3)
+                continue
+            if _miss:
                 add("R2", "line:%s" % lid,
                     "%s 声明 ACTIVE 但产物目录根本不存在（%s），也没有生产工具" % (
                         ln.get("name") or lid,
@@ -253,6 +294,11 @@ def collect():
         if str(ln.get("id")) in _r2_lines:
             continue
         if str(ln.get("declared")) == "ACTIVE" and float(ln.get("age_h") or 0) >= STALE_H:
+            _miss, _remote = outputs_missing(str(ln.get("id")))
+            if _remote:
+                # 产物面在子仓：本机判"停摆"等于拿看不见的东西定罪。R2 已按
+                # "派到持有子仓的机器"报过，这里不再重复一条方向红。
+                continue
             add("R5", "dir:%s" % ln.get("id"),
                 "%s 声明 ACTIVE 但已停 %.0f 小时" % (ln.get("name") or ln.get("id"),
                                                 float(ln.get("age_h") or 0)),

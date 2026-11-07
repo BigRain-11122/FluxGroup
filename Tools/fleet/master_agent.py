@@ -448,7 +448,19 @@ def lane_capacity(node, fleet, needs="cpu", vram_min=0, job=None):
     """
     info = fleet.get(node) or {}
     if not info.get("online"):
-        return False, "OFFLINE (hb age %ss)" % info.get("age_s")
+        # 2026-11-07 去堵点：sense() 已经会用「车道文件新鲜度」给死掉的 NATS 客户端兜底，
+        # 但这里只认心跳，于是同一台机器出现「online=True 却 CAPACITY-BLOCKED-RAM
+        # OFFLINE (hb age Nones)」的自相矛盾——bm-a 明明在线在推产物，2 张 MV 卡却派不出去。
+        # 判据统一：心跳没有记录不等于机器死了，车道文件新鲜就算在线。
+        try:
+            lp = os.path.join(ROOT, "cph4", "fleet", "lanes", "%s.json" % node)
+            if os.path.exists(lp) and (time.time() - os.path.getmtime(lp)) <= OFFLINE_AFTER_S:
+                info = dict(info, online=True,
+                            state=info.get("state") or {"source": "lanes-file"})
+            else:
+                return False, "OFFLINE (hb age %ss, lane stale)" % info.get("age_s")
+        except Exception:
+            return False, "OFFLINE (hb age %ss)" % info.get("age_s")
     st = info.get("state") or {}
     spec = fl.LANES.get(node) or {}
     q = fl.quiet_hours(node)
