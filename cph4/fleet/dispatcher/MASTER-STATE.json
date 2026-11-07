@@ -1,11 +1,11 @@
 {
- "ts": "2026-11-08T02:02:42",
- "cycle": 343,
+ "ts": "2026-11-08T02:03:30",
+ "cycle": 344,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-08T02:02:42",
+ "master_tick_ts": "2026-11-08T02:03:30",
  "queue": {
-  "total": 1412,
+  "total": 1413,
   "open": 4,
   "running": 26,
   "done": 518,
@@ -14,10 +14,10 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 13.5,
-   "cpu_load_pct": 45,
-   "ram_free_gb": 33.1,
-   "gpu_util_pct": 90,
+   "hb_age_s": 2.9,
+   "cpu_load_pct": 56,
+   "ram_free_gb": 28.8,
+   "gpu_util_pct": 88,
    "job": "bigstream-mv-gate-2026-11-08",
    "last_result": null,
    "idle_confirmed": false,
@@ -26,16 +26,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 35.0,
-   "cpu_load_pct": 23,
-   "ram_free_gb": 2.1,
-   "gpu_util_pct": 100,
+   "hb_age_s": 24.6,
+   "cpu_load_pct": 4,
+   "ram_free_gb": 1.5,
+   "gpu_util_pct": 21,
    "job": "bigmoney-signal-2026-11-08",
    "last_result": {
     "job": "AUD-GAME-20261108T012729-23",
     "state": "FAILED",
     "rc": 2,
-    "ts": "2026-11-08T02:01:50",
+    "ts": "2026-11-08T02:02:51",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -46,7 +46,7 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 54.2,
+   "hb_age_s": 28.3,
    "cpu_load_pct": 15,
    "ram_free_gb": 2.3,
    "gpu_util_pct": 0,
@@ -66,12 +66,20 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 16.1,
-   "cpu_load_pct": 11,
-   "ram_free_gb": 12.1,
+   "hb_age_s": 17.0,
+   "cpu_load_pct": 32,
+   "ram_free_gb": 11.3,
    "gpu_util_pct": null,
    "job": "AUD-GAME-20261108T012729-09",
-   "last_result": null,
+   "last_result": {
+    "job": "CANARY-20261108T020257",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-08T02:03:01",
+    "reason": null,
+    "out_bytes": null,
+    "elapsed_s": null
+   },
    "idle_confirmed": false,
    "idle_reason": "",
    "idle_rounds": 0
@@ -853,25 +861,16 @@
   "cpu": 2,
   "gpu": 2
  },
- "supply_added": [
-  "backlog_manifest+1"
- ],
+ "supply_added": [],
  "events": [
-  "AUD-GAME-20261108T012729-23 FAILED via bm-b",
   "bigstream-mv-gate-2026-11-08 -> bm-a (cpu)",
   "biggame-pack-scan-2026-11-08 -> bm-a (cpu)",
-  "bigmoney-signal-2026-11-08 -> bm-b (cpu)",
-  "AUD-GAME-20261108T012729-30 -> bm-c (cpu)",
-  "R-TRIAGE-BIGSTREAMMV-BMA-20261108 -> bm-b (cpu)",
-  "R-TRIAGE-FLUXVERSE-BMC-20261108 -> bm-b (cpu)"
+  "bigmoney-signal-2026-11-08 -> bm-b (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
- "lane_files_written": [
-  "bm-b",
-  "bm-c"
- ]
+ "lane_files_written": []
 }
