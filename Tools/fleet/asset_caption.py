@@ -108,6 +108,60 @@ def validate(text, kind="object"):
 
 RELEASE_FLAG = os.path.expanduser("~/.fluxgroup-disk-release")
 
+SPEC_EN = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(
+    os.path.abspath(__file__)))), "cph4", "fleet", "asset-lib-v1", "CHARACTERS-EN-v1.json")
+
+VIEW_PHRASE = {
+    "front": "front view, facing camera, neutral expression",
+    "three_quarter_left": "three-quarter view from the left, facing camera",
+    "three_quarter_right": "three-quarter view from the right, facing camera",
+    "profile_left": "left side profile",
+    "profile_right": "right side profile",
+    "back": "seen from behind, back view",
+    "expression_soft": "front view, relaxed soft expression",
+    "expression_smile": "front view, light smile",
+    "expression_tense": "front view, tense expression",
+    "high_angle": "high angle, looking slightly up at camera",
+    "low_angle": "low angle looking up",
+    "mid_shot": "mid shot, waist up",
+}
+
+
+def _clip(text, words):
+    """按词数截断，不切半个词。"""
+    parts = str(text or '').replace(';', ',').split()
+    return ' '.join(parts[:words]).strip(' ,.')
+
+
+def spec_caption(char_id, view, chars):
+    """按设定派生：图像内容本来就来自这份 spec，事实精确，不需要模型去猜。
+
+    组装按总词数预算推进（LoRA caption 要短，校验上限 300 字符）：
+    主体与视角最先占位，稀缺预算留给它们；描述字段按剩余额度补，补不下就丢。
+    """
+    c = chars.get(char_id) or {}
+    role = _clip(c.get('role'), 6) or 'person'
+    view_txt = VIEW_PHRASE.get(view, view.replace('_', ' '))
+    queue = [
+        ('head', 'portrait photo of a %s' % role),
+        ('view', view_txt),
+        ('hair', _clip(c.get('hair'), 8)),
+        ('outfit', _clip(c.get('outfit'), 8)),
+        ('skin', _clip(c.get('skin'), 4)),
+        ('build', _clip(c.get('build'), 4)),
+        ('tail', 'soft even light, plain background'),
+    ]
+    out, words = [], 0
+    for _k, txt in queue:
+        if not txt:
+            continue
+        w = len(txt.split())
+        if words + w > 38:
+            continue
+        out.append(txt)
+        words += w
+    return ' '.join(', '.join(out).split())
+
 
 def main(argv):
     ap = argparse.ArgumentParser()
@@ -119,6 +173,9 @@ def main(argv):
                     help="auto=按路径判：/faces/ 走人像词表，其余走物件词表")
     ap.add_argument("--recursive", action="store_true",
                     help="递归子目录（资产库按 00/01/… 分片存放，不递归会判成没有待打标图片）")
+    ap.add_argument("--from-spec", action="store_true",
+                    help="不用视觉模型：按 CHARACTERS-EN-v1.json 的设定 + 视角名派生 caption"
+                         "（队内无可用 VLM 时的确定性兜底，不臆造内容）")
     a = ap.parse_args(argv)
     if os.path.exists(RELEASE_FLAG) and "/Volumes/" in str(a.dir):
         print("[caption] 盘已置「可拔线」旗标，跳过该卷（rc=0）")
@@ -147,6 +204,47 @@ def main(argv):
         emit(rec, a.out)
         print("[caption] 没有待打标图片（rc=3）")
         return 3
+    if a.from_spec:
+        try:
+            chars = json.load(open(SPEC_EN, encoding="utf-8")).get("characters") or {}
+        except Exception as e:
+            rec.update({"verdict": "BLOCKED", "status": "BLOCKED",
+                        "gaps": ["读不到 CHARACTERS-EN-v1.json：%s" % str(e)[:80]]})
+            emit(rec, a.out)
+            print("[caption] 读不到设定文件（rc=3）")
+            return 3
+        rec["caption_source"] = "spec"
+        rec["model"] = "none (spec-derived, no VLM)"
+        t0 = time.time()
+        for p, txt in todo:
+            char_id = os.path.basename(os.path.dirname(p))
+            view = os.path.splitext(os.path.basename(p))[0]
+            text = spec_caption(char_id, view, chars)
+            if not text or len(text) > 300:
+                rec["rejected"].append([os.path.basename(p), "派生文本长度异常"])
+                continue
+            low = text.lower()
+            if any(b in low for b in BAD):
+                rec["rejected"].append([os.path.basename(p), "含推测/身份词"])
+                continue
+            body = ("%s, %s" % (a.trigger, text)) if a.trigger else text
+            with open(txt, "w", encoding="utf-8") as f:
+                f.write(body.strip() + "\n")
+            rec["written"] += 1
+        rec["seconds"] = round(time.time() - t0, 1)
+        rec["per_image_s"] = round(rec["seconds"] / max(1, len(todo)), 3)
+        rec.update({"verdict": "PASS" if rec["written"] else "FAIL", "gaps": []})
+        if not rec["written"]:
+            rec["gaps"] = ["一条都没写成功，看 rejected 的原因"]
+        rec["status"] = rec["verdict"]
+        rec["note"] = ("caption 由 CHARACTERS-EN-v1.json 的设定 + 视角名派生：图像本身就是按该设定生成的，"
+                       "事实精确、不臆造；不同于视觉模型草稿，但仍建议抽查。")
+        emit(rec, a.out)
+        print("[caption] spec 派生 写 %d / 待 %d" % (rec["written"], len(todo)))
+        for r in rec["rejected"][:3]:
+            print("  ! %s：%s" % (r[0], r[1]))
+        return 0 if rec["written"] else 1
+
     t0 = time.time()
     for p, txt in todo:
         try:
