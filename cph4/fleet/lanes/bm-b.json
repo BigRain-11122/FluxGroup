@@ -1,5 +1,6 @@
 {
  "node": "bm-b",
+<<<<<<< HEAD
  "ts": "2026-11-08T02:37:45",
  "jobs": [
   {
@@ -32,6 +33,12 @@
   },
   {
    "id": "AUD-GAME-20261108T022403-26",
+=======
+ "ts": "2026-11-08T02:19:33",
+ "jobs": [
+  {
+   "id": "AUD-GAME-20261108T012729-26",
+>>>>>>> e365df198 (job(AUD-GAME-20261108T012729-12): artifact [via bm-m])
    "title": "提审缺口落单：CardRogue",
    "cmd": "python Tools/fleet/supply_batch.py --audit game CardRogue",
    "cwd": "/Users/junsheng.sun/FluxGroup",
@@ -60,6 +67,11 @@
   }
  ],
  "idle_reason": "",
+<<<<<<< HEAD
  "lane_ok": true,
  "capacity_note": "ram 11.1/1.0 GB"
+=======
+ "lane_ok": false,
+ "capacity_note": "ram 0.4/1.0 GB"
+>>>>>>> e365df198 (job(AUD-GAME-20261108T012729-12): artifact [via bm-m])
 }
