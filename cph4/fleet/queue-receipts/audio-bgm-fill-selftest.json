@@ -1,23 +1,79 @@
 {
- "ts": "2026-11-07T15:01:37+08:00",
+ "ts": "2026-11-07T15:07:14+08:00",
  "node": "?",
- "out_dir": "/Users/junsheng.sun/FluxAssets/incoming/audio-bgm",
+ "out_dir": "/Users/junsheng.sun/FluxGroup/cph4/fleet/archive/asset-lib/20261107/audio-bgm",
  "spec": "cph4/fleet/AUDIO-BGM-SPEC-v1.json",
- "ready": 2,
+ "ready": 10,
  "gaps": 0,
  "results": [
   {
    "slug": "calm",
    "status": "SKIP",
    "dur_s": 97.454,
-   "file": "/Users/junsheng.sun/FluxAssets/incoming/audio-bgm/calm.mp3",
+   "file": "/Users/junsheng.sun/FluxGroup/cph4/fleet/archive/asset-lib/20261107/audio-bgm/calm.mp3",
+   "detail": "already present and verified"
+  },
+  {
+   "slug": "hopeful",
+   "status": "SKIP",
+   "dur_s": 51.2,
+   "file": "/Users/junsheng.sun/FluxGroup/cph4/fleet/archive/asset-lib/20261107/audio-bgm/hopeful.mp3",
    "detail": "already present and verified"
   },
   {
    "slug": "epic",
    "status": "SKIP",
    "dur_s": 91.115,
-   "file": "/Users/junsheng.sun/FluxAssets/incoming/audio-bgm/epic.mp3",
+   "file": "/Users/junsheng.sun/FluxGroup/cph4/fleet/archive/asset-lib/20261107/audio-bgm/epic.mp3",
+   "detail": "already present and verified"
+  },
+  {
+   "slug": "playful",
+   "status": "SKIP",
+   "dur_s": 60.75,
+   "file": "/Users/junsheng.sun/FluxGroup/cph4/fleet/archive/asset-lib/20261107/audio-bgm/playful.mp3",
+   "detail": "already present and verified"
+  },
+  {
+   "slug": "melancholic",
+   "status": "SKIP",
+   "dur_s": 114.077,
+   "file": "/Users/junsheng.sun/FluxGroup/cph4/fleet/archive/asset-lib/20261107/audio-bgm/melancholic.mp3",
+   "detail": "already present and verified"
+  },
+  {
+   "slug": "romantic",
+   "status": "SKIP",
+   "dur_s": 97.454,
+   "file": "/Users/junsheng.sun/FluxGroup/cph4/fleet/archive/asset-lib/20261107/audio-bgm/romantic.mp3",
+   "detail": "already present and verified"
+  },
+  {
+   "slug": "mysterious",
+   "status": "SKIP",
+   "dur_s": 60.0,
+   "file": "/Users/junsheng.sun/FluxGroup/cph4/fleet/archive/asset-lib/20261107/audio-bgm/mysterious.mp3",
+   "detail": "already present and verified"
+  },
+  {
+   "slug": "dark",
+   "status": "SKIP",
+   "dur_s": 60.0,
+   "file": "/Users/junsheng.sun/FluxGroup/cph4/fleet/archive/asset-lib/20261107/audio-bgm/dark.mp3",
+   "detail": "already present and verified"
+  },
+  {
+   "slug": "driving",
+   "status": "SKIP",
+   "dur_s": 60.0,
+   "file": "/Users/junsheng.sun/FluxGroup/cph4/fleet/archive/asset-lib/20261107/audio-bgm/driving.mp3",
+   "detail": "already present and verified"
+  },
+  {
+   "slug": "tense",
+   "status": "SKIP",
+   "dur_s": 60.0,
+   "file": "/Users/junsheng.sun/FluxGroup/cph4/fleet/archive/asset-lib/20261107/audio-bgm/tense.mp3",
    "detail": "already present and verified"
   }
  ],

@@ -3,7 +3,7 @@
  "version": 1,
  "created": "2026-11-07",
  "why": "OGA 文件下载被限速到 2-17KB/s，整曲下载单段常 >400s 超时；用 ffmpeg -ss/-t 直取 60s 片段只拉所需字节。archive.org 全域名不可达（DNS 污染），故不进本规格。",
- "output_dir": "media/asset/incoming/audio-bgm",
+ "output_dir": "cph4/fleet/archive/asset-lib/20261107/audio-bgm",
  "min_dur_s": 15,
  "max_dur_s": 120,
  "excerpt_s": 60,
@@ -81,5 +81,6 @@
    "collected_note": "10/10 已在本机 ~/FluxAssets/incoming/audio-bgm 落盘并实测复核（2026-11-07）"
   }
  ],
- "base_url": "https://opengameart.org/sites/default/files"
+ "base_url": "https://opengameart.org/sites/default/files",
+ "intake_note": "成品已入档此目录（10 段 + manifest），执行机跑本工具应全部 SKIP；新增 mood 才下载"
 }
