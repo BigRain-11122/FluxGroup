@@ -23,7 +23,14 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 EVENTS = os.path.join(ROOT, "cph4", "fleet", "dispatcher", "events.jsonl")
 BUDGET = os.path.join(ROOT, "cph4", "fleet", "dispatcher", "cloud-budget.json")
-MODELS = {"local": "qwen3.5:4b", "local-heavy": "qwen3.5:35b-a3b"}
+# 2026-11-08：local 档读策略单源（此前写死 qwen3.5:4b，而现役是 4b-mlx，两者是两个模型）
+try:
+    import local_model as _lm
+    _RES = ((_lm._duties().get("resident") or {}).get("model") or "qwen3.5:4b-mlx")
+    _SEALED = ((_lm._duties().get("sealed") or {}).get("model") or "qwen3.5:35b-a3b")
+except Exception:
+    _RES, _SEALED = "qwen3.5:4b-mlx", "qwen3.5:35b-a3b"
+MODELS = {"local": _RES, "local-heavy": _SEALED}
 CLOUD_MODEL = os.environ.get("ROUTER_CLOUD_MODEL", "deepseek-v4.1-flash")
 DAILY_CAP = float(os.environ.get("ROUTER_DAILY_CAP", "200"))
 PER_CALL = float(os.environ.get("ROUTER_PER_CALL_CAP", "50"))

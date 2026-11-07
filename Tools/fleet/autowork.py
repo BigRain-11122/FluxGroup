@@ -20,7 +20,11 @@ try:
     from model_policy import resident as _resident
     MODEL = _resident()
 except Exception:
-    MODEL = "qwen3:4b-instruct"
+    # 2026-11-08：不再写死对照档。写死 qwen3:4b-instruct 会另拉一个 4B，把常驻的
+    # qwen3.5:4b-mlx 挤出内存（OLLAMA_MAX_LOADED_MODELS 只有 4 个槽）。改读策略单源。
+    import local_model as _lm
+    MODEL = ((_lm._duties().get("resident") or {}).get("model")
+             or "qwen3.5:4b-mlx")
 
 
 def call(prompt):

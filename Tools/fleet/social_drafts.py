@@ -34,7 +34,9 @@ DIR = os.path.join(ROOT, "cph4", "fleet", "social")
 INBOX = os.path.join(DIR, "inbox.jsonl")
 DRAFTS = os.path.join(DIR, "drafts.jsonl")
 DIGEST = os.path.join(DIR, "DIGEST.md")
-MODEL = "qwen3:4b-instruct"
+# 2026-11-08：同上，读策略单源，不写死对照档
+import local_model as _lm
+MODEL = ((_lm._duties().get("resident") or {}).get("model") or "qwen3.5:4b-mlx")
 
 # Anything with public/legal risk is never auto-drafted: route, don't answer.
 ESCALATE = ("complaint", "legal", "flame")
