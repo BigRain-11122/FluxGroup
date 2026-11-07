@@ -249,3 +249,26 @@ cph4/fleet/memory-slim/
 # 2026-11-07 分层：运行时散件与一次性报告不留在根下
 cph4/fleet/local-tasks.jsonl
 cph4/fleet/receipt-attrib-*.json
+
+# L4 运行时看板（2026-11-07 审计）：每轮被重写、只服务主控本机，不承载跨机信息。
+# CEO 面只保留 CEO-NEXT.md / CEO-THREE.md / COMMAND-BOARD.md 三个进 git；
+# 其余在盘上照常生成，但不再进版本库（否则每轮多几条状态提交，正是 R2 噪音来源）。
+cph4/fleet/SECURITY-LEDGER.md
+cph4/fleet/DR-PLAN.md
+cph4/fleet/REVIEW-BOARD.md
+cph4/fleet/ASSET-REACH.md
+cph4/fleet/ROOT-CAUSE-BOARD.md
+cph4/fleet/CEO-QUEUE.md
+cph4/fleet/SUPPLY-TARGETS.md
+cph4/fleet/WAIT-MAP.md
+cph4/fleet/SYNC-BOARD.md
+cph4/fleet/OPS-METRICS.md
+cph4/fleet/DECISION-CLOSE.md
+cph4/fleet/DONE-AUDIT.md
+cph4/fleet/MODEL-PLAN.md
+cph4/fleet/NEXT-ACTIONS.md
+cph4/fleet/CEO-DEMAND-BOARD.md
+cph4/fleet/REPO-LAYERS.md
+cph4/fleet/HANDOFF.md
+cph4/fleet/DECISIONS.md
+cph4/fleet/DAY-PLAN.md

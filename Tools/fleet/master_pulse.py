@@ -59,7 +59,10 @@ STAGES = [
     # 执行器守护（2026-11-06 夜实测）：bm-c 被执行器被本机机制禁回 Disabled 后，机队静默停产，
     # 而主控侧没有角色负责"发现被禁并重新启用"，只能靠人记得 poke。这里每 60s 幂等检查一次：
     # 只处理 roster.enable_tasks 明示的任务、CEO 让路态整机跳过、只调既有 /poke 入口。
-    ("executor_guard", ["Tools/fleet/executor_guard.py"], 60, {0, 2}, False),
+    ("executor_guard", ["Tools/fleet/executor_guard.py"], 60, {0, 2}, True),
+    # ↑ 降频（2026-11-07 实测 29s/轮）：它守的是"任务被禁"这种缓变状态，
+    # 探三台远端 /status 是纯网络开销，每轮跑等于把 20-30s 的节拍交给 tailnet。
+    # 改 slow=True（每 5 分钟）后单轮省 ~20s，禁用恢复的最坏延迟仍是 5 分钟。
     # 状态面推送（2026-11-07）：队列/回执在独立 worktree 提交推送，绕开主工作树的手改/分叉。
     # 没有这一腿，卡永远不在 origin 翻面，车道会把同一张卡一遍遍重跑（实测连跑 3 次）。
     ("state_push", ["Tools/fleet/state_push.py"], 300, {0, 2}, False),

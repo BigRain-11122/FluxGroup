@@ -41,7 +41,8 @@ def facts():
     q = jl(os.path.join(F, "PRODUCTION-QUEUE.jsonl"))
     by = {}
     for r in q:
-        by[r.get("state")] = by.get(r.get("state"), 0) + 1
+        _st = r.get("state") or "UNKNOWN"     # 坏行(null)显式记 UNKNOWN，不静默丢弃
+        by[_st] = by.get(_st, 0) + 1
     rec = os.path.join(F, "queue-receipts")
     today = datetime.now().strftime("%Y%m%d")
     new = sorted(f for f in os.listdir(rec) if f.endswith((".md", ".json"))
@@ -87,7 +88,11 @@ def main():
             json.dump({"hash": h, "text": text}, open(CACHE, "w", encoding="utf-8"),
                       ensure_ascii=False)
     body = ["# 一屏汇总 %s" % datetime.now().strftime("%Y-%m-%d %H:%M"), "",
-            "队列 " + " ".join("%s=%d" % (k, v) for k, v in sorted(by.items())),
+            # 队列里有 state=null 的坏行（实测 3 条）：直接 sorted() 会拿 None 与 str 比较
+            # 抛 TypeError，本阶段就每轮 rc=1 白跑。这里把 None 归一成 UNKNOWN 再按字符串排，
+            # 坏行要显式可见（UNKNOWN=3 是真账），不许悄悄丢掉。
+            "队列 " + " ".join("%s=%d" % (k, v) for k, v in
+                              sorted(by.items(), key=lambda kv: str(kv[0]))),
             "今日新回执 %d 份" % len(new), "", text or "- 本次未生成（模型不可用）",
             "", "---", "*汇总席 bm-m · 4B · 只读事实*"]
     open(OUT, "w", encoding="utf-8").write("\n".join(body) + "\n")

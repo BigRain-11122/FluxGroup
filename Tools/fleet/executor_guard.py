@@ -77,7 +77,7 @@ def main(argv):
         if nid in skip:
             rows.append({"node": nid, "action": "skip-ceo-pause", "tasks": want})
             continue
-        code, st = http("http://%s:8790/status" % nid, timeout=30)
+        code, st = http("http://%s:8790/status" % nid, timeout=8)
         if code != 200:
             rows.append({"node": nid, "action": "unreachable", "code": code})
             continue
