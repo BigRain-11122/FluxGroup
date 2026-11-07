@@ -1,12 +1,12 @@
 {
- "ts": "2026-11-07T23:39:04",
- "cycle": 297,
+ "ts": "2026-11-07T23:40:05",
+ "cycle": 298,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-07T23:39:04",
+ "master_tick_ts": "2026-11-07T23:40:05",
  "queue": {
   "total": 1337,
-  "open": 5,
+  "open": 3,
   "running": 7,
   "done": 505,
   "failed": 5
@@ -14,10 +14,10 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 122.6,
-   "cpu_load_pct": null,
-   "ram_free_gb": null,
-   "gpu_util_pct": null,
+   "hb_age_s": 10.1,
+   "cpu_load_pct": 16,
+   "ram_free_gb": 37.6,
+   "gpu_util_pct": 85,
    "job": "R-SUB-ASSESS-BIGDOMAIN-20261107",
    "last_result": null,
    "idle_confirmed": false,
@@ -38,10 +38,10 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 126.1,
-   "cpu_load_pct": null,
-   "ram_free_gb": null,
-   "gpu_util_pct": null,
+   "hb_age_s": 19.1,
+   "cpu_load_pct": 8,
+   "ram_free_gb": 3.2,
+   "gpu_util_pct": 0,
    "job": "ASSET-GEN-CHARACTERS-20261107",
    "last_result": null,
    "idle_confirmed": false,
@@ -50,12 +50,20 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 8.0,
-   "cpu_load_pct": 20,
-   "ram_free_gb": 9.1,
+   "hb_age_s": 14.9,
+   "cpu_load_pct": 51,
+   "ram_free_gb": 9.2,
    "gpu_util_pct": null,
    "job": "VAULT-VERIFY-20261107",
-   "last_result": null,
+   "last_result": {
+    "job": "VAULT-VERIFY-20261107",
+    "state": "RUNNING",
+    "rc": null,
+    "ts": "2026-11-07T23:39:47",
+    "reason": null,
+    "out_bytes": null,
+    "elapsed_s": null
+   },
    "idle_confirmed": false,
    "idle_reason": "",
    "idle_rounds": 0
@@ -267,15 +275,11 @@
    "jobs": [
     "ASSET-GEN-CHARACTERS-20261107",
     "ASSET-GEN-SCENES-20261107",
-    "ASSET-GEN-PROPS-20261107",
-    "ASSET-GEN-TRANSITIONS-20261107",
     "ASSET-GEN-STYLES-20261107",
     "VAULT-VERIFY-20261107"
    ],
    "no_supply": false,
    "blockers": [
-    "ASSET-GEN-PROPS-20261107:no-lane",
-    "ASSET-GEN-TRANSITIONS-20261107:no-lane",
     "ASSET-GEN-STYLES-20261107:no-lane"
    ],
    "note": "CEO 2026-11-03：先储备资产，角色 LoRA 与音色库为 P0"
@@ -818,14 +822,14 @@
  "routing": {
   "local": 2,
   "cloud": 0,
-  "queue": 3,
+  "queue": 1,
   "blocked": 0,
   "cloud_spend_today": 0,
   "waste": []
  },
  "supply_gap": {
   "cpu": 2,
-  "gpu": 3
+  "gpu": 1
  },
  "supply_added": [],
  "events": [],
