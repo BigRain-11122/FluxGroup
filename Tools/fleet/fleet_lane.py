@@ -585,19 +585,48 @@ def lane_payload(root, node, fetch=True):
 
 
 # ---- NATS raw protocol (no exe required on remote nodes) -------------------------
+# 熔断（2026-11-07 实测）：hub 不可达时 create_connection 每次要等满 timeout，
+# 而 master 一轮要 kv_get 8 次 → 单阶段白烧 36s（占整轮一半）。这里按 host 记
+# 失败时间：失败后 180 秒内所有调用立即失败，不再逐个等超时；到期自动重试一次。
+_HUB_DOWN = {}          # (host, port) -> 到期时间戳
+HUB_COOLDOWN_S = 180.0
+
+
+def hub_down(host, port):
+    return _HUB_DOWN.get((host, port), 0) > time.time()
+
+
+def hub_mark_down(host, port):
+    _HUB_DOWN[(host, port)] = time.time() + HUB_COOLDOWN_S
+
+
+def hub_mark_up(host, port):
+    _HUB_DOWN.pop((host, port), None)
+
+
 def _nats_connect(host, port, timeout=3.0):
-    s = socket.create_connection((host, port), timeout)
-    s.settimeout(timeout)
-    buf = b""
-    while b"\r\n" not in buf:
-        chunk = s.recv(4096)
-        if not chunk:
-            raise ConnectionError("nats closed during INFO")
-        buf += chunk
-    s.sendall(b'CONNECT {"verbose":false,"pedantic":false}\r\n')
+    """建连并完成 NATS 握手；任何失败都记入熔断，避免同一轮反复等超时。
+
+    实测（2026-11-07）：hub 上 TCP 能连但服务器不回 INFO，失败点在 recv 而不是
+    create_connection；只对连接异常记熔断等于没记——8 次 kv_get 仍各等 1 秒。
+    """
+    if hub_down(host, port):
+        raise ConnectionError("nats hub cooling down after failure (%s:%s)" % (host, port))
+    try:
+        s = socket.create_connection((host, port), timeout)
+        s.settimeout(timeout)
+        buf = b""
+        while b"\r\n" not in buf:
+            chunk = s.recv(4096)
+            if not chunk:
+                raise ConnectionError("nats closed during INFO")
+            buf += chunk
+        s.sendall(b'CONNECT {"verbose":false,"pedantic":false}\r\n')
+    except Exception:
+        hub_mark_down(host, port)
+        raise
+    hub_mark_up(host, port)
     return s
-
-
 def kv_put(key, obj, host=HUB_DEFAULT, port=PORT_DEFAULT, timeout=3.0):
     """Write FLEET_STATE.<key>. KV subjects are plain publishes once the bucket exists."""
     try:
