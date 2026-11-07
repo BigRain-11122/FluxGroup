@@ -218,7 +218,8 @@ STAGES = [
     # 事件日志（2026-11-03 S1 影子期）：先把本机 outbox 发到 JetStream，再拉本机未消费事件。
     # 走快批（每轮都跑）而不是慢批：慢批 300 秒节流会让事件积压成"五分钟前的事实"。
     # 只写不读——生产链路一次也不等它；rc=2 只表示总线不通，不影响派单。
-    ("eventlog", ["Tools/fleet/flux_eventlog.py", "tick", "--node", NODE], 90, {0}, False),
+    ("eventlog", ["Tools/fleet/flux_eventlog.py", "tick", "--node", NODE], 90, {0, 2}, False),
+    # rc=2 = hub-unreachable（事件留在 outbox 待补发）：链路告警，不是阶段故障。
     # 本地模型雷达（2026-11-03 CEO：每天扫描并测试是否有更新）：脚本自带"一天只跑一次"闸，
     # 放慢批即可；rc=2 只表示"上游有新版本待裁定"，不是故障。
     ("modelradar", ["Tools/fleet/model_radar.py", "run"], 900, {0, 2}, True),
