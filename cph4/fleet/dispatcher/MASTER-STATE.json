@@ -1,24 +1,24 @@
 {
- "ts": "2026-11-08T00:09:38",
- "cycle": 313,
+ "ts": "2026-11-08T00:11:27",
+ "cycle": 314,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-08T00:09:38",
+ "master_tick_ts": "2026-11-08T00:11:27",
  "queue": {
-  "total": 1374,
-  "open": 5,
-  "running": 22,
+  "total": 1375,
+  "open": 9,
+  "running": 19,
   "done": 510,
   "failed": 1
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 8.3,
-   "cpu_load_pct": 51,
-   "ram_free_gb": 27.3,
-   "gpu_util_pct": 85,
-   "job": "ASSET-GEN-SCENES-20261107",
+   "hb_age_s": 54.6,
+   "cpu_load_pct": 63,
+   "ram_free_gb": 30.6,
+   "gpu_util_pct": 90,
+   "job": "ASSET-GEN-CHARACTERS-20261107",
    "last_result": null,
    "idle_confirmed": false,
    "idle_reason": "",
@@ -26,31 +26,23 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 12.7,
+   "hb_age_s": 95.3,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
    "job": "PROBE-NODE-bm-b-20261107",
-   "last_result": {
-    "job": "PROBE-NODE-bm-b-20261107",
-    "state": "RUNNING",
-    "rc": null,
-    "ts": "2026-11-08T00:00:01",
-    "reason": null,
-    "out_bytes": null,
-    "elapsed_s": null
-   },
+   "last_result": null,
    "idle_confirmed": false,
    "idle_reason": "",
    "idle_rounds": 0
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 247.9,
+   "hb_age_s": 354.8,
    "cpu_load_pct": 25,
    "ram_free_gb": 0.5,
    "gpu_util_pct": 0,
-   "job": "ASSET-GEN-CHARACTERS-20261107",
+   "job": "R-PLAN-BIGDOMAIN-20261108",
    "last_result": null,
    "idle_confirmed": false,
    "idle_reason": "",
@@ -58,20 +50,12 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 30.4,
-   "cpu_load_pct": 58,
+   "hb_age_s": 18.9,
+   "cpu_load_pct": 44,
    "ram_free_gb": 9.6,
    "gpu_util_pct": null,
    "job": "R-TRIAGE-BIGSTREAMMV-BMM-20261108",
-   "last_result": {
-    "job": null,
-    "state": "IDLE",
-    "rc": null,
-    "ts": "2026-11-07T23:59:44",
-    "reason": "SELF-DISPATCH: lane scans its own backlog",
-    "out_bytes": null,
-    "elapsed_s": null
-   },
+   "last_result": null,
    "idle_confirmed": false,
    "idle_reason": "",
    "idle_rounds": 0
@@ -284,7 +268,9 @@
     "ROLL-bmc-000533"
    ],
    "no_supply": false,
-   "blockers": [],
+   "blockers": [
+    "ROLL-bmc-000533:no-lane"
+   ],
    "note": null
   },
   "asset-lib": {
@@ -302,10 +288,15 @@
     "asset-lib-voice-corpus-2026-11-08",
     "asset-lib-face-dataset-2026-11-08",
     "asset-lib-library-check-2026-11-08",
-    "asset-lib-char-prompts-2026-11-08"
+    "asset-lib-char-prompts-2026-11-08",
+    "asset-lib-asset-gen-2026-11-08"
    ],
    "no_supply": false,
-   "blockers": [],
+   "blockers": [
+    "ASSET-GEN-STYLES-20261107:no-lane",
+    "asset-lib-face-dataset-2026-11-08:no-lane",
+    "asset-lib-asset-gen-2026-11-08:no-lane"
+   ],
    "note": "CEO 2026-11-03：先储备资产，角色 LoRA 与音色库为 P0"
   }
  },
@@ -835,17 +826,14 @@
   }
  },
  "judgments": {
-  "open": 3,
-  "by_kind": {
-   "CAPACITY": 1,
-   "LINE-LATE": 2
-  },
+  "open": 0,
+  "by_kind": {},
   "added": 0,
   "tick_tier": "none",
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 5,
+  "local": 9,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -853,13 +841,18 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 3,
-  "gpu": 2
+  "cpu": 5,
+  "gpu": 4
  },
  "supply_added": [],
  "events": [
   "PROBE-NODE-bm-b-20261107 -> bm-b (cpu)",
-  "ASSET-GEN-STYLES-20261107 -> bm-b (gpu)"
+  "ASSET-GEN-CHARACTERS-20261107 -> bm-a (gpu)",
+  "ASSET-GEN-SCENES-20261107 -> bm-b (gpu)",
+  "asset-lib-char-prompts-2026-11-08 -> bm-b (cpu)",
+  "bigmoney-signal-2026-11-08 -> bm-b (cpu)",
+  "R-TRIAGE-BIGSTREAMMV-BMM-20261108 -> bm-m (cpu)",
+  "R-TRIAGE-BIGGAME-BMM-20261108 -> bm-m (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
@@ -867,6 +860,9 @@
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
  "lane_files_written": [
-  "bm-b"
+  "bm-a",
+  "bm-b",
+  "bm-c",
+  "bm-m"
  ]
 }

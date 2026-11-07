@@ -1,21 +1,7 @@
 {
  "node": "bm-c",
- "ts": "2026-11-08T00:09:13",
+ "ts": "2026-11-08T00:11:28",
  "jobs": [
-  {
-   "id": "ASSET-GEN-CHARACTERS-20261107",
-   "title": "资产生产：角色包身份层出图（8 件）",
-   "cmd": "python Tools/fleet/asset_gen.py --class characters --limit 8 --node bm-c --receipt cph4/fleet/queue-receipts/asset-gen-characters-20261107.json",
-   "cwd": ".",
-   "needs": "gpu",
-   "deliverable": "cph4/fleet/queue-receipts/asset-gen-characters-20261107.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
   {
    "id": "R-PLAN-BIGDOMAIN-20261108",
    "title": "BigDomain·硅基域商业化 线级体检与缺口清单",
@@ -88,6 +74,6 @@
   }
  ],
  "idle_reason": "",
- "lane_ok": true,
- "capacity_note": "ram-unknown"
+ "lane_ok": false,
+ "capacity_note": "ram 0.5/1.0 GB"
 }
