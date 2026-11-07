@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-07T17:27:44",
- "cycle": 109,
+ "ts": "2026-11-07T17:31:16",
+ "cycle": 110,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-07T17:27:44",
+ "master_tick_ts": "2026-11-07T17:31:16",
  "queue": {
   "total": 1263,
   "open": 3,
@@ -13,18 +13,6 @@
  },
  "lanes": {
   "bm-a": {
-   "online": true,
-   "hb_age_s": 784.8,
-   "cpu_load_pct": null,
-   "ram_free_gb": null,
-   "gpu_util_pct": null,
-   "job": null,
-   "last_result": null,
-   "idle_confirmed": false,
-   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 0
-  },
-  "bm-b": {
    "online": false,
    "hb_age_s": null,
    "cpu_load_pct": null,
@@ -36,23 +24,56 @@
    "idle_reason": "CAPACITY-BLOCKED-RAM OFFLINE (hb age Nones)",
    "idle_rounds": 0
   },
+  "bm-b": {
+   "online": true,
+   "hb_age_s": -4.2,
+   "cpu_load_pct": 10,
+   "ram_free_gb": 11.8,
+   "gpu_util_pct": 1,
+   "job": null,
+   "last_result": null,
+   "idle_confirmed": false,
+   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+   "idle_rounds": 0
+  },
   "bm-c": {
    "online": true,
-   "hb_age_s": 201.4,
+   "hb_age_s": 188.7,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
    "job": "asset-lib-face-dataset-2026-11-07",
-   "last_result": null,
+   "last_result": {
+    "job": null,
+    "state": "IDLE",
+    "rc": null,
+    "ts": "2026-11-07T17:30:55",
+    "reason": "CAPACITY-BLOCKED-RAM OFFLINE (hb age Nones)",
+    "out_bytes": null,
+    "elapsed_s": null
+   },
    "idle_confirmed": false,
    "idle_reason": "",
+   "idle_rounds": 0
+  },
+  "bm-m": {
+   "online": true,
+   "hb_age_s": 69.6,
+   "cpu_load_pct": 28,
+   "ram_free_gb": 12.0,
+   "gpu_util_pct": null,
+   "job": null,
+   "last_result": null,
+   "idle_confirmed": false,
+   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
    "idle_rounds": 0
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
-  "bm-c": 0
+  "bm-c": 0,
+  "bm-m": 0
  },
  "lines": {
   "bigstream-mv": {
@@ -802,10 +823,13 @@
  "supply_added": [],
  "events": [],
  "violations": [
-  "bm-b OFFLINE",
+  "bm-a OFFLINE",
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
- "lane_files_written": []
+ "lane_files_written": [
+  "bm-a",
+  "bm-b"
+ ]
 }
