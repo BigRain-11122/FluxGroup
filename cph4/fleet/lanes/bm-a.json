@@ -1,14 +1,14 @@
 {
  "node": "bm-a",
- "ts": "2026-11-07T22:32:28",
+ "ts": "2026-11-07T22:38:04",
  "jobs": [
   {
-   "id": "bigmoney-conclusion-2026-11-07",
-   "title": "[金融量化（回测 → 一页结论 → 可报价或写清卡点）] 一页结论（四件齐才许对外）",
-   "cmd": "python Tools/fleet/quant_conclusion.py --in quant/bigmoney/results/etf_nobond_vt.json --line bigmoney --out cph4/fleet/queue-receipts/quant-conclusion-2026-11-07.md",
+   "id": "bigmoney-quote-2026-11-07",
+   "title": "[金融量化（回测 → 一页结论 → 可报价或写清卡点）] 19.9 套餐可交付性判定（能不能卖、卡在哪）",
+   "cmd": "python Tools/fleet/line_triage.py --line bigmoney",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/quant-conclusion-2026-11-07.md",
+   "deliverable": "cph4/fleet/queue-receipts/quant-quote-2026-11-07.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 33.0/1.0 GB"
+ "capacity_note": "ram 31.0/1.0 GB"
 }
