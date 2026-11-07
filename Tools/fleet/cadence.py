@@ -18,7 +18,10 @@ import time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 FLEET = os.path.join(ROOT, "cph4", "fleet")
-TABLE = os.path.join(FLEET, "COMMAND-CADENCE-v2.json")
+TABLE = os.path.join(FLEET, "COMMAND-CADENCE-v3.json")
+# v3 由 cadence_build.py 从 STAGES 生成（覆盖全部细分阶段）；缺失时回退 v2
+if not os.path.exists(TABLE):
+    TABLE = os.path.join(FLEET, "COMMAND-CADENCE-v2.json")
 PULSE = os.path.join(ROOT, "Tools", "fleet", "master_pulse.py")
 OUT = os.path.join(FLEET, "state", "cadence-plan.json")
 BASE_TICK = 45

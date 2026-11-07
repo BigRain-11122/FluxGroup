@@ -1,0 +1,1370 @@
+{
+ "_comment": "指挥节奏表 v3（2026-11-07）：由 cadence_build.py 从 master_pulse.STAGES 生成，覆盖脉里每一个在跑的细分阶段；手工条目保留其判据。改周期只改脉，再重跑生成器。",
+ "version": "v3-20261107",
+ "base_tick_s": 45,
+ "scope": {
+  "covers": "脉里全部 86 个阶段（值守/派单/执行/线/一屏/方向）",
+  "excludes": "各产品线自己的业务流程（不进脉，不进本表）"
+ },
+ "law": [
+  "数字一律规则算，不交 4B",
+  "产出必须落盘且度量不得引用自己写的文件",
+  "模型只做归类/摘要/打分/抽取，结论可被规则复核；模型不可用一律降级为规则",
+  "只留三类人工闸：不可逆、对外发布、花钱超限",
+  "写同一个文件的任务必须由 depends_on 串起来",
+  "闲置而有活=流程缺陷，当场改流程"
+ ],
+ "actors": {
+  "rule": {
+   "cost": "0 token"
+  },
+  "model": {
+   "model": "qwen3.5:4b-mlx"
+  },
+  "embed": {
+   "model": "qwen3-embedding:0.6b"
+  }
+ },
+ "tasks": [
+  {
+   "id": "S-budget",
+   "domain": "线",
+   "stage": "budget",
+   "period_s": 45,
+   "phase_s": 0,
+   "actor": "rule",
+   "action": "云预算闸（实际工具 cloud_budget.py check）",
+   "input": [
+    "token-ledger/SPEND.jsonl"
+   ],
+   "output": "state/cloud-budget.json",
+   "output_inferred": false,
+   "accept": "未超上限",
+   "on_fail": "超限 hard-stop，转本地队列"
+  },
+  {
+   "id": "S-ceo_queue",
+   "domain": "派单",
+   "stage": "ceo_queue",
+   "period_s": 45,
+   "phase_s": 9,
+   "actor": "rule",
+   "action": "执行 ceo_queue 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/ceo_default.json",
+   "output_inferred": true,
+   "accept": "队列/车道有可见变化，或明确报「无活可派」",
+   "on_fail": "连续 2 轮无变化 → 报 E-SUPPLY-STUCK"
+  },
+  {
+   "id": "S-market",
+   "domain": "线",
+   "stage": "market",
+   "period_s": 45,
+   "phase_s": 18,
+   "actor": "rule",
+   "action": "市场门（简报五要素+新鲜度）",
+   "input": [
+    "研究简报"
+   ],
+   "output": "state/market.json",
+   "output_inferred": false,
+   "accept": "五要素齐",
+   "on_fail": "rc=2 告警，不阻塞已开工的卡"
+  },
+  {
+   "id": "S-mem",
+   "domain": "一屏",
+   "stage": "mem",
+   "period_s": 45,
+   "phase_s": 27,
+   "actor": "rule",
+   "action": "执行 mem 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/mem_gate.json",
+   "output_inferred": true,
+   "accept": "文件 mtime 前进且内容非空",
+   "on_fail": "未更新 → 视为阶段未执行，报 E-STAGE-SILENT"
+  },
+  {
+   "id": "S-orgs",
+   "domain": "一屏",
+   "stage": "orgs",
+   "period_s": 45,
+   "phase_s": 36,
+   "actor": "rule",
+   "action": "执行 orgs 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/org-design.json",
+   "output_inferred": false,
+   "accept": "文件 mtime 前进且内容非空",
+   "on_fail": "未更新 → 视为阶段未执行，报 E-STAGE-SILENT"
+  },
+  {
+   "id": "S-asset_reach",
+   "domain": "线",
+   "stage": "asset_reach",
+   "period_s": 60,
+   "phase_s": 0,
+   "actor": "rule",
+   "action": "执行 asset_reach 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/asset_reach.json",
+   "output_inferred": true,
+   "accept": "产出落盘且年龄可算；rc=2 视为告警不是故障",
+   "on_fail": "同线 3 次告警未处理 → 交 CEO 待办"
+  },
+  {
+   "id": "S-bank_autofill",
+   "domain": "派单",
+   "stage": "bank_autofill",
+   "period_s": 60,
+   "phase_s": 2,
+   "actor": "rule",
+   "action": "bank 补料 + 销僵尸 pending",
+   "input": [
+    "work bank"
+   ],
+   "output": "bank 更新",
+   "output_inferred": false,
+   "accept": "无产物已在盘却仍 pending 的条目",
+   "on_fail": "僵尸条目 >5 → 告警",
+   "depends_on": [
+    "S-night_plan"
+   ]
+  },
+  {
+   "id": "S-canon",
+   "domain": "线",
+   "stage": "canon",
+   "period_s": 60,
+   "phase_s": 4,
+   "actor": "rule",
+   "action": "认知基座一致性（文档说的=工序跑的）",
+   "input": [
+    "认知基座",
+    "工序表"
+   ],
+   "output": "state/canon.json",
+   "output_inferred": false,
+   "accept": "0 漂移",
+   "on_fail": "rc=2 → 该线认知漂移，派补文档卡"
+  },
+  {
+   "id": "S-city",
+   "domain": "线",
+   "stage": "city",
+   "period_s": 60,
+   "phase_s": 6,
+   "actor": "rule",
+   "action": "执行 city 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/city-state.json",
+   "output_inferred": false,
+   "accept": "产出落盘且年龄可算；rc=2 视为告警不是故障",
+   "on_fail": "同线 3 次告警未处理 → 交 CEO 待办"
+  },
+  {
+   "id": "S-closer",
+   "domain": "机队",
+   "stage": "closer",
+   "period_s": 60,
+   "phase_s": 8,
+   "actor": "rule",
+   "action": "抓假完成（rc=0 但交付物缺失/空/0 时长）与停滞（零输出 30min）",
+   "input": [
+    "回执 rc",
+    "交付物大小",
+    "stdout 字节"
+   ],
+   "output": "state/alerts.json 的 E-ARTIFACT/E-STALL",
+   "output_inferred": false,
+   "accept": "E-ARTIFACT=0",
+   "on_fail": "同机同日 3 次 → 该机停派只派诊断卡"
+  },
+  {
+   "id": "S-decide",
+   "domain": "一屏",
+   "stage": "decide",
+   "period_s": 60,
+   "phase_s": 10,
+   "actor": "rule",
+   "action": "执行 decide 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/org-decide.json",
+   "output_inferred": false,
+   "accept": "文件 mtime 前进且内容非空",
+   "on_fail": "未更新 → 视为阶段未执行，报 E-STAGE-SILENT"
+  },
+  {
+   "id": "S-decision_close",
+   "domain": "派单",
+   "stage": "decision_close",
+   "period_s": 60,
+   "phase_s": 12,
+   "actor": "rule",
+   "action": "执行 decision_close 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/decision_close.json",
+   "output_inferred": true,
+   "accept": "队列/车道有可见变化，或明确报「无活可派」",
+   "on_fail": "连续 2 轮无变化 → 报 E-SUPPLY-STUCK"
+  },
+  {
+   "id": "S-decision_router",
+   "domain": "派单",
+   "stage": "decision_router",
+   "period_s": 60,
+   "phase_s": 14,
+   "actor": "rule",
+   "action": "执行 decision_router 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/decision_router.json",
+   "output_inferred": true,
+   "accept": "队列/车道有可见变化，或明确报「无活可派」",
+   "on_fail": "连续 2 轮无变化 → 报 E-SUPPLY-STUCK"
+  },
+  {
+   "id": "S-done_audit",
+   "domain": "线",
+   "stage": "done_audit",
+   "period_s": 60,
+   "phase_s": 16,
+   "actor": "rule",
+   "action": "执行 done_audit 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/done_audit.json",
+   "output_inferred": true,
+   "accept": "产出落盘且年龄可算；rc=2 视为告警不是故障",
+   "on_fail": "同线 3 次告警未处理 → 交 CEO 待办"
+  },
+  {
+   "id": "S-executor_guard",
+   "domain": "值守",
+   "stage": "executor_guard",
+   "period_s": 60,
+   "phase_s": 18,
+   "actor": "rule",
+   "action": "执行 executor_guard 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/executor_guard.json",
+   "output_inferred": true,
+   "accept": "rc 在 ok_rc 内且产出落在指定路径",
+   "on_fail": "连续 3 轮失败 → 告警并停该阶段"
+  },
+  {
+   "id": "S-forecast",
+   "domain": "线",
+   "stage": "forecast",
+   "period_s": 60,
+   "phase_s": 20,
+   "actor": "rule",
+   "action": "执行 forecast 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/forecast.json",
+   "output_inferred": true,
+   "accept": "产出落盘且年龄可算；rc=2 视为告警不是故障",
+   "on_fail": "同线 3 次告警未处理 → 交 CEO 待办"
+  },
+  {
+   "id": "S-gate_rigor",
+   "domain": "线",
+   "stage": "gate_rigor",
+   "period_s": 60,
+   "phase_s": 22,
+   "actor": "rule",
+   "action": "执行 gate_rigor 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/gate-rigor.json",
+   "output_inferred": false,
+   "accept": "产出落盘且年龄可算；rc=2 视为告警不是故障",
+   "on_fail": "同线 3 次告警未处理 → 交 CEO 待办"
+  },
+  {
+   "id": "S-handoff",
+   "domain": "一屏",
+   "stage": "handoff",
+   "period_s": 60,
+   "phase_s": 24,
+   "actor": "rule",
+   "action": "执行 handoff 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/handoff.json",
+   "output_inferred": true,
+   "accept": "文件 mtime 前进且内容非空",
+   "on_fail": "未更新 → 视为阶段未执行，报 E-STAGE-SILENT"
+  },
+  {
+   "id": "S-hb",
+   "domain": "值守",
+   "stage": "hb",
+   "period_s": 60,
+   "phase_s": 26,
+   "actor": "rule",
+   "action": "写本机心跳",
+   "input": [
+    "本机 CPU/内存/GPU 采样"
+   ],
+   "output": "cph4/fleet/state/agent-beat.json",
+   "output_inferred": false,
+   "accept": "hb_age_s < 2*period",
+   "on_fail": "下一轮重写；连续 3 次失败记 E-HB"
+  },
+  {
+   "id": "S-line_plan",
+   "domain": "线",
+   "stage": "line_plan",
+   "period_s": 60,
+   "phase_s": 28,
+   "actor": "rule",
+   "action": "工序表结构校验（悬空依赖/成环/缺 accept）",
+   "input": [
+    "ri/*/lines/*.json"
+   ],
+   "output": "state/line-plan.json",
+   "output_inferred": false,
+   "accept": "无悬空依赖",
+   "on_fail": "rc=2 → 该工序表停用",
+   "depends_on": [
+    "S-census"
+   ]
+  },
+  {
+   "id": "S-next_actions",
+   "domain": "派单",
+   "stage": "next_actions",
+   "period_s": 60,
+   "phase_s": 30,
+   "actor": "rule",
+   "action": "执行 next_actions 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/next_actions.json",
+   "output_inferred": true,
+   "accept": "队列/车道有可见变化，或明确报「无活可派」",
+   "on_fail": "连续 2 轮无变化 → 报 E-SUPPLY-STUCK"
+  },
+  {
+   "id": "S-qcheck",
+   "domain": "值守",
+   "stage": "qcheck",
+   "period_s": 60,
+   "phase_s": 32,
+   "actor": "rule",
+   "action": "队列完整性闸（冲突标记/坏行/重复 id）",
+   "input": [
+    "PRODUCTION-QUEUE.jsonl",
+    "PRODUCTION-BACKLOG.jsonl"
+   ],
+   "output": "cph4/fleet/state/queue-integrity.json",
+   "output_inferred": false,
+   "accept": "0 坏行",
+   "on_fail": "rc=2 连续 3 轮 → 告警并停派单",
+   "backoff": {
+    "factor": 1,
+    "max_s": 60
+   }
+  },
+  {
+   "id": "S-quality",
+   "domain": "线",
+   "stage": "quality",
+   "period_s": 60,
+   "phase_s": 34,
+   "actor": "rule",
+   "action": "质量门（交付必须有闸回执）",
+   "input": [
+    "交付物",
+    "闸回执"
+   ],
+   "output": "state/quality.json",
+   "output_inferred": false,
+   "accept": "无未过闸交付",
+   "on_fail": "rc=2 → 该卡判未完成"
+  },
+  {
+   "id": "S-ri",
+   "domain": "线",
+   "stage": "ri",
+   "period_s": 60,
+   "phase_s": 36,
+   "actor": "rule",
+   "action": "执行 ri 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/ri_dept.json",
+   "output_inferred": true,
+   "accept": "产出落盘且年龄可算；rc=2 视为告警不是故障",
+   "on_fail": "同线 3 次告警未处理 → 交 CEO 待办"
+  },
+  {
+   "id": "S-showcase",
+   "domain": "一屏",
+   "stage": "showcase",
+   "period_s": 60,
+   "phase_s": 38,
+   "actor": "rule",
+   "action": "执行 showcase 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/showcase.json",
+   "output_inferred": true,
+   "accept": "文件 mtime 前进且内容非空",
+   "on_fail": "未更新 → 视为阶段未执行，报 E-STAGE-SILENT"
+  },
+  {
+   "id": "S-skills",
+   "domain": "线",
+   "stage": "skills",
+   "period_s": 60,
+   "phase_s": 40,
+   "actor": "rule",
+   "action": "执行 skills 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/skill_check.json",
+   "output_inferred": true,
+   "accept": "产出落盘且年龄可算；rc=2 视为告警不是故障",
+   "on_fail": "同线 3 次告警未处理 → 交 CEO 待办"
+  },
+  {
+   "id": "S-squeeze",
+   "domain": "派单",
+   "stage": "squeeze",
+   "period_s": 60,
+   "phase_s": 42,
+   "actor": "rule",
+   "action": "执行 squeeze 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/squeeze.json",
+   "output_inferred": false,
+   "accept": "队列/车道有可见变化，或明确报「无活可派」",
+   "on_fail": "连续 2 轮无变化 → 报 E-SUPPLY-STUCK"
+  },
+  {
+   "id": "S-supervisor",
+   "domain": "一屏",
+   "stage": "supervisor",
+   "period_s": 60,
+   "phase_s": 44,
+   "actor": "rule",
+   "action": "执行 supervisor 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/fleet_supervisor.json",
+   "output_inferred": true,
+   "accept": "文件 mtime 前进且内容非空",
+   "on_fail": "未更新 → 视为阶段未执行，报 E-STAGE-SILENT"
+  },
+  {
+   "id": "S-supply_target",
+   "domain": "值守",
+   "stage": "supply_target",
+   "period_s": 60,
+   "phase_s": 46,
+   "actor": "rule",
+   "action": "每机待派卡低于地板就补（实际工具 supply_target.py）",
+   "input": [
+    "队列活卡计数",
+    "各机在飞"
+   ],
+   "output": "队列新增 OPEN 卡",
+   "output_inferred": false,
+   "accept": "每机待派 ≥ supply.floor_cards_per_node",
+   "on_fail": "连续 2 轮仍低 → E-SUPPLY-STUCK",
+   "depends_on": [
+    "S-qcheck"
+   ]
+  },
+  {
+   "id": "S-surface",
+   "domain": "一屏",
+   "stage": "surface",
+   "period_s": 60,
+   "phase_s": 48,
+   "actor": "rule",
+   "action": "执行 surface 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/surface_status.json",
+   "output_inferred": true,
+   "accept": "文件 mtime 前进且内容非空",
+   "on_fail": "未更新 → 视为阶段未执行，报 E-STAGE-SILENT"
+  },
+  {
+   "id": "S-wait_map",
+   "domain": "派单",
+   "stage": "wait_map",
+   "period_s": 60,
+   "phase_s": 50,
+   "actor": "rule",
+   "action": "执行 wait_map 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/wait_map.json",
+   "output_inferred": true,
+   "accept": "队列/车道有可见变化，或明确报「无活可派」",
+   "on_fail": "连续 2 轮无变化 → 报 E-SUPPLY-STUCK"
+  },
+  {
+   "id": "S-eventlog",
+   "domain": "一屏",
+   "stage": "eventlog",
+   "period_s": 90,
+   "phase_s": 0,
+   "actor": "rule",
+   "action": "执行 eventlog 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/flux_eventlog.json",
+   "output_inferred": true,
+   "accept": "文件 mtime 前进且内容非空",
+   "on_fail": "未更新 → 视为阶段未执行，报 E-STAGE-SILENT"
+  },
+  {
+   "id": "S-health",
+   "domain": "运维",
+   "stage": "health",
+   "period_s": 90,
+   "phase_s": 22,
+   "actor": "rule",
+   "action": "本机能力采样（capacity_guard 由 lane 开工前调用，脉只留采样面）",
+   "input": [
+    "系统采样"
+   ],
+   "output": "state/capacity.json",
+   "output_inferred": false,
+   "accept": "无换页",
+   "on_fail": "过闸失败 → 该机 ROUTED，不硬扛"
+  },
+  {
+   "id": "S-metrics",
+   "domain": "一屏",
+   "stage": "metrics",
+   "period_s": 90,
+   "phase_s": 44,
+   "actor": "rule",
+   "action": "执行 metrics 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/ops_metrics.json",
+   "output_inferred": true,
+   "accept": "文件 mtime 前进且内容非空",
+   "on_fail": "未更新 → 视为阶段未执行，报 E-STAGE-SILENT"
+  },
+  {
+   "id": "S-night_fill",
+   "domain": "派单",
+   "stage": "night_fill",
+   "period_s": 90,
+   "phase_s": 66,
+   "actor": "rule",
+   "action": "补足每机待派地板",
+   "input": [
+    "队列"
+   ],
+   "output": "队列新增",
+   "output_inferred": false,
+   "accept": "每机 ≥ floor",
+   "on_fail": "无卡可补 → 如实报 E-NO-WORK（禁造假活）",
+   "depends_on": [
+    "S-workgen"
+   ]
+  },
+  {
+   "id": "S-bulletin",
+   "domain": "一屏",
+   "stage": "bulletin",
+   "period_s": 120,
+   "phase_s": 0,
+   "actor": "rule",
+   "action": "执行 bulletin 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/bulletin.json",
+   "output_inferred": true,
+   "accept": "文件 mtime 前进且内容非空",
+   "on_fail": "未更新 → 视为阶段未执行，报 E-STAGE-SILENT"
+  },
+  {
+   "id": "S-canary",
+   "domain": "值守",
+   "stage": "canary",
+   "period_s": 120,
+   "phase_s": 8,
+   "actor": "rule",
+   "action": "执行 canary 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/canary.json",
+   "output_inferred": true,
+   "accept": "rc 在 ok_rc 内且产出落在指定路径",
+   "on_fail": "连续 3 轮失败 → 告警并停该阶段"
+  },
+  {
+   "id": "S-chief",
+   "domain": "一屏",
+   "stage": "chief",
+   "period_s": 120,
+   "phase_s": 16,
+   "actor": "rule",
+   "action": "执行 chief 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/chief.json",
+   "output_inferred": true,
+   "accept": "文件 mtime 前进且内容非空",
+   "on_fail": "未更新 → 视为阶段未执行，报 E-STAGE-SILENT"
+  },
+  {
+   "id": "S-contingency",
+   "domain": "线",
+   "stage": "contingency",
+   "period_s": 120,
+   "phase_s": 24,
+   "actor": "rule",
+   "action": "执行 contingency 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/fleet_contingency.json",
+   "output_inferred": true,
+   "accept": "产出落盘且年龄可算；rc=2 视为告警不是故障",
+   "on_fail": "同线 3 次告警未处理 → 交 CEO 待办"
+  },
+  {
+   "id": "S-deadline",
+   "domain": "值守",
+   "stage": "deadline",
+   "period_s": 120,
+   "phase_s": 32,
+   "actor": "rule",
+   "action": "执行 deadline 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/fleet_deadline.json",
+   "output_inferred": true,
+   "accept": "rc 在 ok_rc 内且产出落在指定路径",
+   "on_fail": "连续 3 轮失败 → 告警并停该阶段"
+  },
+  {
+   "id": "S-inventory",
+   "domain": "派单",
+   "stage": "inventory",
+   "period_s": 120,
+   "phase_s": 40,
+   "actor": "rule",
+   "action": "执行 inventory 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/inventory_guard.json",
+   "output_inferred": true,
+   "accept": "队列/车道有可见变化，或明确报「无活可派」",
+   "on_fail": "连续 2 轮无变化 → 报 E-SUPPLY-STUCK"
+  },
+  {
+   "id": "S-lane",
+   "domain": "执行",
+   "stage": "lane",
+   "period_s": 120,
+   "phase_s": 48,
+   "actor": "rule",
+   "action": "领卡并执行（多槽，GPU 同刻 1 张）",
+   "input": [
+    "车道"
+   ],
+   "output": "交付物 + 回执",
+   "output_inferred": false,
+   "accept": "回执含 rc/error_class/out_bytes",
+   "on_fail": "跑不出产物 → T09 抓",
+   "depends_on": [
+    "S-workgen"
+   ]
+  },
+  {
+   "id": "S-line_agents",
+   "domain": "线",
+   "stage": "line_agents",
+   "period_s": 120,
+   "phase_s": 56,
+   "actor": "rule",
+   "action": "执行 line_agents 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/line_agents.json",
+   "output_inferred": true,
+   "accept": "产出落盘且年龄可算；rc=2 视为告警不是故障",
+   "on_fail": "同线 3 次告警未处理 → 交 CEO 待办"
+  },
+  {
+   "id": "S-night_plan",
+   "domain": "派单",
+   "stage": "night_plan",
+   "period_s": 120,
+   "phase_s": 64,
+   "actor": "rule",
+   "action": "夜间计划供卡（缺口→卡，带去重闸）",
+   "input": [
+    "线缺口",
+    "库存"
+   ],
+   "output": "队列 READY 卡",
+   "output_inferred": false,
+   "accept": "夜间每线 ≥1 张可跑卡",
+   "on_fail": "连续 2 夜空 → 报 E-SUPPLY-DRY",
+   "depends_on": [
+    "S-census"
+   ]
+  },
+  {
+   "id": "S-ossradar",
+   "domain": "运维",
+   "stage": "ossradar",
+   "period_s": 120,
+   "phase_s": 72,
+   "actor": "rule",
+   "action": "开源风向雷达（按日期闸）",
+   "input": [
+    "GitHub 趋势"
+   ],
+   "output": "cph4/fleet/oss/OSS-RADAR.md",
+   "output_inferred": false,
+   "accept": "本轮有更新或明确无变化",
+   "on_fail": "API 异常 rc=2，不影响生产"
+  },
+  {
+   "id": "S-skill_promote",
+   "domain": "线",
+   "stage": "skill_promote",
+   "period_s": 120,
+   "phase_s": 80,
+   "actor": "rule",
+   "action": "执行 skill_promote 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/skill_promote.json",
+   "output_inferred": true,
+   "accept": "产出落盘且年龄可算；rc=2 视为告警不是故障",
+   "on_fail": "同线 3 次告警未处理 → 交 CEO 待办"
+  },
+  {
+   "id": "S-solver",
+   "domain": "执行",
+   "stage": "solver",
+   "period_s": 120,
+   "phase_s": 88,
+   "actor": "rule",
+   "action": "执行 solver 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/master_solver.json",
+   "output_inferred": true,
+   "accept": "回执含 rc、耗时、产出字节；无产物即判假完成",
+   "on_fail": "同卡 3 次未成 → E-ROOTCAUSE-3X 停线"
+  },
+  {
+   "id": "S-vault",
+   "domain": "线",
+   "stage": "vault",
+   "period_s": 120,
+   "phase_s": 96,
+   "actor": "rule",
+   "action": "执行 vault 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/vault.json",
+   "output_inferred": true,
+   "accept": "产出落盘且年龄可算；rc=2 视为告警不是故障",
+   "on_fail": "同线 3 次告警未处理 → 交 CEO 待办"
+  },
+  {
+   "id": "S-verify_done",
+   "domain": "值守",
+   "stage": "verify_done",
+   "period_s": 120,
+   "phase_s": 104,
+   "actor": "rule",
+   "action": "执行 verify_done 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/verify_done.json",
+   "output_inferred": true,
+   "accept": "rc 在 ok_rc 内且产出落在指定路径",
+   "on_fail": "连续 3 轮失败 → 告警并停该阶段"
+  },
+  {
+   "id": "S-warm",
+   "domain": "一屏",
+   "stage": "warm",
+   "period_s": 120,
+   "phase_s": 112,
+   "actor": "rule",
+   "action": "执行 warm 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/warm-models.json",
+   "output_inferred": false,
+   "accept": "文件 mtime 前进且内容非空",
+   "on_fail": "未更新 → 视为阶段未执行，报 E-STAGE-SILENT"
+  },
+  {
+   "id": "S-card_contract_check",
+   "domain": "值守",
+   "stage": "card_contract_check",
+   "period_s": 180,
+   "phase_s": 0,
+   "actor": "rule",
+   "action": "卡契约体检（cmd/cwd/nodes/accept/deliverable 五项齐）",
+   "input": [
+    "队列活卡"
+   ],
+   "output": "cph4/fleet/state/card-contract.json",
+   "output_inferred": false,
+   "accept": "无 CARD-DEFECT 新增",
+   "on_fail": "点名造卡器，不许静默隔离了事",
+   "depends_on": [
+    "S-qcheck"
+   ]
+  },
+  {
+   "id": "S-census",
+   "domain": "线",
+   "stage": "census",
+   "period_s": 180,
+   "phase_s": 18,
+   "actor": "rule",
+   "action": "从磁盘算各线产出年龄（禁认 state/ 与回执）",
+   "input": [
+    "各线交付物目录"
+   ],
+   "output": "state/lines.json",
+   "output_inferred": false,
+   "accept": "15 条线均有 age_h",
+   "on_fail": "缺线 → 报表不完整，报 E-CENSUS"
+  },
+  {
+   "id": "S-checkups",
+   "domain": "线",
+   "stage": "checkups",
+   "period_s": 180,
+   "phase_s": 36,
+   "actor": "rule",
+   "action": "执行 checkups 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/checkups.json",
+   "output_inferred": true,
+   "accept": "产出落盘且年龄可算；rc=2 视为告警不是故障",
+   "on_fail": "同线 3 次告警未处理 → 交 CEO 待办"
+  },
+  {
+   "id": "S-commander",
+   "domain": "方向",
+   "stage": "commander",
+   "period_s": 180,
+   "phase_s": 54,
+   "actor": "rule",
+   "action": "超 7 天无产物的线列出并建议挂起（改线状态需线主确认，不自动改）",
+   "input": [
+    "state/lines.json"
+   ],
+   "output": "线状态变更 + 理由",
+   "output_inferred": false,
+   "accept": "无僵尸线",
+   "on_fail": "无产物却有产出声明 → 判假绿",
+   "depends_on": [
+    "S-census"
+   ]
+  },
+  {
+   "id": "S-gate",
+   "domain": "线",
+   "stage": "gate",
+   "period_s": 180,
+   "phase_s": 72,
+   "actor": "rule",
+   "action": "执行 gate 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/gate_report.json",
+   "output_inferred": true,
+   "accept": "产出落盘且年龄可算；rc=2 视为告警不是故障",
+   "on_fail": "同线 3 次告警未处理 → 交 CEO 待办"
+  },
+  {
+   "id": "S-judge",
+   "domain": "一屏",
+   "stage": "judge",
+   "period_s": 180,
+   "phase_s": 90,
+   "actor": "model",
+   "action": "把近 1h 告警归成五类（缺料/缺机/坏卡/等外部/需 CEO）",
+   "input": [
+    "state/alerts.jsonl"
+   ],
+   "output": "state/alert-triage.json",
+   "output_inferred": false,
+   "accept": "每条有 class 且在五类白名单内",
+   "on_fail": "模型超时 → 按 error_class 规则直分",
+   "budget": {
+    "tokens": 400,
+    "slots": 1
+   }
+  },
+  {
+   "id": "S-master_loop",
+   "domain": "一屏",
+   "stage": "master_loop",
+   "period_s": 180,
+   "phase_s": 108,
+   "actor": "rule",
+   "action": "执行 master_loop 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/master_loop.json",
+   "output_inferred": true,
+   "accept": "文件 mtime 前进且内容非空",
+   "on_fail": "未更新 → 视为阶段未执行，报 E-STAGE-SILENT"
+  },
+  {
+   "id": "S-radar",
+   "domain": "线",
+   "stage": "radar",
+   "period_s": 180,
+   "phase_s": 126,
+   "actor": "rule",
+   "action": "执行 radar 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/radar.json",
+   "output_inferred": true,
+   "accept": "产出落盘且年龄可算；rc=2 视为告警不是故障",
+   "on_fail": "同线 3 次告警未处理 → 交 CEO 待办"
+  },
+  {
+   "id": "S-social",
+   "domain": "一屏",
+   "stage": "social",
+   "period_s": 180,
+   "phase_s": 144,
+   "actor": "rule",
+   "action": "执行 social 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/social_drafts.json",
+   "output_inferred": true,
+   "accept": "文件 mtime 前进且内容非空",
+   "on_fail": "未更新 → 视为阶段未执行，报 E-STAGE-SILENT"
+  },
+  {
+   "id": "S-workgen",
+   "domain": "派单",
+   "stage": "workgen",
+   "period_s": 180,
+   "phase_s": 162,
+   "actor": "rule",
+   "action": "把 READY 变成具体下发卡",
+   "input": [
+    "bank",
+    "队列"
+   ],
+   "output": "车道卡",
+   "output_inferred": false,
+   "accept": "下发卡 100% 带 cmd/prompt",
+   "on_fail": "出现空壳卡 → CARD-DEFECT 并点名",
+   "depends_on": [
+    "S-qcheck",
+    "S-bank_autofill"
+   ]
+  },
+  {
+   "id": "S-digest",
+   "domain": "一屏",
+   "stage": "digest",
+   "period_s": 200,
+   "phase_s": 0,
+   "actor": "model",
+   "action": "六小时战报（四线各一句 + 一条建议）",
+   "input": [
+    "state/lines.json",
+    "队列统计",
+    "一屏"
+   ],
+   "output": "cph4/fleet/DIGEST.md",
+   "output_inferred": false,
+   "accept": "四线各一句且每句带证据指针",
+   "on_fail": "模型失败 → 规则生成四行数字版",
+   "budget": {
+    "tokens": 400,
+    "slots": 1
+   }
+  },
+  {
+   "id": "S-autowork",
+   "domain": "执行",
+   "stage": "autowork",
+   "period_s": 240,
+   "phase_s": 0,
+   "actor": "rule",
+   "action": "执行 autowork 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/autowork.json",
+   "output_inferred": true,
+   "accept": "回执含 rc、耗时、产出字节；无产物即判假完成",
+   "on_fail": "同卡 3 次未成 → E-ROOTCAUSE-3X 停线"
+  },
+  {
+   "id": "S-brain",
+   "domain": "一屏",
+   "stage": "brain",
+   "period_s": 240,
+   "phase_s": 80,
+   "actor": "rule",
+   "action": "执行 brain 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/brain_service.json",
+   "output_inferred": true,
+   "accept": "文件 mtime 前进且内容非空",
+   "on_fail": "未更新 → 视为阶段未执行，报 E-STAGE-SILENT"
+  },
+  {
+   "id": "S-master",
+   "domain": "值守",
+   "stage": "master",
+   "period_s": 240,
+   "phase_s": 160,
+   "actor": "rule",
+   "action": "超时卡释放重排（lease 过期/心跳缺失按未知处理，不算超时）",
+   "input": [
+    "claim 时间",
+    "机器心跳"
+   ],
+   "output": "队列 state 回 OPEN + 释放原因",
+   "output_inferred": false,
+   "accept": "无 RUNNING 超过 lease",
+   "on_fail": "同卡 3 次未成 → E-ROOTCAUSE-3X 停线",
+   "depends_on": [
+    "S-qcheck"
+   ]
+  },
+  {
+   "id": "S-backup",
+   "domain": "值守",
+   "stage": "backup",
+   "period_s": 300,
+   "phase_s": 0,
+   "actor": "rule",
+   "action": "执行 backup 阶段",
+   "input": [],
+   "output": "(该阶段无固定产物，以 stdout 为准)",
+   "output_inferred": true,
+   "accept": "rc 在 ok_rc 内且产出落在指定路径",
+   "on_fail": "连续 3 轮失败 → 告警并停该阶段"
+  },
+  {
+   "id": "S-inference_audit",
+   "domain": "线",
+   "stage": "inference_audit",
+   "period_s": 300,
+   "phase_s": 50,
+   "actor": "rule",
+   "action": "执行 inference_audit 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/local_inference_audit.json",
+   "output_inferred": true,
+   "accept": "产出落盘且年龄可算；rc=2 视为告警不是故障",
+   "on_fail": "同线 3 次告警未处理 → 交 CEO 待办"
+  },
+  {
+   "id": "S-local_tasks",
+   "domain": "执行",
+   "stage": "local_tasks",
+   "period_s": 300,
+   "phase_s": 100,
+   "actor": "rule",
+   "action": "执行 local_tasks 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/local_task.json",
+   "output_inferred": true,
+   "accept": "回执含 rc、耗时、产出字节；无产物即判假完成",
+   "on_fail": "同卡 3 次未成 → E-ROOTCAUSE-3X 停线"
+  },
+  {
+   "id": "S-review_proxy",
+   "domain": "线",
+   "stage": "review_proxy",
+   "period_s": 300,
+   "phase_s": 150,
+   "actor": "rule",
+   "action": "执行 review_proxy 阶段",
+   "input": [],
+   "output": "media/review-720p",
+   "output_inferred": false,
+   "accept": "产出落盘且年龄可算；rc=2 视为告警不是故障",
+   "on_fail": "同线 3 次告警未处理 → 交 CEO 待办"
+  },
+  {
+   "id": "S-self_improve",
+   "domain": "机队",
+   "stage": "self_improve",
+   "period_s": 300,
+   "phase_s": 200,
+   "actor": "rule",
+   "action": "本机自检码龄/空壳/依赖并修",
+   "input": [
+    "本机代码 mtime",
+    "车道载荷",
+    "依赖表"
+   ],
+   "output": "cph4/fleet/queue-receipts/self-improve-<node>-latest.json",
+   "output_inferred": false,
+   "accept": "verdict=SELF-OK 或带原因",
+   "on_fail": "NEED-RELOAD 连续 2 轮 → 派重启卡"
+  },
+  {
+   "id": "S-state_push",
+   "domain": "值守",
+   "stage": "state_push",
+   "period_s": 300,
+   "phase_s": 250,
+   "actor": "rule",
+   "action": "执行 state_push 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/state_push.json",
+   "output_inferred": true,
+   "accept": "rc 在 ok_rc 内且产出落在指定路径",
+   "on_fail": "连续 3 轮失败 → 告警并停该阶段"
+  },
+  {
+   "id": "S-mac_farm",
+   "domain": "执行",
+   "stage": "mac_farm",
+   "period_s": 420,
+   "phase_s": 0,
+   "actor": "rule",
+   "action": "执行 mac_farm 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/mac_farm.json",
+   "output_inferred": true,
+   "accept": "回执含 rc、耗时、产出字节；无产物即判假完成",
+   "on_fail": "同卡 3 次未成 → E-ROOTCAUSE-3X 停线"
+  },
+  {
+   "id": "S-asset_prompts",
+   "domain": "线",
+   "stage": "asset_prompts",
+   "period_s": 600,
+   "phase_s": 0,
+   "actor": "rule",
+   "action": "执行 asset_prompts 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/asset_prompts.json",
+   "output_inferred": true,
+   "accept": "产出落盘且年龄可算；rc=2 视为告警不是故障",
+   "on_fail": "同线 3 次告警未处理 → 交 CEO 待办"
+  },
+  {
+   "id": "S-biz",
+   "domain": "线",
+   "stage": "biz",
+   "period_s": 600,
+   "phase_s": 150,
+   "actor": "rule",
+   "action": "执行 biz 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/local_ai_business.json",
+   "output_inferred": true,
+   "accept": "产出落盘且年龄可算；rc=2 视为告警不是故障",
+   "on_fail": "同线 3 次告警未处理 → 交 CEO 待办"
+  },
+  {
+   "id": "S-fork_close",
+   "domain": "机队",
+   "stage": "fork_close",
+   "period_s": 600,
+   "phase_s": 300,
+   "actor": "rule",
+   "action": "分叉诊断（只诊断，不自动 reset 含真产物的分叉）",
+   "input": [
+    "git ahead/behind",
+    "ahead 触及路径"
+   ],
+   "output": "state/fork-status.json",
+   "output_inferred": false,
+   "accept": "每机 ahead/behind 可见",
+   "on_fail": "ahead>0 且含真文件 → 出告警，升 CEO 待办"
+  },
+  {
+   "id": "S-tool_watch",
+   "domain": "运维",
+   "stage": "tool_watch",
+   "period_s": 600,
+   "phase_s": 450,
+   "actor": "rule",
+   "action": "launchd/计划任务指向的脚本是否还在",
+   "input": [
+    "任务定义",
+    "脚本路径"
+   ],
+   "output": "state/tool-watch.json",
+   "output_inferred": false,
+   "accept": "0 悬空引用",
+   "on_fail": "悬空 → 告警（今天实锚：load_watch.py 已删但仍在调）"
+  },
+  {
+   "id": "S-asr_subs",
+   "domain": "执行",
+   "stage": "asr_subs",
+   "period_s": 900,
+   "phase_s": 0,
+   "actor": "rule",
+   "action": "执行 asr_subs 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/subs_asr.json",
+   "output_inferred": true,
+   "accept": "回执含 rc、耗时、产出字节；无产物即判假完成",
+   "on_fail": "同卡 3 次未成 → E-ROOTCAUSE-3X 停线"
+  },
+  {
+   "id": "S-memory_nightly",
+   "domain": "一屏",
+   "stage": "memory_nightly",
+   "period_s": 900,
+   "phase_s": 300,
+   "actor": "rule",
+   "action": "执行 memory_nightly 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/memory_nightly.json",
+   "output_inferred": true,
+   "accept": "文件 mtime 前进且内容非空",
+   "on_fail": "未更新 → 视为阶段未执行，报 E-STAGE-SILENT"
+  },
+  {
+   "id": "S-modelradar",
+   "domain": "运维",
+   "stage": "modelradar",
+   "period_s": 900,
+   "phase_s": 600,
+   "actor": "rule",
+   "action": "本地模型雷达（scan/bench/decide，自带日期闸）",
+   "input": [
+    "LOCAL-MODEL-POLICY.json",
+    "黄金集"
+   ],
+   "output": "state/model-radar.json",
+   "output_inferred": false,
+   "accept": "建议不自动生效",
+   "on_fail": "失败保留上版基线，不冲掉 A/B"
+  },
+  {
+   "id": "S-ceo_pilot",
+   "domain": "方向",
+   "stage": "ceo_pilot",
+   "period_s": 1800,
+   "phase_s": 0,
+   "actor": "rule",
+   "action": "带做器：六源合一打分，只推一条（同题不刷屏）",
+   "input": [
+    "state/lines.json",
+    "队列",
+    "oss/STOCKPILE.json",
+    "state/demand-audit.json",
+    "state/alerts.json"
+   ],
+   "output": "cph4/fleet/CEO-NEXT.md",
+   "output_inferred": false,
+   "accept": "有 top 且带 why/action/done_check 三段",
+   "on_fail": "无候选时明确写「没有需要你做的事」，不许空文件"
+  },
+  {
+   "id": "S-artifact_push",
+   "domain": "运维",
+   "stage": "artifact_push",
+   "period_s": 3600,
+   "phase_s": 0,
+   "actor": "rule",
+   "action": "产物回传（非 Windows 跳过）",
+   "input": [
+    "artifacts/<node>"
+   ],
+   "output": "artifacts/<node>/PUSHED.jsonl",
+   "output_inferred": false,
+   "accept": "无未回传产物 >1h",
+   "on_fail": "失败不阻塞生产，下轮重试"
+  },
+  {
+   "id": "S-model_plan",
+   "domain": "方向",
+   "stage": "model_plan",
+   "period_s": 3600,
+   "phase_s": 1200,
+   "actor": "rule",
+   "action": "执行 model_plan 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/model_plan.json",
+   "output_inferred": true,
+   "accept": "结论带证据指针，否则视为未出结论",
+   "on_fail": "无候选时须写明「没有需要你做的事」，不许空文件"
+  },
+  {
+   "id": "S-useful_load",
+   "domain": "运维",
+   "stage": "useful_load",
+   "period_s": 3600,
+   "phase_s": 2400,
+   "actor": "rule",
+   "action": "占着算力却没有产出 → 判无用负载",
+   "input": [
+    "进程 + 产物 mtime"
+   ],
+   "output": "state/useful-load.json",
+   "output_inferred": false,
+   "accept": "无用负载 ≤1",
+   "on_fail": "连续 3h 无产出 → 建议释放"
+  },
+  {
+   "id": "S-ceo_three",
+   "domain": "方向",
+   "stage": "ceo_three",
+   "period_s": 86400,
+   "phase_s": 0,
+   "actor": "model",
+   "action": "只挑必须 CEO 拍的三件事",
+   "input": [
+    "告警",
+    "BLOCKED 线",
+    "花钱/对外事项"
+   ],
+   "output": "cph4/fleet/CEO-THREE.md",
+   "output_inferred": false,
+   "accept": "≤3 条，每条带文件证据",
+   "on_fail": "模型失败 → 规则取最高 prio 三条",
+   "budget": {
+    "tokens": 400,
+    "slots": 1
+   }
+  },
+  {
+   "id": "S-demand_audit",
+   "domain": "方向",
+   "stage": "demand_audit",
+   "period_s": 86400,
+   "phase_s": 21600,
+   "actor": "rule",
+   "action": "执行 demand_audit 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/demand_audit.json",
+   "output_inferred": true,
+   "accept": "结论带证据指针，否则视为未出结论",
+   "on_fail": "无候选时须写明「没有需要你做的事」，不许空文件"
+  },
+  {
+   "id": "S-fact_check",
+   "domain": "方向",
+   "stage": "fact_check",
+   "period_s": 86400,
+   "phase_s": 43200,
+   "actor": "rule",
+   "action": "情报审查：雷达越界数字拿去 GitHub API 核对，漂移超 10% 判 STALE",
+   "input": [
+    "oss/STOCKPILE.json"
+   ],
+   "output": "state/fact-check.json",
+   "output_inferred": false,
+   "accept": "每条越界候选有 VERIFIED/STALE 回执",
+   "on_fail": "无网一律 UNVERIFIED，不许判假"
+  },
+  {
+   "id": "S-submit_ledger",
+   "domain": "值守",
+   "stage": "submit_ledger",
+   "period_s": 86400,
+   "phase_s": 64800,
+   "actor": "rule",
+   "action": "执行 submit_ledger 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/submit_ledger_fill.json",
+   "output_inferred": true,
+   "accept": "rc 在 ok_rc 内且产出落在指定路径",
+   "on_fail": "连续 3 轮失败 → 告警并停该阶段"
+  }
+ ],
+ "generated": {
+  "from": "Tools/fleet/master_pulse.py:STAGES",
+  "stages": 86,
+  "orphans": []
+ }
+}
