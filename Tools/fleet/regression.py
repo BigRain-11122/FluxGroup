@@ -550,6 +550,32 @@ def rg28():
     return "白名单 %d 个模型，封存/对照档已排除，跨机端点走 8792" % len(allow)
 
 
+@case("RG-29", "能不能用网关必须可机检，且缺令牌不许判成网关故障",
+      "「网关开着」不等于「这台机器能用」：没令牌(401)/连不上/档位被封(403) "
+      "在回执里长得一样，全被记成「模型不可用」就没人去补那一步准备")
+def rg29():
+    tool = os.path.join(ROOT, "Tools", "fleet", "llm_selftest.py")
+    assert os.path.exists(tool), "没有机检工具 llm_selftest.py，各机只能靠猜"
+    src = open(tool, encoding="utf-8").read()
+    for code in ("E-NO-TOKEN", "E-UNREACHABLE", "E-BAD-TOKEN", "E-MODEL-DENIED"):
+        assert code in src, "自测少了一态：%s（原因分不清就等于没判）" % code
+    d = tempfile.mkdtemp()
+
+    def run(tok):
+        p = subprocess.run([sys.executable, tool, "--token-file", tok,
+                            "--json", os.path.join(d, "llm-st.json")],
+                           capture_output=True, text=True, timeout=180)
+        return p.returncode
+
+    missing = run("/tmp/definitely-no-such-llm-token")
+    assert missing == 3, "缺令牌应返 3（缺料不算失败），实返 %d" % missing
+    # 负控：有令牌但不对/连不上时必须返 1，否则三态退化成两态
+    badtok = os.path.join(d, "badtok")
+    open(badtok, "w").write("wrong")
+    assert run(badtok) == 1, "错令牌/连不上应返 1（真故障），不能也返 3"
+    return "四态齐全；缺令牌=3（缺料）· 错令牌/不可达=1（真故障），负控通过"
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--json", action="store_true")
