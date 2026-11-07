@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
- "ts": "2026-11-07T22:34:18",
+ "ts": "2026-11-07T22:39:49",
  "jobs": [
   {
-   "id": "biggame-accept-2026-11-07",
-   "title": "[游戏（可上线清单 → 一款可玩包 → 提审材料）] 质量验收（缺一份闸回执就不算交付）",
-   "cmd": "python Tools/fleet/quality_gate.py --line biggame --out cph4/fleet/queue-receipts/quality-biggame-2026-11-07.json",
-   "cwd": "",
+   "id": "CNV-20261105T174044-2",
+   "title": "转化·02-加工（复盘：今天演练暴露的漂移全部收口）",
+   "cmd": "python Tools/fleet/plan_convert.py --step 2 --conv cph4/fleet/conversions/20261105/复盘-今天演练暴露的漂移全部收口 --tool echo tool-ok > /tmp/conv-tool.txt",
+   "cwd": "/Users/junsheng.sun/FluxGroup",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/quality-biggame-2026-11-07.json",
+   "deliverable": "cph4/fleet/conversions/20261105/复盘-今天演练暴露的漂移全部收口/step2-加工.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",

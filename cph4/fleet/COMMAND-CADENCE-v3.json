@@ -518,7 +518,7 @@
    "domain": "运维",
    "stage": "health",
    "period_s": 90,
-   "phase_s": 22,
+   "phase_s": 30,
    "actor": "rule",
    "action": "本机能力采样（capacity_guard 由 lane 开工前调用，脉只留采样面）",
    "input": [
@@ -530,25 +530,11 @@
    "on_fail": "过闸失败 → 该机 ROUTED，不硬扛"
   },
   {
-   "id": "S-metrics",
-   "domain": "一屏",
-   "stage": "metrics",
-   "period_s": 90,
-   "phase_s": 44,
-   "actor": "rule",
-   "action": "执行 metrics 阶段",
-   "input": [],
-   "output": "cph4/fleet/state/ops_metrics.json",
-   "output_inferred": true,
-   "accept": "文件 mtime 前进且内容非空",
-   "on_fail": "未更新 → 视为阶段未执行，报 E-STAGE-SILENT"
-  },
-  {
    "id": "S-night_fill",
    "domain": "派单",
    "stage": "night_fill",
    "period_s": 90,
-   "phase_s": 66,
+   "phase_s": 60,
    "actor": "rule",
    "action": "补足每机待派地板",
    "input": [
@@ -1389,6 +1375,20 @@
    "action": "执行 review_artifacts 阶段",
    "input": [],
    "output": "cph4/fleet/state/artifact_review.json",
+   "output_inferred": true,
+   "accept": "文件 mtime 前进且内容非空",
+   "on_fail": "未更新 → 视为阶段未执行，报 E-STAGE-SILENT"
+  },
+  {
+   "id": "S-retro",
+   "domain": "一屏",
+   "stage": "retro",
+   "period_s": 43200,
+   "phase_s": 0,
+   "actor": "rule",
+   "action": "执行 retro 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/retro.json",
    "output_inferred": true,
    "accept": "文件 mtime 前进且内容非空",
    "on_fail": "未更新 → 视为阶段未执行，报 E-STAGE-SILENT"
