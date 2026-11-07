@@ -164,6 +164,10 @@ STAGES = [
     ("dr_check", ["Tools/fleet/dr_check.py"], 86400, {0}, True),
     # 三层产出审核 + 入档入库（CEO 2026-11-07）：DONE 只表示执行结束，不代表合格。
     ("review_artifacts", ["Tools/fleet/artifact_review.py", "--limit", "40", "--apply"], 21600, {0, 1}, True),
+    # 内存护栏（CEO 2026-11-07「把本地算力完全赋能，但最好不要 swap 浪费硬盘」）：
+    # 判据是换页速率不是 swap 总量；四档常驻 14.2GB 时实测 ≈1.8 页/分。rc=1 表示正在
+    # 拿硬盘当内存用（真抖动），而不是"swap 账上还有历史占用"。
+    ("mem_guard", ["Tools/fleet/mem_guard.py", "--window", "30"], 120, {0, 1}, True),
     # 分线质量席（CEO 2026-11-07「给各个业务和研发提升质量的智能体，要先进可靠」）：
     # 五条线（影片/图像/构建/回测/文档）21 条判据，每条自带反例、--selftest 自证闸有效，
     # 任一强制项不过即整体 FAIL（不许加权分把硬伤放过去）。4 小时一次，rc=2 表示闸失效。
@@ -749,8 +753,17 @@ def align_resident() -> str:
         with open(os.path.join(ROOT, "cph4", "fleet", "LOCAL-MODEL-POLICY.json"),
                   encoding="utf-8") as f:
             lp = (json.load(f).get("duties") or {})
-        # 三档常驻白名单（2026-11-07）：resident(4B 主力) + triage(1.7B 快车道) + embedding
-        for seat in ("resident", "triage", "embedding"):
+        # 常驻白名单从策略读（2026-11-07 实锚）：早先这里手写三档，加了 big(8B) 却没加进
+        # 白名单，于是每轮把刚加载的大模型卸掉 → 冷加载 20-40s、反复抖。名单必须跟着
+        # budget.resident_set 走，不许再手写。
+        _wl = []
+        try:
+            with open(os.path.join(ROOT, "cph4", "fleet", "LOCAL-MODEL-POLICY.json"),
+                      encoding="utf-8") as _lf:
+                _wl = ((json.load(_lf).get("budget") or {}).get("resident_set") or [])
+        except Exception:
+            _wl = []
+        for seat in (_wl or ["big", "resident", "embedding"]):
             m = ((lp.get(seat) or {}).get("model") or "").strip()
             if m:
                 keep.add(m)
@@ -777,7 +790,7 @@ def ollama_ok() -> bool:
         return False
 
 
-MAX_RESIDENT_GB = 8.0
+MAX_RESIDENT_GB = 12.0   # 单模型上限：8B@8192 实测 5.9GB；12GB 容得下 14B 级
 
 
 def evict_heavy_models() -> str:
@@ -826,30 +839,47 @@ def pageouts() -> int:
 
 
 def relieve_swap() -> str:
-    """CEO 2026-11-01: 不要频繁触发硬盘交换. Live swap means pages are already on disk;
-    every extra resident model makes it worse. Above 2GB we drop everything except the
-    policy seat and say so, instead of quietly paging during the CEO's work."""
-    gb = swap_used_gb()
-    if gb < 0:
+    """按**换页速率**判，不按 swap 账上总量。
+
+    2026-11-07 修正（CEO「不要把 swap 浪费硬盘，但算力要用满」）：旧实现只要
+    swap used > 2GB 就把除主力档以外全部卸掉。而 macOS 的 swap 用过就留账、不回落
+    （本机长期 3.2GB），于是每一轮都在卸 8B/1.7B → 冷加载 20-40s，算力反而没用满。
+    真正伤盘的是"现在还在往盘上写"，所以这里采两次 pageouts 求速率；超阈值才动手，
+    动手顺序按矩阵 swap.order（先卸快车道，大档最后）。
+    """
+    p0 = pageouts()
+    if p0 < 0:
         return "unknown"
-    if gb < 2.0:
-        return "ok(%.1fGB)" % gb
+    time.sleep(5)
+    p1 = pageouts()
+    per_min = (p1 - p0) * 12          # 5 秒窗口外推成每分钟
+    limit = 120
+    try:
+        with open(os.path.join(ROOT, "cph4", "fleet", "MEM-GUARD-v1.json"),
+                  encoding="utf-8") as f:
+            limit = int((json.load(f) or {}).get("pageouts_max_per_min") or 120)
+    except Exception:
+        pass
+    if per_min <= limit:
+        return "ok(%.0f页/分, swap账 %.1fGB)" % (per_min, swap_used_gb())
     try:
         with urllib.request.urlopen("http://127.0.0.1:11434/api/ps", timeout=5) as r:
             models = json.load(r).get("models", [])
     except Exception:
-        return "high(%.1fGB) unload-unknown" % gb
-    keep = ""
+        return "thrash(%.0f页/分) unload-unknown" % per_min
+    # 只卸最容易再起来的档（快车道），大档留到最后
+    keep_names = set()
     try:
-        with open(os.path.join(ROOT, "cph4", "fleet", "MODEL-POLICY.json"), encoding="utf-8-sig") as f:
-            pol = json.load(f)
-        keep = ((pol.get("lane_local_llm") or {}).get("model")) or ""
+        with open(os.path.join(ROOT, "cph4", "fleet", "LOCAL-MODEL-POLICY.json"),
+                  encoding="utf-8") as f:
+            du = (json.load(f).get("duties") or {})
+        keep_names = {((du.get(k) or {}).get("model") or "") for k in ("big", "resident")}
     except Exception:
         pass
     dropped = []
     for m in models:
         name = m.get("name") or m.get("model") or ""
-        if keep and name.startswith(keep.split(":")[0]):
+        if name in keep_names:
             continue
         try:
             urllib.request.urlopen(urllib.request.Request(
@@ -859,7 +889,7 @@ def relieve_swap() -> str:
             dropped.append(name)
         except Exception:
             pass
-    return "high(%.1fGB)%s" % (gb, (" unloaded:" + ",".join(dropped)) if dropped else " no-extra-model")
+    return "thrash(%.0f页/分)%s" % (per_min, (" unloaded:" + ",".join(dropped)) if dropped else "")
 
 
 def checks(prev: dict | None = None) -> list[dict]:

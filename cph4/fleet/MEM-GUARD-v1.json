@@ -1,0 +1,15 @@
+{
+  "_note": "内存护栏阈值（2026-11-07 CEO「完全赋能但不要 swap 浪费硬盘」）。判据只看换页速率，不看 swap 占用总量——macOS 用过 swap 就会留账，不回落不代表在抖。",
+  "version": 1,
+  "window_s": 60,
+  "pageouts_max_per_min": 120,
+  "swap_growth_max_mb": 64,
+  "resident_gb_limit": 16.0,
+  "min_free_gb": 3.0,
+  "swap_order": ["triage", "big", "resident", "embedding"],
+  "why": {
+    "pageouts_max_per_min": "正常空闲几乎不换出；超过每分钟 120 页（约 2MB/min）说明有东西在被挤",
+    "resident_gb_limit": "32GB 机器上模型常驻上限 16GB，留 16GB 给系统/办公/编解码",
+    "min_free_gb": "可用低于 3GB 时 macOS 会开始压缩与换页，推理会明显变慢"
+  }
+}

@@ -32,11 +32,11 @@
    "why": "封存：驻留即 swap，仅离线质量批且 mem_gate 放行才加载"
   },
   "triage": {
-   "_why": "快车道：归类/打标/过筛。不常驻（真实调用少，装载仅 0.4s），用时临时拉、用完即卸",
+   "_why": "快车道：归类/打标/过筛。四档常驻（实测 13.1GB）；OLLAMA_MAX_LOADED_MODELS 必须 ≥ 档数，否则新档进来会挤掉旧档",
    "model": "qwen3:1.7b",
    "cost_gb": 1.5,
    "num_ctx": 4096,
-   "keep_alive": "0"
+   "keep_alive": "25m"
   },
   "big": {
    "_why": "难活常驻：质量复核/长文改写/代码审查/创意文案。实测 8B 与 4B、向量三档共存 11.0GB，不必每次临时装卸（装卸一次要 3-6 秒且在内存紧时会挤掉主力）",
@@ -290,13 +290,14 @@
   }
  ],
  "budget": {
-  "resident_gb_limit": 12.5,
-  "peak_gb_limit": 16.0,
-  "rule": "常驻= resident+triage+embedding 三档；装载 on_demand 前必须让 8B 与 4B 不共存",
-  "office_reserve_gb": 12.0,
+  "resident_gb_limit": 16.0,
+  "peak_gb_limit": 20.0,
+  "rule": "CEO 2026-11-07：办公不必留太多，模型可占到 16GB 常驻；硬线是换页速率（mem_guard），不是 swap 占用总量",
+  "office_reserve_gb": 4.0,
   "resident_set": [
    "big",
    "resident",
+   "triage",
    "embedding"
   ]
  }

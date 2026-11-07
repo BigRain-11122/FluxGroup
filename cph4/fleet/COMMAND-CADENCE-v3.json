@@ -3,7 +3,7 @@
  "version": "v3-20261107",
  "base_tick_s": 45,
  "scope": {
-  "covers": "脉里全部 93 个阶段（值守/派单/执行/线/一屏/方向）",
+  "covers": "脉里全部 94 个阶段（值守/派单/执行/线/一屏/方向）",
   "excludes": "各产品线自己的业务流程（不进脉，不进本表）"
  },
  "law": [
@@ -680,11 +680,25 @@
    "on_fail": "同线 3 次告警未处理 → 交 CEO 待办"
   },
   {
+   "id": "S-mem_guard",
+   "domain": "一屏",
+   "stage": "mem_guard",
+   "period_s": 120,
+   "phase_s": 64,
+   "actor": "rule",
+   "action": "执行 mem_guard 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/mem_guard.json",
+   "output_inferred": true,
+   "accept": "文件 mtime 前进且内容非空",
+   "on_fail": "未更新 → 视为阶段未执行，报 E-STAGE-SILENT"
+  },
+  {
    "id": "S-night_plan",
    "domain": "派单",
    "stage": "night_plan",
    "period_s": 120,
-   "phase_s": 64,
+   "phase_s": 72,
    "actor": "rule",
    "action": "夜间计划供卡（缺口→卡，带去重闸）",
    "input": [
@@ -704,7 +718,7 @@
    "domain": "运维",
    "stage": "ossradar",
    "period_s": 120,
-   "phase_s": 72,
+   "phase_s": 80,
    "actor": "rule",
    "action": "开源风向雷达（按日期闸）",
    "input": [
@@ -720,7 +734,7 @@
    "domain": "线",
    "stage": "skill_promote",
    "period_s": 120,
-   "phase_s": 80,
+   "phase_s": 88,
    "actor": "rule",
    "action": "执行 skill_promote 阶段",
    "input": [],
@@ -734,7 +748,7 @@
    "domain": "执行",
    "stage": "solver",
    "period_s": 120,
-   "phase_s": 88,
+   "phase_s": 96,
    "actor": "rule",
    "action": "执行 solver 阶段",
    "input": [],
@@ -748,7 +762,7 @@
    "domain": "线",
    "stage": "vault",
    "period_s": 120,
-   "phase_s": 96,
+   "phase_s": 104,
    "actor": "rule",
    "action": "执行 vault 阶段",
    "input": [],
@@ -762,7 +776,7 @@
    "domain": "一屏",
    "stage": "warm",
    "period_s": 120,
-   "phase_s": 104,
+   "phase_s": 112,
    "actor": "rule",
    "action": "执行 warm 阶段",
    "input": [],
@@ -1462,7 +1476,7 @@
  ],
  "generated": {
   "from": "Tools/fleet/master_pulse.py:STAGES",
-  "stages": 93,
+  "stages": 94,
   "orphans": []
  }
 }

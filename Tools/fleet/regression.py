@@ -278,6 +278,23 @@ def rg16():
     return "%d 条判据全部能拦住专属反例" % info["items"]
 
 
+@case("RG-17", "内存护栏必须在位且口径正确",
+      "把文件缓存当成占用会报假紧张；只看 swap 总量会漏掉真正的换页抖动")
+def rg17():
+    sys.path.insert(0, os.path.join(ROOT, "Tools", "fleet"))
+    import mem_guard as mg
+    cfg = mg.cfg()
+    assert cfg.get("resident_gb_limit", 0) >= 12.0, "常驻上限过低（CEO 允许占满算力）"
+    assert cfg.get("pageouts_max_per_min", 0) > 0, "缺换页速率阈值"
+    src = open(os.path.join(ROOT, "Tools", "fleet", "mem_guard.py"), encoding="utf-8").read()
+    assert "Pages wired down" in src and "compressor" in src, \
+        "可用内存口径必须扣掉 wired+active+compressor（否则把文件缓存当占用）"
+    fg = mg.free_gb()
+    assert 0 <= fg <= 64, "可用内存读数异常：%s" % fg
+    return "护栏在位（上限 %.1fGB，换页上限 %d 页/分，当前可用 %.1fGB）" % (
+        cfg["resident_gb_limit"], cfg["pageouts_max_per_min"], fg)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--json", action="store_true")

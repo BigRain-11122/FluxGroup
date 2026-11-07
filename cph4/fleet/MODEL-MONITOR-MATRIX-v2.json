@@ -8,10 +8,10 @@
    "role": "快车道：归类、打标、过筛、抽一个短字段",
    "model": "qwen3:1.7b",
    "num_ctx": 4096,
-   "keep_alive": "0",
-   "resident": false,
+   "keep_alive": "25m",
+   "resident": true,
    "measured_gb": 1.5,
-   "why": "真实调用量小（近周 2 次），装载仅 0.4s，故不占常驻；突发批量时临时拉"
+   "why": "高频归类走它，亚秒级；四档常驻合计约 13.1GB，仍在 16GB 预算内"
   },
   "resident": {
    "role": "主力：摘要、抽字段、写一句理由、判定短文本",
@@ -68,15 +68,16 @@
   ]
  },
  "budget": {
-  "resident_gb_limit": 12.5,
-  "peak_gb_limit": 16.0,
-  "office_reserve_gb": 12.0,
+  "resident_gb_limit": 16.0,
+  "peak_gb_limit": 20.0,
+  "office_reserve_gb": 4.0,
   "resident_set": [
    "big",
    "resident",
+   "triage",
    "embedding"
   ],
-  "rule": "三档常驻（8B+4B+向量）合计 ≤12.5GB；峰值含 triage 时 ≤16GB；办公预留 12GB"
+  "rule": "四档常驻 ≤16GB；硬性前提 OLLAMA_MAX_LOADED_MODELS ≥ 档数（3 会互驱逐）"
  },
  "swap": {
   "order": [
@@ -85,17 +86,19 @@
    "resident",
    "embedding"
   ],
-  "_comment": "要腾内存时先卸快车道（最便宜且装载快），大档最后才动——它是难活的唯一依赖"
+  "_comment": "内存告急时先卸快车道（装载 8s，最便宜），大档最后动"
  },
  "measured": {
   "at": "2026-11-07T20:4x",
   "resident_3tier_gb": 11.0,
   "detail": [
-   "8B@8192 5.9GB + 4B@8192 4.1GB + emb 1.0GB = 11.0GB，实测共存无驱逐",
-   "8B@4096 5.2GB；上下文减半省 0.7GB",
-   "4B 被卸后重载 2.2s；8B 重载约 5-6s——所以三档都要常驻，别靠装卸"
+   "四档跨脉存活实测 14.6GB：8B 5.9 + 4B 4.7 + 1.7B 1.5 + emb 1.0",
+   "两分钟窗口换出 25 页（≈12 页/分，护栏上限 120 页/分）→ 没有拿硬盘当内存",
+   "OLLAMA_MAX_LOADED_MODELS 必须 ≥4（=3 时第 4 档必挤掉一档）",
+   "主控脉两处曾按『swap 账上 >2GB / 单模型 >8GB』卸模型，导致反复冷加载 20-40s；已改为按换页速率"
   ],
-  "code_probe": "8B 生成 jsonl 重复 id 检查函数，一次正确"
+  "code_probe": "8B 生成 jsonl 重复 id 检查函数，一次正确",
+  "resident_4tier_gb": 14.6
  },
  "forbidden": [
   "常驻任何 30B 级以上模型（24GB 即触发 swap，CEO 明令不许硬扛 swap）",

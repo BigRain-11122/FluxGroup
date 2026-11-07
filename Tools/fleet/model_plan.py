@@ -76,6 +76,18 @@ def main():
         for need in want_res:
             if need not in (mx.get("tiers") or {}):
                 errs.append("E-TIER: 缺常驻档 %s（只剩单一大模型=CEO 明确反对）" % need)
+        # 加载槽位必须 ≥ 常驻档数，否则新档进来会挤掉旧档（实测 3 槽挤掉 8B）
+        try:
+            env_txt = subprocess.run(["ps", "-E", "-p",
+                                      subprocess.run(["pgrep", "-f", "ollama serve"],
+                                                     capture_output=True, text=True).stdout.split()[0]],
+                                     capture_output=True, text=True, timeout=10).stdout
+            _m = re.search(r"OLLAMA_MAX_LOADED_MODELS=(\d+)", env_txt)
+            if _m and int(_m.group(1)) < len(want_res):
+                errs.append("E-SLOTS: OLLAMA_MAX_LOADED_MODELS=%s 小于常驻档数 %d（会互相驱逐）"
+                            % (_m.group(1), len(want_res)))
+        except Exception:
+            pass
         for k, t in (mx.get("tiers") or {}).items():
             if t.get("resident") is False and str(t.get("keep_alive")) not in ("0", "0s"):
                 errs.append("E-KEEPALIVE: %s 非常驻却 keep_alive=%s（会悄悄占住常驻）"
