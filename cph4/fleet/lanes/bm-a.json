@@ -1,10 +1,6 @@
 {
  "node": "bm-a",
-<<<<<<< HEAD
- "ts": "2026-11-08T02:35:12",
-=======
- "ts": "2026-11-08T02:19:33",
->>>>>>> e365df198 (job(AUD-GAME-20261108T012729-12): artifact [via bm-m])
+ "ts": "2026-11-08T02:41:31",
  "jobs": [
   {
    "id": "bigstream-mv-gate-2026-11-08",
@@ -33,8 +29,6 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
-<<<<<<< HEAD
-=======
   },
   {
    "id": "bigmoney-signal-2026-11-08",
@@ -105,14 +99,9 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
->>>>>>> e365df198 (job(AUD-GAME-20261108T012729-12): artifact [via bm-m])
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
-<<<<<<< HEAD
- "capacity_note": "ram 27.9/1.0 GB"
-=======
- "capacity_note": "ram 33.6/1.0 GB"
->>>>>>> e365df198 (job(AUD-GAME-20261108T012729-12): artifact [via bm-m])
+ "capacity_note": "ram 24.3/1.0 GB"
 }
