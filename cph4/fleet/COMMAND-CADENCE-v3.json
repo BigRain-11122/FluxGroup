@@ -3,7 +3,7 @@
  "version": "v3-20261107",
  "base_tick_s": 45,
  "scope": {
-  "covers": "脉里全部 98 个阶段（值守/派单/执行/线/一屏/方向）",
+  "covers": "脉里全部 99 个阶段（值守/派单/执行/线/一屏/方向）",
   "excludes": "各产品线自己的业务流程（不进脉，不进本表）"
  },
  "law": [
@@ -1029,11 +1029,25 @@
    "on_fail": "同卡 3 次未成 → E-ROOTCAUSE-3X 停线"
   },
   {
+   "id": "S-blocker_loop",
+   "domain": "一屏",
+   "stage": "blocker_loop",
+   "period_s": 240,
+   "phase_s": 60,
+   "actor": "rule",
+   "action": "执行 blocker_loop 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/blocker_loop.json",
+   "output_inferred": true,
+   "accept": "文件 mtime 前进且内容非空",
+   "on_fail": "未更新 → 视为阶段未执行，报 E-STAGE-SILENT"
+  },
+  {
    "id": "S-brain",
    "domain": "一屏",
    "stage": "brain",
    "period_s": 240,
-   "phase_s": 80,
+   "phase_s": 120,
    "actor": "rule",
    "action": "执行 brain 阶段",
    "input": [],
@@ -1047,7 +1061,7 @@
    "domain": "值守",
    "stage": "master",
    "period_s": 240,
-   "phase_s": 160,
+   "phase_s": 180,
    "actor": "rule",
    "action": "超时卡释放重排（lease 过期/心跳缺失按未知处理，不算超时）",
    "input": [
@@ -1532,7 +1546,7 @@
  ],
  "generated": {
   "from": "Tools/fleet/master_pulse.py:STAGES",
-  "stages": 98,
+  "stages": 99,
   "orphans": []
  }
 }
