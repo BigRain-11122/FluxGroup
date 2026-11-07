@@ -1,23 +1,23 @@
 {
- "ts": "2026-11-07T23:40:05",
- "cycle": 298,
+ "ts": "2026-11-07T23:42:04",
+ "cycle": 300,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-07T23:40:05",
+ "master_tick_ts": "2026-11-07T23:42:04",
  "queue": {
   "total": 1337,
   "open": 3,
-  "running": 7,
-  "done": 505,
+  "running": 6,
+  "done": 506,
   "failed": 5
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 10.1,
-   "cpu_load_pct": 16,
-   "ram_free_gb": 37.6,
-   "gpu_util_pct": 85,
+   "hb_age_s": 33.0,
+   "cpu_load_pct": 76,
+   "ram_free_gb": 28.4,
+   "gpu_util_pct": 60,
    "job": "R-SUB-ASSESS-BIGDOMAIN-20261107",
    "last_result": null,
    "idle_confirmed": false,
@@ -26,9 +26,9 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": null,
+   "hb_age_s": 0.0,
    "cpu_load_pct": null,
-   "ram_free_gb": null,
+   "ram_free_gb": 8.2,
    "gpu_util_pct": null,
    "job": "PROBE-NODE-bm-b-20261107",
    "last_result": null,
@@ -38,8 +38,8 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 19.1,
-   "cpu_load_pct": 8,
+   "hb_age_s": 63.9,
+   "cpu_load_pct": 10,
    "ram_free_gb": 3.2,
    "gpu_util_pct": 0,
    "job": "ASSET-GEN-CHARACTERS-20261107",
@@ -50,22 +50,22 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 14.9,
+   "hb_age_s": 129.6,
    "cpu_load_pct": 51,
    "ram_free_gb": 9.2,
    "gpu_util_pct": null,
-   "job": "VAULT-VERIFY-20261107",
+   "job": null,
    "last_result": {
     "job": "VAULT-VERIFY-20261107",
-    "state": "RUNNING",
-    "rc": null,
-    "ts": "2026-11-07T23:39:47",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-07T23:40:12",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": false,
-   "idle_reason": "",
+   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
    "idle_rounds": 0
   }
  },
@@ -275,8 +275,7 @@
    "jobs": [
     "ASSET-GEN-CHARACTERS-20261107",
     "ASSET-GEN-SCENES-20261107",
-    "ASSET-GEN-STYLES-20261107",
-    "VAULT-VERIFY-20261107"
+    "ASSET-GEN-STYLES-20261107"
    ],
    "no_supply": false,
    "blockers": [
