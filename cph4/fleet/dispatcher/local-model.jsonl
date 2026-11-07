@@ -18782,3 +18782,6 @@
 {"cls": "big", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 21.8, "chars": 648, "why": "", "ts": "2026-11-08T00:39:37"}
 {"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 15.5, "chars": 55, "why": "fleet_brain:pick", "ts": "2026-11-08T00:39:40"}
 {"cls": "big", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 16.6, "chars": 439, "why": "", "ts": "2026-11-08T00:39:54"}
+{"cls": "big", "op": "generate", "err": "timed out", "why": "", "ts": "2026-11-08T00:41:51"}
+{"cls": "big", "op": "generate", "err": "timed out", "why": "", "ts": "2026-11-08T00:41:54"}
+{"cls": "master", "op": "generate", "err": "timed out", "why": "fleet_brain:pick", "ts": "2026-11-08T00:42:30"}
