@@ -1,20 +1,20 @@
 {
- "ts": "2026-11-08T02:08:37",
- "cycle": 346,
+ "ts": "2026-11-08T02:09:16",
+ "cycle": 347,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-08T02:08:37",
+ "master_tick_ts": "2026-11-08T02:09:16",
  "queue": {
   "total": 1413,
   "open": 5,
-  "running": 26,
+  "running": 25,
   "done": 518,
-  "failed": 5
+  "failed": 6
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 9.4,
+   "hb_age_s": 49.2,
    "cpu_load_pct": 73,
    "ram_free_gb": 36.9,
    "gpu_util_pct": 89,
@@ -26,16 +26,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 31.8,
-   "cpu_load_pct": 5,
-   "ram_free_gb": 1.7,
-   "gpu_util_pct": 97,
-   "job": "bigmoney-signal-2026-11-08",
+   "hb_age_s": 11.3,
+   "cpu_load_pct": 6,
+   "ram_free_gb": 1.9,
+   "gpu_util_pct": 1,
+   "job": "AUD-GAME-20261108T012729-24",
    "last_result": {
-    "job": "AUD-GAME-20261108T012729-23",
+    "job": "bigmoney-signal-2026-11-08",
     "state": "FAILED",
     "rc": 2,
-    "ts": "2026-11-08T02:07:45",
+    "ts": "2026-11-08T02:09:08",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -46,9 +46,9 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 53.6,
-   "cpu_load_pct": 19,
-   "ram_free_gb": 1.7,
+   "hb_age_s": 27.0,
+   "cpu_load_pct": 18,
+   "ram_free_gb": 1.1,
    "gpu_util_pct": 0,
    "job": "BMB-SELFHEAL-20261108",
    "last_result": null,
@@ -58,7 +58,7 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 12.3,
+   "hb_age_s": 52.2,
    "cpu_load_pct": 9,
    "ram_free_gb": 15.7,
    "gpu_util_pct": null,
@@ -197,10 +197,8 @@
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "量化席",
-   "jobs": [
-    "bigmoney-signal-2026-11-08"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": "2026-11-04 夜班重启：原回测阶段钉 bm-d，而 bm-d 自 10-29 离线；改由 bm-b（有 quant 仓与数据）出「下月持仓信号 CSV」，主控按 P1 恢复派单。",
    "stuck_stage": "quant-data",
@@ -856,8 +854,7 @@
  },
  "supply_added": [],
  "events": [
-  "AUD-GAME-20261108T012729-23 FAILED via bm-b",
-  "bigmoney-signal-2026-11-08 -> bm-b (cpu)"
+  "bigmoney-signal-2026-11-08 FAILED via bm-b"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
