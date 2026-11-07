@@ -1,5 +1,6 @@
 {
  "node": "bm-b",
+<<<<<<< HEAD
  "ts": "2026-11-08T04:50:59",
  "jobs": [
   {
@@ -23,6 +24,17 @@
    "cwd": "/Users/junsheng.sun/FluxGroup",
    "needs": "cpu",
    "deliverable": "cph4/fleet/audits/game/GhostMarshal.json",
+=======
+ "ts": "2026-11-08T02:19:33",
+ "jobs": [
+  {
+   "id": "AUD-GAME-20261108T012729-26",
+   "title": "提审缺口落单：CardRogue",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game CardRogue",
+   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/audits/game/CardRogue.json",
+>>>>>>> e365df198 (job(AUD-GAME-20261108T012729-12): artifact [via bm-m])
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -31,8 +43,27 @@
    "timeout_s": null
   },
   {
+<<<<<<< HEAD
    "id": "R-TRIAGE-BIGSTREAMMV-BMC-20261108",
    "title": "BigStream·MV 41 曲 线证据扫描（bm-c 本机可判面）",
+=======
+   "id": "AUD-GAME-20261108T012729-27",
+   "title": "提审缺口落单：ExileFarm",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game ExileFarm",
+   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/audits/game/ExileFarm.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "R-TRIAGE-BIGSTREAMMV-BMA-20261108",
+   "title": "BigStream·MV 41 曲 线证据扫描（bm-a 本机可判面）",
+>>>>>>> e365df198 (job(AUD-GAME-20261108T012729-12): artifact [via bm-m])
    "cmd": "python Tools/fleet/line_triage.py --line bigstream-mv",
    "cwd": "",
    "needs": "cpu",
@@ -88,6 +119,11 @@
   }
  ],
  "idle_reason": "",
+<<<<<<< HEAD
  "lane_ok": true,
  "capacity_note": "ram 9.7/1.0 GB"
+=======
+ "lane_ok": false,
+ "capacity_note": "ram 0.4/1.0 GB"
+>>>>>>> e365df198 (job(AUD-GAME-20261108T012729-12): artifact [via bm-m])
 }

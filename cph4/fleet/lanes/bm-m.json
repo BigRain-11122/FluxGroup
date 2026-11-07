@@ -1,6 +1,10 @@
 {
  "node": "bm-m",
+<<<<<<< HEAD
  "ts": "2026-11-08T04:49:25",
+=======
+ "ts": "2026-11-08T02:19:33",
+>>>>>>> e365df198 (job(AUD-GAME-20261108T012729-12): artifact [via bm-m])
  "jobs": [
   {
    "id": "AUD-GAME-20261108T012729-22",
@@ -45,6 +49,7 @@
    "timeout_s": null
   },
   {
+<<<<<<< HEAD
    "id": "AUD-GAME-20261108T012729-32",
    "title": "提审缺口落单：DemonTamer",
    "cmd": "python Tools/fleet/supply_batch.py --audit game DemonTamer",
@@ -62,6 +67,11 @@
    "id": "AUD-GAME-20261108T012729-34",
    "title": "提审缺口落单：SongOfScents",
    "cmd": "python Tools/fleet/supply_batch.py --audit game SongOfScents",
+=======
+   "id": "AUD-GAME-20261108T012729-16",
+   "title": "提审缺口落单：大不了开饭馆",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game 大不了开饭馆",
+>>>>>>> e365df198 (job(AUD-GAME-20261108T012729-12): artifact [via bm-m])
    "cwd": "/Users/junsheng.sun/FluxGroup",
    "needs": "cpu",
    "deliverable": "cph4/fleet/audits/game/SongOfScents.json",
