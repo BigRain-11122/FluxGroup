@@ -1,7 +1,7 @@
-# 仓库分层体检 2026-11-07T14:45:25
+# 仓库分层体检 2026-11-07T15:58:59
 
-判定：**OK**｜跟踪 6095 文件｜cph4/fleet 根下 166 个
+判定：**WARN**｜跟踪 6110 文件｜cph4/fleet 根下 167 个
 
-- ✅ 分层合规：无散件堆积、无运行时入库、通道在 git、归档按月、大件已标记
+- ⚠ C5 archive 有 11 个文件未按 <line>/<YYYYMMDD>/ 归位：['cph4/fleet/archive/asset-lib/20261107/audio-bgm/calm.mp3', 'cph4/fleet/archive/asset-lib/20261107/audio-bgm/dark.mp3', 'cph4/fleet/archive/asset-lib/20261107/audio-bgm/driving.mp3']
 
 分层定义见 `cph4/fleet/GIT-LAYERS-v1.md`。

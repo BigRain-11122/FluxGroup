@@ -1,4 +1,4 @@
-# 分层决策台账 2026-11-07T14:45:25
+# 分层决策台账 2026-11-07T15:58:59
 
 分布：L0=0, L1=18, L2=11, L3=0, CEO=3
 
@@ -19,10 +19,10 @@
 | 子公司层 | 闸红 I3 × 36（FAIL） | 11-08T12:41 | business-map-next |
 | 子公司层 | 闸红 I4 × 20（FAIL） | 11-08T12:41 | business-map-next |
 | 子公司层 | 闸红 I7 × 3（FAIL） | 11-08T12:41 | business-map-next |
-| 子公司层 | 闸红 I12 × 30（FAIL） | 11-08T12:41 | business-map-next |
+| 子公司层 | 闸红 I12 × 31（FAIL） | 11-08T12:41 | business-map-next |
 | 子公司层 | 闸红 I14 × 3（FAIL） | 11-08T12:41 | business-map-next |
-| 子公司层 | 闸红 I13 × 2（FAIL） | 11-08T14:30 | business-map-next |
-| 子公司层 | 闸红 I2 × 1（FAIL） | 11-08T14:45 | business-map-next |
+| 子公司层 | 闸红 I13 × 2（FAIL） | 11-08T15:14 | business-map-next |
+| 子公司层 | 闸红 I2 × 1（FAIL） | 11-08T15:51 | business-map-next |
 | 线内/部门层 | 停线卡 AUD-SOFT-20261106T172238-15 需根因 | 11-07T17:57 | last-passing-standard |
 | 线内/部门层 | 停线卡 AUD-SOFT-20261106T172238-16 需根因 | 11-07T17:57 | last-passing-standard |
 | 线内/部门层 | 停线卡 AUD-SOFT-20261106T172238-17 需根因 | 11-07T17:57 | last-passing-standard |
@@ -40,4 +40,4 @@
 | 线内/部门层 | 停线卡 R-PLAN-BIGDOMAIN-20261107 需根因 | 11-08T00:38 | last-passing-standard |
 | 线内/部门层 | 停线卡 LINE-TRIAGE-MV-20261107 需根因 | 11-08T00:38 | last-passing-standard |
 | 线内/部门层 | 停线卡 asset-lib-voice-corpus-bmb-2026-11-07 需根因 | 11-08T12:41 | last-passing-standard |
-| 线内/部门层 | 停线卡 asset-lib-face-dataset-2026-11-07 需根因 | 11-08T14:45 | last-passing-standard |
+| 线内/部门层 | 停线卡 asset-lib-face-dataset-2026-11-07 需根因 | 11-08T15:58 | last-passing-standard |
