@@ -1,92 +1,14 @@
 {
  "node": "bm-m",
-<<<<<<< HEAD
- "ts": "2026-11-08T00:24:10",
-=======
- "ts": "2026-11-08T00:09:13",
->>>>>>> 666be2f52 (pulse: dispatch snapshot [via bm-m])
+ "ts": "2026-11-08T00:26:33",
  "jobs": [
-  {
-   "id": "R-TRIAGE-BIGMONEY-BMM-20261108",
-   "title": "BigMoney·量化 线证据扫描（bm-m 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigmoney",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigmoney-20261108.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
   {
    "id": "R-TRIAGE-BIGDOMAIN-BMM-20261108",
    "title": "BigDomain·硅基域商业化 线证据扫描（bm-m 本机可判面）",
    "cmd": "python Tools/fleet/line_triage.py --line bigdomain",
    "cwd": "",
    "needs": "cpu",
-<<<<<<< HEAD
    "deliverable": "cph4/fleet/queue-receipts/triage-bigdomain-20261108.md",
-=======
-   "deliverable": "cph4/fleet/queue-receipts/triage-biggame-20261108.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "ROLL-bmc-000533",
-   "title": "rollout 探针（bm-c）",
-   "cmd": "python -c \"print('ok')\"",
-   "cwd": ".",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/ROLL-bmc-000533.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "asset-lib-face-dataset-2026-11-08",
-   "title": "[资产储备（角色 LoRA / 音色库）] 人脸数据集准入（反 AI 脸的第一道门）",
-   "cmd": "python Tools/fleet/asset_dataset_audit.py --mode face --dir media/asset/faces --out cph4/fleet/queue-receipts/asset-face-2026-11-08.json",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/asset-face-2026-11-08.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "bigmoney-signal-2026-11-08",
-   "title": "[金融量化（回测 → 一页结论 → 可报价或写清卡点）] 下月持仓信号 CSV（可卖的唯一产物）",
-   "cmd": "python Tools/fleet/quant_positions_bridge.py --in quant/bigmoney/results/etf_nobond_vt.json --out cph4/fleet/queue-receipts/etf_nobond_vt_with_positions.json && python Tools/fleet/quant_signal.py --in cph4/fleet/queue-receipts/etf_nobond_vt_with_positions.json --out cph4/fleet/queue-receipts/quant-signal-2026-11-08.csv",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/quant-signal-2026-11-08.csv",
->>>>>>> 666be2f52 (pulse: dispatch snapshot [via bm-m])
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "asset-lib-char-prompts-2026-11-08",
-   "title": "[资产储备（角色 LoRA / 音色库）] 角色包出图计划（8 原创角色 × 6 视角提示词包）",
-   "cmd": "python Tools/fleet/char_plan.py",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/char-gen-plan-2026-11-08.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -97,9 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
-<<<<<<< HEAD
- "capacity_note": "ram 7.7/1.0 GB"
-=======
- "capacity_note": "ram 9.6/1.0 GB"
->>>>>>> 666be2f52 (pulse: dispatch snapshot [via bm-m])
+ "capacity_note": "ram 13.1/1.0 GB"
 }
