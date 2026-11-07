@@ -576,6 +576,37 @@ def rg29():
     return "四态齐全；缺令牌=3（缺料）· 错令牌/不可达=1（真故障），负控通过"
 
 
+@case("RG-30", "队列文件里不许有 git 冲突标记（整文件覆盖会把它提交进历史）",
+      "2026-11-08 实锚：artifact 提交整份覆盖 PRODUCTION-QUEUE.jsonl，"
+      "把 01:27 未解决的 138 个空冲突块写进历史 = 414 行非 JSON；"
+      "容错脚本照跑，只有严格解析的路径静默崩，谁都没发现")
+def rg30():
+    import queue_sanitize as qs
+    offending = []
+    for rel in qs.TARGETS:
+        p = os.path.join(ROOT, rel)
+        if not os.path.exists(p):
+            continue
+        blocks, nonjson, total = qs.scan(p)
+        if blocks or nonjson:
+            offending.append("%s 冲突块=%d 非JSON行=%d/%d" % (rel, blocks, nonjson, total))
+    assert not offending, "队列被冲突标记污染：" + "；".join(offending)
+    # 负控：清洗器必须真能认出并修掉冲突块（否则这个断言是空壳）
+    d = tempfile.mkdtemp()
+    p = os.path.join(d, "q.jsonl")
+    open(p, "w", encoding="utf-8").write(
+        '{"id":"A","state":"OPEN"}\n'
+        "<<<<<<< HEAD\n{\"id\":\"A\",\"state\":\"DONE\"}\n=======\n"
+        ">>>>>>> abc123 (x)\n{\"id\":\"B\",\"state\":\"OPEN\"}\n")
+    blocks, nonjson, _ = qs.scan(p)
+    assert blocks == 1, "清洗器没认出冲突块（负控失败）"
+    r = qs.fix(p)
+    assert qs.scan(p)[0] == 0 and r["after"] == 2, "清洗器没修好（负控失败）：%s" % r
+    ids = sorted(json.loads(l)["id"] for l in open(p, encoding="utf-8") if l.strip())
+    assert ids == ["A", "B"], "冲突两侧并集丢了卡：%s" % ids
+    return "队列/备队列 0 冲突标记；清洗器负控通过（认出→并集修复→不丢卡）"
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--json", action="store_true")
