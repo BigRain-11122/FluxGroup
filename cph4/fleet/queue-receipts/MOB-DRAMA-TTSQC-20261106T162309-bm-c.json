@@ -1,0 +1,9 @@
+{
+ "id": "MOB-DRAMA-TTSQC-20261106T162309",
+ "node": "bm-c",
+ "rc": 3,
+ "seconds": 0.1,
+ "cmd": "python Tools/fleet/tts_batch_check.py --dir media/drama-tts-out --out cph4/fleet/queue-receipts/tts-qc-mob-20261106T162309.json",
+ "stdout_tail": "{\"dir\": \"media/drama-tts-out\", \"files\": 0, \"verdict\": \"BLOCKED - dir missing\", \"out\": \"cph4/fleet/queue-receipts/tts-qc-mob-20261106T162309.json\"}\n",
+ "stderr_tail": ""
+}
