@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-07T17:14:22",
- "cycle": 104,
+ "ts": "2026-11-07T17:18:05",
+ "cycle": 105,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-07T17:14:22",
+ "master_tick_ts": "2026-11-07T17:18:05",
  "queue": {
   "total": 1263,
   "open": 3,
@@ -14,7 +14,7 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 153.9,
+   "hb_age_s": 204.9,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -26,7 +26,7 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 156.9,
+   "hb_age_s": 377.9,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -38,20 +38,12 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 356.6,
+   "hb_age_s": 577.7,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
    "job": "asset-lib-face-dataset-2026-11-07",
-   "last_result": {
-    "job": null,
-    "state": "IDLE",
-    "rc": null,
-    "ts": "2026-11-07T17:10:07",
-    "reason": "CAPACITY-BLOCKED-RAM ram 0.3/1.0 GB",
-    "out_bytes": null,
-    "elapsed_s": null
-   },
+   "last_result": null,
    "idle_confirmed": false,
    "idle_reason": "",
    "idle_rounds": 0
@@ -808,15 +800,11 @@
   "gpu": 1
  },
  "supply_added": [],
- "events": [
-  "asset-lib-face-dataset-2026-11-07 -> bm-c (cpu)"
- ],
+ "events": [],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
- "lane_files_written": [
-  "bm-a"
- ]
+ "lane_files_written": []
 }
