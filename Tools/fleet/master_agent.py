@@ -37,9 +37,11 @@ if HERE not in sys.path:
 import fleet_lane as fl  # noqa: E402
 
 CREATE_NO_WINDOW = 0x08000000 if os.name == "nt" else 0
-DEFAULT_LEASE = {"cpu": 45, "gpu": 180, "cloud": 60}
+# 阈值统一来自 CARD-POLICY-v1.json（唯一源）
+import card_policy as _cp
+DEFAULT_LEASE = _cp.load().get("lease_minutes") or {"cpu": 45, "gpu": 180, "cloud": 60}
 OFFLINE_AFTER_S = 900
-MAX_ATTEMPTS = 3
+MAX_ATTEMPTS = _cp.max_attempts()
 
 
 # ---------------------------------------------------------------- sensing

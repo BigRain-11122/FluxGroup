@@ -220,6 +220,37 @@ def rg13():
         len(beats), sum(1 for v in beats.values() if v is None))
 
 
+@case("RG-14", "四处重排阈值必须来自同一份策略",
+      "closer/chief/master_agent/master_solver 各写一套阈值 → 同一张卡被四套判据来回改状态")
+def rg14():
+    sys.path.insert(0, os.path.join(ROOT, "Tools", "fleet"))
+    import card_policy as cp
+    pol = cp.load()
+    assert pol.get("max_attempts") and pol.get("heartbeat_timeout_s"), "策略文件读不到"
+    import closer
+    bad = []
+    if closer.HEARTBEAT_TIMEOUT_S != cp.heartbeat_timeout_s():
+        bad.append("closer.HEARTBEAT_TIMEOUT_S=%s" % closer.HEARTBEAT_TIMEOUT_S)
+    if closer.STALL_S != cp.stall_after_s():
+        bad.append("closer.STALL_S=%s" % closer.STALL_S)
+    if closer.MAX_ATTEMPTS != cp.max_attempts():
+        bad.append("closer.MAX_ATTEMPTS=%s" % closer.MAX_ATTEMPTS)
+    import master_agent as ma
+    if ma.MAX_ATTEMPTS != cp.max_attempts():
+        bad.append("master_agent.MAX_ATTEMPTS=%s" % ma.MAX_ATTEMPTS)
+    if int(ma.DEFAULT_LEASE.get("cpu") or 0) != cp.lease_minutes("cpu"):
+        bad.append("master_agent.DEFAULT_LEASE cpu=%s" % ma.DEFAULT_LEASE.get("cpu"))
+    if int(ma.DEFAULT_LEASE.get("gpu") or 0) != cp.lease_minutes("gpu"):
+        bad.append("master_agent.DEFAULT_LEASE gpu=%s" % ma.DEFAULT_LEASE.get("gpu"))
+    import master_solver as ms
+    if ms.MAX_RETRY != max(1, cp.max_attempts() - 1):
+        bad.append("master_solver.MAX_RETRY=%s" % ms.MAX_RETRY)
+    assert not bad, "阈值与 CARD-POLICY-v1.json 不一致：%s" % bad
+    return "四入口一致（lease cpu=%s gpu=%s · heartbeat=%ss · stall=%ss · attempts=%s）" % (
+        cp.lease_minutes("cpu"), cp.lease_minutes("gpu"),
+        cp.heartbeat_timeout_s(), cp.stall_after_s(), cp.max_attempts())
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--json", action="store_true")

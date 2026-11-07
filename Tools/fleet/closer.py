@@ -22,7 +22,9 @@ EV = os.path.join(F, "dispatcher", "events.jsonl")
 RECEIPT_DIR = os.path.join(F, "queue-receipts")
 
 
-HEARTBEAT_TIMEOUT_S = 600   # Temporal-style heartbeat: no sign of life = the worker is gone
+# 阈值统一来自 cph4/fleet/CARD-POLICY-v1.json（唯一源，别再在这里写数字）
+import card_policy as _cp
+HEARTBEAT_TIMEOUT_S = _cp.heartbeat_timeout_s()
 
 
 def _cfg():
@@ -34,8 +36,9 @@ def _cfg():
 
 
 CFG = _cfg()
-STALL_S = int((CFG.get("progress") or {}).get("stall_after_s") or 1800)
-MAX_ATTEMPTS = int((CFG.get("failures") or {}).get("max_attempts") or 3)
+STALL_S = _cp.stall_after_s()
+MAX_ATTEMPTS = _cp.max_attempts()
+RETRY_CLASSES = _cp.retry_error_classes()
 
 
 def lane_progress():
@@ -211,7 +214,7 @@ def main():
             # 路径类/未知类错误换一台机器再来一次；其余错误保持隔离等人判。
             cls = str(r.get("error_class") or "")
             retries = int(r.get("retries") or 0)
-            if cls in ("E-PATH", "E-UNKNOWN", "E-TIMEOUT") and retries < MAX_ATTEMPTS - 1:
+            if cls in RETRY_CLASSES and retries < MAX_ATTEMPTS - 1:
                 r["state"] = "OPEN"
                 r["owner"] = None
                 r["retries"] = retries + 1
