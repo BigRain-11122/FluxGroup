@@ -1,8 +1,23 @@
 {
  "node": "bm-m",
- "ts": "2026-11-07T12:48:36",
- "jobs": [],
- "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+ "ts": "2026-11-07T22:09:10",
+ "jobs": [
+  {
+   "id": "AUD-SOFT-20261107T220908-01",
+   "title": "软著材料清点：G09_GimmeAll",
+   "cmd": "python3 Tools/fleet/supply_batch.py --audit soft G09_GimmeAll",
+   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/audits/soft/G09_GimmeAll.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  }
+ ],
+ "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 12.9/1.0 GB"
+ "capacity_note": "ram 4.7/1.0 GB"
 }
