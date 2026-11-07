@@ -1,40 +1,40 @@
 {
- "ts": "2026-11-07T23:04:22",
- "cycle": 276,
+ "ts": "2026-11-07T23:07:53",
+ "cycle": 278,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-07T23:04:22",
+ "master_tick_ts": "2026-11-07T23:07:53",
  "queue": {
   "total": 1324,
-  "open": 2,
-  "running": 2,
-  "done": 503,
-  "failed": 15
+  "open": 3,
+  "running": 1,
+  "done": 504,
+  "failed": 14
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 51.3,
-   "cpu_load_pct": 23,
-   "ram_free_gb": 32.2,
-   "gpu_util_pct": 65,
+   "hb_age_s": 23.5,
+   "cpu_load_pct": 14,
+   "ram_free_gb": 34.2,
+   "gpu_util_pct": 60,
    "job": null,
    "last_result": {
-    "job": "asset-lib-accept-2026-11-07",
-    "state": "FAILED",
-    "rc": 2,
-    "ts": "2026-11-07T23:00:17",
-    "reason": null,
+    "job": null,
+    "state": "IDLE",
+    "rc": null,
+    "ts": "2026-11-07T23:05:06",
+    "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
-   "idle_confirmed": false,
+   "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 0
+   "idle_rounds": 2
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 503.7,
+   "hb_age_s": 717.6,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -46,42 +46,42 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 65.6,
-   "cpu_load_pct": 27,
-   "ram_free_gb": 0.9,
-   "gpu_util_pct": 2,
-   "job": "asset-lib-char-gen-2026-11-07",
+   "hb_age_s": 28.8,
+   "cpu_load_pct": 26,
+   "ram_free_gb": 0.8,
+   "gpu_util_pct": 1,
+   "job": null,
    "last_result": null,
    "idle_confirmed": false,
-   "idle_reason": "",
+   "idle_reason": "CAPACITY-BLOCKED-RAM ram 0.8/1.0 GB",
    "idle_rounds": 0
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 13.1,
-   "cpu_load_pct": 41,
-   "ram_free_gb": 10.6,
+   "hb_age_s": 13.8,
+   "cpu_load_pct": 59,
+   "ram_free_gb": 11.6,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-07T23:03:25",
+    "ts": "2026-11-07T23:07:33",
     "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 4
+   "idle_rounds": 6
   }
  },
  "idle_rounds": {
-  "bm-a": 0,
+  "bm-a": 2,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 4
+  "bm-m": 6
  },
  "lines": {
   "bigstream-mv": {
@@ -278,7 +278,9 @@
     "asset-lib-char-gen-2026-11-07"
    ],
    "no_supply": false,
-   "blockers": [],
+   "blockers": [
+    "asset-lib-char-gen-2026-11-07:no-lane"
+   ],
    "note": "CEO 2026-11-03：先储备资产，角色 LoRA 与音色库为 P0"
   }
  },
@@ -817,7 +819,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 2,
+  "local": 3,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -826,15 +828,19 @@
  },
  "supply_gap": {
   "cpu": 2,
-  "gpu": 0
+  "gpu": 1
  },
  "supply_added": [],
  "events": [],
  "violations": [
-  "bm-m IDLE-CONFIRMED x4 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-a IDLE-CONFIRMED x2 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-c CAPACITY-BLOCKED-RAM",
+  "bm-m IDLE-CONFIRMED x6 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
- "lane_files_written": []
+ "lane_files_written": [
+  "bm-c"
+ ]
 }
