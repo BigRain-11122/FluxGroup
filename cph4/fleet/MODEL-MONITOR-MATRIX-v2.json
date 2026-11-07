@@ -8,10 +8,11 @@
    "role": "快车道：归类、打标、过筛、抽一个短字段",
    "model": "qwen3:1.7b",
    "num_ctx": 4096,
-   "keep_alive": "25m",
-   "resident": true,
+   "keep_alive": "0",
+   "resident": false,
    "measured_gb": 1.5,
-   "why": "高频归类走它，亚秒级；四档常驻合计约 13.1GB，仍在 16GB 预算内"
+   "why": "高频归类走它，亚秒级；四档常驻合计约 13.1GB，仍在 16GB 预算内",
+   "_why_ondemand": "实测审计窗内只用 3 次；1.7B 装载 0.4s，用完即卸比常驻 1.4GB 划算"
   },
   "resident": {
    "role": "主力：摘要、抽字段、写一句理由、判定短文本",
@@ -40,10 +41,11 @@
    "role": "难活：质量复核/长文改写/代码/创意",
    "model": "qwen3:8b",
    "num_ctx": 8192,
-   "keep_alive": "30m",
-   "resident": true,
+   "keep_alive": "0",
+   "resident": false,
    "measured_gb": 5.9,
-   "measured_note": "ctx8192 时 5.9GB；ctx4096 时 5.2GB。代码题实测一次给对（重复 id 检查函数）"
+   "measured_note": "ctx8192 时 5.9GB；ctx4096 时 5.2GB。代码题实测一次给对（重复 id 检查函数）",
+   "_why_ondemand": "实测审计窗内只用 3 次（code 1 / review 5）；冷装 20-40s 只在真跑代码/评审时付一次"
   }
  },
  "routing": {
@@ -105,5 +107,6 @@
   "把数字类判断交给 1.7B/4B/8B（历史上 4B 算术两次全错：220-116-6 答成 100/104）",
   "在 swap>0 时装载 on_demand",
   "同时驻留 4B 与 8B 却不释放 triage"
- ]
+ ],
+ "_resident_law": "常驻只留\"主力+向量\"（resident+embedding）。判据不是\"档位多\"，而是\"用得够频繁\"：审计窗内调用次数少的档一律按需。"
 }

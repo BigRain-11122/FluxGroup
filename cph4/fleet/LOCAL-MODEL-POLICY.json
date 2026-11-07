@@ -36,14 +36,16 @@
    "model": "qwen3:1.7b",
    "cost_gb": 1.5,
    "num_ctx": 4096,
-   "keep_alive": "25m"
+   "keep_alive": "0",
+   "resident": false
   },
   "big": {
    "_why": "难活常驻：质量复核/长文改写/代码审查/创意文案。实测 8B 与 4B、向量三档共存 11.0GB，不必每次临时装卸（装卸一次要 3-6 秒且在内存紧时会挤掉主力）",
    "model": "qwen3:8b",
    "cost_gb": 5.9,
    "num_ctx": 8192,
-   "keep_alive": "30m"
+   "keep_alive": "0",
+   "resident": false
   }
  },
  "accept_upgrade": {
@@ -295,10 +297,9 @@
   "rule": "CEO 2026-11-07：办公不必留太多，模型可占到 16GB 常驻；硬线是换页速率（mem_guard），不是 swap 占用总量",
   "office_reserve_gb": 4.0,
   "resident_set": [
-   "big",
    "resident",
-   "triage",
    "embedding"
-  ]
+  ],
+  "_resident_set_why": "2026-11-08 CEO「一个模型可以干很多事」+审计实测：214 次走 4B、8B 3 次、1.7B 3 次。常驻只留主力与向量，8B/1.7B 按需（keep_alive=0），省 ~6.6GB 且不再互相驱逐。"
  }
 }
