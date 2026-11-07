@@ -1,23 +1,85 @@
 {
-  "_note": "配乐采集规格（单一真相源）：谁取哪一段、从哪取、取多长、什么许可。改这里不要改脚本。",
-  "version": 1,
-  "created": "2026-11-07",
-  "why": "OGA 文件下载被限速到 2-17KB/s，整曲下载单段常 >400s 超时；用 ffmpeg -ss/-t 直取 60s 片段只拉所需字节。archive.org 全域名不可达（DNS 污染），故不进本规格。",
-  "output_dir": "media/asset/incoming/audio-bgm",
-  "min_dur_s": 15,
-  "max_dur_s": 120,
-  "excerpt_s": 60,
-  "moods": [
-    {"slug": "calm",        "oga": "free-music-pack",            "file": null, "ss": null, "status": "collected"},
-    {"slug": "hopeful",     "oga": null,                          "file": null, "ss": null, "status": "collected"},
-    {"slug": "epic",        "oga": "5-chiptunes-action",          "file": null, "ss": null, "status": "collected"},
-    {"slug": "playful",     "oga": "snowfall",                    "file": null, "ss": null, "status": "collected"},
-    {"slug": "melancholic", "oga": "free-music-pack",             "file": null, "ss": null, "status": "collected"},
-    {"slug": "romantic",    "oga": "town-theme-rpg",              "file": "TownTheme_0.mp3", "ss": 0, "status": "collected"},
-    {"slug": "mysterious",  "oga": "enchanted-tiki-86",           "file": "enchanted%20tiki%2086.mp3", "ss": 20, "status": "collected"},
-    {"slug": "dark",        "oga": "creepy",                      "file": "CrEEP.mp3", "ss": 20, "status": "collected"},
-    {"slug": "driving",     "oga": "battle-theme-0",              "file": "Battle.mp3", "ss": 30, "status": "pending"},
-    {"slug": "tense",       "oga": "sirens-in-darkness",          "file": "012_Sirens_in_Darkness.mp3", "ss": 40, "status": "pending"}
-  ],
-  "base_url": "https://opengameart.org/sites/default/files"
+ "_note": "配乐采集规格（单一真相源）：谁取哪一段、从哪取、取多长、什么许可。改这里不要改脚本。",
+ "version": 1,
+ "created": "2026-11-07",
+ "why": "OGA 文件下载被限速到 2-17KB/s，整曲下载单段常 >400s 超时；用 ffmpeg -ss/-t 直取 60s 片段只拉所需字节。archive.org 全域名不可达（DNS 污染），故不进本规格。",
+ "output_dir": "media/asset/incoming/audio-bgm",
+ "min_dur_s": 15,
+ "max_dur_s": 120,
+ "excerpt_s": 60,
+ "moods": [
+  {
+   "slug": "calm",
+   "oga": "free-music-pack",
+   "file": null,
+   "ss": null,
+   "status": "collected"
+  },
+  {
+   "slug": "hopeful",
+   "oga": null,
+   "file": null,
+   "ss": null,
+   "status": "collected"
+  },
+  {
+   "slug": "epic",
+   "oga": "5-chiptunes-action",
+   "file": null,
+   "ss": null,
+   "status": "collected"
+  },
+  {
+   "slug": "playful",
+   "oga": "snowfall",
+   "file": null,
+   "ss": null,
+   "status": "collected"
+  },
+  {
+   "slug": "melancholic",
+   "oga": "free-music-pack",
+   "file": null,
+   "ss": null,
+   "status": "collected"
+  },
+  {
+   "slug": "romantic",
+   "oga": "town-theme-rpg",
+   "file": "TownTheme_0.mp3",
+   "ss": 0,
+   "status": "collected"
+  },
+  {
+   "slug": "mysterious",
+   "oga": "enchanted-tiki-86",
+   "file": "enchanted%20tiki%2086.mp3",
+   "ss": 20,
+   "status": "collected"
+  },
+  {
+   "slug": "dark",
+   "oga": "creepy",
+   "file": "CrEEP.mp3",
+   "ss": 20,
+   "status": "collected"
+  },
+  {
+   "slug": "driving",
+   "oga": "battle-theme-0",
+   "file": "Battle.mp3",
+   "ss": 30,
+   "status": "collected",
+   "collected_note": "10/10 已在本机 ~/FluxAssets/incoming/audio-bgm 落盘并实测复核（2026-11-07）"
+  },
+  {
+   "slug": "tense",
+   "oga": "sirens-in-darkness",
+   "file": "012_Sirens_in_Darkness.mp3",
+   "ss": 40,
+   "status": "collected",
+   "collected_note": "10/10 已在本机 ~/FluxAssets/incoming/audio-bgm 落盘并实测复核（2026-11-07）"
+  }
+ ],
+ "base_url": "https://opengameart.org/sites/default/files"
 }

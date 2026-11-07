@@ -35,6 +35,9 @@ BACKLOG = os.path.join('cph4', 'fleet', 'PRODUCTION-BACKLOG.jsonl')
 HUMAN_WORDS = ('写明', '判定', '选款', '选出', '评分', '评审', '签名', '评价')
 NOT_DELIVERED = ('BLOCKED', 'SKIPPED', 'GAPS', 'FAIL', 'ERROR')
 
+# 车道可接受的 needs 集合（取自 fleet_lane.LANES 的并集；写卡的人不能随手发明新值）
+LANE_NEEDS = {'cpu', 'gpu'}
+
 
 def norm(p):
     return (p or '').strip().strip('"\'').replace('\\', '/').lstrip('./')
@@ -115,6 +118,15 @@ def check(root):
                 v.append({'rule': 'LEDGER-LAG', 'src': src, 'id': rid,
                           'deliverable': d,
                           'why': '交付物已在盘且是真交付，卡仍 OPEN'})
+                continue
+            # R4 NEEDS-INVISIBLE（2026-11-07 实锚）：needs 写成 "net" 的卡对派单器永久不可见
+            # ——write_lane_files 只认 needs ∈ 车道 allowed(needs)，不在集合里的卡既不进 lane
+            # 也不报警，症状是"队列有活、机器空闲"。非法 needs 必须在投卡时就被拦下。
+            nd = r.get('needs') or 'cpu'
+            if nd not in LANE_NEEDS:
+                v.append({'rule': 'NEEDS-INVISIBLE', 'src': src, 'id': rid,
+                          'needs': nd, 'allowed': sorted(LANE_NEEDS),
+                          'why': 'needs 不在车道可接受集合内 ⇒ 该卡永远不会被派出去'})
     return v, bad_lines
 
 
