@@ -1,14 +1,14 @@
 {
  "node": "bm-c",
- "ts": "2026-11-07T22:14:16",
+ "ts": "2026-11-07T22:23:38",
  "jobs": [
   {
-   "id": "asset-lib-voice-dataset-2026-11-07",
-   "title": "[资产储备（角色 LoRA / 音色库）] 音色数据集准入（反播音腔的第一道门）",
-   "cmd": "python Tools/fleet/asset_dataset_audit.py --mode voice --dir media/asset/voices --out cph4/fleet/queue-receipts/asset-voice-2026-11-07.json",
-   "cwd": "",
+   "id": "AUD-SOFT-20261107T220908-06",
+   "title": "软著材料清点：G16_我有一栋楼_CCPC提交格式",
+   "cmd": "python Tools/fleet/supply_batch.py --audit soft G16_我有一栋楼_CCPC提交格式",
+   "cwd": "/Users/junsheng.sun/FluxGroup",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/asset-voice-2026-11-07.json",
+   "deliverable": "cph4/fleet/audits/soft/G16_我有一栋楼_CCPC提交格式.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 3.4/1.0 GB"
+ "capacity_note": "ram 2.9/1.0 GB"
 }
