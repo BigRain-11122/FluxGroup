@@ -1,8 +1,21 @@
 {
  "node": "bm-c",
-<<<<<<< HEAD
- "ts": "2026-11-08T02:11:06",
+ "ts": "2026-11-08T02:13:33",
  "jobs": [
+  {
+   "id": "asset-lib-asset-gen-2026-11-08",
+   "title": "[资产储备（角色 LoRA / 音色库）] 通用资产出图（道具/场景，吃 ASSET-PROMPTS 规格）",
+   "cmd": "python Tools/fleet/asset_gen.py --node bm-c --class props --limit 4 --receipt cph4/fleet/queue-receipts/asset-gen-props-2026-11-08.json",
+   "cwd": "",
+   "needs": "gpu",
+   "deliverable": "cph4/fleet/queue-receipts/asset-gen-props-2026-11-08.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
   {
    "id": "AUD-GAME-20261108T012729-28",
    "title": "提审缺口落单：ArrowOut",
@@ -22,15 +35,6 @@
    "title": "提审缺口落单：LanternSlayer",
    "cmd": "python Tools/fleet/supply_batch.py --audit game LanternSlayer",
    "cwd": "/Users/junsheng.sun/FluxGroup",
-=======
- "ts": "2026-11-08T01:15:43",
- "jobs": [
-  {
-   "id": "ROLL-bmc-000533",
-   "title": "rollout 探针（bm-c）",
-   "cmd": "python -c \"print('ok')\"",
-   "cwd": ".",
->>>>>>> d55c02d7d (pulse: dispatch snapshot [via bm-m])
    "needs": "cpu",
    "deliverable": "cph4/fleet/audits/game/LanternSlayer.json",
    "need_mb": null,
@@ -55,7 +59,6 @@
    "timeout_s": null
   },
   {
-<<<<<<< HEAD
    "id": "AUD-GAME-20261108T012729-31",
    "title": "提审缺口落单：StrategistDefense",
    "cmd": "python Tools/fleet/supply_batch.py --audit game StrategistDefense",
@@ -82,35 +85,9 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
-  },
-  {
-   "id": "AUD-GAME-20261108T012729-33",
-   "title": "提审缺口落单：NightWatch",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game NightWatch",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/NightWatch.json",
-=======
-   "id": "asset-lib-asset-gen-2026-11-08",
-   "title": "[资产储备（角色 LoRA / 音色库）] 通用资产出图（道具/场景，吃 ASSET-PROMPTS 规格）",
-   "cmd": "python Tools/fleet/asset_gen.py --node bm-c --class props --limit 4 --receipt cph4/fleet/queue-receipts/asset-gen-props-2026-11-08.json",
-   "cwd": "",
-   "needs": "gpu",
-   "deliverable": "cph4/fleet/queue-receipts/asset-gen-props-2026-11-08.json",
->>>>>>> d55c02d7d (pulse: dispatch snapshot [via bm-m])
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
-<<<<<<< HEAD
- "capacity_note": "ram 2.7/1.0 GB"
-=======
- "capacity_note": "ram 1.1/1.0 GB"
->>>>>>> d55c02d7d (pulse: dispatch snapshot [via bm-m])
+ "capacity_note": "ram 2.8/1.0 GB"
 }
