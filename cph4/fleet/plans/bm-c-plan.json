@@ -1,21 +1,21 @@
 {
- "ts": "2026-11-08T03:01:55",
+ "ts": "2026-11-08T03:11:56",
  "node": "bm-c",
  "paused": false,
  "verdict": "BLOCKED-CAPACITY",
  "capacity": {
   "gpu": {
    "util_pct": 0,
-   "used_mb": 1748,
+   "used_mb": 1761,
    "total_mb": 16384
   },
-  "ram_free_gb": 1.05,
-  "vram_free_mb": 14636,
+  "ram_free_gb": 1.26,
+  "vram_free_mb": 14623,
   "lease_held": false,
   "can_gpu": false,
   "can_cpu": false
  },
- "idle_min": 0.5,
+ "idle_min": 0.9,
  "assigned": [
   {
    "kind": "assigned",
@@ -67,8 +67,8 @@
  ],
  "dispatched_now": null,
  "counts": {
-  "open_backlog": 5,
-  "open_queue": 7,
+  "open_backlog": 3,
+  "open_queue": 5,
   "bank_pending": 0
  }
 }
