@@ -32,6 +32,7 @@ QUEUE = os.path.join(FLEET, "PRODUCTION-QUEUE.jsonl")
 LANES = os.path.join(FLEET, "lanes")
 RECEIPTS = os.path.join(FLEET, "queue-receipts")
 
+import card_policy as _cp   # 阈值唯一源：cph4/fleet/CARD-POLICY-v1.json
 HB_SILENT_S = 300        # machine heartbeat older than this = silent
 REPORT_SILENT_S = 900    # executor report older than this while it has a job = suspicious
 
@@ -101,8 +102,11 @@ def main(argv):
             flags.append("BUSY-NO-REPORT")
         if not job and openings:
             flags.append("IDLE-WITH-QUEUE")
-        if job and rc is not None and rc > 3600:
-            flags.append("NO-RECEIPT-1H")
+        # 2026-11-07 修：原判据写成 `rc > 3600`——rc 是返回码（0/1/2），永远不可能
+        # 大于 3600，于是这条"握着卡却一小时没回执"的旗标从未真正亮过，chief 的重排
+        # 规则也就从未生效。改为按回执龄（rep 秒）比策略阈值，阈值只在 CARD-POLICY 里写。
+        if job and rep is not None and rep > _cp.stuck_requeue_s():
+            flags.append("NO-RECEIPT-STUCK")
         if job and rc is None:
             flags.append("NEVER-RECEIPTED")
         if flags:

@@ -34,7 +34,9 @@ QUEUE = os.path.join(FLEET, "PRODUCTION-QUEUE.jsonl")
 BACKLOG = os.path.join(FLEET, "PRODUCTION-BACKLOG.jsonl")
 STATE = os.path.join(FLEET, "dispatcher", "MASTER-STATE.json")
 OUT = os.path.join(FLEET, "dispatcher", "SOLVER.md")
-MAX_RETRY = 2
+# 阈值统一来自 CARD-POLICY-v1.json：重试上限 = max_attempts - 1
+import card_policy as _cp
+MAX_RETRY = max(1, _cp.max_attempts() - 1)
 
 
 def load(p, default):

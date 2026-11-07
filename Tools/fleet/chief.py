@@ -92,10 +92,10 @@ def main(argv):
 
     # 规则 2：卡在 RUNNING 但机器很久没回执 → 退回重排（可逆）
     stuck = [r for r in running
-             if any(n.get("node") == r.get("owner") and "NO-RECEIPT-1H" in (n.get("flags") or [])
+             if any(n.get("node") == r.get("owner") and ("NO-RECEIPT-STUCK" in (n.get("flags") or []))
                     for n in (com.get("nodes") or []))]
     if stuck:
-        decisions.append({"kind": "requeue", "why": "%d 张卡在跑但 1 小时无回执" % len(stuck),
+        decisions.append({"kind": "requeue", "why": "%d 张卡在跑但长期无回执" % len(stuck),
                           "target": [r["id"] for r in stuck], "min_stage": 3})
 
     # 规则 3：队列空且有候选 → 灌卡（夜间包同理，可逆）
@@ -123,7 +123,7 @@ def main(argv):
                 r["state"] = "OPEN"
                 r["owner"] = None
                 r["retries"] = int(r.get("retries") or 0) + 1
-                r["note"] = "chief-requeue: 1h 无回执"
+                r["note"] = "chief-requeue: 超过 stuck_requeue_s 无回执（阈值见 CARD-POLICY-v1.json）"
                 touched.append(r)
             fl.merge_jsonl(QUEUE, touched)
             applied.append({"kind": "requeue", "ids": [r["id"] for r in touched]})
