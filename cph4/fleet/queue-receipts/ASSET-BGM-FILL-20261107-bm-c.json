@@ -1,0 +1,17 @@
+{
+ "id": "ASSET-BGM-FILL-20261107",
+ "node": "bm-c",
+ "rc": 0,
+ "seconds": 1.4,
+ "cmd": "python Tools/fleet/audio_bgm_fill.py --receipt cph4/fleet/queue-receipts/audio-bgm-fill-20261107.json",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "cph4/fleet/queue-receipts/audio-bgm-fill-20261107.json",
+ "deliverable_exists": true,
+ "ts": "2026-11-07T20:22:37",
+ "stdout_tail": "[bgm-fill] calm         SKIP         already present and verified\n[bgm-fill] hopeful      SKIP         already present and verified\n[bgm-fill] epic         SKIP         already present and verified\n[bgm-fill] playful      SKIP         already present and verified\n[bgm-fill] melancholic  SKIP         already present and verified\n[bgm-fill] romantic     SKIP         already present and verified\n[bgm-fill] mysterious   SKIP         already present and verified\n[bgm-fill] dark         SKIP         already present and verified\n[bgm-fill] driving      SKIP         already present and verified\n[bgm-fill] tense        SKIP         already present and verified\n[bgm-fill] receipt -> K:\\Fluxgroup\\FluxGroup\\cph4/fleet/queue-receipts/audio-bgm-fill-20261107.json\n[bgm-fill] ready=10 gaps=0 rc=0\n",
+ "stderr_tail": ""
+}

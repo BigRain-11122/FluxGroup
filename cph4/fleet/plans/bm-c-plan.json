@@ -1,40 +1,40 @@
 {
- "ts": "2026-11-07T19:21:54",
+ "ts": "2026-11-07T20:21:55",
  "node": "bm-c",
  "paused": false,
- "verdict": "BUSY",
+ "verdict": "BLOCKED-CAPACITY",
  "capacity": {
   "gpu": {
-   "util_pct": 0,
-   "used_mb": 8955,
+   "util_pct": 18,
+   "used_mb": 3463,
    "total_mb": 16384
   },
-  "ram_free_gb": 4.31,
-  "vram_free_mb": 7429,
+  "ram_free_gb": 0.36,
+  "vram_free_mb": 12921,
   "lease_held": false,
-  "can_gpu": true,
-  "can_cpu": true
+  "can_gpu": false,
+  "can_cpu": false
  },
- "idle_min": 0.0,
+ "idle_min": 0.6,
  "assigned": [
   {
    "kind": "assigned",
-   "id": "asset-lib-asset-gen-2026-11-07",
-   "title": "[资产储备（角色 LoRA / 音色库）] 通用资产出图（道具/场景，吃 ASSET-PROMPTS 规格）",
+   "id": "asset-lib-face-caption-2026-11-07",
+   "title": "[资产储备（角色 LoRA / 音色库）] 人脸数据集打标（vision 草稿，人只校对）",
    "prio": null,
    "needs": "gpu",
-   "feasible": true,
+   "feasible": false,
    "reason": "master lane file (authority)"
   }
  ],
  "next_actions": [
   {
    "kind": "assigned",
-   "id": "asset-lib-asset-gen-2026-11-07",
-   "title": "[资产储备（角色 LoRA / 音色库）] 通用资产出图（道具/场景，吃 ASSET-PROMPTS 规格）",
+   "id": "asset-lib-face-caption-2026-11-07",
+   "title": "[资产储备（角色 LoRA / 音色库）] 人脸数据集打标（vision 草稿，人只校对）",
    "prio": null,
    "needs": "gpu",
-   "feasible": true,
+   "feasible": false,
    "reason": "master lane file (authority)"
   },
   {
@@ -43,7 +43,7 @@
    "title": "短剧配音批质检（在持料机上跑，出可发布集数清单）",
    "prio": "P1",
    "needs": "cpu",
-   "feasible": true,
+   "feasible": false,
    "reason": "OPEN in PRODUCTION-BACKLOG for this node"
   },
   {
@@ -52,7 +52,16 @@
    "title": "配音批质检：r1202 目录逐集时长/静音/体积（出可发布集数清单）",
    "prio": "P2",
    "needs": "cpu",
-   "feasible": true,
+   "feasible": false,
+   "reason": "OPEN in PRODUCTION-BACKLOG for this node"
+  },
+  {
+   "kind": "backlog",
+   "id": "ASSET-BGM-FILL-20261107",
+   "title": "配乐缺口按规格补齐（幂等：已有合格文件直接 SKIP，不重复劳动）",
+   "prio": "P2",
+   "needs": "cpu",
+   "feasible": false,
    "reason": "OPEN in PRODUCTION-BACKLOG for this node"
   }
  ],
@@ -85,8 +94,8 @@
  ],
  "dispatched_now": null,
  "counts": {
-  "open_backlog": 2,
-  "open_queue": 3,
+  "open_backlog": 3,
+  "open_queue": 5,
   "bank_pending": 0
  }
 }
