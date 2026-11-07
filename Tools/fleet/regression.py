@@ -325,6 +325,34 @@ def rg18():
         len(j["items"]), len(nonactive), len(j.get("parked_skipped") or []))
 
 
+@case("RG-19", "每条经验必须有可核验落点才算推广",
+      "写在报告里的教训不算推广；声称有落点却核验不到的，比没有落点更严重（假绿）")
+def rg19():
+    sys.path.insert(0, os.path.join(ROOT, "Tools", "fleet"))
+    import retro
+    items = retro.collect()
+    assert items, "复盘席一条经验都没有（抽不出来=席没在工作）"
+
+    # 负控：落点核验必须能判「有/没有/假声称」三态，判不出就等于没有这条闸
+    # （注意 landing_ok 返回 (bool, 说明)，这里只取第一项——首版直接 not 元组，恒假）
+    ok = lambda l: retro.landing_ok(l)[0]
+    assert not ok({}), "空落点被判成已落点"
+    assert not ok({"kind": "rg", "ref": "RG-DOES-NOT-EXIST"}), \
+        "不存在的断言被判成已落点（假绿）"
+    assert not ok({"kind": "symbol",
+                   "ref": "Tools/fleet/not_a_tool.py:whatever"}), "不存在的文件被判成已落点"
+    assert ok({"kind": "rg", "ref": "RG-18"}), "真断言被判成没有落点"
+    assert ok({"kind": "symbol", "ref": "Tools/fleet/patrol.py:is_selfreport"}), \
+        "真判据被判成没有落点"
+
+    fake = [i["id"] for i in items
+            if (i.get("landing") or {}).get("kind") and not i.get("landing_ok")]
+    assert not fake, "声称有落点但核验不到：%s" % fake[:3]
+    landed = [i for i in items if i.get("landing_ok")]
+    return "%d 条经验，%d 条已落点可核验，%d 条待落点（待落点不算已推广）" % (
+        len(items), len(landed), len(items) - len(landed))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--json", action="store_true")

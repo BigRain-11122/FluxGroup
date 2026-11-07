@@ -1,15 +1,7 @@
-# 复盘（经验与落点）2026-11-07T22:27:28
+# 复盘（经验与落点）2026-11-07T22:28:31
 
 判据：**没有落点的不算已推广**。落点四类＝断言(rg) / 码里判据(symbol) / 正身件(doc) / 卡模板(card)。
-已落点 10 条 · 待落点 3 条 · 声称有落点但核验不到 0 条（这一栏最严重）
-
-## 待落点：复盘了但还没推广
-
-| 经验 | 症状 | 建议落点 |
-|---|---|---|
-| L-D-noclass | 有 21 张失败卡没有 error_class，复盘无从下手 | 失败卡必须带 error_class（落卡侧强制字段） |
-| L-D-card-cmd | E-CARD-CMD 类失败已重复 3 次（涉及 bigstream-mv×3） | 给这类失败定一个专属判据或拦在派单前 |
-| L-D-rootcaus3x | E-ROOTCAUSE-3X 类失败已重复 3 次（涉及 bigdomain×1、fle | 给这类失败定一个专属判据或拦在派单前 |
+已落点 13 条 · 待落点 0 条 · 声称有落点但核验不到 0 条（这一栏最严重）
 
 ## 已落点：下次会被机器拦住
 
@@ -25,6 +17,9 @@
 | L-20261107-08 | fluxverse 派完一张 DONE 卡，线的产物年龄停在 103h 一动不动 | symbol `Tools/fleet/patrol.py:is_selfreport` |
 | L-20261107-09 | 同一交付物连铺两天两张 OPEN（G18_PalacePlunder） | symbol `Tools/fleet/supply_batch.py:按交付物去重` |
 | L-20261107-10 | 队列报 42 张活卡像供给充足，实际 39 张 nodes=["bm-m"] 钉 | doc `cph4/fleet/PATROL.md` |
+| L-20261107-11 | 21 张失败卡没有 error_class，复盘时只能人逐张看 | symbol `Tools/fleet/flux_contracts.py:error_class` |
+| L-20261107-12 | 卡里写 python3，在 Windows 上是商店假壳，rc=9009 且 e | symbol `Tools/fleet/failed_triage.py:classify` |
+| L-20261107-13 | 同一交付物重试到第 4 次才被人发现「不是偶发」，前三轮都当成正常重派 | symbol `Tools/fleet/card_policy.py:max_attempts` |
 
 ---
 _复盘只提候选与核验；改阈值、写记忆都归各自的席，不在这里自动做_
