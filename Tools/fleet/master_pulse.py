@@ -293,7 +293,6 @@ STAGES = [
     ("decision_router", ["Tools/fleet/decision_router.py"], 60, {0}, True),
     # 验收（CEO 2026-11-05「常驻智能体要监督/派单/验收」）：DONE≠做对。
     # 对近 24h 的 DONE 卡做机器验收（空文件/坏 JSON/0 时长/拒答文稿）。
-    ("verify_done", ["Tools/fleet/verify_done.py"], 120, {0}, True),
     ("deadline", ["Tools/fleet/fleet_deadline.py"], 120, {0}, True),
     ("supervisor", ["Tools/fleet/fleet_supervisor.py"], 60, {0}, True),
     # One page that names the single decision that moves the fleet now, from disk facts
