@@ -175,7 +175,9 @@ STAGES = [
     # 堵/坏/卡点闭环（CEO 2026-11-08「堵点坏点卡点都要有相应的循环策略去检测和解决」）：
     # 八类问题各带判据/解法/复查周期/升级轮次；能自动解的当场解（补供给、修卡字段、
     # 补推同步、重跑超期阶段、派自证卡），解不了的按轮次升级。表=BLOCKER-TAXONOMY-v1.json。
-    ("blocker_loop", ["Tools/fleet/blocker_loop.py", "--apply"], 240, {0, 1, 2}, True),
+    # 走快批（每轮都跑），由分类表里每类自己的 every_s 节流：否则 120s 的同步类
+    # 被慢批 300s 卡住，频率表就是假承诺。没到期的类会直接跳过，成本可忽略。
+    ("blocker_loop", ["Tools/fleet/blocker_loop.py", "--apply"], 240, {0, 1, 2}, False),
     # 回执名不匹配导致的永久 UNVERIFIED（实测堵死 4 条线）：按词干匹配回执并收口。
     # 宁可不判也不假绿——歧义/无证据一律交人。
     ("receipt_match", ["Tools/fleet/receipt_match.py", "--apply"], 180, {0}, False),
