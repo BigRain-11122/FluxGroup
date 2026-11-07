@@ -1,21 +1,7 @@
 {
  "node": "bm-b",
- "ts": "2026-11-08T02:11:06",
+ "ts": "2026-11-08T02:18:21",
  "jobs": [
-  {
-   "id": "AUD-GAME-20261108T012729-24",
-   "title": "提审缺口落单：我的小花园_CCPC提交格式",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game 我的小花园_CCPC提交格式",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/我的小花园_CCPC提交格式.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
   {
    "id": "AUD-GAME-20261108T012729-25",
    "title": "提审缺口落单：MonsterInn",
@@ -88,6 +74,6 @@
   }
  ],
  "idle_reason": "",
- "lane_ok": true,
- "capacity_note": "ram 2.6/1.0 GB"
+ "lane_ok": false,
+ "capacity_note": "ram 0.8/1.0 GB"
 }
