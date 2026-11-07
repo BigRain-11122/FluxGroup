@@ -1,53 +1,7 @@
 {
- "ts": "2026-11-08T00:02:50",
+ "ts": "2026-11-08T00:10:54",
  "node": "192.168.2.128",
- "verdict": "OK",
- "engine": "up",
- "installed": 8,
- "attention": [
-  "qwen3.5:4b",
-  "qwen3.5:2b"
- ],
- "discovered": [
-  {
-   "model": "pplx-decider-flash:4b",
-   "family": "pplx-decider-flash",
-   "size_gb": 5.65,
-   "state": "NEW-FAMILY",
-   "remote_digest": "4b41cf615edca873"
-  },
-  {
-   "model": "lfm3-audio:2b",
-   "family": "lfm3-audio",
-   "size_gb": 1.67,
-   "state": "NEW-FAMILY",
-   "remote_digest": "3327c1a067559929"
-  },
-  {
-   "model": "lfm3-omni:2b",
-   "family": "lfm3-omni",
-   "size_gb": 2.05,
-   "state": "NEW-FAMILY",
-   "remote_digest": "4c0ee9400634babb"
-  }
- ],
- "skipped": [
-  "not-installed:qwen3.5:35b-a3b"
- ],
- "pulled": [],
- "baseline": null,
- "verdicts": [
-  {
-   "model": "qwen3.5:4b-mlx",
-   "action": "NEED-BENCH",
-   "why": "现役档没有实测数据，先跑 bench"
-  },
-  {
-   "model": "qwen3:4b-instruct",
-   "action": "CANDIDATE-NO-BASELINE",
-   "why": "现役档无基线，无法判断是否更好"
-  }
- ],
- "applied": null,
- "rule": "质量更高且速度>=现役90%，或质量持平且速度>=105%；质量更低一律不换"
+ "verdict": "SKIPPED",
+ "why": "already ran today",
+ "day": "2026-11-08"
 }

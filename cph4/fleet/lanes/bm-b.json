@@ -1,6 +1,6 @@
 {
  "node": "bm-b",
- "ts": "2026-11-07T23:21:59",
+ "ts": "2026-11-08T00:09:39",
  "jobs": [
   {
    "id": "PROBE-NODE-bm-b-20261107",
@@ -15,9 +15,23 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
+  },
+  {
+   "id": "ASSET-GEN-STYLES-20261107",
+   "title": "资产生产：风格样张出图（3 件）",
+   "cmd": "python Tools/fleet/asset_gen.py --class styles --limit 3 --node bm-c --receipt cph4/fleet/queue-receipts/asset-gen-styles-20261107.json",
+   "cwd": ".",
+   "needs": "gpu",
+   "deliverable": "cph4/fleet/queue-receipts/asset-gen-styles-20261107.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 9.6/1.0 GB"
+ "capacity_note": "ram-unknown"
 }
