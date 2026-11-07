@@ -1,45 +1,38 @@
-# 交接一屏（2026-11-06 16:53）
+# 交接一屏（2026-11-07 13:29）
 
 > 新会话先读这一页，再看具体文件。四段：在产 / 待判 / 阻塞 / 下一步。
 
-## 一、在产（0 张）
+## 一、在产（2 张）
 
+- `asset-lib-face-dataset-2026-11-07` [资产储备（角色 LoRA / 音色库）] 人脸数据集准入（反 AI 脸的第一道门）（bm-c，45 分钟租约）
+- `biggame-pack-scan-2026-11-07` [游戏（可上线清单 → 一款可玩包 → 提审材料）] 可上线包清单（唯一能机器判的段）（bm-a，45 分钟租约）
 
-## 二、待判（13 张在队列等机器）
+## 二、待判（4 张在队列等机器）
 
 - `R-NEXT-BIGSTREAMD-TTS-QC-20261104` 配音批质检：r1202 目录逐集时长/静音/体积（出可发布集数清单）（bigstream-duanju）
-- `OPS-CLOCK-RESYNC-BMB-20261105` None（无归属）
-- `FREE-MEM-DIAG-bm-c-20261106` None（无归属）
-- `Q-MV-ANCHOR-WORDS-DRAIN-20261106` None（无归属）
-- `R-NEXT-BIGSTREAMD-EVIDENCE-20261106` 漫剧证据目录补齐判定：画面/配音工段为何为空（一页含根因与补法）（bigstream-drama）
-- `biggame-pack-scan-2026-11-06` None（无归属）
-- `asset-lib-voice-corpus-2026-11-06` None（无归属）
-- `bigmoney-backtest-2026-11-06` None（无归属）
-- `asset-lib-asset-gen-2026-11-06` None（无归属）
-- `asset-lib-asset-gen-scenes-2026-11-06` None（无归属）
+- `MOB-DRAMA-TTSQC-20261106T162309` 短剧配音批质检（在持料机上跑，出可发布集数清单）（bigstream-drama）
+- `asset-lib-asset-gen-2026-11-07` [资产储备（角色 LoRA / 音色库）] 通用资产出图（道具/场景，吃 ASSET-PROMPTS 规格）（asset-lib）
+- `CANARY-20261107T132924` 端到端自检：投卡→领取→执行→回执→产物（fleet-ops）
 
-## 三、阻塞（8 项断言红 / 4 台机不一致）
+## 三、阻塞（8 项断言红 / 1 台机不一致）
 
 - 断言 I1：5 条
-- 断言 I3：55 条
-- 断言 I4：18 条
-- 断言 I6：7 条
+- 断言 I2：1 条
+- 断言 I3：36 条
+- 断言 I4：20 条
 - 断言 I7：3 条
-- 断言 I12：27 条
+- 断言 I12：30 条
 - 断言 I13：1 条
 - 断言 I14：3 条
-- 机器 bm-a：NO-RECEIPT-1H
-- 机器 bm-b：NO-RECEIPT-1H
-- 机器 bm-c：NO-RECEIPT-1H
-- 机器 bm-m：IDLE-WITH-QUEUE
+- 机器 bm-b：IDLE-WITH-QUEUE
 
 ## 四、下一步（P0 两线）
 
-- bigstream-mv：过闸率 87.0，返工 15，产出年龄 6.1
-- bigstream-drama：过闸率 53.3，返工 7，产出年龄 6.1
-- bigstream-duanju：过闸率 71.4，返工 3，产出年龄 166.1
-- biggame：过闸率 82.9，返工 47，产出年龄 71.5
-- asset-lib：过闸率 62.2，返工 17，产出年龄 6.0
+- bigstream-mv：过闸率 87.1，返工 18，产出年龄 18.5
+- bigstream-drama：过闸率 75.0，返工 7，产出年龄 12.3
+- bigstream-duanju：过闸率 44.4，返工 3，产出年龄 185.7
+- biggame：过闸率 28.8，返工 78，产出年龄 91.1
+- asset-lib：过闸率 35.0，返工 29，产出年龄 18.5
 
 ## 五、已发布（0 条）
 

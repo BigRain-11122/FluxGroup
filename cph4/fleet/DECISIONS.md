@@ -1,6 +1,6 @@
-# 分层决策台账 2026-11-06T16:53:29
+# 分层决策台账 2026-11-07T13:29:25
 
-分布：L0=0, L1=4, L2=10, L3=0, CEO=3
+分布：L0=0, L1=17, L2=11, L3=0, CEO=3
 
 ## 需要你（其余各层自决，不占你带宽）
 
@@ -12,17 +12,31 @@
 
 | 层 | 事项 | 到期 | 兜底 |
 |---|---|---|---|
-| 子公司层 | 闸红 I1 × 5（FAIL） | 11-06T18:53 | business-map-next |
-| 子公司层 | 闸红 I3 × 55（FAIL） | 11-06T18:53 | business-map-next |
-| 子公司层 | 闸红 I4 × 18（FAIL） | 11-06T18:53 | business-map-next |
-| 子公司层 | 闸红 I7 × 3（FAIL） | 11-06T18:53 | business-map-next |
-| 子公司层 | 闸红 I12 × 28（FAIL） | 11-06T18:53 | business-map-next |
-| 子公司层 | 闸红 I14 × 3（FAIL） | 11-06T18:53 | business-map-next |
-| 子公司层 | 闸红 I6 × 7（FAIL） | 11-06T18:53 | business-map-next |
-| 子公司层 | bigstream-mv 的下一步产物 | 11-06T19:21 | business-map-next |
-| 子公司层 | asset-lib 的下一步产物 | 11-06T19:21 | business-map-next |
 | 子公司层 | bigmoney 的下一步产物 | 11-06T19:21 | business-map-next |
-| 线内/部门层 | 停线卡 ART-PUSH-BMA-20261104 需根因 | 11-06T18:53 | last-passing-standard |
-| 线内/部门层 | 停线卡 asset-lib-voice-assemble-2026-11-05 需根因 | 11-06T18:53 | last-passing-standard |
-| 线内/部门层 | 停线卡 B-MV-AUDIT-20261105 需根因 | 11-06T18:53 | last-passing-standard |
-| 线内/部门层 | 停线卡 SIM-20261105T155828-01-1 需根因 | 11-06T18:53 | last-passing-standard |
+| 子公司层 | biggame 的下一步产物 | 11-07T17:58 | business-map-next |
+| 子公司层 | asset-lib 的下一步产物 | 11-08T12:32 | business-map-next |
+| 子公司层 | 闸红 I1 × 5（FAIL） | 11-08T12:41 | business-map-next |
+| 子公司层 | 闸红 I3 × 36（FAIL） | 11-08T12:41 | business-map-next |
+| 子公司层 | 闸红 I4 × 20（FAIL） | 11-08T12:41 | business-map-next |
+| 子公司层 | 闸红 I7 × 3（FAIL） | 11-08T12:41 | business-map-next |
+| 子公司层 | 闸红 I12 × 30（FAIL） | 11-08T12:41 | business-map-next |
+| 子公司层 | 闸红 I14 × 3（FAIL） | 11-08T12:41 | business-map-next |
+| 子公司层 | 闸红 I2 × 1（FAIL） | 11-08T12:45 | business-map-next |
+| 子公司层 | 闸红 I13 × 1（FAIL） | 11-08T12:54 | business-map-next |
+| 线内/部门层 | 停线卡 AUD-SOFT-20261106T172238-15 需根因 | 11-07T17:57 | last-passing-standard |
+| 线内/部门层 | 停线卡 AUD-SOFT-20261106T172238-16 需根因 | 11-07T17:57 | last-passing-standard |
+| 线内/部门层 | 停线卡 AUD-SOFT-20261106T172238-17 需根因 | 11-07T17:57 | last-passing-standard |
+| 线内/部门层 | 停线卡 AUD-SOFT-20261106T172238-18 需根因 | 11-07T17:57 | last-passing-standard |
+| 线内/部门层 | 停线卡 AUD-SOFT-20261106T172238-21 需根因 | 11-07T17:57 | last-passing-standard |
+| 线内/部门层 | 停线卡 AUD-SOFT-20261106T172238-22 需根因 | 11-07T17:57 | last-passing-standard |
+| 线内/部门层 | 停线卡 AUD-SOFT-20261106T172238-30 需根因 | 11-07T17:57 | last-passing-standard |
+| 线内/部门层 | 停线卡 AUD-SOFT-20261106T172238-31 需根因 | 11-07T17:57 | last-passing-standard |
+| 线内/部门层 | 停线卡 AUD-SOFT-20261106T172238-32 需根因 | 11-07T17:57 | last-passing-standard |
+| 线内/部门层 | 停线卡 AUD-SOFT-20261106T172238-34 需根因 | 11-07T17:57 | last-passing-standard |
+| 线内/部门层 | 停线卡 AUD-SOFT-20261106T172238-35 需根因 | 11-07T17:57 | last-passing-standard |
+| 线内/部门层 | 停线卡 AUD-SOFT-20261106T172238-36 需根因 | 11-07T17:57 | last-passing-standard |
+| 线内/部门层 | 停线卡 AUD-SOFT-20261106T172238-09 需根因 | 11-07T18:45 | last-passing-standard |
+| 线内/部门层 | 停线卡 AUD-SOFT-20261106T172238-29 需根因 | 11-07T18:45 | last-passing-standard |
+| 线内/部门层 | 停线卡 R-PLAN-BIGDOMAIN-20261107 需根因 | 11-08T00:38 | last-passing-standard |
+| 线内/部门层 | 停线卡 LINE-TRIAGE-MV-20261107 需根因 | 11-08T00:38 | last-passing-standard |
+| 线内/部门层 | 停线卡 asset-lib-voice-corpus-bmb-2026-11-07 需根因 | 11-08T12:41 | last-passing-standard |

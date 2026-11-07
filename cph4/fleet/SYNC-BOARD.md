@@ -1,4 +1,4 @@
-# 机队互报（2026-11-06T16:53:29+0800）
+# 机队互报（2026-11-07T13:29:24+0800）
 
 上报 1 / 名册 5 台；本机看不到的他人产物 0 件（传输通道度量，不是错误）
 
@@ -10,14 +10,14 @@
 - bm-d：无简报
 - bm-m：最近一份 0.0h 前
 
-## bm-m（20261106，窗口 26h）
-- 产出 92 件
-  - `cph4/fleet/queue-receipts/skill-promote-20261106.json`（2KB, 2847df924f…）
-  - `media/asset/characters/CH07/PROMPTS.json`（12KB, 0c57b34ece…）
-  - `media/asset/characters/CH08/PROMPTS.json`（12KB, 3215955cd5…）
-  - `media/asset/characters/CH06/PROMPTS.json`（12KB, 774e4b17fa…）
-  - `media/asset/characters/CH01/PROMPTS.json`（12KB, ddd18997b6…）
-  - `media/asset/characters/CH04/PROMPTS.json`（12KB, c6e6baa3b7…）
+## bm-m（20261107，窗口 26h）
+- 产出 105 件
+  - `cph4/fleet/queue-receipts/skill-promote-20261107.json`（2KB, 2de8a8b604…）
+  - `cph4/fleet/queue-receipts/brain-recon-2026-11-07.md`（1KB, f78d715d7d…）
+  - `cph4/fleet/queue-receipts/brain-fleet-ops-2026-11-05.md`（1KB, 70f05dc31d…）
+  - `cph4/fleet/queue-receipts/brain-bigstream-duanju-2026-11-07.md`（1KB, 130cb6fafd…）
+  - `cph4/fleet/queue-receipts/brain-voicebank-2026-11-07.md`（1KB, 7b96fbe4ce…）
+  - `cph4/fleet/queue-receipts/brain-bigstream-drama-2026-11-07.md`（1KB, 7323040ae8…）
 - 受阻 6 条
   - bigstream-mv-gate-2026-11-06：E-UNKNOWN 
   - R-NEXT-BIGGAME-SUBMIT-P-20261105：E-CONTRACT products=36 ready=0 not_ready=36
