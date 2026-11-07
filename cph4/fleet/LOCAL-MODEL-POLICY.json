@@ -36,7 +36,7 @@
    "model": "qwen3:1.7b",
    "cost_gb": 1.5,
    "num_ctx": 4096,
-   "keep_alive": "1m",
+   "keep_alive": 0,
    "resident": false
   },
   "big": {
@@ -44,9 +44,10 @@
    "model": "qwen3:8b",
    "cost_gb": 5.9,
    "num_ctx": 8192,
-   "keep_alive": "1m",
+   "keep_alive": 0,
    "resident": false
-  }
+  },
+  "_keepalive_why": "非驻留档必须 keep_alive=0：写 1m 会让 1.7B/8B 悄悄占住内存，而 budget.resident_set 只含 resident+embedding，同一事实两处判据打架（model_plan E-KEEPALIVE 每轮报红）。"
  },
  "accept_upgrade": {
   "quality_drop_max": 0.0,

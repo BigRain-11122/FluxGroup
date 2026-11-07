@@ -62,8 +62,12 @@ def allowlist():
         m = cfg.get("model")
         if not m:
             continue
+        # keep_alive=0 是"用完即卸"的合法策略；`or "5m"` 会把 0 变成 5 分钟钉住模型，
+        # 与 model_plan 的 E-KEEPALIVE 判据打架（阶段每轮报红）
+        _ka = cfg.get("keep_alive")
+        _ka = "0" if _ka in (0, "0") else str(_ka if _ka is not None else "5m")
         out[m] = {"seat": seat,
-                  "keep_alive": str(cfg.get("keep_alive") or "5m"),
+                  "keep_alive": _ka,
                   "num_ctx": int(cfg.get("num_ctx") or 8192)}
     # 矩阵里出现但策略没写的档也拦（宁可拒绝，不让机队拉野模型）
     return out

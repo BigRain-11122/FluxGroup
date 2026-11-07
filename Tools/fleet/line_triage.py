@@ -61,8 +61,9 @@ def resolve_evidence(e):
 def main() -> int:
     args = sys.argv[1:]
     line_id = args[args.index("--line") + 1] if "--line" in args else ""
+    node = args[args.index("--node") + 1] if "--node" in args else ""
     if not line_id:
-        print("usage: line_triage.py --line <line-id>")
+        print("usage: line_triage.py --line <line-id> [--node <node>]")
         return 2
     try:
         reg = json.load(open(REG, encoding="utf-8"))
@@ -148,7 +149,9 @@ def main() -> int:
     rows += acts[:3]
 
     os.makedirs(OUT_DIR, exist_ok=True)
-    path = os.path.join(OUT_DIR, "triage-%s-%s.md" % (line_id, datetime.now().strftime("%Y%m%d")))
+    _suffix = ("-%s" % node) if node else ""
+    path = os.path.join(OUT_DIR, "triage-%s%s-%s.md"
+                        % (line_id, _suffix, datetime.now().strftime("%Y%m%d")))
     with open(path, "w", encoding="utf-8") as f:
         f.write("\n".join(rows) + "\n")
     print("[triage] %s -> %s" % (line_id, os.path.relpath(path, ROOT)))

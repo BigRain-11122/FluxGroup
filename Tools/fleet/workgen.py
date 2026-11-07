@@ -417,16 +417,17 @@ def main():
                     # second box on the same line would produce the identical file. Skip
                     # when that evidence already exists instead of declaring busywork.
                     if os.path.exists(os.path.join(root, "cph4", "fleet", "queue-receipts",
-                                                   "triage-%s-%s.md" % (lid, day))):
+                                                   "triage-%s-%s-%s.md" % (lid, node, day))):
                         continue
                     if cid in open_ids() or recent_receipt(root, cid):
                         continue
                     added.append({
                         "id": cid, "title": "%s 线证据扫描（%s 本机可判面）" % (ln.get("name") or lid, node),
-                        "cmd": "python Tools/fleet/line_triage.py --line %s" % lid,
+                        "cmd": "python Tools/fleet/line_triage.py --line %s --node %s" % (lid, node),
                         "cwd": "",
                         "requires": ["Tools/fleet/line_triage.py"],
-                        "deliverable": "cph4/fleet/queue-receipts/triage-%s-%s.md" % (lid, day),
+                        "deliverable": "cph4/fleet/queue-receipts/triage-%s-%s-%s.md"
+                                       % (lid, node, day),
                         "accept": "回执含每工段证据存在性/最新时间/缺什么",
                         "needs": "cpu", "nodes": [node], "prio": "P3", "day_ok": True,
                         "heavy": False,
