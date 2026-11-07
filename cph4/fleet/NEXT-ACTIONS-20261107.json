@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-07T23:39:29+0800",
+ "ts": "2026-11-07T23:45:46+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -27,8 +27,8 @@
    "accept": "SUBMIT-PACK 里『隐私政策』『提审台账』两类缺件归零",
    "blocker_type": "CEO",
    "blocker": "截图需跑游戏取图，受 2026-10-28『不许自动跑游戏包』令约束，等放行",
-   "state": "STALLED",
-   "card": null,
+   "state": "QUEUED",
+   "card": "ASSET-GEN-TYPOGRAPHY-20261108",
    "running_on": null
   },
   {
@@ -73,7 +73,7 @@
    "blocker_type": "CEO",
    "blocker": "CEO 令暂停（先铺资产库/MV/游戏/城市）",
    "state": "QUEUED",
-   "card": "MOB-DRAMA-TTSQC-20261106T162309",
+   "card": "OPS-I2V-CAP-BMA-20261103",
    "running_on": null
   },
   {
@@ -88,7 +88,7 @@
    "blocker_type": "CEO",
    "blocker": "CEO 令暂停（先铺资产库/MV/游戏/城市）",
    "state": "QUEUED",
-   "card": "R-NEXT-BIGSTREAMD-TTS-QC-20261104",
+   "card": "R-TRIAGE-BIGSTREAMDUANJU-BMB-20261101",
    "running_on": null
   },
   {
@@ -229,8 +229,8 @@
  ],
  "counts": {
   "RUNNING": 4,
-  "QUEUED": 2,
-  "STALLED": 9
+  "QUEUED": 3,
+  "STALLED": 8
  },
  "stalled_engine": 4
 }

@@ -70,7 +70,7 @@
    "detect": "local_ahead_of_origin",
    "resolve": "state_push",
    "auto": true,
-   "every_s": 300,
+   "every_s": 120,
    "escalate_after": 3,
    "owner": "bm-m"
   },
@@ -91,9 +91,98 @@
    "symptom": "patrol 项的证据指向非 ACTIVE 线、远端子仓或本机无产物",
    "detect": "patrol_fake_red",
    "resolve": "classify_only",
-   "auto": false,
+   "auto": true,
    "every_s": 600,
    "escalate_after": 99,
+   "owner": "bm-m",
+   "_note": "auto=True 只是为了把\"已定性\"记成闭环；解法只写一条备忘，不动任何数据"
+  },
+  {
+   "id": "QUEUE-DRIFT",
+   "name": "队列表账漂移：同 id 在两份队列里状态不同",
+   "symptom": "队列与备队列同 id 状态不一致",
+   "detect": "queue_drift",
+   "resolve": "reconcile_drift",
+   "auto": true,
+   "every_s": 300,
+   "escalate_after": 2,
+   "owner": "bm-m"
+  },
+  {
+   "id": "ARTIFACT-MISSING",
+   "name": "假完成：卡说完成但交付物不在盘",
+   "symptom": "DONE/UNVERIFIED 卡的 deliverable 不存在",
+   "detect": "artifact_missing",
+   "resolve": "reopen_missing",
+   "auto": true,
+   "every_s": 600,
+   "escalate_after": 2,
+   "owner": "bm-m"
+  },
+  {
+   "id": "UNVERIFIED-STUCK",
+   "name": "回执对不上导致永久 UNVERIFIED",
+   "symptom": "存在 UNVERIFIED 卡",
+   "detect": "unverified_stuck",
+   "resolve": "receipt_match",
+   "auto": true,
+   "every_s": 900,
+   "escalate_after": 3,
+   "owner": "bm-m"
+  },
+  {
+   "id": "CARD-UNOWNED",
+   "name": "无主活卡：在飞却没人负责",
+   "symptom": "OPEN/RUNNING 且 owner 为空",
+   "detect": "card_unowned",
+   "resolve": "assign_owner",
+   "auto": true,
+   "every_s": 300,
+   "escalate_after": 2,
+   "owner": "bm-m"
+  },
+  {
+   "id": "CADENCE-DRIFT",
+   "name": "节奏表与脉漂移",
+   "symptom": "cadence.py 报 errors/warnings",
+   "detect": "cadence_drift",
+   "resolve": "rebuild_cadence",
+   "auto": true,
+   "every_s": 3600,
+   "escalate_after": 2,
+   "owner": "bm-m"
+  },
+  {
+   "id": "QUALITY-BELOW",
+   "name": "产物质量不达阈值",
+   "symptom": "QUALITY-BOARD 有 FAIL 行",
+   "detect": "quality_below",
+   "resolve": "classify_only",
+   "auto": false,
+   "every_s": 3600,
+   "escalate_after": 4,
+   "owner": "bm-m"
+  },
+  {
+   "id": "VOLUME-MISSING",
+   "name": "台账引用的卷未挂载",
+   "symptom": "vault 台账里有 /Volumes 路径指向未挂载卷",
+   "detect": "volume_missing",
+   "resolve": "vault_rebuild",
+   "auto": true,
+   "every_s": 1800,
+   "escalate_after": 2,
+   "owner": "bm-m"
+  },
+  {
+   "id": "BACKUP-STALE",
+   "name": "备份不新鲜",
+   "symptom": "dr_check 判 FAIL/STALE",
+   "detect": "backup_stale",
+   "resolve": "run_backup",
+   "auto": true,
+   "every_s": 3600,
+   "escalate_after": 3,
    "owner": "bm-m"
   }
  ]
