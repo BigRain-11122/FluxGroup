@@ -989,6 +989,24 @@ def run_lane_cycle(node, root=None, dry=False, allow_gpu_workhours=False,
                           .get(node, 1)) or 1)
     except Exception:
         _slots = 1
+    def _run_one_job(_j, _root, _node, _hub, _port, _gpu_ok, _max_s, _dry):
+        """单卡执行（并行槽位用）。步序与单卡路径一致：RUNNING -> run_job -> RESULT。
+        2026-11-08：定义曾被 checkout 顶掉、只剩调用点 -> NameError，卡认领后
+        永久 RUNNING、机器空转（实测堆积 18 张）。定义与调用点必须同一提交（RG-30）。"""
+        _jid = _j.get("id")
+        if already_closed(_root, _jid):
+            return None
+        if _j.get("heavy") and not fl.heavy_allowed(_node) and not _gpu_ok:
+            publish(_node, "DEFERRED", {"job": _jid, "reason": "HEAVY-YIELD (parallel)"},
+                    _hub, _port)
+            return None
+        _need_work_flag(_root, _node, False)
+        write_last(_root, _node, "RUNNING", job=_jid)
+        _res = run_job(_j, _root, _node, _hub, _port, _gpu_ok, _max_s)
+        write_last(_root, _node, "RESULT", job=_res.get("id"),
+                   note=_res.get("note") or "", rc=_res.get("rc"))
+        return _res
+
     if _slots > 1:
         _picked, _gpu_taken = [], False
         for _j in _cand:

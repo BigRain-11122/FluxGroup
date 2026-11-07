@@ -8,7 +8,7 @@
    "role": "快车道：归类、打标、过筛、抽一个短字段",
    "model": "qwen3:1.7b",
    "num_ctx": 4096,
-   "keep_alive": "1m",
+   "keep_alive": "0",
    "resident": false,
    "measured_gb": 1.5,
    "why": "高频归类走它，亚秒级；四档常驻合计约 13.1GB，仍在 16GB 预算内",
@@ -41,7 +41,7 @@
    "role": "难活：质量复核/长文改写/代码/创意",
    "model": "qwen3:8b",
    "num_ctx": 8192,
-   "keep_alive": "1m",
+   "keep_alive": "0",
    "resident": false,
    "measured_gb": 5.9,
    "measured_note": "ctx8192 时 5.9GB；ctx4096 时 5.2GB。代码题实测一次给对（重复 id 检查函数）",
@@ -108,5 +108,6 @@
   "在 swap>0 时装载 on_demand",
   "同时驻留 4B 与 8B 却不释放 triage"
  ],
- "_resident_law": "常驻只留\"主力+向量\"（resident+embedding）。判据不是\"档位多\"，而是\"用得够频繁\"：审计窗内调用次数少的档一律按需。"
+ "_resident_law": "常驻只留\"主力+向量\"（resident+embedding）。判据不是\"档位多\"，而是\"用得够频繁\"：审计窗内调用次数少的档一律按需。",
+ "_keepalive_why": "非常驻档 keep_alive 必须 \"0\"：matrix 与 LOCAL-MODEL-POLICY.duties 是同一事实的两处，任一处写 1m 都会让 1.7B/8B 悄悄占住内存（model_plan E-KEEPALIVE 每轮报红）。2026-11-08 对齐：两处同时改，网关读 duties、model_plan 读 tiers。"
 }
