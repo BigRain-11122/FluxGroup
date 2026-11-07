@@ -123,6 +123,26 @@ def emit(kind, card_id="", node="", attempt=1, payload=None, path=None):
 
 
 # ---- transport (raw NATS; no nats.exe on the Mac) -------------------------------
+_HUB_OK = [None]   # 进程内缓存：同一轮不要为死链反复付超时
+
+
+def hub_reachable(force=False):
+    """1.5s 内能否建立到 NATS 的 TCP —— 不通就快速失败，别让每轮白等。
+
+    Why (2026-11-07 实测)：hub 不可达时 relay 与 consume 各自 _connect(timeout=10/3)，
+    一轮白烧 20-37s（eventlog 一度涨到 37s/轮成为最贵阶段）。事件不丢——outbox 里
+    sent_ts 为空的记录原地保留，hub 恢复后照常补发。
+    """
+    if _HUB_OK[0] is None or force:
+        try:
+            _s = socket.create_connection((HUB, PORT), timeout=1.5)
+            _s.close()
+            _HUB_OK[0] = True
+        except Exception:
+            _HUB_OK[0] = False
+    return _HUB_OK[0]
+
+
 def _connect(timeout=4.0):
     s = socket.create_connection((HUB, PORT), timeout)
     s.settimeout(timeout)
@@ -283,6 +303,8 @@ def relay(limit=500, timeout=10.0):
             " WHERE sent_ts IS NULL ORDER BY ts LIMIT ?", (limit,)).fetchall()
         if not rows:
             return {"sent": 0, "pending": 0, "error": None}
+        if not hub_reachable():
+            return {"sent": 0, "pending": len(rows), "error": "hub-unreachable (kept for retry)"}
         s = _connect(timeout)
         try:
             inbox = "_INBOX." + os.urandom(6).hex()
@@ -339,6 +361,8 @@ def ensure_consumer(node):
 
 
 def consume(node, limit=50, timeout=3.0):
+    if not hub_reachable():
+        return {"error": "hub-unreachable", "handled": 0}
     ok, err = ensure_consumer(node)
     if not ok:
         return {"error": "consumer: %s" % err, "handled": 0}
