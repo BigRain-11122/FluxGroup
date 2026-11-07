@@ -1,6 +1,6 @@
 {
  "node": "bm-c",
- "ts": "2026-11-07T23:48:24",
+ "ts": "2026-11-08T00:00:42",
  "jobs": [
   {
    "id": "ASSET-GEN-CHARACTERS-20261107",
@@ -15,9 +15,65 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
+  },
+  {
+   "id": "R-PLAN-BIGDOMAIN-20261108",
+   "title": "BigDomain·硅基域商业化 线级体检与缺口清单",
+   "cmd": "python Tools/fleet/line_triage.py --line bigdomain",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigdomain-20261108.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "R-PLAN-BIGLIFE-20261108",
+   "title": "BigLife·数字生命 线级体检与缺口清单",
+   "cmd": "python Tools/fleet/line_triage.py --line biglife",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-biglife-20261108.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "R-PLAN-BIGMONEY-20261108",
+   "title": "BigMoney·量化 线级体检与缺口清单",
+   "cmd": "python Tools/fleet/line_triage.py --line bigmoney",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigmoney-20261108.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "asset-lib-env-check-2026-11-08",
+   "title": "[资产储备（角色 LoRA / 音色库）] 训练环境自检（这台机能不能烧）",
+   "cmd": "python Tools/fleet/asset_env_check.py --out cph4/fleet/queue-receipts/asset-env-2026-11-08.json",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/asset-env-2026-11-08.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 2.0/1.0 GB"
+ "capacity_note": "ram 1.4/1.0 GB"
 }

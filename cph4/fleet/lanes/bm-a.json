@@ -1,6 +1,6 @@
 {
  "node": "bm-a",
- "ts": "2026-11-07T23:46:22",
+ "ts": "2026-11-08T00:00:42",
  "jobs": [
   {
    "id": "ASSET-GEN-SCENES-20261107",
@@ -15,9 +15,107 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
+  },
+  {
+   "id": "R-PLAN-BIGCOMPUTE-20261108",
+   "title": "BigCompute·硅基算力 线级体检与缺口清单",
+   "cmd": "python Tools/fleet/line_triage.py --line bigcompute",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigcompute-20261108.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "R-NEXT-BIGSTREAMM-REBUILD-20261108",
+   "title": "MV 合成本片：按 EDL 行表重建成片 v721（缺的是成片，不是闸）",
+   "cmd": "python Tools/mv_rebuild_from_edl.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721.mp4",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721.mp4",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "R-MODEL-RADAR-BMA-20261108",
+   "title": "本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-a）",
+   "cmd": "python Tools/fleet/model_radar.py run --node bm-a --idle-only --apply",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/model-radar-bm-a-20261108.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "R-PLAN-FLUXVERSE-20261108",
+   "title": "FluxVerse·元宙城 线级体检与缺口清单",
+   "cmd": "python Tools/fleet/line_triage.py --line fluxverse",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-fluxverse-20261108.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "bigstream-mv-gate-2026-11-08",
+   "title": "[MV·爱在西元前（v721 终版）] 交付闸（重复/静止/抖动/闪烁）",
+   "cmd": "python Tools/mv_delivery_gate.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721_60fps_1080p.mp4 --card 38.79:40.21 --card 219.71:223.88 --json cph4/fleet/queue-receipts/mv-gate-v721-2026-11-08.json",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/mv-gate-v721-2026-11-08.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "biggame-pack-scan-2026-11-08",
+   "title": "[游戏（可上线清单 → 一款可玩包 → 提审材料）] 可上线包清单（唯一能机器判的段）",
+   "cmd": "python Tools/fleet/game_pack_scan.py --root gaming --out cph4/fleet/queue-receipts/game-packs-2026-11-08.json",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/game-packs-2026-11-08.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "bigmoney-backtest-2026-11-08",
+   "title": "[金融量化（回测 → 一页结论 → 可报价或写清卡点）] 生产候选回测（去债档 + 8% 波动目标）",
+   "cmd": "python quant/bigmoney/scripts/etf_nobond_vt.py",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "quant/bigmoney/results/etf_nobond_vt.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 31.7/1.0 GB"
+ "capacity_note": "ram 37.8/1.0 GB"
 }
