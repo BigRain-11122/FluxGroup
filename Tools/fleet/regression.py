@@ -494,6 +494,21 @@ def rg25():
     return "归档终态守得住，显式重开也放得开"
 
 
+@case("RG-26", "常驻模型只能从规则给的候选里挑，越权/乱答必须回落",
+      "4B 级模型会算错数、也会凭空发明动作；给它执行权=让模型当机长")
+def rg26():
+    import subprocess as _sp
+    rc = _sp.run([sys.executable, os.path.join(ROOT, "Tools", "fleet", "fleet_brain.py"),
+                  "--selftest"], cwd=ROOT, capture_output=True, text=True, timeout=120)
+    assert rc.returncode == 0, "决策席自检失败：%s" % (rc.stdout or rc.stderr)[:160]
+    sys.path.insert(0, os.path.join(ROOT, "Tools", "fleet"))
+    import master_pulse as _mp
+    assert "fleet_brain" in {t[0] for t in _mp.STAGES}, "决策席没有接在脉里"
+    src = open(os.path.join(ROOT, "Tools", "fleet", "fleet_brain.py"), encoding="utf-8").read()
+    assert "ACTIONS" in src and "A_NOOP" in src, "动作白名单缺失（模型可能直接执行任意命令）"
+    return "三态自检通过（越权→回落 / 乱答→回落 / 合法→采纳），白名单在位"
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--json", action="store_true")

@@ -3,7 +3,7 @@
  "version": "v3-20261107",
  "base_tick_s": 45,
  "scope": {
-  "covers": "脉里全部 99 个阶段（值守/派单/执行/线/一屏/方向）",
+  "covers": "脉里全部 100 个阶段（值守/派单/执行/线/一屏/方向）",
   "excludes": "各产品线自己的业务流程（不进脉，不进本表）"
  },
  "law": [
@@ -1091,11 +1091,25 @@
    "on_fail": "连续 3 轮失败 → 告警并停该阶段"
   },
   {
+   "id": "S-fleet_brain",
+   "domain": "一屏",
+   "stage": "fleet_brain",
+   "period_s": 300,
+   "phase_s": 37,
+   "actor": "rule",
+   "action": "执行 fleet_brain 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/fleet_brain.json",
+   "output_inferred": true,
+   "accept": "文件 mtime 前进且内容非空",
+   "on_fail": "未更新 → 视为阶段未执行，报 E-STAGE-SILENT"
+  },
+  {
    "id": "S-inference_audit",
    "domain": "线",
    "stage": "inference_audit",
    "period_s": 300,
-   "phase_s": 42,
+   "phase_s": 74,
    "actor": "rule",
    "action": "执行 inference_audit 阶段",
    "input": [],
@@ -1109,7 +1123,7 @@
    "domain": "执行",
    "stage": "local_tasks",
    "period_s": 300,
-   "phase_s": 84,
+   "phase_s": 111,
    "actor": "rule",
    "action": "执行 local_tasks 阶段",
    "input": [],
@@ -1123,7 +1137,7 @@
    "domain": "一屏",
    "stage": "quality_agents",
    "period_s": 300,
-   "phase_s": 126,
+   "phase_s": 148,
    "actor": "rule",
    "action": "执行 quality_agents 阶段",
    "input": [],
@@ -1137,7 +1151,7 @@
    "domain": "线",
    "stage": "review_proxy",
    "period_s": 300,
-   "phase_s": 168,
+   "phase_s": 185,
    "actor": "rule",
    "action": "执行 review_proxy 阶段",
    "input": [],
@@ -1151,7 +1165,7 @@
    "domain": "机队",
    "stage": "self_improve",
    "period_s": 300,
-   "phase_s": 210,
+   "phase_s": 222,
    "actor": "rule",
    "action": "本机自检码龄/空壳/依赖并修",
    "input": [
@@ -1169,7 +1183,7 @@
    "domain": "值守",
    "stage": "state_push",
    "period_s": 300,
-   "phase_s": 252,
+   "phase_s": 259,
    "actor": "rule",
    "action": "执行 state_push 阶段",
    "input": [],
@@ -1546,7 +1560,7 @@
  ],
  "generated": {
   "from": "Tools/fleet/master_pulse.py:STAGES",
-  "stages": 99,
+  "stages": 100,
   "orphans": []
  }
 }

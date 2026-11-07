@@ -178,6 +178,10 @@ STAGES = [
     # 走快批（每轮都跑），由分类表里每类自己的 every_s 节流：否则 120s 的同步类
     # 被慢批 300s 卡住，频率表就是假承诺。没到期的类会直接跳过，成本可忽略。
     ("blocker_loop", ["Tools/fleet/blocker_loop.py", "--apply"], 240, {0, 1, 2}, False),
+
+    # 常驻模型的机队决策席（CEO 2026-11-08「常驻大模型负责每天高频率管理机队和派发任务」）：
+    # 规则算事实与候选，4B 只负责在候选里挑一件并给一句理由，动作由代码白名单执行。
+    ("fleet_brain", ["Tools/fleet/fleet_brain.py", "--apply"], 300, {0}, False),
     # 回执名不匹配导致的永久 UNVERIFIED（实测堵死 4 条线）：按词干匹配回执并收口。
     # 宁可不判也不假绿——歧义/无证据一律交人。
     ("receipt_match", ["Tools/fleet/receipt_match.py", "--apply"], 180, {0}, False),
