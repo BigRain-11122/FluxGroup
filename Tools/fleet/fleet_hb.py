@@ -97,6 +97,37 @@ class Nats:
             self.sock.settimeout(old)
 
 
+CLK_TTL_S = 600
+
+
+def _clk_path(root):
+    return os.path.join(root, "cph4", "fleet", "state", "clock-offset.json")
+
+
+def _cached_offset(root):
+    try:
+        p = _clk_path(root)
+        d = json.load(open(p, encoding="utf-8"))
+        if time.time() - float(d.get("ts") or 0) <= CLK_TTL_S and d.get("offset_ms") is not None:
+            return {"offset_ms": d.get("offset_ms"), "precision_ms": d.get("precision_ms")}
+    except Exception:
+        pass
+    return None
+
+
+def _save_offset(root, clk):
+    if not clk:
+        return
+    try:
+        p = _clk_path(root)
+        os.makedirs(os.path.dirname(p), exist_ok=True)
+        json.dump({"ts": time.time(), "offset_ms": clk.get("offset_ms"),
+                   "precision_ms": clk.get("precision_ms")},
+                  open(p, "w", encoding="utf-8"), ensure_ascii=False)
+    except Exception:
+        pass
+
+
 def probe_offset(hub, port, samples=5):
     vals = []
     # 先做一次短超时可达性探针（2026-11-07 实测）：hub 不通时 5 个样本 × 3s 连接超时
@@ -326,7 +357,12 @@ def main():
     with open(seq_f, "w") as f:
         f.write(str(seq))
 
-    clk = probe_offset(a.hub, a.port) or {}
+    # 时钟偏移缓存 10 分钟内复用（2026-11-07 实测）：hub 可达但慢时，5 次重连采样
+    # 会把 hb 拖到 26-33s，而时钟偏移是分钟级缓变量，没必要每轮重测。
+    clk = _cached_offset(a.root) or {}
+    if not clk:
+        clk = probe_offset(a.hub, a.port) or {}
+        _save_offset(a.root, clk)
     now = datetime.now(timezone.utc)
     state = {
         "node": a.node,
