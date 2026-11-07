@@ -295,6 +295,36 @@ def rg17():
         cfg["resident_gb_limit"], cfg["pageouts_max_per_min"], fg)
 
 
+@case("RG-18", "巡查只对 ACTIVE 的线报供给失败，且机读件必须真的写出来",
+      "PARKED 的线被责令铺卡=假红（bigstream-shortvideo 129h/car-gaming 122h 实锚）；"
+      "文档承诺 state/patrol.json 而代码从未写过=下游只能剥 Markdown")
+def rg18():
+    sys.path.insert(0, os.path.join(ROOT, "Tools", "fleet"))
+    import patrol
+    json_p = os.path.join(ROOT, "cph4", "fleet", "state", "patrol.json")
+    if not os.path.exists(json_p):
+        assert patrol.main([]) == 0, "patrol 跑不起来"
+    assert os.path.exists(json_p), "patrol 没写机读件（cph4/fleet/state/patrol.json）"
+    j = json.load(open(json_p, encoding="utf-8"))
+    assert isinstance(j.get("items"), list) and j["items"], "机读件里没有 items"
+
+    lines = (json.load(open(os.path.join(ROOT, "cph4", "fleet", "state", "lines.json"),
+                            encoding="utf-8-sig")) or {}).get("lines") or []
+    nonactive = {str(l.get("id")) for l in lines
+                 if str(l.get("declared") or "ACTIVE").upper() != "ACTIVE"}
+    bad = [it["key"] for it in j["items"]
+           if it.get("round") == "R2" and it["key"].split(":", 1)[-1] in nonactive]
+    assert not bad, "把非 ACTIVE 的线报成供给失败：%s" % bad[:4]
+
+    # 负控：体检/自述卡的判据必须能分开两种交付物（拦不住就等于没有这条判据）
+    f = patrol.is_selfreport
+    assert f({"deliverable": "cph4/fleet/state/city-state.json"}), "自述卡没被识别"
+    assert f({"deliverable": "cph4/fleet/queue-receipts/mv-gate-20261107.json"}), "回执卡没被识别"
+    assert not f({"deliverable": "gaming/FluxVerse/world/tile_01.png"}), "真产物被误判成自述"
+    return "%d 条行动项，%d 条非 ACTIVE 线已跳过（%d 条被记入 parked_skipped）" % (
+        len(j["items"]), len(nonactive), len(j.get("parked_skipped") or []))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--json", action="store_true")

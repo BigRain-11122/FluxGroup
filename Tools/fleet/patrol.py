@@ -14,7 +14,7 @@ CEO 2026-11-07：「智能体巡查排序好，指挥好机队各个业务和自
      让人能预期"先看什么"。
   3. **指挥**：--dispatch 时按排序落卡（调用既有铺卡器），不自己发明工作。
 
-产出：cph4/fleet/PATROL.md（一屏，按顺序）+ state/patrol.json（机读）。
+产出：cph4/fleet/PATROL.md（一屏，按顺序）+ cph4/fleet/state/patrol.json（机读）。
 用法：
   python3 Tools/fleet/patrol.py                 # 只巡查
   python3 Tools/fleet/patrol.py --dispatch      # 巡查后按序补卡并派单
@@ -32,6 +32,8 @@ ROOT = os.path.dirname(os.path.dirname(HERE))
 F = os.path.join(ROOT, "cph4", "fleet")
 STATE = os.path.join(F, "state")
 STALE_H = 72.0
+# 巡检时因 declared != ACTIVE 被跳过的线（PARKED/DORMANT）：报给机读件，但不进行动清单
+PARKED_SKIPPED = []
 
 # 五轮固定顺序：轮次即优先级，不靠分数把它们混在一起
 ROUNDS = [
@@ -41,6 +43,29 @@ ROUNDS = [
     ("R4", "质量", "产物不合格或闸失效", 40),
     ("R5", "方向", "声明在跑但长时间没产物", 20),
 ]
+
+
+def is_selfreport(card):
+    """交付物落在 state/ 或回执目录的卡是体检/自述，不是产物：它不会让线前进。"""
+    d = str(card.get("deliverable") or "")
+    if "/state/" in d or "queue-receipts/" in d:
+        return True
+    return d.endswith(".json") and any(k in d for k in ("state", "receipt", "audit"))
+
+
+def outputs_missing(lid):
+    """线的"产物面"目录是否存在。三条 ACTIVE 线（fluxverse/bigdomain/bigcompute）
+    声明的产物目录根本不存于盘，唯一在盘的是设计台账 JSON——这种线给它铺卡只会
+    再生成一张自述文件，所以必须先定产物或改声明。"""
+    spec = jload(os.path.join(F, "lines", "%s.json" % lid), {}) or {}
+    outs = spec.get("outputs") or []
+    if not outs:
+        return False
+    for o in outs:
+        base = str(o).split("**")[0].rstrip("/*")
+        if base and os.path.exists(os.path.join(ROOT, base)):
+            return False
+    return True
 
 
 def now():
@@ -125,14 +150,62 @@ def collect():
         for k in ("line", "needs", "nodes"):
             if isinstance(r.get(k), str):
                 open_lines.add(r[k])
+    # 只看 declared=ACTIVE 的线：PARKED/DORMANT 是「声明停下」，给它铺卡等于违背声明
+    # （实测假红：bigstream-shortvideo 129h、car-gaming 122h 都被报成供给失败）。
+    next_steps = (jload(os.path.join(F, "LINE-NEXT-STEPS.json"), {}) or {}).get("lines") or {}
+    parked_skipped = PARKED_SKIPPED
+    del parked_skipped[:]
     for ln in lines:
         lid = ln.get("id") or ""
         age = float(ln.get("age_h") or 0)
+        declared = str(ln.get("declared") or "").upper()
+        if declared and declared != "ACTIVE":
+            parked_skipped.append({"id": lid, "declared": declared, "age_h": age})
+            continue
         has_card = any(lid in json.dumps(r, ensure_ascii=False) for r in opens)
-        if not has_card and age >= STALE_H:
+        if has_card:
+            continue
+        decl = next_steps.get(lid) or {}
+        decl_cards = decl.get("cards") or []
+        # 「体检卡」不算真活：交付物落在 state/ 或 queue-receipts/ 的，是自述与核查，
+        # 产物面不会前进（实锚：fluxverse 唯一的下一步是 city_state.py 写一份自述 JSON，
+        # 派完 DONE 了，线的产物 glob 一动不动 → 年龄永远停在 103h）。
+        def _is_selfreport(c):
+            return is_selfreport(c)
+        real = [c for c in decl_cards if not _is_selfreport(c)]
+        if decl_cards and not real and age >= STALE_H:
+            add("R2", "decl:%s" % lid,
+                "%s 的下一步声明只有体检/自述卡（%s），没有产物卡" % (
+                    ln.get("name") or lid,
+                    ",".join(c.get("key", "") for c in decl_cards)),
+                _owners.get(lid) or (decl.get("nodes") or ["待指派"])[0],
+                "换一张真产物卡：交付物必须是该线的产品文件，不是 state/ 或回执",
+                "cph4/fleet/LINE-NEXT-STEPS.json", age_h=age, blocks=2, cost=2)
+        elif decl_cards and age >= STALE_H:
+            add("R2", "decl:%s" % lid,
+                "%s 已声明下一步（%s）但队列里没有它的卡" % (
+                    ln.get("name") or lid,
+                    ",".join(c.get("key", "") for c in decl_cards)),
+                _owners.get(lid) or (decl.get("nodes") or ["待指派"])[0],
+                "把 LINE-NEXT-STEPS 的声明转成卡（night_plan/backlog_fill），不要再手写一张",
+                "cph4/fleet/LINE-NEXT-STEPS.json", age_h=age, blocks=2, cost=1)
+        elif age >= STALE_H:
+            if outputs_missing(lid):
+                add("R2", "line:%s" % lid,
+                    "%s 声明 ACTIVE 但产物目录根本不存在（%s），也没有生产工具" % (
+                        ln.get("name") or lid,
+                        ",".join((jload(os.path.join(F, "lines", "%s.json" % lid), {})
+                                  or {}).get("outputs") or [])[:60]),
+                    _owners.get(lid) or "待指派",
+                    "二选一：定第一件真产物并给它一个工具，或把声明改成 PARKED；"
+                    "不许铺体检卡充数",
+                    "cph4/fleet/lines/%s.json" % lid, age_h=age, blocks=2, cost=3)
+                continue
             add("R2", "line:%s" % lid,
-                "%s 已 %.0f 小时无产物且队列里没有它的卡" % (ln.get("name") or lid, age),
-                _owners.get(lid) or "待指派", "给它铺一张真活卡（有输入、有交付路径、有判据）",
+                "%s 已 %.0f 小时无产物、队列里没有它的卡、也没有下一步声明" % (
+                    ln.get("name") or lid, age),
+                _owners.get(lid) or "待指派",
+                "先定这一条线唯一的下一个可交付产物，写进 LINE-NEXT-STEPS 再铺卡",
                 "cph4/fleet/state/lines.json", age_h=age, blocks=2, cost=2)
 
     # R2 供给：槽位空
@@ -269,9 +342,21 @@ def main(argv):
     acts = dispatch(items, dry=not a.dispatch) if a.dispatch else []
     path = board(items, acts)
 
+    # 机读件（此前只写在文档里、代码从未生成，下游只能靠剥 Markdown 拿顺序）
+    os.makedirs(STATE, exist_ok=True)
+    jp = os.path.join(STATE, "patrol.json")
+    try:
+        with open(jp, "w", encoding="utf-8") as f:
+            json.dump({"ts": now(), "items": items, "acts": acts,
+                       "parked_skipped": PARKED_SKIPPED, "board": path},
+                      f, ensure_ascii=False, indent=1)
+    except Exception as e:
+        print("[patrol] W-PATROL-JSON %s" % str(e)[:80])
+
     if a.json:
         print(json.dumps({"ts": now(), "items": items, "acts": acts,
-                          "board": path}, ensure_ascii=False, indent=1))
+                          "parked_skipped": PARKED_SKIPPED, "board": path,
+                          "json": jp}, ensure_ascii=False, indent=1))
     show = items[:a.top] if a.top else items
     print("[patrol] %d 条 · 前 %d 条：" % (len(items), len(show)))
     for it in show:

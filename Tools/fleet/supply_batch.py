@@ -140,6 +140,22 @@ def main(argv):
     cards = build_cards()
     have = {r.get("id") for r in rows(BACKLOG)}
     cards = [c for c in cards if c["id"] not in have]
+
+    # 按交付物去重，不只按卡 id：id 带时间戳，每个批次都算"新卡"，
+    # 于是同一交付物会被反复铺（实测 G18_PalacePlunder 连铺两天两张 OPEN）。
+    # 判据=交付物已经有活卡（READY/OPEN/RUNNING/CLAIMED）就不再铺。
+    LIVE = ("READY", "OPEN", "RUNNING", "CLAIMED", "PENDING")
+    live_out = {}
+    for p in (BACKLOG, os.path.join(F, "PRODUCTION-QUEUE.jsonl")):
+        for r in rows(p):
+            if str(r.get("state") or "").upper() in LIVE and r.get("deliverable"):
+                live_out[r["deliverable"]] = r.get("id")
+    dup = [c for c in cards if c.get("deliverable") in live_out]
+    if dup:
+        for c in dup[:5]:
+            print("SKIP 已有活卡 %s <- %s" % (live_out[c["deliverable"]], c["deliverable"]))
+        print("按交付物去重：跳过 %d 张" % len(dup))
+    cards = [c for c in cards if c.get("deliverable") not in live_out]
     print("可铺卡 %d 张" % len(cards))
     if not a.apply:
         print("干跑；加 --apply 才写进备队列")
