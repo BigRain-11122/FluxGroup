@@ -86,26 +86,7 @@ def audit_game(name):
     return 0
 
 
-def prod_nodes():
-    """生产机清单：审计类卡是纯 CPU 读仓内文件，任何有仓库的机器都能跑。
-
-    2026-11-08 实锚：软著/提审两类卡曾把 nodes/hard_nodes 都写成 ["bm-m"]，
-    于是 17 张音频审计卡全压在主控上（主控不做生产是 CEO 硬边界），
-    而 bm-a/bm-c 空转 —— 机队看着有 19 张在飞，实际只有一台在干。
-    正解：按 slots_per_node 里声明的机器轮转，主控只在没有生产机可用时才兜底。
-    """
-    try:
-        cfg = json.load(open(os.path.join(ROOT, "cph4", "fleet", "AUTONOMY-CONFIG.json"),
-                             encoding="utf-8"))
-        slots = ((cfg.get("supply") or {}).get("slots_per_node") or {})
-    except Exception:
-        slots = {}
-    prod = [n for n in slots if n != "bm-m"]
-    return prod or ["bm-a", "bm-b", "bm-c"]
-
-
 def build_cards():
-    _PN = prod_nodes()
     cards = []
     stamp = datetime.now().strftime("%Y%m%dT%H%M%S")
     n = 0
@@ -123,11 +104,11 @@ def build_cards():
         cards.append({"id": "AUD-SOFT-%s-%02d" % (stamp, n),
                       "title": "软著材料清点：%s" % name,
                       "cmd": "python Tools/fleet/supply_batch.py --audit soft %s" % name,
-                      "cwd": ROOT, "needs": "cpu", "minutes": 1, "heavy": False,
+                      "cwd": "", "needs": "cpu", "minutes": 1, "heavy": False,
                       "requires": [os.path.join("软著申请材料", name)],
                       "deliverable": out,
                       "accept": "缺件数=0 才算通过；缺件必须逐条列出类别",
-                      "nodes": [_PN[(n - 1) % len(_PN)]], "prio": "P1",
+                      "nodes": ["bm-m"], "hard_nodes": ["bm-m"], "prio": "P1",
                       "line": "biggame", "state": "READY", "created_by": "supply_batch",
                       "created_at": datetime.now().isoformat(timespec="seconds")})
     try:
@@ -140,11 +121,11 @@ def build_cards():
             cards.append({"id": "AUD-GAME-%s-%02d" % (stamp, i),
                           "title": "提审缺口落单：%s" % name,
                           "cmd": "python Tools/fleet/supply_batch.py --audit game %s" % name,
-                          "cwd": ROOT, "needs": "cpu", "minutes": 1, "heavy": False,
+                          "cwd": "", "needs": "cpu", "minutes": 1, "heavy": False,
                           "requires": ["cph4/fleet/game-v1/SUBMIT-PACK-20261105.json"],
                           "deliverable": out,
                           "accept": "该产品缺件逐条落单，缺件数=0 才算通过",
-                          "nodes": [_PN[(i - 1) % len(_PN)]], "prio": "P1",
+                          "nodes": ["bm-m"], "hard_nodes": ["bm-m"], "prio": "P1",
                           "line": "biggame", "state": "READY", "created_by": "supply_batch",
                           "created_at": datetime.now().isoformat(timespec="seconds")})
     except Exception as e:
