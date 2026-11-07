@@ -1,0 +1,12 @@
+{
+ "id": "OB-20261108-000400-425",
+ "ts": "2026-11-08 00:04",
+ "text": "D-20261106-04/05 逾期补发（委员会第49批 2026-11-08 00:1x）：①@bm-m 承接 D-20261106-04：把 compute/BigCompute/state/batch-pool-registration-20261105.txt 的 4 行（B-CITY3D-01 / B-CITY3D-02 / B-XIDUDU-01 / B-XIDUDU-02）按池语法追加进 quant/BigMoney/fleet/backlog.md，回执行号；本轮实测该件 4 卡 0 命中、mtime 仍 2026-10-30 19:04（逾期 36h）。②@BigCompute 承接 D-20261106-05：J5 判据改为「dry_run_end 过期 且 连续2次被领单未点火」才锁（单过期不锁），交付=改后 dry_run 实跑读数+构造一条真锁的负控；本轮实测 state/batch-pool-review-20261105-062001.json 仍是 dry_run_end=2026-10-05 / j5_blocks_activation=true（逾期 30h）。承诺时点 2026-11-08 12:00；逾期动作=次轮升 E1 并计违例一次。",
+ "lanes": [
+  "bm-m",
+  "bm-a",
+  "bm-c"
+ ],
+ "src": "DASHENG",
+ "status": "dispatched"
+}
