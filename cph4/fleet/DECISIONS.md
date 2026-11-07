@@ -1,6 +1,6 @@
-# 分层决策台账 2026-11-07T15:58:59
+# 分层决策台账 2026-11-07T17:12:50
 
-分布：L0=0, L1=18, L2=11, L3=0, CEO=3
+分布：L0=0, L1=17, L2=11, L3=0, CEO=3
 
 ## 需要你（其余各层自决，不占你带宽）
 
@@ -22,7 +22,7 @@
 | 子公司层 | 闸红 I12 × 31（FAIL） | 11-08T12:41 | business-map-next |
 | 子公司层 | 闸红 I14 × 3（FAIL） | 11-08T12:41 | business-map-next |
 | 子公司层 | 闸红 I13 × 2（FAIL） | 11-08T15:14 | business-map-next |
-| 子公司层 | 闸红 I2 × 1（FAIL） | 11-08T15:51 | business-map-next |
+| 子公司层 | 闸红 I2 × 1（FAIL） | 11-08T16:13 | business-map-next |
 | 线内/部门层 | 停线卡 AUD-SOFT-20261106T172238-15 需根因 | 11-07T17:57 | last-passing-standard |
 | 线内/部门层 | 停线卡 AUD-SOFT-20261106T172238-16 需根因 | 11-07T17:57 | last-passing-standard |
 | 线内/部门层 | 停线卡 AUD-SOFT-20261106T172238-17 需根因 | 11-07T17:57 | last-passing-standard |
@@ -40,4 +40,3 @@
 | 线内/部门层 | 停线卡 R-PLAN-BIGDOMAIN-20261107 需根因 | 11-08T00:38 | last-passing-standard |
 | 线内/部门层 | 停线卡 LINE-TRIAGE-MV-20261107 需根因 | 11-08T00:38 | last-passing-standard |
 | 线内/部门层 | 停线卡 asset-lib-voice-corpus-bmb-2026-11-07 需根因 | 11-08T12:41 | last-passing-standard |
-| 线内/部门层 | 停线卡 asset-lib-face-dataset-2026-11-07 需根因 | 11-08T15:58 | last-passing-standard |
