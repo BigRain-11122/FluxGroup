@@ -1,32 +1,40 @@
 {
- "ts": "2026-11-08T00:14:17",
- "cycle": 315,
+ "ts": "2026-11-08T00:17:18",
+ "cycle": 316,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-08T00:14:17",
+ "master_tick_ts": "2026-11-08T00:17:18",
  "queue": {
   "total": 1376,
-  "open": 10,
-  "running": 19,
+  "open": 9,
+  "running": 20,
   "done": 510,
   "failed": 1
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 44.5,
-   "cpu_load_pct": 77,
-   "ram_free_gb": 30.5,
-   "gpu_util_pct": 56,
+   "hb_age_s": 49.1,
+   "cpu_load_pct": 82,
+   "ram_free_gb": 21.1,
+   "gpu_util_pct": 55,
    "job": "R-PLAN-BIGCOMPUTE-20261108",
-   "last_result": null,
+   "last_result": {
+    "job": null,
+    "state": "IDLE",
+    "rc": null,
+    "ts": "2026-11-08T00:16:42",
+    "reason": "CAPACITY-BLOCKED-RAM CPU-SATURATED 99%",
+    "out_bytes": null,
+    "elapsed_s": null
+   },
    "idle_confirmed": false,
    "idle_reason": "",
    "idle_rounds": 0
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 154.3,
+   "hb_age_s": 168.9,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -38,10 +46,10 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 524.5,
-   "cpu_load_pct": 25,
-   "ram_free_gb": 0.5,
-   "gpu_util_pct": 0,
+   "hb_age_s": 339.8,
+   "cpu_load_pct": null,
+   "ram_free_gb": null,
+   "gpu_util_pct": null,
    "job": "R-PLAN-BIGDOMAIN-20261108",
    "last_result": null,
    "idle_confirmed": false,
@@ -50,9 +58,9 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 19.0,
-   "cpu_load_pct": 50,
-   "ram_free_gb": 4.2,
+   "hb_age_s": 14.2,
+   "cpu_load_pct": 52,
+   "ram_free_gb": 13.1,
    "gpu_util_pct": null,
    "job": "R-TRIAGE-BIGSTREAMMV-BMM-20261108",
    "last_result": null,
@@ -831,7 +839,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 4,
+  "local": 3,
   "cloud": 0,
   "queue": 6,
   "blocked": 0,
@@ -839,16 +847,12 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 4,
+  "cpu": 3,
   "gpu": 6
  },
- "supply_added": [
-  "backlog_manifest+1"
- ],
+ "supply_added": [],
  "events": [
-  "PROBE-NODE-bm-b-20261107 -> bm-b (cpu)",
-  "asset-lib-voice-corpus-2026-11-08 -> bm-a (cpu)",
-  "Q-TRIAGE-ASSETLIB-20261108 -> bm-b (cpu)"
+  "asset-lib-face-dataset-2026-11-08 -> bm-c (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
@@ -856,7 +860,6 @@
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
  "lane_files_written": [
-  "bm-a",
-  "bm-b"
+  "bm-c"
  ]
 }
