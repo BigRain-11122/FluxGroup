@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-07T18:50:41",
- "cycle": 145,
+ "ts": "2026-11-07T18:52:37",
+ "cycle": 146,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-07T18:50:41",
+ "master_tick_ts": "2026-11-07T18:52:37",
  "queue": {
   "total": 1265,
   "open": 3,
@@ -14,7 +14,7 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 123.2,
+   "hb_age_s": 116.0,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -26,7 +26,7 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 123.2,
+   "hb_age_s": 116.0,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -38,7 +38,7 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 123.2,
+   "hb_age_s": 239.3,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -808,8 +808,5 @@
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
- "lane_files_written": [
-  "bm-a",
-  "bm-b"
- ]
+ "lane_files_written": []
 }
