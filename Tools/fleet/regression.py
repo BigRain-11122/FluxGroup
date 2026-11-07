@@ -511,6 +511,21 @@ def rg26():
     return "三态自检通过（越权→回落 / 乱答→回落 / 合法→采纳），白名单在位"
 
 
+@case("RG-27", "同一命令同一刻只许派一张（三个生成器会发三条同样的卡）",
+      "2026-11-08 实锚：line_triage 被 workgen(R-TRIAGE)/night_plan(R-PLAN)/line_agents(Q-TRIAGE) "
+      "各发一张，id 前缀不同、cmd 相同，三台机同跑同一份分诊，回执互相覆盖")
+def rg27():
+    sys.path.insert(0, os.path.join(ROOT, "Tools", "fleet"))
+    import master_agent as ma
+    rows = [{"id": "A", "state": "RUNNING", "cmd": "python Tools/fleet/x.py --line a"},
+            {"id": "B", "state": "OPEN", "cmd": "python  Tools/fleet/x.py --line a"},
+            {"id": "C", "state": "OPEN", "cmd": "python Tools/fleet/x.py --line b"},
+            {"id": "D", "state": "OPEN", "cmd": "python Tools/fleet/x.py --line b"}]
+    kept = [r["id"] for r in ma.dedupe_pending(rows, [r for r in rows if r["state"] == "OPEN"])]
+    assert kept == ["C"], "去重结果不对：%s" % kept
+    return "在飞命令跳过，重复命令只留一张"
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--json", action="store_true")

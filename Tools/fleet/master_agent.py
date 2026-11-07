@@ -572,6 +572,31 @@ def _slots_of(node):
     return _SLOTS_CACHE.get(node, 1)
 
 
+def _cmd_key(r):
+    """同一件活的判据是命令本身，不是 id——三个生成器会给同一条命令发三张卡。"""
+    return " ".join(str(r.get("cmd") or "").split())
+
+
+def dedupe_pending(rows, pending):
+    """同一命令同一刻只派一张（DUP-AT-CLAIM，2026-11-07/08 实锚）。
+
+    line_triage 这类卡由 workgen(R-TRIAGE)、night_plan(R-PLAN)、line_agents(Q-TRIAGE)
+    各发一张：id 前缀不同、cmd 一模一样，于是三台机同时跑同一份分诊，回执互相覆盖。
+    去重只作用在"待派"这一层：已经在飞的命令整轮跳过，其余每种命令只留第一张。
+    """
+    inflight = {_cmd_key(r) for r in rows
+                if r.get("state") == "RUNNING" and r.get("cmd")}
+    kept, seen = [], set(inflight)
+    for r in pending:
+        k = _cmd_key(r)
+        if k and k in seen:
+            continue
+        if k:
+            seen.add(k)
+        kept.append(r)
+    return kept
+
+
 def choose_lane(job, fleet, busy):
     needs = job.get("needs") or "cpu"
     pref = job.get("nodes") or []
@@ -692,6 +717,7 @@ def assign(rows, fleet, reports, lines=None):
             # 队列里排着 GPU 出图卡、机器却在报 SELF-DISPATCH。
             busy.setdefault(r["owner"], []).append(r)
     pending = [r for r in rows if r.get("state") == "OPEN"]
+    pending = dedupe_pending(rows, pending)
     # 优先级（CEO 2026-11-02：所有子公司都保留，只分优先级）：P0 内容 > P1 游戏 >
     # P2 量化与前台 > P3 城市与渠道。低优先级不关停，只是排在后面，有书余算力就跑。
     try:
