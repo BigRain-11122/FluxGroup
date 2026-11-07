@@ -102,6 +102,11 @@ STAGES = [
     ("workgen", ["Tools/fleet/workgen.py", "--root", ROOT], 180, {0}, False),
     ("master", ["Tools/fleet/master_agent.py", "--node", NODE, "--root", ROOT], 240, {0}, False),
     ("lane", ["Tools/fleet/lane_agent.py", "--node", NODE, "--root", ROOT, "--no-fetch"], 120, {0}, False),
+    # 验收（CEO 2026-11-05「监督、派单、验收」）：DONE 只代表执行结束，不代表做对——
+    # 盘上那件东西可能是 0 字节、坏 JSON、BLOCKED 说明，或上一次留下的旧件。
+    # 2026-11-07 校验器报 W-STAGE 才补的接线：表里登记了这条，脉里从来没跑（纸面验收）。
+    # 只报告不改卡状态（改状态是 closer 的权）。rc 恒 0，缺口看重不重 rc。
+    ("verify_done", ["Tools/fleet/verify_done.py", "--hours", "24"], 180, {0}, False),
     # inventory exits 1 to say "a lane is STARVED"; that is an alert, not a tool failure.
     ("inventory", ["Tools/fleet/inventory_guard.py"], 120, {0, 1}, True),
     # 事实层（2026-11-02 FLUX OS v2）：先把磁盘事实与结构断言跑一遍，再谈派单。

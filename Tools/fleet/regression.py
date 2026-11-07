@@ -188,7 +188,11 @@ def rg11():
     tbl = cd.load_table()
     errs, warns, notes, by_id = cd.validate(tbl, cd.pulse_stages())
     assert not errs, "表校验失败：%s" % errs[:2]
-    return "%d 条，0 错" % len(by_id)
+    # 只查"脉→表"方向会漏掉纸面验收：表里登记、脉里却从没跑的阶段只报 WARN，
+    # 而 warning 不算失败 —— verify_done 就是这样长期"有表无脉"的。
+    dangling = [w for w in warns if "W-STAGE" in w]
+    assert not dangling, "表里登记但脉里没接线：%s" % dangling[:2]
+    return "%d 条，0 错，无未接线阶段" % len(by_id)
 
 
 @case("RG-12", "现役模型只许有一个答案", "两份策略各写一个现役，导致三模型驻留 10.4GB")

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>如何用智能体管理 · 思维导图（FluxGroup 2026-11-07）</title>
+<style>
+  :root{
+    --bg:#f6f7f9; --ink:#1b1f24; --dim:#5b6672; --line:#c9d1da;
+    --v:#2f6feb; --s:#0f9d58; --o:#d9822b; --r:#d93a3a; --p:#7a4fd4; --t:#00838f;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:14px/1.55 -apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;}
+  header{position:sticky;top:0;z-index:9;background:#fff;border-bottom:1px solid var(--line);
+         padding:12px 20px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+  header h1{font-size:16px;margin:0;font-weight:650;letter-spacing:.2px}
+  header .sub{color:var(--dim);font-size:12px}
+  header .tools{margin-left:auto;display:flex;gap:8px;align-items:center}
+  input[type=search]{border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:13px;width:180px;outline:none}
+  input[type=search]:focus{border-color:var(--v)}
+  button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer;color:var(--dim)}
+  button:hover{border-color:var(--v);color:var(--v)}
+  main{padding:28px 20px 80px;overflow-x:auto}
+
+  .tree{display:inline-block;min-width:100%;padding-left:8px}
+  .tree ul{list-style:none;margin:0;padding-left:26px;position:relative}
+  .tree ul::before{content:"";position:absolute;left:9px;top:0;bottom:16px;width:1px;background:var(--line)}
+
+  .node{position:relative;margin:6px 0}
+  .node > .card{
+    display:inline-flex;gap:8px;align-items:flex-start;
+    background:#fff;border:1px solid var(--line);border-left:4px solid var(--line);
+    border-radius:9px;padding:8px 13px;max-width:min(860px,80vw);
+    cursor:default;transition:.15s;box-shadow:0 1px 2px rgba(16,24,40,.04)
+  }
+  .node > .card:hover{box-shadow:0 4px 12px rgba(16,24,40,.10);transform:translateY(-1px)}
+  /* connector stub */
+  .node::before{content:"";position:absolute;left:-17px;top:20px;width:17px;height:1px;background:var(--line)}
+
+  .title{font-weight:600}
+  .note{color:var(--dim);font-size:12.5px}
+  .badge{font-size:11px;padding:1px 6px;border-radius:5px;background:#eef1f5;color:var(--dim);white-space:nowrap}
+
+  /* root */
+  .root > .card{border-left-color:var(--ink);background:#101418;color:#fff;border-color:#101418;
+                font-size:16px;font-weight:700;padding:12px 20px;box-shadow:0 6px 20px rgba(16,24,40,.18)}
+  .root > .card .note{color:#9aa7b4}
+
+  /* branch colors */
+  .b1 > .card{border-left-color:var(--v)} .b1 .badge{background:#e8f0fe;color:var(--v)}
+  .b2 > .card{border-left-color:var(--s)} .b2 .badge{background:#e6f4ea;color:var(--s)}
+  .b3 > .card{border-left-color:var(--o)} .b3 .badge{background:#fdf0e3;color:var(--o)}
+  .b4 > .card{border-left-color:var(--t)} .b4 .badge{background:#e0f2f4;color:var(--t)}
+  .b5 > .card{border-left-color:var(--p)} .b5 .badge{background:#f0eafc;color:var(--p)}
+  .b6 > .card{border-left-color:var(--r)} .b6 .badge{background:#fdeaea;color:var(--r)}
+  .b7 > .card{border-left-color:#6b7280} .b7 .badge{background:#eef1f5;color:#6b7280}
+
+  /* collapsible */
+  .node.collapsed > ul{display:none}
+  .node.collapsed > .card::after{content:"＋ 展开";font-size:11px;color:var(--dim)}
+  .node.expandable > .card::after{content:"－ 收起";font-size:11px;color:var(--dim)}
+  .node.expandable > .card,
+  .node.collapsed > .card{cursor:pointer}
+
+  mark{background:#ffe58f;color:inherit;border-radius:3px;padding:0 1px}
+  .hidden{display:none!important}
+  footer{position:fixed;bottom:0;left:0;right:0;background:#fffffff0;border-top:1px solid var(--line);
+         padding:7px 20px;font-size:11.5px;color:var(--dim);backdrop-filter:blur(6px)}
+  @media print{header .tools{display:none} .node.collapsed > ul{display:block} footer{position:static}}
+</style>
+</head>
+<body>
+<header>
+  <h1>如何用智能体管理</h1>
+  <span class="sub">FluxGroup · 2026-11-07 · 操作图（节点=真实工具/阶段）</span>
+  <div class="tools">
+    <input id="q" type="search" placeholder="搜索工具名 / 关键词">
+    <button id="expand">全部展开</button>
+    <button id="collapse">收起到二级</button>
+    <button id="print">打印</button>
+  </div>
+</header>
+
+<main>
+<div class="tree">
+<ul>
+  <li class="node root">
+    <div class="card"><span class="title">智能体管理（AI 管 AI）</span>
+      <span class="note">人定方向 · 规则定判断 · 智能体跑循环 · 磁盘定真伪</span></div>
+    <ul>
+
+      <!-- 1 -->
+      <li class="node b1">
+        <div class="card"><span class="title">一、谁在管</span><span class="badge">三层身体不混用</span>
+          <span class="note">越界当生产者，指挥部就空转（已发生两次）</span></div>
+        <ul>
+          <li class="node"><div class="card"><span class="title">主控脑</span>
+            <span class="note">Mac bm-m · <code>master_pulse</code> 常驻脉</span>
+            <span class="badge">只出卡/裁决/告警/一屏</span></div>
+            <ul>
+              <li class="node"><div class="card"><span class="note">禁自己生产：出图/渲染/装配/回测一律派卡</span></div></li>
+              <li class="node"><div class="card"><span class="note">允许的亲自参与：本地模型分类·摘要·打分·一屏·账目核对（结论必规则复核）</span></div></li>
+            </ul>
+          </li>
+          <li class="node"><div class="card"><span class="title">执行机</span>
+            <span class="note">bm-a / bm-b / bm-c / bm-d · <code>lane_agent</code></span></div>
+            <ul>
+              <li class="node"><div class="card"><span class="note">从 origin 读 <code>lanes/&lt;node&gt;.json</code> 取卡，回执写 <code>queue-receipts/</code></span>
+                <span class="badge">这条通道绝不能进 .gitignore</span></div></li>
+              <li class="node"><div class="card"><span class="note">一台机多槽位；GPU 活同刻只 1 张</span></div></li>
+            </ul>
+          </li>
+          <li class="node"><div class="card"><span class="title">常驻轻量模型</span>
+            <span class="note"><code>qwen3.5:4b-mlx</code> · 7.6GB · <code>num_ctx</code> 8192 · 38–40 tok/s</span></div>
+            <ul>
+              <li class="node"><div class="card"><span class="badge">红线</span><span class="note">4B 算术必错 → 所有数字由规则算，不交模型</span></div></li>
+              <li class="node"><div class="card"><span class="note">8B 按需且必须先让 4B 让位；35B 禁常驻（24GB 即 swap）</span></div></li>
+              <li class="node"><div class="card"><span class="note">云端按日预算 ¥100 硬顶 · <code>cloud_budget.py</code></span></div></li>
+              <li class="node"><div class="card"><span class="note">座位表：<code>MODEL-MONITOR-MATRIX-v1.json</code>（P0 抢 P2 · 同输入 15 分钟不重复调）</span></div></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+
+      <!-- 2 -->
+      <li class="node b2">
+        <div class="card"><span class="title">二、管什么</span><span class="badge">六个面，缺一面就有盲区</span></div>
+        <ul>
+          <li class="node"><div class="card"><span class="title">值守</span>
+            <span class="note">进程活着 ≠ 在干活 · <code>executor_guard</code> <code>hb</code> <code>qcheck</code> <code>canary</code></span>
+            <span class="badge">1–2 分钟</span></div></li>
+          <li class="node"><div class="card"><span class="title">派单</span>
+            <span class="note"><code>ceo_queue</code> <code>night_plan</code> <code>workgen</code> <code>supply_target</code></span>
+            <span class="badge">软判据：有变化，或明确报「无活可派」</span></div>
+            <ul><li class="node"><div class="card"><span class="note">不许沉默——沉默等于没人管</span></div></li></ul>
+          </li>
+          <li class="node"><div class="card"><span class="title">监督</span>
+            <span class="note">盯产出不盯心跳 · <code>done_audit</code> <code>asset_reach</code> <code>deadline</code></span></div>
+            <ul><li class="node"><div class="card"><span class="note">四信号：产出年龄 + git 提交 + 远端回执 + 磁盘 mtime</span></div></li></ul>
+          </li>
+          <li class="node"><div class="card"><span class="title">验收</span>
+            <span class="badge">DONE ≠ APPROVED</span>
+            <span class="note"><code>artifact_review</code> 三层审 → 入档 <code>archive/</code> → 待入 <code>INTAKE-PENDING.jsonl</code></span></div>
+            <ul>
+              <li class="node"><div class="card"><span class="note">L1 结构审：路径/非空/可解析/无占位/媒体签名与时长</span></div></li>
+              <li class="node"><div class="card"><span class="note">L2 一致性审：声称条目数 vs 实际 · mtime 防旧件冒充</span></div></li>
+              <li class="node"><div class="card"><span class="note">L3 语义抽查：4B 只答是/否/不确定，不确定率&gt;30% 判该批不适合模型审</span></div></li>
+              <li class="node"><div class="card"><span class="badge">诚实线</span><span class="note">子仓未 clone 时只记「待入」，绝不假装入库</span></div></li>
+            </ul>
+          </li>
+          <li class="node"><div class="card"><span class="title">自愈</span>
+            <span class="note"><code>self_improve</code>（码龄/空壳/依赖） · <code>fork_close</code> · <code>node_closeout.ps1</code></span></div>
+            <ul><li class="node"><div class="card"><span class="badge">R5</span><span class="note">告警必须有消费方，否则等于没告警</span></div></li></ul>
+          </li>
+          <li class="node"><div class="card"><span class="title">汇报</span>
+            <span class="badge">只看三个文件</span>
+            <span class="note"><code>CEO-NEXT.md</code>（一条）· <code>CEO-THREE.md</code>（每日≤3件）· <code>COMMAND-BOARD.md</code>（3 分钟）</span></div>
+            <ul><li class="node"><div class="card"><span class="note">编号短句大白话，能扫读；同题不刷屏，标「仍等你」</span></div></li></ul>
+          </li>
+        </ul>
+      </li>
+
+      <!-- 3 -->
+      <li class="node b3">
+        <div class="card"><span class="title">三、凭什么管</span><span class="badge">真值规则 · 防「看起来正常」</span></div>
+        <ul>
+          <li class="node"><div class="card"><span class="badge">R3-1</span><span class="note">回执 ≠ 产出：rc=0 也可能零产物（E-ARTIFACT）</span></div></li>
+          <li class="node"><div class="card"><span class="badge">R3-2</span><span class="note">在线 ≠ 在干活：心跳绿而队列空 = 停产</span></div></li>
+          <li class="node"><div class="card"><span class="badge">R3-3</span><span class="note">完成 ≠ 做对：空文件/坏 JSON/0 时长/拒答文本全算失败</span></div></li>
+          <li class="node"><div class="card"><span class="badge">R3-4</span><span class="note">新鲜 ≠ 有效：mtime 未替换、lease 1e9 秒都能造假绿</span></div></li>
+          <li class="node"><div class="card"><span class="badge">R3-5</span><span class="note">本地判不了别机的盘：Windows 路径/子仓/state 一律「远端待查」，不判缺失</span></div></li>
+          <li class="node"><div class="card"><span class="badge">铁律</span><span class="note">假红与假绿同罪——报一次假高危，真高危就没人信</span></div>
+            <ul><li class="node"><div class="card"><span class="note">故散件检查只报新增、存量豁免；安全台账加白名单排除</span></div></li></ul>
+          </li>
+          <li class="node"><div class="card"><span class="title">核验只认机器输出</span>
+            <span class="note"><code>root_cause_audit.py</code> · <code>demand_audit.py</code> · <code>regression.py</code> · <code>fact_check.py</code></span></div></li>
+        </ul>
+      </li>
+
+      <!-- 4 -->
+      <li class="node b4">
+        <div class="card"><span class="title">四、按什么节奏管</span><span class="badge">频次分层 · 从代码生成，不手写</span>
+          <span class="note">93 阶段 / 92 条节奏 · 周期只写 <code>master_pulse.STAGES</code> 一处</span></div>
+        <ul>
+          <li class="node"><div class="card"><span class="badge">45s</span><span class="note">队列 / 预算 / 市场（脉基础节拍）</span></div></li>
+          <li class="node"><div class="card"><span class="badge">1–3m</span><span class="note">值守、派单、单卡执行、契约检查</span></div></li>
+          <li class="node"><div class="card"><span class="badge">5–15m</span><span class="note">备份、状态回推、字幕批处理、机群巡检</span></div></li>
+          <li class="node"><div class="card"><span class="badge">30m</span><span class="note"><code>ceo_pilot</code> 六源合一打分（监督/派发/侦察/找工具/验收/审查）</span></div></li>
+          <li class="node"><div class="card"><span class="badge">1–6h</span><span class="note">产出审核、回归用例集</span></div></li>
+          <li class="node"><div class="card"><span class="badge">每晚</span><span class="note">夜窗 00–06 生产 · 06–07 交班</span></div></li>
+          <li class="node"><div class="card"><span class="badge">每日</span><span class="note">情报核真、安全台账、灾备体检、模型雷达</span></div></li>
+          <li class="node"><div class="card"><span class="badge">纪律</span><span class="note"><code>cadence_build.py</code> 生成 → <code>cadence.py</code> 拦相位撞车与未接线</span></div>
+            <ul><li class="node"><div class="card"><span class="note">闸要能真的拦下人：首跑就抓到 T32 与 T26 撞相位，3600→4100</span></div></li></ul>
+          </li>
+        </ul>
+      </li>
+
+      <!-- 5 -->
+      <li class="node b5">
+        <div class="card"><span class="title">五、怎么自我改进</span><span class="badge">闭环六步 · 一次到位</span></div>
+        <ul>
+          <li class="node"><div class="card"><span class="badge">1 发现</span><span class="note">校验器报「脉在跑但表里没登记」——覆盖差 = 只有部分真相</span></div></li>
+          <li class="node"><div class="card"><span class="badge">2 归因</span><span class="note">症状归到根因账 6 条（R1–R6）</span></div>
+            <ul>
+              <li class="node"><div class="card"><span class="note">R1 单一真相源缺失 · R2 生成态混进代码 git · R3 判据可被「看起来」骗</span></div></li>
+              <li class="node"><div class="card"><span class="note">R4 修复不配套生效 · R5 无人收口 · R6 跨机不可达</span></div></li>
+            </ul>
+          </li>
+          <li class="node"><div class="card"><span class="badge">3 修复</span><span class="note">改规则而不是补文档；规则只许变瘦</span></div></li>
+          <li class="node"><div class="card"><span class="badge">4 生效</span><span class="note">改码必重载脉 · 部署必重启 · 忽略规则必 <code>git rm --cached</code></span></div></li>
+          <li class="node"><div class="card"><span class="badge">5 复验</span><span class="note">验证失败分支有没有被执行（大小写 · 被吞异常 · 参数位置）</span></div>
+            <ul><li class="node"><div class="card"><span class="note">实例：<code>Diverging</code> vs <code>diverg</code> 让整段合并逻辑从未执行过</span></div></li></ul>
+          </li>
+          <li class="node"><div class="card"><span class="badge">6 入册</span><span class="note">结论进根因账 / 需求账 / <code>regression.py</code> 断言（12 条已固化踩过的坑）</span></div></li>
+          <li class="node"><div class="card"><span class="badge">方法论</span><span class="note">维度缺失比任务缺失危险——任务漏了校验器会抓，维度漏了没人问</span></div></li>
+        </ul>
+      </li>
+
+      <!-- 6 -->
+      <li class="node b6">
+        <div class="card"><span class="title">六、不能做什么</span><span class="badge">硬边界</span></div>
+        <ul>
+          <li class="node"><div class="card"><span class="note">不代签、不代发、不代答创作者身份（账号与发言权在 CEO）</span></div></li>
+          <li class="node"><div class="card"><span class="note">不为「满负荷」造活；算力不足宁可排队或 ROUTED，不许 swap 假装在跑</span></div></li>
+          <li class="node"><div class="card"><span class="note">不以「等 CEO/等授权」为由停工——闸只留不可逆/对外发布/花钱超限三类</span></div></li>
+          <li class="node"><div class="card"><span class="note">不碰 <code>.wxapkg</code> 解密、不套主号 cookie、不自动 <code>ollama pull</code></span></div></li>
+          <li class="node"><div class="card"><span class="note">不动别机生产脚本的换行/编码（无实测不上生产）</span></div></li>
+        </ul>
+      </li>
+
+      <!-- 7 -->
+      <li class="node b7">
+        <div class="card"><span class="title">七、人的位置</span><span class="badge">CEO 四输入面</span></div>
+        <ul>
+          <li class="node"><div class="card"><span class="note">① 方向变更 → 改航道</span></div></li>
+          <li class="node"><div class="card"><span class="note">② P1 新方向 → 署名立项</span></div></li>
+          <li class="node"><div class="card"><span class="note">③ 红线裁决 → 不可逆 / 合规 / 花钱</span></div></li>
+          <li class="node"><div class="card"><span class="note">④ 资源调配 → 机器与预算</span></div></li>
+          <li class="node"><div class="card"><span class="badge">其余</span><span class="note">一切按既有规则自行决策推进，CEO 巡视时提返工</span></div></li>
+        </ul>
+      </li>
+
+    </ul>
+  </li>
+</ul>
+</div>
+</main>
+
+<footer>
+  正身：AUTONOMY-SYSTEM-v1.md · MASTER-AGENT-DUTIES-v1.json(60项) · COMMAND-CADENCE-v3.md(92条) · ROOT-CAUSE-LEDGER-v1.json · CEO-DEMAND-LEDGER-v1.json(31条) · REVIEW-POLICY-v1.json · SERVICE-LEVEL-v1.json · MODEL-MONITOR-MATRIX-v1.json · GIT-LAYERS-v1.md
+</footer>
+
+<script>
+(function(){
+  var nodes = [].slice.call(document.querySelectorAll('.node'));
+  // mark expandable
+  nodes.forEach(function(n){
+    var ul = n.querySelector(':scope > ul');
+    if(ul){
+      n.classList.add('expandable');
+      (n.querySelector(':scope > .card')).addEventListener('click', function(e){
+        if(e.target.tagName === 'MARK') return;
+        n.classList.toggle('collapsed');
+        n.classList.toggle('expandable', !n.classList.contains('collapsed'));
+      });
+    }
+  });
+  document.getElementById('expand').onclick = function(){
+    nodes.forEach(function(n){ n.classList.remove('collapsed'); n.classList.toggle('expandable', !!n.querySelector(':scope > ul')); });
+  };
+  document.getElementById('collapse').onclick = function(){
+    nodes.forEach(function(n, i){
+      var ul = n.querySelector(':scope > ul');
+      if(!ul) return;
+      // depth-based: keep root + level1 open
+      var depth = 0, p = n;
+      while(p && p.classList && p.classList.contains('node')){ depth++; p = p.parentElement.closest('.node'); }
+      if(depth > 1){ n.classList.add('collapsed'); n.classList.remove('expandable'); }
+    });
+  };
+  document.getElementById('print').onclick = function(){ window.print(); };
+
+  // search
+  var q = document.getElementById('q');
+  q.addEventListener('input', function(){
+    var kw = q.value.trim().toLowerCase();
+    var ms = document.querySelectorAll('mark');
+    [].forEach.call(ms, function(m){ m.replaceWith(document.createTextNode(m.textContent)); });
+    if(!kw){ nodes.forEach(function(n){ n.classList.remove('hidden'); }); return; }
+    // clear highlights
+    nodes.forEach(function(n){ n.classList.remove('hidden'); });
+    var hit = 0;
+    nodes.forEach(function(n){
+      var card = n.querySelector(':scope > .card');
+      if(!card) return;
+      var t = card.textContent.toLowerCase();
+      if(t.indexOf(kw) >= 0){
+        hit++;
+        // highlight within text nodes
+        card.querySelectorAll('span,code').forEach(function(el){
+          if(el.children.length) return;
+          var txt = el.textContent, i = txt.toLowerCase().indexOf(kw);
+          if(i >= 0){
+            el.textContent = '';
+            el.appendChild(document.createTextNode(txt.slice(0,i)));
+            var m = document.createElement('mark'); m.textContent = txt.slice(i, i+kw.length);
+            el.appendChild(m);
+            el.appendChild(document.createTextNode(txt.slice(i+kw.length)));
+          }
+        });
+        // expand ancestors
+        var p = n.parentElement.closest('.node');
+        while(p){ p.classList.remove('collapsed'); p.classList.add('expandable'); p = p.parentElement.closest('.node'); }
+      }
+    });
+    // dim non-matching leaf cards
+    nodes.forEach(function(n){
+      var card = n.querySelector(':scope > .card');
+      if(!card) return;
+      var t = card.textContent.toLowerCase();
+      var selfHit = t.indexOf(kw) >= 0;
+      var childHit = (n.textContent.toLowerCase().indexOf(kw) >= 0);
+      card.style.opacity = (selfHit || childHit) ? '1' : '.28';
+    });
+  });
+})();
+</script>
+</body>
+</html>

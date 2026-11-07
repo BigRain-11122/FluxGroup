@@ -3,7 +3,7 @@
  "version": "v3-20261107",
  "base_tick_s": 45,
  "scope": {
-  "covers": "脉里全部 90 个阶段（值守/派单/执行/线/一屏/方向）",
+  "covers": "脉里全部 92 个阶段（值守/派单/执行/线/一屏/方向）",
   "excludes": "各产品线自己的业务流程（不进脉，不进本表）"
  },
  "law": [
@@ -758,25 +758,11 @@
    "on_fail": "同线 3 次告警未处理 → 交 CEO 待办"
   },
   {
-   "id": "S-verify_done",
-   "domain": "值守",
-   "stage": "verify_done",
-   "period_s": 120,
-   "phase_s": 104,
-   "actor": "rule",
-   "action": "执行 verify_done 阶段",
-   "input": [],
-   "output": "cph4/fleet/state/verify_done.json",
-   "output_inferred": true,
-   "accept": "rc 在 ok_rc 内且产出落在指定路径",
-   "on_fail": "连续 3 轮失败 → 告警并停该阶段"
-  },
-  {
    "id": "S-warm",
    "domain": "一屏",
    "stage": "warm",
    "period_s": 120,
-   "phase_s": 112,
+   "phase_s": 104,
    "actor": "rule",
    "action": "执行 warm 阶段",
    "input": [],
@@ -809,7 +795,7 @@
    "domain": "线",
    "stage": "census",
    "period_s": 180,
-   "phase_s": 18,
+   "phase_s": 16,
    "actor": "rule",
    "action": "从磁盘算各线产出年龄（禁认 state/ 与回执）",
    "input": [
@@ -825,7 +811,7 @@
    "domain": "线",
    "stage": "checkups",
    "period_s": 180,
-   "phase_s": 36,
+   "phase_s": 32,
    "actor": "rule",
    "action": "执行 checkups 阶段",
    "input": [],
@@ -839,7 +825,7 @@
    "domain": "方向",
    "stage": "commander",
    "period_s": 180,
-   "phase_s": 54,
+   "phase_s": 48,
    "actor": "rule",
    "action": "超 7 天无产物的线列出并建议挂起（改线状态需线主确认，不自动改）",
    "input": [
@@ -858,7 +844,7 @@
    "domain": "线",
    "stage": "gate",
    "period_s": 180,
-   "phase_s": 72,
+   "phase_s": 64,
    "actor": "rule",
    "action": "执行 gate 阶段",
    "input": [],
@@ -872,7 +858,7 @@
    "domain": "一屏",
    "stage": "judge",
    "period_s": 180,
-   "phase_s": 90,
+   "phase_s": 80,
    "actor": "model",
    "action": "把近 1h 告警归成五类（缺料/缺机/坏卡/等外部/需 CEO）",
    "input": [
@@ -892,7 +878,7 @@
    "domain": "一屏",
    "stage": "master_loop",
    "period_s": 180,
-   "phase_s": 108,
+   "phase_s": 96,
    "actor": "rule",
    "action": "执行 master_loop 阶段",
    "input": [],
@@ -906,7 +892,7 @@
    "domain": "线",
    "stage": "radar",
    "period_s": 180,
-   "phase_s": 126,
+   "phase_s": 112,
    "actor": "rule",
    "action": "执行 radar 阶段",
    "input": [],
@@ -920,7 +906,7 @@
    "domain": "一屏",
    "stage": "social",
    "period_s": 180,
-   "phase_s": 144,
+   "phase_s": 128,
    "actor": "rule",
    "action": "执行 social 阶段",
    "input": [],
@@ -930,11 +916,25 @@
    "on_fail": "未更新 → 视为阶段未执行，报 E-STAGE-SILENT"
   },
   {
+   "id": "S-verify_done",
+   "domain": "值守",
+   "stage": "verify_done",
+   "period_s": 180,
+   "phase_s": 144,
+   "actor": "rule",
+   "action": "执行 verify_done 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/verify_done.json",
+   "output_inferred": true,
+   "accept": "rc 在 ok_rc 内且产出落在指定路径",
+   "on_fail": "连续 3 轮失败 → 告警并停该阶段"
+  },
+  {
    "id": "S-workgen",
    "domain": "派单",
    "stage": "workgen",
    "period_s": 180,
-   "phase_s": 162,
+   "phase_s": 160,
    "actor": "rule",
    "action": "把 READY 变成具体下发卡",
    "input": [
@@ -1324,6 +1324,20 @@
    "on_fail": "未更新 → 视为阶段未执行，报 E-STAGE-SILENT"
   },
   {
+   "id": "S-review_artifacts",
+   "domain": "一屏",
+   "stage": "review_artifacts",
+   "period_s": 21600,
+   "phase_s": 10800,
+   "actor": "rule",
+   "action": "执行 review_artifacts 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/artifact_review.json",
+   "output_inferred": true,
+   "accept": "文件 mtime 前进且内容非空",
+   "on_fail": "未更新 → 视为阶段未执行，报 E-STAGE-SILENT"
+  },
+  {
    "id": "S-ceo_three",
    "domain": "方向",
    "stage": "ceo_three",
@@ -1350,7 +1364,7 @@
    "domain": "方向",
    "stage": "demand_audit",
    "period_s": 86400,
-   "phase_s": 14400,
+   "phase_s": 12342,
    "actor": "rule",
    "action": "执行 demand_audit 阶段",
    "input": [],
@@ -1364,7 +1378,7 @@
    "domain": "一屏",
    "stage": "dr_check",
    "period_s": 86400,
-   "phase_s": 28800,
+   "phase_s": 24684,
    "actor": "rule",
    "action": "执行 dr_check 阶段",
    "input": [],
@@ -1378,7 +1392,7 @@
    "domain": "方向",
    "stage": "fact_check",
    "period_s": 86400,
-   "phase_s": 43200,
+   "phase_s": 37026,
    "actor": "rule",
    "action": "情报审查：雷达越界数字拿去 GitHub API 核对，漂移超 10% 判 STALE",
    "input": [
@@ -1390,11 +1404,25 @@
    "on_fail": "无网一律 UNVERIFIED，不许判假"
   },
   {
+   "id": "S-repo_layers",
+   "domain": "一屏",
+   "stage": "repo_layers",
+   "period_s": 86400,
+   "phase_s": 49368,
+   "actor": "rule",
+   "action": "执行 repo_layers 阶段",
+   "input": [],
+   "output": "cph4/fleet/state/repo_layers.json",
+   "output_inferred": true,
+   "accept": "文件 mtime 前进且内容非空",
+   "on_fail": "未更新 → 视为阶段未执行，报 E-STAGE-SILENT"
+  },
+  {
    "id": "S-root_cause",
    "domain": "一屏",
    "stage": "root_cause",
    "period_s": 86400,
-   "phase_s": 57600,
+   "phase_s": 61710,
    "actor": "rule",
    "action": "执行 root_cause 阶段",
    "input": [],
@@ -1408,7 +1436,7 @@
    "domain": "一屏",
    "stage": "security",
    "period_s": 86400,
-   "phase_s": 72000,
+   "phase_s": 74052,
    "actor": "rule",
    "action": "执行 security 阶段",
    "input": [],
@@ -1420,7 +1448,7 @@
  ],
  "generated": {
   "from": "Tools/fleet/master_pulse.py:STAGES",
-  "stages": 90,
+  "stages": 92,
   "orphans": []
  }
 }
