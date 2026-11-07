@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
- "ts": "2026-11-07T23:23:53",
+ "ts": "2026-11-07T23:25:40",
  "jobs": [
   {
-   "id": "VAULT-VERIFY-20261107",
-   "title": "资产库完整性核验（643 件按 origin+sha 校验）",
-   "cmd": "python Tools/fleet/vault.py verify --json cph4/fleet/queue-receipts/vault-verify-20261107.json",
+   "id": "LEDGER-REFRESH-20261107",
+   "title": "报审台账刷新（50 款四件套状态 + 产品级隐私政策补齐）",
+   "cmd": "python Tools/fleet/submit_ledger_fill.py --fill-privacy",
    "cwd": ".",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/vault-verify-20261107.json",
+   "deliverable": "cph4/fleet/queue-receipts/submit-ledger-20261107.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 9.7/1.0 GB"
+ "capacity_note": "ram 9.9/1.0 GB"
 }

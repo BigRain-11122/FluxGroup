@@ -1,32 +1,32 @@
 {
- "ts": "2026-11-07T23:23:53",
- "cycle": 288,
+ "ts": "2026-11-07T23:25:40",
+ "cycle": 289,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-07T23:23:53",
+ "master_tick_ts": "2026-11-07T23:25:40",
  "queue": {
   "total": 1336,
-  "open": 10,
+  "open": 9,
   "running": 4,
   "done": 504,
-  "failed": 17
+  "failed": 18
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 18.6,
-   "cpu_load_pct": 20,
-   "ram_free_gb": 32.7,
-   "gpu_util_pct": 89,
+   "hb_age_s": 9.1,
+   "cpu_load_pct": 91,
+   "ram_free_gb": 35.8,
+   "gpu_util_pct": 79,
    "job": "R-NEXT-BIGSTREAMM-REBUILD-20261107",
    "last_result": {
-    "job": null,
-    "state": "IDLE",
+    "job": "R-NEXT-BIGSTREAMM-REBUILD-20261107",
+    "state": "BUSY",
     "rc": null,
-    "ts": "2026-11-07T23:20:05",
-    "reason": "SELF-DISPATCH: lane scans its own backlog",
-    "out_bytes": null,
-    "elapsed_s": null
+    "ts": "2026-11-07T23:25:29",
+    "reason": null,
+    "out_bytes": 126,
+    "elapsed_s": 42
    },
    "idle_confirmed": false,
    "idle_reason": "",
@@ -34,10 +34,10 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 525.8,
-   "cpu_load_pct": 9,
-   "ram_free_gb": 9.6,
-   "gpu_util_pct": 0,
+   "hb_age_s": 207.4,
+   "cpu_load_pct": null,
+   "ram_free_gb": null,
+   "gpu_util_pct": null,
    "job": "PROBE-NODE-bm-b-20261107",
    "last_result": {
     "job": "asset-lib-voice-dataset-2026-11-07",
@@ -54,9 +54,9 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": -1.8,
-   "cpu_load_pct": 15,
-   "ram_free_gb": 2.6,
+   "hb_age_s": 20.6,
+   "cpu_load_pct": 9,
+   "ram_free_gb": 2.2,
    "gpu_util_pct": 0,
    "job": "ASSET-GEN-CHARACTERS-20261107",
    "last_result": {
@@ -74,17 +74,17 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 3.8,
-   "cpu_load_pct": 36,
-   "ram_free_gb": 9.7,
+   "hb_age_s": 14.8,
+   "cpu_load_pct": 22,
+   "ram_free_gb": 9.9,
    "gpu_util_pct": null,
-   "job": "VAULT-VERIFY-20261107",
+   "job": "LEDGER-REFRESH-20261107",
    "last_result": {
-    "job": null,
-    "state": "IDLE",
-    "rc": null,
-    "ts": "2026-11-07T23:22:53",
-    "reason": "SELF-DISPATCH: lane scans its own backlog",
+    "job": "VAULT-VERIFY-20261107",
+    "state": "FAILED",
+    "rc": 2,
+    "ts": "2026-11-07T23:25:25",
+    "reason": null,
     "out_bytes": null,
     "elapsed_s": null
    },
@@ -171,9 +171,7 @@
     "LEDGER-REFRESH-20261107"
    ],
    "no_supply": false,
-   "blockers": [
-    "LEDGER-REFRESH-20261107:no-lane"
-   ],
+   "blockers": [],
    "note": null,
    "stuck_stage": "game-design",
    "stuck_owner": "游戏席"
@@ -313,8 +311,7 @@
     "ASSET-GEN-SCENES-20261107",
     "ASSET-GEN-PROPS-20261107",
     "ASSET-GEN-TRANSITIONS-20261107",
-    "ASSET-GEN-STYLES-20261107",
-    "VAULT-VERIFY-20261107"
+    "ASSET-GEN-STYLES-20261107"
    ],
    "no_supply": false,
    "blockers": [
@@ -861,22 +858,22 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 10,
+  "local": 5,
   "cloud": 0,
-  "queue": 0,
+  "queue": 4,
   "blocked": 0,
   "cloud_spend_today": 0,
   "waste": []
  },
  "supply_gap": {
-  "cpu": 6,
+  "cpu": 5,
   "gpu": 4
  },
  "supply_added": [],
  "events": [
   "asset-lib-voice-dataset-2026-11-07 FAILED via bm-b",
-  "ASSET-GEN-CHARACTERS-20261107 -> bm-c (gpu)",
-  "VAULT-VERIFY-20261107 -> bm-m (cpu)"
+  "VAULT-VERIFY-20261107 FAILED via bm-m",
+  "LEDGER-REFRESH-20261107 -> bm-m (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
@@ -884,7 +881,6 @@
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
  "lane_files_written": [
-  "bm-c",
   "bm-m"
  ]
 }
