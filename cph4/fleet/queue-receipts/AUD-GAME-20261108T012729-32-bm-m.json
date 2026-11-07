@@ -2,8 +2,8 @@
  "id": "AUD-GAME-20261108T012729-32",
  "node": "bm-m",
  "rc": 0,
- "seconds": 0.1,
- "cmd": "python3 Tools/fleet/supply_batch.py --audit game DemonTamer",
+ "seconds": 0.4,
+ "cmd": "python Tools/fleet/supply_batch.py --audit game DemonTamer",
  "ok_rc": [
   0
  ],
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/audits/game/DemonTamer.json",
  "deliverable_exists": true,
- "ts": "2026-11-08T02:32:27",
+ "ts": "2026-11-08T02:32:54",
  "stdout_tail": "AUDIT game DemonTamer gaps=4\n",
  "stderr_tail": ""
 }
