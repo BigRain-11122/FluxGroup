@@ -251,6 +251,22 @@ def rg14():
         cp.heartbeat_timeout_s(), cp.stall_after_s(), cp.max_attempts())
 
 
+@case("RG-15", "队列只许行级合并写，禁整文件覆盖",
+      "2026-11-02 实锚：整树重写吞掉 21 张自排卡；2026-11-07 同 id 在两份账漂移")
+def rg15():
+    import glob as _g
+    import re as _re
+    bad = []
+    for p in _g.glob(os.path.join(ROOT, "Tools", "fleet", "*.py")):
+        src = open(p, encoding="utf-8", errors="ignore").read()
+        for m in _re.finditer(r"open\(([^\n]{0,80}),\s*[\"']w[\"']", src):
+            arg = m.group(1)
+            if "QUEUE" in arg or "PRODUCTION-QUEUE" in arg:
+                bad.append("%s: %s" % (os.path.basename(p), arg.strip()[:50]))
+    assert not bad, "整文件覆盖写队列：%s" % bad[:3]
+    return "全部写者走行级合并（merge_jsonl），无整文件覆盖"
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--json", action="store_true")
