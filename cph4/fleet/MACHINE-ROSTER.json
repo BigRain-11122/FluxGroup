@@ -1,0 +1,43 @@
+{
+  "schema": "machine-roster/v1",
+  "created": "2026-11-07T00:15:00+08:00",
+  "authority": "D-20261106-05 落位补注 + D-20261107-03 建件（一文件五字段·属登记不属机制）+ D-20261107-20 每轮与 machine-state.flag 对账（不一致当场改）",
+  "fields": ["node", "state", "since", "evidence", "owner"],
+  "machines": [
+    {
+      "node": "bm-a",
+      "state": "ACTIVE",
+      "since": "2026-11-07T09:11:22+08:00",
+      "evidence": ".codely-cli/machine-state.flag = 'resumed 2026-11-07T09:11:22+08:00'（D-20261107-20 当班实测；此前 PAUSED-CEO-YIELD since 2026-11-06T11:43:23 已失效）",
+      "owner": "@HQ 机队席"
+    },
+    {
+      "node": "bm-b",
+      "state": "DECOMMISSIONED-20261106",
+      "since": "2026-11-06T12:00:00+08:00",
+      "evidence": "本机签名提交 63h 零产出；lanes/bm-b.json 最新三提交全 [via bm-a] 代写（7a5905f41/2af0ec774/8c318becd）",
+      "owner": "@HQ 机队席"
+    },
+    {
+      "node": "bm-c",
+      "state": "SPINNING-NOT-PRODUCING",
+      "since": "2026-11-06T12:00:00+08:00",
+      "evidence": "当日 24 条 [via bm-c] 提交全部为 'before rebase' 空转快照；解锁条件= D-20261106-02 agent.py:commit_state() 缓存目录出库落地",
+      "owner": "@HQ 机队席"
+    },
+    {
+      "node": "bm-d",
+      "state": "DECOMMISSIONED-20261029",
+      "since": "2026-10-29T09:57:35+08:00",
+      "evidence": "lanes/bm-d.json ts=2026-10-29T09:57:35，此后零信号",
+      "owner": "@HQ 机队席"
+    },
+    {
+      "node": "bm-m",
+      "state": "EXEMPT-MASQUERADE",
+      "since": "2026-11-06T12:00:00+08:00",
+      "evidence": "MASTER-TICK.json masquerade=true + last_tick_by=bm-a（代行主控已实证）；:8790 health=err 不判故障；未入 fleet 名册属设计态豁免",
+      "owner": "@HQ 机队席"
+    }
+  ]
+}
