@@ -77,9 +77,15 @@ def load_jsonl(path):
     return rows, bad
 
 
+def cmd_outs(cmd):
+    """cmd 里所有 `--out`（链式命令常有多个：中间件 + 最终产物）。"""
+    return [norm(m.group(1)) for m in re.finditer(
+        r'--out\s+("[^"]+"|\'[^\']+\'|\S+)', cmd or '')]
+
+
 def cmd_out(cmd):
-    m = re.search(r'--out\s+("[^"]+"|\'[^\']+\'|\S+)', cmd or '')
-    return norm(m.group(1)) if m else None
+    outs = cmd_outs(cmd)
+    return outs[0] if outs else None
 
 
 def _tool_literals(cmd, root):
@@ -148,10 +154,11 @@ def check(root):
                 continue
             if src == 'QUEUE' and st not in ('OPEN', 'RUNNING'):
                 continue
-            o = cmd_out(r.get('cmd'))
+            outs = cmd_outs(r.get('cmd'))
+            o = outs[0] if outs else None
             d = norm(r.get('deliverable'))
-            # R1
-            if o and d and o != d and not r.get('deliverable_note'):
+            # R1（链式命令允许多个 --out：中间件 + 最终产物，交付物命中任一个即可）
+            if outs and d and d not in outs and not r.get('deliverable_note'):
                 v.append({'rule': 'OUT-MISMATCH', 'src': src, 'id': rid,
                           'cmd_out': o, 'deliverable': d,
                           'why': 'cmd 产出的路径与卡的 deliverable 不同 ⇒ 永远 FAIL 重试'})
