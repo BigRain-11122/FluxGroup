@@ -1,6 +1,6 @@
 {
  "node": "bm-a",
- "ts": "2026-11-08T05:52:15",
+ "ts": "2026-11-08T06:42:26",
  "jobs": [
   {
    "id": "bigstream-mv-gate-2026-11-08",
@@ -31,7 +31,7 @@
    "timeout_s": null
   },
   {
-   "id": "AUD-GAME-20261108T043743-09",
+   "id": "AUD-GAME-20261108T064129-09",
    "title": "提审缺口落单：GimmeAll",
    "cmd": "python Tools/fleet/supply_batch.py --audit game GimmeAll",
    "cwd": "/Users/junsheng.sun/FluxGroup",
@@ -45,7 +45,7 @@
    "timeout_s": null
   },
   {
-   "id": "AUD-GAME-20261108T043743-25",
+   "id": "AUD-GAME-20261108T064129-25",
    "title": "提审缺口落单：MonsterInn",
    "cmd": "python Tools/fleet/supply_batch.py --audit game MonsterInn",
    "cwd": "/Users/junsheng.sun/FluxGroup",
@@ -59,7 +59,7 @@
    "timeout_s": null
   },
   {
-   "id": "AUD-GAME-20261108T043743-33",
+   "id": "AUD-GAME-20261108T064129-33",
    "title": "提审缺口落单：NightWatch",
    "cmd": "python Tools/fleet/supply_batch.py --audit game NightWatch",
    "cwd": "/Users/junsheng.sun/FluxGroup",
@@ -75,5 +75,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 40.0/1.0 GB"
+ "capacity_note": "ram 35.4/1.0 GB"
 }
