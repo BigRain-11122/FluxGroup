@@ -1,40 +1,32 @@
 {
- "ts": "2026-11-07T22:09:10",
- "cycle": 243,
+ "ts": "2026-11-07T22:10:40",
+ "cycle": 245,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-07T22:09:10",
+ "master_tick_ts": "2026-11-07T22:10:40",
  "queue": {
   "total": 1314,
-  "open": 35,
+  "open": 34,
   "running": 4,
-  "done": 481,
+  "done": 482,
   "failed": 32
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 38.1,
-   "cpu_load_pct": 64,
-   "ram_free_gb": 34.4,
-   "gpu_util_pct": 83,
+   "hb_age_s": 89.5,
+   "cpu_load_pct": null,
+   "ram_free_gb": null,
+   "gpu_util_pct": null,
    "job": "AUD-SOFT-20261107T220908-07",
-   "last_result": {
-    "job": null,
-    "state": "IDLE",
-    "rc": null,
-    "ts": "2026-11-07T22:05:06",
-    "reason": "SELF-DISPATCH: lane scans its own backlog",
-    "out_bytes": null,
-    "elapsed_s": null
-   },
+   "last_result": null,
    "idle_confirmed": false,
    "idle_reason": "",
    "idle_rounds": 0
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 222.1,
+   "hb_age_s": 89.5,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -46,40 +38,24 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 23.8,
-   "cpu_load_pct": 27,
-   "ram_free_gb": 2.0,
-   "gpu_util_pct": 21,
+   "hb_age_s": 89.5,
+   "cpu_load_pct": null,
+   "ram_free_gb": null,
+   "gpu_util_pct": null,
    "job": "AUD-SOFT-20261107T220908-06",
-   "last_result": {
-    "job": null,
-    "state": "IDLE",
-    "rc": null,
-    "ts": "2026-11-07T22:08:36",
-    "reason": "CAPACITY-BLOCKED-RAM ram 0.7/1.0 GB",
-    "out_bytes": null,
-    "elapsed_s": null
-   },
+   "last_result": null,
    "idle_confirmed": false,
    "idle_reason": "",
    "idle_rounds": 0
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 13.9,
-   "cpu_load_pct": 35,
-   "ram_free_gb": 4.7,
+   "hb_age_s": 89.4,
+   "cpu_load_pct": null,
+   "ram_free_gb": null,
    "gpu_util_pct": null,
    "job": "AUD-SOFT-20261107T220908-01",
-   "last_result": {
-    "job": null,
-    "state": "IDLE",
-    "rc": null,
-    "ts": "2026-11-07T22:08:07",
-    "reason": "SELF-DISPATCH: lane scans its own backlog",
-    "out_bytes": null,
-    "elapsed_s": null
-   },
+   "last_result": null,
    "idle_confirmed": false,
    "idle_reason": "",
    "idle_rounds": 0
@@ -159,7 +135,6 @@
    "owner": "游戏席",
    "jobs": [
     "AUD-SOFT-20261107T220908-01",
-    "AUD-SOFT-20261107T220908-02",
     "AUD-SOFT-20261107T220908-03",
     "AUD-SOFT-20261107T220908-04",
     "AUD-SOFT-20261107T220908-05",
@@ -198,7 +173,6 @@
    ],
    "no_supply": false,
    "blockers": [
-    "AUD-SOFT-20261107T220908-02:no-lane",
     "AUD-SOFT-20261107T220908-03:no-lane",
     "AUD-SOFT-20261107T220908-04:no-lane",
     "AUD-SOFT-20261107T220908-08:no-lane",
@@ -894,7 +868,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 35,
+  "local": 34,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -902,25 +876,15 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 35,
+  "cpu": 34,
   "gpu": 0
  },
  "supply_added": [],
- "events": [
-  "AUD-SOFT-20261107T220908-01 -> bm-m (cpu)",
-  "AUD-SOFT-20261107T220908-05 -> bm-b (cpu)",
-  "AUD-SOFT-20261107T220908-06 -> bm-c (cpu)",
-  "AUD-SOFT-20261107T220908-07 -> bm-a (cpu)"
- ],
+ "events": [],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
- "lane_files_written": [
-  "bm-a",
-  "bm-b",
-  "bm-c",
-  "bm-m"
- ]
+ "lane_files_written": []
 }

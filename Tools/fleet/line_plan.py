@@ -149,6 +149,26 @@ def plan_table(table, day, existing, dry):
     line = table.get("line")
     stages = table.get("stages") or []
     made, skipped = [], []
+    # 已完成卡集合（2026-11-07 实锚）：工序推进原来只认"交付文件在盘"或"回执名匹配"，
+    # 于是交付发生在节点上（文件不在主控盘）的卡即使已在队列里 DONE，下游仍判"等上一段"
+    # → 整条线永久停摆。这里把队列里 DONE/ARCHIVED 的卡也算作该段完成。
+    _done_cards = set()
+    try:
+        for _p in (os.path.join(ROOT, "cph4", "fleet", "PRODUCTION-QUEUE.jsonl"),
+                   os.path.join(ROOT, "cph4", "fleet", "PRODUCTION-BACKLOG.jsonl")):
+            for _l in open(_p, encoding="utf-8"):
+                _l = _l.strip()
+                if not _l:
+                    continue
+                try:
+                    _r = json.loads(_l)
+                except Exception:
+                    continue
+                if str(_r.get("state")) in ("DONE", "ARCHIVED"):
+                    _done_cards.add(str(_r.get("id") or ""))
+    except Exception:
+        pass
+
     done_today = set()
     for st in stages:
         sid = "%s-%s-%s" % (line, st.get("id"), day)
@@ -168,7 +188,8 @@ def plan_table(table, day, existing, dry):
                 skipped.append((sid, "NO-INPUT %s 为空（等投料）" % in_dir))
                 continue
         if st["id"] in done_today or (dl and os.path.exists(dl_abs)) \
-                or done_by_receipt(line, st["id"], day):
+                or done_by_receipt(line, st["id"], day) \
+                or sid in _done_cards:
             done_today.add(st["id"])
         deps = st.get("depends_on") or []
         if deps and not all(d in done_today for d in deps):

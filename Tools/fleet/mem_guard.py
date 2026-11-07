@@ -166,14 +166,34 @@ def main(argv):
 
     acted = []
     if a.apply and errs:
-        # 按矩阵换出顺序，从最便宜的开始卸，直到常驻回到上限内
-        for name in live:
-            if tot <= c["resident_gb_limit"] and rate <= c["pageouts_max_per_min"]:
+        # 触发条件：换页太快、swap 在涨、常驻超限——任一成立就按顺序卸，直到都合规。
+        # 顺序来自矩阵 swap.order：先卸最便宜、装载最快的快车道，大档最后才动。
+        order = []
+        try:
+            mx = json.load(open(os.path.join(F, "MODEL-MONITOR-MATRIX-v2.json"),
+                                encoding="utf-8"))
+            tiers = mx.get("tiers") or {}
+            for seat in (mx.get("swap") or {}).get("order") or []:
+                m = (tiers.get(seat) or {}).get("model")
+                if m:
+                    order.append(m)
+        except Exception:
+            order = []
+        by_name = {x["name"]: x for x in live}
+        for name in order:
+            if name not in by_name:
+                continue
+            still = (rate > c["pageouts_max_per_min"]
+                     or d_sw > c["swap_growth_max_mb"]
+                     or tot > c["resident_gb_limit"])
+            if not still:
                 break
-            if unload(name["name"]):
-                acted.append(name["name"])
-                tot = round(tot - name["gb"], 1)
-                rate = 0
+            if unload(name):
+                acted.append("%s(%.1fGB)" % (name, by_name[name]["gb"]))
+                tot = round(tot - by_name[name]["gb"], 1)
+                rec["resident_gb"] = tot
+        # 卸完再看一眼：swap 增速不在短窗里立即回落，提醒下一轮复核
+        rec["acted"] = acted
 
     L = ["# 内存护栏 %s" % rec["ts"], "",
          "- 判定：**%s**" % verdict,

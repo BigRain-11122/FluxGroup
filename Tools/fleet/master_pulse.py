@@ -164,6 +164,13 @@ STAGES = [
     ("dr_check", ["Tools/fleet/dr_check.py"], 86400, {0}, True),
     # 三层产出审核 + 入档入库（CEO 2026-11-07）：DONE 只表示执行结束，不代表合格。
     ("review_artifacts", ["Tools/fleet/artifact_review.py", "--limit", "40", "--apply"], 21600, {0, 1}, True),
+    # 有序巡查（CEO 2026-11-07「智能体巡查排序好，指挥好机队各个业务和自动化开展」）：
+    # 把七八个报告面归并成一条按"断链→供给→执行→质量→方向"排序的清单，每条带责任人。
+    # 10 分钟一次，纯规则零 token。
+    ("patrol", ["Tools/fleet/patrol.py"], 180, {0}, False),
+    # 回执名不匹配导致的永久 UNVERIFIED（实测堵死 4 条线）：按词干匹配回执并收口。
+    # 宁可不判也不假绿——歧义/无证据一律交人。
+    ("receipt_match", ["Tools/fleet/receipt_match.py", "--apply"], 180, {0}, False),
     # 内存护栏（CEO 2026-11-07「把本地算力完全赋能，但最好不要 swap 浪费硬盘」）：
     # 判据是换页速率不是 swap 总量；四档常驻 14.2GB 时实测 ≈1.8 页/分。rc=1 表示正在
     # 拿硬盘当内存用（真抖动），而不是"swap 账上还有历史占用"。
