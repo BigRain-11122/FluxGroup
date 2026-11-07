@@ -156,14 +156,43 @@ ALLOWED_LICENSES = ("own", "public-domain", "cc0", "cc-by", "licensed")
 
 
 def audit_rights(d, override=""):
-    """来源合规门：没有授权声明就不许进训练。"""
+    """来源合规门：没有授权声明就不许进训练。
+
+    数据集常按主体分目录（faces/CH01/…、voices/<id>/…），授权声明天然落在子目录；
+    因此顶层缺失时继承子目录声明，但要求各子目录口径一致，不一致一律判缺。
+    """
     path = override or ""
+    inherited = []
     if not path:
         for cand in ("RIGHTS.json", "rights.json"):
             p = os.path.join(d, cand)
             if os.path.exists(p):
                 path = p
                 break
+    if not path and os.path.isdir(d):
+        for n in sorted(os.listdir(d)):
+            sub = os.path.join(d, n)
+            if os.path.isdir(sub):
+                for cand in ("RIGHTS.json", "rights.json"):
+                    p = os.path.join(sub, cand)
+                    if os.path.exists(p):
+                        inherited.append(p)
+                        break
+        uniq = set()
+        for p in inherited:
+            try:
+                r = json.load(open(p, encoding="utf-8-sig"))
+            except Exception:
+                uniq.add(("<unreadable>", p))
+                continue
+            uniq.add((str(r.get("source") or ""), str(r.get("license") or "").lower(),
+                      bool(r.get("real_person")), r.get("consent")))
+        if len(uniq) == 1:
+            path = inherited[0]
+        elif len(uniq) > 1:
+            return ({"declared": False, "conflict": len(uniq)},
+                    ["子目录授权声明不一致（%d 种口径）：%s" % (
+                        len(uniq), ", ".join(sorted(os.path.relpath(p, d) for p in inherited[:6])))])
     if not path or not os.path.exists(path):
         return {"declared": False}, ["缺授权声明：数据集目录里要有 RIGHTS.json（source/license/real_person/consent），"
                                      "或训练时传 --rights；没有授权声明的数据集一律不许进训练"]
@@ -187,10 +216,12 @@ def audit_rights(d, override=""):
 
 def audit_face(d):
     gaps, files = [], []
-    for n in sorted(os.listdir(d)):
-        p = os.path.join(d, n)
-        if os.path.isfile(p) and n.lower().endswith(IMG_EXT):
-            files.append(p)
+    # 人脸数据集是按角色分目录的（faces/CH01/front.png…），只扫顶层会把整库读成 0 张。
+    for root, _dirs, names in os.walk(d):
+        for n in sorted(names):
+            if n.lower().endswith(IMG_EXT):
+                files.append(os.path.join(root, n))
+    files.sort()
     if len(files) < FACE_MIN_COUNT:
         gaps.append("张数 %d < %d（训不出稳定角色）" % (len(files), FACE_MIN_COUNT))
     sizes, tex, hashes = [], [], []
@@ -226,10 +257,11 @@ def audit_face(d):
 
 def audit_voice(d):
     gaps, files = [], []
-    for n in sorted(os.listdir(d)):
-        p = os.path.join(d, n)
-        if os.path.isfile(p) and n.lower().endswith(AUD_EXT):
-            files.append(p)
+    for root, _dirs, names in os.walk(d):
+        for n in sorted(names):
+            if n.lower().endswith(AUD_EXT):
+                files.append(os.path.join(root, n))
+    files.sort()
     if len(files) < VOICE_MIN_COUNT:
         gaps.append("条数 %d < %d" % (len(files), VOICE_MIN_COUNT))
     total, ok_len, pauses, lras = 0.0, 0, 0, []
