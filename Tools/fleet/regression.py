@@ -754,6 +754,18 @@ def rg36():
     return "分类只放行视频/图片/构建/回测；文档与台账被挡在验收口径之外"
 
 
+@case("RG-37", "派单先给能产生产物的卡，流程文档卡排后面",
+      "验收只看产物（RG-36）时，派单口径必须同源：否则槽位被分诊/审计吃掉，一天下来 0 件产物")
+def rg37():
+    sys.path.insert(0, os.path.join(ROOT, "Tools", "fleet"))
+    import master_agent as ma
+    rows = [{"id": "doc", "cmd": "a", "deliverable": "cph4/fleet/x.md"},
+            {"id": "img", "cmd": "b", "deliverable": "media/asset/a.png"}]
+    kept = [r["id"] for r in ma.dedupe_pending(rows, rows)]
+    assert kept == ["img", "doc"], "派单顺序不对：%s" % kept
+    return "产物类卡先占槽，文档类卡排后"
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--json", action="store_true")
