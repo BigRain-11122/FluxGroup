@@ -1,0 +1,18 @@
+{
+ "id": "asset-lib-env-check-2026-11-09",
+ "node": "bm-m",
+ "rc": 1,
+ "seconds": 0.1,
+ "cmd": "python3 Tools/fleet/asset_env_check.py --out cph4/fleet/queue-receipts/asset-env-2026-11-09.json",
+ "ok_rc": [
+  0,
+  3
+ ],
+ "outcome": "FAIL",
+ "error_class": "E-UNKNOWN",
+ "deliverable": "cph4/fleet/queue-receipts/asset-env-2026-11-09.json",
+ "deliverable_exists": true,
+ "ts": "2026-11-09T00:02:15",
+ "stdout_tail": "ASSET-ENV FAIL  unknown\n  可用路线: 无\n  ! 没有 ffmpeg（切分/抽帧/审计都要）\n  ! 没有 torch（No module named 'torch'）\n  ! 没有 kohya sd-scripts（角色 LoRA 训练栈）——找 KOHYA_DIR 环境变量或装一份\n  ! 没有 GPT-SoVITS（音色微调栈）——找 GPTSOVITS_DIR 环境变量或装一份\n  ! 资产目录不在位：media/asset/faces\n  ! 资产目录不在位：media/asset/loras\n",
+ "stderr_tail": ""
+}
