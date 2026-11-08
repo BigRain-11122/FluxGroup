@@ -1,0 +1,18 @@
+{
+  "_note": "开场九拍 v1（2026-11-08 导演重排）。src 一律指向 v726，时间码取自 v726 实测；新镜用独立文件。",
+  "fps": 24,
+  "size": [1344, 768],
+  "audio_from": "cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v726.mp4",
+  "segments": [
+    {"src": ".codely-cli/tmp/NTORCH.mp4", "in": 0.0, "out": 2.0, "note": "1 钩：火光扫过刻字（器物极特写，给疑问）"},
+    {"src": "cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v726.mp4", "in": 0.6, "out": 3.5, "note": "2 现实：台灯下写字（同色温光桥）"},
+    {"src": "cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v726.mp4", "in": 4.71, "out": 8.40, "note": "3 入口：他拿起照片看（照片＝通往古代的门）"},
+    {"src": "cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v726.mp4", "in": 8.67, "out": 11.50, "note": "4 她：蓝毛衣低头，只给眼神不解释"},
+    {"src": ".codely-cli/tmp/NTORCH.mp4", "in": 2.4, "out": 5.0, "note": "5 门槛：火把亮度抬升，作为进入古代的过场"},
+    {"src": "cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v726.mp4", "in": 21.0, "out": 23.0, "note": "6a 古代建立：刻字墙特写（只留一个）"},
+    {"src": "cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v726.mp4", "in": 23.0, "out": 28.0, "note": "6b 古代建立：石碑全景（只留一个）"},
+    {"src": "cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v726.mp4", "in": 28.5, "out": 31.5, "note": "7 人进画面：他的背影站在石壁前"},
+    {"src": "cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v726.mp4", "in": 35.0, "out": 38.0, "note": "8 情绪高点：光柱洞窟全景"},
+    {"src": "cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v726.mp4", "in": 38.5, "out": 40.0, "note": "9 字卡落点：你在橱窗前"}
+  ]
+}
