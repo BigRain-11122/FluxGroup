@@ -723,6 +723,18 @@ def rg34():
     return "僵尸机被排除且理由可读；正常机不受影响"
 
 
+@case("RG-35", "运行时看板不得入产物档（一日 788 份同一张屏=假产量）",
+      "2026-11-08 实锚：QUALITY-BOARD 每轮重写且带时间戳，归档按内容哈希，一天堆出 788 份副本")
+def rg35():
+    sys.path.insert(0, os.path.join(ROOT, "Tools", "fleet"))
+    import artifact_review as ar
+    r = ar.archive(os.path.join(ROOT, "cph4", "fleet", "QUALITY-BOARD.md"),
+                   {"id": "T", "line": "fleet-ops"}, [])
+    assert isinstance(r, dict) and r.get("skipped") == "runtime-board", \
+        "看板没被挡在入档外：%s" % r
+    return "运行时看板已挡在归档之外"
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--json", action="store_true")

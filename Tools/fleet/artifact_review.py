@@ -191,7 +191,19 @@ def l2(card, path, rel):
 
 
 # ---- 入档 / 入库 -------------------------------------------------------------
+RUNTIME_BOARDS = ("QUALITY-BOARD.md", "PATROL.md", "CEO-NEXT.md", "CEO-THREE.md",
+                  "COMMAND-BOARD.md", "BLOCKER-LOOP.md", "STAGE-LIVENESS.md",
+                  "ROOT-CAUSE-BOARD.md", "MASTER-SCREEN.md", "RETRO.md", "FLEET-STATUS.md")
+
+
 def archive(rel_path, card, layers):
+    """运行时看板不入档：它们每轮重写且正文带时间戳，按内容哈希入档会一天堆上千份。
+
+    2026-11-08 实锚：cph4/fleet/QUALITY-BOARD.md 当日被归档 788 份，看起来"产量巨大"，
+    实际是同一张屏抄了几百遍——这是最典型的假产量。
+    """
+    if os.path.basename(str(rel_path)) in RUNTIME_BOARDS:
+        return {"skipped": "runtime-board", "src": rel_path}
     line = str(card.get("line") or "unfiled")
     day = time.strftime("%Y%m%d")
     d = os.path.join(ARCHIVE, line, day)
