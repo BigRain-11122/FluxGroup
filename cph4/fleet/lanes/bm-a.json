@@ -1,8 +1,8 @@
 {
  "node": "bm-a",
- "ts": "2026-11-08T11:42:53",
+ "ts": "2026-11-08T11:48:12",
  "jobs": [],
- "idle_reason": "CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (8.5h 零产出，唤醒清单空)",
- "lane_ok": false,
- "capacity_note": "EXECUTOR-DEAD (8.5h 零产出，唤醒清单空)"
+ "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+ "lane_ok": true,
+ "capacity_note": "ram 30.5/1.0 GB"
 }
