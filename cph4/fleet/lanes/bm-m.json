@@ -1,96 +1,6 @@
 {
  "node": "bm-m",
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
- "ts": "2026-11-08T21:08:12",
- "jobs": [
-  {
-   "id": "AUD-GAME-20261108T012729-09",
-   "title": "提审缺口落单：GimmeAll",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game GimmeAll",
-=======
- "ts": "2026-11-08T21:14:12",
- "jobs": [
-  {
-   "id": "AUD-GAME-20261108T012729-36",
-   "title": "提审缺口落单：GhostMarshal",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game GhostMarshal",
->>>>>>> Stashed changes
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/GhostMarshal.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "AUD-GAME-20261108T012729-11",
-   "title": "提审缺口落单：涨停板",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game 涨停板",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/涨停板.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "AUD-GAME-20261108T012729-12",
-   "title": "提审缺口落单：CrazyWorker",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game CrazyWorker",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/CrazyWorker.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "AUD-GAME-20261108T012729-16",
-   "title": "提审缺口落单：大不了开饭馆",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game 大不了开饭馆",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/大不了开饭馆.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "AUD-GAME-20261108T012729-19",
-   "title": "提审缺口落单：CrazyEstate",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game CrazyEstate",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/CrazyEstate.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "AUD-GAME-20261108T012729-26",
-   "title": "提审缺口落单：CardRogue",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game CardRogue",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/CardRogue.json",
-=======
- "ts": "2026-11-08T21:17:16",
+ "ts": "2026-11-08T21:26:23",
  "jobs": [
   {
    "id": "AUD-GAME-20261108T012729-36",
@@ -99,7 +9,6 @@
    "cwd": "/Users/junsheng.sun/FluxGroup",
    "needs": "cpu",
    "deliverable": "cph4/fleet/audits/game/GhostMarshal.json",
->>>>>>> Stashed changes
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -110,13 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
- "capacity_note": "ram 8.2/1.0 GB"
-=======
- "capacity_note": "ram 8.4/1.0 GB"
->>>>>>> Stashed changes
-=======
- "capacity_note": "ram 8.4/1.0 GB"
->>>>>>> Stashed changes
+ "capacity_note": "ram 8.0/1.0 GB"
 }
