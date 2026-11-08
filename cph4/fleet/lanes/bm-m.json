@@ -1,70 +1,14 @@
 {
  "node": "bm-m",
- "ts": "2026-11-08T11:31:40",
+ "ts": "2026-11-08T11:32:16",
  "jobs": [
   {
-   "id": "AUD-GAME-20261108T012729-11",
-   "title": "提审缺口落单：涨停板",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game 涨停板",
+   "id": "AUD-GAME-20261108T012729-33",
+   "title": "提审缺口落单：NightWatch",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game NightWatch",
    "cwd": "/Users/junsheng.sun/FluxGroup",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/涨停板.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "AUD-GAME-20261108T012729-12",
-   "title": "提审缺口落单：CrazyWorker",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game CrazyWorker",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/CrazyWorker.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "AUD-GAME-20261108T012729-16",
-   "title": "提审缺口落单：大不了开饭馆",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game 大不了开饭馆",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/大不了开饭馆.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "AUD-GAME-20261108T012729-19",
-   "title": "提审缺口落单：CrazyEstate",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game CrazyEstate",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/CrazyEstate.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "AUD-GAME-20261108T012729-31",
-   "title": "提审缺口落单：StrategistDefense",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game StrategistDefense",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/StrategistDefense.json",
+   "deliverable": "cph4/fleet/audits/game/NightWatch.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -89,5 +33,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 7.8/1.0 GB"
+ "capacity_note": "ram 7.7/1.0 GB"
 }
