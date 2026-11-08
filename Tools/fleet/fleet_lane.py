@@ -874,6 +874,14 @@ def local_llm(prompt, policy=None, timeout=120, node=None):
     if fb:
         urls.append(fb)          # shared brain: bm-m's resident 35B, reachable over Tailscale
     for u in urls:
+        if "127.0.0.1" not in u and "localhost" not in u:
+            # 跨机一律走网关客户端：它会带 X-Flux-Token，没令牌就地判缺料(rc=3)、
+            # 不再空打。2026-11-08 实锚：这里的回落没有令牌头，一天被拒 830 次。
+            import llm_client
+            r = llm_client.generate(prompt, model=model, endpoint=u, timeout=timeout)
+            if r.get("ok"):
+                return r.get("text")
+            continue
         req = urllib.request.Request(u.rstrip("/") + "/api/generate", data=body,
                                      headers={"Content-Type": "application/json"})
         try:
