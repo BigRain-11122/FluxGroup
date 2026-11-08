@@ -1,63 +1,63 @@
 {
- "ts": "2026-11-08T12:23:16",
- "cycle": 444,
+ "ts": "2026-11-08T12:25:45",
+ "cycle": 445,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-08T12:23:16",
+ "master_tick_ts": "2026-11-08T12:25:45",
  "queue": {
   "total": 1495,
   "open": 3,
-  "running": 3,
+  "running": 5,
   "done": 556,
-  "failed": 5
+  "failed": 3
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 45.5,
-   "cpu_load_pct": 33,
-   "ram_free_gb": 37.3,
-   "gpu_util_pct": 77,
-   "job": null,
+   "hb_age_s": 14.0,
+   "cpu_load_pct": 79,
+   "ram_free_gb": 39.1,
+   "gpu_util_pct": 60,
+   "job": "biggame-pack-scan-2026-11-08",
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-08T12:19:40",
+    "ts": "2026-11-08T12:24:39",
     "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
-   "idle_confirmed": true,
-   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 2
+   "idle_confirmed": false,
+   "idle_reason": "",
+   "idle_rounds": 0
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 6.5,
-   "cpu_load_pct": 7,
-   "ram_free_gb": 9,
+   "hb_age_s": 32.3,
+   "cpu_load_pct": 6,
+   "ram_free_gb": 8.1,
    "gpu_util_pct": 1,
-   "job": null,
+   "job": "bigmoney-signal-2026-11-08",
    "last_result": {
-    "job": "bigmoney-signal-2026-11-08",
-    "state": "FAILED",
-    "rc": 3,
-    "ts": "2026-11-08T12:22:48",
-    "reason": null,
+    "job": null,
+    "state": "IDLE",
+    "rc": null,
+    "ts": "2026-11-08T12:25:19",
+    "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": false,
-   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+   "idle_reason": "",
    "idle_rounds": 0
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 42.0,
-   "cpu_load_pct": 26,
-   "ram_free_gb": 2.1,
-   "gpu_util_pct": 3,
+   "hb_age_s": 47.4,
+   "cpu_load_pct": 18,
+   "ram_free_gb": 0.9,
+   "gpu_util_pct": 1,
    "job": "ASSET-GEN-TYPOGRAPHY-20261108",
    "last_result": {
     "job": "AUD-GAME-20261108T030701-27",
@@ -74,9 +74,9 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 52.9,
-   "cpu_load_pct": 9,
-   "ram_free_gb": 10.3,
+   "hb_age_s": 16.7,
+   "cpu_load_pct": 10,
+   "ram_free_gb": 9.8,
    "gpu_util_pct": null,
    "job": "AUD-GAME-20261108T112014-09",
    "last_result": {
@@ -94,7 +94,7 @@
   }
  },
  "idle_rounds": {
-  "bm-a": 2,
+  "bm-a": 0,
   "bm-b": 0,
   "bm-c": 0,
   "bm-m": 0
@@ -164,6 +164,7 @@
    "owner": "游戏席",
    "jobs": [
     "ASSET-GEN-TYPOGRAPHY-20261108",
+    "biggame-pack-scan-2026-11-08",
     "AUD-GAME-20261108T112014-09",
     "PACK-GAME-20261108"
    ],
@@ -192,8 +193,10 @@
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "量化席",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "bigmoney-signal-2026-11-08"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": "2026-11-04 夜班重启：原回测阶段钉 bm-d，而 bm-d 自 10-29 离线；改由 bm-b（有 quant 仓与数据）出「下月持仓信号 CSV」，主控按 P1 恢复派单。",
    "stuck_stage": "quant-data",
@@ -844,12 +847,18 @@
   "gpu": 1
  },
  "supply_added": [],
- "events": [],
+ "events": [
+  "biggame-pack-scan-2026-11-08 -> bm-a (cpu)",
+  "bigmoney-signal-2026-11-08 -> bm-b (cpu)",
+  "AUD-GAME-20261108T112014-09 -> bm-m (cpu)"
+ ],
  "violations": [
-  "bm-a IDLE-CONFIRMED x2 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
- "lane_files_written": []
+ "lane_files_written": [
+  "bm-a",
+  "bm-b"
+ ]
 }
