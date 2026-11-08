@@ -1,0 +1,39 @@
+{
+ "file": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\cph4\\fleet\\mv0001-handover\\outbound\\krea2\\30s-reel-v1\\full_mv_v726.mp4",
+ "frames": 5617,
+ "fps": 23.983021188766966,
+ "shots": 82,
+ "dup_pairs": 0,
+ "static_shots": [
+  [
+   113,
+   208,
+   0.26,
+   0.12
+  ],
+  [
+   4963,
+   5006,
+   0.29,
+   0.09
+  ]
+ ],
+ "reprise_whitelisted": 8,
+ "reprise_unlisted": 0,
+ "stability": {
+  "seams": [],
+  "freezes": []
+ },
+ "flicker": [
+  [
+   503,
+   9.0
+  ]
+ ],
+ "grammar": null,
+ "fails": [
+  "D2 near-static shots: 2 (first 4.71-8.67s mean_mad=0.26)",
+  "D4 exposure flicker inside shots: 1 (first 20.97s delta=9.0)"
+ ],
+ "verdict": "FAIL"
+}
