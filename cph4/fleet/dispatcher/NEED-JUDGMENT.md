@@ -14,3 +14,16 @@
 
 **本班边界**：三旗中两旗为陈旧触发（触发时真、开班已自愈），职责=实证定性而非补造活；唯一实质修件=POOL-PHANTOM 的 job_ref 断线（可能再被快照覆盖，已在册）；CLOCK 归物理件零催办。
 
+
+## 附录 R21 事件班登记（2026-11-09 03:26-03:40·承载件触发·DL 01:08/01:11）
+
+| 件 | 状态 | 证据 / 下一步 |
+|---|---|---|
+| **STARVED-EXEC bm-b = 政策预期真空（非故障）** | **registered·不派卡** | origin 队列 1607 卡 OPEN=0；bm-b 唯一新卡 R-TTS-QC-R3-20261109 的 cancel_reason=「line-parked：line=bigstream-duanju，LINE-REGISTRY status=PARKED」→ 结构性永不可派。bm-b 本体健康（/status 100.82.175.0：ram 8.5G、cpu 29%、fork 0-0、HQ-ProductionClaim:WAKE）。按 CEO「PARKED=不计闲置不造活」不重开卡；复活条件=CEO 解停该线。 |
+| **BLOCKED-RAM bm-c = 真回归** | **waiting-owner（物理件·零催办）** | 03:26 /status：ram_free 2.2G/24G（02:34 曾 8.9G，一小时回落 6.7G）；两张 asset-gen 卡已被坏卡闭环判 E-ROOTCAUSE-3X（note=「STALL: 3377s/3104s 无新输出」）→ 供给真空根因=bm-c 本机 RAM+ComfyUI，不是派单缺口。修法仅在本机（gpu_lease --acquire / 起 ComfyUI），本席无远程通道。 |
+| **CLOCK-UNALIGNED → resolved；残余 SKEW-HIGH** | **waiting-CEO（提权物理件）** | 03:24 CLOCK-SKEW.json old_schema=0 missing=0（三机 v2 心跳）；bm-b +1456.3ms(σ0.8)、bm-c +4521ms(σ417.5)。两机 w32time STOPPED，需本机提权自启；秒级偏差不影响 45min 租约，不重复立法（承 R2.38/R4-4/R11-6/R13）。 |
+| **僵尸 RUNNING 收口（本班实修）** | **FIXED** | Q-TRIAGE-FLUXVERSE-20261109：claimed 00:56 空占 4h，交付物 triage-fluxverse-20261109.md 670B 为真报告（三工段证据/判定/下一步）→ DONE rc=0；claimed_at 晚于交付物=assign() 重写 claimed_at（R6-3 缺陷）。 |
+| **僵尸交付物假绿风险（AUD-GAME）** | **registered·交 bm-m 席** | AUD-GAME-20261109T023422-09 的 deliverable audits/game/GimmeAll.json mtime 00:14 早于建卡 02:34 → 若按存在性判完成即为假绿（D-R264 同族）。修法=mtime>=assign_ts 或模板化路径。 |
+| **探活 IP 卫生判例（新）** | **precedent** | 各机地址唯一定源=Tools/fleet-nodes.json（bm-b=100.82.175.0）。本班按 roster 直探 bm-b 一次成功（200/ram 8.5G）；而历史「bm-b 不可达/LANE-DOWN」多条探的是 100.104.212.62（不在 tailnet）→ 探活前必读 roster。 |
+
+**本班边界**：三旗两件物理（bm-c RAM、两机 w32time）不可远程修，一件是政策预期真空（PARKED 线）不可造活；唯一可做的实质动作是台账诚实收口。零新派卡、零重复 poke、不设第三枚探针（03:58 R19 + 04:52 R20 已在位）。
