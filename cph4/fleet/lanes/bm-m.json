@@ -1,29 +1,8 @@
 {
  "node": "bm-m",
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
- "ts": "2026-11-08T18:38:04",
+ "ts": "2026-11-08T18:50:44",
  "jobs": [
   {
-=======
- "ts": "2026-11-08T18:40:35",
-=======
- "ts": "2026-11-08T18:45:30",
->>>>>>> Stashed changes
- "jobs": [
-  {
-=======
- "ts": "2026-11-08T18:42:59",
- "jobs": [
-  {
->>>>>>> Stashed changes
-=======
- "ts": "2026-11-08T18:48:11",
- "jobs": [
-  {
->>>>>>> Stashed changes
    "id": "AUD-GAME-20261108T012729-35",
    "title": "提审缺口落单：TreasureDive",
    "cmd": "python Tools/fleet/supply_batch.py --audit game TreasureDive",
@@ -38,16 +17,6 @@
    "timeout_s": null
   },
   {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
    "id": "AUD-GAME-20261108T022403-26",
    "title": "提审缺口落单：CardRogue",
    "cmd": "python Tools/fleet/supply_batch.py --audit game CardRogue",
@@ -106,21 +75,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
- "capacity_note": "ram 10.0/1.0 GB"
-=======
- "capacity_note": "ram 10.3/1.0 GB"
->>>>>>> Stashed changes
-=======
- "capacity_note": "ram 10.2/1.0 GB"
->>>>>>> Stashed changes
-=======
- "capacity_note": "ram 9.1/1.0 GB"
->>>>>>> Stashed changes
-=======
- "capacity_note": "ram 8.8/1.0 GB"
->>>>>>> Stashed changes
+ "capacity_note": "ram 7.9/1.0 GB"
 }
