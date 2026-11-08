@@ -1,23 +1,8 @@
 {
  "node": "bm-c",
- "ts": "2026-11-08T16:07:11",
- "jobs": [
-  {
-   "id": "ASSET-GEN-TYPOGRAPHY-20261108B",
-   "title": "字效类资产出图（6 件）",
-   "cmd": "python Tools/fleet/asset_gen.py --class typography --limit 6 --node bm-c --receipt cph4/fleet/queue-receipts/asset-gen-typography-20261108.json",
-   "cwd": ".",
-   "needs": "gpu",
-   "deliverable": "media/asset/typography/typography-01.png",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  }
- ],
- "idle_reason": "",
+ "ts": "2026-11-08T16:09:39",
+ "jobs": [],
+ "idle_reason": "CAPACITY-BLOCKED-RAM ram 0.4/1.0 GB",
  "lane_ok": false,
  "capacity_note": "ram 0.4/1.0 GB"
 }

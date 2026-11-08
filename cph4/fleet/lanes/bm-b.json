@@ -1,14 +1,14 @@
 {
  "node": "bm-b",
- "ts": "2026-11-08T16:03:06",
+ "ts": "2026-11-08T16:09:39",
  "jobs": [
   {
-   "id": "bigmoney-conclusion-2026-11-08",
-   "title": "[金融量化（回测 → 一页结论 → 可报价或写清卡点）] 一页结论（四件齐才许对外）",
-   "cmd": "python Tools/fleet/quant_conclusion.py --in quant/bigmoney/results/etf_nobond_vt.json --line bigmoney --out cph4/fleet/queue-receipts/quant-conclusion-2026-11-08.md",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/quant-conclusion-2026-11-08.md",
+   "id": "ASSET-GEN-TYPOGRAPHY-20261108B",
+   "title": "字效类资产出图（6 件）",
+   "cmd": "python Tools/fleet/asset_gen.py --class typography --limit 6 --node bm-c --receipt cph4/fleet/queue-receipts/asset-gen-typography-20261108.json",
+   "cwd": ".",
+   "needs": "gpu",
+   "deliverable": "media/asset/typography/typography-01.png",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 9.6/1.0 GB"
+ "capacity_note": "ram 9.8/1.0 GB"
 }
