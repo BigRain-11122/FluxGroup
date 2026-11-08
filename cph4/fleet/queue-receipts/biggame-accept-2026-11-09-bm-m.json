@@ -1,0 +1,18 @@
+{
+ "id": "biggame-accept-2026-11-09",
+ "node": "bm-m",
+ "rc": 2,
+ "seconds": 0.1,
+ "cmd": "python3 Tools/fleet/quality_gate.py --line biggame --out cph4/fleet/queue-receipts/quality-biggame-2026-11-09.json",
+ "ok_rc": [
+  0,
+  3
+ ],
+ "outcome": "FAIL",
+ "error_class": "E-INPUT",
+ "deliverable": "cph4/fleet/queue-receipts/quality-biggame-2026-11-09.json",
+ "deliverable_exists": true,
+ "ts": "2026-11-09T06:19:08",
+ "stdout_tail": "QUALITY biggame            FAIL\n   game-packs       PASS     OK\n   game-10s         MISSING  \n   ! game-10s:缺\n",
+ "stderr_tail": ""
+}
