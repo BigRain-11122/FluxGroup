@@ -1,5 +1,6 @@
 {
  "node": "bm-m",
+<<<<<<< Updated upstream
  "ts": "2026-11-08T15:43:46",
  "jobs": [
   {
@@ -36,6 +37,16 @@
    "cmd": "python Tools/fleet/supply_batch.py --audit game MonsterInn",
    "cwd": "",
    "needs": "cpu",
+=======
+ "ts": "2026-11-08T15:46:32",
+ "jobs": [
+  {
+   "id": "AUD-GAME-20261108T111104-25",
+   "title": "提审缺口落单：MonsterInn",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game MonsterInn",
+   "cwd": "",
+   "needs": "cpu",
+>>>>>>> Stashed changes
    "deliverable": "cph4/fleet/audits/game/MonsterInn.json",
    "need_mb": null,
    "model": "none",
@@ -61,5 +72,9 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
+<<<<<<< Updated upstream
  "capacity_note": "ram 11.7/1.0 GB"
+=======
+ "capacity_note": "ram 12.5/1.0 GB"
+>>>>>>> Stashed changes
 }
