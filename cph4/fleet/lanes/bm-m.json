@@ -1,35 +1,7 @@
 {
  "node": "bm-m",
- "ts": "2026-11-08T16:57:57",
+ "ts": "2026-11-08T16:26:56",
  "jobs": [
-  {
-   "id": "AUD-GAME-20261108T111104-25",
-   "title": "提审缺口落单：MonsterInn",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game MonsterInn",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/MonsterInn.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "AUD-GAME-20261108T112014-33",
-   "title": "提审缺口落单：NightWatch",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game NightWatch",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/NightWatch.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
   {
    "id": "AUD-GAME-20261108T155849-09",
    "title": "提审缺口落单：GimmeAll",
@@ -47,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 12.1/1.0 GB"
+ "capacity_note": "ram 13.7/1.0 GB"
 }

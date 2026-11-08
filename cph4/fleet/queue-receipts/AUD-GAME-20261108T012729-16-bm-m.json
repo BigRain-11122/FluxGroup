@@ -2,8 +2,8 @@
  "id": "AUD-GAME-20261108T012729-16",
  "node": "bm-m",
  "rc": 0,
- "seconds": 0.3,
- "cmd": "python Tools/fleet/supply_batch.py --audit game 大不了开饭馆",
+ "seconds": 0.1,
+ "cmd": "python3 Tools/fleet/supply_batch.py --audit game 大不了开饭馆",
  "ok_rc": [
   0
  ],
@@ -12,7 +12,6 @@
  "deliverable": "cph4/fleet/audits/game/大不了开饭馆.json",
  "deliverable_exists": true,
  "ts": "2026-11-08T02:27:20",
- "ts": "2026-11-08T02:19:35",
  "stdout_tail": "AUDIT game 大不了开饭馆 gaps=2\n",
  "stderr_tail": ""
 }
