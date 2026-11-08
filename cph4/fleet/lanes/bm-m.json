@@ -1,16 +1,12 @@
 {
  "node": "bm-m",
-<<<<<<< HEAD
- "ts": "2026-11-08T18:53:00",
-=======
- "ts": "2026-11-08T02:19:33",
->>>>>>> e365df198 (job(AUD-GAME-20261108T012729-12): artifact [via bm-m])
+ "ts": "2026-11-08T21:08:12",
  "jobs": [
   {
-   "id": "AUD-GAME-20261108T181424-09",
+   "id": "AUD-GAME-20261108T012729-09",
    "title": "提审缺口落单：GimmeAll",
    "cmd": "python Tools/fleet/supply_batch.py --audit game GimmeAll",
-   "cwd": "",
+   "cwd": "/Users/junsheng.sun/FluxGroup",
    "needs": "cpu",
    "deliverable": "cph4/fleet/audits/game/GimmeAll.json",
    "need_mb": null,
@@ -19,8 +15,6 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
-<<<<<<< HEAD
-=======
   },
   {
    "id": "AUD-GAME-20261108T012729-11",
@@ -77,10 +71,23 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
->>>>>>> e365df198 (job(AUD-GAME-20261108T012729-12): artifact [via bm-m])
+  },
+  {
+   "id": "AUD-GAME-20261108T012729-26",
+   "title": "提审缺口落单：CardRogue",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game CardRogue",
+   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/audits/game/CardRogue.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 7.7/1.0 GB"
+ "capacity_note": "ram 8.2/1.0 GB"
 }
