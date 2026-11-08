@@ -1,6 +1,6 @@
 {
  "node": "bm-a",
- "ts": "2026-11-08T13:01:06",
+ "ts": "2026-11-08T13:02:56",
  "jobs": [
   {
    "id": "bigstream-mv-gate-2026-11-08",
@@ -57,9 +57,23 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
+  },
+  {
+   "id": "biggame-accept-2026-11-08",
+   "title": "[游戏（可上线清单 → 一款可玩包 → 提审材料）] 质量验收（缺一份闸回执就不算交付）",
+   "cmd": "python Tools/fleet/quality_gate.py --line biggame --out cph4/fleet/queue-receipts/quality-biggame-2026-11-08.json",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/quality-biggame-2026-11-08.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 33.0/1.0 GB"
+ "capacity_note": "ram 31.1/1.0 GB"
 }
