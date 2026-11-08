@@ -1,22 +1,22 @@
 {
- "ts": "2026-11-09T00:56:30",
- "cycle": 398,
+ "ts": "2026-11-09T00:57:26",
+ "cycle": 399,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-09T00:56:30",
+ "master_tick_ts": "2026-11-09T00:57:26",
  "queue": {
   "total": 1528,
   "open": 4,
-  "running": 11,
+  "running": 12,
   "done": 560,
-  "failed": 6
+  "failed": 5
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 2.3,
-   "cpu_load_pct": 55,
-   "ram_free_gb": 34.6,
+   "hb_age_s": -3.4,
+   "cpu_load_pct": 49,
+   "ram_free_gb": 37,
    "gpu_util_pct": 87,
    "job": "bigstream-mv-gate-2026-11-09",
    "last_result": {
@@ -34,16 +34,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 84.3,
-   "cpu_load_pct": 4,
-   "ram_free_gb": 8.8,
+   "hb_age_s": 18.0,
+   "cpu_load_pct": 1,
+   "ram_free_gb": 9,
    "gpu_util_pct": 1,
    "job": "asset-lib-env-check-2026-11-09",
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-09T00:54:48",
+    "ts": "2026-11-09T00:56:42",
     "reason": "ALREADY-CLOSED asset-lib-env-check-2026-11-09",
     "out_bytes": null,
     "elapsed_s": null
@@ -54,9 +54,9 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 42.1,
-   "cpu_load_pct": 25,
-   "ram_free_gb": 1.5,
+   "hb_age_s": 21.2,
+   "cpu_load_pct": 24,
+   "ram_free_gb": 0.7,
    "gpu_util_pct": 100,
    "job": "asset-lib-face-dataset-2026-11-09",
    "last_result": null,
@@ -66,9 +66,9 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 126.1,
-   "cpu_load_pct": 8,
-   "ram_free_gb": 12.8,
+   "hb_age_s": 20.1,
+   "cpu_load_pct": 9,
+   "ram_free_gb": 12.6,
    "gpu_util_pct": null,
    "job": "AUD-GAME-20261108T233251-09",
    "last_result": null,
@@ -284,6 +284,7 @@
     "asset-lib-env-check-2026-11-09",
     "asset-lib-voice-corpus-2026-11-09",
     "asset-lib-face-dataset-2026-11-09",
+    "asset-lib-library-check-2026-11-09",
     "asset-lib-char-prompts-2026-11-09",
     "asset-lib-asset-gen-2026-11-09",
     "asset-lib-asset-gen-scenes-2026-11-09"
@@ -314,7 +315,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "WAITING",
-     "age_h": 0.5,
+     "age_h": 0.6,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -347,7 +348,7 @@
      "model": "none",
      "lane": "bm-a",
      "verdict": "STALLED",
-     "age_h": 154.0,
+     "age_h": 154.1,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -843,7 +844,7 @@
  },
  "supply_added": [],
  "events": [
-  "R-NEXT-BIGGAME-SUBMIT-P-20261109 UNVERIFIED(no-artifact-yet) via bm-a"
+  "asset-lib-library-check-2026-11-09 -> bm-b (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
@@ -851,6 +852,6 @@
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
  "lane_files_written": [
-  "bm-a"
+  "bm-b"
  ]
 }
