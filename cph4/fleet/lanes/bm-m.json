@@ -1,27 +1,7 @@
 {
  "node": "bm-m",
-<<<<<<< HEAD
- "ts": "2026-11-08T16:26:56",
-=======
- "ts": "2026-11-08T02:19:33",
->>>>>>> e365df198 (job(AUD-GAME-20261108T012729-12): artifact [via bm-m])
+ "ts": "2026-11-08T17:09:42",
  "jobs": [
-  {
-   "id": "AUD-GAME-20261108T155849-09",
-   "title": "提审缺口落单：GimmeAll",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game GimmeAll",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/GimmeAll.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-<<<<<<< HEAD
-=======
-  },
   {
    "id": "AUD-GAME-20261108T012729-11",
    "title": "提审缺口落单：涨停板",
@@ -77,10 +57,37 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
->>>>>>> e365df198 (job(AUD-GAME-20261108T012729-12): artifact [via bm-m])
+  },
+  {
+   "id": "AUD-GAME-20261108T012729-30",
+   "title": "提审缺口落单：FateGate",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game FateGate",
+   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/audits/game/FateGate.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "AUD-GAME-20261108T155849-09",
+   "title": "提审缺口落单：GimmeAll",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game GimmeAll",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/audits/game/GimmeAll.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 13.7/1.0 GB"
+ "capacity_note": "ram 11.9/1.0 GB"
 }
