@@ -156,6 +156,94 @@ def d_node_no_receipt():
     return hits
 
 
+
+def _node_of(receipt_basename):
+    """从回执文件名取机器名。机器名自己带 "-"（bm-a），只切最后一个 "-" 会得到 "a"，
+    于是 last_output 永远匹配不上 owner，停摆检测静默失效（2026-11-08 实锚）。"""
+    return "-".join(str(receipt_basename).rsplit("-", 2)[-2:])
+
+
+def _node_last_output():
+    """每台机器「最后一次真产出」的时刻（秒）。产物判据=state/remote-receipts 里带该机后缀的回执。"""
+    import glob
+    out = {}
+    for p in glob.glob(os.path.join(F, "state", "remote-receipts", "*.json")):
+        b = os.path.basename(p)[:-5]
+        node = _node_of(b)
+        try:
+            m = os.path.getmtime(p)
+        except OSError:
+            continue
+        if m > out.get(node, 0):
+            out[node] = m
+    return out
+
+
+def _stalled_worker_hours():
+    """阈值唯一源优先取 CARD-POLICY，取不到才用 6h（不许在代码里再立第二个数）。"""
+    try:
+        cp = jload(os.path.join(F, "CARD-POLICY-v1.json"), {}) or {}
+        v = (((cp.get("stall") or {}).get("no_output_hours")))
+        if v:
+            return float(v)
+    except Exception:
+        pass
+    return 6.0
+
+
+def d_stalled_worker_cards():
+    """认领了卡却几小时零产出的机器：卡挂在它名下，别的机器看不见，等于把活锁死。
+
+    2026-11-08 实锚：bm-a 自 03:15 起零产出，4 张卡（含 AUD-GAME 审计）在它名下
+    挂了 7 小时，队列看起来「有在飞」，实际没人跑；09:36 那批才被 STALL 判据撤掉。
+    """
+    import time
+    thr = _stalled_worker_hours() * 3600
+    last = _node_last_output()
+    t = time.time()
+    hits = []
+    rows = [r for r in jl(QUEUE) if isinstance(r, dict)]   # 走模块变量，夹具可替换
+    by_owner = {}
+    for r in rows:
+        if r.get("state") != "RUNNING":
+            continue
+        ow = r.get("owner")
+        if not ow:
+            continue
+        by_owner.setdefault(ow, []).append(r)
+    for ow, cards in by_owner.items():
+        lo = last.get(ow)
+        if lo is None:
+            continue                      # 没有回执档案的机器不在此判（另有无回执类）
+        idle = t - lo
+        if idle < thr:
+            continue
+        # 刚认领不到 30 分钟的卡不撤，避免和正常启动抢跑
+        # 只留"认领超过 5 分钟仍无动静"的卡：这台机器已经 6h+ 零产出，说明它会认领
+        # 但执行不动；5 分钟足够真正能干的机器启动，再久就是把活锁死。
+        old_enough = [c for c in cards
+                      if not _ts_recent(c.get("claimed_at") or c.get("created_at"), 300)]
+        if not old_enough:
+            continue
+        hits.append({"key": ow,
+                     "detail": "%s 已 %.1fh 零产出，名下 %d 张在飞卡（含 %s）"
+                               % (ow, idle / 3600, len(old_enough), old_enough[0].get("id")),
+                     "cards": [c.get("id") for c in old_enough]})
+    return hits
+
+
+def _ts_recent(ts, within_s):
+    """时间戳在 within_s 秒内 → True（解析失败按「不新」处理，宁可不动手）。"""
+    import time
+    from datetime import datetime
+    if not ts:
+        return False
+    try:
+        return (time.time() - datetime.fromisoformat(str(ts)).timestamp()) < within_s
+    except Exception:
+        return False
+
+
 def d_local_ahead_of_origin():
     try:
         out = subprocess.run(["git", "-C", ROOT, "rev-list", "--count", "origin/main..HEAD"],
@@ -304,6 +392,7 @@ def d_backup_stale():
 
 
 DETECTORS = {
+    "stalled_worker_cards": d_stalled_worker_cards,
     "lane_empty_and_queue_thin": d_lane_empty_and_queue_thin,
     "declared_but_no_card": d_declared_but_no_card,
     "card_defect_repeat": d_card_defect_repeat,
@@ -493,6 +582,39 @@ def r_assign_owner(hits):
     return ["定责 %d 张" % fl.merge_jsonl(QUEUE, patch)]
 
 
+def r_release_stalled(hits):
+    """把停摆机器名下的在飞卡退回 OPEN 并改派其他在线机。
+
+    为什么不能只报不修：卡挂在 owner 名下时，别的机器的 claim 看不到它（state=RUNNING），
+    于是「有活」和「没人干」可以同时成立（bm-a 03:15–09:36 实锚）。
+    动作是可逆的：只改 state/owner/nodes 并写明理由，谁都能重开或接手。
+    """
+    import fleet_lane as fl
+    cur = {str(r.get("id")): r for r in jl(QUEUE) if isinstance(r, dict)}
+    alive = [n for n in fl.ACTIVE_LANES]
+    patch, moved = [], 0
+    for h in hits:
+        stalled = h.get("key")
+        others = [n for n in alive if n != stalled]
+        if not others:
+            continue
+        for cid in (h.get("cards") or []):
+            row = cur.get(str(cid))
+            if not row or str(row.get("state") or "").upper() != "RUNNING":
+                continue          # 期间已被执行完或改过状态，绝不覆盖
+            patch.append({"id": cid, "state": "OPEN", "owner": None,
+                          "claimed_at": None,
+                          "nodes": others,
+                          "release_reason": "RELEASED-STALLED-WORKER: %s（改派 %s）"
+                                            % (h.get("detail", "")[:80], ",".join(others)),
+                          "released_by": "blocker_loop:stalled_worker"})
+            moved += 1
+    if not patch:
+        return []
+    n = fl.merge_jsonl(QUEUE, patch)
+    return ["释放 %d 张停摆机名下的卡并改派（%d 条落盘）" % (moved, n)]
+
+
 def r_rebuild_cadence(hits):
     rc, tail = _run(["Tools/fleet/cadence_build.py"])
     return ["cadence_build rc=%d %s" % (rc, tail)]
@@ -529,6 +651,7 @@ RESOLVERS = {
     "rebuild_cadence": r_rebuild_cadence,
     "vault_rebuild": r_vault_rebuild,
     "run_backup": r_run_backup,
+    "release_stalled": r_release_stalled,
 }
 
 

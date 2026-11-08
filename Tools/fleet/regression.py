@@ -607,6 +607,68 @@ def rg30():
     return "队列/备队列 0 冲突标记；清洗器负控通过（认出→并集修复→不丢卡）"
 
 
+@case("RG-31", "停摆机名下的卡必须能被释放改派（只报不修=活被锁死）",
+      "2026-11-08 实锚：bm-a 03:15 起零产出，4 张卡挂它名下 7 小时，"
+      "队列显示有在飞、实际无人跑；别的机器 claim 看不到 RUNNING 卡")
+def rg31():
+    import time
+    import blocker_loop as bl
+    d = tempfile.mkdtemp()
+    q = os.path.join(d, "q.jsonl")
+    base = {"cmd": "python Tools/fleet/line_triage.py --line biggame", "cwd": "",
+            "deliverable": "cph4/fleet/queue-receipts/t.md"}
+    rows = [dict(base, id="STALL-1", state="RUNNING", owner="bm-a",
+                 claimed_at="2026-11-08T03:10:00", nodes=["bm-a"]),
+            dict(base, id="FRESH-1", state="RUNNING", owner="bm-b",
+                 claimed_at=time.strftime("%Y-%m-%dT%H:%M:%S"), nodes=["bm-b"]),
+            dict(base, id="DONE-1", state="DONE", owner="bm-a", nodes=["bm-a"])]
+    open(q, "w", encoding="utf-8").write(
+        "\n".join(json.dumps(r, ensure_ascii=False) for r in rows) + "\n")
+    old_q, old_last, old_thr = bl.QUEUE, bl._node_last_output, bl._stalled_worker_hours
+    try:
+        bl.QUEUE = q
+        now = time.time()
+        bl._node_last_output = lambda: {"bm-a": now - 8 * 3600, "bm-b": now - 60}
+        bl._stalled_worker_hours = lambda: 6.0
+        hits = bl.d_stalled_worker_cards()
+        assert [h["key"] for h in hits] == ["bm-a"], "应只命中停摆机 bm-a：%s" % hits
+        bl.r_release_stalled(hits)
+        cur = {r["id"]: r for r in (json.loads(l) for l in open(q, encoding="utf-8") if l.strip())}
+        assert cur["STALL-1"]["state"] == "OPEN" and cur["STALL-1"]["owner"] is None, "停摆卡未释放"
+        assert "bm-a" not in cur["STALL-1"]["nodes"], "改派后仍指向停摆机"
+        assert cur["FRESH-1"]["state"] == "RUNNING", "误伤正常在飞卡"
+        assert cur["DONE-1"]["state"] == "DONE", "误改已完成卡"
+        # 负控：全部新鲜时不许命中（否则每轮误撤别人的活）
+        bl._node_last_output = lambda: {"bm-a": now - 60, "bm-b": now - 60}
+        assert bl.d_stalled_worker_cards() == [], "无停摆却命中=假红"
+        # 负控2：回执名解析必须给出完整机器名（只切最后一个 "-" 会得到 "a"，匹配不上 owner）
+        assert bl._node_of("AUD-GAME-20261108T102502-09-bm-a") == "bm-a", "机器名解析错（会静默失效）"
+        assert bl._node_of("x-bm-m") == "bm-m", "机器名解析错"
+    finally:
+        bl.QUEUE, bl._node_last_output, bl._stalled_worker_hours = old_q, old_last, old_thr
+    return "停摆机卡被释放并改派；新鲜卡与已完成卡不受影响；负控通过"
+
+
+@case("RG-32", "lane_agent 并行分支引用的名字必须真的有定义（第三次复发防线）",
+      "2026-11-05 与 2026-11-08 两次实锚：_run_one_job 只剩调用点、定义被合并顶掉，"
+      "每轮 NameError，卡永久 RUNNING（第二轮堆积 18 张）")
+def rg32():
+    src = open(os.path.join(ROOT, "Tools", "fleet", "lane_agent.py"), encoding="utf-8").read()
+    if "_run_one_job(" not in src:
+        return "并行分支已不调用 _run_one_job（无需检查）"
+    assert "def _run_one_job" in src, \
+        "并行分支调用了 _run_one_job 但没有定义（NameError：卡会永久 RUNNING）"
+    tree = ast.parse(src)
+    inside = False
+    for node in ast.walk(tree):
+        if isinstance(node, ast.FunctionDef) and node.name == "run_lane_cycle":
+            inside = any(isinstance(n, ast.FunctionDef) and n.name == "_run_one_job"
+                         for n in node.body)
+            break
+    assert inside, "_run_one_job 定义必须在 run_lane_cycle 作用域内（否则名字不可见）"
+    return "定义存在且在 run_lane_cycle 内，调用点与定义同作用域"
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--json", action="store_true")

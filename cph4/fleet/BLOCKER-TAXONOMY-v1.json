@@ -184,6 +184,17 @@
    "every_s": 3600,
    "escalate_after": 3,
    "owner": "bm-m"
+  },
+  {
+   "id": "STALLED-WORKER",
+   "name": "停摆工作者：卡挂在某机名下，那台机器几小时零产出",
+   "symptom": "队列显示有在飞卡，但该机 remote-receipts 长时间无新增，别的机器也看不见这些卡",
+   "detect": "stalled_worker_cards",
+   "resolve": "release_stalled",
+   "auto": true,
+   "every_s": 600,
+   "escalate_after": 2,
+   "owner": "bm-m"
   }
  ]
 }
