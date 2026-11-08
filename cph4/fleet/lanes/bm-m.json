@@ -1,6 +1,7 @@
 {
  "node": "bm-m",
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
  "ts": "2026-11-08T18:38:04",
  "jobs": [
   {
@@ -8,6 +9,11 @@
  "ts": "2026-11-08T18:40:35",
  "jobs": [
   {
+=======
+ "ts": "2026-11-08T18:42:59",
+ "jobs": [
+  {
+>>>>>>> Stashed changes
    "id": "AUD-GAME-20261108T012729-35",
    "title": "提审缺口落单：TreasureDive",
    "cmd": "python Tools/fleet/supply_batch.py --audit game TreasureDive",
@@ -22,6 +28,9 @@
    "timeout_s": null
   },
   {
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
    "id": "AUD-GAME-20261108T022403-26",
    "title": "提审缺口落单：CardRogue",
@@ -82,8 +91,12 @@
  "idle_reason": "",
  "lane_ok": true,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
  "capacity_note": "ram 10.0/1.0 GB"
 =======
  "capacity_note": "ram 10.3/1.0 GB"
+>>>>>>> Stashed changes
+=======
+ "capacity_note": "ram 10.2/1.0 GB"
 >>>>>>> Stashed changes
 }
