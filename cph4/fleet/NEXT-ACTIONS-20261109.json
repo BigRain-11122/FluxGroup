@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-09T01:57:16+0800",
+ "ts": "2026-11-09T03:13:59+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -12,9 +12,9 @@
    "accept": "char-gen 回执 made>0 且无 failed；图进 faces/<ID> 并过准入闸",
    "blocker_type": "ENGINE",
    "blocker": "打标质量门与当前素材不匹配：抽 20 张 0 通过（理由是「只命中 0-2 个可见属性，像空话」），需改提示词/判据；另有 458 张待打",
-   "state": "RUNNING",
-   "card": "asset-lib-asset-gen-scenes-2026-11-09",
-   "running_on": "bm-c"
+   "state": "STALLED",
+   "card": null,
+   "running_on": null
   },
   {
    "id": "biggame",
@@ -28,7 +28,7 @@
    "blocker_type": "CEO",
    "blocker": "截图需跑游戏取图，受 2026-10-28『不许自动跑游戏包』令约束，等放行",
    "state": "RUNNING",
-   "card": "AUD-GAME-20261109T014004-09",
+   "card": "AUD-GAME-20261109T023422-09",
    "running_on": "bm-m"
   },
   {
@@ -42,9 +42,9 @@
    "accept": "quant_signal 回执 rc=0 且 CSV 含因子值与输入指纹",
    "blocker_type": "ENGINE",
    "blocker": "回测产物需在 bm-b 本地生成；主控无 quant 仓",
-   "state": "RUNNING",
-   "card": "bigmoney-signal-2026-11-09",
-   "running_on": "bm-b"
+   "state": "STALLED",
+   "card": null,
+   "running_on": null
   },
   {
    "id": "bigstream-mv",
@@ -57,9 +57,9 @@
    "accept": "发布台账有回执行；或 CEO 给出重剪清单",
    "blocker_type": "ENGINE",
    "blocker": "发布决定权在 CEO，但工程侧可先做下一首立意案",
-   "state": "RUNNING",
-   "card": "bigstream-mv-gate-2026-11-09",
-   "running_on": "bm-a"
+   "state": "STALLED",
+   "card": null,
+   "running_on": null
   },
   {
    "id": "bigstream-drama",
@@ -222,15 +222,15 @@
    "accept": "flux_check new=0；AUTOMATION-SURFACE 无 RISK 项",
    "blocker_type": "ENGINE",
    "blocker": "I2 存量 125 条卡面路径债、vault 缺盘 651 条",
-   "state": "RUNNING",
-   "card": "R-TRIAGE-FLUXVERSE-BMB-20261109",
-   "running_on": "bm-b"
+   "state": "QUEUED",
+   "card": "CANARY-20261109T031359",
+   "running_on": null
   }
  ],
  "counts": {
-  "RUNNING": 5,
-  "QUEUED": 2,
-  "STALLED": 8
+  "RUNNING": 1,
+  "QUEUED": 3,
+  "STALLED": 11
  },
- "stalled_engine": 3
+ "stalled_engine": 6
 }
