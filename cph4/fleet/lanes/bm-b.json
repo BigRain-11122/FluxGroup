@@ -1,21 +1,7 @@
 {
  "node": "bm-b",
- "ts": "2026-11-09T01:45:15",
+ "ts": "2026-11-09T01:46:06",
  "jobs": [
-  {
-   "id": "asset-lib-voice-assemble-2026-11-09",
-   "title": "[资产储备（角色 LoRA / 音色库）] 音色数据集装配（授权核查→voices/<组> 准入）",
-   "cmd": "python Tools/fleet/voice_dataset.py --out cph4/fleet/queue-receipts/voice-dataset-2026-11-09.json",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/voice-dataset-2026-11-09.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
   {
    "id": "R-TRIAGE-FLUXVERSE-BMB-20261109",
    "title": "FluxVerse·元宙城 线证据扫描（bm-b 本机可判面）",
@@ -33,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 8.0/1.0 GB"
+ "capacity_note": "ram 8.3/1.0 GB"
 }
