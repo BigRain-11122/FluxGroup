@@ -17,6 +17,7 @@
  "ts": "2026-11-09T06:57:59",
  "ts": "2026-11-09T07:00:29",
  "ts": "2026-11-09T07:02:47",
+ "ts": "2026-11-09T07:05:04",
  "mode": "apply",
  "verdict": "SELF-OK",
  "checks": [
@@ -28,6 +29,8 @@
    "receipt_age_s": 6,
    "code_age_s": 3083,
    "receipt_age_s": 8,
+   "code_age_s": 3220,
+   "receipt_age_s": 3,
    "targets": [],
    "acted": false,
    "note": "executor produced a receipt after the last code edit",
