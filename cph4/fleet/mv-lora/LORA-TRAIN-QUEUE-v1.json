@@ -99,7 +99,7 @@
    "name": "邻家马尾",
    "trigger": "h05",
    "lora": "her_T05_r1",
-   "status": "blocked-cast",
+   "status": "trained",
    "base": "a young Taiwanese woman around twenty, oval face, wide-set dark eyes, flat natural brows, bare-skin look with pale matte lips, high ponytail with loose strands at the temples, visible pores and fine film grain, relaxed un-fitted 2001 Taipei style, white shirt with sleeves rolled once, straight jeans, canvas backpack",
    "use": [
     "mv",
@@ -111,7 +111,9 @@
     "bm-a"
    ],
    "needs": "gpu",
-   "cast_fix": "R-20261106: added face/eye qualifier (CAST-DISTINCTIVENESS-LAW v1)"
+   "cast_fix": "R-20261106: added face/eye qualifier (CAST-DISTINCTIVENESS-LAW v1)",
+   "images": 36,
+   "weights": "T05_rank32.safetensors"
   },
   {
    "order": 6,
@@ -158,7 +160,7 @@
    "name": "雨夜疏离",
    "trigger": "h08",
    "lora": "her_T08_r1",
-   "status": "blocked-cast",
+   "status": "trained",
    "base": "a Taiwanese woman with a long narrow face, rounded-almond eyes, neutral delicate features, cool pale skin, thin lips, wet hair clinging to the face and temples, visible pores and fine film grain, single street-lamp light with rain, 2001 Taipei night style, dark unfitted trench coat, straight jeans, wet pavement reflections",
    "use": [
     "mv",
@@ -169,7 +171,9 @@
     "bm-a"
    ],
    "needs": "gpu",
-   "cast_fix": "R-20261106: added face/eye qualifier (CAST-DISTINCTIVENESS-LAW v1)"
+   "cast_fix": "R-20261106: added face/eye qualifier (CAST-DISTINCTIVENESS-LAW v1)",
+   "images": 17,
+   "note": " R-20261109: duplicate re-train killed -- final weights already on disk 11-08 19:34 (T08_rank32.safetensors + ep11 checkpoint); lane re-dispatch was burning a finished job."
   }
  ],
  "dispatch": {
