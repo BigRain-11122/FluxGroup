@@ -1,30 +1,24 @@
 {
- "ts": "2026-11-05T00:19:34+0800",
+ "ts": "2026-11-08T12:59:03+0800",
  "owner": "bm-b（传家宝）· 归集与 git 备份",
  "skills": {
   "count": 49,
-  "levels": {
-   "A": 10,
-   "B": 19,
-   "external": 11,
-   "frozen": 5,
-   "parked": 2
-  },
+  "levels": {},
   "with_eval": 2,
-  "newest": "2026-11-04 14:52"
+  "newest": "2026-11-05 23:00"
  },
  "voice": {
-  "audio_files": 5,
+  "audio_files": 168,
   "blocked_receipts": 1,
   "dirs_present": [
    "cph4/fleet/voicebank",
    "media/asset/inbox"
   ],
-  "newest": "2026-11-04 13:33"
+  "newest": "2026-11-04 23:01"
  },
  "workflow": {
   "line_tables": 6,
-  "stage_rows": 42,
+  "stage_rows": 39,
   "recipes": [
    "content.yaml",
    "game.yaml",
@@ -33,7 +27,7 @@
   "detail": [
    {
     "line": "asset-lib",
-    "stages": 18,
+    "stages": 15,
     "parallel": false
    },
    {
@@ -64,19 +58,19 @@
   ]
  },
  "experience": {
-  "docs": 73,
-  "sections": 385,
+  "docs": 77,
+  "sections": 392,
   "top": [
    "cph4\\fleet\\asset-lib-v1\\ASSET-LIB-BUILD-v1.md",
    "cph4\\fleet\\asset-lib-v1\\ASSET-LIBRARY-PLAN-v1.md",
    "cph4\\fleet\\asset-lib-v1\\SOURCES-V1.md",
+   "cph4\\fleet\\ARCHIVE-LEDGER.jsonl",
    "cph4\\fleet\\BACKLOG-LEDGER-20261103.md",
    "cph4\\fleet\\CEO-DEFECT-LEDGER-v1.md",
-   "cph4\\fleet\\CONTENT-WINS-LEDGER-v1.md",
-   "cph4\\fleet\\INCIDENT-LEDGER.md",
-   "cph4\\fleet\\LAB-TOOL-LEDGER.jsonl"
+   "cph4\\fleet\\CEO-DEMAND-LEDGER-v1.json",
+   "cph4\\fleet\\CONTENT-WINS-LEDGER-v1.md"
   ],
-  "newest": "2026-11-05 00:00"
+  "newest": "2026-11-07 19:46"
  },
  "vault": {
   "entries": 651,
@@ -88,94 +82,94 @@
   "index": "cph4\\fleet\\vault\\index.jsonl"
  },
  "produced": {
-  "done_with_deliverable": 185,
-  "on_disk": 157,
+  "done_with_deliverable": 478,
+  "on_disk": 251,
   "absent": [
+   {
+    "id": "Q-MV-0001-001",
+    "deliverable": "D:\\FleetWorker\\review\\aesthetic_v716b.json"
+   },
+   {
+    "id": "Q-MV-0001-002",
+    "deliverable": "D:\\FleetWorker\\review\\trans_v716b.json"
+   },
    {
     "id": "Q-MV-0001-003",
     "deliverable": "stability verdict"
    },
    {
-    "id": "Q-ALIGN-20261030-BMC",
-    "deliverable": "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\queue-receipts\\fleet-align-bm-c.json"
+    "id": "Q-MV-0001-004",
+    "deliverable": "D:\\FleetWorker\\review\\sheets_v717"
    },
    {
-    "id": "R-BIZ-20261029-003",
-    "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-defect-review.md"
+    "id": "Q-MV-0001-005",
+    "deliverable": "D:\\FleetWorker\\review\\jitter_v717.json"
    },
    {
-    "id": "R-BIZ-20261029-004",
-    "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-dispatch-dx.md"
+    "id": "Q-MV-0001-006",
+    "deliverable": "D:\\FleetWorker\\review\\flags_v717\\index.json"
    },
    {
-    "id": "R-BIZ-20261029-005",
-    "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-output-brief.md"
+    "id": "Q-MV-0001-007",
+    "deliverable": "D:\\FleetWorker\\review\\jitter_class_v717.json"
    },
    {
-    "id": "R-INN-20261029-001",
-    "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-process-v3.md"
+    "id": "Q-MV-0001-009",
+    "deliverable": "D:\\FleetWorker\\review\\trans_v717.json"
    },
    {
-    "id": "R-INN-20261029-002",
-    "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-wins-v2.md"
+    "id": "Q-MV-0001-008",
+    "deliverable": "D:\\FleetWorker\\review\\aesthetic_v717.json"
    },
    {
-    "id": "R-SUBCO-20261029-001",
-    "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-subco-brief.md"
+    "id": "Q-MV-0001-010",
+    "deliverable": "D:\\FleetWorker\\review\\reconcile_v717.json"
    },
    {
-    "id": "R-SUBCO-20261029-002",
-    "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-stale-attribution.md"
+    "id": "Q-MV-0002-001",
+    "deliverable": "D:\\FleetWorker\\review\\kf_sheets_keainvren\\index.json"
    },
    {
-    "id": "R-SUBCO-20261029-003",
-    "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-drama-unblock.md"
+    "id": "Q-MV-0002-002",
+    "deliverable": "D:\\FleetWorker\\review\\kf_sheets_kn_1024\\index.json"
    },
    {
-    "id": "R-DX-20261030-001",
-    "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-fleet-dx-round2.md"
+    "id": "Q-MV-0001-011",
+    "deliverable": "D:\\FleetWorker\\review\\flag_board_v717\\index.json"
    },
    {
-    "id": "R-CHECK-20261030",
-    "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-selfcheck-20261030.md"
+    "id": "Q-MV-0001-012",
+    "deliverable": "D:\\FleetWorker\\review\\ceo_items_v717\\signoff\\SIGN-OFF-SHEET-v717.json"
    },
    {
-    "id": "Q-AUD-1002",
-    "deliverable": "C:/Fluxgroup/FluxGroup/media/drama-eps-audio/EP002_AUDIO-r1002.mp4"
+    "id": "Q-MV-0001-013",
+    "deliverable": "D:\\FleetWorker\\review\\ceo_items_v717\\erablind\\ANSWERS.md"
    },
    {
-    "id": "Q-AUD-1003",
-    "deliverable": "C:/Fluxgroup/FluxGroup/media/drama-eps-audio/EP003_AUDIO-r1003.mp4"
+    "id": "Q-MV-0001-014",
+    "deliverable": "D:\\FleetWorker\\review\\ceo_items_v717\\staticjump\\STATIC-JUMP-11.md"
    },
    {
-    "id": "Q-GPU-BMC-001",
-    "deliverable": "K:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/bm-c-gpu-lease-receipt.md"
+    "id": "Q-MV-0001-015",
+    "deliverable": "D:\\FleetWorker\\review\\delivery_gate_v717.json"
    },
    {
-    "id": "Q-VIZ-2001",
-    "deliverable": "K:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/bm-c-prompt-budget-scan.md"
+    "id": "Q-MV-0001-016",
+    "deliverable": "D:\\FleetWorker\\review\\v717_label\\full_mv_v717_aigc.mp4"
    },
    {
-    "id": "Q-MIX-1203",
-    "deliverable": "C:/Fluxgroup/FluxGroup/media/drama-mix-out/r1203_ep001_060/"
+    "id": "Q-MV-0001-017",
+    "deliverable": "D:\\FleetWorker\\review\\delivery_gate_v717_wl.json"
    },
    {
-    "id": "R-LLM-BMB-PROBE",
-    "deliverable": "C:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/bm-b-local-llm-probe.md"
-   },
-   {
-    "id": "R-TTS1202R-VERIFY-20261031",
-    "deliverable": "C:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/Q-TTS-1202R-bm-b-verify.md"
-   },
-   {
-    "id": "Q-GPU-BMC-01R",
-    "deliverable": "K:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/bm-c-gpu-lease-receipt.md"
+    "id": "Q-MV-0001-018",
+    "deliverable": "D:\\FleetWorker\\review\\fidelity_v717.json"
    }
   ],
-  "absent_count": 28
+  "absent_count": 227
  },
  "gaps": [
-  "28 张 DONE 卡的交产物不在盘",
+  "227 张 DONE 卡的交产物不在盘",
   "651 条 vault 登记指向不存在的文件"
  ]
 }

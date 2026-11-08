@@ -3,32 +3,26 @@
  "verdict": "GAPS",
  "error_class": "E-BLOCKED-INPUT",
  "summary": {
-  "ts": "2026-11-04T02:04:47+0800",
+  "ts": "2026-11-08T12:58:06+0800",
   "owner": "bm-b（传家宝）· 归集与 git 备份",
   "skills": {
-   "count": 46,
-   "levels": {
-    "A": 8,
-    "B": 19,
-    "external": 11,
-    "frozen": 5,
-    "parked": 2
-   },
+   "count": 49,
+   "levels": {},
    "with_eval": 2,
-   "newest": "2026-11-03 13:10"
+   "newest": "2026-11-05 23:00"
   },
   "voice": {
-   "audio_files": 0,
+   "audio_files": 168,
    "blocked_receipts": 1,
    "dirs_present": [
     "cph4/fleet/voicebank",
     "media/asset/inbox"
    ],
-   "newest": "-"
+   "newest": "2026-11-04 23:01"
   },
   "workflow": {
    "line_tables": 6,
-   "stage_rows": 42,
+   "stage_rows": 39,
    "recipes": [
     "content.yaml",
     "game.yaml",
@@ -37,7 +31,7 @@
    "detail": [
     {
      "line": "asset-lib",
-     "stages": 18,
+     "stages": 15,
      "parallel": false
     },
     {
@@ -68,19 +62,19 @@
    ]
   },
   "experience": {
-   "docs": 64,
-   "sections": 369,
+   "docs": 77,
+   "sections": 392,
    "top": [
-    "cph4/fleet/BACKLOG-LEDGER-20261103.md",
-    "cph4/fleet/CEO-DEFECT-LEDGER-v1.md",
-    "cph4/fleet/CONTENT-WINS-LEDGER-v1.md",
-    "cph4/fleet/INCIDENT-LEDGER.md",
-    "cph4/fleet/LAB-TOOL-LEDGER.jsonl",
-    "cph4/fleet/RESULTS-LEDGER-v1.md",
-    "cph4/fleet/asset-lib-v1/ASSET-LIB-BUILD-v1.md",
-    "cph4/fleet/asset-lib-v1/ASSET-LIBRARY-PLAN-v1.md"
+    "cph4\\fleet\\asset-lib-v1\\ASSET-LIB-BUILD-v1.md",
+    "cph4\\fleet\\asset-lib-v1\\ASSET-LIBRARY-PLAN-v1.md",
+    "cph4\\fleet\\asset-lib-v1\\SOURCES-V1.md",
+    "cph4\\fleet\\ARCHIVE-LEDGER.jsonl",
+    "cph4\\fleet\\BACKLOG-LEDGER-20261103.md",
+    "cph4\\fleet\\CEO-DEFECT-LEDGER-v1.md",
+    "cph4\\fleet\\CEO-DEMAND-LEDGER-v1.json",
+    "cph4\\fleet\\CONTENT-WINS-LEDGER-v1.md"
    ],
-   "newest": "2026-11-04 02:03"
+   "newest": "2026-11-07 19:46"
   },
   "vault": {
    "entries": 651,
@@ -89,11 +83,11 @@
     "report": 413
    },
    "missing_on_disk": 651,
-   "index": "cph4/fleet/vault/index.jsonl"
+   "index": "cph4\\fleet\\vault\\index.jsonl"
   },
   "produced": {
-   "done_with_deliverable": 144,
-   "on_disk": 101,
+   "done_with_deliverable": 478,
+   "on_disk": 251,
    "absent": [
     {
      "id": "Q-MV-0001-001",
@@ -176,17 +170,15 @@
      "deliverable": "D:\\FleetWorker\\review\\fidelity_v717.json"
     }
    ],
-   "absent_count": 43
+   "absent_count": 227
   },
   "gaps": [
-   "43 张 DONE 卡的交产物不在盘",
-   "651 条 vault 登记指向不存在的文件",
-   "音色库 0 个音频文件（等投料，不算故障但不算资产）"
+   "227 张 DONE 卡的交产物不在盘",
+   "651 条 vault 登记指向不存在的文件"
   ]
  },
  "gaps": [
-  "43 张 DONE 卡的交产物不在盘",
-  "651 条 vault 登记指向不存在的文件",
-  "音色库 0 个音频文件（等投料，不算故障但不算资产）"
+  "227 张 DONE 卡的交产物不在盘",
+  "651 条 vault 登记指向不存在的文件"
  ]
 }
