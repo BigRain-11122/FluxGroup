@@ -2,7 +2,7 @@
  "id": "Q-TRIAGE-BIGSTREAMMV-20261109",
  "node": "bm-c",
  "rc": 0,
- "seconds": 0.4,
+ "seconds": 0.2,
  "cmd": "python Tools/fleet/line_triage.py --line bigstream-mv",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/queue-receipts/triage-bigstream-mv-20261109.md",
  "deliverable_exists": true,
- "ts": "2026-11-09T00:18:49",
+ "ts": "2026-11-09T00:19:36",
  "stdout_tail": "[triage] bigstream-mv -> cph4\\fleet\\queue-receipts\\triage-bigstream-mv-20261109.md\n",
  "stderr_tail": ""
 }
