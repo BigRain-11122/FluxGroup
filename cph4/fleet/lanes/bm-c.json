@@ -1,42 +1,14 @@
 {
  "node": "bm-c",
- "ts": "2026-11-08T13:25:36",
+ "ts": "2026-11-08T13:36:23",
  "jobs": [
   {
-   "id": "R-TRIAGE-BIGSTREAMMV-BMC-20261108",
-   "title": "BigStream·MV 41 曲 线证据扫描（bm-c 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigstream-mv",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigstream-mv-20261108.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "R-TRIAGE-BIGGAME-BMC-20261108",
-   "title": "Biggame·游戏 线证据扫描（bm-c 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line biggame --node bm-c",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-biggame-bm-c-20261108.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "R-TRIAGE-BIGMONEY-BMC-20261108",
-   "title": "BigMoney·量化 线证据扫描（bm-c 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigmoney --node bm-c",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigmoney-bm-c-20261108.md",
+   "id": "ASSET-GEN-TYPOGRAPHY-20261108",
+   "title": "字效类资产出图（bm-c styles/typography 库存 0）",
+   "cmd": "python Tools/fleet/asset_gen.py --class typography --limit 6 --node bm-c --receipt cph4/fleet/queue-receipts/asset-gen-typography-20261108.json",
+   "cwd": ".",
+   "needs": "gpu",
+   "deliverable": "cph4/fleet/queue-receipts/asset-gen-typography-20261108.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -47,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 7.1/1.0 GB"
+ "capacity_note": "ram 8.1/1.0 GB"
 }
