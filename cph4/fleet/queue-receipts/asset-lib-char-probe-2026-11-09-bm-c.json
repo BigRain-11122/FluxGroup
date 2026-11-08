@@ -1,0 +1,17 @@
+{
+ "id": "asset-lib-char-probe-2026-11-09",
+ "node": "bm-c",
+ "rc": 0,
+ "seconds": 0.9,
+ "cmd": "python Tools/fleet/char_gen.py --node bm-c --probe-only",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "cph4/fleet/asset-lib-v1/comfy-bm-c.json",
+ "deliverable_exists": true,
+ "ts": "2026-11-09T00:34:37",
+ "stdout_tail": "[char_gen] probed -> cph4\\fleet\\asset-lib-v1\\comfy-bm-c.json | route=ckpt\n",
+ "stderr_tail": ""
+}
