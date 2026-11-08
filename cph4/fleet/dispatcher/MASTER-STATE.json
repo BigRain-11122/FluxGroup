@@ -1,29 +1,29 @@
 {
- "ts": "2026-11-09T00:44:03",
- "cycle": 394,
+ "ts": "2026-11-09T00:46:54",
+ "cycle": 395,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-09T00:44:03",
+ "master_tick_ts": "2026-11-09T00:46:54",
  "queue": {
   "total": 1525,
   "open": 4,
-  "running": 17,
+  "running": 16,
   "done": 560,
   "failed": 5
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 35.0,
-   "cpu_load_pct": 53,
-   "ram_free_gb": 34.8,
-   "gpu_util_pct": 86,
+   "hb_age_s": 25.4,
+   "cpu_load_pct": 48,
+   "ram_free_gb": 33.7,
+   "gpu_util_pct": 89,
    "job": "R-NEXT-BIGGAME-SUBMIT-P-20261109",
    "last_result": {
-    "job": "biggame-pack-scan-2026-11-09",
+    "job": "R-PLAN-BIGCOMPUTE-20261109",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-09T00:40:53",
+    "ts": "2026-11-09T00:46:16",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -34,16 +34,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 8.1,
-   "cpu_load_pct": 16,
-   "ram_free_gb": 8.4,
+   "hb_age_s": 1.4,
+   "cpu_load_pct": 18,
+   "ram_free_gb": 9.1,
    "gpu_util_pct": 1,
    "job": "asset-lib-env-check-2026-11-09",
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-09T00:43:55",
+    "ts": "2026-11-09T00:46:43",
     "reason": "ALREADY-CLOSED asset-lib-env-check-2026-11-09",
     "out_bytes": null,
     "elapsed_s": null
@@ -54,9 +54,9 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 31.9,
-   "cpu_load_pct": 25,
-   "ram_free_gb": 1.1,
+   "hb_age_s": 20.3,
+   "cpu_load_pct": 29,
+   "ram_free_gb": 0.5,
    "gpu_util_pct": 100,
    "job": "asset-lib-face-dataset-2026-11-09",
    "last_result": {
@@ -74,9 +74,9 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 17.0,
-   "cpu_load_pct": 8,
-   "ram_free_gb": 13.5,
+   "hb_age_s": 16.8,
+   "cpu_load_pct": 9,
+   "ram_free_gb": 13.6,
    "gpu_util_pct": null,
    "job": "AUD-GAME-20261108T233251-09",
    "last_result": {
@@ -221,14 +221,12 @@
   "bigcompute": {
    "name": "BigCompute·硅基算力",
    "status": "ACTIVE",
-   "verdict": "WORKING",
+   "verdict": "WAITING",
    "age_h": null,
    "stale_after_h": 36.0,
    "owner": "算力中枢席",
-   "jobs": [
-    "R-PLAN-BIGCOMPUTE-20261109"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": null
   },
@@ -868,10 +866,7 @@
  },
  "supply_added": [],
  "events": [
-  "biggame-pack-scan-2026-11-09 UNVERIFIED(no-artifact-yet) via bm-a",
-  "Q-TRIAGE-BIGSTREAMMV-20261109 UNVERIFIED(no-artifact-yet) via bm-c",
-  "asset-lib-voice-corpus-2026-11-09 -> bm-a (cpu)",
-  "asset-lib-face-dataset-2026-11-09 -> bm-c (cpu)"
+  "R-PLAN-BIGCOMPUTE-20261109 UNVERIFIED(no-artifact-yet) via bm-a"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
@@ -879,8 +874,6 @@
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
  "lane_files_written": [
-  "bm-a",
-  "bm-c",
-  "bm-m"
+  "bm-a"
  ]
 }
