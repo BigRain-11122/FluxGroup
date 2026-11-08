@@ -1,23 +1,8 @@
 {
  "node": "bm-b",
- "ts": "2026-11-08T21:48:12",
- "jobs": [
-  {
-   "id": "R-TRIAGE-BIGLIFE-BMA-20261108",
-   "title": "BigLife·数字生命 线证据扫描（bm-a 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line biglife --node bm-a",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-biglife-bm-a-20261108.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  }
- ],
- "idle_reason": "",
+ "ts": "2026-11-08T21:54:09",
+ "jobs": [],
+ "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
  "lane_ok": true,
  "capacity_note": "ram-unknown"
 }
