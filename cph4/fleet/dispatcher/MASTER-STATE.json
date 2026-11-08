@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-09T02:58:45",
- "cycle": 444,
+ "ts": "2026-11-09T03:00:01",
+ "cycle": 445,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-09T02:58:45",
+ "master_tick_ts": "2026-11-09T03:00:01",
  "queue": {
   "total": 1534,
   "open": 3,
@@ -14,19 +14,19 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 18.7,
-   "cpu_load_pct": 71,
-   "ram_free_gb": 35.2,
-   "gpu_util_pct": 61,
+   "hb_age_s": 12.3,
+   "cpu_load_pct": 27,
+   "ram_free_gb": 37.7,
+   "gpu_util_pct": 88,
    "job": "biggame-pack-scan-2026-11-09",
    "last_result": {
-    "job": "R-PLAN-BIGSTREAMMV-20261109",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-09T02:56:34",
+    "job": "biggame-pack-scan-2026-11-09",
+    "state": "BUSY",
+    "rc": null,
+    "ts": "2026-11-09T02:59:51",
     "reason": null,
-    "out_bytes": null,
-    "elapsed_s": null
+    "out_bytes": 0,
+    "elapsed_s": 10
    },
    "idle_confirmed": false,
    "idle_reason": "",
@@ -34,49 +34,49 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 41.2,
-   "cpu_load_pct": 2,
-   "ram_free_gb": 6.6,
+   "hb_age_s": 11.0,
+   "cpu_load_pct": 20,
+   "ram_free_gb": 7.7,
    "gpu_util_pct": 1,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-09T02:57:41",
+    "ts": "2026-11-09T02:59:42",
     "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 4
+   "idle_rounds": 5
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 12.2,
-   "cpu_load_pct": 19,
-   "ram_free_gb": 1.8,
+   "hb_age_s": 20.8,
+   "cpu_load_pct": 26,
+   "ram_free_gb": 2.0,
    "gpu_util_pct": 2,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-09T02:58:25",
+    "ts": "2026-11-09T02:59:40",
     "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 9
+   "idle_rounds": 10
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 19.6,
-   "cpu_load_pct": 11,
-   "ram_free_gb": 12.6,
+   "hb_age_s": 15.7,
+   "cpu_load_pct": 29,
+   "ram_free_gb": 12.0,
    "gpu_util_pct": null,
    "job": "AUD-GAME-20261109T023422-09",
    "last_result": null,
@@ -87,8 +87,8 @@
  },
  "idle_rounds": {
   "bm-a": 0,
-  "bm-b": 4,
-  "bm-c": 9,
+  "bm-b": 5,
+  "bm-c": 10,
   "bm-m": 0
  },
  "lines": {
@@ -713,7 +713,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "PARKED",
-     "age_h": 151.0,
+     "age_h": 151.1,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -740,7 +740,7 @@
      "model": "none",
      "lane": "bm-a",
      "verdict": "WAITING",
-     "age_h": 38.3,
+     "age_h": 38.4,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -751,7 +751,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "WAITING",
-     "age_h": 38.3,
+     "age_h": 38.4,
      "limit_h": 72.0,
      "jobs": []
     }
@@ -783,7 +783,7 @@
      "model": "rule",
      "lane": "bm-c",
      "verdict": "WAITING",
-     "age_h": 31.4,
+     "age_h": 31.5,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -805,7 +805,7 @@
      "model": "local-gpu",
      "lane": "bm-c",
      "verdict": "WAITING",
-     "age_h": 31.4,
+     "age_h": 31.5,
      "limit_h": 72.0,
      "jobs": []
     }
@@ -839,8 +839,8 @@
   "biggame-pack-scan-2026-11-09 -> bm-a (cpu)"
  ],
  "violations": [
-  "bm-b IDLE-CONFIRMED x4 (SELF-DISPATCH: lane scans its own backlo)",
-  "bm-c IDLE-CONFIRMED x9 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-b IDLE-CONFIRMED x5 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-c IDLE-CONFIRMED x10 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
