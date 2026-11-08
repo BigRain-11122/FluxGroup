@@ -1,21 +1,7 @@
 {
  "node": "bm-c",
- "ts": "2026-11-09T06:27:46",
+ "ts": "2026-11-09T06:32:45",
  "jobs": [
-  {
-   "id": "ASSET-GEN-TYPOGRAPHY-20261108",
-   "title": "字效类资产出图（bm-c styles/typography 库存 0）",
-   "cmd": "python Tools/fleet/asset_gen.py --class typography --limit 6 --node bm-c --receipt cph4/fleet/queue-receipts/asset-gen-typography-20261108.json",
-   "cwd": ".",
-   "needs": "gpu",
-   "deliverable": "cph4/fleet/queue-receipts/asset-gen-typography-20261108.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
   {
    "id": "R-TRIAGE-BIGSTREAMMV-BMC-20261108",
    "title": "BigStream·MV 41 曲 线证据扫描（bm-c 本机可判面）",
@@ -61,5 +47,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 2.0/1.0 GB"
+ "capacity_note": "ram 1.2/1.0 GB"
 }
