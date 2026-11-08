@@ -1,8 +1,23 @@
 {
  "node": "bm-a",
- "ts": "2026-11-09T06:08:08",
- "jobs": [],
- "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+ "ts": "2026-11-09T06:18:26",
+ "jobs": [
+  {
+   "id": "R-TRIAGE-BIGGAME-BMA-20261109",
+   "title": "Biggame·游戏 线证据扫描（bm-a 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line biggame --node bm-a",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-biggame-bm-a-20261109.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  }
+ ],
+ "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 1.9/1.0 GB"
+ "capacity_note": "ram 12.0/1.0 GB"
 }
