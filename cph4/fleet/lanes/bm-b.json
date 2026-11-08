@@ -1,1 +1,8 @@
-{"node": "bm-b", "ts": "2026-11-09T02:53:41", "jobs": [{"id": "Q-ANCHOR-SHOTGRID-REBUILD-20261109", "title": "词锚修复后重建 shotgrid + 41 曲锚点矩阵复验（bm-b 词锚车道）", "cmd": "python cph4/fleet/mv-album-001-jay/anchor_shotgrid.py && python cph4/fleet/mv-album-001-jay/anchor_shotgrid.py --matrix", "cwd": null, "needs": "cpu", "deliverable": "cph4/fleet/mv-album-001-jay/POOL-0018-0019-anchor-matrix.json", "need_mb": null, "model": "none", "prompt": "", "when_all": [], "llm": null, "timeout_s": null}], "lane_ok": true, "capacity_note": "ram 5.6/1.0 GB"}
+{
+ "node": "bm-b",
+ "ts": "2026-11-09T02:12:43",
+ "jobs": [],
+ "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+ "lane_ok": true,
+ "capacity_note": "ram 5.6/1.0 GB"
+}
