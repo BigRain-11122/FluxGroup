@@ -695,6 +695,8 @@ def rg33():
     # 接线断言：跨机回落必须走带令牌的客户端，不许再拼裸请求
     src = open(os.path.join(ROOT, "Tools", "fleet", "fleet_lane.py"), encoding="utf-8").read()
     assert "llm_client.generate" in src, "local_llm 的跨机回落没接 llm_client（会重现 830 次空打）"
+    # 第二个空打口：_llm_tags 探测模型列表时也不许裸奔（日志 UA=Python-urllib 一天 800+ 次）
+    assert "X-Flux-Token" in src, "_llm_tags 探测跨机端点没带令牌（会持续被拒）"
     return "无令牌就地判 rc=3 且零请求；跨机回落已接统一客户端"
 
 

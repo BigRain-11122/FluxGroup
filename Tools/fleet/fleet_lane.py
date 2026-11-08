@@ -833,7 +833,19 @@ def _llm_tags(endpoint, timeout=5):
     without hardcoding a model name we only guessed."""
     import urllib.request
     try:
-        with urllib.request.urlopen(endpoint.rstrip("/") + "/api/tags", timeout=timeout) as r:
+        # 跨机端点必须带令牌：2026-11-08 实测这里每 20-60 秒打一次 /api/tags 不带 header，
+        # 一晚上被网关拒了 800+ 次（日志 UA=Python-urllib），既是噪音也让人误判"网关坏了"。
+        req = urllib.request.Request(endpoint.rstrip("/") + "/api/tags")
+        if "127.0.0.1" not in endpoint and "localhost" not in endpoint:
+            try:
+                import llm_client
+                _t = llm_client.token()
+                if not _t:
+                    return []          # 没钥匙就不发请求（缺料，不是故障）
+                req.add_header("X-Flux-Token", _t)
+            except Exception:
+                pass
+        with urllib.request.urlopen(req, timeout=timeout) as r:
             data = json.loads(r.read().decode("utf-8", "replace"))
         models = data.get("models") or []
         models.sort(key=lambda m: int(m.get("size") or 0), reverse=True)
