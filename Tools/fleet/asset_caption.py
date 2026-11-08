@@ -44,9 +44,15 @@ PROMPT_OBJECT = ("Describe this image as a Stable Diffusion LoRA training captio
                  "One sentence, under 40 words, English. "
                  "Do not guess brands, do not name people, do not add style words.")
 
+# 2026-11-08 实测：主控 VLM 会写 robe/kimono/sweater/glasses/market 这类具体词，
+# 旧词表只认 coat/shirt/dress，于是好文案被「只命中 2 个可见属性」误杀 5 张。
 SLOTS_PORTRAIT = ("hair", "coat", "shirt", "cloth", "dress", "jacket", "expression", "light",
                   "background", "angle", "face", "eyes", "window", "room", "street",
-                  "indoor", "outdoor")
+                  "indoor", "outdoor",
+                  "robe", "kimono", "sweater", "blouse", "uniform", "apron", "scarf", "hat",
+                  "cap", "headband", "glasses", "earring", "necklace", "bag", "tag",
+                  "market", "stall", "store", "shop", "aisle", "shelf", "shelves", "wall",
+                  "floor", "ceiling", "daylight", "sunlight", "shadow", "smile", "bun")
 SLOTS_OBJECT = ("object", "item", "material", "wood", "metal", "fabric", "paper", "plastic",
                 "glass", "leather", "ceramic", "stone", "colour", "color", "red", "blue",
                 "white", "black", "grey", "gray", "brown", "green", "yellow", "shape",
@@ -84,6 +90,34 @@ def caption(path, kind="object"):
     sec = time.time() - t0
     toks = d.get("eval_count") or 0
     return text, sec, toks
+
+
+def _fit(text, max_chars=300, max_words=40):
+    """把过长的描述压到口径内：先取第一句，再按词数/字符兜底，绝不切半个词。
+
+    2026-11-08：主控 VLM 的句子常在 320+ 字符，旧逻辑整条拒掉，而内容本身是好的；
+    这里改为裁剪而不是丢弃，并剥掉裁剪后悬空的介词（实测出现 '..., captured at.'）。
+    """
+    dangling = ("at", "in", "on", "with", "and", "of", "under", "by", "from", "to", "the",
+                "a", "an", "her", "his", "their", "captured", "while", "as")
+    t = " ".join((text or "").split())
+    if len(t) > max_chars or len(t.split()) > max_words:
+        first = t.split(". ")[0].strip()
+        cand = first if len(first) >= 60 else t
+        out, n = [], 0
+        for w in cand.split():
+            if n + len(w) + 1 > max_chars - 2 or len(out) >= max_words:
+                break
+            out.append(w)
+            n += len(w) + 1
+        t = " ".join(out)
+    words = t.rstrip(",;:").split()
+    while words and words[-1].strip(",;:").lower() in dangling:
+        words.pop()
+    t = " ".join(words).rstrip(",;:")
+    if t and not t.endswith("."):
+        t += "."
+    return t
 
 
 def validate(text, kind="object"):
@@ -252,6 +286,7 @@ def main(argv):
         except Exception as e:
             rec["rejected"].append([os.path.basename(p), "请求失败 %s" % str(e)[:80]])
             continue
+        text = _fit(text)
         ok, why = validate(text, kind_of(p, a.kind))
         if not ok:
             rec["rejected"].append([os.path.basename(p), why, text[:120]])
