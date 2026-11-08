@@ -2,8 +2,8 @@
  "id": "AUD-GAME-20261108T111104-25",
  "node": "bm-m",
  "rc": 0,
- "seconds": 0.2,
- "cmd": "python3 Tools/fleet/supply_batch.py --audit game MonsterInn",
+ "seconds": 0.3,
+ "cmd": "python Tools/fleet/supply_batch.py --audit game MonsterInn",
  "ok_rc": [
   0
  ],
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/audits/game/MonsterInn.json",
  "deliverable_exists": true,
- "ts": "2026-11-08T15:18:42",
+ "ts": "2026-11-08T17:51:12",
  "stdout_tail": "AUDIT game MonsterInn gaps=4\n",
  "stderr_tail": ""
 }
