@@ -1,0 +1,17 @@
+{
+ "id": "AUD-GAME-20261108T111104-24",
+ "node": "bm-c",
+ "rc": 0,
+ "seconds": 0.2,
+ "cmd": "python Tools/fleet/supply_batch.py --audit game 我的小花园_CCPC提交格式",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "cph4/fleet/audits/game/我的小花园_CCPC提交格式.json",
+ "deliverable_exists": true,
+ "ts": "2026-11-08T11:33:11",
+ "stdout_tail": "AUDIT game 鎴戠殑灏忚姳鍥璤CCPC鎻愪氦鏍煎紡 gaps=3\n",
+ "stderr_tail": ""
+}
