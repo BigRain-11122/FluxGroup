@@ -1,64 +1,6 @@
 {
  "node": "bm-b",
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
- "ts": "2026-11-08T19:01:49",
-=======
- "ts": "2026-11-08T19:04:11",
->>>>>>> Stashed changes
-=======
- "ts": "2026-11-08T19:06:59",
->>>>>>> Stashed changes
-=======
- "ts": "2026-11-08T19:09:14",
->>>>>>> Stashed changes
-=======
- "ts": "2026-11-08T19:11:39",
->>>>>>> Stashed changes
-=======
- "ts": "2026-11-08T19:13:55",
->>>>>>> Stashed changes
-=======
- "ts": "2026-11-08T19:16:14",
->>>>>>> Stashed changes
-=======
- "ts": "2026-11-08T19:18:53",
->>>>>>> Stashed changes
-=======
- "ts": "2026-11-08T19:21:06",
->>>>>>> Stashed changes
-=======
- "ts": "2026-11-08T19:23:21",
->>>>>>> Stashed changes
-=======
- "ts": "2026-11-08T19:27:54",
->>>>>>> Stashed changes
-=======
- "ts": "2026-11-08T19:52:19",
->>>>>>> Stashed changes
-=======
- "ts": "2026-11-08T19:54:57",
->>>>>>> Stashed changes
+ "ts": "2026-11-08T19:57:14",
  "jobs": [
   {
    "id": "AUD-GAME-20261108T050152-28",
@@ -75,27 +17,6 @@
    "timeout_s": null
   },
   {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
- "ts": "2026-11-08T19:44:49",
- "jobs": [
-  {
->>>>>>> Stashed changes
-=======
- "ts": "2026-11-08T19:47:14",
- "jobs": [
-  {
->>>>>>> Stashed changes
-=======
- "ts": "2026-11-08T19:49:31",
- "jobs": [
-  {
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
    "id": "bigmoney-conclusion-2026-11-08",
    "title": "[金融量化（回测 → 一页结论 → 可报价或写清卡点）] 一页结论（四件齐才许对外）",
    "cmd": "python Tools/fleet/quant_conclusion.py --in quant/bigmoney/results/etf_nobond_vt.json --line bigmoney --out cph4/fleet/queue-receipts/quant-conclusion-2026-11-08.md",
@@ -112,93 +33,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
- "capacity_note": "ram 9.1/1.0 GB"
-=======
- "capacity_note": "ram 8.2/1.0 GB"
->>>>>>> Stashed changes
-=======
- "capacity_note": "ram 10.3/1.0 GB"
->>>>>>> Stashed changes
-=======
- "capacity_note": "ram 9.2/1.0 GB"
->>>>>>> Stashed changes
-=======
- "capacity_note": "ram 7.0/1.0 GB"
->>>>>>> Stashed changes
-=======
- "capacity_note": "ram 9.1/1.0 GB"
->>>>>>> Stashed changes
-=======
- "capacity_note": "ram 8.9/1.0 GB"
->>>>>>> Stashed changes
-=======
- "capacity_note": "ram 8.8/1.0 GB"
->>>>>>> Stashed changes
-=======
- "capacity_note": "ram 8.5/1.0 GB"
->>>>>>> Stashed changes
-=======
- "capacity_note": "ram 8.7/1.0 GB"
->>>>>>> Stashed changes
-=======
- "capacity_note": "ram 8.6/1.0 GB"
->>>>>>> Stashed changes
-=======
- "capacity_note": "ram 8.2/1.0 GB"
->>>>>>> Stashed changes
-=======
- "capacity_note": "ram 8.9/1.0 GB"
->>>>>>> Stashed changes
-=======
- "capacity_note": "ram 8.5/1.0 GB"
->>>>>>> Stashed changes
-=======
- "capacity_note": "ram 10.1/1.0 GB"
->>>>>>> Stashed changes
-=======
- "capacity_note": "ram 10.4/1.0 GB"
->>>>>>> Stashed changes
-=======
- "capacity_note": "ram 8.7/1.0 GB"
->>>>>>> Stashed changes
-=======
- "capacity_note": "ram 4.7/1.0 GB"
->>>>>>> Stashed changes
-=======
- "capacity_note": "ram 8.7/1.0 GB"
->>>>>>> Stashed changes
-=======
- "capacity_note": "ram 9.3/1.0 GB"
->>>>>>> Stashed changes
-=======
- "capacity_note": "ram 8.7/1.0 GB"
->>>>>>> Stashed changes
-=======
- "capacity_note": "ram 8.7/1.0 GB"
->>>>>>> Stashed changes
-=======
  "capacity_note": "ram 9.5/1.0 GB"
->>>>>>> Stashed changes
 }
