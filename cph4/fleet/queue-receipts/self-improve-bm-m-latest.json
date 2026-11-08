@@ -13,15 +13,15 @@
  "ts": "2026-11-08T19:25:48",
  "ts": "2026-11-08T19:27:54",
  "ts": "2026-11-08T19:30:20",
+ "ts": "2026-11-08T19:32:48",
  "mode": "apply",
  "verdict": "SELF-OK",
  "checks": [
   {
    "check": "reload",
    "code_age_s": 2156,
+   "code_age_s": 2304,
    "receipt_age_s": 0,
-   "code_age_s": 2011,
-   "receipt_age_s": 35,
    "targets": [],
    "acted": false,
    "note": "executor produced a receipt after the last code edit",
@@ -36,8 +36,7 @@
    "shells": 0,
    "ids": [],
    "acted": false,
-   "verdict": "OK",
-   "note": "no assignment on this lane (not a shell problem)"
+   "verdict": "OK"
   },
   {
    "check": "deps",

@@ -12,6 +12,7 @@
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
  "ts": "2026-11-08T19:01:49",
 =======
  "ts": "2026-11-08T19:04:11",
@@ -86,6 +87,12 @@
   {
    "id": "AUD-GAME-20261108T050152-28",
 >>>>>>> Stashed changes
+=======
+ "ts": "2026-11-08T19:32:47",
+ "jobs": [
+  {
+   "id": "AUD-GAME-20261108T050152-28",
+>>>>>>> Stashed changes
    "title": "提审缺口落单：ArrowOut",
    "cmd": "python Tools/fleet/supply_batch.py --audit game ArrowOut",
    "cwd": "/Users/junsheng.sun/FluxGroup",
@@ -115,6 +122,7 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
@@ -163,5 +171,8 @@
 >>>>>>> Stashed changes
 =======
  "capacity_note": "ram 8.9/1.0 GB"
+>>>>>>> Stashed changes
+=======
+ "capacity_note": "ram 8.5/1.0 GB"
 >>>>>>> Stashed changes
 }
