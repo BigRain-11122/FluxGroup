@@ -1,6 +1,6 @@
 {
  "node": "bm-a",
- "ts": "2026-11-09T03:37:55",
+ "ts": "2026-11-09T03:28:17",
  "jobs": [
   {
    "id": "biggame-pack-scan-2026-11-09",
@@ -15,23 +15,9 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
-  },
-  {
-   "id": "R-PLAN-BIGGAME-20261109",
-   "title": "Biggame·游戏 线级体检与缺口清单",
-   "cmd": "python Tools/fleet/line_triage.py --line biggame",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-biggame-20261109.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 33.2/1.0 GB"
+ "capacity_note": "ram 39.4/1.0 GB"
 }
