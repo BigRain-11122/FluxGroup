@@ -1,32 +1,32 @@
 {
- "ts": "2026-11-09T00:40:38",
- "cycle": 393,
+ "ts": "2026-11-09T00:44:03",
+ "cycle": 394,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-09T00:40:38",
+ "master_tick_ts": "2026-11-09T00:44:03",
  "queue": {
-  "total": 1527,
+  "total": 1525,
   "open": 4,
-  "running": 19,
+  "running": 17,
   "done": 560,
   "failed": 5
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 9.1,
-   "cpu_load_pct": 96,
-   "ram_free_gb": 32.3,
-   "gpu_util_pct": 60,
+   "hb_age_s": 35.0,
+   "cpu_load_pct": 53,
+   "ram_free_gb": 34.8,
+   "gpu_util_pct": 86,
    "job": "R-NEXT-BIGGAME-SUBMIT-P-20261109",
    "last_result": {
-    "job": "R-NEXT-BIGSTREAMM-REBUILD-20261109",
-    "state": "BUSY",
-    "rc": null,
-    "ts": "2026-11-09T00:40:27",
+    "job": "biggame-pack-scan-2026-11-09",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-09T00:40:53",
     "reason": null,
-    "out_bytes": 126,
-    "elapsed_s": 42
+    "out_bytes": null,
+    "elapsed_s": null
    },
    "idle_confirmed": false,
    "idle_reason": "",
@@ -34,16 +34,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 30.4,
-   "cpu_load_pct": 5,
-   "ram_free_gb": 7.9,
+   "hb_age_s": 8.1,
+   "cpu_load_pct": 16,
+   "ram_free_gb": 8.4,
    "gpu_util_pct": 1,
    "job": "asset-lib-env-check-2026-11-09",
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-09T00:39:52",
+    "ts": "2026-11-09T00:43:55",
     "reason": "ALREADY-CLOSED asset-lib-env-check-2026-11-09",
     "out_bytes": null,
     "elapsed_s": null
@@ -54,16 +54,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 69.6,
-   "cpu_load_pct": 27,
-   "ram_free_gb": 0.0,
+   "hb_age_s": 31.9,
+   "cpu_load_pct": 25,
+   "ram_free_gb": 1.1,
    "gpu_util_pct": 100,
-   "job": "asset-lib-asset-gen-2026-11-09",
+   "job": "asset-lib-face-dataset-2026-11-09",
    "last_result": {
-    "job": "asset-lib-face-dataset-2026-11-09",
+    "job": "Q-TRIAGE-BIGSTREAMMV-20261109",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-09T00:40:27",
+    "ts": "2026-11-09T00:43:45",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -74,12 +74,20 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 17.4,
-   "cpu_load_pct": 9,
-   "ram_free_gb": 14.0,
+   "hb_age_s": 17.0,
+   "cpu_load_pct": 8,
+   "ram_free_gb": 13.5,
    "gpu_util_pct": null,
    "job": "AUD-GAME-20261108T233251-09",
-   "last_result": null,
+   "last_result": {
+    "job": "CANARY-20261109T004329",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-09T00:43:34",
+    "reason": null,
+    "out_bytes": null,
+    "elapsed_s": null
+   },
    "idle_confirmed": false,
    "idle_reason": "",
    "idle_rounds": 0
@@ -159,8 +167,7 @@
    "owner": "游戏席",
    "jobs": [
     "AUD-GAME-20261108T233251-09",
-    "R-NEXT-BIGGAME-SUBMIT-P-20261109",
-    "biggame-pack-scan-2026-11-09"
+    "R-NEXT-BIGGAME-SUBMIT-P-20261109"
    ],
    "no_supply": false,
    "blockers": [],
@@ -284,9 +291,7 @@
    "owner": "中枢（机器判）",
    "jobs": [
     "R-MODEL-RADAR-BMM-20261109",
-    "R-TRIAGE-BIGSTREAMMV-BMC-20261109",
-    "Q-TRIAGE-BIGSTREAMMV-20261109",
-    "Q-TRIAGE-RECON-20261109"
+    "R-TRIAGE-BIGSTREAMMV-BMC-20261109"
    ],
    "no_supply": false,
    "blockers": [],
@@ -301,11 +306,12 @@
    "owner": "资产席",
    "jobs": [
     "asset-lib-env-check-2026-11-09",
+    "asset-lib-voice-corpus-2026-11-09",
+    "asset-lib-face-dataset-2026-11-09",
     "asset-lib-library-check-2026-11-09",
     "asset-lib-char-prompts-2026-11-09",
     "asset-lib-asset-gen-2026-11-09",
-    "asset-lib-asset-gen-scenes-2026-11-09",
-    "asset-lib-char-probe-2026-11-09"
+    "asset-lib-asset-gen-scenes-2026-11-09"
    ],
    "no_supply": false,
    "blockers": [],
@@ -860,12 +866,12 @@
   "cpu": 2,
   "gpu": 2
  },
- "supply_added": [
-  "backlog_manifest+1"
- ],
+ "supply_added": [],
  "events": [
-  "asset-lib-face-dataset-2026-11-09 UNVERIFIED(no-artifact-yet) via bm-c",
-  "Q-TRIAGE-RECON-20261109 -> bm-m (cpu)"
+  "biggame-pack-scan-2026-11-09 UNVERIFIED(no-artifact-yet) via bm-a",
+  "Q-TRIAGE-BIGSTREAMMV-20261109 UNVERIFIED(no-artifact-yet) via bm-c",
+  "asset-lib-voice-corpus-2026-11-09 -> bm-a (cpu)",
+  "asset-lib-face-dataset-2026-11-09 -> bm-c (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
@@ -873,6 +879,7 @@
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
  "lane_files_written": [
+  "bm-a",
   "bm-c",
   "bm-m"
  ]
