@@ -1,23 +1,8 @@
 {
  "node": "bm-c",
- "ts": "2026-11-08T14:50:34",
- "jobs": [
-  {
-   "id": "ASSET-GEN-STYLES-20261108",
-   "title": "风格类资产出图（10 件，验收口径内）",
-   "cmd": "python Tools/fleet/asset_gen.py --class styles --limit 10 --node bm-c --receipt cph4/fleet/queue-receipts/asset-gen-styles-20261108.json",
-   "cwd": ".",
-   "needs": "gpu",
-   "deliverable": "media/asset/styles/styles-01.png",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  }
- ],
- "idle_reason": "",
+ "ts": "2026-11-08T14:09:07",
+ "jobs": [],
+ "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
  "lane_ok": true,
- "capacity_note": "ram 7.6/1.0 GB"
+ "capacity_note": "ram 4.5/1.0 GB"
 }
