@@ -1,8 +1,93 @@
 {
  "node": "bm-b",
- "ts": "2026-11-08T15:24:56",
- "jobs": [],
- "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+ "ts": "2026-11-08T15:27:42",
+ "jobs": [
+  {
+   "id": "R-TRIAGE-FLUXVERSE-BMB-20261108",
+   "title": "FluxVerse·元宙城 线证据扫描（bm-b 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line fluxverse",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-fluxverse-20261108.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "AUD-GAME-20261108T012729-33",
+   "title": "提审缺口落单：NightWatch",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game NightWatch",
+   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/audits/game/NightWatch.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "AUD-GAME-20261108T012729-35",
+   "title": "提审缺口落单：TreasureDive",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game TreasureDive",
+   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/audits/game/TreasureDive.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "AUD-GAME-20261108T012729-36",
+   "title": "提审缺口落单：GhostMarshal",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game GhostMarshal",
+   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/audits/game/GhostMarshal.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "AUD-GAME-20261108T022403-24",
+   "title": "提审缺口落单：我的小花园_CCPC提交格式",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game 我的小花园_CCPC提交格式",
+   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/audits/game/我的小花园_CCPC提交格式.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "bigmoney-conclusion-2026-11-08",
+   "title": "[金融量化（回测 → 一页结论 → 可报价或写清卡点）] 一页结论（四件齐才许对外）",
+   "cmd": "python Tools/fleet/quant_conclusion.py --in quant/bigmoney/results/etf_nobond_vt.json --line bigmoney --out cph4/fleet/queue-receipts/quant-conclusion-2026-11-08.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/quant-conclusion-2026-11-08.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  }
+ ],
+ "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 8.8/1.0 GB"
+ "capacity_note": "ram 8.7/1.0 GB"
 }
