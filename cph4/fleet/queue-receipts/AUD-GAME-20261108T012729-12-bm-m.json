@@ -2,8 +2,8 @@
  "id": "AUD-GAME-20261108T012729-12",
  "node": "bm-m",
  "rc": 0,
- "seconds": 0.1,
- "cmd": "python3 Tools/fleet/supply_batch.py --audit game CrazyWorker",
+ "seconds": 0.3,
+ "cmd": "python Tools/fleet/supply_batch.py --audit game CrazyWorker",
  "ok_rc": [
   0
  ],
@@ -12,6 +12,7 @@
  "deliverable": "cph4/fleet/audits/game/CrazyWorker.json",
  "deliverable_exists": true,
  "ts": "2026-11-08T02:22:12",
+ "ts": "2026-11-08T02:19:35",
  "stdout_tail": "AUDIT game CrazyWorker gaps=4\n",
  "stderr_tail": ""
 }
