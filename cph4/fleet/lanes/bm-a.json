@@ -1,42 +1,14 @@
 {
  "node": "bm-a",
- "ts": "2026-11-08T15:30:05",
+ "ts": "2026-11-08T15:41:17",
  "jobs": [
   {
-   "id": "AUD-GAME-20261108T030701-29",
-   "title": "提审缺口落单：LanternSlayer",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game LanternSlayer",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/LanternSlayer.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "AUD-GAME-20261108T064129-25",
-   "title": "提审缺口落单：MonsterInn",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game MonsterInn",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/MonsterInn.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "R-TRIAGE-BIGMONEY-BMA-20261108",
-   "title": "BigMoney·量化 线证据扫描（bm-a 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigmoney --node bm-a",
+   "id": "R-TRIAGE-FLUXVERSE-BMA-20261108",
+   "title": "FluxVerse·元宙城 线证据扫描（bm-a 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line fluxverse --node bm-a",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigmoney-bm-a-20261108.md",
+   "deliverable": "cph4/fleet/queue-receipts/triage-fluxverse-bm-a-20261108.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -47,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 37.0/1.0 GB"
+ "capacity_note": "ram-unknown"
 }
