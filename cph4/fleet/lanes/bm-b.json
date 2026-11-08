@@ -1,5 +1,6 @@
 {
  "node": "bm-b",
+<<<<<<< Updated upstream
  "ts": "2026-11-08T21:08:12",
  "jobs": [
   {
@@ -90,4 +91,11 @@
  "idle_reason": "",
  "lane_ok": true,
  "capacity_note": "ram 8.5/1.0 GB"
+=======
+ "ts": "2026-11-08T21:14:12",
+ "jobs": [],
+ "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+ "lane_ok": true,
+ "capacity_note": "ram-unknown"
+>>>>>>> Stashed changes
 }
