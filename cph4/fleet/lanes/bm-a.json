@@ -1,6 +1,6 @@
 {
  "node": "bm-a",
- "ts": "2026-11-08T13:52:45",
+ "ts": "2026-11-08T13:56:55",
  "jobs": [
   {
    "id": "AUD-GAME-20261108T030701-29",
@@ -29,9 +29,37 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
+  },
+  {
+   "id": "MV-NEWPROC-PACKET-20261108",
+   "title": "导演席新流程卷：四曲立意/分镜/合规矩阵一页卷",
+   "cmd": "python Tools/fleet/review_packet.py --line mv --root .",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/review-packet-mv-20261108.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "R-PLAN-BIGGAME-20261108",
+   "title": "Biggame·游戏 线级体检与缺口清单",
+   "cmd": "python Tools/fleet/line_triage.py --line biggame",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-biggame-20261108.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 34.6/1.0 GB"
+ "capacity_note": "ram 37.0/1.0 GB"
 }
