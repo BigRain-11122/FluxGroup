@@ -1,14 +1,14 @@
 {
  "node": "bm-b",
- "ts": "2026-11-08T18:56:22",
+ "ts": "2026-11-08T19:01:49",
  "jobs": [
   {
-   "id": "bigmoney-signal-2026-11-08",
-   "title": "[金融量化（回测 → 一页结论 → 可报价或写清卡点）] 下月持仓信号 CSV（可卖的唯一产物）",
-   "cmd": "python Tools/fleet/quant_positions_bridge.py --in quant/bigmoney/results/etf_nobond_vt.json --out cph4/fleet/queue-receipts/etf_nobond_vt_with_positions.json && python Tools/fleet/quant_signal.py --in cph4/fleet/queue-receipts/etf_nobond_vt_with_positions.json --out cph4/fleet/queue-receipts/quant-signal-2026-11-08.csv",
+   "id": "R-TRIAGE-FLUXVERSE-BMB-20261108",
+   "title": "FluxVerse·元宙城 线证据扫描（bm-b 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line fluxverse",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/quant-signal-2026-11-08.csv",
+   "deliverable": "cph4/fleet/queue-receipts/triage-fluxverse-20261108.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -17,21 +17,7 @@
    "timeout_s": null
   },
   {
-   "id": "AUD-GAME-20261108T012729-27",
-   "title": "提审缺口落单：ExileFarm",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game ExileFarm",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/ExileFarm.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "AUD-GAME-20261108T012729-28",
+   "id": "AUD-GAME-20261108T044314-28",
    "title": "提审缺口落单：ArrowOut",
    "cmd": "python Tools/fleet/supply_batch.py --audit game ArrowOut",
    "cwd": "/Users/junsheng.sun/FluxGroup",
@@ -43,51 +29,9 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
-  },
-  {
-   "id": "AUD-GAME-20261108T012729-29",
-   "title": "提审缺口落单：LanternSlayer",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game LanternSlayer",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/LanternSlayer.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "AUD-GAME-20261108T012729-30",
-   "title": "提审缺口落单：FateGate",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game FateGate",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/FateGate.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "AUD-GAME-20261108T012729-31",
-   "title": "提审缺口落单：StrategistDefense",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game StrategistDefense",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/StrategistDefense.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 9.5/1.0 GB"
+ "capacity_note": "ram 9.1/1.0 GB"
 }
