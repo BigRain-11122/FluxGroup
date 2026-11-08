@@ -1,49 +1,49 @@
 {
- "ts": "2026-11-08T10:43:26",
- "cycle": 414,
+ "ts": "2026-11-08T10:55:00",
+ "cycle": 416,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-08T10:43:26",
+ "master_tick_ts": "2026-11-08T10:55:00",
  "queue": {
   "total": 1479,
-  "open": 4,
-  "running": 4,
-  "done": 545,
+  "open": 5,
+  "running": 5,
+  "done": 552,
   "failed": 5
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 57.1,
-   "cpu_load_pct": 46,
-   "ram_free_gb": 28.6,
-   "gpu_util_pct": 56,
-   "job": "bigstream-mv-gate-2026-11-08",
+   "hb_age_s": 10.3,
+   "cpu_load_pct": 16,
+   "ram_free_gb": 35.2,
+   "gpu_util_pct": 55,
+   "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-08T10:40:06",
+    "ts": "2026-11-08T10:50:06",
     "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
-   "idle_confirmed": false,
-   "idle_reason": "",
-   "idle_rounds": 0
+   "idle_confirmed": true,
+   "idle_reason": "CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (7.7h 零产出，唤醒清单空)",
+   "idle_rounds": 2
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 20.0,
-   "cpu_load_pct": 1,
+   "hb_age_s": 3.8,
+   "cpu_load_pct": 23,
    "ram_free_gb": 8.9,
    "gpu_util_pct": 1,
-   "job": "AUD-GAME-20261108T102502-09",
+   "job": "bigstream-mv-gate-2026-11-08",
    "last_result": {
     "job": "bigmoney-signal-2026-11-08",
     "state": "FAILED",
     "rc": 3,
-    "ts": "2026-11-08T10:37:49",
+    "ts": "2026-11-08T10:51:45",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -54,50 +54,50 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 11.7,
-   "cpu_load_pct": 17,
-   "ram_free_gb": 0.8,
+   "hb_age_s": 17.0,
+   "cpu_load_pct": 16,
+   "ram_free_gb": 0.9,
    "gpu_util_pct": 0,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-08T10:43:06",
+    "ts": "2026-11-08T10:54:41",
+    "reason": "CAPACITY-BLOCKED-RAM ram 0.7/1.0 GB",
+    "out_bytes": null,
+    "elapsed_s": null
+   },
+   "idle_confirmed": true,
+   "idle_reason": "CAPACITY-BLOCKED-RAM ram 0.9/1.0 GB",
+   "idle_rounds": 8
+  },
+  "bm-m": {
+   "online": true,
+   "hb_age_s": 18.2,
+   "cpu_load_pct": 30,
+   "ram_free_gb": 12.9,
+   "gpu_util_pct": null,
+   "job": null,
+   "last_result": {
+    "job": null,
+    "state": "IDLE",
+    "rc": null,
+    "ts": "2026-11-08T10:54:30",
     "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
-   "idle_reason": "CAPACITY-BLOCKED-RAM ram 0.8/1.0 GB",
-   "idle_rounds": 6
-  },
-  "bm-m": {
-   "online": true,
-   "hb_age_s": 18.6,
-   "cpu_load_pct": 23,
-   "ram_free_gb": 12.5,
-   "gpu_util_pct": null,
-   "job": null,
-   "last_result": {
-    "job": "CANARY-20261108T104249",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-08T10:42:55",
-    "reason": null,
-    "out_bytes": null,
-    "elapsed_s": null
-   },
-   "idle_confirmed": false,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 0
+   "idle_rounds": 2
   }
  },
  "idle_rounds": {
-  "bm-a": 0,
+  "bm-a": 2,
   "bm-b": 0,
-  "bm-c": 6,
-  "bm-m": 0
+  "bm-c": 8,
+  "bm-m": 2
  },
  "lines": {
   "bigstream-mv": {
@@ -165,14 +165,14 @@
    "stale_after_h": 24.0,
    "owner": "游戏席",
    "jobs": [
+    "ASSET-GEN-TYPOGRAPHY-20261108",
     "biggame-pack-scan-2026-11-08",
-    "AUD-GAME-20261108T081825-09",
     "AUD-GAME-20261108T102502-09",
     "AUD-GAME-20261108T102502-33"
    ],
    "no_supply": false,
    "blockers": [
-    "AUD-GAME-20261108T081825-09:no-lane"
+    "ASSET-GEN-TYPOGRAPHY-20261108:no-lane"
    ],
    "note": null,
    "stuck_stage": "game-design",
@@ -279,12 +279,15 @@
   "fleet-ops": {
    "name": "机队运维·端到端自检（平台服务线）",
    "status": "ACTIVE",
-   "verdict": "WAITING",
+   "verdict": "WORKING",
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "R-TRIAGE-BIGSTREAMMV-BMC-20261108",
+    "R-TRIAGE-BIGMONEY-BMB-20261108"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": null
   },
@@ -310,7 +313,7 @@
     "model": "local-gpu",
     "lane": "bm-c",
     "verdict": "STALLED",
-    "age_h": 135.2,
+    "age_h": 135.5,
     "limit_h": 24.0,
     "jobs": []
    },
@@ -322,7 +325,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "WAITING",
-     "age_h": 12.1,
+     "age_h": 12.4,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -333,7 +336,7 @@
      "model": "local-gpu",
      "lane": "bm-c",
      "verdict": "STALLED",
-     "age_h": 135.2,
+     "age_h": 135.5,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -355,7 +358,7 @@
      "model": "none",
      "lane": "bm-a",
      "verdict": "STALLED",
-     "age_h": 139.7,
+     "age_h": 140.0,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -377,7 +380,7 @@
      "model": "none",
      "lane": null,
      "verdict": "WAITING",
-     "age_h": 12.1,
+     "age_h": 12.4,
      "limit_h": 9999.0,
      "jobs": []
     }
@@ -393,7 +396,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "PARKED",
-     "age_h": 10.1,
+     "age_h": 10.4,
      "limit_h": 48.0,
      "jobs": []
     },
@@ -442,7 +445,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "PARKED",
-     "age_h": 207.9,
+     "age_h": 208.2,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -453,7 +456,7 @@
      "model": "local-gpu",
      "lane": "bm-c",
      "verdict": "PARKED",
-     "age_h": 207.9,
+     "age_h": 208.2,
      "limit_h": 72.0,
      "jobs": []
     }
@@ -469,7 +472,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "PARKED",
-     "age_h": 141.4,
+     "age_h": 141.7,
      "limit_h": 168.0,
      "jobs": []
     },
@@ -480,7 +483,7 @@
      "model": "none",
      "lane": "bm-a",
      "verdict": "PARKED",
-     "age_h": 207.9,
+     "age_h": 208.2,
      "limit_h": 168.0,
      "jobs": []
     }
@@ -494,7 +497,7 @@
     "model": "cloud-smart",
     "lane": null,
     "verdict": "STALLED",
-    "age_h": 113.3,
+    "age_h": 113.6,
     "limit_h": 24.0,
     "jobs": []
    },
@@ -506,7 +509,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "STALLED",
-     "age_h": 113.3,
+     "age_h": 113.6,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -580,7 +583,7 @@
     "model": "none",
     "lane": "bm-b",
     "verdict": "STALLED",
-    "age_h": 94.5,
+    "age_h": 94.8,
     "limit_h": 24.0,
     "jobs": []
    },
@@ -592,7 +595,7 @@
      "model": "none",
      "lane": "bm-b",
      "verdict": "STALLED",
-     "age_h": 94.5,
+     "age_h": 94.8,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -727,7 +730,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "PARKED",
-     "age_h": 134.7,
+     "age_h": 135.0,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -754,7 +757,7 @@
      "model": "none",
      "lane": "bm-a",
      "verdict": "WAITING",
-     "age_h": 22.0,
+     "age_h": 22.3,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -765,7 +768,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "WAITING",
-     "age_h": 22.0,
+     "age_h": 22.3,
      "limit_h": 72.0,
      "jobs": []
     }
@@ -781,7 +784,7 @@
      "model": "none",
      "lane": null,
      "verdict": "WAITING",
-     "age_h": 1.1,
+     "age_h": 0.2,
      "limit_h": 24.0,
      "jobs": []
     }
@@ -797,7 +800,7 @@
      "model": "rule",
      "lane": "bm-c",
      "verdict": "WAITING",
-     "age_h": 15.1,
+     "age_h": 15.4,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -819,7 +822,7 @@
      "model": "local-gpu",
      "lane": "bm-c",
      "verdict": "WAITING",
-     "age_h": 15.1,
+     "age_h": 15.4,
      "limit_h": 72.0,
      "jobs": []
     }
@@ -827,9 +830,9 @@
   }
  },
  "judgments": {
-  "open": 3,
+  "open": 4,
   "by_kind": {
-   "CAPACITY": 2,
+   "CAPACITY": 3,
    "RETRY": 1
   },
   "added": 0,
@@ -837,30 +840,33 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 4,
+  "local": 3,
   "cloud": 0,
-  "queue": 0,
+  "queue": 2,
   "blocked": 0,
   "cloud_spend_today": 0,
   "waste": []
  },
  "supply_gap": {
   "cpu": 3,
-  "gpu": 1
+  "gpu": 2
  },
  "supply_added": [],
  "events": [
   "bigmoney-signal-2026-11-08 FAILED via bm-b",
-  "bigstream-mv-gate-2026-11-08 -> bm-a (cpu)",
-  "biggame-pack-scan-2026-11-08 -> bm-a (cpu)"
+  "bigstream-mv-gate-2026-11-08 -> bm-b (cpu)"
  ],
  "violations": [
-  "bm-c IDLE-CONFIRMED x6 (CAPACITY-BLOCKED-RAM ram 0.8/1.0 GB)",
+  "bm-a IDLE-CONFIRMED x2 (CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (7.7h)",
+  "bm-c IDLE-CONFIRMED x8 (CAPACITY-BLOCKED-RAM ram 0.9/1.0 GB)",
+  "bm-m IDLE-CONFIRMED x2 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
  "lane_files_written": [
+  "bm-a",
+  "bm-b",
   "bm-c"
  ]
 }
