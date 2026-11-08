@@ -2,9 +2,13 @@
  "node": "bm-m",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
  "ts": "2026-11-08T21:57:07",
 =======
  "ts": "2026-11-08T22:10:28",
+>>>>>>> Stashed changes
+=======
+ "ts": "2026-11-08T22:13:41",
 >>>>>>> Stashed changes
  "jobs": [
   {
@@ -26,6 +30,7 @@
    "title": "提审缺口落单：TreasureDive",
    "cmd": "python Tools/fleet/supply_batch.py --audit game TreasureDive",
    "cwd": "/Users/junsheng.sun/FluxGroup",
+<<<<<<< Updated upstream
    "needs": "cpu",
    "deliverable": "cph4/fleet/audits/game/TreasureDive.json",
    "need_mb": null,
@@ -40,8 +45,10 @@
    "title": "提审缺口落单：CardRogue",
    "cmd": "python Tools/fleet/supply_batch.py --audit game CardRogue",
    "cwd": "",
+=======
+>>>>>>> Stashed changes
    "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/CardRogue.json",
+   "deliverable": "cph4/fleet/audits/game/TreasureDive.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -50,6 +57,7 @@
    "timeout_s": null
   },
   {
+<<<<<<< Updated upstream
    "id": "AUD-GAME-20261108T111104-25",
    "title": "提审缺口落单：MonsterInn",
    "cmd": "python Tools/fleet/supply_batch.py --audit game MonsterInn",
@@ -60,13 +68,14 @@
  "ts": "2026-11-08T22:06:34",
  "jobs": [
   {
+=======
+>>>>>>> Stashed changes
    "id": "AUD-GAME-20261108T081825-26",
    "title": "提审缺口落单：CardRogue",
    "cmd": "python Tools/fleet/supply_batch.py --audit game CardRogue",
    "cwd": "",
    "needs": "cpu",
    "deliverable": "cph4/fleet/audits/game/CardRogue.json",
->>>>>>> Stashed changes
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -77,6 +86,7 @@
   {
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
    "id": "AUD-GAME-20261108T081825-29",
    "title": "提审缺口落单：LanternSlayer",
    "cmd": "python Tools/fleet/supply_batch.py --audit game LanternSlayer",
@@ -84,13 +94,14 @@
    "needs": "cpu",
    "deliverable": "cph4/fleet/audits/game/LanternSlayer.json",
 =======
+=======
+>>>>>>> Stashed changes
    "id": "AUD-GAME-20261108T111104-25",
    "title": "提审缺口落单：MonsterInn",
    "cmd": "python Tools/fleet/supply_batch.py --audit game MonsterInn",
    "cwd": "",
    "needs": "cpu",
    "deliverable": "cph4/fleet/audits/game/MonsterInn.json",
->>>>>>> Stashed changes
    "need_mb": null,
    "model": "none",
    "prompt": "",

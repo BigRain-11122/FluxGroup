@@ -3,6 +3,7 @@
  "ts": "2026-11-08T22:03:51",
  "ts": "2026-11-08T22:07:11",
  "ts": "2026-11-08T22:11:01",
+ "ts": "2026-11-08T22:14:15",
  "mode": "apply",
  "verdict": "SELF-OK",
  "checks": [
@@ -14,6 +15,8 @@
    "receipt_age_s": 35,
    "code_age_s": 2241,
    "receipt_age_s": 12,
+   "code_age_s": 2435,
+   "receipt_age_s": 20,
    "targets": [],
    "acted": false,
    "note": "executor produced a receipt after the last code edit",
@@ -23,7 +26,6 @@
   {
    "check": "shells",
    "cards": 5,
-   "cards": 3,
    "shells": 0,
    "ids": [],
    "acted": false,
