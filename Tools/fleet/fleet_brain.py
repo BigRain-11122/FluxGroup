@@ -97,7 +97,57 @@ def facts():
         "unowned": [r.get("id") for r in rows
                     if str(r.get("state") or "").upper() in ("OPEN", "RUNNING")
                     and not r.get("owner")][:5],
+        # 坏账本：带冲突标记或坏行时主控会静默少看卡（2026-11-08 下午就是这么停摆的）
+        "queue_dirty": _queue_dirty(),
+        # 重复活卡：并发供给铺重，两台机跑同一交付物，回执互相覆盖
+        "dup_live": _dup_live(rows),
+        # 执行者停摆：FleetLink 活着但 wakes 为空（机器在"能连但不能干"的状态）
+        "dead_exec": _dead_exec(),
     }
+
+
+def _queue_dirty():
+    """队列/备队列里冲突标记或坏行的总行数（0 = 干净）。"""
+    try:
+        import queue_sanitize as qs
+        n = 0
+        for rel in qs.TARGETS:
+            p = os.path.join(ROOT, rel)
+            if os.path.isfile(p):
+                b, nj, _ = qs.scan(p)
+                n += b * 3 + nj
+        return n
+    except Exception:
+        return 0
+
+
+def _dup_live(rows):
+    """同交付物的活卡组数（>0 说明有重复劳动）。"""
+    import collections
+    LIVE = ("OPEN", "READY", "RUNNING", "CLAIMED", "PENDING")
+    by = collections.Counter()
+    for r in rows:
+        if str(r.get("state") or "").upper() in LIVE and (r.get("deliverable") or "").strip():
+            by[r["deliverable"].strip()] += 1
+    return sum(1 for d, c in by.items() if c > 1)
+
+
+def _dead_exec():
+    """执行者停摆的机器数（/status 的 wakes 为空且不在冷却）。"""
+    try:
+        import executor_revive as er
+        nodes, port = er.roster()
+        n = 0
+        for nd in nodes:
+            if not nd.get("enable_tasks") or not nd.get("tailnet_ip"):
+                continue
+            code, st = er.http_json(er.base_url(nd, port) + "/status", timeout=8)
+            v, _ = er.decide(st if code == 200 else None)
+            if v in ("wake", "closeout"):
+                n += 1
+        return n
+    except Exception:
+        return 0
 
 
 # ------------------------------------------------------------------ 候选
@@ -120,6 +170,18 @@ def candidates(fx):
     if fx["stalled_lines"]:
         c.append({"id": "A_NIGHT_PLAN", "do": "按声明补卡：night_plan 派各线唯一下一步",
                   "why": "%d 条 ACTIVE 线已停 ≥72h" % len(fx["stalled_lines"]), "cost": 2})
+    if fx.get("queue_dirty"):
+        c.append({"id": "A_SANITIZE", "do": "修坏账本：清冲突标记与坏行（取两侧并集，不丢卡）",
+                  "why": "队列/备队列有 %d 行污染，主控正在静默少看卡" % fx["queue_dirty"],
+                  "cost": 1})
+    if fx.get("dup_live"):
+        c.append({"id": "A_DEDUPE", "do": "按交付物撤重复活卡（保留跑得最远的那张）",
+                  "why": "%d 组同交付物多张活卡，两台机在互相覆盖回执" % fx["dup_live"],
+                  "cost": 1})
+    if fx.get("dead_exec"):
+        c.append({"id": "A_REVIVE", "do": "唤醒停摆执行者：poke 显式启用 / 发收口卡",
+                  "why": "%d 台机器 FleetLink 活着但不唤醒任务" % fx["dead_exec"],
+                  "cost": 1})
     c.append({"id": "A_NOOP", "do": "什么都不做，保持现状",
               "why": "没有值得动的事，别为动而动", "cost": 0})
     return c
@@ -202,6 +264,10 @@ ACTIONS = {
     "A_CLOSE_LOOP": lambda: _run(["Tools/fleet/blocker_loop.py", "--apply"])[0:2],
     "A_ASSIGN": lambda: _run(["Tools/fleet/blocker_loop.py", "--apply", "--force"])[0:2],
     "A_NIGHT_PLAN": lambda: _run(["Tools/fleet/night_plan.py"])[0:2],
+    "A_SANITIZE": lambda: _run(["Tools/fleet/queue_sanitize.py", "--fix",
+                                "--report", "cph4/fleet/QUEUE-CONFLICT-RESOLVE.md"])[0:2],
+    "A_DEDUPE": lambda: _run(["Tools/fleet/queue_sanitize.py", "--check", "--dedupe"])[0:2],
+    "A_REVIVE": lambda: _run(["Tools/fleet/executor_revive.py", "--apply"])[0:2],
     "A_NOOP": lambda: (0, "保持现状"),
 }
 

@@ -735,6 +735,26 @@ def rg35():
     return "运行时看板已挡在归档之外"
 
 
+@case("RG-38", "模型候选集必须覆盖三类自愈动作，且干净时不许凭空造活",
+      "2026-11-08：修坏账本/撤重复卡/复活执行者此前全靠会话手动做，"
+      "模型只有派单与补供给可选；加进候选后模型才可能自己选到")
+def rg38():
+    import fleet_brain as fb
+    dirty = {"lanes": {}, "idle_nodes": [], "open": 3, "running": 1, "stalled_lines": [],
+             "blocker_hits": 0, "blocker_escalate": 0, "unowned": [],
+             "queue_dirty": 7, "dup_live": 2, "dead_exec": 1}
+    ids = [c["id"] for c in fb.candidates(dirty)]
+    for must in ("A_SANITIZE", "A_DEDUPE", "A_REVIVE"):
+        assert must in ids, "有对应故障却没给候选：%s（模型永远选不到）" % must
+        assert must in fb.ACTIONS, "候选 %s 没有白名单执行器（选了也动不了）" % must
+    clean = dict(dirty, queue_dirty=0, dup_live=0, dead_exec=0)
+    ids2 = [c["id"] for c in fb.candidates(clean)]
+    for bad in ("A_SANITIZE", "A_DEDUPE", "A_REVIVE"):
+        assert bad not in ids2, "一切正常仍给候选 %s（会为动而动）" % bad
+    assert "A_NOOP" in ids2, "没有 A_NOOP：模型无从表达'什么都不做'"
+    return "三类自愈动作在候选与白名单里；干净时只给 A_NOOP"
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--json", action="store_true")
