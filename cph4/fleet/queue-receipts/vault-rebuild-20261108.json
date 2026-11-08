@@ -1,0 +1,21 @@
+{
+ "ts": "2026-11-08T18:03:47",
+ "kind": "vault-repair",
+ "before": {
+  "entries": 651,
+  "reachable": 0,
+  "rebuildable": 640,
+  "snapshots": 0,
+  "truly_missing": 11
+ },
+ "after": {
+  "entries": 651,
+  "reachable": 600,
+  "rebuildable": 0,
+  "snapshots": 40,
+  "truly_missing": 11
+ },
+ "action": "vault.py rebuild（从 origin 取回正文写回 store，不改台账）",
+ "root": "C:\\Users\\Dasheng/FluxAssets",
+ "note": "651 条失联登记里 640 条是「本机没有 + origin 有正文」，属可重建；重建后可达 0→600，余下 40 条是历史快照（按设计不入 store）、11 条 origin 也没有。这些路径原本写的是主控 Mac 的 /Volumes/移动硬盘/FluxAssets，在非 macOS 节点上会一律显示「缺失」——判读时先看工具汇总行，别看逐条缺失行。"
+}
