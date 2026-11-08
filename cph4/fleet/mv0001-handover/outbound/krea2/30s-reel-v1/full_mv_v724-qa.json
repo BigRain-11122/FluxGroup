@@ -1,0 +1,43 @@
+{
+ "file": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\cph4\\fleet\\mv0001-handover\\outbound\\krea2\\30s-reel-v1\\full_mv_v724.mp4",
+ "spec": {
+  "w": 1344,
+  "h": 768,
+  "fps": 24.0,
+  "frames": 5622,
+  "duration": 234.253,
+  "has_audio": true
+ },
+ "black_segments": [],
+ "freezes": [
+  [
+   150.624349,
+   0.875
+  ],
+  [
+   155.832682,
+   0.416667
+  ],
+  [
+   158.124349,
+   0.583333
+  ],
+  [
+   201.166016,
+   0.416667
+  ],
+  [
+   203.624349,
+   0.75
+  ]
+ ],
+ "shots": 77,
+ "cutindex": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\cph4\\fleet\\mv0001-handover\\outbound\\krea2\\30s-reel-v1\\full_mv_v724-cutindex.csv",
+ "loudness": {
+  "I": -13.3,
+  "TP": -1.1
+ },
+ "publish_file": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\cph4\\fleet\\mv0001-handover\\outbound\\krea2\\30s-reel-v1\\full_mv_v724_pub.mp4",
+ "gate": "PASS",
+ "gate_json": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\cph4\\fleet\\queue-receipts\\full_mv_v724-gate.json"
+}
