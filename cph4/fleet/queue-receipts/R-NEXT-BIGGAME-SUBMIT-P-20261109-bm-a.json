@@ -1,0 +1,17 @@
+{
+ "id": "R-NEXT-BIGGAME-SUBMIT-P-20261109",
+ "node": "bm-a",
+ "rc": 0,
+ "seconds": 1.1,
+ "cmd": "python Tools/fleet/game_submit_pack.py",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "cph4/fleet/game-v1/SUBMIT-PACK-20261109.json",
+ "deliverable_exists": true,
+ "ts": "2026-11-09T00:09:46",
+ "stdout_tail": "products=36 ready=1 not_ready=35\n  缺 图标≥256px                     35 款\n  缺 截图目录(≥4张)                    35 款\n  缺 可运行包(apk/zip/unitypackage/html) 25 款\nwrote cph4\\fleet\\game-v1\\SUBMIT-PACK-20261109.json + SUBMIT-PACK.md\n对比 SUBMIT-PACK-20261108.json：可提交 1 -> 1\n",
+ "stderr_tail": ""
+}
