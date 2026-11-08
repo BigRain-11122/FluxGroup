@@ -1,6 +1,6 @@
 {
  "node": "bm-c",
- "ts": "2026-11-09T01:33:06",
+ "ts": "2026-11-09T01:39:14",
  "jobs": [
   {
    "id": "asset-lib-face-dataset-2026-11-09",
@@ -43,37 +43,9 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
-  },
-  {
-   "id": "Q-TRIAGE-BIGSTREAMMV-20261109",
-   "title": "bigstream-mv 线级体检（本机证据目录实况）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigstream-mv",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigstream-mv-20261109.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "asset-lib-voice-assemble-2026-11-09",
-   "title": "[资产储备（角色 LoRA / 音色库）] 音色数据集装配（授权核查→voices/<组> 准入）",
-   "cmd": "python Tools/fleet/voice_dataset.py --out cph4/fleet/queue-receipts/voice-dataset-2026-11-09.json",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/voice-dataset-2026-11-09.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 8.7/1.0 GB"
+ "capacity_note": "ram 1.9/1.0 GB"
 }
