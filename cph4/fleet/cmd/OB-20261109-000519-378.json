@@ -1,0 +1,10 @@
+{
+ "id": "OB-20261109-000519-378",
+ "ts": "2026-11-09 00:05",
+ "text": "[@BigMoney 改期·委员会第53批 D-20261109-02] D-20261108-17 第三次复核仍未达，根因第三条=执行宿主任务 Bigmoney-IterationLoop 处 Disabled（自 11-08 04:33 零执行）；本轮已 resume 复位为 Ready。交付不变：①scripts/data_lane_freshness.py 观测集改为 config/lane_hosts.json 属主道∪现役10道，对属主静默>24h 单独告警；②fleet/backlog.md 按池语法追加 B-CITY3D-01/02、B-XIDUDU-01/02 四卡。验收：脚本实跑含并集道数且复现静默道；backlog 四卡号各≥1命中。承诺=2026-11-09 06:00；逾期动作=次轮计违例一次并改派执行宿主。回执落本司 HQ-FEEDBACK 一行引用 D-20261109-02。",
+ "lanes": [
+  "bm-a"
+ ],
+ "src": "DASHENG",
+ "status": "dispatched"
+}
