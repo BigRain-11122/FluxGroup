@@ -349,6 +349,7 @@
   "card": "[调度卡 POOL-0026]\n①@机名+lane：@bm-b（cpu-sound）·纯 CPU\n②回执窗：2h\n③验收物+证据指针：cph4/fleet/queue-receipts/tts-qc-r3-20261109.json 逐集时长/静音/体积+可发布集数清单\n④spec 指针：Tools/fleet/tts_batch_check.py\n⑤溯源：O-20261109-0053（CEO-PROXY 事件班·转述）\n⑥输入/输出：输入=bm-b 本机 media/drama-tts-out/r1202_ep001_060；输出=上述回执\n⑦依赖：无依赖\n⑧卡 ID：POOL-0026\n⑨provenance：转述",
   "claimed_by": null,
   "claimed_at": null,
-  "result_ref": null
+  "result_ref": "queued as PRODUCTION-QUEUE row R-TTS-QC-R3-20261109 (state OPEN, owner bm-b) - job_ref wired 2026-11-09 02:5x event shift to clear POOL-PHANTOM",
+  "job_ref": "R-TTS-QC-R3-20261109"
  }
 ]
