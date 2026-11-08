@@ -1179,3 +1179,5 @@ am_free 10GB / cpu_load 48%——bm-b 在跑量化轮而非闲着；缺的是本
   ⑥ CEO 物理件面：w32time 提权校时（bm-b/bm-c）维持 DEADLINES waiting-CEO 在册，零催办、本轮未新增。
 
 - R19 附记（2026-11-09 00:36）｜**认领到位，旗已闭环**：R19 上文记「认领未观察」，随后 origin/main 实读 Q-ANCHOR-SHOTGRID-REBUILD-20261109 state=**RUNNING**、owner=**bm-b**、claimed_at=2026-11-09T00:26:07 → **点火实证成立（BURNING）**，poke→拉取(a570a77b4)→认领三步全通，STARVED-EXEC 本班闭环。执行结果（receipt/DONE）交 02:17 回访探针核验：判据=该卡离开 RUNNING + nchors/*-shotgrid.json 41 件 mtime 刷新。
+
+- [2026-11-09 01:40] **事件班**（承载件触发：BLOCKED-RAM bm-c / CLOCK-SKEW / STARVED-EXEC bm-b / POOL-PHANTOM bm-b）｜调用 ~26｜verdict=STARVED 真活 resolved（bm-b 3RUN+1OPEN·agenda_starved=false）+bm-b 分叉已平（poke 后 fork 0/0·HEAD=origin a803b32e）+bm-c RAM 0.9↔2.1G 震荡但真卡在烧（不阻断·不加派）+CLOCK 归 w32time 提权 waiting-CEO；POOL-PHANTOM 定性=度量假红（POOL-0026 补 job_ref）+真等待=车道 3 卡租约占位（triage 45min 租约 01:34 到期）；行动=poke bm-b 一次(accepted 01:34:39)→3min 复探→零派卡；回访探针 +90min armed。

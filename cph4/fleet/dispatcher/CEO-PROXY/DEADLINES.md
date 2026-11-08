@@ -535,3 +535,16 @@ rame_bytes/frame_sha12；**bm-a 上该目录不存在（0/30）**，且本机两
 | **反转闸对既有漂移长期红灯（P1·新）** | **registered·工具缺陷** | `git-no-reversal-check.py origin/main origin/main --depth 30 --audit` = 230/501 条历史增行在近 30 提交消失（他窗整文件覆盖所致）。后果=git-atomic-push 对所有合法推送一律 ABORT（本班首推即被拦）。本班改走外科净路（tree=origin+3 文件，零外来删行）并留痕。修法=闸基线改为「以本次推送的 base 树为锚」而非历史全量，或对 STATE_FILES 类单列豁免。 |
 | **lane 合并循环吃掉 orders/POOL 本地改动（P1·新）** | **registered·同族 state_push** | 00:5x 提交 a1ad2d5d7「restore 1 local-only card(s) after merge」+50dd515b5「merge origin (generated files take remote)」把本班 orders 行与 POOL-0026 抹掉（仅队列卡被恢复）。本班已重放并推。修法=合并循环的 restore 名单须覆盖 orders.md/POOL.json（或这三件一律按「本地新增行并集」合）。 |
 | **回访探针** | **armed** | +90min 一次性 cron：复探 R3 卡状态与 bm-b 可见性；复发=旗升 DE 级。 |
+
+## 附录 R17 事件班登记（2026-11-09 01:26-01:4x·承载件触发·BLOCKED-RAM bm-c + CLOCK-SKEW + STARVED-EXEC bm-b + POOL-PHANTOM bm-b）
+
+| 件 | 状态 | 证据 / 下一步 |
+|---|---|---|
+| **STARVED-EXEC bm-b** | **resolved（真活实证·无需补卡）** | 01:26/01:31/01:32 三次读数一致：lanes/bm-b.json 3 卡（Q-ANCHOR-SHOTGRID-REBUILD-20261109 + R-TRIAGE-BIGSTREAMMV + R-TRIAGE-BIGGAME）+ 队列 bm-b 3 RUNNING/1 OPEN；bm-b `/status` 01:34 ram 8.6G、cpu 1%、agenda_starved=false。承 R16 判。 |
+| **bm-b clone 分叉（R16 P1）** | **resolved（本班 poke 后实证）** | 01:34:39 poke accepted → 01:34:58 last_pull：`repo_heads["."]=a803b32e` == `origin_main`、`fork={".":"0\t0/main"}` → 分叉已平。心跳正文 ahead702/behind428 属陈旧文本，勿再引用。R16「不动 bm-b git」的顾虑解除。 |
+| **CLOCK-SKEW（承载件旗）** | **waiting-CEO·零催办（在册）** | 01:24 CLOCK-SKEW.json：bm-a -0.2ms OK；bm-b +1456.3ms/精度 0.8ms（真偏）；bm-c +4010.9ms/精度 421.6ms（中继精度不足判据）。old_schema=0、missing=0。根=三机 w32time STOPPED 提权物理件（R13 在册），秒级偏差不影响派单租约。 |
+| **BLOCKED-RAM bm-c** | **watching·边缘震荡（不阻断）** | 01:31 旗；01:32 master 读 0.9G（<1.0G 闸）→ 01:34 直读 /status 2.1G、GPU 1796MiB free、cpu 91%（rebalance 轮）。真卡 asset-lib-asset-gen-2026-11-09 在烧。无远程释放通道；本班不给 bm-c 加派（不叠卡）。 |
+| **POOL-PHANTOM bm-b（exec_cards=1 live_legs=0）** | **root-caused·度量假红 + 车道租约占位** | ①origin 上 `R-TTS-QC-R3-20261109` 确在（state=OPEN·hard_nodes=[bm-b]·needs=cpu），非丢卡；②POOL-0026 缺 `job_ref` 字段 → 承载件无法把池卡匹配到活腿 → 报 phantom（本班已补 `job_ref`）；③真等待原因=bm-b 车道按「只执行 master 指派」跑 lanes/bm-b.json 的 3 卡（两张 R-TRIAGE claimed 00:49 的 45min 租约 01:34 到期；Q-ANCHOR claimed 01:12 租约 01:57 到期）→ R3 排在后面，属 master_agent 租约回收正常态，非坏卡。 |
+| **R3 未被认领（同源）** | **watching·回执窗 2h** | 01:35/01:41 两次读 R3 仍 OPEN、claimed_at=None；交付物 `cph4/fleet/queue-receipts/tts-qc-r3-20261109.json` 未见。下一次 master tick 租约回收后复核是否进 lane；已挂 +90min 回访探针。 |
+| **在飞交付物零落盘（3 卡）** | **registered·租约线内不判死** | 01:26→01:32 复探：`POOL-0018-0019-anchor-matrix.json` mtime 仍 11-07 19:29（Q-ANCHOR 01:12 起 20min 无新件）；`triage-biggame-bm-b-20261109.md`/`triage-bigstream-mv-bm-b-20261109.md` 均 MISSING（00:49 起 43min）。均在 45min 租约内。 |
+| **回访探针** | **armed** | +90min 一次性 durable cron：复探 R3 认领/交付物、bm-b 车道租约回收、bm-c RAM 是否再破 1.0G、POOL-PHANTOM 是否消失；复发=旗升 DE 级。 |
