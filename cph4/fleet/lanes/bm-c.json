@@ -1,6 +1,6 @@
 {
  "node": "bm-c",
- "ts": "2026-11-09T01:02:31",
+ "ts": "2026-11-09T00:59:48",
  "jobs": [
   {
    "id": "asset-lib-face-dataset-2026-11-09",
@@ -9,6 +9,20 @@
    "cwd": "",
    "needs": "cpu",
    "deliverable": "cph4/fleet/queue-receipts/asset-face-2026-11-09.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "asset-lib-char-prompts-2026-11-09",
+   "title": "[资产储备（角色 LoRA / 音色库）] 角色包出图计划（8 原创角色 × 6 视角提示词包）",
+   "cmd": "python Tools/fleet/char_plan.py",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/char-gen-plan-2026-11-09.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -32,6 +46,6 @@
   }
  ],
  "idle_reason": "",
- "lane_ok": false,
- "capacity_note": "ram 0.2/1.0 GB"
+ "lane_ok": true,
+ "capacity_note": "ram 1.0/1.0 GB"
 }
