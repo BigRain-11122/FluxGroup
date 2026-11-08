@@ -135,6 +135,7 @@
   }
  ],
  "generated_at": "2026-11-08T14:09:41",
+ "generated_at": "2026-11-07T22:30:05",
  "derivation": {
   "bridge": "Tools/fleet/quant_positions_bridge.py",
   "reason": "producer emits live_picks only; quant_signal needs positions",
