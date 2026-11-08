@@ -1,12 +1,11 @@
 {
- "ts": "2026-11-08T13:13:15+0800",
+ "ts": "2026-11-08T13:14:34+0800",
  "products": 36,
  "ready": 1,
  "not_ready": 35,
  "missing_by_kind": {
   "截图目录(≥4张)": 35,
-  "可运行包(apk/zip/unitypackage/html)": 25,
-  "图标≥256px": 2
+  "可运行包(apk/zip/unitypackage/html)": 25
  },
  "items": [
   {
@@ -308,7 +307,6 @@
    "verdict": "NOT-READY",
    "lacks": [
     "可运行包(apk/zip/unitypackage/html)",
-    "图标≥256px",
     "截图目录(≥4张)"
    ]
   },
@@ -318,7 +316,6 @@
    "verdict": "NOT-READY",
    "lacks": [
     "可运行包(apk/zip/unitypackage/html)",
-    "图标≥256px",
     "截图目录(≥4张)"
    ]
   }
@@ -338,11 +335,6 @@
     "prev": 25,
     "now": 25,
     "delta": 0
-   },
-   "图标≥256px": {
-    "prev": 35,
-    "now": 2,
-    "delta": -33
    },
    "截图目录(≥4张)": {
     "prev": 35,
