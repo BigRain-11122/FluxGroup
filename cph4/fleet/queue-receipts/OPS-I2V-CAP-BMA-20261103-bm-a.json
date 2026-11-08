@@ -1,0 +1,9 @@
+{
+ "id": "OPS-I2V-CAP-BMA-20261103",
+ "node": "bm-a",
+ "rc": 0,
+ "seconds": 305.7,
+ "cmd": "python -c \"import os,json,glob;roots=[r'D:/AI',r'C:/AI',os.path.expanduser('~')];wf=[];mods=[];[wf.extend(glob.glob(os.path.join(r,'**','*i2v*.json'),recursive=True)[:20]) for r in roots];[mods.extend([p.split(os.sep)[-1] for p in glob.glob(os.path.join(r,'**','*.safetensors'),recursive=True)[:60]]) for r in roots];os.makedirs('cph4/fleet/queue-receipts',exist_ok=True);json.dump({'host':os.environ.get('COMPUTERNAME',''),'cwd':os.getcwd(),'workflows':wf[:20],'models':sorted(set(mods))[:40],'has_ffmpeg':bool(glob.glob('**/ffmpeg.exe',recursive=True)[:1])},open('cph4/fleet/queue-receipts/i2v-cap-bma.json','w'),ensure_ascii=False,indent=1);print('wf',len(wf),'models',len(set(mods)))\"",
+ "stdout_tail": "wf 40 models 57\n",
+ "stderr_tail": ""
+}
