@@ -1,6 +1,6 @@
 {
  "node": "bm-b",
- "ts": "2026-11-08T11:09:25",
+ "ts": "2026-11-08T11:05:12",
  "jobs": [
   {
    "id": "bigmoney-signal-2026-11-08",
@@ -17,12 +17,12 @@
    "timeout_s": null
   },
   {
-   "id": "R-TRIAGE-BIGSTREAMMV-BMA-20261108",
-   "title": "BigStream·MV 41 曲 线证据扫描（bm-a 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigstream-mv",
-   "cwd": "",
+   "id": "AUD-GAME-20261108T102502-09",
+   "title": "提审缺口落单：GimmeAll",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game GimmeAll",
+   "cwd": "/Users/junsheng.sun/FluxGroup",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigstream-mv-20261108.md",
+   "deliverable": "cph4/fleet/audits/game/GimmeAll.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -31,40 +31,12 @@
    "timeout_s": null
   },
   {
-   "id": "R-TRIAGE-FLUXVERSE-BMC-20261108",
-   "title": "FluxVerse·元宙城 线证据扫描（bm-c 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line fluxverse",
-   "cwd": "",
+   "id": "AUD-GAME-20261108T102502-33",
+   "title": "提审缺口落单：NightWatch",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game NightWatch",
+   "cwd": "/Users/junsheng.sun/FluxGroup",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-fluxverse-20261108.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "bigstream-mv-transition-2026-11-08",
-   "title": "[MV·爱在西元前（v721 终版）] 转场审计（逐切点方向余弦，OPPOSE 必须 0）",
-   "cmd": "python Tools/mv_transition_audit.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721_60fps_1080p.mp4 --json cph4/fleet/queue-receipts/mv-transition-v721-2026-11-08.json",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/mv-transition-v721-2026-11-08.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "bigstream-mv-stability-2026-11-08",
-   "title": "[MV·爱在西元前（v721 终版）] 稳定性闸（seam / freeze 双 0）",
-   "cmd": "python Tools/mv_stability_gate.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721_60fps_1080p.mp4 --json cph4/fleet/queue-receipts/mv-stability-v721-2026-11-08.json",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/mv-stability-v721-2026-11-08.json",
+   "deliverable": "cph4/fleet/audits/game/NightWatch.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -75,5 +47,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 6.0/1.0 GB"
+ "capacity_note": "ram 8.6/1.0 GB"
 }
