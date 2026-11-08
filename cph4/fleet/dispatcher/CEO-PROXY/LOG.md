@@ -1178,3 +1178,4 @@ am_free 10GB / cpu_load 48%——bm-b 在跑量化轮而非闲着；缺的是本
   ⑤ **补了一张真卡不是凑数卡**：`Q-ANCHOR-SHOTGRID-REBUILD-20261109`（@bm-b·cpu-sound·hard_nodes 钉机·回执窗 2h）——词锚修好了，但 41 曲的 `-shotgrid.json` 还是按坏锚切的，不重建则卡点表与词面时间不一致。cmd 走现成轮子 `anchor_shotgrid.py`（不加新工具）。poke 已受理（00:16:06），bm-b 已把 HEAD 拉到 `a570a77b4`（含该卡，fork 0/0），但 10 分钟内**未观察到认领**→ 按「见点火才算 BURNING」的纪律，**不判 BURNING**，如实记「poke 已受理·拉取到位·认领未观察」，交 +90min 回访探针复验。
   ⑥ CEO 物理件面：w32time 提权校时（bm-b/bm-c）维持 DEADLINES waiting-CEO 在册，零催办、本轮未新增。
 
+- R19 附记（2026-11-09 00:36）｜**认领到位，旗已闭环**：R19 上文记「认领未观察」，随后 origin/main 实读 Q-ANCHOR-SHOTGRID-REBUILD-20261109 state=**RUNNING**、owner=**bm-b**、claimed_at=2026-11-09T00:26:07 → **点火实证成立（BURNING）**，poke→拉取(a570a77b4)→认领三步全通，STARVED-EXEC 本班闭环。执行结果（receipt/DONE）交 02:17 回访探针核验：判据=该卡离开 RUNNING + nchors/*-shotgrid.json 41 件 mtime 刷新。
