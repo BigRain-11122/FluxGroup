@@ -2,7 +2,7 @@
  "id": "biggame-pack-scan-2026-11-09",
  "node": "bm-a",
  "rc": 0,
- "seconds": 33.8,
+ "seconds": 31.3,
  "cmd": "python Tools/fleet/game_pack_scan.py --root gaming --out cph4/fleet/queue-receipts/game-packs-2026-11-09.json",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/queue-receipts/game-packs-2026-11-09.json",
  "deliverable_exists": true,
- "ts": "2026-11-09T01:45:18",
+ "ts": "2026-11-09T02:10:16",
  "stdout_tail": "[game_pack_scan] OK packs=18 webgl=17 out=cph4/fleet/queue-receipts/game-packs-2026-11-09.json\n",
  "stderr_tail": ""
 }
