@@ -1,5 +1,6 @@
 {
  "node": "bm-c",
+<<<<<<< Updated upstream
  "ts": "2026-11-09T06:32:45",
  "jobs": [
   {
@@ -37,6 +38,17 @@
    "cwd": "",
    "needs": "cpu",
    "deliverable": "cph4/fleet/queue-receipts/triage-bigmoney-bm-c-20261108.md",
+=======
+ "ts": "2026-11-09T06:35:12",
+ "jobs": [
+  {
+   "id": "ASSET-GEN-TYPOGRAPHY-20261108",
+   "title": "字效类资产出图（bm-c styles/typography 库存 0）",
+   "cmd": "python Tools/fleet/asset_gen.py --class typography --limit 6 --node bm-c --receipt cph4/fleet/queue-receipts/asset-gen-typography-20261108.json",
+   "cwd": ".",
+   "needs": "gpu",
+   "deliverable": "cph4/fleet/queue-receipts/asset-gen-typography-20261108.json",
+>>>>>>> Stashed changes
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -47,5 +59,9 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
+<<<<<<< Updated upstream
  "capacity_note": "ram 1.2/1.0 GB"
+=======
+ "capacity_note": "ram 4.2/1.0 GB"
+>>>>>>> Stashed changes
 }
