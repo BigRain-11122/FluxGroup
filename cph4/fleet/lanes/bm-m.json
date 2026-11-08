@@ -1,5 +1,6 @@
 {
  "node": "bm-m",
+<<<<<<< Updated upstream
  "ts": "2026-11-08T19:49:31",
  "jobs": [
   {
@@ -32,9 +33,15 @@
   },
   {
    "id": "AUD-GAME-20261108T022403-24",
+=======
+ "ts": "2026-11-08T19:52:19",
+ "jobs": [
+  {
+   "id": "AUD-GAME-20261108T111104-24",
+>>>>>>> Stashed changes
    "title": "提审缺口落单：我的小花园_CCPC提交格式",
    "cmd": "python Tools/fleet/supply_batch.py --audit game 我的小花园_CCPC提交格式",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "cwd": "",
    "needs": "cpu",
    "deliverable": "cph4/fleet/audits/game/我的小花园_CCPC提交格式.json",
    "need_mb": null,
