@@ -1,23 +1,8 @@
 {
  "node": "bm-a",
- "ts": "2026-11-08T14:28:55",
- "jobs": [
-  {
-   "id": "QUANT-BACKTEST-PRODUCE-20261108",
-   "title": "量化回测产物（真实交易序列，产出 JSON）",
-   "cmd": "python quant/bigmoney/scripts/etf_composite_pf.py",
-   "cwd": ".",
-   "needs": "cpu",
-   "deliverable": "quant/bigmoney/results/etf_composite_pf.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  }
- ],
- "idle_reason": "",
+ "ts": "2026-11-08T14:32:14",
+ "jobs": [],
+ "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
  "lane_ok": true,
- "capacity_note": "ram 36.0/1.0 GB"
+ "capacity_note": "ram 38.0/1.0 GB"
 }
