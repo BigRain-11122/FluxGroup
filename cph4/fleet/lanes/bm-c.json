@@ -3,6 +3,7 @@
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
  "ts": "2026-11-08T21:11:32",
  "jobs": [
   {
@@ -66,6 +67,11 @@
  "jobs": [
   {
 >>>>>>> Stashed changes
+=======
+ "ts": "2026-11-08T21:23:21",
+ "jobs": [
+  {
+>>>>>>> Stashed changes
    "id": "ASSET-GEN-TYPOGRAPHY-20261108",
    "title": "字效类资产出图（bm-c styles/typography 库存 0）",
    "cmd": "python Tools/fleet/asset_gen.py --class typography --limit 6 --node bm-c --receipt cph4/fleet/queue-receipts/asset-gen-typography-20261108.json",
@@ -74,6 +80,9 @@
    "deliverable": "cph4/fleet/queue-receipts/asset-gen-typography-20261108.json",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -102,7 +111,10 @@
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 =======
@@ -123,10 +135,13 @@
    "timeout_s": null
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 =======
+=======
+>>>>>>> Stashed changes
   },
   {
    "id": "R-TRIAGE-BIGGAME-BMC-20261108",
@@ -141,11 +156,15 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
@@ -158,5 +177,8 @@
 >>>>>>> Stashed changes
 =======
  "capacity_note": "ram 1.7/1.0 GB"
+>>>>>>> Stashed changes
+=======
+ "capacity_note": "ram 6.5/1.0 GB"
 >>>>>>> Stashed changes
 }
