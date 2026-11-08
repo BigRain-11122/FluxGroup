@@ -1,48 +1,11 @@
 {
  "node": "bm-b",
-<<<<<<< HEAD
- "ts": "2026-11-08T12:25:45",
+ "ts": "2026-11-08T12:41:57",
  "jobs": [
   {
    "id": "bigmoney-signal-2026-11-08",
    "title": "[金融量化（回测 → 一页结论 → 可报价或写清卡点）] 下月持仓信号 CSV（可卖的唯一产物）",
    "cmd": "python Tools/fleet/quant_positions_bridge.py --in quant/bigmoney/results/etf_nobond_vt.json --out cph4/fleet/queue-receipts/etf_nobond_vt_with_positions.json && python Tools/fleet/quant_signal.py --in cph4/fleet/queue-receipts/etf_nobond_vt_with_positions.json --out cph4/fleet/queue-receipts/quant-signal-2026-11-08.csv",
-=======
- "ts": "2026-11-08T02:19:33",
- "jobs": [
-  {
-   "id": "AUD-GAME-20261108T012729-26",
-   "title": "提审缺口落单：CardRogue",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game CardRogue",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/CardRogue.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "AUD-GAME-20261108T012729-27",
-   "title": "提审缺口落单：ExileFarm",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game ExileFarm",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/ExileFarm.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "R-TRIAGE-BIGSTREAMMV-BMA-20261108",
-   "title": "BigStream·MV 41 曲 线证据扫描（bm-a 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigstream-mv",
->>>>>>> e365df198 (job(AUD-GAME-20261108T012729-12): artifact [via bm-m])
    "cwd": "",
    "needs": "cpu",
    "deliverable": "cph4/fleet/queue-receipts/quant-signal-2026-11-08.csv",
@@ -52,14 +15,51 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
+  },
+  {
+   "id": "R-TRIAGE-BIGMONEY-BMB-20261108",
+   "title": "BigMoney·量化 线证据扫描（bm-b 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line bigmoney --node bm-b",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigmoney-bm-b-20261108.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "biggame-accept-2026-11-08",
+   "title": "[游戏（可上线清单 → 一款可玩包 → 提审材料）] 质量验收（缺一份闸回执就不算交付）",
+   "cmd": "python Tools/fleet/quality_gate.py --line biggame --out cph4/fleet/queue-receipts/quality-biggame-2026-11-08.json",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/quality-biggame-2026-11-08.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "R-TRIAGE-BIGDOMAIN-BMB-20261108",
+   "title": "BigDomain·硅基域商业化 线证据扫描（bm-b 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line bigdomain --node bm-b",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigdomain-bm-b-20261108.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
-<<<<<<< HEAD
  "lane_ok": true,
- "capacity_note": "ram 8.1/1.0 GB"
-=======
- "lane_ok": false,
- "capacity_note": "ram 0.4/1.0 GB"
->>>>>>> e365df198 (job(AUD-GAME-20261108T012729-12): artifact [via bm-m])
+ "capacity_note": "ram 10.3/1.0 GB"
 }

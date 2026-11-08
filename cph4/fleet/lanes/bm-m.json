@@ -1,34 +1,14 @@
 {
  "node": "bm-m",
-<<<<<<< HEAD
- "ts": "2026-11-08T11:22:30",
-=======
- "ts": "2026-11-08T02:19:33",
->>>>>>> e365df198 (job(AUD-GAME-20261108T012729-12): artifact [via bm-m])
+ "ts": "2026-11-08T12:41:57",
  "jobs": [
   {
-   "id": "AUD-GAME-20261108T112014-09",
-   "title": "提审缺口落单：GimmeAll",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game GimmeAll",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/GimmeAll.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-<<<<<<< HEAD
-=======
-  },
-  {
-   "id": "AUD-GAME-20261108T012729-11",
-   "title": "提审缺口落单：涨停板",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game 涨停板",
+   "id": "AUD-GAME-20261108T012729-33",
+   "title": "提审缺口落单：NightWatch",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game NightWatch",
    "cwd": "/Users/junsheng.sun/FluxGroup",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/涨停板.json",
+   "deliverable": "cph4/fleet/audits/game/NightWatch.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -37,50 +17,21 @@
    "timeout_s": null
   },
   {
-   "id": "AUD-GAME-20261108T012729-12",
-   "title": "提审缺口落单：CrazyWorker",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game CrazyWorker",
+   "id": "AUD-GAME-20261108T012729-36",
+   "title": "提审缺口落单：GhostMarshal",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game GhostMarshal",
    "cwd": "/Users/junsheng.sun/FluxGroup",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/CrazyWorker.json",
+   "deliverable": "cph4/fleet/audits/game/GhostMarshal.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
    "when_all": [],
    "llm": null,
    "timeout_s": null
-  },
-  {
-   "id": "AUD-GAME-20261108T012729-16",
-   "title": "提审缺口落单：大不了开饭馆",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game 大不了开饭馆",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/大不了开饭馆.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "AUD-GAME-20261108T012729-19",
-   "title": "提审缺口落单：CrazyEstate",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game CrazyEstate",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/CrazyEstate.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
->>>>>>> e365df198 (job(AUD-GAME-20261108T012729-12): artifact [via bm-m])
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 9.6/1.0 GB"
+ "capacity_note": "ram 6.6/1.0 GB"
 }
