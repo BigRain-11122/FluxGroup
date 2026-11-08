@@ -1,28 +1,14 @@
 {
  "node": "bm-c",
- "ts": "2026-11-08T16:30:14",
+ "ts": "2026-11-08T16:32:37",
  "jobs": [
   {
-   "id": "R-TRIAGE-BIGSTREAMMV-BMC-20261108",
-   "title": "BigStream·MV 41 曲 线证据扫描（bm-c 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigstream-mv",
+   "id": "R-TRIAGE-BIGGAME-BMC-20261108",
+   "title": "Biggame·游戏 线证据扫描（bm-c 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line biggame --node bm-c",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigstream-mv-20261108.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "R-TRIAGE-FLUXVERSE-BMC-20261108",
-   "title": "FluxVerse·元宙城 线证据扫描（bm-c 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line fluxverse",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-fluxverse-20261108.md",
+   "deliverable": "cph4/fleet/queue-receipts/triage-biggame-bm-c-20261108.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -33,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 1.7/1.0 GB"
+ "capacity_note": "ram 1.9/1.0 GB"
 }
