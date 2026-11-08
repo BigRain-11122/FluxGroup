@@ -11,6 +11,7 @@
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
  "ts": "2026-11-08T19:01:49",
  "jobs": [
   {
@@ -120,5 +121,12 @@
  "idle_reason": "CAPACITY-BLOCKED-RAM OFFLINE (hb age Nones)",
  "lane_ok": false,
  "capacity_note": "OFFLINE (hb age Nones)"
+>>>>>>> Stashed changes
+=======
+ "ts": "2026-11-08T19:30:19",
+ "jobs": [],
+ "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+ "lane_ok": true,
+ "capacity_note": "ram 35.7/1.0 GB"
 >>>>>>> Stashed changes
 }
