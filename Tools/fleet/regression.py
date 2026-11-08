@@ -590,6 +590,21 @@ def rg30():
         blocks, nonjson, total = qs.scan(p)
         if blocks or nonjson:
             offending.append("%s 冲突块=%d 非JSON行=%d/%d" % (rel, blocks, nonjson, total))
+    # 也要查 origin 那一份：执行机读的是 origin 快照，本地干净而 origin 脏照样停摆
+    # （2026-11-08 实锚：我把本地干净的队列提交上去，但那次快照里带 383 个冲突块，
+    #  结果 qcheck 判 RED、主控下午读不到卡）。
+    for rel in qs.TARGETS:
+        try:
+            r = subprocess.run(["git", "-C", ROOT, "show", "origin/main:" + rel],
+                               capture_output=True, timeout=60)
+        except Exception:
+            continue
+        if r.returncode != 0 or not r.stdout:
+            continue
+        _nb = sum(1 for l in r.stdout.decode("utf-8", "replace").splitlines()
+                  if l.startswith("<<<<<<< ") or l.startswith(">>>>>>> "))
+        if _nb:
+            offending.append("origin/main:%s 冲突标记行=%d" % (rel, _nb))
     assert not offending, "队列被冲突标记污染：" + "；".join(offending)
     # 负控：清洗器必须真能认出并修掉冲突块（否则这个断言是空壳）
     d = tempfile.mkdtemp()

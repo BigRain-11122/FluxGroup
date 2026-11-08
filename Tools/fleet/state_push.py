@@ -187,6 +187,24 @@ def main(argv):
         sh(["git", "fetch", "--quiet", "origin", "main"], cwd=WT)
         sh(["git", "reset", "-q", "--hard", "origin/main"], cwd=WT)
         copied = sync_into_worktree()
+        # 推送前自清（2026-11-08 教训）：队列/备队列一旦带 git 冲突标记被推上 origin，
+        # 执行机读到的是坏账本，qcheck 判 RED 后主控"读不到卡"，机队整下午空转。
+        # 我这轮就是这么把 383+710 个冲突块推上去的——所以闸要放在**推送通道里**，
+        # 不能只靠"改完记得检查"。
+        try:
+            sys.path.insert(0, HERE)
+            import queue_sanitize as _qs
+            for _rel in _qs.TARGETS:
+                _wtp = os.path.join(WT, _rel)
+                if not os.path.isfile(_wtp):
+                    continue
+                _b, _nj, _tot = _qs.scan(_wtp)
+                if _b or _nj:
+                    _r = _qs.fix(_wtp)
+                    print("[state-push] W-QUEUE-POLLUTED %s 冲突块=%d 非JSON=%d → 已自清 %s"
+                          % (_rel, _b, _nj, _r))
+        except Exception as _e:
+            print("[state-push] W-QUEUE-GUARD 自清失败：%s" % str(_e)[:120])
         rc, dirty, _ = sh(["git", "status", "--porcelain"], cwd=WT)
         if not dirty.strip():
             # 2026-11-08 假绿修复：状态面没变化 ≠ 已同步。以前到这里直接 return 0，
