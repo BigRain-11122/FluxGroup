@@ -1,8 +1,8 @@
-# 线级体检 bigstream-mv · 2026-11-08 21:54
+# 线级体检 bigstream-mv · 2026-11-08 21:55
 
 ## 工段与证据目录
 - mv-plan        owner=导演席      lane=-      证据 2/2 存在 · 文件 403 · 最新 33.9h
-- mv-kf          owner=导演席·美术   lane=bm-c   证据 1/1 存在 · 文件 51 · 最新 158.2h
+- mv-kf          owner=导演席·美术   lane=bm-c   证据 1/1 存在 · 文件 51 · 最新 158.3h
   · D:/FluxGroup/media/mv-album-001-jay/clips-local-768 已从外机路径重定位到本机 media\mv-album-001-jay\clips-local-768
 - mv-i2v         owner=导演席      lane=bm-c   证据 1/1 存在 · 文件 137 · 最新 131.6h
 - mv-cut         owner=剪辑席      lane=bm-a   证据 1/1 存在 · 文件 1178 · 最新 146.5h
@@ -11,10 +11,10 @@
 
 ## 判定
 - 最近产出 33.9h 前（阈值 24.0h）→ STALE 超阈
-- 工段超阈 5/6（线级最近值不代表最差工段）：mv-plan 33.9h、mv-kf 158.2h、mv-i2v 131.6h、mv-cut 146.5h、mv-approve 117.5h
+- 工段超阈 5/6（线级最近值不代表最差工段）：mv-plan 33.9h、mv-kf 158.3h、mv-i2v 131.6h、mv-cut 146.5h、mv-approve 117.5h
 - 另有 1 个证据目录只在别的节点上（本机不据此判缺口）：D:/FleetWorker/review
 
 ## 下一步（按缺口）
 - mv-plan：产出已停 33.9h（阈值 24.0h）→ 补产出或正式收线（责任人=导演席）
-- mv-kf：产出已停 158.2h（阈值 24.0h）→ 补产出或正式收线（责任人=导演席·美术）
+- mv-kf：产出已停 158.3h（阈值 24.0h）→ 补产出或正式收线（责任人=导演席·美术）
 - mv-i2v：产出已停 131.6h（阈值 24.0h）→ 补产出或正式收线（责任人=导演席）
