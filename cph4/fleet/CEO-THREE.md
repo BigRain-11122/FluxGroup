@@ -1,6 +1,6 @@
-# 只需你拍的三件事 2026-11-08T11:59:52
+# 只需你拍的三件事 2026-11-08T14:26:31
 
 1. **[花钱/额度]** 有 2 项等云端额度放行
    证据：`cph4/fleet/ASSET-GEN-PENDING.json`
-2. **[方向]** 8 条线超 72h 无产出，需定去留：BigStream·短剧(209h), BigStream·短视频/切片(143h), Biggame·游戏(115h), FluxVerse·元宙城(117h)
+2. **[方向]** 8 条线超 72h 无产出，需定去留：BigStream·短剧(212h), BigStream·短视频/切片(145h), Biggame·游戏(117h), FluxVerse·元宙城(119h)
    证据：`cph4/fleet/state/lines.json`

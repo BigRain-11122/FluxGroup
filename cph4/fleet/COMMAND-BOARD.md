@@ -1,37 +1,37 @@
-# 指挥一屏 2026-11-08T11:59:52
+# 指挥一屏 2026-11-08T14:26:31
 
 _节奏表=COMMAND-CADENCE-v1.json｜本屏由规则从盘上事实算出，未用模型猜数_
 
 ## 现在最重要的一件事
 
-**3 张卡返工≥3 次，根因未解 —— 停线诊断，别重派（C2）**
+**2 张卡返工≥3 次，根因未解 —— 停线诊断，别重派（C2）**
 
 ## A 值守（45 秒档，纯规则）
 
-1. 可派卡 **3** 张｜在飞 **7** 张｜空壳卡隔离 **0** 张
-2. 在飞分布：bm-a=1, bm-b=2, bm-c=3, bm-m=1
-3. 返工≥3 次的活卡：**3** 张（ASSET-GEN-TYPOGRAPHY-20261108, biggame-pack-scan-2026-11-08, bigmoney-signal-2026-11-08）
+1. 可派卡 **3** 张｜在飞 **3** 张｜空壳卡隔离 **0** 张
+2. 在飞分布：bm-a=1, bm-b=1, bm-m=1
+3. 返工≥3 次的活卡：**2** 张（biggame-pack-scan-2026-11-08, bigmoney-signal-2026-11-08）
 
 ## B 机队实况（3 分钟档）
 
 - **bm-a** SELF-OK｜reload=OK shells=OK deps=OK｜2026-11-07T22:25
 - **bm-c** SELF-OK｜reload=OK shells=OK deps=OK｜2026-11-06T23:55
-- **bm-m** SELF-OK｜reload=OK shells=OK deps=OK｜2026-11-08T11:57
+- **bm-m** SELF-OK｜reload=OK shells=OK deps=OK｜2026-11-08T14:23
 
 ## C 线与产出（15 分钟档）
 
 | 线 | 声明 | 产出年龄 |
 |---|---|---|
-| BigStream·短剧 | PARKED | 209.2h ⚠ |
-| BigStream·短视频/切片 | PARKED | 142.8h ⚠ |
-| 车机游戏 BU | PARKED | 136.0h ⚠ |
-| FluxVerse·元宙城 | ACTIVE | 116.9h ⚠ |
-| Biggame·游戏 | ACTIVE | 114.6h ⚠ |
-| BigDomain·硅基域商业化 | ACTIVE | 114.5h ⚠ |
-| BigCompute·硅基算力 | ACTIVE | 114.5h ⚠ |
-| BigMoney·量化 | ACTIVE | 95.9h ⚠ |
-| RECON·竞品拆解 | ACTIVE | 23.3h |
-| 资产储备·角色 LoRA 与音色库 | ACTIVE | 16.4h |
+| BigStream·短剧 | PARKED | 211.6h ⚠ |
+| BigStream·短视频/切片 | PARKED | 145.1h ⚠ |
+| 车机游戏 BU | PARKED | 138.4h ⚠ |
+| FluxVerse·元宙城 | ACTIVE | 119.3h ⚠ |
+| Biggame·游戏 | ACTIVE | 117.0h ⚠ |
+| BigDomain·硅基域商业化 | ACTIVE | 116.9h ⚠ |
+| BigCompute·硅基算力 | ACTIVE | 116.9h ⚠ |
+| BigMoney·量化 | ACTIVE | 98.2h ⚠ |
+| RECON·竞品拆解 | ACTIVE | 25.7h |
+| 资产储备·角色 LoRA 与音色库 | ACTIVE | 18.8h |
 
 ACTIVE 线 10 条｜超 72h 无产物 8 条
 
@@ -41,11 +41,11 @@ ACTIVE 线 10 条｜超 72h 无产物 8 条
 
 ## E 指挥质量（6 小时档）
 
-1. 队列 1495 行：DONE 556｜FAILED 2｜UNVERIFIED 6｜CANCELLED 662
-2. 完成占比 99%（DONE/564）
+1. 队列 1502 行：DONE 557｜FAILED 3｜UNVERIFIED 6｜CANCELLED 666
+2. 完成占比 98%（DONE/566）
 3. 空壳卡累计隔离 0 张（越少越好，涨了就是造卡器又出错）
 
 ## F 需要 CEO 的（≤3 条，其余自决）
 
-1. BigStream·短剧 已 209h 无产物，需定去留
-2. BigStream·短视频/切片 已 143h 无产物，需定去留
+1. BigStream·短剧 已 212h 无产物，需定去留
+2. BigStream·短视频/切片 已 145h 无产物，需定去留
