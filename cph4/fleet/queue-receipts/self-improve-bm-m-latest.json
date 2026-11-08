@@ -10,6 +10,7 @@
  "ts": "2026-11-08T19:18:53",
  "ts": "2026-11-08T19:21:06",
  "ts": "2026-11-08T19:23:21",
+ "ts": "2026-11-08T19:25:48",
  "mode": "apply",
  "verdict": "SELF-OK",
  "checks": [
@@ -25,6 +26,7 @@
    "code_age_s": 1470,
    "code_age_s": 1603,
    "code_age_s": 1738,
+   "code_age_s": 1885,
    "receipt_age_s": 0,
    "targets": [],
    "acted": false,
@@ -34,7 +36,7 @@
   },
   {
    "check": "shells",
-   "cards": 3,
+   "cards": 6,
    "shells": 0,
    "ids": [],
    "acted": false,
