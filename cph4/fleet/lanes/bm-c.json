@@ -17,121 +17,25 @@
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
  "ts": "2026-11-08T19:01:49",
- "jobs": [
-  {
-   "id": "ASSET-GEN-TYPOGRAPHY-20261108",
-   "title": "字效类资产出图（bm-c styles/typography 库存 0）",
-   "cmd": "python Tools/fleet/asset_gen.py --class typography --limit 6 --node bm-c --receipt cph4/fleet/queue-receipts/asset-gen-typography-20261108.json",
-   "cwd": ".",
-   "needs": "gpu",
-   "deliverable": "cph4/fleet/queue-receipts/asset-gen-typography-20261108.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
 =======
- "ts": "2026-11-08T19:04:11",
+ "ts": "2026-11-08T19:44:49",
+>>>>>>> Stashed changes
  "jobs": [
   {
->>>>>>> Stashed changes
-=======
- "ts": "2026-11-08T19:06:59",
- "jobs": [
-  {
->>>>>>> Stashed changes
-=======
- "ts": "2026-11-08T19:09:14",
- "jobs": [
-  {
->>>>>>> Stashed changes
-=======
- "ts": "2026-11-08T19:11:39",
- "jobs": [
-  {
->>>>>>> Stashed changes
-=======
- "ts": "2026-11-08T19:13:55",
- "jobs": [
-  {
->>>>>>> Stashed changes
-=======
- "ts": "2026-11-08T19:16:14",
- "jobs": [
-  {
->>>>>>> Stashed changes
-=======
- "ts": "2026-11-08T19:18:53",
- "jobs": [
-  {
->>>>>>> Stashed changes
-=======
- "ts": "2026-11-08T19:21:06",
- "jobs": [
-  {
->>>>>>> Stashed changes
-=======
- "ts": "2026-11-08T19:23:21",
- "jobs": [
-  {
->>>>>>> Stashed changes
-   "id": "R-TRIAGE-BIGGAME-BMC-20261108",
-   "title": "Biggame·游戏 线证据扫描（bm-c 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line biggame --node bm-c",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-biggame-bm-c-20261108.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-  },
-  {
-   "id": "AUD-GAME-20261108T030701-27",
-   "title": "提审缺口落单：ExileFarm",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game ExileFarm",
+   "id": "AUD-GAME-20261108T050152-28",
+   "title": "提审缺口落单：ArrowOut",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game ArrowOut",
    "cwd": "/Users/junsheng.sun/FluxGroup",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/ExileFarm.json",
+   "deliverable": "cph4/fleet/audits/game/ArrowOut.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
    "when_all": [],
    "llm": null,
    "timeout_s": null
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
   }
  ],
  "idle_reason": "",
@@ -141,6 +45,7 @@
  "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
 >>>>>>> Stashed changes
  "lane_ok": true,
+<<<<<<< Updated upstream
  "capacity_note": "ram 4.9/1.0 GB"
 <<<<<<< Updated upstream
 >>>>>>> Stashed changes
@@ -200,5 +105,8 @@
  "capacity_note": "ram 7.4/1.0 GB"
 >>>>>>> Stashed changes
 =======
+>>>>>>> Stashed changes
+=======
+ "capacity_note": "ram 6.4/1.0 GB"
 >>>>>>> Stashed changes
 }
