@@ -1,0 +1,14 @@
+{
+ "card": "LORA-T05-20261108",
+ "queue_id": "T05",
+ "type": "邻家马尾",
+ "trigger": "h05",
+ "train_name": "T05",
+ "status": "trained",
+ "dataset": "D:\\FluxGroup-Offload\\15-training\\dataset\\T05",
+ "weights_dir": "D:\\FluxGroup-Offload\\15-training\\outputs\\T05",
+ "ts": "2026-11-08T17:04:28",
+ "rc": 0,
+ "images": 36,
+ "weights": "T05_rank32.safetensors"
+}
