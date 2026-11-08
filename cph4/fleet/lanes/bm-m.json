@@ -1,19 +1,14 @@
 {
  "node": "bm-m",
-<<<<<<< HEAD
- "ts": "2026-11-08T22:49:22",
- "jobs": [],
- "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-=======
- "ts": "2026-11-08T02:19:33",
+ "ts": "2026-11-08T22:53:59",
  "jobs": [
   {
-   "id": "AUD-GAME-20261108T012729-09",
-   "title": "提审缺口落单：GimmeAll",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game GimmeAll",
+   "id": "AUD-GAME-20261108T012729-31",
+   "title": "提审缺口落单：StrategistDefense",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game StrategistDefense",
    "cwd": "/Users/junsheng.sun/FluxGroup",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/GimmeAll.json",
+   "deliverable": "cph4/fleet/audits/game/StrategistDefense.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -22,12 +17,12 @@
    "timeout_s": null
   },
   {
-   "id": "AUD-GAME-20261108T012729-11",
-   "title": "提审缺口落单：涨停板",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game 涨停板",
+   "id": "AUD-GAME-20261108T012729-32",
+   "title": "提审缺口落单：DemonTamer",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game DemonTamer",
    "cwd": "/Users/junsheng.sun/FluxGroup",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/涨停板.json",
+   "deliverable": "cph4/fleet/audits/game/DemonTamer.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -36,12 +31,12 @@
    "timeout_s": null
   },
   {
-   "id": "AUD-GAME-20261108T012729-12",
-   "title": "提审缺口落单：CrazyWorker",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game CrazyWorker",
+   "id": "AUD-GAME-20261108T012729-33",
+   "title": "提审缺口落单：NightWatch",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game NightWatch",
    "cwd": "/Users/junsheng.sun/FluxGroup",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/CrazyWorker.json",
+   "deliverable": "cph4/fleet/audits/game/NightWatch.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -50,12 +45,12 @@
    "timeout_s": null
   },
   {
-   "id": "AUD-GAME-20261108T012729-16",
-   "title": "提审缺口落单：大不了开饭馆",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game 大不了开饭馆",
+   "id": "AUD-GAME-20261108T012729-34",
+   "title": "提审缺口落单：SongOfScents",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game SongOfScents",
    "cwd": "/Users/junsheng.sun/FluxGroup",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/大不了开饭馆.json",
+   "deliverable": "cph4/fleet/audits/game/SongOfScents.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -64,12 +59,26 @@
    "timeout_s": null
   },
   {
-   "id": "AUD-GAME-20261108T012729-19",
-   "title": "提审缺口落单：CrazyEstate",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game CrazyEstate",
+   "id": "AUD-GAME-20261108T012729-35",
+   "title": "提审缺口落单：TreasureDive",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game TreasureDive",
    "cwd": "/Users/junsheng.sun/FluxGroup",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/CrazyEstate.json",
+   "deliverable": "cph4/fleet/audits/game/TreasureDive.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "AUD-GAME-20261108T012729-36",
+   "title": "提审缺口落单：GhostMarshal",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game GhostMarshal",
+   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/audits/game/GhostMarshal.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -79,7 +88,6 @@
   }
  ],
  "idle_reason": "",
->>>>>>> e365df198 (job(AUD-GAME-20261108T012729-12): artifact [via bm-m])
  "lane_ok": true,
- "capacity_note": "ram-unknown"
+ "capacity_note": "ram 10.7/1.0 GB"
 }
