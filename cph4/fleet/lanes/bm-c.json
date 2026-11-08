@@ -1,23 +1,8 @@
 {
  "node": "bm-c",
- "ts": "2026-11-09T01:55:19",
- "jobs": [
-  {
-   "id": "asset-lib-asset-gen-scenes-2026-11-09",
-   "title": "[资产储备（角色 LoRA / 音色库）] 通用资产出图·场景（竖屏底图）",
-   "cmd": "python Tools/fleet/asset_gen.py --node bm-c --class scenes --limit 3 --receipt cph4/fleet/queue-receipts/asset-gen-scenes-2026-11-09.json",
-   "cwd": "",
-   "needs": "gpu",
-   "deliverable": "cph4/fleet/queue-receipts/asset-gen-scenes-2026-11-09.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  }
- ],
- "idle_reason": "",
+ "ts": "2026-11-09T02:34:20",
+ "jobs": [],
+ "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
  "lane_ok": true,
- "capacity_note": "ram 6.7/1.0 GB"
+ "capacity_note": "ram 8.9/1.0 GB"
 }
