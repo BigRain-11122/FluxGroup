@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""资产与经验库归集器（传家宝 bm-b 的常设活）。
+"""资产与经验库归集器（传家宝 bm-c 的常设活）。
 
 CEO 2026-11-03 令：实际生产完成的东西和形成的底层技术（音色/工作流/技能等）
 都要形成经验和资产库，由传家宝机器做整理归集与 git 备份。
@@ -172,7 +172,7 @@ def main(argv):
     a = ap.parse_args(argv)
     data = {
         "ts": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
-        "owner": "bm-b（传家宝）· 归集与 git 备份",
+        "owner": "bm-c（传家宝）· 归集与 git 备份",
         "skills": scan_skills(),
         "voice": scan_voice(),
         "workflow": scan_workflow(),
