@@ -1,0 +1,17 @@
+{
+ "id": "MV-DIRECTOR-PACKET-20261109",
+ "node": "bm-a",
+ "rc": 0,
+ "seconds": 0.2,
+ "cmd": "python Tools/fleet/review_packet.py --line kn --root .",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "cph4/fleet/queue-receipts/review-packet-kn-20261109.md",
+ "deliverable_exists": true,
+ "ts": "2026-11-09T03:19:41",
+ "stdout_tail": "PACKET C:\\Users\\sjs20\\Desktop\\FluxGroup\\cph4\\fleet\\queue-receipts\\review-packet-kn-20261109.md\n",
+ "stderr_tail": ""
+}
