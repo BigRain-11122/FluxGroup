@@ -1,7 +1,11 @@
 {
  "node": "bm-m",
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
  "ts": "2026-11-08T21:57:07",
+=======
+ "ts": "2026-11-08T22:10:28",
+>>>>>>> Stashed changes
  "jobs": [
   {
    "id": "AUD-GAME-20261108T012729-27",
@@ -18,10 +22,24 @@
    "timeout_s": null
   },
   {
-   "id": "AUD-GAME-20261108T022403-26",
+   "id": "AUD-GAME-20261108T012729-35",
+   "title": "提审缺口落单：TreasureDive",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game TreasureDive",
+   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/audits/game/TreasureDive.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "AUD-GAME-20261108T081825-26",
    "title": "提审缺口落单：CardRogue",
    "cmd": "python Tools/fleet/supply_batch.py --audit game CardRogue",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "cwd": "",
    "needs": "cpu",
    "deliverable": "cph4/fleet/audits/game/CardRogue.json",
    "need_mb": null,
@@ -32,7 +50,7 @@
    "timeout_s": null
   },
   {
-   "id": "AUD-GAME-20261108T081825-25",
+   "id": "AUD-GAME-20261108T111104-25",
    "title": "提审缺口落单：MonsterInn",
    "cmd": "python Tools/fleet/supply_batch.py --audit game MonsterInn",
    "cwd": "",
@@ -58,6 +76,7 @@
   },
   {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
    "id": "AUD-GAME-20261108T081825-29",
    "title": "提审缺口落单：LanternSlayer",
    "cmd": "python Tools/fleet/supply_batch.py --audit game LanternSlayer",
@@ -80,6 +99,8 @@
    "timeout_s": null
   },
   {
+=======
+>>>>>>> Stashed changes
    "id": "AUD-GAME-20261108T112014-33",
    "title": "提审缺口落单：NightWatch",
    "cmd": "python Tools/fleet/supply_batch.py --audit game NightWatch",
@@ -96,5 +117,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram-unknown"
+ "capacity_note": "ram 12.5/1.0 GB"
 }
