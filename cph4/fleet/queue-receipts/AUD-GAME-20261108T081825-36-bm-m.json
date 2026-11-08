@@ -2,8 +2,8 @@
  "id": "AUD-GAME-20261108T081825-36",
  "node": "bm-m",
  "rc": 0,
- "seconds": 0.1,
- "cmd": "python3 Tools/fleet/supply_batch.py --audit game GhostMarshal",
+ "seconds": 0.4,
+ "cmd": "python Tools/fleet/supply_batch.py --audit game GhostMarshal",
  "ok_rc": [
   0
  ],
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/audits/game/GhostMarshal.json",
  "deliverable_exists": true,
- "ts": "2026-11-08T10:00:29",
+ "ts": "2026-11-08T12:17:04",
  "stdout_tail": "AUDIT game GhostMarshal gaps=4\n",
  "stderr_tail": ""
 }

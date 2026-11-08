@@ -606,7 +606,23 @@ def dedupe_pending(rows, pending):
         if k:
             seen.add(k)
         kept.append(r)
-    return kept
+    return product_first(kept)
+
+
+def product_first(rows):
+    """产物优先：视频/图片/构建/回测先占槽位，流程文档类卡排在后面。
+
+    CEO 2026-11-08「验收只看产物和质量，中间流程文档不算数」——派单口径必须同源，
+    否则槽位会被分诊/审计/看板吃掉，一天下来验收面还是 0（实测 56 张完成=0 件产物）。
+    """
+    try:
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        import acceptance as ac
+        cls = ac.classify
+    except Exception:
+        return rows
+    order = {"PRODUCT": 0, "UNKNOWN": 1, "BOOKKEEPING": 2, "NONE": 3}
+    return sorted(rows, key=lambda r: order.get(cls(r.get("deliverable")), 3))
 
 
 def choose_lane(job, fleet, busy):
