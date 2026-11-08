@@ -1,0 +1,22 @@
+{
+ "node": "bm-a",
+ "ts": "2026-11-08T12:05:06",
+ "kind": "lora-artifact-verify",
+ "source": "Tools/lora_pipeline.py train (musubi-tuner, krea2 raw, rank32)",
+ "items": [
+  {
+   "tag": "T05",
+   "path": "D:\\FluxGroup-Offload\\15-training\\outputs\\T05\\T05_rank32.safetensors",
+   "bytes": 469315336,
+   "sha256": "c2eff8189c0d1e4515fd253916b2a634a3f6ec23a1b405db3563eed01437f3fb",
+   "mtime": "2026-11-08T08:31:57"
+  },
+  {
+   "tag": "T08",
+   "path": "D:\\FluxGroup-Offload\\15-training\\outputs\\T08\\T08_rank32.safetensors",
+   "bytes": 469315336,
+   "sha256": "db413d7f00f6d2cd8defdbb8123ef0571187a346e99ea8590ea1503d024546c3",
+   "mtime": "2026-11-08T11:05:08"
+  }
+ ]
+}
