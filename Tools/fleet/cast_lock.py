@@ -214,6 +214,40 @@ def graph_img2img(pos, neg, seed, conf, img_name, w, h, denoise):
     }
 
 
+PULID_FILE = "ip-adapter_pulid_sdxl_fp16.safetensors"
+
+
+def graph_pulid(pos, neg, seed, conf, img_name, w, h, weight=0.9, method="fidelity"):
+    """PuLID 出图：身份从锚图注入，姿势/场景由提示词决定（img2img 做不到这一点）。
+
+    2026-11-09 实测：同一锚图三个不同姿势/场景，VLM 判 3/3 SAME；
+    而 img2img 在同样三个场景下画面几乎不变。
+    """
+    return {
+        "1": {"class_type": "CheckpointLoaderSimple", "inputs": {"ckpt_name": conf["ckpt"]}},
+        "2": {"class_type": "PulidModelLoader", "inputs": {"pulid_file": PULID_FILE}},
+        "3": {"class_type": "PulidEvaClipLoader", "inputs": {}},
+        "4": {"class_type": "PulidInsightFaceLoader", "inputs": {"provider": "CUDA"}},
+        "5": {"class_type": "LoadImage", "inputs": {"image": img_name}},
+        "6": {"class_type": "ApplyPulid", "inputs": {"model": ["1", 0], "pulid": ["2", 0],
+                                                    "eva_clip": ["3", 0], "face_analysis": ["4", 0],
+                                                    "image": ["5", 0], "method": method,
+                                                    "weight": float(weight), "start_at": 0.0, "end_at": 1.0}},
+        "7": {"class_type": "CLIPTextEncode", "inputs": {"text": pos, "clip": ["1", 1]}},
+        "8": {"class_type": "CLIPTextEncode", "inputs": {"text": neg, "clip": ["1", 1]}},
+        "9": {"class_type": "EmptyLatentImage", "inputs": {"width": w, "height": h, "batch_size": 1}},
+        "10": {"class_type": "KSampler", "inputs": {"seed": seed, "steps": int(conf.get("steps", 8)),
+                                                    "cfg": float(conf.get("cfg", 2.0)),
+                                                    "sampler_name": conf.get("sampler", "euler"),
+                                                    "scheduler": conf.get("scheduler", "normal"),
+                                                    "denoise": 1.0, "model": ["6", 0],
+                                                    "positive": ["7", 0], "negative": ["8", 0],
+                                                    "latent_image": ["9", 0]}},
+        "11": {"class_type": "VAEDecode", "inputs": {"samples": ["10", 0], "vae": ["1", 2]}},
+        "12": {"class_type": "SaveImage", "inputs": {"images": ["11", 0], "filename_prefix": "castshot"}},
+    }
+
+
 def cmd_shot(a):
     """按锁定契约出一张镜头：默认从锚图 img2img（denoise 控制「保留多少原脸」）。"""
     import asset_gen as ag
@@ -230,13 +264,17 @@ def cmd_shot(a):
         d["appearance"], a.scene)
     neg = a.negative
     os.makedirs(os.path.dirname(a.out) or ".", exist_ok=True)
-    if a.text_only:
+    if a.engine == "pulid":
+        name = upload_ref(a.server, ref, "cast_%s_%s.png" % (a.film, a.role))
+        g = graph_pulid(pos, neg, d["seed"], conf, name, a.width, a.height,
+                        weight=a.pulid_weight, method=a.pulid_method)
+    elif a.engine == "text":
         g = cg.graph_ckpt(pos, neg, d["seed"], conf, a.width, a.height)
     else:
         name = upload_ref(a.server, ref, "cast_%s_%s.png" % (a.film, a.role))
         g = graph_img2img(pos, neg, d["seed"], conf, name, a.width, a.height, a.denoise)
     ok = ag.submit_and_save(cg, a.server, g, a.out)
-    print("[cast] %s %s -> %s (%s)" % (a.role, "text2img" if a.text_only else "img2img",
+    print("[cast] %s %s -> %s (%s)" % (a.role, a.engine,
                                        a.out, "ok" if ok else "FAIL"))
     return 0 if ok else 1
 
@@ -251,7 +289,11 @@ def main(argv):
     p3.add_argument("--scene", default=""); p3.set_defaults(fn=cmd_prompt)
     p5 = sub.add_parser("shot"); p5.add_argument("film"); p5.add_argument("role")
     p5.add_argument("--scene", required=True); p5.add_argument("--out", required=True)
-    p5.add_argument("--denoise", type=float, default=0.45); p5.add_argument("--text-only", action="store_true")
+    p5.add_argument("--denoise", type=float, default=0.45)
+    p5.add_argument("--engine", default="pulid", choices=["pulid", "img2img", "text"],
+                    help="pulid=身份注入且姿势自由（默认）；img2img=锁构图；text=纯文字")
+    p5.add_argument("--pulid-weight", type=float, default=0.9)
+    p5.add_argument("--pulid-method", default="fidelity", choices=["fidelity", "style", "neutral"])
     p5.add_argument("--width", type=int, default=1024); p5.add_argument("--height", type=int, default=1536)
     p5.add_argument("--server", default="http://127.0.0.1:8188")
     p5.add_argument("--negative", default=("text, watermark, anime, cartoon, 3d render, oversmooth skin, "
