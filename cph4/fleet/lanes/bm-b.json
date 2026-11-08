@@ -1,8 +1,37 @@
 {
  "node": "bm-b",
- "ts": "2026-11-08T22:23:27",
- "jobs": [],
- "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+ "ts": "2026-11-08T22:30:28",
+ "jobs": [
+  {
+   "id": "AUD-GAME-20261108T222950-01",
+   "title": "提审缺口落单：GimmeAll",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game GimmeAll",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/audits/game/GimmeAll.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "AUD-GAME-20261108T222950-07",
+   "title": "提审缺口落单：GhostMarshal",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game GhostMarshal",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/audits/game/GhostMarshal.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  }
+ ],
+ "idle_reason": "",
  "lane_ok": true,
  "capacity_note": "ram-unknown"
 }
