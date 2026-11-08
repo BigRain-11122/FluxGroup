@@ -1,6 +1,6 @@
 {
  "node": "bm-a",
- "ts": "2026-11-09T01:16:14",
+ "ts": "2026-11-09T01:18:40",
  "jobs": [
   {
    "id": "R-NEXT-BIGGAME-SUBMIT-P-20261109",
@@ -45,20 +45,6 @@
    "timeout_s": null
   },
   {
-   "id": "bigstream-mv-gate-2026-11-09",
-   "title": "[MV·爱在西元前（v721 终版）] 交付闸（重复/静止/抖动/闪烁）",
-   "cmd": "python Tools/mv_delivery_gate.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721_60fps_1080p.mp4 --card 38.79:40.21 --card 219.71:223.88 --json cph4/fleet/queue-receipts/mv-gate-v721-2026-11-09.json",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/mv-gate-v721-2026-11-09.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
    "id": "biggame-pack-scan-2026-11-09",
    "title": "[游戏（可上线清单 → 一款可玩包 → 提审材料）] 可上线包清单（唯一能机器判的段）",
    "cmd": "python Tools/fleet/game_pack_scan.py --root gaming --out cph4/fleet/queue-receipts/game-packs-2026-11-09.json",
@@ -89,5 +75,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 34.1/1.0 GB"
+ "capacity_note": "ram 39.4/1.0 GB"
 }
