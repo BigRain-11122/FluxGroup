@@ -1,21 +1,7 @@
 {
  "node": "bm-b",
- "ts": "2026-11-09T00:02:42",
+ "ts": "2026-11-09T00:06:58",
  "jobs": [
-  {
-   "id": "R-MODEL-RADAR-BMM-20261109",
-   "title": "本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-m）",
-   "cmd": "python Tools/fleet/model_radar.py run --node bm-m --idle-only --apply",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/model-radar-bm-m-20261109.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
   {
    "id": "R-PLAN-BIGDOMAIN-20261109",
    "title": "BigDomain·硅基域商业化 线级体检与缺口清单",
@@ -45,20 +31,6 @@
    "timeout_s": null
   },
   {
-   "id": "bigmoney-backtest-2026-11-09",
-   "title": "[金融量化（回测 → 一页结论 → 可报价或写清卡点）] 生产候选回测（去债档 + 8% 波动目标）",
-   "cmd": "python quant/bigmoney/scripts/etf_nobond_vt.py",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "quant/bigmoney/results/etf_nobond_vt.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
    "id": "R-TRIAGE-BIGSTREAMMV-BMC-20261109",
    "title": "BigStream·MV 41 曲 线证据扫描（bm-c 本机可判面）",
    "cmd": "python Tools/fleet/line_triage.py --line bigstream-mv --node bm-c",
@@ -71,9 +43,37 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
+  },
+  {
+   "id": "bigmoney-signal-2026-11-09",
+   "title": "[金融量化（回测 → 一页结论 → 可报价或写清卡点）] 下月持仓信号 CSV（可卖的唯一产物）",
+   "cmd": "python Tools/fleet/quant_positions_bridge.py --in quant/bigmoney/results/etf_nobond_vt.json --out cph4/fleet/queue-receipts/etf_nobond_vt_with_positions.json && python Tools/fleet/quant_signal.py --in cph4/fleet/queue-receipts/etf_nobond_vt_with_positions.json --out cph4/fleet/queue-receipts/quant-signal-2026-11-09.csv",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/quant-signal-2026-11-09.csv",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "R-TRIAGE-BIGGAME-BMM-20261109",
+   "title": "Biggame·游戏 线证据扫描（bm-m 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line biggame --node bm-m",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-biggame-bm-m-20261109.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 9.0/1.0 GB"
+ "capacity_note": "ram 6.1/1.0 GB"
 }

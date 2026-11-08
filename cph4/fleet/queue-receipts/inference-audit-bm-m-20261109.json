@@ -1,0 +1,87 @@
+{
+ "ts": "2026-11-09T00:05:27",
+ "node": "bm-m",
+ "os": "macOS-27.2-arm64-arm-64bit-Mach-O",
+ "python": "3.13.18",
+ "endpoint": "http://127.0.0.1:11434",
+ "models": [
+  {
+   "name": "qwen3:8b-dsh32k",
+   "size_gb": 5.23
+  },
+  {
+   "name": "qwen3.5:4b",
+   "size_gb": 3.97
+  },
+  {
+   "name": "qwen3-embedding:0.6b",
+   "size_gb": 0.64
+  },
+  {
+   "name": "qwen3.5:4b-mlx",
+   "size_gb": 3.97
+  },
+  {
+   "name": "qwen3:1.7b",
+   "size_gb": 1.36
+  },
+  {
+   "name": "qwen3:8b",
+   "size_gb": 5.23
+  },
+  {
+   "name": "qwen3:4b-instruct",
+   "size_gb": 2.5
+  }
+ ],
+ "models_error": null,
+ "port_owner": [
+  {
+   "pid": "26931",
+   "image": "ollama",
+   "proto": "*:11434"
+  }
+ ],
+ "server_env": {
+  "OLLAMA_NUM_PARALLEL": "3",
+  "OLLAMA_HOST": "0.0.0.0:11434",
+  "OLLAMA_MAX_LOADED_MODELS": "4",
+  "OLLAMA_FLASH_ATTENTION": "1",
+  "OLLAMA_CONTEXT_LENGTH": "4096",
+  "OLLAMA_KEEP_ALIVE": "30m",
+  "OLLAMA_KV_CACHE_TYPE": "q8_0"
+ },
+ "measure": {
+  "model": "qwen3.5:4b-mlx",
+  "decode_tok_s": 36.2,
+  "engine": "mlx",
+  "prefix_cache": {
+   "first_wall": 0.46,
+   "second_wall": 0.45,
+   "hit": false
+  },
+  "concurrency": {
+   "serial_3": 1.39,
+   "parallel_3": 1.37,
+   "speedup": 1.01
+  }
+ },
+ "embedding": {
+  "model": "qwen3-embedding:0.6b",
+  "dim": 1024,
+  "true_dupe_sims": [
+   0.953,
+   0.939,
+   0.83
+  ],
+  "usable": true
+ },
+ "gaps": [
+  "env-value:OLLAMA_NUM_PARALLEL=3(应为 1)",
+  "env-value:OLLAMA_KEEP_ALIVE=30m(应为 15m)",
+  "env-value:OLLAMA_MAX_LOADED_MODELS=4(应为 1)",
+  "env-value:OLLAMA_CONTEXT_LENGTH=4096(应为 8192)"
+ ],
+ "verdict": "GAPS",
+ "seconds": 90.0
+}
