@@ -643,6 +643,16 @@ def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
            "stderr_tail": (err or "")[-1500:]}
     with open(rc_path, "w", encoding="utf-8") as f:
         json.dump(rec, f, ensure_ascii=False, indent=1)
+    # 产出即验收（CEO 2026-11-08）：在这台机器上立刻分类+过质量席，写 <id>-acceptance.json。
+    try:
+        import produce_run as _pr
+        _res = _pr.judge(deliverable, job.get("line") or "")
+        _pr.write_receipt(jid, _res)
+        rec["accept_verdict"] = _res.get("verdict")
+        rec["accept_score"] = _res.get("score")
+        print("LANE-ACCEPT %s :: %s %s" % (jid, _res.get("verdict"), _res.get("score")))
+    except Exception as _e:
+        print("W-ACCEPT %s" % str(_e)[:80])
     # 影子期事件（2026-11-03 S1）：回执同时记一条 RECEIPT 事件。只写不读，失败不影响执行。
     try:
         import flux_eventlog as _ev
@@ -937,6 +947,46 @@ def self_dispatch(root, node, allow_gpu_workhours, max_seconds, hub, port, dry, 
     return res
 
 
+
+def self_acquire_missing(root):
+    """空槽自驱：给缺料的卡自取输入（只走确定性通道，取不到不伪造）。"""
+    try:
+        import json as _json
+        import subprocess as _sp
+        out = _sp.run(["git", "show", "origin/main:cph4/fleet/PRODUCTION-QUEUE.jsonl"],
+                      cwd=root, capture_output=True, text=True, timeout=60).stdout
+        sa = os.path.join(root, "Tools", "fleet", "self_acquire.py")
+        if not os.path.exists(sa):
+            return False
+        for ln in (out or "").splitlines():
+            ln = ln.strip()
+            if not ln:
+                continue
+            try:
+                r = _json.loads(ln)
+            except Exception:
+                continue
+            if r.get("state") not in ("OPEN", "BLOCKED"):
+                continue
+            for need in (r.get("requires") or []):
+                ns = str(need)
+                if ns.startswith("store/") and len(ns) > 30:
+                    if _sp.run([sys.executable, sa, "--vault", os.path.basename(ns),
+                                "--dest", "media/inbox/acquired/" + os.path.basename(ns)],
+                               cwd=root, capture_output=True, text=True, timeout=900).returncode == 0:
+                        print("LANE-ACQUIRE %s :: %s" % (r.get("id"), ns))
+                        return True
+            url = r.get("source_url")
+            if url:
+                if _sp.run([sys.executable, sa, "--net", url, "--allow-net",
+                            "--dest", "media/inbox/acquired/" + os.path.basename(url)],
+                           cwd=root, capture_output=True, text=True, timeout=1800).returncode == 0:
+                    print("LANE-ACQUIRE %s :: net" % r.get("id"))
+                    return True
+    except Exception as e:
+        print("W-SELF-ACQUIRE %s" % str(e)[:80])
+    return False
+
 def run_lane_cycle(node, root=None, dry=False, allow_gpu_workhours=False,
                    max_seconds=7200, hub=fl.HUB_DEFAULT, port=fl.PORT_DEFAULT,
                    fetch=True):
@@ -950,6 +1000,8 @@ def run_lane_cycle(node, root=None, dry=False, allow_gpu_workhours=False,
     if not jobs:
         res = self_dispatch(root, node, allow_gpu_workhours, max_seconds, hub, port, dry)
         if res:
+            return True
+        if not dry and self_acquire_missing(root):
             return True
         reason = payload.get("idle_reason") or "NO-ASSIGNMENT"
         publish(node, "IDLE", {"reason": reason}, hub, port)
