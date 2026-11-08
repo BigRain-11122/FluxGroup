@@ -669,6 +669,35 @@ def rg32():
     return "定义存在且在 run_lane_cycle 内，调用点与定义同作用域"
 
 
+@case("RG-33", "没令牌的模型调用必须就地判缺料，不许空打网关",
+      "2026-11-08 实锚：fleet_lane 回落网关时不带 X-Flux-Token，一天被拒 830 次；"
+      "配置里 token_env 只有声明、零个读取者 —— 赋能一直是纸面的")
+def rg33():
+    import llm_client as lc
+    log = os.path.join(ROOT, "cph4", "fleet", "state", "llm-gateway.jsonl")
+
+    def lines():
+        try:
+            return sum(1 for _ in open(log, encoding="utf-8"))
+        except FileNotFoundError:
+            return 0
+
+    old_tok = lc.token
+    try:
+        lc.token = lambda: ""          # 等价于本机没钥匙
+        before = lines()
+        r = lc.generate("hi", endpoint="http://100.75.133.10:8792", timeout=5)
+        after = lines()
+        assert r["rc"] == 3 and not r["ok"], "没令牌应返 rc=3（缺料），实返 %s" % r
+        assert after == before, "没令牌仍然发了请求（网关日志 +%d 行）= 空打" % (after - before)
+    finally:
+        lc.token = old_tok
+    # 接线断言：跨机回落必须走带令牌的客户端，不许再拼裸请求
+    src = open(os.path.join(ROOT, "Tools", "fleet", "fleet_lane.py"), encoding="utf-8").read()
+    assert "llm_client.generate" in src, "local_llm 的跨机回落没接 llm_client（会重现 830 次空打）"
+    return "无令牌就地判 rc=3 且零请求；跨机回落已接统一客户端"
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--json", action="store_true")

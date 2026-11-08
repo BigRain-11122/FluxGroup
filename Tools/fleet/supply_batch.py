@@ -167,7 +167,19 @@ def main(argv):
     if cards:
         sys.path.insert(0, HERE)
         import fleet_lane as fl
-        print("已写 %d 张到备队列 READY" % fl.merge_jsonl(BACKLOG, cards))
+        # 落盘前再复检一次：本函数会被脉按轮调用，两轮并发时前面那次读到的"无活卡"
+        # 立刻失效，于是同一交付物被铺成两张（2026-11-08 实锚：4 组重复活卡）。
+        # 复检把竞争窗从"整个 build 过程"缩到"毫秒级"，并保证绝不覆盖已在飞的卡。
+        live2 = {}
+        for p2 in (BACKLOG, os.path.join(F, "PRODUCTION-QUEUE.jsonl")):
+            for r in rows(p2):
+                if str(r.get("state") or "").upper() in LIVE and r.get("deliverable"):
+                    live2[r["deliverable"]] = r.get("id")
+        keep = [c for c in cards if c.get("deliverable") not in live2]
+        if len(keep) != len(cards):
+            print("复检丢弃 %d 张（并发轮已先铺同一交付物）" % (len(cards) - len(keep)))
+        if keep:
+            print("已写 %d 张到备队列 READY" % fl.merge_jsonl(BACKLOG, keep))
     return 0
 
 

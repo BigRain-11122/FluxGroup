@@ -101,8 +101,13 @@ class H(BaseHTTPRequestHandler):
         self.wfile.write(body)
 
     def _deny(self, code, why, model=None):
+        # 记 UA 与端口：2026-11-08 有 830 次无令牌调用，只看 IP 分不清是哪个进程，
+        # 补上 UA 后下次就能点名（谁在空打网关，一目了然）。
         log({"ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "deny": why,
-             "model": model, "caller": self.client_address[0]})
+             "model": model, "caller": self.client_address[0],
+             "port": self.client_address[1] if len(self.client_address) > 1 else None,
+             "path": self.path.split("?")[0],
+             "ua": (self.headers.get("User-Agent") or "")[:80]})
         self._send(code, {"error": why})
 
     def do_GET(self):
