@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-09T00:26:34",
+ "ts": "2026-11-09T00:27:22",
  "jobs": [
   {
    "id": "AUD-GAME-20261108T233251-09",
@@ -23,20 +23,6 @@
    "cwd": "",
    "needs": "cpu",
    "deliverable": "cph4/fleet/queue-receipts/model-radar-bm-m-20261109.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "R-PLAN-FLUXVERSE-20261109",
-   "title": "FluxVerse·元宙城 线级体检与缺口清单",
-   "cmd": "python Tools/fleet/line_triage.py --line fluxverse",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-fluxverse-20261109.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
