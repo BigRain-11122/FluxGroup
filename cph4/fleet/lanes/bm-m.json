@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-08T16:34:48",
+ "ts": "2026-11-08T16:36:55",
  "jobs": [
   {
    "id": "AUD-GAME-20261108T022403-26",
@@ -9,6 +9,34 @@
    "cwd": "/Users/junsheng.sun/FluxGroup",
    "needs": "cpu",
    "deliverable": "cph4/fleet/audits/game/CardRogue.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "AUD-GAME-20261108T081825-25",
+   "title": "提审缺口落单：MonsterInn",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game MonsterInn",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/audits/game/MonsterInn.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "AUD-GAME-20261108T081825-29",
+   "title": "提审缺口落单：LanternSlayer",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game LanternSlayer",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/audits/game/LanternSlayer.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -47,5 +75,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 12.5/1.0 GB"
+ "capacity_note": "ram 12.2/1.0 GB"
 }
