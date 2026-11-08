@@ -27,3 +27,13 @@
 | **探活 IP 卫生判例（新）** | **precedent** | 各机地址唯一定源=Tools/fleet-nodes.json（bm-b=100.82.175.0）。本班按 roster 直探 bm-b 一次成功（200/ram 8.5G）；而历史「bm-b 不可达/LANE-DOWN」多条探的是 100.104.212.62（不在 tailnet）→ 探活前必读 roster。 |
 
 **本班边界**：三旗两件物理（bm-c RAM、两机 w32time）不可远程修，一件是政策预期真空（PARKED 线）不可造活；唯一可做的实质动作是台账诚实收口。零新派卡、零重复 poke、不设第三枚探针（03:58 R19 + 04:52 R20 已在位）。
+
+### R21 追加（2026-11-09 03:47·勘误 + 真根因）
+
+| 件 | 状态 | 证据 / 下一步 |
+|---|---|---|
+| **本班 03:36 行勘误** | **corrected** | 「僵尸 RUNNING→DONE」措辞撤回：该卡 03:14:04 已被 supervisor 判 FAILED(lease-expired-3-attempts)；我看到的 RUNNING 是判负前快照。改按证据收口（交付物 00:24:51 在盘且内容为真 → DONE rc=0，failure 留痕）。 |
+| **CPU 活全钉 bm-m（结构件·P1）** | **registered·受保护件待裁** | 实测 origin RUNNING 3/3 张 owner=bm-m；lanes/bm-a、bm-b jobs=0（ram 41.5G / 8.4G 空转），bm-c lane 停 01:26。这就是三旗的真实来源：不是机器死、不是 lane 断，是上游 `supply/backlog_fill` 把 CPU 活全生成为 nodes=[bm-m]（R2.63「CPU 作业单点」的镜像形态）。正法=发卡按机亲和优先 bm-a/bm-b（Windows·空闲 RAM 大），或 `write_lane_files` 后加「单机 RUNNING >N 即分流」。`master_agent.py` 属 BLUEPRINT §九 受保护件 → 只登记不改。 |
+| **执行腿「有产物不回执」（工具面·P1）** | **registered** | 本班收口的 triage 卡是活证据：00:24:51 已产出真报告，但后续两次认领零回执，租约三连到期被判 FAILED。修法=①lane 收工必写 receipt（含 rc/seconds/deliverable_exists）②verify_done 每日复扫：state∈(FAILED,UNVERIFIED) 且 deliverable mtime>=assign_ts 且非空 → 升 DONE 待核。 |
+
+**R21 边界**：物理件（bm-c RAM、两机 w32time）零催办；政策件（PARKED 线）零造活；结构件（发卡钉 bm-m、回执缺失）只登记交委员会/受保护件通道。
