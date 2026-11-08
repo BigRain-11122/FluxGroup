@@ -159,8 +159,22 @@ def run(window_hours=24):
             kind = kind_of(d)
             p = d if os.path.isabs(str(d)) else os.path.join(ROOT, str(d))
             if not os.path.exists(p):
-                it["verdict"] = "REMOTE"     # 产物在别的机器上，本机判不了
-                it["detail"] = "本机无此产物"
+                # 产物不在本机：读执行机就地验收的回执（produce_run 写的 *-acceptance.json）。
+                # 这是"闭环只认通过的产出"的关键一步——产物在哪判在哪，主控只读结论。
+                rec_p = os.path.join(FLEET, "queue-receipts", "%s-acceptance.json" % (r.get("id")))
+                rv = None
+                if os.path.exists(rec_p):
+                    try:
+                        rv = json.load(open(rec_p, encoding="utf-8"))
+                    except Exception:
+                        rv = None
+                if rv and rv.get("verdict") in ("PASS", "FAIL"):
+                    it["verdict"] = rv["verdict"]
+                    it["score"] = rv.get("score")
+                    it["detail"] = "node-verified(%s) %s" % (rv.get("node"), rv.get("detail", "")[:60])
+                else:
+                    it["verdict"] = "REMOTE"     # 没有回执又看不到文件：不算数，也不判死
+                    it["detail"] = "本机无产物且无验收回执"
             else:
                 v, sc, det = quality(LINE_OF.get(kind, "content-mv"), p)
                 it["verdict"], it["score"], it["detail"] = v, sc, det
