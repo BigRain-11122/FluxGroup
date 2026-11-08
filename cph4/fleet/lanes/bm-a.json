@@ -1,14 +1,14 @@
 {
  "node": "bm-a",
- "ts": "2026-11-08T13:32:08",
+ "ts": "2026-11-08T14:30:04",
  "jobs": [
   {
-   "id": "MV-DIRECTOR-PACKET-20261108",
-   "title": "导演席拉片包：KN 复核卷一页卷（成片+闸+证据+签字位）",
-   "cmd": "python Tools/fleet/review_packet.py --line kn --root .",
-   "cwd": "",
+   "id": "QUANT-BACKTEST-PRODUCE-20261108",
+   "title": "量化回测产物（真实交易序列，产出 JSON）",
+   "cmd": "python quant/bigmoney/scripts/etf_composite_pf.py",
+   "cwd": ".",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/review-packet-kn-20261108.md",
+   "deliverable": "quant/bigmoney/results/etf_composite_pf.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 27.9/1.0 GB"
+ "capacity_note": "ram 41.9/1.0 GB"
 }

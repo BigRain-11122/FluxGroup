@@ -1,8 +1,23 @@
 {
  "node": "bm-b",
- "ts": "2026-11-08T14:09:07",
- "jobs": [],
- "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+ "ts": "2026-11-08T14:30:04",
+ "jobs": [
+  {
+   "id": "ASSET-GEN-TYPOGRAPHY-20261108B",
+   "title": "字效类资产出图（6 件）",
+   "cmd": "python Tools/fleet/asset_gen.py --class typography --limit 6 --node bm-c --receipt cph4/fleet/queue-receipts/asset-gen-typography-20261108.json",
+   "cwd": ".",
+   "needs": "gpu",
+   "deliverable": "media/asset/typography/typography-01.png",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  }
+ ],
+ "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 8.9/1.0 GB"
+ "capacity_note": "ram 8.8/1.0 GB"
 }
