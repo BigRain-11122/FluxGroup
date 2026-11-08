@@ -1,6 +1,6 @@
 {
  "node": "bm-b",
- "ts": "2026-11-08T12:41:57",
+ "ts": "2026-11-08T12:42:47",
  "jobs": [
   {
    "id": "bigmoney-signal-2026-11-08",
@@ -31,20 +31,6 @@
    "timeout_s": null
   },
   {
-   "id": "biggame-accept-2026-11-08",
-   "title": "[游戏（可上线清单 → 一款可玩包 → 提审材料）] 质量验收（缺一份闸回执就不算交付）",
-   "cmd": "python Tools/fleet/quality_gate.py --line biggame --out cph4/fleet/queue-receipts/quality-biggame-2026-11-08.json",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/quality-biggame-2026-11-08.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
    "id": "R-TRIAGE-BIGDOMAIN-BMB-20261108",
    "title": "BigDomain·硅基域商业化 线证据扫描（bm-b 本机可判面）",
    "cmd": "python Tools/fleet/line_triage.py --line bigdomain --node bm-b",
@@ -61,5 +47,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 10.3/1.0 GB"
+ "capacity_note": "ram 9.6/1.0 GB"
 }

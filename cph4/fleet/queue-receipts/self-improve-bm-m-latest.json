@@ -1,12 +1,12 @@
 {
  "node": "bm-m",
- "ts": "2026-11-08T12:41:59",
+ "ts": "2026-11-08T12:42:49",
  "mode": "apply",
  "verdict": "SELF-OK",
  "checks": [
   {
    "check": "reload",
-   "code_age_s": 6372,
+   "code_age_s": 6423,
    "receipt_age_s": 0,
    "targets": [],
    "acted": false,
@@ -16,11 +16,12 @@
   },
   {
    "check": "shells",
-   "cards": 2,
+   "cards": 0,
    "shells": 0,
    "ids": [],
    "acted": false,
-   "verdict": "OK"
+   "verdict": "OK",
+   "note": "no assignment on this lane (not a shell problem)"
   },
   {
    "check": "deps",
