@@ -523,3 +523,15 @@ rame_bytes/frame_sha12；**bm-a 上该目录不存在（0/30）**，且本机两
 | **bm-c BLOCKED-RAM（03:01/03:11/03:21 旗）** | **waiting-owner·在 1.0G 闸边缘震荡** | 03:23 实测 ram_free 1.7G → 03:26 回落 0.7G → 03:44 1.6G/cpu 76%，闸 1.0G 上下震荡；车道有真卡 ASSET-GEN-TYPOGRAPHY-20261108（needs=gpu）候运行。无远程执行通道，需本机释放（ollama 驻留/编辑器）；不重复铺同交付物卡 |
 | **bm-c 仓分叉 ahead50/behind472（R13-3 在册）** | **registered·结构件（本班再实证）** | 03:23/03:44 两次读 last_pull.fork=".":"50	472/main"，pull_ts 停在 02:28（:updated）→ ff-only 拉不动，新卡/新工具到不了 bm-c；自有 OS 环仍跑（Bigmoney-IterationLoop/SaturationEngine Running）。收口须本机 git fetch && git reset --mixed origin/main（无远程通道） |
 | **供给通道不持久（队列被 bm-m 整体重写，本班实证）** | **registered·P1 结构件（R11-7 升级）** | 03:26/03:28 我推入 origin PRODUCTION-QUEUE.jsonl 的两张真卡（-26-R1/-30-R1）在 03:46 origin 上已消失：bm-m 每约 2 分钟提交 state: 队列/回执同步 会用其本地队列整体覆盖该文件，外部/他机供给的卡 2 分钟内被抹掉，bm-b 只能靠「未再拉取」侥幸持有。后果=供给不持久、DONE 记录也可能被抹成空壳（承同日空壳 DONE 判例）。建议正法=master_agent/state_push 对队列改「并集合并」而非整写（按 id 去重合并，本地态优先），或把作业卡通道单独拆分（lanes 只读、queue 只追加）。收口须 bm-m 席或专项窗，无远程通道。 |
+
+## 附录 R16 事件班登记（2026-11-09 00:41-01:10·承载件触发·STARVED-EXEC bm-b + CLOCK-UNALIGNED）
+
+| 件 | 状态 | 证据 / 下一步 |
+|---|---|---|
+| **STARVED-EXEC bm-b（11-08 21:41/22:01 双旗）** | **resolved（自愈·真活实证）** | 00:41 LOG bm-b=6run；队列实证 6 张 RUNNING 且 claimed_at 00:26/00:31/00:49（Q-ANCHOR-SHOTGRID-REBUILD / R-PLAN-BIGDOMAIN / R-PLAN-BIGMONEY / bigmoney-signal / asset-lib-library-check / R-TRIAGE-*）。无需补卡。 |
+| **CLOCK-UNALIGNED（old_schema=1）** | **resolved** | CLOCK-SKEW.json 00:44：old_schema=0 missing=0，三机均 v2。残余=SKEW-HIGH bm-b 1456→3461ms、bm-c 3866ms（precision 407-527ms 中继不可信档）——w32time 提权物理件，已在册 waiting-CEO 零催办。 |
+| **TTS 质检卡错机派单死循环（本班根治）** | **FIXED（卡与令已上链·领取受阻于 bm-b 分叉）** | 实锚：6 张同类卡（20261102/03/04/07、bigstream-duanju-tts-qc-2026-11-03、MOB-DRAMA-TTSQC-20261106）全落 bm-m/bm-a/bm-c，回执一律 BLOCKED「dir missing」；素材 1036/1036 wav、60/60 集只在 bm-b（Q-TTS-1202R-bm-b.md）。处置=销旧卡 + 新开 R-TTS-QC-R3-20261109（hard_nodes=[bm-b]·needs=cpu·回执窗 2h）+ POOL-0026 + O-20261109-0053，card-lint 9/9，origin 920fef5f7。 |
+| **bm-b clone 分叉阻断新卡可见性（P1·新）** | **registered·收口须专项窗** | bm-b /status 01:00:26 自报 origin_main=5d39640b、ahead 702/behind 428，pull 结果 `.:updated-kept-local`；而本班推送 920fef5f7 → bm-b 看不到 R3 卡，领取循环空转。修法=无他窗在写的专项窗按 10-30 判例（fetch + reset --mixed origin/main + 定向 checkout），或专设一条 bm-b 侧 `queue_refresh` 卡由 bp-m 自身 OS 循环执行。**本班不动 bm-b 的 git（怕吞其 702 笔本地提交）。** |
+| **反转闸对既有漂移长期红灯（P1·新）** | **registered·工具缺陷** | `git-no-reversal-check.py origin/main origin/main --depth 30 --audit` = 230/501 条历史增行在近 30 提交消失（他窗整文件覆盖所致）。后果=git-atomic-push 对所有合法推送一律 ABORT（本班首推即被拦）。本班改走外科净路（tree=origin+3 文件，零外来删行）并留痕。修法=闸基线改为「以本次推送的 base 树为锚」而非历史全量，或对 STATE_FILES 类单列豁免。 |
+| **lane 合并循环吃掉 orders/POOL 本地改动（P1·新）** | **registered·同族 state_push** | 00:5x 提交 a1ad2d5d7「restore 1 local-only card(s) after merge」+50dd515b5「merge origin (generated files take remote)」把本班 orders 行与 POOL-0026 抹掉（仅队列卡被恢复）。本班已重放并推。修法=合并循环的 restore 名单须覆盖 orders.md/POOL.json（或这三件一律按「本地新增行并集」合）。 |
+| **回访探针** | **armed** | +90min 一次性 cron：复探 R3 卡状态与 bm-b 可见性；复发=旗升 DE 级。 |
