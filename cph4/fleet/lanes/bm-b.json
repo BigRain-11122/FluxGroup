@@ -1,6 +1,6 @@
 {
  "node": "bm-b",
- "ts": "2026-11-08T09:34:44",
+ "ts": "2026-11-08T09:35:15",
  "jobs": [
   {
    "id": "bigmoney-signal-2026-11-08",
@@ -15,23 +15,9 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
-  },
-  {
-   "id": "AUD-GAME-20261108T081825-36",
-   "title": "提审缺口落单：GhostMarshal",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game GhostMarshal",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/GhostMarshal.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 9.0/1.0 GB"
+ "capacity_note": "ram 9.5/1.0 GB"
 }
