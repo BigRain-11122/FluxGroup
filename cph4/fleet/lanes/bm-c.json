@@ -1,6 +1,6 @@
 {
  "node": "bm-c",
- "ts": "2026-11-08T13:44:15",
+ "ts": "2026-11-08T13:52:45",
  "jobs": [
   {
    "id": "R-TRIAGE-BIGSTREAMMV-BMC-20261108",
@@ -23,6 +23,20 @@
    "cwd": "",
    "needs": "cpu",
    "deliverable": "cph4/fleet/queue-receipts/triage-biggame-bm-c-20261108.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "AUD-GAME-20261108T030701-27",
+   "title": "提审缺口落单：ExileFarm",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game ExileFarm",
+   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/audits/game/ExileFarm.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
