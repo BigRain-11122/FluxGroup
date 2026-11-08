@@ -2,7 +2,7 @@
  "id": "R-PLAN-FLUXVERSE-20261109",
  "node": "bm-a",
  "rc": 0,
- "seconds": 5.3,
+ "seconds": 4.2,
  "cmd": "python Tools/fleet/line_triage.py --line fluxverse",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/queue-receipts/triage-fluxverse-20261109.md",
  "deliverable_exists": true,
- "ts": "2026-11-09T00:14:53",
+ "ts": "2026-11-09T00:24:51",
  "stdout_tail": "[triage] fluxverse -> cph4\\fleet\\queue-receipts\\triage-fluxverse-20261109.md\n",
  "stderr_tail": ""
 }
