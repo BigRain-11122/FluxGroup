@@ -1,61 +1,8 @@
 {
  "node": "bm-m",
- "ts": "2026-11-09T04:00:09",
- "jobs": [
-  {
-   "id": "AUD-GAME-20261109T023422-09",
-   "title": "提审缺口落单：GimmeAll",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game GimmeAll",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/GimmeAll.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "R-DEAI-20261104-001",
-   "title": "主控接入「高质量+去AI感」出厂总闸（CEO 20261104 根本要求令·产出接入简报）",
-   "cmd": null,
-   "cwd": "C:\\Users\\sjs20\\Desktop\\FluxGroup",
-   "needs": "cpu",
-   "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-deai-ack.md",
-   "need_mb": null,
-   "model": "local-small",
-   "prompt": "只依据两份文件事实：cph4/fleet/quality/DE-AI-SPEC-v1.md（四域25条出厂闸）与 cph4/fleet/BACKLOG-LEDGER-20261103.md 的 J/K 节。写「主控接入简报」，逐条回答：①你（主控）派单时 accept 字段将引用哪些 spec 条目号（A/B/C/D 各至少2例）；②音色线新序（供给→Q-VCORP-PREP 16槽→微调试点z01/e01→双PASS才批量14）你会怎么排线，旧混组分片卡（已 SUPERSEDED）为何不得复活；③人脸线换模决策流程（Q-FACE-BOARD-BMC 对照板→导演席按B1/B2/B3/B5盲评→CHAR-GEN-V2-QWEN 切换）你在 dispatch 上怎么配合；④你在哪些时点自查是否误派 AI 脸/AI 声风险卡。全文 ≤15 行，只写文件里有的，不得编造。",
-   "when_all": [
-    "cph4/fleet/quality/DE-AI-SPEC-v1.md",
-    "cph4/fleet/BACKLOG-LEDGER-20261103.md"
-   ],
-   "llm": {
-    "out": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-deai-ack.md"
-   },
-   "timeout_s": null
-  },
-  {
-   "id": "R-DEAI-20261104-002",
-   "title": "主控巡检：现队列对照 DE-AI-SPEC 的风险卡清单（AI 脸/AI 声风险标红）",
-   "cmd": null,
-   "cwd": "C:\\Users\\sjs20\\Desktop\\FluxGroup",
-   "needs": "cpu",
-   "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-deai-queue-audit.md",
-   "need_mb": null,
-   "model": "local-small",
-   "prompt": "只依据 cph4/fleet/quality/DE-AI-SPEC-v1.md 与 cph4/fleet/PRODUCTION-QUEUE.jsonl：扫 state=OPEN/RUNNING 的卡，产出清单（每行：卡 id | 线 | 按哪条 spec 判为风险（B5 底模/A8 直出 TTS/C1 画风 等）| 你建议的 accept 补引条目号）。特别标注：仍在用 SDXL/DreamShaper 系出图的卡、任何『不经 SoVITS 微调直出人声』的卡、以及人脸/音色数据集准入卡是否都带 RIGHTS 检查。≤20 行，不得编造卡外的事实。",
-   "when_all": [
-    "cph4/fleet/quality/DE-AI-SPEC-v1.md",
-    "cph4/fleet/PRODUCTION-QUEUE.jsonl"
-   ],
-   "llm": {
-    "out": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-deai-queue-audit.md"
-   },
-   "timeout_s": null
-  }
- ],
- "idle_reason": "",
+ "ts": "2026-11-09T06:00:04",
+ "jobs": [],
+ "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
  "lane_ok": true,
- "capacity_note": "ram 14.8/1.0 GB"
+ "capacity_note": "ram 13.3/1.0 GB"
 }
