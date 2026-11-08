@@ -2,6 +2,7 @@
  "node": "bm-m",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
  "ts": "2026-11-08T19:01:49",
  "jobs": [
   {
@@ -43,6 +44,11 @@
  "jobs": [
   {
 >>>>>>> Stashed changes
+=======
+ "ts": "2026-11-08T19:09:14",
+ "jobs": [
+  {
+>>>>>>> Stashed changes
    "id": "AUD-GAME-20261108T022403-24",
    "title": "提审缺口落单：我的小花园_CCPC提交格式",
    "cmd": "python Tools/fleet/supply_batch.py --audit game 我的小花园_CCPC提交格式",
@@ -57,10 +63,10 @@
    "timeout_s": null
   },
   {
-   "id": "AUD-GAME-20261108T022403-26",
+   "id": "AUD-GAME-20261108T081825-26",
    "title": "提审缺口落单：CardRogue",
    "cmd": "python Tools/fleet/supply_batch.py --audit game CardRogue",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "cwd": "",
    "needs": "cpu",
    "deliverable": "cph4/fleet/audits/game/CardRogue.json",
    "need_mb": null,
@@ -73,10 +79,14 @@
   {
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
 =======
 >>>>>>> Stashed changes
    "id": "AUD-GAME-20261108T081825-25",
+=======
+   "id": "AUD-GAME-20261108T111104-25",
+>>>>>>> Stashed changes
    "title": "提审缺口落单：MonsterInn",
    "cmd": "python Tools/fleet/supply_batch.py --audit game MonsterInn",
    "cwd": "",
@@ -90,6 +100,7 @@
    "timeout_s": null
   },
   {
+<<<<<<< Updated upstream
    "id": "AUD-GAME-20261108T081825-29",
    "title": "提审缺口落单：LanternSlayer",
    "cmd": "python Tools/fleet/supply_batch.py --audit game LanternSlayer",
@@ -122,6 +133,8 @@
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
    "id": "AUD-GAME-20261108T181424-09",
    "title": "提审缺口落单：GimmeAll",
    "cmd": "python Tools/fleet/supply_batch.py --audit game GimmeAll",
@@ -138,5 +151,9 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
+<<<<<<< Updated upstream
  "capacity_note": "ram 7.8/1.0 GB"
+=======
+ "capacity_note": "ram 7.7/1.0 GB"
+>>>>>>> Stashed changes
 }
