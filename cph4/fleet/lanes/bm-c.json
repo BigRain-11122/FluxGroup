@@ -1,6 +1,10 @@
 {
  "node": "bm-c",
+<<<<<<< Updated upstream
  "ts": "2026-11-08T18:17:03",
+=======
+ "ts": "2026-11-08T18:23:51",
+>>>>>>> Stashed changes
  "jobs": [
   {
    "id": "R-TRIAGE-BIGSTREAMMV-BMC-20261108",
@@ -15,6 +19,7 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
+<<<<<<< Updated upstream
   },
   {
    "id": "R-TRIAGE-FLUXVERSE-BMC-20261108",
@@ -29,9 +34,15 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
+=======
+>>>>>>> Stashed changes
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
+<<<<<<< Updated upstream
  "capacity_note": "ram 7.5/1.0 GB"
+=======
+ "capacity_note": "ram 7.1/1.0 GB"
+>>>>>>> Stashed changes
 }
