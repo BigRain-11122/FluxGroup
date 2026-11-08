@@ -23,6 +23,7 @@ git。后果不是"晚一点同步"，而是**卡永远不在 origin 上翻面**
 Exit: 0 正常（含无变化）｜2 推送失败（已回滚工作树，不影响主工作树）
 """
 import argparse
+import json
 import os
 import re
 import shutil
@@ -124,6 +125,37 @@ def ensure_worktree():
     return rc == 0
 
 
+def _state_ts(raw):
+    """'ts' of a mirror-state JSON, or None when unparseable/absent."""
+    try:
+        d = json.loads(raw.decode("utf-8-sig"))
+    except Exception:
+        return None
+    if isinstance(d, dict):
+        for k in ("ts", "updated_at", "generated_at"):
+            v = d.get(k)
+            if isinstance(v, str) and v:
+                return v
+    return None
+
+
+def newer_state_wins(origin_bytes, local_bytes):
+    """Mirror state (lanes/receipts): the newer 'ts' wins, never "local always".
+
+    2026-11-09 R19 live case: a dispatcher assignment written into
+    cph4/fleet/lanes/bm-b.json lived 56 seconds - this mirror's blind copyfile of its
+    own stale copy erased it, and the starved node never saw the job. Assignments and
+    node state both carry 'ts', so comparing them keeps the newest truth either way
+    without letting one side win by default.
+    """
+    if not origin_bytes:
+        return local_bytes
+    ot, lt = _state_ts(origin_bytes), _state_ts(local_bytes)
+    if ot is None or lt is None:
+        return local_bytes          # unparseable: keep today's behaviour
+    return local_bytes if lt >= ot else origin_bytes
+
+
 def sync_into_worktree():
     """把状态面复制进独立工作树。返回是否有变化。
 
@@ -163,10 +195,14 @@ def sync_into_worktree():
                 if not f.endswith(".json"):
                     continue
                 s = os.path.join(dirpath, f)
+                relpath = os.path.relpath(s, ROOT).replace(os.sep, "/")
                 d = os.path.join(WT, os.path.relpath(s, ROOT))
                 os.makedirs(os.path.dirname(d), exist_ok=True)
                 try:
-                    shutil.copyfile(s, d)
+                    with open(s, "rb") as fh:
+                        local = fh.read()
+                    with open(d, "wb") as fh:
+                        fh.write(newer_state_wins(origin_blob(relpath), local))
                     n += 1
                 except Exception:
                     pass
