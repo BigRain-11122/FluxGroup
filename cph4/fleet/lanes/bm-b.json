@@ -1,21 +1,7 @@
 {
  "node": "bm-b",
- "ts": "2026-11-09T01:26:04",
+ "ts": "2026-11-09T03:00:04",
  "jobs": [
-  {
-   "id": "Q-ANCHOR-SHOTGRID-REBUILD-20261109",
-   "title": "词锚修复后重建 shotgrid + 41 曲锚点矩阵复验（bm-b 词锚车道）",
-   "cmd": "python cph4/fleet/mv-album-001-jay/anchor_shotgrid.py && python cph4/fleet/mv-album-001-jay/anchor_shotgrid.py --matrix",
-   "cwd": null,
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/mv-album-001-jay/POOL-0018-0019-anchor-matrix.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
   {
    "id": "R-TRIAGE-BIGSTREAMMV-BMB-20261109",
    "title": "BigStream·MV 41 曲 线证据扫描（bm-b 本机可判面）",
@@ -47,5 +33,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 8.6/1.0 GB"
+ "capacity_note": "ram 7.2/1.0 GB"
 }
