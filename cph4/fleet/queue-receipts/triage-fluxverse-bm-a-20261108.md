@@ -1,9 +1,9 @@
-# 线级体检 fluxverse · 2026-11-08 15:44
+# 线级体检 fluxverse · 2026-11-08 15:49
 
 ## 工段与证据目录
 - city-assemble  owner=地编席      lane=bm-a   证据 3/3 存在 · 文件 102258 · 最新 72.7h
 - city-data      owner=城市线      lane=-      证据 1/1 存在 · 文件 53 · 最新 0.1h
-- city-viz       owner=城市线      lane=-      证据 1/1 存在 · 文件 229 · 最新 0.3h
+- city-viz       owner=城市线      lane=-      证据 1/1 存在 · 文件 229 · 最新 0.4h
 
 ## 判定
 - 最近产出 0.1h 前（阈值 36.0h）→ FRESH 在阈内
