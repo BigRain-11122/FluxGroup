@@ -1,8 +1,85 @@
 {
  "node": "bm-m",
+<<<<<<< HEAD
  "ts": "2026-11-08T22:49:22",
  "jobs": [],
  "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+=======
+ "ts": "2026-11-08T02:19:33",
+ "jobs": [
+  {
+   "id": "AUD-GAME-20261108T012729-09",
+   "title": "提审缺口落单：GimmeAll",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game GimmeAll",
+   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/audits/game/GimmeAll.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "AUD-GAME-20261108T012729-11",
+   "title": "提审缺口落单：涨停板",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game 涨停板",
+   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/audits/game/涨停板.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "AUD-GAME-20261108T012729-12",
+   "title": "提审缺口落单：CrazyWorker",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game CrazyWorker",
+   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/audits/game/CrazyWorker.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "AUD-GAME-20261108T012729-16",
+   "title": "提审缺口落单：大不了开饭馆",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game 大不了开饭馆",
+   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/audits/game/大不了开饭馆.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "AUD-GAME-20261108T012729-19",
+   "title": "提审缺口落单：CrazyEstate",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game CrazyEstate",
+   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/audits/game/CrazyEstate.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  }
+ ],
+ "idle_reason": "",
+>>>>>>> e365df198 (job(AUD-GAME-20261108T012729-12): artifact [via bm-m])
  "lane_ok": true,
  "capacity_note": "ram-unknown"
 }
