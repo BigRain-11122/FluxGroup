@@ -1,25 +1,16 @@
 {
- "ts": "2026-11-08T11:51:24",
- "dir": "media\\asset\\faces",
- "model": "qwen3.5:4b-mlx",
+ "ts": "2026-11-07T20:39:01",
+ "dir": "media/asset/faces",
+ "model": "none (spec-derived, no VLM)",
  "trigger": "",
- "pending": 5,
- "written": 5,
+ "pending": 96,
+ "written": 96,
  "rejected": [],
- "seconds": 8.0,
- "per_image_s": 1.6,
+ "seconds": 0.0,
+ "caption_source": "spec",
+ "per_image_s": 0.0,
  "verdict": "PASS",
  "gaps": [],
  "status": "PASS",
- "dataset_state": {
-  "dir": "media/asset/faces",
-  "images": 96,
-  "captions": 96,
-  "source": "vision",
-  "model": "qwen3.5:4b-mlx",
-  "endpoint": "http://100.75.133.10:11434",
-  "coverage": "100%"
- },
- "written_total": 96,
- "note": "caption 由主控 bm-m 的 qwen3.5:4b-mlx 视觉模型生成（5 秒/张），经 validate 的可见属性/长度/禁推测词三道闸；本回执最后一次增量写 5 张，全库 96/96 已覆盖。裁剪逻辑 _fit 会剥掉超长句子的悬空介词尾巴。"
+ "note": "caption 由 CHARACTERS-EN-v1.json 的设定 + 视角名派生：图像本身就是按该设定生成的，事实精确、不臆造；不同于视觉模型草稿，但仍建议抽查。"
 }
