@@ -1,7 +1,49 @@
 {
  "node": "bm-m",
- "ts": "2026-11-08T19:30:19",
+ "ts": "2026-11-08T19:37:21",
  "jobs": [
+  {
+   "id": "AUD-GAME-20261108T012729-09",
+   "title": "提审缺口落单：GimmeAll",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game GimmeAll",
+   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/audits/game/GimmeAll.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "AUD-GAME-20261108T012729-27",
+   "title": "提审缺口落单：ExileFarm",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game ExileFarm",
+   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/audits/game/ExileFarm.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "AUD-GAME-20261108T012729-35",
+   "title": "提审缺口落单：TreasureDive",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game TreasureDive",
+   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/audits/game/TreasureDive.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
   {
    "id": "AUD-GAME-20261108T022403-24",
    "title": "提审缺口落单：我的小花园_CCPC提交格式",
@@ -17,12 +59,12 @@
    "timeout_s": null
   },
   {
-   "id": "AUD-GAME-20261108T181424-09",
-   "title": "提审缺口落单：GimmeAll",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game GimmeAll",
+   "id": "AUD-GAME-20261108T081825-26",
+   "title": "提审缺口落单：CardRogue",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game CardRogue",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/GimmeAll.json",
+   "deliverable": "cph4/fleet/audits/game/CardRogue.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -33,5 +75,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 11.6/1.0 GB"
+ "capacity_note": "ram 11.9/1.0 GB"
 }
