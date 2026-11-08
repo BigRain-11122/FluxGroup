@@ -1,6 +1,7 @@
 {
  "node": "bm-c",
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
  "ts": "2026-11-08T21:11:32",
  "jobs": [
   {
@@ -56,12 +57,20 @@
  "ts": "2026-11-08T21:14:12",
  "jobs": [
   {
+=======
+ "ts": "2026-11-08T21:17:16",
+ "jobs": [
+  {
+>>>>>>> Stashed changes
    "id": "ASSET-GEN-TYPOGRAPHY-20261108",
    "title": "字效类资产出图（bm-c styles/typography 库存 0）",
    "cmd": "python Tools/fleet/asset_gen.py --class typography --limit 6 --node bm-c --receipt cph4/fleet/queue-receipts/asset-gen-typography-20261108.json",
    "cwd": ".",
    "needs": "gpu",
    "deliverable": "cph4/fleet/queue-receipts/asset-gen-typography-20261108.json",
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
    "need_mb": null,
    "model": "none",
@@ -84,7 +93,10 @@
    "llm": null,
    "timeout_s": null
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
   },
   {
    "id": "R-TRIAGE-FLUXVERSE-BMC-20261108",
@@ -99,14 +111,21 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
  "capacity_note": "ram 5.6/1.0 GB"
 =======
  "capacity_note": "ram 5.9/1.0 GB"
+>>>>>>> Stashed changes
+=======
+ "capacity_note": "ram 3.7/1.0 GB"
 >>>>>>> Stashed changes
 }

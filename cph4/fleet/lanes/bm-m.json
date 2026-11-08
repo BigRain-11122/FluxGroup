@@ -1,6 +1,7 @@
 {
  "node": "bm-m",
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
  "ts": "2026-11-08T21:08:12",
  "jobs": [
   {
@@ -88,6 +89,17 @@
    "cwd": "/Users/junsheng.sun/FluxGroup",
    "needs": "cpu",
    "deliverable": "cph4/fleet/audits/game/CardRogue.json",
+=======
+ "ts": "2026-11-08T21:17:16",
+ "jobs": [
+  {
+   "id": "AUD-GAME-20261108T012729-36",
+   "title": "提审缺口落单：GhostMarshal",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game GhostMarshal",
+   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/audits/game/GhostMarshal.json",
+>>>>>>> Stashed changes
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -99,7 +111,11 @@
  "idle_reason": "",
  "lane_ok": true,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
  "capacity_note": "ram 8.2/1.0 GB"
+=======
+ "capacity_note": "ram 8.4/1.0 GB"
+>>>>>>> Stashed changes
 =======
  "capacity_note": "ram 8.4/1.0 GB"
 >>>>>>> Stashed changes

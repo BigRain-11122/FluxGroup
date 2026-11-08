@@ -2,6 +2,7 @@
  "node": "bm-m",
  "ts": "2026-11-08T21:11:43",
  "ts": "2026-11-08T21:14:28",
+ "ts": "2026-11-08T21:17:27",
  "mode": "apply",
  "verdict": "SELF-OK",
  "checks": [
@@ -11,6 +12,8 @@
    "receipt_age_s": 10,
    "code_age_s": 492,
    "receipt_age_s": 11,
+   "code_age_s": 672,
+   "receipt_age_s": 2,
    "targets": [],
    "acted": false,
    "note": "executor produced a receipt after the last code edit",
@@ -19,7 +22,7 @@
   },
   {
    "check": "shells",
-   "cards": 6,
+   "cards": 1,
    "shells": 0,
    "ids": [],
    "acted": false,
