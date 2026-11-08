@@ -32,6 +32,25 @@ import time
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 FLEET = os.path.join(ROOT, "cph4", "fleet")
 OUTDIR = os.path.join(FLEET, "lib")
+AGGREGATE_CFG = os.path.join(FLEET, "AGGREGATE-TARGET.json")
+
+
+def aggregate_target():
+    """哪台机器收产出、在哪台机器验收——只认 AGGREGATE-TARGET.json。
+
+    2026-11-08 CEO 令：机队所有产出归集给传家宝并在那里验收，含主控自有产出。
+    机器名在这里硬编码过一次就分裂过一次（bm-b/bm-c 绰号被整套写反），
+    所以目标一律从配置读，读不到就报错停下，不猜。
+    """
+    try:
+        with open(AGGREGATE_CFG, encoding="utf-8") as f:
+            cfg = json.load(f)
+    except Exception as e:
+        raise SystemExit("归集目标配置读不到：%s (%s)" % (AGGREGATE_CFG, e))
+    node = cfg.get("target_node")
+    if not node:
+        raise SystemExit("归集目标配置缺 target_node：%s" % AGGREGATE_CFG)
+    return cfg
 
 
 def rd(p):
@@ -170,9 +189,11 @@ def main(argv):
     ap.add_argument("--receipt", default="",
                     help="额外写一份带日期的回执（给机队卡用，避免固定路径被'产物已在盘'跳过）")
     a = ap.parse_args(argv)
+    _tgt = aggregate_target()
     data = {
         "ts": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
-        "owner": "bm-c（传家宝）· 归集与 git 备份",
+        "owner": "%s（%s）· 归集与 git 备份" % (_tgt["target_node"], _tgt.get("target_nickname") or _tgt["target_node"]),
+        "accept_on": _tgt.get("accept_on") or _tgt["target_node"],
         "skills": scan_skills(),
         "voice": scan_voice(),
         "workflow": scan_workflow(),
