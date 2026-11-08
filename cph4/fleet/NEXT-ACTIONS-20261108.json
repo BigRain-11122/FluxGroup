@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-08T10:42:50+0800",
+ "ts": "2026-11-08T10:51:59+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -28,8 +28,8 @@
    "blocker_type": "CEO",
    "blocker": "截图需跑游戏取图，受 2026-10-28『不许自动跑游戏包』令约束，等放行",
    "state": "RUNNING",
-   "card": "AUD-GAME-20261108T081825-25",
-   "running_on": "bm-m"
+   "card": "ASSET-GEN-TYPOGRAPHY-20261108",
+   "running_on": "bm-c"
   },
   {
    "id": "bigmoney",
@@ -223,7 +223,7 @@
    "blocker_type": "ENGINE",
    "blocker": "I2 存量 125 条卡面路径债、vault 缺盘 651 条",
    "state": "QUEUED",
-   "card": "CANARY-20261108T104249",
+   "card": "R-TRIAGE-BIGSTREAMMV-BMC-20261108",
    "running_on": null
   }
  ],
