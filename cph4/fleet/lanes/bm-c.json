@@ -1,6 +1,6 @@
 {
  "node": "bm-c",
- "ts": "2026-11-08T13:08:56",
+ "ts": "2026-11-08T13:11:05",
  "jobs": [
   {
    "id": "ASSET-GEN-TYPOGRAPHY-20261108",
@@ -9,20 +9,6 @@
    "cwd": ".",
    "needs": "gpu",
    "deliverable": "cph4/fleet/queue-receipts/asset-gen-typography-20261108.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "R-TRIAGE-BIGGAME-BMC-20261108",
-   "title": "Biggame·游戏 线证据扫描（bm-c 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line biggame --node bm-c",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-biggame-bm-c-20261108.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -43,23 +29,9 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
-  },
-  {
-   "id": "R-TRIAGE-BIGMONEY-BMC-20261108",
-   "title": "BigMoney·量化 线证据扫描（bm-c 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigmoney --node bm-c",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigmoney-bm-c-20261108.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
   }
  ],
  "idle_reason": "",
- "lane_ok": true,
- "capacity_note": "ram 2.3/1.0 GB"
+ "lane_ok": false,
+ "capacity_note": "ram 0.8/1.0 GB"
 }
