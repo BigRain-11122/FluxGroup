@@ -1,79 +1,8 @@
 {
  "node": "bm-m",
- "ts": "2026-11-08T13:08:56",
- "jobs": [
-  {
-   "id": "AUD-GAME-20261108T012729-33",
-   "title": "提审缺口落单：NightWatch",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game NightWatch",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/NightWatch.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "AUD-GAME-20261108T012729-36",
-   "title": "提审缺口落单：GhostMarshal",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game GhostMarshal",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/GhostMarshal.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "AUD-GAME-20261108T022403-24",
-   "title": "提审缺口落单：我的小花园_CCPC提交格式",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game 我的小花园_CCPC提交格式",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/我的小花园_CCPC提交格式.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "AUD-GAME-20261108T022403-26",
-   "title": "提审缺口落单：CardRogue",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game CardRogue",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/CardRogue.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "AUD-GAME-20261108T022403-30",
-   "title": "提审缺口落单：FateGate",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game FateGate",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/FateGate.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  }
- ],
- "idle_reason": "",
+ "ts": "2026-11-08T12:51:45",
+ "jobs": [],
+ "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
  "lane_ok": true,
- "capacity_note": "ram 11.7/1.0 GB"
+ "capacity_note": "ram 12.4/1.0 GB"
 }
