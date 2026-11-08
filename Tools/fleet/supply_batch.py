@@ -86,6 +86,41 @@ def audit_game(name):
     return 0
 
 
+def _exclusive_lock():
+    """跨进程互斥：供给器被脉按轮调用，两轮并发会各自通过"去重检查"再各写一张，
+    于是同一交付物铺成两张（今天实测 4 次复发，11 组）。复检只能缩窗、不能消除竞争，
+    真正的解法是**查与写在同一把锁里**。拿不到锁就跳过本轮（下一轮再来，不抢）。"""
+    import contextlib
+
+    @contextlib.contextmanager
+    def _cm():
+        path = os.path.join(F, ".supply-batch.lock")
+        fh = None
+        try:
+            fh = open(path, "a+b")
+            try:
+                import fcntl
+                fcntl.flock(fh.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+            except ImportError:
+                import msvcrt
+                msvcrt.locking(fh.fileno(), msvcrt.LK_NBLCK, 1)
+            except (IOError, OSError):
+                raise RuntimeError("locked")
+            yield True
+        except RuntimeError:
+            yield False
+        finally:
+            if fh is not None:
+                try:
+                    import fcntl
+                    fcntl.flock(fh.fileno(), fcntl.LOCK_UN)
+                except Exception:
+                    pass
+                fh.close()
+
+    return _cm()
+
+
 def build_cards():
     cards = []
     stamp = datetime.now().strftime("%Y%m%dT%H%M%S")
@@ -168,19 +203,13 @@ def main(argv):
     if cards:
         sys.path.insert(0, HERE)
         import fleet_lane as fl
-        # 落盘前再复检一次：本函数会被脉按轮调用，两轮并发时前面那次读到的"无活卡"
-        # 立刻失效，于是同一交付物被铺成两张（2026-11-08 实锚：4 组重复活卡）。
-        # 复检把竞争窗从"整个 build 过程"缩到"毫秒级"，并保证绝不覆盖已在飞的卡。
-        live2 = {}
-        for p2 in (BACKLOG, os.path.join(F, "PRODUCTION-QUEUE.jsonl")):
-            for r in rows(p2):
-                if str(r.get("state") or "").upper() in LIVE and r.get("deliverable"):
-                    live2[r["deliverable"]] = r.get("id")
-        keep = [c for c in cards if c.get("deliverable") not in live2]
-        if len(keep) != len(cards):
-            print("复检丢弃 %d 张（并发轮已先铺同一交付物）" % (len(cards) - len(keep)))
-        if keep:
-            print("已写 %d 张到备队列 READY" % fl.merge_jsonl(BACKLOG, keep))
+        with _exclusive_lock() as got:
+            if not got:
+                print("另一轮供给正在写（锁被占），本轮跳过")
+                return 0
+            keep = _recheck_live(cards)
+            if keep:
+                print("已写 %d 张到备队列 READY" % fl.merge_jsonl(BACKLOG, keep))
     return 0
 
 
