@@ -735,6 +735,25 @@ def rg35():
     return "运行时看板已挡在归档之外"
 
 
+@case("RG-36", "验收只认产物与质量：流程文档与台账一律不算数",
+      "CEO 2026-11-08「我要求你验收只看产物和质量，中间的流程文档什么不算数」；"
+      "过去 DONE=完成，于是 177 字节缺口清单、788 份看板副本都被算成产量")
+def rg36():
+    sys.path.insert(0, os.path.join(ROOT, "Tools", "fleet"))
+    import acceptance as ac
+    assert ac.classify("cph4/fleet/queue-receipts/triage-biggame.md") == "BOOKKEEPING"
+    assert ac.classify("cph4/fleet/QUALITY-BOARD.md") == "BOOKKEEPING"
+    assert ac.classify("cph4/fleet/audits/game/X.json") == "BOOKKEEPING"
+    assert ac.classify("cph4/fleet/game-v1/SUBMIT-PACK-20261108.json") == "BOOKKEEPING"
+    assert ac.classify("media/x/full_mv_v721.mp4") == "PRODUCT"
+    assert ac.classify("media/asset/styles/s1.png") == "PRODUCT"
+    assert ac.classify("gaming/MiniGame/Build") == "PRODUCT"
+    # 负控：产物在别的机器上不能算"通过"，只能算 REMOTE
+    v, sc, det = ac.quality("content-mv", os.path.join(ROOT, "不存在的成片.mp4"))
+    assert v in ("FAIL", "REMOTE"), "不存在的产物被判成 %s" % v
+    return "分类只放行视频/图片/构建/回测；文档与台账被挡在验收口径之外"
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--json", action="store_true")
