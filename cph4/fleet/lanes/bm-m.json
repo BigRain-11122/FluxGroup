@@ -1,56 +1,14 @@
 {
  "node": "bm-m",
- "ts": "2026-11-08T16:43:58",
+ "ts": "2026-11-08T16:50:54",
  "jobs": [
   {
-   "id": "AUD-GAME-20261108T012729-27",
-   "title": "提审缺口落单：ExileFarm",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game ExileFarm",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/ExileFarm.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "AUD-GAME-20261108T012729-35",
-   "title": "提审缺口落单：TreasureDive",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game TreasureDive",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/TreasureDive.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "AUD-GAME-20261108T081825-26",
-   "title": "提审缺口落单：CardRogue",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game CardRogue",
+   "id": "AUD-GAME-20261108T111104-25",
+   "title": "提审缺口落单：MonsterInn",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game MonsterInn",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/CardRogue.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "AUD-GAME-20261108T081825-36",
-   "title": "提审缺口落单：GhostMarshal",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game GhostMarshal",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/GhostMarshal.json",
+   "deliverable": "cph4/fleet/audits/game/MonsterInn.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -89,5 +47,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 12.3/1.0 GB"
+ "capacity_note": "ram 11.8/1.0 GB"
 }
