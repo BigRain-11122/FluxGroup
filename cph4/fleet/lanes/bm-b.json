@@ -1,14 +1,14 @@
 {
  "node": "bm-b",
- "ts": "2026-11-09T00:40:05",
+ "ts": "2026-11-09T00:49:19",
  "jobs": [
   {
-   "id": "Q-ANCHOR-SHOTGRID-REBUILD-20261109",
-   "title": "词锚修复后重建 shotgrid + 41 曲锚点矩阵复验（bm-b 词锚车道）",
-   "cmd": "python cph4/fleet/mv-album-001-jay/anchor_shotgrid.py && python cph4/fleet/mv-album-001-jay/anchor_shotgrid.py --matrix",
-   "cwd": null,
+   "id": "asset-lib-env-check-2026-11-09",
+   "title": "[资产储备（角色 LoRA / 音色库）] 训练环境自检（这台机能不能烧）",
+   "cmd": "python Tools/fleet/asset_env_check.py --out cph4/fleet/queue-receipts/asset-env-2026-11-09.json",
+   "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/mv-album-001-jay/POOL-0018-0019-anchor-matrix.json",
+   "deliverable": "cph4/fleet/queue-receipts/asset-env-2026-11-09.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -17,40 +17,12 @@
    "timeout_s": null
   },
   {
-   "id": "R-PLAN-BIGDOMAIN-20261109",
-   "title": "BigDomain·硅基域商业化 线级体检与缺口清单",
-   "cmd": "python Tools/fleet/line_triage.py --line bigdomain",
+   "id": "asset-lib-library-check-2026-11-09",
+   "title": "[资产储备（角色 LoRA / 音色库）] 库体检（数量/规格/授权/缺口）",
+   "cmd": "python Tools/fleet/asset_library_check.py --tier p0 --out cph4/fleet/queue-receipts/asset-library-2026-11-09.json",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigdomain-20261109.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "R-PLAN-BIGMONEY-20261109",
-   "title": "BigMoney·量化 线级体检与缺口清单",
-   "cmd": "python Tools/fleet/line_triage.py --line bigmoney",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigmoney-20261109.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "R-TRIAGE-BIGSTREAMMV-BMC-20261109",
-   "title": "BigStream·MV 41 曲 线证据扫描（bm-c 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigstream-mv --node bm-c",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigstream-mv-bm-c-20261109.md",
+   "deliverable": "cph4/fleet/queue-receipts/asset-library-2026-11-09.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -73,12 +45,26 @@
    "timeout_s": null
   },
   {
-   "id": "asset-lib-library-check-2026-11-09",
-   "title": "[资产储备（角色 LoRA / 音色库）] 库体检（数量/规格/授权/缺口）",
-   "cmd": "python Tools/fleet/asset_library_check.py --tier p0 --out cph4/fleet/queue-receipts/asset-library-2026-11-09.json",
+   "id": "R-TRIAGE-BIGSTREAMMV-BMB-20261109",
+   "title": "BigStream·MV 41 曲 线证据扫描（bm-b 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line bigstream-mv --node bm-b",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/asset-library-2026-11-09.json",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigstream-mv-bm-b-20261109.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "R-TRIAGE-BIGGAME-BMB-20261109",
+   "title": "Biggame·游戏 线证据扫描（bm-b 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line biggame --node bm-b",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-biggame-bm-b-20261109.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -89,5 +75,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 7.9/1.0 GB"
+ "capacity_note": "ram 9.3/1.0 GB"
 }

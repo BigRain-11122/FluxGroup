@@ -1,6 +1,6 @@
 {
  "node": "bm-c",
- "ts": "2026-11-09T00:34:11",
+ "ts": "2026-11-09T00:44:03",
  "jobs": [
   {
    "id": "asset-lib-face-dataset-2026-11-09",
@@ -29,37 +29,9 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
-  },
-  {
-   "id": "Q-TRIAGE-BIGSTREAMMV-20261109",
-   "title": "bigstream-mv 线级体检（本机证据目录实况）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigstream-mv",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigstream-mv-20261109.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "asset-lib-char-probe-2026-11-09",
-   "title": "[资产储备（角色 LoRA / 音色库）] 角色出图模型探针（问本机 ComfyUI 有哪些模型，不出图）",
-   "cmd": "python Tools/fleet/char_gen.py --node bm-c --probe-only",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/asset-lib-v1/comfy-bm-c.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 1.7/1.0 GB"
+ "capacity_note": "ram 1.1/1.0 GB"
 }
