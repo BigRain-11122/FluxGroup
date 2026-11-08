@@ -1,0 +1,41 @@
+{
+ "ts": "2026-11-08T12:55:00",
+ "class": "styles",
+ "node": "bm-c",
+ "made": [
+  {
+   "key": "styles-01",
+   "file": "media\\asset\\styles\\styles-01.png",
+   "alpha_missing": false,
+   "alpha": false,
+   "size": [
+    1080,
+    1920
+   ]
+  },
+  {
+   "key": "styles-02",
+   "file": "media\\asset\\styles\\styles-02.png",
+   "alpha_missing": false,
+   "alpha": true,
+   "size": [
+    1080,
+    1920
+   ]
+  },
+  {
+   "key": "styles-03",
+   "file": "media\\asset\\styles\\styles-03.png",
+   "alpha_missing": false,
+   "alpha": true,
+   "size": [
+    1080,
+    1920
+   ]
+  }
+ ],
+ "skipped": 0,
+ "failed": [],
+ "verdict": "PASS",
+ "note": "alpha_missing=true 表示规格要求透明底但本机只出白底图，需主控抠图补齐"
+}
