@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-09T01:13:02",
- "cycle": 403,
+ "ts": "2026-11-09T01:13:49",
+ "cycle": 404,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-09T01:13:02",
+ "master_tick_ts": "2026-11-09T01:13:49",
  "queue": {
   "total": 1528,
   "open": 4,
@@ -14,10 +14,10 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 35.3,
-   "cpu_load_pct": 63,
-   "ram_free_gb": 34.3,
-   "gpu_util_pct": 4,
+   "hb_age_s": 22.3,
+   "cpu_load_pct": 85,
+   "ram_free_gb": 50.8,
+   "gpu_util_pct": 5,
    "job": "bigstream-mv-gate-2026-11-09",
    "last_result": {
     "job": "bigstream-mv-gate-2026-11-09",
@@ -34,9 +34,9 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 10.4,
-   "cpu_load_pct": 11,
-   "ram_free_gb": 9.2,
+   "hb_age_s": -1.0,
+   "cpu_load_pct": 9,
+   "ram_free_gb": 9.4,
    "gpu_util_pct": 1,
    "job": "asset-lib-env-check-2026-11-09",
    "last_result": {
@@ -54,7 +54,7 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 6.5,
+   "hb_age_s": 53.6,
    "cpu_load_pct": 24,
    "ram_free_gb": 0.7,
    "gpu_util_pct": 100,
@@ -66,9 +66,9 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 15.9,
-   "cpu_load_pct": 17,
-   "ram_free_gb": 11.6,
+   "hb_age_s": 16.3,
+   "cpu_load_pct": 14,
+   "ram_free_gb": 11.8,
    "gpu_util_pct": null,
    "job": "AUD-GAME-20261108T233251-09",
    "last_result": null,
@@ -381,7 +381,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "PARKED",
-     "age_h": 0.8,
+     "age_h": 0.9,
      "limit_h": 48.0,
      "jobs": []
     },
@@ -568,7 +568,7 @@
     "model": "none",
     "lane": "bm-b",
     "verdict": "STALLED",
-    "age_h": 109.1,
+    "age_h": 109.2,
     "limit_h": 24.0,
     "jobs": []
    },
@@ -580,7 +580,7 @@
      "model": "none",
      "lane": "bm-b",
      "verdict": "STALLED",
-     "age_h": 109.1,
+     "age_h": 109.2,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -844,8 +844,5 @@
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
- "lane_files_written": [
-  "bm-b",
-  "bm-m"
- ]
+ "lane_files_written": []
 }
