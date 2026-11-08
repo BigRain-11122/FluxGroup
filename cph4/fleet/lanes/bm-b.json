@@ -1,14 +1,14 @@
 {
  "node": "bm-b",
- "ts": "2026-11-09T00:31:19",
+ "ts": "2026-11-09T00:40:05",
  "jobs": [
   {
-   "id": "asset-lib-env-check-2026-11-09",
-   "title": "[资产储备（角色 LoRA / 音色库）] 训练环境自检（这台机能不能烧）",
-   "cmd": "python Tools/fleet/asset_env_check.py --out cph4/fleet/queue-receipts/asset-env-2026-11-09.json",
-   "cwd": "",
+   "id": "Q-ANCHOR-SHOTGRID-REBUILD-20261109",
+   "title": "词锚修复后重建 shotgrid + 41 曲锚点矩阵复验（bm-b 词锚车道）",
+   "cmd": "python cph4/fleet/mv-album-001-jay/anchor_shotgrid.py && python cph4/fleet/mv-album-001-jay/anchor_shotgrid.py --matrix",
+   "cwd": null,
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/asset-env-2026-11-09.json",
+   "deliverable": "cph4/fleet/mv-album-001-jay/POOL-0018-0019-anchor-matrix.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -59,20 +59,6 @@
    "timeout_s": null
   },
   {
-   "id": "asset-lib-library-check-2026-11-09",
-   "title": "[资产储备（角色 LoRA / 音色库）] 库体检（数量/规格/授权/缺口）",
-   "cmd": "python Tools/fleet/asset_library_check.py --tier p0 --out cph4/fleet/queue-receipts/asset-library-2026-11-09.json",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/asset-library-2026-11-09.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
    "id": "bigmoney-signal-2026-11-09",
    "title": "[金融量化（回测 → 一页结论 → 可报价或写清卡点）] 下月持仓信号 CSV（可卖的唯一产物）",
    "cmd": "python Tools/fleet/quant_positions_bridge.py --in quant/bigmoney/results/etf_nobond_vt.json --out cph4/fleet/queue-receipts/etf_nobond_vt_with_positions.json && python Tools/fleet/quant_signal.py --in cph4/fleet/queue-receipts/etf_nobond_vt_with_positions.json --out cph4/fleet/queue-receipts/quant-signal-2026-11-09.csv",
@@ -85,9 +71,23 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
+  },
+  {
+   "id": "asset-lib-library-check-2026-11-09",
+   "title": "[资产储备（角色 LoRA / 音色库）] 库体检（数量/规格/授权/缺口）",
+   "cmd": "python Tools/fleet/asset_library_check.py --tier p0 --out cph4/fleet/queue-receipts/asset-library-2026-11-09.json",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/asset-library-2026-11-09.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 8.2/1.0 GB"
+ "capacity_note": "ram 7.9/1.0 GB"
 }
