@@ -1,48 +1,25 @@
 {
  "node": "bm-b",
-<<<<<<< HEAD
- "ts": "2026-11-08T18:07:24",
+ "ts": "2026-11-08T23:34:40",
  "jobs": [
+  {
+   "id": "bigstream-mv-gate-2026-11-08",
+   "title": "[MV·爱在西元前（v721 终版）] 交付闸（重复/静止/抖动/闪烁）",
+   "cmd": "python Tools/mv_delivery_gate.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721_60fps_1080p.mp4 --card 38.79:40.21 --card 219.71:223.88 --json cph4/fleet/queue-receipts/mv-gate-v721-2026-11-08.json",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/mv-gate-v721-2026-11-08.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
   {
    "id": "bigmoney-signal-2026-11-08",
    "title": "[金融量化（回测 → 一页结论 → 可报价或写清卡点）] 下月持仓信号 CSV（可卖的唯一产物）",
    "cmd": "python Tools/fleet/quant_positions_bridge.py --in quant/bigmoney/results/etf_nobond_vt.json --out cph4/fleet/queue-receipts/etf_nobond_vt_with_positions.json && python Tools/fleet/quant_signal.py --in cph4/fleet/queue-receipts/etf_nobond_vt_with_positions.json --out cph4/fleet/queue-receipts/quant-signal-2026-11-08.csv",
-=======
- "ts": "2026-11-08T02:19:33",
- "jobs": [
-  {
-   "id": "AUD-GAME-20261108T012729-26",
-   "title": "提审缺口落单：CardRogue",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game CardRogue",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/CardRogue.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "AUD-GAME-20261108T012729-27",
-   "title": "提审缺口落单：ExileFarm",
-   "cmd": "python Tools/fleet/supply_batch.py --audit game ExileFarm",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/audits/game/ExileFarm.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "R-TRIAGE-BIGSTREAMMV-BMA-20261108",
-   "title": "BigStream·MV 41 曲 线证据扫描（bm-a 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigstream-mv",
->>>>>>> e365df198 (job(AUD-GAME-20261108T012729-12): artifact [via bm-m])
    "cwd": "",
    "needs": "cpu",
    "deliverable": "cph4/fleet/queue-receipts/quant-signal-2026-11-08.csv",
@@ -52,14 +29,65 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
+  },
+  {
+   "id": "AUD-GAME-20261108T012729-09",
+   "title": "提审缺口落单：GimmeAll",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game GimmeAll",
+   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/audits/game/GimmeAll.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "AUD-GAME-20261108T012729-11",
+   "title": "提审缺口落单：涨停板",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game 涨停板",
+   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/audits/game/涨停板.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "AUD-GAME-20261108T012729-12",
+   "title": "提审缺口落单：CrazyWorker",
+   "cmd": "python Tools/fleet/supply_batch.py --audit game CrazyWorker",
+   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/audits/game/CrazyWorker.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "REMOTE-CLOSEOUT-bm-b-20261108-2220",
+   "title": "bm-b 仓库收口（第二次·旧回执已作废）",
+   "cmd": "powershell -NoProfile -ExecutionPolicy Bypass -EncodedCommand CgAkAEUAcgByAG8AcgBBAGMAdABpAG8AbgBQAHIAZQBmAGUAcgBlAG4AYwBlAD0AJwBDAG8AbgB0AGkAbgB1AGUAJwAKACQAcgBvAG8AdABzAD0AQAAoACcAQwA6AFwARgBsAHUAeABnAHIAbwB1AHAAXABGAGwAdQB4AEcAcgBvAHUAcAAnACwAJwBDADoAXABVAHMAZQByAHMAXABzAGoAcwAyADAAXABEAGUAcwBrAHQAbwBwAFwARgBsAHUAeABHAHIAbwB1AHAAJwAsACcASwA6AFwARgBsAHUAeABnAHIAbwB1AHAAXABGAGwAdQB4AEcAcgBvAHUAcAAnACkACgAkAFIAPQAkAHIAbwBvAHQAcwAgAHwAIABXAGgAZQByAGUALQBPAGIAagBlAGMAdAAgAHsAIABUAGUAcwB0AC0AUABhAHQAaAAgACgASgBvAGkAbgAtAFAAYQB0AGgAIAAkAF8AIAAnAC4AZwBpAHQAJwApACAAfQAgAHwAIABTAGUAbABlAGMAdAAtAE8AYgBqAGUAYwB0ACAALQBGAGkAcgBzAHQAIAAxAAoAaQBmACgALQBuAG8AdAAgACQAUgApAHsAIABXAHIAaQB0AGUALQBPAHUAdABwAHUAdAAgACcATgBPAC0AUgBFAFAATwAnADsAIABlAHgAaQB0ACAAMgAgAH0ACgBTAGUAdAAtAEwAbwBjAGEAdABpAG8AbgAgACQAUgAKACQAcwB0AGEAbQBwAD0AKABHAGUAdAAtAEQAYQB0AGUAKQAuAFQAbwBTAHQAcgBpAG4AZwAoACcAeQB5AHkAeQBNAE0AZABkAC0ASABIAG0AbQBzAHMAJwApAAoAZwBpAHQAIABiAHIAYQBuAGMAaAAgAC0AZgAgACgAIgBzAGEAbAB2AGEAZwBlAC0AYQB1AHQAbwAtACIAKwAkAHMAdABhAG0AcAApACAAMgA+ACQAbgB1AGwAbAAgAHwAIABPAHUAdAAtAE4AdQBsAGwACgBnAGkAdAAgAGYAZQB0AGMAaAAgAG8AcgBpAGcAaQBuACAAbQBhAGkAbgAgADIAPgAmADEAIAB8ACAATwB1AHQALQBOAHUAbABsAAoAZwBpAHQAIAByAGUAcwBlAHQAIAAtAC0AbQBpAHgAZQBkACAAbwByAGkAZwBpAG4ALwBtAGEAaQBuACAAMgA+ACYAMQAgAHwAIABPAHUAdAAtAE4AdQBsAGwACgAkAGgAZQBhAGQAPQAoAGcAaQB0ACAAcgBlAHYALQBwAGEAcgBzAGUAIABIAEUAQQBEACkALgBUAHIAaQBtACgAKQAKACQAbwByAGkAZwA9ACgAZwBpAHQAIAByAGUAdgAtAHAAYQByAHMAZQAgAG8AcgBpAGcAaQBuAC8AbQBhAGkAbgApAC4AVAByAGkAbQAoACkACgAkAGEAaABlAGEAZAA9ACgAZwBpAHQAIAByAGUAdgAtAGwAaQBzAHQAIAAtAC0AYwBvAHUAbgB0ACAAbwByAGkAZwBpAG4ALwBtAGEAaQBuAC4ALgBIAEUAQQBEACkALgBUAHIAaQBtACgAKQAKACQAYgBlAGgAaQBuAGQAPQAoAGcAaQB0ACAAcgBlAHYALQBsAGkAcwB0ACAALQAtAGMAbwB1AG4AdAAgAEgARQBBAEQALgAuAG8AcgBpAGcAaQBuAC8AbQBhAGkAbgApAC4AVAByAGkAbQAoACkACgAkAG8APQBAAHsAIABuAG8AZABlAD0AJwBiAG0ALQBiACcAOwAgAHQAcwA9ACgARwBlAHQALQBEAGEAdABlACkALgBUAG8AUwB0AHIAaQBuAGcAKAAnAHMAJwApADsAIAByAG8AbwB0AD0AJABSADsAIABoAGUAYQBkAF8AYQBmAHQAZQByAD0AJABoAGUAYQBkADsAIABvAHIAaQBnAGkAbgA9ACQAbwByAGkAZwA7ACAAYQBoAGUAYQBkAD0AJABhAGgAZQBhAGQAOwAgAGIAZQBoAGkAbgBkAD0AJABiAGUAaABpAG4AZAA7ACAAYQBsAGkAZwBuAGUAZAA9ACgAJABoAGUAYQBkACAALQBlAHEAIAAkAG8AcgBpAGcAKQA7ACAAcwBhAGwAdgBhAGcAZQA9ACgAJwBzAGEAbAB2AGEAZwBlAC0AYQB1AHQAbwAtACcAKwAkAHMAdABhAG0AcAApACAAfQAKACQAcAA9AEoAbwBpAG4ALQBQAGEAdABoACAAJABSACAAJwBjAHAAaAA0AFwAZgBsAGUAZQB0AFwAcQB1AGUAdQBlAC0AcgBlAGMAZQBpAHAAdABzAFwAYwBsAG8AcwBlAG8AdQB0AC0AYgBtAC0AYgAtADIAMAAyADYAMQAxADAAOAAtADIAMgAyADAALgBqAHMAbwBuACcACgBOAGUAdwAtAEkAdABlAG0AIAAtAEkAdABlAG0AVAB5AHAAZQAgAEQAaQByAGUAYwB0AG8AcgB5ACAALQBGAG8AcgBjAGUAIAAtAFAAYQB0AGgAIAAoAFMAcABsAGkAdAAtAFAAYQB0AGgAIAAkAHAAKQAgAHwAIABPAHUAdAAtAE4AdQBsAGwACgAkAG8AIAB8ACAAQwBvAG4AdgBlAHIAdABUAG8ALQBKAHMAbwBuACAAfAAgAFMAZQB0AC0AQwBvAG4AdABlAG4AdAAgAC0AUABhAHQAaAAgACQAcAAgAC0ARQBuAGMAbwBkAGkAbgBnACAAVQBUAEYAOAAKAFcAcgBpAHQAZQAtAE8AdQB0AHAAdQB0ACAAKAAnAEEATABJAEcATgBFAEQAPQAnACAAKwAgACQAbwAuAGEAbABpAGcAbgBlAGQAIAArACAAJwAgAGgAZQBhAGQAPQAnACAAKwAgACQAaABlAGEAZAAuAFMAdQBiAHMAdAByAGkAbgBnACgAMAAsADkAKQApAAoA",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/closeout-bm-b-20261108-2220.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
-<<<<<<< HEAD
  "lane_ok": true,
- "capacity_note": "ram 9.7/1.0 GB"
-=======
- "lane_ok": false,
- "capacity_note": "ram 0.4/1.0 GB"
->>>>>>> e365df198 (job(AUD-GAME-20261108T012729-12): artifact [via bm-m])
+ "capacity_note": "ram 9.2/1.0 GB"
 }
