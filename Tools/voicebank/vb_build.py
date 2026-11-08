@@ -27,7 +27,11 @@ import numpy as np
 REPO = os.environ.get("VB_GPT_ROOT", r"C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS")
 FFMPEG = r"C:\Fluxgroup\MiniGame\Tools\ffmpeg\bin\ffmpeg.exe"
 ASR_DIR = os.environ.get("VB_ASR", r"E:\Fluxgroup\.codely-cli\models\faster-whisper-small")
-VB = os.environ.get("VB_ROOT", r"E:\Fluxgroup\.codely-cli\voicebank")
+# 2026-11-08 bm-c：原值写死 E:\Fluxgroup（别的机器的盘），本机没有，
+# vb_build 一开就 FileNotFoundError。改为按仓库位置推导，可用 VB_ROOT 覆盖。
+_HOME = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+VB = os.environ.get("VB_ROOT", os.path.join(_HOME, ".codely-cli", "voicebank"))
+os.makedirs(VB, exist_ok=True)
 
 # one minute of usable speech costs a few minutes of source audio (intro/music/pauses)
 RAWS_PER_SPEECH = 3.0

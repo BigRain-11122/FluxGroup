@@ -30,7 +30,12 @@ UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
 
 def log(p, m):
     line = "%s %s" % (time.strftime("%H:%M:%S"), m)
-    print(line, flush=True)
+    # Windows 控制台默认 GBK：上游报错带 emoji（实测 \U0001f525）会让 print 抛
+    # UnicodeEncodeError，把整个采集进程带走。日志必须容错，不能因一行字崩批。
+    try:
+        print(line, flush=True)
+    except UnicodeEncodeError:
+        print(line.encode("ascii", "replace").decode("ascii"), flush=True)
     with open(p, "a", encoding="utf-8") as f:
         f.write(line + "\n")
 
@@ -72,7 +77,12 @@ def main():
 
     bvids = [b for b in (a.bvids or "").split(",") if b.strip()]
     if a.bvids_file:
-        bvids += [l.strip() for l in open(a.bvids_file, encoding="utf-8") if l.strip()]
+        # vb_discover 产的是 TSV（bvid<TAB>时长<TAB>标题），旧版把整行当 bvid，
+        # 于是每个都报「bvid 提供错误」直接 0 采集——取第一列并校验形态即可。
+        for l in open(a.bvids_file, encoding="utf-8"):
+            cell = l.strip().split()[0] if l.strip() else ""
+            if len(cell) == 12 and cell.startswith("BV"):
+                bvids.append(cell)
     if not bvids:
         print("no bvids")
         return 2
