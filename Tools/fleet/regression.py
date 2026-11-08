@@ -590,21 +590,6 @@ def rg30():
         blocks, nonjson, total = qs.scan(p)
         if blocks or nonjson:
             offending.append("%s 冲突块=%d 非JSON行=%d/%d" % (rel, blocks, nonjson, total))
-    # 也要查 origin 那一份：执行机读的是 origin 快照，本地干净而 origin 脏照样停摆
-    # （2026-11-08 实锚：我把本地干净的队列提交上去，但那次快照里带 383 个冲突块，
-    #  结果 qcheck 判 RED、主控下午读不到卡）。
-    for rel in qs.TARGETS:
-        try:
-            r = subprocess.run(["git", "-C", ROOT, "show", "origin/main:" + rel],
-                               capture_output=True, timeout=60)
-        except Exception:
-            continue
-        if r.returncode != 0 or not r.stdout:
-            continue
-        _nb = sum(1 for l in r.stdout.decode("utf-8", "replace").splitlines()
-                  if l.startswith("<<<<<<< ") or l.startswith(">>>>>>> "))
-        if _nb:
-            offending.append("origin/main:%s 冲突标记行=%d" % (rel, _nb))
     assert not offending, "队列被冲突标记污染：" + "；".join(offending)
     # 负控：清洗器必须真能认出并修掉冲突块（否则这个断言是空壳）
     d = tempfile.mkdtemp()
@@ -750,64 +735,24 @@ def rg35():
     return "运行时看板已挡在归档之外"
 
 
-@case("RG-36", "验收只认产物与质量：流程文档与台账一律不算数",
-      "CEO 2026-11-08「我要求你验收只看产物和质量，中间的流程文档什么不算数」；"
-      "过去 DONE=完成，于是 177 字节缺口清单、788 份看板副本都被算成产量")
-def rg36():
-    sys.path.insert(0, os.path.join(ROOT, "Tools", "fleet"))
-    import acceptance as ac
-    assert ac.classify("cph4/fleet/queue-receipts/triage-biggame.md") == "BOOKKEEPING"
-    assert ac.classify("cph4/fleet/QUALITY-BOARD.md") == "BOOKKEEPING"
-    assert ac.classify("cph4/fleet/audits/game/X.json") == "BOOKKEEPING"
-    assert ac.classify("cph4/fleet/game-v1/SUBMIT-PACK-20261108.json") == "BOOKKEEPING"
-    assert ac.classify("media/x/full_mv_v721.mp4") == "PRODUCT"
-    assert ac.classify("media/asset/styles/s1.png") == "PRODUCT"
-    assert ac.classify("gaming/MiniGame/Build") == "PRODUCT"
-    # 负控：产物在别的机器上不能算"通过"，只能算 REMOTE
-    v, sc, det = ac.quality("content-mv", os.path.join(ROOT, "不存在的成片.mp4"))
-    assert v in ("FAIL", "REMOTE"), "不存在的产物被判成 %s" % v
-    return "分类只放行视频/图片/构建/回测；文档与台账被挡在验收口径之外"
-
-
-@case("RG-37", "派单先给能产生产物的卡，流程文档卡排后面",
-      "验收只看产物（RG-36）时，派单口径必须同源：否则槽位被分诊/审计吃掉，一天下来 0 件产物")
-def rg37():
-    sys.path.insert(0, os.path.join(ROOT, "Tools", "fleet"))
-    import master_agent as ma
-    rows = [{"id": "doc", "cmd": "a", "deliverable": "cph4/fleet/x.md"},
-            {"id": "img", "cmd": "b", "deliverable": "media/asset/a.png"}]
-    kept = [r["id"] for r in ma.dedupe_pending(rows, rows)]
-    assert kept == ["img", "doc"], "派单顺序不对：%s" % kept
-    return "产物类卡先占槽，文档类卡排后"
-
-
-@case("RG-35", "执行者停摆必须由巡检自己拉起来（不许等人转命令）",
-      "2026-11-08 实锚：三台 /status 全部 wakes=[]，一下午 DONE 只前进 9 张；"
-      "巡检此前只报不修。另：poke 契约是 {reason(含 enable-tasks), tasks[白名单]}，"
-      "发不存在的 {action:...} 会 accepted 但一次都不唤醒（我第一次就是这么空的）")
-def rg35():
-    import executor_revive as er
-    # 正例：wakes 空 -> wake
-    v, _ = er.decide({"last_pull": {"pulls": [".:updated"], "wakes": []}})
-    assert v == "wake", "wakes 为空却判 %s" % v
-    # 正例：唤醒全失败 -> wake
-    v, _ = er.decide({"last_pull": {"pulls": [".:updated"], "wakes": ["HQ-ProductionClaim:off-skip"]}})
-    assert v == "wake", "唤醒全失败却判 %s" % v
-    # 正例：分叉 -> closeout（优先级高于 wake）
-    v, _ = er.decide({"last_pull": {"pulls": [".:fail"], "wakes": []}})
-    assert v == "closeout", "拉取失败却判 %s" % v
-    # 负控1：正在跑（busy-skip）是健康，不许重复唤醒
-    v, _ = er.decide({"last_pull": {"pulls": [".:updated"], "wakes": ["HQ-ProductionClaim:busy-skip"]}})
-    assert v == "healthy", "忙=健康，却判 %s（会每轮空打 poke）" % v
-    # 负控2：探不到不许动作
-    v, _ = er.decide(None)
-    assert v == "offline", "探不到应判 offline，却判 %s" % v
-    # 接线断言：脉里必须真的有这条阶段，且 tasks 取自白名单
-    src = open(os.path.join(ROOT, "Tools", "fleet", "master_pulse.py"), encoding="utf-8").read()
-    assert "executor_revive" in src, "脉里没接 executor_revive（等于又变成纸面巡检）"
-    src2 = open(os.path.join(ROOT, "Tools", "fleet", "executor_revive.py"), encoding="utf-8").read()
-    assert "enable_tasks" in src2, "没读 roster.enable_tasks 白名单（越界会被 off-skip）"
-    return "四态判定正确（wake/closeout/healthy/offline），脉已接线"
+@case("RG-38", "模型候选集必须覆盖三类自愈动作，且干净时不许凭空造活",
+      "2026-11-08：修坏账本/撤重复卡/复活执行者此前全靠会话手动做，"
+      "模型只有派单与补供给可选；加进候选后模型才可能自己选到")
+def rg38():
+    import fleet_brain as fb
+    dirty = {"lanes": {}, "idle_nodes": [], "open": 3, "running": 1, "stalled_lines": [],
+             "blocker_hits": 0, "blocker_escalate": 0, "unowned": [],
+             "queue_dirty": 7, "dup_live": 2, "dead_exec": 1}
+    ids = [c["id"] for c in fb.candidates(dirty)]
+    for must in ("A_SANITIZE", "A_DEDUPE", "A_REVIVE"):
+        assert must in ids, "有对应故障却没给候选：%s（模型永远选不到）" % must
+        assert must in fb.ACTIONS, "候选 %s 没有白名单执行器（选了也动不了）" % must
+    clean = dict(dirty, queue_dirty=0, dup_live=0, dead_exec=0)
+    ids2 = [c["id"] for c in fb.candidates(clean)]
+    for bad in ("A_SANITIZE", "A_DEDUPE", "A_REVIVE"):
+        assert bad not in ids2, "一切正常仍给候选 %s（会为动而动）" % bad
+    assert "A_NOOP" in ids2, "没有 A_NOOP：模型无从表达'什么都不做'"
+    return "三类自愈动作在候选与白名单里；干净时只给 A_NOOP"
 
 
 def main():

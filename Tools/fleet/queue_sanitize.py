@@ -103,11 +103,53 @@ def fix(path, report=None):
             "before": len(parsed), "after": len(out), "changed": len(changed)}
 
 
+def dedupe_live(path, apply=False):
+    """同交付物多张活卡 → 撤掉多余的（保留跑得最远的：RUNNING > 最早创建）。
+
+    为什么必须能自动做（2026-11-08 实锚）：供给器被脉按轮调用，两轮并发会看到
+    "没有活卡"而各铺一张，一下午攒出 8 组重复活卡；两台机同时跑同一交付物，
+    回执互相覆盖，等于白烧算力。人工发现一次修一次，修不完。
+    """
+    import collections
+    rows = []
+    for l in open(path, encoding="utf-8"):
+        l = l.strip()
+        if not l:
+            continue
+        try:
+            rows.append(json.loads(l))
+        except Exception:
+            pass
+    LIVE = ("OPEN", "READY", "RUNNING", "CLAIMED", "PENDING")
+    by = collections.defaultdict(list)
+    for r in rows:
+        if str(r.get("state") or "").upper() in LIVE and (r.get("deliverable") or "").strip():
+            by[r["deliverable"].strip()].append(r)
+    groups = {d: rs for d, rs in by.items() if len(rs) > 1}
+    patch = []
+    for d, rs in groups.items():
+        rs.sort(key=lambda r: (0 if str(r.get("state")).upper() == "RUNNING" else 1,
+                               r.get("created_at") or ""))
+        keep = rs[0]
+        for r in rs[1:]:
+            patch.append({"id": r.get("id"), "state": "CANCELLED",
+                          "cancel_reason": "DUP-DELIVERABLE: 与 %s 同交付物 %s（并发供给），按交付物去重"
+                                           % (keep.get("id"), d),
+                          "cancelled_by": "queue_sanitize:dedupe"})
+    if patch and apply:
+        with open(path, "a", encoding="utf-8") as f:
+            for r in patch:
+                f.write(json.dumps(r, ensure_ascii=False) + "\n")
+    return {"groups": len(groups), "cancelled": len(patch), "applied": bool(patch and apply)}
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--check", action="store_true")
     ap.add_argument("--fix", action="store_true")
     ap.add_argument("--report", default="")
+    ap.add_argument("--dedupe", action="store_true",
+                    help="按交付物合并重复活卡（与 --fix 同一工具，避免工具泛滥）")
     a = ap.parse_args()
     dirty = 0
     for rel in TARGETS:
@@ -124,6 +166,15 @@ def main():
                 print("[queue-sanitize] 已修 %s -> %s" % (rel, r))
         else:
             print("[queue-sanitize] %s 干净（%d 行）" % (rel, total))
+    if a.dedupe:
+        for rel in TARGETS:
+            pp = os.path.join(ROOT, rel)
+            if not os.path.isfile(pp):
+                continue
+            r = dedupe_live(pp, apply=a.fix or a.dedupe)
+            if r["groups"]:
+                print("[queue-sanitize] %s 重复活卡组=%d 撤销=%d applied=%s"
+                      % (rel, r["groups"], r["cancelled"], r["applied"]))
     if a.check and dirty:
         return 1
     return 0
