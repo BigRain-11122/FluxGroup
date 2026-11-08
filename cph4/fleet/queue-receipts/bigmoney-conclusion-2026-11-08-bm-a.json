@@ -2,7 +2,7 @@
  "id": "bigmoney-conclusion-2026-11-08",
  "node": "bm-a",
  "rc": 3,
- "seconds": 0.2,
+ "seconds": 0.1,
  "cmd": "python Tools/fleet/quant_conclusion.py --in quant/bigmoney/results/etf_nobond_vt.json --line bigmoney --out cph4/fleet/queue-receipts/quant-conclusion-2026-11-08.md",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": "E-BLOCKED-INPUT",
  "deliverable": "cph4/fleet/queue-receipts/quant-conclusion-2026-11-08.md",
  "deliverable_exists": true,
- "ts": "2026-11-08T22:29:40",
+ "ts": "2026-11-08T22:32:00",
  "stdout_tail": "[quant_conclusion] INCOMPLETE 缺件=样本区间,成本假设,失效条件 -> cph4/fleet/queue-receipts/quant-conclusion-2026-11-08.md\n",
  "stderr_tail": ""
 }
