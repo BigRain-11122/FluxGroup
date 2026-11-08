@@ -1,21 +1,7 @@
 {
  "node": "bm-a",
- "ts": "2026-11-09T03:54:59",
+ "ts": "2026-11-09T04:09:24",
  "jobs": [
-  {
-   "id": "biggame-pack-scan-2026-11-09",
-   "title": "[游戏（可上线清单 → 一款可玩包 → 提审材料）] 可上线包清单（唯一能机器判的段）",
-   "cmd": "python Tools/fleet/game_pack_scan.py --root gaming --out cph4/fleet/queue-receipts/game-packs-2026-11-09.json",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/game-packs-2026-11-09.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
   {
    "id": "MV-DIRECTOR-PACKET-20261109",
    "title": "导演席拉片包：KN 复核卷一页卷（成片+闸+证据+签字位）",
@@ -33,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 42.4/1.0 GB"
+ "capacity_note": "ram 10.4/1.0 GB"
 }
