@@ -698,6 +698,29 @@ def rg33():
     return "无令牌就地判 rc=3 且零请求；跨机回落已接统一客户端"
 
 
+@case("RG-34", "唤醒清单空着的僵尸机不许再被派活（否则卡必挂到停摆判据来救）",
+      "2026-11-08 实锚：bm-a 的 FleetLink 活着、report online、能收 poke，"
+      "但 /status 的 wakes=[]，派过去的卡只能挂 RUNNING 等 6h 后被释放")
+def rg34():
+    import time
+    import blocker_loop as bl
+    import master_agent as ma
+    old_last, old_thr = bl._node_last_output, bl._stalled_worker_hours
+    try:
+        now = time.time()
+        bl._node_last_output = lambda: {"bm-a": now - 8 * 3600, "bm-b": now - 60}
+        bl._stalled_worker_hours = lambda: 6.0
+        fleet = {n: {"online": True, "age_s": 10, "state": {}, "ram_gb": 24}
+                 for n in ("bm-a", "bm-b", "bm-m")}
+        ok, why = ma.lane_capacity("bm-a", fleet, "cpu")
+        assert (not ok) and "EXECUTOR-DEAD" in why, "僵尸机仍可接活：%s / %s" % (ok, why)
+        ok2, why2 = ma.lane_capacity("bm-b", fleet, "cpu")
+        assert ok2, "正常机被误排除（负控失败）：%s" % why2
+    finally:
+        bl._node_last_output, bl._stalled_worker_hours = old_last, old_thr
+    return "僵尸机被排除且理由可读；正常机不受影响"
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--json", action="store_true")

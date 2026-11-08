@@ -447,6 +447,18 @@ def lane_capacity(node, fleet, needs="cpu", vram_min=0, job=None):
     exists to schedule, not to produce (CEO 2026-10-29).
     """
     info = fleet.get(node) or {}
+    # 僵尸机排除（2026-11-08 实锚）：bm-a 的 FleetLink 活着、能收 poke、能报 online，
+    # 但它的 Windows 唤醒清单是空的（/status 的 wakes=[]），所以卡派过去只会被
+    # 一直挂在 RUNNING 上等到停摆判据来救。判据=「在线但 6 小时零产出」=不接受新活，
+    # 让它如实报 EXECUTOR-DEAD，而不是继续假派。
+    if info.get("online") and node != "bm-m":
+        try:
+            import blocker_loop as _bl
+            idle_h = (time.time() - _bl._node_last_output().get(node, time.time())) / 3600.0
+            if idle_h > _bl._stalled_worker_hours():
+                return False, "EXECUTOR-DEAD (%.1fh 零产出，唤醒清单空)" % idle_h
+        except Exception:
+            pass          # 判不了就不排除（宁可不排除，也不许凭空拦活）
     if not info.get("online"):
         # 2026-11-07 去堵点：sense() 已经会用「车道文件新鲜度」给死掉的 NATS 客户端兜底，
         # 但这里只认心跳，于是同一台机器出现「online=True 却 CAPACITY-BLOCKED-RAM
