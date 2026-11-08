@@ -1,7 +1,7 @@
-# 线级体检 bigcompute · 2026-11-09 00:29
+# 线级体检 bigcompute · 2026-11-09 00:39
 
 ## 工段与证据目录
-- compute-deal   owner=算力中枢席    lane=-      证据 2/2 存在 · 文件 7425 · 最新 0.0h
+- compute-deal   owner=算力中枢席    lane=-      证据 2/2 存在 · 文件 7460 · 最新 0.0h
 
 ## 判定
 - 最近产出 0.0h 前（阈值 36.0h）→ FRESH 在阈内
