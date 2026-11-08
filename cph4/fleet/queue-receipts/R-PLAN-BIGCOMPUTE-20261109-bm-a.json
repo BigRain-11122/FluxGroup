@@ -2,7 +2,7 @@
  "id": "R-PLAN-BIGCOMPUTE-20261109",
  "node": "bm-a",
  "rc": 0,
- "seconds": 2.1,
+ "seconds": 0.9,
  "cmd": "python Tools/fleet/line_triage.py --line bigcompute",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/queue-receipts/triage-bigcompute-20261109.md",
  "deliverable_exists": true,
- "ts": "2026-11-09T00:24:49",
+ "ts": "2026-11-09T00:29:45",
  "stdout_tail": "[triage] bigcompute -> cph4\\fleet\\queue-receipts\\triage-bigcompute-20261109.md\n",
  "stderr_tail": ""
 }
