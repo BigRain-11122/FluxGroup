@@ -1,0 +1,173 @@
+{
+ "policy": "W2 KF-PACK-A i2v leg (bm-c lane, 768P int8). Frames from the 2026-10-25 KF burn.",
+ "wave": "w2-packA-jd",
+ "total": 15,
+ "units": [
+  {
+   "id": "JD_T03",
+   "track": "JD",
+   "win_s": 9.96,
+   "speed": 1.05,
+   "src_s": 9.49,
+   "policy_band": "5s",
+   "frame": "media/mv-album-001-jay/frames/JD_T03.png",
+   "i2v_prompt": "Single continuous take at 24fps, 16:9. A medium shot at eye level; a steadicam follows with fluid motion at walking pace, a faint handmade sway under the glide. A young woman running into a lane from a side street, one hand holding the hem of her skirt, her bag swinging out behind her, the camera holding as she fills the frame. Warm 2001 Taiwanese telecine grade, skin tones kept natural and unlit, black point lifted to 10-14 code with shadow crush intact. Fine 35mm grain. Continuous unhurried motion, camera and subject motion only.",
+   "note": "她跑进巷口（鼓点落·人群零添加）"
+  },
+  {
+   "id": "JD_T04",
+   "track": "JD",
+   "win_s": 10.02,
+   "speed": 1.1,
+   "src_s": 9.11,
+   "policy_band": "5s",
+   "frame": "media/mv-album-001-jay/frames/JD_T04.png",
+   "i2v_prompt": "Single continuous take at 24fps, 16:9. A wide shot from a low angle; the camera holds a locked-off tripod frame, everything still except the living light and air. A young woman catching her shoe on a low stone step and pitching forward, one palm thrown out toward the paving, the bicycle stopping at the near edge of the frame. Warm 2001 Taiwanese telecine grade, skin tones kept natural and unlit, black point lifted to 10-14 code with shadow crush intact. Fine 35mm grain. Continuous unhurried motion, camera and subject motion only.",
+   "note": "石阶绊倒（失误=动作链真实·裙摆与掌心同框）"
+  },
+  {
+   "id": "JD_T11",
+   "track": "JD",
+   "win_s": 8.54,
+   "speed": 0.88,
+   "src_s": 9.7,
+   "policy_band": "5s",
+   "frame": "media/mv-album-001-jay/frames/JD_T11.png",
+   "i2v_prompt": "Single continuous take at 24fps, 16:9. A wide shot from a high angle; the camera holds a locked-off tripod frame, everything still except the living light and air. Two long shadows on embankment concrete, the shadow hands meeting and closing while the bodies stay cropped out above, the frame held still until the shadows settle. Warm 2001 Taiwanese telecine grade, skin tones kept natural and unlit, black point lifted to 10-14 code with shadow crush intact. Fine 35mm grain. Continuous unhurried motion, camera and subject motion only.",
+   "note": "影子先牵手=独立镜（堤面占画幅 ≥60%·多停 4-6 帧·v2.2 #6）"
+  },
+  {
+   "id": "JD_T12",
+   "track": "JD",
+   "win_s": 7.81,
+   "speed": 1.15,
+   "src_s": 6.79,
+   "policy_band": "5s",
+   "frame": "media/mv-album-001-jay/frames/JD_T12.png",
+   "i2v_prompt": "Single continuous take at 24fps, 16:9. A wide shot at eye level; the camera travels alongside the subject at the subject's own pace, easing with each step and settling when the subject stills. Two figures running hand in hand down a narrow street away from the camera, her skirt and his shirt pulling back in the wind, the camera tracking behind them. Warm 2001 Taiwanese telecine grade, skin tones kept natural and unlit, black point lifted to 10-14 code with shadow crush intact. Fine 35mm grain. Continuous unhurried motion, camera and subject motion only.",
+   "note": "牵手奔跑过整条街（扣紧那一下=识别句拍点·拇指压一下）"
+  },
+  {
+   "id": "JD_T13",
+   "track": "JD",
+   "win_s": 6.63,
+   "speed": 1.15,
+   "src_s": 5.77,
+   "policy_band": "5s",
+   "frame": "media/mv-album-001-jay/frames/JD_T13.png",
+   "i2v_prompt": "Single continuous take at 24fps, 16:9. A wide shot at eye level; the camera holds a locked-off tripod frame, everything still except the living light and air. A school sports field in the afternoon with netting and a dirt infield, a young man mid-pitch and a young woman at the plate with a wooden bat. Warm 2001 Taiwanese telecine grade, skin tones kept natural and unlit, black point lifted to 10-14 code with shadow crush intact. Fine 35mm grain. Continuous unhurried motion, camera and subject motion only.",
+   "note": "午后操场·他投她打（挥棒起手）"
+  },
+  {
+   "id": "JD_T14",
+   "track": "JD",
+   "win_s": 6.66,
+   "speed": 1.15,
+   "src_s": 5.79,
+   "policy_band": "5s",
+   "frame": "media/mv-album-001-jay/frames/JD_T14.png",
+   "i2v_prompt": "Single continuous take at 24fps, 16:9. A medium shot at eye level; a steadicam follows with fluid motion at walking pace, a faint handmade sway under the glide. A young woman swinging a bat through empty air for the third time and laughing at herself, the bat dropping to her shoulder. Warm 2001 Taiwanese telecine grade, skin tones kept natural and unlit, black point lifted to 10-14 code with shadow crush intact. Fine 35mm grain. Continuous unhurried motion, camera and subject motion only.",
+   "note": "挥空三次笑场（玩心档·挥拍三连快切）"
+  },
+  {
+   "id": "JD_T21",
+   "track": "JD",
+   "win_s": 7.34,
+   "speed": 1.0,
+   "src_s": 7.34,
+   "policy_band": "5s",
+   "frame": "media/mv-album-001-jay/frames/JD_T21.png",
+   "i2v_prompt": "Single continuous take at 24fps, 16:9. A wide shot from a high angle; the camera cranes down slowly, the height easing off as it arrives at eye level. A rain-washed embankment with shallow water standing in the paving, the sky opening pale behind the railing, the camera easing down toward the reflection in the water. Warm 2001 Taiwanese telecine grade, skin tones kept natural and unlit, black point lifted to 10-14 code with shadow crush intact. Fine 35mm grain. Continuous unhurried motion, camera and subject motion only.",
+   "note": "雨停后堤面空镜（水洼反光·无人物）"
+  },
+  {
+   "id": "JD_T22",
+   "track": "JD",
+   "win_s": 7.46,
+   "speed": 0.95,
+   "src_s": 7.85,
+   "policy_band": "5s",
+   "frame": "media/mv-album-001-jay/frames/JD_T22.png",
+   "i2v_prompt": "Single continuous take at 24fps, 16:9. A medium shot at eye level; the camera eases in from almost still on a slow floor dolly, gathering pace gently and settling as it arrives. A closed umbrella leaning against a concrete railing with water running off its folds onto the paving, the camera easing toward the wet folds. Warm 2001 Taiwanese telecine grade, skin tones kept natural and unlit, black point lifted to 10-14 code with shadow crush intact. Fine 35mm grain. Continuous unhurried motion, camera and subject motion only.",
+   "note": "收起的伞靠在栏杆上（关系的静物残留）"
+  },
+  {
+   "id": "JD_T23",
+   "track": "JD",
+   "win_s": 7.24,
+   "speed": 0.85,
+   "src_s": 8.52,
+   "policy_band": "5s",
+   "frame": "media/mv-album-001-jay/frames/JD_T23.png",
+   "i2v_prompt": "Single continuous take at 24fps, 16:9. A wide shot from a low angle; the camera holds a locked-off tripod frame, everything still except the living light and air. Two figures sitting on the same embankment concrete in the late sun, closer together than before, her head resting against his shoulder. Warm 2001 Taiwanese telecine grade, skin tones kept natural and unlit, black point lifted to 10-14 code with shadow crush intact. Fine 35mm grain. Continuous unhurried motion, camera and subject motion only.",
+   "note": "回外婆家=堤面再坐（她的头又磕上肩·愿望回环）"
+  },
+  {
+   "id": "JD_T24",
+   "track": "JD",
+   "win_s": 7.33,
+   "speed": 0.85,
+   "src_s": 8.62,
+   "policy_band": "5s",
+   "frame": "media/mv-album-001-jay/frames/JD_T24.png",
+   "i2v_prompt": "Single continuous take at 24fps, 16:9. A close-up at eye level; the camera holds a locked-off tripod frame, everything still except the living light and air. A palm resting flat on a chest, the cotton creasing under the fingers, a thin rim of low sun crossing both hands. Warm 2001 Taiwanese telecine grade, skin tones kept natural and unlit, black point lifted to 10-14 code with shadow crush intact. Fine 35mm grain. Continuous unhurried motion, camera and subject motion only.",
+   "note": "她的手放在他胸口（上衣布料起皱=接触的物质证据）"
+  },
+  {
+   "id": "JD_T25",
+   "track": "JD",
+   "win_s": 7.67,
+   "speed": 1.0,
+   "src_s": 7.67,
+   "policy_band": "5s",
+   "frame": "media/mv-album-001-jay/frames/JD_T25.png",
+   "i2v_prompt": "Single continuous take at 24fps, 16:9. A wide shot at eye level; the camera holds a locked-off tripod frame, everything still except the living light and air. A young man riding a steel bicycle away down an embankment road with a young woman behind him, both reduced to dark silhouettes against the low sun. Warm 2001 Taiwanese telecine grade, skin tones kept natural and unlit, black point lifted to 10-14 code with shadow crush intact. Fine 35mm grain. Continuous unhurried motion, camera and subject motion only.",
+   "note": "黄昏骑车载她远去（背影剪影·愿望第一项的回收）"
+  },
+  {
+   "id": "JD_T26",
+   "track": "JD",
+   "win_s": 7.62,
+   "speed": 1.0,
+   "src_s": 7.62,
+   "policy_band": "5s",
+   "frame": "media/mv-album-001-jay/frames/JD_T26.png",
+   "i2v_prompt": "Single continuous take at 24fps, 16:9. A wide shot at eye level; the camera holds a locked-off tripod frame, everything still except the living light and air. The mouth of an old alley at dusk with a single sodium lamp switching on, warm orange pooling on the concrete while the rest of the street stays cool grey. Warm 2001 Taiwanese telecine grade, skin tones kept natural and unlit, black point lifted to 10-14 code with shadow crush intact. Fine 35mm grain. Continuous unhurried motion, camera and subject motion only.",
+   "note": "巷口晚灯亮起（钠灯不校正·暖橙只落在口那里）"
+  },
+  {
+   "id": "JD_T28",
+   "track": "JD",
+   "win_s": 7.59,
+   "speed": 0.88,
+   "src_s": 8.62,
+   "policy_band": "5s",
+   "frame": "media/mv-album-001-jay/frames/JD_T28.png",
+   "i2v_prompt": "Single continuous take at 24fps, 16:9. An extreme close-up at eye level; the camera holds a locked-off tripod frame, everything still except the living light and air. Two hands laced together at the centre of the frame, the thumbs pressing once into the backs of the hands, warm sodium light on the knuckles. Warm 2001 Taiwanese telecine grade, skin tones kept natural and unlit, black point lifted to 10-14 code with shadow crush intact. Fine 35mm grain. Continuous unhurried motion, camera and subject motion only.",
+   "note": "十指相扣特写（拇指压一下）+「就这样」字帧 1s（思源宋体系）"
+  },
+  {
+   "id": "JD_T29",
+   "track": "JD",
+   "win_s": 7.22,
+   "speed": 0.9,
+   "src_s": 8.02,
+   "policy_band": "5s",
+   "frame": "media/mv-album-001-jay/frames/JD_T29.png",
+   "i2v_prompt": "Single continuous take at 24fps, 16:9. A wide shot from a low angle; the camera holds a locked-off tripod frame, everything still except the living light and air. An old steel bicycle leaning against a concrete railing, its frame rusted deep brown, weeds flowering out of the wire basket, the river light unchanged behind it. Warm 2001 Taiwanese telecine grade, skin tones kept natural and unlit, black point lifted to 10-14 code with shadow crush intact. Fine 35mm grain. Continuous unhurried motion, camera and subject motion only.",
+   "note": "多年后同一段河堤：老单车锈成深褐·车筐野草开花"
+  },
+  {
+   "id": "JD_T30",
+   "track": "JD",
+   "win_s": 6.99,
+   "speed": 0.9,
+   "src_s": 7.77,
+   "policy_band": "5s",
+   "frame": "media/mv-album-001-jay/frames/JD_T30.png",
+   "i2v_prompt": "Single continuous take at 24fps, 16:9. A medium shot from a low angle; the camera pans right in one slow unbroken sweep, easing in and out, the foreground sliding past first. A second bicycle of the same old city model standing beside a rusted one, glossy paint and a clean bell face, a faded red cord tied at a worn grip, the camera panning slowly across both then settling. Warm 2001 Taiwanese telecine grade, skin tones kept natural and unlit, black point lifted to 10-14 code with shadow crush intact. Fine 35mm grain. Continuous unhurried motion, camera and subject motion only.",
+   "note": "旁边一辆同款新车（亮漆/干净铃面/褪色红绳·橡胶把套有磨损）→ 缓摇收→黑场片名"
+  }
+ ],
+ "note": "长镜剔除：['JD_T01', 'JD_T02', 'JD_T05', 'JD_T06', 'JD_T07', 'JD_T08', 'JD_T09', 'JD_T10', 'JD_T15', 'JD_T16', 'JD_T17', 'JD_T18', 'JD_T19', 'JD_T20', 'JD_T27']"
+}
