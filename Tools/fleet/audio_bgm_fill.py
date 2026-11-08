@@ -36,6 +36,15 @@ def now():
     return datetime.now().astimezone().isoformat(timespec="seconds")
 
 
+def node_id():
+    """回执必须能认出生产机：FLEET_NODE → NODE → COMPUTERNAME，永不落占位。"""
+    for k in ("FLEET_NODE", "NODE"):
+        v = (os.environ.get(k) or "").strip()
+        if v:
+            return v.lower()
+    return (os.environ.get("COMPUTERNAME") or "node").strip().lower()
+
+
 def sha256(p):
     h = hashlib.sha256()
     with open(p, "rb") as f:
@@ -169,7 +178,7 @@ def main(argv):
     if any(r["status"] in ("FETCH-FAIL", "TIMEOUT") for r in results):
         rc = 3
 
-    payload = {"ts": now(), "node": os.environ.get("NODE", "?"), "out_dir": out_dir,
+    payload = {"ts": now(), "node": node_id(), "out_dir": out_dir,
                "spec": os.path.relpath(a.spec, ROOT) if a.spec.startswith(ROOT) else a.spec,
                "ready": len(ok), "gaps": len(gap), "results": results, "rc": rc}
     if a.receipt:
