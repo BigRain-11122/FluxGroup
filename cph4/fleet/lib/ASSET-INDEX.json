@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-08T12:59:03+0800",
+ "ts": "2026-11-08T22:37:11+0800",
  "owner": "bm-b（传家宝）· 归集与 git 备份",
  "skills": {
   "count": 49,
@@ -78,98 +78,96 @@
    "img": 238,
    "report": 413
   },
-  "missing_on_disk": 651,
+  "missing_on_disk": 51,
   "index": "cph4\\fleet\\vault\\index.jsonl"
  },
  "produced": {
-  "done_with_deliverable": 478,
-  "on_disk": 251,
+  "done_with_deliverable": 544,
+  "on_disk": 273,
   "absent": [
    {
-    "id": "Q-MV-0001-001",
-    "deliverable": "D:\\FleetWorker\\review\\aesthetic_v716b.json"
-   },
-   {
-    "id": "Q-MV-0001-002",
-    "deliverable": "D:\\FleetWorker\\review\\trans_v716b.json"
-   },
-   {
     "id": "Q-MV-0001-003",
+    "line": "bigstream-mv",
     "deliverable": "stability verdict"
    },
    {
-    "id": "Q-MV-0001-004",
-    "deliverable": "D:\\FleetWorker\\review\\sheets_v717"
+    "id": "MV-AUDIT-V722G-20261106",
+    "line": null,
+    "deliverable": "cph4/fleet/queue-receipts/mv-audit-v722g-20261106.json"
    },
    {
-    "id": "Q-MV-0001-005",
-    "deliverable": "D:\\FleetWorker\\review\\jitter_v717.json"
+    "id": "R-TRIAGE-BIGGAME-BMM-20261105",
+    "line": null,
+    "deliverable": "cph4/fleet/queue-receipts/triage-biggame-20261105.md"
    },
    {
-    "id": "Q-MV-0001-006",
-    "deliverable": "D:\\FleetWorker\\review\\flags_v717\\index.json"
+    "id": "VOICE-CORPUS-LIBRIVOX-BMA-20261106",
+    "line": "asset-lib",
+    "deliverable": "cph4/fleet/queue-receipts/vcorpus-librivox-20261106.json"
    },
    {
-    "id": "Q-MV-0001-007",
-    "deliverable": "D:\\FleetWorker\\review\\jitter_class_v717.json"
+    "id": "AUD-SOFT-20261106T172238-15",
+    "line": "biggame",
+    "deliverable": "cph4/fleet/audits/soft/G13_我想有个农场.json"
    },
    {
-    "id": "Q-MV-0001-009",
-    "deliverable": "D:\\FleetWorker\\review\\trans_v717.json"
+    "id": "AUD-SOFT-20261106T172238-22",
+    "line": "biggame",
+    "deliverable": "cph4/fleet/audits/soft/G18_PalacePlunder.json"
    },
    {
-    "id": "Q-MV-0001-008",
-    "deliverable": "D:\\FleetWorker\\review\\aesthetic_v717.json"
+    "id": "SELF-IMPROVE-bm-a-20261106",
+    "line": "fleet-ops",
+    "deliverable": "cph4/fleet/queue-receipts/self-improve-bm-a-latest.json"
    },
    {
-    "id": "Q-MV-0001-010",
-    "deliverable": "D:\\FleetWorker\\review\\reconcile_v717.json"
+    "id": "R-PLAN-BIGDOMAIN-20261107",
+    "line": "bigdomain",
+    "deliverable": "cph4/fleet/queue-receipts/triage-bigdomain-20261107.md"
    },
    {
-    "id": "Q-MV-0002-001",
-    "deliverable": "D:\\FleetWorker\\review\\kf_sheets_keainvren\\index.json"
+    "id": "asset-lib-char-prompts-2026-11-07",
+    "line": "asset-lib",
+    "deliverable": "cph4/fleet/queue-receipts/char-gen-plan-2026-11-07.json"
    },
    {
-    "id": "Q-MV-0002-002",
-    "deliverable": "D:\\FleetWorker\\review\\kf_sheets_kn_1024\\index.json"
+    "id": "R-TRIAGE-BIGDOMAIN-BMA-20261107",
+    "line": "fleet-ops",
+    "deliverable": "cph4/fleet/queue-receipts/triage-bigdomain-20261107.md"
    },
    {
-    "id": "Q-MV-0001-011",
-    "deliverable": "D:\\FleetWorker\\review\\flag_board_v717\\index.json"
+    "id": "asset-lib-voice-corpus-2026-11-07",
+    "line": "asset-lib",
+    "deliverable": "cph4/fleet/queue-receipts/voice-corpus-2026-11-07.json"
    },
    {
-    "id": "Q-MV-0001-012",
-    "deliverable": "D:\\FleetWorker\\review\\ceo_items_v717\\signoff\\SIGN-OFF-SHEET-v717.json"
+    "id": "biggame-pack-scan-2026-11-07",
+    "line": "biggame",
+    "deliverable": "cph4/fleet/queue-receipts/game-packs-2026-11-07.json"
    },
    {
-    "id": "Q-MV-0001-013",
-    "deliverable": "D:\\FleetWorker\\review\\ceo_items_v717\\erablind\\ANSWERS.md"
+    "id": "AUD-SOFT-20261107T220908-01",
+    "line": "biggame",
+    "deliverable": "cph4/fleet/audits/soft/G09_GimmeAll.json"
    },
    {
-    "id": "Q-MV-0001-014",
-    "deliverable": "D:\\FleetWorker\\review\\ceo_items_v717\\staticjump\\STATIC-JUMP-11.md"
+    "id": "AUD-SOFT-20261107T220908-02",
+    "line": "biggame",
+    "deliverable": "cph4/fleet/audits/soft/G13_我想有个农场.json"
    },
    {
-    "id": "Q-MV-0001-015",
-    "deliverable": "D:\\FleetWorker\\review\\delivery_gate_v717.json"
-   },
-   {
-    "id": "Q-MV-0001-016",
-    "deliverable": "D:\\FleetWorker\\review\\v717_label\\full_mv_v717_aigc.mp4"
-   },
-   {
-    "id": "Q-MV-0001-017",
-    "deliverable": "D:\\FleetWorker\\review\\delivery_gate_v717_wl.json"
-   },
-   {
-    "id": "Q-MV-0001-018",
-    "deliverable": "D:\\FleetWorker\\review\\fidelity_v717.json"
+    "id": "AUD-SOFT-20261107T220908-05",
+    "line": "biggame",
+    "deliverable": "cph4/fleet/audits/soft/G15_萌宠开店啦_CCPC提交格式.json"
    }
   ],
-  "absent_count": 227
+  "absent_count": 41,
+  "runtime_ignored": 179,
+  "offnode_absolute": 51,
+  "source": "deliverable_audit(origin/main)"
  },
  "gaps": [
-  "227 张 DONE 卡的交产物不在盘",
-  "651 条 vault 登记指向不存在的文件"
+  "41 张 DONE 卡的交产物不在盘",
+  "51 条 vault 登记指向不存在的文件"
  ]
 }

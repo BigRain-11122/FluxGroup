@@ -1,0 +1,182 @@
+{
+ "rc": 2,
+ "verdict": "GAPS",
+ "error_class": "E-BLOCKED-INPUT",
+ "summary": {
+  "ts": "2026-11-08T22:37:11+0800",
+  "owner": "bm-b（传家宝）· 归集与 git 备份",
+  "skills": {
+   "count": 49,
+   "levels": {},
+   "with_eval": 2,
+   "newest": "2026-11-05 23:00"
+  },
+  "voice": {
+   "audio_files": 168,
+   "blocked_receipts": 1,
+   "dirs_present": [
+    "cph4/fleet/voicebank",
+    "media/asset/inbox"
+   ],
+   "newest": "2026-11-04 23:01"
+  },
+  "workflow": {
+   "line_tables": 6,
+   "stage_rows": 39,
+   "recipes": [
+    "content.yaml",
+    "game.yaml",
+    "strategy.yaml"
+   ],
+   "detail": [
+    {
+     "line": "asset-lib",
+     "stages": 15,
+     "parallel": false
+    },
+    {
+     "line": "biggame",
+     "stages": 2,
+     "parallel": false
+    },
+    {
+     "line": "bigmoney",
+     "stages": 5,
+     "parallel": false
+    },
+    {
+     "line": "bigstream-drama",
+     "stages": 5,
+     "parallel": false
+    },
+    {
+     "line": "bigstream-duanju",
+     "stages": 6,
+     "parallel": false
+    },
+    {
+     "line": "bigstream-mv",
+     "stages": 6,
+     "parallel": false
+    }
+   ]
+  },
+  "experience": {
+   "docs": 77,
+   "sections": 392,
+   "top": [
+    "cph4\\fleet\\asset-lib-v1\\ASSET-LIB-BUILD-v1.md",
+    "cph4\\fleet\\asset-lib-v1\\ASSET-LIBRARY-PLAN-v1.md",
+    "cph4\\fleet\\asset-lib-v1\\SOURCES-V1.md",
+    "cph4\\fleet\\ARCHIVE-LEDGER.jsonl",
+    "cph4\\fleet\\BACKLOG-LEDGER-20261103.md",
+    "cph4\\fleet\\CEO-DEFECT-LEDGER-v1.md",
+    "cph4\\fleet\\CEO-DEMAND-LEDGER-v1.json",
+    "cph4\\fleet\\CONTENT-WINS-LEDGER-v1.md"
+   ],
+   "newest": "2026-11-07 19:46"
+  },
+  "vault": {
+   "entries": 651,
+   "kinds": {
+    "img": 238,
+    "report": 413
+   },
+   "missing_on_disk": 51,
+   "index": "cph4\\fleet\\vault\\index.jsonl"
+  },
+  "produced": {
+   "done_with_deliverable": 544,
+   "on_disk": 273,
+   "absent": [
+    {
+     "id": "Q-MV-0001-003",
+     "line": "bigstream-mv",
+     "deliverable": "stability verdict"
+    },
+    {
+     "id": "MV-AUDIT-V722G-20261106",
+     "line": null,
+     "deliverable": "cph4/fleet/queue-receipts/mv-audit-v722g-20261106.json"
+    },
+    {
+     "id": "R-TRIAGE-BIGGAME-BMM-20261105",
+     "line": null,
+     "deliverable": "cph4/fleet/queue-receipts/triage-biggame-20261105.md"
+    },
+    {
+     "id": "VOICE-CORPUS-LIBRIVOX-BMA-20261106",
+     "line": "asset-lib",
+     "deliverable": "cph4/fleet/queue-receipts/vcorpus-librivox-20261106.json"
+    },
+    {
+     "id": "AUD-SOFT-20261106T172238-15",
+     "line": "biggame",
+     "deliverable": "cph4/fleet/audits/soft/G13_我想有个农场.json"
+    },
+    {
+     "id": "AUD-SOFT-20261106T172238-22",
+     "line": "biggame",
+     "deliverable": "cph4/fleet/audits/soft/G18_PalacePlunder.json"
+    },
+    {
+     "id": "SELF-IMPROVE-bm-a-20261106",
+     "line": "fleet-ops",
+     "deliverable": "cph4/fleet/queue-receipts/self-improve-bm-a-latest.json"
+    },
+    {
+     "id": "R-PLAN-BIGDOMAIN-20261107",
+     "line": "bigdomain",
+     "deliverable": "cph4/fleet/queue-receipts/triage-bigdomain-20261107.md"
+    },
+    {
+     "id": "asset-lib-char-prompts-2026-11-07",
+     "line": "asset-lib",
+     "deliverable": "cph4/fleet/queue-receipts/char-gen-plan-2026-11-07.json"
+    },
+    {
+     "id": "R-TRIAGE-BIGDOMAIN-BMA-20261107",
+     "line": "fleet-ops",
+     "deliverable": "cph4/fleet/queue-receipts/triage-bigdomain-20261107.md"
+    },
+    {
+     "id": "asset-lib-voice-corpus-2026-11-07",
+     "line": "asset-lib",
+     "deliverable": "cph4/fleet/queue-receipts/voice-corpus-2026-11-07.json"
+    },
+    {
+     "id": "biggame-pack-scan-2026-11-07",
+     "line": "biggame",
+     "deliverable": "cph4/fleet/queue-receipts/game-packs-2026-11-07.json"
+    },
+    {
+     "id": "AUD-SOFT-20261107T220908-01",
+     "line": "biggame",
+     "deliverable": "cph4/fleet/audits/soft/G09_GimmeAll.json"
+    },
+    {
+     "id": "AUD-SOFT-20261107T220908-02",
+     "line": "biggame",
+     "deliverable": "cph4/fleet/audits/soft/G13_我想有个农场.json"
+    },
+    {
+     "id": "AUD-SOFT-20261107T220908-05",
+     "line": "biggame",
+     "deliverable": "cph4/fleet/audits/soft/G15_萌宠开店啦_CCPC提交格式.json"
+    }
+   ],
+   "absent_count": 41,
+   "runtime_ignored": 179,
+   "offnode_absolute": 51,
+   "source": "deliverable_audit(origin/main)"
+  },
+  "gaps": [
+   "41 张 DONE 卡的交产物不在盘",
+   "51 条 vault 登记指向不存在的文件"
+  ]
+ },
+ "gaps": [
+  "41 张 DONE 卡的交产物不在盘",
+  "51 条 vault 登记指向不存在的文件"
+ ]
+}

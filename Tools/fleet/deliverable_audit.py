@@ -78,6 +78,57 @@ def ignored(paths):
     return out
 
 
+def audit():
+    """返回完整审计结果（供其它工具复用，别再各自写一套 os.path.exists）。"""
+    blob = origin_queue()
+    if blob is None:
+        return None
+    rows, seen = [], 0
+    for line in blob.splitlines():
+        line = line.strip()
+        if not line.startswith("{"):
+            continue
+        try:
+            r = json.loads(line)
+        except Exception:
+            continue
+        if str(r.get("state") or "") != "DONE":
+            continue
+        dp = (r.get("deliverable") or "").strip()
+        if not dp:
+            continue
+        seen += 1
+        rel = dp.replace("\\", "/")
+        if rel.startswith("/") or (len(rel) > 2 and rel[1] == ":"):
+            full, rel = dp, ""
+        else:
+            full = os.path.join(ROOT, dp.replace("/", os.sep))
+        rows.append({"id": r.get("id"), "line": r.get("line"), "deliverable": dp,
+                     "rel": rel, "full": full})
+    need = [x["rel"] for x in rows if x["rel"] and not os.path.exists(x["full"])]
+    have = in_origin(need)
+    ign = ignored(need)
+    buckets = {"on_disk": [], "in_origin_only": [], "runtime_ignored": [],
+               "offnode_absolute": [], "absent": []}
+    for x in rows:
+        if not x["rel"]:
+            buckets["offnode_absolute"].append(x)
+        elif os.path.exists(x["full"]):
+            buckets["on_disk"].append(x)
+        elif x["rel"] in have:
+            buckets["in_origin_only"].append(x)
+        elif x["rel"] in ign:
+            buckets["runtime_ignored"].append(x)
+        else:
+            buckets["absent"].append(x)
+    by_line = Counter((x["line"] or "?") for x in buckets["absent"])
+    return {"done_with_deliverable": seen,
+            **{k: len(v) for k, v in buckets.items()},
+            "absent_by_line": dict(by_line.most_common()),
+            "absent_sample": [{"id": x["id"], "line": x["line"], "deliverable": x["deliverable"]}
+                              for x in buckets["absent"][:15]]}
+
+
 def main(argv):
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", default=os.path.join(RECEIPTS, "deliverables-%s.json"

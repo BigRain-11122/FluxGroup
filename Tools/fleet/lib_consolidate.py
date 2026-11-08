@@ -129,15 +129,48 @@ def scan_vault():
             continue
         rows.append(r)
         kinds[r.get("kind") or "?"] = kinds.get(r.get("kind") or "?", 0) + 1
+        # 台账里的 path 常是主控 Mac 的 /Volumes/... 绝对路径，在 Windows 上必然
+        # 判「不存在」，于是每天报「651 条指向不存在的文件」。正解=按 store 相对路径
+        # 到本机 store_roots 里找真身（vault.resolve），找不到才算缺。
         path = r.get("path") or ""
-        if path and not os.path.exists(path):
+        ok = False
+        try:
+            import vault as _v
+            ok = bool(_v.resolve(r))
+        except Exception:
+            ok = False
+        if not ok and path:
+            ok = os.path.exists(path)
+        if not ok:
             missing += 1
     return {"entries": len(rows), "kinds": kinds, "missing_on_disk": missing,
             "index": os.path.relpath(p, ROOT)}
 
 
 def scan_produced():
-    """已产出的交付物：DONE 卡里有交付物路径的，逐条判在不在盘。"""
+    """已产出的交付物：优先用 deliverable_audit 的四态口径。
+
+    2026-11-08 教训：旧口径只看本机 os.path.exists，把 gitignore 的运行时件与他机
+    绝对路径都算缺交付，每天报「227 张不在盘」，实际真缺 61（修后 41）。虚高的日报
+    会让人对告警脱敏，所以这里直接复用审计工具。
+    """
+    try:
+        import deliverable_audit as _da
+        r = _da.audit()
+        if r:
+            return {"done_with_deliverable": r["done_with_deliverable"],
+                    "on_disk": r["on_disk"], "absent": r["absent_sample"],
+                    "absent_count": r["absent"],
+                    "runtime_ignored": r.get("runtime_ignored", 0),
+                    "offnode_absolute": r.get("offnode_absolute", 0),
+                    "source": "deliverable_audit(origin/main)"}
+    except Exception:
+        pass
+    return _scan_produced_local()
+
+
+def _scan_produced_local():
+    """离线兜底：读本机队列（分叉副本），仅 origin 不可达时使用。"""
     q = os.path.join(FLEET, "PRODUCTION-QUEUE.jsonl")
     total = exist = 0
     absent = []
