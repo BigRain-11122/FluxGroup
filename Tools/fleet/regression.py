@@ -781,6 +781,35 @@ def rg37():
     return "产物类卡先占槽，文档类卡排后"
 
 
+@case("RG-35", "执行者停摆必须由巡检自己拉起来（不许等人转命令）",
+      "2026-11-08 实锚：三台 /status 全部 wakes=[]，一下午 DONE 只前进 9 张；"
+      "巡检此前只报不修。另：poke 契约是 {reason(含 enable-tasks), tasks[白名单]}，"
+      "发不存在的 {action:...} 会 accepted 但一次都不唤醒（我第一次就是这么空的）")
+def rg35():
+    import executor_revive as er
+    # 正例：wakes 空 -> wake
+    v, _ = er.decide({"last_pull": {"pulls": [".:updated"], "wakes": []}})
+    assert v == "wake", "wakes 为空却判 %s" % v
+    # 正例：唤醒全失败 -> wake
+    v, _ = er.decide({"last_pull": {"pulls": [".:updated"], "wakes": ["HQ-ProductionClaim:off-skip"]}})
+    assert v == "wake", "唤醒全失败却判 %s" % v
+    # 正例：分叉 -> closeout（优先级高于 wake）
+    v, _ = er.decide({"last_pull": {"pulls": [".:fail"], "wakes": []}})
+    assert v == "closeout", "拉取失败却判 %s" % v
+    # 负控1：正在跑（busy-skip）是健康，不许重复唤醒
+    v, _ = er.decide({"last_pull": {"pulls": [".:updated"], "wakes": ["HQ-ProductionClaim:busy-skip"]}})
+    assert v == "healthy", "忙=健康，却判 %s（会每轮空打 poke）" % v
+    # 负控2：探不到不许动作
+    v, _ = er.decide(None)
+    assert v == "offline", "探不到应判 offline，却判 %s" % v
+    # 接线断言：脉里必须真的有这条阶段，且 tasks 取自白名单
+    src = open(os.path.join(ROOT, "Tools", "fleet", "master_pulse.py"), encoding="utf-8").read()
+    assert "executor_revive" in src, "脉里没接 executor_revive（等于又变成纸面巡检）"
+    src2 = open(os.path.join(ROOT, "Tools", "fleet", "executor_revive.py"), encoding="utf-8").read()
+    assert "enable_tasks" in src2, "没读 roster.enable_tasks 白名单（越界会被 off-skip）"
+    return "四态判定正确（wake/closeout/healthy/offline），脉已接线"
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--json", action="store_true")
