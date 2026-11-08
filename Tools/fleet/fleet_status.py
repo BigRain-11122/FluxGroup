@@ -41,6 +41,35 @@ STALE_S = 150          # 状态件超 2.5 个上报周期(45s)没更新 = 死
 PROGRESS_MIN_BYTES = 1
 
 
+
+def rows_origin(rel="cph4/fleet/PRODUCTION-QUEUE.jsonl"):
+    """从 origin/main 读队列——这才是执行机看到的真相。
+
+    2026-11-08 实锚：同一时刻本地工作树 RUNNING=26、origin/main RUNNING=5；
+    按本地文件汇报「在飞 26 张」是假绿，按它判「空转」又是假红。
+    队列是活文件、每轮被重写，本地采样只代表"主控刚写下的意思"，
+    机队拿的是 origin 快照——统计必须与执行面一致。
+    返回 (rows, face)；origin 读不到时回落本地并标注 local。
+    """
+    try:
+        p = subprocess.run(["git", "-C", ROOT, "show", "origin/main:" + rel],
+                           capture_output=True, text=True, timeout=60)
+        if p.returncode == 0 and p.stdout.strip():
+            out = []
+            for line in p.stdout.splitlines():
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    out.append(json.loads(line))
+                except Exception:
+                    pass
+            return out, "origin"
+    except Exception:
+        pass
+    return rows(os.path.join(ROOT, rel)), "local"
+
+
 def jload(p, d=None):
     try:
         with open(p, encoding="utf-8-sig") as f:
@@ -83,7 +112,7 @@ def main(argv):
     prev = jload(LAST, {}) or {}
     prev_cards = prev.get("cards") or {}
 
-    cards = rows(Q)
+    cards, FACE = rows_origin()
     running = [r for r in cards if r.get("state") == "RUNNING"]
 
     nodes = {}
@@ -197,7 +226,7 @@ def main(argv):
 
     slots_view = {n: {"running": by_owner.get(n, 0), "slots": int(slots.get(n, 1) or 1)}
                   for n in set(list(slots) + list(by_owner))}
-    out = {"ts": datetime.now().isoformat(timespec="seconds"),
+    out = {"ts": datetime.now().isoformat(timespec="seconds"), "face": FACE,
            "running_total": len(running), "dead": len(dead), "fake_busy": len(fake),
            "nodes": nodes, "slots": slots_view, "workers": workers, "cards": detail,
            "open_total": sum(1 for r in cards if r.get("state") == "OPEN"),
@@ -229,9 +258,9 @@ def main(argv):
     if a.json:
         print(json.dumps(out, ensure_ascii=False, indent=1))
     else:
-        print("[fleet-status] %s 在跑 %d｜死卡 %d｜假忙 %d｜待派 %d"
-              % (out["verdict"], out["running_total"], out["dead"], out["fake_busy"],
-                 out["open_total"]))
+        print("[fleet-status/%s] %s 在跑 %d｜死卡 %d｜假忙 %d｜待派 %d"
+              % (FACE, out["verdict"], out["running_total"], out["dead"],
+                 out["fake_busy"], out["open_total"]))
         for n, v in sorted(slots_view.items()):
             w = workers.get(n) or {}
             print("  %-5s %d/%d 槽｜最后产出 %.1fh 前 %s"
