@@ -1,23 +1,23 @@
 {
- "ts": "2026-11-08T09:36:53",
- "cycle": 397,
+ "ts": "2026-11-08T09:39:29",
+ "cycle": 398,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-08T09:36:53",
+ "master_tick_ts": "2026-11-08T09:39:29",
  "queue": {
   "total": 1440,
   "open": 3,
-  "running": 5,
+  "running": 4,
   "done": 539,
-  "failed": 4
+  "failed": 5
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 25.0,
-   "cpu_load_pct": 63,
-   "ram_free_gb": 32.4,
-   "gpu_util_pct": 2,
+   "hb_age_s": 2.4,
+   "cpu_load_pct": 71,
+   "ram_free_gb": 27.9,
+   "gpu_util_pct": 93,
    "job": "bigstream-mv-gate-2026-11-08",
    "last_result": {
     "job": "R-TRIAGE-BIGMONEY-BMB-20261108",
@@ -34,70 +34,70 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 2.2,
-   "cpu_load_pct": 6,
-   "ram_free_gb": 9.9,
+   "hb_age_s": 24.5,
+   "cpu_load_pct": 7,
+   "ram_free_gb": 9.7,
    "gpu_util_pct": 1,
-   "job": "bigmoney-signal-2026-11-08",
+   "job": null,
    "last_result": {
     "job": "bigmoney-signal-2026-11-08",
-    "state": "RUNNING",
-    "rc": null,
-    "ts": "2026-11-08T09:36:45",
+    "state": "FAILED",
+    "rc": 2,
+    "ts": "2026-11-08T09:39:23",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": false,
-   "idle_reason": "",
+   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
    "idle_rounds": 0
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 12.4,
-   "cpu_load_pct": 16,
-   "ram_free_gb": 2.3,
+   "hb_age_s": 34.0,
+   "cpu_load_pct": 13,
+   "ram_free_gb": 2.4,
    "gpu_util_pct": 0,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-08T09:36:33",
+    "ts": "2026-11-08T09:38:48",
     "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 11
+   "idle_rounds": 12
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 19.6,
-   "cpu_load_pct": 9,
-   "ram_free_gb": 10.4,
+   "hb_age_s": 16.1,
+   "cpu_load_pct": 17,
+   "ram_free_gb": 15.9,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-08T09:36:08",
+    "ts": "2026-11-08T09:39:11",
     "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 1
+   "idle_rounds": 2
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
-  "bm-c": 11,
-  "bm-m": 1
+  "bm-c": 12,
+  "bm-m": 2
  },
  "lines": {
   "bigstream-mv": {
@@ -194,10 +194,8 @@
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "量化席",
-   "jobs": [
-    "bigmoney-signal-2026-11-08"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": "2026-11-04 夜班重启：原回测阶段钉 bm-d，而 bm-d 自 10-29 离线；改由 bm-b（有 quant 仓与数据）出「下月持仓信号 CSV」，主控按 P1 恢复派单。",
    "stuck_stage": "quant-data",
@@ -847,20 +845,18 @@
   "cpu": 2,
   "gpu": 1
  },
- "supply_added": [
-  "backlog_manifest+2"
- ],
+ "supply_added": [],
  "events": [
-  "AUD-GAME-20261108T093601-09 -> bm-a (cpu)",
-  "AUD-GAME-20261108T093601-33 -> bm-a (cpu)"
+  "bigmoney-signal-2026-11-08 FAILED via bm-b"
  ],
  "violations": [
-  "bm-c IDLE-CONFIRMED x11 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-c IDLE-CONFIRMED x12 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-m IDLE-CONFIRMED x2 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
  "lane_files_written": [
-  "bm-a"
+  "bm-b"
  ]
 }
