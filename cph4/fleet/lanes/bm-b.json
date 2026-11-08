@@ -5,6 +5,7 @@
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
  "ts": "2026-11-08T18:19:23",
  "jobs": [],
  "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
@@ -21,21 +22,10 @@
 =======
  "ts": "2026-11-08T18:33:31",
 >>>>>>> Stashed changes
+=======
+ "ts": "2026-11-08T18:35:48",
+>>>>>>> Stashed changes
  "jobs": [
-  {
-   "id": "R-TRIAGE-FLUXVERSE-BMB-20261108",
-   "title": "FluxVerse·元宙城 线证据扫描（bm-b 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line fluxverse",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-fluxverse-20261108.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
   {
    "id": "AUD-GAME-20261108T012729-33",
    "title": "提审缺口落单：NightWatch",
@@ -112,6 +102,7 @@
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
  "capacity_note": "ram 7.3/1.0 GB"
 >>>>>>> Stashed changes
 =======
@@ -144,5 +135,8 @@
 >>>>>>> Stashed changes
 =======
  "capacity_note": "ram 8.4/1.0 GB"
+>>>>>>> Stashed changes
+=======
+ "capacity_note": "ram 9.1/1.0 GB"
 >>>>>>> Stashed changes
 }
