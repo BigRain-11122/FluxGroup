@@ -1,14 +1,42 @@
 {
  "node": "bm-c",
- "ts": "2026-11-08T14:50:34",
+ "ts": "2026-11-08T15:21:57",
  "jobs": [
   {
-   "id": "ASSET-GEN-STYLES-20261108",
-   "title": "风格类资产出图（10 件，验收口径内）",
-   "cmd": "python Tools/fleet/asset_gen.py --class styles --limit 10 --node bm-c --receipt cph4/fleet/queue-receipts/asset-gen-styles-20261108.json",
+   "id": "R-TRIAGE-BIGSTREAMMV-BMC-20261108",
+   "title": "BigStream·MV 41 曲 线证据扫描（bm-c 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line bigstream-mv",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigstream-mv-20261108.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "R-TRIAGE-FLUXVERSE-BMC-20261108",
+   "title": "FluxVerse·元宙城 线证据扫描（bm-c 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line fluxverse",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-fluxverse-20261108.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "ASSET-GEN-TYPOGRAPHY-20261108B",
+   "title": "字效类资产出图（6 件）",
+   "cmd": "python Tools/fleet/asset_gen.py --class typography --limit 6 --node bm-c --receipt cph4/fleet/queue-receipts/asset-gen-typography-20261108.json",
    "cwd": ".",
    "needs": "gpu",
-   "deliverable": "media/asset/styles/styles-01.png",
+   "deliverable": "media/asset/typography/typography-01.png",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +47,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 7.6/1.0 GB"
+ "capacity_note": "ram 5.3/1.0 GB"
 }
