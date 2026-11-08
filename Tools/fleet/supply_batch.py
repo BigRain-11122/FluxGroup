@@ -112,22 +112,23 @@ def build_cards():
                       "line": "biggame", "state": "READY", "created_by": "supply_batch",
                       "created_at": datetime.now().isoformat(timespec="seconds")})
     try:
-        pack = json.load(open(GAME_PACK, encoding="utf-8"))
-        for i, p in enumerate((pack.get("items") or [])[:80], 1):
-            name = p.get("product") or p.get("dir") or ("p%02d" % i)
-            out = os.path.join("cph4", "fleet", "audits", "game", "%s.json" % name)
-            if os.path.exists(os.path.join(ROOT, out)):
-                continue
-            cards.append({"id": "AUD-GAME-%s-%02d" % (stamp, i),
-                          "title": "提审缺口落单：%s" % name,
-                          "cmd": "python Tools/fleet/supply_batch.py --audit game %s" % name,
-                          "cwd": "", "needs": "cpu", "minutes": 1, "heavy": False,
-                          "requires": ["cph4/fleet/game-v1/SUBMIT-PACK-20261105.json"],
+        # 2026-11-08 改：逐款审计卡（最多 80 张、每张 1 分钟、钉死主控）= 账面产量，
+        # 机器很忙但一行成品也没有。改为一张聚合盘点卡：产物是当日提审包 JSON，
+        # 缺口在包里逐款列明，由报告读者看，而不是让每款各占一个卡位。
+        stamp = datetime.now().strftime("%Y%m%d")
+        out = "cph4/fleet/game-v1/SUBMIT-PACK-%s.json" % stamp
+        if not os.path.exists(os.path.join(ROOT, out)):
+            cards.append({"id": "PACK-GAME-%s" % stamp,
+                          "title": "小游戏提审盘点（聚合：逐款缺口一包在内）",
+                          "cmd": "python Tools/fleet/game_submit_pack.py --out %s" % out,
+                          "cwd": "", "needs": "cpu", "minutes": 5, "heavy": False,
+                          "requires": ["gaming"],
                           "deliverable": out,
-                          "accept": "该产品缺件逐条落单，缺件数=0 才算通过",
-                          "nodes": ["bm-m"], "hard_nodes": ["bm-m"], "prio": "P1",
-                          "line": "biggame", "state": "READY", "created_by": "supply_batch",
-                          "created_at": datetime.now().isoformat(timespec="seconds")})
+                          "accept": "包内逐款列明四类缺件；不许把构建脚本当成品、草版当定稿",
+                          "nodes": ["bm-a", "bm-c", "bm-m"], "hard_nodes": [],
+                          "prio": "P1", "line": "biggame", "state": "READY",
+                          "created_by": "supply_batch", "created_at":
+                              datetime.now().isoformat(timespec="seconds")})
     except Exception as e:
         print("game pack skipped:", str(e)[:80])
     return cards
