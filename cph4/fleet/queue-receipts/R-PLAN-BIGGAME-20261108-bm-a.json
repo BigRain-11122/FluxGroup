@@ -1,0 +1,17 @@
+{
+ "id": "R-PLAN-BIGGAME-20261108",
+ "node": "bm-a",
+ "rc": 0,
+ "seconds": 0.7,
+ "cmd": "python Tools/fleet/line_triage.py --line biggame",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "cph4/fleet/queue-receipts/triage-biggame-20261108.md",
+ "deliverable_exists": true,
+ "ts": "2026-11-08T13:39:34",
+ "stdout_tail": "[triage] biggame -> cph4\\fleet\\queue-receipts\\triage-biggame-20261108.md\n",
+ "stderr_tail": ""
+}
