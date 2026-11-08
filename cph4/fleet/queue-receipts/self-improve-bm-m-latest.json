@@ -1,12 +1,12 @@
 {
  "node": "bm-m",
- "ts": "2026-11-08T15:41:18",
+ "ts": "2026-11-08T15:43:47",
  "mode": "apply",
  "verdict": "SELF-OK",
  "checks": [
   {
    "check": "reload",
-   "code_age_s": 17131,
+   "code_age_s": 17281,
    "receipt_age_s": 0,
    "targets": [],
    "acted": false,
@@ -16,7 +16,7 @@
   },
   {
    "check": "shells",
-   "cards": 6,
+   "cards": 4,
    "shells": 0,
    "ids": [],
    "acted": false,
