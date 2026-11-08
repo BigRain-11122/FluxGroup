@@ -1,70 +1,14 @@
 {
  "node": "bm-a",
- "ts": "2026-11-08T13:02:56",
+ "ts": "2026-11-08T13:14:15",
  "jobs": [
   {
-   "id": "bigstream-mv-gate-2026-11-08",
-   "title": "[MV·爱在西元前（v721 终版）] 交付闸（重复/静止/抖动/闪烁）",
-   "cmd": "python Tools/mv_delivery_gate.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721_60fps_1080p.mp4 --card 38.79:40.21 --card 219.71:223.88 --json cph4/fleet/queue-receipts/mv-gate-v721-2026-11-08.json",
+   "id": "MV-DIRECTOR-PACKET-20261108",
+   "title": "导演席拉片包：KN 复核卷一页卷（成片+闸+证据+签字位）",
+   "cmd": "python Tools/fleet/review_packet.py --line kn --root .",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/mv-gate-v721-2026-11-08.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "biggame-pack-scan-2026-11-08",
-   "title": "[游戏（可上线清单 → 一款可玩包 → 提审材料）] 可上线包清单（唯一能机器判的段）",
-   "cmd": "python Tools/fleet/game_pack_scan.py --root gaming --out cph4/fleet/queue-receipts/game-packs-2026-11-08.json",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/game-packs-2026-11-08.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "R-TRIAGE-FLUXVERSE-BMC-20261108",
-   "title": "FluxVerse·元宙城 线证据扫描（bm-c 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line fluxverse",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-fluxverse-20261108.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "R-TRIAGE-BIGMONEY-BMB-20261108",
-   "title": "BigMoney·量化 线证据扫描（bm-b 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigmoney --node bm-b",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigmoney-bm-b-20261108.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "biggame-accept-2026-11-08",
-   "title": "[游戏（可上线清单 → 一款可玩包 → 提审材料）] 质量验收（缺一份闸回执就不算交付）",
-   "cmd": "python Tools/fleet/quality_gate.py --line biggame --out cph4/fleet/queue-receipts/quality-biggame-2026-11-08.json",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/quality-biggame-2026-11-08.json",
+   "deliverable": "cph4/fleet/queue-receipts/review-packet-kn-20261108.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -75,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 31.1/1.0 GB"
+ "capacity_note": "ram 33.9/1.0 GB"
 }
