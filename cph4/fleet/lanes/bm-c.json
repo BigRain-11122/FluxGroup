@@ -2,6 +2,7 @@
  "node": "bm-c",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
  "ts": "2026-11-08T21:11:32",
  "jobs": [
   {
@@ -55,6 +56,9 @@
    "deliverable": "cph4/fleet/audits/game/GhostMarshal.json",
 =======
  "ts": "2026-11-08T21:14:12",
+=======
+ "ts": "2026-11-08T21:20:32",
+>>>>>>> Stashed changes
  "jobs": [
   {
 =======
@@ -69,6 +73,9 @@
    "needs": "gpu",
    "deliverable": "cph4/fleet/queue-receipts/asset-gen-typography-20261108.json",
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -94,7 +101,10 @@
    "timeout_s": null
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
   },
@@ -112,13 +122,31 @@
    "llm": null,
    "timeout_s": null
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 >>>>>>> Stashed changes
 =======
+>>>>>>> Stashed changes
+=======
+  },
+  {
+   "id": "R-TRIAGE-BIGGAME-BMC-20261108",
+   "title": "Biggame·游戏 线证据扫描（bm-c 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line biggame --node bm-c",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-biggame-bm-c-20261108.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
 >>>>>>> Stashed changes
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
  "capacity_note": "ram 5.6/1.0 GB"
@@ -127,5 +155,8 @@
 >>>>>>> Stashed changes
 =======
  "capacity_note": "ram 3.7/1.0 GB"
+>>>>>>> Stashed changes
+=======
+ "capacity_note": "ram 1.7/1.0 GB"
 >>>>>>> Stashed changes
 }
