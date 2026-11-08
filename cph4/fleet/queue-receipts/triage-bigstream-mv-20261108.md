@@ -7,11 +7,11 @@
 - mv-i2v         owner=导演席      lane=bm-c   证据 1/1 存在 · 文件 137 · 最新 120.8h
 - mv-cut         owner=剪辑席      lane=bm-a   证据 1/1 存在 · 文件 1178 · 最新 135.7h
 - mv-gate        owner=质检席      lane=bm-a   证据 0/1 存在 · 文件 0 · 最新 —
-- mv-approve     owner=导演席（自决放行） lane=-      证据 1/1 存在 · 文件 55 · 最新 106.7h
+- mv-approve     owner=导演席（自决放行） lane=-      证据 1/1 存在 · 文件 55 · 最新 106.8h
 
 ## 判定
 - 最近产出 23.1h 前（阈值 24.0h）→ FRESH 在阈内
-- 工段超阈 4/6（线级最近值不代表最差工段）：mv-kf 147.5h、mv-i2v 120.8h、mv-cut 135.7h、mv-approve 106.7h
+- 工段超阈 4/6（线级最近值不代表最差工段）：mv-kf 147.5h、mv-i2v 120.8h、mv-cut 135.7h、mv-approve 106.8h
 - 另有 1 个证据目录只在别的节点上（本机不据此判缺口）：D:/FleetWorker/review
 
 ## 下一步（按缺口）
