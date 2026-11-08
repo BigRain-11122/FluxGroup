@@ -1,5 +1,6 @@
 {
  "node": "bm-c",
+<<<<<<< Updated upstream
  "ts": "2026-11-08T19:01:49",
  "jobs": [
   {
@@ -17,6 +18,11 @@
    "timeout_s": null
   },
   {
+=======
+ "ts": "2026-11-08T19:04:11",
+ "jobs": [
+  {
+>>>>>>> Stashed changes
    "id": "R-TRIAGE-BIGGAME-BMC-20261108",
    "title": "Biggame·游戏 线证据扫描（bm-c 本机可判面）",
    "cmd": "python Tools/fleet/line_triage.py --line biggame --node bm-c",
@@ -29,6 +35,7 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
+<<<<<<< Updated upstream
   },
   {
    "id": "AUD-GAME-20261108T030701-27",
@@ -43,9 +50,15 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
+=======
+>>>>>>> Stashed changes
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
+<<<<<<< Updated upstream
  "capacity_note": "ram 5.1/1.0 GB"
+=======
+ "capacity_note": "ram 2.7/1.0 GB"
+>>>>>>> Stashed changes
 }

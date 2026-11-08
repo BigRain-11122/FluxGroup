@@ -1,0 +1,17 @@
+{
+ "id": "AUD-GAME-20261108T012729-33",
+ "node": "bm-m",
+ "rc": 0,
+ "seconds": 0.1,
+ "cmd": "python3 Tools/fleet/supply_batch.py --audit game NightWatch",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "cph4/fleet/audits/game/NightWatch.json",
+ "deliverable_exists": true,
+ "ts": "2026-11-08T19:06:13",
+ "stdout_tail": "AUDIT game NightWatch gaps=4\n",
+ "stderr_tail": ""
+}
