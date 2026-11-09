@@ -182,7 +182,7 @@ def main():
         res = calibrate(sig, res)
         return dom, sig, res
 
-    with ThreadPoolExecutor(max_workers=3) as ex:
+    with ThreadPoolExecutor(max_workers=5) as ex:
         results = list(ex.map(work, todo))
 
     ts = time.strftime("%Y-%m-%dT%H:%M:%S")

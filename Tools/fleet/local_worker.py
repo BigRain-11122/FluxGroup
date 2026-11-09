@@ -56,7 +56,7 @@ def ask(text):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--limit", type=int, default=20)
+    ap.add_argument("--limit", type=int, default=40)
     ap.add_argument("--dry", action="store_true")
     a = ap.parse_args()
 
@@ -92,7 +92,7 @@ def main():
             s = "本地模型失败：%s" % str(e)[:60]
         return {"key": key, "file": f, "summary": s, "ts": time.strftime("%Y-%m-%dT%H:%M:%S")}
 
-    with ThreadPoolExecutor(max_workers=3) as ex:
+    with ThreadPoolExecutor(max_workers=4) as ex:
         rows = [r for r in ex.map(work, files) if r]
 
     if a.dry:
