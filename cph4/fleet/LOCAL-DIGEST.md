@@ -1985,3 +1985,13 @@
 - 11-09T23:56 · C-FIN-ETF-COMPOSITE-20261102-bm-c.json · ETF 组合回测任务已完成，但部分策略在特定时期出现负收益及回撤风险。
 - 11-09T23:56 · C-FIN-EQUITY-ALPHA-bm-a.json · 任务成功完成，无风险。
 - 11-09T23:56 · C-VB-DISCOVER-V02-20261102-bm-m.json · 任务完成但存在风险：因缺少第三方库导致搜索失败，需安装依赖后重试。
+- 11-09T23:57 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-09T23:57 · self-improve-bm-m-latest.json · 机队已确认无风险，代码与依赖均通过自检。
+- 11-09T23:57 · skill-promote-20261109.json · 已完成基础任务，因工具缺失导致大量关键技能无法执行。
+- 11-09T23:57 · MV-DIRECTOR-PACKET-20261102-bm-m.json · 已完成机队回执审查，无错误风险。
+- 11-09T23:57 · review-packet-kn-20261102.md · 成片缺件且无闸档，无法通过复核，存在交付风险。
+- 11-09T23:57 · RCANARY-20261102T181134-bm-m.json · 机队回执显示任务成功完成，无错误风险。
+- 11-09T23:57 · _last_lane_bm-a.json · 已完成机器交接，无风险。
+- 11-09T23:57 · R-ART-PUSH-C-20261102-bm-m.json · 在 bm-m 节点执行 PowerShell 推送失败，因系统未安装该命令且目标文件不存在。
+- 11-09T23:57 · R-ART-PUSH-B-20261102-bm-m.json · 在 bm-m 节点执行 PowerShell 推送脚本失败，因系统未安装该命令且目标文件不存在。
+- 11-09T23:57 · R-TRIAGE-BIGHOUSE-BMM-20261102-bm-m.json · 已完成 Bighouse 机队回执生成，无错误风险。
