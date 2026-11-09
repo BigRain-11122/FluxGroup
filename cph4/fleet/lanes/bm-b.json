@@ -1,8 +1,23 @@
 {
  "node": "bm-b",
- "ts": "2026-11-09T16:03:42",
- "jobs": [],
- "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+ "ts": "2026-11-09T18:05:15",
+ "jobs": [
+  {
+   "id": "R-RELAY-BMB-VOICE-20261109",
+   "title": "[bigstream] bm-b 配音素材登记与质检通道打通",
+   "cmd": "",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/Q-TTS-RELAY-bm-b.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "在 bm-b 上清点配音素材（约 1036 wav / 60 集），输出清单（路径、大小、sha256），给出 bm-c 可读取的路径或最小分发方案，并在 bm-b 本机跑一次质检脚本产出 JSON；交付 Q-TTS-RELAY-bm-b.md 回执（含清单 sha256 与结果摘要），引用本卡 id。",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  }
+ ],
+ "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 10.1/1.0 GB"
+ "capacity_note": "ram 8.7/1.0 GB"
 }
