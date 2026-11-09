@@ -1,0 +1,18 @@
+{
+ "id": "CANARY-PROMOTE-20261109T204319",
+ "node": "bm-m",
+ "rc": 1,
+ "seconds": 0.0,
+ "cmd": "python3 -c \"import json;json.dump({\"ok\":true},open(\"cph4/fleet/queue-receipts/CANARY-PROMOTE-20261109T204319.json\",\"w\"))\"",
+ "ok_rc": [
+  0,
+  3
+ ],
+ "outcome": "FAIL",
+ "error_class": "E-UNKNOWN",
+ "deliverable": "cph4/fleet/queue-receipts/CANARY-PROMOTE-20261109T204319.json",
+ "deliverable_exists": false,
+ "ts": "2026-11-09T20:43:24",
+ "stdout_tail": "",
+ "stderr_tail": "  File \"<string>\", line 1\n    import json;json.dump({ok:true},open(cph4/fleet/queue-receipts/CANARY-PROMOTE-20261109T204319.json,w))\n                                                                                          ^\nSyntaxError: invalid syntax\n"
+}
