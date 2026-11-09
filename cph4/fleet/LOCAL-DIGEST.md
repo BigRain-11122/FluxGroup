@@ -2225,3 +2225,13 @@
 - 11-10T00:26 · R-PLAN-BIGLIFE-20261102-bm-a.json · 已完成机队回执生成，无错误风险。
 - 11-10T00:26 · R-PLAN-BIGGAME-20261102-bm-a.json · 已完成机队回执生成，无报错风险。
 - 11-10T00:26 · Q-TRIAGE-BIGMONEY-20261101-bm-a.json · 已完成大资金线路机队回执生成，无报错风险。
+- 11-10T00:27 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
+- 11-10T00:27 · self-improve-bm-m-latest.json · 机队已确认无风险，所有检查项均通过。
+- 11-10T00:27 · triage-bigcompute-20261102.md · 机队回执显示算力产出正常且无风险，将自动进入下一工段。
+- 11-10T00:27 · R-PLAN-BIGCOMPUTE-20261102-bm-a.json · 已完成大计算机队回执生成，无错误风险。
+- 11-10T00:27 · R-NEXT-BIGSTREAMM-AUDIT-20261102-bm-a.json · 已完成全量审计任务，无风险。
+- 11-10T00:27 · mv-full-audit-20261102.json · 已完成机队回执，存在多处重复帧及模糊时段风险。
+- 11-10T00:27 · mv-gate-20261102.json · 完成视频机队回执，存在重复帧与近静态镜头风险，判定失败。
+- 11-10T00:27 · biz-car-gaming-20261102.json · 已完成 car-gaming 任务，无风险。
+- 11-10T00:27 · biz-car-gaming-20261102.md · 完成车机适配底座与车企合作意向，无技术风险但需满足性能指标。
+- 11-10T00:27 · biz-mv-publish-checklist-20261102.json · 机队任务已完成，无风险。
