@@ -1875,3 +1875,13 @@
 - 11-09T23:42 · EVAL-SKILL-SHIPOPS-20261103-bm-m.json · 已完成机队技能评估，无风险。
 - 11-09T23:42 · skill-eval-ship-ops-r2-20261103.json · 模型全对完成合规判断，无风险。
 - 11-09T23:42 · quality-bigstream-drama-probe-bm-c.json · 机队四道闸全部通过，无风险，可视为完成交付。
+- 11-09T23:43 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-09T23:43 · remote-exec-repair-bm-c-20261103.json · 已完成机队修复，因缺少参数导致脚本提前退出，风险已消除。
+- 11-09T23:43 · bigmoney-backtest-2026-11-03-bm-a.json · ETF 回测任务已完成，但部分策略出现负收益及回撤风险。
+- 11-09T23:43 · quality-bigstream-drama-2026-11-03.json · 四个关卡全部通过，无风险，满足交付条件。
+- 11-09T23:43 · bigstream-drama-accept-2026-11-03-bm-m.json · 已完成机队质量检查，无风险。
+- 11-09T23:43 · drama-gate-2026-11-03.json · 已完成视频质检，无风险。
+- 11-09T23:43 · drama-manifest-2026-11-03.json · 已完成片段合成，无风险。
+- 11-09T23:44 · drama-qa-2026-11-03.json · 已完成视频质检，无风险。
+- 11-09T23:44 · R-TTS-QC-R2-20261102-bm-m.json · 机队检查因目录缺失而失败，无风险。
+- 11-09T23:44 · tts-qc-r2-20261102.json · 因目录缺失导致机队回执被拒，无风险。
