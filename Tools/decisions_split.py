@@ -118,6 +118,47 @@ def main():
     month = months[-1] if months else today[:7]
     archive = os.path.join(ROOT, "docs", "decisions-archive-%s.md" % month)
 
+    old_arch = ""
+    a_bom = bom
+    if os.path.exists(archive):
+        old_arch, a_bom, _ = read_text(archive)
+
+    # Idempotency: a concurrent writer can restore the live ledger after a split.
+    # Drop any section whose header already sits in the archive before appending.
+    blocks, cur = [], []
+    for ln in moving:
+        if SEC_RE.match(ln) and cur:
+            blocks.append(cur)
+            cur = [ln]
+        else:
+            cur.append(ln)
+    if cur:
+        blocks.append(cur)
+    fresh, dups = [], 0
+    for blk in blocks:
+        hdr = blk[0] if blk and SEC_RE.match(blk[0]) else None
+        if hdr and hdr in old_arch:
+            dups += 1
+            continue
+        fresh.extend(blk)
+    if dups:
+        print("SPLIT idempotent: %d section(s) already in archive, skipped" % dups)
+    moving = fresh
+    if not moving:
+        # Everything to move is already archived (a concurrent writer restored the
+        # live ledger). Trimming the live file alone is still correct and lossless.
+        print("SPLIT idempotent: live trim only (%d section(s) already archived)" % dups)
+        if not args.apply:
+            print("SPLIT plan: live %.1fKB -> %.1fKB (archive untouched)"
+                  % (size_kb, len(newline.join(staying).encode("utf-8")) / 1024.0))
+            print("SPLIT dry-run only (pass --apply to write)")
+            return 0
+        write_text(LIVE, newline.join(staying), bom, newline)
+        print("SPLIT applied: %s trimmed to %.1fKB (archive untouched)"
+              % (os.path.basename(LIVE),
+                 len(newline.join(staying).encode("utf-8")) / 1024.0))
+        return 0
+
     header = (
         newline + "<!-- volumed %s by Tools/decisions_split.py: %d section(s), %.1f KB -->"
         % (today, keep_from, len(newline.join(moving).encode("utf-8")) / 1024.0) + newline
@@ -126,10 +167,6 @@ def main():
         header = ("# decisions 分卷 %s" % month) + newline + newline + header
 
     new_live = newline.join(staying)
-    old_arch = ""
-    a_bom = bom
-    if os.path.exists(archive):
-        old_arch, a_bom, _ = read_text(archive)
     new_arch = old_arch + header + newline.join(moving)
 
     # Conservation check: every moved line must land in the archive verbatim.
