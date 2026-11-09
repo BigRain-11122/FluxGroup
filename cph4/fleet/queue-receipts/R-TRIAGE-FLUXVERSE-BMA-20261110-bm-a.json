@@ -1,0 +1,17 @@
+{
+ "id": "R-TRIAGE-FLUXVERSE-BMA-20261110",
+ "node": "bm-a",
+ "rc": 0,
+ "seconds": 5.7,
+ "cmd": "python Tools/fleet/line_triage.py --line fluxverse --node bm-a",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "cph4/fleet/queue-receipts/triage-fluxverse-bm-a-20261110.md",
+ "deliverable_exists": true,
+ "ts": "2026-11-10T01:34:47",
+ "stdout_tail": "[triage] fluxverse -> cph4\\fleet\\queue-receipts\\triage-fluxverse-bm-a-20261110.md\n",
+ "stderr_tail": ""
+}

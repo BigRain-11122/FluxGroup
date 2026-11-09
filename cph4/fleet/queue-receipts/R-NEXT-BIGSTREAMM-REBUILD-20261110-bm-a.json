@@ -1,0 +1,17 @@
+{
+ "id": "R-NEXT-BIGSTREAMM-REBUILD-20261110",
+ "node": "bm-a",
+ "rc": 0,
+ "seconds": 49.3,
+ "cmd": "python Tools/mv_rebuild_from_edl.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721.mp4",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721.mp4",
+ "deliverable_exists": true,
+ "ts": "2026-11-10T02:00:30",
+ "stdout_tail": "rows=73\nplanned duration=234.250s  frames~5622\nsong=C:\\Users\\sjs20\\Desktop\\FluxGroup\\media\\MV\\mv0001\\audio\\mv001_lossless.wav\nframes=5623 (target 5623)\nDONE cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721.mp4\n",
+ "stderr_tail": ""
+}
