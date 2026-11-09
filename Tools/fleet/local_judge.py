@@ -179,6 +179,7 @@ def main():
             # a weak model close a real judgment. Wasted local rounds are cheap; a wrong
             # verdict from a 4B is not.
             r["state"] = "ESCALATED"
+            r["local_tried"] = True
             r["escalate_to"] = "cloud-smart"
             r["escalate_why"] = "local 4B said it cannot decide: %s" % text[:80]
             esc += 1

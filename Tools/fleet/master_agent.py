@@ -395,6 +395,10 @@ def route_decision(job, fleet, rows=None, policy=None):
             return "local", "text work -> local-llm on %s" % lane
         return "queue", "local lanes busy; wait instead of paying for a short job"
     if model == "cloud-smart":
+        # 2026-11-09 本地优先闸：没有"本地 4B/8B 都试过"的证据，不许直接上云；
+        # 宁可排队等本地判读，也不静默花云钱。
+        if not job.get("local_tried"):
+            return "queue", "local-first gate: local 4B/8B attempt required before cloud"
         cred = int(job.get("cloud_est_credits") or 0)
         if cred > ceil:
             return "blocked", "CEO-CONFIRM required: %s credits > %s" % (cred, ceil)
