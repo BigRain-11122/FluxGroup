@@ -1675,3 +1675,13 @@
 - 11-09T23:18 · R-PLAN-BIGDOMAIN-20261104-bm-m.json · 已完成机队回执生成，无风险。
 - 11-09T23:18 · triage-bigdomain-20261104.md · 域运营席已确认线级体检产出新鲜，但需补全订单目录后方可推进。
 - 11-09T23:18 · R-MODEL-RADAR-BMB-20261103-bm-m.json · 任务因当日已运行被跳过，无风险。
+- 11-09T23:19 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-09T23:19 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
+- 11-09T23:19 · triage-biggame-20261104.md · 工程与美术缺文件，需先补全再评估风险。
+- 11-09T23:19 · R-PLAN-BIGGAME-20261104-bm-a.json · 已完成机队回执生成，无风险。
+- 11-09T23:19 · R-MODEL-RADAR-BMA-20261103-bm-a.json · 任务因今日已运行被跳过，无风险。
+- 11-09T23:19 · R-MODEL-RADAR-BMC-20261104-bm-a.json · 已完成机队雷达模型运行，因当日已执行而跳过，无风险。
+- 11-09T23:19 · R-MODEL-RADAR-BMB-20261104-bm-a.json · 任务已完成，因当日已运行而跳过，无风险。
+- 11-09T23:19 · bigstream-mv-transition-2026-11-04-bm-m.json · 脚本执行失败，因缺少 cv2 模块导致任务中断。
+- 11-09T23:19 · R-MODEL-RADAR-BMC-20261103-bm-m.json · 任务因今日已运行被跳过，无风险。
+- 11-09T23:19 · Q-TRIAGE-BIGMONEY-20261104-bm-m.json · 已完成机队回执生成，无错误风险。
