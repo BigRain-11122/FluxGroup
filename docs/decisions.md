@@ -176,5 +176,4 @@
 
 > [SELF-CHECK] 2026-11-09 18:2x 落账自证（D-20261101-09 闸）：写入后实读 docs/decisions.md 含「第 54 批」「D-20261109-09」「D-20261109-13」三项；数据行数写入前后实测差值＝本批 5 行。
 
-> [PUSH] 2026-11-09 18:2x 本批交付实证：git push origin HEAD:main 被拒（non-fast-forward，git rev-list --left-right --count HEAD...origin/main＝**182 本地only / 907 origin-only），按 D-20261105-07 只记录不重试、不 rebase；内容按 D-20261105-22① 无损发布至侧分支 
-efs/heads/bm-a/pending-20261109-1800（git 返回 * [new branch] 实读确认）。主干收口仍归 @HQ 机制席（D-20261105-22② 在册，已逾期，本轮不复述、不重派）。
+> [PUSH] 2026-11-09 18:2x 本批交付实证：git push origin HEAD:main 被拒（non-fast-forward，git rev-list --left-right --count HEAD...origin/main＝**182 本地only / 907 origin-only），按 D-20261105-07 只记录不重试、不 rebase；内容按 D-20261105-22① 无损发布至侧分支 refs/heads/bm-a/pending-20261109-1800（git 返回 * [new branch] 实读确认）。主干收口仍归 @HQ 机制席（D-20261105-22② 在册，已逾期，本轮不复述、不重派）。
