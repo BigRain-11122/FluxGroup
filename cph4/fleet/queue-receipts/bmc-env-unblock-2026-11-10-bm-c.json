@@ -2,7 +2,7 @@
  "id": "bmc-env-unblock-2026-11-10",
  "node": "bm-c",
  "rc": 3,
- "seconds": 180.3,
+ "seconds": 3.8,
  "cmd": "python Tools/fleet/bmc_env_unblock.py --apply --receipt cph4/fleet/queue-receipts/bmc-env-unblock-2026-11-10.txt",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": "E-BLOCKED-INPUT",
  "deliverable": "cph4/fleet/queue-receipts/bmc-env-unblock-2026-11-10.txt",
  "deliverable_exists": false,
- "ts": "2026-11-10T00:37:45",
- "stdout_tail": "bmc_env_unblock receipt\nmode=APPLY\nram_before_gb=3.50 (src=K:\\Fluxgroup\\FluxGroup\\gaming\\MiniGame\\Design\\configs\\GLOBAL\\fleet\\c.json)\nram_after_gb=3.50\nram_gate_gb=4.00\ncomfy=COMFY-UP http=200\nverdict=BLOCKED\n== free_mem output ==\nfree_mem error: Command '['C:\\\\Users\\\\Dasheng\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python313\\\\python.exe', 'K:\\\\Fluxgroup\\\\FluxGroup\\\\Tool\n",
+ "ts": "2026-11-10T00:38:01",
+ "stdout_tail": "bmc_env_unblock receipt\nmode=APPLY\nram_before_gb=3.50 (src=K:\\Fluxgroup\\FluxGroup\\gaming\\MiniGame\\Design\\configs\\GLOBAL\\fleet\\c.json)\nram_after_gb=3.50\nram_gate_gb=4.00\ncomfy=COMFY-UP http=200\nverdict=BLOCKED\n== free_mem output ==\n[free] RAM available 3.7 GB | candidates 21\n       protected (never touched): python.exe 2151MB\n   - msedge (860 MB)\n   - msedge (684 MB)\n   - msedge (651 MB)\n   - msedge (643 MB)\n   - WeChat (636 MB)\n   - msedge (613 MB)\n   - msedge (583 MB)\n   - msedge (575 MB)\n[free] RAM available after 3.5 GB\n\n",
  "stderr_tail": ""
 }
