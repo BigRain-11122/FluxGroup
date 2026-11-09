@@ -411,6 +411,7 @@ def live_payload():
     pat = _jload(os.path.join(ST, "patrol-local.json"))
     ana = _jload(os.path.join(ST, "local-analyst.json"))
     sw = _jload(os.path.join(ST, "selfwatch.json"))
+    ob = _jload(os.path.join(ST, "output-board.json"))
     qs = {}
     try:
         for line in open(os.path.join(F, "PRODUCTION-QUEUE.jsonl"), encoding="utf-8"):
@@ -454,6 +455,8 @@ def live_payload():
         "analyst_age": age(os.path.join(ST, "local-analyst.json")),
         "analyst_text": (ana.get("text") or "")[:160],
         "stale": sw.get("stale") or [], "healed": sw.get("healed") or [],
+        "output": {"product": ob.get("product"), "infra": ob.get("infra"),
+                   "missing": ob.get("missing")},
     }
 
 
@@ -878,6 +881,7 @@ def page():
              '+"<div class=one><span class=k>算力</span>GPU "+esc(d.gpu)+"% · swap "+Math.round(d.swap_mb)+"MB · "+esc(ms)+"</div>"'
              '+"<div class=one><span class=k>我的活</span>回执判读 "+esc(d.digest)+" 份 · 8B研判 "+esc(d.analyst_age)+"s 前</div>"'
              '+"<div class=one><span class=k>巡视</span>"+esc(pv)+"</div>"'
+             '+"<div class=one><span class=k>产出</span>产品 "+esc(d.output&&d.output.product)+" · 内部 "+esc(d.output&&d.output.infra)+" · 缺失 "+esc(d.output&&d.output.missing)+"</div>"'
              '+"<div class=one><span class=k>自愈</span>stale "+(d.stale&&d.stale.length?d.stale.join(","):"无")+"</div>";'
              '}).catch(function(){})}tick();setInterval(tick,2000)})();</script>')
     P.append('</body></html>')
