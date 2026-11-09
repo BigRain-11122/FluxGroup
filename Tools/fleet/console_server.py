@@ -26,6 +26,7 @@ import os
 import re
 import time
 import urllib.parse
+import urllib.request
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -369,6 +370,91 @@ apply();
 })();
 </script>
 """
+
+
+
+_GPU_CACHE = {"ts": 0, "v": -1}
+
+
+def _gpu():
+    import subprocess
+    now = time.time()
+    if now - _GPU_CACHE["ts"] < 5:
+        return _GPU_CACHE["v"]
+    try:
+        o = subprocess.run(["ioreg", "-r", "-d", "1", "-w", "0", "-c", "IOAccelerator"],
+                           capture_output=True, text=True, timeout=3).stdout
+        m = re.search(r'"Device Utilization %"=(\d+)', o)
+        v = int(m.group(1)) if m else -1
+    except Exception:
+        v = -1
+    _GPU_CACHE.update({"ts": now, "v": v})
+    return v
+
+
+def _jload(p, default=None):
+    try:
+        return json.load(open(p, encoding="utf-8"))
+    except Exception:
+        return default if default is not None else {}
+
+
+def live_payload():
+    now = time.time()
+    def age(p):
+        try:
+            return round(now - os.path.getmtime(p))
+        except OSError:
+            return None
+    pulse = _jload(os.path.join(F, "dispatcher", "PULSE.json"))
+    sync = _jload(os.path.join(ST, "state-sync.json"))
+    pat = _jload(os.path.join(ST, "patrol-local.json"))
+    ana = _jload(os.path.join(ST, "local-analyst.json"))
+    sw = _jload(os.path.join(ST, "selfwatch.json"))
+    qs = {}
+    try:
+        for line in open(os.path.join(F, "PRODUCTION-QUEUE.jsonl"), encoding="utf-8"):
+            line = line.strip()
+            if line:
+                try:
+                    d = json.loads(line)
+                except Exception:
+                    continue
+                qs[d.get("state")] = qs.get(d.get("state"), 0) + 1
+    except OSError:
+        pass
+    models = []
+    try:
+        ps = json.loads(urllib.request.urlopen("http://127.0.0.1:11434/api/ps", timeout=3).read())
+        models = [(m.get("name"), round(m.get("size_vram", 0) / 1e9, 1)) for m in ps.get("models", [])]
+    except Exception:
+        pass
+    verdicts = [(s.get("domain"), (s.get("result") or {}).get("verdict"))
+                for s in (pat.get("seats") or [])]
+    digest = 0
+    try:
+        digest = sum(1 for _ in open(os.path.join(ST, "local-digest.jsonl"), encoding="utf-8"))
+    except OSError:
+        pass
+    import subprocess
+    try:
+        sw_mb = re.search(r"used = ([0-9.]+)M",
+                          subprocess.run(["sysctl", "-n", "vm.swapusage"], capture_output=True,
+                                         text=True, timeout=3).stdout)
+        sw_mb = float(sw_mb.group(1)) if sw_mb else -1
+    except Exception:
+        sw_mb = -1
+    return {
+        "ts": time.strftime("%H:%M:%S"),
+        "pulse_age": age(os.path.join(F, "dispatcher", "PULSE.json")),
+        "pulse_sec": pulse.get("sec"), "pulse_git": pulse.get("git"),
+        "sync_age": round(now - float(sync.get("ok_ts") or 0)) if sync.get("ok_ts") else None,
+        "queue": qs, "models": models, "gpu": _gpu(), "swap_mb": sw_mb,
+        "digest": digest, "patrol": verdicts,
+        "analyst_age": age(os.path.join(ST, "local-analyst.json")),
+        "analyst_text": (ana.get("text") or "")[:160],
+        "stale": sw.get("stale") or [], "healed": sw.get("healed") or [],
+    }
 
 
 def page():
@@ -774,6 +860,26 @@ def page():
              '无外部依赖（无 CDN/无外链字体），单文件直出。</footer>' % REFRESH_S)
     P.append('</div>')
     P.append(JS % (REFRESH_S, REFRESH_S))
+
+    P.append('<section id="live"><h2>实时 <span class="sub" id="lv_ts">--</span></h2>'
+             '<div id="lv"></div></section>')
+    P.append('<script>(function(){var el=document.getElementById("live");'
+             'var wrap=document.querySelector(".wrap");var hdr=wrap&&wrap.querySelector("header");'
+             'if(hdr&&hdr.nextSibling){wrap.insertBefore(el,hdr.nextSibling)}else if(wrap){wrap.insertBefore(el,wrap.firstChild)}'
+             'function esc(s){return String(s==null?"-":s)}'
+             'function tick(){fetch("/api/live").then(function(r){return r.json()}).then(function(d){'
+             'var q=d.queue||{};var ms=(d.models||[]).map(function(m){return m[0]+" "+m[1]+"G"}).join(" · ")||"无";'
+             'var pv=(d.patrol||[]).map(function(p){return p[0]+":"+p[1]}).join(" ");'
+             'document.getElementById("lv_ts").textContent=d.ts;'
+             'document.getElementById("lv").innerHTML='
+             '"<div class=one><span class=k>脉</span>"+esc(d.pulse_age)+"s 前 · 拍 "+esc(d.pulse_sec)+"s · git "+esc(d.pulse_git)+"</div>"'
+             '+"<div class=one><span class=k>同步</span>"+esc(d.sync_age)+"s 前</div>"'
+             '+"<div class=one><span class=k>队列</span>OPEN "+esc(q.OPEN||0)+" · RUN "+esc(q.RUNNING||0)+" · DONE "+esc(q.DONE||0)+"</div>"'
+             '+"<div class=one><span class=k>算力</span>GPU "+esc(d.gpu)+"% · swap "+Math.round(d.swap_mb)+"MB · "+esc(ms)+"</div>"'
+             '+"<div class=one><span class=k>我的活</span>回执判读 "+esc(d.digest)+" 份 · 8B研判 "+esc(d.analyst_age)+"s 前</div>"'
+             '+"<div class=one><span class=k>巡视</span>"+esc(pv)+"</div>"'
+             '+"<div class=one><span class=k>自愈</span>stale "+(d.stale&&d.stale.length?d.stale.join(","):"无")+"</div>";'
+             '}).catch(function(){})}tick();setInterval(tick,2000)})();</script>')
     P.append('</body></html>')
     return "".join(P)
 
@@ -821,6 +927,8 @@ class HBase(BaseHTTPRequestHandler):
         if path.startswith("/progress"):
             return self._send(_read(os.path.join(F, "PROGRESS.md")),
                               "text/plain; charset=utf-8")
+        if path == "/api/live":
+            return self._send(json.dumps(live_payload(), ensure_ascii=False), "application/json; charset=utf-8")
         if path.startswith("/api/screen"):
             return self._send(_read(os.path.join(F, "MASTER-SCREEN.md")),
                               "text/markdown; charset=utf-8")
