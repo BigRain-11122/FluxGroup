@@ -2,7 +2,7 @@
  "id": "asset-lib-face-dataset-2026-11-10",
  "node": "bm-c",
  "rc": 0,
- "seconds": 29.0,
+ "seconds": 26.9,
  "cmd": "python Tools/fleet/asset_dataset_audit.py --mode face --dir media/asset/faces --out cph4/fleet/queue-receipts/asset-face-2026-11-10.json",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/queue-receipts/asset-face-2026-11-10.json",
  "deliverable_exists": true,
- "ts": "2026-11-10T05:07:02",
+ "ts": "2026-11-10T05:28:44",
  "stdout_tail": "DATASET PASS  media/asset/faces\n  {\"mode\": \"face\", \"count\": 96, \"min_side\": 1024, \"dup_ratio\": 0.004, \"texture_median\": 81.0, \"rights\": {\"declared\": true, \"path\": \"media\\\\asset\\\\faces\\\\CH01\\\\RIGHTS.json\", \"license\": \"own\", \"source\": \"own_generated\", \"real_person\": false, \"consent\": null}}\n",
  "stderr_tail": ""
 }
