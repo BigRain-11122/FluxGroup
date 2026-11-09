@@ -24,7 +24,7 @@ WorkBuddy（L0）按轮驱动，把 ENGINE 型 STALLED 线一条条推到「产�
 
 | # | 线 | 活 | 层 | 状态 | 验收 |
 |---|---|---|---|---|---|
-| W1 | biggame | 图标 34 款：`icon_supply.py --manifest/--verify` + L0 出图批量 | L0+L1 | 工单已建（ICON-JOBS-20261109.json）；出图规模待 CEO 批（见 §五 Q1） | ICON-RECEIPT ok=34，SUBMIT-PACK 图标缺件归零 |
+| W1 | biggame | 图标 34 款 | **本地模型** | **已完成（L1 占位级）**：本机 4B 出 kind/bg/fg → 本地确定性渲染 → 验收 35/35 零缺；终稿待 §五 Q5 | ICON-RECEIPT bad=0 |
 | W2 | asset-lib | 打标判据重写（抽 20 张 0 过 → 改提示词/判据）再批量 458 张 | L0+L2 | 待首轮出样 20 张判据稿 | char-gen 回执 made>0 且 failed=0 |
 | W3 | fleet-ops | I2 存量 125 条卡面路径债清偿；vault 缺盘 651 条核对 | L1 | 待读 I2 台账定位债面 | flux_check new=0 |
 | W4 | bigstream-mv | 下一首立意六轴案（2–3 个候选供 CEO 选） | L0 | 待 W1 出图轮间隙做 | 候选案落盘，CEO 择一 |
@@ -63,6 +63,25 @@ WorkBuddy（L0）按轮驱动，把 ENGINE 型 STALLED 线一条条推到「产�
   漫剧/短剧恢复（W6/W7）；截图线按「都恢复」理解含自动跑包取图，须专业化管线（W8）。
 - [ ] Q5 图标终稿：L1 占位是否可接受为提审图？还是必须等 L2 本地 FLUX 出美术级再交？（我的建议：等 L2）
 
+
+## 七、git 纪律（2026-11-09 事故后立，必须遵守）
+
+**事故**：14:24 我的提交 `deeea154b` 被脉冲甩到 `rescue/rebase-abort-20261109T142431`，主分支被 origin 合并覆盖，
+工作树文件随之消失；`git add` 但未提交的文件在下一轮合并中被判「目标树没有」而删除。仓库累计 39 个
+`rescue/rebase-abort-*` 分支 = 该故障常发，不是我这一次的意外。
+
+**根因**：`master_pulse` 每轮 `pull --rebase --autostash`，而 `PRODUCTION-BACKLOG.jsonl` / `lanes/*.json` /
+`PRODUCTION-QUEUE.jsonl` / 各 BOARD 是**热状态文件**（机队持续改写），必冲突 → rebase 卡死 →
+`_abort_stuck_rebase()` 先钉 rescue ref 再 abort → 本地提交孤儿化。
+
+**规则**：
+1. 提交只带**非热文件**：`Tools/**`、`cph4/fleet/game-v1/**`、`软著申请材料/**`、计划件 `cph4/fleet/*-v1.md`。
+2. **禁提交**：`PRODUCTION-BACKLOG.jsonl`、`PRODUCTION-QUEUE.jsonl`、`lanes/*.json`、`*-BOARD.md`、`CEO-NEXT.md` 等热状态面。
+3. `git add` 与 `git commit` 必须**同一条命令内**完成。只 stage 不提交 = 下一轮合并直接删盘。
+4. 文件丢失先查 rescue：`git show <rescue-ref>:<path> > <path>`，不要重写。
+5. 不做 `git push`、不删 rescue 分支、不做 `reset --hard`。
+
 ## 六、变更记录
 
 - 2026-11-09 v1 立件；icon_supply.py 落地；ICON-JOBS-20261109 工单 34 张建好。
+- 2026-11-09 v2：W1 完成（34 款 L1 图标，本地模型+本地渲染，验收零缺）；补 §七 git 纪律（rebse 流产事故）；L2 本地扩散（mflux/FLUX）安装未完成，后续轮次接续。
