@@ -91,7 +91,10 @@ def provider_block(base, ctx=CTX, endpoint=None):
     endpoint = (endpoint or OLLAMA).rstrip("/")
     name = variant_name(base, ctx)
     return """%s
-- name: '@deepseek-ai/dsh-llm-pi-ai'
+# 必须按 id 覆盖 dsh-base 里那条 *dormant* 的 llm-pi-ai 条目；
+# 只写 name 会再插一个同类实例（不报错，但路由一条都注册不上，2026-11-09 实测）。
+- id: llm-pi-ai
+  name: '@deepseek-ai/dsh-llm-pi-ai'
   config:
     providers:
       ollama-local:
