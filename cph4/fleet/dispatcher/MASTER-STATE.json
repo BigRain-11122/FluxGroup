@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-10T07:54:16",
- "cycle": 537,
+ "ts": "2026-11-10T07:55:32",
+ "cycle": 538,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-10T07:54:16",
+ "master_tick_ts": "2026-11-10T07:55:32",
  "queue": {
   "total": 1777,
   "open": 1,
@@ -14,17 +14,17 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 2.7,
-   "cpu_load_pct": 23,
-   "ram_free_gb": 48.1,
-   "gpu_util_pct": 79,
+   "hb_age_s": 19.0,
+   "cpu_load_pct": 57,
+   "ram_free_gb": 47.4,
+   "gpu_util_pct": 61,
    "job": "MV-DIRECTOR-PACKET-20261109",
    "last_result": {
-    "job": null,
-    "state": "IDLE",
+    "job": "MV-DIRECTOR-PACKET-20261109",
+    "state": "RUNNING",
     "rc": null,
-    "ts": "2026-11-10T07:49:40",
-    "reason": "SELF-DISPATCH: lane scans its own backlog",
+    "ts": "2026-11-10T07:54:40",
+    "reason": null,
     "out_bytes": null,
     "elapsed_s": null
    },
@@ -34,70 +34,70 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 11.8,
-   "cpu_load_pct": 23,
-   "ram_free_gb": 10.0,
+   "hb_age_s": 40.5,
+   "cpu_load_pct": 1,
+   "ram_free_gb": 11.8,
+   "gpu_util_pct": 2,
+   "job": null,
+   "last_result": {
+    "job": null,
+    "state": "IDLE",
+    "rc": null,
+    "ts": "2026-11-10T07:54:41",
+    "reason": "SELF-DISPATCH: lane scans its own backlog",
+    "out_bytes": null,
+    "elapsed_s": null
+   },
+   "idle_confirmed": true,
+   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+   "idle_rounds": 3
+  },
+  "bm-c": {
+   "online": true,
+   "hb_age_s": 65.0,
+   "cpu_load_pct": 7,
+   "ram_free_gb": 3.5,
    "gpu_util_pct": 1,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-10T07:53:47",
+    "ts": "2026-11-10T07:54:39",
     "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 2
-  },
-  "bm-c": {
-   "online": true,
-   "hb_age_s": 137.9,
-   "cpu_load_pct": 13,
-   "ram_free_gb": 3.8,
-   "gpu_util_pct": 0,
-   "job": null,
-   "last_result": {
-    "job": null,
-    "state": "IDLE",
-    "rc": null,
-    "ts": "2026-11-10T07:53:20",
-    "reason": "SELF-DISPATCH: lane scans its own backlog",
-    "out_bytes": null,
-    "elapsed_s": null
-   },
-   "idle_confirmed": true,
-   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 35
+   "idle_rounds": 36
   },
   "bm-m": {
    "online": true,
    "hb_age_s": 1.5,
-   "cpu_load_pct": 5,
-   "ram_free_gb": 16.2,
+   "cpu_load_pct": 8,
+   "ram_free_gb": 11.0,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-10T07:54:03",
+    "ts": "2026-11-10T07:55:04",
     "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 8
+   "idle_rounds": 9
   }
  },
  "idle_rounds": {
   "bm-a": 0,
-  "bm-b": 2,
-  "bm-c": 35,
-  "bm-m": 8
+  "bm-b": 3,
+  "bm-c": 36,
+  "bm-m": 9
  },
  "lines": {
   "bigstream-mv": {
@@ -827,9 +827,9 @@
  "supply_added": [],
  "events": [],
  "violations": [
-  "bm-b IDLE-CONFIRMED x2 (SELF-DISPATCH: lane scans its own backlo)",
-  "bm-c IDLE-CONFIRMED x35 (SELF-DISPATCH: lane scans its own backlo)",
-  "bm-m IDLE-CONFIRMED x8 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-b IDLE-CONFIRMED x3 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-c IDLE-CONFIRMED x36 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-m IDLE-CONFIRMED x9 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
