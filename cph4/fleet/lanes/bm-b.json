@@ -1,6 +1,6 @@
 {
  "node": "bm-b",
- "ts": "2026-11-10T00:10:44",
+ "ts": "2026-11-10T00:24:00",
  "jobs": [
   {
    "id": "Q-VCORP-TRAIN-z04-R7-20261109",
@@ -17,34 +17,6 @@
    ],
    "llm": null,
    "timeout_s": 14400
-  },
-  {
-   "id": "R-PLAN-BIGDOMAIN-20261110",
-   "title": "BigDomain·硅基域商业化 线级体检与缺口清单",
-   "cmd": "python Tools/fleet/line_triage.py --line bigdomain",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigdomain-20261110.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "R-PLAN-BIGMONEY-20261110",
-   "title": "BigMoney·量化 线级体检与缺口清单",
-   "cmd": "python Tools/fleet/line_triage.py --line bigmoney",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigmoney-20261110.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
   },
   {
    "id": "asset-lib-env-check-2026-11-10",
@@ -73,23 +45,9 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
-  },
-  {
-   "id": "Q-TRIAGE-FLUXVERSE-20261110",
-   "title": "fluxverse 线级体检（本机证据目录实况）",
-   "cmd": "python Tools/fleet/line_triage.py --line fluxverse",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-fluxverse-20261110.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
   }
  ],
  "idle_reason": "",
- "lane_ok": true,
- "capacity_note": "ram 7.2/1.0 GB"
+ "lane_ok": false,
+ "capacity_note": "CPU-SATURATED 100%"
 }

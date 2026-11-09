@@ -1,24 +1,24 @@
 {
- "ts": "2026-11-10T00:22:19",
- "cycle": 213,
+ "ts": "2026-11-10T00:24:00",
+ "cycle": 214,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-10T00:22:19",
+ "master_tick_ts": "2026-11-10T00:24:00",
  "queue": {
   "total": 1739,
-  "open": 22,
-  "running": 13,
+  "open": 21,
+  "running": 6,
   "done": 602,
   "failed": 5
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 5.6,
+   "hb_age_s": 46.2,
    "cpu_load_pct": 83,
-   "ram_free_gb": 60.4,
+   "ram_free_gb": 61.1,
    "gpu_util_pct": 0,
-   "job": "R-PLAN-BIGCOMPUTE-20261110",
+   "job": "bigstream-mv-gate-2026-11-10",
    "last_result": {
     "job": "asset-lib-voice-corpus-2026-11-10",
     "state": "BUSY",
@@ -34,16 +34,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 26.1,
+   "hb_age_s": 7.4,
    "cpu_load_pct": 100,
-   "ram_free_gb": 10.8,
+   "ram_free_gb": 11,
    "gpu_util_pct": 28,
    "job": "Q-VCORP-TRAIN-z04-R7-20261109",
    "last_result": {
     "job": "Q-VCORP-TRAIN-z04-R7-20261109",
     "state": "RUNNING",
     "rc": null,
-    "ts": "2026-11-10T00:18:53",
+    "ts": "2026-11-10T00:23:51",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -54,50 +54,50 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 63.8,
-   "cpu_load_pct": 18,
-   "ram_free_gb": 1.5,
+   "hb_age_s": 15.2,
+   "cpu_load_pct": 19,
+   "ram_free_gb": 1.2,
    "gpu_util_pct": 1,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-10T00:21:32",
-    "reason": "CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (22.4h 零产出，唤醒清单空)",
+    "ts": "2026-11-10T00:23:51",
+    "reason": "CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (22.5h 零产出，唤醒清单空)",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
    "idle_reason": "CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (22.5h 零产出，唤醒清单空)",
-   "idle_rounds": 240
+   "idle_rounds": 241
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 1.9,
-   "cpu_load_pct": 18,
-   "ram_free_gb": 10.6,
+   "hb_age_s": 1.4,
+   "cpu_load_pct": 9,
+   "ram_free_gb": 13.5,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-10T00:22:12",
+    "ts": "2026-11-10T00:23:13",
     "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 4
+   "idle_rounds": 5
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
-  "bm-c": 240,
-  "bm-m": 4
+  "bm-c": 241,
+  "bm-m": 5
  },
  "lines": {
   "bigstream-mv": {
@@ -174,14 +174,12 @@
   "fluxverse": {
    "name": "FluxVerse·元宙城",
    "status": "ACTIVE",
-   "verdict": "WORKING",
+   "verdict": "WAITING",
    "age_h": null,
    "stale_after_h": 36.0,
    "owner": "城市线",
-   "jobs": [
-    "R-PLAN-FLUXVERSE-20261110"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": null
   },
@@ -193,7 +191,6 @@
    "stale_after_h": 24.0,
    "owner": "量化席",
    "jobs": [
-    "R-PLAN-BIGMONEY-20261110",
     "bigmoney-signal-2026-11-10"
    ],
    "no_supply": false,
@@ -205,42 +202,36 @@
   "bigdomain": {
    "name": "BigDomain·硅基域商业化",
    "status": "ACTIVE",
-   "verdict": "WORKING",
+   "verdict": "WAITING",
    "age_h": null,
    "stale_after_h": 36.0,
    "owner": "域运营席",
-   "jobs": [
-    "R-PLAN-BIGDOMAIN-20261110"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": null
   },
   "bigcompute": {
    "name": "BigCompute·硅基算力",
    "status": "ACTIVE",
-   "verdict": "WORKING",
+   "verdict": "WAITING",
    "age_h": null,
    "stale_after_h": 36.0,
    "owner": "算力中枢席",
-   "jobs": [
-    "R-PLAN-BIGCOMPUTE-20261110"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": null
   },
   "biglife": {
    "name": "BigLife·数字生命",
    "status": "ACTIVE",
-   "verdict": "WORKING",
+   "verdict": "WAITING",
    "age_h": null,
    "stale_after_h": 48.0,
    "owner": "生命生产席",
-   "jobs": [
-    "R-PLAN-BIGLIFE-20261110"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": null
   },
@@ -285,14 +276,12 @@
   "fleet-ops": {
    "name": "机队运维·端到端自检（平台服务线）",
    "status": "ACTIVE",
-   "verdict": "WORKING",
+   "verdict": "WAITING",
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
-   "jobs": [
-    "Q-TRIAGE-FLUXVERSE-20261110"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": null
   },
@@ -856,7 +845,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 6,
+  "local": 5,
   "cloud": 0,
   "queue": 16,
   "blocked": 0,
@@ -864,18 +853,19 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 6,
+  "cpu": 5,
   "gpu": 16
  },
  "supply_added": [],
  "events": [],
  "violations": [
-  "bm-c IDLE-CONFIRMED x240 (CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (22.5)",
-  "bm-m IDLE-CONFIRMED x4 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-c IDLE-CONFIRMED x241 (CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (22.5)",
+  "bm-m IDLE-CONFIRMED x5 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
  "lane_files_written": [
-  "bm-c"
+  "bm-a",
+  "bm-b"
  ]
 }

@@ -1,35 +1,7 @@
 {
  "node": "bm-a",
- "ts": "2026-11-10T00:20:46",
+ "ts": "2026-11-10T00:24:00",
  "jobs": [
-  {
-   "id": "R-PLAN-BIGCOMPUTE-20261110",
-   "title": "BigCompute·硅基算力 线级体检与缺口清单",
-   "cmd": "python Tools/fleet/line_triage.py --line bigcompute",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigcompute-20261110.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "R-PLAN-BIGLIFE-20261110",
-   "title": "BigLife·数字生命 线级体检与缺口清单",
-   "cmd": "python Tools/fleet/line_triage.py --line biglife",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-biglife-20261110.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
   {
    "id": "bigstream-mv-gate-2026-11-10",
    "title": "[MV·爱在西元前（v721 终版）] 交付闸（重复/静止/抖动/闪烁）",
@@ -59,34 +31,6 @@
    "timeout_s": null
   },
   {
-   "id": "R-MODEL-RADAR-BMA-20261110",
-   "title": "本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-a）",
-   "cmd": "python Tools/fleet/model_radar.py run --node bm-a --idle-only --apply",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/model-radar-bm-a-20261110.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "R-MODEL-RADAR-BMB-20261110",
-   "title": "本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-b）",
-   "cmd": "python Tools/fleet/model_radar.py run --node bm-b --idle-only --apply",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/model-radar-bm-b-20261110.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
    "id": "asset-lib-voice-corpus-2026-11-10",
    "title": "[资产储备（角色 LoRA / 音色库）] 音色语料工程（一卡全量·持料机 bm-a）",
    "cmd": "python Tools/fleet/voice_corpus_prep.py --inbox media/asset/inbox --group batch-2026-11-10 --shard 0/1 --receipt cph4/fleet/queue-receipts/voice-corpus-2026-11-10.json",
@@ -103,5 +47,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 46.1/1.0 GB"
+ "capacity_note": "ram 61.1/1.0 GB"
 }
