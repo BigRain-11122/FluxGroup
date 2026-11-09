@@ -1135,3 +1135,13 @@
 - 11-09T22:12 · R-NEXT-BIGSTREAMM-GATE-20261105-bm-a.json · 机队任务完成但失败，因镜头重复与画面静止导致风险。
 - 11-09T22:12 · R-NEXT-BIGSTREAMM-GATE-20261104-bm-c.json · 任务因输入文件缺失失败，存在流程阻塞风险。
 - 11-09T22:12 · R-NEXT-BIGSTREAMM-AUDIT-20261105-bm-m.json · 任务执行失败，因缺少 cv2 模块导致脚本报错。
+- 11-09T22:13 · self-improve-bm-m-latest.json · 机队已确认代码更新且无依赖缺失，当前无风险。
+- 11-09T22:13 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-09T22:13 · R-NEXT-BIGSTREAMM-AUDIT-20261105-bm-a.json · 已完成视频全量审计，无错误风险。
+- 11-09T22:13 · R-NEXT-BIGSTREAMM-AUDIT-20261104-bm-c.json · 任务执行失败，因缺少 scenedetect 模块导致审计未产出结果。
+- 11-09T22:13 · R-NEXT-BIGSTREAMD-EVIDENCE-20261106.json · 任务已完成且无风险，因 Windows 环境未就绪而由本机接管执行。
+- 11-09T22:13 · R-NEXT-BIGGAME-SUBMIT-P-20261107.json · 机队回执显示任务完成且无风险，因修正了退出语义并自动生成对比报告。
+- 11-09T22:13 · R-NEXT-BIGGAME-SUBMIT-P-20261105-bm-m.json · 生成机队回执失败，因 36 款产品缺失图标、截图等关键资产。
+- 11-09T22:13 · R-NEEDWORK-20261104-001-bm-m.json · 已完成工单预备清单生成，但单车道库存无法确认，存在需读取底层文件验证的风险。
+- 11-09T22:13 · R-MODEL-RADAR-BMM-20261103-bm-c.json · 模型雷达任务失败，因跳过空闲节点导致无交付物且存在风险。
+- 11-09T22:13 · R-MODEL-RADAR-BMC-20261105-bm-c.json · 已完成机队雷达模型运行，无风险。
