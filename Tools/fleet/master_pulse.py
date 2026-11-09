@@ -674,6 +674,50 @@ def _rebase_in_progress():
         os.path.isdir(os.path.join(ROOT, ".git", "rebase-apply"))
 
 
+
+GIT_HEALTH = os.path.join(ROOT, "cph4", "fleet", "state", "git-health.json")
+
+
+def _git_health():
+    try:
+        return json.load(open(GIT_HEALTH, encoding="utf-8"))
+    except Exception:
+        return {}
+
+
+def _git_quarantined():
+    """连续失败后暂停 pull 30 分钟：宁可暂时不同步，也不让控制面每拍卡 2 分钟。"""
+    h = _git_health()
+    return time.time() < float(h.get("until") or 0)
+
+
+def _git_fail(note):
+    h = _git_health()
+    now = time.time()
+    fails = [x for x in (h.get("fails") or []) if now - x < 1800] + [now]
+    if len(fails) >= 3:
+        h["until"] = now + 1800
+        h["why"] = note[:120]
+        log("[git] quarantine 30min after %d failures: %s" % (len(fails), note[:80]))
+    h["fails"] = fails
+    h["ts"] = now
+    try:
+        os.makedirs(os.path.dirname(GIT_HEALTH), exist_ok=True)
+        json.dump(h, open(GIT_HEALTH, "w", encoding="utf-8"), ensure_ascii=False)
+    except Exception:
+        pass
+
+
+def _git_ok():
+    h = _git_health()
+    if h.get("fails") or h.get("until"):
+        try:
+            json.dump({"fails": [], "ts": time.time()},
+                      open(GIT_HEALTH, "w", encoding="utf-8"))
+        except Exception:
+            pass
+
+
 def pull_if_clean(last_ts=0.0) -> str:
     """Sync without ever letting a dirty worktree block the plane.
 
@@ -1087,7 +1131,7 @@ def run_stage(argv, timeout_s):
 
 
 def main() -> int:
-    no_pull = "--no-pull" in sys.argv
+    no_pull = ("--no-pull" in sys.argv) or os.environ.get("PULSE_NO_PULL") == "1"
     force_slow = "--force-slow" in sys.argv
 
     lock_fd = open(LOCK, "w")
@@ -1101,8 +1145,14 @@ def main() -> int:
     resident_note = align_resident()
     prev = read_state()
     slow_due = force_slow or (time.time() - float(prev.get("slow_ts") or 0) > SLOW_EVERY)
-    git_note = "skipped" if no_pull else _one_line(
-        pull_if_clean(last_snapshot_ts()), 120)
+    if no_pull or _git_quarantined():
+        git_note = "skipped" if no_pull else "quarantined"
+    else:
+        git_note = _one_line(pull_if_clean(last_snapshot_ts()), 120)
+        if git_note.startswith(("merge-conflict", "timeout", "skipped:dirty", "commit-error")):
+            _git_fail(git_note)
+        else:
+            _git_ok()
 
     global _LAST_HEAVY
     _LAST_HEAVY = float(prev.get("last_heavy_ts") or 0)
