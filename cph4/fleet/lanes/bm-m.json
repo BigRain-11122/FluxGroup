@@ -1,8 +1,23 @@
 {
  "node": "bm-m",
- "ts": "2026-11-10T03:55:25",
- "jobs": [],
- "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+ "ts": "2026-11-10T05:13:19",
+ "jobs": [
+  {
+   "id": "CANARY-20261110T051318",
+   "title": "端到端自检：投卡→领取→执行→回执→产物",
+   "cmd": "python -c \"import os;os.makedirs(r'cph4/fleet/state/canary',exist_ok=True);open(r'cph4/fleet/state/canary/RUN-20261110T051318.txt','w',encoding='utf-8').write('canary 20261110T051318 — 端到端自检产物，不是业务活')\"",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/state/canary/RUN-20261110T051318.txt",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  }
+ ],
+ "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 12.0/1.0 GB"
+ "capacity_note": "ram 11.7/1.0 GB"
 }
