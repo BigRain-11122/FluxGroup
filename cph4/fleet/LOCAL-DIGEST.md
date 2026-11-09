@@ -1975,3 +1975,13 @@
 - 11-09T23:54 · triage-biggame-20261102.md · 游戏席需补美术与工程输入，否则无法推进线级体检。
 - 11-09T23:54 · mv-gate-latest.json · 完成视频质检，无风险且判定通过。
 - 11-09T23:54 · RCANARY4-20261102T183254-bm-a.json · 机队回执已生成，无风险。
+- 11-09T23:55 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
+- 11-09T23:55 · self-improve-bm-m-latest.json · 机队已确认无风险，所有检查项均通过。
+- 11-09T23:55 · RCANARY3-20261102T182704-bm-a.json · 已完成机队回执生成，无风险。
+- 11-09T23:55 · R-TRIAGE-FLEETOPS-BMM-20261102-bm-a.json · 机队回执任务已完成，无错误风险。
+- 11-09T23:56 · R-NEXT-BIGSTREAMD-TTS-QC-20261102-bm-c.json · 任务失败，因文件缺失导致回执未生成。
+- 11-09T23:56 · R-NEXT-BIGSTREAMD-TTS-QC-20261102-bm-a.json · 任务失败，因文件缺失导致回执未生成。
+- 11-09T23:56 · R-MV-GATE-1D-20261102-bm-a.json · 机队回执显示任务成功完成，无风险。
+- 11-09T23:56 · C-FIN-ETF-COMPOSITE-20261102-bm-c.json · ETF 组合回测任务已完成，但部分策略在特定时期出现负收益及回撤风险。
+- 11-09T23:56 · C-FIN-EQUITY-ALPHA-bm-a.json · 任务成功完成，无风险。
+- 11-09T23:56 · C-VB-DISCOVER-V02-20261102-bm-m.json · 任务完成但存在风险：因缺少第三方库导致搜索失败，需安装依赖后重试。
