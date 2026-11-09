@@ -1685,3 +1685,13 @@
 - 11-09T23:19 · bigstream-mv-transition-2026-11-04-bm-m.json · 脚本执行失败，因缺少 cv2 模块导致任务中断。
 - 11-09T23:19 · R-MODEL-RADAR-BMC-20261103-bm-m.json · 任务因今日已运行被跳过，无风险。
 - 11-09T23:19 · Q-TRIAGE-BIGMONEY-20261104-bm-m.json · 已完成机队回执生成，无错误风险。
+- 11-09T23:20 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
+- 11-09T23:20 · _last_lane_bm-m.json · 机队已自派完成回单扫描，无风险。
+- 11-09T23:20 · triage-fluxverse-20261104.md · 机队已按时产出并判定为新鲜，无风险可继续推进。
+- 11-09T23:20 · triage-bigcompute-20261104.md · 机队回执确认产出新鲜且无风险，将自动按序推进。
+- 11-09T23:20 · bigstream-mv-stability-2026-11-04-bm-a.json · 机队稳定性测试失败，检测到 2 处冻结帧，存在视频质量风险。
+- 11-09T23:20 · R-PLAN-RECON-20261104-bm-a.json · 已完成机队回执重构，无风险。
+- 11-09T23:20 · R-PLAN-BIGCOMPUTE-20261104-bm-a.json · 已完成大计算机队回执，无风险。
+- 11-09T23:20 · R-MODEL-RADAR-BMM-20261104-bm-a.json · 已完成雷达模型运行，因当日已执行而跳过，无风险。
+- 11-09T23:20 · R-MODEL-RADAR-BMM-20261103-bm-a.json · 任务因当日已运行被跳过，无风险。
+- 11-09T23:20 · R-MODEL-RADAR-BMC-20261103-bm-a.json · 任务因今日已运行被跳过，无风险。
