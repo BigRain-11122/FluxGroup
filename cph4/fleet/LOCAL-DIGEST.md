@@ -1165,3 +1165,13 @@
 - 11-09T22:16 · Q-VCORP-TRAIN-PILOT-libritts-e01-R4-20261105-bm-b.json · 训练任务失败，因权重缺失被阻断，无风险。
 - 11-09T22:16 · Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105-bm-c.json · 任务失败，因缺少必要卡片与脚本文件存在风险。
 - 11-09T22:16 · Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105-bm-b.json · 训练任务失败，因权重缺失被阻断，无进一步风险。
+- 11-09T22:17 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
+- 11-09T22:17 · self-improve-bm-m-latest.json · 机队已确认无风险，代码与依赖均通过检查。
+- 11-09T22:17 · Q-VCORP-PREP-e03-20261104-bm-b.json · 任务因输入缺失失败，存在阻塞风险。
+- 11-09T22:17 · Q-VCORP-PREP-e02-20261104-bm-b.json · 任务因输入缺失失败，存在阻塞风险。
+- 11-09T22:17 · Q-VCORP-PREP-e01-R4-20261105-bm-b.json · 任务完成，无风险。
+- 11-09T22:17 · Q-VCORP-PREP-e01-R3-20261105-bm-m.json · 任务失败，因缺少必要脚本和卡片导致无法执行。
+- 11-09T22:17 · Q-VCORP-PREP-e01-R3-20261105-bm-c.json · 任务因关键脚本缺失而失败，存在执行中断风险。
+- 11-09T22:17 · Q-VCORP-PREP-e01-R3-20261105-bm-b.json · 已完成语音语料预处理，无风险。
+- 11-09T22:17 · Q-VCORP-PREP-e01-R3-20261105-bm-a.json · 任务失败，因 Python 脚本路径错误导致文件无法打开。
+- 11-09T22:17 · Q-VCORP-PREP-e01-20261104-bm-b.json · 任务因输入缺失失败，存在阻塞风险。
