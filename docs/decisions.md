@@ -177,3 +177,20 @@
 > [SELF-CHECK] 2026-11-09 18:2x 落账自证（D-20261101-09 闸）：写入后实读 docs/decisions.md 含「第 54 批」「D-20261109-09」「D-20261109-13」三项；数据行数写入前后实测差值＝本批 5 行。
 
 > [PUSH] 2026-11-09 18:2x 本批交付实证：git push origin HEAD:main 被拒（non-fast-forward，git rev-list --left-right --count HEAD...origin/main＝**182 本地only / 907 origin-only），按 D-20261105-07 只记录不重试、不 rebase；内容按 D-20261105-22① 无损发布至侧分支 refs/heads/bm-a/pending-20261109-1800（git 返回 * [new branch] 实读确认）。主干收口仍归 @HQ 机制席（D-20261105-22② 在册，已逾期，本轮不复述、不重派）。
+
+## 台账·2026-11-10 批（决策轮 00:00 班·第 55 批·6 行）
+
+| 日期 | 问题 | 来源 | 依据 | 决策 | 分级 | 状态 |
+|---|---|---|---|---|---|---|
+| 2026-11-10 00:0x（校时 00:00） | D-20261110-01 **I-01 双阈值闸连续两班只记不做**（第 53 批立项、第 54 批复核仍欠）；orders.md 实测 240.0KB 已到 250KB 硬线的 96%，不是理论风险 | 本班实读 Tools/decisions_split.py 源码（7,385B，仅 --target-kb 120 默认参数，无 orders/decisions 断言腿）＋ docs/orders.md 240.0KB 实测 | 第 53 批 I-01 预注册判据＝selftest 含两阈值负控。本班实修后实跑：THRESH orders 240.0KB/250.0KB＝96.0% ok、decisions 88.2KB/200.0KB＝44.1% ok，rc=0；负控 --orders-kb 200 --decisions-kb 50 双 BREACH、rc=2（闸可红可绿，非恒真） | **实修裁决**：Tools/decisions_split.py 增 --check-thresholds 与 --orders-kb/--decisions-kb（默认 250/200），返回码三态 0 ok / 2 breach / 3 unverified（缺件判 UNVERIFIED 不判绿）；本班已改已跑，双控证据在案。后续任何班落账首动作＝跑该闸，禁再靠人记得 | T2（工具域·git 即回滚） | executed（本班实修＋实跑＋负控） |
+| 2026-11-10 00:0x | D-20261110-02 **「跑了几次」被读成「交付了几件」**：交付量字段可被重复执行虚高 | compute/BigCompute HQ-FEEDBACK 11-09 22:5x 夜轮行 | pool_igniter 新增 delivery_audit 实跑 runs=25 unique_payloads=4 pre_guard=21 redundant=0：24 次成功点火中 21 次发生在指纹守卫之前（载荷不可证），可证载荷仅 4 个，旧字段 deliverable=24 把重复烘焙读成交付量（虚高约 6 倍） | **集团级验收口径钉死**：任何司回执里的「交付数」只计 unique 可证载荷（带 sha 或等价指纹且可复算），run 次数与守卫生效前的不可证产物一律不计入 deliverable，须分列 runs / unique / pre_guard 三数；本令不新造工具，各司在既有回执件里改字段语义 | T2 | dispatched（@各司自验·首例 @BigCompute 已在册·承诺 2026-11-11 18:00 前在各自 HQ-FEEDBACK 回报三数口径·逾期动作＝次轮计违例一次） |
+| 2026-11-10 00:0x | D-20261110-03 收取面核销与到期复核（七面实读，零新派） | 七面 mtime 实读 ＋ D-12/D-13/D-08 到期面实测 | compute 11-09 22:52（当日 3 条日清新行）/ bigmoney 11-09 10:12 / FluxVerse 11-04 03:57 / BigDomain 11-05 06:18 / BigLife 10-28 05:05 / BigStream 10-24 06:45 / MiniGame 无 HQ-FEEDBACK（替代表末笔 10-28）＝六面零当日新行；D-20261109-13 三卡实读 state 仍为空串（未到期 11-10 12:00）；D-20261109-12 于 22:5x 夜轮实测 vram_free 3456MiB<6144 让路律续阻（未到期 11-10 18:00）；D-20261109-08 各司自验未到期 | 本班零新派：三件均未到期，按到期面复核不催办；六面零当日新行记违例一行（连续第 4 班）。overruled 复扫 0、T1-v2 0、ceo-pending 0 | T2（收取核销） | executed（no-op×6 ＋ 违例 1 行） |
+| 2026-11-10 00:0x | D-20261110-04 **轻量闸被正常增长破线**：BigCompute 冒烟因文档超阈转红，而该文档正是逐轮追加条款的章程 | compute/BigCompute 19:1x 日清 | compute/BigCompute/docs/qa-smoke-test-charter.md 实测 28,005B＝27.3KB>25KB 轻量闸（mtime 11-09 16:09），冒烟 29/31 两红与本项无关；司内已自转 tech 拆分待办（未自我豁免） | 判 **no-op**：对象已具备动作，集团不代拆跨仓文档、不新派重复卡。附判据一行：轻量闸被正常增长破线时先判该阈值是否需重标定（依据＝谁消费该上限），禁一键豁免也禁为过闸硬拆；下次破线若仍无自办则按第 2 次计违例 | T2 | executed（no-op·对象已自办） |
+| 2026-11-10 00:0x | D-20261110-05 进化台账 open/escalated 实读销点（防第 3 班复述） | cph4/evolution-ledger.md 实读 | 台账 467 行、提案表 30 行：open＝P-2026-11-08-03（T1 上呈待裁）/ -06（T2 owner＝记忆治理席 11-15）/ -08（T2 待落）三件，escalated＝P-2026-11-08-07（CEO 待办 T1）一件，其余 transferred/applied | 本班域外不裁：立法全流程归周日周轮、机制健康归夜轮 03:07；本行只做实读销点防丢（第 3 班原样复述即触发升级判据），不新增催办 | T2（核销） | executed（no-op×4·域外如实标因） |
+| 2026-11-10 00:0x | D-20261110-06 **普查器分母取错面**：离线普查只数磁盘同类文件，漏掉「引用了但磁盘没有」的那份 | compute/BigCompute 19:1x 日清 | 洋红占位真因定谳＝场景 FloorSlab/CeilSlab 材质 guid 31321ba1… 在工程内零命中（悬空引用，Unity 洋红兜底）；旁证＝纯洋红亮度 72.6 恰等于被判空白的 frame_05 均匀帧；根因不在管线而在 scene_material_census.py 只枚举磁盘 .mat、从不读场景引用，缺的那份既不被计数也不被判异常；司内已建 RepairMissingMaterials() fail-closed ＋ 普查器 selftest 9/9 | **集团级判据钉死**（不新造工具）：任何普查/清点类闸，分母必须取自实际消费面（场景引用/装配输入/清单），不得只取自磁盘同类文件；「磁盘数与消费面数不等」本身即须判红而非忽略。首例已自愈，各司自查复用 | T2 | executed（钉判据·各司自查复用·首例已自办） |
+
+> 本批（第 55 批·2026-11-10 00:00 决策轮）**6 行成立**：executed 5（内含 no-op 11 项）、dispatched 1、ceo-pending 0、escalated 0、overruled 复扫 0、T1-v2 0。**外部调研 0 次**：六项全部由仓内实读闭合（文件字节/源码行/队列 JSON 字段/mtime），业界先例无增益，按 token-economy §十 不烧云端。
+
+> 本班一处硬收口：I-01 连续两班的欠账不是再记一次，而是把闸写进工具并跑负控——前两班的问题是「承诺了断言却没人写断言」，本轮改的是资产不是措辞。附一条派单面纪律：orders.md 已到硬线 96%，本批派单一律走 decisions 行（执行司列），不再往 orders.md 追加行，避免为传达而制造下一次破线。
+
+> [SELF-CHECK] 写入后实读 docs/decisions.md 含「第 55 批」「D-20261110-01」「D-20261110-06」三项；数据行数写入前后实测差值＝本批 6 行。

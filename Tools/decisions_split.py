@@ -69,6 +69,37 @@ def section_date(header, fallback):
     return m.group(1) if m else fallback
 
 
+ORDERS = os.path.join(ROOT, "docs", "orders.md")
+
+
+def check_thresholds(orders_kb, decisions_kb):
+    """Dual threshold gate (I-01, committee 2026-11-10).
+
+    The 250KB/200KB lines used to be prose a human had to remember, so a
+    breach was always found after the fact. This makes both machine-checkable.
+    Exit 2 = breached (fail loud), 0 = ok, 3 = file missing (unverified).
+    """
+    rows, breach, unverified = [], False, False
+    for label, path, limit_kb in (("orders", ORDERS, orders_kb),
+                                  ("decisions", LIVE, decisions_kb)):
+        if not os.path.exists(path):
+            rows.append("%-9s MISSING (%s)" % (label, path))
+            unverified = True
+            continue
+        size_kb = os.path.getsize(path) / 1024.0
+        pct = (size_kb / limit_kb * 100.0) if limit_kb > 0 else 0.0
+        state = "BREACH" if size_kb > limit_kb else "ok"
+        if state == "BREACH":
+            breach = True
+        rows.append("%-9s %8.1fKB / %6.1fKB = %5.1f%%  %s"
+                    % (label, size_kb, limit_kb, pct, state))
+    for r in rows:
+        print("THRESH " + r)
+    print("THRESH verdict=%s" % ("unverified" if unverified and not breach
+                                 else ("breach" if breach else "ok")))
+    return 2 if breach else (3 if unverified else 0)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--apply", action="store_true", help="actually write files")
@@ -76,7 +107,16 @@ def main():
                     help="keep the live ledger at or below this size (default 120KB)")
     ap.add_argument("--keep-sections", type=int, default=8,
                     help="always keep at least this many newest sections")
+    ap.add_argument("--check-thresholds", action="store_true",
+                    help="dual gate only: orders/decisions size vs hard lines, no split")
+    ap.add_argument("--orders-kb", type=float, default=250.0,
+                    help="hard line for docs/orders.md (default 250KB)")
+    ap.add_argument("--decisions-kb", type=float, default=200.0,
+                    help="hard line for docs/decisions.md (default 200KB)")
     args = ap.parse_args()
+
+    if args.check_thresholds:
+        return check_thresholds(args.orders_kb, args.decisions_kb)
 
     text, bom, newline = read_text(LIVE)
     lines = text.split(newline)
