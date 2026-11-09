@@ -1,0 +1,101 @@
+{
+ "ts": "2026-11-08T18:08:41",
+ "node": "bm-b",
+ "verdict": "BROKEN",
+ "alive": 11,
+ "total": 14,
+ "broken": [
+  "OS 投毒不吞车道",
+  "回执卫生基线表",
+  "主控脉"
+ ],
+ "probes": [
+  {
+   "loop": "need-work 机制（没活喊话）",
+   "alive": true,
+   "evidence": "all markers present",
+   "why": "CEO 11-04 令「没活就赶紧找主控要」；主控备单制按此旗标 P0 响应",
+   "known_regression": "2026-11-06 实锚：被 self_dispatch 整段重写冲掉，宣布过的机制无人验证存活"
+  },
+  {
+   "loop": "OS 投毒不吞车道",
+   "alive": false,
+   "evidence": "MISSING in Tools/fleet/lane_agent.py: ['after OS-MISMATCH, no eligible fallback']",
+   "why": "本机跑不了的派单不许饿死申报池（11-06 实锚：DOCS 卡占死 bm-b 车道数小时、z01 躺死）"
+  },
+  {
+   "loop": "回执自动上链 v3（--sparse -f）",
+   "alive": true,
+   "evidence": "all markers present",
+   "why": "ff-only 拉取带脏工作树成功=自有面永不提交（60+ 回执滞留一整天实锚）",
+   "known_regression": "v1 撞中文八进制、v2 撞稀疏锥外+ignore——v3 后由本工具盯防再退化"
+  },
+  {
+   "loop": "五道机器闸（OS/输入/二进制）",
+   "alive": true,
+   "evidence": "all markers present",
+   "why": "11-03 假失败三根因的根治件"
+  },
+  {
+   "loop": "钉机执法（hard_nodes）",
+   "alive": true,
+   "evidence": "all markers present",
+   "why": "11-03 偷卡案根治件（--node bm-c 在 bm-b 跑完实锚）"
+  },
+  {
+   "loop": "pins-alive 守卫（读不到主控状态≠全员失联）",
+   "alive": true,
+   "evidence": "all markers present",
+   "why": "稀疏克隆偷卡案根治件"
+  },
+  {
+   "loop": "DE-AI-SPEC 出厂总闸",
+   "alive": true,
+   "evidence": "on origin",
+   "why": "CEO 根本要求令正身（高质量+去AI感 28 条）"
+  },
+  {
+   "loop": "互通索引（cross-talk）",
+   "alive": true,
+   "evidence": "on origin",
+   "why": "CEO 11-05 互通令正身"
+  },
+  {
+   "loop": "总账正身",
+   "alive": true,
+   "evidence": "on origin",
+   "why": "三天复盘与执法台账"
+  },
+  {
+   "loop": "主控备单制（R-NEEDWORK）",
+   "alive": true,
+   "evidence": "row in WORK-RULES",
+   "why": "主控侧「早早备好工单」执行行"
+  },
+  {
+   "loop": "主控日扫互通（R-CROSSTALK-SWEEP）",
+   "alive": true,
+   "evidence": "row in WORK-RULES",
+   "why": "主控侧分诊腿（help→派单/judgment→广播/blocker→核销）"
+  },
+  {
+   "loop": "回执卫生基线表",
+   "alive": false,
+   "evidence": "ABSENT on origin: cph4/fleet/receipt-attrib-20261103.json",
+   "why": "全量回执体检基座（缺 rc=0/缺 class=1）"
+  },
+  {
+   "loop": "兜底自治法正身",
+   "alive": true,
+   "evidence": "on origin",
+   "why": "CEO 11-06 令：兜底+防空转+主控恢复协议"
+  },
+  {
+   "loop": "主控脉",
+   "alive": false,
+   "evidence": "ts=2026-11-08T15:46:32 age=142min (limit=30min)",
+   "why": "主控脉超 30 分钟未更新=MacBook 合盖/断网/脚本挂——worker 靠申报池自转不停，但须显式标记"
+  }
+ ],
+ "note": "闭环检查器：宣言的机制必须持续验证存活；BROKEN 项逐条点名于 probes"
+}

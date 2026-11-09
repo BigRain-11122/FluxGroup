@@ -1,0 +1,12 @@
+{
+ "rc": 3,
+ "verdict": "BLOCKED",
+ "status": "BLOCKED",
+ "error_class": "E-BLOCKED-INPUT",
+ "ts": "2026-11-08T01:07:11",
+ "why": "规格件不存在：cph4\\fleet\\asset-lib-v1\\ASSET-PROMPTS-v1.json",
+ "gaps": [
+  "先跑 Tools/fleet/asset_prompts.py"
+ ],
+ "tool": "asset_gen"
+}

@@ -1,0 +1,17 @@
+{
+ "id": "R-TRIAGE-BIGLIFE-BMA-20261108",
+ "node": "bm-b",
+ "rc": 0,
+ "seconds": 0.1,
+ "cmd": "python Tools/fleet/line_triage.py --line biglife --node bm-a",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "FAIL",
+ "error_class": "E-ARTIFACT",
+ "deliverable": "cph4/fleet/queue-receipts/triage-biglife-bm-a-20261108.md",
+ "deliverable_exists": false,
+ "ts": "2026-11-08T21:53:07",
+ "stdout_tail": "[triage] biglife -> cph4\\fleet\\queue-receipts\\triage-biglife-20261108.md\n",
+ "stderr_tail": ""
+}

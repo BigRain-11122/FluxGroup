@@ -1,0 +1,17 @@
+{
+ "id": "ASSET-GEN-STYLES-20261107",
+ "node": "bm-b",
+ "rc": 3,
+ "seconds": 0.1,
+ "cmd": "python Tools/fleet/asset_gen.py --class styles --limit 3 --node bm-c --receipt cph4/fleet/queue-receipts/asset-gen-styles-20261107.json",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "FAIL",
+ "error_class": "E-BLOCKED-INPUT",
+ "deliverable": "cph4/fleet/queue-receipts/asset-gen-styles-20261107.json",
+ "deliverable_exists": false,
+ "ts": "2026-11-08T01:07:12",
+ "stdout_tail": "[asset_gen] BLOCKED: ���������ڣ�cph4\\fleet\\asset-lib-v1\\ASSET-PROMPTS-v1.json\n   - ���� Tools/fleet/asset_prompts.py\n[asset_gen] ��ִ: cph4/fleet/queue-receipts/asset-gen-styles-20261107-blocked.json\n",
+ "stderr_tail": ""
+}

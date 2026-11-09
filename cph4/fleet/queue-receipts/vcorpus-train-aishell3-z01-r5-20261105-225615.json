@@ -1,0 +1,36 @@
+{
+ "ts": "2026-11-05T23:49:35",
+ "voice": "aishell3-z01",
+ "raw": "C:\\Fluxgroup\\FluxGroup\\media\\asset\\inbox\\z01",
+ "epochs": 20,
+ "minutes_target": 30.0,
+ "spec": "DE-AI-SPEC-v1 A7/A8",
+ "verdict": "PASS",
+ "raw_files": 467,
+ "train_cmd": "C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\GPT-SoVITS\\runtime\\Scripts\\python.exe C:\\Fluxgroup\\FleetAgent\\Tools\\voicebank\\vb_build.py --voice aishell3-z01 --raw C:\\Fluxgroup\\FluxGroup\\media\\voicebank\\_m4a\\aishell3-z01 --epochs 20 --minutes 30.0 --max-clip 10.0",
+ "train_rc": 0,
+ "train_tail": "0050415.wav +0 clips\n00:02:12 seg SSB00050416.wav +1 clips\n00:02:12 seg SSB00050417.wav +1 clips\n00:02:12 seg SSB00050418.wav +1 clips\n00:02:12 seg SSB00050419.wav +1 clips\n00:02:12 seg SSB00050420.wav +1 clips\n00:02:12 seg SSB00050421.wav +1 clips\n00:02:12 seg SSB00050422.wav +0 clips\n00:02:12 seg SSB00050423.wav +1 clips\n00:02:12 seg SSB00050424.wav +0 clips\n00:02:12 seg SSB00050425.wav +0 clips\n00:02:12 seg SSB00050426.wav +1 clips\n00:02:12 seg SSB00050427.wav +1 clips\n00:02:12 seg SSB00050428.wav +1 clips\n00:02:12 seg SSB00050429.wav +1 clips\n00:02:12 seg SSB00050430.wav +1 clips\n00:02:12 seg SSB00050431.wav +1 clips\n00:02:12 seg SSB00050432.wav +1 clips\n00:02:12 seg SSB00050433.wav +1 clips\n00:02:12 seg SSB00050434.wav +1 clips\n00:02:12 seg SSB00050435.wav +1 clips\n00:02:12 seg SSB00050436.wav +1 clips\n00:02:12 seg SSB00050437.wav +1 clips\n00:02:12 seg SSB00050438.wav +1 clips\n00:02:12 seg SSB00050439.wav +0 clips\n00:02:12 seg SSB00050440.wav +0 clips\n00:02:12 seg SSB00050441.wav +1 clips\n00:02:12 seg SSB00050442.wav +1 clips\n00:02:12 corpus clips=348 minutes=30.06 f0_med=249.2\n00:04:10 s2_train start epochs=20\n00:27:10 s2_train rc=0  1700, 9.975029665246193e-05] | INFO:exp:Saving model and optimizer state at iteration 20 to C:\\Fluxgroup\\FluxGroup\\media\\voicebank\\aishell3-z01\\exp/logs_s2_v2Pro\\G_1760.pth | INFO:exp:Saving model and optimizer state at iteration 20 to C:\\Fluxgroup\\FluxGroup\\media\\voicebank\\aishell3-z01\\exp/logs_s2_v2Pro\\D_1760.pth | INFO:exp:saving ckpt aishell3-z01_e20:Success. | INFO:exp:====> Epoch: 20 | training done | /88 [00:55<00:04,  1.32it/s] |  94%|█████████▍| 83/88 [00:56<00:03,  1.32it/s] |  95%|█████████▌| 84/88 [00:57<00:03,  1.33it/s] |  97%|█████████▋| 85/88 [00:57<00:02,  1.34it/s] |  98%|█████████▊| 86/88 [00:58<00:01,  1.35it/s] |  99%|█████████▉| 87/88 [00:59<00:00,  1.40it/s] | 100%|██████████| 88/88 [00:59<00:00,  1.43it/s] | 100%|██████████| 88/88 [00:59<00:00,  1.47it/s] | \n00:27:10 DONE weights=aishell3-z01_e20_s1760.pth\n",
+ "restored_tasks": [
+  [
+   "MiniGameOllamaServe",
+   0
+  ],
+  [
+   "MiniGameOllamaKeepWarm",
+   0
+  ]
+ ],
+ "weights": [
+  "C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\GPT-SoVITS\\SoVITS_weights_v2Pro\\aishell3-z01_e10_s880.pth",
+  "C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\GPT-SoVITS\\SoVITS_weights_v2Pro\\aishell3-z01_e12_s1056.pth",
+  "C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\GPT-SoVITS\\SoVITS_weights_v2Pro\\aishell3-z01_e14_s1232.pth",
+  "C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\GPT-SoVITS\\SoVITS_weights_v2Pro\\aishell3-z01_e16_s1408.pth",
+  "C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\GPT-SoVITS\\SoVITS_weights_v2Pro\\aishell3-z01_e18_s1584.pth",
+  "C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\GPT-SoVITS\\SoVITS_weights_v2Pro\\aishell3-z01_e20_s1760.pth",
+  "C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\GPT-SoVITS\\SoVITS_weights_v2Pro\\aishell3-z01_e2_s176.pth",
+  "C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\GPT-SoVITS\\SoVITS_weights_v2Pro\\aishell3-z01_e4_s352.pth",
+  "C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\GPT-SoVITS\\SoVITS_weights_v2Pro\\aishell3-z01_e6_s528.pth",
+  "C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\GPT-SoVITS\\SoVITS_weights_v2Pro\\aishell3-z01_e8_s704.pth"
+ ],
+ "rc": 0
+}

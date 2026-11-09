@@ -1,6 +1,8 @@
 {
- "ts": "2026-11-05T23:33:51",
+ "ts": "2026-11-09T23:00:23",
  "node": "bm-b",
- "state": "OS-MISMATCH",
- "note": "dispatched job os mismatch: DOCS-_报审提交区"
+ "state": "RESULT",
+ "job": "Q-VCORP-TRAIN-z02-R7-20261109",
+ "note": "CAPACITY-BLOCK HEADROOM：需要 10G，可给 0.0G（可用 -1.0G - 保留 4G，swap -1MB）",
+ "rc": null
 }

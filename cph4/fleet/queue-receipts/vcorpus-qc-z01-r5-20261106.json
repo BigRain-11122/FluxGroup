@@ -1,0 +1,23 @@
+{
+ "ts": "2026-11-06T00:44:00",
+ "voice": "aishell3-z01",
+ "sample": "E:/Fluxgroup/.codely-cli/vb_out/z01/output.wav",
+ "weights": "aishell3-z01_e20_s1760.pth",
+ "corpus_minutes": 30.06,
+ "f0_med": 249.2,
+ "target_text": "今天天气真不错，我们出门走走吧，顺便买点新鲜的水果回家。",
+ "gates": {
+  "asr_readback_sim": 1.000,
+  "asr_readback_gate": 0.90,
+  "hf_ratio": 0.09479,
+  "hf_gate": 0.010,
+  "ref_hf_ratio": 0.13597,
+  "noise_floor_db": -74.3,
+  "peak": 0.374,
+  "clipping": false
+ },
+ "verdict": "MACHINE-GATES-PASS",
+ "pending": ["speaker-identity gate (ERES2NetV2 vs slot speaker)", "director blind review >=9"],
+ "chain": "base GPT s1v3.ckpt + fine-tuned SoVITS aishell3-z01_e20_s1760 + ref 0003_tmp_SSB00050004_000.wav (4.0s)",
+ "note": "第一个新语料线音色权重（AISHELL-3 录音棚女声，30 分钟语料 20 epoch）"
+}
