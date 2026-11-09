@@ -305,3 +305,93 @@
 - 11-09T20:28 · CANARY-20261102T194604-bm-m.json · 完成自检文件创建，无风险。
 - 11-09T20:28 · CANARY-20261102T194101-bm-m.json · 完成自检文件创建，无风险。
 - 11-09T20:28 · CANARY-20261102T194038-bm-m.json · 完成自检文件创建，无风险。
+- 11-09T20:29 · CANARY-LOOP-20261109T202854-acceptance.json · 完成回执交付，但文件类型不符，有风险。
+- 11-09T20:29 · CANARY-LOOP-20261109T202854-bm-m.json · 完成回执写入，无风险。
+- 11-09T20:29 · CANARY-LOOP-20261109T202854.json · 任务完成，无风险。
+- 11-09T20:29 · self-improve-bm-m-latest.json · 完成代码回执，无风险。
+- 11-09T20:29 · R-NEXT-BIGSTREAMD-EVIDENCE-20261109-acceptance.json · 完成回执提交，存在交付物不符风险。
+- 11-09T20:29 · R-NEXT-BIGSTREAMD-EVIDENCE-20261109-bm-m.json · 完成大流剧队列回执生成，无风险。
+- 11-09T20:29 · triage-bigstream-drama-20261109.md · 完成线级体检，风险在未产出环节。
+- 11-09T20:29 · _last_lane_bm-m.json · 完成自检 backlog，无风险。
+- 11-09T20:29 · CANARY-20261102T192943-bm-m.json · 完成自检文件创建，无风险。
+- 11-09T20:29 · CANARY-20261102T192907-bm-m.json · 完成端到端自检，无风险。
+- 11-09T20:30 · _last_lane_bm-m.json · 完成自检回执，无风险。
+- 11-09T20:30 · CANARY-20261102T192120-bm-m.json · 完成端到端自检，无风险。
+- 11-09T20:30 · CANARY-20261102T181443-bm-m.json · 完成端到端自检，无风险。
+- 11-09T20:30 · CANARY-20261102T180857-bm-m.json · 完成端到端自检，无风险。
+- 11-09T20:30 · CANARY-20261102T180841-bm-m.json · 完成端到端自检，无风险。
+- 11-09T20:30 · CANARY-20261102T180758-bm-m.json · 回执失败，预期文件未生成，有风险。
+- 11-09T20:30 · CANARY-20261102T180713-bm-m.json · 完成自检写入，无风险。
+- 11-09T20:30 · CANARY-20261102T180639-bm-m.json · 完成端到端自检，无风险。
+- 11-09T20:30 · CANARY-20261102T180632-bm-m.json · 完成端到端自检，无风险。
+- 11-09T20:30 · AUD-GAME-20261108T012729-19-bm-m.json · 完成游戏资产审计，发现4处缺口，无错误风险。
+- 11-09T20:31 · _last_lane_bm-m.json · 完成自检 backlog，无风险。
+- 11-09T20:31 · self-improve-bm-m-latest.json · 完成代码回执，无风险。
+- 11-09T20:31 · skill-promote-20261109.json · 完成船务操作，多技能因无工具未执行。
+- 11-09T20:31 · AUD-GAME-20261108T012729-16-bm-m.json · 完成游戏审计，发现2处差距，无风险。
+- 11-09T20:31 · AUD-GAME-20261108T012729-12-bm-m.json · 完成CrazyWorker审计，发现4处缺口，无风险。
+- 11-09T20:31 · AUD-GAME-20261108T012729-11-bm-m.json · 完成涨停板审计，无风险。
+- 11-09T20:31 · CANARY-20261107T043235-bm-m.json · 完成自检文件创建，无风险。
+- 11-09T20:31 · CANARY-20261109T054116-bm-m.json · 完成端到端自检，无风险。
+- 11-09T20:31 · CANARY-20261107T031920-bm-m.json · 完成自检文件创建，无风险。
+- 11-09T20:31 · CANARY-20261109T042748-bm-m.json · 完成自检文件创建，无风险。
+- 11-09T20:32 · self-improve-bm-m-latest.json · 完成代码回执，无风险。
+- 11-09T20:32 · _last_lane_bm-m.json · 完成自检 backlog，无风险。
+- 11-09T20:32 · CANARY-20261104T195440-bm-m.json · 完成自检文件创建，无风险。
+- 11-09T20:32 · CANARY-20261104T194421-bm-m.json · 完成自检文件创建，无风险。
+- 11-09T20:32 · CANARY-20261104T192919-bm-m.json · 完成自检文件创建，无风险。
+- 11-09T20:32 · CANARY-20261104T190718-bm-m.json · 完成自检文件创建，无风险。
+- 11-09T20:32 · CANARY-20261104T155338-bm-a.json · 完成自检文件创建，无风险。
+- 11-09T20:32 · CANARY-20261104T140742-bm-a.json · 完成自检文件创建，无风险。
+- 11-09T20:32 · CANARY-20261104T134046-bm-m.json · 完成自检文件创建，无风险。
+- 11-09T20:32 · CANARY-20261104T134046-bm-a.json · 完成自检文件创建，无风险。
+- 11-09T20:33 · _last_lane_bm-m.json · 完成自检 backlog，无风险。
+- 11-09T20:33 · CANARY-20261104T131747-bm-a.json · 完成自检文件创建，无风险。
+- 11-09T20:33 · CANARY-20261109T031359-bm-m.json · 完成自检文件创建，无风险。
+- 11-09T20:33 · CANARY-20261107T004808-bm-m.json · 完成端到端自检，无风险。
+- 11-09T20:33 · CANARY-20261109T015716-bm-m.json · 完成端到端自检，无风险。
+- 11-09T20:33 · asset-lib-voice-dataset-2026-11-09-bm-m.json · 完成语音数据集审计，存在缺授权、条数不足等风险。
+- 11-09T20:33 · asset-voice-2026-11-09.json · 未完成授权和语音数据采集，存在合规与质量风险。
+- 11-09T20:33 · CANARY-20261106T223822-bm-m.json · 完成自检文件创建，无风险。
+- 11-09T20:33 · CANARY-20261109T004329-bm-m.json · 完成自检文件创建，无风险。
+- 11-09T20:33 · Q-TRIAGE-RECON-20261109-bm-m.json · 完成航线回执生成，无风险。
+- 11-09T20:35 · _last_lane_bm-m.json · 完成自检 backlog，无风险。
+- 11-09T20:35 · self-improve-bm-m-latest.json · 完成代码回执，无风险。
+- 11-09T20:35 · R-PLAN-FLUXVERSE-20261109-bm-m.json · 完成fluxverse航线回执生成，无风险。
+- 11-09T20:34 · R-TRIAGE-BIGGAME-BMM-20261109-bm-m.json · 完成大游戏线机队回执生成，无风险。
+- 11-09T20:35 · inference-audit-bm-m-20261109.json · 完成模型加载与性能测试，存在配置风险。
+- 11-09T20:35 · biz-mv-publish-checklist-20261109.json · 完成机队回执校对，无风险。
+- 11-09T20:35 · biz-car-gaming-20261109.json · 完成车游策略与 charter 编辑，无风险。
+- 11-09T20:35 · skill-promote-20261108.json · 完成资产审计与内容复核，存在多项技能缺工具风险。
+- 11-09T20:35 · model-radar-junshengsundemacbook-pro.local-20261108.json · 任务已运行，无风险。
+- 11-09T20:35 · CANARY-20261106T202425-bm-m.json · 完成端到端自检，无风险。
+- 11-09T20:36 · self-improve-bm-m-latest.json · 完成代码回执，无风险。
+- 11-09T20:36 · _last_lane_bm-m.json · 完成自检 backlog，无风险。
+- 11-09T20:36 · AUD-GAME-20261108T081825-29-bm-m.json · 完成游戏LanternSlayer审计，发现4处缺口，无错误风险。
+- 11-09T20:36 · AUD-GAME-20261108T081825-25-bm-m.json · 完成怪物馆审计，发现4处缺口，无错误风险。
+- 11-09T20:36 · AUD-GAME-20261108T022403-26-bm-m.json · 完成卡牌审计，发现4处缺口，无风险。
+- 11-09T20:36 · AUD-GAME-20261108T012729-36-bm-m.json · 完成游戏GhostMarshal审计，发现4处差距，无风险。
+- 11-09T20:36 · AUD-GAME-20261108T012729-26-bm-m.json · 完成卡牌审计，发现4处缺口，无风险。
+- 11-09T20:36 · CANARY-20261106T190611-bm-m.json · 完成自检文件创建，无风险。
+- 11-09T20:36 · AUD-GAME-20261108T022403-24-bm-m.json · 完成提交格式审计，发现3处差距，无错误风险。
+- 11-09T20:36 · CANARY-20261105T184631-bm-m.json · 完成自检文件创建，无风险。
+- 11-09T20:37 · _last_lane_bm-m.json · 完成自检 backlog，无风险。
+- 11-09T20:37 · skill-promote-20261109.json · 完成资产审计与内容核查，存在多项技能缺工具风险。
+- 11-09T20:37 · CANARY-20261105T035341-bm-m.json · 完成端到端自检，无风险。
+- 11-09T20:37 · CANARY-20261105T033327-bm-m.json · 完成端到端自检，无风险。
+- 11-09T20:37 · CANARY-20261105T031319-bm-m.json · 完成端到端自检，无风险。
+- 11-09T20:37 · CANARY-20261105T025918-bm-m.json · 完成端到端自检，无风险。
+- 11-09T20:37 · CANARY-20261105T023356-bm-m.json · 完成端到端自检，无风险。
+- 11-09T20:37 · CANARY-20261105T021934-bm-m.json · 完成端到端自检，无风险。
+- 11-09T20:37 · CANARY-20261105T015311-bm-m.json · 完成自检文件创建，无风险。
+- 11-09T20:37 · CANARY-20261105T004054-bm-m.json · 完成自检文件创建，无风险。
+- 11-09T20:38 · _last_lane_bm-m.json · 完成自检 backlog，无风险。
+- 11-09T20:38 · self-improve-bm-m-latest.json · 完成代码回执，无风险。
+- 11-09T20:38 · CANARY-20261105T002703-bm-m.json · 完成自检文件创建，无风险。
+- 11-09T20:38 · CANARY-20261105T001413-bm-m.json · 完成端到端自检，无风险。
+- 11-09T20:38 · CANARY-20261104T234831-bm-m.json · 完成自检文件创建，无风险。
+- 11-09T20:38 · CANARY-20261104T233525-bm-m.json · 完成自检文件创建，无风险。
+- 11-09T20:38 · CANARY-20261104T230927-bm-m.json · 完成自检文件创建，无风险。
+- 11-09T20:38 · CANARY-20261104T222639-bm-m.json · 完成自检文件创建，无风险。
+- 11-09T20:38 · CANARY-20261104T204101-bm-m.json · 完成端到端自检，无风险。
+- 11-09T20:38 · CANARY-20261104T202057-bm-m.json · 完成端到端自检，无风险。

@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-09T20:22:01+0800",
+ "ts": "2026-11-09T20:36:59+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -27,8 +27,8 @@
    "accept": "SUBMIT-PACK 里『隐私政策』『提审台账』两类缺件归零",
    "blocker_type": "CEO",
    "blocker": "截图需跑游戏取图，受 2026-10-28『不许自动跑游戏包』令约束，等放行",
-   "state": "STALLED",
-   "card": null,
+   "state": "QUEUED",
+   "card": "R-PRIVACY-36-MINIGAME-20261109",
    "running_on": null
   },
   {
@@ -72,8 +72,8 @@
    "accept": "drama_quality_gate PASS 且角色跨镜一致",
    "blocker_type": "CEO",
    "blocker": "CEO 令暂停（先铺资产库/MV/游戏/城市）",
-   "state": "QUEUED",
-   "card": "R-NEXT-BIGSTREAMD-EVIDENCE-20261109",
+   "state": "STALLED",
+   "card": null,
    "running_on": null
   },
   {
