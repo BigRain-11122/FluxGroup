@@ -1885,3 +1885,13 @@
 - 11-09T23:44 · drama-qa-2026-11-03.json · 已完成视频质检，无风险。
 - 11-09T23:44 · R-TTS-QC-R2-20261102-bm-m.json · 机队检查因目录缺失而失败，无风险。
 - 11-09T23:44 · tts-qc-r2-20261102.json · 因目录缺失导致机队回执被拒，无风险。
+- 11-09T23:45 · _last_lane_bm-m.json · 机队已清完积压任务，无风险。
+- 11-09T23:45 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-09T23:45 · bigstream-drama-gate-2026-11-03-bm-m.json · 因上游未产出成片导致质量门失败，存在交付风险。
+- 11-09T23:45 · bigstream-drama-assemble-2026-11-03-bm-m.json · 机队组装失败，因上游片段缺失导致任务中断。
+- 11-09T23:45 · bigstream-drama-src-scan-2026-11-03-bm-m.json · 已完成机队回执生成，无风险。
+- 11-09T23:45 · drama-src-2026-11-03.json · 已完成机队回执扫描，发现 drama-tools 目录为空，无风险。
+- 11-09T23:45 · skill-eval-fleet-ops-20261103.json · 完成 6 次问答全对，但模型回答内容被截断，存在输出不完整风险。
+- 11-09T23:45 · skill-eval-ship-ops-20261103.json · 模型全对完成合规判断，无风险。
+- 11-09T23:45 · C-TTS-QC-ALL-bm-a.json · 因输入目录缺失导致检查失败，无风险。
+- 11-09T23:45 · bigmoney-backtest-2026-11-03-bm-m.json · 任务因脚本文件缺失而失败，存在运行环境配置风险。
