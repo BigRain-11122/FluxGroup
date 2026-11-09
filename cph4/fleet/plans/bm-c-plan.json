@@ -1,16 +1,16 @@
 {
- "ts": "2026-11-10T05:31:55",
+ "ts": "2026-11-10T05:41:55",
  "node": "bm-c",
  "paused": false,
  "verdict": "BLOCKED-CAPACITY",
  "capacity": {
   "gpu": {
    "util_pct": 1,
-   "used_mb": 2067,
+   "used_mb": 2056,
    "total_mb": 16384
   },
-  "ram_free_gb": 2.66,
-  "vram_free_mb": 14317,
+  "ram_free_gb": 2.19,
+  "vram_free_mb": 14328,
   "lease_held": false,
   "can_gpu": false,
   "can_cpu": false
