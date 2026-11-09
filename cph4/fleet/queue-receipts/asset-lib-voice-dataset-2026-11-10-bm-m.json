@@ -1,0 +1,18 @@
+{
+ "id": "asset-lib-voice-dataset-2026-11-10",
+ "node": "bm-m",
+ "rc": 1,
+ "seconds": 0.1,
+ "cmd": "python3 Tools/fleet/asset_dataset_audit.py --mode voice --dir media/asset/voices --out cph4/fleet/queue-receipts/asset-voice-2026-11-10.json",
+ "ok_rc": [
+  0,
+  3
+ ],
+ "outcome": "FAIL",
+ "error_class": "E-UNKNOWN",
+ "deliverable": "cph4/fleet/queue-receipts/asset-voice-2026-11-10.json",
+ "deliverable_exists": true,
+ "ts": "2026-11-10T01:09:34",
+ "stdout_tail": "DATASET FAIL  media/asset/voices\n  {\"mode\": \"voice\", \"count\": 0, \"total_s\": 0.0, \"ok_len_ratio\": 0.0, \"pauses_per_min\": 0, \"lra_median\": null, \"rights\": {\"declared\": false}}\n  ! 缺授权声明：数据集目录里要有 RIGHTS.json（source/license/real_person/consent），或训练时传 --rights；没有授权声明的数据集一律不许进训练\n  ! 条数 0 < 8\n  ! 总时长 0s < 60s\n  ! 2–12 秒条目占比 0% < 80%（太长爆显存/太短学不到韵律）\n  ! 停顿密度 0.0 次/分 < 6（一口气念完=播音腔特征）\n",
+ "stderr_tail": ""
+}
