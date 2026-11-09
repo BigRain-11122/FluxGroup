@@ -1,24 +1,24 @@
 {
- "ts": "2026-11-10T06:26:39",
- "cycle": 475,
+ "ts": "2026-11-10T06:28:03",
+ "cycle": 476,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-10T06:26:39",
+ "master_tick_ts": "2026-11-10T06:28:03",
  "queue": {
-  "total": 1767,
+  "total": 1768,
   "open": 1,
-  "running": 4,
-  "done": 615,
-  "failed": 2
+  "running": 2,
+  "done": 617,
+  "failed": 3
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 24.7,
-   "cpu_load_pct": 77,
-   "ram_free_gb": 36.8,
-   "gpu_util_pct": 59,
-   "job": "MV-DIRECTOR-PACKET-20261109",
+   "hb_age_s": 49.6,
+   "cpu_load_pct": 68,
+   "ram_free_gb": 38.1,
+   "gpu_util_pct": 89,
+   "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
@@ -28,45 +28,45 @@
     "out_bytes": null,
     "elapsed_s": null
    },
-   "idle_confirmed": false,
-   "idle_reason": "",
-   "idle_rounds": 0
+   "idle_confirmed": true,
+   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+   "idle_rounds": 1
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 3.0,
-   "cpu_load_pct": 17,
-   "ram_free_gb": 11.9,
+   "hb_age_s": 13.1,
+   "cpu_load_pct": 2,
+   "ram_free_gb": 10.8,
    "gpu_util_pct": 2,
-   "job": "PROBE-BMB-TOOLCHAIN-20261110",
+   "job": null,
    "last_result": {
-    "job": null,
-    "state": "IDLE",
-    "rc": null,
-    "ts": "2026-11-10T06:25:41",
-    "reason": "SELF-DISPATCH: lane scans its own backlog",
+    "job": "PROBE-BMB-TOOLCHAIN-20261110",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-10T06:27:51",
+    "reason": null,
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": false,
-   "idle_reason": "",
+   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
    "idle_rounds": 0
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 35.5,
-   "cpu_load_pct": 17,
+   "hb_age_s": 37.8,
+   "cpu_load_pct": 15,
    "ram_free_gb": 3.6,
-   "gpu_util_pct": 1,
+   "gpu_util_pct": 0,
    "job": "asset-lib-face-dataset-2026-11-10",
    "last_result": {
-    "job": null,
-    "state": "IDLE",
+    "job": "asset-lib-face-dataset-2026-11-10",
+    "state": "BUSY",
     "rc": null,
-    "ts": "2026-11-10T06:25:36",
-    "reason": "CAPACITY-BLOCKED-RAM ram 0.8/1.0 GB",
-    "out_bytes": null,
-    "elapsed_s": null
+    "ts": "2026-11-10T06:27:53",
+    "reason": null,
+    "out_bytes": 0,
+    "elapsed_s": 21
    },
    "idle_confirmed": false,
    "idle_reason": "",
@@ -74,30 +74,30 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 1.5,
-   "cpu_load_pct": 5,
-   "ram_free_gb": 11.5,
+   "hb_age_s": 1.8,
+   "cpu_load_pct": 23,
+   "ram_free_gb": 11.2,
    "gpu_util_pct": null,
-   "job": null,
+   "job": "CANARY-20261110T062802",
    "last_result": {
-    "job": null,
-    "state": "IDLE",
+    "job": "CANARY-20261110T062802",
+    "state": "RUNNING",
     "rc": null,
-    "ts": "2026-11-10T06:26:34",
-    "reason": "SELF-DISPATCH: lane scans its own backlog",
+    "ts": "2026-11-10T06:28:02",
+    "reason": null,
     "out_bytes": null,
     "elapsed_s": null
    },
-   "idle_confirmed": true,
-   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 51
+   "idle_confirmed": false,
+   "idle_reason": "",
+   "idle_rounds": 0
   }
  },
  "idle_rounds": {
-  "bm-a": 0,
+  "bm-a": 1,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 51
+  "bm-m": 0
  },
  "lines": {
   "bigstream-mv": {
@@ -270,7 +270,7 @@
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
    "jobs": [
-    "PROBE-BMB-TOOLCHAIN-20261110"
+    "CANARY-20261110T062802"
    ],
    "no_supply": false,
    "blockers": [],
@@ -284,8 +284,7 @@
    "stale_after_h": 72.0,
    "owner": "资产席",
    "jobs": [
-    "asset-lib-face-dataset-2026-11-10",
-    "asset-lib-char-gen-2026-11-10"
+    "asset-lib-face-dataset-2026-11-10"
    ],
    "no_supply": false,
    "blockers": [],
@@ -832,17 +831,16 @@
  "supply_added": [],
  "events": [
   "asset-lib-face-dataset-2026-11-10 -> bm-c (cpu)",
-  "MV-DIRECTOR-PACKET-20261109 -> bm-a (cpu)",
-  "PROBE-BMB-TOOLCHAIN-20261110 -> bm-b (cpu)"
+  "CANARY-20261110T062802 -> bm-m (cpu)"
  ],
  "violations": [
-  "bm-m IDLE-CONFIRMED x51 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
  "lane_files_written": [
   "bm-a",
   "bm-b",
-  "bm-c"
+  "bm-c",
+  "bm-m"
  ]
 }
