@@ -1,27 +1,8 @@
 {
  "node": "bm-m",
- "ts": "2026-11-09T20:06:39",
- "jobs": [
-  {
-   "id": "R-MV-RELEASE-PACK-20261109",
-   "title": "[bigstream] MV/720p 成品发布包清单",
-   "cmd": "",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "media/RELEASE-PACK-20261109.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "盘点 media/review-720p 与 cph4/fleet/mv0001-handover 下 30 天内成品，输出发布包清单（文件名、大小、sha256、可直发/待审），交付 media/RELEASE-PACK-20261109.md，不要移动或删除素材。",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  }
- ],
- "idle_reason": "",
+ "ts": "2026-11-09T20:08:18",
+ "jobs": [],
+ "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
  "lane_ok": true,
- "capacity_note": "ram 11.8/1.0 GB",
- "cards": [],
- "pruned_shells": [
-  "R-MV-RELEASE-PACK-20261109"
- ]
+ "capacity_note": "ram 7.4/1.0 GB"
 }
