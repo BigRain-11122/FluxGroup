@@ -1115,3 +1115,13 @@
 - 11-09T22:10 · R-TRIAGE-FLEETOPS-BMD-20261106.json · 任务已完成且无风险，因 Windows 环境未就绪而由本机接管执行。
 - 11-09T22:10 · R-TRIAGE-FLEETOPS-BMA-20261104-bm-c.json · 机队回执任务已完成，无错误风险。
 - 11-09T22:10 · R-TRIAGE-BIGSTREAMMV-BMA-20261104-bm-c.json · 已完成机队回执任务，无风险。
+- 11-09T22:11 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
+- 11-09T22:11 · skill-promote-20261109.json · 已完成基础任务，因工具缺失导致多项关键技能无法执行。
+- 11-09T22:11 · R-TRIAGE-BIGSTREAMMV-BMA-20261104-bm-b.json · 已完成机队回执任务，无风险。
+- 11-09T22:11 · R-TRIAGE-BIGLIFE-BMA-20261104-bm-c.json · 已完成大飞机机队排查，无风险。
+- 11-09T22:11 · R-TRIAGE-BIGLIFE-BMA-20261104-bm-a.json · 已完成大飞机机队分诊任务，无错误风险。
+- 11-09T22:11 · R-TRIAGE-BIGDOMAIN-BMD-20261106.json · 已完成机队回执生成，无风险。
+- 11-09T22:11 · R-PLAN-BIGMONEY-20261105-bm-b.json · 已完成机队回执生成，无错误风险。
+- 11-09T22:11 · R-PLAN-BIGMONEY-20261104.json · 任务已完成且无风险，因 Windows 环境未就绪而由本机接管执行。
+- 11-09T22:11 · R-PLAN-BIGMONEY-20261104-bm-c.json · 已完成机队回执生成，无错误风险。
+- 11-09T22:11 · R-PLAN-BIGMONEY-20261104-bm-b.json · 机队回执任务执行失败，因无交付物导致流程中断。
