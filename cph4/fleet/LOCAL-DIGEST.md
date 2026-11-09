@@ -1695,3 +1695,13 @@
 - 11-09T23:20 · R-MODEL-RADAR-BMM-20261104-bm-a.json · 已完成雷达模型运行，因当日已执行而跳过，无风险。
 - 11-09T23:20 · R-MODEL-RADAR-BMM-20261103-bm-a.json · 任务因当日已运行被跳过，无风险。
 - 11-09T23:20 · R-MODEL-RADAR-BMC-20261103-bm-a.json · 任务因今日已运行被跳过，无风险。
+- 11-09T23:21 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-09T23:21 · R-MODEL-RADAR-BMA-20261104-bm-a.json · 已完成机队回执生成，无风险。
+- 11-09T23:21 · Q-TRIAGE-FLUXVERSE-20261104-bm-a.json · Fluxverse 机队回执生成成功，无错误风险。
+- 11-09T23:21 · Q-TRIAGE-BIGGAME-20261104-bm-a.json · 已完成机队回执生成，无风险。
+- 11-09T23:21 · C-QUANT-NOBOND-20261103-bm-a.json · 已完成无债 ETF 回测，数据正常且无风险。
+- 11-09T23:21 · voice-corpus-bm-b-2026-11-03.json · 该批次因缺少音频文件被阻断，存在任务无法继续的风险。
+- 11-09T23:21 · asset-lib-accept-2026-11-04-bm-m.json · 质量门禁检查失败，因合同错误导致任务未完成且存在风险。
+- 11-09T23:21 · quality-asset-lib-2026-11-04.json · 机队无风险完成交付，但需补充缺失文件方可正式交付。
+- 11-09T23:21 · asset-lib-voice-assemble-2026-11-04-bm-m.json · 未完成任务，因缺少 RIGHTS.json 导致数据被跳过。
+- 11-09T23:21 · asset-lib-voice-dataset-2026-11-04-bm-m.json · 已完成语音数据集审核，因缺授权声明且数据量不足导致任务失败。
