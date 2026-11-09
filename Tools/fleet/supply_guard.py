@@ -79,6 +79,15 @@ def runnable_for(node, rows):
     return out
 
 
+def excluded_nodes():
+    """控制节点（role=主控）不按产线卡水位考核：它空转是常态，不是断供。"""
+    try:
+        cfg=json.load(open(os.path.join(F,"AUTONOMY-CONFIG.json"),encoding="utf-8"))
+        return set((cfg.get("supply") or {}).get("exclude_nodes") or [])
+    except Exception:
+        return set()
+
+
 def online_nodes():
     """在线判据：优先 comms.json；comms 过期或为空时退回 lanes/*.json 的心跳龄。
 
@@ -130,7 +139,9 @@ def main(argv=None):
     a = ap.parse_args(argv)
 
     missing = tool_check()
-    nodes = online_nodes()
+    all_nodes = online_nodes()
+    _skip = excluded_nodes()
+    nodes = [n for n in all_nodes if n not in _skip]
     rows = load_rows(QUEUE) + load_rows(BACKLOG)
     before = {n: runnable_for(n, rows) for n in nodes}
     short = [n for n, ids in before.items() if len(ids) < a.floor]
@@ -183,7 +194,7 @@ def main(argv=None):
     with open(a.json, "w", encoding="utf-8") as f:
         json.dump(rec, f, ensure_ascii=False, indent=1)
 
-    print("[supply] 在线 %d 台，水位 %d" % (len(nodes), a.floor))
+    print("[supply] 在线 %d 台（考核 %d，跳过控制节点 %s），水位 %d" % (len(all_nodes), len(nodes), ",".join(sorted(_skip)) or "-", a.floor))
     for n in nodes:
         flag = "OK " if len(after[n]) >= a.floor else "LOW"
         print("  %s %-8s 可跑 %d -> %d" % (flag, n, len(before[n]), len(after[n])))

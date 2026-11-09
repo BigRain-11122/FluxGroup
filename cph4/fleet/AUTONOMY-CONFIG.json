@@ -64,7 +64,11 @@
    "R-PLAN-"
   ],
   "meta_cards_max_per_node": 1,
-  "_open_all_why": "CEO 2026-11-05「放开全部的算力做好调度」：按硬件开槽（bm-a 8/bm-b 6/bm-c 6/bm-m 6/bm-d 8），库存底线同抬到 6——只开槽不补货等于把空转放大。GPU 仍由车道保证同刻 1 张；内存闸与 reserve 不动。"
+  "_open_all_why": "CEO 2026-11-05「放开全部的算力做好调度」：按硬件开槽（bm-a 8/bm-b 6/bm-c 6/bm-m 6/bm-d 8），库存底线同抬到 6——只开槽不补货等于把空转放大。GPU 仍由车道保证同刻 1 张；内存闸与 reserve 不动。",
+  "exclude_nodes": [
+   "bm-m"
+  ],
+  "_exclude_why": "2026-11-09 CEO：bm-m 是调度机（role=主控，heavy_forbidden），不按产线卡水位考核；它空转不等于供给断供。"
  },
  "progress": {
   "report_every_s": 10,
