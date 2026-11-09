@@ -1405,3 +1405,13 @@
 - 11-09T22:45 · skill-promote-20261104.json · 已跳过多项因工具缺失或重复的任务，当前无风险。
 - 11-09T22:45 · self-improve-bm-m-20261106T173030.json · 已完成模拟回执，存在因无命令卡片将被修剪的风险。
 - 11-09T22:45 · receipt-attrib-20261104.json · 完成 473 份回执扫描，发现 142 个非回执文件及多处解析错误，判定存在缺口风险。
+- 11-09T22:46 · _last_lane_bm-m.json · 机队已清完积压任务，无风险。
+- 11-09T22:46 · receipt-attrib-20261103.json · 完成 465 份回执扫描，存在路径、合同等解析失败风险。
+- 11-09T22:46 · quality-biggame-2026-11-05.json · 已提交机队回执，因缺少 game-10s 文件导致状态为失败。
+- 11-09T22:46 · model-radar-junshengsundemacbook-pro.local-20261105.json · 今日已运行，跳过本次回执；无风险。
+- 11-09T22:46 · model-radar-junshengsundemacbook-pro.local-20261104.json · 今日机队回执已跳过，因当日已运行，无风险。
+- 11-09T22:46 · model-radar-bm-m-20261104.json · 今日任务已跳过，因当日已运行，无风险。
+- 11-09T22:46 · model-radar-bm-c-20261104.json · 今日机队回执已跳过，因当日已运行且无风险。
+- 11-09T22:46 · model-radar-bm-a-20261104.json · 今日机队回执已跳过，因当日已运行，无风险。
+- 11-09T22:46 · lib-consolidate-20261103.json · 已完成机队回执，存在 1 个被阻塞的接收文件风险。
+- 11-09T22:46 · inference-audit-bm-m-20261106.json · 机队已部署多模型并运行，但存在并发配置错误风险。
