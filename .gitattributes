@@ -27,3 +27,7 @@ media/** -diff linguist-generated
 # （PS 5.1 我们已因 GBK 与编码踩过坑，不在无实测的情况下再动一次）。
 *.py text eol=lf
 cph4/fleet/archive/asset-lib/**/*.mp3 binary -diff linguist-generated
+
+cph4/fleet/*.jsonl merge=union
+cph4/fleet/**/*.jsonl merge=union
+cph4/fleet/queue-receipts/*.json merge=union
