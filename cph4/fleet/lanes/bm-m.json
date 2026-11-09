@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-10T00:07:32",
+ "ts": "2026-11-10T00:08:09",
  "jobs": [
   {
    "id": "asset-lib-char-prompts-2026-11-10",
@@ -37,20 +37,6 @@
    "cwd": "",
    "needs": "cpu",
    "deliverable": "cph4/fleet/queue-receipts/triage-bigdomain-bm-m-20261110.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "R-TRIAGE-BIGCOMPUTE-BMM-20261110",
-   "title": "BigCompute·硅基算力 线证据扫描（bm-m 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigcompute --node bm-m",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigcompute-bm-m-20261110.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
