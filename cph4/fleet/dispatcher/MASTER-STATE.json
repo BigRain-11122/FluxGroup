@@ -1,24 +1,24 @@
 {
- "ts": "2026-11-10T04:37:38",
- "cycle": 398,
+ "ts": "2026-11-10T04:39:12",
+ "cycle": 399,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-10T04:37:38",
+ "master_tick_ts": "2026-11-10T04:39:12",
  "queue": {
   "total": 1767,
   "open": 1,
-  "running": 1,
-  "done": 616,
+  "running": 4,
+  "done": 615,
   "failed": 2
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 24.9,
-   "cpu_load_pct": 53,
-   "ram_free_gb": 39.9,
-   "gpu_util_pct": 89,
-   "job": null,
+   "hb_age_s": -0.7,
+   "cpu_load_pct": 77,
+   "ram_free_gb": 44.1,
+   "gpu_util_pct": 75,
+   "job": "MV-DIRECTOR-PACKET-20261109",
    "last_result": {
     "job": null,
     "state": "IDLE",
@@ -28,37 +28,37 @@
     "out_bytes": null,
     "elapsed_s": null
    },
-   "idle_confirmed": true,
-   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 7
+   "idle_confirmed": false,
+   "idle_reason": "",
+   "idle_rounds": 0
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 46.9,
-   "cpu_load_pct": 0,
-   "ram_free_gb": 11.8,
-   "gpu_util_pct": 2,
-   "job": null,
+   "hb_age_s": 18.1,
+   "cpu_load_pct": 10,
+   "ram_free_gb": 12.0,
+   "gpu_util_pct": 93,
+   "job": "PROBE-BMB-TOOLCHAIN-20261110",
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-10T04:36:41",
+    "ts": "2026-11-10T04:39:05",
     "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
-   "idle_confirmed": true,
-   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 8
+   "idle_confirmed": false,
+   "idle_reason": "",
+   "idle_rounds": 0
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 45.1,
+   "hb_age_s": 69.0,
    "cpu_load_pct": 13,
-   "ram_free_gb": 3.6,
+   "ram_free_gb": 3.5,
    "gpu_util_pct": 0,
-   "job": "asset-lib-char-gen-2026-11-10",
+   "job": "asset-lib-face-dataset-2026-11-10",
    "last_result": {
     "job": null,
     "state": "IDLE",
@@ -74,30 +74,30 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 1.6,
-   "cpu_load_pct": 6,
-   "ram_free_gb": 14.8,
+   "hb_age_s": 1.5,
+   "cpu_load_pct": 7,
+   "ram_free_gb": 14.6,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-10T04:36:58",
+    "ts": "2026-11-10T04:38:58",
     "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 31
+   "idle_rounds": 32
   }
  },
  "idle_rounds": {
-  "bm-a": 7,
-  "bm-b": 8,
+  "bm-a": 0,
+  "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 31
+  "bm-m": 32
  },
  "lines": {
   "bigstream-mv": {
@@ -265,12 +265,14 @@
   "fleet-ops": {
    "name": "机队运维·端到端自检（平台服务线）",
    "status": "ACTIVE",
-   "verdict": "WAITING",
+   "verdict": "WORKING",
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "PROBE-BMB-TOOLCHAIN-20261110"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": null
   },
@@ -282,6 +284,7 @@
    "stale_after_h": 72.0,
    "owner": "资产席",
    "jobs": [
+    "asset-lib-face-dataset-2026-11-10",
     "asset-lib-char-gen-2026-11-10"
    ],
    "no_supply": false,
@@ -827,13 +830,19 @@
   "gpu": 0
  },
  "supply_added": [],
- "events": [],
+ "events": [
+  "asset-lib-face-dataset-2026-11-10 -> bm-c (cpu)",
+  "MV-DIRECTOR-PACKET-20261109 -> bm-a (cpu)",
+  "PROBE-BMB-TOOLCHAIN-20261110 -> bm-b (cpu)"
+ ],
  "violations": [
-  "bm-a IDLE-CONFIRMED x7 (SELF-DISPATCH: lane scans its own backlo)",
-  "bm-b IDLE-CONFIRMED x8 (SELF-DISPATCH: lane scans its own backlo)",
-  "bm-m IDLE-CONFIRMED x31 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-m IDLE-CONFIRMED x32 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
- "lane_files_written": []
+ "lane_files_written": [
+  "bm-a",
+  "bm-b",
+  "bm-c"
+ ]
 }
