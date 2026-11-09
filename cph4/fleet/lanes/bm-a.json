@@ -1,23 +1,8 @@
 {
  "node": "bm-a",
- "ts": "2026-11-10T02:35:52",
- "jobs": [
-  {
-   "id": "R-TRIAGE-BIGMONEY-BMA-20261110",
-   "title": "BigMoney·量化 线证据扫描（bm-a 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigmoney --node bm-a",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigmoney-bm-a-20261110.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  }
- ],
- "idle_reason": "",
+ "ts": "2026-11-10T02:41:32",
+ "jobs": [],
+ "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
  "lane_ok": true,
- "capacity_note": "ram 43.5/1.0 GB"
+ "capacity_note": "ram 44.6/1.0 GB"
 }

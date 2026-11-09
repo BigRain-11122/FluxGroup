@@ -2,7 +2,7 @@
  "id": "CANARY-20261110T023948",
  "node": "bm-m",
  "rc": 0,
- "seconds": 0.0,
+ "seconds": 0.1,
  "cmd": "python3 -c \"import os;os.makedirs(r'cph4/fleet/state/canary',exist_ok=True);open(r'cph4/fleet/state/canary/RUN-20261110T023948.txt','w',encoding='utf-8').write('canary 20261110T023948 — 端到端自检产物，不是业务活')\"",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/state/canary/RUN-20261110T023948.txt",
  "deliverable_exists": true,
- "ts": "2026-11-10T02:40:18",
+ "ts": "2026-11-10T02:41:18",
  "stdout_tail": "",
  "stderr_tail": ""
 }
