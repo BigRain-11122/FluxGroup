@@ -14,6 +14,7 @@ import argparse
 import json
 import os
 import sys
+import time
 import urllib.request
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -74,6 +75,10 @@ def main():
             if sim >= a.threshold:
                 pairs.append((round(sim, 3), cards[i]["id"], cards[j]["id"]))
     pairs.sort(reverse=True)
+    json.dump({"ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "active": len(cards),
+               "pairs": len(pairs)},
+              open(os.path.join(ROOT, "cph4", "fleet", "state", "embed-dedupe.json"), "w",
+                   encoding="utf-8"), ensure_ascii=False, indent=1)
     print("active=%d pairs>=%.2f: %d" % (len(cards), a.threshold, len(pairs)))
     for s, i, j in pairs[:12]:
         print("%.3f  %s  <->  %s" % (s, i, j))
