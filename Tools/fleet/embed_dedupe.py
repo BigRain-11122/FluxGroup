@@ -79,6 +79,14 @@ def main():
                "pairs": len(pairs)},
               open(os.path.join(ROOT, "cph4", "fleet", "state", "embed-dedupe.json"), "w",
                    encoding="utf-8"), ensure_ascii=False, indent=1)
+    # 用完即卸：向量模型占 4.8GB，不常驻
+    try:
+        req = urllib.request.Request(EMBED.replace("/api/embed", "/api/generate"),
+            data=json.dumps({"model": MODEL, "keep_alive": 0}).encode(),
+            headers={"Content-Type": "application/json"})
+        urllib.request.urlopen(req, timeout=30).read()
+    except Exception:
+        pass
     print("active=%d pairs>=%.2f: %d" % (len(cards), a.threshold, len(pairs)))
     for s, i, j in pairs[:12]:
         print("%.3f  %s  <->  %s" % (s, i, j))

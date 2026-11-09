@@ -25,7 +25,7 @@ SWAP_SAMPLE_S = 5
 MAX_NEW_INCOMPRESSIBLE_GB = 8.0   # 实测：视觉模型驻留时的新增上限（仅作参考）
 RESERVE_GB = 4.0                   # 留给系统与 CEO 办公应用的底线
 VISION_MODELS = ("qwen3.5", "mlx")
-KEEP_RESIDENT = ("qwen3-embedding",)
+KEEP_RESIDENT = ()  # 2026-11-09 交换紧张：向量改为按需加载，用完即卸
 
 
 def swap_mb():

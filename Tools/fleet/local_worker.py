@@ -26,7 +26,7 @@ REC = os.path.join(F, "queue-receipts")
 STATE = os.path.join(F, "state", "local-digest.jsonl")
 MD = os.path.join(F, "LOCAL-DIGEST.md")
 OLLAMA = os.environ.get("OLLAMA_URL") or "http://127.0.0.1:11434"
-MODEL = os.environ.get("WORKER_MODEL") or "qwen3:4b-instruct"
+MODEL = os.environ.get("WORKER_MODEL") or "qwen3.5:4b-mlx"
 
 
 def seen():
