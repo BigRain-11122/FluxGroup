@@ -1,12 +1,12 @@
-# 线级体检 biggame · 2026-11-09 19:05
+# 线级体检 biggame · 2026-11-09 19:09
 
 ## 工段与证据目录
-- game-design    owner=游戏席      lane=-      证据 3/3 存在 · 文件 15195 · 最新 0.1h
+- game-design    owner=游戏席      lane=-      证据 3/3 存在 · 文件 15195 · 最新 0.2h
 - game-art       owner=美术席      lane=bm-c   证据 0/1 存在 · 文件 0 · 最新 —
 - game-build     owner=工程席      lane=bm-a   证据 0/1 存在 · 文件 0 · 最新 —
 
 ## 判定
-- 最近产出 0.1h 前（阈值 24.0h）→ FRESH 在阈内
+- 最近产出 0.2h 前（阈值 24.0h）→ FRESH 在阈内
 
 ## 下一步（按缺口）
 - game-art：建目录/补输入后再谈产出（责任人=游戏席）
