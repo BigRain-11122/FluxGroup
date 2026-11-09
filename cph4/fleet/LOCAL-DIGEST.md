@@ -2185,3 +2185,13 @@
 - 11-10T00:21 · triage-bigmoney-bm-m-20261110.md · 机队回执显示三工段均超阈，需立即补全输入或停止产出。
 - 11-10T00:21 · triage-bigcompute-bm-m-20261110.md · 算力中枢席需立即补产或收线，当前工段已超阈存在风险。
 - 11-10T00:21 · Q-TRIAGE-BIGSTREAMMV-20261110-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物且存在合规风险。
+- 11-10T00:22 · self-improve-bm-m-latest.json · 机队已确认无风险，所有检查项均通过。
+- 11-10T00:22 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
+- 11-10T00:22 · skill-promote-20261110.json · 已完成部分任务，因工具缺失导致多项关键技能无法执行。
+- 11-10T00:22 · Q-TRIAGE-BIGSTREAMMV-20261110-bm-m.json · 机队回执任务成功完成，无风险。
+- 11-10T00:22 · triage-bigstream-mv-20261110.md · 机队回执显示大部分工段正常，但“自决放行”环节超阈待补。
+- 11-10T00:22 · biz-car-gaming-20261110.json · 已完成 car-gaming 任务，无风险。
+- 11-10T00:22 · biz-car-gaming-20261110.md · 完成跨车企复用方案交付与成本覆盖，规避行车安全合规风险。
+- 11-10T00:22 · brain-bigstream-mv-2026-11-10.md · 已完成硬伤根除与流程落地，但运镜呆板问题待今晚重烧波解决。
+- 11-10T00:22 · brain-bigstream-duanju-2026-11-10.md · 完成素材入库与代码复核，但引证核验未过且存在音轨错别率风险。
+- 11-10T00:22 · brain-bigstream-drama-2026-11-10.md · 完成漫剧线三步骤解堵，但引证核验未过导致结论不可作为决策依据。
