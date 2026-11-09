@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
- "ts": "2026-11-10T00:01:54",
+ "ts": "2026-11-10T00:04:27",
  "jobs": [
   {
-   "id": "R-MODEL-RADAR-BMC-20261110",
-   "title": "本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-c）",
-   "cmd": "python Tools/fleet/model_radar.py run --node bm-c --idle-only --apply",
+   "id": "asset-lib-library-check-2026-11-10",
+   "title": "[资产储备（角色 LoRA / 音色库）] 库体检（数量/规格/授权/缺口）",
+   "cmd": "python Tools/fleet/asset_library_check.py --tier p0 --out cph4/fleet/queue-receipts/asset-library-2026-11-10.json",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/model-radar-bm-c-20261110.json",
+   "deliverable": "cph4/fleet/queue-receipts/asset-library-2026-11-10.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -17,12 +17,12 @@
    "timeout_s": null
   },
   {
-   "id": "R-MODEL-RADAR-BMM-20261110",
-   "title": "本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-m）",
-   "cmd": "python Tools/fleet/model_radar.py run --node bm-m --idle-only --apply",
+   "id": "asset-lib-char-prompts-2026-11-10",
+   "title": "[资产储备（角色 LoRA / 音色库）] 角色包出图计划（8 原创角色 × 6 视角提示词包）",
+   "cmd": "python Tools/fleet/char_plan.py",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/model-radar-bm-m-20261110.json",
+   "deliverable": "cph4/fleet/queue-receipts/char-gen-plan-2026-11-10.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -31,12 +31,54 @@
    "timeout_s": null
   },
   {
-   "id": "R-TRIAGE-FLUXVERSE-BMM-20261110",
-   "title": "FluxVerse·元宙城 线证据扫描（bm-m 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line fluxverse --node bm-m",
+   "id": "R-TRIAGE-BIGMONEY-BMM-20261110",
+   "title": "BigMoney·量化 线证据扫描（bm-m 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line bigmoney --node bm-m",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-fluxverse-bm-m-20261110.md",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigmoney-bm-m-20261110.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "R-TRIAGE-BIGDOMAIN-BMM-20261110",
+   "title": "BigDomain·硅基域商业化 线证据扫描（bm-m 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line bigdomain --node bm-m",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigdomain-bm-m-20261110.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "R-TRIAGE-BIGCOMPUTE-BMM-20261110",
+   "title": "BigCompute·硅基算力 线证据扫描（bm-m 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line bigcompute --node bm-m",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigcompute-bm-m-20261110.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "Q-TRIAGE-BIGSTREAMMV-20261110",
+   "title": "bigstream-mv 线级体检（本机证据目录实况）",
+   "cmd": "python Tools/fleet/line_triage.py --line bigstream-mv",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigstream-mv-20261110.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -47,5 +89,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 11.0/1.0 GB"
+ "capacity_note": "ram 15.3/1.0 GB"
 }
