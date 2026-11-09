@@ -1,0 +1,17 @@
+{
+ "id": "R-MODEL-RADAR-BMM-20261109",
+ "node": "bm-b",
+ "rc": 0,
+ "seconds": 0.1,
+ "cmd": "python Tools/fleet/model_radar.py run --node bm-m --idle-only --apply",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "cph4/fleet/queue-receipts/model-radar-bm-m-20261109.json",
+ "deliverable_exists": true,
+ "ts": "2026-11-09T00:12:48",
+ "stdout_tail": "{\"skipped_idle\": \"queue-running:DOCS-_�ѷ��_ʢ����������\", \"node\": \"bm-m\"}\n",
+ "stderr_tail": ""
+}

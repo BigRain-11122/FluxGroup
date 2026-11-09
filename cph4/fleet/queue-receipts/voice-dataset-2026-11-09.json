@@ -1,0 +1,145 @@
+{
+ "ts": "2026-11-09T01:46:46+0800",
+ "rc": 3,
+ "verdict": "BLOCKED",
+ "error_class": "E-BLOCKED-INPUT",
+ "groups": [
+  {
+   "group": "batch-2026-11-03",
+   "clips": 0,
+   "rights": "缺 RIGHTS.json（来源不明一律不进训练）",
+   "verdict": "SKIP",
+   "gap": "缺 RIGHTS.json（来源不明一律不进训练）"
+  },
+  {
+   "group": "batch-2026-11-04",
+   "clips": 0,
+   "rights": "缺 RIGHTS.json（来源不明一律不进训练）",
+   "verdict": "SKIP",
+   "gap": "缺 RIGHTS.json（来源不明一律不进训练）"
+  },
+  {
+   "group": "batch-2026-11-05",
+   "clips": 0,
+   "rights": "缺 RIGHTS.json（来源不明一律不进训练）",
+   "verdict": "SKIP",
+   "gap": "缺 RIGHTS.json（来源不明一律不进训练）"
+  },
+  {
+   "group": "batch-2026-11-07",
+   "clips": 0,
+   "rights": "缺 RIGHTS.json（来源不明一律不进训练）",
+   "verdict": "SKIP",
+   "gap": "缺 RIGHTS.json（来源不明一律不进训练）"
+  },
+  {
+   "group": "e01",
+   "clips": 0,
+   "rights": "license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']",
+   "verdict": "SKIP",
+   "gap": "license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']"
+  },
+  {
+   "group": "e03",
+   "clips": 0,
+   "rights": "license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']",
+   "verdict": "SKIP",
+   "gap": "license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']"
+  },
+  {
+   "group": "e04",
+   "clips": 0,
+   "rights": "license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']",
+   "verdict": "SKIP",
+   "gap": "license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']"
+  },
+  {
+   "group": "e05",
+   "clips": 0,
+   "rights": "license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']",
+   "verdict": "SKIP",
+   "gap": "license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']"
+  },
+  {
+   "group": "e06",
+   "clips": 0,
+   "rights": "license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']",
+   "verdict": "SKIP",
+   "gap": "license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']"
+  },
+  {
+   "group": "e07",
+   "clips": 0,
+   "rights": "license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']",
+   "verdict": "SKIP",
+   "gap": "license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']"
+  },
+  {
+   "group": "e08",
+   "clips": 0,
+   "rights": "license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']",
+   "verdict": "SKIP",
+   "gap": "license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']"
+  },
+  {
+   "group": "z01",
+   "clips": 0,
+   "rights": "license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']",
+   "verdict": "SKIP",
+   "gap": "license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']"
+  },
+  {
+   "group": "z02",
+   "clips": 0,
+   "rights": "license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']",
+   "verdict": "SKIP",
+   "gap": "license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']"
+  },
+  {
+   "group": "z03",
+   "clips": 0,
+   "rights": "license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']",
+   "verdict": "SKIP",
+   "gap": "license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']"
+  },
+  {
+   "group": "z04",
+   "clips": 0,
+   "rights": "license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']",
+   "verdict": "SKIP",
+   "gap": "license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']"
+  },
+  {
+   "group": "z05",
+   "clips": 0,
+   "rights": "license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']",
+   "verdict": "SKIP",
+   "gap": "license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']"
+  },
+  {
+   "group": "z06",
+   "clips": 0,
+   "rights": "license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']",
+   "verdict": "SKIP",
+   "gap": "license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']"
+  },
+  {
+   "group": "z07",
+   "clips": 0,
+   "rights": "license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']",
+   "verdict": "SKIP",
+   "gap": "license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']"
+  },
+  {
+   "group": "z08",
+   "clips": 0,
+   "rights": "license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']",
+   "verdict": "SKIP",
+   "gap": "license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']"
+  }
+ ],
+ "passed": 0,
+ "gaps": [
+  "没有任何音色组同时满足 有授权 且 有片段 且 过准入闸"
+ ]
+}

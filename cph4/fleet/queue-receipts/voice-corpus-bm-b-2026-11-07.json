@@ -1,0 +1,18 @@
+{
+ "ts": "2026-11-07T12:47:49",
+ "group": "batch-2026-11-07",
+ "shard": "1/4",
+ "inbox": "media\\asset\\inbox",
+ "inbox_files": 0,
+ "my_files": 0,
+ "segments": 0,
+ "skipped_files": [],
+ "peak_warnings": [],
+ "verdict": "BLOCKED",
+ "status": "BLOCKED",
+ "rc": 3,
+ "error_class": "E-BLOCKED-INPUT",
+ "gaps": [
+  "inbox 里没有本分片的音频（C:\\Fluxgroup\\FleetAgent\\media\\asset\\inbox，总 0 个文件）"
+ ]
+}

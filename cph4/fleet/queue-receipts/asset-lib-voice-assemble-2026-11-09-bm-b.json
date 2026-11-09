@@ -1,0 +1,17 @@
+{
+ "id": "asset-lib-voice-assemble-2026-11-09",
+ "node": "bm-b",
+ "rc": 3,
+ "seconds": 0.1,
+ "cmd": "python Tools/fleet/voice_dataset.py --out cph4/fleet/queue-receipts/voice-dataset-2026-11-09.json",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "FAIL",
+ "error_class": "E-BLOCKED-INPUT",
+ "deliverable": "cph4/fleet/queue-receipts/voice-dataset-2026-11-09.json",
+ "deliverable_exists": false,
+ "ts": "2026-11-09T01:46:46",
+ "stdout_tail": "=0 license='unknown' ���ڰ����� ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']\n  e05                  SKIP  clips=0 license='unknown' ���ڰ����� ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']\n  e06                  SKIP  clips=0 license='unknown' ���ڰ����� ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']\n  e07                  SKIP  clips=0 license='unknown' ���ڰ����� ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']\n  e08                  SKIP  clips=0 license='unknown' ���ڰ����� ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']\n  z01                  SKIP  clips=0 license='unknown' ���ڰ����� ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']\n  z02                  SKIP  clips=0 license='unknown' ���ڰ����� ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']\n  z03                  SKIP  clips=0 license='unknown' ���ڰ����� ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']\n  z04                  SKIP  clips=0 license='unknown' ���ڰ����� ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']\n  z05                  SKIP  clips=0 license='unknown' ���ڰ����� ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']\n  z06                  SKIP  clips=0 license='unknown' ���ڰ����� ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']\n  z07                  SKIP  clips=0 license='unknown' ���ڰ����� ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']\n  z08                  SKIP  clips=0 license='unknown' ���ڰ����� ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']\n",
+ "stderr_tail": ""
+}

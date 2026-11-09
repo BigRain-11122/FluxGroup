@@ -1,11 +1,11 @@
 {
- "ts": "2026-11-07T11:37:12",
+ "ts": "2026-11-07T11:38:52",
  "node": "unknown",
- "host": "junshengsundeMacBook-Pro.local",
+ "host": "BIGMONEY",
  "spec": "ASSET-ENV-GATE-v1",
  "measured": {
-  "ffmpeg": null,
-  "python": "3.9.6",
+  "ffmpeg": "C:\\Fluxgroup\\MiniGame\\Tools\\ffmpeg\\bin\\ffmpeg.EXE",
+  "python": "3.11.9",
   "torch": {
    "installed": false,
    "why": "No module named 'torch'"
@@ -14,37 +14,37 @@
   "gptsovits": null,
   "dirs": {
    "faces": {
-    "path": "/Users/junsheng.sun/FluxGroup/media/asset/faces",
+    "path": "C:\\Fluxgroup\\FleetAgent\\media\\asset\\faces",
     "exists": false,
     "files": 0
    },
    "voices": {
-    "path": "/Users/junsheng.sun/FluxGroup/media/asset/voices",
+    "path": "C:\\Fluxgroup\\FleetAgent\\media\\asset\\voices",
     "exists": true,
-    "files": 1
+    "files": 19
    },
    "loras": {
-    "path": "/Users/junsheng.sun/FluxGroup/media/asset/loras",
+    "path": "C:\\Fluxgroup\\FleetAgent\\media\\asset\\loras",
     "exists": false,
     "files": 0
    },
    "voice-models": {
-    "path": "/Users/junsheng.sun/FluxGroup/media/asset/voice-models",
-    "exists": true,
+    "path": "C:\\Fluxgroup\\FleetAgent\\media\\asset\\voice-models",
+    "exists": false,
     "files": 0
    }
   },
-  "disk_free_gb": 222.3
+  "disk_free_gb": null
  },
  "routes_ok": [],
  "verdict": "FAIL",
  "gaps": [
-  "没有 ffmpeg（切分/抽帧/审计都要）",
   "没有 torch（No module named 'torch'）",
   "没有 kohya sd-scripts（角色 LoRA 训练栈）——找 KOHYA_DIR 环境变量或装一份",
   "没有 GPT-SoVITS（音色微调栈）——找 GPTSOVITS_DIR 环境变量或装一份",
   "资产目录不在位：media/asset/faces",
-  "资产目录不在位：media/asset/loras"
+  "资产目录不在位：media/asset/loras",
+  "资产目录不在位：media/asset/voice-models"
  ],
  "note": "PASS=至少一条训练路线可用；具体是哪条看 routes_ok",
  "status": "FAIL"

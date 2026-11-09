@@ -1,0 +1,17 @@
+{
+ "id": "bigmoney-conclusion-2026-11-08",
+ "node": "bm-b",
+ "rc": 1,
+ "seconds": 0.1,
+ "cmd": "python Tools/fleet/quant_conclusion.py --in quant/bigmoney/results/etf_nobond_vt.json --line bigmoney --out cph4/fleet/queue-receipts/quant-conclusion-2026-11-08.md",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "FAIL",
+ "error_class": "E-UNKNOWN",
+ "deliverable": "cph4/fleet/queue-receipts/quant-conclusion-2026-11-08.md",
+ "deliverable_exists": false,
+ "ts": "2026-11-09T00:04:48",
+ "stdout_tail": "[quant_conclusion] ���벻���̣�quant/bigmoney/results/etf_nobond_vt.json\n",
+ "stderr_tail": ""
+}

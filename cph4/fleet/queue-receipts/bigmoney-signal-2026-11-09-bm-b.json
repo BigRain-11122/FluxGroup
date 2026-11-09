@@ -1,0 +1,17 @@
+{
+ "id": "bigmoney-signal-2026-11-09",
+ "node": "bm-b",
+ "rc": 3,
+ "seconds": 0.1,
+ "cmd": "python Tools/fleet/quant_positions_bridge.py --in quant/bigmoney/results/etf_nobond_vt.json --out cph4/fleet/queue-receipts/etf_nobond_vt_with_positions.json && python Tools/fleet/quant_signal.py --in cph4/fleet/queue-receipts/etf_nobond_vt_with_positions.json --out cph4/fleet/queue-receipts/quant-signal-2026-11-09.csv",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "FAIL",
+ "error_class": "E-BLOCKED-INPUT",
+ "deliverable": "cph4/fleet/queue-receipts/quant-signal-2026-11-09.csv",
+ "deliverable_exists": false,
+ "ts": "2026-11-09T02:12:48",
+ "stdout_tail": "{\"verdict\": \"BLOCKED\", \"reason\": \"input missing\"}\n",
+ "stderr_tail": ""
+}

@@ -1,0 +1,17 @@
+{
+ "id": "bigstream-mv-gate-2026-11-08",
+ "node": "bm-b",
+ "rc": 2,
+ "seconds": 0.0,
+ "cmd": "python Tools/mv_delivery_gate.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721_60fps_1080p.mp4 --card 38.79:40.21 --card 219.71:223.88 --json cph4/fleet/queue-receipts/mv-gate-v721-2026-11-08.json",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "FAIL",
+ "error_class": "E-INPUT",
+ "deliverable": "cph4/fleet/queue-receipts/mv-gate-v721-2026-11-08.json",
+ "deliverable_exists": false,
+ "ts": "2026-11-08T22:55:45",
+ "stdout_tail": "",
+ "stderr_tail": "python: can't open file 'C:\\\\Fluxgroup\\\\FleetAgent\\\\Tools\\\\mv_delivery_gate.py': [Errno 2] No such file or directory\n"
+}

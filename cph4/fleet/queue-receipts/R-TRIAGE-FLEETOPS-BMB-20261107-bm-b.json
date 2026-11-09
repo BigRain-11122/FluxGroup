@@ -1,0 +1,17 @@
+{
+ "id": "R-TRIAGE-FLEETOPS-BMB-20261107",
+ "node": "bm-b",
+ "rc": 0,
+ "seconds": 0.1,
+ "cmd": "python Tools/fleet/line_triage.py --line fleet-ops",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "cph4/fleet/queue-receipts/triage-fleet-ops-20261107.md",
+ "deliverable_exists": true,
+ "ts": "2026-11-07T01:31:43",
+ "stdout_tail": "[triage] fleet-ops -> cph4\\fleet\\queue-receipts\\triage-fleet-ops-20261107.md\n",
+ "stderr_tail": ""
+}

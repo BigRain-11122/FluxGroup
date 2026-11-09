@@ -1,0 +1,18 @@
+{
+ "id": "Q-VCORP-PREP-e07-R4-20261105",
+ "node": "bm-b",
+ "rc": 0,
+ "seconds": 40.1,
+ "cmd": "python C:/Fluxgroup/FleetAgent/Tools/fleet/voice_corpus_prep.py --inbox C:/Fluxgroup/FluxGroup/media/asset/inbox/e07 --group e07 --receipt C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-prep-e07-r4-20261105.json",
+ "ok_rc": [
+  0,
+  3
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-prep-e07-r4-20261105.json",
+ "deliverable_exists": true,
+ "ts": "2026-11-06T00:59:31",
+ "stdout_tail": "[corpus] e07 ��Ƭ 0/1���ļ� 236 �� Ƭ�� 283��1250.3s��\n",
+ "stderr_tail": ""
+}

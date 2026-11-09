@@ -1,0 +1,10 @@
+{
+ "id": "ASSET-BGM-FILL-20261107",
+ "node": "bm-b",
+ "rc": 127,
+ "seconds": 0.0,
+ "cmd": "python Tools/fleet/audio_bgm_fill.py --receipt cph4/fleet/queue-receipts/audio-bgm-fill-20261107.json",
+ "outcome": "CARD-DEFECT",
+ "card_defect": "SCRIPT-MISSING 脚本在本机各工作根下都不存在：Tools/fleet/audio_bgm_fill.py（搜索根：C:\\Fluxgroup\\FleetAgent, C:\\Fluxgroup\\FluxGroup）",
+ "ts": "2026-11-07T18:11:44"
+}

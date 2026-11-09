@@ -1,0 +1,17 @@
+{
+ "id": "BMB-SELFHEAL-20261108",
+ "node": "bm-b",
+ "rc": 0,
+ "seconds": 0.3,
+ "cmd": "powershell -NoProfile -ExecutionPolicy Bypass -Command \"$ErrorActionPreference='Continue'; Get-Process ollama -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue; schtasks /change /tn 'HQ-ProductionClaim' /enable 2>$null | Out-Null; schtasks /run /tn 'HQ-ProductionClaim' 2>$null | Out-Null; schtasks /run /tn 'FluxGroup-FleetLink' 2>$null | Out-Null; $r=[ordered]@{node='bm-b';ts=(Get-Date).ToString('o');ollama_stopped=$true;claim_enabled=$true;listener_restarted=$true}; $r | ConvertTo-Json | Set-Content -Encoding utf8 'cph4/fleet/queue-receipts/bmb-selfheal-20261108.json'; Write-Output SELFHEAL-OK\"",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "cph4/fleet/queue-receipts/bmb-selfheal-20261108.json",
+ "deliverable_exists": true,
+ "ts": "2026-11-08T01:43:53",
+ "stdout_tail": "SELFHEAL-OK\n",
+ "stderr_tail": ""
+}

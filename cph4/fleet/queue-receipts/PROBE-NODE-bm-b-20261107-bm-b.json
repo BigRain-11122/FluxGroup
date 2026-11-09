@@ -1,0 +1,17 @@
+{
+ "id": "PROBE-NODE-bm-b-20261107",
+ "node": "bm-b",
+ "rc": 0,
+ "seconds": 0.0,
+ "cmd": "python -c \"import json,os;os.makedirs('cph4/fleet/queue-receipts',exist_ok=True);open('cph4/fleet/queue-receipts/node-probe-bm-b.json','w').write(json.dumps({'node':'bm-b','ok':True,'note':'probe'}))\"",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "cph4/fleet/queue-receipts/node-probe-bm-b.json",
+ "deliverable_exists": true,
+ "ts": "2026-11-08T00:40:14",
+ "stdout_tail": "",
+ "stderr_tail": ""
+}

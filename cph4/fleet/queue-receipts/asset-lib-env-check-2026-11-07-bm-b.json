@@ -1,0 +1,17 @@
+{
+ "id": "asset-lib-env-check-2026-11-07",
+ "node": "bm-b",
+ "rc": 1,
+ "seconds": 0.1,
+ "cmd": "python Tools/fleet/asset_env_check.py --out cph4/fleet/queue-receipts/asset-env-2026-11-07.json",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "FAIL",
+ "error_class": "E-UNKNOWN",
+ "deliverable": "cph4/fleet/queue-receipts/asset-env-2026-11-07.json",
+ "deliverable_exists": true,
+ "ts": "2026-11-07T11:38:52",
+ "stdout_tail": "ASSET-ENV FAIL  unknown\n  ����·��: ��\n  ! û�� torch��No module named 'torch'��\n  ! û�� kohya sd-scripts����ɫ LoRA ѵ��ջ�������� KOHYA_DIR ����������װһ��\n  ! û�� GPT-SoVITS����ɫ΢��ջ�������� GPTSOVITS_DIR ����������װһ��\n  ! �ʲ�Ŀ¼����λ��media/asset/faces\n  ! �ʲ�Ŀ¼����λ��media/asset/loras\n  ! �ʲ�Ŀ¼����λ��media/asset/voice-models\n",
+ "stderr_tail": ""
+}

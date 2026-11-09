@@ -1,0 +1,17 @@
+{
+ "id": "asset-lib-voice-dataset-2026-11-07",
+ "node": "bm-b",
+ "rc": 1,
+ "seconds": 0.1,
+ "cmd": "python Tools/fleet/asset_dataset_audit.py --mode voice --dir media/asset/voices --out cph4/fleet/queue-receipts/asset-voice-2026-11-07.json",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "FAIL",
+ "error_class": "E-UNKNOWN",
+ "deliverable": "cph4/fleet/queue-receipts/asset-voice-2026-11-07.json",
+ "deliverable_exists": true,
+ "ts": "2026-11-07T23:22:09",
+ "stdout_tail": "DATASET FAIL  media/asset/voices\n  {\"mode\": \"voice\", \"count\": 0, \"total_s\": 0.0, \"ok_len_ratio\": 0.0, \"pauses_per_min\": 0, \"lra_median\": null, \"rights\": {\"declared\": false}}\n  ! ȱ��Ȩ���������ݼ�Ŀ¼��Ҫ�� RIGHTS.json��source/license/real_person/consent������ѵ��ʱ�� --rights��û����Ȩ���������ݼ�һ�ɲ�����ѵ��\n  ! ���� 0 < 8\n  ! ��ʱ�� 0s < 60s\n  ! 2�C12 ����Ŀռ�� 0% < 80%��̫�����Դ�/̫��ѧ�������ɣ�\n  ! ͣ���ܶ� 0.0 ��/�� < 6��һ��������=����ǻ������\n",
+ "stderr_tail": ""
+}

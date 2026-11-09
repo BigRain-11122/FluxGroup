@@ -1,0 +1,17 @@
+{
+ "id": "asset-lib-library-check-2026-11-06",
+ "node": "bm-b",
+ "rc": 2,
+ "seconds": 0.1,
+ "cmd": "python Tools/fleet/asset_library_check.py --tier p0 --out cph4/fleet/queue-receipts/asset-library-2026-11-06.json",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "FAIL",
+ "error_class": "E-INPUT",
+ "deliverable": "cph4/fleet/queue-receipts/asset-library-2026-11-06.json",
+ "deliverable_exists": false,
+ "ts": "2026-11-06T10:43:49",
+ "stdout_tail": "������Ŀ���ļ� C:\\Fluxgroup\\FleetAgent\\cph4\\fleet\\asset-lib-v1\\LIBRARY-TARGETS.json��[Errno 2] No such file or directory: 'C:\\\\Fluxgroup\\\\FleetAgent\\\\cph4\\\\fleet\\\\asset-lib-v1\\\\LIBRARY-TARGETS.json'\n",
+ "stderr_tail": ""
+}
