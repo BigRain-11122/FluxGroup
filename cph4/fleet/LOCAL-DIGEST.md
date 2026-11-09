@@ -2115,3 +2115,13 @@
 - 11-10T00:13 · R-TRIAGE-BIGLIFE-BMM-20261110-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物，无风险。
 - 11-10T00:13 · triage-recon-bm-m-20261110.md · 机队线级体检完成，数据新鲜度达标，无风险。
 - 11-10T00:13 · triage-recon-20261110.md · 机队线级体检已完成，因产出未超阈值判定为新鲜，无风险可继续。
+- 11-10T00:14 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-10T00:14 · _last_lane_bm-m.json · 机队回执显示任务已完成，无风险。
+- 11-10T00:14 · Q-TRIAGE-RECON-20261110-acceptance.json · 完成机队回执提交，但被拒因交付物非预期文档。
+- 11-10T00:14 · Q-TRIAGE-RECON-20261110-bm-m.json · 已完成机队回执重构，无风险。
+- 11-10T00:14 · R-TRIAGE-ASSETLIB-BMM-20261110-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被拒收。
+- 11-10T00:14 · R-TRIAGE-ASSETLIB-BMM-20261110-bm-m.json · 已完成机队回执生成，无风险。
+- 11-10T00:14 · Q-TRIAGE-ASSETLIB-20261110-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物且存在合规风险。
+- 11-10T00:14 · R-TRIAGE-BIGLIFE-BMM-20261110-acceptance.json · 机队回执被拒，因交付物非所需文档且存在合规风险。
+- 11-10T00:14 · Q-TRIAGE-ASSETLIB-20261110-bm-m.json · 已完成资产库机队回执，无风险。
+- 11-10T00:14 · R-TRIAGE-BIGLIFE-BMM-20261110-bm-m.json · 已完成机队回执生成，无风险。

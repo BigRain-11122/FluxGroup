@@ -2,8 +2,8 @@
  "id": "Q-TRIAGE-RECON-20261110",
  "node": "bm-m",
  "rc": 0,
- "seconds": 0.4,
- "cmd": "python Tools/fleet/line_triage.py --line recon",
+ "seconds": 0.1,
+ "cmd": "python3 Tools/fleet/line_triage.py --line recon",
  "ok_rc": [
   0
  ],
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/queue-receipts/triage-recon-20261110.md",
  "deliverable_exists": true,
- "ts": "2026-11-10T00:14:10",
+ "ts": "2026-11-10T00:15:01",
  "stdout_tail": "[triage] recon -> cph4/fleet/queue-receipts/triage-recon-20261110.md\n",
  "stderr_tail": ""
 }
