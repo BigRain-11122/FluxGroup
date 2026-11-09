@@ -25,7 +25,8 @@ ROOT = os.path.dirname(os.path.dirname(HERE))
 sys.path.insert(0, HERE)
 OUTDIR = os.path.join(ROOT, "cph4", "fleet", "game-v1")
 KINDS = {"tower", "watch", "merge", "arrow", "farm", "mask",
-         "coin", "shield", "car", "pet", "store", "puzzle", "ghost", "crown"}
+         "coin", "shield", "car", "pet", "store", "puzzle", "ghost", "crown",
+         "bag", "food", "flower", "card", "fish", "gem"}
 HEX = re.compile(r"^#[0-9A-Fa-f]{6}$")
 
 
@@ -33,6 +34,29 @@ def luma(hexs):
     h = hexs.lstrip("#")
     r, g, b = (int(h[i:i + 2], 16) for i in (0, 2, 4))
     return 0.2126 * r + 0.7152 * g + 0.0722 * b
+
+
+ALIAS = {"schoolbag": "bag", "backpack": "bag", "briefcase": "bag", "bags": "bag",
+         "cards": "card", "deck": "card", "flowers": "flower", "gems": "gem",
+         "foods": "food", "fishes": "fish", "coins": "coin", "cars": "car"}
+
+
+def normalize(spec):
+    """模型爱自造词（schoolbag/deck/flowers）。先归一到词表，再判合法性。"""
+    if not isinstance(spec, dict):
+        return spec
+    k = str(spec.get("kind") or "").strip().lower()
+    if k in KINDS:
+        spec["kind"] = k
+        return spec
+    if k in ALIAS and ALIAS[k] in KINDS:
+        spec["kind"] = ALIAS[k]
+        return spec
+    for known in sorted(KINDS, key=len, reverse=True):
+        if known in k:
+            spec["kind"] = known
+            return spec
+    return spec
 
 
 def valid(spec):
@@ -78,12 +102,24 @@ def run(limit, resume):
         text = "%s：%s" % (j["product"], (j.get("theme") or "")[:160])
         ok, obj, meta = lt.call("art_spec", text, model_hint="local-4b")
         if ok:
+            obj = normalize(obj)
             good, why = valid(obj)
         else:
             good, why = False, meta.get("error", "model-fail")
+        if not good:
+            # 一次带约束的自我修复：明确告诉它只能从词表选、且主色要压得住背景
+            fix = ("%s\n\n只能从这些图元里选一个：%s。主图形色与背景的明度差必须很大。"
+                   "只输出 JSON。" % (text, "、".join(sorted(KINDS))))
+            ok2, obj2, meta2 = lt.call("art_spec", fix, model_hint="local-4b-repair")
+            if ok2:
+                obj2 = normalize(obj2)
+                good2, why2 = valid(obj2)
+                if good2:
+                    obj, good, why, meta = obj2, True, "repaired", meta2
         if good:
             state["items"][j["dir"]] = {"kind": obj["kind"], "bg": obj["bg"], "fg": obj["fg"],
                                         "src": "local_model", "sec": meta.get("sec")}
+            state.get("fails", {}).pop(j["dir"], None)
             print("  OK  %-30s %-8s %s/%s" % (j["dir"], obj["kind"], obj["bg"][0], obj["bg"][1]))
         else:
             state["fails"][j["dir"]] = why

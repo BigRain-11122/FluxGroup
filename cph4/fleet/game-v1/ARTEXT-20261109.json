@@ -282,15 +282,67 @@
    "fg": "#4A4A4A",
    "src": "local_model",
    "sec": 1.65
+  },
+  "G14_大不了开饭馆": {
+   "kind": "food",
+   "bg": [
+    "#87CEEB",
+    "#E0FFFF"
+   ],
+   "fg": "#4B3621",
+   "src": "local_model",
+   "sec": 0.92
+  },
+  "G15_萌宠开店啦_CCPC提交格式": {
+   "kind": "store",
+   "bg": [
+    "#52b78a",
+    "#70e009"
+   ],
+   "fg": "#ffffff",
+   "src": "local_model",
+   "sec": 1.64
+  },
+  "G19_BloomHaven": {
+   "kind": "flower",
+   "bg": [
+    "#F0F8FF",
+    "#FFFFFF"
+   ],
+   "fg": "#2E8B57",
+   "src": "local_model",
+   "sec": 0.97
+  },
+  "P07_TreasureDive": {
+   "kind": "fish",
+   "bg": [
+    "#0D1B2A",
+    "#5F798C"
+   ],
+   "fg": "#FFFFFF",
+   "src": "local_model",
+   "sec": 0.98
+  },
+  "G08_CrazyCampus": {
+   "kind": "bag",
+   "bg": [
+    "#F0F4F8",
+    "#BDC3C7"
+   ],
+   "fg": "#2C3E50",
+   "src": "local_model",
+   "sec": 1.08
+  },
+  "G23_CardRogue": {
+   "kind": "card",
+   "bg": [
+    "#F5E6D3",
+    "#B89A7C"
+   ],
+   "fg": "#2F4F4F",
+   "src": "local_model",
+   "sec": 1.67
   }
  },
- "fails": {
-  "G02_TimeRepairShop": "low-contrast",
-  "G08_CrazyCampus": "kind:schoolbag",
-  "G14_大不了开饭馆": "kind:food",
-  "G15_萌宠开店啦_CCPC提交格式": "low-contrast",
-  "G19_BloomHaven": "kind:flower",
-  "G23_CardRogue": "kind:deck",
-  "P07_TreasureDive": "kind:fish"
- }
+ "fails": {}
 }
