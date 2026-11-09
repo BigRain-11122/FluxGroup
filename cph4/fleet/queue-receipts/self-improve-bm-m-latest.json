@@ -1,13 +1,13 @@
 {
  "node": "bm-m",
- "ts": "2026-11-09T12:01:02",
+ "ts": "2026-11-09T12:03:55",
  "mode": "apply",
  "verdict": "SELF-OK",
  "checks": [
   {
    "check": "reload",
-   "code_age_s": 20978,
-   "receipt_age_s": 11,
+   "code_age_s": 21152,
+   "receipt_age_s": 10,
    "targets": [],
    "acted": false,
    "note": "executor produced a receipt after the last code edit",
