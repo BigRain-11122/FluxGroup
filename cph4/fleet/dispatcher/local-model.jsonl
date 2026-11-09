@@ -1072,3 +1072,14 @@
 {"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 5.2, "chars": 106, "why": "master-digest", "ts": "2026-11-09T19:02:24"}
 {"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 1.5, "chars": 51, "why": "fleet_brain:pick", "ts": "2026-11-09T19:03:28"}
 {"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 1.4, "chars": 51, "why": "fleet_brain:pick", "ts": "2026-11-09T19:06:11"}
+{"cls": "master", "op": "embed", "sec": 0.07, "why": "dispatch-dedupe", "ts": "2026-11-09T19:09:46"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-09T19:09:46"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-09T19:09:46"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-09T19:09:46"}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 1.5, "chars": 50, "why": "fleet_brain:pick", "ts": "2026-11-09T19:09:57"}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 11.2, "chars": 116, "why": "master-digest", "ts": "2026-11-09T19:11:01"}
+{"cls": "master", "op": "embed", "sec": 0.06, "why": "dispatch-dedupe", "ts": "2026-11-09T19:11:40"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-09T19:11:40"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-09T19:11:40"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-09T19:11:40"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-09T19:11:40"}
