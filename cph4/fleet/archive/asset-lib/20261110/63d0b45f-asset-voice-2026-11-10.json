@@ -1,0 +1,26 @@
+{
+ "ts": "2026-11-10T01:09:34",
+ "dir": "media/asset/voices",
+ "spec": "ASSET-DATASET-GATE-v1",
+ "measured": {
+  "mode": "voice",
+  "count": 0,
+  "total_s": 0.0,
+  "ok_len_ratio": 0.0,
+  "pauses_per_min": 0,
+  "lra_median": null,
+  "rights": {
+   "declared": false
+  }
+ },
+ "verdict": "FAIL",
+ "gaps": [
+  "缺授权声明：数据集目录里要有 RIGHTS.json（source/license/real_person/consent），或训练时传 --rights；没有授权声明的数据集一律不许进训练",
+  "条数 0 < 8",
+  "总时长 0s < 60s",
+  "2–12 秒条目占比 0% < 80%（太长爆显存/太短学不到韵律）",
+  "停顿密度 0.0 次/分 < 6（一口气念完=播音腔特征）"
+ ],
+ "note": "PASS=允许进训练，不代表这数据集有特色；特色只能人看/人听",
+ "status": "FAIL"
+}
