@@ -352,5 +352,35 @@
   "claimed_by": null,
   "claimed_at": null,
   "result_ref": null
- }
+ },
+{
+ "id": "POOL-0027",
+ "priority": "P2",
+ "status": "open",
+ "lane": "bm-a",
+ "title": "短剧配音批 r1202 EP001-060 投料（index-tts venv 缺失）",
+ "spec": "队列卡 VCORP-GEN-r1202-EP001-060-20261108；要求 media/drama-tools/repos/index-tts/.venv/Scripts/python.exe + voicegen_batch_ep004_060.cmd 就位后置回 OPEN",
+ "created_by": "CEO-PROXY event 2026-11-10 00:4x (R-EVT-20261110)",
+ "claimed_by": "",
+ "claimed_at": "",
+ "result_ref": "R-EVT-20261110: bm-a 实测 venv 不存在，卡 2 日 OPEN 空转；投料属本机/物理面动作（禁远程），零催办只登记",
+ "blocked_by": [
+  "missing-input:index-tts-venv@bm-a"
+ ]
+},
+{
+ "id": "POOL-0028",
+ "priority": "P1",
+ "status": "open",
+ "lane": "bm-a",
+ "title": "bighouse 域巡视 RED 处置（人决件：词族门禁 + BLUEPRINT v0.4 叙事锚）",
+ "spec": "队列卡 PATROL-bighouse-20261109（cmd 空/nodes 空）；处置=核实词族门禁违例与「搬家前先活一遍」旧句勘正状态，出处置回执 cph4/fleet/queue-receipts/PATROL-bighouse-20261109.md",
+ "created_by": "CEO-PROXY event 2026-11-10 00:4x (R-EVT-20261110)",
+ "claimed_by": "",
+ "claimed_at": "",
+ "result_ref": "R-EVT-20261110: 机器队列不可执行（无 cmd/无节点），按 R4-1 人决件不入供给面；转域席判定，回执落案后销卡",
+ "blocked_by": [
+  "human-decision:patrol-bighouse-red"
+ ]
+}
 ]
