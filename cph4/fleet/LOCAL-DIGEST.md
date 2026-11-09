@@ -1865,3 +1865,13 @@
 - 11-09T23:41 · bigstream-duanju-remux-2026-11-03-bm-m.json · 任务失败，因缺少必需参数导致脚本报错。
 - 11-09T23:41 · mv-gate-v721-24fps-20261103.json · 完成机队回执，发现重复镜头风险，判定失败。
 - 11-09T23:41 · bigstream-mv-gate-2026-11-03-bm-a.json · 机队回执显示任务失败，存在视频帧重复与冻结等质量风险。
+- 11-09T23:42 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-09T23:42 · RECEIPT-ATTRIB-20261103-bm-m.json · 机队回执生成失败，因 5 个文件缺失错误分类且存在数据缺口风险。
+- 11-09T23:42 · bigstream-mv-gate-2026-11-03-bm-c.json · 任务失败，因输入文件缺失导致处理中断。
+- 11-09T23:42 · bigstream-duanju-remux-2026-11-03-bm-c.json · 任务失败，因缺少必需参数导致脚本报错。
+- 11-09T23:42 · review-packet-mv-20261103.md · 已完成导演席流程审核，无成片风险，需确认交付与叙事可行性后签字。
+- 11-09T23:42 · MV-NEWPROC-PACKET-20261103-bm-a.json · 已完成机队回执审查，无错误风险。
+- 11-09T23:42 · DUPES-SCAN-20261103-bm-m.json · 完成重复检测任务，发现两条疑似同一内容的记录，无阻断风险。
+- 11-09T23:42 · EVAL-SKILL-SHIPOPS-20261103-bm-m.json · 已完成机队技能评估，无风险。
+- 11-09T23:42 · skill-eval-ship-ops-r2-20261103.json · 模型全对完成合规判断，无风险。
+- 11-09T23:42 · quality-bigstream-drama-probe-bm-c.json · 机队四道闸全部通过，无风险，可视为完成交付。
