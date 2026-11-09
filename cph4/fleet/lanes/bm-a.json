@@ -1,6 +1,6 @@
 {
  "node": "bm-a",
- "ts": "2026-11-09T19:53:24",
+ "ts": "2026-11-09T20:00:50",
  "jobs": [
   {
    "id": "R-19.9-PACKAGE-20261109",
@@ -12,90 +12,6 @@
    "need_mb": null,
    "model": "none",
    "prompt": "产出 19.9 算力包对外一页材料：产品说明（一句话->策略->回测页）、交付物与时限、定价与成本测算、退款与免责口径、支付未开通期间的占位话术。依据 docs/master-plan.md 第四节与 cph4/fleet/CEO-QUEUE.md，不要编造事实。",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "CEOQ-0364030d5b",
-   "title": "[ceo-queue] 机队先做不依赖该决定的部分：一条可发短内容（切片或梗）（不对外、不花钱）",
-   "cmd": "",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/CEOQ-0364030d5b.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "机队先做不依赖该决定的部分：一条可发短内容（切片或梗）（不对外、不花钱）",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "CEOQ-e6d48a7097",
-   "title": "[ceo-queue] 机队先做不依赖该决定的部分：bm-d 入网验收回执（3×V100 48G 可接卡）（不对外、不花钱）",
-   "cmd": "",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/CEOQ-e6d48a7097.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "机队先做不依赖该决定的部分：bm-d 入网验收回执（3×V100 48G 可接卡）（不对外、不花钱）",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "CEOQ-e6e70d7725",
-   "title": "[ceo-queue] 把对外件做成待签草稿（一页摘要+附件清单），不发送、不代署名",
-   "cmd": "",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/CEOQ-e6e70d7725.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "把对外件做成待签草稿（一页摘要+附件清单），不发送、不代署名",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "PATROL-biglife-20261109",
-   "title": "[patrol] biglife RED 处置",
-   "cmd": "",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/PATROL-biglife-20261109.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "核实并处置 biglife 域巡视 RED：近 24h 完成 0，交付物缺失 0；域目录最后活动 240.5 小时前。动作建议：立即触发 NEED-JUDGMENT 升级线",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "PATROL-bigdomain-20261109",
-   "title": "[patrol] bigdomain RED 处置",
-   "cmd": "",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/PATROL-bigdomain-20261109.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "核实并处置 bigdomain 域巡视 RED：服务器入册制未执行（册外服务器=旗）；msgSecCheck 前置闸缺失（大厅/弹幕未接禁上线）。动作建议：立即触发 NEED-JUDGMENT 流程，冻结域内上线与定价决策",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "CEOQ-41b3b55e78",
-   "title": "[ceo-queue] 已有卡 R-NEXT-BIGSTREAMD-EVIDENCE-20261109(OPEN) 在跑，不需要另起",
-   "cmd": "",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/CEOQ-41b3b55e78.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "已有卡 R-NEXT-BIGSTREAMD-EVIDENCE-20261109(OPEN) 在跑，不需要另起",
    "when_all": [],
    "llm": null,
    "timeout_s": null
@@ -113,9 +29,23 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
+  },
+  {
+   "id": "CEOQ-5268ab3b03",
+   "title": "[ceo-queue] 已有卡 R-19.9-PACKAGE-20261109(READY) 在跑，不需要另起",
+   "cmd": "",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/CEOQ-5268ab3b03.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "已有卡 R-19.9-PACKAGE-20261109(READY) 在跑，不需要另起",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 53.3/1.0 GB"
+ "capacity_note": "ram 50.7/1.0 GB"
 }
