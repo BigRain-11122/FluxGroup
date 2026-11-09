@@ -2035,3 +2035,13 @@
 - 11-10T00:03 · model-radar-bm-m-20261110.json · 机队已跳过闲置状态，因队列运行无风险。
 - 11-10T00:03 · R-TRIAGE-BIGGAME-BMM-20261110-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物。
 - 11-10T00:03 · R-TRIAGE-BIGGAME-BMM-20261110-bm-m.json · 已完成机队回执生成，无风险。
+- 11-10T00:04 · _last_lane_bm-m.json · 已完成雷达模型训练，无风险。
+- 11-10T00:04 · R-MODEL-RADAR-BMM-20261110-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
+- 11-10T00:04 · R-MODEL-RADAR-BMM-20261110-bm-m.json · 模型雷达任务执行失败，因类型错误导致代码崩溃。
+- 11-10T00:04 · inference-audit-bm-m-20261110.json · 已部署 9 个模型并测试推理，但并发加速比低于 1，存在性能瓶颈风险。
+- 11-10T00:04 · R-TRIAGE-FLUXVERSE-BMM-20261110-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物。
+- 11-10T00:04 · R-MODEL-RADAR-BMC-20261110-acceptance.json · 机队回执因交付物非标准产物被拒，存在合规风险。
+- 11-10T00:04 · R-MODEL-RADAR-BMC-20261110-bm-m.json · 已完成机队雷达模型运行，无风险。
+- 11-10T00:04 · R-TRIAGE-FLUXVERSE-BMM-20261110-bm-m.json · 已完成机队回执生成，无风险。
+- 11-10T00:04 · model-radar-bm-c-20261110.json · 机队已跳过闲置状态，因队列运行无风险。
+- 11-10T00:04 · triage-fluxverse-bm-m-20261110.md · 已完成线级体检，但需城市线补全数据与视觉目录后方可推进。
