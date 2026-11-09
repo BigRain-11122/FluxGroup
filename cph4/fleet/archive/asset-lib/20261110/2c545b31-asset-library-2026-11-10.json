@@ -1,0 +1,152 @@
+{
+ "ts": "2026-11-10T00:05:00",
+ "spec": "ASSET-LIBRARY-v1",
+ "tier": "p0",
+ "classes": [
+  {
+   "count": 8,
+   "target": 8,
+   "pct": 100.0,
+   "license_ok": 8,
+   "spec_ok": 0,
+   "issues": [
+    "CH01：目录里没有可用文件",
+    "CH02：目录里没有可用文件",
+    "CH03：目录里没有可用文件",
+    "CH04：目录里没有可用文件",
+    "CH05：目录里没有可用文件"
+   ],
+   "class": "characters",
+   "name": "角色包（身份层）"
+  },
+  {
+   "count": 0,
+   "target": 12,
+   "pct": 0.0,
+   "license_ok": 0,
+   "spec_ok": 0,
+   "issues": [
+    "空目录（目标 12）"
+   ],
+   "class": "scenes",
+   "name": "场景模板"
+  },
+  {
+   "count": 9,
+   "target": 20,
+   "pct": 45.0,
+   "license_ok": 9,
+   "spec_ok": 9,
+   "issues": [],
+   "class": "props",
+   "name": "道具/关键锚点物"
+  },
+  {
+   "count": 0,
+   "target": 15,
+   "pct": 0.0,
+   "license_ok": 0,
+   "spec_ok": 0,
+   "issues": [
+    "空目录（目标 15）"
+   ],
+   "class": "motions",
+   "name": "动作/镜头运动片段"
+  },
+  {
+   "count": 0,
+   "target": 10,
+   "pct": 0.0,
+   "license_ok": 0,
+   "spec_ok": 0,
+   "issues": [
+    "空目录（目标 10）"
+   ],
+   "class": "transitions",
+   "name": "转场/物质过场"
+  },
+  {
+   "count": 0,
+   "target": 3,
+   "pct": 0.0,
+   "license_ok": 0,
+   "spec_ok": 0,
+   "issues": [
+    "空目录（目标 3）"
+   ],
+   "class": "styles",
+   "name": "风格包（画风/调色）"
+  },
+  {
+   "count": 1,
+   "target": 6,
+   "pct": 16.7,
+   "license_ok": 0,
+   "spec_ok": 0,
+   "issues": [
+    "整类没有授权声明（目录级 RIGHTS.json 缺失，条目级也没有）",
+    "batch-2026-11-07：目录里没有可用文件"
+   ],
+   "class": "voices",
+   "name": "音色模型（有声小说/配音）"
+  },
+  {
+   "count": 0,
+   "target": 40,
+   "pct": 0.0,
+   "license_ok": 0,
+   "spec_ok": 0,
+   "issues": [
+    "空目录（目标 40）"
+   ],
+   "class": "audio-sfx",
+   "name": "音效"
+  },
+  {
+   "count": 0,
+   "target": 10,
+   "pct": 0.0,
+   "license_ok": 0,
+   "spec_ok": 0,
+   "issues": [
+    "空目录（目标 10）"
+   ],
+   "class": "audio-bgm",
+   "name": "配乐段落"
+  },
+  {
+   "count": 0,
+   "target": 4,
+   "pct": 0.0,
+   "license_ok": 0,
+   "spec_ok": 0,
+   "issues": [
+    "空目录（目标 4）"
+   ],
+   "class": "typography",
+   "name": "字体/字幕版式"
+  }
+ ],
+ "totals": {
+  "have": 18,
+  "need": 128,
+  "fill_pct": 14.1
+ },
+ "classes_ready": [
+  "characters"
+ ],
+ "verdict": "GAPS",
+ "gaps": [
+  "场景模板 差 12（0/12）",
+  "道具/关键锚点物 差 11（9/20）",
+  "动作/镜头运动片段 差 15（0/15）",
+  "转场/物质过场 差 10（0/10）",
+  "风格包（画风/调色） 差 3（0/3）",
+  "音色模型（有声小说/配音） 差 5（1/6）",
+  "音效 差 40（0/40）",
+  "配乐段落 差 10（0/10）",
+  "字体/字幕版式 差 4（0/4）"
+ ],
+ "note": "PASS 只代表数量达标；质量看 issues 与 SOP，特色只能人看人听",
+ "status": "GAPS"
+}

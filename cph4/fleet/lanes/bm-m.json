@@ -1,14 +1,42 @@
 {
  "node": "bm-m",
- "ts": "2026-11-10T00:14:09",
+ "ts": "2026-11-10T00:16:01",
  "jobs": [
   {
-   "id": "R-TRIAGE-BIGLIFE-BMM-20261110",
-   "title": "BigLife·数字生命 线证据扫描（bm-m 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line biglife --node bm-m",
+   "id": "R-NEXT-BIGGAME-SUBMIT-P-20261110",
+   "title": "游戏提审·真实缺件重盘（隐私已齐，重算图标/截图/台账/包体）",
+   "cmd": "python Tools/fleet/game_submit_pack.py",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-biglife-bm-m-20261110.md",
+   "deliverable": "cph4/fleet/game-v1/SUBMIT-PACK-20261110.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "R-TRIAGE-BIGSTREAMMV-BMC-20261110",
+   "title": "BigStream·MV 41 曲 线证据扫描（bm-c 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line bigstream-mv --node bm-c",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigstream-mv-bm-c-20261110.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "Q-TRIAGE-BIGGAME-20261110",
+   "title": "biggame 线级体检（本机证据目录实况）",
+   "cmd": "python Tools/fleet/line_triage.py --line biggame",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-biggame-20261110.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -61,5 +89,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 10.5/1.0 GB"
+ "capacity_note": "ram 9.3/1.0 GB"
 }
