@@ -1,0 +1,21 @@
+{
+  "_comment": "本机本地模型的端点账本（唯一）。模型职责/阈值仍以 cph4/fleet/LOCAL-MODEL-POLICY.json 为准，这里只回答『哪个端口服务哪类活』。",
+  "version": "v1-20261109",
+  "endpoints": {
+    "fleet": {
+      "base": "http://127.0.0.1:11434",
+      "owner": "com.fluxgroup.ollama",
+      "profile": "NUM_PARALLEL=3, CONTEXT_LENGTH=8192, MAX_LOADED_MODELS=4",
+      "use_for": "机队并发小请求：分类/摘要/判重/网关借用"
+    },
+    "agent": {
+      "base": "http://127.0.0.1:11436",
+      "owner": "com.fluxgroup.agentlane",
+      "profile": "NUM_PARALLEL=1, CONTEXT_LENGTH=32768, MAX_LOADED_MODELS=1",
+      "use_for": "长上下文单请求：DSH/agent、整份系统提示、长文阅读",
+      "why": "32k 上下文在 parallel=3 下要 13.1GB 且被调度器驱逐；parallel=1 只需 7.7GB，可与机队共存"
+    }
+  },
+  "agent_models": ["qwen3:8b-dsh32k"],
+  "env_override": "OLLAMA_URL 可覆盖单次调用的 base"
+}

@@ -1,0 +1,23 @@
+{
+ "ts": "2026-11-07T22:53:26",
+ "line": "bigmoney",
+ "day": "2026-11-07",
+ "needed": [
+  "quant-conclusion"
+ ],
+ "gates": [
+  {
+   "gate": "quant-conclusion",
+   "file": "cph4/fleet/queue-receipts/quant-conclusion-2026-11-07.json",
+   "state": "FAIL",
+   "why": "缺件:样本区间,成本假设,失效条件",
+   "mtime": "2026-11-07 22:35"
+  }
+ ],
+ "gaps": [
+  "quant-conclusion:FAIL(缺件:样本区间,成本假设,失效条件)"
+ ],
+ "verdict": "FAIL",
+ "note": "DONE 不等于交付；这里只看闸回执，缺一份就算没交付。",
+ "status": "FAIL"
+}

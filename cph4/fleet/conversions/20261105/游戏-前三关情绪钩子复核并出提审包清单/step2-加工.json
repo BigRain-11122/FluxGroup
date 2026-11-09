@@ -1,0 +1,18 @@
+{
+ "ts": "2026-11-05T17:40:31",
+ "conv": "cph4/fleet/conversions/20261105/游戏-前三关情绪钩子复核并出提审包清单",
+ "step": 2,
+ "stage": "加工",
+ "idea": "游戏：前三关情绪钩子复核并出提审包清单",
+ "ok": true,
+ "tool": null,
+ "contract": {
+  "input": "见 step1-取证.json",
+  "output": "本方案第 4 步交付件",
+  "owner": "未指定工具",
+  "next": "指定 --tool 后重跑本步"
+ },
+ "blocked": [
+  "未指定加工工具：本步只落骨架，不算交付"
+ ]
+}
