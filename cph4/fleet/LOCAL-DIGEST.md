@@ -515,3 +515,13 @@
 - 11-09T20:52 · brain-bigstream-duanju-2026-11-08.md · 已完成机队回执，但存在身份锁缺失、口型未校验及音轨质检失败等风险。
 - 11-09T20:52 · brain-bigstream-drama-2026-11-08.md · 因引证未过且 ASR 错误率高达 66.7%，当前结论不可作为决策依据，存在交付风险。
 - 11-09T20:52 · biz-mv-publish-checklist-20261108.md · 核心交付闸仍 FAIL 三项，D-01 至 D-09 未修复闭环，不可发布。
+- 11-09T20:54 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
+- 11-09T20:54 · biz-car-gaming-20261108.md · 完成轻量级内容交付与双轮驱动机制，但需解决适配深度定制及硬件波动下的稳定性风险。
+- 11-09T20:54 · R-TRIAGE-BIGMONEY-BMM-20261108-bm-m.json · 已完成机队回执生成，无风险。
+- 11-09T20:54 · inference-audit-bm-m-20261108.json · 机队运行正常，但存在配置参数错误风险。
+- 11-09T20:54 · biz-mv-publish-checklist-20261108.json · 机队任务已完成，无风险。
+- 11-09T20:54 · biz-car-gaming-20261108.json · 已完成车机游戏任务，无风险。
+- 11-09T20:54 · R-TRIAGE-BIGSTREAMDUANJU-BMB-20261101-bm-m.json · 机队回执任务失败，因无交付物且存在错误类风险。
+- 11-09T20:54 · triage-bigstream-duanju-20261107.md · 机队回执显示两工段均超阈停滞，需立即补产出或正式收线。
+- 11-09T20:54 · skill-promote-20261107.json · 已完成部分任务，因工具缺失导致大量技能无法执行。
+- 11-09T20:54 · model-radar-junshengsundemacbook-pro.local-20261107.json · 今日任务已跳过，因当日已执行，无风险。
