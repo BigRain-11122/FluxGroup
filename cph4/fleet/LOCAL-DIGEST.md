@@ -100,3 +100,13 @@
 - 11-09T20:04 · R-NEXT-BIGGAME-SUBMIT-P-20261109-bm-a.json · 完成提交打包，有缺图、缺包等风险。
 - 11-09T20:04 · R-NEXT-BIGGAME-SUBMIT-P-20261109-acceptance.json · 完成交付物回执，存在被拒风险。
 - 11-09T20:05 · QUANT-BACKTEST-PRODUCE-20261108-bm-a.json · 完成ETF组合回测，存在负收益与高回撤风险。
+- 11-09T20:06 · _last_lane_bm-m.json · 完成机队回执任务，无风险。
+- 11-09T20:06 · self-improve-bm-m-latest.json · 完成回执处理，无风险。
+- 11-09T20:06 · POOL-0011-bm-b-20261108.json · 完成了一轮活机回执，无风险。
+- 11-09T20:06 · PACK-GAME-20261108-bm-a.json · 完成提交包生成，存在35款缺图标或截图风险。
+- 11-09T20:06 · MV-NEWPROC-PACKET-20261108-bm-a.json · 完成机队回执生成，无风险。
+- 11-09T20:06 · MV-DIRECTOR-PACKET-20261108-bm-a.json · 完成机队回执生成，无风险。
+- 11-09T20:06 · DEMO-CODELY-BRIDGE-20261109-bm-m.json · 完成文件生成，存在连接失败风险。
+- 11-09T20:06 · DEMO-CODELY-BRIDGE-20261109-BLOCKED-bm-m.json · 完成授权缺失检查，存在未批准风险。
+- 11-09T20:06 · CARD-DEFECT-FIXES-20261108-bm-a.md · 完成了堵点修复与坏卡处理，无新增风险。
+- 11-09T20:06 · CANARY-20261109T140444-bm-m.json · 完成自检文件创建，无风险。
