@@ -66,6 +66,18 @@ TASKS = {
         "prompt": ("从下面文本里抽出所有「谁在等什么」的关系，最多5条。"
                    "只输出 JSON：{{\"items\":[{{\"who\":\"...\",\"what\":\"...\"}}]}}\n\n{text}"),
     },
+    # 2026-11-09 加：图标美术规格（CEO 令「先用本地大模型」；图标出图不得上云）。
+    # 模型只做「选图元 + 定配色」，图形由 icon_render_local.py 确定性绘制。
+    "art_spec": {
+        "keys": ["kind", "bg", "fg"],
+        "labels": ["tower", "watch", "merge", "arrow", "farm", "mask", "coin", "shield",
+                   "car", "pet", "store", "puzzle", "ghost", "crown", "bag", "food",
+                   "flower", "card", "fish", "gem"],
+        "prompt": ("你是游戏图标美术指导。按游戏名与题材，从这些图元里选最贴的一个：{labels}。"
+                   "再给背景渐变两端色和主图形色（十六进制 #RRGGBB），主图形色必须与背景强对比。"
+                   "只输出 JSON：{{\"kind\":\"...\",\"bg\":[\"#RRGGBB\",\"#RRGGBB\"],\"fg\":\"#RRGGBB\"}}\n\n"
+                   "游戏：{text}"),
+    },
 }
 
 
