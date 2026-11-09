@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-09T19:18:04",
+ "ts": "2026-11-09T19:22:06",
  "jobs": [
   {
    "id": "R-MV-RELEASE-PACK-20261109",
@@ -33,5 +33,10 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 11.2/1.0 GB"
+ "capacity_note": "ram 11.2/1.0 GB",
+ "cards": [],
+ "pruned_shells": [
+  "R-MV-RELEASE-PACK-20261109",
+  "R-MV-RELEASE-PACK-20261109"
+ ]
 }
