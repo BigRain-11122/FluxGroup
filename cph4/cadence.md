@@ -149,3 +149,36 @@ CEO 一句话令（任意会话/任意机器）
 
 - 2026-10-10: **§6 信号④ 产出实据监控=集团机制面 L3 承接件入账（C-20261010-01 委员会全盘自查案·R4「机制活性无自证」族收口）**：`Tools/fleet-mechanism-audit.ps1` v1.0（五探针：OrderSentinel state 龄 ≤5min／哨兵日志尾日期 ≤26h〔OrderSentinel v1.3.1 每日心跳行〕／FleetLink 监听 state 龄 ≤10min／静默审计龄 ≤25h／巡检戳记 ≤8d）+值守轮③机制自检挂面——分工：task-health 管进程面（任务跑了）·本工具管功能面（功能活着——哨兵瞎十天/守卫假绿两案〔10 天/7 天无人发现〕的常设防线）；判据回访 10-16 与 C-20261009-01/02/03/04 同窗。
 - 2026-10-14: **§7.1 v4 命令发布台步**（CEO 令 O-20261014-1210·CEO-PROXY 立席——闭环前置 ⓪ 步；值守/常务/哨兵各面不变）。
+
+
+## bm-m 本机自动化周期入账（2026-11-09 · T2 · 否决窗至 2026-11-16）
+
+> 令源：CEO 2026-11-09「管理体系沿用之前的设定」。本段把主控机新增/变更的自动化登记进这本总账
+> （不改治理架构、不新立台账）；owner 均为 bm-m，产物路径可核。
+> 失败分级按 cph4/errors.md：脉/同步类 E1，自愈类 E2，假绿类 E1，升级件走 NEED-JUDGMENT。
+> 变更等级 T2（AI 可决 + 7 天否决窗）；CEO 一句话可退回。
+
+| 任务 | 周期 | 治理角色 | 产物 | 失败处置 |
+|---|---|---|---|---|
+| 主控脉 master_pulse | 45s 循环（实测 50-70s/拍） | 主AGENT 执行面 | dispatcher/PULSE.json | E1；watchdog 900s kickstart |
+| 状态同步 state_sync | 60s | 信息同步链（resource-chain §十） | state/state-sync.json | E1；熔断 15min；selfwatch 300s 重跑 |
+| 十域巡视 patrol_local | PT5M（原章程 PT30M，见注） | 巡视舰队 L1（35B 未上线的本地替代） | PATROL-FLEET/DIGEST-*.md | RED 进 NEED-JUDGMENT（E1） |
+| 回执判读 local_worker | 60s x10 | 主AGENT 感知面 | LOCAL-DIGEST.md | E2；selfwatch 600s 重跑 |
+| 判断席 local_judge | 慢批 5min | 决策链 L1 本地判读 | JUDGMENT-QUEUE 行 | 4B→8B→cloud（须 local_tried） |
+| 机队研判 local_analyst | 每小时 :07 | 主AGENT 研判面（新增） | LOCAL-ANALYST.md | E2；车道忙则跳过 |
+| 语义判重 embed_dedupe | 3600s | 命令查重律（governance §6） | state/embed-dedupe.json | E2 |
+| READY 到 OPEN 提升 promote_ready | 每拍 | 派单链路（新增，补断点） | PRODUCTION-QUEUE 行 | E1（卡不动=断链） |
+| 假绿/决策/巡视转卡 loop_close | 2 次/日 | 闭环收口（新增） | BACKLOG READY 卡 | E1 |
+| 产出看板 output_board | 每日 + 按需 | CEO 观测面（诚实律） | OUTPUT-BOARD.md | E2 |
+| 一屏日报 daily_brief | 每日 08:30 | CEO 观测面 | DAILY-BRIEF.md | E2 |
+| 韧性体检 resilience | 每日 09:07 | 四器审计（自审） | state/resilience.json | FAIL=E1 |
+| 本地自愈 selfwatch | 300s | 值守轮自愈步 | state/selfwatch.json | E2 |
+| 资源州长 resource_governor | 60s | 资源调配（CEO 让路律） | state/resource-governor.json | swap 超线自动卸非主力 |
+| 夜间语料批 nightfill | 每日 23:10 | 本地算力利用（新增） | repo-map summaries | E2 |
+
+**注（偏离登记）**：patrol_local 原章程 PT30M（PATROL-FLEET BLUEPRINT §三 L0），因 bm-a 35B 车道未上线，
+本机改用 4B 同构替代并提到 PT5M——T2 变更，否决窗内可一行退回（plist StartInterval 改 1800 并同步本表）。
+
+**边界（沿用原设定不变）**：派单单写手仍是 master_agent；台账单写手仍是 CEO-PROXY；
+巡视只出旗与 NEED-JUDGMENT、不代决；云端仍走 codely_bridge 合规闸（无次数上限，须升级理由）。
+
