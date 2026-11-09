@@ -1785,3 +1785,13 @@
 - 11-09T23:31 · asset-lib-char-dataset-2026-11-03-bm-m.json · 机队任务失败，因输入图片缺失导致所有节点跳过。
 - 11-09T23:31 · asset-lib-char-dataset-2026-11-03-bm-c.json · 机队任务失败，因输入被阻断导致所有节点均未产出数据。
 - 11-09T23:31 · asset-lib-asset-gen-2026-11-04-bm-a.json · 生成机队资产失败，因目标服务器拒绝连接导致任务中断。
+- 11-09T23:32 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
+- 11-09T23:32 · skill-promote-20261109.json · 已完成部分任务，因工具缺失导致多项关键技能无法执行。
+- 11-09T23:32 · asset-gen-props-bm-c-20261103.json · 已完成 9 个道具资产回执，无风险。
+- 11-09T23:32 · R-NEXT-BIGSTREAMM-GATE-20261104-bm-m.json · 任务执行失败，因缺少 cv2 模块导致脚本报错，存在运行风险。
+- 11-09T23:33 · R-NEXT-BIGSTREAMM-GATE-20261104-bm-a.json · 机队任务完成但失败，因存在镜头重复与近静态帧风险。
+- 11-09T23:33 · R-NEXT-BIGSTREAMM-GATE-20261103-bm-a.json · 机队任务完成但失败，因存在镜头重复与近静态帧风险。
+- 11-09T23:33 · R-NEXT-BIGSTREAMM-AUDIT-20261104-bm-m.json · 任务执行失败，因缺少 cv2 模块导致脚本报错。
+- 11-09T23:33 · R-NEXT-BIGSTREAMM-AUDIT-20261104-bm-a.json · 已完成全量审计并生成报告，无错误风险。
+- 11-09T23:33 · R-NEXT-BIGSTREAMM-AUDIT-20261103-bm-a.json · 已完成视频全量审计，无错误风险。
+- 11-09T23:33 · R-MODEL-RADAR-BMC-20261104-bm-c.json · 已完成机队雷达模型运行，无风险。
