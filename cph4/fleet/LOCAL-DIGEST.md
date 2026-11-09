@@ -2145,3 +2145,13 @@
 - 11-10T00:16 · R-NEXT-BIGGAME-SUBMIT-P-20261110-bm-m.json · 已生成机队回执，但 35 款产品缺截图且 25 款缺运行包，存在提交风险。
 - 11-10T00:16 · R-TRIAGE-ASSETLIB-BMM-20261110-acceptance.json · 已完成机队回执提交，但被拒收因交付物非有效产物。
 - 11-10T00:16 · R-TRIAGE-ASSETLIB-BMM-20261110-bm-m.json · 已完成机队回执任务，无风险。
+- 11-10T00:17 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
+- 11-10T00:17 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
+- 11-10T00:17 · triage-asset-lib-20261110.md · 机队回执显示资产产出新鲜且无风险，将自动按工段顺序继续。
+- 11-10T00:17 · triage-asset-lib-bm-m-20261110.md · 机队回执显示资产产出新鲜且无风险，可按序推进。
+- 11-10T00:17 · triage-recon-20261110.md · 机队回执确认产出新鲜度达标，无风险，按序推进。
+- 11-10T00:17 · R-TRIAGE-BIGSTREAMMV-BMC-20261110-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被驳回。
+- 11-10T00:17 · R-TRIAGE-BIGSTREAMMV-BMC-20261110-bm-m.json · 已完成机队回执生成，无风险。
+- 11-10T00:17 · Q-TRIAGE-BIGGAME-20261110-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被驳回。
+- 11-10T00:18 · triage-bigstream-mv-bm-c-20261110.md · 机队已完成线级体检，但“自决放行”工段超阈，需补产出或正式收线。
+- 11-10T00:18 · Q-TRIAGE-BIGGAME-20261110-bm-m.json · 已完成机队回执生成，无风险。
