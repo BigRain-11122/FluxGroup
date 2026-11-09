@@ -835,3 +835,13 @@
 - 11-09T21:36 · bm-m-gpuwork-reply.md · 已锁定 bm-b 车道并建议优先派单，但需清除 OS-MISMATCH 阻塞方可执行。
 - 11-09T21:37 · bm-m-fleetboard-20261105.md · 四台机器均存在任务失败或离线风险，今夜需重试卡点并恢复算力。
 - 11-09T21:37 · bm-m-fleetboard-20261104.md · 机队整体运行受阻，核心节点因硬件缺失与内存瓶颈存在重大风险。
+- 11-09T21:38 · _last_lane_bm-m.json · 机队已自派完成回单扫描，无风险。
+- 11-09T21:38 · self-improve-bm-m-latest.json · 机队已确认代码更新且无依赖缺失，当前无风险。
+- 11-09T21:38 · bm-m-crosstalk-sweep.md · 已明确分诊与 P0 任务，需立即验证修复扩散并强制全员确认免疫状态。
+- 11-09T21:38 · bigstream-mv-transition-2026-11-04-bm-c.json · 机队回执显示任务失败，因无输出文件且帧数为零，存在交付风险。
+- 11-09T21:38 · bigstream-mv-stability-2026-11-04-bm-c.json · 机队回执任务失败，因无法打开视频文件导致合同错误。
+- 11-09T21:38 · bigstream-mv-stability-2026-11-04-bm-b.json · 脚本缺失导致稳定性测试失败，存在任务无法执行的风险。
+- 11-09T21:38 · bigstream-mv-gate-2026-11-06-bm-m.json · 任务失败，因缺少 cv2 模块导致脚本报错。
+- 11-09T21:38 · bigstream-mv-gate-2026-11-05-bm-c.json · 任务失败，因输入文件缺失导致处理中断。
+- 11-09T21:38 · bigstream-mv-gate-2026-11-05-bm-b.json · 脚本缺失导致任务失败，存在因工具路径错误引发的风险。
+- 11-09T21:38 · bigstream-mv-gate-2026-11-05-bm-a.json · 机队任务失败，因视频存在重复镜头、静止帧过多及死持问题。
