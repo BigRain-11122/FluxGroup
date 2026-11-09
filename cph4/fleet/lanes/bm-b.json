@@ -1,25 +1,37 @@
 {
  "node": "bm-b",
- "ts": "2026-11-10T00:31:34",
+ "ts": "2026-11-10T00:32:22",
  "jobs": [
   {
-   "id": "Q-VCORP-TRAIN-z04-R7-20261109",
-   "title": "音色微调·z04（aishell3 → SoVITS s2 → 权重）R7",
-   "cmd": "python C:/Fluxgroup/FleetAgent/Tools/voicebank/vb_train_card.py --voice aishell3-z04 --raw C:/Fluxgroup/FluxGroup/media/asset/inbox/z04 --receipt C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-train-z04-r7.json",
-   "cwd": "C:/Fluxgroup/FleetAgent",
-   "needs": "gpu",
-   "deliverable": "C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-train-z04-r7.json",
+   "id": "R-TRIAGE-BIGSTREAMMV-BMB-20261110",
+   "title": "BigStream·MV 41 曲 线证据扫描（bm-b 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line bigstream-mv --node bm-b",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigstream-mv-bm-b-20261110.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
-   "when_all": [
-    "C:/Fluxgroup/FluxGroup/media/asset/inbox/z04"
-   ],
+   "when_all": [],
    "llm": null,
-   "timeout_s": 14400
+   "timeout_s": null
+  },
+  {
+   "id": "R-TRIAGE-BIGGAME-BMB-20261110",
+   "title": "Biggame·游戏 线证据扫描（bm-b 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line biggame --node bm-b",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-biggame-bm-b-20261110.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 13.3/1.0 GB"
+ "capacity_note": "ram 14.1/1.0 GB"
 }

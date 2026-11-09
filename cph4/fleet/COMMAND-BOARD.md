@@ -1,4 +1,4 @@
-# 指挥一屏 2026-11-10T00:31:49
+# 指挥一屏 2026-11-10T00:33:16
 
 _节奏表=COMMAND-CADENCE-v1.json｜本屏由规则从盘上事实算出，未用模型猜数_
 
@@ -8,15 +8,15 @@ _节奏表=COMMAND-CADENCE-v1.json｜本屏由规则从盘上事实算出，未�
 
 ## A 值守（45 秒档，纯规则）
 
-1. 可派卡 **9** 张｜在飞 **3** 张｜空壳卡隔离 **0** 张
-2. 在飞分布：bm-a=3
+1. 可派卡 **6** 张｜在飞 **8** 张｜空壳卡隔离 **0** 张
+2. 在飞分布：bm-a=3, bm-b=2, bm-c=3
 3. 返工≥3 次的活卡：**0** 张
 
 ## B 机队实况（3 分钟档）
 
 - **bm-a** SELF-OK｜reload=OK shells=OK deps=OK｜2026-11-07T22:25
 - **bm-c** SELF-OK｜reload=OK shells=OK deps=OK｜2026-11-06T23:55
-- **bm-m** SELF-OK｜reload=OK shells=OK deps=OK｜2026-11-10T00:30
+- **bm-m** SELF-OK｜reload=OK shells=OK deps=OK｜2026-11-10T00:31
 
 ## C 线与产出（15 分钟档）
 
@@ -41,7 +41,7 @@ ACTIVE 线 10 条｜超 72h 无产物 8 条
 
 ## E 指挥质量（6 小时档）
 
-1. 队列 1739 行：DONE 602｜FAILED 7｜UNVERIFIED 12｜CANCELLED 769
+1. 队列 1741 行：DONE 602｜FAILED 7｜UNVERIFIED 12｜CANCELLED 769
 2. 完成占比 97%（DONE/621）
 3. 空壳卡累计隔离 0 张（越少越好，涨了就是造卡器又出错）
 

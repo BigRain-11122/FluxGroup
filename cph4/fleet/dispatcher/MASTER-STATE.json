@@ -1,22 +1,22 @@
 {
- "ts": "2026-11-10T00:31:34",
- "cycle": 219,
+ "ts": "2026-11-10T00:33:05",
+ "cycle": 221,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-10T00:31:34",
+ "master_tick_ts": "2026-11-10T00:33:05",
  "queue": {
-  "total": 1753,
-  "open": 21,
-  "running": 4,
+  "total": 1741,
+  "open": 6,
+  "running": 8,
   "done": 602,
   "failed": 7
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 20.7,
-   "cpu_load_pct": 34,
-   "ram_free_gb": 37.9,
+   "hb_age_s": 51.9,
+   "cpu_load_pct": 68,
+   "ram_free_gb": 35,
    "gpu_util_pct": 0,
    "job": "R-NEXT-BIGSTREAMM-REBUILD-20261110",
    "last_result": {
@@ -34,16 +34,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 42.5,
-   "cpu_load_pct": 13,
-   "ram_free_gb": 13.3,
-   "gpu_util_pct": 39,
-   "job": "Q-VCORP-TRAIN-z04-R7-20261109",
+   "hb_age_s": 3.3,
+   "cpu_load_pct": 19,
+   "ram_free_gb": 13.2,
+   "gpu_util_pct": 9,
+   "job": "R-TRIAGE-BIGSTREAMMV-BMB-20261110",
    "last_result": {
     "job": "bigmoney-signal-2026-11-10",
     "state": "FAILED",
     "rc": 3,
-    "ts": "2026-11-10T00:30:59",
+    "ts": "2026-11-10T00:32:00",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -54,50 +54,50 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 38.1,
-   "cpu_load_pct": 14,
-   "ram_free_gb": 4.3,
-   "gpu_util_pct": 1,
-   "job": null,
+   "hb_age_s": 61.0,
+   "cpu_load_pct": 18,
+   "ram_free_gb": 2.4,
+   "gpu_util_pct": 0,
+   "job": "asset-lib-face-dataset-2026-11-10",
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-10T00:31:02",
+    "ts": "2026-11-10T00:32:09",
     "reason": "CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (22.6h 零产出，唤醒清单空)",
     "out_bytes": null,
     "elapsed_s": null
    },
-   "idle_confirmed": true,
-   "idle_reason": "CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (22.6h 零产出，唤醒清单空)",
-   "idle_rounds": 246
+   "idle_confirmed": false,
+   "idle_reason": "",
+   "idle_rounds": 0
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 1.6,
-   "cpu_load_pct": 6,
-   "ram_free_gb": 12.1,
+   "hb_age_s": 1.5,
+   "cpu_load_pct": 8,
+   "ram_free_gb": 10.9,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-10T00:31:20",
+    "ts": "2026-11-10T00:32:20",
     "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 10
+   "idle_rounds": 12
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
-  "bm-c": 246,
-  "bm-m": 10
+  "bm-c": 0,
+  "bm-m": 12
  },
  "lines": {
   "bigstream-mv": {
@@ -275,12 +275,15 @@
   "fleet-ops": {
    "name": "机队运维·端到端自检（平台服务线）",
    "status": "ACTIVE",
-   "verdict": "WAITING",
+   "verdict": "WORKING",
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "R-TRIAGE-BIGSTREAMMV-BMB-20261110",
+    "R-TRIAGE-BIGGAME-BMB-20261110"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": null
   },
@@ -292,19 +295,6 @@
    "stale_after_h": 72.0,
    "owner": "资产席",
    "jobs": [
-    "Q-VCORP-TRAIN-z04-R7-20261109",
-    "Q-VCORP-TRAIN-z05-R7-20261109",
-    "Q-VCORP-TRAIN-z06-R7-20261109",
-    "Q-VCORP-TRAIN-z07-R7-20261109",
-    "Q-VCORP-TRAIN-z08-R7-20261109",
-    "Q-VCORP-TRAIN-e01-R7-20261109",
-    "Q-VCORP-TRAIN-e02-R7-20261109",
-    "Q-VCORP-TRAIN-e03-R7-20261109",
-    "Q-VCORP-TRAIN-e04-R7-20261109",
-    "Q-VCORP-TRAIN-e05-R7-20261109",
-    "Q-VCORP-TRAIN-e06-R7-20261109",
-    "Q-VCORP-TRAIN-e07-R7-20261109",
-    "Q-VCORP-TRAIN-e08-R7-20261109",
     "asset-lib-face-dataset-2026-11-10",
     "asset-lib-char-gen-2026-11-10",
     "asset-lib-asset-gen-2026-11-10",
@@ -842,7 +832,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 21,
+  "local": 6,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -850,21 +840,22 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 5,
-  "gpu": 16
+  "cpu": 3,
+  "gpu": 3
  },
  "supply_added": [],
  "events": [
   "bigmoney-signal-2026-11-10 FAILED via bm-b",
-  "Q-VCORP-TRAIN-z04-R7-20261109 -> bm-b (gpu)"
+  "asset-lib-face-dataset-2026-11-10 -> bm-c (cpu)",
+  "asset-lib-char-gen-2026-11-10 -> bm-c (gpu)",
+  "bmc-env-unblock-2026-11-10 -> bm-c (cpu)"
  ],
  "violations": [
-  "bm-c IDLE-CONFIRMED x246 (CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (22.6)",
-  "bm-m IDLE-CONFIRMED x10 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-m IDLE-CONFIRMED x12 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
  "lane_files_written": [
-  "bm-b"
+  "bm-c"
  ]
 }

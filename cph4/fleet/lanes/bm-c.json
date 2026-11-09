@@ -1,8 +1,51 @@
 {
  "node": "bm-c",
- "ts": "2026-11-10T00:28:38",
- "jobs": [],
- "idle_reason": "CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (22.6h 零产出，唤醒清单空)",
- "lane_ok": false,
- "capacity_note": "EXECUTOR-DEAD (22.6h 零产出，唤醒清单空)"
+ "ts": "2026-11-10T00:33:05",
+ "jobs": [
+  {
+   "id": "asset-lib-face-dataset-2026-11-10",
+   "title": "[资产储备（角色 LoRA / 音色库）] 人脸数据集准入（反 AI 脸的第一道门）",
+   "cmd": "python Tools/fleet/asset_dataset_audit.py --mode face --dir media/asset/faces --out cph4/fleet/queue-receipts/asset-face-2026-11-10.json",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/asset-face-2026-11-10.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "asset-lib-char-gen-2026-11-10",
+   "title": "[资产储备（角色 LoRA / 音色库）] 角色包出图（本机 ComfyUI，1024²，同 seed 组）",
+   "cmd": "python Tools/fleet/char_gen.py --node bm-c --limit 12 --receipt cph4/fleet/queue-receipts/char-gen-bm-c-2026-11-10.json",
+   "cwd": "",
+   "needs": "gpu",
+   "deliverable": "cph4/fleet/queue-receipts/char-gen-bm-c-2026-11-10.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "bmc-env-unblock-2026-11-10",
+   "title": "bm-c 环境解锁：撤 ollama 驻留释放 RAM + ComfyUI 可达探测（解锁 3 张 asset 卡）",
+   "cmd": "python Tools/fleet/bmc_env_unblock.py --apply --receipt cph4/fleet/queue-receipts/bmc-env-unblock-2026-11-10.txt",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/bmc-env-unblock-2026-11-10.txt",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  }
+ ],
+ "idle_reason": "",
+ "lane_ok": true,
+ "capacity_note": "ram 2.4/1.0 GB"
 }
