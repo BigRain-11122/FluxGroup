@@ -885,3 +885,23 @@
 - 11-09T21:42 · asset-lib-env-check-2026-11-05-bm-b.json · 机队回执显示任务失败，因缺失关键依赖（如 torch）及资产目录存在风险。
 - 11-09T21:42 · asset-lib-env-check-2026-11-04-bm-c.json · 机队资产检查失败，因缺少 kohya sd-scripts、GPT-SoVITS 及指定目录导致任务中止。
 - 11-09T21:42 · asset-lib-env-check-2026-11-04-bm-b.json · 机队回执显示任务失败，因缺失关键依赖（如 torch）及资产目录存在风险。
+- 11-09T21:44 · self-improve-bm-m-latest.json · 机队已确认无风险，代码与依赖均通过检查。
+- 11-09T21:44 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
+- 11-09T21:44 · skill-promote-20261109.json · 已完成部分任务，因工具缺失导致多项关键技能无法执行。
+- 11-09T21:44 · asset-lib-char-prompts-2026-11-06-bm-m.json · 已完成 8 角色×12 视角的 96 张计划生成，无风险。
+- 11-09T21:44 · asset-lib-char-gen-2026-11-05-bm-c.json · 因参数错误导致机队回执生成失败，无风险。
+- 11-09T21:44 · asset-lib-char-gen-2026-11-05-bm-b.json · 因参数错误导致机队回执生成失败，无风险。
+- 11-09T21:44 · asset-lib-char-gen-2026-11-05-bm-a.json · 机队生成任务失败，无可用回执文件，存在数据缺失风险。
+- 11-09T21:44 · asset-lib-char-gen-2026-11-04-bm-c.json · 机队生成 48 个字符，但交付文件缺失且状态失败。
+- 11-09T21:44 · asset-lib-char-gen-2026-11-04-bm-b.json · 任务失败：因 ComfyUI 服务被拒连导致输入阻塞，无风险。
+- 11-09T21:44 · asset-lib-char-dataset-2026-11-04-bm-c.json · 机队任务失败，因输入被阻断导致所有节点处理量均为零。
+- 11-09T21:45 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-09T21:45 · asset-lib-asset-gen-scenes-2026-11-05-bm-c.json · 机队生成场景任务失败，存在未知风险。
+- 11-09T21:45 · asset-lib-asset-gen-scenes-2026-11-04-bm-c.json · 机队成功生成 3 个场景，无错误风险。
+- 11-09T21:45 · asset-lib-asset-gen-2026-11-05-bm-c.json · 机队生成任务失败，存在未知风险。
+- 11-09T21:45 · asset-lib-asset-gen-2026-11-05-bm-b.json · 资产生成任务因输入文件缺失而失败，存在阻塞风险。
+- 11-09T21:45 · asset-lib-asset-gen-2026-11-04-bm-c.json · 机队生成任务失败，存在未知风险。
+- 11-09T21:45 · asset-index-2026-11-04.json · 已完成机队回执，存在 5 个冻结技能及 1 个被阻塞回执的风险。
+- 11-09T21:45 · asset-gen-scenes-2026-11-05.json · 完成机队回执，发现 alpha_missing 风险需主控补图。
+- 11-09T21:45 · asset-gen-scenes-2026-11-04.json · 三张场景图已生成且无失败项，但需人工补全透明背景。
+- 11-09T21:45 · asset-gen-props-2026-11-05.json · 机队运行通过，存在因缺少透明底导致需人工补图的潜在风险。
