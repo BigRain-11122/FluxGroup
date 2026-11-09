@@ -1,14 +1,14 @@
 {
  "node": "bm-b",
- "ts": "2026-11-10T01:20:47",
+ "ts": "2026-11-10T01:22:53",
  "jobs": [
   {
-   "id": "asset-lib-voice-assemble-2026-11-10",
-   "title": "[资产储备（角色 LoRA / 音色库）] 音色数据集装配（授权核查→voices/<组> 准入）",
-   "cmd": "python Tools/fleet/voice_dataset.py --out cph4/fleet/queue-receipts/voice-dataset-2026-11-10.json",
+   "id": "bigmoney-signal-2026-11-10",
+   "title": "[金融量化（回测 → 一页结论 → 可报价或写清卡点）] 下月持仓信号 CSV（可卖的唯一产物）",
+   "cmd": "python Tools/fleet/quant_positions_bridge.py --in quant/bigmoney/results/etf_nobond_vt.json --out cph4/fleet/queue-receipts/etf_nobond_vt_with_positions.json && python Tools/fleet/quant_signal.py --in cph4/fleet/queue-receipts/etf_nobond_vt_with_positions.json --out cph4/fleet/queue-receipts/quant-signal-2026-11-10.csv",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/voice-dataset-2026-11-10.json",
+   "deliverable": "cph4/fleet/queue-receipts/quant-signal-2026-11-10.csv",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 8.3/1.0 GB"
+ "capacity_note": "ram 6.2/1.0 GB"
 }
