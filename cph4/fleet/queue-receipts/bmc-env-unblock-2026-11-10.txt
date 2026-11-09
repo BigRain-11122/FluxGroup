@@ -6,9 +6,9 @@ ram_gate_gb=4.00
 comfy=COMFY-UP http=200
 verdict=BLOCKED
 == free_mem output ==
-[free] RAM available 0.2 GB | candidates 19
-       protected (never touched): python.exe 1683MB, python.exe 1410MB, python.exe 1171MB
-   - msedge (843 MB)
+[free] RAM available 0.8 GB | candidates 20
+       protected (never touched): python.exe 2460MB, python.exe 1653MB
+   - msedge (846 MB)
    - msedge (681 MB)
    - msedge (653 MB)
    - msedge (643 MB)
@@ -16,5 +16,5 @@ verdict=BLOCKED
    - msedge (612 MB)
    - msedge (583 MB)
    - msedge (575 MB)
-[free] RAM available after 0.9 GB
+[free] RAM available after 0.8 GB
 
