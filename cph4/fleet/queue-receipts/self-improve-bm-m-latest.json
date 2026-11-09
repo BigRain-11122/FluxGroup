@@ -1,13 +1,13 @@
 {
  "node": "bm-m",
- "ts": "2026-11-09T19:22:06",
+ "ts": "2026-11-09T19:25:17",
  "mode": "apply",
  "verdict": "SELF-OK",
  "checks": [
   {
    "check": "reload",
-   "code_age_s": 14813,
-   "receipt_age_s": 16,
+   "code_age_s": 127,
+   "receipt_age_s": 14,
    "targets": [],
    "acted": false,
    "note": "executor produced a receipt after the last code edit",
@@ -16,10 +16,9 @@
   },
   {
    "check": "shells",
-   "cards": 2,
-   "shells": 2,
+   "cards": 1,
+   "shells": 1,
    "ids": [
-    "R-MV-RELEASE-PACK-20261109",
     "R-MV-RELEASE-PACK-20261109"
    ],
    "acted": true,
