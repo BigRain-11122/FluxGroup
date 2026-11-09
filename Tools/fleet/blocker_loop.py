@@ -27,6 +27,7 @@ import os
 import re
 import subprocess
 import sys
+import time
 from datetime import datetime
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -807,6 +808,8 @@ def main(argv):
     ap.add_argument("--selftest", action="store_true")
     ap.add_argument("--force", action="store_true",
                     help="忽略各自周期，全部类都跑一遍")
+    ap.add_argument("--no-throttle", action="store_true",
+                    help="忽略最小间隔（手动全跑用）")
     a = ap.parse_args(argv)
 
     miss = coverage()
@@ -816,6 +819,17 @@ def main(argv):
                          ensure_ascii=False))
         return 1 if miss else 0
 
+    # 2026-11-09: 单轮 95s，占脉周期 58%。默认 300s 内只全跑一次。
+    _marker = os.path.join(STATE, "blocker-loop.json")
+    _min_iv = int(os.environ.get("BLOCKER_MIN_INTERVAL_S") or 300)
+    if not a.no_throttle and not a.selftest and not a.force and _min_iv > 0:
+        try:
+            _age = time.time() - os.path.getmtime(_marker)
+            if _age < _min_iv:
+                print("[blocker] throttled: last full run %.0fs ago (<%ds)" % (_age, _min_iv))
+                return 0
+        except OSError:
+            pass
     rows, acts, escalate, strikes, sched, skipped = cycle(
         apply=a.apply, force=('--force' in argv))
     txt = board(rows, acts, escalate, skipped)
