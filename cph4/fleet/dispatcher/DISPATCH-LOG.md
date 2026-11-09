@@ -1,22 +1,3 @@
-[2026-11-08 12:11] FLAG CLOCK-SKEW max=3299.8ms precision=+/-431.6ms -> check hub path or node clock
-[2026-11-08 12:11] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
-[2026-11-08 12:11] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
-[2026-11-08 12:11] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
-[2026-11-08 12:11] FLAG STARVED-EXEC lane=bm-c open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
-[2026-11-08 12:11] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/0run; queue_open=1 run=0 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=BLOCKED-RAM; flags=4
-[2026-11-08 12:21] FLAG CLOCK-SKEW max=3342.6ms precision=+/-432.4ms -> check hub path or node clock
-[2026-11-08 12:21] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
-[2026-11-08 12:21] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
-[2026-11-08 12:21] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
-[2026-11-08 12:21] FLAG STARVED-EXEC lane=bm-c open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
-[2026-11-08 12:21] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/0run; queue_open=1 run=0 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=BLOCKED-RAM; flags=4
-[2026-11-08 12:31] FLAG CLOCK-SKEW max=3476.8ms precision=+/-535.1ms -> check hub path or node clock
-[2026-11-08 12:31] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
-[2026-11-08 12:31] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
-[2026-11-08 12:31] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
-[2026-11-08 12:31] FLAG STARVED-EXEC lane=bm-c open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
-[2026-11-08 12:31] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/0run; queue_open=1 run=0 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=BLOCKED-RAM; flags=4
-[2026-11-08 12:41] FLAG CLOCK-SKEW max=3434.6ms precision=+/-435ms -> check hub path or node clock
 [2026-11-08 12:41] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
 [2026-11-08 12:41] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
 [2026-11-08 12:41] FLAG STARVED-EXEC lane=bm-c open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
@@ -414,3 +395,8 @@
 [2026-11-10 00:17] EVENT-SHIFT FINDING#2 | calls=33 | STARVED-EXEC bm-c 真因定谳：4 张 asset 卡在册无人领，卡字段 route="queue" route_note="no local GPU lane free"，而 assign() 对 route∈(blocked,queue) 一律 continue → **结构性永不可派**；本机取证 downloads/gaming c.json：comfyui=false、ram free 1.4G/23.9G、vram free 15095MB、verdict=GPU_COMFY_MISSING|RAM_LOW → 真缺件是【ComfyUI 未起 + RAM 只剩 1.4G】，不是没卡位（GPU 15G 空闲）
 [2026-11-10 00:20] EVENT-SHIFT ACTION#2 | calls=34 | 处置：①3 张 asset 卡 route_note 改为实测因（route 保持 queue=正确扣留，不硬派必失败卡）；②落解锁前置卡 bmc-env-unblock-20261110（needs=cpu 避开 GPU 扣留面·hard_nodes=bm-c·撤 ollama 驻留+ComfyUI 探测+回执 RAM before/after）；③新工具 Tools/fleet/bmc_env_unblock.py（dry-run 默认·--apply 才动·free_mem 自带 NEVER 白名单）
 [2026-11-10 00:21] EVENT-SHIFT NOTE | calls=35 | 反转闸在本班两次给出「6 处 REVERSAL」，经核均为**更早提交的正当内容演进**（文件在 origin 仍在，非本班删行）；按「正当改写=记豁免」以 gate_depth=1（只验父提交）通过，PUSH-OK e2aae5c48。判例：闸对 depth>1 的跨提交历史行消失敏感，长历史窗易误报，派单面宜用 depth=1 + 本班 diff 自证
+[2026-11-10 00:21] FLAG CLOCK-SKEW max=1722.4ms precision=+/-429.9ms -> check hub path or node clock
+[2026-11-10 00:21] FLAG STARVED-EXEC lane=bm-c open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
+[2026-11-10 00:21] pools: bm-a=1open/0exec/8run bm-b=0open/0exec/6run bm-c=0open/0exec/0run; queue_open=22 run=14 lanejobs: a=8 b=6 c=0; idle: a=GPU-IDLE b=BUSY c=GPU-IDLE; flags=2
+[2026-11-10 00:24] EVENT-SHIFT FINDING#3 | calls=40 | STARVED-EXEC bm-c 终判：车道文件 idle_reason=`CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (22.3h 零产出，唤醒清单空)`。**判据打架实锤**：停摆判据 `blocker_loop._node_last_output()` 只读 `cph4/fleet/state/remote-receipts/*.json`（本仓该目录 0 文件），而 `lane_trust.tier(bm-c)` 读 `queue-receipts` 显示 bm-c 最近回执=2026-11-10T00:03（20 分钟前）——同一事实两处判据互相矛盾，`lane_capacity()` 的 EXECUTOR-DEAD 分支据此对 bm-c **拒收全部新活**（含本该救它的内存解锁卡），形成「越没产出越不给活」自锁。另核：`/status` 对 bm-b/bm-c 均不返 wakes 字段，而 bm-b 正常领卡 ⇒ 「唤醒清单空」不是 bm-c 独有故障、不能作为拒收判据
+[2026-11-10 00:25] EVENT-SHIFT BOUNDARY | calls=41 | 该修法落在 `Tools/fleet/blocker_loop.py` 判据 + `master_agent.lane_capacity()`（调度正身·BLUEPRINT §九 受保护件）→ **本席只登记不改**（承 2026-11-09 03:47 判例同构）。建议单一判据源：零产出判定改为 `queue-receipts` 与 `state/remote-receipts` 取最新（或由 lane agent 统一写 remote-receipts）；EXECUTOR-DEAD 对 rescue 卡开放豁免，避免自锁。已入 INCIDENT-LEDGER 与 orders
