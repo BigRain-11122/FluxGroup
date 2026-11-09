@@ -1125,3 +1125,13 @@
 - 11-09T22:11 · R-PLAN-BIGMONEY-20261104.json · 任务已完成且无风险，因 Windows 环境未就绪而由本机接管执行。
 - 11-09T22:11 · R-PLAN-BIGMONEY-20261104-bm-c.json · 已完成机队回执生成，无错误风险。
 - 11-09T22:11 · R-PLAN-BIGMONEY-20261104-bm-b.json · 机队回执任务执行失败，因无交付物导致流程中断。
+- 11-09T22:12 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
+- 11-09T22:12 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-09T22:12 · R-PLAN-BIGLIFE-20261104-bm-c.json · 已完成机队回执生成，无风险。
+- 11-09T22:12 · R-PLAN-BIGDOMAIN-20261105-bm-b.json · 已完成大域机队回执生成，无风险。
+- 11-09T22:12 · R-PLAN-BIGDOMAIN-20261104-bm-b.json · 已完成大域机队回执生成，无风险。
+- 11-09T22:12 · R-NEXT-BIGSTREAMM-GATE-20261105-bm-m.json · 任务失败，因缺少 cv2 模块导致脚本报错。
+- 11-09T22:12 · R-NEXT-BIGSTREAMM-GATE-20261105-bm-c.json · 任务因输入文件缺失失败，存在流程阻塞风险。
+- 11-09T22:12 · R-NEXT-BIGSTREAMM-GATE-20261105-bm-a.json · 机队任务完成但失败，因镜头重复与画面静止导致风险。
+- 11-09T22:12 · R-NEXT-BIGSTREAMM-GATE-20261104-bm-c.json · 任务因输入文件缺失失败，存在流程阻塞风险。
+- 11-09T22:12 · R-NEXT-BIGSTREAMM-AUDIT-20261105-bm-m.json · 任务执行失败，因缺少 cv2 模块导致脚本报错。
