@@ -88,17 +88,37 @@ def main():
     lines.append("- 卡：%s" % json.dumps(qs, ensure_ascii=False))
     lines.append("- 供给缺口：%s" % (sup.get("short_after") or "无"))
     lines.append("")
-    lines.append("## 4. 健康")
+    # 花费/调用（不设上限，但要看得到）
+    today = time.strftime("%Y-%m-%d")
+    cloud = local = 0
+    try:
+        for f in os.listdir(os.path.join(STATE, "codely-bridge", "logs")):
+            p2 = os.path.join(STATE, "codely-bridge", "logs", f)
+            if time.strftime("%Y-%m-%d", time.localtime(os.path.getmtime(p2))) == today:
+                cloud += 1
+    except OSError:
+        pass
+    try:
+        for line in open(os.path.join(F, "dispatcher", "local-model.jsonl"), encoding="utf-8"):
+            if today in line:
+                local += 1
+    except OSError:
+        pass
+    lines.append("## 4. 调用量（今日）")
+    lines.append("")
+    lines.append("- 本地模型调用：%d 次；云端 Codely：%d 次（不设上限，只记录）" % (local, cloud))
+    lines.append("")
+    lines.append("## 5. 健康")
     lines.append("")
     lines.append("- 韧性体检：%s（%d 项）" % (res.get("verdict", "?"), len(res.get("checks") or [])))
     lines.append("- 状态同步：%s" % ("从未成功" if sync_age < 0 else "%ds 前" % sync_age))
     lines.append("")
-    lines.append("## 5. 等 CEO（%d 件）" % n_ceo)
+    lines.append("## 6. 等 CEO（%d 件）" % n_ceo)
     lines.append("")
     for st, txt in ceo_items[:5]:
         lines.append("- [%s] %s" % (st, txt[:80]))
     lines.append("")
-    lines.append("## 6. 今日建议")
+    lines.append("## 7. 今日建议")
     lines.append("")
     if reds:
         lines.append("- 先看 RED 域：%s（巡视已写 NEED-JUDGMENT）" % ", ".join(reds))

@@ -805,8 +805,14 @@ def assign(rows, fleet, reports, lines=None):
             _prod = _deliv.get(_b)
             if _prod:
                 _unlocks[_prod] = _unlocks.get(_prod, 0) + 1
+    def _is_product(r):
+        d = str(r.get("deliverable") or "").replace(chr(92), "/")
+        return d.startswith(("gaming/", "media/", "quant/", "domain/", "life/",
+                             "compute/", "house/", "research/")) or "/outbound/" in d
+
     pending.sort(key=lambda r: (0 if (r.get("line") or line_of_job(r, lines or [])) in red_lines else 1,
                                 -_unlocks.get(r.get("id"), 0),
+                                0 if _is_product(r) else 1,
                                 pmap.get(r.get("line") or line_of_job(r, lines or []), 2),
                                 prio_rank.get(str(r.get("prio") or "P2"), 2),
                                 str(r.get("created_at") or "")))
