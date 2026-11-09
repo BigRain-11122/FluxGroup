@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-10T01:36:23",
- "cycle": 267,
+ "ts": "2026-11-10T01:37:48",
+ "cycle": 268,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-10T01:36:23",
+ "master_tick_ts": "2026-11-10T01:37:48",
  "queue": {
   "total": 1749,
   "open": 4,
@@ -14,10 +14,10 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 9.3,
-   "cpu_load_pct": 85,
-   "ram_free_gb": 41,
-   "gpu_util_pct": 81,
+   "hb_age_s": 34.2,
+   "cpu_load_pct": 77,
+   "ram_free_gb": 42.9,
+   "gpu_util_pct": 36,
    "job": null,
    "last_result": {
     "job": "R-TRIAGE-FLUXVERSE-BMA-20261110",
@@ -34,16 +34,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 31.2,
-   "cpu_load_pct": 82,
-   "ram_free_gb": 6.5,
-   "gpu_util_pct": 39,
+   "hb_age_s": 4.3,
+   "cpu_load_pct": 21,
+   "ram_free_gb": 9.1,
+   "gpu_util_pct": 33,
    "job": null,
    "last_result": {
-    "job": "Q-VCORP-PREP-z08-R4-20261105",
+    "job": "Q-VCORP-PREP-e01-R4-20261105",
     "state": "RUNNING",
     "rc": null,
-    "ts": "2026-11-10T01:35:50",
+    "ts": "2026-11-10T01:37:43",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -54,9 +54,9 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 62.6,
+   "hb_age_s": 76.0,
    "cpu_load_pct": 20,
-   "ram_free_gb": 0.7,
+   "ram_free_gb": 3.6,
    "gpu_util_pct": 0,
    "job": "asset-lib-asset-gen-2026-11-10",
    "last_result": null,
@@ -66,30 +66,30 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 1.5,
-   "cpu_load_pct": 6,
-   "ram_free_gb": 10.6,
+   "hb_age_s": 1.6,
+   "cpu_load_pct": 5,
+   "ram_free_gb": 9.8,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-10T01:35:48",
+    "ts": "2026-11-10T01:36:49",
     "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 6
+   "idle_rounds": 7
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 6
+  "bm-m": 7
  },
  "lines": {
   "bigstream-mv": {
@@ -825,11 +825,9 @@
  "supply_added": [],
  "events": [],
  "violations": [
-  "bm-m IDLE-CONFIRMED x6 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-m IDLE-CONFIRMED x7 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
- "lane_files_written": [
-  "bm-a"
- ]
+ "lane_files_written": []
 }
