@@ -3361,3 +3361,5 @@
 - 11-10T07:44 · _last_lane_bm-m.json · 机队任务已执行完成，无风险。
 - 11-10T07:44 · CANARY-20261110T074253-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
 - 11-10T07:44 · CANARY-20261110T074253-bm-m.json · 已完成端到端自检并生成产物，无风险。
+- 11-10T07:45 · _last_lane_bm-m.json · 机队已自派完成回单扫描，无风险。
+- 11-10T07:45 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
