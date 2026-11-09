@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
- "ts": "2026-11-10T00:09:00",
+ "ts": "2026-11-10T00:10:44",
  "jobs": [
   {
-   "id": "asset-lib-char-prompts-2026-11-10",
-   "title": "[资产储备（角色 LoRA / 音色库）] 角色包出图计划（8 原创角色 × 6 视角提示词包）",
-   "cmd": "python Tools/fleet/char_plan.py",
+   "id": "R-TRIAGE-BIGLIFE-BMM-20261110",
+   "title": "BigLife·数字生命 线证据扫描（bm-m 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line biglife --node bm-m",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/char-gen-plan-2026-11-10.json",
+   "deliverable": "cph4/fleet/queue-receipts/triage-biglife-bm-m-20261110.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -17,12 +17,12 @@
    "timeout_s": null
   },
   {
-   "id": "R-TRIAGE-BIGDOMAIN-BMM-20261110",
-   "title": "BigDomain·硅基域商业化 线证据扫描（bm-m 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigdomain --node bm-m",
+   "id": "R-TRIAGE-RECON-BMM-20261110",
+   "title": "RECON·竞品拆解 线证据扫描（bm-m 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line recon --node bm-m",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigdomain-bm-m-20261110.md",
+   "deliverable": "cph4/fleet/queue-receipts/triage-recon-bm-m-20261110.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -31,12 +31,12 @@
    "timeout_s": null
   },
   {
-   "id": "CANARY-20261110T000858",
-   "title": "端到端自检：投卡→领取→执行→回执→产物",
-   "cmd": "python -c \"import os;os.makedirs(r'cph4/fleet/state/canary',exist_ok=True);open(r'cph4/fleet/state/canary/RUN-20261110T000858.txt','w',encoding='utf-8').write('canary 20261110T000858 — 端到端自检产物，不是业务活')\"",
+   "id": "R-TRIAGE-FLEETOPS-BMM-20261110",
+   "title": "机队运维·端到端自检（平台服务线） 线证据扫描（bm-m 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line fleet-ops --node bm-m",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/state/canary/RUN-20261110T000858.txt",
+   "deliverable": "cph4/fleet/queue-receipts/triage-fleet-ops-bm-m-20261110.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -45,12 +45,26 @@
    "timeout_s": null
   },
   {
-   "id": "R-TRIAGE-BIGSTREAMMV-BMM-20261110",
-   "title": "BigStream·MV 41 曲 线证据扫描（bm-m 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigstream-mv --node bm-m",
+   "id": "Q-TRIAGE-RECON-20261110",
+   "title": "recon 线级体检（本机证据目录实况）",
+   "cmd": "python Tools/fleet/line_triage.py --line recon",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigstream-mv-bm-m-20261110.md",
+   "deliverable": "cph4/fleet/queue-receipts/triage-recon-20261110.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "Q-TRIAGE-ASSETLIB-20261110",
+   "title": "asset-lib 线级体检（本机证据目录实况）",
+   "cmd": "python Tools/fleet/line_triage.py --line asset-lib",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-asset-lib-20261110.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -61,5 +75,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 7.7/1.0 GB"
+ "capacity_note": "ram 13.9/1.0 GB"
 }
