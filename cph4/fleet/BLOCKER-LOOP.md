@@ -1,24 +1,21 @@
-# 堵/坏/卡点闭环 2026-11-09T23:42:26
+# 堵/坏/卡点闭环 2026-11-09T23:50:15
 
 分类表：`cph4/fleet/BLOCKER-TAXONOMY-v1.json`（每类四件套：判据/解法/周期/升级轮次）。
-本轮命中 13 项 · 已解 13 · 待升级 0 · 未到周期跳过 11 类
+本轮命中 5 项 · 已解 5 · 待升级 0 · 未到周期跳过 7 类
 
 ## SYNC-BEHIND（1）
 
-- `ahead1` 本地领先 origin 1 个提交 ✅state_push rc=0 [state-push] pushed d488605731 fil
+- `ahead1` 本地领先 origin 1 个提交 ✅state_push rc=0 [state-push] pushed 4d21b1cc0d fil
 
-## UNVERIFIED-STUCK（11）
+## FAKE-RED（3）
 
-- `Q-MV-0001-003` 回执未对上 ✅receipt_match rc=0 [receipt-match] 可收口 0 张｜歧义 0｜证据
-- `C-FIN-ETF-COMPOSITE` 回执未对上 ✅receipt_match rc=0 [receipt-match] 可收口 0 张｜歧义 0｜证据
-- `R-QUANT-ETF-DAILY-20261102` 回执未对上 ✅receipt_match rc=0 [receipt-match] 可收口 0 张｜歧义 0｜证据
-- `C-FIN-EQUITY-ALPHA` 回执未对上 ✅receipt_match rc=0 [receipt-match] 可收口 0 张｜歧义 0｜证据
-- `RCANARY2-20261102T181500` 回执未对上 ✅receipt_match rc=0 [receipt-match] 可收口 0 张｜歧义 0｜证据
-- `C-FIN-ETF-COMPOSITE-20261102` 回执未对上 ✅receipt_match rc=0 [receipt-match] 可收口 0 张｜歧义 0｜证据
+- `remote:bigmoney` BigMoney·量化 的产物面在子仓（bm-a、bm-b、bm-c、bm-d），本机不可判；最后一次可得证据已停 132 小时 ✅已定性为不需行动（3 项），不重复报
+- `remote:bigdomain` BigDomain·硅基域商业化 的产物面在子仓（bm-a、bm-b、bm-c），本机不可判；最后一次可得证据已停 150 小时 ✅已定性为不需行动（3 项），不重复报
+- `remote:bigcompute` BigCompute·硅基算力 的产物面在子仓（bm-a、bm-b、bm-c），本机不可判；最后一次可得证据已停 150 小时 ✅已定性为不需行动（3 项），不重复报
 
-## CARD-UNOWNED（1）
+## NODE-REPO-DIVERGED（1）
 
-- `Q-VCORP-TRAIN-z03-R7-20261109` 无 owner ✅定责 1 张
+- `bm-a` bm-a 仓库已分叉（head bedf8432b 非 origin/main 祖先），/poke 只会假受理，新卡与产出归集到不了；解=在 ✅已定性为不需行动（1 项），不重复报
 
 ---
 _自动解只做确定性动作；解不了的按轮次升级，不许静默留着_
