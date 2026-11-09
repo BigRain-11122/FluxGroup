@@ -67,7 +67,7 @@ STAGES = [
     # 改 slow=True（每 5 分钟）后单轮省 ~20s，禁用恢复的最坏延迟仍是 5 分钟。
     # 状态面推送（2026-11-07）：队列/回执在独立 worktree 提交推送，绕开主工作树的手改/分叉。
     # 没有这一腿，卡永远不在 origin 翻面，车道会把同一张卡一遍遍重跑（实测连跑 3 次）。
-    ("state_push", ["Tools/fleet/state_push.py"], 300, {0, 2}, False),
+    # 2026-11-09: state push moved to statesync (60s); this 82s stage removed
     # 报审台账（2026-11-07）：从盘上事实重建 50 款产品的四件套状态，产品级隐私政策缺了就补齐。
     # 一天一次足够；确定性、零 token，产物是可交付的台账而不是报告。
     # submit_ledger 已于 2026-11-07 删除：它调用的 Tools/fleet/submit_ledger_fill.py

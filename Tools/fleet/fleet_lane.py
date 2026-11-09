@@ -48,7 +48,7 @@ KV_BUCKET = "FLEET_STATE"
 #   bm-d 3x V100 48GB / 256GB RAM        - assembly pending; when it joins it is the
 #                                          only box that can hold 768p batches + backtests
 LANES = {
-    "bm-a": {"name_cn": "公司生产力", "needs": ["cpu", "gpu"], "ram_floor_gb": 3.0, "gpu_hours": (9, 19),
+    "bm-a": {"name_cn": "公司生产力", "needs": ["cpu", "gpu"], "ram_floor_gb": 1.0, "gpu_hours": (9, 19),
              # CEO 2026-10-29: this is his WORK machine - full load only at night.
              # 09:00-19:00 weekdays it takes nothing unless a job is marked day_ok.
              "quiet_hours": (9, 19),
@@ -74,7 +74,7 @@ LANES = {
     # 绰号唯一来源就在这张表：bm-c=传家宝（16GB 显卡的出图/归集/验收机）、bm-b=小钢炮。
     # 2026-11-08 实测 comms_check.py / lib_consolidate.py / ARCHITECTURE-v2 曾把两者整套写反，
     # 判据=派给传家宝的活含 16G LoRA/ComfyUI/36 图标，8GB 的 bm-b 做不了。别在别处再定义绰号。
-    "bm-c": {"name_cn": "传家宝", "needs": ["cpu", "gpu"], "ram_floor_gb": 3.0, "gpu_hours": None,
+    "bm-c": {"name_cn": "传家宝", "needs": ["cpu", "gpu"], "ram_floor_gb": 1.0, "gpu_hours": None,
              "enabled": True, "ram_gb": 24, "vram_gb": 16, "cuda": True,
              "os": "windows",
              "caps": ["cpu", "kf768", "i2v768", "audio", "render", "llm"],
