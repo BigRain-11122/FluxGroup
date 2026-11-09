@@ -1,0 +1,18 @@
+{
+ "id": "CANARY-LOOP-20261109T202854",
+ "node": "bm-m",
+ "rc": 0,
+ "seconds": 0.1,
+ "cmd": "python3 -c \"import json;json.dump({'ok':True,'card':'CANARY-LOOP-20261109T202854'},open('cph4/fleet/queue-receipts/CANARY-LOOP-20261109T202854.json','w'))\"",
+ "ok_rc": [
+  0,
+  3
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "cph4/fleet/queue-receipts/CANARY-LOOP-20261109T202854.json",
+ "deliverable_exists": true,
+ "ts": "2026-11-09T20:29:09",
+ "stdout_tail": "",
+ "stderr_tail": ""
+}
