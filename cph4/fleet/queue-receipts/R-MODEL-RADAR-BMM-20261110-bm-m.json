@@ -2,8 +2,8 @@
  "id": "R-MODEL-RADAR-BMM-20261110",
  "node": "bm-m",
  "rc": 0,
- "seconds": 0.1,
- "cmd": "python3 Tools/fleet/model_radar.py run --node bm-m --idle-only --apply",
+ "seconds": 0.5,
+ "cmd": "python Tools/fleet/model_radar.py run --node bm-m --idle-only --apply",
  "ok_rc": [
   0
  ],
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/queue-receipts/model-radar-bm-m-20261110.json",
  "deliverable_exists": true,
- "ts": "2026-11-10T00:01:54",
+ "ts": "2026-11-10T00:01:55",
  "stdout_tail": "{\"skipped_idle\": \"queue-running:R-TRIAGE-FLUXVERSE-BMM-20261110\", \"node\": \"bm-m\"}\n",
  "stderr_tail": ""
 }
