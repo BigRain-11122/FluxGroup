@@ -1,8 +1,8 @@
-# 线级体检 asset-lib · 2026-11-10 00:10
+# 线级体检 asset-lib · 2026-11-10 00:11
 
 ## 工段与证据目录
 - asset-env      owner=资产席      lane=bm-c   证据 1/1 存在 · 文件 12 · 最新 7.7h
-- asset-dataset  owner=资产席      lane=bm-b   证据 1/1 存在 · 文件 1866 · 最新 0.0h
+- asset-dataset  owner=资产席      lane=bm-b   证据 1/1 存在 · 文件 1878 · 最新 0.0h
 - asset-train    owner=资产席      lane=bm-c   证据 1/1 存在 · 文件 12 · 最新 7.7h
 
 ## 判定
