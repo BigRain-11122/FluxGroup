@@ -293,15 +293,16 @@
   }
  ],
  "budget": {
-  "resident_gb_limit": 16.0,
-  "peak_gb_limit": 20.0,
+  "resident_gb_limit": 20.0,
+  "peak_gb_limit": 24.0,
   "rule": "CEO 2026-11-07：办公不必留太多，模型可占到 16GB 常驻；硬线是换页速率（mem_guard），不是 swap 占用总量",
-  "office_reserve_gb": 4.0,
+  "office_reserve_gb": 1.0,
   "resident_set": [
    "resident",
    "embedding"
   ],
-  "_resident_set_why": "2026-11-08 CEO「一个模型可以干很多事」+审计实测：214 次走 4B、8B 3 次、1.7B 3 次。常驻只留主力与向量，8B/1.7B 按需（keep_alive=0），省 ~6.6GB 且不再互相驱逐。"
+  "_resident_set_why": "2026-11-08 CEO「一个模型可以干很多事」+审计实测：214 次走 4B、8B 3 次、1.7B 3 次。常驻只留主力与向量，8B/1.7B 按需（keep_alive=0），省 ~6.6GB 且不再互相驱逐。",
+  "_dedicated_why": "CEO 2026-11-09：这是专用 AI 主控机，白天不办公 → 不再为办公预留 4GB，模型可用到 20GB 常驻/24GB 峰值；swap 红线不变。"
  },
  "_keep_alive_why": "MLX runner 对 keep_alive=0 会卡在 Stopping 且再也加载不上（实测）。按需档用 1m 空闲自动退，常驻档 30m。",
  "routing": {

@@ -495,3 +495,13 @@
 - 11-09T20:50 · triage-asset-lib-20261108.md · 机队回执显示资产产出新鲜且符合阈值，无风险可继续推进。
 - 11-09T20:50 · R-TRIAGE-FLEETOPS-BMM-20261108-bm-m.json · 已完成机队回执生成，无风险。
 - 11-09T20:50 · triage-fleet-ops-20261108.md · 线级体检通过，因产出新鲜无风险，将自动进入下一工段。
+- 11-09T20:51 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-09T20:51 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-09T20:51 · skill-promote-20261109.json · 已完成部分任务，因工具缺失导致大量技能无法执行。
+- 11-09T20:51 · R-TRIAGE-RECON-BMM-20261108-bm-m.json · 已完成机队回执重构，无风险。
+- 11-09T20:51 · triage-recon-20261108.md · 拆解部已完成线级体检，因产出新鲜且判定正常，无风险可继续。
+- 11-09T20:51 · R-TRIAGE-BIGLIFE-BMM-20261108-bm-m.json · 已完成大飞机机队三叉处理，无风险。
+- 11-09T20:51 · triage-biglife-20261108.md · 生命生产席需补全质检输入，否则无法产出并存在流程阻塞风险。
+- 11-09T20:51 · R-TRIAGE-BIGDOMAIN-BMM-20261108-bm-m.json · 已完成大域机队回执生成，无风险。
+- 11-09T20:51 · triage-bigdomain-20261108.md · 域运营席因产出停滞超阈，需立即补全目录与产出方可收线。
+- 11-09T20:51 · R-TRIAGE-BIGCOMPUTE-BMM-20261108-bm-m.json · 已完成大计算机队回检，无风险。
