@@ -1,0 +1,17 @@
+{
+ "id": "R-PLAN-BIGLIFE-20261110",
+ "node": "bm-a",
+ "rc": 0,
+ "seconds": 0.8,
+ "cmd": "python Tools/fleet/line_triage.py --line biglife",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "cph4/fleet/queue-receipts/triage-biglife-20261110.md",
+ "deliverable_exists": true,
+ "ts": "2026-11-10T00:19:47",
+ "stdout_tail": "[triage] biglife -> cph4\\fleet\\queue-receipts\\triage-biglife-20261110.md\n",
+ "stderr_tail": ""
+}
