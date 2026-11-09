@@ -1,6 +1,6 @@
 {
  "node": "bm-c",
- "ts": "2026-11-10T00:52:55",
+ "ts": "2026-11-10T00:54:14",
  "jobs": [
   {
    "id": "asset-lib-face-dataset-2026-11-10",
@@ -29,23 +29,9 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
-  },
-  {
-   "id": "bmc-env-unblock-2026-11-10",
-   "title": "bm-c 环境解锁：撤 ollama 驻留释放 RAM + ComfyUI 可达探测（解锁 3 张 asset 卡）",
-   "cmd": "python Tools/fleet/bmc_env_unblock.py --apply --receipt cph4/fleet/queue-receipts/bmc-env-unblock-2026-11-10.txt",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/bmc-env-unblock-2026-11-10.txt",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 1.1/1.0 GB"
+ "capacity_note": "ram 1.3/1.0 GB"
 }
