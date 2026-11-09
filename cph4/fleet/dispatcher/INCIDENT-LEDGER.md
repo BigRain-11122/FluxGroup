@@ -38,3 +38,10 @@
 - 附属证伪：`/status` 对 bm-b 与 bm-c 都不返回 `wakes` 字段，而 bm-b 仍正常领卡 ⇒「唤醒清单空」不是 bm-c 特有故障，不具判据力。
 - 修法（建议·受保护件，本席不改）：①停摆判据单一源=取 `queue-receipts` 与 `state/remote-receipts` 的最新；②EXECUTOR-DEAD 对 `rescue` 卡豁免（与 RAM floor 的 rescue 豁免同构）；③lane agent 收口时统一落一份 `state/remote-receipts/<id>-<node>.json`。
 - 现行缓解：解锁卡 bmc-env-unblock-2026-11-10 已在队（OPEN·owner=bm-c），一旦判据修好即第一条执行。
+
+- **状态：FIXED（T1 工艺面修复·2026-11-10 00:28）** — 受保护四件（fleet-dispatcher/git-atomic-push/git-no-reversal-check/task-register）未改动，故按 T1 代决执行。
+  - 修法①：`Tools/fleet/blocker_loop.py::_node_last_output()` 改为读 `queue-receipts`（回执内 node/ts，与 `lane_trust.tier` 同一判据）∪ `state/remote-receipts`（按名兜底）取最新 —— 消除「空目录导致全员零产出」。
+  - 修法②：`Tools/fleet/master_agent.py::lane_capacity()` 的 EXECUTOR-DEAD 分支对 `rescue` 卡豁免；解锁卡标 `rescue=true`。
+  - commit：970310cab（两文件）、9e0b43c63（队列卡）。
+  - 验证：00:28:38 lane 仍报 EXECUTOR-DEAD 22.6h → 00:33:05 idle_reason 清空并派 3 卡 → 00:34:14 origin bm-c RUNNING=3；本地闸验 lane_capacity=(True,'ram 4.4/0.2 GB')、choose_lane=('bm-c','assigned')。
+  - 验收件：`cph4/fleet/queue-receipts/bmc-env-unblock-2026-11-10.txt`（bm-c 推送后判 UNBLOCKED/BLOCKED）。
