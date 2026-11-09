@@ -625,3 +625,13 @@
 - 11-09T21:08 · audio-bgm-fill-20261107.json · 已完成 10 项资产回执，无风险。
 - 11-09T21:08 · asset-lib-voice-corpus-bma-2026-11-07-bm-a.json · 机队任务已完成，无风险。
 - 11-09T21:09 · asset-lib-voice-corpus-2026-11-07-bm-a.json · 机队任务已完成，无风险。
+- 11-09T21:10 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-09T21:10 · asset-lib-library-check-2026-11-07-bm-a.json · 已完成资产库体检，发现多处资源缺失且存在严重风险。
+- 11-09T21:10 · asset-lib-env-check-2026-11-07-bm-a.json · 机队回执显示任务失败，因缺少关键脚本及资产目录存在风险。
+- 11-09T21:10 · asset-lib-char-prompts-2026-11-07-bm-a.json · 已完成 8 角色×12 视角的机队计划生成，无错误风险。
+- 11-09T21:10 · asset-lib-asset-gen-2026-11-05-bm-a.json · 生成机队资产失败，因目标服务器拒绝连接导致任务中断。
+- 11-09T21:10 · VOICE-CORPUS-LIBRIVOX-BMA-20261106-bm-a.json · 机队任务已完成，无风险。
+- 11-09T21:10 · SIM-20261105T151635-05-1-bm-a.json · 任务失败，因路径错误导致回执文件未生成。
+- 11-09T21:10 · SELF-IMPROVE-bm-a-20261106-bm-a.json · 自改进任务已完成，无风险。
+- 11-09T21:10 · R-TRIAGE-FLEETOPS-BMA-20261107-bm-a.json · 已完成机队回执生成，无风险。
+- 11-09T21:10 · R-TRIAGE-BIGGAME-BMM-20261105-bm-a.json · 已完成大游戏机队回执，无风险。
