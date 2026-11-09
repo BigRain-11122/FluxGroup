@@ -142,11 +142,40 @@ def lane_rc():
     return out
 
 
+def receipt_index():
+    """id -> True for receipts declaring a landed artifact with an OK outcome.
+
+    Built once with a per-file guard. Before 2026-11-10 one malformed .json raised
+    inside the scan loop and the bare `except: pass` swallowed it, so receipt_ok was
+    False for EVERY card: cross-machine cards fell through to the STALL leg and were
+    marked FAILED over deliverables that really existed (7 bad files, 16 cards).
+    """
+    out = {}
+    try:
+        names = os.listdir(RECEIPT_DIR)
+    except Exception:
+        return out
+    for n in names:
+        if not n.endswith(".json"):
+            continue
+        try:
+            rec = json.load(open(os.path.join(RECEIPT_DIR, n), encoding="utf-8-sig"))
+        except Exception:
+            continue            # one bad file must not void the whole scan
+        if not isinstance(rec, dict):
+            continue
+        if rec.get("id") and rec.get("deliverable_exists") \
+                and str(rec.get("outcome") or "OK").upper() == "OK":
+            out[rec["id"]] = True
+    return out
+
+
 def main():
     rows = [json.loads(l) for l in open(Q, encoding="utf-8") if l.strip()]
     beats = lane_beat()
     rcs = lane_rc()
     progs = lane_progress()
+    receipts = receipt_index()
     now_iso = datetime.now().isoformat(timespec="seconds")
     closed, waiting, requeued, awaiting, blocked = [], [], [], [], []
     touched = []
@@ -164,18 +193,7 @@ def main():
         local = os.path.join(ROOT, dl) if dl and not os.path.isabs(dl) else dl
         # 产物可能落在别的机器上（跨机路径假红，2026-11-02 自审）：本机看不见不代表没做出来。
         # 以回执为准——回执说产物在、退出码合格，就认。
-        receipt_ok = False
-        try:
-            for n in os.listdir(RECEIPT_DIR):
-                if not n.endswith(".json"):
-                    continue
-                rec = json.load(open(os.path.join(RECEIPT_DIR, n), encoding="utf-8-sig"))
-                if rec.get("id") == r.get("id") and rec.get("deliverable_exists") \
-                        and str(rec.get("outcome") or "OK").upper() == "OK":
-                    receipt_ok = True
-                    break
-        except Exception:
-            pass
+        receipt_ok = bool(receipts.get(r.get("id")))
         # artifact_ok rejects a refusal receipt that landed on the promised path: the
         # BLOCKED file exists but nothing was produced (2026-11-03, twice).
         ok = fc.artifact_ok(local) or receipt_ok
