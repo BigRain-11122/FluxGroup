@@ -1,19 +1,19 @@
 # 产出看板（盘上事实）
 
 > 判据：只认卡上 deliverable 在盘上存在；产品件与内部件分开算。
-> 生成时间：2026-11-09 19:14；近 7 天口径。
+> 生成时间：2026-11-09 19:22；近 7 天口径。
 
 ## 一、总数
 
 | 口径 | 数量 |
 |---|---|
-| DONE 卡 | 587 |
+| DONE 卡 | 579 |
 | 交付物存在 | 529 |
 | **产品件** | **1** |
 | 内部件（审计/回执/状态） | 528 |
-| 交付物缺失 | 47 |
+| 交付物缺失 | 39 |
 | 近 7 天更新的产品件 | 1 |
-| 在跑卡 | 5 |
+| 在跑卡 | 14 |
 
 ## 二、近 7 天产品件（按时间）
 
@@ -29,7 +29,7 @@
 | bigdomain | 0 | 5 |
 | biggame | 0 | 125 |
 | biglife | 0 | 3 |
-| bigmoney | 9 | 76 |
+| bigmoney | 2 | 76 |
 | bigstream-drama | 1 | 12 |
 | bigstream-duanju | 0 | 6 |
 | bigstream-mv | 0 | 89 |
@@ -44,6 +44,11 @@
 - OPEN · bigstream-duanju · R-NEXT-BIGSTREAMD-TTS-QC-20261109 · bm-c
 - RUNNING · bigstream-mv · R-MV-RELEASE-PACK-20261109 · bm-m
 - RUNNING · bigdomain · R-19.9-PACKAGE-20261109 · bm-a
+- RUNNING · group · CEOQ-0364030d5b · bm-b
+- RUNNING · group · CEOQ-e6d48a7097 · bm-b
+- RUNNING · group · CEOQ-e6e70d7725 · bm-b
+- RUNNING · biglife · PATROL-biglife-20261109 · bm-b
+- RUNNING · bigdomain · PATROL-bigdomain-20261109 · bm-b
 
 ## 五、盘上成品（不依赖卡，近 7 天，>50KB）
 
@@ -73,11 +78,10 @@
 - 11-03 18:22 · 4.4 MB · media/review-720p/asm-sw-720p.mp4
 - 11-03 18:22 · 4.4 MB · media/review-720p/asm-hw2-720p.mp4
 
-## 六、声称 DONE 但盘上没有（47）
+## 六、声称 DONE 但盘上没有（39）
 
 - Q-MV-0001-001 → D:\FleetWorker\review\aesthetic_v716b.json
 - Q-MV-0001-002 → D:\FleetWorker\review\trans_v716b.json
-- Q-MV-0001-003 → stability verdict
 - Q-MV-0001-004 → D:\FleetWorker\review\sheets_v717
 - Q-MV-0001-005 → D:\FleetWorker\review\jitter_v717.json
 - Q-MV-0001-006 → D:\FleetWorker\review\flags_v717\index.json
@@ -90,4 +94,5 @@
 - Q-MV-0001-011 → D:\FleetWorker\review\flag_board_v717\index.json
 - Q-MV-0001-012 → D:\FleetWorker\review\ceo_items_v717\signoff\SIGN-OFF-SHEET-v717.json
 - Q-MV-0001-013 → D:\FleetWorker\review\ceo_items_v717\erablind\ANSWERS.md
+- Q-MV-0001-014 → D:\FleetWorker\review\ceo_items_v717\staticjump\STATIC-JUMP-11.md
 
