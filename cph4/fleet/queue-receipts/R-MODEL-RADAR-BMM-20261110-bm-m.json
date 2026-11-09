@@ -1,0 +1,17 @@
+{
+ "id": "R-MODEL-RADAR-BMM-20261110",
+ "node": "bm-m",
+ "rc": 0,
+ "seconds": 0.4,
+ "cmd": "python Tools/fleet/model_radar.py run --node bm-m --idle-only --apply",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "cph4/fleet/queue-receipts/model-radar-bm-m-20261110.json",
+ "deliverable_exists": true,
+ "ts": "2026-11-10T00:00:26",
+ "stdout_tail": "{\"skipped_idle\": \"queue-running:R-TRIAGE-BIGGAME-BMM-20261110\", \"node\": \"bm-m\"}\n",
+ "stderr_tail": ""
+}

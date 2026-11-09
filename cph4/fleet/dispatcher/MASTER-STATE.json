@@ -1,43 +1,43 @@
 {
- "ts": "2026-11-09T23:59:01",
- "cycle": 197,
+ "ts": "2026-11-10T00:00:25",
+ "cycle": 198,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-09T23:59:01",
+ "master_tick_ts": "2026-11-10T00:00:25",
  "queue": {
-  "total": 1698,
-  "open": 15,
-  "running": 1,
+  "total": 1715,
+  "open": 16,
+  "running": 17,
   "done": 581,
   "failed": 5
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 47.7,
-   "cpu_load_pct": 67,
-   "ram_free_gb": 60.9,
+   "hb_age_s": 11.8,
+   "cpu_load_pct": 41,
+   "ram_free_gb": 59.8,
    "gpu_util_pct": 0,
-   "job": null,
+   "job": "R-PLAN-BIGCOMPUTE-20261110",
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-09T23:55:06",
+    "ts": "2026-11-10T00:00:06",
     "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
-   "idle_confirmed": true,
-   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 88
+   "idle_confirmed": false,
+   "idle_reason": "",
+   "idle_rounds": 0
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 6.9,
-   "cpu_load_pct": 31,
+   "hb_age_s": 31.8,
+   "cpu_load_pct": 37,
    "ram_free_gb": 11.3,
-   "gpu_util_pct": 3,
+   "gpu_util_pct": 19,
    "job": "Q-VCORP-TRAIN-z04-R7-20261109",
    "last_result": null,
    "idle_confirmed": false,
@@ -46,61 +46,64 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 122.2,
-   "cpu_load_pct": 13,
-   "ram_free_gb": 3.1,
-   "gpu_util_pct": 1,
+   "hb_age_s": 67.9,
+   "cpu_load_pct": 11,
+   "ram_free_gb": 3.2,
+   "gpu_util_pct": 0,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-09T23:57:06",
-    "reason": "CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (22.0h 零产出，唤醒清单空)",
+    "ts": "2026-11-09T23:59:42",
+    "reason": "CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (22.1h 零产出，唤醒清单空)",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
    "idle_reason": "CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (22.1h 零产出，唤醒清单空)",
-   "idle_rounds": 224
+   "idle_rounds": 225
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 1.5,
-   "cpu_load_pct": 7,
-   "ram_free_gb": 13.3,
+   "hb_age_s": 1.6,
+   "cpu_load_pct": 18,
+   "ram_free_gb": 10.6,
    "gpu_util_pct": null,
-   "job": null,
+   "job": "R-TRIAGE-BIGGAME-BMM-20261110",
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-09T23:58:48",
+    "ts": "2026-11-09T23:59:48",
     "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
-   "idle_confirmed": true,
-   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 34
+   "idle_confirmed": false,
+   "idle_reason": "",
+   "idle_rounds": 0
   }
  },
  "idle_rounds": {
-  "bm-a": 88,
+  "bm-a": 0,
   "bm-b": 0,
-  "bm-c": 224,
-  "bm-m": 34
+  "bm-c": 225,
+  "bm-m": 0
  },
  "lines": {
   "bigstream-mv": {
    "name": "BigStream·MV 41 曲",
    "status": "ACTIVE",
-   "verdict": "WAITING",
+   "verdict": "WORKING",
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "R-NEXT-BIGSTREAMM-REBUILD-20261110",
+    "bigstream-mv-gate-2026-11-10"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": null
   },
@@ -111,9 +114,13 @@
    "age_h": null,
    "stale_after_h": 48.0,
    "owner": "漫剧席",
-   "jobs": [],
-   "no_supply": true,
-   "blockers": [],
+   "jobs": [
+    "R-NEXT-BIGSTREAMD-EVIDENCE-20261110"
+   ],
+   "no_supply": false,
+   "blockers": [
+    "R-NEXT-BIGSTREAMD-EVIDENCE-20261110:no-lane"
+   ],
    "note": null
   },
   "bigstream-duanju": {
@@ -150,8 +157,11 @@
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "游戏席",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "R-NEXT-BIGGAME-SUBMIT-P-20261110",
+    "biggame-pack-scan-2026-11-10"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": null,
    "stuck_stage": "game-design",
@@ -176,8 +186,11 @@
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "量化席",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "R-PLAN-BIGMONEY-20261110",
+    "bigmoney-backtest-2026-11-10"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": "2026-11-04 夜班重启：原回测阶段钉 bm-d，而 bm-d 自 10-29 离线；改由 bm-b（有 quant 仓与数据）出「下月持仓信号 CSV」，主控按 P1 恢复派单。",
    "stuck_stage": "quant-data",
@@ -186,36 +199,42 @@
   "bigdomain": {
    "name": "BigDomain·硅基域商业化",
    "status": "ACTIVE",
-   "verdict": "WAITING",
+   "verdict": "WORKING",
    "age_h": null,
    "stale_after_h": 36.0,
    "owner": "域运营席",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "R-PLAN-BIGDOMAIN-20261110"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": null
   },
   "bigcompute": {
    "name": "BigCompute·硅基算力",
    "status": "ACTIVE",
-   "verdict": "WAITING",
+   "verdict": "WORKING",
    "age_h": null,
    "stale_after_h": 36.0,
    "owner": "算力中枢席",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "R-PLAN-BIGCOMPUTE-20261110"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": null
   },
   "biglife": {
    "name": "BigLife·数字生命",
    "status": "ACTIVE",
-   "verdict": "WAITING",
+   "verdict": "WORKING",
    "age_h": null,
    "stale_after_h": 48.0,
    "owner": "生命生产席",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "R-PLAN-BIGLIFE-20261110"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": null
   },
@@ -289,7 +308,8 @@
     "Q-VCORP-TRAIN-e05-R7-20261109",
     "Q-VCORP-TRAIN-e06-R7-20261109",
     "Q-VCORP-TRAIN-e07-R7-20261109",
-    "Q-VCORP-TRAIN-e08-R7-20261109"
+    "Q-VCORP-TRAIN-e08-R7-20261109",
+    "asset-lib-env-check-2026-11-10"
    ],
    "no_supply": false,
    "blockers": [],
@@ -822,7 +842,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 15,
+  "local": 16,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -830,19 +850,36 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 2,
+  "cpu": 3,
   "gpu": 13
  },
  "supply_added": [],
- "events": [],
+ "events": [
+  "R-NEXT-BIGSTREAMM-REBUILD-20261110 -> bm-a (cpu)",
+  "bigmoney-backtest-2026-11-10 -> bm-b (cpu)",
+  "asset-lib-env-check-2026-11-10 -> bm-b (cpu)",
+  "bigstream-mv-gate-2026-11-10 -> bm-a (cpu)",
+  "biggame-pack-scan-2026-11-10 -> bm-a (cpu)",
+  "R-NEXT-BIGGAME-SUBMIT-P-20261110 -> bm-a (cpu)",
+  "R-PLAN-BIGCOMPUTE-20261110 -> bm-a (cpu)",
+  "R-PLAN-BIGDOMAIN-20261110 -> bm-b (cpu)",
+  "R-PLAN-BIGLIFE-20261110 -> bm-a (cpu)",
+  "R-PLAN-BIGMONEY-20261110 -> bm-b (cpu)",
+  "R-TRIAGE-BIGSTREAMMV-BMC-20261110 -> bm-b (cpu)",
+  "R-TRIAGE-BIGGAME-BMM-20261110 -> bm-m (cpu)",
+  "R-MODEL-RADAR-BMA-20261110 -> bm-a (cpu)",
+  "R-MODEL-RADAR-BMB-20261110 -> bm-a (cpu)",
+  "R-MODEL-RADAR-BMC-20261110 -> bm-m (cpu)",
+  "R-MODEL-RADAR-BMM-20261110 -> bm-m (cpu)"
+ ],
  "violations": [
-  "bm-a IDLE-CONFIRMED x88 (SELF-DISPATCH: lane scans its own backlo)",
-  "bm-c IDLE-CONFIRMED x224 (CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (22.1)",
-  "bm-m IDLE-CONFIRMED x34 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-c IDLE-CONFIRMED x225 (CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (22.1)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
  "lane_files_written": [
-  "bm-c"
+  "bm-a",
+  "bm-b",
+  "bm-m"
  ]
 }
