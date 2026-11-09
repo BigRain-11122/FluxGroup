@@ -1375,3 +1375,13 @@
 - 11-09T22:41 · R-TRIAGE-BIGGAME-BMM-20261107-bm-m.json · 已完成大游戏机队回执生成，无错误风险。
 - 11-09T22:41 · inference-audit-bm-m-20261107.json · 机队运行正常，但存在 OLLAMA_NUM_PARALLEL 配置错误风险。
 - 11-09T22:41 · biz-car-gaming-20261107.json · 已完成车机游戏任务，无风险。
+- 11-09T22:42 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-09T22:42 · biz-mv-publish-checklist-20261107.json · 任务已完成，无风险。
+- 11-09T22:42 · R-NEXT-BIGGAME-SUBMIT-P-20261107-bm-m.json · 生成机队回执失败，因 36 款产品缺失图标、截图等关键资产。
+- 11-09T22:42 · skill-promote-20261106.json · 已完成基础任务，因工具缺失导致多项关键技能无法执行。
+- 11-09T22:42 · model-radar-junshengsundemacbook-pro.local-20261106.json · 今日已运行，跳过本次回执，无风险。
+- 11-09T22:42 · R-TRIAGE-BIGLIFE-BMM-20261106-bm-m.json · 已完成大飞机机队三叉处理，无风险。
+- 11-09T22:42 · R-TRIAGE-BIGDOMAIN-BMC-20261106-bm-m.json · 已完成大域机队回执，无风险。
+- 11-09T22:42 · R-NEXT-BIGSTREAMD-EVIDENCE-20261106-bm-m.json · 已完成大流剧种机队回执，无风险。
+- 11-09T22:42 · AUD-SOFT-20261106T172238-39-bm-m.json · 已完成软性审计，发现隐私字段缺失，无系统错误。
+- 11-09T22:42 · AUD-SOFT-20261106T172238-38-bm-m.json · 已完成对“盛永康旧软著”的审计，发现缺失源程序等关键文件。
