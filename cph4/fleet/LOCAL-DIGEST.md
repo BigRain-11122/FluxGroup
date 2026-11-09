@@ -1585,3 +1585,13 @@
 - 11-09T23:07 · bigmoney-signal-2026-11-08-bm-b.json · 因输入缺失导致任务失败，无风险。
 - 11-09T23:07 · bigmoney-conclusion-2026-11-08-bm-b.json · 任务执行失败，因输入文件缺失导致无风险。
 - 11-09T23:07 · biggame-accept-2026-11-08-bm-b.json · 机队质量检查失败，因缺少 game-packs 和 game-10s 包存在风险。
+- 11-09T23:08 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
+- 11-09T23:08 · _last_lane_bm-m.json · 机队已自派完成回单扫描，无风险。
+- 11-09T23:08 · asset-voice-2026-11-07.json · 机队未通过审核：因缺授权声明且数据量严重不足，存在合规与训练失败风险。
+- 11-09T23:08 · asset-lib-voice-dataset-2026-11-07-bm-b.json · 已完成语音数据集审计，因缺乏授权且时长不足导致失败，存在合规风险。
+- 11-09T23:08 · asset-lib-voice-corpus-bmb-2026-11-07-bm-b.json · 语音语料预处理任务失败，因输入被阻断导致无风险。
+- 11-09T23:08 · asset-lib-voice-assemble-2026-11-09-bm-b.json · 语音数据集组装任务失败，因输入被阻断且无交付物。
+- 11-09T23:08 · asset-lib-library-check-2026-11-07-bm-b.json · 资产库检查失败，因目标文件缺失导致任务中断。
+- 11-09T23:08 · asset-lib-library-check-2026-11-06-bm-b.json · 资产库检查失败，因目标文件缺失导致任务中断。
+- 11-09T23:08 · asset-lib-env-check-2026-11-09-bm-b.json · 机队资产环境检查失败，因缺失 torch 等关键模块存在运行风险。
+- 11-09T23:08 · asset-lib-env-check-2026-11-08-bm-b.json · 机队资产环境检查失败，因缺失 torch 等关键模块及配置目录存在风险。
