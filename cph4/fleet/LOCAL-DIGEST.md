@@ -1815,3 +1815,13 @@
 - 11-09T23:35 · asset-lib-accept-2026-11-03-bm-m.json · 已完成机队质量检查，但发现合同类错误导致任务失败。
 - 11-09T23:35 · quality-asset-lib-2026-11-03.json · 已完成机队回执检查，无风险且满足交付条件。
 - 11-09T23:35 · asset-lib-char-probe-2026-11-03-bm-m.json · 任务失败，因 ComfyUI 服务不可达导致输入被阻断。
+- 11-09T23:36 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-09T23:36 · asset-gen-props-bm-c-20261103-blocked.json · 因 ComfyUI 服务未响应导致资产生成任务被阻断，需立即修复连接。
+- 11-09T23:36 · asset-lib-voice-corpus-bmc-2026-11-03-bm-m.json · 任务失败因无输入数据，存在阻塞风险。
+- 11-09T23:36 · voice-corpus-bm-c-2026-11-03.json · 本分片因缺少音频文件被阻塞，存在任务无法继续的风险。
+- 11-09T23:36 · asset-lib-voice-corpus-bma-2026-11-03-bm-m.json · 任务因输入缺失失败，当前无风险。
+- 11-09T23:36 · voice-corpus-bm-a-2026-11-03.json · 本批次因缺少音频文件被阻塞，存在任务无法继续的风险。
+- 11-09T23:36 · asr-subs-20261103.json · 已完成 Whisper 本地部署与字幕质检，发现一处文本不符缺陷并记录待修正。
+- 11-09T23:36 · triage-asset-lib-20261103.md · 机队回执确认资产产出新鲜且无风险，后续将自动按序推进。
+- 11-09T23:36 · triage-car-gaming-20261103.md · 车机 BU 需补建目录并补充输入，否则无法产出。
+- 11-09T23:36 · triage-recon-20261103.md · 拆解部两项工段超阈停滞，需立即补产出或正式收线。
