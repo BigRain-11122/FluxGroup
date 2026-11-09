@@ -165,18 +165,54 @@ def _node_of(receipt_basename):
 
 
 def _node_last_output():
-    """每台机器「最后一次真产出」的时刻（秒）。产物判据=state/remote-receipts 里带该机后缀的回执。"""
+    """每台机器「最后一次真产出」的时刻（秒）。
+
+    判据源（2026-11-10 修·INC-20261110-0021）：两处取最新，不再只认一处。
+    旧实现只 glob `state/remote-receipts/`，该目录实测为 0 文件，于是所有机器在停摆
+    判据眼里都是「零产出」；而 lane_trust 读的 `queue-receipts/` 显示 bm-c 20 分钟前
+    还有回执（近 7 天 120 份）。同一事实两处判据打架 → bm-c 被判 EXECUTOR-DEAD，
+    被拒收全部新活（连给它释放内存的解锁卡也拒），越没产出越不给活。
+    正法：两边都读、取最新；优先用回执内容里的 node/ts（与 lane_trust 同法），
+    文件名后缀只在内容缺 node 时兜底。
+    """
     import glob
+    import time as _t
     out = {}
+
+    def _bump(node, m):
+        if node and m > out.get(node, 0):
+            out[node] = m
+
+    # ① 权威源：queue-receipts 内容里的 node + ts（与 lane_trust.tier 同一判据）
+    for p in glob.glob(os.path.join(F, "queue-receipts", "*.json")):
+        node, m = None, None
+        try:
+            with open(p, encoding="utf-8") as fh:
+                d = json.load(fh)
+            if isinstance(d, dict):
+                node = d.get("node")
+                ts = str(d.get("ts") or "")[:19]
+                if ts:
+                    m = _t.mktime(_t.strptime(ts, "%Y-%m-%dT%H:%M:%S"))
+        except Exception:
+            node, m = None, None
+        if m is None:
+            try:
+                m = os.path.getmtime(p)
+            except OSError:
+                continue
+        if not node:
+            node = _node_of(os.path.basename(p)[:-5])
+        _bump(node, m)
+
+    # ② 兜底源：state/remote-receipts 的按名归属（保留原行为，做并集不做替代）
     for p in glob.glob(os.path.join(F, "state", "remote-receipts", "*.json")):
         b = os.path.basename(p)[:-5]
-        node = _node_of(b)
         try:
             m = os.path.getmtime(p)
         except OSError:
             continue
-        if m > out.get(node, 0):
-            out[node] = m
+        _bump(_node_of(b), m)
     return out
 
 

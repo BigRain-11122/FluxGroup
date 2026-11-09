@@ -459,8 +459,11 @@ def lane_capacity(node, fleet, needs="cpu", vram_min=0, job=None):
         try:
             import blocker_loop as _bl
             idle_h = (time.time() - _bl._node_last_output().get(node, time.time())) / 3600.0
-            if idle_h > _bl._stalled_worker_hours():
-                return False, "EXECUTOR-DEAD (%.1fh 零产出，唤醒清单空)" % idle_h
+            # 救火卡豁免（2026-11-10·INC-20261110-0021）：停摆机唯一能自愈的路径就是
+            # 跑一张救援卡（撤驻留/修环境）。因「零产出」拒收救援卡是循环论证——
+            # 与 RAM floor 的 rescue 豁免同一法理（2026-11-02 bm-b 0.0GB 判例）。
+            if idle_h > _bl._stalled_worker_hours() and not (job is not None and job.get("rescue")):
+                return False, "EXECUTOR-DEAD (%.1fh 零产出)" % idle_h
         except Exception:
             pass          # 判不了就不排除（宁可不排除，也不许凭空拦活）
     if not info.get("online"):
