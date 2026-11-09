@@ -1845,3 +1845,13 @@
 - 11-09T23:39 · C-INFRA-AUDIT-BM-C-20261103-bm-m.json · 机队回执因输入被阻断而失败，存在任务无法继续的风险。
 - 11-09T23:39 · C-INFRA-AUDIT-BM-B-20261103-bm-m.json · 机队回执任务失败，因输入被阻断导致无法交付。
 - 11-09T23:39 · C-INFRA-AUDIT-BM-A-20261103-bm-m.json · 机队审计任务失败并触发阻断，存在交付风险。
+- 11-09T23:40 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
+- 11-09T23:40 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-09T23:40 · inference-audit-bm-b-blocked-20261103.json · 任务因节点不匹配被阻塞，无法交付且存在风险。
+- 11-09T23:40 · asset-lib-library-check-2026-11-03-bm-m.json · 已完成资产库体检，发现多处目录缺失且存在授权风险。
+- 11-09T23:40 · asset-library-2026-11-03.json · 角色包等 7 类资产全为空，仅音色包有 16% 进度但缺授权声明，存在交付与合规风险。
+- 11-09T23:40 · asset-lib-voice-dataset-2026-11-03-bm-m.json · 已完成语音数据集审计任务，但因缺失 ffmpeg 工具导致失败。
+- 11-09T23:40 · asset-voice-2026-11-03.json · 因缺少 ffmpeg 工具，机队回执被阻断且存在风险。
+- 11-09T23:40 · voice-corpus-bm-m-2026-11-03.json · 该批次因缺少音频文件被阻断，存在任务无法继续的风险。
+- 11-09T23:40 · inference-audit-bm-m-20261103.json · 机队已完成多模型部署与基准测试，但并发加速比低于预期且向量相似度计算结果被截断。
+- 11-09T23:40 · asset-lib-env-check-2026-11-03-bm-m.json · 机队回执显示任务失败，因缺失 ffmpeg、torch 等关键依赖存在运行风险。
