@@ -1445,3 +1445,13 @@
 - 11-09T22:49 · bigstream-mv-transition-2026-11-04-bm-a.json · 机队回执显示任务失败，存在硬帧错误风险。
 - 11-09T22:49 · bigstream-mv-stability-2026-11-04-bm-m.json · 运行稳定性检测脚本失败，因缺少 cv2 模块导致任务中断。
 - 11-09T22:49 · bigstream-mv-gate-2026-11-05-bm-m.json · 任务失败，因缺少 cv2 模块导致脚本报错。
+- 11-09T22:51 · self-improve-bm-m-latest.json · 机队已确认无风险，代码与依赖均通过检查。
+- 11-09T22:51 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-09T22:51 · biggame-playable-2026-11-03-bm-m.json · 机队扫描游戏包失败，无可用交付物且存在错误风险。
+- 11-09T22:51 · biggame-playable-2026-11-03-bm-a.json · 机队扫描失败，因无交付物且存在 E-ARTIFACT 风险。
+- 11-09T22:51 · biggame-pack-scan-2026-11-05-bm-m.json · 已完成机队回执扫描，无风险。
+- 11-09T22:51 · biggame-accept-2026-11-05-bm-m.json · 机队质量检查失败，因缺少 game-10s 组件导致整体未通过。
+- 11-09T22:51 · audio-qc-bmb-20261104.json · 机队回执显示任务已完成，但存在文件过期的风险。
+- 11-09T22:51 · asset-voice-2026-11-05.json · 机队未通过审核：因缺授权声明且数据量、时长及韵律指标均不达标。
+- 11-09T22:51 · asset-library-2026-11-05.json · 角色包完成但其余资产缺失或无授权，存在交付与合规风险。
+- 11-09T22:51 · asset-lib-voice-dataset-2026-11-05-bm-m.json · 已完成语音数据集审核，因缺授权声明且数据量不足导致任务失败。
