@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-10T00:22:18+0800",
+ "ts": "2026-11-10T00:28:37+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -13,7 +13,7 @@
    "blocker_type": "ENGINE",
    "blocker": "打标质量门与当前素材不匹配：抽 20 张 0 通过（理由是「只命中 0-2 个可见属性，像空话」），需改提示词/判据；另有 458 张待打",
    "state": "RUNNING",
-   "card": "Q-VCORP-TRAIN-z04-R7-20261109",
+   "card": "asset-lib-env-check-2026-11-10",
    "running_on": "bm-b"
   },
   {
@@ -43,7 +43,7 @@
    "blocker_type": "ENGINE",
    "blocker": "回测产物需在 bm-b 本地生成；主控无 quant 仓",
    "state": "RUNNING",
-   "card": "R-PLAN-BIGMONEY-20261110",
+   "card": "bigmoney-signal-2026-11-10",
    "running_on": "bm-b"
   },
   {
@@ -117,8 +117,8 @@
    "accept": "投影文件每日刷新；受阻面写明触发条件",
    "blocker_type": "ENGINE",
    "blocker": "四仓不在本机，需在对应机器生成投影",
-   "state": "QUEUED",
-   "card": "R-PLAN-FLUXVERSE-20261110",
+   "state": "STALLED",
+   "card": null,
    "running_on": null
   },
   {
@@ -132,9 +132,9 @@
    "accept": "页面文件在盘且本地可打开；支付位标明待接",
    "blocker_type": "CEO",
    "blocker": "商户号/支付资质未签（物理件）",
-   "state": "RUNNING",
-   "card": "R-PLAN-BIGDOMAIN-20261110",
-   "running_on": "bm-b"
+   "state": "STALLED",
+   "card": null,
+   "running_on": null
   },
   {
    "id": "bigcompute",
@@ -147,9 +147,9 @@
    "accept": "该节点有心跳、能领卡、1 张真卡产出产物",
    "blocker_type": "CEO",
    "blocker": "机器未接线/未装系统，需人到现场",
-   "state": "RUNNING",
-   "card": "R-PLAN-BIGCOMPUTE-20261110",
-   "running_on": "bm-a"
+   "state": "STALLED",
+   "card": null,
+   "running_on": null
   },
   {
    "id": "biglife",
@@ -162,9 +162,9 @@
    "accept": "回执含 20 条事件，每条对应真实事件流记录",
    "blocker_type": "ENGINE",
    "blocker": "城市仓不在本机",
-   "state": "RUNNING",
-   "card": "R-PLAN-BIGLIFE-20261110",
-   "running_on": "bm-a"
+   "state": "STALLED",
+   "card": null,
+   "running_on": null
   },
   {
    "id": "bighouse",
@@ -222,15 +222,15 @@
    "accept": "flux_check new=0；AUTOMATION-SURFACE 无 RISK 项",
    "blocker_type": "ENGINE",
    "blocker": "I2 存量 125 条卡面路径债、vault 缺盘 651 条",
-   "state": "RUNNING",
-   "card": "Q-TRIAGE-FLUXVERSE-20261110",
-   "running_on": "bm-b"
+   "state": "STALLED",
+   "card": null,
+   "running_on": null
   }
  ],
  "counts": {
-  "RUNNING": 8,
-  "QUEUED": 4,
-  "STALLED": 3
+  "RUNNING": 4,
+  "QUEUED": 3,
+  "STALLED": 8
  },
- "stalled_engine": 1
+ "stalled_engine": 4
 }

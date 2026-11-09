@@ -1,32 +1,32 @@
 {
- "ts": "2026-11-10T00:26:52",
- "cycle": 216,
+ "ts": "2026-11-10T00:28:37",
+ "cycle": 217,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-10T00:26:52",
+ "master_tick_ts": "2026-11-10T00:28:37",
  "queue": {
   "total": 1739,
   "open": 21,
   "running": 5,
   "done": 602,
-  "failed": 6
+  "failed": 7
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 39.5,
-   "cpu_load_pct": 69,
-   "ram_free_gb": 57.4,
+   "hb_age_s": 24.6,
+   "cpu_load_pct": 77,
+   "ram_free_gb": 55.5,
    "gpu_util_pct": 0,
-   "job": "bigstream-mv-gate-2026-11-10",
+   "job": "R-NEXT-BIGSTREAMM-REBUILD-20261110",
    "last_result": {
-    "job": "asset-lib-voice-corpus-2026-11-10",
-    "state": "BUSY",
-    "rc": null,
-    "ts": "2026-11-10T00:21:47",
+    "job": "R-PLAN-BIGLIFE-20261110",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-10T00:28:22",
     "reason": null,
-    "out_bytes": 0,
-    "elapsed_s": 120
+    "out_bytes": null,
+    "elapsed_s": null
    },
    "idle_confirmed": false,
    "idle_reason": "",
@@ -34,16 +34,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 59.1,
+   "hb_age_s": 38.5,
    "cpu_load_pct": 100,
-   "ram_free_gb": 11.1,
-   "gpu_util_pct": 8,
-   "job": "asset-lib-env-check-2026-11-10",
+   "ram_free_gb": 11.6,
+   "gpu_util_pct": 2,
+   "job": "bigmoney-signal-2026-11-10",
    "last_result": {
-    "job": "Q-VCORP-TRAIN-z04-R7-20261109",
+    "job": "asset-lib-env-check-2026-11-10",
     "state": "FAILED",
-    "rc": 0,
-    "ts": "2026-11-10T00:24:03",
+    "rc": 1,
+    "ts": "2026-11-10T00:28:15",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -54,9 +54,9 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 52.0,
-   "cpu_load_pct": 15,
-   "ram_free_gb": 3.9,
+   "hb_age_s": 78.3,
+   "cpu_load_pct": 17,
+   "ram_free_gb": 3.3,
    "gpu_util_pct": 0,
    "job": null,
    "last_result": {
@@ -69,35 +69,35 @@
     "elapsed_s": null
    },
    "idle_confirmed": true,
-   "idle_reason": "CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (22.5h 零产出，唤醒清单空)",
-   "idle_rounds": 243
+   "idle_reason": "CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (22.6h 零产出，唤醒清单空)",
+   "idle_rounds": 244
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 1.4,
-   "cpu_load_pct": 8,
-   "ram_free_gb": 11.2,
+   "hb_age_s": 1.7,
+   "cpu_load_pct": 11,
+   "ram_free_gb": 10.7,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-10T00:26:14",
+    "ts": "2026-11-10T00:28:14",
     "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 7
+   "idle_rounds": 8
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
-  "bm-c": 243,
-  "bm-m": 7
+  "bm-c": 244,
+  "bm-m": 8
  },
  "lines": {
   "bigstream-mv": {
@@ -108,6 +108,7 @@
    "stale_after_h": 24.0,
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
    "jobs": [
+    "R-NEXT-BIGSTREAMM-REBUILD-20261110",
     "bigstream-mv-gate-2026-11-10"
    ],
    "no_supply": false,
@@ -305,7 +306,6 @@
     "Q-VCORP-TRAIN-e06-R7-20261109",
     "Q-VCORP-TRAIN-e07-R7-20261109",
     "Q-VCORP-TRAIN-e08-R7-20261109",
-    "asset-lib-env-check-2026-11-10",
     "asset-lib-voice-corpus-2026-11-10",
     "asset-lib-face-dataset-2026-11-10",
     "asset-lib-char-gen-2026-11-10",
@@ -856,12 +856,19 @@
   "gpu": 16
  },
  "supply_added": [],
- "events": [],
+ "events": [
+  "asset-lib-env-check-2026-11-10 FAILED via bm-b",
+  "R-NEXT-BIGSTREAMM-REBUILD-20261110 -> bm-a (cpu)"
+ ],
  "violations": [
-  "bm-c IDLE-CONFIRMED x243 (CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (22.5)",
-  "bm-m IDLE-CONFIRMED x7 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-c IDLE-CONFIRMED x244 (CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (22.6)",
+  "bm-m IDLE-CONFIRMED x8 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
- "lane_files_written": []
+ "lane_files_written": [
+  "bm-a",
+  "bm-b",
+  "bm-c"
+ ]
 }
