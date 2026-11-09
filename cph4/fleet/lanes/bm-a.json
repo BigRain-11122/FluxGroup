@@ -1,6 +1,6 @@
 {
  "node": "bm-a",
- "ts": "2026-11-10T02:34:34",
+ "ts": "2026-11-10T02:35:52",
  "jobs": [
   {
    "id": "R-TRIAGE-BIGMONEY-BMA-20261110",
@@ -15,23 +15,9 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
-  },
-  {
-   "id": "R-TRIAGE-BIGDOMAIN-BMA-20261110",
-   "title": "BigDomain·硅基域商业化 线证据扫描（bm-a 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigdomain --node bm-a",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigdomain-bm-a-20261110.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 40.2/1.0 GB"
+ "capacity_note": "ram 43.5/1.0 GB"
 }
