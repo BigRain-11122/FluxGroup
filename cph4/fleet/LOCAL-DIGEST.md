@@ -1995,3 +1995,13 @@
 - 11-09T23:57 · R-ART-PUSH-C-20261102-bm-m.json · 在 bm-m 节点执行 PowerShell 推送失败，因系统未安装该命令且目标文件不存在。
 - 11-09T23:57 · R-ART-PUSH-B-20261102-bm-m.json · 在 bm-m 节点执行 PowerShell 推送脚本失败，因系统未安装该命令且目标文件不存在。
 - 11-09T23:57 · R-TRIAGE-BIGHOUSE-BMM-20261102-bm-m.json · 已完成 Bighouse 机队回执生成，无错误风险。
+- 11-09T23:58 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-09T23:58 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-09T23:58 · triage-bighouse-20261102.md · 本机无相关证据导致无法判定，需改派持有仓库的机器。
+- 11-09T23:58 · R-TRIAGE-BIGDOMAIN-BMM-20261102-bm-m.json · 已完成大域机队回执生成，无错误风险。
+- 11-09T23:58 · triage-bigdomain-20261102.md · 本机未归该线管辖，需改派至持有仓库的机器。
+- 11-09T23:58 · mv-v718-still-5273.json · 完成视频质检无风险，判定通过。
+- 11-09T23:58 · mv-full-audit-r2-20261102.json · 完成机队回执，存在重复帧与模糊时段风险。
+- 11-09T23:58 · R-MV-V718-STILL-5273-bm-a.json · 机队任务已完成，无风险。
+- 11-09T23:58 · R-MV-GATE-R2-20261102-bm-a.json · 机队回执显示 5623 帧视频处理通过，无风险。
+- 11-09T23:58 · R-MV-AUDIT-R2-20261102-bm-a.json · 已完成机队全量审计，存在少量指标异常风险。
