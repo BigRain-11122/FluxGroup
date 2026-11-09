@@ -30,6 +30,33 @@ def log(msg):
         f.write("%s %s\n" % (time.strftime("%Y-%m-%dT%H:%M:%S"), msg))
 
 
+SYNC = os.path.join(ROOT, "cph4", "fleet", "state", "state-sync.json")
+SYNC_LABEL = "com.fluxgroup.statesync"
+
+
+def sync_check(apply, stale_s=900):
+    """状态同步面也要有人看：它静默死掉时，跨机可见性会慢慢变旧而没人报警。"""
+    try:
+        d = json.load(open(SYNC, encoding="utf-8"))
+        ok = float(d.get("ok_ts") or 0)
+        until = float(d.get("until") or 0)
+    except Exception:
+        ok, until = 0.0, 0.0
+    if until and time.time() < until:
+        return 0
+    age = (time.time() - ok) if ok else 1e9
+    if age <= stale_s:
+        return 0
+    if not apply:
+        print("SYNC-STALE %.0fs - would kickstart %s" % (age, SYNC_LABEL))
+        return 0
+    log("watchdog: statesync stale %.0fs -> kickstart" % age)
+    subprocess.run(["launchctl", "kickstart", "-k", "gui/%d/%s" % (os.getuid(), SYNC_LABEL)],
+                   capture_output=True)
+    print("RESTARTED %s (stale %.0fs)" % (SYNC_LABEL, age))
+    return 0
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--stale-s", type=int, default=420)
@@ -42,6 +69,7 @@ def main():
         age = 1e9
     alive = subprocess.run(["pgrep", "-f", "master_pulse.py --loop"],
                            capture_output=True, text=True).stdout.strip()
+    sync_check(a.apply)
     if age <= a.stale_s:
         return 0
     # A stale heartbeat with a live process is the dangerous case: the loop is wedged.
