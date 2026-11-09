@@ -107,3 +107,15 @@ pull 不再整文件冲突——今天主控脉被 git 卡死的直接原因就�
 
 代价：本机最坏晚 60s 看到远端状态；换来的是 git 再坏也不影响 7x24 调度。
 
+
+## 九、看护补强（2026-11-09 18:5x 自主）
+
+1. **watchdog 也看同步面**：statesync 的 ok_ts 超过 15 分钟没更新（且不在熔断窗口），
+   pulse_watchdog 会 kickstart 它——同步面静默死掉会让跨机状态慢慢变旧而无人报警。
+2. **loadwatch 从"只报红"改成"真补料"**：plist 补了 --apply，实测会跑 supply_batch + demand_gen
+   （rc=0）。之前它每 60s 报一次 LOW 却什么都不做，红得没有意义。
+3. **caffeinate 已确认生效**：pmset 断言里有 PreventUserIdleSystemSleep（pid 921）。
+
+当前供给实况：bm-a 2/3、bm-b 2/3、bm-c 3/3（bm-m 为控制节点不考核）。
+还差的是真活来源，不是调度代码——需求源干了，守卫只能在"不造假卡"的前提下报缺口。
+
