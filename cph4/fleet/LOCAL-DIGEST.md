@@ -2590,3 +2590,13 @@
 - 11-10T02:17 · R-TRIAGE-FLUXVERSE-BMA-20261109-bm-a.json · 已完成机队回执生成，无风险。
 - 11-10T02:17 · R-TRIAGE-FLUXVERSE-BMA-20261109-acceptance.json · 机队回执已生成但被拒收，因内容非标准交付物且无风险。
 - 11-10T02:17 · R-TRIAGE-BIGSTREAMMV-BMA-20261110-bm-a.json · 已完成机队回执生成，无风险。
+- 11-10T02:18 · _last_lane_bm-m.json · 机队已自派完成回单扫描，无风险。
+- 11-10T02:18 · R-TRIAGE-BIGSTREAMMV-BMA-20261110-acceptance.json · 机队回执已生成但被拒收，因内容非标准交付物且无风险。
+- 11-10T02:18 · R-TRIAGE-BIGSTREAMMV-BMA-20261109-bm-a.json · 已完成机队回执生成，无风险。
+- 11-10T02:18 · R-TRIAGE-BIGSTREAMMV-BMA-20261109-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物。
+- 11-10T02:18 · R-TRIAGE-BIGGAME-BMA-20261110-bm-a.json · 已完成机队回执生成，无风险。
+- 11-10T02:18 · R-TRIAGE-BIGGAME-BMA-20261110-acceptance.json · 已生成机队回执，但被拒因内容非标准交付物。
+- 11-10T02:19 · R-TRIAGE-BIGGAME-BMA-20261109-bm-a.json · 已完成机队 triage 任务，无错误风险。
+- 11-10T02:19 · R-TRIAGE-BIGGAME-BMA-20261109-acceptance.json · 已提交机队回执，但被拒因非标准产物且无风险。
+- 11-10T02:19 · R-PLAN-BIGSTREAMMV-20261109-bm-a.json · 已完成机队回执生成，无风险。
+- 11-10T02:19 · R-PLAN-BIGSTREAMMV-20261109-acceptance.json · 完成机队回执提交，但被拒因交付物非标准产物。
