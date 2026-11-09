@@ -1475,3 +1475,13 @@
 - 11-09T22:53 · asset-gen-props-2026-11-04.json · 机队回执显示 props 类下 18 个节点全部失败，因目标服务器被拒绝而存在严重风险。
 - 11-09T22:53 · asset-env-2026-11-05.json · 已完成机队回执检查，因 CUDA 不可用且关键资产目录缺失导致任务失败。
 - 11-09T22:53 · asset-env-2026-11-04.json · 已完成机队回执检查，因 CUDA 不可用且缺失关键训练栈导致失败。
+- 11-09T22:54 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-09T22:54 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-09T22:54 · R-PLAN-BIGSTREAMMV-20261102-bm-m.json · 运行机队回执脚本失败，因系统缺少 python 环境导致任务中断。
+- 11-09T22:54 · R-PLAN-BIGSTREAMDRA-20261102-bm-m.json · 完成机队回执生成，因环境缺失 python 命令导致任务失败。
+- 11-09T22:54 · R-PLAN-BIGSTREAMDRA-20261101-bm-a.json · 因脚本文件缺失导致任务失败，存在执行风险。
+- 11-09T22:54 · R-PLAN-BIGMONEY-20261104-bm-m.json · 已完成机队回执分析，无错误风险。
+- 11-09T22:54 · R-PLAN-BIGDOMAIN-20261102-bm-m.json · 完成机队回执生成，因环境缺失 python 命令导致任务失败。
+- 11-09T22:54 · R-NEXT-BIGSTREAMM-GATE-20261103-bm-m.json · 任务执行失败，因缺少 cv2 模块导致脚本报错。
+- 11-09T22:54 · R-NEXT-BIGSTREAMM-GATE-20261103-bm-c.json · 任务因输入文件缺失失败，存在流程阻塞风险。
+- 11-09T22:54 · R-NEXT-BIGSTREAMM-GATE-20261102-bm-a.json · 机队任务完成但存在重复帧与近静态镜头风险。
