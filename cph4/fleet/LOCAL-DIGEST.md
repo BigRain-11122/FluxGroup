@@ -1555,3 +1555,13 @@
 - 11-09T23:03 · vcorpus-prep-e04-r4-20261105.json · 完成 107 段处理，存在约 19 个文件因过短被跳过。
 - 11-09T23:03 · vcorpus-prep-e03-r4-20261105.json · 完成 134 文件处理，因时长不足或无法切分导致 22 个文件被跳过。
 - 11-09T23:03 · trust-receipt-z01-train-bm-b.json · 已完成 z01 机队回执，无风险。
+- 11-09T23:04 · self-improve-bm-m-latest.json · 机队已确认无风险，代码与依赖均通过自检。
+- 11-09T23:04 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-09T23:04 · skill-promote-20261109.json · 已完成部分任务，因工具缺失导致大量技能无法执行。
+- 11-09T23:04 · trust-receipt-receipt-hygiene-bm-b.json · 已完成机队回执全树审计，无缺失且无错误分类。
+- 11-09T23:04 · trust-receipt-platform-pack-ep001-bm-b.json · 已完成多平台复用包部署，当前无风险。
+- 11-09T23:04 · trust-receipt-loop-liveness-bm-b.json · 14 个探测节点中 13 个存活，存在 1 个故障风险。
+- 11-09T23:04 · triage-fluxverse-20261109.md · 三工段均超阈停滞，需立即补全输入或正式收线。
+- 11-09T23:04 · triage-fluxverse-20261108.md · 机队回执显示三工段均超阈停滞，需立即补全输入或正式收线。
+- 11-09T23:04 · triage-fleet-ops-20261107.md · ops-canary 工段因超阈 25 小时被判定 STALE，需立即补产出或收线。
+- 11-09T23:04 · triage-bigmoney-20261109.md · 未建立证据目录导致无法评估，需立即补全基础数据。

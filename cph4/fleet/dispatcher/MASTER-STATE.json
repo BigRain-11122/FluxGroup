@@ -1,22 +1,22 @@
 {
- "ts": "2026-11-09T23:01:14",
- "cycle": 166,
+ "ts": "2026-11-09T23:04:06",
+ "cycle": 167,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-09T23:01:14",
+ "master_tick_ts": "2026-11-09T23:04:06",
  "queue": {
   "total": 1688,
-  "open": 17,
+  "open": 16,
   "running": 1,
   "done": 581,
-  "failed": 5
+  "failed": 6
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 1.1,
-   "cpu_load_pct": 31,
-   "ram_free_gb": 59.7,
+   "hb_age_s": 53.2,
+   "cpu_load_pct": 70,
+   "ram_free_gb": 59.5,
    "gpu_util_pct": 0,
    "job": null,
    "last_result": {
@@ -30,20 +30,20 @@
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 57
+   "idle_rounds": 58
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 64.8,
-   "cpu_load_pct": 27,
-   "ram_free_gb": 5.9,
-   "gpu_util_pct": 17,
-   "job": "Q-VCORP-TRAIN-z02-R7-20261109",
+   "hb_age_s": 31.7,
+   "cpu_load_pct": 59,
+   "ram_free_gb": 6.2,
+   "gpu_util_pct": 20,
+   "job": "Q-VCORP-TRAIN-z03-R7-20261109",
    "last_result": {
     "job": "Q-VCORP-TRAIN-z02-R7-20261109",
-    "state": "RUNNING",
-    "rc": null,
-    "ts": "2026-11-09T23:01:11",
+    "state": "FAILED",
+    "rc": 0,
+    "ts": "2026-11-09T23:01:35",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -54,28 +54,28 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 28.1,
-   "cpu_load_pct": 17,
-   "ram_free_gb": 3.4,
+   "hb_age_s": 130.5,
+   "cpu_load_pct": 19,
+   "ram_free_gb": 3.5,
    "gpu_util_pct": 0,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-09T23:00:54",
+    "ts": "2026-11-09T23:03:13",
     "reason": "CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (21.1h 零产出，唤醒清单空)",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
    "idle_reason": "CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (21.1h 零产出，唤醒清单空)",
-   "idle_rounds": 193
+   "idle_rounds": 194
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 1.6,
-   "cpu_load_pct": 8,
+   "hb_age_s": 2.6,
+   "cpu_load_pct": 9,
    "ram_free_gb": 11.0,
    "gpu_util_pct": null,
    "job": null,
@@ -83,21 +83,21 @@
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-09T23:00:29",
+    "ts": "2026-11-09T23:03:30",
     "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 3
+   "idle_rounds": 4
   }
  },
  "idle_rounds": {
-  "bm-a": 57,
+  "bm-a": 58,
   "bm-b": 0,
-  "bm-c": 193,
-  "bm-m": 3
+  "bm-c": 194,
+  "bm-m": 4
  },
  "lines": {
   "bigstream-mv": {
@@ -285,7 +285,6 @@
    "stale_after_h": 72.0,
    "owner": "资产席",
    "jobs": [
-    "Q-VCORP-TRAIN-z02-R7-20261109",
     "Q-VCORP-TRAIN-z03-R7-20261109",
     "Q-VCORP-TRAIN-z04-R7-20261109",
     "Q-VCORP-TRAIN-z05-R7-20261109",
@@ -302,22 +301,7 @@
     "Q-VCORP-TRAIN-e08-R7-20261109"
    ],
    "no_supply": false,
-   "blockers": [
-    "Q-VCORP-TRAIN-z03-R7-20261109:no-lane",
-    "Q-VCORP-TRAIN-z04-R7-20261109:no-lane",
-    "Q-VCORP-TRAIN-z05-R7-20261109:no-lane",
-    "Q-VCORP-TRAIN-z06-R7-20261109:no-lane",
-    "Q-VCORP-TRAIN-z07-R7-20261109:no-lane",
-    "Q-VCORP-TRAIN-z08-R7-20261109:no-lane",
-    "Q-VCORP-TRAIN-e01-R7-20261109:no-lane",
-    "Q-VCORP-TRAIN-e02-R7-20261109:no-lane",
-    "Q-VCORP-TRAIN-e03-R7-20261109:no-lane",
-    "Q-VCORP-TRAIN-e04-R7-20261109:no-lane",
-    "Q-VCORP-TRAIN-e05-R7-20261109:no-lane",
-    "Q-VCORP-TRAIN-e06-R7-20261109:no-lane",
-    "Q-VCORP-TRAIN-e07-R7-20261109:no-lane",
-    "Q-VCORP-TRAIN-e08-R7-20261109:no-lane"
-   ],
+   "blockers": [],
    "note": "CEO 2026-11-03：先储备资产，角色 LoRA 与音色库为 P0"
   }
  },
@@ -847,7 +831,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 17,
+  "local": 16,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -856,16 +840,21 @@
  },
  "supply_gap": {
   "cpu": 2,
-  "gpu": 15
+  "gpu": 14
  },
  "supply_added": [],
- "events": [],
+ "events": [
+  "Q-VCORP-TRAIN-z02-R7-20261109 FAILED via bm-b",
+  "Q-VCORP-TRAIN-z03-R7-20261109 -> bm-b (gpu)"
+ ],
  "violations": [
-  "bm-a IDLE-CONFIRMED x57 (SELF-DISPATCH: lane scans its own backlo)",
-  "bm-c IDLE-CONFIRMED x193 (CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (21.1)",
-  "bm-m IDLE-CONFIRMED x3 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-a IDLE-CONFIRMED x58 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-c IDLE-CONFIRMED x194 (CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (21.1)",
+  "bm-m IDLE-CONFIRMED x4 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
- "lane_files_written": []
+ "lane_files_written": [
+  "bm-b"
+ ]
 }
