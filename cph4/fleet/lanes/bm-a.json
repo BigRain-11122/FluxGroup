@@ -1,6 +1,6 @@
 {
  "node": "bm-a",
- "ts": "2026-11-10T01:05:12",
+ "ts": "2026-11-10T01:07:57",
  "jobs": [
   {
    "id": "bigstream-mv-gate-2026-11-10",
@@ -45,20 +45,6 @@
    "timeout_s": null
   },
   {
-   "id": "R-TRIAGE-BIGSTREAMMV-BMA-20261110",
-   "title": "BigStream·MV 41 曲 线证据扫描（bm-a 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigstream-mv --node bm-a",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigstream-mv-bm-a-20261110.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
    "id": "R-TRIAGE-BIGGAME-BMA-20261110",
    "title": "Biggame·游戏 线证据扫描（bm-a 本机可判面）",
    "cmd": "python Tools/fleet/line_triage.py --line biggame --node bm-a",
@@ -75,5 +61,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 39.1/1.0 GB"
+ "capacity_note": "ram 41.9/1.0 GB"
 }
