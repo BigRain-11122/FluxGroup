@@ -1,6 +1,6 @@
 {
  "node": "bm-a",
- "ts": "2026-11-10T00:35:49",
+ "ts": "2026-11-10T00:40:49",
  "jobs": [
   {
    "id": "bigstream-mv-gate-2026-11-10",
@@ -29,9 +29,23 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
+  },
+  {
+   "id": "asset-lib-voice-corpus-2026-11-10",
+   "title": "[资产储备（角色 LoRA / 音色库）] 音色语料工程（一卡全量·持料机 bm-a）",
+   "cmd": "python Tools/fleet/voice_corpus_prep.py --inbox media/asset/inbox --group batch-2026-11-10 --shard 0/1 --receipt cph4/fleet/queue-receipts/voice-corpus-2026-11-10.json",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/voice-corpus-2026-11-10.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 46.3/1.0 GB"
+ "capacity_note": "ram 51.2/1.0 GB"
 }
