@@ -105,6 +105,7 @@ STAGES = [
     # 并销掉"产物已在盘却仍标 pending"的僵尸条目。必须在 workgen 之前。
     ("bank_autofill", ["Tools/fleet/bank_autofill.py", "--root", ROOT], 60, {0}, False),
     ("workgen", ["Tools/fleet/workgen.py", "--root", ROOT], 180, {0}, False),
+    ("promote_ready", ["Tools/fleet/promote_ready.py"], 60, {0}, False),
     ("master", ["Tools/fleet/master_agent.py", "--node", NODE, "--root", ROOT], 240, {0}, False),
     ("lane", ["Tools/fleet/lane_agent.py", "--node", NODE, "--root", ROOT, "--no-fetch"], 120, {0}, False),
     # 执行者复活（2026-11-08）：三台 Windows 的 /status 全部 wakes=[]，FleetLink 活着
