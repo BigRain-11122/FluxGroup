@@ -2135,3 +2135,13 @@
 - 11-10T00:15 · Q-TRIAGE-RECON-20261110-bm-m.json · 已完成机队回执重构，无风险。
 - 11-10T00:15 · R-TRIAGE-BIGLIFE-BMM-20261110-bm-m.json · 已完成机队回执生成，无风险。
 - 11-10T00:15 · triage-asset-lib-bm-m-20261110.md · 机队回执显示资产产出新鲜且符合阈值，无风险可继续推进。
+- 11-10T00:16 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-10T00:16 · _last_lane_bm-m.json · 机队任务 Q-TRIAGE-ASSETLIB-20261110 已完成，无风险。
+- 11-10T00:16 · Q-TRIAGE-RECON-20261110-acceptance.json · 完成机队回执提交，但被拒收因交付物非标准产物。
+- 11-10T00:16 · Q-TRIAGE-RECON-20261110-bm-m.json · 已完成机队回执重构，无风险。
+- 11-10T00:16 · Q-TRIAGE-ASSETLIB-20261110-acceptance.json · 机队回执被拒，因交付物非所需文档且无风险。
+- 11-10T00:16 · R-NEXT-BIGGAME-SUBMIT-P-20261110-acceptance.json · 提交被拒，因交付物非所需文档或台账。
+- 11-10T00:16 · Q-TRIAGE-ASSETLIB-20261110-bm-m.json · 已完成资产库机队回执生成，无风险。
+- 11-10T00:16 · R-NEXT-BIGGAME-SUBMIT-P-20261110-bm-m.json · 已生成机队回执，但 35 款产品缺截图且 25 款缺运行包，存在提交风险。
+- 11-10T00:16 · R-TRIAGE-ASSETLIB-BMM-20261110-acceptance.json · 已完成机队回执提交，但被拒收因交付物非有效产物。
+- 11-10T00:16 · R-TRIAGE-ASSETLIB-BMM-20261110-bm-m.json · 已完成机队回执任务，无风险。
