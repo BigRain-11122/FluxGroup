@@ -2,7 +2,7 @@
  "id": "R-TRIAGE-BIGLIFE-BMM-20261110",
  "node": "bm-m",
  "rc": 0,
- "seconds": 0.0,
+ "seconds": 0.1,
  "cmd": "python3 Tools/fleet/line_triage.py --line biglife --node bm-m",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/queue-receipts/triage-biglife-bm-m-20261110.md",
  "deliverable_exists": true,
- "ts": "2026-11-10T00:12:44",
+ "ts": "2026-11-10T00:13:56",
  "stdout_tail": "[triage] biglife -> cph4/fleet/queue-receipts/triage-biglife-bm-m-20261110.md\n",
  "stderr_tail": ""
 }
