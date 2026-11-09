@@ -1,11 +1,11 @@
 {
- "ts": "2026-11-09T19:50:36",
- "cycle": 59,
+ "ts": "2026-11-09T19:53:24",
+ "cycle": 60,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-09T19:50:36",
+ "master_tick_ts": "2026-11-09T19:53:24",
  "queue": {
-  "total": 1657,
+  "total": 1667,
   "open": 4,
   "running": 10,
   "done": 579,
@@ -14,10 +14,10 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 21.8,
-   "cpu_load_pct": 41,
-   "ram_free_gb": 52.1,
-   "gpu_util_pct": 18,
+   "hb_age_s": 10.2,
+   "cpu_load_pct": 15,
+   "ram_free_gb": 53.3,
+   "gpu_util_pct": 19,
    "job": "R-19.9-PACKAGE-20261109",
    "last_result": null,
    "idle_confirmed": false,
@@ -26,11 +26,11 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 106.2,
-   "cpu_load_pct": 21,
-   "ram_free_gb": 6.8,
+   "hb_age_s": 40.3,
+   "cpu_load_pct": 28,
+   "ram_free_gb": 6.0,
    "gpu_util_pct": 1,
-   "job": "CEOQ-0364030d5b",
+   "job": "CEOQ-5268ab3b03",
    "last_result": null,
    "idle_confirmed": false,
    "idle_reason": "",
@@ -38,28 +38,28 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 243.5,
-   "cpu_load_pct": 20,
-   "ram_free_gb": 2.0,
+   "hb_age_s": 83.0,
+   "cpu_load_pct": 12,
+   "ram_free_gb": 4.3,
    "gpu_util_pct": 0,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-09T19:48:15",
+    "ts": "2026-11-09T19:52:09",
     "reason": "CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (17.9h 零产出，唤醒清单空)",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
-   "idle_reason": "CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (17.9h 零产出，唤醒清单空)",
-   "idle_rounds": 86
+   "idle_reason": "CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (18.0h 零产出，唤醒清单空)",
+   "idle_rounds": 87
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 1.8,
-   "cpu_load_pct": 13,
+   "hb_age_s": 1.6,
+   "cpu_load_pct": 8,
    "ram_free_gb": 12.9,
    "gpu_util_pct": null,
    "job": "R-MV-RELEASE-PACK-20261109",
@@ -72,7 +72,7 @@
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
-  "bm-c": 86,
+  "bm-c": 87,
   "bm-m": 0
  },
  "lines": {
@@ -801,9 +801,9 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 3,
+  "local": 4,
   "cloud": 0,
-  "queue": 1,
+  "queue": 0,
   "blocked": 0,
   "cloud_spend_today": 0,
   "waste": []
@@ -813,11 +813,26 @@
   "gpu": 1
  },
  "supply_added": [],
- "events": [],
+ "events": [
+  "R-MV-RELEASE-PACK-20261109 -> bm-m (cpu)",
+  "R-19.9-PACKAGE-20261109 -> bm-a (cpu)",
+  "PATROL-biglife-20261109 -> bm-a (cpu)",
+  "PATROL-bigdomain-20261109 -> bm-a (cpu)",
+  "CEOQ-0364030d5b -> bm-a (cpu)",
+  "CEOQ-e6d48a7097 -> bm-a (cpu)",
+  "CEOQ-e6e70d7725 -> bm-a (cpu)",
+  "CEOQ-41b3b55e78 -> bm-a (cpu)",
+  "CEOQ-8dadb9868a -> bm-a (cpu)",
+  "CEOQ-5268ab3b03 -> bm-b (cpu)"
+ ],
  "violations": [
-  "bm-c IDLE-CONFIRMED x86 (CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (17.9)",
+  "bm-c IDLE-CONFIRMED x87 (CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (18.0)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
- "lane_files_written": []
+ "lane_files_written": [
+  "bm-a",
+  "bm-b",
+  "bm-c"
+ ]
 }
