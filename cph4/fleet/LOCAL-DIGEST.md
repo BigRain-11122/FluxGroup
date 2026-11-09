@@ -3223,3 +3223,7 @@
 - 11-10T06:29 · CANARY-20261110T062802-acceptance.json · 完成机队回执提交，但被拒收因交付物非有效产物。
 - 11-10T06:29 · CANARY-20261110T062802-bm-m.json · 已完成 Canary 端到端自检并生成产物，无风险。
 - 11-10T06:29 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-10T06:30 · self-improve-bm-m-latest.json · 机队已确认无风险，代码与依赖均通过自检。
+- 11-10T06:30 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
+- 11-10T06:30 · CANARY-20261110T062802-acceptance.json · 完成机队回执提交，但被拒收因交付物非有效产物。
+- 11-10T06:30 · CANARY-20261110T062802-bm-m.json · 已完成端到端自检并生成产物，无风险。
