@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-10T00:08:09",
+ "ts": "2026-11-10T00:09:00",
  "jobs": [
   {
    "id": "asset-lib-char-prompts-2026-11-10",
@@ -9,20 +9,6 @@
    "cwd": "",
    "needs": "cpu",
    "deliverable": "cph4/fleet/queue-receipts/char-gen-plan-2026-11-10.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "R-TRIAGE-BIGMONEY-BMM-20261110",
-   "title": "BigMoney·量化 线证据扫描（bm-m 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigmoney --node bm-m",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigmoney-bm-m-20261110.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -43,9 +29,37 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
+  },
+  {
+   "id": "CANARY-20261110T000858",
+   "title": "端到端自检：投卡→领取→执行→回执→产物",
+   "cmd": "python -c \"import os;os.makedirs(r'cph4/fleet/state/canary',exist_ok=True);open(r'cph4/fleet/state/canary/RUN-20261110T000858.txt','w',encoding='utf-8').write('canary 20261110T000858 — 端到端自检产物，不是业务活')\"",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/state/canary/RUN-20261110T000858.txt",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "R-TRIAGE-BIGSTREAMMV-BMM-20261110",
+   "title": "BigStream·MV 41 曲 线证据扫描（bm-m 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line bigstream-mv --node bm-m",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigstream-mv-bm-m-20261110.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 8.6/1.0 GB"
+ "capacity_note": "ram 7.7/1.0 GB"
 }

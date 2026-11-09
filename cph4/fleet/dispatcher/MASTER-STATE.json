@@ -1,23 +1,23 @@
 {
- "ts": "2026-11-10T00:08:09",
- "cycle": 203,
+ "ts": "2026-11-10T00:08:59",
+ "cycle": 204,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-10T00:08:09",
+ "master_tick_ts": "2026-11-10T00:08:59",
  "queue": {
-  "total": 1730,
-  "open": 20,
-  "running": 16,
-  "done": 588,
-  "failed": 7
+  "total": 1733,
+  "open": 21,
+  "running": 18,
+  "done": 589,
+  "failed": 6
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 55.4,
-   "cpu_load_pct": 87,
-   "ram_free_gb": 54.9,
-   "gpu_util_pct": 0,
+   "hb_age_s": 45.2,
+   "cpu_load_pct": 64,
+   "ram_free_gb": 55.4,
+   "gpu_util_pct": 1,
    "job": "R-PLAN-BIGCOMPUTE-20261110",
    "last_result": {
     "job": "R-NEXT-BIGSTREAMM-REBUILD-20261110",
@@ -34,10 +34,10 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 16.3,
-   "cpu_load_pct": 66,
-   "ram_free_gb": 6,
-   "gpu_util_pct": 24,
+   "hb_age_s": 5.7,
+   "cpu_load_pct": 26,
+   "ram_free_gb": 7.5,
+   "gpu_util_pct": 23,
    "job": "Q-VCORP-TRAIN-z04-R7-20261109",
    "last_result": {
     "job": "Q-TRIAGE-BIGGAME-20261110",
@@ -54,7 +54,7 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 15.2,
+   "hb_age_s": 65.1,
    "cpu_load_pct": 18,
    "ram_free_gb": 2.9,
    "gpu_util_pct": 0,
@@ -63,27 +63,27 @@
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-10T00:08:01",
+    "ts": "2026-11-10T00:08:08",
     "reason": "CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (22.2h 零产出，唤醒清单空)",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
    "idle_reason": "CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (22.2h 零产出，唤醒清单空)",
-   "idle_rounds": 230
+   "idle_rounds": 231
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 39.5,
-   "cpu_load_pct": 7,
-   "ram_free_gb": 8.6,
+   "hb_age_s": 2.3,
+   "cpu_load_pct": 6,
+   "ram_free_gb": 7.7,
    "gpu_util_pct": null,
    "job": "asset-lib-char-prompts-2026-11-10",
    "last_result": {
-    "job": "R-TRIAGE-BIGCOMPUTE-BMM-20261110",
+    "job": "R-TRIAGE-BIGMONEY-BMM-20261110",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-10T00:07:37",
+    "ts": "2026-11-10T00:08:34",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -96,7 +96,7 @@
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
-  "bm-c": 230,
+  "bm-c": 231,
   "bm-m": 0
  },
  "lines": {
@@ -194,7 +194,8 @@
    "stale_after_h": 24.0,
    "owner": "量化席",
    "jobs": [
-    "R-PLAN-BIGMONEY-20261110"
+    "R-PLAN-BIGMONEY-20261110",
+    "bigmoney-signal-2026-11-10"
    ],
    "no_supply": false,
    "blockers": [],
@@ -290,7 +291,9 @@
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
    "jobs": [
-    "Q-TRIAGE-FLUXVERSE-20261110"
+    "Q-TRIAGE-FLUXVERSE-20261110",
+    "CANARY-20261110T000858",
+    "R-TRIAGE-BIGSTREAMMV-BMM-20261110"
    ],
    "no_supply": false,
    "blockers": [],
@@ -322,10 +325,13 @@
     "asset-lib-face-dataset-2026-11-10",
     "asset-lib-char-prompts-2026-11-10",
     "asset-lib-char-gen-2026-11-10",
-    "asset-lib-asset-gen-2026-11-10"
+    "asset-lib-asset-gen-2026-11-10",
+    "asset-lib-asset-gen-scenes-2026-11-10"
    ],
    "no_supply": false,
-   "blockers": [],
+   "blockers": [
+    "asset-lib-asset-gen-scenes-2026-11-10:no-lane"
+   ],
    "note": "CEO 2026-11-03：先储备资产，角色 LoRA 与音色库为 P0"
   }
  },
@@ -845,10 +851,10 @@
   }
  },
  "judgments": {
-  "open": 6,
+  "open": 4,
   "by_kind": {
    "CAPACITY": 2,
-   "LINE-LATE": 4
+   "LINE-LATE": 2
   },
   "added": 0,
   "tick_tier": "none",
@@ -857,22 +863,24 @@
  "routing": {
   "local": 5,
   "cloud": 0,
-  "queue": 15,
+  "queue": 16,
   "blocked": 0,
   "cloud_spend_today": 0,
   "waste": []
  },
  "supply_gap": {
   "cpu": 5,
-  "gpu": 15
+  "gpu": 16
  },
  "supply_added": [],
  "events": [
-  "Q-TRIAGE-BIGGAME-20261110 UNVERIFIED(no-artifact-yet) via bm-b",
-  "R-TRIAGE-BIGCOMPUTE-BMM-20261110 DONE via bm-m"
+  "R-TRIAGE-BIGMONEY-BMM-20261110 DONE via bm-m",
+  "bigmoney-signal-2026-11-10 -> bm-b (cpu)",
+  "CANARY-20261110T000858 -> bm-m (cpu)",
+  "R-TRIAGE-BIGSTREAMMV-BMM-20261110 -> bm-m (cpu)"
  ],
  "violations": [
-  "bm-c IDLE-CONFIRMED x230 (CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (22.2)",
+  "bm-c IDLE-CONFIRMED x231 (CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (22.2)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
