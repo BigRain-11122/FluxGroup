@@ -1,23 +1,8 @@
 {
  "node": "bm-a",
- "ts": "2026-11-10T04:39:13",
- "jobs": [
-  {
-   "id": "MV-DIRECTOR-PACKET-20261109",
-   "title": "导演席拉片包：KN 复核卷一页卷（成片+闸+证据+签字位）",
-   "cmd": "python Tools/fleet/review_packet.py --line kn --root .",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/review-packet-kn-20261109.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  }
- ],
- "idle_reason": "",
+ "ts": "2026-11-10T04:42:09",
+ "jobs": [],
+ "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
  "lane_ok": true,
- "capacity_note": "ram 44.1/1.0 GB"
+ "capacity_note": "ram 37.5/1.0 GB"
 }
