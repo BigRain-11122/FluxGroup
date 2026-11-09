@@ -1,23 +1,23 @@
 {
- "ts": "2026-11-10T02:28:15",
- "cycle": 301,
+ "ts": "2026-11-10T02:30:07",
+ "cycle": 303,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-10T02:28:15",
+ "master_tick_ts": "2026-11-10T02:30:07",
  "queue": {
   "total": 1755,
   "open": 5,
-  "running": 5,
+  "running": 4,
   "done": 615,
-  "failed": 3
+  "failed": 4
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 0.4,
+   "hb_age_s": 52.4,
    "cpu_load_pct": 77,
-   "ram_free_gb": 38.2,
-   "gpu_util_pct": 89,
+   "ram_free_gb": 41.5,
+   "gpu_util_pct": 56,
    "job": "R-TRIAGE-BIGMONEY-BMA-20261110",
    "last_result": {
     "job": "R-TRIAGE-BIGMONEY-BMA-20261110",
@@ -34,30 +34,30 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 23.6,
-   "cpu_load_pct": 82,
-   "ram_free_gb": 7.5,
-   "gpu_util_pct": 0,
-   "job": "CHK-ASSET-20261110",
+   "hb_age_s": 15.3,
+   "cpu_load_pct": 19,
+   "ram_free_gb": 7.3,
+   "gpu_util_pct": 29,
+   "job": null,
    "last_result": {
     "job": "CHK-ASSET-20261110",
     "state": "OS-MISMATCH",
     "rc": null,
-    "ts": "2026-11-10T02:27:41",
+    "ts": "2026-11-10T02:29:41",
     "reason": "dispatched job requires a different OS",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": false,
-   "idle_reason": "",
+   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
    "idle_rounds": 0
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 18.2,
-   "cpu_load_pct": 18,
-   "ram_free_gb": 2.5,
-   "gpu_util_pct": 1,
+   "hb_age_s": 38.8,
+   "cpu_load_pct": 14,
+   "ram_free_gb": 3.0,
+   "gpu_util_pct": 0,
    "job": "asset-lib-char-gen-2026-11-10",
    "last_result": {
     "job": "biggame-accept-2026-11-10",
@@ -74,30 +74,30 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 1.6,
-   "cpu_load_pct": 11,
-   "ram_free_gb": 10.4,
+   "hb_age_s": 29.3,
+   "cpu_load_pct": 8,
+   "ram_free_gb": 11.0,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
-    "job": "biggame-accept-2026-11-10",
-    "state": "FAILED",
-    "rc": 2,
-    "ts": "2026-11-10T02:28:14",
-    "reason": null,
+    "job": null,
+    "state": "IDLE",
+    "rc": null,
+    "ts": "2026-11-10T02:29:39",
+    "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
-   "idle_confirmed": false,
+   "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 0
+   "idle_rounds": 2
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 0
+  "bm-m": 2
  },
  "lines": {
   "bigstream-mv": {
@@ -268,14 +268,12 @@
   "fleet-ops": {
    "name": "机队运维·端到端自检（平台服务线）",
    "status": "ACTIVE",
-   "verdict": "WORKING",
+   "verdict": "WAITING",
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
-   "jobs": [
-    "CHK-ASSET-20261110"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": null
   },
@@ -834,10 +832,9 @@
   "gpu": 2
  },
  "supply_added": [],
- "events": [
-  "asset-lib-char-gen-2026-11-10 -> bm-c (gpu)"
- ],
+ "events": [],
  "violations": [
+  "bm-m IDLE-CONFIRMED x2 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
