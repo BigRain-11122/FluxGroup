@@ -1855,3 +1855,13 @@
 - 11-09T23:40 · voice-corpus-bm-m-2026-11-03.json · 该批次因缺少音频文件被阻断，存在任务无法继续的风险。
 - 11-09T23:40 · inference-audit-bm-m-20261103.json · 机队已完成多模型部署与基准测试，但并发加速比低于预期且向量相似度计算结果被截断。
 - 11-09T23:40 · asset-lib-env-check-2026-11-03-bm-m.json · 机队回执显示任务失败，因缺失 ffmpeg、torch 等关键依赖存在运行风险。
+- 11-09T23:41 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-09T23:41 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-09T23:41 · skill-promote-20261109.json · 已跳过多项因工具缺失或重复的任务，当前无风险。
+- 11-09T23:41 · asset-env-2026-11-03.json · 机队未安装 ffmpeg、torch 等关键依赖，导致训练路线不可用且存在功能缺失风险。
+- 11-09T23:41 · R-TRIAGE-ASSETLIB-BMA-20261103-bm-m.json · 已完成资产库机队排查，无风险。
+- 11-09T23:41 · asset-face-2026-11-03.json · 机队未通过人脸数据验收，因样本数为零导致无法训练稳定角色。
+- 11-09T23:41 · asset-env-bm-m.json · 已完成机队回执检查，因 CUDA 不可用且关键资产缺失导致 FAIL。
+- 11-09T23:41 · bigstream-duanju-remux-2026-11-03-bm-m.json · 任务失败，因缺少必需参数导致脚本报错。
+- 11-09T23:41 · mv-gate-v721-24fps-20261103.json · 完成机队回执，发现重复镜头风险，判定失败。
+- 11-09T23:41 · bigstream-mv-gate-2026-11-03-bm-a.json · 机队回执显示任务失败，存在视频帧重复与冻结等质量风险。
