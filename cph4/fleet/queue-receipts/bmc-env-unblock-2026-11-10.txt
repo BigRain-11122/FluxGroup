@@ -1,0 +1,20 @@
+bmc_env_unblock receipt
+mode=APPLY
+ram_before_gb=3.50 (src=K:\Fluxgroup\FluxGroup\gaming\MiniGame\Design\configs\GLOBAL\fleet\c.json)
+ram_after_gb=3.50
+ram_gate_gb=4.00
+comfy=COMFY-UP http=200
+verdict=BLOCKED
+== free_mem output ==
+[free] RAM available 3.6 GB | candidates 21
+       protected (never touched): python.exe 2150MB
+   - msedge (858 MB)
+   - msedge (684 MB)
+   - msedge (651 MB)
+   - msedge (643 MB)
+   - WeChat (635 MB)
+   - msedge (613 MB)
+   - msedge (584 MB)
+   - msedge (575 MB)
+[free] RAM available after 3.8 GB
+

@@ -1,0 +1,9 @@
+{
+ "id": "R-MODEL-RADAR-BMC-20261110",
+ "node": "bm-c",
+ "rc": 0,
+ "seconds": 0.2,
+ "cmd": "python Tools/fleet/model_radar.py run --node bm-c --idle-only --apply",
+ "stdout_tail": "{\"skipped_idle\": \"queue-running:asset-lib-face-caption-2026-11-07\", \"node\": \"bm-c\"}\n",
+ "stderr_tail": ""
+}
