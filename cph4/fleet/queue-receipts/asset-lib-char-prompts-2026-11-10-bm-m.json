@@ -2,8 +2,8 @@
  "id": "asset-lib-char-prompts-2026-11-10",
  "node": "bm-m",
  "rc": 0,
- "seconds": 0.1,
- "cmd": "python3 Tools/fleet/char_plan.py",
+ "seconds": 0.3,
+ "cmd": "python Tools/fleet/char_plan.py",
  "ok_rc": [
   0
  ],
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/queue-receipts/char-gen-plan-2026-11-10.json",
  "deliverable_exists": true,
- "ts": "2026-11-10T00:05:00",
+ "ts": "2026-11-10T00:05:58",
  "stdout_tail": "char-plan: 8 角色 × 12 视角 = 96 张\nwrote PROMPTS.json -> media/asset/characters\nreceipt cph4/fleet/queue-receipts/char-gen-plan-2026-11-10.json\n",
  "stderr_tail": ""
 }

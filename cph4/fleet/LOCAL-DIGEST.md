@@ -2045,3 +2045,13 @@
 - 11-10T00:04 · R-TRIAGE-FLUXVERSE-BMM-20261110-bm-m.json · 已完成机队回执生成，无风险。
 - 11-10T00:04 · model-radar-bm-c-20261110.json · 机队已跳过闲置状态，因队列运行无风险。
 - 11-10T00:04 · triage-fluxverse-bm-m-20261110.md · 已完成线级体检，但需城市线补全数据与视觉目录后方可推进。
+- 11-10T00:05 · _last_lane_bm-m.json · 已完成资产库检查，无风险。
+- 11-10T00:05 · asset-lib-library-check-2026-11-10-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被拒收。
+- 11-10T00:05 · asset-lib-library-check-2026-11-10-bm-m.json · 资产库体检完成，发现多处资源缺失且存在授权风险。
+- 11-10T00:05 · asset-library-2026-11-10.json · 角色包完成但其余资产目录为空且无授权，存在交付与合规风险。
+- 11-10T00:05 · Q-TRIAGE-BIGSTREAMMV-20261110-acceptance.json · 机队回执被拒，因交付物非所需文档且无风险。
+- 11-10T00:05 · Q-TRIAGE-BIGSTREAMMV-20261110-bm-m.json · 已完成机队回执生成，无风险。
+- 11-10T00:05 · triage-bigstream-mv-20261110.md · 机队回执显示大部分工段正常，但“批准”环节超期近 50 小时，需立即补产出或收线。
+- 11-10T00:05 · R-TRIAGE-BIGDOMAIN-BMM-20261110-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物。
+- 11-10T00:05 · R-TRIAGE-BIGDOMAIN-BMM-20261110-bm-m.json · 已完成机队回执生成，无风险。
+- 11-10T00:05 · R-TRIAGE-BIGCOMPUTE-BMM-20261110-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物。
