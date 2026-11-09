@@ -249,9 +249,27 @@ def stash_untracked_collisions(msg):
     return moved
 
 
+def ensure_sparse_cone():
+    """2026-11-10 CEO-PROXY 事件班 bm-b 实锚：sparse cone 只物化了 queue-receipts/lanes，
+    数据面（cph4/fleet/asset-lib-v1/ASSET-PROMPTS-v1.json、LINE-REGISTRY.json 等）不在锥内
+    -> 卡上的脚本读不到配置就 0.1s 秒退，rc=0/3 且不产交付物，表现为「有卡不干 + 假完成重开」。
+    缺数据文件是假失败，不是机器不行。幂等：非 cone 模式不动；失败只记日志不阻断拉取。
+    """
+    try:
+        _r, mode = run_msg(["git", "config", "core.sparseCheckout"], 30)
+        if (mode or "").strip().lower() not in ("true", "yes", "1"):
+            return
+        # add 只增不删（set 会重置其它路径，禁用）。
+        run_msg(["git", "sparse-checkout", "add", "cph4/fleet", "Tools/fleet"], 120)
+        note("sparse-cone ensured: cph4/fleet + Tools/fleet")
+    except Exception as e:
+        note("sparse-cone guard skipped: %s" % str(e)[:120])
+
+
 def pull():
     # Codes must arrive before the executor runs, otherwise the node keeps running the bug
     # we already fixed on the master. Never autostash (it swallowed hand edits once).
+    ensure_sparse_cone()
     #
     # R2.57: plain `pull --rebase --no-autostash` can never succeed here. SUPERVISOR.md is
     # rewritten by the local steward every 5 min and committed by bm-m on every pulse, so the
