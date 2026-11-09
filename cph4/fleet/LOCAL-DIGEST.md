@@ -525,3 +525,13 @@
 - 11-09T20:54 · triage-bigstream-duanju-20261107.md · 机队回执显示两工段均超阈停滞，需立即补产出或正式收线。
 - 11-09T20:54 · skill-promote-20261107.json · 已完成部分任务，因工具缺失导致大量技能无法执行。
 - 11-09T20:54 · model-radar-junshengsundemacbook-pro.local-20261107.json · 今日任务已跳过，因当日已执行，无风险。
+- 11-09T20:55 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-09T20:55 · self-improve-bm-m-latest.json · 机队已确认代码无风险，所有检查项均通过。
+- 11-09T20:55 · QUALITY-SCAN-20261107-bm-m.json · 机队质量扫描完成且无风险。
+- 11-09T20:55 · VAULT-VERIFY-20261107-bm-m.json · 已完成机队台账验证，无风险。
+- 11-09T20:55 · vault-verify-20261107.json · 机队回执显示 651 个文件可达且无风险，但 8 个快照不可恢复。
+- 11-09T20:55 · asset-lib-voice-dataset-2026-11-07-bm-m.json · 已完成语音数据集审计任务，但因缺少 ffmpeg 工具导致失败且无风险。
+- 11-09T20:55 · asset-voice-2026-11-07.json · 因缺失 ffmpeg 工具，任务被阻断且存在执行风险。
+- 11-09T20:55 · CANARY-20261107T232847-bm-m.json · 已完成端到端自检并生成产物，无风险。
+- 11-09T20:55 · LEDGER-REFRESH-20261107-bm-m.json · 已完成机队回执更新，无风险。
+- 11-09T20:55 · submit-ledger-20261107.json · 50 个产品已提交，其中 38 个就绪、12 个草稿，无缺失项且无风险。
