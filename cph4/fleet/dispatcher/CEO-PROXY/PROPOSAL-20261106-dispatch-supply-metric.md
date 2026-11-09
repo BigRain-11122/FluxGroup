@@ -33,3 +33,18 @@
 
 受保护件改动 = CEO 令唯定谳（ROUND 步9 / BLUEPRINT §九）。获批后由 master 席实施，
 本席不自行落地。
+
+## 复发实锚（第 4 次·2026-11-10 01:2x 事件班）
+
+- 触发：00:21 / 00:51 / 01:01 / 01:21 四连 `STARVED-EXEC lane=bm-b|
+  bm-c open_cards=0`。
+- 本轮证据（比 11-06 更硬，可复算）：
+  - `cph4/fleet/dispatcher/POOL.json` 中 lane=bm-b 的 9 张卡状态为
+    done×6 / closed-stale×2 / closed-parked×1 → **open=0 是事实**，旗标没算错 POOL。
+  - 同刻 `origin/main:cph4/fleet/PRODUCTION-QUEUE.jsonl` 有 **OPEN 卡
+    `R-NEXT-BIGSTREAMD-EVIDENCE-20261110`，nodes=[bm-b]、owner=bm-b、needs=cpu**。
+  - bm-b `/status` 自述本轮在跑：`cyc_round=1590`、`card=E627 done`、
+    `pool carried 3 ready cards`、`agenda_starved=false`、`ram_free_gb=8.1`。
+    → 机器在干活，旗标说它没活：**结构性假红成立**。
+- 结论：提案不需要改法，只需要 CEO 令放行第 1 条（`$exec` 双源）。第 4 次复发
+  已证明「文字解释」不能替代改口径。
