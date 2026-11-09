@@ -7,6 +7,11 @@
 # Lock 30 min. Scheduled daily 00:00 via silent VBS wrapper (silence law).
 $ErrorActionPreference = 'Continue'
 $Project = Split-Path -Parent $PSScriptRoot
+# D-20261110-02 (2026-11-10 06:0x): S4U scheduled runs inherit CWD=C:\Windows\system32,
+# so the CLI tried to mkdir C:\Windows\system32\.codely-cli -> EPERM, every write failed,
+# and both 11-09 18:00 / 11-10 00:00 rounds exited rc=0 with zero ledger rows.
+# Pin CWD to the group repo before invoking the CLI.
+Set-Location -LiteralPath $Project
 $Lock = Join-Path $Project '.codely-cli\decision-round.lock'
 $Stamp = Get-Date -Format 'yyyy-MM-dd HH:mm:ss'
 if (Test-Path $Lock) {
