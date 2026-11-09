@@ -40,6 +40,8 @@ REPLACE_SRC = {
     "INT5_head_bow": r"C:\Users\sjs20\Desktop\FluxGroup\media\MV\mv0001\v723-clips\ab-burns\INT5_B_s20261614_768.mp4",
     "E04_replay_faces": r"C:\Users\sjs20\Desktop\FluxGroup\media\MV\mv0001\v723-clips\ab-burns\E04_B_s20261615_768.mp4",
     "B01_weary": r"C:\Users\sjs20\Desktop\FluxGroup\media\MV\mv0001\v723-clips\ab-burns\B01_B_s20261119_768.mp4",
+    "N02_crowd_her": r"C:\Users\sjs20\Desktop\FluxGroup\media\MV\mv0001\v723-clips\ab-burns\N02_B_cloud768.mp4",  # v725 cloud H3 (r949 reshake law: fix must be PINNED)
+    "R02_she_turns": r"C:\Users\sjs20\Desktop\FluxGroup\media\MV\mv0001\v723-clips\ab-burns\R02_B_cloud768.mp4",  # v725 cloud H3
     "E01c_first_line": r"C:\Users\sjs20\Desktop\FluxGroup\media\MV\mv0001\v718-clips-768\V718_S3_DESK_REPRISE.mp4",
     "R05_gold_threads": r"D:\FleetWorker\rebuild\R05_gold_threads_lift.mp4",
 }
