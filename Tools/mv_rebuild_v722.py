@@ -312,8 +312,9 @@ for idx, (sid, t0, t1, v, src, is_new) in enumerate(rows):
         print("  [REBUILT %s] %.2fs v=%.2f <- %s%s"
               % (sid, want, v, os.path.basename(src), _tag), flush=True)
 
-if n_v5restore != len(V5_RESTORE) + len(V56_RESTORE):
-    print("FATAL restore count %d != %d" % (n_v5restore, len(V5_RESTORE) + len(V56_RESTORE)), flush=True)
+_expected_restores = sum(1 for k in (list(V5_RESTORE) + list(V56_RESTORE)) if k not in REPLACE_SRC)
+if n_v5restore != _expected_restores:
+    print("FATAL restore count %d != %d" % (n_v5restore, _expected_restores), flush=True)
     sys.exit(2)
 
 with open(listfile, "w", encoding="utf-8") as f:
