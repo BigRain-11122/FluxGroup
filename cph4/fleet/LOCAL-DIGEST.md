@@ -1595,3 +1595,13 @@
 - 11-09T23:08 · asset-lib-library-check-2026-11-06-bm-b.json · 资产库检查失败，因目标文件缺失导致任务中断。
 - 11-09T23:08 · asset-lib-env-check-2026-11-09-bm-b.json · 机队资产环境检查失败，因缺失 torch 等关键模块存在运行风险。
 - 11-09T23:08 · asset-lib-env-check-2026-11-08-bm-b.json · 机队资产环境检查失败，因缺失 torch 等关键模块及配置目录存在风险。
+- 11-09T23:09 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-09T23:09 · asset-lib-env-check-2026-11-07-bm-b.json · 机队资产环境检查失败，因缺失 torch 等关键模块及配置目录存在运行风险。
+- 11-09T23:09 · asset-gen-styles-20261107-blocked.json · 任务被阻塞，因缺少指定文件且需先运行脚本修复。
+- 11-09T23:09 · asset-env-2026-11-09.json · 未安装 PyTorch 等关键依赖且缺失多个资产目录，导致机队运行失败。
+- 11-09T23:09 · asset-env-2026-11-08.json · 已完成机队回执检查，因缺失关键依赖与资产目录导致任务失败。
+- 11-09T23:09 · asset-env-2026-11-07.json · 已完成机队回执检查，但因缺失关键依赖与资产目录导致任务失败。
+- 11-09T23:09 · _last_lane_bm-b.json · 机队任务完成但资源严重不足，存在无法运行的风险。
+- 11-09T23:09 · REMOTE-CLOSEOUT2-bm-b-20261107-bm-b.json · 已完成机队回执，无风险。
+- 11-09T23:09 · REMOTE-CLOSEOUT-bm-b-20261108-2220-bm-b.json · 机队任务已闭环，无风险。
+- 11-09T23:09 · REMOTE-CLOSEOUT-bm-b-20261107-bm-b.json · 机队任务已闭环，无风险。
