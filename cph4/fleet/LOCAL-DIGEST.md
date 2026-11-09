@@ -1435,3 +1435,13 @@
 - 11-09T22:48 · dupes-scan-20261103.json · 已完成多组机队回执提交，无风险。
 - 11-09T22:48 · char-gen-plan-2026-11-05.json · 已完成 8 人机队回执，无风险。
 - 11-09T22:48 · char-gen-plan-2026-11-04.json · 已完成 8 人角色回执，无风险。
+- 11-09T22:49 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-09T22:49 · char-gen-bm-c-20261104.json · 机队回执显示 CH01 多处采集失败，因服务器拒绝连接导致数据缺失。
+- 11-09T22:49 · char-dataset-20261104.json · 因所有角色均缺失图片导致回执被拒，需补充资料后重新提交。
+- 11-09T22:49 · biz-mv-publish-checklist-20261106.json · 机队任务已完成，无风险。
+- 11-09T22:49 · biz-mv-publish-checklist-20261105.json · 机队任务已完成，无风险。
+- 11-09T22:49 · biz-car-gaming-20261106.json · 已完成 car-gaming 任务，无风险。
+- 11-09T22:49 · biz-car-gaming-20261105.json · 已完成车机游戏任务，无风险。
+- 11-09T22:49 · bigstream-mv-transition-2026-11-04-bm-a.json · 机队回执显示任务失败，存在硬帧错误风险。
+- 11-09T22:49 · bigstream-mv-stability-2026-11-04-bm-m.json · 运行稳定性检测脚本失败，因缺少 cv2 模块导致任务中断。
+- 11-09T22:49 · bigstream-mv-gate-2026-11-05-bm-m.json · 任务失败，因缺少 cv2 模块导致脚本报错。
