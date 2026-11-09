@@ -106,8 +106,15 @@ def main():
             log("merge-fail %s" % (out2 or out)[-160:])
             return 1
 
-    # 3) 推
+    # 3) 推（远端可能被别的机器刚推过：fetch+merge 重试两次）
     rc, out = sh(["git", "push", "origin", "main"])
+    for attempt in (1, 2):
+        if rc == 0:
+            break
+        log("push-retry %d %s" % (attempt, out[-120:]))
+        sh(["git", "fetch", "--quiet", "origin", "main"])
+        sh(["git", "merge", "--no-edit", "-X", "ours", "origin/main"])
+        rc, out = sh(["git", "push", "origin", "main"])
     if rc != 0:
         log("push-fail %s" % out[-160:])
         fails.append(now); h["fails"] = fails; h["err"] = out[-200:]; save(h)
