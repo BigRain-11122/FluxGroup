@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-09T19:10:52+0800",
+ "ts": "2026-11-09T19:20:25+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -57,9 +57,9 @@
    "accept": "发布台账有回执行；或 CEO 给出重剪清单",
    "blocker_type": "ENGINE",
    "blocker": "发布决定权在 CEO，但工程侧可先做下一首立意案",
-   "state": "QUEUED",
+   "state": "RUNNING",
    "card": "R-MV-RELEASE-PACK-20261109",
-   "running_on": null
+   "running_on": "bm-m"
   },
   {
    "id": "bigstream-drama",
@@ -132,9 +132,9 @@
    "accept": "页面文件在盘且本地可打开；支付位标明待接",
    "blocker_type": "CEO",
    "blocker": "商户号/支付资质未签（物理件）",
-   "state": "QUEUED",
+   "state": "RUNNING",
    "card": "R-19.9-PACKAGE-20261109",
-   "running_on": null
+   "running_on": "bm-a"
   },
   {
    "id": "bigcompute",
@@ -162,9 +162,9 @@
    "accept": "回执含 20 条事件，每条对应真实事件流记录",
    "blocker_type": "ENGINE",
    "blocker": "城市仓不在本机",
-   "state": "STALLED",
-   "card": null,
-   "running_on": null
+   "state": "RUNNING",
+   "card": "PATROL-biglife-20261109",
+   "running_on": "bm-b"
   },
   {
    "id": "bighouse",
@@ -177,8 +177,8 @@
    "accept": "—",
    "blocker_type": "CEO",
    "blocker": "无需求证据，恢复需 CEO 明令",
-   "state": "STALLED",
-   "card": null,
+   "state": "QUEUED",
+   "card": "PATROL-bighouse-20261109",
    "running_on": null
   },
   {
@@ -228,9 +228,9 @@
   }
  ],
  "counts": {
-  "RUNNING": 0,
-  "QUEUED": 4,
-  "STALLED": 11
+  "RUNNING": 3,
+  "QUEUED": 3,
+  "STALLED": 9
  },
- "stalled_engine": 6
+ "stalled_engine": 5
 }
