@@ -1,37 +1,8 @@
 {
  "node": "bm-a",
- "ts": "2026-11-10T02:47:33",
- "jobs": [
-  {
-   "id": "R-TRIAGE-BIGDOMAIN-BMA-20261110",
-   "title": "BigDomain·硅基域商业化 线证据扫描（bm-a 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigdomain --node bm-a",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigdomain-bm-a-20261110.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "R-TRIAGE-BIGCOMPUTE-BMA-20261110",
-   "title": "BigCompute·硅基算力 线证据扫描（bm-a 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigcompute --node bm-a",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigcompute-bm-a-20261110.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  }
- ],
- "idle_reason": "",
+ "ts": "2026-11-10T02:49:02",
+ "jobs": [],
+ "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
  "lane_ok": true,
- "capacity_note": "ram 41.5/1.0 GB"
+ "capacity_note": "ram 43.7/1.0 GB"
 }
