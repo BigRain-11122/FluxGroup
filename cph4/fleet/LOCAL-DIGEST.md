@@ -655,3 +655,13 @@
 - 11-09T21:12 · Q-VCORP-PREP-z02-R4-20261105-bm-a.json · 任务失败，因缺少关键卡片与脚本文件存在风险。
 - 11-09T21:12 · Q-TRIAGE-RECON-20261105-bm-a.json · 已完成机队回执重构，无风险。
 - 11-09T21:12 · Q-TRIAGE-FLUXVERSE-20261105-bm-a.json · 已完成 Fluxverse 机队回执生成，无风险。
+- 11-09T21:14 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-09T21:14 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-09T21:14 · Q-TRIAGE-BIGSTREAMMV-20261105-bm-a.json · 已完成机队回执生成，无风险。
+- 11-09T21:13 · Q-TRIAGE-ASSETLIB-20261105-bm-a.json · 已完成资产库机队回执，无风险。
+- 11-09T21:14 · Q-MV-FREEZE-UNION-20261107-bm-a.json · 机队任务因 ffmpeg 命令语法错误失败，存在脚本执行风险。
+- 11-09T21:14 · Q-MV-AUDIO-PEAK-20261107-bm-a.json · 任务失败，因缺少输入文件导致 ffmpeg 处理中断。
+- 11-09T21:14 · Q-MV-ANCHOR-WORDS-DRAIN-BMA-20261106-bm-a.json · 机队任务完成，无风险。
+- 11-09T21:14 · OPS-CLOCK-RESYNC-BMA-20261105-bm-a.json · 机队时钟同步任务已完成，无风险。
+- 11-09T21:14 · MV-AUDIT-V722G-20261106-bm-a.json · 机队回执已完成审计，无风险。
+- 11-09T21:14 · MV-ANCHOR-BATCH3-20261106-bm-a.json · 任务完成但失败，因缺少交付文件且存在 E-ARTIFACT 风险。
