@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-10T03:53:50+0800",
+ "ts": "2026-11-10T03:59:54+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -13,7 +13,7 @@
    "blocker_type": "ENGINE",
    "blocker": "打标质量门与当前素材不匹配：抽 20 张 0 通过（理由是「只命中 0-2 个可见属性，像空话」），需改提示词/判据；另有 458 张待打",
    "state": "RUNNING",
-   "card": "asset-lib-face-dataset-2026-11-10",
+   "card": "asset-lib-char-gen-2026-11-10",
    "running_on": "bm-c"
   },
   {
@@ -222,15 +222,15 @@
    "accept": "flux_check new=0；AUTOMATION-SURFACE 无 RISK 项",
    "blocker_type": "ENGINE",
    "blocker": "I2 存量 125 条卡面路径债、vault 缺盘 651 条",
-   "state": "QUEUED",
-   "card": "PROBE-BMB-TOOLCHAIN-20261110",
+   "state": "STALLED",
+   "card": null,
    "running_on": null
   }
  ],
  "counts": {
   "RUNNING": 1,
-  "QUEUED": 2,
-  "STALLED": 12
+  "QUEUED": 1,
+  "STALLED": 13
  },
- "stalled_engine": 5
+ "stalled_engine": 6
 }
