@@ -2610,3 +2610,13 @@
 - 11-10T02:20 · R-PLAN-BIGCOMPUTE-20261110-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物。
 - 11-10T02:20 · R-NEXT-BIGSTREAMM-REBUILD-20261110-bm-a.json · 任务成功完成，无风险。
 - 11-10T02:20 · R-NEXT-BIGSTREAMM-REBUILD-20261110-acceptance.json · 机队回执显示任务通过，无风险。
+- 11-10T02:21 · _last_lane_bm-m.json · 机队已自派完成回单扫描，无风险。
+- 11-10T02:21 · R-NEXT-BIGGAME-SUBMIT-P-20261110-bm-a.json · 完成 36 款产品回执，因缺截图、图标及运行包存在风险。
+- 11-10T02:21 · R-MODEL-RADAR-BMB-20261110-bm-a.json · 已完成雷达模型运行，因当日已执行而跳过，无风险。
+- 11-10T02:21 · R-MODEL-RADAR-BMB-20261110-acceptance.json · 完成机队回执提交，但被拒因交付物非标准产物。
+- 11-10T02:21 · R-MODEL-RADAR-BMA-20261110-bm-a.json · 已完成雷达模型运行，因当日已执行而跳过，无风险。
+- 11-10T02:21 · R-MODEL-RADAR-BMA-20261110-acceptance.json · 完成回执提交，但被拒因交付物非标准产物，无风险。
+- 11-10T02:21 · MV-DIRECTOR-PACKET-20261109-bm-a.json · 已完成机队回执审查，无错误风险。
+- 11-10T02:21 · MV-DIRECTOR-PACKET-20261109-acceptance.json · 完成机队回执提交，但被拒收因非标准产物且无风险。
+- 11-10T02:21 · CANARY-20261108T005026-bm-m.json · 已完成 Canary 自检任务，无风险。
+- 11-10T02:21 · CANARY-20261107T232847-bm-m.json · 已完成端到端自检并生成产物，无风险。
