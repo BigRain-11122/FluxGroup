@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-10T00:49:32+0800",
+ "ts": "2026-11-10T00:55:33+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -27,9 +27,9 @@
    "accept": "SUBMIT-PACK 里『隐私政策』『提审台账』两类缺件归零",
    "blocker_type": "CEO",
    "blocker": "截图需跑游戏取图，受 2026-10-28『不许自动跑游戏包』令约束，等放行",
-   "state": "RUNNING",
-   "card": "biggame-pack-scan-2026-11-10",
-   "running_on": "bm-a"
+   "state": "STALLED",
+   "card": null,
+   "running_on": null
   },
   {
    "id": "bigmoney",
@@ -42,9 +42,9 @@
    "accept": "quant_signal 回执 rc=0 且 CSV 含因子值与输入指纹",
    "blocker_type": "ENGINE",
    "blocker": "回测产物需在 bm-b 本地生成；主控无 quant 仓",
-   "state": "QUEUED",
+   "state": "RUNNING",
    "card": "bigmoney-signal-2026-11-10",
-   "running_on": null
+   "running_on": "bm-b"
   },
   {
    "id": "bigstream-mv",
@@ -58,7 +58,7 @@
    "blocker_type": "ENGINE",
    "blocker": "发布决定权在 CEO，但工程侧可先做下一首立意案",
    "state": "RUNNING",
-   "card": "bigstream-mv-gate-2026-11-10",
+   "card": "R-NEXT-BIGSTREAMM-REBUILD-20261110",
    "running_on": "bm-a"
   },
   {
@@ -229,8 +229,8 @@
  ],
  "counts": {
   "RUNNING": 3,
-  "QUEUED": 3,
-  "STALLED": 9
+  "QUEUED": 2,
+  "STALLED": 10
  },
  "stalled_engine": 4
 }
