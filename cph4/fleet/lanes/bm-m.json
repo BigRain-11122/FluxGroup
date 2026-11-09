@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-10T00:12:10",
+ "ts": "2026-11-10T00:14:09",
  "jobs": [
   {
    "id": "R-TRIAGE-BIGLIFE-BMM-20261110",
@@ -9,20 +9,6 @@
    "cwd": "",
    "needs": "cpu",
    "deliverable": "cph4/fleet/queue-receipts/triage-biglife-bm-m-20261110.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "R-TRIAGE-RECON-BMM-20261110",
-   "title": "RECON·竞品拆解 线证据扫描（bm-m 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line recon --node bm-m",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-recon-bm-m-20261110.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -57,9 +43,23 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
+  },
+  {
+   "id": "R-TRIAGE-ASSETLIB-BMM-20261110",
+   "title": "资产储备·角色 LoRA 与音色库 线证据扫描（bm-m 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line asset-lib --node bm-m",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-asset-lib-bm-m-20261110.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 12.1/1.0 GB"
+ "capacity_note": "ram 10.5/1.0 GB"
 }

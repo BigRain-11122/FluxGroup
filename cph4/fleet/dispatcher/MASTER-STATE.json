@@ -1,29 +1,29 @@
 {
- "ts": "2026-11-10T00:12:10",
- "cycle": 206,
+ "ts": "2026-11-10T00:14:09",
+ "cycle": 207,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-10T00:12:10",
+ "master_tick_ts": "2026-11-10T00:14:09",
  "queue": {
-  "total": 1737,
+  "total": 1738,
   "open": 20,
-  "running": 18,
-  "done": 594,
+  "running": 17,
+  "done": 595,
   "failed": 5
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 56.1,
-   "cpu_load_pct": 74,
-   "ram_free_gb": 49.3,
+   "hb_age_s": 55.2,
+   "cpu_load_pct": 79,
+   "ram_free_gb": 48.7,
    "gpu_util_pct": 0,
    "job": "R-PLAN-BIGCOMPUTE-20261110",
    "last_result": {
-    "job": "R-NEXT-BIGSTREAMM-REBUILD-20261110",
+    "job": "R-NEXT-BIGGAME-SUBMIT-P-20261110",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-10T00:06:07",
+    "ts": "2026-11-10T00:13:52",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -34,19 +34,19 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 17.7,
-   "cpu_load_pct": 20,
-   "ram_free_gb": 9.7,
-   "gpu_util_pct": 17,
+   "hb_age_s": 26.0,
+   "cpu_load_pct": 39,
+   "ram_free_gb": 12.0,
+   "gpu_util_pct": 2,
    "job": "Q-VCORP-TRAIN-z04-R7-20261109",
    "last_result": {
-    "job": "Q-VCORP-TRAIN-z04-R7-20261109",
-    "state": "BUSY",
+    "job": "R-PLAN-BIGDOMAIN-20261110",
+    "state": "RUNNING",
     "rc": null,
-    "ts": "2026-11-10T00:11:59",
+    "ts": "2026-11-10T00:13:43",
     "reason": null,
-    "out_bytes": 0,
-    "elapsed_s": 10
+    "out_bytes": null,
+    "elapsed_s": null
    },
    "idle_confirmed": false,
    "idle_reason": "",
@@ -54,36 +54,36 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 38.4,
-   "cpu_load_pct": 14,
-   "ram_free_gb": 2.5,
+   "hb_age_s": 13.1,
+   "cpu_load_pct": 13,
+   "ram_free_gb": 2.8,
    "gpu_util_pct": 0,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-10T00:11:44",
+    "ts": "2026-11-10T00:14:03",
     "reason": "CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (22.3h 零产出，唤醒清单空)",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
    "idle_reason": "CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (22.3h 零产出，唤醒清单空)",
-   "idle_rounds": 233
+   "idle_rounds": 234
   },
   "bm-m": {
    "online": true,
    "hb_age_s": 1.5,
    "cpu_load_pct": 7,
-   "ram_free_gb": 12.1,
+   "ram_free_gb": 10.5,
    "gpu_util_pct": null,
    "job": "R-TRIAGE-BIGLIFE-BMM-20261110",
    "last_result": {
-    "job": "R-TRIAGE-FLEETOPS-BMM-20261110",
+    "job": "R-TRIAGE-RECON-BMM-20261110",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-10T00:11:44",
+    "ts": "2026-11-10T00:14:01",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -96,7 +96,7 @@
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
-  "bm-c": 233,
+  "bm-c": 234,
   "bm-m": 0
  },
  "lines": {
@@ -163,7 +163,6 @@
    "stale_after_h": 24.0,
    "owner": "游戏席",
    "jobs": [
-    "R-NEXT-BIGGAME-SUBMIT-P-20261110",
     "biggame-pack-scan-2026-11-10"
    ],
    "no_supply": false,
@@ -871,14 +870,17 @@
  },
  "supply_added": [],
  "events": [
-  "R-TRIAGE-FLEETOPS-BMM-20261110 DONE via bm-m"
+  "R-NEXT-BIGGAME-SUBMIT-P-20261110 UNVERIFIED(no-artifact-yet) via bm-a",
+  "R-TRIAGE-RECON-BMM-20261110 DONE via bm-m",
+  "R-TRIAGE-ASSETLIB-BMM-20261110 -> bm-m (cpu)"
  ],
  "violations": [
-  "bm-c IDLE-CONFIRMED x233 (CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (22.3)",
+  "bm-c IDLE-CONFIRMED x234 (CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (22.3)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
  "lane_files_written": [
+  "bm-a",
   "bm-m"
  ]
 }
