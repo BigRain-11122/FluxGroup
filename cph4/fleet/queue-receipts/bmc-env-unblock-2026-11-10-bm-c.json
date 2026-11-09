@@ -2,7 +2,7 @@
  "id": "bmc-env-unblock-2026-11-10",
  "node": "bm-c",
  "rc": 3,
- "seconds": 12.2,
+ "seconds": 3.9,
  "cmd": "python Tools/fleet/bmc_env_unblock.py --apply --receipt cph4/fleet/queue-receipts/bmc-env-unblock-2026-11-10.txt",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": "E-BLOCKED-INPUT",
  "deliverable": "cph4/fleet/queue-receipts/bmc-env-unblock-2026-11-10.txt",
  "deliverable_exists": false,
- "ts": "2026-11-10T00:35:05",
- "stdout_tail": "bmc_env_unblock receipt\nmode=APPLY\nram_before_gb=3.50 (src=K:\\Fluxgroup\\FluxGroup\\gaming\\MiniGame\\Design\\configs\\GLOBAL\\fleet\\c.json)\nram_after_gb=3.50\nram_gate_gb=4.00\ncomfy=COMFY-UP http=200\nverdict=BLOCKED\n== free_mem output ==\n[free] RAM available 3.6 GB | candidates 21\n       protected (never touched): python.exe 2150MB\n   - msedge (858 MB)\n   - msedge (684 MB)\n   - msedge (651 MB)\n   - msedge (643 MB)\n   - WeChat (635 MB)\n   - msedge (613 MB)\n   - msedge (584 MB)\n   - msedge (575 MB)\n[free] RAM available after 3.8 GB\n\n",
+ "ts": "2026-11-10T00:37:22",
+ "stdout_tail": "bmc_env_unblock receipt\nmode=APPLY\nram_before_gb=3.50 (src=K:\\Fluxgroup\\FluxGroup\\gaming\\MiniGame\\Design\\configs\\GLOBAL\\fleet\\c.json)\nram_after_gb=3.50\nram_gate_gb=4.00\ncomfy=COMFY-UP http=200\nverdict=BLOCKED\n== free_mem output ==\n[free] RAM available 3.8 GB | candidates 21\n       protected (never touched): python.exe 2151MB\n   - msedge (846 MB)\n   - msedge (684 MB)\n   - msedge (651 MB)\n   - msedge (643 MB)\n   - WeChat (643 MB)\n   - msedge (613 MB)\n   - msedge (583 MB)\n   - msedge (575 MB)\n[free] RAM available after 3.7 GB\n\n",
  "stderr_tail": ""
 }
