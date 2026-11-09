@@ -1,22 +1,22 @@
 {
- "ts": "2026-11-10T00:00:25",
- "cycle": 198,
+ "ts": "2026-11-10T00:01:54",
+ "cycle": 199,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-10T00:00:25",
+ "master_tick_ts": "2026-11-10T00:01:54",
  "queue": {
-  "total": 1715,
-  "open": 16,
+  "total": 1720,
+  "open": 18,
   "running": 17,
-  "done": 581,
-  "failed": 5
+  "done": 583,
+  "failed": 6
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 11.8,
-   "cpu_load_pct": 41,
-   "ram_free_gb": 59.8,
+   "hb_age_s": 39.6,
+   "cpu_load_pct": 68,
+   "ram_free_gb": 61.3,
    "gpu_util_pct": 0,
    "job": "R-PLAN-BIGCOMPUTE-20261110",
    "last_result": {
@@ -34,49 +34,57 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 31.8,
-   "cpu_load_pct": 37,
-   "ram_free_gb": 11.3,
-   "gpu_util_pct": 19,
+   "hb_age_s": 24.4,
+   "cpu_load_pct": 23,
+   "ram_free_gb": 12.3,
+   "gpu_util_pct": 26,
    "job": "Q-VCORP-TRAIN-z04-R7-20261109",
-   "last_result": null,
+   "last_result": {
+    "job": "asset-lib-env-check-2026-11-10",
+    "state": "FAILED",
+    "rc": 1,
+    "ts": "2026-11-10T00:01:39",
+    "reason": null,
+    "out_bytes": null,
+    "elapsed_s": null
+   },
    "idle_confirmed": false,
    "idle_reason": "",
    "idle_rounds": 0
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 67.9,
-   "cpu_load_pct": 11,
-   "ram_free_gb": 3.2,
-   "gpu_util_pct": 0,
+   "hb_age_s": 6.3,
+   "cpu_load_pct": 16,
+   "ram_free_gb": 1.0,
+   "gpu_util_pct": 1,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-09T23:59:42",
+    "ts": "2026-11-10T00:00:45",
     "reason": "CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (22.1h 零产出，唤醒清单空)",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
    "idle_reason": "CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (22.1h 零产出，唤醒清单空)",
-   "idle_rounds": 225
+   "idle_rounds": 226
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 1.6,
-   "cpu_load_pct": 18,
-   "ram_free_gb": 10.6,
+   "hb_age_s": 2.0,
+   "cpu_load_pct": 9,
+   "ram_free_gb": 11.0,
    "gpu_util_pct": null,
-   "job": "R-TRIAGE-BIGGAME-BMM-20261110",
+   "job": "R-MODEL-RADAR-BMC-20261110",
    "last_result": {
-    "job": null,
-    "state": "IDLE",
-    "rc": null,
-    "ts": "2026-11-09T23:59:48",
-    "reason": "SELF-DISPATCH: lane scans its own backlog",
+    "job": "R-TRIAGE-BIGGAME-BMM-20261110",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-10T00:00:54",
+    "reason": null,
     "out_bytes": null,
     "elapsed_s": null
    },
@@ -88,7 +96,7 @@
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
-  "bm-c": 225,
+  "bm-c": 226,
   "bm-m": 0
  },
  "lines": {
@@ -170,12 +178,14 @@
   "fluxverse": {
    "name": "FluxVerse·元宙城",
    "status": "ACTIVE",
-   "verdict": "WAITING",
+   "verdict": "WORKING",
    "age_h": null,
    "stale_after_h": 36.0,
    "owner": "城市线",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "R-PLAN-FLUXVERSE-20261110"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": null
   },
@@ -188,7 +198,7 @@
    "owner": "量化席",
    "jobs": [
     "R-PLAN-BIGMONEY-20261110",
-    "bigmoney-backtest-2026-11-10"
+    "bigmoney-signal-2026-11-10"
    ],
    "no_supply": false,
    "blockers": [],
@@ -309,10 +319,14 @@
     "Q-VCORP-TRAIN-e06-R7-20261109",
     "Q-VCORP-TRAIN-e07-R7-20261109",
     "Q-VCORP-TRAIN-e08-R7-20261109",
-    "asset-lib-env-check-2026-11-10"
+    "asset-lib-voice-corpus-2026-11-10",
+    "asset-lib-face-dataset-2026-11-10"
    ],
    "no_supply": false,
-   "blockers": [],
+   "blockers": [
+    "asset-lib-voice-corpus-2026-11-10:no-lane",
+    "asset-lib-face-dataset-2026-11-10:no-lane"
+   ],
    "note": "CEO 2026-11-03：先储备资产，角色 LoRA 与音色库为 P0"
   }
  },
@@ -842,43 +856,31 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 16,
+  "local": 5,
   "cloud": 0,
-  "queue": 0,
+  "queue": 13,
   "blocked": 0,
   "cloud_spend_today": 0,
   "waste": []
  },
  "supply_gap": {
-  "cpu": 3,
+  "cpu": 5,
   "gpu": 13
  },
  "supply_added": [],
  "events": [
-  "R-NEXT-BIGSTREAMM-REBUILD-20261110 -> bm-a (cpu)",
-  "bigmoney-backtest-2026-11-10 -> bm-b (cpu)",
-  "asset-lib-env-check-2026-11-10 -> bm-b (cpu)",
-  "bigstream-mv-gate-2026-11-10 -> bm-a (cpu)",
-  "biggame-pack-scan-2026-11-10 -> bm-a (cpu)",
-  "R-NEXT-BIGGAME-SUBMIT-P-20261110 -> bm-a (cpu)",
-  "R-PLAN-BIGCOMPUTE-20261110 -> bm-a (cpu)",
-  "R-PLAN-BIGDOMAIN-20261110 -> bm-b (cpu)",
-  "R-PLAN-BIGLIFE-20261110 -> bm-a (cpu)",
-  "R-PLAN-BIGMONEY-20261110 -> bm-b (cpu)",
-  "R-TRIAGE-BIGSTREAMMV-BMC-20261110 -> bm-b (cpu)",
-  "R-TRIAGE-BIGGAME-BMM-20261110 -> bm-m (cpu)",
-  "R-MODEL-RADAR-BMA-20261110 -> bm-a (cpu)",
-  "R-MODEL-RADAR-BMB-20261110 -> bm-a (cpu)",
-  "R-MODEL-RADAR-BMC-20261110 -> bm-m (cpu)",
-  "R-MODEL-RADAR-BMM-20261110 -> bm-m (cpu)"
+  "asset-lib-env-check-2026-11-10 FAILED via bm-b",
+  "R-TRIAGE-BIGGAME-BMM-20261110 DONE via bm-m",
+  "bigmoney-signal-2026-11-10 -> bm-b (cpu)",
+  "R-PLAN-FLUXVERSE-20261110 -> bm-b (cpu)",
+  "R-TRIAGE-FLUXVERSE-BMM-20261110 -> bm-m (cpu)"
  ],
  "violations": [
-  "bm-c IDLE-CONFIRMED x225 (CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (22.1)",
+  "bm-c IDLE-CONFIRMED x226 (CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (22.1)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
  "lane_files_written": [
-  "bm-a",
   "bm-b",
   "bm-m"
  ]
