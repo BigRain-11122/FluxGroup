@@ -1905,3 +1905,13 @@
 - 11-09T23:46 · R-NEXT-BIGSTREAMD-TTS-QC-20261102-bm-m.json · 任务失败，因输入文件缺失导致回执未生成。
 - 11-09T23:46 · bigstream-duanju-inventory-2026-11-03-bm-m.json · 已完成机队回执生成，无风险。
 - 11-09T23:46 · duanju-inventory-2026-11-03.json · 已完成机队回执，但当前目录无媒体文件，存在任务无法执行的风险。
+- 11-09T23:47 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-09T23:47 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-09T23:47 · bigstream-duanju-tts-qc-2026-11-03-bm-a.json · 任务失败，因缺少必要参数导致脚本报错。
+- 11-09T23:47 · OPS-MV-MASTER-LOCATE-20261103-bm-m.json · 已完成机队回执生成，无风险。
+- 11-09T23:47 · mv-master-locate.json · 已完成视频交接，无风险。
+- 11-09T23:47 · biggame-pack-scan-2026-11-03-bm-m.json · 已完成机队回执扫描，无风险。
+- 11-09T23:47 · game-packs-2026-11-03.json · 机队状态正常，无风险。
+- 11-09T23:47 · R-TTS-QC-R2-20261102-bm-a.json · 因输入目录缺失导致检查失败，任务未完成且存在阻断风险。
+- 11-09T23:47 · triage-fleet-ops-20261103.md · 机队线级体检已完成，因产出新鲜无风险，将自动进入下一工段。
+- 11-09T23:47 · triage-bigstream-mv-20261103.md · 机队回执显示线级体检已完成，无风险，按工段顺序继续。
