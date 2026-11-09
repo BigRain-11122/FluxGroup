@@ -1,5 +1,6 @@
 {
  "node": "bm-a",
+<<<<<<< Updated upstream
  "ts": "2026-11-09T10:18:20",
  "jobs": [
   {
@@ -18,6 +19,11 @@
   }
  ],
  "idle_reason": "",
+=======
+ "ts": "2026-11-09T10:19:31",
+ "jobs": [],
+ "idle_reason": "DAY-YIELD: work machine, takes over at 19:00",
+>>>>>>> Stashed changes
  "lane_ok": false,
  "capacity_note": "daytime heavy-yield (09:00-19:00); light CPU allowed"
 }
