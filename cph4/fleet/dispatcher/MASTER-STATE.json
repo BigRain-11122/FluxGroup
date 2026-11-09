@@ -1,23 +1,23 @@
 {
- "ts": "2026-11-10T04:28:14",
- "cycle": 390,
+ "ts": "2026-11-10T04:29:31",
+ "cycle": 391,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-10T04:28:14",
+ "master_tick_ts": "2026-11-10T04:29:31",
  "queue": {
   "total": 1767,
   "open": 1,
-  "running": 2,
-  "done": 615,
+  "running": 1,
+  "done": 616,
   "failed": 2
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 0.9,
-   "cpu_load_pct": 35,
-   "ram_free_gb": 43.3,
-   "gpu_util_pct": 64,
+   "hb_age_s": 18.2,
+   "cpu_load_pct": 52,
+   "ram_free_gb": 45,
+   "gpu_util_pct": 90,
    "job": null,
    "last_result": {
     "job": "MV-DIRECTOR-PACKET-20261109",
@@ -34,70 +34,62 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 22.9,
-   "cpu_load_pct": 13,
-   "ram_free_gb": 9.6,
+   "hb_age_s": 36.5,
+   "cpu_load_pct": 17,
+   "ram_free_gb": 12.2,
    "gpu_util_pct": 2,
-   "job": "PROBE-BMB-TOOLCHAIN-20261110",
-   "last_result": {
-    "job": null,
-    "state": "IDLE",
-    "rc": null,
-    "ts": "2026-11-10T04:27:41",
-    "reason": "SELF-DISPATCH: lane scans its own backlog",
-    "out_bytes": null,
-    "elapsed_s": null
-   },
-   "idle_confirmed": false,
-   "idle_reason": "",
-   "idle_rounds": 0
-  },
-  "bm-c": {
-   "online": true,
-   "hb_age_s": 15.2,
-   "cpu_load_pct": 16,
-   "ram_free_gb": 3.7,
-   "gpu_util_pct": 1,
-   "job": "asset-lib-char-gen-2026-11-10",
-   "last_result": {
-    "job": "asset-lib-face-dataset-2026-11-10",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-10T04:18:16",
-    "reason": null,
-    "out_bytes": null,
-    "elapsed_s": null
-   },
-   "idle_confirmed": false,
-   "idle_reason": "",
-   "idle_rounds": 0
-  },
-  "bm-m": {
-   "online": true,
-   "hb_age_s": 1.6,
-   "cpu_load_pct": 5,
-   "ram_free_gb": 14.0,
-   "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-10T04:27:55",
+    "ts": "2026-11-10T04:29:15",
     "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 23
+   "idle_rounds": 1
+  },
+  "bm-c": {
+   "online": true,
+   "hb_age_s": 3.8,
+   "cpu_load_pct": 14,
+   "ram_free_gb": 3.4,
+   "gpu_util_pct": 0,
+   "job": "asset-lib-char-gen-2026-11-10",
+   "last_result": null,
+   "idle_confirmed": false,
+   "idle_reason": "",
+   "idle_rounds": 0
+  },
+  "bm-m": {
+   "online": true,
+   "hb_age_s": 1.5,
+   "cpu_load_pct": 7,
+   "ram_free_gb": 13.5,
+   "gpu_util_pct": null,
+   "job": null,
+   "last_result": {
+    "job": null,
+    "state": "IDLE",
+    "rc": null,
+    "ts": "2026-11-10T04:28:55",
+    "reason": "SELF-DISPATCH: lane scans its own backlog",
+    "out_bytes": null,
+    "elapsed_s": null
+   },
+   "idle_confirmed": true,
+   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+   "idle_rounds": 24
   }
  },
  "idle_rounds": {
   "bm-a": 0,
-  "bm-b": 0,
+  "bm-b": 1,
   "bm-c": 0,
-  "bm-m": 23
+  "bm-m": 24
  },
  "lines": {
   "bigstream-mv": {
@@ -265,14 +257,12 @@
   "fleet-ops": {
    "name": "机队运维·端到端自检（平台服务线）",
    "status": "ACTIVE",
-   "verdict": "WORKING",
+   "verdict": "WAITING",
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
-   "jobs": [
-    "PROBE-BMB-TOOLCHAIN-20261110"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": null
   },
@@ -829,14 +819,9 @@
   "gpu": 0
  },
  "supply_added": [],
- "events": [
-  "MV-DIRECTOR-PACKET-20261109 UNVERIFIED(no-artifact-yet) via bm-a",
-  "asset-lib-face-dataset-2026-11-10 UNVERIFIED(no-artifact-yet) via bm-c",
-  "asset-lib-char-gen-2026-11-10 -> bm-c (gpu)",
-  "PROBE-BMB-TOOLCHAIN-20261110 -> bm-b (cpu)"
- ],
+ "events": [],
  "violations": [
-  "bm-m IDLE-CONFIRMED x23 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-m IDLE-CONFIRMED x24 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
