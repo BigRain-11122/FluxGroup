@@ -303,5 +303,78 @@
   ],
   "_resident_set_why": "2026-11-08 CEO「一个模型可以干很多事」+审计实测：214 次走 4B、8B 3 次、1.7B 3 次。常驻只留主力与向量，8B/1.7B 按需（keep_alive=0），省 ~6.6GB 且不再互相驱逐。"
  },
- "_keep_alive_why": "MLX runner 对 keep_alive=0 会卡在 Stopping 且再也加载不上（实测）。按需档用 1m 空闲自动退，常驻档 30m。"
+ "_keep_alive_why": "MLX runner 对 keep_alive=0 会卡在 Stopping 且再也加载不上（实测）。按需档用 1m 空闲自动退，常驻档 30m。",
+ "routing": {
+  "_why": "CEO 2026-11-09：尽量走本地，云端有必要就用、没有上限。本段是 codely_bridge 的唯一路由源。",
+  "precedence": [
+   "L0_HY4",
+   "L1_DETERMINISTIC",
+   "L2_LOCAL_LLM",
+   "L3_CODELY"
+  ],
+  "escalation_rule": "先 L1 再 L2；两层都判不了才升 L3。L3 不设次数上限，但每次必须带升级理由、数据分级与授权引用，并留调用记录。",
+  "layers": {
+   "L0_HY4": {
+    "name": "人/CEO 直判",
+    "cost": "0 token",
+    "action": "红线、方向、取舍：直接问 CEO，不交模型",
+    "task_classes": [
+     "decision",
+     "red_line",
+     "business_tradeoff",
+     "external_commitment",
+     "reasoning"
+    ]
+   },
+   "L1_DETERMINISTIC": {
+    "name": "确定性规则",
+    "cost": "0 token",
+    "action": "脚本/门禁/台账/计数：能算就不问模型",
+    "task_classes": [
+     "counting",
+     "validation",
+     "ledger",
+     "health",
+     "dedupe",
+     "gate",
+     "queue",
+     "receipt",
+     "format_check",
+     "format"
+    ]
+   },
+   "L2_LOCAL_LLM": {
+    "name": "本机 Ollama",
+    "cost": "0 API token（电费）",
+    "action": "分类/摘要/抽取/初判/草稿：默认层",
+    "endpoint": "http://127.0.0.1:11434/api/generate",
+    "task_classes": [
+     "classification",
+     "summary",
+     "extraction",
+     "triage",
+     "draft",
+     "review",
+     "classification_local"
+    ]
+   },
+   "L3_CODELY": {
+    "name": "公司 Codely（LiteLLM）",
+    "cost": "公司席位（无次数上限）",
+    "action": "跨域架构/根因/终审：L1/L2 试过再升",
+    "requires": [
+     "escalation_reason",
+     "data_classification",
+     "authorization_ref"
+    ],
+    "task_classes": [
+     "architecture",
+     "cross_domain",
+     "unknown_root_cause",
+     "final_review",
+     "unity_tool"
+    ]
+   }
+  }
+ }
 }
