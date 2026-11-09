@@ -1,8 +1,25 @@
 {
  "node": "bm-b",
- "ts": "2026-11-09T22:50:12",
- "jobs": [],
- "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+ "ts": "2026-11-09T22:57:51",
+ "jobs": [
+  {
+   "id": "Q-VCORP-TRAIN-z02-R7-20261109",
+   "title": "音色微调·z02（aishell3 → SoVITS s2 → 权重）R7",
+   "cmd": "python C:/Fluxgroup/FleetAgent/Tools/voicebank/vb_train_card.py --voice aishell3-z02 --raw C:/Fluxgroup/FluxGroup/media/asset/inbox/z02 --receipt C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-train-z02-r7.json",
+   "cwd": "C:/Fluxgroup/FleetAgent",
+   "needs": "gpu",
+   "deliverable": "C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-train-z02-r7.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [
+    "C:/Fluxgroup/FluxGroup/media/asset/inbox/z02"
+   ],
+   "llm": null,
+   "timeout_s": 14400
+  }
+ ],
+ "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 13.7/1.0 GB"
+ "capacity_note": "ram 6.6/1.0 GB"
 }

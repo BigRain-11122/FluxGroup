@@ -1,22 +1,22 @@
 {
- "ts": "2026-11-09T22:55:37",
- "cycle": 163,
+ "ts": "2026-11-09T22:57:51",
+ "cycle": 164,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-09T22:55:37",
+ "master_tick_ts": "2026-11-09T22:57:51",
  "queue": {
-  "total": 1673,
-  "open": 3,
-  "running": 0,
+  "total": 1688,
+  "open": 17,
+  "running": 1,
   "done": 581,
   "failed": 5
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 24.2,
-   "cpu_load_pct": 63,
-   "ram_free_gb": 58.5,
+   "hb_age_s": 37.9,
+   "cpu_load_pct": 51,
+   "ram_free_gb": 57,
    "gpu_util_pct": 0,
    "job": null,
    "last_result": {
@@ -30,15 +30,15 @@
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 54
+   "idle_rounds": 55
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 35.5,
+   "hb_age_s": 169.1,
    "cpu_load_pct": 25,
    "ram_free_gb": 6.6,
    "gpu_util_pct": 16,
-   "job": null,
+   "job": "Q-VCORP-TRAIN-z02-R7-20261109",
    "last_result": {
     "job": null,
     "state": "IDLE",
@@ -48,56 +48,56 @@
     "out_bytes": null,
     "elapsed_s": null
    },
-   "idle_confirmed": true,
-   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 5
+   "idle_confirmed": false,
+   "idle_reason": "",
+   "idle_rounds": 0
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 60.8,
-   "cpu_load_pct": 18,
-   "ram_free_gb": 0.9,
-   "gpu_util_pct": 1,
+   "hb_age_s": 121.5,
+   "cpu_load_pct": 21,
+   "ram_free_gb": 1.8,
+   "gpu_util_pct": 0,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-09T22:54:47",
-    "reason": "CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (20.9h 零产出，唤醒清单空)",
+    "ts": "2026-11-09T22:55:58",
+    "reason": "CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (21.0h 零产出，唤醒清单空)",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
    "idle_reason": "CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (21.0h 零产出，唤醒清单空)",
-   "idle_rounds": 190
+   "idle_rounds": 191
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 22.6,
-   "cpu_load_pct": 8,
-   "ram_free_gb": 10.3,
+   "hb_age_s": 1.7,
+   "cpu_load_pct": 4,
+   "ram_free_gb": 13.0,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
-    "job": "CANARY-20261109T225515",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-09T22:55:27",
-    "reason": null,
+    "job": null,
+    "state": "IDLE",
+    "rc": null,
+    "ts": "2026-11-09T22:57:28",
+    "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
-   "idle_confirmed": false,
+   "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 0
+   "idle_rounds": 1
   }
  },
  "idle_rounds": {
-  "bm-a": 54,
-  "bm-b": 5,
-  "bm-c": 190,
-  "bm-m": 0
+  "bm-a": 55,
+  "bm-b": 0,
+  "bm-c": 191,
+  "bm-m": 1
  },
  "lines": {
   "bigstream-mv": {
@@ -280,13 +280,44 @@
   "asset-lib": {
    "name": "资产储备·角色 LoRA 与音色库",
    "status": "ACTIVE",
-   "verdict": "WAITING",
+   "verdict": "WORKING",
    "age_h": null,
    "stale_after_h": 72.0,
    "owner": "资产席",
-   "jobs": [],
-   "no_supply": true,
-   "blockers": [],
+   "jobs": [
+    "Q-VCORP-TRAIN-z02-R7-20261109",
+    "Q-VCORP-TRAIN-z03-R7-20261109",
+    "Q-VCORP-TRAIN-z04-R7-20261109",
+    "Q-VCORP-TRAIN-z05-R7-20261109",
+    "Q-VCORP-TRAIN-z06-R7-20261109",
+    "Q-VCORP-TRAIN-z07-R7-20261109",
+    "Q-VCORP-TRAIN-z08-R7-20261109",
+    "Q-VCORP-TRAIN-e01-R7-20261109",
+    "Q-VCORP-TRAIN-e02-R7-20261109",
+    "Q-VCORP-TRAIN-e03-R7-20261109",
+    "Q-VCORP-TRAIN-e04-R7-20261109",
+    "Q-VCORP-TRAIN-e05-R7-20261109",
+    "Q-VCORP-TRAIN-e06-R7-20261109",
+    "Q-VCORP-TRAIN-e07-R7-20261109",
+    "Q-VCORP-TRAIN-e08-R7-20261109"
+   ],
+   "no_supply": false,
+   "blockers": [
+    "Q-VCORP-TRAIN-z03-R7-20261109:no-lane",
+    "Q-VCORP-TRAIN-z04-R7-20261109:no-lane",
+    "Q-VCORP-TRAIN-z05-R7-20261109:no-lane",
+    "Q-VCORP-TRAIN-z06-R7-20261109:no-lane",
+    "Q-VCORP-TRAIN-z07-R7-20261109:no-lane",
+    "Q-VCORP-TRAIN-z08-R7-20261109:no-lane",
+    "Q-VCORP-TRAIN-e01-R7-20261109:no-lane",
+    "Q-VCORP-TRAIN-e02-R7-20261109:no-lane",
+    "Q-VCORP-TRAIN-e03-R7-20261109:no-lane",
+    "Q-VCORP-TRAIN-e04-R7-20261109:no-lane",
+    "Q-VCORP-TRAIN-e05-R7-20261109:no-lane",
+    "Q-VCORP-TRAIN-e06-R7-20261109:no-lane",
+    "Q-VCORP-TRAIN-e07-R7-20261109:no-lane",
+    "Q-VCORP-TRAIN-e08-R7-20261109:no-lane"
+   ],
    "note": "CEO 2026-11-03：先储备资产，角色 LoRA 与音色库为 P0"
   }
  },
@@ -301,7 +332,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "WAITING",
-     "age_h": 7.5,
+     "age_h": 7.7,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -312,7 +343,7 @@
      "model": "local-gpu",
      "lane": "bm-c",
      "verdict": "WAITING",
-     "age_h": 7.5,
+     "age_h": 7.7,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -334,7 +365,7 @@
      "model": "none",
      "lane": "bm-a",
      "verdict": "WAITING",
-     "age_h": 7.5,
+     "age_h": 7.7,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -356,7 +387,7 @@
      "model": "none",
      "lane": null,
      "verdict": "WAITING",
-     "age_h": 48.3,
+     "age_h": 48.5,
      "limit_h": 9999.0,
      "jobs": []
     }
@@ -372,7 +403,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "PARKED",
-     "age_h": 8.4,
+     "age_h": 8.6,
      "limit_h": 48.0,
      "jobs": []
     },
@@ -421,7 +452,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "PARKED",
-     "age_h": 244.1,
+     "age_h": 244.2,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -432,7 +463,7 @@
      "model": "local-gpu",
      "lane": "bm-c",
      "verdict": "PARKED",
-     "age_h": 244.1,
+     "age_h": 244.2,
      "limit_h": 72.0,
      "jobs": []
     }
@@ -448,7 +479,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "PARKED",
-     "age_h": 177.6,
+     "age_h": 177.8,
      "limit_h": 168.0,
      "jobs": []
     },
@@ -459,7 +490,7 @@
      "model": "none",
      "lane": "bm-a",
      "verdict": "PARKED",
-     "age_h": 244.1,
+     "age_h": 244.2,
      "limit_h": 168.0,
      "jobs": []
     }
@@ -473,7 +504,7 @@
     "model": "cloud-smart",
     "lane": null,
     "verdict": "STALLED",
-    "age_h": 149.4,
+    "age_h": 149.6,
     "limit_h": 24.0,
     "jobs": []
    },
@@ -485,7 +516,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "STALLED",
-     "age_h": 149.4,
+     "age_h": 149.6,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -559,7 +590,7 @@
     "model": "none",
     "lane": "bm-b",
     "verdict": "STALLED",
-    "age_h": 130.7,
+    "age_h": 130.9,
     "limit_h": 24.0,
     "jobs": []
    },
@@ -571,7 +602,7 @@
      "model": "none",
      "lane": "bm-b",
      "verdict": "STALLED",
-     "age_h": 130.7,
+     "age_h": 130.9,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -706,7 +737,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "PARKED",
-     "age_h": 170.8,
+     "age_h": 171.0,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -733,7 +764,7 @@
      "model": "none",
      "lane": "bm-a",
      "verdict": "WAITING",
-     "age_h": 58.1,
+     "age_h": 58.3,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -744,7 +775,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "WAITING",
-     "age_h": 58.1,
+     "age_h": 58.3,
      "limit_h": 72.0,
      "jobs": []
     }
@@ -760,7 +791,7 @@
      "model": "none",
      "lane": null,
      "verdict": "WAITING",
-     "age_h": 1.2,
+     "age_h": 0.0,
      "limit_h": 24.0,
      "jobs": []
     }
@@ -776,7 +807,7 @@
      "model": "rule",
      "lane": "bm-c",
      "verdict": "WAITING",
-     "age_h": 6.2,
+     "age_h": 6.4,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -798,7 +829,7 @@
      "model": "local-gpu",
      "lane": "bm-c",
      "verdict": "WAITING",
-     "age_h": 6.2,
+     "age_h": 6.4,
      "limit_h": 72.0,
      "jobs": []
     }
@@ -816,7 +847,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 3,
+  "local": 17,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -825,18 +856,19 @@
  },
  "supply_gap": {
   "cpu": 2,
-  "gpu": 1
+  "gpu": 15
  },
  "supply_added": [],
- "events": [],
+ "events": [
+  "Q-VCORP-TRAIN-z02-R7-20261109 -> bm-b (gpu)"
+ ],
  "violations": [
-  "bm-a IDLE-CONFIRMED x54 (SELF-DISPATCH: lane scans its own backlo)",
-  "bm-b IDLE-CONFIRMED x5 (SELF-DISPATCH: lane scans its own backlo)",
-  "bm-c IDLE-CONFIRMED x190 (CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (21.0)",
+  "bm-a IDLE-CONFIRMED x55 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-c IDLE-CONFIRMED x191 (CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (21.0)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
  "lane_files_written": [
-  "bm-m"
+  "bm-b"
  ]
 }
