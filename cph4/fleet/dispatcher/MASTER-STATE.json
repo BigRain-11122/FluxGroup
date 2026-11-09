@@ -1,32 +1,32 @@
 {
- "ts": "2026-11-10T01:09:36",
- "cycle": 247,
+ "ts": "2026-11-10T01:10:56",
+ "cycle": 248,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-10T01:09:36",
+ "master_tick_ts": "2026-11-10T01:10:56",
  "queue": {
   "total": 1747,
   "open": 4,
-  "running": 7,
+  "running": 6,
   "done": 603,
-  "failed": 7
+  "failed": 8
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 22.3,
-   "cpu_load_pct": 60,
-   "ram_free_gb": 30.6,
-   "gpu_util_pct": 57,
+   "hb_age_s": 42.3,
+   "cpu_load_pct": 83,
+   "ram_free_gb": 43.5,
+   "gpu_util_pct": 55,
    "job": "bigstream-mv-gate-2026-11-10",
    "last_result": {
-    "job": "R-TRIAGE-BIGSTREAMMV-BMA-20261110",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-10T01:06:41",
+    "job": "asset-lib-voice-corpus-2026-11-10",
+    "state": "BUSY",
+    "rc": null,
+    "ts": "2026-11-10T01:10:50",
     "reason": null,
-    "out_bytes": null,
-    "elapsed_s": null
+    "out_bytes": 0,
+    "elapsed_s": 60
    },
    "idle_confirmed": false,
    "idle_reason": "",
@@ -34,16 +34,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 30.4,
-   "cpu_load_pct": 27,
-   "ram_free_gb": 8.1,
-   "gpu_util_pct": 37,
-   "job": "R-TRIAGE-BIGDOMAIN-BMB-20261110",
+   "hb_age_s": 3.5,
+   "cpu_load_pct": 6,
+   "ram_free_gb": 8,
+   "gpu_util_pct": 31,
+   "job": "bigmoney-signal-2026-11-10",
    "last_result": {
-    "job": "bigmoney-signal-2026-11-10",
+    "job": "R-TRIAGE-BIGDOMAIN-BMB-20261110",
     "state": "FAILED",
-    "rc": 2,
-    "ts": "2026-11-10T01:09:27",
+    "rc": 0,
+    "ts": "2026-11-10T01:10:51",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -54,19 +54,19 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 9.0,
+   "hb_age_s": 88.8,
    "cpu_load_pct": 24,
    "ram_free_gb": 1.1,
    "gpu_util_pct": 0,
    "job": "asset-lib-char-gen-2026-11-10",
    "last_result": {
     "job": "asset-lib-face-dataset-2026-11-10",
-    "state": "BUSY",
-    "rc": null,
-    "ts": "2026-11-10T01:09:30",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-10T01:10:01",
     "reason": null,
-    "out_bytes": 0,
-    "elapsed_s": 21
+    "out_bytes": null,
+    "elapsed_s": null
    },
    "idle_confirmed": false,
    "idle_reason": "",
@@ -74,30 +74,30 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 2.9,
-   "cpu_load_pct": 6,
-   "ram_free_gb": 8.2,
+   "hb_age_s": 1.5,
+   "cpu_load_pct": 14,
+   "ram_free_gb": 7.5,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
-    "job": "asset-lib-voice-dataset-2026-11-10",
-    "state": "RUNNING",
+    "job": null,
+    "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-10T01:09:34",
-    "reason": null,
+    "ts": "2026-11-10T01:10:40",
+    "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
-   "idle_confirmed": false,
+   "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 0
+   "idle_rounds": 1
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 0
+  "bm-m": 1
  },
  "lines": {
   "bigstream-mv": {
@@ -189,8 +189,10 @@
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "量化席",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "bigmoney-signal-2026-11-10"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": "2026-11-04 夜班重启：原回测阶段钉 bm-d，而 bm-d 自 10-29 离线；改由 bm-b（有 quant 仓与数据）出「下月持仓信号 CSV」，主控按 P1 恢复派单。",
    "stuck_stage": "quant-data",
@@ -276,8 +278,7 @@
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
    "jobs": [
-    "R-TRIAGE-BIGGAME-BMA-20261110",
-    "R-TRIAGE-BIGDOMAIN-BMB-20261110"
+    "R-TRIAGE-BIGGAME-BMA-20261110"
    ],
    "no_supply": false,
    "blockers": [],
@@ -294,8 +295,7 @@
     "asset-lib-voice-corpus-2026-11-10",
     "asset-lib-char-gen-2026-11-10",
     "asset-lib-asset-gen-2026-11-10",
-    "asset-lib-asset-gen-scenes-2026-11-10",
-    "asset-lib-voice-dataset-2026-11-10"
+    "asset-lib-asset-gen-scenes-2026-11-10"
    ],
    "no_supply": false,
    "blockers": [],
@@ -841,18 +841,15 @@
  },
  "supply_added": [],
  "events": [
-  "bigmoney-signal-2026-11-10 FAILED via bm-b",
-  "asset-lib-char-gen-2026-11-10 -> bm-c (gpu)",
-  "asset-lib-voice-corpus-2026-11-10 -> bm-a (cpu)",
-  "asset-lib-voice-dataset-2026-11-10 -> bm-c (cpu)",
-  "bigstream-mv-gate-2026-11-10 -> bm-a (cpu)",
-  "biggame-pack-scan-2026-11-10 -> bm-a (cpu)"
+  "R-TRIAGE-BIGDOMAIN-BMB-20261110 FAILED via bm-b",
+  "bigmoney-signal-2026-11-10 -> bm-b (cpu)"
  ],
  "violations": [
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
  "lane_files_written": [
+  "bm-b",
   "bm-c"
  ]
 }
