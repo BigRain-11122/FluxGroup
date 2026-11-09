@@ -1775,3 +1775,13 @@
 - 11-09T23:30 · biggame-pack-scan-2026-11-04-bm-a.json · 机队扫描完成 37 个包，无错误风险。
 - 11-09T23:30 · biggame-accept-2026-11-04-bm-a.json · 机队质量检查失败，因缺少 game-10s 组件存在交付风险。
 - 11-09T23:30 · asset-lib-voice-corpus-bmc-2026-11-04-bm-m.json · 任务失败因无输入数据，存在阻塞风险。
+- 11-09T23:31 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
+- 11-09T23:31 · _last_lane_bm-m.json · 机队已自派完成回单，无风险。
+- 11-09T23:31 · asset-lib-voice-corpus-bma-2026-11-04-bm-a.json · 任务因输入缺失失败，存在阻塞风险。
+- 11-09T23:31 · asset-lib-library-check-2026-11-04-bm-a.json · 已完成资产库体检，发现角色、场景等核心资产缺失且存在授权风险。
+- 11-09T23:31 · asset-lib-char-prompts-2026-11-03-bm-a.json · 已完成 8 角色×12 视角的 96 张计划生成，无风险。
+- 11-09T23:31 · asset-lib-char-gen-2026-11-04-bm-a.json · 机队生成任务失败，无可用回执文件且存在未知风险。
+- 11-09T23:31 · asset-lib-char-gen-2026-11-03-bm-a.json · 机队生成任务失败，因缺少指定字符路径导致程序崩溃。
+- 11-09T23:31 · asset-lib-char-dataset-2026-11-03-bm-m.json · 机队任务失败，因输入图片缺失导致所有节点跳过。
+- 11-09T23:31 · asset-lib-char-dataset-2026-11-03-bm-c.json · 机队任务失败，因输入被阻断导致所有节点均未产出数据。
+- 11-09T23:31 · asset-lib-asset-gen-2026-11-04-bm-a.json · 生成机队资产失败，因目标服务器拒绝连接导致任务中断。
