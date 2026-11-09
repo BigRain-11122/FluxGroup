@@ -1,0 +1,296 @@
+{
+ "ts": "2026-11-09T14:23:55+0800",
+ "engine": "local_model+deterministic_render",
+ "task": "art_spec",
+ "items": {
+  "FluxVerse_FluxVerse": {
+   "kind": "tower",
+   "bg": [
+    "#0A0F1E",
+    "#2D1B4E"
+   ],
+   "fg": "#FFFFFF",
+   "src": "local_model",
+   "sec": 1.38
+  },
+  "G03_MergeMania": {
+   "kind": "tower",
+   "bg": [
+    "#1a4d7c",
+    "#5b8ebd"
+   ],
+   "fg": "#e8b339",
+   "src": "local_model",
+   "sec": 1.61
+  },
+  "G04_ScrewOut": {
+   "kind": "puzzle",
+   "bg": [
+    "#1a1a1a",
+    "#2d2d2d"
+   ],
+   "fg": "#4682b4",
+   "src": "local_model",
+   "sec": 1.88
+  },
+  "G02_TimeRepairShop": {
+   "kind": "watch",
+   "bg": [
+    "#3E4C6B",
+    "#A8B8D8"
+   ],
+   "fg": "#F0E799",
+   "src": "local_model",
+   "sec": 1.49
+  },
+  "G05_ReelRiot": {
+   "kind": "car",
+   "bg": [
+    "#0B1A2D",
+    "#2D4E1F"
+   ],
+   "fg": "#FFD700",
+   "src": "local_model",
+   "sec": 1.76
+  },
+  "G06_ArrowRush": {
+   "kind": "arrow",
+   "bg": [
+    "#3A6EB5",
+    "#7989CA"
+   ],
+   "fg": "#FFFFFF",
+   "src": "local_model",
+   "sec": 1.13
+  },
+  "G07_MobTide": {
+   "kind": "merge",
+   "bg": [
+    "#1A1A1A",
+    "#0D0D0D"
+   ],
+   "fg": "#FFEB3B",
+   "src": "local_model",
+   "sec": 1.09
+  },
+  "G09_GimmeAll": {
+   "kind": "pet",
+   "bg": [
+    "#1E1E1E",
+    "#4A90E2"
+   ],
+   "fg": "#FFB6C1",
+   "src": "local_model",
+   "sec": 1.11
+  },
+  "G10_涨停板": {
+   "kind": "tower",
+   "bg": [
+    "#7C987E",
+    "#1A1A1A"
+   ],
+   "fg": "#FFD700",
+   "src": "local_model",
+   "sec": 1.78
+  },
+  "G11_CrazyWorker": {
+   "kind": "tower",
+   "bg": [
+    "#87CEEB",
+    "#F4A460"
+   ],
+   "fg": "#FFFFFF",
+   "src": "local_model",
+   "sec": 1.13
+  },
+  "G11_摸鱼也升职_CCPC提交格式": {
+   "kind": "pet",
+   "bg": [
+    "#A8C4F2",
+    "#FFF9E7"
+   ],
+   "fg": "#005029",
+   "src": "local_model",
+   "sec": 1.37
+  },
+  "G12_LineRescue": {
+   "kind": "puzzle",
+   "bg": [
+    "#F0F4F8",
+    "#D9E2EC"
+   ],
+   "fg": "#FF4757",
+   "src": "local_model",
+   "sec": 2.78
+  },
+  "G13_我想有个农场": {
+   "kind": "farm",
+   "bg": [
+    "#76b94f",
+    "#5c943d"
+   ],
+   "fg": "#ffffff",
+   "src": "local_model",
+   "sec": 1.68
+  },
+  "G15_PetWorkCrew": {
+   "kind": "pet",
+   "bg": [
+    "#708090",
+    "#F5F5DC"
+   ],
+   "fg": "#FF4500",
+   "src": "local_model",
+   "sec": 1.75
+  },
+  "G16_CrazyEstate": {
+   "kind": "store",
+   "bg": [
+    "#E8F5E9",
+    "#2E7D32"
+   ],
+   "fg": "#000000",
+   "src": "local_model",
+   "sec": 1.91
+  },
+  "G17_UnboxIt": {
+   "kind": "pet",
+   "bg": [
+    "#87CEEB",
+    "#E0F2FF"
+   ],
+   "fg": "#000000",
+   "src": "local_model",
+   "sec": 1.26
+  },
+  "G18_PalacePlunder": {
+   "kind": "mask",
+   "bg": [
+    "#4A3B2A",
+    "#1E1E1E"
+   ],
+   "fg": "#D9E0C1",
+   "src": "local_model",
+   "sec": 1.51
+  },
+  "G19_我的小花园_CCPC提交格式": {
+   "kind": "farm",
+   "bg": [
+    "#5D8A46",
+    "#FDFD96"
+   ],
+   "fg": "#1B4332",
+   "src": "local_model",
+   "sec": 1.53
+  },
+  "G20_MonsterInn": {
+   "kind": "tower",
+   "bg": [
+    "#1A0F0F",
+    "#000000"
+   ],
+   "fg": "#D4AF37",
+   "src": "local_model",
+   "sec": 1.17
+  },
+  "G26_ExileFarm": {
+   "kind": "farm",
+   "bg": [
+    "#F5F0E1",
+    "#E8D7B2"
+   ],
+   "fg": "#4A6E3C",
+   "src": "local_model",
+   "sec": 1.15
+  },
+  "G28_ArrowOut": {
+   "kind": "arrow",
+   "bg": [
+    "#FFD700",
+    "#E63949"
+   ],
+   "fg": "#000000",
+   "src": "local_model",
+   "sec": 1.24
+  },
+  "P01_LanternSlayer": {
+   "kind": "ghost",
+   "bg": [
+    "#4A3728",
+    "#1F1810"
+   ],
+   "fg": "#E89D4B",
+   "src": "local_model",
+   "sec": 1.19
+  },
+  "P02_FateGate": {
+   "kind": "shield",
+   "bg": [
+    "#6B9BD5",
+    "#C7CEEA"
+   ],
+   "fg": "#FFFFFF",
+   "src": "local_model",
+   "sec": 1.56
+  },
+  "P03_StrategistDefense": {
+   "kind": "tower",
+   "bg": [
+    "#7B6E5C",
+    "#4A3F39"
+   ],
+   "fg": "#F0D4C0",
+   "src": "local_model",
+   "sec": 1.14
+  },
+  "P04_DemonTamer": {
+   "kind": "tower",
+   "bg": [
+    "#0F0F0F",
+    "#2B1D0E"
+   ],
+   "fg": "#C58645",
+   "src": "local_model",
+   "sec": 1.82
+  },
+  "P05_NightWatch": {
+   "kind": "watch",
+   "bg": [
+    "#87CEEB",
+    "#2F591D"
+   ],
+   "fg": "#000000",
+   "src": "local_model",
+   "sec": 1.18
+  },
+  "P06_SongOfScents": {
+   "kind": "store",
+   "bg": [
+    "#EFEFD1",
+    "#F4DFC7"
+   ],
+   "fg": "#5A5E38",
+   "src": "local_model",
+   "sec": 1.48
+  },
+  "P08_GhostMarshal": {
+   "kind": "ghost",
+   "bg": [
+    "#F8F5E9",
+    "#D2B48C"
+   ],
+   "fg": "#4A4A4A",
+   "src": "local_model",
+   "sec": 1.65
+  }
+ },
+ "fails": {
+  "G02_TimeRepairShop": "low-contrast",
+  "G08_CrazyCampus": "kind:schoolbag",
+  "G14_大不了开饭馆": "kind:food",
+  "G15_萌宠开店啦_CCPC提交格式": "low-contrast",
+  "G19_BloomHaven": "kind:flower",
+  "G23_CardRogue": "kind:deck",
+  "P07_TreasureDive": "kind:fish"
+ }
+}

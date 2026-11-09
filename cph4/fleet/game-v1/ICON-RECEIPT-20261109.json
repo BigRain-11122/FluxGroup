@@ -1,0 +1,250 @@
+{
+ "ts": "2026-11-09T14:16:33+0800",
+ "source": "SUBMIT-PACK-20261109.json",
+ "checked": 34,
+ "ok": 6,
+ "bad": [
+  "G04_ScrewOut",
+  "G05_ReelRiot",
+  "G07_MobTide",
+  "G08_CrazyCampus",
+  "G09_GimmeAll",
+  "G10_涨停板",
+  "G11_CrazyWorker",
+  "G11_摸鱼也升职_CCPC提交格式",
+  "G12_LineRescue",
+  "G14_大不了开饭馆",
+  "G15_PetWorkCrew",
+  "G15_萌宠开店啦_CCPC提交格式",
+  "G16_CrazyEstate",
+  "G17_UnboxIt",
+  "G18_PalacePlunder",
+  "G19_BloomHaven",
+  "G19_我的小花园_CCPC提交格式",
+  "G20_MonsterInn",
+  "G23_CardRogue",
+  "G26_ExileFarm",
+  "G28_ArrowOut",
+  "P01_LanternSlayer",
+  "P02_FateGate",
+  "P03_StrategistDefense",
+  "P05_NightWatch",
+  "P06_SongOfScents",
+  "P07_TreasureDive",
+  "P08_GhostMarshal"
+ ],
+ "rows": [
+  {
+   "dir": "FluxVerse_FluxVerse",
+   "ok": true,
+   "icons": [
+    {
+     "file": "icon_512.png",
+     "w": 512,
+     "h": 512,
+     "ok": true
+    }
+   ]
+  },
+  {
+   "dir": "G02_TimeRepairShop",
+   "ok": true,
+   "icons": [
+    {
+     "file": "icon_512.png",
+     "w": 512,
+     "h": 512,
+     "ok": true
+    }
+   ]
+  },
+  {
+   "dir": "G03_MergeMania",
+   "ok": true,
+   "icons": [
+    {
+     "file": "icon_512.png",
+     "w": 512,
+     "h": 512,
+     "ok": true
+    }
+   ]
+  },
+  {
+   "dir": "G04_ScrewOut",
+   "ok": false,
+   "icons": []
+  },
+  {
+   "dir": "G05_ReelRiot",
+   "ok": false,
+   "icons": []
+  },
+  {
+   "dir": "G06_ArrowRush",
+   "ok": true,
+   "icons": [
+    {
+     "file": "icon_512.png",
+     "w": 512,
+     "h": 512,
+     "ok": true
+    }
+   ]
+  },
+  {
+   "dir": "G07_MobTide",
+   "ok": false,
+   "icons": []
+  },
+  {
+   "dir": "G08_CrazyCampus",
+   "ok": false,
+   "icons": []
+  },
+  {
+   "dir": "G09_GimmeAll",
+   "ok": false,
+   "icons": []
+  },
+  {
+   "dir": "G10_涨停板",
+   "ok": false,
+   "icons": []
+  },
+  {
+   "dir": "G11_CrazyWorker",
+   "ok": false,
+   "icons": []
+  },
+  {
+   "dir": "G11_摸鱼也升职_CCPC提交格式",
+   "ok": false,
+   "icons": []
+  },
+  {
+   "dir": "G12_LineRescue",
+   "ok": false,
+   "icons": []
+  },
+  {
+   "dir": "G13_我想有个农场",
+   "ok": true,
+   "icons": [
+    {
+     "file": "icon_512.png",
+     "w": 512,
+     "h": 512,
+     "ok": true
+    }
+   ]
+  },
+  {
+   "dir": "G14_大不了开饭馆",
+   "ok": false,
+   "icons": []
+  },
+  {
+   "dir": "G15_PetWorkCrew",
+   "ok": false,
+   "icons": []
+  },
+  {
+   "dir": "G15_萌宠开店啦_CCPC提交格式",
+   "ok": false,
+   "icons": []
+  },
+  {
+   "dir": "G16_CrazyEstate",
+   "ok": false,
+   "icons": []
+  },
+  {
+   "dir": "G17_UnboxIt",
+   "ok": false,
+   "icons": []
+  },
+  {
+   "dir": "G18_PalacePlunder",
+   "ok": false,
+   "icons": []
+  },
+  {
+   "dir": "G19_BloomHaven",
+   "ok": false,
+   "icons": []
+  },
+  {
+   "dir": "G19_我的小花园_CCPC提交格式",
+   "ok": false,
+   "icons": []
+  },
+  {
+   "dir": "G20_MonsterInn",
+   "ok": false,
+   "icons": []
+  },
+  {
+   "dir": "G23_CardRogue",
+   "ok": false,
+   "icons": []
+  },
+  {
+   "dir": "G26_ExileFarm",
+   "ok": false,
+   "icons": []
+  },
+  {
+   "dir": "G28_ArrowOut",
+   "ok": false,
+   "icons": []
+  },
+  {
+   "dir": "P01_LanternSlayer",
+   "ok": false,
+   "icons": []
+  },
+  {
+   "dir": "P02_FateGate",
+   "ok": false,
+   "icons": []
+  },
+  {
+   "dir": "P03_StrategistDefense",
+   "ok": false,
+   "icons": []
+  },
+  {
+   "dir": "P04_DemonTamer",
+   "ok": true,
+   "icons": [
+    {
+     "file": "icon_512.png",
+     "w": 512,
+     "h": 512,
+     "ok": true
+    }
+   ]
+  },
+  {
+   "dir": "P05_NightWatch",
+   "ok": false,
+   "icons": []
+  },
+  {
+   "dir": "P06_SongOfScents",
+   "ok": false,
+   "icons": []
+  },
+  {
+   "dir": "P07_TreasureDive",
+   "ok": false,
+   "icons": []
+  },
+  {
+   "dir": "P08_GhostMarshal",
+   "ok": false,
+   "icons": []
+  }
+ ]
+}

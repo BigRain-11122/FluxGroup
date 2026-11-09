@@ -1,0 +1,322 @@
+{
+ "ts": "2026-11-09T14:10:39+0800",
+ "source": "SUBMIT-PACK-20261109.json",
+ "need": 34,
+ "already_ok": 2,
+ "jobs": [
+  {
+   "dir": "FluxVerse_FluxVerse",
+   "product": "FluxVerse_FluxVerse",
+   "theme": "竖屏2D像素风城市模拟小游戏。画面呈现一座城市，中心是超体脑塔，三个城区环绕，居民在街区活动，机器人在道路上行走代表机队AI劳动，天气和昼夜实时变化，各类事件通过气泡和灯光脉冲呈现。城市数据来自外部状态文件，由感知器只读轮询驱动，不连服务器、不写外部。 团结引擎C#开发，逻辑在 `FluxVerse` 命名空间下。模拟规则写成纯C#静态规则类，数据与几何分离，居民个人数据放JSON、C#只管座位和",
+   "icon_path": "/Users/junsheng.sun/FluxGroup/软著申请材料/FluxVerse_FluxVerse/icon_512.png",
+   "prompt_hint": "FluxVerse_FluxVerse | 竖屏2D像素风城市模拟小游戏。画面呈现一座城市，中心是超体脑塔，三个城区环绕，居民在街区活动，机器人在道路上行走代表机队AI劳动，天气和昼夜实时变化，各类事件通过气泡和灯光脉冲呈现。城市数据来自外部状态文件，由感知器只读轮询驱动，不连服务器、不写外部。 团结引擎C#开发，逻辑在 `FluxVerse` 命名空间下。模拟规则写成纯C#静态规则类，数据与几何分离，居民个人数据放JSON、C#只管座位和",
+   "style": "mobile game app icon, square, bold flat illustration, single centered subject, vibrant colors, clean silhouette readable at small size, no text, no watermark, subtle rounded highlight, casual game art style",
+   "status": "PENDING"
+  },
+  {
+   "dir": "G02_TimeRepairShop",
+   "product": "TimeRepairShop",
+   "theme": "旧物诊所是一款治愈系旧物修理经营游戏——修理铺开成诊所，旧物也会「生病」：顾客送来承载回忆的旧物（手机、相机、怀表、收音机等），玩家作为「物件医生」按工序完成问诊、拆解、清洁、更换零件、组装复原，修复完成后顾客讲述物件背后的故事，形成\"工序+回忆\"双线体验。单局5-10分钟，面向碎片时间休闲人群，主打微信、抖音小游戏双平台，海外市场适配修理类ASMR全球通用玩法。 ## 2. 运行环境 - 硬件环",
+   "icon_path": "/Users/junsheng.sun/FluxGroup/软著申请材料/G02_TimeRepairShop/icon_512.png",
+   "prompt_hint": "TimeRepairShop | 旧物诊所是一款治愈系旧物修理经营游戏——修理铺开成诊所，旧物也会「生病」：顾客送来承载回忆的旧物（手机、相机、怀表、收音机等），玩家作为「物件医生」按工序完成问诊、拆解、清洁、更换零件、组装复原，修复完成后顾客讲述物件背后的故事，形成\"工序+回忆\"双线体验。单局5-10分钟，面向碎片时间休闲人群，主打微信、抖音小游戏双平台，海外市场适配修理类ASMR全球通用玩法。 ## 2. 运行环境 - 硬件环",
+   "style": "mobile game app icon, square, bold flat illustration, single centered subject, vibrant colors, clean silhouette readable at small size, no text, no watermark, subtle rounded highlight, casual game art style",
+   "status": "PENDING"
+  },
+  {
+   "dir": "G03_MergeMania",
+   "product": "MergeMania",
+   "theme": "合出个大的是一款合成类休闲游戏——棋盘上相同阶位的物品碰撞即合成更高一阶，沿合成链一路向上，最终目标「合出个大的」。名字即玩家的口头目标，玩法即名字。单局3-8分钟，面向碎片时间休闲人群，主打微信、抖音小游戏双平台。 ## 2. 运行环境 - 硬件环境：ARM四核及以上移动处理器，2GB以上内存，150MB以上存储空间，支持触控。 - 软件环境：Android 8.0及以上/iOS 12.0及以上",
+   "icon_path": "/Users/junsheng.sun/FluxGroup/软著申请材料/G03_MergeMania/icon_512.png",
+   "prompt_hint": "MergeMania | 合出个大的是一款合成类休闲游戏——棋盘上相同阶位的物品碰撞即合成更高一阶，沿合成链一路向上，最终目标「合出个大的」。名字即玩家的口头目标，玩法即名字。单局3-8分钟，面向碎片时间休闲人群，主打微信、抖音小游戏双平台。 ## 2. 运行环境 - 硬件环境：ARM四核及以上移动处理器，2GB以上内存，150MB以上存储空间，支持触控。 - 软件环境：Android 8.0及以上/iOS 12.0及以上",
+   "style": "mobile game app icon, square, bold flat illustration, single centered subject, vibrant colors, clean silhouette readable at small size, no text, no watermark, subtle rounded highlight, casual game art style",
+   "status": "PENDING"
+  },
+  {
+   "dir": "G04_ScrewOut",
+   "product": "ScrewOut",
+   "theme": "螺丝仙人（ScrewOut）是一款螺丝解谜游戏。拧螺丝拧成仙——每关呈现一块由多枚螺丝固定的木板机构，玩家选择拧松顺序，一拧即散——目标零件在重力作用下脱落；顺序错误则机构互相卡死需要重试。玩法核心为\"物理诚实\"——一切结果由真实物理模拟决定。海外渠道在CrazyGames网页平台首发，国内微信/抖音小游戏双平台跟进。 ## 2. 运行环境 - 硬件环境：ARM四核及以上移动处理器或PC浏览器，2",
+   "icon_path": "/Users/junsheng.sun/FluxGroup/软著申请材料/G04_ScrewOut/icon_512.png",
+   "prompt_hint": "ScrewOut | 螺丝仙人（ScrewOut）是一款螺丝解谜游戏。拧螺丝拧成仙——每关呈现一块由多枚螺丝固定的木板机构，玩家选择拧松顺序，一拧即散——目标零件在重力作用下脱落；顺序错误则机构互相卡死需要重试。玩法核心为\"物理诚实\"——一切结果由真实物理模拟决定。海外渠道在CrazyGames网页平台首发，国内微信/抖音小游戏双平台跟进。 ## 2. 运行环境 - 硬件环境：ARM四核及以上移动处理器或PC浏览器，2",
+   "style": "mobile game app icon, square, bold flat illustration, single centered subject, vibrant colors, clean silhouette readable at small size, no text, no watermark, subtle rounded highlight, casual game art style",
+   "status": "PENDING"
+  },
+  {
+   "dir": "G05_ReelRiot",
+   "product": "ReelRiot",
+   "theme": "爆护（ReelRiot）是一款荒诞钓鱼游戏。「爆护」是钓友圈黑话——鱼护爆满的丰收时刻。玩家抛竿收线，通过张力控制钓起拟真与离谱混合的鱼种——从普通鲫鱼到离谱道具鱼，收录百种鱼典。\"张力诚实\"为核心设计律：线绷太紧会断，鱼会脱钩，收线手感真实；\"首笑离谱\"提供传播记忆点。 ## 2. 运行环境 - 硬件环境：ARM四核及以上移动处理器，2GB以上内存，支持触控。 - 软件环境：Android 8.",
+   "icon_path": "/Users/junsheng.sun/FluxGroup/软著申请材料/G05_ReelRiot/icon_512.png",
+   "prompt_hint": "ReelRiot | 爆护（ReelRiot）是一款荒诞钓鱼游戏。「爆护」是钓友圈黑话——鱼护爆满的丰收时刻。玩家抛竿收线，通过张力控制钓起拟真与离谱混合的鱼种——从普通鲫鱼到离谱道具鱼，收录百种鱼典。\"张力诚实\"为核心设计律：线绷太紧会断，鱼会脱钩，收线手感真实；\"首笑离谱\"提供传播记忆点。 ## 2. 运行环境 - 硬件环境：ARM四核及以上移动处理器，2GB以上内存，支持触控。 - 软件环境：Android 8.",
+   "style": "mobile game app icon, square, bold flat illustration, single centered subject, vibrant colors, clean silhouette readable at small size, no text, no watermark, subtle rounded highlight, casual game art style",
+   "status": "PENDING"
+  },
+  {
+   "dir": "G06_ArrowRush",
+   "product": "ArrowRush",
+   "theme": "一箭脱身是一款箭头解谜超休闲游戏——棋盘上多支箭各指一个方向，玩家点击前方通路畅通的箭，它便一箭脱身飞出棋盘；通路被挡的箭需要等待其他箭飞出后腾出空间。目标是清空棋盘上全部箭。单局1-5分钟，主打微信小游戏首发、抖音次发。 ## 2. 运行环境 - 硬件环境：ARM四核及以上移动处理器，2GB以上内存，100MB以上存储空间，支持触控。 - 软件环境：Android 8.0及以上/iOS 12.0",
+   "icon_path": "/Users/junsheng.sun/FluxGroup/软著申请材料/G06_ArrowRush/icon_512.png",
+   "prompt_hint": "ArrowRush | 一箭脱身是一款箭头解谜超休闲游戏——棋盘上多支箭各指一个方向，玩家点击前方通路畅通的箭，它便一箭脱身飞出棋盘；通路被挡的箭需要等待其他箭飞出后腾出空间。目标是清空棋盘上全部箭。单局1-5分钟，主打微信小游戏首发、抖音次发。 ## 2. 运行环境 - 硬件环境：ARM四核及以上移动处理器，2GB以上内存，100MB以上存储空间，支持触控。 - 软件环境：Android 8.0及以上/iOS 12.0",
+   "style": "mobile game app icon, square, bold flat illustration, single centered subject, vibrant colors, clean silhouette readable at small size, no text, no watermark, subtle rounded highlight, casual game art style",
+   "status": "PENDING"
+  },
+  {
+   "dir": "G07_MobTide",
+   "product": "MobTide",
+   "theme": "人从众（MobTide）是一款大军团跑酷游戏。从一个人到人山人海——人、从、众，字面即玩法：玩家从一个人开始，通过关口的倍增/折减门选择壮大己方队伍，最终冲关对决。\"规模即爽点\"为核心设计律：同屏数千单位的人潮本身就是最大视觉爽点与传播画面。 ## 2. 运行环境 - 硬件环境：ARM四核及以上移动处理器，2GB以上内存，支持触控。 - 软件环境：Android 8.0及以上/iOS 12.0及以",
+   "icon_path": "/Users/junsheng.sun/FluxGroup/软著申请材料/G07_MobTide/icon_512.png",
+   "prompt_hint": "MobTide | 人从众（MobTide）是一款大军团跑酷游戏。从一个人到人山人海——人、从、众，字面即玩法：玩家从一个人开始，通过关口的倍增/折减门选择壮大己方队伍，最终冲关对决。\"规模即爽点\"为核心设计律：同屏数千单位的人潮本身就是最大视觉爽点与传播画面。 ## 2. 运行环境 - 硬件环境：ARM四核及以上移动处理器，2GB以上内存，支持触控。 - 软件环境：Android 8.0及以上/iOS 12.0及以",
+   "style": "mobile game app icon, square, bold flat illustration, single centered subject, vibrant colors, clean silhouette readable at small size, no text, no watermark, subtle rounded highlight, casual game art style",
+   "status": "PENDING"
+  },
+  {
+   "dir": "G08_CrazyCampus",
+   "product": "CrazyCampus",
+   "theme": "开学啦（CrazyCampus）是一款校园题材喜剧闯关游戏，以\"影射原型、集体记忆\"为本源：早读、课间、考试、运动会、毕业等全民共通的校园场景被喜剧化重构，玩家操控角色完成校园日常目标并解锁新场景。用户令直立项产品，国内微信/抖音双栈发布，Steam系列分支预留。 ## 2. 运行环境 - 硬件环境：ARM四核及以上移动处理器，2GB以上内存，支持触控。 - 软件环境：Android 8.0及以上",
+   "icon_path": "/Users/junsheng.sun/FluxGroup/软著申请材料/G08_CrazyCampus/icon_512.png",
+   "prompt_hint": "CrazyCampus | 开学啦（CrazyCampus）是一款校园题材喜剧闯关游戏，以\"影射原型、集体记忆\"为本源：早读、课间、考试、运动会、毕业等全民共通的校园场景被喜剧化重构，玩家操控角色完成校园日常目标并解锁新场景。用户令直立项产品，国内微信/抖音双栈发布，Steam系列分支预留。 ## 2. 运行环境 - 硬件环境：ARM四核及以上移动处理器，2GB以上内存，支持触控。 - 软件环境：Android 8.0及以上",
+   "style": "mobile game app icon, square, bold flat illustration, single centered subject, vibrant colors, clean silhouette readable at small size, no text, no watermark, subtle rounded highlight, casual game art style",
+   "status": "PENDING"
+  },
+  {
+   "dir": "G09_GimmeAll",
+   "product": "GimmeAll",
+   "theme": "# 吸嘟嘟游戏软件 V1.0 软件设计说明书 ## 1 概述 竖屏休闲收集小游戏，玩家按住屏幕产生一个圆形吸力场，把场景里的灰尘、毛球、碎屑吸进嘟嘟的肚子。吸够目标数过关，章节推进解锁新场景和伙伴。游戏走轻松喜剧路线，嘟嘟是一台有生命的吸尘器，会打喷嚏、会吃饱、会对着脏东西兴奋。 全程纯IAA，不接真实付费，核心进度不依赖广告。引擎用团结，C#开发，逻辑在 `GimmeAll.*` 命名空间下，按",
+   "icon_path": "/Users/junsheng.sun/FluxGroup/软著申请材料/G09_GimmeAll/icon_512.png",
+   "prompt_hint": "GimmeAll | # 吸嘟嘟游戏软件 V1.0 软件设计说明书 ## 1 概述 竖屏休闲收集小游戏，玩家按住屏幕产生一个圆形吸力场，把场景里的灰尘、毛球、碎屑吸进嘟嘟的肚子。吸够目标数过关，章节推进解锁新场景和伙伴。游戏走轻松喜剧路线，嘟嘟是一台有生命的吸尘器，会打喷嚏、会吃饱、会对着脏东西兴奋。 全程纯IAA，不接真实付费，核心进度不依赖广告。引擎用团结，C#开发，逻辑在 `GimmeAll.*` 命名空间下，按",
+   "style": "mobile game app icon, square, bold flat illustration, single centered subject, vibrant colors, clean silhouette readable at small size, no text, no watermark, subtle rounded highlight, casual game art style",
+   "status": "PENDING"
+  },
+  {
+   "dir": "G10_涨停板",
+   "product": "涨停板",
+   "theme": "涨停板（CrazyTrade）是一款股市模拟经营喜剧游戏。\"涨停板\"是A股术语——单日涨到上限的封板时刻，本作以此为极致行情体验的记忆锚点。\"行情真实·众生真情\"为本源：行情由技术面、消息面、情绪面三因子生成器驱动，玩家的买低卖高围绕行情波动展开；股民众生相叙事提供喜剧与共鸣。软件为纯模拟经营玩法，不接入任何真实交易通道，全部数据为游戏内模拟生成，带显著免责声明。 ## 2. 运行环境 - 硬件环",
+   "icon_path": "/Users/junsheng.sun/FluxGroup/软著申请材料/G10_涨停板/icon_512.png",
+   "prompt_hint": "涨停板 | 涨停板（CrazyTrade）是一款股市模拟经营喜剧游戏。\"涨停板\"是A股术语——单日涨到上限的封板时刻，本作以此为极致行情体验的记忆锚点。\"行情真实·众生真情\"为本源：行情由技术面、消息面、情绪面三因子生成器驱动，玩家的买低卖高围绕行情波动展开；股民众生相叙事提供喜剧与共鸣。软件为纯模拟经营玩法，不接入任何真实交易通道，全部数据为游戏内模拟生成，带显著免责声明。 ## 2. 运行环境 - 硬件环",
+   "style": "mobile game app icon, square, bold flat illustration, single centered subject, vibrant colors, clean silhouette readable at small size, no text, no watermark, subtle rounded highlight, casual game art style",
+   "status": "PENDING"
+  },
+  {
+   "dir": "G11_CrazyWorker",
+   "product": "CrazyWorker",
+   "theme": "竖屏职场模拟放置小游戏。玩家扮演一名从实习生干起的打工人，在工作和摸鱼两种状态间切换，一边赚工资攒经验冲职级，一边盯着绩效、心情、灵感三条状态轴别让任何一条崩掉。上班产出绩效但掉心情，摸鱼回心情涨灵感但绩效往下掉，玩家得自己找平衡。中途随机弹职场事件卡，退休后还能投胎重开继承一部分加成。 数据全部本地存储，不连服务器，靠激励视频变现。团结引擎C#开发，核心模拟逻辑是纯C#、不依赖Unity API",
+   "icon_path": "/Users/junsheng.sun/FluxGroup/软著申请材料/G11_CrazyWorker/icon_512.png",
+   "prompt_hint": "CrazyWorker | 竖屏职场模拟放置小游戏。玩家扮演一名从实习生干起的打工人，在工作和摸鱼两种状态间切换，一边赚工资攒经验冲职级，一边盯着绩效、心情、灵感三条状态轴别让任何一条崩掉。上班产出绩效但掉心情，摸鱼回心情涨灵感但绩效往下掉，玩家得自己找平衡。中途随机弹职场事件卡，退休后还能投胎重开继承一部分加成。 数据全部本地存储，不连服务器，靠激励视频变现。团结引擎C#开发，核心模拟逻辑是纯C#、不依赖Unity API",
+   "style": "mobile game app icon, square, bold flat illustration, single centered subject, vibrant colors, clean silhouette readable at small size, no text, no watermark, subtle rounded highlight, casual game art style",
+   "status": "PENDING"
+  },
+  {
+   "dir": "G11_摸鱼也升职_CCPC提交格式",
+   "product": "摸鱼也升职_CCPC提交格式",
+   "theme": "",
+   "icon_path": "/Users/junsheng.sun/FluxGroup/软著申请材料/G11_摸鱼也升职_CCPC提交格式/icon_512.png",
+   "prompt_hint": "摸鱼也升职_CCPC提交格式 | casual mini game",
+   "style": "mobile game app icon, square, bold flat illustration, single centered subject, vibrant colors, clean silhouette readable at small size, no text, no watermark, subtle rounded highlight, casual game art style",
+   "status": "PENDING"
+  },
+  {
+   "dir": "G12_LineRescue",
+   "product": "LineRescue",
+   "theme": "就差这一笔（LineRescue）是一款画线物理解谜游戏。玩家一笔画出线段作为支撑、桥梁或杠杆，救下悬空小人；\"绷断诚实\"为本源：画出的线在受力超限时真实绷断——差这一笔没画到位就功亏一篑，\"就差这一笔\"的懊恼与再来一局即核心记忆点。失败可即时重画，单关1-3分钟。 ## 2. 运行环境 - 硬件环境：ARM四核及以上移动处理器，2GB以上内存，支持触控。 - 软件环境：Android 8.0及以",
+   "icon_path": "/Users/junsheng.sun/FluxGroup/软著申请材料/G12_LineRescue/icon_512.png",
+   "prompt_hint": "LineRescue | 就差这一笔（LineRescue）是一款画线物理解谜游戏。玩家一笔画出线段作为支撑、桥梁或杠杆，救下悬空小人；\"绷断诚实\"为本源：画出的线在受力超限时真实绷断——差这一笔没画到位就功亏一篑，\"就差这一笔\"的懊恼与再来一局即核心记忆点。失败可即时重画，单关1-3分钟。 ## 2. 运行环境 - 硬件环境：ARM四核及以上移动处理器，2GB以上内存，支持触控。 - 软件环境：Android 8.0及以",
+   "style": "mobile game app icon, square, bold flat illustration, single centered subject, vibrant colors, clean silhouette readable at small size, no text, no watermark, subtle rounded highlight, casual game art style",
+   "status": "PENDING"
+  },
+  {
+   "dir": "G13_我想有个农场",
+   "product": "我想有个农场",
+   "theme": "我想有个农场（CrazyFarm）是一款放置农场经营游戏。\"挂机诚实·成长可见\"为本源：离线收益如实按时间结算，农场的每一寸成长都肉眼可见——从一块荒地到满仓农庄。面向微信女性与银发用户盘与休闲经营人群。 ## 2. 运行环境 - 硬件环境：ARM四核及以上移动处理器，2GB以上内存，支持触控。 - 软件环境：Android 8.0及以上/iOS 12.0及以上，微信/抖音小游戏平台。 - 开发环",
+   "icon_path": "/Users/junsheng.sun/FluxGroup/软著申请材料/G13_我想有个农场/icon_512.png",
+   "prompt_hint": "我想有个农场 | 我想有个农场（CrazyFarm）是一款放置农场经营游戏。\"挂机诚实·成长可见\"为本源：离线收益如实按时间结算，农场的每一寸成长都肉眼可见——从一块荒地到满仓农庄。面向微信女性与银发用户盘与休闲经营人群。 ## 2. 运行环境 - 硬件环境：ARM四核及以上移动处理器，2GB以上内存，支持触控。 - 软件环境：Android 8.0及以上/iOS 12.0及以上，微信/抖音小游戏平台。 - 开发环",
+   "style": "mobile game app icon, square, bold flat illustration, single centered subject, vibrant colors, clean silhouette readable at small size, no text, no watermark, subtle rounded highlight, casual game art style",
+   "status": "PENDING"
+  },
+  {
+   "dir": "G14_大不了开饭馆",
+   "product": "大不了开饭馆",
+   "theme": "大不了开饭馆（CrazyRestaurant）是一款餐厅经营喜剧游戏。\"阶层晋升即剧情\"为本源：玩家从路边摊起步，一路晋升到大排档、酒楼、连锁集团，每次晋升解锁新剧情——小人物翻身故事与经营玩法一体推进。 ## 2. 运行环境 - 硬件环境：ARM四核及以上移动处理器，2GB以上内存，支持触控。 - 软件环境：Android 8.0及以上/iOS 12.0及以上，微信/抖音小游戏平台。 - 开发环",
+   "icon_path": "/Users/junsheng.sun/FluxGroup/软著申请材料/G14_大不了开饭馆/icon_512.png",
+   "prompt_hint": "大不了开饭馆 | 大不了开饭馆（CrazyRestaurant）是一款餐厅经营喜剧游戏。\"阶层晋升即剧情\"为本源：玩家从路边摊起步，一路晋升到大排档、酒楼、连锁集团，每次晋升解锁新剧情——小人物翻身故事与经营玩法一体推进。 ## 2. 运行环境 - 硬件环境：ARM四核及以上移动处理器，2GB以上内存，支持触控。 - 软件环境：Android 8.0及以上/iOS 12.0及以上，微信/抖音小游戏平台。 - 开发环",
+   "style": "mobile game app icon, square, bold flat illustration, single centered subject, vibrant colors, clean silhouette readable at small size, no text, no watermark, subtle rounded highlight, casual game art style",
+   "status": "PENDING"
+  },
+  {
+   "dir": "G15_PetWorkCrew",
+   "product": "PetWorkCrew",
+   "theme": "竖屏萌宠放置经营小游戏。玩家经营一家宠物打工小队，招募猫狗、把它们派到咖啡店、快递站、洗车行、钓鱼点等岗位上打工赚金币，攒金币开新岗位、招新宠物、升店铺星级。宠物有自己的亲和岗位和怪癖，干喜欢的活工资更高，还会时不时闹出喜剧事件。 数据本地存储不连服务器，激励视频变现。团结引擎C#开发，数值全部冻结在 PetData 里，结构改动要升 SchemaVersion。 ## 2 运行环境 | 项 | ",
+   "icon_path": "/Users/junsheng.sun/FluxGroup/软著申请材料/G15_PetWorkCrew/icon_512.png",
+   "prompt_hint": "PetWorkCrew | 竖屏萌宠放置经营小游戏。玩家经营一家宠物打工小队，招募猫狗、把它们派到咖啡店、快递站、洗车行、钓鱼点等岗位上打工赚金币，攒金币开新岗位、招新宠物、升店铺星级。宠物有自己的亲和岗位和怪癖，干喜欢的活工资更高，还会时不时闹出喜剧事件。 数据本地存储不连服务器，激励视频变现。团结引擎C#开发，数值全部冻结在 PetData 里，结构改动要升 SchemaVersion。 ## 2 运行环境 | 项 | ",
+   "style": "mobile game app icon, square, bold flat illustration, single centered subject, vibrant colors, clean silhouette readable at small size, no text, no watermark, subtle rounded highlight, casual game art style",
+   "status": "PENDING"
+  },
+  {
+   "dir": "G15_萌宠开店啦_CCPC提交格式",
+   "product": "萌宠开店啦_CCPC提交格式",
+   "theme": "",
+   "icon_path": "/Users/junsheng.sun/FluxGroup/软著申请材料/G15_萌宠开店啦_CCPC提交格式/icon_512.png",
+   "prompt_hint": "萌宠开店啦_CCPC提交格式 | casual mini game",
+   "style": "mobile game app icon, square, bold flat illustration, single centered subject, vibrant colors, clean silhouette readable at small size, no text, no watermark, subtle rounded highlight, casual game art style",
+   "status": "PENDING"
+  },
+  {
+   "dir": "G16_CrazyEstate",
+   "product": "CrazyEstate",
+   "theme": "竖屏模拟经营小游戏，题材是城市空间经营。玩家从老旧小空间起步，与顾问协商，获取空间装修经营，盯市场周期择机转让，还能切换五条职业线，在二十年的时代变迁里把城市天际线拿下。游戏全程架空城市绿洲市，建筑、渠道、建设方全虚构，经营现象做喜剧化演绎，不点名真实对象。 数据本地存储，不连服务器，激励视频变现。团结引擎C#开发，逻辑在 `Sy.CrazyEstate` 命名空间下，各玩法拆成独立模块。 ## ",
+   "icon_path": "/Users/junsheng.sun/FluxGroup/软著申请材料/G16_CrazyEstate/icon_512.png",
+   "prompt_hint": "CrazyEstate | 竖屏模拟经营小游戏，题材是城市空间经营。玩家从老旧小空间起步，与顾问协商，获取空间装修经营，盯市场周期择机转让，还能切换五条职业线，在二十年的时代变迁里把城市天际线拿下。游戏全程架空城市绿洲市，建筑、渠道、建设方全虚构，经营现象做喜剧化演绎，不点名真实对象。 数据本地存储，不连服务器，激励视频变现。团结引擎C#开发，逻辑在 `Sy.CrazyEstate` 命名空间下，各玩法拆成独立模块。 ## ",
+   "style": "mobile game app icon, square, bold flat illustration, single centered subject, vibrant colors, clean silhouette readable at small size, no text, no watermark, subtle rounded highlight, casual game art style",
+   "status": "PENDING"
+  },
+  {
+   "dir": "G17_UnboxIt",
+   "product": "UnboxIt",
+   "theme": "拆箱上头是一款拆箱ASMR休闲游戏——每个箱子由多层包装构成，玩家以划、撕、抠等手势逐层拆开，胶带撕裂声、薄膜剥离声与盒盖开启声构成ASMR级音画反馈，拆到底获得收藏物入图鉴。节日限定箱按活动周期上新。单局2-6分钟，主打微信、抖音小游戏双平台。 ## 2. 运行环境 - 硬件环境：ARM四核及以上移动处理器，2GB以上内存，150MB以上存储空间，支持触控。 - 软件环境：Android 8.0",
+   "icon_path": "/Users/junsheng.sun/FluxGroup/软著申请材料/G17_UnboxIt/icon_512.png",
+   "prompt_hint": "UnboxIt | 拆箱上头是一款拆箱ASMR休闲游戏——每个箱子由多层包装构成，玩家以划、撕、抠等手势逐层拆开，胶带撕裂声、薄膜剥离声与盒盖开启声构成ASMR级音画反馈，拆到底获得收藏物入图鉴。节日限定箱按活动周期上新。单局2-6分钟，主打微信、抖音小游戏双平台。 ## 2. 运行环境 - 硬件环境：ARM四核及以上移动处理器，2GB以上内存，150MB以上存储空间，支持触控。 - 软件环境：Android 8.0",
+   "style": "mobile game app icon, square, bold flat illustration, single centered subject, vibrant colors, clean silhouette readable at small size, no text, no watermark, subtle rounded highlight, casual game art style",
+   "status": "PENDING"
+  },
+  {
+   "dir": "G18_PalacePlunder",
+   "product": "PalacePlunder",
+   "theme": "今晚偷皇宫是一款中式宫廷题材的喜剧偷宝游戏——玩家扮演夜探皇宫的小贼，按「潜入-得手-脱身」三环推进关卡：躲开巡逻侍卫的视野绕过机关，摸到宝物得手，再全身而退。侍卫的呆萌反应与失误演出构成喜剧调味，偷得的宝物入图鉴。单局3-8分钟，主打微信、抖音小游戏双平台。 ## 2. 运行环境 - 硬件环境：ARM四核及以上移动处理器，2GB以上内存，150MB以上存储空间，支持触控。 - 软件环境：Andr",
+   "icon_path": "/Users/junsheng.sun/FluxGroup/软著申请材料/G18_PalacePlunder/icon_512.png",
+   "prompt_hint": "PalacePlunder | 今晚偷皇宫是一款中式宫廷题材的喜剧偷宝游戏——玩家扮演夜探皇宫的小贼，按「潜入-得手-脱身」三环推进关卡：躲开巡逻侍卫的视野绕过机关，摸到宝物得手，再全身而退。侍卫的呆萌反应与失误演出构成喜剧调味，偷得的宝物入图鉴。单局3-8分钟，主打微信、抖音小游戏双平台。 ## 2. 运行环境 - 硬件环境：ARM四核及以上移动处理器，2GB以上内存，150MB以上存储空间，支持触控。 - 软件环境：Andr",
+   "style": "mobile game app icon, square, bold flat illustration, single centered subject, vibrant colors, clean silhouette readable at small size, no text, no watermark, subtle rounded highlight, casual game art style",
+   "status": "PENDING"
+  },
+  {
+   "dir": "G19_BloomHaven",
+   "product": "BloomHaven",
+   "theme": "竖屏治愈系种花经营小游戏。玩家在荒地上种花，花开收获花瓣，接邻居的改造订单把一块块荒地翻成花坛，还能把花园编成阵码分享，朋友输入阵码就能进园参观。节奏慢，订单不强迫，失败不惩罚。 数据本地存储不连服务器，激励视频变现。团结引擎C#开发，文案全键值化支持多语言，逻辑按花园、订单、分享等模块拆分。 ## 2 运行环境 | 项 | 要求 | |---|---| | 操作系统 | Android 8.0及",
+   "icon_path": "/Users/junsheng.sun/FluxGroup/软著申请材料/G19_BloomHaven/icon_512.png",
+   "prompt_hint": "BloomHaven | 竖屏治愈系种花经营小游戏。玩家在荒地上种花，花开收获花瓣，接邻居的改造订单把一块块荒地翻成花坛，还能把花园编成阵码分享，朋友输入阵码就能进园参观。节奏慢，订单不强迫，失败不惩罚。 数据本地存储不连服务器，激励视频变现。团结引擎C#开发，文案全键值化支持多语言，逻辑按花园、订单、分享等模块拆分。 ## 2 运行环境 | 项 | 要求 | |---|---| | 操作系统 | Android 8.0及",
+   "style": "mobile game app icon, square, bold flat illustration, single centered subject, vibrant colors, clean silhouette readable at small size, no text, no watermark, subtle rounded highlight, casual game art style",
+   "status": "PENDING"
+  },
+  {
+   "dir": "G19_我的小花园_CCPC提交格式",
+   "product": "我的小花园_CCPC提交格式",
+   "theme": "",
+   "icon_path": "/Users/junsheng.sun/FluxGroup/软著申请材料/G19_我的小花园_CCPC提交格式/icon_512.png",
+   "prompt_hint": "我的小花园_CCPC提交格式 | casual mini game",
+   "style": "mobile game app icon, square, bold flat illustration, single centered subject, vibrant colors, clean silhouette readable at small size, no text, no watermark, subtle rounded highlight, casual game art style",
+   "status": "PENDING"
+  },
+  {
+   "dir": "G20_MonsterInn",
+   "product": "MonsterInn",
+   "theme": "夜聊斋（MonsterInn）是一款中式志怪客栈经营游戏，取《聊斋志异》意境。白天筹备经营（采购、扩建、研习菜谱），夜晚接待各有习性来历的妖客；治愈与微恐平衡，妖客图鉴与志怪故事构成收集长线。国内微信/抖音双栈为主盘，海外H5渠道候选。 ## 2. 运行环境 - 硬件环境：ARM四核及以上移动处理器，2GB以上内存，支持触控。 - 软件环境：Android 8.0及以上/iOS 12.0及以上，微",
+   "icon_path": "/Users/junsheng.sun/FluxGroup/软著申请材料/G20_MonsterInn/icon_512.png",
+   "prompt_hint": "MonsterInn | 夜聊斋（MonsterInn）是一款中式志怪客栈经营游戏，取《聊斋志异》意境。白天筹备经营（采购、扩建、研习菜谱），夜晚接待各有习性来历的妖客；治愈与微恐平衡，妖客图鉴与志怪故事构成收集长线。国内微信/抖音双栈为主盘，海外H5渠道候选。 ## 2. 运行环境 - 硬件环境：ARM四核及以上移动处理器，2GB以上内存，支持触控。 - 软件环境：Android 8.0及以上/iOS 12.0及以上，微",
+   "style": "mobile game app icon, square, bold flat illustration, single centered subject, vibrant colors, clean silhouette readable at small size, no text, no watermark, subtle rounded highlight, casual game art style",
+   "status": "PENDING"
+  },
+  {
+   "dir": "G23_CardRogue",
+   "product": "CardRogue",
+   "theme": "这张牌有诈是一款卡牌肉鸽游戏——单局内玩家构筑卡组逐层闯关，卡牌遵循常识规则（加减攻防、抽牌、能量），但「乘区」机制让弱牌组合叠出爆炸收益：一张不起眼的牌，配对乘数后翻盘——每张牌都有诈。递归事件、精英战与遗物构成肉鸽循环。单局15-30分钟，主打微信、抖音小游戏双平台。 ## 2. 运行环境 - 硬件环境：ARM四核及以上移动处理器，2GB以上内存，200MB以上存储空间，支持触控。 - 软件环",
+   "icon_path": "/Users/junsheng.sun/FluxGroup/软著申请材料/G23_CardRogue/icon_512.png",
+   "prompt_hint": "CardRogue | 这张牌有诈是一款卡牌肉鸽游戏——单局内玩家构筑卡组逐层闯关，卡牌遵循常识规则（加减攻防、抽牌、能量），但「乘区」机制让弱牌组合叠出爆炸收益：一张不起眼的牌，配对乘数后翻盘——每张牌都有诈。递归事件、精英战与遗物构成肉鸽循环。单局15-30分钟，主打微信、抖音小游戏双平台。 ## 2. 运行环境 - 硬件环境：ARM四核及以上移动处理器，2GB以上内存，200MB以上存储空间，支持触控。 - 软件环",
+   "style": "mobile game app icon, square, bold flat illustration, single centered subject, vibrant colors, clean silhouette readable at small size, no text, no watermark, subtle rounded highlight, casual game art style",
+   "status": "PENDING"
+  },
+  {
+   "dir": "G26_ExileFarm",
+   "product": "ExileFarm",
+   "theme": "归园田居（ExileFarm）是一款种田文放置经营游戏。取陶渊明《归园田居》意境：玩家扮演流放者从荒地开垦起步，经历寒暑季节生存挑战，一路把流放地建成归园田居的田园之家；女性向叙事基调配漫画式演出（漫剧皮），放置挂机产出适配碎片时间。国内微信首发为主盘（女性向种田文+放置经营=微信女性/银发留存盘本位），抖音双栈第二位。 ## 2. 运行环境 - 硬件环境：ARM四核及以上移动处理器，2GB以上内",
+   "icon_path": "/Users/junsheng.sun/FluxGroup/软著申请材料/G26_ExileFarm/icon_512.png",
+   "prompt_hint": "ExileFarm | 归园田居（ExileFarm）是一款种田文放置经营游戏。取陶渊明《归园田居》意境：玩家扮演流放者从荒地开垦起步，经历寒暑季节生存挑战，一路把流放地建成归园田居的田园之家；女性向叙事基调配漫画式演出（漫剧皮），放置挂机产出适配碎片时间。国内微信首发为主盘（女性向种田文+放置经营=微信女性/银发留存盘本位），抖音双栈第二位。 ## 2. 运行环境 - 硬件环境：ARM四核及以上移动处理器，2GB以上内",
+   "style": "mobile game app icon, square, bold flat illustration, single centered subject, vibrant colors, clean silhouette readable at small size, no text, no watermark, subtle rounded highlight, casual game art style",
+   "status": "PENDING"
+  },
+  {
+   "dir": "G28_ArrowOut",
+   "product": "ArrowOut",
+   "theme": "这一箭稳了是一款射箭物理超休闲游戏——拉弓放箭命中目标即过关，拉力决定射程、抛物线与风力构成物理判定。每次放箭前都笃定「这一箭稳了」，下一秒往往翻车——故意失败演出与挑衅式文案构成喜剧钩，失败位复活构成变现位。单局15-45秒，主打微信、抖音小游戏双平台。 ## 2. 运行环境 - 硬件环境：ARM四核及以上移动处理器，2GB以上内存，100MB以上存储空间，支持触控。 - 软件环境：Androi",
+   "icon_path": "/Users/junsheng.sun/FluxGroup/软著申请材料/G28_ArrowOut/icon_512.png",
+   "prompt_hint": "ArrowOut | 这一箭稳了是一款射箭物理超休闲游戏——拉弓放箭命中目标即过关，拉力决定射程、抛物线与风力构成物理判定。每次放箭前都笃定「这一箭稳了」，下一秒往往翻车——故意失败演出与挑衅式文案构成喜剧钩，失败位复活构成变现位。单局15-45秒，主打微信、抖音小游戏双平台。 ## 2. 运行环境 - 硬件环境：ARM四核及以上移动处理器，2GB以上内存，100MB以上存储空间，支持触控。 - 软件环境：Androi",
+   "style": "mobile game app icon, square, bold flat illustration, single centered subject, vibrant colors, clean silhouette readable at small size, no text, no watermark, subtle rounded highlight, casual game art style",
+   "status": "PENDING"
+  },
+  {
+   "dir": "P01_LanternSlayer",
+   "product": "LanternSlayer",
+   "theme": "提灯斩鬼是一款2D俯视角动作肉鸽游戏，运行于Unity引擎，面向Android与iOS小游戏平台。玩家手持提灯在暗域中探索，通过击杀游魂收集魂火，在天数循环中强化天赋、构筑流派，最终挑战Boss波次通关。 游戏采用昼夜双循环结构：白天在MapService生成的格子地图上移动搜刮，夜晚进入BattleSim驱动的战斗场景迎击EnemyTemplates配置的游魂波次。每完成一个DaySim周期，T",
+   "icon_path": "/Users/junsheng.sun/FluxGroup/软著申请材料/P01_LanternSlayer/icon_512.png",
+   "prompt_hint": "LanternSlayer | 提灯斩鬼是一款2D俯视角动作肉鸽游戏，运行于Unity引擎，面向Android与iOS小游戏平台。玩家手持提灯在暗域中探索，通过击杀游魂收集魂火，在天数循环中强化天赋、构筑流派，最终挑战Boss波次通关。 游戏采用昼夜双循环结构：白天在MapService生成的格子地图上移动搜刮，夜晚进入BattleSim驱动的战斗场景迎击EnemyTemplates配置的游魂波次。每完成一个DaySim周期，T",
+   "style": "mobile game app icon, square, bold flat illustration, single centered subject, vibrant colors, clean silhouette readable at small size, no text, no watermark, subtle rounded highlight, casual game art style",
+   "status": "PENDING"
+  },
+  {
+   "dir": "P02_FateGate",
+   "product": "FateGate",
+   "theme": "异界行者是一款2D塔防策略游戏，运行于Unity引擎，面向Android与iOS小游戏平台。玩家通过DestinyGate穿越不同命运棋盘，在Grid地图上布阵防御敌人波次，利用SummonPool召唤单位强化防线，击败TimedWaveProfile配置的定时进攻。 游戏核心循环为：进入命运棋盘 → 布防单位 → 抵御波次 → 获得奖励 → 强化召唤池 → 穿越下一扇门。OfflineEarni",
+   "icon_path": "/Users/junsheng.sun/FluxGroup/软著申请材料/P02_FateGate/icon_512.png",
+   "prompt_hint": "FateGate | 异界行者是一款2D塔防策略游戏，运行于Unity引擎，面向Android与iOS小游戏平台。玩家通过DestinyGate穿越不同命运棋盘，在Grid地图上布阵防御敌人波次，利用SummonPool召唤单位强化防线，击败TimedWaveProfile配置的定时进攻。 游戏核心循环为：进入命运棋盘 → 布防单位 → 抵御波次 → 获得奖励 → 强化召唤池 → 穿越下一扇门。OfflineEarni",
+   "style": "mobile game app icon, square, bold flat illustration, single centered subject, vibrant colors, clean silhouette readable at small size, no text, no watermark, subtle rounded highlight, casual game art style",
+   "status": "PENDING"
+  },
+  {
+   "dir": "P03_StrategistDefense",
+   "product": "StrategistDefense",
+   "theme": "军师救我是一款三国题材塔防肉鸽游戏，运行于Unity引擎，面向Android与iOS小游戏平台。玩家扮演军师，在战场格子上部署武将与防御塔，抵御敌军波次进攻，通过天赋三选一构筑流派，在关卡循环中不断强化阵容。 游戏采用肉鸽攻防种子局结构：SiegeLevel按种子加载每局波窗（5至8波）与五类天灾词条，BattleLauncher驱动攻防，BattleSim执行每帧计算与碰撞判定。每完成一波防守，",
+   "icon_path": "/Users/junsheng.sun/FluxGroup/软著申请材料/P03_StrategistDefense/icon_512.png",
+   "prompt_hint": "StrategistDefense | 军师救我是一款三国题材塔防肉鸽游戏，运行于Unity引擎，面向Android与iOS小游戏平台。玩家扮演军师，在战场格子上部署武将与防御塔，抵御敌军波次进攻，通过天赋三选一构筑流派，在关卡循环中不断强化阵容。 游戏采用肉鸽攻防种子局结构：SiegeLevel按种子加载每局波窗（5至8波）与五类天灾词条，BattleLauncher驱动攻防，BattleSim执行每帧计算与碰撞判定。每完成一波防守，",
+   "style": "mobile game app icon, square, bold flat illustration, single centered subject, vibrant colors, clean silhouette readable at small size, no text, no watermark, subtle rounded highlight, casual game art style",
+   "status": "PENDING"
+  },
+  {
+   "dir": "P04_DemonTamer",
+   "product": "DemonTamer",
+   "theme": "这妖我收了是一款东方神话题材收妖塔防放置游戏，运行于Unity引擎，面向Android与iOS小游戏平台。玩家扮演收妖师，以放置挂机积累资源，在妖潮攻防战中布设封印防线抵御妖物进攻，将战力妖物封印入册，逐步集齐八妖图鉴。 游戏采用放置与塔防双核心循环：IdleSim在后台持续计算挂机产出；妖潮攻防模块（YaotideSim）驱动每局战斗，妖潮沿S形折线进攻，玩家在图鉴轮换的塔位上布防，战斗中随赚随",
+   "icon_path": "/Users/junsheng.sun/FluxGroup/软著申请材料/P04_DemonTamer/icon_512.png",
+   "prompt_hint": "DemonTamer | 这妖我收了是一款东方神话题材收妖塔防放置游戏，运行于Unity引擎，面向Android与iOS小游戏平台。玩家扮演收妖师，以放置挂机积累资源，在妖潮攻防战中布设封印防线抵御妖物进攻，将战力妖物封印入册，逐步集齐八妖图鉴。 游戏采用放置与塔防双核心循环：IdleSim在后台持续计算挂机产出；妖潮攻防模块（YaotideSim）驱动每局战斗，妖潮沿S形折线进攻，玩家在图鉴轮换的塔位上布防，战斗中随赚随",
+   "style": "mobile game app icon, square, bold flat illustration, single centered subject, vibrant colors, clean silhouette readable at small size, no text, no watermark, subtle rounded highlight, casual game art style",
+   "status": "PENDING"
+  },
+  {
+   "dir": "P05_NightWatch",
+   "product": "NightWatch",
+   "theme": "守夜人是一款冰雪末日题材生存经营游戏，运行于Unity引擎，面向Android与iOS小游戏平台。玩家扮演极寒营地的守夜人，管理柴粮铁三类资源，建造与升级营地设施，派出名将凿冰采集，在寒潮之夜维持炉火与营地运转，通过守夜中枢统筹昼夜经营。 游戏采用昼夜循环结构：白天由CampBuilder管理城建与工位派遣，ResourceBank结算三资源产出；夜晚进入寒潮引擎（ColdWave）驱动的生存阶段",
+   "icon_path": "/Users/junsheng.sun/FluxGroup/软著申请材料/P05_NightWatch/icon_512.png",
+   "prompt_hint": "NightWatch | 守夜人是一款冰雪末日题材生存经营游戏，运行于Unity引擎，面向Android与iOS小游戏平台。玩家扮演极寒营地的守夜人，管理柴粮铁三类资源，建造与升级营地设施，派出名将凿冰采集，在寒潮之夜维持炉火与营地运转，通过守夜中枢统筹昼夜经营。 游戏采用昼夜循环结构：白天由CampBuilder管理城建与工位派遣，ResourceBank结算三资源产出；夜晚进入寒潮引擎（ColdWave）驱动的生存阶段",
+   "style": "mobile game app icon, square, bold flat illustration, single centered subject, vibrant colors, clean silhouette readable at small size, no text, no watermark, subtle rounded highlight, casual game art style",
+   "status": "PENDING"
+  },
+  {
+   "dir": "P06_SongOfScents",
+   "product": "SongOfScents",
+   "theme": "调香师是一款2D经营模拟游戏，运行于Unity引擎，面向Android与iOS小游戏平台。玩家扮演调香师，在小镇上经营一家香氛工坊，通过调配RecipeConfig定义的香料配方吸引不同季节的客人，接待RareGuest配置的稀有访客，逐步扩建FacilityPanel管理的工坊设施。 游戏核心循环为：商店营业 → 接待客人 → 调配香水 → 获得好评 → 升级设施 → 解锁新配方与新季节。Shi",
+   "icon_path": "/Users/junsheng.sun/FluxGroup/软著申请材料/P06_SongOfScents/icon_512.png",
+   "prompt_hint": "SongOfScents | 调香师是一款2D经营模拟游戏，运行于Unity引擎，面向Android与iOS小游戏平台。玩家扮演调香师，在小镇上经营一家香氛工坊，通过调配RecipeConfig定义的香料配方吸引不同季节的客人，接待RareGuest配置的稀有访客，逐步扩建FacilityPanel管理的工坊设施。 游戏核心循环为：商店营业 → 接待客人 → 调配香水 → 获得好评 → 升级设施 → 解锁新配方与新季节。Shi",
+   "style": "mobile game app icon, square, bold flat illustration, single centered subject, vibrant colors, clean silhouette readable at small size, no text, no watermark, subtle rounded highlight, casual game art style",
+   "status": "PENDING"
+  },
+  {
+   "dir": "P07_TreasureDive",
+   "product": "TreasureDive",
+   "theme": "捞个宝是一款深海打捞题材经营游戏，运行于Unity引擎，面向Android与iOS小游戏平台。玩家扮演打捞队队长，调度打捞船队出海打捞文物残件，通过修复玩法将残件复原为珍品文物，在海底博物馆上架展览，以展位吸引力驱动门票经济，逐步扩张船队与博物馆。 游戏采用出海—回收—修复—上架—门票的核心循环：SalvageHub调度打捞队出海，SalvageFleet按三个深度带打捞，种子决定打捞战利品；Re",
+   "icon_path": "/Users/junsheng.sun/FluxGroup/软著申请材料/P07_TreasureDive/icon_512.png",
+   "prompt_hint": "TreasureDive | 捞个宝是一款深海打捞题材经营游戏，运行于Unity引擎，面向Android与iOS小游戏平台。玩家扮演打捞队队长，调度打捞船队出海打捞文物残件，通过修复玩法将残件复原为珍品文物，在海底博物馆上架展览，以展位吸引力驱动门票经济，逐步扩张船队与博物馆。 游戏采用出海—回收—修复—上架—门票的核心循环：SalvageHub调度打捞队出海，SalvageFleet按三个深度带打捞，种子决定打捞战利品；Re",
+   "style": "mobile game app icon, square, bold flat illustration, single centered subject, vibrant colors, clean silhouette readable at small size, no text, no watermark, subtle rounded highlight, casual game art style",
+   "status": "PENDING"
+  },
+  {
+   "dir": "P08_GhostMarshal",
+   "product": "GhostMarshal",
+   "theme": "奈何桥是一款2D文字冒险解谜游戏，运行于Unity引擎，面向Android与iOS小游戏平台。玩家扮演奈何桥上的新任判官，通过TouchAdventure触控探索场景，收集证物，审问亡魂，依据VerdictSystem做出审判，最终决定亡魂的去向。 游戏核心循环为：探索场景 → 收集线索 → 审问亡魂 → 做出判决 → 解锁下一章。StoryEngine驱动剧情推进，ChapterConfig定义",
+   "icon_path": "/Users/junsheng.sun/FluxGroup/软著申请材料/P08_GhostMarshal/icon_512.png",
+   "prompt_hint": "GhostMarshal | 奈何桥是一款2D文字冒险解谜游戏，运行于Unity引擎，面向Android与iOS小游戏平台。玩家扮演奈何桥上的新任判官，通过TouchAdventure触控探索场景，收集证物，审问亡魂，依据VerdictSystem做出审判，最终决定亡魂的去向。 游戏核心循环为：探索场景 → 收集线索 → 审问亡魂 → 做出判决 → 解锁下一章。StoryEngine驱动剧情推进，ChapterConfig定义",
+   "style": "mobile game app icon, square, bold flat illustration, single centered subject, vibrant colors, clean silhouette readable at small size, no text, no watermark, subtle rounded highlight, casual game art style",
+   "status": "PENDING"
+  }
+ ],
+ "rules": {
+  "size": "1024x1024 generated, resized to 512x512 png on save",
+  "name": "icon_512.png at product dir root",
+  "credit_note": "L0 出图轮消耗 WorkBuddy 出图额度，约 5-10 credits/张；批量前需 CEO 确认规模",
+  "banned_sources": [
+   "签章"
+  ]
+ }
+}
