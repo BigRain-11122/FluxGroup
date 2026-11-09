@@ -219,7 +219,7 @@
    }
   ],
   "reserve_gb": 6.0,
-  "fleet_max_conc": 1,
+  "fleet_max_conc": 2,
   "fleet_max_ctx": 8192,
   "fleet_timeout_s": 120,
   "fleet_model_whitelist": [
@@ -233,7 +233,8 @@
   "bypass_detector": {
    "what": "非 127.0.0.1 的 11434 请求=绕闸，记 cph4/fleet/state/local-bypass.json",
    "action": "24h 内 0 次绕过才允许把 Ollama 绑到 127.0.0.1"
-  }
+  },
+  "_fleet_conc_why": "2026-11-09 CEO「本地算力赋能机队」：bm-m 有 3 个并行槽，机队从 1 抬到 2；本机优先时网关仍按 hold 拒绝机队。"
  },
  "model_routing": {
   "source": "cph4/fleet/MODEL-ROUTING-v2.json",

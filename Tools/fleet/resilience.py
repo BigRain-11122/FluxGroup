@@ -216,9 +216,49 @@ def check_local_first(ctx):
             "local=%d cloud=%d share=%.0f%%" % (local, cloud, share * 100))
 
 
+def check_cloud_gate(ctx):
+    """代码级本地优先：除白名单外，任何工具不得硬编码云端点。"""
+    import glob
+    allow = {"dsh_local.py", "codely_bridge.py", "llm_client.py", "resilience.py"}
+    bad = []
+    for f in glob.glob(os.path.join(ROOT, "Tools", "fleet", "*.py")):
+        base = os.path.basename(f)
+        if base in allow:
+            continue
+        try:
+            t = open(f, encoding="utf-8", errors="replace").read()
+        except OSError:
+            continue
+        for pat in ("api.deepseek.com", "codely-litellm", "api.openai.com"):
+            if pat in t:
+                bad.append("%s:%s" % (base, pat))
+                break
+    return ("cloud_gate", "PASS" if not bad else "FAIL", "direct-cloud=%s" % (bad or "-"))
+
+
+def check_fleet_llm(ctx):
+    """机队借用本机模型的通道：网关 8792 + 令牌。挂了机队就只能自己扛或上云。"""
+    import urllib.request as u
+    try:
+        tok = open(os.path.expanduser("~/.fluxgroup-llm-token"), encoding="utf-8").read().strip()
+    except OSError:
+        return ("fleet_llm", "FAIL", "no token file")
+    body = json.dumps({"model": "qwen3.5:4b-mlx",
+                       "messages": [{"role": "user", "content": "ok"}],
+                       "stream": False, "options": {"num_predict": 2}}).encode()
+    req = u.Request("http://127.0.0.1:8792/api/chat", data=body,
+                    headers={"Content-Type": "application/json", "X-Flux-Token": tok})
+    try:
+        d = json.loads(u.urlopen(req, timeout=20).read())
+        ok = bool(d.get("done"))
+        return ("fleet_llm", "PASS" if ok else "WARN", "gateway 8792 ok=%s" % ok)
+    except Exception as e:
+        return ("fleet_llm", "FAIL", "gateway 8792 %s" % str(e)[:60])
+
+
 CHECKS = [check_pulse, check_sync, check_services, check_queue, check_supply,
           check_lanes, check_disk, check_memory, check_models, check_token,
-          check_codely, check_git, check_local_first]
+          check_codely, check_git, check_local_first, check_cloud_gate, check_fleet_llm]
 
 
 def run(ctx=None):
