@@ -43,7 +43,20 @@
    "why": "配音是短剧线唯一在产的真活，出片前必须先知道哪些集能发",
    "deliverable": "cph4/fleet/queue-receipts/tts-qc-all.json",
    "accept": "逐集有实测时长与静音判定；缺失集列明「未生成/失败」，不许只给总数",
-   "status": "pending"
+   "status": "done"
+  },
+  {
+   "id": "CHK-ASSET-20261110",
+   "title": "资产训练环境体检（能不能烧）（bm-b 兜底体检）",
+   "cmd": "python3 Tools/fleet/asset_env_check.py --json cph4/fleet/queue-receipts/asset-env-20261110.json",
+   "deliverable": "cph4/fleet/asset-env-20261110.json",
+   "accept": "routes_ok 非空；缺什么写明",
+   "needs": "cpu",
+   "prio": "P2",
+   "day_ok": true,
+   "status": "pending",
+   "est_gb": 0,
+   "why": "bank_autofill: 空闲机兜底体检活，产物落 queue-receipts"
   }
  ]
 }

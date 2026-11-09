@@ -1,8 +1,23 @@
 {
  "node": "bm-b",
- "ts": "2026-11-10T01:29:29",
- "jobs": [],
- "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+ "ts": "2026-11-10T02:00:33",
+ "jobs": [
+  {
+   "id": "CHK-ASSET-20261110",
+   "title": "资产训练环境体检（能不能烧）（bm-b 兜底体检）",
+   "cmd": "python3 Tools/fleet/asset_env_check.py --json cph4/fleet/queue-receipts/asset-env-20261110.json",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/asset-env-20261110.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  }
+ ],
+ "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 8.8/1.0 GB"
+ "capacity_note": "ram 8.0/1.0 GB"
 }
