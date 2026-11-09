@@ -440,3 +440,21 @@
 - **班次存活探针**：决策轮 11-09 06:00 第 52 批 3 行在册（D-01/02/03），反思日志 03:07 夜班行在册 → 探针 **OK**
 - **并发覆写第四次实锚（本班当场抓到）**：09:13 分卷落地→09:15:32 提交时 `docs/decisions.md` 已被他窗还原为 252.8KB（git add 后零 diff，等于吞件）；修法=分卷器做幂等（按节头去重+仅裁 live 不重写 archive），09:1x 二次落地并 commit 88940acc9 实证 -254 行。判律：**台账类写操作必须「落盘→立即 add→立即 commit」三连，中间不留任何等待**，否则他窗轮班会原样还原。
 - **推送受阻（如实记）**：本班 3 个 commit 落地（32b30783f／88940acc9／a48f2db25／e1b51fb5a）但 `git push` 非快进——本地与 origin/main **ahead 94／behind 301**，`pull --rebase` 被他窗脏树挡住；按纪律「再拒留待下轮」不硬闯（94 提交跨 301 提交的 rebase 会撞台账冲突，非夜轮射程）。正解=该机执行一次 `Tools/fleet/node_closeout.ps1` 收口（CEO 11-07 18:01 令已有此件），owner=**本机（bm-m 主控）**，承诺 **2026-11-10 12:00**；逾期=记一次分叉未收口。
+
+## 值守轮 2026-11-09 午班（15:07 班）
+- **水位行**：C: free 932.5GB（本班立基线）；前班 retention Δ：gaming\MiniGame +775.2MB（.git +106.4MB 为主）/ quant\bigmoney +111.7MB — 日燃 <20GB，未触燃烧率点名。旗标：AUTO_SAVES_OLD 772 件 / LOGS_OLD 98 件（FluxVerse）/ GIT_BIG gaming\MiniGame\.git 3148.2MB（>2GB 线，交 RepoSlim 09:03 轮 gc）。
+- **台账字节行**：orders 239.4KB（250KB 线 95.8%，次班需分卷波）/ decisions 79.5KB / ledger 171KB / gaming-CODELY 31.8KB — 均未过线，orders 靠线预警。
+- **趋势雷达行**：①机队 disk_free：bm-a(≡BG-A)946GB、bm-c 521GB、BG-B(bm-b)193GB（<200GB 提醒，未破 150GB）；bm-b OFFLINE 242.5h、bm-a STALE 4.7h、BG-C STALE 10.8h+RAM_LOW 2.9%、bm-d tailnet=N/:8790=N、bm-m health=err + UNROSTERED peer 100.87.248.66。②台账膨胀见上行，无单件日增 >30KB 连续两班。
+- **抽验行**：selfaudit 7/7 backed（bare=0）；secret-scan 7 仓 0 命中（exit 0）；audit-sentinel flags=5（全为 PROBE A：P-2026-11-01-04/06/07/08/10 transferred 8d，超 48h 窗）；registry shadow md_not_in_jsonl=3 → 影子缺口 3 条待补（非 SHADOW_GREEN，本班不报批1切主源）；fleet-mechanism-audit flags=0（patrol_stamp DEREGISTERED 依 D-20261026-07 豁免）；task-health unhealthy=22 / odd-result-codes=18。
+- **点名行（三要素）**：
+  1. @BigMoney(bm-b 机)｜OFFLINE 242.5h + disk_free 193GB｜承诺 2026-11-10 12:00 报存活或停役｜逾期升 E1 进决策轮。
+  2. @BigCompute(BG-C/bm-c)｜STALE 10.8h + RAM_LOW 2.9%｜承诺 2026-11-10 12:00 恢复心跳｜逾期升 E1。
+  3. @bm-a｜STALE 4.7h（r1272 closeout 持锁）｜承诺 2026-11-09 18:00 清锁｜逾期 E2。
+  4. @MiniGame｜MiniGameEngineTick/TickWatchdog UNEXPECTED-DISABLED（09:00 起）｜本班已启 EngineTick，Watchdog 待司确认｜承诺 2026-11-10 12:00｜逾期 E1。
+  5. @BigCompute｜BigCompute-LaneTaskGuard UNEXPECTED-DISABLED（11-07 起，连续两夜）｜承诺 2026-11-10 12:00 重建或声明收线｜逾期 E1（熔断：禁第四次原样复述）。
+  6. @BigMoney｜Bigmoney-IterationLoop/LoopWatchdog/PoolWorker/ResidentDispatcher/SatEngine-bm-b/Autofill/IntradayMarks EXPIRED 族｜承诺 2026-11-10 12:00 重注册｜逾期 E1。
+  7. @外审班｜docs/external-audit.md 当日 0 行、末条实体审查行 2026-10-13（11 天前）、死线 10-26 已逾期｜承诺 2026-11-09 22:17 班补一实体审查行｜逾期呈 CEO。
+  8. @九司｜oss-harvest 全实体最新件 >72h（bigcompute 11-04 最新，其余 10-14~10-20）｜承诺 2026-11-10 12:00 各补一 OH 件｜逾期 E2。
+  9. @HQ 机制席｜P-2026-11-01-04/06/07/08/10 五件 transferred 8d 未闭环｜承诺 2026-11-10 12:00 逐件 ack 或收线｜逾期 E1。
+  10. @bm-d / @bm-m｜bm-d 无网无监听；bm-m health=err + 未入册 peer｜承诺 2026-11-10 12:00 接入或声明停役（走 fleet-nodes SOP）｜逾期 E1/E2。
+- **本轮动作行**：①启用 MiniGameEngineTick（required 任务 Disabled→静默律重建）；②ledger-utf8-guard bad_segments=0 免修；③多窗脏树→仅定向提交本班两件；④班次存活探针：decisions 第 53 批（12:00，4 行）在册 + reflection 11-09 早班行在册 → 探针有信号非 E1；⑤周轮落账核对：周进化轮 2026-11-08 R7 报告行在册 ✓；否决窗当日到期 0 条。
