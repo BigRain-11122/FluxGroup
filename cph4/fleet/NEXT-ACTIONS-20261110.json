@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-10T00:55:33+0800",
+ "ts": "2026-11-10T01:01:40+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -13,8 +13,8 @@
    "blocker_type": "ENGINE",
    "blocker": "打标质量门与当前素材不匹配：抽 20 张 0 通过（理由是「只命中 0-2 个可见属性，像空话」），需改提示词/判据；另有 458 张待打",
    "state": "RUNNING",
-   "card": "asset-lib-voice-corpus-2026-11-10",
-   "running_on": "bm-a"
+   "card": "asset-lib-face-dataset-2026-11-10",
+   "running_on": "bm-c"
   },
   {
    "id": "biggame",
@@ -42,9 +42,9 @@
    "accept": "quant_signal 回执 rc=0 且 CSV 含因子值与输入指纹",
    "blocker_type": "ENGINE",
    "blocker": "回测产物需在 bm-b 本地生成；主控无 quant 仓",
-   "state": "RUNNING",
+   "state": "QUEUED",
    "card": "bigmoney-signal-2026-11-10",
-   "running_on": "bm-b"
+   "running_on": null
   },
   {
    "id": "bigstream-mv",
@@ -222,15 +222,15 @@
    "accept": "flux_check new=0；AUTOMATION-SURFACE 无 RISK 项",
    "blocker_type": "ENGINE",
    "blocker": "I2 存量 125 条卡面路径债、vault 缺盘 651 条",
-   "state": "STALLED",
-   "card": null,
-   "running_on": null
+   "state": "RUNNING",
+   "card": "R-TRIAGE-BIGSTREAMMV-BMA-20261110",
+   "running_on": "bm-a"
   }
  ],
  "counts": {
   "RUNNING": 3,
-  "QUEUED": 2,
-  "STALLED": 10
+  "QUEUED": 3,
+  "STALLED": 9
  },
- "stalled_engine": 4
+ "stalled_engine": 3
 }
