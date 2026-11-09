@@ -54,11 +54,63 @@ def ask(text):
         return ((json.loads(r.read()).get("message") or {}).get("content") or "").strip()
 
 
+LABELS = os.path.join(F, "state", "card-labels.jsonl")
+QUEUE = os.path.join(F, "PRODUCTION-QUEUE.jsonl")
+
+
+def _seen_labels():
+    out = set()
+    try:
+        for line in open(LABELS, encoding="utf-8"):
+            out.add(json.loads(line).get("id"))
+    except OSError:
+        pass
+    return out
+
+
+def label_cards(limit):
+    try:
+        rows = [json.loads(l) for l in open(QUEUE, encoding="utf-8") if l.strip()]
+    except OSError:
+        return 0
+    done = _seen_labels()
+    todo = [r for r in rows if r.get("id") and r["id"] not in done][:limit]
+    if not todo:
+        return 0
+
+    def work(r):
+        q = ("判断这张机队卡的产出类型与所属域。卡标题：%s\n卡说明：%s\n"
+             "只回 JSON：{\"kind\":\"product|internal\",\"domain\":\"biggame|bigmoney|bigstream|biglife|bigdomain|bigcompute|fluxverse|bighouse|cph4|group\"}"
+             % ((r.get("title") or "")[:120], (r.get("why") or r.get("prompt") or "")[:200]))
+        try:
+            txt = ask(q)
+            import re as _re
+            m = _re.search(r"\{.*\}", txt, _re.S)
+            d = json.loads(m.group(0)) if m else {}
+        except Exception:
+            d = {}
+        return {"id": r["id"], "kind": d.get("kind") or "internal",
+                "domain": d.get("domain") or "group", "ts": time.strftime("%Y-%m-%dT%H:%M:%S")}
+
+    with ThreadPoolExecutor(max_workers=4) as ex:
+        out = list(ex.map(work, todo))
+    with open(LABELS, "a", encoding="utf-8") as f:
+        for r in out:
+            f.write(json.dumps(r, ensure_ascii=False) + "\n")
+    print("labeled %d cards" % len(out))
+    return len(out)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--limit", type=int, default=40)
     ap.add_argument("--dry", action="store_true")
+    ap.add_argument("--mode", default="auto", choices=["auto", "receipts", "labels"])
     a = ap.parse_args()
+
+    if a.mode == "labels":
+        label_cards(a.limit)
+        return 0
 
     done = seen()
     files = []
@@ -76,6 +128,10 @@ def main():
         files.append((st.st_mtime, p, key, f))
     files.sort(reverse=True)
     files = files[:a.limit]
+    if a.mode in ("auto", "labels") and not files:
+        if not a.dry:
+            label_cards(a.limit)
+        return 0
     if not files:
         print("no new receipts")
         return 0
