@@ -94,3 +94,16 @@ pull 不再整文件冲突——今天主控脉被 git 卡死的直接原因就�
 
 这样看护服务不再因为"调度机没有产线卡"长期报红——长期红等于没人看红。
 
+
+## 八、状态同步面（2026-11-09 根治"脉被 git 卡死"）
+
+根因：主控脉每拍先 commit 状态再 pull，任何冲突/脏树都会吃掉整拍（实测 152-188s）。
+
+改法：把 git 从脉里拆出去。
+- 脉：plist 注入 PULSE_NO_PULL=1，只跑阶段，**永不碰 git**；git 状态记为 skipped；
+- 同步面：com.fluxgroup.statesync 每 60s 跑 Tools/fleet/state_sync.py——提交 cph4/fleet 生成态、
+  fetch、快进或本地优先合并、push；失败 3 次熔断 15 分钟，只记 state/state-sync.log，不影响调度；
+- 手写代码策略：Tools/ 与 docs/ 脏时同步面**不动**（交给人/会话），生成态可以自动提交。
+
+代价：本机最坏晚 60s 看到远端状态；换来的是 git 再坏也不影响 7x24 调度。
+
