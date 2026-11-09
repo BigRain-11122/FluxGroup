@@ -1,8 +1,23 @@
 {
  "node": "bm-c",
- "ts": "2026-11-10T03:55:25",
- "jobs": [],
- "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+ "ts": "2026-11-10T03:56:41",
+ "jobs": [
+  {
+   "id": "asset-lib-char-gen-2026-11-10",
+   "title": "[资产储备（角色 LoRA / 音色库）] 角色包出图（本机 ComfyUI，1024²，同 seed 组）",
+   "cmd": "python Tools/fleet/char_gen.py --node bm-c --limit 12 --receipt cph4/fleet/queue-receipts/char-gen-bm-c-2026-11-10.json",
+   "cwd": "",
+   "needs": "gpu",
+   "deliverable": "cph4/fleet/queue-receipts/char-gen-bm-c-2026-11-10.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  }
+ ],
+ "idle_reason": "",
  "lane_ok": true,
  "capacity_note": "ram 2.3/1.0 GB"
 }
