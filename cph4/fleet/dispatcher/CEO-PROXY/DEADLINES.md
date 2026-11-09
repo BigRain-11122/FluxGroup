@@ -536,58 +536,13 @@ rame_bytes/frame_sha12；**bm-a 上该目录不存在（0/30）**，且本机两
 | **lane 合并循环吃掉 orders/POOL 本地改动（P1·新）** | **registered·同族 state_push** | 00:5x 提交 a1ad2d5d7「restore 1 local-only card(s) after merge」+50dd515b5「merge origin (generated files take remote)」把本班 orders 行与 POOL-0026 抹掉（仅队列卡被恢复）。本班已重放并推。修法=合并循环的 restore 名单须覆盖 orders.md/POOL.json（或这三件一律按「本地新增行并集」合）。 |
 | **回访探针** | **armed** | +90min 一次性 cron：复探 R3 卡状态与 bm-b 可见性；复发=旗升 DE 级。 |
 
-## 附录 R17 事件班登记（2026-11-09 01:26-01:4x·承载件触发·BLOCKED-RAM bm-c + CLOCK-SKEW + STARVED-EXEC bm-b + POOL-PHANTOM bm-b）
+## 附录 R30 事件班登记（2026-11-10 02:46-03:05·承载件触发·CLOCK-SKEW×3 + STARVED-EXEC bm-b/bm-c）
 
 | 件 | 状态 | 证据 / 下一步 |
 |---|---|---|
-| **STARVED-EXEC bm-b** | **resolved（真活实证·无需补卡）** | 01:26/01:31/01:32 三次读数一致：lanes/bm-b.json 3 卡（Q-ANCHOR-SHOTGRID-REBUILD-20261109 + R-TRIAGE-BIGSTREAMMV + R-TRIAGE-BIGGAME）+ 队列 bm-b 3 RUNNING/1 OPEN；bm-b `/status` 01:34 ram 8.6G、cpu 1%、agenda_starved=false。承 R16 判。 |
-| **bm-b clone 分叉（R16 P1）** | **resolved（本班 poke 后实证）** | 01:34:39 poke accepted → 01:34:58 last_pull：`repo_heads["."]=a803b32e` == `origin_main`、`fork={".":"0\t0/main"}` → 分叉已平。心跳正文 ahead702/behind428 属陈旧文本，勿再引用。R16「不动 bm-b git」的顾虑解除。 |
-| **CLOCK-SKEW（承载件旗）** | **waiting-CEO·零催办（在册）** | 01:24 CLOCK-SKEW.json：bm-a -0.2ms OK；bm-b +1456.3ms/精度 0.8ms（真偏）；bm-c +4010.9ms/精度 421.6ms（中继精度不足判据）。old_schema=0、missing=0。根=三机 w32time STOPPED 提权物理件（R13 在册），秒级偏差不影响派单租约。 |
-| **BLOCKED-RAM bm-c** | **watching·边缘震荡（不阻断）** | 01:31 旗；01:32 master 读 0.9G（<1.0G 闸）→ 01:34 直读 /status 2.1G、GPU 1796MiB free、cpu 91%（rebalance 轮）。真卡 asset-lib-asset-gen-2026-11-09 在烧。无远程释放通道；本班不给 bm-c 加派（不叠卡）。 |
-| **POOL-PHANTOM bm-b（exec_cards=1 live_legs=0）** | **root-caused·度量假红 + 车道租约占位** | ①origin 上 `R-TTS-QC-R3-20261109` 确在（state=OPEN·hard_nodes=[bm-b]·needs=cpu），非丢卡；②POOL-0026 缺 `job_ref` 字段 → 承载件无法把池卡匹配到活腿 → 报 phantom（本班已补 `job_ref`）；③真等待原因=bm-b 车道按「只执行 master 指派」跑 lanes/bm-b.json 的 3 卡（两张 R-TRIAGE claimed 00:49 的 45min 租约 01:34 到期；Q-ANCHOR claimed 01:12 租约 01:57 到期）→ R3 排在后面，属 master_agent 租约回收正常态，非坏卡。 |
-| **R3 未被认领（同源）** | **watching·回执窗 2h** | 01:35/01:41 两次读 R3 仍 OPEN、claimed_at=None；交付物 `cph4/fleet/queue-receipts/tts-qc-r3-20261109.json` 未见。下一次 master tick 租约回收后复核是否进 lane；已挂 +90min 回访探针。 |
-| **在飞交付物零落盘（3 卡）** | **registered·租约线内不判死** | 01:26→01:32 复探：`POOL-0018-0019-anchor-matrix.json` mtime 仍 11-07 19:29（Q-ANCHOR 01:12 起 20min 无新件）；`triage-biggame-bm-b-20261109.md`/`triage-bigstream-mv-bm-b-20261109.md` 均 MISSING（00:49 起 43min）。均在 45min 租约内。 |
-| **回访探针** | **armed** | +90min 一次性 durable cron：复探 R3 认领/交付物、bm-b 车道租约回收、bm-c RAM 是否再破 1.0G、POOL-PHANTOM 是否消失；复发=旗升 DE 级。 |
-| **【R17 口径更正·本班自我更正】POOL-PHANTOM 真因=线路 PARKED，不是车道租约占位** | **corrected·已处置** | 01:45 实测推翻本班上半段结论：`LINE-REGISTRY.json` 中 `bigstream-duanju` status=**PARKED**（短剧/漫剧/短视频三线均 PARKED），而 `Tools/fleet/master_agent.py:814-815` 对 PARKED 线一律 `continue` → **R-TTS-QC-R3-20261109 结构性永不可被指派**（既不进 lane，也不会被任何班次"等租约"救活）。上表「车道 3 卡租约占位」只解释了 01:34-01:47 的表面排队，不是根因。处置：R3 卡置 CANCELLED（cancel_reason=line-parked）+ POOL-0026 status=closed-parked；复活条件=CEO 解停 bigstream-duanju 后重开。Why：承 CEO「PARKED=CEO 令停，不计闲置/不造活」——给停线资产做质检=白烧算力。 |
-| **R19-mirror-wipe（2026-11-09 02:45-03:1x 事件班实测）** | **registered·waiting-owner（bm-m 站·零催办）** | 症状=派给 bm-b 的车道指派活不过一个镜像周期（三次实证，最短 56s：02:45:16 写入 → 02:46:12 被 `state: 队列/回执同步 [via bm-m]` 覆盖）。根因=`Tools/fleet/state_push.py` STATE_DIRS 段对 `cph4/fleet/lanes/**.json`、`queue-receipts/**.json` 用 shutil.copyfile 整份覆盖（队列已走 merge_jsonl）。已修并入库 origin 7da5ef7af（按 JSON `ts` 取较新一侧，四例自测通过）；**修复到不了 bm-m**——它不在 poke roster（enabled=3=bm-a/bm-b/bm-c）且 100.75.133.10 /status=401。后果=bm-b CPU 车道拿不到任何派单，Q-ANCHOR-SHOTGRID-REBUILD-20261109 自 00:26 空转（本班已回收 OPEN，仍无人领）。需要 bm-m 本机动作：同步该脚本或把 bm-m 纳入受控唤醒；验收=指派在 ≥3 个镜像周期后仍在且 bm-b 真跑回执。 | R19 事件班 |
-| **R19-bm-b-claim-loop-dead（2026-11-09 03:18 事件班勘正）** | **registered·waiting-owner（bm-b 站·零催办）** | 决定性证据=origin `cph4/fleet/queue-receipts/_last_lane_bm-b.json` ts=**2026-11-05T23:33:51** state=OS-MISMATCH——bm-b 已 4 天没有任何车道领取回执，即其 lane_agent/queue_claim 周期根本没在跑；**此前 owner=bm-b 的 claimed_at 全部是主控在 bm-a 侧代写的状态面**（空壳卡来源，与 POOL-PHANTOM 同源）。故本班把 Q-ANCHOR 回收成 OPEN 只修好「供给面诚实」，不会让活自动跑起来；bm-b 机器本身健康（/status 2.4s、ram 7-9G、cpu 2-37%）。需要 bm-b 本机动作：注册/恢复领取循环任务（HQ-ProductionClaim 或 queue_claim --node bm-b 周期），并验证 `_last_lane_bm-b.json` 有 RUNNING/RESULT 回执。验收=该回执 ts 在 1h 内且状态非 OS-MISMATCH。与 R19-mirror-wipe 并列为 bm-b 供给通道两条 P1。 | R19 事件班 |
-
-## 附录 R-EVT-20261110 事件班登记（2026-11-10 00:41-00:49·承载件触发·STARVED-EXEC + CLOCK-SKEW）
-
-| 件 | 状态 | 证据 / 下一步 |
-|---|---|---|
-| **STARVED-EXEC bm-b（00:41 旗）** | **假红·已定性（承 R4-2/R7-1/R8-2/R9-3/R10-2/R11-1 第 N 次同源）** | `fleet-dispatcher.ps1` 的 pools 只统计 `POOL.json`（26 卡，唯一 open=POOL-0010 被 `CEO-PHYSICAL:submit-materials` 锁死）→ 三机 exec 恒 0、每轮必报三行。真供在 `PRODUCTION-QUEUE.jsonl`：本班 00:47 实读 OPEN 4（bm-c 3 / bm-b 1）+ RUNNING 6（bm-a 3 / bm-b 2 / bm-c 1）。修法涉 L0 受保护件，本席不改只呈（PR-20261027-14 在册）。 |
-| **STARVED-EXEC bm-c（00:21 旗）** | **resolved（上班闭环·本班复核）** | 上班 00:28 修 `blocker_loop._node_last_output()` 判据源、00:33 分派 3 卡、00:34 起 bm-c RUNNING；本班 00:47 复核 bm-c 3RUN/4OPEN，未复发。 |
-| **CLOCK-SKEW max=1813ms（00:41 旗）** | **waiting-CEO（物理件·零催办）** | bm-a 本机 `sc query w32time` 实测 **STATE=1 STOPPED**（不只在远端）。三机同型，需提权 `sc config w32time start= auto && net start w32time && w32tm /resync /force`。秒级偏差不影响 45-180min 租约派单。 |
-| **R-EVT-1 队列幻影供给（本班已修）** | **FIXED（commit 7be9538cd·plumbing append 零删行）** | ①`VCORP-GEN-r1202-EP001-060-20261108`：bm-a 实测 `media/drama-tools/repos/index-tts/.venv/Scripts/python.exe` 不存在，cmd 首句 `exit /b 3`，卡自 11-08 OPEN 空转两日 → BLOCKED(missing-input:index-tts-venv@bm-a)；②`PATROL-bighouse-20261109`：cmd 空 + nodes=[]，机器队列结构性不可执行（人决件）→ BLOCKED(human-decision:patrol-bighouse-red)。POOL 追加 POOL-0027（投料）/POOL-0028（bighouse RED 裁决）供 L0 重生成 NEED-JUDGMENT。 |
-| **R-EVT-2 节点分叉致回执不可交付 → 空壳终态（P1·本机动作）** | **registered·waiting-owner（无远程通道）** | 实锚：bm-b `/status` fork `".":"802/486"`、bm-c `/status` fork `".":"216/3085"` → 节点本地跑完却推不回 origin；master_agent 的 deliverable 磁盘检查恒空 → 写 UNVERIFIED/FAILED 且 `rc/failure/error_class` 全 null。今夜三例：`asset-lib-face-dataset-2026-11-10`(UNVERIFIED·bm-c)、`bmc-env-unblock-2026-11-10`(FAILED)、`R-TRIAGE-BIGSTREAMMV-BMB-20261110`(FAILED·bm-b)，三件 deliverable 在 origin tree 均 MISSING。修法（各机本机、保留本地独有产物后）：`git fetch origin && git reset --mixed origin/main`。承 R13-3/R16，本班补「分叉→假失败」因果环。**不据此重派卡**（重跑仍推不回，属 churn）。 |
-| **R-EVT-3 bm-b 认领环 BURNING** | **PASS** | poke 00:43:58 accepted(v1.9.7) → 00:44:00 bm-b 认领新卡（84 秒）→ `/status` 00:47:57 ram 12.5G/cpu 14 pct。零重复 poke。 |
-| **POOL-0010（CEO 物理件）** | **waiting-CEO（零催办）** | 提审主体/包体四值/软著 G01/提交材料夹。只登记不催办。 |
-| **回访探针** | **armed** | 02:15 一次性 durable cron 复探三旗 + bm-b/bm-c 是否收口分叉。 |
-## ?? R21 ??????2026-11-10 02:01-02:30???????
-
-### ????????
-
-| ? | ?? | ?? |
-|---|---|---|
-| CLOCK-SKEW max=2102.3ms | **???relay ????**????????? | A/B ?? bm-b ?? 0-0.15s / RTT 1060ms??? 01:2x ????????????? absOff/(rtt/2)=4.9<10 |
-| STARVED-EXEC bm-b | **resolved?BURNING** | origin `CHK-ASSET-20261110` RUNNING / owner=bm-b / claimed_at=02:00:32 |
-| BLOCKED-RAM bm-c | **????**?02:04 ? GPU-IDLE? | idle-watch 02:04:28 verdicts bm-c=GPU-IDLE |
-
-### ??????02:19 ???
-
-- poke bm-c 02:17:22 accepted?tasks=HQ-ProductionClaim?? 02:19:52 bm-c ? 2 ??bm-a ? 3 ? triage ? ?? RUNNING 1?6?
-- ????UNVERIFIED 16?4?FAILED 5?3?DONE 605?615?closer ????????
-
-### waiting-CEO????/????????
-
-| ? | ?? | ?? |
-|---|---|---|
-| w32time ?????bm-b / bm-c? | CEO ??? | R14-2 ????????????????? |
-| CLOCK-SKEW ??????? | CEO ??????? | `PROPOSAL-20261110-clock-skew-action-line.md`??? `Tools/fleet-dispatcher.ps1` ? CEO ??????????????? P1 |
-
-### ????????????????
-
-1. **master_agent.py L283-291**?????? clone ?????????? ? ??????? bigcompute NJ-R39-1?????? `closer.receipt_index()`?????????? import??
-2. **Tools/fleet-dispatcher.ps1 L56-105**?`$exec` ?? POOL.json ???? ? ??????????? NJ-R39-2???????? CEO ??
-3. **bm-c RAM ???**?ram_free 3.2G?8.2G ??? verdict ? GPU-IDLE / BLOCKED-RAM ?????????? 3 ?????? P1?? CLOCK ???????
+| **bm-b sparse cone 缺数据面（P1·新根因）** | **fix 已上 main·待 bm-b 拉到** | 实锚：bm-b 同类 0.1s 秒退回执写明「配置文件不存在 cph4\\fleet\\asset-lib-v1\\ASSET-PROMPTS-v1.json」→ cone 只物化 queue-receipts/lanes，`cph4/fleet` 数据面不在锥内，卡脚本读不到配置即秒退，表现为「有卡不干 + 假完成重开」。修法=Tools/fleet/agent.py pull() 增 `ensure_sparse_cone()`（幂等 sparse-checkout add cph4/fleet Tools/fleet），commit b187d4893。 |
+| **bm-b 分叉死锁（P1·承 11-09 同族）** | **waiting-专项窗（无远程执行通道）** | 修复代码已在 main，但 bm-b ahead702/behind428，`merge --ff-only` 永失败 → 拉不到修复 → 死锁自锁。唯一收口（保工作树 702 笔内容、只丢本地提交链）：<br>`cd C:\Fluxgroup\FluxGroup && git fetch origin && git reset --mixed origin/main && git checkout origin/main -- Tools cph4 && git status --short`<br>执行后本地回执变 modified/untracked，由 agent push 正常上链。生成器：`python Tools/fleet/remote_closeout_card.py --nodes bm-b --print-cmd`。**本班未擅动其它窗在写的 git。** |
+| **CLOCK-SKEW bm-b 1312.9ms / bm-c 2319.4ms（P2·物理件）** | **waiting-CEO（提权）** | CLOCK-SKEW.json 02:49 实测 hub bm-a offset=0 → 漂移在节点不在 hub。clock_resync 实锚：DASHENG w32time=STOPPED，`net start w32time` 拒绝访问（rc=2/需提权）。正法=各机提权 `sc config w32time start= auto && net start w32time && w32tm /resync /force`。2.3s 漂移不阻断派单，仅影响回执时序判读；零催办。 |
+| **bm-c 两资产卡转 BLOCKED（P1·已处置）** | **resolved·BLOCKED 待解封** | asset-lib-asset-gen / -scenes：retries=3 E-ROOTCAUSE-3X、progress_bytes=0、零回执；bm-c ComfyUI 未起 + RAM 余量低 → asset_gen 必 rc=3。已置 BLOCKED(blocked_by=missing-input:comfyui@bm-c)，停止空转吃槽位。解封=bm-c 起 127.0.0.1:8188 且 free RAM≥4G 后 unlock。同机 asset-lib-char-gen（02:54:31 认领）仍在跑，未动。 |
+| **队列同 id 双行（P1·并发 merge 副作用）** | **fix 已上 main·读端容错** | 本轮实测 dup=asset-lib-char-gen / asset-lib-asset-gen 各 2 行，清一次主控脉 merge 又长回来。修法=Tools/fleet/fleet_lane.py read_jsonl 按 id 收敛最后一条（位置取首次），消费者不再重复派/重复核销，commit 887ff9cc2。写端仍走 merge_jsonl collapse。 |
+| **回访探针** | **armed** | +90min 一次性 cron：复探 bm-b 是否拉到 main / 是否出新回执，bm-c ComfyUI 是否起；复发=旗升 DE 级。 |

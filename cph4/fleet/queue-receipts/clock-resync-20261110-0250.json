@@ -1,0 +1,117 @@
+{
+ "node": "DASHENG",
+ "ts_local": "2026-11-10T02:49:43.999",
+ "ts_utc_ms": 1794250183999,
+ "ts_utc": "2026-11-09T18:49:43.999+00:00",
+ "w32time_state_before": "STOPPED",
+ "w32time_state_after": "STOPPED",
+ "verdict": "SERVICE-STOPPED",
+ "resync_rc": 2147943462,
+ "next_action": "start service once elevated: sc config w32time start= auto && net start w32time, then resync",
+ "steps": [
+  {
+   "step": "sc-query-before",
+   "result": {
+    "argv": [
+     "sc",
+     "query",
+     "w32time"
+    ],
+    "rc": 0,
+    "out": "SERVICE_NAME: w32time \n        TYPE               : 30  WIN32  \n        STATE              : 1  STOPPED \n        WIN32_EXIT_CODE    : 0  (0x0)\n        SERVICE_EXIT_CODE  : 0  (0x0)\n        CHECKPOINT         : 0x0\n        WAIT_HINT          : 0x0",
+    "err": "",
+    "seconds": 0.07
+   }
+  },
+  {
+   "step": "query-status-before",
+   "result": {
+    "argv": [
+     "w32tm",
+     "/query",
+     "/status"
+    ],
+    "rc": 2147943462,
+    "out": "发生下列错误: 服务尚未启动。 (0x80070426)",
+    "err": "",
+    "seconds": 0.42
+   }
+  },
+  {
+   "step": "query-configuration",
+   "result": {
+    "argv": [
+     "w32tm",
+     "/query",
+     "/configuration"
+    ],
+    "rc": 2147943462,
+    "out": "发生下列错误: 服务尚未启动。 (0x80070426)",
+    "err": "",
+    "seconds": 0.11
+   }
+  },
+  {
+   "step": "service-start",
+   "result": {
+    "argv": [
+     "net",
+     "start",
+     "w32time"
+    ],
+    "rc": 2,
+    "out": "",
+    "err": "发生系统错误 5。\n\n拒绝访问。",
+    "seconds": 1.16
+   }
+  },
+  {
+   "step": "sc-query-after-start",
+   "result": {
+    "state": "STOPPED"
+   }
+  },
+  {
+   "step": "resync-force",
+   "result": {
+    "argv": [
+     "w32tm",
+     "/resync",
+     "/force"
+    ],
+    "rc": 2147943462,
+    "out": "发生下列错误: 服务尚未启动。 (0x80070426)",
+    "err": "",
+    "seconds": 0.04
+   }
+  },
+  {
+   "step": "query-status-after",
+   "result": {
+    "argv": [
+     "w32tm",
+     "/query",
+     "/status"
+    ],
+    "rc": 2147943462,
+    "out": "发生下列错误: 服务尚未启动。 (0x80070426)",
+    "err": "",
+    "seconds": 0.04
+   }
+  },
+  {
+   "step": "sc-query-after",
+   "result": {
+    "argv": [
+     "sc",
+     "query",
+     "w32time"
+    ],
+    "rc": 0,
+    "out": "SERVICE_NAME: w32time \n        TYPE               : 30  WIN32  \n        STATE              : 1  STOPPED \n        WIN32_EXIT_CODE    : 0  (0x0)\n        SERVICE_EXIT_CODE  : 0  (0x0)\n        CHECKPOINT         : 0x0\n        WAIT_HINT          : 0x0",
+    "err": "",
+    "seconds": 0.03
+   }
+  }
+ ]
+}

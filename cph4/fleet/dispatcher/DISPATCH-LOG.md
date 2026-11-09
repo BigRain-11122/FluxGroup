@@ -1,84 +1,4 @@
-[2026-11-08 12:41] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
-[2026-11-08 12:41] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
-[2026-11-08 12:41] FLAG STARVED-EXEC lane=bm-c open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
-[2026-11-08 12:41] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/0run; queue_open=1 run=0 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=GPU-IDLE; flags=3
-[2026-11-08 12:51] FLAG CLOCK-SKEW max=3470.9ms precision=+/-413.3ms -> check hub path or node clock
-[2026-11-08 12:51] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
-[2026-11-08 12:51] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
-[2026-11-08 12:51] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
-[2026-11-08 12:51] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=1 run=1 lanejobs: a=0 b=0 c=1; idle: a=BUSY b=GPU-IDLE c=BLOCKED-RAM; flags=3
-[2026-11-08 13:01] FLAG CLOCK-UNALIGNED old_schema=1 missing=0 -> P1 upgrade node heartbeat to v2 (ms ts+offset)
-[2026-11-08 13:01] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
-[2026-11-08 13:01] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
-[2026-11-08 13:01] FLAG STARVED-EXEC lane=bm-c open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
-[2026-11-08 13:01] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/0run; queue_open=3 run=0 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=GPU-IDLE; flags=3
-[2026-11-08 13:11] FLAG CLOCK-SKEW max=3517.8ms precision=+/-418.3ms -> check hub path or node clock
-[2026-11-08 13:11] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
-[2026-11-08 13:11] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
-[2026-11-08 13:11] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
-[2026-11-08 13:11] FLAG STARVED-EXEC lane=bm-c open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
-[2026-11-08 13:11] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/0run; queue_open=3 run=0 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=BLOCKED-RAM; flags=4
-[2026-11-08 13:21] FLAG CLOCK-SKEW max=3559.5ms precision=+/-430.7ms -> check hub path or node clock
-[2026-11-08 13:21] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
-[2026-11-08 13:21] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
-[2026-11-08 13:21] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
-[2026-11-08 13:21] FLAG STARVED-EXEC lane=bm-c open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
-[2026-11-08 13:21] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/0run; queue_open=3 run=0 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=BLOCKED-RAM; flags=4
-[2026-11-08 13:31] FLAG CLOCK-SKEW max=3599.2ms precision=+/-415.7ms -> check hub path or node clock
-[2026-11-08 13:31] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/0run; queue_open=3 run=0 lanejobs: a=1 b=3 c=3; idle: a=BUSY b=GPU-IDLE c=GPU-IDLE; flags=1
-[2026-11-08 13:41] FLAG CLOCK-SKEW max=3638.3ms precision=+/-428.4ms -> check hub path or node clock
-[2026-11-08 13:41] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
-[2026-11-08 13:41] FLAG STARVED-EXEC lane=bm-c open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
-[2026-11-08 13:41] pools: bm-a=1open/0exec/1run bm-b=0open/0exec/0run bm-c=0open/0exec/0run; queue_open=3 run=1 lanejobs: a=1 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=GPU-IDLE; flags=3
-[2026-11-08 13:51] FLAG CLOCK-SKEW max=3680.9ms precision=+/-526ms -> check hub path or node clock
-[2026-11-08 13:51] pools: bm-a=1open/0exec/1run bm-b=0open/0exec/1run bm-c=0open/0exec/1run; queue_open=3 run=3 lanejobs: a=1 b=1 c=1; idle: a=BUSY b=GPU-IDLE c=GPU-IDLE; flags=1
-[2026-11-08 14:01] FLAG CLOCK-SKEW max=3724.8ms precision=+/-425.7ms -> check hub path or node clock
-[2026-11-08 14:01] pools: bm-a=1open/0exec/1run bm-b=0open/0exec/1run bm-c=0open/0exec/1run; queue_open=3 run=3 lanejobs: a=1 b=1 c=1; idle: a=BUSY b=GPU-IDLE c=GPU-IDLE; flags=1
-[2026-11-08 14:11] FLAG CLOCK-SKEW max=3770ms precision=+/-428.5ms -> check hub path or node clock
-[2026-11-08 14:11] pools: bm-a=1open/0exec/1run bm-b=0open/0exec/1run bm-c=0open/0exec/1run; queue_open=3 run=3 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=GPU-IDLE; flags=1
-[2026-11-08 14:21] FLAG CLOCK-SKEW max=3805.7ms precision=+/-522ms -> check hub path or node clock
-[2026-11-08 14:21] pools: bm-a=1open/0exec/1run bm-b=0open/0exec/1run bm-c=0open/0exec/1run; queue_open=3 run=3 lanejobs: a=1 b=1 c=1; idle: a=BUSY b=GPU-IDLE c=GPU-IDLE; flags=1
-[2026-11-08 14:31] FLAG CLOCK-SKEW max=3851.3ms precision=+/-432.4ms -> check hub path or node clock
-[2026-11-08 14:31] pools: bm-a=1open/0exec/1run bm-b=0open/0exec/1run bm-c=0open/0exec/1run; queue_open=3 run=3 lanejobs: a=1 b=1 c=1; idle: a=BUSY b=GPU-IDLE c=GPU-IDLE; flags=1
-[2026-11-08 14:41] FLAG CLOCK-SKEW max=3919.4ms precision=+/-804.3ms -> check hub path or node clock
-[2026-11-08 14:41] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
-[2026-11-08 14:41] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/1run bm-c=0open/0exec/1run; queue_open=3 run=3 lanejobs: a=0 b=1 c=1; idle: a=BUSY b=GPU-IDLE c=GPU-IDLE; flags=1
-[2026-11-08 14:51] FLAG CLOCK-SKEW max=3939.5ms precision=+/-430.4ms -> check hub path or node clock
-[2026-11-08 14:51] pools: bm-a=1open/0exec/1run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=4 run=3 lanejobs: a=1 b=5 c=4; idle: a=BUSY b=GPU-IDLE c=GPU-IDLE; flags=1
-[2026-11-08 15:01] FLAG CLOCK-SKEW max=3976.7ms precision=+/-422.9ms -> check hub path or node clock
-[2026-11-08 15:01] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
-[2026-11-08 15:01] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/1run bm-c=0open/0exec/1run; queue_open=3 run=2 lanejobs: a=0 b=1 c=1; idle: a=BUSY b=GPU-IDLE c=GPU-IDLE; flags=1
-[2026-11-08 15:11] FLAG CLOCK-SKEW max=4019.2ms precision=+/-419.2ms -> check hub path or node clock
-[2026-11-08 15:11] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
-[2026-11-08 15:11] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/1run bm-c=0open/0exec/1run; queue_open=3 run=2 lanejobs: a=0 b=1 c=1; idle: a=BUSY b=GPU-IDLE c=GPU-IDLE; flags=1
-[2026-11-08 15:21] FLAG CLOCK-SKEW max=4019.2ms precision=+/-419.2ms -> check hub path or node clock
-[2026-11-08 15:21] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
-[2026-11-08 15:21] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/1run bm-c=0open/0exec/1run; queue_open=3 run=2 lanejobs: a=0 b=1 c=0; idle: a=BUSY b=GPU-IDLE c=GPU-IDLE; flags=1
-[2026-11-08 15:31] FLAG CLOCK-SKEW max=4062.1ms precision=+/-421.9ms -> check hub path or node clock
-[2026-11-08 15:31] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
-[2026-11-08 15:31] pools: bm-a=1open/0exec/1run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=3 run=2 lanejobs: a=1 b=0 c=1; idle: a=BUSY b=GPU-IDLE c=GPU-IDLE; flags=2
-[2026-11-08 15:41] FLAG CLOCK-SKEW max=3996.1ms precision=+/-513.8ms -> check hub path or node clock
-[2026-11-08 15:41] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
-[2026-11-08 15:41] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
-[2026-11-08 15:41] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=3 run=1 lanejobs: a=0 b=0 c=1; idle: a=BUSY b=GPU-IDLE c=GPU-IDLE; flags=2
-[2026-11-08 15:51] FLAG CLOCK-SKEW max=4141.5ms precision=+/-419.9ms -> check hub path or node clock
-[2026-11-08 15:51] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
-[2026-11-08 15:51] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
-[2026-11-08 15:51] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=3 run=1 lanejobs: a=0 b=0 c=1; idle: a=BUSY b=GPU-IDLE c=GPU-IDLE; flags=2
-[2026-11-08 16:01] FLAG CLOCK-SKEW max=4184.1ms precision=+/-416.6ms -> check hub path or node clock
-[2026-11-08 16:01] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
-[2026-11-08 16:01] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
-[2026-11-08 16:01] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=3 run=1 lanejobs: a=0 b=0 c=1; idle: a=BUSY b=GPU-IDLE c=GPU-IDLE; flags=2
-[2026-11-08 16:11] FLAG CLOCK-SKEW max=4225.1ms precision=+/-418.7ms -> check hub path or node clock
-[2026-11-08 16:11] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
-[2026-11-08 16:11] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
-[2026-11-08 16:11] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
-[2026-11-08 16:11] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=3 run=1 lanejobs: a=0 b=0 c=1; idle: a=BUSY b=GPU-IDLE c=BLOCKED-RAM; flags=3
-[2026-11-08 16:21] FLAG CLOCK-SKEW max=4277.6ms precision=+/-418.9ms -> check hub path or node clock
-[2026-11-08 16:21] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
-[2026-11-08 16:21] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
-[2026-11-08 16:21] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=3 run=1 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=BUSY; flags=2
-[2026-11-08 16:31] FLAG CLOCK-SKEW max=4315.8ms precision=+/-418.3ms -> check hub path or node clock
+﻿[2026-11-08 16:31] FLAG CLOCK-SKEW max=4315.8ms precision=+/-418.3ms -> check hub path or node clock
 [2026-11-08 16:31] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
 [2026-11-08 16:31] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
 [2026-11-08 16:31] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=3 run=1 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=BUSY; flags=2
@@ -400,14 +320,101 @@
 [2026-11-10 00:21] pools: bm-a=1open/0exec/8run bm-b=0open/0exec/6run bm-c=0open/0exec/0run; queue_open=22 run=14 lanejobs: a=8 b=6 c=0; idle: a=GPU-IDLE b=BUSY c=GPU-IDLE; flags=2
 [2026-11-10 00:24] EVENT-SHIFT FINDING#3 | calls=40 | STARVED-EXEC bm-c 终判：车道文件 idle_reason=`CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (22.3h 零产出，唤醒清单空)`。**判据打架实锤**：停摆判据 `blocker_loop._node_last_output()` 只读 `cph4/fleet/state/remote-receipts/*.json`（本仓该目录 0 文件），而 `lane_trust.tier(bm-c)` 读 `queue-receipts` 显示 bm-c 最近回执=2026-11-10T00:03（20 分钟前）——同一事实两处判据互相矛盾，`lane_capacity()` 的 EXECUTOR-DEAD 分支据此对 bm-c **拒收全部新活**（含本该救它的内存解锁卡），形成「越没产出越不给活」自锁。另核：`/status` 对 bm-b/bm-c 均不返 wakes 字段，而 bm-b 正常领卡 ⇒ 「唤醒清单空」不是 bm-c 独有故障、不能作为拒收判据
 [2026-11-10 00:25] EVENT-SHIFT BOUNDARY | calls=41 | 该修法落在 `Tools/fleet/blocker_loop.py` 判据 + `master_agent.lane_capacity()`（调度正身·BLUEPRINT §九 受保护件）→ **本席只登记不改**（承 2026-11-09 03:47 判例同构）。建议单一判据源：零产出判定改为 `queue-receipts` 与 `state/remote-receipts` 取最新（或由 lane agent 统一写 remote-receipts）；EXECUTOR-DEAD 对 rescue 卡开放豁免，避免自锁。已入 INCIDENT-LEDGER 与 orders
-[2026-11-10 00:28] EVENT-SHIFT FIX(T1) | calls=52 | 判据修复落地（受保护四件未动）：`blocker_loop._node_last_output()` 改为 queue-receipts(node/ts) ∪ state/remote-receipts 取最新；`master_agent.lane_capacity()` 的 EXECUTOR-DEAD 分支对 `rescue` 卡豁免（与 RAM floor rescue 同法理）。commit 970310cab（两文件）+ 9e0b43c63（解锁卡 rescue=true）已入 origin
-[2026-11-10 00:34] EVENT-SHIFT BURNING | calls=54 | **自锁解除实证**：00:28:38 车道仍报 `EXECUTOR-DEAD (22.6h 零产出)` → 00:33:05 车道 idle_reason 清空且分派 3 张（asset-lib-face-dataset[cpu] / asset-lib-char-gen[gpu] / bmc-env-unblock[cpu]）→ 00:34:14 origin 上 bm-c（owner）RUNNING=3，为自媒体回执以来首次。本席本地闸验：`lane_capacity('bm-c')=(True,'ram 4.4/0.2 GB')`、`choose_lane=('bm-c','assigned')`
-[2026-11-10 00:40] EVENT-SHIFT CLOSE#2 | calls=56 | verdict=STARVED-EXEC bm-c 闭环（判据修复+解锁卡执行中，回执待 bm-c 推送，由 01:52 回访探针与本席 supervise 验收）；余旗均为本地滞后所致假旗，已随重同步消失。零新增重复派单。待验件=cph4/fleet/queue-receipts/bmc-env-unblock-2026-11-10.txt（判 UNBLOCKED/BLOCKED）
-[2026-11-10 00:49] EVENT-SHIFT DIAG | calls=30 | 三旗定性：①STARVED-EXEC bm-b=假红——旗面 pools 只统计 POOL.json（唯一 open=POOL-0010 被 CEO-PHYSICAL 锁死），而 origin 真队列此刻 bm-b 2RUN（claimed 00:32:21/00:40:49）+2OPEN、bm-c 3RUN+4OPEN、bm-a 3RUN；bm-c 的 00:21 旗已由上班 00:28-00:40 闭环。②CLOCK-SKEW max=1813ms=真偏（bm-a 本机 sc query w32time 亦 STOPPED，三机同型），需本机提权，多轮在册 waiting-CEO。③POOL-0010=CEO 物理件，零催办。
-[2026-11-10 00:49] EVENT-SHIFT FIX(T1) | calls=30 | 队列幻影供给两件转 BLOCKED（commit 7be9538cd·plumbing 追加零删行）：①VCORP-GEN-r1202-EP001-060-20261108——bm-a 实测 media/drama-tools/repos/index-tts/.venv/Scripts/python.exe 不存在，cmd 首句必 exit /b 3，卡自 11-08 OPEN 空转 2 日 → BLOCKED(missing-input:index-tts-venv@bm-a)；②PATROL-bighouse-20261109——cmd 空 + nodes=[] 结构性不可执行（人决件，按 R4-1 不入机器供给面）→ BLOCKED(human-decision)。POOL 追加 POOL-0027/0028 供 L0 重生成 NEED-JUDGMENT。改后 OPEN 6→4（真在飞未动）。
-[2026-11-10 00:49] EVENT-SHIFT BURNING | calls=30 | poke bm-b 00:43:58 accepted(v1.9.7) → 84 秒后 bm-b 认领 R-TRIAGE-BIGSTREAMMV-BMB-20261110（claimed 00:44:00），认领环活；/status 00:47:57 ram 12.5G/cpu 14 pct。bm-c /status 00:48:57 ram 2.9G/cpu 71 pct、HQ-ProductionClaim=Running。零重复 poke。
-[2026-11-10 00:49] EVENT-SHIFT FINDING(真根因) | calls=30 | 今夜三张卡的「空壳终态」有共同根因：bm-b fork ahead802/behind486、bm-c fork ahead216/behind3085 → 节点本地产出的回执推不回 origin → master_agent 的 deliverable 磁盘检查恒为空 → 写 UNVERIFIED/FAILED 且 rc/failure/error_class 全 null。实锚：asset-lib-face-dataset-2026-11-10(UNVERIFIED)、bmc-env-unblock-2026-11-10(FAILED)、R-TRIAGE-BIGSTREAMMV-BMB-20261110(FAILED)，三者 deliverable 在 origin tree 均 MISSING。R13-3/R16 同源，本班补上「分叉→假失败」这一环。修法只在各机本机（无远程通道）：git fetch origin && git reset --mixed origin/main（保留本地独有产物后）；零催办只登记，不据此重派卡（重跑仍推不回，属 churn）。
-[2026-11-10 00:49] EVENT-SHIFT CLOSE#1 | calls=30 | verdict=三旗全部定性完毕（假红 2 / 物理 1），实质动作=2 张幻影卡转 BLOCKED + 2 张 POOL 登记 + 1 次 poke 并实证认领环 BURNING；新增结构件=节点分叉致回执不可交付。零新派卡（真供给已够：OPEN 4 张分布 bm-b/bm-c）。回访探针 02:15 一次性 cron 在位。
-[2026-11-10 00:52] EVENT-SHIFT CHURN(承本班 R-EVT-2) | calls=33 | 00:47→00:51 四分钟内 RUNNING 6→1、FAILED 6→8、UNVERIFIED 13→14、bmc-env-unblock-2026-11-10 由 FAILED 被置回 OPEN：卡在「认领→跑完→回执推不回 origin→master 判空壳失败→重开」闭环里空转。这是分叉致回执不可交付的直接行为证据（非供给不足、非机器停摆）。处置=不重派不 poke（重跑仍推不回），等各机本机 git 收口后自然收敛；已入 DEADLINES R-EVT-2。
-[2026-11-10 01:44] PATROL ceo-proxy R28 | calls=34 | verdict=EVENT-2-FALSE-RED+1-TRUE-P1 | 触发 6 条（CLOCK-SKEW×4 + STARVED-EXEC bm-b×2；cph4 R27/fluxverse R57 已 snooze 同族）①CLOCK-SKEW=假读：A/B 直读 bm-b /health 得 ts=01:33:08 落在本地调用窗 [01:33:08.939, 01:33:09.999]（rtt 1060ms），bm-b 自测 offset=152.9ms，枢纽报 1174-1934ms 系 Tailscale relay 不对称（precision=RTT/2=399-431ms）；判据 |off|>2*rtt+20 在 relay 下无上界→永久常亮，真钟漂会被当噪音吞掉；提案=PROPOSAL-20261110-clock-skew-action-line.md（受保护件候 CEO 令，本席未改）②STARVED-EXEC bm-b=结构性假红：POOL.json 中 bm-b 9 卡全 done/closed（open=0 属实），但 origin 队列同刻有 OPEN R-NEXT-BIGSTREAMD-EVIDENCE-20261110（nodes=[bm-b] owner=bm-b needs=cpu），且 bm-b /status 自述 cyc_round=1590、card=E627 done、pool 3 ready、agenda_starved=false、ram_free 8.1G→机器在干活；提案 20261106-supply-metric 已立，本班只加第 4 次复发实锚（不重复立法）③真 P1=bm-b root clone 分叉锁死：head c5440101 不在 origin 任何 ref，自报 ahead 802/behind 486→lane 每轮 merge origin/main 撞 Tools/ 手写件冲突即 abort，新卡与新工具永远进不来（①②两条旗的共同底层）| 动作：poke bm-b（reason 含 enable-tasks，tasks=[HQ-ProductionClaim]，01:33:20 accepted；3 分钟后复探该卡仍 OPEN=未点火）+ 落 orders 行点名 @bm-b 就地执行 node_closeout（回执窗 90min·验收物 cph4/fleet/closeout-bm-b.json）| 零催办：POOL-0010 CEO 物理件维持在册 | 判例=供给旗必须同时读 POOL 与 origin 队列两源；relay 路径上的时钟读数必须用单机自证（A/B 直读 或 clock_offset_trusted）才可判漂
-[2026-11-10 02:30] PATROL ceo-proxy EVENT-SHIFT | calls~38 | verdict=????+P0???? | ?CLOCK-SKEW(2102ms)=???????(??????????CEO????) ?STARVED-EXEC bm-b=BURNING(CHK-ASSET 02:00:32 ???owner=bm-b) ?BLOCKED-RAM bm-c=02:04 ??(GPU-IDLE)?poke 02:17:22 accepted?02:19:52 ? 2 ? | ?????: (a)167+ ????? origin ? ??? origin ??? ? ? UNVERIFIED(?? d1b9c557f) (b)closer.receipt_ok ? 7 ?? JSON ???? ? ??????? ? STALL/FAILED ????(?? cd743ce22?10 ? UNVERIFIED/FAILED?DONE) (c)dispatcher $exec ?? POOL ????(? bigcompute NJ-R39-2????) | UNVERIFIED 16?4 ? FAILED 5?3 ? RUNNING 1?6(a3/b1/c2)
+[2026-11-10 00:31] FLAG CLOCK-SKEW max=1769.2ms precision=+/-747ms -> check hub path or node clock
+[2026-11-10 00:31] pools: bm-a=1open/0exec/3run bm-b=0open/0exec/2run bm-c=0open/0exec/3run; queue_open=17 run=8 lanejobs: a=3 b=2 c=3; idle: a=BUSY b=BUSY c=GPU-IDLE; flags=1
+
+[2026-11-10 00:45] PATROL fluxverse R56 | calls=46 (shell=44, rest read-only dedicated) | verdict=TRIGGER-ALL-OTHER-DOMAIN(SNOOZED 8)+IN-DOMAIN-3xP1-CARRIED(5th)+1-NEW-ROOT-CAUSE+RADAR-1-PASS | 8 条触发全为执行域行（EVENT-SHIFT 事件班 6+STARVED-EXEC bm-c 2），事件班 00:13/00:24 已自结案 → 零重测零 poke+snooze 8 条（清 5 过期）；雷达① PASS（Tick 00:36 rc=0·round end 00:39:19·panel 00:39:18/312,297B·snapshot 00:31:47·world-state promote 00:39:11·events 138/138 verified·节拍 5-7min）；② 内网地址=0 PASS·AIGC=0 低危待裁·无来源不发布 FAIL（panel L472/L507 仍含 sjs20）；③ M1 PASS 并勘正 R55（DESIGN L155 全判据已证=冻结态非缺件）④ events 同源 PASS（github 探针降级=匿名配额 0/60 噪声）；⑤ 48 包零催办 ⑥ 无新渲染面；新根因两条=P1-B 发布闸只扫 snapshot 不扫 panel（G5 假绿·screen 模式已含 sjs20）/P1-C statusface 冻结 84h（DevLoop 是唯一写手且让路后未复活）；NJ 4 条（3 升级+1 噪声建议）落 media/logs/patrol-fleet/fluxverse-shiftlog.md 候枢纽收
+[2026-11-10 00:51] FLAG CLOCK-SKEW max=1859ms precision=+/-432.5ms -> check hub path or node clock
+[2026-11-10 00:51] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
+[2026-11-10 00:51] pools: bm-a=1open/0exec/1run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=6 run=2 lanejobs: a=1 b=0 c=1; idle: a=BUSY b=BUSY c=GPU-IDLE; flags=2
+[2026-11-10 01:01] FLAG CLOCK-SKEW max=1899.2ms precision=+/-421.6ms -> check hub path or node clock
+[2026-11-10 01:01] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
+[2026-11-10 01:01] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
+[2026-11-10 01:01] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-11-10 01:01] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=6 run=1 lanejobs: a=0 b=0 c=1; idle: a=BUSY b=BUSY c=BLOCKED-RAM; flags=3
+
+[2026-11-10 01:09] PATROL biglife R28 | calls~22 (shell=10, rest read-only dedicated) | verdict=TRIGGER-ALL-OTHER-DOMAIN(SNOOZED 7行)+P0-CARRIED(第13日)+RADAR:1PASS/2PARTIAL-FAIL/2CARRIED/1NA+NEW-R28-1-behavior-skip-key | 事实=lives.json 10-28 04:58:02(308.0h)·ri/ 无 life 组·worktable DRAFT 未落盘·os-loop 每5min spawn headless 零产物(今日12轮)·poolgen 00:06 真写零消费·体征导出仅桶切换时刷新 | 零 poke/零派卡/零 commit/零 cloud；NJ 落 media/logs/patrol-fleet/NEED-JUDGMENT-biglife.md (R28)
+[2026-11-10 01:11] FLAG CLOCK-SKEW max=1934.1ms precision=+/-435.3ms -> check hub path or node clock
+[2026-11-10 01:11] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
+[2026-11-10 01:11] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
+[2026-11-10 01:11] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-11-10 01:11] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=6 run=1 lanejobs: a=0 b=0 c=1; idle: a=BUSY b=BUSY c=BLOCKED-RAM; flags=3
+[2026-11-10 01:2x] PATROL cph4 R27 | calls=26 (shell=24, dedicated=2) | verdict=IN-DOMAIN-4FINDINGS+1INFO+1PRECEDENT · 触发 5 条全他域→snooze+5（附失效条件） | P1=调研面**未在 LINE-REGISTRY 登记**（14 线无 research）→ supply 按 line 造卡=结构性零调研卡，断供 17.1d/waves 25.3d（承 R26-1 第4轮·ESCALATED） | P2=勘误 R26-2 假红（scan-biggame 34 行/scan-bigstream 44 行，四节齐→撤销打回；字面 grep 判据对全批 6 件实测命中 0=判据失效） | P2=law-registry 计数勘正（orders 107 次 vs 记 85；4 次提交均非记账）核心成立 | P3=knowledge-registry 27.5d 未复核 | INFO=origin 01:09:33 回补 OPEN=10 → STARVED-EXEC/SUPPLY-DRY 属瞬时真空已回补（bm-c 名下 4 张 asset 卡在册） | 判例=读 origin 队列必须 python+utf-8 严格解析（PowerShell 管道实测 1747 行误报 1437 bad；键名 state≠status） | NJ 5 条落 media/logs/patrol-fleet/NEED-JUDGMENT-cph4.md 候枢纽收
+
+[2026-11-10 01:20] PATROL fluxverse R57 | calls=26 (shell=26) | verdict=TRIGGER-ALL-OTHER-DOMAIN(SNOOZED 3)+IN-DOMAIN-3xP1-CARRIED(6th)+RADAR-1PASS-4CARRY+1-CHARTER-DRIFT | 3 条触发=本席 R56 行回声 1+STARVED-EXEC bm-b 00:51/01:01 共 2（bm-b 断供经 cph4 R27 实证=origin 01:09:33 回补 OPEN=10 的瞬时真空；本班复核队列 1747 行 0 解析失败，PS 管道 GBK 误报=已知判例不复述）→ 零重测零 poke+snooze 3（现 12 条） | 雷达① PASS：Tick round end 01:12:19，panel 01:12:18/312,452B·snapshot 01:12:15·world-state 01:12:11·events_verified=225(R56=138,+87)·节拍 5min；② 127.0.0.1=0 PASS·AIGC=0 低危待裁·无来源不发布 FAIL 第6轮(panel L472/L507 仍含 C:\Users\sjs20·pubgate G5 假绿复现)；③ M1 PASS 冻结态；④ events 同源 PASS；⑤ 48 包零催办；⑥ 无新渲染面 | 新勘误（非事故）：章程 §7① 所指『硅基生命元宇宙.html』全库 0 命中，第一入口已演进为 world-public/city-panel.html，建议枢纽勘正章程命名 | 观察级：residents.generate 单次超时·proof_soak age_h=294/drift=-32.7%·duty_late=4/5·panel roster 含 BG-* 脏行缺 bm-c | NJ 4 条（3 升级第6轮+1 观察建议）落 media/logs/patrol-fleet/fluxverse-shiftlog.md 候枢纽收
+[2026-11-10 01:21] FLAG CLOCK-SKEW max=1934.1ms precision=+/-399.3ms -> check hub path or node clock
+[2026-11-10 01:21] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
+[2026-11-10 01:21] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
+[2026-11-10 01:21] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=6 run=1 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=GPU-IDLE; flags=2
+[2026-11-10 01:31] FLAG CLOCK-SKEW max=1978.2ms precision=+/-431.1ms -> check hub path or node clock
+[2026-11-10 01:31] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
+[2026-11-10 01:31] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
+[2026-11-10 01:31] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-11-10 01:31] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=6 run=1 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=BUSY c=BLOCKED-RAM; flags=3
+[2026-11-10 01:41] FLAG CLOCK-SKEW max=2022.1ms precision=+/-432.4ms -> check hub path or node clock
+[2026-11-10 01:41] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
+[2026-11-10 01:41] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
+[2026-11-10 01:41] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=6 run=1 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=BUSY c=GPU-IDLE; flags=2
+[2026-11-10 01:48] PATROL bigcompute R39 | calls~17 | verdict=TRIGGER-IN-DOMAIN-REAL(续挂第6班)+NEW-P0-ROOT-CAUSE+RADAR-1PASS-1GAP-4CARRY | STARVED-EXEC bm-b 五连判真旗(不 snooze)；新根因①master_agent L283-291 主控 clone 判节点产物 → 假 UNVERIFIED 15 条(game-packs 01:25 在盘/01:32 判 false；voice-corpus 回执 OK 而队列 false) ⊕ ②dispatcher exec 只读 POOL 不计队列 → 在册卡 open_cards=0；NJ 续挂1+新立5 落 media/logs/patrol-fleet/NEED-JUDGMENT-bigcompute.md
+[2026-11-10 01:51] FLAG CLOCK-SKEW max=2067ms precision=+/-432.4ms -> check hub path or node clock
+[2026-11-10 01:51] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
+[2026-11-10 01:51] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
+[2026-11-10 01:51] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=6 run=1 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=GPU-IDLE; flags=2
+[2026-11-10 01:56] PATROL cph4 R28 | calls=17 (shell=12, dedicated=5) | verdict=IN-DOMAIN-3FINDINGS(2新1增量)+4CARRIED+1INFO · 触发 8 条全他域（STARVED-EXEC bm-b 五连已由 bigcompute R39 01:48 判真立根因→不 snooze 零重测；3 条收口行 snooze） | P2=必读三件实测 32.6KB>30KB 帽（勘正 R27-3 附核） | P2=能力册漏登 model_radar/blocker_loop | P3=⑤应用表判据假阴实证 2 例→47/61 FAIL 不成立 | CARRIED=调研线未登记(第5轮)+法熵账本断更≥21d+knowledge-registry 26.7d | NJ 4 条落 media/logs/patrol-fleet/NEED-JUDGMENT-cph4.md 候枢纽收
+
+[2026-11-10 02:01] FLAG CLOCK-SKEW max=2102.3ms precision=+/-429.1ms -> check hub path or node clock
+[2026-11-10 02:01] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
+[2026-11-10 02:01] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
+[2026-11-10 02:01] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-11-10 02:01] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=6 run=1 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=BLOCKED-RAM; flags=3
+
+[2026-11-10 02:05] PATROL fluxverse R58 | calls=20 (shell=19, dedicated=1) | verdict=TRIGGER-ALL-OTHER-DOMAIN(SNOOZED 7)+IN-DOMAIN-3xP1-CARRIED(7th)+1-NEW-EVIDENCE+RADAR-1PASS-4CARRY | 5 条触发全为执行域/回声（STARVED-EXEC bm-b 01:11/01:21 由 bigcompute R39 判真旗归他域 + cph4 R27 + 本席 R57 自身行）→ 零 poke 零重测 + snooze 7（明示非噪声）|| 雷达① PASS：round end 01:56:28、02:01:20 新轮成、panel 01:56:28/312,360B、snapshot 6,365B、world-state 133,858B、events_verified=330(+105)、tick 5min/gate_red 0/24 || ② 127.0.0.1=0·localhost=0·AIGC=0；**无来源不发布 FAIL 第7轮**（L472 SPARAM.root/L507 DUTY.path_rel 仍含 C:\Users\sjs20，pubgate G5 假绿第7轮）·本班实证修复未在飞（未提交改动仅 qdue_next_n 日志+template 21 行）|| ③ M1 冻结态 PASS（承）④ events 同源 PASS（github_events 探针 13 轮 degraded=噪声刷屏）⑤ 48 包 CEO 物理件零催办 ⑥ 无新渲染面/2D 零回流 || 新增证据：status-face 工作区版比 HEAD 新 36min 且未提交 → DevLoop 死在半轮（工作区脏：build-city-panel.ps1/template/queue/runbook/qa 图），复活前须先处置脏工作区 || 章程 §7① 命名勘误第2轮（实际载体=world-public/city-panel.html）|| NJ 5 条（3 升级第7轮+1 勘误+1 观察）落 media/logs/patrol-fleet/fluxverse-shiftlog.md
+[2026-11-10 02:05] SNOOZE fluxverse +7 (STARVED-EXEC bm-b x5 / cph4 R27 / R57 自身行) -> 19 条，全部 2026-11-11 02:05 到期
+[2026-11-10 02:11] FLAG CLOCK-SKEW max=2147.2ms precision=+/-419.5ms -> check hub path or node clock
+[2026-11-10 02:11] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
+[2026-11-10 02:11] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
+[2026-11-10 02:11] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=6 run=1 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=GPU-IDLE; flags=2
+[2026-11-10 02:21] FLAG CLOCK-SKEW max=2186.8ms precision=+/-419.5ms -> check hub path or node clock
+[2026-11-10 02:21] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
+[2026-11-10 02:21] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
+[2026-11-10 02:21] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-11-10 02:21] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=6 run=1 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=BUSY c=BLOCKED-RAM; flags=3
+
+[2026-11-10 02:22] PATROL bigcompute R40 | calls~13 (shell=7, tools=6) | verdict=TRIGGER-IN-DOMAIN(续挂第7班·定性改为SUPPLY-UNCLAIMED)+1勘正+2新P2+3CARRIED | bm-b 六连 STARVED-EXEC 判**读数假红非断供**：origin 队列 bm-b OPEN2(R-NEXT-BIGSTREAMD-EVIDENCE/R-PLAN-BIGSTREAMDRA)+RUNNING1(CHK-ASSET)，而 POOL28卡 bm-b open=0（POOL 本地 mtime 00:11:55 停更2.1h）+NEED-SUPPLY 亦不见 → 双源失明确认，处置=修领取非补卡 | 勘正 R39-1：blocker_loop 报缺5条逐条 Test-Path 全 False（判据有效），且 HQ-MasterAgent --root 与 fl.ROOT_DEFAULT 同源、FLUX_ROOT 未设 ⇒ **拦『以回执为准』修法**（回执无 rc/artifact_ok 字段，照改会造假绿），正法=补 judged_at/path/root 留痕 | 新 NJ-R40-3=blocker_loop Windows 缺 fcntl 致一类检测器恒崩；NJ-R40-4=卡闭DONE而产物不在盘 5 条真缺(4 条当日) | 雷达：②风险台账正身=compute/BigCompute/docs/risk-register.md(2.1h 新鲜,章程指向勘正)；④成本台账 103.2h 断档(第2轮)；⑤35B 计量 635.3h(第2轮)；①③非旗零催办 | snooze=0（真缺陷禁 snooze）| NJ 落 media/logs/patrol-fleet/NEED-JUDGMENT-bigcompute.md
+[2026-11-10 02:31] FLAG CLOCK-SKEW max=2239.3ms precision=+/-425.8ms -> check hub path or node clock
+[2026-11-10 02:31] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
+[2026-11-10 02:31] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
+[2026-11-10 02:31] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-11-10 02:31] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=6 run=1 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=BUSY c=BLOCKED-RAM; flags=3
+[2026-11-10 02:41] FLAG CLOCK-SKEW max=2279.4ms precision=+/-427ms -> check hub path or node clock
+[2026-11-10 02:41] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
+[2026-11-10 02:41] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
+[2026-11-10 02:41] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=6 run=1 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=GPU-IDLE; flags=2
+
+[2026-11-10 02:41] PATROL cph4 R29 | calls=30 (shell=28, dedicated=2) | verdict=TRIGGER-ALL-OTHER-DOMAIN(9/9·5 真旗归执行域不寝+3 回扣行 snoozed)+IN-DOMAIN-1P1NEW+1P2增量+1P3NEW+5CARRIED | P1 新=**十域巡视日预算 launch_cap_day=4 于 02:16-02:40 全数触顶（bigcompute/bigdomain/bigstream/biglife/cph4/bighouse/fluxverse 皆 4/4）→ 全天余 ~21h 仅告警无班**：carrier sig 拼接旗行原文含时间戳→360min 同签名去抖对复发旗永不生效，叠加 40min 去抖 → 4 班 160min 烧完；次生 sig 600 字截断仅容 5/9 条旗→SAMESIG-SKIP 误吞真新旗风险 | P2 勘正 R28-2 判据表（正身=cph4/README.md 非 AGENT-LIBRARY）→ 12 在役工具两表仅 master_agent 1 命中，缺口 2→11 条 | P3=`R-` 前缀双义致 ⑤ 假绿 + snooze 'x' 通配死条目（已就地修）| NJ 4 条落 media/logs/patrol-fleet/NEED-JUDGMENT-cph4.md 候枢纽收
+[2026-11-10 02:47] PATROL fluxverse R59 | calls=27 (shell=21, dedicated=6) | verdict=TRIGGER-ALL-OTHER-DOMAIN(8/8 snoozed)+IN-DOMAIN-3xP1-CARRIED(8th)+RADAR-1PASS-1FAIL-4CARRY+1NEW-BUDGET-CAP | radar-1 PASS(Tick 02:46:16 rounds=33 gate_red=0/33; panel 312,366B@02:46:16; events_verified=456 = R58+126) | radar-2 FAIL 8th(L472/L507 sjs20=3, pubgate G5 meta OK = false green) | P1-C statusface age_h=86 8th(dirty worktree 6->9 files, 4d untreated) | P1-A roster n=5 ids=BG-A,BG-B,BG-C,bm-a,bm-b missing bm-c; lanes source also stale(a 96min/b,c,m ~2h) | NEW R59-4 patrol launch_cap_day=4 exhausted at 02:40 -> no more fluxverse shift today | NEW R59-6 NJ ledger utf8/gbk mixed | NJ=cph4/fleet/dispatcher/PATROL-FLEET/fluxverse-NEED-JUDGMENT.md
+[2026-11-10 02:51] FLAG CLOCK-SKEW max=2319.4ms precision=+/-427ms -> check hub path or node clock
+[2026-11-10 02:51] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
+[2026-11-10 02:51] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
+[2026-11-10 02:51] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-11-10 02:51] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=6 run=1 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=BLOCKED-RAM; flags=3
+[2026-11-10 03:05] PATROL-CEO-PROXY event-shift R30 | calls=42 | verdict=EVENT-CLOSED-3ROOT/4FIX/1BLOCKED(deadlock registered)
+
+[2026-11-10 03:05] EVENT root#1 STARVED-EXEC bm-b (P1): 真因不是没活——R-NEXT-BIGSTREAMD-EVIDENCE-20261110 名下有卡，但 bm-b 侧 01:59 记 rc=0/0.1s 而交付物不在盘，verify_done 判 E-ARTIFACT 重开 3 次。深挖：bm-b 同类 0.1s 秒退回执写明「配置文件不存在 cph4\fleet\asset-lib-v1\ASSET-PROMPTS-v1.json」=> sparse cone 只物化 queue-receipts/lanes，数据面 cph4/fleet 不在锥内，脚本读不到配置即秒退。叠加 bm-b ahead702/behind428 分叉，ff-only 永拉不动。
+
+[2026-11-10 03:05] EVENT fix#1: bm-a 复跑 line_triage --line bigstream-drama rc=0，回执落盘 cph4/fleet/queue-receipts/triage-bigstream-drama-20261110.md（4 工段+判定+责任人）-> 卡置 DONE owner=bm-a。P1 饥饿解除（有产物，不是空转）。commit db9597d2a
+
+[2026-11-10 03:05] EVENT fix#2 (根治): Tools/fleet/agent.py pull() 增 ensure_sparse_cone()——cone 模式时幂等 sparse-checkout add cph4/fleet Tools/fleet，失败只记日志不阻断拉取。commit b187d4893
+
+[2026-11-10 03:05] EVENT fix#3 (根治): Tools/fleet/fleet_lane.py read_jsonl 按 id 收敛最后一条——主控脉每轮 merge 会把同 id 两边各写一行（本轮实测 dup=asset-lib-char-gen/asset-lib-asset-gen 各 2 行），清一次又长回来；读端容错后消费者不再重复派/重复核销。commit 887ff9cc2
+
+[2026-11-10 03:05] EVENT root#2 STARVED-EXEC bm-c (P1): asset-lib-asset-gen props/scenes 两张 P0 卡 retries=3 error_class=E-ROOTCAUSE-3X、progress_bytes=0、回执不落盘；bm-c ComfyUI 未起 + RAM 余量低 => asset_gen 必 rc=3。处置=两卡置 BLOCKED(blocked_by=missing-input:comfyui@bm-c)，停止空转吃槽位；解封=bm-c 起 127.0.0.1:8188 且 free RAM>=4G。同一队列内 asset-lib-char-gen bm-c 认领 02:54:31 仍在跑（保住）。
+
+[2026-11-10 03:05] EVENT root#3 CLOCK-SKEW (P2/物理件): CLOCK-SKEW.json 实测 hub bm-a offset=0，bm-b 1312.9ms / bm-c 2319.4ms（precision 414-427ms，判据 2*prec+20）=> 漂移在各节点不在 hub。clock_resync 实锚：DASHENG w32time=STOPPED，net start 被拒（需提权），rc=2147943462。处置=登记 waiting-CEO 物理件（各机提权启 w32time + resync），零催办；2.3s 漂移不阻断派单，仅影响回执时序判读。
+
+[2026-11-10 03:05] EVENT poke: bm-b /poke accepted=true (v1.9.7, ts 02:55:33, tasks HQ-ProductionClaim+Bigmoney-IterationLoop)。复探 02:59:45——尚无新回执/新 commit；因修复需 bm-b 先拉到 main 而它分叉 702 笔，ff-only 拉不动 => 修复到不了本机。**未验证 BURNING，如实记「未点火」**。+90min 回访探针已设。
+
+[2026-11-10 03:05] EVENT deadlock registered: bm-b 收口需本地执行 `git fetch && git reset --mixed origin/main && git checkout origin/main -- Tools cph4`（保留工作树 702 笔本地改动内容，仅丢本地提交链），无远程执行通道；按 2026-11-09 同族判例不动其他窗在写的 git。收口命令已留档于 DEADLINES 事件班节。
+
+[2026-11-10 03:05] EVENT origin 已核验: 三卡 DONE/BLOCKED/BLOCKED + char-gen RUNNING；origin/main 上 ensure_sparse_cone=True、read_jsonl dedupe=True；push e58d77987。队列文件内重复行由主控脉并发 merge 继续产生，读端已容错（不阻断）。
+
