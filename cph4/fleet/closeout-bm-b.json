@@ -1,0 +1,18 @@
+{
+ "node": "bm-b",
+ "ts": "2026-11-10T03:22:48",
+ "kind": "closeout",
+ "root": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
+ "rescue_branch": "salvage-auto-20261110-032101",
+ "ahead_before": 810,
+ "behind_before": 517,
+ "head_after": "542d6b49150d39996221d75ded5930af8c2927f7",
+ "origin_main": "542d6b49150d39996221d75ded5930af8c2927f7",
+ "fast_forward_ok": true,
+ "order_ref": "O-20261107-180106-609 / CEO-PROXY R28 row 2026-11-10 01:44",
+ "tool": "Tools/fleet/node_closeout.ps1 (origin blob, copied to .codely-cli/scratch so the stale tree is not touched)",
+ "delivered_ref": "machine/bm-b-r1649 @ 4d1812ab6403ff4f71d50806d28b8a15405ef726 (round 1649 E630)",
+ "files_restored_from_origin": 904,
+ "remaining_local_state": "527 modified tracked paths (data refresh) + 2903 untracked local products; none deleted",
+ "verify": "git -C <root> rev-list --left-right --count origin/main...HEAD -> 0 0"
+}
