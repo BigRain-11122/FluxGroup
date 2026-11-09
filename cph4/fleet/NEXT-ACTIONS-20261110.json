@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-10T03:33:03+0800",
+ "ts": "2026-11-10T03:39:42+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -12,9 +12,9 @@
    "accept": "char-gen 回执 made>0 且无 failed；图进 faces/<ID> 并过准入闸",
    "blocker_type": "ENGINE",
    "blocker": "打标质量门与当前素材不匹配：抽 20 张 0 通过（理由是「只命中 0-2 个可见属性，像空话」），需改提示词/判据；另有 458 张待打",
-   "state": "RUNNING",
-   "card": "asset-lib-face-dataset-2026-11-10",
-   "running_on": "bm-c"
+   "state": "QUEUED",
+   "card": "asset-lib-char-gen-2026-11-10",
+   "running_on": null
   },
   {
    "id": "biggame",
@@ -228,8 +228,8 @@
   }
  ],
  "counts": {
-  "RUNNING": 1,
-  "QUEUED": 1,
+  "RUNNING": 0,
+  "QUEUED": 2,
   "STALLED": 13
  },
  "stalled_engine": 6
