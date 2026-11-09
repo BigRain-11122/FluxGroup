@@ -2453,3 +2453,5 @@
 - 11-10T01:10 · asset-lib-voice-dataset-2026-11-10-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被拒收。
 - 11-10T01:10 · asset-lib-voice-dataset-2026-11-10-bm-m.json · 完成语音数据集审核，因缺授权声明且数据量不足导致任务失败。
 - 11-10T01:10 · asset-voice-2026-11-10.json · 机队未通过审核：因缺授权声明且数据量、时长及韵律指标均不达标。
+- 11-10T01:11 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
+- 11-10T01:11 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
