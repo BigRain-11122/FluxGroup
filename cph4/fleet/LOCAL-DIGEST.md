@@ -705,3 +705,13 @@
 - 11-09T21:19 · tts-qc-20261104.json · 因目录缺失导致音频文件数为零，任务被阻断且无风险。
 - 11-09T21:19 · triage-fleet-ops-20261107.md · ops-canary 工段因超阈停滞，需立即补产出或收线。
 - 11-09T21:19 · triage-asset-lib-20261107.md · 机队回执已完成线级体检与判定，当前无风险可继续推进。
+- 11-09T21:20 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
+- 11-09T21:20 · bigstream-mv-gate-2026-11-07-bm-c.json · 任务失败，因输入文件缺失导致处理中断。
+- 11-09T21:20 · asset-lib-voice-corpus-bmc-2026-11-07-bm-c.json · 已完成语音语料预处理，无风险。
+- 11-09T21:20 · asset-lib-env-check-2026-11-07-bm-c.json · 机队回执显示任务失败，因缺少 kohya sd-scripts、GPT-SoVITS 等依赖及资产目录缺失存在风险。
+- 11-09T21:20 · R-TRIAGE-RECON-BMC-20261107-bm-c.json · 已完成机队回执重构，无风险。
+- 11-09T21:20 · R-TRIAGE-FLUXVERSE-BMC-20261107-bm-c.json · 已完成 Fluxverse 机队回执，无风险。
+- 11-09T21:20 · R-TRIAGE-FLEETOPS-BMC-20261107-bm-c.json · 已完成机队回执生成，无风险。
+- 11-09T21:20 · R-TRIAGE-BIGSTREAMMV-BMC-20261107-bm-c.json · 已完成机队回执生成，无报错风险。
+- 11-09T21:20 · R-TRIAGE-BIGLIFE-BMC-20261107-bm-c.json · 已完成大飞机机队排查，无风险。
+- 11-09T21:20 · R-TRIAGE-ASSETLIB-BMC-20261107-bm-c.json · 已完成资产库机队排查，无风险。
