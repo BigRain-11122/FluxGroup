@@ -1575,3 +1575,13 @@
 - 11-09T23:05 · model-radar-bm-m-20261109.json · 已完成旧软著处理，因文档已封存且无风险可跳过。
 - 11-09T23:05 · loop-liveness-bm-b-20261109.json · 机队 14 节点中 3 个关键机制已失效，存在严重运行风险。
 - 11-09T23:05 · loop-liveness-bm-b-20261108.json · 机队 14 节点中 3 个关键机制已失效，存在严重运行风险。
+- 11-09T23:07 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
+- 11-09T23:07 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-09T23:07 · loop-liveness-bm-b-20261107.json · 完成回执提交，但存在 OS 投毒不吞车道及基线表缺失等风险。
+- 11-09T23:07 · loop-liveness-bm-b-20261106.json · 完成回执但“投毒不吞车道”机制失效，存在派单被冲掉及车道卡死风险。
+- 11-09T23:07 · bmb-selfheal-20261108.json · 机队已重启并启用索赔，当前无风险。
+- 11-09T23:07 · bigstream-mv-gate-2026-11-08-bm-b.json · 任务失败，因 Python 脚本路径缺失导致无法生成回执文件。
+- 11-09T23:07 · bigmoney-signal-2026-11-09-bm-b.json · 因输入缺失导致机队回执失败，任务未完成且存在阻塞风险。
+- 11-09T23:07 · bigmoney-signal-2026-11-08-bm-b.json · 因输入缺失导致任务失败，无风险。
+- 11-09T23:07 · bigmoney-conclusion-2026-11-08-bm-b.json · 任务执行失败，因输入文件缺失导致无风险。
+- 11-09T23:07 · biggame-accept-2026-11-08-bm-b.json · 机队质量检查失败，因缺少 game-packs 和 game-10s 包存在风险。
