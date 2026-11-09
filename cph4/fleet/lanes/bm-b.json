@@ -1,19 +1,19 @@
 {
  "node": "bm-b",
- "ts": "2026-11-09T23:04:06",
+ "ts": "2026-11-09T23:51:31",
  "jobs": [
   {
-   "id": "Q-VCORP-TRAIN-z03-R7-20261109",
-   "title": "音色微调·z03（aishell3 → SoVITS s2 → 权重）R7",
-   "cmd": "python C:/Fluxgroup/FleetAgent/Tools/voicebank/vb_train_card.py --voice aishell3-z03 --raw C:/Fluxgroup/FluxGroup/media/asset/inbox/z03 --receipt C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-train-z03-r7.json",
+   "id": "Q-VCORP-TRAIN-z04-R7-20261109",
+   "title": "音色微调·z04（aishell3 → SoVITS s2 → 权重）R7",
+   "cmd": "python C:/Fluxgroup/FleetAgent/Tools/voicebank/vb_train_card.py --voice aishell3-z04 --raw C:/Fluxgroup/FluxGroup/media/asset/inbox/z04 --receipt C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-train-z04-r7.json",
    "cwd": "C:/Fluxgroup/FleetAgent",
    "needs": "gpu",
-   "deliverable": "C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-train-z03-r7.json",
+   "deliverable": "C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-train-z04-r7.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
    "when_all": [
-    "C:/Fluxgroup/FluxGroup/media/asset/inbox/z03"
+    "C:/Fluxgroup/FluxGroup/media/asset/inbox/z04"
    ],
    "llm": null,
    "timeout_s": 14400
@@ -21,5 +21,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 6.2/1.0 GB"
+ "capacity_note": "ram 13.7/1.0 GB"
 }
