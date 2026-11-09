@@ -645,3 +645,13 @@
 - 11-09T21:11 · R-PLAN-BIGMONEY-20261104-bm-a.json · 已完成机队回执生成，无错误风险。
 - 11-09T21:11 · R-PLAN-BIGLIFE-20261105-bm-a.json · 已完成机队回执生成，无风险。
 - 11-09T21:11 · R-PLAN-BIGGAME-20261105-bm-a.json · 已完成机队回执生成，无风险。
+- 11-09T21:12 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-09T21:12 · R-PLAN-BIGCOMPUTE-20261105-bm-a.json · 已完成大计算机队回执，无风险。
+- 11-09T21:12 · R-NEXT-FLUXVERSE-CITY-STA-20261105-bm-a.json · 完成城市面清单生成，但存在 4 项受阻及 5 项未决风险。
+- 11-09T21:12 · R-NEXT-BIGGAME-SUBMIT-P-20261105-bm-a.json · 提交失败，因 35 款产品缺图标、截图等关键资产存在合规风险。
+- 11-09T21:12 · R-MODEL-RADAR-BMA-20261106-bm-a.json · 已完成机队雷达模型运行，无风险。
+- 11-09T21:12 · R-MODEL-RADAR-BMA-20261105-bm-a.json · 机队模型雷达任务在 bm-a 节点成功运行，无错误风险。
+- 11-09T21:12 · Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105-bm-a.json · 训练任务失败，因缺少必要文件导致卡片缺失。
+- 11-09T21:12 · Q-VCORP-PREP-z02-R4-20261105-bm-a.json · 任务失败，因缺少关键卡片与脚本文件存在风险。
+- 11-09T21:12 · Q-TRIAGE-RECON-20261105-bm-a.json · 已完成机队回执重构，无风险。
+- 11-09T21:12 · Q-TRIAGE-FLUXVERSE-20261105-bm-a.json · 已完成 Fluxverse 机队回执生成，无风险。
