@@ -2015,3 +2015,13 @@
 - 11-09T23:59 · mv-full-audit-20261101.json · 已完成机队回执，存在多处重复帧及模糊时段风险。
 - 11-09T23:59 · R-PLAN-FLUXVERSE-20261102-bm-a.json · 已完成 Fluxverse 机队回执生成，无报错风险。
 - 11-09T23:59 · R-NEXT-BIGSTREAMM-AUDIT-20261101-bm-a.json · 已完成全量审计任务，无风险。
+- 11-10T00:00 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-10T00:00 · _last_lane_bm-m.json · 已完成雷达模型训练任务，无风险。
+- 11-10T00:00 · R-MODEL-RADAR-BMM-20261110-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
+- 11-10T00:00 · R-TRIAGE-BIGGAME-BMM-20261110-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物。
+- 11-10T00:00 · R-MODEL-RADAR-BMC-20261110-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
+- 11-10T00:00 · R-TRIAGE-BIGGAME-BMM-20261110-bm-m.json · 已完成机队回执生成，无风险。
+- 11-10T00:00 · R-MODEL-RADAR-BMC-20261110-bm-m.json · 已完成机队雷达模型运行，无风险。
+- 11-10T00:00 · R-MODEL-RADAR-BMM-20261110-bm-m.json · 已完成机队回执生成，无风险。
+- 11-10T00:00 · model-radar-bm-m-20261110.json · 机队因队列运行被跳过，无风险。
+- 11-10T00:00 · model-radar-bm-c-20261110.json · 机队已跳过闲置状态，因队列运行无风险。
