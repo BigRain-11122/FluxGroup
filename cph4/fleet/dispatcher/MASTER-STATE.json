@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-09T19:32:52",
- "cycle": 48,
+ "ts": "2026-11-09T19:34:16",
+ "cycle": 49,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-09T19:32:52",
+ "master_tick_ts": "2026-11-09T19:34:16",
  "queue": {
   "total": 1657,
   "open": 4,
@@ -14,10 +14,10 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 37.8,
-   "cpu_load_pct": 71,
-   "ram_free_gb": 48.3,
-   "gpu_util_pct": 16,
+   "hb_age_s": 2.5,
+   "cpu_load_pct": 72,
+   "ram_free_gb": 48,
+   "gpu_util_pct": 17,
    "job": "R-19.9-PACKAGE-20261109",
    "last_result": null,
    "idle_confirmed": false,
@@ -26,10 +26,10 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 5.1,
-   "cpu_load_pct": 19,
-   "ram_free_gb": 8.1,
-   "gpu_util_pct": 95,
+   "hb_age_s": 83.7,
+   "cpu_load_pct": 9,
+   "ram_free_gb": 7.6,
+   "gpu_util_pct": 1,
    "job": "CEOQ-0364030d5b",
    "last_result": null,
    "idle_confirmed": false,
@@ -38,7 +38,7 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 34.3,
+   "hb_age_s": 119.1,
    "cpu_load_pct": 21,
    "ram_free_gb": 3.6,
    "gpu_util_pct": 2,
@@ -53,14 +53,14 @@
     "elapsed_s": null
    },
    "idle_confirmed": true,
-   "idle_reason": "CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (17.6h 零产出，唤醒清单空)",
-   "idle_rounds": 75
+   "idle_reason": "CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (17.7h 零产出，唤醒清单空)",
+   "idle_rounds": 76
   },
   "bm-m": {
    "online": true,
    "hb_age_s": 1.5,
-   "cpu_load_pct": 7,
-   "ram_free_gb": 11.6,
+   "cpu_load_pct": 8,
+   "ram_free_gb": 11.0,
    "gpu_util_pct": null,
    "job": "R-MV-RELEASE-PACK-20261109",
    "last_result": null,
@@ -72,7 +72,7 @@
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
-  "bm-c": 75,
+  "bm-c": 76,
   "bm-m": 0
  },
  "lines": {
@@ -815,9 +815,11 @@
  "supply_added": [],
  "events": [],
  "violations": [
-  "bm-c IDLE-CONFIRMED x75 (CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (17.6)",
+  "bm-c IDLE-CONFIRMED x76 (CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (17.7)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
- "lane_files_written": []
+ "lane_files_written": [
+  "bm-c"
+ ]
 }
