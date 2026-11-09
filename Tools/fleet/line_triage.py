@@ -58,6 +58,27 @@ def resolve_evidence(e):
     return None, "missing"
 
 
+def write_report(rows, line_id, node):
+    """Always write the declared deliverable, whatever the verdict.
+
+    2026-11-10 event shift: the two early returns below (no LINE-REGISTRY, unknown
+    line) printed a message and returned 2 without writing anything. A card whose
+    whole purpose is "produce evidence" then had no artifact at all, so the lane's
+    contract check booked it FAILED with nothing a reader could inspect - and the
+    starvation fallback that issues these cards could never come back green on a box
+    whose checkout lacks the registry. A report saying "this box cannot see the line"
+    IS the evidence; silence is not.
+    """
+    os.makedirs(OUT_DIR, exist_ok=True)
+    _suffix = ("-%s" % node) if node else ""
+    path = os.path.join(OUT_DIR, "triage-%s%s-%s.md"
+                        % (line_id or "unknown", _suffix, datetime.now().strftime("%Y%m%d")))
+    with open(path, "w", encoding="utf-8") as f:
+        f.write("\n".join(rows) + "\n")
+    print("[triage] %s -> %s" % (line_id, os.path.relpath(path, ROOT)))
+    return path
+
+
 def main() -> int:
     args = sys.argv[1:]
     line_id = args[args.index("--line") + 1] if "--line" in args else ""
@@ -67,13 +88,29 @@ def main() -> int:
         return 2
     try:
         reg = json.load(open(REG, encoding="utf-8"))
-    except Exception:
-        print("no LINE-REGISTRY")
-        return 2
+    except Exception as e:
+        write_report(["# 线级体检 %s · %s" % (line_id, datetime.now().strftime("%Y-%m-%d %H:%M")),
+                      "",
+                      "## 判定",
+                      "- 本机读不到 LINE-REGISTRY（%s）：本机没有这条线的登记面，"
+                      "不是「线无产出」" % e,
+                      "",
+                      "## 下一步（按缺口）",
+                      "- 在持有仓库的机器上执行本卡；本机只作为「不归本机」的证据"],
+                     line_id, node)
+        return 0
     line = next((l for l in reg.get("lines") or [] if l.get("id") == line_id), None)
     if not line:
-        print("unknown line %s" % line_id)
-        return 2
+        known = "、".join(l.get("id") or "?" for l in (reg.get("lines") or [])[:12])
+        write_report(["# 线级体检 %s · %s" % (line_id, datetime.now().strftime("%Y-%m-%d %H:%M")),
+                      "",
+                      "## 判定",
+                      "- LINE-REGISTRY 里没有 id=%s 这条线（已登记：%s）" % (line_id, known),
+                      "",
+                      "## 下一步（按缺口）",
+                      "- 更正卡里的 --line 值，或先在 LINE-REGISTRY 登记该线（责任人=主控）"],
+                     line_id, node)
+        return 0
 
     rows = ["# 线级体检 %s · %s" % (line_id, datetime.now().strftime("%Y-%m-%d %H:%M")), ""]
     missing, offnode, newest_all, stage_ages = [], [], 0.0, []
@@ -148,13 +185,7 @@ def main() -> int:
         acts.append("- 产出正常：按工段顺序继续，主控不再介入")
     rows += acts[:3]
 
-    os.makedirs(OUT_DIR, exist_ok=True)
-    _suffix = ("-%s" % node) if node else ""
-    path = os.path.join(OUT_DIR, "triage-%s%s-%s.md"
-                        % (line_id, _suffix, datetime.now().strftime("%Y%m%d")))
-    with open(path, "w", encoding="utf-8") as f:
-        f.write("\n".join(rows) + "\n")
-    print("[triage] %s -> %s" % (line_id, os.path.relpath(path, ROOT)))
+    write_report(rows, line_id, node)
     return 0
 
 
