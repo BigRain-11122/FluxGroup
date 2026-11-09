@@ -11,7 +11,7 @@
  "error_class": "E-BLOCKED-INPUT",
  "deliverable": "cph4/fleet/queue-receipts/bmc-env-unblock-2026-11-10.txt",
  "deliverable_exists": false,
- "ts": "2026-11-10T00:43:12",
- "stdout_tail": "bmc_env_unblock receipt\nmode=APPLY\nram_before_gb=3.50 (src=K:\\Fluxgroup\\FluxGroup\\gaming\\MiniGame\\Design\\configs\\GLOBAL\\fleet\\c.json)\nram_after_gb=3.50\nram_gate_gb=4.00\ncomfy=COMFY-UP http=200\nverdict=BLOCKED\n== free_mem output ==\n[free] RAM available 1.0 GB | candidates 20\n       protected (never touched): python.exe 2388MB, python.exe 2152MB\n   - msedge (844 MB)\n   - msedge (682 MB)\n   - msedge (650 MB)\n   - msedge (643 MB)\n   - WeChat (636 MB)\n   - msedge (613 MB)\n   - msedge (583 MB)\n   - msedge (575 MB)\n[free] RAM available after 0.9 GB\n\n",
+ "ts": "2026-11-10T00:52:40",
+ "stdout_tail": "bmc_env_unblock receipt\nmode=APPLY\nram_before_gb=3.50 (src=K:\\Fluxgroup\\FluxGroup\\gaming\\MiniGame\\Design\\configs\\GLOBAL\\fleet\\c.json)\nram_after_gb=3.50\nram_gate_gb=4.00\ncomfy=COMFY-UP http=200\nverdict=BLOCKED\n== free_mem output ==\n[free] RAM available 0.2 GB | candidates 19\n       protected (never touched): python.exe 1683MB, python.exe 1410MB, python.exe 1171MB\n   - msedge (843 MB)\n   - msedge (681 MB)\n   - msedge (653 MB)\n   - msedge (643 MB)\n   - WeChat (635 MB)\n   - msedge (612 MB)\n   - msedge (583 MB)\n   - msedge (575 MB)\n[free] RAM available after 0.9 GB\n\n",
  "stderr_tail": ""
 }
