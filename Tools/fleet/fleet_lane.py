@@ -258,7 +258,20 @@ def read_jsonl(path):
                 rows.append(json.loads(line))
             except Exception:
                 continue
-    return rows
+    # 2026-11-10 CEO-PROXY 事件班：共享队列在并发 merge 时会被并集写入同 id 两行
+    # （主控脉每轮 merge 都可能再引入，清一次又长回来）。读端按 id 收敛为最后一条、
+    # 位置取首次出现，让重复行对全体消费者无害；写端仍走 merge_jsonl 的 collapse。
+    index = {}
+    out = []
+    for r in rows:
+        if isinstance(r, dict) and r.get("id") is not None:
+            k = r["id"]
+            if k in index:
+                out[index[k]] = r
+                continue
+            index[k] = len(out)
+        out.append(r)
+    return out
 
 
 def _atomic_tmp(path):
