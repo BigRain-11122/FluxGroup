@@ -1175,3 +1175,13 @@
 - 11-09T22:17 · Q-VCORP-PREP-e01-R3-20261105-bm-b.json · 已完成语音语料预处理，无风险。
 - 11-09T22:17 · Q-VCORP-PREP-e01-R3-20261105-bm-a.json · 任务失败，因 Python 脚本路径错误导致文件无法打开。
 - 11-09T22:17 · Q-VCORP-PREP-e01-20261104-bm-b.json · 任务因输入缺失失败，存在阻塞风险。
+- 11-09T22:18 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-09T22:18 · skill-promote-20261109.json · 已跳过多项因工具缺失或重复的任务，当前无风险。
+- 11-09T22:18 · Q-TRIAGE-RECON-20261104-bm-c.json · 已完成机队回执重构，无风险。
+- 11-09T22:18 · Q-TRIAGE-BIGSTREAMMV-20261104-bm-c.json · 已完成机队回执生成，无风险。
+- 11-09T22:18 · Q-TRIAGE-BIGMONEY-20261104-bm-b.json · 已完成机队回执生成，无风险。
+- 11-09T22:18 · Q-PLATFORM-PACK-SAMPLE-R3-20261105-bm-b.json · 机队回执显示任务完成，但存在部分包处理失败的潜在风险。
+- 11-09T22:18 · Q-MV-ANCHOR-ALBUM-41of41-bm-a.json · 机队完成 41 首歌曲全流程，因资源限制仅处理部分曲目且存在歌词来源偏差风险。
+- 11-09T22:18 · Q-FACE-BOARD-BMC-20261104-bm-c.json · 任务因关键脚本缺失而失败，存在执行中断风险。
+- 11-09T22:18 · PROBE-BMB-AUDIOQC-20261104-bm-c.json · 已完成音频质检任务，无风险。
+- 11-09T22:18 · PROBE-BMB-AUDIOQC-20261104-bm-b.json · 任务因输入目录缺失而失败，无风险。
