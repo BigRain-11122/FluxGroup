@@ -2580,3 +2580,13 @@
 - 11-10T02:16 · game-packs-2026-11-10.json · 机队回执显示任务完成，但部分文件修改时间久远存在潜在风险。
 - 11-10T02:16 · bigstream-mv-gate-2026-11-10-bm-a.json · 任务失败，因 FFmpeg 调用错误导致回执文件未生成。
 - 11-10T02:16 · bigstream-mv-gate-2026-11-10-acceptance.json · 机队回执失败，因产物未落盘导致无风险。
+- 11-10T02:17 · _last_lane_bm-m.json · 机队已自派完成回单扫描，无风险。
+- 11-10T02:17 · biggame-pack-scan-2026-11-10-bm-a.json · 已完成机队回执扫描，无风险。
+- 11-10T02:17 · biggame-pack-scan-2026-11-10-acceptance.json · 完成机队回执提交，但被拒收因交付物非标准产物。
+- 11-10T02:17 · asset-lib-voice-corpus-2026-11-10-bm-a.json · 机队任务已完成，无风险。
+- 11-10T02:17 · asset-lib-voice-corpus-2026-11-10-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物，无风险。
+- 11-10T02:17 · R-TRIAGE-FLUXVERSE-BMA-20261110-bm-a.json · 已完成机队回执生成，无风险。
+- 11-10T02:17 · R-TRIAGE-FLUXVERSE-BMA-20261110-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
+- 11-10T02:17 · R-TRIAGE-FLUXVERSE-BMA-20261109-bm-a.json · 已完成机队回执生成，无风险。
+- 11-10T02:17 · R-TRIAGE-FLUXVERSE-BMA-20261109-acceptance.json · 机队回执已生成但被拒收，因内容非标准交付物且无风险。
+- 11-10T02:17 · R-TRIAGE-BIGSTREAMMV-BMA-20261110-bm-a.json · 已完成机队回执生成，无风险。
