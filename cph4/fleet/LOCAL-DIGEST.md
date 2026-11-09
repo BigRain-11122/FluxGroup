@@ -1365,3 +1365,13 @@
 - 11-09T22:40 · R-NEXT-BIGSTREAMM-AUDIT-20261107-bm-m.json · 脚本执行失败，因缺少 cv2 模块导致任务未完成且存在运行风险。
 - 11-09T22:40 · R-PLAN-BIGCOMPUTE-20261107-bm-m.json · 已完成大计算机队回执，无风险。
 - 11-09T22:40 · R-MODEL-RADAR-BMA-20261107-bm-m.json · 已完成雷达模型运行，因当日已执行而跳过，无风险。
+- 11-09T22:41 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
+- 11-09T22:41 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
+- 11-09T22:41 · model-radar-bm-a-20261107.json · 今日机队回执已跳过，因当日已运行，无风险。
+- 11-09T22:41 · R-TRIAGE-BIGSTREAMMV-BMC-20261107-bm-m.json · 已完成机队回执任务，无风险。
+- 11-09T22:41 · R-TRIAGE-BIGMONEY-BMM-20261107-bm-m.json · 已完成机队回执生成，无风险。
+- 11-09T22:41 · Q-TRIAGE-FLUXVERSE-20261107-bm-m.json · 已完成机队回执生成，无风险。
+- 11-09T22:41 · R-PLAN-BIGLIFE-20261107-bm-m.json · 已完成机队回执生成，无风险。
+- 11-09T22:41 · R-TRIAGE-BIGGAME-BMM-20261107-bm-m.json · 已完成大游戏机队回执生成，无错误风险。
+- 11-09T22:41 · inference-audit-bm-m-20261107.json · 机队运行正常，但存在 OLLAMA_NUM_PARALLEL 配置错误风险。
+- 11-09T22:41 · biz-car-gaming-20261107.json · 已完成车机游戏任务，无风险。
