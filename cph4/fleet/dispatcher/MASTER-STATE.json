@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-10T02:12:33",
- "cycle": 293,
+ "ts": "2026-11-10T02:13:50",
+ "cycle": 294,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-10T02:12:33",
+ "master_tick_ts": "2026-11-10T02:13:50",
  "queue": {
   "total": 1751,
   "open": 5,
@@ -14,10 +14,10 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 19.4,
-   "cpu_load_pct": 71,
-   "ram_free_gb": 40.5,
-   "gpu_util_pct": 91,
+   "hb_age_s": 35.9,
+   "cpu_load_pct": 83,
+   "ram_free_gb": 39.6,
+   "gpu_util_pct": 48,
    "job": "R-NEXT-BIGSTREAMM-REBUILD-20261110",
    "last_result": {
     "job": "asset-lib-voice-corpus-2026-11-10",
@@ -34,16 +34,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 41.8,
-   "cpu_load_pct": 51,
-   "ram_free_gb": 6.2,
-   "gpu_util_pct": 26,
+   "hb_age_s": 12.6,
+   "cpu_load_pct": 48,
+   "ram_free_gb": 4.8,
+   "gpu_util_pct": 20,
    "job": "CHK-ASSET-20261110",
    "last_result": {
     "job": "CHK-ASSET-20261110",
     "state": "OS-MISMATCH",
     "rc": null,
-    "ts": "2026-11-10T02:11:41",
+    "ts": "2026-11-10T02:13:42",
     "reason": "dispatched job requires a different OS",
     "out_bytes": null,
     "elapsed_s": null
@@ -54,10 +54,10 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 23.4,
-   "cpu_load_pct": 19,
-   "ram_free_gb": 1.7,
-   "gpu_util_pct": 0,
+   "hb_age_s": 20.1,
+   "cpu_load_pct": 21,
+   "ram_free_gb": 2.4,
+   "gpu_util_pct": 1,
    "job": "asset-lib-asset-gen-2026-11-10",
    "last_result": {
     "job": "asset-lib-face-dataset-2026-11-10",
@@ -74,30 +74,30 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 1.4,
-   "cpu_load_pct": 14,
-   "ram_free_gb": 11.2,
+   "hb_age_s": 1.5,
+   "cpu_load_pct": 15,
+   "ram_free_gb": 11.8,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-10T02:12:00",
+    "ts": "2026-11-10T02:13:00",
     "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 32
+   "idle_rounds": 33
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 32
+  "bm-m": 33
  },
  "lines": {
   "bigstream-mv": {
@@ -312,7 +312,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "WAITING",
-     "age_h": 10.8,
+     "age_h": 11.0,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -323,7 +323,7 @@
      "model": "local-gpu",
      "lane": "bm-c",
      "verdict": "WAITING",
-     "age_h": 10.8,
+     "age_h": 11.0,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -345,7 +345,7 @@
      "model": "none",
      "lane": "bm-a",
      "verdict": "WAITING",
-     "age_h": 10.8,
+     "age_h": 11.0,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -367,7 +367,7 @@
      "model": "none",
      "lane": null,
      "verdict": "WAITING",
-     "age_h": 51.6,
+     "age_h": 51.8,
      "limit_h": 9999.0,
      "jobs": []
     }
@@ -383,7 +383,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "PARKED",
-     "age_h": 2.0,
+     "age_h": 2.2,
      "limit_h": 48.0,
      "jobs": []
     },
@@ -432,7 +432,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "PARKED",
-     "age_h": 247.3,
+     "age_h": 247.5,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -443,7 +443,7 @@
      "model": "local-gpu",
      "lane": "bm-c",
      "verdict": "PARKED",
-     "age_h": 247.3,
+     "age_h": 247.5,
      "limit_h": 72.0,
      "jobs": []
     }
@@ -459,7 +459,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "PARKED",
-     "age_h": 180.9,
+     "age_h": 181.1,
      "limit_h": 168.0,
      "jobs": []
     },
@@ -470,7 +470,7 @@
      "model": "none",
      "lane": "bm-a",
      "verdict": "PARKED",
-     "age_h": 247.3,
+     "age_h": 247.5,
      "limit_h": 168.0,
      "jobs": []
     }
@@ -484,7 +484,7 @@
     "model": "cloud-smart",
     "lane": null,
     "verdict": "STALLED",
-    "age_h": 152.7,
+    "age_h": 152.9,
     "limit_h": 24.0,
     "jobs": []
    },
@@ -496,7 +496,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "STALLED",
-     "age_h": 152.7,
+     "age_h": 152.9,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -570,7 +570,7 @@
     "model": "none",
     "lane": "bm-b",
     "verdict": "STALLED",
-    "age_h": 134.0,
+    "age_h": 134.2,
     "limit_h": 24.0,
     "jobs": []
    },
@@ -582,7 +582,7 @@
      "model": "none",
      "lane": "bm-b",
      "verdict": "STALLED",
-     "age_h": 134.0,
+     "age_h": 134.2,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -717,7 +717,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "PARKED",
-     "age_h": 174.1,
+     "age_h": 174.3,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -744,7 +744,7 @@
      "model": "none",
      "lane": "bm-a",
      "verdict": "WAITING",
-     "age_h": 61.4,
+     "age_h": 61.6,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -755,7 +755,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "WAITING",
-     "age_h": 61.4,
+     "age_h": 61.6,
      "limit_h": 72.0,
      "jobs": []
     }
@@ -771,7 +771,7 @@
      "model": "none",
      "lane": null,
      "verdict": "WAITING",
-     "age_h": 0.6,
+     "age_h": 0.8,
      "limit_h": 24.0,
      "jobs": []
     }
@@ -787,7 +787,7 @@
      "model": "rule",
      "lane": "bm-c",
      "verdict": "WAITING",
-     "age_h": 9.5,
+     "age_h": 9.7,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -809,7 +809,7 @@
      "model": "local-gpu",
      "lane": "bm-c",
      "verdict": "WAITING",
-     "age_h": 9.5,
+     "age_h": 9.7,
      "limit_h": 72.0,
      "jobs": []
     }
@@ -841,7 +841,7 @@
  "supply_added": [],
  "events": [],
  "violations": [
-  "bm-m IDLE-CONFIRMED x32 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-m IDLE-CONFIRMED x33 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
