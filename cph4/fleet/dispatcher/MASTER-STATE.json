@@ -1,23 +1,23 @@
 {
- "ts": "2026-11-10T07:42:54",
- "cycle": 528,
+ "ts": "2026-11-10T07:44:34",
+ "cycle": 529,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-10T07:42:54",
+ "master_tick_ts": "2026-11-10T07:44:34",
  "queue": {
-  "total": 1768,
+  "total": 1767,
   "open": 1,
-  "running": 1,
+  "running": 0,
   "done": 617,
   "failed": 2
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 40.9,
-   "cpu_load_pct": 45,
-   "ram_free_gb": 41.5,
-   "gpu_util_pct": 62,
+   "hb_age_s": 20.8,
+   "cpu_load_pct": 40,
+   "ram_free_gb": 43,
+   "gpu_util_pct": 90,
    "job": null,
    "last_result": {
     "job": null,
@@ -30,73 +30,73 @@
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 2
+   "idle_rounds": 3
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 2.4,
-   "cpu_load_pct": 24,
-   "ram_free_gb": 8.7,
+   "hb_age_s": 39.7,
+   "cpu_load_pct": 19,
+   "ram_free_gb": 11.8,
    "gpu_util_pct": 1,
-   "job": null,
-   "last_result": {
-    "job": "PROBE-BMB-TOOLCHAIN-20261110",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-10T07:42:43",
-    "reason": null,
-    "out_bytes": null,
-    "elapsed_s": null
-   },
-   "idle_confirmed": false,
-   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 0
-  },
-  "bm-c": {
-   "online": true,
-   "hb_age_s": 28.1,
-   "cpu_load_pct": 20,
-   "ram_free_gb": 2.0,
-   "gpu_util_pct": 0,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-10T07:42:31",
+    "ts": "2026-11-10T07:44:23",
     "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 26
+   "idle_rounds": 1
+  },
+  "bm-c": {
+   "online": true,
+   "hb_age_s": 6.7,
+   "cpu_load_pct": 13,
+   "ram_free_gb": 1.1,
+   "gpu_util_pct": 0,
+   "job": null,
+   "last_result": {
+    "job": null,
+    "state": "IDLE",
+    "rc": null,
+    "ts": "2026-11-10T07:43:39",
+    "reason": "SELF-DISPATCH: lane scans its own backlog",
+    "out_bytes": null,
+    "elapsed_s": null
+   },
+   "idle_confirmed": true,
+   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+   "idle_rounds": 27
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 1.9,
-   "cpu_load_pct": 17,
-   "ram_free_gb": 11.5,
+   "hb_age_s": 1.5,
+   "cpu_load_pct": 6,
+   "ram_free_gb": 13.0,
    "gpu_util_pct": null,
-   "job": "CANARY-20261110T074253",
+   "job": null,
    "last_result": {
     "job": "CANARY-20261110T074253",
-    "state": "RUNNING",
-    "rc": null,
-    "ts": "2026-11-10T07:42:54",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-10T07:44:00",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": false,
-   "idle_reason": "",
+   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
    "idle_rounds": 0
   }
  },
  "idle_rounds": {
-  "bm-a": 2,
-  "bm-b": 0,
-  "bm-c": 26,
+  "bm-a": 3,
+  "bm-b": 1,
+  "bm-c": 27,
   "bm-m": 0
  },
  "lines": {
@@ -265,14 +265,12 @@
   "fleet-ops": {
    "name": "机队运维·端到端自检（平台服务线）",
    "status": "ACTIVE",
-   "verdict": "WORKING",
+   "verdict": "WAITING",
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
-   "jobs": [
-    "CANARY-20261110T074253"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": null
   },
@@ -827,12 +825,10 @@
   "gpu": 0
  },
  "supply_added": [],
- "events": [
-  "CANARY-20261110T074253 -> bm-m (cpu)"
- ],
+ "events": [],
  "violations": [
-  "bm-a IDLE-CONFIRMED x2 (SELF-DISPATCH: lane scans its own backlo)",
-  "bm-c IDLE-CONFIRMED x26 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-a IDLE-CONFIRMED x3 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-c IDLE-CONFIRMED x27 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
