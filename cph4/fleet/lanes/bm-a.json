@@ -1,8 +1,51 @@
 {
  "node": "bm-a",
- "ts": "2026-11-10T02:41:32",
- "jobs": [],
- "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+ "ts": "2026-11-10T02:44:35",
+ "jobs": [
+  {
+   "id": "MV-DIRECTOR-PACKET-20261109",
+   "title": "导演席拉片包：KN 复核卷一页卷（成片+闸+证据+签字位）",
+   "cmd": "python Tools/fleet/review_packet.py --line kn --root .",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/review-packet-kn-20261109.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "R-TRIAGE-BIGDOMAIN-BMA-20261110",
+   "title": "BigDomain·硅基域商业化 线证据扫描（bm-a 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line bigdomain --node bm-a",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigdomain-bm-a-20261110.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "R-TRIAGE-BIGCOMPUTE-BMA-20261110",
+   "title": "BigCompute·硅基算力 线证据扫描（bm-a 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line bigcompute --node bm-a",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigcompute-bm-a-20261110.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  }
+ ],
+ "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 44.6/1.0 GB"
+ "capacity_note": "ram 46.1/1.0 GB"
 }
