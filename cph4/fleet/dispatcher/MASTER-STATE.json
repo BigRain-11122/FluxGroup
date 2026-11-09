@@ -1,22 +1,22 @@
 {
- "ts": "2026-11-10T00:10:44",
- "cycle": 205,
+ "ts": "2026-11-10T00:12:10",
+ "cycle": 206,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-10T00:10:44",
+ "master_tick_ts": "2026-11-10T00:12:10",
  "queue": {
   "total": 1737,
   "open": 20,
-  "running": 19,
-  "done": 593,
+  "running": 18,
+  "done": 594,
   "failed": 5
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 28.3,
-   "cpu_load_pct": 72,
-   "ram_free_gb": 49,
+   "hb_age_s": 56.1,
+   "cpu_load_pct": 74,
+   "ram_free_gb": 49.3,
    "gpu_util_pct": 0,
    "job": "R-PLAN-BIGCOMPUTE-20261110",
    "last_result": {
@@ -34,19 +34,19 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 47.8,
-   "cpu_load_pct": 36,
-   "ram_free_gb": 7.2,
-   "gpu_util_pct": 26,
+   "hb_age_s": 17.7,
+   "cpu_load_pct": 20,
+   "ram_free_gb": 9.7,
+   "gpu_util_pct": 17,
    "job": "Q-VCORP-TRAIN-z04-R7-20261109",
    "last_result": {
-    "job": "R-PLAN-FLUXVERSE-20261110",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-10T00:09:05",
+    "job": "Q-VCORP-TRAIN-z04-R7-20261109",
+    "state": "BUSY",
+    "rc": null,
+    "ts": "2026-11-10T00:11:59",
     "reason": null,
-    "out_bytes": null,
-    "elapsed_s": null
+    "out_bytes": 0,
+    "elapsed_s": 10
    },
    "idle_confirmed": false,
    "idle_reason": "",
@@ -54,36 +54,36 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 29.1,
-   "cpu_load_pct": 16,
-   "ram_free_gb": 1.0,
-   "gpu_util_pct": 1,
+   "hb_age_s": 38.4,
+   "cpu_load_pct": 14,
+   "ram_free_gb": 2.5,
+   "gpu_util_pct": 0,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-10T00:10:19",
-    "reason": "CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (22.2h 零产出，唤醒清单空)",
+    "ts": "2026-11-10T00:11:44",
+    "reason": "CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (22.3h 零产出，唤醒清单空)",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
    "idle_reason": "CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (22.3h 零产出，唤醒清单空)",
-   "idle_rounds": 232
+   "idle_rounds": 233
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 1.8,
-   "cpu_load_pct": 9,
-   "ram_free_gb": 13.9,
+   "hb_age_s": 1.5,
+   "cpu_load_pct": 7,
+   "ram_free_gb": 12.1,
    "gpu_util_pct": null,
    "job": "R-TRIAGE-BIGLIFE-BMM-20261110",
    "last_result": {
-    "job": "CANARY-20261110T000858",
+    "job": "R-TRIAGE-FLEETOPS-BMM-20261110",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-10T00:10:39",
+    "ts": "2026-11-10T00:11:44",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -96,7 +96,7 @@
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
-  "bm-c": 232,
+  "bm-c": 233,
   "bm-m": 0
  },
  "lines": {
@@ -869,26 +869,16 @@
   "cpu": 4,
   "gpu": 16
  },
- "supply_added": [
-  "backlog_manifest+2"
- ],
+ "supply_added": [],
  "events": [
-  "R-PLAN-FLUXVERSE-20261110 UNVERIFIED(no-artifact-yet) via bm-b",
-  "Q-TRIAGE-FLUXVERSE-20261110 -> bm-b (cpu)",
-  "R-TRIAGE-BIGLIFE-BMM-20261110 -> bm-m (cpu)",
-  "R-TRIAGE-RECON-BMM-20261110 -> bm-m (cpu)",
-  "R-TRIAGE-FLEETOPS-BMM-20261110 -> bm-m (cpu)",
-  "Q-TRIAGE-RECON-20261110 -> bm-m (cpu)",
-  "Q-TRIAGE-ASSETLIB-20261110 -> bm-m (cpu)"
+  "R-TRIAGE-FLEETOPS-BMM-20261110 DONE via bm-m"
  ],
  "violations": [
-  "bm-c IDLE-CONFIRMED x232 (CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (22.3)",
+  "bm-c IDLE-CONFIRMED x233 (CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (22.3)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
  "lane_files_written": [
-  "bm-b",
-  "bm-c",
   "bm-m"
  ]
 }

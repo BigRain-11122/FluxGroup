@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-10T00:10:44",
+ "ts": "2026-11-10T00:12:10",
  "jobs": [
   {
    "id": "R-TRIAGE-BIGLIFE-BMM-20261110",
@@ -23,20 +23,6 @@
    "cwd": "",
    "needs": "cpu",
    "deliverable": "cph4/fleet/queue-receipts/triage-recon-bm-m-20261110.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "R-TRIAGE-FLEETOPS-BMM-20261110",
-   "title": "机队运维·端到端自检（平台服务线） 线证据扫描（bm-m 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line fleet-ops --node bm-m",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-fleet-ops-bm-m-20261110.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -75,5 +61,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 13.9/1.0 GB"
+ "capacity_note": "ram 12.1/1.0 GB"
 }
