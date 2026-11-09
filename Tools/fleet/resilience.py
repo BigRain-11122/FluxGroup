@@ -178,9 +178,47 @@ def check_git(ctx):
     return ("git_state", "PASS" if ok else "FAIL", "unmerged=%d behind=%s" % (len(uu), behind))
 
 
+def check_local_first(ctx):
+    """本地优先率：24h 内本地调用 / (本地+云端)。低于 90% 说明自动化在往云上跑。"""
+    import glob
+    cut = time.time() - 86400
+    def lines_since(p):
+        n = 0
+        try:
+            for line in open(p, encoding="utf-8"):
+                n += 1
+        except OSError:
+            return 0
+        return n
+    local = 0
+    try:
+        for line in open(os.path.join(ROOT, "cph4/fleet/dispatcher/local-model.jsonl"), encoding="utf-8"):
+            if line[:10] >= time.strftime("%Y-%m-%d", time.localtime(cut)):
+                local += 1
+    except OSError:
+        pass
+    local += lines_since(os.path.join(STATE, "local-digest.jsonl"))
+    try:
+        p = json.load(open(os.path.join(STATE, "patrol-local.json"), encoding="utf-8"))
+        local += len(p.get("seats") or []) * 12
+    except Exception:
+        pass
+    cloud = 0
+    for f in glob.glob(os.path.join(STATE, "codely-bridge", "logs", "*")):
+        try:
+            if os.path.getmtime(f) > cut:
+                cloud += 1
+        except OSError:
+            pass
+    total = local + cloud
+    share = (local / total) if total else 1.0
+    return ("local_first", "PASS" if share >= 0.9 else "WARN",
+            "local=%d cloud=%d share=%.0f%%" % (local, cloud, share * 100))
+
+
 CHECKS = [check_pulse, check_sync, check_services, check_queue, check_supply,
           check_lanes, check_disk, check_memory, check_models, check_token,
-          check_codely, check_git]
+          check_codely, check_git, check_local_first]
 
 
 def run(ctx=None):

@@ -113,6 +113,27 @@ def autodecide(rows):
     return n
 
 
+def try_8b(prompt):
+    """4B 说判不了时，先用 8B 单槽再试一次，仍不行才上云。
+    8B 车道有人（DSH）就跳过，绝不抢。"""
+    import urllib.request, json as _j
+    base = os.environ.get("AGENT_LANE", "http://127.0.0.1:11436")
+    try:
+        ps = _j.loads(urllib.request.urlopen(base + "/api/ps", timeout=3).read())
+        if ps.get("models"):
+            return ""
+        body = {"model": os.environ.get("JUDGE_8B", "qwen3:8b-dsh32k"),
+                "messages": [{"role": "user", "content": prompt}],
+                "think": False, "stream": False, "keep_alive": "3m",
+                "options": {"num_ctx": 8192, "num_predict": 160, "temperature": 0.1}}
+        req = urllib.request.Request(base + "/api/chat", data=_j.dumps(body).encode(),
+                                     headers={"Content-Type": "application/json"})
+        with urllib.request.urlopen(req, timeout=180) as r:
+            return ((_j.loads(r.read()).get("message") or {}).get("content") or "").strip()
+    except Exception:
+        return ""
+
+
 def main():
     root = fl.ROOT_DEFAULT
     seat_node, seat_model = brain_seat(root)
@@ -129,14 +150,14 @@ def main():
             and str(r.get("kind") or "").upper() not in RULE_KINDS][:MAX_PER_CYCLE]
     # Parallel on purpose: 2026-10-31 measured 3 concurrent 4B calls at ~41 tok/s each with
     # no extra memory, so serialising judgments burns wall-clock for nothing.
+    prompts = [PROMPT.format(question=r.get("question", ""),
+                             evidence=json.dumps(r.get("evidence") or {}, ensure_ascii=False)[:1200])
+               for r in todo]
     with ThreadPoolExecutor(max_workers=MAX_PER_CYCLE) as ex:
-        answers = list(ex.map(lambda r: fl.local_llm(
-            PROMPT.format(question=r.get("question", ""),
-                          evidence=json.dumps(r.get("evidence") or {}, ensure_ascii=False)[:1200]),
-            node=seat_node, timeout=90), todo))
+        answers = list(ex.map(lambda p: fl.local_llm(p, node=seat_node, timeout=90), prompts))
     n = 0
     esc = 0
-    for r, ans in zip(todo, answers):
+    for r, ans, qtext in zip(todo, answers, prompts):
         if not ans or not str(ans).strip():
             r["note"] = "local-judge failed this round (ollama down?)"
             continue
@@ -145,6 +166,15 @@ def main():
         r["model"] = ("local:%s" % seat_model) if seat_node=="bm-m" else ("seat:%s" % seat_node)
         r["answered_at"] = fl.now_iso()
         if needs_cloud(text):
+            # 2026-11-09：4B 判不了先让 8B 试（本地第二档），仍不行才上云。
+            ans8 = try_8b(qtext)
+            if ans8 and not needs_cloud(ans8):
+                r["answer"] = ans8[:500]
+                r["model"] = "local:8B"
+                r["answered_at"] = fl.now_iso()
+                r["state"] = "ANSWERED"
+                n += 1
+                continue
             # Beyond the 4B's ability: keep it OPEN for the cloud seat instead of letting
             # a weak model close a real judgment. Wasted local rounds are cheap; a wrong
             # verdict from a 4B is not.
