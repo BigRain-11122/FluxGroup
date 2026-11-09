@@ -186,13 +186,18 @@ def main():
         results = list(ex.map(work, todo))
 
     ts = time.strftime("%Y-%m-%dT%H:%M:%S")
+    try:
+        prev = {s["domain"]: (s.get("result") or {}).get("verdict")
+                for s in (json.load(open(STATE, encoding="utf-8")).get("seats") or [])}
+    except Exception:
+        prev = {}
     lines = ["## %s" % ts, ""]
     for dom, sig, res in results:
         lines.append("- **%s** %s · %s · 卡%d/缺失%d/最后活动%sh · %.1fs" %
                      (dom, res["verdict"], "；".join(res["findings"][:2])[:120],
                       sig["cards"], sig["missing_deliverables"], sig["last_activity_h"], res["sec"]))
         lines.append("  - 动作：%s" % (res["action"] or "-"))
-        if res["verdict"] == "RED":
+        if res["verdict"] == "RED" and prev.get(dom) != "RED":
             p = os.path.join(PF, "%s-NEED-JUDGMENT.md" % dom)
             try:
                 with open(p, "a", encoding="utf-8") as f:
