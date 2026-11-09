@@ -875,3 +875,13 @@
 - 11-09T21:41 · asset-lib-index-2026-11-04-bm-c.json · 任务失败，因输出文件不存在且包含乱码，存在数据完整性风险。
 - 11-09T21:41 · asset-lib-index-2026-11-04-bm-a.json · 机队回执已完成，但发现 28 张卡交产物缺失及 651 条 vault 登记异常。
 - 11-09T21:41 · asset-lib-face-dataset-2026-11-05-bm-c.json · 机队任务失败，因数据无授权且张数不足导致无法入库。
+- 11-09T21:42 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-09T21:42 · self-improve-bm-m-latest.json · 机队已确认无风险，代码与依赖均通过自检。
+- 11-09T21:42 · asset-lib-face-dataset-2026-11-05-bm-b.json · 任务失败，因指定目录不存在导致数据缺失，无后续风险。
+- 11-09T21:42 · asset-lib-face-dataset-2026-11-05-bm-a.json · 任务因输入目录缺失而失败，无后续风险。
+- 11-09T21:42 · asset-lib-face-caption-2026-11-04-bm-c.json · 任务失败，因输入被阻断导致无风险。
+- 11-09T21:42 · asset-lib-face-caption-2026-11-03-bm-b.json · 任务因输入路径缺失失败，无风险。
+- 11-09T21:42 · asset-lib-env-check-2026-11-05-bm-c.json · 机队资产环境检查失败，因缺失 kohya sd-scripts、GPT-SoVITS 等依赖及资源目录。
+- 11-09T21:42 · asset-lib-env-check-2026-11-05-bm-b.json · 机队回执显示任务失败，因缺失关键依赖（如 torch）及资产目录存在风险。
+- 11-09T21:42 · asset-lib-env-check-2026-11-04-bm-c.json · 机队资产检查失败，因缺少 kohya sd-scripts、GPT-SoVITS 及指定目录导致任务中止。
+- 11-09T21:42 · asset-lib-env-check-2026-11-04-bm-b.json · 机队回执显示任务失败，因缺失关键依赖（如 torch）及资产目录存在风险。
