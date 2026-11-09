@@ -1895,3 +1895,13 @@
 - 11-09T23:45 · skill-eval-ship-ops-20261103.json · 模型全对完成合规判断，无风险。
 - 11-09T23:45 · C-TTS-QC-ALL-bm-a.json · 因输入目录缺失导致检查失败，无风险。
 - 11-09T23:45 · bigmoney-backtest-2026-11-03-bm-m.json · 任务因脚本文件缺失而失败，存在运行环境配置风险。
+- 11-09T23:46 · _last_lane_bm-m.json · 机队已自派完成回单扫描，无风险。
+- 11-09T23:46 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-09T23:46 · drama-sample-v1-qa.json · 已完成 DRAMA-QUALITY-SPEC-v2 机队回执，无风险。
+- 11-09T23:46 · drama-sample-v1-2shot-qa.json · 完成机队回执，发现响度与时长不合规，存在交付风险。
+- 11-09T23:46 · bigstream-duanju-tts-qc-2026-11-03-bm-m.json · 任务执行失败，因缺少必要参数导致脚本报错。
+- 11-09T23:46 · biggame-accept-2026-11-03-bm-m.json · 机队质量检查失败，因缺少 game-10s 组件存在交付风险。
+- 11-09T23:46 · quality-biggame-2026-11-03.json · 机队回执因缺少 game-10s 文件而判定失败，存在交付风险。
+- 11-09T23:46 · R-NEXT-BIGSTREAMD-TTS-QC-20261102-bm-m.json · 任务失败，因输入文件缺失导致回执未生成。
+- 11-09T23:46 · bigstream-duanju-inventory-2026-11-03-bm-m.json · 已完成机队回执生成，无风险。
+- 11-09T23:46 · duanju-inventory-2026-11-03.json · 已完成机队回执，但当前目录无媒体文件，存在任务无法执行的风险。
