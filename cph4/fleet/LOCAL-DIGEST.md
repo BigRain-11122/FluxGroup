@@ -715,3 +715,13 @@
 - 11-09T21:20 · R-TRIAGE-BIGSTREAMMV-BMC-20261107-bm-c.json · 已完成机队回执生成，无报错风险。
 - 11-09T21:20 · R-TRIAGE-BIGLIFE-BMC-20261107-bm-c.json · 已完成大飞机机队排查，无风险。
 - 11-09T21:20 · R-TRIAGE-ASSETLIB-BMC-20261107-bm-c.json · 已完成资产库机队排查，无风险。
+- 11-09T21:22 · _last_lane_bm-m.json · 机队已自派清单，无风险。
+- 11-09T21:22 · R-NEXT-BIGSTREAMM-GATE-20261107-bm-c.json · 任务因输入文件缺失失败，存在流程中断风险。
+- 11-09T21:22 · R-NEXT-BIGSTREAMD-TTS-QC-20261104-bm-c.json · 因目录缺失导致 0 文件被拦截，无风险。
+- 11-09T21:22 · KN-FILM-GATE-LATEST-20261105-bm-c.json · 机队任务完成，无风险。
+- 11-09T21:22 · CHK-LIB-20261105-bm-c.json · 已完成机队回执检查，无报错风险。
+- 11-09T21:22 · audio-bgm-fill-selftest.json · 已完成音频资产库核查，无风险。
+- 11-09T21:22 · triage-recon-20261107.md · 拆解部两项工段超阈停滞，需立即补产出或正式收线。
+- 11-09T21:22 · triage-fluxverse-20261107.md · 已完成线级体检，但 city-data 与 city-viz 因缺输入无法产出，需立即补全。
+- 11-09T21:22 · triage-bigstream-mv-20261107.md · 机队回执显示三个工段超阈，需补产出或正式收线方可完成。
+- 11-09T21:22 · triage-biglife-20261107.md · 生命生产席需补全 life-gate 目录及输入，否则无法产出。
