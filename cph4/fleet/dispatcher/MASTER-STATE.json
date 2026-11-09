@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-09T19:54:57",
- "cycle": 61,
+ "ts": "2026-11-09T19:56:53",
+ "cycle": 62,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-09T19:54:57",
+ "master_tick_ts": "2026-11-09T19:56:53",
  "queue": {
   "total": 1667,
   "open": 4,
@@ -14,10 +14,10 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 20.0,
-   "cpu_load_pct": 23,
-   "ram_free_gb": 54.9,
-   "gpu_util_pct": 16,
+   "hb_age_s": 38.9,
+   "cpu_load_pct": 47,
+   "ram_free_gb": 48.8,
+   "gpu_util_pct": 17,
    "job": "R-19.9-PACKAGE-20261109",
    "last_result": null,
    "idle_confirmed": false,
@@ -26,9 +26,9 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 12.4,
-   "cpu_load_pct": 48,
-   "ram_free_gb": 4.2,
+   "hb_age_s": 8.0,
+   "cpu_load_pct": 20,
+   "ram_free_gb": 7.8,
    "gpu_util_pct": 1,
    "job": "CEOQ-5268ab3b03",
    "last_result": null,
@@ -38,29 +38,29 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 176.5,
-   "cpu_load_pct": 12,
-   "ram_free_gb": 4.3,
+   "hb_age_s": 61.3,
+   "cpu_load_pct": 11,
+   "ram_free_gb": 3.1,
    "gpu_util_pct": 0,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-09T19:54:41",
+    "ts": "2026-11-09T19:56:01",
     "reason": "CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (18.0h 零产出，唤醒清单空)",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
    "idle_reason": "CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (18.0h 零产出，唤醒清单空)",
-   "idle_rounds": 88
+   "idle_rounds": 89
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 1.5,
-   "cpu_load_pct": 6,
-   "ram_free_gb": 12.5,
+   "hb_age_s": 1.4,
+   "cpu_load_pct": 11,
+   "ram_free_gb": 12.3,
    "gpu_util_pct": null,
    "job": "R-MV-RELEASE-PACK-20261109",
    "last_result": null,
@@ -72,7 +72,7 @@
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
-  "bm-c": 88,
+  "bm-c": 89,
   "bm-m": 0
  },
  "lines": {
@@ -815,7 +815,7 @@
  "supply_added": [],
  "events": [],
  "violations": [
-  "bm-c IDLE-CONFIRMED x88 (CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (18.0)",
+  "bm-c IDLE-CONFIRMED x89 (CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (18.0)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
