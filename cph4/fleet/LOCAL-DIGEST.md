@@ -1705,3 +1705,13 @@
 - 11-09T23:21 · quality-asset-lib-2026-11-04.json · 机队无风险完成交付，但需补充缺失文件方可正式交付。
 - 11-09T23:21 · asset-lib-voice-assemble-2026-11-04-bm-m.json · 未完成任务，因缺少 RIGHTS.json 导致数据被跳过。
 - 11-09T23:21 · asset-lib-voice-dataset-2026-11-04-bm-m.json · 已完成语音数据集审核，因缺授权声明且数据量不足导致任务失败。
+- 11-09T23:22 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-09T23:22 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-09T23:22 · asset-voice-2026-11-04.json · 机队未通过审核，因缺授权声明且数据量、时长及韵律指标均不达标。
+- 11-09T23:22 · bigstream-mv-gate-2026-11-04-bm-m.json · 任务失败，因缺少 cv2 模块导致代码报错。
+- 11-09T23:22 · voice-corpus-bm-b-2026-11-04.json · 本分片因缺少音频文件被阻塞，存在任务无法继续的风险。
+- 11-09T23:23 · char-gen-plan-20261104.json · 已生成 8 人角色共 48 张图像，无风险。
+- 11-09T23:23 · brain-bigstream-mv-2026-11-04.md · 四项复验全通过，但三处引证未过导致本页结论不可作为决策依据。
+- 11-09T23:23 · brain-bigstream-duanju-2026-11-04.md · 完成三处风险阻断与回退，冻结重编码操作以保障交付零缺件。
+- 11-09T23:23 · brain-bigstream-drama-2026-11-04.md · 已完成三组路径切换与补丁嵌入，但引证核验未过且正片母版缺失，存在决策风险。
+- 11-09T23:23 · asset-lib-voice-corpus-bmb-2026-11-04-bm-m.json · 任务因输入缺失失败，存在阻塞风险。
