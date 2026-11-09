@@ -1732,3 +1732,5 @@
 {"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-10T00:32:20"}
 {"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-10T00:32:20"}
 {"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 4.9, "chars": 57, "why": "fleet_brain:pick", "ts": "2026-11-10T00:33:33"}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 2.3, "chars": 57, "why": "fleet_brain:pick", "ts": "2026-11-10T00:34:53"}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 5.2, "chars": 150, "why": "master-digest", "ts": "2026-11-10T00:35:51"}
