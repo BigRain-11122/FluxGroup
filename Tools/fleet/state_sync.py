@@ -73,8 +73,7 @@ def main():
         log("status-fail %s" % out[-120:])
         return 1
     dirty = [l[3:] for l in out.splitlines() if l.strip()]
-    hand = [p for p in dirty if p.startswith(("Tools/", "docs/", "cph4/fleet/state/"))
-            and not p.startswith("cph4/fleet/state/state-sync")]
+    hand = [p for p in dirty if p.startswith(("Tools/", "docs/"))]
     if hand:
         # 手写代码/正典 dirty：交给人或会话处理，不自动提交
         log("skip: hand-edit %s" % hand[0])
