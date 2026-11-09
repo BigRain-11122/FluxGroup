@@ -1185,3 +1185,13 @@
 - 11-09T22:18 · Q-FACE-BOARD-BMC-20261104-bm-c.json · 任务因关键脚本缺失而失败，存在执行中断风险。
 - 11-09T22:18 · PROBE-BMB-AUDIOQC-20261104-bm-c.json · 已完成音频质检任务，无风险。
 - 11-09T22:18 · PROBE-BMB-AUDIOQC-20261104-bm-b.json · 任务因输入目录缺失而失败，无风险。
+- 11-09T22:19 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-09T22:19 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-09T22:19 · OPS-CLOCK-RESYNC-BMC-20261105-bm-c.json · 脚本缺失导致任务失败，存在因工具不可用而延误的风险。
+- 11-09T22:19 · OPS-CLOCK-RESYNC-BMB-20261105-bm-b.json · 脚本缺失导致时钟同步失败，存在任务中断风险。
+- 11-09T22:19 · NEEDWORK-MECH-20261104-bm-b.json · 机队回执确认任务完成，但存在因克隆冻结导致主站无法接收审计回答的风险。
+- 11-09T22:19 · NEEDWORK-LASTMILE-20261104-bm-b.json · 已完成机队回执处理，但存在文件推送机制缺陷及数据归档风险。
+- 11-09T22:19 · MV-NEWPROC-PACKET-20261104-bm-c.json · 已完成机队回执审查，无错误风险。
+- 11-09T22:19 · MV-NEWPROC-PACKET-20261104-bm-b.json · 已完成机队回执审查，无错误风险。
+- 11-09T22:19 · MV-NEWPROC-PACKET-20261104-bm-a.json · 已完成机队回执生成，无错误风险。
+- 11-09T22:19 · MV-DIRECTOR-PACKET-20261104-bm-c.json · 已完成机队回执审查，无错误风险。
