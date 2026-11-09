@@ -2175,3 +2175,13 @@
 - 11-10T00:20 · triage-bigstream-mv-bm-m-20261110.md · 机队回执显示大部分工段正常，但“自决放行”环节超阈 49.7 小时，需补产出或正式收线。
 - 11-10T00:20 · char-gen-plan-2026-11-10.json · 已完成 8 人机队回执，无风险。
 - 11-10T00:20 · triage-bigdomain-bm-m-20261110.md · 域运营席需补全工段数据并恢复产出，否则面临 STALE 风险。
+- 11-10T00:21 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-10T00:21 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-10T00:21 · brain-fleet-ops-2026-11-10.md · 完成双源化判定机制，但需 CEO 授权方可落地。
+- 11-10T00:21 · brain-recon-2026-11-10.md · 已建立跨司协同前置实读校验机制，但引证核验未过存在决策风险。
+- 11-10T00:21 · brain-voicebank-2026-11-10.md · 已切换采样率并启动降噪，但引证核验未过且产能缺口大，决策风险高。
+- 11-10T00:21 · R-TRIAGE-BIGMONEY-BMM-20261110-acceptance.json · 已完成机队回执提交，但被拒收因交付物非有效产物。
+- 11-10T00:21 · R-TRIAGE-BIGMONEY-BMM-20261110-bm-m.json · 已完成机队回执生成，无风险。
+- 11-10T00:21 · triage-bigmoney-bm-m-20261110.md · 机队回执显示三工段均超阈，需立即补全输入或停止产出。
+- 11-10T00:21 · triage-bigcompute-bm-m-20261110.md · 算力中枢席需立即补产或收线，当前工段已超阈存在风险。
+- 11-10T00:21 · Q-TRIAGE-BIGSTREAMMV-20261110-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物且存在合规风险。
