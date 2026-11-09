@@ -84,3 +84,13 @@ launchctl kickstart -k gui/$(id -u)/com.fluxgroup.pulse
 .gitattributes 已给 cph4/fleet/*.jsonl 配 union 合并（队列/备队列/回执台账），
 pull 不再整文件冲突——今天主控脉被 git 卡死的直接原因就是这几个 jsonl 的整文件覆盖。
 
+
+## 七、看护服务（2026-11-09 18:4x 起）
+
+- com.fluxgroup.watchdog：每 120s 跑 pulse_watchdog --apply --stale-s 1200，退出码 0；
+- com.fluxgroup.loadwatch：每 60s 跑 supply_guard，退出码 0；
+- 供给口径修正：bm-m（role=主控、heavy_forbidden）不再纳入产线卡水位考核
+  （AUTONOMY-CONFIG.supply.exclude_nodes），只考核 bm-a/bm-b/bm-c；实测三台各 3 张可跑。
+
+这样看护服务不再因为"调度机没有产线卡"长期报红——长期红等于没人看红。
+
