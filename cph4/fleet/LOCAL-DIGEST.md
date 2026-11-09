@@ -2165,3 +2165,13 @@
 - 11-10T00:19 · CANARY-20261110T000858-acceptance.json · 完成机队回执提交，但存在交付物非预期产物的风险。
 - 11-10T00:19 · CANARY-20261110T000858-bm-m.json · 已完成端到端自检并生成产物，无风险。
 - 11-10T00:19 · asset-lib-char-prompts-2026-11-10-acceptance.json · 完成机队回执提交，但被拒收因交付物非标准产物。
+- 11-10T00:20 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-10T00:20 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-10T00:20 · asset-lib-char-prompts-2026-11-10-bm-m.json · 成功生成 96 张角色视角计划，无错误风险。
+- 11-10T00:20 · R-TRIAGE-BIGSTREAMMV-BMM-20261110-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物。
+- 11-10T00:20 · R-TRIAGE-BIGDOMAIN-BMM-20261110-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物。
+- 11-10T00:20 · R-TRIAGE-BIGDOMAIN-BMM-20261110-bm-m.json · 已完成机队回执生成，无风险。
+- 11-10T00:20 · R-TRIAGE-BIGSTREAMMV-BMM-20261110-bm-m.json · 机队回执任务已完成，无风险。
+- 11-10T00:20 · triage-bigstream-mv-bm-m-20261110.md · 机队回执显示大部分工段正常，但“自决放行”环节超阈 49.7 小时，需补产出或正式收线。
+- 11-10T00:20 · char-gen-plan-2026-11-10.json · 已完成 8 人机队回执，无风险。
+- 11-10T00:20 · triage-bigdomain-bm-m-20261110.md · 域运营席需补全工段数据并恢复产出，否则面临 STALE 风险。
