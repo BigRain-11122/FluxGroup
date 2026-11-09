@@ -1635,3 +1635,13 @@
 - 11-09T23:13 · Q-VCORP-PREP-e06-R4-20261105-bm-b.json · 任务已完成，无风险。
 - 11-09T23:13 · Q-VCORP-PREP-e05-R4-20261105-bm-b.json · 任务已完成，无风险。
 - 11-09T23:13 · Q-VCORP-PREP-e04-R4-20261105-bm-b.json · 任务已完成，无风险。
+- 11-09T23:14 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
+- 11-09T23:14 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-09T23:14 · Q-VCORP-PREP-e03-R4-20261105-bm-b.json · 任务已完成，无风险。
+- 11-09T23:14 · Q-MV-ANCHOR-WORDS-DRAIN-20261106-bm-b.json · 脚本执行失败，因文件缺失导致无产出且存在路径错误风险。
+- 11-09T23:14 · Q-ANCHOR-SHOTGRID-REBUILD-20261109-bm-b.json · 任务失败，因脚本文件不存在导致无法执行。
+- 11-09T23:14 · PROBE-NODE-bm-b-20261107-bm-b.json · 已完成节点回执生成，无风险。
+- 11-09T23:14 · G5-QUANT-SIGNAL-FIX-20261106-bm-b.json · 任务因输入数据缺失而失败，存在阻塞风险。
+- 11-09T23:14 · BMB-SELFHEAL-20261108-bm-b.json · 已完成 Ollama 进程清理及任务调度，无风险。
+- 11-09T23:14 · AUD-SOFT-20261107T220908-05-bm-b.json · 脚本执行失败，因文件缺失导致任务未完成且无风险。
+- 11-09T23:14 · AUD-GAME-20261108T052744-28-bm-b.json · 运行审计脚本失败，因缺少文件导致任务未完成且存在风险。
