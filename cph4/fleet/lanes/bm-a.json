@@ -1,6 +1,6 @@
 {
  "node": "bm-a",
- "ts": "2026-11-09T19:02:56",
+ "ts": "2026-11-09T19:05:43",
  "jobs": [
   {
    "id": "R-TRIAGE-BIGGAME-BMA-20261109",
@@ -29,9 +29,23 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
+  },
+  {
+   "id": "R-PRIVACY-36-MINIGAME-20261109",
+   "title": "[biggame] 36 款在册小游戏隐私政策批量补齐 + 台账补登",
+   "cmd": "",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "gaming/MiniGame/docs/legal/PRIVACY-BATCH-20261109.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "在 MiniGame 产品仓为 36 款在册游戏补齐隐私政策：每款一份 Markdown，文件名 <游戏名>_隐私政策_<YYYYMMDD>.md，正文至少含不出售/共享个人信息、儿童（未收集14岁以下）、注销与删除数据、联系方式四项；同时把 36 行补进台账（游戏名、政策路径、日期）。交付 PRIVACY-BATCH-20261109.md 汇总清单（36 行 + 每份 sha256），回执引用本卡 id。",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 51.8/1.0 GB"
+ "capacity_note": "ram 46.9/1.0 GB"
 }
