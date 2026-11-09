@@ -1455,3 +1455,23 @@
 - 11-09T22:51 · asset-voice-2026-11-05.json · 机队未通过审核：因缺授权声明且数据量、时长及韵律指标均不达标。
 - 11-09T22:51 · asset-library-2026-11-05.json · 角色包完成但其余资产缺失或无授权，存在交付与合规风险。
 - 11-09T22:51 · asset-lib-voice-dataset-2026-11-05-bm-m.json · 已完成语音数据集审核，因缺授权声明且数据量不足导致任务失败。
+- 11-09T22:52 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-09T22:52 · asset-lib-voice-corpus-bmm-2026-11-05-bm-m.json · 任务失败因无输入数据，存在阻塞风险。
+- 11-09T22:52 · asset-lib-voice-corpus-bmm-2026-11-03-bm-m.json · 本分片无输入数据导致任务阻塞，存在投料前无法运行的风险。
+- 11-09T22:52 · asset-lib-voice-corpus-bmb-2026-11-03-bm-m.json · 任务因输入缺失失败，存在阻塞风险。
+- 11-09T22:52 · asset-lib-voice-assemble-2026-11-03-bm-m.json · 任务因缺少 RIGHTS.json 文件失败，存在数据缺失风险。
+- 11-09T22:52 · asset-lib-voice-assemble-2026-11-03-bm-c.json · 任务失败，因输入被阻断且无产出文件。
+- 11-09T22:52 · asset-lib-voice-assemble-2026-11-03-bm-a.json · 任务失败，因缺少 RIGHTS.json 导致数据未进训练。
+- 11-09T22:52 · asset-lib-library-check-2026-11-05-bm-m.json · 已完成资产库 P0 级体检，发现多处资源缺失且无授权风险。
+- 11-09T22:52 · asset-lib-face-dataset-2026-11-05-bm-m.json · 任务未完成，因输入目录缺失导致数据审计失败。
+- 11-09T22:52 · asset-lib-face-caption-2026-11-03-bm-c.json · 任务因输入路径缺失失败，存在数据丢失风险。
+- 11-09T22:53 · self-improve-bm-m-latest.json · 机队已确认代码无风险且依赖正常，当前状态为自我通过。
+- 11-09T22:53 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-09T22:53 · asset-lib-face-caption-2026-11-03-bm-a.json · 任务因输入路径缺失失败，存在数据丢失风险。
+- 11-09T22:53 · asset-lib-env-check-2026-11-05-bm-m.json · 机队回执显示任务失败，因 CUDA 不可用及关键脚本缺失存在训练风险。
+- 11-09T22:53 · asset-lib-char-prompts-2026-11-05-bm-m.json · 已完成 8 角色×12 视角的机队计划生成，无错误风险。
+- 11-09T22:53 · asset-lib-char-prompts-2026-11-03-bm-c.json · 已完成机队回执生成，无风险。
+- 11-09T22:53 · asset-lib-char-gen-2026-11-03-bm-c.json · 机队生成任务失败，因无交付物且状态为 FAIL，存在风险。
+- 11-09T22:53 · asset-gen-props-2026-11-04.json · 机队回执显示 props 类下 18 个节点全部失败，因目标服务器被拒绝而存在严重风险。
+- 11-09T22:53 · asset-env-2026-11-05.json · 已完成机队回执检查，因 CUDA 不可用且关键资产目录缺失导致任务失败。
+- 11-09T22:53 · asset-env-2026-11-04.json · 已完成机队回执检查，因 CUDA 不可用且缺失关键训练栈导致失败。
