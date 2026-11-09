@@ -1,0 +1,10 @@
+{
+ "id": "AUD-GAME-20261108T044314-28",
+ "node": "bm-a",
+ "rc": 127,
+ "seconds": 0.0,
+ "cmd": "python Tools/fleet/supply_batch.py --audit game ArrowOut",
+ "outcome": "CARD-DEFECT",
+ "card_defect": "CWD-MISSING 卡片 cwd 在本机不存在：/Users/junsheng.sun/FluxGroup",
+ "ts": "2026-11-08T14:44:41"
+}

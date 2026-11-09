@@ -391,6 +391,64 @@ def d_backup_stale():
     return []
 
 
+def d_node_repo_diverged():
+    """节点仓库已分叉：/poke 只做 ff-only，分叉节点永远拉不到新卡。
+
+    2026-11-08 实锚：bm-c 的 '.' head 在半小时内换了三次（7a34e02e -> 783ab0f7 ->
+    1d5c8d410），全都不是 origin/main 祖先；poke 回 accepted:true 而 last_pull 停在
+    22:30，派卡与产出归集全部到不了，界面上却只显示"车道空闲"。
+    与 NODE-UNSERVICEABLE 的分工：那是"没有回执"，这里是"根本没拉到卡"。
+    判据用 git 祖先关系而不是回执/心跳，所以不会被"假受理"骗过。
+    """
+    import json as _j
+    import urllib.request as _u
+    try:
+        nodes = (_j.load(open(os.path.join(ROOT, "Tools", "fleet-nodes.json"),
+                              encoding="utf-8")).get("nodes") or [])
+    except Exception:
+        return []
+    try:
+        origin = subprocess.run(["git", "-C", ROOT, "rev-parse", "origin/main"],
+                                capture_output=True, text=True, timeout=45).stdout.strip()
+    except Exception:
+        return []
+    if not origin:
+        return []
+    hits = []
+    for n in nodes:
+        if not n.get("enabled"):
+            continue
+        ip = str(n.get("tailnet_ip") or "")
+        if not ip or ip.startswith("PENDING"):
+            continue
+        try:
+            with _u.urlopen("http://%s:8790/status" % ip, timeout=8) as r:
+                st = _j.loads(r.read().decode())
+        except Exception:
+            continue            # 取不到状态属"离线"，由别的类判，这里不误报
+        head = (st.get("repo_heads") or {}).get(".")
+        if not head or head == origin:
+            continue
+        try:
+            chk = subprocess.run(["git", "-C", ROOT, "merge-base", "--is-ancestor", head, origin],
+                                 capture_output=True, text=True, timeout=45)
+        except Exception:
+            continue            # 判不了（超时/对象缺失）就不动手，绝不据此报红
+        if chk.returncode == 0:
+            continue            # 只是落后：ff-only 能合，不算堵
+        # rc=1 已分叉；rc=128 等 = 该 head 本库没有（节点自己的新提交）——同样是分叉，
+        # 因为 ff-only 只在"head 是 origin 祖先"时才成功，未确认祖先就等于收不到卡。
+        # 2026-11-08 实锚：bm-c 半小时里 head 换了四次，全是 128，早期写法会全部漏报。
+        hits.append({
+            "key": n.get("id"),
+            "detail": ("%s 仓库已分叉（head %s 非 origin/main 祖先），/poke 只会假受理，"
+                       "新卡与产出归集到不了；解=在该机跑 "
+                       "Tools/fleet/remote_closeout_card.py --nodes %s --print-cmd"
+                       % (n.get("id"), head[:9], n.get("id"))),
+        })
+    return hits
+
+
 DETECTORS = {
     "stalled_worker_cards": d_stalled_worker_cards,
     "lane_empty_and_queue_thin": d_lane_empty_and_queue_thin,
@@ -409,6 +467,7 @@ DETECTORS = {
     "quality_below": d_quality_below,
     "volume_missing": d_volume_missing,
     "backup_stale": d_backup_stale,
+    "node_repo_diverged": d_node_repo_diverged,
 }
 
 

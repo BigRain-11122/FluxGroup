@@ -1,0 +1,38 @@
+{
+ "id": "DEMO-CODELY-BRIDGE-20261109",
+ "node": "bm-m",
+ "rc": null,
+ "seconds": 0,
+ "cmd": "<not invoked>",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "BLOCKED",
+ "error_class": "authorization_ref missing or placeholder",
+ "deliverable": "cph4/fleet/state/codely-bridge/DEMO-CODELY-BRIDGE-20261109.json",
+ "deliverable_exists": false,
+ "ts": "2026-11-09T13:21:16",
+ "stdout_tail": "",
+ "stderr_tail": "",
+ "oracle": "authorization_ref missing or placeholder",
+ "evidence": {},
+ "tokens": {},
+ "mcp_errors": 0,
+ "live_probe": null,
+ "compliance_verdict": {
+  "allowed": false,
+  "reason": "authorization_ref missing or placeholder",
+  "declaration": {
+   "authorization_ref": "PENDING-IT-APPROVAL",
+   "data_classification": "internal",
+   "purpose": "unconfirmed",
+   "model_target": "cloud",
+   "seat_owner_confirmed": false,
+   "note": "Blocked pending clarification of the seat/business domain relationship and written IT approval."
+  }
+ },
+ "mode": "ask",
+ "deliverable_mode": "capture",
+ "source": "Tools/fleet/codely_bridge.py",
+ "provenance": "CEO order 2026-11-09 self-decide; explicit invocation only"
+}

@@ -1,0 +1,39 @@
+{
+ "ts": "2026-11-09T00:29:44",
+ "group": "batch-2026-11-09",
+ "shard": "0/1",
+ "inbox": "media\\asset\\inbox",
+ "inbox_files": 5,
+ "my_files": 5,
+ "segments": 1137,
+ "skipped_files": [],
+ "peak_warnings": [
+  [
+   "7PfR1OJryBk_這部短劇也太爽了吧_身份.wav",
+   0.0
+  ],
+  [
+   "thelostcontinent_02_burroughs_64kb.mp3",
+   0.0
+  ],
+  [
+   "thelostcontinent_03_burroughs_64kb.mp3",
+   0.0
+  ],
+  [
+   "thelostcontinent_07_burroughs_64kb.mp3",
+   0.0
+  ]
+ ],
+ "total_s": 6484.7,
+ "sliced_dir": "media\\asset\\voices\\batch-2026-11-09\\sliced",
+ "asr_qc": {
+  "available": false,
+  "checked": 0,
+  "fail": 0,
+  "rows": []
+ },
+ "verdict": "PASS",
+ "gaps": [],
+ "status": "PASS"
+}

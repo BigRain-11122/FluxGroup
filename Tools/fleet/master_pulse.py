@@ -107,6 +107,12 @@ STAGES = [
     ("workgen", ["Tools/fleet/workgen.py", "--root", ROOT], 180, {0}, False),
     ("master", ["Tools/fleet/master_agent.py", "--node", NODE, "--root", ROOT], 240, {0}, False),
     ("lane", ["Tools/fleet/lane_agent.py", "--node", NODE, "--root", ROOT, "--no-fetch"], 120, {0}, False),
+    # 执行者复活（2026-11-08）：三台 Windows 的 /status 全部 wakes=[]，FleetLink 活着
+    # 但没有任何任务被唤醒 -> 队列有卡也跑不动，一下午 DONE 只前进 9 张。巡检以前只报
+    # 不修，靠会话发现再让 CEO 转命令给操作员。这里改成脉自己动手：
+    # 唤醒失败就 poke 显式启用（tasks 取 roster.enable_tasks 白名单，reason 含 enable-tasks），
+    # 拉取报 :fail（分叉）就发一张自包含收口卡。rc=1 表示本轮做了动作（不是失败）。
+    ("executor_revive", ["Tools/fleet/executor_revive.py", "--apply"], 120, {0, 1, 2}, False),
     # 验收（CEO 2026-11-05「监督、派单、验收」）：DONE 只代表执行结束，不代表做对——
     # 盘上那件东西可能是 0 字节、坏 JSON、BLOCKED 说明，或上一次留下的旧件。
     # 2026-11-07 校验器报 W-STAGE 才补的接线：表里登记了这条，脉里从来没跑（纸面验收）。
@@ -172,6 +178,11 @@ STAGES = [
     # 把七八个报告面归并成一条按"断链→供给→执行→质量→方向"排序的清单，每条带责任人。
     # 10 分钟一次，纯规则零 token。
     ("patrol", ["Tools/fleet/patrol.py"], 180, {0}, False),
+    # 验收监督（CEO 2026-11-08「验收只看产物和质量，流程文档不算数」）：脉里必须有这一环，
+    # 否则"今天到底有没有产出"没人问；rc=1=窗口内零可验收产物，是真红不是噪音。
+    ("acceptance", ["Tools/fleet/acceptance.py", "--window-hours", "24"], 300, {0, 1}, False),
+    # 机器面监督：谁在线但不干活、谁拉不动仓库、谁名下有死卡。只看回执与 /status，不做推断。
+    ("fleet_status", ["Tools/fleet/fleet_status.py"], 120, {0, 1}, False),
     # 堵/坏/卡点闭环（CEO 2026-11-08「堵点坏点卡点都要有相应的循环策略去检测和解决」）：
     # 八类问题各带判据/解法/复查周期/升级轮次；能自动解的当场解（补供给、修卡字段、
     # 补推同步、重跑超期阶段、派自证卡），解不了的按轮次升级。表=BLOCKER-TAXONOMY-v1.json。

@@ -1,0 +1,16 @@
+﻿{
+    "node": "bm-b",
+    "host": "BIGMONEY",
+    "ts": "2026-11-08T02:29:55",
+    "kind": "closeout",
+    "root": "C:\\Fluxgroup\\FluxGroup",
+    "rescue_branch": "salvage-auto-20261108-022947",
+    "ahead_before": "0",
+    "behind_before": "1",
+    "head_after": "7b962cf9fb10e43e7ce7bc6f69f113b135773e45",
+    "origin_main": "7b962cf9fb10e43e7ce7bc6f69f113b135773e45",
+    "fast_forward_ok": true,
+    "python": "Python 3.11.9",
+    "git": "git version 2.55.0.windows.5",
+    "note": "Ran the ordered Tools\\fleet\\node_closeout.ps1 (O-20261107-180106). The script names the receipt from COMPUTERNAME, so it also wrote closeout-bigmoney.json; this file is the same run re-keyed to the fleet node id the master looks up (Tools/fleet-nodes.json: bm-b.host=BIGMONEY). Side effect repaired this window: the reset --mixed cleared the skip-worktree bits of 1196 cone-external/absent files, which surfaced as 1058 phantom deletions; re-set via git update-index --skip-worktree so the status face is honest again (0 deletions, no file was removed)."
+}

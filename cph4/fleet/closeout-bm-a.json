@@ -1,0 +1,22 @@
+{
+ "node": "bm-a",
+ "ts": "2026-11-08T11:55:00",
+ "kind": "closeout",
+ "root": "C:\\Users\\sjs20\\Desktop\\FluxGroup",
+ "order": "OB-20261107-180106-609",
+ "rescue_branch": "salvage-auto-20261108-114303",
+ "ahead_before": 98,
+ "behind_before": 1037,
+ "head_before": "96b2f84e1",
+ "head_after": "7d2cac17d",
+ "origin_main": "7d2cac17d",
+ "fast_forward_ok": true,
+ "method": "git branch rescue -> fetch -> reset --mixed origin/main -> git checkout origin/main -- . (tracked files to origin)",
+ "lost_work_check": "98 ahead commits were 94x state(bm-c) node snapshot noise + origin-duplicate work (evolution-ledger, decisions_split_once, night_report all already on origin); only docs/decisions-archive-2026-11.md was local-only and is on disk / reachable in rescue branch",
+ "untracked_kept": 85,
+ "live_effect": "executor revived: HQ-ProductionClaim claimed card biggame-pack-scan-2026-11-08 at 11:46:06 and is RUNNING on bm-a",
+ "fixed_same_round": "claim task action pythonw.exe (silent stdout=None death, 8.5h zero output) -> wscript //B InvisibleRunner.vbs + claim-bm-a.cmd with log to queue-receipts/_claim_bm-a.log",
+ "bgm_fill": "10/10 SKIP rc=0 (order step 4)",
+ "python": "3.14",
+ "git": "2.x"
+}

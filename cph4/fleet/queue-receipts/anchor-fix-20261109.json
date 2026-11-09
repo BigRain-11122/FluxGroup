@@ -1,0 +1,15 @@
+{
+ "patched": [
+  "lrc-sort",
+  "none-fill"
+ ],
+ "rc": 0,
+ "stdout": "CALIBRATED '\\u661f\\u6674' mode=whisper exact=36 approx=19 none=0 total=55\nCALIBRATED '\\u7b80\\u5355\\u7231' mode=whisper exact=37 approx=35 none=0 total=72\nCALIBRATED '\\u5b89\\u9759' mode=whisper exact=9 approx=42 none=0 total=51\nCALIBRATED '\\u6597\\u725b' mode=whisper exact=66 approx=25 none=0 total=91\nCALIBRATED '\\u4f0a\\u65af\\u5766\\u5821' mode=lrc exact=47 approx=0 none=0 total=47\nCALIBRATED '\\u5370\\u7b2c\\u5b89\\u8001\\u6591\\u9e20' mode=lrc exact=74 approx=0 none=0 total=74\nCALIBRATED '\\u5a18\\u5b50' mode=lrc exact=86 approx=0 none=0 total=86\nALL DONE\n",
+ "stderr": "",
+ "after": {
+  "files": 41,
+  "null_rows": 0,
+  "nonmono_rows": 0,
+  "bad": []
+ }
+}

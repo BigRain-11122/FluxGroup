@@ -1,0 +1,11 @@
+{
+ "id": "OB-20261108-120628-589",
+ "ts": "2026-11-08 12:06",
+ "text": "[@BigMoney 双件·委员会第51批 D-20261108-14] ①数据道新鲜度覆盖面：把 quant/bigmoney/scripts/data_lane_freshness.py 的观测集改为 config/lane_hosts.json 全部属主道 ∪ 现役10道（当前9道挂静默194h的bm-b名下却不在板上；minute_feed 8日无数据），并对属主静默>24h且其名下有道定义单独告警（静默/断供分开报）；②备货卡入池：把 state/batch-pool-registration-20261105.txt 的4行(B-CITY3D-01/02、B-XIDUDU-01/02)按池语法追加进 quant/bigmoney/fleet/backlog.md（本条为跨仓写，只能由本司执行，集团侧只读）。验收：①脚本实跑输出含并集道数且复现两条静默道；②backlog.md 4个卡号各≥1命中。回执落本司 HQ-FEEDBACK 一行引用 D-20261108-14。承诺时点=2026-11-08 18:00；逾期动作=18:00 班按 D-20261026-22 改判并计违例一次。",
+ "lanes": [
+  "bm-m",
+  "bm-b"
+ ],
+ "src": "DASHENG",
+ "status": "dispatched"
+}

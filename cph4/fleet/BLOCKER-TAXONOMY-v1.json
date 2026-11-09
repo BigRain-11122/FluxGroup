@@ -195,6 +195,18 @@
    "every_s": 600,
    "escalate_after": 2,
    "owner": "bm-m"
+  },
+  {
+   "id": "NODE-REPO-DIVERGED",
+   "name": "节点仓库已分叉：poke 只做 ff-only，节点永远拉不到新卡与归集产出",
+   "symptom": "poke 回 accepted:true 但 last_pull 不动；该机车道显示空闲，名下卡永远不推进",
+   "detect": "node_repo_diverged",
+   "resolve": "classify_only",
+   "auto": true,
+   "every_s": 600,
+   "escalate_after": 1,
+   "owner": "bm-m",
+   "why_not_auto_fix": "解只能在该机本地执行（remote_closeout_card --print-cmd），远程三条通道都不具备执行能力：/poke 是 ff-only、/sync 只收白名单文本 JSON、卡在 git 里而节点拉不动。假装自愈=假绿。"
   }
  ]
 }

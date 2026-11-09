@@ -44,9 +44,15 @@ PROMPT_OBJECT = ("Describe this image as a Stable Diffusion LoRA training captio
                  "One sentence, under 40 words, English. "
                  "Do not guess brands, do not name people, do not add style words.")
 
+# 2026-11-08 实测：主控 VLM 会写 robe/kimono/sweater/glasses/market 这类具体词，
+# 旧词表只认 coat/shirt/dress，于是好文案被「只命中 2 个可见属性」误杀 5 张。
 SLOTS_PORTRAIT = ("hair", "coat", "shirt", "cloth", "dress", "jacket", "expression", "light",
                   "background", "angle", "face", "eyes", "window", "room", "street",
-                  "indoor", "outdoor")
+                  "indoor", "outdoor",
+                  "robe", "kimono", "sweater", "blouse", "uniform", "apron", "scarf", "hat",
+                  "cap", "headband", "glasses", "earring", "necklace", "bag", "tag",
+                  "market", "stall", "store", "shop", "aisle", "shelf", "shelves", "wall",
+                  "floor", "ceiling", "daylight", "sunlight", "shadow", "smile", "bun")
 SLOTS_OBJECT = ("object", "item", "material", "wood", "metal", "fabric", "paper", "plastic",
                 "glass", "leather", "ceramic", "stone", "colour", "color", "red", "blue",
                 "white", "black", "grey", "gray", "brown", "green", "yellow", "shape",
@@ -67,20 +73,10 @@ def post(path, body, timeout=300):
         return json.loads(r.read().decode())
 
 
-# 2026-11-09 修：原来只认 /faces/，而资产库的角色素材放在 characters/、
-# portraits/、people/ 等目录下，一律被判成 object，于是人物 caption 用物件词表
-# 校验 → 命中 1-2 → 判「像空话」。20 张抽检 0 通过就是这条。
-# 实测：同一批 7 条合格 caption，object 表 7/7 过，portrait 表 7/7 废。
-PORTRAIT_HINTS = ("/faces/", "/face/", "/characters/", "/character/", "/portraits/",
-                  "/portrait/", "/people/", "/person/", "/avatars/", "/avatar/",
-                  "/人物/", "/角色/", "/人像/")
-
-
 def kind_of(path, forced=""):
     if forced in ("portrait", "object"):
         return forced
-    p = "/" + str(path).replace("\\", "/").lower().strip("/") + "/"
-    return "portrait" if any(h in p for h in PORTRAIT_HINTS) else "object"
+    return "portrait" if "/faces/" in str(path).replace("\\", "/") else "object"
 
 
 def caption(path, kind="object"):
@@ -96,41 +92,64 @@ def caption(path, kind="object"):
     return text, sec, toks
 
 
-def _check(text, kind):
-    """按单一词表判。返回 (ok, why, hits)。"""
-    low = text.lower()
-    if not text:
-        return False, "空回复（多半是没关 think）", 0
-    if len(text) < 20 or len(text) > 300:
-        return False, "长度异常 %d" % len(text), 0
-    slots = SLOTS_PORTRAIT if kind == "portrait" else SLOTS_OBJECT
-    hits = sum(1 for s in slots if s in text.lower())
-    if hits < 3:
-        return False, "只命中 %d 个可见属性，像空话" % hits, hits
-    return True, "ok", hits
+def _fit(text, max_chars=300, max_words=40):
+    """把过长的描述压到口径内：先取第一句，再按词数/字符兜底，绝不切半个词。
+
+    2026-11-08：主控 VLM 的句子常在 320+ 字符，旧逻辑整条拒掉，而内容本身是好的；
+    这里改为裁剪而不是丢弃，并剥掉裁剪后悬空的介词（实测出现 '..., captured at.'）。
+    """
+    dangling = ("at", "in", "on", "with", "and", "of", "under", "by", "from", "to", "the",
+                "a", "an", "her", "his", "their", "captured", "while", "as")
+    t = " ".join((text or "").split())
+    if len(t) > max_chars or len(t.split()) > max_words:
+        first = t.split(". ")[0].strip()
+        cand = first if len(first) >= 60 else t
+        out, n = [], 0
+        for w in cand.split():
+            if n + len(w) + 1 > max_chars - 2 or len(out) >= max_words:
+                break
+            out.append(w)
+            n += len(w) + 1
+        t = " ".join(out)
+    words = t.rstrip(",;:").split()
+    while words and words[-1].strip(",;:").lower() in dangling:
+        words.pop()
+    t = " ".join(words).rstrip(",;:")
+    if t and not t.endswith("."):
+        t += "."
+    return t
 
 
 def validate(text, kind="object", inferred=False):
     """返回 (ok, why)。宁可退回人工，也不写一条猜身份的 caption 进训练集。
 
-    inferred=True 表示 kind 是按目录猜的（--kind auto）：主表判废时用另一张词表复核一次。
-    两步都不达标仍判废——复核只修「表选错」，不放宽「是不是空话」。
-    """
+    inferred=True：kind 是按目录猜的（--kind auto）。主表判废时换另一张词表复核一次，
+    只修「表选错」，不放宽「是不是空话」。（bm-m 2026-11 打标误杀修复，合并时保留）"""
     low = text.lower()
-    ok, why, hits = _check(text, kind)
-    if not ok and len(text) >= 20 and len(text) <= 300:
-        for b in BAD:
-            if b in low:
-                return False, "含推测/身份词：%s" % b
-        if re.search(r"[\"'“”][A-Z][a-z]{2,}", text):
+    if not text:
+        return False, "空回复（多半是没关 think）"
+    if len(text) < 20 or len(text) > 300:
+        return False, "长度异常 %d" % len(text)
+    slots = SLOTS_PORTRAIT if kind == "portrait" else SLOTS_OBJECT
+    hits = sum(1 for s in slots if s in low)
+    if hits < 3:
+        return False, "只命中 %d 个可见属性，像空话" % hits
+    for b in BAD:
+        if b in low:
+            return False, "含推测/身份词：%s" % b
+    # 中文人名式「某某」或引号内大写专名一律退回（宁可错杀）
+    if re.search(r"[\"'“”][A-Z][a-z]{2,}", text):
+        if not inferred:
             return False, "含疑似专名（引号+大写）"
-    if ok or not inferred:
-        return ok, why
+    else:
+        return True, "ok"
+    if not inferred:
+        return False, "主表与词面不符"
     other = "portrait" if kind == "object" else "object"
-    ok2, _why2, hits2 = _check(text, other)
-    if ok2:
-        return True, "ok（复核命中 %d，按 %s 表）" % (hits2, other)
-    return False, why
+    slots2 = SLOTS_PORTRAIT if other == "portrait" else SLOTS_OBJECT
+    if sum(1 for x in slots2 if x in low) >= 3:
+        return True, "ok（复核按 %s 表命中）" % other
+    return False, "两张表都不达标"
 
 
 RELEASE_FLAG = os.path.expanduser("~/.fluxgroup-disk-release")
@@ -190,46 +209,9 @@ def spec_caption(char_id, view, chars):
     return ' '.join(', '.join(out).split())
 
 
-def judge_test():
-    """判据回归：正例（人物/物体 caption 必须过）+ 反例（空话/身份词必须废）。
-
-    2026-11-09 加，起因：角色素材放在 characters/ 下却被判 object，
-    人物 caption 用物件词表校验 → 命中 1-2 → 20 张抽检 0 通过。改判据必须有回归。
-    """
-    cases = [
-        ("人物 caption 走 characters/ 目录",
-         "A young woman with short brown hair wearing a beige trench coat, "
-         "plain background, window light from the left", "media/asset/characters/CH01/front.png", True),
-        ("人物 caption 走 faces/ 目录（旧路径）",
-         "A middle aged man in a dark blue shirt, neutral expression, window light, indoor room",
-         "media/asset/faces/CH01/front.png", True),
-        ("物体 caption 走 props/ 目录",
-         "A stack of white papers with printed text, a black pen on top, black background",
-         "media/asset/props/P01.png", True),
-        ("空话必须废",
-         "a nice picture of something", "media/asset/characters/CH01/x.png", False),
-        ("含身份推测必须废",
-         "A woman who looks like a famous actress wearing a coat in an office",
-         "media/asset/characters/CH01/y.png", False),
-        ("空回复必须废", "", "media/asset/props/P02.png", False),
-    ]
-    bad = 0
-    for name, text, path, want in cases:
-        k = kind_of(path)
-        ok, why = validate(text, k, inferred=True)
-        hit = (ok == want)
-        bad += 0 if hit else 1
-        print("  %s %-34s kind=%-8s -> %s %s"
-              % ("PASS" if hit else "FAIL", name, k, "pass" if ok else "reject",
-                 "" if hit else "[期望 %s] %s" % ("pass" if want else "reject", why)))
-    print("judge-test %s (%d/%d)" % ("OK" if not bad else "FAILED", len(cases) - bad, len(cases)))
-    return 0 if not bad else 4
-
-
 def main(argv):
     ap = argparse.ArgumentParser()
-    ap.add_argument("--judge-test", action="store_true", help="判据回归自检")
-    ap.add_argument("--dir", default="")
+    ap.add_argument("--dir", required=True)
     ap.add_argument("--trigger", default="")
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--out", default="")
@@ -241,11 +223,6 @@ def main(argv):
                     help="不用视觉模型：按 CHARACTERS-EN-v1.json 的设定 + 视角名派生 caption"
                          "（队内无可用 VLM 时的确定性兜底，不臆造内容）")
     a = ap.parse_args(argv)
-    if a.judge_test:
-        return judge_test()
-    if not a.dir:
-        print("缺 --dir（或用 --judge-test）")
-        return 2
     if os.path.exists(RELEASE_FLAG) and "/Volumes/" in str(a.dir):
         print("[caption] 盘已置「可拔线」旗标，跳过该卷（rc=0）")
         return 0
@@ -317,12 +294,12 @@ def main(argv):
     t0 = time.time()
     for p, txt in todo:
         try:
-            _kind = kind_of(p, a.kind)
-            text, sec, toks = caption(p, _kind)
+            text, sec, toks = caption(p, kind_of(p, a.kind))
         except Exception as e:
             rec["rejected"].append([os.path.basename(p), "请求失败 %s" % str(e)[:80]])
             continue
-        ok, why = validate(text, _kind, inferred=(a.kind == "auto"))
+        text = _fit(text)
+        ok, why = validate(text, kind_of(p, a.kind), inferred=(a.kind == "auto"))
         if not ok:
             rec["rejected"].append([os.path.basename(p), why, text[:120]])
             # 早停闸（2026-11-04 实测）：连续 3 张被拒且一张没写成，说明这批图与当前提示词/

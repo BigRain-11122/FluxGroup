@@ -279,6 +279,7 @@ def score_line(key, path, reg=None):
         return None
     m = measure(spec.get("artifact"), path)
     rows, judged, passed, blocked = [], 0, 0, []
+    m_judged = m_passed = 0
     for item in spec.get("items") or []:
         ok = check(item, m)
         mandatory = item.get("mandatory", True)     # 默认强制：单条硬伤不能被加权分放过去
@@ -288,11 +289,18 @@ def score_line(key, path, reg=None):
         if ok is not None:
             judged += 1
             passed += 1 if ok else 0
+            if mandatory:
+                m_judged += 1
+                m_passed += 1 if ok else 0
             if ok is False and mandatory:
                 blocked.append(item["id"])
-    ratio = round(passed / float(judged), 3) if judged else None
+    # 建议项（mandatory:false）只作提示，不进分数线：否则一张合规的方图道具
+    # 会因为"关键帧才要求 16:9"这条建议被判 FAIL —— 2026-11-08 实测 0.75<0.8。
+    ratio = round((m_passed if m_judged else passed) / float(m_judged or judged), 3) \
+        if (m_judged or judged) else None
     return {"line": key, "path": path, "measured": m, "items": rows,
-            "judged": judged, "passed": passed, "score": ratio,
+            "judged": judged, "passed": passed, "mandatory_judged": m_judged,
+            "mandatory_passed": m_passed, "score": ratio,
             "blocked": blocked, "verdict_ok": (not blocked)}
 
 

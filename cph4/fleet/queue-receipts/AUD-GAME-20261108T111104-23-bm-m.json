@@ -1,0 +1,17 @@
+{
+ "id": "AUD-GAME-20261108T111104-23",
+ "node": "bm-m",
+ "rc": 0,
+ "seconds": 0.1,
+ "cmd": "python3 Tools/fleet/supply_batch.py --audit game BloomHaven",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "cph4/fleet/audits/game/BloomHaven.json",
+ "deliverable_exists": true,
+ "ts": "2026-11-08T11:16:18",
+ "stdout_tail": "AUDIT game BloomHaven gaps=4\n",
+ "stderr_tail": ""
+}

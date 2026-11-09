@@ -1,0 +1,30 @@
+{
+ "ts": "2026-11-08T02:24:32",
+ "dir": "media/asset/voices",
+ "spec": "ASSET-DATASET-GATE-v1",
+ "measured": {
+  "mode": "voice",
+  "count": 3408,
+  "total_s": 19452.8,
+  "ok_len_ratio": 1.0,
+  "pauses_per_min": 4.9,
+  "lra_median": 1.3,
+  "rights": {
+   "declared": true,
+   "path": "media\\asset\\voices\\batch-2026-11-05\\RIGHTS.json",
+   "license": "unknown",
+   "source": "",
+   "real_person": null,
+   "consent": null
+  }
+ },
+ "verdict": "FAIL",
+ "gaps": [
+  "license='unknown' 不在允许清单 ['own', 'public-domain', 'cc0', 'cc-by', 'licensed']（unknown 等于没授权）",
+  "RIGHTS.json 没写 source（来源必须可追溯）",
+  "停顿密度 4.9 次/分 < 6（一口气念完=播音腔特征）",
+  "响度动态 LRA 1.3 LU < 5（被压得太平=播音腔）"
+ ],
+ "note": "PASS=允许进训练，不代表这数据集有特色；特色只能人看/人听",
+ "status": "FAIL"
+}

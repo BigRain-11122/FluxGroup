@@ -23,6 +23,7 @@ git。后果不是"晚一点同步"，而是**卡永远不在 origin 上翻面**
 Exit: 0 正常（含无变化）｜2 推送失败（已回滚工作树，不影响主工作树）
 """
 import argparse
+import json
 import os
 import re
 import shutil
@@ -124,6 +125,37 @@ def ensure_worktree():
     return rc == 0
 
 
+def _state_ts(raw):
+    """'ts' of a mirror-state JSON, or None when unparseable/absent."""
+    try:
+        d = json.loads(raw.decode("utf-8-sig"))
+    except Exception:
+        return None
+    if isinstance(d, dict):
+        for k in ("ts", "updated_at", "generated_at"):
+            v = d.get(k)
+            if isinstance(v, str) and v:
+                return v
+    return None
+
+
+def newer_state_wins(origin_bytes, local_bytes):
+    """Mirror state (lanes/receipts): the newer 'ts' wins, never "local always".
+
+    2026-11-09 R19 live case: a dispatcher assignment written into
+    cph4/fleet/lanes/bm-b.json lived 56 seconds - this mirror's blind copyfile of its
+    own stale copy erased it, and the starved node never saw the job. Assignments and
+    node state both carry 'ts', so comparing them keeps the newest truth either way
+    without letting one side win by default.
+    """
+    if not origin_bytes:
+        return local_bytes
+    ot, lt = _state_ts(origin_bytes), _state_ts(local_bytes)
+    if ot is None or lt is None:
+        return local_bytes          # unparseable: keep today's behaviour
+    return local_bytes if lt >= ot else origin_bytes
+
+
 def sync_into_worktree():
     """把状态面复制进独立工作树。返回是否有变化。
 
@@ -163,10 +195,14 @@ def sync_into_worktree():
                 if not f.endswith(".json"):
                     continue
                 s = os.path.join(dirpath, f)
+                relpath = os.path.relpath(s, ROOT).replace(os.sep, "/")
                 d = os.path.join(WT, os.path.relpath(s, ROOT))
                 os.makedirs(os.path.dirname(d), exist_ok=True)
                 try:
-                    shutil.copyfile(s, d)
+                    with open(s, "rb") as fh:
+                        local = fh.read()
+                    with open(d, "wb") as fh:
+                        fh.write(newer_state_wins(origin_blob(relpath), local))
                     n += 1
                 except Exception:
                     pass
@@ -187,6 +223,24 @@ def main(argv):
         sh(["git", "fetch", "--quiet", "origin", "main"], cwd=WT)
         sh(["git", "reset", "-q", "--hard", "origin/main"], cwd=WT)
         copied = sync_into_worktree()
+        # 推送前自清（2026-11-08 教训）：队列/备队列一旦带 git 冲突标记被推上 origin，
+        # 执行机读到的是坏账本，qcheck 判 RED 后主控"读不到卡"，机队整下午空转。
+        # 我这轮就是这么把 383+710 个冲突块推上去的——所以闸要放在**推送通道里**，
+        # 不能只靠"改完记得检查"。
+        try:
+            sys.path.insert(0, HERE)
+            import queue_sanitize as _qs
+            for _rel in _qs.TARGETS:
+                _wtp = os.path.join(WT, _rel)
+                if not os.path.isfile(_wtp):
+                    continue
+                _b, _nj, _tot = _qs.scan(_wtp)
+                if _b or _nj:
+                    _r = _qs.fix(_wtp)
+                    print("[state-push] W-QUEUE-POLLUTED %s 冲突块=%d 非JSON=%d → 已自清 %s"
+                          % (_rel, _b, _nj, _r))
+        except Exception as _e:
+            print("[state-push] W-QUEUE-GUARD 自清失败：%s" % str(_e)[:120])
         rc, dirty, _ = sh(["git", "status", "--porcelain"], cwd=WT)
         if not dirty.strip():
             # 2026-11-08 假绿修复：状态面没变化 ≠ 已同步。以前到这里直接 return 0，

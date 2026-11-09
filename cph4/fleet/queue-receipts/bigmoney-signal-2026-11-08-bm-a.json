@@ -1,0 +1,17 @@
+{
+ "id": "bigmoney-signal-2026-11-08",
+ "node": "bm-a",
+ "rc": 0,
+ "seconds": 0.3,
+ "cmd": "python Tools/fleet/quant_positions_bridge.py --in quant/bigmoney/results/etf_nobond_vt.json --out cph4/fleet/queue-receipts/etf_nobond_vt_with_positions.json && python Tools/fleet/quant_signal.py --in cph4/fleet/queue-receipts/etf_nobond_vt_with_positions.json --out cph4/fleet/queue-receipts/quant-signal-2026-11-08.csv",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "cph4/fleet/queue-receipts/quant-signal-2026-11-08.csv",
+ "deliverable_exists": true,
+ "ts": "2026-11-08T13:49:41",
+ "stdout_tail": "{\"verdict\": \"OK\", \"how\": \"bridged:5\", \"out\": \"cph4/fleet/queue-receipts/etf_nobond_vt_with_positions.json\", \"positions\": 5}\n{\"verdict\": \"OK\", \"positions\": 5, \"empty\": false, \"input_fp\": \"11d39c2ec2275cb3\", \"out\": \"cph4/fleet/queue-receipts/quant-signal-2026-11-08.csv\"}\n",
+ "stderr_tail": ""
+}

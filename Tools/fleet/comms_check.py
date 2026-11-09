@@ -36,7 +36,7 @@ import card_policy as _cp   # 阈值唯一源：cph4/fleet/CARD-POLICY-v1.json
 HB_SILENT_S = 300        # machine heartbeat older than this = silent
 REPORT_SILENT_S = 900    # executor report older than this while it has a job = suspicious
 
-NAME = {"bm-a": "公司生产力", "bm-b": "传家宝", "bm-c": "小钢炮",
+NAME = {"bm-a": "公司生产力", "bm-b": "小钢炮", "bm-c": "传家宝",
         "bm-d": "算力大脑", "bm-m": "MacBook Pro"}
 
 

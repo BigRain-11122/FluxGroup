@@ -82,6 +82,9 @@ def from_lrc(path):
         txt = m.group(4).strip()
         if txt:
             rows.append((round(t, 2), None, txt, False))
+    # 2026-11-09 CEO-PROXY: 官方 .lrc 有乱序行（实测 伊斯坦堡 idx6 / 印第安老斑鸠 idx5 / 娘子 idx32
+    # 时间倒退），乱序会让行窗倒流、卡点吸附回上一句。稳定排序只动顺序，不改文本与时间值。
+    rows.sort(key=lambda r: r[0])
     return rows
 
 
@@ -142,6 +145,20 @@ def from_whisper(anchor_json, lyric_rows):
 def emit(song, rows):
     rows = list(rows)
     for i, (t0, t1, txt, approx) in enumerate(rows):
+        # 2026-11-09 CEO-PROXY: 首句/尾句两侧都无已对齐邻行时 t0/t1 双 None，下游切点无处落
+        # （实测 4 首共 14 行）。用邻行补 3s 窗并标 approx，绝不把 None 写进产物。
+        if t0 is None:
+            prev_t = next((rows[k][1] for k in range(i - 1, -1, -1) if rows[k][1] is not None), None)
+            next_t = next((rows[k][0] for k in range(i + 1, len(rows)) if rows[k][0] is not None), None)
+            if t1 is not None:
+                t0 = max(0.0, t1 - 3.0)
+            elif prev_t is not None:
+                t0, t1 = prev_t, prev_t + 3.0
+            elif next_t is not None:
+                t0, t1 = max(0.0, next_t - 3.0), next_t
+            if t0 is not None:
+                rows[i] = (round(t0, 2), round(t1, 2), txt, True)
+                continue
         if t0 is not None and t1 is None:  # LRC only carries line-start times
             nxt = rows[i + 1][0] if i + 1 < len(rows) else None
             t1 = nxt if nxt is not None and nxt > t0 else (t0 + 3.0)

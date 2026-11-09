@@ -71,6 +71,9 @@ LANES = {
                      "fallback": "http://100.75.133.10:8792",
                      "token_env": "FLUX_LLM_TOKEN"},
              "roles": "cpu sound / small gpu", "game_launch_ok": False},
+    # 绰号唯一来源就在这张表：bm-c=传家宝（16GB 显卡的出图/归集/验收机）、bm-b=小钢炮。
+    # 2026-11-08 实测 comms_check.py / lib_consolidate.py / ARCHITECTURE-v2 曾把两者整套写反，
+    # 判据=派给传家宝的活含 16G LoRA/ComfyUI/36 图标，8GB 的 bm-b 做不了。别在别处再定义绰号。
     "bm-c": {"name_cn": "传家宝", "needs": ["cpu", "gpu"], "ram_floor_gb": 3.0, "gpu_hours": None,
              "enabled": True, "ram_gb": 24, "vram_gb": 16, "cuda": True,
              "os": "windows",

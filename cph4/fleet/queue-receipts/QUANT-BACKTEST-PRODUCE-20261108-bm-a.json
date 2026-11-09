@@ -1,0 +1,17 @@
+{
+ "id": "QUANT-BACKTEST-PRODUCE-20261108",
+ "node": "bm-a",
+ "rc": 0,
+ "seconds": 77.5,
+ "cmd": "python quant/bigmoney/scripts/etf_composite_pf.py",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "quant/bigmoney/results/etf_composite_pf.json",
+ "deliverable_exists": true,
+ "ts": "2026-11-08T14:30:57",
+ "stdout_tail": "': 'ew_universe_rebal5_is_2020_2023', 'bars': 970, 'years': 3.99, 'start_level': 1.0009, 'total_ret': -0.1098, 'cagr': -0.0287, 'vol': np.float64(0.1732), 'sharpe': np.float64(-0.088), 'maxdd': np.float64(-0.336)}\n{'label': 'ew_universe_rebal5_oos_2024_plus', 'bars': 687, 'years': 2.84, 'start_level': 0.8864, 'total_ret': 0.2599, 'cagr': 0.0847, 'vol': np.float64(0.1974), 'sharpe': np.float64(0.528), 'maxdd': np.float64(-0.2376)}\n{'label': 'ew_universe_rebal20_full', 'bars': 1657, 'years': 6.84, 'start_level': 1.0009, 'total_ret': 0.1347, 'cagr': 0.0186, 'vol': np.float64(0.1826), 'sharpe': np.float64(0.197), 'maxdd': np.float64(-0.3991)}\n{'label': 'ew_universe_rebal20_is_2020_2023', 'bars': 970, 'years': 3.99, 'start_level': 1.0009, 'total_ret': -0.0928, 'cagr': -0.0241, 'vol': np.float64(0.1722), 'sharpe': np.float64(-0.061), 'maxdd': np.float64(-0.3284)}\n{'label': 'ew_universe_rebal20_oos_2024_plus', 'bars': 687, 'years': 2.84, 'start_level': 0.9036, 'total_ret': 0.257, 'cagr': 0.0838, 'vol': np.float64(0.1966), 'sharpe': np.float64(0.526), 'maxdd': np.float64(-0.2373)}\nlive picks as of 2026-11-06 [('511220', 0.851), ('511360', 0.848), ('511160', 0.844), ('159650', 0.839), ('159649', 0.837)]\nyearly (rebal20): {2020: np.float64(0.1149), 2021: np.float64(0.0299), 2022: np.float64(-0.0023), 2023: np.float64(0.0246), 2024: np.float64(0.0918), 2025: np.float64(0.3223), 2026: np.float64(0.0105)}\nsaved C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_composite_pf.json\n",
+ "stderr_tail": ""
+}

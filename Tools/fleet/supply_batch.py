@@ -86,6 +86,60 @@ def audit_game(name):
     return 0
 
 
+def _recheck_live(cards):
+    """落盘前最后一道复检（2026-11-08 实锚：4 组重复活卡）。
+
+    查与写虽已在同一把锁里，但锁只解决并发轮；本函数再读一次在飞状态，
+    保证「已在飞的交付物绝不重复铺」。origin 侧调用了它却没定义（死引用），
+    这里按 bm-m 侧原本内联的逻辑补成模块级函数。
+    """
+    live = ("READY", "OPEN", "RUNNING", "CLAIMED", "PENDING")
+    live_out = {}
+    for path in (BACKLOG, os.path.join(F, "PRODUCTION-QUEUE.jsonl")):
+        for r in rows(path):
+            if str(r.get("state") or "").upper() in live and r.get("deliverable"):
+                live_out[r["deliverable"]] = r.get("id")
+    keep = [c for c in cards if c.get("deliverable") not in live_out]
+    if len(keep) != len(cards):
+        print("复检丢弃 %d 张（并发轮已先铺同一交付物）" % (len(cards) - len(keep)))
+    return keep
+
+
+def _exclusive_lock():
+    """跨进程互斥：供给器被脉按轮调用，两轮并发会各自通过"去重检查"再各写一张，
+    于是同一交付物铺成两张（今天实测 4 次复发，11 组）。复检只能缩窗、不能消除竞争，
+    真正的解法是**查与写在同一把锁里**。拿不到锁就跳过本轮（下一轮再来，不抢）。"""
+    import contextlib
+
+    @contextlib.contextmanager
+    def _cm():
+        path = os.path.join(F, ".supply-batch.lock")
+        fh = None
+        try:
+            fh = open(path, "a+b")
+            try:
+                import fcntl
+                fcntl.flock(fh.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+            except ImportError:
+                import msvcrt
+                msvcrt.locking(fh.fileno(), msvcrt.LK_NBLCK, 1)
+            except (IOError, OSError):
+                raise RuntimeError("locked")
+            yield True
+        except RuntimeError:
+            yield False
+        finally:
+            if fh is not None:
+                try:
+                    import fcntl
+                    fcntl.flock(fh.fileno(), fcntl.LOCK_UN)
+                except Exception:
+                    pass
+                fh.close()
+
+    return _cm()
+
+
 def build_cards():
     cards = []
     stamp = datetime.now().strftime("%Y%m%dT%H%M%S")
@@ -112,22 +166,24 @@ def build_cards():
                       "line": "biggame", "state": "READY", "created_by": "supply_batch",
                       "created_at": datetime.now().isoformat(timespec="seconds")})
     try:
-        pack = json.load(open(GAME_PACK, encoding="utf-8"))
-        for i, p in enumerate((pack.get("items") or [])[:80], 1):
-            name = p.get("product") or p.get("dir") or ("p%02d" % i)
-            out = os.path.join("cph4", "fleet", "audits", "game", "%s.json" % name)
-            if os.path.exists(os.path.join(ROOT, out)):
-                continue
-            cards.append({"id": "AUD-GAME-%s-%02d" % (stamp, i),
-                          "title": "提审缺口落单：%s" % name,
-                          "cmd": "python Tools/fleet/supply_batch.py --audit game %s" % name,
-                          "cwd": "", "needs": "cpu", "minutes": 1, "heavy": False,
-                          "requires": ["cph4/fleet/game-v1/SUBMIT-PACK-20261105.json"],
+
+        # 2026-11-08 改：逐款审计卡（最多 80 张、每张 1 分钟、钉死主控）= 账面产量，
+        # 机器很忙但一行成品也没有。改为一张聚合盘点卡：产物是当日提审包 JSON，
+        # 缺口在包里逐款列明，由报告读者看，而不是让每款各占一个卡位。
+        stamp = datetime.now().strftime("%Y%m%d")
+        out = "cph4/fleet/game-v1/SUBMIT-PACK-%s.json" % stamp
+        if not os.path.exists(os.path.join(ROOT, out)):
+            cards.append({"id": "PACK-GAME-%s" % stamp,
+                          "title": "小游戏提审盘点（聚合：逐款缺口一包在内）",
+                          "cmd": "python Tools/fleet/game_submit_pack.py --out %s" % out,
+                          "cwd": "", "needs": "cpu", "minutes": 5, "heavy": False,
+                          "requires": ["gaming"],
                           "deliverable": out,
-                          "accept": "该产品缺件逐条落单，缺件数=0 才算通过",
-                          "nodes": ["bm-m"], "hard_nodes": ["bm-m"], "prio": "P1",
-                          "line": "biggame", "state": "READY", "created_by": "supply_batch",
-                          "created_at": datetime.now().isoformat(timespec="seconds")})
+                          "accept": "包内逐款列明四类缺件；不许把构建脚本当成品、草版当定稿",
+                          "nodes": ["bm-a", "bm-c", "bm-m"], "hard_nodes": [],
+                          "prio": "P1", "line": "biggame", "state": "READY",
+                          "created_by": "supply_batch", "created_at":
+                              datetime.now().isoformat(timespec="seconds")})
     except Exception as e:
         print("game pack skipped:", str(e)[:80])
     return cards
@@ -167,19 +223,14 @@ def main(argv):
     if cards:
         sys.path.insert(0, HERE)
         import fleet_lane as fl
-        # 落盘前再复检一次：本函数会被脉按轮调用，两轮并发时前面那次读到的"无活卡"
-        # 立刻失效，于是同一交付物被铺成两张（2026-11-08 实锚：4 组重复活卡）。
-        # 复检把竞争窗从"整个 build 过程"缩到"毫秒级"，并保证绝不覆盖已在飞的卡。
-        live2 = {}
-        for p2 in (BACKLOG, os.path.join(F, "PRODUCTION-QUEUE.jsonl")):
-            for r in rows(p2):
-                if str(r.get("state") or "").upper() in LIVE and r.get("deliverable"):
-                    live2[r["deliverable"]] = r.get("id")
-        keep = [c for c in cards if c.get("deliverable") not in live2]
-        if len(keep) != len(cards):
-            print("复检丢弃 %d 张（并发轮已先铺同一交付物）" % (len(cards) - len(keep)))
-        if keep:
-            print("已写 %d 张到备队列 READY" % fl.merge_jsonl(BACKLOG, keep))
+
+        with _exclusive_lock() as got:
+            if not got:
+                print("另一轮供给正在写（锁被占），本轮跳过")
+                return 0
+            keep = _recheck_live(cards)
+            if keep:
+                print("已写 %d 张到备队列 READY" % fl.merge_jsonl(BACKLOG, keep))
     return 0
 
 

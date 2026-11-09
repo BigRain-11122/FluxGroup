@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-09T05:41:16+0800",
+ "ts": "2026-11-09T15:25:59+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -27,9 +27,9 @@
    "accept": "SUBMIT-PACK 里『隐私政策』『提审台账』两类缺件归零",
    "blocker_type": "CEO",
    "blocker": "截图需跑游戏取图，受 2026-10-28『不许自动跑游戏包』令约束，等放行",
-   "state": "RUNNING",
-   "card": "biggame-pack-scan-2026-11-09",
-   "running_on": "bm-a"
+   "state": "QUEUED",
+   "card": "AUD-GAME-20261109T142647-09",
+   "running_on": null
   },
   {
    "id": "bigmoney",
@@ -42,8 +42,8 @@
    "accept": "quant_signal 回执 rc=0 且 CSV 含因子值与输入指纹",
    "blocker_type": "ENGINE",
    "blocker": "回测产物需在 bm-b 本地生成；主控无 quant 仓",
-   "state": "STALLED",
-   "card": null,
+   "state": "QUEUED",
+   "card": "R-PLAN-BIGMONEY-20261109",
    "running_on": null
   },
   {
@@ -57,8 +57,8 @@
    "accept": "发布台账有回执行；或 CEO 给出重剪清单",
    "blocker_type": "ENGINE",
    "blocker": "发布决定权在 CEO，但工程侧可先做下一首立意案",
-   "state": "STALLED",
-   "card": null,
+   "state": "QUEUED",
+   "card": "R-NEXT-BIGSTREAMM-REBUILD-20261109",
    "running_on": null
   },
   {
@@ -73,7 +73,7 @@
    "blocker_type": "CEO",
    "blocker": "CEO 令暂停（先铺资产库/MV/游戏/城市）",
    "state": "QUEUED",
-   "card": "OPS-I2V-CAP-BMA-20261103",
+   "card": "R-NEXT-BIGSTREAMD-EVIDENCE-20261109",
    "running_on": null
   },
   {
@@ -88,7 +88,7 @@
    "blocker_type": "CEO",
    "blocker": "CEO 令暂停（先铺资产库/MV/游戏/城市）",
    "state": "QUEUED",
-   "card": "VCORP-GEN-r1202-EP001-060-20261108",
+   "card": "R-NEXT-BIGSTREAMD-TTS-QC-20261109",
    "running_on": null
   },
   {
@@ -132,8 +132,8 @@
    "accept": "页面文件在盘且本地可打开；支付位标明待接",
    "blocker_type": "CEO",
    "blocker": "商户号/支付资质未签（物理件）",
-   "state": "STALLED",
-   "card": null,
+   "state": "QUEUED",
+   "card": "R-PLAN-BIGDOMAIN-20261109",
    "running_on": null
   },
   {
@@ -228,9 +228,9 @@
   }
  ],
  "counts": {
-  "RUNNING": 1,
-  "QUEUED": 2,
-  "STALLED": 12
+  "RUNNING": 0,
+  "QUEUED": 6,
+  "STALLED": 9
  },
- "stalled_engine": 7
+ "stalled_engine": 5
 }

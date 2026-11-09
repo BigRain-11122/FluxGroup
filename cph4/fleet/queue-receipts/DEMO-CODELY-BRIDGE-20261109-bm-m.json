@@ -1,0 +1,38 @@
+{
+ "id": "DEMO-CODELY-BRIDGE-20261109",
+ "node": "bm-m",
+ "rc": 0,
+ "seconds": 15.9,
+ "cmd": "/Users/junsheng.sun/Library/Application Support/Tuanjie Cowork/bin/codely -p <prompt> --output-format json --collaboration-mode ask --approval-mode default --path-policy strict --no-auto-edit-memory --disable-next-speaker-check",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "cph4/fleet/state/codely-bridge/DEMO-CODELY-BRIDGE-20261109.json",
+ "deliverable_exists": true,
+ "ts": "2026-11-09T12:56:47",
+ "stdout_tail": "byName\": {\n        \"read_file\": {\n          \"count\": 2,\n          \"success\": 2,\n          \"fail\": 0,\n          \"durationMs\": 25,\n          \"decisions\": {\n            \"accept\": 0,\n            \"reject\": 0,\n            \"modify\": 0,\n            \"auto_accept\": 2\n          }\n        }\n      }\n    }\n  }\n}\n",
+ "stderr_tail": "treamable HTTP error: Error POSTing to endpoint: upstream connect failed: Connection refused (os error 61)\n\nError connecting to MCP server 'radar-daily': Connection failed for 'radar-daily': Streamable HTTP error: Error POSTing to endpoint: upstream connect failed: Connection refused (os error 61)\n\n",
+ "oracle": "disk facts verified",
+ "evidence": {
+  "deliverable": "cph4/fleet/state/codely-bridge/DEMO-CODELY-BRIDGE-20261109.json",
+  "bytes": 243,
+  "mtime": "2026-11-09T12:56:47",
+  "sha256": "baf5b0d04fb28f977a8375384cb684641d6e70a81f5c732855a97d05eca5e3f0",
+  "oracle": "exists + size>0 + fresh mtime + json parse + assert_equal"
+ },
+ "tokens": {
+  "prompt": 44671,
+  "candidates": 243,
+  "models": [
+   "codely-core"
+  ]
+ },
+ "mcp_errors": 2,
+ "live_probe": 1,
+ "mode": "ask",
+ "deliverable_mode": "capture",
+ "source": "Tools/fleet/codely_bridge.py",
+ "provenance": "CEO order 2026-11-09 self-decide; explicit invocation only"
+}

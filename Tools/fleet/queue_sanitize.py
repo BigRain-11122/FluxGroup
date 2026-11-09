@@ -121,8 +121,14 @@ def dedupe_live(path, apply=False):
         except Exception:
             pass
     LIVE = ("OPEN", "READY", "RUNNING", "CLAIMED", "PENDING")
-    by = collections.defaultdict(list)
+    # 先按 id 折叠（文件是 append log，同一个 id 有多行，最后一行才是当前状态）。
+    # 不折叠就会出现"撤了还报重复"——实测连撤三轮组数不动。
+    cur = {}
     for r in rows:
+        if r.get("id"):
+            cur[r["id"]] = r
+    by = collections.defaultdict(list)
+    for r in cur.values():
         if str(r.get("state") or "").upper() in LIVE and (r.get("deliverable") or "").strip():
             by[r["deliverable"].strip()].append(r)
     groups = {d: rs for d, rs in by.items() if len(rs) > 1}
