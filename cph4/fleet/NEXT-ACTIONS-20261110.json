@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-10T04:40:29+0800",
+ "ts": "2026-11-10T04:47:09+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -13,7 +13,7 @@
    "blocker_type": "ENGINE",
    "blocker": "打标质量门与当前素材不匹配：抽 20 张 0 通过（理由是「只命中 0-2 个可见属性，像空话」），需改提示词/判据；另有 458 张待打",
    "state": "RUNNING",
-   "card": "asset-lib-face-dataset-2026-11-10",
+   "card": "asset-lib-char-gen-2026-11-10",
    "running_on": "bm-c"
   },
   {
