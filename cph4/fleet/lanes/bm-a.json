@@ -1,21 +1,7 @@
 {
  "node": "bm-a",
- "ts": "2026-11-10T01:43:28",
+ "ts": "2026-11-10T01:53:27",
  "jobs": [
-  {
-   "id": "biggame-pack-scan-2026-11-10",
-   "title": "[游戏（可上线清单 → 一款可玩包 → 提审材料）] 可上线包清单（唯一能机器判的段）",
-   "cmd": "python Tools/fleet/game_pack_scan.py --root gaming --out cph4/fleet/queue-receipts/game-packs-2026-11-10.json",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/game-packs-2026-11-10.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
   {
    "id": "asset-lib-voice-corpus-2026-11-10",
    "title": "[资产储备（角色 LoRA / 音色库）] 音色语料工程（一卡全量·持料机 bm-a）",
@@ -33,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 32.8/1.0 GB"
+ "capacity_note": "ram 44.6/1.0 GB"
 }
