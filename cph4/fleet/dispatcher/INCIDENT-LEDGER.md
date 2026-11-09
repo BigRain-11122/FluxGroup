@@ -26,3 +26,15 @@
 - I-02 复发 → 检查是否新增了第二个写者或固定 tmp 名。
 - I-03/I-04 复发 → 检查是否有人绕过"先 commit 再 pull"。
 - I-06 复发 → 检查新提示词是否又允许模型"否认/承诺"。
+
+## INC-20261110-0021 · bm-c 被停摆判据自锁（判据打架）
+
+- 时刻：2026-11-10 00:24（CEO-PROXY 事件班）
+- 现象：bm-c 名下 4 张 P0/P2 卡长期 OPEN、running=0；车道文件 idle_reason=`CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (22.3h 零产出，唤醒清单空)`。
+- 单一事实的两个判据：
+  - `blocker_loop._node_last_output()`（停摆判据）只 glob `cph4/fleet/state/remote-receipts/*.json` —— 该目录当前 **0 文件**，于是所有机器在它眼里都"零产出"；bm-c 因此被判 22.3h。
+  - `lane_trust.tier('bm-c')` 读 `cph4/fleet/queue-receipts/` —— bm-c 最近回执 2026-11-10T00:03（20 分钟前），近 7 天 120 份。
+- 后果：`master_agent.lane_capacity()` 的 EXECUTOR-DEAD 分支对 bm-c 拒收全部新活，包括本该释放内存的解锁卡 → 越没产出越不给活的自锁。
+- 附属证伪：`/status` 对 bm-b 与 bm-c 都不返回 `wakes` 字段，而 bm-b 仍正常领卡 ⇒「唤醒清单空」不是 bm-c 特有故障，不具判据力。
+- 修法（建议·受保护件，本席不改）：①停摆判据单一源=取 `queue-receipts` 与 `state/remote-receipts` 的最新；②EXECUTOR-DEAD 对 `rescue` 卡豁免（与 RAM floor 的 rescue 豁免同构）；③lane agent 收口时统一落一份 `state/remote-receipts/<id>-<node>.json`。
+- 现行缓解：解锁卡 bmc-env-unblock-2026-11-10 已在队（OPEN·owner=bm-c），一旦判据修好即第一条执行。
