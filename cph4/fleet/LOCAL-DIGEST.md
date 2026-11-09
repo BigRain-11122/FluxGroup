@@ -1155,3 +1155,13 @@
 - 11-09T22:15 · R-FLEETBOARD-20261104-002-bm-m.json · 已完成机队状态分析，但关键数据缺失导致无法准确判定风险。
 - 11-09T22:15 · R-FLEETBOARD-20261104-002-bm-b.json · 机队回执显示部分任务完成但存在多处高、中风险阻塞，需立即介入处理。
 - 11-09T22:15 · R-FLEETBOARD-20261104-001-bm-m.json · 完成机队回执，但存在渲染能力不足、内存吃紧及硬件未交付等重大风险。
+- 11-09T22:16 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-09T22:16 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-09T22:16 · R-CROSSTALK-SWEEP-20261105-001-bm-m.json · 已完成机队交叉扫描，发现阻断项需立即修复并验证免疫状态。
+- 11-09T22:16 · R-BIZ-CAR-1D-bm-m.json · 机队任务“car-gaming"成功完成，无错误风险。
+- 11-09T22:16 · R-ART-PUSH-B-20261102-bm-b.json · 任务失败，因目标文件不存在且无推送记录，存在数据缺失风险。
+- 11-09T22:16 · R-20261105-bmb-deep-retro-01.md · 完成顽固问题根治与防御加固，无新增风险。
+- 11-09T22:16 · QUEUE-CARD-AUDIT-20261106-bm-a.json · 已完成机队回执审计，发现 1 个缺陷（输入缺失），无阻断风险。
+- 11-09T22:16 · Q-VCORP-TRAIN-PILOT-libritts-e01-R4-20261105-bm-b.json · 训练任务失败，因权重缺失被阻断，无风险。
+- 11-09T22:16 · Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105-bm-c.json · 任务失败，因缺少必要卡片与脚本文件存在风险。
+- 11-09T22:16 · Q-VCORP-TRAIN-PILOT-libritts-e01-R3-20261105-bm-b.json · 训练任务失败，因权重缺失被阻断，无进一步风险。
