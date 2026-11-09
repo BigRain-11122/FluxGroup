@@ -1605,3 +1605,13 @@
 - 11-09T23:09 · REMOTE-CLOSEOUT2-bm-b-20261107-bm-b.json · 已完成机队回执，无风险。
 - 11-09T23:09 · REMOTE-CLOSEOUT-bm-b-20261108-2220-bm-b.json · 机队任务已闭环，无风险。
 - 11-09T23:09 · REMOTE-CLOSEOUT-bm-b-20261107-bm-b.json · 机队任务已闭环，无风险。
+- 11-09T23:10 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-09T23:10 · R-TRIAGE-FLUXVERSE-BMC-20261108-bm-b.json · 已完成 Fluxverse 机队回执生成，无风险。
+- 11-09T23:10 · R-TRIAGE-FLUXVERSE-BMB-20261109-bm-b.json · Fluxverse 机队回执任务执行失败，因 E-ARTIFACT 错误导致交付物缺失。
+- 11-09T23:10 · R-TRIAGE-FLUXVERSE-BMB-20261108-bm-b.json · 已完成机队 triage 任务，无错误风险。
+- 11-09T23:11 · R-TRIAGE-FLEETOPS-BMB-20261107-bm-b.json · 已完成机队回执生成，无风险。
+- 11-09T23:11 · R-TRIAGE-BIGMONEY-BMB-20261109-bm-b.json · 任务执行失败，因无交付物导致机队回执未生成。
+- 11-09T23:11 · R-TRIAGE-BIGMONEY-BMB-20261108-bm-b.json · 任务执行失败，因生成文件缺失导致回执未产出。
+- 11-09T23:11 · R-TRIAGE-BIGLIFE-BMA-20261108-bm-b.json · 机队回执任务执行失败，因无交付物导致风险。
+- 11-09T23:11 · R-TRIAGE-BIGDOMAIN-BMB-20261109-bm-b.json · 机队回执任务执行失败，因无交付物产生风险。
+- 11-09T23:11 · R-TRIAGE-ASSETLIB-BMB-20261107-bm-b.json · 已完成机队资产库排查，无风险。
