@@ -1,23 +1,25 @@
 {
  "node": "bm-b",
- "ts": "2026-11-10T00:28:38",
+ "ts": "2026-11-10T00:31:34",
  "jobs": [
   {
-   "id": "bigmoney-signal-2026-11-10",
-   "title": "[金融量化（回测 → 一页结论 → 可报价或写清卡点）] 下月持仓信号 CSV（可卖的唯一产物）",
-   "cmd": "python Tools/fleet/quant_positions_bridge.py --in quant/bigmoney/results/etf_nobond_vt.json --out cph4/fleet/queue-receipts/etf_nobond_vt_with_positions.json && python Tools/fleet/quant_signal.py --in cph4/fleet/queue-receipts/etf_nobond_vt_with_positions.json --out cph4/fleet/queue-receipts/quant-signal-2026-11-10.csv",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/quant-signal-2026-11-10.csv",
+   "id": "Q-VCORP-TRAIN-z04-R7-20261109",
+   "title": "音色微调·z04（aishell3 → SoVITS s2 → 权重）R7",
+   "cmd": "python C:/Fluxgroup/FleetAgent/Tools/voicebank/vb_train_card.py --voice aishell3-z04 --raw C:/Fluxgroup/FluxGroup/media/asset/inbox/z04 --receipt C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-train-z04-r7.json",
+   "cwd": "C:/Fluxgroup/FleetAgent",
+   "needs": "gpu",
+   "deliverable": "C:/Fluxgroup/FleetAgent/cph4/fleet/queue-receipts/vcorpus-train-z04-r7.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
-   "when_all": [],
+   "when_all": [
+    "C:/Fluxgroup/FluxGroup/media/asset/inbox/z04"
+   ],
    "llm": null,
-   "timeout_s": null
+   "timeout_s": 14400
   }
  ],
  "idle_reason": "",
- "lane_ok": false,
- "capacity_note": "CPU-SATURATED 100%"
+ "lane_ok": true,
+ "capacity_note": "ram 13.3/1.0 GB"
 }
