@@ -1,7 +1,7 @@
 # 产出看板（盘上事实）
 
 > 判据：只认卡上 deliverable 在盘上存在；产品件与内部件分开算。
-> 生成时间：2026-11-09 19:08；近 7 天口径。
+> 生成时间：2026-11-09 19:14；近 7 天口径。
 
 ## 一、总数
 
@@ -13,7 +13,7 @@
 | 内部件（审计/回执/状态） | 528 |
 | 交付物缺失 | 47 |
 | 近 7 天更新的产品件 | 1 |
-| 在跑卡 | 6 |
+| 在跑卡 | 5 |
 
 ## 二、近 7 天产品件（按时间）
 
@@ -40,11 +40,10 @@
 ## 四、在跑的卡
 
 - OPEN · bigstream-duanju · VCORP-GEN-r1202-EP001-060-20261108 · bm-a
-- RUNNING · fleet-ops · R-TRIAGE-BIGGAME-BMA-20261109 · bm-a
 - OPEN · bigstream-drama · R-NEXT-BIGSTREAMD-EVIDENCE-20261109 · bm-b
 - OPEN · bigstream-duanju · R-NEXT-BIGSTREAMD-TTS-QC-20261109 · bm-c
-- RUNNING · biggame · R-PRIVACY-36-MINIGAME-20261109 · bm-a
-- RUNNING · bigstream · R-RELAY-BMB-VOICE-20261109 · bm-b
+- RUNNING · bigstream-mv · R-MV-RELEASE-PACK-20261109 · bm-m
+- RUNNING · bigdomain · R-19.9-PACKAGE-20261109 · bm-a
 
 ## 五、盘上成品（不依赖卡，近 7 天，>50KB）
 
