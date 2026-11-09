@@ -2,7 +2,7 @@
  "id": "R-MODEL-RADAR-BMA-20261110",
  "node": "bm-a",
  "rc": 0,
- "seconds": 0.3,
+ "seconds": 0.4,
  "cmd": "python Tools/fleet/model_radar.py run --node bm-a --idle-only --apply",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": "E-ARTIFACT",
  "deliverable": "cph4/fleet/queue-receipts/model-radar-bm-a-20261110.json",
  "deliverable_exists": false,
- "ts": "2026-11-10T00:04:45",
+ "ts": "2026-11-10T00:05:10",
  "stdout_tail": "{\"skipped\": \"another run in progress\"}\n",
  "stderr_tail": ""
 }
