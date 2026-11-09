@@ -865,3 +865,13 @@
 - 11-09T21:40 · asset-lib-voice-corpus-bmb-2026-11-03-bm-b.json · 任务失败因无输入数据，存在阻塞风险。
 - 11-09T21:40 · asset-lib-voice-corpus-bma-2026-11-05-bm-c.json · 任务因输入文件缺失失败，存在数据阻塞风险。
 - 11-09T21:40 · asset-lib-voice-corpus-2026-11-05-bm-a.json · 机队任务已完成，无风险。
+- 11-09T21:41 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
+- 11-09T21:41 · asset-lib-voice-assemble-2026-11-05-bm-m.json · 任务失败，因缺少 voices 目录导致输入被阻断。
+- 11-09T21:41 · asset-lib-voice-assemble-2026-11-05-bm-c.json · 任务失败，因输入源不明导致数据缺失且无法生成交付物。
+- 11-09T21:41 · asset-lib-voice-assemble-2026-11-05-bm-b.json · 机队回执失败，因缺少 RIGHTS.json 导致数据未进训练。
+- 11-09T21:41 · asset-lib-voice-assemble-2026-11-04-bm-c.json · 任务失败，因输入被阻断导致无交付物且存在风险。
+- 11-09T21:41 · asset-lib-voice-assemble-2026-11-03-bm-b.json · 机队任务失败，因缺少 RIGHTS.json 导致数据未进训练。
+- 11-09T21:41 · asset-lib-library-check-2026-11-05-bm-c.json · 机队资产库检查失败，存在大量授权缺失及空目录风险。
+- 11-09T21:41 · asset-lib-index-2026-11-04-bm-c.json · 任务失败，因输出文件不存在且包含乱码，存在数据完整性风险。
+- 11-09T21:41 · asset-lib-index-2026-11-04-bm-a.json · 机队回执已完成，但发现 28 张卡交产物缺失及 651 条 vault 登记异常。
+- 11-09T21:41 · asset-lib-face-dataset-2026-11-05-bm-c.json · 机队任务失败，因数据无授权且张数不足导致无法入库。
