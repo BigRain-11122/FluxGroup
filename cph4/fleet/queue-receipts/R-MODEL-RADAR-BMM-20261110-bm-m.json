@@ -1,17 +1,17 @@
 {
  "id": "R-MODEL-RADAR-BMM-20261110",
  "node": "bm-m",
- "rc": 0,
- "seconds": 0.5,
- "cmd": "python Tools/fleet/model_radar.py run --node bm-m --idle-only --apply",
+ "rc": 1,
+ "seconds": 46.9,
+ "cmd": "python3 Tools/fleet/model_radar.py run --node bm-m --idle-only --apply",
  "ok_rc": [
   0
  ],
- "outcome": "OK",
- "error_class": null,
+ "outcome": "FAIL",
+ "error_class": "E-UNKNOWN",
  "deliverable": "cph4/fleet/queue-receipts/model-radar-bm-m-20261110.json",
  "deliverable_exists": true,
- "ts": "2026-11-10T00:01:55",
- "stdout_tail": "{\"skipped_idle\": \"queue-running:R-TRIAGE-FLUXVERSE-BMM-20261110\", \"node\": \"bm-m\"}\n",
- "stderr_tail": ""
+ "ts": "2026-11-10T00:03:55",
+ "stdout_tail": "",
+ "stderr_tail": "Traceback (most recent call last):\n  File \"/Users/junsheng.sun/FluxGroup/Tools/fleet/model_radar.py\", line 787, in <module>\n    sys.exit(main(sys.argv[1:]))\n  File \"/Users/junsheng.sun/FluxGroup/Tools/fleet/model_radar.py\", line 782, in main\n    return run(node=node, idle_only=a.idle_only, out_path=a.out,\n  File \"/Users/junsheng.sun/FluxGroup/Tools/fleet/model_radar.py\", line 638, in run\n    return _run_body(pol, today, node, out_path, apply)\n  File \"/Users/junsheng.sun/FluxGroup/Tools/fleet/model_radar.py\", line 691, in _run_body\n    m = d.get(\"model\")\nAttributeError: 'str' object has no attribute 'get'\n"
 }

@@ -2025,3 +2025,13 @@
 - 11-10T00:00 · R-MODEL-RADAR-BMM-20261110-bm-m.json · 已完成机队回执生成，无风险。
 - 11-10T00:00 · model-radar-bm-m-20261110.json · 机队因队列运行被跳过，无风险。
 - 11-10T00:00 · model-radar-bm-c-20261110.json · 机队已跳过闲置状态，因队列运行无风险。
+- 11-10T00:02 · skill-promote-20261110.json · 已完成部分任务，因工具缺失导致多项关键技能无法执行。
+- 11-10T00:02 · _last_lane_bm-m.json · 机队任务已完成，无风险。
+- 11-10T00:02 · R-MODEL-RADAR-BMC-20261110-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
+- 11-10T00:02 · R-MODEL-RADAR-BMC-20261110-bm-m.json · 机队任务已完成，无风险。
+- 11-10T00:03 · R-MODEL-RADAR-BMM-20261110-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
+- 11-10T00:03 · R-MODEL-RADAR-BMM-20261110-bm-m.json · 机队模型雷达任务在 bm-m 节点成功运行，无报错风险。
+- 11-10T00:03 · model-radar-bm-c-20261110.json · 机队因队列运行被跳过，无风险。
+- 11-10T00:03 · model-radar-bm-m-20261110.json · 机队已跳过闲置状态，因队列运行无风险。
+- 11-10T00:03 · R-TRIAGE-BIGGAME-BMM-20261110-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物。
+- 11-10T00:03 · R-TRIAGE-BIGGAME-BMM-20261110-bm-m.json · 已完成机队回执生成，无风险。

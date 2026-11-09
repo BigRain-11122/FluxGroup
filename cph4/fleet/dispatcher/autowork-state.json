@@ -1,7 +1,7 @@
 {
- "date": "20261109",
+ "date": "20261110",
  "done": {
-  "triage": "R-TRIAGE-BIGSTREAMDUANJU-BMB-20261101 -> 输出捕获失败 | 检查日志抓取配置\nbiggame-pack-scan-2026-11-08 -> 资源租约耗尽 | 重启服务并清理旧租约\nbigmoney-signal-2026-11-08 -> 资源租约耗尽 | 重启服务并清理旧租约\nasset-lib-asset-gen-2026-11-08 -> 记录缺失 | 核查运维日志\nMV-DIRECTOR-PACKET-20261108 -> 记录缺失 | 核查运维日志",
-  "digest": "今日产出共 17 件，覆盖游戏审计、计划制定、技能推广及业务发布检查等核心线。\n其中\"R-PLAN\"与\"Triage\"相关线明显偏少，仅各有 1 件文件，其余多为常规审计与发布清单。\n建议明天优先补全缺失的 R-PLAN 与 Triage 产出，确保关键流程闭环。"
+  "triage": "R-TRIAGE-BIGSTREAMDUANJU-BMB-20261101 -> 任务未捕获输出 | 运维判读席复核日志，确认是否因无输出导致失败。\n其余条目（NEXT、bigmoney、MV-DIRECTOR-PACKET、Q-VCORP）rc=None 且无记录，属正常状态或数据缺失，无需立即干预。",
+  "digest": "今日共产出 14 件文件，覆盖雷达模型、大游戏及 Fluxverse 三条线。  \n其中“技能推广”与\"biz-mv 发布检查清单”仅各 1 件，明显偏少。  \n建议明天优先补全这两项缺失产出，确保三线均衡。"
  }
 }
