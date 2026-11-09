@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-09T19:48:55",
- "cycle": 58,
+ "ts": "2026-11-09T19:50:36",
+ "cycle": 59,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-09T19:48:55",
+ "master_tick_ts": "2026-11-09T19:50:36",
  "queue": {
   "total": 1657,
   "open": 4,
@@ -14,10 +14,10 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 40.9,
-   "cpu_load_pct": 46,
-   "ram_free_gb": 51.7,
-   "gpu_util_pct": 17,
+   "hb_age_s": 21.8,
+   "cpu_load_pct": 41,
+   "ram_free_gb": 52.1,
+   "gpu_util_pct": 18,
    "job": "R-19.9-PACKAGE-20261109",
    "last_result": null,
    "idle_confirmed": false,
@@ -26,7 +26,7 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 5.3,
+   "hb_age_s": 106.2,
    "cpu_load_pct": 21,
    "ram_free_gb": 6.8,
    "gpu_util_pct": 1,
@@ -38,7 +38,7 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 142.7,
+   "hb_age_s": 243.5,
    "cpu_load_pct": 20,
    "ram_free_gb": 2.0,
    "gpu_util_pct": 0,
@@ -54,13 +54,13 @@
    },
    "idle_confirmed": true,
    "idle_reason": "CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (17.9h 零产出，唤醒清单空)",
-   "idle_rounds": 85
+   "idle_rounds": 86
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 1.4,
+   "hb_age_s": 1.8,
    "cpu_load_pct": 13,
-   "ram_free_gb": 13.4,
+   "ram_free_gb": 12.9,
    "gpu_util_pct": null,
    "job": "R-MV-RELEASE-PACK-20261109",
    "last_result": null,
@@ -72,7 +72,7 @@
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
-  "bm-c": 85,
+  "bm-c": 86,
   "bm-m": 0
  },
  "lines": {
@@ -815,7 +815,7 @@
  "supply_added": [],
  "events": [],
  "violations": [
-  "bm-c IDLE-CONFIRMED x85 (CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (17.9)",
+  "bm-c IDLE-CONFIRMED x86 (CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (17.9)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)"
  ],
