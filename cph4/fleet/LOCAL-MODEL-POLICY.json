@@ -1,7 +1,7 @@
 {
  "_comment": "本机（bm-m·32GB 统一内存）本地模型的机器面策略。人读版=cph4/fleet/LOCAL-LLM-ROLE-20261103.md，本件只放机读的职责映射、验收阈值与评测集。改这里=改策略，Tools/fleet/model_radar.py 只读它并给建议，不自行改档。 黄金集只用「给了上下文就能答」的题：考题里自带证据，测的是照做与拒答，不测它认不认识我们的项目。",
  "version": "v1-20261103",
- "updated": "2026-11-03T13:30:00",
+ "updated": "2026-11-10T21:55:00",
  "duties": {
   "resident": {
    "_why": "主力默认档：摘要/抽字段/写一句理由/短判定（未知 cls 都走这里）",
@@ -12,9 +12,9 @@
    "measured_tok_s": "38-40"
   },
   "alternative": {
-   "model": "qwen3:4b-instruct",
+   "model": "qwen3:4b",
    "budget_gb": 5.0,
-   "why": "llamacpp 对照档，留作 A/B；它没有 mlx 版（上游 404），跑不上 MLX 引擎"
+   "why": "llamacpp 对照档，留作 A/B；它没有 mlx 版（上游 404），跑不上 MLX 引擎（2026-11-10 实锚：原写 qwen3:4b-instruct 本机从未安装，配置假绿；已改为已装的 qwen3:4b）"
   },
   "embedding": {
    "model": "qwen3-embedding:0.6b",
@@ -29,11 +29,12 @@
   "sealed": {
    "model": "qwen3.5:35b-a3b",
    "budget_gb": 24.0,
-   "why": "封存：驻留即 swap，仅离线质量批且 mem_gate 放行才加载"
+   "why": "封存：驻留即 swap，仅离线质量批且 mem_gate 放行才加载（未下载：驻留即换页，仅人工点名时再拉）",
+   "installed": false
   },
   "triage": {
-   "_why": "快车道：归类/打标/过筛。四档常驻（实测 13.1GB）；OLLAMA_MAX_LOADED_MODELS 必须 ≥ 档数，否则新档进来会挤掉旧档",
-   "model": "qwen3:1.7b",
+   "_why": "快车道：归类/打标/过筛。四档常驻（实测 13.1GB）；OLLAMA_MAX_LOADED_MODELS 必须 ≥ 档数，否则新档进来会挤掉旧档（2026-11-10 修正：原写 qwen3:1.7b 本机未装）",
+   "model": "qwen3.5:2b",
    "cost_gb": 1.5,
    "num_ctx": 4096,
    "keep_alive": 0,
