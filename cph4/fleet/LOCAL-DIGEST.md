@@ -5216,3 +5216,12 @@
 - 11-10T23:22 · BIZ-BIGGAME-SUBMITPACK-20261110B-acceptance.json · 提交回执被拒，因非有效产出且无风险。
 - 11-10T23:24 · _last_lane_bm-m.json · 机队已自派完成回单，无风险。
 - 11-10T23:24 · skill-promote-20261110.json · 已完成基础任务，因工具缺失导致大量技能无法执行。
+- 11-10T23:27 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
+- 11-10T23:27 · review-packet-kn-20261110.md · 成片缺件且无闸档，无法通过复核，存在交付风险。
+- 11-10T23:27 · MV-STAB-0001-003-OUT-bm-a.json · 已执行稳定性检测脚本，因合同错误导致任务失败。
+- 11-10T23:27 · MV-STAB-0001-003-OUT-acceptance.json · 完成机队回执提交，因交付物非标准产物被驳回。
+- 11-10T23:26 · MV-DIRECTOR-PACKET-20261109-bm-a.json · 任务执行失败，因缺少交付文件导致机队回执未生成。
+- 11-10T23:27 · MV-DIRECTOR-PACKET-20261109-acceptance.json · 机队回执显示产物未落盘，任务失败且无风险。
+- 11-10T23:27 · asset-lib-accept-2026-11-10-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被驳回。
+- 11-10T23:26 · asset-lib-accept-2026-11-10-bm-m.json · 机队质量检查失败，因合同错误导致交付物无效。
+- 11-10T23:27 · quality-asset-lib-2026-11-10.json · 机队无风险完成交付，但需补全缺失文件方可视为正式交付。
