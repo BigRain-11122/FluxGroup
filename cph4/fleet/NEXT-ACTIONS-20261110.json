@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-10T11:28:40+0800",
+ "ts": "2026-11-10T11:37:05+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -27,9 +27,9 @@
    "accept": "SUBMIT-PACK 里『隐私政策』『提审台账』两类缺件归零",
    "blocker_type": "CEO",
    "blocker": "截图需跑游戏取图，受 2026-10-28『不许自动跑游戏包』令约束，等放行",
-   "state": "RUNNING",
-   "card": "R-PRIVACY-TEMPLATE-20261110",
-   "running_on": "bm-m"
+   "state": "STALLED",
+   "card": null,
+   "running_on": null
   },
   {
    "id": "bigmoney",
@@ -222,15 +222,15 @@
    "accept": "flux_check new=0；AUTOMATION-SURFACE 无 RISK 项",
    "blocker_type": "ENGINE",
    "blocker": "I2 存量 125 条卡面路径债、vault 缺盘 651 条",
-   "state": "STALLED",
-   "card": null,
+   "state": "QUEUED",
+   "card": "CANARY-20261110T113704",
    "running_on": null
   }
  ],
  "counts": {
-  "RUNNING": 1,
-  "QUEUED": 2,
+  "RUNNING": 0,
+  "QUEUED": 3,
   "STALLED": 12
  },
- "stalled_engine": 7
+ "stalled_engine": 6
 }
