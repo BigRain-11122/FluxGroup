@@ -1,0 +1,37 @@
+{
+ "ts": "2026-11-11T05:04:58",
+ "root": ".",
+ "status": "OK",
+ "packs": [
+  {
+   "path": "./media/pylibs_latentsync/imageio_ffmpeg/binaries/ffmpeg-win64-v4.2.2.exe",
+   "kind": "windows",
+   "mb": 61.7,
+   "mtime": "2026-10-19"
+  },
+  {
+   "path": "./Tools/nats/bin/nats.exe",
+   "kind": "windows",
+   "mb": 26.7,
+   "mtime": "2026-09-17"
+  },
+  {
+   "path": "./Tools/nats/bin/nats-server.exe",
+   "kind": "windows",
+   "mb": 18.5,
+   "mtime": "2026-10-09"
+  },
+  {
+   "path": "./gaming/MiniGame/Design/builds/G32/win/TuanjieCrashHandler64.exe",
+   "kind": "windows",
+   "mb": 1.1,
+   "mtime": "2026-11-06"
+  }
+ ],
+ "webgl": [],
+ "summary": {
+  "apk_or_win": 4,
+  "webgl": 0,
+  "shippable_candidates": 4
+ }
+}
