@@ -2,7 +2,7 @@
  "id": "CMD-DSH-BMC-ACK-2012",
  "node": "bm-c",
  "rc": 0,
- "seconds": 0.2,
+ "seconds": 0.1,
  "cmd": "python -c \"import socket,os;os.makedirs('cph4/fleet/reports',exist_ok=True);open('cph4/fleet/reports/bm-c-ack.md','w',encoding='utf-8').write('# bm-c 受令回执\\n\\n- 卡号: CMD-DSH-BMC-ACK-2012\\n- 主机: '+socket.gethostname()+'\\n- 说明: bm-c 自主 lane 自领执行\\n')\"",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/reports/bm-c-ack.md",
  "deliverable_exists": true,
- "ts": "2026-11-10T21:00:41",
+ "ts": "2026-11-10T21:00:44",
  "stdout_tail": "",
  "stderr_tail": ""
 }
