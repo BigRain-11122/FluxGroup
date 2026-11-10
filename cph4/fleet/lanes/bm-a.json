@@ -1,6 +1,6 @@
 {
  "node": "bm-a",
- "ts": "2026-11-11T05:06:25",
+ "ts": "2026-11-11T05:13:10",
  "jobs": [
   {
    "id": "NODE-SYNC-bm-a-20261111T0452",
@@ -15,37 +15,9 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
-  },
-  {
-   "id": "GAP-ASSETLIB-BMA-2",
-   "title": "[gap] asset-lib 证据（bm-a）",
-   "cmd": "python Tools/fleet/line_triage.py --line asset-lib --out cph4/fleet/reports/triage-asset-lib-20261111e.md",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/triage-asset-lib-20261111e.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": 180
-  },
-  {
-   "id": "GAP-MV-BMA-2",
-   "title": "[gap] MV 线证据（bm-a）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigstream-mv --out cph4/fleet/reports/triage-bigstream-mv-20261111d.md",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/triage-bigstream-mv-20261111d.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": 180
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 34.1/1.0 GB"
+ "capacity_note": "ram 31.8/1.0 GB"
 }
