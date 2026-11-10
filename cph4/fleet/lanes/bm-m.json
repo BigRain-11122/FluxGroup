@@ -1,42 +1,8 @@
 {
  "node": "bm-m",
- "ts": "2026-11-10T11:29:58",
- "jobs": [
-  {
-   "id": "R-PRIVACY-TEMPLATE-20261110",
-   "title": "[biggame] 隐私政策模板与台账规范（一页）",
-   "cmd": "",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "gaming/PRIVACY-TEMPLATE-20261110.md",
-   "need_mb": null,
-   "model": "local-small",
-   "prompt": "写一份可直接套用的微信小游戏隐私政策模板（一页），必须包含：不出售/共享个人信息、儿童（未收集14岁以下）条款、注销与删除数据、联系方式四项；再给出台账字段规范（游戏名/政策路径/日期/sha256）。只输出 Markdown 正文。",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "R-VOICE-RELAY-SPEC-20261110",
-   "title": "[bigstream] 配音素材登记与交接规范（一页）",
-   "cmd": "",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "media/VOICE-RELAY-SPEC-20261110.md",
-   "need_mb": null,
-   "model": "local-small",
-   "prompt": "写一份配音素材登记与交接规范（一页）：清单字段（路径/大小/时长/sha256）、bm-b 到 bm-c 的可读路径或打包方式、质检回执字段（卡 id/结果/问题样本）。只输出 Markdown 正文。",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  }
- ],
- "idle_reason": "",
+ "ts": "2026-11-10T11:31:28",
+ "jobs": [],
+ "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
  "lane_ok": true,
- "capacity_note": "ram 10.5/1.0 GB",
- "cards": [],
- "pruned_shells": [
-  "R-PRIVACY-TEMPLATE-20261110",
-  "R-VOICE-RELAY-SPEC-20261110"
- ]
+ "capacity_note": "ram 13.1/1.0 GB"
 }
