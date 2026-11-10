@@ -1,13 +1,13 @@
 {
  "node": "bm-m",
- "ts": "2026-11-11T01:06:13",
+ "ts": "2026-11-11T01:11:34",
  "mode": "apply",
  "verdict": "SELF-OK",
  "checks": [
   {
    "check": "reload",
-   "code_age_s": 3015,
-   "receipt_age_s": 8,
+   "code_age_s": 3336,
+   "receipt_age_s": 21,
    "targets": [],
    "acted": false,
    "note": "executor produced a receipt after the last code edit",
@@ -16,16 +16,12 @@
   },
   {
    "check": "shells",
-   "cards": 3,
-   "shells": 3,
-   "ids": [
-    "UNBLOCK-GAP-MV-LINE-20261111",
-    "UNBLOCK-R-NEXT-BIGSTREAMM-REBUILD-20261111",
-    "UNBLOCK-NODE-SYNC-bm-b-20261111"
-   ],
-   "acted": true,
-   "kept": 0,
-   "verdict": "PRUNED"
+   "cards": 0,
+   "shells": 0,
+   "ids": [],
+   "acted": false,
+   "verdict": "OK",
+   "note": "no assignment on this lane (not a shell problem)"
   },
   {
    "check": "deps",

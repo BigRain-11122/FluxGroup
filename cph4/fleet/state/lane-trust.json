@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-11T01:10:13",
+ "ts": "2026-11-11T01:11:14",
  "lanes": {
   "bm-m": {
    "tier": "production",
@@ -7,7 +7,7 @@
    "total": 898,
    "d1": 95,
    "d7": 660,
-   "last": "2026-11-11T01:09"
+   "last": "2026-11-11T01:10"
   },
   "192.168.2.128": {
    "tier": "probe-only",
@@ -27,11 +27,19 @@
   },
   "bm-a": {
    "tier": "production",
-   "why": "近7天 199 份回执",
-   "total": 287,
-   "d1": 29,
-   "d7": 199,
-   "last": "2026-11-11T00:54"
+   "why": "近7天 201 份回执",
+   "total": 289,
+   "d1": 31,
+   "d7": 201,
+   "last": "2026-11-11T01:09"
+  },
+  "DASHENG": {
+   "tier": "production",
+   "why": "近7天 47 份回执",
+   "total": 51,
+   "d1": 28,
+   "d7": 47,
+   "last": "2026-11-11T01:09"
   },
   "junshengsundeMacBook-Pro.local": {
    "tier": "production",
@@ -40,14 +48,6 @@
    "d1": 89,
    "d7": 140,
    "last": "2026-11-11T01:03"
-  },
-  "DASHENG": {
-   "tier": "production",
-   "why": "近7天 45 份回执",
-   "total": 49,
-   "d1": 26,
-   "d7": 45,
-   "last": "2026-11-11T00:54"
   },
   "bm-c": {
    "tier": "production",
