@@ -5778,3 +5778,11 @@
 - 11-11T02:13 · UNBLOCK-asset-lib-char-gen-2026-11-11-bm-m.json · 已完成资产库解锁，存在因权限不足需人工介入的风险。
 - 11-11T02:13 · GAP-BIGGAME-PACK-20261111-bm-a.json · 机队扫描任务因超时失败，未生成报告且存在执行中断风险。
 - 11-11T02:13 · GAP-BIGGAME-PACK-20261111-acceptance.json · 机队回执显示产物未落盘，任务失败且无风险。
+- 11-11T02:15 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
+- 11-11T02:15 · _last_lane_bm-m.json · 机队任务已完成，无风险。
+- 11-11T02:15 · UNBLOCK-asset-lib-asset-gen-2026-11-11-acceptance.json · 机队回执被拒，因交付物非有效产物且无风险。
+- 11-11T02:15 · UNBLOCK-asset-lib-asset-gen-2026-11-11-bm-m.json · 任务已完成，但存在因缺人或阻塞导致的潜在风险。
+- 11-11T02:15 · UNBLOCK-asset-lib-char-gen-2026-11-11-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被拒收。
+- 11-11T02:15 · UNBLOCK-asset-lib-char-gen-2026-11-11-bm-m.json · 已完成资产库解锁，无风险，需确认 bm-c 负责人并指派任务。
+- 11-11T02:15 · UNBLOCK-asset-lib-asset-gen-scenes-2026-11-11-acceptance.json · 机队回执被拒，因交付物非有效产物且无风险。
+- 11-11T02:15 · UNBLOCK-asset-lib-asset-gen-scenes-2026-11-11-bm-m.json · 已完成机队回执生成，无风险，需授权 owner 处理缺人阻塞。

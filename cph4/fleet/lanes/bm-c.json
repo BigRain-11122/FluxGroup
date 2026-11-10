@@ -1,14 +1,28 @@
 {
  "node": "bm-c",
- "ts": "2026-11-11T02:01:27",
+ "ts": "2026-11-11T02:15:22",
  "jobs": [
   {
    "id": "asset-lib-face-caption-2026-11-11",
    "title": "[资产储备（角色 LoRA / 音色库）] 人脸数据集打标（vision 草稿，人只校对）",
    "cmd": "python Tools/fleet/asset_caption.py --dir media/asset/faces --out cph4/fleet/queue-receipts/asset-caption-2026-11-11.json",
    "cwd": "",
-   "needs": "gpu",
+   "needs": "cpu",
    "deliverable": "cph4/fleet/queue-receipts/asset-caption-2026-11-11.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "COMFY-UP-BMC-20261111",
+   "title": "[self-heal] bm-c ComfyUI 起服务（8188 不服务则拉起）+ 探针回执",
+   "cmd": "python Tools/fleet/comfy_guard.py & python Tools/fleet/char_gen.py --node bm-c --probe-only --receipt cph4/fleet/queue-receipts/comfy-probe-bm-c-20261111.json",
+   "cwd": "",
+   "needs": null,
+   "deliverable": "cph4/fleet/queue-receipts/comfy-probe-bm-c-20261111.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +33,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 2.4/1.0 GB"
+ "capacity_note": "ram 1.3/1.0 GB"
 }
