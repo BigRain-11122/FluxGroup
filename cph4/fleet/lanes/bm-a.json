@@ -1,7 +1,21 @@
 {
  "node": "bm-a",
- "ts": "2026-11-10T22:10:47",
+ "ts": "2026-11-10T22:15:55",
  "jobs": [
+  {
+   "id": "MV-DIRECTOR-PACKET-20261109",
+   "title": "导演席拉片包：KN 复核卷一页卷（成片+闸+证据+签字位）",
+   "cmd": "python Tools/fleet/review_packet.py --line kn --root .",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/review-packet-kn-20261109.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
   {
    "id": "GAP-BIGGAME-PACK-20261110",
    "title": "[gap] biggame 提审包缺件扫描（36 款缺隐私/图标/截图/台账）",
@@ -31,6 +45,20 @@
    "timeout_s": null
   },
   {
+   "id": "NODE-SYNC-bm-a-2157",
+   "title": "[self-heal] bm-a 分叉收口（本地提交 → backup 分支，HEAD 回 main）",
+   "cmd": "git -C . fetch origin --prune && git -C . branch -f backup/bm-a-2157 HEAD & git -C . reset --hard origin/main && git -C . log -1 --oneline > cph4/fleet/reports/node-sync-bm-a-2157.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/reports/node-sync-bm-a-2157.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
    "id": "MV-STAB-0001-003-OUT",
    "title": "[fix] MV v716 稳定性闸落盘（Q-MV-0001-003 契约修复）",
    "cmd": "python Tools/mv_stability_gate.py \"C:/Users/sjs20/Desktop/FluxGroup/cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v716.mp4\" > cph4/fleet/reports/mv-stability-Q-MV-0001-003.txt 2>&1",
@@ -47,5 +75,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 33.5/1.0 GB"
+ "capacity_note": "ram 30.7/1.0 GB"
 }
