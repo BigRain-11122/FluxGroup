@@ -5811,3 +5811,16 @@
 - 11-11T02:22 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
 - 11-11T02:22 · skill-promote-20261111.json · 已完成部分任务，因工具缺失导致多项关键技能无法执行。
 - 11-11T02:22 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
+- 11-11T02:24 · self-improve-bm-m-latest.json · 机队已确认代码更新且无依赖缺失，当前无风险。
+- 11-11T02:24 · triage-bigdomain-bm-b-20261111.md · 机队回执确认产出新鲜且无风险，将按工段自动流转。
+- 11-11T02:24 · triage-bigcompute-bm-b-20261111.md · 机队已确认产出新鲜且无风险，将自动按序推进。
+- 11-11T02:24 · R-TRIAGE-BIGDOMAIN-BMB-20261111-bm-c.json · 已完成机队回执生成，无风险。
+- 11-11T02:24 · R-TRIAGE-BIGDOMAIN-BMB-20261111-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物且无风险。
+- 11-11T02:24 · R-TRIAGE-BIGCOMPUTE-BMB-20261111-bm-c.json · 已完成机队回执生成，无错误风险。
+- 11-11T02:24 · R-TRIAGE-BIGCOMPUTE-BMB-20261111-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物。
+- 11-11T02:24 · COMFY-UP-BMC-20261111-bm-c.json · 任务失败，因无交付物且错误类别为 E-ARTIFACT，存在风险。
+- 11-11T02:24 · COMFY-UP-BMC-20261111-acceptance.json · 机队回执失败，因产物未落盘导致无风险。
+- 11-11T02:24 · _last_lane_bm-m.json · 机队已就绪，当前无风险。
+- 11-11T02:25 · asset-lib-face-caption-2026-11-11-bm-c.json · 任务失败，因输入被阻断且无输出文件。
+- 11-11T02:25 · asset-lib-face-caption-2026-11-11-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
+- 11-11T02:25 · asset-caption-2026-11-11.json · 已完成机队回执，因缺乏待打标图片而处于阻塞状态。
