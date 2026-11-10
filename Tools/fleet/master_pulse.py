@@ -114,6 +114,11 @@ STAGES = [
     # 唤醒失败就 poke 显式启用（tasks 取 roster.enable_tasks 白名单，reason 含 enable-tasks），
     # 拉取报 :fail（分叉）就发一张自包含收口卡。rc=1 表示本轮做了动作（不是失败）。
     ("executor_revive", ["Tools/fleet/executor_revive.py", "--apply"], 120, {0, 1, 2}, False),
+    # 分叉自愈（2026-11-10）：bm-c 的 HEAD 领先 313/落后 4162，`merge --ff-only` 永远失败，
+    # 它看到的队列停在 13 小时前 —— 「在线但零产出」的根因不是机器坏了，是它拉不动 git。
+    # 本步每轮判一次：能收编祖先就收编（让快进重新可能），收不了就派自包含 NODE-SYNC 卡
+    # 让节点自己 reset 到 origin/main（先留 backup 分支）。rc=1 表示仍有机需人工通道。
+    ("fork_repair", ["Tools/fleet/fork_repair.py", "--apply"], 240, {0, 1}, False),
     # 验收（CEO 2026-11-05「监督、派单、验收」）：DONE 只代表执行结束，不代表做对——
     # 盘上那件东西可能是 0 字节、坏 JSON、BLOCKED 说明，或上一次留下的旧件。
     # 2026-11-07 校验器报 W-STAGE 才补的接线：表里登记了这条，脉里从来没跑（纸面验收）。
