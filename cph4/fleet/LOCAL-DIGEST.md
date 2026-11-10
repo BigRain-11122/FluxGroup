@@ -4311,3 +4311,9 @@
 - 11-10T16:25 · REPAIR-asset-lib-char-gen-2026-11-06-bm-m.json · 已完成支付流程故障诊断，建议运维排查接口拥塞风险。
 - 11-10T16:25 · REPAIR-Q-MV-0001-003-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物，无风险。
 - 11-10T16:25 · REPAIR-Q-MV-0001-003-bm-m.json · 已完成故障根因分析与修复方案制定，无当前风险。
+- 11-10T16:26 · REPAIR-Q-MV-0001-003-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
+- 11-10T16:26 · REPAIR-Q-MV-0001-003-bm-m.json · 已完成机队回执生成，但当前缺乏具体故障信息导致无法推断根因。
+- 11-10T16:26 · _last_lane_bm-m.json · 已完成维修任务，当前运行中无风险。
+- 11-10T16:26 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
+- 11-10T16:26 · REPAIR-asset-lib-char-gen-2026-11-06-acceptance.json · 机队回执因交付物非标准产物被拒，存在合规风险。
+- 11-10T16:26 · REPAIR-asset-lib-char-gen-2026-11-06-bm-m.json · 已完成故障诊断并制定排查方案，当前无风险。

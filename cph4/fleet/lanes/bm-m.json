@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-10T16:25:19",
+ "ts": "2026-11-10T16:26:44",
  "jobs": [
   {
    "id": "REPAIR-Q-MV-0001-003",
@@ -9,20 +9,6 @@
    "cwd": null,
    "needs": "cpu",
    "deliverable": "cph4/fleet/repairs/Q-MV-0001-003.md",
-   "need_mb": null,
-   "model": "local-small",
-   "prompt": "这张卡失败了。请只依据给出的证据，写一页诊断：①最可能的根因 ②下一步具体动作（谁、做什么、怎么验证）。不要编造文件或命令。",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "REPAIR-C-FIN-ETF-COMPOSITE",
-   "title": "[repair] C-FIN-ETF-COMPOSITE 的根因与下一步",
-   "cmd": "",
-   "cwd": null,
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/repairs/C-FIN-ETF-COMPOSITE.md",
    "need_mb": null,
    "model": "local-small",
    "prompt": "这张卡失败了。请只依据给出的证据，写一页诊断：①最可能的根因 ②下一步具体动作（谁、做什么、怎么验证）。不要编造文件或命令。",
@@ -43,15 +29,51 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
+  },
+  {
+   "id": "REPAIR-R-TRIAGE-FLUXVERSE-BMB-20261110",
+   "title": "[repair] R-TRIAGE-FLUXVERSE-BMB-20261110 的根因与下一步",
+   "cmd": "",
+   "cwd": null,
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/repairs/R-TRIAGE-FLUXVERSE-BMB-20261110.md",
+   "need_mb": null,
+   "model": "local-small",
+   "prompt": "这张卡失败了。请只依据给出的证据，写一页诊断：①最可能的根因 ②下一步具体动作（谁、做什么、怎么验证）。不要编造文件或命令。\n\n证据：状态=FAILED；备注=；交付物=cph4/fleet/queue-receipts/triage-fluxverse-bm-b-20261110.md；重试=2",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "REPAIR-PROBE-BMB-TOOLCHAIN-20261110",
+   "title": "[repair] PROBE-BMB-TOOLCHAIN-20261110 的根因与下一步",
+   "cmd": "",
+   "cwd": null,
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/repairs/PROBE-BMB-TOOLCHAIN-20261110.md",
+   "need_mb": null,
+   "model": "local-small",
+   "prompt": "这张卡失败了。请只依据给出的证据，写一页诊断：①最可能的根因 ②下一步具体动作（谁、做什么、怎么验证）。不要编造文件或命令。\n\n证据：状态=FAILED；备注=3 次未成，停线待根因：STALL: 15020s 无新输出（sig=0），释放；交付物=cph4/fleet/queue-receipts/probe-bm-b-20261110.txt；重试=3",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "UNBLOCK-biggame-accept-2026-11-09",
+   "title": "[unblock] biggame-accept-2026-11-09 的解锁动作",
+   "cmd": "",
+   "cwd": null,
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/repairs/biggame-accept-2026-11-09-unblock.md",
+   "need_mb": null,
+   "model": "local-small",
+   "prompt": "这张卡被标记 BLOCKED。只依据证据，给出：①阻塞类型（缺人/缺料/缺权限/环境）②最小解锁动作 ③解锁后应由哪台机执行。40 字以内一条，不要客套。\n\n证据：状态=BLOCKED；备注=；owner=bm-m",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 10.7/1.0 GB",
- "cards": [],
- "pruned_shells": [
-  "REPAIR-Q-MV-0001-003",
-  "REPAIR-C-FIN-ETF-COMPOSITE",
-  "REPAIR-asset-lib-char-gen-2026-11-06"
- ]
+ "capacity_note": "ram 10.5/1.0 GB"
 }
