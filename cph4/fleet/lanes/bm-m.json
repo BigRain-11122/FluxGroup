@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-10T22:26:30",
+ "ts": "2026-11-10T22:28:48",
  "jobs": [
   {
    "id": "REPAIR-GAP-CHARGEN-PROBE-20261110",
@@ -61,5 +61,12 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 13.7/1.0 GB"
+ "capacity_note": "ram 13.7/1.0 GB",
+ "cards": [],
+ "pruned_shells": [
+  "REPAIR-GAP-CHARGEN-PROBE-20261110",
+  "REPAIR-MV-STAB-0001-003-OUT",
+  "UNBLOCK-R-NEXT-BIGSTREAMM-REBUILD-20261109",
+  "UNBLOCK-asset-lib-face-dataset-2026-11-10"
+ ]
 }
