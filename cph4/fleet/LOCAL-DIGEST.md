@@ -4404,3 +4404,6 @@
 - 11-10T16:52 · skill-promote-20261110.json · 已完成基础任务，因工具缺失导致大量技能无法执行。
 - 11-10T16:53 · _last_lane_bm-m.json · 机队已自派完成回单扫描，无风险。
 - 11-10T16:54 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-10T16:55 · _last_lane_bm-m.json · 机队任务已完成，无风险。
+- 11-10T16:55 · UNBLOCK-biggame-accept-2026-11-10-acceptance.json · 未提交有效回执，因缺乏交付物导致流程被拒。
+- 11-10T16:55 · UNBLOCK-biggame-accept-2026-11-10-bm-m.json · 已完成机队回执，无风险。
