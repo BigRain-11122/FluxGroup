@@ -2,7 +2,7 @@
  "id": "UNBLOCK-NODE-SYNC-bm-b-20261111",
  "node": "bm-m",
  "rc": 0,
- "seconds": 61.6,
+ "seconds": 72.5,
  "cmd": "",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/repairs/NODE-SYNC-bm-b-20261111-unblock.md",
  "deliverable_exists": true,
- "ts": "2026-11-11T01:03:33",
- "stdout_tail": "缺权限：原主 bm-b 需授权新主 bm-c，由 bm-c 执行解锁。",
+ "ts": "2026-11-11T01:03:51",
+ "stdout_tail": "缺权限：需 owner 确认。动作：bm-b 执行接收检查。机：原主拥有机 bm-b。",
  "stderr_tail": ""
 }
