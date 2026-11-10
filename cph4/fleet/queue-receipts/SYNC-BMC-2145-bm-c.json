@@ -2,8 +2,7 @@
  "id": "SYNC-BMC-2145",
  "node": "bm-c",
  "rc": 0,
- "seconds": 4.7,
- "seconds": 5.0,
+ "seconds": 5.2,
  "cmd": "git -C . fetch origin --prune && git -C . branch -f backup/bm-c-20261110 HEAD & git -C . reset --hard origin/main && git -C . log -1 --oneline > cph4/fleet/reports/sync-bmc-2145.md",
  "ok_rc": [
   0
@@ -12,8 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/reports/sync-bmc-2145.md",
  "deliverable_exists": true,
- "ts": "2026-11-10T21:49:40",
- "ts": "2026-11-10T21:49:31",
- "stdout_tail": "HEAD is now at 71834858e lane: merge origin (generated files take remote)\n",
+ "ts": "2026-11-10T21:50:31",
+ "stdout_tail": "HEAD is now at cd66e996e lane: merge origin (generated files take remote)\n",
  "stderr_tail": ""
 }
