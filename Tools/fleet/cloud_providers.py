@@ -35,9 +35,12 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 sys.path.insert(0, os.path.join(ROOT, "Tools", "fleet"))
 KEYFILE = os.path.expanduser("~/.config/fluxgroup/cloud-keys.env")
 
-ORDER = ["qwen", "doubao", "codely"]  # 2026-11-10 CEO：Codely 排最后，个人云先用
+ORDER = ["deepseek", "codely"]  # 2026-11-10 CEO：本地优先；免费时段走 DeepSeek；Codely 非必要不走
 
 PROVIDERS = {
+    "deepseek": {"label": "DeepSeek（免费时段优先）", "key": "DEEPSEEK_API_KEY",
+                 "base": "https://api.deepseek.com/v1",
+                 "model_env": "DEEPSEEK_MODEL", "model": "deepseek-chat"},
     "doubao": {"label": "豆包（火山方舟）", "key": "ARK_API_KEY",
                "base": "https://ark.cn-beijing.volces.com/api/v3",
                "model_env": "ARK_MODEL", "model": "doubao-pro-32k"},
@@ -78,15 +81,26 @@ def status():
     return out
 
 
+def offpeak(now=None):
+    """DeepSeek 优惠时段 = UTC 16:30-00:30 = 北京时间 00:30-08:30。"""
+    import datetime
+    bj = (now or datetime.datetime.utcnow()) + datetime.timedelta(hours=8)
+    m = bj.hour * 60 + bj.minute
+    return 30 <= m < 510
+
+
 def available():
     st = status()
     return [n for n in ORDER if (st.get(n) or {}).get("key_present")]
 
 
-def ask_chain(prompt, allow_company=False, timeout=120, max_tokens=1024):
-    """按 ORDER 依次试；Codely 只有在 allow_company 且前面都不可用时才用。"""
+def ask_chain(prompt, allow_company=False, timeout=120, max_tokens=1024, urgent=False):
+    """按 ORDER 依次试；DeepSeek 只在免费时段（或 urgent）用；Codely 需 allow_company。"""
     errs = []
     for name in ORDER:
+        if name == "deepseek" and not offpeak() and not urgent:
+            errs.append("deepseek:offpeak-only")
+            continue
         if name == "codely":
             if not allow_company:
                 continue

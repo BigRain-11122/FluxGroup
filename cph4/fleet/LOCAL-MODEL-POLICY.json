@@ -379,9 +379,13 @@
   }
  },
  "cloud_order": [
-  "qwen",
-  "doubao",
+  "deepseek",
   "codely"
  ],
- "_cloud_order_why": "CEO 2026-11-10：Codely 排最末，个人云（千问/豆包）先用完；公司内部数据仍只走 Codely。"
+ "_cloud_order_why": "CEO 2026-11-10：Codely 排最末，个人云（千问/豆包）先用完；公司内部数据仍只走 Codely。",
+ "cloud_policy": {
+  "codely": "company resource, only when necessary",
+  "deepseek": "free window 00:30-08:30 only (or urgent P0)",
+  "local": "always first"
+ }
 }

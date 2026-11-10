@@ -82,9 +82,16 @@ def main():
         # 2026-11-10 CEO：云端顺序 qwen -> doubao -> Codely（Codely 最末）。
         # 公司内部数据仍只许走 Codely（个人账号不能承载雇主数据）。
         cls = ((r.get("compliance") or {}).get("data_classification") or "internal")
+        urgent = (r.get("prio") == "P0") or bool(r.get("urgent"))
         prov, text = ("", None)
         if cls == "public":
-            prov, text = cp.ask_chain(prompt, allow_company=True)
+            if not cp.offpeak() and not urgent:
+                # 免费时段才动云：非紧急的公开卡先攒着，等 00:30-08:30
+                r["note"] = "deferred: waiting DeepSeek free window (00:30-08:30)"
+                fl.merge_jsonl(os.path.join(F, "PRODUCTION-QUEUE.jsonl"), [r], mirror=False)
+                print(r["id"], "DEFERRED", "(free window)")
+                continue
+            prov, text = cp.ask_chain(prompt, allow_company=True, urgent=urgent)
         if prov and prov != "codely" and text:
             try:
                 if deliv:
