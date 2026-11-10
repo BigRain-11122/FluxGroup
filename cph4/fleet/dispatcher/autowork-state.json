@@ -1,7 +1,7 @@
 {
- "date": "20261110",
+ "date": "20261111",
  "done": {
-  "triage": "R-TRIAGE-BIGSTREAMDUANJU-BMB-20261101 -> 任务未捕获输出 | 运维判读席复核日志，确认是否因无输出导致失败。\n其余条目（NEXT、bigmoney、MV-DIRECTOR-PACKET、Q-VCORP）rc=None 且无记录，属正常状态或数据缺失，无需立即干预。",
-  "digest": "今日共产出 14 件文件，覆盖雷达模型、大游戏及 Fluxverse 三条线。  \n其中“技能推广”与\"biz-mv 发布检查清单”仅各 1 件，明显偏少。  \n建议明天优先补全这两项缺失产出，确保三线均衡。"
+  "triage": "卡片 -> 最可能原因 | 下一步动作(谁做什么)\nasset-lib-env-check-2026-11-11 | 无记录，无法判断具体失败点 | 运维判读席需补充完整日志或错误堆栈才能分析；若确为无记录，则跳过该任务。\nR-MODEL-RADAR-BMM-20261111 | 无记录，无法判断具体失败点 | 运维判读席需补充完整日志或错误堆栈才能分析；若确为无记录，则跳过该任务。",
+  "digest": "今日产出共 27 件，覆盖 GAP、NODE、PRODUCE、Q、R、REPAIR、UNBLOCK 及 asset 等七条线。其中 NODE 线仅产出 1 件，明显偏少。建议明天优先处理 NODE 线的同步任务以补齐产出。"
  }
 }
