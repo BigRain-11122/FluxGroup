@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-10T16:43:16",
+ "ts": "2026-11-10T16:43:42",
  "jobs": [
   {
    "id": "UNBLOCK-asset-lib-asset-gen-2026-11-10",
@@ -19,5 +19,9 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 3.5/1.0 GB"
+ "capacity_note": "ram 3.5/1.0 GB",
+ "cards": [],
+ "pruned_shells": [
+  "UNBLOCK-asset-lib-asset-gen-2026-11-10"
+ ]
 }
