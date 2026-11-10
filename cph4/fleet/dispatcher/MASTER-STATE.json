@@ -1,29 +1,29 @@
 {
- "ts": "2026-11-10T23:00:51",
- "cycle": 1045,
+ "ts": "2026-11-10T23:05:54",
+ "cycle": 1046,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-10T23:00:51",
+ "master_tick_ts": "2026-11-10T23:05:54",
  "queue": {
   "total": 1927,
   "open": 6,
-  "running": 11,
-  "done": 678,
+  "running": 6,
+  "done": 683,
   "failed": 4
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 37.1,
-   "cpu_load_pct": 68,
-   "ram_free_gb": 32,
-   "gpu_util_pct": 90,
+   "hb_age_s": 40.4,
+   "cpu_load_pct": 48,
+   "ram_free_gb": 32.8,
+   "gpu_util_pct": 60,
    "job": "BIZ-BIGGAME-SUBMITPACK-20261110",
    "last_result": {
-    "job": "MV-DIRECTOR-PACKET-20261109",
-    "state": "FAILED",
+    "job": "GAP-BIGMONEY-SIGNAL-20261111",
+    "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-10T22:59:47",
+    "ts": "2026-11-10T23:05:16",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -34,16 +34,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 75.2,
-   "cpu_load_pct": 12,
-   "ram_free_gb": 11.5,
-   "gpu_util_pct": 2,
-   "job": "NODE-SYNC-bm-b-2216",
+   "hb_age_s": 121.1,
+   "cpu_load_pct": 7,
+   "ram_free_gb": 9.8,
+   "gpu_util_pct": 1,
+   "job": "asset-lib-accept-2026-11-10",
    "last_result": {
-    "job": "VERIFY-FIN-ETF-COMPOSITE",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-10T22:56:22",
+    "job": "NODE-SYNC-bm-b-2216",
+    "state": "FAILED",
+    "rc": 128,
+    "ts": "2026-11-10T23:04:28",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -54,16 +54,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 69.8,
-   "cpu_load_pct": 10,
-   "ram_free_gb": 4.6,
+   "hb_age_s": 222.8,
+   "cpu_load_pct": 18,
+   "ram_free_gb": 4.0,
    "gpu_util_pct": 0,
    "job": "asset-lib-face-caption-2026-11-10",
    "last_result": {
-    "job": "GAP-ASSETLIB-AUDIT-20261110B",
-    "state": "FAILED",
-    "rc": 1,
-    "ts": "2026-11-10T22:56:04",
+    "job": "GAP-ASSETLIB-CAP-20261111",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-10T23:05:14",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -74,17 +74,17 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 2.1,
-   "cpu_load_pct": 21,
-   "ram_free_gb": 14.1,
+   "hb_age_s": 1.6,
+   "cpu_load_pct": 9,
+   "ram_free_gb": 13.4,
    "gpu_util_pct": null,
-   "job": "REPAIR-GRID-O2-20261110T2132",
+   "job": "GRID-G1-20261110T2248",
    "last_result": {
     "job": "REPAIR-GRID-O2-20261110T2132",
-    "state": "RUNNING",
+    "state": "DEFERRED",
     "rc": null,
-    "ts": "2026-11-10T23:00:07",
-    "reason": null,
+    "ts": "2026-11-10T23:05:36",
+    "reason": "NO-RUNNABLE-ASSIGNMENT",
     "out_bytes": null,
     "elapsed_s": null
    },
@@ -191,10 +191,8 @@
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "量化席",
-   "jobs": [
-    "GAP-BIGMONEY-SIGNAL-20261111"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": "2026-11-04 夜班重启：原回测阶段钉 bm-d，而 bm-d 自 10-29 离线；改由 bm-b（有 quant 仓与数据）出「下月持仓信号 CSV」，主控按 P1 恢复派单。",
    "stuck_stage": "quant-data",
@@ -286,9 +284,7 @@
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
    "jobs": [
-    "NODE-SYNC-bm-b-2216",
-    "REPAIR-GRID-O2-20261110T2132",
-    "REPAIR-NODE-SYNC-bm-b-2040"
+    "GRID-G1-20261110T2248"
    ],
    "no_supply": false,
    "blockers": [],
@@ -303,9 +299,7 @@
    "owner": "资产席",
    "jobs": [
     "asset-lib-face-caption-2026-11-10",
-    "asset-lib-accept-2026-11-10",
-    "REPAIR-GAP-ASSETLIB-P0-20261110",
-    "GAP-ASSETLIB-CAP-20261111"
+    "asset-lib-accept-2026-11-10"
    ],
    "no_supply": false,
    "blockers": [],
@@ -871,13 +865,11 @@
  },
  "supply_added": [],
  "events": [
-  "MV-DIRECTOR-PACKET-20261109 FAILED via bm-a",
-  "VERIFY-FIN-ETF-COMPOSITE UNVERIFIED(no-artifact-yet) via bm-b",
-  "NODE-SYNC-bm-b-2216 -> bm-b (cpu)",
-  "BIZ-BIGGAME-SUBMITPACK-20261110 -> bm-a (cpu)",
-  "GAP-BIGMONEY-SIGNAL-20261111 -> bm-a (cpu)",
-  "GAP-ASSETLIB-CAP-20261111 -> bm-c (cpu)",
-  "GAP-BIGGAME-ART-20261111 -> bm-c (cpu)"
+  "GAP-BIGMONEY-SIGNAL-20261111 DONE via bm-a",
+  "NODE-SYNC-bm-b-2216 FAILED via bm-b",
+  "GAP-ASSETLIB-CAP-20261111 UNVERIFIED(no-artifact-yet) via bm-c",
+  "asset-lib-accept-2026-11-10 -> bm-b (cpu)",
+  "GRID-G1-20261110T2248 -> bm-m (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 立意/分镜/导演席 (导演席（自决推进，CEO 巡视可随时否决）)",
@@ -888,6 +880,7 @@
  "lane_files_written": [
   "bm-a",
   "bm-b",
-  "bm-c"
+  "bm-c",
+  "bm-m"
  ]
 }
