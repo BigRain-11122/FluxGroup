@@ -1,14 +1,14 @@
 {
  "node": "bm-a",
- "ts": "2026-11-11T06:01:14",
+ "ts": "2026-11-11T06:08:13",
  "jobs": [
   {
-   "id": "NODE-SYNC-bm-a-20261111T0552",
-   "title": "[self-heal] bm-a 分叉收口（reset 到 origin/main，先留备份分支）",
-   "cmd": "git -C . branch -f backup/bm-a-20261111 HEAD && git -C . reset --hard origin/main && git -C . log -1 --oneline > cph4/fleet/reports/node-sync-bm-a-20261111t0552.md",
+   "id": "R-NEXT-BIGSTREAMM-REBUILD-20261111",
+   "title": "MV 合成本片：按 EDL 行表重建成片 v721（缺的是成片，不是闸）",
+   "cmd": "python Tools/mv_rebuild_from_edl.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721.mp4",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/node-sync-bm-a-20261111t0552.md",
+   "deliverable": "cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721.mp4",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 33.7/1.0 GB"
+ "capacity_note": "ram 44.1/1.0 GB"
 }
