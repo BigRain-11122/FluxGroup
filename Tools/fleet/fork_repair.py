@@ -254,6 +254,7 @@ def main(argv):
     ap = argparse.ArgumentParser()
     ap.add_argument("--apply", action="store_true")
     ap.add_argument("--json", action="store_true")
+    ap.add_argument("--force", action="store_true", help="忽略冷却：上一张卡没修好时重派")
     a = ap.parse_args(argv)
     st = load_state()
     rows = []
@@ -277,7 +278,16 @@ def main(argv):
             rows.append(rec)
             continue
         # 1) 能收编祖先就先收编：这是唯一不需要碰节点就能解死结的动作
-        if head and head_in_origin(head) and ahead and ahead > 0:
+        # "head 对象在本地存在" ≠ "能收编"：收编要求 head 是 origin/node/<id> 的祖先。
+        # 2026-11-10 实锚：只看对象存在，连续三轮把 bm-a 判成 adoptable，adopt 每次都
+        # 失败在 "head-not-on-node-branch"，于是既没修成也没派 reset 卡 —— 空转三轮。
+        _adoptable = False
+        if head and ahead and ahead > 0:
+            ref = "origin/node/%s" % nid
+            if git(["cat-file", "-e", ref + "^{commit}"], timeout=30)[0] == 0 and \
+                    git(["merge-base", "--is-ancestor", head, ref], timeout=30)[0] == 0:
+                _adoptable = True
+        if _adoptable:
             if not a.apply:
                 rec.update(verdict="adoptable", action="would-adopt")
             else:
@@ -317,7 +327,7 @@ def main(argv):
                 acted.append("no-healthy-peer")
             stuck.append(nid)
         else:
-            if now() - float(node_st.get("card_ts") or 0) > CARD_COOLDOWN_S:
+            if a.force or now() - float(node_st.get("card_ts") or 0) > CARD_COOLDOWN_S:
                 act, rid = sync_card(node, st, "%s 落后 %s 个提交且无法快进" % (nid, ahead))
                 acted.append("%s:%s" % (act, rid))
         rec["action"] = ",".join(acted) or "none"
