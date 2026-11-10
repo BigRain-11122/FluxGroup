@@ -1,23 +1,23 @@
 {
- "ts": "2026-11-11T00:07:25",
- "cycle": 1070,
+ "ts": "2026-11-11T00:11:39",
+ "cycle": 1071,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-11T00:07:25",
+ "master_tick_ts": "2026-11-11T00:11:39",
  "queue": {
-  "total": 1970,
-  "open": 7,
-  "running": 19,
+  "total": 1977,
+  "open": 10,
+  "running": 22,
   "done": 701,
   "failed": 2
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 9.2,
-   "cpu_load_pct": 85,
-   "ram_free_gb": 20.7,
-   "gpu_util_pct": 35,
+   "hb_age_s": 23.4,
+   "cpu_load_pct": 74,
+   "ram_free_gb": 25.7,
+   "gpu_util_pct": 55,
    "job": "R-PLAN-BIGCOMPUTE-20261111",
    "last_result": {
     "job": "R-NEXT-BIGSTREAMM-REBUILD-20261111",
@@ -34,19 +34,19 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 25.4,
-   "cpu_load_pct": 9,
-   "ram_free_gb": 9.5,
-   "gpu_util_pct": 11,
-   "job": "R-PLAN-BIGDOMAIN-20261111",
+   "hb_age_s": 7.5,
+   "cpu_load_pct": 26,
+   "ram_free_gb": 8.4,
+   "gpu_util_pct": 13,
+   "job": "R-PLAN-BIGMONEY-20261111",
    "last_result": {
-    "job": "R-MODEL-RADAR-BMB-20261111",
-    "state": "BUSY",
-    "rc": null,
-    "ts": "2026-11-11T00:06:40",
+    "job": "R-PLAN-BIGDOMAIN-20261111",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-11T00:10:00",
     "reason": null,
-    "out_bytes": 0,
-    "elapsed_s": 104
+    "out_bytes": null,
+    "elapsed_s": null
    },
    "idle_confirmed": false,
    "idle_reason": "",
@@ -54,16 +54,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 172.2,
-   "cpu_load_pct": 12,
-   "ram_free_gb": 3.0,
+   "hb_age_s": 162.5,
+   "cpu_load_pct": 23,
+   "ram_free_gb": 1.0,
    "gpu_util_pct": 0,
    "job": "R-TRIAGE-BIGSTREAMMV-BMC-20261111",
    "last_result": {
-    "job": "asset-lib-env-check-2026-11-11",
-    "state": "FAILED",
-    "rc": 1,
-    "ts": "2026-11-11T00:04:56",
+    "job": "Q-TRIAGE-BIGSTREAMMV-20261111",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-11T00:11:06",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -74,30 +74,30 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 1.6,
-   "cpu_load_pct": 10,
-   "ram_free_gb": 13.8,
+   "hb_age_s": 2.2,
+   "cpu_load_pct": 21,
+   "ram_free_gb": 15.1,
    "gpu_util_pct": null,
-   "job": null,
+   "job": "REPAIR-asset-lib-env-check-2026-11-11",
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-11T00:06:50",
+    "ts": "2026-11-11T00:10:59",
     "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
-   "idle_confirmed": true,
-   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 1
+   "idle_confirmed": false,
+   "idle_reason": "",
+   "idle_rounds": 0
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 1
+  "bm-m": 0
  },
  "lines": {
   "bigstream-mv": {
@@ -108,6 +108,7 @@
    "stale_after_h": 24.0,
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
    "jobs": [
+    "GAP-MV-LINE-20261111",
     "bigstream-mv-gate-2026-11-11"
    ],
    "no_supply": false,
@@ -198,7 +199,8 @@
    "owner": "量化席",
    "jobs": [
     "R-PLAN-BIGMONEY-20261111",
-    "bigmoney-signal-2026-11-11"
+    "bigmoney-signal-2026-11-11",
+    "UNBLOCK-VERIFY-FIN-ETF-COMPOSITE"
    ],
    "no_supply": false,
    "blockers": [],
@@ -209,14 +211,12 @@
   "bigdomain": {
    "name": "BigDomain·硅基域商业化",
    "status": "ACTIVE",
-   "verdict": "WORKING",
+   "verdict": "WAITING",
    "age_h": null,
    "stale_after_h": 36.0,
    "owner": "域运营席",
-   "jobs": [
-    "R-PLAN-BIGDOMAIN-20261111"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": null
   },
@@ -299,13 +299,15 @@
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
    "jobs": [
-    "Q-TRIAGE-BIGSTREAMMV-20261111",
     "Q-TRIAGE-BIGGAME-20261111",
-    "Q-TRIAGE-FLUXVERSE-20261111"
+    "Q-TRIAGE-FLUXVERSE-20261111",
+    "NODE-SYNC-bm-a-20261111",
+    "NODE-SYNC-bm-b-20261111",
+    "REPAIR-R-MODEL-RADAR-BMM-20261111"
    ],
    "no_supply": false,
    "blockers": [
-    "Q-TRIAGE-FLUXVERSE-20261111:no-lane"
+    "NODE-SYNC-bm-a-20261111:no-lane"
    ],
    "note": null
   },
@@ -318,10 +320,15 @@
    "owner": "资产席",
    "jobs": [
     "asset-lib-voice-corpus-2026-11-11",
-    "asset-lib-face-dataset-2026-11-11"
+    "asset-lib-face-dataset-2026-11-11",
+    "REPAIR-asset-lib-env-check-2026-11-11",
+    "UNBLOCK-asset-lib-face-caption-2026-11-10",
+    "asset-lib-face-caption-2026-11-11"
    ],
    "no_supply": false,
-   "blockers": [],
+   "blockers": [
+    "asset-lib-face-caption-2026-11-11:no-lane"
+   ],
    "note": "CEO 2026-11-03：先储备资产，角色 LoRA 与音色库为 P0"
   }
  },
@@ -861,10 +868,10 @@
   }
  },
  "judgments": {
-  "open": 9,
+  "open": 7,
   "by_kind": {
    "CAPACITY": 2,
-   "LINE-LATE": 6,
+   "LINE-LATE": 4,
    "RETRY": 1
   },
   "added": 0,
@@ -872,23 +879,27 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 7,
+  "local": 9,
   "cloud": 0,
-  "queue": 0,
+  "queue": 1,
   "blocked": 0,
   "cloud_spend_today": 0,
   "waste": []
  },
  "supply_gap": {
-  "cpu": 7,
-  "gpu": 0
+  "cpu": 9,
+  "gpu": 1
  },
  "supply_added": [],
  "events": [
   "R-NEXT-BIGSTREAMM-REBUILD-20261111 UNVERIFIED(no-artifact-yet) via bm-a",
-  "asset-lib-voice-corpus-2026-11-11 -> bm-a (cpu)",
-  "asset-lib-face-dataset-2026-11-11 -> bm-c (cpu)",
-  "bigmoney-signal-2026-11-11 -> bm-b (cpu)"
+  "R-PLAN-BIGDOMAIN-20261111 UNVERIFIED(no-artifact-yet) via bm-b",
+  "Q-TRIAGE-BIGSTREAMMV-20261111 DONE via bm-c",
+  "NODE-SYNC-bm-b-20261111 -> bm-b (cpu)",
+  "REPAIR-asset-lib-env-check-2026-11-11 -> bm-m (cpu)",
+  "REPAIR-R-MODEL-RADAR-BMM-20261111 -> bm-m (cpu)",
+  "UNBLOCK-VERIFY-FIN-ETF-COMPOSITE -> bm-m (cpu)",
+  "UNBLOCK-asset-lib-face-caption-2026-11-10 -> bm-m (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 立意/分镜/导演席 (导演席（自决推进，CEO 巡视可随时否决）)",
@@ -897,8 +908,8 @@
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-a",
   "bm-b",
-  "bm-c"
+  "bm-c",
+  "bm-m"
  ]
 }
