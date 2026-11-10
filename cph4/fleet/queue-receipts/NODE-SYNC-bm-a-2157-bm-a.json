@@ -1,0 +1,17 @@
+{
+ "id": "NODE-SYNC-bm-a-2157",
+ "node": "bm-a",
+ "rc": 128,
+ "seconds": 4.3,
+ "cmd": "git -C . fetch origin --prune && git -C . branch -f backup/bm-a-2157 HEAD & git -C . reset --hard origin/main && git -C . log -1 --oneline > cph4/fleet/reports/node-sync-bm-a-2157.md",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "FAIL",
+ "error_class": "E-UNKNOWN",
+ "deliverable": "cph4/fleet/reports/node-sync-bm-a-2157.md",
+ "deliverable_exists": false,
+ "ts": "2026-11-10T22:34:37",
+ "stdout_tail": "",
+ "stderr_tail": "fatal: Unable to create 'C:/Users/sjs20/Desktop/FluxGroup/.git/index.lock': File exists.\n\nAnother git process seems to be running in this repository, or the lock file may be stale\n"
+}

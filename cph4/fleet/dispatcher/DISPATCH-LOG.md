@@ -1,26 +1,4 @@
-﻿[2026-11-08 16:31] FLAG CLOCK-SKEW max=4315.8ms precision=+/-418.3ms -> check hub path or node clock
-[2026-11-08 16:31] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
-[2026-11-08 16:31] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
-[2026-11-08 16:31] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=3 run=1 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=BUSY; flags=2
-[2026-11-08 16:41] FLAG CLOCK-SKEW max=4356.5ms precision=+/-517.9ms -> check hub path or node clock
-[2026-11-08 16:41] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
-[2026-11-08 16:41] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
-[2026-11-08 16:41] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=3 run=1 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=BUSY; flags=2
-[2026-11-08 16:51] FLAG CLOCK-SKEW max=4393.6ms precision=+/-422.6ms -> check hub path or node clock
-[2026-11-08 16:51] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
-[2026-11-08 16:51] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
-[2026-11-08 16:51] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=3 run=1 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=BUSY; flags=2
-[2026-11-08 17:01] FLAG CLOCK-SKEW max=4445.1ms precision=+/-419.7ms -> check hub path or node clock
-[2026-11-08 17:01] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
-[2026-11-08 17:01] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
-[2026-11-08 17:01] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=3 run=1 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=BUSY; flags=2
-[2026-11-08 17:11] FLAG CLOCK-SKEW max=4485.9ms precision=+/-419.1ms -> check hub path or node clock
-[2026-11-08 17:11] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
-[2026-11-08 17:11] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
-[2026-11-08 17:11] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=3 run=1 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=BUSY; flags=2
-[2026-11-08 17:21] FLAG CLOCK-SKEW max=4527.4ms precision=+/-415.8ms -> check hub path or node clock
-[2026-11-08 17:21] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
-[2026-11-08 17:21] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
+﻿[2026-11-08 17:21] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
 [2026-11-08 17:21] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=3 run=1 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=BUSY; flags=2
 [2026-11-08 17:31] FLAG CLOCK-SKEW max=4527.4ms precision=+/-420.3ms -> check hub path or node clock
 [2026-11-08 17:31] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
@@ -418,3 +396,5 @@
 
 [2026-11-10 03:05] EVENT origin 已核验: 三卡 DONE/BLOCKED/BLOCKED + char-gen RUNNING；origin/main 上 ensure_sparse_cone=True、read_jsonl dedupe=True；push e58d77987。队列文件内重复行由主控脉并发 merge 继续产生，读端已容错（不阻断）。
 
+[2026-11-10 22:31] FLAG CLOCK-SKEW max=3410.5ms precision=+/-429.8ms -> check hub path or node clock
+[2026-11-10 22:31] pools: bm-a=3open/0exec/6run bm-b=0open/0exec/6run bm-c=0open/0exec/1run; queue_open=13 run=17 lanejobs: a=6 b=6 c=1; idle: a=BUSY b=GPU-IDLE c=GPU-IDLE; flags=1
