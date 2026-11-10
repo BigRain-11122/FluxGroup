@@ -2,7 +2,7 @@
  "id": "UNBLOCK-biggame-accept-2026-11-11",
  "node": "bm-m",
  "rc": 0,
- "seconds": 46.5,
+ "seconds": 42.4,
  "cmd": "",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/repairs/biggame-accept-2026-11-11-unblock.md",
  "deliverable_exists": true,
- "ts": "2026-11-11T01:45:27",
- "stdout_tail": "缺人阻塞，需 bm-m 确认责任人并指定接手机器执行解锁。",
+ "ts": "2026-11-11T01:47:14",
+ "stdout_tail": "阻塞类型：缺权限；最小解锁动作：owner bm-m 重新提交；执行机器：bm-m。",
  "stderr_tail": ""
 }
