@@ -20,3 +20,4 @@
 | B-ENV | 三台 Windows 的 git 写入链路同时异常：bm-a 领先 32 且 reset 卡连失败、reset 不落 node 分支；bm-c 的 GPU 卡与 bm-a 的 reset 都"无回执"失败；bm-b 不可达 | 逐台现场：`git push --dry-run` 看是凭证还是网络；清 index.lock/shallow.lock；确认 SSH key/token 未过期。这是今晚停机的主因，主控无法远程代替 | CEO/现场 | 否 |
 | B-ENV | bm-a 写链路确认异常（L4 实测：3 张在跑、40 分钟零回执；ahead 41 且 node 分支也推不上） | 现场 `git push --dry-run` 看凭证/网络；该机能执行但产物留本地，恢复前不要再向它派会产出的活 | CEO/现场 | 否 |
 | B-DATA | 节点是 sparse checkout（agent.py: ensure_sparse_cone 只物化 cph4/fleet + Tools/fleet），所以 `软著申请材料/` 在 bm-c 上只有 4 个目录、bm-a 上另有内容 → 同一张扫描卡在不同机器给出不同答案（4 vs 64 包） | 规则化：①扫资产/软著的卡必须点名「持有完整素材的机器」或在卡面写 data_source=node/master；②不要把这类卡当通用卡派 | 主控（出卡端） | 是（可自动） |
+| B-CAP | bm-c 可用内存仅 1.1G（门槛 1.0G），但占用不是我们的负载：python 2.48G + Doubao×3 ≈2.9G + msedge 1.0G + explorer 1.0G；ollama 未加载任何模型 | 不动用户进程（静默律）。二选一：①关掉 bm-c 上的豆包/Edge 浏览器释放约 3-4G ②给 bm-c 加内存；在此之前 bm-c 只能跑 rescue 级轻活 | CEO | 否 |
