@@ -1,0 +1,17 @@
+{
+ "id": "asset-lib-env-check-2026-11-11",
+ "node": "bm-c",
+ "rc": 1,
+ "seconds": 15.0,
+ "cmd": "python Tools/fleet/asset_env_check.py --out cph4/fleet/queue-receipts/asset-env-2026-11-11.json",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "FAIL",
+ "error_class": "E-UNKNOWN",
+ "deliverable": "cph4/fleet/queue-receipts/asset-env-2026-11-11.json",
+ "deliverable_exists": true,
+ "ts": "2026-11-11T00:04:51",
+ "stdout_tail": "ASSET-ENV FAIL  unknown\n  鍙�鐢ㄨ矾绾�: 鏃�\n  ! 娌℃湁 kohya sd-scripts锛堣�掕壊 LoRA 璁�缁冩爤锛夆�斺�旀壘 KOHYA_DIR 鐜�澧冨彉閲忔垨瑁呬竴浠�\n  ! 娌℃湁 GPT-SoVITS锛堥煶鑹插井璋冩爤锛夆�斺�旀壘 GPTSOVITS_DIR 鐜�澧冨彉閲忔垨瑁呬竴浠�\n  ! 璧勪骇鐩�褰曚笉鍦ㄤ綅锛歮edia/asset/loras\n  ! 璧勪骇鐩�褰曚笉鍦ㄤ綅锛歮edia/asset/voice-models\n",
+ "stderr_tail": ""
+}
