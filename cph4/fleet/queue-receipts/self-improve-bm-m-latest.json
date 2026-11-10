@@ -1,13 +1,13 @@
 {
  "node": "bm-m",
- "ts": "2026-11-10T21:31:32",
+ "ts": "2026-11-10T21:36:48",
  "mode": "apply",
  "verdict": "SELF-OK",
  "checks": [
   {
    "check": "reload",
-   "code_age_s": 10522,
-   "receipt_age_s": 13,
+   "code_age_s": 10838,
+   "receipt_age_s": 0,
    "targets": [],
    "acted": false,
    "note": "executor produced a receipt after the last code edit",
@@ -16,15 +16,11 @@
   },
   {
    "check": "shells",
-   "cards": 2,
-   "shells": 2,
-   "ids": [
-    "REPAIR-CMD-DSH-BMC-ACK-2012",
-    "REPAIR-CMD-DSH-BMC-MEM-2012"
-   ],
-   "acted": true,
-   "kept": 0,
-   "verdict": "PRUNED"
+   "cards": 1,
+   "shells": 0,
+   "ids": [],
+   "acted": false,
+   "verdict": "OK"
   },
   {
    "check": "deps",
