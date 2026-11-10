@@ -1,7 +1,35 @@
 {
  "node": "bm-a",
- "ts": "2026-11-11T04:35:07",
+ "ts": "2026-11-11T04:40:12",
  "jobs": [
+  {
+   "id": "R-NEXT-BIGSTREAMM-REBUILD-20261111",
+   "title": "MV 合成本片：按 EDL 行表重建成片 v721（缺的是成片，不是闸）",
+   "cmd": "python Tools/mv_rebuild_from_edl.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721.mp4",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721.mp4",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "GAP-BIGMONEY-BMA-20261111",
+   "title": "[gap] bigmoney 证据（bm-a）",
+   "cmd": "python Tools/fleet/line_triage.py --line bigmoney --out cph4/fleet/reports/triage-bigmoney-20261111b.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/reports/triage-bigmoney-20261111b.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": 180
+  },
   {
    "id": "GAP-FLUXVERSE-BMA-20261111",
    "title": "[gap] fluxverse 证据（bm-a）",
@@ -19,5 +47,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 22.9/1.0 GB"
+ "capacity_note": "ram 29.2/1.0 GB"
 }
