@@ -5786,3 +5786,5 @@
 - 11-11T02:15 · UNBLOCK-asset-lib-char-gen-2026-11-11-bm-m.json · 已完成资产库解锁，无风险，需确认 bm-c 负责人并指派任务。
 - 11-11T02:15 · UNBLOCK-asset-lib-asset-gen-scenes-2026-11-11-acceptance.json · 机队回执被拒，因交付物非有效产物且无风险。
 - 11-11T02:15 · UNBLOCK-asset-lib-asset-gen-scenes-2026-11-11-bm-m.json · 已完成机队回执生成，无风险，需授权 owner 处理缺人阻塞。
+- 11-11T02:17 · _last_lane_bm-m.json · 机队任务已运行中，当前无风险。
+- 11-11T02:17 · skill-promote-20261111.json · 已跳过多项因工具缺失或重复的任务，当前无风险。
