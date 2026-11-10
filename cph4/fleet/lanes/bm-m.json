@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-11T00:38:50",
+ "ts": "2026-11-11T00:40:23",
  "jobs": [
   {
    "id": "REPAIR-R-NEXT-BIGSTREAMM-REBUILD-20261111",
@@ -45,7 +45,7 @@
    "timeout_s": null
   }
  ],
- "idle_reason": "",
+ "idle_reason": "control-plane heartbeat",
  "lane_ok": true,
  "capacity_note": "ram 14.7/1.0 GB",
  "cards": [],

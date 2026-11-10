@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-11T00:26:58+0800",
+ "ts": "2026-11-11T00:40:21+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -58,8 +58,8 @@
    "blocker_type": "ENGINE",
    "blocker": "发布决定权在 CEO，但工程侧可先做下一首立意案",
    "state": "RUNNING",
-   "card": "bigstream-mv-gate-2026-11-11",
-   "running_on": "bm-a"
+   "card": "R-NEXT-BIGSTREAMM-REBUILD-20261111",
+   "running_on": "bm-b"
   },
   {
    "id": "bigstream-drama",
@@ -117,8 +117,8 @@
    "accept": "投影文件每日刷新；受阻面写明触发条件",
    "blocker_type": "ENGINE",
    "blocker": "四仓不在本机，需在对应机器生成投影",
-   "state": "STALLED",
-   "card": null,
+   "state": "QUEUED",
+   "card": "UNBLOCK-PRODUCE-FLUXVERSE-20261110",
    "running_on": null
   },
   {
@@ -147,9 +147,9 @@
    "accept": "该节点有心跳、能领卡、1 张真卡产出产物",
    "blocker_type": "CEO",
    "blocker": "机器未接线/未装系统，需人到现场",
-   "state": "QUEUED",
-   "card": "REPAIR-R-PLAN-BIGCOMPUTE-20261111",
-   "running_on": null
+   "state": "RUNNING",
+   "card": "R-PLAN-BIGCOMPUTE-20261111",
+   "running_on": "bm-b"
   },
   {
    "id": "biglife",
@@ -222,15 +222,15 @@
    "accept": "flux_check new=0；AUTOMATION-SURFACE 无 RISK 项",
    "blocker_type": "ENGINE",
    "blocker": "I2 存量 125 条卡面路径债、vault 缺盘 651 条",
-   "state": "QUEUED",
-   "card": "REPAIR-R-MODEL-RADAR-BMB-20261111",
-   "running_on": null
+   "state": "RUNNING",
+   "card": "Q-TRIAGE-BIGGAME-20261111",
+   "running_on": "bm-c"
   }
  ],
  "counts": {
-  "RUNNING": 4,
-  "QUEUED": 5,
-  "STALLED": 6
+  "RUNNING": 6,
+  "QUEUED": 4,
+  "STALLED": 5
  },
- "stalled_engine": 3
+ "stalled_engine": 2
 }
