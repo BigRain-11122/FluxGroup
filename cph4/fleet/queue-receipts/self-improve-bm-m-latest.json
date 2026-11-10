@@ -1,13 +1,13 @@
 {
  "node": "bm-m",
- "ts": "2026-11-11T06:40:14",
+ "ts": "2026-11-11T06:44:01",
  "mode": "apply",
  "verdict": "SELF-OK",
  "checks": [
   {
    "check": "reload",
-   "code_age_s": 13858,
-   "receipt_age_s": 5,
+   "code_age_s": 14084,
+   "receipt_age_s": 32,
    "targets": [],
    "acted": false,
    "note": "executor produced a receipt after the last code edit",
@@ -16,12 +16,14 @@
   },
   {
    "check": "shells",
-   "cards": 0,
-   "shells": 0,
-   "ids": [],
-   "acted": false,
-   "verdict": "OK",
-   "note": "no assignment on this lane (not a shell problem)"
+   "cards": 1,
+   "shells": 1,
+   "ids": [
+    "REPAIR-GAP-BIGGAME-BMC-3"
+   ],
+   "acted": true,
+   "kept": 0,
+   "verdict": "PRUNED"
   },
   {
    "check": "deps",
