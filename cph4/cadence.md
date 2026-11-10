@@ -192,3 +192,10 @@ CEO 一句话令（任意会话/任意机器）
 | fill_loop（labelfill 服务） | 常驻循环 | 本地算力填充环 | state/card-labels.jsonl | GPU 空转填充；州长盯 swap |
 | llm_gateway 内网免令牌 | 常驻 | 机队借主控算力 | state/llm-gateway.jsonl | 仅 100.64/10 与回环；白名单/并发限制不变 |
 
+
+### 2026-11-10 自驱补登记（T2·否决窗至 2026-11-17）
+
+| 任务 | 周期 | 角色 | 产物 | 备注 |
+|---|---|---|---|---|
+| selfdrive | 15min，≤4 张 | 机队自驱（从真实缺口造卡） | repairs/*.md + BACKLOG | 只造"修复分析/解锁"两类，不编业务卡；派单仍归 master_agent |
+
