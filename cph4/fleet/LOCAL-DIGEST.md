@@ -5075,3 +5075,12 @@
 - 11-10T22:44 · R-TRIAGE-FLUXVERSE-BMC-20261110-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物。
 - 11-10T22:44 · REPAIR-GAP-ASSETLIB-AUDIT-20261110-acceptance.json · 已完成机队回执提交，但因非标准产物被拒，无后续风险。
 - 11-10T22:45 · REPAIR-GAP-ASSETLIB-AUDIT-20261110-bm-m.json · 已完成机队回执生成，但存在因死锁导致停线风险，需立即隔离并重置状态。
+- 11-10T22:47 · _last_lane_bm-m.json · 已完成资产库审计修复，无风险。
+- 11-10T22:48 · REPAIR-GAP-ASSETLIB-AUDIT-20261110-acceptance.json · 机队回执被拒，因交付物非标准产物且存在合规风险。
+- 11-10T22:47 · REPAIR-GAP-ASSETLIB-AUDIT-20261110-bm-m.json · 资产差距报告生成失败，需排查上游数据源及聚合逻辑死锁风险。
+- 11-10T22:47 · REPAIR-GAP-BIGMONEY-LINE-20261110-acceptance.json · 机队回执未生成有效交付物，存在流程阻断风险。
+- 11-10T22:48 · REPAIR-GAP-BIGMONEY-LINE-20261110-bm-m.json · 已完成流水线根因诊断与行动项规划，存在结构性阻塞风险需立即排查。
+- 11-10T22:48 · REPAIR-GAP-BIGGAME-PACK-20261110-acceptance.json · 完成机队回执提交，但被拒因交付物非标准产物。
+- 11-10T22:47 · REPAIR-GAP-BIGGAME-PACK-20261110-bm-m.json · 任务因资源死锁导致连续重试失败并停线，需人工介入排查根因。
+- 11-10T22:47 · GRID-O2-20261110T2132-acceptance.json · 机队回执显示产物未落盘，任务失败且无风险。
+- 11-10T22:47 · GRID-O2-20261110T2132-bm-m.json · 机队回执显示无修复定义，任务失败且未生成交付物。
