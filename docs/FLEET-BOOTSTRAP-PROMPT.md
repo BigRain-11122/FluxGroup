@@ -96,3 +96,12 @@
 | 模型很慢 | swap、并发槽 | 卸非主力、降到 1 并发 |
 | 冲突不断 | 是否改了别人的卡/状态文件 | 只写自己产物；停手回报 |
 | 云费用异常 | codely 日志 + local_tried | 本地优先闸会拦；补 local_tried |
+
+## 六、自唤醒（self-wake）
+
+每台 Windows 机器装一次，之后执行器掉线会自己回来：
+
+    powershell -ExecutionPolicy Bypass -File Tools\fleet\selfwake.ps1 -Node bm-b
+
+它做三件事：立即静默拉起 lane_agent；注册登录触发；每 5 分钟重复触发（已在跑则忽略）。
+macOS 侧由 launchd KeepAlive 承担同类职责。
