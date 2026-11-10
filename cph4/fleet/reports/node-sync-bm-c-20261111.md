@@ -1,1 +1,1 @@
-340dc715e state: sync [via state_sync]
+c29cc4cd4 job(NODE-SYNC-bm-c-20261111): artifact [via bm-c]
