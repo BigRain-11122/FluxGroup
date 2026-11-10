@@ -1,42 +1,14 @@
 {
  "node": "bm-b",
- "ts": "2026-11-10T22:45:31",
+ "ts": "2026-11-10T22:50:51",
  "jobs": [
   {
-   "id": "NODE-SYNC-bm-b-20261110",
-   "title": "[self-heal] bm-b 分叉收口（reset 到 origin/main，先留备份分支）",
-   "cmd": "git -C . fetch origin --prune && git -C . branch -f backup/bm-b-20261110 HEAD 2>nul & git -C . reset --hard origin/main && git -C . log -1 --oneline > cph4/fleet/reports/node-sync-bm-b-20261110.md",
+   "id": "VERIFY-FIN-ETF-COMPOSITE",
+   "title": "[verify] 远端核对 etf_composite_pf.json（C-FIN-ETF-COMPOSITE）",
+   "cmd": "python -c \"import os;p='quant/bigmoney/results/etf_composite_pf.json';print(p,os.path.exists(p),os.path.getsize(p) if os.path.exists(p) else 0)\" > cph4/fleet/reports/verify-fin-etf-composite.txt 2>&1",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/node-sync-bm-b-20261110.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "GAP-ASSETLIB-P0-20261110",
-   "title": "[gap] asset-lib P0 准入体检",
-   "cmd": "python Tools/fleet/asset_library_check.py --tier p0 --out cph4/fleet/reports/asset-lib-p0-20261110.md",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/asset-lib-p0-20261110.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "PEER-SYNC-bm-a-20261110",
-   "title": "[peer-heal] bm-b 用 WinRM 替 bm-a 收口",
-   "cmd": "powershell -NoProfile -Command \"$e=$null; try { Invoke-Command -ComputerName 100.110.185.62 -ScriptBlock { Set-Location 'C:\\Users\\sjs20\\Desktop\\FluxGroup'; git fetch origin --prune; git branch -f backup/bm-a-20261110 HEAD 2>$null; git reset --hard origin/main; git log -1 --oneline } -ErrorAction Stop } catch { $e=$_.Exception.Message }; 'winrm_err='+$e | Out-File -Encoding utf8 cph4/fleet/reports/peer-sync-bm-a-20261110.md\"",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/peer-sync-bm-a-20261110.md",
+   "deliverable": "cph4/fleet/reports/verify-fin-etf-composite.txt",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -73,6 +45,20 @@
    "timeout_s": null
   },
   {
+   "id": "GAP-BIGGAME-LINE-20261110",
+   "title": "[gap] biggame 线证据扫描（bm-b）",
+   "cmd": "python Tools/fleet/line_triage.py --line biggame --out cph4/fleet/reports/triage-biggame-20261110.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/reports/triage-biggame-20261110.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
    "id": "NODE-SYNC-bm-b-LIGHT",
    "title": "[self-heal] bm-b 轻量收口（不 fetch，直接 reset 到本地 origin/main）",
    "cmd": "git -C . branch -f backup/bm-b-light HEAD && git -C . reset --hard origin/main && git -C . log -1 --oneline > cph4/fleet/reports/node-sync-bm-b-light.md",
@@ -89,5 +75,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 10.4/1.0 GB"
+ "capacity_note": "ram 10.5/1.0 GB"
 }
