@@ -5176,3 +5176,16 @@
 - 11-10T23:11 · GAP-BIGGAME-ART-20261111-acceptance.json · 机队未提交有效回执，因缺乏必要产出文件被驳回。
 - 11-10T23:11 · GAP-ASSETLIB-CAP-20261111-bm-c.json · 已完成资产库排查报告生成，无错误风险。
 - 11-10T23:11 · GAP-ASSETLIB-CAP-20261111-acceptance.json · 完成资产库回执提交，但被拒因非标准产物且无风险。
+- 11-10T23:13 · REPAIR-NODE-SYNC-bm-b-2216-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-10T23:13 · REPAIR-NODE-SYNC-bm-b-2216-bm-m.json · 任务完成但存在数据同步阻塞风险，需排查依赖服务。
+- 11-10T23:13 · _last_lane_bm-m.json · 已完成机队修复验证，无风险。
+- 11-10T23:13 · REPAIR-VERIFY-FIN-ETF-COMPOSITE-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-10T23:13 · REPAIR-VERIFY-FIN-ETF-COMPOSITE-bm-m.json · 完成了金融报告验证任务，但因脚本未生成有效结果导致验证失败且无风险。
+- 11-10T23:13 · REPAIR-GAP-ASSETLIB-CAP-20261111-acceptance.json · 完成机队回执提交，但因非标准产物被拒，无安全风险。
+- 11-10T23:13 · REPAIR-GAP-ASSETLIB-CAP-20261111-bm-m.json · 已完成资产库归档失败诊断，需人工校验后手动标记状态以消除风险。
+- 11-10T23:13 · _last_claim.json · 机队已空，无风险。
+- 11-10T23:13 · GAP-BIGGAME-ART-20261111-bm-c.json · 已完成机队大游戏排查报告生成，无错误风险。
+- 11-10T23:13 · GAP-BIGGAME-ART-20261111-acceptance.json · 完成机队回执提交，但被拒收因非标准产物且无风险。
+- 11-10T23:14 · BIZ-BIGGAME-SUBMITPACK-20261110-bm-a.json · 机队回执显示 35 款产品因缺截图和运行包导致提交失败，存在交付风险。
+- 11-10T23:14 · BIZ-BIGGAME-SUBMITPACK-20261110-acceptance.json · 机队回执显示产物未落盘，任务失败且无风险。
+- 11-10T23:14 · skill-promote-20261110.json · 已完成基础任务，因工具缺失导致大量关键技能无法执行。
