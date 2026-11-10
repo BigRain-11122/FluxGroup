@@ -1,1 +1,1 @@
-缺权限：需 owner(bm-m) 手动解除阻塞，由 bm-m 执行解锁动作。
+缺权限 (owner=bm-m)；申请 owner 开通权限；由原 owner 执行。
