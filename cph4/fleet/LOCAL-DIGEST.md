@@ -5700,3 +5700,8 @@
 - 11-11T01:40 · self-improve-bm-m-latest.json · 机队已确认无风险，代码与依赖检查均通过。
 - 11-11T01:40 · NODE-SYNC-bm-c-0130-bm-c.json · 同步机队失败，因文件被占用导致无法创建索引锁。
 - 11-11T01:40 · NODE-SYNC-bm-c-0130-acceptance.json · 节点同步失败，产物未落盘，存在交付风险。
+- 11-11T01:42 · CANARY-20261111T014052-acceptance.json · 完成机队回执提交，但被拒收因交付物非有效产物。
+- 11-11T01:42 · CANARY-20261111T014052-bm-m.json · 已完成端到端自检并生成产物，无风险。
+- 11-11T01:42 · NODE-SYNC-bm-c-20261111-bm-c.json · 已完成机队同步并生成报告，无风险。
+- 11-11T01:42 · NODE-SYNC-bm-c-20261111-acceptance.json · 完成节点同步回执提交，但被拒收因非有效交付物。
+- 11-11T01:42 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。

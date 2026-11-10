@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-11T01:30:22+0800",
+ "ts": "2026-11-11T01:42:13+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -27,8 +27,8 @@
    "accept": "SUBMIT-PACK 里『隐私政策』『提审台账』两类缺件归零",
    "blocker_type": "CEO",
    "blocker": "截图需跑游戏取图，受 2026-10-28『不许自动跑游戏包』令约束，等放行",
-   "state": "STALLED",
-   "card": null,
+   "state": "QUEUED",
+   "card": "UNBLOCK-biggame-accept-2026-11-11",
    "running_on": null
   },
   {
@@ -42,9 +42,9 @@
    "accept": "quant_signal 回执 rc=0 且 CSV 含因子值与输入指纹",
    "blocker_type": "ENGINE",
    "blocker": "回测产物需在 bm-b 本地生成；主控无 quant 仓",
-   "state": "RUNNING",
-   "card": "bigmoney-signal-2026-11-11",
-   "running_on": "bm-a"
+   "state": "STALLED",
+   "card": null,
+   "running_on": null
   },
   {
    "id": "bigstream-mv",
@@ -57,9 +57,9 @@
    "accept": "发布台账有回执行；或 CEO 给出重剪清单",
    "blocker_type": "ENGINE",
    "blocker": "发布决定权在 CEO，但工程侧可先做下一首立意案",
-   "state": "RUNNING",
-   "card": "UNBLOCK-bigstream-mv-gate-2026-11-11",
-   "running_on": "bm-m"
+   "state": "STALLED",
+   "card": null,
+   "running_on": null
   },
   {
    "id": "bigstream-drama",
@@ -222,15 +222,15 @@
    "accept": "flux_check new=0；AUTOMATION-SURFACE 无 RISK 项",
    "blocker_type": "ENGINE",
    "blocker": "I2 存量 125 条卡面路径债、vault 缺盘 651 条",
-   "state": "STALLED",
-   "card": null,
-   "running_on": null
+   "state": "RUNNING",
+   "card": "NODE-SYNC-bm-c-20261111",
+   "running_on": "bm-c"
   }
  ],
  "counts": {
-  "RUNNING": 3,
-  "QUEUED": 3,
+  "RUNNING": 2,
+  "QUEUED": 4,
   "STALLED": 9
  },
- "stalled_engine": 4
+ "stalled_engine": 5
 }
