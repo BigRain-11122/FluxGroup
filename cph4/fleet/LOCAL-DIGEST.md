@@ -5769,3 +5769,12 @@
 - 11-11T02:11 · _last_lane_bm-m.json · 机队任务已完成，无风险。
 - 11-11T02:11 · UNBLOCK-asset-lib-voice-assemble-2026-11-11-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物，无安全风险。
 - 11-11T02:11 · UNBLOCK-asset-lib-voice-assemble-2026-11-11-bm-m.json · 已完成资产库解锁，但存在因权限不足导致无法执行的潜在风险。
+- 11-11T02:13 · _last_lane_bm-m.json · 机队任务已完成，无风险。
+- 11-11T02:13 · UNBLOCK-asset-lib-asset-gen-2026-11-11-acceptance.json · 机队回执被拒，因交付物非有效产物且无风险。
+- 11-11T02:13 · UNBLOCK-asset-lib-asset-gen-2026-11-11-bm-m.json · 任务已完成，但需人工介入重启以消除阻塞风险。
+- 11-11T02:13 · UNBLOCK-asset-lib-asset-gen-scenes-2026-11-11-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-11T02:13 · UNBLOCK-asset-lib-asset-gen-scenes-2026-11-11-bm-m.json · 已完成机队解锁，无风险。
+- 11-11T02:13 · UNBLOCK-asset-lib-char-gen-2026-11-11-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-11T02:13 · UNBLOCK-asset-lib-char-gen-2026-11-11-bm-m.json · 已完成资产库解锁，存在因权限不足需人工介入的风险。
+- 11-11T02:13 · GAP-BIGGAME-PACK-20261111-bm-a.json · 机队扫描任务因超时失败，未生成报告且存在执行中断风险。
+- 11-11T02:13 · GAP-BIGGAME-PACK-20261111-acceptance.json · 机队回执显示产物未落盘，任务失败且无风险。
