@@ -5757,3 +5757,5 @@
 - 11-11T02:02 · PEER-SYNC-bm-a-20261111-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
 - 11-11T02:02 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
 - 11-11T02:03 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
+- 11-11T02:05 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-11T02:07 · _last_lane_bm-m.json · 机队已自派完成回单扫描，无风险。
