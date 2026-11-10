@@ -1,0 +1,17 @@
+{
+ "id": "asset-lib-library-check-2026-11-08",
+ "node": "bm-c",
+ "rc": 1,
+ "seconds": 9.0,
+ "cmd": "python Tools/fleet/asset_library_check.py --tier p0 --out cph4/fleet/queue-receipts/asset-library-2026-11-08.json",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "FAIL",
+ "error_class": "E-UNKNOWN",
+ "deliverable": "cph4/fleet/queue-receipts/asset-library-2026-11-08.json",
+ "deliverable_exists": true,
+ "ts": "2026-11-10T20:42:58",
+ "stdout_tail": "璧勪骇搴撲綋妫� tier=p0  鍚堣�� 69/128锛�54%锛�  GAPS\n  OK characters    8/8    鎺堟潈 8\n  OK scenes       12/12   鎺堟潈 0\n      - 鏁寸被娌℃湁鎺堟潈澹版槑锛堢洰褰曠骇 RIGHTS.json 缂哄け锛屾潯鐩�绾т篃娌℃湁锛�\n  OK props        20/20   鎺堟潈 0\n      - 鏁寸被娌℃湁鎺堟潈澹版槑锛堢洰褰曠骇 RIGHTS.json 缂哄け锛屾潯鐩�绾т篃娌℃湁锛�\n  OK motions      15/15   鎺堟潈 0\n      - 鏁寸被娌℃湁鎺堟潈澹版槑锛堢洰褰曠骇 RIGHTS.json 缂哄け锛屾潯鐩�绾т篃娌℃湁锛�\n  OK transitions   10/10   鎺堟潈 0\n      - 鏁寸被娌℃湁鎺堟潈澹版槑锛堢洰褰曠骇 RIGHTS.json 缂哄け锛屾潯鐩�绾т篃娌℃湁锛�\n  缂� styles        0/3    \n      - 绌虹洰褰曪紙鐩�鏍� 3锛�\n  缂� voices        4/6    鎺堟潈 0\n      - 鏁寸被娌℃湁鎺堟潈澹版槑锛堢洰褰曠骇 RIGHTS.json 缂哄け锛屾潯鐩�绾т篃娌℃湁锛�\n      - batch-2026-11-04锛氱洰褰曢噷娌℃湁鍙�鐢ㄦ枃浠�\n      - batch-2026-11-05锛氱洰褰曢噷娌℃湁鍙�鐢ㄦ枃浠�\n  缂� audio-sfx     0/40   \n      - 绌虹洰褰曪紙鐩�鏍� 40锛�\n  缂� audio-bgm     0/10   \n      - 绌虹洰褰曪紙鐩�鏍� 10锛�\n  缂� typography    0/4    \n      - 绌虹洰褰曪紙鐩�鏍� 4锛�\n缂哄彛锛氶�庢牸鍖咃紙鐢婚��/璋冭壊锛� 宸� 3锛�0/3锛�; 闊宠壊妯″瀷锛堟湁澹板皬璇�/閰嶉煶锛� 宸� 2锛�4/6锛�; 闊虫晥 宸� 40锛�0/40锛�; 閰嶄箰娈佃惤 宸� 10锛�0/10锛�; 瀛椾綋/瀛楀箷鐗堝紡 宸� 4锛�0/4锛�\n",
+ "stderr_tail": ""
+}
