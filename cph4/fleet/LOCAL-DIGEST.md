@@ -6250,3 +6250,6 @@
 - 11-11T05:58 · REPAIR-NODE-SYNC-bm-a-20261111T0513-bm-m.json · 任务已完成但存在数据写入异常风险，需人工核查日志并重启服务。
 - 11-11T05:58 · NODE-SYNC-bm-c-20261111T0553-bm-c.json · 已完成机队同步与报告生成，无风险。
 - 11-11T05:58 · NODE-SYNC-bm-c-20261111T0553-acceptance.json · 已完成机队回执提交，但被拒收因交付物非有效产物。
+- 11-11T05:59 · _last_lane_bm-m.json · 已完成节点同步，无风险。
+- 11-11T05:59 · REPAIR-NODE-SYNC-bm-a-20261111T0513-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-11T05:59 · REPAIR-NODE-SYNC-bm-a-20261111T0513-bm-m.json · 已完成节点同步任务，但存在服务端连接异常或网络波动的潜在风险。
