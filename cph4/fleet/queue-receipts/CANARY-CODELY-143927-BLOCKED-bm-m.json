@@ -1,0 +1,31 @@
+{
+ "id": "CANARY-CODELY-143927",
+ "node": "bm-m",
+ "rc": null,
+ "seconds": 0,
+ "cmd": "<not invoked>",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "BLOCKED",
+ "error_class": "missing compliance declaration",
+ "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/CANARY-CODELY-143927.out",
+ "deliverable_exists": false,
+ "ts": "2026-11-10T14:39:28",
+ "stdout_tail": "",
+ "stderr_tail": "",
+ "oracle": "missing compliance declaration",
+ "evidence": {},
+ "tokens": {},
+ "mcp_errors": 0,
+ "live_probe": null,
+ "compliance_verdict": {
+  "allowed": false,
+  "reason": "missing compliance declaration",
+  "declaration": {}
+ },
+ "mode": "ask",
+ "deliverable_mode": "capture",
+ "source": "Tools/fleet/codely_bridge.py",
+ "provenance": "CEO order 2026-11-09 self-decide; explicit invocation only"
+}

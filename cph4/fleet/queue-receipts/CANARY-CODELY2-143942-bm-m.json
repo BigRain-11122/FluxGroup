@@ -1,0 +1,50 @@
+{
+ "id": "CANARY-CODELY2-143942",
+ "node": "bm-m",
+ "rc": 0,
+ "seconds": 5.6,
+ "cmd": "/Users/junsheng.sun/Library/Application Support/Tuanjie Cowork/bin/codely -p <prompt> --output-format json --collaboration-mode ask --approval-mode default --path-policy strict --no-auto-edit-memory --disable-next-speaker-check",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/CANARY-CODELY2-143942.out",
+ "deliverable_exists": true,
+ "ts": "2026-11-10T14:39:49",
+ "stdout_tail": "\": true\n        }\n      }\n    },\n    \"tools\": {\n      \"totalCalls\": 0,\n      \"totalSuccess\": 0,\n      \"totalFail\": 0,\n      \"totalDurationMs\": 0,\n      \"totalDecisions\": {\n        \"accept\": 0,\n        \"reject\": 0,\n        \"modify\": 0,\n        \"auto_accept\": 0\n      },\n      \"byName\": {}\n    }\n  }\n}\n",
+ "stderr_tail": "Error connecting to MCP server 'radar-daily': Cannot connect to 'radar-daily' - server may be down or URL incorrect\nError connecting to MCP server 'radar-daily': Cannot connect to 'radar-daily' - server may be down or URL incorrect\n",
+ "oracle": "disk facts verified",
+ "evidence": {
+  "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/CANARY-CODELY2-143942.out",
+  "bytes": 17,
+  "mtime": "2026-11-10T14:39:49",
+  "sha256": "12b34da73b0c67a0319e6eddbd3582af66e3b558b4d44e4a6860e0cec20d726f",
+  "oracle": "exists + size>0 + fresh mtime + json parse + assert_equal"
+ },
+ "tokens": {
+  "prompt": 22325,
+  "candidates": 26,
+  "models": [
+   "codely-core"
+  ]
+ },
+ "mcp_errors": 2,
+ "live_probe": 1,
+ "compliance_verdict": {
+  "allowed": true,
+  "reason": "compliance gate passed",
+  "declaration": {
+   "authorization_ref": "CEO-20261110-LOCAL-FIRST",
+   "data_classification": "public",
+   "purpose": "ceo_authorized",
+   "seat_owner_confirmed": true,
+   "model_target": "cloud",
+   "cloud_export_approved": true
+  }
+ },
+ "mode": "ask",
+ "deliverable_mode": "capture",
+ "source": "Tools/fleet/codely_bridge.py",
+ "provenance": "CEO order 2026-11-09 self-decide; explicit invocation only"
+}
