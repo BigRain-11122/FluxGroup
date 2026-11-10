@@ -1,13 +1,13 @@
 {
- "ts": "2026-11-10T22:34:37",
+ "ts": "2026-11-10T22:49:50",
  "card": "NODE-SYNC-bm-a-2157",
  "node": "DASHENG",
  "class": "BOOKKEEPING",
  "deliverable": "cph4/fleet/reports/node-sync-bm-a-2157.md",
- "exists": false,
- "verdict": "FAIL",
+ "exists": true,
+ "verdict": "REJECT",
  "score": null,
- "bytes": 0,
- "sha256": "",
- "detail": "产物未落盘"
+ "bytes": 71,
+ "sha256": "35d884cb418f199cad02858420a8cce6c8d368b8ab6a03949818fdfdd2d3182c",
+ "detail": "交付物不是产物（文档/台账/回执）"
 }
