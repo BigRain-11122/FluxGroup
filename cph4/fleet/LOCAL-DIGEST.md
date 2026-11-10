@@ -6245,3 +6245,8 @@
 - 11-11T05:56 · GAP-ASSETLIB-BMC-2-bm-c.json · 已完成资产库排查报告生成，无错误风险。
 - 11-11T05:56 · GAP-ASSETLIB-BMC-2-acceptance.json · 完成机队回执提交，但被拒收因交付物非有效产物。
 - 11-11T05:57 · _last_lane_bm-m.json · 机队已自派完成回单扫描，无风险。
+- 11-11T05:58 · _last_lane_bm-m.json · 已完成节点同步，无风险。
+- 11-11T05:58 · REPAIR-NODE-SYNC-bm-a-20261111T0513-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物且存在合规风险。
+- 11-11T05:58 · REPAIR-NODE-SYNC-bm-a-20261111T0513-bm-m.json · 任务已完成但存在数据写入异常风险，需人工核查日志并重启服务。
+- 11-11T05:58 · NODE-SYNC-bm-c-20261111T0553-bm-c.json · 已完成机队同步与报告生成，无风险。
+- 11-11T05:58 · NODE-SYNC-bm-c-20261111T0553-acceptance.json · 已完成机队回执提交，但被拒收因交付物非有效产物。
