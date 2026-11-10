@@ -92,7 +92,7 @@ def label_cards(limit):
         return {"id": r["id"], "kind": d.get("kind") or "internal",
                 "domain": d.get("domain") or "group", "ts": time.strftime("%Y-%m-%dT%H:%M:%S")}
 
-    with ThreadPoolExecutor(max_workers=6) as ex:
+    with ThreadPoolExecutor(max_workers=10) as ex:
         out = list(ex.map(work, todo))
     with open(LABELS, "a", encoding="utf-8") as f:
         for r in out:
@@ -148,7 +148,7 @@ def main():
             s = "本地模型失败：%s" % str(e)[:60]
         return {"key": key, "file": f, "summary": s, "ts": time.strftime("%Y-%m-%dT%H:%M:%S")}
 
-    with ThreadPoolExecutor(max_workers=6) as ex:
+    with ThreadPoolExecutor(max_workers=10) as ex:
         rows = [r for r in ex.map(work, files) if r]
 
     if a.dry:
