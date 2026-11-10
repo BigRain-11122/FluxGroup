@@ -5714,3 +5714,8 @@
 - 11-11T01:44 · NODE-SYNC-bm-c-0130-acceptance.json · 节点同步回执被拒，因非有效交付物且无风险。
 - 11-11T01:44 · _last_lane_bm-m.json · 机队已运行中，无风险。
 - 11-11T01:44 · skill-promote-20261111.json · 已完成部分任务，因工具缺失导致大量技能无法执行。
+- 11-11T01:46 · _last_lane_bm-m.json · 机队运行中，无风险。
+- 11-11T01:46 · NODE-SYNC-bm-c-0130-bm-c.json · 已完成机队同步与报告生成，无风险。
+- 11-11T01:46 · NODE-SYNC-bm-c-0130-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-11T01:46 · UNBLOCK-biggame-accept-2026-11-11-acceptance.json · 已完成机队回执提交，但因非标准产物被驳回，无安全风险。
+- 11-11T01:46 · UNBLOCK-biggame-accept-2026-11-11-bm-m.json · 已完成机队回执，但存在因缺资源导致阻塞的风险。
