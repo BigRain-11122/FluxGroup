@@ -1,7 +1,4 @@
-﻿[2026-11-08 17:41] FLAG CLOCK-SKEW max=4568.7ms precision=+/-430.4ms -> check hub path or node clock
-[2026-11-08 17:41] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
-[2026-11-08 17:41] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
-[2026-11-08 17:41] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=3 run=1 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=BUSY; flags=2
+﻿[2026-11-08 17:41] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=3 run=1 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=BUSY; flags=2
 [2026-11-08 17:51] FLAG CLOCK-SKEW max=4608.2ms precision=+/-429ms -> check hub path or node clock
 [2026-11-08 17:51] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
 [2026-11-08 17:51] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
@@ -398,3 +395,6 @@
 [2026-11-10 23:11] FLAG CLOCK-SKEW max=3611ms precision=+/-425.4ms -> check hub path or node clock
 [2026-11-10 23:11] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
 [2026-11-10 23:11] pools: bm-a=3open/0exec/1run bm-b=0open/0exec/2run bm-c=0open/0exec/2run; queue_open=6 run=5 lanejobs: a=1 b=2 c=2; idle: a=BUSY b=GPU-IDLE c=BLOCKED-RAM; flags=2
+[2026-11-10 23:21] FLAG CLOCK-SKEW max=3651.4ms precision=+/-424.4ms -> check hub path or node clock
+[2026-11-10 23:21] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-11-10 23:21] pools: bm-a=3open/0exec/3run bm-b=0open/0exec/2run bm-c=0open/0exec/1run; queue_open=5 run=6 lanejobs: a=3 b=1 c=1; idle: a=BUSY b=GPU-IDLE c=BLOCKED-RAM; flags=2
