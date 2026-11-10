@@ -4787,3 +4787,6 @@
 - 11-10T20:54 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
 - 11-10T20:56 · _last_lane_bm-m.json · 已完成节点同步，当前运行中无风险。
 - 11-10T20:56 · skill-promote-20261110.json · 已完成基础任务，因工具缺失导致大量技能无法执行。
+- 11-10T20:58 · _last_lane_bm-m.json · 已完成节点同步，无风险。
+- 11-10T20:58 · REPAIR-NODE-SYNC-bm-b-20261110-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-10T20:58 · REPAIR-NODE-SYNC-bm-b-20261110-bm-m.json · 节点同步完成但存在静默跳过风险，需人工补充原因并手动重试。
