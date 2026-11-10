@@ -1,14 +1,56 @@
 {
  "node": "bm-b",
- "ts": "2026-11-10T21:41:52",
+ "ts": "2026-11-10T21:47:00",
  "jobs": [
   {
-   "id": "NODE-SYNC-bm-b-2040",
-   "title": "[self-heal] bm-b 分叉收口（2 个本地提交 → reset 到 main）",
-   "cmd": "git -C . fetch origin --prune && git -C . branch -f backup/bm-b-20261110 HEAD & git -C . reset --hard origin/main && git -C . log -1 --oneline > cph4/fleet/reports/node-sync-bm-b-2040.md",
+   "id": "PROBE-BMB-WINRM-2035",
+   "title": "[probe] bm-b 到 bm-a/bm-c 的 WinRM 可达性",
+   "cmd": "python -c \"import subprocess,os,datetime;os.makedirs('cph4/fleet/reports',exist_ok=True);ps='$a=Test-NetConnection 100.110.185.62 -Port 5985 -InformationLevel Quiet;$b=Test-NetConnection 100.123.74.104 -Port 5985 -InformationLevel Quiet;\\\"bm-a=\\\"+$a+\\\" bm-c=\\\"+$b';r=subprocess.run(['powershell','-NoProfile','-Command',ps],capture_output=True,text=True);open('cph4/fleet/reports/bmb-winrm.md','w',encoding='utf-8').write('# bm-b -> 邻居 WinRM 探测\\n\\n- out: '+(r.stdout or '').strip()+'\\n- err: '+(r.stderr or '')[:300]+'\\n- rc: '+str(r.returncode)+'\\n')\"",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/node-sync-bm-b-2040.md",
+   "deliverable": "cph4/fleet/reports/bmb-winrm.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "NODE-SYNC-bm-b-20261110",
+   "title": "[self-heal] bm-b 分叉收口（reset 到 origin/main，先留备份分支）",
+   "cmd": "git -C . fetch origin --prune && git -C . branch -f backup/bm-b-20261110 HEAD 2>nul & git -C . reset --hard origin/main && git -C . log -1 --oneline > cph4/fleet/reports/node-sync-bm-b-20261110.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/reports/node-sync-bm-b-20261110.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "GAP-ASSETLIB-AUDIT-20261110",
+   "title": "[gap] asset-lib 缺口盘点（458 张待打标）",
+   "cmd": "python Tools/fleet/asset_gap_audit.py --json cph4/fleet/reports/asset-gap-20261110.json",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/reports/asset-gap-20261110.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "GAP-ASSETLIB-P0-20261110",
+   "title": "[gap] asset-lib P0 准入体检",
+   "cmd": "python Tools/fleet/asset_library_check.py --tier p0 --out cph4/fleet/reports/asset-lib-p0-20261110.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/reports/asset-lib-p0-20261110.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +61,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 10.2/1.0 GB"
+ "capacity_note": "ram 11.1/1.0 GB"
 }
