@@ -1,13 +1,13 @@
 {
  "node": "bm-m",
- "ts": "2026-11-10T22:24:51",
+ "ts": "2026-11-10T22:28:48",
  "mode": "apply",
  "verdict": "SELF-OK",
  "checks": [
   {
    "check": "reload",
-   "code_age_s": 513,
-   "receipt_age_s": 27,
+   "code_age_s": 750,
+   "receipt_age_s": 47,
    "targets": [],
    "acted": false,
    "note": "executor produced a receipt after the last code edit",
@@ -16,12 +16,17 @@
   },
   {
    "check": "shells",
-   "cards": 0,
-   "shells": 0,
-   "ids": [],
-   "acted": false,
-   "verdict": "OK",
-   "note": "no assignment on this lane (not a shell problem)"
+   "cards": 4,
+   "shells": 4,
+   "ids": [
+    "REPAIR-GAP-CHARGEN-PROBE-20261110",
+    "REPAIR-MV-STAB-0001-003-OUT",
+    "UNBLOCK-R-NEXT-BIGSTREAMM-REBUILD-20261109",
+    "UNBLOCK-asset-lib-face-dataset-2026-11-10"
+   ],
+   "acted": true,
+   "kept": 0,
+   "verdict": "PRUNED"
   },
   {
    "check": "deps",
