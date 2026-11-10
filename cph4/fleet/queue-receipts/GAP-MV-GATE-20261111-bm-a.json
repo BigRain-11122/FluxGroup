@@ -1,0 +1,17 @@
+{
+ "id": "GAP-MV-GATE-20261111",
+ "node": "bm-a",
+ "rc": 0,
+ "seconds": 0.5,
+ "cmd": "python Tools/fleet/line_triage.py --line bigstream-mv --out cph4/fleet/reports/triage-bigstream-mv-20261111b.md",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "cph4/fleet/reports/triage-bigstream-mv-20261111b.md",
+ "deliverable_exists": true,
+ "ts": "2026-11-11T01:24:34",
+ "stdout_tail": "[triage] bigstream-mv -> cph4\\fleet\\reports\\triage-bigstream-mv-20261111b.md\n",
+ "stderr_tail": ""
+}
