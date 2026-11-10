@@ -1,1 +1,1 @@
-缺权限：重提单至 bm-a 补正资源释放。由原 owner 执行。
+缺权限：重连 owner 并手动 unblock 机器 bm-a。
