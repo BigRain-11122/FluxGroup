@@ -6172,3 +6172,7 @@
 - 11-11T05:31 · _last_lane_bm-m.json · 已完成节点同步修复，无风险。
 - 11-11T05:31 · REPAIR-NODE-SYNC-bm-a-20261111T0452-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
 - 11-11T05:31 · REPAIR-NODE-SYNC-bm-a-20261111T0452-bm-m.json · 已完成卡券任务失败根因分析并制定排查方案，当前无风险但需立即执行后续动作。
+- 11-11T05:32 · skill-promote-20261111.json · 已完成部分任务，因工具缺失导致多项关键技能无法执行。
+- 11-11T05:32 · _last_lane_bm-m.json · 节点同步任务已完成，无风险。
+- 11-11T05:32 · REPAIR-NODE-SYNC-bm-a-20261111T0452-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-11T05:32 · REPAIR-NODE-SYNC-bm-a-20261111T0452-bm-m.json · 已完成节点同步任务，因资源失效导致失败，需人工核查环境并暂停自动重试。
