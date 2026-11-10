@@ -1,6 +1,6 @@
 {
  "node": "bm-c",
- "ts": "2026-11-10T22:15:56",
+ "ts": "2026-11-10T22:20:33",
  "jobs": [
   {
    "id": "GAP-CHARGEN-PROBE-20261110",
@@ -29,9 +29,23 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
+  },
+  {
+   "id": "asset-lib-index-2026-11-10",
+   "title": "[资产储备（角色 LoRA / 音色库）] 入库登记（没过闸的不许进资产库）",
+   "cmd": "python Tools/fleet/lib_consolidate.py --receipt cph4/fleet/queue-receipts/asset-index-2026-11-10.json",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/asset-index-2026-11-10.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 2.7/1.0 GB"
+ "capacity_note": "ram 4.1/1.0 GB"
 }

@@ -1,6 +1,6 @@
 {
  "node": "bm-a",
- "ts": "2026-11-10T22:15:55",
+ "ts": "2026-11-10T22:20:33",
  "jobs": [
   {
    "id": "MV-DIRECTOR-PACKET-20261109",
@@ -45,20 +45,6 @@
    "timeout_s": null
   },
   {
-   "id": "NODE-SYNC-bm-a-2157",
-   "title": "[self-heal] bm-a 分叉收口（本地提交 → backup 分支，HEAD 回 main）",
-   "cmd": "git -C . fetch origin --prune && git -C . branch -f backup/bm-a-2157 HEAD & git -C . reset --hard origin/main && git -C . log -1 --oneline > cph4/fleet/reports/node-sync-bm-a-2157.md",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/node-sync-bm-a-2157.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
    "id": "MV-STAB-0001-003-OUT",
    "title": "[fix] MV v716 稳定性闸落盘（Q-MV-0001-003 契约修复）",
    "cmd": "python Tools/mv_stability_gate.py \"C:/Users/sjs20/Desktop/FluxGroup/cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v716.mp4\" > cph4/fleet/reports/mv-stability-Q-MV-0001-003.txt 2>&1",
@@ -71,9 +57,37 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
+  },
+  {
+   "id": "NODE-SYNC-bm-a-2216",
+   "title": "[self-heal] bm-a 落地新 lane 代码（reset 到 main）",
+   "cmd": "git -C . fetch origin --prune && git -C . branch -f backup/bm-a-2216 HEAD & git -C . reset --hard origin/main && git -C . log -1 --oneline > cph4/fleet/reports/node-sync-bm-a-2216.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/reports/node-sync-bm-a-2216.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "PEER-SYNC-bm-c-20261110",
+   "title": "[peer-heal] bm-a 用 WinRM 替 bm-c 收口",
+   "cmd": "powershell -NoProfile -Command \"$e=$null; try { Invoke-Command -ComputerName 100.123.74.104 -ScriptBlock { Set-Location 'K:\\Fluxgroup\\FluxGroup'; git fetch origin --prune; git branch -f backup/bm-c-20261110 HEAD 2>$null; git reset --hard origin/main; git log -1 --oneline } -ErrorAction Stop } catch { $e=$_.Exception.Message }; 'winrm_err='+$e | Out-File -Encoding utf8 cph4/fleet/reports/peer-sync-bm-c-20261110.md\"",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/reports/peer-sync-bm-c-20261110.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 30.7/1.0 GB"
+ "capacity_note": "ram 27.1/1.0 GB"
 }
