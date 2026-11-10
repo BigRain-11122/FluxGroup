@@ -1,0 +1,97 @@
+{
+ "ts": "2026-11-10T22:52:06",
+ "classes": [
+  {
+   "class": "characters",
+   "name": "角色包（身份层）",
+   "p0": 8,
+   "have": 8,
+   "pending": 0,
+   "gap": 0
+  },
+  {
+   "class": "scenes",
+   "name": "场景模板",
+   "p0": 12,
+   "have": 12,
+   "pending": 0,
+   "gap": 0
+  },
+  {
+   "class": "props",
+   "name": "道具/关键锚点物",
+   "p0": 20,
+   "have": 20,
+   "pending": 0,
+   "gap": 0
+  },
+  {
+   "class": "motions",
+   "name": "动作/镜头运动片段",
+   "p0": 15,
+   "have": 0,
+   "pending": 0,
+   "gap": 15
+  },
+  {
+   "class": "transitions",
+   "name": "转场/物质过场",
+   "p0": 10,
+   "have": 0,
+   "pending": 0,
+   "gap": 10
+  },
+  {
+   "class": "styles",
+   "name": "风格包（画风/调色）",
+   "p0": 3,
+   "have": 0,
+   "pending": 0,
+   "gap": 3
+  },
+  {
+   "class": "voices",
+   "name": "音色模型（有声小说/配音）",
+   "p0": 6,
+   "have": 2,
+   "pending": 0,
+   "gap": 4
+  },
+  {
+   "class": "audio-sfx",
+   "name": "音效",
+   "p0": 40,
+   "have": 0,
+   "pending": 0,
+   "gap": 40
+  },
+  {
+   "class": "audio-bgm",
+   "name": "配乐段落",
+   "p0": 10,
+   "have": 0,
+   "pending": 0,
+   "gap": 10
+  },
+  {
+   "class": "typography",
+   "name": "字体/字幕版式",
+   "p0": 4,
+   "have": 0,
+   "pending": 0,
+   "gap": 4
+  }
+ ],
+ "gap_classes": [
+  "motions",
+  "transitions",
+  "styles",
+  "voices",
+  "audio-sfx",
+  "audio-bgm",
+  "typography"
+ ],
+ "p0_done": 3,
+ "p0_total": 10,
+ "verdict": "GAPS"
+}
