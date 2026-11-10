@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-10T21:39:25+0800",
+ "ts": "2026-11-10T21:50:07+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -12,9 +12,9 @@
    "accept": "char-gen 回执 made>0 且无 failed；图进 faces/<ID> 并过准入闸",
    "blocker_type": "ENGINE",
    "blocker": "打标质量门与当前素材不匹配：抽 20 张 0 通过（理由是「只命中 0-2 个可见属性，像空话」），需改提示词/判据；另有 458 张待打",
-   "state": "QUEUED",
-   "card": "asset-lib-face-dataset-2026-11-10",
-   "running_on": null
+   "state": "RUNNING",
+   "card": "GAP-ASSETLIB-AUDIT-20261110",
+   "running_on": "bm-b"
   },
   {
    "id": "biggame",
@@ -27,9 +27,9 @@
    "accept": "SUBMIT-PACK 里『隐私政策』『提审台账』两类缺件归零",
    "blocker_type": "CEO",
    "blocker": "截图需跑游戏取图，受 2026-10-28『不许自动跑游戏包』令约束，等放行",
-   "state": "STALLED",
-   "card": null,
-   "running_on": null
+   "state": "RUNNING",
+   "card": "GAP-BIGGAME-PACK-20261110",
+   "running_on": "bm-a"
   },
   {
    "id": "bigmoney",
@@ -42,9 +42,9 @@
    "accept": "quant_signal 回执 rc=0 且 CSV 含因子值与输入指纹",
    "blocker_type": "ENGINE",
    "blocker": "回测产物需在 bm-b 本地生成；主控无 quant 仓",
-   "state": "STALLED",
-   "card": null,
-   "running_on": null
+   "state": "RUNNING",
+   "card": "GAP-BIGMONEY-LINE-20261110",
+   "running_on": "bm-a"
   },
   {
    "id": "bigstream-mv",
@@ -57,9 +57,9 @@
    "accept": "发布台账有回执行；或 CEO 给出重剪清单",
    "blocker_type": "ENGINE",
    "blocker": "发布决定权在 CEO，但工程侧可先做下一首立意案",
-   "state": "STALLED",
-   "card": null,
-   "running_on": null
+   "state": "RUNNING",
+   "card": "R-NEXT-BIGSTREAMM-REBUILD-20261109",
+   "running_on": "bm-a"
   },
   {
    "id": "bigstream-drama",
@@ -222,15 +222,15 @@
    "accept": "flux_check new=0；AUTOMATION-SURFACE 无 RISK 项",
    "blocker_type": "ENGINE",
    "blocker": "I2 存量 125 条卡面路径债、vault 缺盘 651 条",
-   "state": "QUEUED",
-   "card": "GRID-O2-20261110T2132",
-   "running_on": null
+   "state": "RUNNING",
+   "card": "PROBE-BMB-WINRM-2035",
+   "running_on": "bm-b"
   }
  ],
  "counts": {
-  "RUNNING": 0,
-  "QUEUED": 4,
-  "STALLED": 11
+  "RUNNING": 5,
+  "QUEUED": 2,
+  "STALLED": 8
  },
- "stalled_engine": 5
+ "stalled_engine": 3
 }
