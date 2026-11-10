@@ -1,40 +1,58 @@
 {
- "ts": "2026-11-11T03:21:55",
+ "ts": "2026-11-11T03:31:55",
  "node": "bm-c",
  "paused": false,
- "verdict": "BUSY",
+ "verdict": "BLOCKED-CAPACITY",
  "capacity": {
   "gpu": {
    "util_pct": 0,
-   "used_mb": 1161,
+   "used_mb": 1301,
    "total_mb": 16384
   },
-  "ram_free_gb": 4.39,
-  "vram_free_mb": 15223,
+  "ram_free_gb": 2.28,
+  "vram_free_mb": 15083,
   "lease_held": false,
-  "can_gpu": true,
-  "can_cpu": true
+  "can_gpu": false,
+  "can_cpu": false
  },
  "idle_min": 0.0,
  "assigned": [
+  {
+   "kind": "assigned",
+   "id": "asset-lib-face-caption-2026-11-11",
+   "title": "[资产储备（角色 LoRA / 音色库）] 人脸数据集打标（vision 草稿，人只校对）",
+   "prio": null,
+   "needs": "cpu",
+   "feasible": false,
+   "reason": "master lane file (authority)"
+  },
   {
    "kind": "assigned",
    "id": "asset-lib-asset-gen-2026-11-11",
    "title": "[资产储备（角色 LoRA / 音色库）] 通用资产出图（道具/场景，吃 ASSET-PROMPTS 规格）",
    "prio": null,
    "needs": "gpu",
-   "feasible": true,
+   "feasible": false,
    "reason": "master lane file (authority)"
   }
  ],
  "next_actions": [
   {
    "kind": "assigned",
+   "id": "asset-lib-face-caption-2026-11-11",
+   "title": "[资产储备（角色 LoRA / 音色库）] 人脸数据集打标（vision 草稿，人只校对）",
+   "prio": null,
+   "needs": "cpu",
+   "feasible": false,
+   "reason": "master lane file (authority)"
+  },
+  {
+   "kind": "assigned",
    "id": "asset-lib-asset-gen-2026-11-11",
    "title": "[资产储备（角色 LoRA / 音色库）] 通用资产出图（道具/场景，吃 ASSET-PROMPTS 规格）",
    "prio": null,
    "needs": "gpu",
-   "feasible": true,
+   "feasible": false,
    "reason": "master lane file (authority)"
   },
   {
@@ -43,7 +61,7 @@
    "title": "[资产储备（角色 LoRA / 音色库）] 通用资产出图·场景（竖屏底图）",
    "prio": "P0",
    "needs": "gpu",
-   "feasible": true,
+   "feasible": false,
    "reason": "OPEN in PRODUCTION-BACKLOG for this node"
   }
  ],
@@ -77,7 +95,7 @@
  "dispatched_now": null,
  "counts": {
   "open_backlog": 6,
-  "open_queue": 11,
+  "open_queue": 12,
   "bank_pending": 0
  }
 }
