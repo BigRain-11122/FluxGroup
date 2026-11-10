@@ -5329,3 +5329,26 @@
 - 11-11T00:05 · PRODUCE-FLUXVERSE-20261110-bm-a-noreceipt.json · 已重启故障节点并重新派单，暂无风险。
 - 11-11T00:05 · NODE-SYNC-bm-b-2330-unknown-noreceipt.json · 该节点机队无回执且交付链路故障，需重启后重新派单以消除风险。
 - 11-11T00:05 · asset-lib-face-caption-2026-11-10-bm-c-noreceipt.json · 该卡无回执且无产物，判定为机 Lane 链路故障，需重启后重派。
+- 11-11T00:07 · _last_lane_bm-m.json · 机队任务已完成，无风险。
+- 11-11T00:07 · triage-bigstream-mv-bm-c-20261111.md · 机队已完成线级体检，但发现 i2v 工段超阈且质检缺位，需补产出或收线。
+- 11-11T00:07 · triage-bigstream-mv-20261111.md · 机队已完成线级体检，但发现 i2v 工段超阈且无证据，需补产出或收线。
+- 11-11T00:07 · triage-biggame-bm-c-20261111.md · 机队回执显示最新产出未达阈值，需由游戏席补全美术与工程输入。
+- 11-11T00:07 · model-radar-bm-c-20261111.json · 任务已跳过，因队列运行中，无风险。
+- 11-11T00:07 · model-radar-bm-a-20261111.json · 机队已跳过闲置状态，因队列运行间隙无风险。
+- 11-11T00:07 · asset-lib-env-check-2026-11-11-bm-c.json · 机队回执显示任务失败，因缺少 kohya sd-scripts、GPT-SoVITS 等依赖及资产目录缺失存在风险。
+- 11-11T00:07 · asset-lib-env-check-2026-11-11-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物。
+- 11-11T00:07 · asset-env-2026-11-11.json · 已完成机队回执，但缺少关键训练栈且资产目录缺失，状态为失败。
+- 11-11T00:07 · _last_claim.json · 机队已空，无风险。
+- 11-11T00:08 · R-TRIAGE-BIGSTREAMMV-BMC-20261111-bm-c.json · 已完成机队回执生成，无错误风险。
+- 11-11T00:08 · R-TRIAGE-BIGSTREAMMV-BMC-20261111-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物。
+- 11-11T00:08 · R-TRIAGE-BIGGAME-BMC-20261111-bm-c.json · 已完成机队 triage 回执生成，无错误风险。
+- 11-11T00:08 · R-TRIAGE-BIGGAME-BMC-20261111-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物。
+- 11-11T00:08 · R-MODEL-RADAR-BMC-20261111-bm-c.json · 已完成机队雷达模型运行，无风险。
+- 11-11T00:08 · R-MODEL-RADAR-BMC-20261111-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被拒收。
+- 11-11T00:08 · R-MODEL-RADAR-BMA-20261111-bm-c.json · 机队任务已执行成功，无风险。
+- 11-11T00:09 · R-MODEL-RADAR-BMA-20261111-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物且无风险。
+- 11-11T00:09 · Q-TRIAGE-BIGSTREAMMV-20261111-bm-c.json · 已完成机队回执生成，无错误风险。
+- 11-11T00:09 · Q-TRIAGE-BIGSTREAMMV-20261111-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物。
+- 11-11T00:09 · R-MODEL-RADAR-BMM-20261111-acceptance.json · 机队回执失败，因产物未落盘导致无风险。
+- 11-11T00:09 · R-MODEL-RADAR-BMM-20261111-bm-m.json · 任务因另一运行中而被跳过，未生成交付物且无错误风险。
+- 11-11T00:09 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
