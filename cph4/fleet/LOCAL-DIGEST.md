@@ -5645,3 +5645,7 @@
 - 11-11T01:22 · asset-lib-voice-assemble-2026-11-11-acceptance.json · 已完成机队回执提交，但被拒因交付物非预期产物。
 - 11-11T01:24 · _last_lane_bm-m.json · 机队已就绪，心跳正常，无风险。
 - 11-11T01:24 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-11T01:26 · _last_lane_bm-m.json · 已完成机队解绑任务，当前运行中无风险。
+- 11-11T01:26 · biggame-accept-2026-11-11-acceptance.json · 完成机队回执提交，但被拒因交付物非标准产物。
+- 11-11T01:26 · biggame-accept-2026-11-11-bm-m.json · 机队质量检查失败，因缺少 game-10s 组件存在交付风险。
+- 11-11T01:26 · quality-biggame-2026-11-11.json · 机队回执显示“游戏包”通过但“游戏十秒”缺失，整体判定失败，存在交付风险。
