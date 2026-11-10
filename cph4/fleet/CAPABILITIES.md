@@ -2,8 +2,8 @@
 
 | 节点 | 在线 | 能力 | 本地模型 | 心跳 | 在办 |
 |---|---|---|---|---|---|
-| bm-a | 是 | cpu,kf768,i2v768,audio,assemble,llm | - | 579s | NODE-SYNC-bm-a-20261110 |
-| bm-b | 是 | cpu,animatic480,audio,tts,llm | - | 579s | PROBE-BMB-WINRM-2035,NODE-SYNC-bm-b-20261110 |
-| bm-c | 否 | cpu,kf768,i2v768,audio,render,llm | - | 898s | asset-lib-face-dataset-2026-11-10 |
-| bm-m | 是 | cpu,ios-build,text,llm,audio,tts | qwen3.5:4b,qwen3.5:2b,qwen3:8b,qwen3:4b,qwen3.5:9b-mlx,deepseek-r1:14b,qwen3-embedding:0.6b,qwen3.5:4b-mlx | 0s | REPAIR-CMD-DSH-BMC-ACK-2012,REPAIR-CMD-DSH-BMC-MEM-2012 |
-| bm-d | 否 | cpu,kf768,i2v768,backtest,brain,llm | - | 359124s | - |
+| bm-a | 是 | cpu,kf768,i2v768,audio,assemble,llm | - | 0s | - |
+| bm-b | 是 | cpu,animatic480,audio,tts,llm | - | 30s | - |
+| bm-c | 是 | cpu,kf768,i2v768,audio,render,llm | - | 0s | asset-lib-face-dataset-2026-11-10 |
+| bm-m | 是 | cpu,ios-build,text,llm,audio,tts | qwen3.5:4b,qwen3.5:2b,qwen3:8b,qwen3:4b,qwen3.5:9b-mlx,deepseek-r1:14b,qwen3-embedding:0.6b,qwen3.5:4b-mlx | 0s | GRID-M1-20261110T2132 |
+| bm-d | 否 | cpu,kf768,i2v768,backtest,brain,llm | - | 359154s | - |

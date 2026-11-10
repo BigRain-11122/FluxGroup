@@ -509,15 +509,17 @@
   },
   {
    "id": "M1",
-   "name": "备份新鲜度",
+   "name": "冷备新鲜度（外置盘克隆）",
    "domain": "M",
    "cadence_s": 86400,
    "kind": "probe",
-   "cmd": "python3 -c \"import os,glob,sys,time;fs=glob.glob('cph4/fleet/backups/*')+glob.glob('backups/*');a=(time.time()-max(map(os.path.getmtime,fs)))/3600 if fs else 999;print('backup_age_h=%.1f'%a);sys.exit(2 if a>48 else (1 if a>24 else 0))\"",
+   "cmd": "python3 -c \"import subprocess,sys,time;b='/Volumes/移动硬盘/Backup/FluxGroup';r=subprocess.run(['git','-C',b,'log','-1','--format=%ct'],capture_output=True,text=True);h=float(r.stdout.strip() or 0);a=(time.time()-h)/3600 if h else 999;print('backup_age_h=%.1f'%a);sys.exit(2 if a>48 else (1 if a>24 else 0))\"",
    "on_fail": "card",
    "accept": "24h 内有备份、48h 内有可恢复点",
    "timeout_s": 180,
-   "enabled": true
+   "enabled": true,
+   "note": "备份=移动硬盘上的完整克隆，不是 cph4/fleet/backups",
+   "fix": "bash Tools/fleet/backup_sync.sh"
   },
   {
    "id": "M2",
@@ -596,15 +598,16 @@
   },
   {
    "id": "O2",
-   "name": "时钟偏移",
+   "name": "本机时钟偏移（对比 HTTP Date）",
    "domain": "O",
    "cadence_s": 86400,
    "kind": "probe",
-   "cmd": "python3 Tools/fleet/clock_resync.py --out cph4/fleet/state/clock.json",
+   "cmd": "python3 -c \"import sys,time,email.utils,urllib.request;r=urllib.request.urlopen('https://www.apple.com',timeout=15);srv=email.utils.parsedate_to_datetime(r.headers['Date']).timestamp();d=abs(time.time()-srv);print('skew=%.1fs'%d);sys.exit(2 if d>5 else (1 if d>2 else 0))\"",
    "on_fail": "card",
    "accept": "跨机时钟偏移 <2s",
    "timeout_s": 180,
-   "enabled": true
+   "enabled": true,
+   "note": "原 clock_resync 依赖 powershell，在 macOS 上 rc=127；改为对可信源的 Date 头取差"
   },
   {
    "id": "O3",
