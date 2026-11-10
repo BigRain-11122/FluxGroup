@@ -5924,3 +5924,10 @@
 - 11-11T03:28 · REPAIR-PRODUCE-ICONS-BIGGAME-20261111-bm-m.json · 已完成卡片交付物生成，但因缺乏校验规则导致状态为未验证，存在流转阻塞风险。
 - 11-11T03:28 · UNBLOCK-PEER-SYNC-bm-c-20261111-acceptance.json · 机队回执被拒，因交付物非有效产物且无风险。
 - 11-11T03:28 · UNBLOCK-PEER-SYNC-bm-c-20261111-bm-m.json · 已完成 BM-A 向 BM-C 的机队同步，无风险。
+- 11-11T03:31 · _last_lane_bm-m.json · 已完成机队修复图标作业，无风险。
+- 11-11T03:31 · REPAIR-PRODUCE-ICONS-BIGGAME-20261111-acceptance.json · 机队未产出有效回执，因交付物非预期文档而被拒收。
+- 11-11T03:31 · REPAIR-PRODUCE-ICONS-BIGGAME-20261111-bm-m.json · 已完成机队回执生成，但卡片因缺失接收人配置而滞留，需人工介入验证。
+- 11-11T03:31 · UNBLOCK-PEER-SYNC-bm-c-20261111-acceptance.json · 已提交机队回执，但被拒因交付物非有效产物。
+- 11-11T03:31 · UNBLOCK-PEER-SYNC-bm-c-20261111-bm-m.json · 已完成机队同步，但存在因权限不足导致无法自动交付的风险。
+- 11-11T03:31 · UNBLOCK-GAP-ASSETLIB-BMA-20261111-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效文档。
+- 11-11T03:31 · UNBLOCK-GAP-ASSETLIB-BMA-20261111-bm-m.json · 已完成机队回执生成，无风险。
