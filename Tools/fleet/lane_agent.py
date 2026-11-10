@@ -547,6 +547,15 @@ def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
         # 还可能按租约超时把卡重排。改为后台线程跑命令、主线程每 PROGRESS_EVERY 秒发一次
         # BUSY 进度（只报活性与已跑时长，不改任务语义、不改 stdout/stderr 处理）。
         _box = {"rc": 125, "out": "", "err": "", "out_bytes": 0}
+        # 2026-11-11 实锚：卡上写了 timeout_s 但这里只用全局 max_seconds（默认 7200s），
+        # 于是一张跑飞的卡能把整条车道占两小时（bm-a 当晚就是这样卡住的：任务 Running、
+        # 新卡全部排不进去）。卡声明的超时必须生效，取两者较小值。
+        _eff = max_seconds
+        try:
+            if job.get("timeout_s"):
+                _eff = min(int(max_seconds), max(5, int(job["timeout_s"])))
+        except Exception:
+            pass
 
         def _reader(pipe, key, ctr):
             parts = []
@@ -583,11 +592,11 @@ def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
             t_out.start()
             t_err.start()
             try:
-                _box["rc"] = p.wait(timeout=max_seconds)
+                _box["rc"] = p.wait(timeout=_eff)
             except subprocess.TimeoutExpired:
                 p.kill()
                 _box["rc"] = 124
-                _box["err"] = (_box.get("err") or "") + "\n[timeout %ss]" % max_seconds
+                _box["err"] = (_box.get("err") or "") + "\n[timeout %ss]" % _eff
             except Exception as e:
                 _box.update(rc=125, err="exec-failed: %s" % e)
             t_out.join(timeout=10)
