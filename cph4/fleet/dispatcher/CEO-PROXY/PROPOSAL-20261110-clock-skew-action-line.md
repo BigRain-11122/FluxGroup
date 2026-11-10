@@ -40,3 +40,10 @@ BELOW-ACTION-LINE`，R8b-8 设动作线 30s）：**这条旗标在 relay 路径�
 
 受保护件改动 = CEO 令唯定谳（ROUND 步9 / BLUEPRINT §九）。获批后由 master 席实施，
 本席不自行落地。
+
+
+## 附注 R36（2026-11-11 03:5x·CEO-PROXY 事件班实测补充）
+
+1. **SKEW-HIGH 被遮蔽**：本文件上游的判据修法之外，另有一条独立缺陷——`Tools/fleet-dispatcher.ps1` 时钟段是 if/elseif，只要 `old_schema>0 or missing>0` 就只输出 CLOCK-UNALIGNED，`SKEW-HIGH` 永不输出。bm-b 自 11-10 起长期离线（missing=1 常态），因此 bm-c 的钟偏在旗面完全不可见，只能到 `CLOCK-SKEW.json` 里翻。建议改法（受保护件，候 CEO/群审）：两段独立输出，或在 CLOCK-UNALIGNED 行尾附 `also: bm-c SKEW-HIGH 4615ms`。
+2. **本次实测数值**：bm-c offset=4615.3ms、precision=±413.4ms（ratio 11.2，越 10 倍门限）；`GET http://100.123.74.104:8790/health` RTT 1129ms 回 `ts=03:31:00` 对比本机 `03:31:05.57` ⇒ 落后约 4.4s。即：本文件前文「relay 不对称假读」在本次读数上不成立，应改判为**真偏**。
+3. **修法可达性**：`Tools/fleet/clock_resync.py` 在 bm-b/bm-c 上历史上报 `CARD-DEFECT SCRIPT-MISSING`（节点仓缺该脚本），bm-a 上 `rc=2147943462`（服务起不来）。因此重派时钟卡没有意义；唯一路径是本机提权：`sc config w32time start= auto && net start w32time && w32tm /resync`，与 R2.35 的 S4U/提权批合并办理。

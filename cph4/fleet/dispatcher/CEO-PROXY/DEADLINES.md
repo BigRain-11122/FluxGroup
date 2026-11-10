@@ -602,3 +602,13 @@ rame_bytes/frame_sha12；**bm-a 上该目录不存在（0/30）**，且本机两
 | **bm-m 5 ?? cmd ??residual?** | **registered????? R31/R32?? 3 ??** | `PATROL-bighouse-20261110` / `UNBLOCK-PATROL-bighouse-20261109` / `REPAIR-R-TRIAGE-BIGSTREAMDUANJU-BMB-20261101` / `UNBLOCK-VCORP-GEN-r1202-EP001-060-20261108` / `UNBLOCK-R-NEXT-BIGSTREAMD-TTS-QC-20261109` ?? `cmd` ?? + ? bm-m?Mac ? FleetLink ????? ?????????? OPEN ??9 ?? 5 ???**?????**???????????????? churn????? patrol/repair ????? NEED-JUDGMENT???? T1????? |
 | **bm-c ????????????** | **BURNING????** | ??????OPEN 10?bm-c 2 / bm-a 3 / bm-m 5??RUNNING 2?bm-c char-gen?bm-m REPAIR??bm-c ?????????????? |
 | **????** | **armed** | +90min ??? cron??04:35???? ?face-caption ? asset-gen ??? bm-c ?????? ?bm-b ?????? ?bm-c RAM ??? >1.0G???=?? DE ?? |
+
+## 附录 R36 事件班登记（2026-11-11 03:26-04:0x·承载件触发·CLOCK-UNALIGNED×3 + LANE-DOWN bm-b×3 + STARVED-EXEC bm-b×3）
+
+| 件 | 状态 | 证据与处置 |
+|---|---|---|
+| **bm-b 物理离线（三旗同根）** | at-risk·物理件·零催办 | tailscale `bm-b offline, last seen 3h ago`；`Test-Connection 100.82.175.0`=False；`POST :8790/poke` 8s 超时；心跳 `quant/bigmoney/fleet/machines/bm-b.json` mtime 10-30 19:04（age 11.3d）。三旗均由此外化：CLOCK-UNALIGNED missing=1（无心跳→CLOCK-SKEW 记 MISSING）、LANE-DOWN OFFLINE、STARVED-EXEC（名下 0 卡）。**无卡损失**：origin 队列 bm-b 归属 14 行全 DONE/CANCELLED，R32 已转派三张可转派卡并给 R-NEXT-BIGSTREAMD-TTS-QC 挂 `host-offline:bm-b`。唤醒=物理动作，本席不代做不催办；上线后按附录 R31 组仓收口命令执行（禁 `--hard`）。 |
+| **bm-c 时钟真偏 4.6s（新发现·非 relay 假读）** | at-risk·提权物理件（同 R2.35 批） | `CLOCK-SKEW.json` 03:24:15：bm-c offset=**4615.3ms** / precision=±413.4ms，比值 11.2 **越 R28 的 10 倍门限**；直测 `GET http://100.123.74.104:8790/health` RTT 1129ms，回 `ts=2026-11-11T03:31:00` vs 本机 03:31:05.57 ⇒ 落后 ≈4.4s。修法只能本机提权启 w32time（三机 service 全 STOPPED；`clock_resync.py` 在 bm-b/bm-c 是 `CARD-DEFECT SCRIPT-MISSING`，bm-a 上 rc=2147943462）——**不重派卡**（重派=重复已知失败动作）。 |
+| **观测缺陷：SKEW-HIGH 被 CLOCK-UNALIGNED 遮蔽** | registered·提案候 CEO | `Tools/fleet-dispatcher.ps1` L160-175 为 if/elseif：`old_schema>0 or missing>0` 时只报 CLOCK-UNALIGNED，`SKEW-HIGH` 分支永不执行 → bm-b 长期离线期间 bm-c 的 4.6s 真偏在旗面不可见。受保护件（L0 脚本）本席不改，注记入 `PROPOSAL-20261110-clock-skew-action-line.md`。 |
+| **供给假绿：5 张 bm-m 硬钉卡结构性不可认领** | FIXED（数据层·可逆） | origin 队列 6 张 OPEN 中 5 张 `nodes=hard_nodes=[bm-m]`（created 11-10 08:40~11-11 00:55、claimed 全程 None）；roster `bm-m` enabled=False/wake_tasks=[]，FleetLink `:8790/health` 返 **401** 且 `fleet-dispatch.ps1`/`fleet-poke-worker.ps1` 无 token 支持 ⇒ 机器队永远拿不到。处置=按 R2.37 先例加 `blocked_by=no-claim-executor:bm-m`（队列/备队列各 5 行），供给口径诚实化；清障=bm-m 注册认领任务或改绑在线执行机后清字段。 |
+| **机队在产实证** | BURNING | bm-c `/status` 03:36：HQ-ProductionClaim Running、Bigmoney-SaturationEngine/MiniGameEngineTick Running、组仓 fork 7/3 自愈中；lane job `asset-lib-asset-gen-2026-11-11` 03:06:18 认领、bm-a `R-TRIAGE-FLUXVERSE-BMA-20261111` 03:02:15 认领。故本班**零新派单**。 |
