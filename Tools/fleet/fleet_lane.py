@@ -904,7 +904,7 @@ def local_llm(prompt, policy=None, timeout=120, node=None):
                        # lane spec wins over policy: bm-m keeps its model hot forever,
                        # bm-a/b stay at the conservative 5m lease for their 12GB cards.
                        "keep_alive": spec.get("keep_alive", _pol.get("keep_alive", "5m")),
-                       "think": spec.get("think", True),
+                       "think": spec.get("think", False),
                        "options": {"num_ctx": int(spec.get("num_ctx", _pol.get("num_ctx", 4096)))},
                        }).encode()
     urls = [base]
