@@ -5795,3 +5795,10 @@
 - 11-11T02:19 · UNBLOCK-asset-lib-asset-gen-2026-11-11-bm-m.json · 已完成机队资产解锁，无风险。
 - 11-11T02:19 · MV-STAB-Q-MV-0001-003-bm-a.json · 运行稳定性检查脚本失败，因合同错误导致任务终止。
 - 11-11T02:19 · MV-STAB-Q-MV-0001-003-acceptance.json · 完成机队回执提交，但被拒收因交付物非标准产物。
+- 11-11T02:20 · _last_lane_bm-m.json · 资产生成任务因无可用分配被推迟，存在无法运行的风险。
+- 11-11T02:20 · asset-lib-face-caption-2026-11-11-bm-c.json · 任务失败，因输入被阻断且无输出文件。
+- 11-11T02:20 · asset-lib-face-caption-2026-11-11-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
+- 11-11T02:20 · asset-caption-2026-11-11.json · 已完成机队回执，因无待打标图片存在风险。
+- 11-11T02:20 · _last_claim.json · 机队已清空且无风险，但当前处于空池状态。
+- 11-11T02:20 · COMFY-UP-BMC-20261111-bm-c.json · 任务失败，因无交付物且错误类别为 E-ARTIFACT，存在生成风险。
+- 11-11T02:20 · COMFY-UP-BMC-20261111-acceptance.json · 机队回执失败，因产物未落盘导致无风险数据。
