@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-10T16:20:44",
+ "ts": "2026-11-10T16:20:45",
  "jobs": [
   {
    "id": "MV-NEWPROC-PACKET-20261110",
@@ -17,7 +17,7 @@
    "timeout_s": null
   }
  ],
- "idle_reason": "",
+ "idle_reason": "control-plane heartbeat",
  "lane_ok": true,
  "capacity_note": "ram 11.0/1.0 GB"
 }
