@@ -6305,3 +6305,11 @@
 - 11-11T06:19 · REPAIR-NODE-SYNC-bm-a-20261111T0552-bm-m.json · 已完成机队同步任务，但发现致命硬中断错误，需人工修复后验证。
 - 11-11T06:19 · UNBLOCK-asset-lib-face-caption-2026-11-11-acceptance.json · 机队回执未生成有效交付物，存在流程阻断风险。
 - 11-11T06:19 · UNBLOCK-asset-lib-face-caption-2026-11-11-bm-m.json · 已完成机队解锁，但需原主机先解除锁状态并重新申请。
+- 11-11T06:20 · _last_lane_bm-m.json · 任务已完成，无风险。
+- 11-11T06:20 · NODE-SYNC-bm-c-20261111T0614-bm-c.json · 已完成机队同步并生成报告，无风险。
+- 11-11T06:20 · NODE-SYNC-bm-c-20261111T0614-acceptance.json · 完成节点同步回执提交，但被拒因非有效交付物。
+- 11-11T06:20 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
+- 11-11T06:20 · REPAIR-NODE-SYNC-bm-a-20261111T0552-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物。
+- 11-11T06:20 · REPAIR-NODE-SYNC-bm-a-20261111T0552-bm-m.json · 已完成节点同步失败根因诊断与处置方案制定，无当前风险。
+- 11-11T06:20 · UNBLOCK-asset-lib-face-caption-2026-11-11-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被驳回。
+- 11-11T06:20 · UNBLOCK-asset-lib-face-caption-2026-11-11-bm-m.json · 已完成机队解锁，但存在因权限缺失导致的操作风险。
