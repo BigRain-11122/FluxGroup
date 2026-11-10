@@ -423,7 +423,9 @@ def main():
                         continue
                     added.append({
                         "id": cid, "title": "%s 线证据扫描（%s 本机可判面）" % (ln.get("name") or lid, node),
-                        "cmd": "python Tools/fleet/line_triage.py --line %s --node %s" % (lid, node),
+                        "cmd": ("python Tools/fleet/line_triage.py --line %s --node %s "
+                                "--out cph4/fleet/queue-receipts/triage-%s-%s-%s.md"
+                                % (lid, node, lid, node, day)),
                         "cwd": "",
                         "requires": ["Tools/fleet/line_triage.py"],
                         "deliverable": "cph4/fleet/queue-receipts/triage-%s-%s-%s.md"

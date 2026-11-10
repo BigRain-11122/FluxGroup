@@ -58,7 +58,7 @@ def resolve_evidence(e):
     return None, "missing"
 
 
-def write_report(rows, line_id, node):
+def write_report(rows, line_id, node, out=None):
     """Always write the declared deliverable, whatever the verdict.
 
     2026-11-10 event shift: the two early returns below (no LINE-REGISTRY, unknown
@@ -71,6 +71,17 @@ def write_report(rows, line_id, node):
     """
     os.makedirs(OUT_DIR, exist_ok=True)
     _suffix = ("-%s" % node) if node else ""
+    if out:
+        # 2026-11-10 契约修复：卡上声明的 deliverable 是"卡创建那天"的日期，而这里按
+        # "执行那天"命名 —— 跨天执行的卡永远验不到自己的产物（R-TRIAGE-...-20261101
+        # 实际写出了 ...-20261107.md，被判 E-ARTIFACT 四天）。执行端必须听卡的话：
+        # 卡给 --out 就写那个路径，绝不让日期决定验收。 
+        path = out if os.path.isabs(out) else os.path.join(ROOT, out)
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "w", encoding="utf-8") as f:
+            f.write("\n".join(rows) + "\n")
+        print("[triage] %s -> %s" % (line_id, os.path.relpath(path, ROOT)))
+        return path
     path = os.path.join(OUT_DIR, "triage-%s%s-%s.md"
                         % (line_id or "unknown", _suffix, datetime.now().strftime("%Y%m%d")))
     with open(path, "w", encoding="utf-8") as f:
@@ -83,6 +94,7 @@ def main() -> int:
     args = sys.argv[1:]
     line_id = args[args.index("--line") + 1] if "--line" in args else ""
     node = args[args.index("--node") + 1] if "--node" in args else ""
+    out = args[args.index("--out") + 1] if "--out" in args else ""
     if not line_id:
         print("usage: line_triage.py --line <line-id> [--node <node>]")
         return 2
@@ -97,7 +109,7 @@ def main() -> int:
                       "",
                       "## 下一步（按缺口）",
                       "- 在持有仓库的机器上执行本卡；本机只作为「不归本机」的证据"],
-                     line_id, node)
+                     line_id, node, out)
         return 0
     line = next((l for l in reg.get("lines") or [] if l.get("id") == line_id), None)
     if not line:
@@ -109,7 +121,7 @@ def main() -> int:
                       "",
                       "## 下一步（按缺口）",
                       "- 更正卡里的 --line 值，或先在 LINE-REGISTRY 登记该线（责任人=主控）"],
-                     line_id, node)
+                     line_id, node, out)
         return 0
 
     rows = ["# 线级体检 %s · %s" % (line_id, datetime.now().strftime("%Y-%m-%d %H:%M")), ""]
@@ -185,7 +197,7 @@ def main() -> int:
         acts.append("- 产出正常：按工段顺序继续，主控不再介入")
     rows += acts[:3]
 
-    write_report(rows, line_id, node)
+    write_report(rows, line_id, node, out)
     return 0
 
 

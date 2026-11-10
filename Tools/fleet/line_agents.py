@@ -139,7 +139,8 @@ def arm_triage(dry=False, limit=3):
             continue
         row = {"id": jid, "title": "%s 线级体检（本机证据目录实况）" % lid, "needs": "cpu",
                "nodes": [target], "prio": "P3", "day_ok": True, "heavy": False,
-               "cmd": "python Tools/fleet/line_triage.py --line %s" % lid, "cwd": "",
+               "cmd": ("python Tools/fleet/line_triage.py --line %s "
+                       "--out %s" % (lid, deliverable)), "cwd": "",
                "requires": ["Tools/fleet/line_triage.py"],
                "deliverable": deliverable,
                "why": "该线 24h 无落库产出，主控看不到其仓库（本机 0 文件），只能由承办机自证缺口",

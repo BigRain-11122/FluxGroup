@@ -187,7 +187,8 @@ def main():
         card = {"id": cid, "title": "%s 线级体检与缺口清单" % (spec.get("name") or lid),
                 "needs": "cpu", "nodes": [lane], "prio": "P3", "day_ok": True,
                 "verify_on_node": True, "state": "READY",
-                "cmd": "python Tools/fleet/line_triage.py --line %s" % lid,
+                "cmd": ("python Tools/fleet/line_triage.py --line %s "
+                        "--out cph4/fleet/queue-receipts/triage-%s-%s.md" % (lid, lid, day)),
                 "cwd": "",
                 "requires": ["Tools/fleet/line_triage.py"],
                 "deliverable": "cph4/fleet/queue-receipts/triage-%s-%s.md" % (lid, day),
