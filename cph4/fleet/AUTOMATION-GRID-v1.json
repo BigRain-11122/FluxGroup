@@ -801,6 +801,21 @@
    "cmd": "python3 Tools/fleet/no_receipt_audit.py",
    "accept": "失败卡必须有回执；无回执=那台机没交付，按节点集中度定位",
    "note": "2026-11-10 实锚：一晚 4-6 张卡无回执失败，主控只能看到空 error_class；本项把这类失败固化成可见事实"
+  },
+  {
+   "id": "E5",
+   "name": "回执冒充产物（deliverable 落在 queue-receipts）",
+   "domain": "E",
+   "cadence_s": 3600,
+   "kind": "probe",
+   "ok_rc": [
+    0
+   ],
+   "on_fail": "brain",
+   "timeout_s": 60,
+   "cmd": "python3 -c \"import json,sys,datetime;rows=[json.loads(l) for l in open('cph4/fleet/PRODUCTION-QUEUE.jsonl',encoding='utf-8') if l.strip()];d=[r for r in rows if r.get('state')=='DONE' and str(r.get('finished_at') or '')[:10]=='2026-11-11'];rc=[r for r in d if 'queue-receipts' in (r.get('deliverable') or '')];p=len(rc)/max(1,len(d));print('done=%d receipt_as_product=%d ratio=%.0f%%'%(len(d),len(rc),p*100));sys.exit(2 if p>0.3 else (1 if p>0.1 else 0))\"",
+   "accept": "今天 DONE 里 deliverable 是回执的比例 ≤10%",
+   "note": "2026-11-11 实锚：验收一屏连红——12h 内 106 张 DONE、真产物 0，因为多数卡把 queue-receipts/*.json 声明成 deliverable。这是出卡器模板的问题，不是执行机偷懒；本项让它可见并逼模板改。"
   }
  ]
 }
