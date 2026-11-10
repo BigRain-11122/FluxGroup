@@ -5408,3 +5408,16 @@
 - 11-11T00:16 · biz-mv-publish-checklist-20261111.md · 已完成基础交付但遗留四项高风险修复项，需立即整改方可发布。
 - 11-11T00:16 · skill-promote-20261111.json · 已完成基础任务，因工具缺失导致大量技能无法执行。
 - 11-11T00:16 · _last_claim.json · 机队已空，无风险。
+- 11-11T00:18 · UNBLOCK-asset-lib-face-caption-2026-11-10-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
+- 11-11T00:18 · UNBLOCK-asset-lib-face-caption-2026-11-10-bm-m.json · 已完成机队回执，存在因人员缺失或阻塞导致的重启风险。
+- 11-11T00:18 · REPAIR-asset-lib-env-check-2026-11-11-acceptance.json · 机队回执未生成有效交付物，存在流程阻断风险。
+- 11-11T00:18 · REPAIR-asset-lib-env-check-2026-11-11-bm-m.json · 已完成资产库环境检查，根因已定位并制定了排查与验证方案。
+- 11-11T00:18 · _last_lane_bm-m.json · 已完成 ETF 组合解锁验证，无风险。
+- 11-11T00:18 · UNBLOCK-VERIFY-FIN-ETF-COMPOSITE-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物，存在流程风险。
+- 11-11T00:18 · UNBLOCK-VERIFY-FIN-ETF-COMPOSITE-bm-m.json · 已完成机队回执验证，存在因缺料导致的阻塞风险。
+- 11-11T00:18 · REPAIR-R-MODEL-RADAR-BMM-20261111-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
+- 11-11T00:18 · REPAIR-R-MODEL-RADAR-BMM-20261111-bm-m.json · 已完成根因诊断与修复，但需研发与运维协同排查服务状态及网络连通性以消除风险。
+- 11-11T00:18 · R-MODEL-RADAR-BMM-20261111-acceptance.json · 机队回执被拒，因交付物非标准产物且存在合规风险。
+- 11-11T00:19 · R-MODEL-RADAR-BMM-20261111-bm-m.json · 已完成机队回执生成，无风险。
+- 11-11T00:20 · model-radar-bm-m-20261111.json · 已完成雷达模型修复任务，当前处于空闲状态且无风险。
+- 11-11T00:20 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。

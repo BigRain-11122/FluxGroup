@@ -1,13 +1,13 @@
 {
  "node": "bm-m",
- "ts": "2026-11-11T00:15:22",
+ "ts": "2026-11-11T00:19:52",
  "mode": "apply",
  "verdict": "SELF-OK",
  "checks": [
   {
    "check": "reload",
-   "code_age_s": 7143,
-   "receipt_age_s": 12,
+   "code_age_s": 234,
+   "receipt_age_s": 20,
    "targets": [],
    "acted": false,
    "note": "executor produced a receipt after the last code edit",
@@ -17,15 +17,14 @@
   {
    "check": "shells",
    "cards": 4,
-   "shells": 4,
+   "shells": 3,
    "ids": [
-    "REPAIR-asset-lib-env-check-2026-11-11",
     "REPAIR-R-MODEL-RADAR-BMM-20261111",
     "UNBLOCK-VERIFY-FIN-ETF-COMPOSITE",
     "UNBLOCK-asset-lib-face-caption-2026-11-10"
    ],
    "acted": true,
-   "kept": 0,
+   "kept": 1,
    "verdict": "PRUNED"
   },
   {
