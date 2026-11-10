@@ -5853,3 +5853,10 @@
 - 11-11T02:42 · self-improve-bm-m-latest.json · 机队已确认代码更新且无依赖缺失，当前无风险。
 - 11-11T02:42 · _last_lane_bm-m.json · 机队已就绪，心跳正常，无风险。
 - 11-11T02:44 · _last_lane_bm-m.json · 机队任务已运行中，当前无风险。
+- 11-11T02:47 · _last_lane_bm-m.json · 机队任务已运行中，当前无风险。
+- 11-11T02:47 · NODE-SYNC-bm-c-20261111-bm-c.json · 已完成机队同步与报告生成，无风险。
+- 11-11T02:47 · NODE-SYNC-bm-c-20261111-acceptance.json · 完成节点同步回执提交，但被拒因非标准交付物且无风险。
+- 11-11T02:47 · CANARY-20261111T024402-bm-m.json · 已完成端到端自检并生成产物，无风险。
+- 11-11T02:47 · CANARY-20261111T024402-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物。
+- 11-11T02:47 · UNBLOCK-MV-STAB-Q-MV-0001-003-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效文档。
+- 11-11T02:47 · UNBLOCK-MV-STAB-Q-MV-0001-003-bm-m.json · 任务已完成但存在风险：因权限不足导致无法自动重提，需人工介入授权。
