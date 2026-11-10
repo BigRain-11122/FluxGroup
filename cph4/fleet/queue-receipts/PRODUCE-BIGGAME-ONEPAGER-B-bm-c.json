@@ -1,0 +1,17 @@
+{
+ "id": "PRODUCE-BIGGAME-ONEPAGER-B",
+ "node": "bm-c",
+ "rc": 0,
+ "seconds": 0.2,
+ "cmd": "python Tools/fleet/biggame_onepager.py --src cph4/fleet/reports/submit-pack-20261110.json --out cph4/fleet/reports/biggame-submit-onepager.md",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "cph4/fleet/reports/biggame-submit-onepager.md",
+ "deliverable_exists": true,
+ "ts": "2026-11-10T23:54:47",
+ "stdout_tail": "[onepager] cph4/fleet/reports/submit-pack-20261110.json -> cph4/fleet/reports/biggame-submit-onepager.md (36 products)\n",
+ "stderr_tail": ""
+}
