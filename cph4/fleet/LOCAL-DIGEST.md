@@ -4415,3 +4415,5 @@
 - 11-10T16:58 · _last_lane_bm-m.json · 机队已自派完成回单，无风险。
 - 11-10T16:58 · UNBLOCK-biggame-accept-2026-11-10-acceptance.json · 已完成机队回执提交，但被拒因内容非有效交付物，无风险。
 - 11-10T16:58 · UNBLOCK-biggame-accept-2026-11-10-bm-m.json · 已完成机队回执生成，但存在因缺少读取权限导致无法解锁的风险。
+- 11-10T16:59 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-10T16:59 · skill-promote-20261110.json · 已完成基础任务，因工具缺失导致多项关键技能无法执行。
