@@ -6342,3 +6342,6 @@
 - 11-11T06:28 · _last_lane_bm-m.json · 已完成节点同步，当前运行中无风险。
 - 11-11T06:29 · _last_lane_bm-m.json · 已完成节点同步，当前运行中无风险。
 - 11-11T06:29 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
+- 11-11T06:30 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-11T06:30 · REPAIR-NODE-SYNC-bm-a-20261111T0612-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物且存在合规风险。
+- 11-11T06:30 · REPAIR-NODE-SYNC-bm-a-20261111T0612-bm-m.json · 任务完成但存在交付物缺失机制风险，需排查上游状态与脚本逻辑。
