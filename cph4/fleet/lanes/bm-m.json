@@ -1,23 +1,51 @@
 {
  "node": "bm-m",
- "ts": "2026-11-10T16:20:45",
+ "ts": "2026-11-10T16:24:27",
  "jobs": [
   {
-   "id": "MV-NEWPROC-PACKET-20261110",
-   "title": "导演席新流程卷：四曲立意/分镜/合规矩阵一页卷",
-   "cmd": "python Tools/fleet/review_packet.py --line mv --root .",
-   "cwd": "",
+   "id": "REPAIR-Q-MV-0001-003",
+   "title": "[repair] Q-MV-0001-003 的根因与下一步",
+   "cmd": "",
+   "cwd": null,
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/review-packet-mv-20261110.md",
+   "deliverable": "cph4/fleet/repairs/Q-MV-0001-003.md",
    "need_mb": null,
-   "model": "none",
-   "prompt": "",
+   "model": "local-small",
+   "prompt": "这张卡失败了。请只依据给出的证据，写一页诊断：①最可能的根因 ②下一步具体动作（谁、做什么、怎么验证）。不要编造文件或命令。",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "REPAIR-C-FIN-ETF-COMPOSITE",
+   "title": "[repair] C-FIN-ETF-COMPOSITE 的根因与下一步",
+   "cmd": "",
+   "cwd": null,
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/repairs/C-FIN-ETF-COMPOSITE.md",
+   "need_mb": null,
+   "model": "local-small",
+   "prompt": "这张卡失败了。请只依据给出的证据，写一页诊断：①最可能的根因 ②下一步具体动作（谁、做什么、怎么验证）。不要编造文件或命令。",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "REPAIR-asset-lib-char-gen-2026-11-06",
+   "title": "[repair] asset-lib-char-gen-2026-11-06 的根因与下一步",
+   "cmd": "",
+   "cwd": null,
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/repairs/asset-lib-char-gen-2026-11-06.md",
+   "need_mb": null,
+   "model": "local-small",
+   "prompt": "这张卡失败了。请只依据给出的证据，写一页诊断：①最可能的根因 ②下一步具体动作（谁、做什么、怎么验证）。不要编造文件或命令。",
    "when_all": [],
    "llm": null,
    "timeout_s": null
   }
  ],
- "idle_reason": "control-plane heartbeat",
+ "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 11.0/1.0 GB"
+ "capacity_note": "ram 10.7/1.0 GB"
 }
