@@ -3,7 +3,7 @@
  "verdict": "GAPS",
  "error_class": null,
  "summary": {
-  "ts": "2026-11-10T22:21:55+0800",
+  "ts": "2026-11-10T22:24:35+0800",
   "owner": "bm-c（传家宝）· 归集与 git 备份",
   "accept_on": "bm-c",
   "skills": {
@@ -75,7 +75,7 @@
     "cph4\\fleet\\CEO-DEMAND-LEDGER-v1.json",
     "cph4\\fleet\\CONTENT-WINS-LEDGER-v1.md"
    ],
-   "newest": "2026-11-10 22:14"
+   "newest": "2026-11-10 22:22"
   },
   "vault": {
    "entries": 651,
@@ -87,7 +87,7 @@
    "index": "cph4\\fleet\\vault\\index.jsonl"
   },
   "produced": {
-   "done_with_deliverable": 650,
+   "done_with_deliverable": 652,
    "on_disk": 421,
    "absent": [
     {
@@ -171,15 +171,15 @@
      "deliverable": "D:\\FleetWorker\\review\\outliers_v717.json"
     }
    ],
-   "absent_count": 229
+   "absent_count": 231
   },
   "gaps": [
-   "229 张 DONE 卡的交产物不在盘",
+   "231 张 DONE 卡的交产物不在盘",
    "651 条 vault 登记指向不存在的文件"
   ]
  },
  "gaps": [
-  "229 张 DONE 卡的交产物不在盘",
+  "231 张 DONE 卡的交产物不在盘",
   "651 条 vault 登记指向不存在的文件"
  ]
 }
