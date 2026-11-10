@@ -2,16 +2,16 @@
  "id": "R-MODEL-RADAR-BMM-20261111",
  "node": "bm-m",
  "rc": 0,
- "seconds": 0.1,
- "cmd": "python3 Tools/fleet/model_radar.py run --node bm-m --idle-only --apply",
+ "seconds": 0.4,
+ "cmd": "python Tools/fleet/model_radar.py run --node bm-m --idle-only --apply",
  "ok_rc": [
   0
  ],
- "outcome": "FAIL",
- "error_class": "E-ARTIFACT",
+ "outcome": "OK",
+ "error_class": null,
  "deliverable": "cph4/fleet/queue-receipts/model-radar-bm-m-20261111.json",
- "deliverable_exists": false,
- "ts": "2026-11-11T00:05:33",
- "stdout_tail": "{\"skipped\": \"another run in progress\"}\n",
+ "deliverable_exists": true,
+ "ts": "2026-11-11T00:18:07",
+ "stdout_tail": "{\"skipped_idle\": \"queue-running:REPAIR-R-MODEL-RADAR-BMM-20261111\", \"node\": \"bm-m\"}\n",
  "stderr_tail": ""
 }

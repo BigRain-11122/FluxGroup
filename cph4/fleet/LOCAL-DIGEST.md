@@ -5373,3 +5373,38 @@
 - 11-11T00:11 · asset-lib-env-check-2026-11-11-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被拒收。
 - 11-11T00:11 · asset-env-2026-11-11.json · 已完成机队回执，但缺少关键训练栈且资产目录缺失，导致任务失败。
 - 11-11T00:13 · _last_claim.json · 机队已空，无风险。
+- 11-11T00:15 · biz-car-gaming-20261111.json · 已完成 car-gaming 任务，无风险。
+- 11-11T00:15 · biz-car-gaming-20261111.md · 完成跨车企适配层底座与双轨产品交付，通过联合运营规避自建分发风险。
+- 11-11T00:15 · _last_lane_bm-m.json · 已完成雷达模型修复任务，无风险。
+- 11-11T00:15 · REPAIR-R-MODEL-RADAR-BMM-20261111-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
+- 11-11T00:15 · REPAIR-R-MODEL-RADAR-BMM-20261111-bm-m.json · 模型推理服务故障导致任务失败，存在底层算力不可用风险。
+- 11-11T00:15 · UNBLOCK-asset-lib-face-caption-2026-11-10-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被拒绝。
+- 11-11T00:15 · UNBLOCK-asset-lib-face-caption-2026-11-10-bm-m.json · 已完成机队解锁，存在因缺料需人工补料并重启的风险。
+- 11-11T00:15 · REPAIR-asset-lib-env-check-2026-11-11-acceptance.json · 机队回执未生成有效交付物，存在流程阻断风险。
+- 11-11T00:15 · REPAIR-asset-lib-env-check-2026-11-11-bm-m.json · 任务未执行即失败，存在调度配置异常风险。
+- 11-11T00:15 · UNBLOCK-VERIFY-FIN-ETF-COMPOSITE-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-11T00:16 · UNBLOCK-VERIFY-FIN-ETF-COMPOSITE-bm-m.json · 已完成机队解锁验证，存在因缺料导致的阻塞风险。
+- 11-11T00:16 · triage-bigstream-mv-bm-c-20261111.md · 机队已完成线级体检，但发现 i2v 工段超阈，需补产出或收线。
+- 11-11T00:16 · triage-bigstream-mv-20261111.md · 机队已完成线级体检，但发现 i2v 工段超阈且质检缺位，需补产出或收线。
+- 11-11T00:16 · triage-biggame-bm-c-20261111.md · 机队回执显示最新产出未达阈值，需由游戏席补全美术与工程输入。
+- 11-11T00:16 · model-radar-bm-c-20261111.json · 机队因队列运行被跳过，无风险。
+- 11-11T00:16 · model-radar-bm-a-20261111.json · 机队已跳过闲置状态，因队列运行计划而执行，无风险。
+- 11-11T00:16 · asset-lib-face-dataset-2026-11-11-bm-c.json · 机队人脸数据集审计任务已完成，无风险。
+- 11-11T00:16 · asset-lib-face-dataset-2026-11-11-acceptance.json · 机队回执已生成但被拒收，因交付物非预期产物且无风险。
+- 11-11T00:16 · asset-face-2026-11-11.json · 机队完成人脸数据入库审核，无风险且已获准进入训练。
+- 11-11T00:16 · R-TRIAGE-BIGSTREAMMV-BMC-20261111-bm-c.json · 已完成机队回执生成，无风险。
+- 11-11T00:16 · R-TRIAGE-BIGSTREAMMV-BMC-20261111-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物。
+- 11-11T00:16 · R-TRIAGE-BIGGAME-BMC-20261111-bm-c.json · 已完成机队回执生成，无风险。
+- 11-11T00:16 · R-TRIAGE-BIGGAME-BMC-20261111-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被驳回。
+- 11-11T00:16 · R-MODEL-RADAR-BMC-20261111-bm-c.json · 已完成机队雷达模型运行，无风险。
+- 11-11T00:16 · R-MODEL-RADAR-BMC-20261111-acceptance.json · 已完成机队回执提交，但被拒收因交付物非标准产物。
+- 11-11T00:16 · R-MODEL-RADAR-BMA-20261111-bm-c.json · 机队任务已完成，无风险。
+- 11-11T00:16 · R-MODEL-RADAR-BMA-20261111-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
+- 11-11T00:16 · Q-TRIAGE-BIGSTREAMMV-20261111-bm-c.json · 已完成机队回执生成，无风险。
+- 11-11T00:16 · Q-TRIAGE-BIGSTREAMMV-20261111-acceptance.json · 机队回执被拒，因交付物非标准产物且无风险。
+- 11-11T00:16 · brain-bigstream-duanju-2026-11-11.md · 因引证未过且关键机制缺失，当前结论不可作为决策依据，存在项目停滞风险。
+- 11-11T00:16 · brain-bigstream-mv-2026-11-11.md · 已完成视觉硬伤修复与四项核验，但引证文件缺失导致结论不可作为决策依据。
+- 11-11T00:16 · biz-mv-publish-checklist-20261111.json · 机队任务已完成，无风险。
+- 11-11T00:16 · biz-mv-publish-checklist-20261111.md · 已完成基础交付但遗留四项高风险修复项，需立即整改方可发布。
+- 11-11T00:16 · skill-promote-20261111.json · 已完成基础任务，因工具缺失导致大量技能无法执行。
+- 11-11T00:16 · _last_claim.json · 机队已空，无风险。

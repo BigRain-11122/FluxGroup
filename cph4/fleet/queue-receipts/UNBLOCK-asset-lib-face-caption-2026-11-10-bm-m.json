@@ -2,7 +2,7 @@
  "id": "UNBLOCK-asset-lib-face-caption-2026-11-10",
  "node": "bm-m",
  "rc": 0,
- "seconds": 37.2,
+ "seconds": 49.8,
  "cmd": "",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/repairs/asset-lib-face-caption-2026-11-10-unblock.md",
  "deliverable_exists": true,
- "ts": "2026-11-11T00:15:47",
- "stdout_tail": "缺人阻塞；由 owner bm-c 执行；动作：重新配置人员或确认权限后重启。",
+ "ts": "2026-11-11T00:17:57",
+ "stdout_tail": "缺人/堵卡：需 bm-c 排查并重启；最小动作：清除滞留信号并恢复输入。",
  "stderr_tail": ""
 }
