@@ -1,23 +1,8 @@
 {
  "node": "bm-a",
- "ts": "2026-11-11T01:36:18",
- "jobs": [
-  {
-   "id": "asset-lib-voice-assemble-2026-11-11",
-   "title": "[资产储备（角色 LoRA / 音色库）] 音色数据集装配（授权核查→voices/<组> 准入）",
-   "cmd": "python Tools/fleet/voice_dataset.py --out cph4/fleet/queue-receipts/voice-dataset-2026-11-11.json",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/voice-dataset-2026-11-11.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  }
- ],
- "idle_reason": "",
+ "ts": "2026-11-11T01:48:15",
+ "jobs": [],
+ "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
  "lane_ok": true,
- "capacity_note": "ram 21.0/1.0 GB"
+ "capacity_note": "ram 18.4/1.0 GB"
 }
