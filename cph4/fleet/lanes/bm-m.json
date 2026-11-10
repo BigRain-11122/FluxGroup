@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-10T22:41:01",
+ "ts": "2026-11-10T22:43:03",
  "jobs": [
   {
    "id": "REPAIR-GAP-BIGGAME-PACK-20261110",
@@ -47,5 +47,11 @@
  ],
  "idle_reason": "control-plane heartbeat",
  "lane_ok": true,
- "capacity_note": "ram 15.3/1.0 GB"
+ "capacity_note": "ram 15.3/1.0 GB",
+ "cards": [],
+ "pruned_shells": [
+  "REPAIR-GAP-BIGGAME-PACK-20261110",
+  "REPAIR-GAP-BIGMONEY-LINE-20261110",
+  "REPAIR-GAP-ASSETLIB-AUDIT-20261110"
+ ]
 }

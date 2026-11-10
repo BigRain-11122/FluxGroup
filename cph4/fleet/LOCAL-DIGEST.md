@@ -5056,3 +5056,11 @@
 - 11-10T22:39 · GAP-BIGGAME-PACK-20261110-acceptance.json · 已提交机队回执，但因交付物非标准产物被拒收。
 - 11-10T22:40 · GRID-O2-20261110T2132-acceptance.json · 机队回执显示产物未落盘，任务失败且无风险。
 - 11-10T22:39 · GRID-O2-20261110T2132-bm-m.json · 未定义修复方案，导致机队回执失败且无交付物。
+- 11-10T22:42 · _last_lane_bm-m.json · 已完成资产库审计修复任务，当前运行中无风险。
+- 11-10T22:42 · skill-promote-20261110.json · 已完成基础任务，因工具缺失导致大量关键技能无法执行。
+- 11-10T22:42 · triage-fluxverse-bm-c-20261110.md · 已完成线级体检，发现两个工段超阈需补产出或收线。
+- 11-10T22:42 · _last_claim.json · 机队已清空，无风险。
+- 11-10T22:42 · R-TRIAGE-FLUXVERSE-BMC-20261110-bm-c.json · 已完成 Fluxverse 机队回执生成，无错误风险。
+- 11-10T22:42 · R-TRIAGE-FLUXVERSE-BMC-20261110-acceptance.json · 机队回执被拒，因交付物非标准产物且无风险。
+- 11-10T22:42 · GRID-G1-20261110T2227-acceptance.json · 机队回执显示产物未落盘，任务失败且无风险。
+- 11-10T22:42 · GRID-G1-20261110T2227-bm-m.json · 任务失败，因未定义修复方案且无交付物。
