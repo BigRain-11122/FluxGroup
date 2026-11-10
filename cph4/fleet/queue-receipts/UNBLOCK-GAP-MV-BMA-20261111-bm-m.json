@@ -2,7 +2,7 @@
  "id": "UNBLOCK-GAP-MV-BMA-20261111",
  "node": "bm-m",
  "rc": 0,
- "seconds": 39.1,
+ "seconds": 46.6,
  "cmd": "",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/repairs/GAP-MV-BMA-20261111-unblock.md",
  "deliverable_exists": true,
- "ts": "2026-11-11T04:21:08",
- "stdout_tail": "缺料/环境阻塞；由 owner bm-a 自行确认产出并恢复；直接执行重启流程解锁。",
+ "ts": "2026-11-11T04:23:13",
+ "stdout_tail": "缺人阻塞；由 bm-a 执行清理并重新提交；立即刷新状态。",
  "stderr_tail": ""
 }

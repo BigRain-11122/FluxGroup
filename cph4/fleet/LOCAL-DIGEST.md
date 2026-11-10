@@ -6032,3 +6032,13 @@
 - 11-11T04:21 · REPAIR-NODE-SYNC-bm-a-0352-bm-m.json · 节点同步失败并陷入死锁循环，存在数据不一致风险，需立即介入排查。
 - 11-11T04:20 · UNBLOCK-GAP-MV-BMA-20261111-acceptance.json · 已提交机队回执，但被拒因内容非有效交付物，存在合规风险。
 - 11-11T04:21 · UNBLOCK-GAP-MV-BMA-20261111-bm-m.json · 已完成机队回执，存在缺料人员风险，需立即指派负责人补充并重启。
+- 11-11T04:22 · NODE-SYNC-bm-c-20261111-bm-c.json · 已完成机队同步与报告生成，无风险。
+- 11-11T04:22 · NODE-SYNC-bm-c-20261111-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物且无风险。
+- 11-11T04:22 · _last_lane_bm-m.json · 已完成节点同步，无风险。
+- 11-11T04:22 · REPAIR-NODE-SYNC-bm-a-0352-acceptance.json · 完成机队回执提交，但被拒因交付物非有效产物。
+- 11-11T04:22 · REPAIR-NODE-SYNC-bm-a-0352-bm-m.json · 任务完成但存在资源稳定性波动风险，需立即检查并重置租赁会话。
+- 11-11T04:22 · UNBLOCK-PRODUCE-ICONS-BIGGAME-20261111-acceptance.json · 机队回执被拒，因交付物非有效产物且无风险。
+- 11-11T04:22 · UNBLOCK-PRODUCE-ICONS-BIGGAME-20261111-bm-m.json · 已完成机队解锁，存在因权限不足需人工介入的风险。
+- 11-11T04:22 · UNBLOCK-GAP-MV-BMA-20261111-acceptance.json · 完成机队回执提交，但被拒因非有效交付物且无风险。
+- 11-11T04:22 · UNBLOCK-GAP-MV-BMA-20261111-bm-m.json · 已完成机队解锁，存在缺料或环境阻塞风险，需负责人自行确认并恢复。
+- 11-11T04:22 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。

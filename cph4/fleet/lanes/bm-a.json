@@ -1,21 +1,7 @@
 {
  "node": "bm-a",
- "ts": "2026-11-11T04:17:12",
+ "ts": "2026-11-11T04:22:27",
  "jobs": [
-  {
-   "id": "NODE-SYNC-bm-a-0352",
-   "title": "[self-heal] bm-a 轻量收口（领先 24，重置后拿新代码）",
-   "cmd": "git -C . branch -f backup/bm-a-0352 HEAD && git -C . reset --hard origin/main && git -C . log -1 --oneline > cph4/fleet/reports/node-sync-bm-a-0352.md",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/node-sync-bm-a-0352.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": 90
-  },
   {
    "id": "GAP-BIGMONEY-BMA-20261111",
    "title": "[gap] bigmoney 证据（bm-a）",
@@ -29,23 +15,9 @@
    "when_all": [],
    "llm": null,
    "timeout_s": 180
-  },
-  {
-   "id": "GAP-FLUXVERSE-BMA-20261111",
-   "title": "[gap] fluxverse 证据（bm-a）",
-   "cmd": "python Tools/fleet/line_triage.py --line fluxverse --out cph4/fleet/reports/triage-fluxverse-20261111d.md",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/triage-fluxverse-20261111d.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": 180
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 27.7/1.0 GB"
+ "capacity_note": "ram 21.7/1.0 GB"
 }
