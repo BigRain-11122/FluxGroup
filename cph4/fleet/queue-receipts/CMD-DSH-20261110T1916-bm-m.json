@@ -2,8 +2,8 @@
  "id": "CMD-DSH-20261110T1916",
  "node": "bm-m",
  "rc": 0,
- "seconds": 0.3,
- "cmd": "python -c \"import json,collections,datetime;rows=[json.loads(l) for l in open('cph4/fleet/PRODUCTION-QUEUE.jsonl',encoding='utf-8') if l.strip()];c=collections.Counter(str(r.get('state')) for r in rows);open(r'cph4/fleet/state/canary/CMD-DSH-20261110T1916.txt','w',encoding='utf-8').write('DSH-FLEET-COMMAND-TEST 20261110T1916\\nissuer: DeepSeek Harness session (CEO 直令)\\nexecuted_by: autonomous pulse lane (no manual run)\\nqueue_rows: %d\\nstates: %s\\n' % (len(rows), json.dumps(c,ensure_ascii=False,sort_keys=True)))\"",
+ "seconds": 0.1,
+ "cmd": "python3 -c \"import json,collections,datetime;rows=[json.loads(l) for l in open('cph4/fleet/PRODUCTION-QUEUE.jsonl',encoding='utf-8') if l.strip()];c=collections.Counter(str(r.get('state')) for r in rows);open(r'cph4/fleet/state/canary/CMD-DSH-20261110T1916.txt','w',encoding='utf-8').write('DSH-FLEET-COMMAND-TEST 20261110T1916\\nissuer: DeepSeek Harness session (CEO 直令)\\nexecuted_by: autonomous pulse lane (no manual run)\\nqueue_rows: %d\\nstates: %s\\n' % (len(rows), json.dumps(c,ensure_ascii=False,sort_keys=True)))\"",
  "ok_rc": [
   0
  ],
@@ -11,7 +11,7 @@
  "error_class": "E-ARTIFACT",
  "deliverable": "cph4/fleet/state/canary/CMD-DSH-20261110T1916.txt",
  "deliverable_exists": false,
- "ts": "2026-11-10T19:21:30",
+ "ts": "2026-11-10T19:21:41",
  "stdout_tail": "",
  "stderr_tail": ""
 }

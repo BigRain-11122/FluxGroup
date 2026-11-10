@@ -138,7 +138,15 @@ def deliverable_blocked(path):
         try:
             with open(path, encoding="utf-8-sig", errors="replace") as f:
                 head = f.read(400).upper()
-            return "BLOCKED" in head or "RECEIPT_IS_NOT_DELIVERABLE" in head
+            if "RECEIPT_IS_NOT_DELIVERABLE" in head:
+                return True
+            # "BLOCKED" must open the file (a guard's refusal line), not appear anywhere
+            # in the head. 2026-11-10: two genuine deliverables (a queue-state report and
+            # a fleet test artifact) were booked FAILED/E-ARTIFACT because their content
+            # listed "BLOCKED: 6" among queue states - "a file that mentions blocked work"
+            # is not "a refusal receipt", and the contract layer must not conflate them.
+            first = next((ln.strip() for ln in head.splitlines() if ln.strip()), "")
+            return first.startswith("BLOCKED")
         except Exception:
             return False
     try:
