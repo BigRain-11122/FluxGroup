@@ -1,6 +1,6 @@
 {
  "node": "bm-a",
- "ts": "2026-11-10T14:21:06",
+ "ts": "2026-11-10T14:25:24",
  "jobs": [
   {
    "id": "CANARY-NORMALIZE-141948",
@@ -12,6 +12,20 @@
    "need_mb": null,
    "model": "local-small",
    "prompt": "说一句 ok",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "CANARY-BMA-142521",
+   "title": "[canary] bm-a 执行证明",
+   "cmd": "echo bm-a-ok > cph4/fleet/queue-receipts/CANARY-BMA-142521.txt",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/CANARY-BMA-142521.txt",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
    "when_all": [],
    "llm": null,
    "timeout_s": null
