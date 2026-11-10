@@ -1,41 +1,29 @@
 {
- "ts": "2026-11-10T21:27:49",
- "cycle": 1013,
+ "ts": "2026-11-10T21:33:42",
+ "cycle": 1014,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-10T21:27:49",
+ "master_tick_ts": "2026-11-10T21:33:42",
  "queue": {
-  "total": 1862,
-  "open": 5,
-  "running": 6,
-  "done": 656,
+  "total": 1865,
+  "open": 7,
+  "running": 7,
+  "done": 658,
   "failed": 2
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 35.6,
-   "cpu_load_pct": 49,
-   "ram_free_gb": 49.4,
-   "gpu_util_pct": 15,
-   "job": "NODE-SYNC-bm-a-20261110",
-   "last_result": null,
-   "idle_confirmed": false,
-   "idle_reason": "",
-   "idle_rounds": 0
-  },
-  "bm-b": {
-   "online": true,
-   "hb_age_s": 112.3,
-   "cpu_load_pct": 11,
-   "ram_free_gb": 11.1,
-   "gpu_util_pct": 1,
-   "job": "PROBE-BMB-WINRM-2035",
+   "hb_age_s": 27.7,
+   "cpu_load_pct": 57,
+   "ram_free_gb": 49.1,
+   "gpu_util_pct": 13,
+   "job": "R-NEXT-BIGSTREAMM-REBUILD-20261109",
    "last_result": {
-    "job": "NODE-SYNC-bm-b-20261110",
-    "state": "RUNNING",
-    "rc": null,
-    "ts": "2026-11-10T21:20:07",
+    "job": "NODE-SYNC-bm-a-20261110",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-10T21:29:53",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -44,21 +32,41 @@
    "idle_reason": "",
    "idle_rounds": 0
   },
+  "bm-b": {
+   "online": true,
+   "hb_age_s": 45.0,
+   "cpu_load_pct": 6,
+   "ram_free_gb": 11.3,
+   "gpu_util_pct": 2,
+   "job": null,
+   "last_result": {
+    "job": "PROBE-BMB-WINRM-2035",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-10T21:32:55",
+    "reason": null,
+    "out_bytes": null,
+    "elapsed_s": null
+   },
+   "idle_confirmed": false,
+   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+   "idle_rounds": 0
+  },
   "bm-c": {
    "online": true,
-   "hb_age_s": 45.7,
-   "cpu_load_pct": 22,
-   "ram_free_gb": 2.1,
+   "hb_age_s": 253.8,
+   "cpu_load_pct": 24,
+   "ram_free_gb": 2.2,
    "gpu_util_pct": 0,
    "job": "asset-lib-face-dataset-2026-11-10",
    "last_result": {
     "job": "asset-lib-face-dataset-2026-11-10",
-    "state": "BUSY",
+    "state": "RUNNING",
     "rc": null,
-    "ts": "2026-11-10T21:25:44",
+    "ts": "2026-11-10T21:31:27",
     "reason": null,
-    "out_bytes": 0,
-    "elapsed_s": 10
+    "out_bytes": null,
+    "elapsed_s": null
    },
    "idle_confirmed": false,
    "idle_reason": "",
@@ -66,17 +74,17 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 1.7,
-   "cpu_load_pct": 12,
-   "ram_free_gb": 12.7,
+   "hb_age_s": 1.8,
+   "cpu_load_pct": 34,
+   "ram_free_gb": 14.6,
    "gpu_util_pct": null,
-   "job": "REPAIR-CMD-DSH-BMC-ACK-2012",
+   "job": "REPAIR-CMD-DSH-BMC-MEM-2012",
    "last_result": {
-    "job": null,
-    "state": "IDLE",
-    "rc": null,
-    "ts": "2026-11-10T21:27:45",
-    "reason": "SELF-DISPATCH: lane scans its own backlog",
+    "job": "REPAIR-CMD-DSH-BMC-ACK-2012",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-10T21:33:38",
+    "reason": null,
     "out_bytes": null,
     "elapsed_s": null
    },
@@ -99,8 +107,10 @@
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "R-NEXT-BIGSTREAMM-REBUILD-20261109"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": null,
    "stuck_stage": "mv-plan",
@@ -271,14 +281,18 @@
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
    "jobs": [
-    "PROBE-BMB-WINRM-2035",
-    "NODE-SYNC-bm-a-20261110",
-    "NODE-SYNC-bm-b-20261110",
-    "REPAIR-CMD-DSH-BMC-ACK-2012",
-    "REPAIR-CMD-DSH-BMC-MEM-2012"
+    "CMD-DSH-BMC-ACK-2012",
+    "CMD-DSH-BMC-MEM-2012",
+    "REPAIR-CMD-DSH-BMC-MEM-2012",
+    "GRID-F3-20261110T2130",
+    "GRID-M1-20261110T2132",
+    "GRID-O2-20261110T2132"
    ],
    "no_supply": false,
-   "blockers": [],
+   "blockers": [
+    "GRID-M1-20261110T2132:no-lane",
+    "GRID-O2-20261110T2132:no-lane"
+   ],
    "note": null
   },
   "asset-lib": {
@@ -842,7 +856,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 5,
+  "local": 7,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -850,13 +864,19 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 5,
+  "cpu": 7,
   "gpu": 0
  },
  "supply_added": [],
  "events": [
-  "REPAIR-CMD-DSH-BMC-ACK-2012 -> bm-m (cpu)",
-  "REPAIR-CMD-DSH-BMC-MEM-2012 -> bm-m (cpu)"
+  "NODE-SYNC-bm-a-20261110 DONE via bm-a",
+  "PROBE-BMB-WINRM-2035 UNVERIFIED(no-artifact-yet) via bm-b",
+  "REPAIR-CMD-DSH-BMC-ACK-2012 DONE via bm-m",
+  "R-NEXT-BIGSTREAMM-REBUILD-20261109 -> bm-a (cpu)",
+  "MV-DIRECTOR-PACKET-20261109 -> bm-a (cpu)",
+  "CMD-DSH-BMC-MEM-2012 -> bm-c (cpu)",
+  "GRID-F3-20261110T2130 -> bm-m (cpu)",
+  "CMD-DSH-BMC-ACK-2012 -> bm-c (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 立意/分镜/导演席 (导演席（自决推进，CEO 巡视可随时否决）)",
@@ -865,6 +885,9 @@
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
+  "bm-a",
+  "bm-b",
+  "bm-c",
   "bm-m"
  ]
 }
