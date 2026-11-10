@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-10T16:26:44",
+ "ts": "2026-11-10T16:27:53",
  "jobs": [
   {
    "id": "REPAIR-Q-MV-0001-003",
@@ -75,5 +75,13 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 10.5/1.0 GB"
+ "capacity_note": "ram 10.5/1.0 GB",
+ "cards": [],
+ "pruned_shells": [
+  "REPAIR-Q-MV-0001-003",
+  "REPAIR-asset-lib-char-gen-2026-11-06",
+  "REPAIR-R-TRIAGE-FLUXVERSE-BMB-20261110",
+  "REPAIR-PROBE-BMB-TOOLCHAIN-20261110",
+  "UNBLOCK-biggame-accept-2026-11-09"
+ ]
 }
