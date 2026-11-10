@@ -4987,3 +4987,20 @@
 - 11-10T22:24 · GAP-CHARGEN-PROBE-20261110-acceptance.json · 机队回执显示产物未落盘，任务失败且无风险。
 - 11-10T22:26 · _last_lane_bm-m.json · 机队已自派完成回单扫描，无风险。
 - 11-10T22:26 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-10T22:29 · UNBLOCK-asset-lib-face-dataset-2026-11-10-acceptance.json · 机队回执被拒，因交付物非所需文档或台账。
+- 11-10T22:28 · UNBLOCK-asset-lib-face-dataset-2026-11-10-bm-m.json · 已完成机队解锁，无风险。
+- 11-10T22:28 · _last_lane_bm-m.json · 已完成资产解锁任务，无风险。
+- 11-10T22:28 · REPAIR-GAP-CHARGEN-PROBE-20261110-acceptance.json · 完成机队回执提交，但被拒因交付物非标准产物，无风险。
+- 11-10T22:28 · REPAIR-GAP-CHARGEN-PROBE-20261110-bm-m.json · 已完成卡点失败分析，确认由外部网络抖动导致，需排查依赖服务。
+- 11-10T22:29 · UNBLOCK-R-NEXT-BIGSTREAMM-REBUILD-20261109-acceptance.json · 机队回执被拒，因交付物非有效文档且无风险。
+- 11-10T22:29 · UNBLOCK-R-NEXT-BIGSTREAMM-REBUILD-20261109-bm-m.json · 已完成机队重建工单，无风险。
+- 11-10T22:28 · REPAIR-MV-STAB-0001-003-OUT-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
+- 11-10T22:29 · REPAIR-MV-STAB-0001-003-OUT-bm-m.json · 已完成故障诊断与修正方案制定，无当前风险。
+- 11-10T22:29 · _last_claim.json · 机队已空，无风险。
+- 11-10T22:29 · KN-FILM-GATE-LATEST-20261110-bm-c.json · 机队任务完成且无风险。
+- 11-10T22:29 · KN-FILM-GATE-LATEST-20261110-acceptance.json · 未完成任务，因缺乏有效交付物导致流程被拒。
+- 11-10T22:29 · asset-lib-index-2026-11-10-bm-c.json · 机队回执显示任务成功完成，但存在文件缺失风险。
+- 11-10T22:29 · asset-lib-index-2026-11-10-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被拒绝。
+- 11-10T22:29 · asset-index-2026-11-10.json · 已完成机队回执，存在 1 个被阻断的接收风险。
+- 11-10T22:29 · GAP-CHARGEN-PROBE-20261110-bm-c.json · 机队回执生成失败，因无交付物导致任务未完成且存在风险。
+- 11-10T22:29 · GAP-CHARGEN-PROBE-20261110-acceptance.json · 机队回执显示产物未落盘，任务失败且无风险。
