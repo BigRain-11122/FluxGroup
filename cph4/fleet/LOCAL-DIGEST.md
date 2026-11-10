@@ -5931,3 +5931,16 @@
 - 11-11T03:31 · UNBLOCK-PEER-SYNC-bm-c-20261111-bm-m.json · 已完成机队同步，但存在因权限不足导致无法自动交付的风险。
 - 11-11T03:31 · UNBLOCK-GAP-ASSETLIB-BMA-20261111-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效文档。
 - 11-11T03:31 · UNBLOCK-GAP-ASSETLIB-BMA-20261111-bm-m.json · 已完成机队回执生成，无风险。
+- 11-11T03:33 · _last_lane_bm-m.json · 机队运行中，任务已执行，无风险。
+- 11-11T03:33 · skill-promote-20261111.json · 已完成部分任务，因工具缺失导致大量技能无法执行。
+- 11-11T03:33 · asset-lib-face-caption-2026-11-11-bm-c.json · 任务失败，因输入被阻断导致无风险。
+- 11-11T03:33 · asset-lib-face-caption-2026-11-11-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被拒绝。
+- 11-11T03:33 · asset-caption-2026-11-11.json · 已完成机队回执，因无待打标图片存在风险。
+- 11-11T03:33 · UNBLOCK-GAP-ASSETLIB-BMA-20261111-acceptance.json · 机队回执被拒，因交付物非有效文档且无风险。
+- 11-11T03:33 · UNBLOCK-GAP-ASSETLIB-BMA-20261111-bm-m.json · 已完成机队回执生成，存在因缺料需立即续租并回退的风险。
+- 11-11T03:33 · UNBLOCK-PEER-SYNC-bm-c-20261111-acceptance.json · 完成机队回执提交，但被拒因交付物非有效产物。
+- 11-11T03:33 · UNBLOCK-PEER-SYNC-bm-c-20261111-bm-m.json · 已完成机队同步，无风险，需人工介入修复缺失人员问题。
+- 11-11T03:33 · REPAIR-PRODUCE-ICONS-BIGGAME-20261111-acceptance.json · 机队未产出有效回执，因交付物非预期文档而被拒收。
+- 11-11T03:34 · REPAIR-PRODUCE-ICONS-BIGGAME-20261111-bm-m.json · 已完成根因诊断与修复方案制定，当前无执行风险但需开发人员介入验证。
+- 11-11T03:34 · self-improve-bm-m-latest.json · 机队已完成代码加载与依赖检查，无风险。
+- 11-11T03:34 · _last_claim.json · 机队已清空且无风险，但当前处于空池状态。
