@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-10T14:27:26",
+ "ts": "2026-11-10T14:28:02",
  "jobs": [
   {
    "id": "CEOQ-a7787203d3",
@@ -36,5 +36,10 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 11.4/1.0 GB"
+ "capacity_note": "ram 11.4/1.0 GB",
+ "cards": [],
+ "pruned_shells": [
+  "CEOQ-a7787203d3",
+  "R-SITREP-142521"
+ ]
 }
