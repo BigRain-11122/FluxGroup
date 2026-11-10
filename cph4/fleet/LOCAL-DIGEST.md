@@ -5262,3 +5262,11 @@
 - 11-10T23:45 · PRODUCE-RECON-20261110-acceptance.json · 机队未产出有效回执，因交付物非标准产物被拒。
 - 11-10T23:45 · REPAIR-NODE-SYNC-bm-b-2330-acceptance.json · 完成机队回执提交，但被拒因交付物非有效产物，无风险。
 - 11-10T23:45 · REPAIR-NODE-SYNC-bm-b-2330-bm-m.json · 已完成节点同步任务，但存在因调度器超时导致的竞态风险。
+- 11-10T23:46 · _last_lane_bm-m.json · 机队任务已执行成功，无风险。
+- 11-10T23:46 · GRID-G1-20261110T2248-acceptance.json · 机队回执显示产物未落盘，任务失败且无风险。
+- 11-10T23:46 · GRID-G1-20261110T2248-bm-m.json · 任务失败，因未定义修复方案导致交付物缺失。
+- 11-10T23:46 · _last_claim.json · 机队已空，无风险。
+- 11-10T23:46 · PRODUCE-RECON-20261110-bm-c.json · 机队回执显示任务失败，存在未知错误风险。
+- 11-10T23:46 · PRODUCE-RECON-20261110-acceptance.json · 完成机队回执提交，但被拒收因交付物非标准产物。
+- 11-10T23:46 · REPAIR-NODE-SYNC-bm-b-2330-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-10T23:46 · REPAIR-NODE-SYNC-bm-b-2330-bm-m.json · 已完成故障诊断与恢复操作，当前无风险。
