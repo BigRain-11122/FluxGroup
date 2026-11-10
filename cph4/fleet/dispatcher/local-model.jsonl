@@ -3132,3 +3132,4 @@
 {"cls": "master", "op": "embed", "sec": 0.05, "why": "dispatch-dedupe", "ts": "2026-11-11T05:25:29"}
 {"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-11T05:25:29"}
 {"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-11T05:25:29"}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 1.6, "chars": 52, "why": "fleet_brain:pick", "ts": "2026-11-11T05:26:26"}
