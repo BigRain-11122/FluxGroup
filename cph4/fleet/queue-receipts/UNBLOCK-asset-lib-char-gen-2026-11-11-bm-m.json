@@ -2,7 +2,7 @@
  "id": "UNBLOCK-asset-lib-char-gen-2026-11-11",
  "node": "bm-m",
  "rc": 0,
- "seconds": 77.5,
+ "seconds": 65.3,
  "cmd": "",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/repairs/asset-lib-char-gen-2026-11-11-unblock.md",
  "deliverable_exists": true,
- "ts": "2026-11-11T02:11:51",
- "stdout_tail": "缺权限：联系 owner 申请解封后由 ops 机执行。",
+ "ts": "2026-11-11T02:14:13",
+ "stdout_tail": "阻塞类型：缺人；最小动作：确认 bm-c 负责人并指派任务；执行机：当前机。",
  "stderr_tail": ""
 }
