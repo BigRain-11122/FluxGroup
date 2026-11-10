@@ -1,0 +1,17 @@
+{
+ "id": "asset-lib-index-2026-11-10",
+ "node": "bm-c",
+ "rc": 0,
+ "seconds": 2.1,
+ "cmd": "python Tools/fleet/lib_consolidate.py --receipt cph4/fleet/queue-receipts/asset-index-2026-11-10.json",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "cph4/fleet/queue-receipts/asset-index-2026-11-10.json",
+ "deliverable_exists": true,
+ "ts": "2026-11-10T22:21:57",
+ "stdout_tail": "skills=49 voice=168 flows=6/39 docs=87 vault=651 produced=421/650 gaps=2\n  GAP 229 寮� DONE 鍗＄殑浜や骇鐗╀笉鍦ㄧ洏\n  GAP 651 鏉� vault 鐧昏�版寚鍚戜笉瀛樺湪鐨勬枃浠�\nwrote cph4/fleet/lib/ASSET-INDEX.json + LIB-STATUS.md\nreceipt cph4\\fleet\\queue-receipts\\asset-index-2026-11-10.json\n",
+ "stderr_tail": ""
+}
