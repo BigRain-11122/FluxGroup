@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-10T20:42:41",
+ "ts": "2026-11-10T20:46:23",
  "jobs": [
   {
    "id": "REPAIR-CMD-DSH-20261110T1929",
@@ -19,5 +19,9 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 11.0/1.0 GB"
+ "capacity_note": "ram 11.0/1.0 GB",
+ "cards": [],
+ "pruned_shells": [
+  "REPAIR-CMD-DSH-20261110T1929"
+ ]
 }
