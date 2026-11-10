@@ -1,21 +1,7 @@
 {
  "node": "bm-m",
- "ts": "2026-11-11T00:27:01",
+ "ts": "2026-11-11T00:30:45",
  "jobs": [
-  {
-   "id": "REPAIR-R-PLAN-BIGCOMPUTE-20261111",
-   "title": "[repair] R-PLAN-BIGCOMPUTE-20261111 的根因与下一步",
-   "cmd": "",
-   "cwd": null,
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/repairs/R-PLAN-BIGCOMPUTE-20261111.md",
-   "need_mb": null,
-   "model": "local-small",
-   "prompt": "这张卡失败了。请只依据给出的证据，写一页诊断：①最可能的根因 ②下一步具体动作（谁、做什么、怎么验证）。不要编造文件或命令。\n\n证据：状态=UNVERIFIED；备注=；交付物=cph4/fleet/queue-receipts/triage-bigcompute-20261111.md；重试=None",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
   {
    "id": "REPAIR-R-NEXT-BIGSTREAMM-REBUILD-20261111",
    "title": "[repair] R-NEXT-BIGSTREAMM-REBUILD-20261111 的根因与下一步",
@@ -59,7 +45,7 @@
    "timeout_s": null
   }
  ],
- "idle_reason": "control-plane heartbeat",
+ "idle_reason": "",
  "lane_ok": true,
  "capacity_note": "ram 14.7/1.0 GB"
 }
