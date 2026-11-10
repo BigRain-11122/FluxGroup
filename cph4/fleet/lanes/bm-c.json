@@ -1,21 +1,7 @@
 {
  "node": "bm-c",
- "ts": "2026-11-11T02:15:22",
+ "ts": "2026-11-11T02:21:11",
  "jobs": [
-  {
-   "id": "asset-lib-face-caption-2026-11-11",
-   "title": "[资产储备（角色 LoRA / 音色库）] 人脸数据集打标（vision 草稿，人只校对）",
-   "cmd": "python Tools/fleet/asset_caption.py --dir media/asset/faces --out cph4/fleet/queue-receipts/asset-caption-2026-11-11.json",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/asset-caption-2026-11-11.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
   {
    "id": "COMFY-UP-BMC-20261111",
    "title": "[self-heal] bm-c ComfyUI 起服务（8188 不服务则拉起）+ 探针回执",
@@ -29,9 +15,37 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
+  },
+  {
+   "id": "R-TRIAGE-BIGDOMAIN-BMB-20261111",
+   "title": "BigDomain·硅基域商业化 线证据扫描（bm-b 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line bigdomain --node bm-b --out cph4/fleet/queue-receipts/triage-bigdomain-bm-b-20261111.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigdomain-bm-b-20261111.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "R-TRIAGE-BIGCOMPUTE-BMB-20261111",
+   "title": "BigCompute·硅基算力 线证据扫描（bm-b 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line bigcompute --node bm-b --out cph4/fleet/queue-receipts/triage-bigcompute-bm-b-20261111.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigcompute-bm-b-20261111.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 1.3/1.0 GB"
+ "capacity_note": "ram 1.8/1.0 GB"
 }
