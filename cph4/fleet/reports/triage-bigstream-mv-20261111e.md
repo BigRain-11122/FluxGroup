@@ -1,8 +1,8 @@
-# 线级体检 bigstream-mv · 2026-11-11 05:50
+# 线级体检 bigstream-mv · 2026-11-11 05:53
 
 ## 工段与证据目录
-- mv-plan        owner=导演席      lane=-      证据 2/2 存在 · 文件 412 · 最新 8.0h
-- mv-kf          owner=导演席·美术   lane=bm-c   证据 1/1 存在 · 文件 52 · 最新 8.0h
+- mv-plan        owner=导演席      lane=-      证据 2/2 存在 · 文件 412 · 最新 8.1h
+- mv-kf          owner=导演席·美术   lane=bm-c   证据 1/1 存在 · 文件 52 · 最新 8.1h
   · D:/FluxGroup/media/mv-album-001-jay/clips-local-768 已从外机路径重定位到本机 media\mv-album-001-jay\clips-local-768
 - mv-i2v         owner=导演席      lane=bm-c   证据 1/1 存在 · 文件 144 · 最新 52.1h
 - mv-cut         owner=剪辑席      lane=bm-a   证据 1/1 存在 · 文件 1179 · 最新 8.1h
