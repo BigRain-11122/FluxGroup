@@ -68,11 +68,15 @@ def now_iso():
 
 
 def resolve_cli(card):
+    # 2026-11-10 安全收紧：公司座席查得严，只准走官方安装路径，禁止用任意二进制/
+    # 包装脚本当跳板（cli_path / CODELY_CLI 必须落在 Tuanjie Cowork 安装目录内）。
     raw = card.get("cli_path") or os.environ.get("CODELY_CLI")
     if raw:
         p = Path(raw)
         if not p.is_file():
             raise CardDefect("cli_path is not a file: %s" % raw)
+        if "Tuanjie Cowork" not in str(p):
+            raise CardDefect("refusing non-official Codely binary: %s" % raw)
         return str(p)
     for p in CLI_CANDIDATES:
         if p.is_file():

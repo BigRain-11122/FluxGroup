@@ -256,9 +256,28 @@ def check_fleet_llm(ctx):
         return ("fleet_llm", "FAIL", "gateway 8792 %s" % str(e)[:60])
 
 
+def check_codely_channel(ctx):
+    """团结 Codely 只能走官方 CLI，不得被当跳板（直连端点/复用令牌/任意二进制）。"""
+    import glob
+    bad = []
+    for f in glob.glob(os.path.join(ROOT, "Tools", "fleet", "*.py")):
+        if os.path.basename(f) in ("resilience.py", "codely_bridge.py"):
+            continue
+        try:
+            t = open(f, encoding="utf-8", errors="replace").read()
+        except OSError:
+            continue
+        if "codely-litellm" in t or "oauth_creds.json" in t:
+            bad.append(os.path.basename(f))
+    cli = os.path.expanduser("~/Library/Application Support/Tuanjie Cowork/bin/codely")
+    ok_cli = os.path.isfile(cli)
+    status = "PASS" if (not bad and ok_cli) else "FAIL"
+    return ("codely_channel", status, "direct=%s cli=%s" % (bad or "-", ok_cli))
+
+
 CHECKS = [check_pulse, check_sync, check_services, check_queue, check_supply,
           check_lanes, check_disk, check_memory, check_models, check_token,
-          check_codely, check_git, check_local_first, check_cloud_gate, check_fleet_llm]
+          check_codely, check_git, check_local_first, check_cloud_gate, check_fleet_llm, check_codely_channel]
 
 
 def run(ctx=None):

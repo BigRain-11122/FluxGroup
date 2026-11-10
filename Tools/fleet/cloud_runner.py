@@ -65,15 +65,9 @@ def main():
             "mode": "ask", "approval": "default",
             "deliverable_mode": "file" if deliv else "capture",
             "timeout_s": int(r.get("timeout_s") or 300), "task_class": "judgment",
-            # 团结 Codely 是雇主座席：默认-拒绝闸要求真实授权引用 + 数据分级 + 座席确认。
-            "compliance": {"authorization_ref": "CEO-20261110-LOCAL-FIRST",
-                           "data_classification": "public",
-                           "purpose": "ceo_authorized",
-                           "seat_owner_confirmed": True,
-                           "model_target": "cloud",
-                           "cloud_export_approved": True},
-            "escalation_reason": "local 4B/8B tried first (local_tried=true)",
-            "l1_l2_exhausted": True,
+            "compliance": r.get("compliance"),
+            "escalation_reason": r.get("escalation_reason") or "",
+            "l1_l2_exhausted": r.get("l1_l2_exhausted") is True,
         }
         if not deliv:
             card["expect_json"] = {"ok": True}
