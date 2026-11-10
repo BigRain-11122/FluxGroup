@@ -1,6 +1,6 @@
 {
  "node": "bm-a",
- "ts": "2026-11-11T01:25:18",
+ "ts": "2026-11-11T01:30:24",
  "jobs": [
   {
    "id": "bigmoney-signal-2026-11-11",
@@ -45,20 +45,6 @@
    "timeout_s": null
   },
   {
-   "id": "asset-lib-voice-assemble-2026-11-11",
-   "title": "[资产储备（角色 LoRA / 音色库）] 音色数据集装配（授权核查→voices/<组> 准入）",
-   "cmd": "python Tools/fleet/voice_dataset.py --out cph4/fleet/queue-receipts/voice-dataset-2026-11-11.json",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/voice-dataset-2026-11-11.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
    "id": "GAP-ASSETLIB-LEDGER-20261111",
    "title": "[gap] asset-lib 语音数据集清单（bm-a）",
    "cmd": "python Tools/fleet/line_triage.py --line asset-lib --out cph4/fleet/reports/triage-asset-lib-20261111c.md",
@@ -75,5 +61,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 25.5/1.0 GB"
+ "capacity_note": "ram 31.6/1.0 GB"
 }
