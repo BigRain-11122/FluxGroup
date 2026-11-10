@@ -1,21 +1,7 @@
 {
  "node": "bm-a",
- "ts": "2026-11-11T01:08:31",
+ "ts": "2026-11-11T01:12:40",
  "jobs": [
-  {
-   "id": "bigstream-mv-gate-2026-11-11",
-   "title": "[MV·爱在西元前（v721 终版）] 交付闸（重复/静止/抖动/闪烁）",
-   "cmd": "python Tools/mv_delivery_gate.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721_60fps_1080p.mp4 --card 38.79:40.21 --card 219.71:223.88 --json cph4/fleet/queue-receipts/mv-gate-v721-2026-11-11.json",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/mv-gate-v721-2026-11-11.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
   {
    "id": "bigmoney-signal-2026-11-11",
    "title": "[金融量化（回测 → 一页结论 → 可报价或写清卡点）] 下月持仓信号 CSV（可卖的唯一产物）",
@@ -45,12 +31,54 @@
    "timeout_s": null
   },
   {
-   "id": "R-TRIAGE-BIGGAME-BMB-20261111",
-   "title": "Biggame·游戏 线证据扫描（bm-b 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line biggame --node bm-b --out cph4/fleet/queue-receipts/triage-biggame-bm-b-20261111.md",
+   "id": "asset-lib-voice-dataset-2026-11-11",
+   "title": "[资产储备（角色 LoRA / 音色库）] 音色数据集准入（反播音腔的第一道门）",
+   "cmd": "python Tools/fleet/asset_dataset_audit.py --mode voice --dir media/asset/voices --out cph4/fleet/queue-receipts/asset-voice-2026-11-11.json",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-biggame-bm-b-20261111.md",
+   "deliverable": "cph4/fleet/queue-receipts/asset-voice-2026-11-11.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "asset-lib-index-2026-11-11",
+   "title": "[资产储备（角色 LoRA / 音色库）] 入库登记（没过闸的不许进资产库）",
+   "cmd": "python Tools/fleet/lib_consolidate.py --receipt cph4/fleet/queue-receipts/asset-index-2026-11-11.json",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/asset-index-2026-11-11.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "bigmoney-conclusion-2026-11-11",
+   "title": "[金融量化（回测 → 一页结论 → 可报价或写清卡点）] 一页结论（四件齐才许对外）",
+   "cmd": "python Tools/fleet/quant_conclusion.py --in quant/bigmoney/results/etf_nobond_vt.json --line bigmoney --out cph4/fleet/queue-receipts/quant-conclusion-2026-11-11.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/quant-conclusion-2026-11-11.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "asset-lib-voice-assemble-2026-11-11",
+   "title": "[资产储备（角色 LoRA / 音色库）] 音色数据集装配（授权核查→voices/<组> 准入）",
+   "cmd": "python Tools/fleet/voice_dataset.py --out cph4/fleet/queue-receipts/voice-dataset-2026-11-11.json",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/voice-dataset-2026-11-11.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -61,5 +89,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 12.3/1.0 GB"
+ "capacity_note": "ram 26.5/1.0 GB"
 }

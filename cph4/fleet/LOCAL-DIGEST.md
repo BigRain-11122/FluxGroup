@@ -5610,3 +5610,16 @@
 - 11-11T01:09 · UNBLOCK-R-NEXT-BIGSTREAMM-REBUILD-20261111-bm-m.json · 已完成机队解堵，无风险。
 - 11-11T01:09 · _last_claim.json · 机队已清空且无风险，但当前处于空池状态。
 - 11-11T01:10 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
+- 11-11T01:12 · self-improve-bm-m-latest.json · 机队已确认代码更新且无依赖缺失，当前无风险。
+- 11-11T01:12 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
+- 11-11T01:12 · triage-biggame-bm-b-20261111.md · 机队回执显示仅游戏设计有产出，美术与工程缺位，需由游戏席补全输入后重新评估。
+- 11-11T01:12 · etf_nobond_vt_with_positions.json · 已完成机队回执，显示策略表现稳健且无亏损年份。
+- 11-11T01:12 · bigstream-mv-gate-2026-11-11-bm-a.json · 机队回执失败，因 FFmpeg 调用错误导致任务未完成且无风险。
+- 11-11T01:12 · bigstream-mv-gate-2026-11-11-acceptance.json · 机队回执失败，因产物未落盘导致无风险。
+- 11-11T01:12 · bigmoney-signal-2026-11-11-bm-a.json · 成功生成量化信号文件，无错误风险。
+- 11-11T01:12 · bigmoney-signal-2026-11-11-acceptance.json · 完成机队回执提交，但被拒收因交付物非标准产物。
+- 11-11T01:12 · asset-library-2026-11-11.json · 角色包完成但其余资产缺失，且因无授权声明存在法律风险。
+- 11-11T01:12 · asset-lib-library-check-2026-11-11-bm-a.json · 已完成资产库体检，发现多处资源缺失且无授权，存在交付风险。
+- 11-11T01:13 · asset-lib-library-check-2026-11-11-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被拒收。
+- 11-11T01:13 · R-TRIAGE-BIGGAME-BMB-20261111-bm-a.json · 已完成机队分线排查任务，无错误风险。
+- 11-11T01:13 · R-TRIAGE-BIGGAME-BMB-20261111-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
