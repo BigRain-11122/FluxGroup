@@ -1,16 +1,16 @@
 {
- "ts": "2026-11-11T06:31:55",
+ "ts": "2026-11-11T07:31:55",
  "node": "bm-c",
  "paused": false,
  "verdict": "BUSY",
  "capacity": {
   "gpu": {
-   "util_pct": 5,
-   "used_mb": 1309,
+   "util_pct": 0,
+   "used_mb": 1294,
    "total_mb": 16384
   },
-  "ram_free_gb": 2.66,
-  "vram_free_mb": 15075,
+  "ram_free_gb": 1.44,
+  "vram_free_mb": 15090,
   "lease_held": false,
   "can_gpu": false,
   "can_cpu": false
@@ -43,12 +43,17 @@
    "id": "NODE-SYNC-bm-c-2157",
    "kind": "stale-deliverable",
    "detail": "deliverable predates the run (file not produced by it)"
+  },
+  {
+   "id": "GAP-BIGGAME-BMC-5",
+   "kind": "stale-deliverable",
+   "detail": "deliverable predates the run (file not produced by it)"
   }
  ],
  "dispatched_now": null,
  "counts": {
-  "open_backlog": 6,
-  "open_queue": 7,
+  "open_backlog": 5,
+  "open_queue": 5,
   "bank_pending": 0
  }
 }

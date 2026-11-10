@@ -1,0 +1,17 @@
+{
+ "id": "RESCUE-BMC-RAM-0730",
+ "node": "bm-c",
+ "rc": 0,
+ "seconds": 0.5,
+ "cmd": "powershell -NoProfile -Command \"Get-Process | Sort-Object WS -Descending | Select-Object -First 8 Name,@{n='GB';e={[math]::Round($_.WS/1GB,2)}} | Out-File -Encoding utf8 cph4/fleet/reports/bmc-mem-top.txt; if (Get-Command ollama -ErrorAction SilentlyContinue) { ollama ps | Out-File -Append -Encoding utf8 cph4/fleet/reports/bmc-mem-top.txt } \"",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "cph4/fleet/reports/bmc-mem-top.txt",
+ "deliverable_exists": true,
+ "ts": "2026-11-11T07:32:27",
+ "stdout_tail": "",
+ "stderr_tail": ""
+}
