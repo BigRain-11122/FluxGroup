@@ -1,8 +1,23 @@
 {
  "node": "bm-a",
- "ts": "2026-11-10T23:27:06",
- "jobs": [],
- "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+ "ts": "2026-11-10T23:41:35",
+ "jobs": [
+  {
+   "id": "PRODUCE-FLUXVERSE-20261110",
+   "title": "[produce] FluxVerse 12 面现状一页（最小可验收物）",
+   "cmd": "python Tools/fleet/city_state.py --out cph4/fleet/reports/fluxverse-city-state-20261110.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/reports/fluxverse-city-state-20261110.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": 180
+  }
+ ],
+ "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 26.6/1.0 GB"
+ "capacity_note": "ram 27.5/1.0 GB"
 }
