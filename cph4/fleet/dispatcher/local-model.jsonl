@@ -3064,3 +3064,4 @@
 {"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-11T02:01:19"}
 {"cls": "master", "op": "generate", "err": "timed out", "why": "fleet_brain:pick", "ts": "2026-11-11T02:09:08"}
 {"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 78.2, "chars": 140, "why": "master-digest", "ts": "2026-11-11T02:11:20"}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 61.5, "chars": 116, "why": "master-digest", "ts": "2026-11-11T02:16:19"}
