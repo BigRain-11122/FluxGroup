@@ -2,7 +2,7 @@
  "id": "UNBLOCK-asset-lib-face-dataset-2026-11-10",
  "node": "bm-m",
  "rc": 0,
- "seconds": 64.5,
+ "seconds": 84.4,
  "cmd": "",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/repairs/asset-lib-face-dataset-2026-11-10-unblock.md",
  "deliverable_exists": true,
- "ts": "2026-11-10T22:27:36",
- "stdout_tail": "缺料/阻塞。立即由 bm-c 机执行产线复位与清障操作以解锁。",
+ "ts": "2026-11-10T22:30:26",
+ "stdout_tail": "缺人：原责任人 bm-c 停整。最小动作：指定责任机重新执行。解锁由该责机执行。",
  "stderr_tail": ""
 }
