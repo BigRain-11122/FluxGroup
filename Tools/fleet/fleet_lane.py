@@ -429,6 +429,10 @@ def merge_jsonl(path, rows, key="id", mirror=True):
         current = deduped
         for r in rows:
             r = normalize_line(r)
+            if isinstance(r, dict) and str(r.get("prompt") or "").strip() and not str(r.get("cmd") or "").strip() and not r.get("model"):
+                r["model"] = "local-small"
+                if not (r.get("nodes") or r.get("hard_nodes")):
+                    r["nodes"] = ["bm-m"]
             if not isinstance(r, dict) or r.get(key) is None:
                 continue
             k = r[key]
