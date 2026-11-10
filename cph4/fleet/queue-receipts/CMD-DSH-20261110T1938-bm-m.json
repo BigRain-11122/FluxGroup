@@ -2,8 +2,8 @@
  "id": "CMD-DSH-20261110T1938",
  "node": "bm-m",
  "rc": 0,
- "seconds": 0.3,
- "cmd": "python -c \"import json,collections;rows=[json.loads(l) for l in open('cph4/fleet/PRODUCTION-QUEUE.jsonl',encoding='utf-8') if l.strip()];c=collections.Counter(str(r.get('state')) for r in rows);open('cph4/fleet/reports/verification-after-fix.md','w',encoding='utf-8').write('# 修复后复核\\n\\n- 卡号: CMD-DSH-20261110T1938\\n- 队列行数: '+str(len(rows))+'\\n- 状态分布: '+json.dumps(c,ensure_ascii=False,sort_keys=True)+'\\n- 结论: 本报告含 BLOCKED 字样仍应记 DONE\\n')\"",
+ "seconds": 0.1,
+ "cmd": "python3 -c \"import json,collections;rows=[json.loads(l) for l in open('cph4/fleet/PRODUCTION-QUEUE.jsonl',encoding='utf-8') if l.strip()];c=collections.Counter(str(r.get('state')) for r in rows);open('cph4/fleet/reports/verification-after-fix.md','w',encoding='utf-8').write('# 修复后复核\\n\\n- 卡号: CMD-DSH-20261110T1938\\n- 队列行数: '+str(len(rows))+'\\n- 状态分布: '+json.dumps(c,ensure_ascii=False,sort_keys=True)+'\\n- 结论: 本报告含 BLOCKED 字样仍应记 DONE\\n')\"",
  "ok_rc": [
   0
  ],
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/reports/verification-after-fix.md",
  "deliverable_exists": true,
- "ts": "2026-11-10T19:26:34",
+ "ts": "2026-11-10T19:26:53",
  "stdout_tail": "",
  "stderr_tail": ""
 }
