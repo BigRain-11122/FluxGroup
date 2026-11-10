@@ -737,11 +737,12 @@
    "domain": "R",
    "cadence_s": 3600,
    "kind": "probe",
-   "cmd": "python3 -c \"import json,os,sys,collections;p='cph4/fleet/state/grid-escalations.jsonl';rows=[json.loads(l) for l in open(p,encoding='utf-8')] if os.path.exists(p) else [];c=collections.Counter(r['id'] for r in rows[-200:] if r.get('status')=='FAIL');d={k:v for k,v in c.items() if v>3};print('noisy=%s'%d);sys.exit(2 if d else 0)\"",
+   "cmd": "python3 -c \"import json,os,sys,collections,datetime;p='cph4/fleet/state/grid-escalations.jsonl';st=json.load(open('cph4/fleet/state/grid-state.json',encoding='utf-8'));now=datetime.datetime.now();rows=[];[rows.append(json.loads(l)) for l in open(p,encoding='utf-8')] if os.path.exists(p) else None;c=collections.Counter();\nfor r in rows:\n  if r.get('status')!='FAIL': continue\n  try: age=(now-datetime.datetime.fromisoformat(r['ts'])).total_seconds()\n  except Exception: continue\n  if age>7200: continue\n  if (st.get(r['id']) or {}).get('status')!='FAIL': continue\n  c[r['id']]+=1\nd={k:v for k,v in c.items() if v>3};print('noisy=%s'%d);sys.exit(2 if d else 0)\"",
    "on_fail": "brain",
    "accept": "同一项 1 小时内不重复升级 >3 次",
    "timeout_s": 180,
-   "enabled": true
+   "enabled": true,
+   "note": "只统计「最近 2 小时内、且该项当前仍在 FAIL」的重复升级；历史升级和已恢复的项不再算噪声（2026-11-11 修：E4 已绿却被旧账判 noisy）"
   },
   {
    "id": "R2",
