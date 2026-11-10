@@ -6231,3 +6231,16 @@
 - 11-11T05:53 · GAP-MV-BMC-2-acceptance.json · 完成机队回执提交，但被拒收因交付物非标准产物。
 - 11-11T05:53 · GAP-ASSETLIB-BMC-2-bm-c.json · 已完成资产库排查报告生成，无错误风险。
 - 11-11T05:53 · GAP-ASSETLIB-BMC-2-acceptance.json · 完成机队回执提交，但被拒因交付物非标准产物，无风险。
+- 11-11T05:55 · _last_claim.json · 机队已空且无风险，但无法完成调度任务。
+- 11-11T05:55 · GAP-MV-BMC-2-bm-c.json · 已完成机队排查报告生成，无错误风险。
+- 11-11T05:55 · GAP-MV-BMC-2-acceptance.json · 已提交回执但被拒，因交付物非标准产物且无风险。
+- 11-11T05:55 · GAP-ASSETLIB-BMC-2-bm-c.json · 已完成资产库排查报告生成，无错误风险。
+- 11-11T05:55 · GAP-ASSETLIB-BMC-2-acceptance.json · 完成机队回执提交，但被拒因交付物非标准产物。
+- 11-11T05:55 · _last_lane_bm-m.json · 机队已自动清理事务，无风险。
+- 11-11T05:56 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-11T05:56 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
+- 11-11T05:56 · _last_claim.json · 机队已空，无风险。
+- 11-11T05:56 · GAP-MV-BMC-2-bm-c.json · 已完成机队排查报告生成，无错误风险。
+- 11-11T05:56 · GAP-MV-BMC-2-acceptance.json · 完成机队回执提交，但被拒收因交付物非标准产物。
+- 11-11T05:56 · GAP-ASSETLIB-BMC-2-bm-c.json · 已完成资产库排查报告生成，无错误风险。
+- 11-11T05:56 · GAP-ASSETLIB-BMC-2-acceptance.json · 完成机队回执提交，但被拒收因交付物非有效产物。
