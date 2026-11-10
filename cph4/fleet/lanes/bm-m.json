@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-11T00:11:40",
+ "ts": "2026-11-11T00:15:22",
  "jobs": [
   {
    "id": "REPAIR-asset-lib-env-check-2026-11-11",
@@ -61,5 +61,12 @@
  ],
  "idle_reason": "control-plane heartbeat",
  "lane_ok": true,
- "capacity_note": "ram 15.1/1.0 GB"
+ "capacity_note": "ram 15.1/1.0 GB",
+ "cards": [],
+ "pruned_shells": [
+  "REPAIR-asset-lib-env-check-2026-11-11",
+  "REPAIR-R-MODEL-RADAR-BMM-20261111",
+  "UNBLOCK-VERIFY-FIN-ETF-COMPOSITE",
+  "UNBLOCK-asset-lib-face-caption-2026-11-10"
+ ]
 }
