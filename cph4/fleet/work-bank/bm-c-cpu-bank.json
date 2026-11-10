@@ -70,6 +70,19 @@
    "status": "pending",
    "est_gb": 0,
    "why": "bank_autofill: 空闲机兜底体检活，产物落 queue-receipts"
+  },
+  {
+   "id": "CHK-LIB-20261111",
+   "title": "资产与经验库归集（六类清点+缺口对账，索引进 git）（bm-c 兜底体检）",
+   "cmd": "python3 Tools/fleet/lib_consolidate.py --check --receipt cph4/fleet/queue-receipts/lib-consolidate-20261111.json",
+   "deliverable": "cph4/fleet/lib-consolidate-20261111.json",
+   "accept": "rc∈{0,2}；缺口逐条列出（DONE 卡缺产物/vault 缺盘/音色为空）",
+   "needs": "cpu",
+   "prio": "P2",
+   "day_ok": true,
+   "status": "pending",
+   "est_gb": 0,
+   "why": "bank_autofill: 空闲机兜底体检活，产物落 queue-receipts"
   }
  ]
 }

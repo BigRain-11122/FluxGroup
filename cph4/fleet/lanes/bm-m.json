@@ -1,8 +1,23 @@
 {
  "node": "bm-m",
- "ts": "2026-11-11T02:21:15",
- "jobs": [],
- "idle_reason": "control-plane heartbeat",
+ "ts": "2026-11-11T02:27:09",
+ "jobs": [
+  {
+   "id": "REPAIR-asset-lib-face-caption-2026-11-11",
+   "title": "[repair] asset-lib-face-caption-2026-11-11 的根因与下一步",
+   "cmd": "",
+   "cwd": null,
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/repairs/asset-lib-face-caption-2026-11-11.md",
+   "need_mb": null,
+   "model": "local-small",
+   "prompt": "这张卡失败了。请只依据给出的证据，写一页诊断：①最可能的根因 ②下一步具体动作（谁、做什么、怎么验证）。不要编造文件或命令。\n\n证据：状态=FAILED；备注=备队列声明被队列状态覆盖（队列为权威）；交付物=cph4/fleet/queue-receipts/asset-caption-2026-11-11.json；重试=3",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  }
+ ],
+ "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 14.5/1.0 GB"
+ "capacity_note": "ram 13.2/1.0 GB"
 }

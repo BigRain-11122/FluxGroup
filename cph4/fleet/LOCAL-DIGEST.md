@@ -5824,3 +5824,13 @@
 - 11-11T02:25 · asset-lib-face-caption-2026-11-11-bm-c.json · 任务失败，因输入被阻断且无输出文件。
 - 11-11T02:25 · asset-lib-face-caption-2026-11-11-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
 - 11-11T02:25 · asset-caption-2026-11-11.json · 已完成机队回执，因缺乏待打标图片而处于阻塞状态。
+- 11-11T02:27 · _last_lane_bm-m.json · 机队已就绪，心跳正常，无风险。
+- 11-11T02:27 · triage-bigdomain-bm-b-20261111.md · 机队回执确认产出新鲜且无风险，将自动按工段流转。
+- 11-11T02:27 · triage-bigcompute-bm-b-20261111.md · 机队回执确认产出新鲜且无风险，将自动进入下一工段。
+- 11-11T02:27 · _last_claim.json · 机队已清空且无风险，但当前处于空池状态。
+- 11-11T02:27 · R-TRIAGE-BIGDOMAIN-BMB-20261111-bm-c.json · 已完成机队回执生成，无错误风险。
+- 11-11T02:27 · R-TRIAGE-BIGDOMAIN-BMB-20261111-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物且无风险。
+- 11-11T02:27 · R-TRIAGE-BIGCOMPUTE-BMB-20261111-bm-c.json · 已完成机队回执生成，无错误风险。
+- 11-11T02:27 · R-TRIAGE-BIGCOMPUTE-BMB-20261111-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物且无风险。
+- 11-11T02:27 · COMFY-UP-BMC-20261111-bm-c.json · 任务失败，因无交付物且错误类别为 E-ARTIFACT，存在风险。
+- 11-11T02:27 · COMFY-UP-BMC-20261111-acceptance.json · 机队回执失败，因产物未落盘导致无风险。

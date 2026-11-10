@@ -1,51 +1,8 @@
 {
  "node": "bm-c",
- "ts": "2026-11-11T02:21:11",
- "jobs": [
-  {
-   "id": "COMFY-UP-BMC-20261111",
-   "title": "[self-heal] bm-c ComfyUI 起服务（8188 不服务则拉起）+ 探针回执",
-   "cmd": "python Tools/fleet/comfy_guard.py & python Tools/fleet/char_gen.py --node bm-c --probe-only --receipt cph4/fleet/queue-receipts/comfy-probe-bm-c-20261111.json",
-   "cwd": "",
-   "needs": null,
-   "deliverable": "cph4/fleet/queue-receipts/comfy-probe-bm-c-20261111.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "R-TRIAGE-BIGDOMAIN-BMB-20261111",
-   "title": "BigDomain·硅基域商业化 线证据扫描（bm-b 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigdomain --node bm-b --out cph4/fleet/queue-receipts/triage-bigdomain-bm-b-20261111.md",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigdomain-bm-b-20261111.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "R-TRIAGE-BIGCOMPUTE-BMB-20261111",
-   "title": "BigCompute·硅基算力 线证据扫描（bm-b 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigcompute --node bm-b --out cph4/fleet/queue-receipts/triage-bigcompute-bm-b-20261111.md",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigcompute-bm-b-20261111.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  }
- ],
- "idle_reason": "",
- "lane_ok": true,
- "capacity_note": "ram 1.8/1.0 GB"
+ "ts": "2026-11-11T02:27:09",
+ "jobs": [],
+ "idle_reason": "CAPACITY-BLOCKED-RAM ram 0.9/1.0 GB",
+ "lane_ok": false,
+ "capacity_note": "ram 0.9/1.0 GB"
 }
