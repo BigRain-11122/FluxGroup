@@ -5719,3 +5719,7 @@
 - 11-11T01:46 · NODE-SYNC-bm-c-0130-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
 - 11-11T01:46 · UNBLOCK-biggame-accept-2026-11-11-acceptance.json · 已完成机队回执提交，但因非标准产物被驳回，无安全风险。
 - 11-11T01:46 · UNBLOCK-biggame-accept-2026-11-11-bm-m.json · 已完成机队回执，但存在因缺资源导致阻塞的风险。
+- 11-11T01:47 · _last_lane_bm-m.json · 机队已运行中，无风险。
+- 11-11T01:47 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
+- 11-11T01:47 · UNBLOCK-biggame-accept-2026-11-11-acceptance.json · 完成机队回执提交，但被拒因非有效交付物，存在合规风险。
+- 11-11T01:47 · UNBLOCK-biggame-accept-2026-11-11-bm-m.json · 已完成机队回执生成，存在因缺人导致的阻塞风险。
