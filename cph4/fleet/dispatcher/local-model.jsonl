@@ -2842,3 +2842,4 @@
 {"cls": "master", "op": "generate", "err": "timed out", "why": "fleet_brain:pick", "ts": "2026-11-10T23:17:44"}
 {"cls": "master", "op": "generate", "err": "timed out", "why": "fleet_brain:pick", "ts": "2026-11-10T23:20:26"}
 {"cls": "master", "op": "generate", "err": "timed out", "why": "fleet_brain:pick", "ts": "2026-11-10T23:22:56"}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 54.1, "chars": 91, "why": "master-digest", "ts": "2026-11-10T23:24:43"}
