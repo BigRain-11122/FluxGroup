@@ -124,8 +124,10 @@ def check(card, roots, node=None):
         if last in IN_FLAGS:
             if t.startswith("-") or not t:
                 continue
+            hit = t if os.path.isabs(t) else None      # 绝对路径：存在即视为命中
             if os.path.isabs(t):
                 if not os.path.exists(t):
+                    hit = None
                     issues.append({"code": "INPUT-MISSING", "fatal": True,
                                    "detail": "%s 指向的路径不存在：%s" % (last, t)})
             else:
@@ -137,6 +139,16 @@ def check(card, roots, node=None):
                 if hit is None:
                     issues.append({"code": "INPUT-MISSING", "fatal": True,
                                    "detail": "%s 指向的相对路径在本机各工作根下都不存在：%s" % (last, t)})
+            # 2026-11-11 实锚：目录存在但是空的，闸放行、工具 rc=3、卡记 FAILED，
+            # 一晚反复重派同一张（media/asset/faces 空目录 → asset_caption 必失败）。
+            # 输入为空 = 这张卡在本机没有可处理对象，属于卡面缺陷，不该拿去执行端试。
+            if hit and os.path.isdir(hit):
+                try:
+                    if not os.listdir(hit):
+                        issues.append({"code": "INPUT-EMPTY", "fatal": True,
+                                       "detail": "%s 指向的目录是空的（没有可处理输入）：%s" % (last, t)})
+                except Exception:
+                    pass
             continue
 
         if last in OUT_FLAGS:
