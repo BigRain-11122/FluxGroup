@@ -1,29 +1,29 @@
 {
- "ts": "2026-11-10T22:26:28",
- "cycle": 1033,
+ "ts": "2026-11-10T22:30:19",
+ "cycle": 1034,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-10T22:26:28",
+ "master_tick_ts": "2026-11-10T22:30:19",
  "queue": {
-  "total": 1905,
-  "open": 8,
-  "running": 14,
-  "done": 667,
+  "total": 1911,
+  "open": 13,
+  "running": 17,
+  "done": 665,
   "failed": 2
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 15.3,
-   "cpu_load_pct": 39,
-   "ram_free_gb": 33.5,
-   "gpu_util_pct": 86,
-   "job": "GAP-BIGMONEY-LINE-20261110",
+   "hb_age_s": 4.5,
+   "cpu_load_pct": 46,
+   "ram_free_gb": 30.9,
+   "gpu_util_pct": 59,
+   "job": "MV-DIRECTOR-PACKET-20261109",
    "last_result": {
-    "job": "GAP-BIGGAME-PACK-20261110",
+    "job": "NODE-SYNC-bm-a-2216",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-10T22:24:40",
+    "ts": "2026-11-10T22:30:04",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -34,11 +34,11 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 32.6,
-   "cpu_load_pct": 4,
-   "ram_free_gb": 11.1,
-   "gpu_util_pct": 2,
-   "job": "NODE-SYNC-bm-b-2040",
+   "hb_age_s": 164.4,
+   "cpu_load_pct": 11,
+   "ram_free_gb": 11.7,
+   "gpu_util_pct": 3,
+   "job": "NODE-SYNC-bm-b-20261110",
    "last_result": {
     "job": "NODE-SYNC-bm-b-2216",
     "state": "RUNNING",
@@ -54,8 +54,8 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 63.7,
-   "cpu_load_pct": 19,
+   "hb_age_s": 22.7,
+   "cpu_load_pct": 18,
    "ram_free_gb": 4.4,
    "gpu_util_pct": 0,
    "job": "KN-FILM-GATE-LATEST-20261110",
@@ -63,7 +63,7 @@
     "job": "KN-FILM-GATE-LATEST-20261110",
     "state": "RUNNING",
     "rc": null,
-    "ts": "2026-11-10T22:25:58",
+    "ts": "2026-11-10T22:30:02",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -74,17 +74,17 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 1.6,
+   "hb_age_s": 231.5,
    "cpu_load_pct": 7,
    "ram_free_gb": 13.7,
    "gpu_util_pct": null,
-   "job": "REPAIR-GAP-CHARGEN-PROBE-20261110",
+   "job": "GRID-F3-20261110T2130",
    "last_result": {
-    "job": null,
-    "state": "IDLE",
-    "rc": null,
-    "ts": "2026-11-10T22:25:31",
-    "reason": "SELF-DISPATCH: lane scans its own backlog",
+    "job": "REPAIR-MV-STAB-0001-003-OUT",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-10T22:30:13",
+    "reason": null,
     "out_bytes": null,
     "elapsed_s": null
    },
@@ -108,8 +108,8 @@
    "stale_after_h": 24.0,
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
    "jobs": [
-    "REPAIR-MV-STAB-0001-003-OUT",
-    "UNBLOCK-R-NEXT-BIGSTREAMM-REBUILD-20261109"
+    "UNBLOCK-R-NEXT-BIGSTREAMM-REBUILD-20261109",
+    "GAP-MV-LINE-20261110"
    ],
    "no_supply": false,
    "blockers": [],
@@ -164,8 +164,11 @@
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "游戏席",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "GAP-BIGGAME-PACK-20261110",
+    "GAP-BIGGAME-LINE-20261110"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": null,
    "stuck_stage": "game-design",
@@ -174,12 +177,14 @@
   "fluxverse": {
    "name": "FluxVerse·元宙城",
    "status": "ACTIVE",
-   "verdict": "WAITING",
+   "verdict": "WORKING",
    "age_h": null,
    "stale_after_h": 36.0,
    "owner": "城市线",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "GAP-FLUXVERSE-LINE-20261110"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": null
   },
@@ -192,7 +197,8 @@
    "owner": "量化席",
    "jobs": [
     "GAP-BIGMONEY-LINE-20261110",
-    "VERIFY-FIN-ETF-COMPOSITE"
+    "VERIFY-FIN-ETF-COMPOSITE",
+    "GAP-BIGMONEY-C-LINE-20261110"
    ],
    "no_supply": false,
    "blockers": [],
@@ -245,7 +251,8 @@
    "owner": "生态运营席",
    "jobs": [
     "PATROL-bighouse-20261110",
-    "UNBLOCK-PATROL-bighouse-20261109"
+    "UNBLOCK-PATROL-bighouse-20261109",
+    "GAP-BIGHOUSE-LINE-20261110"
    ],
    "no_supply": false,
    "blockers": [],
@@ -285,12 +292,14 @@
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
    "jobs": [
+    "NODE-SYNC-bm-b-20261110",
+    "GRID-F3-20261110T2130",
+    "GRID-O2-20261110T2132",
     "NODE-SYNC-bm-b-2040",
     "PEER-SYNC-bm-a-20261110",
     "KN-FILM-GATE-LATEST-20261110",
-    "NODE-SYNC-bm-a-2216",
-    "NODE-SYNC-bm-b-2216",
-    "PEER-SYNC-bm-c-20261110"
+    "NODE-SYNC-bm-a-2157",
+    "GRID-G1-20261110T2227"
    ],
    "no_supply": false,
    "blockers": [],
@@ -863,26 +872,28 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 7,
+  "local": 8,
   "cloud": 0,
-  "queue": 1,
+  "queue": 5,
   "blocked": 0,
   "cloud_spend_today": 0,
   "waste": []
  },
  "supply_gap": {
-  "cpu": 7,
+  "cpu": 12,
   "gpu": 1
  },
  "supply_added": [],
  "events": [
-  "GAP-BIGGAME-PACK-20261110 UNVERIFIED(no-artifact-yet) via bm-a",
-  "GAP-ASSETLIB-AUDIT-20261110 -> bm-b (cpu)",
-  "GAP-BIGMONEY-LINE-20261110 -> bm-a (cpu)",
-  "REPAIR-GAP-CHARGEN-PROBE-20261110 -> bm-m (cpu)",
-  "REPAIR-MV-STAB-0001-003-OUT -> bm-m (cpu)",
-  "UNBLOCK-R-NEXT-BIGSTREAMM-REBUILD-20261109 -> bm-m (cpu)",
-  "UNBLOCK-asset-lib-face-dataset-2026-11-10 -> bm-m (cpu)"
+  "NODE-SYNC-bm-a-2216 DONE via bm-a",
+  "REPAIR-MV-STAB-0001-003-OUT DONE via bm-m",
+  "NODE-SYNC-bm-b-20261110 -> bm-b (cpu)",
+  "GAP-BIGGAME-PACK-20261110 -> bm-a (cpu)",
+  "NODE-SYNC-bm-a-2157 -> bm-a (cpu)",
+  "MV-DIRECTOR-PACKET-20261109 -> bm-a (cpu)",
+  "GRID-F3-20261110T2130 -> bm-m (cpu)",
+  "GAP-MV-LINE-20261110 -> bm-a (cpu)",
+  "GAP-FLUXVERSE-LINE-20261110 -> bm-a (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 立意/分镜/导演席 (导演席（自决推进，CEO 巡视可随时否决）)",
@@ -892,7 +903,7 @@
  ],
  "lane_files_written": [
   "bm-a",
-  "bm-c",
+  "bm-b",
   "bm-m"
  ]
 }

@@ -1,7 +1,35 @@
 {
  "node": "bm-a",
- "ts": "2026-11-10T22:26:29",
+ "ts": "2026-11-10T22:30:20",
  "jobs": [
+  {
+   "id": "MV-DIRECTOR-PACKET-20261109",
+   "title": "导演席拉片包：KN 复核卷一页卷（成片+闸+证据+签字位）",
+   "cmd": "python Tools/fleet/review_packet.py --line kn --root .",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/review-packet-kn-20261109.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "GAP-BIGGAME-PACK-20261110",
+   "title": "[gap] biggame 提审包缺件扫描（36 款缺隐私/图标/截图/台账）",
+   "cmd": "python Tools/fleet/game_pack_scan.py --root . --out cph4/fleet/reports/biggame-pack-gap-20261110.json",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/reports/biggame-pack-gap-20261110.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
   {
    "id": "GAP-BIGMONEY-LINE-20261110",
    "title": "[gap] bigmoney 线证据扫描（signal 段断粮）",
@@ -17,12 +45,12 @@
    "timeout_s": null
   },
   {
-   "id": "NODE-SYNC-bm-a-2216",
-   "title": "[self-heal] bm-a 落地新 lane 代码（reset 到 main）",
-   "cmd": "git -C . fetch origin --prune && git -C . branch -f backup/bm-a-2216 HEAD & git -C . reset --hard origin/main && git -C . log -1 --oneline > cph4/fleet/reports/node-sync-bm-a-2216.md",
+   "id": "NODE-SYNC-bm-a-2157",
+   "title": "[self-heal] bm-a 分叉收口（本地提交 → backup 分支，HEAD 回 main）",
+   "cmd": "git -C . fetch origin --prune && git -C . branch -f backup/bm-a-2157 HEAD & git -C . reset --hard origin/main && git -C . log -1 --oneline > cph4/fleet/reports/node-sync-bm-a-2157.md",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/node-sync-bm-a-2216.md",
+   "deliverable": "cph4/fleet/reports/node-sync-bm-a-2157.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -31,12 +59,26 @@
    "timeout_s": null
   },
   {
-   "id": "PEER-SYNC-bm-c-20261110",
-   "title": "[peer-heal] bm-a 用 WinRM 替 bm-c 收口",
-   "cmd": "powershell -NoProfile -Command \"$e=$null; try { Invoke-Command -ComputerName 100.123.74.104 -ScriptBlock { Set-Location 'K:\\Fluxgroup\\FluxGroup'; git fetch origin --prune; git branch -f backup/bm-c-20261110 HEAD 2>$null; git reset --hard origin/main; git log -1 --oneline } -ErrorAction Stop } catch { $e=$_.Exception.Message }; 'winrm_err='+$e | Out-File -Encoding utf8 cph4/fleet/reports/peer-sync-bm-c-20261110.md\"",
+   "id": "GAP-MV-LINE-20261110",
+   "title": "[gap] bigstream-mv 线证据扫描（bm-a）",
+   "cmd": "python Tools/fleet/line_triage.py --line bigstream-mv --out cph4/fleet/reports/triage-bigstream-mv-20261110.md",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/peer-sync-bm-c-20261110.md",
+   "deliverable": "cph4/fleet/reports/triage-bigstream-mv-20261110.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "GAP-FLUXVERSE-LINE-20261110",
+   "title": "[gap] fluxverse 线证据扫描（bm-a）",
+   "cmd": "python Tools/fleet/line_triage.py --line fluxverse --out cph4/fleet/reports/triage-fluxverse-20261110c.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/reports/triage-fluxverse-20261110c.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -47,5 +89,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 33.5/1.0 GB"
+ "capacity_note": "ram 30.9/1.0 GB"
 }
