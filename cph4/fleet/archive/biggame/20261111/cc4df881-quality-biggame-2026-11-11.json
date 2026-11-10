@@ -1,0 +1,29 @@
+{
+ "ts": "2026-11-11T01:03:29",
+ "line": "biggame",
+ "day": "2026-11-11",
+ "needed": [
+  "game-packs",
+  "game-10s"
+ ],
+ "gates": [
+  {
+   "gate": "game-packs",
+   "file": "cph4\\fleet\\queue-receipts\\game-packs-2026-11-11.json",
+   "state": "PASS",
+   "why": "OK",
+   "mtime": "2026-11-11 00:53"
+  },
+  {
+   "gate": "game-10s",
+   "file": null,
+   "state": "MISSING"
+  }
+ ],
+ "gaps": [
+  "game-10s:缺"
+ ],
+ "verdict": "FAIL",
+ "note": "DONE 不等于交付；这里只看闸回执，缺一份就算没交付。",
+ "status": "FAIL"
+}

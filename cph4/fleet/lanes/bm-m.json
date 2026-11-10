@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-11T01:12:40",
+ "ts": "2026-11-11T01:13:39",
  "jobs": [
   {
    "id": "REPAIR-biggame-accept-2026-11-11",
@@ -17,7 +17,7 @@
    "timeout_s": null
   }
  ],
- "idle_reason": "",
+ "idle_reason": "control-plane heartbeat",
  "lane_ok": true,
  "capacity_note": "ram 14.6/1.0 GB"
 }
