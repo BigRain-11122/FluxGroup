@@ -1,0 +1,17 @@
+{
+ "id": "UNBLOCK-VERIFY-FIN-ETF-COMPOSITE",
+ "node": "bm-m",
+ "rc": 0,
+ "seconds": 95.1,
+ "cmd": "",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "cph4/fleet/repairs/VERIFY-FIN-ETF-COMPOSITE-unblock.md",
+ "deliverable_exists": true,
+ "ts": "2026-11-11T00:13:15",
+ "stdout_tail": "缺料：需 bm-b 重启并触发物料检查；缺权限：需生产主管审批后重发令牌。",
+ "stderr_tail": ""
+}
