@@ -32,7 +32,7 @@ JOBS = [
     {"name": "worker", "artifact": os.path.join(STATE, "local-digest.jsonl"),
      "max_age": 600, "runner": [PY, os.path.join(ROOT, "Tools/fleet/local_worker.py"), "--limit", "10"]},
     {"name": "patrol", "artifact": os.path.join(STATE, "patrol-local.json"),
-     "max_age": 900, "runner": [PY, os.path.join(ROOT, "Tools/fleet/patrol_local.py")]},
+     "max_age": 900, "runner": [PY, os.path.join(ROOT, "Tools/fleet/patrol_seats.py")]},
     {"name": "analyst", "artifact": os.path.join(STATE, "local-analyst.json"),
      "max_age": 7200, "runner": [PY, os.path.join(ROOT, "Tools/fleet/local_analyst.py")]},
     {"name": "dedupe", "artifact": os.path.join(STATE, "embed-dedupe.json"),

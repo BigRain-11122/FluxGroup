@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""state_push.py - 用独立工作树把「状态面」推上主线，绕开主工作树的手改/分叉。
+"""state_push.py [LEGACY 2026-11-10：git 同步已由 state_sync 独立面承担，本工具不再挂脉] - 用独立工作树把「状态面」推上主线，绕开主工作树的手改/分叉。
 
 Why（2026-11-07 凌晨实测）：主控脉与人工会话共用同一个 git 工作树，只要工作树里有任何未提交
 改动（哪怕是修 bug 时放进去的新版文件），脉就判 `git=skipped:dirty(hand-edit ...)` 整段跳过
