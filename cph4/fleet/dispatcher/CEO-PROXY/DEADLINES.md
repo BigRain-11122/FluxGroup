@@ -591,7 +591,7 @@ rame_bytes/frame_sha12；**bm-a 上该目录不存在（0/30）**，且本机两
 **R33 收口（02:31 起）**：COMFY-UP-BMC-20261111 **resolved**。证据=`cph4/fleet/asset-lib-v1/comfy-bm-c.json`（probed_at 2026-11-11T02:19:51+0800，route=ckpt，ckpt=DreamShaperXL_Lightning-SFW.safetensors，5ckpt/4unet/3clip/9vae）。三张因 `missing-input:comfyui@bm-c` 被转 BLOCKED 的卡已清 blocked_by 重开 OPEN。**自伤记录**：本卡首次记 FAILED/E-ARTIFACT 不是 ComfyUI 失败，是 deliverable 写成了 `comfy-probe-bm-c-20261111.json` 而 `char_gen.py --probe-only` 成功路径只写 conf 不写回执；已修脚本（probe-only 成功也写 --receipt）并按真实产物收口。
 
 **R33-ADD4（2026-11-11 02:42）· stall 看门狗误杀重派卡（P1·新根因）**：`asset-lib-asset-gen-2026-11-11` 02:38:49 被认领，30 秒后即以 `STALL: 4765s 无新输出（sig=0）` 释放并升 `E-ROOTCAUSE-3X`。4764s 恰好等于 `claimed_at − progress_ts`（02:38:49 − 01:19:25）＝**看门狗按卡的旧 progress_ts 计时，重派不重置**，于是任何曾经 stall 过的卡每次重派都会被首 tick 秒杀，永远修不好（这也解释了资产线长期的「3 次未成」）。**本班只做workaround**：把仍 OPEN 的 char-gen / asset-gen-scenes 的 progress_ts 重置为当前时刻；props 卡因库存已满（11-07 回执 skipped=20/stock_full）改 CANCELLED。**待裁根因修法（一行）**：`lane_agent` 认领成功时 `progress_ts = now`（或看门狗用 `max(progress_ts, claimed_at)`）。改的是 agent 核心件，本席不擅动，候裁。
-## ?? R35 ??????2026-11-11 02:46-03:0x???????DL 00:51/01:01/01:11 ???
+## ?? R35 ??????2026-11-11 02:46-02:53???????DL 00:51/01:01/01:11 ???
 
 | ? | ?? | ?? / ??? |
 |---|---|---|
