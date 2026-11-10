@@ -6176,3 +6176,7 @@
 - 11-11T05:32 · _last_lane_bm-m.json · 节点同步任务已完成，无风险。
 - 11-11T05:32 · REPAIR-NODE-SYNC-bm-a-20261111T0452-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
 - 11-11T05:32 · REPAIR-NODE-SYNC-bm-a-20261111T0452-bm-m.json · 已完成节点同步任务，因资源失效导致失败，需人工核查环境并暂停自动重试。
+- 11-11T05:33 · _last_lane_bm-m.json · 机队已就绪，当前无风险。
+- 11-11T05:34 · _last_lane_bm-m.json · 机队已就绪，心跳正常，无风险。
+- 11-11T05:34 · NODE-SYNC-bm-c-20261111T0519-bm-c.json · 已完成节点同步与报告生成，无风险。
+- 11-11T05:34 · NODE-SYNC-bm-c-20261111T0519-acceptance.json · 完成节点同步回执提交，但被拒收因非有效交付物。
