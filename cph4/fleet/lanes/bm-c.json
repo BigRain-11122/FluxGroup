@@ -1,6 +1,6 @@
 {
  "node": "bm-c",
- "ts": "2026-11-10T20:48:13",
+ "ts": "2026-11-10T21:13:31",
  "jobs": [
   {
    "id": "asset-lib-face-dataset-2026-11-10",
@@ -43,23 +43,9 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
-  },
-  {
-   "id": "RESCUE-BMC-RAM-2020",
-   "title": "[rescue] bm-c 卸常驻模型回收内存",
-   "cmd": "python -c \"import subprocess,os,re;os.makedirs('cph4/fleet/reports',exist_ok=True);g=lambda:subprocess.run(['powershell','-NoProfile','-Command','(Get-CimInstance Win32_OperatingSystem).FreePhysicalMemory'],capture_output=True,text=True).stdout.strip();b=g();p=subprocess.run(['ollama','ps'],capture_output=True,text=True);names=[l.split()[0] for l in (p.stdout or '').splitlines()[1:] if l.strip() and not l.startswith('NAME')];stopped=[];\\nfor n in names:\\n subprocess.run(['ollama','stop',n],capture_output=True,text=True);stopped.append(n)\\nopen('cph4/fleet/reports/bm-c-rescue.md','w',encoding='utf-8').write('# bm-c 内存回收\\n\\n- 空闲(KB) before: '+b+'\\n- 模型: '+str(names)+'\\n- 已卸: '+str(stopped)+'\\n- 空闲(KB) after: '+g()+'\\n- ollama rc: '+str(p.returncode)+'\\n')\"",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/bm-c-rescue.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 4.3/1.0 GB"
+ "capacity_note": "ram 3.4/1.0 GB"
 }
