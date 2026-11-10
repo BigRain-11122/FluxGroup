@@ -5048,3 +5048,11 @@
 - 11-10T22:38 · GAP-FLUXVERSE-LINE-20261110-acceptance.json · 已提交机队回执，但被驳回因交付物非有效产物。
 - 11-10T22:38 · GAP-BIGMONEY-LINE-20261110-bm-a.json · 已完成机队排查报告生成，无错误风险。
 - 11-10T22:38 · GAP-BIGMONEY-LINE-20261110-acceptance.json · 已提交机队回执，但被拒因内容非标准交付物，无后续风险。
+- 11-10T22:40 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-10T22:39 · _last_lane_bm-m.json · 机队任务已执行成功，无风险。
+- 11-10T22:40 · GRID-G1-20261110T2227-acceptance.json · 机队回执显示产物未落盘，任务失败且无风险。
+- 11-10T22:40 · GRID-G1-20261110T2227-bm-m.json · 任务执行失败，因未定义修复方案导致无交付物。
+- 11-10T22:39 · GAP-BIGGAME-PACK-20261110-bm-a.json · 机队扫描完成 64 个包，无错误风险。
+- 11-10T22:39 · GAP-BIGGAME-PACK-20261110-acceptance.json · 已提交机队回执，但因交付物非标准产物被拒收。
+- 11-10T22:40 · GRID-O2-20261110T2132-acceptance.json · 机队回执显示产物未落盘，任务失败且无风险。
+- 11-10T22:39 · GRID-O2-20261110T2132-bm-m.json · 未定义修复方案，导致机队回执失败且无交付物。
