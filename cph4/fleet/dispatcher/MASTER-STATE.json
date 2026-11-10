@@ -1,23 +1,23 @@
 {
- "ts": "2026-11-10T22:54:06",
- "cycle": 1042,
+ "ts": "2026-11-10T22:54:24",
+ "cycle": 1043,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-10T22:54:06",
+ "master_tick_ts": "2026-11-10T22:54:24",
  "queue": {
   "total": 1920,
   "open": 6,
-  "running": 8,
+  "running": 6,
   "done": 680,
-  "failed": 10
+  "failed": 12
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 51.3,
-   "cpu_load_pct": 59,
-   "ram_free_gb": 15.4,
-   "gpu_util_pct": 88,
+   "hb_age_s": 11.1,
+   "cpu_load_pct": 62,
+   "ram_free_gb": 29.8,
+   "gpu_util_pct": 81,
    "job": "NODE-SYNC-bm-a-20261110",
    "last_result": {
     "job": "NODE-SYNC-bm-a-2157",
@@ -34,16 +34,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 7.6,
+   "hb_age_s": 26.5,
    "cpu_load_pct": 3,
    "ram_free_gb": 11.1,
    "gpu_util_pct": 2,
    "job": "VERIFY-FIN-ETF-COMPOSITE",
    "last_result": {
-    "job": "NODE-SYNC-bm-b-LIGHT",
+    "job": "NODE-SYNC-bm-b-2216",
     "state": "FAILED",
     "rc": 128,
-    "ts": "2026-11-10T22:54:03",
+    "ts": "2026-11-10T22:54:13",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -54,16 +54,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 15.8,
+   "hb_age_s": 34.6,
    "cpu_load_pct": 8,
    "ram_free_gb": 4.8,
    "gpu_util_pct": 0,
    "job": "asset-lib-face-caption-2026-11-10",
    "last_result": {
     "job": "LICENSE-LEDGER-20261110B",
-    "state": "RUNNING",
-    "rc": null,
-    "ts": "2026-11-10T22:53:57",
+    "state": "FAILED",
+    "rc": 1,
+    "ts": "2026-11-10T22:54:05",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -74,22 +74,22 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 1.7,
+   "hb_age_s": 20.5,
    "cpu_load_pct": 5,
    "ram_free_gb": 12.7,
    "gpu_util_pct": null,
-   "job": "GRID-G1-20261110T2227",
+   "job": null,
    "last_result": {
-    "job": "GRID-G1-20261110T2248",
+    "job": "GRID-G1-20261110T2227",
     "state": "FAILED",
     "rc": 0,
-    "ts": "2026-11-10T22:53:48",
+    "ts": "2026-11-10T22:54:12",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": false,
-   "idle_reason": "",
+   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
    "idle_rounds": 0
   }
  },
@@ -284,8 +284,7 @@
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
    "jobs": [
-    "NODE-SYNC-bm-a-20261110",
-    "GRID-G1-20261110T2227"
+    "NODE-SYNC-bm-a-20261110"
    ],
    "no_supply": false,
    "blockers": [],
@@ -301,8 +300,7 @@
    "jobs": [
     "asset-lib-face-caption-2026-11-10",
     "asset-lib-accept-2026-11-10",
-    "GAP-ASSETLIB-AUDIT-20261110B",
-    "LICENSE-LEDGER-20261110B"
+    "GAP-ASSETLIB-AUDIT-20261110B"
    ],
    "no_supply": false,
    "blockers": [],
@@ -868,9 +866,8 @@
  },
  "supply_added": [],
  "events": [
-  "NODE-SYNC-bm-b-LIGHT FAILED via bm-b",
-  "GRID-G1-20261110T2248 FAILED via bm-m",
-  "GRID-G1-20261110T2227 -> bm-m (cpu)"
+  "LICENSE-LEDGER-20261110B FAILED via bm-c",
+  "GRID-G1-20261110T2227 FAILED via bm-m"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 立意/分镜/导演席 (导演席（自决推进，CEO 巡视可随时否决）)",
@@ -879,7 +876,7 @@
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-b",
+  "bm-c",
   "bm-m"
  ]
 }
