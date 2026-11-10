@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-11T00:45:42",
+ "ts": "2026-11-11T00:50:18",
  "jobs": [
   {
    "id": "UNBLOCK-NODE-SYNC-bm-b-2330",
@@ -33,5 +33,10 @@
  ],
  "idle_reason": "control-plane heartbeat",
  "lane_ok": true,
- "capacity_note": "ram 13.7/1.0 GB"
+ "capacity_note": "ram 13.7/1.0 GB",
+ "cards": [],
+ "pruned_shells": [
+  "UNBLOCK-NODE-SYNC-bm-b-2330",
+  "UNBLOCK-PRODUCE-FLUXVERSE-20261110"
+ ]
 }
