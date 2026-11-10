@@ -550,10 +550,13 @@ def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
         # 2026-11-11 实锚：卡上写了 timeout_s 但这里只用全局 max_seconds（默认 7200s），
         # 于是一张跑飞的卡能把整条车道占两小时（bm-a 当晚就是这样卡住的：任务 Running、
         # 新卡全部排不进去）。卡声明的超时必须生效，取两者较小值。
+        # 没声明 timeout_s 的卡此前吃全局 max_seconds（默认 7200s）——一张卡能把车道占两小时，
+        # 新卡全排不进来（2026-11-11 凌晨 bm-a/bm-c 连续两次这样停摆）。默认改成 15 分钟：
+        # 长活必须自己声明 timeout_s（渲染/回测都该声明），没声明的一律按短活对待。
+        DEFAULT_CARD_TIMEOUT = 900
         _eff = max_seconds
         try:
-            if job.get("timeout_s"):
-                _eff = min(int(max_seconds), max(5, int(job["timeout_s"])))
+            _eff = min(int(max_seconds), max(5, int(job.get("timeout_s") or DEFAULT_CARD_TIMEOUT)))
         except Exception:
             pass
 
