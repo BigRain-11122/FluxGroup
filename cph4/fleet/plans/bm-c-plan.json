@@ -1,43 +1,23 @@
 {
- "ts": "2026-11-11T05:41:55",
+ "ts": "2026-11-11T06:31:55",
  "node": "bm-c",
  "paused": false,
- "verdict": "BLOCKED-CAPACITY",
+ "verdict": "BUSY",
  "capacity": {
   "gpu": {
-   "util_pct": 0,
-   "used_mb": 1295,
+   "util_pct": 5,
+   "used_mb": 1309,
    "total_mb": 16384
   },
-  "ram_free_gb": 2.5,
-  "vram_free_mb": 15089,
+  "ram_free_gb": 2.66,
+  "vram_free_mb": 15075,
   "lease_held": false,
   "can_gpu": false,
   "can_cpu": false
  },
- "idle_min": 0.2,
- "assigned": [
-  {
-   "kind": "assigned",
-   "id": "NODE-SYNC-bm-c-20261111T0519",
-   "title": "[self-heal] bm-c 分叉收口（reset 到 origin/main，先留备份分支）",
-   "prio": null,
-   "needs": "cpu",
-   "feasible": false,
-   "reason": "master lane file (authority)"
-  }
- ],
- "next_actions": [
-  {
-   "kind": "assigned",
-   "id": "NODE-SYNC-bm-c-20261111T0519",
-   "title": "[self-heal] bm-c 分叉收口（reset 到 origin/main，先留备份分支）",
-   "prio": null,
-   "needs": "cpu",
-   "feasible": false,
-   "reason": "master lane file (authority)"
-  }
- ],
+ "idle_min": 0.0,
+ "assigned": [],
+ "next_actions": [],
  "flags": [
   {
    "id": "Q-ALIGN-20261030-BMC",
@@ -67,8 +47,8 @@
  ],
  "dispatched_now": null,
  "counts": {
-  "open_backlog": 5,
-  "open_queue": 8,
+  "open_backlog": 6,
+  "open_queue": 7,
   "bank_pending": 0
  }
 }
