@@ -2,8 +2,8 @@
 
 | 节点 | 在线 | 能力 | 本地模型 | 心跳 | 在办 |
 |---|---|---|---|---|---|
-| bm-a | 是 | cpu,kf768,i2v768,audio,assemble,llm | - | 200s | MV-DIRECTOR-PACKET-20261109 |
-| bm-b | 是 | cpu,animatic480,audio,tts,llm | - | 200s | - |
-| bm-c | 是 | cpu,kf768,i2v768,audio,render,llm | - | 106s | - |
-| bm-m | 是 | cpu,ios-build,text,llm,audio,tts | qwen3.5:2b,qwen3:4b,qwen3:8b-dsh32k,qwen3.5:4b,qwen3-embedding:0.6b,qwen3.5:4b-mlx,qwen3:1.7b,qwen3:8b,qwen3:4b-instruct | 0s | - |
-| bm-d | 否 | cpu,kf768,i2v768,backtest,brain,llm | - | 344263s | - |
+| bm-a | 是 | cpu,kf768,i2v768,audio,assemble,llm | - | 338s | - |
+| bm-b | 是 | cpu,animatic480,audio,tts,llm | - | 338s | - |
+| bm-c | 是 | cpu,kf768,i2v768,audio,render,llm | - | 206s | - |
+| bm-m | 是 | cpu,ios-build,text,llm,audio,tts | qwen3.5:2b,qwen3:4b,qwen3:8b-dsh32k,qwen3.5:4b,qwen3-embedding:0.6b,qwen3.5:4b-mlx,qwen3:1.7b,qwen3:8b,qwen3:4b-instruct | 1s | - |
+| bm-d | 否 | cpu,kf768,i2v768,backtest,brain,llm | - | 344721s | - |
