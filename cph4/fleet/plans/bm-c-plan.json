@@ -1,16 +1,16 @@
 {
- "ts": "2026-11-11T00:11:55",
+ "ts": "2026-11-11T00:51:55",
  "node": "bm-c",
  "paused": false,
  "verdict": "BLOCKED-CAPACITY",
  "capacity": {
   "gpu": {
    "util_pct": 0,
-   "used_mb": 1310,
+   "used_mb": 1317,
    "total_mb": 16384
   },
-  "ram_free_gb": 2.69,
-  "vram_free_mb": 15074,
+  "ram_free_gb": 0.88,
+  "vram_free_mb": 15067,
   "lease_held": false,
   "can_gpu": false,
   "can_cpu": false
@@ -19,8 +19,8 @@
  "assigned": [
   {
    "kind": "assigned",
-   "id": "R-TRIAGE-BIGSTREAMMV-BMC-20261111",
-   "title": "BigStream·MV 41 曲 线证据扫描（bm-c 本机可判面）",
+   "id": "Q-TRIAGE-BIGGAME-20261111",
+   "title": "biggame 线级体检（本机证据目录实况）",
    "prio": null,
    "needs": "cpu",
    "feasible": false,
@@ -28,46 +28,10 @@
   },
   {
    "kind": "assigned",
-   "id": "R-TRIAGE-BIGGAME-BMC-20261111",
-   "title": "Biggame·游戏 线证据扫描（bm-c 本机可判面）",
+   "id": "asset-lib-face-caption-2026-11-11",
+   "title": "[资产储备（角色 LoRA / 音色库）] 人脸数据集打标（vision 草稿，人只校对）",
    "prio": null,
-   "needs": "cpu",
-   "feasible": false,
-   "reason": "master lane file (authority)"
-  },
-  {
-   "kind": "assigned",
-   "id": "R-MODEL-RADAR-BMA-20261111",
-   "title": "本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-a）",
-   "prio": null,
-   "needs": "cpu",
-   "feasible": false,
-   "reason": "master lane file (authority)"
-  },
-  {
-   "kind": "assigned",
-   "id": "R-MODEL-RADAR-BMC-20261111",
-   "title": "本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-c）",
-   "prio": null,
-   "needs": "cpu",
-   "feasible": false,
-   "reason": "master lane file (authority)"
-  },
-  {
-   "kind": "assigned",
-   "id": "Q-TRIAGE-BIGSTREAMMV-20261111",
-   "title": "bigstream-mv 线级体检（本机证据目录实况）",
-   "prio": null,
-   "needs": "cpu",
-   "feasible": false,
-   "reason": "master lane file (authority)"
-  },
-  {
-   "kind": "assigned",
-   "id": "asset-lib-face-dataset-2026-11-11",
-   "title": "[资产储备（角色 LoRA / 音色库）] 人脸数据集准入（反 AI 脸的第一道门）",
-   "prio": null,
-   "needs": "cpu",
+   "needs": "gpu",
    "feasible": false,
    "reason": "master lane file (authority)"
   }
@@ -75,8 +39,8 @@
  "next_actions": [
   {
    "kind": "assigned",
-   "id": "R-TRIAGE-BIGSTREAMMV-BMC-20261111",
-   "title": "BigStream·MV 41 曲 线证据扫描（bm-c 本机可判面）",
+   "id": "Q-TRIAGE-BIGGAME-20261111",
+   "title": "biggame 线级体检（本机证据目录实况）",
    "prio": null,
    "needs": "cpu",
    "feasible": false,
@@ -84,48 +48,39 @@
   },
   {
    "kind": "assigned",
-   "id": "R-TRIAGE-BIGGAME-BMC-20261111",
-   "title": "Biggame·游戏 线证据扫描（bm-c 本机可判面）",
+   "id": "asset-lib-face-caption-2026-11-11",
+   "title": "[资产储备（角色 LoRA / 音色库）] 人脸数据集打标（vision 草稿，人只校对）",
    "prio": null,
-   "needs": "cpu",
+   "needs": "gpu",
    "feasible": false,
    "reason": "master lane file (authority)"
   },
   {
-   "kind": "assigned",
-   "id": "R-MODEL-RADAR-BMA-20261111",
-   "title": "本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-a）",
-   "prio": null,
-   "needs": "cpu",
+   "kind": "backlog",
+   "id": "asset-lib-asset-gen-2026-11-11",
+   "title": "[资产储备（角色 LoRA / 音色库）] 通用资产出图（道具/场景，吃 ASSET-PROMPTS 规格）",
+   "prio": "P0",
+   "needs": "gpu",
    "feasible": false,
-   "reason": "master lane file (authority)"
+   "reason": "OPEN in PRODUCTION-BACKLOG for this node"
   },
   {
-   "kind": "assigned",
-   "id": "R-MODEL-RADAR-BMC-20261111",
-   "title": "本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-c）",
-   "prio": null,
-   "needs": "cpu",
+   "kind": "backlog",
+   "id": "asset-lib-char-gen-2026-11-11",
+   "title": "[资产储备（角色 LoRA / 音色库）] 角色包出图（本机 ComfyUI，1024²，同 seed 组）",
+   "prio": "P0",
+   "needs": "gpu",
    "feasible": false,
-   "reason": "master lane file (authority)"
+   "reason": "OPEN in PRODUCTION-BACKLOG for this node"
   },
   {
-   "kind": "assigned",
-   "id": "Q-TRIAGE-BIGSTREAMMV-20261111",
-   "title": "bigstream-mv 线级体检（本机证据目录实况）",
-   "prio": null,
-   "needs": "cpu",
+   "kind": "backlog",
+   "id": "asset-lib-asset-gen-scenes-2026-11-11",
+   "title": "[资产储备（角色 LoRA / 音色库）] 通用资产出图·场景（竖屏底图）",
+   "prio": "P0",
+   "needs": "gpu",
    "feasible": false,
-   "reason": "master lane file (authority)"
-  },
-  {
-   "kind": "assigned",
-   "id": "asset-lib-face-dataset-2026-11-11",
-   "title": "[资产储备（角色 LoRA / 音色库）] 人脸数据集准入（反 AI 脸的第一道门）",
-   "prio": null,
-   "needs": "cpu",
-   "feasible": false,
-   "reason": "master lane file (authority)"
+   "reason": "OPEN in PRODUCTION-BACKLOG for this node"
   },
   {
    "kind": "backlog",
@@ -135,15 +90,6 @@
    "needs": "cpu",
    "feasible": false,
    "reason": "OPEN in PRODUCTION-BACKLOG for this node"
-  },
-  {
-   "kind": "queue",
-   "id": "Q-TRIAGE-BIGGAME-20261111",
-   "title": "biggame 线级体检（本机证据目录实况）",
-   "prio": "P3",
-   "needs": "cpu",
-   "feasible": false,
-   "reason": "queue row RUNNING"
   }
  ],
  "flags": [
@@ -175,8 +121,8 @@
  ],
  "dispatched_now": null,
  "counts": {
-  "open_backlog": 8,
-  "open_queue": 34,
+  "open_backlog": 11,
+  "open_queue": 21,
   "bank_pending": 0
  }
 }
