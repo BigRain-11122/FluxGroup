@@ -4805,3 +4805,10 @@
 - 11-10T21:12 · _last_lane_bm-m.json · 机队回执已接收，当前状态空闲且无风险。
 - 11-10T21:15 · _last_lane_bm-m.json · 已完成资产库人脸数据集修复，当前运行中无风险。
 - 11-10T21:15 · self-improve-bm-m-latest.json · 机队已确认无风险，所有检查项均通过。
+- 11-10T21:18 · _last_lane_bm-m.json · 已完成资产库人脸数据集修复，无风险。
+- 11-10T21:17 · REPAIR-asset-lib-face-dataset-2026-11-10-acceptance.json · 已完成机队回执提交，但被拒因交付物非所需文档。
+- 11-10T21:18 · REPAIR-asset-lib-face-dataset-2026-11-10-bm-m.json · 任务已完成但存在根因缺失风险，需立即排查下游阻塞。
+- 11-10T21:17 · REPAIR-PEERWAKE-BMA-195744-acceptance.json · 机队回执被拒，因交付物非有效产物且无风险。
+- 11-10T21:18 · REPAIR-PEERWAKE-BMA-195744-bm-m.json · 已完成静默死锁根因分析与修复方案制定，当前无执行风险。
+- 11-10T21:17 · REPAIR-RESCUE-BMC-RAM-2020-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
+- 11-10T21:17 · REPAIR-RESCUE-BMC-RAM-2020-bm-m.json · 任务失败，核心阻断点为长时间无新输出且重试无效，存在实质性故障风险。

@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-10T21:13:31",
+ "ts": "2026-11-10T21:18:45",
  "jobs": [
   {
    "id": "REPAIR-asset-lib-face-dataset-2026-11-10",
@@ -45,7 +45,13 @@
    "timeout_s": null
   }
  ],
- "idle_reason": "",
+ "idle_reason": "control-plane heartbeat",
  "lane_ok": true,
- "capacity_note": "ram 12.7/1.0 GB"
+ "capacity_note": "ram 12.7/1.0 GB",
+ "cards": [],
+ "pruned_shells": [
+  "REPAIR-asset-lib-face-dataset-2026-11-10",
+  "REPAIR-PEERWAKE-BMA-195744",
+  "REPAIR-RESCUE-BMC-RAM-2020"
+ ]
 }
