@@ -1,21 +1,7 @@
 {
  "node": "bm-a",
- "ts": "2026-11-11T03:14:22",
+ "ts": "2026-11-11T03:19:25",
  "jobs": [
-  {
-   "id": "GAP-MV-BMA-20261111",
-   "title": "[gap] bigstream-mv 证据（bm-a）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigstream-mv --out cph4/fleet/reports/triage-bigstream-mv-20261111c.md",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/triage-bigstream-mv-20261111c.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": 180
-  },
   {
    "id": "VERIFY-ICONS-BMA-20261111",
    "title": "[verify] bm-a 自证图标是否真出图（SW/*/icon_512.png）",
@@ -33,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 31.0/1.0 GB"
+ "capacity_note": "ram 34.8/1.0 GB"
 }
