@@ -1,6 +1,6 @@
 {
  "node": "bm-a",
- "ts": "2026-11-11T03:37:57",
+ "ts": "2026-11-11T03:43:28",
  "jobs": [
   {
    "id": "NODE-SYNC-bm-a-20261111",
@@ -15,34 +15,6 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
-  },
-  {
-   "id": "GAP-MV-BMA-20261111",
-   "title": "[gap] bigstream-mv 证据（bm-a）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigstream-mv --out cph4/fleet/reports/triage-bigstream-mv-20261111c.md",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/triage-bigstream-mv-20261111c.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": 180
-  },
-  {
-   "id": "VERIFY-ICONS-BMA-2",
-   "title": "[verify] 图标自证（find 限时版）",
-   "cmd": "timeout 60 find 软著申请材料 -name \"icon_512.png\" -mtime -2 2>/dev/null | wc -l > cph4/fleet/reports/verify-icons-bma.txt; find 软著申请材料 -name \"icon_512.png\" 2>/dev/null | wc -l >> cph4/fleet/reports/verify-icons-bma.txt",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/verify-icons-bma.txt",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": 120
   },
   {
    "id": "NODE-SYNC-bm-a-0335",
@@ -61,5 +33,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 24.3/1.0 GB"
+ "capacity_note": "ram 26.6/1.0 GB"
 }
