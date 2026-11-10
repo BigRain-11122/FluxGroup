@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-11T04:11:27",
+ "ts": "2026-11-11T04:14:39",
  "jobs": [
   {
    "id": "REPAIR-NODE-SYNC-bm-a-0352",
@@ -47,5 +47,11 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 16.2/1.0 GB"
+ "capacity_note": "ram 16.2/1.0 GB",
+ "cards": [],
+ "pruned_shells": [
+  "REPAIR-NODE-SYNC-bm-a-0352",
+  "UNBLOCK-PRODUCE-ICONS-BIGGAME-20261111",
+  "UNBLOCK-GAP-MV-BMA-20261111"
+ ]
 }
