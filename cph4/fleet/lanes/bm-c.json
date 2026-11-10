@@ -1,21 +1,7 @@
 {
  "node": "bm-c",
- "ts": "2026-11-10T22:20:33",
+ "ts": "2026-11-10T22:24:05",
  "jobs": [
-  {
-   "id": "GAP-CHARGEN-PROBE-20261110",
-   "title": "[probe] char-gen 出图环境探针（bm-c ComfyUI）",
-   "cmd": "python Tools/fleet/char_gen.py --probe-only --receipt cph4/fleet/reports/chargen-probe-20261110.json",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/chargen-probe-20261110.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
   {
    "id": "KN-FILM-GATE-LATEST-20261110",
    "title": "KN PACK-A 最新复核版跑全片闸（重复帧/亮度/时长三查）",
@@ -47,5 +33,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 4.1/1.0 GB"
+ "capacity_note": "ram 2.1/1.0 GB"
 }
