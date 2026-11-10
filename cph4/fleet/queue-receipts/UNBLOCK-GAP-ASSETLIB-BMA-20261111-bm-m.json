@@ -2,7 +2,7 @@
  "id": "UNBLOCK-GAP-ASSETLIB-BMA-20261111",
  "node": "bm-m",
  "rc": 0,
- "seconds": 73.1,
+ "seconds": 52.6,
  "cmd": "",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/repairs/GAP-ASSETLIB-BMA-20261111-unblock.md",
  "deliverable_exists": true,
- "ts": "2026-11-11T03:27:20",
- "stdout_tail": "缺料再试；重提工单至 bmc-b 执行。",
+ "ts": "2026-11-11T03:29:01",
+ "stdout_tail": "缺料；补发 lease 凭证给 bm-a；由资源池节点重排。",
  "stderr_tail": ""
 }

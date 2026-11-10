@@ -5917,3 +5917,10 @@
 - 11-11T03:25 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
 - 11-11T03:24 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
 - 11-11T03:27 · _last_lane_bm-m.json · 已完成机队同步解绑，当前运行中无风险。
+- 11-11T03:29 · _last_lane_bm-m.json · 已完成资产库解锁任务，无风险。
+- 11-11T03:29 · UNBLOCK-GAP-ASSETLIB-BMA-20261111-acceptance.json · 机队回执被拒，因交付物非有效文档且无风险。
+- 11-11T03:28 · UNBLOCK-GAP-ASSETLIB-BMA-20261111-bm-m.json · 已完成机队回执生成，无风险，需补料后重试并重新提交工单。
+- 11-11T03:28 · REPAIR-PRODUCE-ICONS-BIGGAME-20261111-acceptance.json · 机队回执被拒收，因交付物非有效产物且无风险。
+- 11-11T03:28 · REPAIR-PRODUCE-ICONS-BIGGAME-20261111-bm-m.json · 已完成卡片交付物生成，但因缺乏校验规则导致状态为未验证，存在流转阻塞风险。
+- 11-11T03:28 · UNBLOCK-PEER-SYNC-bm-c-20261111-acceptance.json · 机队回执被拒，因交付物非有效产物且无风险。
+- 11-11T03:28 · UNBLOCK-PEER-SYNC-bm-c-20261111-bm-m.json · 已完成 BM-A 向 BM-C 的机队同步，无风险。
