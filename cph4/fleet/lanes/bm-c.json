@@ -1,21 +1,7 @@
 {
  "node": "bm-c",
- "ts": "2026-11-11T00:34:25",
+ "ts": "2026-11-11T00:51:32",
  "jobs": [
-  {
-   "id": "Q-TRIAGE-BIGGAME-20261111",
-   "title": "biggame 线级体检（本机证据目录实况）",
-   "cmd": "python Tools/fleet/line_triage.py --line biggame --out cph4/fleet/queue-receipts/triage-biggame-20261111.md",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-biggame-20261111.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
   {
    "id": "asset-lib-face-caption-2026-11-11",
    "title": "[资产储备（角色 LoRA / 音色库）] 人脸数据集打标（vision 草稿，人只校对）",
@@ -29,9 +15,37 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
+  },
+  {
+   "id": "asset-lib-voice-dataset-2026-11-11",
+   "title": "[资产储备（角色 LoRA / 音色库）] 音色数据集准入（反播音腔的第一道门）",
+   "cmd": "python Tools/fleet/asset_dataset_audit.py --mode voice --dir media/asset/voices --out cph4/fleet/queue-receipts/asset-voice-2026-11-11.json",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/asset-voice-2026-11-11.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "biggame-accept-2026-11-11",
+   "title": "[游戏（可上线清单 → 一款可玩包 → 提审材料）] 质量验收（缺一份闸回执就不算交付）",
+   "cmd": "python Tools/fleet/quality_gate.py --line biggame --out cph4/fleet/queue-receipts/quality-biggame-2026-11-11.json",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/quality-biggame-2026-11-11.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 4.2/1.0 GB"
+ "capacity_note": "ram 1.8/1.0 GB"
 }

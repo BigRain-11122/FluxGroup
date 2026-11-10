@@ -1,15 +1,4 @@
-﻿[2026-11-08 17:41] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=3 run=1 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=BUSY; flags=2
-[2026-11-08 17:51] FLAG CLOCK-SKEW max=4608.2ms precision=+/-429ms -> check hub path or node clock
-[2026-11-08 17:51] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
-[2026-11-08 17:51] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
-[2026-11-08 17:51] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=3 run=1 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=BUSY; flags=2
-[2026-11-08 18:01] FLAG CLOCK-SKEW max=4655.5ms precision=+/-427.9ms -> check hub path or node clock
-[2026-11-08 18:01] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
-[2026-11-08 18:01] pools: bm-a=1open/0exec/1run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=2 run=2 lanejobs: a=1 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=GPU-IDLE; flags=2
-[2026-11-08 18:11] FLAG CLOCK-SKEW max=2783ms precision=+/-417.8ms -> check hub path or node clock
-[2026-11-08 18:11] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
-[2026-11-08 18:11] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
-[2026-11-08 18:11] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=2 run=1 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=BUSY; flags=2
+﻿[2026-11-08 18:11] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=2 run=1 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=BUSY; flags=2
 [2026-11-08 18:21] FLAG CLOCK-SKEW max=2783ms precision=+/-417.7ms -> check hub path or node clock
 [2026-11-08 18:21] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
 [2026-11-08 18:21] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
@@ -398,3 +387,14 @@
 [2026-11-10 23:21] FLAG CLOCK-SKEW max=3651.4ms precision=+/-424.4ms -> check hub path or node clock
 [2026-11-10 23:21] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
 [2026-11-10 23:21] pools: bm-a=3open/0exec/3run bm-b=0open/0exec/2run bm-c=0open/0exec/1run; queue_open=5 run=6 lanejobs: a=3 b=1 c=1; idle: a=BUSY b=GPU-IDLE c=BLOCKED-RAM; flags=2
+[2026-11-11 00:47] EVENT-SHIFT R32 carrier-trigger(DL 22:31-23:21 + 00:31/00:41) calls=18 verdict=ACTIONED
+[2026-11-11 00:47] finding bm-b: tailscale OFFLINE (last seen 23m, tx 2964 rx 0) + receipts 零 24h (末笔 2026-11-10 00:19:36) -> LANE-DOWN 是真离线, 非 FleetLink 服务死; bm-m 00:37 已提交 blockers 行 5e31ba3a1
+[2026-11-11 00:47] finding queue: origin 完整 1992 行 (DONE 718/OPEN 11/RUNNING 10/BLOCKED 14/UNVERIFIED 3/FAILED 2), local==origin 0 差异 -> 本班早前 329 行读数为 PS 管道假读数, 已勘误, 供给未枯竭
+[2026-11-11 00:47] action STALLED-WORKER: bigmoney-signal-2026-11-11 bm-b->bm-a(hard 含 bm-a); R-MODEL-RADAR-BMB 退 OPEN+补 hard_nodes=[bm-b](防跨机错领); VERIFY-FIN-ETF-COMPOSITE bm-b->bm-a(retries 3->0, cmd 纯仓库读); R-NEXT-BIGSTREAMD-TTS-QC-20261109 收窄 bm-b + BLOCKED(host-offline:bm-b)
+[2026-11-11 00:47] bm-c: v1.9.7 OK cpu 77% ram_free 1.5G < 2.4G 地板 -> BLOCKED-RAM 为真(非假红); 名下 asset-lib-face-caption RUNNING 在产; 3 张 GPU 卡(asset-gen/char-gen/scenes) 候 RAM+ComfyUI
+[2026-11-11 00:47] CLOCK: bm-b MISSING=离线同源; bm-c +2054ms precision 31.1ms = 真偏 (bm-a -0.1ms 正常); w32time STOPPED 提权件(R2.38/R4-4/R11-6 家族) 零催办
+[2026-11-11 00:47] poke bm-a accepted=True wakes=(空, 认领环原生 PT1M 在跑 _last_lane_bm-a 00:44:57 rc=0); bm-b 零 poke(离线, poke 不造供给)
+[2026-11-11 00:51] FLAG CLOCK-UNALIGNED old_schema=0 missing=1 -> P1 upgrade node heartbeat to v2 (ms ts+offset)
+[2026-11-11 00:51] FLAG LANE-DOWN lane=bm-b verdict=OFFLINE -> P1 page lane owner
+[2026-11-11 00:51] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-11-11 00:51] pools: bm-a=3open/0exec/1run bm-b=0open/0exec/1run bm-c=0open/0exec/1run; queue_open=13 run=3 lanejobs: a=5 b=5 c=1; idle: a=BUSY b=OFFLINE c=BLOCKED-RAM; flags=3
