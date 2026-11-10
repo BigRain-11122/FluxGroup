@@ -2,7 +2,7 @@
  "id": "CMD-DSH-BMC-MEM-2012",
  "node": "bm-c",
  "rc": 0,
- "seconds": 1.5,
+ "seconds": 1.4,
  "cmd": "python -c \"import subprocess,os;os.makedirs('cph4/fleet/reports',exist_ok=True);m=subprocess.run(['powershell','-NoProfile','-Command','(Get-CimInstance Win32_OperatingSystem).FreePhysicalMemory'],capture_output=True,text=True).stdout.strip();p=subprocess.run(['powershell','-NoProfile','-Command','Get-Process ^| Sort-Object WS -Descending ^| Select-Object -First 12 Name,@{n=\\'GB\\';e={[math]::Round($_.WS/1GB,2)}} ^| Format-Table -AutoSize ^| Out-String -Width 200'],capture_output=True,text=True);o=subprocess.run(['ollama','ps'],capture_output=True,text=True);open('cph4/fleet/reports/bm-c-mem.md','w',encoding='utf-8').write('# bm-c 内存诊断\\n\\n- 空闲(KB): '+m+'\\n\\n## Top 进程\\n```\\n'+p.stdout[:3000]+'\\n```\\n\\n## ollama ps (rc='+str(o.returncode)+')\\n```\\n'+(o.stdout or o.stderr)[:1500]+'\\n```\\n')\"",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/reports/bm-c-mem.md",
  "deliverable_exists": true,
- "ts": "2026-11-10T21:12:12",
+ "ts": "2026-11-10T21:14:38",
  "stdout_tail": "",
  "stderr_tail": ""
 }
