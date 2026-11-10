@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-10T14:28:02",
+ "ts": "2026-11-10T14:29:26",
  "jobs": [
   {
    "id": "CEOQ-a7787203d3",
@@ -15,31 +15,9 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
-  },
-  {
-   "id": "R-SITREP-142521",
-   "title": "[group] 机队态势一页（本地模型生成）",
-   "cmd": "",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/SITREP-142521.md",
-   "need_mb": null,
-   "model": "local-small",
-   "prompt": "根据输入的三份文件，写一页机队态势：①产出了什么 ②当前阻塞 ③下一步三件事。不要编造。",
-   "when_all": [
-    "cph4/fleet/OUTPUT-BOARD.md",
-    "cph4/fleet/DAILY-BRIEF.md"
-   ],
-   "llm": null,
-   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 11.4/1.0 GB",
- "cards": [],
- "pruned_shells": [
-  "CEOQ-a7787203d3",
-  "R-SITREP-142521"
- ]
+ "capacity_note": "ram 14.6/1.0 GB"
 }
