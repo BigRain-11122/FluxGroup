@@ -1,0 +1,17 @@
+{
+ "id": "GRID-O2-20261110T2132",
+ "node": "bm-m",
+ "rc": 0,
+ "seconds": 0.3,
+ "cmd": "python -c \"print('no fix defined')\"",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "FAIL",
+ "error_class": "E-ARTIFACT",
+ "deliverable": "cph4/fleet/reports/grid-o2-20261110t2132.md",
+ "deliverable_exists": false,
+ "ts": "2026-11-10T21:39:28",
+ "stdout_tail": "no fix defined\n",
+ "stderr_tail": ""
+}

@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-10T21:34:11+0800",
+ "ts": "2026-11-10T21:39:25+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -222,14 +222,14 @@
    "accept": "flux_check new=0；AUTOMATION-SURFACE 无 RISK 项",
    "blocker_type": "ENGINE",
    "blocker": "I2 存量 125 条卡面路径债、vault 缺盘 651 条",
-   "state": "RUNNING",
-   "card": "GRID-F3-20261110T2130",
-   "running_on": "bm-m"
+   "state": "QUEUED",
+   "card": "GRID-O2-20261110T2132",
+   "running_on": null
   }
  ],
  "counts": {
-  "RUNNING": 1,
-  "QUEUED": 3,
+  "RUNNING": 0,
+  "QUEUED": 4,
   "STALLED": 11
  },
  "stalled_engine": 5
