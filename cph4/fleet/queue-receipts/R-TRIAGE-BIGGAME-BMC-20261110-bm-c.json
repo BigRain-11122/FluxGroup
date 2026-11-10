@@ -2,7 +2,7 @@
  "id": "R-TRIAGE-BIGGAME-BMC-20261110",
  "node": "bm-c",
  "rc": 0,
- "seconds": 2.3,
+ "seconds": 1.1,
  "cmd": "python Tools/fleet/line_triage.py --line biggame --node bm-c --out cph4/fleet/queue-receipts/triage-biggame-bm-c-20261110.md",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/queue-receipts/triage-biggame-bm-c-20261110.md",
  "deliverable_exists": true,
- "ts": "2026-11-10T21:55:50",
+ "ts": "2026-11-10T21:57:35",
  "stdout_tail": "[triage] biggame -> cph4\\fleet\\queue-receipts\\triage-biggame-bm-c-20261110.md\n",
  "stderr_tail": ""
 }
