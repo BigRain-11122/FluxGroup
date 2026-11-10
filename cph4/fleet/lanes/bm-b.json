@@ -1,7 +1,21 @@
 {
  "node": "bm-b",
- "ts": "2026-11-11T00:11:40",
+ "ts": "2026-11-11T00:17:40",
  "jobs": [
+  {
+   "id": "R-PLAN-BIGDOMAIN-20261111",
+   "title": "BigDomain·硅基域商业化 线级体检与缺口清单",
+   "cmd": "python Tools/fleet/line_triage.py --line bigdomain --out cph4/fleet/queue-receipts/triage-bigdomain-20261111.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigdomain-20261111.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
   {
    "id": "R-PLAN-BIGMONEY-20261111",
    "title": "BigMoney·量化 线级体检与缺口清单",
@@ -31,20 +45,6 @@
    "timeout_s": null
   },
   {
-   "id": "Q-TRIAGE-BIGGAME-20261111",
-   "title": "biggame 线级体检（本机证据目录实况）",
-   "cmd": "python Tools/fleet/line_triage.py --line biggame --out cph4/fleet/queue-receipts/triage-biggame-20261111.md",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-biggame-20261111.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
    "id": "bigmoney-signal-2026-11-11",
    "title": "[金融量化（回测 → 一页结论 → 可报价或写清卡点）] 下月持仓信号 CSV（可卖的唯一产物）",
    "cmd": "python Tools/fleet/quant_positions_bridge.py --in quant/bigmoney/results/etf_nobond_vt.json --out cph4/fleet/queue-receipts/etf_nobond_vt_with_positions.json && python Tools/fleet/quant_signal.py --in cph4/fleet/queue-receipts/etf_nobond_vt_with_positions.json --out cph4/fleet/queue-receipts/quant-signal-2026-11-11.csv",
@@ -59,12 +59,12 @@
    "timeout_s": null
   },
   {
-   "id": "NODE-SYNC-bm-b-20261111",
-   "title": "[self-heal] bm-b 分叉收口（reset 到 origin/main，先留备份分支）",
-   "cmd": "git -C . branch -f backup/bm-b-20261111 HEAD && git -C . reset --hard origin/main && git -C . log -1 --oneline > cph4/fleet/reports/node-sync-bm-b-20261111.md",
+   "id": "asset-lib-library-check-2026-11-11",
+   "title": "[资产储备（角色 LoRA / 音色库）] 库体检（数量/规格/授权/缺口）",
+   "cmd": "python Tools/fleet/asset_library_check.py --tier p0 --out cph4/fleet/queue-receipts/asset-library-2026-11-11.json",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/node-sync-bm-b-20261111.md",
+   "deliverable": "cph4/fleet/queue-receipts/asset-library-2026-11-11.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -75,5 +75,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 8.4/1.0 GB"
+ "capacity_note": "ram 9.1/1.0 GB"
 }

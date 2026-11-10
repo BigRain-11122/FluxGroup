@@ -1,21 +1,7 @@
 {
  "node": "bm-a",
- "ts": "2026-11-11T00:07:26",
+ "ts": "2026-11-11T00:17:40",
  "jobs": [
-  {
-   "id": "R-PLAN-BIGCOMPUTE-20261111",
-   "title": "BigCompute·硅基算力 线级体检与缺口清单",
-   "cmd": "python Tools/fleet/line_triage.py --line bigcompute --out cph4/fleet/queue-receipts/triage-bigcompute-20261111.md",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigcompute-20261111.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
   {
    "id": "R-NEXT-BIGGAME-SUBMIT-P-20261111",
    "title": "游戏提审·真实缺件重盘（隐私已齐，重算图标/截图/台账/包体）",
@@ -113,9 +99,23 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
+  },
+  {
+   "id": "NODE-SYNC-bm-a-20261111",
+   "title": "[self-heal] bm-a 分叉收口（reset 到 origin/main，先留备份分支）",
+   "cmd": "git -C . branch -f backup/bm-a-20261111 HEAD && git -C . reset --hard origin/main && git -C . log -1 --oneline > cph4/fleet/reports/node-sync-bm-a-20261111.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/reports/node-sync-bm-a-20261111.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 20.7/1.0 GB"
+ "capacity_note": "ram 14.8/1.0 GB"
 }

@@ -1,13 +1,13 @@
 {
- "ts": "2026-11-11T00:05:33",
+ "ts": "2026-11-11T00:17:41",
  "card": "R-MODEL-RADAR-BMM-20261111",
  "node": "junshengsundeMacBook-Pro.local",
  "class": "BOOKKEEPING",
  "deliverable": "cph4/fleet/queue-receipts/model-radar-bm-m-20261111.json",
- "exists": false,
- "verdict": "FAIL",
+ "exists": true,
+ "verdict": "REJECT",
  "score": null,
- "bytes": 0,
- "sha256": "",
- "detail": "产物未落盘"
+ "bytes": 140,
+ "sha256": "ee094c7bc3e7725f57ea22f61160ba24e871374abc4d37e56d585644e470dd9d",
+ "detail": "交付物不是产物（文档/台账/回执）"
 }
