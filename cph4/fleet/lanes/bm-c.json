@@ -1,28 +1,14 @@
 {
  "node": "bm-c",
- "ts": "2026-11-11T01:57:26",
+ "ts": "2026-11-11T02:01:27",
  "jobs": [
   {
-   "id": "asset-lib-asset-gen-2026-11-11",
-   "title": "[资产储备（角色 LoRA / 音色库）] 通用资产出图（道具/场景，吃 ASSET-PROMPTS 规格）",
-   "cmd": "python Tools/fleet/asset_gen.py --node bm-c --class props --limit 4 --receipt cph4/fleet/queue-receipts/asset-gen-props-2026-11-11.json",
+   "id": "asset-lib-face-caption-2026-11-11",
+   "title": "[资产储备（角色 LoRA / 音色库）] 人脸数据集打标（vision 草稿，人只校对）",
+   "cmd": "python Tools/fleet/asset_caption.py --dir media/asset/faces --out cph4/fleet/queue-receipts/asset-caption-2026-11-11.json",
    "cwd": "",
    "needs": "gpu",
-   "deliverable": "cph4/fleet/queue-receipts/asset-gen-props-2026-11-11.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "PEER-SYNC-bm-a-20261111",
-   "title": "[peer-heal] bm-c 用 WinRM 替 bm-a 收口",
-   "cmd": "powershell -NoProfile -Command \"$e=$null; try { Invoke-Command -ComputerName 100.110.185.62 -ScriptBlock { Set-Location 'C:\\Users\\sjs20\\Desktop\\FluxGroup'; git fetch origin --prune; git branch -f backup/bm-a-20261111 HEAD 2>$null; git reset --hard origin/main; git log -1 --oneline } -ErrorAction Stop } catch { $e=$_.Exception.Message }; 'winrm_err='+$e | Out-File -Encoding utf8 cph4/fleet/reports/peer-sync-bm-a-20261111.md\"",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/peer-sync-bm-a-20261111.md",
+   "deliverable": "cph4/fleet/queue-receipts/asset-caption-2026-11-11.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -33,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 2.3/1.0 GB"
+ "capacity_note": "ram 2.4/1.0 GB"
 }

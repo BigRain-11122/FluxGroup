@@ -5745,3 +5745,9 @@
 - 11-11T01:59 · asset-lib-voice-assemble-2026-11-11-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被拒收。
 - 11-11T01:59 · _last_lane_bm-m.json · 机队任务已完成，无风险。
 - 11-11T01:59 · skill-promote-20261111.json · 已完成部分任务，因工具缺失导致大量技能无法执行。
+- 11-11T02:00 · UNBLOCK-asset-lib-voice-assemble-2026-11-11-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-11T02:00 · UNBLOCK-asset-lib-voice-assemble-2026-11-11-bm-m.json · 已完成机队回执生成，但需申请主管权限方可执行后续操作。
+- 11-11T02:01 · triage-bigstream-drama-20261111.md · 已完成线级体检，但 kf、voice、mix 三工段缺文件，需补输入后继续。
+- 11-11T02:00 · R-NEXT-BIGSTREAMD-EVIDENCE-20261111-bm-a.json · 已完成大流剧线机队回执，无风险。
+- 11-11T02:00 · R-NEXT-BIGSTREAMD-EVIDENCE-20261111-acceptance.json · 完成机队回执提交，但被拒因交付物非标准产物。
+- 11-11T02:00 · _last_lane_bm-m.json · 机队任务已运行中，当前无风险。
