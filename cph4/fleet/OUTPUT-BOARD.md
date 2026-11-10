@@ -1,19 +1,19 @@
 # 产出看板（盘上事实）
 
 > 判据：只认卡上 deliverable 在盘上存在；产品件与内部件分开算。
-> 生成时间：2026-11-09 19:22；近 7 天口径。
+> 生成时间：2026-11-10 08:30；近 7 天口径。
 
 ## 一、总数
 
 | 口径 | 数量 |
 |---|---|
-| DONE 卡 | 579 |
-| 交付物存在 | 529 |
+| DONE 卡 | 616 |
+| 交付物存在 | 556 |
 | **产品件** | **1** |
-| 内部件（审计/回执/状态） | 528 |
-| 交付物缺失 | 39 |
+| 内部件（审计/回执/状态） | 555 |
+| 交付物缺失 | 46 |
 | 近 7 天更新的产品件 | 1 |
-| 在跑卡 | 14 |
+| 在跑卡 | 1 |
 
 ## 二、近 7 天产品件（按时间）
 
@@ -23,32 +23,23 @@
 
 | 线 | 产品件 | 内部件 |
 |---|---|---|
-| ? | 0 | 27 |
-| asset-lib | 0 | 35 |
+| ? | 0 | 40 |
+| asset-lib | 0 | 40 |
 | bigcompute | 0 | 5 |
 | bigdomain | 0 | 5 |
-| biggame | 0 | 125 |
+| biggame | 0 | 126 |
 | biglife | 0 | 3 |
-| bigmoney | 2 | 76 |
-| bigstream-drama | 1 | 12 |
+| bigmoney | 7 | 76 |
+| bigstream-drama | 1 | 15 |
 | bigstream-duanju | 0 | 6 |
 | bigstream-mv | 0 | 89 |
-| fleet-ops | 0 | 121 |
+| fleet-ops | 0 | 127 |
 | fluxverse | 0 | 6 |
 | recon | 0 | 3 |
 
 ## 四、在跑的卡
 
-- OPEN · bigstream-duanju · VCORP-GEN-r1202-EP001-060-20261108 · bm-a
-- OPEN · bigstream-drama · R-NEXT-BIGSTREAMD-EVIDENCE-20261109 · bm-b
 - OPEN · bigstream-duanju · R-NEXT-BIGSTREAMD-TTS-QC-20261109 · bm-c
-- RUNNING · bigstream-mv · R-MV-RELEASE-PACK-20261109 · bm-m
-- RUNNING · bigdomain · R-19.9-PACKAGE-20261109 · bm-a
-- RUNNING · group · CEOQ-0364030d5b · bm-b
-- RUNNING · group · CEOQ-e6d48a7097 · bm-b
-- RUNNING · group · CEOQ-e6e70d7725 · bm-b
-- RUNNING · biglife · PATROL-biglife-20261109 · bm-b
-- RUNNING · bigdomain · PATROL-bigdomain-20261109 · bm-b
 
 ## 五、盘上成品（不依赖卡，近 7 天，>50KB）
 
@@ -78,7 +69,7 @@
 - 11-03 18:22 · 4.4 MB · media/review-720p/asm-sw-720p.mp4
 - 11-03 18:22 · 4.4 MB · media/review-720p/asm-hw2-720p.mp4
 
-## 六、声称 DONE 但盘上没有（39）
+## 六、声称 DONE 但盘上没有（46）
 
 - Q-MV-0001-001 → D:\FleetWorker\review\aesthetic_v716b.json
 - Q-MV-0001-002 → D:\FleetWorker\review\trans_v716b.json
