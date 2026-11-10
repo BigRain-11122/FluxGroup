@@ -5166,3 +5166,7 @@
 - 11-10T23:08 · GAP-BIGMONEY-SIGNAL-20261111-acceptance.json · 已提交机队回执，但被拒因交付物非标准产物。
 - 11-10T23:08 · BIZ-BIGGAME-SUBMITPACK-20261110-bm-a.json · 机队回执显示 35 款产品因缺截图和运行包导致提交失败，存在交付风险。
 - 11-10T23:08 · BIZ-BIGGAME-SUBMITPACK-20261110-acceptance.json · 机队回执显示产物未落盘，任务失败且无风险。
+- 11-10T23:09 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-10T23:09 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-10T23:09 · GRID-G1-20261110T2248-acceptance.json · 机队回执显示产物未落盘，任务失败且无风险。
+- 11-10T23:09 · GRID-G1-20261110T2248-bm-m.json · 任务失败，因未定义修复方案导致交付物缺失。
