@@ -76,6 +76,25 @@ def check(card, roots, node=None):
     raw_cwd = card.get("cwd") or ""
     deliverable = card.get("deliverable") or ""
 
+    # ---- 0) 跨平台可执行性（2026-11-11 实锚）----
+    # 我把 `timeout 60 find ... | wc -l` 派给 Windows 的 bm-a：cmd 里的 timeout 是"等待按键"，
+    # 那张卡一直挂着等键盘，18 分钟不返回，看起来像车道坏了。GNU 工具在 Windows 上不是缺失
+    # 就是同名异义，出卡端必须拦，不能等到执行端挂死再排查。
+    WIN_NODES = ("bm-a", "bm-b", "bm-c", "bm-d")
+    GNU_ONLY = ("timeout", "find", "grep", "sed", "awk", "head", "tail", "wc", "xargs",
+                "basename", "dirname", "chmod", "chown", "tee", "tr", "sort", "uniq")
+    if node in WIN_NODES and cmd:
+        import re as _re
+        segs = _re.split(r"&&|\|\||;|\||&", cmd)
+        for seg in segs:
+            seg = seg.strip().lstrip("(").strip()
+            tok = (seg.split() or [""])[0].strip('"\'')
+            if tok in GNU_ONLY:
+                issues.append({"code": "WIN-TOOL", "fatal": True,
+                               "detail": ("Windows 节点 %s 上不能用 GNU 工具 `%s`（cmd 里同名命令行为不同，"
+                                          "会挂住）；改用 python -c 或 PowerShell 等价写法" % (node, tok))})
+                break
+
     # ---- 1) cwd 解析 ----
     cwd = None
     if raw_cwd:
