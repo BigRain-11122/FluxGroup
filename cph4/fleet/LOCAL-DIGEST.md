@@ -5152,3 +5152,9 @@
 - 11-10T23:03 · review-packet-kn-20261110.md · 成片缺件且无闸档，无法通过复核，存在交付风险。
 - 11-10T23:03 · MV-DIRECTOR-PACKET-20261109-bm-a.json · 机队回执任务失败，因缺少交付物导致流程中断。
 - 11-10T23:04 · MV-DIRECTOR-PACKET-20261109-acceptance.json · 未完成交付且存在风险。
+- 11-10T23:06 · _last_lane_bm-m.json · 机队任务已推迟，因无可用分配而存在无法执行风险。
+- 11-10T23:06 · self-improve-bm-m-latest.json · 已完成机队回执提交，无风险。
+- 11-10T23:06 · REPAIR-GAP-ASSETLIB-P0-20261110-acceptance.json · 完成机队回执提交，但被拒收因交付物非标准产物。
+- 11-10T23:06 · REPAIR-GAP-ASSETLIB-P0-20261110-bm-m.json · 已完成流水线卡滞根因分析与修复方案制定，无当前风险但需人工介入验证。
+- 11-10T23:06 · REPAIR-GRID-O2-20261110T2132-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物，无安全风险。
+- 11-10T23:06 · REPAIR-GRID-O2-20261110T2132-bm-m.json · 已完成机队回执生成，但发现任务因死锁异常失败，需排查根因并修复。

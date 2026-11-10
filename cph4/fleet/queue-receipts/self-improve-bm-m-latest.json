@@ -1,13 +1,13 @@
 {
  "node": "bm-m",
- "ts": "2026-11-10T23:03:22",
+ "ts": "2026-11-10T23:06:34",
  "mode": "apply",
  "verdict": "SELF-OK",
  "checks": [
   {
    "check": "reload",
-   "code_age_s": 2824,
-   "receipt_age_s": 31,
+   "code_age_s": 3016,
+   "receipt_age_s": 32,
    "targets": [],
    "acted": false,
    "note": "executor produced a receipt after the last code edit",
@@ -16,16 +16,11 @@
   },
   {
    "check": "shells",
-   "cards": 3,
-   "shells": 3,
-   "ids": [
-    "REPAIR-GRID-O2-20261110T2132",
-    "REPAIR-NODE-SYNC-bm-b-2040",
-    "REPAIR-GAP-ASSETLIB-P0-20261110"
-   ],
-   "acted": true,
-   "kept": 0,
-   "verdict": "PRUNED"
+   "cards": 1,
+   "shells": 0,
+   "ids": [],
+   "acted": false,
+   "verdict": "OK"
   },
   {
    "check": "deps",
