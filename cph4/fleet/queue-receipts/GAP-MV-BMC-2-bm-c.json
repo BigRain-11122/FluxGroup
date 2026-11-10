@@ -2,7 +2,7 @@
  "id": "GAP-MV-BMC-2",
  "node": "bm-c",
  "rc": 0,
- "seconds": 0.2,
+ "seconds": 0.3,
  "cmd": "python Tools/fleet/line_triage.py --line bigstream-mv --out cph4/fleet/reports/triage-bigstream-mv-20261111e.md",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/reports/triage-bigstream-mv-20261111e.md",
  "deliverable_exists": true,
- "ts": "2026-11-11T05:50:33",
+ "ts": "2026-11-11T05:53:08",
  "stdout_tail": "[triage] bigstream-mv -> cph4\\fleet\\reports\\triage-bigstream-mv-20261111e.md\n",
  "stderr_tail": ""
 }
