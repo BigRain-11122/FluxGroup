@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-10T22:01:36+0800",
+ "ts": "2026-11-10T22:10:46+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -57,9 +57,9 @@
    "accept": "发布台账有回执行；或 CEO 给出重剪清单",
    "blocker_type": "ENGINE",
    "blocker": "发布决定权在 CEO，但工程侧可先做下一首立意案",
-   "state": "RUNNING",
-   "card": "R-NEXT-BIGSTREAMM-REBUILD-20261109",
-   "running_on": "bm-a"
+   "state": "QUEUED",
+   "card": "MV-STAB-0001-003-OUT",
+   "running_on": null
   },
   {
    "id": "bigstream-drama",
@@ -117,8 +117,8 @@
    "accept": "投影文件每日刷新；受阻面写明触发条件",
    "blocker_type": "ENGINE",
    "blocker": "四仓不在本机，需在对应机器生成投影",
-   "state": "STALLED",
-   "card": null,
+   "state": "QUEUED",
+   "card": "R-TRIAGE-FLUXVERSE-BMB-20261110B",
    "running_on": null
   },
   {
@@ -223,14 +223,14 @@
    "blocker_type": "ENGINE",
    "blocker": "I2 存量 125 条卡面路径债、vault 缺盘 651 条",
    "state": "RUNNING",
-   "card": "NODE-SYNC-bm-b-2040",
+   "card": "PROBE-BMB-WINRM-2035",
    "running_on": "bm-b"
   }
  ],
  "counts": {
-  "RUNNING": 5,
-  "QUEUED": 2,
-  "STALLED": 8
+  "RUNNING": 4,
+  "QUEUED": 4,
+  "STALLED": 7
  },
- "stalled_engine": 3
+ "stalled_engine": 2
 }
