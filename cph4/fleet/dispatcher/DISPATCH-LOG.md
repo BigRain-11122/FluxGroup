@@ -1,10 +1,4 @@
-﻿[2026-11-08 19:01] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
-[2026-11-08 19:01] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=2 run=1 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=BUSY c=BUSY; flags=2
-[2026-11-08 19:11] FLAG CLOCK-SKEW max=2922.5ms precision=+/-420ms -> check hub path or node clock
-[2026-11-08 19:11] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
-[2026-11-08 19:11] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
-[2026-11-08 19:11] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=2 run=1 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=BUSY; flags=2
-[2026-11-08 19:21] FLAG CLOCK-SKEW max=2565.8ms precision=+/-410.7ms -> check hub path or node clock
+﻿[2026-11-08 19:21] FLAG CLOCK-SKEW max=2565.8ms precision=+/-410.7ms -> check hub path or node clock
 [2026-11-08 19:21] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
 [2026-11-08 19:21] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
 [2026-11-08 19:21] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=2 run=1 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=BUSY; flags=2
@@ -401,3 +395,6 @@
 
 [2026-11-11 01:23] PATROL fluxverse R61-ROOT | 根因定谳(实证非假设)：机队在线数永久少报=fleet_machines.ps1 用 ParseExact('yyyy-MM-dd HH:mm') 解析实为 'yyyy-MM-ddTHH:mm:ss+08:00' 的 last_seen -> bm-a/bm-c/bm-b 三台 parseOk=False、catch{} 静默吞、online 恒 false；scan.ps1 L272/L378 与 export-public-snapshot.ps1 L131 均忠实聚合无辜；对照 fleet_minigame.ps1 用 'yyyy-MM-ddTHH:mm:ss' 解析成功故只计 BG-A。影响=CEO 首窗少报+HEARTBEAT 假事件+R55/本班首轮两次误归因(陈旧/阈值)。修法=TryParse[DateTimeOffset] 一行(已写入 NJ，本席不改码·章程只读只议)。验收=改后 bm-a/bm-c online=true、页面「机队在线 2 台」
 [2026-11-11 01:23] PATROL fluxverse R61-ROOT-ADD | 修法沙盒实测(bm-a 8.4min True / bm-c 45.2min False / bm-b 16600min False) -> 上条验收判据勘正：只修解析 fleet_online 只到 2；第二层独立缺陷=bm-c last_seen(00:38) 比 ts(01:06) 落后 28min 而窗打在 last_seen。完整修法=TryParse + 字段优先级 ts>heartbeat_epoch_utc>last_seen + last_seen/ts 差>10min 报 lagging-field；窗宽 20min 不变。新验收=fleet_online=3、页面「机队在线 3 台」、bm-b 仍 false
+[2026-11-11 01:31] FLAG CLOCK-UNALIGNED old_schema=0 missing=1 -> P1 upgrade node heartbeat to v2 (ms ts+offset)
+[2026-11-11 01:31] FLAG LANE-DOWN lane=bm-b verdict=OFFLINE -> P1 page lane owner
+[2026-11-11 01:31] pools: bm-a=3open/0exec/5run bm-b=0open/0exec/2run bm-c=0open/0exec/1run; queue_open=9 run=9 lanejobs: a=5 b=3 c=1; idle: a=BUSY b=OFFLINE c=GPU-IDLE; flags=2
