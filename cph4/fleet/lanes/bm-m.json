@@ -1,7 +1,21 @@
 {
  "node": "bm-m",
- "ts": "2026-11-10T22:28:48",
+ "ts": "2026-11-10T22:31:15",
  "jobs": [
+  {
+   "id": "GRID-F3-20261110T2130",
+   "title": "[grid] F3 自愈：记账不进 git",
+   "cmd": "python -c \"print('no fix defined')\"",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/reports/grid-f3-20261110t2130.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
   {
    "id": "REPAIR-GAP-CHARGEN-PROBE-20261110",
    "title": "[repair] GAP-CHARGEN-PROBE-20261110 的根因与下一步",
@@ -12,20 +26,6 @@
    "need_mb": null,
    "model": "local-small",
    "prompt": "这张卡失败了。请只依据给出的证据，写一页诊断：①最可能的根因 ②下一步具体动作（谁、做什么、怎么验证）。不要编造文件或命令。\n\n证据：状态=FAILED；备注=STALL: 1824s 无新输出（sig=0），释放；交付物=cph4/fleet/reports/chargen-probe-20261110.json；重试=2",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "REPAIR-MV-STAB-0001-003-OUT",
-   "title": "[repair] MV-STAB-0001-003-OUT 的根因与下一步",
-   "cmd": "",
-   "cwd": null,
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/repairs/MV-STAB-0001-003-OUT.md",
-   "need_mb": null,
-   "model": "local-small",
-   "prompt": "这张卡失败了。请只依据给出的证据，写一页诊断：①最可能的根因 ②下一步具体动作（谁、做什么、怎么验证）。不要编造文件或命令。\n\n证据：状态=FAILED；备注=；交付物=cph4/fleet/reports/mv-stability-Q-MV-0001-003.txt；重试=None",
    "when_all": [],
    "llm": null,
    "timeout_s": null
@@ -59,14 +59,7 @@
    "timeout_s": null
   }
  ],
- "idle_reason": "",
+ "idle_reason": "control-plane heartbeat",
  "lane_ok": true,
- "capacity_note": "ram 13.7/1.0 GB",
- "cards": [],
- "pruned_shells": [
-  "REPAIR-GAP-CHARGEN-PROBE-20261110",
-  "REPAIR-MV-STAB-0001-003-OUT",
-  "UNBLOCK-R-NEXT-BIGSTREAMM-REBUILD-20261109",
-  "UNBLOCK-asset-lib-face-dataset-2026-11-10"
- ]
+ "capacity_note": "ram 13.7/1.0 GB"
 }
