@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-11T02:10:07",
+ "ts": "2026-11-11T02:14:21",
  "jobs": [
   {
    "id": "UNBLOCK-asset-lib-asset-gen-2026-11-11",
@@ -47,5 +47,11 @@
  ],
  "idle_reason": "control-plane heartbeat",
  "lane_ok": true,
- "capacity_note": "ram 14.8/1.0 GB"
+ "capacity_note": "ram 14.8/1.0 GB",
+ "cards": [],
+ "pruned_shells": [
+  "UNBLOCK-asset-lib-asset-gen-2026-11-11",
+  "UNBLOCK-asset-lib-char-gen-2026-11-11",
+  "UNBLOCK-asset-lib-asset-gen-scenes-2026-11-11"
+ ]
 }
