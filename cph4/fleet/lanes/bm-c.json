@@ -1,8 +1,23 @@
 {
  "node": "bm-c",
- "ts": "2026-11-11T07:29:06",
- "jobs": [],
- "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+ "ts": "2026-11-11T07:34:11",
+ "jobs": [
+  {
+   "id": "GAP-BIGMONEY-BMC-6",
+   "title": "[gap] bigmoney 证据（bm-c）",
+   "cmd": "python Tools/fleet/line_triage.py --line bigmoney --out cph4/fleet/reports/triage-bigmoney-20261111j.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/reports/triage-bigmoney-20261111j.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": 180
+  }
+ ],
+ "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 2.4/1.0 GB"
+ "capacity_note": "ram 2.9/1.0 GB"
 }
