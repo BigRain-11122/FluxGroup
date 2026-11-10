@@ -5475,3 +5475,11 @@
 - 11-11T00:31 · brain-bigstream-drama-2026-11-11.md · 因引证核验未过，当前方案不可作为决策依据，需先修复数据再推进。
 - 11-11T00:33 · brain-recon-2026-11-11.md · 已完成生产断点预警与闸门部署，但引证核验未过存在决策风险。
 - 11-11T00:33 · brain-voicebank-2026-11-11.md · 已收芯龙门素材并重建，需 CEO 批准全量进闸及扩展采集计划。
+- 11-11T00:35 · _last_lane_bm-m.json · 已完成雷达模型修复任务，当前运行中无风险。
+- 11-11T00:35 · REPAIR-R-NEXT-BIGSTREAMM-REBUILD-20261111-acceptance.json · 机队回执被拒，因交付物非预期文档且无风险。
+- 11-11T00:35 · REPAIR-R-NEXT-BIGSTREAMM-REBUILD-20261111-bm-m.json · 已完成机队修复并生成报告，但需人工介入配置规则以解除验证阻塞。
+- 11-11T00:35 · REPAIR-R-MODEL-RADAR-BMB-20261111-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效文档。
+- 11-11T00:35 · REPAIR-R-MODEL-RADAR-BMB-20261111-bm-m.json · 已完成机队回执生成，因数据校验缺失存在交付物未验证风险。
+- 11-11T00:35 · REPAIR-biggame-pack-scan-2026-11-11-acceptance.json · 机队回执被拒，因交付物非有效产物且无风险。
+- 11-11T00:35 · REPAIR-biggame-pack-scan-2026-11-11-bm-m.json · 已完成卡支付交易失败诊断，需人工介入调整配置并触发重试以消除风险。
+- 11-11T00:35 · self-improve-bm-m-latest.json · 机队已自测通过并清理旧壳，无风险。
