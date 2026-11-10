@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-11T00:11:38+0800",
+ "ts": "2026-11-11T00:26:58+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -43,7 +43,7 @@
    "blocker_type": "ENGINE",
    "blocker": "回测产物需在 bm-b 本地生成；主控无 quant 仓",
    "state": "RUNNING",
-   "card": "R-PLAN-BIGMONEY-20261111",
+   "card": "bigmoney-signal-2026-11-11",
    "running_on": "bm-b"
   },
   {
@@ -117,9 +117,9 @@
    "accept": "投影文件每日刷新；受阻面写明触发条件",
    "blocker_type": "ENGINE",
    "blocker": "四仓不在本机，需在对应机器生成投影",
-   "state": "RUNNING",
-   "card": "R-PLAN-FLUXVERSE-20261111",
-   "running_on": "bm-a"
+   "state": "STALLED",
+   "card": null,
+   "running_on": null
   },
   {
    "id": "bigdomain",
@@ -132,9 +132,9 @@
    "accept": "页面文件在盘且本地可打开；支付位标明待接",
    "blocker_type": "CEO",
    "blocker": "商户号/支付资质未签（物理件）",
-   "state": "RUNNING",
-   "card": "R-PLAN-BIGDOMAIN-20261111",
-   "running_on": "bm-b"
+   "state": "STALLED",
+   "card": null,
+   "running_on": null
   },
   {
    "id": "bigcompute",
@@ -147,9 +147,9 @@
    "accept": "该节点有心跳、能领卡、1 张真卡产出产物",
    "blocker_type": "CEO",
    "blocker": "机器未接线/未装系统，需人到现场",
-   "state": "RUNNING",
-   "card": "R-PLAN-BIGCOMPUTE-20261111",
-   "running_on": "bm-a"
+   "state": "QUEUED",
+   "card": "REPAIR-R-PLAN-BIGCOMPUTE-20261111",
+   "running_on": null
   },
   {
    "id": "biglife",
@@ -162,9 +162,9 @@
    "accept": "回执含 20 条事件，每条对应真实事件流记录",
    "blocker_type": "ENGINE",
    "blocker": "城市仓不在本机",
-   "state": "RUNNING",
-   "card": "R-PLAN-BIGLIFE-20261111",
-   "running_on": "bm-a"
+   "state": "STALLED",
+   "card": null,
+   "running_on": null
   },
   {
    "id": "bighouse",
@@ -207,9 +207,9 @@
    "accept": "拆解卡含 10 款的核心循环与付费点位，带来源链接",
    "blocker_type": "ENGINE",
    "blocker": "缺工序表与榜单抓取口径",
-   "state": "RUNNING",
-   "card": "R-PLAN-RECON-20261111",
-   "running_on": "bm-a"
+   "state": "STALLED",
+   "card": null,
+   "running_on": null
   },
   {
    "id": "fleet-ops",
@@ -222,15 +222,15 @@
    "accept": "flux_check new=0；AUTOMATION-SURFACE 无 RISK 项",
    "blocker_type": "ENGINE",
    "blocker": "I2 存量 125 条卡面路径债、vault 缺盘 651 条",
-   "state": "RUNNING",
-   "card": "Q-TRIAGE-BIGSTREAMMV-20261111",
-   "running_on": "bm-c"
+   "state": "QUEUED",
+   "card": "REPAIR-R-MODEL-RADAR-BMB-20261111",
+   "running_on": null
   }
  ],
  "counts": {
-  "RUNNING": 10,
-  "QUEUED": 3,
-  "STALLED": 2
+  "RUNNING": 4,
+  "QUEUED": 5,
+  "STALLED": 6
  },
- "stalled_engine": 0
+ "stalled_engine": 3
 }

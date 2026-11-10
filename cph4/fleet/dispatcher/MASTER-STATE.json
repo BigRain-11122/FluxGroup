@@ -1,32 +1,32 @@
 {
- "ts": "2026-11-11T00:21:46",
- "cycle": 1074,
+ "ts": "2026-11-11T00:27:00",
+ "cycle": 1075,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-11T00:21:46",
+ "master_tick_ts": "2026-11-11T00:27:00",
  "queue": {
-  "total": 1984,
-  "open": 8,
+  "total": 1989,
+  "open": 9,
   "running": 10,
-  "done": 712,
-  "failed": 0
+  "done": 715,
+  "failed": 1
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 32.5,
-   "cpu_load_pct": 76,
-   "ram_free_gb": 18.2,
-   "gpu_util_pct": 52,
+   "hb_age_s": 43.8,
+   "cpu_load_pct": 66,
+   "ram_free_gb": 11.3,
+   "gpu_util_pct": 43,
    "job": "GAP-MV-LINE-20261111",
    "last_result": {
-    "job": "biggame-pack-scan-2026-11-11",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-11T00:20:10",
+    "job": "asset-lib-voice-corpus-2026-11-11",
+    "state": "BUSY",
+    "rc": null,
+    "ts": "2026-11-11T00:26:58",
     "reason": null,
-    "out_bytes": null,
-    "elapsed_s": null
+    "out_bytes": 0,
+    "elapsed_s": 130
    },
    "idle_confirmed": false,
    "idle_reason": "",
@@ -34,16 +34,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 13.8,
+   "hb_age_s": 209.3,
    "cpu_load_pct": 20,
-   "ram_free_gb": 10.0,
-   "gpu_util_pct": 29,
+   "ram_free_gb": 10.4,
+   "gpu_util_pct": 21,
    "job": "bigmoney-signal-2026-11-11",
    "last_result": {
-    "job": "R-PLAN-BIGDOMAIN-20261111",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-11T00:20:43",
+    "job": "asset-lib-library-check-2026-11-11",
+    "state": "FAILED",
+    "rc": 2,
+    "ts": "2026-11-11T00:23:07",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -54,16 +54,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 114.3,
-   "cpu_load_pct": 12,
-   "ram_free_gb": 3.3,
+   "hb_age_s": 88.3,
+   "cpu_load_pct": 20,
+   "ram_free_gb": 3.5,
    "gpu_util_pct": 0,
    "job": "asset-lib-face-caption-2026-11-11",
    "last_result": {
     "job": "asset-lib-char-prompts-2026-11-11",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-11T00:20:45",
+    "ts": "2026-11-11T00:25:56",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -74,17 +74,17 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 1.7,
-   "cpu_load_pct": 3,
+   "hb_age_s": 1.8,
+   "cpu_load_pct": 15,
    "ram_free_gb": 14.7,
    "gpu_util_pct": null,
-   "job": "REPAIR-R-MODEL-RADAR-BMM-20261111",
+   "job": "REPAIR-R-PLAN-BIGCOMPUTE-20261111",
    "last_result": {
-    "job": "R-MODEL-RADAR-BMM-20261111",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-11T00:21:37",
-    "reason": null,
+    "job": "REPAIR-R-MODEL-RADAR-BMM-20261111",
+    "state": "DEFERRED",
+    "rc": null,
+    "ts": "2026-11-11T00:26:59",
+    "reason": "NO-RUNNABLE-ASSIGNMENT",
     "out_bytes": null,
     "elapsed_s": null
    },
@@ -109,7 +109,8 @@
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
    "jobs": [
     "GAP-MV-LINE-20261111",
-    "bigstream-mv-gate-2026-11-11"
+    "bigstream-mv-gate-2026-11-11",
+    "REPAIR-R-NEXT-BIGSTREAMM-REBUILD-20261111"
    ],
    "no_supply": false,
    "blockers": [],
@@ -167,7 +168,8 @@
    "stale_after_h": 24.0,
    "owner": "游戏席",
    "jobs": [
-    "R-NEXT-BIGGAME-SUBMIT-P-20261111"
+    "R-NEXT-BIGGAME-SUBMIT-P-20261111",
+    "REPAIR-biggame-pack-scan-2026-11-11"
    ],
    "no_supply": false,
    "blockers": [],
@@ -195,8 +197,7 @@
    "stale_after_h": 24.0,
    "owner": "量化席",
    "jobs": [
-    "bigmoney-signal-2026-11-11",
-    "UNBLOCK-VERIFY-FIN-ETF-COMPOSITE"
+    "bigmoney-signal-2026-11-11"
    ],
    "no_supply": false,
    "blockers": [],
@@ -219,12 +220,14 @@
   "bigcompute": {
    "name": "BigCompute·硅基算力",
    "status": "ACTIVE",
-   "verdict": "WAITING",
+   "verdict": "WORKING",
    "age_h": null,
    "stale_after_h": 36.0,
    "owner": "算力中枢席",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "REPAIR-R-PLAN-BIGCOMPUTE-20261111"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": null
   },
@@ -289,7 +292,7 @@
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
    "jobs": [
-    "REPAIR-R-MODEL-RADAR-BMM-20261111"
+    "REPAIR-R-MODEL-RADAR-BMB-20261111"
    ],
    "no_supply": false,
    "blockers": [],
@@ -304,16 +307,16 @@
    "owner": "资产席",
    "jobs": [
     "asset-lib-voice-corpus-2026-11-11",
-    "UNBLOCK-asset-lib-face-caption-2026-11-10",
     "asset-lib-face-caption-2026-11-11",
-    "asset-lib-library-check-2026-11-11",
     "asset-lib-asset-gen-2026-11-11",
-    "asset-lib-char-gen-2026-11-11"
+    "asset-lib-char-gen-2026-11-11",
+    "asset-lib-asset-gen-scenes-2026-11-11"
    ],
    "no_supply": false,
    "blockers": [
     "asset-lib-asset-gen-2026-11-11:no-lane",
-    "asset-lib-char-gen-2026-11-11:no-lane"
+    "asset-lib-char-gen-2026-11-11:no-lane",
+    "asset-lib-asset-gen-scenes-2026-11-11:no-lane"
    ],
    "note": "CEO 2026-11-03：先储备资产，角色 LoRA 与音色库为 P0"
   }
@@ -865,21 +868,24 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 2,
+  "local": 6,
   "cloud": 0,
-  "queue": 6,
+  "queue": 3,
   "blocked": 0,
   "cloud_spend_today": 0,
   "waste": []
  },
  "supply_gap": {
   "cpu": 6,
-  "gpu": 2
+  "gpu": 3
  },
  "supply_added": [],
  "events": [
-  "biggame-pack-scan-2026-11-11 UNVERIFIED(no-artifact-yet) via bm-a",
-  "asset-lib-char-prompts-2026-11-11 DONE via bm-c",
+  "asset-lib-library-check-2026-11-11 FAILED via bm-b",
+  "REPAIR-R-PLAN-BIGCOMPUTE-20261111 -> bm-m (cpu)",
+  "REPAIR-R-NEXT-BIGSTREAMM-REBUILD-20261111 -> bm-m (cpu)",
+  "REPAIR-biggame-pack-scan-2026-11-11 -> bm-m (cpu)",
+  "REPAIR-R-MODEL-RADAR-BMB-20261111 -> bm-m (cpu)",
   "GAP-MV-LINE-20261111 -> bm-a (cpu)"
  ],
  "violations": [
@@ -889,9 +895,7 @@
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-a",
   "bm-b",
-  "bm-c",
   "bm-m"
  ]
 }

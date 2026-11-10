@@ -1,6 +1,6 @@
 {
  "node": "bm-b",
- "ts": "2026-11-11T00:21:46",
+ "ts": "2026-11-11T00:27:00",
  "jobs": [
   {
    "id": "bigmoney-signal-2026-11-11",
@@ -15,23 +15,9 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
-  },
-  {
-   "id": "asset-lib-library-check-2026-11-11",
-   "title": "[资产储备（角色 LoRA / 音色库）] 库体检（数量/规格/授权/缺口）",
-   "cmd": "python Tools/fleet/asset_library_check.py --tier p0 --out cph4/fleet/queue-receipts/asset-library-2026-11-11.json",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/asset-library-2026-11-11.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 10.0/1.0 GB"
+ "capacity_note": "ram 10.4/1.0 GB"
 }
