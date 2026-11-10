@@ -2,7 +2,7 @@
  "id": "asset-lib-voice-dataset-2026-11-11",
  "node": "bm-c",
  "rc": 1,
- "seconds": 32.5,
+ "seconds": 27.3,
  "cmd": "python Tools/fleet/asset_dataset_audit.py --mode voice --dir media/asset/voices --out cph4/fleet/queue-receipts/asset-voice-2026-11-11.json",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": "E-UNKNOWN",
  "deliverable": "cph4/fleet/queue-receipts/asset-voice-2026-11-11.json",
  "deliverable_exists": true,
- "ts": "2026-11-11T00:56:00",
+ "ts": "2026-11-11T00:58:01",
  "stdout_tail": "DATASET FAIL  media/asset/voices\n  {\"mode\": \"voice\", \"count\": 149, \"total_s\": 475.4, \"ok_len_ratio\": 1.0, \"pauses_per_min\": 12.1, \"lra_median\": 0.0, \"rights\": {\"declared\": true, \"path\": \"media\\\\asset\\\\voices\\\\batch-2026-11-07\\\\RIGHTS.json\", \"license\": \"unknown\", \"source\": \"\", \"real_person\": null, \"consent\": null}}\n  ! license='unknown' 涓嶅湪鍏佽�告竻鍗� ['own', 'public-domain', 'cc0', 'cc-by', 'licensed']锛坲nknown 绛変簬娌℃巿鏉冿級\n  ! RIGHTS.json 娌″啓 source锛堟潵婧愬繀椤诲彲杩芥函锛�\n  ! 鍝嶅害鍔ㄦ�� LRA 0.0 LU < 5锛堣��鍘嬪緱澶�骞�=鎾�闊宠厰锛�\n",
  "stderr_tail": ""
 }
