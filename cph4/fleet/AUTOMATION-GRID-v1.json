@@ -768,6 +768,22 @@
    "ok_rc": [
     0
    ]
+  },
+  {
+   "id": "C4",
+   "name": "重试闸：retries≥5 仍在跑的卡",
+   "domain": "C",
+   "cadence_s": 1800,
+   "kind": "probe",
+   "on_fail": "brain",
+   "ok_rc": [
+    0
+   ],
+   "accept": "重试≥5 的卡必须已 BLOCKED 并写最小解锁",
+   "cmd": "python3 -c \"import json,sys;rows=[json.loads(l) for l in open('cph4/fleet/PRODUCTION-QUEUE.jsonl',encoding='utf-8') if l.strip()];bad=[(r['id'],r.get('retries')) for r in rows if (r.get('retries') or 0)>=5 and r.get('state') not in ('BLOCKED','CANCELLED','DONE','ARCHIVED')];print('over_retry=%s'%bad[:5]);sys.exit(2 if bad else 0)\"",
+   "note": "2026-11-10 实锚：asset-lib-face-dataset 空转 23 次仍没进 BLOCKED；重试闸必须在第 5 次就拦",
+   "timeout_s": 60,
+   "enabled": true
   }
  ]
 }
