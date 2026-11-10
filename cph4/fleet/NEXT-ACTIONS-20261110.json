@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-10T08:39:58+0800",
+ "ts": "2026-11-10T08:47:21+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -177,8 +177,8 @@
    "accept": "—",
    "blocker_type": "CEO",
    "blocker": "无需求证据，恢复需 CEO 明令",
-   "state": "STALLED",
-   "card": null,
+   "state": "QUEUED",
+   "card": "PATROL-bighouse-20261110",
    "running_on": null
   },
   {
@@ -229,8 +229,8 @@
  ],
  "counts": {
   "RUNNING": 0,
-  "QUEUED": 1,
-  "STALLED": 14
+  "QUEUED": 2,
+  "STALLED": 13
  },
  "stalled_engine": 7
 }
