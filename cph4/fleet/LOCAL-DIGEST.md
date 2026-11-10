@@ -5189,3 +5189,9 @@
 - 11-10T23:14 · BIZ-BIGGAME-SUBMITPACK-20261110-bm-a.json · 机队回执显示 35 款产品因缺截图和运行包导致提交失败，存在交付风险。
 - 11-10T23:14 · BIZ-BIGGAME-SUBMITPACK-20261110-acceptance.json · 机队回执显示产物未落盘，任务失败且无风险。
 - 11-10T23:14 · skill-promote-20261110.json · 已完成基础任务，因工具缺失导致大量关键技能无法执行。
+- 11-10T23:15 · _last_lane_bm-m.json · 机队任务已暂停，因无可用分配而存在无法执行的风险。
+- 11-10T23:15 · REPAIR-GAP-ASSETLIB-CAP-20261111-acceptance.json · 机队回执因非标准产物被拒，存在合规风险。
+- 11-10T23:15 · REPAIR-GAP-ASSETLIB-CAP-20261111-bm-m.json · 已完成根因分析与修复方案制定，无当前风险。
+- 11-10T23:15 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
+- 11-10T23:15 · REPAIR-VERIFY-FIN-ETF-COMPOSITE-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物，无风险。
+- 11-10T23:15 · REPAIR-VERIFY-FIN-ETF-COMPOSITE-bm-m.json · 已完成机队回执生成，但存在因缺乏预验证数据导致状态悬空的风险。

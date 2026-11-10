@@ -1,49 +1,49 @@
 {
- "ts": "2026-11-10T23:10:39",
- "cycle": 1048,
+ "ts": "2026-11-10T23:15:54",
+ "cycle": 1049,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-10T23:10:39",
+ "master_tick_ts": "2026-11-10T23:15:54",
  "queue": {
-  "total": 1930,
-  "open": 6,
-  "running": 6,
-  "done": 684,
-  "failed": 6
+  "total": 1931,
+  "open": 5,
+  "running": 5,
+  "done": 689,
+  "failed": 5
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 25.8,
-   "cpu_load_pct": 63,
-   "ram_free_gb": 33.4,
-   "gpu_util_pct": 86,
-   "job": null,
+   "hb_age_s": 41.0,
+   "cpu_load_pct": 76,
+   "ram_free_gb": 27.5,
+   "gpu_util_pct": 91,
+   "job": "BIZ-BIGGAME-SUBMITPACK-20261110B",
    "last_result": {
-    "job": "BIZ-BIGGAME-SUBMITPACK-20261110",
-    "state": "FAILED",
+    "job": "GAP-BIGHOUSE-LINE-20261110",
+    "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-10T23:09:54",
+    "ts": "2026-11-10T23:14:53",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": false,
-   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+   "idle_reason": "",
    "idle_rounds": 0
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 83.3,
-   "cpu_load_pct": 4,
-   "ram_free_gb": 10.9,
-   "gpu_util_pct": 3,
-   "job": "GAP-BIGGAME-LINE-20261110",
+   "hb_age_s": 50.7,
+   "cpu_load_pct": 6,
+   "ram_free_gb": 9.2,
+   "gpu_util_pct": 2,
+   "job": "VERIFY-FIN-ETF-COMPOSITE",
    "last_result": {
-    "job": "asset-lib-accept-2026-11-10",
+    "job": "GAP-BIGGAME-LINE-20261110",
     "state": "FAILED",
-    "rc": 2,
-    "ts": "2026-11-10T23:10:03",
+    "rc": 0,
+    "ts": "2026-11-10T23:14:05",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -54,9 +54,9 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 71.5,
-   "cpu_load_pct": 15,
-   "ram_free_gb": 1.2,
+   "hb_age_s": 23.2,
+   "cpu_load_pct": 13,
+   "ram_free_gb": 2.4,
    "gpu_util_pct": 0,
    "job": "asset-lib-face-caption-2026-11-10",
    "last_result": {
@@ -75,16 +75,16 @@
   "bm-m": {
    "online": true,
    "hb_age_s": 2.1,
-   "cpu_load_pct": 24,
-   "ram_free_gb": 16.4,
+   "cpu_load_pct": 44,
+   "ram_free_gb": 15.1,
    "gpu_util_pct": null,
-   "job": "REPAIR-VERIFY-FIN-ETF-COMPOSITE",
+   "job": "GRID-G1-20261110T2248",
    "last_result": {
-    "job": null,
-    "state": "IDLE",
+    "job": "REPAIR-VERIFY-FIN-ETF-COMPOSITE",
+    "state": "DEFERRED",
     "rc": null,
-    "ts": "2026-11-10T23:09:52",
-    "reason": "SELF-DISPATCH: lane scans its own backlog",
+    "ts": "2026-11-10T23:15:32",
+    "reason": "NO-RUNNABLE-ASSIGNMENT",
     "out_bytes": null,
     "elapsed_s": null
    },
@@ -162,8 +162,7 @@
    "stale_after_h": 24.0,
    "owner": "游戏席",
    "jobs": [
-    "GAP-BIGGAME-LINE-20261110",
-    "GAP-BIGGAME-ART-20261111"
+    "BIZ-BIGGAME-SUBMITPACK-20261110B"
    ],
    "no_supply": false,
    "blockers": [],
@@ -191,7 +190,7 @@
    "stale_after_h": 24.0,
    "owner": "量化席",
    "jobs": [
-    "REPAIR-VERIFY-FIN-ETF-COMPOSITE"
+    "VERIFY-FIN-ETF-COMPOSITE"
    ],
    "no_supply": false,
    "blockers": [],
@@ -244,8 +243,7 @@
    "owner": "生态运营席",
    "jobs": [
     "PATROL-bighouse-20261110",
-    "UNBLOCK-PATROL-bighouse-20261109",
-    "GAP-BIGHOUSE-LINE-20261110"
+    "UNBLOCK-PATROL-bighouse-20261109"
    ],
    "no_supply": false,
    "blockers": [],
@@ -285,7 +283,7 @@
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
    "jobs": [
-    "REPAIR-NODE-SYNC-bm-b-2216"
+    "GRID-G1-20261110T2248"
    ],
    "no_supply": false,
    "blockers": [],
@@ -300,7 +298,7 @@
    "owner": "资产席",
    "jobs": [
     "asset-lib-face-caption-2026-11-10",
-    "REPAIR-GAP-ASSETLIB-CAP-20261111"
+    "asset-lib-accept-2026-11-10"
    ],
    "no_supply": false,
    "blockers": [],
@@ -853,7 +851,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 6,
+  "local": 5,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -861,16 +859,18 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 6,
+  "cpu": 5,
   "gpu": 0
  },
  "supply_added": [],
  "events": [
-  "BIZ-BIGGAME-SUBMITPACK-20261110 FAILED via bm-a",
-  "asset-lib-accept-2026-11-10 FAILED via bm-b",
-  "REPAIR-VERIFY-FIN-ETF-COMPOSITE -> bm-m (cpu)",
-  "REPAIR-NODE-SYNC-bm-b-2216 -> bm-m (cpu)",
-  "REPAIR-GAP-ASSETLIB-CAP-20261111 -> bm-m (cpu)"
+  "GAP-BIGHOUSE-LINE-20261110 DONE via bm-a",
+  "GAP-BIGGAME-LINE-20261110 FAILED via bm-b",
+  "asset-lib-face-caption-2026-11-10 -> bm-c (gpu)",
+  "asset-lib-accept-2026-11-10 -> bm-b (cpu)",
+  "BIZ-BIGGAME-SUBMITPACK-20261110B -> bm-a (cpu)",
+  "VERIFY-FIN-ETF-COMPOSITE -> bm-b (cpu)",
+  "GRID-G1-20261110T2248 -> bm-m (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 立意/分镜/导演席 (导演席（自决推进，CEO 巡视可随时否决）)",
@@ -881,6 +881,7 @@
  "lane_files_written": [
   "bm-a",
   "bm-b",
+  "bm-c",
   "bm-m"
  ]
 }
