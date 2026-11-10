@@ -6222,3 +6222,6 @@
 - 11-11T05:51 · GAP-ASSETLIB-BMC-2-bm-c.json · 已完成资产库排查报告生成，无错误风险。
 - 11-11T05:51 · GAP-ASSETLIB-BMC-2-acceptance.json · 完成机队回执提交，但被拒收因交付物非有效产物。
 - 11-11T05:51 · self-improve-bm-m-latest.json · 机队已确认无风险，代码与依赖均通过自检。
+- 11-11T05:52 · _last_lane_bm-m.json · 机队已自派完成回单扫描，无风险。
+- 11-11T05:52 · CANARY-20261111T055145-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物。
+- 11-11T05:52 · CANARY-20261111T055145-bm-m.json · 已完成端到端自检并生成产物，无风险。
