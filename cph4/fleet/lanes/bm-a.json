@@ -1,7 +1,21 @@
 {
  "node": "bm-a",
- "ts": "2026-11-11T03:32:03",
+ "ts": "2026-11-11T03:37:57",
  "jobs": [
+  {
+   "id": "NODE-SYNC-bm-a-20261111",
+   "title": "[self-heal] bm-a 分叉收口（reset 到 origin/main，先留备份分支）",
+   "cmd": "git -C . branch -f backup/bm-a-20261111 HEAD && git -C . reset --hard origin/main && git -C . log -1 --oneline > cph4/fleet/reports/node-sync-bm-a-20261111.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/reports/node-sync-bm-a-20261111.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
   {
    "id": "GAP-MV-BMA-20261111",
    "title": "[gap] bigstream-mv 证据（bm-a）",
@@ -17,20 +31,6 @@
    "timeout_s": 180
   },
   {
-   "id": "PEER-SYNC-bm-c-20261111",
-   "title": "[peer-heal] bm-a 用 WinRM 替 bm-c 收口",
-   "cmd": "powershell -NoProfile -Command \"$e=$null; try { Invoke-Command -ComputerName 100.123.74.104 -ScriptBlock { Set-Location 'K:\\Fluxgroup\\FluxGroup'; git fetch origin --prune; git branch -f backup/bm-c-20261111 HEAD 2>$null; git reset --hard origin/main; git log -1 --oneline } -ErrorAction Stop } catch { $e=$_.Exception.Message }; 'winrm_err='+$e | Out-File -Encoding utf8 cph4/fleet/reports/peer-sync-bm-c-20261111.md\"",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/peer-sync-bm-c-20261111.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
    "id": "VERIFY-ICONS-BMA-2",
    "title": "[verify] 图标自证（find 限时版）",
    "cmd": "timeout 60 find 软著申请材料 -name \"icon_512.png\" -mtime -2 2>/dev/null | wc -l > cph4/fleet/reports/verify-icons-bma.txt; find 软著申请材料 -name \"icon_512.png\" 2>/dev/null | wc -l >> cph4/fleet/reports/verify-icons-bma.txt",
@@ -43,9 +43,23 @@
    "when_all": [],
    "llm": null,
    "timeout_s": 120
+  },
+  {
+   "id": "NODE-SYNC-bm-a-0335",
+   "title": "[self-heal] bm-a 轻量收口（领先 18，且未拿到超时修复）",
+   "cmd": "git -C . branch -f backup/bm-a-0335 HEAD && git -C . reset --hard origin/main && git -C . log -1 --oneline > cph4/fleet/reports/node-sync-bm-a-0335.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/reports/node-sync-bm-a-0335.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": 90
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 47.4/1.0 GB"
+ "capacity_note": "ram 24.3/1.0 GB"
 }
