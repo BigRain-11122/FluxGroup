@@ -1,1 +1,1 @@
-缺料/环境：启动 bm-c ComfyUI 服务并确保 RAM≥4G，由 bm-c 执行。
+缺资源 (RAM<4G)；BM-C 执行 8188 启动 ComfyUI 后自动解锁；BM-C
