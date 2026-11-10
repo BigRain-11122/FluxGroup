@@ -5421,3 +5421,21 @@
 - 11-11T00:19 · R-MODEL-RADAR-BMM-20261111-bm-m.json · 已完成机队回执生成，无风险。
 - 11-11T00:20 · model-radar-bm-m-20261111.json · 已完成雷达模型修复任务，当前处于空闲状态且无风险。
 - 11-11T00:20 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
+- 11-11T00:22 · _last_lane_bm-m.json · 已完成雷达模型修复任务，无风险。
+- 11-11T00:22 · REPAIR-R-MODEL-RADAR-BMM-20261111-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-11T00:22 · REPAIR-R-MODEL-RADAR-BMM-20261111-bm-m.json · 已完成雷达模型故障诊断与修复计划，需人工介入排查服务异常。
+- 11-11T00:22 · UNBLOCK-asset-lib-face-caption-2026-11-10-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效文档。
+- 11-11T00:22 · UNBLOCK-asset-lib-face-caption-2026-11-10-bm-m.json · 已完成机队解堵，无风险。
+- 11-11T00:22 · UNBLOCK-VERIFY-FIN-ETF-COMPOSITE-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-11T00:22 · UNBLOCK-VERIFY-FIN-ETF-COMPOSITE-bm-m.json · 已完成机队缺料阻塞处理，无风险。
+- 11-11T00:22 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
+- 11-11T00:22 · triage-asset-lib-20261111.md · 机队回执显示资产产出新鲜且符合阈值，无风险可继续推进。
+- 11-11T00:22 · char-gen-plan-2026-11-11.json · 已完成 8 人角色回执，无风险。
+- 11-11T00:23 · asset-lib-char-prompts-2026-11-11-bm-c.json · 已完成机队回执生成，无风险。
+- 11-11T00:23 · asset-lib-char-prompts-2026-11-11-acceptance.json · 完成机队回执提交，但被拒收因交付物非标准产物。
+- 11-11T00:23 · _last_claim.json · 机队已空，无风险。
+- 11-11T00:23 · Q-TRIAGE-ASSETLIB-20261111-bm-c.json · 已完成资产库机队回执生成，无风险。
+- 11-11T00:23 · Q-TRIAGE-ASSETLIB-20261111-acceptance.json · 机队回执被拒，因交付物非所需文档且无风险。
+- 11-11T00:23 · R-MODEL-RADAR-BMM-20261111-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被拒收。
+- 11-11T00:23 · R-MODEL-RADAR-BMM-20261111-bm-m.json · 已完成机队回执生成，无风险。
+- 11-11T00:23 · model-radar-bm-m-20261111.json · 已跳过雷达修复任务，当前无风险。
