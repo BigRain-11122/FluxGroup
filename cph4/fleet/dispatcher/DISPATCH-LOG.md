@@ -1,21 +1,4 @@
-﻿[2026-11-08 19:21] FLAG CLOCK-SKEW max=2565.8ms precision=+/-410.7ms -> check hub path or node clock
-[2026-11-08 19:21] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
-[2026-11-08 19:21] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
-[2026-11-08 19:21] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=2 run=1 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=BUSY; flags=2
-[2026-11-08 19:31] FLAG CLOCK-SKEW max=2964.3ms precision=+/-451.9ms -> check hub path or node clock
-[2026-11-08 19:31] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
-[2026-11-08 19:31] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
-[2026-11-08 19:31] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=2 run=1 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=BUSY; flags=2
-[2026-11-08 19:31] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=2 run=1 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=BUSY; flags=2
-[2026-11-08 19:41] FLAG CLOCK-SKEW max=2631.8ms precision=+/-422.9ms -> check hub path or node clock
-[2026-11-08 19:41] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
-[2026-11-08 19:41] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
-[2026-11-08 19:41] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=2 run=1 lanejobs: a=0 b=0 c=0; idle: a=GPU-IDLE b=GPU-IDLE c=GPU-IDLE; flags=2
-[2026-11-08 19:51] FLAG CLOCK-SKEW max=2676.3ms precision=+/-424.4ms -> check hub path or node clock
-[2026-11-08 19:51] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
-[2026-11-08 19:51] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
-[2026-11-08 19:51] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=2 run=1 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=GPU-IDLE; flags=2
-[2026-11-08 20:01] FLAG CLOCK-SKEW max=3021.4ms precision=+/-426.7ms -> check hub path or node clock
+﻿[2026-11-08 20:01] FLAG CLOCK-SKEW max=3021.4ms precision=+/-426.7ms -> check hub path or node clock
 [2026-11-08 20:01] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
 [2026-11-08 20:01] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
 [2026-11-08 20:01] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=2 run=1 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=GPU-IDLE; flags=2
@@ -410,3 +393,8 @@
 [2026-11-11 01:52] PATROL fluxverse R62 | calls≈20 (shell=17, dedicated=3) | verdict=TRIGGER-ALL-OTHER-DOMAIN(19/19 snoozed)+RADAR-4PASS-2WATCH-1FAIL+1-ERRATA+5-CARRIED | 承载：statusface 冻结109.6h/DevLoop Disabled(1316 missed·复工漏复第16轮)·fleet_online 仍1(假心跳 online_true=0)·路径泄露第8轮 | 勘误：R61-5① 27,111B 差=chars vs bytes 量纲假缺陷已撤 | 新 P2：benchmarks WARN 100%轮次(同根)
 
 [2026-11-11 01:55] EVENT-SHIFT R33 | calls=38 (shell=36) | verdict=DISPATCHED-NOT-YET-BURNING + 3-CORRECTED | 触发=DL 22:31/23:01/23:11 CLOCK-SKEW×3 + 23:01 STARVED-EXEC bm-a + 23:11/23:21 BLOCKED-RAM bm-c（承载件） | ①CLOCK 承R31不重立法：01:34 CLOCK-SKEW.json hub bm-a -0.3ms(σ0.3)·bm-b MISSING(离线同源)·bm-c +4194ms(σ433.7)，Δ/σ=9.7<11-10提案动作线10倍→OBSERVE档 ②STARVED-EXEC bm-a=resolved（01:24-01:25 bm-a 出6份回执、pools a=GPU-IDLE） ③BLOCKED-RAM bm-c=假因修正：RAM 2.6→3.2G > ram_gate 地板1.0G（fleet_lane.ram_gate 实读），真堵点=全机队无 ComfyUI 在服务（bm-c 三张 GPU 卡 blocked_by=missing-input:comfyui@bm-c；同卡在 bm-a 跑亦报 WinError 10061；asset_gen/char_gen 只连 127.0.0.1:8188） | 四落单=COMFY-UP-BMC-20261111(P0/hard_nodes bm-c/need_mb 6000/comfy_guard+char_gen --probe-only 出回执为验收物) commit 72225cdec 已上 origin（card-contract PASS）；poke×3(01:40:45/01:43:02/01:48:21 全accepted)→01:53 复探 state=OPEN/owner=bm-c/未燃：单槽被 NODE-SYNC-bm-c-20261111(01:50:16 RUNNING)占用=排队非故障 | 五bm-b 三面复核仍离线（TCP 8790 超时、MiniGame b.json ts=10-29、quant bm-b.json mtime=10-30）＝物理件零催办；名下已无在飞卡 | 六新发现：gpu_lease ttl=7200s且 lane_agent 对 rc=2(LEASE-BUSY) 一律 defer 且无可见错误→被杀的 GPU 卡可让整机 GPU 线静默停2h（待裁）
+[2026-11-11 02:01] FLAG CLOCK-UNALIGNED old_schema=0 missing=1 -> P1 upgrade node heartbeat to v2 (ms ts+offset)
+[2026-11-11 02:01] FLAG STARVED-EXEC lane=bm-a open_cards=3 blocked=3 running=0 -> P1 supply failure: no executable card
+[2026-11-11 02:01] FLAG LANE-DOWN lane=bm-b verdict=OFFLINE -> P1 page lane owner
+[2026-11-11 02:01] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
+[2026-11-11 02:01] pools: bm-a=3open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=10 run=2 lanejobs: a=0 b=0 c=2; idle: a=BUSY b=OFFLINE c=GPU-IDLE; flags=4
