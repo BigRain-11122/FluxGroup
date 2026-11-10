@@ -1,0 +1,17 @@
+{
+ "id": "CMD-DSH-20261110T1922",
+ "node": "bm-m",
+ "rc": 0,
+ "seconds": 0.1,
+ "cmd": "python3 -c \"import json,collections;rows=[json.loads(l) for l in open('cph4/fleet/PRODUCTION-QUEUE.jsonl',encoding='utf-8') if l.strip()];c=collections.Counter(str(r.get('state')) for r in rows);open('cph4/fleet/reports/2026-11-10-dsh-command-test.md','w',encoding='utf-8').write('# DSH 指令连通性测试\\n\\n- 投令: DeepSeek Harness 会话（CEO 直令）\\n- 卡号: CMD-DSH-20261110T1922\\n- 执行路径: 自主脉冲 lane 自领自跑，无人工执行\\n- 队列行数: ' + str(len(rows)) + '\\n- 状态分布: ' + json.dumps(c,ensure_ascii=False,sort_keys=True) + '\\n- 验收: 本文件即产物\\n')\"",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "FAIL",
+ "error_class": "E-ARTIFACT",
+ "deliverable": "cph4/fleet/reports/2026-11-10-dsh-command-test.md",
+ "deliverable_exists": false,
+ "ts": "2026-11-10T19:17:07",
+ "stdout_tail": "",
+ "stderr_tail": ""
+}
