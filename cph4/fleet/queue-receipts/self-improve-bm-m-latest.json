@@ -1,13 +1,13 @@
 {
  "node": "bm-m",
- "ts": "2026-11-11T04:28:47",
+ "ts": "2026-11-11T04:32:09",
  "mode": "apply",
  "verdict": "SELF-OK",
  "checks": [
   {
    "check": "reload",
-   "code_age_s": 5971,
-   "receipt_age_s": 30,
+   "code_age_s": 6173,
+   "receipt_age_s": 33,
    "targets": [],
    "acted": false,
    "note": "executor produced a receipt after the last code edit",
@@ -16,14 +16,12 @@
   },
   {
    "check": "shells",
-   "cards": 1,
-   "shells": 1,
-   "ids": [
-    "REPAIR-GAP-FLUXVERSE-BMA-20261111"
-   ],
-   "acted": true,
-   "kept": 0,
-   "verdict": "PRUNED"
+   "cards": 0,
+   "shells": 0,
+   "ids": [],
+   "acted": false,
+   "verdict": "OK",
+   "note": "no assignment on this lane (not a shell problem)"
   },
   {
    "check": "deps",
