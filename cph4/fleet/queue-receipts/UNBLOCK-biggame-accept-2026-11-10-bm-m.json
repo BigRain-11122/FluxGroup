@@ -2,7 +2,7 @@
  "id": "UNBLOCK-biggame-accept-2026-11-10",
  "node": "bm-m",
  "rc": 0,
- "seconds": 2.1,
+ "seconds": 16.7,
  "cmd": "",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/repairs/biggame-accept-2026-11-10-unblock.md",
  "deliverable_exists": true,
- "ts": "2026-11-10T16:55:49",
- "stdout_tail": "缺人员，立即将 owner 从 bm-m 指派至可用责任人即可。",
+ "ts": "2026-11-10T16:57:12",
+ "stdout_tail": "缺权：owner=bm-m 未设访问。最小动作：分配读权限。由 bm-m 申请解锁。",
  "stderr_tail": ""
 }

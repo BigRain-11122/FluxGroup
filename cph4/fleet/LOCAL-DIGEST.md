@@ -4407,3 +4407,7 @@
 - 11-10T16:55 · _last_lane_bm-m.json · 机队任务已完成，无风险。
 - 11-10T16:55 · UNBLOCK-biggame-accept-2026-11-10-acceptance.json · 未提交有效回执，因缺乏交付物导致流程被拒。
 - 11-10T16:55 · UNBLOCK-biggame-accept-2026-11-10-bm-m.json · 已完成机队回执，无风险。
+- 11-10T16:57 · _last_lane_bm-m.json · 机队任务已完成，无风险。
+- 11-10T16:57 · self-improve-bm-m-latest.json · 已完成机队回执提交，无风险。
+- 11-10T16:57 · UNBLOCK-biggame-accept-2026-11-10-acceptance.json · 已完成机队回执提交，但因非标准产物被驳回，无安全风险。
+- 11-10T16:57 · UNBLOCK-biggame-accept-2026-11-10-bm-m.json · 已完成机队回执生成，存在因缺人需立即指派负责人的风险。
