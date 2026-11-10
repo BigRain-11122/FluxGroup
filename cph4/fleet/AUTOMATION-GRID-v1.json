@@ -571,7 +571,7 @@
    "domain": "N",
    "cadence_s": 604800,
    "kind": "probe",
-   "cmd": "python3 -c \"import os,sys,time;p='cph4/fleet/state/asset-license-ledger.jsonl';a=(time.time()-os.path.getmtime(p))/86400 if os.path.exists(p) else 999;print('ledger_age_d=%.1f'%a);sys.exit(2 if a>30 else (1 if a>7 else 0))\"",
+   "cmd": "python3 -c \"import glob,os,sys,time;led='cph4/fleet/state/asset-license-ledger.jsonl';src=glob.glob('cph4/fleet/reports/asset-license-source-*.json');al=(time.time()-os.path.getmtime(led))/86400 if os.path.exists(led) else 999;asrc=(time.time()-max(map(os.path.getmtime,src)))/86400 if src else 999;print('ledger_age_d=%.1f source_age_d=%.1f'%(al,asrc));sys.exit(0 if al<=30 else (1 if asrc<=7 else 2))\"",
    "on_fail": "brain",
    "accept": "每个商用素材有来源与授权记录",
    "timeout_s": 180,
@@ -579,7 +579,7 @@
    "ok_rc": [
     0
    ],
-   "note": "商用素材要有来源/授权台账，超过 7 天没更新就警告"
+   "note": "有台账=绿；只有来源清单=黄；都没有=红（不拿清单冒充授权台账）"
   },
   {
    "id": "N3",
