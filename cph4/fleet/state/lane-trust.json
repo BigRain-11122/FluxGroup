@@ -1,13 +1,13 @@
 {
- "ts": "2026-11-10T22:10:47",
+ "ts": "2026-11-10T22:15:55",
  "lanes": {
   "bm-m": {
    "tier": "production",
-   "why": "近7天 622 份回执",
-   "total": 858,
-   "d1": 80,
-   "d7": 622,
-   "last": "2026-11-10T22:10"
+   "why": "近7天 623 份回执",
+   "total": 859,
+   "d1": 81,
+   "d7": 623,
+   "last": "2026-11-10T22:15"
   },
   "192.168.2.128": {
    "tier": "probe-only",
@@ -35,19 +35,19 @@
   },
   "junshengsundeMacBook-Pro.local": {
    "tier": "production",
-   "why": "近7天 101 份回执",
-   "total": 101,
-   "d1": 74,
-   "d7": 101,
-   "last": "2026-11-10T22:05"
+   "why": "近7天 102 份回执",
+   "total": 102,
+   "d1": 75,
+   "d7": 102,
+   "last": "2026-11-10T22:14"
   },
   "bm-c": {
    "tier": "production",
-   "why": "近7天 120 份回执",
-   "total": 135,
-   "d1": 6,
-   "d7": 120,
-   "last": "2026-11-10T22:00"
+   "why": "近7天 122 份回执",
+   "total": 137,
+   "d1": 8,
+   "d7": 122,
+   "last": "2026-11-10T22:14"
   },
   "unknown": {
    "tier": "probe-only",
@@ -58,12 +58,12 @@
    "last": "2026-11-10T00:30"
   },
   "FLUXGROUP": {
-   "tier": "probe-only",
-   "why": "近7天仅 4 份回执（门槛 5）",
-   "total": 4,
-   "d1": 4,
-   "d7": 4,
-   "last": "2026-11-10T22:00"
+   "tier": "production",
+   "why": "近7天 6 份回执",
+   "total": 6,
+   "d1": 6,
+   "d7": 6,
+   "last": "2026-11-10T22:14"
   },
   "junshengsundemacbook-pro.local": {
    "tier": "production",

@@ -146,6 +146,14 @@ def git_publish(root, node, jid, paths):
     try:
         r = git(["push", "-f", "origin", "HEAD:refs/heads/node/%s" % node], timeout=180)
         if r.returncode == 0:
+            # 2026-11-10 实锚（bm-a 每 20 分钟就领先 10-13 个提交，reset 卡只能擦一次）：
+            # 推 node 分支只把产物放上共享面，但本地 HEAD 仍停在分叉上，下一张卡又往上叠，
+            # 雪球越滚越大、ff-only 永远失败。既然产物已安全落在 node/<node> 上，
+            # 就让工作树回到 origin/main：领先量不再累积，下一张卡从主线出发。
+            # 只在非主控机做：主控自己的提交要进 main，不能被这条兜底抹掉。
+            if node != "bm-m":
+                git(["reset", "--hard", "origin/main"], timeout=120)
+                return "pushed:node/%s (local reset to origin/main)" % node
             return "pushed:node/%s" % node
         return "push-failed:%s (node-branch:%s)" % (
             (last or "")[:50], (r.stderr or r.stdout or "")[:50])
