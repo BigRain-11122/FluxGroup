@@ -1,8 +1,23 @@
 {
  "node": "bm-a",
- "ts": "2026-11-10T19:26:33",
- "jobs": [],
- "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+ "ts": "2026-11-10T19:28:49",
+ "jobs": [
+  {
+   "id": "CMD-DSH-20261110T1929",
+   "title": "CEO 令：跨机受令测试（点名 bm-a）",
+   "cmd": "python -c \"import socket,datetime;open('cph4/fleet/reports/bm-a-ack.md','w',encoding='utf-8').write('# bm-a 受令回执\\n\\n- 卡号: CMD-DSH-20261110T1929\\n- 执行主机: '+socket.gethostname()+'\\n- 时间: '+datetime.datetime.now().isoformat(timespec=\\'seconds\\')+'\\n- 说明: 由自主 lane 自领执行，无人工介入\\n')\"",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/reports/bm-a-ack.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  }
+ ],
+ "idle_reason": "",
  "lane_ok": true,
  "capacity_note": "ram-unknown"
 }
