@@ -1,21 +1,21 @@
 {
- "ts": "2026-11-10T20:41:55",
+ "ts": "2026-11-10T20:51:55",
  "node": "bm-c",
  "paused": false,
- "verdict": "BLOCKED-CAPACITY",
+ "verdict": "BUSY",
  "capacity": {
   "gpu": {
    "util_pct": 0,
-   "used_mb": 1298,
+   "used_mb": 1293,
    "total_mb": 16384
   },
-  "ram_free_gb": 0.94,
-  "vram_free_mb": 15086,
+  "ram_free_gb": 3.79,
+  "vram_free_mb": 15091,
   "lease_held": false,
-  "can_gpu": false,
-  "can_cpu": false
+  "can_gpu": true,
+  "can_cpu": true
  },
- "idle_min": 0.7,
+ "idle_min": 0.2,
  "assigned": [
   {
    "kind": "assigned",
@@ -23,7 +23,7 @@
    "title": "[资产储备（角色 LoRA / 音色库）] 人脸数据集打标（vision 草稿，人只校对）",
    "prio": null,
    "needs": "gpu",
-   "feasible": false,
+   "feasible": true,
    "reason": "master lane file (authority)"
   }
  ],
@@ -34,7 +34,7 @@
    "title": "[资产储备（角色 LoRA / 音色库）] 人脸数据集打标（vision 草稿，人只校对）",
    "prio": null,
    "needs": "gpu",
-   "feasible": false,
+   "feasible": true,
    "reason": "master lane file (authority)"
   }
  ],
