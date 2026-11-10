@@ -1,13 +1,13 @@
 {
  "node": "bm-m",
- "ts": "2026-11-11T00:50:18",
+ "ts": "2026-11-11T00:53:47",
  "mode": "apply",
  "verdict": "SELF-OK",
  "checks": [
   {
    "check": "reload",
-   "code_age_s": 2060,
-   "receipt_age_s": 48,
+   "code_age_s": 2269,
+   "receipt_age_s": 6,
    "targets": [],
    "acted": false,
    "note": "executor produced a receipt after the last code edit",
@@ -16,15 +16,12 @@
   },
   {
    "check": "shells",
-   "cards": 2,
-   "shells": 2,
-   "ids": [
-    "UNBLOCK-NODE-SYNC-bm-b-2330",
-    "UNBLOCK-PRODUCE-FLUXVERSE-20261110"
-   ],
-   "acted": true,
-   "kept": 0,
-   "verdict": "PRUNED"
+   "cards": 0,
+   "shells": 0,
+   "ids": [],
+   "acted": false,
+   "verdict": "OK",
+   "note": "no assignment on this lane (not a shell problem)"
   },
   {
    "check": "deps",
