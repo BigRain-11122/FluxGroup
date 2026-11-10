@@ -4125,3 +4125,5 @@
 - 11-10T14:40 · skill-promote-20261110.json · 已完成基础任务，因工具缺失导致多项关键技能无法执行。
 - 11-10T14:40 · CANARY-CODELY2-143942-bm-m.json · 任务已完成，但存在 MCP 服务器连接失败的风险。
 - 11-10T14:40 · CANARY-CODELY-143927-BLOCKED-bm-m.json · 任务被因缺少合规声明而阻塞，无法继续执行。
+- 11-10T14:41 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-10T14:41 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
