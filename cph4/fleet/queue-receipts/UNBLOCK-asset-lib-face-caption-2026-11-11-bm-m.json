@@ -2,7 +2,7 @@
  "id": "UNBLOCK-asset-lib-face-caption-2026-11-11",
  "node": "bm-m",
  "rc": 0,
- "seconds": 17.1,
+ "seconds": 2.3,
  "cmd": "",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/repairs/asset-lib-face-caption-2026-11-11-unblock.md",
  "deliverable_exists": true,
- "ts": "2026-11-11T06:16:10",
- "stdout_tail": "缺人：请 owner 登录主机检查队列配置并恢复运行。",
+ "ts": "2026-11-11T06:17:24",
+ "stdout_tail": "缺权限：主建卡机立即清理旧备份队列并重建，再发创建命令。",
  "stderr_tail": ""
 }
