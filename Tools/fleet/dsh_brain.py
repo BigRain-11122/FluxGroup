@@ -295,8 +295,11 @@ def rules_violations(task, obj, payload):
 def ask_ollama(model, prompt, timeout, num_predict=800):
     body = json.dumps({
         "model": model, "prompt": prompt, "stream": False, "think": False,
-        "keep_alive": "15m",
-        "options": {"num_ctx": 8192, "num_predict": num_predict, "temperature": 0.2},
+        # 2026-11-10 实测：4B 在 num_ctx=8192 时占 12.7GB（bm-m 只剩 0.2GB 空闲），
+        # 单题 57-136s 且 9B 根本装不进来。判断类题的证据我已在 prompt 里截到 12k 字符，
+        # 4k 上下文足够；把上下文和租约都收小，内存和延迟一起降。
+        "keep_alive": "5m",
+        "options": {"num_ctx": 4096, "num_predict": num_predict, "temperature": 0.2},
     }).encode()
     t0 = time.time()
     try:
