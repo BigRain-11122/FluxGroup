@@ -6052,3 +6052,5 @@
 - 11-11T04:24 · UNBLOCK-GAP-MV-BMA-20261111-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效文档。
 - 11-11T04:24 · UNBLOCK-GAP-MV-BMA-20261111-bm-m.json · 已完成 GAP-MV-BMA 机队解堵，无风险，需立即刷新状态。
 - 11-11T04:24 · skill-promote-20261111.json · 已完成部分任务，因工具缺失导致多项技能无法执行。
+- 11-11T04:25 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-11T04:25 · _last_lane_bm-m.json · 机队已自派完成回单扫描，无风险。
