@@ -1,0 +1,88 @@
+{
+ "ts": "2026-11-11T03:43:24",
+ "node": "bm-m",
+ "os": "macOS-27.2-arm64-arm-64bit-Mach-O",
+ "python": "3.13.18",
+ "endpoint": "http://127.0.0.1:11434",
+ "models": [
+  {
+   "name": "qwen3.5:4b",
+   "size_gb": 3.97
+  },
+  {
+   "name": "qwen3.5:2b",
+   "size_gb": 3.12
+  },
+  {
+   "name": "qwen3:8b",
+   "size_gb": 5.23
+  },
+  {
+   "name": "qwen3:4b",
+   "size_gb": 2.5
+  },
+  {
+   "name": "qwen3.5:9b-mlx",
+   "size_gb": 8.9
+  },
+  {
+   "name": "deepseek-r1:14b",
+   "size_gb": 8.99
+  },
+  {
+   "name": "qwen3-embedding:0.6b",
+   "size_gb": 0.64
+  },
+  {
+   "name": "qwen3.5:4b-mlx",
+   "size_gb": 3.97
+  }
+ ],
+ "models_error": null,
+ "port_owner": [
+  {
+   "pid": "30986",
+   "image": "ollama",
+   "proto": "127.0.0.1:11434"
+  }
+ ],
+ "server_env": {
+  "OLLAMA_CONTEXT_LENGTH": "4096",
+  "OLLAMA_FLASH_ATTENTION": "1",
+  "OLLAMA_HOST": "127.0.0.1:11434",
+  "OLLAMA_KEEP_ALIVE": "30m",
+  "OLLAMA_KV_CACHE_TYPE": "q8_0",
+  "OLLAMA_MAX_LOADED_MODELS": "4",
+  "OLLAMA_NUM_PARALLEL": "6",
+  "_source": "plist(未在进程里读到)"
+ },
+ "measure": {
+  "model": "qwen3.5:4b-mlx",
+  "decode_tok_s": 37.7,
+  "engine": "mlx",
+  "prefix_cache": {
+   "first_wall": 42.64,
+   "second_wall": 24.32,
+   "hit": true
+  },
+  "concurrency": {
+   "serial_3": 1.31,
+   "parallel_3": 24.11,
+   "speedup": 0.05
+  }
+ },
+ "embedding": {
+  "model": null,
+  "usable": false,
+  "why": "没有可用的 embedding 模型"
+ },
+ "gaps": [
+  "env-value:OLLAMA_NUM_PARALLEL=6(应为 1)",
+  "env-value:OLLAMA_KEEP_ALIVE=30m(应为 15m)",
+  "env-value:OLLAMA_MAX_LOADED_MODELS=4(应为 1)",
+  "env-value:OLLAMA_CONTEXT_LENGTH=4096(应为 8192)",
+  "embedding-unusable:None"
+ ],
+ "verdict": "GAPS",
+ "seconds": 233.1
+}
