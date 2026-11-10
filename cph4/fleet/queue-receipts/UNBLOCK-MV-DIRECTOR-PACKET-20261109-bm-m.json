@@ -2,7 +2,7 @@
  "id": "UNBLOCK-MV-DIRECTOR-PACKET-20261109",
  "node": "bm-m",
  "rc": 0,
- "seconds": 66.9,
+ "seconds": 59.8,
  "cmd": "",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/repairs/MV-DIRECTOR-PACKET-20261109-unblock.md",
  "deliverable_exists": true,
- "ts": "2026-11-10T23:57:50",
- "stdout_tail": "①缺人 ②重新分配所有者并调度生产 ③由原负责人执行",
+ "ts": "2026-11-11T00:00:13",
+ "stdout_tail": "缺权限：授权 bm-a 重启或配置修改，由该机器执行人。",
  "stderr_tail": ""
 }
