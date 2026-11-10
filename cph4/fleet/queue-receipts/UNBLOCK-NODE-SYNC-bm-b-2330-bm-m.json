@@ -1,0 +1,17 @@
+{
+ "id": "UNBLOCK-NODE-SYNC-bm-b-2330",
+ "node": "bm-m",
+ "rc": 0,
+ "seconds": 75.8,
+ "cmd": "",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "cph4/fleet/repairs/NODE-SYNC-bm-b-2330-unblock.md",
+ "deliverable_exists": true,
+ "ts": "2026-11-11T00:46:58",
+ "stdout_tail": "缺权限（owner 缺失）；立即补全 owner 字段由原卡主机执行。",
+ "stderr_tail": ""
+}
