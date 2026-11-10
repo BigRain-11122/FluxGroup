@@ -1,6 +1,6 @@
 # 《可爱女人》KN PACK-A 复核卷
 
-- 生成：2026-11-10 19:19 · 机：bm-c · 脚本：Tools/fleet/review_packet.py
+- 生成：2026-11-10 19:20 · 机：bm-c · 脚本：Tools/fleet/review_packet.py
 - 用途：导演席一次读完即可 PASS/REVISE，不必逐档翻找。
 
 ## 一、成片
