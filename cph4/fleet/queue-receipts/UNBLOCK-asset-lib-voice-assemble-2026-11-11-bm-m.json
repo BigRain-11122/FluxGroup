@@ -2,7 +2,7 @@
  "id": "UNBLOCK-asset-lib-voice-assemble-2026-11-11",
  "node": "bm-m",
  "rc": 0,
- "seconds": 38.9,
+ "seconds": 63.8,
  "cmd": "",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/repairs/asset-lib-voice-assemble-2026-11-11-unblock.md",
  "deliverable_exists": true,
- "ts": "2026-11-11T02:00:12",
- "stdout_tail": "缺权限：申请 bm-a 主管开通审批权，由 owner 所在环境执行。",
+ "ts": "2026-11-11T02:09:26",
+ "stdout_tail": "缺权限：需 bm-a 申请开通管理权限。由当前机器执行。",
  "stderr_tail": ""
 }
