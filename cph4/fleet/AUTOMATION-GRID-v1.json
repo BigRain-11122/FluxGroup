@@ -35,7 +35,8 @@
    "timeout_s": 90,
    "cmd": "python3 Tools/fleet/node_write_health.py --json > cph4/fleet/state/write-health.json; python3 Tools/fleet/node_write_health.py",
    "accept": "40 分钟内有过回执写入；有在跑卡却零回执 = 推不回来",
-   "note": "2026-11-11 实锚：bm-a 领先 32、reset 连失败、node 分支也推不上，但它在跑卡——「有在跑卡却 40 分钟零回执」= 写链路断，不是没干活。内联 python 版本被转义打散，改独立脚本。"
+   "note": "2026-11-11 实锚：bm-a 领先 32、reset 连失败、node 分支也推不上，但它在跑卡——「有在跑卡却 40 分钟零回执」= 写链路断，不是没干活。内联 python 版本被转义打散，改独立脚本。 ｜ 这是标准物理件（bm-a 写链路），会一直红到现场修好；标 suppress_noise 让它保持可见但不算噪声",
+   "suppress_noise": true
   },
   {
    "id": "A1",
@@ -752,7 +753,7 @@
    "domain": "R",
    "cadence_s": 3600,
    "kind": "probe",
-   "cmd": "python3 -c \"import json,os,sys,collections,datetime;p='cph4/fleet/state/grid-escalations.jsonl';st=json.load(open('cph4/fleet/state/grid-state.json',encoding='utf-8'));cad={i['id']:int(i.get('cadence_s') or 3600) for i in json.load(open('cph4/fleet/AUTOMATION-GRID-v1.json',encoding='utf-8'))['items']};now=datetime.datetime.now();rows=[];[rows.append(json.loads(l)) for l in open(p,encoding='utf-8')] if os.path.exists(p) else None;c=collections.Counter()\nfor r in rows:\n  if r.get('status')!='FAIL': continue\n  if cad.get(r['id'],3600)>=3600: continue\n  try: age=(now-datetime.datetime.fromisoformat(r['ts'])).total_seconds()\n  except Exception: continue\n  if age>7200: continue\n  if (st.get(r['id']) or {}).get('status')!='FAIL': continue\n  c[r['id']]+=1\nd={k:v for k,v in c.items() if v>3};print('noisy=%s'%d);sys.exit(2 if d else 0)\"",
+   "cmd": "python3 -c \"import json,os,sys,collections,datetime;p='cph4/fleet/state/grid-escalations.jsonl';st=json.load(open('cph4/fleet/state/grid-state.json',encoding='utf-8'));G=json.load(open('cph4/fleet/AUTOMATION-GRID-v1.json',encoding='utf-8'))['items'];cad={i['id']:int(i.get('cadence_s') or 3600) for i in G};sup={i['id'] for i in G if i.get('suppress_noise')};now=datetime.datetime.now();rows=[];[rows.append(json.loads(l)) for l in open(p,encoding='utf-8')] if os.path.exists(p) else None;c=collections.Counter()\nfor r in rows:\n  if r.get('status')!='FAIL': continue\n  if cad.get(r['id'],3600)>=3600: continue\n  if r['id'] in sup: continue\n  try: age=(now-datetime.datetime.fromisoformat(r['ts'])).total_seconds()\n  except Exception: continue\n  if age>7200: continue\n  if (st.get(r['id']) or {}).get('status')!='FAIL': continue\n  c[r['id']]+=1\nd={k:v for k,v in c.items() if v>3};print('noisy=%s'%d);sys.exit(2 if d else 0)\"",
    "on_fail": "brain",
    "accept": "同一项 1 小时内不重复升级 >3 次",
    "timeout_s": 180,
