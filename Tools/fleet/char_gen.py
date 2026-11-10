@@ -198,10 +198,21 @@ def main(argv):
                 json.dump(mk, f, ensure_ascii=False, indent=1)
             print("[char_gen] probed -> %s | route=%s" % (os.path.relpath(conf_path, ROOT), mk.get("route")))
         if a.probe_only:
-            return 0 if mk.get("route") else blocked(
-                "本机 ComfyUI 没有任何可用 checkpoint/unet",
-                ["装一个能出人像的模型（SDXL 系）再跑；不要用 KF 专用模型硬顶人像"],
-                outrec)
+            if not mk.get("route"):
+                return blocked(
+                    "本机 ComfyUI 没有任何可用 checkpoint/unet",
+                    ["装一个能出人像的模型（SDXL 系）再跑；不要用 KF 专用模型硬顶人像"],
+                    outrec)
+            # 2026-11-11：探针成功路径原本只写 conf、不写 --receipt，卡片 rc=0 却被判
+            # E-ARTIFACT（deliverable_exists=false）——成功被记成失败，卡会反复重派。
+            rec = {"probe_only": True, "node": a.node, "server": a.server, "rc": 0,
+                   "outcome": "OK", "ts": time.strftime("%Y-%m-%dT%H:%M:%S"),
+                   "conf": os.path.relpath(conf_path, ROOT),
+                   "route": mk.get("route"), "ckpt": mk.get("ckpt"),
+                   "available": mk.get("available")}
+            json.dump(rec, open(outrec, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+            print("[char_gen] receipt -> %s" % os.path.relpath(outrec, ROOT))
+            return 0
     except Exception as e:
         return blocked("ComfyUI 不可达或 /object_info 失败：%s" % a.server,
                        ["在 %s 上启动 ComfyUI 并确认 8188 可连（%s）" % (a.node, e)], outrec)
