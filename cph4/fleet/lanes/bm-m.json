@@ -1,23 +1,8 @@
 {
  "node": "bm-m",
- "ts": "2026-11-10T23:15:56",
- "jobs": [
-  {
-   "id": "GRID-G1-20261110T2248",
-   "title": "[grid] G1 自愈：素材缺口盘点",
-   "cmd": "python -c \"print('no fix defined')\"",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/grid-g1-20261110t2248.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  }
- ],
- "idle_reason": "",
+ "ts": "2026-11-10T23:18:30",
+ "jobs": [],
+ "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
  "lane_ok": true,
  "capacity_note": "ram 15.1/1.0 GB"
 }

@@ -1,24 +1,24 @@
 {
- "ts": "2026-11-10T23:15:54",
- "cycle": 1049,
+ "ts": "2026-11-10T23:18:43",
+ "cycle": 1051,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-10T23:15:54",
+ "master_tick_ts": "2026-11-10T23:18:43",
  "queue": {
   "total": 1931,
   "open": 5,
   "running": 5,
-  "done": 689,
-  "failed": 5
+  "done": 690,
+  "failed": 0
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 41.0,
-   "cpu_load_pct": 76,
-   "ram_free_gb": 27.5,
-   "gpu_util_pct": 91,
-   "job": "BIZ-BIGGAME-SUBMITPACK-20261110B",
+   "hb_age_s": 29.5,
+   "cpu_load_pct": 35,
+   "ram_free_gb": 24.8,
+   "gpu_util_pct": 90,
+   "job": "MV-DIRECTOR-PACKET-20261109",
    "last_result": {
     "job": "GAP-BIGHOUSE-LINE-20261110",
     "state": "DONE",
@@ -34,16 +34,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 50.7,
+   "hb_age_s": 219.1,
    "cpu_load_pct": 6,
    "ram_free_gb": 9.2,
    "gpu_util_pct": 2,
-   "job": "VERIFY-FIN-ETF-COMPOSITE",
+   "job": "asset-lib-accept-2026-11-10",
    "last_result": {
-    "job": "GAP-BIGGAME-LINE-20261110",
-    "state": "FAILED",
+    "job": "VERIFY-FIN-ETF-COMPOSITE",
+    "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-10T23:14:05",
+    "ts": "2026-11-10T23:18:22",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -54,9 +54,9 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 23.2,
-   "cpu_load_pct": 13,
-   "ram_free_gb": 2.4,
+   "hb_age_s": 39.5,
+   "cpu_load_pct": 18,
+   "ram_free_gb": 0.8,
    "gpu_util_pct": 0,
    "job": "asset-lib-face-caption-2026-11-10",
    "last_result": {
@@ -74,30 +74,30 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 2.1,
-   "cpu_load_pct": 44,
-   "ram_free_gb": 15.1,
+   "hb_age_s": 1.6,
+   "cpu_load_pct": 14,
+   "ram_free_gb": 16.2,
    "gpu_util_pct": null,
-   "job": "GRID-G1-20261110T2248",
+   "job": null,
    "last_result": {
-    "job": "REPAIR-VERIFY-FIN-ETF-COMPOSITE",
-    "state": "DEFERRED",
+    "job": null,
+    "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-10T23:15:32",
-    "reason": "NO-RUNNABLE-ASSIGNMENT",
+    "ts": "2026-11-10T23:18:41",
+    "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
-   "idle_confirmed": false,
-   "idle_reason": "",
-   "idle_rounds": 0
+   "idle_confirmed": true,
+   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+   "idle_rounds": 1
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 0
+  "bm-m": 1
  },
  "lines": {
   "bigstream-mv": {
@@ -107,8 +107,10 @@
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "MV-STAB-0001-003-OUT"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": null,
    "stuck_stage": "mv-plan",
@@ -189,10 +191,8 @@
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "量化席",
-   "jobs": [
-    "VERIFY-FIN-ETF-COMPOSITE"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": "2026-11-04 夜班重启：原回测阶段钉 bm-d，而 bm-d 自 10-29 离线；改由 bm-b（有 quant 仓与数据）出「下月持仓信号 CSV」，主控按 P1 恢复派单。",
    "stuck_stage": "quant-data",
@@ -278,14 +278,12 @@
   "fleet-ops": {
    "name": "机队运维·端到端自检（平台服务线）",
    "status": "ACTIVE",
-   "verdict": "WORKING",
+   "verdict": "WAITING",
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
-   "jobs": [
-    "GRID-G1-20261110T2248"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": null
   },
@@ -314,7 +312,7 @@
     "model": "cloud-smart",
     "lane": null,
     "verdict": "STALLED",
-    "age_h": 31.9,
+    "age_h": 32.1,
     "limit_h": 24.0,
     "jobs": []
    },
@@ -326,7 +324,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "STALLED",
-     "age_h": 31.9,
+     "age_h": 32.1,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -337,7 +335,7 @@
      "model": "local-gpu",
      "lane": "bm-c",
      "verdict": "STALLED",
-     "age_h": 31.9,
+     "age_h": 32.1,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -359,7 +357,7 @@
      "model": "none",
      "lane": "bm-a",
      "verdict": "STALLED",
-     "age_h": 31.9,
+     "age_h": 32.1,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -381,7 +379,7 @@
      "model": "none",
      "lane": null,
      "verdict": "WAITING",
-     "age_h": 72.7,
+     "age_h": 72.8,
      "limit_h": 9999.0,
      "jobs": []
     }
@@ -397,7 +395,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "PARKED",
-     "age_h": 23.1,
+     "age_h": 23.3,
      "limit_h": 48.0,
      "jobs": []
     },
@@ -446,7 +444,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "PARKED",
-     "age_h": 268.4,
+     "age_h": 268.6,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -457,7 +455,7 @@
      "model": "local-gpu",
      "lane": "bm-c",
      "verdict": "PARKED",
-     "age_h": 268.4,
+     "age_h": 268.6,
      "limit_h": 72.0,
      "jobs": []
     }
@@ -473,7 +471,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "PARKED",
-     "age_h": 202.0,
+     "age_h": 202.1,
      "limit_h": 168.0,
      "jobs": []
     },
@@ -484,7 +482,7 @@
      "model": "none",
      "lane": "bm-a",
      "verdict": "PARKED",
-     "age_h": 268.4,
+     "age_h": 268.6,
      "limit_h": 168.0,
      "jobs": []
     }
@@ -498,7 +496,7 @@
     "model": "cloud-smart",
     "lane": null,
     "verdict": "STALLED",
-    "age_h": 173.8,
+    "age_h": 174.0,
     "limit_h": 24.0,
     "jobs": []
    },
@@ -510,7 +508,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "STALLED",
-     "age_h": 173.8,
+     "age_h": 174.0,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -584,7 +582,7 @@
     "model": "none",
     "lane": "bm-b",
     "verdict": "STALLED",
-    "age_h": 155.1,
+    "age_h": 155.2,
     "limit_h": 24.0,
     "jobs": []
    },
@@ -596,7 +594,7 @@
      "model": "none",
      "lane": "bm-b",
      "verdict": "STALLED",
-     "age_h": 155.1,
+     "age_h": 155.2,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -731,7 +729,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "PARKED",
-     "age_h": 195.2,
+     "age_h": 195.4,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -756,7 +754,7 @@
     "model": "none",
     "lane": "bm-a",
     "verdict": "STALLED",
-    "age_h": 82.5,
+    "age_h": 82.7,
     "limit_h": 72.0,
     "jobs": []
    },
@@ -768,7 +766,7 @@
      "model": "none",
      "lane": "bm-a",
      "verdict": "STALLED",
-     "age_h": 82.5,
+     "age_h": 82.7,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -779,7 +777,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "STALLED",
-     "age_h": 82.5,
+     "age_h": 82.7,
      "limit_h": 72.0,
      "jobs": []
     }
@@ -795,7 +793,7 @@
      "model": "none",
      "lane": null,
      "verdict": "WAITING",
-     "age_h": 0.6,
+     "age_h": 0.8,
      "limit_h": 24.0,
      "jobs": []
     }
@@ -811,7 +809,7 @@
      "model": "rule",
      "lane": "bm-c",
      "verdict": "WAITING",
-     "age_h": 0.7,
+     "age_h": 0.9,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -833,7 +831,7 @@
      "model": "local-gpu",
      "lane": "bm-c",
      "verdict": "WAITING",
-     "age_h": 0.7,
+     "age_h": 0.9,
      "limit_h": 72.0,
      "jobs": []
     }
@@ -863,25 +861,12 @@
   "gpu": 0
  },
  "supply_added": [],
- "events": [
-  "GAP-BIGHOUSE-LINE-20261110 DONE via bm-a",
-  "GAP-BIGGAME-LINE-20261110 FAILED via bm-b",
-  "asset-lib-face-caption-2026-11-10 -> bm-c (gpu)",
-  "asset-lib-accept-2026-11-10 -> bm-b (cpu)",
-  "BIZ-BIGGAME-SUBMITPACK-20261110B -> bm-a (cpu)",
-  "VERIFY-FIN-ETF-COMPOSITE -> bm-b (cpu)",
-  "GRID-G1-20261110T2248 -> bm-m (cpu)"
- ],
+ "events": [],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 立意/分镜/导演席 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
- "lane_files_written": [
-  "bm-a",
-  "bm-b",
-  "bm-c",
-  "bm-m"
- ]
+ "lane_files_written": []
 }
