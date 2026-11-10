@@ -16,3 +16,4 @@
 | B-ENV | bm-b 的 git 仓库被卡住的 fetch 占锁（22:16 起 20+ 分钟），后续 reset/切片卡全部排队 | 人工在 bm-b 上删 `index.lock`/`shallow.lock` 并重启 FluxGroup-FleetLink + HQ-ProductionClaim；主控侧已改用"不 fetch 的轻量 reset"避免再触发 | CEO/现场（物理件）；S7 自愈（轻量卡） | 否 |
 | B-ENV | bm-b 于 00:30 起 /status 完全探不到（此前是 git 锁，现在整机/服务不可达） | 现场检查 bm-b：电源/睡眠、Tailscale 在线、FluxGroup-FleetLink 任务；恢复后先清 git 锁再谈派卡 | CEO/现场 | 否 |
 | B-INPUT | MV v716 成片缺失：卡面引用的 `cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v716.mp4` 在 bm-a 与主控仓都不存在（仓内只有 test-reel）；Q-MV-0001-003 的 PASS 无法复验 | 到 bm-a 上确认真实成片路径（可能在 D: 或交付盘），把卡面 deliverable/命令改成真实路径；找不到就按“产物丢失”重渲 | S7 自愈（取证卡）；CEO（若需重渲授权） | 否 |
+| B-ENV | bm-c lane 停摆：02:15 起 last_pull 戳冻结（15 分钟不动），COMFY-UP 卡无回执失败 | 重启 bm-c 的 HQ-ProductionClaim；再手动起 ComfyUI(127.0.0.1:8188) 并确认 RAM≥4G，之后 GPU 卡统一重派 | CEO/现场 | 否 |
