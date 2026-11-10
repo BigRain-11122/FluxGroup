@@ -5788,3 +5788,10 @@
 - 11-11T02:15 · UNBLOCK-asset-lib-asset-gen-scenes-2026-11-11-bm-m.json · 已完成机队回执生成，无风险，需授权 owner 处理缺人阻塞。
 - 11-11T02:17 · _last_lane_bm-m.json · 机队任务已运行中，当前无风险。
 - 11-11T02:17 · skill-promote-20261111.json · 已跳过多项因工具缺失或重复的任务，当前无风险。
+- 11-11T02:19 · _last_lane_bm-m.json · 资产生成任务因无可用分配被推迟，存在无法执行的风险。
+- 11-11T02:19 · UNBLOCK-asset-lib-asset-gen-scenes-2026-11-11-acceptance.json · 机队回执被拒，因交付物非有效产物且无风险。
+- 11-11T02:19 · UNBLOCK-asset-lib-asset-gen-scenes-2026-11-11-bm-m.json · 已完成资产库解锁，存在因缺少所有者导致的权限风险。
+- 11-11T02:19 · UNBLOCK-asset-lib-asset-gen-2026-11-11-acceptance.json · 机队回执被拒，因交付物非有效产物且无风险。
+- 11-11T02:19 · UNBLOCK-asset-lib-asset-gen-2026-11-11-bm-m.json · 已完成机队资产解锁，无风险。
+- 11-11T02:19 · MV-STAB-Q-MV-0001-003-bm-a.json · 运行稳定性检查脚本失败，因合同错误导致任务终止。
+- 11-11T02:19 · MV-STAB-Q-MV-0001-003-acceptance.json · 完成机队回执提交，但被拒收因交付物非标准产物。
