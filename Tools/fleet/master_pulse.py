@@ -323,6 +323,7 @@ STAGES = [
     ("local_tasks", ["Tools/fleet/local_task.py", "drain", "--limit", "3", "--seed",
                      "--adaptive"], 300, {0, 2, 3}, True),
     ("decision_close", ["Tools/fleet/decision_close.py"], 60, {0, 2}, True),
+    ("cloud_run", ["Tools/fleet/cloud_runner.py", "--limit", "1"], 300, {0}, True),
     ("judge", ["Tools/fleet/local_judge.py"], 180, {0}, True),
     ("brain", ["Tools/fleet/brain_service.py"], 240, {0}, True),
     # Business production (2026-10-31 CEO: 本地 AI 赋能业务). Biz drafts one deliverable per
