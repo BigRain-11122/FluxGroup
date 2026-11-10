@@ -5170,3 +5170,9 @@
 - 11-10T23:09 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
 - 11-10T23:09 · GRID-G1-20261110T2248-acceptance.json · 机队回执显示产物未落盘，任务失败且无风险。
 - 11-10T23:09 · GRID-G1-20261110T2248-bm-m.json · 任务失败，因未定义修复方案导致交付物缺失。
+- 11-10T23:11 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-10T23:11 · _last_claim.json · 机队已空，无风险。
+- 11-10T23:11 · GAP-BIGGAME-ART-20261111-bm-c.json · 已完成机队大游戏线排查报告生成，无错误风险。
+- 11-10T23:11 · GAP-BIGGAME-ART-20261111-acceptance.json · 机队未提交有效回执，因缺乏必要产出文件被驳回。
+- 11-10T23:11 · GAP-ASSETLIB-CAP-20261111-bm-c.json · 已完成资产库排查报告生成，无错误风险。
+- 11-10T23:11 · GAP-ASSETLIB-CAP-20261111-acceptance.json · 完成资产库回执提交，但被拒因非标准产物且无风险。
