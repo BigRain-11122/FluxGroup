@@ -2,8 +2,8 @@
 
 | 节点 | 在线 | 能力 | 本地模型 | 心跳 | 在办 |
 |---|---|---|---|---|---|
-| bm-a | 是 | cpu,kf768,i2v768,audio,assemble,llm | - | 414s | - |
-| bm-b | 是 | cpu,animatic480,audio,tts,llm | - | 3s | - |
-| bm-c | 是 | cpu,kf768,i2v768,audio,render,llm | - | 3s | - |
-| bm-m | 是 | cpu,ios-build,text,llm,audio,tts | qwen3.5:2b,qwen3:4b,qwen3:8b-dsh32k,qwen3.5:4b,qwen3-embedding:0.6b,qwen3.5:4b-mlx,qwen3:1.7b,qwen3:8b,qwen3:4b-instruct | 1s | REPAIR-Q-MV-0001-003,REPAIR-asset-lib-char-gen-2026-11-06,REPAIR-R-TRIAGE-FLUXVERSE-BMB-20261110,REPAIR-PROBE-BMB-TOOLCHAIN-20261110,UNBLOCK-biggame-accept-2026-11-09 |
-| bm-d | 否 | cpu,kf768,i2v768,backtest,brain,llm | - | 340883s | - |
+| bm-a | 是 | cpu,kf768,i2v768,audio,assemble,llm | - | 291s | MV-DIRECTOR-PACKET-20261109 |
+| bm-b | 是 | cpu,animatic480,audio,tts,llm | - | 193s | - |
+| bm-c | 是 | cpu,kf768,i2v768,audio,render,llm | - | 89s | - |
+| bm-m | 是 | cpu,ios-build,text,llm,audio,tts | qwen3.5:2b,qwen3:4b,qwen3:8b-dsh32k,qwen3.5:4b,qwen3-embedding:0.6b,qwen3.5:4b-mlx,qwen3:1.7b,qwen3:8b,qwen3:4b-instruct | 1s | CANARY-20261110T163727 |
+| bm-d | 否 | cpu,kf768,i2v768,backtest,brain,llm | - | 341352s | - |
