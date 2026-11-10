@@ -1,0 +1,17 @@
+{
+ "id": "PRODUCE-ICONS-BMC-20261111",
+ "node": "bm-c",
+ "rc": 0,
+ "seconds": 0.5,
+ "cmd": "python Tools/fleet/icon_render_local.py --render-all && python -c \"import glob,os;fs=glob.glob('软著申请材料/**/icon_512.png',recursive=True);print('icons=%d'%len(fs));open('cph4/fleet/reports/icon-count.txt','w',encoding='utf-8').write(str(len(fs)))\"",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "cph4/fleet/reports/icon-count.txt",
+ "deliverable_exists": true,
+ "ts": "2026-11-11T05:04:35",
+ "stdout_tail": "  OK 杞�钁楃敵璇锋潗鏂橽FluxVerse_FluxVerse\\icon_512.png\n  OK 杞�钁楃敵璇锋潗鏂橽G02_TimeRepairShop\\icon_512.png\n  OK 杞�钁楃敵璇锋潗鏂橽G03_MergeMania\\icon_512.png\n  OK 杞�钁楃敵璇锋潗鏂橽G06_ArrowRush\\icon_512.png\n  OK 杞�钁楃敵璇锋潗鏂橽G13_鎴戞兂鏈変釜鍐滃満\\icon_512.png\n  OK 杞�钁楃敵璇锋潗鏂橽P04_DemonTamer\\icon_512.png\nmade=6 log=cph4\\fleet\\game-v1\\ICON-RENDER-LOG.jsonl\nicons=34\n",
+ "stderr_tail": ""
+}
