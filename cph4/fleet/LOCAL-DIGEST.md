@@ -5597,3 +5597,15 @@
 - 11-11T01:04 · biggame-accept-2026-11-11-bm-c.json · 机队质量检查失败，因缺少 game-10s 且存在编码错误。
 - 11-11T01:06 · biggame-accept-2026-11-11-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被拒绝。
 - 11-11T01:06 · _last_claim.json · 机队已空，无风险。
+- 11-11T01:08 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
+- 11-11T01:08 · _last_lane_bm-m.json · 机队任务已暂缓，因无可用分配而存在运行风险。
+- 11-11T01:08 · quality-biggame-2026-11-11.json · 机队回执显示“游戏包”通过但“游戏十秒”缺失，整体判定失败，存在交付风险。
+- 11-11T01:08 · biggame-accept-2026-11-11-bm-c.json · 机队质量检查失败，因缺少游戏 -10s 且存在编码错误。
+- 11-11T01:08 · biggame-accept-2026-11-11-acceptance.json · 完成机队回执提交，但被拒收因交付物非有效产物。
+- 11-11T01:08 · UNBLOCK-NODE-SYNC-bm-b-20261111-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-11T01:08 · UNBLOCK-NODE-SYNC-bm-b-20261111-bm-m.json · 已完成节点同步，但存在因权限缺失导致操作受阻的风险。
+- 11-11T01:08 · UNBLOCK-GAP-MV-LINE-20261111-acceptance.json · 已完成机队回执提交，但因非标准产物被驳回。
+- 11-11T01:08 · UNBLOCK-GAP-MV-LINE-20261111-bm-m.json · 已完成 GAP-MV-LINE 机队解锁，无风险。
+- 11-11T01:08 · UNBLOCK-R-NEXT-BIGSTREAMM-REBUILD-20261111-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-11T01:09 · UNBLOCK-R-NEXT-BIGSTREAMM-REBUILD-20261111-bm-m.json · 已完成机队解堵，无风险。
+- 11-11T01:09 · _last_claim.json · 机队已清空且无风险，但当前处于空池状态。
