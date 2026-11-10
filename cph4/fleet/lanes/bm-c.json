@@ -1,14 +1,14 @@
 {
  "node": "bm-c",
- "ts": "2026-11-10T23:53:42",
+ "ts": "2026-11-11T00:04:12",
  "jobs": [
   {
-   "id": "asset-lib-face-caption-2026-11-10",
-   "title": "[资产储备（角色 LoRA / 音色库）] 人脸数据集打标（vision 草稿，人只校对）",
-   "cmd": "python Tools/fleet/asset_caption.py --dir media/asset/faces --out cph4/fleet/queue-receipts/asset-caption-2026-11-10.json",
+   "id": "asset-lib-env-check-2026-11-11",
+   "title": "[资产储备（角色 LoRA / 音色库）] 训练环境自检（这台机能不能烧）",
+   "cmd": "python Tools/fleet/asset_env_check.py --out cph4/fleet/queue-receipts/asset-env-2026-11-11.json",
    "cwd": "",
-   "needs": "gpu",
-   "deliverable": "cph4/fleet/queue-receipts/asset-caption-2026-11-10.json",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/asset-env-2026-11-11.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -17,21 +17,77 @@
    "timeout_s": null
   },
   {
-   "id": "PRODUCE-BIGGAME-ONEPAGER-B",
-   "title": "[produce] biggame 提审一页（脚本版，bm-c）",
-   "cmd": "python Tools/fleet/biggame_onepager.py --src cph4/fleet/reports/submit-pack-20261110.json --out cph4/fleet/reports/biggame-submit-onepager.md",
+   "id": "R-TRIAGE-BIGSTREAMMV-BMC-20261111",
+   "title": "BigStream·MV 41 曲 线证据扫描（bm-c 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line bigstream-mv --node bm-c --out cph4/fleet/queue-receipts/triage-bigstream-mv-bm-c-20261111.md",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/biggame-submit-onepager.md",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigstream-mv-bm-c-20261111.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
    "when_all": [],
    "llm": null,
-   "timeout_s": 120
+   "timeout_s": null
+  },
+  {
+   "id": "R-TRIAGE-BIGGAME-BMC-20261111",
+   "title": "Biggame·游戏 线证据扫描（bm-c 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line biggame --node bm-c --out cph4/fleet/queue-receipts/triage-biggame-bm-c-20261111.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-biggame-bm-c-20261111.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "R-MODEL-RADAR-BMA-20261111",
+   "title": "本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-a）",
+   "cmd": "python Tools/fleet/model_radar.py run --node bm-a --idle-only --apply",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/model-radar-bm-a-20261111.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "R-MODEL-RADAR-BMC-20261111",
+   "title": "本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-c）",
+   "cmd": "python Tools/fleet/model_radar.py run --node bm-c --idle-only --apply",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/model-radar-bm-c-20261111.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "Q-TRIAGE-BIGSTREAMMV-20261111",
+   "title": "bigstream-mv 线级体检（本机证据目录实况）",
+   "cmd": "python Tools/fleet/line_triage.py --line bigstream-mv --out cph4/fleet/queue-receipts/triage-bigstream-mv-20261111.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigstream-mv-20261111.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 2.1/1.0 GB"
+ "capacity_note": "ram 2.8/1.0 GB"
 }

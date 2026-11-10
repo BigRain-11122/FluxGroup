@@ -1,8 +1,79 @@
 {
  "node": "bm-b",
- "ts": "2026-11-10T23:50:58",
- "jobs": [],
- "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+ "ts": "2026-11-11T00:04:12",
+ "jobs": [
+  {
+   "id": "R-PLAN-BIGDOMAIN-20261111",
+   "title": "BigDomain·硅基域商业化 线级体检与缺口清单",
+   "cmd": "python Tools/fleet/line_triage.py --line bigdomain --out cph4/fleet/queue-receipts/triage-bigdomain-20261111.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigdomain-20261111.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "R-PLAN-BIGMONEY-20261111",
+   "title": "BigMoney·量化 线级体检与缺口清单",
+   "cmd": "python Tools/fleet/line_triage.py --line bigmoney --out cph4/fleet/queue-receipts/triage-bigmoney-20261111.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigmoney-20261111.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "bigmoney-backtest-2026-11-11",
+   "title": "[金融量化（回测 → 一页结论 → 可报价或写清卡点）] 生产候选回测（去债档 + 8% 波动目标）",
+   "cmd": "python quant/bigmoney/scripts/etf_nobond_vt.py",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "quant/bigmoney/results/etf_nobond_vt.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "R-MODEL-RADAR-BMB-20261111",
+   "title": "本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-b）",
+   "cmd": "python Tools/fleet/model_radar.py run --node bm-b --idle-only --apply",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/model-radar-bm-b-20261111.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "Q-TRIAGE-BIGGAME-20261111",
+   "title": "biggame 线级体检（本机证据目录实况）",
+   "cmd": "python Tools/fleet/line_triage.py --line biggame --out cph4/fleet/queue-receipts/triage-biggame-20261111.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-biggame-20261111.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  }
+ ],
+ "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 9.3/1.0 GB"
+ "capacity_note": "ram 6.0/1.0 GB"
 }

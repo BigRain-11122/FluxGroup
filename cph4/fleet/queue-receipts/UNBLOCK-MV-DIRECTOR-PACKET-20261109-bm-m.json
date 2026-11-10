@@ -1,0 +1,17 @@
+{
+ "id": "UNBLOCK-MV-DIRECTOR-PACKET-20261109",
+ "node": "bm-m",
+ "rc": 0,
+ "seconds": 81.5,
+ "cmd": "",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "cph4/fleet/repairs/MV-DIRECTOR-PACKET-20261109-unblock.md",
+ "deliverable_exists": true,
+ "ts": "2026-11-11T00:01:21",
+ "stdout_tail": "缺料阻塞；需 BM-A 机执行补料或换模；立即重新发料并重启产线。",
+ "stderr_tail": ""
+}
