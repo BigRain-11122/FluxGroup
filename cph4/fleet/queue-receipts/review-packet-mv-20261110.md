@@ -1,6 +1,6 @@
 # MV 41 曲 新流程卷
 
-- 生成：2026-11-10 16:20 · 机：bm-c · 脚本：Tools/fleet/review_packet.py
+- 生成：2026-11-10 16:21 · 机：bm-c · 脚本：Tools/fleet/review_packet.py
 - 用途：导演席一次读完即可 PASS/REVISE，不必逐档翻找。
 
 ## 一、成片
