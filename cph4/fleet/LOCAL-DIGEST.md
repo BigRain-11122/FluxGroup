@@ -3930,3 +3930,9 @@
 - 11-10T12:57 · CANARY-20261110T125607-acceptance.json · 机队回执因非有效产物被拒，存在合规风险。
 - 11-10T12:57 · CANARY-20261110T125607-bm-m.json · 已完成端到端自检并生成产物，无风险。
 - 11-10T12:57 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-10T12:58 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-10T12:58 · self-improve-bm-m-latest.json · 机队已确认无风险，代码与依赖均通过自检。
+- 11-10T12:58 · CANARY-20261110T125607-acceptance.json · 完成机队回执提交，但被拒收因交付物非有效产物。
+- 11-10T12:58 · CANARY-20261110T125607-bm-m.json · 已完成机队自检并生成产物，无风险。
+- 11-10T12:59 · self-improve-bm-m-latest.json · 机队已确认无风险，代码与依赖均通过检查。
+- 11-10T12:59 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
