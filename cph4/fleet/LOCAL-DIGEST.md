@@ -5500,3 +5500,16 @@
 - 11-11T00:41 · REPAIR-R-NEXT-BIGSTREAMM-REBUILD-20261111-bm-m.json · 已完成视频上传任务，因文件结构性问题导致验证失败，存在需人工替换重试的风险。
 - 11-11T00:40 · REPAIR-R-MODEL-RADAR-BMB-20261111-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
 - 11-11T00:40 · REPAIR-R-MODEL-RADAR-BMB-20261111-bm-m.json · 已完成机队回执生成，但存在因脏数据导致任务终止的风险。
+- 11-11T00:43 · REPAIR-biggame-pack-scan-2026-11-11-acceptance.json · 机队回执被拒，因交付物非有效产物且无风险。
+- 11-11T00:43 · REPAIR-biggame-pack-scan-2026-11-11-bm-m.json · 已完成卡片失败根因分析与修复方案制定，当前无执行风险但需人工介入验证。
+- 11-11T00:43 · _last_lane_bm-m.json · 任务因无可用资源被推迟，存在无法按时修复的风险。
+- 11-11T00:43 · brain-fleet-ops-2026-11-11.md · 完成机队运行周报，发现时钟漂移与误报风险并制定修正方案。
+- 11-11T00:43 · triage-biggame-20261111.md · 机队回执显示最新产出未达阈值，需由游戏席补全美术与工程输入。
+- 11-11T00:43 · _last_claim.json · 机队已清空且无风险，但当前处于空池状态。
+- 11-11T00:43 · Q-TRIAGE-BIGGAME-20261111-bm-c.json · 已完成机队回执生成，无错误风险。
+- 11-11T00:43 · Q-TRIAGE-BIGGAME-20261111-acceptance.json · 机队回执被拒，因交付物非标准产物且无风险。
+- 11-11T00:43 · REPAIR-R-NEXT-BIGSTREAMM-REBUILD-20261111-acceptance.json · 已完成机队回执提交，但被拒因交付物非预期产物。
+- 11-11T00:43 · REPAIR-R-NEXT-BIGSTREAMM-REBUILD-20261111-bm-m.json · 已完成视频交付但卡在未验证状态，需人工介入检查并手动推进流程。
+- 11-11T00:44 · skill-promote-20261111.json · 已完成部分任务，因工具缺失导致多项技能无法执行。
+- 11-11T00:44 · REPAIR-R-MODEL-RADAR-BMB-20261111-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
+- 11-11T00:44 · REPAIR-R-MODEL-RADAR-BMB-20261111-bm-m.json · 已完成机队回执生成，但存在因缺乏重试机制导致任务永久挂起的风险。
