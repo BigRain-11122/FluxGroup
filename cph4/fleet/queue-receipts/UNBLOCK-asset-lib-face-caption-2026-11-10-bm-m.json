@@ -2,7 +2,7 @@
  "id": "UNBLOCK-asset-lib-face-caption-2026-11-10",
  "node": "bm-m",
  "rc": 0,
- "seconds": 60.9,
+ "seconds": 64.8,
  "cmd": "",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/repairs/asset-lib-face-caption-2026-11-10-unblock.md",
  "deliverable_exists": true,
- "ts": "2026-11-11T00:20:12",
- "stdout_tail": "缺料阻塞；重启产线并手动刷新物料信号；BM-C 执行。",
+ "ts": "2026-11-11T00:22:32",
+ "stdout_tail": "缺料阻塞，需补位信号；机执行，恢复生产。",
  "stderr_tail": ""
 }
