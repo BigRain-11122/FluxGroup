@@ -2833,3 +2833,4 @@
 {"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 31.2, "chars": 53, "why": "fleet_brain:pick", "ts": "2026-11-10T22:55:24"}
 {"cls": "master", "op": "generate", "err": "timed out", "why": "fleet_brain:pick", "ts": "2026-11-10T22:59:54"}
 {"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 82.4, "chars": 130, "why": "master-digest", "ts": "2026-11-10T23:02:10"}
+{"cls": "master", "op": "generate", "err": "timed out", "why": "fleet_brain:pick", "ts": "2026-11-10T23:04:18"}
