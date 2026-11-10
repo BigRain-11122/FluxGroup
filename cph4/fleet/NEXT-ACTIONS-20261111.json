@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-11T04:57:59+0800",
+ "ts": "2026-11-11T05:09:46+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -42,9 +42,9 @@
    "accept": "quant_signal 回执 rc=0 且 CSV 含因子值与输入指纹",
    "blocker_type": "ENGINE",
    "blocker": "回测产物需在 bm-b 本地生成；主控无 quant 仓",
-   "state": "RUNNING",
-   "card": "REPAIR-GAP-BIGMONEY-BMA-20261111",
-   "running_on": "bm-m"
+   "state": "STALLED",
+   "card": null,
+   "running_on": null
   },
   {
    "id": "bigstream-mv",
@@ -57,9 +57,9 @@
    "accept": "发布台账有回执行；或 CEO 给出重剪清单",
    "blocker_type": "ENGINE",
    "blocker": "发布决定权在 CEO，但工程侧可先做下一首立意案",
-   "state": "STALLED",
-   "card": null,
-   "running_on": null
+   "state": "RUNNING",
+   "card": "GAP-MV-BMA-2",
+   "running_on": "bm-a"
   },
   {
    "id": "bigstream-drama",
