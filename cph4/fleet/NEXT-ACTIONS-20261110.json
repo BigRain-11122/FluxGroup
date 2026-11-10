@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-10T23:50:56+0800",
+ "ts": "2026-11-10T23:59:57+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -27,9 +27,9 @@
    "accept": "SUBMIT-PACK 里『隐私政策』『提审台账』两类缺件归零",
    "blocker_type": "CEO",
    "blocker": "截图需跑游戏取图，受 2026-10-28『不许自动跑游戏包』令约束，等放行",
-   "state": "RUNNING",
-   "card": "PRODUCE-BIGGAME-ONEPAGER",
-   "running_on": "bm-a"
+   "state": "STALLED",
+   "card": null,
+   "running_on": null
   },
   {
    "id": "bigmoney",
@@ -58,8 +58,8 @@
    "blocker_type": "ENGINE",
    "blocker": "发布决定权在 CEO，但工程侧可先做下一首立意案",
    "state": "RUNNING",
-   "card": "GAP-MV-LINE-20261111",
-   "running_on": "bm-a"
+   "card": "UNBLOCK-MV-STAB-0001-003-OUT",
+   "running_on": "bm-m"
   },
   {
    "id": "bigstream-drama",
@@ -118,8 +118,8 @@
    "blocker_type": "ENGINE",
    "blocker": "四仓不在本机，需在对应机器生成投影",
    "state": "RUNNING",
-   "card": "PRODUCE-FLUXVERSE-20261110",
-   "running_on": "bm-a"
+   "card": "REPAIR-PRODUCE-FLUXVERSE-20261110",
+   "running_on": "bm-m"
   },
   {
    "id": "bigdomain",
@@ -223,14 +223,14 @@
    "blocker_type": "ENGINE",
    "blocker": "I2 存量 125 条卡面路径债、vault 缺盘 651 条",
    "state": "RUNNING",
-   "card": "NODE-SYNC-bm-b-2330",
-   "running_on": "bm-b"
+   "card": "NODE-SYNC-bm-a-20261110",
+   "running_on": "bm-a"
   }
  ],
  "counts": {
-  "RUNNING": 5,
+  "RUNNING": 4,
   "QUEUED": 2,
-  "STALLED": 8
+  "STALLED": 9
  },
  "stalled_engine": 3
 }
