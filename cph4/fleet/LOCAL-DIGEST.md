@@ -5684,3 +5684,5 @@
 - 11-11T01:33 · GAP-ASSETLIB-LEDGER-20261111-bm-a.json · 已完成资产库机队排查报告生成，无错误风险。
 - 11-11T01:33 · GAP-ASSETLIB-LEDGER-20261111-acceptance.json · 完成机队回执提交，但被拒收因交付物非标准产物。
 - 11-11T01:33 · skill-promote-20261111.json · 已跳过多项因工具缺失或重复的任务，当前无风险。
+- 11-11T01:35 · _last_lane_bm-m.json · 机队任务已挂起，因无可用资源无法运行，存在执行风险。
+- 11-11T01:35 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
