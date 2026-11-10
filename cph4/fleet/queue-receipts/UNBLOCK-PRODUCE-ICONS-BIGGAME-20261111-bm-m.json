@@ -2,7 +2,7 @@
  "id": "UNBLOCK-PRODUCE-ICONS-BIGGAME-20261111",
  "node": "bm-m",
  "rc": 0,
- "seconds": 31.4,
+ "seconds": 49.4,
  "cmd": "",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/repairs/PRODUCE-ICONS-BIGGAME-20261111-unblock.md",
  "deliverable_exists": true,
- "ts": "2026-11-11T04:11:59",
- "stdout_tail": "阻塞类型：缺人；最小解锁动作：BM-A 重新指派 owner；解锁后执行机：bm-a。",
+ "ts": "2026-11-11T04:13:04",
+ "stdout_tail": "阻塞类型：缺权限；最小动作：申请 bm-a 权限复核；执行机：bm-a。",
  "stderr_tail": ""
 }
