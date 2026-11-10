@@ -5860,3 +5860,9 @@
 - 11-11T02:47 · CANARY-20261111T024402-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物。
 - 11-11T02:47 · UNBLOCK-MV-STAB-Q-MV-0001-003-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效文档。
 - 11-11T02:47 · UNBLOCK-MV-STAB-Q-MV-0001-003-bm-m.json · 任务已完成但存在风险：因权限不足导致无法自动重提，需人工介入授权。
+- 11-11T02:49 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
+- 11-11T02:49 · _last_lane_bm-m.json · 机队任务已运行中，当前无风险。
+- 11-11T02:49 · REPAIR-asset-lib-asset-gen-2026-11-11-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被拒收。
+- 11-11T02:49 · REPAIR-asset-lib-asset-gen-2026-11-11-bm-m.json · 已完成机队回执生成，但存在因资源耗尽导致任务阻塞的风险。
+- 11-11T02:49 · NODE-SYNC-bm-c-20261111-bm-c.json · 同步机队失败，因文件被占用导致无法创建索引锁。
+- 11-11T02:49 · NODE-SYNC-bm-c-20261111-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物，无风险。
