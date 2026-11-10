@@ -2728,3 +2728,4 @@
 {"cls": "master", "op": "generate", "err": "timed out", "why": "fleet_brain:pick", "ts": "2026-11-10T20:13:03"}
 {"cls": "master", "op": "generate", "err": "timed out", "why": "fleet_brain:pick", "ts": "2026-11-10T20:15:22"}
 {"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 30.5, "chars": 102, "why": "master-digest", "ts": "2026-11-10T20:16:46"}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 33.4, "chars": 52, "why": "fleet_brain:pick", "ts": "2026-11-10T20:17:42"}
