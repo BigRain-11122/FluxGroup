@@ -5952,3 +5952,5 @@
 - 11-11T03:35 · asset-lib-face-caption-2026-11-11-bm-c.json · 任务失败，因输入被阻断导致无风险。
 - 11-11T03:35 · asset-lib-face-caption-2026-11-11-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
 - 11-11T03:35 · asset-caption-2026-11-11.json · 已完成机队回执，因无待打标图片存在风险。
+- 11-11T03:37 · _last_lane_bm-m.json · 机队任务已推迟，因无可用资源分配而存在执行风险。
+- 11-11T03:37 · self-improve-bm-m-latest.json · 机队已完成回执提交并清理冗余，无风险。
