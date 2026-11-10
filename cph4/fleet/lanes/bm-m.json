@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-10T16:24:27",
+ "ts": "2026-11-10T16:25:19",
  "jobs": [
   {
    "id": "REPAIR-Q-MV-0001-003",
@@ -47,5 +47,11 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 10.7/1.0 GB"
+ "capacity_note": "ram 10.7/1.0 GB",
+ "cards": [],
+ "pruned_shells": [
+  "REPAIR-Q-MV-0001-003",
+  "REPAIR-C-FIN-ETF-COMPOSITE",
+  "REPAIR-asset-lib-char-gen-2026-11-06"
+ ]
 }
