@@ -1,4 +1,8 @@
-﻿[2026-11-08 20:11] FLAG CLOCK-UNALIGNED old_schema=0 missing=1 -> P1 upgrade node heartbeat to v2 (ms ts+offset)
+﻿[2026-11-08 20:01] FLAG CLOCK-SKEW max=3021.4ms precision=+/-426.7ms -> check hub path or node clock
+[2026-11-08 20:01] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
+[2026-11-08 20:01] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
+[2026-11-08 20:01] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=2 run=1 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=GPU-IDLE; flags=2
+[2026-11-08 20:11] FLAG CLOCK-UNALIGNED old_schema=0 missing=1 -> P1 upgrade node heartbeat to v2 (ms ts+offset)
 [2026-11-08 20:11] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
 [2026-11-08 20:11] FLAG LANE-DOWN lane=bm-b verdict=SVC_DOWN -> P1 page lane owner
 [2026-11-08 20:11] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
@@ -395,6 +399,8 @@
 [2026-11-11 02:01] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
 [2026-11-11 02:01] pools: bm-a=3open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=10 run=2 lanejobs: a=0 b=0 c=2; idle: a=BUSY b=OFFLINE c=GPU-IDLE; flags=4
 [2026-11-11 02:05] EVENT-SHIFT R33-ADD | 实例：asset-lib-asset-gen-2026-11-11 在 bm-c 悬 38min 被 stall 释放（note="STALL: 2281s 无新输出 sig=0"），证实「缺 ComfyUI 的 GPU 卡会吃掉整个单槽」。处置：char-gen / asset-gen-scenes / asset-gen(props) 三卡按 lane_agent 既有律转 BLOCKED（blocked_by=missing-input:comfyui@bm-c，解锁条件=COMFY-UP-BMC-20261111 探针出 route），commit bd50aafa。face-caption 未动（走 ollama vision 不需 ComfyUI，02:01:26 认领在跑）。提交前已核 local==origin 卡集合 2018/2018 无删卡，纳入后 origin 2025 行。现状：修复卡 OPEN / owner bm-c，排在 face-caption 后面＝排队。
+
+[2026-11-08 20:11] FLAG CLOCK-UNALIGNED old_schema=0 missing=1 -> P1 upgrade node heartbeat to v2 (ms ts+offset)
 [2026-11-11 02:11] FLAG CLOCK-UNALIGNED old_schema=0 missing=1 -> P1 upgrade node heartbeat to v2 (ms ts+offset)
 [2026-11-11 02:11] FLAG LANE-DOWN lane=bm-b verdict=OFFLINE -> P1 page lane owner
 [2026-11-11 02:11] pools: bm-a=3open/0exec/3run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=6 run=5 lanejobs: a=3 b=1 c=1; idle: a=BUSY b=OFFLINE c=GPU-IDLE; flags=2
