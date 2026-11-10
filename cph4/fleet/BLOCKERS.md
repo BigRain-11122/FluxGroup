@@ -17,3 +17,4 @@
 | B-ENV | bm-b 于 00:30 起 /status 完全探不到（此前是 git 锁，现在整机/服务不可达） | 现场检查 bm-b：电源/睡眠、Tailscale 在线、FluxGroup-FleetLink 任务；恢复后先清 git 锁再谈派卡 | CEO/现场 | 否 |
 | B-INPUT | MV v716 成片缺失：卡面引用的 `cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v716.mp4` 在 bm-a 与主控仓都不存在（仓内只有 test-reel）；Q-MV-0001-003 的 PASS 无法复验 | 到 bm-a 上确认真实成片路径（可能在 D: 或交付盘），把卡面 deliverable/命令改成真实路径；找不到就按“产物丢失”重渲 | S7 自愈（取证卡）；CEO（若需重渲授权） | 否 |
 | B-ENV | bm-c lane 停摆：02:15 起 last_pull 戳冻结（15 分钟不动），COMFY-UP 卡无回执失败 | 重启 bm-c 的 HQ-ProductionClaim；再手动起 ComfyUI(127.0.0.1:8188) 并确认 RAM≥4G，之后 GPU 卡统一重派 | CEO/现场 | 否 |
+| B-ENV | 三台 Windows 的 git 写入链路同时异常：bm-a 领先 32 且 reset 卡连失败、reset 不落 node 分支；bm-c 的 GPU 卡与 bm-a 的 reset 都"无回执"失败；bm-b 不可达 | 逐台现场：`git push --dry-run` 看是凭证还是网络；清 index.lock/shallow.lock；确认 SSH key/token 未过期。这是今晚停机的主因，主控无法远程代替 | CEO/现场 | 否 |
