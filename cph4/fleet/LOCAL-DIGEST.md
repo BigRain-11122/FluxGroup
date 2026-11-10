@@ -5633,3 +5633,5 @@
 - 11-11T01:18 · REPAIR-biggame-accept-2026-11-11-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被驳回，无安全风险。
 - 11-11T01:18 · REPAIR-biggame-accept-2026-11-11-bm-m.json · 已完成根因诊断与修复方案制定，暂无风险。
 - 11-11T01:18 · _last_lane_bm-m.json · 已完成机队维修任务，当前运行中无风险。
+- 11-11T01:20 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
+- 11-11T01:20 · skill-promote-20261111.json · 已完成部分任务，因工具缺失导致大量技能无法执行。
