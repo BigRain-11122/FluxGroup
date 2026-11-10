@@ -5878,3 +5878,9 @@
 - 11-11T03:00 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
 - 11-11T03:00 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
 - 11-11T03:02 · _last_lane_bm-m.json · 机队已清完积压任务，无风险。
+- 11-11T03:04 · _last_lane_bm-m.json · 机队已就绪，心跳正常，无风险。
+- 11-11T03:04 · asset-lib-face-caption-2026-11-11-bm-c.json · 任务失败，因输入被阻断且无输出文件。
+- 11-11T03:04 · asset-lib-face-caption-2026-11-11-acceptance.json · 完成机队回执提交，但被拒收因交付物非有效产物。
+- 11-11T03:04 · asset-caption-2026-11-11.json · 已完成机队回执，因无待打标图片存在风险。
+- 11-11T03:04 · _last_claim.json · 机队已空且无风险，但无法完成调度任务。
+- 11-11T03:04 · skill-promote-20261111.json · 已完成部分任务，因工具缺失导致多项技能无法执行。
