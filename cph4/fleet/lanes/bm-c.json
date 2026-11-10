@@ -1,6 +1,6 @@
 {
  "node": "bm-c",
- "ts": "2026-11-11T01:42:16",
+ "ts": "2026-11-11T01:43:09",
  "jobs": [
   {
    "id": "asset-lib-asset-gen-2026-11-11",
@@ -15,20 +15,6 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
-  },
-  {
-   "id": "NODE-SYNC-bm-c-0130",
-   "title": "[self-heal] bm-c 轻量收口（领先 3，不 fetch）",
-   "cmd": "git -C . branch -f backup/bm-c-0130 HEAD && git -C . reset --hard origin/main && git -C . log -1 --oneline > cph4/fleet/reports/node-sync-bm-c-0130.md",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/node-sync-bm-c-0130.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": 90
   }
  ],
  "idle_reason": "",
