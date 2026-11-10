@@ -1,0 +1,17 @@
+{
+ "id": "MV-DIRECTOR-PACKET-20261109",
+ "node": "bm-m",
+ "rc": 0,
+ "seconds": 0.4,
+ "cmd": "python Tools/fleet/review_packet.py --line kn --root .",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "FAIL",
+ "error_class": "E-ARTIFACT",
+ "deliverable": "cph4/fleet/queue-receipts/review-packet-kn-20261109.md",
+ "deliverable_exists": false,
+ "ts": "2026-11-10T19:18:43",
+ "stdout_tail": "PACKET /Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/review-packet-kn-20261110.md\n",
+ "stderr_tail": ""
+}

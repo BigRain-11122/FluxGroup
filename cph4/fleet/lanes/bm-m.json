@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-10T19:17:16",
+ "ts": "2026-11-10T19:18:42",
  "jobs": [
   {
    "id": "MV-DIRECTOR-PACKET-20261109",
@@ -17,12 +17,26 @@
    "timeout_s": null
   },
   {
-   "id": "CMD-DSH-20261110T1922",
-   "title": "CEO 令：机队听令测试（git 内产物版）",
-   "cmd": "python -c \"import json,collections;rows=[json.loads(l) for l in open('cph4/fleet/PRODUCTION-QUEUE.jsonl',encoding='utf-8') if l.strip()];c=collections.Counter(str(r.get('state')) for r in rows);open('cph4/fleet/reports/2026-11-10-dsh-command-test.md','w',encoding='utf-8').write('# DSH 指令连通性测试\\n\\n- 投令: DeepSeek Harness 会话（CEO 直令）\\n- 卡号: CMD-DSH-20261110T1922\\n- 执行路径: 自主脉冲 lane 自领自跑，无人工执行\\n- 队列行数: ' + str(len(rows)) + '\\n- 状态分布: ' + json.dumps(c,ensure_ascii=False,sort_keys=True) + '\\n- 验收: 本文件即产物\\n')\"",
+   "id": "CMD-DSH-20261110T1916",
+   "title": "CEO 令：验证机队听令并产出（投卡→自领→执行→回执→产物）",
+   "cmd": "python -c \"import json,collections,datetime;rows=[json.loads(l) for l in open('cph4/fleet/PRODUCTION-QUEUE.jsonl',encoding='utf-8') if l.strip()];c=collections.Counter(str(r.get('state')) for r in rows);open(r'cph4/fleet/state/canary/CMD-DSH-20261110T1916.txt','w',encoding='utf-8').write('DSH-FLEET-COMMAND-TEST 20261110T1916\\nissuer: DeepSeek Harness session (CEO 直令)\\nexecuted_by: autonomous pulse lane (no manual run)\\nqueue_rows: %d\\nstates: %s\\n' % (len(rows), json.dumps(c,ensure_ascii=False,sort_keys=True)))\"",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/2026-11-10-dsh-command-test.md",
+   "deliverable": "cph4/fleet/state/canary/CMD-DSH-20261110T1916.txt",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "CMD-DSH-20261110T1930",
+   "title": "CEO 令：慢速卡对照（sleep 3 后写产物）",
+   "cmd": "python -c \"import time;time.sleep(3);open('cph4/fleet/reports/t3.md','w',encoding='utf-8').write('# t3 ok\\n')\"",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/reports/t3.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -33,5 +47,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 13.2/1.0 GB"
+ "capacity_note": "ram 7.4/1.0 GB"
 }
