@@ -6351,3 +6351,18 @@
 - 11-11T06:33 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
 - 11-11T06:33 · skill-promote-20261111.json · 已完成部分任务，因工具缺失导致大量技能无法执行。
 - 11-11T06:35 · _last_lane_bm-m.json · 机队已就绪，心跳正常，无风险。
+- 11-11T06:36 · _last_lane_bm-m.json · 机队已就绪，心跳正常，无风险。
+- 11-11T06:36 · _last_claim.json · 机队已空且无风险，但无法完成调度任务。
+- 11-11T06:36 · R-NEXT-BIGSTREAMM-REBUILD-20261111-bm-c.json · 任务失败，因缺少指定文件导致 Python 脚本报错。
+- 11-11T06:36 · GAP-BIGSTREAMMV-BMC-3-bm-c.json · 已完成机队排查报告生成，无错误风险。
+- 11-11T06:36 · GAP-BIGSTREAMMV-BMC-3-acceptance.json · 已提交机队回执，但被拒因内容非有效交付物，存在合规风险。
+- 11-11T06:36 · GAP-BIGGAME-BMC-3-bm-c.json · 已完成机队排查任务，无风险。
+- 11-11T06:36 · GAP-BIGGAME-BMC-3-acceptance.json · 已提交机队回执，但被拒因内容非有效交付物。
+- 11-11T06:36 · GAP-ASSETLIB-BMC-3-bm-c.json · 已完成资产库排查报告生成，无错误风险。
+- 11-11T06:36 · GAP-ASSETLIB-BMC-3-acceptance.json · 已提交回执但被拒，因交付物非有效文档且无风险。
+- 11-11T06:37 · _last_lane_bm-m.json · 机队已就绪，心跳正常，无风险。
+- 11-11T06:37 · GAP-BIGSTREAMMV-BMC-3-bm-c.json · 已完成机队排查报告生成，无错误风险。
+- 11-11T06:37 · GAP-BIGSTREAMMV-BMC-3-acceptance.json · 已提交机队回执，但被拒因交付物非标准产物，无风险。
+- 11-11T06:37 · GAP-ASSETLIB-BMC-3-bm-c.json · 已完成资产库排查报告生成，无错误风险。
+- 11-11T06:37 · GAP-ASSETLIB-BMC-3-acceptance.json · 完成机队回执提交，但被拒收因交付物非有效产物。
+- 11-11T06:37 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
