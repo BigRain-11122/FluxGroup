@@ -6372,3 +6372,8 @@
 - 11-11T06:38 · GAP-BIGSTREAMMV-BMC-3-acceptance.json · 完成机队回执提交，但被拒收因交付物非标准产物。
 - 11-11T06:38 · GAP-ASSETLIB-BMC-3-bm-c.json · 已完成资产库排查报告生成，无错误风险。
 - 11-11T06:38 · GAP-ASSETLIB-BMC-3-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
+- 11-11T06:39 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
+- 11-11T06:39 · GAP-BIGSTREAMMV-BMC-3-bm-c.json · 已完成机队排查报告生成，无错误风险。
+- 11-11T06:39 · GAP-BIGSTREAMMV-BMC-3-acceptance.json · 完成机队回执提交，但被拒收因交付物非标准产物。
+- 11-11T06:39 · GAP-ASSETLIB-BMC-3-bm-c.json · 已完成资产库排查报告生成，无错误风险。
+- 11-11T06:39 · GAP-ASSETLIB-BMC-3-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被驳回。
