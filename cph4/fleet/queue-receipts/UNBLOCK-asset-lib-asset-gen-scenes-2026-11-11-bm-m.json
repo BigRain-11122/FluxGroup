@@ -2,7 +2,7 @@
  "id": "UNBLOCK-asset-lib-asset-gen-scenes-2026-11-11",
  "node": "bm-m",
  "rc": 0,
- "seconds": 87.1,
+ "seconds": 77.9,
  "cmd": "",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/repairs/asset-lib-asset-gen-scenes-2026-11-11-unblock.md",
  "deliverable_exists": true,
- "ts": "2026-11-11T02:11:34",
- "stdout_tail": "阻塞原因缺失，需补全资源与权限；最小动作为提交需求，由 bm-c 机执行。",
+ "ts": "2026-11-11T02:11:51",
+ "stdout_tail": "缺权限阻塞，由 owner 机器 bm-c 执行解锁操作。",
  "stderr_tail": ""
 }
