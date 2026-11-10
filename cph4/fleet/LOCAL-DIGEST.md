@@ -5251,3 +5251,7 @@
 - 11-10T23:41 · NODE-SYNC-bm-c-20261110-bm-c.json · 已完成机队同步并生成报告，无风险。
 - 11-10T23:41 · NODE-SYNC-bm-c-20261110-acceptance.json · 已完成机队回执提交，但被拒收因交付物非有效产物。
 - 11-10T23:41 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-10T23:43 · _last_lane_bm-m.json · 已完成节点同步，当前运行中无风险。
+- 11-10T23:43 · REPAIR-NODE-SYNC-bm-b-2330-acceptance.json · 完成机队回执提交，但被拒因交付物非有效产物。
+- 11-10T23:43 · REPAIR-NODE-SYNC-bm-b-2330-bm-m.json · 节点同步任务因租约续期失败受阻，需排查基础设施与代码逻辑以消除风险。
+- 11-10T23:43 · skill-promote-20261110.json · 已完成基础任务，因工具缺失导致大量技能无法执行。
