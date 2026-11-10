@@ -90,7 +90,7 @@ LANES = {
 # 不干重活、不占硬盘). It runs the master, the bus client and light text jobs; it must
 # never receive media production, backtests or anything that writes large files.
     "bm-m": {"name_cn": "MacBook Pro", "needs": ["cpu"], "ram_floor_gb": 2.0, "gpu_hours": None,
-             "enabled": False, "pending": True, "auto_join": True,
+             "enabled": True, "pending": False, "auto_join": True,
              "ram_gb": 32, "vram_gb": 0, "cuda": False,
              "os": "darwin",
              "role_class": "control", "disk_free_min_gb": 20, "max_job_gb": 20,

@@ -323,6 +323,7 @@ STAGES = [
     ("local_tasks", ["Tools/fleet/local_task.py", "drain", "--limit", "3", "--seed",
                      "--adaptive"], 300, {0, 2, 3}, True),
     ("decision_close", ["Tools/fleet/decision_close.py"], 60, {0, 2}, True),
+    ("capabilities", ["Tools/fleet/capability_registry.py"], 300, {0}, True),
     ("cloud_run", ["Tools/fleet/cloud_runner.py", "--limit", "1"], 300, {0}, True),
     ("judge", ["Tools/fleet/local_judge.py"], 180, {0}, True),
     ("brain", ["Tools/fleet/brain_service.py"], 240, {0}, True),
