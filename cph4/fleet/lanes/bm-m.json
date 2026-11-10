@@ -1,57 +1,23 @@
 {
  "node": "bm-m",
- "ts": "2026-11-10T23:03:22",
+ "ts": "2026-11-10T23:05:55",
  "jobs": [
   {
-   "id": "REPAIR-GRID-O2-20261110T2132",
-   "title": "[repair] GRID-O2-20261110T2132 的根因与下一步",
-   "cmd": "",
-   "cwd": null,
+   "id": "GRID-G1-20261110T2248",
+   "title": "[grid] G1 自愈：素材缺口盘点",
+   "cmd": "python -c \"print('no fix defined')\"",
+   "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/repairs/GRID-O2-20261110T2132.md",
+   "deliverable": "cph4/fleet/reports/grid-g1-20261110t2248.md",
    "need_mb": null,
-   "model": "local-small",
-   "prompt": "这张卡失败了。请只依据给出的证据，写一页诊断：①最可能的根因 ②下一步具体动作（谁、做什么、怎么验证）。不要编造文件或命令。\n\n证据：状态=FAILED；备注=STALL: 2804s 无新输出（sig=0），释放；交付物=cph4/fleet/reports/grid-o2-20261110t2132.md；重试=2",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "REPAIR-NODE-SYNC-bm-b-2040",
-   "title": "[repair] NODE-SYNC-bm-b-2040 的根因与下一步",
-   "cmd": "",
-   "cwd": null,
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/repairs/NODE-SYNC-bm-b-2040.md",
-   "need_mb": null,
-   "model": "local-small",
-   "prompt": "这张卡失败了。请只依据给出的证据，写一页诊断：①最可能的根因 ②下一步具体动作（谁、做什么、怎么验证）。不要编造文件或命令。\n\n证据：状态=FAILED；备注=3 次未成，停线待根因：STALL: 2464s 无新输出（sig=0），释放；交付物=cph4/fleet/reports/node-sync-bm-b-2040.md；重试=3",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "REPAIR-GAP-ASSETLIB-P0-20261110",
-   "title": "[repair] GAP-ASSETLIB-P0-20261110 的根因与下一步",
-   "cmd": "",
-   "cwd": null,
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/repairs/GAP-ASSETLIB-P0-20261110.md",
-   "need_mb": null,
-   "model": "local-small",
-   "prompt": "这张卡失败了。请只依据给出的证据，写一页诊断：①最可能的根因 ②下一步具体动作（谁、做什么、怎么验证）。不要编造文件或命令。\n\n证据：状态=FAILED；备注=3 次未成，停线待根因：STALL: 3493s 无新输出（sig=0），释放；交付物=cph4/fleet/reports/asset-lib-p0-20261110.md；重试=3",
+   "model": "none",
+   "prompt": "",
    "when_all": [],
    "llm": null,
    "timeout_s": null
   }
  ],
- "idle_reason": "control-plane heartbeat",
+ "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 14.0/1.0 GB",
- "cards": [],
- "pruned_shells": [
-  "REPAIR-GRID-O2-20261110T2132",
-  "REPAIR-NODE-SYNC-bm-b-2040",
-  "REPAIR-GAP-ASSETLIB-P0-20261110"
- ]
+ "capacity_note": "ram 13.4/1.0 GB"
 }
