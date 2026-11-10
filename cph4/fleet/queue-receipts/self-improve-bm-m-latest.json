@@ -1,13 +1,13 @@
 {
  "node": "bm-m",
- "ts": "2026-11-10T22:43:03",
+ "ts": "2026-11-10T22:50:37",
  "mode": "apply",
  "verdict": "SELF-OK",
  "checks": [
   {
    "check": "reload",
-   "code_age_s": 1605,
-   "receipt_age_s": 37,
+   "code_age_s": 2058,
+   "receipt_age_s": 15,
    "targets": [],
    "acted": false,
    "note": "executor produced a receipt after the last code edit",
@@ -16,7 +16,7 @@
   },
   {
    "check": "shells",
-   "cards": 3,
+   "cards": 4,
    "shells": 3,
    "ids": [
     "REPAIR-GAP-BIGGAME-PACK-20261110",
@@ -24,7 +24,7 @@
     "REPAIR-GAP-ASSETLIB-AUDIT-20261110"
    ],
    "acted": true,
-   "kept": 0,
+   "kept": 1,
    "verdict": "PRUNED"
   },
   {
