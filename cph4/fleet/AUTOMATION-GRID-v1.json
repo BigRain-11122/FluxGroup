@@ -813,9 +813,9 @@
    ],
    "on_fail": "brain",
    "timeout_s": 60,
-   "cmd": "python3 -c \"import json,sys,datetime;rows=[json.loads(l) for l in open('cph4/fleet/PRODUCTION-QUEUE.jsonl',encoding='utf-8') if l.strip()];d=[r for r in rows if r.get('state')=='DONE' and str(r.get('finished_at') or '')[:10]=='2026-11-11'];rc=[r for r in d if 'queue-receipts' in (r.get('deliverable') or '')];p=len(rc)/max(1,len(d));print('done=%d receipt_as_product=%d ratio=%.0f%%'%(len(d),len(rc),p*100));sys.exit(2 if p>0.3 else (1 if p>0.1 else 0))\"",
+   "cmd": "python3 -c \"import json,sys;SINCE='2026-11-11T02:25';rows=[json.loads(l) for l in open('cph4/fleet/PRODUCTION-QUEUE.jsonl',encoding='utf-8') if l.strip()];d=[r for r in rows if r.get('state')=='DONE' and str(r.get('created_at') or '')>=SINCE];rc=[r for r in d if 'queue-receipts' in (r.get('deliverable') or '')];p=len(rc)/max(1,len(d));print('new_done=%d receipt_as_product=%d ratio=%.0f%%'%(len(d),len(rc),p*100));sys.exit(2 if p>0.3 else (1 if p>0.1 else 0))\"",
    "accept": "今天 DONE 里 deliverable 是回执的比例 ≤10%",
-   "note": "2026-11-11 实锚：验收一屏连红——12h 内 106 张 DONE、真产物 0，因为多数卡把 queue-receipts/*.json 声明成 deliverable。这是出卡器模板的问题，不是执行机偷懒；本项让它可见并逼模板改。"
+   "note": "只统计 2026-11-11T02:25 之后新建的卡（工序表修好之后）；历史 11 张回执卡是存量债，由验收一屏单独报红，不再混进本指标"
   }
  ]
 }
