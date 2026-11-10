@@ -1,8 +1,23 @@
 {
  "node": "bm-a",
- "ts": "2026-11-11T04:30:02",
- "jobs": [],
- "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+ "ts": "2026-11-11T04:35:07",
+ "jobs": [
+  {
+   "id": "GAP-FLUXVERSE-BMA-20261111",
+   "title": "[gap] fluxverse 证据（bm-a）",
+   "cmd": "python Tools/fleet/line_triage.py --line fluxverse --out cph4/fleet/reports/triage-fluxverse-20261111d.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/reports/triage-fluxverse-20261111d.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": 180
+  }
+ ],
+ "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 17.9/1.0 GB"
+ "capacity_note": "ram 22.9/1.0 GB"
 }
