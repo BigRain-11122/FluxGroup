@@ -4411,3 +4411,7 @@
 - 11-10T16:57 · self-improve-bm-m-latest.json · 已完成机队回执提交，无风险。
 - 11-10T16:57 · UNBLOCK-biggame-accept-2026-11-10-acceptance.json · 已完成机队回执提交，但因非标准产物被驳回，无安全风险。
 - 11-10T16:57 · UNBLOCK-biggame-accept-2026-11-10-bm-m.json · 已完成机队回执生成，存在因缺人需立即指派负责人的风险。
+- 11-10T16:58 · self-improve-bm-m-latest.json · 机队已确认代码无风险，所有检查项均通过。
+- 11-10T16:58 · _last_lane_bm-m.json · 机队已自派完成回单，无风险。
+- 11-10T16:58 · UNBLOCK-biggame-accept-2026-11-10-acceptance.json · 已完成机队回执提交，但被拒因内容非有效交付物，无风险。
+- 11-10T16:58 · UNBLOCK-biggame-accept-2026-11-10-bm-m.json · 已完成机队回执生成，但存在因缺少读取权限导致无法解锁的风险。
