@@ -164,12 +164,16 @@
    "name": "模型策略与实测一致",
    "domain": "D",
    "cadence_s": 86400,
-   "kind": "manual",
-   "cmd": "",
-   "on_fail": "log",
+   "kind": "probe",
+   "cmd": "python3 -c \"import json,urllib.request,sys;pol=json.load(open('cph4/fleet/LOCAL-MODEL-POLICY.json',encoding='utf-8'))['duties'];want={k:v['model'] for k,v in pol.items() if isinstance(v,dict) and v.get('model') and v.get('installed',True)};have={m['name'] for m in json.load(urllib.request.urlopen('http://127.0.0.1:11434/api/tags',timeout=10))['models']};miss=[(k,m) for k,m in want.items() if m not in have];print('missing=%s'%miss);sys.exit(2 if miss else 0)\"",
+   "on_fail": "card",
    "accept": "policy 里的模型名在本机装得上；装不上就是配置假绿",
    "timeout_s": 180,
-   "enabled": true
+   "enabled": true,
+   "ok_rc": [
+    0
+   ],
+   "note": "策略里的模型必须在已装列表里；装不上=配置假绿（今天抓到 3 个：4b-instruct/1.7b/35b）"
   },
   {
    "id": "D3",
@@ -285,12 +289,16 @@
    "name": "素材缺口盘点",
    "domain": "G",
    "cadence_s": 3600,
-   "kind": "manual",
-   "cmd": "",
-   "on_fail": "log",
+   "kind": "probe",
+   "cmd": "python3 -c \"import glob,os,sys,time;fs=glob.glob('cph4/fleet/reports/asset-gap-*.json');a=(time.time()-max(map(os.path.getmtime,fs)))/3600 if fs else 999;print('asset_gap_age_h=%.1f'%a);sys.exit(2 if a>24 else (1 if a>12 else 0))\"",
+   "on_fail": "card",
    "accept": "缺什么素材/由哪台机去取，写成卡",
    "timeout_s": 180,
-   "enabled": true
+   "enabled": true,
+   "ok_rc": [
+    0
+   ],
+   "note": "缺口盘点产物 12h 内要更新（GAP-ASSETLIB-AUDIT 卡在跑）"
   },
   {
    "id": "G2",
@@ -562,12 +570,16 @@
    "name": "素材授权台账",
    "domain": "N",
    "cadence_s": 604800,
-   "kind": "manual",
-   "cmd": "",
-   "on_fail": "log",
+   "kind": "probe",
+   "cmd": "python3 -c \"import os,sys,time;p='cph4/fleet/state/asset-license-ledger.jsonl';a=(time.time()-os.path.getmtime(p))/86400 if os.path.exists(p) else 999;print('ledger_age_d=%.1f'%a);sys.exit(2 if a>30 else (1 if a>7 else 0))\"",
+   "on_fail": "brain",
    "accept": "每个商用素材有来源与授权记录",
    "timeout_s": 180,
-   "enabled": true
+   "enabled": true,
+   "ok_rc": [
+    0
+   ],
+   "note": "商用素材要有来源/授权台账，超过 7 天没更新就警告"
   },
   {
    "id": "N3",
@@ -614,24 +626,32 @@
    "name": "磁盘 SMART",
    "domain": "O",
    "cadence_s": 604800,
-   "kind": "manual",
-   "cmd": "",
-   "on_fail": "log",
+   "kind": "probe",
+   "cmd": "python3 -c \"import subprocess,sys,re;o=subprocess.run(['diskutil','info','/'],capture_output=True,text=True).stdout;m=re.search(r'SMART Status:\\\\s+(\\\\w+)',o);s=m.group(1) if m else 'NA';print('smart=%s'%s);sys.exit(2 if s not in ('Verified','Not Supported') else 0)\"",
+   "on_fail": "card",
    "accept": "SMART 无告警；备份盘可写",
    "timeout_s": 180,
-   "enabled": true
+   "enabled": true,
+   "ok_rc": [
+    0
+   ],
+   "note": "SMART=Verified（Not Supported 也算正常，虚拟机/外置盒）"
   },
   {
    "id": "P1",
    "name": "记忆预算",
    "domain": "P",
    "cadence_s": 86400,
-   "kind": "manual",
-   "cmd": "",
-   "on_fail": "log",
+   "kind": "probe",
+   "cmd": "python3 -c \"import os,sys;a=os.path.getsize('CODELY.md');b=sum(os.path.getsize(os.path.join(r,f)) for r,_,fs in os.walk('.codely-cli/memory') for f in fs) if os.path.isdir('.codely-cli/memory') else 0;print('codely=%dB topics=%dB'%(a,b));sys.exit(2 if a>51200 else (1 if a>35840 else 0))\"",
+   "on_fail": "card",
    "accept": "CODELY 记忆 ≤ 注入预算，超了先删再加",
    "timeout_s": 180,
-   "enabled": true
+   "enabled": true,
+   "ok_rc": [
+    0
+   ],
+   "note": "注入面预算 35KB 预警 / 50KB 执法"
   },
   {
    "id": "P2",
@@ -699,12 +719,16 @@
    "name": "Ollama/模型版本",
    "domain": "Q",
    "cadence_s": 604800,
-   "kind": "manual",
-   "cmd": "",
-   "on_fail": "log",
+   "kind": "probe",
+   "cmd": "python3 -c \"import subprocess,re,sys;o=subprocess.run(['ollama','--version'],capture_output=True,text=True).stdout;print(o.strip());sys.exit(0 if re.search(r'\\\\d+\\\\.\\\\d+',o) else 1)\"",
+   "on_fail": "card",
    "accept": "本地模型版本与策略一致，升级前有 A/B",
    "timeout_s": 180,
-   "enabled": true
+   "enabled": true,
+   "ok_rc": [
+    0
+   ],
+   "note": "记录 ollama 版本；升级前必须有 A/B（人工那半条仍读笔记）"
   },
   {
    "id": "R1",
