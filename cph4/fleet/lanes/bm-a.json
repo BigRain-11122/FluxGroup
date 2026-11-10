@@ -1,21 +1,7 @@
 {
  "node": "bm-a",
- "ts": "2026-11-11T02:50:54",
+ "ts": "2026-11-11T02:55:26",
  "jobs": [
-  {
-   "id": "PRODUCE-ICONS-BIGGAME-20261111",
-   "title": "[produce] biggame 图标批量渲染（34/36 款缺图标≥256px）",
-   "cmd": "python Tools/fleet/icon_render_local.py --render-all",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/game-v1/ICON-RENDER-LOG.jsonl",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": 600
-  },
   {
    "id": "GAP-ASSETLIB-BMA-20261111",
    "title": "[gap] asset-lib 在 bm-a 的证据面",
@@ -29,23 +15,9 @@
    "when_all": [],
    "llm": null,
    "timeout_s": 180
-  },
-  {
-   "id": "GAP-MV-BMA-20261111",
-   "title": "[gap] bigstream-mv 证据（bm-a）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigstream-mv --out cph4/fleet/reports/triage-bigstream-mv-20261111c.md",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/triage-bigstream-mv-20261111c.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": 180
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 28.2/1.0 GB"
+ "capacity_note": "ram 23.2/1.0 GB"
 }
