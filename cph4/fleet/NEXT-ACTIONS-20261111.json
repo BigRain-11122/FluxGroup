@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-11T03:43:22+0800",
+ "ts": "2026-11-11T03:53:38+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -57,9 +57,9 @@
    "accept": "发布台账有回执行；或 CEO 给出重剪清单",
    "blocker_type": "ENGINE",
    "blocker": "发布决定权在 CEO，但工程侧可先做下一首立意案",
-   "state": "RUNNING",
+   "state": "QUEUED",
    "card": "GAP-MV-BMA-20261111",
-   "running_on": "bm-a"
+   "running_on": null
   },
   {
    "id": "bigstream-drama",
@@ -222,14 +222,14 @@
    "accept": "flux_check new=0；AUTOMATION-SURFACE 无 RISK 项",
    "blocker_type": "ENGINE",
    "blocker": "I2 存量 125 条卡面路径债、vault 缺盘 651 条",
-   "state": "RUNNING",
-   "card": "NODE-SYNC-bm-a-20261111",
-   "running_on": "bm-a"
+   "state": "QUEUED",
+   "card": "PEER-SYNC-bm-c-20261111",
+   "running_on": null
   }
  ],
  "counts": {
-  "RUNNING": 3,
-  "QUEUED": 2,
+  "RUNNING": 1,
+  "QUEUED": 4,
   "STALLED": 10
  },
  "stalled_engine": 4
