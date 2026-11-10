@@ -6001,3 +6001,10 @@
 - 11-11T04:13 · UNBLOCK-PRODUCE-ICONS-BIGGAME-20261111-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被拒绝。
 - 11-11T04:13 · UNBLOCK-PRODUCE-ICONS-BIGGAME-20261111-bm-m.json · 已完成 BM-A 重新指派 owner 的解锁操作，无风险。
 - 11-11T04:13 · skill-promote-20261111.json · 已完成部分任务，因工具缺失导致多项关键技能无法执行。
+- 11-11T04:15 · _last_lane_bm-m.json · 已完成机队解锁任务，当前运行中无风险。
+- 11-11T04:15 · REPAIR-NODE-SYNC-bm-a-0352-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-11T04:15 · REPAIR-NODE-SYNC-bm-a-0352-bm-m.json · 已完成节点同步作业修复，但存在因重试逻辑缺失导致资源持有失效的风险。
+- 11-11T04:15 · UNBLOCK-GAP-MV-BMA-20261111-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效文档。
+- 11-11T04:15 · UNBLOCK-GAP-MV-BMA-20261111-bm-m.json · 已完成机队回执生成，但需联系负责人重新分配生产权限以消除风险。
+- 11-11T04:15 · UNBLOCK-PRODUCE-ICONS-BIGGAME-20261111-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-11T04:15 · UNBLOCK-PRODUCE-ICONS-BIGGAME-20261111-bm-m.json · 已完成大游戏机队解阻，需申请 bm-a 权限复核以消除风险。
