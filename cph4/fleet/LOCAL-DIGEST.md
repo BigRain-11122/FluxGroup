@@ -5292,3 +5292,15 @@
 - 11-10T23:56 · GRID-G1-20261110T2248-acceptance.json · 机队回执显示产物未落盘，任务失败且无风险。
 - 11-10T23:56 · GRID-G1-20261110T2248-bm-m.json · 未定义修复方案导致任务失败，无交付物且存在流程中断风险。
 - 11-10T23:56 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-10T23:58 · UNBLOCK-MV-STAB-0001-003-OUT-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-10T23:58 · UNBLOCK-MV-STAB-0001-003-OUT-bm-m.json · 已完成机队解锁，但存在因权限缺失导致的操作风险。
+- 11-10T23:58 · REPAIR-PRODUCE-FLUXVERSE-20261110-acceptance.json · 机队回执被拒，因交付物非标准产物且无风险。
+- 11-10T23:58 · REPAIR-PRODUCE-FLUXVERSE-20261110-bm-m.json · 任务因租约过期被强制终止并标记失败，需清理残留后重新调度。
+- 11-10T23:58 · PRODUCE-BIGGAME-ONEPAGER-B-bm-c.json · 已完成机队回执生成，无风险。
+- 11-10T23:58 · PRODUCE-BIGGAME-ONEPAGER-B-acceptance.json · 提交回执被拒，因内容非标准产物且无风险。
+- 11-10T23:58 · _last_lane_bm-m.json · 机队任务已完成，无风险。
+- 11-10T23:58 · UNBLOCK-MV-DIRECTOR-PACKET-20261109-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被驳回。
+- 11-10T23:58 · UNBLOCK-MV-DIRECTOR-PACKET-20261109-bm-m.json · 已完成机队解绑，但需机主解除后继续操作，存在流程中断风险。
+- 11-10T23:58 · REPAIR-GAP-ASSETLIB-C-20261111-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
+- 11-10T23:59 · REPAIR-GAP-ASSETLIB-C-20261111-bm-m.json · 已完成故障根因分析与修复方案制定，存在流程阻塞风险。
+- 11-10T23:59 · _last_claim.json · 机队已空，无风险。
