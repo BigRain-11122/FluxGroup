@@ -5723,3 +5723,6 @@
 - 11-11T01:47 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
 - 11-11T01:47 · UNBLOCK-biggame-accept-2026-11-11-acceptance.json · 完成机队回执提交，但被拒因非有效交付物，存在合规风险。
 - 11-11T01:47 · UNBLOCK-biggame-accept-2026-11-11-bm-m.json · 已完成机队回执生成，存在因缺人导致的阻塞风险。
+- 11-11T01:49 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
+- 11-11T01:49 · UNBLOCK-biggame-accept-2026-11-11-acceptance.json · 完成机队回执提交，但被拒因非有效交付物，存在合规风险。
+- 11-11T01:49 · UNBLOCK-biggame-accept-2026-11-11-bm-m.json · 已完成机队回执，无风险，需 owner 重新提交以解除权限阻塞。
