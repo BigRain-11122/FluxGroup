@@ -1,32 +1,32 @@
 {
- "ts": "2026-11-10T22:35:19",
- "cycle": 1036,
+ "ts": "2026-11-10T22:38:15",
+ "cycle": 1037,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-10T22:35:19",
+ "master_tick_ts": "2026-11-10T22:38:15",
  "queue": {
   "total": 1913,
-  "open": 10,
-  "running": 13,
-  "done": 669,
+  "open": 8,
+  "running": 12,
+  "done": 672,
   "failed": 5
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 5.4,
-   "cpu_load_pct": 76,
-   "ram_free_gb": 32.2,
-   "gpu_util_pct": 85,
+   "hb_age_s": 1.9,
+   "cpu_load_pct": 67,
+   "ram_free_gb": 27.4,
+   "gpu_util_pct": 56,
    "job": "MV-STAB-0001-003-OUT",
    "last_result": {
     "job": "GAP-BIGGAME-PACK-20261110",
-    "state": "BUSY",
-    "rc": null,
-    "ts": "2026-11-10T22:35:13",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-10T22:36:47",
     "reason": null,
-    "out_bytes": 0,
-    "elapsed_s": 40
+    "out_bytes": null,
+    "elapsed_s": null
    },
    "idle_confirmed": false,
    "idle_reason": "",
@@ -34,16 +34,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 24.8,
-   "cpu_load_pct": 12,
+   "hb_age_s": 19.1,
+   "cpu_load_pct": 2,
    "ram_free_gb": 10.3,
-   "gpu_util_pct": 1,
-   "job": "NODE-SYNC-bm-b-20261110",
+   "gpu_util_pct": 2,
+   "job": "NODE-SYNC-bm-b-2040",
    "last_result": {
-    "job": "GAP-ASSETLIB-AUDIT-20261110",
-    "state": "RUNNING",
-    "rc": null,
-    "ts": "2026-11-10T22:32:00",
+    "job": "NODE-SYNC-bm-b-20261110",
+    "state": "FAILED",
+    "rc": 128,
+    "ts": "2026-11-10T22:36:31",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -54,16 +54,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 51.3,
-   "cpu_load_pct": 19,
-   "ram_free_gb": 2.5,
+   "hb_age_s": 25.7,
+   "cpu_load_pct": 22,
+   "ram_free_gb": 3.9,
    "gpu_util_pct": 0,
    "job": "asset-lib-face-caption-2026-11-10",
    "last_result": {
-    "job": "KN-FILM-GATE-LATEST-20261110",
+    "job": "GAP-BIGMONEY-C-LINE-20261110",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-10T22:31:01",
+    "ts": "2026-11-10T22:38:05",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -74,16 +74,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 1.7,
+   "hb_age_s": 1.5,
    "cpu_load_pct": 10,
-   "ram_free_gb": 15.2,
+   "ram_free_gb": 15.4,
    "gpu_util_pct": null,
-   "job": "GRID-O2-20261110T2132",
+   "job": "GRID-G1-20261110T2227",
    "last_result": {
-    "job": "GRID-F3-20261110T2130",
+    "job": "GRID-O2-20261110T2132",
     "state": "FAILED",
     "rc": 0,
-    "ts": "2026-11-10T22:35:09",
+    "ts": "2026-11-10T22:37:27",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -195,8 +195,7 @@
    "stale_after_h": 24.0,
    "owner": "量化席",
    "jobs": [
-    "VERIFY-FIN-ETF-COMPOSITE",
-    "GAP-BIGMONEY-C-LINE-20261110"
+    "VERIFY-FIN-ETF-COMPOSITE"
    ],
    "no_supply": false,
    "blockers": [],
@@ -290,8 +289,6 @@
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
    "jobs": [
-    "NODE-SYNC-bm-b-20261110",
-    "GRID-O2-20261110T2132",
     "NODE-SYNC-bm-b-2040",
     "PEER-SYNC-bm-a-20261110",
     "GRID-G1-20261110T2227",
@@ -315,9 +312,7 @@
     "asset-lib-accept-2026-11-10"
    ],
    "no_supply": false,
-   "blockers": [
-    "LICENSE-LEDGER-20261110:no-lane"
-   ],
+   "blockers": [],
    "note": "CEO 2026-11-03：先储备资产，角色 LoRA 与音色库为 P0"
   }
  },
@@ -867,7 +862,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 10,
+  "local": 8,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -875,21 +870,14 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 10,
+  "cpu": 8,
   "gpu": 0
  },
  "supply_added": [],
  "events": [
-  "GRID-F3-20261110T2130 FAILED via bm-m",
-  "NODE-SYNC-bm-b-2040 -> bm-b (cpu)",
-  "NODE-SYNC-bm-b-20261110 -> bm-b (cpu)",
-  "PEER-SYNC-bm-a-20261110 -> bm-b (cpu)",
-  "NODE-SYNC-bm-b-LIGHT -> bm-b (cpu)",
-  "GRID-O2-20261110T2132 -> bm-m (cpu)",
-  "GAP-ASSETLIB-P0-20261110 -> bm-b (cpu)",
-  "MV-STAB-0001-003-OUT -> bm-a (cpu)",
-  "GAP-BIGMONEY-C-LINE-20261110 -> bm-c (cpu)",
-  "R-TRIAGE-FLUXVERSE-BMC-20261110 -> bm-c (cpu)"
+  "GAP-BIGMONEY-C-LINE-20261110 DONE via bm-c",
+  "LICENSE-LEDGER-20261110 -> bm-b (cpu)",
+  "GRID-G1-20261110T2227 -> bm-m (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 立意/分镜/导演席 (导演席（自决推进，CEO 巡视可随时否决）)",
@@ -898,7 +886,6 @@
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-a",
   "bm-b",
   "bm-c",
   "bm-m"

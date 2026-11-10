@@ -5034,3 +5034,17 @@
 - 11-10T22:35 · skill-promote-20261110.json · 已完成部分任务，因工具缺失导致多项关键技能无法执行。
 - 11-10T22:35 · CANARY-20261110T223109-acceptance.json · 完成机队回执提交，因交付物非标准产物被拒收。
 - 11-10T22:35 · CANARY-20261110T223109-bm-m.json · 已完成机队自检并生成报告，无风险。
+- 11-10T22:37 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-10T22:37 · _last_lane_bm-m.json · 机队任务已执行成功，无风险。
+- 11-10T22:37 · GRID-O2-20261110T2132-acceptance.json · 机队回执显示产物未落盘，任务失败且无风险。
+- 11-10T22:37 · GRID-O2-20261110T2132-bm-m.json · 机队回执显示无修复定义，任务失败且未生成交付物。
+- 11-10T22:37 · GRID-F3-20261110T2130-acceptance.json · 机队回执显示任务失败，因产物未落盘导致无风险。
+- 11-10T22:37 · GRID-F3-20261110T2130-bm-m.json · 机队回执显示无修复定义，任务失败且未生成交付物。
+- 11-10T22:37 · NODE-SYNC-bm-a-2157-bm-a.json · 同步失败，因文件被占用导致 Git 锁冲突。
+- 11-10T22:37 · NODE-SYNC-bm-a-2157-acceptance.json · 节点同步失败，产物未落盘，存在交付风险。
+- 11-10T22:37 · GAP-MV-LINE-20261110-bm-a.json · 已完成机队回执生成，无错误风险。
+- 11-10T22:37 · GAP-MV-LINE-20261110-acceptance.json · 完成机队回执提交，但被拒收因交付物非标准产物。
+- 11-10T22:38 · GAP-FLUXVERSE-LINE-20261110-bm-a.json · 已完成 Fluxverse 机队排查报告生成，无错误风险。
+- 11-10T22:38 · GAP-FLUXVERSE-LINE-20261110-acceptance.json · 已提交机队回执，但被驳回因交付物非有效产物。
+- 11-10T22:38 · GAP-BIGMONEY-LINE-20261110-bm-a.json · 已完成机队排查报告生成，无错误风险。
+- 11-10T22:38 · GAP-BIGMONEY-LINE-20261110-acceptance.json · 已提交机队回执，但被拒因内容非标准交付物，无后续风险。
