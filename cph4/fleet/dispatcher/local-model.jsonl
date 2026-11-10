@@ -2733,3 +2733,52 @@
 {"cls": "master", "op": "generate", "err": "timed out", "why": "fleet_brain:pick", "ts": "2026-11-10T20:22:45"}
 {"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 48.9, "chars": 90, "why": "master-digest", "ts": "2026-11-10T20:24:28"}
 {"cls": "master", "op": "generate", "err": "timed out", "why": "fleet_brain:pick", "ts": "2026-11-10T20:25:09"}
+{"cls": "master", "op": "embed", "sec": 0.12, "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:13"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:13"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:13"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:13"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:13"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:13"}
+{"cls": "master", "op": "embed", "sec": 0.06, "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:13"}
+{"cls": "master", "op": "embed", "sec": 0.03, "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:13"}
+{"cls": "master", "op": "embed", "sec": 0.05, "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:14"}
+{"cls": "master", "op": "embed", "sec": 0.03, "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:14"}
+{"cls": "master", "op": "embed", "sec": 0.03, "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:15"}
+{"cls": "master", "op": "embed", "sec": 0.05, "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:15"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:15"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:15"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:15"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:15"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:15"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:15"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:15"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:15"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:15"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:15"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:15"}
+{"cls": "master", "op": "embed", "sec": 0.11, "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:15"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:16"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:16"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:16"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:16"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:16"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:16"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:16"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:16"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:16"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:16"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:16"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:16"}
+{"cls": "master", "op": "embed", "sec": 0.1, "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:16"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:16"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:16"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:16"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:16"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:16"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:16"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:16"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:16"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:16"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:16"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:16"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-10T20:25:16"}
