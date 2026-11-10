@@ -230,7 +230,7 @@
    "id": "E3",
    "name": "结论带证据指针",
    "domain": "E",
-   "cadence_s": 3600,
+   "cadence_s": 86400,
    "kind": "manual",
    "cmd": "",
    "on_fail": "log",
@@ -343,7 +343,7 @@
    "id": "H1",
    "name": "交付纪律体检单",
    "domain": "H",
-   "cadence_s": 3600,
+   "cadence_s": 86400,
    "kind": "manual",
    "cmd": "",
    "on_fail": "log",
@@ -391,7 +391,7 @@
    "id": "I2",
    "name": "首句即结论",
    "domain": "I",
-   "cadence_s": 3600,
+   "cadence_s": 86400,
    "kind": "manual",
    "cmd": "",
    "on_fail": "log",
@@ -403,7 +403,7 @@
    "id": "J1",
    "name": "无代发动作",
    "domain": "J",
-   "cadence_s": 3600,
+   "cadence_s": 86400,
    "kind": "manual",
    "cmd": "",
    "on_fail": "log",
@@ -599,14 +599,15 @@
    "domain": "O",
    "cadence_s": 3600,
    "kind": "probe",
-   "cmd": "python3 -c \"import subprocess,sys;o=subprocess.run(['bash','-c',\\\"pmset -g therm 2>/dev/null | grep -i 'CPU_Speed_Limit' | head -1\\\"],capture_output=True,text=True).stdout.strip();print(o or 'therm=na');sys.exit(1 if 'CPU_Speed_Limit = 100' not in o else 0)\"",
+   "cmd": "python3 -c \"import subprocess,re,sys;o=subprocess.run(['pmset','-g','therm'],capture_output=True,text=True).stdout;m=re.search(r'CPU_Speed_Limit\\\\s*=\\\\s*(\\\\d+)',o);lim=int(m.group(1)) if m else 100;warn='No thermal warning level' not in o;print('speed_limit=%d%% warn=%s'%(lim,warn));sys.exit(2 if lim<80 else (1 if (lim<100 or warn) else 0))\"",
    "on_fail": "log",
    "accept": "CPU 未被热降频（Speed_Limit=100）",
    "timeout_s": 180,
    "enabled": true,
    "ok_rc": [
     0
-   ]
+   ],
+   "note": "Apple Silicon 没有 xcpm 数值；用 pmset 的 CPU_Speed_Limit（无记录=100%）判断降频"
   },
   {
    "id": "O2",
