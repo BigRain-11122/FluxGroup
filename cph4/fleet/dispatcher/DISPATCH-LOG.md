@@ -399,3 +399,9 @@
 [2026-11-11 02:01] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
 [2026-11-11 02:01] pools: bm-a=3open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=10 run=2 lanejobs: a=0 b=0 c=2; idle: a=BUSY b=OFFLINE c=GPU-IDLE; flags=4
 [2026-11-11 02:05] EVENT-SHIFT R33-ADD | 实例：asset-lib-asset-gen-2026-11-11 在 bm-c 悬 38min 被 stall 释放（note="STALL: 2281s 无新输出 sig=0"），证实「缺 ComfyUI 的 GPU 卡会吃掉整个单槽」。处置：char-gen / asset-gen-scenes / asset-gen(props) 三卡按 lane_agent 既有律转 BLOCKED（blocked_by=missing-input:comfyui@bm-c，解锁条件=COMFY-UP-BMC-20261111 探针出 route），commit bd50aafa。face-caption 未动（走 ollama vision 不需 ComfyUI，02:01:26 认领在跑）。提交前已核 local==origin 卡集合 2018/2018 无删卡，纳入后 origin 2025 行。现状：修复卡 OPEN / owner bm-c，排在 face-caption 后面＝排队。
+
+[2026-11-08 20:11] FLAG CLOCK-UNALIGNED old_schema=0 missing=1 -> P1 upgrade node heartbeat to v2 (ms ts+offset)
+[2026-11-11 02:11] FLAG CLOCK-UNALIGNED old_schema=0 missing=1 -> P1 upgrade node heartbeat to v2 (ms ts+offset)
+[2026-11-11 02:11] FLAG LANE-DOWN lane=bm-b verdict=OFFLINE -> P1 page lane owner
+[2026-11-11 02:11] pools: bm-a=3open/0exec/3run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=6 run=5 lanejobs: a=3 b=1 c=1; idle: a=BUSY b=OFFLINE c=GPU-IDLE; flags=2
+[2026-11-11 02:12] EVENT-SHIFT R33-ADD2 | 新缺陷（卡契约自毁）：asset-lib-face-caption 声明 needs=gpu，但 asset_caption.py 连 OLLAMA_HOST=127.0.0.1:11434；needs=gpu 会让 lane_agent 先跑 gpu_lease --acquire，而 acquire 内部 stop_ollama()+关 keepwarm → 开跑前先把自身依赖杀掉，故 retries=3、11-10 直接 NO-RECEIPT。处置：该卡五个版本（11-03/04/07/10/11）needs gpu→cpu（一字段可逆），commit 96f00d00c，card-contract PASS。连带含义：任何走 ollama 的卡都不许声明 needs=gpu；此判例建议入 lane_agent 或 card_contract_check 的静态断言（待裁，本席不改码）。
