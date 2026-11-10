@@ -1,4 +1,4 @@
-# 机队决策（常驻模型在候选里挑）2026-11-10T22:19:35
+# 机队决策（常驻模型在候选里挑）2026-11-10T22:23:08
 
 分工：**事实与候选由规则算，动作由代码白名单执行，模型只做选择**（4B 级算术不可信，所以数字从不交给模型）。
 
@@ -10,15 +10,14 @@
 
 ## 事实（规则算出来的）
 
-- 队列：待派 12 / 在飞 14
-- 车道：bm-a 5，bm-b 6，bm-c 2，bm-m 1
+- 队列：待派 12 / 在飞 9
+- 车道：bm-a 6，bm-b 6，bm-c 3，bm-m 1
 - 停摆线：biggame,fluxverse,bigmoney,bigdomain,bigcompute,recon
-- 堵点命中 14 / 待升级 0
+- 堵点命中 11 / 待升级 0
 
 ## 候选（模型只能从这里挑）
 
-- `A_CLOSE_LOOP` 跑堵点闭环：按分类表检测并自动解 — 闭环上次报 14 项命中
-- `A_ASSIGN` 定责：给无主活卡按 nodes 指定承办机 — 5 张活卡没有 owner
+- `A_CLOSE_LOOP` 跑堵点闭环：按分类表检测并自动解 — 闭环上次报 11 项命中
 - `A_NIGHT_PLAN` 按声明补卡：night_plan 派各线唯一下一步 — 6 条 ACTIVE 线已停 ≥72h
 - `A_NOOP` 什么都不做，保持现状 — 没有值得动的事，别为动而动
 
@@ -26,7 +25,6 @@
 
 | 时间 | 决策 | 来源 | 执行 |
 |---|---|---|---|
-| 21:53:24 | A_CLOSE_LOOP | fallback | 否 |
 | 21:56:36 | A_FILL | fallback | 是 |
 | 22:00:40 | A_DISPATCH | fallback | 是 |
 | 22:03:38 | A_CLOSE_LOOP | fallback | 是 |
@@ -34,6 +32,7 @@
 | 22:09:50 | A_FILL | fallback | 是 |
 | 22:14:58 | A_CLOSE_LOOP | fallback | 是 |
 | 22:19:35 | A_CLOSE_LOOP | fallback | 否 |
+| 22:23:08 | A_CLOSE_LOOP | fallback | 否 |
 
 ---
 _模型没有发明动作的权力：候选外的 id 一律回落规则首选_
