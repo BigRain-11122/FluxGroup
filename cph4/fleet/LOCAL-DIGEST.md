@@ -5004,3 +5004,17 @@
 - 11-10T22:29 · asset-index-2026-11-10.json · 已完成机队回执，存在 1 个被阻断的接收风险。
 - 11-10T22:29 · GAP-CHARGEN-PROBE-20261110-bm-c.json · 机队回执生成失败，因无交付物导致任务未完成且存在风险。
 - 11-10T22:29 · GAP-CHARGEN-PROBE-20261110-acceptance.json · 机队回执显示产物未落盘，任务失败且无风险。
+- 11-10T22:31 · _last_lane_bm-m.json · 机队任务已完成，无风险。
+- 11-10T22:31 · KN-FILM-GATE-LATEST-20261110-bm-c.json · 机队任务完成，无风险。
+- 11-10T22:31 · KN-FILM-GATE-LATEST-20261110-acceptance.json · 机队未产出有效回执，因缺乏交付物被驳回。
+- 11-10T22:31 · UNBLOCK-asset-lib-face-dataset-2026-11-10-acceptance.json · 机队回执被拒，因交付物非所需文档或台账。
+- 11-10T22:31 · UNBLOCK-asset-lib-face-dataset-2026-11-10-bm-m.json · 已完成资产库人脸数据集解锁，需指定新责任人重执行以消除无人负责风险。
+- 11-10T22:31 · UNBLOCK-R-NEXT-BIGSTREAMM-REBUILD-20261109-acceptance.json · 机队回执被拒，因交付物非有效产物且无风险。
+- 11-10T22:31 · UNBLOCK-R-NEXT-BIGSTREAMM-REBUILD-20261109-bm-m.json · 已完成机队重建任务，无风险，后续需由 bm-a 机执行并补全人员。
+- 11-10T22:31 · REPAIR-GAP-CHARGEN-PROBE-20261110-acceptance.json · 机队回执未生成有效交付物，存在流程中断风险。
+- 11-10T22:31 · REPAIR-GAP-CHARGEN-PROBE-20261110-bm-m.json · 已完成故障诊断与根因分析，但需多团队协作排查上游数据源缺失风险。
+- 11-10T22:31 · REPAIR-MV-STAB-0001-003-OUT-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物，无风险。
+- 11-10T22:32 · REPAIR-MV-STAB-0001-003-OUT-bm-m.json · 已完成故障根因分析与修复方案制定，当前无执行风险但需人工介入验证。
+- 11-10T22:32 · NODE-SYNC-bm-a-2216-bm-a.json · 已完成机队同步与报告生成，无风险。
+- 11-10T22:32 · NODE-SYNC-bm-a-2216-acceptance.json · 完成节点同步回执提交，但被拒因非标准交付物。
+- 11-10T22:32 · self-improve-bm-m-latest.json · 机队已自测通过并清理旧壳，无风险。
