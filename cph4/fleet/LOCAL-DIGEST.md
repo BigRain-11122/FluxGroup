@@ -5669,3 +5669,18 @@
 - 11-11T01:30 · UNBLOCK-bigstream-mv-gate-2026-11-11-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
 - 11-11T01:30 · UNBLOCK-bigstream-mv-gate-2026-11-11-bm-m.json · 已完成机队解锁，存在需立即指派专人接管权限的风险。
 - 11-11T01:30 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
+- 11-11T01:32 · _last_lane_bm-m.json · 机队任务已完成，无风险。
+- 11-11T01:32 · UNBLOCK-bigstream-mv-gate-2026-11-11-acceptance.json · 机队回执被拒，因交付物非有效产物且无风险。
+- 11-11T01:32 · UNBLOCK-bigstream-mv-gate-2026-11-11-bm-m.json · 已完成机队解锁，但需 bm-a 人员在 4 秒内清理卡顿并重启。
+- 11-11T01:32 · voice-dataset-2026-11-11.json · 因版权缺失或未知，机队全部被跳过，无风险。
+- 11-11T01:32 · quant-conclusion-2026-11-11.json · 已完成机队回执，但缺失样本区间、成本假设及失效条件等关键信息。
+- 11-11T01:32 · etf_nobond_vt_with_positions.json · 已完成机队回执，无风险。
+- 11-11T01:32 · bigmoney-signal-2026-11-11-bm-a.json · 已完成 ETF 无债信号队列生成，无风险。
+- 11-11T01:32 · bigmoney-signal-2026-11-11-acceptance.json · 完成机队回执提交，但被拒收因交付物非标准产物。
+- 11-11T01:32 · bigmoney-conclusion-2026-11-11-bm-a.json · 因缺失关键输入数据导致结论生成失败，任务未完成且存在阻塞风险。
+- 11-11T01:32 · bigmoney-conclusion-2026-11-11-acceptance.json · 完成机队回执提交，但被拒因非标准产物且存在合规风险。
+- 11-11T01:33 · asset-lib-voice-assemble-2026-11-11-bm-a.json · 未完成任务，因数据版权不明且不在白名单导致全部跳过。
+- 11-11T01:33 · asset-lib-voice-assemble-2026-11-11-acceptance.json · 已完成机队回执提交，但被拒因交付物非预期产物。
+- 11-11T01:33 · GAP-ASSETLIB-LEDGER-20261111-bm-a.json · 已完成资产库机队排查报告生成，无错误风险。
+- 11-11T01:33 · GAP-ASSETLIB-LEDGER-20261111-acceptance.json · 完成机队回执提交，但被拒收因交付物非标准产物。
+- 11-11T01:33 · skill-promote-20261111.json · 已跳过多项因工具缺失或重复的任务，当前无风险。
