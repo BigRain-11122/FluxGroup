@@ -1,0 +1,17 @@
+{
+ "id": "GAP-BIGMONEY-BMC-4",
+ "node": "bm-c",
+ "rc": 0,
+ "seconds": 9.2,
+ "cmd": "python Tools/fleet/line_triage.py --line bigmoney --out cph4/fleet/reports/triage-bigmoney-20261111h.md",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "cph4/fleet/reports/triage-bigmoney-20261111h.md",
+ "deliverable_exists": true,
+ "ts": "2026-11-11T07:15:52",
+ "stdout_tail": "[triage] bigmoney -> cph4\\fleet\\reports\\triage-bigmoney-20261111h.md\n",
+ "stderr_tail": ""
+}
