@@ -1,13 +1,13 @@
 {
- "ts": "2026-11-11T01:37:01",
+ "ts": "2026-11-11T01:41:29",
  "card": "NODE-SYNC-bm-c-0130",
  "node": "FLUXGROUP",
  "class": "BOOKKEEPING",
  "deliverable": "cph4/fleet/reports/node-sync-bm-c-0130.md",
- "exists": false,
- "verdict": "FAIL",
+ "exists": true,
+ "verdict": "REJECT",
  "score": null,
- "bytes": 0,
- "sha256": "",
- "detail": "产物未落盘"
+ "bytes": 60,
+ "sha256": "4d84942e66a074d9e2ae7fd7509c093c3f5cbf939f2f5e29991c9b1472ec6200",
+ "detail": "交付物不是产物（文档/台账/回执）"
 }

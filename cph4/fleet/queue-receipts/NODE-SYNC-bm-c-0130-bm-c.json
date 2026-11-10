@@ -1,17 +1,17 @@
 {
  "id": "NODE-SYNC-bm-c-0130",
  "node": "bm-c",
- "rc": 128,
- "seconds": 0.2,
+ "rc": 0,
+ "seconds": 0.5,
  "cmd": "git -C . branch -f backup/bm-c-0130 HEAD && git -C . reset --hard origin/main && git -C . log -1 --oneline > cph4/fleet/reports/node-sync-bm-c-0130.md",
  "ok_rc": [
   0
  ],
- "outcome": "FAIL",
- "error_class": "E-UNKNOWN",
+ "outcome": "OK",
+ "error_class": null,
  "deliverable": "cph4/fleet/reports/node-sync-bm-c-0130.md",
- "deliverable_exists": false,
- "ts": "2026-11-11T01:37:01",
- "stdout_tail": "",
- "stderr_tail": "fatal: Unable to create 'K:/Fluxgroup/FluxGroup/.git/index.lock': File exists.\n\nAnother git process seems to be running in this repository, or the lock file may be stale\n"
+ "deliverable_exists": true,
+ "ts": "2026-11-11T01:41:29",
+ "stdout_tail": "HEAD is now at d6faf504d job(NODE-SYNC-bm-c-20261111): artifact [via bm-c]\n",
+ "stderr_tail": ""
 }
