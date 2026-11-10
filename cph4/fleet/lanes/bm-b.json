@@ -1,6 +1,6 @@
 {
  "node": "bm-b",
- "ts": "2026-11-10T22:50:51",
+ "ts": "2026-11-10T22:54:07",
  "jobs": [
   {
    "id": "VERIFY-FIN-ETF-COMPOSITE",
@@ -9,20 +9,6 @@
    "cwd": "",
    "needs": "cpu",
    "deliverable": "cph4/fleet/reports/verify-fin-etf-composite.txt",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "NODE-SYNC-bm-b-2216",
-   "title": "[self-heal] bm-b 落地新 lane 代码（reset 到 main）",
-   "cmd": "git -C . fetch origin --prune && git -C . branch -f backup/bm-b-2216 HEAD & git -C . reset --hard origin/main && git -C . log -1 --oneline > cph4/fleet/reports/node-sync-bm-b-2216.md",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/node-sync-bm-b-2216.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -57,23 +43,9 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
-  },
-  {
-   "id": "NODE-SYNC-bm-b-LIGHT",
-   "title": "[self-heal] bm-b 轻量收口（不 fetch，直接 reset 到本地 origin/main）",
-   "cmd": "git -C . branch -f backup/bm-b-light HEAD && git -C . reset --hard origin/main && git -C . log -1 --oneline > cph4/fleet/reports/node-sync-bm-b-light.md",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/node-sync-bm-b-light.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 10.5/1.0 GB"
+ "capacity_note": "ram 11.1/1.0 GB"
 }
