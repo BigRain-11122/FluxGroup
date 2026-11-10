@@ -6481,3 +6481,8 @@
 - 11-11T07:28 · self-improve-bm-m-latest.json · 机队已确认无风险，所有检查项均通过。
 - 11-11T07:29 · _last_lane_bm-m.json · 机队已自派完成回单扫描，无风险。
 - 11-11T07:30 · _last_lane_bm-m.json · 机队已自派完成回单扫描，无风险。
+- 11-11T07:31 · _last_claim.json · 机队已清空且无风险，但当前处于空池状态。
+- 11-11T07:31 · GAP-BIGHOUSE-BMC-4-bm-c.json · 已完成机队回执生成，无风险。
+- 11-11T07:31 · GAP-BIGHOUSE-BMC-4-acceptance.json · 完成机队回执提交，但被拒因交付物非标准产物。
+- 11-11T07:31 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-11T07:31 · _last_lane_bm-m.json · 机队已自派完成回单扫描，无风险。
