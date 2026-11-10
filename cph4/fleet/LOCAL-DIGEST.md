@@ -6282,3 +6282,10 @@
 - 11-11T06:15 · UNBLOCK-asset-lib-face-caption-2026-11-11-bm-m.json · 已完成机队回执生成，需立即赋予管理员权限以消除阻塞风险。
 - 11-11T06:15 · REPAIR-NODE-SYNC-bm-a-20261111T0552-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物且无风险。
 - 11-11T06:15 · REPAIR-NODE-SYNC-bm-a-20261111T0552-bm-m.json · 节点同步作业失败并死锁，需排查根因修复风险。
+- 11-11T06:16 · _last_lane_bm-m.json · 已完成节点同步，无风险。
+- 11-11T06:16 · UNBLOCK-GAP-BIGMONEY-BMA-20261111-acceptance.json · 机队回执被拒，因交付物非有效产物且存在合规风险。
+- 11-11T06:16 · UNBLOCK-GAP-BIGMONEY-BMA-20261111-bm-m.json · 已完成机队解锁，但存在因缺少租续权导致无法自动恢复的风险。
+- 11-11T06:16 · UNBLOCK-asset-lib-face-caption-2026-11-11-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被驳回。
+- 11-11T06:16 · UNBLOCK-asset-lib-face-caption-2026-11-11-bm-m.json · 机队任务已完成，但需人工介入修复配置以消除运行风险。
+- 11-11T06:16 · REPAIR-NODE-SYNC-bm-a-20261111T0552-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
+- 11-11T06:16 · REPAIR-NODE-SYNC-bm-a-20261111T0552-bm-m.json · 已完成节点同步故障分析，发现重试机制缺失风险，需手动介入修复。
