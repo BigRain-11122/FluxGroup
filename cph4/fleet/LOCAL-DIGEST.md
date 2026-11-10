@@ -5315,3 +5315,17 @@
 - 11-11T00:01 · REPAIR-PRODUCE-FLUXVERSE-20261110-bm-m.json · 任务因资源租约过期失败，需排查队列状态并手动重执行以修复。
 - 11-11T00:01 · skill-promote-20261110.json · 已完成部分任务，因工具缺失导致多项关键技能无法执行。
 - 11-11T00:02 · self-improve-bm-m-latest.json · 机队已完成回执提交并清理了旧壳，无风险。
+- 11-11T00:04 · _last_lane_bm-m.json · 机队任务已推迟，因无可用分配而存在运行风险。
+- 11-11T00:04 · self-improve-bm-m-latest.json · 机队已完成回执提交，无风险。
+- 11-11T00:04 · UNBLOCK-MV-DIRECTOR-PACKET-20261109-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被驳回。
+- 11-11T00:04 · UNBLOCK-MV-DIRECTOR-PACKET-20261109-bm-m.json · 已完成机队回执，存在因缺料导致的阻塞风险，需立即补料重启。
+- 11-11T00:04 · UNBLOCK-MV-STAB-0001-003-OUT-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-11T00:04 · UNBLOCK-MV-STAB-0001-003-OUT-bm-m.json · 已完成机队回执生成，但需重启以解决权限与环境缺失风险。
+- 11-11T00:04 · REPAIR-PRODUCE-FLUXVERSE-20261110-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
+- 11-11T00:04 · REPAIR-PRODUCE-FLUXVERSE-20261110-bm-m.json · 已完成根因诊断与修复方案制定，存在任务死锁风险。
+- 11-11T00:04 · REPAIR-GAP-ASSETLIB-C-20261111-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
+- 11-11T00:04 · REPAIR-GAP-ASSETLIB-C-20261111-bm-m.json · 已完成根因诊断与修复方案制定，无当前风险。
+- 11-11T00:05 · GAP-MV-LINE-20261111-bm-a-noreceipt.json · 该节点机队无回执且交付链路故障，需重启后重新派单处理。
+- 11-11T00:05 · PRODUCE-FLUXVERSE-20261110-bm-a-noreceipt.json · 已重启故障节点并重新派单，暂无风险。
+- 11-11T00:05 · NODE-SYNC-bm-b-2330-unknown-noreceipt.json · 该节点机队无回执且交付链路故障，需重启后重新派单以消除风险。
+- 11-11T00:05 · asset-lib-face-caption-2026-11-10-bm-c-noreceipt.json · 该卡无回执且无产物，判定为机 Lane 链路故障，需重启后重派。
