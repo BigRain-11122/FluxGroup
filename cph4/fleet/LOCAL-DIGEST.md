@@ -5635,3 +5635,11 @@
 - 11-11T01:18 · _last_lane_bm-m.json · 已完成机队维修任务，当前运行中无风险。
 - 11-11T01:20 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
 - 11-11T01:20 · skill-promote-20261111.json · 已完成部分任务，因工具缺失导致大量技能无法执行。
+- 11-11T01:22 · _last_lane_bm-m.json · 机队已就绪，心跳正常，无风险。
+- 11-11T01:22 · voice-dataset-2026-11-11.json · 机队因素材版权缺失被全量拦截，无风险。
+- 11-11T01:22 · quant-conclusion-2026-11-11.md · 因缺失样本区间等四项关键数据，无法完成报价且存在合规风险。
+- 11-11T01:22 · quant-conclusion-2026-11-11.json · 已完成机队回执，但缺失样本区间、成本假设及失效条件等关键数据。
+- 11-11T01:22 · bigmoney-conclusion-2026-11-11-bm-a.json · 因缺失样本区间等关键数据，机队结论生成失败且无法交付。
+- 11-11T01:22 · bigmoney-conclusion-2026-11-11-acceptance.json · 完成机队回执提交，但被拒因内容非标准交付物，存在合规风险。
+- 11-11T01:22 · asset-lib-voice-assemble-2026-11-11-bm-a.json · 语音数据集生成失败，因数据版权不明且未在白名单内，存在合规风险。
+- 11-11T01:22 · asset-lib-voice-assemble-2026-11-11-acceptance.json · 已完成机队回执提交，但被拒因交付物非预期产物。
