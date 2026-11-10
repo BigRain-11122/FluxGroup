@@ -4317,3 +4317,16 @@
 - 11-10T16:26 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
 - 11-10T16:26 · REPAIR-asset-lib-char-gen-2026-11-06-acceptance.json · 机队回执因交付物非标准产物被拒，存在合规风险。
 - 11-10T16:26 · REPAIR-asset-lib-char-gen-2026-11-06-bm-m.json · 已完成故障诊断并制定排查方案，当前无风险。
+- 11-10T16:28 · UNBLOCK-biggame-accept-2026-11-09-acceptance.json · 已完成机队回执提交，但因非标准产物被驳回，无安全风险。
+- 11-10T16:28 · UNBLOCK-biggame-accept-2026-11-09-bm-m.json · 已完成机队回执生成，但存在因权限缺失需手动申请临时授权的执行风险。
+- 11-10T16:28 · _last_lane_bm-m.json · 已完成机队修复任务，当前运行中无风险。
+- 11-10T16:28 · REPAIR-PROBE-BMB-TOOLCHAIN-20261110-acceptance.json · 已完成机队回执提交，但交付物不符合要求导致被拒收。
+- 11-10T16:28 · REPAIR-PROBE-BMB-TOOLCHAIN-20261110-bm-m.json · 已完成故障根因诊断与行动建议，存在长时死锁风险需立即重启节点。
+- 11-10T16:28 · REPAIR-Q-MV-0001-003-acceptance.json · 完成机队回执提交，但被拒因交付物非标准产物，无风险。
+- 11-10T16:28 · REPAIR-Q-MV-0001-003-bm-m.json · 已完成卡片交易失败根因分析与处置方案，当前无风险。
+- 11-10T16:28 · REPAIR-asset-lib-char-gen-2026-11-06-acceptance.json · 机队回执被拒，因交付物非所需文档且无风险。
+- 11-10T16:28 · REPAIR-asset-lib-char-gen-2026-11-06-bm-m.json · 已完成故障根因分析与修复方案制定，当前无风险但需立即执行排查。
+- 11-10T16:28 · REPAIR-R-TRIAGE-FLUXVERSE-BMB-20261110-acceptance.json · 机队回执被拒收，因交付物非所需文档且无风险。
+- 11-10T16:28 · REPAIR-R-TRIAGE-FLUXVERSE-BMB-20261110-bm-m.json · 任务已完成但失败，因前置依赖未满足导致环境不可用，需立即排查并回滚。
+- 11-10T16:28 · REPAIR-C-FIN-ETF-COMPOSITE-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-10T16:28 · REPAIR-C-FIN-ETF-COMPOSITE-bm-m.json · 支付网关超时导致交易中断，需开发团队排查根因并验证逻辑。
