@@ -112,7 +112,7 @@ def ceo_demand(dry=False, cap=5):
             "id": cid, "title": title, "cmd": "", "cwd": "", "requires": [],
             "deliverable": "cph4/fleet/queue-receipts/%s.md" % cid,
             "accept": "回执含执行说明、产物路径、未对外/未花钱声明；引用卡 id。",
-            "needs": "cpu", "nodes": [], "hard_nodes": [], "prio": "P2", "line": "group",
+            "needs": "cpu", "nodes": ["bm-m"], "hard_nodes": ["bm-m"], "model": "local-small", "prio": "P2", "line": "group",
             "day_ok": True, "heavy": False, "verify_on_node": True, "ok_rc": [0, 3],
             "minutes": 60, "why": "CEO-QUEUE：机队先做的那一半，不依赖 CEO 物理件",
             "prompt": ask, "created_by": "loop_close", "state": "READY",
@@ -145,7 +145,7 @@ def patrol_cards(dry=False, cap=3):
             "id": cid, "title": "[patrol] %s RED 处置" % dom, "cmd": "", "cwd": "", "requires": [],
             "deliverable": "cph4/fleet/queue-receipts/%s.md" % cid,
             "accept": "回执说明：核实了哪条发现、证据路径、处置动作；未核实则写未核实原因。",
-            "needs": "cpu", "nodes": [], "hard_nodes": [], "prio": "P1", "line": dom,
+            "needs": "cpu", "nodes": ["bm-m"], "hard_nodes": ["bm-m"], "model": "local-small", "prio": "P1", "line": dom,
             "day_ok": True, "heavy": False, "verify_on_node": True, "ok_rc": [0, 3],
             "minutes": 60, "why": "十域巡视 RED：%s" % "；".join((res.get("findings") or [])[:2])[:120],
             "prompt": "核实并处置 %s 域巡视 RED：%s。动作建议：%s" %
