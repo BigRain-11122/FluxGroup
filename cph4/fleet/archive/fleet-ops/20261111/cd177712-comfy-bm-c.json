@@ -1,0 +1,15 @@
+{
+ "probed_at": "2026-11-11T02:25:38+0800",
+ "available": {
+  "ckpt": 5,
+  "unet": 4,
+  "clip": 3,
+  "vae": 9
+ },
+ "route": "ckpt",
+ "ckpt": "DreamShaperXL_Lightning-SFW.safetensors",
+ "steps": 8,
+ "cfg": 2.0,
+ "sampler": "euler",
+ "scheduler": "normal"
+}
