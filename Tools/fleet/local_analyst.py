@@ -22,7 +22,7 @@ STATE = os.path.join(F, "state")
 OUT_MD = os.path.join(F, "LOCAL-ANALYST.md")
 OUT_JSON = os.path.join(STATE, "local-analyst.json")
 LANE = os.environ.get("AGENT_LANE", "http://127.0.0.1:11436")
-MODEL = os.environ.get("ANALYST_MODEL", "qwen3:8b-dsh32k")
+MODEL = os.environ.get("ANALYST_MODEL", "qwen3.5:4b-mlx")
 DIGEST = os.path.join(F, "state", "local-digest.jsonl")
 PATROL = os.path.join(STATE, "patrol-local.json")
 

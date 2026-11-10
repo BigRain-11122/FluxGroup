@@ -96,7 +96,7 @@ LANES = {
              "role_class": "control", "disk_free_min_gb": 20, "max_job_gb": 20,
              "caps": ["cpu", "ios-build", "text", "llm", "audio", "tts"],
              "llm": {"endpoint": "http://127.0.0.1:11434",
-                     "model": "qwen3.5:4b",
+                     "model": "qwen3.5:4b-mlx",
                      "think": False,
                      "keep_alive": "5m", "num_ctx": 8192,
                      "why": "2026-10-30 实测(M1 Pro 32GB / Ollama 0.40.12 / num_parallel=1 / KV q8_0): 4B 8k=3.3GB 41.6 tok/s、16k=4.0GB 41.7 tok/s、1.3k prompt 预填 314 tok/s；35B-A3B 8k=22.0GB 解码 29-40 tok/s(随温度波动)但预填仅 100 tok/s、冷加载 14-21s、一驻留 swap +2GB(2.8->4.8GB)。差在内存与冷启动不在解码: 同一 1.3k prompt 端到端 8s vs 31s。控制面要判读延迟, 35B 仅人工点名按需加载。"},

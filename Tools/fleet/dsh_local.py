@@ -38,7 +38,7 @@ STAGE = os.path.join(ROOT, "cph4", "fleet", "state", "dsh", "cordis.patch.yml")
 BENCH = os.path.join(ROOT, "cph4", "fleet", "state", "dsh-local-bench.json")
 OLLAMA = (os.environ.get("OLLAMA_URL") or "http://127.0.0.1:11434").rstrip("/")
 CTX = 32768
-DEFAULT_BASE = "qwen3:8b"
+DEFAULT_BASE = "qwen3.5:4b-mlx"
 MARK_BEGIN = "# >>> dsh-local: managed by Tools/fleet/dsh_local.py (do not edit by hand)"
 MARK_END = "# <<< dsh-local"
 
@@ -407,7 +407,7 @@ def main(argv=None):
     v.add_argument("--timeout", type=int, default=180)
     d = sub.add_parser("default")
     d.add_argument("--provider", default="ollama-local")
-    d.add_argument("--model", default="qwen3:8b-dsh32k")
+    d.add_argument("--model", default="qwen3.5:4b-mlx")
     d.add_argument("--effort", default="low")
     d.add_argument("--cloud", action="store_true")
     sub.add_parser("probe")

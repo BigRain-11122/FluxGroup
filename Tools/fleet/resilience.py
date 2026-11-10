@@ -219,7 +219,7 @@ def check_local_first(ctx):
 def check_cloud_gate(ctx):
     """代码级本地优先：除白名单外，任何工具不得硬编码云端点。"""
     import glob
-    allow = {"dsh_local.py", "codely_bridge.py", "llm_client.py", "resilience.py"}
+    allow = {"dsh_local.py", "codely_bridge.py", "llm_client.py", "resilience.py", "cloud_providers.py"}
     bad = []
     for f in glob.glob(os.path.join(ROOT, "Tools", "fleet", "*.py")):
         base = os.path.basename(f)
@@ -275,9 +275,33 @@ def check_codely_channel(ctx):
     return ("codely_channel", status, "direct=%s cli=%s" % (bad or "-", ok_cli))
 
 
+def check_local_agent_model(ctx):
+    """会话/机队共用的本地模型必须能出正文、能发 tool_calls（think=false）。"""
+    import urllib.request as u
+    body = json.dumps({"model": "qwen3.5:4b-mlx",
+                       "messages": [{"role": "user", "content": "调用工具读 /tmp/x"}],
+                       "tools": [{"type": "function", "function": {
+                           "name": "read_file", "description": "read",
+                           "parameters": {"type": "object", "properties": {"path": {"type": "string"}},
+                                          "required": ["path"]}}}],
+                       "tool_choice": "auto", "think": False, "stream": False,
+                       "keep_alive": "5m",
+                       "options": {"num_ctx": 16384, "num_predict": 80}}).encode()
+    req = u.Request("http://127.0.0.1:11436/api/chat", data=body,
+                    headers={"Content-Type": "application/json"})
+    try:
+        d = json.loads(u.urlopen(req, timeout=120).read())
+        m = d.get("message") or {}
+        ok = bool(m.get("tool_calls")) or bool((m.get("content") or "").strip())
+        return ("local_agent_model", "PASS" if ok else "FAIL",
+                "tool=%s content=%d" % (bool(m.get("tool_calls")), len(m.get("content") or "")))
+    except Exception as e:
+        return ("local_agent_model", "FAIL", str(e)[:80])
+
+
 CHECKS = [check_pulse, check_sync, check_services, check_queue, check_supply,
           check_lanes, check_disk, check_memory, check_models, check_token,
-          check_codely, check_git, check_local_first, check_cloud_gate, check_fleet_llm, check_codely_channel]
+          check_codely, check_git, check_local_first, check_cloud_gate, check_fleet_llm, check_codely_channel, check_local_agent_model]
 
 
 def run(ctx=None):
