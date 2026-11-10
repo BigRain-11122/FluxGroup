@@ -602,12 +602,12 @@
    "domain": "O",
    "cadence_s": 86400,
    "kind": "probe",
-   "cmd": "python3 -c \"import sys,time,email.utils,urllib.request;r=urllib.request.urlopen('https://www.apple.com',timeout=15);srv=email.utils.parsedate_to_datetime(r.headers['Date']).timestamp();d=abs(time.time()-srv);print('skew=%.1fs'%d);sys.exit(2 if d>5 else (1 if d>2 else 0))\"",
+   "cmd": "python3 -c \"import subprocess,re,sys;o=subprocess.run(['sntp','-t','5','time.apple.com'],capture_output=True,text=True).stdout;m=re.search(r'([+-]\\\\d+\\\\.\\\\d+)\\\\s+\\\\+/-',o);d=abs(float(m.group(1))) if m else 999;print('sntp_skew=%.3fs'%d);sys.exit(2 if d>2 else (1 if d>1 else 0))\"",
    "on_fail": "card",
    "accept": "跨机时钟偏移 <2s",
    "timeout_s": 180,
    "enabled": true,
-   "note": "原 clock_resync 依赖 powershell，在 macOS 上 rc=127；改为对可信源的 Date 头取差"
+   "note": "用 sntp 对 time.apple.com 的偏移；HTTP Date 头会被 CDN 缓存污染（apple.com 实测假 189s，baidu 1s）"
   },
   {
    "id": "O3",
