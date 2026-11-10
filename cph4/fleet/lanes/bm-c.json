@@ -1,8 +1,51 @@
 {
  "node": "bm-c",
- "ts": "2026-11-10T21:57:33",
- "jobs": [],
- "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+ "ts": "2026-11-10T22:00:40",
+ "jobs": [
+  {
+   "id": "asset-lib-face-dataset-2026-11-10",
+   "title": "[资产储备（角色 LoRA / 音色库）] 人脸数据集准入（反 AI 脸的第一道门）",
+   "cmd": "python Tools/fleet/asset_dataset_audit.py --mode face --dir media/asset/faces --out cph4/fleet/queue-receipts/asset-face-2026-11-10.json",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/asset-face-2026-11-10.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "KN-FILM-GATE-LATEST-20261110",
+   "title": "KN PACK-A 最新复核版跑全片闸（重复帧/亮度/时长三查）",
+   "cmd": "python cph4/fleet/mv-album-001-jay/kn_film_gate.py --film media/mv-album-001-jay/assembly-packA/KN-PACKA-CONFORM-v1-c2171.mp4 --tag gate-rerun",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "NODE-SYNC-bm-c-2157",
+   "title": "[self-heal] bm-c 分叉收口（本地提交 → backup 分支，HEAD 回 main）",
+   "cmd": "git -C . fetch origin --prune && git -C . branch -f backup/bm-c-2157 HEAD & git -C . reset --hard origin/main && git -C . log -1 --oneline > cph4/fleet/reports/node-sync-bm-c-2157.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/reports/node-sync-bm-c-2157.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  }
+ ],
+ "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 1.8/1.0 GB"
+ "capacity_note": "ram 2.2/1.0 GB"
 }
