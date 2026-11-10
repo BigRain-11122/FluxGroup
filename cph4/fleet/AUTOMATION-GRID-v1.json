@@ -785,6 +785,21 @@
    "note": "2026-11-10 实锚：asset-lib-face-dataset 空转 23 次仍没进 BLOCKED；重试闸必须在第 5 次就拦",
    "timeout_s": 60,
    "enabled": true
+  },
+  {
+   "id": "E4",
+   "name": "无回执失败（lane 交付链路）",
+   "domain": "E",
+   "cadence_s": 1800,
+   "kind": "probe",
+   "ok_rc": [
+    0
+   ],
+   "on_fail": "brain",
+   "timeout_s": 60,
+   "cmd": "python3 Tools/fleet/no_receipt_audit.py",
+   "accept": "失败卡必须有回执；无回执=那台机没交付，按节点集中度定位",
+   "note": "2026-11-10 实锚：一晚 4-6 张卡无回执失败，主控只能看到空 error_class；本项把这类失败固化成可见事实"
   }
  ]
 }

@@ -1,0 +1,10 @@
+{
+ "id": "NODE-SYNC-bm-b-2330",
+ "node": null,
+ "rc": null,
+ "seconds": null,
+ "outcome": "NO-RECEIPT",
+ "error_class": "E-NO-RECEIPT",
+ "note": "该卡被领取后既无产物也无回执；按节点集中出现=那台机的 lane 交付链路坏了（不是卡写错）。处置：重启该机 HQ-ProductionClaim 后再派。",
+ "ts": "2026-11-11T00:00:23"
+}
