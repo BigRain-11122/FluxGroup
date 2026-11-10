@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-10T22:56:21",
+ "ts": "2026-11-10T22:58:30",
  "jobs": [
   {
    "id": "REPAIR-GRID-O2-20261110T2132",
@@ -47,5 +47,11 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 14.0/1.0 GB"
+ "capacity_note": "ram 14.0/1.0 GB",
+ "cards": [],
+ "pruned_shells": [
+  "REPAIR-GRID-O2-20261110T2132",
+  "REPAIR-NODE-SYNC-bm-b-2040",
+  "REPAIR-GAP-ASSETLIB-P0-20261110"
+ ]
 }
