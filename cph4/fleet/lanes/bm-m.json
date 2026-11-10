@@ -1,45 +1,31 @@
 {
  "node": "bm-m",
- "ts": "2026-11-11T00:40:23",
+ "ts": "2026-11-11T00:45:42",
  "jobs": [
   {
-   "id": "REPAIR-R-NEXT-BIGSTREAMM-REBUILD-20261111",
-   "title": "[repair] R-NEXT-BIGSTREAMM-REBUILD-20261111 的根因与下一步",
+   "id": "UNBLOCK-NODE-SYNC-bm-b-2330",
+   "title": "[unblock] NODE-SYNC-bm-b-2330 的解锁动作",
    "cmd": "",
    "cwd": null,
    "needs": "cpu",
-   "deliverable": "cph4/fleet/repairs/R-NEXT-BIGSTREAMM-REBUILD-20261111.md",
+   "deliverable": "cph4/fleet/repairs/NODE-SYNC-bm-b-2330-unblock.md",
    "need_mb": null,
    "model": "local-small",
-   "prompt": "这张卡失败了。请只依据给出的证据，写一页诊断：①最可能的根因 ②下一步具体动作（谁、做什么、怎么验证）。不要编造文件或命令。\n\n证据：状态=UNVERIFIED；备注=；交付物=cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721.mp4；重试=None",
+   "prompt": "这张卡被标记 BLOCKED。只依据证据，给出：①阻塞类型（缺人/缺料/缺权限/环境）②最小解锁动作 ③解锁后应由哪台机执行。40 字以内一条，不要客套。\n\n证据：状态=BLOCKED；备注=requeued after lease expiry (attempt 2)；owner=-",
    "when_all": [],
    "llm": null,
    "timeout_s": null
   },
   {
-   "id": "REPAIR-biggame-pack-scan-2026-11-11",
-   "title": "[repair] biggame-pack-scan-2026-11-11 的根因与下一步",
+   "id": "UNBLOCK-PRODUCE-FLUXVERSE-20261110",
+   "title": "[unblock] PRODUCE-FLUXVERSE-20261110 的解锁动作",
    "cmd": "",
    "cwd": null,
    "needs": "cpu",
-   "deliverable": "cph4/fleet/repairs/biggame-pack-scan-2026-11-11.md",
+   "deliverable": "cph4/fleet/repairs/PRODUCE-FLUXVERSE-20261110-unblock.md",
    "need_mb": null,
    "model": "local-small",
-   "prompt": "这张卡失败了。请只依据给出的证据，写一页诊断：①最可能的根因 ②下一步具体动作（谁、做什么、怎么验证）。不要编造文件或命令。\n\n证据：状态=UNVERIFIED；备注=；交付物=cph4/fleet/queue-receipts/game-packs-2026-11-11.json；重试=None",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "REPAIR-R-MODEL-RADAR-BMB-20261111",
-   "title": "[repair] R-MODEL-RADAR-BMB-20261111 的根因与下一步",
-   "cmd": "",
-   "cwd": null,
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/repairs/R-MODEL-RADAR-BMB-20261111.md",
-   "need_mb": null,
-   "model": "local-small",
-   "prompt": "这张卡失败了。请只依据给出的证据，写一页诊断：①最可能的根因 ②下一步具体动作（谁、做什么、怎么验证）。不要编造文件或命令。\n\n证据：状态=UNVERIFIED；备注=；交付物=cph4/fleet/queue-receipts/model-radar-bm-b-20261111.json；重试=None",
+   "prompt": "这张卡被标记 BLOCKED。只依据证据，给出：①阻塞类型（缺人/缺料/缺权限/环境）②最小解锁动作 ③解锁后应由哪台机执行。40 字以内一条，不要客套。\n\n证据：状态=BLOCKED；备注=requeued after lease expiry (attempt 2)；owner=bm-a",
    "when_all": [],
    "llm": null,
    "timeout_s": null
@@ -47,11 +33,5 @@
  ],
  "idle_reason": "control-plane heartbeat",
  "lane_ok": true,
- "capacity_note": "ram 14.7/1.0 GB",
- "cards": [],
- "pruned_shells": [
-  "REPAIR-R-NEXT-BIGSTREAMM-REBUILD-20261111",
-  "REPAIR-biggame-pack-scan-2026-11-11",
-  "REPAIR-R-MODEL-RADAR-BMB-20261111"
- ]
+ "capacity_note": "ram 13.7/1.0 GB"
 }

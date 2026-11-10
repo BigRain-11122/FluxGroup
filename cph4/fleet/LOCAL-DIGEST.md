@@ -5513,3 +5513,6 @@
 - 11-11T00:44 · skill-promote-20261111.json · 已完成部分任务，因工具缺失导致多项技能无法执行。
 - 11-11T00:44 · REPAIR-R-MODEL-RADAR-BMB-20261111-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
 - 11-11T00:44 · REPAIR-R-MODEL-RADAR-BMB-20261111-bm-m.json · 已完成机队回执生成，但存在因缺乏重试机制导致任务永久挂起的风险。
+- 11-11T00:46 · _last_lane_bm-m.json · 任务已推迟，因无可用资源分配而存在执行风险。
+- 11-11T00:46 · REPAIR-R-NEXT-BIGSTREAMM-REBUILD-20261111-acceptance.json · 机队回执被拒，因交付物非所需文档或台账。
+- 11-11T00:46 · REPAIR-R-NEXT-BIGSTREAMM-REBUILD-20261111-bm-m.json · 已完成视频编码修复，因 v721 参数未达标导致任务滞留，需人工介入验证并更新规则。
