@@ -6320,3 +6320,10 @@
 - 11-11T06:22 · NODE-SYNC-bm-c-20261111T0614-acceptance.json · 机队回执被拒，因交付物非预期文档且无风险。
 - 11-11T06:22 · UNBLOCK-asset-lib-face-caption-2026-11-11-acceptance.json · 机队回执被拒，因交付物非有效产物且无风险。
 - 11-11T06:21 · UNBLOCK-asset-lib-face-caption-2026-11-11-bm-m.json · 已完成机队回执生成，无风险，但需手动处理权限问题。
+- 11-11T06:23 · _last_lane_bm-m.json · 已完成节点同步修复，无风险。
+- 11-11T06:23 · REPAIR-NODE-SYNC-bm-a-20261111T0552-acceptance.json · 完成机队回执提交，但被拒因交付物非有效产物。
+- 11-11T06:23 · REPAIR-NODE-SYNC-bm-a-20261111T0552-bm-m.json · 节点同步任务完成但存在根因分析缺失及需人工排查的风险。
+- 11-11T06:23 · NODE-SYNC-bm-c-20261111T0614-bm-c.json · 已完成机队同步与报告生成，无风险。
+- 11-11T06:23 · NODE-SYNC-bm-c-20261111T0614-acceptance.json · 已完成机队回执提交，但被拒收因交付物非有效产物。
+- 11-11T06:23 · UNBLOCK-asset-lib-face-caption-2026-11-11-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-11T06:23 · UNBLOCK-asset-lib-face-caption-2026-11-11-bm-m.json · 已完成资产库解锁操作，无风险。
