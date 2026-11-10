@@ -5686,3 +5686,10 @@
 - 11-11T01:33 · skill-promote-20261111.json · 已跳过多项因工具缺失或重复的任务，当前无风险。
 - 11-11T01:35 · _last_lane_bm-m.json · 机队任务已挂起，因无可用资源无法运行，存在执行风险。
 - 11-11T01:35 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
+- 11-11T01:36 · etf_nobond_vt_with_positions.json · 已完成机队回执，当前策略无亏损年份但存在最大回撤风险。
+- 11-11T01:36 · bigmoney-signal-2026-11-11-bm-a.json · 已完成 ETF 无债信号队列桥接与量化信号生成，无风险。
+- 11-11T01:36 · bigmoney-signal-2026-11-11-acceptance.json · 完成回执提交，但被拒因非标准产物且无风险。
+- 11-11T01:36 · asset-lib-index-2026-11-11-bm-a.json · 机队回执生成成功，但发现 199 张卡产物缺失及 651 条 Vault 登记异常。
+- 11-11T01:36 · asset-lib-index-2026-11-11-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被拒收。
+- 11-11T01:36 · asset-index-2026-11-11.json · 已完成归集与备份，但存在 5 个冻结、2 个停摆及 1 个被阻断的风险。
+- 11-11T01:36 · _last_lane_bm-m.json · 任务已暂停，因无可用资源分配而存在无法运行的风险。
