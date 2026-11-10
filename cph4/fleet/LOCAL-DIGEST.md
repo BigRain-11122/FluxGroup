@@ -5944,3 +5944,11 @@
 - 11-11T03:34 · REPAIR-PRODUCE-ICONS-BIGGAME-20261111-bm-m.json · 已完成根因诊断与修复方案制定，当前无执行风险但需开发人员介入验证。
 - 11-11T03:34 · self-improve-bm-m-latest.json · 机队已完成代码加载与依赖检查，无风险。
 - 11-11T03:34 · _last_claim.json · 机队已清空且无风险，但当前处于空池状态。
+- 11-11T03:35 · _last_lane_bm-m.json · 机队任务已推迟，因无可用资源分配而存在执行风险。
+- 11-11T03:35 · REPAIR-PRODUCE-ICONS-BIGGAME-20261111-acceptance.json · 机队回执被拒，因交付物非有效产物且无风险。
+- 11-11T03:35 · REPAIR-PRODUCE-ICONS-BIGGAME-20261111-bm-m.json · 已完成根因分析与修复方案制定，存在版本路径不匹配导致验证失败的风险。
+- 11-11T03:35 · UNBLOCK-GAP-ASSETLIB-BMA-20261111-acceptance.json · 机队回执被拒，因交付物非有效文档且无风险。
+- 11-11T03:35 · UNBLOCK-GAP-ASSETLIB-BMA-20261111-bm-m.json · 已完成机队回执生成，但需手动修复权限问题以解除阻塞。
+- 11-11T03:35 · asset-lib-face-caption-2026-11-11-bm-c.json · 任务失败，因输入被阻断导致无风险。
+- 11-11T03:35 · asset-lib-face-caption-2026-11-11-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
+- 11-11T03:35 · asset-caption-2026-11-11.json · 已完成机队回执，因无待打标图片存在风险。
