@@ -2,7 +2,7 @@
  "id": "UNBLOCK-asset-lib-asset-gen-2026-11-11",
  "node": "bm-m",
  "rc": 0,
- "seconds": 65.8,
+ "seconds": 70.0,
  "cmd": "",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/repairs/asset-lib-asset-gen-2026-11-11-unblock.md",
  "deliverable_exists": true,
- "ts": "2026-11-11T02:14:13",
- "stdout_tail": "缺人/阻塞：重启任务 (owner=-)；由该任务调度机执行。",
+ "ts": "2026-11-11T02:16:42",
+ "stdout_tail": "缺人阻塞：联系 owner 或管理员执行释放指令即可解锁。",
  "stderr_tail": ""
 }
