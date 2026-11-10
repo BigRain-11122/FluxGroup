@@ -6382,3 +6382,6 @@
 - 11-11T06:40 · GAP-ASSETLIB-BMC-3-acceptance.json · 完成机队回执提交，但被拒收因交付物非有效产物。
 - 11-11T06:40 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
 - 11-11T06:40 · _last_lane_bm-m.json · 机队已自派完成回单扫描，无风险。
+- 11-11T06:41 · GAP-ASSETLIB-BMC-3-bm-c.json · 已完成资产库排查报告生成，无错误风险。
+- 11-11T06:41 · GAP-ASSETLIB-BMC-3-acceptance.json · 已提交机队回执，但因非标准产物被驳回，无后续风险。
+- 11-11T06:41 · _last_lane_bm-m.json · 已完成大游戏 BMC 间隙修复任务，当前运行中无风险。
