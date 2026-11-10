@@ -1,13 +1,13 @@
 {
  "node": "bm-m",
- "ts": "2026-11-11T03:35:14",
+ "ts": "2026-11-11T03:40:27",
  "mode": "apply",
  "verdict": "SELF-OK",
  "checks": [
   {
    "check": "reload",
-   "code_age_s": 2758,
-   "receipt_age_s": 15,
+   "code_age_s": 3071,
+   "receipt_age_s": 27,
    "targets": [],
    "acted": false,
    "note": "executor produced a receipt after the last code edit",
@@ -16,15 +16,12 @@
   },
   {
    "check": "shells",
-   "cards": 2,
-   "shells": 2,
-   "ids": [
-    "REPAIR-PRODUCE-ICONS-BIGGAME-20261111",
-    "UNBLOCK-GAP-ASSETLIB-BMA-20261111"
-   ],
-   "acted": true,
-   "kept": 0,
-   "verdict": "PRUNED"
+   "cards": 0,
+   "shells": 0,
+   "ids": [],
+   "acted": false,
+   "verdict": "OK",
+   "note": "no assignment on this lane (not a shell problem)"
   },
   {
    "check": "deps",
