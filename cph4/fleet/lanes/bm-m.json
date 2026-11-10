@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-11T06:26:48",
+ "ts": "2026-11-11T06:29:11",
  "jobs": [
   {
    "id": "REPAIR-NODE-SYNC-bm-a-20261111T0612",
@@ -19,5 +19,9 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 14.7/1.0 GB"
+ "capacity_note": "ram 14.7/1.0 GB",
+ "cards": [],
+ "pruned_shells": [
+  "REPAIR-NODE-SYNC-bm-a-20261111T0612"
+ ]
 }
