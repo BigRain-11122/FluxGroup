@@ -148,8 +148,8 @@
   {
    "id": "char-gen",
    "name": "角色包出图（本机 ComfyUI，1024²，同 seed 组）",
-   "cmd": "python {root_tools}/fleet/char_gen.py --node bm-c --limit 12 --receipt cph4/fleet/queue-receipts/char-gen-bm-c-{date}.json",
-   "deliverable": "cph4/fleet/queue-receipts/char-gen-bm-c-{date}.json",
+   "cmd": "python {root_tools}/fleet/char_gen.py --node bm-c --limit 12 --receipt media/asset/characters/MANIFEST-{date}.json",
+   "deliverable": "media/asset/characters/MANIFEST-{date}.json",
    "accept": "回执 made>0 且无 failed；BLOCKED 时必须写明缺模型配置或 ComfyUI 不可达",
    "needs": "gpu",
    "nodes": [
@@ -191,8 +191,8 @@
   {
    "id": "asset-gen",
    "name": "通用资产出图（道具/场景，吃 ASSET-PROMPTS 规格）",
-   "cmd": "python {root_tools}/fleet/asset_gen.py --node bm-c --class props --limit 4 --receipt cph4/fleet/queue-receipts/asset-gen-props-{date}.json",
-   "deliverable": "cph4/fleet/queue-receipts/asset-gen-props-{date}.json",
+   "cmd": "python {root_tools}/fleet/asset_gen.py --node bm-c --class props --limit 4 --receipt media/asset/props/MANIFEST-{date}.json",
+   "deliverable": "media/asset/props/MANIFEST-{date}.json",
    "accept": "回执 made 非空；BLOCKED 时写明 ComfyUI 不可达或模型缺失（rc=3 算如实）",
    "needs": "gpu",
    "nodes": [
