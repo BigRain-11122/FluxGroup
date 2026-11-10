@@ -2,7 +2,7 @@
  "id": "UNBLOCK-R-NEXT-BIGSTREAMM-REBUILD-20261111",
  "node": "bm-m",
  "rc": 0,
- "seconds": 61.3,
+ "seconds": 67.4,
  "cmd": "",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/repairs/R-NEXT-BIGSTREAMM-REBUILD-20261111-unblock.md",
  "deliverable_exists": true,
- "ts": "2026-11-11T00:58:27",
- "stdout_tail": "阻塞类型：缺人（Owner=BM-B 未履职）；动作：负责人直接接手任务；执行机：当前故障机。",
+ "ts": "2026-11-11T00:58:46",
+ "stdout_tail": "缺权限；联系 bm-b 申请解封；由资源管理机执行。",
  "stderr_tail": ""
 }
