@@ -2,7 +2,7 @@
  "id": "REPAIR-asset-lib-face-dataset-2026-11-08",
  "node": "bm-m",
  "rc": 0,
- "seconds": 64.2,
+ "seconds": 80.8,
  "cmd": "",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/repairs/asset-lib-face-dataset-2026-11-08.md",
  "deliverable_exists": true,
- "ts": "2026-11-10T20:30:15",
- "stdout_tail": "### 根因分析\n根据证据链判断，卡单的最可能根因为**数据文件校验失败**。系统检测到资产库原始凭证 (`asset-lib-face-dataset-2026-11-08-bm-c.json`) 与交付物 `cph4/fleet/queue-receipts/asset-face-2026-11-08.json` 在业务逻辑上不匹配（“按回执补账”暗示存在数据不一致或校验规则冲突），导致流程处于阻塞状态。此外，证据显示当前重试次数已达到上限（Retry=4），且当前节点状态为 `UNVERIFIED`（未验证/失败），表明常规重试机制已耗尽，无法通过自动补偿恢复数据一致性。\n\n### 下一步具体动作\n- **负责人**：Fleet 模块后端团队（Owner）或运维值班人员。\n- **执行动作**：\n    1. **人工介入验证**：手动检查原始凭证 (`asset-lib-face-dataset...`) 与交付物 (`asset-face...`) 的业务字段一致性，确认为何导致校验失败。\n    2. **强制状态修正**：若验证确认为脏数据需补偿，通过控制台或工单系统将 `UNVERIFIED` 状态人工置为 `COMMITTED` 或跳过重试限制重新触发补偿逻辑；若无需补偿，则将状态重置为 `SUCCESS` 并清理失败日志。\n    3. **配置重置**：将该卡片（Card）的 `Retry Count` 字段重置为 0，解除“重试上限”的硬性约束。\n- **验证方式**：\n    - 重新查询该卡片的 `status` 字段，确认是否变为非失败状态（如 `SUCCESS`）。\n    - 查看 `cph4/fleet/queue-receipts/asset-face-2026-11-08.json` 文件的状态标签或日志记录，确认不再包含 \"FAILED\" 标记。",
+ "ts": "2026-11-10T20:30:53",
+ "stdout_tail": "### 诊断报告：资产卡片补账失败分析\n\n**① 最可能的根因**\n系统处于**未认证状态（UNVERIFIED）**，导致核心业务逻辑“按回执补账”被阻断。\n当前任务依赖交付物 `cph4/fleet/queue-receipts/asset-face-2026-11-08.json` 与本地资产库记录进行比对和入账操作，但前置的凭证认证环节尚未通过（状态未变更为 VERIFIED）。尽管已完成 4 次重试且均失败，表明系统并非偶发性网络波动或计算错误，而是因**前置依赖数据（回执）缺失或校验不通过**导致的逻辑死锁。资产库文件 `asset-lib-face-dataset-2026-11-08-bm-c.json` 作为补账依据，若其内部状态未同步更新为可信，将直接阻止 `queue-receipts` 中的处理链路启动。\n\n**② 下一步具体动作**\n\n| 角色 | 具体动作 | 验证方式 |\n| :--- | :--- | :--- |\n| **数据工程师/运维** | 1. 检查并更新资产库文件 `<file>/asset-lib-face-dataset-2026-11-08-bm-c.json`，确保其状态标记为 `VERIFIED` 或包含有效的签名验证通过。<br>2. 确认上游任务是否已生成有效的回执数据。 | 执行查询命令（或脚本）：`get_status(\"asset-lib-face-dataset-2026-11-08-bm-c.json\")`，确认返回状态为 `VERIFIED` 且无错误码。 |\n| **开发人员** | 1. 排查 `queue-receipts/asset-face-2026-11-08.json` 中是否因认证失败被丢弃，移除“未认证”导致的处理拦截逻辑。<br>2. 重新触发补账流程，确保在状态变为 VERIFIED 后能顺利执行资产入库。 | 观察任务日志：确认 `asset-face-2026-11-08.json` 在处理时不再抛出“状态未验证”异常，并查看是否有新的入账成功记录。 |\n| **系统管理员** | 监控重试次数阈值，一旦再次触发失败，依据策略进行熔断或升级工单。 | 查看任务监控面板：确认重试次数是否超过限制（当前已 4 次），确认当前状态已由 UNVERIFIED 变更为 VERIFIED 或新的错误类型（如 TIMEOUT/SUCCESS）。",
  "stderr_tail": ""
 }
