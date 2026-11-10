@@ -2,7 +2,7 @@
  "id": "GAP-BIGGAME-BMC-3",
  "node": "bm-c",
  "rc": 0,
- "seconds": 2.6,
+ "seconds": 1.2,
  "cmd": "python Tools/fleet/line_triage.py --line biggame --out cph4/fleet/reports/triage-biggame-20261111g.md",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/reports/triage-biggame-20261111g.md",
  "deliverable_exists": true,
- "ts": "2026-11-11T06:32:51",
+ "ts": "2026-11-11T06:33:17",
  "stdout_tail": "[triage] biggame -> cph4\\fleet\\reports\\triage-biggame-20261111g.md\n",
  "stderr_tail": ""
 }
