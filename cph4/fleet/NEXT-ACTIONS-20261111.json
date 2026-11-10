@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-11T05:09:46+0800",
+ "ts": "2026-11-11T05:20:25+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -12,9 +12,9 @@
    "accept": "char-gen 回执 made>0 且无 failed；图进 faces/<ID> 并过准入闸",
    "blocker_type": "ENGINE",
    "blocker": "打标质量门与当前素材不匹配：抽 20 张 0 通过（理由是「只命中 0-2 个可见属性，像空话」），需改提示词/判据；另有 458 张待打",
-   "state": "RUNNING",
-   "card": "asset-lib-asset-gen-scenes-2026-11-11",
-   "running_on": "bm-c"
+   "state": "STALLED",
+   "card": null,
+   "running_on": null
   },
   {
    "id": "biggame",
@@ -58,7 +58,7 @@
    "blocker_type": "ENGINE",
    "blocker": "发布决定权在 CEO，但工程侧可先做下一首立意案",
    "state": "RUNNING",
-   "card": "GAP-MV-BMA-2",
+   "card": "R-NEXT-BIGSTREAMM-REBUILD-20261111",
    "running_on": "bm-a"
   },
   {
@@ -228,9 +228,9 @@
   }
  ],
  "counts": {
-  "RUNNING": 3,
+  "RUNNING": 2,
   "QUEUED": 2,
-  "STALLED": 10
+  "STALLED": 11
  },
- "stalled_engine": 4
+ "stalled_engine": 5
 }
