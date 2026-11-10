@@ -2,7 +2,7 @@
  "id": "UNBLOCK-asset-lib-voice-assemble-2026-11-11",
  "node": "bm-m",
  "rc": 0,
- "seconds": 50.6,
+ "seconds": 38.9,
  "cmd": "",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/repairs/asset-lib-voice-assemble-2026-11-11-unblock.md",
  "deliverable_exists": true,
- "ts": "2026-11-11T01:58:19",
- "stdout_tail": "缺人：所有者 bm-a 未完成任务。最小动作：所有者重新认领。执行机器：原所有者 bm-a。",
+ "ts": "2026-11-11T02:00:12",
+ "stdout_tail": "缺权限：申请 bm-a 主管开通审批权，由 owner 所在环境执行。",
  "stderr_tail": ""
 }
