@@ -1,30 +1,30 @@
 {
- "ts": "2026-11-11T07:53:34",
- "cycle": 1207,
+ "ts": "2026-11-11T07:57:06",
+ "cycle": 1208,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-11T07:53:34",
+ "master_tick_ts": "2026-11-11T07:57:06",
  "queue": {
-  "total": 2104,
-  "open": 5,
-  "running": 1,
+  "total": 2108,
+  "open": 6,
+  "running": 4,
   "done": 787,
   "failed": 0
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 21.0,
-   "cpu_load_pct": 37,
-   "ram_free_gb": 48.6,
-   "gpu_util_pct": 0,
+   "hb_age_s": 52.6,
+   "cpu_load_pct": 46,
+   "ram_free_gb": 47.9,
+   "gpu_util_pct": 1,
    "job": "NODE-SYNC-bm-a-20261111T0752",
    "last_result": {
-    "job": null,
-    "state": "IDLE",
+    "job": "NODE-SYNC-bm-a-20261111T0752",
+    "state": "RUNNING",
     "rc": null,
-    "ts": "2026-11-11T07:49:42",
-    "reason": "SELF-DISPATCH: lane scans its own backlog",
+    "ts": "2026-11-11T07:54:42",
+    "reason": null,
     "out_bytes": null,
     "elapsed_s": null
    },
@@ -34,62 +34,62 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 545.0,
+   "hb_age_s": 210.2,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
    "job": null,
    "last_result": null,
    "idle_confirmed": false,
-   "idle_reason": "CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (7.5h 零产出)",
+   "idle_reason": "CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (7.6h 零产出)",
    "idle_rounds": 0
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 38.8,
-   "cpu_load_pct": 17,
-   "ram_free_gb": 4.7,
+   "hb_age_s": 32.9,
+   "cpu_load_pct": 14,
+   "ram_free_gb": 2.6,
    "gpu_util_pct": 0,
-   "job": null,
+   "job": "NODE-SYNC-bm-c-20261111T0753",
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-11T07:53:02",
+    "ts": "2026-11-11T07:56:39",
     "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
-   "idle_confirmed": true,
-   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 5
+   "idle_confirmed": false,
+   "idle_reason": "",
+   "idle_rounds": 0
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 1.9,
-   "cpu_load_pct": 29,
-   "ram_free_gb": 11.4,
+   "hb_age_s": 1.5,
+   "cpu_load_pct": 2,
+   "ram_free_gb": 11.7,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-11T07:53:09",
-    "reason": "SELF-DISPATCH: lane scans its own backlog",
+    "ts": "2026-11-11T07:56:10",
+    "reason": "control-plane heartbeat",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 21
+   "idle_rounds": 22
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
-  "bm-c": 5,
-  "bm-m": 21
+  "bm-c": 0,
+  "bm-m": 22
  },
  "lines": {
   "bigstream-mv": {
@@ -153,8 +153,10 @@
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "游戏席",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "GAP-BIGGAME-BMC-7"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": null,
    "stuck_stage": "game-design",
@@ -163,12 +165,14 @@
   "fluxverse": {
    "name": "FluxVerse·元宙城",
    "status": "ACTIVE",
-   "verdict": "WAITING",
+   "verdict": "WORKING",
    "age_h": null,
    "stale_after_h": 36.0,
    "owner": "城市线",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "GAP-FLUXVERSE-BMC-7"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": null
   },
@@ -231,10 +235,13 @@
    "owner": "生态运营席",
    "jobs": [
     "PATROL-bighouse-20261110",
-    "UNBLOCK-PATROL-bighouse-20261109"
+    "UNBLOCK-PATROL-bighouse-20261109",
+    "GAP-BIGHOUSE-BMC-7"
    ],
    "no_supply": false,
-   "blockers": [],
+   "blockers": [
+    "GAP-BIGHOUSE-BMC-7:no-lane"
+   ],
    "note": null
   },
   "car-gaming": {
@@ -271,7 +278,8 @@
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
    "jobs": [
-    "NODE-SYNC-bm-a-20261111T0752"
+    "NODE-SYNC-bm-a-20261111T0752",
+    "NODE-SYNC-bm-c-20261111T0753"
    ],
    "no_supply": false,
    "blockers": [],
@@ -837,7 +845,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 5,
+  "local": 6,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -845,24 +853,26 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 5,
+  "cpu": 6,
   "gpu": 0
  },
  "supply_added": [],
  "events": [
-  "NODE-SYNC-bm-a-20261111T0752 -> bm-a (cpu)"
+  "NODE-SYNC-bm-c-20261111T0753 -> bm-c (cpu)",
+  "GAP-FLUXVERSE-BMC-7 -> bm-c (cpu)",
+  "GAP-BIGGAME-BMC-7 -> bm-c (cpu)"
  ],
  "violations": [
   "bm-b CAPACITY-BLOCKED-RAM",
-  "bm-c IDLE-CONFIRMED x5 (SELF-DISPATCH: lane scans its own backlo)",
-  "bm-m IDLE-CONFIRMED x21 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-m IDLE-CONFIRMED x22 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED bigstream-mv 卡在 立意/分镜/导演席 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-a",
-  "bm-b"
+  "bm-b",
+  "bm-c",
+  "bm-m"
  ]
 }
