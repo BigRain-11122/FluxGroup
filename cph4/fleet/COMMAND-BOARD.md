@@ -1,4 +1,4 @@
-# 指挥一屏 2026-11-10T23:37:46
+# 指挥一屏 2026-11-10T23:40:21
 
 _节奏表=COMMAND-CADENCE-v1.json｜本屏由规则从盘上事实算出，未用模型猜数_
 
@@ -8,15 +8,15 @@ _节奏表=COMMAND-CADENCE-v1.json｜本屏由规则从盘上事实算出，未�
 
 ## A 值守（45 秒档，纯规则）
 
-1. 可派卡 **5** 张｜在飞 **4** 张｜空壳卡隔离 **0** 张
-2. 在飞分布：bm-b=2, bm-c=2
+1. 可派卡 **5** 张｜在飞 **2** 张｜空壳卡隔离 **0** 张
+2. 在飞分布：bm-b=1, bm-c=1
 3. 返工≥3 次的活卡：**1** 张（asset-lib-face-caption-2026-11-10）
 
 ## B 机队实况（3 分钟档）
 
 - **bm-a** SELF-OK｜reload=OK shells=OK deps=OK｜2026-11-07T22:25
 - **bm-c** SELF-OK｜reload=OK shells=OK deps=OK｜2026-11-06T23:55
-- **bm-m** SELF-OK｜reload=OK shells=OK deps=OK｜2026-11-10T23:35
+- **bm-m** SELF-OK｜reload=OK shells=OK deps=OK｜2026-11-10T23:39
 
 ## C 线与产出（15 分钟档）
 
@@ -33,7 +33,7 @@ _节奏表=COMMAND-CADENCE-v1.json｜本屏由规则从盘上事实算出，未�
 | RECON·竞品拆解 | ACTIVE | 82.9h ⚠ |
 | BigStream·MV 41 曲 | ACTIVE | 32.3h |
 
-ACTIVE 线 10 条｜超 72h 无产物 9 条
+ACTIVE 线 10 条｜超 72h 无产物 6 条｜PARKED 5 条（按 CEO 令暂停，不计入停血）
 
 ## D 告警（60 分钟档）
 
@@ -41,11 +41,11 @@ ACTIVE 线 10 条｜超 72h 无产物 9 条
 
 ## E 指挥质量（6 小时档）
 
-1. 队列 1934 行：DONE 693｜FAILED 2｜UNVERIFIED 2｜CANCELLED 828
-2. 完成占比 99%（DONE/697）
+1. 队列 1934 行：DONE 694｜FAILED 3｜UNVERIFIED 2｜CANCELLED 828
+2. 完成占比 99%（DONE/699）
 3. 空壳卡累计隔离 0 张（越少越好，涨了就是造卡器又出错）
 
 ## F 需要 CEO 的（≤3 条，其余自决）
 
-1. BigStream·短剧 已 269h 无产物，需定去留
-2. BigStream·短视频/切片 已 202h 无产物，需定去留
+1. Biggame·游戏 已 174h 无产物，需定去留
+2. FluxVerse·元宙城 已 176h 无产物，需定去留
