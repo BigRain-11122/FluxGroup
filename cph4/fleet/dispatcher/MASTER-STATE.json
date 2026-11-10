@@ -1,29 +1,29 @@
 {
- "ts": "2026-11-10T23:18:43",
- "cycle": 1051,
+ "ts": "2026-11-10T23:21:22",
+ "cycle": 1052,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-10T23:18:43",
+ "master_tick_ts": "2026-11-10T23:21:22",
  "queue": {
   "total": 1931,
   "open": 5,
-  "running": 5,
-  "done": 690,
+  "running": 4,
+  "done": 691,
   "failed": 0
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 29.5,
-   "cpu_load_pct": 35,
-   "ram_free_gb": 24.8,
-   "gpu_util_pct": 90,
+   "hb_age_s": 8.1,
+   "cpu_load_pct": 52,
+   "ram_free_gb": 26.7,
+   "gpu_util_pct": 88,
    "job": "MV-DIRECTOR-PACKET-20261109",
    "last_result": {
-    "job": "GAP-BIGHOUSE-LINE-20261110",
+    "job": "BIZ-BIGGAME-SUBMITPACK-20261110B",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-10T23:14:53",
+    "ts": "2026-11-10T23:20:15",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -34,7 +34,7 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 219.1,
+   "hb_age_s": 377.9,
    "cpu_load_pct": 6,
    "ram_free_gb": 9.2,
    "gpu_util_pct": 2,
@@ -54,20 +54,12 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 39.5,
+   "hb_age_s": 198.3,
    "cpu_load_pct": 18,
    "ram_free_gb": 0.8,
    "gpu_util_pct": 0,
    "job": "asset-lib-face-caption-2026-11-10",
-   "last_result": {
-    "job": "GAP-BIGGAME-ART-20261111",
-    "state": "RUNNING",
-    "rc": null,
-    "ts": "2026-11-10T23:09:36",
-    "reason": null,
-    "out_bytes": null,
-    "elapsed_s": null
-   },
+   "last_result": null,
    "idle_confirmed": false,
    "idle_reason": "",
    "idle_rounds": 0
@@ -75,29 +67,29 @@
   "bm-m": {
    "online": true,
    "hb_age_s": 1.6,
-   "cpu_load_pct": 14,
-   "ram_free_gb": 16.2,
+   "cpu_load_pct": 5,
+   "ram_free_gb": 15.4,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-10T23:18:41",
+    "ts": "2026-11-10T23:20:42",
     "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 1
+   "idle_rounds": 2
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 1
+  "bm-m": 2
  },
  "lines": {
   "bigstream-mv": {
@@ -163,10 +155,8 @@
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "游戏席",
-   "jobs": [
-    "BIZ-BIGGAME-SUBMITPACK-20261110B"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": null,
    "stuck_stage": "game-design",
@@ -861,12 +851,17 @@
   "gpu": 0
  },
  "supply_added": [],
- "events": [],
+ "events": [
+  "BIZ-BIGGAME-SUBMITPACK-20261110B DONE via bm-a"
+ ],
  "violations": [
+  "bm-m IDLE-CONFIRMED x2 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED bigstream-mv 卡在 立意/分镜/导演席 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
- "lane_files_written": []
+ "lane_files_written": [
+  "bm-a"
+ ]
 }
