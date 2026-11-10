@@ -5490,3 +5490,13 @@
 - 11-11T00:38 · REPAIR-R-MODEL-RADAR-BMB-20261111-bm-m.json · 已完成机队回执生成，但存在因文件未校验导致任务阻塞的风险。
 - 11-11T00:38 · REPAIR-biggame-pack-scan-2026-11-11-acceptance.json · 机队回执未生成有效交付物，存在流程阻断风险。
 - 11-11T00:38 · REPAIR-biggame-pack-scan-2026-11-11-bm-m.json · 已完成大游戏包扫描任务，但因上游交付物信任缺失导致业务流转被拦截。
+- 11-11T00:41 · _last_lane_bm-m.json · 已完成机队修复任务，当前运行中无风险。
+- 11-11T00:40 · self-improve-bm-m-latest.json · 机队已完成自检与清理，无风险。
+- 11-11T00:41 · REPAIR-biggame-pack-scan-2026-11-11-acceptance.json · 机队回执被拒，因交付物非有效产物且无风险。
+- 11-11T00:40 · REPAIR-biggame-pack-scan-2026-11-11-bm-m.json · 完成大车队扫描任务，因缺乏身份验证需人工介入处理风险。
+- 11-11T00:41 · CANARY-20261111T003756-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物。
+- 11-11T00:40 · CANARY-20261111T003756-bm-m.json · 已完成端到端自检并生成产物，无风险。
+- 11-11T00:41 · REPAIR-R-NEXT-BIGSTREAMM-REBUILD-20261111-acceptance.json · 机队回执被拒，因交付物非所需文档且无风险。
+- 11-11T00:41 · REPAIR-R-NEXT-BIGSTREAMM-REBUILD-20261111-bm-m.json · 已完成视频上传任务，因文件结构性问题导致验证失败，存在需人工替换重试的风险。
+- 11-11T00:40 · REPAIR-R-MODEL-RADAR-BMB-20261111-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
+- 11-11T00:40 · REPAIR-R-MODEL-RADAR-BMB-20261111-bm-m.json · 已完成机队回执生成，但存在因脏数据导致任务终止的风险。
