@@ -6298,3 +6298,10 @@
 - 11-11T06:18 · UNBLOCK-asset-lib-face-caption-2026-11-11-bm-m.json · 已完成机队回执生成，无风险，需人工解除阻塞后重新指派。
 - 11-11T06:18 · UNBLOCK-GAP-BIGMONEY-BMA-20261111-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效文档。
 - 11-11T06:18 · UNBLOCK-GAP-BIGMONEY-BMA-20261111-bm-m.json · 已完成机队解锁，存在因租约过期导致的重复执行风险。
+- 11-11T06:19 · _last_lane_bm-m.json · 任务已完成，无风险。
+- 11-11T06:19 · NODE-SYNC-bm-c-20261111T0614-bm-c.json · 已完成节点同步与报告生成，无风险。
+- 11-11T06:19 · NODE-SYNC-bm-c-20261111T0614-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-11T06:19 · REPAIR-NODE-SYNC-bm-a-20261111T0552-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物且无风险。
+- 11-11T06:19 · REPAIR-NODE-SYNC-bm-a-20261111T0552-bm-m.json · 已完成机队同步任务，但发现致命硬中断错误，需人工修复后验证。
+- 11-11T06:19 · UNBLOCK-asset-lib-face-caption-2026-11-11-acceptance.json · 机队回执未生成有效交付物，存在流程阻断风险。
+- 11-11T06:19 · UNBLOCK-asset-lib-face-caption-2026-11-11-bm-m.json · 已完成机队解锁，但需原主机先解除锁状态并重新申请。
