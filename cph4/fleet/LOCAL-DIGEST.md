@@ -5765,3 +5765,7 @@
 - 11-11T02:09 · MV-STAB-Q-MV-0001-003-bm-a.json · 运行稳定性脚本失败，因合同错误导致任务终止。
 - 11-11T02:09 · MV-STAB-Q-MV-0001-003-acceptance.json · 完成机队回执提交，但被拒收因交付物非标准产物。
 - 11-11T02:09 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-11T02:11 · skill-promote-20261111.json · 已完成部分任务，因工具缺失导致多数技能无法执行。
+- 11-11T02:11 · _last_lane_bm-m.json · 机队任务已完成，无风险。
+- 11-11T02:11 · UNBLOCK-asset-lib-voice-assemble-2026-11-11-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物，无安全风险。
+- 11-11T02:11 · UNBLOCK-asset-lib-voice-assemble-2026-11-11-bm-m.json · 已完成资产库解锁，但存在因权限不足导致无法执行的潜在风险。
