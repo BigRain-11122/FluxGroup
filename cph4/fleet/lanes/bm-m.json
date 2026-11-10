@@ -1,8 +1,51 @@
 {
  "node": "bm-m",
- "ts": "2026-11-11T06:08:14",
- "jobs": [],
- "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+ "ts": "2026-11-11T06:13:51",
+ "jobs": [
+  {
+   "id": "REPAIR-NODE-SYNC-bm-a-20261111T0552",
+   "title": "[repair] NODE-SYNC-bm-a-20261111T0552 的根因与下一步",
+   "cmd": "",
+   "cwd": null,
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/repairs/NODE-SYNC-bm-a-20261111T0552.md",
+   "need_mb": null,
+   "model": "local-small",
+   "prompt": "这张卡失败了。请只依据给出的证据，写一页诊断：①最可能的根因 ②下一步具体动作（谁、做什么、怎么验证）。不要编造文件或命令。\n\n证据：状态=FAILED；备注=；交付物=cph4/fleet/reports/node-sync-bm-a-20261111t0552.md；重试=None",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "UNBLOCK-asset-lib-face-caption-2026-11-11",
+   "title": "[unblock] asset-lib-face-caption-2026-11-11 的解锁动作",
+   "cmd": "",
+   "cwd": null,
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/repairs/asset-lib-face-caption-2026-11-11-unblock.md",
+   "need_mb": null,
+   "model": "local-small",
+   "prompt": "这张卡被标记 BLOCKED。只依据证据，给出：①阻塞类型（缺人/缺料/缺权限/环境）②最小解锁动作 ③解锁后应由哪台机执行。40 字以内一条，不要客套。\n\n证据：状态=BLOCKED；备注=备队列声明被队列状态覆盖（队列为权威）；owner=-",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "UNBLOCK-GAP-BIGMONEY-BMA-20261111",
+   "title": "[unblock] GAP-BIGMONEY-BMA-20261111 的解锁动作",
+   "cmd": "",
+   "cwd": null,
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/repairs/GAP-BIGMONEY-BMA-20261111-unblock.md",
+   "need_mb": null,
+   "model": "local-small",
+   "prompt": "这张卡被标记 BLOCKED。只依据证据，给出：①阻塞类型（缺人/缺料/缺权限/环境）②最小解锁动作 ③解锁后应由哪台机执行。40 字以内一条，不要客套。\n\n证据：状态=BLOCKED；备注=requeued after lease expiry (attempt 2)；owner=bm-a",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  }
+ ],
+ "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 11.6/1.0 GB"
+ "capacity_note": "ram 12.5/1.0 GB"
 }

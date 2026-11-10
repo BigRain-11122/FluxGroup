@@ -1,29 +1,29 @@
 {
- "ts": "2026-11-11T06:08:45",
- "cycle": 1176,
+ "ts": "2026-11-11T06:13:49",
+ "cycle": 1177,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-11T06:08:45",
+ "master_tick_ts": "2026-11-11T06:13:49",
  "queue": {
-  "total": 2072,
+  "total": 2086,
   "open": 5,
-  "running": 1,
+  "running": 4,
   "done": 769,
   "failed": 2
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 31.6,
-   "cpu_load_pct": 40,
-   "ram_free_gb": 44.1,
+   "hb_age_s": 35.1,
+   "cpu_load_pct": 76,
+   "ram_free_gb": 45.3,
    "gpu_util_pct": 0,
-   "job": "R-NEXT-BIGSTREAMM-REBUILD-20261111",
+   "job": "NODE-SYNC-bm-a-20261111T0612",
    "last_result": {
-    "job": "NODE-SYNC-bm-a-20261111T0552",
-    "state": "FAILED",
-    "rc": 128,
-    "ts": "2026-11-11T06:06:51",
+    "job": "R-NEXT-BIGSTREAMM-REBUILD-20261111",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-11T06:10:25",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -34,7 +34,7 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 246.7,
+   "hb_age_s": 550.6,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -46,50 +46,50 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 52.3,
-   "cpu_load_pct": 22,
-   "ram_free_gb": 3.5,
+   "hb_age_s": 74.0,
+   "cpu_load_pct": 17,
+   "ram_free_gb": 3.8,
    "gpu_util_pct": 0,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-11T06:07:59",
+    "ts": "2026-11-11T06:12:41",
     "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 4
+   "idle_rounds": 5
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 1.7,
-   "cpu_load_pct": 4,
-   "ram_free_gb": 15.8,
+   "hb_age_s": 1.9,
+   "cpu_load_pct": 10,
+   "ram_free_gb": 12.5,
    "gpu_util_pct": null,
-   "job": null,
+   "job": "REPAIR-NODE-SYNC-bm-a-20261111T0552",
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-11T06:08:21",
+    "ts": "2026-11-11T06:13:26",
     "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
-   "idle_confirmed": true,
-   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 3
+   "idle_confirmed": false,
+   "idle_reason": "",
+   "idle_rounds": 0
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
-  "bm-c": 4,
-  "bm-m": 3
+  "bm-c": 5,
+  "bm-m": 0
  },
  "lines": {
   "bigstream-mv": {
@@ -99,10 +99,8 @@
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
-   "jobs": [
-    "R-NEXT-BIGSTREAMM-REBUILD-20261111"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": null,
    "stuck_stage": "mv-plan",
@@ -181,8 +179,10 @@
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "量化席",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "UNBLOCK-GAP-BIGMONEY-BMA-20261111"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": "2026-11-04 夜班重启：原回测阶段钉 bm-d，而 bm-d 自 10-29 离线；改由 bm-b（有 quant 仓与数据）出「下月持仓信号 CSV」，主控按 P1 恢复派单。",
    "stuck_stage": "quant-data",
@@ -268,24 +268,29 @@
   "fleet-ops": {
    "name": "机队运维·端到端自检（平台服务线）",
    "status": "ACTIVE",
-   "verdict": "WAITING",
+   "verdict": "WORKING",
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "REPAIR-NODE-SYNC-bm-a-20261111T0552",
+    "NODE-SYNC-bm-a-20261111T0612"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": null
   },
   "asset-lib": {
    "name": "资产储备·角色 LoRA 与音色库",
    "status": "ACTIVE",
-   "verdict": "WAITING",
+   "verdict": "WORKING",
    "age_h": null,
    "stale_after_h": 72.0,
    "owner": "资产席",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "UNBLOCK-asset-lib-face-caption-2026-11-11"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": "CEO 2026-11-03：先储备资产，角色 LoRA 与音色库为 P0"
   }
@@ -849,14 +854,22 @@
   "gpu": 0
  },
  "supply_added": [],
- "events": [],
+ "events": [
+  "R-NEXT-BIGSTREAMM-REBUILD-20261111 UNVERIFIED(no-artifact-yet) via bm-a",
+  "NODE-SYNC-bm-a-20261111T0612 -> bm-a (cpu)",
+  "REPAIR-NODE-SYNC-bm-a-20261111T0552 -> bm-m (cpu)",
+  "UNBLOCK-asset-lib-face-caption-2026-11-11 -> bm-m (cpu)",
+  "UNBLOCK-GAP-BIGMONEY-BMA-20261111 -> bm-m (cpu)"
+ ],
  "violations": [
-  "bm-c IDLE-CONFIRMED x4 (SELF-DISPATCH: lane scans its own backlo)",
-  "bm-m IDLE-CONFIRMED x3 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-c IDLE-CONFIRMED x5 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED bigstream-mv 卡在 立意/分镜/导演席 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
- "lane_files_written": []
+ "lane_files_written": [
+  "bm-a",
+  "bm-m"
+ ]
 }
