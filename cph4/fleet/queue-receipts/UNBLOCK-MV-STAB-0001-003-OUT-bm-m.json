@@ -1,0 +1,17 @@
+{
+ "id": "UNBLOCK-MV-STAB-0001-003-OUT",
+ "node": "bm-m",
+ "rc": 0,
+ "seconds": 66.7,
+ "cmd": "",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "cph4/fleet/repairs/MV-STAB-0001-003-OUT-unblock.md",
+ "deliverable_exists": true,
+ "ts": "2026-11-10T23:57:19",
+ "stdout_tail": "缺权限（信号 0 锁死）；申请 bm-a 清除状态并授权；由生产系统执行。",
+ "stderr_tail": ""
+}
