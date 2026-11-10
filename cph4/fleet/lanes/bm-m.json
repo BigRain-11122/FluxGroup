@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-10T23:56:12",
+ "ts": "2026-11-10T23:57:59",
  "jobs": [
   {
    "id": "REPAIR-PRODUCE-FLUXVERSE-20261110",
@@ -61,5 +61,12 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 15.6/1.0 GB"
+ "capacity_note": "ram 15.6/1.0 GB",
+ "cards": [],
+ "pruned_shells": [
+  "REPAIR-PRODUCE-FLUXVERSE-20261110",
+  "REPAIR-GAP-ASSETLIB-C-20261111",
+  "UNBLOCK-MV-DIRECTOR-PACKET-20261109",
+  "UNBLOCK-MV-STAB-0001-003-OUT"
+ ]
 }
