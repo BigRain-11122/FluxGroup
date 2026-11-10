@@ -4892,3 +4892,8 @@
 - 11-10T21:53 · GAP-CHARGEN-PROBE-20261110-acceptance.json · 机队回执显示产物未落盘，任务失败且无风险。
 - 11-10T21:53 · SYNC-BMC-2145-bm-c.json · 机队同步完成，无风险。
 - 11-10T21:53 · SYNC-BMC-2145-acceptance.json · 已完成机队回执提交，但因非标准产物被拒绝。
+- 11-10T21:55 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
+- 11-10T21:55 · GAP-CHARGEN-PROBE-20261110-bm-c.json · 机队回执生成失败，因无交付物导致任务未完成且存在风险。
+- 11-10T21:55 · GAP-CHARGEN-PROBE-20261110-acceptance.json · 机队回执显示产物未落盘，任务失败且无风险。
+- 11-10T21:55 · GRID-O2-20261110T2134-acceptance.json · 机队回执显示产物未落盘，任务失败且无风险。
+- 11-10T21:55 · GRID-O2-20261110T2134-bm-m.json · 机队回执显示无修复定义，任务失败且未交付报告。
