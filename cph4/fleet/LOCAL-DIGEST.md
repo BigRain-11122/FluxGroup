@@ -6291,3 +6291,10 @@
 - 11-11T06:16 · REPAIR-NODE-SYNC-bm-a-20261111T0552-bm-m.json · 已完成节点同步故障分析，发现重试机制缺失风险，需手动介入修复。
 - 11-11T06:17 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
 - 11-11T06:17 · _last_lane_bm-m.json · 已完成机队回执提交，无风险。
+- 11-11T06:18 · _last_lane_bm-m.json · 已完成节点同步修复，无风险。
+- 11-11T06:18 · REPAIR-NODE-SYNC-bm-a-20261111T0552-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物且无风险。
+- 11-11T06:18 · REPAIR-NODE-SYNC-bm-a-20261111T0552-bm-m.json · 节点同步任务失败，根因疑似底层接口不可达，需立即重放并验证数据源。
+- 11-11T06:18 · UNBLOCK-asset-lib-face-caption-2026-11-11-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-11T06:18 · UNBLOCK-asset-lib-face-caption-2026-11-11-bm-m.json · 已完成机队回执生成，无风险，需人工解除阻塞后重新指派。
+- 11-11T06:18 · UNBLOCK-GAP-BIGMONEY-BMA-20261111-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效文档。
+- 11-11T06:18 · UNBLOCK-GAP-BIGMONEY-BMA-20261111-bm-m.json · 已完成机队解锁，存在因租约过期导致的重复执行风险。
