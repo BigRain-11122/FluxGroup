@@ -6275,3 +6275,10 @@
 - 11-11T06:12 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
 - 11-11T06:14 · skill-promote-20261111.json · 已完成部分任务，因缺乏工具导致多数技能无法执行。
 - 11-11T06:14 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
+- 11-11T06:15 · _last_lane_bm-m.json · 任务已完成，无风险。
+- 11-11T06:15 · UNBLOCK-GAP-BIGMONEY-BMA-20261111-acceptance.json · 机队回执未生成，因缺乏必要产出文件被驳回。
+- 11-11T06:15 · UNBLOCK-GAP-BIGMONEY-BMA-20261111-bm-m.json · 已完成机队解锁，存在缺料风险需重新分配机器。
+- 11-11T06:15 · UNBLOCK-asset-lib-face-caption-2026-11-11-acceptance.json · 机队回执被拒，因交付物非有效产物且存在合规风险。
+- 11-11T06:15 · UNBLOCK-asset-lib-face-caption-2026-11-11-bm-m.json · 已完成机队回执生成，需立即赋予管理员权限以消除阻塞风险。
+- 11-11T06:15 · REPAIR-NODE-SYNC-bm-a-20261111T0552-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物且无风险。
+- 11-11T06:15 · REPAIR-NODE-SYNC-bm-a-20261111T0552-bm-m.json · 节点同步作业失败并死锁，需排查根因修复风险。
