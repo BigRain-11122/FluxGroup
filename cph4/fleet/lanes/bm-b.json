@@ -1,7 +1,21 @@
 {
  "node": "bm-b",
- "ts": "2026-11-11T01:02:38",
+ "ts": "2026-11-11T01:08:31",
  "jobs": [
+  {
+   "id": "asset-lib-voice-dataset-2026-11-11",
+   "title": "[资产储备（角色 LoRA / 音色库）] 音色数据集准入（反播音腔的第一道门）",
+   "cmd": "python Tools/fleet/asset_dataset_audit.py --mode voice --dir media/asset/voices --out cph4/fleet/queue-receipts/asset-voice-2026-11-11.json",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/asset-voice-2026-11-11.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
   {
    "id": "asset-lib-index-2026-11-11",
    "title": "[资产储备（角色 LoRA / 音色库）] 入库登记（没过闸的不许进资产库）",
