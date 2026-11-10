@@ -36,6 +36,17 @@ _COOLDOWN = {}          # base -> 解冻时刻
 COOLDOWN_S = 300
 
 
+def _is_tailnet(url):
+    """2026-11-10 CEO 选 B：Tailscale 内网免令牌。100.64.0.0/10 视为可信邻居。"""
+    try:
+        import ipaddress
+        from urllib.parse import urlparse
+        host = urlparse(url).hostname or ""
+        return ipaddress.ip_address(host) in ipaddress.ip_network("100.64.0.0/10")
+    except Exception:
+        return False
+
+
 def token():
     """令牌来源：环境变量优先（便于一次性注入），其次令牌文件（权限 600、不入 git）。"""
     v = (os.environ.get("FLUX_LLM_TOKEN") or "").strip()
@@ -79,7 +90,7 @@ def generate(prompt, model=None, endpoint=None, timeout=120, cls=None, think=Fal
                 "why": "熔断中：%ds 后再试（避免空打网关）" % int(_COOLDOWN[url] - now)}
 
     tok = token()
-    if not tok and not _is_loopback(url):
+    if not tok and not _is_loopback(url) and not _is_tailnet(url):
         # 缺料就地判死：不发请求、不进熔断、不计故障
         return {"ok": False, "rc": 3, "text": "",
                 "why": "本机没有令牌（%s 或 FLUX_LLM_TOKEN），不走网关" % TOKEN_FILE}

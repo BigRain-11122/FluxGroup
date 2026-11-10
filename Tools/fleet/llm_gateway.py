@@ -22,6 +22,7 @@ CEO 2026-11-08：「我希望机队也能调用你的本地大模型能力」。
 import argparse
 import json
 import os
+import ipaddress
 import sys
 import threading
 import time
@@ -110,10 +111,22 @@ class H(BaseHTTPRequestHandler):
              "ua": (self.headers.get("User-Agent") or "")[:80]})
         self._send(code, {"error": why})
 
+    def _trusted_peer(self):
+        """2026-11-10 CEO 选 B：Tailscale 内网（100.64.0.0/10）与本机回环免令牌。
+        只认这两个范围，公网/普通局域网仍然要令牌。"""
+        try:
+            ip = ipaddress.ip_address(self.client_address[0])
+        except Exception:
+            return False
+        if ip.is_loopback:
+            return True
+        return ip in ipaddress.ip_network("100.64.0.0/10")
+
     def do_GET(self):
         if self.path.split("?")[0] not in PASS_PATHS:
             return self._deny(404, "path not allowed")
-        if token() and self.headers.get("X-Flux-Token") != token():
+        if (token() and self.headers.get("X-Flux-Token") != token()
+                and not self._trusted_peer()):
             return self._deny(401, "bad or missing X-Flux-Token")
         try:
             with urllib.request.urlopen(UPSTREAM + self.path, timeout=15) as r:
@@ -125,7 +138,8 @@ class H(BaseHTTPRequestHandler):
         path = self.path.split("?")[0]
         if path not in PASS_PATHS:
             return self._deny(404, "path not allowed")
-        if token() and self.headers.get("X-Flux-Token") != token():
+        if (token() and self.headers.get("X-Flux-Token") != token()
+                and not self._trusted_peer()):
             return self._deny(401, "bad or missing X-Flux-Token")
         try:
             n = int(self.headers.get("Content-Length") or 0)
