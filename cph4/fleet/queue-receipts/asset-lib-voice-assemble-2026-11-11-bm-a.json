@@ -11,7 +11,7 @@
  "error_class": "E-BLOCKED-INPUT",
  "deliverable": "cph4/fleet/queue-receipts/voice-dataset-2026-11-11.json",
  "deliverable_exists": false,
- "ts": "2026-11-11T01:19:46",
+ "ts": "2026-11-11T01:24:33",
  "stdout_tail": "voice-dataset: passed=0/9 -> cph4\\fleet\\queue-receipts\\voice-dataset-2026-11-11.json\n  batch-2026-11-04     SKIP  clips=0 缺 RIGHTS.json（来源不明一律不进训练）\n  batch-2026-11-05     SKIP  clips=0 license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']\n  batch-2026-11-07     SKIP  clips=0 license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']\n  batch-2026-11-09     SKIP  clips=0 license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']\n  batch-2026-11-10     SKIP  clips=0 license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']\n  batch-2026-11-11     SKIP  clips=0 license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']\n  cn-drama-v1          SKIP  clips=0 license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']\n  en-librivox-v1       SKIP  clips=0 license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']\n  librivox             SKIP  clips=0 license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']\n",
  "stderr_tail": ""
 }

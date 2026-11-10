@@ -1,21 +1,27 @@
 {
- "ts": "2026-11-10T22:24:35+0800",
+ "ts": "2026-11-11T01:24:33+0800",
  "owner": "bm-c（传家宝）· 归集与 git 备份",
  "accept_on": "bm-c",
  "skills": {
   "count": 49,
-  "levels": {},
+  "levels": {
+   "A": 10,
+   "B": 19,
+   "external": 11,
+   "frozen": 5,
+   "parked": 2
+  },
   "with_eval": 2,
-  "newest": "2026-11-05 23:00"
+  "newest": "2026-11-04 14:52"
  },
  "voice": {
-  "audio_files": 168,
+  "audio_files": 5,
   "blocked_receipts": 1,
   "dirs_present": [
    "cph4/fleet/voicebank",
    "media/asset/inbox"
   ],
-  "newest": "2026-11-04 23:01"
+  "newest": "2026-11-04 13:33"
  },
  "workflow": {
   "line_tables": 6,
@@ -59,7 +65,7 @@
   ]
  },
  "experience": {
-  "docs": 87,
+  "docs": 91,
   "sections": 438,
   "top": [
    "cph4\\fleet\\asset-lib-v1\\ASSET-LIB-BUILD-v1.md",
@@ -71,7 +77,7 @@
    "cph4\\fleet\\CEO-DEMAND-LEDGER-v1.json",
    "cph4\\fleet\\CONTENT-WINS-LEDGER-v1.md"
   ],
-  "newest": "2026-11-10 22:22"
+  "newest": "2026-11-11 01:24"
  },
  "vault": {
   "entries": 651,
@@ -83,94 +89,94 @@
   "index": "cph4\\fleet\\vault\\index.jsonl"
  },
  "produced": {
-  "done_with_deliverable": 652,
-  "on_disk": 421,
+  "done_with_deliverable": 716,
+  "on_disk": 518,
   "absent": [
    {
-    "id": "Q-MV-0001-001",
-    "deliverable": "D:\\FleetWorker\\review\\aesthetic_v716b.json"
+    "id": "Q-ALIGN-20261030-BMC",
+    "deliverable": "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\queue-receipts\\fleet-align-bm-c.json"
    },
    {
-    "id": "Q-MV-0001-002",
-    "deliverable": "D:\\FleetWorker\\review\\trans_v716b.json"
+    "id": "R-BIZ-20261029-003",
+    "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-defect-review.md"
    },
    {
-    "id": "Q-MV-0001-004",
-    "deliverable": "D:\\FleetWorker\\review\\sheets_v717"
+    "id": "R-BIZ-20261029-004",
+    "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-dispatch-dx.md"
    },
    {
-    "id": "Q-MV-0001-005",
-    "deliverable": "D:\\FleetWorker\\review\\jitter_v717.json"
+    "id": "R-BIZ-20261029-005",
+    "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-output-brief.md"
    },
    {
-    "id": "Q-MV-0001-006",
-    "deliverable": "D:\\FleetWorker\\review\\flags_v717\\index.json"
+    "id": "R-INN-20261029-001",
+    "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-process-v3.md"
    },
    {
-    "id": "Q-MV-0001-007",
-    "deliverable": "D:\\FleetWorker\\review\\jitter_class_v717.json"
+    "id": "R-INN-20261029-002",
+    "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-wins-v2.md"
    },
    {
-    "id": "Q-MV-0001-009",
-    "deliverable": "D:\\FleetWorker\\review\\trans_v717.json"
+    "id": "R-SUBCO-20261029-001",
+    "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-subco-brief.md"
    },
    {
-    "id": "Q-MV-0001-008",
-    "deliverable": "D:\\FleetWorker\\review\\aesthetic_v717.json"
+    "id": "R-SUBCO-20261029-002",
+    "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-stale-attribution.md"
    },
    {
-    "id": "Q-MV-0001-010",
-    "deliverable": "D:\\FleetWorker\\review\\reconcile_v717.json"
+    "id": "R-SUBCO-20261029-003",
+    "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-drama-unblock.md"
    },
    {
-    "id": "Q-MV-0002-001",
-    "deliverable": "D:\\FleetWorker\\review\\kf_sheets_keainvren\\index.json"
+    "id": "R-DX-20261030-001",
+    "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-fleet-dx-round2.md"
    },
    {
-    "id": "Q-MV-0002-002",
-    "deliverable": "D:\\FleetWorker\\review\\kf_sheets_kn_1024\\index.json"
+    "id": "R-CHECK-20261030",
+    "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-selfcheck-20261030.md"
    },
    {
-    "id": "Q-MV-0001-011",
-    "deliverable": "D:\\FleetWorker\\review\\flag_board_v717\\index.json"
+    "id": "Q-AUD-1002",
+    "deliverable": "C:/Fluxgroup/FluxGroup/media/drama-eps-audio/EP002_AUDIO-r1002.mp4"
    },
    {
-    "id": "Q-MV-0001-012",
-    "deliverable": "D:\\FleetWorker\\review\\ceo_items_v717\\signoff\\SIGN-OFF-SHEET-v717.json"
+    "id": "Q-AUD-1003",
+    "deliverable": "C:/Fluxgroup/FluxGroup/media/drama-eps-audio/EP003_AUDIO-r1003.mp4"
    },
    {
-    "id": "Q-MV-0001-013",
-    "deliverable": "D:\\FleetWorker\\review\\ceo_items_v717\\erablind\\ANSWERS.md"
+    "id": "Q-GPU-BMC-001",
+    "deliverable": "K:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/bm-c-gpu-lease-receipt.md"
    },
    {
-    "id": "Q-MV-0001-014",
-    "deliverable": "D:\\FleetWorker\\review\\ceo_items_v717\\staticjump\\STATIC-JUMP-11.md"
+    "id": "Q-VIZ-2001",
+    "deliverable": "K:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/bm-c-prompt-budget-scan.md"
    },
    {
-    "id": "Q-MV-0001-015",
-    "deliverable": "D:\\FleetWorker\\review\\delivery_gate_v717.json"
+    "id": "Q-MIX-1203",
+    "deliverable": "C:/Fluxgroup/FluxGroup/media/drama-mix-out/r1203_ep001_060/"
    },
    {
-    "id": "Q-MV-0001-016",
-    "deliverable": "D:\\FleetWorker\\review\\v717_label\\full_mv_v717_aigc.mp4"
+    "id": "R-LLM-BMB-PROBE",
+    "deliverable": "C:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/bm-b-local-llm-probe.md"
    },
    {
-    "id": "Q-MV-0001-017",
-    "deliverable": "D:\\FleetWorker\\review\\delivery_gate_v717_wl.json"
+    "id": "R-TTS1202R-VERIFY-20261031",
+    "deliverable": "C:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/Q-TTS-1202R-bm-b-verify.md"
    },
    {
-    "id": "Q-MV-0001-018",
-    "deliverable": "D:\\FleetWorker\\review\\fidelity_v717.json"
+    "id": "Q-GPU-BMC-01R",
+    "deliverable": "K:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/bm-c-gpu-lease-receipt.md"
    },
    {
-    "id": "Q-MV-0001-019",
-    "deliverable": "D:\\FleetWorker\\review\\outliers_v717.json"
+    "id": "RCANARY-20261102T181134",
+    "deliverable": "cph4/fleet/state/canary/REMOTE-20261102T181134.txt"
    }
   ],
-  "absent_count": 231
+  "absent_count": 198
  },
  "gaps": [
-  "231 张 DONE 卡的交产物不在盘",
+  "198 张 DONE 卡的交产物不在盘",
   "651 条 vault 登记指向不存在的文件"
  ]
 }

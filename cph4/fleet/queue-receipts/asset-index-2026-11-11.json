@@ -1,0 +1,191 @@
+{
+ "rc": 2,
+ "verdict": "GAPS",
+ "error_class": null,
+ "summary": {
+  "ts": "2026-11-11T01:24:33+0800",
+  "owner": "bm-c（传家宝）· 归集与 git 备份",
+  "accept_on": "bm-c",
+  "skills": {
+   "count": 49,
+   "levels": {
+    "A": 10,
+    "B": 19,
+    "external": 11,
+    "frozen": 5,
+    "parked": 2
+   },
+   "with_eval": 2,
+   "newest": "2026-11-04 14:52"
+  },
+  "voice": {
+   "audio_files": 5,
+   "blocked_receipts": 1,
+   "dirs_present": [
+    "cph4/fleet/voicebank",
+    "media/asset/inbox"
+   ],
+   "newest": "2026-11-04 13:33"
+  },
+  "workflow": {
+   "line_tables": 6,
+   "stage_rows": 39,
+   "recipes": [
+    "content.yaml",
+    "game.yaml",
+    "strategy.yaml"
+   ],
+   "detail": [
+    {
+     "line": "asset-lib",
+     "stages": 15,
+     "parallel": false
+    },
+    {
+     "line": "biggame",
+     "stages": 2,
+     "parallel": false
+    },
+    {
+     "line": "bigmoney",
+     "stages": 5,
+     "parallel": false
+    },
+    {
+     "line": "bigstream-drama",
+     "stages": 5,
+     "parallel": false
+    },
+    {
+     "line": "bigstream-duanju",
+     "stages": 6,
+     "parallel": false
+    },
+    {
+     "line": "bigstream-mv",
+     "stages": 6,
+     "parallel": false
+    }
+   ]
+  },
+  "experience": {
+   "docs": 91,
+   "sections": 438,
+   "top": [
+    "cph4\\fleet\\asset-lib-v1\\ASSET-LIB-BUILD-v1.md",
+    "cph4\\fleet\\asset-lib-v1\\ASSET-LIBRARY-PLAN-v1.md",
+    "cph4\\fleet\\asset-lib-v1\\SOURCES-V1.md",
+    "cph4\\fleet\\ARCHIVE-LEDGER.jsonl",
+    "cph4\\fleet\\BACKLOG-LEDGER-20261103.md",
+    "cph4\\fleet\\CEO-DEFECT-LEDGER-v1.md",
+    "cph4\\fleet\\CEO-DEMAND-LEDGER-v1.json",
+    "cph4\\fleet\\CONTENT-WINS-LEDGER-v1.md"
+   ],
+   "newest": "2026-11-11 01:24"
+  },
+  "vault": {
+   "entries": 651,
+   "kinds": {
+    "img": 238,
+    "report": 413
+   },
+   "missing_on_disk": 651,
+   "index": "cph4\\fleet\\vault\\index.jsonl"
+  },
+  "produced": {
+   "done_with_deliverable": 716,
+   "on_disk": 518,
+   "absent": [
+    {
+     "id": "Q-ALIGN-20261030-BMC",
+     "deliverable": "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\queue-receipts\\fleet-align-bm-c.json"
+    },
+    {
+     "id": "R-BIZ-20261029-003",
+     "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-defect-review.md"
+    },
+    {
+     "id": "R-BIZ-20261029-004",
+     "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-dispatch-dx.md"
+    },
+    {
+     "id": "R-BIZ-20261029-005",
+     "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-output-brief.md"
+    },
+    {
+     "id": "R-INN-20261029-001",
+     "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-process-v3.md"
+    },
+    {
+     "id": "R-INN-20261029-002",
+     "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-wins-v2.md"
+    },
+    {
+     "id": "R-SUBCO-20261029-001",
+     "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-subco-brief.md"
+    },
+    {
+     "id": "R-SUBCO-20261029-002",
+     "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-stale-attribution.md"
+    },
+    {
+     "id": "R-SUBCO-20261029-003",
+     "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-drama-unblock.md"
+    },
+    {
+     "id": "R-DX-20261030-001",
+     "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-fleet-dx-round2.md"
+    },
+    {
+     "id": "R-CHECK-20261030",
+     "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-selfcheck-20261030.md"
+    },
+    {
+     "id": "Q-AUD-1002",
+     "deliverable": "C:/Fluxgroup/FluxGroup/media/drama-eps-audio/EP002_AUDIO-r1002.mp4"
+    },
+    {
+     "id": "Q-AUD-1003",
+     "deliverable": "C:/Fluxgroup/FluxGroup/media/drama-eps-audio/EP003_AUDIO-r1003.mp4"
+    },
+    {
+     "id": "Q-GPU-BMC-001",
+     "deliverable": "K:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/bm-c-gpu-lease-receipt.md"
+    },
+    {
+     "id": "Q-VIZ-2001",
+     "deliverable": "K:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/bm-c-prompt-budget-scan.md"
+    },
+    {
+     "id": "Q-MIX-1203",
+     "deliverable": "C:/Fluxgroup/FluxGroup/media/drama-mix-out/r1203_ep001_060/"
+    },
+    {
+     "id": "R-LLM-BMB-PROBE",
+     "deliverable": "C:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/bm-b-local-llm-probe.md"
+    },
+    {
+     "id": "R-TTS1202R-VERIFY-20261031",
+     "deliverable": "C:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/Q-TTS-1202R-bm-b-verify.md"
+    },
+    {
+     "id": "Q-GPU-BMC-01R",
+     "deliverable": "K:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/bm-c-gpu-lease-receipt.md"
+    },
+    {
+     "id": "RCANARY-20261102T181134",
+     "deliverable": "cph4/fleet/state/canary/REMOTE-20261102T181134.txt"
+    }
+   ],
+   "absent_count": 198
+  },
+  "gaps": [
+   "198 张 DONE 卡的交产物不在盘",
+   "651 条 vault 登记指向不存在的文件"
+  ]
+ },
+ "gaps": [
+  "198 张 DONE 卡的交产物不在盘",
+  "651 条 vault 登记指向不存在的文件"
+ ]
+}
