@@ -4737,3 +4737,9 @@
 - 11-10T20:25 · _last_lane_bm-m.json · 机队已清完积压任务，无风险。
 - 11-10T20:25 · skill-promote-20261110.json · 已跳过多项因工具缺失或重复的任务，当前无风险。
 - 11-10T20:27 · _last_lane_bm-m.json · 已完成资产库人脸数据集修复任务，当前运行中无风险。
+- 11-10T20:29 · _last_lane_bm-m.json · 已完成资产库人脸数据集修复，无风险。
+- 11-10T20:29 · REPAIR-asset-lib-face-dataset-2026-11-08-acceptance.json · 已完成机队回执提交，但被拒因交付物非所需文档。
+- 11-10T20:29 · REPAIR-asset-lib-face-dataset-2026-11-08-bm-m.json · 已完成资产补账任务回执生成，但存在因验证逻辑缺失导致闭环失败的风险。
+- 11-10T20:29 · REPAIR-asset-lib-library-check-2026-11-08-acceptance.json · 已完成资产库检查回执提交，但因非标准产物被驳回。
+- 11-10T20:29 · REPAIR-asset-lib-library-check-2026-11-08-bm-m.json · 资产库补账任务因数据校验失败终止，需人工介入修复。
+- 11-10T20:29 · self-improve-bm-m-latest.json · 已完成机队回执提交，无风险。
