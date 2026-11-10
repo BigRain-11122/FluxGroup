@@ -1,0 +1,17 @@
+{
+ "id": "asset-lib-voice-corpus-2026-11-11",
+ "node": "bm-a",
+ "rc": 0,
+ "seconds": 152.1,
+ "cmd": "python Tools/fleet/voice_corpus_prep.py --inbox media/asset/inbox --group batch-2026-11-11 --shard 0/1 --receipt cph4/fleet/queue-receipts/voice-corpus-2026-11-11.json",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "cph4/fleet/queue-receipts/voice-corpus-2026-11-11.json",
+ "deliverable_exists": true,
+ "ts": "2026-11-11T00:47:18",
+ "stdout_tail": "[corpus] batch-2026-11-11 分片 0/1：文件 5 → 片段 1137（6484.7s）\n",
+ "stderr_tail": ""
+}
