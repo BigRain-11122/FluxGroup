@@ -5643,3 +5643,5 @@
 - 11-11T01:22 · bigmoney-conclusion-2026-11-11-acceptance.json · 完成机队回执提交，但被拒因内容非标准交付物，存在合规风险。
 - 11-11T01:22 · asset-lib-voice-assemble-2026-11-11-bm-a.json · 语音数据集生成失败，因数据版权不明且未在白名单内，存在合规风险。
 - 11-11T01:22 · asset-lib-voice-assemble-2026-11-11-acceptance.json · 已完成机队回执提交，但被拒因交付物非预期产物。
+- 11-11T01:24 · _last_lane_bm-m.json · 机队已就绪，心跳正常，无风险。
+- 11-11T01:24 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
