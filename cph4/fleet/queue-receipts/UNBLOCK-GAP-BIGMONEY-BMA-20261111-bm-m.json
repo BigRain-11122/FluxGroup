@@ -1,0 +1,17 @@
+{
+ "id": "UNBLOCK-GAP-BIGMONEY-BMA-20261111",
+ "node": "bm-m",
+ "rc": 0,
+ "seconds": 32.0,
+ "cmd": "",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "cph4/fleet/repairs/GAP-BIGMONEY-BMA-20261111-unblock.md",
+ "deliverable_exists": true,
+ "ts": "2026-11-11T06:14:24",
+ "stdout_tail": "缺料阻塞；立即补发租赁券给 bm-a 机执行；立即补租并重启任务。",
+ "stderr_tail": ""
+}
