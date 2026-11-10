@@ -4748,3 +4748,9 @@
 - 11-10T20:31 · REPAIR-asset-lib-library-check-2026-11-08-bm-m.json · 资产库补账因触发重试限制保护机制而失败，需人工干预调整策略并重新执行。
 - 11-10T20:31 · REPAIR-asset-lib-face-dataset-2026-11-08-acceptance.json · 机队回执被拒，因交付物非预期文档且无风险。
 - 11-10T20:31 · REPAIR-asset-lib-face-dataset-2026-11-08-bm-m.json · 已完成根因分析与状态修正方案，存在需人工介入验证及强制重置配置的风险。
+- 11-10T20:33 · REPAIR-asset-lib-library-check-2026-11-08-acceptance.json · 已完成资产库检查回执提交，但因非标准产物被驳回。
+- 11-10T20:33 · REPAIR-asset-lib-library-check-2026-11-08-bm-m.json · 已完成资产库回包延迟导致补账凭证失效的根因分析与人工干跑修复方案，无系统风险但需人工介入验证。
+- 11-10T20:33 · _last_lane_bm-m.json · 已完成资产库人脸数据集修复，无风险。
+- 11-10T20:33 · REPAIR-asset-lib-face-dataset-2026-11-08-acceptance.json · 已完成机队回执提交，但被拒因交付物非预期文档。
+- 11-10T20:33 · REPAIR-asset-lib-face-dataset-2026-11-08-bm-m.json · 已完成资产库补账回执处理，但存在因接收方未确认导致的阻塞风险。
+- 11-10T20:33 · self-improve-bm-m-latest.json · 已完成代码更新与废弃壳清理，无风险。
