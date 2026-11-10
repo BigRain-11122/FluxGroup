@@ -1,29 +1,29 @@
 {
- "ts": "2026-11-11T03:19:31",
- "cycle": 1126,
+ "ts": "2026-11-11T03:25:21",
+ "cycle": 1127,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-11T03:19:31",
+ "master_tick_ts": "2026-11-11T03:25:21",
  "queue": {
-  "total": 2044,
+  "total": 2047,
   "open": 6,
-  "running": 2,
+  "running": 6,
   "done": 753,
-  "failed": 1
+  "failed": 0
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 17.3,
-   "cpu_load_pct": 71,
-   "ram_free_gb": 34.8,
+   "hb_age_s": 3.9,
+   "cpu_load_pct": 65,
+   "ram_free_gb": 35.6,
    "gpu_util_pct": 60,
    "job": "VERIFY-ICONS-BMA-20261111",
    "last_result": {
-    "job": "GAP-MV-BMA-20261111",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-11T03:14:46",
+    "job": "VERIFY-ICONS-BMA-20261111",
+    "state": "RUNNING",
+    "rc": null,
+    "ts": "2026-11-11T03:24:41",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -33,55 +33,47 @@
    "idle_rounds": 0
   },
   "bm-b": {
-   "online": true,
-   "hb_age_s": 660.4,
+   "online": false,
+   "hb_age_s": null,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
    "job": null,
    "last_result": null,
    "idle_confirmed": false,
-   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+   "idle_reason": "CAPACITY-BLOCKED-RAM OFFLINE (hb age Nones)",
    "idle_rounds": 0
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 3.7,
-   "cpu_load_pct": 13,
-   "ram_free_gb": 5.2,
+   "hb_age_s": 50.3,
+   "cpu_load_pct": 14,
+   "ram_free_gb": 4.2,
    "gpu_util_pct": 0,
-   "job": "asset-lib-asset-gen-2026-11-11",
-   "last_result": {
-    "job": "asset-lib-char-gen-2026-11-11",
-    "state": "DEFERRED",
-    "rc": null,
-    "ts": "2026-11-11T03:13:21",
-    "reason": "NO-RUNNABLE-ASSIGNMENT",
-    "out_bytes": null,
-    "elapsed_s": null
-   },
+   "job": "asset-lib-face-caption-2026-11-11",
+   "last_result": null,
    "idle_confirmed": false,
    "idle_reason": "",
    "idle_rounds": 0
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 8.9,
-   "cpu_load_pct": 34,
-   "ram_free_gb": 14.9,
+   "hb_age_s": 1.7,
+   "cpu_load_pct": 1,
+   "ram_free_gb": 13.3,
    "gpu_util_pct": null,
-   "job": null,
+   "job": "REPAIR-PRODUCE-ICONS-BIGGAME-20261111",
    "last_result": {
-    "job": "REPAIR-GAP-MV-BMA-20261111",
-    "state": "RUNNING",
+    "job": null,
+    "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-11T03:19:25",
-    "reason": null,
+    "ts": "2026-11-11T03:24:59",
+    "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": false,
-   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+   "idle_reason": "",
    "idle_rounds": 0
   }
  },
@@ -154,7 +146,8 @@
    "stale_after_h": 24.0,
    "owner": "游戏席",
    "jobs": [
-    "VERIFY-ICONS-BMA-20261111"
+    "VERIFY-ICONS-BMA-20261111",
+    "REPAIR-PRODUCE-ICONS-BIGGAME-20261111"
    ],
    "no_supply": false,
    "blockers": [],
@@ -268,12 +261,14 @@
   "fleet-ops": {
    "name": "机队运维·端到端自检（平台服务线）",
    "status": "ACTIVE",
-   "verdict": "WAITING",
+   "verdict": "WORKING",
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "UNBLOCK-PEER-SYNC-bm-c-20261111"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": null
   },
@@ -285,8 +280,10 @@
    "stale_after_h": 72.0,
    "owner": "资产席",
    "jobs": [
+    "asset-lib-face-caption-2026-11-11",
     "asset-lib-asset-gen-2026-11-11",
-    "asset-lib-asset-gen-scenes-2026-11-11"
+    "asset-lib-asset-gen-scenes-2026-11-11",
+    "UNBLOCK-GAP-ASSETLIB-BMA-20261111"
    ],
    "no_supply": false,
    "blockers": [],
@@ -852,14 +849,24 @@
   "gpu": 1
  },
  "supply_added": [],
- "events": [],
+ "events": [
+  "VERIFY-ICONS-BMA-20261111 REQUeued attempt=2",
+  "asset-lib-face-caption-2026-11-11 -> bm-c (cpu)",
+  "VERIFY-ICONS-BMA-20261111 -> bm-a (cpu)",
+  "REPAIR-PRODUCE-ICONS-BIGGAME-20261111 -> bm-m (cpu)",
+  "UNBLOCK-GAP-ASSETLIB-BMA-20261111 -> bm-m (cpu)",
+  "UNBLOCK-PEER-SYNC-bm-c-20261111 -> bm-m (cpu)"
+ ],
  "violations": [
+  "bm-b OFFLINE",
   "STAGE-STALLED bigstream-mv 卡在 立意/分镜/导演席 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
+  "bm-b",
+  "bm-c",
   "bm-m"
  ]
 }

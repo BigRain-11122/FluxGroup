@@ -1,7 +1,21 @@
 {
  "node": "bm-c",
- "ts": "2026-11-11T03:13:25",
+ "ts": "2026-11-11T03:25:22",
  "jobs": [
+  {
+   "id": "asset-lib-face-caption-2026-11-11",
+   "title": "[资产储备（角色 LoRA / 音色库）] 人脸数据集打标（vision 草稿，人只校对）",
+   "cmd": "python Tools/fleet/asset_caption.py --dir media/asset/faces --out cph4/fleet/queue-receipts/asset-caption-2026-11-11.json",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/asset-caption-2026-11-11.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
   {
    "id": "asset-lib-asset-gen-2026-11-11",
    "title": "[资产储备（角色 LoRA / 音色库）] 通用资产出图（道具/场景，吃 ASSET-PROMPTS 规格）",
@@ -19,5 +33,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 4.9/1.0 GB"
+ "capacity_note": "ram 4.2/1.0 GB"
 }

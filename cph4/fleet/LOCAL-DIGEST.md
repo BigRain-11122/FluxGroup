@@ -5914,3 +5914,5 @@
 - 11-11T03:23 · REPAIR-GAP-ASSETLIB-BMA-20261111-bm-m.json · 已完成根因诊断与修复方案制定，需人工介入清除重试实例并手动重触发付。
 - 11-11T03:23 · REPAIR-GAP-MV-BMA-20261111-acceptance.json · 机队回执被拒，因交付物非所需文档且存在合规风险。
 - 11-11T03:23 · REPAIR-GAP-MV-BMA-20261111-bm-m.json · 已完成根因分析与修复方案制定，流程死锁风险已明确并需人工介入解决。
+- 11-11T03:25 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
+- 11-11T03:24 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
