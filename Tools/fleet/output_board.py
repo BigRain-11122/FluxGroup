@@ -98,6 +98,15 @@ def main():
     buckets = collections.Counter()
     by_line = collections.Counter()
     product_files, infra_files, missing = [], [], []
+    # 2026-11-10：发布包也是产品件（manifest+checksums 齐全才算）
+    try:
+        for line in open(os.path.join(ROOT, "cph4", "fleet", "PRODUCTS.jsonl"), encoding="utf-8"):
+            d = json.loads(line)
+            if d.get("id"):
+                product_files.append((0, int(d.get("bytes") or 0),
+                                      d.get("path"), d.get("id")))
+    except OSError:
+        pass
     for r in done:
         d = (r.get("deliverable") or "").strip()
         if not d:
