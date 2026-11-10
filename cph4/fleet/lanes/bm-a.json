@@ -1,8 +1,23 @@
 {
  "node": "bm-a",
- "ts": "2026-11-10T14:18:23",
- "jobs": [],
- "idle_reason": "DAY-YIELD: work machine, takes over at 19:00",
+ "ts": "2026-11-10T14:21:06",
+ "jobs": [
+  {
+   "id": "CANARY-NORMALIZE-141948",
+   "title": "[canary] prompt-only 归一测试",
+   "cmd": null,
+   "cwd": null,
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/CANARY-NORMALIZE-141948.md",
+   "need_mb": null,
+   "model": "local-small",
+   "prompt": "说一句 ok",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  }
+ ],
+ "idle_reason": "",
  "lane_ok": false,
  "capacity_note": "daytime heavy-yield (09:00-19:00); light CPU allowed"
 }
