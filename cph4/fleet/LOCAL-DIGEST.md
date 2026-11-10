@@ -4754,3 +4754,15 @@
 - 11-10T20:33 · REPAIR-asset-lib-face-dataset-2026-11-08-acceptance.json · 已完成机队回执提交，但被拒因交付物非预期文档。
 - 11-10T20:33 · REPAIR-asset-lib-face-dataset-2026-11-08-bm-m.json · 已完成资产库补账回执处理，但存在因接收方未确认导致的阻塞风险。
 - 11-10T20:33 · self-improve-bm-m-latest.json · 已完成代码更新与废弃壳清理，无风险。
+- 11-10T20:35 · REPAIR-asset-lib-face-dataset-2026-11-08-acceptance.json · 机队回执被拒，因交付物非所需文档或台账。
+- 11-10T20:35 · REPAIR-asset-lib-face-dataset-2026-11-08-bm-m.json · 补账接口因资产库冲突导致重试失败，需隔离排查并人工验证后终止流程。
+- 11-10T20:35 · _last_lane_bm-m.json · 已完成资产库人脸数据集修复任务，当前运行中无风险。
+- 11-10T20:35 · skill-promote-20261110.json · 已完成部分任务，因工具缺失导致大量技能无法执行。
+- 11-10T20:37 · _last_lane_bm-m.json · 资产修复任务因无可用分配而延迟，存在无法按时交付的风险。
+- 11-10T20:37 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
+- 11-10T20:37 · REPAIR-asset-lib-face-dataset-2026-11-08-acceptance.json · 已完成机队回执提交，但被拒因交付物非预期文档。
+- 11-10T20:37 · REPAIR-asset-lib-face-dataset-2026-11-08-bm-m.json · 已完成死锁修复与人工验证，但需手动介入确认数据有效性以防再次挂起。
+- 11-10T20:38 · _last_lane_bm-m.json · 机队任务因无可用资源被推迟，存在无法按时运行的风险。
+- 11-10T20:40 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-10T20:40 · _last_lane_bm-m.json · 机队任务因无可用资源被推迟，存在无法按时运行的风险。
+- 11-10T20:42 · _last_lane_bm-m.json · 机队任务因无可用资源被推迟，存在无法按时运行的风险。
