@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-10T11:26:14",
+ "ts": "2026-11-10T11:27:20",
  "jobs": [
   {
    "id": "R-PRIVACY-TEMPLATE-20261110",
@@ -33,5 +33,10 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 10.5/1.0 GB"
+ "capacity_note": "ram 10.5/1.0 GB",
+ "cards": [],
+ "pruned_shells": [
+  "R-PRIVACY-TEMPLATE-20261110",
+  "R-VOICE-RELAY-SPEC-20261110"
+ ]
 }
