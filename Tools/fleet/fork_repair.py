@@ -186,8 +186,11 @@ def sync_card(node, st, reason):
     except Exception:
         fl = None
     out = "cph4/fleet/reports/%s.md" % rid.lower()
-    cmd = ("git -C . fetch origin --prune && "
-           "git -C . branch -f backup/%s-%s HEAD 2>nul & "
+    # 2026-11-10 实锚：全量 `git fetch --prune` 在分叉节点上要拉几千个提交，DERP 上跑了
+    # 十几分钟还没完，且拿着 index/ref 锁 —— 后面的 reset 卡全部排队，节点看起来"卡死"。
+    # 收分叉其实不需要新数据：本地已有的 origin/main 就够把 HEAD 拉回来，所以这里用轻量式
+    # （不 fetch），快进留给下一轮 poke 的 ff-only。要刷新代码的节点另派 NODE-UPDATE 卡。
+    cmd = ("git -C . branch -f backup/%s-%s HEAD && "
            "git -C . reset --hard origin/main && "
            "git -C . log -1 --oneline > %s" % (nid, datetime.now().strftime("%Y%m%d"), out))
     card = {
