@@ -172,7 +172,9 @@ def adopt(node, head, st):
 def sync_card(node, st, reason):
     """发一张自包含的 NODE-SYNC 卡：不依赖节点上任何脚本，纯 git 收口。"""
     nid = node["id"]
-    rid = "NODE-SYNC-%s-%s" % (nid, datetime.now().strftime("%Y%m%d"))
+    # 2026-11-11 实锚：原来只用日期做 id，同一天重派会命中已有的 DONE 行 → merge 把状态改回 OPEN，
+    # 看起来"又派了一张"，实际是同一行在 DONE/OPEN 之间来回翻。加时分，重派就是新卡。
+    rid = "NODE-SYNC-%s-%s" % (nid, datetime.now().strftime("%Y%m%dT%H%M"))
     qpath = os.path.join(ROOT, "cph4", "fleet", "PRODUCTION-QUEUE.jsonl")
     try:
         import fleet_lane as fl
