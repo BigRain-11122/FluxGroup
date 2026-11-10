@@ -2,7 +2,7 @@
  "id": "GAP-BIGGAME-BMC-20261111",
  "node": "bm-c",
  "rc": 0,
- "seconds": 23.8,
+ "seconds": 29.5,
  "cmd": "python Tools/fleet/game_pack_scan.py --root . --out cph4/fleet/reports/biggame-pack-gap-20261111b.json",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/reports/biggame-pack-gap-20261111b.json",
  "deliverable_exists": true,
- "ts": "2026-11-11T05:04:58",
+ "ts": "2026-11-11T05:05:44",
  "stdout_tail": "[game_pack_scan] OK packs=4 webgl=0 out=cph4/fleet/reports/biggame-pack-gap-20261111b.json\n",
  "stderr_tail": ""
 }
