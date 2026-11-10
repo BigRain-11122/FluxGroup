@@ -2,7 +2,7 @@
  "id": "R-TRIAGE-BIGMONEY-BMC-20261110",
  "node": "bm-c",
  "rc": 0,
- "seconds": 3.1,
+ "seconds": 3.3,
  "cmd": "python Tools/fleet/line_triage.py --line bigmoney --node bm-c --out cph4/fleet/queue-receipts/triage-bigmoney-bm-c-20261110.md",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/queue-receipts/triage-bigmoney-bm-c-20261110.md",
  "deliverable_exists": true,
- "ts": "2026-11-10T22:47:07",
+ "ts": "2026-11-10T22:47:59",
  "stdout_tail": "[triage] bigmoney -> cph4\\fleet\\queue-receipts\\triage-bigmoney-bm-c-20261110.md\n",
  "stderr_tail": ""
 }
