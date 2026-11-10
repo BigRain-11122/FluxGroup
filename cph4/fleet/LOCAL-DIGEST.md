@@ -4509,3 +4509,68 @@
 - 11-10T17:53 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
 - 11-10T17:54 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
 - 11-10T17:54 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-10T17:55 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-10T17:55 · _last_lane_bm-m.json · 机队任务已执行完毕，无风险。
+- 11-10T17:55 · CANARY-20261110T175454-acceptance.json · 完成机队回执提交，但被拒收因交付物非有效产物。
+- 11-10T17:55 · CANARY-20261110T175454-bm-m.json · 已完成端到端自检并生成产物，无风险。
+- 11-10T17:55 · skill-promote-20261110.json · 已完成部分任务，因工具缺失导致多项技能无法执行。
+- 11-10T17:58 · _last_lane_bm-m.json · 本地模型失败：timed out
+- 11-10T17:58 · CANARY-20261110T175454-acceptance.json · 本地模型失败：timed out
+- 11-10T17:58 · CANARY-20261110T175454-bm-m.json · 本地模型失败：timed out
+- 11-10T18:02 · _last_lane_bm-m.json · 本地模型失败：timed out
+- 11-10T18:02 · CANARY-20261110T175454-acceptance.json · 本地模型失败：timed out
+- 11-10T18:02 · CANARY-20261110T175454-bm-m.json · 本地模型失败：timed out
+- 11-10T18:04 · _last_lane_bm-m.json · 机队任务已执行成功，无风险。
+- 11-10T18:04 · CANARY-20261110T175454-acceptance.json · 机队回执因非有效产物被拒，存在合规风险。
+- 11-10T18:03 · CANARY-20261110T175454-bm-m.json · 已完成端到端自检并生成报告，无风险。
+- 11-10T18:06 · _last_lane_bm-m.json · 机队任务已完成，无风险。
+- 11-10T18:06 · CANARY-20261110T175454-acceptance.json · 机队回执被拒收，因交付物非有效产物且无风险。
+- 11-10T18:06 · CANARY-20261110T175454-bm-m.json · 已完成机队自检并生成回执，无风险。
+- 11-10T18:10 · _last_lane_bm-m.json · 机队任务已执行成功，无风险。
+- 11-10T18:10 · CANARY-20261110T175454-acceptance.json · 本地模型失败：Remote end closed connection without response
+- 11-10T18:10 · CANARY-20261110T175454-bm-m.json · 已完成端到端自检并生成产物，无风险。
+- 11-10T18:11 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
+- 11-10T18:11 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
+- 11-10T18:11 · skill-promote-20261110.json · 已完成基础任务，但多项关键技能因缺工具或已执行而跳过，存在进度风险。
+- 11-10T18:11 · CANARY-20261110T175454-acceptance.json · 机队回执因非标准产物被拒，存在合规风险。
+- 11-10T18:11 · CANARY-20261110T175454-bm-m.json · 已完成端到端自检并生成产物，无风险。
+- 11-10T18:12 · _last_lane_bm-m.json · 机队已就绪，心跳正常，无风险。
+- 11-10T18:13 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-10T18:13 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
+- 11-10T18:14 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-10T18:15 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
+- 11-10T18:15 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-10T18:16 · self-improve-bm-m-latest.json · 机队已确认无风险，所有检查项均通过。
+- 11-10T18:16 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-10T18:17 · _last_lane_bm-m.json · 机队已清完积压任务，无风险。
+- 11-10T18:18 · _last_lane_bm-m.json · 已完成心跳监控，当前无风险。
+- 11-10T18:18 · self-improve-bm-m-latest.json · 机队已确认代码无风险，所有检查项均通过。
+- 11-10T18:18 · skill-promote-20261110.json · 已完成基础任务，因工具缺失导致大量关键技能无法执行。
+- 11-10T18:20 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
+- 11-10T18:20 · _last_lane_bm-m.json · 机队已自派完成回单，无风险。
+- 11-10T18:21 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
+- 11-10T18:22 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
+- 11-10T18:22 · self-improve-bm-m-latest.json · 机队已确认无风险，所有检查项均通过。
+- 11-10T18:23 · _last_lane_bm-m.json · 机队已自派完成回单扫描，无风险。
+- 11-10T18:24 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-10T18:24 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-10T18:25 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-10T18:25 · skill-promote-20261110.json · 已完成部分任务，因工具缺失导致多项关键技能无法执行。
+- 11-10T18:26 · _last_lane_bm-m.json · 机队已就绪，心跳正常，无风险。
+- 11-10T18:26 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
+- 11-10T18:27 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-10T18:27 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
+- 11-10T18:28 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-10T18:29 · _last_lane_bm-m.json · 机队已清完积压任务，无风险。
+- 11-10T18:29 · self-improve-bm-m-latest.json · 机队已确认无风险，代码与依赖检查均通过。
+- 11-10T18:30 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-10T18:30 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-10T18:31 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-10T18:31 · skill-promote-20261110.json · 已完成部分任务，因工具缺失导致多项关键技能无法执行。
+- 11-10T18:32 · _last_lane_bm-m.json · 机队已就绪，心跳正常，无风险。
+- 11-10T18:32 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
+- 11-10T18:33 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-10T18:33 · self-improve-bm-m-latest.json · 机队已确认代码更新且无依赖缺失，当前无风险。
+- 11-10T18:35 · self-improve-bm-m-latest.json · 机队已确认无风险，所有检查项均通过。
+- 11-10T18:35 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
+- 11-10T18:36 · _last_lane_bm-m.json · 机队已自动清理事务，无风险。
