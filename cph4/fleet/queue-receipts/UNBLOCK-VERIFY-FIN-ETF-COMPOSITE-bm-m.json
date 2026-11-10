@@ -2,7 +2,7 @@
  "id": "UNBLOCK-VERIFY-FIN-ETF-COMPOSITE",
  "node": "bm-m",
  "rc": 0,
- "seconds": 36.1,
+ "seconds": 55.8,
  "cmd": "",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/repairs/VERIFY-FIN-ETF-COMPOSITE-unblock.md",
  "deliverable_exists": true,
- "ts": "2026-11-11T00:17:43",
- "stdout_tail": "缺料阻塞，联系 owner bm-b 补充物料后重启生产。",
+ "ts": "2026-11-11T00:19:03",
+ "stdout_tail": "缺料阻塞：通知 bm-b 补料。由 bm-b 执行解锁动作。",
  "stderr_tail": ""
 }
