@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-10T22:10:50",
+ "ts": "2026-11-10T22:13:35",
  "jobs": [
   {
    "id": "REPAIR-GRID-O2-20261110T2134",
@@ -19,5 +19,9 @@
  ],
  "idle_reason": "control-plane heartbeat",
  "lane_ok": true,
- "capacity_note": "ram 15.7/1.0 GB"
+ "capacity_note": "ram 15.7/1.0 GB",
+ "cards": [],
+ "pruned_shells": [
+  "REPAIR-GRID-O2-20261110T2134"
+ ]
 }
