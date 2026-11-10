@@ -2,7 +2,7 @@
  "id": "UNBLOCK-R-NEXT-BIGSTREAMM-REBUILD-20261109",
  "node": "bm-m",
  "rc": 0,
- "seconds": 83.4,
+ "seconds": 75.8,
  "cmd": "",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/repairs/R-NEXT-BIGSTREAMM-REBUILD-20261109-unblock.md",
  "deliverable_exists": true,
- "ts": "2026-11-10T22:30:25",
- "stdout_tail": "①缺人 ②处理回执文件 ③由 bm-a 机执行。",
+ "ts": "2026-11-10T22:32:31",
+ "stdout_tail": "阻塞类型：缺人；最小动作：指定 bm-a 执行补账；解锁后由 bm-a 执行。",
  "stderr_tail": ""
 }
