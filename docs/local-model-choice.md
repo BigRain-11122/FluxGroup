@@ -36,3 +36,16 @@
 - 定位：**只做夜间离线深度分析**，不参与 agent 会话；
 - 车道：`deep_reason.py`，model=deep-reason 的卡，每天 00:40 起用 deepseek-r1:14b 跑，产出交付物；
 - 与白天的 4B agent、机队批处理互不抢资源。
+
+## 五、最终定型（2026-11-10 19:2x）
+
+| 用途 | 模型 | 车道 | 参数 |
+|---|---|---|---|
+| 机队批量 | qwen3.5:4b-mlx | 11434 | 6 并行 / ctx 4096 / KV q8 / flash attention / keep_alive 30m |
+| 会话 agent | qwen3.5:9b-mlx | 11436 | 1 并行 / ctx 32768 / KV q8 / keep_alive 30m / think=false |
+| 夜间深度推理 | deepseek-r1:14b | 11436（00:40 起） | ctx 16384 / think=true / 单请求 |
+| 向量 | qwen3-embedding:0.6b | 11434 | 按需加载，用完即卸 |
+
+已删除：qwen3:8b、qwen3:8b-dsh32k、qwen3:4b、qwen3:5:2b、qwen3:1.7b、qwen3:4b-instruct、qwen3.5:4b（非 mlx 重复）。
+
+内存：4B 约 12.6GB + 9B 约 9.0GB 常驻；向量仅在判重时加载；32GB 机器上不再额外驻留第三个大模型。

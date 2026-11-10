@@ -60,7 +60,7 @@ def ask(text, path):
               "文件：%s\n\n%s" % (path, text[:4000]))
     body = {"model": MODEL, "messages": [{"role": "user", "content": prompt}],
             "think": False, "stream": False, "keep_alive": "10m",
-            "options": {"num_ctx": 8192, "num_predict": 120, "temperature": 0.1}}
+            "options": {"num_ctx": 4096, "num_predict": 120, "temperature": 0.1}}
     req = urllib.request.Request(BASE + "/api/chat", data=json.dumps(body).encode(),
                                  headers={"Content-Type": "application/json"})
     t = time.time()
