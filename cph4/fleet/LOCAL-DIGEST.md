@@ -4743,3 +4743,8 @@
 - 11-10T20:29 · REPAIR-asset-lib-library-check-2026-11-08-acceptance.json · 已完成资产库检查回执提交，但因非标准产物被驳回。
 - 11-10T20:29 · REPAIR-asset-lib-library-check-2026-11-08-bm-m.json · 资产库补账任务因数据校验失败终止，需人工介入修复。
 - 11-10T20:29 · self-improve-bm-m-latest.json · 已完成机队回执提交，无风险。
+- 11-10T20:31 · _last_lane_bm-m.json · 已完成资产库修复检查，无风险。
+- 11-10T20:31 · REPAIR-asset-lib-library-check-2026-11-08-acceptance.json · 已完成资产库检查，但被拒因交付物非有效文档。
+- 11-10T20:31 · REPAIR-asset-lib-library-check-2026-11-08-bm-m.json · 资产库补账因触发重试限制保护机制而失败，需人工干预调整策略并重新执行。
+- 11-10T20:31 · REPAIR-asset-lib-face-dataset-2026-11-08-acceptance.json · 机队回执被拒，因交付物非预期文档且无风险。
+- 11-10T20:31 · REPAIR-asset-lib-face-dataset-2026-11-08-bm-m.json · 已完成根因分析与状态修正方案，存在需人工介入验证及强制重置配置的风险。
