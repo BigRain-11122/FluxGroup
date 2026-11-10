@@ -182,3 +182,13 @@ CEO 一句话令（任意会话/任意机器）
 **边界（沿用原设定不变）**：派单单写手仍是 master_agent；台账单写手仍是 CEO-PROXY；
 巡视只出旗与 NEED-JUDGMENT、不代决；云端仍走 codely_bridge 合规闸（无次数上限，须升级理由）。
 
+
+### 2026-11-10 补登记（T2·否决窗至 2026-11-17）
+
+| 任务 | 周期 | 角色 | 产物 | 备注 |
+|---|---|---|---|---|
+| capability_registry | 慢批 5min | 机队能力共享台账 | CAPABILITIES.md / state/capabilities.json | 派单前可查谁在线、谁能接什么 |
+| cloud_runner（cloud_run） | 慢批 5min，≤1 张 | 云端唯一出口（qwen→doubao→Codely，Codely 最末） | 卡状态 + 回执 | 免费时段才动 DeepSeek；公司数据只走 Codely |
+| fill_loop（labelfill 服务） | 常驻循环 | 本地算力填充环 | state/card-labels.jsonl | GPU 空转填充；州长盯 swap |
+| llm_gateway 内网免令牌 | 常驻 | 机队借主控算力 | state/llm-gateway.jsonl | 仅 100.64/10 与回环；白名单/并发限制不变 |
+
