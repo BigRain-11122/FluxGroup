@@ -4370,3 +4370,8 @@
 - 11-10T16:39 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
 - 11-10T16:40 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
 - 11-10T16:40 · _last_lane_bm-m.json · 机队已自派完成回单扫描，无风险。
+- 11-10T16:41 · _last_lane_bm-m.json · 已完成资产解锁任务，无风险。
+- 11-10T16:41 · UNBLOCK-asset-lib-asset-gen-2026-11-10-acceptance.json · 机队回执被拒，因交付物非有效产物且无风险。
+- 11-10T16:41 · UNBLOCK-asset-lib-asset-gen-2026-11-10-bm-m.json · 已完成机队解锁，无风险。
+- 11-10T16:41 · REPAIR-MV-DIRECTOR-PACKET-20261109-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物，存在合规风险。
+- 11-10T16:41 · REPAIR-MV-DIRECTOR-PACKET-20261109-bm-m.json · 已完成机队回执提交，但因本地文件系统状态不一致导致任务阻塞且无法自动恢复。

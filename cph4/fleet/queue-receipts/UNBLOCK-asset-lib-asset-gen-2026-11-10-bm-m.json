@@ -2,7 +2,7 @@
  "id": "UNBLOCK-asset-lib-asset-gen-2026-11-10",
  "node": "bm-m",
  "rc": 0,
- "seconds": 13.3,
+ "seconds": 0.8,
  "cmd": "",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/repairs/asset-lib-asset-gen-2026-11-10-unblock.md",
  "deliverable_exists": true,
- "ts": "2026-11-10T16:41:23",
- "stdout_tail": "缺资源：升 bm-c 内存至 4G+ 并启动 ComfyUI；bm-c 执行。",
+ "ts": "2026-11-10T16:41:51",
+ "stdout_tail": "缺环境：bm-c 重启 ComfyUI 并补 4G 内存，由 bm-c 执行。",
  "stderr_tail": ""
 }

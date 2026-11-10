@@ -1,1 +1,1 @@
-缺资源：升 bm-c 内存至 4G+ 并启动 ComfyUI；bm-c 执行。
+缺环境：bm-c 重启 ComfyUI 并补 4G 内存，由 bm-c 执行。
