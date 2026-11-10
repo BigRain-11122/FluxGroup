@@ -1,0 +1,17 @@
+{
+ "id": "asset-lib-face-caption-2026-11-11",
+ "node": "bm-c",
+ "rc": 3,
+ "seconds": 0.4,
+ "cmd": "python Tools/fleet/asset_caption.py --dir media/asset/faces --out cph4/fleet/queue-receipts/asset-caption-2026-11-11.json",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "FAIL",
+ "error_class": "E-BLOCKED-INPUT",
+ "deliverable": "cph4/fleet/queue-receipts/asset-caption-2026-11-11.json",
+ "deliverable_exists": false,
+ "ts": "2026-11-11T02:17:51",
+ "stdout_tail": "[caption] 娌℃湁寰呮墦鏍囧浘鐗囷紙rc=3锛�\n",
+ "stderr_tail": ""
+}
