@@ -4884,3 +4884,11 @@
 - 11-10T21:51 · GRID-O2-20261110T2132-bm-m.json · 机队回执显示无修复定义，任务失败且未生成交付物。
 - 11-10T21:51 · GAP-CHARGEN-PROBE-20261110-bm-c.json · 机队回执生成失败，因缺少必要文件导致任务终止。
 - 11-10T21:51 · GAP-CHARGEN-PROBE-20261110-acceptance.json · 机队回执显示产物未落盘，任务失败且无风险。
+- 11-10T21:53 · GRID-O2-20261110T2134-acceptance.json · 机队回执显示产物未落盘，任务失败且无风险。
+- 11-10T21:53 · GRID-O2-20261110T2134-bm-m.json · 机队回执显示无修复定义，任务失败且未生成交付物。
+- 11-10T21:53 · _last_lane_bm-m.json · 机队任务已运行中，当前无风险。
+- 11-10T21:53 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-10T21:53 · GAP-CHARGEN-PROBE-20261110-bm-c.json · 机队回执生成失败，因缺少必要文件导致任务终止。
+- 11-10T21:53 · GAP-CHARGEN-PROBE-20261110-acceptance.json · 机队回执显示产物未落盘，任务失败且无风险。
+- 11-10T21:53 · SYNC-BMC-2145-bm-c.json · 机队同步完成，无风险。
+- 11-10T21:53 · SYNC-BMC-2145-acceptance.json · 已完成机队回执提交，但因非标准产物被拒绝。
