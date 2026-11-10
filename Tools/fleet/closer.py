@@ -209,6 +209,23 @@ def main():
         receipt_ok = bool(receipts.get(r.get("id")))
         # artifact_ok rejects a refusal receipt that landed on the promised path: the
         # BLOCKED file exists but nothing was produced (2026-11-03, twice).
+        # 2026-11-11 实锚：PRODUCE-ICONS 卡被 closer 判 DONE，但它的 deliverable
+        # （game-v1/ICON-RENDER-LOG.jsonl）是 11-09 的旧文件——"文件存在"不等于"这次跑出了东西"。
+        # 没有回执时，交付物必须是本次建的（mtime ≥ 卡创建时间），否则只能算 UNVERIFIED。
+        stale = False
+        if not receipt_ok:
+            try:
+                created = r.get("created_at")
+                if created and os.path.isfile(local):
+                    c_ts = datetime.fromisoformat(str(created)).timestamp()
+                    stale = os.path.getmtime(local) < c_ts - 120
+            except Exception:
+                stale = False
+        if stale:
+            r["evidence"] = "stale-artifact (mtime older than created_at, no receipt)"
+            touched.append(r)
+            awaiting.append(r["id"])
+            continue
         ok = fc.artifact_ok(local) or receipt_ok
         owner = r.get("owner")
         allowed = r.get("ok_rc") if isinstance(r.get("ok_rc"), list) and r.get("ok_rc") else [0]
