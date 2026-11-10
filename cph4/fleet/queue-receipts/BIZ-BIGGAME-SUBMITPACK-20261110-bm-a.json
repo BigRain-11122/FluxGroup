@@ -1,0 +1,17 @@
+{
+ "id": "BIZ-BIGGAME-SUBMITPACK-20261110",
+ "node": "bm-a",
+ "rc": 0,
+ "seconds": 0.3,
+ "cmd": "python Tools/fleet/game_submit_pack.py --out cph4/fleet/reports/submit-pack-20261110",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "FAIL",
+ "error_class": "E-ARTIFACT",
+ "deliverable": "cph4/fleet/reports/submit-pack-20261110/SUBMIT-PACK.md",
+ "deliverable_exists": false,
+ "ts": "2026-11-10T23:04:43",
+ "stdout_tail": "products=36 ready=1 not_ready=35\n  缺 截图目录(≥4张)                    35 款\n  缺 可运行包(apk/zip/unitypackage/html) 25 款\nwrote cph4\\fleet\\reports\\submit-pack-20261110 + SUBMIT-PACK.md\n对比 SUBMIT-PACK-20261110.json：可提交 1 -> 1\n",
+ "stderr_tail": ""
+}
