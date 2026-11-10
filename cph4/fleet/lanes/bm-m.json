@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-10T19:18:42",
+ "ts": "2026-11-10T19:21:29",
  "jobs": [
   {
    "id": "MV-DIRECTOR-PACKET-20261109",
@@ -29,23 +29,9 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
-  },
-  {
-   "id": "CMD-DSH-20261110T1930",
-   "title": "CEO 令：慢速卡对照（sleep 3 后写产物）",
-   "cmd": "python -c \"import time;time.sleep(3);open('cph4/fleet/reports/t3.md','w',encoding='utf-8').write('# t3 ok\\n')\"",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/t3.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 7.4/1.0 GB"
+ "capacity_note": "ram 8.4/1.0 GB"
 }
