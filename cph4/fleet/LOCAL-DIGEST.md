@@ -5834,3 +5834,6 @@
 - 11-11T02:27 · R-TRIAGE-BIGCOMPUTE-BMB-20261111-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物且无风险。
 - 11-11T02:27 · COMFY-UP-BMC-20261111-bm-c.json · 任务失败，因无交付物且错误类别为 E-ARTIFACT，存在风险。
 - 11-11T02:27 · COMFY-UP-BMC-20261111-acceptance.json · 机队回执失败，因产物未落盘导致无风险。
+- 11-11T02:29 · _last_lane_bm-m.json · 已完成资产库人脸标签修复任务，无风险。
+- 11-11T02:30 · REPAIR-asset-lib-face-caption-2026-11-11-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被拒收。
+- 11-11T02:29 · REPAIR-asset-lib-face-caption-2026-11-11-bm-m.json · 资产 caption 卡片生成因数据优先级冲突失败，需修复代码逻辑并验证。
