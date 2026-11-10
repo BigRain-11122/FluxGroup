@@ -1,0 +1,17 @@
+{
+ "id": "R-NEXT-BIGSTREAMM-REBUILD-20261109",
+ "node": "bm-c",
+ "rc": 1,
+ "seconds": 0.2,
+ "cmd": "python Tools/mv_rebuild_from_edl.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721.mp4",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "FAIL",
+ "error_class": "E-INPUT",
+ "deliverable": "cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721.mp4",
+ "deliverable_exists": false,
+ "ts": "2026-11-10T20:42:50",
+ "stdout_tail": "",
+ "stderr_tail": "Traceback (most recent call last):\n  File \"K:\\Fluxgroup\\FluxGroup\\Tools\\mv_rebuild_from_edl.py\", line 52, in <module>\n    spec.loader.exec_module(v5)\n    ~~~~~~~~~~~~~~~~~~~~~~~^^^^\n  File \"<frozen importlib._bootstrap_external>\", line 1019, in exec_module\n  File \"<frozen importlib._bootstrap_external>\", line 1156, in get_code\n  File \"<frozen importlib._bootstrap_external>\", line 1214, in get_data\nFileNotFoundError: [Errno 2] No such file or directory: 'D:\\\\FluxGroup\\\\cph4\\\\fleet\\\\mv0001-handover\\\\outbound\\\\krea2\\\\30s-reel-v1\\\\build_full_mv_v5.py'\n"
+}
