@@ -6498,3 +6498,7 @@
 - 11-11T07:36 · _last_lane_bm-m.json · 机队已就绪，心跳正常，无风险。
 - 11-11T07:37 · _last_lane_bm-m.json · 机队已就绪，当前无风险。
 - 11-11T07:37 · self-improve-bm-m-latest.json · 机队已确认无风险，代码与依赖均通过检查。
+- 11-11T07:38 · _last_lane_bm-m.json · 机队已自派完成回单扫描，无风险。
+- 11-11T07:38 · _last_claim.json · 机队已空，无风险。
+- 11-11T07:38 · GAP-BIGMONEY-BMC-6-bm-c.json · 已完成机队排查报告生成，无错误风险。
+- 11-11T07:38 · GAP-BIGMONEY-BMC-6-acceptance.json · 已提交机队回执，但被因非标准产物而拒绝。
