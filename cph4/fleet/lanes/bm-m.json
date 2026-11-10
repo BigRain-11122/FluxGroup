@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-10T21:27:50",
+ "ts": "2026-11-10T21:31:32",
  "jobs": [
   {
    "id": "REPAIR-CMD-DSH-BMC-ACK-2012",
@@ -33,5 +33,10 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 12.7/1.0 GB"
+ "capacity_note": "ram 12.7/1.0 GB",
+ "cards": [],
+ "pruned_shells": [
+  "REPAIR-CMD-DSH-BMC-ACK-2012",
+  "REPAIR-CMD-DSH-BMC-MEM-2012"
+ ]
 }

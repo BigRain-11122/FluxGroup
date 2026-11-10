@@ -1,13 +1,13 @@
 {
  "node": "bm-m",
- "ts": "2026-11-10T21:25:54",
+ "ts": "2026-11-10T21:31:32",
  "mode": "apply",
  "verdict": "SELF-OK",
  "checks": [
   {
    "check": "reload",
-   "code_age_s": 10184,
-   "receipt_age_s": 1,
+   "code_age_s": 10522,
+   "receipt_age_s": 13,
    "targets": [],
    "acted": false,
    "note": "executor produced a receipt after the last code edit",
@@ -16,12 +16,15 @@
   },
   {
    "check": "shells",
-   "cards": 0,
-   "shells": 0,
-   "ids": [],
-   "acted": false,
-   "verdict": "OK",
-   "note": "no assignment on this lane (not a shell problem)"
+   "cards": 2,
+   "shells": 2,
+   "ids": [
+    "REPAIR-CMD-DSH-BMC-ACK-2012",
+    "REPAIR-CMD-DSH-BMC-MEM-2012"
+   ],
+   "acted": true,
+   "kept": 0,
+   "verdict": "PRUNED"
   },
   {
    "check": "deps",

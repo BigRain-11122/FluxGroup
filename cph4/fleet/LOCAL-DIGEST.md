@@ -4827,3 +4827,4 @@
 - 11-10T21:28 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
 - 11-10T21:28 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
 - 11-10T21:28 · triage-bigstream-mv-20261110.md · 机队回执显示 4/6 工段超阈，需导演席、美术及剪辑席补产出或正式收线。
+- 11-10T21:31 · _last_lane_bm-m.json · 本地模型失败：timed out
