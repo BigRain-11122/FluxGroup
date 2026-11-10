@@ -5129,3 +5129,15 @@
 - 11-10T22:58 · LICENSE-LEDGER-20261110B-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物且无风险评分。
 - 11-10T22:58 · GAP-ASSETLIB-AUDIT-20261110B-bm-c.json · 机队回执显示资产差距审计失败，存在大量关键项缺失风险。
 - 11-10T22:58 · GAP-ASSETLIB-AUDIT-20261110B-acceptance.json · 已完成机队回执提交，但被拒收因交付物非标准资产台账。
+- 11-10T23:00 · _last_lane_bm-m.json · 已完成资产库修复任务，无风险。
+- 11-10T23:00 · REPAIR-GAP-ASSETLIB-P0-20261110-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
+- 11-10T23:00 · REPAIR-GAP-ASSETLIB-P0-20261110-bm-m.json · 资产库构建因上游阻塞被熔断静默终止，无风险但需人工介入重跑验证。
+- 11-10T23:00 · REPAIR-NODE-SYNC-bm-b-2040-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-10T23:00 · REPAIR-NODE-SYNC-bm-b-2040-bm-m.json · 已完成节点同步修复与重启，存在下游信号缺失导致的系统死锁风险。
+- 11-10T23:00 · REPAIR-GRID-O2-20261110T2132-acceptance.json · 已完成机队回执提交，但被拒因交付物非预期文档。
+- 11-10T23:00 · REPAIR-GRID-O2-20261110T2132-bm-m.json · 作业因超时正常终止，无风险，需人工确认交付物有效性。
+- 11-10T23:00 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
+- 11-10T23:00 · LICENSE-LEDGER-20261110B-bm-c.json · 资产审计完成，但发现 motions 等 7 类关键项存在严重缺口。
+- 11-10T23:00 · LICENSE-LEDGER-20261110B-acceptance.json · 完成机队回执提交，但被拒因交付物非标准产物，存在合规风险。
+- 11-10T23:01 · GAP-ASSETLIB-AUDIT-20261110B-bm-c.json · 机队回执显示资产缺口审计失败，存在大量关键要素缺失风险。
+- 11-10T23:01 · GAP-ASSETLIB-AUDIT-20261110B-acceptance.json · 已完成机队回执提交，但被拒收因交付物非标准产物。
