@@ -4823,3 +4823,7 @@
 - 11-10T21:23 · REPAIR-PEERWAKE-BMA-195744-bm-m.json · 任务完成但暴露持续性服务不可用风险，需立即排查网络链路。
 - 11-10T21:23 · REPAIR-asset-lib-face-dataset-2026-11-10-acceptance.json · 机队回执被拒，因交付物非所需文档或台账。
 - 11-10T21:23 · REPAIR-asset-lib-face-dataset-2026-11-10-bm-m.json · 已完成机队修复任务，但存在因流水线阻塞导致上下文丢失及资源保护性停机的风险。
+- 11-10T21:26 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
+- 11-10T21:28 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-10T21:28 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-10T21:28 · triage-bigstream-mv-20261110.md · 机队回执显示 4/6 工段超阈，需导演席、美术及剪辑席补产出或正式收线。
