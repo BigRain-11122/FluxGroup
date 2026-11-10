@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-10T22:50:48+0800",
+ "ts": "2026-11-10T23:00:50+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -27,9 +27,9 @@
    "accept": "SUBMIT-PACK 里『隐私政策』『提审台账』两类缺件归零",
    "blocker_type": "CEO",
    "blocker": "截图需跑游戏取图，受 2026-10-28『不许自动跑游戏包』令约束，等放行",
-   "state": "QUEUED",
+   "state": "RUNNING",
    "card": "GAP-BIGGAME-LINE-20261110",
-   "running_on": null
+   "running_on": "bm-b"
   },
   {
    "id": "bigmoney",
@@ -42,9 +42,9 @@
    "accept": "quant_signal 回执 rc=0 且 CSV 含因子值与输入指纹",
    "blocker_type": "ENGINE",
    "blocker": "回测产物需在 bm-b 本地生成；主控无 quant 仓",
-   "state": "QUEUED",
+   "state": "RUNNING",
    "card": "VERIFY-FIN-ETF-COMPOSITE",
-   "running_on": null
+   "running_on": "bm-b"
   },
   {
    "id": "bigstream-mv",
@@ -223,13 +223,13 @@
    "blocker_type": "ENGINE",
    "blocker": "I2 存量 125 条卡面路径债、vault 缺盘 651 条",
    "state": "RUNNING",
-   "card": "NODE-SYNC-bm-b-2216",
-   "running_on": "bm-b"
+   "card": "REPAIR-GRID-O2-20261110T2132",
+   "running_on": "bm-m"
   }
  ],
  "counts": {
-  "RUNNING": 2,
-  "QUEUED": 4,
+  "RUNNING": 4,
+  "QUEUED": 2,
   "STALLED": 9
  },
  "stalled_engine": 4
