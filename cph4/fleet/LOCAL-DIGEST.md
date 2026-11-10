@@ -5084,3 +5084,16 @@
 - 11-10T22:47 · REPAIR-GAP-BIGGAME-PACK-20261110-bm-m.json · 任务因资源死锁导致连续重试失败并停线，需人工介入排查根因。
 - 11-10T22:47 · GRID-O2-20261110T2132-acceptance.json · 机队回执显示产物未落盘，任务失败且无风险。
 - 11-10T22:47 · GRID-O2-20261110T2132-bm-m.json · 机队回执显示无修复定义，任务失败且未生成交付物。
+- 11-10T22:49 · REPAIR-GAP-ASSETLIB-AUDIT-20261110-acceptance.json · 机队回执被拒，因交付物非标准产物且存在合规风险。
+- 11-10T22:49 · REPAIR-GAP-ASSETLIB-AUDIT-20261110-bm-m.json · 已完成机队回执审计，因任务超时自动回滚，存在根因未明风险。
+- 11-10T22:49 · _last_lane_bm-m.json · 已完成机队修复任务，无风险。
+- 11-10T22:49 · REPAIR-GAP-BIGMONEY-LINE-20261110-acceptance.json · 机队回执未生成，因缺乏交付物被驳回，无安全风险。
+- 11-10T22:49 · REPAIR-GAP-BIGMONEY-LINE-20261110-bm-m.json · 任务因长时间阻塞导致上下文失效而失败，需排查根因并复现验证。
+- 11-10T22:49 · REPAIR-GAP-BIGGAME-PACK-20261110-acceptance.json · 机队回执未生成，因缺乏交付物被拒收。
+- 11-10T22:49 · REPAIR-GAP-BIGGAME-PACK-20261110-bm-m.json · 已完成死锁根因排查与修复，无风险，需负责人核查前置依赖并复现阻塞条件验证。
+- 11-10T22:49 · R-TRIAGE-BIGMONEY-BMC-20261110-bm-c.json · 已完成机队回执生成，无风险。
+- 11-10T22:49 · R-TRIAGE-BIGMONEY-BMC-20261110-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物。
+- 11-10T22:49 · triage-bigmoney-bm-c-20261110.md · 量化审计工段超阈 430.9 小时，需立即补产出或正式收线。
+- 11-10T22:50 · _last_claim.json · 机队已空，无风险。
+- 11-10T22:50 · GRID-O2-20261110T2132-acceptance.json · 机队回执显示产物未落盘，任务失败且无风险。
+- 11-10T22:50 · GRID-O2-20261110T2132-bm-m.json · 无修复定义导致任务失败，且未生成交付物。
