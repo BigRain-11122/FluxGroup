@@ -1,26 +1,44 @@
 {
- "ts": "2026-11-10T21:51:54",
+ "ts": "2026-11-10T22:01:54",
  "node": "bm-c",
  "paused": false,
  "verdict": "BLOCKED-CAPACITY",
  "capacity": {
   "gpu": {
    "util_pct": 0,
-   "used_mb": 1294,
+   "used_mb": 1329,
    "total_mb": 16384
   },
-  "ram_free_gb": 2.19,
-  "vram_free_mb": 15090,
+  "ram_free_gb": 1.53,
+  "vram_free_mb": 15055,
   "lease_held": false,
   "can_gpu": false,
   "can_cpu": false
  },
- "idle_min": 0.6,
+ "idle_min": 0.0,
  "assigned": [
   {
    "kind": "assigned",
-   "id": "GAP-CHARGEN-PROBE-20261110",
-   "title": "[probe] char-gen 出图环境探针（bm-c ComfyUI）",
+   "id": "asset-lib-face-dataset-2026-11-10",
+   "title": "[资产储备（角色 LoRA / 音色库）] 人脸数据集准入（反 AI 脸的第一道门）",
+   "prio": null,
+   "needs": "cpu",
+   "feasible": false,
+   "reason": "master lane file (authority)"
+  },
+  {
+   "kind": "assigned",
+   "id": "KN-FILM-GATE-LATEST-20261110",
+   "title": "KN PACK-A 最新复核版跑全片闸（重复帧/亮度/时长三查）",
+   "prio": null,
+   "needs": "cpu",
+   "feasible": false,
+   "reason": "master lane file (authority)"
+  },
+  {
+   "kind": "assigned",
+   "id": "NODE-SYNC-bm-c-2157",
+   "title": "[self-heal] bm-c 分叉收口（本地提交 → backup 分支，HEAD 回 main）",
    "prio": null,
    "needs": "cpu",
    "feasible": false,
@@ -30,8 +48,26 @@
  "next_actions": [
   {
    "kind": "assigned",
-   "id": "GAP-CHARGEN-PROBE-20261110",
-   "title": "[probe] char-gen 出图环境探针（bm-c ComfyUI）",
+   "id": "asset-lib-face-dataset-2026-11-10",
+   "title": "[资产储备（角色 LoRA / 音色库）] 人脸数据集准入（反 AI 脸的第一道门）",
+   "prio": null,
+   "needs": "cpu",
+   "feasible": false,
+   "reason": "master lane file (authority)"
+  },
+  {
+   "kind": "assigned",
+   "id": "KN-FILM-GATE-LATEST-20261110",
+   "title": "KN PACK-A 最新复核版跑全片闸（重复帧/亮度/时长三查）",
+   "prio": null,
+   "needs": "cpu",
+   "feasible": false,
+   "reason": "master lane file (authority)"
+  },
+  {
+   "kind": "assigned",
+   "id": "NODE-SYNC-bm-c-2157",
+   "title": "[self-heal] bm-c 分叉收口（本地提交 → backup 分支，HEAD 回 main）",
    "prio": null,
    "needs": "cpu",
    "feasible": false,
@@ -72,7 +108,7 @@
  "dispatched_now": null,
  "counts": {
   "open_backlog": 5,
-  "open_queue": 12,
+  "open_queue": 25,
   "bank_pending": 0
  }
 }
