@@ -1,35 +1,7 @@
 {
  "node": "bm-a",
- "ts": "2026-11-11T03:53:41",
+ "ts": "2026-11-11T03:59:02",
  "jobs": [
-  {
-   "id": "GAP-MV-BMA-20261111",
-   "title": "[gap] bigstream-mv 证据（bm-a）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigstream-mv --out cph4/fleet/reports/triage-bigstream-mv-20261111c.md",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/triage-bigstream-mv-20261111c.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": 180
-  },
-  {
-   "id": "PEER-SYNC-bm-c-20261111",
-   "title": "[peer-heal] bm-a 用 WinRM 替 bm-c 收口",
-   "cmd": "powershell -NoProfile -Command \"$e=$null; try { Invoke-Command -ComputerName 100.123.74.104 -ScriptBlock { Set-Location 'K:\\Fluxgroup\\FluxGroup'; git fetch origin --prune; git branch -f backup/bm-c-20261111 HEAD 2>$null; git reset --hard origin/main; git log -1 --oneline } -ErrorAction Stop } catch { $e=$_.Exception.Message }; 'winrm_err='+$e | Out-File -Encoding utf8 cph4/fleet/reports/peer-sync-bm-c-20261111.md\"",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/peer-sync-bm-c-20261111.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
   {
    "id": "NODE-SYNC-bm-a-0352",
    "title": "[self-heal] bm-a 轻量收口（领先 24，重置后拿新代码）",
@@ -47,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 31.6/1.0 GB"
+ "capacity_note": "ram 32.7/1.0 GB"
 }
