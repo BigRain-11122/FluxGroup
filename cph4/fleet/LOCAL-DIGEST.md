@@ -5463,3 +5463,15 @@
 - 11-11T00:29 · UNBLOCK-asset-lib-face-caption-2026-11-10-bm-m.json · 本地模型失败：timed out
 - 11-11T00:29 · UNBLOCK-VERIFY-FIN-ETF-COMPOSITE-acceptance.json · 本地模型失败：timed out
 - 11-11T00:29 · UNBLOCK-VERIFY-FIN-ETF-COMPOSITE-bm-m.json · 本地模型失败：timed out
+- 11-11T00:31 · _last_lane_bm-m.json · 已完成机队修复计划任务，无风险。
+- 11-11T00:31 · REPAIR-R-PLAN-BIGCOMPUTE-20261111-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被驳回。
+- 11-11T00:31 · REPAIR-R-PLAN-BIGCOMPUTE-20261111-bm-m.json · 已完成根因诊断与修复方案制定，当前无风险但需立即执行运维操作。
+- 11-11T00:31 · REPAIR-R-NEXT-BIGSTREAMM-REBUILD-20261111-acceptance.json · 机队回执被拒，因交付物非所需文档且无风险。
+- 11-11T00:31 · REPAIR-R-NEXT-BIGSTREAMM-REBUILD-20261111-bm-m.json · 机队重建任务已完成交付物生成，但需人工确认验收以解除流程阻塞。
+- 11-11T00:31 · REPAIR-biggame-pack-scan-2026-11-11-acceptance.json · 机队回执被拒，因交付物非有效产物且无风险。
+- 11-11T00:31 · REPAIR-biggame-pack-scan-2026-11-11-bm-m.json · 已完成卡支付失败根因分析与修复方案制定，需人工干预验证逻辑以消除流程停滞风险。
+- 11-11T00:31 · REPAIR-R-MODEL-RADAR-BMB-20261111-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
+- 11-11T00:31 · REPAIR-R-MODEL-RADAR-BMB-20261111-bm-m.json · 已完成根因分析与修复方案制定，无系统风险但需人工介入处理数据校验失败问题。
+- 11-11T00:31 · brain-bigstream-drama-2026-11-11.md · 因引证核验未过，当前方案不可作为决策依据，需先修复数据再推进。
+- 11-11T00:33 · brain-recon-2026-11-11.md · 已完成生产断点预警与闸门部署，但引证核验未过存在决策风险。
+- 11-11T00:33 · brain-voicebank-2026-11-11.md · 已收芯龙门素材并重建，需 CEO 批准全量进闸及扩展采集计划。
