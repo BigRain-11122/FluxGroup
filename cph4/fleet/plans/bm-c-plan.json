@@ -1,21 +1,21 @@
 {
- "ts": "2026-11-10T23:01:55",
+ "ts": "2026-11-10T23:41:55",
  "node": "bm-c",
  "paused": false,
- "verdict": "BUSY",
+ "verdict": "BLOCKED-CAPACITY",
  "capacity": {
   "gpu": {
    "util_pct": 0,
-   "used_mb": 1305,
+   "used_mb": 1315,
    "total_mb": 16384
   },
-  "ram_free_gb": 4.26,
-  "vram_free_mb": 15079,
+  "ram_free_gb": 2.19,
+  "vram_free_mb": 15069,
   "lease_held": false,
-  "can_gpu": true,
-  "can_cpu": true
+  "can_gpu": false,
+  "can_cpu": false
  },
- "idle_min": 0.0,
+ "idle_min": 0.3,
  "assigned": [
   {
    "kind": "assigned",
@@ -23,25 +23,7 @@
    "title": "[资产储备（角色 LoRA / 音色库）] 人脸数据集打标（vision 草稿，人只校对）",
    "prio": null,
    "needs": "gpu",
-   "feasible": true,
-   "reason": "master lane file (authority)"
-  },
-  {
-   "kind": "assigned",
-   "id": "GAP-BIGGAME-ART-20261111",
-   "title": "[gap] biggame 图标/截图缺口清单（bm-c）",
-   "prio": null,
-   "needs": "cpu",
-   "feasible": true,
-   "reason": "master lane file (authority)"
-  },
-  {
-   "kind": "assigned",
-   "id": "GAP-ASSETLIB-CAP-20261111",
-   "title": "[gap] asset-lib 打标进度证据（bm-c）",
-   "prio": null,
-   "needs": "cpu",
-   "feasible": true,
+   "feasible": false,
    "reason": "master lane file (authority)"
   }
  ],
@@ -52,25 +34,7 @@
    "title": "[资产储备（角色 LoRA / 音色库）] 人脸数据集打标（vision 草稿，人只校对）",
    "prio": null,
    "needs": "gpu",
-   "feasible": true,
-   "reason": "master lane file (authority)"
-  },
-  {
-   "kind": "assigned",
-   "id": "GAP-BIGGAME-ART-20261111",
-   "title": "[gap] biggame 图标/截图缺口清单（bm-c）",
-   "prio": null,
-   "needs": "cpu",
-   "feasible": true,
-   "reason": "master lane file (authority)"
-  },
-  {
-   "kind": "assigned",
-   "id": "GAP-ASSETLIB-CAP-20261111",
-   "title": "[gap] asset-lib 打标进度证据（bm-c）",
-   "prio": null,
-   "needs": "cpu",
-   "feasible": true,
+   "feasible": false,
    "reason": "master lane file (authority)"
   },
   {
@@ -79,8 +43,17 @@
    "title": "配音批质检：r1202 目录逐集时长/静音/体积（出可发布集数清单）",
    "prio": "P2",
    "needs": "cpu",
-   "feasible": true,
+   "feasible": false,
    "reason": "OPEN in PRODUCTION-BACKLOG for this node"
+  },
+  {
+   "kind": "queue",
+   "id": "PRODUCE-RECON-20261110",
+   "title": "[produce] RECON 市场简报（最小可验收物）",
+   "prio": "P2",
+   "needs": "cpu",
+   "feasible": false,
+   "reason": "queue row OPEN"
   }
  ],
  "flags": [
@@ -112,8 +85,8 @@
  ],
  "dispatched_now": null,
  "counts": {
-  "open_backlog": 6,
-  "open_queue": 14,
+  "open_backlog": 5,
+  "open_queue": 10,
   "bank_pending": 0
  }
 }

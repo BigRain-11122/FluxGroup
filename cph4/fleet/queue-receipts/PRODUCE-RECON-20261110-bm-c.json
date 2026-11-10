@@ -1,0 +1,17 @@
+{
+ "id": "PRODUCE-RECON-20261110",
+ "node": "bm-c",
+ "rc": 1,
+ "seconds": 0.1,
+ "cmd": "python Tools/fleet/market_brief.py > cph4/fleet/reports/market-brief-20261110.md 2>&1",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "FAIL",
+ "error_class": "E-UNKNOWN",
+ "deliverable": "cph4/fleet/reports/market-brief-20261110.md",
+ "deliverable_exists": true,
+ "ts": "2026-11-10T23:42:44",
+ "stdout_tail": "",
+ "stderr_tail": ""
+}
