@@ -2,7 +2,7 @@
  "id": "NODE-SYNC-bm-c-0130",
  "node": "bm-c",
  "rc": 0,
- "seconds": 0.5,
+ "seconds": 0.4,
  "cmd": "git -C . branch -f backup/bm-c-0130 HEAD && git -C . reset --hard origin/main && git -C . log -1 --oneline > cph4/fleet/reports/node-sync-bm-c-0130.md",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/reports/node-sync-bm-c-0130.md",
  "deliverable_exists": true,
- "ts": "2026-11-11T01:41:29",
- "stdout_tail": "HEAD is now at d6faf504d job(NODE-SYNC-bm-c-20261111): artifact [via bm-c]\n",
+ "ts": "2026-11-11T01:42:39",
+ "stdout_tail": "HEAD is now at e3604e669 Merge remote-tracking branch 'origin/main'\n",
  "stderr_tail": ""
 }
