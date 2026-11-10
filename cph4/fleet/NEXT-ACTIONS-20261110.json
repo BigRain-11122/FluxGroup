@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-10T12:36:20+0800",
+ "ts": "2026-11-10T12:43:48+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -207,9 +207,9 @@
    "accept": "拆解卡含 10 款的核心循环与付费点位，带来源链接",
    "blocker_type": "ENGINE",
    "blocker": "缺工序表与榜单抓取口径",
-   "state": "STALLED",
-   "card": null,
-   "running_on": null
+   "state": "RUNNING",
+   "card": "R-PLAN-RECON-20261110",
+   "running_on": "bm-a"
   },
   {
    "id": "fleet-ops",
@@ -228,9 +228,9 @@
   }
  ],
  "counts": {
-  "RUNNING": 0,
+  "RUNNING": 1,
   "QUEUED": 2,
-  "STALLED": 13
+  "STALLED": 12
  },
- "stalled_engine": 7
+ "stalled_engine": 6
 }
