@@ -1,29 +1,29 @@
 {
- "ts": "2026-11-11T05:13:09",
- "cycle": 1159,
+ "ts": "2026-11-11T05:16:56",
+ "cycle": 1160,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-11T05:13:09",
+ "master_tick_ts": "2026-11-11T05:16:56",
  "queue": {
-  "total": 2063,
+  "total": 2064,
   "open": 5,
-  "running": 2,
+  "running": 4,
   "done": 762,
-  "failed": 4
+  "failed": 3
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 56.0,
-   "cpu_load_pct": 21,
-   "ram_free_gb": 31.8,
-   "gpu_util_pct": 56,
-   "job": "NODE-SYNC-bm-a-20261111T0452",
+   "hb_age_s": 43.2,
+   "cpu_load_pct": 60,
+   "ram_free_gb": 26.5,
+   "gpu_util_pct": 62,
+   "job": "R-NEXT-BIGSTREAMM-REBUILD-20261111",
    "last_result": {
-    "job": "GAP-FLUXVERSE-BMA-20261111",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-11T05:13:05",
+    "job": "NODE-SYNC-bm-a-20261111T0452",
+    "state": "RUNNING",
+    "rc": null,
+    "ts": "2026-11-11T05:14:43",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -34,7 +34,7 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 403.7,
+   "hb_age_s": 631.1,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -46,50 +46,50 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 68.6,
-   "cpu_load_pct": 13,
-   "ram_free_gb": 1.6,
+   "hb_age_s": 9.1,
+   "cpu_load_pct": 17,
+   "ram_free_gb": 1.1,
    "gpu_util_pct": 0,
-   "job": "asset-lib-asset-gen-scenes-2026-11-11",
+   "job": null,
    "last_result": {
-    "job": "GAP-BIGGAME-BMC-20261111",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-11T05:06:08",
-    "reason": null,
+    "job": "asset-lib-asset-gen-scenes-2026-11-11",
+    "state": "DEFERRED",
+    "rc": null,
+    "ts": "2026-11-11T05:16:52",
+    "reason": "NO-RUNNABLE-ASSIGNMENT",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": false,
-   "idle_reason": "",
+   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
    "idle_rounds": 0
   },
   "bm-m": {
    "online": true,
    "hb_age_s": 1.6,
-   "cpu_load_pct": 3,
-   "ram_free_gb": 13.4,
+   "cpu_load_pct": 6,
+   "ram_free_gb": 17.5,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-11T05:12:24",
-    "reason": "control-plane heartbeat",
+    "ts": "2026-11-11T05:16:26",
+    "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 4
+   "idle_rounds": 5
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 4
+  "bm-m": 5
  },
  "lines": {
   "bigstream-mv": {
@@ -99,8 +99,10 @@
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "R-NEXT-BIGSTREAMM-REBUILD-20261111"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": null,
    "stuck_stage": "mv-plan",
@@ -163,12 +165,14 @@
   "fluxverse": {
    "name": "FluxVerse·元宙城",
    "status": "ACTIVE",
-   "verdict": "WAITING",
+   "verdict": "WORKING",
    "age_h": null,
    "stale_after_h": 36.0,
    "owner": "城市线",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "GAP-FLUXVERSE-BMA-20261111"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": null
   },
@@ -271,7 +275,8 @@
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
    "jobs": [
-    "NODE-SYNC-bm-a-20261111T0452"
+    "NODE-SYNC-bm-a-20261111T0452",
+    "NODE-SYNC-bm-a-20261111T0513"
    ],
    "no_supply": false,
    "blockers": [],
@@ -280,14 +285,12 @@
   "asset-lib": {
    "name": "资产储备·角色 LoRA 与音色库",
    "status": "ACTIVE",
-   "verdict": "WORKING",
+   "verdict": "WAITING",
    "age_h": null,
    "stale_after_h": 72.0,
    "owner": "资产席",
-   "jobs": [
-    "asset-lib-asset-gen-scenes-2026-11-11"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": "CEO 2026-11-03：先储备资产，角色 LoRA 与音色库为 P0"
   }
@@ -852,11 +855,12 @@
  },
  "supply_added": [],
  "events": [
-  "GAP-FLUXVERSE-BMA-20261111 UNVERIFIED(no-artifact-yet) via bm-a",
-  "asset-lib-asset-gen-scenes-2026-11-11 -> bm-c (gpu)"
+  "R-NEXT-BIGSTREAMM-REBUILD-20261111 -> bm-a (cpu)",
+  "NODE-SYNC-bm-a-20261111T0513 -> bm-a (cpu)",
+  "GAP-FLUXVERSE-BMA-20261111 -> bm-a (cpu)"
  ],
  "violations": [
-  "bm-m IDLE-CONFIRMED x4 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-m IDLE-CONFIRMED x5 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED bigstream-mv 卡在 立意/分镜/导演席 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)",
@@ -864,6 +868,6 @@
  ],
  "lane_files_written": [
   "bm-a",
-  "bm-m"
+  "bm-c"
  ]
 }
