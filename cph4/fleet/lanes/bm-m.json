@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-10T22:31:15",
+ "ts": "2026-11-10T22:33:31",
  "jobs": [
   {
    "id": "GRID-F3-20261110T2130",
@@ -61,5 +61,26 @@
  ],
  "idle_reason": "control-plane heartbeat",
  "lane_ok": true,
- "capacity_note": "ram 13.7/1.0 GB"
+ "capacity_note": "ram 13.7/1.0 GB",
+ "cards": [
+  {
+   "id": "GRID-F3-20261110T2130",
+   "title": "[grid] F3 自愈：记账不进 git",
+   "cmd": "python -c \"print('no fix defined')\"",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/reports/grid-f3-20261110t2130.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  }
+ ],
+ "pruned_shells": [
+  "REPAIR-GAP-CHARGEN-PROBE-20261110",
+  "UNBLOCK-R-NEXT-BIGSTREAMM-REBUILD-20261109",
+  "UNBLOCK-asset-lib-face-dataset-2026-11-10"
+ ]
 }
