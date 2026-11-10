@@ -5869,3 +5869,5 @@
 - 11-11T02:51 · _last_lane_bm-m.json · 资产修复任务已推迟，因无可用分配资源而存在执行风险。
 - 11-11T02:51 · REPAIR-asset-lib-asset-gen-2026-11-11-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物，存在流程风险。
 - 11-11T02:51 · REPAIR-asset-lib-asset-gen-2026-11-11-bm-m.json · 已完成机队故障根因分析与修复指导，无当前运行风险。
+- 11-11T02:53 · _last_lane_bm-m.json · 机队已就绪，当前无风险。
+- 11-11T02:53 · skill-promote-20261111.json · 已跳过多项因工具缺失或重复的任务，当前无风险。
