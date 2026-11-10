@@ -5516,3 +5516,23 @@
 - 11-11T00:46 · _last_lane_bm-m.json · 任务已推迟，因无可用资源分配而存在执行风险。
 - 11-11T00:46 · REPAIR-R-NEXT-BIGSTREAMM-REBUILD-20261111-acceptance.json · 机队回执被拒，因交付物非所需文档或台账。
 - 11-11T00:46 · REPAIR-R-NEXT-BIGSTREAMM-REBUILD-20261111-bm-m.json · 已完成视频编码修复，因 v721 参数未达标导致任务滞留，需人工介入验证并更新规则。
+- 11-11T00:48 · _last_lane_bm-m.json · 已完成节点同步解绑，无风险。
+- 11-11T00:48 · UNBLOCK-NODE-SYNC-bm-b-2330-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-11T00:48 · UNBLOCK-NODE-SYNC-bm-b-2330-bm-m.json · 已完成机队同步，但需补全负责人后重试，存在阻塞风险。
+- 11-11T00:48 · UNBLOCK-PRODUCE-FLUXVERSE-20261110-acceptance.json · 完成机队回执提交，但被拒因交付物非标准产物且无风险。
+- 11-11T00:48 · UNBLOCK-PRODUCE-FLUXVERSE-20261110-bm-m.json · 已完成无人工干预的自动解锁，无风险。
+- 11-11T00:48 · game-packs-2026-11-11.json · 机队回执显示任务完成，但部分文件修改时间久远存在风险。
+- 11-11T00:48 · biggame-pack-scan-2026-11-11-bm-a.json · 已完成机队回执扫描，无风险。
+- 11-11T00:48 · biggame-pack-scan-2026-11-11-acceptance.json · 完成机队回执提交，但被拒收因交付物非标准产物。
+- 11-11T00:48 · NODE-SYNC-bm-a-20261111-bm-a.json · 已完成机队同步并生成报告，无风险。
+- 11-11T00:48 · NODE-SYNC-bm-a-20261111-acceptance.json · 完成机队回执提交，但被拒收因交付物非有效产物。
+- 11-11T00:49 · skill-promote-20261111.json · 已完成部分任务，因工具缺失导致大量技能无法执行。
+- 11-11T00:51 · _last_lane_bm-m.json · 节点同步任务已推迟，因无可用分配存在运行风险。
+- 11-11T00:51 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
+- 11-11T00:51 · UNBLOCK-NODE-SYNC-bm-b-2330-acceptance.json · 完成机队回执提交，但被拒因交付物非有效产物。
+- 11-11T00:51 · UNBLOCK-NODE-SYNC-bm-b-2330-bm-m.json · 节点同步任务已完成，但需补充负责人字段且由业务方执行。
+- 11-11T00:51 · UNBLOCK-PRODUCE-FLUXVERSE-20261110-acceptance.json · 已完成机队回执提交，但因内容非标准产物被驳回。
+- 11-11T00:51 · UNBLOCK-PRODUCE-FLUXVERSE-20261110-bm-m.json · 已完成机队回执，存在需由 bm-a 补租约的缺料风险。
+- 11-11T00:51 · voice-corpus-2026-11-11.json · 机队完成 5 个文件处理，无风险，状态通过。
+- 11-11T00:51 · asset-lib-voice-corpus-2026-11-11-bm-a.json · 已完成语音语料预处理，无风险。
+- 11-11T00:51 · asset-lib-voice-corpus-2026-11-11-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被拒收。

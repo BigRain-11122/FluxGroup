@@ -1,13 +1,13 @@
 {
  "node": "bm-m",
- "ts": "2026-11-11T00:38:50",
+ "ts": "2026-11-11T00:50:18",
  "mode": "apply",
  "verdict": "SELF-OK",
  "checks": [
   {
    "check": "reload",
-   "code_age_s": 1372,
-   "receipt_age_s": 43,
+   "code_age_s": 2060,
+   "receipt_age_s": 48,
    "targets": [],
    "acted": false,
    "note": "executor produced a receipt after the last code edit",
@@ -16,12 +16,11 @@
   },
   {
    "check": "shells",
-   "cards": 3,
-   "shells": 3,
+   "cards": 2,
+   "shells": 2,
    "ids": [
-    "REPAIR-R-NEXT-BIGSTREAMM-REBUILD-20261111",
-    "REPAIR-biggame-pack-scan-2026-11-11",
-    "REPAIR-R-MODEL-RADAR-BMB-20261111"
+    "UNBLOCK-NODE-SYNC-bm-b-2330",
+    "UNBLOCK-PRODUCE-FLUXVERSE-20261110"
    ],
    "acted": true,
    "kept": 0,
