@@ -1,21 +1,21 @@
 {
- "ts": "2026-11-10T22:01:54",
+ "ts": "2026-11-10T22:11:55",
  "node": "bm-c",
  "paused": false,
  "verdict": "BLOCKED-CAPACITY",
  "capacity": {
   "gpu": {
    "util_pct": 0,
-   "used_mb": 1329,
+   "used_mb": 1317,
    "total_mb": 16384
   },
-  "ram_free_gb": 1.53,
-  "vram_free_mb": 15055,
+  "ram_free_gb": 2.31,
+  "vram_free_mb": 15067,
   "lease_held": false,
   "can_gpu": false,
   "can_cpu": false
  },
- "idle_min": 0.0,
+ "idle_min": 0.1,
  "assigned": [
   {
    "kind": "assigned",
@@ -28,8 +28,8 @@
   },
   {
    "kind": "assigned",
-   "id": "KN-FILM-GATE-LATEST-20261110",
-   "title": "KN PACK-A 最新复核版跑全片闸（重复帧/亮度/时长三查）",
+   "id": "GAP-CHARGEN-PROBE-20261110",
+   "title": "[probe] char-gen 出图环境探针（bm-c ComfyUI）",
    "prio": null,
    "needs": "cpu",
    "feasible": false,
@@ -37,8 +37,8 @@
   },
   {
    "kind": "assigned",
-   "id": "NODE-SYNC-bm-c-2157",
-   "title": "[self-heal] bm-c 分叉收口（本地提交 → backup 分支，HEAD 回 main）",
+   "id": "KN-FILM-GATE-LATEST-20261110",
+   "title": "KN PACK-A 最新复核版跑全片闸（重复帧/亮度/时长三查）",
    "prio": null,
    "needs": "cpu",
    "feasible": false,
@@ -57,8 +57,8 @@
   },
   {
    "kind": "assigned",
-   "id": "KN-FILM-GATE-LATEST-20261110",
-   "title": "KN PACK-A 最新复核版跑全片闸（重复帧/亮度/时长三查）",
+   "id": "GAP-CHARGEN-PROBE-20261110",
+   "title": "[probe] char-gen 出图环境探针（bm-c ComfyUI）",
    "prio": null,
    "needs": "cpu",
    "feasible": false,
@@ -66,8 +66,8 @@
   },
   {
    "kind": "assigned",
-   "id": "NODE-SYNC-bm-c-2157",
-   "title": "[self-heal] bm-c 分叉收口（本地提交 → backup 分支，HEAD 回 main）",
+   "id": "KN-FILM-GATE-LATEST-20261110",
+   "title": "KN PACK-A 最新复核版跑全片闸（重复帧/亮度/时长三查）",
    "prio": null,
    "needs": "cpu",
    "feasible": false,
@@ -103,12 +103,17 @@
    "id": "asset-lib-face-dataset-2026-11-07",
    "kind": "silent-failure",
    "detail": "rc=1 with no explanation"
+  },
+  {
+   "id": "NODE-SYNC-bm-c-2157",
+   "kind": "stale-deliverable",
+   "detail": "deliverable predates the run (file not produced by it)"
   }
  ],
  "dispatched_now": null,
  "counts": {
-  "open_backlog": 5,
-  "open_queue": 25,
+  "open_backlog": 6,
+  "open_queue": 22,
   "bank_pending": 0
  }
 }
