@@ -1,28 +1,37 @@
 {
- "ts": "2026-11-11T02:11:55",
+ "ts": "2026-11-11T02:21:55",
  "node": "bm-c",
  "paused": false,
  "verdict": "BLOCKED-CAPACITY",
  "capacity": {
   "gpu": {
    "util_pct": 0,
-   "used_mb": 1421,
+   "used_mb": 1400,
    "total_mb": 16384
   },
-  "ram_free_gb": 1.11,
-  "vram_free_mb": 14963,
+  "ram_free_gb": 1.5,
+  "vram_free_mb": 14984,
   "lease_held": false,
   "can_gpu": false,
   "can_cpu": false
  },
- "idle_min": 0.1,
+ "idle_min": 0.6,
  "assigned": [
   {
    "kind": "assigned",
    "id": "asset-lib-face-caption-2026-11-11",
    "title": "[资产储备（角色 LoRA / 音色库）] 人脸数据集打标（vision 草稿，人只校对）",
    "prio": null,
-   "needs": "gpu",
+   "needs": "cpu",
+   "feasible": false,
+   "reason": "master lane file (authority)"
+  },
+  {
+   "kind": "assigned",
+   "id": "COMFY-UP-BMC-20261111",
+   "title": "[self-heal] bm-c ComfyUI 起服务（8188 不服务则拉起）+ 探针回执",
+   "prio": null,
+   "needs": "cpu",
    "feasible": false,
    "reason": "master lane file (authority)"
   }
@@ -33,54 +42,18 @@
    "id": "asset-lib-face-caption-2026-11-11",
    "title": "[资产储备（角色 LoRA / 音色库）] 人脸数据集打标（vision 草稿，人只校对）",
    "prio": null,
-   "needs": "gpu",
+   "needs": "cpu",
    "feasible": false,
    "reason": "master lane file (authority)"
   },
   {
-   "kind": "queue",
-   "id": "asset-lib-asset-gen-2026-11-11",
-   "title": "[资产储备（角色 LoRA / 音色库）] 通用资产出图（道具/场景，吃 ASSET-PROMPTS 规格）",
-   "prio": "P0",
-   "needs": "gpu",
-   "feasible": false,
-   "reason": "queue row OPEN"
-  },
-  {
-   "kind": "queue",
-   "id": "asset-lib-char-gen-2026-11-11",
-   "title": "[资产储备（角色 LoRA / 音色库）] 角色包出图（本机 ComfyUI，1024²，同 seed 组）",
-   "prio": "P0",
-   "needs": "gpu",
-   "feasible": false,
-   "reason": "queue row OPEN"
-  },
-  {
-   "kind": "queue",
-   "id": "asset-lib-asset-gen-scenes-2026-11-11",
-   "title": "[资产储备（角色 LoRA / 音色库）] 通用资产出图·场景（竖屏底图）",
-   "prio": "P0",
-   "needs": "gpu",
-   "feasible": false,
-   "reason": "queue row OPEN"
-  },
-  {
-   "kind": "queue",
+   "kind": "assigned",
    "id": "COMFY-UP-BMC-20261111",
    "title": "[self-heal] bm-c ComfyUI 起服务（8188 不服务则拉起）+ 探针回执",
-   "prio": "P0",
-   "needs": "gpu",
-   "feasible": false,
-   "reason": "queue row OPEN"
-  },
-  {
-   "kind": "queue",
-   "id": "PEER-SYNC-bm-a-20261111",
-   "title": "[peer-heal] bm-c 用 WinRM 替 bm-a 收口",
-   "prio": "P0",
+   "prio": null,
    "needs": "cpu",
    "feasible": false,
-   "reason": "queue row RUNNING"
+   "reason": "master lane file (authority)"
   }
  ],
  "flags": [
@@ -113,7 +86,7 @@
  "dispatched_now": null,
  "counts": {
   "open_backlog": 5,
-  "open_queue": 17,
+  "open_queue": 9,
   "bank_pending": 0
  }
 }

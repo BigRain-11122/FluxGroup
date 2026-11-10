@@ -1,0 +1,17 @@
+{
+ "id": "R-TRIAGE-BIGDOMAIN-BMB-20261111",
+ "node": "bm-c",
+ "rc": 0,
+ "seconds": 1.5,
+ "cmd": "python Tools/fleet/line_triage.py --line bigdomain --node bm-b --out cph4/fleet/queue-receipts/triage-bigdomain-bm-b-20261111.md",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "cph4/fleet/queue-receipts/triage-bigdomain-bm-b-20261111.md",
+ "deliverable_exists": true,
+ "ts": "2026-11-11T02:22:31",
+ "stdout_tail": "[triage] bigdomain -> cph4\\fleet\\queue-receipts\\triage-bigdomain-bm-b-20261111.md\n",
+ "stderr_tail": ""
+}
