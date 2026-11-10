@@ -1,8 +1,65 @@
 {
  "node": "bm-a",
- "ts": "2026-11-11T03:07:51",
- "jobs": [],
- "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+ "ts": "2026-11-11T03:13:24",
+ "jobs": [
+  {
+   "id": "NODE-SYNC-bm-a-20261111",
+   "title": "[self-heal] bm-a 分叉收口（reset 到 origin/main，先留备份分支）",
+   "cmd": "git -C . branch -f backup/bm-a-20261111 HEAD && git -C . reset --hard origin/main && git -C . log -1 --oneline > cph4/fleet/reports/node-sync-bm-a-20261111.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/reports/node-sync-bm-a-20261111.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "GAP-MV-BMA-20261111",
+   "title": "[gap] bigstream-mv 证据（bm-a）",
+   "cmd": "python Tools/fleet/line_triage.py --line bigstream-mv --out cph4/fleet/reports/triage-bigstream-mv-20261111c.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/reports/triage-bigstream-mv-20261111c.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": 180
+  },
+  {
+   "id": "VERIFY-ICONS-BMA-20261111",
+   "title": "[verify] bm-a 自证图标是否真出图（SW/*/icon_512.png）",
+   "cmd": "python -c \"import glob,os,time;fs=glob.glob('软著申请材料/**/icon_512.png',recursive=True);print('icons=%d'%len(fs));[print('  %s %.1fh %dB'%(p,(time.time()-os.path.getmtime(p))/3600,os.path.getsize(p))) for p in sorted(fs,key=os.path.getmtime)[-12:]]\" > cph4/fleet/reports/verify-icons-bma.txt 2>&1",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/reports/verify-icons-bma.txt",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": 180
+  },
+  {
+   "id": "PEER-SYNC-bm-c-20261111",
+   "title": "[peer-heal] bm-a 用 WinRM 替 bm-c 收口",
+   "cmd": "powershell -NoProfile -Command \"$e=$null; try { Invoke-Command -ComputerName 100.123.74.104 -ScriptBlock { Set-Location 'K:\\Fluxgroup\\FluxGroup'; git fetch origin --prune; git branch -f backup/bm-c-20261111 HEAD 2>$null; git reset --hard origin/main; git log -1 --oneline } -ErrorAction Stop } catch { $e=$_.Exception.Message }; 'winrm_err='+$e | Out-File -Encoding utf8 cph4/fleet/reports/peer-sync-bm-c-20261111.md\"",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/reports/peer-sync-bm-c-20261111.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  }
+ ],
+ "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 22.0/1.0 GB"
+ "capacity_note": "ram 30.4/1.0 GB"
 }

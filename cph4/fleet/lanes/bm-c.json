@@ -1,14 +1,14 @@
 {
  "node": "bm-c",
- "ts": "2026-11-11T03:07:51",
+ "ts": "2026-11-11T03:13:25",
  "jobs": [
   {
-   "id": "asset-lib-char-gen-2026-11-11",
-   "title": "[资产储备（角色 LoRA / 音色库）] 角色包出图（本机 ComfyUI，1024²，同 seed 组）",
-   "cmd": "python Tools/fleet/char_gen.py --node bm-c --limit 12 --receipt cph4/fleet/queue-receipts/char-gen-bm-c-2026-11-11.json",
+   "id": "asset-lib-asset-gen-2026-11-11",
+   "title": "[资产储备（角色 LoRA / 音色库）] 通用资产出图（道具/场景，吃 ASSET-PROMPTS 规格）",
+   "cmd": "python Tools/fleet/asset_gen.py --node bm-c --class props --limit 4 --receipt cph4/fleet/queue-receipts/asset-gen-props-2026-11-11.json",
    "cwd": "",
    "needs": "gpu",
-   "deliverable": "cph4/fleet/queue-receipts/char-gen-bm-c-2026-11-11.json",
+   "deliverable": "cph4/fleet/queue-receipts/asset-gen-props-2026-11-11.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
