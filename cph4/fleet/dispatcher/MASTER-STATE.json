@@ -1,40 +1,40 @@
 {
- "ts": "2026-11-11T05:32:23",
- "cycle": 1165,
+ "ts": "2026-11-11T05:36:24",
+ "cycle": 1166,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-11T05:32:23",
+ "master_tick_ts": "2026-11-11T05:36:24",
  "queue": {
   "total": 2066,
   "open": 5,
-  "running": 1,
-  "done": 763,
-  "failed": 4
+  "running": 2,
+  "done": 764,
+  "failed": 3
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 10.0,
-   "cpu_load_pct": 33,
-   "ram_free_gb": 29.4,
-   "gpu_util_pct": 56,
-   "job": null,
+   "hb_age_s": 10.9,
+   "cpu_load_pct": 62,
+   "ram_free_gb": 30.7,
+   "gpu_util_pct": 61,
+   "job": "R-NEXT-BIGSTREAMM-REBUILD-20261111",
    "last_result": {
-    "job": "NODE-SYNC-bm-a-20261111T0513",
-    "state": "FAILED",
-    "rc": 128,
-    "ts": "2026-11-11T05:31:48",
-    "reason": null,
+    "job": null,
+    "state": "IDLE",
+    "rc": null,
+    "ts": "2026-11-11T05:34:44",
+    "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": false,
-   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+   "idle_reason": "",
    "idle_rounds": 0
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 299.4,
+   "hb_age_s": 540.6,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -46,50 +46,50 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 9.4,
+   "hb_age_s": 28.6,
    "cpu_load_pct": 12,
-   "ram_free_gb": 1.7,
+   "ram_free_gb": 3.1,
    "gpu_util_pct": 0,
-   "job": "NODE-SYNC-bm-c-20261111T0519",
-   "last_result": {
-    "job": "NODE-SYNC-bm-c-20261111T0519",
-    "state": "RUNNING",
-    "rc": null,
-    "ts": "2026-11-11T05:32:18",
-    "reason": null,
-    "out_bytes": null,
-    "elapsed_s": null
-   },
-   "idle_confirmed": false,
-   "idle_reason": "",
-   "idle_rounds": 0
-  },
-  "bm-m": {
-   "online": true,
-   "hb_age_s": 1.9,
-   "cpu_load_pct": 35,
-   "ram_free_gb": 10.5,
-   "gpu_util_pct": null,
    "job": null,
    "last_result": {
-    "job": "REPAIR-NODE-SYNC-bm-a-20261111T0452",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-11T05:32:01",
-    "reason": null,
+    "job": "NODE-SYNC-bm-c-20261111T0519",
+    "state": "DEFERRED",
+    "rc": null,
+    "ts": "2026-11-11T05:36:01",
+    "reason": "NO-RUNNABLE-ASSIGNMENT",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": false,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
    "idle_rounds": 0
+  },
+  "bm-m": {
+   "online": true,
+   "hb_age_s": 1.6,
+   "cpu_load_pct": 2,
+   "ram_free_gb": 17.6,
+   "gpu_util_pct": null,
+   "job": null,
+   "last_result": {
+    "job": null,
+    "state": "IDLE",
+    "rc": null,
+    "ts": "2026-11-11T05:36:03",
+    "reason": "control-plane heartbeat",
+    "out_bytes": null,
+    "elapsed_s": null
+   },
+   "idle_confirmed": true,
+   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+   "idle_rounds": 1
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 0
+  "bm-m": 1
  },
  "lines": {
   "bigstream-mv": {
@@ -99,8 +99,10 @@
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "R-NEXT-BIGSTREAMM-REBUILD-20261111"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": null,
    "stuck_stage": "mv-plan",
@@ -271,7 +273,7 @@
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
    "jobs": [
-    "NODE-SYNC-bm-c-20261111T0519"
+    "NODE-SYNC-bm-a-20261111T0513"
    ],
    "no_supply": false,
    "blockers": [],
@@ -850,8 +852,8 @@
  },
  "supply_added": [],
  "events": [
-  "NODE-SYNC-bm-a-20261111T0513 FAILED via bm-a",
-  "REPAIR-NODE-SYNC-bm-a-20261111T0452 DONE via bm-m"
+  "R-NEXT-BIGSTREAMM-REBUILD-20261111 -> bm-a (cpu)",
+  "NODE-SYNC-bm-a-20261111T0513 -> bm-a (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 立意/分镜/导演席 (导演席（自决推进，CEO 巡视可随时否决）)",
@@ -861,6 +863,7 @@
  ],
  "lane_files_written": [
   "bm-a",
+  "bm-c",
   "bm-m"
  ]
 }
