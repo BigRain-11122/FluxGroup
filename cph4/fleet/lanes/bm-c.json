@@ -1,8 +1,51 @@
 {
  "node": "bm-c",
- "ts": "2026-11-11T05:44:07",
- "jobs": [],
- "idle_reason": "CAPACITY-BLOCKED-RAM ram 0.7/1.0 GB",
- "lane_ok": false,
- "capacity_note": "ram 0.7/1.0 GB"
+ "ts": "2026-11-11T05:45:20",
+ "jobs": [
+  {
+   "id": "GAP-BIGGAME-BMC-2",
+   "title": "[gap] biggame 提审缺口（bm-c，SW 全量版）",
+   "cmd": "python Tools/fleet/game_pack_scan.py --root . --out cph4/fleet/reports/biggame-pack-gap-20261111c.json",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/reports/biggame-pack-gap-20261111c.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": 300
+  },
+  {
+   "id": "GAP-ASSETLIB-BMC-2",
+   "title": "[gap] asset-lib 证据（bm-c）",
+   "cmd": "python Tools/fleet/line_triage.py --line asset-lib --out cph4/fleet/reports/triage-asset-lib-20261111f.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/reports/triage-asset-lib-20261111f.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": 180
+  },
+  {
+   "id": "GAP-MV-BMC-2",
+   "title": "[gap] MV 线证据（bm-c）",
+   "cmd": "python Tools/fleet/line_triage.py --line bigstream-mv --out cph4/fleet/reports/triage-bigstream-mv-20261111e.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/reports/triage-bigstream-mv-20261111e.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": 180
+  }
+ ],
+ "idle_reason": "",
+ "lane_ok": true,
+ "capacity_note": "ram 3.3/1.0 GB"
 }

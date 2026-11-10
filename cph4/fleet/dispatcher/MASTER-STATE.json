@@ -1,23 +1,23 @@
 {
- "ts": "2026-11-11T05:44:07",
- "cycle": 1168,
+ "ts": "2026-11-11T05:45:18",
+ "cycle": 1169,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-11T05:44:07",
+ "master_tick_ts": "2026-11-11T05:45:18",
  "queue": {
-  "total": 2066,
+  "total": 2069,
   "open": 5,
-  "running": 1,
+  "running": 4,
   "done": 764,
   "failed": 4
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 49.5,
-   "cpu_load_pct": 71,
-   "ram_free_gb": 31.6,
-   "gpu_util_pct": 58,
+   "hb_age_s": 4.9,
+   "cpu_load_pct": 63,
+   "ram_free_gb": 29.6,
+   "gpu_util_pct": 91,
    "job": "NODE-SYNC-bm-a-20261111T0513",
    "last_result": {
     "job": "R-NEXT-BIGSTREAMM-REBUILD-20261111",
@@ -33,63 +33,63 @@
    "idle_rounds": 0
   },
   "bm-b": {
-   "online": false,
-   "hb_age_s": null,
+   "online": true,
+   "hb_age_s": 70.6,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
    "job": null,
    "last_result": null,
    "idle_confirmed": false,
-   "idle_reason": "CAPACITY-BLOCKED-RAM OFFLINE (hb age Nones)",
+   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
    "idle_rounds": 0
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 59.8,
+   "hb_age_s": 42.0,
    "cpu_load_pct": 16,
-   "ram_free_gb": 0.7,
+   "ram_free_gb": 3.3,
    "gpu_util_pct": 0,
-   "job": null,
+   "job": "GAP-BIGGAME-BMC-2",
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-11T05:43:10",
-    "reason": "SELF-DISPATCH: lane scans its own backlog",
+    "ts": "2026-11-11T05:44:49",
+    "reason": "CAPACITY-BLOCKED-RAM ram 0.7/1.0 GB",
     "out_bytes": null,
     "elapsed_s": null
    },
-   "idle_confirmed": true,
-   "idle_reason": "CAPACITY-BLOCKED-RAM ram 0.7/1.0 GB",
-   "idle_rounds": 2
+   "idle_confirmed": false,
+   "idle_reason": "",
+   "idle_rounds": 0
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 256.7,
-   "cpu_load_pct": 2,
-   "ram_free_gb": 15.2,
+   "hb_age_s": 2.0,
+   "cpu_load_pct": 28,
+   "ram_free_gb": 11.8,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-11T05:44:06",
+    "ts": "2026-11-11T05:45:06",
     "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 3
+   "idle_rounds": 4
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
-  "bm-c": 2,
-  "bm-m": 3
+  "bm-c": 0,
+  "bm-m": 4
  },
  "lines": {
   "bigstream-mv": {
@@ -99,8 +99,10 @@
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "GAP-MV-BMC-2"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": null,
    "stuck_stage": "mv-plan",
@@ -153,8 +155,10 @@
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "游戏席",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "GAP-BIGGAME-BMC-2"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": null,
    "stuck_stage": "game-design",
@@ -280,12 +284,14 @@
   "asset-lib": {
    "name": "资产储备·角色 LoRA 与音色库",
    "status": "ACTIVE",
-   "verdict": "WAITING",
+   "verdict": "WORKING",
    "age_h": null,
    "stale_after_h": 72.0,
    "owner": "资产席",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "GAP-ASSETLIB-BMC-2"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": "CEO 2026-11-03：先储备资产，角色 LoRA 与音色库为 P0"
   }
@@ -849,11 +855,13 @@
   "gpu": 0
  },
  "supply_added": [],
- "events": [],
+ "events": [
+  "GAP-BIGGAME-BMC-2 -> bm-c (cpu)",
+  "GAP-ASSETLIB-BMC-2 -> bm-c (cpu)",
+  "GAP-MV-BMC-2 -> bm-c (cpu)"
+ ],
  "violations": [
-  "bm-b OFFLINE",
-  "bm-c IDLE-CONFIRMED x2 (CAPACITY-BLOCKED-RAM ram 0.7/1.0 GB)",
-  "bm-m IDLE-CONFIRMED x3 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-m IDLE-CONFIRMED x4 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED bigstream-mv 卡在 立意/分镜/导演席 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)",
