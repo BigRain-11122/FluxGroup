@@ -1,6 +1,6 @@
 {
  "node": "bm-c",
- "ts": "2026-11-10T23:50:58",
+ "ts": "2026-11-10T23:53:42",
  "jobs": [
   {
    "id": "asset-lib-face-caption-2026-11-10",
@@ -15,9 +15,23 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
+  },
+  {
+   "id": "PRODUCE-BIGGAME-ONEPAGER-B",
+   "title": "[produce] biggame 提审一页（脚本版，bm-c）",
+   "cmd": "python Tools/fleet/biggame_onepager.py --src cph4/fleet/reports/submit-pack-20261110.json --out cph4/fleet/reports/biggame-submit-onepager.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/reports/biggame-submit-onepager.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": 120
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 1.4/1.0 GB"
+ "capacity_note": "ram 2.1/1.0 GB"
 }
