@@ -5207,3 +5207,10 @@
 - 11-10T23:19 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
 - 11-10T23:21 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
 - 11-10T23:21 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-10T23:22 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
+- 11-10T23:22 · _last_lane_bm-m.json · 机队已自派清 backlog，无风险。
+- 11-10T23:22 · review-packet-kn-20261110.md · 成片缺件且无闸档，无法通过复核，存在交付风险。
+- 11-10T23:22 · MV-DIRECTOR-PACKET-20261109-bm-a.json · 任务执行失败，因缺少交付文件导致流程中断。
+- 11-10T23:22 · MV-DIRECTOR-PACKET-20261109-acceptance.json · 已完成机队回执审查，但产物未落盘导致任务失败。
+- 11-10T23:22 · BIZ-BIGGAME-SUBMITPACK-20261110B-bm-a.json · 完成机队回执生成，存在 35 款产品缺截图、25 款缺运行包的风险。
+- 11-10T23:22 · BIZ-BIGGAME-SUBMITPACK-20261110B-acceptance.json · 提交回执被拒，因非有效产出且无风险。
