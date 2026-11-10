@@ -1,8 +1,40 @@
 {
  "node": "bm-m",
- "ts": "2026-11-10T12:57:49",
- "jobs": [],
- "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+ "ts": "2026-11-10T14:27:26",
+ "jobs": [
+  {
+   "id": "CEOQ-a7787203d3",
+   "title": "[ceo-queue] 已有卡 PATROL-bighouse-20261110(OPEN) 在跑，不需要另起",
+   "cmd": "",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/CEOQ-a7787203d3.md",
+   "need_mb": null,
+   "model": "local-small",
+   "prompt": "已有卡 PATROL-bighouse-20261110(OPEN) 在跑，不需要另起",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "R-SITREP-142521",
+   "title": "[group] 机队态势一页（本地模型生成）",
+   "cmd": "",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/SITREP-142521.md",
+   "need_mb": null,
+   "model": "local-small",
+   "prompt": "根据输入的三份文件，写一页机队态势：①产出了什么 ②当前阻塞 ③下一步三件事。不要编造。",
+   "when_all": [
+    "cph4/fleet/OUTPUT-BOARD.md",
+    "cph4/fleet/DAILY-BRIEF.md"
+   ],
+   "llm": null,
+   "timeout_s": null
+  }
+ ],
+ "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 10.3/1.0 GB"
+ "capacity_note": "ram 11.4/1.0 GB"
 }
