@@ -4330,3 +4330,14 @@
 - 11-10T16:28 · REPAIR-R-TRIAGE-FLUXVERSE-BMB-20261110-bm-m.json · 任务已完成但失败，因前置依赖未满足导致环境不可用，需立即排查并回滚。
 - 11-10T16:28 · REPAIR-C-FIN-ETF-COMPOSITE-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
 - 11-10T16:28 · REPAIR-C-FIN-ETF-COMPOSITE-bm-m.json · 支付网关超时导致交易中断，需开发团队排查根因并验证逻辑。
+- 11-10T16:31 · _last_lane_bm-m.json · 已完成机队修复任务，当前运行中无风险。
+- 11-10T16:31 · skill-promote-20261110.json · 已完成部分任务，因工具缺失导致多项关键技能无法执行。
+- 11-10T16:31 · REPAIR-asset-lib-char-gen-2026-11-06-acceptance.json · 机队回执被拒，因交付物非预期文档且无风险。
+- 11-10T16:31 · REPAIR-asset-lib-char-gen-2026-11-06-bm-m.json · 已完成故障根因分析与修复动作规划，当前无系统级风险。
+- 11-10T16:31 · REPAIR-Q-MV-0001-003-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物，无风险。
+- 11-10T16:31 · REPAIR-Q-MV-0001-003-bm-m.json · 已完成卡片交易失败诊断，暂无风险，需客服与运维并行排查根因。
+- 11-10T16:31 · REPAIR-R-TRIAGE-FLUXVERSE-BMB-20261110-acceptance.json · 机队回执被拒，因交付物非所需文档且无风险。
+- 11-10T16:31 · REPAIR-R-TRIAGE-FLUXVERSE-BMB-20261110-bm-m.json · 已完成故障诊断并制定人工排查与验证方案，当前存在上游数据延迟风险。
+- 11-10T16:31 · REPAIR-PROBE-BMB-TOOLCHAIN-20261110-acceptance.json · 机队回执被拒，因交付物非所需文档且无风险。
+- 11-10T16:31 · REPAIR-PROBE-BMB-TOOLCHAIN-20261110-bm-m.json · 已完成机队回执生成，但存在 I/O 阻塞导致任务停滞的风险。
+- 11-10T16:31 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
