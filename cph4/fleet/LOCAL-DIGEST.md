@@ -5665,3 +5665,7 @@
 - 11-11T01:28 · GAP-MV-GATE-20261111-acceptance.json · 完成机队回执提交，但被拒收因交付物非标准产物。
 - 11-11T01:28 · GAP-ASSETLIB-LEDGER-20261111-bm-a.json · 已完成资产库机队排查报告生成，无错误风险。
 - 11-11T01:28 · GAP-ASSETLIB-LEDGER-20261111-acceptance.json · 完成机队回执提交，但被拒收因交付物非有效产物。
+- 11-11T01:30 · _last_lane_bm-m.json · 机队任务已执行完成，无风险。
+- 11-11T01:30 · UNBLOCK-bigstream-mv-gate-2026-11-11-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-11T01:30 · UNBLOCK-bigstream-mv-gate-2026-11-11-bm-m.json · 已完成机队解锁，存在需立即指派专人接管权限的风险。
+- 11-11T01:30 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。

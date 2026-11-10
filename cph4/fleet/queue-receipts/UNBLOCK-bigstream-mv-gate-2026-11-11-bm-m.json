@@ -2,7 +2,7 @@
  "id": "UNBLOCK-bigstream-mv-gate-2026-11-11",
  "node": "bm-m",
  "rc": 0,
- "seconds": 60.1,
+ "seconds": 47.7,
  "cmd": "",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/repairs/bigstream-mv-gate-2026-11-11-unblock.md",
  "deliverable_exists": true,
- "ts": "2026-11-11T01:29:16",
- "stdout_tail": "缺人阻塞，立即解除 bm-a 负责人权限或指派专人，由原所有者执行。",
+ "ts": "2026-11-11T01:31:09",
+ "stdout_tail": "缺人阻塞。请 owner bm-a 手动触发 sig=0 输出信号后解锁。由原机执行业务处理。",
  "stderr_tail": ""
 }
