@@ -1,6 +1,6 @@
 {
  "node": "bm-c",
- "ts": "2026-11-10T22:50:51",
+ "ts": "2026-11-10T22:54:25",
  "jobs": [
   {
    "id": "asset-lib-face-caption-2026-11-10",
@@ -29,23 +29,9 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
-  },
-  {
-   "id": "LICENSE-LEDGER-20261110B",
-   "title": "[gap] 商用素材来源清单（改派 bm-c）",
-   "cmd": "python Tools/fleet/asset_gap_audit.py --json cph4/fleet/reports/asset-license-source-20261110b.json",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/asset-license-source-20261110b.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 4.6/1.0 GB"
+ "capacity_note": "ram 4.8/1.0 GB"
 }
