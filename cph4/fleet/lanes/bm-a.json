@@ -1,7 +1,21 @@
 {
  "node": "bm-a",
- "ts": "2026-11-10T19:37:01",
+ "ts": "2026-11-10T19:53:35",
  "jobs": [
+  {
+   "id": "MV-DIRECTOR-PACKET-20261109",
+   "title": "导演席拉片包：KN 复核卷一页卷（成片+闸+证据+签字位）",
+   "cmd": "python Tools/fleet/review_packet.py --line kn --root .",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/review-packet-kn-20261109.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
   {
    "id": "CMD-DSH-20261110T1929",
    "title": "CEO 令：跨机受令测试（点名 bm-a）",
@@ -9,6 +23,20 @@
    "cwd": "",
    "needs": "cpu",
    "deliverable": "cph4/fleet/reports/bm-a-ack.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "SELFWAKE-BMA-195051",
+   "title": "[ops] bm-a 自唤醒安装 + 邻居可达性探测",
+   "cmd": "powershell -ExecutionPolicy Bypass -File Tools/fleet/selfwake.ps1 -Node bm-a; powershell -Command \"Test-NetConnection 100.82.175.0 -Port 5985 | Select-Object -ExpandProperty TcpTestSucceeded\" > cph4/fleet/queue-receipts/SELFWAKE-BMA-195051.txt",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/SELFWAKE-BMA-195051.txt",
    "need_mb": null,
    "model": "none",
    "prompt": "",
