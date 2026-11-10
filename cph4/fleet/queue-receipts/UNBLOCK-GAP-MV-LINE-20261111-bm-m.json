@@ -2,7 +2,7 @@
  "id": "UNBLOCK-GAP-MV-LINE-20261111",
  "node": "bm-m",
  "rc": 0,
- "seconds": 62.1,
+ "seconds": 66.4,
  "cmd": "",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/repairs/GAP-MV-LINE-20261111-unblock.md",
  "deliverable_exists": true,
- "ts": "2026-11-11T00:58:28",
- "stdout_tail": "缺人阻塞；BM-A 机提交新根因；需 BM-A 机重开。",
+ "ts": "2026-11-11T00:58:45",
+ "stdout_tail": "阻塞类型：缺人；最小动作：指派人员重启流程；执行机：当前机。",
  "stderr_tail": ""
 }
