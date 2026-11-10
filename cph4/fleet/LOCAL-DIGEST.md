@@ -3712,3 +3712,5 @@
 - 11-10T10:59 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
 - 11-10T10:59 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
 - 11-10T10:59 · skill-promote-20261110.json · 已完成基础任务，但多项关键技能因缺工具或已执行被跳过，存在流程中断风险。
+- 11-10T11:01 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
+- 11-10T11:00 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
