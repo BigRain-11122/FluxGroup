@@ -1,15 +1,4 @@
-﻿[2026-11-08 17:41] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=3 run=1 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=BUSY; flags=2
-[2026-11-08 17:51] FLAG CLOCK-SKEW max=4608.2ms precision=+/-429ms -> check hub path or node clock
-[2026-11-08 17:51] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
-[2026-11-08 17:51] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
-[2026-11-08 17:51] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=3 run=1 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=BUSY; flags=2
-[2026-11-08 18:01] FLAG CLOCK-SKEW max=4655.5ms precision=+/-427.9ms -> check hub path or node clock
-[2026-11-08 18:01] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
-[2026-11-08 18:01] pools: bm-a=1open/0exec/1run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=2 run=2 lanejobs: a=1 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=GPU-IDLE; flags=2
-[2026-11-08 18:11] FLAG CLOCK-SKEW max=2783ms precision=+/-417.8ms -> check hub path or node clock
-[2026-11-08 18:11] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
-[2026-11-08 18:11] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
-[2026-11-08 18:11] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=2 run=1 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=BUSY; flags=2
+﻿[2026-11-08 18:11] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=2 run=1 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=BUSY; flags=2
 [2026-11-08 18:21] FLAG CLOCK-SKEW max=2783ms precision=+/-417.7ms -> check hub path or node clock
 [2026-11-08 18:21] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
 [2026-11-08 18:21] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
@@ -405,3 +394,7 @@
 [2026-11-11 00:47] bm-c: v1.9.7 OK cpu 77% ram_free 1.5G < 2.4G 地板 -> BLOCKED-RAM 为真(非假红); 名下 asset-lib-face-caption RUNNING 在产; 3 张 GPU 卡(asset-gen/char-gen/scenes) 候 RAM+ComfyUI
 [2026-11-11 00:47] CLOCK: bm-b MISSING=离线同源; bm-c +2054ms precision 31.1ms = 真偏 (bm-a -0.1ms 正常); w32time STOPPED 提权件(R2.38/R4-4/R11-6 家族) 零催办
 [2026-11-11 00:47] poke bm-a accepted=True wakes=(空, 认领环原生 PT1M 在跑 _last_lane_bm-a 00:44:57 rc=0); bm-b 零 poke(离线, poke 不造供给)
+[2026-11-11 00:51] FLAG CLOCK-UNALIGNED old_schema=0 missing=1 -> P1 upgrade node heartbeat to v2 (ms ts+offset)
+[2026-11-11 00:51] FLAG LANE-DOWN lane=bm-b verdict=OFFLINE -> P1 page lane owner
+[2026-11-11 00:51] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
+[2026-11-11 00:51] pools: bm-a=3open/0exec/1run bm-b=0open/0exec/1run bm-c=0open/0exec/1run; queue_open=13 run=3 lanejobs: a=5 b=5 c=1; idle: a=BUSY b=OFFLINE c=BLOCKED-RAM; flags=3
