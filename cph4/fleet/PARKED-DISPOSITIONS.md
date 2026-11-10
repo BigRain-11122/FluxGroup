@@ -7,7 +7,7 @@
 |---|---|---|---|---|
 | fluxverse | ACTIVE | 176.5h | **PRODUCE** | 派 `PRODUCE-FLUXVERSE-20261110`，产物 `cph4/fleet/reports/fluxverse-city-state-20261110.md`（12 面现状一页） |
 | biggame | ACTIVE | 174.2h | **PRODUCE（已交）** | `cph4/fleet/reports/submit-pack-20261110.json`（23:20，36 款/可提交 1/缺件明细） |
-| recon | ACTIVE | 82.9h | **PRODUCE** | 派 `PRODUCE-RECON-20261110`，产物 `cph4/fleet/reports/market-brief-20261110.md` |
+| recon | ACTIVE | 82.9h | **DEAD（临时）** | 本地模型判 DEAD（缺对标样片，需授权下载），我试产一次失败：`market_brief.py` 无参数只打印说明文本，产出的 961B 是 help 不是简报 → 维持 DEAD，等授权样片 |
 | bigmoney | ACTIVE | 155.5h | **BLOCKED** | 回测/信号产物必须生成在 `quant/bigmoney`（bm-b 持有）；bm-b 当前 git 锁死（B-ENV），主控不可代跑 |
 | bigdomain | ACTIVE | 174.1h | **BLOCKED（物理件）** | 商户号/支付资质未签（CEO 域）；前置件做完前无产品可交 |
 | bigcompute | ACTIVE | 174.1h | **BLOCKED（物理件）** | bm-d 未入网/未装系统（需现场）；无算力可跑 |
