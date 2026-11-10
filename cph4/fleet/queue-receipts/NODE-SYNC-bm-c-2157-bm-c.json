@@ -1,0 +1,17 @@
+{
+ "id": "NODE-SYNC-bm-c-2157",
+ "node": "bm-c",
+ "rc": 0,
+ "seconds": 4.6,
+ "cmd": "git -C . fetch origin --prune && git -C . branch -f backup/bm-c-2157 HEAD & git -C . reset --hard origin/main && git -C . log -1 --oneline > cph4/fleet/reports/node-sync-bm-c-2157.md",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "cph4/fleet/reports/node-sync-bm-c-2157.md",
+ "deliverable_exists": true,
+ "ts": "2026-11-10T22:00:08",
+ "stdout_tail": "HEAD is now at da258244a Merge remote-tracking branch 'origin/main'\n",
+ "stderr_tail": ""
+}
