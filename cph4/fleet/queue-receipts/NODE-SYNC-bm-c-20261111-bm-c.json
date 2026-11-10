@@ -1,17 +1,17 @@
 {
  "id": "NODE-SYNC-bm-c-20261111",
  "node": "bm-c",
- "rc": 0,
- "seconds": 0.6,
+ "rc": 128,
+ "seconds": 0.2,
  "cmd": "git -C . branch -f backup/bm-c-20261111 HEAD && git -C . reset --hard origin/main && git -C . log -1 --oneline > cph4/fleet/reports/node-sync-bm-c-20261111.md",
  "ok_rc": [
   0
  ],
- "outcome": "OK",
- "error_class": null,
+ "outcome": "FAIL",
+ "error_class": "E-UNKNOWN",
  "deliverable": "cph4/fleet/reports/node-sync-bm-c-20261111.md",
  "deliverable_exists": true,
- "ts": "2026-11-11T01:41:16",
- "stdout_tail": "HEAD is now at 0fa878dcd Merge remote-tracking branch 'origin/main'\n",
- "stderr_tail": ""
+ "ts": "2026-11-11T01:42:38",
+ "stdout_tail": "",
+ "stderr_tail": "fatal: Unable to create 'K:/Fluxgroup/FluxGroup/.git/index.lock': File exists.\n\nAnother git process seems to be running in this repository, or the lock file may be stale\n"
 }
