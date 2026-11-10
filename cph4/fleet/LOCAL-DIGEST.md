@@ -5649,3 +5649,19 @@
 - 11-11T01:26 · biggame-accept-2026-11-11-acceptance.json · 完成机队回执提交，但被拒因交付物非标准产物。
 - 11-11T01:26 · biggame-accept-2026-11-11-bm-m.json · 机队质量检查失败，因缺少 game-10s 组件存在交付风险。
 - 11-11T01:26 · quality-biggame-2026-11-11.json · 机队回执显示“游戏包”通过但“游戏十秒”缺失，整体判定失败，存在交付风险。
+- 11-11T01:27 · _last_lane_bm-m.json · 已完成机队解绑任务，当前运行中无风险。
+- 11-11T01:27 · UNBLOCK-bigstream-mv-gate-2026-11-11-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-11T01:27 · UNBLOCK-bigstream-mv-gate-2026-11-11-bm-m.json · 机队任务已完成，存在人员与权限缺失风险。
+- 11-11T01:27 · voice-dataset-2026-11-11.json · 已完成机队筛选，因缺乏授权或来源不明导致全部批次被跳过。
+- 11-11T01:27 · quant-conclusion-2026-11-11.json · 已完成机队回执，但缺失样本区间、成本假设及失效条件等关键数据。
+- 11-11T01:27 · bigmoney-conclusion-2026-11-11-bm-a.json · 因缺失样本区间等关键数据，机队回执生成失败且无法交付。
+- 11-11T01:27 · bigmoney-conclusion-2026-11-11-acceptance.json · 完成机队回执提交，但被拒因内容非标准交付物。
+- 11-11T01:27 · asset-lib-voice-assemble-2026-11-11-bm-a.json · 语音数据集因版权不明被全部跳过，任务失败且无可用数据。
+- 11-11T01:27 · asset-lib-voice-assemble-2026-11-11-acceptance.json · 已完成机队回执提交，但被拒收因交付物非标准产物。
+- 11-11T01:27 · asset-lib-index-2026-11-11-bm-a.json · 机队回执生成成功，但发现 198 张卡交产物缺失及 651 条 vault 登记异常。
+- 11-11T01:28 · asset-lib-index-2026-11-11-acceptance.json · 已完成机队回执提交，但被拒收因交付物非有效产物。
+- 11-11T01:28 · asset-index-2026-11-11.json · 已完成归集与备份，存在 5 个冻结、2 个停摆及 1 个被阻断的风险。
+- 11-11T01:28 · GAP-MV-GATE-20261111-bm-a.json · 已完成机队回执生成，无风险。
+- 11-11T01:28 · GAP-MV-GATE-20261111-acceptance.json · 完成机队回执提交，但被拒收因交付物非标准产物。
+- 11-11T01:28 · GAP-ASSETLIB-LEDGER-20261111-bm-a.json · 已完成资产库机队排查报告生成，无错误风险。
+- 11-11T01:28 · GAP-ASSETLIB-LEDGER-20261111-acceptance.json · 完成机队回执提交，但被拒收因交付物非有效产物。
