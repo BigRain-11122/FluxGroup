@@ -1,0 +1,17 @@
+{
+ "id": "PEER-SYNC-bm-a-20261111",
+ "node": "bm-c",
+ "rc": 0,
+ "seconds": 0.4,
+ "cmd": "powershell -NoProfile -Command \"$e=$null; try { Invoke-Command -ComputerName 100.110.185.62 -ScriptBlock { Set-Location 'C:\\Users\\sjs20\\Desktop\\FluxGroup'; git fetch origin --prune; git branch -f backup/bm-a-20261111 HEAD 2>$null; git reset --hard origin/main; git log -1 --oneline } -ErrorAction Stop } catch { $e=$_.Exception.Message }; 'winrm_err='+$e | Out-File -Encoding utf8 cph4/fleet/reports/peer-sync-bm-a-20261111.md\"",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "cph4/fleet/reports/peer-sync-bm-a-20261111.md",
+ "deliverable_exists": true,
+ "ts": "2026-11-11T01:59:25",
+ "stdout_tail": "",
+ "stderr_tail": ""
+}
