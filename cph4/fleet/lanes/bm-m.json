@@ -1,86 +1,23 @@
 {
  "node": "bm-m",
- "ts": "2026-11-10T22:33:31",
+ "ts": "2026-11-10T22:35:20",
  "jobs": [
   {
-   "id": "GRID-F3-20261110T2130",
-   "title": "[grid] F3 自愈：记账不进 git",
+   "id": "GRID-O2-20261110T2132",
+   "title": "[grid] O2 自愈：时钟偏移",
    "cmd": "python -c \"print('no fix defined')\"",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/grid-f3-20261110t2130.md",
+   "deliverable": "cph4/fleet/reports/grid-o2-20261110t2132.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
    "when_all": [],
    "llm": null,
    "timeout_s": null
-  },
-  {
-   "id": "REPAIR-GAP-CHARGEN-PROBE-20261110",
-   "title": "[repair] GAP-CHARGEN-PROBE-20261110 的根因与下一步",
-   "cmd": "",
-   "cwd": null,
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/repairs/GAP-CHARGEN-PROBE-20261110.md",
-   "need_mb": null,
-   "model": "local-small",
-   "prompt": "这张卡失败了。请只依据给出的证据，写一页诊断：①最可能的根因 ②下一步具体动作（谁、做什么、怎么验证）。不要编造文件或命令。\n\n证据：状态=FAILED；备注=STALL: 1824s 无新输出（sig=0），释放；交付物=cph4/fleet/reports/chargen-probe-20261110.json；重试=2",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "UNBLOCK-R-NEXT-BIGSTREAMM-REBUILD-20261109",
-   "title": "[unblock] R-NEXT-BIGSTREAMM-REBUILD-20261109 的解锁动作",
-   "cmd": "",
-   "cwd": null,
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/repairs/R-NEXT-BIGSTREAMM-REBUILD-20261109-unblock.md",
-   "need_mb": null,
-   "model": "local-small",
-   "prompt": "这张卡被标记 BLOCKED。只依据证据，给出：①阻塞类型（缺人/缺料/缺权限/环境）②最小解锁动作 ③解锁后应由哪台机执行。40 字以内一条，不要客套。\n\n证据：状态=BLOCKED；备注=按回执补账（R-NEXT-BIGSTREAMM-REBUILD-20261109-bm-a.json）；owner=bm-a",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "UNBLOCK-asset-lib-face-dataset-2026-11-10",
-   "title": "[unblock] asset-lib-face-dataset-2026-11-10 的解锁动作",
-   "cmd": "",
-   "cwd": null,
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/repairs/asset-lib-face-dataset-2026-11-10-unblock.md",
-   "need_mb": null,
-   "model": "local-small",
-   "prompt": "这张卡被标记 BLOCKED。只依据证据，给出：①阻塞类型（缺人/缺料/缺权限/环境）②最小解锁动作 ③解锁后应由哪台机执行。40 字以内一条，不要客套。\n\n证据：状态=BLOCKED；备注=3 次未成，停线待根因：STALL: 77699s 无新输出（sig=0），释放；owner=bm-c",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
   }
  ],
- "idle_reason": "control-plane heartbeat",
+ "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 13.7/1.0 GB",
- "cards": [
-  {
-   "id": "GRID-F3-20261110T2130",
-   "title": "[grid] F3 自愈：记账不进 git",
-   "cmd": "python -c \"print('no fix defined')\"",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/grid-f3-20261110t2130.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  }
- ],
- "pruned_shells": [
-  "REPAIR-GAP-CHARGEN-PROBE-20261110",
-  "UNBLOCK-R-NEXT-BIGSTREAMM-REBUILD-20261109",
-  "UNBLOCK-asset-lib-face-dataset-2026-11-10"
- ]
+ "capacity_note": "ram 15.2/1.0 GB"
 }
