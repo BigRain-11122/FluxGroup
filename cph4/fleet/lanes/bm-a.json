@@ -1,8 +1,51 @@
 {
  "node": "bm-a",
- "ts": "2026-11-10T19:26:33",
- "jobs": [],
- "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+ "ts": "2026-11-10T20:10:48",
+ "jobs": [
+  {
+   "id": "CMD-DSH-20261110T1929",
+   "title": "CEO 令：跨机受令测试（点名 bm-a）",
+   "cmd": "python -c \"import socket,datetime;open('cph4/fleet/reports/bm-a-ack.md','w',encoding='utf-8').write('# bm-a 受令回执\\n\\n- 卡号: CMD-DSH-20261110T1929\\n- 执行主机: '+socket.gethostname()+'\\n- 时间: '+datetime.datetime.now().isoformat(timespec=\\'seconds\\')+'\\n- 说明: 由自主 lane 自领执行，无人工介入\\n')\"",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/reports/bm-a-ack.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "SELFWAKE-BMA-195051",
+   "title": "[ops] bm-a 自唤醒安装 + 邻居可达性探测",
+   "cmd": "powershell -ExecutionPolicy Bypass -File Tools/fleet/selfwake.ps1 -Node bm-a; powershell -Command \"Test-NetConnection 100.82.175.0 -Port 5985 | Select-Object -ExpandProperty TcpTestSucceeded\" > cph4/fleet/queue-receipts/SELFWAKE-BMA-195051.txt",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/SELFWAKE-BMA-195051.txt",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "PEERWAKE-BMA-195744",
+   "title": "[ops] bm-a 远程唤醒 bm-b/bm-c",
+   "cmd": "powershell -ExecutionPolicy Bypass -File Tools/fleet/peer_wake.ps1 > cph4/fleet/queue-receipts/PEERWAKE-BMA-195744.txt 2>&1",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/PEERWAKE-BMA-195744.txt",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  }
+ ],
+ "idle_reason": "",
  "lane_ok": true,
  "capacity_note": "ram-unknown"
 }

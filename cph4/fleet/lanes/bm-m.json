@@ -1,23 +1,8 @@
 {
  "node": "bm-m",
- "ts": "2026-11-10T19:26:33",
- "jobs": [
-  {
-   "id": "CMD-DSH-20261110T1938",
-   "title": "CEO 令：修复后复核（含 BLOCKED 字样的真产物）",
-   "cmd": "python -c \"import json,collections;rows=[json.loads(l) for l in open('cph4/fleet/PRODUCTION-QUEUE.jsonl',encoding='utf-8') if l.strip()];c=collections.Counter(str(r.get('state')) for r in rows);open('cph4/fleet/reports/verification-after-fix.md','w',encoding='utf-8').write('# 修复后复核\\n\\n- 卡号: CMD-DSH-20261110T1938\\n- 队列行数: '+str(len(rows))+'\\n- 状态分布: '+json.dumps(c,ensure_ascii=False,sort_keys=True)+'\\n- 结论: 本报告含 BLOCKED 字样仍应记 DONE\\n')\"",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/verification-after-fix.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  }
- ],
- "idle_reason": "",
+ "ts": "2026-11-10T20:16:21",
+ "jobs": [],
+ "idle_reason": "control-plane heartbeat",
  "lane_ok": true,
- "capacity_note": "ram 7.5/1.0 GB"
+ "capacity_note": "ram 12.3/1.0 GB"
 }

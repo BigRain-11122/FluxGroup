@@ -119,3 +119,24 @@ pull 不再整文件冲突——今天主控脉被 git 卡死的直接原因就�
 当前供给实况：bm-a 2/3、bm-b 2/3、bm-c 3/3（bm-m 为控制节点不考核）。
 还差的是真活来源，不是调度代码——需求源干了，守卫只能在"不造假卡"的前提下报缺口。
 
+
+## 2026-11-10 本地模型驱动的 24/7 任务表（补登记）
+
+| 任务 | 周期 | 是否用本地模型 | 产物 | 守护 |
+|---|---|---|---|---|
+| 主控脉 | 45s 循环 | 部分阶段用 4B 判读 | PULSE.json | watchdog + service_guard |
+| 回执判读 local_worker | 60s×20 | 4B（think=false） | LOCAL-DIGEST.md | selfwatch + service_guard |
+| 十域巡视 patrol_seats | 5min | 4B | PATROL-FLEET/DIGEST | selfwatch |
+| 判断席 local_judge | 慢批 | 4B→8B（同模型） | 判定队列 | service_guard |
+| 8B/4B 机队研判 local_analyst | 每小时 | 4B-MLX | LOCAL-ANALYST.md | selfwatch |
+| 验收初审 local_auditor | 10min | 4B-MLX | local-audit.jsonl | service_guard |
+| 自驱造卡 selfdrive | 15min | 4B-MLX | repairs/*.md | service_guard |
+| 能力台账 capabilities | 5min | 否（规则） | CAPABILITIES.md | service_guard |
+| 服务守护 service_guard | 5min | 否 | services.json | launchd |
+| 模型巡检 model_watch | 30min | 是（基准测试） | model-bench.json | launchd |
+| 语义判重 embed_dedupe | 1h | 向量 0.6B | embed-dedupe.json | selfwatch |
+| 离线深度推理 deep_reason | 00:40 | deepseek-r1:14b（夜间） | 交付物 | launchd |
+| 发布打包 pack_release | 按需/自驱 | 否（确定性） | 发布包（manifest+校验） | — |
+| 日报/看板/体检 | 每日 | 否 | DAILY-BRIEF / OUTPUT-BOARD / resilience | launchd |
+
+原则：**能规则算的不上模型；要模型的一律本地；云只走 Codely 且非必要不用。**
