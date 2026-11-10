@@ -1,6 +1,6 @@
 {
  "node": "bm-c",
- "ts": "2026-11-10T22:54:25",
+ "ts": "2026-11-10T22:56:21",
  "jobs": [
   {
    "id": "asset-lib-face-caption-2026-11-10",
@@ -15,23 +15,9 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
-  },
-  {
-   "id": "GAP-ASSETLIB-AUDIT-20261110B",
-   "title": "[gap] asset-lib 缺口盘点（改派 bm-c）",
-   "cmd": "python Tools/fleet/asset_gap_audit.py --json cph4/fleet/reports/asset-gap-20261110b.json",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/asset-gap-20261110b.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 4.8/1.0 GB"
+ "capacity_note": "ram 4.4/1.0 GB"
 }
