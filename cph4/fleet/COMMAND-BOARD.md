@@ -1,4 +1,4 @@
-# 指挥一屏 2026-11-11T07:43:15
+# 指挥一屏 2026-11-11T07:46:40
 
 _节奏表=COMMAND-CADENCE-v1.json｜本屏由规则从盘上事实算出，未用模型猜数_
 
@@ -16,7 +16,7 @@ _节奏表=COMMAND-CADENCE-v1.json｜本屏由规则从盘上事实算出，未�
 
 - **bm-a** SELF-OK｜reload=OK shells=OK deps=OK｜2026-11-07T22:25
 - **bm-c** SELF-OK｜reload=OK shells=OK deps=OK｜2026-11-06T23:55
-- **bm-m** SELF-OK｜reload=OK shells=OK deps=OK｜2026-11-11T07:39
+- **bm-m** SELF-OK｜reload=OK shells=OK deps=OK｜2026-11-11T07:43
 
 ## C 线与产出（15 分钟档）
 
@@ -41,8 +41,8 @@ ACTIVE 线 10 条｜超 72h 无产物 6 条｜PARKED 5 条（按 CEO 令暂停�
 
 ## E 指挥质量（6 小时档）
 
-1. 队列 2103 行：DONE 787｜FAILED 1｜UNVERIFIED 1｜CANCELLED 864
-2. 完成占比 100%（DONE/789）
+1. 队列 2103 行：DONE 787｜FAILED 0｜UNVERIFIED 1｜CANCELLED 864
+2. 完成占比 100%（DONE/788）
 3. 空壳卡累计隔离 0 张（越少越好，涨了就是造卡器又出错）
 
 ## F 需要 CEO 的（≤3 条，其余自决）
