@@ -5483,3 +5483,10 @@
 - 11-11T00:35 · REPAIR-biggame-pack-scan-2026-11-11-acceptance.json · 机队回执被拒，因交付物非有效产物且无风险。
 - 11-11T00:35 · REPAIR-biggame-pack-scan-2026-11-11-bm-m.json · 已完成卡支付交易失败诊断，需人工介入调整配置并触发重试以消除风险。
 - 11-11T00:35 · self-improve-bm-m-latest.json · 机队已自测通过并清理旧壳，无风险。
+- 11-11T00:38 · _last_lane_bm-m.json · 已完成大游戏包扫描修复任务，当前运行中无风险。
+- 11-11T00:38 · REPAIR-R-NEXT-BIGSTREAMM-REBUILD-20261111-acceptance.json · 机队回执被拒，因交付物非所需文档或台账。
+- 11-11T00:38 · REPAIR-R-NEXT-BIGSTREAMM-REBUILD-20261111-bm-m.json · 已完成故障诊断与重生成方案，当前风险在于接收方质量验收不通过导致任务阻塞。
+- 11-11T00:38 · REPAIR-R-MODEL-RADAR-BMB-20261111-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
+- 11-11T00:38 · REPAIR-R-MODEL-RADAR-BMB-20261111-bm-m.json · 已完成机队回执生成，但存在因文件未校验导致任务阻塞的风险。
+- 11-11T00:38 · REPAIR-biggame-pack-scan-2026-11-11-acceptance.json · 机队回执未生成有效交付物，存在流程阻断风险。
+- 11-11T00:38 · REPAIR-biggame-pack-scan-2026-11-11-bm-m.json · 已完成大游戏包扫描任务，但因上游交付物信任缺失导致业务流转被拦截。
