@@ -364,6 +364,15 @@ def compliance_check():
 
 
 def build_cmd(card, cli):
+    # 2026-11-10：云卡 prompt 超预算就头尾保留（token_guard，tiktoken 计数）。
+    # 只裁中间、留头尾，避免把"要求"和"验收"裁掉；省下的 token 记 token-guard.jsonl。
+    try:
+        import token_guard as _tg
+        card = dict(card)
+        card["prompt"], _saved = _tg.guard(
+            card.get("prompt") or "", int(card.get("token_budget") or _tg.DEFAULT_BUDGET))
+    except Exception:
+        pass
     mode = card.get("mode", "ask")
     approval = card.get("approval", "default" if mode == "ask" else "auto_edit")
     cmd = [
