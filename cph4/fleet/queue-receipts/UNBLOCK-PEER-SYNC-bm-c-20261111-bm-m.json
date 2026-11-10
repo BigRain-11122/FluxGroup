@@ -1,0 +1,17 @@
+{
+ "id": "UNBLOCK-PEER-SYNC-bm-c-20261111",
+ "node": "bm-m",
+ "rc": 0,
+ "seconds": 54.6,
+ "cmd": "",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "cph4/fleet/repairs/PEER-SYNC-bm-c-20261111-unblock.md",
+ "deliverable_exists": true,
+ "ts": "2026-11-11T03:26:54",
+ "stdout_tail": "缺权限：需 owner(bm-a) 手动解锁并切换接收机为 peer-sync-bm-c。",
+ "stderr_tail": ""
+}
