@@ -1,21 +1,7 @@
 {
  "node": "bm-m",
- "ts": "2026-11-11T00:19:52",
+ "ts": "2026-11-11T00:21:46",
  "jobs": [
-  {
-   "id": "R-MODEL-RADAR-BMM-20261111",
-   "title": "本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-m）",
-   "cmd": "python Tools/fleet/model_radar.py run --node bm-m --idle-only --apply",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/model-radar-bm-m-20261111.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
   {
    "id": "REPAIR-R-MODEL-RADAR-BMM-20261111",
    "title": "[repair] R-MODEL-RADAR-BMM-20261111 的根因与下一步",
@@ -61,26 +47,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 15.3/1.0 GB",
- "cards": [
-  {
-   "id": "R-MODEL-RADAR-BMM-20261111",
-   "title": "本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-m）",
-   "cmd": "python Tools/fleet/model_radar.py run --node bm-m --idle-only --apply",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/model-radar-bm-m-20261111.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  }
- ],
- "pruned_shells": [
-  "REPAIR-R-MODEL-RADAR-BMM-20261111",
-  "UNBLOCK-VERIFY-FIN-ETF-COMPOSITE",
-  "UNBLOCK-asset-lib-face-caption-2026-11-10"
- ]
+ "capacity_note": "ram 14.7/1.0 GB"
 }

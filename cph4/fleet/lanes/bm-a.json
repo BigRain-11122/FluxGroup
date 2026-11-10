@@ -1,7 +1,21 @@
 {
  "node": "bm-a",
- "ts": "2026-11-11T00:17:40",
+ "ts": "2026-11-11T00:21:46",
  "jobs": [
+  {
+   "id": "GAP-MV-LINE-20261111",
+   "title": "[gap] bigstream-mv 线证据（bm-a）",
+   "cmd": "python Tools/fleet/line_triage.py --line bigstream-mv --out cph4/fleet/reports/triage-bigstream-mv-20261111.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/reports/triage-bigstream-mv-20261111.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": 180
+  },
   {
    "id": "R-NEXT-BIGGAME-SUBMIT-P-20261111",
    "title": "游戏提审·真实缺件重盘（隐私已齐，重算图标/截图/台账/包体）",
@@ -9,48 +23,6 @@
    "cwd": "",
    "needs": "cpu",
    "deliverable": "cph4/fleet/game-v1/SUBMIT-PACK-20261111.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "R-PLAN-BIGLIFE-20261111",
-   "title": "BigLife·数字生命 线级体检与缺口清单",
-   "cmd": "python Tools/fleet/line_triage.py --line biglife --out cph4/fleet/queue-receipts/triage-biglife-20261111.md",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-biglife-20261111.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "R-PLAN-RECON-20261111",
-   "title": "RECON·竞品拆解 线级体检与缺口清单",
-   "cmd": "python Tools/fleet/line_triage.py --line recon --out cph4/fleet/queue-receipts/triage-recon-20261111.md",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-recon-20261111.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "R-PLAN-FLUXVERSE-20261111",
-   "title": "FluxVerse·元宙城 线级体检与缺口清单",
-   "cmd": "python Tools/fleet/line_triage.py --line fluxverse --out cph4/fleet/queue-receipts/triage-fluxverse-20261111.md",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-fluxverse-20261111.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -73,20 +45,6 @@
    "timeout_s": null
   },
   {
-   "id": "biggame-pack-scan-2026-11-11",
-   "title": "[游戏（可上线清单 → 一款可玩包 → 提审材料）] 可上线包清单（唯一能机器判的段）",
-   "cmd": "python Tools/fleet/game_pack_scan.py --root gaming --out cph4/fleet/queue-receipts/game-packs-2026-11-11.json",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/game-packs-2026-11-11.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
    "id": "asset-lib-voice-corpus-2026-11-11",
    "title": "[资产储备（角色 LoRA / 音色库）] 音色语料工程（一卡全量·持料机 bm-a）",
    "cmd": "python Tools/fleet/voice_corpus_prep.py --inbox media/asset/inbox --group batch-2026-11-11 --shard 0/1 --receipt cph4/fleet/queue-receipts/voice-corpus-2026-11-11.json",
@@ -99,23 +57,9 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
-  },
-  {
-   "id": "NODE-SYNC-bm-a-20261111",
-   "title": "[self-heal] bm-a 分叉收口（reset 到 origin/main，先留备份分支）",
-   "cmd": "git -C . branch -f backup/bm-a-20261111 HEAD && git -C . reset --hard origin/main && git -C . log -1 --oneline > cph4/fleet/reports/node-sync-bm-a-20261111.md",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/node-sync-bm-a-20261111.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 14.8/1.0 GB"
+ "capacity_note": "ram 18.2/1.0 GB"
 }
