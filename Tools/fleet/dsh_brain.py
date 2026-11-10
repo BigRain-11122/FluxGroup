@@ -90,10 +90,10 @@ TASKS = {
         "hint": '{"root_cause":"GATE","fix":"...","next":"..."}',
     },
     "line_plan": {
-        "goal": "给一条产线的现状，给出今天能出的最小可验收产物与它的执行方式",
+        "goal": "给一条产线的现状，给出今天能出的最小可验收产物与它的执行方式；deliverable 必须是今天的新文件（带日期），不许回填已经存在的旧产物",
         "required": ["deliverable", "how", "accept"],
         "paths": ["deliverable"],
-        "hint": '{"deliverable":"cph4/fleet/reports/x.md","how":"...","accept":"..."}',
+        "hint": '{"deliverable":"cph4/fleet/reports/<今天日期>-<内容>.md","how":"点名机+工具+参数","accept":"可机检（非空/字段>阈值/rc=0）"}',
     },
     "quality_audit": {
         "goal": "判断一张 DONE 卡的交付物是真产物还是空壳/占位/拒答",
@@ -194,8 +194,15 @@ def validate(task, obj):
                 errs.append("%s=%r 不在白名单 %s" % (key, obj.get(key), allowed))
     for key in spec.get("paths") or []:
         v = obj.get(key)
-        if v and not _path_ok(v):
-            errs.append("%s 指向不存在的路径：%s（幻觉路径）" % (key, v))
+        if not v:
+            continue
+        # 2026-11-10 实测纠错：line_plan 的 deliverable 是"要产出的文件"，用"文件必须存在"
+        # 去验它，等于要求先有产物再让你派卡 —— 4B 的第一版方案就被这条假规则打回。
+        # 正解：验父目录存在（幻觉目录仍会被抓）+ 扩展名合法。
+        pv = str(v)
+        full = pv if os.path.isabs(pv) else os.path.join(ROOT, pv)
+        if not os.path.isdir(os.path.dirname(full)):
+            errs.append("%s 的父目录不存在：%s（幻觉目录）" % (key, os.path.dirname(pv) or "."))
     # 通用反空话：why/fix/next 这类字段不许少于 8 个字符，也不许整段是"待定/稍后/需要更多信息"
     for k in ("why", "fix", "next", "how", "accept"):
         if k in obj and isinstance(obj[k], str):
@@ -276,6 +283,16 @@ def rules_violations(task, obj, payload):
         d = str(obj.get("deliverable") or "")
         if d and not re.search(r"\.(md|json|jsonl|txt|csv|png|jpg|mp4|wav|py)$", d):
             out.append("deliverable 不是文件路径：%s" % d[:60])
+        # 2026-11-10 实测：4B 会把证据里"已经存在的旧产物"原样填成 deliverable——
+        # 那不是"下一件产物"，是把昨天的文件再报一次。要求新产物：文件名含今天日期，
+        # 或该路径尚不存在（允许原地更新，但必须带日期后缀）。
+        full = d if os.path.isabs(d) else os.path.join(ROOT, d)
+        today = datetime.now().strftime("%Y%m%d")
+        if d and os.path.exists(full) and today not in d:
+            out.append("deliverable 指向已存在的旧文件且不含今日日期：%s（这是回声，不是新产物）" % d[:60])
+        acc = str(obj.get("accept") or "")
+        if acc and not re.search(r"非空|存在|>|≥|==|字节|rc|DONE|通过率", acc):
+            out.append("accept 不可机检：%s" % acc[:40])
     # 通用：任何字段里出现 "像卡号但队列里没有" 的字符串 = 幻觉
     ids = queue_ids()
     def walk(v):
@@ -405,8 +422,10 @@ def selftest():
                               "next": "重跑一张验证"}, True),
         ("rework_rootcause", {"root_cause": "MAGIC", "fix": "xxxxxxxxxx", "next": "yyyyyyyyyy"}, False),
         ("quality_audit", {"verdict": "REAL", "why": "待定"}, False),
-        ("line_plan", {"deliverable": "cph4/fleet/reports/不存在.md", "how": "派一张卡给 bm-a",
+        ("line_plan", {"deliverable": "no/such/dir/x.md", "how": "派一张卡给 bm-a",
                        "accept": "产物非空且进 git"}, False),
+        ("line_plan", {"deliverable": "cph4/fleet/reports/to-be-made-20261110.md",
+                       "how": "派一张卡给 bm-a", "accept": "产物非空且进 git"}, True),
     ]
     rule_cases = [
         ("fleet_triage", {"actions": [{"node": "bm-a", "action": "none", "why": "等上游同步就好"}]},
