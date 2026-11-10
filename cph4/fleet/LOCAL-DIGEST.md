@@ -5455,3 +5455,11 @@
 - 11-11T00:26 · asset-lib-char-prompts-2026-11-11-acceptance.json · 完成机队回执提交，但被拒收因交付物非标准产物。
 - 11-11T00:26 · Q-TRIAGE-ASSETLIB-20261111-bm-c.json · 已完成机队回执生成，无风险。
 - 11-11T00:26 · Q-TRIAGE-ASSETLIB-20261111-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物。
+- 11-11T00:29 · _last_lane_bm-m.json · 本地模型失败：timed out
+- 11-11T00:29 · skill-promote-20261111.json · 本地模型失败：timed out
+- 11-11T00:29 · REPAIR-R-MODEL-RADAR-BMM-20261111-acceptance.json · 本地模型失败：timed out
+- 11-11T00:29 · REPAIR-R-MODEL-RADAR-BMM-20261111-bm-m.json · 本地模型失败：timed out
+- 11-11T00:29 · UNBLOCK-asset-lib-face-caption-2026-11-10-acceptance.json · 本地模型失败：timed out
+- 11-11T00:29 · UNBLOCK-asset-lib-face-caption-2026-11-10-bm-m.json · 本地模型失败：timed out
+- 11-11T00:29 · UNBLOCK-VERIFY-FIN-ETF-COMPOSITE-acceptance.json · 本地模型失败：timed out
+- 11-11T00:29 · UNBLOCK-VERIFY-FIN-ETF-COMPOSITE-bm-m.json · 本地模型失败：timed out
