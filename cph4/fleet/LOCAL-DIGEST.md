@@ -5064,3 +5064,14 @@
 - 11-10T22:42 · R-TRIAGE-FLUXVERSE-BMC-20261110-acceptance.json · 机队回执被拒，因交付物非标准产物且无风险。
 - 11-10T22:42 · GRID-G1-20261110T2227-acceptance.json · 机队回执显示产物未落盘，任务失败且无风险。
 - 11-10T22:42 · GRID-G1-20261110T2227-bm-m.json · 任务失败，因未定义修复方案且无交付物。
+- 11-10T22:44 · REPAIR-GAP-BIGGAME-PACK-20261110-acceptance.json · 机队回执被拒，因交付物非标准产物且存在合规风险。
+- 11-10T22:44 · REPAIR-GAP-BIGGAME-PACK-20261110-bm-m.json · 已完成故障根因分析与修复方案制定，暂无风险。
+- 11-10T22:44 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
+- 11-10T22:44 · _last_lane_bm-m.json · 已完成机队修复任务，无风险。
+- 11-10T22:44 · REPAIR-GAP-BIGMONEY-LINE-20261110-acceptance.json · 机队回执未生成，因缺乏交付物被驳回，无风险。
+- 11-10T22:44 · REPAIR-GAP-BIGMONEY-LINE-20261110-bm-m.json · 已完成故障诊断与修复方案制定，存在因数据缺失或配置错误导致任务停滞的风险。
+- 11-10T22:44 · triage-fluxverse-bm-c-20261110.md · 已完成线级体检，发现两个工段严重超阈，需立即补产出或收线。
+- 11-10T22:44 · R-TRIAGE-FLUXVERSE-BMC-20261110-bm-c.json · 已完成 Fluxverse 机队回执生成，无风险。
+- 11-10T22:44 · R-TRIAGE-FLUXVERSE-BMC-20261110-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物。
+- 11-10T22:44 · REPAIR-GAP-ASSETLIB-AUDIT-20261110-acceptance.json · 已完成机队回执提交，但因非标准产物被拒，无后续风险。
+- 11-10T22:45 · REPAIR-GAP-ASSETLIB-AUDIT-20261110-bm-m.json · 已完成机队回执生成，但存在因死锁导致停线风险，需立即隔离并重置状态。
