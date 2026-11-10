@@ -4959,3 +4959,12 @@
 - 11-10T22:19 · GRID-F3-20261110T2130-bm-m.json · 任务失败，因未定义修复方案导致回执文件缺失。
 - 11-10T22:19 · REPAIR-GRID-O2-20261110T2134-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
 - 11-10T22:19 · REPAIR-GRID-O2-20261110T2134-bm-m.json · 任务成功完成但存在因大小写不一致导致的误判风险，需修改校验逻辑消除干扰。
+- 11-10T22:21 · KN-FILM-GATE-LATEST-20261110-bm-c.json · 机队任务完成，无风险。
+- 11-10T22:21 · KN-FILM-GATE-LATEST-20261110-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
+- 11-10T22:21 · _last_claim.json · 机队已空且无风险，但无法完成调度任务。
+- 11-10T22:21 · GAP-CHARGEN-PROBE-20261110-bm-c.json · 机队回执生成失败，因缺少必要文件导致任务终止。
+- 11-10T22:21 · GAP-CHARGEN-PROBE-20261110-acceptance.json · 机队回执显示产物未落盘，任务失败且无风险。
+- 11-10T22:21 · GRID-F3-20261110T2130-acceptance.json · 机队回执显示产物未落盘，任务失败且无风险。
+- 11-10T22:21 · GRID-F3-20261110T2130-bm-m.json · 任务失败，因未定义修复方案且无交付物。
+- 11-10T22:21 · _last_lane_bm-m.json · 机队任务已运行中，当前无风险。
+- 11-10T22:21 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
