@@ -2,6 +2,7 @@
  "id": "NODE-SYNC-bm-c-20261111T0614",
  "node": "bm-c",
  "rc": 0,
+ "seconds": 0.3,
  "seconds": 0.5,
  "cmd": "git -C . branch -f backup/bm-c-20261111 HEAD && git -C . reset --hard origin/main && git -C . log -1 --oneline > cph4/fleet/reports/node-sync-bm-c-20261111t0614.md",
  "ok_rc": [
@@ -11,6 +12,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/reports/node-sync-bm-c-20261111t0614.md",
  "deliverable_exists": true,
+ "ts": "2026-11-11T06:20:15",
  "ts": "2026-11-11T06:20:04",
  "stdout_tail": "HEAD is now at bb8ce2f02 job(NODE-SYNC-bm-c-20261111T0614): artifact [via bm-c]\n",
  "stderr_tail": ""
