@@ -359,7 +359,7 @@ def route_decision(job, fleet, rows=None, policy=None):
             if r.get("state") == "RUNNING" and r.get("owner")}
 
     def free_lane(need):
-        need_cap = job.get("cap") or ("llm" if (job.get("model") or "") == "local-small" else None)
+        need_cap = job.get("cap") or ("llm" if (job.get("model") or "") in ("local-small", "deep-reason") else None)
         for n in fl.ACTIVE_LANES:
             if n in busy:
                 continue
@@ -635,7 +635,7 @@ def product_first(rows):
 def choose_lane(job, fleet, busy):
     needs = job.get("needs") or "cpu"
     pref = job.get("nodes") or []
-    cap = job.get("cap") or ("llm" if (job.get("model") or "") == "local-small" else None)
+    cap = job.get("cap") or ("llm" if (job.get("model") or "") in ("local-small", "deep-reason") else None)
     vram_min = int(job.get("vram_min_gb") or 0)
     candidates = [n for n in fl.LANES if needs in fl.LANES[n]["needs"]]
     _paused = _paused_nodes()
