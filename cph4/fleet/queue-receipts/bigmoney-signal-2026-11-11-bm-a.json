@@ -2,7 +2,7 @@
  "id": "bigmoney-signal-2026-11-11",
  "node": "bm-a",
  "rc": 0,
- "seconds": 0.6,
+ "seconds": 1.0,
  "cmd": "python Tools/fleet/quant_positions_bridge.py --in quant/bigmoney/results/etf_nobond_vt.json --out cph4/fleet/queue-receipts/etf_nobond_vt_with_positions.json && python Tools/fleet/quant_signal.py --in cph4/fleet/queue-receipts/etf_nobond_vt_with_positions.json --out cph4/fleet/queue-receipts/quant-signal-2026-11-11.csv",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/queue-receipts/quant-signal-2026-11-11.csv",
  "deliverable_exists": true,
- "ts": "2026-11-11T00:54:36",
- "stdout_tail": "{\"verdict\": \"OK\", \"how\": \"bridged:5\", \"out\": \"cph4/fleet/queue-receipts/etf_nobond_vt_with_positions.json\", \"positions\": 5}\n{\"verdict\": \"OK\", \"positions\": 5, \"empty\": false, \"input_fp\": \"9c90f483db1ee20f\", \"out\": \"cph4/fleet/queue-receipts/quant-signal-2026-11-11.csv\"}\n",
+ "ts": "2026-11-11T01:09:47",
+ "stdout_tail": "{\"verdict\": \"OK\", \"how\": \"bridged:5\", \"out\": \"cph4/fleet/queue-receipts/etf_nobond_vt_with_positions.json\", \"positions\": 5}\n{\"verdict\": \"OK\", \"positions\": 5, \"empty\": false, \"input_fp\": \"b37b88ee674adb0a\", \"out\": \"cph4/fleet/queue-receipts/quant-signal-2026-11-11.csv\"}\n",
  "stderr_tail": ""
 }

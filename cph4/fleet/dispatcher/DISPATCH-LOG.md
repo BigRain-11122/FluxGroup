@@ -1,13 +1,4 @@
-﻿[2026-11-08 18:11] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=2 run=1 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=BUSY; flags=2
-[2026-11-08 18:21] FLAG CLOCK-SKEW max=2783ms precision=+/-417.7ms -> check hub path or node clock
-[2026-11-08 18:21] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
-[2026-11-08 18:21] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
-[2026-11-08 18:21] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=2 run=1 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=GPU-IDLE; flags=2
-[2026-11-08 18:31] FLAG CLOCK-SKEW max=2639.3ms precision=+/-628.7ms -> check hub path or node clock
-[2026-11-08 18:31] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
-[2026-11-08 18:31] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
-[2026-11-08 18:31] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=2 run=1 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=BUSY; flags=2
-[2026-11-08 18:41] FLAG CLOCK-SKEW max=2399.3ms precision=+/-412.4ms -> check hub path or node clock
+﻿[2026-11-08 18:41] FLAG CLOCK-SKEW max=2399.3ms precision=+/-412.4ms -> check hub path or node clock
 [2026-11-08 18:41] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
 [2026-11-08 18:41] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
 [2026-11-08 18:41] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=2 run=1 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=BUSY; flags=2
@@ -404,3 +395,6 @@
 [2026-11-11 00:56] R32 边界: bm-b 整机离线=物理件 waiting-CEO 零催办(无远程通道·CEO 2026-10-23 令); bm-c +2054ms 时钟=w32time 提权件零催办; 回访探针 +90min 已 armed
 [2026-11-11 00:57] PATROL bigcompute R42-ADD(EVIDENCE) | 00:48 commit 6c3295705「bm-b offline triage (4 zombie cards rerouted/released)」实证已改派 bigmoney-signal->bm-a(00:51:31 RUNNING)、TTS-QC->BLOCKED(host-offline)；**但同机第5张 asset-lib-library-check-2026-11-11 仍是 RUNNING/owner=bm-b/nodes=[]/claimed 00:34:24、交付物不在盘** -> 僵尸清扫按 nodes 归属枚举，nodes=[] 的卡系统性逃过回收（扫面定义缺陷，非偶发漏项）；lanes/bm-b.json@00:52:49 仍 lane_ok=true/idle_reason=''/capacity_note=ram-unknown（jobs 5->1 证明清扫走 jobs 通道、健康位未改写）-> NJ-R42-1 补第4条修法：僵尸判定双扫（nodes 面 + owner 停摆面），nodes=[] 强制回落 [owner]
 [2026-11-11 01:0x] EVENT-SHIFT R32 sweep2: 按 owner 面补扫出 3 张漏网卡并处置 —— asset-lib-library-check(nodes=[] 逃过 nodes 面清扫)/R-TRIAGE-BIGGAME-BMB(00:54:57 凭空认领离线机)/R-NEXT-BIGSTREAMD-EVIDENCE(nodes=bm-a 却残留 owner=bm-b); 判例入册: 僵尸清扫须双面(nodes + owner)
+[2026-11-11 01:01] FLAG CLOCK-UNALIGNED old_schema=0 missing=1 -> P1 upgrade node heartbeat to v2 (ms ts+offset)
+[2026-11-11 01:01] FLAG LANE-DOWN lane=bm-b verdict=OFFLINE -> P1 page lane owner
+[2026-11-11 01:01] pools: bm-a=3open/0exec/4run bm-b=0open/0exec/2run bm-c=0open/0exec/1run; queue_open=12 run=10 lanejobs: a=6 b=1 c=3; idle: a=GPU-IDLE b=OFFLINE c=GPU-IDLE; flags=2

@@ -2,7 +2,7 @@
  "id": "bigstream-mv-gate-2026-11-11",
  "node": "bm-a",
  "rc": 1,
- "seconds": 1.6,
+ "seconds": 10.4,
  "cmd": "python Tools/mv_delivery_gate.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721_60fps_1080p.mp4 --card 38.79:40.21 --card 219.71:223.88 --json cph4/fleet/queue-receipts/mv-gate-v721-2026-11-11.json",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": "E-UNKNOWN",
  "deliverable": "cph4/fleet/queue-receipts/mv-gate-v721-2026-11-11.json",
  "deliverable_exists": false,
- "ts": "2026-11-11T00:54:37",
+ "ts": "2026-11-11T01:09:57",
  "stdout_tail": "",
- "stderr_tail": "Traceback (most recent call last):\n  File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\Tools\\mv_delivery_gate.py\", line 323, in <module>\n    sys.exit(main())\n             ~~~~^^\n  File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\Tools\\mv_delivery_gate.py\", line 163, in main\n    n_dup, dup_at = framemd5_dupes(a.video)\n                    ~~~~~~~~~~~~~~^^^^^^^^^\n  File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\Tools\\mv_delivery_gate.py\", line 80, in framemd5_dupes\n    subprocess.check_call([FFMPEG, \"-v\", \"error\", \"-i\", path, \"-map\", \"0:v:0\",\n    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n                           \"-f\", \"framemd5\", tmp])\n                           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\sjs20\\AppData\\Local\\Programs\\Python\\Python314\\Lib\\subprocess.py\", line 420, in check_call\n    raise CalledProcessError(retcode, cmd)\nsubprocess.CalledProcessError: Command '['C:\\\\Users\\\\sjs20\\\\AppData\\\\Local\\\\Microsoft\\\\WinGet\\\\Packages\\\\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\\\\ffmpeg-9.0.2-full_build\\\\bin\\\\ffmpeg.EXE', '-v', 'error', '-i', 'cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721_60fps_1080p.mp4', '-map', '0:v:0', '-f', 'framemd5', 'C:\\\\Users\\\\sjs20\\\\AppData\\\\Local\\\\Temp\\\\mvdg_76588.framemd5']' returned non-zero exit status 4294967294.\n"
+ "stderr_tail": "Traceback (most recent call last):\n  File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\Tools\\mv_delivery_gate.py\", line 323, in <module>\n    sys.exit(main())\n             ~~~~^^\n  File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\Tools\\mv_delivery_gate.py\", line 163, in main\n    n_dup, dup_at = framemd5_dupes(a.video)\n                    ~~~~~~~~~~~~~~^^^^^^^^^\n  File \"C:\\Users\\sjs20\\Desktop\\FluxGroup\\Tools\\mv_delivery_gate.py\", line 80, in framemd5_dupes\n    subprocess.check_call([FFMPEG, \"-v\", \"error\", \"-i\", path, \"-map\", \"0:v:0\",\n    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n                           \"-f\", \"framemd5\", tmp])\n                           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\sjs20\\AppData\\Local\\Programs\\Python\\Python314\\Lib\\subprocess.py\", line 420, in check_call\n    raise CalledProcessError(retcode, cmd)\nsubprocess.CalledProcessError: Command '['C:\\\\Users\\\\sjs20\\\\AppData\\\\Local\\\\Microsoft\\\\WinGet\\\\Packages\\\\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\\\\ffmpeg-9.0.2-full_build\\\\bin\\\\ffmpeg.EXE', '-v', 'error', '-i', 'cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721_60fps_1080p.mp4', '-map', '0:v:0', '-f', 'framemd5', 'C:\\\\Users\\\\sjs20\\\\AppData\\\\Local\\\\Temp\\\\mvdg_73120.framemd5']' returned non-zero exit status 4294967294.\n"
 }

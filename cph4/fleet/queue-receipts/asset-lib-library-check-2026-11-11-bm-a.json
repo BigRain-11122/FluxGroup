@@ -1,0 +1,17 @@
+{
+ "id": "asset-lib-library-check-2026-11-11",
+ "node": "bm-a",
+ "rc": 1,
+ "seconds": 0.2,
+ "cmd": "python Tools/fleet/asset_library_check.py --tier p0 --out cph4/fleet/queue-receipts/asset-library-2026-11-11.json",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "FAIL",
+ "error_class": "E-UNKNOWN",
+ "deliverable": "cph4/fleet/queue-receipts/asset-library-2026-11-11.json",
+ "deliverable_exists": true,
+ "ts": "2026-11-11T01:09:47",
+ "stdout_tail": "资产库体检 tier=p0  合计 17/128（13%）  GAPS\n  OK characters    8/8    授权 8\n      - CH01：目录里没有可用文件\n      - CH02：目录里没有可用文件\n      - CH03：目录里没有可用文件\n  缺 scenes        0/12   \n      - 空目录（目标 12）\n  缺 props         0/20   \n      - 空目录（目标 20）\n  缺 motions       0/15   \n      - 空目录（目标 15）\n  缺 transitions    0/10   \n      - 空目录（目标 10）\n  缺 styles        0/3    \n      - 空目录（目标 3）\n  OK voices        9/6    授权 0\n      - 整类没有授权声明（目录级 RIGHTS.json 缺失，条目级也没有）\n      - batch-2026-11-04：目录里没有可用文件\n      - batch-2026-11-05：目录里没有可用文件\n  缺 audio-sfx     0/40   \n      - 空目录（目标 40）\n  缺 audio-bgm     0/10   \n      - 空目录（目标 10）\n  缺 typography    0/4    \n      - 空目录（目标 4）\n缺口：场景模板 差 12（0/12）; 道具/关键锚点物 差 20（0/20）; 动作/镜头运动片段 差 15（0/15）; 转场/物质过场 差 10（0/10）; 风格包（画风/调色） 差 3（0/3）; 音效 差 40（0/40）\n",
+ "stderr_tail": ""
+}
