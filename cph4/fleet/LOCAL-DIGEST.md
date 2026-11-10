@@ -4946,3 +4946,16 @@
 - 11-10T22:15 · KN-FILM-GATE-LATEST-20261110-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物且无风险。
 - 11-10T22:16 · GAP-CHARGEN-PROBE-20261110-bm-c.json · 机队回执生成失败，因无交付文件导致任务未完成且存在风险。
 - 11-10T22:16 · GAP-CHARGEN-PROBE-20261110-acceptance.json · 机队回执显示产物未落盘，任务失败且无风险。
+- 11-10T22:18 · asset-lib-face-dataset-2026-11-10-bm-c.json · 已完成人脸数据集审计，无风险。
+- 11-10T22:18 · asset-lib-face-dataset-2026-11-10-acceptance.json · 机队已提交回执，但被拒收因交付物非标准产物。
+- 11-10T22:18 · _last_lane_bm-m.json · 机队任务已完成，无风险。
+- 11-10T22:18 · asset-face-2026-11-10.json · 完成人脸数据集入库审核，无风险。
+- 11-10T22:18 · _last_claim.json · 机队已空，无风险。
+- 11-10T22:18 · KN-FILM-GATE-LATEST-20261110-bm-c.json · 机队任务完成且无风险。
+- 11-10T22:18 · KN-FILM-GATE-LATEST-20261110-acceptance.json · 未完成任务，因缺乏有效交付物导致流程被拒。
+- 11-10T22:18 · GAP-CHARGEN-PROBE-20261110-bm-c.json · 机队回执生成失败，因无交付物导致任务未完成且存在风险。
+- 11-10T22:18 · GAP-CHARGEN-PROBE-20261110-acceptance.json · 机队回执显示产物未落盘，任务失败且无风险。
+- 11-10T22:18 · GRID-F3-20261110T2130-acceptance.json · 机队回执显示产物未落盘，任务失败且无风险。
+- 11-10T22:19 · GRID-F3-20261110T2130-bm-m.json · 任务失败，因未定义修复方案导致回执文件缺失。
+- 11-10T22:19 · REPAIR-GRID-O2-20261110T2134-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
+- 11-10T22:19 · REPAIR-GRID-O2-20261110T2134-bm-m.json · 任务成功完成但存在因大小写不一致导致的误判风险，需修改校验逻辑消除干扰。
