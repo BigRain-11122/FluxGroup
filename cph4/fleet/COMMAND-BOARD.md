@@ -1,4 +1,4 @@
-# 指挥一屏 2026-11-10T18:40:16
+# 指挥一屏 2026-11-10T18:45:30
 
 _节奏表=COMMAND-CADENCE-v1.json｜本屏由规则从盘上事实算出，未用模型猜数_
 
@@ -16,22 +16,22 @@ _节奏表=COMMAND-CADENCE-v1.json｜本屏由规则从盘上事实算出，未�
 
 - **bm-a** SELF-OK｜reload=OK shells=OK deps=OK｜2026-11-07T22:25
 - **bm-c** SELF-OK｜reload=OK shells=OK deps=OK｜2026-11-06T23:55
-- **bm-m** SELF-OK｜reload=OK shells=OK deps=OK｜2026-11-10T18:36
+- **bm-m** SELF-OK｜reload=OK shells=OK deps=OK｜2026-11-10T18:40
 
 ## C 线与产出（15 分钟档）
 
 | 线 | 声明 | 产出年龄 |
 |---|---|---|
-| BigStream·短剧 | PARKED | 263.8h ⚠ |
-| BigStream·短视频/切片 | PARKED | 197.4h ⚠ |
-| 车机游戏 BU | PARKED | 190.6h ⚠ |
-| FluxVerse·元宙城 | ACTIVE | 171.5h ⚠ |
-| Biggame·游戏 | ACTIVE | 169.2h ⚠ |
-| BigDomain·硅基域商业化 | ACTIVE | 169.1h ⚠ |
-| BigCompute·硅基算力 | ACTIVE | 169.1h ⚠ |
-| BigMoney·量化 | ACTIVE | 150.5h ⚠ |
-| RECON·竞品拆解 | ACTIVE | 77.9h ⚠ |
-| BigStream·MV 41 曲 | ACTIVE | 27.3h |
+| BigStream·短剧 | PARKED | 264.0h ⚠ |
+| BigStream·短视频/切片 | PARKED | 197.5h ⚠ |
+| 车机游戏 BU | PARKED | 190.7h ⚠ |
+| FluxVerse·元宙城 | ACTIVE | 171.6h ⚠ |
+| Biggame·游戏 | ACTIVE | 169.4h ⚠ |
+| BigDomain·硅基域商业化 | ACTIVE | 169.2h ⚠ |
+| BigCompute·硅基算力 | ACTIVE | 169.2h ⚠ |
+| BigMoney·量化 | ACTIVE | 150.6h ⚠ |
+| RECON·竞品拆解 | ACTIVE | 78.0h ⚠ |
+| BigStream·MV 41 曲 | ACTIVE | 27.4h |
 
 ACTIVE 线 10 条｜超 72h 无产物 9 条
 
@@ -48,4 +48,4 @@ ACTIVE 线 10 条｜超 72h 无产物 9 条
 ## F 需要 CEO 的（≤3 条，其余自决）
 
 1. BigStream·短剧 已 264h 无产物，需定去留
-2. BigStream·短视频/切片 已 197h 无产物，需定去留
+2. BigStream·短视频/切片 已 198h 无产物，需定去留
