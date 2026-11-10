@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-11T02:01:25",
- "cycle": 1103,
+ "ts": "2026-11-11T02:03:18",
+ "cycle": 1104,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-11T02:01:25",
+ "master_tick_ts": "2026-11-11T02:03:18",
  "queue": {
   "total": 2018,
   "open": 9,
@@ -14,10 +14,10 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 5.3,
-   "cpu_load_pct": 71,
-   "ram_free_gb": 26,
-   "gpu_util_pct": 91,
+   "hb_age_s": 4.0,
+   "cpu_load_pct": 68,
+   "ram_free_gb": 32,
+   "gpu_util_pct": 58,
    "job": "NODE-SYNC-bm-a-20261111",
    "last_result": {
     "job": "R-NEXT-BIGSTREAMD-EVIDENCE-20261111",
@@ -34,7 +34,7 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 232.5,
+   "hb_age_s": 110.2,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -46,7 +46,7 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 122.6,
+   "hb_age_s": 241.3,
    "cpu_load_pct": 8,
    "ram_free_gb": 2.4,
    "gpu_util_pct": 0,
@@ -66,30 +66,30 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 236.7,
-   "cpu_load_pct": 33,
-   "ram_free_gb": 14.7,
+   "hb_age_s": 1.6,
+   "cpu_load_pct": 4,
+   "ram_free_gb": 14.9,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
-    "job": "UNBLOCK-asset-lib-voice-assemble-2026-11-11",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-11T02:01:03",
-    "reason": null,
+    "job": null,
+    "state": "IDLE",
+    "rc": null,
+    "ts": "2026-11-11T02:03:04",
+    "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
-   "idle_confirmed": false,
+   "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 0
+   "idle_rounds": 1
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 0
+  "bm-m": 1
  },
  "lines": {
   "bigstream-mv": {
@@ -850,9 +850,9 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 9,
+  "local": 5,
   "cloud": 0,
-  "queue": 0,
+  "queue": 4,
   "blocked": 0,
   "cloud_spend_today": 0,
   "waste": []
@@ -861,27 +861,13 @@
   "cpu": 5,
   "gpu": 4
  },
- "supply_added": [
-  "backlog_manifest+1"
- ],
- "events": [
-  "R-NEXT-BIGSTREAMD-EVIDENCE-20261111 DONE via bm-a",
-  "asset-lib-face-caption-2026-11-11 -> bm-c (gpu)",
-  "NODE-SYNC-bm-a-20261111 -> bm-a (cpu)",
-  "MV-STAB-Q-MV-0001-003 -> bm-a (cpu)",
-  "GAP-BIGGAME-PACK-20261111 -> bm-a (cpu)",
-  "R-TRIAGE-BIGMONEY-BMB-20261111 -> bm-b (cpu)"
- ],
+ "supply_added": [],
+ "events": [],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 立意/分镜/导演席 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
- "lane_files_written": [
-  "bm-a",
-  "bm-b",
-  "bm-c",
-  "bm-m"
- ]
+ "lane_files_written": []
 }
