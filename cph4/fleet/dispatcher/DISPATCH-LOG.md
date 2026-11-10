@@ -1,7 +1,4 @@
-﻿[2026-11-08 18:41] FLAG CLOCK-SKEW max=2399.3ms precision=+/-412.4ms -> check hub path or node clock
-[2026-11-08 18:41] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
-[2026-11-08 18:41] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
-[2026-11-08 18:41] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=2 run=1 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=BUSY; flags=2
+﻿[2026-11-08 18:41] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=2 run=1 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=BUSY; flags=2
 [2026-11-08 18:51] FLAG CLOCK-SKEW max=2849.6ms precision=+/-411ms -> check hub path or node clock
 [2026-11-08 18:51] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
 [2026-11-08 18:51] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
@@ -398,3 +395,9 @@
 [2026-11-11 01:01] FLAG CLOCK-UNALIGNED old_schema=0 missing=1 -> P1 upgrade node heartbeat to v2 (ms ts+offset)
 [2026-11-11 01:01] FLAG LANE-DOWN lane=bm-b verdict=OFFLINE -> P1 page lane owner
 [2026-11-11 01:01] pools: bm-a=3open/0exec/4run bm-b=0open/0exec/2run bm-c=0open/0exec/1run; queue_open=12 run=10 lanejobs: a=6 b=1 c=3; idle: a=GPU-IDLE b=OFFLINE c=GPU-IDLE; flags=2
+[2026-11-11 01:11] FLAG CLOCK-UNALIGNED old_schema=0 missing=1 -> P1 upgrade node heartbeat to v2 (ms ts+offset)
+[2026-11-11 01:11] FLAG LANE-DOWN lane=bm-b verdict=OFFLINE -> P1 page lane owner
+[2026-11-11 01:11] pools: bm-a=3open/0exec/8run bm-b=0open/0exec/7run bm-c=0open/0exec/1run; queue_open=10 run=19 lanejobs: a=4 b=5 c=1; idle: a=GPU-IDLE b=OFFLINE c=GPU-IDLE; flags=2
+
+[2026-11-11 01:17] PATROL fluxverse R61 | calls≈26 (shell=24) | verdict=TRIGGER-OTHER-DOMAIN(SNOOZED +5)+2-NEW-P1(机队呈现双向失真·监察面整条断供)+4-CARRIED | 触发 bm-b 离线/STALLED-WORKER/LANE-DOWN/pools/bigcompute R42 全属执行域、00:56 R32 已闭环 -> 零 poke 零重测 snooze 5 | 雷达① PASS(city-panel 312,536B@01:11:39·snapshot 01:11:35·tick round end 01:11:39; 硅基窗 data.js 01:01:59) ② 内网锚点=0/AIGC 署名在位；**无来源不发布 FAIL 第7轮**(L472 仍含 C:\Users\sjs20·pubgate G5 假绿) ③ M1 冻结态(承 R56) ④ events 同源 PASS(01:06:26 同轮派生) ⑤ 48 包零催办 ⑥ 无新渲染面
+[2026-11-11 01:17] PATROL fluxverse R61-ADD(对照触发·本域后果) | 机队面双向失真：硅基窗 bm-b age_min=74/flag=gsoft(真值 心跳 10-30 12:43·MiniGame 卡 10-29 15:31) + bm-c age_min=32/flag=stale(真值 ts 01:06:05 活机) + city-panel「机队在线 1 台」(bm-a 00:56 + bm-c 01:06 两台活) -> 候选根因 generate.ps1 L274 origin/machine 回退 + L346 last_seen→clock_read 回退 + 30min 阈值打在滞后字段；另 FluxGroup\fleet\oversight 目录不存在·idle-watch=0 而 FleetOversight 任务 30min rc=0(默认 -Root K:\Fluxgroup\FluxGroup·本机 K: 无) -> 监察三线结构性空。NJ 7 条落 media/logs/patrol-fleet/fluxverse-shiftlog.md + PATROL-FLEET/fluxverse-NEED-JUDGMENT.md

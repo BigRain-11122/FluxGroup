@@ -1,0 +1,75 @@
+{
+ "ts": "2026-11-11T01:19:46+0800",
+ "rc": 3,
+ "verdict": "BLOCKED",
+ "error_class": "E-BLOCKED-INPUT",
+ "groups": [
+  {
+   "group": "batch-2026-11-04",
+   "clips": 0,
+   "rights": "缺 RIGHTS.json（来源不明一律不进训练）",
+   "verdict": "SKIP",
+   "gap": "缺 RIGHTS.json（来源不明一律不进训练）"
+  },
+  {
+   "group": "batch-2026-11-05",
+   "clips": 0,
+   "rights": "license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']",
+   "verdict": "SKIP",
+   "gap": "license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']"
+  },
+  {
+   "group": "batch-2026-11-07",
+   "clips": 0,
+   "rights": "license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']",
+   "verdict": "SKIP",
+   "gap": "license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']"
+  },
+  {
+   "group": "batch-2026-11-09",
+   "clips": 0,
+   "rights": "license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']",
+   "verdict": "SKIP",
+   "gap": "license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']"
+  },
+  {
+   "group": "batch-2026-11-10",
+   "clips": 0,
+   "rights": "license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']",
+   "verdict": "SKIP",
+   "gap": "license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']"
+  },
+  {
+   "group": "batch-2026-11-11",
+   "clips": 0,
+   "rights": "license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']",
+   "verdict": "SKIP",
+   "gap": "license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']"
+  },
+  {
+   "group": "cn-drama-v1",
+   "clips": 0,
+   "rights": "license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']",
+   "verdict": "SKIP",
+   "gap": "license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']"
+  },
+  {
+   "group": "en-librivox-v1",
+   "clips": 0,
+   "rights": "license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']",
+   "verdict": "SKIP",
+   "gap": "license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']"
+  },
+  {
+   "group": "librivox",
+   "clips": 0,
+   "rights": "license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']",
+   "verdict": "SKIP",
+   "gap": "license='unknown' 不在白名单 ['cc-by', 'cc0', 'licensed', 'own', 'public-domain']"
+  }
+ ],
+ "passed": 0,
+ "gaps": [
+  "没有任何音色组同时满足 有授权 且 有片段 且 过准入闸"
+ ]
+}
