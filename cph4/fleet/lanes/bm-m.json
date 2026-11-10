@@ -1,23 +1,8 @@
 {
  "node": "bm-m",
- "ts": "2026-11-11T01:13:39",
- "jobs": [
-  {
-   "id": "REPAIR-biggame-accept-2026-11-11",
-   "title": "[repair] biggame-accept-2026-11-11 的根因与下一步",
-   "cmd": "",
-   "cwd": null,
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/repairs/biggame-accept-2026-11-11.md",
-   "need_mb": null,
-   "model": "local-small",
-   "prompt": "这张卡失败了。请只依据给出的证据，写一页诊断：①最可能的根因 ②下一步具体动作（谁、做什么、怎么验证）。不要编造文件或命令。\n\n证据：状态=FAILED；备注=；交付物=cph4/fleet/queue-receipts/quality-biggame-2026-11-11.json；重试=1",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  }
- ],
+ "ts": "2026-11-11T01:19:25",
+ "jobs": [],
  "idle_reason": "control-plane heartbeat",
  "lane_ok": true,
- "capacity_note": "ram 14.6/1.0 GB"
+ "capacity_note": "ram 13.9/1.0 GB"
 }
