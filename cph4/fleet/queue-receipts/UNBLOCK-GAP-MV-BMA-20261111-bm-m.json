@@ -1,0 +1,17 @@
+{
+ "id": "UNBLOCK-GAP-MV-BMA-20261111",
+ "node": "bm-m",
+ "rc": 0,
+ "seconds": 46.2,
+ "cmd": "",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "cph4/fleet/repairs/GAP-MV-BMA-20261111-unblock.md",
+ "deliverable_exists": true,
+ "ts": "2026-11-11T04:12:14",
+ "stdout_tail": "缺权限：管理员重置 bm-a 阻塞记录为 RUN；机器：bm-a。",
+ "stderr_tail": ""
+}
