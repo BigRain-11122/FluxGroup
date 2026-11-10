@@ -33,6 +33,8 @@ def main(argv):
     ap = argparse.ArgumentParser()
     ap.add_argument("--apply", action="store_true")
     ap.add_argument("--json", action="store_true")
+    ap.add_argument("--ignore-write-suspect", action="store_true",
+                    help="跳过写链路已可疑的节点（由 L4/node_write_health 判定），避免同一根因报两遍")
     a = ap.parse_args(argv)
     rows = []
     for ln in open(Q, encoding="utf-8"):
@@ -63,6 +65,18 @@ def main(argv):
             continue
         holes.append({"id": jid, "owner": r.get("owner"), "state": r.get("state"),
                       "cmd": (r.get("cmd") or "")[:60], "age_h": round((age or 0) / 3600, 1)})
+    if a.ignore_write_suspect:
+        try:
+            wh = json.load(open(os.path.join(F, "state", "write-health.json"), encoding="utf-8"))
+            sus = set(wh.get("suspect") or [])
+        except Exception:
+            sus = set()
+        if sus:
+            before = len(holes)
+            holes = [h for h in holes if (h.get("owner") or "") not in sus]
+            if before != len(holes) and not a.json:
+                print("[no-receipt] 跳过写链路可疑节点 %s 的 %d 张（L4 已单独报）"
+                      % (sorted(sus), before - len(holes)))
     by_node = Counter(h["owner"] or "?" for h in holes)
     by_verb = Counter((h["cmd"].split() or ["?"])[0] for h in holes)
     if a.apply:
