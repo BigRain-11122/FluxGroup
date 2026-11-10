@@ -7,12 +7,12 @@
 
 | 项 | 值 |
 |---|---|
-| 生成时间 | 2026-11-10 16:32:14 |
-| 主控脉 | 158s 前，一拍 130.1s，git=skipped |
-| 状态同步 | 321s 前 |
+| 生成时间 | 2026-11-10 16:33:58 |
+| 主控脉 | 28s 前，一拍 53.5s，git=skipped |
+| 状态同步 | 104s 前 |
 | 常驻服务 | 35 |
 | 在线节点 | bm-a,bm-b,bm-c,bm-m（hub=True） |
-| 队列 | {"DONE": 627, "UNVERIFIED": 3, "CANCELLED": 805, "FAILED": 3, "ARCHIVED": 366, "null": 3, "BLOCKED": 6, "OPEN": 5} |
+| 队列 | {"DONE": 627, "UNVERIFIED": 3, "CANCELLED": 805, "FAILED": 3, "ARCHIVED": 366, "null": 3, "BLOCKED": 6, "RUNNING": 1, "OPEN": 4} |
 | 产出 | 产品 3 / 内部 561 / 缺失 45 |
 | 自愈 | stale=[] |
 | 发布包 | MV-REVIEW-20261110 |
@@ -27,13 +27,13 @@
 ## 待办卡（前 8 张）
 
 - **BLOCKED** [VCORP-GEN-r1202-EP001-060-20261108] — 2026-11-08 00:0x：bm-b 的 FleetLink /health=000（tailnet 通但 8790 不答），3 天零回执 ⇒ 不钉死一台
-- **OPEN** [MV-DIRECTOR-PACKET-20261109] — deliverable-not-on-disk(local)
 - **BLOCKED** [biggame-accept-2026-11-09] — 
 - **OPEN** [R-NEXT-BIGSTREAMD-TTS-QC-20261109] — 
 - **BLOCKED** [PATROL-bighouse-20261109] — 
 - **BLOCKED** [asset-lib-asset-gen-2026-11-10] — CEO-PROXY 事件班 2026-11-10 02:5x: retries=3 error_class=E-ROOTCAUSE-3X、progress_by
 - **BLOCKED** [asset-lib-asset-gen-scenes-2026-11-10] — scenes | CEO-PROXY 事件班 2026-11-10 02:5x: retries=3 error_class=E-ROOTCAUSE-3X、pr
 - **BLOCKED** [biggame-accept-2026-11-10] — 
+- **OPEN** [PATROL-bighouse-20261110] — 
 
 ## 本地模型
 

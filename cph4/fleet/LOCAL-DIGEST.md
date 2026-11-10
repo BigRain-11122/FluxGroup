@@ -4341,3 +4341,17 @@
 - 11-10T16:31 · REPAIR-PROBE-BMB-TOOLCHAIN-20261110-acceptance.json · 机队回执被拒，因交付物非所需文档且无风险。
 - 11-10T16:31 · REPAIR-PROBE-BMB-TOOLCHAIN-20261110-bm-m.json · 已完成机队回执生成，但存在 I/O 阻塞导致任务停滞的风险。
 - 11-10T16:31 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
+- 11-10T16:32 · _last_lane_bm-m.json · 任务已推迟，因无可用分配而存在运行风险。
+- 11-10T16:32 · self-improve-bm-m-latest.json · 已完成机队回执提交，无风险。
+- 11-10T16:32 · REPAIR-R-TRIAGE-FLUXVERSE-BMB-20261110-acceptance.json · 机队回执被拒，因交付物非所需文档且无风险。
+- 11-10T16:32 · REPAIR-R-TRIAGE-FLUXVERSE-BMB-20261110-bm-m.json · 已完成故障诊断并制定人工排查与验证方案，当前存在上游数据延迟风险。
+- 11-10T16:32 · REPAIR-PROBE-BMB-TOOLCHAIN-20261110-acceptance.json · 机队回执被拒，因交付物非所需文档或台账。
+- 11-10T16:32 · REPAIR-PROBE-BMB-TOOLCHAIN-20261110-bm-m.json · 已完成机队回执生成，但存在 I/O 阻塞导致任务停滞的风险。
+- 11-10T16:32 · UNBLOCK-biggame-accept-2026-11-09-acceptance.json · 已完成机队回执提交，但因内容非标准产物被驳回。
+- 11-10T16:32 · UNBLOCK-biggame-accept-2026-11-09-bm-m.json · 已完成机队回执，但存在因权限不足导致无法执行的潜在风险。
+- 11-10T16:32 · REPAIR-asset-lib-char-gen-2026-11-06-acceptance.json · 机队回执被拒，因交付物非所需文档且存在合规风险。
+- 11-10T16:32 · REPAIR-asset-lib-char-gen-2026-11-06-bm-m.json · 已完成机队回执生成，无风险。
+- 11-10T16:32 · REPAIR-Q-MV-0001-003-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被驳回，无安全风险。
+- 11-10T16:32 · REPAIR-Q-MV-0001-003-bm-m.json · 已完成故障根因分析与排查方案制定，当前无执行风险。
+- 11-10T16:33 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-10T16:33 · _last_lane_bm-m.json · 机队已自派完成回单扫描，无风险。
