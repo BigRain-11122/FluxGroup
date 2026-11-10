@@ -1,0 +1,17 @@
+{
+ "id": "REPAIR-CMD-DSH-BMC-ACK-2012",
+ "node": "bm-m",
+ "rc": 0,
+ "seconds": 104.9,
+ "cmd": "",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "cph4/fleet/repairs/CMD-DSH-BMC-ACK-2012.md",
+ "deliverable_exists": true,
+ "ts": "2026-11-10T21:29:36",
+ "stdout_tail": "### 诊断报告：卡失败分析 (UNVERIFIED)\n\n**① 最可能的根因**\n系统因长期停滞导致自动清理机制触发，将任务从“进行中”标记为“释放”。尽管交付物（cph4/fleet/reports/bm-c-ack.md）已生成，但状态机未同步更新以反映新产出；重试逻辑执行失败是因为在“释放”状态下强行提交新作业或重新校验旧文件无效，导致再次被判定为无产出并清理。\n\n**② 下一步具体动作**\n\n*   **谁（Who）**：后端运维团队 / 业务负责人\n*   **做什么（What）**：\n    1.  **人工介入**：手动将 `cph4/fleet/reports/bm-c-ack.md` 的验证状态由 UNVERIFIED 强制更新为 VERIFIED。\n    2.  **数据补位**：在状态库中记录本次尝试（重试=2）已生成有效文件，明确说明失败原因为“超时自动释放”，并补充实际产出路径。\n    3.  **作业重启**：若业务允许，重新提交上游依赖任务以获取新版本报告；若仅需更新状态，直接执行手动验证操作。\n*   **怎么验证（How）**：\n    1.  查询系统日志确认人工操作后 `状态`字段变为 `VERIFIED` 或 `SUCCESS`。\n    2.  检查 `cph4/fleet/reports/` 目录下文件是否存在且内容非空，并记录该时间点的成功日志。",
+ "stderr_tail": ""
+}
