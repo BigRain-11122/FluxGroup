@@ -2,7 +2,7 @@
  "id": "GAP-CHARGEN-PROBE-20261110",
  "node": "bm-c",
  "rc": 0,
- "seconds": 0.7,
+ "seconds": 0.6,
  "cmd": "python Tools/fleet/char_gen.py --probe-only --receipt cph4/fleet/reports/chargen-probe-20261110.json",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": "E-ARTIFACT",
  "deliverable": "cph4/fleet/reports/chargen-probe-20261110.json",
  "deliverable_exists": false,
- "ts": "2026-11-10T21:52:38",
+ "ts": "2026-11-10T21:54:35",
  "stdout_tail": "[char_gen] probed -> cph4\\fleet\\asset-lib-v1\\comfy-bm-c.json | route=ckpt\n",
  "stderr_tail": ""
 }
