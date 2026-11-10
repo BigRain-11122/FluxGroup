@@ -1,21 +1,7 @@
 {
  "node": "bm-a",
- "ts": "2026-11-11T03:43:28",
+ "ts": "2026-11-11T03:46:37",
  "jobs": [
-  {
-   "id": "NODE-SYNC-bm-a-20261111",
-   "title": "[self-heal] bm-a 分叉收口（reset 到 origin/main，先留备份分支）",
-   "cmd": "git -C . branch -f backup/bm-a-20261111 HEAD && git -C . reset --hard origin/main && git -C . log -1 --oneline > cph4/fleet/reports/node-sync-bm-a-20261111.md",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/node-sync-bm-a-20261111.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
   {
    "id": "NODE-SYNC-bm-a-0335",
    "title": "[self-heal] bm-a 轻量收口（领先 18，且未拿到超时修复）",
@@ -33,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 26.6/1.0 GB"
+ "capacity_note": "ram 23.4/1.0 GB"
 }
