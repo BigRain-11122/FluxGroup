@@ -6158,3 +6158,12 @@
 - 11-11T05:27 · REPAIR-NODE-SYNC-bm-a-20261111T0452-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
 - 11-11T05:28 · REPAIR-NODE-SYNC-bm-a-20261111T0452-bm-m.json · 已完成节点 A 数据同步失败分析，需排查配置与网络问题。
 - 11-11T05:29 · _last_lane_bm-m.json · 已完成节点同步，当前运行中无风险。
+- 11-11T05:30 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
+- 11-11T05:30 · NODE-SYNC-bm-c-20261111T0519-bm-c.json · 已完成机队同步并生成报告，无风险。
+- 11-11T05:30 · NODE-SYNC-bm-c-20261111T0519-acceptance.json · 完成节点同步回执提交，但被拒因非有效交付物。
+- 11-11T05:30 · R-TRIAGE-RECON-BMB-20261111-acceptance.json · 已完成机队回执提交，但存在交付物非标准产物的风险。
+- 11-11T05:30 · PRODUCE-ICONS-BMC-20261111-acceptance.json · 机队未产出有效回执，因文件非标准产物被拒收。
+- 11-11T05:30 · GAP-BIGGAME-BMC-20261111-acceptance.json · 已提交回执但被拒，因交付物非标准产物且无风险。
+- 11-11T05:30 · _last_lane_bm-m.json · 已完成节点同步，无风险。
+- 11-11T05:30 · REPAIR-NODE-SYNC-bm-a-20261111T0452-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物。
+- 11-11T05:30 · REPAIR-NODE-SYNC-bm-a-20261111T0452-bm-m.json · 已完成节点同步任务根因分析与修复方案制定，当前无执行风险但存在调度逻辑隐患。
