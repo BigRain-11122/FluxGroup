@@ -587,3 +587,5 @@ rame_bytes/frame_sha12；**bm-a 上该目录不存在（0/30）**，且本机两
 | **回访探针** | **armed** | +90min 一次性 cron（03:2x）：复验 ①`COMFY-UP-BMC-20261111` 是否被认领并出 probe 回执 ②`comfy-probe-bm-c-20261111.json` 的 verdict ③bm-b 是否回归在线。复发=旗升 DE 级。 |
 
 **R33 丢行补录（步8 丢行守望）**：本班落 LOG 时发现 DISPATCH-LOG.md 工作树**头部被截掉 8 行**（2026-11-08 19:21 与 19:31 两块 FLAG/INFO/pools），HEAD blob 仍在。已按「行所在提交 blob 逐字恢复」从 HEAD 补回 8 行并保留 BOM，复核 git diff --numstat = **+10/-0**（无删行）。根因未定位（疑 head-truncation 型重写/checkout 残留），登记为工具面观察项，不重复立法。
+
+**R33 收口（02:31 起）**：COMFY-UP-BMC-20261111 **resolved**。证据=`cph4/fleet/asset-lib-v1/comfy-bm-c.json`（probed_at 2026-11-11T02:19:51+0800，route=ckpt，ckpt=DreamShaperXL_Lightning-SFW.safetensors，5ckpt/4unet/3clip/9vae）。三张因 `missing-input:comfyui@bm-c` 被转 BLOCKED 的卡已清 blocked_by 重开 OPEN。**自伤记录**：本卡首次记 FAILED/E-ARTIFACT 不是 ComfyUI 失败，是 deliverable 写成了 `comfy-probe-bm-c-20261111.json` 而 `char_gen.py --probe-only` 成功路径只写 conf 不写回执；已修脚本（probe-only 成功也写 --receipt）并按真实产物收口。
