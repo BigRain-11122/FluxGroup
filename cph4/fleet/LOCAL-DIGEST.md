@@ -4977,3 +4977,11 @@
 - 11-10T22:23 · GAP-CHARGEN-PROBE-20261110-bm-c.json · 机队回执生成失败，因缺少必要文件导致任务终止。
 - 11-10T22:23 · GAP-CHARGEN-PROBE-20261110-acceptance.json · 机队回执显示产物未落盘，任务失败且无风险。
 - 11-10T22:23 · skill-promote-20261110.json · 已跳过多项因工具缺失或重复的任务，当前无风险。
+- 11-10T22:24 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-10T22:24 · asset-lib-index-2026-11-10-bm-c.json · 机队成功完成资产回执，但发现 2 个文件缺失风险。
+- 11-10T22:24 · asset-lib-index-2026-11-10-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被拒绝。
+- 11-10T22:24 · asset-index-2026-11-10.json · 已完成机队回执，存在 1 个被阻断的接收风险。
+- 11-10T22:24 · KN-FILM-GATE-LATEST-20261110-bm-c.json · 机队任务完成且无风险。
+- 11-10T22:24 · KN-FILM-GATE-LATEST-20261110-acceptance.json · 机队未产出有效回执，因缺乏交付物被拒绝。
+- 11-10T22:24 · GAP-CHARGEN-PROBE-20261110-bm-c.json · 机队回执生成失败，因缺少必要文件导致任务终止。
+- 11-10T22:24 · GAP-CHARGEN-PROBE-20261110-acceptance.json · 机队回执显示产物未落盘，任务失败且无风险。
