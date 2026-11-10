@@ -1,29 +1,30 @@
-# 巡查（有序）2026-11-11T06:50:48
+# 巡查（有序）2026-11-11T06:54:35
 
-排序规则：**轮次决定先后**（断链 → 供给 → 执行 → 质量 → 方向），轮内按阻塞他人×3 + 停摆时长 + 修复成本。全部 11 条。
+排序规则：**轮次决定先后**（断链 → 供给 → 执行 → 质量 → 方向），轮内按阻塞他人×3 + 停摆时长 + 修复成本。全部 12 条。
 
-## R1 断链/停摆（2 条）· 机器或通道断了，后面所有活都白派
+## R1 断链/停摆（3 条）· 机器或通道断了，后面所有活都白派
 
- 1. **主控脉 blocker：com.fluxgroup.ollama** → 看 PULSE.json 该 blocker 的判据，修因不是压阈值｜`bm-m`
- 2. **主控脉 blocker：git-sync** → 看 PULSE.json 该 blocker 的判据，修因不是压阈值｜`bm-m`
+ 1. **主控脉 blocker：resident-model-size** → 看 PULSE.json 该 blocker 的判据，修因不是压阈值｜`bm-m`
+ 2. **主控脉 blocker：com.fluxgroup.ollama** → 看 PULSE.json 该 blocker 的判据，修因不是压阈值｜`bm-m`
+ 3. **主控脉 blocker：git-sync** → 看 PULSE.json 该 blocker 的判据，修因不是压阈值｜`bm-m`
 
 ## R2 供给（5 条）· 有机器空转但没有可跑的卡
 
- 3. **RECON·竞品拆解 已 90 小时无产物、队列里没有它的卡、也没有下一步声明** → 先定这一条线唯一的下一个可交付产物，写进 LINE-NEXT-STEPS 再铺卡｜`待指派`
- 4. **BigDomain·硅基域商业化 的产物面在子仓（bm-a、bm-b、bm-c），本机不可判；最后一次可得证据已停 181 小时** → 派一张真产物卡到持有子仓的机器（bm-a、bm-b、bm-c）；本机只做监督不做生产｜`bm-a`
- 5. **BigCompute·硅基算力 的产物面在子仓（bm-a、bm-b、bm-c），本机不可判；最后一次可得证据已停 181 小时** → 派一张真产物卡到持有子仓的机器（bm-a、bm-b、bm-c）；本机只做监督不做生产｜`bm-a`
- 6. **BigMoney·量化 的产物面在子仓（bm-a、bm-b、bm-c、bm-d），本机不可判；最后一次可得证据已停 163 小时** → 派一张真产物卡到持有子仓的机器（bm-a、bm-b、bm-c、bm-d）；本机只做监督不做生产｜`bm-a`
- 7. **4 台机车道空（bm-a,bm-b,bm-c,bm-m）而待派卡只有 5 张** → 先补供给再谈调度：跑 supply_batch --apply + workgen｜`bm-m`
+ 4. **RECON·竞品拆解 已 90 小时无产物、队列里没有它的卡、也没有下一步声明** → 先定这一条线唯一的下一个可交付产物，写进 LINE-NEXT-STEPS 再铺卡｜`待指派`
+ 5. **BigDomain·硅基域商业化 的产物面在子仓（bm-a、bm-b、bm-c），本机不可判；最后一次可得证据已停 181 小时** → 派一张真产物卡到持有子仓的机器（bm-a、bm-b、bm-c）；本机只做监督不做生产｜`bm-a`
+ 6. **BigCompute·硅基算力 的产物面在子仓（bm-a、bm-b、bm-c），本机不可判；最后一次可得证据已停 181 小时** → 派一张真产物卡到持有子仓的机器（bm-a、bm-b、bm-c）；本机只做监督不做生产｜`bm-a`
+ 7. **BigMoney·量化 的产物面在子仓（bm-a、bm-b、bm-c、bm-d），本机不可判；最后一次可得证据已停 163 小时** → 派一张真产物卡到持有子仓的机器（bm-a、bm-b、bm-c、bm-d）；本机只做监督不做生产｜`bm-a`
+ 8. **4 台机车道空（bm-a,bm-b,bm-c,bm-m）而待派卡只有 5 张** → 先补供给再谈调度：跑 supply_batch --apply + workgen｜`bm-m`
 
 ## R3 执行（3 条）· 卡在飞但不动 / 失败无主 / 阻塞过期
 
- 8. **R-NEXT-BIGSTREAMD-TTS-QC-20261109 无责任人（BLOCKED）** → 定责：改卡重派或落根因账｜`bm-m`
- 9. **NODE-SYNC-bm-b-2330 无责任人（BLOCKED）** → 定责：改卡重派或落根因账｜`bm-m`
-10. **asset-lib-face-caption-2026-11-11 无责任人（BLOCKED）** → 定责：改卡重派或落根因账｜`bm-m`
+ 9. **R-NEXT-BIGSTREAMD-TTS-QC-20261109 无责任人（BLOCKED）** → 定责：改卡重派或落根因账｜`bm-m`
+10. **NODE-SYNC-bm-b-2330 无责任人（BLOCKED）** → 定责：改卡重派或落根因账｜`bm-m`
+11. **asset-lib-face-caption-2026-11-11 无责任人（BLOCKED）** → 定责：改卡重派或落根因账｜`bm-m`
 
 ## R4 质量（1 条）· 产物不合格或闸失效
 
-11. **1 条线质量未达阈值** → 逐条看 QUALITY-BOARD 的硬伤列，改产物不改阈值｜`bm-m`
+12. **1 条线质量未达阈值** → 逐条看 QUALITY-BOARD 的硬伤列，改产物不改阈值｜`bm-m`
 
 ---
 _巡查只做排序与定责；具体做法在各条目的 evidence 里，改判据请改对应正身件_
