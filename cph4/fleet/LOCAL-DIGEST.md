@@ -5545,3 +5545,22 @@
 - 11-11T00:54 · biggame-pack-scan-2026-11-11-acceptance.json · 完成机队回执提交，但被拒收因交付物非标准产物。
 - 11-11T00:54 · R-NEXT-BIGGAME-SUBMIT-P-20261111-bm-a.json · 完成机队回执，但存在 35 款产品缺截图、25 款缺运行包的风险。
 - 11-11T00:54 · R-NEXT-BIGGAME-SUBMIT-P-20261111-acceptance.json · 提交被拒，因交付物非所需文档或台账。
+- 11-11T00:56 · etf_nobond_vt_with_positions.json · 已完成机队回执分析，显示策略稳健且无风险。
+- 11-11T00:56 · bigstream-mv-gate-2026-11-11-bm-a.json · 机队回执失败，因 FFmpeg 调用错误导致任务未完成且存在风险。
+- 11-11T00:56 · bigstream-mv-gate-2026-11-11-acceptance.json · 机队回执失败，因产物未落盘导致无风险。
+- 11-11T00:56 · bigmoney-signal-2026-11-11-bm-a.json · 已完成 ETF 无债信号生成，无风险。
+- 11-11T00:56 · bigmoney-signal-2026-11-11-acceptance.json · 完成机队回执提交，但被拒收因交付物非标准产物。
+- 11-11T00:56 · asset-voice-2026-11-11.json · 完成机队回执但失败：因授权未知、来源缺失及动态不足存在风险。
+- 11-11T00:56 · asset-lib-voice-dataset-2026-11-11-bm-c.json · 已完成语音数据集审计，但因版权未知、来源不可达及 LRA 过低存在风险。
+- 11-11T00:56 · asset-lib-voice-dataset-2026-11-11-acceptance.json · 完成机队回执提交，但被拒收因交付物非标准产物。
+- 11-11T00:56 · VERIFY-FIN-ETF-COMPOSITE-bm-a.json · 已完成 ETF 组合收益验证，无风险。
+- 11-11T00:56 · VERIFY-FIN-ETF-COMPOSITE-acceptance.json · 已完成机队回执提交，但被拒收因交付物非有效产物。
+- 11-11T00:57 · _last_lane_bm-m.json · 机队已自派完成回单扫描，无风险。
+- 11-11T00:57 · quality-biggame-2026-11-11.json · 机队回执显示“游戏 10s"文件缺失，导致整体交付失败且存在风险。
+- 11-11T00:57 · biggame-accept-2026-11-11-bm-c.json · 机队质量检查失败，因缺失游戏包且存在编码错误。
+- 11-11T00:57 · biggame-accept-2026-11-11-acceptance.json · 完成机队回执提交，但被拒收因交付物非标准产物。
+- 11-11T00:57 · _last_claim.json · 机队已空且无风险，但无法完成调度任务。
+- 11-11T00:57 · self-improve-bm-m-latest.json · 机队已确认代码更新且无依赖缺失风险，当前状态安全。
+- 11-11T00:57 · voice-corpus-2026-11-11.json · 机队完成 5 个文件处理，无风险且状态通过。
+- 11-11T00:57 · asset-lib-voice-corpus-2026-11-11-bm-a.json · 已完成语音语料预处理，无风险。
+- 11-11T00:57 · asset-lib-voice-corpus-2026-11-11-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
