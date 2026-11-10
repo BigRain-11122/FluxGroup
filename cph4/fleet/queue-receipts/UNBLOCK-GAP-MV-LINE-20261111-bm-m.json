@@ -2,7 +2,7 @@
  "id": "UNBLOCK-GAP-MV-LINE-20261111",
  "node": "bm-m",
  "rc": 0,
- "seconds": 62.6,
+ "seconds": 71.8,
  "cmd": "",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/repairs/GAP-MV-LINE-20261111-unblock.md",
  "deliverable_exists": true,
- "ts": "2026-11-11T01:03:34",
- "stdout_tail": "缺人阻塞，由 owner bm-a 执行解锁动作。",
+ "ts": "2026-11-11T01:03:51",
+ "stdout_tail": "阻塞类型缺人，解锁动作恢复权限，由 bm-a 机执行。",
  "stderr_tail": ""
 }
