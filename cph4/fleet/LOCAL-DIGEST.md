@@ -5255,3 +5255,10 @@
 - 11-10T23:43 · REPAIR-NODE-SYNC-bm-b-2330-acceptance.json · 完成机队回执提交，但被拒因交付物非有效产物。
 - 11-10T23:43 · REPAIR-NODE-SYNC-bm-b-2330-bm-m.json · 节点同步任务因租约续期失败受阻，需排查基础设施与代码逻辑以消除风险。
 - 11-10T23:43 · skill-promote-20261110.json · 已完成基础任务，因工具缺失导致大量技能无法执行。
+- 11-10T23:45 · _last_lane_bm-m.json · 已完成节点同步，当前运行中无风险。
+- 11-10T23:45 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
+- 11-10T23:45 · _last_claim.json · 机队已空，无风险。
+- 11-10T23:45 · PRODUCE-RECON-20261110-bm-c.json · 机队回执显示任务失败，存在未知错误风险。
+- 11-10T23:45 · PRODUCE-RECON-20261110-acceptance.json · 机队未产出有效回执，因交付物非标准产物被拒。
+- 11-10T23:45 · REPAIR-NODE-SYNC-bm-b-2330-acceptance.json · 完成机队回执提交，但被拒因交付物非有效产物，无风险。
+- 11-10T23:45 · REPAIR-NODE-SYNC-bm-b-2330-bm-m.json · 已完成节点同步任务，但存在因调度器超时导致的竞态风险。
