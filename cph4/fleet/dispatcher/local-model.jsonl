@@ -2703,3 +2703,5 @@
 {"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 1.9, "chars": 54, "why": "fleet_brain:pick", "ts": "2026-11-10T19:14:00"}
 {"cls": "master", "op": "generate", "err": "timed out", "why": "fleet_brain:pick", "ts": "2026-11-10T19:17:44"}
 {"cls": "master", "op": "generate", "err": "timed out", "why": "fleet_brain:pick", "ts": "2026-11-10T19:20:32"}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 56.3, "chars": 118, "why": "master-digest", "ts": "2026-11-10T19:22:21"}
+{"cls": "master", "op": "generate", "err": "timed out", "why": "fleet_brain:pick", "ts": "2026-11-10T19:23:02"}
