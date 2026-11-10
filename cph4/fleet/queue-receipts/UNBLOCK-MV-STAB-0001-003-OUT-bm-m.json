@@ -2,7 +2,7 @@
  "id": "UNBLOCK-MV-STAB-0001-003-OUT",
  "node": "bm-m",
  "rc": 0,
- "seconds": 60.3,
+ "seconds": 80.8,
  "cmd": "",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/repairs/MV-STAB-0001-003-OUT-unblock.md",
  "deliverable_exists": true,
- "ts": "2026-11-11T00:00:13",
- "stdout_tail": "缺权限；BM-A 确认资源并授权给 BM-B；BM-B 恢复生产。",
+ "ts": "2026-11-11T00:01:20",
+ "stdout_tail": "缺权限/缺环境：申请重启，由 owner bm-a 执行。",
  "stderr_tail": ""
 }
