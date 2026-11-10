@@ -6167,3 +6167,8 @@
 - 11-11T05:30 · _last_lane_bm-m.json · 已完成节点同步，无风险。
 - 11-11T05:30 · REPAIR-NODE-SYNC-bm-a-20261111T0452-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物。
 - 11-11T05:30 · REPAIR-NODE-SYNC-bm-a-20261111T0452-bm-m.json · 已完成节点同步任务根因分析与修复方案制定，当前无执行风险但存在调度逻辑隐患。
+- 11-11T05:31 · NODE-SYNC-bm-c-20261111T0519-bm-c.json · 已完成机队同步与报告生成，无风险。
+- 11-11T05:31 · NODE-SYNC-bm-c-20261111T0519-acceptance.json · 已完成机队回执提交，但被拒收因交付物非有效产物。
+- 11-11T05:31 · _last_lane_bm-m.json · 已完成节点同步修复，无风险。
+- 11-11T05:31 · REPAIR-NODE-SYNC-bm-a-20261111T0452-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-11T05:31 · REPAIR-NODE-SYNC-bm-a-20261111T0452-bm-m.json · 已完成卡券任务失败根因分析并制定排查方案，当前无风险但需立即执行后续动作。
