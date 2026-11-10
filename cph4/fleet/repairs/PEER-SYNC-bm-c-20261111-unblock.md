@@ -1,0 +1,1 @@
+缺权限：需 owner(bm-a) 手动解锁并切换接收机为 peer-sync-bm-c。

@@ -3077,3 +3077,6 @@
 {"cls": "master", "op": "generate", "err": "timed out", "why": "fleet_brain:pick", "ts": "2026-11-11T03:05:07"}
 {"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 24.1, "chars": 52, "why": "fleet_brain:pick", "ts": "2026-11-11T03:13:20"}
 {"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 84.9, "chars": 134, "why": "master-digest", "ts": "2026-11-11T03:15:44"}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 44.5, "chars": 52, "why": "fleet_brain:pick", "ts": "2026-11-11T03:19:20"}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 71.1, "chars": 121, "why": "master-digest", "ts": "2026-11-11T03:20:32"}
+{"cls": "master", "op": "generate", "err": "timed out", "why": "fleet_brain:pick", "ts": "2026-11-11T03:24:08"}
