@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-11T04:26:27",
+ "ts": "2026-11-11T04:28:47",
  "jobs": [
   {
    "id": "REPAIR-GAP-FLUXVERSE-BMA-20261111",
@@ -19,5 +19,9 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 15.7/1.0 GB"
+ "capacity_note": "ram 15.7/1.0 GB",
+ "cards": [],
+ "pruned_shells": [
+  "REPAIR-GAP-FLUXVERSE-BMA-20261111"
+ ]
 }
