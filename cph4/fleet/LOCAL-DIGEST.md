@@ -4375,3 +4375,9 @@
 - 11-10T16:41 · UNBLOCK-asset-lib-asset-gen-2026-11-10-bm-m.json · 已完成机队解锁，无风险。
 - 11-10T16:41 · REPAIR-MV-DIRECTOR-PACKET-20261109-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物，存在合规风险。
 - 11-10T16:41 · REPAIR-MV-DIRECTOR-PACKET-20261109-bm-m.json · 已完成机队回执提交，但因本地文件系统状态不一致导致任务阻塞且无法自动恢复。
+- 11-10T16:43 · _last_lane_bm-m.json · 已完成机队维修任务，无风险。
+- 11-10T16:42 · REPAIR-MV-DIRECTOR-PACKET-20261109-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
+- 11-10T16:43 · REPAIR-MV-DIRECTOR-PACKET-20261109-bm-m.json · 已完成机队回执生成，但存在因文件未同步导致的交付物验证失败风险。
+- 11-10T16:42 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
+- 11-10T16:42 · UNBLOCK-asset-lib-asset-gen-2026-11-10-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被驳回。
+- 11-10T16:42 · UNBLOCK-asset-lib-asset-gen-2026-11-10-bm-m.json · 已完成机队回执生成，但需人工在 bm-c 节点补内存后重启以消除风险。

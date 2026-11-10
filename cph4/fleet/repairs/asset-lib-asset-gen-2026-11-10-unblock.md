@@ -1,1 +1,1 @@
-缺环境：bm-c 重启 ComfyUI 并补 4G 内存，由 bm-c 执行。
+缺环境；最小动作：bm-c 启动 ComfyUI 并校验内存≥4G；由 bm-c 机执行。
