@@ -107,7 +107,7 @@ STAGES = [
     ("workgen", ["Tools/fleet/workgen.py", "--root", ROOT], 180, {0}, False),
     ("promote_ready", ["Tools/fleet/promote_ready.py"], 60, {0}, False),
     ("master", ["Tools/fleet/master_agent.py", "--node", NODE, "--root", ROOT], 240, {0}, False),
-    ("lane", ["Tools/fleet/lane_agent.py", "--node", NODE, "--root", ROOT, "--no-fetch"], 120, {0}, False),
+    ("lane", ["Tools/fleet/lane_agent.py", "--node", NODE, "--root", ROOT, "--no-fetch", "--max-seconds", "20"], 120, {0}, False),
     # 执行者复活（2026-11-08）：三台 Windows 的 /status 全部 wakes=[]，FleetLink 活着
     # 但没有任何任务被唤醒 -> 队列有卡也跑不动，一下午 DONE 只前进 9 张。巡检以前只报
     # 不修，靠会话发现再让 CEO 转命令给操作员。这里改成脉自己动手：
