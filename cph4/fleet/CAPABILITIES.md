@@ -2,8 +2,8 @@
 
 | 节点 | 在线 | 能力 | 本地模型 | 心跳 | 在办 |
 |---|---|---|---|---|---|
-| bm-a | 是 | cpu,kf768,i2v768,audio,assemble,llm | - | 319s | NODE-SYNC-bm-a-20261111T0552,NODE-SYNC-bm-a-20261111T0612 |
-| bm-b | 否 | cpu,animatic480,audio,tts,llm | - | 1123s | - |
-| bm-c | 是 | cpu,kf768,i2v768,audio,render,llm | - | 319s | NODE-SYNC-bm-c-20261111T0614 |
-| bm-m | 是 | cpu,ios-build,text,llm,audio,tts | qwen3.5:4b,qwen3.5:2b,qwen3:8b,qwen3:4b,qwen3.5:9b-mlx,deepseek-r1:14b,qwen3-embedding:0.6b,qwen3.5:4b-mlx | 1s | REPAIR-NODE-SYNC-bm-a-20261111T0552,UNBLOCK-asset-lib-face-caption-2026-11-11 |
-| bm-d | 否 | cpu,kf768,i2v768,backtest,brain,llm | - | 390902s | - |
+| bm-a | 是 | cpu,kf768,i2v768,audio,assemble,llm | - | 94s | - |
+| bm-b | 是 | cpu,animatic480,audio,tts,llm | - | 94s | - |
+| bm-c | 是 | cpu,kf768,i2v768,audio,render,llm | - | 1s | GAP-ASSETLIB-BMC-3,GAP-BIGSTREAMMV-BMC-3 |
+| bm-m | 是 | cpu,ios-build,text,llm,audio,tts | qwen3.5:4b,qwen3.5:2b,qwen3:8b,qwen3:4b,qwen3.5:9b-mlx,deepseek-r1:14b,qwen3-embedding:0.6b,qwen3.5:4b-mlx | 0s | - |
+| bm-d | 否 | cpu,kf768,i2v768,backtest,brain,llm | - | 391534s | - |
