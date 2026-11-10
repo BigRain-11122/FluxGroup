@@ -5158,3 +5158,11 @@
 - 11-10T23:06 · REPAIR-GAP-ASSETLIB-P0-20261110-bm-m.json · 已完成流水线卡滞根因分析与修复方案制定，无当前风险但需人工介入验证。
 - 11-10T23:06 · REPAIR-GRID-O2-20261110T2132-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物，无安全风险。
 - 11-10T23:06 · REPAIR-GRID-O2-20261110T2132-bm-m.json · 已完成机队回执生成，但发现任务因死锁异常失败，需排查根因并修复。
+- 11-10T23:08 · _last_lane_bm-m.json · 机队任务已执行成功，无风险。
+- 11-10T23:08 · GRID-G1-20261110T2248-acceptance.json · 机队回执显示产物未落盘，任务失败且无风险。
+- 11-10T23:08 · GRID-G1-20261110T2248-bm-m.json · 任务执行失败，因未定义修复方案导致交付物缺失。
+- 11-10T23:08 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-10T23:08 · GAP-BIGMONEY-SIGNAL-20261111-bm-a.json · 已完成机队排查报告生成，无错误风险。
+- 11-10T23:08 · GAP-BIGMONEY-SIGNAL-20261111-acceptance.json · 已提交机队回执，但被拒因交付物非标准产物。
+- 11-10T23:08 · BIZ-BIGGAME-SUBMITPACK-20261110-bm-a.json · 机队回执显示 35 款产品因缺截图和运行包导致提交失败，存在交付风险。
+- 11-10T23:08 · BIZ-BIGGAME-SUBMITPACK-20261110-acceptance.json · 机队回执显示产物未落盘，任务失败且无风险。
