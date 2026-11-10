@@ -6016,3 +6016,12 @@
 - 11-11T04:17 · REPAIR-NODE-SYNC-bm-a-0352-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
 - 11-11T04:17 · REPAIR-NODE-SYNC-bm-a-0352-bm-m.json · 作业已重置重启，但需警惕资源锁失效引发的重复故障风险。
 - 11-11T04:17 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
+- 11-11T04:19 · _last_lane_bm-m.json · 已完成机队解绑任务，无风险。
+- 11-11T04:19 · NODE-SYNC-bm-c-20261111-bm-c.json · 已完成机队同步与报告生成，无风险。
+- 11-11T04:19 · NODE-SYNC-bm-c-20261111-acceptance.json · 完成节点同步回执提交，但被拒因非有效交付物。
+- 11-11T04:19 · REPAIR-NODE-SYNC-bm-a-0352-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-11T04:19 · REPAIR-NODE-SYNC-bm-a-0352-bm-m.json · 已完成节点同步任务，但需人工介入重置上下文以消除资源租约过期风险。
+- 11-11T04:19 · UNBLOCK-PRODUCE-ICONS-BIGGAME-20261111-acceptance.json · 机队回执被拒，因交付物非有效产物且存在合规风险。
+- 11-11T04:19 · UNBLOCK-PRODUCE-ICONS-BIGGAME-20261111-bm-m.json · 已完成权限恢复，无风险。
+- 11-11T04:19 · UNBLOCK-GAP-MV-BMA-20261111-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物且无风险。
+- 11-11T04:19 · UNBLOCK-GAP-MV-BMA-20261111-bm-m.json · 已完成机队回执，无风险，需指派 BM-A 负责人解锁。
