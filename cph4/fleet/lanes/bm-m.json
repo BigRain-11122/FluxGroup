@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-10T16:41:10",
+ "ts": "2026-11-10T16:41:54",
  "jobs": [
   {
    "id": "REPAIR-MV-DIRECTOR-PACKET-20261109",
@@ -33,5 +33,10 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 5.2/1.0 GB"
+ "capacity_note": "ram 5.2/1.0 GB",
+ "cards": [],
+ "pruned_shells": [
+  "REPAIR-MV-DIRECTOR-PACKET-20261109",
+  "UNBLOCK-asset-lib-asset-gen-2026-11-10"
+ ]
 }

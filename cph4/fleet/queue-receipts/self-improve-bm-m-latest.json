@@ -1,13 +1,13 @@
 {
  "node": "bm-m",
- "ts": "2026-11-10T16:39:50",
+ "ts": "2026-11-10T16:41:54",
  "mode": "apply",
  "verdict": "SELF-OK",
  "checks": [
   {
    "check": "reload",
-   "code_age_s": 2386,
-   "receipt_age_s": 0,
+   "code_age_s": 2511,
+   "receipt_age_s": 3,
    "targets": [],
    "acted": false,
    "note": "executor produced a receipt after the last code edit",
@@ -16,12 +16,15 @@
   },
   {
    "check": "shells",
-   "cards": 0,
-   "shells": 0,
-   "ids": [],
-   "acted": false,
-   "verdict": "OK",
-   "note": "no assignment on this lane (not a shell problem)"
+   "cards": 2,
+   "shells": 2,
+   "ids": [
+    "REPAIR-MV-DIRECTOR-PACKET-20261109",
+    "UNBLOCK-asset-lib-asset-gen-2026-11-10"
+   ],
+   "acted": true,
+   "kept": 0,
+   "verdict": "PRUNED"
   },
   {
    "check": "deps",
