@@ -35,6 +35,8 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 sys.path.insert(0, os.path.join(ROOT, "Tools", "fleet"))
 KEYFILE = os.path.expanduser("~/.config/fluxgroup/cloud-keys.env")
 
+ORDER = ["qwen", "doubao", "codely"]  # 2026-11-10 CEO：Codely 排最后，个人云先用
+
 PROVIDERS = {
     "doubao": {"label": "豆包（火山方舟）", "key": "ARK_API_KEY",
                "base": "https://ark.cn-beijing.volces.com/api/v3",
@@ -74,6 +76,28 @@ def status():
     out["codely"] = {"label": "团结 Codely（公司座席）", "key_present": os.path.isfile(cli),
                      "model": "codely-core", "base": "official-cli"}
     return out
+
+
+def available():
+    st = status()
+    return [n for n in ORDER if (st.get(n) or {}).get("key_present")]
+
+
+def ask_chain(prompt, allow_company=False, timeout=120, max_tokens=1024):
+    """按 ORDER 依次试；Codely 只有在 allow_company 且前面都不可用时才用。"""
+    errs = []
+    for name in ORDER:
+        if name == "codely":
+            if not allow_company:
+                continue
+            return ("codely", None)
+        try:
+            return (name, ask(name, prompt, timeout=timeout, max_tokens=max_tokens))
+        except SystemExit as e:
+            errs.append("%s:%s" % (name, str(e)[:60]))
+        except Exception as e:
+            errs.append("%s:%s" % (name, str(e)[:80]))
+    return ("", "all cloud providers unavailable: " + "; ".join(errs))
 
 
 def ask(provider, prompt, timeout=120, max_tokens=1024):
