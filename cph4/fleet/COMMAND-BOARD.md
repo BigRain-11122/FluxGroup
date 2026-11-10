@@ -1,4 +1,4 @@
-# 指挥一屏 2026-11-10T09:23:52
+# 指挥一屏 2026-11-10T09:25:15
 
 _节奏表=COMMAND-CADENCE-v1.json｜本屏由规则从盘上事实算出，未用模型猜数_
 
@@ -16,7 +16,7 @@ _节奏表=COMMAND-CADENCE-v1.json｜本屏由规则从盘上事实算出，未�
 
 - **bm-a** SELF-OK｜reload=OK shells=OK deps=OK｜2026-11-07T22:25
 - **bm-c** SELF-OK｜reload=OK shells=OK deps=OK｜2026-11-06T23:55
-- **bm-m** SELF-OK｜reload=OK shells=OK deps=OK｜2026-11-10T09:22
+- **bm-m** SELF-OK｜reload=OK shells=OK deps=OK｜2026-11-10T09:23
 
 ## C 线与产出（15 分钟档）
 
