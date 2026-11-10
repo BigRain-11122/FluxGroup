@@ -5705,3 +5705,12 @@
 - 11-11T01:42 · NODE-SYNC-bm-c-20261111-bm-c.json · 已完成机队同步并生成报告，无风险。
 - 11-11T01:42 · NODE-SYNC-bm-c-20261111-acceptance.json · 完成节点同步回执提交，但被拒收因非有效交付物。
 - 11-11T01:42 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
+- 11-11T01:44 · voice-dataset-2026-11-11.json · 因版权缺失或未知，机队全部被跳过，无风险。
+- 11-11T01:44 · asset-lib-voice-assemble-2026-11-11-bm-a.json · 未完成任务，因数据版权不明被阻断，存在合规风险。
+- 11-11T01:44 · asset-lib-voice-assemble-2026-11-11-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
+- 11-11T01:44 · NODE-SYNC-bm-c-20261111-bm-c.json · 完成机队同步任务，但存在 Git 锁文件冲突风险。
+- 11-11T01:44 · NODE-SYNC-bm-c-20261111-acceptance.json · 完成节点同步回执提交，但被拒因非有效交付物。
+- 11-11T01:44 · NODE-SYNC-bm-c-0130-bm-c.json · 已完成机队同步与报告生成，无风险。
+- 11-11T01:44 · NODE-SYNC-bm-c-0130-acceptance.json · 节点同步回执被拒，因非有效交付物且无风险。
+- 11-11T01:44 · _last_lane_bm-m.json · 机队已运行中，无风险。
+- 11-11T01:44 · skill-promote-20261111.json · 已完成部分任务，因工具缺失导致大量技能无法执行。

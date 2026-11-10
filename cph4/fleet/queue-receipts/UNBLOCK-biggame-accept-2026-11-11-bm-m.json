@@ -2,7 +2,7 @@
  "id": "UNBLOCK-biggame-accept-2026-11-11",
  "node": "bm-m",
  "rc": 0,
- "seconds": 63.4,
+ "seconds": 46.5,
  "cmd": "",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/repairs/biggame-accept-2026-11-11-unblock.md",
  "deliverable_exists": true,
- "ts": "2026-11-11T01:43:28",
- "stdout_tail": "缺资源（无备注说明阻塞原因），先向 owner(bm-m) 申请排查根因。",
+ "ts": "2026-11-11T01:45:27",
+ "stdout_tail": "缺人阻塞，需 bm-m 确认责任人并指定接手机器执行解锁。",
  "stderr_tail": ""
 }
