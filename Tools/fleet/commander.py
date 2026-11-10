@@ -95,7 +95,12 @@ def main():
         owners[o] = owners.get(o, 0) + 1
 
     lines = (jload(LINES, {}) or {}).get("lines") or []
-    stale = [l for l in lines if (l.get("age_h") or 0) > 72]
+    # 2026-11-10：PARKED 是 CEO 令暂停的线（短剧/切片/车机），它们"不产出"是合规状态，
+    # 不是停血。原来把 PARKED 也算进 stale，让"9 条线超 72h"这个数字永远下不去，
+    # 真正的 ACTIVE 停血被稀释。stale 只统计 ACTIVE。
+    stale = [l for l in lines if (l.get("age_h") or 0) > 72
+             and str(l.get("declared") or "").upper() != "PARKED"]
+    parked = [l for l in lines if str(l.get("declared") or "").upper() == "PARKED"]
     active = [l for l in lines if str(l.get("declared")) == "ACTIVE"]
     alerts = jload(ALERTS, {}) or {}
     alist = alerts.get("alerts") if isinstance(alerts, dict) else alerts
@@ -161,7 +166,8 @@ def main():
         L.append("| %s | %s | %s%s |" % (l.get("name") or l.get("id"), l.get("declared"),
                                          ("%.1fh" % age) if age is not None else "N/A", flag))
     L.append("")
-    L.append("ACTIVE 线 %d 条｜超 72h 无产物 %d 条" % (len(active), len(stale)))
+    L.append("ACTIVE 线 %d 条｜超 72h 无产物 %d 条｜PARKED %d 条（按 CEO 令暂停，不计入停血）"
+             % (len(active), len(stale), len(parked)))
     L.append("")
 
     L.append("## D 告警（60 分钟档）")
