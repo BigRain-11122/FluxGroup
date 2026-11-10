@@ -34,6 +34,7 @@ GRID = os.path.join(ROOT, "cph4", "fleet", "AUTOMATION-GRID-v1.json")
 STATE = os.path.join(ROOT, "cph4", "fleet", "state", "grid-state.json")
 ESC = os.path.join(ROOT, "cph4", "fleet", "state", "grid-escalations.jsonl")
 BOARD = os.path.join(ROOT, "cph4", "fleet", "AUTOMATION-GRID.md")
+DISP = os.path.join(ROOT, "cph4", "fleet", "state", "grid-dispositions.json")
 sys.path.insert(0, HERE)
 
 
@@ -103,6 +104,9 @@ def main(argv):
     ap.add_argument("--force", action="store_true")
     ap.add_argument("--only", default="")
     ap.add_argument("--json", action="store_true")
+    ap.add_argument("--dispose", help="处置一个 MANUAL 项：ID")
+    ap.add_argument("--verdict", choices=["OK", "N/A", "ACTION", "BLOCKED"])
+    ap.add_argument("--why", default="")
     a = ap.parse_args(argv)
 
     lock = os.path.join(ROOT, "cph4", "fleet", "state", "grid.lock")
@@ -114,6 +118,13 @@ def main(argv):
             open(lock, "w").write(str(os.getpid()))
         except Exception:
             pass
+    if a.dispose:
+        d = load(DISP, {}) or {}
+        d[a.dispose] = {"verdict": a.verdict or "OK", "why": a.why, "ts": now(),
+                        "by": "dsh-session", "when": datetime.now().isoformat(timespec="seconds")}
+        save(DISP, d)
+        print("[grid] disposed %s = %s" % (a.dispose, d[a.dispose]["verdict"]))
+        return 0
     grid = load(GRID, {})
     items = grid.get("items") or []
     if not items:
@@ -154,9 +165,21 @@ def main(argv):
     for it in due:
         kind = it.get("kind") or "probe"
         if kind == "manual":
+            # 判过一次就在 cadence 内算已处置：否则同一句"需要人判"每 5 分钟刷一次，
+            # 就成了背景噪声（CEO 2026-11-10「标注没用」）。处置写 state/grid-dispositions.json。
+            dp = (load(DISP, {}) or {}).get(it["id"]) or {}
+            if dp.get("verdict") and (now() - float(dp.get("ts") or 0)) < int(it.get("cadence_s") or 86400):
+                stt = {"OK": "OK", "N/A": "OK", "ACTION": "WARN", "BLOCKED": "BLOCKED"}.get(
+                    dp["verdict"], "OK")
+                st[it["id"]] = {"ts": now(), "status": stt,
+                                "msg": "已处置(%s)：%s" % (dp["verdict"], (dp.get("why") or "")[:160])}
+                print("[grid] %-18s %-6s disposed:%s %s" % (
+                    it["id"], stt, dp["verdict"], (dp.get("why") or "")[:60]))
+                continue
             rec = escalate(it, "MANUAL", "轮到人工/会话判断：%s" % (it.get("accept") or ""), 0.0)
             st[it["id"]] = {"ts": now(), "status": "MANUAL", "msg": rec["msg"][:200]}
             escs.append(rec)
+            print("[grid] %-18s MANUAL %s" % (it["id"], (it.get("accept") or "")[:60]))
             continue
         rc, out, secs = run_cmd(it.get("cmd") or "", int(it.get("timeout_s") or 180))
         status = "OK" if rc in (it.get("ok_rc") or [0]) else ("WARN" if rc == 1 else "FAIL")
@@ -182,7 +205,7 @@ def main(argv):
         pass
     # 一屏：只写异常与到期，不写成功学
     try:
-        fails = [(k, v) for k, v in st.items() if v.get("status") in ("FAIL", "MANUAL")]
+        fails = [(k, v) for k, v in st.items() if v.get("status") in ("FAIL", "MANUAL", "BLOCKED")]
         nfail = sum(1 for _, v in fails if v.get("status") == "FAIL")
         nman = sum(1 for _, v in fails if v.get("status") == "MANUAL")
         nwarn = sum(1 for v in st.values() if v.get("status") == "WARN")
