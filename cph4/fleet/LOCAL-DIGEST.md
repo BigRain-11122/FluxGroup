@@ -5738,3 +5738,10 @@
 - 11-11T01:55 · NODE-SYNC-bm-c-20261111-acceptance.json · 完成节点同步回执提交，但被拒收因非有效交付物。
 - 11-11T01:57 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
 - 11-11T01:57 · _last_lane_bm-m.json · 机队已自派完成回单扫描，无风险。
+- 11-11T01:59 · UNBLOCK-asset-lib-voice-assemble-2026-11-11-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被驳回。
+- 11-11T01:59 · UNBLOCK-asset-lib-voice-assemble-2026-11-11-bm-m.json · 已完成资产解锁，但存在因所有者未完成任务而需重新认领的风险。
+- 11-11T01:59 · voice-dataset-2026-11-11.json · 机队因素材版权缺失被全量拦截，无风险。
+- 11-11T01:59 · asset-lib-voice-assemble-2026-11-11-bm-a.json · 未完成任务，因数据版权不明且不在白名单导致批量跳过。
+- 11-11T01:59 · asset-lib-voice-assemble-2026-11-11-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被拒收。
+- 11-11T01:59 · _last_lane_bm-m.json · 机队任务已完成，无风险。
+- 11-11T01:59 · skill-promote-20261111.json · 已完成部分任务，因工具缺失导致大量技能无法执行。
