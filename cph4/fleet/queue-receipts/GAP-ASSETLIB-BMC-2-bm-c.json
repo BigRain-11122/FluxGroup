@@ -1,0 +1,17 @@
+{
+ "id": "GAP-ASSETLIB-BMC-2",
+ "node": "bm-c",
+ "rc": 0,
+ "seconds": 0.2,
+ "cmd": "python Tools/fleet/line_triage.py --line asset-lib --out cph4/fleet/reports/triage-asset-lib-20261111f.md",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "cph4/fleet/reports/triage-asset-lib-20261111f.md",
+ "deliverable_exists": true,
+ "ts": "2026-11-11T05:45:50",
+ "stdout_tail": "[triage] asset-lib -> cph4\\fleet\\reports\\triage-asset-lib-20261111f.md\n",
+ "stderr_tail": ""
+}
