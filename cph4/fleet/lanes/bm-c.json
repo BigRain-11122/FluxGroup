@@ -1,14 +1,14 @@
 {
  "node": "bm-c",
- "ts": "2026-11-11T00:57:25",
+ "ts": "2026-11-11T01:02:39",
  "jobs": [
   {
-   "id": "biggame-accept-2026-11-11",
-   "title": "[游戏（可上线清单 → 一款可玩包 → 提审材料）] 质量验收（缺一份闸回执就不算交付）",
-   "cmd": "python Tools/fleet/quality_gate.py --line biggame --out cph4/fleet/queue-receipts/quality-biggame-2026-11-11.json",
+   "id": "asset-lib-face-caption-2026-11-11",
+   "title": "[资产储备（角色 LoRA / 音色库）] 人脸数据集打标（vision 草稿，人只校对）",
+   "cmd": "python Tools/fleet/asset_caption.py --dir media/asset/faces --out cph4/fleet/queue-receipts/asset-caption-2026-11-11.json",
    "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/quality-biggame-2026-11-11.json",
+   "needs": "gpu",
+   "deliverable": "cph4/fleet/queue-receipts/asset-caption-2026-11-11.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -18,6 +18,6 @@
   }
  ],
  "idle_reason": "",
- "lane_ok": false,
- "capacity_note": "ram 0.9/1.0 GB"
+ "lane_ok": true,
+ "capacity_note": "ram 2.5/1.0 GB"
 }

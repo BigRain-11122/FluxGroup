@@ -5572,3 +5572,16 @@
 - 11-11T00:59 · asset-lib-voice-dataset-2026-11-11-bm-c.json · 已完成语音数据集审计，因版权未知、来源不可及且 LRA 过低导致失败。
 - 11-11T00:59 · asset-lib-voice-dataset-2026-11-11-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被拒绝。
 - 11-11T00:59 · _last_claim.json · 机队已清空且无风险，但当前处于空池状态。
+- 11-11T01:01 · quality-biggame-2026-11-11.json · 机队回执显示“游戏包”通过但“游戏十秒”缺失，整体判定失败且存在交付风险。
+- 11-11T01:01 · biggame-accept-2026-11-11-bm-c.json · 机队质量检查失败，因缺少 game-10s 且存在编码错误。
+- 11-11T01:01 · biggame-accept-2026-11-11-acceptance.json · 已完成机队回执提交，但被因非标准产物而拒绝。
+- 11-11T01:01 · _last_lane_bm-m.json · 已完成节点同步，当前运行中无风险。
+- 11-11T01:01 · UNBLOCK-R-NEXT-BIGSTREAMM-REBUILD-20261111-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-11T01:01 · UNBLOCK-R-NEXT-BIGSTREAMM-REBUILD-20261111-bm-m.json · 已完成机队回执，无风险，但需联系 bm-b 申请解封以解决权限问题。
+- 11-11T01:01 · UNBLOCK-NODE-SYNC-bm-b-20261111-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-11T01:01 · UNBLOCK-NODE-SYNC-bm-b-20261111-bm-m.json · 已完成节点同步，但存在因缺少负责人确认而阻塞交付的风险。
+- 11-11T01:01 · UNBLOCK-GAP-MV-LINE-20261111-acceptance.json · 未通过机队回执检查，因交付物非有效文档且被拒绝。
+- 11-11T01:01 · UNBLOCK-GAP-MV-LINE-20261111-bm-m.json · 已完成缺人阻塞的指派与重启，无风险。
+- 11-11T01:02 · asset-voice-2026-11-11.json · 完成机队回执但失败：因授权不明、来源缺失及动态不足导致风险。
+- 11-11T01:02 · asset-lib-voice-dataset-2026-11-11-bm-c.json · 完成语音数据集审计，因版权未知、来源不可及且 LRA 过低导致失败。
+- 11-11T01:02 · asset-lib-voice-dataset-2026-11-11-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被拒绝。
