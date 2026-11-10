@@ -1,95 +1,95 @@
 {
- "ts": "2026-11-11T06:37:48",
- "cycle": 1184,
+ "ts": "2026-11-11T06:41:28",
+ "cycle": 1185,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-11T06:37:48",
+ "master_tick_ts": "2026-11-11T06:41:28",
  "queue": {
-  "total": 2091,
+  "total": 2092,
   "open": 5,
   "running": 1,
-  "done": 775,
+  "done": 776,
   "failed": 2
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 34.5,
-   "cpu_load_pct": 6,
-   "ram_free_gb": 47.9,
+   "hb_age_s": 14.1,
+   "cpu_load_pct": 31,
+   "ram_free_gb": 47.4,
    "gpu_util_pct": 0,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-11T06:34:42",
+    "ts": "2026-11-11T06:39:42",
     "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 1
+   "idle_rounds": 2
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 328.3,
+   "hb_age_s": 548.0,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
    "job": null,
    "last_result": null,
    "idle_confirmed": false,
-   "idle_reason": "CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (6.2h 零产出)",
+   "idle_reason": "CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (6.3h 零产出)",
    "idle_rounds": 0
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 50.8,
-   "cpu_load_pct": 13,
-   "ram_free_gb": 3.9,
+   "hb_age_s": 23.2,
+   "cpu_load_pct": 12,
+   "ram_free_gb": 2.1,
    "gpu_util_pct": 0,
-   "job": "GAP-ASSETLIB-BMC-3",
+   "job": null,
    "last_result": {
-    "job": "GAP-BIGSTREAMMV-BMC-3",
+    "job": "GAP-ASSETLIB-BMC-3",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-11T06:37:12",
+    "ts": "2026-11-11T06:41:21",
     "reason": null,
+    "out_bytes": null,
+    "elapsed_s": null
+   },
+   "idle_confirmed": false,
+   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+   "idle_rounds": 0
+  },
+  "bm-m": {
+   "online": true,
+   "hb_age_s": 1.6,
+   "cpu_load_pct": 7,
+   "ram_free_gb": 15.5,
+   "gpu_util_pct": null,
+   "job": "REPAIR-GAP-BIGGAME-BMC-3",
+   "last_result": {
+    "job": null,
+    "state": "IDLE",
+    "rc": null,
+    "ts": "2026-11-11T06:41:02",
+    "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": false,
    "idle_reason": "",
    "idle_rounds": 0
-  },
-  "bm-m": {
-   "online": true,
-   "hb_age_s": 1.5,
-   "cpu_load_pct": 2,
-   "ram_free_gb": 13.4,
-   "gpu_util_pct": null,
-   "job": null,
-   "last_result": {
-    "job": null,
-    "state": "IDLE",
-    "rc": null,
-    "ts": "2026-11-11T06:36:58",
-    "reason": "control-plane heartbeat",
-    "out_bytes": null,
-    "elapsed_s": null
-   },
-   "idle_confirmed": true,
-   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 3
   }
  },
  "idle_rounds": {
-  "bm-a": 1,
+  "bm-a": 2,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 3
+  "bm-m": 0
  },
  "lines": {
   "bigstream-mv": {
@@ -153,8 +153,10 @@
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "游戏席",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "REPAIR-GAP-BIGGAME-BMC-3"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": null,
    "stuck_stage": "game-design",
@@ -278,14 +280,12 @@
   "asset-lib": {
    "name": "资产储备·角色 LoRA 与音色库",
    "status": "ACTIVE",
-   "verdict": "WORKING",
+   "verdict": "WAITING",
    "age_h": null,
    "stale_after_h": 72.0,
    "owner": "资产席",
-   "jobs": [
-    "GAP-ASSETLIB-BMC-3"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": "CEO 2026-11-03：先储备资产，角色 LoRA 与音色库为 P0"
   }
@@ -850,19 +850,19 @@
  },
  "supply_added": [],
  "events": [
-  "GAP-BIGSTREAMMV-BMC-3 DONE via bm-c",
-  "GAP-ASSETLIB-BMC-3 REQUeued attempt=1",
-  "GAP-ASSETLIB-BMC-3 -> bm-c (cpu)"
+  "GAP-ASSETLIB-BMC-3 DONE via bm-c",
+  "REPAIR-GAP-BIGGAME-BMC-3 -> bm-m (cpu)"
  ],
  "violations": [
+  "bm-a IDLE-CONFIRMED x2 (SELF-DISPATCH: lane scans its own backlo)",
   "bm-b CAPACITY-BLOCKED-RAM",
-  "bm-m IDLE-CONFIRMED x3 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED bigstream-mv 卡在 立意/分镜/导演席 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
+  "bm-b",
   "bm-c",
   "bm-m"
  ]
