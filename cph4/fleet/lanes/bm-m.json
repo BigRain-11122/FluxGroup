@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-11T01:02:39",
+ "ts": "2026-11-11T01:06:13",
  "jobs": [
   {
    "id": "UNBLOCK-GAP-MV-LINE-20261111",
@@ -47,5 +47,11 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 14.2/1.0 GB"
+ "capacity_note": "ram 14.2/1.0 GB",
+ "cards": [],
+ "pruned_shells": [
+  "UNBLOCK-GAP-MV-LINE-20261111",
+  "UNBLOCK-R-NEXT-BIGSTREAMM-REBUILD-20261111",
+  "UNBLOCK-NODE-SYNC-bm-b-20261111"
+ ]
 }
