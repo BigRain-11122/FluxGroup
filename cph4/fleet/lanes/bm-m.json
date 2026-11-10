@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-11T02:44:47",
+ "ts": "2026-11-11T02:48:02",
  "jobs": [
   {
    "id": "REPAIR-asset-lib-asset-gen-2026-11-11",
@@ -19,5 +19,9 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 13.9/1.0 GB"
+ "capacity_note": "ram 13.9/1.0 GB",
+ "cards": [],
+ "pruned_shells": [
+  "REPAIR-asset-lib-asset-gen-2026-11-11"
+ ]
 }
