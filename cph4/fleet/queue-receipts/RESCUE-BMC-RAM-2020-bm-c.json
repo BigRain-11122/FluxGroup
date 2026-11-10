@@ -11,7 +11,7 @@
  "error_class": "E-UNKNOWN",
  "deliverable": "cph4/fleet/reports/bm-c-rescue.md",
  "deliverable_exists": false,
- "ts": "2026-11-10T21:12:10",
+ "ts": "2026-11-10T21:14:21",
  "stdout_tail": "",
  "stderr_tail": "  File \"<string>\", line 1\n    import subprocess,os,re;os.makedirs('cph4/fleet/reports',exist_ok=True);g=lambda:subprocess.run(['powershell','-NoProfile','-Command','(Get-CimInstance Win32_OperatingSystem).FreePhysicalMemory'],capture_output=True,text=True).stdout.strip();b=g();p=subprocess.run(['ollama','ps'],capture_output=True,text=True);names=[l.split()[0] for l in (p.stdout or '').splitlines()[1:] if l.strip() and not l.startswith('NAME')];stopped=[];\\nfor n in names:\\n subprocess.run(['ollama','stop',n],capture_output=True,text=True);stopped.append(n)\\nopen('cph4/fleet/reports/bm-c-rescue.md','w',encoding='utf-8').write('# bm-c 鍐呭瓨鍥炴敹\\n\\n- 绌洪棽(KB) before: '+b+'\\n- 妯″瀷: '+str(names)+'\\n- 宸插嵏: '+str(stopped)+'\\n- 绌洪棽(KB) after: '+g()+'\\n- ollama rc: '+str(p.returncode)+'\\n')\n                                                                                                                                                                                                                                                                                                                                                                                                                                                  ^\nSyntaxError: unexpected character after line continuation character\n"
 }
