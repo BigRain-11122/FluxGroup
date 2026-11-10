@@ -2,8 +2,8 @@
  "id": "CMD-DSH-20261110T1930",
  "node": "bm-m",
  "rc": 0,
- "seconds": 3.4,
- "cmd": "python -c \"import time;time.sleep(3);open('cph4/fleet/reports/t3.md','w',encoding='utf-8').write('# t3 ok\\n')\"",
+ "seconds": 3.1,
+ "cmd": "python3 -c \"import time;time.sleep(3);open('cph4/fleet/reports/t3.md','w',encoding='utf-8').write('# t3 ok\\n')\"",
  "ok_rc": [
   0
  ],
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/reports/t3.md",
  "deliverable_exists": true,
- "ts": "2026-11-10T19:18:46",
+ "ts": "2026-11-10T19:19:29",
  "stdout_tail": "",
  "stderr_tail": ""
 }
