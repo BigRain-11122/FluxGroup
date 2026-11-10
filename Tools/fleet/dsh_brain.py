@@ -255,6 +255,14 @@ def rules_violations(task, obj, payload):
                 if isinstance(a, dict)}
         for node, f in facts.items():
             act = acts.get(node)
+            # 2026-11-10 实锚：我把 22:50 的旧 verdict（ahead=5/adoptable）喂给模型，而当下
+            # ahead 已是 0；它据此判 adopt，完全合理但是对着过期事实。过期证据比模型错更危险，
+            # 所以先查事实自洽性：verdict 与 ahead 打架 = 证据过期，直接判不合格。
+            v = str(f.get("verdict") or "")
+            if v == "adoptable" and not f.get("ahead"):
+                out.append("%s 事实自相矛盾：verdict=adoptable 但 ahead=%s（证据过期，重取）" % (node, f.get("ahead")))
+            if v == "sync_ok" and f.get("ahead"):
+                out.append("%s 事实自相矛盾：verdict=sync_ok 但 ahead=%s（证据过期，重取）" % (node, f.get("ahead")))
             ahead = f.get("ahead")
             if ahead is None and isinstance(f.get("fork"), str) and "/" in f["fork"]:
                 try:
