@@ -1,68 +1,59 @@
 {
- "ts": "2026-11-10T22:21:55",
+ "ts": "2026-11-10T22:41:55",
  "node": "bm-c",
  "paused": false,
- "verdict": "BLOCKED-CAPACITY",
+ "verdict": "BUSY",
  "capacity": {
   "gpu": {
    "util_pct": 0,
-   "used_mb": 1316,
+   "used_mb": 1323,
    "total_mb": 16384
   },
-  "ram_free_gb": 2.69,
-  "vram_free_mb": 15068,
+  "ram_free_gb": 3.73,
+  "vram_free_mb": 15061,
   "lease_held": false,
-  "can_gpu": false,
-  "can_cpu": false
+  "can_gpu": true,
+  "can_cpu": true
  },
- "idle_min": 0.0,
+ "idle_min": 0.5,
  "assigned": [
   {
    "kind": "assigned",
-   "id": "GAP-CHARGEN-PROBE-20261110",
-   "title": "[probe] char-gen 出图环境探针（bm-c ComfyUI）",
+   "id": "asset-lib-face-caption-2026-11-10",
+   "title": "[资产储备（角色 LoRA / 音色库）] 人脸数据集打标（vision 草稿，人只校对）",
    "prio": null,
-   "needs": "cpu",
-   "feasible": false,
+   "needs": "gpu",
+   "feasible": true,
    "reason": "master lane file (authority)"
   },
   {
    "kind": "assigned",
-   "id": "KN-FILM-GATE-LATEST-20261110",
-   "title": "KN PACK-A 最新复核版跑全片闸（重复帧/亮度/时长三查）",
+   "id": "R-TRIAGE-FLUXVERSE-BMC-20261110",
+   "title": "FluxVerse·元宙城 线证据扫描（bm-c 本机可判面）",
    "prio": null,
    "needs": "cpu",
-   "feasible": false,
+   "feasible": true,
    "reason": "master lane file (authority)"
   }
  ],
  "next_actions": [
   {
    "kind": "assigned",
-   "id": "GAP-CHARGEN-PROBE-20261110",
-   "title": "[probe] char-gen 出图环境探针（bm-c ComfyUI）",
+   "id": "asset-lib-face-caption-2026-11-10",
+   "title": "[资产储备（角色 LoRA / 音色库）] 人脸数据集打标（vision 草稿，人只校对）",
    "prio": null,
-   "needs": "cpu",
-   "feasible": false,
+   "needs": "gpu",
+   "feasible": true,
    "reason": "master lane file (authority)"
   },
   {
    "kind": "assigned",
-   "id": "KN-FILM-GATE-LATEST-20261110",
-   "title": "KN PACK-A 最新复核版跑全片闸（重复帧/亮度/时长三查）",
+   "id": "R-TRIAGE-FLUXVERSE-BMC-20261110",
+   "title": "FluxVerse·元宙城 线证据扫描（bm-c 本机可判面）",
    "prio": null,
    "needs": "cpu",
-   "feasible": false,
+   "feasible": true,
    "reason": "master lane file (authority)"
-  },
-  {
-   "kind": "backlog",
-   "id": "asset-lib-face-caption-2026-11-10",
-   "title": "[资产储备（角色 LoRA / 音色库）] 人脸数据集打标（vision 草稿，人只校对）",
-   "prio": "P0",
-   "needs": "gpu",
-   "feasible": false,
-   "reason": "OPEN in PRODUCTION-BACKLOG for this node"
   },
   {
    "kind": "backlog",
@@ -70,7 +61,7 @@
    "title": "配音批质检：r1202 目录逐集时长/静音/体积（出可发布集数清单）",
    "prio": "P2",
    "needs": "cpu",
-   "feasible": false,
+   "feasible": true,
    "reason": "OPEN in PRODUCTION-BACKLOG for this node"
   }
  ],
@@ -103,8 +94,8 @@
  ],
  "dispatched_now": null,
  "counts": {
-  "open_backlog": 6,
-  "open_queue": 23,
+  "open_backlog": 5,
+  "open_queue": 19,
   "bank_pending": 0
  }
 }
