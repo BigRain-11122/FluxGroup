@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-11T03:01:50+0800",
+ "ts": "2026-11-11T03:14:21+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -13,7 +13,7 @@
    "blocker_type": "ENGINE",
    "blocker": "打标质量门与当前素材不匹配：抽 20 张 0 通过（理由是「只命中 0-2 个可见属性，像空话」），需改提示词/判据；另有 458 张待打",
    "state": "RUNNING",
-   "card": "asset-lib-face-caption-2026-11-11",
+   "card": "asset-lib-asset-gen-2026-11-11",
    "running_on": "bm-c"
   },
   {
@@ -27,9 +27,9 @@
    "accept": "SUBMIT-PACK 里『隐私政策』『提审台账』两类缺件归零",
    "blocker_type": "CEO",
    "blocker": "截图需跑游戏取图，受 2026-10-28『不许自动跑游戏包』令约束，等放行",
-   "state": "STALLED",
-   "card": null,
-   "running_on": null
+   "state": "RUNNING",
+   "card": "VERIFY-ICONS-BMA-20261111",
+   "running_on": "bm-a"
   },
   {
    "id": "bigmoney",
@@ -57,9 +57,9 @@
    "accept": "发布台账有回执行；或 CEO 给出重剪清单",
    "blocker_type": "ENGINE",
    "blocker": "发布决定权在 CEO，但工程侧可先做下一首立意案",
-   "state": "QUEUED",
+   "state": "RUNNING",
    "card": "GAP-MV-BMA-20261111",
-   "running_on": null
+   "running_on": "bm-a"
   },
   {
    "id": "bigstream-drama",
@@ -228,9 +228,9 @@
   }
  ],
  "counts": {
-  "RUNNING": 1,
-  "QUEUED": 3,
-  "STALLED": 11
+  "RUNNING": 3,
+  "QUEUED": 2,
+  "STALLED": 10
  },
  "stalled_engine": 5
 }
