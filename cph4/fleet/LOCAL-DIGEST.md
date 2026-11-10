@@ -4304,3 +4304,10 @@
 - 11-10T16:22 · review-packet-mv-20261110.md · 已完成机队回执生成与合规检查，当前无风险，待导演签字确认即可交付。
 - 11-10T16:24 · _last_lane_bm-m.json · 机队已自派完成回单，无风险。
 - 11-10T16:24 · self-improve-bm-m-latest.json · 机队已确认代码更新且无依赖缺失，当前无风险。
+- 11-10T16:25 · _last_lane_bm-m.json · 已完成 ETF 组合修复任务，无风险。
+- 11-10T16:25 · REPAIR-C-FIN-ETF-COMPOSITE-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被拒收。
+- 11-10T16:25 · REPAIR-C-FIN-ETF-COMPOSITE-bm-m.json · 已完成支付失败根因分析与行动规划，当前无技术风险但需人工介入排查。
+- 11-10T16:25 · REPAIR-asset-lib-char-gen-2026-11-06-acceptance.json · 已完成机队回执提交，但被拒因交付物非预期文档。
+- 11-10T16:25 · REPAIR-asset-lib-char-gen-2026-11-06-bm-m.json · 已完成支付流程故障诊断，建议运维排查接口拥塞风险。
+- 11-10T16:25 · REPAIR-Q-MV-0001-003-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物，无风险。
+- 11-10T16:25 · REPAIR-Q-MV-0001-003-bm-m.json · 已完成故障根因分析与修复方案制定，无当前风险。
