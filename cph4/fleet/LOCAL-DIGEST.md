@@ -5866,3 +5866,6 @@
 - 11-11T02:49 · REPAIR-asset-lib-asset-gen-2026-11-11-bm-m.json · 已完成机队回执生成，但存在因资源耗尽导致任务阻塞的风险。
 - 11-11T02:49 · NODE-SYNC-bm-c-20261111-bm-c.json · 同步机队失败，因文件被占用导致无法创建索引锁。
 - 11-11T02:49 · NODE-SYNC-bm-c-20261111-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物，无风险。
+- 11-11T02:51 · _last_lane_bm-m.json · 资产修复任务已推迟，因无可用分配资源而存在执行风险。
+- 11-11T02:51 · REPAIR-asset-lib-asset-gen-2026-11-11-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物，存在流程风险。
+- 11-11T02:51 · REPAIR-asset-lib-asset-gen-2026-11-11-bm-m.json · 已完成机队故障根因分析与修复指导，无当前运行风险。
