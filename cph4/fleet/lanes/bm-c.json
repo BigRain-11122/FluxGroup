@@ -1,14 +1,14 @@
 {
  "node": "bm-c",
- "ts": "2026-11-10T22:26:30",
+ "ts": "2026-11-10T22:31:15",
  "jobs": [
   {
-   "id": "KN-FILM-GATE-LATEST-20261110",
-   "title": "KN PACK-A 最新复核版跑全片闸（重复帧/亮度/时长三查）",
-   "cmd": "python cph4/fleet/mv-album-001-jay/kn_film_gate.py --film media/mv-album-001-jay/assembly-packA/KN-PACKA-CONFORM-v1-c2171.mp4 --tag gate-rerun",
+   "id": "asset-lib-face-caption-2026-11-10",
+   "title": "[资产储备（角色 LoRA / 音色库）] 人脸数据集打标（vision 草稿，人只校对）",
+   "cmd": "python Tools/fleet/asset_caption.py --dir media/asset/faces --out cph4/fleet/queue-receipts/asset-caption-2026-11-10.json",
    "cwd": "",
-   "needs": "cpu",
-   "deliverable": "",
+   "needs": "gpu",
+   "deliverable": "cph4/fleet/queue-receipts/asset-caption-2026-11-10.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",

@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-10T22:30:20",
+ "ts": "2026-11-10T22:31:15",
  "jobs": [
   {
    "id": "GRID-F3-20261110T2130",
@@ -59,7 +59,7 @@
    "timeout_s": null
   }
  ],
- "idle_reason": "",
+ "idle_reason": "control-plane heartbeat",
  "lane_ok": true,
  "capacity_note": "ram 13.7/1.0 GB"
 }
