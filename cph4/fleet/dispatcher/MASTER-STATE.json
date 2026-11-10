@@ -1,40 +1,40 @@
 {
- "ts": "2026-11-11T05:45:18",
- "cycle": 1169,
+ "ts": "2026-11-11T05:48:41",
+ "cycle": 1170,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-11T05:45:18",
+ "master_tick_ts": "2026-11-11T05:48:41",
  "queue": {
   "total": 2069,
   "open": 5,
-  "running": 4,
-  "done": 764,
-  "failed": 4
+  "running": 2,
+  "done": 765,
+  "failed": 5
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 4.9,
-   "cpu_load_pct": 63,
-   "ram_free_gb": 29.6,
-   "gpu_util_pct": 91,
-   "job": "NODE-SYNC-bm-a-20261111T0513",
+   "hb_age_s": 26.8,
+   "cpu_load_pct": 60,
+   "ram_free_gb": 23.7,
+   "gpu_util_pct": 90,
+   "job": null,
    "last_result": {
-    "job": "R-NEXT-BIGSTREAMM-REBUILD-20261111",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-11T05:40:36",
+    "job": "NODE-SYNC-bm-a-20261111T0513",
+    "state": "FAILED",
+    "rc": 128,
+    "ts": "2026-11-11T05:47:27",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": false,
-   "idle_reason": "",
+   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
    "idle_rounds": 0
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 70.6,
+   "hb_age_s": 200.5,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -46,17 +46,17 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 42.0,
-   "cpu_load_pct": 16,
-   "ram_free_gb": 3.3,
+   "hb_age_s": 66.1,
+   "cpu_load_pct": 18,
+   "ram_free_gb": 0.8,
    "gpu_util_pct": 0,
-   "job": "GAP-BIGGAME-BMC-2",
+   "job": "GAP-ASSETLIB-BMC-2",
    "last_result": {
-    "job": null,
-    "state": "IDLE",
-    "rc": null,
-    "ts": "2026-11-11T05:44:49",
-    "reason": "CAPACITY-BLOCKED-RAM ram 0.7/1.0 GB",
+    "job": "GAP-BIGGAME-BMC-2",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-11T05:48:17",
+    "reason": null,
     "out_bytes": null,
     "elapsed_s": null
    },
@@ -66,30 +66,30 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 2.0,
-   "cpu_load_pct": 28,
-   "ram_free_gb": 11.8,
+   "hb_age_s": 1.6,
+   "cpu_load_pct": 3,
+   "ram_free_gb": 17.1,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-11T05:45:06",
-    "reason": "SELF-DISPATCH: lane scans its own backlog",
+    "ts": "2026-11-11T05:48:07",
+    "reason": "control-plane heartbeat",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 4
+   "idle_rounds": 5
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 4
+  "bm-m": 5
  },
  "lines": {
   "bigstream-mv": {
@@ -155,10 +155,8 @@
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "游戏席",
-   "jobs": [
-    "GAP-BIGGAME-BMC-2"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": null,
    "stuck_stage": "game-design",
@@ -270,14 +268,12 @@
   "fleet-ops": {
    "name": "机队运维·端到端自检（平台服务线）",
    "status": "ACTIVE",
-   "verdict": "WORKING",
+   "verdict": "WAITING",
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
-   "jobs": [
-    "NODE-SYNC-bm-a-20261111T0513"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": null
   },
@@ -856,19 +852,23 @@
  },
  "supply_added": [],
  "events": [
-  "GAP-BIGGAME-BMC-2 -> bm-c (cpu)",
+  "NODE-SYNC-bm-a-20261111T0513 FAILED via bm-a",
+  "GAP-BIGGAME-BMC-2 DONE via bm-c",
+  "GAP-ASSETLIB-BMC-2 REQUeued attempt=1",
+  "GAP-MV-BMC-2 REQUeued attempt=1",
   "GAP-ASSETLIB-BMC-2 -> bm-c (cpu)",
   "GAP-MV-BMC-2 -> bm-c (cpu)"
  ],
  "violations": [
-  "bm-m IDLE-CONFIRMED x4 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-m IDLE-CONFIRMED x5 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED bigstream-mv 卡在 立意/分镜/导演席 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-b",
-  "bm-c"
+  "bm-a",
+  "bm-c",
+  "bm-m"
  ]
 }
