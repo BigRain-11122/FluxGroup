@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-11T00:17:40",
+ "ts": "2026-11-11T00:18:06",
  "jobs": [
   {
    "id": "R-MODEL-RADAR-BMM-20261111",
@@ -12,20 +12,6 @@
    "need_mb": null,
    "model": "none",
    "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "REPAIR-asset-lib-env-check-2026-11-11",
-   "title": "[repair] asset-lib-env-check-2026-11-11 的根因与下一步",
-   "cmd": "",
-   "cwd": null,
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/repairs/asset-lib-env-check-2026-11-11.md",
-   "need_mb": null,
-   "model": "local-small",
-   "prompt": "这张卡失败了。请只依据给出的证据，写一页诊断：①最可能的根因 ②下一步具体动作（谁、做什么、怎么验证）。不要编造文件或命令。\n\n证据：状态=FAILED；备注=；交付物=cph4/fleet/queue-receipts/asset-env-2026-11-11.json；重试=None",
    "when_all": [],
    "llm": null,
    "timeout_s": null
@@ -75,5 +61,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 14.8/1.0 GB"
+ "capacity_note": "ram 15.3/1.0 GB"
 }

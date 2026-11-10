@@ -1,20 +1,20 @@
 {
- "ts": "2026-11-11T00:17:38",
- "cycle": 1072,
+ "ts": "2026-11-11T00:18:06",
+ "cycle": 1073,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-11T00:17:38",
+ "master_tick_ts": "2026-11-11T00:18:06",
  "queue": {
-  "total": 1982,
-  "open": 9,
-  "running": 21,
-  "done": 709,
+  "total": 1983,
+  "open": 10,
+  "running": 19,
+  "done": 710,
   "failed": 0
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 17.1,
+   "hb_age_s": 51.5,
    "cpu_load_pct": 85,
    "ram_free_gb": 14.8,
    "gpu_util_pct": 0,
@@ -34,16 +34,16 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 32.6,
-   "cpu_load_pct": 8,
-   "ram_free_gb": 9.1,
-   "gpu_util_pct": 27,
+   "hb_age_s": 11.1,
+   "cpu_load_pct": 6,
+   "ram_free_gb": 8.9,
+   "gpu_util_pct": 25,
    "job": "R-PLAN-BIGDOMAIN-20261111",
    "last_result": {
-    "job": "Q-TRIAGE-BIGGAME-20261111",
+    "job": "R-MODEL-RADAR-BMB-20261111",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-11T00:16:53",
+    "ts": "2026-11-11T00:17:50",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -54,7 +54,7 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 108.9,
+   "hb_age_s": 143.3,
    "cpu_load_pct": 14,
    "ram_free_gb": 3.1,
    "gpu_util_pct": 0,
@@ -74,16 +74,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 1.7,
-   "cpu_load_pct": 5,
-   "ram_free_gb": 14.8,
+   "hb_age_s": 1.6,
+   "cpu_load_pct": 9,
+   "ram_free_gb": 15.3,
    "gpu_util_pct": null,
    "job": "R-MODEL-RADAR-BMM-20261111",
    "last_result": {
-    "job": "UNBLOCK-VERIFY-FIN-ETF-COMPOSITE",
-    "state": "RUNNING",
-    "rc": null,
-    "ts": "2026-11-11T00:17:07",
+    "job": "REPAIR-asset-lib-env-check-2026-11-11",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-11T00:18:02",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -321,14 +321,16 @@
    "owner": "资产席",
    "jobs": [
     "asset-lib-voice-corpus-2026-11-11",
-    "REPAIR-asset-lib-env-check-2026-11-11",
     "UNBLOCK-asset-lib-face-caption-2026-11-10",
     "asset-lib-face-caption-2026-11-11",
     "asset-lib-library-check-2026-11-11",
-    "asset-lib-char-prompts-2026-11-11"
+    "asset-lib-char-prompts-2026-11-11",
+    "asset-lib-asset-gen-2026-11-11"
    ],
    "no_supply": false,
-   "blockers": [],
+   "blockers": [
+    "asset-lib-asset-gen-2026-11-11:no-lane"
+   ],
    "note": "CEO 2026-11-03：先储备资产，角色 LoRA 与音色库为 P0"
   }
  },
@@ -879,31 +881,21 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 9,
+  "local": 5,
   "cloud": 0,
-  "queue": 0,
+  "queue": 5,
   "blocked": 0,
   "cloud_spend_today": 0,
   "waste": []
  },
  "supply_gap": {
   "cpu": 9,
-  "gpu": 0
+  "gpu": 1
  },
- "supply_added": [
-  "backlog_manifest+3"
- ],
+ "supply_added": [],
  "events": [
-  "R-PLAN-BIGCOMPUTE-20261111 UNVERIFIED(no-artifact-yet) via bm-a",
-  "Q-TRIAGE-BIGGAME-20261111 UNVERIFIED(no-artifact-yet) via bm-b",
-  "NODE-SYNC-bm-a-20261111 -> bm-a (cpu)",
-  "asset-lib-face-caption-2026-11-11 -> bm-c (gpu)",
-  "asset-lib-library-check-2026-11-11 -> bm-b (cpu)",
-  "asset-lib-char-prompts-2026-11-11 -> bm-c (cpu)",
-  "R-PLAN-BIGDOMAIN-20261111 -> bm-b (cpu)",
-  "R-PLAN-BIGMONEY-20261111 -> bm-b (cpu)",
-  "R-MODEL-RADAR-BMM-20261111 -> bm-m (cpu)",
-  "Q-TRIAGE-ASSETLIB-20261111 -> bm-c (cpu)"
+  "R-MODEL-RADAR-BMB-20261111 UNVERIFIED(no-artifact-yet) via bm-b",
+  "REPAIR-asset-lib-env-check-2026-11-11 DONE via bm-m"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 立意/分镜/导演席 (导演席（自决推进，CEO 巡视可随时否决）)",
@@ -912,9 +904,7 @@
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-a",
   "bm-b",
-  "bm-c",
   "bm-m"
  ]
 }
