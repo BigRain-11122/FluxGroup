@@ -398,3 +398,10 @@
 [2026-11-10 23:21] FLAG CLOCK-SKEW max=3651.4ms precision=+/-424.4ms -> check hub path or node clock
 [2026-11-10 23:21] FLAG BLOCKED-RAM lane=bm-c -> P1 free memory before assigning
 [2026-11-10 23:21] pools: bm-a=3open/0exec/3run bm-b=0open/0exec/2run bm-c=0open/0exec/1run; queue_open=5 run=6 lanejobs: a=3 b=1 c=1; idle: a=BUSY b=GPU-IDLE c=BLOCKED-RAM; flags=2
+[2026-11-11 00:47] EVENT-SHIFT R32 carrier-trigger(DL 22:31-23:21 + 00:31/00:41) calls=18 verdict=ACTIONED
+[2026-11-11 00:47] finding bm-b: tailscale OFFLINE (last seen 23m, tx 2964 rx 0) + receipts 零 24h (末笔 2026-11-10 00:19:36) -> LANE-DOWN 是真离线, 非 FleetLink 服务死; bm-m 00:37 已提交 blockers 行 5e31ba3a1
+[2026-11-11 00:47] finding queue: origin 完整 1992 行 (DONE 718/OPEN 11/RUNNING 10/BLOCKED 14/UNVERIFIED 3/FAILED 2), local==origin 0 差异 -> 本班早前 329 行读数为 PS 管道假读数, 已勘误, 供给未枯竭
+[2026-11-11 00:47] action STALLED-WORKER: bigmoney-signal-2026-11-11 bm-b->bm-a(hard 含 bm-a); R-MODEL-RADAR-BMB 退 OPEN+补 hard_nodes=[bm-b](防跨机错领); VERIFY-FIN-ETF-COMPOSITE bm-b->bm-a(retries 3->0, cmd 纯仓库读); R-NEXT-BIGSTREAMD-TTS-QC-20261109 收窄 bm-b + BLOCKED(host-offline:bm-b)
+[2026-11-11 00:47] bm-c: v1.9.7 OK cpu 77% ram_free 1.5G < 2.4G 地板 -> BLOCKED-RAM 为真(非假红); 名下 asset-lib-face-caption RUNNING 在产; 3 张 GPU 卡(asset-gen/char-gen/scenes) 候 RAM+ComfyUI
+[2026-11-11 00:47] CLOCK: bm-b MISSING=离线同源; bm-c +2054ms precision 31.1ms = 真偏 (bm-a -0.1ms 正常); w32time STOPPED 提权件(R2.38/R4-4/R11-6 家族) 零催办
+[2026-11-11 00:47] poke bm-a accepted=True wakes=(空, 认领环原生 PT1M 在跑 _last_lane_bm-a 00:44:57 rc=0); bm-b 零 poke(离线, poke 不造供给)
