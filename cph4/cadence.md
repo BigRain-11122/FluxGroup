@@ -199,3 +199,15 @@ CEO 一句话令（任意会话/任意机器）
 |---|---|---|---|---|
 | selfdrive | 15min，≤4 张 | 机队自驱（从真实缺口造卡） | repairs/*.md + BACKLOG | 只造"修复分析/解锁"两类，不编业务卡；派单仍归 master_agent |
 
+
+### 2026-11-10 智能体职责扩展（T2·否决窗至 2026-11-17）
+
+| 角色 | 任务 | 周期 | 模型 | 产物 |
+|---|---|---|---|---|
+| 作战参谋 | local_planner | 每日 08:00 | 4B-MLX | PLAN-TODAY.md（今日 5 件事） |
+| 代码评审 | local_reviewer | 每日 02:30 | 4B-MLX | REVIEWS/REVIEW-YYYYMMDD.md |
+| 验收初审 | local_auditor | 每 10min | 4B-MLX | state/local-audit.jsonl |
+| 自驱修复 | selfdrive | 每 15min | 4B-MLX | repairs/*.md |
+| 工程理解 | repo_deep | 每 5min | 4B-MLX | state/deep-summaries.jsonl |
+
+原则：这些角色都只读+产出建议/分析，不直接改队列；落地动作仍由规则脚本或人执行。
