@@ -5304,3 +5304,14 @@
 - 11-10T23:58 · REPAIR-GAP-ASSETLIB-C-20261111-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
 - 11-10T23:59 · REPAIR-GAP-ASSETLIB-C-20261111-bm-m.json · 已完成故障根因分析与修复方案制定，存在流程阻塞风险。
 - 11-10T23:59 · _last_claim.json · 机队已空，无风险。
+- 11-11T00:01 · UNBLOCK-MV-STAB-0001-003-OUT-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效文档。
+- 11-11T00:01 · UNBLOCK-MV-STAB-0001-003-OUT-bm-m.json · 已完成机队解锁，无风险。
+- 11-11T00:01 · UNBLOCK-MV-DIRECTOR-PACKET-20261109-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
+- 11-11T00:01 · UNBLOCK-MV-DIRECTOR-PACKET-20261109-bm-m.json · 任务完成但存在权限不足风险，需授权 bm-a 执行重启或配置修改。
+- 11-11T00:01 · REPAIR-GAP-ASSETLIB-C-20261111-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物且存在合规风险。
+- 11-11T00:01 · REPAIR-GAP-ASSETLIB-C-20261111-bm-m.json · 已完成资产库归档任务的人工干预与重试，无系统风险但需人工介入。
+- 11-11T00:01 · _last_lane_bm-m.json · 已完成机队修复任务，无风险。
+- 11-11T00:01 · REPAIR-PRODUCE-FLUXVERSE-20261110-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
+- 11-11T00:01 · REPAIR-PRODUCE-FLUXVERSE-20261110-bm-m.json · 任务因资源租约过期失败，需排查队列状态并手动重执行以修复。
+- 11-11T00:01 · skill-promote-20261110.json · 已完成部分任务，因工具缺失导致多项关键技能无法执行。
+- 11-11T00:02 · self-improve-bm-m-latest.json · 机队已完成回执提交并清理了旧壳，无风险。
