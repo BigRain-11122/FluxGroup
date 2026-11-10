@@ -1,0 +1,17 @@
+{
+ "id": "VERIFY-FIN-ETF-COMPOSITE",
+ "node": "bm-a",
+ "rc": 0,
+ "seconds": 0.3,
+ "cmd": "python -c \"import os;p='quant/bigmoney/results/etf_composite_pf.json';print(p,os.path.exists(p),os.path.getsize(p) if os.path.exists(p) else 0)\" > cph4/fleet/reports/verify-fin-etf-composite.txt 2>&1",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "cph4/fleet/reports/verify-fin-etf-composite.txt",
+ "deliverable_exists": true,
+ "ts": "2026-11-11T00:54:35",
+ "stdout_tail": "",
+ "stderr_tail": ""
+}
