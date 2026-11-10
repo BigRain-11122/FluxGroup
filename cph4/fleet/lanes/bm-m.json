@@ -1,31 +1,17 @@
 {
  "node": "bm-m",
- "ts": "2026-11-10T20:38:39",
+ "ts": "2026-11-10T20:42:41",
  "jobs": [
   {
-   "id": "R-TRIAGE-BIGCOMPUTE-BMB-20261108",
-   "title": "BigCompute·硅基算力 线证据扫描（bm-b 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigcompute --node bm-b",
-   "cwd": "",
+   "id": "REPAIR-CMD-DSH-20261110T1929",
+   "title": "[repair] CMD-DSH-20261110T1929 的根因与下一步",
+   "cmd": "",
+   "cwd": null,
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigcompute-bm-b-20261108.md",
+   "deliverable": "cph4/fleet/repairs/CMD-DSH-20261110T1929.md",
    "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "MV-DIRECTOR-PACKET-20261109",
-   "title": "导演席拉片包：KN 复核卷一页卷（成片+闸+证据+签字位）",
-   "cmd": "python Tools/fleet/review_packet.py --line kn --root .",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/review-packet-kn-20261109.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
+   "model": "local-small",
+   "prompt": "这张卡失败了。请只依据给出的证据，写一页诊断：①最可能的根因 ②下一步具体动作（谁、做什么、怎么验证）。不要编造文件或命令。\n\n证据：状态=FAILED；备注=3 次未成，停线待根因：STALL: 3273s 无新输出（sig=0），释放；交付物=cph4/fleet/reports/bm-a-ack.md；重试=3",
    "when_all": [],
    "llm": null,
    "timeout_s": null
@@ -33,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 10.7/1.0 GB"
+ "capacity_note": "ram 11.0/1.0 GB"
 }
