@@ -1,13 +1,13 @@
 {
  "node": "bm-m",
- "ts": "2026-11-11T03:31:25",
+ "ts": "2026-11-11T03:35:14",
  "mode": "apply",
  "verdict": "SELF-OK",
  "checks": [
   {
    "check": "reload",
-   "code_age_s": 2528,
-   "receipt_age_s": 37,
+   "code_age_s": 2758,
+   "receipt_age_s": 15,
    "targets": [],
    "acted": false,
    "note": "executor produced a receipt after the last code edit",
@@ -16,12 +16,11 @@
   },
   {
    "check": "shells",
-   "cards": 3,
-   "shells": 3,
+   "cards": 2,
+   "shells": 2,
    "ids": [
     "REPAIR-PRODUCE-ICONS-BIGGAME-20261111",
-    "UNBLOCK-GAP-ASSETLIB-BMA-20261111",
-    "UNBLOCK-PEER-SYNC-bm-c-20261111"
+    "UNBLOCK-GAP-ASSETLIB-BMA-20261111"
    ],
    "acted": true,
    "kept": 0,
