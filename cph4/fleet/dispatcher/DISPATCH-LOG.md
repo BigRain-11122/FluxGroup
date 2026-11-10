@@ -6,6 +6,7 @@
 [2026-11-08 19:31] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
 [2026-11-08 19:31] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
 [2026-11-08 19:31] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=2 run=1 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=BUSY; flags=2
+[2026-11-08 19:31] pools: bm-a=1open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/1run; queue_open=2 run=1 lanejobs: a=0 b=0 c=0; idle: a=BUSY b=GPU-IDLE c=BUSY; flags=2
 [2026-11-08 19:41] FLAG CLOCK-SKEW max=2631.8ms precision=+/-422.9ms -> check hub path or node clock
 [2026-11-08 19:41] INFO WAITING-CEO lane=bm-a open=1 all CEO-physical -> registered, zero chase
 [2026-11-08 19:41] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
@@ -398,3 +399,14 @@
 [2026-11-11 01:31] FLAG CLOCK-UNALIGNED old_schema=0 missing=1 -> P1 upgrade node heartbeat to v2 (ms ts+offset)
 [2026-11-11 01:31] FLAG LANE-DOWN lane=bm-b verdict=OFFLINE -> P1 page lane owner
 [2026-11-11 01:31] pools: bm-a=3open/0exec/5run bm-b=0open/0exec/2run bm-c=0open/0exec/1run; queue_open=9 run=9 lanejobs: a=5 b=3 c=1; idle: a=BUSY b=OFFLINE c=GPU-IDLE; flags=2
+
+[2026-11-11 01:47] PATROL cph4 R32 | calls≈24 (shell=11) | verdict=TRIGGER-CROSS-DOMAIN(执行域真事故·非噪声·本域后果=研究产能二次受阻)+6NEW(1P1+3P2+2P3)+3CARRIED+1INFO | 触发=bm-b OFFLINE 6tick(00:51-01:31)+STARVED-EXEC/pools 锯齿+bigcompute R42/fluxverse R61 收口行 → 本域零动作权(离线机 poke 不造供给) | 雷达实测=①五律 近12件1件超60行(63L)·应用表3/12·验证声明3/12(口径待裁)+repairs 出现2件1行件 ②防线二标记150/252=59.5% ③能力表21.4d未更新·新skill family-producer(10-23)未入列 ④必读三件33,369B=32.6KB·registry三件31,837B=31.1KB→**双口径皆越30KB帽**第5轮 ⑤research/ 14.1d零新增(263件存量) vs repairs/ 7件=产线错位 ⑥巡检面零产品码零直写=合规 | 新P2=治理面72件(docs35+cph4 37·11-08=61·3日+11全为代理席批产物)+decisions.md 分卷后2天再269.5KB+1行unblock声明把执行者钉离线机bm-b | 新P3=能力表无探针+PS `Get-Content -Raw` 缺Encoding致中文正则全0假读数(首采12/12→真值3/12·NJ-R32-7) | snooze 7条改**去时间戳前缀**(按 carrier L90 `$f.Contains(prefix)` 实证 14→1 active·历次带时间戳列对新行恒不命中) | NJ 7条落 media/logs/patrol-fleet/NEED-JUDGMENT-cph4.md
+[2026-11-11 01:51] FLAG CLOCK-UNALIGNED old_schema=0 missing=1 -> P1 upgrade node heartbeat to v2 (ms ts+offset)
+[2026-11-11 01:51] FLAG STARVED-EXEC lane=bm-a open_cards=3 blocked=3 running=0 -> P1 supply failure: no executable card
+[2026-11-11 01:51] FLAG LANE-DOWN lane=bm-b verdict=OFFLINE -> P1 page lane owner
+[2026-11-11 01:51] FLAG STARVED-EXEC lane=bm-b open_cards=0 blocked=0 running=0 -> P1 supply failure: no executable card
+[2026-11-11 01:51] pools: bm-a=3open/0exec/0run bm-b=0open/0exec/0run bm-c=0open/0exec/2run; queue_open=10 run=2 lanejobs: a=0 b=0 c=2; idle: a=BUSY b=OFFLINE c=GPU-IDLE; flags=4
+
+[2026-11-11 01:52] PATROL fluxverse R62 | calls≈20 (shell=17, dedicated=3) | verdict=TRIGGER-ALL-OTHER-DOMAIN(19/19 snoozed)+RADAR-4PASS-2WATCH-1FAIL+1-ERRATA+5-CARRIED | 承载：statusface 冻结109.6h/DevLoop Disabled(1316 missed·复工漏复第16轮)·fleet_online 仍1(假心跳 online_true=0)·路径泄露第8轮 | 勘误：R61-5① 27,111B 差=chars vs bytes 量纲假缺陷已撤 | 新 P2：benchmarks WARN 100%轮次(同根)
+
+[2026-11-11 01:55] EVENT-SHIFT R33 | calls=38 (shell=36) | verdict=DISPATCHED-NOT-YET-BURNING + 3-CORRECTED | 触发=DL 22:31/23:01/23:11 CLOCK-SKEW×3 + 23:01 STARVED-EXEC bm-a + 23:11/23:21 BLOCKED-RAM bm-c（承载件） | ①CLOCK 承R31不重立法：01:34 CLOCK-SKEW.json hub bm-a -0.3ms(σ0.3)·bm-b MISSING(离线同源)·bm-c +4194ms(σ433.7)，Δ/σ=9.7<11-10提案动作线10倍→OBSERVE档 ②STARVED-EXEC bm-a=resolved（01:24-01:25 bm-a 出6份回执、pools a=GPU-IDLE） ③BLOCKED-RAM bm-c=假因修正：RAM 2.6→3.2G > ram_gate 地板1.0G（fleet_lane.ram_gate 实读），真堵点=全机队无 ComfyUI 在服务（bm-c 三张 GPU 卡 blocked_by=missing-input:comfyui@bm-c；同卡在 bm-a 跑亦报 WinError 10061；asset_gen/char_gen 只连 127.0.0.1:8188） | 四落单=COMFY-UP-BMC-20261111(P0/hard_nodes bm-c/need_mb 6000/comfy_guard+char_gen --probe-only 出回执为验收物) commit 72225cdec 已上 origin（card-contract PASS）；poke×3(01:40:45/01:43:02/01:48:21 全accepted)→01:53 复探 state=OPEN/owner=bm-c/未燃：单槽被 NODE-SYNC-bm-c-20261111(01:50:16 RUNNING)占用=排队非故障 | 五bm-b 三面复核仍离线（TCP 8790 超时、MiniGame b.json ts=10-29、quant bm-b.json mtime=10-30）＝物理件零催办；名下已无在飞卡 | 六新发现：gpu_lease ttl=7200s且 lane_agent 对 rc=2(LEASE-BUSY) 一律 defer 且无可见错误→被杀的 GPU 卡可让整机 GPU 线静默停2h（待裁）

@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-11T01:42:13+0800",
+ "ts": "2026-11-11T01:57:23+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -27,8 +27,8 @@
    "accept": "SUBMIT-PACK 里『隐私政策』『提审台账』两类缺件归零",
    "blocker_type": "CEO",
    "blocker": "截图需跑游戏取图，受 2026-10-28『不许自动跑游戏包』令约束，等放行",
-   "state": "QUEUED",
-   "card": "UNBLOCK-biggame-accept-2026-11-11",
+   "state": "STALLED",
+   "card": null,
    "running_on": null
   },
   {
@@ -222,15 +222,15 @@
    "accept": "flux_check new=0；AUTOMATION-SURFACE 无 RISK 项",
    "blocker_type": "ENGINE",
    "blocker": "I2 存量 125 条卡面路径债、vault 缺盘 651 条",
-   "state": "RUNNING",
-   "card": "NODE-SYNC-bm-c-20261111",
-   "running_on": "bm-c"
+   "state": "QUEUED",
+   "card": "COMFY-UP-BMC-20261111",
+   "running_on": null
   }
  ],
  "counts": {
-  "RUNNING": 2,
+  "RUNNING": 1,
   "QUEUED": 4,
-  "STALLED": 9
+  "STALLED": 10
  },
  "stalled_engine": 5
 }

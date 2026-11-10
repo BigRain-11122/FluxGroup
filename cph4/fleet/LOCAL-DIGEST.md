@@ -5733,3 +5733,8 @@
 - 11-11T01:53 · _last_lane_bm-m.json · 机队已自派完成回单扫描，无风险。
 - 11-11T01:53 · NODE-SYNC-bm-c-20261111-bm-c.json · 已完成机队同步与报告生成，无风险。
 - 11-11T01:53 · NODE-SYNC-bm-c-20261111-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被驳回。
+- 11-11T01:55 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
+- 11-11T01:55 · NODE-SYNC-bm-c-20261111-bm-c.json · 已完成机队同步与报告生成，无风险。
+- 11-11T01:55 · NODE-SYNC-bm-c-20261111-acceptance.json · 完成节点同步回执提交，但被拒收因非有效交付物。
+- 11-11T01:57 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
+- 11-11T01:57 · _last_lane_bm-m.json · 机队已自派完成回单扫描，无风险。
