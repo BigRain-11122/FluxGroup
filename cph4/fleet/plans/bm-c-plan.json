@@ -1,21 +1,21 @@
 {
- "ts": "2026-11-10T22:51:54",
+ "ts": "2026-11-10T23:01:55",
  "node": "bm-c",
  "paused": false,
  "verdict": "BUSY",
  "capacity": {
   "gpu": {
    "util_pct": 0,
-   "used_mb": 1287,
+   "used_mb": 1305,
    "total_mb": 16384
   },
-  "ram_free_gb": 4.43,
-  "vram_free_mb": 15097,
+  "ram_free_gb": 4.26,
+  "vram_free_mb": 15079,
   "lease_held": false,
   "can_gpu": true,
   "can_cpu": true
  },
- "idle_min": 1.0,
+ "idle_min": 0.0,
  "assigned": [
   {
    "kind": "assigned",
@@ -28,8 +28,17 @@
   },
   {
    "kind": "assigned",
-   "id": "R-TRIAGE-BIGMONEY-BMC-20261110",
-   "title": "BigMoney·量化 线证据扫描（bm-c 本机可判面）",
+   "id": "GAP-BIGGAME-ART-20261111",
+   "title": "[gap] biggame 图标/截图缺口清单（bm-c）",
+   "prio": null,
+   "needs": "cpu",
+   "feasible": true,
+   "reason": "master lane file (authority)"
+  },
+  {
+   "kind": "assigned",
+   "id": "GAP-ASSETLIB-CAP-20261111",
+   "title": "[gap] asset-lib 打标进度证据（bm-c）",
    "prio": null,
    "needs": "cpu",
    "feasible": true,
@@ -48,30 +57,21 @@
   },
   {
    "kind": "assigned",
-   "id": "R-TRIAGE-BIGMONEY-BMC-20261110",
-   "title": "BigMoney·量化 线证据扫描（bm-c 本机可判面）",
+   "id": "GAP-BIGGAME-ART-20261111",
+   "title": "[gap] biggame 图标/截图缺口清单（bm-c）",
    "prio": null,
    "needs": "cpu",
    "feasible": true,
    "reason": "master lane file (authority)"
   },
   {
-   "kind": "queue",
-   "id": "GAP-ASSETLIB-AUDIT-20261110B",
-   "title": "[gap] asset-lib 缺口盘点（改派 bm-c）",
-   "prio": "P0",
+   "kind": "assigned",
+   "id": "GAP-ASSETLIB-CAP-20261111",
+   "title": "[gap] asset-lib 打标进度证据（bm-c）",
+   "prio": null,
    "needs": "cpu",
    "feasible": true,
-   "reason": "queue row OPEN"
-  },
-  {
-   "kind": "queue",
-   "id": "LICENSE-LEDGER-20261110B",
-   "title": "[gap] 商用素材来源清单（改派 bm-c）",
-   "prio": "P1",
-   "needs": "cpu",
-   "feasible": true,
-   "reason": "queue row OPEN"
+   "reason": "master lane file (authority)"
   },
   {
    "kind": "backlog",
@@ -112,8 +112,8 @@
  ],
  "dispatched_now": null,
  "counts": {
-  "open_backlog": 5,
-  "open_queue": 19,
+  "open_backlog": 6,
+  "open_queue": 14,
   "bank_pending": 0
  }
 }
