@@ -344,6 +344,12 @@ def normalize_line(r):
     INFRA = ("CHK-", "CANARY-", "EVAL-", "DUPES-", "RECEIPT-", "SKILL-", "BANK-", "LINE-TRIAGE-")
     if cid.startswith(INFRA):
         r["line"] = "fleet-ops"
+    # 2026-11-10 根治：prompt 型卡如果没写 model，车道不会执行（lane_agent 只认
+    # model=local-small 才走本地模型），会空转到租约过期再被停线。唯一写入口补齐。
+    if isinstance(r, dict) and str(r.get("prompt") or "").strip()             and not str(r.get("cmd") or "").strip() and not r.get("model"):
+        r["model"] = "local-small"
+        if not (r.get("nodes") or r.get("hard_nodes")):
+            r["nodes"] = ["bm-m"]
     return r
 
 

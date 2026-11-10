@@ -73,6 +73,19 @@ def release(r, why):
         r["error_class"] = (CFG.get("failures") or {}).get("error_class") or "E-ROOTCAUSE-3X"
         r["note"] = "3 次未成，停线待根因：%s" % why
         r.pop("owner", None)
+        # 2026-11-10：停线必须留下可判的题，而不是只写一行 note。
+        try:
+            jp = os.path.join(ROOT, "cph4", "fleet", "dispatcher", "JUDGMENT-QUEUE.jsonl")
+            row = {"id": "JUDGE-3X-%s" % r.get("id"), "kind": "E-ROOTCAUSE-3X",
+                   "state": "OPEN", "ts": time.strftime("%Y-%m-%dT%H:%M:%S"),
+                   "question": "卡 %s 三次未成（%s），根因是什么、下一步怎么做？" % (r.get("id"), why),
+                   "evidence": {"card": r.get("id"), "line": r.get("line"),
+                                "cmd": (r.get("cmd") or "")[:200],
+                                "prompt": (r.get("prompt") or "")[:200]}}
+            with open(jp, "a", encoding="utf-8") as f:
+                f.write(json.dumps(row, ensure_ascii=False) + chr(10))
+        except Exception:
+            pass
         return "blocked"
     r["state"] = "OPEN"
     r["owner"] = None
