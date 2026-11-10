@@ -1,22 +1,22 @@
-# 指挥一屏 2026-11-11T06:20:22
+# 指挥一屏 2026-11-11T06:25:31
 
 _节奏表=COMMAND-CADENCE-v1.json｜本屏由规则从盘上事实算出，未用模型猜数_
 
 ## 现在最重要的一件事
 
-**有 2 张空壳卡（无 cmd），已隔离待重造 —— 查造卡器（A3）**
+**1 张卡返工≥3 次，根因未解 —— 停线诊断，别重派（C2）**
 
 ## A 值守（45 秒档，纯规则）
 
-1. 可派卡 **5** 张｜在飞 **5** 张｜空壳卡隔离 **2** 张
-2. 在飞分布：bm-a=2, bm-c=1, bm-m=2
-3. 返工≥3 次的活卡：**0** 张
+1. 可派卡 **5** 张｜在飞 **2** 张｜空壳卡隔离 **0** 张
+2. 在飞分布：bm-a=2
+3. 返工≥3 次的活卡：**1** 张（R-NEXT-BIGSTREAMM-REBUILD-20261111）
 
 ## B 机队实况（3 分钟档）
 
 - **bm-a** SELF-OK｜reload=OK shells=OK deps=OK｜2026-11-07T22:25
 - **bm-c** SELF-OK｜reload=OK shells=OK deps=OK｜2026-11-06T23:55
-- **bm-m** SELF-OK｜reload=OK shells=PRUNED deps=OK｜2026-11-11T06:16
+- **bm-m** SELF-OK｜reload=OK shells=PRUNED deps=OK｜2026-11-11T06:20
 
 ## C 线与产出（15 分钟档）
 
@@ -41,9 +41,9 @@ ACTIVE 线 10 条｜超 72h 无产物 6 条｜PARKED 5 条（按 CEO 令暂停�
 
 ## E 指挥质量（6 小时档）
 
-1. 队列 2087 行：DONE 770｜FAILED 1｜UNVERIFIED 2｜CANCELLED 858
-2. 完成占比 100%（DONE/773）
-3. 空壳卡累计隔离 2 张（越少越好，涨了就是造卡器又出错）
+1. 队列 2087 行：DONE 773｜FAILED 2｜UNVERIFIED 1｜CANCELLED 860
+2. 完成占比 100%（DONE/776）
+3. 空壳卡累计隔离 0 张（越少越好，涨了就是造卡器又出错）
 
 ## F 需要 CEO 的（≤3 条，其余自决）
 
