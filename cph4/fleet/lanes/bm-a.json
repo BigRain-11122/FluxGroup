@@ -1,14 +1,14 @@
 {
  "node": "bm-a",
- "ts": "2026-11-10T22:41:00",
+ "ts": "2026-11-10T22:45:31",
  "jobs": [
   {
-   "id": "GAP-MV-LINE-20261110",
-   "title": "[gap] bigstream-mv 线证据扫描（bm-a）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigstream-mv --out cph4/fleet/reports/triage-bigstream-mv-20261110.md",
+   "id": "MV-DIRECTOR-PACKET-20261109",
+   "title": "导演席拉片包：KN 复核卷一页卷（成片+闸+证据+签字位）",
+   "cmd": "python Tools/fleet/review_packet.py --line kn --root .",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/triage-bigstream-mv-20261110.md",
+   "deliverable": "cph4/fleet/queue-receipts/review-packet-kn-20261109.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -17,12 +17,12 @@
    "timeout_s": null
   },
   {
-   "id": "GAP-FLUXVERSE-LINE-20261110",
-   "title": "[gap] fluxverse 线证据扫描（bm-a）",
-   "cmd": "python Tools/fleet/line_triage.py --line fluxverse --out cph4/fleet/reports/triage-fluxverse-20261110c.md",
+   "id": "NODE-SYNC-bm-a-2157",
+   "title": "[self-heal] bm-a 分叉收口（本地提交 → backup 分支，HEAD 回 main）",
+   "cmd": "git -C . fetch origin --prune && git -C . branch -f backup/bm-a-2157 HEAD & git -C . reset --hard origin/main && git -C . log -1 --oneline > cph4/fleet/reports/node-sync-bm-a-2157.md",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/triage-fluxverse-20261110c.md",
+   "deliverable": "cph4/fleet/reports/node-sync-bm-a-2157.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -33,5 +33,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 21.2/1.0 GB"
+ "capacity_note": "ram 32.8/1.0 GB"
 }

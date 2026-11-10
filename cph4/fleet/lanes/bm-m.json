@@ -1,7 +1,21 @@
 {
  "node": "bm-m",
- "ts": "2026-11-10T22:43:03",
+ "ts": "2026-11-10T22:45:31",
  "jobs": [
+  {
+   "id": "GRID-O2-20261110T2132",
+   "title": "[grid] O2 自愈：时钟偏移",
+   "cmd": "python -c \"print('no fix defined')\"",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/reports/grid-o2-20261110t2132.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
   {
    "id": "REPAIR-GAP-BIGGAME-PACK-20261110",
    "title": "[repair] GAP-BIGGAME-PACK-20261110 的根因与下一步",
@@ -45,13 +59,7 @@
    "timeout_s": null
   }
  ],
- "idle_reason": "control-plane heartbeat",
+ "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 15.3/1.0 GB",
- "cards": [],
- "pruned_shells": [
-  "REPAIR-GAP-BIGGAME-PACK-20261110",
-  "REPAIR-GAP-BIGMONEY-LINE-20261110",
-  "REPAIR-GAP-ASSETLIB-AUDIT-20261110"
- ]
+ "capacity_note": "ram 14.4/1.0 GB"
 }

@@ -1,14 +1,14 @@
 {
  "node": "bm-b",
- "ts": "2026-11-10T22:38:16",
+ "ts": "2026-11-10T22:45:31",
  "jobs": [
   {
-   "id": "NODE-SYNC-bm-b-2040",
-   "title": "[self-heal] bm-b 分叉收口（2 个本地提交 → reset 到 main）",
-   "cmd": "git -C . fetch origin --prune && git -C . branch -f backup/bm-b-20261110 HEAD & git -C . reset --hard origin/main && git -C . log -1 --oneline > cph4/fleet/reports/node-sync-bm-b-2040.md",
+   "id": "NODE-SYNC-bm-b-20261110",
+   "title": "[self-heal] bm-b 分叉收口（reset 到 origin/main，先留备份分支）",
+   "cmd": "git -C . fetch origin --prune && git -C . branch -f backup/bm-b-20261110 HEAD 2>nul & git -C . reset --hard origin/main && git -C . log -1 --oneline > cph4/fleet/reports/node-sync-bm-b-20261110.md",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/node-sync-bm-b-2040.md",
+   "deliverable": "cph4/fleet/reports/node-sync-bm-b-20261110.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -31,12 +31,12 @@
    "timeout_s": null
   },
   {
-   "id": "LICENSE-LEDGER-20261110",
-   "title": "[gap] 建商用素材授权台账（N2 缺口）",
-   "cmd": "python Tools/fleet/asset_gap_audit.py --json cph4/fleet/reports/asset-license-source-20261110.json",
+   "id": "PEER-SYNC-bm-a-20261110",
+   "title": "[peer-heal] bm-b 用 WinRM 替 bm-a 收口",
+   "cmd": "powershell -NoProfile -Command \"$e=$null; try { Invoke-Command -ComputerName 100.110.185.62 -ScriptBlock { Set-Location 'C:\\Users\\sjs20\\Desktop\\FluxGroup'; git fetch origin --prune; git branch -f backup/bm-a-20261110 HEAD 2>$null; git reset --hard origin/main; git log -1 --oneline } -ErrorAction Stop } catch { $e=$_.Exception.Message }; 'winrm_err='+$e | Out-File -Encoding utf8 cph4/fleet/reports/peer-sync-bm-a-20261110.md\"",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/asset-license-source-20261110.json",
+   "deliverable": "cph4/fleet/reports/peer-sync-bm-a-20261110.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -45,12 +45,12 @@
    "timeout_s": null
   },
   {
-   "id": "PEER-SYNC-bm-a-20261110",
-   "title": "[peer-heal] bm-b 用 WinRM 替 bm-a 收口",
-   "cmd": "powershell -NoProfile -Command \"$e=$null; try { Invoke-Command -ComputerName 100.110.185.62 -ScriptBlock { Set-Location 'C:\\Users\\sjs20\\Desktop\\FluxGroup'; git fetch origin --prune; git branch -f backup/bm-a-20261110 HEAD 2>$null; git reset --hard origin/main; git log -1 --oneline } -ErrorAction Stop } catch { $e=$_.Exception.Message }; 'winrm_err='+$e | Out-File -Encoding utf8 cph4/fleet/reports/peer-sync-bm-a-20261110.md\"",
+   "id": "NODE-SYNC-bm-b-2216",
+   "title": "[self-heal] bm-b 落地新 lane 代码（reset 到 main）",
+   "cmd": "git -C . fetch origin --prune && git -C . branch -f backup/bm-b-2216 HEAD & git -C . reset --hard origin/main && git -C . log -1 --oneline > cph4/fleet/reports/node-sync-bm-b-2216.md",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/peer-sync-bm-a-20261110.md",
+   "deliverable": "cph4/fleet/reports/node-sync-bm-b-2216.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -89,5 +89,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 10.3/1.0 GB"
+ "capacity_note": "ram 10.4/1.0 GB"
 }
