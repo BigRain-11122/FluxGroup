@@ -13,3 +13,4 @@
 | B-PHYS | biglife：居民 3D 接入未通（缺模型资产） | 前置件先做（已配 0 项）+ 触发即解锁；其余线照跑 | CEO（物理件）/ S2（前置件） | 否 |
 | B-PHYS | recon：缺对标样片（需指定片子或授权下载） | 前置件先做（已配 0 项）+ 触发即解锁；其余线照跑 | CEO（物理件）/ S2（前置件） | 否 |
 | B-PHYS | 节点不在线：bm-d | bm-d 需现场装机（物理件）；其余查心跳/调度任务 | CEO（bm-d）/ S7 自愈 | 否 |
+| B-ENV | bm-b 的 git 仓库被卡住的 fetch 占锁（22:16 起 20+ 分钟），后续 reset/切片卡全部排队 | 人工在 bm-b 上删 `index.lock`/`shallow.lock` 并重启 FluxGroup-FleetLink + HQ-ProductionClaim；主控侧已改用"不 fetch 的轻量 reset"避免再触发 | CEO/现场（物理件）；S7 自愈（轻量卡） | 否 |
