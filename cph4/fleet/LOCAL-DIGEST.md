@@ -4828,3 +4828,13 @@
 - 11-10T21:28 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
 - 11-10T21:28 · triage-bigstream-mv-20261110.md · 机队回执显示 4/6 工段超阈，需导演席、美术及剪辑席补产出或正式收线。
 - 11-10T21:31 · _last_lane_bm-m.json · 本地模型失败：timed out
+- 11-10T21:33 · self-improve-bm-m-latest.json · 机队已自测通过并清理旧壳，无风险。
+- 11-10T21:33 · _last_lane_bm-m.json · 已完成 BMC 回执任务，无风险。
+- 11-10T21:33 · REPAIR-CMD-DSH-BMC-ACK-2012-acceptance.json · 机队回执被拒，因交付物非有效产物且无风险。
+- 11-10T21:33 · REPAIR-CMD-DSH-BMC-ACK-2012-bm-m.json · 已完成机队回执修复，根因确认为下游依赖阻塞导致的超时释放。
+- 11-10T21:33 · NODE-SYNC-bm-a-20261110-bm-a.json · 已完成节点同步与报告生成，无风险。
+- 11-10T21:33 · NODE-SYNC-bm-a-20261110-acceptance.json · 完成机队回执提交，但被拒收因交付物非标准产物。
+- 11-10T21:33 · REPAIR-CMD-DSH-BMC-MEM-2012-acceptance.json · 已完成机队回执提交，但交付物不符合要求被拒收。
+- 11-10T21:33 · REPAIR-CMD-DSH-BMC-MEM-2012-bm-m.json · 任务因超时熔断失败，存在资源耗尽或死锁风险，需排查日志并调整策略。
+- 11-10T21:33 · CANARY-20261110T213023-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物。
+- 11-10T21:33 · CANARY-20261110T213023-bm-m.json · 已完成端到端自检并生成产物，无风险。
