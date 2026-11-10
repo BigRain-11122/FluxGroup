@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-11T03:14:24",
+ "ts": "2026-11-11T03:18:19",
  "jobs": [
   {
    "id": "REPAIR-GAP-ASSETLIB-BMA-20261111",
@@ -33,5 +33,10 @@
  ],
  "idle_reason": "control-plane heartbeat",
  "lane_ok": true,
- "capacity_note": "ram 14.1/1.0 GB"
+ "capacity_note": "ram 14.1/1.0 GB",
+ "cards": [],
+ "pruned_shells": [
+  "REPAIR-GAP-ASSETLIB-BMA-20261111",
+  "REPAIR-GAP-MV-BMA-20261111"
+ ]
 }

@@ -5901,3 +5901,8 @@
 - 11-11T03:14 · self-improve-bm-m-latest.json · 机队已确认无风险，代码与依赖均处于最新状态。
 - 11-11T03:16 · _last_lane_bm-m.json · 已完成机队维修任务，当前运行中无风险。
 - 11-11T03:17 · skill-promote-20261111.json · 已完成部分任务，因工具缺失导致多项关键技能无法执行。
+- 11-11T03:18 · _last_lane_bm-m.json · 已完成机队修复任务，无风险。
+- 11-11T03:18 · REPAIR-GAP-MV-BMA-20261111-acceptance.json · 机队回执被拒，因交付物非所需文档且存在合规风险。
+- 11-11T03:18 · REPAIR-GAP-MV-BMA-20261111-bm-m.json · 已完成故障根因分析与修复方案制定，当前状态静止暂无风险。
+- 11-11T03:18 · REPAIR-GAP-ASSETLIB-BMA-20261111-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被拒收。
+- 11-11T03:18 · REPAIR-GAP-ASSETLIB-BMA-20261111-bm-m.json · 资产库剔除任务因租约过期失败，需运维介入调整配置并人工重试。
