@@ -5971,3 +5971,5 @@
 - 11-11T03:45 · NODE-SYNC-bm-c-20261111-acceptance.json · 已完成机队回执提交，但被拒收因交付物非有效产物。
 - 11-11T03:47 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
 - 11-11T03:47 · self-improve-bm-m-latest.json · 机队已确认代码更新且无依赖缺失，当前无风险。
+- 11-11T03:49 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
+- 11-11T03:49 · inference-audit-bm-m-20261111.json · 机队已部署多模型但存在并发配置错误及缺失 Embedding 模型风险。
