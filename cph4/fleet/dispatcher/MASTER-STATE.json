@@ -1,29 +1,29 @@
 {
- "ts": "2026-11-10T22:38:15",
- "cycle": 1037,
+ "ts": "2026-11-10T22:41:00",
+ "cycle": 1038,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-10T22:38:15",
+ "master_tick_ts": "2026-11-10T22:41:00",
  "queue": {
-  "total": 1913,
+  "total": 1916,
   "open": 8,
   "running": 12,
-  "done": 672,
-  "failed": 5
+  "done": 674,
+  "failed": 6
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 1.9,
-   "cpu_load_pct": 67,
-   "ram_free_gb": 27.4,
-   "gpu_util_pct": 56,
-   "job": "MV-STAB-0001-003-OUT",
+   "hb_age_s": 44.2,
+   "cpu_load_pct": 45,
+   "ram_free_gb": 21.2,
+   "gpu_util_pct": 52,
+   "job": "GAP-MV-LINE-20261110",
    "last_result": {
-    "job": "GAP-BIGGAME-PACK-20261110",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-10T22:36:47",
+    "job": "MV-STAB-0001-003-OUT",
+    "state": "FAILED",
+    "rc": 2,
+    "ts": "2026-11-10T22:39:40",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -34,8 +34,8 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 19.1,
-   "cpu_load_pct": 2,
+   "hb_age_s": 66.1,
+   "cpu_load_pct": 11,
    "ram_free_gb": 10.3,
    "gpu_util_pct": 2,
    "job": "NODE-SYNC-bm-b-2040",
@@ -54,16 +54,16 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 25.7,
-   "cpu_load_pct": 22,
-   "ram_free_gb": 3.9,
+   "hb_age_s": 10.8,
+   "cpu_load_pct": 14,
+   "ram_free_gb": 4.3,
    "gpu_util_pct": 0,
    "job": "asset-lib-face-caption-2026-11-10",
    "last_result": {
-    "job": "GAP-BIGMONEY-C-LINE-20261110",
+    "job": "R-TRIAGE-FLUXVERSE-BMC-20261110",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-10T22:38:05",
+    "ts": "2026-11-10T22:40:25",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -74,16 +74,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 1.5,
-   "cpu_load_pct": 10,
-   "ram_free_gb": 15.4,
+   "hb_age_s": 2.1,
+   "cpu_load_pct": 35,
+   "ram_free_gb": 15.3,
    "gpu_util_pct": null,
-   "job": "GRID-G1-20261110T2227",
+   "job": "REPAIR-GAP-BIGGAME-PACK-20261110",
    "last_result": {
-    "job": "GRID-O2-20261110T2132",
+    "job": "GRID-G1-20261110T2227",
     "state": "FAILED",
     "rc": 0,
-    "ts": "2026-11-10T22:37:27",
+    "ts": "2026-11-10T22:40:54",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -108,7 +108,6 @@
    "stale_after_h": 24.0,
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
    "jobs": [
-    "MV-STAB-0001-003-OUT",
     "GAP-MV-LINE-20261110"
    ],
    "no_supply": false,
@@ -165,7 +164,8 @@
    "stale_after_h": 24.0,
    "owner": "游戏席",
    "jobs": [
-    "GAP-BIGGAME-LINE-20261110"
+    "GAP-BIGGAME-LINE-20261110",
+    "REPAIR-GAP-BIGGAME-PACK-20261110"
    ],
    "no_supply": false,
    "blockers": [],
@@ -195,7 +195,8 @@
    "stale_after_h": 24.0,
    "owner": "量化席",
    "jobs": [
-    "VERIFY-FIN-ETF-COMPOSITE"
+    "VERIFY-FIN-ETF-COMPOSITE",
+    "REPAIR-GAP-BIGMONEY-LINE-20261110"
    ],
    "no_supply": false,
    "blockers": [],
@@ -291,7 +292,6 @@
    "jobs": [
     "NODE-SYNC-bm-b-2040",
     "PEER-SYNC-bm-a-20261110",
-    "GRID-G1-20261110T2227",
     "NODE-SYNC-bm-b-LIGHT"
    ],
    "no_supply": false,
@@ -309,7 +309,8 @@
     "GAP-ASSETLIB-P0-20261110",
     "LICENSE-LEDGER-20261110",
     "asset-lib-face-caption-2026-11-10",
-    "asset-lib-accept-2026-11-10"
+    "asset-lib-accept-2026-11-10",
+    "REPAIR-GAP-ASSETLIB-AUDIT-20261110"
    ],
    "no_supply": false,
    "blockers": [],
@@ -875,9 +876,11 @@
  },
  "supply_added": [],
  "events": [
-  "GAP-BIGMONEY-C-LINE-20261110 DONE via bm-c",
-  "LICENSE-LEDGER-20261110 -> bm-b (cpu)",
-  "GRID-G1-20261110T2227 -> bm-m (cpu)"
+  "MV-STAB-0001-003-OUT FAILED via bm-a",
+  "R-TRIAGE-FLUXVERSE-BMC-20261110 DONE via bm-c",
+  "REPAIR-GAP-BIGGAME-PACK-20261110 -> bm-m (cpu)",
+  "REPAIR-GAP-BIGMONEY-LINE-20261110 -> bm-m (cpu)",
+  "REPAIR-GAP-ASSETLIB-AUDIT-20261110 -> bm-m (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 立意/分镜/导演席 (导演席（自决推进，CEO 巡视可随时否决）)",
@@ -886,7 +889,7 @@
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-b",
+  "bm-a",
   "bm-c",
   "bm-m"
  ]

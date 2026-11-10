@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-10T22:31:13+0800",
+ "ts": "2026-11-10T22:40:58+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -13,7 +13,7 @@
    "blocker_type": "ENGINE",
    "blocker": "打标质量门与当前素材不匹配：抽 20 张 0 通过（理由是「只命中 0-2 个可见属性，像空话」），需改提示词/判据；另有 458 张待打",
    "state": "RUNNING",
-   "card": "GAP-ASSETLIB-AUDIT-20261110",
+   "card": "GAP-ASSETLIB-P0-20261110",
    "running_on": "bm-b"
   },
   {
@@ -27,9 +27,9 @@
    "accept": "SUBMIT-PACK 里『隐私政策』『提审台账』两类缺件归零",
    "blocker_type": "CEO",
    "blocker": "截图需跑游戏取图，受 2026-10-28『不许自动跑游戏包』令约束，等放行",
-   "state": "RUNNING",
-   "card": "GAP-BIGGAME-PACK-20261110",
-   "running_on": "bm-a"
+   "state": "QUEUED",
+   "card": "GAP-BIGGAME-LINE-20261110",
+   "running_on": null
   },
   {
    "id": "bigmoney",
@@ -42,9 +42,9 @@
    "accept": "quant_signal 回执 rc=0 且 CSV 含因子值与输入指纹",
    "blocker_type": "ENGINE",
    "blocker": "回测产物需在 bm-b 本地生成；主控无 quant 仓",
-   "state": "RUNNING",
-   "card": "GAP-BIGMONEY-LINE-20261110",
-   "running_on": "bm-a"
+   "state": "QUEUED",
+   "card": "VERIFY-FIN-ETF-COMPOSITE",
+   "running_on": null
   },
   {
    "id": "bigstream-mv",
@@ -58,8 +58,8 @@
    "blocker_type": "ENGINE",
    "blocker": "发布决定权在 CEO，但工程侧可先做下一首立意案",
    "state": "RUNNING",
-   "card": "UNBLOCK-R-NEXT-BIGSTREAMM-REBUILD-20261109",
-   "running_on": "bm-m"
+   "card": "MV-STAB-0001-003-OUT",
+   "running_on": "bm-a"
   },
   {
    "id": "bigstream-drama",
@@ -223,13 +223,13 @@
    "blocker_type": "ENGINE",
    "blocker": "I2 存量 125 条卡面路径债、vault 缺盘 651 条",
    "state": "RUNNING",
-   "card": "NODE-SYNC-bm-b-20261110",
+   "card": "NODE-SYNC-bm-b-2040",
    "running_on": "bm-b"
   }
  ],
  "counts": {
-  "RUNNING": 6,
-  "QUEUED": 2,
+  "RUNNING": 4,
+  "QUEUED": 4,
   "STALLED": 7
  },
  "stalled_engine": 2
