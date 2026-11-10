@@ -1,6 +1,6 @@
 {
  "node": "bm-c",
- "ts": "2026-11-11T06:33:52",
+ "ts": "2026-11-11T06:37:49",
  "jobs": [
   {
    "id": "GAP-ASSETLIB-BMC-3",
@@ -15,23 +15,9 @@
    "when_all": [],
    "llm": null,
    "timeout_s": 180
-  },
-  {
-   "id": "GAP-BIGSTREAMMV-BMC-3",
-   "title": "[gap] bigstream-mv 证据（bm-c）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigstream-mv --out cph4/fleet/reports/triage-bigstream-mv-20261111g.md",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/triage-bigstream-mv-20261111g.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": 180
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 3.1/1.0 GB"
+ "capacity_note": "ram 3.9/1.0 GB"
 }
