@@ -1,14 +1,14 @@
 {
  "node": "bm-b",
- "ts": "2026-11-10T22:54:07",
+ "ts": "2026-11-10T23:00:52",
  "jobs": [
   {
-   "id": "VERIFY-FIN-ETF-COMPOSITE",
-   "title": "[verify] 远端核对 etf_composite_pf.json（C-FIN-ETF-COMPOSITE）",
-   "cmd": "python -c \"import os;p='quant/bigmoney/results/etf_composite_pf.json';print(p,os.path.exists(p),os.path.getsize(p) if os.path.exists(p) else 0)\" > cph4/fleet/reports/verify-fin-etf-composite.txt 2>&1",
+   "id": "NODE-SYNC-bm-b-2216",
+   "title": "[self-heal] bm-b 落地新 lane 代码（reset 到 main）",
+   "cmd": "git -C . fetch origin --prune && git -C . branch -f backup/bm-b-2216 HEAD & git -C . reset --hard origin/main && git -C . log -1 --oneline > cph4/fleet/reports/node-sync-bm-b-2216.md",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/verify-fin-etf-composite.txt",
+   "deliverable": "cph4/fleet/reports/node-sync-bm-b-2216.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -47,5 +47,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 11.1/1.0 GB"
+ "capacity_note": "ram 11.5/1.0 GB"
 }

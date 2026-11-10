@@ -1,6 +1,6 @@
 {
  "node": "bm-c",
- "ts": "2026-11-10T22:56:21",
+ "ts": "2026-11-10T23:00:52",
  "jobs": [
   {
    "id": "asset-lib-face-caption-2026-11-10",
@@ -15,9 +15,37 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
+  },
+  {
+   "id": "GAP-BIGGAME-ART-20261111",
+   "title": "[gap] biggame 图标/截图缺口清单（bm-c）",
+   "cmd": "python Tools/fleet/line_triage.py --line biggame --out cph4/fleet/reports/triage-biggame-20261111.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/reports/triage-biggame-20261111.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "GAP-ASSETLIB-CAP-20261111",
+   "title": "[gap] asset-lib 打标进度证据（bm-c）",
+   "cmd": "python Tools/fleet/line_triage.py --line asset-lib --out cph4/fleet/reports/triage-asset-lib-20261111.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/reports/triage-asset-lib-20261111.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 4.4/1.0 GB"
+ "capacity_note": "ram 4.6/1.0 GB"
 }
