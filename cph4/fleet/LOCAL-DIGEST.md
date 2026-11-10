@@ -6008,3 +6008,11 @@
 - 11-11T04:15 · UNBLOCK-GAP-MV-BMA-20261111-bm-m.json · 已完成机队回执生成，但需联系负责人重新分配生产权限以消除风险。
 - 11-11T04:15 · UNBLOCK-PRODUCE-ICONS-BIGGAME-20261111-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
 - 11-11T04:15 · UNBLOCK-PRODUCE-ICONS-BIGGAME-20261111-bm-m.json · 已完成大游戏机队解阻，需申请 bm-a 权限复核以消除风险。
+- 11-11T04:17 · _last_lane_bm-m.json · 已完成机队运行，无风险。
+- 11-11T04:17 · UNBLOCK-PRODUCE-ICONS-BIGGAME-20261111-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-11T04:17 · UNBLOCK-PRODUCE-ICONS-BIGGAME-20261111-bm-m.json · 已完成机队回执，无风险，需 BM-A 提交变更申请并在开发环境执行。
+- 11-11T04:17 · UNBLOCK-GAP-MV-BMA-20261111-acceptance.json · 已完成机队回执提交，但因非标准产物被驳回，无安全风险。
+- 11-11T04:17 · UNBLOCK-GAP-MV-BMA-20261111-bm-m.json · 已完成机队解除卡点并重启生产，无风险。
+- 11-11T04:17 · REPAIR-NODE-SYNC-bm-a-0352-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-11T04:17 · REPAIR-NODE-SYNC-bm-a-0352-bm-m.json · 作业已重置重启，但需警惕资源锁失效引发的重复故障风险。
+- 11-11T04:17 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
