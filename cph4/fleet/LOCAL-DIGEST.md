@@ -6455,3 +6455,10 @@
 - 11-11T07:18 · GAP-BIGMONEY-BMC-4-bm-c.json · 已完成大资金线路排查报告生成，无错误风险。
 - 11-11T07:18 · GAP-BIGMONEY-BMC-4-acceptance.json · 已完成机队回执提交，但被因非标准产物而拒绝。
 - 11-11T07:19 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
+- 11-11T07:20 · NODE-SYNC-bm-c-20261111T0713-bm-c.json · 已完成机队同步与报告生成，无风险。
+- 11-11T07:20 · NODE-SYNC-bm-c-20261111T0713-acceptance.json · 已完成机队回执提交，但被拒收因交付物非有效产物。
+- 11-11T07:20 · GAP-FLUXVERSE-BMC-4-bm-c.json · 已完成机队排查报告生成，无错误风险。
+- 11-11T07:20 · GAP-FLUXVERSE-BMC-4-acceptance.json · 已提交机队回执，但被拒因内容非有效产物，无后续风险。
+- 11-11T07:20 · GAP-BIGMONEY-BMC-4-bm-c.json · 已完成大资金航线排查报告生成，无错误风险。
+- 11-11T07:20 · GAP-BIGMONEY-BMC-4-acceptance.json · 完成机队回执提交，但被拒因交付物非标准产物。
+- 11-11T07:20 · _last_lane_bm-m.json · 机队已自派完成回单扫描，无风险。
