@@ -1,72 +1,23 @@
 {
  "node": "bm-m",
- "ts": "2026-11-11T00:02:10",
+ "ts": "2026-11-11T00:04:12",
  "jobs": [
   {
-   "id": "REPAIR-PRODUCE-FLUXVERSE-20261110",
-   "title": "[repair] PRODUCE-FLUXVERSE-20261110 的根因与下一步",
-   "cmd": "",
-   "cwd": null,
+   "id": "R-MODEL-RADAR-BMM-20261111",
+   "title": "本地模型日报：扫上游新档+实测+按两条判据决定是否换档（bm-m）",
+   "cmd": "python Tools/fleet/model_radar.py run --node bm-m --idle-only --apply",
+   "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/repairs/PRODUCE-FLUXVERSE-20261110.md",
+   "deliverable": "cph4/fleet/queue-receipts/model-radar-bm-m-20261111.json",
    "need_mb": null,
-   "model": "local-small",
-   "prompt": "这张卡失败了。请只依据给出的证据，写一页诊断：①最可能的根因 ②下一步具体动作（谁、做什么、怎么验证）。不要编造文件或命令。\n\n证据：状态=FAILED；备注=requeued after lease expiry (attempt 2)；交付物=cph4/fleet/reports/fluxverse-city-state-20261110.md；重试=None",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "REPAIR-GAP-ASSETLIB-C-20261111",
-   "title": "[repair] GAP-ASSETLIB-C-20261111 的根因与下一步",
-   "cmd": "",
-   "cwd": null,
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/repairs/GAP-ASSETLIB-C-20261111.md",
-   "need_mb": null,
-   "model": "local-small",
-   "prompt": "这张卡失败了。请只依据给出的证据，写一页诊断：①最可能的根因 ②下一步具体动作（谁、做什么、怎么验证）。不要编造文件或命令。\n\n证据：状态=UNVERIFIED；备注=；交付物=cph4/fleet/reports/triage-asset-lib-20261111b.md；重试=None",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "UNBLOCK-MV-DIRECTOR-PACKET-20261109",
-   "title": "[unblock] MV-DIRECTOR-PACKET-20261109 的解锁动作",
-   "cmd": "",
-   "cwd": null,
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/repairs/MV-DIRECTOR-PACKET-20261109-unblock.md",
-   "need_mb": null,
-   "model": "local-small",
-   "prompt": "这张卡被标记 BLOCKED。只依据证据，给出：①阻塞类型（缺人/缺料/缺权限/环境）②最小解锁动作 ③解锁后应由哪台机执行。40 字以内一条，不要客套。\n\n证据：状态=BLOCKED；备注=3 次未成，停线待根因：STALL: 158992s 无新输出（sig=0），释放；owner=bm-a",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "UNBLOCK-MV-STAB-0001-003-OUT",
-   "title": "[unblock] MV-STAB-0001-003-OUT 的解锁动作",
-   "cmd": "",
-   "cwd": null,
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/repairs/MV-STAB-0001-003-OUT-unblock.md",
-   "need_mb": null,
-   "model": "local-small",
-   "prompt": "这张卡被标记 BLOCKED。只依据证据，给出：①阻塞类型（缺人/缺料/缺权限/环境）②最小解锁动作 ③解锁后应由哪台机执行。40 字以内一条，不要客套。\n\n证据：状态=BLOCKED；备注=3 次未成，停线待根因：STALL: 4384s 无新输出（sig=0），释放；owner=bm-a",
+   "model": "none",
+   "prompt": "",
    "when_all": [],
    "llm": null,
    "timeout_s": null
   }
  ],
- "idle_reason": "control-plane heartbeat",
+ "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 15.6/1.0 GB",
- "cards": [],
- "pruned_shells": [
-  "REPAIR-PRODUCE-FLUXVERSE-20261110",
-  "REPAIR-GAP-ASSETLIB-C-20261111",
-  "UNBLOCK-MV-DIRECTOR-PACKET-20261109",
-  "UNBLOCK-MV-STAB-0001-003-OUT"
- ]
+ "capacity_note": "ram 14.3/1.0 GB"
 }
