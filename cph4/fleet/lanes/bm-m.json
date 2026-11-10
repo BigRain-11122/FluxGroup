@@ -1,8 +1,23 @@
 {
  "node": "bm-m",
- "ts": "2026-11-11T05:23:58",
- "jobs": [],
- "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+ "ts": "2026-11-11T05:27:23",
+ "jobs": [
+  {
+   "id": "REPAIR-NODE-SYNC-bm-a-20261111T0452",
+   "title": "[repair] NODE-SYNC-bm-a-20261111T0452 的根因与下一步",
+   "cmd": "",
+   "cwd": null,
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/repairs/NODE-SYNC-bm-a-20261111T0452.md",
+   "need_mb": null,
+   "model": "local-small",
+   "prompt": "这张卡失败了。请只依据给出的证据，写一页诊断：①最可能的根因 ②下一步具体动作（谁、做什么、怎么验证）。不要编造文件或命令。\n\n证据：状态=FAILED；备注=；交付物=cph4/fleet/reports/node-sync-bm-a-20261111t0452.md；重试=None",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  }
+ ],
+ "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 13.6/1.0 GB"
+ "capacity_note": "ram 12.1/1.0 GB"
 }
