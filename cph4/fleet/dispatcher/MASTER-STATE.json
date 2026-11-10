@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-10T14:47:05",
- "cycle": 815,
+ "ts": "2026-11-10T14:48:47",
+ "cycle": 816,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-10T14:47:05",
+ "master_tick_ts": "2026-11-10T14:48:47",
  "queue": {
   "total": 1798,
   "open": 2,
@@ -14,10 +14,10 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 51.0,
-   "cpu_load_pct": 80,
-   "ram_free_gb": 35.9,
-   "gpu_util_pct": 90,
+   "hb_age_s": 33.6,
+   "cpu_load_pct": 71,
+   "ram_free_gb": 37.8,
+   "gpu_util_pct": 69,
    "job": null,
    "last_result": {
     "job": null,
@@ -34,10 +34,10 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 138.8,
-   "cpu_load_pct": 13,
-   "ram_free_gb": 11.0,
-   "gpu_util_pct": 2,
+   "hb_age_s": 7.3,
+   "cpu_load_pct": 14,
+   "ram_free_gb": 11.9,
+   "gpu_util_pct": 1,
    "job": null,
    "last_result": {
     "job": null,
@@ -50,11 +50,11 @@
    },
    "idle_confirmed": true,
    "idle_reason": "CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (6.7h 零产出)",
-   "idle_rounds": 145
+   "idle_rounds": 146
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 22.4,
+   "hb_age_s": 123.9,
    "cpu_load_pct": 10,
    "ram_free_gb": 1.9,
    "gpu_util_pct": 0,
@@ -69,35 +69,35 @@
     "elapsed_s": null
    },
    "idle_confirmed": true,
-   "idle_reason": "CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (7.7h 零产出)",
-   "idle_rounds": 145
+   "idle_reason": "CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (7.8h 零产出)",
+   "idle_rounds": 146
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 2.0,
-   "cpu_load_pct": 48,
-   "ram_free_gb": 11.1,
+   "hb_age_s": 1.6,
+   "cpu_load_pct": 18,
+   "ram_free_gb": 9.4,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-10T14:47:03",
+    "ts": "2026-11-10T14:48:03",
     "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 10
+   "idle_rounds": 11
   }
  },
  "idle_rounds": {
   "bm-a": 0,
-  "bm-b": 145,
-  "bm-c": 145,
-  "bm-m": 10
+  "bm-b": 146,
+  "bm-c": 146,
+  "bm-m": 11
  },
  "lines": {
   "bigstream-mv": {
@@ -841,14 +841,14 @@
  "supply_added": [],
  "events": [],
  "violations": [
-  "bm-b IDLE-CONFIRMED x145 (CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (6.7h)",
-  "bm-c IDLE-CONFIRMED x145 (CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (7.7h)",
-  "bm-m IDLE-CONFIRMED x10 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-b IDLE-CONFIRMED x146 (CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (6.7h)",
+  "bm-c IDLE-CONFIRMED x146 (CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (7.8h)",
+  "bm-m IDLE-CONFIRMED x11 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-b"
+  "bm-c"
  ]
 }
