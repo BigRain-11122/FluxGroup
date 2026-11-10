@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-11T00:30:45",
+ "ts": "2026-11-11T00:31:38",
  "jobs": [
   {
    "id": "REPAIR-R-NEXT-BIGSTREAMM-REBUILD-20261111",
@@ -47,5 +47,11 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 14.7/1.0 GB"
+ "capacity_note": "ram 14.7/1.0 GB",
+ "cards": [],
+ "pruned_shells": [
+  "REPAIR-R-NEXT-BIGSTREAMM-REBUILD-20261111",
+  "REPAIR-biggame-pack-scan-2026-11-11",
+  "REPAIR-R-MODEL-RADAR-BMB-20261111"
+ ]
 }
