@@ -1,0 +1,17 @@
+{
+ "id": "GAP-BIGGAME-PACK-20261111",
+ "node": "bm-a",
+ "rc": 124,
+ "seconds": 260.1,
+ "cmd": "python Tools/fleet/game_pack_scan.py --root . --out cph4/fleet/reports/biggame-pack-gap-20261111.json",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "FAIL",
+ "error_class": "E-TIMEOUT",
+ "deliverable": "cph4/fleet/reports/biggame-pack-gap-20261111.json",
+ "deliverable_exists": false,
+ "ts": "2026-11-11T02:09:10",
+ "stdout_tail": "",
+ "stderr_tail": "\n[timeout 240s]"
+}
