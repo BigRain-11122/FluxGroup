@@ -4812,3 +4812,14 @@
 - 11-10T21:18 · REPAIR-PEERWAKE-BMA-195744-bm-m.json · 已完成静默死锁根因分析与修复方案制定，当前无执行风险。
 - 11-10T21:17 · REPAIR-RESCUE-BMC-RAM-2020-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
 - 11-10T21:17 · REPAIR-RESCUE-BMC-RAM-2020-bm-m.json · 任务失败，核心阻断点为长时间无新输出且重试无效，存在实质性故障风险。
+- 11-10T21:21 · _last_lane_bm-m.json · 本地模型失败：timed out
+- 11-10T21:21 · skill-promote-20261110.json · 本地模型失败：timed out
+- 11-10T21:21 · self-improve-bm-m-latest.json · 本地模型失败：timed out
+- 11-10T21:23 · self-improve-bm-m-latest.json · 机队已自动完成清理与验证，无风险。
+- 11-10T21:23 · _last_lane_bm-m.json · 资产修复任务因无可用分配而推迟，存在无法按时执行的风险。
+- 11-10T21:23 · REPAIR-RESCUE-BMC-RAM-2020-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被驳回。
+- 11-10T21:23 · REPAIR-RESCUE-BMC-RAM-2020-bm-m.json · 已完成长时停滞根因分析与重启策略制定，无风险。
+- 11-10T21:23 · REPAIR-PEERWAKE-BMA-195744-acceptance.json · 机队回执被拒，因交付物非有效产物且无风险。
+- 11-10T21:23 · REPAIR-PEERWAKE-BMA-195744-bm-m.json · 任务完成但暴露持续性服务不可用风险，需立即排查网络链路。
+- 11-10T21:23 · REPAIR-asset-lib-face-dataset-2026-11-10-acceptance.json · 机队回执被拒，因交付物非所需文档或台账。
+- 11-10T21:23 · REPAIR-asset-lib-face-dataset-2026-11-10-bm-m.json · 已完成机队修复任务，但存在因流水线阻塞导致上下文丢失及资源保护性停机的风险。
