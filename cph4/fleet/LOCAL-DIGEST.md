@@ -6337,3 +6337,6 @@
 - 11-11T06:27 · _last_lane_bm-m.json · 已完成节点同步修复，无风险。
 - 11-11T06:27 · REPAIR-NODE-SYNC-bm-a-20261111T0612-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物。
 - 11-11T06:27 · REPAIR-NODE-SYNC-bm-a-20261111T0612-bm-m.json · 已完成节点同步任务根因分析并制定重启及排查方案，无当前风险。
+- 11-11T06:28 · REPAIR-NODE-SYNC-bm-a-20261111T0612-acceptance.json · 机队回执被拒，因交付物非有效产物且无风险。
+- 11-11T06:28 · REPAIR-NODE-SYNC-bm-a-20261111T0612-bm-m.json · 节点同步任务完成但存在运行时环境异常风险，需排查根因。
+- 11-11T06:28 · _last_lane_bm-m.json · 已完成节点同步，当前运行中无风险。
