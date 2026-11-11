@@ -1,0 +1,17 @@
+{
+ "id": "REPAIR-R-QUANT-ETF-DAILY-20261102",
+ "node": "bm-m",
+ "rc": 0,
+ "seconds": 29.6,
+ "cmd": "",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "cph4/fleet/repairs/R-QUANT-ETF-DAILY-20261102.md",
+ "deliverable_exists": true,
+ "ts": "2026-11-11T08:41:21",
+ "stdout_tail": "### 根因诊断：本地缓存层与交付后处理逻辑解耦异常\n\n**最可能的根因**是**任务完成状态（UNVERIFIED）与文件存在性状态（deliverable-not-on-disk）之间的异步不同步**。尽管 `quant/bigmoney/results/etf_composite_pf.json` 已在磁盘物理存储（隐含于 `quant...` 路径下），但负责写入该文件的进程在终止前未执行“清理本地临时缓存”或“刷新全局状态索引”的操作，导致验证服务未能检索到最新交付物，误报文件缺失。重试 5 次失败证实了问题具有**确定性（Deterministic）**，而非偶发网络抖动或资源竞争。\n\n---\n\n### 下一步具体动作\n\n| 角色 | 具体动作 (Action) | 验证与回退策略 (Verification/Recovery) |\n| :--- | :--- | :--- |\n| **运维工程师 (On-call)** | **1. 文件校验**：<br>手动登录任务节点或数据仓库，确认 `quant/bigmoney/results/etf_composite_pf.json` 文件是否存在且大小>0。<br>**2. 状态回溯**：查询数据库记录 `UNVERIFIED` 状态的生成时间戳，定位是哪个具体的“提交后”脚本触发了该错误。 | **验证**：若文件存在但系统未检索到，则确认为逻辑同步故障；若文件不存在，需检查 `deliverable-not-on-disk` 触发时的目录权限或挂载点状态。<br>**回退**：若确认非代码 Bug，立即暂停重试，转入人工复核流程。 |\n| **研发工程师 (Owner)** | **1. 修复逻辑**：<br>修改任务结束脚本（End-of-Pipe Script），在写入 `etf_composite_pf.json` 后强制加入“清理本地缓存/刷新索引”步骤。<br>**2. 代码验证**：在本地环境复现该流程，观察日志是否输出正确的 `file_found` 信号。 | **验证**：在新环境中运行相同任务（可注入 Mock 数据），检查状态流转是否从 `UNVERIFIED` 正确过渡到 `SUCCESS`。<br>**回退**：若修复后测试通过，提交 Hotfix 补丁并合并至主分支。 |\n| **质量保障 (QA)** | **1. 集成回归**：<br>在 CI/CD Pipeline 中增加“交付物完整性”检查节点，将 `UNVERIFIED` 状态下的文件校验规则纳入自动化流程。<br>**2. 历史数据清洗**：针对本次失败的 5 次重试记录进行归档分析。 | **验证**：运行新的 CI 流水线，确认该任务不再因“文件未检索到”而阻塞；查看历史日志是否已清除冗余的失败计数。 |",
+ "stderr_tail": ""
+}
