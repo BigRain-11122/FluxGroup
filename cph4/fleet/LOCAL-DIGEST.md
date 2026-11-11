@@ -6728,3 +6728,10 @@
 - 11-11T08:56 · REPAIR-NODE-SYNC-bm-a-20261111T0752-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
 - 11-11T08:56 · REPAIR-NODE-SYNC-bm-a-20261111T0752-bm-m.json · 节点同步任务因源端数据缺失停滞，需排查上游并验证恢复逻辑。
 - 11-11T08:56 · skill-promote-20261111.json · 已完成部分任务，因工具缺失导致多项关键技能无法执行。
+- 11-11T08:57 · CANARY-20261111T085742-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物且无风险。
+- 11-11T08:57 · CANARY-20261111T085742-bm-m.json · 已完成端到端自检并生成产物，无风险。
+- 11-11T08:57 · _last_lane_bm-m.json · 已完成节点同步，无风险。
+- 11-11T08:57 · GAP-BIGHOUSE-BMC-11-bm-c.json · 已完成机队回执生成，无风险。
+- 11-11T08:57 · GAP-BIGHOUSE-BMC-11-acceptance.json · 已提交回执但被拒，因内容非有效交付物且无风险。
+- 11-11T08:57 · REPAIR-NODE-SYNC-bm-a-20261111T0752-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-11T08:57 · REPAIR-NODE-SYNC-bm-a-20261111T0752-bm-m.json · 节点同步任务因严重阻塞失败，需立即执行全链路排查、服务重启及降级预案。
