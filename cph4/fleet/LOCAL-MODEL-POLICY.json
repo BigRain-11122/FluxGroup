@@ -295,7 +295,7 @@
   }
  ],
  "budget": {
-  "resident_gb_limit": 20.0,
+  "resident_gb_limit": 18.0,
   "peak_gb_limit": 24.0,
   "rule": "CEO 2026-11-07：办公不必留太多，模型可占到 16GB 常驻；硬线是换页速率（mem_guard），不是 swap 占用总量",
   "office_reserve_gb": 1.0,
@@ -304,7 +304,8 @@
    "embedding"
   ],
   "_resident_set_why": "2026-11-08 CEO「一个模型可以干很多事」+审计实测：214 次走 4B、8B 3 次、1.7B 3 次。常驻只留主力与向量，8B/1.7B 按需（keep_alive=0），省 ~6.6GB 且不再互相驱逐。",
-  "_dedicated_why": "CEO 2026-11-09：这是专用 AI 主控机，白天不办公 → 不再为办公预留 4GB，模型可用到 20GB 常驻/24GB 峰值；swap 红线不变。"
+  "_dedicated_why": "CEO 2026-11-09：这是专用 AI 主控机，白天不办公 → 不再为办公预留 4GB，模型可用到 20GB 常驻/24GB 峰值；swap 红线不变。",
+  "_measured_note": "2026-11-11 实测：17.57G 模型零 swap；再高发生驱逐并换页。留 14G 给系统与编辑器。"
  },
  "_keep_alive_why": "MLX runner 对 keep_alive=0 会卡在 Stopping 且再也加载不上（实测）。按需档用 1m 空闲自动退，常驻档 30m。",
  "routing": {
@@ -389,5 +390,33 @@
   "codely": "company resource, only when necessary",
   "deepseek": "free window 00:30-08:30 only (or urgent P0)",
   "local": "always first"
+ },
+ "measured_20261111": {
+  "_why": "本机容量标定实测（见 cph4/fleet/LOCAL-CAPACITY-20261111.md）：安全常驻≈18G 模型，超线即驱逐并换页。",
+  "safe_resident_gb": 18.0,
+  "decode_tok_s": {
+   "qwen3.5:4b": 40.8,
+   "qwen3.5:2b": 59.6,
+   "qwen3:8b": 24.1,
+   "qwen3.5:9b-mlx": 24.6,
+   "deepseek-r1:14b": 13.5
+  },
+  "concurrency_note": "并发 1/2/3 聚合吞吐均 ~40 tok/s（4B）——并发只分延迟，不增吞吐；网关并发设 2。",
+  "quality_probe": {
+   "qwen3.5:4b": "6/6",
+   "qwen3:8b": "5/6",
+   "qwen3.5:9b-mlx": "6/6",
+   "questions": "算术×2/抽取/分类/拒答/JSON"
+  },
+  "swap_limit_mb": 128,
+  "combos_ok": [
+   "4B+embedding",
+   "4B+9B",
+   "4B+8B+embedding",
+   "4B+9B+8B(17.57G)"
+  ],
+  "combos_fail": [
+   "4B+9B+8B+14B（驱逐+swap+190MB）"
+  ]
  }
 }
