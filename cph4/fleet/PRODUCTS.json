@@ -423,6 +423,14 @@
     "人工发送",
     "复盘"
    ],
+   "outputs": {
+    "草稿": "cph4/fleet/social/drafts.jsonl",
+    "复盘": "cph4/fleet/social/DIGEST.md"
+   },
+   "commands": {
+    "草稿": "python3 Tools/fleet/social_drafts.py",
+    "复盘": "python3 Tools/fleet/social_drafts.py --limit 0"
+   },
    "owner_station": "control",
    "support": [
     "audio"
