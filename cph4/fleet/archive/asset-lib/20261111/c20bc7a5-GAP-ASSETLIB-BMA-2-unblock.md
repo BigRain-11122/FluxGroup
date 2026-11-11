@@ -1,1 +1,0 @@
-缺权限：需 owner(bm-a) 补填回执 GAP-ASSETLIB，执行机 bm-a。
