@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-11T10:41:41",
+ "ts": "2026-11-11T10:44:48",
  "jobs": [
   {
    "id": "REPAIR-PEER-SYNC-bm-c-20261111",
@@ -47,5 +47,11 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 11.8/1.0 GB"
+ "capacity_note": "ram 11.8/1.0 GB",
+ "cards": [],
+ "pruned_shells": [
+  "REPAIR-PEER-SYNC-bm-c-20261111",
+  "UNBLOCK-asset-lib-library-check-2026-11-08",
+  "UNBLOCK-R-TRIAGE-BIGCOMPUTE-BMB-20261108"
+ ]
 }
