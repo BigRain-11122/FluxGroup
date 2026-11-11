@@ -1,0 +1,288 @@
+{
+ "_comment": "智能体容量与频率预算（AGENT-CAPACITY）· 2026-11-11 v2。上一版把 39 席全算在主控头上，实测 1464 次/天、超额度 5 倍——本版改为按机器分账：每台机吃自己的本地模型额度，深度席走算力大脑池。数字都在这里，席位只声明职责。",
+ "_version": "v2-20261111",
+ "_principle": "①高频靠三秒级零模型脚本与事件指纹，不靠定时调模型；②上限（per_day）与实际用量（expected）分开算，预算按实际算；③执行机用本机模型，主控只管自己的 8 席；④深度席进大脑池，大脑不可用则降级排队，不许压回主控。",
+ "machines": {
+  "control": {
+   "name": "MacBook 主控台",
+   "model": "qwen3.5:4b-mlx",
+   "tok_s": 40,
+   "concurrency": 2,
+   "num_ctx": 8192,
+   "events_per_day": 40,
+   "budget": {
+    "calls_per_day": 300,
+    "model_minutes_per_day": 90,
+    "note": "32G 统一内存与 CEO 办公共用；只背本机 8 席"
+   }
+  },
+  "delivery": {
+   "name": "公司生产力机",
+   "model": "8B 级 Q4",
+   "tok_s": 22,
+   "concurrency": 2,
+   "num_ctx": 8192,
+   "events_per_day": 60,
+   "budget": {
+    "calls_per_day": 600,
+    "model_minutes_per_day": 180,
+    "note": "夜窗 00-08 + 20-24；白天让路"
+   }
+  },
+  "visual": {
+   "name": "传家宝",
+   "model": "8B 级 Q4（用完即卸）",
+   "tok_s": 24,
+   "concurrency": 1,
+   "num_ctx": 8192,
+   "events_per_day": 80,
+   "budget": {
+    "calls_per_day": 400,
+    "model_minutes_per_day": 120,
+    "note": "16G 显存要与 ComfyUI 共用：出片时卸载模型"
+   }
+  },
+  "audio": {
+   "name": "小钢炮",
+   "model": "4B-8B 按需",
+   "tok_s": 28,
+   "concurrency": 1,
+   "num_ctx": 8192,
+   "events_per_day": 50,
+   "budget": {
+    "calls_per_day": 300,
+    "model_minutes_per_day": 90,
+    "note": "8G 显存要留给 TTS"
+   }
+  },
+  "brain": {
+   "name": "算力大脑（本地模型中心）",
+   "model": "32B 级（FP16/Q4 分卡）",
+   "tok_s": 18,
+   "concurrency": 4,
+   "num_ctx": 16384,
+   "events_per_day": 120,
+   "budget": {
+    "calls_per_day": 3000,
+    "model_minutes_per_day": 720,
+    "note": "3×V100 48G；未入网前一律回落本机，日程照排不占额度"
+   }
+  }
+ },
+ "seat_policy": {
+  "_comment": "endpoint=local 表示吃本席所在工位的模型额度；endpoint=brain 表示进大脑池（跨机重活）。freq_s=最短间隔；per_day=硬上限；est_tokens=单次输入+输出估算。",
+  "_default": {
+   "gate": "event",
+   "freq_s": 1800,
+   "est_tokens": 900,
+   "max_per_day": 16,
+   "endpoint": "local"
+  },
+  "*-LEAD": {
+   "gate": "time",
+   "freq_s": 3600,
+   "est_tokens": 900,
+   "max_per_day": 12,
+   "endpoint": "local"
+  },
+  "*-INSPECT": {
+   "gate": "event",
+   "freq_s": 300,
+   "est_tokens": 700,
+   "max_per_day": 96,
+   "endpoint": "local"
+  },
+  "*-BOOK": {
+   "gate": "time",
+   "freq_s": 900,
+   "est_tokens": 0,
+   "max_per_day": 96,
+   "endpoint": "local"
+  },
+  "C-GATE": {
+   "gate": "event",
+   "freq_s": 600,
+   "est_tokens": 1200,
+   "max_per_day": 36,
+   "endpoint": "local"
+  },
+  "C-VOICE": {
+   "gate": "event",
+   "freq_s": 900,
+   "est_tokens": 1100,
+   "max_per_day": 30,
+   "endpoint": "local"
+  },
+  "C-LEGAL": {
+   "gate": "event",
+   "freq_s": 1800,
+   "est_tokens": 900,
+   "max_per_day": 20,
+   "endpoint": "local"
+  },
+  "C-MATERIAL": {
+   "gate": "time",
+   "freq_s": 3600,
+   "est_tokens": 800,
+   "max_per_day": 8,
+   "endpoint": "local"
+  },
+  "C-DISPATCH": {
+   "gate": "event",
+   "freq_s": 300,
+   "est_tokens": 600,
+   "max_per_day": 32,
+   "endpoint": "local"
+  },
+  "D-SUBMIT": {
+   "gate": "event",
+   "freq_s": 1800,
+   "est_tokens": 1000,
+   "max_per_day": 20,
+   "endpoint": "local"
+  },
+  "D-BUILD": {
+   "gate": "event",
+   "freq_s": 600,
+   "est_tokens": 700,
+   "max_per_day": 40,
+   "endpoint": "local"
+  },
+  "D-ADMIT": {
+   "gate": "event",
+   "freq_s": 1800,
+   "est_tokens": 1100,
+   "max_per_day": 16,
+   "endpoint": "local"
+  },
+  "D-ICON": {
+   "gate": "event",
+   "freq_s": 1800,
+   "est_tokens": 600,
+   "max_per_day": 20,
+   "endpoint": "local"
+  },
+  "D-CAR": {
+   "gate": "event",
+   "freq_s": 1800,
+   "est_tokens": 900,
+   "max_per_day": 16,
+   "endpoint": "local"
+  },
+  "V-INSPECT": {
+   "gate": "event",
+   "freq_s": 300,
+   "est_tokens": 700,
+   "max_per_day": 96,
+   "endpoint": "local"
+  },
+  "V-KF": {
+   "gate": "event",
+   "freq_s": 600,
+   "est_tokens": 900,
+   "max_per_day": 60,
+   "endpoint": "local"
+  },
+  "V-SUB": {
+   "gate": "event",
+   "freq_s": 1800,
+   "est_tokens": 1000,
+   "max_per_day": 20,
+   "endpoint": "local"
+  },
+  "V-SHOT": {
+   "gate": "event",
+   "freq_s": 900,
+   "est_tokens": 1200,
+   "max_per_day": 40,
+   "endpoint": "brain"
+  },
+  "V-PROMPT": {
+   "gate": "event",
+   "freq_s": 900,
+   "est_tokens": 1200,
+   "max_per_day": 40,
+   "endpoint": "brain"
+  },
+  "V-CONSIST": {
+   "gate": "event",
+   "freq_s": 1800,
+   "est_tokens": 1400,
+   "max_per_day": 20,
+   "endpoint": "brain"
+  },
+  "V-CUT": {
+   "gate": "event",
+   "freq_s": 1800,
+   "est_tokens": 1500,
+   "max_per_day": 20,
+   "endpoint": "brain"
+  },
+  "A-MIX": {
+   "gate": "event",
+   "freq_s": 900,
+   "est_tokens": 800,
+   "max_per_day": 40,
+   "endpoint": "local"
+  },
+  "A-VOICE": {
+   "gate": "event",
+   "freq_s": 1800,
+   "est_tokens": 900,
+   "max_per_day": 20,
+   "endpoint": "local"
+  },
+  "A-CAST": {
+   "gate": "event",
+   "freq_s": 3600,
+   "est_tokens": 900,
+   "max_per_day": 8,
+   "endpoint": "local"
+  },
+  "A-BGM": {
+   "gate": "event",
+   "freq_s": 1800,
+   "est_tokens": 900,
+   "max_per_day": 16,
+   "endpoint": "local"
+  },
+  "B-QUANT": {
+   "gate": "event",
+   "freq_s": 3600,
+   "est_tokens": 4000,
+   "max_per_day": 8,
+   "endpoint": "brain"
+  },
+  "B-AUDIT": {
+   "gate": "event",
+   "freq_s": 3600,
+   "est_tokens": 4000,
+   "max_per_day": 8,
+   "endpoint": "brain"
+  },
+  "B-BATCH": {
+   "gate": "time",
+   "freq_s": 3600,
+   "est_tokens": 2000,
+   "max_per_day": 12,
+   "endpoint": "brain"
+  },
+  "B-OPS": {
+   "gate": "time",
+   "freq_s": 1800,
+   "est_tokens": 600,
+   "max_per_day": 16,
+   "endpoint": "brain"
+  }
+ },
+ "overload_rule": {
+  "queue_instead_of_drop": "超预算进排队；同一席位只保留最新一条待跑",
+  "degrade_order": [
+   "降频（freq×2）",
+   "深度席移到大脑",
+   "大脑不可用则只留 INSPECT/LEAD/GATE",
+   "全停并告警"
+  ],
+  "never": "不许把执行机的批量活压回主控；主控额度只属于主控自己的席位"
+ }
+}
