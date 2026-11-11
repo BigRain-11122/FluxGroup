@@ -6690,3 +6690,27 @@
 - 11-11T08:50 · GAP-BIGMONEY-BMC-10-acceptance.json · 完成机队回执提交，但被拒因交付物非标准产物。
 - 11-11T08:50 · GAP-BIGGAME-BMC-10-bm-c.json · 已完成机队排查任务，无风险。
 - 11-11T08:50 · GAP-BIGGAME-BMC-10-acceptance.json · 已提交回执但被拒，因内容非有效产物且无风险。
+- 11-11T08:51 · _last_lane_bm-m.json · 机队回执已接收，当前状态空闲且无风险。
+- 11-11T08:51 · skill-promote-20261111.json · 已跳过多项因工具缺失或重复的任务，当前无风险。
+- 11-11T08:51 · REPAIR-C-FIN-EQUITY-ALPHA-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
+- 11-11T08:51 · REPAIR-C-FIN-EQUITY-ALPHA-bm-m.json · 已完成机队回执生成，但交付物未持久化导致验证失败，存在流程阻断风险。
+- 11-11T08:51 · PATROL-biglife-20261111-acceptance.json · 机队回执未生成，因缺乏必要产出文件被拒收。
+- 11-11T08:51 · PATROL-biglife-20261111-bm-m.json · 已完成机队回执提交，但数据涉及高危安全事件，需立即阻断并隔离。
+- 11-11T08:51 · PATROL-biglife-20261111.md · 已完成紧急阻断与权限冻结，但需警惕该信息可能为钓鱼攻击而非真实风险。
+- 11-11T08:51 · PATROL-bigdomain-20261111-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
+- 11-11T08:51 · PATROL-bigdomain-20261111-bm-m.json · 已完成 bigdomain 域 RED 级风险核实与处置指令生成，需立即启动紧急冻结。
+- 11-11T08:51 · PATROL-bigdomain-20261111.md · 已核实 bigdomain 域存在高危违规风险并启动紧急处置。
+- 11-11T08:51 · self-improve-bm-m-latest.json · 机队已完成自检与清理，无风险。
+- 11-11T08:51 · GAP-FLUXVERSE-BMC-10-bm-c.json · 已完成机队排查任务，无错误风险。
+- 11-11T08:51 · GAP-FLUXVERSE-BMC-10-acceptance.json · 已提交机队回执，但被拒因内容非有效交付物，无后续风险。
+- 11-11T08:51 · GAP-BIGMONEY-BMC-10-bm-c.json · 已完成机队排查报告生成，无错误风险。
+- 11-11T08:51 · GAP-BIGMONEY-BMC-10-acceptance.json · 已提交机队回执，但被因非标准产物而驳回。
+- 11-11T08:51 · GAP-BIGGAME-BMC-10-bm-c.json · 已完成机队排查任务，无风险。
+- 11-11T08:51 · GAP-BIGGAME-BMC-10-acceptance.json · 已提交回执但被拒，因内容非有效交付物且无风险。
+- 11-11T08:51 · REPAIR-R-QUANT-ETF-DAILY-20261102-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-11T08:51 · REPAIR-R-QUANT-ETF-DAILY-20261102-bm-m.json · 已完成机队修复任务，根因确认为本地缓存未持久化导致验证阻断，无风险。
+- 11-11T08:52 · _last_lane_bm-m.json · 机队已就绪，心跳正常，无风险。
+- 11-11T08:52 · GAP-FLUXVERSE-BMC-10-bm-c.json · 已完成机队排查任务，无风险。
+- 11-11T08:52 · GAP-FLUXVERSE-BMC-10-acceptance.json · 完成机队回执提交，但被拒因非标准产物且无风险。
+- 11-11T08:52 · GAP-BIGGAME-BMC-10-bm-c.json · 已完成机队排查任务，无风险。
+- 11-11T08:52 · GAP-BIGGAME-BMC-10-acceptance.json · 完成机队回执提交，但被拒因交付物非标准产物。
