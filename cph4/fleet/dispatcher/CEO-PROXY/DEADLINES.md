@@ -668,3 +668,11 @@ rame_bytes/frame_sha12；**bm-a 上该目录不存在（0/30）**，且本机两
 | **UNBLOCK-INDEX-TTS-20261112（P1）** | **DONE（rc=0·本班交付）** | venv 解释器 **3.11.16**；`import indextts` = `IMPORT-OK <repo>\indextts\__init__.py`（03:00:04）；venv **8163 MB / 35165 文件**。回执=`cph4/fleet/queue-receipts/UNBLOCK-INDEX-TTS-20261112-bm-a.json`。下游 `VCORP-GEN-r1202-EP001-060` / POOL-0027 的 venv 前置解除；**权重（IndexTeam/IndexTTS-2）仍缺**，不在本卡范围。今后同类卡必须写 `--python 3.11`（uv），否则重复白跑。 |
 | **记录更正（诚实边界）** | **corrected** | R41-FIX 行引用的 `media/drama-tools/extts-build.log` **不存在**（InvisibleRunner 未重定向），证据面改以 venv 体积/解释器版本/import 输出为准。 |
 
+
+### R41-V3 追记（2026-11-12 03:06·自驱面实测）
+
+| 件 | 状态 | 证据 / 下一步 |
+|---|---|---|
+| **AUTONOMY-V3 五工位全关（真因）** | **registered·待放行（机制开关）** | `station_drive --dry` 五工位 would_create 全 []：control=`ready_paused` / visual=`blocked_no_comfyui`（本机 8188 False、无 D:\ComfyUI）/ audio=`offline`（bm-b 离线）/ brain=`not_installed` / delivery=`network_ok_not_registered`+16 unknown_output。`STATIONS.json` 末改 `f502fef37` 2026-11-11 17:01，此后零放行。逐位解锁条件见 `cph4/fleet/dispatcher/CEO-PROXY/V3-STATION-BLOCKERS-20261112.md`。**本班未擅自改状态**（前置不满足时放行=假绿）。 |
+| **delivery 缺 16 个产物契约** | **registered（可增量补）** | PROD-GAME-SUBMIT×4 / ASSET-PACK 图标 / FLUXVERSE-SCENE×3 / BIGHOUSE-FLOW×2 / BIGLIFE-POP×3 / CAR-GAMING×2 / ACCOUNT-GROWTH 人工发送。每补一条该机多一道自驱活（V3 §七）。R40 的最小接通只覆盖提审链一段。 |
+
