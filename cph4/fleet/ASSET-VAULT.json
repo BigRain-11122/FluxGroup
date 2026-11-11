@@ -1,24 +1,31 @@
 {
-  "_comment": "素材库落点正身（2026-11-11 立）。移动硬盘不再是主控的长期存储：这里的 path 只是当下实际位置，搬迁或撤销只改本文件，不许再往脚本里写死 /Volumes 路径。",
-  "_version": "v1-20261111",
-  "vault": {
-    "path": "/Volumes/移动硬盘/FluxAssets",
-    "status": "ON_EXTERNAL_DISK",
-    "size_gb": 0.85,
-    "files": 1180,
-    "content": "角色/场景/道具/动作/转场/字体/音色 等素材 + CAPTIONS.jsonl",
-    "decided_by": "CEO 2026-11-11「把移动硬盘的资料挪一下，不需要就删了」",
-    "target": {
-      "station": "visual",
-      "machine": "传家宝",
-      "path": "K:/FluxAssets",
-      "why": "素材字节属于产出机；主控不落媒体"
-    },
-    "blocked_by": "传家宝当前 blocked_no_comfyui 且未联网，无法 rsync；等它上线后一条命令搬完再删本地副本"
+ "_comment": "素材库落点正身（2026-11-11 立）。移动硬盘不再是主控的长期存储：这里的 path 只是当下实际位置，搬迁或撤销只改本文件，不许再往脚本里写死 /Volumes 路径。",
+ "_version": "v1-20261111",
+ "vault": {
+  "path": null,
+  "status": "EMPTY",
+  "size_gb": 0,
+  "files": 0,
+  "content": "已按 CEO 2026-11-11「都删了吧 从头开始」清空",
+  "decided_by": "CEO 2026-11-11「把移动硬盘的资料挪一下，不需要就删了」",
+  "target": {
+   "station": "visual",
+   "machine": "传家宝",
+   "path": "K:/FluxAssets",
+   "why": "素材字节属于产出机；主控不落媒体（后续重新积累时用）"
   },
-  "env": {
-    "var": "FLUX_VAULT",
-    "note": "工具一律先读环境变量，再读本文件 path；两处都没有才报错，不静默落到错误的盘"
-  },
-  "users": ["Tools/fleet/mac_farm.py", "Tools/fleet/local_gen.py", "Tools/fleet/artifact_intake.py"]
+  "blocked_by": "无（已清空）；下次要重建素材库直接按 target 路径积累",
+  "deleted_at": "2026-11-11T15:5x",
+  "manifest": "cph4/fleet/storage/deleted-assets-manifest-20261111.jsonl",
+  "note": "只删字节，留清单（1594 个文件 / 847.8MB 的路径与大小），不可恢复"
+ },
+ "env": {
+  "var": "FLUX_VAULT",
+  "note": "工具一律先读环境变量，再读本文件 path；两处都没有才报错，不静默落到错误的盘"
+ },
+ "users": [
+  "Tools/fleet/mac_farm.py",
+  "Tools/fleet/local_gen.py",
+  "Tools/fleet/artifact_intake.py"
+ ]
 }
