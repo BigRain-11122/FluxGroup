@@ -2,7 +2,7 @@
  "id": "REPAIR-R-QUANT-ETF-DAILY-20261102",
  "node": "bm-m",
  "rc": 0,
- "seconds": 29.6,
+ "seconds": 114.9,
  "cmd": "",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/repairs/R-QUANT-ETF-DAILY-20261102.md",
  "deliverable_exists": true,
- "ts": "2026-11-11T08:41:21",
- "stdout_tail": "### 根因诊断：本地缓存层与交付后处理逻辑解耦异常\n\n**最可能的根因**是**任务完成状态（UNVERIFIED）与文件存在性状态（deliverable-not-on-disk）之间的异步不同步**。尽管 `quant/bigmoney/results/etf_composite_pf.json` 已在磁盘物理存储（隐含于 `quant...` 路径下），但负责写入该文件的进程在终止前未执行“清理本地临时缓存”或“刷新全局状态索引”的操作，导致验证服务未能检索到最新交付物，误报文件缺失。重试 5 次失败证实了问题具有**确定性（Deterministic）**，而非偶发网络抖动或资源竞争。\n\n---\n\n### 下一步具体动作\n\n| 角色 | 具体动作 (Action) | 验证与回退策略 (Verification/Recovery) |\n| :--- | :--- | :--- |\n| **运维工程师 (On-call)** | **1. 文件校验**：<br>手动登录任务节点或数据仓库，确认 `quant/bigmoney/results/etf_composite_pf.json` 文件是否存在且大小>0。<br>**2. 状态回溯**：查询数据库记录 `UNVERIFIED` 状态的生成时间戳，定位是哪个具体的“提交后”脚本触发了该错误。 | **验证**：若文件存在但系统未检索到，则确认为逻辑同步故障；若文件不存在，需检查 `deliverable-not-on-disk` 触发时的目录权限或挂载点状态。<br>**回退**：若确认非代码 Bug，立即暂停重试，转入人工复核流程。 |\n| **研发工程师 (Owner)** | **1. 修复逻辑**：<br>修改任务结束脚本（End-of-Pipe Script），在写入 `etf_composite_pf.json` 后强制加入“清理本地缓存/刷新索引”步骤。<br>**2. 代码验证**：在本地环境复现该流程，观察日志是否输出正确的 `file_found` 信号。 | **验证**：在新环境中运行相同任务（可注入 Mock 数据），检查状态流转是否从 `UNVERIFIED` 正确过渡到 `SUCCESS`。<br>**回退**：若修复后测试通过，提交 Hotfix 补丁并合并至主分支。 |\n| **质量保障 (QA)** | **1. 集成回归**：<br>在 CI/CD Pipeline 中增加“交付物完整性”检查节点，将 `UNVERIFIED` 状态下的文件校验规则纳入自动化流程。<br>**2. 历史数据清洗**：针对本次失败的 5 次重试记录进行归档分析。 | **验证**：运行新的 CI 流水线，确认该任务不再因“文件未检索到”而阻塞；查看历史日志是否已清除冗余的失败计数。 |",
+ "ts": "2026-11-11T08:43:22",
+ "stdout_tail": "### 根因分析：未覆盖的缓存/同步延迟（Non-Consensus Cache）\n本次失败极大概率源于**数据源与本地缓存不一致**。证据 `UNVERIFIED` 表明系统已捕获任务输出，但尚未将其正式写入目标存储；`deliverable-not-on-disk(local)` 进一步证实了交付物仅存在于内存或临时目录中，未被持久化。在重试次数达到 5 次仍无改善的情况下，说明重试逻辑仅重复“读取内存数据”，未触发必要的**缓存刷盘（Cache Flush）**或**版本覆盖**操作，导致系统不断在同一份无效副本上循环失败。\n\n### 下一步具体动作\n- **负责人**：Data Engineering On-call / DataOps Pipeline Owner\n- **核心动作**：\n    1.  **强制刷新数据源**：在触发下一次任务运行前，显式调用依赖组件（`quant/bigmoney/results/etf_composite_pf.json`）的同步 API 或内部钩子（Hook），强制执行一次 `force-reconcile`（强制重联）操作，以清除本地缓存并拉取最新版本。\n    2.  **验证动作**：在重新触发任务后，立即检查 `UNVERIFIED` 状态是否变更为 `VERIFIED`，并确认文件路径下已存在新的 `.json` 交付物；同时检查该文件的 Mtime（修改时间）是否在重试周期内发生有效变更。\n- **终止条件**：若连续执行 3 次强制刷新后任务仍无法进入 `VERIFIED` 状态，需提交工单至核心数据平台团队，并附带日志片段及失败后的完整快照路径，以便排查底层存储驱动（如 Object Storage）的并发阻塞或元数据锁死问题。",
  "stderr_tail": ""
 }
