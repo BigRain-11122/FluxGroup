@@ -169,6 +169,16 @@ def adopt(node, head, st):
     return "push-failed", err[-160:]
 
 
+def write_broken(nid):
+    """节点写链路已判可疑时不要再派 reset 卡：派了也推不回来，只会堆失败卡让 E4 刷屏。
+    2026-11-11 实锚：bm-a 一晚被派了 6 张 reset，全部无回执失败。"""
+    try:
+        wh = json.load(open(os.path.join(FLEET, "state", "write-health.json"), encoding="utf-8"))
+        return nid in (wh.get("suspect") or [])
+    except Exception:
+        return False
+
+
 def sync_card(node, st, reason):
     """发一张自包含的 NODE-SYNC 卡：不依赖节点上任何脚本，纯 git 收口。"""
     nid = node["id"]
@@ -329,7 +339,9 @@ def main(argv):
                 acted.append("no-healthy-peer")
             stuck.append(nid)
         else:
-            if a.force or now() - float(node_st.get("card_ts") or 0) > CARD_COOLDOWN_S:
+            if write_broken(nid):
+                acted.append("skip-write-broken")
+            elif a.force or now() - float(node_st.get("card_ts") or 0) > CARD_COOLDOWN_S:
                 act, rid = sync_card(node, st, "%s 落后 %s 个提交且无法快进" % (nid, ahead))
                 acted.append("%s:%s" % (act, rid))
         rec["action"] = ",".join(acted) or "none"
