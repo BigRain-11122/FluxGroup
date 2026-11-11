@@ -796,6 +796,18 @@ def rg39():
             with open(os.path.join(sp, "executor-revive.json"), "w", encoding="utf-8") as f:
                 json.dump({"bm-c": {"ts": now - 60, "verdict": "healthy"}}, f)
             assert ma.executor_alive_evidence("bm-c"), "新鲜证据没被认（闸还是死局）"
+            # 长窗（2026-11-12 01:2x）：证据晚于最后一次产出且在 6h 内 → 仍算有效救援，
+            # 否则 executor_revive 阶段慢一拍就会把刚从死锁里救出来的机器又推回去。
+            with open(os.path.join(sp, "executor-revive.json"), "w", encoding="utf-8") as f:
+                json.dump({"bm-c": {"ts": now - 3600, "verdict": "healthy"}}, f)
+            assert ma.executor_alive_evidence("bm-c", since_ts=now - 22 * 3600), \
+                "证据晚于最后产出却没被认（救援被心跳阶段拖累作废）"
+            assert not ma.executor_alive_evidence("bm-c", since_ts=now - 600), \
+                "证据早于最后产出却被认（停摆后无人救援也放行）"
+            with open(os.path.join(sp, "executor-revive.json"), "w", encoding="utf-8") as f:
+                json.dump({"bm-c": {"ts": now - 7 * 3600, "verdict": "healthy"}}, f)
+            assert not ma.executor_alive_evidence("bm-c", since_ts=now - 22 * 3600), \
+                "证据超过 6h 仍放行（长窗无上限=永久放行）"
         finally:
             ma.ROOT_DIR = old_root
     finally:

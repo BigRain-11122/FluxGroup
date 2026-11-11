@@ -445,9 +445,10 @@ def cloud_spend_today(rows):
 
 REVIVE_STATE_REL = "cph4/fleet/state/executor-revive.json"
 REVIVE_TRUST_S = 1800
+REVIVE_TRUST_LONG_S = 6 * 3600
 
 
-def executor_alive_evidence(node, max_age_s=REVIVE_TRUST_S):
+def executor_alive_evidence(node, max_age_s=REVIVE_TRUST_S, since_ts=None):
     """执行者活着的最新证据（executor_revive 每轮落盘）。
 
     为什么（2026-11-12 00:4x 事件班实锚）：EXECUTOR-DEAD 的唯一判据是「零产出 N 小时」，
@@ -455,6 +456,12 @@ def executor_alive_evidence(node, max_age_s=REVIVE_TRUST_S):
     时间派单器继续拒收，于是「没产出→不给活→更没产出」自我实现。实测 bm-c 的 /status 回
     `HQ-ProductionClaim:WAKE`（执行者已唤醒），车道文件仍写 EXECUTOR-DEAD (22.4h)，
     名下 3 张 GPU 活一张也进不了 lane。判据正法=「零产出」只做嫌疑，死亡要由执行者证据定谳。
+
+    两段窗（2026-11-12 01:2x 补强）：证据只由 executor_revive 阶段刷新，而该阶段可能落后
+    于主周期（实测证据 31.7 分钟未刷新就把 bm-c 又推回死锁）。所以判据改成：
+      · 证据在 max_age_s 内 → 认；
+      · 证据产生于「最后一次产出之后」（since_ts）且不超过 6 小时 → 也认。
+        「唤醒晚于停摆」本身就是一次有效救援，不该因为心跳阶段慢了一拍就作废。
     """
     try:
         p = os.path.join(ROOT_DIR, REVIVE_STATE_REL.replace("/", os.sep))
@@ -462,7 +469,11 @@ def executor_alive_evidence(node, max_age_s=REVIVE_TRUST_S):
             row = (json.load(f) or {}).get(node) or {}
         if str(row.get("verdict") or "") not in ("healthy", "wake", "closeout"):
             return False
-        return (time.time() - float(row.get("ts") or 0)) <= max_age_s
+        ts = float(row.get("ts") or 0)
+        age = time.time() - ts
+        if age <= max_age_s:
+            return True
+        return since_ts is not None and ts > since_ts and age <= REVIVE_TRUST_LONG_S
     except Exception:
         return False
 
@@ -491,7 +502,8 @@ def lane_capacity(node, fleet, needs="cpu", vram_min=0, job=None):
             # 与 RAM floor 的 rescue 豁免同一法理（2026-11-02 bm-b 0.0GB 判例）。
             if (idle_h > _bl._stalled_worker_hours()
                     and not (job is not None and job.get("rescue"))
-                    and not executor_alive_evidence(node)):
+                    and not executor_alive_evidence(
+                        node, since_ts=time.time() - idle_h * 3600.0)):
                 return False, "EXECUTOR-DEAD (%.1fh 零产出)" % idle_h
         except Exception:
             pass          # 判不了就不排除（宁可不排除，也不许凭空拦活）
@@ -954,7 +966,13 @@ def write_lane_files(root, rows, fleet, dry=False, nodes=None):
                    "lane_ok": ok, "capacity_note": why}
         path = fl.lane_file(root, n)
         old = fl.read_json(path, {}) or {}
-        if old.get("jobs") == payload["jobs"] and old.get("idle_reason") == idle_reason:
+        # 2026-11-12 R39：旧跳过条件只比 jobs+idle_reason，于是「判据从 EXECUTOR-DEAD
+        # 翻成可派」这类只改 lane_ok/capacity_note 的变化写不进文件——修好的闸在盘上
+        # 永远显示旧结论（本轮实测：代码已放行，车道仍写着 EXECUTOR-DEAD 23.0h）。
+        if (old.get("jobs") == payload["jobs"]
+                and old.get("idle_reason") == idle_reason
+                and old.get("lane_ok") == ok
+                and old.get("capacity_note") == why):
             continue
         if not dry:
             fl.write_json(path, payload)
