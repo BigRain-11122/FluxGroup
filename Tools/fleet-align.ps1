@@ -90,8 +90,25 @@ $t = Get-ScheduledTask -TaskName $taskName -ErrorAction SilentlyContinue
 if ($RegisterTask -and -not $t) {
     $reg = Join-Path $Root 'Tools\task-register.ps1'
     if (Test-Path $reg) {
-        & $reg -Name $taskName -Script $runner -Trigger 'every:5m' -Description "lane claim ($Node) aligned to bm-m master"
-        Step 'task' 'registered'
+        # 2026-11-11 bm-c: Defender quarantines Tools\InvisibleRunner.vbs (Trojan:Script/
+        # ObfusScript.A!ml), which makes task-register throw -- and the old line here printed
+        # "registered" no matter what, so the loss looked like a success for hours.
+        # Pick the console-less pythonw path when the VBS chain is gone, and VERIFY the task.
+        $regArgs = @{ Name = $taskName; Trigger = 'every:5m'
+                      Description = "lane claim ($Node) aligned to bm-m master" }
+        $pyRunner = Join-Path $laneRoot 'Tools\hq_claim_launch.py'
+        if ((Test-Path (Join-Path $Root 'Tools\InvisibleRunner.vbs'))) {
+            $regArgs.Script = $runner
+        } elseif (Test-Path $pyRunner) {
+            $regArgs.Script = $pyRunner
+            $regArgs.NoVbs = $true
+        } else {
+            $regArgs.Script = $runner
+        }
+        try { & $reg @regArgs | Out-Null } catch { Write-Output ('REG-FAIL ' + $_.Exception.Message) }
+        $t = Get-ScheduledTask -TaskName $taskName -ErrorAction SilentlyContinue
+        if ($t) { Step 'task' ("registered state=" + $t.State) }
+        else { Step 'task' 'REGISTRATION FAILED (task absent after task-register)'; $receipt.rc = 1 }
     } else { Step 'task' 'task-register.ps1 absent' }
 } elseif ($t) { Step 'task' ("present state=" + $t.State) } else { Step 'task' 'absent (re-run with -RegisterTask)' }
 

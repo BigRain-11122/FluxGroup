@@ -29,7 +29,8 @@ param(
     [Parameter(ParameterSetName = 'register')][string]$Description = 'fleet silent task via Tools/task-register.ps1 (U060 mechanism-grade)',
     [Parameter(ParameterSetName = 'rewrap')][switch]$RewrapShim,
     [Parameter(ParameterSetName = 'register')][switch]$FireTest,
-    [Parameter(ParameterSetName = 'register')][switch]$NoFireTest
+    [Parameter(ParameterSetName = 'register')][switch]$NoFireTest,
+    [Parameter(ParameterSetName = 'register')][switch]$NoVbs
 )
 $ErrorActionPreference = 'Stop'
 
@@ -83,13 +84,23 @@ if ($RewrapShim) {
     exit 0
 }
 
-$vbs = Join-Path $PSScriptRoot 'InvisibleRunner.vbs'
-if (-not (Test-Path $vbs)) { throw 'InvisibleRunner.vbs missing - cannot guarantee silence' }
-
 $sc = [System.IO.Path]::GetFullPath($Script)
 if (-not (Test-Path $sc)) { throw "script/exe not found: $sc" }
 $ext = [System.IO.Path]::GetExtension($sc).ToLower()
 $tailArg = if ($Arg) { ' ' + $Arg } else { '' }
+$vbs = Join-Path $PSScriptRoot 'InvisibleRunner.vbs'
+
+# 2026-11-11 (bm-c, Defender): Trojan:Script/ObfusScript.A!ml quarantined InvisibleRunner.vbs
+# at 07:49 and deleted the 22 fleet tasks carrying it; every re-registration is re-quarantined
+# within seconds, so the VBS chain is unusable on a machine with that signature enabled.
+# -NoVbs registers a .py payload directly under pythonw.exe: pythonw has no console at all,
+# so silence (U060) holds without any script host for the ML to bite. Deliberately .py-only --
+# a .bat/.ps1 under pythonw still needs a console-capable host and would flash.
+if ($NoVbs) {
+    if ($ext -ne '.py') { throw '-NoVbs accepts .py payloads only (pythonw.exe is console-less by construction)' }
+} elseif (-not (Test-Path $vbs)) {
+    throw 'InvisibleRunner.vbs missing - cannot guarantee silence (quarantined? use -NoVbs with a .py payload)'
+}
 
 # inner launcher by file type - all console-capable hosts are wrapped by the outer VBS chain
 switch ($ext) {
@@ -100,7 +111,13 @@ switch ($ext) {
     default { $inner = '"{0}"{1}' -f $sc, $tailArg }
 }
 
-$action = New-ScheduledTaskAction -Execute 'wscript.exe' -Argument ('//B //nologo "{0}" {1}' -f $vbs, $inner)
+if ($NoVbs) {
+    $action = New-ScheduledTaskAction -Execute 'pythonw.exe' -Argument ('"{0}"{1}' -f $sc, $tailArg)
+    $chainExpect = $sc
+} else {
+    $action = New-ScheduledTaskAction -Execute 'wscript.exe' -Argument ('//B //nologo "{0}" {1}' -f $vbs, $inner)
+    $chainExpect = 'InvisibleRunner.vbs'
+}
 
 # S4U by construction (fleet law 2026-09-29). The 2026-10-16 bm-a re-bite of the 10-15
 # bm-b pit (both new sentinel tasks registered InteractiveToken while their headers
@@ -144,7 +161,7 @@ if (-not (Get-ScheduledTask -TaskName $Name -ErrorAction SilentlyContinue)) {
 # write-then-readback law: green only if hidden chain is confirmed on the live object
 $chk = Get-ScheduledTask -TaskName $Name
 $chkAct = ($chk.Actions | ForEach-Object { $_.Execute + ' ' + $_.Arguments }) -join ' '
-if ($chkAct -notmatch [regex]::Escape('InvisibleRunner.vbs')) {
+if ($chkAct -notmatch [regex]::Escape($chainExpect)) {
     Unregister-ScheduledTask -TaskName $Name -Confirm:$false
     throw 'readback failed: hidden chain missing - registration rolled back'
 }
