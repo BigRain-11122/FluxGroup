@@ -6976,3 +6976,10 @@
 - 11-11T10:25 · _last_lane_bm-m.json · 机队已就绪，当前无风险。
 - 11-11T10:25 · self-improve-bm-m-latest.json · 机队已确认无风险，所有检查项均通过。
 - 11-11T10:26 · _last_lane_bm-m.json · 机队已就绪，心跳正常，无风险。
+- 11-11T10:27 · _last_lane_bm-m.json · 已完成机队解锁验证，无风险。
+- 11-11T10:27 · UNBLOCK-NODE-SYNC-bm-a-20261111T0956-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-11T10:27 · UNBLOCK-NODE-SYNC-bm-a-20261111T0956-bm-m.json · 节点同步完成，但存在因权限不足导致需人工清理的风险。
+- 11-11T10:27 · UNBLOCK-VERIFY-ICONS-BMA-20261111-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-11T10:27 · UNBLOCK-VERIFY-ICONS-BMA-20261111-bm-m.json · 已完成按回执补账动作，无风险。
+- 11-11T10:27 · UNBLOCK-GAP-ASSETLIB-BMA-2-acceptance.json · 完成机队回执提交，但被拒因非有效产物且存在合规风险。
+- 11-11T10:27 · UNBLOCK-GAP-ASSETLIB-BMA-2-bm-m.json · 已完成 GAP-ASSETLIB-BMA-2 回执，但存在因权限缺失导致无法执行的潜在风险。
