@@ -98,7 +98,9 @@ def evaluate(tax, products, stations):
                 errors.append(("HARDWARE", tid, sid,
                                "需要核心 %s > 本机 %s" % (need.get("cores"), s.get("cpu_cores"))))
                 continue
-            if (s.get("status") or "") in READY:
+            # blocked_scope=gpu 的机器：ComfyUI 挂了只影响 GPU 活，剪辑/字幕/清单照跑
+            if (s.get("status") or "") in READY or (
+                    s.get("blocked_scope") == "gpu" and need.get("gpu_gb", 0) == 0):
                 ok_any = True
         if not ok_any:
             warnings.append(("BOTTLENECK", tid, ",".join(sts),

@@ -32,8 +32,8 @@
     {"id": "T-AUD-MUSIC", "name": "BGM/配乐", "tool": "正版池/生成", "out": "BGM 轨+版权标注", "min": 20, "res": {"cores": 2, "gpu_gb": 0, "ram_gb": 4}, "stations": ["audio"], "model": "none", "judge": "manual"},
     {"id": "T-AUD-VOICEBANK", "name": "音色库", "tool": "TTS 音色克隆", "out": "角色音色 ID 表", "min": 60, "res": {"cores": 4, "gpu_gb": 6, "ram_gb": 8}, "stations": ["audio"], "model": "none", "judge": "manual"},
 
-    {"id": "T-ASM-CUT", "name": "剪辑", "tool": "ffmpeg", "out": "成片母版", "min": 90, "res": {"cores": 4, "gpu_gb": 0, "ram_gb": 8, "disk_gb": 10}, "stations": ["control"], "model": "none", "judge": "drama_rules"},
-    {"id": "T-ASM-SUB", "name": "字幕", "tool": "ASR+ASS 烧制", "out": "硬字幕母版", "min": 20, "res": {"cores": 2, "gpu_gb": 0, "ram_gb": 6}, "stations": ["control"], "model": "none", "judge": "drama_rules"},
+    {"id": "T-ASM-CUT", "name": "剪辑", "tool": "ffmpeg", "out": "成片母版", "min": 90, "res": {"cores": 4, "gpu_gb": 0, "ram_gb": 8, "disk_gb": 10}, "stations": ["visual"], "model": "none", "judge": "drama_rules"},
+    {"id": "T-ASM-SUB", "name": "字幕", "tool": "ASR+ASS 烧制", "out": "硬字幕母版", "min": 20, "res": {"cores": 2, "gpu_gb": 0, "ram_gb": 6}, "stations": ["visual"], "model": "none", "judge": "drama_rules"},
     {"id": "T-QC-GATE", "name": "质量闸", "tool": "drama_rules.py", "out": "九段门结论", "min": 15, "res": {"cores": 2, "gpu_gb": 0, "ram_gb": 4}, "stations": ["control"], "model": "none", "judge": "drama_rules"},
     {"id": "T-QC-VISION", "name": "视觉一致性机检", "tool": "frame_diff/脸锚", "out": "跨镜一致性报告", "min": 20, "res": {"cores": 4, "gpu_gb": 2, "ram_gb": 8}, "stations": ["visual"], "model": "none", "judge": "drama_rules"},
 
@@ -49,9 +49,9 @@
 
     {"id": "T-DOC-SUBMIT-MATERIAL", "name": "提审材料套用", "tool": "game_submit_pack.py", "out": "提审四件套", "min": 20, "res": {"cores": 2, "gpu_gb": 0, "ram_gb": 4}, "stations": ["delivery"], "model": "none", "judge": "game_submit_pack"},
     {"id": "T-DOC-SUBMIT-LIST", "name": "提审清单", "tool": "台账核对", "out": "清单+哈希", "min": 15, "res": {"cores": 2, "gpu_gb": 0, "ram_gb": 4}, "stations": ["delivery"], "model": "none", "judge": "hash"},
-    {"id": "T-DOC-INDEX", "name": "索引/清单", "tool": "脚本生成", "out": "索引文件", "min": 15, "res": {"cores": 2, "gpu_gb": 0, "ram_gb": 4}, "stations": ["delivery"], "model": "none", "judge": "path"},
+    {"id": "T-DOC-INDEX", "name": "索引/清单", "tool": "脚本生成", "out": "索引文件", "min": 15, "res": {"cores": 2, "gpu_gb": 0, "ram_gb": 4}, "stations": ["control"], "model": "none", "judge": "path"},
     {"id": "T-DOC-OEM", "name": "OEM 一页材料", "tool": "人写+排版", "out": "一页 PDF/MD", "min": 60, "res": {"cores": 2, "gpu_gb": 0, "ram_gb": 4}, "stations": ["control"], "model": "local-4b", "judge": "manual"},
-    {"id": "T-DOC-ASSET", "name": "对外物料", "tool": "模板+截图", "out": "物料包", "min": 45, "res": {"cores": 2, "gpu_gb": 0, "ram_gb": 4}, "stations": ["delivery"], "model": "none", "judge": "path"},
+    {"id": "T-DOC-ASSET", "name": "对外物料", "tool": "模板+截图", "out": "物料包", "min": 45, "res": {"cores": 2, "gpu_gb": 0, "ram_gb": 4}, "stations": ["control"], "model": "none", "judge": "path"},
     {"id": "T-DOC-PUBLISH", "name": "发布件(标识/备案)", "tool": "ship-ops 三标识检查", "out": "可发布母版+标识记录", "min": 20, "res": {"cores": 2, "gpu_gb": 0, "ram_gb": 4}, "stations": ["control"], "model": "none", "judge": "manual"},
 
     {"id": "T-OPS-CEO", "name": "CEO 物理件", "tool": "CEO 本人", "out": "账号/备案/采购/对外承诺", "min": 0, "res": {"cores": 0, "gpu_gb": 0, "ram_gb": 0}, "stations": [], "model": "none", "judge": "human", "human": true}

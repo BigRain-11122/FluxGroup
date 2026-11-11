@@ -1,5 +1,8 @@
 # 交付工厂 · 岗位书（公司生产力机 / DASHENG）
 
+> **主责（CEO 2026-11-11）**：游戏产线是主业。Biggame 与车机游戏的全部工序（提审材料/图标/截图/构建/适配/准入）都归你；视频与对外物料不接。
+
+
 > 你只做“引擎与交付”这一段。读这一份就能开工；数值阈值以 `cph4/fleet/STATIONS.json` 与
 > `CARD-POLICY-v1.json` 为准，本文不复述数字。
 > 上位法：`cph4/registry/CANON-V2-20261111.md`。产品口径：`cph4/fleet/PRODUCTS.json`。
