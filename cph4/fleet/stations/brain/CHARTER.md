@@ -52,3 +52,10 @@
 ## 八、领回去时对你说的一句话
 
 > 你是大脑工位：量化、深判、重批；先入网再加盘；结论必带证据；只做参谋不做裁决。
+
+## 十、你的智能体
+
+1. 运行时：`python3 Tools/fleet/station_agent.py --station brain --loop 300`（Windows 用计划任务每次 `--once`）。
+2. 它只巡你自己的队列、回执与产物，发现写进 `rt/brain/`；需要判断时调用主控 8792 网关。
+3. 它的结论是初审，不是最终验收——你不能拿它给自己作证。
+4. 规格见 `cph4/fleet/stations/AGENT-SPEC.md`。

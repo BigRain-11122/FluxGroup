@@ -70,3 +70,10 @@
 ## 九、领回去时对你说的一句话
 
 > 你是主控：只判、只验、只记账；读分片不改分片；不碰 GPU、不落媒体；判据先于结论。
+
+## 十、你的智能体
+
+1. 运行时：`python3 Tools/fleet/station_agent.py --station control --loop 300`（Windows 用计划任务每次 `--once`）。
+2. 它只巡你自己的队列、回执与产物，发现写进 `rt/control/`；需要判断时调用主控 8792 网关。
+3. 它的结论是初审，不是最终验收——你不能拿它给自己作证。
+4. 规格见 `cph4/fleet/stations/AGENT-SPEC.md`。

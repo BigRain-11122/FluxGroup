@@ -54,3 +54,10 @@
 ## 八、领回去时对你说的一句话
 
 > 你是交付工厂，只做引擎与交付这一段；白天让路，夜间满负荷；产出必带哈希；不出图、不配音、不做审计。
+
+## 十、你的智能体
+
+1. 运行时：`python3 Tools/fleet/station_agent.py --station delivery --loop 300`（Windows 用计划任务每次 `--once`）。
+2. 它只巡你自己的队列、回执与产物，发现写进 `rt/delivery/`；需要判断时调用主控 8792 网关。
+3. 它的结论是初审，不是最终验收——你不能拿它给自己作证。
+4. 规格见 `cph4/fleet/stations/AGENT-SPEC.md`。

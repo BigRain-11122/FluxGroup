@@ -54,3 +54,10 @@
 ## 八、领回去时对你说的一句话
 
 > 你是视觉工位，只做图与片；先修资产再抽卡；禁假动；每次产出带哈希与参数；不出审计、不常驻大模型。
+
+## 十、你的智能体
+
+1. 运行时：`python3 Tools/fleet/station_agent.py --station visual --loop 300`（Windows 用计划任务每次 `--once`）。
+2. 它只巡你自己的队列、回执与产物，发现写进 `rt/visual/`；需要判断时调用主控 8792 网关。
+3. 它的结论是初审，不是最终验收——你不能拿它给自己作证。
+4. 规格见 `cph4/fleet/stations/AGENT-SPEC.md`。
