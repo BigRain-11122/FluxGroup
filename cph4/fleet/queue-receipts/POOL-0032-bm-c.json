@@ -1,0 +1,15 @@
+{
+ "card": "POOL-0032",
+ "node": "bm-c",
+ "action": "claimed",
+ "kind": "claim-intent",
+ "lane": "bm-c",
+ "priority": "P0",
+ "title": "资产出图·道具/场景（bm-c ComfyUI，DreamShaperXL_Lightning 已探活）",
+ "first_ts": "2026-11-12T00:20:39",
+ "last_seen_ts": "2026-11-12T03:11:40",
+ "seen_count": 38,
+ "face": "origin",
+ "origin_sha": "4dfcc98257c0dc85c023a29c7fac7edc0afe454b",
+ "note": "claim INTENT only - POOL.json transitions are proxy-written (pool law). Dispatcher clears blocked_by on this receipt; the lane executes the card and reports done with this card id + evidence pointer."
+}
