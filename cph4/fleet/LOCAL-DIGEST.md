@@ -6942,3 +6942,6 @@
 - 11-11T10:14 · REPAIR-LINE-TRIAGE-MV-bm-m.json · 已完成交易凭证与银行流水的逻辑一致性校验，发现不一致导致入账失败且无自动重试机制。
 - 11-11T10:14 · REPAIR-GAP-MV-LINE-20261111-acceptance.json · 机队回执未生成有效交付物，存在流程阻断风险。
 - 11-11T10:14 · REPAIR-GAP-MV-LINE-20261111-bm-m.json · 已完成重放机制触发的补偿作业与状态切换，无风险。
+- 11-11T10:15 · _last_lane_bm-m.json · 已完成机队图标修复验证，当前运行中无风险。
+- 11-11T10:15 · REPAIR-GAP-MV-LINE-20261111-acceptance.json · 已提交机队回执，但被拒因交付物非有效文档且无风险。
+- 11-11T10:15 · REPAIR-GAP-MV-LINE-20261111-bm-m.json · 已完成 GAP-MV-LINE 补账任务诊断，发现因缺乏预期回执导致失败，需排查数据源或调整触发策略。
