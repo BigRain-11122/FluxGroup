@@ -599,13 +599,40 @@ def self_test():
         c_nocmd = dict(c2); c_nocmd["cmd"] = ""
         chk("无 cmd -> NEED-CMD 不假跑", run_card("control", c_nocmd, td)["why"] == "NEED-CMD")
 
+    # 身份识别：设了 FLEET_STATION 就认它；乱填必须认不出（不猜、不默认主控）
+    _old = os.environ.get("FLEET_STATION")
+    try:
+        os.environ["FLEET_STATION"] = "visual"
+        chk("FLEET_STATION=visual -> 识别为 visual", detect_station() == "visual")
+        os.environ["FLEET_STATION"] = "not-a-station"
+        chk("乱填工位 -> 识别失败（拒绝运行而不是默认主控）", detect_station() is None)
+    finally:
+        if _old is None:
+            os.environ.pop("FLEET_STATION", None)
+        else:
+            os.environ["FLEET_STATION"] = _old
+
     print("[station_drive] %d/%d" % (ok, total))
     return 0 if ok == total else 2
 
 
+def detect_station():
+    """本机是哪个工位：FLEET_STATION > hostname 匹配 STATIONS。
+    2026-11-11 实锚：原来 --station 默认写死 control——真机上忘了带参数就会
+    以主控身份跑（读主控分片、认主控的活），属于最危险的静默错。"""
+    try:
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        import local_model as lm
+        st = lm.local_station()
+        return st if st in ss.STATIONS else None
+    except Exception:
+        return None
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
-    ap.add_argument("--station", choices=list(ss.STATIONS), default="control")
+    ap.add_argument("--station", choices=list(ss.STATIONS), default=None,
+                    help="不传则按 FLEET_STATION/hostname 自动识别；识别不出会拒绝运行")
     ap.add_argument("--root", default=None)
     ap.add_argument("--dry", action="store_true")
     ap.add_argument("--once", action="store_true")
@@ -617,12 +644,18 @@ def main(argv=None):
 
     if a.self_test:
         return self_test()
+    station = a.station or detect_station()
+    if not station:
+        print(json.dumps({"error": "无法判定本机工位：设 FLEET_STATION=<station> 或传 --station；"
+                                   "拒绝以默认身份运行（防误以主控身份干活）",
+                          "allowed": list(ss.STATIONS)}, ensure_ascii=False, indent=1))
+        return 2
     if a.loop:
         while True:
-            r = once(a.station, a.root, dry=a.dry, run_limit=a.run_limit, force=a.force)
+            r = once(station, a.root, dry=a.dry, run_limit=a.run_limit, force=a.force)
             print(json.dumps(r, ensure_ascii=False))
             time.sleep(a.loop)
-    r = once(a.station, a.root, dry=a.dry, run_limit=a.run_limit, force=a.force)
+    r = once(station, a.root, dry=a.dry, run_limit=a.run_limit, force=a.force)
     print(json.dumps(r, ensure_ascii=False, indent=1))
     return 0
 
