@@ -3348,3 +3348,4 @@
 {"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-11T09:10:45"}
 {"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 4.8, "chars": 138, "why": "master-digest", "ts": "2026-11-11T09:12:07"}
 {"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 4.7, "chars": 116, "why": "master-digest", "ts": "2026-11-11T09:12:17"}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 4.9, "chars": 52, "why": "fleet_brain:pick", "ts": "2026-11-11T09:15:46"}
