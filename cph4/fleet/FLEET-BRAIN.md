@@ -1,4 +1,4 @@
-# 机队决策（常驻模型在候选里挑）2026-11-11T08:05:08
+# 机队决策（常驻模型在候选里挑）2026-11-11T08:08:30
 
 分工：**事实与候选由规则算，动作由代码白名单执行，模型只做选择**（4B 级算术不可信，所以数字从不交给模型）。
 
@@ -11,13 +11,13 @@
 ## 事实（规则算出来的）
 
 - 队列：待派 6 / 在飞 2
-- 车道：bm-a 0，bm-b 0，bm-c 4，bm-m 0
+- 车道：bm-a 1，bm-b 0，bm-c 1，bm-m 0
 - 停摆线：biggame,fluxverse,bigmoney,bigdomain,bigcompute,recon
 - 堵点命中 10 / 待升级 1
 
 ## 候选（模型只能从这里挑）
 
-- `A_FILL` 补供给：night_fill + workgen + supply_batch — 3 台空转而待派只有 6 张
+- `A_FILL` 补供给：night_fill + workgen + supply_batch — 2 台空转而待派只有 6 张
 - `A_DISPATCH` 派单：master_agent 把队列里的卡装进空车道 — 有 6 张待派且有机器空着
 - `A_CLOSE_LOOP` 跑堵点闭环：按分类表检测并自动解 — 闭环上次报 10 项命中
 - `A_NIGHT_PLAN` 按声明补卡：night_plan 派各线唯一下一步 — 6 条 ACTIVE 线已停 ≥72h
@@ -27,7 +27,6 @@
 
 | 时间 | 决策 | 来源 | 执行 |
 |---|---|---|---|
-| 07:28:07 | A_DISPATCH | model | 否 |
 | 07:36:42 | A_DISPATCH | model | 否 |
 | 07:40:10 | A_DISPATCH | model | 否 |
 | 07:43:32 | A_DISPATCH | model | 否 |
@@ -35,6 +34,7 @@
 | 07:53:17 | A_DISPATCH | model | 否 |
 | 07:56:09 | A_DISPATCH | model | 否 |
 | 08:05:08 | A_DISPATCH | model | 否 |
+| 08:08:30 | A_DISPATCH | model | 否 |
 
 ---
 _模型没有发明动作的权力：候选外的 id 一律回落规则首选_
