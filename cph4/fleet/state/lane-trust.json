@@ -1,85 +1,13 @@
 {
- "ts": "2026-11-11T08:56:09",
+ "ts": "2026-11-11T08:55:56",
  "lanes": {
-  "bm-a": {
-   "tier": "production",
-   "why": "近7天 190 份回执",
-   "total": 292,
-   "d1": 33,
-   "d7": 190,
-   "last": "2026-11-11T02:15"
-  },
-  "bm-c": {
-   "tier": "production",
-   "why": "近7天 166 份回执",
-   "total": 206,
-   "d1": 75,
-   "d7": 166,
-   "last": "2026-11-11T08:54"
-  },
   "bm-m": {
    "tier": "production",
-   "why": "近7天 675 份回执",
-   "total": 924,
-   "d1": 128,
-   "d7": 675,
-   "last": "2026-11-11T08:52"
-  },
-  "bm-b": {
-   "tier": "production",
-   "why": "近7天 134 份回执",
-   "total": 155,
-   "d1": 0,
-   "d7": 134,
-   "last": "2026-11-10T00:19"
-  },
-  "unknown": {
-   "tier": "production",
-   "why": "近7天 5 份回执",
-   "total": 5,
-   "d1": 1,
-   "d7": 5,
-   "last": "2026-11-11T00:05"
-  },
-  "junshengsundeMacBook-Pro.local": {
-   "tier": "production",
-   "why": "近7天 180 份回执",
-   "total": 180,
-   "d1": 122,
-   "d7": 180,
-   "last": "2026-11-11T08:49"
-  },
-  "DASHENG": {
-   "tier": "production",
-   "why": "近7天 55 份回执",
-   "total": 59,
-   "d1": 30,
-   "d7": 55,
-   "last": "2026-11-11T02:15"
-  },
-  "FLUXGROUP": {
-   "tier": "production",
-   "why": "近7天 71 份回执",
-   "total": 71,
-   "d1": 71,
-   "d7": 71,
-   "last": "2026-11-11T08:54"
-  },
-  "?": {
-   "tier": "probe-only",
-   "why": "近7天仅 2 份回执（门槛 5）",
-   "total": 2,
-   "d1": 0,
-   "d7": 2,
-   "last": "2026-11-07T19:33"
-  },
-  "dasheng": {
-   "tier": "probe-only",
-   "why": "近7天仅 2 份回执（门槛 5）",
-   "total": 2,
-   "d1": 0,
-   "d7": 2,
-   "last": "2026-11-08T12:05"
+   "why": "近7天 676 份回执",
+   "total": 925,
+   "d1": 129,
+   "d7": 676,
+   "last": "2026-11-11T08:55"
   },
   "192.168.2.128": {
    "tier": "probe-only",
@@ -89,13 +17,77 @@
    "d7": 3,
    "last": "2026-11-09T06:56"
   },
-  "bigmoney": {
-   "tier": "probe-only",
-   "why": "近7天仅 1 份回执（门槛 5）",
-   "total": 1,
+  "bm-b": {
+   "tier": "production",
+   "why": "近7天 134 份回执",
+   "total": 155,
    "d1": 0,
-   "d7": 1,
-   "last": "2026-11-08T02:29"
+   "d7": 134,
+   "last": "2026-11-10T00:19"
+  },
+  "bm-a": {
+   "tier": "production",
+   "why": "近7天 190 份回执",
+   "total": 293,
+   "d1": 33,
+   "d7": 190,
+   "last": "2026-11-11T02:15"
+  },
+  "bm-c": {
+   "tier": "production",
+   "why": "近7天 165 份回执",
+   "total": 205,
+   "d1": 74,
+   "d7": 165,
+   "last": "2026-11-11T08:54"
+  },
+  "DASHENG": {
+   "tier": "production",
+   "why": "近7天 55 份回执",
+   "total": 59,
+   "d1": 30,
+   "d7": 55,
+   "last": "2026-11-11T02:15"
+  },
+  "junshengsundeMacBook-Pro.local": {
+   "tier": "production",
+   "why": "近7天 180 份回执",
+   "total": 180,
+   "d1": 122,
+   "d7": 180,
+   "last": "2026-11-11T08:49"
+  },
+  "FLUXGROUP": {
+   "tier": "production",
+   "why": "近7天 71 份回执",
+   "total": 71,
+   "d1": 71,
+   "d7": 71,
+   "last": "2026-11-11T08:54"
+  },
+  "unknown": {
+   "tier": "production",
+   "why": "近7天 5 份回执",
+   "total": 5,
+   "d1": 1,
+   "d7": 5,
+   "last": "2026-11-11T00:05"
+  },
+  "junshengsundemacbook-pro.local": {
+   "tier": "production",
+   "why": "近7天 5 份回执",
+   "total": 6,
+   "d1": 0,
+   "d7": 5,
+   "last": "2026-11-08T23:54"
+  },
+  "?": {
+   "tier": "probe-only",
+   "why": "近7天仅 2 份回执（门槛 5）",
+   "total": 2,
+   "d1": 0,
+   "d7": 2,
+   "last": "2026-11-07T19:33"
   },
   "bm-d": {
    "tier": "probe-only",
@@ -105,13 +97,21 @@
    "d7": 1,
    "last": "2026-11-07T12:47"
   },
-  "junshengsundemacbook-pro.local": {
-   "tier": "production",
-   "why": "近7天 5 份回执",
-   "total": 6,
+  "dasheng": {
+   "tier": "probe-only",
+   "why": "近7天仅 2 份回执（门槛 5）",
+   "total": 2,
    "d1": 0,
-   "d7": 5,
-   "last": "2026-11-08T23:54"
+   "d7": 2,
+   "last": "2026-11-08T12:05"
+  },
+  "bigmoney": {
+   "tier": "probe-only",
+   "why": "近7天仅 1 份回执（门槛 5）",
+   "total": 1,
+   "d1": 0,
+   "d7": 1,
+   "last": "2026-11-08T02:29"
   }
  }
 }

@@ -6716,3 +6716,11 @@
 - 11-11T08:52 · GAP-BIGGAME-BMC-10-acceptance.json · 完成机队回执提交，但被拒因交付物非标准产物。
 - 11-11T08:53 · self-improve-bm-m-latest.json · 机队已确认代码无风险，所有检查项均通过。
 - 11-11T08:53 · _last_lane_bm-m.json · 机队已就绪，心跳正常，无风险。
+- 11-11T08:54 · GAP-BIGMONEY-BMC-10-bm-c.json · 已完成机队排查报告生成，无错误风险。
+- 11-11T08:54 · GAP-BIGMONEY-BMC-10-acceptance.json · 已提交回执但被拒，因内容非有效交付物且存在合规风险。
+- 11-11T08:54 · GAP-ASSETLIB-BMC-11-bm-c.json · 已完成资产库排查报告生成，无错误风险。
+- 11-11T08:54 · GAP-ASSETLIB-BMC-11-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
+- 11-11T08:54 · _last_lane_bm-m.json · 机队已就绪，心跳正常，无风险。
+- 11-11T08:55 · GAP-BIGSTREAMMV-BMC-11-bm-c.json · 已完成机队排查报告生成，无错误风险。
+- 11-11T08:55 · GAP-BIGSTREAMMV-BMC-11-acceptance.json · 已提交机队回执，但被拒因内容非有效产物，无后续风险。
+- 11-11T08:55 · _last_lane_bm-m.json · 机队已就绪，心跳正常，无风险。
