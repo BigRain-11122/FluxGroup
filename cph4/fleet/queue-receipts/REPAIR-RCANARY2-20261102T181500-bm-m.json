@@ -1,0 +1,17 @@
+{
+ "id": "REPAIR-RCANARY2-20261102T181500",
+ "node": "bm-m",
+ "rc": 0,
+ "seconds": 37.2,
+ "cmd": "",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "cph4/fleet/repairs/RCANARY2-20261102T181500.md",
+ "deliverable_exists": true,
+ "ts": "2026-11-11T08:41:29",
+ "stdout_tail": "### 诊断报告：文件提交失败（UNVERIFIED）\n\n**① 最可能的根因**\n交付路径指向远程临时存储 `cph4/fleet/state/canary/REMOTE2-...`，但当前节点本地磁盘无法访问该远程挂载点。系统判定该资源为“不在本地”（deliverable-not-on-disk），导致自动清理机制触发并将状态标记为 `UNVERIFIED`（未验证）。由于 `cph4` 通常代表集群或远程容器，表明交付物位于共享存储中，但验证流程仅依赖本地文件系统检查。\n\n**② 下一步具体动作**\n*   **谁执行**：后端数据协调服务（Data Coordinator Service）或人工运维人员。\n*   **做什么**：立即触发“远程文件同步”操作，将 `REMOTE2-20261102T181500.txt` 从共享存储复制至本地工作区；若无法自动同步，则执行备份恢复以验证该文件是否存在于源端。\n*   **怎么验证**：重新运行“本地状态校验”环节（即触发新的提交流程），观察日志中 `deliverable-not-on-disk` 错误是否消失且 `UNVERIFIED` 状态转为 `VERIFIED`；若重试 4 次后依然失败，则判定为存储链路阻断，需开启工单排查网络连通性。",
+ "stderr_tail": ""
+}
