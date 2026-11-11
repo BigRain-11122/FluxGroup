@@ -651,3 +651,12 @@ rame_bytes/frame_sha12；**bm-a 上该目录不存在（0/30）**，且本机两
 | **bm-b 整机离线（承 R32/R33）** | **waiting-CEO（物理件·零催办·不重复登记数值）** | `tailscale status` = `offline, last seen 1d ago, tx 8112 rx 0`；`_last_lane_bm-b.json` 停 2026-11-10T00:19:26（约 50h）；名下 0 卡 0 在跑（无卡损失）。恢复=现场上电。 |
 | **CLOCK-UNALIGNED missing=1** | **resolved（已自动降级）** | 02:21 起 DISPATCH-LOG 只写 `INFO CLOCK-MISSING-DERIVED missing=1 all-on-down-lanes -> no action`；`old_schema=0` 证 v2 心跳已到位，missing 即离线的 bm-b。承 R39 判据修复，勿再当 schema 缺陷重派。 |
 
+
+### R41-FIX 追记（2026-11-12 02:56·同班续做）
+
+| 件 | 状态 | 证据 / 下一步 |
+|---|---|---|
+| **bm-a 认领任务壳层** | **FIXED（本班）** | 隔离实测：临时任务 `cmd /c echo` → PERM-OK（非管理员可注册、任务上下文可起子进程）⇒ 病在旧任务定义。重建 `HQ-ProductionClaim`（Action=`cmd.exe /c "C:\Users\sjs20\Desktop\FluxGroup\Tools\fleet\claim-bm-a.cmd"`，每 5min·IgnoreNew·6h·Hidden），实测拉起 `python queue_claim.py --node bm-a`（PID 71784）。原 `InvisibleRunner.vbs` 直跑 .cmd 在任务上下文不生效，改 cmd.exe 壳即通。 |
+| **认领环第二道卡口** | **registered（新）** | 同一次运行里 `git push -f origin HEAD:refs/heads/node/bm-a` 子进程存活 >2.5min 零完成，而同刻 `git ls-remote origin` 秒回、ssh 22 通 ⇒ 非网络，属 promisor/枚举挂死家族（承 2026-10-15 晨盘判例）。下一步=queue_claim 启动段把该 force-push 改为非阻塞（后台/超时 60s 跳过），否则认领永远死在这一步。 |
+| **P1 卡 UNBLOCK-INDEX-TTS 真根因** | **FIXED 进行中（解释器错配）** | `index-tts/pyproject.toml`：`requires-python = ">=3.10,<3.12"`；本机默认 `python`=**3.14.10**，`py -0p` 仅 3.14 与 uv 3.12 ⇒ 原卡 `python -m venv` 必然建出 3.14 venv，`import indextts` 结构上不可能通过（torch 亦无 3.14 轮子）。处置：`uv python install 3.11`（3.11.16）→ 仓库内 `uv sync --python 3.11`（构建中，日志 `media/drama-tools/extts-build.log`）→ 判据 `.venv\Scripts\python.exe -c "import indextts"` 打印 IMPORT-OK。**该卡今后重派须写明 --python 3.11**，否则重复白跑。 |
+
