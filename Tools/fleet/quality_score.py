@@ -33,6 +33,7 @@ FLEET = os.path.join(ROOT, "cph4", "fleet")
 TOOLS = os.path.join(ROOT, "Tools", "fleet")
 
 SUITES = [
+    ("regression", "regression.py", None),
     ("station_shards", "station_shards.py", "--self-test"),
     ("station_drive", "station_drive.py", "--self-test"),
     ("panel_review", "panel_review.py", "--self-test"),

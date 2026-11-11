@@ -52,9 +52,15 @@ def human(n):
 def main():
     # 外置盘（移动硬盘）2026-11-11 已清空退出长期存储，冷备由 git 远端承担。
     # 没有外置盘还照跑，只会把 52 件声明全判"未备"——那是假红，比不跑更糟。
-    if not EXT:
-        print("INTAKE_ROOT/FLUX_VAULT 未配置：外置盘已退役（2026-11-11），"
-              "备份覆盖度无意义，不生成 COVERAGE.md。")
+    # 判据：没有收件清单（INDEX）就没有"备了什么"的事实，缺它时算覆盖率＝凭空造红。
+    if not os.path.exists(INDEX):
+        print("收件清单不存在（%s）：外置盘/收件口已退役（2026-11-11 清空，冷备走 git 远端），"
+              "没有清单就无法判定覆盖度，不生成 COVERAGE.md。" % INDEX)
+        return 2
+    if not EXT or not os.path.isdir(EXT):
+        print("外置盘路径不存在（%s）：移动盘已于 2026-11-11 清空退出，冷备走 git 远端。"
+              "在这种状态下算覆盖度只会把全部声明判未备＝假红，故不生成 COVERAGE.md。"
+              % (EXT or "未配置"))
         return 2
     have = {}
     for r in jsonl(INDEX):

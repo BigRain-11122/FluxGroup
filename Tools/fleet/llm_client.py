@@ -68,6 +68,28 @@ def base_for(endpoint=None):
     return "http://127.0.0.1:11434"
 
 
+# 网关端口：走网关就必须带 X-Flux-Token（2026-11-08 实锚：一天被拒 830 次）。
+# 只有 tailnet 上的裸 11434 才是历史直连口，不在此列。
+GATEWAY_PORTS = {8792}
+
+
+def _port_of(url):
+    try:
+        from urllib.parse import urlparse
+        return urlparse(url).port
+    except Exception:
+        return None
+
+
+def _needs_token(url):
+    """需要令牌的判定：非回环，且（不是 tailnet 或 是网关端口）。"""
+    if _is_loopback(url):
+        return False
+    if _is_tailnet(url) and _port_of(url) not in GATEWAY_PORTS:
+        return False
+    return True
+
+
 def _is_loopback(url):
     return any(h in url for h in LOOPBACK)
 
@@ -90,7 +112,7 @@ def generate(prompt, model=None, endpoint=None, timeout=120, cls=None, think=Fal
                 "why": "熔断中：%ds 后再试（避免空打网关）" % int(_COOLDOWN[url] - now)}
 
     tok = token()
-    if not tok and not _is_loopback(url) and not _is_tailnet(url):
+    if not tok and _needs_token(url):
         # 缺料就地判死：不发请求、不进熔断、不计故障
         return {"ok": False, "rc": 3, "text": "",
                 "why": "本机没有令牌（%s 或 FLUX_LLM_TOKEN），不走网关" % TOKEN_FILE}
