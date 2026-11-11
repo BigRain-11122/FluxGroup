@@ -1,8 +1,79 @@
 {
  "node": "bm-m",
- "ts": "2026-11-11T08:32:49",
- "jobs": [],
- "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+ "ts": "2026-11-11T08:40:51",
+ "jobs": [
+  {
+   "id": "PATROL-biglife-20261111",
+   "title": "[patrol] biglife RED 处置",
+   "cmd": "",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/PATROL-biglife-20261111.md",
+   "need_mb": null,
+   "model": "local-small",
+   "prompt": "核实并处置 biglife 域巡视 RED：批量造人线零执行未获 CEO 解禁；OSLoop 停摆风险。动作建议：立即触发红线升级流程并冻结相关操作",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "PATROL-bigdomain-20261111",
+   "title": "[patrol] bigdomain RED 处置",
+   "cmd": "",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/PATROL-bigdomain-20261111.md",
+   "need_mb": null,
+   "model": "local-small",
+   "prompt": "核实并处置 bigdomain 域巡视 RED：服务器入册制未执行（册外服务器=旗）；msgSecCheck 前置闸缺失（大厅/弹幕未接禁上线）。动作建议：立即触发 NEED-JUDGMENT 流程，冻结域内上线与定价决策",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "REPAIR-R-QUANT-ETF-DAILY-20261102",
+   "title": "[repair] R-QUANT-ETF-DAILY-20261102 的根因与下一步",
+   "cmd": "",
+   "cwd": null,
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/repairs/R-QUANT-ETF-DAILY-20261102.md",
+   "need_mb": null,
+   "model": "local-small",
+   "prompt": "这张卡失败了。请只依据给出的证据，写一页诊断：①最可能的根因 ②下一步具体动作（谁、做什么、怎么验证）。不要编造文件或命令。\n\n证据：状态=UNVERIFIED；备注=deliverable-not-on-disk(local)；交付物=quant/bigmoney/results/etf_composite_pf.json；重试=5",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "REPAIR-C-FIN-EQUITY-ALPHA",
+   "title": "[repair] C-FIN-EQUITY-ALPHA 的根因与下一步",
+   "cmd": "",
+   "cwd": null,
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/repairs/C-FIN-EQUITY-ALPHA.md",
+   "need_mb": null,
+   "model": "local-small",
+   "prompt": "这张卡失败了。请只依据给出的证据，写一页诊断：①最可能的根因 ②下一步具体动作（谁、做什么、怎么验证）。不要编造文件或命令。\n\n证据：状态=UNVERIFIED；备注=deliverable-not-on-disk(local)；交付物=quant/bigmoney/results/etf_equity_alpha.json；重试=None",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "REPAIR-RCANARY2-20261102T181500",
+   "title": "[repair] RCANARY2-20261102T181500 的根因与下一步",
+   "cmd": "",
+   "cwd": null,
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/repairs/RCANARY2-20261102T181500.md",
+   "need_mb": null,
+   "model": "local-small",
+   "prompt": "这张卡失败了。请只依据给出的证据，写一页诊断：①最可能的根因 ②下一步具体动作（谁、做什么、怎么验证）。不要编造文件或命令。\n\n证据：状态=UNVERIFIED；备注=deliverable-not-on-disk(local)；交付物=cph4/fleet/state/canary/REMOTE2-20261102T181500.txt；重试=3",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  }
+ ],
+ "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 13.2/1.0 GB"
+ "capacity_note": "ram 15.0/1.0 GB"
 }
