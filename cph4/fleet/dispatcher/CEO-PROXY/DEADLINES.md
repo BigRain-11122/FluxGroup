@@ -627,3 +627,52 @@ rame_bytes/frame_sha12；**bm-a 上该目录不存在（0/30）**，且本机两
 | **旧根改径（媒体面）** | **done** | `media/drama-tools/voicegen_batch_ep004_060.cmd` 三行 `C:\Fluxgroup\FluxGroup` → `C:\Users\sjs20\Desktop\FluxGroup`（该目录 gitignored，纯本机媒体面，不入库）。 |
 
 **R37 回访探针**：+90min 一次性 cron——复验 ①`asset-lib-voice-assemble-2026-11-11` 是否 DONE 且回执落盘 ②bm-c 三张 asset-lib 是否被认领出图 ③bm-b 是否回归在线。复发=旗升 DE 级。
+
+## 附录 R40 事件班登记（2026-11-12 01:41-02:0x·承载件触发·供给断点定谳）
+
+| 件 | 状态 | 证据 / 下一步 |
+|---|---|---|
+| **全域零供给（真红·根因=新机制执行器未部署 + 工序命令未接）** | **FIXED（最小接通）+ registered（14 道待接）** | 证据链：①`4ced13103` 依 CEO 11-11「从头开始」清空五工位分片、冻结旧队列、退役 queue_claim/backlog_fill/fleet-dispatcher；②本机实测 `Tools/fleet/station_drive.py` / `station_shards.py` / `TAXONOMY-v1.json` **均不存在**，`Get-ScheduledTask` 无任何 Station/Drive 任务，无 station_drive 进程 ⇒ 三台 Windows 机从未部署新执行器；③隔离试跑（origin blob → `.codely-cli/tmp/sdtest`，不动工作树）`station_drive.py --station delivery --dry` 返回 `would_create=[]` + 16 条 unknown_output；逐条展开 why = **15×TOOL-PENDING（契约有、命令未接）+ 1×AUTHORITY（CEO 权限件）** ⇒ 真断点 = `PRODUCTS.commands` / `TAXONOMY.selfdrive_cmd` 未接，不是机器懒、不是探针假红；④**双向实证**：仅接 `PROD-GAME-SUBMIT.提审清单`（`game_submit_pack.py --out cph4/fleet/out/game-submit/list.json`）后重跑 plan → `want=1`（会自造卡）。本班已落该最小接通；其余 14 道保持 TOOL-PENDING，不硬接（不造活）。 |
+| **各机复产三步（本机执行·无远程通道）** | **waiting-本机（零催办·不代做）** | ①`git fetch origin && git reset --mixed origin/main && git checkout origin/main -- Tools/fleet cph4/fleet`②注册 `python Tools/fleet/station_drive.py --station <本工位> --loop 300` 为 **S4U** 计划任务（禁 InteractiveToken）③首跑 `--dry` 核对 would_create 非空即点火。工位对应：bm-a=delivery（DASHENG·RTX4070S·94G）、bm-c=visual（K:·3070 16G）、bm-b=audio（离线）。 |
+| **bm-b 物理离线（LANE-DOWN / STARVED-EXEC / CLOCK-MISSING 三旗同根）** | **waiting-CEO（物理件·零催办）** | `http://100.82.175.0:8790/health` 15s 超时；`CLOCK-SKEW.json` 01:39:15 `bm-b=MISSING`；名下零在飞卡。承 R32/R33/R36 同源，不重复登记数值。 |
+| **CLOCK-UNALIGNED missing=1** | **resolved-派生（非新病）** | `CLOCK-SKEW.json` 01:39:15：`old_schema=0`（v2 心跳已在位）、`missing=1` 仅 bm-b 离线派生；bm-c `+3287.1ms`（σ434.6，Δ/σ=7.6 < 动作线 10）= **OBSERVE 档**，承 R33 提案，非新 P1。 |
+| **STARVED-EXEC bm-a / bm-c** | **半假红·判据失效登记** | 旗源=`fleet-dispatcher.ps1`（`4ced13103` 已明文退役该工具）仍被 cron 每 10min 跑；新机制应读 `rt/<station>/queue.jsonl`（`station_shards.load_all`）。bm-a 实测在产：`_last_lane_bm-a.json` 01:41:59 `RESULT asset-lib-voice-assemble rc=3`。旧旗源摘除=受保护件·候裁。 |
+| **IDLE-WITH-WORK bm-a（01:41 新旗）** | **假红** | `lanes/bm-a.json` 01:42:16 `lane_ok=true`、`idle_reason=SELF-DISPATCH`；`_last_lane_bm-a` 01:41:59 刚出 RESULT ⇒ 在跑非闲置。旗计的 exec_cards 含 BLOCKED 与跨工位卡（bm-m 空 cmd 卡 5 张），不构成「有活没人干」。 |
+| **R40 回访探针** | **armed** | +90min 一次性 cron：复验 ①三机是否出现 station_drive 任务/进程 ②`rt/delivery/queue.jsonl` 是否出现 `SD-delivery-PROD-GAME-SUBMIT-*` 卡 ③bm-b 是否回归在线。复发=旗升 DE 级。 |
+
+## 附录 R41 事件班登记（2026-11-12 02:21-02:40·承载件触发·DL 00:11/00:21 四旗）
+
+| 件 | 状态 | 证据 / 下一步 |
+|---|---|---|
+| **旗源退役但仍驱动事件班（结构性）** | **registered·建议一行收口（不擅改 L0）** | `Tools/fleet-dispatcher.ps1` 首行「已退役（2026-11-11）：旧派单器读旧队列，已由 AUTONOMY-V3 自驱机制取代」，但 `HQ-FleetDispatcher` 仍 Ready/every 10min 写 `FLAG IDLE-WITH-WORK`（L224）/`FLAG POOL-PHANTOM`（L220），而 `Tools/proxy-event-carrier.ps1:63` 直接把这些 DL 行当新旗 → 每 10 分钟复活一次幻影 P1（本班又被它触发）。建议：carrier 侧对已退役来源行加白（或 dispatcher 在队列已归档时只写 INFO 一行），属 L0 受保护件，候 CEO 一句「批」。 |
+| **bm-a 共享队列认领环冻结 15.4h（P1·真）** | **waiting-本机（本班已试两次，未成）** | `_claim_bm-a.log` mtime 冻在 **2026-11-11 11:17:34**（尾行 DAY-YIELD: takes over at 19:00 后零新行）；任务 `HQ-ProductionClaim` State=Running、LastTaskResult=**0x800710E0**（实例在跑拒新实例）；僵尸壳 PID 75384 **无任何子进程**。本班 Stop+Start（02:30:44）→ 壳 80048 仍无 python 子进程、日志零写入；清壳后 02:35 触发同样无子进程。**隔离实测排除法**：InvisibleRunner 直跑 .cmd OK、同型 `python --help >> log` OK、`python Tools\queue_claim.py --node bm-a --dry` OK（打印 `CLAIM UNBLOCK-INDEX-TTS-20261112`）⇒ 病在「任务实例→子进程」这一层，不在启动器/脚本/队列。下一步（bm-a 本机一次性）：删任务重建（`Tools\task-register.ps1` 同名 S4U 注册，Action 同 `claim-bm-a.cmd`），或改由 `FluxGroup-FleetAgent` 的 lane 循环承载共享队列兜底。判据=下一次 5 分钟触发出现 python 子进程且 `_claim_bm-a.log` mtime 前移。 |
+| **P1 卡被上述缺陷扣住（真实供给损失）** | **BLOCKED（reason=claim-executor-dead:bm-a）** | `UNBLOCK-INDEX-TTS-20261112`（短剧配音批 EP001-060 唯一前置，R37 00:15 建、hard_nodes=[bm-a]）至 02:39 仍 state=OPEN/owner=None，2h20m 无人认领；同刻 bm-a lane 在产（02:24:42 voice-assemble 回执）⇒ 机器不闲，是共享队列这条腿断了。本班未擅自代跑（内含 40min pip 安装，跑到一半被杀会留 RUNNING 僵尸卡）。 |
+| **bm-c 认领实例僵尸（承 R39）** | **waiting-bm-c 本机（零远程）** | `/health` 200（ts 02:24:49）/ ram_free 6.6G / lane ok=True；名下 GPU 卡 `asset-lib-asset-gen-2026-11-11` `claimed_at=None` 已 2h10m，`queue-receipts/_last_lane_bm-c.json` **从未生成**。本班 poke accepted（02:26:28，tasks=HQ-ProductionClaim/Autofill/PoolWorker/ComfyDraftTick）→ 回 `HQ-ProductionClaim:busy-skip`=实例在但不出活。修法同 R39：bm-c 本机 `schtasks /end /tn HQ-ProductionClaim` + `/run`。 |
+| **bm-b 整机离线（承 R32/R33）** | **waiting-CEO（物理件·零催办·不重复登记数值）** | `tailscale status` = `offline, last seen 1d ago, tx 8112 rx 0`；`_last_lane_bm-b.json` 停 2026-11-10T00:19:26（约 50h）；名下 0 卡 0 在跑（无卡损失）。恢复=现场上电。 |
+| **CLOCK-UNALIGNED missing=1** | **resolved（已自动降级）** | 02:21 起 DISPATCH-LOG 只写 `INFO CLOCK-MISSING-DERIVED missing=1 all-on-down-lanes -> no action`；`old_schema=0` 证 v2 心跳已到位，missing 即离线的 bm-b。承 R39 判据修复，勿再当 schema 缺陷重派。 |
+
+
+### R41-FIX 追记（2026-11-12 02:56·同班续做）
+
+| 件 | 状态 | 证据 / 下一步 |
+|---|---|---|
+| **bm-a 认领任务壳层** | **FIXED（本班）** | 隔离实测：临时任务 `cmd /c echo` → PERM-OK（非管理员可注册、任务上下文可起子进程）⇒ 病在旧任务定义。重建 `HQ-ProductionClaim`（Action=`cmd.exe /c "C:\Users\sjs20\Desktop\FluxGroup\Tools\fleet\claim-bm-a.cmd"`，每 5min·IgnoreNew·6h·Hidden），实测拉起 `python queue_claim.py --node bm-a`（PID 71784）。原 `InvisibleRunner.vbs` 直跑 .cmd 在任务上下文不生效，改 cmd.exe 壳即通。 |
+| **认领环第二道卡口** | **registered（新）** | 同一次运行里 `git push -f origin HEAD:refs/heads/node/bm-a` 子进程存活 >2.5min 零完成，而同刻 `git ls-remote origin` 秒回、ssh 22 通 ⇒ 非网络，属 promisor/枚举挂死家族（承 2026-10-15 晨盘判例）。下一步=queue_claim 启动段把该 force-push 改为非阻塞（后台/超时 60s 跳过），否则认领永远死在这一步。 |
+| **P1 卡 UNBLOCK-INDEX-TTS 真根因** | **FIXED 进行中（解释器错配）** | `index-tts/pyproject.toml`：`requires-python = ">=3.10,<3.12"`；本机默认 `python`=**3.14.10**，`py -0p` 仅 3.14 与 uv 3.12 ⇒ 原卡 `python -m venv` 必然建出 3.14 venv，`import indextts` 结构上不可能通过（torch 亦无 3.14 轮子）。处置：`uv python install 3.11`（3.11.16）→ 仓库内 `uv sync --python 3.11`（构建中，日志 `media/drama-tools/extts-build.log`）→ 判据 `.venv\Scripts\python.exe -c "import indextts"` 打印 IMPORT-OK。**该卡今后重派须写明 --python 3.11**，否则重复白跑。 |
+
+
+### R41-CLOSE 收口（2026-11-12 03:01）
+
+| 件 | 状态 | 证据 / 下一步 |
+|---|---|---|
+| **UNBLOCK-INDEX-TTS-20261112（P1）** | **DONE（rc=0·本班交付）** | venv 解释器 **3.11.16**；`import indextts` = `IMPORT-OK <repo>\indextts\__init__.py`（03:00:04）；venv **8163 MB / 35165 文件**。回执=`cph4/fleet/queue-receipts/UNBLOCK-INDEX-TTS-20261112-bm-a.json`。下游 `VCORP-GEN-r1202-EP001-060` / POOL-0027 的 venv 前置解除；**权重（IndexTeam/IndexTTS-2）仍缺**，不在本卡范围。今后同类卡必须写 `--python 3.11`（uv），否则重复白跑。 |
+| **记录更正（诚实边界）** | **corrected** | R41-FIX 行引用的 `media/drama-tools/extts-build.log` **不存在**（InvisibleRunner 未重定向），证据面改以 venv 体积/解释器版本/import 输出为准。 |
+
+
+### R41-V3 追记（2026-11-12 03:06·自驱面实测）
+
+| 件 | 状态 | 证据 / 下一步 |
+|---|---|---|
+| **AUTONOMY-V3 五工位全关（真因）** | **registered·待放行（机制开关）** | `station_drive --dry` 五工位 would_create 全 []：control=`ready_paused` / visual=`blocked_no_comfyui`（本机 8188 False、无 D:\ComfyUI）/ audio=`offline`（bm-b 离线）/ brain=`not_installed` / delivery=`network_ok_not_registered`+16 unknown_output。`STATIONS.json` 末改 `f502fef37` 2026-11-11 17:01，此后零放行。逐位解锁条件见 `cph4/fleet/dispatcher/CEO-PROXY/V3-STATION-BLOCKERS-20261112.md`。**本班未擅自改状态**（前置不满足时放行=假绿）。 |
+| **delivery 缺 16 个产物契约** | **registered（可增量补）** | PROD-GAME-SUBMIT×4 / ASSET-PACK 图标 / FLUXVERSE-SCENE×3 / BIGHOUSE-FLOW×2 / BIGLIFE-POP×3 / CAR-GAMING×2 / ACCOUNT-GROWTH 人工发送。每补一条该机多一道自驱活（V3 §七）。R40 的最小接通只覆盖提审链一段。 |
+
