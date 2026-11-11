@@ -1,77 +1,875 @@
 {
-  "_comment": "任务类型字典（TAXONOMY）· 2026-11-11 立。回答一件事：一道工序到底要什么工具、吃什么资源、谁能干、怎么判。这是 PRODUCTS 的工序与 STATIONS 的硬件之间的中间层，缺了它，派单只能按机器名硬指派。阈值与资源下限写在这里，文档不复述。",
-  "_version": "v1-20261111",
-  "_fields": "id/name/tool/out/min/res{cores,gpu_gb,ram_gb,disk_gb}/stations(能力承接方)/model(模型档)/judge(判据)/human(true=CEO 物理件，不派机)",
-  "task_types": [
-    {"id": "T-TEXT-TOPIC", "name": "选题", "tool": "qwen3.5:4b+人筛", "out": "选题清单(含钩子)", "min": 20, "res": {"cores": 2, "gpu_gb": 0, "ram_gb": 6}, "stations": ["control"], "model": "local-4b", "judge": "path"},
-    {"id": "T-TEXT-SCRIPT", "name": "剧本/分镜脚本", "tool": "qwen3.5:4b+人改", "out": "分集剧本(钩子链标注)", "min": 45, "res": {"cores": 2, "gpu_gb": 0, "ram_gb": 6}, "stations": ["control"], "model": "local-4b", "judge": "manual"},
-    {"id": "T-TEXT-STORYBOARD", "name": "镜表", "tool": "qwen3.5:4b+人改", "out": "逐镜表(含首尾帧意图)", "min": 30, "res": {"cores": 2, "gpu_gb": 0, "ram_gb": 6}, "stations": ["control"], "model": "local-4b", "judge": "manual"},
-    {"id": "T-TEXT-COPY", "name": "文案/标题", "tool": "voice_gate.py", "out": "标题+简介+字幕文案", "min": 25, "res": {"cores": 2, "gpu_gb": 0, "ram_gb": 6}, "stations": ["control"], "model": "local-4b", "judge": "voice_gate"},
-    {"id": "T-TEXT-COMMENT", "name": "评论草稿", "tool": "social_drafts.py+voice_gate.py", "out": "每日草稿包(含风险标注)", "min": 15, "res": {"cores": 2, "gpu_gb": 0, "ram_gb": 6}, "stations": ["control"], "model": "local-4b", "judge": "voice_gate", "refresh_h": 24},
-    {"id": "T-TEXT-RECON", "name": "竞品拆解", "tool": "Tools/recon/*", "out": "拆解报告+配方卡", "min": 60, "res": {"cores": 4, "gpu_gb": 0, "ram_gb": 8}, "stations": ["control"], "model": "local-9b", "judge": "manual"},
-    {"id": "T-TEXT-RECIPE", "name": "配方卡", "tool": "recon 产物+人写", "out": "可执行配方(cmd+参数)", "min": 30, "res": {"cores": 2, "gpu_gb": 0, "ram_gb": 6}, "stations": ["control"], "model": "local-4b", "judge": "manual"},
-    {"id": "T-TEXT-OFFER", "name": "商品定义/报价", "tool": "人写+账本核对", "out": "一页报价+成本口径", "min": 45, "res": {"cores": 2, "gpu_gb": 0, "ram_gb": 6}, "stations": ["control"], "model": "local-9b", "judge": "manual"},
-    {"id": "T-TEXT-PAGE", "name": "落地页/页面", "tool": "静态页+文案", "out": "可打开的页面", "min": 60, "res": {"cores": 2, "gpu_gb": 0, "ram_gb": 6}, "stations": ["control"], "model": "local-4b", "judge": "path"},
-    {"id": "T-TEXT-COMPLIANCE", "name": "合规检查", "tool": "compliance 词表+family_compliance_check", "out": "合规结论+命中项", "min": 20, "res": {"cores": 2, "gpu_gb": 0, "ram_gb": 4}, "stations": ["control"], "model": "none", "judge": "manual", "judge_note": "原 judge=family_check 的脚本在仓内不存在（可能在吸嘟嘟子仓），未找回前按人判，找回后改回"},
-    {"id": "T-TEXT-REVIEW", "name": "复盘/账本", "tool": "retro.py+账本", "out": "复盘条目+落点", "min": 15, "res": {"cores": 2, "gpu_gb": 0, "ram_gb": 4}, "stations": ["control"], "model": "local-4b", "judge": "path", "refresh_h": 24},
-    {"id": "T-TEXT-REPORT", "name": "研究报告", "tool": "recon+人写", "out": "报告(md)", "min": 90, "res": {"cores": 4, "gpu_gb": 0, "ram_gb": 8}, "stations": ["control"], "model": "local-9b", "judge": "manual"},
-
-    {"id": "T-IMG-KF-HAICHI", "name": "关键帧海选", "tool": "ComfyUI krea2(512-672)", "out": "候选板 16-32 张/镜", "min": 20, "res": {"cores": 4, "gpu_gb": 8, "ram_gb": 8, "disk_gb": 5}, "stations": ["visual"], "model": "none", "judge": "kf_hand_face"},
-    {"id": "T-IMG-KF-FINAL", "name": "关键帧正档", "tool": "ComfyUI krea2(1080x1920)", "out": "定稿关键帧", "min": 45, "res": {"cores": 4, "gpu_gb": 10, "ram_gb": 8, "disk_gb": 5}, "stations": ["visual"], "model": "none", "judge": "drama_rules"},
-    {"id": "T-VID-I2V", "name": "图生视频", "tool": "Wan2.2 / seedance API", "out": "逐镜片段", "min": 90, "res": {"cores": 6, "gpu_gb": 12, "ram_gb": 8, "disk_gb": 20}, "stations": ["visual"], "model": "api-optional", "judge": "drama_rules"},
-    {"id": "T-VID-LIPSYNC", "name": "口型", "tool": "LatentSync", "out": "对口型片段", "min": 30, "res": {"cores": 4, "gpu_gb": 7, "ram_gb": 8}, "stations": ["visual"], "model": "none", "judge": "drama_rules"},
-    {"id": "T-IMG-LORA", "name": "角色 LoRA/资产", "tool": "ComfyUI 训练", "out": "角色档案+LoRA", "min": 240, "res": {"cores": 4, "gpu_gb": 12, "ram_gb": 8, "disk_gb": 20}, "stations": ["visual"], "model": "none", "judge": "manual"},
-    {"id": "T-IMG-ICON", "name": "图标/切图", "tool": "脚本+人核", "out": "图标文件(尺寸正确)", "min": 20, "res": {"cores": 2, "gpu_gb": 0, "ram_gb": 4}, "stations": ["delivery"], "model": "none", "judge": "game_submit_pack"},
-    {"id": "T-3D-SCENE", "name": "3D 场景装配", "tool": "tuanjie/Unity 编辑器", "out": "可运行场景", "min": 120, "res": {"cores": 8, "gpu_gb": 6, "ram_gb": 16, "disk_gb": 20}, "stations": ["delivery"], "model": "none", "judge": "path"},
-    {"id": "T-3D-ADAPT", "name": "车机适配", "tool": "tuanjie hmiandroid", "out": "车机可跑包", "min": 90, "res": {"cores": 8, "gpu_gb": 6, "ram_gb": 16}, "stations": ["delivery"], "model": "none", "judge": "manual", "judge_note": "原 judge=family_check 的脚本在仓内不存在（可能在吸嘟嘟子仓），未找回前按人判，找回后改回"},
-    {"id": "T-BUILD-PACK", "name": "构建打包", "tool": "tuanjie -batchmode -nographics", "out": "安装包/zip", "min": 60, "res": {"cores": 8, "gpu_gb": 4, "ram_gb": 16, "disk_gb": 10}, "stations": ["delivery"], "model": "none", "judge": "path"},
-    {"id": "T-BUILD-DEMO", "name": "演示包", "tool": "构建+清单", "out": "可演示包+一键启动", "min": 45, "res": {"cores": 4, "gpu_gb": 2, "ram_gb": 8}, "stations": ["delivery"], "model": "none", "judge": "path"},
-
-    {"id": "T-AUD-VOICE", "name": "配音/TTS", "tool": "index-tts / GPT-SoVITS", "out": "人声轨", "min": 40, "res": {"cores": 4, "gpu_gb": 6, "ram_gb": 8}, "stations": ["audio"], "model": "none", "judge": "path"},
-    {"id": "T-AUD-MIX", "name": "混音/响度", "tool": "ffmpeg loudnorm", "out": "成片音轨(-14LUFS/48k)", "min": 30, "res": {"cores": 4, "gpu_gb": 0, "ram_gb": 6}, "stations": ["audio"], "model": "none", "judge": "drama_rules"},
-    {"id": "T-AUD-MUSIC", "name": "BGM/配乐", "tool": "正版池/生成", "out": "BGM 轨+版权标注", "min": 20, "res": {"cores": 2, "gpu_gb": 0, "ram_gb": 4}, "stations": ["audio"], "model": "none", "judge": "manual"},
-    {"id": "T-AUD-VOICEBANK", "name": "音色库", "tool": "TTS 音色克隆", "out": "角色音色 ID 表", "min": 60, "res": {"cores": 4, "gpu_gb": 6, "ram_gb": 8}, "stations": ["audio"], "model": "none", "judge": "manual"},
-
-    {"id": "T-ASM-CUT", "name": "剪辑", "tool": "ffmpeg", "out": "成片母版", "min": 90, "res": {"cores": 4, "gpu_gb": 0, "ram_gb": 8, "disk_gb": 10}, "stations": ["visual"], "model": "none", "judge": "drama_rules"},
-    {"id": "T-ASM-SUB", "name": "字幕", "tool": "ASR+ASS 烧制", "out": "硬字幕母版", "min": 20, "res": {"cores": 2, "gpu_gb": 0, "ram_gb": 6}, "stations": ["visual"], "model": "none", "judge": "drama_rules"},
-    {"id": "T-QC-GATE", "name": "质量闸", "tool": "drama_rules.py", "out": "九段门结论", "min": 15, "res": {"cores": 2, "gpu_gb": 0, "ram_gb": 4}, "stations": ["control"], "model": "none", "judge": "drama_rules"},
-    {"id": "T-QC-VISION", "name": "视觉一致性机检", "tool": "frame_diff/脸锚", "out": "跨镜一致性报告", "min": 20, "res": {"cores": 4, "gpu_gb": 2, "ram_gb": 8}, "stations": ["visual"], "model": "none", "judge": "drama_rules"},
-
-    {"id": "T-DATA-FETCH", "name": "数据抓取", "tool": "quant/gaming 抓取器", "out": "原始数据快照", "min": 60, "res": {"cores": 4, "gpu_gb": 0, "ram_gb": 8}, "stations": ["brain"], "model": "none", "judge": "hash"},
-    {"id": "T-QT-BACKTEST", "name": "回测", "tool": "quant backtest", "out": "回测报告(含基准)", "min": 120, "res": {"cores": 8, "gpu_gb": 8, "ram_gb": 32}, "stations": ["brain"], "model": "none", "judge": "manual"},
-
-    {"id": "T-GAME-DESIGN", "name": "玩法设计", "tool": "人设计+原型", "out": "关卡表+情绪链", "min": 60, "res": {"cores": 2, "gpu_gb": 0, "ram_gb": 6}, "stations": ["control"], "model": "local-9b", "judge": "manual"},
-    {"id": "T-SCENE-FLOW", "name": "流程/配置", "tool": "JSON 配置+校验", "out": "可运行配置", "min": 60, "res": {"cores": 2, "gpu_gb": 0, "ram_gb": 6}, "stations": ["delivery"], "model": "none", "judge": "path"},
-    {"id": "T-EVENT-WIRE", "name": "事件接入", "tool": "contract 校验脚本", "out": "事件流联调记录", "min": 45, "res": {"cores": 4, "gpu_gb": 0, "ram_gb": 8}, "stations": ["delivery"], "model": "none", "judge": "path"},
-    {"id": "T-CITY-DATA", "name": "城市数据(户籍/行为)", "tool": "city_state.py", "out": "world-state/events 增量", "min": 30, "res": {"cores": 2, "gpu_gb": 0, "ram_gb": 4}, "stations": ["delivery"], "model": "local-4b", "judge": "path"},
-    {"id": "T-CITY-ASSET", "name": "城市资产", "tool": "资产脚本+哈希", "out": "资产包+清单", "min": 45, "res": {"cores": 2, "gpu_gb": 0, "ram_gb": 4}, "stations": ["delivery"], "model": "none", "judge": "hash"},
-    {"id": "T-REG-ADMIT", "name": "准入/上架判定", "tool": "ship-ops 清单", "out": "准入结论+缺口", "min": 30, "res": {"cores": 2, "gpu_gb": 0, "ram_gb": 4}, "stations": ["control"], "model": "none", "judge": "manual"},
-
-    {"id": "T-DOC-SUBMIT-MATERIAL", "name": "提审材料套用", "tool": "game_submit_pack.py", "out": "提审四件套", "min": 20, "res": {"cores": 2, "gpu_gb": 0, "ram_gb": 4}, "stations": ["delivery"], "model": "none", "judge": "game_submit_pack"},
-    {"id": "T-DOC-SUBMIT-LIST", "name": "提审清单", "tool": "台账核对", "out": "清单+哈希", "min": 15, "res": {"cores": 2, "gpu_gb": 0, "ram_gb": 4}, "stations": ["delivery"], "model": "none", "judge": "hash"},
-    {"id": "T-DOC-INDEX", "name": "索引/清单", "tool": "脚本生成", "out": "索引文件", "min": 15, "res": {"cores": 2, "gpu_gb": 0, "ram_gb": 4}, "stations": ["control"], "model": "none", "judge": "path"},
-    {"id": "T-DOC-OEM", "name": "OEM 一页材料", "tool": "人写+排版", "out": "一页 PDF/MD", "min": 60, "res": {"cores": 2, "gpu_gb": 0, "ram_gb": 4}, "stations": ["control"], "model": "local-4b", "judge": "manual"},
-    {"id": "T-DOC-ASSET", "name": "对外物料", "tool": "模板+截图", "out": "物料包", "min": 45, "res": {"cores": 2, "gpu_gb": 0, "ram_gb": 4}, "stations": ["control"], "model": "none", "judge": "path"},
-    {"id": "T-DOC-PUBLISH", "name": "发布件(标识/备案)", "tool": "ship-ops 三标识检查", "out": "可发布母版+标识记录", "min": 20, "res": {"cores": 2, "gpu_gb": 0, "ram_gb": 4}, "stations": ["control"], "model": "none", "judge": "manual"},
-
-    {"id": "T-OPS-CEO", "name": "CEO 物理件", "tool": "CEO 本人", "out": "账号/备案/采购/对外承诺", "min": 0, "res": {"cores": 0, "gpu_gb": 0, "ram_gb": 0}, "stations": [], "model": "none", "judge": "human", "human": true}
-  ],
-  "stage_map": {
-    "PROD-GAME-SUBMIT": {"材料套用": "T-DOC-SUBMIT-MATERIAL", "打包": "T-BUILD-PACK", "图标": "T-IMG-ICON", "提审清单": "T-DOC-SUBMIT-LIST"},
-    "PROD-MV-SINGLE": {"mv-plan": "T-TEXT-SCRIPT", "mv-kf": "T-IMG-KF-FINAL", "mv-i2v": "T-VID-I2V", "mv-cut": "T-ASM-CUT", "mv-gate": "T-QC-GATE"},
-    "PROD-ASSET-PACK": {"角色 LoRA": "T-IMG-LORA", "音色": "T-AUD-VOICEBANK", "图标": "T-IMG-ICON", "索引": "T-DOC-INDEX"},
-    "PROD-QUANT-REPORT": {"数据": "T-DATA-FETCH", "回测": "T-QT-BACKTEST", "报告": "T-TEXT-REPORT"},
-    "PROD-FLUXVERSE-SCENE": {"场景装配": "T-3D-SCENE", "事件接入": "T-EVENT-WIRE", "演示包": "T-BUILD-DEMO"},
-    "PROD-BIGHOUSE-FLOW": {"场景": "T-3D-SCENE", "流程": "T-SCENE-FLOW", "准入": "T-REG-ADMIT"},
-    "PROD-BIGLIFE-POP": {"户籍": "T-CITY-DATA", "行为": "T-CITY-DATA", "资产": "T-CITY-ASSET"},
-    "PROD-CAR-GAMING": {"玩法": "T-GAME-DESIGN", "车机适配": "T-3D-ADAPT", "打包": "T-BUILD-PACK", "OEM 材料": "T-DOC-OEM"},
-    "PROD-DRAMA-AUDIO": {"drama-voice": "T-AUD-VOICE", "drama-mix": "T-AUD-MIX"},
-    "PROD-DUANJU-AUDIO": {"配音": "T-AUD-VOICE", "混音": "T-AUD-MIX"},
-    "PROD-SHORTVIDEO-TRACK": {"配音": "T-AUD-VOICE", "混音": "T-AUD-MIX", "字幕": "T-ASM-SUB"},
-    "PROD-BIGDOMAIN-MATERIAL": {"文案": "T-TEXT-COPY", "页面": "T-TEXT-PAGE", "合规检查": "T-TEXT-COMPLIANCE"},
-    "PROD-BIGCOMPUTE-OFFER": {"商品定义": "T-TEXT-OFFER", "报价": "T-TEXT-OFFER", "物料": "T-DOC-ASSET"},
-    "PROD-RECON-RECIPE": {"抓取": "T-TEXT-RECON", "拆解": "T-TEXT-RECON", "配方": "T-TEXT-RECIPE"},
-    "PROD-DRAMA-EP": {"script": "T-TEXT-SCRIPT", "assets": "T-IMG-LORA", "storyboard": "T-TEXT-STORYBOARD", "kf": "T-IMG-KF-FINAL", "i2v": "T-VID-I2V", "audio": "T-AUD-VOICE", "assembly": "T-ASM-CUT", "qc": "T-QC-GATE", "publish": "T-DOC-PUBLISH"},
-    "PROD-ACCOUNT-GROWTH": {"选题": "T-TEXT-TOPIC", "草稿": "T-TEXT-COMMENT", "风险标注": "T-TEXT-COMPLIANCE", "人工发送": "T-OPS-CEO", "复盘": "T-TEXT-REVIEW"}
+ "_comment": "任务类型字典（TAXONOMY）· 2026-11-11 立。回答一件事：一道工序到底要什么工具、吃什么资源、谁能干、怎么判。这是 PRODUCTS 的工序与 STATIONS 的硬件之间的中间层，缺了它，派单只能按机器名硬指派。阈值与资源下限写在这里，文档不复述。",
+ "_version": "v1-20261111",
+ "_fields": "id/name/tool/out/min/res{cores,gpu_gb,ram_gb,disk_gb}/stations(能力承接方)/model(模型档)/judge(判据)/human(true=CEO 物理件，不派机)",
+ "task_types": [
+  {
+   "id": "T-TEXT-TOPIC",
+   "name": "选题",
+   "tool": "qwen3.5:4b+人筛",
+   "out": "选题清单(含钩子)",
+   "min": 20,
+   "res": {
+    "cores": 2,
+    "gpu_gb": 0,
+    "ram_gb": 6
+   },
+   "stations": [
+    "control"
+   ],
+   "model": "local-4b",
+   "judge": "panel"
+  },
+  {
+   "id": "T-TEXT-SCRIPT",
+   "name": "剧本/分镜脚本",
+   "tool": "qwen3.5:4b+人改",
+   "out": "分集剧本(钩子链标注)",
+   "min": 45,
+   "res": {
+    "cores": 2,
+    "gpu_gb": 0,
+    "ram_gb": 6
+   },
+   "stations": [
+    "control"
+   ],
+   "model": "local-4b",
+   "judge": "panel"
+  },
+  {
+   "id": "T-TEXT-STORYBOARD",
+   "name": "镜表",
+   "tool": "qwen3.5:4b+人改",
+   "out": "逐镜表(含首尾帧意图)",
+   "min": 30,
+   "res": {
+    "cores": 2,
+    "gpu_gb": 0,
+    "ram_gb": 6
+   },
+   "stations": [
+    "control"
+   ],
+   "model": "local-4b",
+   "judge": "panel"
+  },
+  {
+   "id": "T-TEXT-COPY",
+   "name": "文案/标题",
+   "tool": "voice_gate.py",
+   "out": "标题+简介+字幕文案",
+   "min": 25,
+   "res": {
+    "cores": 2,
+    "gpu_gb": 0,
+    "ram_gb": 6
+   },
+   "stations": [
+    "control"
+   ],
+   "model": "local-4b",
+   "judge": "panel"
+  },
+  {
+   "id": "T-TEXT-COMMENT",
+   "name": "评论草稿",
+   "tool": "social_drafts.py+voice_gate.py",
+   "out": "每日草稿包(含风险标注)",
+   "min": 15,
+   "res": {
+    "cores": 2,
+    "gpu_gb": 0,
+    "ram_gb": 6
+   },
+   "stations": [
+    "control"
+   ],
+   "model": "local-4b",
+   "judge": "voice_gate",
+   "refresh_h": 24
+  },
+  {
+   "id": "T-TEXT-RECON",
+   "name": "竞品拆解",
+   "tool": "Tools/recon/*",
+   "out": "拆解报告+配方卡",
+   "min": 60,
+   "res": {
+    "cores": 4,
+    "gpu_gb": 0,
+    "ram_gb": 8
+   },
+   "stations": [
+    "control"
+   ],
+   "model": "local-9b",
+   "judge": "panel"
+  },
+  {
+   "id": "T-TEXT-RECIPE",
+   "name": "配方卡",
+   "tool": "recon 产物+人写",
+   "out": "可执行配方(cmd+参数)",
+   "min": 30,
+   "res": {
+    "cores": 2,
+    "gpu_gb": 0,
+    "ram_gb": 6
+   },
+   "stations": [
+    "control"
+   ],
+   "model": "local-4b",
+   "judge": "panel"
+  },
+  {
+   "id": "T-TEXT-OFFER",
+   "name": "商品定义/报价",
+   "tool": "人写+账本核对",
+   "out": "一页报价+成本口径",
+   "min": 45,
+   "res": {
+    "cores": 2,
+    "gpu_gb": 0,
+    "ram_gb": 6
+   },
+   "stations": [
+    "control"
+   ],
+   "model": "local-9b",
+   "judge": "panel"
+  },
+  {
+   "id": "T-TEXT-PAGE",
+   "name": "落地页/页面",
+   "tool": "静态页+文案",
+   "out": "可打开的页面",
+   "min": 60,
+   "res": {
+    "cores": 2,
+    "gpu_gb": 0,
+    "ram_gb": 6
+   },
+   "stations": [
+    "control"
+   ],
+   "model": "local-4b",
+   "judge": "panel"
+  },
+  {
+   "id": "T-TEXT-COMPLIANCE",
+   "name": "合规检查",
+   "tool": "compliance 词表+family_compliance_check",
+   "out": "合规结论+命中项",
+   "min": 20,
+   "res": {
+    "cores": 2,
+    "gpu_gb": 0,
+    "ram_gb": 4
+   },
+   "stations": [
+    "control"
+   ],
+   "model": "none",
+   "judge": "panel",
+   "judge_note": "原 judge=family_check 的脚本在仓内不存在（可能在吸嘟嘟子仓），未找回前按人判，找回后改回"
+  },
+  {
+   "id": "T-TEXT-REVIEW",
+   "name": "复盘/账本",
+   "tool": "retro.py+账本",
+   "out": "复盘条目+落点",
+   "min": 15,
+   "res": {
+    "cores": 2,
+    "gpu_gb": 0,
+    "ram_gb": 4
+   },
+   "stations": [
+    "control"
+   ],
+   "model": "local-4b",
+   "judge": "panel",
+   "refresh_h": 24
+  },
+  {
+   "id": "T-TEXT-REPORT",
+   "name": "研究报告",
+   "tool": "recon+人写",
+   "out": "报告(md)",
+   "min": 90,
+   "res": {
+    "cores": 4,
+    "gpu_gb": 0,
+    "ram_gb": 8
+   },
+   "stations": [
+    "control"
+   ],
+   "model": "local-9b",
+   "judge": "panel"
+  },
+  {
+   "id": "T-IMG-KF-HAICHI",
+   "name": "关键帧海选",
+   "tool": "ComfyUI krea2(512-672)",
+   "out": "候选板 16-32 张/镜",
+   "min": 20,
+   "res": {
+    "cores": 4,
+    "gpu_gb": 8,
+    "ram_gb": 8,
+    "disk_gb": 5
+   },
+   "stations": [
+    "visual"
+   ],
+   "model": "none",
+   "judge": "kf_hand_face"
+  },
+  {
+   "id": "T-IMG-KF-FINAL",
+   "name": "关键帧正档",
+   "tool": "ComfyUI krea2(1080x1920)",
+   "out": "定稿关键帧",
+   "min": 45,
+   "res": {
+    "cores": 4,
+    "gpu_gb": 10,
+    "ram_gb": 8,
+    "disk_gb": 5
+   },
+   "stations": [
+    "visual"
+   ],
+   "model": "none",
+   "judge": "drama_rules"
+  },
+  {
+   "id": "T-VID-I2V",
+   "name": "图生视频",
+   "tool": "Wan2.2 / seedance API",
+   "out": "逐镜片段",
+   "min": 90,
+   "res": {
+    "cores": 6,
+    "gpu_gb": 12,
+    "ram_gb": 8,
+    "disk_gb": 20
+   },
+   "stations": [
+    "visual"
+   ],
+   "model": "api-optional",
+   "judge": "drama_rules"
+  },
+  {
+   "id": "T-VID-LIPSYNC",
+   "name": "口型",
+   "tool": "LatentSync",
+   "out": "对口型片段",
+   "min": 30,
+   "res": {
+    "cores": 4,
+    "gpu_gb": 7,
+    "ram_gb": 8
+   },
+   "stations": [
+    "visual"
+   ],
+   "model": "none",
+   "judge": "drama_rules"
+  },
+  {
+   "id": "T-IMG-LORA",
+   "name": "角色 LoRA/资产",
+   "tool": "ComfyUI 训练",
+   "out": "角色档案+LoRA",
+   "min": 240,
+   "res": {
+    "cores": 4,
+    "gpu_gb": 12,
+    "ram_gb": 8,
+    "disk_gb": 20
+   },
+   "stations": [
+    "visual"
+   ],
+   "model": "none",
+   "judge": "panel"
+  },
+  {
+   "id": "T-IMG-ICON",
+   "name": "图标/切图",
+   "tool": "脚本+人核",
+   "out": "图标文件(尺寸正确)",
+   "min": 20,
+   "res": {
+    "cores": 2,
+    "gpu_gb": 0,
+    "ram_gb": 4
+   },
+   "stations": [
+    "delivery"
+   ],
+   "model": "none",
+   "judge": "panel"
+  },
+  {
+   "id": "T-3D-SCENE",
+   "name": "3D 场景装配",
+   "tool": "tuanjie/Unity 编辑器",
+   "out": "可运行场景",
+   "min": 120,
+   "res": {
+    "cores": 8,
+    "gpu_gb": 6,
+    "ram_gb": 16,
+    "disk_gb": 20
+   },
+   "stations": [
+    "delivery"
+   ],
+   "model": "none",
+   "judge": "panel"
+  },
+  {
+   "id": "T-3D-ADAPT",
+   "name": "车机适配",
+   "tool": "tuanjie hmiandroid",
+   "out": "车机可跑包",
+   "min": 90,
+   "res": {
+    "cores": 8,
+    "gpu_gb": 6,
+    "ram_gb": 16
+   },
+   "stations": [
+    "delivery"
+   ],
+   "model": "none",
+   "judge": "panel",
+   "judge_note": "原 judge=family_check 的脚本在仓内不存在（可能在吸嘟嘟子仓），未找回前按人判，找回后改回"
+  },
+  {
+   "id": "T-BUILD-PACK",
+   "name": "构建打包",
+   "tool": "tuanjie -batchmode -nographics",
+   "out": "安装包/zip",
+   "min": 60,
+   "res": {
+    "cores": 8,
+    "gpu_gb": 4,
+    "ram_gb": 16,
+    "disk_gb": 10
+   },
+   "stations": [
+    "delivery"
+   ],
+   "model": "none",
+   "judge": "panel"
+  },
+  {
+   "id": "T-BUILD-DEMO",
+   "name": "演示包",
+   "tool": "构建+清单",
+   "out": "可演示包+一键启动",
+   "min": 45,
+   "res": {
+    "cores": 4,
+    "gpu_gb": 2,
+    "ram_gb": 8
+   },
+   "stations": [
+    "delivery"
+   ],
+   "model": "none",
+   "judge": "panel"
+  },
+  {
+   "id": "T-AUD-VOICE",
+   "name": "配音/TTS",
+   "tool": "index-tts / GPT-SoVITS",
+   "out": "人声轨",
+   "min": 40,
+   "res": {
+    "cores": 4,
+    "gpu_gb": 6,
+    "ram_gb": 8
+   },
+   "stations": [
+    "audio"
+   ],
+   "model": "none",
+   "judge": "panel"
+  },
+  {
+   "id": "T-AUD-MIX",
+   "name": "混音/响度",
+   "tool": "ffmpeg loudnorm",
+   "out": "成片音轨(-14LUFS/48k)",
+   "min": 30,
+   "res": {
+    "cores": 4,
+    "gpu_gb": 0,
+    "ram_gb": 6
+   },
+   "stations": [
+    "audio"
+   ],
+   "model": "none",
+   "judge": "panel"
+  },
+  {
+   "id": "T-AUD-MUSIC",
+   "name": "BGM/配乐",
+   "tool": "正版池/生成",
+   "out": "BGM 轨+版权标注",
+   "min": 20,
+   "res": {
+    "cores": 2,
+    "gpu_gb": 0,
+    "ram_gb": 4
+   },
+   "stations": [
+    "audio"
+   ],
+   "model": "none",
+   "judge": "panel"
+  },
+  {
+   "id": "T-AUD-VOICEBANK",
+   "name": "音色库",
+   "tool": "TTS 音色克隆",
+   "out": "角色音色 ID 表",
+   "min": 60,
+   "res": {
+    "cores": 4,
+    "gpu_gb": 6,
+    "ram_gb": 8
+   },
+   "stations": [
+    "audio"
+   ],
+   "model": "none",
+   "judge": "panel"
+  },
+  {
+   "id": "T-ASM-CUT",
+   "name": "剪辑",
+   "tool": "ffmpeg",
+   "out": "成片母版",
+   "min": 90,
+   "res": {
+    "cores": 4,
+    "gpu_gb": 0,
+    "ram_gb": 8,
+    "disk_gb": 10
+   },
+   "stations": [
+    "visual"
+   ],
+   "model": "none",
+   "judge": "drama_rules"
+  },
+  {
+   "id": "T-ASM-SUB",
+   "name": "字幕",
+   "tool": "ASR+ASS 烧制",
+   "out": "硬字幕母版",
+   "min": 20,
+   "res": {
+    "cores": 2,
+    "gpu_gb": 0,
+    "ram_gb": 6
+   },
+   "stations": [
+    "visual"
+   ],
+   "model": "none",
+   "judge": "panel"
+  },
+  {
+   "id": "T-QC-GATE",
+   "name": "质量闸",
+   "tool": "drama_rules.py",
+   "out": "九段门结论",
+   "min": 15,
+   "res": {
+    "cores": 2,
+    "gpu_gb": 0,
+    "ram_gb": 4
+   },
+   "stations": [
+    "control"
+   ],
+   "model": "none",
+   "judge": "drama_rules"
+  },
+  {
+   "id": "T-QC-VISION",
+   "name": "视觉一致性机检",
+   "tool": "frame_diff/脸锚",
+   "out": "跨镜一致性报告",
+   "min": 20,
+   "res": {
+    "cores": 4,
+    "gpu_gb": 2,
+    "ram_gb": 8
+   },
+   "stations": [
+    "visual"
+   ],
+   "model": "none",
+   "judge": "drama_rules"
+  },
+  {
+   "id": "T-DATA-FETCH",
+   "name": "数据抓取",
+   "tool": "quant/gaming 抓取器",
+   "out": "原始数据快照",
+   "min": 60,
+   "res": {
+    "cores": 4,
+    "gpu_gb": 0,
+    "ram_gb": 8
+   },
+   "stations": [
+    "brain"
+   ],
+   "model": "none",
+   "judge": "hash"
+  },
+  {
+   "id": "T-QT-BACKTEST",
+   "name": "回测",
+   "tool": "quant backtest",
+   "out": "回测报告(含基准)",
+   "min": 120,
+   "res": {
+    "cores": 8,
+    "gpu_gb": 8,
+    "ram_gb": 32
+   },
+   "stations": [
+    "brain"
+   ],
+   "model": "none",
+   "judge": "manual"
+  },
+  {
+   "id": "T-GAME-DESIGN",
+   "name": "玩法设计",
+   "tool": "人设计+原型",
+   "out": "关卡表+情绪链",
+   "min": 60,
+   "res": {
+    "cores": 2,
+    "gpu_gb": 0,
+    "ram_gb": 6
+   },
+   "stations": [
+    "control"
+   ],
+   "model": "local-9b",
+   "judge": "panel"
+  },
+  {
+   "id": "T-SCENE-FLOW",
+   "name": "流程/配置",
+   "tool": "JSON 配置+校验",
+   "out": "可运行配置",
+   "min": 60,
+   "res": {
+    "cores": 2,
+    "gpu_gb": 0,
+    "ram_gb": 6
+   },
+   "stations": [
+    "delivery"
+   ],
+   "model": "none",
+   "judge": "panel"
+  },
+  {
+   "id": "T-EVENT-WIRE",
+   "name": "事件接入",
+   "tool": "contract 校验脚本",
+   "out": "事件流联调记录",
+   "min": 45,
+   "res": {
+    "cores": 4,
+    "gpu_gb": 0,
+    "ram_gb": 8
+   },
+   "stations": [
+    "delivery"
+   ],
+   "model": "none",
+   "judge": "panel"
+  },
+  {
+   "id": "T-CITY-DATA",
+   "name": "城市数据(户籍/行为)",
+   "tool": "city_state.py",
+   "out": "world-state/events 增量",
+   "min": 30,
+   "res": {
+    "cores": 2,
+    "gpu_gb": 0,
+    "ram_gb": 4
+   },
+   "stations": [
+    "delivery"
+   ],
+   "model": "local-4b",
+   "judge": "panel"
+  },
+  {
+   "id": "T-CITY-ASSET",
+   "name": "城市资产",
+   "tool": "资产脚本+哈希",
+   "out": "资产包+清单",
+   "min": 45,
+   "res": {
+    "cores": 2,
+    "gpu_gb": 0,
+    "ram_gb": 4
+   },
+   "stations": [
+    "delivery"
+   ],
+   "model": "none",
+   "judge": "panel"
+  },
+  {
+   "id": "T-REG-ADMIT",
+   "name": "准入/上架判定",
+   "tool": "ship-ops 清单",
+   "out": "准入结论+缺口",
+   "min": 30,
+   "res": {
+    "cores": 2,
+    "gpu_gb": 0,
+    "ram_gb": 4
+   },
+   "stations": [
+    "control"
+   ],
+   "model": "none",
+   "judge": "panel"
+  },
+  {
+   "id": "T-DOC-SUBMIT-MATERIAL",
+   "name": "提审材料套用",
+   "tool": "game_submit_pack.py",
+   "out": "提审四件套",
+   "min": 20,
+   "res": {
+    "cores": 2,
+    "gpu_gb": 0,
+    "ram_gb": 4
+   },
+   "stations": [
+    "delivery"
+   ],
+   "model": "none",
+   "judge": "panel"
+  },
+  {
+   "id": "T-DOC-SUBMIT-LIST",
+   "name": "提审清单",
+   "tool": "台账核对",
+   "out": "清单+哈希",
+   "min": 15,
+   "res": {
+    "cores": 2,
+    "gpu_gb": 0,
+    "ram_gb": 4
+   },
+   "stations": [
+    "delivery"
+   ],
+   "model": "none",
+   "judge": "panel"
+  },
+  {
+   "id": "T-DOC-INDEX",
+   "name": "索引/清单",
+   "tool": "脚本生成",
+   "out": "索引文件",
+   "min": 15,
+   "res": {
+    "cores": 2,
+    "gpu_gb": 0,
+    "ram_gb": 4
+   },
+   "stations": [
+    "control"
+   ],
+   "model": "none",
+   "judge": "panel"
+  },
+  {
+   "id": "T-DOC-OEM",
+   "name": "OEM 一页材料",
+   "tool": "人写+排版",
+   "out": "一页 PDF/MD",
+   "min": 60,
+   "res": {
+    "cores": 2,
+    "gpu_gb": 0,
+    "ram_gb": 4
+   },
+   "stations": [
+    "control"
+   ],
+   "model": "local-4b",
+   "judge": "panel"
+  },
+  {
+   "id": "T-DOC-ASSET",
+   "name": "对外物料",
+   "tool": "模板+截图",
+   "out": "物料包",
+   "min": 45,
+   "res": {
+    "cores": 2,
+    "gpu_gb": 0,
+    "ram_gb": 4
+   },
+   "stations": [
+    "control"
+   ],
+   "model": "none",
+   "judge": "panel"
+  },
+  {
+   "id": "T-DOC-PUBLISH",
+   "name": "发布件(标识/备案)",
+   "tool": "ship-ops 三标识检查",
+   "out": "可发布母版+标识记录",
+   "min": 20,
+   "res": {
+    "cores": 2,
+    "gpu_gb": 0,
+    "ram_gb": 4
+   },
+   "stations": [
+    "control"
+   ],
+   "model": "none",
+   "judge": "panel"
+  },
+  {
+   "id": "T-OPS-CEO",
+   "name": "CEO 物理件",
+   "tool": "CEO 本人",
+   "out": "账号/备案/采购/对外承诺",
+   "min": 0,
+   "res": {
+    "cores": 0,
+    "gpu_gb": 0,
+    "ram_gb": 0
+   },
+   "stations": [],
+   "model": "none",
+   "judge": "human",
+   "human": true
   }
+ ],
+ "stage_map": {
+  "PROD-GAME-SUBMIT": {
+   "材料套用": "T-DOC-SUBMIT-MATERIAL",
+   "打包": "T-BUILD-PACK",
+   "图标": "T-IMG-ICON",
+   "提审清单": "T-DOC-SUBMIT-LIST"
+  },
+  "PROD-MV-SINGLE": {
+   "mv-plan": "T-TEXT-SCRIPT",
+   "mv-kf": "T-IMG-KF-FINAL",
+   "mv-i2v": "T-VID-I2V",
+   "mv-cut": "T-ASM-CUT",
+   "mv-gate": "T-QC-GATE"
+  },
+  "PROD-ASSET-PACK": {
+   "角色 LoRA": "T-IMG-LORA",
+   "音色": "T-AUD-VOICEBANK",
+   "图标": "T-IMG-ICON",
+   "索引": "T-DOC-INDEX"
+  },
+  "PROD-QUANT-REPORT": {
+   "数据": "T-DATA-FETCH",
+   "回测": "T-QT-BACKTEST",
+   "报告": "T-TEXT-REPORT"
+  },
+  "PROD-FLUXVERSE-SCENE": {
+   "场景装配": "T-3D-SCENE",
+   "事件接入": "T-EVENT-WIRE",
+   "演示包": "T-BUILD-DEMO"
+  },
+  "PROD-BIGHOUSE-FLOW": {
+   "场景": "T-3D-SCENE",
+   "流程": "T-SCENE-FLOW",
+   "准入": "T-REG-ADMIT"
+  },
+  "PROD-BIGLIFE-POP": {
+   "户籍": "T-CITY-DATA",
+   "行为": "T-CITY-DATA",
+   "资产": "T-CITY-ASSET"
+  },
+  "PROD-CAR-GAMING": {
+   "玩法": "T-GAME-DESIGN",
+   "车机适配": "T-3D-ADAPT",
+   "打包": "T-BUILD-PACK",
+   "OEM 材料": "T-DOC-OEM"
+  },
+  "PROD-DRAMA-AUDIO": {
+   "drama-voice": "T-AUD-VOICE",
+   "drama-mix": "T-AUD-MIX"
+  },
+  "PROD-DUANJU-AUDIO": {
+   "配音": "T-AUD-VOICE",
+   "混音": "T-AUD-MIX"
+  },
+  "PROD-SHORTVIDEO-TRACK": {
+   "配音": "T-AUD-VOICE",
+   "混音": "T-AUD-MIX",
+   "字幕": "T-ASM-SUB"
+  },
+  "PROD-BIGDOMAIN-MATERIAL": {
+   "文案": "T-TEXT-COPY",
+   "页面": "T-TEXT-PAGE",
+   "合规检查": "T-TEXT-COMPLIANCE"
+  },
+  "PROD-BIGCOMPUTE-OFFER": {
+   "商品定义": "T-TEXT-OFFER",
+   "报价": "T-TEXT-OFFER",
+   "物料": "T-DOC-ASSET"
+  },
+  "PROD-RECON-RECIPE": {
+   "抓取": "T-TEXT-RECON",
+   "拆解": "T-TEXT-RECON",
+   "配方": "T-TEXT-RECIPE"
+  },
+  "PROD-DRAMA-EP": {
+   "script": "T-TEXT-SCRIPT",
+   "assets": "T-IMG-LORA",
+   "storyboard": "T-TEXT-STORYBOARD",
+   "kf": "T-IMG-KF-FINAL",
+   "i2v": "T-VID-I2V",
+   "audio": "T-AUD-VOICE",
+   "assembly": "T-ASM-CUT",
+   "qc": "T-QC-GATE",
+   "publish": "T-DOC-PUBLISH"
+  },
+  "PROD-ACCOUNT-GROWTH": {
+   "选题": "T-TEXT-TOPIC",
+   "草稿": "T-TEXT-COMMENT",
+   "风险标注": "T-TEXT-COMPLIANCE",
+   "人工发送": "T-OPS-CEO",
+   "复盘": "T-TEXT-REVIEW"
+  }
+ }
 }

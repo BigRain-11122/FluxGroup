@@ -458,11 +458,13 @@
     }
    ],
    "old_gap": "验收只看 DONE，人判件成了黑洞",
-   "rule": "一屏统计 PENDING_HUMAN 并列入出手清单；需要固定的人判入口",
+   "rule": "判断交给评审团（skill+席位投票+确定性否决），人判桶清零；只剩发送/注册/备案这类权限件",
    "landing": [
-    "Tools/fleet/fleet_view.py"
+    "cph4/fleet/JUDGE-PANELS-v1.json",
+    "Tools/fleet/panel_review.py",
+    "Tools/fleet/station_drive.py"
    ],
-   "status": "OPEN"
+   "status": "CLOSED"
   },
   {
    "id": "S26",
@@ -530,6 +532,41 @@
    "landing": [
     "Tools/fleet/station_drive.py",
     "cph4/fleet/STATIONS.json"
+   ],
+   "status": "CLOSED"
+  },
+  {
+   "id": "S30",
+   "name": "评审团默认放行",
+   "symptom": "模型答偏/不可用时被当通过，等于没审",
+   "evidence": [
+    {
+     "src": "self",
+     "note": "2026-11-11 设计评审时识别"
+    }
+   ],
+   "old_gap": "闸只判有输出，不判输出可不可信",
+   "rule": "模型答偏记 ABSTAIN，ABSTAIN 不计入通过票；没有评审团配置直接 BLOCK",
+   "landing": [
+    "Tools/fleet/panel_review.py"
+   ],
+   "status": "CLOSED"
+  },
+  {
+   "id": "S31",
+   "name": "评审团与工序脱节",
+   "symptom": "工序改了但评审团没跟着改，出现无主判据",
+   "evidence": [
+    {
+     "src": "self",
+     "note": "2026-11-11 落地时识别"
+    }
+   ],
+   "old_gap": "判据与工序各管一份",
+   "rule": "judge=panel 由 TAXONOMY 指向任务类型，任务类型再指向 JUDGE-PANELS；缺一即 BLOCK（宁可拦不许放）",
+   "landing": [
+    "cph4/fleet/TAXONOMY-v1.json",
+    "cph4/fleet/JUDGE-PANELS-v1.json"
    ],
    "status": "CLOSED"
   }

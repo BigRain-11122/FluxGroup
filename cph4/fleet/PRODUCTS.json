@@ -31,10 +31,6 @@
     "图标": "cph4/fleet/out/game-submit/icon/",
     "提审清单": "cph4/fleet/out/game-submit/list.json"
    },
-   "manual_stages": [
-    "材料套用",
-    "提审清单"
-   ],
    "owner_station": "delivery",
    "support": [
     "visual"
@@ -44,7 +40,11 @@
    "blocked_by": [
     "商户号/支付资质（CEO 物理件）"
    ],
-   "status": "ACTIVE"
+   "status": "ACTIVE",
+   "panel_stages": [
+    "材料套用",
+    "提审清单"
+   ]
   },
   {
    "id": "PROD-MV-SINGLE",
@@ -71,10 +71,6 @@
     "mv-cut": "cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_cut.mp4",
     "mv-gate": "cph4/fleet/out/mv-single/gate.json"
    },
-   "manual_stages": [
-    "mv-plan",
-    "mv-gate"
-   ],
    "owner_station": "visual",
    "support": [
     "delivery",
@@ -83,7 +79,11 @@
    "priority": "T0",
    "cadence": "3-4 天一支出片",
    "blocked_by": [],
-   "status": "ACTIVE"
+   "status": "ACTIVE",
+   "panel_stages": [
+    "mv-plan",
+    "mv-gate"
+   ]
   },
   {
    "id": "PROD-ASSET-PACK",
@@ -108,11 +108,6 @@
     "图标": "cph4/fleet/out/asset-pack/icons/",
     "索引": "cph4/fleet/out/asset-pack/index.json"
    },
-   "manual_stages": [
-    "角色 LoRA",
-    "音色",
-    "索引"
-   ],
    "owner_station": "visual",
    "support": [
     "audio",
@@ -121,7 +116,12 @@
    "priority": "T0",
    "cadence": "每周 1 个可用包",
    "blocked_by": [],
-   "status": "ACTIVE"
+   "status": "ACTIVE",
+   "panel_stages": [
+    "角色 LoRA",
+    "音色",
+    "索引"
+   ]
   },
   {
    "id": "PROD-QUANT-REPORT",
@@ -176,11 +176,6 @@
     "事件接入": "cph4/fleet/out/fluxverse/events/",
     "演示包": "cph4/fleet/out/fluxverse/demo/"
    },
-   "manual_stages": [
-    "场景装配",
-    "事件接入",
-    "演示包"
-   ],
    "owner_station": "delivery",
    "support": [
     "visual"
@@ -190,7 +185,12 @@
    "blocked_by": [
     "3D 模型资产缺口"
    ],
-   "status": "ACTIVE"
+   "status": "ACTIVE",
+   "panel_stages": [
+    "场景装配",
+    "事件接入",
+    "演示包"
+   ]
   },
   {
    "id": "PROD-BIGHOUSE-FLOW",
@@ -212,11 +212,6 @@
     "流程": "cph4/fleet/out/bighouse/flow.json",
     "准入": "cph4/fleet/out/bighouse/admit.json"
    },
-   "manual_stages": [
-    "场景",
-    "流程",
-    "准入"
-   ],
    "owner_station": "delivery",
    "support": [
     "visual",
@@ -228,7 +223,12 @@
     "3D 资产",
     "人口数据"
    ],
-   "status": "ACTIVE"
+   "status": "ACTIVE",
+   "panel_stages": [
+    "场景",
+    "流程",
+    "准入"
+   ]
   },
   {
    "id": "PROD-BIGLIFE-POP",
@@ -250,11 +250,6 @@
     "行为": "cph4/fleet/out/biglife/events.jsonl",
     "资产": "cph4/fleet/out/biglife/assets/"
    },
-   "manual_stages": [
-    "户籍",
-    "行为",
-    "资产"
-   ],
    "owner_station": "delivery",
    "support": [
     "visual"
@@ -264,7 +259,12 @@
    "blocked_by": [
     "3D 居民资产"
    ],
-   "status": "ACTIVE"
+   "status": "ACTIVE",
+   "panel_stages": [
+    "户籍",
+    "行为",
+    "资产"
+   ]
   },
   {
    "id": "PROD-CAR-GAMING",
@@ -288,12 +288,6 @@
     "打包": "cph4/fleet/out/car/pack/",
     "OEM 材料": "cph4/fleet/out/car/oem.md"
    },
-   "manual_stages": [
-    "玩法",
-    "车机适配",
-    "打包",
-    "OEM 材料"
-   ],
    "owner_station": "delivery",
    "support": [],
    "priority": "T3",
@@ -301,7 +295,13 @@
    "blocked_by": [
     "OEM 商务（CEO）"
    ],
-   "status": "ACTIVE"
+   "status": "ACTIVE",
+   "panel_stages": [
+    "玩法",
+    "车机适配",
+    "打包",
+    "OEM 材料"
+   ]
   },
   {
    "id": "PROD-DRAMA-AUDIO",
@@ -405,11 +405,6 @@
     "页面": "cph4/fleet/out/bigdomain/page/",
     "合规检查": "cph4/fleet/out/bigdomain/compliance.json"
    },
-   "manual_stages": [
-    "文案",
-    "页面",
-    "合规检查"
-   ],
    "owner_station": "control",
    "support": [],
    "priority": "T1",
@@ -417,7 +412,12 @@
    "blocked_by": [
     "商户号/支付资质（CEO 物理件）"
    ],
-   "status": "ACTIVE"
+   "status": "ACTIVE",
+   "panel_stages": [
+    "文案",
+    "页面",
+    "合规检查"
+   ]
   },
   {
    "id": "PROD-BIGCOMPUTE-OFFER",
@@ -439,11 +439,6 @@
     "报价": "cph4/fleet/out/bigcompute/quote.md",
     "物料": "cph4/fleet/out/bigcompute/assets/"
    },
-   "manual_stages": [
-    "商品定义",
-    "报价",
-    "物料"
-   ],
    "owner_station": "control",
    "support": [
     "brain"
@@ -454,7 +449,12 @@
     "商户号",
     "算力大脑未入网"
    ],
-   "status": "ACTIVE"
+   "status": "ACTIVE",
+   "panel_stages": [
+    "商品定义",
+    "报价",
+    "物料"
+   ]
   },
   {
    "id": "PROD-RECON-RECIPE",
@@ -476,11 +476,6 @@
     "拆解": "cph4/fleet/out/recon/analysis.md",
     "配方": "cph4/fleet/out/recon/recipe.md"
    },
-   "manual_stages": [
-    "抓取",
-    "拆解",
-    "配方"
-   ],
    "owner_station": "control",
    "support": [
     "delivery"
@@ -488,7 +483,12 @@
    "priority": "T3",
    "cadence": "48 小时 1 张推进卡",
    "blocked_by": [],
-   "status": "ACTIVE"
+   "status": "ACTIVE",
+   "panel_stages": [
+    "抓取",
+    "拆解",
+    "配方"
+   ]
   },
   {
    "id": "PROD-DRAMA-EP",
@@ -524,17 +524,6 @@
     "qc": "cph4/fleet/out/drama/qc.json",
     "publish": "cph4/fleet/out/drama/publish.json"
    },
-   "manual_stages": [
-    "script",
-    "assets",
-    "storyboard",
-    "kf",
-    "i2v",
-    "audio",
-    "assembly",
-    "qc",
-    "publish"
-   ],
    "owner_station": "visual",
    "support": [
     "audio",
@@ -546,7 +535,18 @@
     "ComfyUI 未起（视觉工位）",
     "配音 venv 缺失（声音工位）"
    ],
-   "status": "ACTIVE"
+   "status": "ACTIVE",
+   "panel_stages": [
+    "script",
+    "assets",
+    "storyboard",
+    "kf",
+    "i2v",
+    "audio",
+    "assembly",
+    "qc",
+    "publish"
+   ]
   },
   {
    "id": "PROD-ACCOUNT-GROWTH",
@@ -577,11 +577,6 @@
     "草稿": "python3 Tools/fleet/social_drafts.py",
     "复盘": "python3 Tools/fleet/social_drafts.py --limit 0"
    },
-   "manual_stages": [
-    "选题",
-    "风险标注",
-    "人工发送"
-   ],
    "owner_station": "control",
    "support": [
     "audio"
@@ -593,7 +588,14 @@
     "CEO 提供账号 cookie 与目标视频清单",
     "禁止脚本自动发送"
    ],
-   "status": "ACTIVE"
+   "status": "ACTIVE",
+   "panel_stages": [
+    "选题",
+    "风险标注"
+   ],
+   "manual_stages": [
+    "人工发送"
+   ]
   }
  ]
 }

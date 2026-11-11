@@ -119,7 +119,7 @@ def plan(station, root=None, now=None):
                 continue
             if stage in (p.get("manual_stages") or []):
                 unknown.append({"product": pid, "stage": stage, "task_type": tid,
-                                "why": "MANUAL：人判工序，等人工下单，不自动建卡"})
+                                "why": "AUTHORITY：CEO 权限件（发送/注册/备案），机器不代做"})
                 continue
             rel = outputs.get(stage)
             if not rel:
@@ -215,6 +215,21 @@ def verify(station, card, run, root=None):
     if not judge:
         # 判据没写就不许自证完成（诚实律）
         return "PENDING_HUMAN", "未写判据，不许自证"
+    if judge == "panel":
+        try:
+            import panel_review as pr
+        except Exception as e:
+            return "PENDING_REVIEW", "评审团不可用: %s" % str(e)[:40]
+        deliverable = card.get("deliverable")
+        r = pr.review(product=card.get("product_id"), stage=card.get("stage"),
+                      task_type=card.get("task_type"),
+                      evidence=[deliverable] if deliverable else [])
+        v = r.get("verdict")
+        if v == "PASS":
+            return "DONE", "评审团通过(%s): %s" % (r.get("skill"), r.get("why"))
+        if v == "REVISE":
+            return "REVISE", "评审团要求返工: %s" % (r.get("why") or "")[:80]
+        return "FAILED", "评审团否决: %s" % (r.get("why") or "")[:80]
     if judge in MANUAL_JUDGES:
         return "PENDING_HUMAN", "judge=%s 需人判" % judge
     if run.get("why") == "NEED-CMD":
