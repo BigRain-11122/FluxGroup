@@ -61,3 +61,7 @@
 2. 它只巡你自己的队列、回执与产物，发现写进 `rt/delivery/`；需要判断时调用主控 8792 网关。
 3. 它的结论是初审，不是最终验收——你不能拿它给自己作证。
 4. 规格见 `cph4/fleet/stations/AGENT-SPEC.md`。
+
+---
+
+同步后按 `cph4/fleet/ONBOARD-AFTER-SYNC.md` 的七步执行；本岗位书与你直接相关，冲突时以本件为准。
