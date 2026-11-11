@@ -150,6 +150,37 @@ def _parse(text):
     return o
 
 
+def order_invariance(product=None, stage=None, task_type=None, evidence=None,
+                     generate=None, runs=3, seed=7):
+    """位置偏差检验：同一批证据换顺序，判决必须一致。
+
+    依据：多评审/LLM-as-judge 的已知偏差——证据或候选项的排列会改变结论
+    （ChatEval 与 Multi-Agents-Debate 都把"顺序敏感性"当作评审可信度的前置检验）。
+    本仓已有 VETO/QUORUM，但没验过"同一证据换个顺序会不会翻案"。
+    不一致时不给 PASS：判决不稳定就等于没判。
+    """
+    import random as _rnd
+    ev = list(evidence or [])
+    if len(ev) < 2:
+        return {"stable": True, "verdicts": [], "note": "证据少于 2 项，顺序无意义"}
+    rnd = _rnd.Random(seed)
+    orders = [ev, list(reversed(ev))]
+    for _ in range(max(0, runs - 1)):
+        e = list(ev)
+        rnd.shuffle(e)
+        if e not in orders:
+            orders.append(e)
+    verdicts, details = [], []
+    for e in orders:
+        r = review(product=product, stage=stage, task_type=task_type,
+                   evidence=e, generate=generate)
+        verdicts.append(r.get("verdict"))
+        details.append({"order": e, "verdict": r.get("verdict"), "why": r.get("why")})
+    stable = len(set(verdicts)) == 1
+    return {"stable": stable, "verdicts": verdicts, "orders": orders, "details": details,
+            "note": "顺序不变" if stable else "顺序敏感：判决随证据排列变化，不得据此放行"}
+
+
 def review(product=None, stage=None, task_type=None, evidence=None, generate=None,
            root=None, seat_runner=None):
     """跑一轮评审。generate/seat_runner 可注入，便于自检不起模型。"""
@@ -251,6 +282,24 @@ def self_test():
     chk("合规面板 quorum=1 也不会被答偏蒙过", r["verdict"] == "REVISE")
 
     chk("面板覆盖主要任务类型（>=30）", len(panels()) >= 30)
+    # 位置偏差：顺序敏感必须判出来；顺序无关必须通过（ChatEval/MAD 的 position-bias 前置检验）
+    # 证据用真实存在的文件（vetoes 会先查存在性，虚构路径会一律 BLOCK 而测不到投票面）
+    EV3 = ["Tools/fleet/panel_review.py", "Tools/fleet/station_drive.py", "Tools/fleet/agent_team.py"]
+
+    def g_flip(p, seat):
+        ia, ib = p.find("panel_review.py"), p.find("station_drive.py")
+        first = ia != -1 and (ib == -1 or ia < ib)
+        return ('{"vote":"PASS","reason":"ok"}' if first
+                else '{"vote":"BLOCK","reason":"顺序变了就翻"}')
+
+    def g_stable(p, seat):
+        return '{"vote":"PASS","reason":"ok"}'
+
+    uv = order_invariance(task_type="T-3D-ADAPT", evidence=EV3, generate=g_flip, runs=3)
+    chk("顺序敏感 -> stable=False（不许放行）", uv["stable"] is False)
+    st = order_invariance(task_type="T-3D-ADAPT", evidence=EV3, generate=g_stable, runs=3)
+    chk("顺序无关 -> stable=True", st["stable"] is True)
+
     print("[panel_review] %d/%d" % (ok, total))
     return 0 if ok == total else 3
 
@@ -262,6 +311,8 @@ def main():
     ap.add_argument("--task-type")
     ap.add_argument("--evidence", nargs="*", default=[])
     ap.add_argument("--list", action="store_true")
+    ap.add_argument("--check-order", action="store_true",
+                    help="位置偏差检验：同一批证据换顺序，判决必须一致")
     ap.add_argument("--self-test", action="store_true")
     a = ap.parse_args()
     if a.self_test:
@@ -271,6 +322,10 @@ def main():
             print("%-22s skill=%-18s seats=%s quorum=%s" % (
                 tid, p.get("skill"), ",".join(p.get("seats") or []), p.get("quorum")))
         return 0
+    if a.check_order:
+        r = order_invariance(a.product, a.stage, a.task_type, a.evidence)
+        print(json.dumps(r, ensure_ascii=False, indent=1))
+        return 0 if r["stable"] else 1
     r = review(a.product, a.stage, a.task_type, a.evidence)
     print(json.dumps(r, ensure_ascii=False, indent=1))
     return {"PASS": 0, "REVISE": 1, "BLOCK": 2}.get(r["verdict"], 2)
