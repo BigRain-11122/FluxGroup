@@ -40,10 +40,21 @@ STATIONS = ("delivery", "visual", "audio", "brain", "control")
 # 一机一写者是跨机约定，挡不住同机并发（自驱循环 + 命令面 + 巡查可能同时动）。
 # 这里加进程级排他锁，跨平台：POSIX 用 fcntl，Windows 用 msvcrt，都没有就退化为无锁。
 import contextlib
+import threading
+
+_LOCAL = threading.local()
 
 
 @contextlib.contextmanager
 def _write_lock(path):
+    depth = getattr(_LOCAL, "depth", 0)
+    if depth:                      # 同线程重入（upsert 里再调 write_queue）不重复取锁
+        _LOCAL.depth = depth + 1
+        try:
+            yield
+        finally:
+            _LOCAL.depth -= 1
+        return
     lock = path + ".lock"
     os.makedirs(os.path.dirname(lock), exist_ok=True)
     fh = None
@@ -58,8 +69,10 @@ def _write_lock(path):
                 msvcrt.locking(fh.fileno(), msvcrt.LK_LOCK, 1)
             except Exception:
                 pass
+        _LOCAL.depth = 1
         yield
     finally:
+        _LOCAL.depth = 0
         if fh:
             try:
                 import fcntl
@@ -139,6 +152,11 @@ def write_queue(station, rows, root=None):
 
 
 def upsert(station, row, root=None):
+    with _write_lock(queue_path(station, root)):      # 读-改-写必须整体加锁，否则丢写
+        return _upsert_locked(station, row, root)
+
+
+def _upsert_locked(station, row, root=None):
     rows = {str(r["id"]): r for r in read_queue(station, root)}
     prev = rows.get(str(row.get("id")))
     if prev:

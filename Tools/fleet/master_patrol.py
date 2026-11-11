@@ -63,6 +63,21 @@ def _rows(p):
     return out
 
 
+def _tree_sha(path):
+    h = hashlib.sha256()
+    for d, _, xs in sorted(os.walk(path)):
+        for x in sorted(xs):
+            fp = os.path.join(d, x)
+            try:
+                h.update(os.path.relpath(fp, path).encode())
+                h.update(str(os.path.getsize(fp)).encode())
+                with open(fp, "rb") as f:
+                    h.update(hashlib.sha256(f.read()).digest())
+            except OSError:
+                continue
+    return h.hexdigest()
+
+
 def _sha(p):
     h = hashlib.sha256()
     with open(p, "rb") as f:
@@ -80,6 +95,9 @@ def sample(root=None, limit_override=None):
     """按配置抽验：重算哈希与回执比对。返回 (抽查结果列表, 失败数)。"""
     cfg = _j(os.path.join(root or ROOT, "cph4", "fleet", "ACCEPTANCE-v1.json"), {}) or {}
     per = cfg.get("sample_per_day") or {}
+    if not per:
+        return [{"station": "-", "id": "-", "pass": False,
+                 "why": "缺抽验配置 ACCEPTANCE-v1.json（不许静默零抽验）", "ts": datetime.now().isoformat(timespec="seconds")}], 1
     done = _sampled(root)
     results, fails = [], 0
     for station, n in per.items():
@@ -108,7 +126,7 @@ def sample(root=None, limit_override=None):
             elif not r.get("sha256"):
                 rec.update({"pass": False, "why": "A2 回执没写哈希（不可验）"}); fails += 1
             else:
-                got = _sha(p)
+                got = _tree_sha(p) if os.path.isdir(p) else _sha(p)
                 if got != r.get("sha256"):
                     rec.update({"pass": False, "why": "A2 哈希不一致"}); fails += 1
                 elif str(r.get("judge") or "") in ("manual", "human"):

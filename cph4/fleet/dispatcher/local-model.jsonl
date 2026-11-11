@@ -3594,3 +3594,8 @@
 {"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 4.5, "chars": 90, "why": "master-digest", "ts": "2026-11-11T11:07:56"}
 {"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 18.8, "chars": 164, "why": "master-digest", "ts": "2026-11-11T11:08:45"}
 {"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 5.0, "chars": 151, "why": "master-digest", "ts": "2026-11-11T11:13:51"}
+{"cls": "quick", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.4, "chars": 3, "why": "", "ts": "2026-11-11T14:22:25"}
+{"cls": "quick", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 0.7, "chars": 3, "why": "", "ts": "2026-11-11T14:47:09"}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.8, "chars": 113, "why": "agent-team:C-INSPECT", "ts": "2026-11-11T15:10:07"}
+{"cls": "review", "seat": "big", "op": "generate", "model": "qwen3:8b", "sec": 5.9, "chars": 125, "why": "panel:C-BOOK", "ts": "2026-11-11T16:01:07"}
+{"cls": "review", "seat": "big", "op": "generate", "model": "qwen3:8b", "sec": 3.2, "chars": 130, "why": "panel:C-LEAD", "ts": "2026-11-11T16:01:10"}

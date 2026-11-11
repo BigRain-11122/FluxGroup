@@ -77,6 +77,33 @@ def _sha(path, limit=64 * 1024 * 1024):
     return h.hexdigest()
 
 
+def _tree_sha(path):
+    """目录指纹：路径+大小+文件哈希按序拼起来再取 sha256。目录产物也能被抽验。"""
+    h = hashlib.sha256()
+    for d, _, xs in sorted(os.walk(path)):
+        for x in sorted(xs):
+            fp = os.path.join(d, x)
+            rel = os.path.relpath(fp, path)
+            try:
+                h.update(rel.encode())
+                h.update(b"|")
+                h.update(str(os.path.getsize(fp)).encode())
+                h.update(b"|")
+                with open(fp, "rb") as f:
+                    h.update(hashlib.sha256(f.read()).digest())
+            except OSError:
+                continue
+    return h.hexdigest()
+
+
+def _digest(path):
+    if os.path.isfile(path):
+        return _sha(path)
+    if os.path.isdir(path):
+        return _tree_sha(path)
+    return None
+
+
 def _size(path):
     if os.path.isfile(path):
         return os.path.getsize(path)
@@ -86,11 +113,25 @@ def _size(path):
     return -1
 
 
+def _newest_mtime(path):
+    """产物的新鲜度看目录里最新文件，不看目录自身 mtime（目录 mtime 只在增删文件时变）。"""
+    if os.path.isfile(path):
+        return os.path.getmtime(path)
+    newest = 0
+    for d, _, xs in os.walk(path):
+        for x in xs:
+            try:
+                newest = max(newest, os.path.getmtime(os.path.join(d, x)))
+            except OSError:
+                pass
+    return newest or os.path.getmtime(path)
+
+
 def _fresh_enough(path, refresh_h, now=None):
     """产物是否还在保质期内。refresh_h 为空=只补缺失，不做周期重置。"""
     if not refresh_h or not os.path.exists(path):
         return False
-    age_h = ((now or _now()) - datetime.fromtimestamp(os.path.getmtime(path))).total_seconds() / 3600
+    age_h = ((now or _now()) - datetime.fromtimestamp(_newest_mtime(path))).total_seconds() / 3600
     return age_h < float(refresh_h)
 
 
@@ -115,7 +156,14 @@ def plan(station, root=None, now=None):
             if not tid or tid not in types:
                 continue
             t = types[tid]
-            if station not in (t.get("stations") or []):
+            owners = t.get("stations") or []
+            if not owners:
+                # 无承接方：权限件（CEO 亲办）要报出来，别静默跳过；其余是真缺口
+                unknown.append({"product": pid, "stage": stage, "task_type": tid,
+                                "why": ("AUTHORITY：CEO 权限件，机器不代做" if t.get("human")
+                                        else "NO-OWNER：没有任何工位承接")})
+                continue
+            if station not in owners:
                 continue
             if stage in (p.get("manual_stages") or []):
                 unknown.append({"product": pid, "stage": stage, "task_type": tid,
@@ -212,6 +260,12 @@ def verify(station, card, run, root=None):
     """自验：确定性判据过了才算 DONE；人判型一律 PENDING_HUMAN。"""
     rroot = root or ROOT
     judge = (card.get("judge") or "").strip()
+    if not judge and card.get("task_type"):
+        try:
+            types = {t["id"]: t for t in _load("TAXONOMY-v1.json", root)["task_types"]}
+            judge = (types.get(card["task_type"]) or {}).get("judge") or ""
+        except Exception:
+            judge = ""
     if not judge:
         # 判据没写就不许自证完成（诚实律）
         return "PENDING_HUMAN", "未写判据，不许自证"
@@ -259,7 +313,7 @@ def record(station, card, verdict, why, root=None):
         "verdict": verdict, "why": why,
         "deliverable": deliverable,
         "bytes": _size(p) if p else None,
-        "sha256": _sha(p) if p and os.path.isfile(p) else None,
+        "sha256": _digest(p) if p and os.path.exists(p) else None,
         "ts": _now().isoformat(timespec="seconds"),
         "by": "self-drive",
     }
@@ -309,6 +363,23 @@ def handoff(station, card, root=None):
     return {"to": tgt, "stage": nxt, "task_type": tid, "card": row["id"]}
 
 
+RUNNABLE = ("ready", "online", "network_ok_not_registered")
+
+
+def _status_ok(station, root=None, force=False):
+    """机器自己先看状态：被暂停/离线/未安装就不干活。手工演练用 --force 显式越过。"""
+    if force:
+        return True, "force"
+    try:
+        st = {s["id"]: s for s in _load("STATIONS.json", root)["stations"]}[station]
+    except Exception:
+        return True, ""
+    status = st.get("status") or ""
+    if status in RUNNABLE:
+        return True, status
+    return False, "本机状态=%s，不自驱（停/离线/未装）" % status
+
+
 def _disk_ok(station, root=None):
     """领活前查盘：低于配置水位就不跑，写一条 BLOCKED 理由，不许失败循环。"""
     try:
@@ -327,7 +398,11 @@ def _disk_ok(station, root=None):
     return True, ""
 
 
-def once(station, root=None, dry=False, now=None, run_limit=3):
+def once(station, root=None, dry=False, now=None, run_limit=3, force=False):
+    ok, why = _status_ok(station, root, force)
+    if not ok:
+        return {"station": station, "ts": _now().isoformat(timespec="seconds"),
+                "blocked": why, "would_create": [], "unknown_output": [], "ran": []}
     ok, why = _disk_ok(station, root)
     if not ok:
         return {"station": station, "ts": _now().isoformat(timespec="seconds"),
@@ -434,8 +509,12 @@ def self_test():
         c3 = dict(c2); c3["judge"] = "manual"
         chk("人判型 -> PENDING_HUMAN（不自证）", verify("control", c3, {"ok": True}, td)[0] == "PENDING_HUMAN")
 
-        c4 = dict(c2); c4["judge"] = ""
-        chk("未写判据 -> 不许自证", verify("control", c4, {"ok": True}, td)[0] == "PENDING_HUMAN")
+        c4 = dict(c2); c4["judge"] = ""; c4["task_type"] = "T-NO-SUCH"
+        chk("未写判据且查不到任务类型 -> 不许自证",
+            verify("control", c4, {"ok": True}, td)[0] == "PENDING_HUMAN")
+        c4b = dict(c2); c4b["judge"] = ""
+        chk("卡没写判据时回退任务类型判据（path）",
+            verify("control", c4b, {"ok": True}, td)[0] == "DONE")
 
         c5 = dict(c2); c5["deliverable"] = "out/none/x.bin"
         chk("产物缺失 -> FAILED", verify("control", c5, {"ok": True}, td)[0] == "FAILED")
@@ -455,6 +534,7 @@ def main(argv=None):
     ap.add_argument("--once", action="store_true")
     ap.add_argument("--loop", type=int, default=0)
     ap.add_argument("--run-limit", type=int, default=3)
+    ap.add_argument("--force", action="store_true")
     ap.add_argument("--self-test", action="store_true")
     a = ap.parse_args(argv)
 
@@ -462,10 +542,10 @@ def main(argv=None):
         return self_test()
     if a.loop:
         while True:
-            r = once(a.station, a.root, dry=a.dry, run_limit=a.run_limit)
+            r = once(a.station, a.root, dry=a.dry, run_limit=a.run_limit, force=a.force)
             print(json.dumps(r, ensure_ascii=False))
             time.sleep(a.loop)
-    r = once(a.station, a.root, dry=a.dry, run_limit=a.run_limit)
+    r = once(a.station, a.root, dry=a.dry, run_limit=a.run_limit, force=a.force)
     print(json.dumps(r, ensure_ascii=False, indent=1))
     return 0
 

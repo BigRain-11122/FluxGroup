@@ -1,113 +1,591 @@
 {
-  "_comment": "评审团正身（JUDGE-PANELS）· 2026-11-11。CEO 令「不要人判，给我找好 skill 和专家团，让他们科学决策和审查」。规则：每道工序的判断交给 一个 skill（判据来源）+ 若干席位（投票）+ 确定性否决项（先于投票）。人物件只剩发送权，那不是判断、是权限。",
-  "_version": "v1-20261111",
-  "_how": "panel_review.py 先跑 veto（客观项，不过直接 BLOCK），再让每个席位按 rubric 逐条给 PASS/FAIL+证据，最后按 quorum 定结论。模型不可用=BLOCK，不许默认通过。",
-  "_fields": "skill=技能正身（判据出处）；seats=投票席位（来自 AGENT-TEAMS）；rubric=逐条判据；veto=确定性否决项；quorum=通过所需 PASS 票数",
-  "panels": {
-    "T-TEXT-TOPIC": {"skill": "growth-ops", "seats": ["C-LEAD", "C-VOICE"], "quorum": 2,
-      "rubric": ["目标人群一句话说得清", "钩子在前 3 秒", "可交付且不需外部授权"],
-      "veto": ["no_artifact", "off_redline"]},
-    "T-TEXT-SCRIPT": {"skill": "drama-director", "seats": ["C-GATE", "V-SHOT", "C-VOICE"], "quorum": 2,
-      "rubric": ["3 秒钩", "中段至少 1 次反转", "结尾钩强于本集冲突", "单集闭环", "台词短碎不书面"],
-      "veto": ["no_artifact"]},
-    "T-TEXT-STORYBOARD": {"skill": "tw-mv-director", "seats": ["V-SHOT", "V-CUT"], "quorum": 2,
-      "rubric": ["一镜一意图", "每镜 2-3 秒", "首尾帧意图写明", "运镜单列"],
-      "veto": ["no_artifact"]},
-    "T-TEXT-COPY": {"skill": "growth-ops", "seats": ["C-VOICE", "C-LEGAL"], "quorum": 2,
-      "rubric": ["说人话", "不编事实", "零导流", "标题不震惊体"],
-      "veto": ["no_artifact", "voice_gate_fail"]},
-    "T-TEXT-RECON": {"skill": "content-recon", "seats": ["C-MATERIAL", "C-GATE"], "quorum": 2,
-      "rubric": ["来源分级标注", "数字有出处", "可执行配方而非结论口号"],
-      "veto": ["no_artifact"]},
-    "T-TEXT-RECIPE": {"skill": "content-recon", "seats": ["C-MATERIAL", "V-PROMPT"], "quorum": 2,
-      "rubric": ["命令可复制执行", "参数与限制写清", "失败判据写明"],
-      "veto": ["no_artifact"]},
-    "T-TEXT-OFFER": {"skill": "bigstream-expert-panel", "seats": ["C-LEAD", "C-MATERIAL"], "quorum": 2,
-      "rubric": ["成本口径可复算", "价格有对照", "不承诺未授权事项"],
-      "veto": ["no_artifact"]},
-    "T-TEXT-PAGE": {"skill": "growth-ops", "seats": ["C-MATERIAL", "C-LEGAL"], "quorum": 2,
-      "rubric": ["可打开", "信息与产品一致", "无外链导流", "无未授权承诺"],
-      "veto": ["no_artifact", "off_redline"]},
-    "T-TEXT-COMPLIANCE": {"skill": "compliance-guard", "seats": ["C-LEGAL"], "quorum": 1,
-      "rubric": ["AIGC 三标识齐", "零真人脸", "品牌规避", "儿童场景安全", "零导流话术"],
-      "veto": ["no_artifact"]},
-    "T-TEXT-REVIEW": {"skill": "memory-curator", "seats": ["C-BOOK", "C-LEAD"], "quorum": 1,
-      "rubric": ["结论有证据指针", "不改写历史", "缺口写清不粉饰"],
-      "veto": ["no_artifact"]},
-    "T-TEXT-REPORT": {"skill": "quant-backtest-gate", "seats": ["B-QUANT", "B-AUDIT"], "quorum": 2,
-      "rubric": ["基准写清", "成本计入", "无前视/幸存者偏差", "可复现命令在"],
-      "veto": ["no_artifact"]},
-    "T-IMG-LORA": {"skill": "mv-casting", "seats": ["V-KF", "V-CONSIST"], "quorum": 2,
-      "rubric": ["定妆+三视图+多角度齐", "中性灰底", "跨集同一人", "无真人脸风险"],
-      "veto": ["no_artifact", "off_redline"]},
-    "T-AUD-VOICEBANK": {"skill": "mv-casting", "seats": ["A-CAST", "A-VOICE"], "quorum": 2,
-      "rubric": ["每角色一个固定音色 ID", "跨集不换", "情绪向量可用"],
-      "veto": ["no_artifact"]},
-    "T-3D-SCENE": {"skill": "silicon-city-ops", "seats": ["D-BUILD", "V-CONSIST"], "quorum": 2,
-      "rubric": ["可运行", "场景与设定一致", "性能在预算内"],
-      "veto": ["no_artifact"]},
-    "T-3D-ADAPT": {"skill": "game-asset-ship", "seats": ["D-CAR", "D-ADMIT"], "quorum": 2,
-      "rubric": ["方向键可用", "触屏可用", "家长键可用", "包可安装"],
-      "veto": ["no_artifact"]},
-    "T-BUILD-DEMO": {"skill": "game-asset-ship", "seats": ["D-BUILD", "D-ADMIT"], "quorum": 2,
-      "rubric": ["一键启动", "清单与字节一致", "无缺失依赖"],
-      "veto": ["no_artifact", "hash_mismatch"]},
-    "T-SCENE-FLOW": {"skill": "silicon-city-ops", "seats": ["D-BUILD", "D-ADMIT"], "quorum": 2,
-      "rubric": ["配置可加载", "流程无死锁", "事件名与契约一致"],
-      "veto": ["no_artifact"]},
-    "T-EVENT-WIRE": {"skill": "silicon-city-ops", "seats": ["D-BUILD", "C-GATE"], "quorum": 2,
-      "rubric": ["事件名与契约一致", "有联调记录", "失败可观测"],
-      "veto": ["no_artifact"]},
-    "T-CITY-DATA": {"skill": "silicon-city-ops", "seats": ["D-BUILD", "C-MATERIAL"], "quorum": 1,
-      "rubric": ["字段与 canonical 一致", "无编造居民", "增量可追溯"],
-      "veto": ["no_artifact"]},
-    "T-CITY-ASSET": {"skill": "asset-audit", "seats": ["D-ICON", "C-MATERIAL"], "quorum": 1,
-      "rubric": ["命名合规", "尺寸合规", "有清单与哈希"],
-      "veto": ["no_artifact", "hash_mismatch"]},
-    "T-GAME-DESIGN": {"skill": "game-asset-ship", "seats": ["C-LEAD", "D-ADMIT"], "quorum": 2,
-      "rubric": ["前 3 关三种情绪不重复", "零门槛", "付费点不卖关卡", "一局 60-90 秒"],
-      "veto": ["off_redline"]},
-    "T-REG-ADMIT": {"skill": "ship-ops", "seats": ["D-ADMIT", "C-LEGAL"], "quorum": 2,
-      "rubric": ["备案状态写清", "三标识齐", "材料四件套齐", "无未授权对外承诺"],
-      "veto": ["no_artifact"]},
-    "T-DOC-SUBMIT-MATERIAL": {"skill": "game-asset-ship", "seats": ["D-SUBMIT", "D-ICON"], "quorum": 2,
-      "rubric": ["隐私/图标/截图/清单四件齐", "尺寸与命名合规", "清单有哈希"],
-      "veto": ["no_artifact", "hash_mismatch"]},
-    "T-DOC-SUBMIT-LIST": {"skill": "ship-ops", "seats": ["D-SUBMIT"], "quorum": 1,
-      "rubric": ["逐款状态写清", "缺口列明", "与盘上事实一致"],
-      "veto": ["no_artifact"]},
-    "T-DOC-OEM": {"skill": "ship-ops", "seats": ["C-MATERIAL", "D-ADMIT"], "quorum": 2,
-      "rubric": ["参数可填", "不含未授权商务承诺", "一页可读"],
-      "veto": ["no_artifact", "off_redline"]},
-    "T-DOC-ASSET": {"skill": "asset-audit", "seats": ["C-MATERIAL", "D-ICON"], "quorum": 1,
-      "rubric": ["清单齐", "命名规范", "无往期版本混入"],
-      "veto": ["no_artifact"]},
-    "T-DOC-INDEX": {"skill": "asset-audit", "seats": ["C-MATERIAL"], "quorum": 1,
-      "rubric": ["路径真实存在", "计数与盘上一致", "可按产品检索"],
-      "veto": ["no_artifact"]},
-    "T-DOC-PUBLISH": {"skill": "ship-ops", "seats": ["C-LEGAL", "C-GATE"], "quorum": 2,
-      "rubric": ["三标识齐", "备案状态写清", "发布件与母版哈希一致"],
-      "veto": ["no_artifact", "hash_mismatch", "off_redline"]},
-    "T-ASM-SUB": {"skill": "mv-edit-rhythm", "seats": ["V-SUB", "C-GATE"], "quorum": 1,
-      "rubric": ["单行不超字数", "断句在语义处", "避开竖屏安全区"],
-      "veto": ["no_artifact"]},
-    "T-IMG-ICON": {"skill": "game-asset-ship", "seats": ["D-ICON"], "quorum": 1,
-      "rubric": ["尺寸正确", "透明通道正确", "命名合规"],
-      "veto": ["no_artifact"]},
-    "T-BUILD-PACK": {"skill": "game-asset-ship", "seats": ["D-BUILD"], "quorum": 1,
-      "rubric": ["构建日志有成功标记", "产物 mtime 新", "体积合理"],
-      "veto": ["no_artifact"]},
-    "T-AUD-MUSIC": {"skill": "mv-colorist", "seats": ["A-BGM", "A-MIX"], "quorum": 1,
-      "rubric": ["情绪跟集内曲线", "版权来源写清", "响度不打架"],
-      "veto": ["no_artifact"]},
-    "T-AUD-VOICE": {"skill": "mv-casting", "seats": ["A-VOICE", "A-MIX"], "quorum": 1,
-      "rubric": ["音色与角色一致", "无爆音", "与口型对齐"],
-      "veto": ["no_artifact"]},
-    "T-AUD-MIX": {"skill": "bigstream-expert-panel", "seats": ["A-MIX"], "quorum": 1,
-      "rubric": ["响度在区间", "收口 48k", "人声不被压"],
-      "veto": ["no_artifact"]}
+ "_comment": "评审团正身（JUDGE-PANELS）· 2026-11-11。CEO 令「不要人判，给我找好 skill 和专家团，让他们科学决策和审查」。规则：每道工序的判断交给 一个 skill（判据来源）+ 若干席位（投票）+ 确定性否决项（先于投票）。人物件只剩发送权，那不是判断、是权限。",
+ "_version": "v1-20261111",
+ "_how": "panel_review.py 先跑 veto（客观项，不过直接 BLOCK），再让每个席位按 rubric 逐条给 PASS/FAIL+证据，最后按 quorum 定结论。模型不可用=BLOCK，不许默认通过。",
+ "_fields": "skill=技能正身（判据出处）；seats=投票席位（来自 AGENT-TEAMS）；rubric=逐条判据；veto=确定性否决项；quorum=通过所需 PASS 票数",
+ "panels": {
+  "T-TEXT-TOPIC": {
+   "skill": "growth-ops",
+   "seats": [
+    "C-LEAD",
+    "C-VOICE"
+   ],
+   "quorum": 2,
+   "rubric": [
+    "目标人群一句话说得清",
+    "钩子在前 3 秒",
+    "可交付且不需外部授权"
+   ],
+   "veto": [
+    "no_artifact",
+    "off_redline"
+   ]
   },
-  "human_only": {
-    "T-OPS-CEO": "发送/注册/备案/采购/对外承诺：这是权限边界，不是判断，永远不进评审团"
+  "T-TEXT-SCRIPT": {
+   "skill": "drama-director",
+   "seats": [
+    "C-GATE",
+    "V-SHOT",
+    "C-VOICE"
+   ],
+   "quorum": 2,
+   "rubric": [
+    "3 秒钩",
+    "中段至少 1 次反转",
+    "结尾钩强于本集冲突",
+    "单集闭环",
+    "台词短碎不书面"
+   ],
+   "veto": [
+    "no_artifact"
+   ]
+  },
+  "T-TEXT-STORYBOARD": {
+   "skill": "tw-mv-director",
+   "seats": [
+    "V-SHOT",
+    "V-CUT",
+    "C-LEAD"
+   ],
+   "quorum": 2,
+   "rubric": [
+    "一镜一意图",
+    "每镜 2-3 秒",
+    "首尾帧意图写明",
+    "运镜单列"
+   ],
+   "veto": [
+    "no_artifact"
+   ]
+  },
+  "T-TEXT-COPY": {
+   "skill": "growth-ops",
+   "seats": [
+    "C-VOICE",
+    "C-LEGAL"
+   ],
+   "quorum": 2,
+   "rubric": [
+    "说人话",
+    "不编事实",
+    "零导流",
+    "标题不震惊体"
+   ],
+   "veto": [
+    "no_artifact",
+    "voice_gate_fail"
+   ]
+  },
+  "T-TEXT-RECON": {
+   "skill": "content-recon",
+   "seats": [
+    "C-MATERIAL",
+    "C-GATE"
+   ],
+   "quorum": 2,
+   "rubric": [
+    "来源分级标注",
+    "数字有出处",
+    "可执行配方而非结论口号"
+   ],
+   "veto": [
+    "no_artifact"
+   ]
+  },
+  "T-TEXT-RECIPE": {
+   "skill": "content-recon",
+   "seats": [
+    "C-MATERIAL",
+    "V-PROMPT"
+   ],
+   "quorum": 2,
+   "rubric": [
+    "命令可复制执行",
+    "参数与限制写清",
+    "失败判据写明"
+   ],
+   "veto": [
+    "no_artifact"
+   ]
+  },
+  "T-TEXT-OFFER": {
+   "skill": "bigstream-expert-panel",
+   "seats": [
+    "C-LEAD",
+    "C-MATERIAL"
+   ],
+   "quorum": 2,
+   "rubric": [
+    "成本口径可复算",
+    "价格有对照",
+    "不承诺未授权事项"
+   ],
+   "veto": [
+    "no_artifact"
+   ]
+  },
+  "T-TEXT-PAGE": {
+   "skill": "growth-ops",
+   "seats": [
+    "C-MATERIAL",
+    "C-LEGAL"
+   ],
+   "quorum": 2,
+   "rubric": [
+    "可打开",
+    "信息与产品一致",
+    "无外链导流",
+    "无未授权承诺"
+   ],
+   "veto": [
+    "no_artifact",
+    "off_redline"
+   ]
+  },
+  "T-TEXT-COMPLIANCE": {
+   "skill": "compliance-guard",
+   "seats": [
+    "C-LEGAL"
+   ],
+   "quorum": 1,
+   "rubric": [
+    "AIGC 三标识齐",
+    "零真人脸",
+    "品牌规避",
+    "儿童场景安全",
+    "零导流话术"
+   ],
+   "veto": [
+    "no_artifact"
+   ]
+  },
+  "T-TEXT-REVIEW": {
+   "skill": "memory-curator",
+   "seats": [
+    "C-BOOK",
+    "C-LEAD"
+   ],
+   "quorum": 1,
+   "rubric": [
+    "结论有证据指针",
+    "不改写历史",
+    "缺口写清不粉饰"
+   ],
+   "veto": [
+    "no_artifact"
+   ]
+  },
+  "T-TEXT-REPORT": {
+   "skill": "quant-backtest-gate",
+   "seats": [
+    "B-QUANT",
+    "B-AUDIT",
+    "C-LEAD"
+   ],
+   "quorum": 2,
+   "rubric": [
+    "基准写清",
+    "成本计入",
+    "无前视/幸存者偏差",
+    "可复现命令在"
+   ],
+   "veto": [
+    "no_artifact"
+   ]
+  },
+  "T-IMG-LORA": {
+   "skill": "mv-casting",
+   "seats": [
+    "V-KF",
+    "V-CONSIST"
+   ],
+   "quorum": 2,
+   "rubric": [
+    "定妆+三视图+多角度齐",
+    "中性灰底",
+    "跨集同一人",
+    "无真人脸风险"
+   ],
+   "veto": [
+    "no_artifact",
+    "off_redline"
+   ]
+  },
+  "T-AUD-VOICEBANK": {
+   "skill": "mv-casting",
+   "seats": [
+    "A-CAST",
+    "A-VOICE"
+   ],
+   "quorum": 2,
+   "rubric": [
+    "每角色一个固定音色 ID",
+    "跨集不换",
+    "情绪向量可用"
+   ],
+   "veto": [
+    "no_artifact"
+   ]
+  },
+  "T-3D-SCENE": {
+   "skill": "silicon-city-ops",
+   "seats": [
+    "D-BUILD",
+    "V-CONSIST"
+   ],
+   "quorum": 2,
+   "rubric": [
+    "可运行",
+    "场景与设定一致",
+    "性能在预算内"
+   ],
+   "veto": [
+    "no_artifact"
+   ]
+  },
+  "T-3D-ADAPT": {
+   "skill": "game-asset-ship",
+   "seats": [
+    "D-CAR",
+    "D-ADMIT"
+   ],
+   "quorum": 2,
+   "rubric": [
+    "方向键可用",
+    "触屏可用",
+    "家长键可用",
+    "包可安装"
+   ],
+   "veto": [
+    "no_artifact"
+   ]
+  },
+  "T-BUILD-DEMO": {
+   "skill": "game-asset-ship",
+   "seats": [
+    "D-BUILD",
+    "D-ADMIT"
+   ],
+   "quorum": 2,
+   "rubric": [
+    "一键启动",
+    "清单与字节一致",
+    "无缺失依赖"
+   ],
+   "veto": [
+    "no_artifact",
+    "hash_mismatch"
+   ]
+  },
+  "T-SCENE-FLOW": {
+   "skill": "silicon-city-ops",
+   "seats": [
+    "D-BUILD",
+    "D-ADMIT"
+   ],
+   "quorum": 2,
+   "rubric": [
+    "配置可加载",
+    "流程无死锁",
+    "事件名与契约一致"
+   ],
+   "veto": [
+    "no_artifact"
+   ]
+  },
+  "T-EVENT-WIRE": {
+   "skill": "silicon-city-ops",
+   "seats": [
+    "D-BUILD",
+    "C-GATE"
+   ],
+   "quorum": 2,
+   "rubric": [
+    "事件名与契约一致",
+    "有联调记录",
+    "失败可观测"
+   ],
+   "veto": [
+    "no_artifact"
+   ]
+  },
+  "T-CITY-DATA": {
+   "skill": "silicon-city-ops",
+   "seats": [
+    "D-BUILD",
+    "C-MATERIAL"
+   ],
+   "quorum": 1,
+   "rubric": [
+    "字段与 canonical 一致",
+    "无编造居民",
+    "增量可追溯"
+   ],
+   "veto": [
+    "no_artifact"
+   ]
+  },
+  "T-CITY-ASSET": {
+   "skill": "asset-audit",
+   "seats": [
+    "D-ICON",
+    "C-MATERIAL"
+   ],
+   "quorum": 1,
+   "rubric": [
+    "命名合规",
+    "尺寸合规",
+    "有清单与哈希"
+   ],
+   "veto": [
+    "no_artifact",
+    "hash_mismatch"
+   ]
+  },
+  "T-GAME-DESIGN": {
+   "skill": "game-asset-ship",
+   "seats": [
+    "C-LEAD",
+    "D-ADMIT"
+   ],
+   "quorum": 2,
+   "rubric": [
+    "前 3 关三种情绪不重复",
+    "零门槛",
+    "付费点不卖关卡",
+    "一局 60-90 秒"
+   ],
+   "veto": [
+    "off_redline"
+   ]
+  },
+  "T-REG-ADMIT": {
+   "skill": "ship-ops",
+   "seats": [
+    "D-ADMIT",
+    "C-LEGAL"
+   ],
+   "quorum": 2,
+   "rubric": [
+    "备案状态写清",
+    "三标识齐",
+    "材料四件套齐",
+    "无未授权对外承诺"
+   ],
+   "veto": [
+    "no_artifact"
+   ]
+  },
+  "T-DOC-SUBMIT-MATERIAL": {
+   "skill": "game-asset-ship",
+   "seats": [
+    "D-SUBMIT",
+    "D-ICON"
+   ],
+   "quorum": 2,
+   "rubric": [
+    "隐私/图标/截图/清单四件齐",
+    "尺寸与命名合规",
+    "清单有哈希"
+   ],
+   "veto": [
+    "no_artifact",
+    "hash_mismatch"
+   ]
+  },
+  "T-DOC-SUBMIT-LIST": {
+   "skill": "ship-ops",
+   "seats": [
+    "D-SUBMIT"
+   ],
+   "quorum": 1,
+   "rubric": [
+    "逐款状态写清",
+    "缺口列明",
+    "与盘上事实一致"
+   ],
+   "veto": [
+    "no_artifact"
+   ]
+  },
+  "T-DOC-OEM": {
+   "skill": "ship-ops",
+   "seats": [
+    "C-MATERIAL",
+    "D-ADMIT"
+   ],
+   "quorum": 2,
+   "rubric": [
+    "参数可填",
+    "不含未授权商务承诺",
+    "一页可读"
+   ],
+   "veto": [
+    "no_artifact",
+    "off_redline"
+   ]
+  },
+  "T-DOC-ASSET": {
+   "skill": "asset-audit",
+   "seats": [
+    "C-MATERIAL",
+    "D-ICON"
+   ],
+   "quorum": 1,
+   "rubric": [
+    "清单齐",
+    "命名规范",
+    "无往期版本混入"
+   ],
+   "veto": [
+    "no_artifact"
+   ]
+  },
+  "T-DOC-INDEX": {
+   "skill": "asset-audit",
+   "seats": [
+    "C-MATERIAL"
+   ],
+   "quorum": 1,
+   "rubric": [
+    "路径真实存在",
+    "计数与盘上一致",
+    "可按产品检索"
+   ],
+   "veto": [
+    "no_artifact"
+   ]
+  },
+  "T-DOC-PUBLISH": {
+   "skill": "ship-ops",
+   "seats": [
+    "C-LEGAL",
+    "C-GATE"
+   ],
+   "quorum": 2,
+   "rubric": [
+    "三标识齐",
+    "备案状态写清",
+    "发布件与母版哈希一致"
+   ],
+   "veto": [
+    "no_artifact",
+    "hash_mismatch",
+    "off_redline"
+   ]
+  },
+  "T-ASM-SUB": {
+   "skill": "mv-edit-rhythm",
+   "seats": [
+    "V-SUB",
+    "C-GATE"
+   ],
+   "quorum": 1,
+   "rubric": [
+    "单行不超字数",
+    "断句在语义处",
+    "避开竖屏安全区"
+   ],
+   "veto": [
+    "no_artifact"
+   ]
+  },
+  "T-IMG-ICON": {
+   "skill": "game-asset-ship",
+   "seats": [
+    "D-ICON"
+   ],
+   "quorum": 1,
+   "rubric": [
+    "尺寸正确",
+    "透明通道正确",
+    "命名合规"
+   ],
+   "veto": [
+    "no_artifact"
+   ]
+  },
+  "T-BUILD-PACK": {
+   "skill": "game-asset-ship",
+   "seats": [
+    "D-BUILD"
+   ],
+   "quorum": 1,
+   "rubric": [
+    "构建日志有成功标记",
+    "产物 mtime 新",
+    "体积合理"
+   ],
+   "veto": [
+    "no_artifact"
+   ]
+  },
+  "T-AUD-MUSIC": {
+   "skill": "mv-colorist",
+   "seats": [
+    "A-BGM",
+    "A-MIX"
+   ],
+   "quorum": 1,
+   "rubric": [
+    "情绪跟集内曲线",
+    "版权来源写清",
+    "响度不打架"
+   ],
+   "veto": [
+    "no_artifact"
+   ]
+  },
+  "T-AUD-VOICE": {
+   "skill": "mv-casting",
+   "seats": [
+    "A-VOICE",
+    "A-MIX"
+   ],
+   "quorum": 1,
+   "rubric": [
+    "音色与角色一致",
+    "无爆音",
+    "与口型对齐"
+   ],
+   "veto": [
+    "no_artifact"
+   ]
+  },
+  "T-AUD-MIX": {
+   "skill": "bigstream-expert-panel",
+   "seats": [
+    "A-MIX"
+   ],
+   "quorum": 1,
+   "rubric": [
+    "响度在区间",
+    "收口 48k",
+    "人声不被压"
+   ],
+   "veto": [
+    "no_artifact"
+   ]
+  },
+  "T-QT-BACKTEST": {
+   "skill": "quant-backtest-gate",
+   "seats": [
+    "B-QUANT",
+    "B-AUDIT"
+   ],
+   "quorum": 2,
+   "rubric": [
+    "基准写清",
+    "成本计入",
+    "无前视/幸存者偏差",
+    "可复现命令在"
+   ],
+   "veto": [
+    "no_artifact"
+   ]
   }
+ },
+ "human_only": {
+  "T-OPS-CEO": "发送/注册/备案/采购/对外承诺：这是权限边界，不是判断，永远不进评审团"
+ }
 }
