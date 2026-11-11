@@ -1,49 +1,7 @@
 {
  "node": "bm-c",
- "ts": "2026-11-11T08:02:21",
+ "ts": "2026-11-11T08:06:06",
  "jobs": [
-  {
-   "id": "NODE-SYNC-bm-c-20261111T0753",
-   "title": "[self-heal] bm-c 分叉收口（reset 到 origin/main，先留备份分支）",
-   "cmd": "git -C . branch -f backup/bm-c-20261111 HEAD && git -C . reset --hard origin/main && git -C . log -1 --oneline > cph4/fleet/reports/node-sync-bm-c-20261111t0753.md",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/node-sync-bm-c-20261111t0753.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "GAP-FLUXVERSE-BMC-7",
-   "title": "[gap] fluxverse 证据（bm-c）",
-   "cmd": "python Tools/fleet/line_triage.py --line fluxverse --out cph4/fleet/reports/triage-fluxverse-20261111k.md",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/triage-fluxverse-20261111k.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": 180
-  },
-  {
-   "id": "GAP-ASSETLIB-BMC-8",
-   "title": "[gap] asset-lib 证据（bm-c）",
-   "cmd": "python Tools/fleet/line_triage.py --line asset-lib --out cph4/fleet/reports/triage-asset-lib-20261111m.md",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/triage-asset-lib-20261111m.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": 180
-  },
   {
    "id": "GAP-RECON-BMC-8",
    "title": "[gap] recon 证据（bm-c）",
@@ -61,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 1.5/1.0 GB"
+ "capacity_note": "ram 1.6/1.0 GB"
 }
