@@ -143,20 +143,31 @@ def main(argv):
         code, status = http_json(base + "/status", timeout=12)
         verdict, why = decide(status if code == 200 else None)
         row = {"node": nid, "verdict": verdict, "why": why}
+        prev = st.get(nid) or {}
+        # 唤醒时刻单独记（wake_ts）：旧实现用 ts 兼做冷却锚点，若每轮 healthy 都刷新 ts，
+        # 冷却就永远生效、真需要再唤醒时反而被自己挡住。
+        wake_ts = float(prev.get("wake_ts") or prev.get("ts") or 0)
         if verdict in ("wake", "closeout") and (a.apply or False):
-            last = float((st.get(nid) or {}).get("ts") or 0)
-            if now - last < COOLDOWN_S:
-                row["action"] = "cooldown(%ds)" % int(COOLDOWN_S - (now - last))
+            if now - wake_ts < COOLDOWN_S:
+                row["action"] = "cooldown(%ds)" % int(COOLDOWN_S - (now - wake_ts))
             elif verdict == "closeout":
                 rc, tail = closeout_card(nid, base)
                 row["action"] = "closeout-card rc=%d %s" % (rc, tail[:80])
-                st[nid] = {"ts": now, "action": "closeout"}
+                st[nid] = {"ts": now, "verdict": verdict, "action": "closeout",
+                           "wake_ts": wake_ts}
                 acted = True
             else:
                 c2, j2 = poke(base, allow, "executor-dead:enable-tasks (patrol)")
                 row["action"] = "poke http=%d accepted=%s" % (c2, (j2 or {}).get("accepted"))
-                st[nid] = {"ts": now, "action": "wake"}
+                st[nid] = {"ts": now, "verdict": verdict, "action": "wake",
+                           "wake_ts": now}
                 acted = True
+        elif verdict == "healthy" and a.apply:
+            # 证据落盘（2026-11-12 事件班）：派单器 lane_capacity 用这份证据判「执行者是不是
+            # 真活着」。旧实现只在动手时写状态，健康机器零痕迹 → 派单器只看得见「零产出 N 小时」，
+            # 把刚唤醒、正在干活的机器继续判 EXECUTOR-DEAD，活永远派不进去（自我实现的死局）。
+            st[nid] = {"ts": now, "verdict": verdict, "action": "healthy",
+                       "wake_ts": wake_ts}
         elif verdict in ("wake", "closeout"):
             row["action"] = "would-act"
             stuck.append(nid)

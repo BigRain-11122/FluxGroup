@@ -440,6 +440,30 @@ def cloud_spend_today(rows):
     return total
 
 
+REVIVE_STATE_REL = "cph4/fleet/state/executor-revive.json"
+REVIVE_TRUST_S = 1800
+
+
+def executor_alive_evidence(node, max_age_s=REVIVE_TRUST_S):
+    """执行者活着的最新证据（executor_revive 每轮落盘）。
+
+    为什么（2026-11-12 00:4x 事件班实锚）：EXECUTOR-DEAD 的唯一判据是「零产出 N 小时」，
+    但这个判据没有恢复路径——机器被 poke 唤醒后要先跑完一张卡才会产生第一份产出，而这段
+    时间派单器继续拒收，于是「没产出→不给活→更没产出」自我实现。实测 bm-c 的 /status 回
+    `HQ-ProductionClaim:WAKE`（执行者已唤醒），车道文件仍写 EXECUTOR-DEAD (22.4h)，
+    名下 3 张 GPU 活一张也进不了 lane。判据正法=「零产出」只做嫌疑，死亡要由执行者证据定谳。
+    """
+    try:
+        p = os.path.join(ROOT_DIR, REVIVE_STATE_REL.replace("/", os.sep))
+        with open(p, encoding="utf-8") as f:
+            row = (json.load(f) or {}).get(node) or {}
+        if str(row.get("verdict") or "") not in ("healthy", "wake", "closeout"):
+            return False
+        return (time.time() - float(row.get("ts") or 0)) <= max_age_s
+    except Exception:
+        return False
+
+
 def lane_capacity(node, fleet, needs="cpu", vram_min=0, job=None):
     """(ok, reason) for assigning work to this lane right now.
 
@@ -462,7 +486,9 @@ def lane_capacity(node, fleet, needs="cpu", vram_min=0, job=None):
             # 救火卡豁免（2026-11-10·INC-20261110-0021）：停摆机唯一能自愈的路径就是
             # 跑一张救援卡（撤驻留/修环境）。因「零产出」拒收救援卡是循环论证——
             # 与 RAM floor 的 rescue 豁免同一法理（2026-11-02 bm-b 0.0GB 判例）。
-            if idle_h > _bl._stalled_worker_hours() and not (job is not None and job.get("rescue")):
+            if (idle_h > _bl._stalled_worker_hours()
+                    and not (job is not None and job.get("rescue"))
+                    and not executor_alive_evidence(node)):
                 return False, "EXECUTOR-DEAD (%.1fh 零产出)" % idle_h
         except Exception:
             pass          # 判不了就不排除（宁可不排除，也不许凭空拦活）
@@ -472,7 +498,9 @@ def lane_capacity(node, fleet, needs="cpu", vram_min=0, job=None):
         # OFFLINE (hb age Nones)」的自相矛盾——bm-a 明明在线在推产物，2 张 MV 卡却派不出去。
         # 判据统一：心跳没有记录不等于机器死了，车道文件新鲜就算在线。
         try:
-            lp = os.path.join(ROOT, "cph4", "fleet", "lanes", "%s.json" % node)
+            lp = os.path.join(ROOT_DIR, "cph4", "fleet", "lanes", "%s.json" % node)
+            # ROOT_DIR 不是 ROOT：本模块没有全局 ROOT（各函数收 root 参数），旧写法在
+            # NameError 里被 except 吞掉 → 「心跳没有记录但车道文件新鲜」的在线兜底从未生效。
             if os.path.exists(lp) and (time.time() - os.path.getmtime(lp)) <= OFFLINE_AFTER_S:
                 info = dict(info, online=True,
                             state=info.get("state") or {"source": "lanes-file"})

@@ -708,10 +708,12 @@ def rg34():
     import blocker_loop as bl
     import master_agent as ma
     old_last, old_thr = bl._node_last_output, bl._stalled_worker_hours
+    old_ev = ma.executor_alive_evidence
     try:
         now = time.time()
         bl._node_last_output = lambda: {"bm-a": now - 8 * 3600, "bm-b": now - 60}
         bl._stalled_worker_hours = lambda: 6.0
+        ma.executor_alive_evidence = lambda n, **kw: False   # 无唤醒证据的僵尸机
         fleet = {n: {"online": True, "age_s": 10, "state": {}, "ram_gb": 24}
                  for n in ("bm-a", "bm-b", "bm-m")}
         ok, why = ma.lane_capacity("bm-a", fleet, "cpu")
@@ -720,6 +722,7 @@ def rg34():
         assert ok2, "正常机被误排除（负控失败）：%s" % why2
     finally:
         bl._node_last_output, bl._stalled_worker_hours = old_last, old_thr
+        ma.executor_alive_evidence = old_ev
     return "僵尸机被排除且理由可读；正常机不受影响"
 
 
@@ -753,6 +756,52 @@ def rg38():
         assert bad not in ids2, "一切正常仍给候选 %s（会为动而动）" % bad
     assert "A_NOOP" in ids2, "没有 A_NOOP：模型无从表达'什么都不做'"
     return "三类自愈动作在候选与白名单里；干净时只给 A_NOOP"
+
+
+@case("RG-39", "唤醒成功后必须恢复派活（闸不许把机器锁死在自己判的死局里）",
+      "2026-11-12 00:4x 实锚：bm-c /status 回 HQ-ProductionClaim:WAKE（执行者已唤醒），"
+      "车道文件仍写 EXECUTOR-DEAD(22.4h)，名下 3 张 GPU 活一张也进不了 lane")
+def rg39():
+    import time
+    import blocker_loop as bl
+    import master_agent as ma
+    old_last, old_thr = bl._node_last_output, bl._stalled_worker_hours
+    old_ev = ma.executor_alive_evidence
+    try:
+        now = time.time()
+        bl._node_last_output = lambda: {"bm-c": now - 22 * 3600}
+        bl._stalled_worker_hours = lambda: 6.0
+        fleet = {"bm-c": {"online": True, "age_s": 10,
+                          "state": {"ram_free_gb": 24}, "ram_gb": 24}}
+        # 无唤醒证据：保持原判（负控）
+        ma.executor_alive_evidence = lambda n, **kw: False
+        ok, why = ma.lane_capacity("bm-c", fleet, "gpu")
+        assert (not ok) and "EXECUTOR-DEAD" in why, "无唤醒证据却放行：%s / %s" % (ok, why)
+        # 唤醒证据在窗口内：必须放行，否则永远等不到「产出」来解除自己的判据
+        ma.executor_alive_evidence = lambda n, **kw: True
+        ok2, why2 = ma.lane_capacity("bm-c", fleet, "gpu")
+        assert ok2, "执行者已唤醒仍被拒收（闸没有恢复路径）：%s" % why2
+        # 证据过期即恢复原判（窗口必须真的过期，否则等于永久放行）
+        ma.executor_alive_evidence = old_ev
+        import tempfile
+        old_root = ma.ROOT_DIR
+        try:
+            tmp = tempfile.mkdtemp()
+            sp = os.path.join(tmp, "cph4", "fleet", "state")
+            os.makedirs(sp)
+            ma.ROOT_DIR = tmp
+            with open(os.path.join(sp, "executor-revive.json"), "w", encoding="utf-8") as f:
+                json.dump({"bm-c": {"ts": now - 7200, "verdict": "healthy"}}, f)
+            assert not ma.executor_alive_evidence("bm-c"), "过期证据仍被判活着（永久放行）"
+            with open(os.path.join(sp, "executor-revive.json"), "w", encoding="utf-8") as f:
+                json.dump({"bm-c": {"ts": now - 60, "verdict": "healthy"}}, f)
+            assert ma.executor_alive_evidence("bm-c"), "新鲜证据没被认（闸还是死局）"
+        finally:
+            ma.ROOT_DIR = old_root
+    finally:
+        bl._node_last_output, bl._stalled_worker_hours = old_last, old_thr
+        ma.executor_alive_evidence = old_ev
+    return "无证据仍拒收；唤醒证据在窗口内放行；证据过期即恢复原判"
 
 
 def main():

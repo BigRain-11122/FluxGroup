@@ -1,4 +1,3 @@
-# ⛔ 已退役（2026-11-11）：旧派单器读旧队列，已由 AUTONOMY-V3 自驱机制取代。
 # fleet-dispatcher.ps1 - HQ-FleetDispatcher L0 deterministic round (v2, 2026-10-27)
 # CEO order 2026-10-27: an "open" card is not work; idle with work is a P1, not a NOTE.
 # v1 counted every status=open card as supply and only appended QUEUE-LOW lines, so the
@@ -169,7 +168,25 @@ if (Test-Path $clockF) {
     } catch { }
 }
 if ($clockOld -gt 0 -or $clockMissing -gt 0) {
-    $out += ('[{0}] FLAG CLOCK-UNALIGNED old_schema={1} missing={2} -> P1 upgrade node heartbeat to v2 (ms ts+offset)' -f $stamp, $clockOld, $clockMissing)
+    # 同一缺口不许报两遍（2026-11-12 事件班）：整机离线（LANE-DOWN）时缺心跳是必然结果，
+    # 不是时钟缺陷。旧实现把它算进 missing，于是 bm-b 物理离线期间每 10 分钟刷一条
+    # CLOCK-UNALIGNED P1 与 LANE-DOWN 并列，两条红指向同一个断电的盒子，噪音把真红埋掉。
+    $clockMissingLive = 0
+    if ($ck -and $ck.nodes) {
+        foreach ($nd in @($ck.nodes)) {
+            if ([string]$nd.status -ne 'MISSING') { continue }
+            $nm = [string]$nd.node
+            if ($verdicts.ContainsKey($nm) -and ($verdicts[$nm] -in @('OFFLINE', 'SVC_DOWN', 'HB-STALE'))) { continue }
+            $clockMissingLive = $clockMissingLive + 1
+        }
+    } else {
+        $clockMissingLive = $clockMissing
+    }
+    if ($clockOld -gt 0 -or $clockMissingLive -gt 0) {
+        $out += ('[{0}] FLAG CLOCK-UNALIGNED old_schema={1} missing={2} -> P1 upgrade node heartbeat to v2 (ms ts+offset)' -f $stamp, $clockOld, $clockMissingLive)
+    } elseif ($clockMissing -gt 0) {
+        $out += ('[{0}] INFO CLOCK-MISSING-DERIVED missing={1} all-on-down-lanes -> no action (LANE-DOWN already carries it)' -f $stamp, $clockMissing)
+    }
 } elseif ($clockHigh -gt 0) {
     # Precision-aware: a 300ms offset on a relay path with +/-200ms precision is physics,
     # not a defect. Only the report's SKEW-HIGH verdict (beyond 2*precision+20) is a P1.
