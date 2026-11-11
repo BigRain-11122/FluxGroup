@@ -1,7 +1,7 @@
-# 线级体检 bigmoney · 2026-11-11 08:13
+# 线级体检 bigmoney · 2026-11-11 08:18
 
 ## 工段与证据目录
-- quant-data     owner=数据席      lane=bm-b   证据 3/3 存在 · 文件 44463 · 最新 4.9h
+- quant-data     owner=数据席      lane=bm-b   证据 3/3 存在 · 文件 44463 · 最新 5.0h
 - quant-backtest owner=量化席      lane=bm-d   证据 1/1 存在 · 文件 26108 · 最新 0.0h
 - quant-audit    owner=风控席      lane=bm-b   证据 1/1 存在 · 文件 1 · 最新 440.4h
 
