@@ -1,10 +1,20 @@
 {
- "ts": "2026-11-12T03:11:40",
- "state": "POOL-STUCK",
+ "ts": "2026-11-12T03:16:40",
+ "state": "POOL-EMPTY",
  "node": "bm-c",
- "id": "POOL-0032",
  "face": "origin",
- "seen_count": 38,
- "first_ts": "2026-11-12T00:20:39",
- "note": "intent re-emitted without execution: the card carries no cmd, so this leg has no execute leg. Dispatcher must materialize a PRODUCTION-QUEUE job (job_ref) or the card is phantom supply."
+ "blocked": [
+  {
+   "id": "POOL-0032",
+   "blocked_by": [
+    "no-verified-cmd: bm-c ComfyUI:8188 闭（R39-4 未复，需 bm-c 本机启动后解锁）"
+   ]
+  },
+  {
+   "id": "POOL-0033",
+   "blocked_by": [
+    "no-verified-cmd: bm-c ComfyUI:8188 闭（R39-4 未复，需 bm-c 本机启动后解锁）"
+   ]
+  }
+ ]
 }
