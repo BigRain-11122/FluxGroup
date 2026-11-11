@@ -68,6 +68,7 @@ CASES = [
     ("L3", "一致性 17 项", "integrity_check.py", []),
     ("L3", "情况台账", "situation_audit.py", [], "report"),
     ("L3", "文档库/正典指针", "docs_curate.py", ["--check"]),
+    ("L3", "深度审计（P0 才判红）", "audit_deep.py", []),
     ("L3", "测试目录新鲜", "test_catalog.py", ["--self-test"]),
     ("L4", "总评分", "quality_score.py", [], "report"),
 ]

@@ -60,6 +60,7 @@ SUITES = [
     ("parallel_sim", "parallel_sim.py", "--self-test"),
     ("robustness", "robustness_suite.py", "--json"),
     ("test_catalog", "test_catalog.py", "--self-test"),
+    ("audit_deep", "audit_deep.py", "--self-test"),
     ("cmd_latency", "cmd_latency.py", "--self-test"),
 ]
 
