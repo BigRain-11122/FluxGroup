@@ -1,37 +1,8 @@
 {
  "node": "bm-c",
- "ts": "2026-11-12T05:41:37",
- "jobs": [
-  {
-   "id": "ASSET-LIB-STYLES-20261112",
-   "station": "visual",
-   "line": "asset-lib",
-   "title": "[@bm-c lane=gpu-production] 补齐风格包 3 张（styles 0/3，本机 ComfyUI 直出）",
-   "cmd": "python Tools\\fleet\\asset_gen.py --node bm-c --class styles --limit 3 --receipt cph4\\fleet\\queue-receipts\\asset-gen-styles-20261112.json",
-   "cwd": "",
-   "needs": "cpu",
-   "minutes": 12,
-   "heavy": false,
-   "day_ok": true,
-   "deliverable": "cph4/fleet/queue-receipts/asset-gen-styles-20261112.json",
-   "accept": "回执 made 条数=3 且 failed=[]；若已有文件则 skipped 计数并 rc=0；生成失败要写明 ComfyUI 侧错误",
-   "nodes": [
-    "bm-c"
-   ],
-   "hard_nodes": [
-    "bm-c"
-   ],
-   "prio": "P1",
-   "state": "OPEN",
-   "why": "本轮 bm-c 实测覆盖 67/128：styles 0/3 是仅剩的图像类缺口（其余图像类全 100%）；规格在 ASSET-PROMPTS-v1.json items 里共 3 条 styles",
-   "note": "九要素：①@bm-c lane=gpu-production｜②回执窗 6h｜③验收物=cph4/fleet/queue-receipts/asset-gen-styles-20261112.json｜④spec=cph4/fleet/asset-lib-v1/ASSET-PROMPTS-v1.json（items styles×3）+ Tools/fleet/asset_gen.py｜⑤溯源 O-20261010-1800（CEO 常设授权 T1 代决）｜⑥输入=规格+本机 ComfyUI；输出=cph4/fleet/queue-receipts/asset-gen-styles-20261112.json + media/asset/styles/*.png｜⑦依赖=无依赖（ComfyUI probe rc=0 @04:23）｜⑧卡 ID=ASSET-LIB-STYLES-20261112｜⑨provenance=推断（自驱派生·覆盖体检缺口）",
-   "created_by": "CEO-PROXY event R41",
-   "created_at": "2026-11-12T05:41:37",
-   "route": "local",
-   "verify_on_node": true
-  }
- ],
- "idle_reason": "",
+ "ts": "2026-11-12T05:47:33",
+ "jobs": [],
+ "idle_reason": "R41: styles 生成卡实测 skipped=3（asset_gen 认为 3 张已在盘），与体检 0/3 口径冲突；不再派，待核对目录/授权口径",
  "lane_ok": true,
  "capacity_note": "ram 7.8/1.0 GB",
  "reorder_note": "event R41: COMFY-UP first - the other jobs need the service it restores",
