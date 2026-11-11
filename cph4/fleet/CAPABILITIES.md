@@ -2,8 +2,8 @@
 
 | 节点 | 在线 | 能力 | 本地模型 | 心跳 | 在办 |
 |---|---|---|---|---|---|
-| bm-a | 是 | cpu,kf768,i2v768,audio,assemble,llm | - | 305s | NODE-SYNC-bm-a-20261111T0956 |
-| bm-b | 是 | cpu,animatic480,audio,tts,llm | - | 305s | - |
-| bm-c | 是 | cpu,kf768,i2v768,audio,render,llm | - | 305s | - |
-| bm-m | 是 | cpu,ios-build,text,llm,audio,tts | qwen3.5:4b,qwen3.5:2b,qwen3:8b,qwen3:4b,qwen3.5:9b-mlx,deepseek-r1:14b,qwen3-embedding:0.6b,qwen3.5:4b-mlx | 1s | - |
-| bm-d | 否 | cpu,kf768,i2v768,backtest,brain,llm | - | 404202s | - |
+| bm-a | 是 | cpu,kf768,i2v768,audio,assemble,llm | - | 252s | asset-lib-library-check-2026-11-08,R-NEXT-BIGSTREAMM-REBUILD-20261109,GAP-MV-BMA-20261111 |
+| bm-b | 是 | cpu,animatic480,audio,tts,llm | - | 489s | - |
+| bm-c | 是 | cpu,kf768,i2v768,audio,render,llm | - | 251s | asset-lib-face-dataset-2026-11-09,CMD-DSH-BMC-ACK-2012,CMD-DSH-BMC-MEM-2012 |
+| bm-m | 是 | cpu,ios-build,text,llm,audio,tts | qwen3.5:4b,qwen3.5:2b,qwen3:8b,qwen3:4b,qwen3.5:9b-mlx,deepseek-r1:14b,qwen3-embedding:0.6b,qwen3.5:4b-mlx | 0s | REPAIR-LINE-TRIAGE-MV,REPAIR-GAP-MV-LINE-20261111,REPAIR-VERIFY-ICONS-BMA-20261111 |
+| bm-d | 否 | cpu,kf768,i2v768,backtest,brain,llm | - | 404917s | - |

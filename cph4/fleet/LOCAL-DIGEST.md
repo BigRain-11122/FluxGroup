@@ -6945,3 +6945,11 @@
 - 11-11T10:15 · _last_lane_bm-m.json · 已完成机队图标修复验证，当前运行中无风险。
 - 11-11T10:15 · REPAIR-GAP-MV-LINE-20261111-acceptance.json · 已提交机队回执，但被拒因交付物非有效文档且无风险。
 - 11-11T10:15 · REPAIR-GAP-MV-LINE-20261111-bm-m.json · 已完成 GAP-MV-LINE 补账任务诊断，发现因缺乏预期回执导致失败，需排查数据源或调整触发策略。
+- 11-11T10:16 · _last_lane_bm-m.json · 已完成机队维修任务，无风险。
+- 11-11T10:16 · REPAIR-GAP-MV-LINE-20261111-acceptance.json · 机队回执未生成有效交付物，存在流程中断风险。
+- 11-11T10:16 · REPAIR-GAP-MV-LINE-20261111-bm-m.json · 已完成补账任务失败分析并制定处置方案，存在因系统性故障导致数据无法入账的风险。
+- 11-11T10:16 · self-improve-bm-m-latest.json · 机队已自测通过并清理旧壳，无风险。
+- 11-11T10:16 · REPAIR-VERIFY-ICONS-BMA-20261111-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
+- 11-11T10:16 · REPAIR-VERIFY-ICONS-BMA-20261111-bm-m.json · 已完成交易失败根因分析与重试策略验证，当前无阻断风险。
+- 11-11T10:16 · REPAIR-LINE-TRIAGE-MV-acceptance.json · 完成机队回执提交，但被拒因交付物非标准产物。
+- 11-11T10:16 · REPAIR-LINE-TRIAGE-MV-bm-m.json · 已完成根因分析与修复方案制定，当前存在系统状态流转缺失导致补账挂起的风险。
