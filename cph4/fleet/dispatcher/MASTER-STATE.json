@@ -1,29 +1,29 @@
 {
- "ts": "2026-11-11T09:34:31",
- "cycle": 1239,
+ "ts": "2026-11-11T09:39:33",
+ "cycle": 1240,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-11T09:34:31",
+ "master_tick_ts": "2026-11-11T09:39:33",
  "queue": {
   "total": 2137,
   "open": 6,
-  "running": 2,
-  "done": 812,
+  "running": 0,
+  "done": 814,
   "failed": 1
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 16.8,
-   "cpu_load_pct": 54,
-   "ram_free_gb": 46.5,
+   "hb_age_s": 19.0,
+   "cpu_load_pct": 65,
+   "ram_free_gb": 44.3,
    "gpu_util_pct": 0,
    "job": null,
    "last_result": {
     "job": "NODE-SYNC-bm-a-20261111T0912",
-    "state": "FAILED",
-    "rc": 128,
-    "ts": "2026-11-11T09:31:27",
+    "state": "RUNNING",
+    "rc": null,
+    "ts": "2026-11-11T09:34:42",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -34,62 +34,62 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 449.8,
+   "hb_age_s": 300.5,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
    "job": null,
    "last_result": null,
    "idle_confirmed": false,
-   "idle_reason": "CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (9.2h 零产出)",
+   "idle_reason": "CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (9.3h 零产出)",
    "idle_rounds": 0
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 64.3,
-   "cpu_load_pct": 8,
-   "ram_free_gb": 3.4,
+   "hb_age_s": 229.7,
+   "cpu_load_pct": 11,
+   "ram_free_gb": 3.3,
    "gpu_util_pct": 1,
-   "job": "GAP-BIGMONEY-BMC-13",
+   "job": null,
    "last_result": {
-    "job": null,
-    "state": "IDLE",
-    "rc": null,
-    "ts": "2026-11-11T09:33:32",
-    "reason": "SELF-DISPATCH: lane scans its own backlog",
+    "job": "GAP-FLUXVERSE-BMC-13",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-11T09:36:28",
+    "reason": null,
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": false,
-   "idle_reason": "",
+   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
    "idle_rounds": 0
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 2.1,
-   "cpu_load_pct": 13,
-   "ram_free_gb": 11.9,
+   "hb_age_s": 2.3,
+   "cpu_load_pct": 25,
+   "ram_free_gb": 10.0,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-11T09:34:29",
-    "reason": "SELF-DISPATCH: lane scans its own backlog",
+    "ts": "2026-11-11T09:39:31",
+    "reason": "control-plane heartbeat",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 1
+   "idle_rounds": 2
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 1
+  "bm-m": 2
  },
  "lines": {
   "bigstream-mv": {
@@ -163,14 +163,12 @@
   "fluxverse": {
    "name": "FluxVerse·元宙城",
    "status": "ACTIVE",
-   "verdict": "WORKING",
+   "verdict": "WAITING",
    "age_h": null,
    "stale_after_h": 36.0,
    "owner": "城市线",
-   "jobs": [
-    "GAP-FLUXVERSE-BMC-13"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": null
   },
@@ -181,10 +179,8 @@
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "量化席",
-   "jobs": [
-    "GAP-BIGMONEY-BMC-13"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": "2026-11-04 夜班重启：原回测阶段钉 bm-d，而 bm-d 自 10-29 离线；改由 bm-b（有 quant 仓与数据）出「下月持仓信号 CSV」，主控按 P1 恢复派单。",
    "stuck_stage": "quant-data",
@@ -239,9 +235,7 @@
     "GAP-BIGHOUSE-BMC-13"
    ],
    "no_supply": false,
-   "blockers": [
-    "GAP-BIGHOUSE-BMC-13:no-lane"
-   ],
+   "blockers": [],
    "note": null
   },
   "car-gaming": {
@@ -854,21 +848,18 @@
   "gpu": 0
  },
  "supply_added": [],
- "events": [
-  "NODE-SYNC-bm-a-20261111T0912 FAILED via bm-a",
-  "GAP-BIGMONEY-BMC-13 -> bm-c (cpu)",
-  "GAP-FLUXVERSE-BMC-13 -> bm-c (cpu)"
- ],
+ "events": [],
  "violations": [
   "bm-b CAPACITY-BLOCKED-RAM",
+  "bm-m IDLE-CONFIRMED x2 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED bigstream-mv 卡在 立意/分镜/导演席 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-a",
   "bm-b",
-  "bm-c"
+  "bm-c",
+  "bm-m"
  ]
 }
