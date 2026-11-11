@@ -6822,3 +6822,6 @@
 - 11-11T09:27 · _last_lane_bm-m.json · 已完成节点同步，当前运行中无风险。
 - 11-11T09:27 · REPAIR-NODE-SYNC-bm-a-20261111T0912-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被驳回。
 - 11-11T09:27 · REPAIR-NODE-SYNC-bm-a-20261111T0912-bm-m.json · 节点同步任务失败，根因未知且属致命级故障，需排查底层服务与配置。
+- 11-11T09:28 · _last_lane_bm-m.json · 已完成节点同步修复，无风险。
+- 11-11T09:28 · REPAIR-NODE-SYNC-bm-a-20261111T0912-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物且无风险。
+- 11-11T09:28 · REPAIR-NODE-SYNC-bm-a-20261111T0912-bm-m.json · 节点同步任务完成，因缺乏重试策略导致失败，需人工介入修复。
