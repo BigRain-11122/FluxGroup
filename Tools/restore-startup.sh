@@ -14,6 +14,12 @@ if [ ! -d "$PAUSED" ]; then
   exit 1
 fi
 
+# 2026-11-11 CEO 令：Mac 不用移动硬盘 + 只做主控/轻活/本地模型。
+# 下列服务不再恢复（留档仍在 disabled 目录，需要时可手工 bootstrap）：
+#   intake       —— 收件口会往外置盘落字节，已退役（产物留产出机）
+#   assetshare   —— 读 /Volumes 的素材盘入口，无外置盘即空转
+RETIRED="com.fluxgroup.intake com.fluxgroup.assetshare"
+
 match_all=1
 [ "$#" -gt 0 ] && match_all=0
 
@@ -21,6 +27,8 @@ restored=0
 for f in "$PAUSED"/*.plist; do
   [ -e "$f" ] || continue
   base=$(basename "$f")
+  label="${base%.plist}"
+  case " $RETIRED " in *" $label "*) echo "跳过（已退役） $base"; continue;; esac
   if [ "$match_all" -eq 0 ]; then
     keep=0
     for pat in "$@"; do case "$base" in *"$pat"*) keep=1;; esac; done

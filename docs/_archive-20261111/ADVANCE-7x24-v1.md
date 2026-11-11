@@ -1,5 +1,8 @@
 # ADVANCE-7x24-v1 — 机队 7×24 推进计划
 
+> ⚠️ **状态：已退役（2026-11-11）** — 效力由 `cph4/registry/CANON-V2-20261111.md` 取代；本文仅作历史记录，不再作为执行依据。
+
+
 > 令源：CEO 2026-11-09 14:05 原话「我需要你开始7x24小时推进，自己写好计划，然后开始调度 有不确定的可以问我」。
 > 路由基座：`CEO-20261109-MODEL-ROUTING`（见 `cph4/fleet/LOCAL-MODEL-POLICY.json` routing 段）。
 > 本件是推进计划的唯一正身；台账正式行仍按 `docs/governance.md` 由 CEO/事件班落 `docs/orders.md`。

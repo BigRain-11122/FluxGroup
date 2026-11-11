@@ -1,4 +1,10 @@
-# 机队产出备份规则 v1（2026-11-02）
+# 机队产出备份规则 v1（2026-11-02）· 2026-11-11 变更
+
+> **2026-11-11 变更（CEO 令：Mac 不再使用移动硬盘）**：
+> 1. L3「主控写入移动盘」**退役**；主控不再保存产物字节。
+> 2. 产物字节留在产出机本地盘，按保留策略管理；主控只收清单（L1）并核哈希。
+> 3. 需要取件时按清单点对点从产出机拉取，不再经过外置盘。
+> 4. 冷备（代码与历史）由 git 远端 origin 承担；`backup_sync.sh` 已改为留痕退出。
 
 > 上位：CEO 令「让机队把他们的实际产出，都给我备份到移动盘去，并建立规则」。
 > 本件是契约正身；实现件=`Tools/fleet/artifact_intake.py`（主控收件口）、
@@ -30,7 +36,7 @@ deliverable 大量指向各机本地盘（`D:\`、`C:\Fluxgroup`、`K:\`、`D:\F
 |---|---|---|---|
 | L1 元数据 | **git** | `cph4/fleet/artifacts/<node>/MANIFEST.jsonl`（声明）、`PUSHED.jsonl`（已推凭证）、`cph4/fleet/artifacts/COVERAGE.md` | 小、可 diff、跨机可见 |
 | L2 字节 | **HTTP PUT** 到主控收件口 | 内存流式，不落中转 | 大文件不进 git，Windows 不必配 SMB 凭据 |
-| L3 归档 | 主控写入移动盘 | `产出归档/<node>/<YYYY-MM-DD>/<card>__<name>` | 单一写入者=权限与一致性都在主控 |
+| L3 归档 | ~~主控写入移动盘~~（2026-11-11 退役） | 产物留在产出机本地盘；主控只存清单 | Mac 不落媒体，磁盘余量留给主控与模型 |
 
 方向选择：**机队推（push）→ 主控收**，不让主控去拉。理由：盘和写权限都在主控；
 Windows 侧只需一次 `Invoke-WebRequest`，不引入新的常驻服务端。
@@ -55,8 +61,8 @@ python3 Tools/fleet/artifact_status.py     # 生成 COVERAGE.md
 ```
 - 只监听 tailnet 地址（`100.75.133.10`），局域网/公网到不了；
 - 校验 `X-Sha256`，不匹配**拒收**；写盘用 `.part → rename` 原子落地；
-- 收件记录进 `<盘>/Backup/artifacts-index.jsonl`；
-- 盘未挂载时返回 503 `drive-not-mounted`，**不假装成功**。
+- 收件记录进 `cph4/fleet/artifacts/INDEX.jsonl`（不再写外置盘）；
+- 2026-11-11 起：收件口只做校验与登记，不落字节；落盘职责回产出机。
 
 ## 五、铁律（违一条即判备份失效）
 

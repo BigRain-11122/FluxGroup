@@ -225,7 +225,10 @@
   "fleet_model_whitelist": [
    "qwen3.5:4b-mlx",
    "qwen3:4b-instruct",
-   "qwen3-embedding:0.6b"
+   "qwen3-embedding:0.6b",
+   "qwen3.5:4b",
+   "qwen3.5:2b",
+   "qwen3:8b"
   ],
   "local_models_any": true,
   "min_free_gb_for_fleet": 7.0,
@@ -234,7 +237,8 @@
    "what": "非 127.0.0.1 的 11434 请求=绕闸，记 cph4/fleet/state/local-bypass.json",
    "action": "24h 内 0 次绕过才允许把 Ollama 绑到 127.0.0.1"
   },
-  "_fleet_conc_why": "2026-11-09 CEO「本地算力赋能机队」：bm-m 有 3 个并行槽，机队从 1 抬到 2；本机优先时网关仍按 hold 拒绝机队。"
+  "_fleet_conc_why": "2026-11-09 CEO「本地算力赋能机队」：bm-m 有 3 个并行槽，机队从 1 抬到 2；本机优先时网关仍按 hold 拒绝机队。",
+  "_think_off": "qwen3.5 系默认会思考；所有本地调用必须显式 think=false，否则 response 为空、答案全在 thinking 里。"
  },
  "model_routing": {
   "source": "cph4/fleet/MODEL-ROUTING-v2.json",
@@ -311,7 +315,9 @@
   "mode": "station_shards",
   "design": "cph4/fleet/SYNC-DESIGN-v2.md",
   "stations_dir": "cph4/fleet/rt",
-  "legacy_queue_frozen": false,
-  "read_remote_via": "git show origin/main:<path>"
+  "legacy_queue_frozen": true,
+  "read_remote_via": "git show origin/main:<path>",
+  "frozen_at": "2026-11-11T11:58",
+  "_frozen_why": "旧队列不再接受新卡：带 station 的写分片，无归属的仍留旧队列仅为过渡；迁移完成后整体归档。"
  }
 }
