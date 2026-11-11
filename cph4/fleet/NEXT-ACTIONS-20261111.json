@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-11T08:12:50+0800",
+ "ts": "2026-11-11T08:23:21+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -42,8 +42,8 @@
    "accept": "quant_signal 回执 rc=0 且 CSV 含因子值与输入指纹",
    "blocker_type": "ENGINE",
    "blocker": "回测产物需在 bm-b 本地生成；主控无 quant 仓",
-   "state": "QUEUED",
-   "card": "GAP-BIGMONEY-BMC-9",
+   "state": "STALLED",
+   "card": null,
    "running_on": null
   },
   {
@@ -117,9 +117,9 @@
    "accept": "投影文件每日刷新；受阻面写明触发条件",
    "blocker_type": "ENGINE",
    "blocker": "四仓不在本机，需在对应机器生成投影",
-   "state": "QUEUED",
+   "state": "RUNNING",
    "card": "GAP-FLUXVERSE-BMC-9",
-   "running_on": null
+   "running_on": "bm-c"
   },
   {
    "id": "bigdomain",
@@ -228,9 +228,9 @@
   }
  ],
  "counts": {
-  "RUNNING": 1,
-  "QUEUED": 4,
-  "STALLED": 10
+  "RUNNING": 2,
+  "QUEUED": 2,
+  "STALLED": 11
  },
- "stalled_engine": 4
+ "stalled_engine": 5
 }

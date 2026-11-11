@@ -6604,3 +6604,7 @@
 - 11-11T08:21 · GAP-BIGMONEY-BMC-9-acceptance.json · 已提交机队回执，但被因非标准产物而拒绝。
 - 11-11T08:22 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
 - 11-11T08:22 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-11T08:23 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
+- 11-11T08:23 · skill-promote-20261111.json · 已完成部分任务，因工具缺失导致多项关键技能无法执行。
+- 11-11T08:23 · GAP-FLUXVERSE-BMC-9-bm-c.json · 已完成机队排查报告生成，无错误风险。
+- 11-11T08:23 · GAP-FLUXVERSE-BMC-9-acceptance.json · 完成机队回执提交，但被拒因交付物非标准产物。
