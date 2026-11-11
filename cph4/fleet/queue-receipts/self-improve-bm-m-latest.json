@@ -1,13 +1,13 @@
 {
  "node": "bm-m",
- "ts": "2026-11-11T10:44:48",
+ "ts": "2026-11-11T10:49:24",
  "mode": "apply",
  "verdict": "SELF-OK",
  "checks": [
   {
    "check": "reload",
-   "code_age_s": 28531,
-   "receipt_age_s": 50,
+   "code_age_s": 28808,
+   "receipt_age_s": 19,
    "targets": [],
    "acted": false,
    "note": "executor produced a receipt after the last code edit",
@@ -16,16 +16,12 @@
   },
   {
    "check": "shells",
-   "cards": 3,
-   "shells": 3,
-   "ids": [
-    "REPAIR-PEER-SYNC-bm-c-20261111",
-    "UNBLOCK-asset-lib-library-check-2026-11-08",
-    "UNBLOCK-R-TRIAGE-BIGCOMPUTE-BMB-20261108"
-   ],
-   "acted": true,
-   "kept": 0,
-   "verdict": "PRUNED"
+   "cards": 0,
+   "shells": 0,
+   "ids": [],
+   "acted": false,
+   "verdict": "OK",
+   "note": "no assignment on this lane (not a shell problem)"
   },
   {
    "check": "deps",
