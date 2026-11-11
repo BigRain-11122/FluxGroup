@@ -309,7 +309,8 @@ def main(argv):
 
     rec = {"ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "class": a.cls, "node": a.node,
            "made": made, "skipped": skipped, "failed": failed,
-           "verdict": "PASS" if made else ("FAIL" if failed else "PASS"),
+           "verdict": "PASS" if (made or skipped) and not failed else "FAIL",
+           "no_new_work": (not made and bool(skipped) and not failed),
            "note": "alpha_missing=true 表示规格要求透明底但本机只出白底图，需主控抠图补齐"}
     os.makedirs(os.path.dirname(rec_path), exist_ok=True)
     json.dump(rec, open(rec_path, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
@@ -317,7 +318,11 @@ def main(argv):
           % (a.cls, len(made), skipped, len(failed), os.path.relpath(rec_path, ROOT)))
     for f in failed[:3]:
         print("   ! ", f[0], f[1])
-    return 0 if made else 1
+    # 2026-11-12 R41: 目标全部已在盘 = 无新活 = 成功，不是失败。
+    # 旧实参 `return 0 if made else 1` 让 made=[]/skipped=20/failed=[] 也返回 1，
+    # 卡被判 FAILED 后由 master 每 30 秒重派重跑（实测 05:19-05:23 连跑 6 次，每轮一笔噪声提交）。
+    # 语义对齐 char_gen.py：有失败=1（要重试）；有产出或有跳过且无失败=0；规格为空=1（可疑）。
+    return 0 if (made or skipped) and not failed else 1
 
 
 if __name__ == "__main__":
