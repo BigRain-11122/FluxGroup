@@ -56,7 +56,12 @@ AUD_EXT = (".wav", ".mp3", ".flac", ".m4a", ".aac", ".ogg")
 FACE_MIN_COUNT = 12
 FACE_MIN_SIDE = 768
 FACE_MAX_DUP_RATIO = 0.30
-FACE_MIN_TEXTURE = 12.0          # 拉普拉斯方差中位数（0-255 灰度尺度）
+FACE_MIN_TEXTURE_P90 = 250.0     # 拉普拉斯能量 p90 地板：只为拦"极端糊脸"
+# Why 从"中位数<12 硬门"改成"p90 地板"（2026-11-11 实测标定）：
+#   中位数被平坦背景吃掉——本人像组（灰底棚拍，正是角色参考的规格）p50=4~16 全部触底，
+#   而把同一张图 gblur σ2.5（等于磨皮）p50 仍是 9.0，即"好图判负、糊图判过"两面都失准。
+#   p90 只取最有细节的那 10% 像素，同一组图 900~1521，σ8 极端糊图 169 → 地板 250 可拦糊脸。
+#   σ2.5 中等磨皮 p90=729 仍会过，所以此指标只作"极端"地板，皮肤毛孔真伪由人眼抽检（禁当质量背书）。
 
 VOICE_MIN_TOTAL_S = 60.0
 VOICE_MIN_COUNT = 8
@@ -139,8 +144,8 @@ def dhash(path):
     return bits
 
 
-def texture_energy(path):
-    """拉普拉斯方差近似：磨皮/美颜会把它压得很低。"""
+def texture_profile(path):
+    """(p50, p90) 拉普拉斯能量：p50 报给人看（背景敏感），p90 才是判据。"""
     rc, out, _ = run([FFMPEG, "-v", "error", "-i", path, "-vf",
                       "scale=256:256:force_original_aspect_ratio=increase,crop=256:256,format=gray",
                       "-f", "rawvideo", "-"], 60, binary=True)
@@ -158,7 +163,7 @@ def texture_energy(path):
     if not vals:
         return None
     vals.sort()
-    return float(vals[len(vals) // 2])
+    return float(vals[len(vals) // 2]), float(vals[int(len(vals) * 0.90)])
 
 
 ALLOWED_LICENSES = ("own", "public-domain", "cc0", "cc-by", "licensed")
@@ -233,14 +238,15 @@ def audit_face(d):
     files.sort()
     if len(files) < FACE_MIN_COUNT:
         gaps.append("张数 %d < %d（训不出稳定角色）" % (len(files), FACE_MIN_COUNT))
-    sizes, tex, hashes = [], [], []
+    sizes, tex, tex50, hashes = [], [], [], []
     for p in files:
         w, h, _ = probe(p)
         if w and h:
             sizes.append(min(w, h))
-        t = texture_energy(p)
-        if t is not None:
-            tex.append(t)
+        tp = texture_profile(p)
+        if tp is not None:
+            tex50.append(tp[0])
+            tex.append(tp[1])
         hs = dhash(p)
         if hs is not None:
             hashes.append(hs)
@@ -256,12 +262,17 @@ def audit_face(d):
     if dup_ratio > FACE_MAX_DUP_RATIO:
         gaps.append("近似重复率 %.0f%% > %.0f%%（同一张图换背景=假多样性）"
                     % (dup_ratio * 100, FACE_MAX_DUP_RATIO * 100))
-    tex_med = sorted(tex)[len(tex) // 2] if tex else None
-    if tex_med is not None and tex_med < FACE_MIN_TEXTURE:
-        gaps.append("细节能量中位数 %.1f < %.1f（磨皮/美颜脸，训出来就是 AI 脸）"
-                    % (tex_med, FACE_MIN_TEXTURE))
-    return {"mode": "face", "count": len(files), "min_side": min(sizes) if sizes else None,
-            "dup_ratio": round(dup_ratio, 3), "texture_median": tex_med}, gaps
+    tex_p90 = sorted(tex)[len(tex) // 2] if tex else None
+    tex_p50 = sorted(tex50)[len(tex50) // 2] if tex50 else None
+    if tex_p90 is not None and tex_p90 < FACE_MIN_TEXTURE_P90:
+        gaps.append("细节能量 p90 %.0f < %.0f（极端糊脸/强磨皮，训出来就是 AI 脸）"
+                    % (tex_p90, FACE_MIN_TEXTURE_P90))
+    detail = {"mode": "face", "count": len(files), "min_side": min(sizes) if sizes else None,
+              "dup_ratio": round(dup_ratio, 3), "texture_p90": tex_p90,
+              "texture_p50_advisory": tex_p50,
+              "texture_note": "p50 受平坦背景影响不作判据；p90<250=极端糊脸才拦，"
+                              "中等磨皮测不出（σ2.5 实测 p90=729），毛孔真伪由人眼抽检"}
+    return detail, gaps
 
 
 def audit_voice(d):

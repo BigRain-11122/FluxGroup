@@ -9,7 +9,7 @@ CEO 2026-11-05「你放开全部的算力做好调度」：实测 squeeze 显示
   3. 资产库六类缺口（按 asset_library_check 输出）
 
 纪律：
-  - 每张卡带 requires 与 hard_nodes=[bm-m]：数据只在本机仓库里，别的机器跑了会出假报告
+  - 每张卡带 requires 与 hard_nodes=[持树的那台机]：数据只在本机仓库里，别的机器跑了会出假报告
   - deliverable 每产品独立，已存在就跳过（做过的不重做）
   - 输入不在本机时 audit 直接 rc=3 拒跑，绝不出"全部缺件"的假结论
 
@@ -140,9 +140,32 @@ def _exclusive_lock():
     return _cm()
 
 
+def data_node():
+    """哪台机能读到这棵工作树 —— 就是该卡该钉的机。
+
+    Why（2026-11-11 实测）：hard_nodes 原写死 "bm-m"，前提是"主控=持有仓库那台"。但 bm-m
+    是 Mac 局部克隆且 roster enabled=false/wake_tasks 为空，而真正跑脉的是 bm-a
+    （MASTER-TICK.last_tick_by=bm-a·masquerade）。结果这批卡在 origin 上永远 OPEN、
+    只能挂 blocked_by=no-claim-executor:bm-m（R36），供给看着有、实际没人能领。
+    钉给持有本树的节点，卡才真的可领。
+    """
+    here = os.path.abspath(ROOT).lower().replace("\\", "/").rstrip("/")
+    try:
+        d = json.load(open(os.path.join(ROOT, "Tools", "fleet-nodes.json"),
+                           encoding="utf-8-sig"))
+        for n in d.get("nodes") or []:
+            r = str(n.get("root") or "").lower().replace("\\", "/").rstrip("/")
+            if r and r == here:
+                return str(n.get("id"))
+    except Exception:
+        pass
+    return os.environ.get("FLEET_NODE") or "bm-a"
+
+
 def build_cards():
     cards = []
     stamp = datetime.now().strftime("%Y%m%dT%H%M%S")
+    node = data_node()
     n = 0
     for name in sorted(os.listdir(SOFT_ROOT)) if os.path.isdir(SOFT_ROOT) else []:
         if not os.path.isdir(os.path.join(SOFT_ROOT, name)):
@@ -162,7 +185,7 @@ def build_cards():
                       "requires": [os.path.join("软著申请材料", name)],
                       "deliverable": out,
                       "accept": "缺件数=0 才算通过；缺件必须逐条列出类别",
-                      "nodes": ["bm-m"], "hard_nodes": ["bm-m"], "prio": "P1",
+                      "nodes": [node], "hard_nodes": [node], "prio": "P1",
                       "line": "biggame", "state": "READY", "created_by": "supply_batch",
                       "created_at": datetime.now().isoformat(timespec="seconds")})
     try:
