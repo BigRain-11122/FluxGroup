@@ -2,7 +2,7 @@
  "id": "UNBLOCK-asset-lib-library-check-2026-11-08",
  "node": "bm-m",
  "rc": 0,
- "seconds": 9.0,
+ "seconds": 15.3,
  "cmd": "",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/repairs/asset-lib-library-check-2026-11-08-unblock.md",
  "deliverable_exists": true,
- "ts": "2026-11-11T10:43:38",
- "stdout_tail": "缺权限：申请 owner bm-a 解除 3 次无效警告。",
+ "ts": "2026-11-11T10:45:13",
+ "stdout_tail": "缺料阻塞；机长重发物料后重启产线；由 bm-a 执行。",
  "stderr_tail": ""
 }
