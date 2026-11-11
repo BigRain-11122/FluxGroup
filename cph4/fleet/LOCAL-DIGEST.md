@@ -6547,3 +6547,5 @@
 - 11-11T08:02 · GAP-BIGGAME-BMC-7-bm-c.json · 已完成机队大游戏排查报告生成，无错误风险。
 - 11-11T08:02 · GAP-BIGGAME-BMC-7-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
 - 11-11T08:02 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
+- 11-11T08:03 · _last_lane_bm-m.json · 机队已自派完成回单扫描，无风险。
+- 11-11T08:03 · skill-promote-20261111.json · 已完成基础任务，因工具缺失导致大量技能无法执行。
