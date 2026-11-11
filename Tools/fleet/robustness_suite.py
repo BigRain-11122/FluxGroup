@@ -229,6 +229,42 @@ def r10():
         shutil.rmtree(td, ignore_errors=True)
 
 
+@case("R-11", "跨工位写分片被拒", "一机一写者是硬约束；靠自觉挡不住，必须有护栏")
+def r11():
+    import station_shards as ss
+    old = os.environ.get("FLEET_STATION")
+    td = _root()
+    try:
+        os.environ["FLEET_STATION"] = "visual"
+        # 生产路径（root=None）写别人的分片必须被拒
+        blocked = False
+        try:
+            ss.write_queue("control", [{"id": "X", "state": "OPEN"}])
+        except PermissionError:
+            blocked = True
+        except Exception:
+            blocked = False
+        # 写自己的分片要放行；沙箱（显式 root）不受限
+        own_ok = True
+        try:
+            ss.write_queue("visual", [{"id": "V", "state": "OPEN"}])
+        except Exception:
+            own_ok = False
+        sandbox_ok = True
+        try:
+            ss.write_queue("control", [{"id": "S", "state": "OPEN"}], root=td)
+        except Exception:
+            sandbox_ok = False
+        return blocked and own_ok and sandbox_ok, \
+            "cross=%s own=%s sandbox=%s" % (blocked, own_ok, sandbox_ok)
+    finally:
+        if old is None:
+            os.environ.pop("FLEET_STATION", None)
+        else:
+            os.environ["FLEET_STATION"] = old
+        shutil.rmtree(td, ignore_errors=True)
+
+
 def run(verbose=True):
     rows = []
     for c in CASES:

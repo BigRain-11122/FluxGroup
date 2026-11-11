@@ -9,8 +9,8 @@
 |---|---|
 | L0 回归用例 | 回归用例 RG-* |
 | L1 单元自检 | shards 分片/锁、drive 自驱、panel 评审团、agent 席位、local loop 本地闭环、view 一屏、cmd 命令面、work matrix 颗粒度、drama rules 漫剧闸、voice gate 语感、make index 索引、os matrix 跨系统、cpu alloc 分配、env probe 环境采集、env align 环境对齐、fleet doc 文档生成、compute alloc 算力调度、brain stress 端点阶梯、quality score 评分器、self loop 回环、condition matrix 环境矩阵、parallel sim 并发模型、cmd latency 命令通道、docs curate 文档整理 |
-| L2 场景与条件 | 工况 QA 12 例、条件矩阵 80 格、并发争用模型、命令下发延迟、预演 14 场景 |
-| L3 一致性/文档 | 一致性 17 项、情况台账、文档库/正典指针 |
+| L2 场景与条件 | 工况 QA 12 例、鲁棒性 10 例、条件矩阵 80 格、并发争用模型、命令下发延迟、预演 14 场景 |
+| L3 一致性/文档 | 一致性 17 项、情况台账、文档库/正典指针、测试目录新鲜 |
 | L4 总评分 | 总评分 |
 
 ## 二、用例面（各多少例）
@@ -20,7 +20,7 @@
 | `regression.CASES` | 36 | 历史故障固化的回归断言（每条带负控） |
 | `station_qa.CASES` | 12 | 机内执行工况：停/离线/无命令/人判/低盘/坏卡 |
 | `fleet_rehearsal.SCEN` | 14 | 跨机流转预演：交接/重复/离线/回执/漂移 |
-| `robustness_suite.CASES` | 10 | 存储与数据面：并发写/崩溃/坏行/状态机/数量级 |
+| `robustness_suite.CASES` | 11 | 存储与数据面：并发写/崩溃/坏行/状态机/数量级 |
 | `condition_matrix`（生成） | 80（环境 55 / 核力 10 / 系统 15） | 5 台机 × 环境偏差 × 核力禁区 |
 | `parallel_sim`（生成） | 4 组合 | 单端点平摊/突发 × 有/无深席上升 |
 

@@ -129,8 +129,28 @@ def read_queue(station, root=None):
     return rows
 
 
+def _own_station():
+    """本机工位（FLEET_STATION > hostname）。未设置时返回 None（不启用写保护）。"""
+    v = os.environ.get("FLEET_STATION")
+    if v:
+        return v
+    try:
+        import local_model as lm
+        return lm.local_station()
+    except Exception:
+        return None
+
+
 def write_queue(station, rows, root=None):
-    """原子写：临时文件 + os.replace，避免半份文件被读到。按 id 去重（后写胜）。"""
+    """原子写：临时文件 + os.replace，避免半份文件被读到。按 id 去重（后写胜）。
+
+    护栏（2026-11-11）：FLEET_STATION 已声明本机身份时，禁止写别的工位分片。
+    一机一写者是硬约束，靠"大家自觉"挡不住；沙箱（显式 root）不受此限。
+    """
+    if root is None:
+        me = _own_station()
+        if me and me != station:
+            raise PermissionError("跨工位写被拒：本机=%s，目标分片=%s（一机一写者）" % (me, station))
     p = queue_path(station, root)
     os.makedirs(os.path.dirname(p), exist_ok=True)
     seen = {}
