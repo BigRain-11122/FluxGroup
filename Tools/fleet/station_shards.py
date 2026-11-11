@@ -162,6 +162,16 @@ def _upsert_locked(station, row, root=None):
     if prev:
         merged = dict(prev)
         merged.update(row)
+        # 终态被改回运行态必须留痕（2026-11-11 鲁棒性用例 R-06 实锚）：
+        # 允许人工重开，但不许静默——否则同一张卡被重复执行且事后查不到原因。
+        _a = str(prev.get("state") or "").upper()
+        _b = str(row.get("state") or "").upper()
+        if _a in TERMINAL and _b and _b not in TERMINAL:
+            hist = list(prev.get("history") or [])
+            hist.append({"from": prev.get("state"), "to": row.get("state"),
+                         "ts": __import__("time").strftime("%Y-%m-%dT%H:%M:%S"),
+                         "why": row.get("reason") or row.get("why") or "reopen"})
+            merged["history"] = hist[-20:]
         rows[str(row["id"])] = merged
     else:
         rows[str(row["id"])] = row

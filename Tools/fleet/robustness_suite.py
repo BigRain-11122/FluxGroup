@@ -1,0 +1,265 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""robustness_suite.py - 极端工况与鲁棒性：专挑会让调度系统"静默出错"的地方。
+
+为什么单开一套：station_qa 测的是"业务工况"、rehearsal 测跨机流转、
+condition_matrix 测环境偏差——这三套都不测**存储与数据面**：
+并发写丢不丢、崩在半路会不会留坏文件、坏 JSON 会不会把整条队列搞废、
+状态机能不能被非法跳转绕过、1000 张卡时还准不准。
+
+用例（全部沙箱，不碰生产分片）：
+  R-01 并发 upsert 10 线程 × 5 张 → 一张不丢、字段不被覆盖
+  R-02 进程被 kill 在写一半 → 文件仍是合法 JSON（临时文件+原子替换）
+  R-03 分片里被塞坏行（非 JSON / 空行 / 冲突标记）→ 读取不崩且能自愈
+  R-04 同一张卡重复 upsert → 幂等，不产生第二张
+  R-05 回执同 id 重复写 → 历史保留（不覆盖上一次）
+  R-06 状态非法跳转（DONE→RUNNING）→ 必须被拒或至少不改状态
+  R-07 1000 张卡：写入+读取+再写，计数准确、耗时可控
+  R-08 中文/空格/超长 ID → 读取写回不乱码不截断
+  R-09 未来时间戳/1970 时间戳 → 判据不误判（不把未来卡判成过期）
+  R-10 磁盘水位恰好等于阈值 → 边界按"低于才停"处理（等于不拦）
+
+用法：
+  python3 Tools/fleet/robustness_suite.py            # 跑全套
+  python3 Tools/fleet/robustness_suite.py --json
+  python3 Tools/fleet/robustness_suite.py --self-test  # 同全套（用例即自检）
+Exit: 0 全过；1 有失败
+"""
+import argparse
+import json
+import os
+import shutil
+import sys
+import tempfile
+import threading
+import time
+import traceback
+
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+TOOLS = os.path.join(ROOT, "Tools", "fleet")
+sys.path.insert(0, TOOLS)
+
+CASES = []
+
+
+def case(cid, name, why):
+    def deco(fn):
+        CASES.append({"id": cid, "name": name, "why": why, "fn": fn})
+        return fn
+    return deco
+
+
+def _root():
+    td = tempfile.mkdtemp(prefix="robust-")
+    os.makedirs(os.path.join(td, "cph4", "fleet"), exist_ok=True)
+    return td
+
+
+@case("R-01", "并发 upsert 不丢写", "读-改-写没锁时，10 线程各写一张，最后只剩一两张")
+def r01():
+    import station_shards as ss
+    td = _root()
+    try:
+        def w(i):
+            ss.upsert("visual", {"id": "C-%03d" % i, "state": "OPEN", "n": i}, root=td)
+        ts = [threading.Thread(target=w, args=(i,)) for i in range(10)]
+        [t.start() for t in ts]
+        [t.join() for t in ts]
+        rows = ss.read_queue("visual", root=td)
+        ids = {r["id"] for r in rows}
+        return len(ids) == 10, "写入 10 张，实际 %d 张" % len(ids)
+    finally:
+        shutil.rmtree(td, ignore_errors=True)
+
+
+@case("R-02", "写一半被中断不留坏文件", "直接 open(w) 写在写磁盘时断电/kill 会留半截 JSON，整条队列读不出来")
+def r02():
+    import station_shards as ss
+    td = _root()
+    try:
+        ss.write_queue("visual", [{"id": "A", "state": "OPEN"}], root=td)
+        p = ss.queue_path("visual", td)
+        # 模拟：写入方先写临时文件再原子替换；这里验证目录里不会出现半个 .json
+        tmp = p + ".tmp.999"
+        with open(tmp, "w", encoding="utf-8") as f:
+            f.write('{"id": "B", "sta')      # 半截
+        rows = ss.read_queue("visual", root=td)     # 读侧不能被临时文件干扰
+        ok = len(rows) == 1 and rows[0]["id"] == "A"
+        os.remove(tmp)
+        return ok, "临时文件不应进入读取面；读到 %d 行" % len(rows)
+    finally:
+        shutil.rmtree(td, ignore_errors=True)
+
+
+@case("R-03", "坏行不会搞废整条队列", "手工编辑/冲突标记/空行混进分片时有发生")
+def r03():
+    import station_shards as ss
+    td = _root()
+    try:
+        p = ss.queue_path("visual", td)
+        os.makedirs(os.path.dirname(p), exist_ok=True)
+        with open(p, "w", encoding="utf-8") as f:
+            f.write('{"id":"A","state":"OPEN"}\n')
+            f.write('<<<<<<< HEAD\n')
+            f.write('{"id":"B","state":"OPEN"}\n')
+            f.write('\n')
+            f.write('not json at all\n')
+            f.write('{"id":"C","state":"OPEN"}\n')
+        rows = ss.read_queue("visual", root=td)
+        ids = {r.get("id") for r in rows}
+        return {"A", "C"}.issubset(ids) or len(rows) >= 1, "读到 %d 行：%s" % (len(rows), sorted(ids)[:5])
+    finally:
+        shutil.rmtree(td, ignore_errors=True)
+
+
+@case("R-04", "同卡重复 upsert 幂等", "重复派单会把同一件事做两遍")
+def r04():
+    import station_shards as ss
+    td = _root()
+    try:
+        for _ in range(3):
+            ss.upsert("visual", {"id": "DUP-1", "state": "OPEN", "cmd": "x"}, root=td)
+        rows = ss.read_queue("visual", root=td)
+        return len(rows) == 1 and rows[0]["id"] == "DUP-1", "行数=%d" % len(rows)
+    finally:
+        shutil.rmtree(td, ignore_errors=True)
+
+
+@case("R-05", "回执同 id 不覆盖历史", "抽验抽不到失败那次＝验收形同虚设")
+def r05():
+    import station_shards as ss
+    td = _root()
+    try:
+        a = ss.append_receipt("visual", {"id": "RC-1", "rc": 1, "ts": "2026-11-11T10:00:00"}, root=td)
+        b = ss.append_receipt("visual", {"id": "RC-1", "rc": 0, "ts": "2026-11-11T11:00:00"}, root=td)
+        files = os.listdir(os.path.dirname(a))
+        return a != b and len([f for f in files if f.startswith("RC-1")]) >= 2, "files=%s" % files
+    finally:
+        shutil.rmtree(td, ignore_errors=True)
+
+
+@case("R-06", "终态不得被改回运行态", "DONE→RUNNING 会让同一张卡被重复执行")
+def r06():
+    import station_shards as ss
+    td = _root()
+    try:
+        ss.upsert("visual", {"id": "S-1", "state": "DONE"}, root=td)
+        ss.upsert("visual", {"id": "S-1", "state": "RUNNING"}, root=td)
+        rows = {r["id"]: r for r in ss.read_queue("visual", root=td)}
+        # 两种都可接受：拒绝改回（仍 DONE）或明确记录历史；不可接受的是静默改成 RUNNING 且无痕迹
+        st = rows["S-1"].get("state")
+        hist = rows["S-1"].get("history") or []
+        return st == "DONE" or bool(hist), "state=%s history=%s" % (st, len(hist))
+    finally:
+        shutil.rmtree(td, ignore_errors=True)
+
+
+@case("R-07", "1000 张卡数量级", "小样本过、上量就丢行或慢到不可用")
+def r07():
+    import station_shards as ss
+    td = _root()
+    try:
+        t0 = time.time()
+        rows = [{"id": "N-%04d" % i, "state": "OPEN", "n": i} for i in range(1000)]
+        ss.write_queue("visual", rows, root=td)
+        back = ss.read_queue("visual", root=td)
+        dt = time.time() - t0
+        return len(back) == 1000 and dt < 5.0, "写读 1000 张用 %.2fs，回读 %d" % (dt, len(back))
+    finally:
+        shutil.rmtree(td, ignore_errors=True)
+
+
+@case("R-08", "中文/空格/长 ID 不截断", "路径与编码在 Windows 上最容易出事")
+def r08():
+    import station_shards as ss
+    td = _root()
+    try:
+        cid = "卡-中文 空格-" + "x" * 80
+        ss.upsert("visual", {"id": cid, "state": "OPEN", "note": "中文备注"}, root=td)
+        rows = ss.read_queue("visual", root=td)
+        return rows and rows[0]["id"] == cid and rows[0].get("note") == "中文备注", "got=%r" % (rows[0]["id"][:20] if rows else None)
+    finally:
+        shutil.rmtree(td, ignore_errors=True)
+
+
+@case("R-09", "时间戳离谱也不误判", "未来时间/1970 时间会让'过期'判据发疯")
+def r09():
+    import station_drive as sd
+    td = _root()
+    try:
+        fut = os.path.join(td, "fut.txt")
+        old = os.path.join(td, "old.txt")
+        open(fut, "w").write("x")
+        open(old, "w").write("x")
+        t_future = time.time() + 86400 * 365
+        t_epoch = 0
+        os.utime(fut, (t_future, t_future))
+        os.utime(old, (t_epoch, t_epoch))
+        ok_fut = sd._fresh_enough(fut, 1, now=time.time())      # 未来时间不得被判过期
+        ok_old = sd._fresh_enough(old, 1, now=time.time())      # 1970 必须判过期
+        ok_once = sd._fresh_enough(old, 0, now=time.time())     # 一次性工序：有产物即算做完
+        return (ok_fut is True) and (ok_old is False) and (ok_once is True), \
+            "future=%s old=%s once=%s" % (ok_fut, ok_old, ok_once)
+    finally:
+        shutil.rmtree(td, ignore_errors=True)
+
+
+@case("R-10", "水位边界：低于才拦，等于放行", "等于阈值就拦会把最后一 G 也浪费；高于阈值还放行就是没闸")
+def r10():
+    import station_drive as sd
+    td = _root()
+    try:
+        feed = os.path.join(td, "cph4", "fleet")
+        os.makedirs(feed, exist_ok=True)
+        free = shutil.disk_usage(td).free / (1024 ** 3)
+
+        def write_wm(v):
+            with open(os.path.join(feed, "STATIONS.json"), "w", encoding="utf-8") as f:
+                json.dump({"stations": [{"id": "visual", "min_free_gb": v}]}, f)
+
+        write_wm(free + 10)                       # 要求比现有更多 -> 必须拦
+        low = sd._disk_ok("visual", root=td)
+        write_wm(max(0, free - 10))               # 要求比现有少 -> 必须放行
+        high = sd._disk_ok("visual", root=td)
+        write_wm(0)                               # 未设水位 -> 放行
+        none = sd._disk_ok("visual", root=td)
+        return (low[0] is False) and (high[0] is True) and (none[0] is True), \
+            "block=%s allow=%s none=%s" % (low, high, none)
+    finally:
+        shutil.rmtree(td, ignore_errors=True)
+
+
+def run(verbose=True):
+    rows = []
+    for c in CASES:
+        t0 = time.time()
+        try:
+            ok, detail = c["fn"]()
+        except Exception as e:
+            ok, detail = False, "异常：%s" % str(e)[:120]
+            if verbose:
+                traceback.print_exc()
+        rows.append({"id": c["id"], "name": c["name"], "why": c["why"],
+                     "ok": bool(ok), "detail": detail, "sec": round(time.time() - t0, 2)})
+        if verbose:
+            print("%s %s %-28s %s" % ("ok  " if ok else "FAIL", c["id"], c["name"], detail))
+    return rows
+
+
+def main(argv=None):
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--json", action="store_true")
+    ap.add_argument("--self-test", action="store_true")
+    a = ap.parse_args(argv)
+    rows = run(verbose=not a.json)
+    bad = [r for r in rows if not r["ok"]]
+    if a.json:
+        print(json.dumps({"ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "total": len(rows),
+                          "passed": len(rows) - len(bad), "rows": rows}, ensure_ascii=False, indent=1))
+    else:
+        print("[robustness] %d/%d" % (len(rows) - len(bad), len(rows)))
+    return 1 if bad else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

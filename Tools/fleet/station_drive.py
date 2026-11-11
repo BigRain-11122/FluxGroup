@@ -135,7 +135,12 @@ def _fresh_enough(path, refresh_h, now=None):
         return False
     if not refresh_h:
         return True
-    age_h = ((now or _now()) - datetime.fromtimestamp(_newest_mtime(path))).total_seconds() / 3600
+    # now 允许 datetime 或 float（2026-11-11 鲁棒性用例 R-09 实锚：只收 datetime 时，
+    # 传时间戳的调用方直接 TypeError，而这类判据恰好是"过期/重建"的入口）
+    _n = now if now is not None else _now()
+    if isinstance(_n, (int, float)):
+        _n = datetime.fromtimestamp(_n)
+    age_h = (_n - datetime.fromtimestamp(_newest_mtime(path))).total_seconds() / 3600
     return age_h < float(refresh_h)
 
 
