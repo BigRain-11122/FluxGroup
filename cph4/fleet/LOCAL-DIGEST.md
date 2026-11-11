@@ -6968,3 +6968,5 @@
 - 11-11T10:19 · REPAIR-LINE-TRIAGE-MV-bm-m.json · 已完成交易失败根因分析与人工校验方案制定，当前需人工介入执行资金扣减以消除风险。
 - 11-11T10:19 · REPAIR-GAP-MV-LINE-20261111-acceptance.json · 机队回执未生成，因缺乏必要产出文件被驳回。
 - 11-11T10:19 · REPAIR-GAP-MV-LINE-20261111-bm-m.json · 已完成 GAP 流程自动补账失败分析，需人工介入修复数据一致性风险。
+- 11-11T10:20 · _last_lane_bm-m.json · 任务已暂停，因无可用分配资源而存在执行风险。
+- 11-11T10:21 · _last_lane_bm-m.json · 机队任务已推迟，因无可用分配存在执行风险。
