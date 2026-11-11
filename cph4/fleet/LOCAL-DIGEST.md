@@ -7039,3 +7039,11 @@
 - 11-11T10:45 · UNBLOCK-R-TRIAGE-BIGCOMPUTE-BMB-20261108-acceptance.json · 机队回执被拒，因交付物非有效产物且无风险。
 - 11-11T10:45 · UNBLOCK-R-TRIAGE-BIGCOMPUTE-BMB-20261108-bm-m.json · 已完成机队解锁，无风险，需由负责人执行补账操作。
 - 11-11T10:45 · self-improve-bm-m-latest.json · 已完成机队回执提交，无风险。
+- 11-11T10:46 · _last_lane_bm-m.json · 已完成资产库解锁任务，当前运行中无风险。
+- 11-11T10:46 · REPAIR-PEER-SYNC-bm-c-20261111-acceptance.json · 机队回执被拒，因交付物非有效产物且无风险。
+- 11-11T10:46 · REPAIR-PEER-SYNC-bm-c-20261111-bm-m.json · 同步失败因命名不匹配导致，需人工介入修复规则。
+- 11-11T10:46 · skill-promote-20261111.json · 已完成部分任务，因工具缺失导致大量技能无法执行。
+- 11-11T10:46 · UNBLOCK-R-TRIAGE-BIGCOMPUTE-BMB-20261108-acceptance.json · 机队回执被拒，因交付物非所需文档或台账。
+- 11-11T10:46 · UNBLOCK-R-TRIAGE-BIGCOMPUTE-BMB-20261108-bm-m.json · 已完成机队回执，无风险。
+- 11-11T10:46 · UNBLOCK-asset-lib-library-check-2026-11-08-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效文档。
+- 11-11T10:46 · UNBLOCK-asset-lib-library-check-2026-11-08-bm-m.json · 已完成机队资产库检查并生成报告，存在因权限缺失导致无法自动解锁的风险。
