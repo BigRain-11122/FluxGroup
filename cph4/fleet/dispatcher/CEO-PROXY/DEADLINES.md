@@ -660,3 +660,11 @@ rame_bytes/frame_sha12；**bm-a 上该目录不存在（0/30）**，且本机两
 | **认领环第二道卡口** | **registered（新）** | 同一次运行里 `git push -f origin HEAD:refs/heads/node/bm-a` 子进程存活 >2.5min 零完成，而同刻 `git ls-remote origin` 秒回、ssh 22 通 ⇒ 非网络，属 promisor/枚举挂死家族（承 2026-10-15 晨盘判例）。下一步=queue_claim 启动段把该 force-push 改为非阻塞（后台/超时 60s 跳过），否则认领永远死在这一步。 |
 | **P1 卡 UNBLOCK-INDEX-TTS 真根因** | **FIXED 进行中（解释器错配）** | `index-tts/pyproject.toml`：`requires-python = ">=3.10,<3.12"`；本机默认 `python`=**3.14.10**，`py -0p` 仅 3.14 与 uv 3.12 ⇒ 原卡 `python -m venv` 必然建出 3.14 venv，`import indextts` 结构上不可能通过（torch 亦无 3.14 轮子）。处置：`uv python install 3.11`（3.11.16）→ 仓库内 `uv sync --python 3.11`（构建中，日志 `media/drama-tools/extts-build.log`）→ 判据 `.venv\Scripts\python.exe -c "import indextts"` 打印 IMPORT-OK。**该卡今后重派须写明 --python 3.11**，否则重复白跑。 |
 
+
+### R41-CLOSE 收口（2026-11-12 03:01）
+
+| 件 | 状态 | 证据 / 下一步 |
+|---|---|---|
+| **UNBLOCK-INDEX-TTS-20261112（P1）** | **DONE（rc=0·本班交付）** | venv 解释器 **3.11.16**；`import indextts` = `IMPORT-OK <repo>\indextts\__init__.py`（03:00:04）；venv **8163 MB / 35165 文件**。回执=`cph4/fleet/queue-receipts/UNBLOCK-INDEX-TTS-20261112-bm-a.json`。下游 `VCORP-GEN-r1202-EP001-060` / POOL-0027 的 venv 前置解除；**权重（IndexTeam/IndexTTS-2）仍缺**，不在本卡范围。今后同类卡必须写 `--python 3.11`（uv），否则重复白跑。 |
+| **记录更正（诚实边界）** | **corrected** | R41-FIX 行引用的 `media/drama-tools/extts-build.log` **不存在**（InvisibleRunner 未重定向），证据面改以 venv 体积/解释器版本/import 输出为准。 |
+
