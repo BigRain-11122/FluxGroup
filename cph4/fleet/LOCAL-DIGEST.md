@@ -6908,3 +6908,7 @@
 - 11-11T10:05 · R-TRIAGE-BIGCOMPUTE-BMB-20261108-bm-m.json · 机队回执任务失败，因无交付物且存在错误类风险。
 - 11-11T10:05 · triage-bigcompute-bm-b-20261111.md · 算力中枢席需立即补产或收线，因该工段超阈 148.6 小时存在风险。
 - 11-11T10:05 · skill-promote-20261111.json · 已跳过多项因工具缺失或重复的任务，当前无风险。
+- 11-11T10:07 · _last_lane_bm-m.json · 机队任务已完成，无风险。
+- 11-11T10:07 · R-TRIAGE-BIGCOMPUTE-BMB-20261108-acceptance.json · 机队回执失败，因产物未落盘导致无风险。
+- 11-11T10:07 · R-TRIAGE-BIGCOMPUTE-BMB-20261108-bm-m.json · 机队回执任务失败，因无交付物且存在错误类风险。
+- 11-11T10:07 · triage-bigcompute-bm-b-20261111.md · 算力中枢席需立即补产或收线，当前工段已超阈存在风险。
