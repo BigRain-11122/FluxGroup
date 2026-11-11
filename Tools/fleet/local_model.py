@@ -29,9 +29,53 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 STATE = os.path.join(ROOT, "cph4", "fleet", "state")
 HOLD = os.path.join(STATE, "local-model-hold.json")
 AUDIT = os.path.join(ROOT, "cph4", "fleet", "dispatcher", "local-model.jsonl")
-URL = os.environ.get("OLLAMA_URL") or "http://127.0.0.1:11434"
+# 端点阶梯（2026-11-11 CEO 令：算力大脑是机队本地能力中心，主控只做轻量赋能）：
+#   显式环境变量 > MODEL-COMPUTE.json 的 gateways（按 order）> 本机 11434
+# 不做这一步的话，所有 agent 的推理都会压在 MacBook 的 32G 统一内存上。
+COMPUTE = os.path.join(ROOT, "cph4", "fleet", "MODEL-COMPUTE.json")
+URL = os.environ.get("OLLAMA_URL") or ""          # 显式覆盖；空=走阶梯
+HEALTH_TTL_S = 30
+_HEALTH = {"ts": 0.0, "url": ""}
 HOLD_TTL_S = 45          # 主控一次生成可能在 30-60s，给足余量；过期自动失效，不留死锁
 DEFAULT_MODEL = "\x00"
+
+
+def gateways():
+    """按 order 返回候选端点。显式 URL 优先。"""
+    if URL:
+        return [URL]
+    try:
+        with open(COMPUTE, encoding="utf-8") as f:
+            gs = json.load(f).get("gateways") or []
+        out = [g["url"] for g in sorted(gs, key=lambda g: g.get("order", 99)) if g.get("url")]
+        return out or ["http://127.0.0.1:11434"]
+    except Exception:
+        return ["http://127.0.0.1:11434"]
+
+
+def _alive(url, timeout=1.2):
+    try:
+        with urllib.request.urlopen(url + "/api/tags", timeout=timeout) as r:
+            r.read(64)
+        return True
+    except Exception:
+        return False
+
+
+def endpoint():
+    """选一个活着的端点，30s 内复用结果（避免每次调用都探活）。
+    全都探不通时返回最后一个候选，让调用方拿到真实错误而不是假装成功。"""
+    now = time.time()
+    if _HEALTH["url"] and now - _HEALTH["ts"] < HEALTH_TTL_S:
+        return _HEALTH["url"]
+    gs = gateways()
+    for u in gs:
+        if _alive(u):
+            _HEALTH.update({"ts": now, "url": u})
+            return u
+    fallback = gs[-1] if gs else "http://127.0.0.1:11434"
+    _HEALTH.update({"ts": now, "url": fallback})
+    return fallback
 
 
 def _cfg():
@@ -79,7 +123,7 @@ def _unload(model):
     except Exception:
         try:
             import urllib.request as _u
-            req = _u.Request(URL + "/api/generate", method="POST",
+            req = _u.Request(endpoint() + "/api/generate", method="POST",
                              data=json.dumps({"model": model, "keep_alive": 0}).encode())
             req.add_header("Content-Type", "application/json")
             _u.urlopen(req, timeout=30).read()
@@ -127,7 +171,7 @@ def hold_active():
 
 
 def _post(path, payload, timeout):
-    req = urllib.request.Request(URL + path, data=json.dumps(payload).encode(),
+    req = urllib.request.Request(endpoint() + path, data=json.dumps(payload).encode(),
                                  headers={"Content-Type": "application/json"})
     with urllib.request.urlopen(req, timeout=timeout) as r:
         return json.loads(r.read())

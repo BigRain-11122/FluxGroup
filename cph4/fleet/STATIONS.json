@@ -254,6 +254,7 @@
   {
    "id": "brain",
    "name": "大脑工位",
+   "role": "机队本地模型能力中心（CEO 2026-11-11）：绝大多数本地推理与 agent 自动化算力都落在这里；机队自己能做的先做，做不了的立刻由它赋能。主控只做轻量兜底。",
    "machine": "算力大脑",
    "hostname": "PENDING-TAILNET",
    "tailnet_ip": null,
@@ -267,6 +268,23 @@
     "vram_gb": 48,
     "vram_per_card_gb": 16,
     "extra": "3× P104 8G"
+   },
+   "llm_service": {
+    "config": "cph4/fleet/MODEL-COMPUTE.json",
+    "endpoint_role": "primary（order=1）",
+    "planned_url": "http://<brain-tailnet>:11434（未入网，未分配 IP）",
+    "seats": [
+     "triage 8B",
+     "creative 32B",
+     "review 32B/14B×2",
+     "embed"
+    ],
+    "budget": {
+     "vram_total_gb": 48,
+     "ram_total_gb": 256,
+     "concurrency": 4
+    },
+    "note": "按角色分卡，不做跨卡 TP（V100 无 NVLink）；无 AVX2 所以 CPU 推理不可用"
    },
    "disks": [
     {
@@ -383,7 +401,7 @@
    "external_disk": false,
    "backup": "git-remote-only（origin）+ 产物清单；不落外置盘",
    "llm_service": {
-    "role": "常驻本地模型，经网关赋能机队",
+    "role": "轻量兜底（CEO 2026-11-11）：仅在算力大脑不可用时提供 2B/4B 的摘要、分类、短判定；不做批量生成与长文本",
     "ollama": "http://127.0.0.1:11434",
     "fleet_gateway": "http://100.75.133.10:8792",
     "models": [
@@ -393,7 +411,8 @@
      "qwen3-embedding:0.6b（向量）"
     ],
     "budget": "常驻≤20G / 峰值≤24G；本机优先，机队借用并发≤2、上下文≤8192、死线120s",
-    "note": "35B 封存不常驻（驻留即换页，仅人工点名）"
+    "note": "35B 封存不常驻（驻留即换页，仅人工点名）",
+    "config": "cph4/fleet/MODEL-COMPUTE.json"
    },
    "runtime": {
     "resident": [

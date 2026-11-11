@@ -118,7 +118,11 @@ def evaluate(tax, products, stations):
                              "%d 道在册工序要这台机，但它当前是 %s" % (need_stages, s.get("status"))))
         if need_stages == 0:
             warnings.append(("NO-DEMAND", sid, "-", "没有任何在册工序需要这台机"))
-    return errors, warnings, {"products": matrix, "load": load}
+    # 模型依赖：这些工序要靠算力大脑（MODEL-COMPUTE 的 primary 端点）出文本
+    model_stages = sum(1 for rows in matrix.values() for _, tid, _ in rows
+                       if str(types[tid].get("model") or "none").startswith("local"))
+    return errors, warnings, {"products": matrix, "load": load,
+                              "model_dependent_stages": model_stages}
 
 
 def selftest():
@@ -201,7 +205,8 @@ def main():
             print("WARN    %-13s %s/%s  %s" % (kind, a1, a2, why))
         if not errors and not warnings:
             print("（无）")
-        print("\n[work_matrix] errors=%d warnings=%d" % (len(errors), len(warnings)))
+        print("\n模型依赖工序（需算力大脑出文本）= %d 道" % matrix.get("model_dependent_stages", 0))
+        print("[work_matrix] errors=%d warnings=%d" % (len(errors), len(warnings)))
     return 0 if not errors and not warnings else (2 if errors else 1)
 
 
