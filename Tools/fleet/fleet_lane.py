@@ -245,7 +245,79 @@ def now_iso():
     return datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
 
 
-def read_jsonl(path):
+# ---- 2026-11-11 工位分片透明路由（正典=cph4/fleet/SYNC-DESIGN-v2.md）--------
+# 队列物理分片后不该让 100+ 个读写工具各自改一遍：在 fleet_lane 这一层路由。
+# 规则：带 station（或 line 能映射到工位）的卡进分片；其余仍进旧队列（过渡期）。
+# 读：旧队列 + 五份分片合并，同 id 以分片为准。开关=AUTONOMY-CONFIG.sync.mode。
+SHARDS_REL = "cph4/fleet/rt"
+STATION_IDS = ("delivery", "visual", "audio", "brain", "control")
+_SHARD_MODE = {}
+_LINE_MAP = {}
+
+
+def _root_of(path):
+    p = os.path.abspath(path)
+    marker = os.sep + os.path.join("cph4", "fleet") + os.sep
+    i = p.find(marker)
+    return p[:i] if i > 0 else ROOT_DEFAULT
+
+
+def is_card_queue(path):
+    return os.path.basename(str(path)) == "PRODUCTION-QUEUE.jsonl"
+
+
+def _config_ts(root, name):
+    try:
+        return os.path.getmtime(os.path.join(root, "cph4", "fleet", name))
+    except OSError:
+        return 0
+
+
+def shard_mode(root):
+    key = (root, _config_ts(root, "AUTONOMY-CONFIG.json"))
+    if key in _SHARD_MODE:
+        return _SHARD_MODE[key]
+    on = False
+    try:
+        cfg = json.load(open(os.path.join(root, "cph4", "fleet", "AUTONOMY-CONFIG.json"),
+                             encoding="utf-8"))
+        on = ((cfg.get("sync") or {}).get("mode") == "station_shards")
+    except Exception:
+        on = False
+    _SHARD_MODE.clear()
+    _SHARD_MODE[key] = on
+    return on
+
+
+def _line_station_map(root):
+    key = (root, _config_ts(root, "LINE-REGISTRY.json"))
+    if key in _LINE_MAP:
+        return _LINE_MAP[key]
+    m = {}
+    try:
+        reg = json.load(open(os.path.join(root, "cph4", "fleet", "LINE-REGISTRY.json"),
+                             encoding="utf-8"))
+        for l in reg.get("lines") or []:
+            st = l.get("owner_station")
+            if st in STATION_IDS:
+                m[l.get("id")] = st
+    except Exception:
+        pass
+    _LINE_MAP.clear()
+    _LINE_MAP[key] = m
+    return m
+
+
+def resolve_station(root, row):
+    if not isinstance(row, dict):
+        return None
+    st = row.get("station")
+    if st in STATION_IDS:
+        return st
+    return _line_station_map(root).get(row.get("line"))
+
+
+def _raw_rows(path):
     rows = []
     if not os.path.exists(path):
         return rows
@@ -258,6 +330,26 @@ def read_jsonl(path):
                 rows.append(json.loads(line))
             except Exception:
                 continue
+    return rows
+
+
+def shard_queue_path(root, station):
+    return os.path.join(root, SHARDS_REL, station, "queue.jsonl")
+
+
+def read_shard_rows(root):
+    out = []
+    for s in STATION_IDS:
+        out.extend(_raw_rows(shard_queue_path(root, s)))
+    return out
+
+
+def read_jsonl(path):
+    root = _root_of(path)
+    rows = _raw_rows(path)
+    if is_card_queue(path) and shard_mode(root):
+        # 分片放在后面：同 id 时以分片为准（读端去重保留最后一条）。
+        rows = rows + read_shard_rows(root)
     # 2026-11-10 CEO-PROXY 事件班：共享队列在并发 merge 时会被并集写入同 id 两行
     # （主控脉每轮 merge 都可能再引入，清一次又长回来）。读端按 id 收敛为最后一条、
     # 位置取首次出现，让重复行对全体消费者无害；写端仍走 merge_jsonl 的 collapse。
@@ -401,7 +493,34 @@ def _mirror_ledger(path, rows, key):
         merge_jsonl(sib, upd, key=key, mirror=False)
 
 
-def merge_jsonl(path, rows, key="id", mirror=True):
+def _route_sharded(root, path, rows, key, mirror):
+    """按卡归属把写入分发到工位分片；没有归属的仍写旧队列（过渡期兜底）。"""
+    owner = {}
+    for s in STATION_IDS:
+        for r in _raw_rows(shard_queue_path(root, s)):
+            if isinstance(r, dict) and r.get(key) is not None:
+                owner[r[key]] = s
+    groups = {s: [] for s in STATION_IDS}
+    legacy = []
+    for r in rows:
+        if not isinstance(r, dict):
+            legacy.append(r)
+            continue
+        s = owner.get(r.get(key)) or resolve_station(root, r)
+        if s in STATION_IDS:
+            r = dict(r)
+            r["station"] = s
+            groups[s].append(r)
+        else:
+            legacy.append(r)
+    for s, rs in groups.items():
+        if rs:
+            merge_jsonl(shard_queue_path(root, s), rs, key=key, mirror=False, _no_shard=True)
+    if legacy:
+        merge_jsonl(path, legacy, key=key, mirror=mirror, _no_shard=True)
+
+
+def merge_jsonl(path, rows, key="id", mirror=True, _no_shard=False):
     """Commit only the rows this caller touched, merged into what is on disk right now.
 
     write_jsonl(dump the whole list) is how one leg erased another leg's dispatch inside
@@ -409,6 +528,10 @@ def merge_jsonl(path, rows, key="id", mirror=True):
     id (new ids appended, touched ids updated, untouched ids left alone) and replaces the
     file atomically.
     """
+    root = _root_of(path)
+    if (not _no_shard) and is_card_queue(path) and shard_mode(root):
+        _route_sharded(root, path, rows, key, mirror)
+        return len(rows)
     lockp = _lock(path)
     try:
         current = read_jsonl(path)

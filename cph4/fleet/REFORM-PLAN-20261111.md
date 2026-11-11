@@ -10,7 +10,7 @@
 | B1 | 同步机制 v2 定稿；取消全量 union；完整性检查修正 | ✅ 完成 | `SYNC-DESIGN-v2.md`、`.gitattributes`、`queue_integrity.py`、commit `21e280f55c` |
 | B2 | 工位分片读写模块；同步面 `--station`；线注册表与自治配置补工位口径 | ✅ 完成 | `Tools/fleet/station_shards.py`（自检 7/7）、`state_sync.py --station`、`PRODUCTS.json`/`STATIONS.json`、commit `5f9f76aa96` |
 | B3 | 存量 41 张卡归位；旧队列黑洞清零；只读汇总视图 | ✅ 完成 | `rt/*/queue.jsonl`、`rt/MIGRATION-20261111.md`、`station_status.py`、commit `72c12fb186` |
-| B4 | 派单器读分片；旧队列冻结；首批真卡（带验收判据） | ⏳ 待做 | — |
+| B4 | 派单器读分片；旧队列冻结；首批真卡（带验收判据） | 🟡 进行中 | 透明路由已通：`fleet_lane.read_jsonl/merge_jsonl` 按 station 分流（自检通过），`master_agent --dry` 已能读到分片卡；冻结与首批真卡待做 |
 | B5 | 机器修复与上岗验收（小钢炮上线、传家宝 ComfyUI、公司生产力机接回） | ⏳ 待做 | — |
 | B6 | 一周度量：元工作占比、STALLED 段、可发布物 | ⏳ 待做 | — |
 
