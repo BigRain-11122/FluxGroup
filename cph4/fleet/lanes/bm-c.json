@@ -1,35 +1,7 @@
 {
  "node": "bm-c",
- "ts": "2026-11-12T04:54:24",
+ "ts": "2026-11-12T04:58:30",
  "jobs": [
-  {
-   "id": "GPU-LEASE-RESET-BMC-20261112",
-   "station": "visual",
-   "line": "asset-lib",
-   "title": "[@bm-c lane=gpu-production] 清理卡死的 GPU 租约：先 status 再 release --force 再 status",
-   "cmd": "python Tools\\fleet\\gpu_lease.py --node bm-c --status > cph4\\fleet\\queue-receipts\\gpu-lease-bm-c-20261112.txt 2>&1 & python Tools\\fleet\\gpu_lease.py --node bm-c --release --force >> cph4\\fleet\\queue-receipts\\gpu-lease-bm-c-20261112.txt 2>&1 & python Tools\\fleet\\gpu_lease.py --node bm-c --status >> cph4\\fleet\\queue-receipts\\gpu-lease-bm-c-20261112.txt 2>&1",
-   "cwd": "",
-   "needs": "cpu",
-   "minutes": 3,
-   "heavy": false,
-   "day_ok": true,
-   "deliverable": "cph4/fleet/queue-receipts/gpu-lease-bm-c-20261112.txt",
-   "accept": "txt 内三段落齐全（status / release / status），release 后无 LEASE 行或 owner 为空；本卡只清租约不动数据，资产卡随后自会 acquire",
-   "nodes": [
-    "bm-c"
-   ],
-   "hard_nodes": [
-    "bm-c"
-   ],
-   "prio": "P0",
-   "state": "OPEN",
-   "why": "04:32-04:52 实测 bm-c 拉取+WAKE 但 GPU free 恒定 13.32G/16G、零产物，符合 R33 登记的 LEASE-BUSY 静默 defer；租约在 gitignored Tools/nats/data 内，只能本机清",
-   "note": "九要素：①@bm-c lane=gpu-production｜②回执窗 6h｜③验收物=cph4\\fleet\\queue-receipts\\gpu-lease-bm-c-20261112.txt（证据指针=txt 三段 + 本卡 commit）｜④spec=Tools/fleet/gpu_lease.py（--status/--release）｜⑤溯源 O-20261010-1800（CEO 常设授权 T1 代决）｜⑥输入=bm-c 本机租约文件；输出=cph4\\fleet\\queue-receipts\\gpu-lease-bm-c-20261112.txt｜⑦依赖=无依赖（bm-c 在线，FleetLink 200）｜⑧卡 ID=GPU-LEASE-RESET-BMC-20261112｜⑨provenance=推断（自驱派生：R41 采样实证 GPU 不加载）",
-   "created_by": "CEO-PROXY event R41",
-   "created_at": "2026-11-12T04:54:24",
-   "route": "local",
-   "verify_on_node": true
-  },
   {
    "id": "asset-lib-asset-gen-2026-11-11",
    "title": "[资产储备（角色 LoRA / 音色库）] 通用资产出图（道具/场景，吃 ASSET-PROMPTS 规格）",
@@ -49,5 +21,5 @@
  "lane_ok": true,
  "capacity_note": "ram 7.8/1.0 GB",
  "reorder_note": "event R41: COMFY-UP first - the other jobs need the service it restores",
- "r41_note": "R41: 先清 GPU 租约（cpu 卡绕闸），再跑资产生产"
+ "r41_note": "R41: 只留资产生产卡。已完成的卡全部撤出（COMFY-UP / env-check / GPU-LEASE-RESET），否则静态车道首位会无限重跑并饿死后面的卡"
 }
