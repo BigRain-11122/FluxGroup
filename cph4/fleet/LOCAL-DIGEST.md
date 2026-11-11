@@ -6793,3 +6793,8 @@
 - 11-11T09:21 · GAP-BIGGAME-BMC-12-bm-c.json · 已完成机队排查报告生成，无错误风险。
 - 11-11T09:21 · GAP-BIGGAME-BMC-12-acceptance.json · 完成机队回执提交，但被拒收因非标准产物且无风险。
 - 11-11T09:21 · _last_lane_bm-m.json · 机队已自派完成回单扫描，无风险。
+- 11-11T09:22 · NODE-SYNC-bm-c-20261111T0918-bm-c.json · 已完成机队同步与报告生成，无风险。
+- 11-11T09:22 · NODE-SYNC-bm-c-20261111T0918-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-11T09:22 · GAP-BIGGAME-BMC-12-bm-c.json · 已完成机队排查报告生成，无错误风险。
+- 11-11T09:22 · GAP-BIGGAME-BMC-12-acceptance.json · 已提交回执但被拒，因内容非有效交付物且无风险。
+- 11-11T09:22 · _last_lane_bm-m.json · 机队已自派完成回单扫描，无风险。
