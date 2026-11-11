@@ -97,11 +97,8 @@ def _tree_sha(path):
 
 
 def _digest(path):
-    if os.path.isfile(path):
-        return _sha(path)
-    if os.path.isdir(path):
-        return _tree_sha(path)
-    return None
+    """统一走 station_shards.digest，禁止本地另写一份。"""
+    return ss.digest(path)
 
 
 def _size(path):
@@ -128,9 +125,16 @@ def _newest_mtime(path):
 
 
 def _fresh_enough(path, refresh_h, now=None):
-    """产物是否还在保质期内。refresh_h 为空=只补缺失，不做周期重置。"""
-    if not refresh_h or not os.path.exists(path):
+    """产物算不算"已经做过了"。
+    - 产物不存在 -> 不算做（要补）
+    - 没有 refresh_h -> 一次性工序：有产物就算做完，绝不每轮重做
+      （2026-11-11 预演实锚：原实现把"无保质期"当"已过期"，每轮重跑，
+       五台机上线就会无限重复劳动）
+    - 有 refresh_h -> 按最新文件时间判周期重置"""
+    if not os.path.exists(path):
         return False
+    if not refresh_h:
+        return True
     age_h = ((now or _now()) - datetime.fromtimestamp(_newest_mtime(path))).total_seconds() / 3600
     return age_h < float(refresh_h)
 
@@ -266,6 +270,11 @@ def verify(station, card, run, root=None):
             judge = (types.get(card["task_type"]) or {}).get("judge") or ""
         except Exception:
             judge = ""
+    # 先看跑没跑成：命令失败就别花算力去评审（顺序错了会白烧 token）
+    if run.get("why") == "NEED-CMD":
+        return "BLOCKED", "NEED-CMD：缺执行命令"
+    if not run.get("ok"):
+        return "FAILED", "执行失败 rc=%s" % run.get("rc")
     if not judge:
         # 判据没写就不许自证完成（诚实律）
         return "PENDING_HUMAN", "未写判据，不许自证"
@@ -286,10 +295,6 @@ def verify(station, card, run, root=None):
         return "FAILED", "评审团否决: %s" % (r.get("why") or "")[:80]
     if judge in MANUAL_JUDGES:
         return "PENDING_HUMAN", "judge=%s 需人判" % judge
-    if run.get("why") == "NEED-CMD":
-        return "BLOCKED", "NEED-CMD：缺执行命令"
-    if not run.get("ok"):
-        return "FAILED", "执行失败 rc=%s" % run.get("rc")
     deliverable = card.get("deliverable")
     if deliverable:
         p = os.path.join(rroot, deliverable)
@@ -348,15 +353,30 @@ def handoff(station, card, root=None):
     tgt = targets[0]
     if tgt == station:
         return {"to": station, "stage": nxt, "task_type": tid, "note": "同机下一道，循环内自然接上"}
+    if tgt not in ss.STATIONS:
+        # 目标工位不在登记表：安静跳过并留痕，不许让一个坏配置把整轮打断
+        return {"to": tgt, "stage": nxt, "task_type": tid,
+                "note": "目标工位不在登记表，跳过交接（配置需修）"}
+    hid = "HO-%s-%s" % (card.get("product_id"), nxt.replace(" ", ""))
+    for exist in ss.read_queue(tgt, root):
+        # 只要下游已经有这道工序的卡（任何状态），就不再投一张——否则同一件活干两遍
+        if str(exist.get("id")) == hid or (
+                exist.get("product_id") == card.get("product_id")
+                and exist.get("stage") == nxt):
+            return {"to": tgt, "stage": nxt, "task_type": tid, "card": exist.get("id"),
+                    "note": "下游已有这道工序的卡，未重复投递"}
     row = {
-        "id": "HO-%s-%s-%s" % (card.get("product_id"), nxt.replace(" ", ""),
-                               _now().strftime("%Y%m%d%H%M")),
+        "id": hid,
         "title": "[handoff] %s · %s" % (card.get("product_id"), nxt),
         "product_id": card.get("product_id"), "stage": nxt, "task_type": tid,
         "station": tgt, "nodes": [tgt], "state": "OPEN", "created_by": "handoff:" + station,
         "created_at": _now().isoformat(timespec="seconds"),
         "why": "上游 %s 已完成：%s" % (station, card.get("id")),
         "deliverable": (products.get(card.get("product_id")) or {}).get("outputs", {}).get(nxt),
+        # 交接单必须自带执行命令与判据，否则下游接得住也跑不了（R14 实测）
+        "cmd": ((products.get(card.get("product_id")) or {}).get("commands") or {}).get(nxt, ""),
+        "judge": (types.get(tid) or {}).get("judge"),
+        "needs": "cpu",
     }
     if tgt in ss.STATIONS:
         ss.upsert(tgt, row, root)
@@ -364,6 +384,53 @@ def handoff(station, card, root=None):
 
 
 RUNNABLE = ("ready", "online", "network_ok_not_registered")
+
+
+def _lease_minutes(root=None):
+    """租约分钟：只从配置读，不写死。"""
+    try:
+        cfg = _load("AUTONOMY-CONFIG.json", root) or {}
+        v = ((cfg.get("lease_minutes") or {}).get("default")
+             or cfg.get("lease_minutes_default") or cfg.get("lease_minutes"))
+        if isinstance(v, int):
+            return v
+    except Exception:
+        pass
+    try:
+        cfg = _load("CARD-POLICY-v1.json", root) or {}
+        v = (cfg.get("lease") or {}).get("minutes") or cfg.get("lease_minutes")
+        if isinstance(v, int):
+            return v
+    except Exception:
+        pass
+    return 45
+
+
+def reclaim(station, root=None, now=None, lease_min=None):
+    """回收卡死的 RUNNING：认领超租约且无新回执 -> 退回 OPEN，写 release_reason。
+    2026-11-11 预演发现：进程被 kill 后卡永久 RUNNING，新机队没有回收机制。"""
+    now_dt = now or _now()
+    lease = lease_min or _lease_minutes(root)
+    rows = ss.read_queue(station, root)
+    rec = 0
+    for r in rows:
+        if str(r.get("state")).upper() != "RUNNING":
+            continue
+        if (r.get("owner") or "") != station:
+            continue
+        ts = str(r.get("claimed_at") or r.get("assign_ts") or "")
+        try:
+            age = (now_dt - datetime.fromisoformat(ts[:19])).total_seconds() / 60
+        except Exception:
+            age = None
+        if age is None or age <= lease:
+            continue
+        row = dict(r)
+        row.update({"state": "OPEN", "owner": None, "release_reason":
+                    "认领 %.0f 分钟无回执（租约 %s 分钟），已回收重排" % (age, lease)})
+        ss.upsert(station, row, root)
+        rec += 1
+    return rec
 
 
 def _status_ok(station, root=None, force=False):
@@ -407,8 +474,10 @@ def once(station, root=None, dry=False, now=None, run_limit=3, force=False):
     if not ok:
         return {"station": station, "ts": _now().isoformat(timespec="seconds"),
                 "blocked": why, "would_create": [], "unknown_output": [], "ran": []}
+    reclaimed = reclaim(station, root, now)
     want, unknown = plan(station, root, now)
     report = {"station": station, "ts": _now().isoformat(timespec="seconds"),
+              "reclaimed": reclaimed,
               "would_create": [w["product"] + "/" + w["stage"] for w in want],
               "unknown_output": ["%s/%s" % (u["product"], u["stage"]) for u in unknown],
               "ran": [], "handoff": []}
@@ -423,7 +492,10 @@ def once(station, root=None, dry=False, now=None, run_limit=3, force=False):
     for card in ss.read_queue(station, root):
         if n >= run_limit:
             break
-        if card.get("state") != "OPEN" or card.get("created_by") != "self-drive":
+        # 只认"本分片里的可执行 OPEN 卡"——不管是谁写的：
+        # 自驱建的、主控 fleet_cmd 下的、回收后重排的，一律执行。
+        # 2026-11-11 预演发现：只跑 created_by=self-drive 会让主控下的卡永远躺着。
+        if card.get("state") != "OPEN" or not (card.get("cmd") or "").strip():
             continue
         card = claim(station, card, root)
         run = run_card(station, card, root)

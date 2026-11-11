@@ -569,6 +569,106 @@
     "cph4/fleet/JUDGE-PANELS-v1.json"
    ],
    "status": "CLOSED"
+  },
+  {
+   "id": "S32",
+   "name": "一次性工序每轮重做",
+   "symptom": "没有保质期的工序被当成过期，每轮重建卡重跑，重复劳动",
+   "evidence": [
+    {
+     "src": "self",
+     "note": "2026-11-11 预演 R14 实测"
+    }
+   ],
+   "old_gap": "refresh_h 为空被解读为\"已过期\"",
+   "rule": "无 refresh_h = 有产物即完成；只有声明保质期才周期重置",
+   "landing": [
+    "Tools/fleet/station_drive.py"
+   ],
+   "status": "CLOSED"
+  },
+  {
+   "id": "S33",
+   "name": "交接单不带命令",
+   "symptom": "下游收到 HO- 卡但没有 cmd，接得住跑不了",
+   "evidence": [
+    {
+     "src": "self",
+     "note": "2026-11-11 预演 R14"
+    }
+   ],
+   "old_gap": "交接只传产物路径",
+   "rule": "交接单必须带 cmd/judge/deliverable",
+   "landing": [
+    "Tools/fleet/station_drive.py"
+   ],
+   "status": "CLOSED"
+  },
+  {
+   "id": "S34",
+   "name": "目录哈希两套算法",
+   "symptom": "自驱写的哈希与巡查重算的永远不一致，抽验恒失败",
+   "evidence": [
+    {
+     "src": "self",
+     "note": "2026-11-11 预演 R10/R14"
+    }
+   ],
+   "old_gap": "两处各写一份目录摘要",
+   "rule": "摘要唯一实现=station_shards.digest()",
+   "landing": [
+    "Tools/fleet/station_shards.py"
+   ],
+   "status": "CLOSED"
+  },
+  {
+   "id": "S35",
+   "name": "主控下的卡不执行",
+   "symptom": "fleet_cmd 下的卡躺在分片里没人跑",
+   "evidence": [
+    {
+     "src": "self",
+     "note": "2026-11-11 预演 R11"
+    }
+   ],
+   "old_gap": "自驱只跑 created_by=self-drive",
+   "rule": "执行本分片所有可执行 OPEN 卡（有 cmd 且状态 OPEN）",
+   "landing": [
+    "Tools/fleet/station_drive.py"
+   ],
+   "status": "CLOSED"
+  },
+  {
+   "id": "S36",
+   "name": "命令失败仍先评审",
+   "symptom": "跑挂了还花算力调评审团",
+   "evidence": [
+    {
+     "src": "self",
+     "note": "2026-11-11 索引工序实跑"
+    }
+   ],
+   "old_gap": "verify 先分发判据再看执行结果",
+   "rule": "先判执行结果，失败直接 FAILED",
+   "landing": [
+    "Tools/fleet/station_drive.py"
+   ],
+   "status": "CLOSED"
+  },
+  {
+   "id": "S37",
+   "name": "推送失败未做运行时预演",
+   "symptom": "git 推不上去时的退避与告警没有实测",
+   "evidence": [
+    {
+     "src": "self",
+     "note": "2026-11-11 T3 只能验静态无关性"
+    }
+   ],
+   "old_gap": "需要独立 git 环境才能复现",
+   "rule": "待补：用裸仓+拒收钩子做沙箱推送失败演练",
+   "landing": [],
+   "status": "OPEN"
   }
  ]
 }

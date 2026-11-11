@@ -200,6 +200,37 @@ def append_log(station, event, root=None):
     return p
 
 
+def digest(path):
+    """产物摘要的唯一实现：文件=内容 sha256；目录=相对路径+大小+文件摘要按序再取 sha256。
+    2026-11-11 预演发现：自驱与巡查各写一份目录哈希算法，抽验必然永远不一致。"""
+    import hashlib as _h
+    if os.path.isfile(path):
+        h = _h.sha256()
+        with open(path, "rb") as f:
+            for b in iter(lambda: f.read(1 << 20), b""):
+                h.update(b)
+        return h.hexdigest()
+    if not os.path.isdir(path):
+        return None
+    h = _h.sha256()
+    for d, dirs, xs in os.walk(path):
+        dirs.sort()
+        for x in sorted(xs):
+            fp = os.path.join(d, x)
+            rel = os.path.relpath(fp, path)
+            h.update(rel.encode())
+            h.update(b"|")
+            try:
+                h.update(str(os.path.getsize(fp)).encode())
+                h.update(b"|")
+                with open(fp, "rb") as f:
+                    h.update(_h.sha256(f.read()).digest())
+            except OSError:
+                continue
+            h.update(b"|")
+    return h.hexdigest()
+
+
 def read_remote_queue(station, root=None, ref="origin/main"):
     """读 origin 上的分片：只走 git blob，不 checkout，不动工作树。"""
     rel = "%s/%s/queue.jsonl" % (RT_REL, station)

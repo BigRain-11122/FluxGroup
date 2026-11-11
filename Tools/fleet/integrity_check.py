@@ -200,6 +200,14 @@ def p4(c):
 
 
 # ------------------------------------------------------------------ 策略
+@check("通路", "P5", "分片写路径不依赖 git（推送失败也不丢卡）")
+def p5(c):
+    src = open(os.path.join(ROOT, "Tools", "fleet", "station_shards.py"), encoding="utf-8").read()
+    write_part = src[src.find("def write_queue"):src.find("def read_remote_queue")]
+    bad = [k for k in ("subprocess", "git ") if k in write_part]
+    return (not bad, "写队列段出现 %s" % (bad or "无外部依赖"))
+
+
 @check("策略", "S1", "三桶互斥：同一工序不会既待接命令又权限")
 def s1(c):
     bad = []

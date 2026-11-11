@@ -126,7 +126,7 @@ def sample(root=None, limit_override=None):
             elif not r.get("sha256"):
                 rec.update({"pass": False, "why": "A2 回执没写哈希（不可验）"}); fails += 1
             else:
-                got = _tree_sha(p) if os.path.isdir(p) else _sha(p)
+                got = ss.digest(p)
                 if got != r.get("sha256"):
                     rec.update({"pass": False, "why": "A2 哈希不一致"}); fails += 1
                 elif str(r.get("judge") or "") in ("manual", "human"):

@@ -121,7 +121,10 @@
     "角色 LoRA",
     "音色",
     "索引"
-   ]
+   ],
+   "commands": {
+    "索引": "python3 Tools/fleet/make_index.py --root cph4/fleet/out/asset-pack --out cph4/fleet/out/asset-pack/index.json"
+   }
   },
   {
    "id": "PROD-QUANT-REPORT",

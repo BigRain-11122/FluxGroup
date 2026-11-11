@@ -262,6 +262,82 @@ def r10():
         shutil.rmtree(td, ignore_errors=True)
 
 
+@scen("R11", "进程被 kill：RUNNING 卡超租约应被回收重排")
+def r11():
+    td = build()
+    try:
+        t = datetime.now()
+        ss.upsert("visual", {"id": "killed", "state": "RUNNING", "owner": "visual",
+                             "claimed_at": (t - timedelta(hours=2)).isoformat(timespec="seconds"),
+                             "product_id": "P1", "stage": "make", "task_type": "T-PROD",
+                             "cmd": "mkdir -p out/p1/make && echo ok > out/p1/make/f.bin",
+                             "deliverable": "out/p1/make/", "judge": "path"}, td)
+        out = sd.once("visual", td, now=t, run_limit=3)
+        row = [x for x in cards(td, "visual") if x["id"] == "killed"][0]
+        return (out.get("reclaimed") == 1 and row["state"] in ("DONE", "FAILED")
+                and "回收" in (row.get("release_reason") or ""),
+                "reclaimed=%s 状态=%s reason=%s" % (out.get("reclaimed"), row["state"],
+                                                   (row.get("release_reason") or "")[:18]))
+    finally:
+        shutil.rmtree(td, ignore_errors=True)
+
+
+@scen("R12", "模型超时：超时票记 ABSTAIN，不凑票通过")
+def r12():
+    # 两席面板，一席 PASS 一席超时：quorum=2 -> REVISE；quorum=1 -> PASS
+    real = pr.panels
+    def fake():
+        return {"T-PROBE": {"skill": "stub", "seats": ["A1", "A2"], "quorum": 2,
+                            "rubric": ["x"], "veto": []}}
+    pr.panels = fake
+    try:
+        def gen(prompt, seat):
+            if seat == "A2":
+                raise TimeoutError("模型超时")
+            return '{"vote":"PASS","reason":"ok"}'
+        r = pr.review(task_type="T-PROBE", evidence=["Tools/fleet/panel_review.py"],
+                      generate=gen, root=False)
+        votes = {v["seat"]: v["vote"] for v in r["votes"]}
+        return (r["verdict"] == "REVISE" and votes.get("A2") == "ABSTAIN",
+                "verdict=%s votes=%s" % (r["verdict"], votes))
+    finally:
+        pr.panels = real
+
+
+@scen("R13", "交接重跑：同一工序不重复建 HO- 卡")
+def r13():
+    td = build()
+    try:
+        t = datetime.now()
+        rounds(td, t, stations=("visual",))
+        n1 = len([x for x in cards(td, "audio") if str(x["id"]).startswith("HO-")])
+        # 再跑一轮（模拟重跑/时钟不同步导致的重复触发）
+        ss.write_queue("visual", [], td)          # 清掉已完成的上游卡
+        rounds(td, t + timedelta(minutes=30), stations=("visual",))
+        n2 = len([x for x in cards(td, "audio") if str(x["id"]).startswith("HO-")])
+        return (n1 == 1 and n2 == 1, "第一轮 HO=%d，重跑后 HO=%d" % (n1, n2))
+    finally:
+        shutil.rmtree(td, ignore_errors=True)
+
+
+@scen("R14", "端到端跨机：视觉出片→交接→声音产出→抽验全 PASS")
+def r14():
+    td = build()
+    try:
+        t = datetime.now()
+        rounds(td, t)                       # 五机各跑一轮：visual 出 make，交接给 audio
+        rounds(td, t + timedelta(minutes=5))  # 第二轮：audio 接到 HO- 后执行 sound
+        v = [x for x in cards(td, "visual") if x["stage"] == "make"]
+        a = [x for x in cards(td, "audio") if x["stage"] == "sound"]
+        samples, fails = mp.sample(td, limit_override=10)
+        ok = (len(v) == 1 and v[0]["state"] == "DONE"
+              and len(a) == 1 and a[0]["state"] == "DONE" and fails == 0 and samples)
+        return ok, "视觉=%s 声音=%s 抽验 %d 件失败 %d" % (
+            [x["state"] for x in v], [x["state"] for x in a], len(samples), fails)
+    finally:
+        shutil.rmtree(td, ignore_errors=True)
+
+
 def run(only=None):
     only = set(x.strip().upper() for x in only.split(",")) if only else None
     okn = 0
