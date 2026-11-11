@@ -6571,3 +6571,4 @@
 - 11-11T08:09 · GAP-RECON-BMC-8-bm-c.json · 已完成机队回执生成，无风险。
 - 11-11T08:09 · GAP-RECON-BMC-8-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
 - 11-11T08:09 · _last_lane_bm-m.json · 机队已自派完成回单扫描，无风险。
+- 11-11T08:10 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
