@@ -613,3 +613,17 @@ rame_bytes/frame_sha12；**bm-a 上该目录不存在（0/30）**，且本机两
 | **供给假绿：5 张 bm-m 硬钉卡结构性不可认领** | FIXED（数据层·可逆） | origin 队列 6 张 OPEN 中 5 张 `nodes=hard_nodes=[bm-m]`（created 11-10 08:40~11-11 00:55、claimed 全程 None）；roster `bm-m` enabled=False/wake_tasks=[]，FleetLink `:8790/health` 返 **401** 且 `fleet-dispatch.ps1`/`fleet-poke-worker.ps1` 无 token 支持 ⇒ 机器队永远拿不到。处置=按 R2.37 先例加 `blocked_by=no-claim-executor:bm-m`（队列/备队列各 5 行），供给口径诚实化；清障=bm-m 注册认领任务或改绑在线执行机后清字段。 |
 | **机队在产实证** | BURNING | bm-c `/status` 03:36：HQ-ProductionClaim Running、Bigmoney-SaturationEngine/MiniGameEngineTick Running、组仓 fork 7/3 自愈中；lane job `asset-lib-asset-gen-2026-11-11` 03:06:18 认领、bm-a `R-TRIAGE-FLUXVERSE-BMA-20261111` 03:02:15 认领。故本班**零新派单**。 |
 | **bm-c 钟偏（R36a 补强证据）** | at-risk·提权物理件 | NTP 中值法五点：−4879/−5263/−4526/−4821/−5114 ms → 中值 **−4879ms**（RTT 806-1120ms；伪差需 9.8s 不对称，不成立）；与 CLOCK-SKEW.json 03:24 的 4615.3ms/±413.4ms 同向同量级。修法=bm-c 本机提权 `sc config w32time start= auto && net start w32time && w32tm /resync`（三机 service 全 STOPPED；时钟卡在 bm-b/bm-c 属 CARD-DEFECT SCRIPT-MISSING，**不重派**）。判定法纪律：跨机钟差一律 ≥3 点 NTP 中值，禁单点 ts 对比。 |
+
+## 附录 R37 事件班登记（2026-11-12 00:01-00:2x·承载件触发·五旗=STARVED×3+LANE-DOWN bm-b+CLOCK missing）
+
+| 件 | 状态 | 证据 / 下一步 |
+|---|---|---|
+| **REAL·bm-c 认领执行器死 21.7h（P1 真故障）** | **resolved·已点火验证** | `/status` 自报 `claim_executor=HQ-ProductionClaim (pythonw, every 5m, LogonType=Interactive degraded)`——即 10-15 已知的 S4U 回归坑；`Tools/fleet/executor_revive.py --check` → `bm-c healthy 唤醒正常：HQ-ProductionClaim:WAKE,MiniGameEngineTick:off-skip`。追加 poke `Bigmoney-Autofill/PoolWorker`（bm-c 本机队列自有，跨机送供唯一杠杆=poke，FleetLink 无 exec）。**待验**：下一轮查 bm-c 三张 asset-lib 是否被认领。 |
+| **REAL·bm-a 供给空转（P1）** | **resolved·BURNING 实证** | 根因=`asset-lib-voice-assemble-2026-11-11` state=BLOCKED 但 `blocked_by` 为空数组（运营错误块，非依赖缺）→ 重开 OPEN；**2026-11-12 00:10:17 被 bm-a 认领，state=RUNNING**。另两卡：`UNBLOCK-INDEX-TTS-20261112`（POOL-0027 两日空转的具体解锁动作；寻源=github index-tts/index-tts 25043★ Apache-2.0，活仓 2026-11-11 更新，现成轮零自写）+ `PATROL-BIGHOUSE-RESOLVE-20261112`（POOL-0028 human-decision 转 T1 代决：机器取证，人只裁残余）。 |
+| **旗源语义·POOL 未镜像队列供给** | **registered·已补镜像腿** | dispatcher 的 `exec` 只数 POOL，而真实认领面是各机 `PRODUCTION-QUEUE.jsonl`；两者脱钩时 bm-c 有三张 OPEN 活卡却报 `STARVED-EXEC open_cards=0`。本班补 POOL-0032/0033 镜像腿（`job_ref` 指向队列 id，不新增工作量），改造量=0。根治建议（候判·受保护件）=STARVED 判据同时读队列腿。 |
+| **bm-b 整机离线（承 R33）** | **waiting-CEO 物理件·零催办·不重复登记** | 本班三面复核仍离线：tailnet `100.82.175.0:8790` TCP 超时；`executor_revive.py --check` → `bm-b offline 探不到 /status`；fleet-status 末产出 144.5h。`CLOCK-SKEW.json` bm-b=MISSING 为同源派生（`old_schema=0`，非 schema 缺陷）。 |
+| **CLOCK-SKEW bm-c +2930ms（承 R33）** | **OBSERVE 档·提权物理件候 CEO** | `CLOCK-SKEW.json` 00:00: hub bm-a offset 0.1ms/σ0.6；bm-c offset 2930.2ms/σ437.5（Δ/σ=6.7）。提案在档 `PROPOSAL-20261110-clock-skew-action-line.md`；修需 bm-c 提权任务（FleetLink 无 exec），候 CEO 一句「批」。 |
+| **队列通道事实（本轮新证）** | **registered** | `git show origin/main:cph4/fleet/PRODUCTION-QUEUE.jsonl` = `exists on disk, but not in origin/main`（commit `4ced13103 reset: 旧机制运行态归档清空`）→ 队列为每机自有运行态。**跨机送供正法=poke 目标机自身生成器**，不是推队列。 |
+| **旧根改径（媒体面）** | **done** | `media/drama-tools/voicegen_batch_ep004_060.cmd` 三行 `C:\Fluxgroup\FluxGroup` → `C:\Users\sjs20\Desktop\FluxGroup`（该目录 gitignored，纯本机媒体面，不入库）。 |
+
+**R37 回访探针**：+90min 一次性 cron——复验 ①`asset-lib-voice-assemble-2026-11-11` 是否 DONE 且回执落盘 ②bm-c 三张 asset-lib 是否被认领出图 ③bm-b 是否回归在线。复发=旗升 DE 级。
