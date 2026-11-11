@@ -54,6 +54,26 @@ def rows(p):
     return out
 
 
+def receipt_state(r):
+    """回执没有统一的 state 字段：有的写 state，有的写 outcome=OK/FAIL，有的只有 rc。
+    2026-11-11 实锚：只读 state 导致 C-FIN 这类 rc=0/outcome=OK 的回执被完全忽略，
+    卡片永远停在 UNVERIFIED，看起来像"补不回来"。"""
+    st = str(r.get("state") or "").upper()
+    if st in ("DONE", "FAILED"):
+        return st
+    oc = str(r.get("outcome") or "").upper()
+    if oc in ("OK", "DONE", "SUCCESS"):
+        return "DONE"
+    if oc in ("FAIL", "FAILED", "ERROR"):
+        return "FAILED"
+    rc = r.get("rc")
+    try:
+        rc = int(rc)
+    except (TypeError, ValueError):
+        return None
+    return "DONE" if rc == 0 else "FAILED"
+
+
 def collect_receipts():
     """每个 job 一条最新结论：DONE/FAILED + 交付物 + 来源。远端优先（它是执行者自述）。"""
     best = {}
@@ -72,7 +92,7 @@ def collect_receipts():
         d = jload(p)
         for r in (d if isinstance(d, list) else [d]):
             if isinstance(r, dict):
-                take(r.get("job") or r.get("id"), r.get("state"),
+                take(r.get("job") or r.get("id"), receipt_state(r),
                      r.get("deliverable"), os.path.basename(p), r.get("node"))
     return best
 
