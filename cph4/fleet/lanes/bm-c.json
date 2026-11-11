@@ -1,10 +1,25 @@
 {
  "node": "bm-c",
- "ts": "2026-11-12T05:23:12",
- "jobs": [],
- "idle_reason": "R41: props 20 张已全在盘（asset_gen skipped=20，made=0），本班不再派该卡；下一批真卡按 B4.3 由工位补",
+ "ts": "2026-11-12T05:31:03",
+ "jobs": [
+  {
+   "id": "asset-lib-char-gen-2026-11-11",
+   "title": "[资产储备（角色 LoRA / 音色库）] 角色包出图（本机 ComfyUI，1024²，同 seed 组）",
+   "cmd": "python Tools/fleet/char_gen.py --node bm-c --limit 12 --receipt cph4/fleet/queue-receipts/char-gen-bm-c-2026-11-11.json",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/char-gen-bm-c-2026-11-11.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  }
+ ],
+ "idle_reason": "",
  "lane_ok": true,
  "capacity_note": "ram 7.8/1.0 GB",
  "reorder_note": "event R41: COMFY-UP first - the other jobs need the service it restores",
- "r41_note": "R41: 只留生产卡（cpu 派单绕开卡死的 GPU 租约路径）"
+ "r41_note": "R41: 角色资产卡按 needs=cpu 派（gpu_lease 路径在 bm-c 静默卡死 600s）；跑完必须同批撤出车道，否则 already_closed 读不到分片终态会重跑"
 }
