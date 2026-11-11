@@ -8,7 +8,9 @@
    "model": "qwen3.5:4b-mlx",
    "cost_gb": 4.1,
    "num_ctx": 8192,
-   "keep_alive": "30m",
+   "keep_alive": "10m",
+   "idle_reap_minutes": 10,
+   "_reap_why": "CEO 2026-11-11「不能闲着还常驻」：常驻档只保 10 分钟，闲置就退（4B 重载约 0.4s，用 0.4s 换回 4.1G 内存）。原 30m 会让模型在没活时占着内存。MLX 别名卸载用 keep_alive=1m，不能写 0（会卡在 Stopping 且再也加载不上，见文件尾 _keep_alive_why）。",
    "measured_tok_s": "38-40",
    "_alias_note": "本机 ollama list 显示为 qwen3.5:4b；4b-mlx 为其 MLX 别名，两者都指向同一 manifest。调用一律带 think=false。"
   },
@@ -38,7 +40,7 @@
    "model": "qwen3.5:2b",
    "cost_gb": 1.5,
    "num_ctx": 4096,
-   "keep_alive": 0,
+   "keep_alive": "1m",
    "resident": false
   },
   "big": {

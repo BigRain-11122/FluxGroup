@@ -232,18 +232,17 @@ def generate(prompt, cls="master", model=None, timeout=90, keep_alive="15m",
     cfg = _duties().get(seat) or {}
     if model is None:
         model = cfg.get("model") or _model()
+    # keep_alive 的 0 是"用完即卸"的合法值，不能用 `or` 取默认值——
+    # 假值会把 0 吞成 15m/30m，模型就在没活时常驻吃内存（2026-11-11 CEO「不能闲着还常驻」）。
+    kv = cfg.get("keep_alive")
     if seat == "triage":
-        keep_alive = cfg.get("keep_alive") or keep_alive
+        keep_alive = keep_alive if kv is None else kv
         num_ctx = min(int(cfg.get("num_ctx") or num_ctx), num_ctx)
     elif seat == "big":
-        # 大档已经常驻（8B），不需要再装卸；keep_alive 用策略里的 30m 保持温暖
-        keep_alive = cfg.get("keep_alive") or "30m"
+        keep_alive = "30m" if kv is None else kv
         num_ctx = min(int(cfg.get("num_ctx") or 8192), num_ctx)
-    elif seat in ("triage",):
-        keep_alive = "0"      # 快车道用完即卸，装载仅 0.4s，不占常驻
-        num_ctx = min(int(cfg.get("num_ctx") or 4096), num_ctx)
     else:
-        keep_alive = cfg.get("keep_alive") or keep_alive
+        keep_alive = keep_alive if kv is None else kv
     try:
         body = {"model": model, "prompt": prompt, "stream": False,
                 "think": think, "keep_alive": keep_alive,
