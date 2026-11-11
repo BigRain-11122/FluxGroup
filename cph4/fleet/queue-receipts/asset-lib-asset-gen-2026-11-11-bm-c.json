@@ -2,7 +2,7 @@
  "id": "asset-lib-asset-gen-2026-11-11",
  "node": "bm-c",
  "rc": 1,
- "seconds": 0.3,
+ "seconds": 0.2,
  "cmd": "python Tools/fleet/asset_gen.py --node bm-c --class props --limit 4 --receipt cph4/fleet/queue-receipts/asset-gen-props-2026-11-11.json",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": "E-UNKNOWN",
  "deliverable": "cph4/fleet/queue-receipts/asset-gen-props-2026-11-11.json",
  "deliverable_exists": true,
- "ts": "2026-11-12T05:22:01",
+ "ts": "2026-11-12T05:23:21",
  "stdout_tail": "[asset_gen] props 鍑� 0 浠讹紝璺宠繃 20锛屽け璐� 0 鈫� cph4\\fleet\\queue-receipts\\asset-gen-props-2026-11-11.json\n",
  "stderr_tail": ""
 }
