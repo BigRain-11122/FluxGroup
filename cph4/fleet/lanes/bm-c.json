@@ -1,8 +1,37 @@
 {
  "node": "bm-c",
- "ts": "2026-11-12T05:36:15",
- "jobs": [],
- "idle_reason": "R41: 角色图 12 张全在盘（receipt prompt_id=skip-existing），props 20 张亦全在盘；资产库本批无缺口，不再派生成卡",
+ "ts": "2026-11-12T05:38:03",
+ "jobs": [
+  {
+   "id": "ASSET-LIB-COVERAGE-BMC-20261112",
+   "station": "visual",
+   "line": "asset-lib",
+   "title": "[@bm-c lane=gpu-production] 资产库真实覆盖体检（p0 档，在 bm-c 本机跑）",
+   "cmd": "python Tools\\fleet\\asset_library_check.py --tier p0 --out cph4\\fleet\\queue-receipts\\asset-library-20261112-bmc.json",
+   "cwd": "",
+   "needs": "cpu",
+   "minutes": 5,
+   "heavy": false,
+   "day_ok": true,
+   "deliverable": "cph4/fleet/queue-receipts/asset-library-20261112-bmc.json",
+   "accept": "JSON 在盘且含 classes/totals/gaps 三键；有缺口时 rc=1 属正常（GAPS 不是故障），但必须列出每类 have/target 与 issues",
+   "nodes": [
+    "bm-c"
+   ],
+   "hard_nodes": [
+    "bm-c"
+   ],
+   "prio": "P1",
+   "state": "OPEN",
+   "why": "origin 上唯一覆盖回执是 11-11T01:09 的 p0 17/128，与今日实测矛盾（它说 props 0/20，asset_gen 却 skipped=20）。bm-a 看不到 bm-c 的 media 树，必须在资产所在机跑体检",
+   "note": "九要素：①@bm-c lane=gpu-production｜②回执窗 6h｜③验收物=cph4/fleet/queue-receipts/asset-library-20261112-bmc.json｜④spec=cph4/fleet/asset-lib-v1/ASSET-LIBRARY-v1 + Tools/fleet/asset_library_check.py｜⑤溯源 O-20261010-1800｜⑥输入=bm-c media/asset 树；输出=cph4/fleet/queue-receipts/asset-library-20261112-bmc.json｜⑦依赖=无依赖｜⑧卡 ID=ASSET-LIB-COVERAGE-BMC-20261112｜⑨provenance=推断（自驱派生·R41 覆盖核实）",
+   "created_by": "CEO-PROXY event R41",
+   "created_at": "2026-11-12T05:38:03",
+   "route": "local",
+   "verify_on_node": true
+  }
+ ],
+ "idle_reason": "",
  "lane_ok": true,
  "capacity_note": "ram 7.8/1.0 GB",
  "reorder_note": "event R41: COMFY-UP first - the other jobs need the service it restores",
