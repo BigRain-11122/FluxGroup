@@ -148,6 +148,22 @@ def audit(matrix=None, tools_dir=TOOLS):
         gaps.append({"id": "OS-7", "what": "未验证 OS 却可能被排卡",
                      "machines": unverified,
                      "fix": "装机当天按实测回填 OS；回填前任何卡不得落点"})
+    # 岗位书里的解释器名：Windows 工的 CHARTER 写 python3 = 上岗第一条命令就 rc=9009
+    bad_charter = []
+    for sid, m in (matrix.get("machines") or {}).items():
+        if str(m.get("os")) != "windows":
+            continue
+        cp = os.path.join(ROOT, "cph4", "fleet", "stations", sid, "CHARTER.md")
+        try:
+            with open(cp, encoding="utf-8") as f:
+                if "python3 " in f.read():
+                    bad_charter.append(sid)
+        except Exception:
+            pass
+    if bad_charter:
+        gaps.append({"id": "OS-9", "what": "Windows 岗位书里写了 python3（本机没有该解释器）",
+                     "machines": bad_charter, "fix": "改成 python；OS-MATRIX 的 python 字段是唯一口径"})
+
     dead_path = [r["tool"] for r in rows if r.get("dead_paths")]
     if dead_path:
         gaps.append({"id": "OS-8", "what": "默认值里还指着已退役的移动盘 /Volumes/",

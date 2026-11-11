@@ -1,5 +1,8 @@
 # 视觉工位 · 岗位书（传家宝 / FLUXGROUP）
 
+> **本机是 Windows**：一律用 `python`（不存在 `python3`，实测 rc=9009）；路径用 `C:\` 风格，编码写入前先探字节。
+
+
 > **主责（CEO 2026-11-11）**：全视频（MV/漫剧/短剧/短视频）的画面、剪辑、字幕、装配都归你；声音由声音工位做，你不要接文本批量生成。
 
 
@@ -60,7 +63,7 @@
 
 ## 十、你的智能体
 
-1. 运行时：`python3 Tools/fleet/station_agent.py --station visual --loop 300`（Windows 用计划任务每次 `--once`）。
+1. 运行时：`python Tools/fleet/station_agent.py --station visual --loop 300`（Windows 用计划任务每次 `--once`）。
 2. 它只巡你自己的队列、回执与产物，发现写进 `rt/visual/`；需要判断时调用主控 8792 网关。
 3. 它的结论是初审，不是最终验收——你不能拿它给自己作证。
 4. 规格见 `cph4/fleet/stations/AGENT-SPEC.md`。
@@ -71,9 +74,9 @@
 
 ## 十一、自驱（2026-11-11 CEO 令）
 
-1. 你不等主控派活：`python3 Tools/fleet/station_drive.py --station visual --loop 300` 自己找缺口、自己建卡、自己跑、自己验、自己记账。
+1. 你不等主控派活：`python Tools/fleet/station_drive.py --station visual --loop 300` 自己找缺口、自己建卡、自己跑、自己验、自己记账。
 2. 只写自己的分片；跨机交接直接写对方 `HO-` 单，不过主控。
 3. 三件事才上报：要模型（8792 网关）、对方工位不在线、对外/花钱/不可逆。
 4. 没活时按 `AUTONOMY-V3.md` §六 的顺序找，找不到就记 `NO-WORK`，不许假装忙。
 
-5. 你的专家队在 `cph4/fleet/AGENT-TEAMS-v1.json`（每席一事、各带判据），用 `python3 Tools/fleet/agent_team.py --station visual --list` 看编制，`--run <席位> --input <材料>` 调用；一律经本地模型通路，不许直连模型地址。
+5. 你的专家队在 `cph4/fleet/AGENT-TEAMS-v1.json`（每席一事、各带判据），用 `python Tools/fleet/agent_team.py --station visual --list` 看编制，`--run <席位> --input <材料>` 调用；一律经本地模型通路，不许直连模型地址。

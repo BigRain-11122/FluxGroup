@@ -1,6 +1,6 @@
 # 机队配置与系统说明书（FLEET-SPEC）
 
-> 生成时间：2026-11-11T18:57:06｜生成器：`Tools/fleet/fleet_doc.py`｜**本文件是生成物，不要手改正文**
+> 生成时间：2026-11-11T18:58:46｜生成器：`Tools/fleet/fleet_doc.py`｜**本文件是生成物，不要手改正文**
 > 数据源（改这里，不改正文）：`STATIONS.json` · `Tools/fleet-nodes.json` · `OS-MATRIX-v1.json` · `CPU-PLAN-v1.json` · `AGENT-CAPACITY-v1.json` · `MODEL-COMPUTE.json` · `ASSET-VAULT.json`
 > 改完跑 `python3 Tools/fleet/fleet_doc.py --write`；只查不改跑 `--check`（有漂移 rc=1）。
 > **综合评分 82.5 / 100**（验证 25.0/25｜规则 20.0/20｜工作流 20.0/25｜机队 10.5/15｜环境 2.0/10｜文档 5.0/5；评分时间 2026-11-11T18:46:04）；外部阻塞 4 项
