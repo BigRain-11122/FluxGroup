@@ -81,18 +81,45 @@ def _alive(url, timeout=1.2):
         return False
 
 
+# 端点"标签活着但生成长挂"时（2026-11-11 压测实锚），探活永远骗过判定：
+# 旧实现只会在调用方 timeout 上白等满再返回空串，不会切备用端点。
+# 所以调用失败一次就把该端点降级 BAD_TTL_S 秒，期间选端点跳过它。
+_BAD = {}
+BAD_TTL_S = 120
+
+
+def _demote(url, secs=BAD_TTL_S):
+    if url:
+        _BAD[url] = time.time() + secs
+
+
+def _healthy(url):
+    return _BAD.get(url, 0) <= time.time()
+
+
+def _next_alive(exclude=""):
+    """跳过已降级/刚失败的端点，返回下一个探活通过的端点；没有则空串。"""
+    for u in gateways():
+        if u == exclude or not _healthy(u):
+            continue
+        if _alive(u):
+            return u
+    return ""
+
+
 def endpoint():
     """选一个活着的端点，30s 内复用结果（避免每次调用都探活）。
     全都探不通时返回最后一个候选，让调用方拿到真实错误而不是假装成功。"""
     now = time.time()
-    if _HEALTH["url"] and now - _HEALTH["ts"] < HEALTH_TTL_S:
+    if _HEALTH["url"] and now - _HEALTH["ts"] < HEALTH_TTL_S and _healthy(_HEALTH["url"]):
         return _HEALTH["url"]
     gs = gateways()
-    for u in gs:
+    order = [u for u in gs if _healthy(u)] or gs
+    for u in order:
         if _alive(u):
             _HEALTH.update({"ts": now, "url": u})
             return u
-    fallback = gs[-1] if gs else "http://127.0.0.1:11434"
+    fallback = order[-1] if order else "http://127.0.0.1:11434"
     _HEALTH.update({"ts": now, "url": fallback})
     return fallback
 
@@ -226,7 +253,25 @@ def generate(prompt, cls="master", model=None, timeout=90, keep_alive="15m",
                 "sec": round(time.time() - t0, 1), "chars": len(out), "why": why})
         return out
     except Exception as e:
-        _audit({"cls": cls, "op": "generate", "err": str(e)[:120], "why": why})
+        # 探活只测 /api/tags，端点可能"标签活着、生成长挂"：降级它并换备用端点重试一次，
+        # 否则每次调用都要白等满 timeout 再返回空串（2026-11-11 压测实锚）。
+        dead = endpoint()
+        _demote(dead)
+        alt = _next_alive(exclude=dead)
+        if alt:
+            left = max(3, int(timeout - (time.time() - t0)))
+            try:
+                out = (_post("/api/generate", body, left).get("response") or "").strip()
+                _audit({"cls": cls, "seat": seat, "op": "generate-retry", "model": body["model"],
+                        "sec": round(time.time() - t0, 1), "chars": len(out),
+                        "from": dead, "to": alt, "why": why})
+                return out
+            except Exception as e2:
+                _demote(alt)
+                _audit({"cls": cls, "op": "generate-retry", "err": str(e2)[:120],
+                        "endpoint": alt, "why": why})
+        _audit({"cls": cls, "op": "generate", "err": str(e)[:120],
+                "endpoint": dead, "why": why})
         return ""
     finally:
         release()
