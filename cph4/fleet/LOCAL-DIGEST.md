@@ -6739,3 +6739,5 @@
 - 11-11T08:58 · REPAIR-NODE-SYNC-bm-a-20261111T0752-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
 - 11-11T08:59 · REPAIR-NODE-SYNC-bm-a-20261111T0752-bm-m.json · 任务完成但存在源端数据中断或网络故障风险，需立即排查链路。
 - 11-11T08:58 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
+- 11-11T09:00 · _last_lane_bm-m.json · 机队已自派完成回单扫描，无风险。
+- 11-11T09:01 · _last_lane_bm-m.json · 机队已自派完成回单扫描，无风险。
