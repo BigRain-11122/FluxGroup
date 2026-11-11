@@ -9,9 +9,14 @@ Why this exists (2026-10-29, 8th consecutive SUPPLY-DRY round):
 
 Law this gate enforces (one line):
   An OPEN card must either name an executable job that actually exists in
-  PRODUCTION-QUEUE.jsonl / PRODUCTION-BACKLOG.jsonl (`job_ref`), or carry a typed
-  `blocked_by` naming who unblocks it. An open card that is neither is PHANTOM SUPPLY
-  and fails this gate.
+  PRODUCTION-QUEUE.jsonl / PRODUCTION-BACKLOG.jsonl *and is not already finished* (`job_ref`),
+  or carry a typed `blocked_by` naming who unblocks it. An open card that is neither is PHANTOM
+  SUPPLY and fails this gate.
+
+  STALE-CARD (added 2026-11-12, event-lane): naming a job is not enough — if that job is already
+  DONE/FAILED/CANCELLED/ARCHIVED, the lane can never claim it, so the card is phantom supply with
+  a receipt attached. Real anchor: POOL-0029/0030/0031 pointed at FAILED/DONE/DONE and stayed
+  OPEN for a full round, re-emitting POOL-PHANTOM + IDLE-WITH-WORK every minute.
 
 Recognised blocker prefixes (extend here only when a new unblock owner appears):
   CEO-PHYSICAL:     physical/desk action only the CEO can take (register only, zero-nag)
@@ -35,11 +40,15 @@ DEFAULT_POOL = os.path.join(ROOT, "cph4", "fleet", "dispatcher", "POOL.json")
 QUEUE = os.path.join(ROOT, "cph4", "fleet", "PRODUCTION-QUEUE.jsonl")
 BACKLOG = os.path.join(ROOT, "cph4", "fleet", "PRODUCTION-BACKLOG.jsonl")
 OPEN_STATES = ("open",)
+TERMINAL_JOB_STATES = ("DONE", "FAILED", "CANCELLED", "ARCHIVED", "CARD-DEFECT")
 TYPED = ("CEO-PHYSICAL:", "no-exec-leg:", "no-verified-cmd:", "receipt-owed", "director", "depends:")
 
 
-def _ids(path):
-    out = set()
+def _states(path):
+    """id -> 最新 state（同 id 后写为准）。卡只查「作业存在与否」会漏掉作业已经收口的情形：
+    2026-11-12 实锚——POOL-0029/0030/0031 的 job_ref 分别是 FAILED/DONE/DONE，卡却仍 OPEN，
+    主控每轮把三张幻影卡当供给，机器无从领取（POOL-PHANTOM + IDLE-WITH-WORK 双刷）。"""
+    out = {}
     if not os.path.exists(path):
         return out
     with open(path, encoding="utf-8") as f:
@@ -52,8 +61,12 @@ def _ids(path):
             except Exception:
                 continue
             if row.get("id"):
-                out.add(str(row["id"]))
+                out[str(row["id"])] = str(row.get("state") or "").upper()
     return out
+
+
+def _ids(path):
+    return set(_states(path))
 
 
 def _blocker_type(b):
@@ -70,6 +83,9 @@ def lint(pool_path):
         return None, ["pool face is not a list"]
 
     known_jobs = _ids(QUEUE) | _ids(BACKLOG)
+    job_state = {}
+    job_state.update(_states(BACKLOG))
+    job_state.update(_states(QUEUE))
     problems = []
     open_cards = [c for c in cards if str(c.get("status") or "").strip().lower() in OPEN_STATES]
 
@@ -82,6 +98,19 @@ def lint(pool_path):
                 problems.append("%s: job_ref '%s' not found in PRODUCTION-QUEUE/BACKLOG "
                                 "(a card pointing at a job that does not exist is still phantom)"
                                 % (cid, job_ref))
+                continue
+            st = job_state.get(job_ref, "")
+            if st in TERMINAL_JOB_STATES:
+                problems.append("%s: STALE-CARD job_ref '%s' already %s "
+                                "(close the card or re-materialize a new job; an OPEN card over a "
+                                "finished job is phantom supply the lane can never claim)"
+                                % (cid, job_ref, st))
+                continue
+            if st == "BLOCKED" and not blockers:
+                problems.append("%s: job_ref '%s' is BLOCKED but the card names no blocked_by "
+                                "(mirror the blocker, else the card reads as executable supply)"
+                                % (cid, job_ref))
+                continue
             continue
         if not blockers:
             problems.append("%s: OPEN with no blocked_by and no job_ref = PHANTOM SUPPLY "

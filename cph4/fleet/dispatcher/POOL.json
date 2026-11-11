@@ -363,12 +363,11 @@
   "created_by": "CEO-PROXY event 2026-11-10 00:4x (R-EVT-20261110)",
   "claimed_by": "",
   "claimed_at": "",
-  "result_ref": "R37: 空转转具体可执行卡 POOL-0030; 本卡不再计供给",
+  "result_ref": "R37 2026-11-12: 空转转具体可执行卡 UNBLOCK-INDEX-TTS-20261112（POOL-0030）; 本卡不再计供给",
   "blocked_by": [
-   "host-offline:bm-b",
-   "missing-input:index-tts-repo+venv@bm-b"
+   "missing-input:index-tts-venv@bm-a"
   ],
-  "closed_at": "2026-11-12T00:20:00",
+  "closed_at": "2026-11-12T00:15:00",
   "closed_by": "CEO-PROXY event R37"
  },
  {
@@ -381,54 +380,66 @@
   "created_by": "CEO-PROXY event 2026-11-10 00:4x (R-EVT-20261110)",
   "claimed_by": "",
   "claimed_at": "",
-  "result_ref": "R37: 空转转具体可执行卡 POOL-0031; 本卡不再计供给",
+  "result_ref": "R37 2026-11-12: 空转转具体可执行卡 PATROL-BIGHOUSE-RESOLVE-20261112（POOL-0031）; 本卡不再计供给",
   "blocked_by": [
    "human-decision:patrol-bighouse-red"
   ],
-  "closed_at": "2026-11-12T00:20:00",
+  "closed_at": "2026-11-12T00:15:00",
   "closed_by": "CEO-PROXY event R37"
  },
  {
   "id": "POOL-0029",
   "priority": "P0",
-  "status": "open",
+  "status": "closed-blocked",
   "lane": "bm-a",
   "title": "音色数据集装配（授权核查 -> voices/<组> 准入）",
   "spec": "队列卡 asset-lib-voice-assemble-2026-11-11（cmd=Tools/fleet/voice_dataset.py，needs=cpu）",
   "created_by": "CEO-PROXY event R37",
   "claimed_by": "",
   "claimed_at": "",
-  "result_ref": "队列行 R37 已由 BLOCKED 重开 OPEN（空 blocked_by = 运营错误）；00:10:17 bm-a 认领 RUNNING",
+  "result_ref": "队列行 R37 已由 BLOCKED 重开 OPEN（空 blocked_by = 运营错误）",
   "job_ref": "asset-lib-voice-assemble-2026-11-11",
-  "card": "①@机+lane：@bm-a·hq-central-night-gpu\n②回执窗：12h（CPU 面即窗执行·约 20 分钟）\n③验收物+证据指针：cph4/fleet/queue-receipts/voice-dataset-2026-11-11.json；passed>0；每组列片段数/授权结论/准入结论，缺授权或缺口写明\n④spec 指针：Tools/fleet/voice_dataset.py + 队列卡 asset-lib-voice-assemble-2026-11-11\n⑤溯源令号：O-20261014-1705（ROUND v3.1 全链条审查批=事件班落单授权）\n⑥输入/输出：输入=media/MUSIC 授权音源 + voices/<组> 现有语料；输出=该回执 json\n⑦依赖：无依赖（上一段产物已出）\n⑧卡 ID：POOL-0029\n⑨provenance：推断（自驱派工：队列 OPEN 卡镜像为 POOL 供给面）"
+  "card": "①@机+lane：@bm-a·hq-central-night-gpu\n②回执窗：12h（CPU 面即窗执行·约 20 分钟）\n③验收物+证据指针：cph4/fleet/queue-receipts/voice-dataset-2026-11-11.json；passed>0；每组列片段数/授权结论/准入结论，缺授权或缺口写明\n④spec 指针：Tools/fleet/voice_dataset.py + 队列卡 asset-lib-voice-assemble-2026-11-11\n⑤溯源令号：O-20261014-1705（ROUND v3.1 全链条审查批=事件班落单授权）\n⑥输入/输出：输入=media/MUSIC 授权音源 + voices/<组> 现有语料；输出=该回执 json\n⑦依赖：无依赖（上一段产物已出）\n⑧卡 ID：POOL-0029\n⑨provenance：推断（自驱派工：队列 OPEN 卡镜像为 POOL 供给面）",
+  "close_reason": "队列作业 asset-lib-voice-assemble-2026-11-11 于 2026-11-12T01:31 FAILED(rc=3, passed=0/9)；本班实跑复现：media/voices 目录不存在，9 组语料 clips=0 且 license=unknown → 上游授权语料缺口。继续重派=坏卡循环，待资产席先供授权切片。",
+  "closed_at": "2026-11-12T03:07:50",
+  "closed_by": "CEO-PROXY event-lane 2026-11-12",
+  "blocked_by": [
+   "no-verified-cmd: 授权音色语料为零（media/voices 不存在；9 组 clips=0/license=unknown）→ 需资产席供料"
+  ]
  },
  {
   "id": "POOL-0030",
   "priority": "P1",
-  "status": "open",
+  "status": "closed-done",
   "lane": "bm-a",
   "title": "index-tts 环境投料（短剧配音批 EP001-060 唯一前置）",
-  "spec": "cph4/fleet/PRODUCTION-QUEUE.jsonl#UNBLOCK-INDEX-TTS-20261112 + github index-tts/index-tts 25043★ Apache-2.0 (updated 2026-11-11)",
+  "spec": "队列卡 UNBLOCK-INDEX-TTS-20261112；寻源=github index-tts/index-tts 25043★ Apache-2.0",
   "created_by": "CEO-PROXY event R37",
   "claimed_by": "",
   "claimed_at": "",
-  "result_ref": "承接 POOL-0027 关闭时的空转缺口",
+  "result_ref": "cph4/fleet/PRODUCTION-QUEUE.jsonl#UNBLOCK-INDEX-TTS-20261112 (DONE)",
   "job_ref": "UNBLOCK-INDEX-TTS-20261112",
-  "card": "①@机+lane：@bm-a·hq-central-night-gpu\n②回执窗：12h（安装类·约 40 分钟）\n③验收物+证据指针：media/drama-tools/repos/index-tts/.venv/Scripts/python.exe（存在且 import indextts 成功）；IMPORT-OK 打印才算过；失败须写失败步与日志尾\n④spec 指针：cph4/fleet/PRODUCTION-QUEUE.jsonl#UNBLOCK-INDEX-TTS-20261112 + github index-tts/index-tts 25043★ Apache-2.0\n⑤溯源令号：O-20261014-1705（ROUND v3.1 全链条审查批=事件班落单授权）\n⑥输入/输出：输入=GitHub 官方仓 + 本机 python + 网络；输出=venv 解释器 + 回执 json\n⑦依赖：无依赖\n⑧卡 ID：POOL-0030\n⑨provenance：推断（自驱派工：POOL-0027 两日空转的具体解锁动作）"
+  "card": "①@机+lane：@bm-a·hq-central-night-gpu\n②回执窗：12h（安装类·约 40 分钟）\n③验收物+证据指针：media/drama-tools/repos/index-tts/.venv/Scripts/python.exe（存在且 import indextts 成功）；IMPORT-OK 打印才算过；失败须写失败步与日志尾\n④spec 指针：cph4/fleet/PRODUCTION-QUEUE.jsonl#UNBLOCK-INDEX-TTS-20261112 + github index-tts/index-tts 25043★ Apache-2.0 (updated 2026-11-11)\n⑤溯源令号：O-20261014-1705（ROUND v3.1 全链条审查批=事件班落单授权）\n⑥输入/输出：输入=GitHub 官方仓 + 本机 python + 网络；输出=venv 解释器 + 回执 json\n⑦依赖：无依赖\n⑧卡 ID：POOL-0030\n⑨provenance：推断（自驱派工：POOL-0027 两日空转的具体解锁动作）",
+  "close_reason": "队列作业 UNBLOCK-INDEX-TTS-20261112 已 DONE(2026-11-12T00:15)；验收物在盘 media/drama-tools/repos/index-tts/.venv/Scripts/python.exe（本班实测 VENV-OK）",
+  "closed_at": "2026-11-12T03:07:50",
+  "closed_by": "CEO-PROXY event-lane 2026-11-12"
  },
  {
   "id": "POOL-0031",
   "priority": "P1",
-  "status": "open",
+  "status": "closed-done",
   "lane": "bm-a",
   "title": "bighouse 域 RED 取证处置（T1 代决：机器取证，人只裁残余）",
   "spec": "队列卡 PATROL-BIGHOUSE-RESOLVE-20261112",
   "created_by": "CEO-PROXY event R37 (T1)",
   "claimed_by": "",
   "claimed_at": "",
-  "result_ref": "承接 POOL-0028 关闭时的空转缺口",
+  "result_ref": "cph4/fleet/queue-receipts/patrol-bighouse-resolve-20261212.md",
   "job_ref": "PATROL-BIGHOUSE-RESOLVE-20261112",
-  "card": "①@机+lane：@bm-a·hq-central-night-gpu\n②回执窗：12h（取证类·约 20 分钟）\n③验收物+证据指针：cph4/fleet/queue-receipts/patrol-bighouse-resolve-20261112.md；逐项列违例/合规+证据路径+待 CEO 残余项；不改叙事正典\n④spec 指针：Tools/fleet/line_triage.py + 队列卡 PATROL-BIGHOUSE-RESOLVE-20261112\n⑤溯源令号：O-20261014-1705（ROUND v3.1 全链条审查批=事件班落单授权）\n⑥输入/输出：输入=bighouse 域词族门禁规则 + BLUEPRINT v0.4 叙事锚条目；输出=该处置回执 md\n⑦依赖：无依赖\n⑧卡 ID：POOL-0031\n⑨provenance：推断（自驱派工：POOL-0028 human-decision 转机器取证）"
+  "card": "①@机+lane：@bm-a·hq-central-night-gpu\n②回执窗：12h（取证类·约 20 分钟）\n③验收物+证据指针：cph4/fleet/queue-receipts/patrol-bighouse-resolve-20261112.md；逐项列违例/合规+证据路径+待 CEO 残余项；不改叙事正典\n④spec 指针：Tools/fleet/line_triage.py + 队列卡 PATROL-BIGHOUSE-RESOLVE-20261112\n⑤溯源令号：O-20261014-1705（ROUND v3.1 全链条审查批=事件班落单授权）\n⑥输入/输出：输入=bighouse 域词族门禁规则 + BLUEPRINT v0.4 叙事锚条目；输出=该处置回执 md\n⑦依赖：无依赖\n⑧卡 ID：POOL-0031\n⑨provenance：推断（自驱派工：POOL-0028 human-decision 转机器取证）",
+  "close_reason": "队列作业 PATROL-BIGHOUSE-RESOLVE-20261112 已 DONE(2026-11-12T00:15)；回执三件在盘 PATROL-BIGHOUSE-RESOLVE-20261112-bm-a.json/-acceptance.json/patrol-bighouse-resolve-20261212.md",
+  "closed_at": "2026-11-12T03:07:50",
+  "closed_by": "CEO-PROXY event-lane 2026-11-12"
  },
  {
   "id": "POOL-0032",
@@ -442,7 +453,11 @@
   "claimed_at": "",
   "result_ref": "POOL 未镜像队列供给导致 STARVED-EXEC bm-c 假红；本卡=镜像腿，不新增工作量",
   "job_ref": "asset-lib-asset-gen-2026-11-11",
-  "card": "①@机+lane：@bm-c·gpu-production\n②回执窗：12h（生成类·夜间窗）\n③验收物+证据指针：cph4/fleet/queue-receipts/asset-gen-props-2026-11-11.json；回执 made 非空；ComfyUI 不可达则 rc=3 如实 BLOCKED\n④spec 指针：Tools/fleet/asset_gen.py + 队列卡 asset-lib-asset-gen-2026-11-11 / asset-lib-asset-gen-scenes-2026-11-11\n⑤溯源令号：O-20261014-1705（ROUND v3.1 全链条审查批=事件班落单授权）\n⑥输入/输出：输入=ASSET-PROMPTS 规格 + bm-c ComfyUI(DreamShaperXL_Lightning 已探活)；输出=出图 + 该回执\n⑦依赖：无依赖（R33 已解 blocked_by comfyui）\n⑧卡 ID：POOL-0032\n⑨provenance：推断（自驱派工：POOL 缺 bm-c 镜像腿）"
+  "card": "①@机+lane：@bm-c·gpu-production\n②回执窗：12h（生成类·夜间窗）\n③验收物+证据指针：cph4/fleet/queue-receipts/asset-gen-props-2026-11-11.json；回执 made 非空；ComfyUI 不可达则 rc=3 如实 BLOCKED\n④spec 指针：Tools/fleet/asset_gen.py + 队列卡 asset-lib-asset-gen-2026-11-11 / asset-lib-asset-gen-scenes-2026-11-11\n⑤溯源令号：O-20261014-1705（ROUND v3.1 全链条审查批=事件班落单授权）\n⑥输入/输出：输入=ASSET-PROMPTS 规格 + bm-c ComfyUI(DreamShaperXL_Lightning 已探活)；输出=出图 + 该回执\n⑦依赖：无依赖（R33 已解 blocked_by comfyui）\n⑧卡 ID：POOL-0032\n⑨provenance：推断（自驱派工：POOL 缺 bm-c 镜像腿导致 STARVED 假红）",
+  "blocked_by": [
+   "no-verified-cmd: bm-c ComfyUI:8188 闭（R39-4 未复，需 bm-c 本机启动后解锁）"
+  ],
+  "updated_at": "2026-11-12T03:07:50"
  },
  {
   "id": "POOL-0033",
@@ -454,8 +469,12 @@
   "created_by": "CEO-PROXY event R37",
   "claimed_by": "",
   "claimed_at": "",
-  "result_ref": "镜像腿；bm-c 认领执行器 00:04 poke 复活（HQ-ProductionClaim:WAKE）",
+  "result_ref": "镜像腿；bm-c 认领执行器已于 00:04 poke 复活（HQ-ProductionClaim:WAKE）",
   "job_ref": "asset-lib-char-gen-2026-11-11",
-  "card": "①@机+lane：@bm-c·gpu-production\n②回执窗：12h（生成类·夜间窗）\n③验收物+证据指针：cph4/fleet/queue-receipts/char-gen-bm-c-2026-11-11.json；made>0 且 failed=0；缺模型则写明\n④spec 指针：Tools/fleet/asset_gen.py + 队列卡 asset-lib-char-gen-2026-11-11\n⑤溯源令号：O-20261014-1705（ROUND v3.1 全链条审查批=事件班落单授权）\n⑥输入/输出：输入=角色 prompt 规格 + 同 seed 组 + bm-c ComfyUI；输出=出图 + 该回执\n⑦依赖：无依赖\n⑧卡 ID：POOL-0033\n⑨provenance：推断（自驱派工：POOL 缺 bm-c 镜像腿）"
+  "card": "①@机+lane：@bm-c·gpu-production\n②回执窗：12h（生成类·夜间窗）\n③验收物+证据指针：cph4/fleet/queue-receipts/char-gen-bm-c-2026-11-11.json；made>0 且 failed=0；缺模型则写明\n④spec 指针：Tools/fleet/char_gen.py + 队列卡 asset-lib-char-gen-2026-11-11\n⑤溯源令号：O-20261014-1705（ROUND v3.1 全链条审查批=事件班落单授权）\n⑥输入/输出：输入=角色 prompt 规格 + 同 seed 组 + bm-c ComfyUI；输出=出图 + 该回执\n⑦依赖：无依赖\n⑧卡 ID：POOL-0033\n⑨provenance：推断（自驱派工：POOL 缺 bm-c 镜像腿）",
+  "blocked_by": [
+   "no-verified-cmd: bm-c ComfyUI:8188 闭（R39-4 未复，需 bm-c 本机启动后解锁）"
+  ],
+  "updated_at": "2026-11-12T03:07:50"
  }
 ]
