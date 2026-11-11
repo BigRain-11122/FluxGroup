@@ -83,7 +83,9 @@
    "pause_reason": "auto-resume:2026-11-03 冷却到期（原：2026-11-02）",
    "visibility": "OK",
    "last_artifact_h": 29.3,
-   "no_autostop": true
+   "no_autostop": true,
+   "owner_station": "visual",
+   "product_id": "PROD-MV-SINGLE"
   },
   {
    "id": "bigstream-drama",
@@ -140,7 +142,9 @@
    "priority": "P0",
    "pause_reason": "CEO 2026-11-03 令：先不做短剧和漫剧，先储备资产（烧角色 LoRA 与音色库）",
    "visibility": "OK",
-   "last_artifact_h": 47.0
+   "last_artifact_h": 47.0,
+   "owner_station": "audio",
+   "product_id": "PROD-DRAMA-AUDIO"
   },
   {
    "id": "bigstream-duanju",
@@ -177,7 +181,9 @@
    "priority": "P0",
    "pause_reason": "CEO 2026-11-03 令：先不做短剧和漫剧，先储备资产（烧角色 LoRA 与音色库）",
    "visibility": "OK",
-   "last_artifact_h": null
+   "last_artifact_h": null,
+   "owner_station": "audio",
+   "product_id": "PROD-DUANJU-AUDIO"
   },
   {
    "id": "bigstream-shortvideo",
@@ -213,7 +219,9 @@
    "org": "content",
    "priority": "P0",
    "visibility": "OK",
-   "last_artifact_h": 76.2
+   "last_artifact_h": 76.2,
+   "owner_station": "audio",
+   "product_id": "PROD-SHORTVIDEO-TRACK"
   },
   {
    "id": "biggame",
@@ -267,7 +275,9 @@
    "org": "game",
    "priority": "P0",
    "visibility": "OK",
-   "last_artifact_h": null
+   "last_artifact_h": null,
+   "owner_station": "delivery",
+   "product_id": "PROD-GAME-SUBMIT"
   },
   {
    "id": "fluxverse",
@@ -316,7 +326,9 @@
    "org": "city",
    "priority": "P2",
    "visibility": "OK",
-   "last_artifact_h": null
+   "last_artifact_h": null,
+   "owner_station": "delivery",
+   "product_id": "PROD-FLUXVERSE-SCENE"
   },
   {
    "id": "bigmoney",
@@ -370,7 +382,9 @@
    "last_artifact_h": null,
    "pause_reason": "auto-resume:2026-11-06 冷却到期（原：2026-11-04）",
    "resume_hint": "冷却 24h 后自动回 ACTIVE；期间出卡方停供。CEO 令停/判负的线不在此列（pause_reason 不带 auto-stop）",
-   "note": "2026-11-04 夜班重启：原回测阶段钉 bm-d，而 bm-d 自 10-29 离线；改由 bm-b（有 quant 仓与数据）出「下月持仓信号 CSV」，主控按 P1 恢复派单。"
+   "note": "2026-11-04 夜班重启：原回测阶段钉 bm-d，而 bm-d 自 10-29 离线；改由 bm-b（有 quant 仓与数据）出「下月持仓信号 CSV」，主控按 P1 恢复派单。",
+   "owner_station": "brain",
+   "product_id": "PROD-QUANT-REPORT"
   },
   {
    "id": "bigdomain",
@@ -408,7 +422,9 @@
    "org": "strategy",
    "priority": "P1",
    "visibility": "OK",
-   "last_artifact_h": null
+   "last_artifact_h": null,
+   "owner_station": "control",
+   "product_id": "PROD-BIGDOMAIN-MATERIAL"
   },
   {
    "id": "bigcompute",
@@ -437,7 +453,9 @@
    "org": "platform",
    "priority": "P3",
    "visibility": "OK",
-   "last_artifact_h": 47.9
+   "last_artifact_h": 47.9,
+   "owner_station": "control",
+   "product_id": "PROD-BIGCOMPUTE-OFFER"
   },
   {
    "id": "biglife",
@@ -475,7 +493,9 @@
    "org": "city",
    "priority": "P2",
    "visibility": "OK",
-   "last_artifact_h": null
+   "last_artifact_h": null,
+   "owner_station": "delivery",
+   "product_id": "PROD-BIGLIFE-POP"
   },
   {
    "id": "bighouse",
@@ -513,7 +533,9 @@
    "org": "city",
    "priority": "P2",
    "visibility": "BLIND",
-   "last_artifact_h": null
+   "last_artifact_h": null,
+   "owner_station": "delivery",
+   "product_id": "PROD-BIGHOUSE-FLOW"
   },
   {
    "id": "car-gaming",
@@ -550,7 +572,9 @@
    "org": "platform",
    "priority": "P3",
    "visibility": "OK",
-   "last_artifact_h": 69.4
+   "last_artifact_h": 69.4,
+   "owner_station": "delivery",
+   "product_id": "PROD-CAR-GAMING"
   },
   {
    "id": "recon",
@@ -586,7 +610,9 @@
    "org": "enabling",
    "priority": "P3",
    "visibility": "OK",
-   "last_artifact_h": 2.2
+   "last_artifact_h": 2.2,
+   "owner_station": "control",
+   "product_id": "PROD-RECON-RECIPE"
   },
   {
    "id": "fleet-ops",
@@ -615,7 +641,11 @@
    "org": "platform",
    "priority": "P3",
    "visibility": "OK",
-   "last_artifact_h": 0.0
+   "last_artifact_h": 0.0,
+   "owner_station": null,
+   "product_id": null,
+   "maintenance": true,
+   "station_note": "机制活：只在夜窗跑，不占产品队列"
   },
   {
    "id": "asset-lib",
@@ -666,7 +696,9 @@
    "resume_hint": "冷却 24h 后自动回 ACTIVE；期间出卡方停供。CEO 令停/判负的线不在此列（pause_reason 不带 auto-stop）",
    "visibility": "OK",
    "last_artifact_h": 4.7,
-   "no_autostop": true
+   "no_autostop": true,
+   "owner_station": "visual",
+   "product_id": "PROD-ASSET-PACK"
   }
  ]
 }
