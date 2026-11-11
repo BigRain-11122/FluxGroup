@@ -639,3 +639,15 @@ rame_bytes/frame_sha12；**bm-a 上该目录不存在（0/30）**，且本机两
 | **STARVED-EXEC bm-a / bm-c** | **半假红·判据失效登记** | 旗源=`fleet-dispatcher.ps1`（`4ced13103` 已明文退役该工具）仍被 cron 每 10min 跑；新机制应读 `rt/<station>/queue.jsonl`（`station_shards.load_all`）。bm-a 实测在产：`_last_lane_bm-a.json` 01:41:59 `RESULT asset-lib-voice-assemble rc=3`。旧旗源摘除=受保护件·候裁。 |
 | **IDLE-WITH-WORK bm-a（01:41 新旗）** | **假红** | `lanes/bm-a.json` 01:42:16 `lane_ok=true`、`idle_reason=SELF-DISPATCH`；`_last_lane_bm-a` 01:41:59 刚出 RESULT ⇒ 在跑非闲置。旗计的 exec_cards 含 BLOCKED 与跨工位卡（bm-m 空 cmd 卡 5 张），不构成「有活没人干」。 |
 | **R40 回访探针** | **armed** | +90min 一次性 cron：复验 ①三机是否出现 station_drive 任务/进程 ②`rt/delivery/queue.jsonl` 是否出现 `SD-delivery-PROD-GAME-SUBMIT-*` 卡 ③bm-b 是否回归在线。复发=旗升 DE 级。 |
+
+## 附录 R41 事件班登记（2026-11-12 02:21-02:40·承载件触发·DL 00:11/00:21 四旗）
+
+| 件 | 状态 | 证据 / 下一步 |
+|---|---|---|
+| **旗源退役但仍驱动事件班（结构性）** | **registered·建议一行收口（不擅改 L0）** | `Tools/fleet-dispatcher.ps1` 首行「已退役（2026-11-11）：旧派单器读旧队列，已由 AUTONOMY-V3 自驱机制取代」，但 `HQ-FleetDispatcher` 仍 Ready/every 10min 写 `FLAG IDLE-WITH-WORK`（L224）/`FLAG POOL-PHANTOM`（L220），而 `Tools/proxy-event-carrier.ps1:63` 直接把这些 DL 行当新旗 → 每 10 分钟复活一次幻影 P1（本班又被它触发）。建议：carrier 侧对已退役来源行加白（或 dispatcher 在队列已归档时只写 INFO 一行），属 L0 受保护件，候 CEO 一句「批」。 |
+| **bm-a 共享队列认领环冻结 15.4h（P1·真）** | **waiting-本机（本班已试两次，未成）** | `_claim_bm-a.log` mtime 冻在 **2026-11-11 11:17:34**（尾行 DAY-YIELD: takes over at 19:00 后零新行）；任务 `HQ-ProductionClaim` State=Running、LastTaskResult=**0x800710E0**（实例在跑拒新实例）；僵尸壳 PID 75384 **无任何子进程**。本班 Stop+Start（02:30:44）→ 壳 80048 仍无 python 子进程、日志零写入；清壳后 02:35 触发同样无子进程。**隔离实测排除法**：InvisibleRunner 直跑 .cmd OK、同型 `python --help >> log` OK、`python Tools\queue_claim.py --node bm-a --dry` OK（打印 `CLAIM UNBLOCK-INDEX-TTS-20261112`）⇒ 病在「任务实例→子进程」这一层，不在启动器/脚本/队列。下一步（bm-a 本机一次性）：删任务重建（`Tools\task-register.ps1` 同名 S4U 注册，Action 同 `claim-bm-a.cmd`），或改由 `FluxGroup-FleetAgent` 的 lane 循环承载共享队列兜底。判据=下一次 5 分钟触发出现 python 子进程且 `_claim_bm-a.log` mtime 前移。 |
+| **P1 卡被上述缺陷扣住（真实供给损失）** | **BLOCKED（reason=claim-executor-dead:bm-a）** | `UNBLOCK-INDEX-TTS-20261112`（短剧配音批 EP001-060 唯一前置，R37 00:15 建、hard_nodes=[bm-a]）至 02:39 仍 state=OPEN/owner=None，2h20m 无人认领；同刻 bm-a lane 在产（02:24:42 voice-assemble 回执）⇒ 机器不闲，是共享队列这条腿断了。本班未擅自代跑（内含 40min pip 安装，跑到一半被杀会留 RUNNING 僵尸卡）。 |
+| **bm-c 认领实例僵尸（承 R39）** | **waiting-bm-c 本机（零远程）** | `/health` 200（ts 02:24:49）/ ram_free 6.6G / lane ok=True；名下 GPU 卡 `asset-lib-asset-gen-2026-11-11` `claimed_at=None` 已 2h10m，`queue-receipts/_last_lane_bm-c.json` **从未生成**。本班 poke accepted（02:26:28，tasks=HQ-ProductionClaim/Autofill/PoolWorker/ComfyDraftTick）→ 回 `HQ-ProductionClaim:busy-skip`=实例在但不出活。修法同 R39：bm-c 本机 `schtasks /end /tn HQ-ProductionClaim` + `/run`。 |
+| **bm-b 整机离线（承 R32/R33）** | **waiting-CEO（物理件·零催办·不重复登记数值）** | `tailscale status` = `offline, last seen 1d ago, tx 8112 rx 0`；`_last_lane_bm-b.json` 停 2026-11-10T00:19:26（约 50h）；名下 0 卡 0 在跑（无卡损失）。恢复=现场上电。 |
+| **CLOCK-UNALIGNED missing=1** | **resolved（已自动降级）** | 02:21 起 DISPATCH-LOG 只写 `INFO CLOCK-MISSING-DERIVED missing=1 all-on-down-lanes -> no action`；`old_schema=0` 证 v2 心跳已到位，missing 即离线的 bm-b。承 R39 判据修复，勿再当 schema 缺陷重派。 |
+
