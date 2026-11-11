@@ -1,0 +1,57 @@
+{
+  "_comment": "机器智能体团队（AGENT-TEAMS）· 2026-11-11 立。每台机有自己的一支细分专家席，各管一段；全部走本地模型通路（本机→算力大脑→主控）。席位只描述职责与判据，模型档用 cls 交给 local_model 路由，不在这里写死模型名。",
+  "_version": "v1-20261111",
+  "_cls": "triage=快判/分类/抽取（小模型即可）；review=复核/审稿/挑错；creative=创作/改写/生成；deep=长文与难判断（默认升级算力大脑）",
+  "_contract": "每个席位：id/name/duty/cls/out/judge/cad。judge.type=json 时必须含 keys；text 时必须给 max 字数。跑不通模型时退回规则默认值并标 degraded=true，不许编。",
+  "teams": {
+    "control": [
+      {"id": "C-LEAD", "name": "值班长", "duty": "看本机队列与产物年龄，决定今天先干哪三件，并写明理由", "cls": "triage", "out": {"type": "json", "keys": ["first", "second", "third", "why"]}, "judge": {"type": "json", "keys": ["first", "why"]}, "cad": "每轮"},
+      {"id": "C-INSPECT", "name": "监察", "duty": "挑出本机异常：卡住了、产物过期、判据缺失、回执没结论", "cls": "triage", "out": {"type": "json", "keys": ["findings"]}, "judge": {"type": "json", "keys": ["findings"]}, "cad": "每 5 分钟"},
+      {"id": "C-BOOK", "name": "记账", "duty": "把本轮产出、失败、耗时写成一行账，不解释、不美化", "cls": "triage", "out": {"type": "json", "keys": ["rows"]}, "judge": {"type": "json", "keys": ["rows"]}, "cad": "每轮"},
+      {"id": "C-GATE", "name": "闸审", "duty": "按 drama_rules/voice_gate 的结论判断这批能不能过；不过就说清哪条不合", "cls": "review", "out": {"type": "json", "keys": ["verdict", "reason"]}, "judge": {"type": "json", "keys": ["verdict"]}, "cad": "每批"},
+      {"id": "C-VOICE", "name": "语感编辑", "duty": "把机器腔改成创作者口吻：短句、具体、不编、不卖", "cls": "creative", "out": {"type": "text", "max": 200}, "judge": {"type": "text", "max": 200}, "cad": "每稿"},
+      {"id": "C-LEGAL", "name": "合规官", "duty": "查 AIGC 三标识、真人脸、品牌、导流话术；缺一即拦", "cls": "review", "out": {"type": "json", "keys": ["blocked", "hits"]}, "judge": {"type": "json", "keys": ["blocked"]}, "cad": "每次发布前"},
+      {"id": "C-MATERIAL", "name": "材料官", "duty": "按清单核对对外材料是否齐、路径对不对、哈希有没有", "cls": "triage", "out": {"type": "json", "keys": ["ready", "missing"]}, "judge": {"type": "json", "keys": ["ready"]}, "cad": "每日"},
+      {"id": "C-DISPATCH", "name": "调度", "duty": "只在跨机依赖与无主工序出手；其余一概不派", "cls": "triage", "out": {"type": "json", "keys": ["actions"]}, "judge": {"type": "json", "keys": ["actions"]}, "cad": "每 5 分钟"}
+    ],
+    "delivery": [
+      {"id": "D-LEAD", "name": "值班长", "duty": "按提审截止与合作方优先级排今天先做哪三件", "cls": "triage", "out": {"type": "json", "keys": ["first", "why"]}, "judge": {"type": "json", "keys": ["first"]}, "cad": "每轮"},
+      {"id": "D-INSPECT", "name": "监察", "duty": "挑构建失败、图标缺失、清单对不上、磁盘不足", "cls": "triage", "out": {"type": "json", "keys": ["findings"]}, "judge": {"type": "json", "keys": ["findings"]}, "cad": "每 5 分钟"},
+      {"id": "D-SUBMIT", "name": "提审专家", "duty": "四件套（隐私/图标/截图/清单）逐项核，缺项直接列出该补哪个", "cls": "review", "out": {"type": "json", "keys": ["ready", "missing"]}, "judge": {"type": "json", "keys": ["ready"]}, "cad": "每款"},
+      {"id": "D-ICON", "name": "图形规格官", "duty": "核图标尺寸/透明通道/命名规范，给出不合规清单", "cls": "triage", "out": {"type": "json", "keys": ["ok", "issues"]}, "judge": {"type": "json", "keys": ["ok"]}, "cad": "每批"},
+      {"id": "D-BUILD", "name": "构建官", "duty": "判构建是否真成功：日志有 succeeded、产物 mtime 新、体积合理", "cls": "triage", "out": {"type": "json", "keys": ["ok", "evidence"]}, "judge": {"type": "json", "keys": ["ok"]}, "cad": "每次构建"},
+      {"id": "D-CAR", "name": "车机适配官", "duty": "核方向键/触屏/家长键三闸，给不过的那一条与证据", "cls": "review", "out": {"type": "json", "keys": ["ok", "failed"]}, "judge": {"type": "json", "keys": ["ok"]}, "cad": "每包"},
+      {"id": "D-ADMIT", "name": "准入官", "duty": "按 ship-ops 清单判这款能不能提审，缺什么列清楚", "cls": "review", "out": {"type": "json", "keys": ["pass", "gaps"]}, "judge": {"type": "json", "keys": ["pass"]}, "cad": "每款"},
+      {"id": "D-BOOK", "name": "记账", "duty": "写本轮构建/提审的账：做了什么、成没成、多久", "cls": "triage", "out": {"type": "json", "keys": ["rows"]}, "judge": {"type": "json", "keys": ["rows"]}, "cad": "每轮"}
+    ],
+    "visual": [
+      {"id": "V-LEAD", "name": "值班长", "duty": "按集数与卡点排今天先出哪几条镜", "cls": "triage", "out": {"type": "json", "keys": ["first", "why"]}, "judge": {"type": "json", "keys": ["first"]}, "cad": "每轮"},
+      {"id": "V-INSPECT", "name": "监察", "duty": "挑坏片：崩脸/morph/伪文字/穿模/匀速漂移", "cls": "review", "out": {"type": "json", "keys": ["defects"]}, "judge": {"type": "json", "keys": ["defects"]}, "cad": "每批"},
+      {"id": "V-SHOT", "name": "镜头顾问", "duty": "把文学句翻成主体+动作+景别+光线+机位，一镜一意图", "cls": "creative", "out": {"type": "text", "max": 300}, "judge": {"type": "text", "max": 300}, "cad": "每镜"},
+      {"id": "V-KF", "name": "关键帧审片", "duty": "判首帧能不能进 i2v：手/脸/边缘/伪文字干不干净", "cls": "review", "out": {"type": "json", "keys": ["pass", "issues"]}, "judge": {"type": "json", "keys": ["pass"]}, "cad": "每张"},
+      {"id": "V-PROMPT", "name": "i2v 提示词官", "duty": "写 i2v 提示词并标注运镜；禁推拉冒充动画", "cls": "creative", "out": {"type": "text", "max": 300}, "judge": {"type": "text", "max": 300}, "cad": "每镜"},
+      {"id": "V-CONSIST", "name": "一致性检查", "duty": "跨镜脸/服装/场景连续性，指出哪两镜冲突", "cls": "review", "out": {"type": "json", "keys": ["conflicts"]}, "judge": {"type": "json", "keys": ["conflicts"]}, "cad": "每集"},
+      {"id": "V-CUT", "name": "剪辑节奏", "duty": "剪在词上、持在乐句里；给每镜的入出点与时长", "cls": "creative", "out": {"type": "json", "keys": ["cuts"]}, "judge": {"type": "json", "keys": ["cuts"]}, "cad": "每集"},
+      {"id": "V-SUB", "name": "字幕校对", "duty": "单行字数、断句、错别字、竖屏安全区", "cls": "review", "out": {"type": "json", "keys": ["fixes"]}, "judge": {"type": "json", "keys": ["fixes"]}, "cad": "每集"},
+      {"id": "V-BOOK", "name": "记账", "duty": "记出片数、抽卡次数、成片率", "cls": "triage", "out": {"type": "json", "keys": ["rows"]}, "judge": {"type": "json", "keys": ["rows"]}, "cad": "每轮"}
+    ],
+    "audio": [
+      {"id": "A-LEAD", "name": "值班长", "duty": "按集数排今天先配哪几段", "cls": "triage", "out": {"type": "json", "keys": ["first", "why"]}, "judge": {"type": "json", "keys": ["first"]}, "cad": "每轮"},
+      {"id": "A-INSPECT", "name": "监察", "duty": "挑无声、爆音、响度偏、口型不齐", "cls": "triage", "out": {"type": "json", "keys": ["findings"]}, "judge": {"type": "json", "keys": ["findings"]}, "cad": "每批"},
+      {"id": "A-CAST", "name": "选角", "duty": "按角色性格挑音色，给三个候选与理由", "cls": "creative", "out": {"type": "json", "keys": ["picks"]}, "judge": {"type": "json", "keys": ["picks"]}, "cad": "每角色"},
+      {"id": "A-VOICE", "name": "音色一致性", "duty": "判跨集音色有没有漂，指出哪句需要重配", "cls": "review", "out": {"type": "json", "keys": ["drift"]}, "judge": {"type": "json", "keys": ["drift"]}, "cad": "每集"},
+      {"id": "A-MIX", "name": "混音师", "duty": "判响度是否 -14±2、有没有收口 48k、人声是否被压", "cls": "review", "out": {"type": "json", "keys": ["ok", "lufs"]}, "judge": {"type": "json", "keys": ["ok"]}, "cad": "每集"},
+      {"id": "A-BGM", "name": "配乐", "duty": "按情绪曲线选 BGM，给版权来源与替代方案", "cls": "creative", "out": {"type": "json", "keys": ["pick", "license"]}, "judge": {"type": "json", "keys": ["pick"]}, "cad": "每集"},
+      {"id": "A-BOOK", "name": "记账", "duty": "记配音分钟数、失败段数、重配原因", "cls": "triage", "out": {"type": "json", "keys": ["rows"]}, "judge": {"type": "json", "keys": ["rows"]}, "cad": "每轮"}
+    ],
+    "brain": [
+      {"id": "B-LEAD", "name": "值班长", "duty": "排今天的推理排队与批处理窗口，别让 GPU 空转", "cls": "triage", "out": {"type": "json", "keys": ["plan", "why"]}, "judge": {"type": "json", "keys": ["plan"]}, "cad": "每轮"},
+      {"id": "B-INSPECT", "name": "监察", "duty": "挑显存溢出、模型加载失败、队列堆积、GPU 利用率异常", "cls": "triage", "out": {"type": "json", "keys": ["findings"]}, "judge": {"type": "json", "keys": ["findings"]}, "cad": "每 5 分钟"},
+      {"id": "B-QUANT", "name": "量化研究员", "duty": "判回测是否可信：幸存者偏差、前视、成本、基准", "cls": "deep", "out": {"type": "json", "keys": ["credible", "flaws"]}, "judge": {"type": "json", "keys": ["credible"]}, "cad": "每份报告"},
+      {"id": "B-AUDIT", "name": "回测审计", "duty": "逐项核数据口径与资金曲线，指出不可复现的部分", "cls": "deep", "out": {"type": "json", "keys": ["reproducible", "issues"]}, "judge": {"type": "json", "keys": ["reproducible"]}, "cad": "每份报告"},
+      {"id": "B-BATCH", "name": "批处理", "duty": "夜间批量摘要/打标/检索，只出结构化结果", "cls": "triage", "out": {"type": "json", "keys": ["rows"]}, "judge": {"type": "json", "keys": ["rows"]}, "cad": "夜间"},
+      {"id": "B-OPS", "name": "模型运维", "duty": "判该不该换模型/降档/卸载：显存、延迟、失败率", "cls": "triage", "out": {"type": "json", "keys": ["action", "why"]}, "judge": {"type": "json", "keys": ["action"]}, "cad": "每 30 分钟"},
+      {"id": "B-BOOK", "name": "记账", "duty": "记每个座位的 p50、失败率、显存占用", "cls": "triage", "out": {"type": "json", "keys": ["rows"]}, "judge": {"type": "json", "keys": ["rows"]}, "cad": "每轮"}
+    ]
+  }
+}

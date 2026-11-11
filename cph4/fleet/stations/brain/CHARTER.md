@@ -70,3 +70,5 @@
 2. 只写自己的分片；跨机交接直接写对方 `HO-` 单，不过主控。
 3. 三件事才上报：要模型（8792 网关）、对方工位不在线、对外/花钱/不可逆。
 4. 没活时按 `AUTONOMY-V3.md` §六 的顺序找，找不到就记 `NO-WORK`，不许假装忙。
+
+5. 你的专家队在 `cph4/fleet/AGENT-TEAMS-v1.json`（每席一事、各带判据），用 `python3 Tools/fleet/agent_team.py --station brain --list` 看编制，`--run <席位> --input <材料>` 调用；一律经本地模型通路，不许直连模型地址。
