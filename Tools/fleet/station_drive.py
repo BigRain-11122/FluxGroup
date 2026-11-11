@@ -39,6 +39,7 @@ import shutil
 import subprocess
 import sys
 import time
+import urllib.request
 from datetime import datetime, timedelta
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -438,6 +439,29 @@ def reclaim(station, root=None, now=None, lease_min=None):
     return rec
 
 
+# 档案 status 写的是"停下来的原因"，不是一个关于现在的结论。能实测的原因
+# 一律去问服务端。2026-11-12 实锚：STATIONS 说本机 blocked_no_comfyui，而
+# 127.0.0.1:8188 的 /system_stats 当时 200 已答、ComfyUI 0.36.0 在跑——供给面
+# 因此连着 12 天报"没活"，不是没有产能，是没有人问过服务端（r1371 族：陈旧闸
+# 量的是文件系统，不是事实）。
+PROBE_HINTS = {"blocked_no_comfyui": "comfyui"}
+
+
+def _comfyui_alive(host=None, timeout=3.0):
+    """问服务端，不问档案。返回 (True|None, 一句话)。"""
+    host = host or os.environ.get("COMFY_HOST") or "127.0.0.1:8188"
+    try:
+        with urllib.request.urlopen("http://%s/system_stats" % host, timeout=timeout) as r:
+            code = getattr(r, "status", 200)
+            body = json.loads(r.read().decode("utf-8", "replace") or "{}")
+        if code != 200:
+            return None, "system_stats http=%s" % code
+        ver = (body.get("system") or {}).get("comfyui_version") or "?"
+        return True, "system_stats ok comfyui=%s" % ver
+    except Exception as e:  # 连不上就是连不上，不许当成"活着"
+        return None, "system_stats unreachable (%s)" % type(e).__name__
+
+
 def _status_ok(station, root=None, force=False):
     """机器自己先看状态：被暂停/离线/未安装就不干活。手工演练用 --force 显式越过。"""
     if force:
@@ -449,6 +473,11 @@ def _status_ok(station, root=None, force=False):
     status = st.get("status") or ""
     if status in RUNNABLE:
         return True, status
+    if PROBE_HINTS.get(status) == "comfyui":
+        alive, why = _comfyui_alive()
+        if alive:
+            return True, "%s but %s (archive is a snapshot, service is the fact)" % (status, why)
+        return False, "%s verified: %s" % (status, why)
     return False, "本机状态=%s，不自驱（停/离线/未装）" % status
 
 
@@ -475,13 +504,15 @@ def once(station, root=None, dry=False, now=None, run_limit=3, force=False):
     if not ok:
         return {"station": station, "ts": _now().isoformat(timespec="seconds"),
                 "blocked": why, "would_create": [], "unknown_output": [], "ran": []}
-    ok, why = _disk_ok(station, root)
-    if not ok:
+    disk_ok, disk_why = _disk_ok(station, root)
+    if not disk_ok:
         return {"station": station, "ts": _now().isoformat(timespec="seconds"),
-                "blocked": why, "would_create": [], "unknown_output": [], "ran": []}
+                "status_note": why, "blocked": disk_why,
+                "would_create": [], "unknown_output": [], "ran": []}
     reclaimed = reclaim(station, root, now)
     want, unknown = plan(station, root, now)
     report = {"station": station, "ts": _now().isoformat(timespec="seconds"),
+              "status_note": why,
               "reclaimed": reclaimed,
               "would_create": [w["product"] + "/" + w["stage"] for w in want],
               "unknown_output": ["%s/%s" % (u["product"], u["stage"]) for u in unknown],
@@ -550,8 +581,8 @@ def self_test():
              "commands": {"草稿": "true"}, "manual_stages": ["复盘"]},
             {"id": "P2", "stages": ["步骤"], "outputs": {}},
         ]}
-        json.dump(tax, open(os.path.join(base, "TAXONOMY-v1.json"), "w"), ensure_ascii=False)
-        json.dump(prods, open(os.path.join(base, "PRODUCTS.json"), "w"), ensure_ascii=False)
+        json.dump(tax, open(os.path.join(base, "TAXONOMY-v1.json"), "w", encoding="utf-8"), ensure_ascii=False)
+        json.dump(prods, open(os.path.join(base, "PRODUCTS.json"), "w", encoding="utf-8"), ensure_ascii=False)
 
         want, unknown = plan("control", td)
         chk("缺产物 -> 建卡", [w["stage"] for w in want] == ["草稿"])
@@ -568,7 +599,7 @@ def self_test():
         p = os.path.join(td, "out", "p1")
         os.makedirs(p)
         f = os.path.join(p, "drafts.jsonl")
-        open(f, "w").write('{"a":1}\n')
+        open(f, "w", encoding="utf-8").write('{"a":1}\n')
         card_done = dict(card); card_done["state"] = "DONE"
         ss.upsert("control", card_done, td)
         want3, _ = plan("control", td)
@@ -611,6 +642,41 @@ def self_test():
             os.environ.pop("FLEET_STATION", None)
         else:
             os.environ["FLEET_STATION"] = _old
+
+    # 档案写"没 ComfyUI"时，服务端答话就该放行（2026-11-12 实锚）。自带目录：
+    # 借上面那个 with 的 td 会拿到已删除的路径，腿跑不起来和腿通过长得一样。
+    _ptd = tempfile.mkdtemp()
+    try:
+        _pbase = os.path.join(_ptd, "cph4", "fleet")
+        os.makedirs(_pbase)
+        json.dump({"stations": [{"id": "visual", "status": "blocked_no_comfyui"},
+                                {"id": "readyone", "status": "ready"}]},
+                  open(os.path.join(_pbase, "STATIONS.json"), "w", encoding="utf-8"),
+                  ensure_ascii=False)
+        _orig_probe = globals()["_comfyui_alive"]
+        try:
+            globals()["_comfyui_alive"] = lambda *a, **k: (True, "system_stats ok comfyui=test")
+            g_ok, g_why = _status_ok("visual", _ptd)
+            chk("档案 blocked_no_comfyui + 服务端答话 -> 放行", g_ok is True and "ok" in g_why)
+
+            globals()["_comfyui_alive"] = lambda *a, **k: (None, "system_stats unreachable (URLError)")
+            g_ok2, g_why2 = _status_ok("visual", _ptd)
+            chk("档案 blocked_no_comfyui + 服务端不应 -> 仍拒且点名原因",
+                g_ok2 is False and "unreachable" in g_why2)
+
+            calls = []
+
+            def _spy(*a, **k):
+                calls.append(1)
+                return (True, "should not be asked")
+
+            globals()["_comfyui_alive"] = _spy
+            r_ok, r_why = _status_ok("readyone", _ptd)
+            chk("档案 ready -> 放行且不去问服务端", r_ok is True and not calls and r_why == "ready")
+        finally:
+            globals()["_comfyui_alive"] = _orig_probe
+    finally:
+        shutil.rmtree(_ptd, ignore_errors=True)
 
     print("[station_drive] %d/%d" % (ok, total))
     return 0 if ok == total else 2
