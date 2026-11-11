@@ -1,6 +1,6 @@
 {
  "node": "bm-c",
- "ts": "2026-11-12T04:28:46",
+ "ts": "2026-11-12T04:32:17",
  "jobs": [
   {
    "id": "asset-lib-char-gen-2026-11-11",
@@ -15,11 +15,25 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
+  },
+  {
+   "id": "asset-lib-asset-gen-2026-11-11",
+   "title": "[资产储备（角色 LoRA / 音色库）] 通用资产出图（道具/场景，吃 ASSET-PROMPTS 规格）",
+   "cmd": "python Tools/fleet/asset_gen.py --node bm-c --class props --limit 4 --receipt cph4/fleet/queue-receipts/asset-gen-props-2026-11-11.json",
+   "cwd": "",
+   "needs": "gpu",
+   "deliverable": "cph4/fleet/queue-receipts/asset-gen-props-2026-11-11.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
  "capacity_note": "ram 7.8/1.0 GB",
  "reorder_note": "event R41: COMFY-UP first - the other jobs need the service it restores",
- "r41_note": "R41: 已完成的卡不再挂车道（COMFY-UP / env-check 均有回执）"
+ "r41_note": "R41: ComfyUI 已恢复（probe rc=0），资产生成卡上车道"
 }
