@@ -1036,8 +1036,32 @@ def run_lane_cycle(node, root=None, dry=False, allow_gpu_workhours=False,
     # 选卡（2026-11-05 全链路实测修）：原来只认 jobs[0]，而主控车道第一张常年是
     # 重卡或已关的卡——车道被一张跑不动的卡永久占住，队列有活却一动不动，后面
     # 的卡永远轮不到。改成跳过"本机跑不了/已关"的，取第一张能跑的。
+    # 已派工不等于可执行：卡自己的 hard_nodes 是硬约束，派工单不能越过它。
+    # 2026-11-11 实锚：主控 11:13 把 hard_nodes=[bm-a] 的 mv 重建卡派给 bm-c，bm-c 每 5
+    # 分钟领一次、0.1s 就死在缺源上，同族五张卡都是这么烧掉的。派工与卡面冲突时以卡面
+    # 为准：本机拒执行并让主控改派，而不是拿自己的槽位替别人的盘跑。
+    _qrows = {}
+    try:
+        for _qr in fl.read_jsonl(os.path.join(root, fl.QUEUE_REL.replace("/", os.sep))):
+            if isinstance(_qr, dict) and _qr.get("id"):
+                _qrows[_qr["id"]] = _qr
+    except Exception:
+        _qrows = {}
+
+    def _pinned_elsewhere(x):
+        r = _qrows.get(x.get("id"))
+        if not r:
+            return ""
+        hard = [str(n) for n in (r.get("hard_nodes") or []) if n]
+        return ",".join(hard) if hard and node not in hard else ""
+
     def _runnable(x):
         if already_closed(root, x.get("id")):
+            return False
+        _pin = _pinned_elsewhere(x)
+        if _pin:
+            print("LANE-REFUSE %s :: hard_nodes=[%s] (assigned to this lane anyway)"
+                  % (x.get("id"), _pin))
             return False
         if node == "bm-m" and (x.get("needs") == "gpu" or x.get("heavy")
                                or int(x.get("minutes") or 0) > 3):

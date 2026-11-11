@@ -4,27 +4,44 @@
 # 表: mv_full_shots v1.1 + v2 补丁（INT 线换新帧/C01 换新段/D03 拆 D03b/E01b 拆 E01c）
 # 变速律: v<0.96 一律 minterpolate 插值（O-20261011 整改令）·缺源兜底=前镜微伸
 # finishing=v4.4 克制档 + S9 金字层 + T 桥 xfade×2 + Z04 定格收 + BGM 全窗（承 v1 正典）
-import os, subprocess, sys
+import os, shutil, subprocess, sys
 
-HERE = r"C:\Users\sjs20\Desktop\FluxGroup\cph4\fleet\mv0001-handover\outbound\krea2\30s-reel-v1"
+# 2026-11-11 bm-c: every path below used to be the literal of the box this was written on
+# (C:\Users\sjs20\Desktop\FluxGroup). Importing this module anywhere else raised
+# PermissionError/PermissionError before one row was built, and since the mv rebuild tool
+# imports it for its tables, that card died in 0.1s on every other node for five
+# generations. Roots now derive from this file; the old literals stay as fallbacks so bm-a
+# resolves exactly what it did before.
+HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.abspath(os.path.join(HERE, "..", "..", "..", "..", "..", ".."))
 sys.path.insert(0, HERE)
 from mv_full_shots import (NEW, REUSE, TXT_IN_ST, TXT_IN_D, TXT_OUT_ST, TXT_OUT_D,
                            S6_SEGS, XF_T1, XF_T2, FILM_END)
 
-FF = r"C:\Users\sjs20\AppData\Local\Programs\Tuanjie Cowork\hub\ffmpeg.exe"
-DL = r"C:\Users\sjs20\Desktop\FluxGroup\media\MV\mv0001\kf-demo-20261012\segments"
-CLOUD = r"C:\Users\sjs20\Desktop\FluxGroup\cph4\fleet\mv0001-handover\outbound\krea2\kf-demo-20261012\cloudv2"
-D_OLD = r"C:\Users\sjs20\Desktop\FluxGroup\media\MV\mv0001\cloud-v4"  # O-20261014-1045 shou-bian: tmp-sweep-zone -> media safe zone
+_HUB_FF = r"C:\Users\sjs20\AppData\Local\Programs\Tuanjie Cowork\hub\ffmpeg.exe"
+# bm-a keeps the exact binary it always used; elsewhere: env override, then PATH.
+FF = _HUB_FF if os.path.exists(_HUB_FF) else (os.environ.get("FFMPEG") or shutil.which("ffmpeg"))
+DL = os.path.join(ROOT, "media", "MV", "mv0001", "kf-demo-20261012", "segments")
+CLOUD = os.path.join(ROOT, "cph4", "fleet", "mv0001-handover", "outbound", "krea2",
+                     "kf-demo-20261012", "cloudv2")
+D_OLD = os.path.join(ROOT, "media", "MV", "mv0001", "cloud-v4")  # O-20261014-1045 shou-bian: tmp-sweep-zone -> media safe zone
 FLUX = os.path.join(HERE, "fleet-shots", "FLUXGROUP")
-JAYREDO = r"C:\Users\sjs20\Desktop\FluxGroup\cph4\fleet\mv0001-handover\outbound\krea2\kf-demo-20261012\bmc\i2v\jayredo"  # V4 Jay 化正身源（r1033 装配站·17 件同名收片）
+JAYREDO = os.path.join(ROOT, "cph4", "fleet", "mv0001-handover", "outbound", "krea2",
+                       "kf-demo-20261012", "bmc", "i2v", "jayredo")  # V4 Jay 化正身源（r1033 装配站·17 件同名收片）
+I2V = os.path.join(ROOT, "cph4", "fleet", "mv0001-handover", "outbound", "krea2",
+                   "kf-demo-20261012", "bmc", "i2v")  # 收件目录本身（INT/C01 等基础镜落在这里）
 D_CUT = os.path.join(DL, "_cut")
 OUT_DIR = HERE
-SONG = r"C:\Users\sjs20\Desktop\FluxGroup\cph4\fleet\mv0001-handover\audio\mv001_source_320k.mp3"
+SONG = os.path.join(ROOT, "cph4", "fleet", "mv0001-handover", "audio", "mv001_source_320k.mp3")
 S9_TEXT = os.path.join(OUT_DIR, "s9_lyric.png")
 XF = 0.4
 FAST = os.environ.get("NO_MINTERP") == "1"   # 时间不够时置 1 跳过插值（匀速顿挫风险回归）
-os.makedirs(D_CUT, exist_ok=True)
-os.makedirs(DL, exist_ok=True)
+# 导入必须无副作用：只读表格的调用方不该因为写不了媒体目录而整个 import 失败。
+for _d in (D_CUT, DL):
+    try:
+        os.makedirs(_d, exist_ok=True)
+    except OSError:
+        pass
 
 # ---- v2 补丁表（新 INT 线/C01/D03b/E01c——id, t0, t1, speed, src_mp4, is_new） ----
 DROP_NEW = {"INT1_hall_breath", "INT2_row_wake", "INT3_her_walk", "INT4_first_reflection",
@@ -59,8 +76,8 @@ def build_rows():
     return rows
 
 def find_src(fname):
-    # 搜索序：JAYREDO（V4 Jay 化正身·同名收片零改表）→ cloudv2（云端定版·回炉律换优优先）→ DL（bm-c CDN 段）→ D_OLD（REUSE 11 源 KF 系）→ FLUX
-    for d in (JAYREDO, CLOUD, DL, D_OLD, FLUX):
+    # 搜索序：JAYREDO（V4 Jay 化正身·同名收片零改表）→ cloudv2（云端定版·回炉律换优优先）→ DL（bm-c CDN 段）→ D_OLD（REUSE 11 源 KF 系）→ FLUX → I2V（bm-c 收件目录·2026-11-11 bm-c 加在末位：旧序解析得到的路径一个字不变，只补上旧序解析不到的镜）
+    for d in (JAYREDO, CLOUD, DL, D_OLD, FLUX, I2V):
         p = os.path.join(d, fname)
         if os.path.isfile(p):
             return p

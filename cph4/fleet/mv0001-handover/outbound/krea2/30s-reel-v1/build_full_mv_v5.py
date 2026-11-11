@@ -24,7 +24,10 @@ import os, re, subprocess, sys
 if sys.stdout:
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-HERE = r"C:\Users\sjs20\Desktop\FluxGroup\cph4\fleet\mv0001-handover\outbound\krea2\30s-reel-v1"
+# 2026-11-11 bm-c: same portability fix as v2 -- the tree name this was written under is
+# not the tree every node runs from, and media/ is per-node.
+HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.abspath(os.path.join(HERE, "..", "..", "..", "..", "..", ".."))
 sys.path.insert(0, HERE)
 import build_full_mv_v2 as v2
 
@@ -32,8 +35,12 @@ PROXY = os.environ.get("PROXY") == "1"
 DRYRUN = os.environ.get("DRYRUN") == "1"
 NO_SIL4 = os.environ.get("NO_SIL4") == "1"
 
-V5REDO = r"C:\Users\sjs20\Desktop\FluxGroup\cph4\fleet\mv0001-handover\outbound\krea2\kf-demo-20261012\bmc\i2v\v5redo"
-SONG_WAV = r"C:\Users\sjs20\Desktop\FluxGroup\media\MV\mv0001\audio\mv001_lossless.wav"  # 无损 ape→PCM（TYPOGRAPHY §五 换源令·2026-10-17 落地·234.253s 对齐）
+V5REDO = os.path.join(ROOT, "cph4", "fleet", "mv0001-handover", "outbound", "krea2",
+                      "kf-demo-20261012", "bmc", "i2v", "v5redo")
+SONG_WAV = os.path.join(ROOT, "media", "MV", "mv0001", "audio", "mv001_lossless.wav")  # 无损 ape→PCM（TYPOGRAPHY §五 换源令·2026-10-17 落地·234.253s 对齐）
+if not os.path.exists(SONG_WAV):
+    # 无损源是媒体件、按机存在：缺就退回 v2.SONG（320k），不拿一个空路径去 mux。
+    SONG_WAV = ""
 if SONG_WAV:
     v2.SONG = SONG_WAV   # 音源换源：旧 320k mp3（BB92ED5F）→ 无损 PCM 溯源正身
 
@@ -116,7 +123,10 @@ else:
 FF = v2.FF
 FAST = os.environ.get("NO_MINTERP") == "1"
 D_CUT = os.path.join(v2.D_CUT, "v5")
-os.makedirs(D_CUT, exist_ok=True)
+try:
+    os.makedirs(D_CUT, exist_ok=True)
+except OSError:
+    pass  # import is read-only for a caller that only wants the row tables
 
 
 def dur_of(p):
