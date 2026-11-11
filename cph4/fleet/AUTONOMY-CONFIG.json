@@ -311,7 +311,9 @@
   "mode": "station_shards",
   "design": "cph4/fleet/SYNC-DESIGN-v2.md",
   "stations_dir": "cph4/fleet/rt",
-  "legacy_queue_frozen": false,
-  "read_remote_via": "git show origin/main:<path>"
+  "legacy_queue_frozen": true,
+  "read_remote_via": "git show origin/main:<path>",
+  "frozen_at": "2026-11-11T11:58",
+  "_frozen_why": "旧队列不再接受新卡：带 station 的写分片，无归属的仍留旧队列仅为过渡；迁移完成后整体归档。"
  }
 }
