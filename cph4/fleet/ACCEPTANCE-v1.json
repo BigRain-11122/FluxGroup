@@ -1,0 +1,17 @@
+{
+  "_comment": "验收口径（ACCEPTANCE）· 2026-11-11。机器自验之后还要有人抽验——抽验比例与判据写在这里，文档只解释不复述数字。",
+  "_version": "v1-20261111",
+  "sample_per_day": {"control": 3, "delivery": 2, "visual": 2, "audio": 2, "brain": 1},
+  "sample_policy": "每机每天从'已判 DONE 且未被抽验'的回执里取最近的 N 件；N 见 sample_per_day。",
+  "checks": [
+    {"id": "A1", "name": "产物在盘", "rule": "deliverable 路径存在且 size>0"},
+    {"id": "A2", "name": "哈希一致", "rule": "重算 sha256 与回执记录一致（回执没写哈希=该项不通过）"},
+    {"id": "A3", "name": "判据可信", "rule": "回执的 judge 不是 manual/human，或标了 PENDING_HUMAN 而不是 DONE"},
+    {"id": "A4", "name": "回执新鲜", "rule": "回执时间与产物 mtime 相差不超过 10 分钟"}
+  ],
+  "on_fail": {
+    "single": "记入 acceptance-ledger 并把该卡退回 OPEN（清 owner，写 release_reason='抽验不通过'）",
+    "repeat_2": "该机当日抽验比例翻倍，并由主控派一张根因卡",
+    "repeat_3": "该机停止自验资格，改为主控全检，直到连续 10 件通过"
+  }
+}

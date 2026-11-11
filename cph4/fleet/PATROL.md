@@ -1,31 +1,22 @@
-# 巡查（有序）2026-11-11T11:12:54
+# 主控巡查 2026-11-11T15:13:26
 
-排序规则：**轮次决定先后**（断链 → 供给 → 执行 → 质量 → 方向），轮内按阻塞他人×3 + 停摆时长 + 修复成本。全部 13 条。
+## 一、机器
+- **公司生产力机（delivery）** network_ok_not_registered ｜ 席 8 ｜ 类型 11 ｜ 工序 15 ｜ 队列 O0/R0/D0/B0 ｜ 回执 无
+- **传家宝（visual）** blocked_no_comfyui ｜ 席 9 ｜ 类型 8 ｜ 工序 9 ｜ 队列 O1/R0/D0/B0 ｜ 回执 无
+- **小钢炮（audio）** offline ｜ 席 7 ｜ 类型 4 ｜ 工序 8 ｜ 队列 O3/R0/D0/B2 ｜ 回执 无
+- **算力大脑（brain）** not_installed ｜ 席 7 ｜ 类型 2 ｜ 工序 2 ｜ 队列 O0/R0/D0/B0 ｜ 回执 无
+- **MacBook（control）** ready_paused ｜ 席 8 ｜ 类型 19 ｜ 工序 24 ｜ 队列 O0/R0/D0/B0 ｜ 回执 无
 
-## R1 断链/停摆（4 条）· 机器或通道断了，后面所有活都白派
+## 二、任务面
+- 工序 59 道，有产物契约 2 道（缺 57）
 
- 1. **内存护栏 FAIL：正在拿硬盘当内存** → 按 MEM-GUARD.md 的建议卸档或降并发｜`bm-m`
- 2. **主控脉 blocker：resident-model-size** → 看 PULSE.json 该 blocker 的判据，修因不是压阈值｜`bm-m`
- 3. **主控脉 blocker：com.fluxgroup.ollama** → 看 PULSE.json 该 blocker 的判据，修因不是压阈值｜`bm-m`
- 4. **主控脉 blocker：git-sync** → 看 PULSE.json 该 blocker 的判据，修因不是压阈值｜`bm-m`
+## 三、抽验（0 件，失败 0）
+- 本轮无待抽验件
 
-## R2 供给（4 条）· 有机器空转但没有可跑的卡
-
- 5. **RECON·竞品拆解 已 94 小时无产物、队列里没有它的卡、也没有下一步声明** → 先定这一条线唯一的下一个可交付产物，写进 LINE-NEXT-STEPS 再铺卡｜`待指派`
- 6. **BigDomain·硅基域商业化 的产物面在子仓（bm-a、bm-b、bm-c），本机不可判；最后一次可得证据已停 185 小时** → 派一张真产物卡到持有子仓的机器（bm-a、bm-b、bm-c）；本机只做监督不做生产｜`bm-a`
- 7. **BigCompute·硅基算力 的产物面在子仓（bm-a、bm-b、bm-c），本机不可判；最后一次可得证据已停 185 小时** → 派一张真产物卡到持有子仓的机器（bm-a、bm-b、bm-c）；本机只做监督不做生产｜`bm-a`
- 8. **BigMoney·量化 的产物面在子仓（bm-a、bm-b、bm-c、bm-d），本机不可判；最后一次可得证据已停 167 小时** → 派一张真产物卡到持有子仓的机器（bm-a、bm-b、bm-c、bm-d）；本机只做监督不做生产｜`bm-a`
-
-## R3 执行（4 条）· 卡在飞但不动 / 失败无主 / 阻塞过期
-
- 9. **R-NEXT-BIGSTREAMD-TTS-QC-20261109 无责任人（BLOCKED）** → 定责：改卡重派或落根因账｜`bm-m`
-10. **NODE-SYNC-bm-b-2330 无责任人（BLOCKED）** → 定责：改卡重派或落根因账｜`bm-m`
-11. **asset-lib-face-caption-2026-11-11 无责任人（BLOCKED）** → 定责：改卡重派或落根因账｜`bm-m`
-12. **NODE-SYNC-bm-a-20261111T0912 无责任人（BLOCKED）** → 定责：改卡重派或落根因账｜`bm-m`
-
-## R4 质量（1 条）· 产物不合格或闸失效
-
-13. **1 条线质量未达阈值** → 逐条看 QUALITY-BOARD 的硬伤列，改产物不改阈值｜`bm-m`
-
----
-_巡查只做排序与定责；具体做法在各条目的 evidence 里，改判据请改对应正身件_
+## 四、需要出手
+- [MACHINE-DOWN] visual：blocked_no_comfyui
+- [WORK-QUEUED-NO-WORKER] visual：1 张 OPEN 但机器状态 blocked_no_comfyui
+- [MACHINE-DOWN] audio：offline
+- [WORK-QUEUED-NO-WORKER] audio：3 张 OPEN 但机器状态 offline
+- [MACHINE-DOWN] brain：not_installed
+- [NO-OUTPUT-CONTRACT] 57 道工序：没写产物路径，自驱无从下手（例：PROD-GAME-SUBMIT/材料套用, PROD-GAME-SUBMIT/打包, PROD-GAME-SUBMIT/图标）
