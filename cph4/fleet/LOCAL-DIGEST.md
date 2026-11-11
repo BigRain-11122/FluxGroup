@@ -6651,3 +6651,12 @@
 - 11-11T08:43 · REPAIR-C-FIN-EQUITY-ALPHA-bm-m.json · ETF 数据导出失败因文件未落盘导致作业滞留，需运维介入手动重试。
 - 11-11T08:43 · REPAIR-R-QUANT-ETF-DAILY-20261102-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被拒收。
 - 11-11T08:43 · REPAIR-R-QUANT-ETF-DAILY-20261102-bm-m.json · 已完成机队修复分析，发现缓存同步延迟风险，需执行强制刷新操作。
+- 11-11T08:45 · _last_lane_bm-m.json · 机队任务已执行完毕，无风险。
+- 11-11T08:45 · PATROL-biglife-20261111-acceptance.json · 机队回执被拒，因交付物非所需文档且无风险。
+- 11-11T08:45 · PATROL-biglife-20261111-bm-m.json · 已完成机队回执提交并触发熔断隔离流程，存在业务停摆及合规风险。
+- 11-11T08:45 · PATROL-biglife-20261111.md · 已完成系统熔断与数据隔离，但需等待高层指令解封且存在业务停摆风险。
+- 11-11T08:45 · self-improve-bm-m-latest.json · 机队已自测通过并清理旧壳，无风险。
+- 11-11T08:45 · REPAIR-R-QUANT-ETF-DAILY-20261102-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-11T08:45 · REPAIR-R-QUANT-ETF-DAILY-20261102-bm-m.json · 已完成机队修复分析，发现缓存同步延迟风险，需执行强制刷新操作。
+- 11-11T08:45 · REPAIR-C-FIN-EQUITY-ALPHA-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物，无风险。
+- 11-11T08:45 · REPAIR-C-FIN-EQUITY-ALPHA-bm-m.json · 已完成 ETF 数据导出作业，但文件未落盘导致验证失败，需人工介入修复。

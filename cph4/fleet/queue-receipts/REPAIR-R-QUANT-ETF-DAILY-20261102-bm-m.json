@@ -2,7 +2,7 @@
  "id": "REPAIR-R-QUANT-ETF-DAILY-20261102",
  "node": "bm-m",
  "rc": 0,
- "seconds": 114.9,
+ "seconds": 50.7,
  "cmd": "",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/repairs/R-QUANT-ETF-DAILY-20261102.md",
  "deliverable_exists": true,
- "ts": "2026-11-11T08:43:22",
- "stdout_tail": "### 根因分析：未覆盖的缓存/同步延迟（Non-Consensus Cache）\n本次失败极大概率源于**数据源与本地缓存不一致**。证据 `UNVERIFIED` 表明系统已捕获任务输出，但尚未将其正式写入目标存储；`deliverable-not-on-disk(local)` 进一步证实了交付物仅存在于内存或临时目录中，未被持久化。在重试次数达到 5 次仍无改善的情况下，说明重试逻辑仅重复“读取内存数据”，未触发必要的**缓存刷盘（Cache Flush）**或**版本覆盖**操作，导致系统不断在同一份无效副本上循环失败。\n\n### 下一步具体动作\n- **负责人**：Data Engineering On-call / DataOps Pipeline Owner\n- **核心动作**：\n    1.  **强制刷新数据源**：在触发下一次任务运行前，显式调用依赖组件（`quant/bigmoney/results/etf_composite_pf.json`）的同步 API 或内部钩子（Hook），强制执行一次 `force-reconcile`（强制重联）操作，以清除本地缓存并拉取最新版本。\n    2.  **验证动作**：在重新触发任务后，立即检查 `UNVERIFIED` 状态是否变更为 `VERIFIED`，并确认文件路径下已存在新的 `.json` 交付物；同时检查该文件的 Mtime（修改时间）是否在重试周期内发生有效变更。\n- **终止条件**：若连续执行 3 次强制刷新后任务仍无法进入 `VERIFIED` 状态，需提交工单至核心数据平台团队，并附带日志片段及失败后的完整快照路径，以便排查底层存储驱动（如 Object Storage）的并发阻塞或元数据锁死问题。",
+ "ts": "2026-11-11T08:46:15",
+ "stdout_tail": "### 根因诊断\n卡点直接原因是**本地文件系统状态异常**（`deliverable-not-on-dok(local)`）。尽管任务可能已成功交付（隐含在 `UNVERIFIED` 和交付物路径中），但执行环境未能将产物持久化保存至预期目录 (`quant/bigmoney/results/etf_composite_pf.json`)。重试 5 次失败表明该文件丢失或写入逻辑存在系统性问题，而非偶发的网络波动；最终状态停留在 `UNVERIFIED` 意味着系统拒绝了对当前缺失文件的信任验证，导致流水线阻断。\n\n### 下一步动作\n| 角色 | 具体动作 | 验证方式 |\n| :--- | :--- | :--- |\n| **SRE/运维** | 1. 检查本地磁盘（local）中 `quant/bigmoney/results/` 目录状态，确认是否因空间满、权限不足或进程挂死导致写入失败。<br>2. 手动在对应路径下运行一次数据落盘脚本，模拟触发写入。 | 确认文件 `etf_composite_pf.json` 成功出现在目标路径且大小合理；尝试重新提交任务看能否通过验证。 |\n| **开发者** | 1. 审查交付逻辑代码，定位“未落盘即验证”的断点或异常处理分支。<br>2. 在测试环境强制构造该 JSON 文件并上传至本地路径。 | 检查日志中是否存在“写入失败”或“磁盘错误”记录；确认验证脚本能正常读取本地文件并返回 `VERIFIED` 状态。 |",
  "stderr_tail": ""
 }
