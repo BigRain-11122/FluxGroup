@@ -210,6 +210,8 @@ def main():
     if n_wl:
         print("note: %d reprise pair(s) matched the whitelist (design, not counted)" % n_wl)
     if seen_pairs:
+        for f0, f1 in seen_pairs:
+            print("D1-PAIR unlisted: %.2fs vs %.2fs" % (f0 / fps, f1 / fps))
         fails.append("D1 shot reused on screen: %d pair(s), first %.2fs vs %.2fs" %
                      (len(seen_pairs), seen_pairs[0][0] / fps, seen_pairs[0][1] / fps))
 
