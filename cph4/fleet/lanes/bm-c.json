@@ -1,53 +1,26 @@
 {
  "node": "bm-c",
- "ts": "2026-11-12T05:09:01",
+ "ts": "2026-11-12T05:18:49",
  "jobs": [
-  {
-   "id": "GPU-PROBE-BMC-20261112",
-   "station": "visual",
-   "line": "asset-lib",
-   "title": "[@bm-c lane=gpu-production] GPU 路径探针：needs=gpu 的极轻卡，只打印租约/显存状态",
-   "cmd": "python Tools\\fleet\\gpu_lease.py --node bm-c --status > cph4\\fleet\\queue-receipts\\gpu-probe-bm-c-20261112.txt 2>&1",
-   "cwd": "",
-   "needs": "gpu",
-   "minutes": 2,
-   "heavy": false,
-   "day_ok": true,
-   "deliverable": "cph4/fleet/queue-receipts/gpu-probe-bm-c-20261112.txt",
-   "accept": "txt 在盘即 GPU 路径通；不出现则 GPU 闸（window/lease/start-comfy）静默拦卡",
-   "nodes": [
-    "bm-c"
-   ],
-   "hard_nodes": [
-    "bm-c"
-   ],
-   "prio": "P1",
-   "state": "OPEN",
-   "why": "cpu 卡能跑（PIPE-PROBE 05:07:39 落地）、gpu 卡 35 分钟零产物；用轻量 gpu 卡分离闸与卡因",
-   "note": "九要素：①@bm-c lane=gpu-production｜②回执窗 2h｜③验收物=cph4/fleet/queue-receipts/gpu-probe-bm-c-20261112.txt｜④spec=Tools/fleet/gpu_lease.py｜⑤溯源 O-20261010-1800｜⑥输入=无；输出=cph4/fleet/queue-receipts/gpu-probe-bm-c-20261112.txt｜⑦依赖=无依赖｜⑧卡 ID=GPU-PROBE-BMC-20261112｜⑨provenance=推断（自驱派生·R41 诊断）",
-   "created_by": "CEO-PROXY event R41",
-   "created_at": "2026-11-12T05:09:01",
-   "route": "local",
-   "verify_on_node": true
-  },
   {
    "id": "asset-lib-asset-gen-2026-11-11",
    "title": "[资产储备（角色 LoRA / 音色库）] 通用资产出图（道具/场景，吃 ASSET-PROMPTS 规格）",
    "cmd": "python Tools/fleet/asset_gen.py --node bm-c --class props --limit 4 --receipt cph4/fleet/queue-receipts/asset-gen-props-2026-11-11.json",
    "cwd": "",
-   "needs": "gpu",
+   "needs": "cpu",
    "deliverable": "cph4/fleet/queue-receipts/asset-gen-props-2026-11-11.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
    "when_all": [],
    "llm": null,
-   "timeout_s": null
+   "timeout_s": null,
+   "lease_bypass": "R41: needs=gpu 会走 gpu_lease --acquire（timeout 600s），bm-c 该路径卡死（05:09 后两次 poke 零车道记录、VRAM 不加载）；改为 cpu 派单绕开租约，命令本身仍在 GPU 上跑 ComfyUI。恢复后应改回 needs=gpu"
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
  "capacity_note": "ram 7.8/1.0 GB",
  "reorder_note": "event R41: COMFY-UP first - the other jobs need the service it restores",
- "r41_note": "R41: 只留资产生产卡。已完成的卡全部撤出（COMFY-UP / env-check / GPU-LEASE-RESET），否则静态车道首位会无限重跑并饿死后面的卡"
+ "r41_note": "R41: 只留生产卡（cpu 派单绕开卡死的 GPU 租约路径）"
 }
