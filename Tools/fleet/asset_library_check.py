@@ -98,9 +98,32 @@ def entries_for(cls, spec):
 def check_class(cls, spec, tier, sample):
     items, d = entries_for(cls, spec)
     target = int(spec.get(tier) or 0)
+    empty, dups = [], []
+    if spec.get("layout") == "dir":
+        # 2026-11-11 两个假绿（实测）：空目录被算成一条资产（characters 五个空壳仍报 8/8 OK）；
+        # 同一份语料每天复制成新批次目录也被算成多条（voices 4 份逐字节相同的 sliced 语料报 9/6 OK）。
+        # 目录数不是可用件数——只留「有文件且互不重复」的目录，其余写进 issues。
+        kept, seen = [], {}
+        for p in items:
+            inside = [x for x in glob.glob(os.path.join(p, "**", "*"), recursive=True)
+                      if x.lower().endswith(IMG + VID + AUD)]
+            if not inside:
+                empty.append(os.path.basename(p))
+                continue
+            sig = tuple(sorted((os.path.basename(x), os.path.getsize(x)) for x in inside))
+            if sig in seen:
+                dups.append("%s=%s 的副本" % (os.path.basename(p), seen[sig]))
+                continue
+            seen[sig] = os.path.basename(p)
+            kept.append(p)
+        items = kept
     detail = {"count": len(items), "target": target,
               "pct": round(len(items) / target * 100, 1) if target else None,
               "license_ok": 0, "spec_ok": 0, "issues": []}
+    if empty:
+        detail["issues"].append("空目录（无可用文件·不计入）：%s" % ",".join(empty[:8]))
+    if dups:
+        detail["issues"].append("重复副本（不计入）：%s" % "; ".join(dups[:5]))
     if not items:
         detail["issues"].append("空目录（目标 %d）" % target)
         return detail
@@ -122,7 +145,7 @@ def check_class(cls, spec, tier, sample):
     for p in items[:sample]:
         f = p
         if os.path.isdir(p):
-            inner = [x for x in glob.glob(os.path.join(p, "*"))
+            inner = [x for x in glob.glob(os.path.join(p, "**", "*"), recursive=True)
                      if x.lower().endswith(IMG + VID + AUD)]
             if not inner:
                 bad.append([os.path.basename(p), "目录里没有可用文件"])
