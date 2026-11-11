@@ -50,6 +50,12 @@ def human(n):
 
 
 def main():
+    # 外置盘（移动硬盘）2026-11-11 已清空退出长期存储，冷备由 git 远端承担。
+    # 没有外置盘还照跑，只会把 52 件声明全判"未备"——那是假红，比不跑更糟。
+    if not EXT:
+        print("INTAKE_ROOT/FLUX_VAULT 未配置：外置盘已退役（2026-11-11），"
+              "备份覆盖度无意义，不生成 COVERAGE.md。")
+        return 2
     have = {}
     for r in jsonl(INDEX):
         key = (str(r.get("sha256") or "").lower(), int(r.get("bytes") or 0))
