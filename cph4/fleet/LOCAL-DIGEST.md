@@ -6778,3 +6778,11 @@
 - 11-11T09:18 · GAP-FLUXVERSE-BMC-12-acceptance.json · 已提交机队回执，但被拒因内容非有效交付物，存在合规风险。
 - 11-11T09:18 · GAP-BIGGAME-BMC-12-bm-c.json · 已完成机队排查任务，无错误风险。
 - 11-11T09:18 · GAP-BIGGAME-BMC-12-acceptance.json · 完成机队回执提交，但被拒因交付物非标准产物。
+- 11-11T09:20 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
+- 11-11T09:20 · NODE-SYNC-bm-c-20261111T0914-bm-c.json · 已完成机队同步与报告生成，无风险。
+- 11-11T09:20 · NODE-SYNC-bm-c-20261111T0914-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被驳回。
+- 11-11T09:20 · GAP-FLUXVERSE-BMC-12-bm-c.json · 已完成机队排查报告生成，无错误风险。
+- 11-11T09:20 · GAP-FLUXVERSE-BMC-12-acceptance.json · 已提交回执但被拒，因内容非有效交付物且无风险。
+- 11-11T09:20 · GAP-BIGGAME-BMC-12-bm-c.json · 已完成机队排查报告生成，无错误风险。
+- 11-11T09:20 · GAP-BIGGAME-BMC-12-acceptance.json · 已提交回执但被拒，因内容非有效交付物且无风险。
+- 11-11T09:20 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
