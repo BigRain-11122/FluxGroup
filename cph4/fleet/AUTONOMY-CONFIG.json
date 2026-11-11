@@ -238,7 +238,8 @@
    "action": "24h 内 0 次绕过才允许把 Ollama 绑到 127.0.0.1"
   },
   "_fleet_conc_why": "2026-11-09 CEO「本地算力赋能机队」：bm-m 有 3 个并行槽，机队从 1 抬到 2；本机优先时网关仍按 hold 拒绝机队。",
-  "_think_off": "qwen3.5 系默认会思考；所有本地调用必须显式 think=false，否则 response 为空、答案全在 thinking 里。"
+  "_think_off": "qwen3.5 系默认会思考；所有本地调用必须显式 think=false，否则 response 为空、答案全在 thinking 里。",
+  "_capacity_measured": "2026-11-11 实测：4B 并发 1/2/3 聚合吞吐相同（~40 tok/s），故并发 2 已是公平性上限；模型驻留≤18G。"
  },
  "model_routing": {
   "source": "cph4/fleet/MODEL-ROUTING-v2.json",
