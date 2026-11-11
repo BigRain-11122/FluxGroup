@@ -6808,3 +6808,4 @@
 - 11-11T09:24 · GAP-FLUXVERSE-BMC-12-acceptance.json · 已提交机队回执，但被因非标准产物而拒绝。
 - 11-11T09:24 · GAP-BIGGAME-BMC-12-bm-c.json · 已完成机队排查任务，无错误风险。
 - 11-11T09:24 · GAP-BIGGAME-BMC-12-acceptance.json · 完成机队回执提交，但被拒因交付物非标准产物，无风险。
+- 11-11T09:25 · _last_lane_bm-m.json · 机队已就绪，心跳正常，无风险。
