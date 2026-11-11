@@ -1,19 +1,19 @@
 # 产出看板（盘上事实）
 
 > 判据：只认卡上 deliverable 在盘上存在；产品件与内部件分开算。
-> 生成时间：2026-11-10 16:27；近 7 天口径。
+> 生成时间：2026-11-11 08:30；近 7 天口径。
 
 ## 一、总数
 
 | 口径 | 数量 |
 |---|---|
-| DONE 卡 | 623 |
-| 交付物存在 | 564 |
-| **产品件** | **3** |
-| 内部件（审计/回执/状态） | 561 |
-| 交付物缺失 | 45 |
+| DONE 卡 | 795 |
+| 交付物存在 | 735 |
+| **产品件** | **4** |
+| 内部件（审计/回执/状态） | 731 |
+| 交付物缺失 | 46 |
 | 近 7 天更新的产品件 | 2 |
-| 在跑卡 | 9 |
+| 在跑卡 | 6 |
 
 ## 二、近 7 天产品件（按时间）
 
@@ -24,33 +24,31 @@
 
 | 线 | 产品件 | 内部件 |
 |---|---|---|
-| ? | 0 | 41 |
-| asset-lib | 0 | 40 |
+| ? | 0 | 46 |
+| asset-lib | 0 | 54 |
 | bigcompute | 0 | 5 |
 | bigdomain | 0 | 5 |
-| biggame | 1 | 126 |
+| biggame | 1 | 128 |
+| bighouse | 0 | 0 |
 | biglife | 0 | 3 |
-| bigmoney | 6 | 76 |
+| bigmoney | 8 | 79 |
 | bigstream | 1 | 0 |
-| bigstream-drama | 1 | 15 |
-| bigstream-duanju | 0 | 6 |
+| bigstream-drama | 1 | 16 |
+| bigstream-duanju | 0 | 7 |
 | bigstream-mv | 0 | 89 |
-| fleet-ops | 0 | 127 |
+| fleet-ops | 0 | 134 |
 | fluxverse | 0 | 6 |
 | group | 0 | 1 |
 | recon | 0 | 4 |
 
 ## 四、在跑的卡
 
-- OPEN · bigstream-duanju · R-NEXT-BIGSTREAMD-TTS-QC-20261109 · bm-c
 - OPEN · bighouse · PATROL-bighouse-20261110 · bm-m
-- RUNNING · bigstream-mv · REPAIR-Q-MV-0001-003 · bm-m
 - OPEN · bigstream-duanju · REPAIR-R-TRIAGE-BIGSTREAMDUANJU-BMB-20261101 · bm-m
-- RUNNING · fleet-ops · REPAIR-asset-lib-char-gen-2026-11-06 · bm-m
-- RUNNING · fleet-ops · REPAIR-R-TRIAGE-FLUXVERSE-BMB-20261110 · bm-m
-- RUNNING · fleet-ops · REPAIR-PROBE-BMB-TOOLCHAIN-20261110 · bm-m
-- OPEN · bigstream-duanju · UNBLOCK-VCORP-GEN-r1202-EP001-060-20261108 · -
-- RUNNING · biggame · UNBLOCK-biggame-accept-2026-11-09 · bm-m
+- OPEN · bigstream-duanju · UNBLOCK-VCORP-GEN-r1202-EP001-060-20261108 · bm-m
+- OPEN · bighouse · UNBLOCK-PATROL-bighouse-20261109 · bm-m
+- OPEN · bigstream-duanju · UNBLOCK-R-NEXT-BIGSTREAMD-TTS-QC-20261109 · bm-m
+- RUNNING · fleet-ops · NODE-SYNC-bm-a-20261111T0752 · bm-a
 
 ## 五、盘上成品（不依赖卡，近 7 天，>50KB）
 
@@ -73,14 +71,8 @@
 - 11-04 17:27 · 1.9 MB · media/review-720p/S2_sweep-720p.mp4
 - 11-04 17:27 · 1.9 MB · media/review-720p/S1_fire_wake-720p.mp4
 - 11-04 17:27 · 1.9 MB · media/review-720p/S10_walkaway-720p.mp4
-- 11-03 18:26 · 0.6 MB · media/asset/props/P09-coffee-cup.png
-- 11-03 18:26 · 0.6 MB · media/asset/props/P08-suitcase.png
-- 11-03 18:26 · 0.7 MB · media/asset/props/P07-bank-card.png
-- 11-03 18:22 · 4.4 MB · media/review-720p/drama-2026-11-03-720p.mp4
-- 11-03 18:22 · 4.4 MB · media/review-720p/asm-sw2-720p.mp4
-- 11-03 18:22 · 4.4 MB · media/review-720p/asm-sw-720p.mp4
 
-## 六、声称 DONE 但盘上没有（45）
+## 六、声称 DONE 但盘上没有（46）
 
 - Q-MV-0001-001 → D:\FleetWorker\review\aesthetic_v716b.json
 - Q-MV-0001-002 → D:\FleetWorker\review\trans_v716b.json
