@@ -6899,3 +6899,26 @@
 - 11-11T10:00 · GAP-RECON-BMC-14-bm-c.json · 已完成机队回执生成，无风险。
 - 11-11T10:00 · GAP-RECON-BMC-14-acceptance.json · 已生成机队回执，但被拒收因内容非有效交付物。
 - 11-11T10:00 · skill-promote-20261111.json · 已完成基础任务，因工具缺失导致大量技能无法执行。
+- 11-11T10:02 · _last_lane_bm-m.json · 已完成心跳监控，当前无风险。
+- 11-11T10:03 · _last_lane_bm-m.json · 已完成心跳监控，当前无风险。
+- 11-11T10:04 · _last_lane_bm-m.json · 已完成心跳监控，当前无风险。
+- 11-11T10:04 · self-improve-bm-m-latest.json · 机队已确认无风险，代码与依赖均通过自检。
+- 11-11T10:05 · _last_lane_bm-m.json · 机队任务已完成，无风险。
+- 11-11T10:05 · R-TRIAGE-BIGCOMPUTE-BMB-20261108-acceptance.json · 机队回执失败，因产物未落盘导致无风险。
+- 11-11T10:05 · R-TRIAGE-BIGCOMPUTE-BMB-20261108-bm-m.json · 机队回执任务失败，因无交付物且存在错误类风险。
+- 11-11T10:05 · triage-bigcompute-bm-b-20261111.md · 算力中枢席需立即补产或收线，因该工段超阈 148.6 小时存在风险。
+- 11-11T10:05 · skill-promote-20261111.json · 已跳过多项因工具缺失或重复的任务，当前无风险。
+- 11-11T10:07 · _last_lane_bm-m.json · 机队任务已完成，无风险。
+- 11-11T10:07 · R-TRIAGE-BIGCOMPUTE-BMB-20261108-acceptance.json · 机队回执失败，因产物未落盘导致无风险。
+- 11-11T10:07 · R-TRIAGE-BIGCOMPUTE-BMB-20261108-bm-m.json · 机队回执任务失败，因无交付物且存在错误类风险。
+- 11-11T10:07 · triage-bigcompute-bm-b-20261111.md · 算力中枢席需立即补产或收线，当前工段已超阈存在风险。
+- 11-11T10:08 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
+- 11-11T10:08 · _last_lane_bm-m.json · 机队任务已完成，无风险。
+- 11-11T10:08 · R-TRIAGE-BIGCOMPUTE-BMB-20261108-acceptance.json · 机队回执失败，因产物未落盘导致无风险数据。
+- 11-11T10:08 · R-TRIAGE-BIGCOMPUTE-BMB-20261108-bm-m.json · 机队回执任务执行失败，因无交付物产生风险。
+- 11-11T10:08 · triage-bigcompute-bm-b-20261111.md · 算力中枢席需立即补产或收线，当前工段已超阈存在风险。
+- 11-11T10:09 · _last_lane_bm-m.json · 机队已自派完成回单扫描，无风险。
+- 11-11T10:09 · R-TRIAGE-BIGCOMPUTE-BMB-20261108-acceptance.json · 机队回执失败，因产物未落盘导致无风险。
+- 11-11T10:09 · R-TRIAGE-BIGCOMPUTE-BMB-20261108-bm-m.json · 机队回执任务失败，因无交付物且存在错误类风险。
+- 11-11T10:09 · triage-bigcompute-bm-b-20261111.md · 算力中枢席需立即补产或收线，因该工段已超阈 148.7 小时。
+- 11-11T10:10 · _last_lane_bm-m.json · 机队已自派完成回单扫描，无风险。
