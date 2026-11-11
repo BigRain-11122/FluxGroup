@@ -1,0 +1,17 @@
+{
+ "id": "UNBLOCK-GAP-ASSETLIB-BMA-2",
+ "node": "bm-m",
+ "rc": 0,
+ "seconds": 1.7,
+ "cmd": "",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "cph4/fleet/repairs/GAP-ASSETLIB-BMA-2-unblock.md",
+ "deliverable_exists": true,
+ "ts": "2026-11-11T10:26:30",
+ "stdout_tail": "缺权限：owner 无操作权，需 bm-a 复核并执行“按回执补账”。",
+ "stderr_tail": ""
+}
