@@ -3578,3 +3578,16 @@
 {"cls": "master", "op": "generate", "err": "Remote end closed connection without response", "why": "master-digest", "ts": "2026-11-11T11:00:33"}
 {"cls": "master", "op": "embed", "sec": 2.42, "why": "dispatch-dedupe", "ts": "2026-11-11T11:02:27"}
 {"cls": "master", "op": "embed", "sec": 1.48, "why": "dispatch-dedupe", "ts": "2026-11-11T11:02:27"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-11T11:02:28"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-11T11:02:28"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-11T11:02:28"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-11T11:02:28"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-11T11:02:28"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-11T11:02:28"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-11T11:02:28"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-11T11:02:28"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-11T11:02:28"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-11T11:02:28"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-11T11:02:28"}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-11T11:02:28"}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 22.3, "chars": 134, "why": "master-digest", "ts": "2026-11-11T11:02:46"}
