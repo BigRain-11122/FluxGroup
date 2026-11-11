@@ -117,19 +117,22 @@ def sense(root, nodes):
             # "OFFLINE (hb age Nones)" - i.e. no ts at all - while its own lane file was
             # 40s old and it was busy with TTS). A dead NATS client on either side must
             # not remove a working box from dispatch, or the queue starves while the
-            # machine is up. git is the authoritative surface, so fall back to the lane
-            # file the box commits every cycle.
+            # machine is up.
+            # 2026-11-12 R39：这条兜底原先读 `lanes/<n>.json`，但那个文件自 2026-11 起是
+            # **派单侧本模块写的**（不是机器自己写的）——它永远新鲜，于是断电的 bm-b 每轮
+            # 都被判 online 并标成「EXECUTOR-DEAD (48.9h)」，给出「free memory on that box」
+            # 这种对关机机器做不到的指令（RG-06 同族：拿自己的产出当别人的证据）。
+            # 正法=读节点侧 lane_agent 自写的 `queue-receipts/_last_lane_<n>.json`。
             try:
-                lp = os.path.join(root, "cph4", "fleet", "lanes", "%s.json" % n)
-                lane_age = time.time() - os.path.getmtime(lp)
-                lj = json.load(open(lp, encoding="utf-8"))
-                if lane_age <= OFFLINE_AFTER_S:
+                rp = os.path.join(root, "cph4", "fleet", "queue-receipts",
+                                  "_last_lane_%s.json" % n)
+                rec_age = time.time() - os.path.getmtime(rp)
+                if rec_age <= OFFLINE_AFTER_S:
                     online = True
-                    age = age if age is not None else round(lane_age, 1)
-                    s = s or {"source": "lanes-file", "ts_utc_ms": None,
+                    age = age if age is not None else round(rec_age, 1)
+                    s = s or {"source": "lane-receipt", "ts_utc_ms": None,
                               "ram_free_gb": None, "gpu_util_pct": None}
-                    s["state_source"] = "lanes-file"
-                    s["lane"] = lj
+                    s["state_source"] = "lane-receipt"
             except Exception:
                 pass
         if not online:
@@ -493,19 +496,21 @@ def lane_capacity(node, fleet, needs="cpu", vram_min=0, job=None):
         except Exception:
             pass          # 判不了就不排除（宁可不排除，也不许凭空拦活）
     if not info.get("online"):
-        # 2026-11-07 去堵点：sense() 已经会用「车道文件新鲜度」给死掉的 NATS 客户端兜底，
-        # 但这里只认心跳，于是同一台机器出现「online=True 却 CAPACITY-BLOCKED-RAM
-        # OFFLINE (hb age Nones)」的自相矛盾——bm-a 明明在线在推产物，2 张 MV 卡却派不出去。
-        # 判据统一：心跳没有记录不等于机器死了，车道文件新鲜就算在线。
+        # 判据统一：心跳没有记录不等于机器死了，但**证据必须由那台机自己写**。
+        # 2026-11-12 R39 实锚：旧判据读 `lanes/<node>.json`，而这个文件正是本模块每轮
+        # 写出来的——它永远新鲜，于是断电的 bm-b 被标成「EXECUTOR-DEAD (48.8h)」并给出
+        # 「free memory on that box」这种对着一台关机机器根本做不了的指令（RG-06 同族：
+        # 把自己的产出当别人的证据）。正法=读节点侧 lane_agent 自写的 `_last_lane_<node>.json`。
         try:
-            lp = os.path.join(ROOT_DIR, "cph4", "fleet", "lanes", "%s.json" % node)
+            lp = os.path.join(ROOT_DIR, "cph4", "fleet", "queue-receipts",
+                              "_last_lane_%s.json" % node)
             # ROOT_DIR 不是 ROOT：本模块没有全局 ROOT（各函数收 root 参数），旧写法在
-            # NameError 里被 except 吞掉 → 「心跳没有记录但车道文件新鲜」的在线兜底从未生效。
+            # NameError 里被 except 吞掉 → 这段在线兜底曾长期静默失效。
             if os.path.exists(lp) and (time.time() - os.path.getmtime(lp)) <= OFFLINE_AFTER_S:
                 info = dict(info, online=True,
-                            state=info.get("state") or {"source": "lanes-file"})
+                            state=info.get("state") or {"source": "lane-receipt"})
             else:
-                return False, "OFFLINE (hb age %ss, lane stale)" % info.get("age_s")
+                return False, "OFFLINE (hb age %ss, no fresh lane receipt)" % info.get("age_s")
         except Exception:
             return False, "OFFLINE (hb age %ss)" % info.get("age_s")
     st = info.get("state") or {}
@@ -910,8 +915,12 @@ def write_lane_files(root, rows, fleet, dry=False, nodes=None):
             idle_reason = ""
         elif not ok:
             # A work machine in its daytime window is not a capacity fault - it is policy.
-            idle_reason = ("DAY-YIELD: work machine, takes over at 19:00"
-                           if fl.quiet_hours(n) else "CAPACITY-BLOCKED-RAM " + why)
+            # 离线也不是容量问题：给关机机器挂 CAPACITY-BLOCKED-RAM 会把人引去「腾内存」。
+            if why.startswith("OFFLINE"):
+                idle_reason = why
+            else:
+                idle_reason = ("DAY-YIELD: work machine, takes over at 19:00"
+                               if fl.quiet_hours(n) else "CAPACITY-BLOCKED-RAM " + why)
         else:
             waiting = [r for r in rows if r.get("state") == "OPEN"
                        and (not (r.get("nodes") or []) or n in (r.get("nodes") or []))

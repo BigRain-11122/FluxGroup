@@ -804,6 +804,43 @@ def rg39():
     return "无证据仍拒收；唤醒证据在窗口内放行；证据过期即恢复原判"
 
 
+@case("RG-40", "不许拿派单侧自己写的车道文件证明机器活着（RG-06 同族·自证）",
+      "2026-11-12 R39 实锚：断电的 bm-b 被标成 EXECUTOR-DEAD(48.8h) 并给出"
+      "「free memory on that box」——那条判据读的 lanes/<node>.json 正是派单器自己每轮写的")
+def rg40():
+    import tempfile
+    import time
+    import master_agent as ma
+    old_root = ma.ROOT_DIR
+    try:
+        tmp = tempfile.mkdtemp()
+        ma.ROOT_DIR = tmp
+        lanes = os.path.join(tmp, "cph4", "fleet", "lanes")
+        rec = os.path.join(tmp, "cph4", "fleet", "queue-receipts")
+        os.makedirs(lanes)
+        os.makedirs(rec)
+        # 派单侧自己写的车道文件很新鲜，但它不是那台机活着的证据
+        with open(os.path.join(lanes, "bm-b.json"), "w", encoding="utf-8") as f:
+            json.dump({"node": "bm-b", "ts": "x", "jobs": []}, f)
+        fleet = {"bm-b": {"online": False, "age_s": None, "state": {}, "ram_gb": 24}}
+        ok, why = ma.lane_capacity("bm-b", fleet, "cpu")
+        assert (not ok) and why.startswith("OFFLINE"), "自证通过（派单器自己的文件当成机器活证）：%s / %s" % (ok, why)
+        # 节点侧 lane_agent 自写的回执才是在线证据
+        rp = os.path.join(rec, "_last_lane_bm-b.json")
+        with open(rp, "w", encoding="utf-8") as f:
+            json.dump({"ts": "x", "node": "bm-b", "state": "IDLE"}, f)
+        ok2, why2 = ma.lane_capacity("bm-b", fleet, "cpu")
+        assert ok2, "节点自写回执新鲜却被判离线：%s" % why2
+        # 回执过期即恢复离线判定
+        old = time.time() - ma.OFFLINE_AFTER_S - 60
+        os.utime(rp, (old, old))
+        ok3, why3 = ma.lane_capacity("bm-b", fleet, "cpu")
+        assert (not ok3) and why3.startswith("OFFLINE"), "过期回执仍判在线：%s / %s" % (ok3, why3)
+    finally:
+        ma.ROOT_DIR = old_root
+    return "派单侧自写文件不计；节点自写回执在窗内算在线；过期恢复离线"
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--json", action="store_true")
