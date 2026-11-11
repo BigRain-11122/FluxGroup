@@ -6638,3 +6638,16 @@
 - 11-11T08:42 · PATROL-bigdomain-20261111.md · 已完成高风险问题核实与紧急熔断方案制定，当前状态已锁定待裁决。
 - 11-11T08:42 · _last_lane_bm-m.json · 已完成机队维修任务，当前运行中无风险。
 - 11-11T08:42 · skill-promote-20261111.json · 已完成部分任务，因工具缺失导致大量技能无法执行。
+- 11-11T08:43 · _last_lane_bm-m.json · 机队任务已执行完毕，无风险。
+- 11-11T08:43 · PATROL-biglife-20261111-acceptance.json · 机队回执被拒收，因交付物非预期文档且无风险。
+- 11-11T08:43 · PATROL-biglife-20261111-bm-m.json · 机队任务已完成且无风险，但输出内容涉及虚构内部敏感数据。
+- 11-11T08:43 · PATROL-biglife-20261111.md · 已完成应急响应框架制定，但无法核实内部系统风险，需立即启动 P0 级处置流程。
+- 11-11T08:43 · REPAIR-RCANARY2-20261102T181500-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
+- 11-11T08:43 · REPAIR-RCANARY2-20261102T181500-bm-m.json · 已完成强制同步修复状态未闭环风险，任务恢复运行。
+- 11-11T08:43 · PATROL-bigdomain-20261111-acceptance.json · 机队回执已生成但被拒收，因内容非标准交付物且存在合规风险。
+- 11-11T08:43 · PATROL-bigdomain-20261111-bm-m.json · 已完成高危安全阻断与熔断处置，但存在违规内容传播及隐私泄露风险。
+- 11-11T08:43 · PATROL-bigdomain-20261111.md · 已完成高危服务器熔断与服务流截断，正触发决策流程，暂无进一步风险。
+- 11-11T08:43 · REPAIR-C-FIN-EQUITY-ALPHA-acceptance.json · 已完成机队回执提交，但存在交付物非标准产物的风险。
+- 11-11T08:43 · REPAIR-C-FIN-EQUITY-ALPHA-bm-m.json · ETF 数据导出失败因文件未落盘导致作业滞留，需运维介入手动重试。
+- 11-11T08:43 · REPAIR-R-QUANT-ETF-DAILY-20261102-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被拒收。
+- 11-11T08:43 · REPAIR-R-QUANT-ETF-DAILY-20261102-bm-m.json · 已完成机队修复分析，发现缓存同步延迟风险，需执行强制刷新操作。
