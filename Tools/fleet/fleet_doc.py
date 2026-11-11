@@ -301,6 +301,20 @@ def render(data, doc_time):
     L.append("规则：%s" % _fmt((comp.get("routing") or {}).get("rule")))
     L.append("")
 
+    # AI 运行环境对齐（事实来自各机自采的 env/<station>.json）
+    L.append("## 五、AI 运行环境对齐")
+    L.append("")
+    try:
+        sys.path.insert(0, os.path.join(ROOT, "Tools", "fleet"))
+        import env_align as _ea
+        L.extend(_ea.section_lines(_ea.align()))
+    except Exception as e:
+        L.append("（环境对齐读取失败：%s）" % str(e)[:120])
+    L.append("")
+    L.append("标准档：`darwin-arm64`（主控，MLX）/ `windows-cuda`（三台生产机）/ `linux-cuda`（大脑若装 Ubuntu）。"
+             "各机每日跑 `python3 Tools/fleet/env_probe.py --write`，产物随 git 同步；探针超过 24h 判 STALE。")
+    L.append("")
+
     # 缺口
     gaps = []
     for sid, o in data["os"].items():
@@ -313,14 +327,14 @@ def render(data, doc_time):
     if vault.get("status") == "EMPTY":
         gaps.append("素材库为空（已按 CEO 令清空），重建落点 %s" %
                     _fmt((vault.get("target") or {}).get("path")))
-    L.append("## 五、缺口与待决（按此清单推进，不要靠记忆）")
+    L.append("## 六、缺口与待决（按此清单推进，不要靠记忆）")
     L.append("")
     for i, g in enumerate(gaps, 1):
         L.append("%d. %s" % (i, g))
     L.append("")
 
     # 漂移
-    L.append("## 六、配置一致性校验")
+    L.append("## 七、配置一致性校验")
     L.append("")
     if dr:
         L.append("**发现 %d 处漂移（文档与配置不一致，按下面清单修数据源）：**" % len(dr))
@@ -332,7 +346,7 @@ def render(data, doc_time):
     L.append("")
 
     # 人工区
-    L.append("## 七、变更日志（人工区，重新生成会保留）")
+    L.append("## 八、变更日志（人工区，重新生成会保留）")
     L.append("")
     L.append(MANUAL_START)
     L.append("- 2026-11-11 首版：由 fleet_doc.py 依据六份配置生成，替代此前散落在多份 md 的机器说明。")

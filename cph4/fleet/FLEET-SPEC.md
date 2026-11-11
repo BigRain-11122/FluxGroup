@@ -1,6 +1,6 @@
 # 机队配置与系统说明书（FLEET-SPEC）
 
-> 生成时间：2026-11-11T17:01:01｜生成器：`Tools/fleet/fleet_doc.py`｜**本文件是生成物，不要手改正文**
+> 生成时间：2026-11-11T17:03:39｜生成器：`Tools/fleet/fleet_doc.py`｜**本文件是生成物，不要手改正文**
 > 数据源（改这里，不改正文）：`STATIONS.json` · `Tools/fleet-nodes.json` · `OS-MATRIX-v1.json` · `CPU-PLAN-v1.json` · `AGENT-CAPACITY-v1.json` · `MODEL-COMPUTE.json` · `ASSET-VAULT.json`
 > 改完跑 `python3 Tools/fleet/fleet_doc.py --write`；只查不改跑 `--check`（有漂移 rc=1）。
 
@@ -238,17 +238,31 @@
 
 规则：闭环优先：能在本机做完的绝不出机器；本机小模型做不好的（长剧本/语感/审稿）上升算力大脑；主控只在两头都不可用时兜底。
 
-## 五、缺口与待决（按此清单推进，不要靠记忆）
+## 五、AI 运行环境对齐
+
+| 工位 | 环境档 | 判定 | python | ollama | ffmpeg | 探针年龄 | 缺口 |
+|---|---|---|---|---|---|---|---|
+| control | darwin-arm64 | PASS | 3.13.18 | 0.40.16 | 7.1 | 0.0h | — |
+| delivery | — | 未探测 | — | — | — | — | 没有 env/delivery.json：该机还没跑过探针 |
+| visual | — | 未探测 | — | — | — | — | 没有 env/visual.json：该机还没跑过探针 |
+| audio | — | 未探测 | — | — | — | — | 没有 env/audio.json：该机还没跑过探针 |
+| brain | — | 未定档 | — | — | — | — | 该机没有对应环境档位（OS 待定或未入网）：先定系统再定环境 |
+
+标准=`cph4/fleet/AI-ENV-SPEC-v1.json`；事实=`cph4/fleet/env/<工位>.json`（由 `env_probe.py` 各机自采）；超过 24h 未更新判 STALE。1 台达标 / 4 台待办。
+
+标准档：`darwin-arm64`（主控，MLX）/ `windows-cuda`（三台生产机）/ `linux-cuda`（大脑若装 Ubuntu）。各机每日跑 `python3 Tools/fleet/env_probe.py --write`，产物随 git 同步；探针超过 24h 判 STALE。
+
+## 六、缺口与待决（按此清单推进，不要靠记忆）
 
 1. brain：系统未核实（待定（未装机/未入网））——入网时二选一：Ubuntu（CUDA/驱动省事，工具多为 py）或 Windows（与另外三台一致，可复用 .ps1）。选前不得按任何一方排卡。
 2. 算力大脑：端点未装备（未入网：tailnet IP 未分配。装备完成后在此填 http://<brain-tailnet>:11434，order 保持 1。）
 3. 素材库为空（已按 CEO 令清空），重建落点 K:/FluxAssets
 
-## 六、配置一致性校验
+## 七、配置一致性校验
 
 六源一致，无漂移。
 
-## 七、变更日志（人工区，重新生成会保留）
+## 八、变更日志（人工区，重新生成会保留）
 
 <!-- MANUAL:CHANGELOG -->
 - 2026-11-11 首版：由 fleet_doc.py 依据六份配置生成，替代此前散落在多份 md 的机器说明。

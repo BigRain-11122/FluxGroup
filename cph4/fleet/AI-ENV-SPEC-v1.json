@@ -1,0 +1,66 @@
+{
+ "_comment": "AI 运行环境对齐标准（2026-11-11 CEO：「机队跑 AI 的环境要对齐」「对他们的软件环境也要了解，随时更新」）。只写可探可比的项：版本、模型 digest、环境变量、驱动。执行体=Tools/fleet/env_probe.py（各机自采）+ env_align.py（主控对齐）。",
+ "_version": "v1-20261111",
+ "policy": {
+  "max_age_hours": 24,
+  "rule": "探针超过 24h 未更新即判 STALE：STALE 不算通过，也不许用旧数据下结论。",
+  "how": "各机每日跑 `python3 Tools/fleet/env_probe.py --write`，产物 cph4/fleet/env/<station>.json 随 git 同步；主控只读快照比对。"
+ },
+ "profiles": {
+  "darwin-arm64": {
+   "why": "主控台：MLX 引擎跑 4B 与向量，只做轻量兜底",
+   "python": ">=3.11,<3.14",
+   "ollama": ">=0.30",
+   "ffmpeg": ">=6",
+   "torch": ">=2.4",
+   "cuda": null,
+   "env": {"OLLAMA_KEEP_ALIVE": "10m"},
+   "soft_env": {"OLLAMA_MAX_LOADED_MODELS": ">=2"},
+   "env_why": "KEEP_ALIVE=10m 落实「不能闲着还常驻」（默认 5m，必须显式改）；MAX_LOADED 属软项：Ollama 默认 3×GPU=3，已够 4B+向量共存，显式设只是为跨机一致"
+  },
+  "windows-cuda": {
+   "why": "三台 Windows 生产机：CUDA 侧跑 ComfyUI/TTS/引擎，Ollama 跑 4B-8B 判读",
+   "python": ">=3.10,<3.13",
+   "ollama": ">=0.30",
+   "ffmpeg": ">=6",
+   "torch": ">=2.4",
+   "cuda": ">=12.1",
+   "env": {"OLLAMA_MODELS": "<盘符>:\\ollama\\models", "OLLAMA_KEEP_ALIVE": "10m"},
+   "soft_env": {"OLLAMA_MAX_LOADED_MODELS": ">=2"},
+   "env_why": "模型库必须在有空间的盘（C 只放代码）；KEEP_ALIVE 同主控；MAX_LOADED 防互相驱逐"
+  },
+  "linux-cuda": {
+   "why": "算力大脑若装 Ubuntu：3×V100 主力，无 AVX2",
+   "python": ">=3.11,<3.13",
+   "ollama": ">=0.30",
+   "ffmpeg": ">=6",
+   "torch": ">=2.4",
+   "cuda": ">=12.1",
+   "env": {"OLLAMA_MODELS": "/srv/ollama/models", "OLLAMA_KEEP_ALIVE": "30m", "OLLAMA_MAX_LOADED_MODELS": ">=3", "OLLAMA_NUM_PARALLEL": ">=4"},
+   "env_why": "大脑 48G 显存要同时挂 triage/creative/embed 三席；V100 只支持 FP16，禁 bf16 参数"
+  }
+ },
+ "stations": {
+  "control": "darwin-arm64",
+  "delivery": "windows-cuda",
+  "visual": "windows-cuda",
+  "audio": "windows-cuda",
+  "brain": null
+ },
+ "station_models": {
+  "control": {"required": ["qwen3.5:4b", "qwen3-embedding:0.6b"],
+              "pinned_digest": {"qwen3.5:4b": "7f3251fa", "qwen3-embedding:0.6b": "ac6da0df"},
+              "why": "轻量兜底：4B 判读 + 0.6B 向量；digest 一错说明别名/权重被换过"},
+  "delivery": {"any_of": ["qwen3.5:8b", "qwen3:8b", "qwen3.5:4b"], "required_embed": true,
+               "why": "8B 级判读写卡理由；向量用于去重"},
+  "visual": {"any_of": ["qwen3.5:8b", "qwen3:8b", "qwen3.5:4b"], "required_embed": true,
+             "why": "出片间隙用完即卸，8B 级足够"},
+  "audio": {"any_of": ["qwen3.5:4b", "qwen3:8b", "qwen3.5:8b"], "required_embed": true,
+            "why": "4B-8B 按需；显存优先留给 TTS"},
+  "brain": {"any_of": ["qwen3.5:32b", "qwen2.5:32b", "qwen3:32b"], "required_embed": true,
+            "why": "32B 级 Q4 分卡：写作/审稿/长文；入网后才谈达标"}
+ },
+ "soft_checks": {
+  "note": "这些不影响通过判定，但会写进文档提醒：盘余量、驱动版本、模型数量异常（少于 1 个聊天模型=环境没准备好）"
+ }
+}
