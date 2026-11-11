@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-11T10:26:28",
+ "ts": "2026-11-11T10:29:44",
  "jobs": [
   {
    "id": "UNBLOCK-VERIFY-ICONS-BMA-20261111",
@@ -47,5 +47,11 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 17.1/1.0 GB"
+ "capacity_note": "ram 17.1/1.0 GB",
+ "cards": [],
+ "pruned_shells": [
+  "UNBLOCK-VERIFY-ICONS-BMA-20261111",
+  "UNBLOCK-GAP-ASSETLIB-BMA-2",
+  "UNBLOCK-NODE-SYNC-bm-a-20261111T0956"
+ ]
 }

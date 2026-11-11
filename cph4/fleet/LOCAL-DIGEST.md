@@ -6984,3 +6984,9 @@
 - 11-11T10:27 · UNBLOCK-GAP-ASSETLIB-BMA-2-acceptance.json · 完成机队回执提交，但被拒因非有效产物且存在合规风险。
 - 11-11T10:27 · UNBLOCK-GAP-ASSETLIB-BMA-2-bm-m.json · 已完成 GAP-ASSETLIB-BMA-2 回执，但存在因权限缺失导致无法执行的潜在风险。
 - 11-11T10:28 · _last_lane_bm-m.json · 任务因无可用分配被推迟，存在无法执行的风险。
+- 11-11T10:29 · triage-fluxverse-bm-b-20261111.md · 已完成线级体检，发现两个工段严重超阈，需立即补产出或收线。
+- 11-11T10:29 · PROBE-BMB-TOOLCHAIN-20261110-bm-c.json · 机队任务已完成，无风险。
+- 11-11T10:29 · PROBE-BMB-TOOLCHAIN-20261110-acceptance.json · 完成机队回执提交，但被拒收因交付物非标准产物。
+- 11-11T10:29 · NODE-SYNC-bm-c-20261111T1024-bm-c.json · 已完成节点同步与报告生成，无风险。
+- 11-11T10:29 · NODE-SYNC-bm-c-20261111T1024-acceptance.json · 已完成机队回执提交，但因非标准产物被驳回。
+- 11-11T10:29 · _last_lane_bm-m.json · 任务因无可用资源被推迟，存在无法按时运行的风险。
