@@ -6935,3 +6935,10 @@
 - 11-11T10:12 · CMD-DSH-BMC-MEM-2012-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
 - 11-11T10:12 · CMD-DSH-BMC-ACK-2012-bm-c.json · bm-c 自主完成回执生成，无风险。
 - 11-11T10:12 · CMD-DSH-BMC-ACK-2012-acceptance.json · 已完成机队回执提交，但被驳回因交付物非有效产物。
+- 11-11T10:14 · REPAIR-VERIFY-ICONS-BMA-20261111-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
+- 11-11T10:14 · REPAIR-VERIFY-ICONS-BMA-20261111-bm-m.json · 已完成补账逻辑修复与验证，但存在数据解析异常导致任务终止的风险。
+- 11-11T10:14 · _last_lane_bm-m.json · 已完成机队维修分诊任务，无风险。
+- 11-11T10:14 · REPAIR-LINE-TRIAGE-MV-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-11T10:14 · REPAIR-LINE-TRIAGE-MV-bm-m.json · 已完成交易凭证与银行流水的逻辑一致性校验，发现不一致导致入账失败且无自动重试机制。
+- 11-11T10:14 · REPAIR-GAP-MV-LINE-20261111-acceptance.json · 机队回执未生成有效交付物，存在流程阻断风险。
+- 11-11T10:14 · REPAIR-GAP-MV-LINE-20261111-bm-m.json · 已完成重放机制触发的补偿作业与状态切换，无风险。
