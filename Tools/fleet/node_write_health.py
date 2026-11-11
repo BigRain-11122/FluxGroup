@@ -40,19 +40,34 @@ def main(argv):
         rec = [p for p in glob.glob(os.path.join(F, "queue-receipts", "*-%s.json" % n))
                if os.path.getmtime(p) >= cutoff]
         running = [r["id"] for r in rows if r.get("owner") == n and r.get("state") == "RUNNING"]
-        suspect = (not rec) and bool(running)
+        last = max((os.path.getmtime(p) for p in rec), default=0)
+        age_h = round((time.time() - last) / 3600, 1) if last else None
+        # 2026-11-11：原来"没在跑"也报"正常"，把 bm-b（不可达、零回执）算成健康。
+        # 三态：可疑=有在跑无回执；未知=无在跑也无回执（可能空闲也可能哑了）；正常=窗口内有回执。
+        if (not rec) and running:
+            status = "SUSPECT"
+        elif not rec:
+            status = "UNKNOWN"
+        else:
+            status = "OK"
         out.append({"node": n, "receipts_in_window": len(rec), "running": len(running),
-                    "write_suspect": suspect})
+                    "last_receipt_age_h": age_h, "status": status,
+                    "write_suspect": status == "SUSPECT"})
     bad = [x["node"] for x in out if x["write_suspect"]]
+    unknown = [x["node"] for x in out if x["status"] == "UNKNOWN"]
     if a.json:
         print(json.dumps({"suspect": bad, "nodes": out}, ensure_ascii=False))
     else:
         print("[write-health] 窗口 %d 分钟 · 可疑=%s" % (a.minutes, bad or "无"))
         for x in out:
-            print("  %-5s 回执 %2d · 在跑 %2d · %s" % (
+            print("  %-5s 回执 %2d · 在跑 %2d · 最近回执 %s · %s" % (
                 x["node"], x["receipts_in_window"], x["running"],
-                "写链路可疑" if x["write_suspect"] else "正常"))
-    return 0 if not bad else 2
+                ("%.1fh" % x["last_receipt_age_h"]) if x.get("last_receipt_age_h") is not None else "无",
+                {"OK": "正常", "SUSPECT": "写链路可疑", "UNKNOWN": "未知(无在跑/无回执)"}[x["status"]]))
+    if bad:
+        return 2
+    if unknown:
+        return 0          # 未知不报警，只在屏幕上标出来，避免把"空闲"当故障
 
 
 if __name__ == "__main__":
