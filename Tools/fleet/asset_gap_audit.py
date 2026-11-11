@@ -13,7 +13,9 @@ import time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 TARGETS = os.path.join(ROOT, "cph4", "fleet", "asset-lib-v1", "LIBRARY-TARGETS.json")
-VAULT = "/Volumes/移动硬盘/FluxAssets"
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import vault as _vault
+VAULT = _vault.root()          # 未配置=""; 下面扫描前明确报错
 OUT = os.path.join(ROOT, "cph4", "fleet", "state", "asset-gap.json")
 IMG = (".png", ".jpg", ".jpeg", ".webp", ".bmp", ".tif", ".tiff")
 VID = (".mp4", ".mov", ".mkv", ".webm")

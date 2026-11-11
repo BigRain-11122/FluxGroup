@@ -30,16 +30,14 @@ FLEET = os.path.join(ROOT, "cph4", "fleet")
 SLOTS = os.path.join(FLEET, "MAC-SLOTS-v1.json")
 STATE = os.path.join(FLEET, "state", "mac-farm.json")
 def _vault():
-    """素材库位置：环境变量 > ASSET-VAULT.json > 报错。不许再写死 /Volumes。"""
-    import json as _json
-    v = os.environ.get("FLUX_VAULT")
-    if v:
-        return os.path.join(v, "store") if not v.endswith("/store") else v
-    try:
-        with open(os.path.join(FLEET, "ASSET-VAULT.json"), encoding="utf-8") as f:
-            return os.path.join(_json.load(f)["vault"]["path"], "store")
-    except Exception:
-        raise SystemExit("素材库未配置：设 FLUX_VAULT 或在 cph4/fleet/ASSET-VAULT.json 写 path")
+    """素材库位置：环境变量 > ASSET-VAULT.json > 空。不许写死 /Volumes，也不许在导入期 SystemExit
+    （2026-11-11 实测：vault.path=null 时整个工具在 import 阶段就死了，连 --help 都看不到）。"""
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import vault as _v
+    base = _v.root()
+    if not base:
+        return ""
+    return base if base.endswith("/store") else os.path.join(base, "store")
 
 
 VAULT = _vault()
@@ -94,13 +92,14 @@ def count_caption_todo():
 
 # 编码/字幕槽的素材源：收件暂存 + 本机成片目录。只看 media/inbox 会让 CPU 槽永远没活
 # （收件靠别机推送，今天还卡在 bm-a 车道上），而 media/drama-out 的成片一直有代理可做。
-MEDIA_SRCS = [INBOX, os.path.join(ROOT, "media", "drama-out"),
-              # 移动盘备份树里的镜头/样本（2026-11-04 CEO「没有素材自己去找」）：
-              # 机队媒体件长期躺在备份盘上，主控不主动去取就等于没有素材。
-              os.path.join("/Volumes/移动硬盘/Backup/FluxGroup/cph4/fleet",
-                           "mv0001-handover/outbound/krea2/30s-reel-v1/fleet-shots"),
-              os.path.join("/Volumes/移动硬盘/Backup/FluxGroup/cph4/fleet",
-                           "drama-dept-v1/samples")]
+MEDIA_SRCS = [INBOX, os.path.join(ROOT, "media", "drama-out")]
+# 库里的镜头/样本只在库根真的配置了才加进来（移动盘 2026-11-11 已清空退出，
+# 写死路径会让 CPU 槽天天对着一个不存在的盘报"没活"）。
+if VAULT and os.path.isdir(VAULT):
+    for _sub in ("mv0001-handover/outbound/krea2/30s-reel-v1/fleet-shots", "drama-dept-v1/samples"):
+        _p = os.path.join(VAULT, _sub)
+        if os.path.isdir(_p):
+            MEDIA_SRCS.append(_p)
 PROXY_DIR = os.path.join(ROOT, "media", "review-720p")
 
 

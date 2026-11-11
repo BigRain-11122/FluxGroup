@@ -17,7 +17,11 @@ from datetime import datetime
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 ART = os.path.join(ROOT, "cph4", "fleet", "artifacts")
-EXT = os.environ.get("INTAKE_ROOT", "/Volumes/移动硬盘")
+# 外置盘（移动硬盘）2026-11-11 已清空退出长期存储：未配置就明确报错，
+# 不许指着一个不存在的盘把"没收到"当成"机队没产出"（那会把假红洗成结论）。
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import vault as _vault
+EXT = os.environ.get("INTAKE_ROOT") or _vault.root()
 INDEX = os.path.join(EXT, "Backup", "artifacts-index.jsonl")
 OUT = os.path.join(ART, "COVERAGE.md")
 

@@ -68,7 +68,9 @@ def walk_manifests(root):
 
 def main(argv=None):
     ap = argparse.ArgumentParser()
-    ap.add_argument("--root", default="/Volumes/移动硬盘/FluxAssets/incoming")
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import vault as _vault
+    ap.add_argument("--root", default=_vault.sub("incoming") or "")
     a = ap.parse_args(argv)
     if not os.path.isdir(a.root):
         print("[verify] 根不存在 %s（rc=2）" % a.root)

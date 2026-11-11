@@ -24,7 +24,9 @@ ROOT = os.path.dirname(os.path.dirname(HERE))
 F = os.path.join(ROOT, "cph4", "fleet")
 QUEUE = os.path.join(F, "PRODUCTION-QUEUE.jsonl")
 BACKLOG = os.path.join(F, "PRODUCTION-BACKLOG.jsonl")
-VAULT = "/Volumes/移动硬盘/FluxAssets"
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import vault as _vault
+VAULT = _vault.root()          # 未配置=""，依赖库根的卡会被跳过而不是指向死盘
 IMG = (".png", ".jpg", ".jpeg", ".webp", ".bmp")
 
 
@@ -246,7 +248,7 @@ def main(argv=None):
                     "cmd": "python3 Tools/fleet/preview_concat.py --dir %s --out %s"
                            % (g["dir"], g["out"]),
                     "cwd": "", "requires": ["Tools/fleet/preview_concat.py"],
-                    "deliverable": os.path.relpath(g["out"], "/Volumes/移动硬盘/FluxAssets"),
+                    "deliverable": os.path.relpath(g["out"], VAULT) if VAULT else g["out"],
                     "why": "装配线产线验证：竖屏素材齐了，拼一条能看的 30s 预览",
                 }
             elif name == "bm-b-asr":

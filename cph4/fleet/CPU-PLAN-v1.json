@@ -11,35 +11,35 @@
  "machines": {
   "delivery": {
    "name": "公司生产力机（DASHENG）",
-   "cpu": "Ryzen 9950X", "cores": 16, "threads": 32, "ram_gb": 93.6,
+   "os": "windows", "cpu": "Ryzen 9950X", "cores": 16, "threads": 32, "ram_gb": 93.6,
    "avx2": true, "avx512": true, "gpu": "RTX 4070 SUPER 12G",
    "reserve_cores": 3, "day_share": 0.25, "night_share": 1.0,
    "notes": "单核最强，编译/出包首选；白天 CEO 在用（实测 CPU load 57%），只吃富余核"
   },
   "visual": {
    "name": "视觉工位（传家宝 FLUXGROUP）",
-   "cpu": "Ryzen 3950X", "cores": 16, "threads": 32, "ram_gb": 24,
+   "os": "windows", "cpu": "Ryzen 3950X", "cores": 16, "threads": 32, "ram_gb": 24,
    "avx2": true, "avx512": false, "gpu": "RTX 3070 16G",
    "reserve_cores": 3, "day_share": 0.3, "night_share": 1.0,
    "notes": "转码与给 GPU 喂数据的同机配合最好；内存 24G 是硬约束，重内存活不排"
   },
   "audio": {
    "name": "声音工位（小钢炮 BIGMONEY）",
-   "cpu": "Ryzen 3800X", "cores": 8, "threads": 16, "ram_gb": 24,
+   "os": "windows", "cpu": "Ryzen 3800X", "cores": 8, "threads": 16, "ram_gb": 24,
    "avx2": true, "avx512": false, "gpu": "RTX 3070 8G",
    "reserve_cores": 2, "day_share": 0.5, "night_share": 1.0,
    "notes": "与 TTS/whisper 同机做后处理最省搬运；有 53.5h 停摆史，长跑必须带守护"
   },
   "brain": {
    "name": "算力大脑",
-   "cpu": "2× Xeon E5-2695v2", "cores": 24, "threads": 48, "ram_gb": 256,
+   "os": "unverified", "cpu": "2× Xeon E5-2695v2", "cores": 24, "threads": 48, "ram_gb": 256,
    "avx2": false, "avx512": false, "gpu": "Tesla V100 16G ×3",
    "reserve_cores": 4, "day_share": 1.0, "night_share": 1.0,
    "notes": "24/7 常开；CPU 主厂=回测与批处理；禁 CPU 推理（无 AVX2）；ffmpeg 只许 veryfast 且限线程"
   },
   "control": {
    "name": "主控台（MacBook）",
-   "cpu": "Apple M1 Pro", "cores": 10, "threads": 10, "ram_gb": 32,
+   "os": "darwin", "cpu": "Apple M1 Pro", "cores": 10, "threads": 10, "ram_gb": 32,
    "avx2": null, "avx512": false, "gpu": "M1 Pro 16 核（含 VideoToolbox 硬编）",
    "reserve_cores": 2, "day_share": 0.5, "night_share": 1.0,
    "notes": "只做规则/索引/文本与短视频硬编；禁长转码与融合（统一内存与办公共用）"

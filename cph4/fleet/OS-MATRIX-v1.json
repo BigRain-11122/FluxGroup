@@ -1,0 +1,78 @@
+{
+ "_comment": "跨系统事实正身（2026-11-11 CEO 令「我主控是苹果 mac，其他是 windows 系统都不一样，你好好辨别，然后梳理」）。只写可核验事实与判据；执行体=Tools/fleet/os_matrix.py。",
+ "_version": "v1-20261111",
+ "_rule": "任何卡/脚本要跨机跑，先过这张表：OS 不符→不派（不是失败了再查）；解释器名不符→命令必错（Windows 无 python3，实测 rc=9009）。",
+ "machines": {
+  "control": {
+   "name": "主控台（MacBook）", "station": "control", "hostname": "bm-m-1",
+   "os": "darwin", "os_label": "macOS", "verified": true,
+   "evidence": "tailscale status 显示 macOS 100.75.133.10；本机 sysctl machdep.cpu.brand_string=Apple M1 Pro",
+   "python": "python3", "shell": "bash/zsh", "path_style": "posix",
+   "encoding_default": "utf-8", "newline": "LF",
+   "lock": "fcntl", "scheduler": "launchd（用户级 LaunchAgent，当前 44 项全部暂停）",
+   "notes": "只做文本/索引/验收/账本；不做长转码与音视频融合；launchctl 命令只在这台有效"
+  },
+  "delivery": {
+   "name": "公司生产力机（DASHENG）", "station": "delivery", "hostname": "DASHENG",
+   "os": "windows", "os_label": "Windows", "verified": true,
+   "evidence": "tailscale status 显示 windows 100.110.185.62；机名 DASHENG",
+   "python": "python（或 py -3）", "shell": "powershell", "path_style": "windows（C:\\）",
+   "encoding_default": "utf-8-with-risk（旧文件可能 GBK，写入前先探字节）", "newline": "CRLF",
+   "lock": "msvcrt", "scheduler": "任务计划程序（FluxGroup-Nats* 等）",
+   "notes": "9950X 16C/32T；白天 CEO 在用（CPU load 实测 57%）；引擎编译/出包首选"
+  },
+  "visual": {
+   "name": "传家宝（FLUXGROUP）", "station": "visual", "hostname": "FLUXGROUP",
+   "os": "windows", "os_label": "Windows", "verified": true,
+   "evidence": "tailscale status 显示 windows 100.123.74.104",
+   "python": "python", "shell": "powershell", "path_style": "windows（C:\\ / K:\\）",
+   "encoding_default": "utf-8-with-risk", "newline": "CRLF",
+   "lock": "msvcrt", "scheduler": "任务计划程序",
+   "notes": "3950X 16C/32T + 3070 16G；素材库目标位 K:/FluxAssets；ComfyUI 常驻监听过"
+  },
+  "audio": {
+   "name": "小钢炮（BIGMONEY）", "station": "audio", "hostname": "BIGMONEY",
+   "os": "windows", "os_label": "Windows", "verified": true,
+   "evidence": "tailscale status 显示 windows 100.82.175.0（当前 offline，最后在线 16h 前）",
+   "python": "python", "shell": "powershell", "path_style": "windows（C:\\）",
+   "encoding_default": "utf-8-with-risk", "newline": "CRLF",
+   "lock": "msvcrt", "scheduler": "任务计划程序",
+   "notes": "3800X 8C/16T + 3070 8G；TTS/whisper 后处理同机；有 53.5h 停摆史，长跑必带守护"
+  },
+  "brain": {
+   "name": "算力大脑", "station": "brain", "hostname": "PENDING-TAILNET",
+   "os": "unverified", "os_label": "待定（未装机/未入网）", "verified": false,
+   "evidence": "无：tailnet 无此节点；fleet-compute-plan-20261021 只记硬件（2×E5-2695v2/256G/3×V100），未写 OS",
+   "python": "待定", "shell": "待定", "path_style": "待定",
+   "encoding_default": "待定", "newline": "待定",
+   "lock": "待定", "scheduler": "待定",
+   "notes": "工位表里写成 windows 属未经验证的假设。装 V100/CUDA 与无 AVX2 的现实更偏向 Ubuntu，但这是决策项不是既成事实，装完当天以实测回填。",
+   "decision_needed": "入网时二选一：Ubuntu（CUDA/驱动省事，工具多为 py）或 Windows（与另外三台一致，可复用 .ps1）。选前不得按任何一方排卡。"
+  }
+ },
+ "rules": [
+  {"id": "OS-1", "rule": "解释器名随 OS 变", "detail": "macos=python3；windows=python 或 py -3。卡里写 python3 的属于 mac 卡，派到 Windows 必 rc=9009（2026-11-03 实测两次）。"},
+  {"id": "OS-2", "rule": "路径分隔与盘符", "detail": "Windows 命令含 C:\\ 或盘符=Windows 卡；Mac 路径以 / 开头，外接盘在 /Volumes（已退役，不再使用移动盘）。"},
+  {"id": "OS-3", "rule": "文件锁实现不同", "detail": "POSIX 用 fcntl，Windows 必须 msvcrt；直接 import fcntl 的脚本在 Windows 导入即崩（master_pulse 就是这种，只能在 Mac 跑）。"},
+  {"id": "OS-4", "rule": "调度器不同", "detail": "Mac=launchd（launchctl bootstrap/bootout/kickstart），Windows=任务计划程序（schtasks / Get-ScheduledTask）。两套命令互不通用。"},
+  {"id": "OS-5", "rule": "编码与换行", "detail": "老 Windows 文件可能是 GBK；写前先探字节再决定编码，写后回读校验。换行 CRLF/LF 混写会触发 .gitattributes 的 eol=lf 冲突（本仓踩过）。"},
+  {"id": "OS-6", "rule": "系统专属命令不算通用", "detail": "sysctl / getloadavg / launchctl / os.fork 只在 POSIX；schtasks / Get-CimInstance / powershell 只在 Windows。失真判据一律双实现或显式拒绝。"},
+  {"id": "OS-7", "rule": "未验证 OS 不得排卡", "detail": "os=unverified 的机器不得作为任何卡的落点（除非卡本身就是装机/验机卡）。"}
+ ],
+ "control_plane_only": {
+  "_why": "这些是主控台的守护/自救/简报类脚本，天然只在 macOS 主控跑（launchctl 管理自己的 LaunchAgent）。声明在此，审计就不再把它当\"误写成只能在 Mac 跑\"的缺口；但也不许派到别的机器。",
+  "tools": ["brain_brief.py", "deploy_gate.py", "dr_check.py", "fleet_contingency.py",
+            "local_llm_bench.py", "mac_loadout.py", "mem_guard.py", "pulse_watchdog.py",
+            "resilience.py", "selfwatch.py", "service_guard.py", "session_brief.py",
+            "soak_watch.py"]
+ },
+ "tool_classes": {
+  "mac_only_markers": ["import fcntl", "fcntl.", "launchctl", "sysctl -n", "os.getloadavg", "os.fork"],
+  "dead_path_markers": ["/Volumes/"],
+  "win_only_markers": ["Get-ScheduledTask", "schtasks", "powershell", ".ps1", "msvcrt"],
+  "twin_rules": {
+   "dead_path_note": "/Volumes/ = 已退役的移动硬盘路径（2026-11-11 清空退出长期存储）。不是 OS 问题，是死路径：默认值里还留着就说明该机在等一个不存在的盘。",
+   "note": "mac_only 的脚本若要在 Windows 跑，必须满足其一：①有 platform.system()/sys.platform 分支 ②有同名 .ps1/.cmd 伴生 ③判据里显式声明只在哪台跑"
+  }
+ }
+}
