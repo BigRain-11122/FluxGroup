@@ -1,7 +1,10 @@
 {
- "ts": "2026-11-12T00:16:49",
- "state": "POOL-EMPTY",
+ "ts": "2026-11-12T01:06:42",
+ "state": "POOL-STUCK",
  "node": "bm-c",
+ "id": "POOL-0032",
  "face": "origin",
- "blocked": []
+ "seen_count": 12,
+ "first_ts": "2026-11-12T00:20:39",
+ "note": "intent re-emitted without execution: the card carries no cmd, so this leg has no execute leg. Dispatcher must materialize a PRODUCTION-QUEUE job (job_ref) or the card is phantom supply."
 }
