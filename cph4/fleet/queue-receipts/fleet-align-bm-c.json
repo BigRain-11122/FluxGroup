@@ -9,7 +9,7 @@
     },
     {
       "step": "fetch",
-      "detail": "head=d97e7aab3 behind=2"
+      "detail": "head=4619addbb behind=0"
     },
     {
       "step": "hot-sync",
@@ -21,7 +21,7 @@
     },
     {
       "step": "task",
-      "detail": "registered"
+      "detail": "present state=Ready"
     },
     {
       "step": "heartbeat",
@@ -32,6 +32,6 @@
       "detail": "LANE-DRY bm-c would run R-NEXT-BIGSTREAMM-REBUILD-20261109 :: MV 合成本片：按 EDL 行表重建成片 v721（缺的是成片，不是闸）"
     }
   ],
-  "head": "d97e7aab3",
+  "head": "4619addbb",
   "lane": "LANE-DRY bm-c would run R-NEXT-BIGSTREAMM-REBUILD-20261109 :: MV 合成本片：按 EDL 行表重建成片 v721（缺的是成片，不是闸）"
 }
