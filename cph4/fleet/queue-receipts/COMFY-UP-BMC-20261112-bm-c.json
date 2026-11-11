@@ -2,7 +2,7 @@
  "id": "COMFY-UP-BMC-20261112",
  "node": "bm-c",
  "rc": 0,
- "seconds": 8.5,
+ "seconds": 1.4,
  "cmd": "if not exist \"D:\\ComfyUI\\python_embeded\\python.exe\" (echo BLOCKED: comfy python missing & exit /b 3) else (python Tools\\fleet\\comfy_guard.py & python Tools\\fleet\\char_gen.py --probe-only --node bm-c --receipt cph4\\fleet\\queue-receipts\\comfy-probe-bm-c-20261112.json)",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/queue-receipts/comfy-probe-bm-c-20261112.json",
  "deliverable_exists": true,
- "ts": "2026-11-12T04:23:41",
+ "ts": "2026-11-12T04:24:50",
  "stdout_tail": "[char_gen] probed -> cph4\\fleet\\asset-lib-v1\\comfy-bm-c.json | route=ckpt\n[char_gen] receipt -> cph4\\fleet\\queue-receipts\\comfy-probe-bm-c-20261112.json\n",
  "stderr_tail": ""
 }
