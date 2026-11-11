@@ -1,1 +1,1 @@
-缺权限：owner 无操作权，需 bm-a 复核并执行“按回执补账”。
+缺权限：需 owner(bm-a) 补填回执 GAP-ASSETLIB，执行机 bm-a。
