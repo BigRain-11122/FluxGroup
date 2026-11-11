@@ -2,7 +2,7 @@
  "id": "PIPE-PROBE-BMC-20261112",
  "node": "bm-c",
  "rc": 0,
- "seconds": 0.1,
+ "seconds": 0.2,
  "cmd": "python -c \"import os,time;os.makedirs('cph4/fleet/queue-receipts',exist_ok=True);open('cph4/fleet/queue-receipts/pipe-probe-bm-c-20261112.txt','w').write('ok '+time.strftime('%Y-%m-%dT%H:%M:%S'))\"",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/queue-receipts/pipe-probe-bm-c-20261112.txt",
  "deliverable_exists": true,
- "ts": "2026-11-12T05:06:52",
+ "ts": "2026-11-12T05:07:39",
  "stdout_tail": "",
  "stderr_tail": ""
 }
