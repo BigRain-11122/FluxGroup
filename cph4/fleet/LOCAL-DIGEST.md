@@ -7024,3 +7024,10 @@
 - 11-11T10:42 · UNBLOCK-asset-lib-library-check-2026-11-08-bm-m.json · 已完成机队资产库检查并解除阻塞，无风险。
 - 11-11T10:42 · skill-promote-20261111.json · 已跳过多项因工具缺失或重复的任务，当前无风险。
 - 11-11T10:43 · _last_lane_bm-m.json · 机队任务已执行完成，无风险。
+- 11-11T10:44 · _last_lane_bm-m.json · 已完成资产库解锁任务，无风险。
+- 11-11T10:44 · UNBLOCK-asset-lib-library-check-2026-11-08-acceptance.json · 已完成机队回执提交，但因非标准产物被驳回。
+- 11-11T10:44 · UNBLOCK-asset-lib-library-check-2026-11-08-bm-m.json · 已完成机队资产库检查，因权限不足存在解除警告风险。
+- 11-11T10:44 · REPAIR-PEER-SYNC-bm-c-20261111-acceptance.json · 机队回执被拒，因交付物非有效产物且无风险。
+- 11-11T10:44 · REPAIR-PEER-SYNC-bm-c-20261111-bm-m.json · 已完成同步补发与验证重启，存在因链路中断导致状态无法核验的风险。
+- 11-11T10:44 · UNBLOCK-R-TRIAGE-BIGCOMPUTE-BMB-20261108-acceptance.json · 已完成机队回执提交，但因内容非标准产物被驳回。
+- 11-11T10:44 · UNBLOCK-R-TRIAGE-BIGCOMPUTE-BMB-20261108-bm-m.json · 机队已补账无风险，但需关注后续缺料情况。
