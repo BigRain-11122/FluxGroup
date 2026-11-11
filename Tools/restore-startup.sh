@@ -32,5 +32,20 @@ for f in "$PAUSED"/*.plist; do
   restored=$((restored+1))
 done
 
-echo "共恢复 $restored 项。登录项需手动或用下方命令重新加入："
-echo '  osascript -e '"'"'tell application "System Events" to make login item at end with properties {path:"/Applications/<App>.app", hidden:false}'"'"''
+echo "共恢复 $restored 项。"
+
+# 登录项：从留档 JSON 读回 name/path 逐个重新加入
+INV="$HOME/FluxGroup/cph4/fleet/STARTUP-INVENTORY-20261111.json"
+if [ -f "$INV" ] && [ "$match_all" -eq 1 ]; then
+  echo "--- 恢复登录项 ---"
+  python3 - "$INV" <<'PY' > /tmp/_li_restore.sh
+import json,sys,shlex
+d=json.load(open(sys.argv[1],encoding="utf-8"))
+for it in d.get("login_items_detail") or []:
+    p=it.get("path","")
+    if not p: continue
+    print("osascript -e 'tell application \"System Events\" to make login item at end "
+          "with properties {path:\"%s\", hidden:false}' >/dev/null 2>&1 && echo \"登录项 %s\"" % (p, it.get("name","?")))
+PY
+  bash /tmp/_li_restore.sh
+fi
