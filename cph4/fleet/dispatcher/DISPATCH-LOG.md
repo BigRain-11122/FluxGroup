@@ -448,3 +448,8 @@
 [2026-11-12 03:12] ├ bm-c 僵尸 RUNNING 转诚实红：asset-lib-asset-gen-2026-11-11 RUNNING 27h(租约45min早过期) → BLOCKED no-verified-cmd(ComfyUI:8188 闭·R39-4 未复)；POOL-0032/0033 同步镜像 blocked_by
 [2026-11-12 03:12] ├ 供给断点实锤：今日(11-12) 应出的每日线卡=0 张（11-11 同时段 9 张）→ 手动补跑 line_plan=4 卡(asset-lib-env-check/bigstream-mv-gate/biggame-pack-scan/bmoney-backtest)+promote→OPEN；poke bm-a HQ-ProductionClaim accepted 03:10:34；03:11:28-32 四卡全部被领(bm-a×3/bm-c×1)，产出证据 asset-env-2026-11-12.json 1595B + game-packs-2026-11-12.json 6329B
 [2026-11-12 03:12] └ 闸升格：Tools/pool_lint.py 加 STALE-CARD 断言（job_ref 已 DONE/FAILED/CANCELLED/ARCHIVED 仍 OPEN = 幻影供给）+ BLOCKED 未镜像 blocked_by 断言；正控 PASS(3 open)、负控失败(指向DONE卡 rc=1)
+[2026-11-12 03:18] EVENT 事件班终验（承 03:12 行）| 调用~38 | verdict=STABLE
+[2026-11-12 03:18] ├ 坏卡循环停机：asset-lib-voice-assemble-2026-11-11 由 FAILED 钉为 BLOCKED（每轮无条件重派；三次实跑 passed=0/9 rc=3，根因=授权音色语料为零 media/voices 不存在，非执行机问题）；90s 复检未回弹
+[2026-11-12 03:18] ├ 在飞三卡保持 RUNNING：asset-lib-env-check-2026-11-12(bm-c) / biggame-pack-scan-2026-11-12(bm-a) / bigmoney-backtest-2026-11-12(bm-a)；产物证据 asset-env-2026-11-12.json 1595B、game-packs-2026-11-12.json 6329B（03:11 落盘）
+[2026-11-12 03:18] ├ bigstream-mv-gate-2026-11-12 被并行窗以 CARD-DEFECT 取消（源片钉 v721 过期路径，目录仅 v723/v724，线已 v725）→ 该窗编号 R41，已自行登记；本窗按同令多窗律不重复处置、不重登记
+[2026-11-12 03:18] └ 收口：POOL-LINT PASS(3 open) / 原子推 PUSH-OK 114e071d1 + 本行 / 回访探针一次性 cron(04:45·durable·c50a0cce) / 清过期 R39 探针(02:33)
