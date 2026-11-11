@@ -2,8 +2,8 @@
 
 | 节点 | 在线 | 能力 | 本地模型 | 心跳 | 在办 |
 |---|---|---|---|---|---|
-| bm-a | 是 | cpu,kf768,i2v768,audio,assemble,llm | - | 121s | - |
-| bm-b | 是 | cpu,animatic480,audio,tts,llm | - | 121s | - |
-| bm-c | 否 | cpu,kf768,i2v768,audio,render,llm | - | 659s | - |
-| bm-m | 是 | cpu,ios-build,text,llm,audio,tts | qwen3.5:4b,qwen3.5:2b,qwen3:8b,qwen3:4b,qwen3.5:9b-mlx,deepseek-r1:14b,qwen3-embedding:0.6b,qwen3.5:4b-mlx | 1s | - |
-| bm-d | 否 | cpu,kf768,i2v768,backtest,brain,llm | - | 407654s | - |
+| bm-a | 是 | cpu,kf768,i2v768,audio,assemble,llm | - | 454s | - |
+| bm-b | 是 | cpu,animatic480,audio,tts,llm | - | 324s | - |
+| bm-c | 否 | cpu,kf768,i2v768,audio,render,llm | - | 992s | - |
+| bm-m | 是 | cpu,ios-build,text,llm,audio,tts | qwen3.5:4b,qwen3.5:2b,qwen3:8b,qwen3:4b,qwen3.5:9b-mlx,deepseek-r1:14b,qwen3-embedding:0.6b,qwen3.5:4b-mlx | 0s | REPAIR-NODE-SYNC-bm-a-20261111T1035 |
+| bm-d | 否 | cpu,kf768,i2v768,backtest,brain,llm | - | 407987s | - |
