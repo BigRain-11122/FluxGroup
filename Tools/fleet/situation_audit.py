@@ -62,7 +62,9 @@ def load_corpus(root=None):
     cards = {}
     for p in (glob.glob(os.path.join(fdir, "rt", "*", "queue.jsonl"))
               + [os.path.join(fdir, "PRODUCTION-QUEUE.jsonl")]
-              + glob.glob(os.path.join(fdir, "queue-archive*.jsonl"))):
+              + glob.glob(os.path.join(fdir, "queue-archive*.jsonl"))
+              + glob.glob(os.path.join(fdir, "storage", "archive", "rt-*", "*.jsonl"))
+              + glob.glob(os.path.join(fdir, "storage", "archive", "*.jsonl"))):
         for r in _rows(p):
             if isinstance(r, dict) and r.get("id"):
                 cards[str(r["id"])] = r

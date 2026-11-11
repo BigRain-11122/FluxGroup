@@ -1,3 +1,4 @@
+# ⛔ 已退役（2026-11-11）：旧派单器读旧队列，已由 AUTONOMY-V3 自驱机制取代。
 # fleet-dispatcher.ps1 - HQ-FleetDispatcher L0 deterministic round (v2, 2026-10-27)
 # CEO order 2026-10-27: an "open" card is not work; idle with work is a P1, not a NOTE.
 # v1 counted every status=open card as supply and only appended QUEUE-LOW lines, so the

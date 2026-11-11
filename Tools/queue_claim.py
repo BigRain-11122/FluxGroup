@@ -1,3 +1,4 @@
+# ⛔ 已退役（2026-11-11）：旧队列 PRODUCTION-QUEUE.jsonl 已移档，机制改为分片 rt/<工位>/。本脚本不再被调用。
 # -*- coding: utf-8 -*-
 """queue_claim.py - the self-serving work loop the fleet was missing.
 

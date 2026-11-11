@@ -1,3 +1,4 @@
+# ⛔ 已退役（2026-11-11）：旧队列已移档，供给改由机队自驱（station_drive.py）。本脚本不再被调用。
 # -*- coding: utf-8 -*-
 """backlog_fill.py - deterministic real-backlog -> production-queue filler.
 
