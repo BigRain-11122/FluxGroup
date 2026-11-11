@@ -57,13 +57,16 @@ CASES = [
     ("L1", "condition matrix 环境矩阵", "condition_matrix.py", ["--self-test"]),
     ("L1", "parallel sim 并发模型", "parallel_sim.py", ["--self-test"]),
     ("L1", "cmd latency 命令通道", "cmd_latency.py", ["--self-test"]),
+    ("L1", "docs curate 文档整理", "docs_curate.py", ["--self-test"]),
     ("L2", "工况 QA 12 例", "station_qa.py", []),
     ("L2", "条件矩阵 80 格", "condition_matrix.py", ["--rounds", "2"]),
     ("L2", "并发争用模型", "parallel_sim.py", ["--hours", "1"]),
-    ("L2", "命令下发延迟", "cmd_latency.py", []),
+    # 可达性受真实机器开关影响（外部状态），按 report 处理：只要求跑通，判决写进输出
+    ("L2", "命令下发延迟", "cmd_latency.py", [], "report"),
     ("L2", "预演 14 场景", "fleet_rehearsal.py", []),
     ("L3", "一致性 17 项", "integrity_check.py", []),
     ("L3", "情况台账", "situation_audit.py", [], "report"),
+    ("L3", "文档库/正典指针", "docs_curate.py", ["--check"]),
     ("L4", "总评分", "quality_score.py", [], "report"),
 ]
 
