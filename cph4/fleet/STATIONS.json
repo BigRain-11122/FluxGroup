@@ -1,5 +1,5 @@
 {
- "_comment": "工位档案：唯一硬件与产能口径。id 是工位名（人能读），machine/hostname 是机器名。这里的数值只描述事实与容量，阈值仍归 AUTONOMY-CONFIG / CARD-POLICY。null=未实测，不猜。",
+ "_comment": "工位档案：唯一硬件与产能口径。id 是工位名（人能读），machine/hostname 是机器名。这里的数值只描述事实与容量，阈值仍归 AUTONOMY-CONFIG / CARD-POLICY。null=未实测，不猜。能接哪些工序不写在这里：能力正身=cph4/fleet/TAXONOMY-v1.json 的 task_types.stations（2026-11-11 起），allowed_work 只是人读摘要，派单以 TAXONOMY 为准。",
  "version": "v1-20261111",
  "probe_policy": {
   "before_claim": "领卡前必查：目标路径存在、所需服务在听、内存/显存达线；任一不满足写 BLOCKED 并说明，不许 FAIL 循环",
@@ -44,6 +44,11 @@
    ],
    "hours": "工作日 09:00-19:00 只接轻 CPU（day_ok）；19:00-09:00 与周末重活",
    "slots": 8,
+   "shifts": [
+    "00-08",
+    "20-24"
+   ],
+   "shift_note": "CEO 工作台式机：白天让路（2026-11-06 令「我在工作」），重活只走夜窗与晚饭后",
    "allowed_work": [
     "打包",
     "提审材料",
@@ -123,6 +128,10 @@
    ],
    "hours": "全天；GPU 串行，同一时刻只跑 1 张",
    "slots": 6,
+   "shifts": [
+    "00-24"
+   ],
+   "shift_note": "专用视觉机：全天可用，ComfyUI 未起时 i2v/KF 仍算不可用",
    "allowed_work": [
     "关键帧",
     "图生视频",
@@ -199,6 +208,10 @@
    ],
    "hours": "全天低负载",
    "slots": 6,
+   "shifts": [
+    "00-24"
+   ],
+   "shift_note": "专用音频机：全天低负载；当前离线，TTS venv 待补",
    "allowed_work": [
     "配音",
     "TTS",
@@ -269,6 +282,8 @@
    ],
    "hours": "入网后全天",
    "slots": 8,
+   "shifts": [],
+   "shift_note": "未入网：时段无意义，先入网再谈排产",
    "allowed_work": [
     "回测",
     "深判",
@@ -332,6 +347,10 @@
    ],
    "hours": "全天（CEO 在用电脑时降载）",
    "slots": 4,
+   "shifts": [
+    "00-24"
+   ],
+   "shift_note": "CEO 在用时降载：只跑轻量判读/草稿，不抢内存",
    "allowed_work": [
     "文本与判读",
     "剪辑与字幕",
