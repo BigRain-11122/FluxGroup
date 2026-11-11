@@ -6660,3 +6660,16 @@
 - 11-11T08:45 · REPAIR-R-QUANT-ETF-DAILY-20261102-bm-m.json · 已完成机队修复分析，发现缓存同步延迟风险，需执行强制刷新操作。
 - 11-11T08:45 · REPAIR-C-FIN-EQUITY-ALPHA-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物，无风险。
 - 11-11T08:45 · REPAIR-C-FIN-EQUITY-ALPHA-bm-m.json · 已完成 ETF 数据导出作业，但文件未落盘导致验证失败，需人工介入修复。
+- 11-11T08:47 · _last_lane_bm-m.json · 已完成修复任务，当前运行中无风险。
+- 11-11T08:47 · PATROL-bigdomain-20261111-acceptance.json · 机队回执被拒，因交付物非预期文档且无风险。
+- 11-11T08:47 · PATROL-bigdomain-20261111-bm-m.json · 已完成高风险资产管控与熔断，暂无进一步风险。
+- 11-11T08:47 · PATROL-bigdomain-20261111.md · 已完成高风险处置与熔断限制，待人工决策后解除风险。
+- 11-11T08:47 · REPAIR-C-FIN-EQUITY-ALPHA-acceptance.json · 已完成机队回执提交，但存在交付物非产物的风险。
+- 11-11T08:47 · REPAIR-C-FIN-EQUITY-ALPHA-bm-m.json · 已完成机队修复任务，但存在因路径配置错误导致交付失败的风险。
+- 11-11T08:47 · REPAIR-R-QUANT-ETF-DAILY-20261102-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-11T08:47 · REPAIR-R-QUANT-ETF-DAILY-20261102-bm-m.json · 任务完成但存在文件未落盘的系统性风险，需排查磁盘与代码逻辑。
+- 11-11T08:47 · PATROL-biglife-20261111-acceptance.json · 机队回执被拒收，因交付物非预期文档且无风险。
+- 11-11T08:47 · PATROL-biglife-20261111-bm-m.json · 已完成 BIG LIFE 域红线升级与紧急熔断处置，无风险。
+- 11-11T08:47 · PATROL-biglife-20261111.md · 已完成高危红线处置与业务熔断，存在数据篡改及运营停摆风险。
+- 11-11T08:47 · REPAIR-RCANARY2-20261102T181500-acceptance.json · 机队回执被拒，因交付物非标准产物且无风险。
+- 11-11T08:47 · REPAIR-RCANARY2-20261102T181500-bm-m.json · 已完成机队回执生成，但存在因文件未同步至版本库导致的验证失败风险。
