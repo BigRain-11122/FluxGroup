@@ -1,29 +1,29 @@
 {
- "ts": "2026-11-11T09:48:58",
- "cycle": 1243,
+ "ts": "2026-11-11T09:52:28",
+ "cycle": 1244,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-11T09:48:58",
+ "master_tick_ts": "2026-11-11T09:52:28",
  "queue": {
-  "total": 2137,
+  "total": 2139,
   "open": 6,
-  "running": 0,
+  "running": 2,
   "done": 814,
   "failed": 0
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 44.7,
-   "cpu_load_pct": 39,
-   "ram_free_gb": 44.1,
+   "hb_age_s": 15.0,
+   "cpu_load_pct": 23,
+   "ram_free_gb": 45.6,
    "gpu_util_pct": 0,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-11T09:44:40",
+    "ts": "2026-11-11T09:49:40",
     "reason": "DAY-YIELD: work machine, takes over at 19:00",
     "out_bytes": null,
     "elapsed_s": null
@@ -34,62 +34,62 @@
   },
   "bm-b": {
    "online": true,
-   "hb_age_s": 232.2,
+   "hb_age_s": 441.9,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
    "job": null,
    "last_result": null,
    "idle_confirmed": false,
-   "idle_reason": "CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (9.4h 零产出)",
+   "idle_reason": "CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (9.5h 零产出)",
    "idle_rounds": 0
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 146.9,
+   "hb_age_s": 356.6,
    "cpu_load_pct": 20,
    "ram_free_gb": 0.7,
    "gpu_util_pct": 98,
-   "job": null,
+   "job": "GAP-ASSETLIB-BMC-14",
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-11T09:47:48",
-    "reason": "SELF-DISPATCH: lane scans its own backlog",
+    "ts": "2026-11-11T09:52:11",
+    "reason": "CAPACITY-BLOCKED-RAM ram 0.7/1.0 GB",
     "out_bytes": null,
     "elapsed_s": null
    },
-   "idle_confirmed": true,
-   "idle_reason": "CAPACITY-BLOCKED-RAM ram 0.7/1.0 GB",
-   "idle_rounds": 2
+   "idle_confirmed": false,
+   "idle_reason": "",
+   "idle_rounds": 0
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 2.0,
-   "cpu_load_pct": 3,
-   "ram_free_gb": 11.8,
+   "hb_age_s": 1.6,
+   "cpu_load_pct": 4,
+   "ram_free_gb": 10.5,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-11T09:48:35",
-    "reason": "SELF-DISPATCH: lane scans its own backlog",
+    "ts": "2026-11-11T09:51:36",
+    "reason": "control-plane heartbeat",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 5
+   "idle_rounds": 6
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
-  "bm-c": 2,
-  "bm-m": 5
+  "bm-c": 0,
+  "bm-m": 6
  },
  "lines": {
   "bigstream-mv": {
@@ -257,8 +257,10 @@
    "age_h": null,
    "stale_after_h": 72.0,
    "owner": "拆解部",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "GAP-RECON-BMC-14"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": null,
    "stuck_stage": "recon-scan",
@@ -279,12 +281,14 @@
   "asset-lib": {
    "name": "资产储备·角色 LoRA 与音色库",
    "status": "ACTIVE",
-   "verdict": "WAITING",
+   "verdict": "WORKING",
    "age_h": null,
    "stale_after_h": 72.0,
    "owner": "资产席",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "GAP-ASSETLIB-BMC-14"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": "CEO 2026-11-03：先储备资产，角色 LoRA 与音色库为 P0"
   }
@@ -848,17 +852,21 @@
   "gpu": 0
  },
  "supply_added": [],
- "events": [],
+ "events": [
+  "GAP-ASSETLIB-BMC-14 -> bm-c (cpu)",
+  "GAP-RECON-BMC-14 -> bm-c (cpu)"
+ ],
  "violations": [
   "bm-b CAPACITY-BLOCKED-RAM",
-  "bm-c IDLE-CONFIRMED x2 (CAPACITY-BLOCKED-RAM ram 0.7/1.0 GB)",
-  "bm-m IDLE-CONFIRMED x5 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-m IDLE-CONFIRMED x6 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED bigstream-mv 卡在 立意/分镜/导演席 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-c"
+  "bm-b",
+  "bm-c",
+  "bm-m"
  ]
 }
