@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-11T08:40:51",
+ "ts": "2026-11-11T08:44:08",
  "jobs": [
   {
    "id": "PATROL-biglife-20261111",
@@ -75,5 +75,13 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 15.0/1.0 GB"
+ "capacity_note": "ram 15.0/1.0 GB",
+ "cards": [],
+ "pruned_shells": [
+  "PATROL-biglife-20261111",
+  "PATROL-bigdomain-20261111",
+  "REPAIR-R-QUANT-ETF-DAILY-20261102",
+  "REPAIR-C-FIN-EQUITY-ALPHA",
+  "REPAIR-RCANARY2-20261102T181500"
+ ]
 }

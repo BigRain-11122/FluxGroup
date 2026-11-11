@@ -1,13 +1,13 @@
 {
  "node": "bm-m",
- "ts": "2026-11-11T08:37:55",
+ "ts": "2026-11-11T08:44:08",
  "mode": "apply",
  "verdict": "SELF-OK",
  "checks": [
   {
    "check": "reload",
-   "code_age_s": 20918,
-   "receipt_age_s": 29,
+   "code_age_s": 21291,
+   "receipt_age_s": 41,
    "targets": [],
    "acted": false,
    "note": "executor produced a receipt after the last code edit",
@@ -16,12 +16,18 @@
   },
   {
    "check": "shells",
-   "cards": 0,
-   "shells": 0,
-   "ids": [],
-   "acted": false,
-   "verdict": "OK",
-   "note": "no assignment on this lane (not a shell problem)"
+   "cards": 5,
+   "shells": 5,
+   "ids": [
+    "PATROL-biglife-20261111",
+    "PATROL-bigdomain-20261111",
+    "REPAIR-R-QUANT-ETF-DAILY-20261102",
+    "REPAIR-C-FIN-EQUITY-ALPHA",
+    "REPAIR-RCANARY2-20261102T181500"
+   ],
+   "acted": true,
+   "kept": 0,
+   "verdict": "PRUNED"
   },
   {
    "check": "deps",
