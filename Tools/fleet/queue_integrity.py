@@ -40,14 +40,27 @@ OUT = os.path.join(FLEET, "state", "queue-integrity.json")
 
 MARKERS = ("<<<<<<<", "=======", ">>>>>>>")
 # 队列/积压/判定/回执台账：这些文件被逐行解析，坏一行就少一张卡
-KEY_FILES = ("PRODUCTION-QUEUE.jsonl", "PRODUCTION-BACKLOG.jsonl",
-             "dispatcher/JUDGMENT-QUEUE.jsonl", "dispatcher/DISPATCH-REQUESTS.jsonl")
+# 2026-11-11 修正：原为裸文件名（在仓库根下不存在），而 main() 传进来的是
+# "cph4/fleet/..." 相对路径，于是 check_state 恒为 False——STATE 词表校验
+# 从未在生产队列上生效。改为仓库相对路径，与 glob 出来的 rel 一致。
+KEY_FILES = ("cph4/fleet/PRODUCTION-QUEUE.jsonl", "cph4/fleet/PRODUCTION-BACKLOG.jsonl",
+             "cph4/fleet/dispatcher/JUDGMENT-QUEUE.jsonl",
+             "cph4/fleet/dispatcher/DISPATCH-REQUESTS.jsonl")
 STATES = {"OPEN", "READY", "RUNNING", "CLAIMED", "DONE", "FAILED", "CANCELLED",
           "PROMOTED", "ARCHIVED", "UNVERIFIED", "BLOCKED", "PENDING"}
 MAX_BYTES = 8 * 1024 * 1024
 
 
 def scan_file(path, rel):
+    if rel.lower().endswith(".json"):
+        # 单对象 JSON（MASTER-STATE/PULSE/STAGE-CACHE 等）不是 jsonl：只查冲突标记，
+        # 不做逐行解析（否则每个漂亮的 JSON 都会被当成坏行）。
+        try:
+            text = open(path, encoding="utf-8", errors="replace").read().splitlines()
+        except FileNotFoundError:
+            return {"file": rel, "missing": True}
+        hits = [i for i, l in enumerate(text, 1) if l.strip().startswith(MARKERS)]
+        return {"file": rel, "kind": "json", "rows": len(text), "conflict_marker_lines": hits}
     # state 词表只对"卡片队列"成立：LANE-REGISTRY / events / 各种台账各有自己的词，
     # 拿卡片词表去拦它们只会制造噪声（实测 5 个文件误报 40+ 行），闸一吵就没人看。
     check_state = rel in KEY_FILES
@@ -280,7 +293,8 @@ def main(argv):
     files = list(KEY_FILES)
     # 其余队列类台账也扫（回执/事件/账本），但只在 fleet 一层与 dispatcher 一层，避免扫进大归档
     for p in sorted(glob.glob(os.path.join(FLEET, "*.jsonl")) +
-                    glob.glob(os.path.join(FLEET, "dispatcher", "*.jsonl"))):
+                    glob.glob(os.path.join(FLEET, "dispatcher", "*.jsonl")) +
+                    glob.glob(os.path.join(FLEET, "dispatcher", "*.json"))):
         rel = os.path.relpath(p, ROOT)
         if rel not in files:
             files.append(rel)

@@ -28,5 +28,9 @@ media/** -diff linguist-generated
 *.py text eol=lf
 cph4/fleet/archive/asset-lib/**/*.mp3 binary -diff linguist-generated
 
-cph4/fleet/*.jsonl merge=union
-cph4/fleet/**/*.jsonl merge=union
+# ---- 2026-11-11 SYNC-v2（正典=cph4/fleet/SYNC-DESIGN-v2.md）----------------
+# 上面两条全量 union 通配已删除：它们把队列、备队列、车道文件也套了 union，
+# 与本文件 L2 注释「状态型账本绝不用 union」自相矛盾——实测 INTAKE-PENDING
+# 16826 行而唯一 id 仅 238，就是 union 拼接的结果。
+# 运行态改为按工位分片（一机一写者），显式禁用 union，保留冲突标记：
+cph4/fleet/rt/** -text merge=text

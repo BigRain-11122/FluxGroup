@@ -1,0 +1,136 @@
+{
+  "_comment": "工位档案：唯一硬件与产能口径。id 是工位名（人能读），machine/hostname 是机器名。这里的数值只描述事实与容量，阈值仍归 AUTONOMY-CONFIG / CARD-POLICY。null=未实测，不猜。",
+  "version": "v1-20261111",
+  "probe_policy": {
+    "before_claim": "领卡前必查：目标路径存在、所需服务在听、内存/显存达线；任一不满足写 BLOCKED 并说明，不许 FAIL 循环",
+    "stale_after_h": 24,
+    "unknown_is_not_ok": "status=unknown 时不得派单"
+  },
+  "stations": [
+    {
+      "id": "delivery",
+      "name": "交付工厂",
+      "machine": "公司生产力机",
+      "hostname": "DASHENG",
+      "tailnet_ip": "100.110.185.62",
+      "os": "windows",
+      "cpu_cores": 32,
+      "ram_gb": 94,
+      "gpu": {"model": "RTX 4070 SUPER", "vram_gb": 12},
+      "disks": [
+        {"mount": "C:", "role": "系统+代码+.git", "free_gb": null, "note": "历史记录：C 只放代码与文档"},
+        {"mount": "D:", "role": "重资产与产物", "free_gb": 3379, "note": "2026-11-02 记录余 3.3TB；media 18G/gaming 50G/recon 14.4G"}
+      ],
+      "work_dir": "D:/FleetWorker",
+      "software": ["python3", "ffmpeg", "Unity/团结引擎", "pillow", "git"],
+      "hours": "工作日 09:00-19:00 只接轻 CPU（day_ok）；19:00-09:00 与周末重活",
+      "slots": 8,
+      "allowed_work": ["打包", "提审材料", "图标渲染", "MV 剪辑装配", "Unity 构建", "量化回测（夜窗代跑）"],
+      "forbidden_work": ["白天 GPU 重活", "审计自证", "跨仓写"],
+      "daily_capacity": {"材料流水线": "3-5 款/天", "安装包构建": "1 个/夜", "图标": "批量不受限"},
+      "preflight": ["D:/FleetWorker 可写", "Unity 命令行可调用", "磁盘 > 100G"],
+      "status": "network_ok_not_registered",
+      "last_probe": "2026-11-11T11:35 端口 445/3389 开、8790 未监听、最后回执 02:15"
+    },
+    {
+      "id": "visual",
+      "name": "视觉工位",
+      "machine": "传家宝",
+      "hostname": "FLUXGROUP",
+      "tailnet_ip": "100.123.74.104",
+      "os": "windows",
+      "cpu_cores": 32,
+      "ram_gb": 24,
+      "gpu": {"model": "RTX 3070 (modded 16G)", "vram_gb": 16, "usable_gb": 13.4},
+      "disks": [
+        {"mount": "K:", "role": "仓库+产物", "free_gb": 1217, "note": "2026-11-11 实测"},
+        {"mount": "C:", "role": "执行器", "free_gb": null}
+      ],
+      "work_dir": "K:/Fluxgroup/FluxGroup",
+      "software": ["python3", "ComfyUI(8188)", "ffmpeg", "git"],
+      "hours": "全天；GPU 串行，同一时刻只跑 1 张",
+      "slots": 6,
+      "allowed_work": ["关键帧", "图生视频", "LoRA 训练", "rmbg/放大后处理", "渲染"],
+      "forbidden_work": ["审计", "验收", "CPU 批量", "LLM 常驻"],
+      "daily_capacity": {"关键帧": "200-300 张/天（ComfyUI 稳定前提）", "短片": "20-30 条/天"},
+      "preflight": ["ComfyUI 8188 在听", "系统内存空闲 ≥10G", "显存空闲 ≥10G"],
+      "status": "blocked_no_comfyui",
+      "last_probe": "2026-11-11T11:35 RAM 空闲 6.1G、磁盘 1217G、CPU 49%、8188 未监听"
+    },
+    {
+      "id": "audio",
+      "name": "声音工位",
+      "machine": "小钢炮",
+      "hostname": "BIGMONEY",
+      "tailnet_ip": "100.82.175.0",
+      "os": "windows",
+      "cpu_cores": 16,
+      "ram_gb": 24,
+      "gpu": {"model": "RTX 3070", "vram_gb": 8},
+      "disks": [
+        {"mount": "C:", "role": "系统+仓库+素材", "free_gb": null, "note": "未见容量记录，需实测"},
+        {"mount": "E:", "role": "未见用途", "free_gb": null}
+      ],
+      "work_dir": "C:/Fluxgroup/FluxGroup",
+      "software": ["python3", "ffmpeg", "TTS 引擎（index-tts venv 缺失待补）"],
+      "hours": "全天低负载",
+      "slots": 6,
+      "allowed_work": ["配音", "TTS", "配乐", "混音", "480p animatic"],
+      "forbidden_work": ["768p 出片", "8G 以上显存需求", "大模型常驻"],
+      "daily_capacity": {"配音成品": "60-80 分钟/天"},
+      "preflight": ["TTS venv 存在", "素材目录可读", "磁盘 > 20G"],
+      "status": "offline",
+      "last_probe": "2026-11-11T11:35 tailscale offline 11h、端口全关、最后回执 2026-11-10T00:19"
+    },
+    {
+      "id": "brain",
+      "name": "大脑工位",
+      "machine": "算力大脑",
+      "hostname": "PENDING-TAILNET",
+      "tailnet_ip": null,
+      "os": "windows",
+      "cpu_cores": 24,
+      "cpu_threads": 48,
+      "cpu_note": "双路 E5-2695v2，无 AVX2",
+      "ram_gb": 256,
+      "gpu": {"model": "3× Tesla V100", "vram_gb": 48, "vram_per_card_gb": 16, "extra": "3× P104 8G"},
+      "disks": [
+        {"mount": "SSD", "role": "系统+模型+工作区", "free_gb": null, "note": "512G，记录为不够用，建议加 1-2T"}
+      ],
+      "work_dir": null,
+      "software": ["待装（系统/驱动/llama.cpp/LiteLLM）"],
+      "hours": "入网后全天",
+      "slots": 8,
+      "allowed_work": ["回测", "深判", "代码评审", "35B/27B 大脑服务", "批量转码"],
+      "forbidden_work": ["未入网前一律不派"],
+      "daily_capacity": {},
+      "preflight": ["并入 tailnet", "显存可用", "SSD 剩余 ≥20%"],
+      "status": "not_installed",
+      "last_probe": "未入网，无回执"
+    },
+    {
+      "id": "control",
+      "name": "主控台",
+      "machine": "MacBook",
+      "hostname": "junshengsundemacbook-pro.local",
+      "tailnet_ip": "100.75.133.10",
+      "os": "darwin",
+      "cpu_cores": 10,
+      "ram_gb": 32,
+      "gpu": {"model": "M1 Pro 集成", "vram_gb": 0, "note": "无 CUDA，不做 GPU 生成"},
+      "disks": [
+        {"mount": "/", "role": "系统+仓库+轻产物", "free_gb": 210, "note": "2026-11-11 实测 210G"}
+      ],
+      "work_dir": "/Users/junsheng.sun/FluxGroup",
+      "software": ["python3", "ffmpeg", "Ollama(4B/9B/8B/2B)", "git"],
+      "hours": "全天（CEO 在用电脑时降载）",
+      "slots": 4,
+      "allowed_work": ["文本与判读", "剪辑与字幕", "验收与抽验", "账本与一屏", "对外材料", "跨机调度"],
+      "forbidden_work": ["GPU 生成", "媒体素材落盘", "单件 >20G 写入", "产线重活"],
+      "daily_capacity": {"30 秒成品剪辑": "2-3 条/天", "文本判读": "不限"},
+      "preflight": ["磁盘 > 50G", "Ollama 可答", "origin 可读"],
+      "status": "ready_paused",
+      "last_probe": "2026-11-11T11:35 32G/210G 空闲、ffmpeg 齐、44 项自启已按令暂停"
+    }
+  ]
+}
