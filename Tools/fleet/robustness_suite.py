@@ -234,6 +234,14 @@ def r11():
     import station_shards as ss
     old = os.environ.get("FLEET_STATION")
     td = _root()
+    # 生产路径要真测（沙箱验不到护栏），故测前快照、测后还原：
+    # 2026-11-11 实锚——原实现跑一次就往 rt/visual/queue.jsonl 留一行
+    # {"id":"V","state":"OPEN"}，真机会去认领这张假卡。
+    qpath = ss.queue_path("visual")   # root=None = 生产分片
+    backup = None
+    if os.path.exists(qpath):
+        with open(qpath, encoding="utf-8") as f:
+            backup = f.read()
     try:
         os.environ["FLEET_STATION"] = "visual"
         # 生产路径（root=None）写别人的分片必须被拒
@@ -262,6 +270,16 @@ def r11():
             os.environ.pop("FLEET_STATION", None)
         else:
             os.environ["FLEET_STATION"] = old
+        # 还原生产分片：不还原就等于测试在给真机派假卡
+        try:
+            if backup is None:
+                if os.path.exists(qpath):
+                    os.remove(qpath)
+            else:
+                with open(qpath, "w", encoding="utf-8") as f:
+                    f.write(backup)
+        except Exception:
+            pass
         shutil.rmtree(td, ignore_errors=True)
 
 

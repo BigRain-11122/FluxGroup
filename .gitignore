@@ -275,3 +275,5 @@ cph4/fleet/DAY-PLAN.md
 # 工位运行日志（2026-11-11：随时序增长，不入库）
 cph4/fleet/rt/*/log/
 cph4/fleet/rt/*/*.tmp*
+# 分片写锁（2026-11-11：POSIX fcntl/msvcrt 的锁文件是运行时件，不进库）
+cph4/fleet/rt/*/*.lock

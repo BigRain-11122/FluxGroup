@@ -34,28 +34,48 @@ SELF = os.path.basename(__file__)
 PY = [p for p in sorted(glob.glob(os.path.join(TOOLS, "*.py")))
       if os.path.basename(p) != SELF]     # 审计器自己的字面量不算问题（自引用误报）
 
-# 允许直连模型端点的模块：压测/诊断/采集类，不属于业务通路
+# 允许直连模型端点的模块：压测/诊断/采集类，不属于业务通路。
+# 纪律（2026-11-11）：每一项都必须写理由。白名单可以扩，但不能无声扩——
+# 没有理由的覆盖等于把真问题藏起来（实锚：station_agent.py 曾凭"带令牌"
+# 留在白名单里，实际绕过了 keep_alive/额度/优先级，是业务模块而非诊断件）。
 DIRECT_OK_REASON = {
+    # 通路本体
     "llm_selftest.py": "自检：验证网关令牌与通路",
     "model_gateway.py": "网关本体（透传 /api/generate）",
     "llm_gateway.py": "网关本体（路径白名单）",
-    "soak_watch.py": "长跑观测：发心跳式小请求",
-    "mem_guard.py": "内存守卫：探针式小请求",
+    "codely_bridge.py": "桥接：endpoint 由入参指定",
+    # 基准/压测：必须直连才能测出延迟与装载行为
     "model_radar.py": "模型雷达：bench 与 digest 比对",
     "local_capacity_bench.py": "容量标定：装载/卸载测速",
+    "brain_stress.py": "算力压测：有界短调用验端点退避",
+    "parallel_sim.py": "并发模拟：发请求测排队与 p95",
+    "judge_bench.py": "评审基准：多模型同题比对",
+    "mlx_bench.py": "MLX 基准：解码速度对标",
+    "local_llm_bench.py": "本地 LLM 基准（可复跑对照组）",
+    "mac_loadout.py": "机型装载表：按实测速度归档",
+    "skill_eval.py": "技能评测：跑题集打分",
+    # 探针/治理：采样式小请求或装载控制
+    "soak_watch.py": "长跑观测：发心跳式小请求",
+    "mem_guard.py": "内存守卫：探针式小请求",
+    "resource_governor.py": "资源治理：按 swap 红线装卸模型",
+    "capacity_guard.py": "容量守卫：hold 未释放时排队",
+    "capacity_probe.py": "容量探针：读已加载与显存占用",
+    "env_probe.py": "环境采集：只探 /api/tags 取 digest",
+    "local_inference_audit.py": "推理栈体检：查谁在听 11434、参数是否落盘",
+    "warm_models.py": "预热：有活即热、无活即卸的执行体",
+    "compute_alloc.py": "算力调度：预热/卸载模型本体",
+    # 向量与视觉：端点或入参形态 local_model 不覆盖
     "embed_dedupe.py": "向量：embed 端点转 generate",
     "asset_caption.py": "视觉：需要 images 字段（local_model 只支持文本）",
     "asset_prompts.py": "视觉提示词：带图片参考",
-    "codely_bridge.py": "桥接：endpoint 由入参指定",
-    "station_agent.py": "走网关且带令牌（非回环直连）",
-    "fleet_lane.py": "车道配置里的端点（u 来自 LANES，不是写死）",
+    # 以下属业务直连，尚未迁移（诚实登记，不假装合理）
+    "fleet_lane.py": "待迁移：端点来自 LANES 配置，非诊断用途",
+    "local_decide.py": "待迁移：本地判定路由，判定后直连生成",
 }
+# 移出白名单的业务模块（2026-11-11）：它们绕过 keep_alive/额度/优先级 hold，
+# 是 AUDIT-DEEP 的 P1 真账，必须改走 local_model.generate。
 DIRECT_OK = {
-    "llm_client.py", "local_model.py", "compute_alloc.py", "brain_stress.py",
-    "parallel_sim.py", "env_probe.py", "local_llm_bench.py", "mlx_bench.py",
-    "judge_bench.py", "warm_models.py", "capacity_guard.py", "capacity_probe.py",
-    "resource_governor.py", "local_inference_audit.py", "mac_loadout.py",
-    "local_decide.py", "skill_eval.py", "prompt_en.py", "dsh_brain.py",
+    "llm_client.py", "local_model.py",
 } | set(DIRECT_OK_REASON)
 LOG_LIMIT_MB = 20
 
@@ -120,8 +140,13 @@ def check_code():
         out.append({"id": "CODE-ABS-PATH", "level": "P2", "what": "代码里写死本机绝对路径",
                     "count": len(absu), "detail": absu[:8],
                     "fix": "改环境变量/配置文件，否则换机即错"})
-    # 绕过统一模型通路
-    direct = [n for n, t in docs if "api/generate" in t and n not in DIRECT_OK]
+    # 绕过统一模型通路。判据看"真实调用形态"，不看字符串存在性：
+    # 2026-11-11 实锚（两轮假阳性）——只认端点会把 audit_deep.py 自己（把端点
+    # 当被检测的坏模式）判成直连；再加上"含 urllib.request 字样"又会把
+    # automation_plan.py（把这两个名字当探测常量）判成直连。必须匹配到调用括号。
+    HTTP_CALL = re.compile(r"(urllib\.request\.(urlopen|Request)|requests\.(get|post|Session))\s*\(")
+    direct = [n for n, t in docs
+              if "api/generate" in t and HTTP_CALL.search(t) and n not in DIRECT_OK]
     if direct:
         out.append({"id": "ARCH-MODEL-BYPASS", "level": "P1",
                     "what": "非诊断类模块直连模型端点（绕过 keep_alive/审计/优先级 hold）",
@@ -273,6 +298,13 @@ def self_test():
             chk("负控：Windows 岗书写 python3 必须报 P0", bool(hit) and hit[0]["level"] == "P0", hit)
         finally:
             globals()["FLEET"] = old
+    # 白名单不许无声扩张：每个豁免项都必须写理由
+    noreason = sorted(n for n in DIRECT_OK if n not in DIRECT_OK_REASON
+                      and n not in ("llm_client.py", "local_model.py"))
+    chk("白名单每一项都有理由", not noreason, noreason)
+    # 负控：业务模块不许靠"带令牌"留在白名单里（station_agent 曾被这样放过）
+    chk("负控：业务模块 station_agent 不在直连白名单",
+        "station_agent.py" not in DIRECT_OK)
     print("[audit_deep] %d/%d" % (ok, tot))
     return 0 if ok == tot else 1
 
