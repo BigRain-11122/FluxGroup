@@ -240,5 +240,78 @@
   "source": "cph4/fleet/MODEL-ROUTING-v2.json",
   "note": "按题型路由（deterministic/embed/text-small/judgment/long-form/gpu-production/overflow）；任一档超时或空答即切下一档不重试；上云仍受 daily_cny_cap 与 local_evidence 约束",
   "embed_cache": "cph4/fleet/state/embed-cache.json（内容哈希，命中不调模型）"
+ },
+ "stations": {
+  "_why": "按工位的产能口径（SYNC-DESIGN-v2/PRODUCTS.json）。原 slots_per_node/priority_lines 保留以兼容仍按单队列运行的旧代码，勿再新增用途。",
+  "delivery": {
+   "machine": "公司生产力机",
+   "hostname": "DASHENG",
+   "slots": 8,
+   "floor_cards": 6,
+   "cap_cards": 40,
+   "hours": "day=light-only; night+weekend=heavy",
+   "forbidden": [
+    "gpu_heavy_daytime",
+    "self_audit"
+   ]
+  },
+  "visual": {
+   "machine": "传家宝",
+   "hostname": "FLUXGROUP",
+   "slots": 6,
+   "floor_cards": 6,
+   "cap_cards": 40,
+   "hours": "24h; gpu serial",
+   "forbidden": [
+    "audit",
+    "acceptance",
+    "cpu_batch",
+    "llm_resident"
+   ]
+  },
+  "audio": {
+   "machine": "小钢炮",
+   "hostname": "BIGMONEY",
+   "slots": 6,
+   "floor_cards": 6,
+   "cap_cards": 40,
+   "hours": "24h low-load",
+   "forbidden": [
+    "768p",
+    "vram_gt_8"
+   ]
+  },
+  "brain": {
+   "machine": "算力大脑",
+   "hostname": "PENDING-TAILNET",
+   "slots": 8,
+   "floor_cards": 0,
+   "cap_cards": 40,
+   "hours": "after-online",
+   "forbidden": [
+    "anything_before_online"
+   ]
+  },
+  "control": {
+   "machine": "MacBook",
+   "hostname": "junsheng-mbp",
+   "slots": 4,
+   "floor_cards": 0,
+   "cap_cards": 6,
+   "production": false,
+   "forbidden": [
+    "gpu",
+    "media_write",
+    "single_job_gt_20gb"
+   ]
+  }
+ },
+ "sync": {
+  "_why": "状态面改为按工位分片，禁止全量 union 与 -X ours（SYNC-DESIGN-v2）。",
+  "mode": "station_shards",
+  "design": "cph4/fleet/SYNC-DESIGN-v2.md",
+  "stations_dir": "cph4/fleet/rt",
+  "legacy_queue_frozen": false,
+  "read_remote_via": "git show origin/main:<path>"
  }
 }

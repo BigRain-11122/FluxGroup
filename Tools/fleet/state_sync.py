@@ -59,12 +59,79 @@ def save(h):
         pass
 
 
-def main():
+def _push_with_rebase(fails, now, label):
+    """工位模式专用：先 rebase 到 origin 再推，禁止 -X ours（那会静默丢远端行）。"""
+    rc, out = sh(["git", "fetch", "--quiet", "origin", "main"])
+    if rc != 0:
+        log("fetch-fail %s" % out[-160:])
+        fails.append(now)
+        return 1, out
+    rc, out = sh(["git", "rebase", "--autostash", "origin/main"], timeout=120)
+    if rc != 0:
+        sh(["git", "rebase", "--abort"])
+        log("rebase-fail %s %s" % (label, out[-160:]))
+        fails.append(now)
+        return 1, out
+    rc, out = sh(["git", "push", "origin", "main"])
+    if rc != 0:
+        log("push-retry %s %s" % (label, out[-120:]))
+        rc, out = sh(["git", "rebase", "--autostash", "origin/main"], timeout=120)
+        if rc == 0:
+            rc, out = sh(["git", "push", "origin", "main"])
+    if rc != 0:
+        log("push-fail %s %s" % (label, out[-160:]))
+        fails.append(now)
+        return 1, out
+    return 0, out
+
+
+def _sync_station(station, h, now, fails):
+    """工位分片模式（SYNC-DESIGN-v2）：只提交自己那片，不整轮罢工。"""
+    import socket
+    sub = "cph4/fleet/rt/%s" % station
+    if not os.path.isdir(os.path.join(ROOT, sub)):
+        log("station-missing %s" % sub)
+        return 1
+    rc, out = sh(["git", "add", "-A", sub])
+    if rc != 0:
+        log("add-fail %s %s" % (station, out[-160:]))
+        fails.append(now)
+        save({"fails": fails, "err": out[-200:]})
+        return 1
+    rc, out = sh(["git", "status", "--porcelain", "--", sub])
+    if out.strip():
+        node = socket.gethostname().split(".")[0]
+        rc, out = sh(["git", "commit", "-m", "state(%s): sync [via %s]" % (station, node),
+                      "--", sub])
+        if rc != 0 and "nothing to commit" not in out:
+            log("commit-fail %s %s" % (station, out[-160:]))
+    rc, out = _push_with_rebase(fails, now, station)
+    if rc != 0:
+        if len(fails) >= MAX_FAILS:
+            h["until"] = now + BACKOFF_S
+            log("quarantine %ds after %d fails" % (BACKOFF_S, len(fails)))
+        save({"fails": fails, "err": out[-200:], "until": h.get("until")})
+        return 1
+    save({"fails": [], "ok_ts": now, "station": station})
+    return 0
+
+
+def main(argv=None):
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--station", default=None,
+                    help="只同步该工位分片（delivery/visual/audio/brain/control）；"
+                         "省略=旧的全量模式")
+    a = ap.parse_args(argv)
+
     h = health()
     now = time.time()
     if now < float(h.get("until") or 0):
         return 2
     fails = [x for x in (h.get("fails") or []) if now - x < 1800]
+
+    if a.station:
+        return _sync_station(a.station, h, now, fails)
 
     # 1) 只提交生成态；Tools/ 等手写代码脏了不硬来
     rc, out = sh(["git", "status", "--porcelain"])
