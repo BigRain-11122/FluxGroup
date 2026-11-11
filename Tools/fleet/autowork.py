@@ -28,14 +28,10 @@ except Exception:
 
 
 def call(prompt):
-    import urllib.request
-    body = json.dumps({"model": MODEL, "prompt": prompt, "stream": False, "think": False,
-                       "keep_alive": "5m",
-                       "options": {"num_ctx": 8192, "temperature": 0.2}}).encode()
-    r = urllib.request.Request("http://127.0.0.1:11434/api/generate", data=body,
-                               headers={"Content-Type": "application/json"})
-    with urllib.request.urlopen(r, timeout=180) as resp:
-        return (json.load(resp).get("response") or "").strip()
+    # 走统一通路（keep_alive 策略、调用审计、主控优先 hold 全生效）
+    import local_model as _lm2
+    return _lm2.generate(prompt, cls="master", timeout=180, keep_alive="5m",
+                         num_ctx=8192, temperature=0.2, why="autowork")
 
 
 def main():
@@ -51,6 +47,11 @@ def main():
     done = []
 
     qp = os.path.join(F, "PRODUCTION-QUEUE.jsonl")
+    if not os.path.exists(qp):
+        # 2026-11-11 机制切换：旧队列已归档，本工具由 station_drive 接管
+        print("autowork 已退役：旧队列 %s 已归档（2026-11-11）。"
+              "请用 python3 Tools/fleet/station_drive.py --once 走分片自驱。" % qp)
+        return 2
     rows = [json.loads(l) for l in open(qp, encoding="utf-8") if l.strip()]
     failed = [r for r in rows if r.get("state") == "FAILED"]
     if failed and not st["done"].get("triage"):
