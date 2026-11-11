@@ -1,14 +1,14 @@
 {
- "ts": "2026-11-11T11:35:38",
+ "ts": "2026-11-11T11:47:00",
  "dir": "media/asset/characters/CH01",
  "spec": "ASSET-DATASET-GATE-v1",
  "measured": {
   "mode": "face",
-  "count": 12,
+  "count": 15,
   "min_side": 1728,
-  "dup_ratio": 0.015,
-  "texture_p90": 1296.0,
-  "texture_p50_advisory": 16.0,
+  "dup_ratio": 0.01,
+  "texture_p90": 1225.0,
+  "texture_p50_advisory": 9.0,
   "texture_note": "p50 受平坦背景影响不作判据；p90<250=极端糊脸才拦，中等磨皮测不出（σ2.5 实测 p90=729），毛孔真伪由人眼抽检",
   "rights": {
    "declared": true,
