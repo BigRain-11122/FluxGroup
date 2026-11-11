@@ -1,13 +1,13 @@
 {
  "node": "bm-m",
- "ts": "2026-11-11T08:44:08",
+ "ts": "2026-11-11T08:49:03",
  "mode": "apply",
  "verdict": "SELF-OK",
  "checks": [
   {
    "check": "reload",
-   "code_age_s": 21291,
-   "receipt_age_s": 41,
+   "code_age_s": 21587,
+   "receipt_age_s": 0,
    "targets": [],
    "acted": false,
    "note": "executor produced a receipt after the last code edit",
@@ -16,14 +16,13 @@
   },
   {
    "check": "shells",
-   "cards": 5,
-   "shells": 5,
+   "cards": 4,
+   "shells": 4,
    "ids": [
     "PATROL-biglife-20261111",
     "PATROL-bigdomain-20261111",
     "REPAIR-R-QUANT-ETF-DAILY-20261102",
-    "REPAIR-C-FIN-EQUITY-ALPHA",
-    "REPAIR-RCANARY2-20261102T181500"
+    "REPAIR-C-FIN-EQUITY-ALPHA"
    ],
    "acted": true,
    "kept": 0,
