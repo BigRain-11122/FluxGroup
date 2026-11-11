@@ -1,4 +1,4 @@
-# 指挥一屏 2026-11-11T10:11:19
+# 指挥一屏 2026-11-11T10:15:38
 
 _节奏表=COMMAND-CADENCE-v1.json｜本屏由规则从盘上事实算出，未用模型猜数_
 
@@ -8,15 +8,15 @@ _节奏表=COMMAND-CADENCE-v1.json｜本屏由规则从盘上事实算出，未�
 
 ## A 值守（45 秒档，纯规则）
 
-1. 可派卡 **10** 张｜在飞 **12** 张｜空壳卡隔离 **2** 张
-2. 在飞分布：bm-a=8, bm-c=4
-3. 返工≥3 次的活卡：**9** 张（asset-lib-face-dataset-2026-11-08, asset-lib-library-check-2026-11-08, R-NEXT-BIGSTREAMM-REBUILD-20261109）
+1. 可派卡 **6** 张｜在飞 **9** 张｜空壳卡隔离 **2** 张
+2. 在飞分布：bm-a=3, bm-c=3, bm-m=3
+3. 返工≥3 次的活卡：**7** 张（asset-lib-library-check-2026-11-08, R-NEXT-BIGSTREAMM-REBUILD-20261109, asset-lib-face-dataset-2026-11-09）
 
 ## B 机队实况（3 分钟档）
 
 - **bm-a** SELF-OK｜reload=OK shells=OK deps=OK｜2026-11-07T22:25
 - **bm-c** SELF-OK｜reload=OK shells=OK deps=OK｜2026-11-06T23:55
-- **bm-m** SELF-OK｜reload=OK shells=OK deps=OK｜2026-11-11T10:07
+- **bm-m** SELF-OK｜reload=OK shells=OK deps=OK｜2026-11-11T10:11
 
 ## C 线与产出（15 分钟档）
 
@@ -41,8 +41,8 @@ ACTIVE 线 10 条｜超 72h 无产物 6 条｜PARKED 5 条（按 CEO 令暂停�
 
 ## E 指挥质量（6 小时档）
 
-1. 队列 2491 行：DONE 846｜FAILED 4｜UNVERIFIED 4｜CANCELLED 828
-2. 完成占比 99%（DONE/854）
+1. 队列 2491 行：DONE 845｜FAILED 1｜UNVERIFIED 5｜CANCELLED 830
+2. 完成占比 99%（DONE/851）
 3. 空壳卡累计隔离 2 张（越少越好，涨了就是造卡器又出错）
 
 ## F 需要 CEO 的（≤3 条，其余自决）
