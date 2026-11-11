@@ -25,6 +25,16 @@
     "图标",
     "提审清单"
    ],
+   "outputs": {
+    "材料套用": "cph4/fleet/out/game-submit/material/",
+    "打包": "cph4/fleet/out/game-submit/pack/",
+    "图标": "cph4/fleet/out/game-submit/icon/",
+    "提审清单": "cph4/fleet/out/game-submit/list.json"
+   },
+   "manual_stages": [
+    "材料套用",
+    "提审清单"
+   ],
    "owner_station": "delivery",
    "support": [
     "visual"
@@ -54,6 +64,17 @@
     "mv-cut",
     "mv-gate"
    ],
+   "outputs": {
+    "mv-plan": "cph4/fleet/mv0001-handover/plan/",
+    "mv-kf": "cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/kf/",
+    "mv-i2v": "cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/i2v/",
+    "mv-cut": "cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_cut.mp4",
+    "mv-gate": "cph4/fleet/out/mv-single/gate.json"
+   },
+   "manual_stages": [
+    "mv-plan",
+    "mv-gate"
+   ],
    "owner_station": "visual",
    "support": [
     "delivery",
@@ -79,6 +100,17 @@
     "角色 LoRA",
     "音色",
     "图标",
+    "索引"
+   ],
+   "outputs": {
+    "角色 LoRA": "cph4/fleet/out/asset-pack/lora/",
+    "音色": "cph4/fleet/out/asset-pack/voices/",
+    "图标": "cph4/fleet/out/asset-pack/icons/",
+    "索引": "cph4/fleet/out/asset-pack/index.json"
+   },
+   "manual_stages": [
+    "角色 LoRA",
+    "音色",
     "索引"
    ],
    "owner_station": "visual",
@@ -107,6 +139,11 @@
     "回测",
     "报告"
    ],
+   "outputs": {
+    "数据": "cph4/fleet/out/quant/data/",
+    "回测": "cph4/fleet/out/quant/backtest/",
+    "报告": "cph4/fleet/out/quant/report.md"
+   },
    "owner_station": "brain",
    "support": [
     "delivery"
@@ -134,6 +171,16 @@
     "事件接入",
     "演示包"
    ],
+   "outputs": {
+    "场景装配": "cph4/fleet/out/fluxverse/scene/",
+    "事件接入": "cph4/fleet/out/fluxverse/events/",
+    "演示包": "cph4/fleet/out/fluxverse/demo/"
+   },
+   "manual_stages": [
+    "场景装配",
+    "事件接入",
+    "演示包"
+   ],
    "owner_station": "delivery",
    "support": [
     "visual"
@@ -156,6 +203,16 @@
     "词族门禁通过（无传统地产用语）"
    ],
    "stages": [
+    "场景",
+    "流程",
+    "准入"
+   ],
+   "outputs": {
+    "场景": "cph4/fleet/out/bighouse/scene/",
+    "流程": "cph4/fleet/out/bighouse/flow.json",
+    "准入": "cph4/fleet/out/bighouse/admit.json"
+   },
+   "manual_stages": [
     "场景",
     "流程",
     "准入"
@@ -188,6 +245,16 @@
     "行为",
     "资产"
    ],
+   "outputs": {
+    "户籍": "cph4/fleet/out/biglife/census.json",
+    "行为": "cph4/fleet/out/biglife/events.jsonl",
+    "资产": "cph4/fleet/out/biglife/assets/"
+   },
+   "manual_stages": [
+    "户籍",
+    "行为",
+    "资产"
+   ],
    "owner_station": "delivery",
    "support": [
     "visual"
@@ -210,6 +277,18 @@
     "家长键可用"
    ],
    "stages": [
+    "玩法",
+    "车机适配",
+    "打包",
+    "OEM 材料"
+   ],
+   "outputs": {
+    "玩法": "cph4/fleet/out/car/design.md",
+    "车机适配": "cph4/fleet/out/car/build/",
+    "打包": "cph4/fleet/out/car/pack/",
+    "OEM 材料": "cph4/fleet/out/car/oem.md"
+   },
+   "manual_stages": [
     "玩法",
     "车机适配",
     "打包",
@@ -238,6 +317,10 @@
     "drama-voice",
     "drama-mix"
    ],
+   "outputs": {
+    "drama-voice": "cph4/fleet/out/drama/voice/",
+    "drama-mix": "cph4/fleet/out/drama/mix/"
+   },
    "owner_station": "audio",
    "support": [],
    "priority": "T1",
@@ -260,6 +343,10 @@
     "配音",
     "混音"
    ],
+   "outputs": {
+    "配音": "cph4/fleet/out/duanju/voice/",
+    "混音": "cph4/fleet/out/duanju/mix/"
+   },
    "owner_station": "audio",
    "support": [],
    "priority": "T1",
@@ -284,6 +371,11 @@
     "混音",
     "字幕"
    ],
+   "outputs": {
+    "配音": "cph4/fleet/out/shortvideo/voice/",
+    "混音": "cph4/fleet/out/shortvideo/mix/",
+    "字幕": "cph4/fleet/out/shortvideo/sub.ass"
+   },
    "owner_station": "audio",
    "support": [
     "control"
@@ -308,6 +400,16 @@
     "页面",
     "合规检查"
    ],
+   "outputs": {
+    "文案": "cph4/fleet/out/bigdomain/copy.md",
+    "页面": "cph4/fleet/out/bigdomain/page/",
+    "合规检查": "cph4/fleet/out/bigdomain/compliance.json"
+   },
+   "manual_stages": [
+    "文案",
+    "页面",
+    "合规检查"
+   ],
    "owner_station": "control",
    "support": [],
    "priority": "T1",
@@ -328,6 +430,16 @@
     "无对外承诺"
    ],
    "stages": [
+    "商品定义",
+    "报价",
+    "物料"
+   ],
+   "outputs": {
+    "商品定义": "cph4/fleet/out/bigcompute/offer.md",
+    "报价": "cph4/fleet/out/bigcompute/quote.md",
+    "物料": "cph4/fleet/out/bigcompute/assets/"
+   },
+   "manual_stages": [
     "商品定义",
     "报价",
     "物料"
@@ -359,6 +471,16 @@
     "拆解",
     "配方"
    ],
+   "outputs": {
+    "抓取": "cph4/fleet/out/recon/raw/",
+    "拆解": "cph4/fleet/out/recon/analysis.md",
+    "配方": "cph4/fleet/out/recon/recipe.md"
+   },
+   "manual_stages": [
+    "抓取",
+    "拆解",
+    "配方"
+   ],
    "owner_station": "control",
    "support": [
     "delivery"
@@ -381,6 +503,28 @@
     "AIGC 三标识齐 + 备案在册"
    ],
    "stages": [
+    "script",
+    "assets",
+    "storyboard",
+    "kf",
+    "i2v",
+    "audio",
+    "assembly",
+    "qc",
+    "publish"
+   ],
+   "outputs": {
+    "script": "cph4/fleet/out/drama/script/",
+    "assets": "cph4/fleet/out/drama/assets/",
+    "storyboard": "cph4/fleet/out/drama/storyboard.json",
+    "kf": "cph4/fleet/out/drama/kf/",
+    "i2v": "cph4/fleet/out/drama/i2v/",
+    "audio": "cph4/fleet/out/drama/audio/",
+    "assembly": "cph4/fleet/out/drama/assembly/",
+    "qc": "cph4/fleet/out/drama/qc.json",
+    "publish": "cph4/fleet/out/drama/publish.json"
+   },
+   "manual_stages": [
     "script",
     "assets",
     "storyboard",
@@ -424,13 +568,20 @@
     "复盘"
    ],
    "outputs": {
+    "选题": "cph4/fleet/out/account/topics.json",
     "草稿": "cph4/fleet/social/drafts.jsonl",
+    "风险标注": "cph4/fleet/out/account/risk.json",
     "复盘": "cph4/fleet/social/DIGEST.md"
    },
    "commands": {
     "草稿": "python3 Tools/fleet/social_drafts.py",
     "复盘": "python3 Tools/fleet/social_drafts.py --limit 0"
    },
+   "manual_stages": [
+    "选题",
+    "风险标注",
+    "人工发送"
+   ],
    "owner_station": "control",
    "support": [
     "audio"

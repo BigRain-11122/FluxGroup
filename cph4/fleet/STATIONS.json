@@ -99,7 +99,8 @@
      "gpu_comfyui",
      "llm_resident"
     ]
-   }
+   },
+   "min_free_gb": 20
   },
   {
    "id": "visual",
@@ -194,7 +195,8 @@
      "llm_resident",
      "taiji_36b"
     ]
-   }
+   },
+   "min_free_gb": 20
   },
   {
    "id": "audio",
@@ -281,7 +283,8 @@
      "llm_gt_8g",
      "social_drafts(2026-11-11 迁主控台)"
     ]
-   }
+   },
+   "min_free_gb": 20
   },
   {
    "id": "brain",
@@ -373,7 +376,8 @@
      "media_render",
      "always_on_35b"
     ]
-   }
+   },
+   "min_free_gb": 20
   },
   {
    "id": "control",
@@ -484,7 +488,8 @@
      "14b_pinned",
      "audit_loops"
     ]
-   }
+   },
+   "min_free_gb": 15
   }
  ],
  "_charters": "每台机读自己那份岗位书（cph4/fleet/stations/<id>/CHARTER.md）；岗位书只管怎么干，判据在 PRODUCTS.json 与 drama_rules.py",

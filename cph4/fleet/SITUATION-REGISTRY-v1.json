@@ -446,6 +446,92 @@
     "docs/_archive-20261111/"
    ],
    "status": "CLOSED"
+  },
+  {
+   "id": "S25",
+   "name": "人判件堆积无人接",
+   "symptom": "PENDING_HUMAN 越积越多，没人定期处理",
+   "evidence": [
+    {
+     "src": "self",
+     "note": "2026-11-11 全盘审查：一屏原本不统计该状态"
+    }
+   ],
+   "old_gap": "验收只看 DONE，人判件成了黑洞",
+   "rule": "一屏统计 PENDING_HUMAN 并列入出手清单；需要固定的人判入口",
+   "landing": [
+    "Tools/fleet/fleet_view.py"
+   ],
+   "status": "OPEN"
+  },
+  {
+   "id": "S26",
+   "name": "契约有、命令未接",
+   "symptom": "产物路径写了，但没有可执行命令，自驱动不了",
+   "evidence": [
+    {
+     "src": "self",
+     "note": "2026-11-11 实测 16 道工序 TOOL-PENDING"
+    }
+   ],
+   "old_gap": "以为补了产物路径就能自驱",
+   "rule": "work_matrix 单列 TOOL-PENDING；接命令才算可自驱，不许用假命令凑",
+   "landing": [
+    "Tools/fleet/work_matrix.py"
+   ],
+   "status": "OPEN"
+  },
+  {
+   "id": "S27",
+   "name": "跨机交接无回执",
+   "symptom": "上游写了 HO- 卡，下游是否收到/开始/完成无反馈",
+   "evidence": [
+    {
+     "src": "self",
+     "note": "2026-11-11 审查：handoff 只写不读"
+    }
+   ],
+   "old_gap": "交接是单向投递",
+   "rule": "HO- 卡需 ack 字段与巡查计数",
+   "landing": [
+    "Tools/fleet/station_drive.py"
+   ],
+   "status": "OPEN"
+  },
+  {
+   "id": "S28",
+   "name": "回执按 id 覆盖历史",
+   "symptom": "同一张卡重跑会覆盖上一次回执，抽验抽不到失败那次",
+   "evidence": [
+    {
+     "src": "self",
+     "note": "2026-11-11 审查 append_receipt 按 id 命名"
+    }
+   ],
+   "old_gap": "回执当状态不当历史",
+   "rule": "已存在则加时间戳另存，同 id 多份按时间排序即重试史",
+   "landing": [
+    "Tools/fleet/station_shards.py"
+   ],
+   "status": "CLOSED"
+  },
+  {
+   "id": "S29",
+   "name": "写盘前不查水位",
+   "symptom": "磁盘写满后卡反复失败，形成失败循环",
+   "evidence": [
+    {
+     "src": "self",
+     "note": "2026-11-11 审查：自驱未跑 preflight"
+    }
+   ],
+   "old_gap": "只有描述性 preflight，没有数值也没有执行点",
+   "rule": "STATIONS.min_free_gb 定水位，自驱领活前查盘，低于水位直接 BLOCKED 不跑",
+   "landing": [
+    "Tools/fleet/station_drive.py",
+    "cph4/fleet/STATIONS.json"
+   ],
+   "status": "CLOSED"
   }
  ]
 }

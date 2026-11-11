@@ -35,6 +35,7 @@ import argparse
 import hashlib
 import json
 import os
+import shutil
 import subprocess
 import sys
 import time
@@ -116,10 +117,18 @@ def plan(station, root=None, now=None):
             t = types[tid]
             if station not in (t.get("stations") or []):
                 continue
+            if stage in (p.get("manual_stages") or []):
+                unknown.append({"product": pid, "stage": stage, "task_type": tid,
+                                "why": "MANUAL：人判工序，等人工下单，不自动建卡"})
+                continue
             rel = outputs.get(stage)
             if not rel:
                 unknown.append({"product": pid, "stage": stage, "task_type": tid,
-                                "why": "PRODUCTS.outputs 未声明产物路径，不建卡（不造活）"})
+                                "why": "NO-CONTRACT：未声明产物路径，不建卡（不造活）"})
+                continue
+            if not (p.get("commands") or {}).get(stage) and not t.get("selfdrive_cmd"):
+                unknown.append({"product": pid, "stage": stage, "task_type": tid,
+                                "why": "TOOL-PENDING：契约有、命令未接，先不建卡"})
                 continue
             path = os.path.join(rroot, rel)
             if _fresh_enough(path, t.get("refresh_h"), now):
@@ -285,7 +294,29 @@ def handoff(station, card, root=None):
     return {"to": tgt, "stage": nxt, "task_type": tid, "card": row["id"]}
 
 
+def _disk_ok(station, root=None):
+    """领活前查盘：低于配置水位就不跑，写一条 BLOCKED 理由，不许失败循环。"""
+    try:
+        st = {s["id"]: s for s in _load("STATIONS.json", root)["stations"]}[station]
+    except Exception:
+        return True, ""
+    need = st.get("min_free_gb")
+    if not need:
+        return True, ""
+    try:
+        free = shutil.disk_usage(root or ROOT).free / (1024 ** 3)
+    except Exception:
+        return True, ""
+    if free < float(need):
+        return False, "磁盘余 %.1fG < 水位 %sG" % (free, need)
+    return True, ""
+
+
 def once(station, root=None, dry=False, now=None, run_limit=3):
+    ok, why = _disk_ok(station, root)
+    if not ok:
+        return {"station": station, "ts": _now().isoformat(timespec="seconds"),
+                "blocked": why, "would_create": [], "unknown_output": [], "ran": []}
     want, unknown = plan(station, root, now)
     report = {"station": station, "ts": _now().isoformat(timespec="seconds"),
               "would_create": [w["product"] + "/" + w["stage"] for w in want],
@@ -348,7 +379,8 @@ def self_test():
         }
         prods = {"products": [
             {"id": "P1", "stages": ["草稿", "复盘"],
-             "outputs": {"草稿": "out/p1/drafts.jsonl"}},
+             "outputs": {"草稿": "out/p1/drafts.jsonl"},
+             "commands": {"草稿": "true"}, "manual_stages": ["复盘"]},
             {"id": "P2", "stages": ["步骤"], "outputs": {}},
         ]}
         json.dump(tax, open(os.path.join(base, "TAXONOMY-v1.json"), "w"), ensure_ascii=False)
@@ -393,7 +425,8 @@ def self_test():
         c5 = dict(c2); c5["deliverable"] = "out/none/x.bin"
         chk("产物缺失 -> FAILED", verify("control", c5, {"ok": True}, td)[0] == "FAILED")
 
-        chk("无 cmd -> NEED-CMD 不假跑", run_card("control", c2, td)["why"] == "NEED-CMD")
+        c_nocmd = dict(c2); c_nocmd["cmd"] = ""
+        chk("无 cmd -> NEED-CMD 不假跑", run_card("control", c_nocmd, td)["why"] == "NEED-CMD")
 
     print("[station_drive] %d/%d" % (ok, total))
     return 0 if ok == total else 2

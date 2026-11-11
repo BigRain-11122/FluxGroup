@@ -34,6 +34,41 @@ ROOT_DEFAULT = os.path.dirname(os.path.dirname(HERE))
 RT_REL = "cph4/fleet/rt"
 STATIONS = ("delivery", "visual", "audio", "brain", "control")
 
+
+# ---------------------------------------------------------------- 写锁
+# 2026-11-11 全盘审查发现：write_queue 是"整文件重写"，同机两个进程同时写会丢写。
+# 一机一写者是跨机约定，挡不住同机并发（自驱循环 + 命令面 + 巡查可能同时动）。
+# 这里加进程级排他锁，跨平台：POSIX 用 fcntl，Windows 用 msvcrt，都没有就退化为无锁。
+import contextlib
+
+
+@contextlib.contextmanager
+def _write_lock(path):
+    lock = path + ".lock"
+    os.makedirs(os.path.dirname(lock), exist_ok=True)
+    fh = None
+    try:
+        fh = open(lock, "a+")
+        try:
+            import fcntl
+            fcntl.flock(fh.fileno(), fcntl.LOCK_EX)
+        except ImportError:
+            try:
+                import msvcrt
+                msvcrt.locking(fh.fileno(), msvcrt.LK_LOCK, 1)
+            except Exception:
+                pass
+        yield
+    finally:
+        if fh:
+            try:
+                import fcntl
+                fcntl.flock(fh.fileno(), fcntl.LOCK_UN)
+            except Exception:
+                pass
+            fh.close()
+
+
 # 行级不变式：卡必须有 id 与 state；没有 product_id 的卡只允许出现在机制位（夜窗）。
 TERMINAL = ("DONE", "CANCELLED", "ARCHIVED", "FAILED")
 
@@ -95,10 +130,11 @@ def write_queue(station, rows, root=None):
             order.append(k)
         seen[k] = r
     tmp = p + ".tmp.%d" % os.getpid()
-    with open(tmp, "w", encoding="utf-8") as f:
-        for k in order:
-            f.write(json.dumps(seen[k], ensure_ascii=False, sort_keys=False) + "\n")
-    os.replace(tmp, p)
+    with _write_lock(p):
+        with open(tmp, "w", encoding="utf-8") as f:
+            for k in order:
+                f.write(json.dumps(seen[k], ensure_ascii=False, sort_keys=False) + "\n")
+        os.replace(tmp, p)
     return sum(1 for k in order if k in seen)
 
 
@@ -120,6 +156,14 @@ def append_receipt(station, receipt, root=None):
     os.makedirs(d, exist_ok=True)
     rid = str(receipt.get("id") or receipt.get("card") or "unknown")
     p = os.path.join(d, "%s.json" % rid)
+    if os.path.exists(p):
+        # 2026-11-11 审查发现：按 id 命名会覆盖上一次回执，抽验就抽不到失败那次。
+        # 已存在就带时间戳另存，历史全留（同 id 的多份回执按时间排序即重试史）。
+        stamp = (receipt.get("ts") or "").replace(":", "").replace("-", "").replace("T", "")[:14]
+        if not stamp:
+            import time as _t
+            stamp = _t.strftime("%Y%m%d%H%M%S")
+        p = os.path.join(d, "%s-%s.json" % (rid, stamp))
     tmp = p + ".tmp.%d" % os.getpid()
     with open(tmp, "w", encoding="utf-8") as f:
         json.dump(receipt, f, ensure_ascii=False, indent=1)

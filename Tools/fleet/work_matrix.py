@@ -129,6 +129,17 @@ def evaluate(tax, products, stations):
     with_out = sum(1 for p in products for st in (p.get("stages") or [])
                    if (p.get("outputs") or {}).get(st))
     coverage = {"total": tot, "with_outputs": with_out, "missing": tot - with_out}
+    # 命令未接：有产物契约、不是人判、但没写 commands —— 自驱动不了，得先接工具
+    tool_pending = []
+    for p in products:
+        for stg in (p.get("stages") or []):
+            if not (p.get("outputs") or {}).get(stg):
+                continue
+            if stg in (p.get("manual_stages") or []):
+                continue
+            if not (p.get("commands") or {}).get(stg):
+                tool_pending.append("%s/%s" % (p["id"], stg))
+    coverage["tool_pending"] = tool_pending
     return errors, warnings, {"products": matrix, "load": load,
                               "model_dependent_stages": model_stages,
                               "outputs_coverage": coverage}
@@ -193,6 +204,11 @@ def main():
     products = _load("PRODUCTS.json")["products"]
     stations = _load("STATIONS.json")["stations"]
     errors, warnings, matrix = evaluate(tax, products, stations)
+    _tp = (matrix.get("outputs_coverage") or {}).get("tool_pending") or []
+    if _tp:
+        warnings.append(("TOOL-PENDING", "%d 道工序" % len(_tp), "-",
+                         "契约有、命令未接（自驱动不了）：" + ", ".join(_tp[:4])
+                         + (" ..." if len(_tp) > 4 else "")))
 
     if a.json:
         print(json.dumps({"errors": errors, "warnings": warnings, "matrix": matrix},

@@ -106,7 +106,9 @@ def snapshot(root=None, check_net=True):
                "task_types": types_ok, "stages": stages,
                "queue": {"open": st.get("OPEN", 0), "running": st.get("RUNNING", 0),
                          "done": st.get("DONE", 0), "blocked": st.get("BLOCKED", 0),
-                         "failed": st.get("FAILED", 0), "total": len(q)},
+                         "failed": st.get("FAILED", 0),
+                         "pending_human": st.get("PENDING_HUMAN", 0),
+                         "total": len(q)},
                "last_receipt_h": last_receipt,
                "local_model": local.get("model"), "model_alive": net}
         machines.append(row)
@@ -116,6 +118,9 @@ def snapshot(root=None, check_net=True):
         if row["queue"]["open"] and (s.get("status") or "") not in ("ready", "ready_paused"):
             gaps.append({"kind": "WORK-QUEUED-NO-WORKER", "who": sid,
                          "why": "%d 张 OPEN 但机器状态 %s" % (row["queue"]["open"], s.get("status"))})
+        if row["queue"]["pending_human"]:
+            gaps.append({"kind": "HUMAN-BACKLOG", "who": sid,
+                         "why": "%d 张人判卡等处理" % row["queue"]["pending_human"]})
         if last_receipt is not None and last_receipt > 24 and q:
             gaps.append({"kind": "NO-RECEIPT-24H", "who": sid,
                          "why": "最后回执 %.1fh 前" % last_receipt})
@@ -151,9 +156,10 @@ def render(snap):
         "工位", "机器", "状态", "席", "类型", "工序", "队列 O/R/D/B  | 回执 | 模型"))
     for m in snap["machines"]:
         q = m["queue"]
-        L.append("%-9s %-6s %-26s %-3s %-4s %-5s %d/%d/%d/%d | %s | %s" % (
+        L.append("%-9s %-6s %-26s %-3s %-4s %-5s %d/%d/%d/%d/H%d | %s | %s" % (
             m["station"], m["machine"], (m["status"] or "")[:26], m["seats"],
             m["task_types"], m["stages"], q["open"], q["running"], q["done"], q["blocked"],
+            q.get("pending_human", 0),
             ("%.1fh" % m["last_receipt_h"]) if m["last_receipt_h"] is not None else "无",
             ("通" if m["model_alive"] else "不通") if m["model_alive"] is not None else "未查"))
     c = snap["counts"]
@@ -218,6 +224,7 @@ def self_test():
         chk("产物契约统计正确", snap["counts"] == {"stages": 3, "with_output": 1})
         chk("一屏含机器名", "传家宝" in render(snap))
         chk("队列计数正确", snap["machines"][0]["queue"]["open"] == 1)
+        chk("人判堆积能报出（字段存在）", "pending_human" in snap["machines"][0]["queue"])
 
     print("[fleet_view] %d/%d" % (ok, total))
     return 0 if ok == total else 3
