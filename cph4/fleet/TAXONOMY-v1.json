@@ -12,7 +12,7 @@
     {"id": "T-TEXT-RECIPE", "name": "配方卡", "tool": "recon 产物+人写", "out": "可执行配方(cmd+参数)", "min": 30, "res": {"cores": 2, "gpu_gb": 0, "ram_gb": 6}, "stations": ["control"], "model": "local-4b", "judge": "manual"},
     {"id": "T-TEXT-OFFER", "name": "商品定义/报价", "tool": "人写+账本核对", "out": "一页报价+成本口径", "min": 45, "res": {"cores": 2, "gpu_gb": 0, "ram_gb": 6}, "stations": ["control"], "model": "local-9b", "judge": "manual"},
     {"id": "T-TEXT-PAGE", "name": "落地页/页面", "tool": "静态页+文案", "out": "可打开的页面", "min": 60, "res": {"cores": 2, "gpu_gb": 0, "ram_gb": 6}, "stations": ["control"], "model": "local-4b", "judge": "path"},
-    {"id": "T-TEXT-COMPLIANCE", "name": "合规检查", "tool": "compliance 词表+family_compliance_check", "out": "合规结论+命中项", "min": 20, "res": {"cores": 2, "gpu_gb": 0, "ram_gb": 4}, "stations": ["control"], "model": "none", "judge": "family_check"},
+    {"id": "T-TEXT-COMPLIANCE", "name": "合规检查", "tool": "compliance 词表+family_compliance_check", "out": "合规结论+命中项", "min": 20, "res": {"cores": 2, "gpu_gb": 0, "ram_gb": 4}, "stations": ["control"], "model": "none", "judge": "manual", "judge_note": "原 judge=family_check 的脚本在仓内不存在（可能在吸嘟嘟子仓），未找回前按人判，找回后改回"},
     {"id": "T-TEXT-REVIEW", "name": "复盘/账本", "tool": "retro.py+账本", "out": "复盘条目+落点", "min": 15, "res": {"cores": 2, "gpu_gb": 0, "ram_gb": 4}, "stations": ["control"], "model": "local-4b", "judge": "path", "refresh_h": 24},
     {"id": "T-TEXT-REPORT", "name": "研究报告", "tool": "recon+人写", "out": "报告(md)", "min": 90, "res": {"cores": 4, "gpu_gb": 0, "ram_gb": 8}, "stations": ["control"], "model": "local-9b", "judge": "manual"},
 
@@ -23,7 +23,7 @@
     {"id": "T-IMG-LORA", "name": "角色 LoRA/资产", "tool": "ComfyUI 训练", "out": "角色档案+LoRA", "min": 240, "res": {"cores": 4, "gpu_gb": 12, "ram_gb": 8, "disk_gb": 20}, "stations": ["visual"], "model": "none", "judge": "manual"},
     {"id": "T-IMG-ICON", "name": "图标/切图", "tool": "脚本+人核", "out": "图标文件(尺寸正确)", "min": 20, "res": {"cores": 2, "gpu_gb": 0, "ram_gb": 4}, "stations": ["delivery"], "model": "none", "judge": "game_submit_pack"},
     {"id": "T-3D-SCENE", "name": "3D 场景装配", "tool": "tuanjie/Unity 编辑器", "out": "可运行场景", "min": 120, "res": {"cores": 8, "gpu_gb": 6, "ram_gb": 16, "disk_gb": 20}, "stations": ["delivery"], "model": "none", "judge": "path"},
-    {"id": "T-3D-ADAPT", "name": "车机适配", "tool": "tuanjie hmiandroid", "out": "车机可跑包", "min": 90, "res": {"cores": 8, "gpu_gb": 6, "ram_gb": 16}, "stations": ["delivery"], "model": "none", "judge": "family_check"},
+    {"id": "T-3D-ADAPT", "name": "车机适配", "tool": "tuanjie hmiandroid", "out": "车机可跑包", "min": 90, "res": {"cores": 8, "gpu_gb": 6, "ram_gb": 16}, "stations": ["delivery"], "model": "none", "judge": "manual", "judge_note": "原 judge=family_check 的脚本在仓内不存在（可能在吸嘟嘟子仓），未找回前按人判，找回后改回"},
     {"id": "T-BUILD-PACK", "name": "构建打包", "tool": "tuanjie -batchmode -nographics", "out": "安装包/zip", "min": 60, "res": {"cores": 8, "gpu_gb": 4, "ram_gb": 16, "disk_gb": 10}, "stations": ["delivery"], "model": "none", "judge": "path"},
     {"id": "T-BUILD-DEMO", "name": "演示包", "tool": "构建+清单", "out": "可演示包+一键启动", "min": 45, "res": {"cores": 4, "gpu_gb": 2, "ram_gb": 8}, "stations": ["delivery"], "model": "none", "judge": "path"},
 

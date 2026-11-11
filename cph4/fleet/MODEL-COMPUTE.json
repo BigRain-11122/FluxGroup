@@ -1,61 +1,151 @@
 {
-  "_comment": "模型算力正身（2026-11-11 CEO 令：算力大脑是机队本地能力中心，机队自己能做的先做，做不了的立刻由它赋能；主控只做轻量赋能）。回答一件事：一次推理该发给谁、按什么顺序退。端口与模型不是文档口径，是运行时读这份文件。",
-  "_version": "v1-20261111",
-  "_rule": "端点阶梯：OLLAMA_URL 显式覆盖 > gateways 按 order 探活 > 本机 11434 兜底。url 为空=该端点尚未装备，直接跳过（不探活、不假装可用）。",
-  "gateways": [
+ "_comment": "模型算力正身（2026-11-11 CEO 令：算力大脑是机队本地能力中心，机队自己能做的先做，做不了的立刻由它赋能；主控只做轻量赋能）。回答一件事：一次推理该发给谁、按什么顺序退。端口与模型不是文档口径，是运行时读这份文件。",
+ "_version": "v1-20261111",
+ "_rule": "端点阶梯（本地闭环优先）：OLLAMA_URL 显式覆盖 > 本机 127.0.0.1（order=0，每台机自己的闭环） > 算力大脑（order=1，重活/大模型） > 主控（order=2，轻量兜底）。url 为空=未装备，直接跳过。",
+ "gateways": [
+  {
+   "id": "local",
+   "name": "本机（每台机自己）",
+   "order": 0,
+   "role": "local-loop",
+   "url": "http://127.0.0.1:11434",
+   "intended_models": [
     {
-      "id": "brain",
-      "name": "算力大脑",
-      "order": 1,
-      "role": "primary",
-      "url": null,
-      "pending": "未入网：tailnet IP 未分配。装备完成后在此填 http://<brain-tailnet>:11434，order 保持 1。",
-      "hardware": {
-        "cpu": "双路 E5-2695v2 / 24 核 48 线程 / 无 AVX2",
-        "ram_gb": 256,
-        "gpu": [
-          {"model": "Tesla V100", "vram_gb": 16, "count": 3, "arch": "Volta SM70"},
-          {"model": "P104-100", "vram_gb": 8, "count": 3, "arch": "Pascal"}
-        ],
-        "disk_note": "系统盘 512G 不够放模型库，需加 1-2T"
-      },
-      "intended_models": [
-        {"seat": "triage", "model": "qwen3.5:8b 或同级", "vram_gb": 6, "why": "分类/抽取/短判定，量大"},
-        {"seat": "creative", "model": "32B 级 Q4/F16 分卡", "vram_gb": 20, "why": "剧本/文案/台词，语感要够"},
-        {"seat": "review", "model": "32B 级或 14B 双实例", "vram_gb": 16, "why": "审稿/判据复核，要求稳"},
-        {"seat": "embed", "model": "bge/qwen3-embedding", "vram_gb": 2, "why": "向量与去重"}
-      ],
-      "budget": {"vram_total_gb": 48, "ram_total_gb": 256, "concurrency": 4,
-                 "note": "按角色分卡（一卡一模型）优先，不做跨卡张量并行——V100 走 PCIe 无 NVLink，TP 通信会拖慢"},
-      "constraints": [
-        "无 AVX2：CPU 侧推理不可用，tokenize/采样必须走 GPU",
-        "V100 是 Volta：不支持 bf16，统一用 FP16；无 INT4 张量核，量化只在显存不够时才用",
-        "P104 是 Pascal：只适合小模型与向量，不承接主力"
-      ]
+     "seat": "triage",
+     "model": "本机轻模型（4B-8B 档，按机器型号定）",
+     "why": "分类/抽取/短判定/写卡理由，必须本地闭环"
     },
     {
-      "id": "control",
-      "name": "MacBook 主控台",
-      "order": 2,
-      "role": "light-fallback",
-      "url": "http://127.0.0.1:11434",
-      "intended_models": [
-        {"seat": "triage", "model": "qwen3.5:2b / 4b", "vram_gb": 0, "why": "本机摘要、分类、短判定"},
-        {"seat": "embed", "model": "qwen3-embedding:0.6b", "vram_gb": 0, "why": "本机向量"}
-      ],
-      "budget": {"ram_ceiling_gb": 18, "concurrency": 2,
-                 "note": "常驻 ≤18G（4B+向量约 5G）；CEO 在用时降载；不接批量长文本"},
-      "constraints": ["32G 统一内存与 CEO 办公应用共用", "不做 14B 以上常驻", "不做批量生成"]
+     "seat": "embed",
+     "model": "向量小模型",
+     "why": "去重与检索，不能依赖网络"
     }
-  ],
-  "routing": {
-    "ladder": ["station 本地确定性脚本", "算力大脑网关", "主控轻量档", "规则结论（不停工）"],
-    "rule": "机队自己能做的先做；需要模型立刻找算力大脑；主控只在算力大脑不可用时兜底轻量档；都不行就退规则结论，不许编。",
-    "forbid": "禁止把批量生成、长文本改写、剧本生产压在主控上——那不是轻量赋能。"
+   ],
+   "budget": {
+    "note": "每机按 STATIONS.local_model 的档位加载；用完即可卸"
+   },
+   "constraints": [
+    "断网必须仍能工作",
+    "不跑跨机依赖的重活"
+   ]
   },
-  "acceptance": {
-    "switch_to_brain": "算力大脑探活通过 + 至少一个模型加载完成 + 单请求 p50 < 8s",
-    "fallback_trigger": "算力大脑连续 2 次探活失败（30s 缓存窗口内）",
-    "metric": "每个座位的 p50/失败率/显存占用写进 local-model.jsonl 审计，按周看"
+  {
+   "id": "brain",
+   "name": "算力大脑",
+   "order": 1,
+   "role": "primary",
+   "url": null,
+   "pending": "未入网：tailnet IP 未分配。装备完成后在此填 http://<brain-tailnet>:11434，order 保持 1。",
+   "hardware": {
+    "cpu": "双路 E5-2695v2 / 24 核 48 线程 / 无 AVX2",
+    "ram_gb": 256,
+    "gpu": [
+     {
+      "model": "Tesla V100",
+      "vram_gb": 16,
+      "count": 3,
+      "arch": "Volta SM70"
+     },
+     {
+      "model": "P104-100",
+      "vram_gb": 8,
+      "count": 3,
+      "arch": "Pascal"
+     }
+    ],
+    "disk_note": "系统盘 512G 不够放模型库，需加 1-2T"
+   },
+   "intended_models": [
+    {
+     "seat": "triage",
+     "model": "qwen3.5:8b 或同级",
+     "vram_gb": 6,
+     "why": "分类/抽取/短判定，量大"
+    },
+    {
+     "seat": "creative",
+     "model": "32B 级 Q4/F16 分卡",
+     "vram_gb": 20,
+     "why": "剧本/文案/台词，语感要够"
+    },
+    {
+     "seat": "review",
+     "model": "32B 级或 14B 双实例",
+     "vram_gb": 16,
+     "why": "审稿/判据复核，要求稳"
+    },
+    {
+     "seat": "embed",
+     "model": "bge/qwen3-embedding",
+     "vram_gb": 2,
+     "why": "向量与去重"
+    }
+   ],
+   "budget": {
+    "vram_total_gb": 48,
+    "ram_total_gb": 256,
+    "concurrency": 4,
+    "note": "按角色分卡（一卡一模型）优先，不做跨卡张量并行——V100 走 PCIe 无 NVLink，TP 通信会拖慢"
+   },
+   "constraints": [
+    "无 AVX2：CPU 侧推理不可用，tokenize/采样必须走 GPU",
+    "V100 是 Volta：不支持 bf16，统一用 FP16；无 INT4 张量核，量化只在显存不够时才用",
+    "P104 是 Pascal：只适合小模型与向量，不承接主力"
+   ]
+  },
+  {
+   "id": "control",
+   "name": "MacBook 主控台",
+   "order": 2,
+   "role": "light-fallback",
+   "url": "http://100.75.133.10:11434",
+   "intended_models": [
+    {
+     "seat": "triage",
+     "model": "qwen3.5:2b / 4b",
+     "vram_gb": 0,
+     "why": "本机摘要、分类、短判定"
+    },
+    {
+     "seat": "embed",
+     "model": "qwen3-embedding:0.6b",
+     "vram_gb": 0,
+     "why": "本机向量"
+    }
+   ],
+   "budget": {
+    "ram_ceiling_gb": 18,
+    "concurrency": 2,
+    "note": "常驻 ≤18G（4B+向量约 5G）；CEO 在用时降载；不接批量长文本"
+   },
+   "constraints": [
+    "32G 统一内存与 CEO 办公应用共用",
+    "不做 14B 以上常驻",
+    "不做批量生成"
+   ],
+   "note": "仅作轻量兜底；其他机器能本地做的一律不要用它"
   }
+ ],
+ "routing": {
+  "ladder": [
+   "本机确定性脚本",
+   "本机轻模型（本地闭环）",
+   "算力大脑（大模型/重活）",
+   "主控轻量兜底",
+   "规则结论（不停工）"
+  ],
+  "rule": "闭环优先：能在本机做完的绝不出机器；本机小模型做不好的（长剧本/语感/审稿）上升算力大脑；主控只在两头都不可用时兜底。",
+  "cloud_only": [
+   "产出清单与哈希",
+   "统计度量",
+   "排单信息共享（谁有空/跨机交接单）"
+  ],
+  "forbid": "禁止把执行、判据、排队放到云端；断网必须仍能出活。"
+ },
+ "acceptance": {
+  "switch_to_brain": "算力大脑探活通过 + 至少一个模型加载完成 + 单请求 p50 < 8s",
+  "fallback_trigger": "算力大脑连续 2 次探活失败（30s 缓存窗口内）",
+  "metric": "每个座位的 p50/失败率/显存占用写进 local-model.jsonl 审计，按周看"
+ },
+ "_closure": "每台机必须能在断网状态下独立完成：读自己分片、跑 cmd、过判据、写回执、排下一张。上云只传三样：产出清单+哈希、统计度量、排单信息（谁有空/跨机交接）。"
 }

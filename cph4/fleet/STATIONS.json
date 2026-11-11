@@ -12,6 +12,14 @@
    "name": "交付工厂",
    "role": "游戏产线主业（CEO 2026-11-11）：Biggame 与车机游戏的全部提审/图标/截图/构建/适配/准入材料都在这里；不再接视频与对外物料。",
    "blocked_scope": "all",
+   "local_model": {
+    "model": "qwen3.5:8b 级（Q4）",
+    "vram_gb": 8,
+    "ram_gb": 10,
+    "num_ctx": 8192,
+    "concurrency": 2,
+    "why": "12G 显存 + 94G 内存：可跑 8B 全速，14B Q4 也能上；文本判读/写卡理由本地完成"
+   },
    "machine": "公司生产力机",
    "hostname": "DASHENG",
    "tailnet_ip": "100.110.185.62",
@@ -98,6 +106,14 @@
    "name": "视觉工位",
    "role": "全视频主责（CEO 2026-11-11）：MV/漫剧/短剧/短视频的画面+剪辑+字幕+装配；声音仍由声音工位做。",
    "blocked_scope": "gpu",
+   "local_model": {
+    "model": "qwen3.5:8b 级（Q4）",
+    "vram_gb": 8,
+    "ram_gb": 10,
+    "num_ctx": 8192,
+    "concurrency": 2,
+    "why": "16G(可用13.4) 显存要与 KF/i2v 共用：模型只在出片间隙加载，用完即卸；判读类走本地 8B"
+   },
    "machine": "传家宝",
    "hostname": "FLUXGROUP",
    "tailnet_ip": "100.123.74.104",
@@ -185,6 +201,14 @@
    "name": "声音工位",
    "role": "声音工位：全视频线的配音/混音/BGM/音色；不做画面、不做视频装配。",
    "blocked_scope": "all",
+   "local_model": {
+    "model": "qwen3.5:4b-8b 档",
+    "vram_gb": 6,
+    "ram_gb": 8,
+    "num_ctx": 8192,
+    "concurrency": 2,
+    "why": "8G 显存 + TTS 共用：4B 常驻太贵，按需拉起 4B/8B 做判读"
+   },
    "machine": "小钢炮",
    "hostname": "BIGMONEY",
    "tailnet_ip": "100.82.175.0",
@@ -264,6 +288,14 @@
    "name": "大脑工位",
    "role": "机队本地模型能力中心 + BigMoney 量化回测 + 夜间批处理（CEO 2026-11-11）：绝大多数本地推理与 agent 自动化算力落在它；机队自己能做的先做，做不了的立刻由它赋能。",
    "blocked_scope": "all",
+   "local_model": {
+    "model": "32B 级（FP16/Q4 分卡）",
+    "vram_gb": 32,
+    "ram_gb": 32,
+    "num_ctx": 16384,
+    "concurrency": 4,
+    "why": "3×V100 48G：承接全队重活与 agent 算力，也是各机上升通道"
+   },
    "machine": "算力大脑",
    "hostname": "PENDING-TAILNET",
    "tailnet_ip": null,
@@ -348,6 +380,14 @@
    "name": "主控台",
    "role": "主控台（2026-11-11 收窄）：文本、判据、账本、对外材料、索引、调度；不再做视频剪辑与字幕。",
    "blocked_scope": "none",
+   "local_model": {
+    "model": "qwen3.5:4b-mlx",
+    "vram_gb": 0,
+    "ram_gb": 5,
+    "num_ctx": 8192,
+    "concurrency": 2,
+    "why": "32G 统一内存与办公共用：只跑 4B + 向量，常驻 ≤18G"
+   },
    "machine": "MacBook",
    "hostname": "junshengsundemacbook-pro.local",
    "tailnet_ip": "100.75.133.10",

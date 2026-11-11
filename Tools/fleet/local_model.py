@@ -40,8 +40,27 @@ HOLD_TTL_S = 45          # 主控一次生成可能在 30-60s，给足余量；�
 DEFAULT_MODEL = "\x00"
 
 
+def local_station():
+    """本机是哪台：FLEET_STATION 环境变量 > hostname 匹配 STATIONS > None。"""
+    st = os.environ.get("FLEET_STATION")
+    if st:
+        return st
+    try:
+        import socket
+        host = socket.gethostname().lower()
+        with open(os.path.join(ROOT, "cph4", "fleet", "STATIONS.json"), encoding="utf-8") as f:
+            for s in json.load(f).get("stations") or []:
+                h = (s.get("hostname") or "").lower()
+                if h and (h == host or host.startswith(h.split(".")[0])):
+                    return s.get("id")
+    except Exception:
+        pass
+    return None
+
+
 def gateways():
-    """按 order 返回候选端点。显式 URL 优先。"""
+    """按 order 返回候选端点。显式 URL 优先。
+    阶梯=本机(0) -> 算力大脑(1) -> 主控(2)：本地闭环优先，升级才出机器。"""
     if URL:
         return [URL]
     try:
