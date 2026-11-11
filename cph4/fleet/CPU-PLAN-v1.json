@@ -1,0 +1,104 @@
+{
+ "_comment": "CPU 算力分配正身（2026-11-11 CEO 令「每台机器都有强大的 CPU，尤其是算力大脑，规划好 CPU 的算力」）。机器事实来自 fleet-compute-plan-20261021 与 MODEL-COMPUTE.json；本文件只写分配规则与上限，执行体=Tools/fleet/cpu_alloc.py。",
+ "_version": "v1-20261111",
+ "_principles": [
+  "留核律：每台机先留 reserve_cores 给系统、GPU 喂数据与 CEO 办公，剩下才分配（宁少排不多排）。",
+  "白天律：CEO 在用的机器白天只用 day_share，夜窗才吃满。",
+  "无 AVX2 律：算力大脑无 AVX2 → 禁一切 needs_avx2 的活（CPU 推理/whisper/llama.cpp），允许回测与批处理（NumPy 走 SSE 基线）。",
+  "内存先于核数：回测这类按 mem_gb_per_task 卡，不按核数卡。",
+  "禁融合：主控台不做长转码与音视频融合（统一内存与 CEO 办公共用）。"
+ ],
+ "machines": {
+  "delivery": {
+   "name": "公司生产力机（DASHENG）",
+   "cpu": "Ryzen 9950X", "cores": 16, "threads": 32, "ram_gb": 93.6,
+   "avx2": true, "avx512": true, "gpu": "RTX 4070 SUPER 12G",
+   "reserve_cores": 3, "day_share": 0.25, "night_share": 1.0,
+   "notes": "单核最强，编译/出包首选；白天 CEO 在用（实测 CPU load 57%），只吃富余核"
+  },
+  "visual": {
+   "name": "视觉工位（传家宝 FLUXGROUP）",
+   "cpu": "Ryzen 3950X", "cores": 16, "threads": 32, "ram_gb": 24,
+   "avx2": true, "avx512": false, "gpu": "RTX 3070 16G",
+   "reserve_cores": 3, "day_share": 0.3, "night_share": 1.0,
+   "notes": "转码与给 GPU 喂数据的同机配合最好；内存 24G 是硬约束，重内存活不排"
+  },
+  "audio": {
+   "name": "声音工位（小钢炮 BIGMONEY）",
+   "cpu": "Ryzen 3800X", "cores": 8, "threads": 16, "ram_gb": 24,
+   "avx2": true, "avx512": false, "gpu": "RTX 3070 8G",
+   "reserve_cores": 2, "day_share": 0.5, "night_share": 1.0,
+   "notes": "与 TTS/whisper 同机做后处理最省搬运；有 53.5h 停摆史，长跑必须带守护"
+  },
+  "brain": {
+   "name": "算力大脑",
+   "cpu": "2× Xeon E5-2695v2", "cores": 24, "threads": 48, "ram_gb": 256,
+   "avx2": false, "avx512": false, "gpu": "Tesla V100 16G ×3",
+   "reserve_cores": 4, "day_share": 1.0, "night_share": 1.0,
+   "notes": "24/7 常开；CPU 主厂=回测与批处理；禁 CPU 推理（无 AVX2）；ffmpeg 只许 veryfast 且限线程"
+  },
+  "control": {
+   "name": "主控台（MacBook）",
+   "cpu": "Apple M1 Pro", "cores": 10, "threads": 10, "ram_gb": 32,
+   "avx2": null, "avx512": false, "gpu": "M1 Pro 16 核（含 VideoToolbox 硬编）",
+   "reserve_cores": 2, "day_share": 0.5, "night_share": 1.0,
+   "notes": "只做规则/索引/文本与短视频硬编；禁长转码与融合（统一内存与办公共用）"
+  }
+ },
+ "classes": {
+  "rule-check": {
+   "name": "规则校验（哈希/命名/台账/字段）", "threads": 1, "mem_gb": 0.5,
+   "needs_avx2": false, "hours": "any",
+   "machines": ["delivery", "visual", "audio", "brain", "control"],
+   "note": "零模型、随时可跑；能规则判的一律不进模型（分层令第一级）"
+  },
+  "batch-io": {
+   "name": "批处理/打包/去重/索引", "threads": 2, "mem_gb": 1.0,
+   "needs_avx2": false, "hours": "any",
+   "machines": ["delivery", "visual", "audio", "brain", "control"],
+   "note": "IO 密集，核数不是瓶颈；大脑盘要先加 1-2T 才能当主仓"
+  },
+  "transcode": {
+   "name": "转码/压制/字幕烧录", "threads": 6, "mem_gb": 4.0,
+   "needs_avx2": true, "hours": "any",
+   "machines": ["visual", "delivery", "brain"],
+   "no_avx2_fallback": {"threads": 12, "why": "无 AVX2 走 SSE 汇编路径，只许 -preset veryfast、限 12 线程，慢 30-50%"},
+   "note": "x264/x265 的汇编路径要 AVX2；大脑无 AVX2 走降速档，不许跑 slow/slower 预设"
+  },
+  "asr-post": {
+   "name": "ASR 后处理/字幕对齐/时间轴", "threads": 4, "mem_gb": 4.0,
+   "needs_avx2": true, "hours": "any",
+   "machines": ["audio", "visual", "delivery"],
+   "note": "whisper 类 CPU 后端吃 AVX2；大脑禁排（无 AVX2 会慢到不可用）"
+  },
+  "tts-post": {
+   "name": "配音后处理/响度/重采样", "threads": 2, "mem_gb": 2.0,
+   "needs_avx2": false, "hours": "any",
+   "machines": ["audio", "visual"],
+   "note": "与 TTS 同机最省搬运：先出人声→再配乐→最后混（禁先画面后凑音）"
+  },
+  "render-feed": {
+   "name": "给 GPU 喂数据（图片预处理/切图/命名）", "threads": 2, "mem_gb": 2.0,
+   "needs_avx2": false, "hours": "any",
+   "machines": ["visual", "delivery"],
+   "note": "必须与出片 GPU 同机，跨机搬运会把带宽吃光"
+  },
+  "compile": {
+   "name": "引擎编译/出包/源码门禁", "threads": 8, "mem_gb": 8.0,
+   "needs_avx2": false, "hours": "night",
+   "machines": ["delivery", "visual"],
+   "note": "强单核受益最大，9950X 首选；白天不排（CEO 在用）"
+  },
+  "backtest": {
+   "name": "回测/数据处理", "threads": 8, "mem_gb": 32.0,
+   "needs_avx2": false, "hours": "any",
+   "machines": ["brain"],
+   "note": "内存是硬门槛（单任务按 32G 预留）；大脑 256G 才装得下多任务，其他机一律不排"
+  }
+ },
+ "forbid": [
+  {"machine": "brain", "class": "asr-post", "why": "无 AVX2，whisper CPU 后端慢到不可用"},
+  {"machine": "brain", "class": "*llm-cpu*", "why": "无 AVX2，禁 llama.cpp/CPU 推理（永久排除）"},
+  {"machine": "control", "class": "transcode", "why": "统一内存与 CEO 办公共用；只许 VideoToolbox 短片硬编，不做长转码"}
+ ]
+}
