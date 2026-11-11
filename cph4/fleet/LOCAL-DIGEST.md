@@ -6999,3 +6999,9 @@
 - 11-11T10:31 · PROBE-BMB-TOOLCHAIN-20261110-acceptance.json · 完成机队回执提交，但被拒因交付物非标准产物。
 - 11-11T10:31 · NODE-SYNC-bm-c-20261111T1024-bm-c.json · 同步失败，因文件无法删除且重置索引出错。
 - 11-11T10:31 · NODE-SYNC-bm-c-20261111T1024-acceptance.json · 完成机队回执提交，但被拒收因交付物非有效产物。
+- 11-11T10:32 · triage-fluxverse-bm-b-20261111.md · 已完成线级体检，发现两个工段严重超阈，需立即补产出或收线。
+- 11-11T10:32 · PROBE-BMB-TOOLCHAIN-20261110-bm-c.json · 机队任务已完成，无风险。
+- 11-11T10:32 · PROBE-BMB-TOOLCHAIN-20261110-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物。
+- 11-11T10:32 · NODE-SYNC-bm-c-20261111T1024-bm-c.json · 同步失败，因文件无法删除且重置索引出错。
+- 11-11T10:32 · NODE-SYNC-bm-c-20261111T1024-acceptance.json · 完成节点同步回执提交，但被拒收因非有效交付物。
+- 11-11T10:32 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
