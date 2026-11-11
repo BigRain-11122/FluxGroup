@@ -7031,3 +7031,11 @@
 - 11-11T10:44 · REPAIR-PEER-SYNC-bm-c-20261111-bm-m.json · 已完成同步补发与验证重启，存在因链路中断导致状态无法核验的风险。
 - 11-11T10:44 · UNBLOCK-R-TRIAGE-BIGCOMPUTE-BMB-20261108-acceptance.json · 已完成机队回执提交，但因内容非标准产物被驳回。
 - 11-11T10:44 · UNBLOCK-R-TRIAGE-BIGCOMPUTE-BMB-20261108-bm-m.json · 机队已补账无风险，但需关注后续缺料情况。
+- 11-11T10:45 · _last_lane_bm-m.json · 已完成资产库解锁任务，无风险。
+- 11-11T10:45 · UNBLOCK-asset-lib-library-check-2026-11-08-acceptance.json · 机队回执被拒，因交付物非有效文档且无风险。
+- 11-11T10:45 · UNBLOCK-asset-lib-library-check-2026-11-08-bm-m.json · 已完成机队物料检查并解除阻塞，无风险。
+- 11-11T10:45 · REPAIR-PEER-SYNC-bm-c-20261111-acceptance.json · 机队回执被拒，因交付物非所需文档且无风险。
+- 11-11T10:45 · REPAIR-PEER-SYNC-bm-c-20261111-bm-m.json · 同步任务因接收端校验失败滞留未验证，需人工介入排查并强制重置流程。
+- 11-11T10:45 · UNBLOCK-R-TRIAGE-BIGCOMPUTE-BMB-20261108-acceptance.json · 机队回执被拒，因交付物非有效产物且无风险。
+- 11-11T10:45 · UNBLOCK-R-TRIAGE-BIGCOMPUTE-BMB-20261108-bm-m.json · 已完成机队解锁，无风险，需由负责人执行补账操作。
+- 11-11T10:45 · self-improve-bm-m-latest.json · 已完成机队回执提交，无风险。
