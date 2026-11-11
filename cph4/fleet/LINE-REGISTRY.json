@@ -143,11 +143,12 @@
    "pause_reason": "CEO 2026-11-11 令：恢复为独立产品线，先做 2D 图生视频一条链；原 2026-11-03 停线令由本条取代",
    "visibility": "OK",
    "last_artifact_h": 47.0,
-   "owner_station": "audio",
-   "product_id": "PROD-DRAMA-AUDIO",
+   "owner_station": "visual",
+   "product_id": "PROD-DRAMA-EP",
    "restored_at": "2026-11-11",
    "form": "2d-i2v",
-   "rule_engine": "Tools/fleet/drama_rules.py"
+   "rule_engine": "Tools/fleet/drama_rules.py",
+   "station_note": "画面主管=视觉工位；配音/混音由声音工位承接（support）"
   },
   {
    "id": "bigstream-duanju",

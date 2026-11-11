@@ -53,7 +53,7 @@
 | 调度+机队（verdict 驱动·本地主供+云端必要闸·保活/静默/让路/分工/信息同步） | 常设 | `cph4/resource-chain.md` §一~§十 |
 | 资源保留清理（R1 永不清~R4 随轮清·磁盘预算） | 日/周/月/季 | `cph4/resource-chain.md` §三§11 |
 | 本地化算力（L1 确定性→L2 本地 LLM→L3 云 API）+Token 经济 | 常设 | `cph4/local-first.md`+`cph4/token-economy.md` |
-| 自动化周期总账（防重复/防冲突/流转时限） | 全周期登记 | `cph4/cadence.md` |
+| 自动化周期（工位时段/槽位/禁入活） | 按工位登记 | `cph4/fleet/STATIONS.json` + `cph4/registry/CANON-V2-20261111.md` |
 | 新公司开线 SOP（P1-P5 判据制） | 随开线 | `cph4/venture.md` |
 | 调研部门（九司·应用表强制）+GitHub 雷达+OSS 收获轮 | 常设/周/72h | `docs/research-dept-charter.md`+`cph4/github-radar.md`+`cph4/oss-harvest.md` |
 | 记忆梳理（入口四问+热冷水位·周日窗） | 周日 03:07 | `cph4/memory.md` |
