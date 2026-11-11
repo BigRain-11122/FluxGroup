@@ -38,7 +38,7 @@ from urllib.parse import parse_qs, urlparse
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 NODES = {"bm-a", "bm-b", "bm-c", "bm-m", "bm-d"}
 MAX_BYTES = int(os.environ.get("INTAKE_MAX_BYTES", str(8 * 1024 ** 3)))  # 单件 8GB 上限
-EXT = os.environ.get("INTAKE_ROOT", "/Volumes/移动硬盘")
+EXT = os.environ.get("INTAKE_ROOT") or ""   # 空=不落外盘（2026-11-11：移动盘退出长期存储）
 # 2026-11-04：以前 DEST 直接落在移动盘上，盘不在就一律 503 —— bm-a 声明了 53 件产物，
 # 从 11-02 起一件都没进来（PUSHED.jsonl 至今不存在），机队媒体因此永远到不了 Mac。
 # 正法=内盘暂存永远可用，外盘只作归档副本；两种落点都记账，Health 如实报。

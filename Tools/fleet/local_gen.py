@@ -19,7 +19,21 @@ import sys
 import time
 
 MODEL = "stabilityai/sdxl-turbo"
-DEFAULT_OUT = "/Volumes/移动硬盘/FluxAssets/incoming/generated"
+def _default_out():
+    v = os.environ.get("FLUX_VAULT")
+    if v:
+        return os.path.join(v, "incoming", "generated")
+    cfg = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(
+        os.path.abspath(__file__)))), "cph4", "fleet", "ASSET-VAULT.json")
+    try:
+        import json as _json
+        with open(cfg, encoding="utf-8") as f:
+            return os.path.join(_json.load(f)["vault"]["path"], "incoming", "generated")
+    except Exception:
+        return os.path.join(os.path.expanduser("~"), "FluxAssets", "incoming", "generated")
+
+
+DEFAULT_OUT = _default_out()
 
 
 def load_pipe():

@@ -29,7 +29,20 @@ ROOT = os.path.dirname(os.path.dirname(HERE))
 FLEET = os.path.join(ROOT, "cph4", "fleet")
 SLOTS = os.path.join(FLEET, "MAC-SLOTS-v1.json")
 STATE = os.path.join(FLEET, "state", "mac-farm.json")
-VAULT = "/Volumes/移动硬盘/FluxAssets/store"
+def _vault():
+    """素材库位置：环境变量 > ASSET-VAULT.json > 报错。不许再写死 /Volumes。"""
+    import json as _json
+    v = os.environ.get("FLUX_VAULT")
+    if v:
+        return os.path.join(v, "store") if not v.endswith("/store") else v
+    try:
+        with open(os.path.join(FLEET, "ASSET-VAULT.json"), encoding="utf-8") as f:
+            return os.path.join(_json.load(f)["vault"]["path"], "store")
+    except Exception:
+        raise SystemExit("素材库未配置：设 FLUX_VAULT 或在 cph4/fleet/ASSET-VAULT.json 写 path")
+
+
+VAULT = _vault()
 INBOX = os.path.join(ROOT, "media", "inbox")
 
 
