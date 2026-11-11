@@ -1,0 +1,451 @@
+{
+ "_comment": "未知情况登记册（SITUATION-REGISTRY）· 2026-11-11。回答两件事：①历史上到底出现过哪些没规则可依的情况（带实测次数）②每一种现在由哪条新规则/哪个脚本兜住。状态由 situation_audit.py 复算，不靠人填绿。",
+ "_version": "v1-20261111",
+ "_status_meaning": "CLOSED=落点全部在盘且有可执行判据；OPEN=规则已定但还没有可执行落点；GAP=声称有落点但核验不到（最严重）",
+ "situations": [
+  {
+   "id": "S01",
+   "name": "坏卡循环",
+   "symptom": "同一张卡每天被重派、同错误反复，占槽不出活",
+   "evidence": [
+    {
+     "src": "queue",
+     "field": "cancel_reason",
+     "starts": "坏卡闭环"
+    },
+    {
+     "src": "blockers",
+     "class": "CARD-DEFECT-LOOP"
+    }
+   ],
+   "old_gap": "没有卡契约，cmd 与工具用法不符也能进队列",
+   "rule": "卡必须带 product_id+stage+task_type；承接工序不存在即 UNMAPPED 拒收；同错误两次停线改声明",
+   "landing": [
+    "cph4/fleet/TAXONOMY-v1.json",
+    "Tools/fleet/work_matrix.py"
+   ],
+   "status": "CLOSED"
+  },
+  {
+   "id": "S02",
+   "name": "假完成（DONE 无产物）",
+   "symptom": "卡报 DONE，盘上没有文件或文件是空的",
+   "evidence": [
+    {
+     "src": "blockers",
+     "class": "ARTIFACT-MISSING"
+    }
+   ],
+   "old_gap": "完成状态由执行者自述，没人验产物",
+   "rule": "判 DONE 必须产物 size>0；回执必带 bytes 与 sha256",
+   "landing": [
+    "Tools/fleet/station_drive.py"
+   ],
+   "status": "CLOSED"
+  },
+  {
+   "id": "S03",
+   "name": "假绿（回执无结论）",
+   "symptom": "回执存在但没有 rc/判据结论，看起来跑过了",
+   "evidence": [
+    {
+     "src": "receipts",
+     "field": "rc",
+     "equals": "None"
+    }
+   ],
+   "old_gap": "回执不校验内容，只要文件在就算有",
+   "rule": "无 rc 无判据 → NEED-CMD / PENDING_HUMAN，不许判 DONE",
+   "landing": [
+    "Tools/fleet/station_drive.py"
+   ],
+   "status": "CLOSED"
+  },
+  {
+   "id": "S04",
+   "name": "假红（读数面错）",
+   "symptom": "把远端子仓/别机产物判成本地缺失，或把 ffmpeg 活判成停工",
+   "evidence": [
+    {
+     "src": "blockers",
+     "class": "FAKE-RED"
+    }
+   ],
+   "old_gap": "判据不区分持有者与阻塞范围",
+   "rule": "承接方由 TAXONOMY 反查；blocked_scope=gpu 只挡 GPU 活，剪辑/字幕照跑",
+   "landing": [
+    "Tools/fleet/work_matrix.py",
+    "cph4/fleet/STATIONS.json",
+    "Tools/fleet/local_loop_check.py"
+   ],
+   "status": "CLOSED"
+  },
+  {
+   "id": "S05",
+   "name": "永久 UNVERIFIED",
+   "symptom": "跨机产物读不到就挂 UNVERIFIED，永远没人认领",
+   "evidence": [
+    {
+     "src": "blockers",
+     "class": "UNVERIFIED-STUCK"
+    }
+   ],
+   "old_gap": "没有\"远端待查 + 定责到持有机器\"的处置路径",
+   "rule": "跨机产物判远程待查并由承接工位 handoff 接手；不许挂死",
+   "landing": [
+    "Tools/fleet/station_drive.py"
+   ],
+   "status": "OPEN"
+  },
+  {
+   "id": "S06",
+   "name": "阶段不跑（周期产物过期）",
+   "symptom": "该每天/每周出的东西没人出，队列里也没这张卡",
+   "evidence": [
+    {
+     "src": "blockers",
+     "class": "STAGE-STALE"
+    }
+   ],
+   "old_gap": "主控不派就没人做；周期只写在文档里",
+   "rule": "自驱 SENSE 按 task_type.refresh_h 判过期，自己补卡自己跑",
+   "landing": [
+    "Tools/fleet/station_drive.py",
+    "cph4/fleet/TAXONOMY-v1.json"
+   ],
+   "status": "CLOSED"
+  },
+  {
+   "id": "S07",
+   "name": "供给断供（有活不派）",
+   "symptom": "机器在线、队列有活，但整轮没卡可领",
+   "evidence": [
+    {
+     "src": "blockers",
+     "class": "SUPPLY-SHORT"
+    }
+   ],
+   "old_gap": "派单是唯一供给通道，主控一停全队停",
+   "rule": "机器自己 SENSE+SUPPLY 建卡；主控 supply 降为兜底",
+   "landing": [
+    "cph4/fleet/AUTONOMY-V3.md",
+    "Tools/fleet/station_drive.py"
+   ],
+   "status": "CLOSED"
+  },
+  {
+   "id": "S08",
+   "name": "队列漂移/被整份覆盖",
+   "symptom": "本地与 origin 的队列差几倍，冲突出现在同一条卡",
+   "evidence": [
+    {
+     "src": "blockers",
+     "class": "QUEUE-DRIFT"
+    }
+   ],
+   "old_gap": "整文件覆盖共享状态 + union 自动合并",
+   "rule": "一机一写者分片 rt/<工位>/；禁 union、禁 -X ours",
+   "landing": [
+    "cph4/fleet/SYNC-DESIGN-v2.md",
+    "Tools/fleet/station_shards.py"
+   ],
+   "status": "CLOSED"
+  },
+  {
+   "id": "S09",
+   "name": "无主卡",
+   "symptom": "卡写了几台机都能干，结果没人干",
+   "evidence": [
+    {
+     "src": "blockers",
+     "class": "CARD-UNOWNED"
+    }
+   ],
+   "old_gap": "卡只有 nodes 名单，没有唯一承接方",
+   "rule": "承接方由 task_type.stations 决定；为空且非 CEO 物理件即 UNSERVICEABLE 报警",
+   "landing": [
+    "cph4/fleet/TAXONOMY-v1.json",
+    "Tools/fleet/work_matrix.py"
+   ],
+   "status": "CLOSED"
+  },
+  {
+   "id": "S10",
+   "name": "同步落后",
+   "symptom": "某台机的分片长时间没更新",
+   "evidence": [
+    {
+     "src": "blockers",
+     "class": "SYNC-BEHIND"
+    }
+   ],
+   "old_gap": "整树提交，一台机脏全队停",
+   "rule": "state_sync --station 只提交自己那片；脏树不再整轮罢工",
+   "landing": [
+    "Tools/fleet/state_sync.py"
+   ],
+   "status": "CLOSED"
+  },
+  {
+   "id": "S11",
+   "name": "节点仓分叉",
+   "symptom": "执行机本地 main 领先/落后几百个提交",
+   "evidence": [
+    {
+     "src": "blockers",
+     "class": "NODE-REPO-DIVERGED"
+    }
+   ],
+   "old_gap": "多机同时改同一份文件",
+   "rule": "只写自己分片 → 从结构上不再产生分叉；收口走 checkout 非 merge",
+   "landing": [
+    "cph4/fleet/SYNC-DESIGN-v2.md"
+   ],
+   "status": "CLOSED"
+  },
+  {
+   "id": "S12",
+   "name": "卡契约坏",
+   "symptom": "cmd 与工具用法不符、依赖产物不存在",
+   "evidence": [
+    {
+     "src": "blockers",
+     "class": "CONTRACT-BAD"
+    },
+    {
+     "src": "queue",
+     "field": "error_class",
+     "equals": "E-CARD-CMD"
+    }
+   ],
+   "old_gap": "卡字段没有必填校验",
+   "rule": "卡字段必填（product/stage/task_type/cmd/deliverable/judge）+ 派单前跑 work_matrix",
+   "landing": [
+    "Tools/fleet/work_matrix.py",
+    "Tools/fleet/station_drive.py"
+   ],
+   "status": "CLOSED"
+  },
+  {
+   "id": "S13",
+   "name": "质量不达（无判据可依）",
+   "somptom": "",
+   "symptom": "出片不合规格但没人能说清哪条不合",
+   "evidence": [
+    {
+     "src": "blockers",
+     "class": "QUALITY-BELOW"
+    }
+   ],
+   "old_gap": "质量靠人看，没有可执行判据",
+   "rule": "漫剧九段门 drama_rules（自检 14/14）+ 语感闸 voice_gate（19/19），反例必须先于阈值",
+   "landing": [
+    "Tools/fleet/drama_rules.py",
+    "Tools/fleet/voice_gate.py"
+   ],
+   "status": "CLOSED"
+  },
+  {
+   "id": "S14",
+   "name": "卷未挂载/磁盘不足",
+   "symptom": "产物写不进去，卡反复失败",
+   "evidence": [
+    {
+     "src": "blockers",
+     "class": "VOLUME-MISSING"
+    }
+   ],
+   "old_gap": "领卡前不查盘",
+   "rule": "preflight 探针 + 闭环体检 L5 产物可落",
+   "landing": [
+    "Tools/fleet/local_loop_check.py",
+    "cph4/fleet/STATIONS.json"
+   ],
+   "status": "CLOSED"
+  },
+  {
+   "id": "S15",
+   "name": "停摆工位仍认领",
+   "symptom": "机器不再产出却一直占卡，别的机器领不到",
+   "evidence": [
+    {
+     "src": "blockers",
+     "class": "STALLED-WORKER"
+    }
+   ],
+   "old_gap": "认领即 RUNNING，没有产出年龄判据",
+   "rule": "认领超时无产出即释放并改派；自驱不再\"认领即挂名下\"",
+   "landing": [
+    "Tools/fleet/executor_revive.py",
+    "Tools/fleet/station_drive.py"
+   ],
+   "status": "CLOSED",
+   "probe": "executor_revive 四态（offline/closeout/wake/healthy）+ 自驱不产生长期挂名"
+  },
+  {
+   "id": "S16",
+   "name": "模型编造事实",
+   "symptom": "编造\"已整理在置顶笔记\"\"不是AI做的\"，把作品说成别人的",
+   "evidence": [
+    {
+     "src": "lessons",
+     "class": "safety"
+    }
+   ],
+   "old_gap": "提示词只写\"不要编\"，没有机检",
+   "rule": "编造指向词表 + 事实类问题禁止下结论 + AI/身份/真人一律人判",
+   "landing": [
+    "Tools/fleet/voice_gate.py",
+    "Tools/fleet/social_drafts.py"
+   ],
+   "status": "CLOSED"
+  },
+  {
+   "id": "S17",
+   "name": "语感客服腔",
+   "symptom": "回复像客服：感谢喜爱/进一步确认/欢迎查阅",
+   "evidence": [
+    {
+     "src": "lessons",
+     "class": "gate"
+    }
+   ],
+   "old_gap": "没有语体判据，只有\"口语化\"这种形容词",
+   "rule": "VOICE-V1 五面判据 + 好样本 few-shot + 不过则带命中项重写一次",
+   "landing": [
+    "cph4/fleet/VOICE-V1.md",
+    "Tools/fleet/voice_gate.py",
+    "cph4/fleet/voice/corpus.jsonl"
+   ],
+   "status": "CLOSED"
+  },
+  {
+   "id": "S18",
+   "name": "模型算力压在主控",
+   "symptom": "全部推理挤在一台 32G 笔记本，换页、抢办公内存",
+   "evidence": [
+    {
+     "src": "lessons",
+     "class": "data"
+    }
+   ],
+   "old_gap": "端点写死 127.0.0.1，无分层",
+   "rule": "本机(0)→算力大脑(1)→主控(2) 阶梯；主控只做轻量兜底，禁批量生成",
+   "landing": [
+    "cph4/fleet/MODEL-COMPUTE.json",
+    "Tools/fleet/local_model.py",
+    "cph4/fleet/LOCAL-CLOSURE-v1.md"
+   ],
+   "status": "CLOSED"
+  },
+  {
+   "id": "S19",
+   "name": "判据脚本不存在却当闸用",
+   "symptom": "judge 写着某脚本，全仓没有这个文件，等于没有闸",
+   "evidence": [
+    {
+     "src": "self",
+     "note": "2026-11-11 实测 family_check 缺失"
+    }
+   ],
+   "old_gap": "判据名是自由文本，没人核过文件在不在",
+   "rule": "闭环体检 L4 判据在盘；缺脚本时 judge 改 manual 并写 judge_note，不许拿不存在的脚本当自验",
+   "landing": [
+    "Tools/fleet/local_loop_check.py",
+    "cph4/fleet/TAXONOMY-v1.json"
+   ],
+   "status": "CLOSED"
+  },
+  {
+   "id": "S20",
+   "name": "模板化产出",
+   "symptom": "同批草稿共用同一句尾，违反\"每条独写无模板\"",
+   "evidence": [
+    {
+     "src": "self",
+     "note": "2026-11-11 实测两条都用\"我得翻一下工程文件\""
+    }
+   ],
+   "old_gap": "验收写了\"每条独写\"但无机检",
+   "rule": "同批最长公共子串 ≥6 字即判模板感，两条都转人工",
+   "landing": [
+    "Tools/fleet/social_drafts.py"
+   ],
+   "status": "CLOSED"
+  },
+  {
+   "id": "S21",
+   "name": "断网即停工",
+   "symptom": "网络一断，机器既不能判断也不能排队",
+   "evidence": [
+    {
+     "src": "self",
+     "note": "本地闭环令之前的默认形态"
+    }
+   ],
+   "old_gap": "执行/判据/排队都依赖远端",
+   "rule": "本地闭环五查；断网仍要能建卡/跑/验/记账",
+   "landing": [
+    "Tools/fleet/local_loop_check.py",
+    "cph4/fleet/LOCAL-CLOSURE-v1.md"
+   ],
+   "status": "OPEN"
+  },
+  {
+   "id": "S22",
+   "name": "无产物契约导致无从下手",
+   "symptom": "自驱想补活，但不知道该写到哪个路径",
+   "evidence": [
+    {
+     "src": "self",
+     "note": "2026-11-11 实测 23/25 道工序缺 outputs"
+    }
+   ],
+   "old_gap": "产品只写了交付物描述，没写路径",
+   "rule": "PRODUCTS.outputs/commands 为契约；没写就报 UNKNOWN-OUTPUT 不建卡（不造活）",
+   "landing": [
+    "Tools/fleet/work_matrix.py",
+    "Tools/fleet/station_drive.py",
+    "cph4/fleet/PRODUCTS.json"
+   ],
+   "status": "CLOSED",
+   "probe": "work_matrix 实报：2/59 道工序有 outputs（缺 57 道）"
+  },
+  {
+   "id": "S23",
+   "name": "机器代办 CEO 物理件",
+   "symptom": "自动发送/注册/备案/对外承诺",
+   "evidence": [
+    {
+     "src": "lessons",
+     "class": "safety"
+    }
+   ],
+   "old_gap": "红线靠人记",
+   "rule": "T-OPS-CEO 永不派机；不对外四条写进岗位书与自驱边界",
+   "landing": [
+    "cph4/fleet/TAXONOMY-v1.json",
+    "cph4/fleet/AUTONOMY-V3.md"
+   ],
+   "status": "CLOSED"
+  },
+  {
+   "id": "S24",
+   "name": "规则过期被当现行法",
+   "symptom": "按旧文档派活（如\"主控=模型农场\"），与当天 CEO 令相反",
+   "evidence": [
+    {
+     "src": "lessons",
+     "class": "dispatch"
+    }
+   ],
+   "old_gap": "多份文件各说各话，没有退役机制",
+   "rule": "CANON-V2 一域一正身 + 快照非现行法 + 阈值只进配置；退役件移档不删",
+   "landing": [
+    "cph4/registry/CANON-V2-20261111.md",
+    "docs/_archive-20261111/"
+   ],
+   "status": "CLOSED"
+  }
+ ]
+}

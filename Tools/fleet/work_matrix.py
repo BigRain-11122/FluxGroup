@@ -123,8 +123,15 @@ def evaluate(tax, products, stations):
     # 模型依赖：这些工序要靠算力大脑（MODEL-COMPUTE 的 primary 端点）出文本
     model_stages = sum(1 for rows in matrix.values() for _, tid, _ in rows
                        if str(types[tid].get("model") or "none").startswith("local"))
+
+    # 产物契约覆盖率：没写 outputs 的工序，自驱无从下手（UNKNOWN-OUTPUT）
+    tot = sum(len(p.get("stages") or []) for p in products)
+    with_out = sum(1 for p in products for st in (p.get("stages") or [])
+                   if (p.get("outputs") or {}).get(st))
+    coverage = {"total": tot, "with_outputs": with_out, "missing": tot - with_out}
     return errors, warnings, {"products": matrix, "load": load,
-                              "model_dependent_stages": model_stages}
+                              "model_dependent_stages": model_stages,
+                              "outputs_coverage": coverage}
 
 
 def selftest():
@@ -207,7 +214,10 @@ def main():
             print("WARN    %-13s %s/%s  %s" % (kind, a1, a2, why))
         if not errors and not warnings:
             print("（无）")
-        print("\n模型依赖工序（需算力大脑出文本）= %d 道" % matrix.get("model_dependent_stages", 0))
+        oc = matrix.get("outputs_coverage") or {}
+        print("\n产物契约覆盖：%d/%d 道工序有 outputs（缺 %d 道，自驱无从下手）" % (
+            oc.get("with_outputs", 0), oc.get("total", 0), oc.get("missing", 0)))
+        print("模型依赖工序（需算力大脑出文本）= %d 道" % matrix.get("model_dependent_stages", 0))
         print("[work_matrix] errors=%d warnings=%d" % (len(errors), len(warnings)))
     return 0 if not errors and not warnings else (2 if errors else 1)
 
