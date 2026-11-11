@@ -6893,3 +6893,9 @@
 - 11-11T09:59 · _last_lane_bm-m.json · 机队同步任务已完成，无风险。
 - 11-11T09:59 · UNBLOCK-NODE-SYNC-bm-a-20261111T0912-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
 - 11-11T09:59 · UNBLOCK-NODE-SYNC-bm-a-20261111T0912-bm-m.json · 节点同步完成，但存在因权限缺失导致无法执行的潜在风险。
+- 11-11T10:00 · CANARY-20261111T100027-acceptance.json · 完成机队回执提交，但被拒收因交付物非有效产物。
+- 11-11T10:00 · CANARY-20261111T100027-bm-m.json · 已完成端到端自检并生成产物，无风险。
+- 11-11T10:00 · _last_lane_bm-m.json · 机队回执显示节点空闲，心跳正常，无风险。
+- 11-11T10:00 · GAP-RECON-BMC-14-bm-c.json · 已完成机队回执生成，无风险。
+- 11-11T10:00 · GAP-RECON-BMC-14-acceptance.json · 已生成机队回执，但被拒收因内容非有效交付物。
+- 11-11T10:00 · skill-promote-20261111.json · 已完成基础任务，因工具缺失导致大量技能无法执行。
