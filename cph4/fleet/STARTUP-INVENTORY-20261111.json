@@ -1,0 +1,852 @@
+{
+ "ts": "2026-11-11T11:15:50+0800",
+ "why": "CEO 2026-11-11 11:15「都记录在案然后全部暂停，等我梳理工作流」",
+ "scope": "本机 bm-m 的用户级自启（LaunchAgents + 登录项）。系统级 /Library 需 sudo，未动。",
+ "paused_dir": "/Users/junsheng.sun/Library/LaunchAgents/disabled/20261111-pause",
+ "restore_note": "把 plist 从 paused_dir 移回 ~/Library/LaunchAgents/ 后 launchctl bootstrap gui/$(id -u) <plist>；登录项用 open 重新加入或脚本 Tools/restore-startup.sh",
+ "count": 44,
+ "items": [
+  {
+   "label": "com.fluxgroup.agentlane",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.agentlane.plist",
+   "program": [
+    "/bin/bash",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/agent_lane.sh",
+    "start"
+   ],
+   "run_at_load": true,
+   "keep_alive": true,
+   "start_interval": null,
+   "start_calendar": false,
+   "env": {},
+   "stdout": "/tmp/agent-lane.log",
+   "stderr": "/tmp/agent-lane.log",
+   "pid_at_pause": "1412",
+   "last_exit_at_pause": "0"
+  },
+  {
+   "label": "com.fluxgroup.analyst",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.analyst.plist",
+   "program": [
+    "/Users/junsheng.sun/.pyenv/versions/3.13.18/bin/python3",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/local_analyst.py"
+   ],
+   "run_at_load": false,
+   "keep_alive": null,
+   "start_interval": null,
+   "start_calendar": true,
+   "env": {},
+   "stdout": "/tmp/fluxgroup-analyst.log",
+   "stderr": "/tmp/fluxgroup-analyst.err",
+   "pid_at_pause": "-",
+   "last_exit_at_pause": "0"
+  },
+  {
+   "label": "com.fluxgroup.assetrelay",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.assetrelay.plist",
+   "program": [
+    "/usr/bin/python3",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/asset_relay.py",
+    "--listen",
+    "8790",
+    "--target",
+    "127.0.0.1:8791"
+   ],
+   "run_at_load": true,
+   "keep_alive": true,
+   "start_interval": null,
+   "start_calendar": false,
+   "env": {},
+   "stdout": "/tmp/fluxgroup-assetrelay.log",
+   "stderr": "/tmp/fluxgroup-assetrelay.log",
+   "pid_at_pause": "1399",
+   "last_exit_at_pause": "0"
+  },
+  {
+   "label": "com.fluxgroup.assetshare",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.assetshare.plist",
+   "program": [
+    "/Users/junsheng.sun/.pyenv/versions/3.13.18/bin/python3",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/asset_share.py",
+    "--host",
+    "127.0.0.1",
+    "--port",
+    "8791"
+   ],
+   "run_at_load": true,
+   "keep_alive": true,
+   "start_interval": null,
+   "start_calendar": false,
+   "env": {},
+   "stdout": "/tmp/fluxgroup-assetshare.log",
+   "stderr": "/tmp/fluxgroup-assetshare.log",
+   "pid_at_pause": "1447",
+   "last_exit_at_pause": "0"
+  },
+  {
+   "label": "com.fluxgroup.auditor",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.auditor.plist",
+   "program": [
+    "/Users/junsheng.sun/.pyenv/versions/3.13.18/bin/python3",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/local_auditor.py",
+    "--limit",
+    "8"
+   ],
+   "run_at_load": true,
+   "keep_alive": null,
+   "start_interval": 600,
+   "start_calendar": false,
+   "env": {},
+   "stdout": "/tmp/fluxgroup-auditor.log",
+   "stderr": "/tmp/fluxgroup-auditor.err",
+   "pid_at_pause": "-",
+   "last_exit_at_pause": "0"
+  },
+  {
+   "label": "com.fluxgroup.caffeinate",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.caffeinate.plist",
+   "program": [
+    "/usr/bin/caffeinate",
+    "-s",
+    "-i"
+   ],
+   "run_at_load": true,
+   "keep_alive": true,
+   "start_interval": null,
+   "start_calendar": false,
+   "env": {},
+   "stdout": null,
+   "stderr": "/tmp/fluxgroup-caffeinate.err",
+   "pid_at_pause": "1450",
+   "last_exit_at_pause": "0"
+  },
+  {
+   "label": "com.fluxgroup.console",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.console.plist",
+   "program": [
+    "/usr/bin/python3",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/console_server.py",
+    "--port",
+    "8787"
+   ],
+   "run_at_load": true,
+   "keep_alive": true,
+   "start_interval": null,
+   "start_calendar": false,
+   "env": {
+    "CONSOLE_HOST": "0.0.0.0"
+   },
+   "stdout": "/tmp/fluxgroup-console.log",
+   "stderr": "/tmp/fluxgroup-console.err",
+   "pid_at_pause": "1449",
+   "last_exit_at_pause": "0"
+  },
+  {
+   "label": "com.fluxgroup.dailybrief",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.dailybrief.plist",
+   "program": [
+    "/Users/junsheng.sun/.pyenv/versions/3.13.18/bin/python3",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/daily_brief.py"
+   ],
+   "run_at_load": false,
+   "keep_alive": null,
+   "start_interval": null,
+   "start_calendar": true,
+   "env": {},
+   "stdout": "/tmp/fluxgroup-dailybrief.log",
+   "stderr": "/tmp/fluxgroup-dailybrief.err",
+   "pid_at_pause": "-",
+   "last_exit_at_pause": "0"
+  },
+  {
+   "label": "com.fluxgroup.dashboard",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.dashboard.plist",
+   "program": [
+    "/usr/bin/python3",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/fleet_dashboard.py"
+   ],
+   "run_at_load": true,
+   "keep_alive": null,
+   "start_interval": 20,
+   "start_calendar": false,
+   "env": {},
+   "stdout": "/tmp/fluxgroup-dashboard.log",
+   "stderr": "/tmp/fluxgroup-dashboard.err",
+   "pid_at_pause": "-",
+   "last_exit_at_pause": "0"
+  },
+  {
+   "label": "com.fluxgroup.deepreason",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.deepreason.plist",
+   "program": [
+    "/Users/junsheng.sun/.pyenv/versions/3.13.18/bin/python3",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/deep_reason.py",
+    "--limit",
+    "1"
+   ],
+   "run_at_load": false,
+   "keep_alive": null,
+   "start_interval": null,
+   "start_calendar": true,
+   "env": {},
+   "stdout": "/tmp/fluxgroup-deepreason.log",
+   "stderr": "/tmp/fluxgroup-deepreason.err",
+   "pid_at_pause": "-",
+   "last_exit_at_pause": "0"
+  },
+  {
+   "label": "com.fluxgroup.embeddedupe",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.embeddedupe.plist",
+   "program": [
+    "/Users/junsheng.sun/.pyenv/versions/3.13.18/bin/python3",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/embed_dedupe.py"
+   ],
+   "run_at_load": true,
+   "keep_alive": null,
+   "start_interval": 3600,
+   "start_calendar": false,
+   "env": {},
+   "stdout": "/tmp/fluxgroup-embeddedupe.log",
+   "stderr": "/tmp/fluxgroup-embeddedupe.err",
+   "pid_at_pause": "-",
+   "last_exit_at_pause": "0"
+  },
+  {
+   "label": "com.fluxgroup.fleetbus",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.fleetbus.plist",
+   "program": [
+    "/Users/junsheng.sun/.pyenv/versions/3.13.18/bin/python3",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/fleet_bus.py"
+   ],
+   "run_at_load": true,
+   "keep_alive": true,
+   "start_interval": null,
+   "start_calendar": false,
+   "env": {
+    "PATH": "/Users/junsheng.sun/bin:/Users/junsheng.sun/.pyenv/shims:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+   },
+   "stdout": "/tmp/fluxgroup-fleetbus.out",
+   "stderr": "/tmp/fluxgroup-fleetbus.err",
+   "pid_at_pause": "14435",
+   "last_exit_at_pause": "1"
+  },
+  {
+   "label": "com.fluxgroup.gateway",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.gateway.plist",
+   "program": [
+    "/usr/bin/python3",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/model_gateway.py",
+    "--port",
+    "11435"
+   ],
+   "run_at_load": true,
+   "keep_alive": true,
+   "start_interval": null,
+   "start_calendar": false,
+   "env": {
+    "ROUTER_TOKENS": "bm-b:tok-b,bm-c:tok-c,bm-a:tok-a",
+    "GATEWAY_MAX_CONC": "1",
+    "GATEWAY_MAX_CTX": "8192"
+   },
+   "stdout": "/tmp/fluxgroup-gateway.log",
+   "stderr": "/tmp/fluxgroup-gateway.err",
+   "pid_at_pause": "14408",
+   "last_exit_at_pause": "-15"
+  },
+  {
+   "label": "com.fluxgroup.grid",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.grid.plist",
+   "program": [
+    "/Users/junsheng.sun/.pyenv/versions/3.13.18/bin/python3",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/grid_run.py",
+    "--apply"
+   ],
+   "run_at_load": true,
+   "keep_alive": null,
+   "start_interval": 300,
+   "start_calendar": false,
+   "env": {
+    "NODE": "bm-m",
+    "PATH": "/Users/junsheng.sun/bin:/Users/junsheng.sun/.pyenv/shims:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+   },
+   "stdout": "/tmp/fluxgroup-grid.out",
+   "stderr": "/tmp/fluxgroup-grid.err",
+   "pid_at_pause": "-",
+   "last_exit_at_pause": "0"
+  },
+  {
+   "label": "com.fluxgroup.intake",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.intake.plist",
+   "program": [
+    "/usr/bin/python3",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/artifact_intake.py"
+   ],
+   "run_at_load": true,
+   "keep_alive": true,
+   "start_interval": null,
+   "start_calendar": false,
+   "env": {
+    "INTAKE_BIND": "100.75.133.10",
+    "INTAKE_PORT": "11436",
+    "INTAKE_ROOT": "/Volumes/移动硬盘"
+   },
+   "stdout": "/tmp/fluxgroup-intake.out",
+   "stderr": "/tmp/fluxgroup-intake.err",
+   "pid_at_pause": "1420",
+   "last_exit_at_pause": "0"
+  },
+  {
+   "label": "com.fluxgroup.kbbuild",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.kbbuild.plist",
+   "program": [
+    "/Users/junsheng.sun/.pyenv/versions/3.13.18/bin/python3",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/kb_build.py",
+    "--limit",
+    "100"
+   ],
+   "run_at_load": false,
+   "keep_alive": null,
+   "start_interval": null,
+   "start_calendar": true,
+   "env": {},
+   "stdout": "/tmp/fluxgroup-kbbuild.log",
+   "stderr": "/tmp/fluxgroup-kbbuild.err",
+   "pid_at_pause": "-",
+   "last_exit_at_pause": "0"
+  },
+  {
+   "label": "com.fluxgroup.labelfill",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.labelfill.plist",
+   "program": [
+    "/bin/bash",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/fill_loop.sh"
+   ],
+   "run_at_load": true,
+   "keep_alive": true,
+   "start_interval": null,
+   "start_calendar": false,
+   "env": {},
+   "stdout": "/tmp/fluxgroup-labelfill.log",
+   "stderr": "/tmp/fluxgroup-labelfill.err",
+   "pid_at_pause": "1423",
+   "last_exit_at_pause": "0"
+  },
+  {
+   "label": "com.fluxgroup.llmgateway",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.llmgateway.plist",
+   "program": [
+    "/Users/junsheng.sun/.pyenv/versions/3.13.18/bin/python3",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/llm_gateway.py",
+    "--host",
+    "0.0.0.0",
+    "--port",
+    "8792"
+   ],
+   "run_at_load": true,
+   "keep_alive": true,
+   "start_interval": null,
+   "start_calendar": false,
+   "env": {},
+   "stdout": "/tmp/fluxgroup-llmgw.out",
+   "stderr": "/tmp/fluxgroup-llmgw.err",
+   "pid_at_pause": "1429",
+   "last_exit_at_pause": "0"
+  },
+  {
+   "label": "com.fluxgroup.loadwatch",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.loadwatch.plist",
+   "program": [
+    "/Users/junsheng.sun/.pyenv/versions/3.13.18/bin/python3",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/supply_guard.py",
+    "--apply"
+   ],
+   "run_at_load": true,
+   "keep_alive": null,
+   "start_interval": 60,
+   "start_calendar": false,
+   "env": {},
+   "stdout": "/tmp/fluxgroup-loadwatch.log",
+   "stderr": "/tmp/fluxgroup-loadwatch.err",
+   "pid_at_pause": "-",
+   "last_exit_at_pause": "1"
+  },
+  {
+   "label": "com.fluxgroup.locallane",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.locallane.plist",
+   "program": [
+    "/Users/junsheng.sun/.pyenv/versions/3.13.18/bin/python3",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/lane_agent.py",
+    "--node",
+    "bm-m",
+    "--root",
+    "/Users/junsheng.sun/FluxGroup",
+    "--no-fetch"
+   ],
+   "run_at_load": true,
+   "keep_alive": null,
+   "start_interval": 60,
+   "start_calendar": false,
+   "env": {},
+   "stdout": "/tmp/fluxgroup-locallane.log",
+   "stderr": "/tmp/fluxgroup-locallane.log",
+   "pid_at_pause": "-",
+   "last_exit_at_pause": "0"
+  },
+  {
+   "label": "com.fluxgroup.localworker",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.localworker.plist",
+   "program": [
+    "/Users/junsheng.sun/.pyenv/versions/3.13.18/bin/python3",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/local_worker.py",
+    "--limit",
+    "40",
+    "--mode",
+    "auto"
+   ],
+   "run_at_load": true,
+   "keep_alive": null,
+   "start_interval": 60,
+   "start_calendar": false,
+   "env": {},
+   "stdout": "/tmp/fluxgroup-localworker.log",
+   "stderr": "/tmp/fluxgroup-localworker.err",
+   "pid_at_pause": "-",
+   "last_exit_at_pause": "0"
+  },
+  {
+   "label": "com.fluxgroup.loopclose",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.loopclose.plist",
+   "program": [
+    "/Users/junsheng.sun/.pyenv/versions/3.13.18/bin/python3",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/loop_close.py"
+   ],
+   "run_at_load": false,
+   "keep_alive": null,
+   "start_interval": null,
+   "start_calendar": true,
+   "env": {},
+   "stdout": "/tmp/fluxgroup-loopclose.log",
+   "stderr": "/tmp/fluxgroup-loopclose.err",
+   "pid_at_pause": "-",
+   "last_exit_at_pause": "0"
+  },
+  {
+   "label": "com.fluxgroup.modelwatch",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.modelwatch.plist",
+   "program": [
+    "/Users/junsheng.sun/.pyenv/versions/3.13.18/bin/python3",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/model_watch.py"
+   ],
+   "run_at_load": true,
+   "keep_alive": null,
+   "start_interval": 1800,
+   "start_calendar": false,
+   "env": {},
+   "stdout": "/tmp/fluxgroup-modelwatch.log",
+   "stderr": "/tmp/fluxgroup-modelwatch.err",
+   "pid_at_pause": "-",
+   "last_exit_at_pause": "0"
+  },
+  {
+   "label": "com.fluxgroup.ollama",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.ollama.plist",
+   "program": [
+    "/Users/junsheng.sun/bin/ollama",
+    "serve"
+   ],
+   "run_at_load": true,
+   "keep_alive": true,
+   "start_interval": null,
+   "start_calendar": false,
+   "env": {
+    "OLLAMA_CONTEXT_LENGTH": "4096",
+    "OLLAMA_FLASH_ATTENTION": "1",
+    "OLLAMA_HOST": "127.0.0.1:11434",
+    "OLLAMA_KEEP_ALIVE": "30m",
+    "OLLAMA_KV_CACHE_TYPE": "q8_0",
+    "OLLAMA_MAX_LOADED_MODELS": "4",
+    "OLLAMA_NUM_PARALLEL": "6"
+   },
+   "stdout": "/tmp/ollama-serve.log",
+   "stderr": "/tmp/ollama-serve.log",
+   "pid_at_pause": "-",
+   "last_exit_at_pause": "1"
+  },
+  {
+   "label": "com.fluxgroup.patrolseats",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.patrolseats.plist",
+   "program": [
+    "/Users/junsheng.sun/.pyenv/versions/3.13.18/bin/python3",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/patrol_seats.py"
+   ],
+   "run_at_load": true,
+   "keep_alive": null,
+   "start_interval": 300,
+   "start_calendar": false,
+   "env": {},
+   "stdout": "/tmp/fluxgroup-patrol.log",
+   "stderr": "/tmp/fluxgroup-patrol.err",
+   "pid_at_pause": "-",
+   "last_exit_at_pause": "0"
+  },
+  {
+   "label": "com.fluxgroup.planner",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.planner.plist",
+   "program": [
+    "/Users/junsheng.sun/.pyenv/versions/3.13.18/bin/python3",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/local_planner.py"
+   ],
+   "run_at_load": false,
+   "keep_alive": null,
+   "start_interval": null,
+   "start_calendar": true,
+   "env": {},
+   "stdout": "/tmp/fluxgroup-planner.log",
+   "stderr": "/tmp/fluxgroup-planner.err",
+   "pid_at_pause": "-",
+   "last_exit_at_pause": "0"
+  },
+  {
+   "label": "com.fluxgroup.pulse",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.pulse.plist",
+   "program": [
+    "/Users/junsheng.sun/.pyenv/versions/3.13.18/bin/python3",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/master_pulse.py",
+    "--loop",
+    "45"
+   ],
+   "run_at_load": true,
+   "keep_alive": true,
+   "start_interval": null,
+   "start_calendar": false,
+   "env": {
+    "NODE": "bm-m",
+    "PATH": "/Users/junsheng.sun/bin:/Users/junsheng.sun/.pyenv/shims:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+    "PULSE_NO_PULL": "1"
+   },
+   "stdout": "/tmp/fluxgroup-pulse.out",
+   "stderr": "/tmp/fluxgroup-pulse.err",
+   "pid_at_pause": "13208",
+   "last_exit_at_pause": "-15"
+  },
+  {
+   "label": "com.fluxgroup.rehearsal",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.rehearsal.plist",
+   "program": [
+    "/Users/junsheng.sun/.pyenv/versions/3.13.18/bin/python3",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/rehearsal.py",
+    "--scenarios"
+   ],
+   "run_at_load": false,
+   "keep_alive": null,
+   "start_interval": 14400,
+   "start_calendar": false,
+   "env": {},
+   "stdout": "/tmp/fluxgroup-rehearsal.log",
+   "stderr": "/tmp/fluxgroup-rehearsal.err",
+   "pid_at_pause": "-",
+   "last_exit_at_pause": "0"
+  },
+  {
+   "label": "com.fluxgroup.repodeep",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.repodeep.plist",
+   "program": [
+    "/Users/junsheng.sun/.pyenv/versions/3.13.18/bin/python3",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/repo_deep.py",
+    "--limit",
+    "300",
+    "--workers",
+    "6"
+   ],
+   "run_at_load": true,
+   "keep_alive": null,
+   "start_interval": 300,
+   "start_calendar": false,
+   "env": {},
+   "stdout": "/tmp/fluxgroup-repodeep.log",
+   "stderr": "/tmp/fluxgroup-repodeep.err",
+   "pid_at_pause": "-",
+   "last_exit_at_pause": "0"
+  },
+  {
+   "label": "com.fluxgroup.resilience",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.resilience.plist",
+   "program": [
+    "/Users/junsheng.sun/.pyenv/versions/3.13.18/bin/python3",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/resilience.py",
+    "--json",
+    "/Users/junsheng.sun/FluxGroup/cph4/fleet/state/resilience.json"
+   ],
+   "run_at_load": false,
+   "keep_alive": null,
+   "start_interval": null,
+   "start_calendar": true,
+   "env": {},
+   "stdout": "/tmp/fluxgroup-resilience.log",
+   "stderr": "/tmp/fluxgroup-resilience.err",
+   "pid_at_pause": "-",
+   "last_exit_at_pause": "0"
+  },
+  {
+   "label": "com.fluxgroup.resourcegov",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.resourcegov.plist",
+   "program": [
+    "/Users/junsheng.sun/.pyenv/versions/3.13.18/bin/python3",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/resource_governor.py",
+    "--apply"
+   ],
+   "run_at_load": true,
+   "keep_alive": null,
+   "start_interval": 60,
+   "start_calendar": false,
+   "env": {},
+   "stdout": "/tmp/fluxgroup-resourcegov.log",
+   "stderr": "/tmp/fluxgroup-resourcegov.err",
+   "pid_at_pause": "-",
+   "last_exit_at_pause": "0"
+  },
+  {
+   "label": "com.fluxgroup.reviewer",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.reviewer.plist",
+   "program": [
+    "/Users/junsheng.sun/.pyenv/versions/3.13.18/bin/python3",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/local_reviewer.py"
+   ],
+   "run_at_load": false,
+   "keep_alive": null,
+   "start_interval": null,
+   "start_calendar": true,
+   "env": {},
+   "stdout": "/tmp/fluxgroup-reviewer.log",
+   "stderr": "/tmp/fluxgroup-reviewer.err",
+   "pid_at_pause": "-",
+   "last_exit_at_pause": "0"
+  },
+  {
+   "label": "com.fluxgroup.seats",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.seats.plist",
+   "program": [
+    "/Users/junsheng.sun/.pyenv/versions/3.13.18/bin/python3",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/seat_runner.py",
+    "--auto"
+   ],
+   "run_at_load": true,
+   "keep_alive": null,
+   "start_interval": 180,
+   "start_calendar": false,
+   "env": {},
+   "stdout": "/tmp/fluxgroup-seats.log",
+   "stderr": "/tmp/fluxgroup-seats.err",
+   "pid_at_pause": "-",
+   "last_exit_at_pause": "0"
+  },
+  {
+   "label": "com.fluxgroup.selfdrive",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.selfdrive.plist",
+   "program": [
+    "/Users/junsheng.sun/.pyenv/versions/3.13.18/bin/python3",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/selfdrive.py",
+    "--limit",
+    "4"
+   ],
+   "run_at_load": true,
+   "keep_alive": null,
+   "start_interval": 900,
+   "start_calendar": false,
+   "env": {},
+   "stdout": "/tmp/fluxgroup-selfdrive.log",
+   "stderr": "/tmp/fluxgroup-selfdrive.err",
+   "pid_at_pause": "-",
+   "last_exit_at_pause": "0"
+  },
+  {
+   "label": "com.fluxgroup.selfwatch",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.selfwatch.plist",
+   "program": [
+    "/Users/junsheng.sun/.pyenv/versions/3.13.18/bin/python3",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/selfwatch.py",
+    "--apply"
+   ],
+   "run_at_load": true,
+   "keep_alive": null,
+   "start_interval": 300,
+   "start_calendar": false,
+   "env": {},
+   "stdout": "/tmp/fluxgroup-selfwatch.log",
+   "stderr": "/tmp/fluxgroup-selfwatch.err",
+   "pid_at_pause": "-",
+   "last_exit_at_pause": "0"
+  },
+  {
+   "label": "com.fluxgroup.serviceguard",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.serviceguard.plist",
+   "program": [
+    "/Users/junsheng.sun/.pyenv/versions/3.13.18/bin/python3",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/service_guard.py",
+    "--apply"
+   ],
+   "run_at_load": true,
+   "keep_alive": null,
+   "start_interval": 300,
+   "start_calendar": false,
+   "env": {},
+   "stdout": "/tmp/fluxgroup-serviceguard.log",
+   "stderr": "/tmp/fluxgroup-serviceguard.err",
+   "pid_at_pause": "-",
+   "last_exit_at_pause": "0"
+  },
+  {
+   "label": "com.fluxgroup.soak",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.soak.plist",
+   "program": [
+    "/Users/junsheng.sun/.pyenv/versions/3.13.18/bin/python3",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/soak_watch.py",
+    "--auto"
+   ],
+   "run_at_load": true,
+   "keep_alive": null,
+   "start_interval": 15,
+   "start_calendar": false,
+   "env": {
+    "PATH": "/Users/junsheng.sun/bin:/Users/junsheng.sun/.pyenv/shims:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+   },
+   "stdout": "/tmp/fluxgroup-soak.out",
+   "stderr": "/tmp/fluxgroup-soak.err",
+   "pid_at_pause": "-",
+   "last_exit_at_pause": "1"
+  },
+  {
+   "label": "com.fluxgroup.statesync",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.statesync.plist",
+   "program": [
+    "/Users/junsheng.sun/.pyenv/versions/3.13.18/bin/python3",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/state_sync.py"
+   ],
+   "run_at_load": true,
+   "keep_alive": null,
+   "start_interval": 60,
+   "start_calendar": false,
+   "env": {},
+   "stdout": "/tmp/fluxgroup-statesync.log",
+   "stderr": "/tmp/fluxgroup-statesync.err",
+   "pid_at_pause": "-",
+   "last_exit_at_pause": "0"
+  },
+  {
+   "label": "com.fluxgroup.tailnethub",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.tailnethub.plist",
+   "program": [
+    "/Users/junsheng.sun/.pyenv/versions/3.13.18/bin/python3",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/tailnet_hub.py",
+    "--port",
+    "8791"
+   ],
+   "run_at_load": true,
+   "keep_alive": true,
+   "start_interval": null,
+   "start_calendar": false,
+   "env": {
+    "PATH": "/Users/junsheng.sun/bin:/Users/junsheng.sun/.pyenv/shims:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+   },
+   "stdout": "/tmp/fluxgroup-tailnethub.out",
+   "stderr": "/tmp/fluxgroup-tailnethub.err",
+   "pid_at_pause": "1402",
+   "last_exit_at_pause": "0"
+  },
+  {
+   "label": "com.fluxgroup.toolwatch",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.toolwatch.plist",
+   "program": [
+    "/Users/junsheng.sun/.pyenv/versions/3.13.18/bin/python3",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/tool_watch.py"
+   ],
+   "run_at_load": true,
+   "keep_alive": null,
+   "start_interval": 600,
+   "start_calendar": false,
+   "env": {},
+   "stdout": "/tmp/flux-toolwatch.log",
+   "stderr": "/tmp/flux-toolwatch.log",
+   "pid_at_pause": "-",
+   "last_exit_at_pause": "0"
+  },
+  {
+   "label": "com.fluxgroup.usefulload",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.usefulload.plist",
+   "program": [
+    "/Users/junsheng.sun/.pyenv/versions/3.13.18/bin/python3",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/useful_load.py"
+   ],
+   "run_at_load": true,
+   "keep_alive": null,
+   "start_interval": 3600,
+   "start_calendar": false,
+   "env": {},
+   "stdout": "/tmp/flux-usefulload.log",
+   "stderr": "/tmp/flux-usefulload.log",
+   "pid_at_pause": "-",
+   "last_exit_at_pause": "0"
+  },
+  {
+   "label": "com.fluxgroup.watchdog",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.watchdog.plist",
+   "program": [
+    "/Users/junsheng.sun/.pyenv/versions/3.13.18/bin/python3",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/pulse_watchdog.py",
+    "--apply",
+    "--stale-s",
+    "1200"
+   ],
+   "run_at_load": true,
+   "keep_alive": null,
+   "start_interval": 120,
+   "start_calendar": false,
+   "env": {
+    "PATH": "/Users/junsheng.sun/bin:/Users/junsheng.sun/.pyenv/shims:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+   },
+   "stdout": "/tmp/fluxgroup-watchdog.out",
+   "stderr": "/tmp/fluxgroup-watchdog.err",
+   "pid_at_pause": "-",
+   "last_exit_at_pause": "0"
+  },
+  {
+   "label": "com.fluxgroup.webai",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.webai.plist",
+   "program": [
+    "/usr/bin/python3",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/web_ai.py",
+    "--port",
+    "8088"
+   ],
+   "run_at_load": true,
+   "keep_alive": true,
+   "start_interval": null,
+   "start_calendar": false,
+   "env": {
+    "WEB_PASSCODE": "flux2026",
+    "WEB_MAX_CONC": "2"
+   },
+   "stdout": "/tmp/fluxgroup-webai.log",
+   "stderr": "/tmp/fluxgroup-webai.err",
+   "pid_at_pause": "1448",
+   "last_exit_at_pause": "0"
+  },
+  {
+   "label": "com.user.weeklymaint",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.user.weeklymaint.plist",
+   "program": [
+    "/bin/bash",
+    "/Users/junsheng.sun/Library/Scripts/weekly-maint.sh"
+   ],
+   "run_at_load": null,
+   "keep_alive": null,
+   "start_interval": null,
+   "start_calendar": true,
+   "env": {},
+   "stdout": "/tmp/weekly-maint.log",
+   "stderr": "/tmp/weekly-maint.log",
+   "pid_at_pause": "-",
+   "last_exit_at_pause": "0"
+  }
+ ]
+}
