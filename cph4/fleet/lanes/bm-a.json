@@ -1,23 +1,8 @@
 {
  "node": "bm-a",
- "ts": "2026-11-11T10:31:11",
- "jobs": [
-  {
-   "id": "PEER-SYNC-bm-c-20261111",
-   "title": "[peer-heal] bm-a 用 WinRM 替 bm-c 收口",
-   "cmd": "powershell -NoProfile -Command \"$e=$null; try { Invoke-Command -ComputerName 100.123.74.104 -ScriptBlock { Set-Location 'K:\\Fluxgroup\\FluxGroup'; git fetch origin --prune; git branch -f backup/bm-c-20261111 HEAD 2>$null; git reset --hard origin/main; git log -1 --oneline } -ErrorAction Stop } catch { $e=$_.Exception.Message }; 'winrm_err='+$e | Out-File -Encoding utf8 cph4/fleet/reports/peer-sync-bm-c-20261111.md\"",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/reports/peer-sync-bm-c-20261111.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  }
- ],
- "idle_reason": "",
+ "ts": "2026-11-11T11:00:32",
+ "jobs": [],
+ "idle_reason": "DAY-YIELD: work machine, takes over at 19:00",
  "lane_ok": false,
  "capacity_note": "daytime heavy-yield (09:00-19:00); light CPU allowed"
 }
