@@ -298,7 +298,22 @@
    ],
    "status": "ready_paused",
    "last_probe": "2026-11-11T11:35 32G/210G 空闲、ffmpeg 齐、44 项自启已按令暂停",
-   "charter": "cph4/fleet/stations/control/CHARTER.md"
+   "charter": "cph4/fleet/stations/control/CHARTER.md",
+   "external_disk": false,
+   "backup": "git-remote-only（origin）+ 产物清单；不落外置盘",
+   "llm_service": {
+    "role": "常驻本地模型，经网关赋能机队",
+    "ollama": "http://127.0.0.1:11434",
+    "fleet_gateway": "http://100.75.133.10:8792",
+    "models": [
+     "qwen3.5:4b-mlx（主力，8k/30m）",
+     "qwen3.5:2b（快车道）",
+     "qwen3:8b（按需）",
+     "qwen3-embedding:0.6b（向量）"
+    ],
+    "budget": "常驻≤20G / 峰值≤24G；本机优先，机队借用并发≤2、上下文≤8192、死线120s",
+    "note": "35B 封存不常驻（驻留即换页，仅人工点名）"
+   }
   }
  ],
  "_charters": "每台机读自己那份岗位书（cph4/fleet/stations/<id>/CHARTER.md）；岗位书只管怎么干，判据在 PRODUCTS.json 与 drama_rules.py"

@@ -14,6 +14,17 @@
 #   * 不 gc、不 repack，避免在 USB 机械盘上做重活。
 set -u
 
+# 2026-11-11 CEO 令：Mac 不再使用移动硬盘。本脚本改为"留痕退出"，
+# 冷备由 git 远端（origin）承担；产物字节留在产出机，主控只收清单。
+if [ "${FG_BACKUP_EXT_DISK:-0}" != "1" ]; then
+  ST="${FG_BACKUP_STATE:-$(cd "$(dirname "$0")/../.." && pwd)/cph4/fleet/state/backup.json}"
+  mkdir -p "$(dirname "$ST")" 2>/dev/null
+  printf '{"ts":"%s","status":"DISABLED","detail":"external disk retired by CEO order 2026-11-11"}\n' \
+    "$(date '+%FT%T')" > "$ST" 2>/dev/null
+  echo "[$(date '+%F %T')] DISABLED 移动硬盘冷备已退役（CEO 2026-11-11）；备份走 git 远端"
+  exit 0
+fi
+
 EXT="${FG_BACKUP_ROOT:-/Volumes/移动硬盘}"
 BK="$EXT/Backup/FluxGroup"
 LOG="${FG_BACKUP_LOG:-/tmp/fg-backup.log}"
