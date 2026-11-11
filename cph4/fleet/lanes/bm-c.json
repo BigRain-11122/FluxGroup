@@ -1,23 +1,8 @@
 {
  "node": "bm-c",
- "ts": "2026-11-12T05:31:03",
- "jobs": [
-  {
-   "id": "asset-lib-char-gen-2026-11-11",
-   "title": "[资产储备（角色 LoRA / 音色库）] 角色包出图（本机 ComfyUI，1024²，同 seed 组）",
-   "cmd": "python Tools/fleet/char_gen.py --node bm-c --limit 12 --receipt cph4/fleet/queue-receipts/char-gen-bm-c-2026-11-11.json",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/char-gen-bm-c-2026-11-11.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  }
- ],
- "idle_reason": "",
+ "ts": "2026-11-12T05:36:15",
+ "jobs": [],
+ "idle_reason": "R41: 角色图 12 张全在盘（receipt prompt_id=skip-existing），props 20 张亦全在盘；资产库本批无缺口，不再派生成卡",
  "lane_ok": true,
  "capacity_note": "ram 7.8/1.0 GB",
  "reorder_note": "event R41: COMFY-UP first - the other jobs need the service it restores",
