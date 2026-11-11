@@ -627,3 +627,15 @@ rame_bytes/frame_sha12；**bm-a 上该目录不存在（0/30）**，且本机两
 | **旧根改径（媒体面）** | **done** | `media/drama-tools/voicegen_batch_ep004_060.cmd` 三行 `C:\Fluxgroup\FluxGroup` → `C:\Users\sjs20\Desktop\FluxGroup`（该目录 gitignored，纯本机媒体面，不入库）。 |
 
 **R37 回访探针**：+90min 一次性 cron——复验 ①`asset-lib-voice-assemble-2026-11-11` 是否 DONE 且回执落盘 ②bm-c 三张 asset-lib 是否被认领出图 ③bm-b 是否回归在线。复发=旗升 DE 级。
+
+## 附录 R40 事件班登记（2026-11-12 01:41-02:0x·承载件触发·供给断点定谳）
+
+| 件 | 状态 | 证据 / 下一步 |
+|---|---|---|
+| **全域零供给（真红·根因=新机制执行器未部署 + 工序命令未接）** | **FIXED（最小接通）+ registered（14 道待接）** | 证据链：①`4ced13103` 依 CEO 11-11「从头开始」清空五工位分片、冻结旧队列、退役 queue_claim/backlog_fill/fleet-dispatcher；②本机实测 `Tools/fleet/station_drive.py` / `station_shards.py` / `TAXONOMY-v1.json` **均不存在**，`Get-ScheduledTask` 无任何 Station/Drive 任务，无 station_drive 进程 ⇒ 三台 Windows 机从未部署新执行器；③隔离试跑（origin blob → `.codely-cli/tmp/sdtest`，不动工作树）`station_drive.py --station delivery --dry` 返回 `would_create=[]` + 16 条 unknown_output；逐条展开 why = **15×TOOL-PENDING（契约有、命令未接）+ 1×AUTHORITY（CEO 权限件）** ⇒ 真断点 = `PRODUCTS.commands` / `TAXONOMY.selfdrive_cmd` 未接，不是机器懒、不是探针假红；④**双向实证**：仅接 `PROD-GAME-SUBMIT.提审清单`（`game_submit_pack.py --out cph4/fleet/out/game-submit/list.json`）后重跑 plan → `want=1`（会自造卡）。本班已落该最小接通；其余 14 道保持 TOOL-PENDING，不硬接（不造活）。 |
+| **各机复产三步（本机执行·无远程通道）** | **waiting-本机（零催办·不代做）** | ①`git fetch origin && git reset --mixed origin/main && git checkout origin/main -- Tools/fleet cph4/fleet`②注册 `python Tools/fleet/station_drive.py --station <本工位> --loop 300` 为 **S4U** 计划任务（禁 InteractiveToken）③首跑 `--dry` 核对 would_create 非空即点火。工位对应：bm-a=delivery（DASHENG·RTX4070S·94G）、bm-c=visual（K:·3070 16G）、bm-b=audio（离线）。 |
+| **bm-b 物理离线（LANE-DOWN / STARVED-EXEC / CLOCK-MISSING 三旗同根）** | **waiting-CEO（物理件·零催办）** | `http://100.82.175.0:8790/health` 15s 超时；`CLOCK-SKEW.json` 01:39:15 `bm-b=MISSING`；名下零在飞卡。承 R32/R33/R36 同源，不重复登记数值。 |
+| **CLOCK-UNALIGNED missing=1** | **resolved-派生（非新病）** | `CLOCK-SKEW.json` 01:39:15：`old_schema=0`（v2 心跳已在位）、`missing=1` 仅 bm-b 离线派生；bm-c `+3287.1ms`（σ434.6，Δ/σ=7.6 < 动作线 10）= **OBSERVE 档**，承 R33 提案，非新 P1。 |
+| **STARVED-EXEC bm-a / bm-c** | **半假红·判据失效登记** | 旗源=`fleet-dispatcher.ps1`（`4ced13103` 已明文退役该工具）仍被 cron 每 10min 跑；新机制应读 `rt/<station>/queue.jsonl`（`station_shards.load_all`）。bm-a 实测在产：`_last_lane_bm-a.json` 01:41:59 `RESULT asset-lib-voice-assemble rc=3`。旧旗源摘除=受保护件·候裁。 |
+| **IDLE-WITH-WORK bm-a（01:41 新旗）** | **假红** | `lanes/bm-a.json` 01:42:16 `lane_ok=true`、`idle_reason=SELF-DISPATCH`；`_last_lane_bm-a` 01:41:59 刚出 RESULT ⇒ 在跑非闲置。旗计的 exec_cards 含 BLOCKED 与跨工位卡（bm-m 空 cmd 卡 5 张），不构成「有活没人干」。 |
+| **R40 回访探针** | **armed** | +90min 一次性 cron：复验 ①三机是否出现 station_drive 任务/进程 ②`rt/delivery/queue.jsonl` 是否出现 `SD-delivery-PROD-GAME-SUBMIT-*` 卡 ③bm-b 是否回归在线。复发=旗升 DE 级。 |

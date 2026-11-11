@@ -31,6 +31,9 @@
     "图标": "cph4/fleet/out/game-submit/icon/",
     "提审清单": "cph4/fleet/out/game-submit/list.json"
    },
+   "commands": {
+    "提审清单": "python Tools/fleet/game_submit_pack.py --out cph4/fleet/out/game-submit/list.json"
+   },
    "owner_station": "delivery",
    "support": [
     "visual"
