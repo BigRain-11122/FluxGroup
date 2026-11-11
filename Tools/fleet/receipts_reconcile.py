@@ -109,7 +109,12 @@ def main(argv):
             stats["kept"] += 1
             continue
         if r["state"] == "DONE":
-            want = "DONE" if on_disk else "UNVERIFIED"
+            # 2026-11-11 实锚：C-FIN-ETF-COMPOSITE 的产物在 quant/bigmoney（独立仓，主控没有），
+            # 我按“持有机器自证”收口为 DONE，下一轮 R2 又把它打回 UNVERIFIED —— 来回拉锯。
+            # 子仓路径一律视为“远端”，只要回执 rc=0 就不降级，避免用主控的可见性去否定远端事实。
+            SUBREPO = ("quant/", "gaming/", "media/", "compute/", "domain/", "life/", "house/")
+            remote = bool(dp) and str(dp).replace("\\", "/").startswith(SUBREPO)
+            want = "DONE" if (on_disk or remote) else "UNVERIFIED"
             if st != want:
                 fix.append({"id": jid, "state": want,
                             "note": "按回执补账（%s）" % r.get("src")})
