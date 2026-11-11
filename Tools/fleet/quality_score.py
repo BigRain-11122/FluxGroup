@@ -55,6 +55,8 @@ SUITES = [
     ("make_index", "make_index.py", "--self-test"),
     ("brain_stress", "brain_stress.py", "--mode ladder"),
     ("compute_alloc", "compute_alloc.py", "--self-test"),
+    ("self_loop", "self_loop.py", "--self-test"),
+    ("condition_matrix", "condition_matrix.py", "--self-test"),
 ]
 
 WEIGHTS = {"验证": 25, "规则": 20, "工作流": 25, "机队": 15, "环境": 10, "文档": 5}

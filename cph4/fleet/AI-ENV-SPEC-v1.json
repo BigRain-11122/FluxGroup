@@ -53,10 +53,13 @@
               "why": "轻量兜底：4B 判读 + 0.6B 向量；digest 一错说明别名/权重被换过"},
   "delivery": {"any_of": ["qwen3.5:8b", "qwen3:8b", "qwen3.5:4b"], "required_embed": true,
                "why": "8B 级判读写卡理由；向量用于去重"},
+               "pinned_digest_note": "未钉 digest：这三台的真实模型名/权重还不掌握（无探针回报）。钉错的 digest 会把正常机判红，所以先不钉；各机跑过 env-probe 后再补。规格缺口已登记，条件矩阵里这一项对它们期望 PASS 并标注。",
   "visual": {"any_of": ["qwen3.5:8b", "qwen3:8b", "qwen3.5:4b"], "required_embed": true,
              "why": "出片间隙用完即卸，8B 级足够"},
+               "pinned_digest_note": "未钉 digest：这三台的真实模型名/权重还不掌握（无探针回报）。钉错的 digest 会把正常机判红，所以先不钉；各机跑过 env-probe 后再补。规格缺口已登记，条件矩阵里这一项对它们期望 PASS 并标注。",
   "audio": {"any_of": ["qwen3.5:4b", "qwen3:8b", "qwen3.5:8b"], "required_embed": true,
             "why": "4B-8B 按需；显存优先留给 TTS"},
+               "pinned_digest_note": "未钉 digest：这三台的真实模型名/权重还不掌握（无探针回报）。钉错的 digest 会把正常机判红，所以先不钉；各机跑过 env-probe 后再补。规格缺口已登记，条件矩阵里这一项对它们期望 PASS 并标注。",
   "brain": {"any_of": ["qwen3.5:32b", "qwen2.5:32b", "qwen3:32b"], "required_embed": true,
             "why": "32B 级 Q4 分卡：写作/审稿/长文；入网后才谈达标"}
  },
