@@ -6735,3 +6735,7 @@
 - 11-11T08:57 · GAP-BIGHOUSE-BMC-11-acceptance.json · 已提交回执但被拒，因内容非有效交付物且无风险。
 - 11-11T08:57 · REPAIR-NODE-SYNC-bm-a-20261111T0752-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
 - 11-11T08:57 · REPAIR-NODE-SYNC-bm-a-20261111T0752-bm-m.json · 节点同步任务因严重阻塞失败，需立即执行全链路排查、服务重启及降级预案。
+- 11-11T08:58 · _last_lane_bm-m.json · 已完成节点同步，无风险。
+- 11-11T08:58 · REPAIR-NODE-SYNC-bm-a-20261111T0752-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-11T08:59 · REPAIR-NODE-SYNC-bm-a-20261111T0752-bm-m.json · 任务完成但存在源端数据中断或网络故障风险，需立即排查链路。
+- 11-11T08:58 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
