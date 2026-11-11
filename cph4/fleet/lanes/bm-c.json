@@ -1,8 +1,37 @@
 {
  "node": "bm-c",
- "ts": "2026-11-11T08:09:27",
- "jobs": [],
- "idle_reason": "CAPACITY-BLOCKED-RAM ram 0.7/1.0 GB",
- "lane_ok": false,
- "capacity_note": "ram 0.7/1.0 GB"
+ "ts": "2026-11-11T08:12:52",
+ "jobs": [
+  {
+   "id": "GAP-FLUXVERSE-BMC-9",
+   "title": "[rescue][gap] fluxverse 证据（bm-c RAM 0.8G）",
+   "cmd": "python Tools/fleet/line_triage.py --line fluxverse --out cph4/fleet/reports/triage-fluxverse-20261111n.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/reports/triage-fluxverse-20261111n.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": 180
+  },
+  {
+   "id": "GAP-BIGMONEY-BMC-9",
+   "title": "[rescue][gap] bigmoney 证据（bm-c RAM 0.8G）",
+   "cmd": "python Tools/fleet/line_triage.py --line bigmoney --out cph4/fleet/reports/triage-bigmoney-20261111n.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/reports/triage-bigmoney-20261111n.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": 180
+  }
+ ],
+ "idle_reason": "",
+ "lane_ok": true,
+ "capacity_note": "ram 1.2/1.0 GB"
 }
