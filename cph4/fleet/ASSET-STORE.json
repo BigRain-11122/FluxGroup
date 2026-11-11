@@ -7,8 +7,19 @@
   "rebuild 只往 primary 写，且必须校验 sha 一致才写入"
  ],
  "roots": [
-  {"path": "~/FluxAssets", "role": "primary", "writable": true},
-  {"path": "/Volumes/移动硬盘/FluxAssets", "role": "legacy-readonly", "writable": false}
+  {
+   "path": "~/FluxAssets",
+   "role": "primary",
+   "writable": true
+  }
  ],
- "layout": "store/<sha前2>/<sha><ext>"
+ "layout": "store/<sha前2>/<sha><ext>",
+ "_retired_roots": [
+  {
+   "path": "/Volumes/移动硬盘/FluxAssets",
+   "role": "legacy-readonly",
+   "writable": false,
+   "why": "移动盘 2026-11-11 已清空退出长期存储；拔盘后该路径不存在，留着只会让扫描工具撞空路径"
+  }
+ ]
 }
