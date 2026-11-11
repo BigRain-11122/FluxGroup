@@ -6953,3 +6953,11 @@
 - 11-11T10:16 · REPAIR-VERIFY-ICONS-BMA-20261111-bm-m.json · 已完成交易失败根因分析与重试策略验证，当前无阻断风险。
 - 11-11T10:16 · REPAIR-LINE-TRIAGE-MV-acceptance.json · 完成机队回执提交，但被拒因交付物非标准产物。
 - 11-11T10:16 · REPAIR-LINE-TRIAGE-MV-bm-m.json · 已完成根因分析与修复方案制定，当前存在系统状态流转缺失导致补账挂起的风险。
+- 11-11T10:18 · _last_lane_bm-m.json · 已完成机队修复任务，无风险。
+- 11-11T10:18 · REPAIR-GAP-MV-LINE-20261111-acceptance.json · 已完成机队回执提交，但因非标准产物被驳回。
+- 11-11T10:18 · REPAIR-GAP-MV-LINE-20261111-bm-m.json · 已完成交易补账失败根因分析与人工介入方案制定，存在资金状态未更新的潜在风险。
+- 11-11T10:18 · REPAIR-VERIFY-ICONS-BMA-20261111-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-11T10:18 · REPAIR-VERIFY-ICONS-BMA-20261111-bm-m.json · 补账任务因数据格式不匹配失败，需修复脚本逻辑后重试。
+- 11-11T10:18 · REPAIR-LINE-TRIAGE-MV-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-11T10:18 · REPAIR-LINE-TRIAGE-MV-bm-m.json · 已完成故障根因分析与人工重试方案制定，存在客户端误触导致交易失效的风险。
+- 11-11T10:18 · skill-promote-20261111.json · 已完成部分任务，因工具缺失导致大量技能无法执行。
