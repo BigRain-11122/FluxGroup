@@ -6767,3 +6767,5 @@
 - 11-11T09:15 · REPAIR-NODE-SYNC-bm-a-20261111T0856-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物且无风险。
 - 11-11T09:15 · REPAIR-NODE-SYNC-bm-a-20261111T0856-bm-m.json · 已完成故障根因分析与手动重试动作，当前无风险。
 - 11-11T09:15 · self-improve-bm-m-latest.json · 已完成机队回执，无风险。
+- 11-11T09:16 · _last_lane_bm-m.json · 节点同步任务已推迟，因无可用分配而存在运行风险。
+- 11-11T09:17 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
