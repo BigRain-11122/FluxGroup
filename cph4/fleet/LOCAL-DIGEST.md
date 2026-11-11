@@ -6990,3 +6990,12 @@
 - 11-11T10:29 · NODE-SYNC-bm-c-20261111T1024-bm-c.json · 已完成节点同步与报告生成，无风险。
 - 11-11T10:29 · NODE-SYNC-bm-c-20261111T1024-acceptance.json · 已完成机队回执提交，但因非标准产物被驳回。
 - 11-11T10:29 · _last_lane_bm-m.json · 任务因无可用资源被推迟，存在无法按时运行的风险。
+- 11-11T10:30 · _last_lane_bm-m.json · 任务已暂停，因无可用资源分配而存在运行风险。
+- 11-11T10:30 · self-improve-bm-m-latest.json · 已完成机队回执提交，无风险。
+- 11-11T10:31 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-11T10:31 · skill-promote-20261111.json · 已完成基础任务，因工具缺失导致大量技能无法执行。
+- 11-11T10:31 · triage-fluxverse-bm-b-20261111.md · 已完成线级体检，发现两个工段严重超阈需立即补产出或收线。
+- 11-11T10:31 · PROBE-BMB-TOOLCHAIN-20261110-bm-c.json · 机队任务已完成，无风险。
+- 11-11T10:31 · PROBE-BMB-TOOLCHAIN-20261110-acceptance.json · 完成机队回执提交，但被拒因交付物非标准产物。
+- 11-11T10:31 · NODE-SYNC-bm-c-20261111T1024-bm-c.json · 同步失败，因文件无法删除且重置索引出错。
+- 11-11T10:31 · NODE-SYNC-bm-c-20261111T1024-acceptance.json · 完成机队回执提交，但被拒收因交付物非有效产物。
