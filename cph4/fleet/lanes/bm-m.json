@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-11T09:56:07",
+ "ts": "2026-11-11T09:58:39",
  "jobs": [
   {
    "id": "UNBLOCK-NODE-SYNC-bm-a-20261111T0912",
@@ -19,5 +19,9 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 14.6/1.0 GB"
+ "capacity_note": "ram 14.6/1.0 GB",
+ "cards": [],
+ "pruned_shells": [
+  "UNBLOCK-NODE-SYNC-bm-a-20261111T0912"
+ ]
 }
