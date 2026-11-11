@@ -1,7 +1,35 @@
 {
  "node": "bm-c",
- "ts": "2026-11-12T04:58:30",
+ "ts": "2026-11-12T05:04:56",
  "jobs": [
+  {
+   "id": "PIPE-PROBE-BMC-20261112",
+   "station": "visual",
+   "line": "asset-lib",
+   "title": "[@bm-c lane=gpu-production] 车道管线探针：写一个标记文件即算成功（1 分钟 CPU 卡）",
+   "cmd": "python -c \"import os,time;os.makedirs('cph4/fleet/queue-receipts',exist_ok=True);open('cph4/fleet/queue-receipts/pipe-probe-bm-c-20261112.txt','w').write('ok '+time.strftime('%Y-%m-%dT%H:%M:%S'))\"",
+   "cwd": "",
+   "needs": "cpu",
+   "minutes": 1,
+   "heavy": false,
+   "day_ok": true,
+   "deliverable": "cph4/fleet/queue-receipts/pipe-probe-bm-c-20261112.txt",
+   "accept": "标记文件在盘即 PASS；若 3 分钟内不出现，说明 bm-c 认领体对新卡不执行（管线问题，非卡问题）",
+   "nodes": [
+    "bm-c"
+   ],
+   "hard_nodes": [
+    "bm-c"
+   ],
+   "prio": "P1",
+   "state": "OPEN",
+   "why": "资产卡闸全过却不执行（04:59 拉取+WAKE 后零回执零产物），用最轻卡分离管线与卡因",
+   "note": "九要素：①@bm-c lane=gpu-production｜②回执窗 2h｜③验收物=cph4/fleet/queue-receipts/pipe-probe-bm-c-20261112.txt｜④spec=Tools/fleet/lane_agent.py｜⑤溯源 O-20261010-1800｜⑥输入=无；输出=cph4/fleet/queue-receipts/pipe-probe-bm-c-20261112.txt｜⑦依赖=无依赖｜⑧卡 ID=PIPE-PROBE-BMC-20261112｜⑨provenance=推断（自驱派生·R41 诊断）",
+   "created_by": "CEO-PROXY event R41",
+   "created_at": "2026-11-12T05:04:56",
+   "route": "local",
+   "verify_on_node": true
+  },
   {
    "id": "asset-lib-asset-gen-2026-11-11",
    "title": "[资产储备（角色 LoRA / 音色库）] 通用资产出图（道具/场景，吃 ASSET-PROMPTS 规格）",
