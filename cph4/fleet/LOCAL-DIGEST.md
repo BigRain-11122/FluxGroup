@@ -6724,3 +6724,7 @@
 - 11-11T08:55 · GAP-BIGSTREAMMV-BMC-11-bm-c.json · 已完成机队排查报告生成，无错误风险。
 - 11-11T08:55 · GAP-BIGSTREAMMV-BMC-11-acceptance.json · 已提交机队回执，但被拒因内容非有效产物，无后续风险。
 - 11-11T08:55 · _last_lane_bm-m.json · 机队已就绪，心跳正常，无风险。
+- 11-11T08:56 · _last_lane_bm-m.json · 已完成节点同步，无风险。
+- 11-11T08:56 · REPAIR-NODE-SYNC-bm-a-20261111T0752-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-11T08:56 · REPAIR-NODE-SYNC-bm-a-20261111T0752-bm-m.json · 节点同步任务因源端数据缺失停滞，需排查上游并验证恢复逻辑。
+- 11-11T08:56 · skill-promote-20261111.json · 已完成部分任务，因工具缺失导致多项关键技能无法执行。
