@@ -6597,3 +6597,8 @@
 - 11-11T08:20 · GAP-FLUXVERSE-BMC-9-acceptance.json · 已提交机队回执，但被拒因内容非有效交付物，存在合规风险。
 - 11-11T08:20 · GAP-BIGMONEY-BMC-9-bm-c.json · 已完成大资金航线排查报告生成，无错误风险。
 - 11-11T08:20 · GAP-BIGMONEY-BMC-9-acceptance.json · 完成机队回执提交，但被拒收因交付物非标准产物。
+- 11-11T08:21 · _last_lane_bm-m.json · 机队已自派完成回单扫描，无风险。
+- 11-11T08:21 · GAP-FLUXVERSE-BMC-9-bm-c.json · 已完成机队排查报告生成，无错误风险。
+- 11-11T08:21 · GAP-FLUXVERSE-BMC-9-acceptance.json · 已提交机队回执，但因非标准产物被驳回，无后续风险。
+- 11-11T08:21 · GAP-BIGMONEY-BMC-9-bm-c.json · 已完成机队排查报告生成，无错误风险。
+- 11-11T08:21 · GAP-BIGMONEY-BMC-9-acceptance.json · 已提交机队回执，但被因非标准产物而拒绝。
