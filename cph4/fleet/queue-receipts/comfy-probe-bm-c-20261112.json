@@ -1,0 +1,17 @@
+{
+ "probe_only": true,
+ "node": "bm-c",
+ "server": "http://127.0.0.1:8188",
+ "rc": 0,
+ "outcome": "OK",
+ "ts": "2026-11-12T04:12:52",
+ "conf": "cph4\\fleet\\asset-lib-v1\\comfy-bm-c.json",
+ "route": "ckpt",
+ "ckpt": "DreamShaperXL_Lightning-SFW.safetensors",
+ "available": {
+  "ckpt": 5,
+  "unet": 4,
+  "clip": 3,
+  "vae": 9
+ }
+}
