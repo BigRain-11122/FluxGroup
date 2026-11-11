@@ -2,7 +2,7 @@
  "id": "UNBLOCK-R-TRIAGE-BIGCOMPUTE-BMB-20261108",
  "node": "bm-m",
  "rc": 0,
- "seconds": 0.4,
+ "seconds": 1.1,
  "cmd": "",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/repairs/R-TRIAGE-BIGCOMPUTE-BMB-20261108-unblock.md",
  "deliverable_exists": true,
- "ts": "2026-11-11T10:44:58",
- "stdout_tail": "缺人：由 owner bm-m 执行补账操作解锁。",
+ "ts": "2026-11-11T10:46:31",
+ "stdout_tail": "①缺权限 ②联系 owner(bm-m)补全回执 ③原机执行",
  "stderr_tail": ""
 }
