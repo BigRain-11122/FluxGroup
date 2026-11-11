@@ -2,7 +2,7 @@
  "id": "GAP-FLUXVERSE-BMC-10",
  "node": "bm-c",
  "rc": 0,
- "seconds": 4.6,
+ "seconds": 9.1,
  "cmd": "python Tools/fleet/line_triage.py --line fluxverse --out cph4/fleet/reports/triage-fluxverse-20261111p.md",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/reports/triage-fluxverse-20261111p.md",
  "deliverable_exists": true,
- "ts": "2026-11-11T08:46:07",
+ "ts": "2026-11-11T08:48:09",
  "stdout_tail": "[triage] fluxverse -> cph4\\fleet\\reports\\triage-fluxverse-20261111p.md\n",
  "stderr_tail": ""
 }
