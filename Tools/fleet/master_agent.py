@@ -928,7 +928,10 @@ def write_lane_files(root, rows, fleet, dry=False, nodes=None):
         elif not ok:
             # A work machine in its daytime window is not a capacity fault - it is policy.
             # 离线也不是容量问题：给关机机器挂 CAPACITY-BLOCKED-RAM 会把人引去「腾内存」。
-            if why.startswith("OFFLINE"):
+            # 2026-11-12 事件班补：EXECUTOR-DEAD 同理——执行者死了/机器断电不是内存不足，
+            # 实测 bm-b 整机离线 1 天被写成「CAPACITY-BLOCKED-RAM EXECUTOR-DEAD (51.0h)」，
+            # 读的人会去腾内存而不是去上电，与 tailscale 的 offline 口径也自相矛盾。
+            if why.startswith("OFFLINE") or why.startswith("EXECUTOR-DEAD"):
                 idle_reason = why
             else:
                 idle_reason = ("DAY-YIELD: work machine, takes over at 19:00"

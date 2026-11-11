@@ -453,3 +453,5 @@
 [2026-11-12 03:18] ├ 在飞三卡保持 RUNNING：asset-lib-env-check-2026-11-12(bm-c) / biggame-pack-scan-2026-11-12(bm-a) / bigmoney-backtest-2026-11-12(bm-a)；产物证据 asset-env-2026-11-12.json 1595B、game-packs-2026-11-12.json 6329B（03:11 落盘）
 [2026-11-12 03:18] ├ bigstream-mv-gate-2026-11-12 被并行窗以 CARD-DEFECT 取消（源片钉 v721 过期路径，目录仅 v723/v724，线已 v725）→ 该窗编号 R41，已自行登记；本窗按同令多窗律不重复处置、不重登记
 [2026-11-12 03:18] └ 收口：POOL-LINT PASS(3 open) / 原子推 PUSH-OK 114e071d1 + 本行 / 回访探针一次性 cron(04:45·durable·c50a0cce) / 清过期 R39 探针(02:33)
+[2026-11-12 03:21] EVENT 事件班补修（承 R40）| 调用~44 | verdict=FIXED 判据分裂
+[2026-11-12 03:21] └ master_agent.lane_capacity idle_reason：EXECUTOR-DEAD 不再被冠 CAPACITY-BLOCKED-RAM 前缀（bm-b 整机断电 1 天被写成「内存不足」，与 tailscale offline 口径自相矛盾；同 RG-06「把自己的产出当别人的证据」族）。只改标签，派单判定完全不变（两条路径原本都 return False），AST 校验通过；待下一轮 pulse 重写车道文件后 bm-b 行应变 EXECUTOR-DEAD 裸标签
