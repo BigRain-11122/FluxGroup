@@ -1,7 +1,20 @@
 {
- "ts": "2026-11-12T00:16:49",
+ "ts": "2026-11-12T04:25:06",
  "state": "POOL-EMPTY",
  "node": "bm-c",
  "face": "origin",
- "blocked": []
+ "blocked": [
+  {
+   "id": "POOL-0032",
+   "blocked_by": [
+    "no-verified-cmd: bm-c ComfyUI:8188 闭（R39-4 未复，需 bm-c 本机启动后解锁）"
+   ]
+  },
+  {
+   "id": "POOL-0033",
+   "blocked_by": [
+    "no-verified-cmd: bm-c ComfyUI:8188 闭（R39-4 未复，需 bm-c 本机启动后解锁）"
+   ]
+  }
+ ]
 }
