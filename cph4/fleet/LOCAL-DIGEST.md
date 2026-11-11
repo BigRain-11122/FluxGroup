@@ -6874,3 +6874,10 @@
 - 11-11T09:55 · GAP-ASSETLIB-BMC-14-bm-c.json · 已完成资产库机队排查报告生成，无错误风险。
 - 11-11T09:55 · GAP-ASSETLIB-BMC-14-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被拒收。
 - 11-11T09:55 · self-improve-bm-m-latest.json · 机队已确认代码无风险，所有检查项均通过。
+- 11-11T09:56 · _last_lane_bm-m.json · 机队同步任务已完成，无风险。
+- 11-11T09:56 · UNBLOCK-NODE-SYNC-bm-a-20261111T0912-acceptance.json · 完成机队回执提交，但被拒因交付物非有效产物。
+- 11-11T09:56 · UNBLOCK-NODE-SYNC-bm-a-20261111T0912-bm-m.json · 节点同步成功，但需补充日志以判定阻塞原因及责任方。
+- 11-11T09:56 · GAP-RECON-BMC-14-bm-c.json · 已完成机队回执任务，无风险。
+- 11-11T09:56 · GAP-RECON-BMC-14-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被驳回。
+- 11-11T09:56 · GAP-ASSETLIB-BMC-14-bm-c.json · 已完成资产库排查报告生成，无错误风险。
+- 11-11T09:56 · GAP-ASSETLIB-BMC-14-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被驳回。
