@@ -7015,3 +7015,12 @@
 - 11-11T10:40 · _last_lane_bm-m.json · 机队已自派完成回单，无风险。
 - 11-11T10:40 · self-improve-bm-m-latest.json · 机队已确认无风险，代码与依赖检查全部通过。
 - 11-11T10:41 · _last_lane_bm-m.json · 机队已完成自派任务，无风险。
+- 11-11T10:42 · UNBLOCK-R-TRIAGE-BIGCOMPUTE-BMB-20261108-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-11T10:42 · UNBLOCK-R-TRIAGE-BIGCOMPUTE-BMB-20261108-bm-m.json · 已完成机队补账操作，无风险。
+- 11-11T10:42 · REPAIR-PEER-SYNC-bm-c-20261111-acceptance.json · 已完成机队回执提交，但被拒因交付物非预期产物。
+- 11-11T10:42 · REPAIR-PEER-SYNC-bm-c-20261111-bm-m.json · 完成机队同步但存在身份映射规则不精确导致匹配失败的风险。
+- 11-11T10:42 · _last_lane_bm-m.json · 已完成资产库解锁任务，无风险。
+- 11-11T10:42 · UNBLOCK-asset-lib-library-check-2026-11-08-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效文档。
+- 11-11T10:42 · UNBLOCK-asset-lib-library-check-2026-11-08-bm-m.json · 已完成机队资产库检查并解除阻塞，无风险。
+- 11-11T10:42 · skill-promote-20261111.json · 已跳过多项因工具缺失或重复的任务，当前无风险。
+- 11-11T10:43 · _last_lane_bm-m.json · 机队任务已执行完成，无风险。
