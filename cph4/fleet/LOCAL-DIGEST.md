@@ -6961,3 +6961,10 @@
 - 11-11T10:18 · REPAIR-LINE-TRIAGE-MV-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
 - 11-11T10:18 · REPAIR-LINE-TRIAGE-MV-bm-m.json · 已完成故障根因分析与人工重试方案制定，存在客户端误触导致交易失效的风险。
 - 11-11T10:18 · skill-promote-20261111.json · 已完成部分任务，因工具缺失导致大量技能无法执行。
+- 11-11T10:19 · _last_lane_bm-m.json · 任务已暂停，因无可用分配而存在无法继续的风险。
+- 11-11T10:19 · REPAIR-VERIFY-ICONS-BMA-20261111-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
+- 11-11T10:19 · REPAIR-VERIFY-ICONS-BMA-20261111-bm-m.json · 已完成数据一致性校验失败补账任务，因风险不可控导致交易回滚。
+- 11-11T10:19 · REPAIR-LINE-TRIAGE-MV-acceptance.json · 已完成机队回执提交，但被拒因交付物非标准产物。
+- 11-11T10:19 · REPAIR-LINE-TRIAGE-MV-bm-m.json · 已完成交易失败根因分析与人工校验方案制定，当前需人工介入执行资金扣减以消除风险。
+- 11-11T10:19 · REPAIR-GAP-MV-LINE-20261111-acceptance.json · 机队回执未生成，因缺乏必要产出文件被驳回。
+- 11-11T10:19 · REPAIR-GAP-MV-LINE-20261111-bm-m.json · 已完成 GAP 流程自动补账失败分析，需人工介入修复数据一致性风险。
