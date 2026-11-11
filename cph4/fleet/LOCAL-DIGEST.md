@@ -6760,3 +6760,6 @@
 - 11-11T09:13 · _last_lane_bm-m.json · 已完成节点同步，无风险。
 - 11-11T09:13 · REPAIR-NODE-SYNC-bm-a-20261111T0856-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物且无风险。
 - 11-11T09:13 · REPAIR-NODE-SYNC-bm-a-20261111T0856-bm-m.json · 节点同步任务成功完成，但交付物日志显示底层传输管道存在异常风险。
+- 11-11T09:14 · _last_lane_bm-m.json · 已完成节点同步修复，无风险。
+- 11-11T09:14 · REPAIR-NODE-SYNC-bm-a-20261111T0856-acceptance.json · 已完成机队回执提交，但因交付物非标准产物被拒收。
+- 11-11T09:14 · REPAIR-NODE-SYNC-bm-a-20261111T0856-bm-m.json · 节点同步任务失败且无重试机制，需立即人工介入修复代码或配置。
