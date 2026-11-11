@@ -9,7 +9,8 @@
    "cost_gb": 4.1,
    "num_ctx": 8192,
    "keep_alive": "30m",
-   "measured_tok_s": "38-40"
+   "measured_tok_s": "38-40",
+   "_alias_note": "本机 ollama list 显示为 qwen3.5:4b；4b-mlx 为其 MLX 别名，两者都指向同一 manifest。调用一律带 think=false。"
   },
   "alternative": {
    "model": "qwen3:4b",

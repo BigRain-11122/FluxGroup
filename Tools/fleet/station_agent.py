@@ -144,8 +144,10 @@ def triage_with_model(findings, station):
     prompt = ("你是%s工位的巡查助手。以下是本工位本轮巡查发现，请用一句中文给出"
               "最该先处理的一件事与理由，不要编造未给出的信息：\n%s"
               % (station, json.dumps(findings[:20], ensure_ascii=False)))
-    body = json.dumps({"model": "qwen3.5:4b-mlx", "prompt": prompt, "stream": False,
-                       "options": {"num_ctx": 8192, "temperature": 0}}).encode()
+    body = json.dumps({"model": os.environ.get("FLUX_LOCAL_MODEL", "qwen3.5:4b-mlx"),
+                       "prompt": prompt, "stream": False, "think": False,
+                       "options": {"num_ctx": 8192, "temperature": 0,
+                                   "num_predict": 160}}).encode()
     req = urllib.request.Request(GATEWAY + "/api/generate", data=body,
                                  headers={"Content-Type": "application/json",
                                           "X-Flux-Token": tok})
