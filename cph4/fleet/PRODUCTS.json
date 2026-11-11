@@ -423,10 +423,11 @@
     "人工发送",
     "复盘"
    ],
-   "owner_station": "audio",
+   "owner_station": "control",
    "support": [
-    "control"
+    "audio"
    ],
+   "owner_note": "CEO 2026-11-11 令「养号等任务放在主控机器」：文本活归主控台（MacBook），声音工位只承接后续配音/混音工序。语感判据=VOICE-V1 + Tools/fleet/voice_gate.py。",
    "priority": "T2",
    "cadence": "每日一批（人工点发）",
    "blocked_by": [

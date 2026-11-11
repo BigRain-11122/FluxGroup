@@ -1,0 +1,17 @@
+{"id": "C-001", "face": "comment", "label": "good", "ctx": "女主好美", "text": "被你说得有点飘", "why": "只承接情绪，不编任何事实；8 字说完", "source": "按 VOICE-V1 判据手写（示例）"}
+{"id": "C-002", "face": "comment", "label": "good", "ctx": "这段剪辑太顺了", "text": "谢谢，剪了好几遍", "why": "短、有具体动作、不放大", "source": "按 VOICE-V1 判据手写（示例）"}
+{"id": "C-003", "face": "comment", "label": "good", "ctx": "这歌叫什么名字 找好久了", "text": "这首我得翻一下工程文件", "why": "不知道就诚实延后，不猜歌名", "source": "按 VOICE-V1 判据手写（示例）"}
+{"id": "C-004", "face": "comment", "label": "good", "ctx": "第三集啥时候更啊", "text": "更了我第一个在这喊", "why": "不承诺时间，用一句人话接住", "source": "按 VOICE-V1 判据手写（示例）"}
+{"id": "C-005", "face": "comment", "label": "good", "ctx": "感觉后面有点赶，是不是剪辑砍了", "text": "是砍了一点，你眼睛毒", "why": "承认、不辩解、反过来夸对方", "source": "按 VOICE-V1 判据手写（示例）"}
+{"id": "C-006", "face": "comment", "label": "good", "ctx": "up主辛苦了", "text": "哈哈不辛苦，剪到半夜是真的", "why": "口语词开场，带一个具体细节", "source": "按 VOICE-V1 判据手写（示例）"}
+{"id": "C-007", "face": "comment", "label": "bad", "ctx": "up主这个转场怎么做的啊，太丝滑了", "text": "感谢喜爱！具体手法已整理在置顶笔记中，欢迎查阅。", "why": "编造不存在的置顶笔记 + 客服腔 + 感叹号", "source": "2026-11-11 实测·旧提示词 qwen3.5:4b 产出"}
+{"id": "C-008", "face": "comment", "label": "bad", "ctx": "这歌叫什么名字 找好久了", "text": "抱歉，这首歌的具体名称需要进一步确认后才能提供准确信息。", "why": "公文腔，一句人话都没有", "source": "2026-11-11 实测·旧提示词 qwen3.5:4b 产出"}
+{"id": "C-009", "face": "comment", "label": "bad", "ctx": "女主好美，是真人吗", "text": "感谢喜爱！是否真人为后续确认中。", "why": "病句（主谓宾塌了）+ 把 AI 红线问题当普通提问", "source": "2026-11-11 实测·旧提示词 qwen3.5:4b 产出"}
+{"id": "C-010", "face": "comment", "label": "bad", "ctx": "第三集啥时候更啊", "text": "具体哪一集？我会尽快确认更新计划。", "why": "反问用户 + 空承诺，且用户已经说了第三集", "source": "2026-11-11 实测·旧提示词 qwen3.5:4b 产出"}
+{"id": "T-001", "face": "title", "label": "good", "ctx": "", "text": "我妈把相亲对象P成了她初恋", "why": "具体人物+具体动作+反差，零感叹号", "source": "按 VOICE-V1 判据手写（示例）"}
+{"id": "T-002", "face": "title", "label": "bad", "ctx": "", "text": "震惊！AI漫剧竟然这么好看，你绝对想不到的结局", "why": "震惊体三件套，平台降权且没人信", "source": "反面示例（行业通病）"}
+{"id": "L-001", "face": "line", "label": "good", "ctx": "", "text": "你签也得签", "why": "5 字、命令式、留有下一句的压迫感", "source": "仓内实测台词 drama-2026-11-03.srt"}
+{"id": "L-002", "face": "line", "label": "good", "ctx": "", "text": "我数三下", "why": "短、制造倒计时、不用形容词", "source": "按 VOICE-V1 判据手写（示例）"}
+{"id": "L-003", "face": "line", "label": "bad", "ctx": "", "text": "我认为这份协议对我们双方而言都是有利的", "why": "书面语（认为/对…而言/有利），演员念不出来", "source": "反面示例（AI 剧本通病）"}
+{"id": "S-001", "face": "subtitle", "label": "good", "ctx": "", "text": "他走那天，我把伞落在了站台", "why": "14 字一行，信息密度够，能一眼扫完", "source": "按 VOICE-V1 判据手写（示例）"}
+{"id": "S-002", "face": "script", "label": "bad", "ctx": "", "text": "作为一个创作者，首先我要说的是，其次我想说，最后希望大家喜欢。", "why": "AI 腔三件套，口播念出来像念稿", "source": "反面示例（AI 口播通病）"}

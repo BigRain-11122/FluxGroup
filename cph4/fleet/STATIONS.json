@@ -229,12 +229,12 @@
     "ondemand": [
      "tts_batch",
      "mix",
-     "animatic480",
-     "bili_draft_batch"
+     "animatic480"
     ],
     "never": [
      "768p_video",
-     "llm_gt_8g"
+     "llm_gt_8g",
+     "social_drafts(2026-11-11 迁主控台)"
     ]
    }
   },
@@ -338,17 +338,20 @@
     "验收与抽验",
     "账本与一屏",
     "对外材料",
+    "账号评论草稿/养号（含语感闸）",
     "跨机调度"
    ],
    "forbidden_work": [
     "GPU 生成",
     "媒体素材落盘",
     "单件 >20G 写入",
-    "产线重活"
+    "产线重活",
+    "代发/登录任何平台账号"
    ],
    "daily_capacity": {
     "30 秒成品剪辑": "2-3 条/天",
-    "文本判读": "不限"
+    "文本判读": "不限",
+    "评论草稿": "生成 20-40 条/天；人工点发 3-5 条"
    },
    "preflight": [
     "磁盘 > 50G",
@@ -385,7 +388,8 @@
     "ondemand": [
      "qwen3.5:9b-mlx(难判读,用完卸)",
      "deepseek-r1:14b(夜间独占)",
-     "edit_subtitle_30s"
+     "edit_subtitle_30s",
+     "social_drafts(养号评论草稿,跑完即退)"
     ],
     "never": [
      "comfyui",
