@@ -24,7 +24,8 @@
    "hostname": "DASHENG",
    "tailnet_ip": "100.110.185.62",
    "os": "windows",
-   "cpu_cores": 32,
+   "cpu_cores": 16,
+  "cpu_threads": 32,
    "ram_gb": 94,
    "gpu": {
     "model": "RTX 4070 SUPER",
@@ -46,7 +47,7 @@
    ],
    "work_dir": "D:/FleetWorker",
    "software": [
-    "python3",
+    "python（Windows 无 python3，实测 rc=9009）",
     "ffmpeg",
     "Unity/团结引擎",
     "pillow",
@@ -112,14 +113,15 @@
     "vram_gb": 8,
     "ram_gb": 10,
     "num_ctx": 8192,
-    "concurrency": 2,
+    "concurrency": 1,
     "why": "16G(可用13.4) 显存要与 KF/i2v 共用：模型只在出片间隙加载，用完即卸；判读类走本地 8B"
    },
    "machine": "传家宝",
    "hostname": "FLUXGROUP",
    "tailnet_ip": "100.123.74.104",
    "os": "windows",
-   "cpu_cores": 32,
+   "cpu_cores": 16,
+  "cpu_threads": 32,
    "ram_gb": 24,
    "gpu": {
     "model": "RTX 3070 (modded 16G)",
@@ -141,7 +143,7 @@
    ],
    "work_dir": "K:/Fluxgroup/FluxGroup",
    "software": [
-    "python3",
+    "python（Windows 无 python3，实测 rc=9009）",
     "ComfyUI(8188)",
     "ffmpeg",
     "git"
@@ -208,14 +210,15 @@
     "vram_gb": 6,
     "ram_gb": 8,
     "num_ctx": 8192,
-    "concurrency": 2,
+    "concurrency": 1,
     "why": "8G 显存 + TTS 共用：4B 常驻太贵，按需拉起 4B/8B 做判读"
    },
    "machine": "小钢炮",
    "hostname": "BIGMONEY",
    "tailnet_ip": "100.82.175.0",
    "os": "windows",
-   "cpu_cores": 16,
+   "cpu_cores": 8,
+  "cpu_threads": 16,
    "ram_gb": 24,
    "gpu": {
     "model": "RTX 3070",
@@ -236,7 +239,7 @@
    ],
    "work_dir": "C:/Fluxgroup/FluxGroup",
    "software": [
-    "python3",
+    "python（Windows 无 python3，实测 rc=9009）",
     "ffmpeg",
     "TTS 引擎（index-tts venv 缺失待补）"
    ],
@@ -400,6 +403,7 @@
    "tailnet_ip": "100.75.133.10",
    "os": "darwin",
    "cpu_cores": 10,
+  "cpu_threads": 10,
    "ram_gb": 32,
    "gpu": {
     "model": "M1 Pro 集成",
