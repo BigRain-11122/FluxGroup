@@ -403,6 +403,37 @@
     "配音 venv 缺失（声音工位）"
    ],
    "status": "ACTIVE"
+  },
+  {
+   "id": "PROD-ACCOUNT-GROWTH",
+   "line": "bigstream-shortvideo",
+   "name": "账号运营与养号（人工在环）",
+   "deliverable": "每日评论草稿包（目标视频+草稿+风险标注）+ 账号状态记录",
+   "acceptance": [
+    "零导流话术（二维码/微信号/公众号/外链全无）",
+    "每日 3-5 条且同一视频仅 1 条",
+    "每条独写无模板",
+    "被删即当日停发并记录",
+    "发送由 CEO 本人执行"
+   ],
+   "stages": [
+    "选题",
+    "草稿",
+    "风险标注",
+    "人工发送",
+    "复盘"
+   ],
+   "owner_station": "audio",
+   "support": [
+    "control"
+   ],
+   "priority": "T2",
+   "cadence": "每日一批（人工点发）",
+   "blocked_by": [
+    "CEO 提供账号 cookie 与目标视频清单",
+    "禁止脚本自动发送"
+   ],
+   "status": "ACTIVE"
   }
  ]
 }

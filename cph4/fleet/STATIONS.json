@@ -69,7 +69,23 @@
    ],
    "status": "network_ok_not_registered",
    "last_probe": "2026-11-11T11:35 端口 445/3389 开、8790 未监听、最后回执 02:15",
-   "charter": "cph4/fleet/stations/delivery/CHARTER.md"
+   "charter": "cph4/fleet/stations/delivery/CHARTER.md",
+   "runtime": {
+    "resident": [
+     "station_agent(每5分钟 --once)"
+    ],
+    "ondemand": [
+     "unity_build",
+     "packaging",
+     "icon_render",
+     "material_fill",
+     "mv_cut"
+    ],
+    "never": [
+     "gpu_comfyui",
+     "llm_resident"
+    ]
+   }
   },
   {
    "id": "visual",
@@ -131,7 +147,23 @@
    ],
    "status": "blocked_no_comfyui",
    "last_probe": "2026-11-11T11:35 RAM 空闲 6.1G、磁盘 1217G、CPU 49%、8188 未监听",
-   "charter": "cph4/fleet/stations/visual/CHARTER.md"
+   "charter": "cph4/fleet/stations/visual/CHARTER.md",
+   "runtime": {
+    "resident": [
+     "station_agent(每5分钟 --once)"
+    ],
+    "ondemand": [
+     "comfyui:8188",
+     "lora_train",
+     "i2v_batch",
+     "rmbg_upscale"
+    ],
+    "never": [
+     "audit_loop",
+     "llm_resident",
+     "taiji_36b"
+    ]
+   }
   },
   {
    "id": "audio",
@@ -189,7 +221,22 @@
    ],
    "status": "offline",
    "last_probe": "2026-11-11T11:35 tailscale offline 11h、端口全关、最后回执 2026-11-10T00:19",
-   "charter": "cph4/fleet/stations/audio/CHARTER.md"
+   "charter": "cph4/fleet/stations/audio/CHARTER.md",
+   "runtime": {
+    "resident": [
+     "station_agent(每5分钟 --once)"
+    ],
+    "ondemand": [
+     "tts_batch",
+     "mix",
+     "animatic480",
+     "bili_draft_batch"
+    ],
+    "never": [
+     "768p_video",
+     "llm_gt_8g"
+    ]
+   }
   },
   {
    "id": "brain",
@@ -240,7 +287,19 @@
    ],
    "status": "not_installed",
    "last_probe": "未入网，无回执",
-   "charter": "cph4/fleet/stations/brain/CHARTER.md"
+   "charter": "cph4/fleet/stations/brain/CHARTER.md",
+   "runtime": {
+    "resident": [],
+    "ondemand": [
+     "backtest",
+     "deep_judge",
+     "llm_service(manual)"
+    ],
+    "never": [
+     "media_render",
+     "always_on_35b"
+    ]
+   }
   },
   {
    "id": "control",
@@ -313,8 +372,29 @@
     ],
     "budget": "常驻≤20G / 峰值≤24G；本机优先，机队借用并发≤2、上下文≤8192、死线120s",
     "note": "35B 封存不常驻（驻留即换页，仅人工点名）"
+   },
+   "runtime": {
+    "resident": [
+     "pulse_lite(调度心跳)",
+     "state_sync(60s)",
+     "llm_gateway:8792",
+     "ollama(仅4B+embedding)",
+     "console:8787",
+     "station_agent(loop 300)"
+    ],
+    "ondemand": [
+     "qwen3.5:9b-mlx(难判读,用完卸)",
+     "deepseek-r1:14b(夜间独占)",
+     "edit_subtitle_30s"
+    ],
+    "never": [
+     "comfyui",
+     "14b_pinned",
+     "audit_loops"
+    ]
    }
   }
  ],
- "_charters": "每台机读自己那份岗位书（cph4/fleet/stations/<id>/CHARTER.md）；岗位书只管怎么干，判据在 PRODUCTS.json 与 drama_rules.py"
+ "_charters": "每台机读自己那份岗位书（cph4/fleet/stations/<id>/CHARTER.md）；岗位书只管怎么干，判据在 PRODUCTS.json 与 drama_rules.py",
+ "_runtime_rule": "常驻只留小稳不占卡；GPU/大模型/批处理一律按需拉起，带租约到期自杀（正典=cph4/fleet/RESIDENT-VS-ONDEMAND-20261111.md）"
 }
