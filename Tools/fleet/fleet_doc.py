@@ -240,6 +240,20 @@ def render(data, doc_time):
     L.append("> 数据源（改这里，不改正文）：`STATIONS.json` · `Tools/fleet-nodes.json` · `OS-MATRIX-v1.json` · "
              "`CPU-PLAN-v1.json` · `AGENT-CAPACITY-v1.json` · `MODEL-COMPUTE.json` · `ASSET-VAULT.json`")
     L.append("> 改完跑 `python3 Tools/fleet/fleet_doc.py --write`；只查不改跑 `--check`（有漂移 rc=1）。")
+    # 只读上一次评分结果，绝不在文档生成里再调评分器：
+    # 2026-11-11 事故——fleet_doc 调 quality_score、quality_score 又跑 fleet_doc --self-test，
+    # 递归起了一串进程。评分是独立动作，文档只展示。
+    _sp = os.path.join(FLEET, "state", "quality-score.json")
+    try:
+        with open(_sp, encoding="utf-8") as _f:
+            _rep = json.load(_f)
+        _d = "｜".join("%s %.1f/%s" % (x["name"], x["points"], x["weight"])
+                       for x in _rep.get("dims") or [])
+        L.append("> **综合评分 %s / 100**（%s；评分时间 %s）；外部阻塞 %d 项"
+                 % (_rep.get("total"), _d, _rep.get("ts", "?"),
+                    len(_rep.get("external_blocked") or [])))
+    except Exception:
+        L.append("> 综合评分：尚未生成（先跑 `python3 Tools/fleet/quality_score.py`）")
     L.append("")
 
     # 速查表
