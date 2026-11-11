@@ -6602,3 +6602,5 @@
 - 11-11T08:21 · GAP-FLUXVERSE-BMC-9-acceptance.json · 已提交机队回执，但因非标准产物被驳回，无后续风险。
 - 11-11T08:21 · GAP-BIGMONEY-BMC-9-bm-c.json · 已完成机队排查报告生成，无错误风险。
 - 11-11T08:21 · GAP-BIGMONEY-BMC-9-acceptance.json · 已提交机队回执，但被因非标准产物而拒绝。
+- 11-11T08:22 · _last_lane_bm-m.json · 机队已自派处理积压，无风险。
+- 11-11T08:22 · self-improve-bm-m-latest.json · 机队已自测通过，无风险。
