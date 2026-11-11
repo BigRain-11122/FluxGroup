@@ -6829,3 +6829,6 @@
 - 11-11T09:29 · _last_lane_bm-m.json · 已完成节点同步，无风险。
 - 11-11T09:29 · REPAIR-NODE-SYNC-bm-a-20261111T0912-acceptance.json · 机队回执已生成但被拒收，因内容非有效交付物且无风险。
 - 11-11T09:30 · REPAIR-NODE-SYNC-bm-a-20261111T0912-bm-m.json · 任务完成但存在根因不明风险，需运维与数据团队分析日志并制定修复方案。
+- 11-11T09:31 · _last_lane_bm-m.json · 机队已自派完成回单扫描，无风险。
+- 11-11T09:31 · REPAIR-NODE-SYNC-bm-a-20261111T0912-acceptance.json · 已完成机队回执提交，但被拒因交付物非有效产物。
+- 11-11T09:31 · REPAIR-NODE-SYNC-bm-a-20261111T0912-bm-m.json · 已完成节点同步，因底层依赖不可达导致失败，需人工排查根因。
