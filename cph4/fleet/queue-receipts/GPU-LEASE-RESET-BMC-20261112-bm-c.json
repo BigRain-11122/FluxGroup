@@ -2,7 +2,7 @@
  "id": "GPU-LEASE-RESET-BMC-20261112",
  "node": "bm-c",
  "rc": 0,
- "seconds": 1.6,
+ "seconds": 2.0,
  "cmd": "python Tools\\fleet\\gpu_lease.py --node bm-c --status > cph4\\fleet\\queue-receipts\\gpu-lease-bm-c-20261112.txt 2>&1 & python Tools\\fleet\\gpu_lease.py --node bm-c --release --force >> cph4\\fleet\\queue-receipts\\gpu-lease-bm-c-20261112.txt 2>&1 & python Tools\\fleet\\gpu_lease.py --node bm-c --status >> cph4\\fleet\\queue-receipts\\gpu-lease-bm-c-20261112.txt 2>&1",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/queue-receipts/gpu-lease-bm-c-20261112.txt",
  "deliverable_exists": true,
- "ts": "2026-11-12T04:57:08",
+ "ts": "2026-11-12T04:58:30",
  "stdout_tail": "",
  "stderr_tail": ""
 }
