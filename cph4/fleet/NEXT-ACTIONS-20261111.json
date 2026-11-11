@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-11T11:08:28+0800",
+ "ts": "2026-11-11T11:13:50+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -42,8 +42,8 @@
    "accept": "quant_signal 回执 rc=0 且 CSV 含因子值与输入指纹",
    "blocker_type": "ENGINE",
    "blocker": "回测产物需在 bm-b 本地生成；主控无 quant 仓",
-   "state": "QUEUED",
-   "card": "R-PLAN-BIGMONEY-20261111",
+   "state": "STALLED",
+   "card": null,
    "running_on": null
   },
   {
@@ -58,7 +58,7 @@
    "blocker_type": "ENGINE",
    "blocker": "发布决定权在 CEO，但工程侧可先做下一首立意案",
    "state": "QUEUED",
-   "card": "R-NEXT-BIGSTREAMM-REBUILD-20261111",
+   "card": "R-NEXT-BIGSTREAMM-REBUILD-20261109",
    "running_on": null
   },
   {
@@ -117,8 +117,8 @@
    "accept": "投影文件每日刷新；受阻面写明触发条件",
    "blocker_type": "ENGINE",
    "blocker": "四仓不在本机，需在对应机器生成投影",
-   "state": "QUEUED",
-   "card": "R-PLAN-FLUXVERSE-20261111",
+   "state": "STALLED",
+   "card": null,
    "running_on": null
   },
   {
@@ -132,8 +132,8 @@
    "accept": "页面文件在盘且本地可打开；支付位标明待接",
    "blocker_type": "CEO",
    "blocker": "商户号/支付资质未签（物理件）",
-   "state": "QUEUED",
-   "card": "R-PLAN-BIGDOMAIN-20261111",
+   "state": "STALLED",
+   "card": null,
    "running_on": null
   },
   {
@@ -147,8 +147,8 @@
    "accept": "该节点有心跳、能领卡、1 张真卡产出产物",
    "blocker_type": "CEO",
    "blocker": "机器未接线/未装系统，需人到现场",
-   "state": "QUEUED",
-   "card": "R-PLAN-BIGCOMPUTE-20261111",
+   "state": "STALLED",
+   "card": null,
    "running_on": null
   },
   {
@@ -162,8 +162,8 @@
    "accept": "回执含 20 条事件，每条对应真实事件流记录",
    "blocker_type": "ENGINE",
    "blocker": "城市仓不在本机",
-   "state": "QUEUED",
-   "card": "R-PLAN-BIGLIFE-20261111",
+   "state": "STALLED",
+   "card": null,
    "running_on": null
   },
   {
@@ -207,8 +207,8 @@
    "accept": "拆解卡含 10 款的核心循环与付费点位，带来源链接",
    "blocker_type": "ENGINE",
    "blocker": "缺工序表与榜单抓取口径",
-   "state": "QUEUED",
-   "card": "R-PLAN-RECON-20261111",
+   "state": "STALLED",
+   "card": null,
    "running_on": null
   },
   {
@@ -229,8 +229,8 @@
  ],
  "counts": {
   "RUNNING": 0,
-  "QUEUED": 10,
-  "STALLED": 5
+  "QUEUED": 4,
+  "STALLED": 11
  },
- "stalled_engine": 1
+ "stalled_engine": 5
 }
