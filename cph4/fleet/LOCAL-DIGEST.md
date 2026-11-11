@@ -6983,3 +6983,4 @@
 - 11-11T10:27 · UNBLOCK-VERIFY-ICONS-BMA-20261111-bm-m.json · 已完成按回执补账动作，无风险。
 - 11-11T10:27 · UNBLOCK-GAP-ASSETLIB-BMA-2-acceptance.json · 完成机队回执提交，但被拒因非有效产物且存在合规风险。
 - 11-11T10:27 · UNBLOCK-GAP-ASSETLIB-BMA-2-bm-m.json · 已完成 GAP-ASSETLIB-BMA-2 回执，但存在因权限缺失导致无法执行的潜在风险。
+- 11-11T10:28 · _last_lane_bm-m.json · 任务因无可用分配被推迟，存在无法执行的风险。
