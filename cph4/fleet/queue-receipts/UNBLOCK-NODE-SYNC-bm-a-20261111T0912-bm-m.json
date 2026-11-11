@@ -2,7 +2,7 @@
  "id": "UNBLOCK-NODE-SYNC-bm-a-20261111T0912",
  "node": "bm-m",
  "rc": 0,
- "seconds": 0.3,
+ "seconds": 0.5,
  "cmd": "",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/repairs/NODE-SYNC-bm-a-20261111T0912-unblock.md",
  "deliverable_exists": true,
- "ts": "2026-11-11T09:56:43",
- "stdout_tail": "缺权限由 owner 机器执行。",
+ "ts": "2026-11-11T09:57:49",
+ "stdout_tail": "缺权限/缺人；管理员手动审批解锁；由所有者所在主机执行。",
  "stderr_tail": ""
 }
