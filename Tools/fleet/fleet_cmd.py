@@ -137,8 +137,10 @@ def card_state(a):
     if not a.yes:
         return {"ok": True, "dry": True, "would_set": a.state, "current": hit[0].get("state")}
     row = dict(hit[0])
-    row.update({"state": a.state, "note": (a.why or "")[:200]})
-    ss.upsert(a.station, row, a.root)
+    row.update({"state": a.state, "note": (a.why or "")[:200],
+                "why": a.why or "人工改状态"})
+    # 人工命令允许重开终态卡（自动路径不许）；必须带理由，留痕在 forced_reopen/history
+    ss.upsert(a.station, row, a.root, force=True)
     log("card:state", {"station": a.station, "id": a.id, "state": a.state, "why": a.why}, a.root)
     return {"ok": True, "id": a.id, "state": a.state}
 

@@ -83,7 +83,12 @@ def _write_lock(path):
 
 
 # 行级不变式：卡必须有 id 与 state；没有 product_id 的卡只允许出现在机制位（夜窗）。
-TERMINAL = ("DONE", "CANCELLED", "ARCHIVED", "FAILED")
+# 状态清单**只许从 state_machine 派生**（2026-11-12）：此前这里写
+# (DONE,CANCELLED,ARCHIVED,FAILED)、station_drive 写 (DONE,CANCELLED,SHELVED)，
+# 两套互不相认，ARCHIVED 与 SHELVED 行为正好相反。改状态机只改 JSON。
+import state_machine as _sm   # noqa: E402  （同目录，导入期失败即崩=正确行为）
+
+TERMINAL = _sm.terminal()
 
 
 def _root(root=None):
@@ -192,27 +197,47 @@ def write_queue(station, rows, root=None, allow_cross=False):
     return sum(1 for k in order if k in seen)
 
 
-def upsert(station, row, root=None, allow_cross=False):
+def upsert(station, row, root=None, allow_cross=False, force=False):
+    """两个不同的越权通道，都保留（2026-11-12 合并）：
+      allow_cross —— 显式允许写别家分片（主控派单/迁移用；护栏默认拒）
+      force       —— 人工重开终态卡（必须带 reason；自动路径一律不许回跳）
+    """
     with _write_lock(queue_path(station, root)):      # 读-改-写必须整体加锁，否则丢写
-        return _upsert_locked(station, row, root, allow_cross=allow_cross)
+        return _upsert_locked(station, row, root, allow_cross=allow_cross, force=force)
 
 
-def _upsert_locked(station, row, root=None, allow_cross=False):
+def _upsert_locked(station, row, root=None, allow_cross=False, force=False):
     rows = {str(r["id"]): r for r in read_queue(station, root)}
     prev = rows.get(str(row.get("id")))
     if prev:
         merged = dict(prev)
         merged.update(row)
-        # 终态被改回运行态必须留痕（2026-11-11 鲁棒性用例 R-06 实锚）：
-        # 允许人工重开，但不许静默——否则同一张卡被重复执行且事后查不到原因。
+        # 状态迁移校验（2026-11-12 起以 state_machine 为唯一权威）：
+        #  - 终态回跳（DONE->RUNNING 等）以前只留痕；现在留痕 + 计数，且**拒写**，
+        #    因为回跳等于同卡重复执行，留痕也救不回已经花掉的算力和被覆盖的产物。
+        #  - 其余非法迁移（OPEN->DONE 这种跳过执行的）先留痕放行：历史数据里可能有，
+        #    等批次3 把 attempt/next_retry_at 补齐后再收紧，避免一次把系统卡死。
         _a = str(prev.get("state") or "").upper()
         _b = str(row.get("state") or "").upper()
-        if _a in TERMINAL and _b and _b not in TERMINAL:
+        if _b and _a != _b:
+            okm, why = _sm.can_transition(_a, _b, strict=False)
+            need = {"from": prev.get("state"), "to": row.get("state"),
+                    "ts": __import__("time").strftime("%Y-%m-%dT%H:%M:%S"),
+                    "why": row.get("reason") or row.get("why") or "transition",
+                    "legal": okm}
+            if _a in TERMINAL and not force:
+                raise PermissionError(
+                    "终态回跳被拒：%s 的卡 %s 从 %s 改回 %s"
+                    "（自动路径不许回跳；要重开请用 fleet_cmd card state --yes --why 说明原因）"
+                    % ("/".join(TERMINAL), row.get("id"), _a, _b))
+            if _a in TERMINAL and force:
+                merged.setdefault("forced_reopen", 0)
+                merged["forced_reopen"] = int(merged["forced_reopen"]) + 1
             hist = list(prev.get("history") or [])
-            hist.append({"from": prev.get("state"), "to": row.get("state"),
-                         "ts": __import__("time").strftime("%Y-%m-%dT%H:%M:%S"),
-                         "why": row.get("reason") or row.get("why") or "reopen"})
+            hist.append(need)
             merged["history"] = hist[-20:]
+            if not okm:
+                merged["illegal_transition"] = int(prev.get("illegal_transition") or 0) + 1
         rows[str(row["id"])] = merged
     else:
         rows[str(row["id"])] = row
@@ -354,11 +379,30 @@ def self_test():
         # 7 分片互不影响
         write_queue("audio", [{"id": "C", "state": "OPEN"}], td)
         chk("isolated", len(read_queue("visual", td)) == 1 and len(read_queue("audio", td)) == 1)
+        # 8 状态清单必须从 state_machine 派生（唯一权威），不许回退成硬编码
+        import state_machine as _sm2
+        chk("terminal-derived", tuple(TERMINAL) == _sm2.terminal(),
+            "%s vs %s" % (TERMINAL, _sm2.terminal()))
+        # 9 终态回跳：自动路径拒、人工 force 放行并留痕
+        write_queue("visual", [{"id": "Z", "state": "DONE"}], td)
+        try:
+            upsert("visual", {"id": "Z", "state": "OPEN"}, td)
+            chk("no-auto-reopen", False)
+        except PermissionError:
+            pass
+        upsert("visual", {"id": "Z", "state": "OPEN", "why": "人工重开"}, td, force=True)
+        z = {r["id"]: r for r in read_queue("visual", td)}["Z"]
+        chk("forced-reopen", z.get("state") == "OPEN" and int(z.get("forced_reopen") or 0) == 1, z)
+        # 10 非法迁移（跳过执行）留痕并计数
+        upsert("visual", {"id": "Y", "state": "OPEN"}, td)
+        upsert("visual", {"id": "Y", "state": "DONE"}, td)
+        y = {r["id"]: r for r in read_queue("visual", td)}["Y"]
+        chk("illegal-counted", int(y.get("illegal_transition") or 0) == 1 and y.get("history"), y)
 
     if fails:
         print("SELFTEST FAIL: " + "; ".join(fails))
         return 1
-    print("SELFTEST OK: 7/7")
+    print("SELFTEST OK: 10/10")
     return 0
 
 

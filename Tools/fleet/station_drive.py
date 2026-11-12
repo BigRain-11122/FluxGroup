@@ -50,7 +50,12 @@ sys.path.insert(0, HERE)
 import station_shards as ss  # noqa: E402
 
 MANUAL_JUDGES = ("manual", "human")
-DONE_STATES = ("DONE", "CANCELLED", "SHELVED")
+# plan() 判定"这道工序是否已有卡、不用再建"用（从 state_machine 派生，不许再各写一份）。
+# 2026-11-12：原为本地常量 ("DONE","CANCELLED","SHELVED")，与 station_shards.TERMINAL
+# 是两套互不相认的定义，ARCHIVED/SHELVED 行为正好相反。注意语义是 rebuild（可重建），
+# 不是 closed（已结束）——BLOCKED 属停放但仍挡重建，否则缺输入的工序每轮刷一张卡。
+import state_machine as _smk   # noqa: E402
+DONE_STATES = _smk.rebuildable()
 
 
 def _now():

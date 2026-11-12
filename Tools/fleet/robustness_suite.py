@@ -144,12 +144,16 @@ def r06():
     td = _root()
     try:
         ss.upsert("visual", {"id": "S-1", "state": "DONE"}, root=td)
-        ss.upsert("visual", {"id": "S-1", "state": "RUNNING"}, root=td)
+        # 2026-11-12 收紧：原来只要求"留痕"，现在终态回跳直接拒写
+        # （留痕救不回已花的算力和被覆盖的产物；要重开请 copy 成新 id）。
+        refused = False
+        try:
+            ss.upsert("visual", {"id": "S-1", "state": "RUNNING"}, root=td)
+        except PermissionError:
+            refused = True
         rows = {r["id"]: r for r in ss.read_queue("visual", root=td)}
-        # 两种都可接受：拒绝改回（仍 DONE）或明确记录历史；不可接受的是静默改成 RUNNING 且无痕迹
         st = rows["S-1"].get("state")
-        hist = rows["S-1"].get("history") or []
-        return st == "DONE" or bool(hist), "state=%s history=%s" % (st, len(hist))
+        return refused and st == "DONE", "refused=%s state=%s" % (refused, st)
     finally:
         shutil.rmtree(td, ignore_errors=True)
 

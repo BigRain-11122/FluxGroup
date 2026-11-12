@@ -60,6 +60,7 @@ CASES = [
     ("L1", "docs curate 文档整理", "docs_curate.py", ["--self-test"]),
     ("L1", "automation plan 排班校验", "automation_plan.py", ["--self-test"]),
     ("L1", "identity 身份唯一权威", "fleet_identity.py", ["--self-test"]),
+    ("L1", "state machine 状态机权威", "state_machine.py", ["--self-test"]),
     ("L2", "工况 QA 12 例", "station_qa.py", []),
     ("L2", "鲁棒性 10 例", "robustness_suite.py", []),
     ("L2", "条件矩阵 80 格", "condition_matrix.py", ["--rounds", "2"]),
