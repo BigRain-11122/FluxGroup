@@ -1,7 +1,11 @@
 {
  "_comment": "新工作流的自动化排班（2026-11-11 CEO「你自己列好自动化的任务，全面测试和推进这个新工作流」）。机器可读；校验器=Tools/fleet/automation_plan.py。改排班只改本文件，不散落在各脚本里。",
  "_version": "v1-20261111",
- "interpreter": {"windows": "python", "darwin": "python3", "linux": "python3"},
+ "interpreter": {
+  "windows": "python",
+  "darwin": "python3",
+  "linux": "python3"
+ },
  "rules": [
   "每个任务必须四件齐：cmd、cadence_s、owner_station、output（或 explicit_no_output），缺一件校验器判红",
   "写同一个 output 的任务不得在同一分钟触发（避免互相覆盖）",
@@ -10,69 +14,215 @@
   "任何任务不许以「等 CEO/等授权」为由停摆；不可逆/对外/花钱三类必须买家判闸"
  ],
  "tasks": [
-  {"id": "SYNC-PULL", "station": "all", "cadence_s": 300, "cmd": "git pull --rebase --autostash", "output": null,
-   "why": "所有机器每 5 分钟同步一次，命令面靠它落地", "on_fail": "报 sync-lag，连续 3 次转 BLOCKED"},
-  {"id": "ENV-PROBE", "station": "all", "cadence_s": 86400, "cmd": "{py} Tools/fleet/env_probe.py --write",
-   "output": "cph4/fleet/env/<station>.json", "why": "环境事实必须由机器自报，主控只做比对", "on_fail": "该机判未探测"},
-  {"id": "SELF-DRIVE", "station": "delivery|visual|audio|brain|control", "cadence_s": 300,
-   "cmd": "{py} Tools/fleet/station_drive.py --once", "output": "cph4/fleet/rt/<station>/",
-   "why": "自驱主循环：感知→供给→领活→执行→验收→回执", "on_fail": "写 BLOCKED 理由，不许静默重试"},
-  {"id": "AGENT-PATROL", "station": "delivery|visual|audio", "cadence_s": 3600,
-   "cmd": "{py} Tools/fleet/station_agent.py --station <station> --once", "output": "cph4/fleet/state/agent-<station>.json",
+  {
+   "id": "SYNC-PULL",
+   "station": "all",
+   "cadence_s": 300,
+   "cmd": "git pull --rebase --autostash",
+   "output": null,
+   "why": "所有机器每 5 分钟同步一次，命令面靠它落地",
+   "on_fail": "报 sync-lag，连续 3 次转 BLOCKED"
+  },
+  {
+   "id": "ENV-PROBE",
+   "station": "all",
+   "cadence_s": 86400,
+   "cmd": "{py} Tools/fleet/env_probe.py --write",
+   "output": "cph4/fleet/env/<station>.json",
+   "why": "环境事实必须由机器自报，主控只做比对",
+   "on_fail": "该机判未探测"
+  },
+  {
+   "id": "SELF-DRIVE",
+   "station": "delivery|visual|audio|brain|control",
+   "cadence_s": 300,
+   "cmd": "{py} Tools/fleet/station_drive.py --once",
+   "output": "cph4/fleet/rt/<station>/",
+   "why": "自驱主循环：感知→供给→领活→执行→验收→回执",
+   "on_fail": "写 BLOCKED 理由，不许静默重试"
+  },
+  {
+   "id": "AGENT-PATROL",
+   "station": "delivery|visual|audio",
+   "cadence_s": 3600,
+   "cmd": "{py} Tools/fleet/station_agent.py --station <station> --once",
+   "output": "cph4/fleet/state/agent-<station>.json",
    "calls_per_run": 1,
-   "why": "每小时巡自己一次，产出发现；不改卡、不自证（有发现才调模型，按 1 次上界估）", "on_fail": "记一条发现，不重试"},
-  {"id": "QUALITY-SCORE", "station": "control", "cadence_s": 86400,
-   "cmd": "{py} Tools/fleet/quality_score.py", "output": "cph4/fleet/state/quality-score.json",
-   "why": "每日总分与残余阻塞，趋势入 history", "on_fail": "分数标 STALE，不许沿用昨天的数"},
-  {"id": "SELF-LOOP", "station": "control", "cadence_s": 7200,
-   "cmd": "{py} Tools/fleet/self_loop.py --rounds 2", "output": "cph4/fleet/state/quality-history.jsonl",
-   "why": "跑分→修登记项→再跑分（只修确定性动作）", "on_fail": "停手并报哪一步失败"},
-  {"id": "AUDIT-DEEP", "station": "control", "cadence_s": 86400,
-   "cmd": "{py} Tools/fleet/audit_deep.py", "output": "cph4/fleet/state/audit-deep.json",
-   "why": "查漏补缺：P0 停手、P1 该修、P2 卫生", "on_fail": "有 P0 立即停线并上报"},
-  {"id": "DOCS-CHECK", "station": "control", "cadence_s": 86400,
-   "cmd": "{py} Tools/fleet/docs_curate.py --check", "output": "cph4/fleet/state/docs-plan.json",
-   "why": "正典指针可解析 + 重复件清空", "on_fail": "报失效指针，不许删了事"},
-  {"id": "TEST-FULL", "station": "control", "cadence_s": 86400,
-   "cmd": "{py} Tools/fleet/run_all_tests.py", "output": "cph4/fleet/state/all-tests.json",
-   "why": "夜间全量（36 层）；真故障与状态判决分开", "on_fail": "次日 06:00 交班前必须给出结论"},
-  {"id": "CMD-LATENCY", "station": "control", "cadence_s": 21600,
-   "cmd": "{py} Tools/fleet/cmd_latency.py", "output": "cph4/fleet/state/cmd-latency.json",
-   "why": "命令面延迟与可达性（P0 路径 ≤15s、常规 ≤60s）", "on_fail": "超预算即报，别等 CEO 发现"},
-  {"id": "NOTIFY-PROBE", "station": "control", "cadence_s": 3600,
-   "cmd": "{py} Tools/fleet/notify.py", "output": null,
+   "why": "每小时巡自己一次，产出发现；不改卡、不自证（有发现才调模型，按 1 次上界估）",
+   "on_fail": "记一条发现，不重试"
+  },
+  {
+   "id": "QUALITY-SCORE",
+   "station": "control",
+   "cadence_s": 86400,
+   "cmd": "{py} Tools/fleet/quality_score.py",
+   "output": "cph4/fleet/state/quality-score.json",
+   "why": "每日总分与残余阻塞，趋势入 history",
+   "on_fail": "分数标 STALE，不许沿用昨天的数",
+   "report": true,
+   "report_why": "rc=1 表示状态未达标（有扣分项/有 OPEN 项/有 P1），属判决不算故障"
+  },
+  {
+   "id": "SELF-LOOP",
+   "station": "control",
+   "cadence_s": 7200,
+   "cmd": "{py} Tools/fleet/self_loop.py --rounds 2",
+   "output": "cph4/fleet/state/quality-history.jsonl",
+   "why": "跑分→修登记项→再跑分（只修确定性动作）",
+   "on_fail": "停手并报哪一步失败",
+   "report": true,
+   "report_why": "rc=1 表示状态未达标（有扣分项/有 OPEN 项/有 P1），属判决不算故障"
+  },
+  {
+   "id": "AUDIT-DEEP",
+   "station": "control",
+   "cadence_s": 86400,
+   "cmd": "{py} Tools/fleet/audit_deep.py",
+   "output": "cph4/fleet/state/audit-deep.json",
+   "why": "查漏补缺：P0 停手、P1 该修、P2 卫生",
+   "on_fail": "有 P0 立即停线并上报",
+   "report": true,
+   "report_why": "rc=1 表示状态未达标（有扣分项/有 OPEN 项/有 P1），属判决不算故障"
+  },
+  {
+   "id": "DOCS-CHECK",
+   "station": "control",
+   "cadence_s": 86400,
+   "cmd": "{py} Tools/fleet/docs_curate.py --check",
+   "output": "cph4/fleet/state/docs-plan.json",
+   "why": "正典指针可解析 + 重复件清空",
+   "on_fail": "报失效指针，不许删了事",
+   "report": true,
+   "report_why": "rc=1 表示状态未达标（有扣分项/有 OPEN 项/有 P1），属判决不算故障"
+  },
+  {
+   "id": "TEST-FULL",
+   "station": "control",
+   "cadence_s": 86400,
+   "cmd": "{py} Tools/fleet/run_all_tests.py",
+   "output": "cph4/fleet/state/all-tests.json",
+   "why": "夜间全量（36 层）；真故障与状态判决分开",
+   "on_fail": "次日 06:00 交班前必须给出结论",
+   "report": true,
+   "report_why": "rc=1 表示状态未达标（有扣分项/有 OPEN 项/有 P1），属判决不算故障"
+  },
+  {
+   "id": "CMD-LATENCY",
+   "station": "control",
+   "cadence_s": 21600,
+   "cmd": "{py} Tools/fleet/cmd_latency.py",
+   "output": "cph4/fleet/state/cmd-latency.json",
+   "why": "命令面延迟与可达性（P0 路径 ≤15s、常规 ≤60s）",
+   "on_fail": "超预算即报，别等 CEO 发现"
+  },
+  {
+   "id": "NOTIFY-PROBE",
+   "station": "control",
+   "cadence_s": 3600,
+   "cmd": "{py} Tools/fleet/notify.py",
+   "output": null,
    "calls_per_run": 0,
-   "why": "只探不发：看谁能在 1 分钟内收到命令（只打印，不落盘——原写 cmd-latency.json 会与 CMD-LATENCY 抢同一文件）", "on_fail": "记 unreachable 名单"},
-  {"id": "MODEL-RADAR", "station": "control", "cadence_s": 86400,
-   "cmd": "{py} Tools/fleet/model_radar.py run", "output": "cph4/fleet/state/model-radar.json",
+   "why": "只探不发：看谁能在 1 分钟内收到命令（只打印，不落盘——原写 cmd-latency.json 会与 CMD-LATENCY 抢同一文件）",
+   "on_fail": "记 unreachable 名单"
+  },
+  {
+   "id": "MODEL-RADAR",
+   "station": "control",
+   "cadence_s": 86400,
+   "cmd": "{py} Tools/fleet/model_radar.py run",
+   "output": "cph4/fleet/state/model-radar.json",
    "calls_per_run": 60,
-   "why": "本地模型每日体检（质量/速度/digest）：黄金集 8 题 × runs=3 × 被评模型数，按 60 次上界估", "on_fail": "保留昨日基线，别把退化当正常"},
-  {"id": "RETRO", "station": "control", "cadence_s": 604800,
-   "cmd": "{py} Tools/fleet/retro.py", "output": "cph4/fleet/RETRO.md",
-   "why": "经验必须挂可核验落点才算推广", "on_fail": "有未落点项就报，不许写成已推广"},
-  {"id": "BRAIN-STRESS", "station": "control", "cadence_s": 604800,
+   "why": "本地模型每日体检（质量/速度/digest）：黄金集 8 题 × runs=3 × 被评模型数，按 60 次上界估",
+   "on_fail": "保留昨日基线，别把退化当正常"
+  },
+  {
+   "id": "RETRO",
+   "station": "control",
+   "cadence_s": 604800,
+   "cmd": "{py} Tools/fleet/retro.py",
+   "output": "cph4/fleet/RETRO.md",
+   "why": "经验必须挂可核验落点才算推广",
+   "on_fail": "有未落点项就报，不许写成已推广",
+   "report": true,
+   "report_why": "rc=1 表示状态未达标（有扣分项/有 OPEN 项/有 P1），属判决不算故障"
+  },
+  {
+   "id": "BRAIN-STRESS",
+   "station": "control",
+   "cadence_s": 604800,
    "cmd": "{py} Tools/fleet/brain_stress.py --mode all --levels 1,2 --per-level 2",
    "output": "cph4/fleet/state/brain-stress.json",
    "calls_per_run": 14,
-   "why": "每周一次有界压测（硬闸 ≤14 次短调用），验端点退避与容量模型", "on_fail": "端点不可达时只报结论，不重试"},
-  {"id": "CONDITION-MATRIX", "station": "control", "cadence_s": 86400,
-   "cmd": "{py} Tools/fleet/condition_matrix.py --rounds 3", "output": "cph4/fleet/state/condition-matrix.jsonl",
-   "why": "环境条件矩阵循环（不同机器 × 不同偏差）", "on_fail": "有格失败即报，附期望值与实得值"},
-  {"id": "ROBUSTNESS", "station": "control", "cadence_s": 86400,
-   "cmd": "{py} Tools/fleet/robustness_suite.py", "output": null,
-   "why": "极端工况（并发写/坏文件/状态机/数量级）", "on_fail": "任一条不过即报"},
-  {"id": "ACCEPTANCE", "station": "control", "cadence_s": 3600,
-   "cmd": "{py} Tools/fleet/master_patrol.py", "output": "cph4/fleet/PATROL.md",
-   "why": "抽验：重算 sha256、人判件不许标 DONE、三级降级", "on_fail": "写出手清单，交主控裁决"},
-  {"id": "FLEET-DOC", "station": "control", "cadence_s": 86400,
-   "cmd": "{py} Tools/fleet/fleet_doc.py --write", "output": "cph4/fleet/FLEET-SPEC.md",
-   "why": "配置即文档：改配置重生成，漂移归零", "on_fail": "漂移不为 0 就报"},
-  {"id": "TEST-CATALOG", "station": "control", "cadence_s": 604800,
-   "cmd": "{py} Tools/fleet/test_catalog.py --write", "output": "cph4/fleet/TEST-PLAN-v2.md",
-   "why": "测试目录跟着模块自动更新，不许手写", "on_fail": "生成失败即报"}
+   "why": "每周一次有界压测（硬闸 ≤14 次短调用），验端点退避与容量模型",
+   "on_fail": "端点不可达时只报结论，不重试"
+  },
+  {
+   "id": "CONDITION-MATRIX",
+   "station": "control",
+   "cadence_s": 86400,
+   "cmd": "{py} Tools/fleet/condition_matrix.py --rounds 3",
+   "output": "cph4/fleet/state/condition-matrix.jsonl",
+   "why": "环境条件矩阵循环（不同机器 × 不同偏差）",
+   "on_fail": "有格失败即报，附期望值与实得值",
+   "report": true,
+   "report_why": "rc=1 表示状态未达标（有扣分项/有 OPEN 项/有 P1），属判决不算故障"
+  },
+  {
+   "id": "ROBUSTNESS",
+   "station": "control",
+   "cadence_s": 86400,
+   "cmd": "{py} Tools/fleet/robustness_suite.py",
+   "output": null,
+   "why": "极端工况（并发写/坏文件/状态机/数量级）",
+   "on_fail": "任一条不过即报",
+   "report": true,
+   "report_why": "rc=1 表示状态未达标（有扣分项/有 OPEN 项/有 P1），属判决不算故障"
+  },
+  {
+   "id": "ACCEPTANCE",
+   "station": "control",
+   "cadence_s": 3600,
+   "cmd": "{py} Tools/fleet/master_patrol.py",
+   "output": "cph4/fleet/PATROL.md",
+   "why": "抽验：重算 sha256、人判件不许标 DONE、三级降级",
+   "on_fail": "写出手清单，交主控裁决",
+   "report": true,
+   "report_why": "rc=1 表示状态未达标（有扣分项/有 OPEN 项/有 P1），属判决不算故障"
+  },
+  {
+   "id": "FLEET-DOC",
+   "station": "control",
+   "cadence_s": 86400,
+   "cmd": "{py} Tools/fleet/fleet_doc.py --write",
+   "output": "cph4/fleet/FLEET-SPEC.md",
+   "why": "配置即文档：改配置重生成，漂移归零",
+   "on_fail": "漂移不为 0 就报"
+  },
+  {
+   "id": "TEST-CATALOG",
+   "station": "control",
+   "cadence_s": 604800,
+   "cmd": "{py} Tools/fleet/test_catalog.py --write",
+   "output": "cph4/fleet/TEST-PLAN-v2.md",
+   "why": "测试目录跟着模块自动更新，不许手写",
+   "on_fail": "生成失败即报"
+  }
  ],
  "gates": {
-  "manual_required": ["对外发布", "花钱/采购", "不可逆删除", "红线裁决"],
-  "machine_ok": ["派卡", "重跑", "归档", "补回执", "重生成文档", "告警"]
- }
+  "manual_required": [
+   "对外发布",
+   "花钱/采购",
+   "不可逆删除",
+   "红线裁决"
+  ],
+  "machine_ok": [
+   "派卡",
+   "重跑",
+   "归档",
+   "补回执",
+   "重生成文档",
+   "告警"
+  ]
+ },
+ "_comment_report": "report=true 的任务：rc=1 是判决（状态未达标），rc>=2 或异常才算故障。否则每天都会报'评分失败'，假红淹没真红（历史教训）。"
 }

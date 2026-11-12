@@ -123,7 +123,10 @@ def run_one(task, station, timeout=1800):
         rc, out = -9, "TIMEOUT after %ss" % timeout
     except Exception as e:
         rc, out = -1, "EXEC-ERROR: %s" % e
-    return {"id": task.get("id"), "rc": rc, "sec": round(time.time() - t0, 1),
+    # report 型任务：rc=1 是判决（状态未达标），不是故障；rc>=2/超时/异常才算失败。
+    ok = (rc == 0) or (task.get("report") and rc == 1)
+    return {"id": task.get("id"), "rc": rc, "ok": ok, "sec": round(time.time() - t0, 1),
+            "report": bool(task.get("report")),
             "tail": out.strip().splitlines()[-3:] if out.strip() else []}
 
 
@@ -269,7 +272,7 @@ def main(argv=None):
             print("  %-22s rc=%-4s %5.1fs" % (x["id"], x["rc"], x["sec"]))
         for s in r["skipped"]:
             print("  跳过 %-18s %s" % (s["task"], s["why"]))
-    return 0 if all(x["rc"] == 0 for x in r.get("ran") or []) else 1
+    return 0 if all(x.get("ok", x["rc"] == 0) for x in r.get("ran") or []) else 1
 
 
 if __name__ == "__main__":
