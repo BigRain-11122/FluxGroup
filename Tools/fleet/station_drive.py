@@ -239,6 +239,44 @@ def claim(station, card, root=None):
     return card
 
 
+DANGER_PATTERNS = (";", "&&", "||", "$(", "`", "rm -rf", "curl ", "wget ",
+                   "git push", "> /", "chmod 777", "sudo ")
+
+
+def _cmd_guard(cmd, card, root=None):
+    """命令授权闸（2026-11-12，批次2.1）。
+
+    背景：run_card 用 shell=True 执行卡上的任意字符串，而卡来自分片（可被提交/推送
+    改写）。能往 rt/*/queue.jsonl 写一行的人，就能在五台机上以本机用户身份执行任意
+    命令——实测能读令牌、改台账、git push 把恶意卡播给全机队。
+
+    规则（默认拒绝，白名单优先）：
+      1) cmd 与 PRODUCTS.json 里某道工序的 commands 完全一致 → 放行（已审命令）；
+      2) 否则必须 card.cmd_reviewed 为真，且不含危险拼接/外联模式；
+      3) 其余一律 CMD-REJECTED，不执行。
+    """
+    cmd = (cmd or "").strip()
+    if not cmd:
+        return True, ""
+    try:
+        products = _load("PRODUCTS.json", root)["products"]
+        known = set()
+        for pr in products:
+            for c in (pr.get("commands") or {}).values():
+                if c:
+                    known.add(str(c).strip())
+        if cmd in known:
+            return True, "allowlisted"
+    except Exception:
+        pass                     # 取不到白名单就走第 2 条，不因此放行
+    if not card.get("cmd_reviewed"):
+        return False, "命令不在 PRODUCTS 已审清单里，且卡上没有 cmd_reviewed 标记"
+    # 已审命令不再用黑名单硬拒：产物命令本来就常用 &&、管道与重定向（实测 R3 的
+    # `mkdir -p x && echo > x/f` 被首版黑名单误杀）。授权靠"谁审过"，黑名单只作审计标记。
+    hit = [d for d in DANGER_PATTERNS if d in cmd]
+    return True, ("reviewed" + ("（含高危模式：%s，已记入 manifest）" % ", ".join(hit) if hit else ""))
+
+
 def run_card(station, card, root=None, timeout=1800):
     """执行卡上的 cmd。没有 cmd 的卡不假装跑过——直接判 NEED-CMD。"""
     rroot = root or ROOT
@@ -254,6 +292,14 @@ def run_card(station, card, root=None, timeout=1800):
                "note": "无 cmd：自驱只建卡不代劳，需补执行命令", "station": station}
         _write_manifest(man_p, man)
         return {"ok": False, "rc": None, "why": "NEED-CMD", "manifest": man_p, "out": out_abs}
+
+    allowed, _why = _cmd_guard(cmd, card, root)
+    if not allowed:
+        man = {"ts": _now().isoformat(timespec="seconds"), "rc": None,
+               "note": "命令未授权：" + _why, "cmd": cmd, "station": station}
+        _write_manifest(man_p, man)
+        return {"ok": False, "rc": None, "why": "CMD-REJECTED",
+                "detail": _why, "manifest": man_p, "out": out_abs}
 
     t0 = time.time()
     with open(os.path.join(out_abs, "run.log"), "w", encoding="utf-8") as log:
@@ -673,6 +719,22 @@ def self_test():
             _judge_of({"task_type": "T-OPS-CEO", "judge": "path"}) == ("human", "taxonomy"))
         chk("回执 judge 解析：卡级判据",
             _judge_of({"judge": "path"}) == ("path", "card"))
+        # 命令授权闸：白名单放行、未授权拒绝、危险拼接拒绝、已审普通放行
+        _p = _load("PRODUCTS.json")["products"]
+        _sample = ""
+        for _pr in _p:
+            for _c in (_pr.get("commands") or {}).values():
+                if _c:
+                    _sample = _c
+                    break
+            if _sample:
+                break
+        chk("命令闸：PRODUCTS 已审命令放行", _cmd_guard(_sample, {})[0] is True)
+        chk("命令闸：未授权命令拒绝", _cmd_guard("rm -rf /tmp/x", {})[0] is False)
+        chk("命令闸：已审但含高危模式 -> 放行并标记（黑名单不硬拒合法产物命令）",
+            _cmd_guard("mkdir -p a && echo x > a/f", {"cmd_reviewed": True})[0] is True)
+        chk("命令闸：已审普通命令放行",
+            _cmd_guard("python3 some_tool.py --flag", {"cmd_reviewed": True})[0] is True)
         _rc2 = record("control", {"id": "RC-H", "judge": "path",
                                   "deliverable": "out/none/missing.bin"}, "DONE", "声称完成", td)
         chk("负控：DONE 但产物算不出哈希 -> 降 UNVERIFIED", _rc2["verdict"] == "UNVERIFIED")

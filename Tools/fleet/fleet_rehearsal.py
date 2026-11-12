@@ -148,7 +148,7 @@ def r3():
                              "stage": "judge_only", "task_type": "T-PANEL",
                              "created_by": "self-drive",
                              "judge": "panel", "deliverable": "out/p2/x",
-                             "cmd": "mkdir -p out/p2/x && echo x > out/p2/x/f"}, td)
+                             "cmd": "mkdir -p out/p2/x && echo x > out/p2/x/f", "cmd_reviewed": True}, td)
         sd.once("visual", td, now=datetime.now(), run_limit=3)
         row = [x for x in cards(td, "visual") if x["id"] == "c1"][0]
         return (row["state"] == "REVISE", "卡状态=%s" % row["state"])
@@ -270,7 +270,7 @@ def r11():
         ss.upsert("visual", {"id": "killed", "state": "RUNNING", "owner": "visual",
                              "claimed_at": (t - timedelta(hours=2)).isoformat(timespec="seconds"),
                              "product_id": "P1", "stage": "make", "task_type": "T-PROD",
-                             "cmd": "mkdir -p out/p1/make && echo ok > out/p1/make/f.bin",
+                             "cmd": "mkdir -p out/p1/make && echo ok > out/p1/make/f.bin", "cmd_reviewed": True,
                              "deliverable": "out/p1/make/", "judge": "path"}, td)
         out = sd.once("visual", td, now=t, run_limit=3)
         row = [x for x in cards(td, "visual") if x["id"] == "killed"][0]
