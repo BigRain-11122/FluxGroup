@@ -8,6 +8,8 @@ v3 的自驱（station_drive）**没有任何执行体**，所以 AUTOMATION-v1 
 永远只是纸面（校验器已改判 PLAN-ONLY，但纸不会自己动）。
 
 本脚本只做一件事：把 com.fluxgroup.drive.plist 按本机实际路径写好。
+入口是 automation_runner.py（2026-11-12 改）：它读 AUTOMATION-v1 执行**所有**到期任务，
+station_drive 只是排班里的 SELF-DRIVE 一条；直接跑 station_drive 会让其余 18 条永远是纸。
 默认 **只生成不加载**（CEO 2026-11-11「全部暂停，等我梳理工作流」仍在生效）；
 要真启用必须显式 --load，且应先过 go_live_preflight.py。
 
@@ -48,7 +50,6 @@ def render(interval=300, station=None):
   <array>
     <string>%s</string>
     <string>%s</string>
-    <string>--once</string>
   </array>
   <key>StartInterval</key>
   <integer>%d</integer>
@@ -62,7 +63,7 @@ def render(interval=300, station=None):
   <string>Background</string>
 </dict>
 </plist>
-""" % (LABEL, sys.executable, os.path.join(ROOT, "Tools", "fleet", "station_drive.py"),
+""" % (LABEL, sys.executable, os.path.join(ROOT, "Tools", "fleet", "automation_runner.py"),
        interval, log, err, env)
 
 
@@ -96,8 +97,8 @@ def main(argv=None):
         for iv in (300, 60):
             d = plistlib.loads(render(iv).encode())
             chk("plist 可解析（interval=%d）" % iv, d.get("Label") == LABEL, d.get("Label"))
-            chk("含 station_drive --once（interval=%d）" % iv,
-                any("station_drive.py" in str(x) for x in d.get("ProgramArguments") or []),
+            chk("含 automation_runner（interval=%d）" % iv,
+                any("automation_runner.py" in str(x) for x in d.get("ProgramArguments") or []),
                 d.get("ProgramArguments"))
             chk("周期=%d" % iv, d.get("StartInterval") == iv, d.get("StartInterval"))
         chk("负控：周期<=0 不是本工具的合法输入", render(0).count("<integer>0</integer>") == 1)
@@ -132,7 +133,7 @@ def main(argv=None):
         if r.returncode != 0:
             print("加载失败（rc=%d）：%s" % (r.returncode, (r.stderr or "").strip()[:200]))
             return 1
-        print("已加载 %s（每 %d 秒跑一次 station_drive --once）" % (LABEL, a.interval))
+        print("已加载 %s（每 %d 秒跑一轮 automation_runner：按 AUTOMATION-v1 排班执行到期任务）" % (LABEL, a.interval))
     except Exception as e:
         print("加载异常：%s" % e)
         return 1

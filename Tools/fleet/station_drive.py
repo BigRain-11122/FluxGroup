@@ -211,7 +211,11 @@ def make_card(station, item, day=None, now=None):
     day = day or (now or _now()).strftime("%Y%m%d")
     pid, stage = item["product"], item["stage"]
     return {
-        "id": "SD-%s-%s-%s-%s" % (station, pid, stage.replace(" ", ""), day),
+        # 2026-11-12：id 加时分。原来只到日（同一天重跑同一工序会生成同名卡），
+        # 而终态回跳护栏会拒绝把已有的 DONE 卡改回 OPEN —— 结果是"当天第二次及以后
+        # 的重建全部失败"（调度器首轮实测 SELF-DRIVE rc=1）。同工序重跑必须是新卡。
+        "id": "SD-%s-%s-%s-%s-%s" % (station, pid, stage.replace(" ", ""), day,
+                                     (now or _now()).strftime("%H%M")),
         "title": "[self-drive] %s · %s" % (pid, stage),
         "product_id": pid,
         "stage": stage,
