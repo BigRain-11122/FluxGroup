@@ -121,28 +121,30 @@ def case_supply():
         chk("A1 连续 6 轮同工序只建 1 张卡", len(cs) == 1, [c["id"] for c in cs])
         chk("A1 该卡已 DONE", bool(cs) and cs[0].get("state") == "DONE", cs)
 
-    # A1b 负控：卡在**别的分片**时，拆掉跨分片视图 -> 必须重建（证明闸真在起作用）
+    # A1b 负控：拆掉归一化 -> 老格式卡认不出 -> 必须重建
     with box() as td:
-        _running(td, "visual", "V-RUN2", 1, product_id="PROD-P1", stage="草稿")
-        orig = ss.inflight
-        ss.inflight = lambda *a, **k: {}
+        ss.upsert("control", {"id": "C-OLD2", "title": "[self-drive] PROD-P1 · 草稿",
+                              "state": "RUNNING",
+                              "claimed_at": datetime.now().isoformat(timespec="seconds")}, td)
+        orig = ss.stage_key
+        ss.stage_key = lambda row: None
         try:
             want, _ = sd.plan("control", td)
         finally:
-            ss.inflight = orig
-        chk("A1b 负控：拆掉 inflight -> 跨分片看不见，会重复建", want != [], want)
+            ss.stage_key = orig
+        chk("A1b 负控：拆掉归一化 -> 老格式看不见，会重复建", want != [], want)
 
-    # A2 同工序的卡落在别的分片（RUNNING）-> 本工位不建
+    # A2 本分片有在飞卡（RUNNING）-> 不重建
     with box() as td:
-        _running(td, "visual", "V-RUN", 1, product_id="PROD-P1", stage="草稿")
+        _running(td, "control", "C-RUN", 1, product_id="PROD-P1", stage="草稿")
         want, _ = sd.plan("control", td)
-        chk("A2 别的分片有在飞卡 -> 不重建", want == [], want)
+        chk("A2 本分片有在飞卡 -> 不重建", want == [], want)
 
-    # A3 老格式卡（没有 product_id，只有标题）也要能挡住
+    # A3 本分片老格式卡（没有 product_id，只有标题）也要能挡住
     with box() as td:
-        ss.upsert("visual", {"id": "V-OLD", "title": "[self-drive] PROD-P1 · 草稿",
-                             "state": "RUNNING",
-                             "claimed_at": datetime.now().isoformat(timespec="seconds")}, td)
+        ss.upsert("control", {"id": "C-OLD", "title": "[self-drive] PROD-P1 · 草稿",
+                              "state": "RUNNING",
+                              "claimed_at": datetime.now().isoformat(timespec="seconds")}, td)
         want, _ = sd.plan("control", td)
         chk("A3 老格式卡（只靠标题）也能挡住重建", want == [], want)
 
@@ -189,42 +191,43 @@ def case_supply():
 
 # ---------------------------------------------------------------- B 僵尸救援
 def case_rescue():
-    # B1 负控：心跳新鲜 -> 一张都不许动
+    # B1 负控：心跳新鲜 -> 一张都不列
     with box() as td:
         _running(td, "visual", "V-LIVE", 600)
         ss.heartbeat_write("visual", td)
-        got, note = sd.rescue_stale("control", td)
-        chk("B1 负控：心跳新鲜 -> 不救援", got == [] and "不动" in note, (got, note))
+        got, note = sd.stale_cards("control", td)
+        chk("B1 负控：心跳新鲜 -> 不列", got == [], got)
 
-    # B2 心跳缺失 -> 主控代回收（带留痕）
+    # B2 心跳缺失 -> 只列出来，分片必须一字未改（主控不代写）
     with box() as td:
         _running(td, "visual", "V-DEAD", 600)
-        got, note = sd.rescue_stale("control", td)
+        got, note = sd.stale_cards("control", td)
         rows = {c["id"]: c for c in ss.read_queue("visual", td)}
-        chk("B2 心跳缺失 -> 回收为 OPEN 且带 rescue_by",
-            len(got) == 1 and rows["V-DEAD"]["state"] == "OPEN"
-            and rows["V-DEAD"].get("rescue_by") == "control",
-            (got, rows.get("V-DEAD")))
+        chk("B2 心跳缺失 -> 列出但分片一字未改",
+            len(got) == 1 and rows["V-DEAD"]["state"] == "RUNNING"
+            and not rows["V-DEAD"].get("rescue_by"), (got, rows.get("V-DEAD")))
 
-    # B3 心跳超时但卡龄未超宽限 -> 不救（防误杀刚接手的机器）
+    # B3 未超 3 倍租约 -> 不列，只留观察项（不许提前杀）
     with box() as td:
         _running(td, "visual", "V-YOUNG", 10)
-        hb = ss.heartbeat_write("visual", td)
-        hb["ts"] = (datetime.now() - timedelta(minutes=60)).isoformat(timespec="seconds")
-        json.dump(hb, open(ss.heartbeat_path("visual", td), "w", encoding="utf-8"))
-        got, _ = sd.rescue_stale("control", td)
-        chk("B3 卡龄未超宽限 -> 不救", got == [], got)
+        got, note = sd.stale_cards("control", td)
+        chk("B3 未超宽限 -> 不列但留观察项", got == [] and "先观察" in note, (got, note))
 
-    # B4 非主控不许跨机救援（多机互救会互相踩）
+    # B4 没有 RUNNING 卡 -> 空动作，不制造噪声
     with box() as td:
-        _running(td, "visual", "V-X", 600)
-        got, note = sd.rescue_stale("visual", td)
-        chk("B4 非主控调用 -> 一律不做", got == [] and "只有主控" in note, (got, note))
+        got, note = sd.stale_cards("control", td)
+        chk("B4 无 RUNNING 卡 -> 空动作", got == [] and note == "", (got, note))
 
-    # B5 没有 RUNNING 卡时不产生任何动作（不刷噪声）
+    # B5 归位检查：卡放错分片 -> 报 MISPLACED-CARD，但不搬（搬是持有者的写权）
     with box() as td:
-        got, note = sd.rescue_stale("control", td)
-        chk("B5 无 RUNNING 卡 -> 空动作", got == [] and note == "", (got, note))
+        ss.upsert("visual", {"id": "V-WRONG", "station": "control",
+                             "product_id": "PROD-P1", "stage": "草稿",
+                             "state": "OPEN"}, td)
+        iss = mp._stale_and_misplaced(td)
+        rows = {c["id"]: c for c in ss.read_queue("visual", td)}
+        chk("B5 错位卡 -> 报出且不搬",
+            any(i["kind"] == "MISPLACED-CARD" and "V-WRONG" in i["who"] for i in iss)
+            and "V-WRONG" in rows, iss)
 
 
 # ---------------------------------------------------------------- C 抽验四态
@@ -320,6 +323,40 @@ def case_e2e():
         chk("E3 每轮都写心跳（执行体可被判活）", hb and hb.get("round", 0) >= 4, hb)
 
 
+# ---------------------------------------------------------------- F 本地闭环
+def case_local_closure():
+    """一台机器只靠自己的分片走完全程，且别的分片一字未动。
+
+    这是 CEO 2026-11-12 定的架构底线：本地机器本地闭环，主控只赋能不代劳。
+    """
+    prods = [{"id": "PROD-V", "stages": ["出图"],
+              "outputs": {"出图": "out/v.txt"},
+              "commands": {"出图": "echo v > out/v.txt"}}]
+    types = [{"id": "T-V", "stations": ["visual"], "refresh_h": 24, "judge": "path"}]
+    with box(products=prods, types=types,
+             stage_map={"PROD-V": {"出图": "T-V"}}) as td:
+        def others_state():
+            st = {}
+            for x in ss.STATIONS:
+                p = os.path.join(td, "cph4", "fleet", "rt", x, "queue.jsonl")
+                st[x] = (os.path.exists(p),
+                         os.path.getsize(p) if os.path.exists(p) else 0,
+                         int(os.path.getmtime(p)) if os.path.exists(p) else 0)
+            return st
+
+        before = others_state()
+        for _ in range(3):
+            sd.once("visual", td)
+        vc = [c for c in ss.read_queue("visual", td) if ss.stage_key(c) == ("PROD-V", "出图")]
+        chk("F1 单机自闭环：三轮后本工位唯一一张卡 DONE",
+            len(vc) == 1 and vc[0].get("state") == "DONE", vc)
+        after = others_state()
+        changed = [x for x in ss.STATIONS if x != "visual" and before[x] != after[x]]
+        chk("F2 其余四个分片一字未改（主控不代写）", changed == [], changed)
+        hb = ss.heartbeat_read("visual", td)
+        chk("F3 本机心跳由自己写（不靠别人判活）", hb is not None and hb.get("station") == "visual", hb)
+
+
 def main(argv=None):
     argv = argv if argv is not None else sys.argv[1:]
     print("== 全链路工况矩阵 ==")
@@ -328,6 +365,7 @@ def main(argv=None):
     case_acceptance()
     case_executor()
     case_e2e()
+    case_local_closure()
     total = OK + len(FAILS)
     print("\n[chain_cases] %d/%d" % (OK, total))
     if FAILS:

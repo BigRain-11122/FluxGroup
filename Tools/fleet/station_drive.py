@@ -193,8 +193,18 @@ def plan(station, root=None, now=None):
     # 结果：同一草稿工序 13:41/14:04/14:05/14:06 连出 4 张，全部 DONE，产物一模一样。
     # 现在改用跨分片归一化视图 inflight()（station_shards），加 recent_done 保护
     # "刚跑完但产物没刷新"的情况。写仍然只写本分片，这里只读。
-    inflight = ss.inflight(root)
-    last_done = ss.last_done_cards(root)
+    # 本地闭环（2026-11-12 CEO 校正）：供给只判**本分片**。本机工序的卡必然在
+    # 自己分片里（实测错位为 0）；错位是数据问题，由巡检报出（MISPLACED-CARD），
+    # 不由别的机器代判、更不由主控代写。stage_key 归一化保证老格式卡也能认出。
+    inflight = set()
+    for c in have:
+        if str(c.get("state") or c.get("status") or "").upper() in ss.NON_BLOCKING_STATES:
+            continue
+        k = ss.stage_key(c) or ((c.get("product_id") or "").strip(),
+                                (c.get("stage") or "").replace(" ", "").strip())
+        if k[0] and k[1]:
+            inflight.add(k)
+    last_done = ss.last_done_cards(root, stations=[station])
 
     want, unknown = [], []
     for p in products:
@@ -853,17 +863,16 @@ def station_alive(station, root=None, now=None, stale_min=RESCUE_STALE_MIN):
     return True, "心跳 %.1f 分钟前" % age
 
 
-def rescue_stale(me, root=None, now=None, stale_min=RESCUE_STALE_MIN):
-    """代"执行体已死"的工位回收僵尸 RUNNING 卡。只允许主控做。
+def stale_cards(me="control", root=None, now=None, stale_min=RESCUE_STALE_MIN):
+    """只读：列出"执行体已停、卡却还挂在 RUNNING"的工位与卡。**不写任何分片。**
 
-    为什么允许跨写：一机一写者防的是并发写冲突。心跳已停 = 该工位没有并发写者，
-    这时跨写不产生冲突；不写则卡永久卡死。每次代写都带 rescue_by/rescue_reason
-    并进台账，事后可分辨"救援"与"越权"。心跳新鲜时一律不动（宁可少救不可误杀）。
+    2026-11-12 CEO 校正「本地机器要本地闭环，主控只是赋能算力、给命令、做次要工作」：
+    上一版让主控代别家回收卡（跨写 allow_cross），那是把主控做成调度器。正法——回收
+    是各机自己 reclaim 的事；主控只负责**看见并说出**：哪台机的执行体停了、哪些卡
+    因此挂住。要救也只是下发命令让它自己跑一轮，不替它写。
     """
-    if me != "control":
-        return [], "只有主控做跨机救援（多机互救会互相踩）"
     now = now or _now()
-    rescued, notes = [], []
+    out, notes = [], []
     for station in ss.STATIONS:
         if station == me:
             continue
@@ -873,12 +882,8 @@ def rescue_stale(me, root=None, now=None, stale_min=RESCUE_STALE_MIN):
             continue
         alive, why = station_alive(station, root, now, stale_min)
         if alive:
-            notes.append("%s: %s，不动" % (station, why))
             continue
         for r in running:
-            if len(rescued) >= RESCUE_MAX_PER_ROUND:
-                notes.append("本轮救援已达上限 %d" % RESCUE_MAX_PER_ROUND)
-                break
             ts = str(r.get("claimed_at") or r.get("created_at") or "")
             age = None
             try:
@@ -887,49 +892,16 @@ def rescue_stale(me, root=None, now=None, stale_min=RESCUE_STALE_MIN):
                 age = None
             limit = _lease_for(r, root) * 3
             if age is not None and age <= limit:
-                notes.append("%s/%s 龄期 %.0f 分钟未超宽限 %d，不动"
+                notes.append("%s/%s 龄期 %.0f 分钟未超宽限 %d，先观察"
                              % (station, r.get("id"), age, limit))
                 continue
-            row = dict(r)
-            row.update({"state": "OPEN", "owner": None,
-                        "rescue_by": me,
-                        "rescue_reason": "%s：%s；卡龄 %s 分钟，已由主控代回收"
-                                         % (station, why, "%.0f" % age if age is not None else "未知")})
-            try:
-                ss.upsert(station, row, root, allow_cross=True)
-            except PermissionError as e:
-                notes.append("%s/%s 代写被拒：%s" % (station, r.get("id"), e))
-                continue
-            except Exception as e:
-                notes.append("%s/%s 代写失败：%s" % (station, r.get("id"), type(e).__name__))
-                continue
-            rescued.append({"station": station, "id": r.get("id"), "why": why})
-            _rescue_ledger(me, station, r, why, root)
-    return rescued, "；".join(notes) if notes else ""
+            out.append({"station": station, "id": r.get("id"), "owner": r.get("owner"),
+                        "age_min": None if age is None else round(age),
+                        "why": why,
+                        "action": "该工位执行体恢复后会自行 reclaim；要提前处理就下发 station_drive --once"})
+    return out, "；".join(notes)
 
 
-def _rescue_ledger(me, station, card, why, root=None):
-    try:
-        p = os.path.join(root or ROOT, "cph4", "fleet", "state", "rescue-ledger.jsonl")
-        os.makedirs(os.path.dirname(p), exist_ok=True)
-        with open(p, "a", encoding="utf-8") as f:
-            f.write(json.dumps({"ts": _now().isoformat(timespec="seconds"),
-                                "rescue_by": me, "station": station,
-                                "card": card.get("id"), "why": why,
-                                "prev_owner": card.get("owner"),
-                                "prev_claimed_at": card.get("claimed_at")},
-                               ensure_ascii=False) + "\n")
-            f.flush()
-            os.fsync(f.fileno())
-    except Exception:
-        pass
-
-
-# 档案 status 写的是"停下来的原因"，不是一个关于现在的结论。能实测的原因
-# 一律去问服务端。2026-11-12 实锚：STATIONS 说本机 blocked_no_comfyui，而
-# 127.0.0.1:8188 的 /system_stats 当时 200 已答、ComfyUI 0.36.0 在跑——供给面
-# 因此连着 12 天报"没活"，不是没有产能，是没有人问过服务端（r1371 族：陈旧闸
-# 量的是文件系统，不是事实）。
 PROBE_HINTS = {"blocked_no_comfyui": "comfyui"}
 
 
@@ -997,8 +969,8 @@ def once(station, root=None, dry=False, now=None, run_limit=3, force=False):
         except Exception:
             pass
     reclaimed = 0 if dry else reclaim(station, root, now)
-    # 跨机救援：主控代"执行体已死"的工位回收僵尸卡（心跳新鲜时一律不动）。
-    rescued, rescue_note = ([], "") if dry else rescue_stale(station, root, now)
+    # 僵尸卡只报告不代写（本地闭环：回收归各机自己的 reclaim）。
+    stale, stale_note = ([], "") if dry else stale_cards(station, root, now)
     retried = 0 if dry else retry_due(station, root, now)
     consumed = {"added": [], "skipped": 0} if dry else consume_outbox(station, root)
     # outbox 里投给本机但还没入队的条数：目标机离线时卡会滞留，必须可见（不许无声消失）
@@ -1016,7 +988,7 @@ def once(station, root=None, dry=False, now=None, run_limit=3, force=False):
     if not ok:
         return {"station": station, "ts": _now().isoformat(timespec="seconds"),
                 "blocked": why, "reclaimed": reclaimed, "retried": retried, "consumed": consumed,
-                "rescued": rescued, "rescue_note": rescue_note,
+                "stale_cards": stale, "stale_note": stale_note,
                 "would_create": [], "unknown_output": [], "ran": []}
     # 合并（2026-11-12）：远端把状态与磁盘两个闸拆开并各带说明（status_note/disk_why），
     # 本地把回收提前到闸之前。两者都要：先回收，再各自判闸，且都报告 reclaimed。
@@ -1025,12 +997,12 @@ def once(station, root=None, dry=False, now=None, run_limit=3, force=False):
         return {"station": station, "ts": _now().isoformat(timespec="seconds"),
                 "status_note": why, "blocked": disk_why,
                 "reclaimed": reclaimed, "retried": retried, "consumed": consumed,
-                "rescued": rescued, "rescue_note": rescue_note,
+                "stale_cards": stale, "stale_note": stale_note,
                 "would_create": [], "unknown_output": [], "ran": []}
     want, unknown = plan(station, root, now)
     report = {"station": station, "ts": _now().isoformat(timespec="seconds"),
               "status_note": why, "reclaimed": reclaimed,
-              "rescued": rescued, "rescue_note": rescue_note,
+              "stale_cards": stale, "stale_note": stale_note,
               "retried": retried, "consumed": consumed,
               "would_create": [w["product"] + "/" + w["stage"] for w in want],
               # 2026-11-12 bm-c 现场切换：plan() 一直算出了每道工序"为什么没活"

@@ -209,6 +209,44 @@ def _executor_issues(snap, root=None, me="control"):
     return out
 
 
+def _stale_and_misplaced(root=None):
+    """只读体检：僵尸卡（执行体停了卡还 RUNNING）+ 卡落在错的分片。
+
+    2026-11-12 CEO 校正「本地机器闭环，主控只赋能算力/给命令/做次要工作」：
+    主控不代别家回收、不代别家判活，只把证据列出来。回收归该机自己的 reclaim。
+    """
+    out = []
+    try:
+        import station_drive as _sd
+        stale, _note = _sd.stale_cards("control", root)
+        if _note:
+            out.append({"kind": "STALE-CARD-WAITING", "who": "control", "why": _note})
+        for x in stale:
+            out.append({"kind": "STALE-CARD-NO-EXECUTOR",
+                        "who": "%s/%s" % (x["station"], x["id"]),
+                        "why": "执行体%s；卡已挂 %s 分钟。%s"
+                               % (x["why"], x.get("age_min"), x.get("action"))})
+    except Exception as e:
+        out.append({"kind": "CHECK-FAILED", "who": "stale_cards", "why": type(e).__name__})
+    # 归位检查：卡声明属于 A 却落在 B 分片。只报，不搬（搬是持有者的写权）。
+    NODE = {"bm-a": "delivery", "bm-b": "audio", "bm-c": "visual",
+            "bm-d": "brain", "bm-m": "control"}
+    for s in ss.STATIONS:
+        for r in ss.read_queue(s, root):
+            own = (r.get("station") or "").strip()
+            if not own:
+                n = r.get("nodes") or []
+                own = NODE.get(n[0], "") if n else ""
+            if not own:
+                o = (r.get("owner") or "").strip()
+                own = NODE.get(o, o if o in ss.STATIONS else "")
+            if own and own != s:
+                out.append({"kind": "MISPLACED-CARD", "who": "%s/%s" % (s, r.get("id")),
+                            "why": "声明属于 %s，却落在 %s 分片（归属数据问题，由持有者归位）"
+                                   % (own, s)})
+    return out
+
+
 def patrol(root=None, check_net=False):
     snap = fleet_view.snapshot(root, check_net=check_net)
     samples, fails = sample(root)
@@ -220,6 +258,7 @@ def patrol(root=None, check_net=False):
         if iss:
             issues.append(iss)
     issues.extend(_executor_issues(snap, root))
+    issues.extend(_stale_and_misplaced(root))
     for g in snap["gaps"]:
         issues.append({"kind": g["kind"], "who": g["who"], "why": g["why"]})
     for s in samples:

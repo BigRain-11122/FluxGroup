@@ -481,56 +481,7 @@ def stage_key(row):
     return None
 
 
-def inflight(root=None, stations=None, blocking_only=True):
-    """跨分片在飞视图（只读）：{(product_id, stage): [row, ...]}。
-
-    blocking_only=True 只收会阻断重建的状态；DONE/VERIFIED/CANCELLED/FAILED
-    不算在飞（FAILED 要允许重试，退避由 retry_due 管，不在供给层拦）。
-    """
-    out = {}
-    for s in (stations or STATIONS):
-        for r in read_queue(s, root):
-            k = stage_key(r)
-            if not k:
-                continue
-            st = str(r.get("state") or r.get("status") or "").upper()
-            if blocking_only and st in NON_BLOCKING_STATES:
-                continue
-            out.setdefault(k, []).append(r)
-    return out
-
-
-def recent_done(root=None, within_min=60, now=None):
-    """近 N 分钟内完成过的工序：{(product_id, stage): 最近完成时间}。
-
-    给供给一道"刚跑完别立刻再建"的保护：累加式产物跑完不重写时 mtime 不变，
-    会一直被判"过期"，没有这道保护就每轮建一张新卡（2026-11-12 实测 4 张）。
-    """
-    import datetime as _dt
-    now = now or _dt.datetime.now()
-    if isinstance(now, (int, float)):
-        now = _dt.datetime.fromtimestamp(now)
-    out = {}
-    for s in STATIONS:
-        for r in read_queue(s, root):
-            if str(r.get("state") or "").upper() not in ("DONE", "VERIFIED"):
-                continue
-            k = stage_key(r)
-            if not k:
-                continue
-            ts = str(r.get("updated_at") or r.get("finished_at") or r.get("created_at") or "")
-            try:
-                t = _dt.datetime.fromisoformat(ts[:19])
-            except Exception:
-                continue
-            if (now - t).total_seconds() / 60 <= within_min:
-                prev = out.get(k)
-                if prev is None or t > prev:
-                    out[k] = t
-    return out
-
-
-def last_done_cards(root=None, within_min=None):
+def last_done_cards(root=None, within_min=None, stations=None):
     """每个工序最近一张完成卡：{(product_id, stage): row}。
 
     用途是回答一个时间窗口回答不了的问题——"上次跑完，产物到底变了没有"。
@@ -540,7 +491,7 @@ def last_done_cards(root=None, within_min=None):
     import datetime as _dt
     now = _dt.datetime.now()
     out, best = {}, {}
-    for s in STATIONS:
+    for s in (stations or STATIONS):
         for r in read_queue(s, root):
             if str(r.get("state") or "").upper() not in ("DONE", "VERIFIED"):
                 continue
