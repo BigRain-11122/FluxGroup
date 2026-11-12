@@ -153,6 +153,52 @@ def _own_station():
     return fid.station_or_none()
 
 
+def outbox_path(station, root=None):
+    return os.path.join(rt_dir(station, root), "outbox.jsonl")
+
+
+def append_outbox(station, rows, root=None):
+    """追加交接意图到**自己**的 outbox（一机一写者不变：只写自己的目录）。
+
+    2026-11-12 立。原来 handoff() 直接 write_queue(别家分片)，被护栏抛
+    PermissionError 穿出 once()：卡已 DONE、回执已落盘、日志没写、守护死亡。
+    跨工位只能"追加意图"，由目标机自己入队。
+    """
+    guard_write(station, root)
+    p = outbox_path(station, root)
+    os.makedirs(os.path.dirname(p), exist_ok=True)
+    with _write_lock(p):
+        with open(p, "a", encoding="utf-8") as f:
+            for r in rows:
+                f.write(json.dumps(r, ensure_ascii=False) + "\n")
+            try:
+                f.flush()
+                os.fsync(f.fileno())
+            except Exception:
+                pass
+    return p
+
+
+def read_outbox(station, root=None):
+    """读某个工位的 outbox（别人写的也能读，只读不写）。空/缺文件返回空表。"""
+    p = outbox_path(station, root)
+    out = []
+    if not os.path.exists(p):
+        return out
+    with open(p, encoding="utf-8", errors="replace") as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                r = json.loads(line)
+            except Exception:
+                continue
+            if isinstance(r, dict) and r.get("id"):
+                out.append(r)
+    return out
+
+
 def read_queue_checked(station, root=None):
     """读队列并显式返回坏行数：返回 (rows, bad)。坏行不丢信息，交给调用方处置。"""
     read_queue.last_bad = 0

@@ -551,8 +551,9 @@ def handoff(station, card, root=None):
         "needs": "cpu",
     }
     if tgt in ss.STATIONS:
-        ss.upsert(tgt, row, root)
-    return {"to": tgt, "stage": nxt, "task_type": tid, "card": row["id"]}
+        ss.append_outbox(station, [dict(row, handoff_seq=_now().isoformat(timespec="seconds"))], root)
+    return {"to": tgt, "stage": nxt, "task_type": tid, "card": row["id"],
+            "via": "outbox"}
 
 
 RUNNABLE = ("ready", "online", "network_ok_not_registered")
@@ -658,6 +659,52 @@ def retry_due(station, root=None, now=None):
         ss.upsert(station, row, root)
         n += 1
     return n
+
+
+def consume_outbox(station, root=None):
+    """把各工位 outbox 里投给本机的卡并入本机队列（本机只写自己的分片）。
+
+    2026-11-12（批次4.4）。跨工位交接原来是"直接写别人的 queue.jsonl"，被一机一写者
+    护栏抛 PermissionError 穿出 once()：卡已 DONE、回执在、日志没写、守护死亡，
+    下游永远拿不到卡。改成一机只写自己的 outbox，目标机自己 SENSE 时拉取入队。
+    已消费条目记在 rt/<station>/outbox-seen.json，重复 pull 不会重复入队。
+    """
+    seen_p = os.path.join(ss.rt_dir(station, root), "outbox-seen.json")
+    try:
+        with open(seen_p, encoding="utf-8") as f:
+            seen = set(json.load(f) or [])
+    except Exception:
+        seen = set()
+    have = {(r.get("product_id"), r.get("stage")) for r in ss.read_queue(station, root)}
+    added, marked = [], []
+    for src in ss.STATIONS:
+        if src == station:
+            continue
+        for row in ss.read_outbox(src, root):
+            if str(row.get("station") or "") != station:
+                continue
+            key = "%s|%s|%s" % (src, row.get("id"), row.get("handoff_seq") or "")
+            if key in seen:
+                continue
+            if (row.get("product_id"), row.get("stage")) in have:
+                marked.append(key)      # 已有同工序卡：不重复投，但记为已处理
+                continue
+            card = dict(row)
+            card.pop("handoff_seq", None)
+            card.setdefault("state", "OPEN")
+            ss.upsert(station, card, root)
+            have.add((card.get("product_id"), card.get("stage")))
+            added.append(card.get("id"))
+            marked.append(key)
+    if marked:
+        seen.update(marked)
+        try:
+            os.makedirs(os.path.dirname(seen_p), exist_ok=True)
+            with open(seen_p, "w", encoding="utf-8") as f:
+                json.dump(sorted(seen)[-500:], f, ensure_ascii=False)
+        except Exception:
+            pass
+    return {"added": added, "skipped": len(marked) - len(added)}
 
 
 def reclaim(station, root=None, now=None, lease_min=None):
@@ -771,10 +818,22 @@ def once(station, root=None, dry=False, now=None, run_limit=3, force=False):
     # 恰恰"最需要回收的时候"（机器刚恢复/刚腾出空间）它不跑。
     reclaimed = 0 if dry else reclaim(station, root, now)
     retried = 0 if dry else retry_due(station, root, now)
+    consumed = {"added": [], "skipped": 0} if dry else consume_outbox(station, root)
+    # outbox 里投给本机但还没入队的条数：目标机离线时卡会滞留，必须可见（不许无声消失）
+    try:
+        _pend = 0
+        for _src in ss.STATIONS:
+            if _src == station:
+                continue
+            _pend += sum(1 for _r in ss.read_outbox(_src, root)
+                         if str(_r.get("station") or "") == station)
+        consumed["pending_before"] = _pend
+    except Exception:
+        pass
     ok, why = _status_ok(station, root, force)
     if not ok:
         return {"station": station, "ts": _now().isoformat(timespec="seconds"),
-                "blocked": why, "reclaimed": reclaimed, "retried": retried,
+                "blocked": why, "reclaimed": reclaimed, "retried": retried, "consumed": consumed,
                 "would_create": [], "unknown_output": [], "ran": []}
     # 合并（2026-11-12）：远端把状态与磁盘两个闸拆开并各带说明（status_note/disk_why），
     # 本地把回收提前到闸之前。两者都要：先回收，再各自判闸，且都报告 reclaimed。
@@ -782,11 +841,12 @@ def once(station, root=None, dry=False, now=None, run_limit=3, force=False):
     if not disk_ok:
         return {"station": station, "ts": _now().isoformat(timespec="seconds"),
                 "status_note": why, "blocked": disk_why,
-                "reclaimed": reclaimed, "retried": retried,
+                "reclaimed": reclaimed, "retried": retried, "consumed": consumed,
                 "would_create": [], "unknown_output": [], "ran": []}
     want, unknown = plan(station, root, now)
     report = {"station": station, "ts": _now().isoformat(timespec="seconds"),
-              "status_note": why, "reclaimed": reclaimed, "retried": retried,
+              "status_note": why, "reclaimed": reclaimed,
+              "retried": retried, "consumed": consumed,
               "would_create": [w["product"] + "/" + w["stage"] for w in want],
               "unknown_output": ["%s/%s" % (u["product"], u["stage"]) for u in unknown],
               "ran": [], "handoff": []}

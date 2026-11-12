@@ -237,6 +237,8 @@ def r9():
     td = build()
     try:
         rounds(td, datetime.now(), stations=("visual",))
+        # 2026-11-12 新契约：一机只写自己的 outbox，目标机自己 SENSE 时入队
+        sd.consume_outbox("audio", td)
         ho = [x for x in cards(td, "audio") if str(x.get("id", "")).startswith("HO-")]
         return (len(ho) == 1 and ho[0]["stage"] == "sound",
                 "audio 收到 HO- 卡 %d 张：%s" % (len(ho), [x["id"] for x in ho]))
@@ -310,10 +312,12 @@ def r13():
     try:
         t = datetime.now()
         rounds(td, t, stations=("visual",))
+        sd.consume_outbox("audio", td)
         n1 = len([x for x in cards(td, "audio") if str(x["id"]).startswith("HO-")])
         # 再跑一轮（模拟重跑/时钟不同步导致的重复触发）
         ss.write_queue("visual", [], td)          # 清掉已完成的上游卡
         rounds(td, t + timedelta(minutes=30), stations=("visual",))
+        sd.consume_outbox("audio", td)      # 重跑 pull 后不许重复入队（seen 去重）
         n2 = len([x for x in cards(td, "audio") if str(x["id"]).startswith("HO-")])
         return (n1 == 1 and n2 == 1, "第一轮 HO=%d，重跑后 HO=%d" % (n1, n2))
     finally:
