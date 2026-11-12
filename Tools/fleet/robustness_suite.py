@@ -362,6 +362,65 @@ def r16():
         shutil.rmtree(td, ignore_errors=True)
 
 
+@case("R-17", "端到端跑通一轮", "供给→执行→判据→回执哈希→抽验，任一环断掉都不算跑通")
+def r17():
+    """沙箱里跑完整一轮：这是"链路能不能干活"的唯一硬判据。
+
+    2026-11-12 首次跑通：索引卡 BLOCKED（缺输入，正确）、草稿与复盘 DONE
+    （判据分别是 voice_gate 与评审团 panel），回执带 sha256 且重算一致，
+    抽验 A1/A2/A3 全过、失败 0。
+    """
+    import hashlib
+    import station_drive as sd
+    import station_shards as ss
+    import master_patrol as mp
+    td = _root()
+    src = os.path.join(ROOT, "cph4", "fleet")
+    try:
+        for f in ("PRODUCTS.json", "TAXONOMY-v1.json", "STATIONS.json",
+                  "STATE-MACHINE-v1.json", "CARD-POLICY-v1.json", "ACCEPTANCE-v1.json"):
+            sp = os.path.join(src, f)
+            if os.path.exists(sp):
+                shutil.copy2(sp, os.path.join(td, "cph4", "fleet", f))
+        soc = os.path.join(td, "cph4", "fleet", "social")
+        os.makedirs(soc, exist_ok=True)
+        inbox = os.path.join(src, "social", "inbox.jsonl")
+        if os.path.exists(inbox):
+            shutil.copy2(inbox, os.path.join(soc, "inbox.jsonl"))
+        # 命令里是 Tools/... 相对路径，沙箱要靠软链指向真工具
+        try:
+            os.symlink(os.path.join(ROOT, "Tools"), os.path.join(td, "Tools"))
+        except Exception:
+            pass
+        r = sd.once("control", td, run_limit=5, force=True)
+        ran = {x["id"]: x for x in r.get("ran", [])}
+        done = [k for k, v in ran.items() if v.get("verdict") == "DONE"]
+        if not done:
+            return False, "一轮下来没有 DONE：%s" % list(ran.values())[:2]
+        # 回执必须带哈希，且重算一致
+        bad = []
+        for k in done:
+            rp = os.path.join(td, "cph4", "fleet", "rt", "control", "receipts", k + ".json")
+            if not os.path.exists(rp):
+                bad.append(k + ":无回执")
+                continue
+            d = json.load(open(rp, encoding="utf-8"))
+            if not d.get("sha256"):
+                bad.append(k + ":无哈希")
+                continue
+            p = os.path.join(td, d.get("deliverable") or "")
+            if os.path.isfile(p):
+                got = hashlib.sha256(open(p, "rb").read()).hexdigest()
+                if got != d["sha256"]:
+                    bad.append(k + ":哈希不一致")
+        # 抽验必须真抽到并通过
+        samples, fails = mp.sample(td)
+        ok = (not bad) and samples and fails == 0
+        return ok, "DONE=%d 回执问题=%s 抽验=%d 失败=%d" % (len(done), bad or "无", len(samples), fails)
+    finally:
+        shutil.rmtree(td, ignore_errors=True)
+
+
 def run(verbose=True):
     rows = []
     for c in CASES:

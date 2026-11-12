@@ -191,10 +191,19 @@ def _shared_run(a, b, minlen=6):
 
 
 def main():
+    global DIR, INBOX, DRAFTS, DIGEST
     ap = argparse.ArgumentParser()
     ap.add_argument("--demo", action="store_true")
     ap.add_argument("--limit", type=int, default=20)
+    # 2026-11-12：加 --dir。路径原本写死 cph4/fleet/social，导致自驱无法在隔离
+    # 沙箱里端到端验证它（一跑就写真实草稿队列），这也是"写死路径"类的通病。
+    ap.add_argument("--dir", default=None, help="工作目录（默认 cph4/fleet/social）")
     a = ap.parse_args()
+    if a.dir:
+        DIR = os.path.abspath(a.dir)
+        INBOX = os.path.join(DIR, "inbox.jsonl")
+        DRAFTS = os.path.join(DIR, "drafts.jsonl")
+        DIGEST = os.path.join(DIR, "DIGEST.md")
 
     os.makedirs(DIR, exist_ok=True)
     if a.demo:

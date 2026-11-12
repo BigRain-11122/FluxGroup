@@ -586,8 +586,8 @@
     "复盘": "cph4/fleet/social/DIGEST.md"
    },
    "commands": {
-    "草稿": "python3 Tools/fleet/social_drafts.py",
-    "复盘": "python3 Tools/fleet/social_drafts.py --limit 0"
+    "草稿": "python3 Tools/fleet/social_drafts.py --dir cph4/fleet/social",
+    "复盘": "python3 Tools/fleet/social_drafts.py --limit 0 --dir cph4/fleet/social"
    },
    "owner_station": "control",
    "support": [
