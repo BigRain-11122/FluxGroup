@@ -232,55 +232,28 @@ def r10():
 @case("R-11", "跨工位写分片被拒", "一机一写者是硬约束；靠自觉挡不住，必须有护栏")
 def r11():
     import station_shards as ss
-    old = os.environ.get("FLEET_STATION")
     td = _root()
-    # 生产路径要真测（沙箱验不到护栏），故测前快照、测后还原：
-    # 2026-11-11 实锚——原实现跑一次就往 rt/visual/queue.jsonl 留一行
-    # {"id":"V","state":"OPEN"}，真机会去认领这张假卡。
-    qpath = ss.queue_path("visual")   # root=None = 生产分片
-    backup = None
-    if os.path.exists(qpath):
-        with open(qpath, encoding="utf-8") as f:
-            backup = f.read()
-    try:
-        os.environ["FLEET_STATION"] = "visual"
-        # 生产路径（root=None）写别人的分片必须被拒
-        blocked = False
+    # 2026-11-12 重写：护栏抽成纯函数 guard_write，测它而**不写任何真实分片**。
+    # 原实现为了验"写自己放行"必须真往 rt/visual/queue.jsonl 写一行；跑一次留一张
+    # 假卡，并发跑两个测试或超时被杀时，过快照还原也救不回来。
+    def refused(fn):
         try:
-            ss.write_queue("control", [{"id": "X", "state": "OPEN"}])
+            fn()
+            return False
         except PermissionError:
-            blocked = True
-        except Exception:
-            blocked = False
-        # 写自己的分片要放行；沙箱（显式 root）不受限
-        own_ok = True
-        try:
-            ss.write_queue("visual", [{"id": "V", "state": "OPEN"}])
-        except Exception:
-            own_ok = False
-        sandbox_ok = True
-        try:
-            ss.write_queue("control", [{"id": "S", "state": "OPEN"}], root=td)
-        except Exception:
-            sandbox_ok = False
-        return blocked and own_ok and sandbox_ok, \
-            "cross=%s own=%s sandbox=%s" % (blocked, own_ok, sandbox_ok)
-    finally:
-        if old is None:
-            os.environ.pop("FLEET_STATION", None)
-        else:
-            os.environ["FLEET_STATION"] = old
-        # 还原生产分片：不还原就等于测试在给真机派假卡
-        try:
-            if backup is None:
-                if os.path.exists(qpath):
-                    os.remove(qpath)
-            else:
-                with open(qpath, "w", encoding="utf-8") as f:
-                    f.write(backup)
-        except Exception:
-            pass
-        shutil.rmtree(td, ignore_errors=True)
+            return True
+
+    cross = refused(lambda: ss.guard_write("control", None, me="visual"))
+    own_ok = not refused(lambda: ss.guard_write("visual", None, me="visual"))
+    none_ok = not refused(lambda: ss.guard_write("control", None, me=None))
+    sandbox_ok = True
+    try:
+        ss.write_queue("control", [{"id": "S", "state": "OPEN"}], root=td)
+    except Exception:
+        sandbox_ok = False
+    shutil.rmtree(td, ignore_errors=True)
+    return cross and own_ok and none_ok and sandbox_ok, \
+        "cross=%s own=%s no_ident=%s sandbox=%s" % (cross, own_ok, none_ok, sandbox_ok)
 
 
 def run(verbose=True):

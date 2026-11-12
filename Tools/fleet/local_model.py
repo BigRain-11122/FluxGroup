@@ -41,21 +41,18 @@ DEFAULT_MODEL = "\x00"
 
 
 def local_station():
-    """本机是哪台：FLEET_STATION 环境变量 > hostname 匹配 STATIONS > None。"""
-    st = os.environ.get("FLEET_STATION")
-    if st:
-        return st
+    """本机是哪台：委托唯一权威 fleet_identity（身份文件 > hostname > FLEET_STATION）。
+
+    2026-11-12 改：本函数原来自己实现一遍（env > hostname，异常返回 None），
+    与 station_shards._own_station / station_drive.detect_station 三处并存，
+    改一处等于没改。现在只做委托；"读不到"与"没有身份"的区分在 fleet_identity 里。
+    写路径要 fail-closed 的，用 station_shards._own_station()。
+    """
     try:
-        import socket
-        host = socket.gethostname().lower()
-        with open(os.path.join(ROOT, "cph4", "fleet", "STATIONS.json"), encoding="utf-8") as f:
-            for s in json.load(f).get("stations") or []:
-                h = (s.get("hostname") or "").lower()
-                if h and (h == host or host.startswith(h.split(".")[0])):
-                    return s.get("id")
+        import fleet_identity as fid
+        return fid.station_or_none()
     except Exception:
-        pass
-    return None
+        return None
 
 
 def gateways():

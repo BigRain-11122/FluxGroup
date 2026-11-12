@@ -130,27 +130,48 @@ def read_queue(station, root=None):
 
 
 def _own_station():
-    """本机工位（FLEET_STATION > hostname）。未设置时返回 None（不启用写保护）。"""
-    v = os.environ.get("FLEET_STATION")
-    if v:
-        return v
+    """本机工位：唯一权威是 fleet_identity（身份文件 > hostname > FLEET_STATION）。
+
+    2026-11-12 改。两件必须分清的事（原实现混为一谈）：
+      - "没有任何证据" → 返回 None，不启用写保护（沙箱/新机首次部署时正常）
+      - "身份读取失败" → 抛错（fail-closed）。原实现在 local_model 导入失败
+        （一次普通编辑的语法错即可）时返回 None，一机一写者护栏随之静默失效。
+    """
     try:
-        import local_model as lm
-        return lm.local_station()
-    except Exception:
-        return None
+        import fleet_identity as fid
+    except Exception as e:
+        raise RuntimeError("身份模块不可用，拒绝写入（fail-closed）：%s" % e)
+    return fid.station_or_none()
+
+
+def guard_write(station, root=None, me=None):
+    """一机一写者护栏：**纯判定，不写文件**（2026-11-12 抽出）。
+
+    抽出来的理由：原来护栏埋在 write_queue 里，唯一能验它的办法是真往生产分片写
+    （robustness R-11 就是这么干的，跑一次留一张假卡）。纯函数化后测试不必碰生产，
+    也让"护栏到底在拦什么"可被单独复算。
+
+    me: 本机工位；不传则从 fleet_identity 解析（解析失败会抛，fail-closed）。
+    """
+    if root is not None:
+        return                      # 沙箱（显式 root）不受限
+    who = me if me is not None else _own_station()
+    if who and who != station:
+        raise PermissionError("跨工位写被拒：本机=%s，目标分片=%s（一机一写者）"
+                              % (who, station))
 
 
 def write_queue(station, rows, root=None, allow_cross=False):
     """原子写：临时文件 + os.replace，避免半份文件被读到。按 id 去重（后写胜）。
 
-    护栏（2026-11-11）：FLEET_STATION 已声明本机身份时，禁止写别的工位分片。
+    护栏（2026-11-11）：本机身份已声明时，禁止写别的工位分片。
     一机一写者是硬约束，靠"大家自觉"挡不住；沙箱（显式 root）不受此限。
+    判定逻辑在 guard_write()（纯函数，可单独测，不必碰生产分片）。
     """
-    if root is None and not allow_cross:
-        me = _own_station()
-        if me and me != station:
-            raise PermissionError("跨工位写被拒：本机=%s，目标分片=%s（一机一写者）" % (me, station))
+    # 合并（2026-11-12）：远端新增 allow_cross（显式越权通道，给主控派单/迁移用），
+    # 本地的护栏已抽成纯函数 guard_write。两者都保留：只有显式 allow_cross 才跳过判定。
+    if not allow_cross:
+        guard_write(station, root)
     p = queue_path(station, root)
     os.makedirs(os.path.dirname(p), exist_ok=True)
     seen = {}

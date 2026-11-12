@@ -653,18 +653,37 @@ def self_test():
             verify("control", {"judge": "path", "task_type": "T-OPS-CEO"},
                    {"ok": True, "rc": 0})[0] == "PENDING_HUMAN")
 
-    # 身份识别：设了 FLEET_STATION 就认它；乱填必须认不出（不猜、不默认主控）
-    _old = os.environ.get("FLEET_STATION")
+    # 身份识别：唯一权威是 fleet_identity（身份文件 > hostname > FLEET_STATION）。
+    # 2026-11-12 改：原来用 FLEET_STATION 模拟，但它现在是最弱证据、会被 hostname 覆盖。
+    # 双证冲突（文件说 visual、hostname 匹配 control）必须拒绝——那是部署错误。
+    # 测试机本来就不是 visual，所以 mock hostname（不给生产开"忽略校验"的后门）。
+    import tempfile as _tf
+    import fleet_identity as fid
+    _idt = _tf.mkdtemp(prefix="ident-")
+    _idf = os.path.join(_idt, "station")
+    _old = os.environ.get("FLUX_IDENTITY")
+    _orig_host = fid._from_hostname
     try:
-        os.environ["FLEET_STATION"] = "visual"
-        chk("FLEET_STATION=visual -> 识别为 visual", detect_station() == "visual")
-        os.environ["FLEET_STATION"] = "not-a-station"
+        with open(_idf, "w", encoding="utf-8") as f:
+            f.write("visual\n")
+        os.environ["FLUX_IDENTITY"] = _idf
+        fid._from_hostname = lambda root=None: (None, "testhost")   # 无 hostname 证据
+        chk("身份文件=visual -> 识别为 visual", detect_station() == "visual")
+        with open(_idf, "w", encoding="utf-8") as f:
+            f.write("not-a-station\n")
         chk("乱填工位 -> 识别失败（拒绝运行而不是默认主控）", detect_station() is None)
+        # 负控：文件与 hostname 矛盾时必须拒绝（部署错了要拦，不许二选一）
+        with open(_idf, "w", encoding="utf-8") as f:
+            f.write("visual\n")
+        fid._from_hostname = lambda root=None: ("control", "testhost")
+        chk("负控：文件与 hostname 矛盾 -> 拒绝运行", detect_station() is None)
     finally:
+        fid._from_hostname = _orig_host
         if _old is None:
-            os.environ.pop("FLEET_STATION", None)
+            os.environ.pop("FLUX_IDENTITY", None)
         else:
-            os.environ["FLEET_STATION"] = _old
+            os.environ["FLUX_IDENTITY"] = _old
+        shutil.rmtree(_idt, ignore_errors=True)
 
     # 档案写"没 ComfyUI"时，服务端答话就该放行（2026-11-12 实锚）。自带目录：
     # 借上面那个 with 的 td 会拿到已删除的路径，腿跑不起来和腿通过长得一样。
@@ -706,13 +725,17 @@ def self_test():
 
 
 def detect_station():
-    """本机是哪个工位：FLEET_STATION > hostname 匹配 STATIONS。
+    """本机是哪个工位：委托唯一权威 fleet_identity（身份文件 > hostname > FLEET_STATION）。
+
     2026-11-11 实锚：原来 --station 默认写死 control——真机上忘了带参数就会
-    以主控身份跑（读主控分片、认主控的活），属于最危险的静默错。"""
+    以主控身份跑（读主控分片、认主控的活），属于最危险的静默错。
+    2026-11-12：三份身份实现合并到 fleet_identity；身份冲突时它抛错，
+    这里转 None，让 main() 走"拒绝运行 rc=2"（不猜、不降级）。
+    """
     try:
         sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-        import local_model as lm
-        st = lm.local_station()
+        import fleet_identity as fid
+        st = fid.station_or_none()
         return st if st in ss.STATIONS else None
     except Exception:
         return None
