@@ -78,7 +78,11 @@ def expand(field):
 def cmd_for(task, station):
     """把 {py} 与 <station> 占位替换成本机实际值。"""
     cmd = str(task.get("cmd") or "")
-    py = "python" if os.name == "nt" else "python3"
+    # 2026-11-12 实锚：{py} 原来替换成裸命令名 "python3"，而 launchd 的 PATH 不含
+    # pyenv，会解析到 /usr/bin/python3(3.9.6) —— 于是 ENV-PROBE 采到"主控是 3.9.6"
+    # 并被判 GAP（实际主用 3.13.18）。测量工具必须跑在它要报告的那个环境里。
+    # 用当前解释器的绝对路径：谁启动调度器，就用谁的解释器。
+    py = sys.executable or ("python" if os.name == "nt" else "python3")
     cmd = cmd.replace("{py}", py).replace("<station>", station or "control")
     return cmd
 
