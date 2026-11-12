@@ -322,6 +322,31 @@ def r14():
         shutil.rmtree(td, ignore_errors=True)
 
 
+@case("R-15", "失败卡有退避重试", "FAILED/REVISE 不退避就每轮刷卡，不休止就永久躺死")
+def r15():
+    import datetime as dt
+    import station_drive as sd
+    import station_shards as ss
+    td = _root()
+    try:
+        past = (dt.datetime.now() - dt.timedelta(hours=1)).isoformat(timespec="seconds")
+        fut = (dt.datetime.now() + dt.timedelta(hours=1)).isoformat(timespec="seconds")
+        ss.write_queue("visual", [
+            {"id": "F1", "state": "FAILED", "attempt": 0, "next_retry_at": past},
+            {"id": "F2", "state": "FAILED", "attempt": 0, "next_retry_at": fut},
+            {"id": "F3", "state": "FAILED", "attempt": 3, "next_retry_at": past},
+        ], root=td)
+        sd.retry_due("visual", root=td)
+        rows = {r["id"]: r for r in ss.read_queue("visual", root=td)}
+        ok = (rows["F1"]["state"] == "OPEN" and rows["F1"]["attempt"] == 1
+              and rows["F2"]["state"] == "FAILED"
+              and rows["F3"]["state"] == "BLOCKED")
+        return ok, "F1=%s/%s F2=%s F3=%s" % (rows["F1"]["state"], rows["F1"].get("attempt"),
+                                             rows["F2"]["state"], rows["F3"]["state"])
+    finally:
+        shutil.rmtree(td, ignore_errors=True)
+
+
 def run(verbose=True):
     rows = []
     for c in CASES:

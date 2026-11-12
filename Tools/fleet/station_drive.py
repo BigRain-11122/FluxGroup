@@ -487,8 +487,17 @@ def record(station, card, verdict, why, root=None):
     }
     ss.append_receipt(station, rcpt, root)
     card = dict(card)
-    card.update({"state": verdict, "finished_at": rcpt["ts"],
-                 "result": {"why": why, "bytes": rcpt["bytes"]}})
+    extra = {"state": verdict, "finished_at": rcpt["ts"],
+             "result": {"why": why, "bytes": rcpt["bytes"]}}
+    # 退避重试的账目（批次4.3）：失败/返工要记 attempt 与下次可重试时间，
+    # 否则 retry_due() 只能每次立刻重排 = 每轮刷卡。
+    if verdict in ("FAILED", "REVISE"):
+        att = int(card.get("attempt") or 0) + 1
+        extra["attempt"] = att
+        extra["next_retry_at"] = (_now() + timedelta(minutes=_backoff_min(att))).isoformat(timespec="seconds")
+    elif verdict == "DONE":
+        extra.pop("next_retry_at", None)
+    card.update(extra)
     ss.upsert(station, card, root)
     return rcpt
 
@@ -597,6 +606,58 @@ def _lease_for(card, root=None):
     except Exception:
         pass
     return _lease_minutes(root)
+
+
+RETRY_MAX = 3          # 同一工序最多自动重试次数，超了转 BLOCKED 并写明缺什么
+RETRY_BASE_MIN = 5     # 首次退避 5 分钟，之后 10/20…封顶 6 小时
+
+
+def _backoff_min(attempt):
+    return min(RETRY_BASE_MIN * (2 ** max(0, attempt - 1)), 360)
+
+
+def retry_due(station, root=None, now=None):
+    """把到期的 FAILED/REVISE 卡重排为 OPEN（带 attempt 与退避）。
+
+    2026-11-12（批次4.3）。原来它们是死胡同：plan() 的 open_keys 让 FAILED/REVISE
+    永远占着 (product,stage) → 不重建；once() 又只跑 OPEN → 不执行。评审团判"返工"
+    （REVISE）的卡直接躺死，越需要重试的工序越会永久停摆。
+    规则：attempt < RETRY_MAX 且（无 next_retry_at 或已到期）→ 退回 OPEN；
+          达到上限 → 转 BLOCKED 并写清"重试 N 次仍失败"。
+    """
+    now_dt = now or _now()
+    rows = ss.read_queue(station, root)
+    n = 0
+    for r in rows:
+        st = str(r.get("state") or "").upper()
+        if st not in ("FAILED", "REVISE"):
+            continue
+        att = int(r.get("attempt") or 0)
+        if att >= RETRY_MAX:
+            if st != "BLOCKED":
+                row = dict(r)
+                row.update({"state": "BLOCKED",
+                            "why": "重试 %d 次仍失败，转 BLOCKED 等人看：%s"
+                                   % (att, str(r.get("why") or "")[:120])})
+                ss.upsert(station, row, root)
+                n += 1
+            continue
+        nxt = str(r.get("next_retry_at") or "")
+        if nxt:
+            try:
+                if now_dt < datetime.fromisoformat(nxt[:19]):
+                    continue
+            except Exception:
+                pass
+        row = dict(r)
+        row.update({"state": "OPEN", "owner": None, "attempt": att + 1,
+                    "next_retry_at": (now_dt + timedelta(minutes=_backoff_min(att + 1)))
+                                     .isoformat(timespec="seconds"),
+                    "retry_why": "第 %d 次重试（上次：%s）"
+                                 % (att + 1, str(r.get("why") or "")[:80])})
+        ss.upsert(station, row, root)
+        n += 1
+    return n
 
 
 def reclaim(station, root=None, now=None, lease_min=None):
@@ -709,22 +770,23 @@ def once(station, root=None, dry=False, now=None, run_limit=3, force=False):
     # 之后，机器一被暂停/离线/磁盘满就直接 return，卡在 RUNNING 里永远出不来——
     # 恰恰"最需要回收的时候"（机器刚恢复/刚腾出空间）它不跑。
     reclaimed = 0 if dry else reclaim(station, root, now)
+    retried = 0 if dry else retry_due(station, root, now)
     ok, why = _status_ok(station, root, force)
     if not ok:
         return {"station": station, "ts": _now().isoformat(timespec="seconds"),
-                "blocked": why, "reclaimed": reclaimed,
+                "blocked": why, "reclaimed": reclaimed, "retried": retried,
                 "would_create": [], "unknown_output": [], "ran": []}
     # 合并（2026-11-12）：远端把状态与磁盘两个闸拆开并各带说明（status_note/disk_why），
     # 本地把回收提前到闸之前。两者都要：先回收，再各自判闸，且都报告 reclaimed。
     disk_ok, disk_why = _disk_ok(station, root)
     if not disk_ok:
         return {"station": station, "ts": _now().isoformat(timespec="seconds"),
-                "status_note": why, "blocked": disk_why, "reclaimed": reclaimed,
+                "status_note": why, "blocked": disk_why,
+                "reclaimed": reclaimed, "retried": retried,
                 "would_create": [], "unknown_output": [], "ran": []}
     want, unknown = plan(station, root, now)
     report = {"station": station, "ts": _now().isoformat(timespec="seconds"),
-              "status_note": why,
-              "reclaimed": reclaimed,
+              "status_note": why, "reclaimed": reclaimed, "retried": retried,
               "would_create": [w["product"] + "/" + w["stage"] for w in want],
               "unknown_output": ["%s/%s" % (u["product"], u["stage"]) for u in unknown],
               "ran": [], "handoff": []}
