@@ -399,8 +399,9 @@ def run_card(station, card, root=None, timeout=1800):
     # 但很多工序是累加式产物（如评论草稿：没有新输入就不重写文件），跑完 mtime 不变
     # → 永远判过期 → 每轮建卡（实测每 5 分钟一张，一天几百张）。检查完成即重置。
     # 只在命令成功且产物存在时 touch；失败不重置（否则坏件会被当成"刚检查过"）。
-    if p.returncode == 0 and deliverable:
-        _d = os.path.join(rroot, deliverable)
+    _dlv = card.get("deliverable")
+    if p.returncode == 0 and _dlv:
+        _d = os.path.join(rroot, _dlv)
         try:
             if os.path.exists(_d):
                 os.utime(_d, None)
