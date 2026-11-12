@@ -347,6 +347,21 @@ def r15():
         shutil.rmtree(td, ignore_errors=True)
 
 
+@case("R-16", "缺前置输入判 BLOCKED", "当失败重试会每轮刷一张注定失败的卡")
+def r16():
+    import station_drive as sd
+    td = _root()
+    try:
+        card = {"id": "RQ-1", "cmd": "python3 -c pass", "cmd_reviewed": True,
+                "deliverable": "out/x/y.bin", "judge": "path",
+                "requires": ["definitely/not/here"]}
+        r = sd.run_card("control", card, root=td)
+        return r.get("why") == "BLOCKED" and "缺前置输入" in (r.get("detail") or ""), \
+            "why=%s detail=%s" % (r.get("why"), (r.get("detail") or "")[:40])
+    finally:
+        shutil.rmtree(td, ignore_errors=True)
+
+
 def run(verbose=True):
     rows = []
     for c in CASES:

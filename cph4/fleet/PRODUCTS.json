@@ -127,7 +127,13 @@
    ],
    "commands": {
     "索引": "python3 Tools/fleet/make_index.py --root cph4/fleet/out/asset-pack --out cph4/fleet/out/asset-pack/index.json"
-   }
+   },
+   "requires": {
+    "索引": [
+     "cph4/fleet/out/asset-pack"
+    ]
+   },
+   "requires_note": "前置输入：这些路径不存在时，该工序判 BLOCKED（缺输入）而不是 FAILED 重试——2026-11-12 实锚：索引工序因此每天 FAIL 一次，永远不成功也不告诉人缺什么。"
   },
   {
    "id": "PROD-QUANT-REPORT",

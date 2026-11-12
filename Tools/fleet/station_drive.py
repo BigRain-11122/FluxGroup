@@ -202,6 +202,7 @@ def plan(station, root=None, now=None):
             want.append({"product": pid, "stage": stage, "task_type": tid, "cmd": (p.get("commands") or {}).get(stage),
                          "output": rel, "refresh_h": t.get("refresh_h"),
                          "judge": t.get("judge"),
+                         "requires": (p.get("requires") or {}).get(stage) or [],
                          "missing": not os.path.exists(path)})
     return want, unknown
 
@@ -226,6 +227,7 @@ def make_card(station, item, day=None, now=None):
         "judge": item.get("judge"),
         "accept": "判据见 task_type=%s（judge=%s）" % (item["task_type"], item.get("judge")),
         "cmd": item.get("cmd") or "",
+        "requires": item.get("requires") or [],
         "prio": "P2",
         "needs": "cpu",
         "route": "local",
@@ -332,6 +334,17 @@ def run_card(station, card, root=None, timeout=1800):
         _write_manifest(man_p, man)
         return {"ok": False, "rc": None, "why": "NEED-CMD", "manifest": man_p, "out": out_abs}
 
+    # 前置输入检查（2026-11-12，批次5）：requires 里的路径不存在 -> BLOCKED（缺输入）。
+    # 原来索引工序因 out/asset-pack 不存在每天 FAIL 一次，既不成功也不告诉人缺什么。
+    _miss = [q for q in (card.get("requires") or [])
+             if not os.path.exists(os.path.join(rroot, q))]
+    if _miss:
+        man = {"ts": _now().isoformat(timespec="seconds"), "rc": None,
+               "note": "缺前置输入：" + ", ".join(_miss), "cmd": cmd, "station": station}
+        _write_manifest(man_p, man)
+        return {"ok": False, "rc": None, "why": "BLOCKED",
+                "detail": "缺前置输入：" + ", ".join(_miss), "manifest": man_p, "out": out_abs}
+
     allowed, _why = _cmd_guard(cmd, card, root)
     if not allowed:
         man = {"ts": _now().isoformat(timespec="seconds"), "rc": None,
@@ -421,6 +434,8 @@ def verify(station, card, run, root=None):
     # 先看跑没跑成：命令失败就别花算力去评审（顺序错了会白烧 token）
     if run.get("why") == "NEED-CMD":
         return "BLOCKED", "NEED-CMD：缺执行命令"
+    if run.get("why") == "BLOCKED":
+        return "BLOCKED", run.get("detail") or "缺前置输入"
     if not run.get("ok"):
         return "FAILED", "执行失败 rc=%s" % run.get("rc")
     if not judge:
@@ -855,7 +870,8 @@ def once(station, root=None, dry=False, now=None, run_limit=3, force=False):
     for item in want:
         card = make_card(station, item, now=now)
         ss.upsert(station, card, root)
-        report["would_create"].append(card["id"])
+        # 计划项与实际建卡分开记：混在一个字段会让人以为建了两张（2026-11-12 实测）
+        report.setdefault("created", []).append(card["id"])
     # 领自己队列里可跑的
     n = 0
     for card in ss.read_queue(station, root):
