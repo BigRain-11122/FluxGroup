@@ -279,3 +279,5 @@ cph4/fleet/rt/*/*.tmp*
 cph4/fleet/rt/*/*.lock
 # 本机模型调用账（2026-11-11：按工位分文件、一机一写者；旧账 dispatcher/ 那份五机共用且已入库，标 legacy）
 cph4/fleet/rt/*/local-model.jsonl
+# 坏行备份（2026-11-12：含撕裂行的原始分片，留证不入库）
+cph4/fleet/rt/*/*.corrupt-*

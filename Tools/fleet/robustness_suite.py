@@ -286,6 +286,25 @@ def r12():
         shutil.rmtree(td, ignore_errors=True)
 
 
+@case("R-13", "坏行不静默消失", "掉电撕裂一行 -> 读到坏行数 + 写前留 .corrupt 备份")
+def r13():
+    import station_shards as ss
+    td = _root()
+    try:
+        q = ss.queue_path("visual", td)
+        os.makedirs(os.path.dirname(q), exist_ok=True)
+        with open(q, "w", encoding="utf-8") as f:
+            f.write('{"id": "A", "state": "OPEN"}\n{"id": "B", "sta\n{"id": "C", "state": "OPEN"}\n')
+        rows, bad = ss.read_queue_checked("visual", td)
+        if bad != 1:
+            return False, "坏行数=%s（期望 1）" % bad
+        ss.write_queue("visual", rows, root=td)
+        baks = [f for f in os.listdir(os.path.dirname(q)) if ".corrupt-" in f]
+        return bool(baks), "坏行=%s 备份=%s" % (bad, baks)
+    finally:
+        shutil.rmtree(td, ignore_errors=True)
+
+
 def run(verbose=True):
     rows = []
     for c in CASES:

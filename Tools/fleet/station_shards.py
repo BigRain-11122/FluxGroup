@@ -131,6 +131,10 @@ def read_queue(station, root=None):
                 continue
             if isinstance(r, dict) and r.get("id"):
                 rows.append(r)
+    if bad:
+        # 2026-11-12：原来 bad 只 += 1 然后丢弃，调用方拿不到任何信号 ——
+        # 掉电撕裂一次就静默丢卡，且下一次 upsert 整表重写会把它永久抹掉。
+        read_queue.last_bad = bad
     return rows
 
 
@@ -147,6 +151,13 @@ def _own_station():
     except Exception as e:
         raise RuntimeError("身份模块不可用，拒绝写入（fail-closed）：%s" % e)
     return fid.station_or_none()
+
+
+def read_queue_checked(station, root=None):
+    """读队列并显式返回坏行数：返回 (rows, bad)。坏行不丢信息，交给调用方处置。"""
+    read_queue.last_bad = 0
+    rows = read_queue(station, root)
+    return rows, int(getattr(read_queue, "last_bad", 0) or 0)
 
 
 def guard_write(station, root=None, me=None):
@@ -179,6 +190,18 @@ def write_queue(station, rows, root=None, allow_cross=False):
         guard_write(station, root)
     p = queue_path(station, root)
     os.makedirs(os.path.dirname(p), exist_ok=True)
+    # 2026-11-12：整表重写前，若原文件含坏行，先留一份 .corrupt-<ts> 备份。
+    # 否则一次掉电撕裂的坏行会被这次原子写"洗干净"——卡静默消失且无法恢复。
+    try:
+        _rows0, _bad0 = read_queue_checked(station, root)
+        if _bad0:
+            import shutil as _sh
+            import time as _t
+            bak = p + ".corrupt-" + _t.strftime("%Y%m%d%H%M%S")
+            _sh.copy2(p, bak)
+            append_log(station, {"evt": "CORRUPT-LINE", "bad": _bad0, "backup": os.path.basename(bak)}, root)
+    except Exception:
+        pass
     seen = {}
     order = []
     for r in rows:
@@ -193,7 +216,23 @@ def write_queue(station, rows, root=None, allow_cross=False):
         with open(tmp, "w", encoding="utf-8") as f:
             for k in order:
                 f.write(json.dumps(seen[k], ensure_ascii=False, sort_keys=False) + "\n")
+            # 2026-11-12：os.replace 只保证"别人读不到半份"，不保证"掉电后新内容还在"。
+            # 实测全仓原本 0 处 fsync —— 断电可能回退到旧版本或留下 0 字节文件，
+            # 而 read_queue 对空文件返回空表，紧接着一次写就把整站队列清零。
+            try:
+                f.flush()
+                os.fsync(f.fileno())
+            except Exception:
+                pass
         os.replace(tmp, p)
+        try:
+            _dfd = os.open(os.path.dirname(p), os.O_RDONLY)
+            try:
+                os.fsync(_dfd)          # 目录项也要落盘，否则 rename 可能丢
+            finally:
+                os.close(_dfd)
+        except Exception:
+            pass
     return sum(1 for k in order if k in seen)
 
 
