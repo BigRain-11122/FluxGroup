@@ -127,8 +127,8 @@
 | 4.3 重试 | 已完成 | `4bc8e30bdd` | `retry_due`：5/10/20 分钟退避，3 次后转 BLOCKED |
 | 4.4 交接 | 已完成 | `13fe5a2496` | 改 outbox（一机一写者不变）；`consume_outbox` 去重；积压可见 |
 | 5.1 缺输入 | 已完成 | `458e3e8499` | per-stage `requires` 契约；缺路径判 BLOCKED 并写明缺什么 |
-| 5.2 首条线端到端 | **未开始** | — | 需要真实内容生产（素材/模型），见下 |
-| 6 执行体注册 | **未开始** | — | 依赖 5.2 |
+| 5.2 首条线端到端 | 已完成 | `635d8488a1` | 养号线沙箱跑通：DONE 2 张、回执哈希重算一致、抽验 A1/A2/A3 全过；回归 R-17 |
+| 6 执行体入口 | 已准备（未启用） | 本轮 | `go_live_preflight.py`（工位状态闸）+ `install_drive_agent.py`（v3 LaunchAgent，默认只生成不加载）；go-live 由 pulse 改为 drive |
 
 **新增回归（robustness 由 11 条升到 16 条）**：R-12 并发取件只放行一次、R-13 坏行
 不静默消失、R-14 命令超时整组杀、R-15 失败卡退避重试、R-16 缺前置输入判 BLOCKED。
@@ -139,3 +139,13 @@ BLOCKED 等 `out/asset-pack`。要让它真跑通，必须先有上游产物（�
 是"给一条线补真实产能"——需要选线（建议 biggame 提审包，产物契约齐全）、
 确认素材与模型可用、再把该线的 3–5 道工序命令接上。这一步会实际消耗算力与素材，
 应在执行体注册之前、且按线一条条来。
+
+### 批次 6 的边界（重要）
+
+执行体入口已经"修对了但没启用"：`com.fluxgroup.drive.plist` 已按本机路径生成，
+**未 launchctl 加载**（`launchctl list | grep fluxgroup` = 0）。原因是 CEO
+2026-11-11「全部暂停，等我梳理工作流」仍在生效，恢复服务是他的决定。
+
+启用方式（等令）：`bash Tools/go-live.sh --apply`，它会先过
+`go_live_preflight.py`（本机 control 现在是 `ready_paused`，会当场拒绝——
+这正是设计意图：一台被判定暂停的机器不该被 go-live 悄悄拉起来跑）。
