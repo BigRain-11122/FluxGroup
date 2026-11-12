@@ -182,7 +182,15 @@ def run(dry=False, only=None, force=None):
         return report
 
     results = []
+    budget = int(os.environ.get("AUTOMATION_BUDGET_S") or 240)
+    t_start = time.time()
     for t in due:                      # 串行：一条跑完再下一条
+        # 单轮预算：2026-11-12 实测，18 条串行跑满 12 分钟，把单例锁长期占住
+        # （launchd 每 300s 触发一次，全被锁挡回），手动干预也进不来。
+        # 超预算就不再启动新任务，剩下的留给下一轮——宁可分几轮跑完，不许长期占锁。
+        if time.time() - t_start > budget:
+            report["skipped"].append({"task": t.get("id"), "why": "本轮预算 %ds 用尽，留给下一轮" % budget})
+            continue
         r = run_one(t, station)
         results.append(r)
         runs[t["id"]] = {"last": time.time(), "rc": r["rc"], "sec": r["sec"]}
@@ -255,10 +263,13 @@ def main(argv=None):
     ap.add_argument("--only", default=None)
     ap.add_argument("--force", default=None)
     ap.add_argument("--json", action="store_true")
+    ap.add_argument("--budget", type=int, default=None, help="单轮时间预算（秒），默认 240")
     ap.add_argument("--self-test", action="store_true")
     a = ap.parse_args(argv)
     if a.self_test:
         return self_test()
+    if a.budget:
+        os.environ["AUTOMATION_BUDGET_S"] = str(a.budget)
     r = run(dry=a.dry, only=a.only, force=a.force)
     if a.json:
         print(json.dumps(r, ensure_ascii=False, indent=1))
