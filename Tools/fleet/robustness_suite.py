@@ -305,6 +305,23 @@ def r13():
         shutil.rmtree(td, ignore_errors=True)
 
 
+@case("R-14", "命令超时整组杀", "只杀 shell 会让子进程继续写同一产物目录")
+def r14():
+    import subprocess as sp
+    import station_drive as sd
+    td = _root()
+    mark = "MARK_R14_%d" % os.getpid()
+    try:
+        card = {"id": "TO-1", "cmd": "sleep 30 # " + mark, "cmd_reviewed": True,
+                "deliverable": "out/none/tm.bin", "judge": "path"}
+        r = sd.run_card("control", card, root=td, timeout=2)
+        left = sp.run(["pgrep", "-f", mark], capture_output=True, text=True).stdout.strip()
+        return (r.get("why") == "TIMEOUT" and not left), \
+            "why=%s 残留=%s" % (r.get("why"), left or "无")
+    finally:
+        shutil.rmtree(td, ignore_errors=True)
+
+
 def run(verbose=True):
     rows = []
     for c in CASES:

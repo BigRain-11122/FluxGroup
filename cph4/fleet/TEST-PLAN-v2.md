@@ -20,7 +20,7 @@
 | `regression.CASES` | 36 | 历史故障固化的回归断言（每条带负控） |
 | `station_qa.CASES` | 12 | 机内执行工况：停/离线/无命令/人判/低盘/坏卡 |
 | `fleet_rehearsal.SCEN` | 14 | 跨机流转预演：交接/重复/离线/回执/漂移 |
-| `robustness_suite.CASES` | 13 | 存储与数据面：并发写/崩溃/坏行/状态机/数量级 |
+| `robustness_suite.CASES` | 14 | 存储与数据面：并发写/崩溃/坏行/状态机/数量级 |
 | `condition_matrix`（生成） | 80（环境 55 / 核力 10 / 系统 15） | 5 台机 × 环境偏差 × 核力禁区 |
 | `parallel_sim`（生成） | 4 组合 | 单端点平摊/突发 × 有/无深席上升 |
 

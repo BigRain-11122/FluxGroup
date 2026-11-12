@@ -36,6 +36,7 @@ import hashlib
 import json
 import os
 import shutil
+import signal
 import subprocess
 import sys
 import time
@@ -340,9 +341,43 @@ def run_card(station, card, root=None, timeout=1800):
                 "detail": _why, "manifest": man_p, "out": out_abs}
 
     t0 = time.time()
+    timed_out = False
     with open(os.path.join(out_abs, "run.log"), "w", encoding="utf-8") as log:
-        p = subprocess.run(cmd, shell=True, cwd=rroot, stdout=log,
-                           stderr=subprocess.STDOUT, timeout=timeout)
+        # 2026-11-12（批次4.1）：原实现直接 subprocess.run(timeout=...)，超时抛异常穿出
+        # once() → 卡已是 RUNNING 但 record/append_log 都没写（无回执、无日志）；
+        # 且 shell=True 只杀掉 shell，真正的子进程继续跑并继续写同一产物目录，
+        # 45 分钟后 reclaim 退回 OPEN 重跑 → 两个写者同写一个产物。
+        # 现在：独立进程组 + 超时整组杀 + 判 TIMEOUT 并写回执。
+        # 用 Popen 自己管超时：subprocess.run 超时只 kill 直接子进程（shell），
+        # 杀不到它拉起的 ffmpeg/blender，孤儿会继续写同一产物目录。
+        proc = subprocess.Popen(cmd, shell=True, cwd=rroot, stdout=log,
+                                stderr=subprocess.STDOUT, start_new_session=True)
+        try:
+            _rc = proc.wait(timeout=timeout)
+        except subprocess.TimeoutExpired:
+            timed_out = True
+            try:
+                os.killpg(os.getpgid(proc.pid), signal.SIGKILL)
+            except Exception:
+                try:
+                    proc.kill()
+                except Exception:
+                    pass
+            try:
+                proc.wait(timeout=30)
+            except Exception:
+                pass
+            _rc = -9
+
+        class _R:
+            returncode = _rc
+        p = _R()
+    if timed_out:
+        man = {"ts": _now().isoformat(timespec="seconds"), "rc": -9,
+               "seconds": round(time.time() - t0, 1), "cmd": cmd, "station": station,
+               "note": "超时 %ss，已杀进程组" % timeout}
+        _write_manifest(man_p, man)
+        return {"ok": False, "rc": -9, "why": "TIMEOUT", "manifest": man_p, "out": out_abs}
     man = {"ts": _now().isoformat(timespec="seconds"), "rc": p.returncode,
            "seconds": round(time.time() - t0, 1), "cmd": cmd, "station": station}
     _write_manifest(man_p, man)
@@ -515,47 +550,95 @@ RUNNABLE = ("ready", "online", "network_ok_not_registered")
 
 
 def _lease_minutes(root=None):
-    """租约分钟：只从配置读，不写死。"""
-    try:
-        cfg = _load("AUTONOMY-CONFIG.json", root) or {}
-        v = ((cfg.get("lease_minutes") or {}).get("default")
-             or cfg.get("lease_minutes_default") or cfg.get("lease_minutes"))
-        if isinstance(v, int):
-            return v
-    except Exception:
-        pass
-    try:
-        cfg = _load("CARD-POLICY-v1.json", root) or {}
-        v = (cfg.get("lease") or {}).get("minutes") or cfg.get("lease_minutes")
-        if isinstance(v, int):
-            return v
-    except Exception:
-        pass
+    """租约分钟：只从配置读，不写死。支持 int / {"default": n} / {"minutes": n} 三种写法。
+
+    2026-11-12：原实现只认 int，而 CARD-POLICY 里 lease_minutes 是对象，
+    isinstance(v,int) 为 False → 静默落到默认 45。"读不到配置"和"配置就是 45"
+    看起来一模一样，这种假绿最难查。
+    """
+    def _num(v):
+        if isinstance(v, bool):
+            return None
+        if isinstance(v, (int, float)):
+            return int(v)
+        if isinstance(v, dict):
+            for k in ("default", "minutes", "value"):
+                if isinstance(v.get(k), (int, float)) and not isinstance(v.get(k), bool):
+                    return int(v[k])
+        return None
+
+    for fn, keys in (("AUTONOMY-CONFIG.json", ("lease_minutes", "lease_minutes_default")),
+                     ("CARD-POLICY-v1.json", ("lease_minutes", "lease"))):
+        try:
+            cfg = _load(fn, root) or {}
+        except Exception:
+            continue          # 沙箱/缺文件：继续看下一份，最后才落默认
+        for k in keys:
+            v = _num(cfg.get(k))
+            if v:
+                return v
     return 45
 
 
+def _lease_for(card, root=None):
+    """按卡的资源类型取租约：cpu=45 / gpu=180 / cloud=60（配置里分三档）。
+
+    出图/出片这类 gpu 卡跑 2-3 小时是常态，用统一的 45 分钟会把它当僵尸回收，
+    两个写者同写一个产物目录。
+    """
+    try:
+        cfg = _load("CARD-POLICY-v1.json", root) or {}
+        lm = cfg.get("lease_minutes")
+        if isinstance(lm, dict):
+            k = str(card.get("needs") or "cpu").strip().lower()
+            v = lm.get(k) or lm.get("default")
+            if isinstance(v, (int, float)) and not isinstance(v, bool):
+                return int(v)
+    except Exception:
+        pass
+    return _lease_minutes(root)
+
+
 def reclaim(station, root=None, now=None, lease_min=None):
-    """回收卡死的 RUNNING：认领超租约且无新回执 -> 退回 OPEN，写 release_reason。
-    2026-11-11 预演发现：进程被 kill 后卡永久 RUNNING，新机队没有回收机制。"""
+    """回收卡死的 RUNNING：退回 OPEN 并写 release_reason。
+
+    2026-11-12（批次4.2）覆盖 5 种形态——原实现只认"owner=本机 且 claimed_at 可解析"，
+    其余四种永久卡死且无红灯：
+      1 owner=本机 + 超租约          -> 回收
+      2 owner 为空 + 超租约          -> 回收（migration/人工写入留下的）
+      3 claimed_at 缺失/坏           -> 用 ts/created_at/文件 mtime 兜底算龄
+      4 owner≠本机 + 超 3 倍租约      -> 回收（宽限，避免误杀正在别的机器上跑的卡）
+      5 刚认领未超租约                -> 不动
+    """
     now_dt = now or _now()
     lease = lease_min or _lease_minutes(root)
     rows = ss.read_queue(station, root)
+    mtime = None
+    try:
+        import os as _o
+        mtime = datetime.fromtimestamp(_o.path.getmtime(ss.queue_path(station, root)))
+    except Exception:
+        pass
     rec = 0
     for r in rows:
         if str(r.get("state")).upper() != "RUNNING":
             continue
-        if (r.get("owner") or "") != station:
-            continue
-        ts = str(r.get("claimed_at") or r.get("assign_ts") or "")
+        owner = (r.get("owner") or "").strip()
+        ts = str(r.get("claimed_at") or r.get("assign_ts") or r.get("created_at") or r.get("ts") or "")
+        age = None
         try:
             age = (now_dt - datetime.fromisoformat(ts[:19])).total_seconds() / 60
         except Exception:
-            age = None
-        if age is None or age <= lease:
+            if mtime:
+                age = (now_dt - mtime).total_seconds() / 60
+        base = _lease_for(r, root)
+        limit = base if (not owner or owner == station) else base * 3
+        if age is None or age <= limit:
             continue
         row = dict(r)
-        row.update({"state": "OPEN", "owner": None, "release_reason":
-                    "认领 %.0f 分钟无回执（租约 %s 分钟），已回收重排" % (age, lease)})
+        row.update({"state": "OPEN", "owner": None,
+                    "release_reason": "认领 %.0f 分钟无回执（租约 %s 分钟，owner=%s），已回收重排"
+                                      % (age, limit, owner or "无")})
         ss.upsert(station, row, root)
         rec += 1
     return rec
@@ -622,16 +705,22 @@ def _disk_ok(station, root=None):
 
 
 def once(station, root=None, dry=False, now=None, run_limit=3, force=False):
+    # 2026-11-12（批次4.2）：回收必须排在所有闸之前。原来它在 _status_ok/_disk_ok
+    # 之后，机器一被暂停/离线/磁盘满就直接 return，卡在 RUNNING 里永远出不来——
+    # 恰恰"最需要回收的时候"（机器刚恢复/刚腾出空间）它不跑。
+    reclaimed = 0 if dry else reclaim(station, root, now)
     ok, why = _status_ok(station, root, force)
     if not ok:
         return {"station": station, "ts": _now().isoformat(timespec="seconds"),
-                "blocked": why, "would_create": [], "unknown_output": [], "ran": []}
+                "blocked": why, "reclaimed": reclaimed,
+                "would_create": [], "unknown_output": [], "ran": []}
+    # 合并（2026-11-12）：远端把状态与磁盘两个闸拆开并各带说明（status_note/disk_why），
+    # 本地把回收提前到闸之前。两者都要：先回收，再各自判闸，且都报告 reclaimed。
     disk_ok, disk_why = _disk_ok(station, root)
     if not disk_ok:
         return {"station": station, "ts": _now().isoformat(timespec="seconds"),
-                "status_note": why, "blocked": disk_why,
+                "status_note": why, "blocked": disk_why, "reclaimed": reclaimed,
                 "would_create": [], "unknown_output": [], "ran": []}
-    reclaimed = reclaim(station, root, now)
     want, unknown = plan(station, root, now)
     report = {"station": station, "ts": _now().isoformat(timespec="seconds"),
               "status_note": why,
