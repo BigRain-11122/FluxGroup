@@ -181,6 +181,13 @@ def run(dry=False, only=None, force=None):
         report["error"] = "已有调度器在跑（单例锁被占用）"
         return report
 
+    # 心跳：调度器自己活着也必须能被看出来。只让 station_drive 写心跳的话，
+    # "本轮预算用尽/全部跳过"会被主控误判成执行体挂了（2026-11-12）。
+    try:
+        import station_shards as _ss
+        _ss.heartbeat_write(station, None, {"via": "automation_runner", "due": len(due)})
+    except Exception:
+        pass
     results = []
     budget = int(os.environ.get("AUTOMATION_BUDGET_S") or 240)
     t_start = time.time()

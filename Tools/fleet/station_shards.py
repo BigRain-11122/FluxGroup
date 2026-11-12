@@ -446,6 +446,179 @@ def load_all(root=None, prefer_remote=True):
     return out
 
 
+# ---------------------------------------------------------------- 跨分片只读视图
+# 2026-11-12：分片解决了"谁能写"，但把"谁来看全部"留成了空白。实测后果——
+# 同一道工序 23 分钟内被建了 4 张卡（供给只看本分片 + 产物 mtime，看不到在飞），
+# 传家宝一张 11-11 的旧卡挂了两天（旧格式没有 station 字段，新过滤器认不出）。
+# 这一段补的是**只读**视图：不写任何分片，只回答"这道工序现在有没有人在跑"。
+#
+# 判据取白名单而非黑名单：只有明确"已结束且可重建"的状态才放行重建。
+# 新增状态默认算在飞——宁可少建一张卡（下一轮还能补），不可重复建卡
+# （重复建卡 = 重复执行 + 重复扣费 + 回执互相覆盖）。
+NON_BLOCKING_STATES = frozenset(("DONE", "VERIFIED", "CANCELLED", "FAILED"))
+
+
+def stage_key(row):
+    """把一张卡归一成 (product_id, stage)；认不出返回 None。
+
+    必须兼容三种历史格式（2026-11-12 实测同时存在）：
+      1 新格式：有 product_id + stage 字段；
+      2 self-drive 旧格式：只有标题 "[self-drive] PROD-X · 草稿"；
+      3 line_plan 旧格式：只有 line/owner，没有 product/stage —— 不猜，返回 None，
+        由调用方按"归属未知"单独处置（猜错会把 A 产品的卡当成 B 产品的）。
+    """
+    pid = str(row.get("product_id") or "").strip()
+    stg = str(row.get("stage") or "").strip()
+    if pid and stg:
+        return (pid, stg.replace(" ", ""))
+    title = str(row.get("title") or "")
+    if " · " in title:
+        left, right = title.rsplit(" · ", 1)
+        left = left.split("]")[-1].strip()
+        right = right.strip()
+        if left.upper().startswith("PROD-") and right:
+            return (left, right.replace(" ", ""))
+    return None
+
+
+def inflight(root=None, stations=None, blocking_only=True):
+    """跨分片在飞视图（只读）：{(product_id, stage): [row, ...]}。
+
+    blocking_only=True 只收会阻断重建的状态；DONE/VERIFIED/CANCELLED/FAILED
+    不算在飞（FAILED 要允许重试，退避由 retry_due 管，不在供给层拦）。
+    """
+    out = {}
+    for s in (stations or STATIONS):
+        for r in read_queue(s, root):
+            k = stage_key(r)
+            if not k:
+                continue
+            st = str(r.get("state") or r.get("status") or "").upper()
+            if blocking_only and st in NON_BLOCKING_STATES:
+                continue
+            out.setdefault(k, []).append(r)
+    return out
+
+
+def recent_done(root=None, within_min=60, now=None):
+    """近 N 分钟内完成过的工序：{(product_id, stage): 最近完成时间}。
+
+    给供给一道"刚跑完别立刻再建"的保护：累加式产物跑完不重写时 mtime 不变，
+    会一直被判"过期"，没有这道保护就每轮建一张新卡（2026-11-12 实测 4 张）。
+    """
+    import datetime as _dt
+    now = now or _dt.datetime.now()
+    if isinstance(now, (int, float)):
+        now = _dt.datetime.fromtimestamp(now)
+    out = {}
+    for s in STATIONS:
+        for r in read_queue(s, root):
+            if str(r.get("state") or "").upper() not in ("DONE", "VERIFIED"):
+                continue
+            k = stage_key(r)
+            if not k:
+                continue
+            ts = str(r.get("updated_at") or r.get("finished_at") or r.get("created_at") or "")
+            try:
+                t = _dt.datetime.fromisoformat(ts[:19])
+            except Exception:
+                continue
+            if (now - t).total_seconds() / 60 <= within_min:
+                prev = out.get(k)
+                if prev is None or t > prev:
+                    out[k] = t
+    return out
+
+
+def last_done_cards(root=None, within_min=None):
+    """每个工序最近一张完成卡：{(product_id, stage): row}。
+
+    用途是回答一个时间窗口回答不了的问题——"上次跑完，产物到底变了没有"。
+    卡里记的 product_sig 与当前产物签名一致，说明命令跑成功了但没产出新东西，
+    这时重建只会重复烧算力（实测同一工序 23 分钟被建了 4 张，产物一模一样）。
+    """
+    import datetime as _dt
+    now = _dt.datetime.now()
+    out, best = {}, {}
+    for s in STATIONS:
+        for r in read_queue(s, root):
+            if str(r.get("state") or "").upper() not in ("DONE", "VERIFIED"):
+                continue
+            k = stage_key(r)
+            if not k:
+                continue
+            ts = str(r.get("finished_at") or r.get("updated_at") or r.get("created_at") or "")
+            try:
+                t = _dt.datetime.fromisoformat(ts[:19])
+            except Exception:
+                continue
+            if within_min is not None and (now - t).total_seconds() / 60 > within_min:
+                continue
+            if k not in best or t > best[k]:
+                best[k] = t
+                out[k] = r
+    return out
+
+
+# ---------------------------------------------------------------- 执行体心跳
+# 分片 mtime 只能说明"有人写过文件"（可能是一次手工命令、一次 git 同步、一次
+# 失败的重试），不能说明"这台机器的自驱还活着"。2026-11-12 实测：公司生产力机
+# 13:29 之后两小时分片没动，主控无法判断它是执行体没了、还是本来没活可干。
+# 心跳带 pid + 轮次，才能把"执行体活着"和"文件被人碰过"分开。
+HEARTBEAT = "heartbeat.json"
+
+
+def heartbeat_path(station, root=None):
+    return os.path.join(rt_dir(station, root), HEARTBEAT)
+
+
+def heartbeat_write(station, root=None, extra=None):
+    """本机执行体每轮写一次；轮次自增，pid 变化说明进程重启过。"""
+    import datetime as _dt
+    p = heartbeat_path(station, root)
+    os.makedirs(os.path.dirname(p), exist_ok=True)
+    prev = heartbeat_read(station, root) or {}
+    obj = {
+        "station": station,
+        "pid": os.getpid(),
+        "ts": _dt.datetime.now().isoformat(timespec="seconds"),
+        "round": int(prev.get("round") or 0) + 1,
+    }
+    obj.update(extra or {})
+    tmp = p + ".tmp.%d" % os.getpid()
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(obj, f, ensure_ascii=False)
+        f.flush()
+        os.fsync(f.fileno())
+    os.replace(tmp, p)
+    return obj
+
+
+def heartbeat_read(station, root=None):
+    try:
+        with open(heartbeat_path(station, root), encoding="utf-8") as f:
+            d = json.load(f)
+        return d if isinstance(d, dict) else None
+    except Exception:
+        return None
+
+
+def heartbeat_age_min(station, root=None, now=None):
+    """心跳龄期（分钟）；没有心跳返回 None（≠ 0，两者必须区分）。"""
+    import datetime as _dt
+    hb = heartbeat_read(station, root)
+    if not hb:
+        return None
+    now = now or _dt.datetime.now()
+    if isinstance(now, (int, float)):
+        now = _dt.datetime.fromtimestamp(now)
+    try:
+        t = _dt.datetime.fromisoformat(str(hb.get("ts"))[:19])
+    except Exception:
+        return None
+    return (now - t).total_seconds() / 60
+
+
 def self_test():
     fails = []
 

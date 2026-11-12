@@ -281,3 +281,6 @@ cph4/fleet/rt/*/*.lock
 cph4/fleet/rt/*/local-model.jsonl
 # 坏行备份（2026-11-12：含撕裂行的原始分片，留证不入库）
 cph4/fleet/rt/*/*.corrupt-*
+
+# 执行体心跳：本机运行时证据，每轮变化，不入库（跨机存活判据见 master_patrol）
+cph4/fleet/rt/*/heartbeat.json

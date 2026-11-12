@@ -36,6 +36,9 @@ CASES = [
     ("L0", "回归用例 RG-*", "regression.py", []),
     ("L1", "shards 分片/锁", "station_shards.py", ["--self-test"]),
     ("L1", "drive 自驱", "station_drive.py", ["--self-test"]),
+    # 2026-11-12：单轮自检照不到"多轮×多分片×新旧格式"的缺陷（重复建卡、僵尸卡、
+    # 执行体失联）。这一套专门跑连续工况，每条关键断言都配负控。
+    ("L2", "chain 全链路工况", "chain_cases.py", []),
     ("L1", "panel 评审团", "panel_review.py", ["--self-test"]),
     ("L1", "agent 席位", "agent_team.py", ["--self-test"]),
     ("L1", "local loop 本地闭环", "local_loop_check.py", ["--self-test"]),

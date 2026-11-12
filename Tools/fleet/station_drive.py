@@ -58,6 +58,10 @@ MANUAL_JUDGES = ("manual", "human")
 import state_machine as _smk   # noqa: E402
 DONE_STATES = _smk.rebuildable()
 
+# 刚跑完的工序在 N 分钟内不再重建。防的是"累加式产物跑完不重写 → mtime 不变 →
+# 永远判过期 → 每轮建一张新卡"（2026-11-12 实测同一草稿工序 23 分钟建了 4 张）。
+REBUILD_GUARD_MIN = 60
+
 
 def _now():
     return datetime.now()
@@ -106,6 +110,25 @@ def _tree_sha(path):
 def _digest(path):
     """统一走 station_shards.digest，禁止本地另写一份。"""
     return ss.digest(path)
+
+
+def _prodsig(path):
+    """产物签名：size + 前 64KB 哈希。
+
+    不能用 mtime：run_card 成功后会 touch 产物（防"永远过期"），mtime 每次都变，
+    拿它当签名等于每次都判"变了"，重复建卡照样发生。也不能全文件哈希：出图/出片
+    动辄几百 MB，供给每轮都算承受不起。size + 头部哈希足够区分"有没有新内容"。
+    """
+    try:
+        sz = os.path.getsize(path)
+    except OSError:
+        return None
+    if sz == 0:
+        return "0:"
+    try:
+        return "%d:%s" % (sz, _sha(path, 64 * 1024)[:16])
+    except OSError:
+        return None
 
 
 def _size(path):
@@ -162,6 +185,16 @@ def plan(station, root=None, now=None):
     have = ss.read_queue(station, root)
     open_keys = {(c.get("product_id"), c.get("stage")) for c in have
                  if c.get("state") not in DONE_STATES}
+    # 2026-11-12（根因修复）：open_keys 原来只来自**本分片**，且拿 (product_id, stage)
+    # 原样比对。两个漏洞都是实测踩到的：
+    #   ①同一工序的卡可能落在别的分片（老格式按 owner/nodes 定责，视觉分片里就有
+    #     归属 asset-lib 的卡）——本分片看不见，于是判"没在跑"再建一张；
+    #   ②老格式卡没有 product_id（只有标题或 line），比对恒不命中，同样判"没在跑"。
+    # 结果：同一草稿工序 13:41/14:04/14:05/14:06 连出 4 张，全部 DONE，产物一模一样。
+    # 现在改用跨分片归一化视图 inflight()（station_shards），加 recent_done 保护
+    # "刚跑完但产物没刷新"的情况。写仍然只写本分片，这里只读。
+    inflight = ss.inflight(root)
+    last_done = ss.last_done_cards(root)
 
     want, unknown = [], []
     for p in products:
@@ -197,8 +230,22 @@ def plan(station, root=None, now=None):
             path = os.path.join(rroot, rel)
             if _fresh_enough(path, t.get("refresh_h"), now):
                 continue
-            if (pid, stage) in open_keys:
+            # 归一化后跨分片查在飞（与 ss.stage_key 同一把尺，避免两处各写一份归一化）
+            key = (pid, stage.replace(" ", ""))
+            if key in inflight or (pid, stage) in open_keys:
                 continue
+            # 上次跑完产物没变 = 命令成功但没产出新东西（累加式产物、inbox 空、
+            # 或命令本身是空转）。这时重建只会重复烧算力，必须报缺口让人修命令，
+            # 不能靠"再跑一次"自欺（实测同一工序 23 分钟被建 4 张、产物一模一样）。
+            prev = last_done.get(key) or last_done.get((pid, stage))
+            if prev is not None:
+                prev_sig = prev.get("product_sig")
+                now_sig = _prodsig(path) if os.path.exists(path) else None
+                if prev_sig and now_sig and prev_sig == now_sig:
+                    unknown.append({"product": pid, "stage": stage, "task_type": tid,
+                                    "why": "OUTPUT-NOT-REFRESHED：上次执行成功但产物未更新"
+                                           "（size/mtime 与上次一致），重复跑无意义"})
+                    continue
             want.append({"product": pid, "stage": stage, "task_type": tid, "cmd": (p.get("commands") or {}).get(stage),
                          "output": rel, "refresh_h": t.get("refresh_h"),
                          "judge": t.get("judge"),
@@ -518,7 +565,11 @@ def record(station, card, verdict, why, root=None):
     }
     ss.append_receipt(station, rcpt, root)
     card = dict(card)
+    # 产物签名（size:mtime）随卡落库。下一轮供给靠它判断"上次跑完产物变了没有"，
+    # 这是唯一能区分"该重建"和"命令跑了但没产出新东西"的证据。
+    _sig = _prodsig(p) if (p and os.path.exists(p)) else None
     extra = {"state": verdict, "finished_at": rcpt["ts"],
+             "product_sig": _sig,
              "result": {"why": why, "bytes": rcpt["bytes"]}}
     # 退避重试的账目（批次4.3）：失败/返工要记 attempt 与下次可重试时间，
     # 否则 retry_due() 只能每次立刻重排 = 每轮刷卡。
@@ -783,6 +834,97 @@ def reclaim(station, root=None, now=None, lease_min=None):
     return rec
 
 
+# ---------------------------------------------------------------- 跨机救援
+# 2026-11-12：回收原来只在"本机自驱跑起来"时才发生。传家宝的执行体一停，它分片里
+# 那张 11-11 00:26 的 RUNNING 卡就再也没人回收——挂了两天，state 一直 RUNNING，
+# 而主控看得见它却什么都不做（这就是"只报红不修"的另一种形态）。
+# 判据必须是"执行体是否活着"（心跳），不能是"分片文件多久没动"——后者可能只是没活。
+RESCUE_STALE_MIN = 30        # 心跳停 30 分钟 = 驱动 5 分钟一轮的话 6 轮没动
+RESCUE_MAX_PER_ROUND = 20
+
+
+def station_alive(station, root=None, now=None, stale_min=RESCUE_STALE_MIN):
+    """返回 (alive, why)。"没有心跳文件"与"心跳很旧"必须能区分。"""
+    age = ss.heartbeat_age_min(station, root, now)
+    if age is None:
+        return False, "无心跳文件（执行体从未注册，或已被删除）"
+    if age > stale_min:
+        return False, "心跳已停 %.0f 分钟（阈值 %d）" % (age, stale_min)
+    return True, "心跳 %.1f 分钟前" % age
+
+
+def rescue_stale(me, root=None, now=None, stale_min=RESCUE_STALE_MIN):
+    """代"执行体已死"的工位回收僵尸 RUNNING 卡。只允许主控做。
+
+    为什么允许跨写：一机一写者防的是并发写冲突。心跳已停 = 该工位没有并发写者，
+    这时跨写不产生冲突；不写则卡永久卡死。每次代写都带 rescue_by/rescue_reason
+    并进台账，事后可分辨"救援"与"越权"。心跳新鲜时一律不动（宁可少救不可误杀）。
+    """
+    if me != "control":
+        return [], "只有主控做跨机救援（多机互救会互相踩）"
+    now = now or _now()
+    rescued, notes = [], []
+    for station in ss.STATIONS:
+        if station == me:
+            continue
+        rows = ss.read_queue(station, root)
+        running = [r for r in rows if str(r.get("state")).upper() == "RUNNING"]
+        if not running:
+            continue
+        alive, why = station_alive(station, root, now, stale_min)
+        if alive:
+            notes.append("%s: %s，不动" % (station, why))
+            continue
+        for r in running:
+            if len(rescued) >= RESCUE_MAX_PER_ROUND:
+                notes.append("本轮救援已达上限 %d" % RESCUE_MAX_PER_ROUND)
+                break
+            ts = str(r.get("claimed_at") or r.get("created_at") or "")
+            age = None
+            try:
+                age = (now - datetime.fromisoformat(ts[:19])).total_seconds() / 60
+            except Exception:
+                age = None
+            limit = _lease_for(r, root) * 3
+            if age is not None and age <= limit:
+                notes.append("%s/%s 龄期 %.0f 分钟未超宽限 %d，不动"
+                             % (station, r.get("id"), age, limit))
+                continue
+            row = dict(r)
+            row.update({"state": "OPEN", "owner": None,
+                        "rescue_by": me,
+                        "rescue_reason": "%s：%s；卡龄 %s 分钟，已由主控代回收"
+                                         % (station, why, "%.0f" % age if age is not None else "未知")})
+            try:
+                ss.upsert(station, row, root, allow_cross=True)
+            except PermissionError as e:
+                notes.append("%s/%s 代写被拒：%s" % (station, r.get("id"), e))
+                continue
+            except Exception as e:
+                notes.append("%s/%s 代写失败：%s" % (station, r.get("id"), type(e).__name__))
+                continue
+            rescued.append({"station": station, "id": r.get("id"), "why": why})
+            _rescue_ledger(me, station, r, why, root)
+    return rescued, "；".join(notes) if notes else ""
+
+
+def _rescue_ledger(me, station, card, why, root=None):
+    try:
+        p = os.path.join(root or ROOT, "cph4", "fleet", "state", "rescue-ledger.jsonl")
+        os.makedirs(os.path.dirname(p), exist_ok=True)
+        with open(p, "a", encoding="utf-8") as f:
+            f.write(json.dumps({"ts": _now().isoformat(timespec="seconds"),
+                                "rescue_by": me, "station": station,
+                                "card": card.get("id"), "why": why,
+                                "prev_owner": card.get("owner"),
+                                "prev_claimed_at": card.get("claimed_at")},
+                               ensure_ascii=False) + "\n")
+            f.flush()
+            os.fsync(f.fileno())
+    except Exception:
+        pass
+
+
 # 档案 status 写的是"停下来的原因"，不是一个关于现在的结论。能实测的原因
 # 一律去问服务端。2026-11-12 实锚：STATIONS 说本机 blocked_no_comfyui，而
 # 127.0.0.1:8188 的 /system_stats 当时 200 已答、ComfyUI 0.36.0 在跑——供给面
@@ -847,7 +989,16 @@ def once(station, root=None, dry=False, now=None, run_limit=3, force=False):
     # 2026-11-12（批次4.2）：回收必须排在所有闸之前。原来它在 _status_ok/_disk_ok
     # 之后，机器一被暂停/离线/磁盘满就直接 return，卡在 RUNNING 里永远出不来——
     # 恰恰"最需要回收的时候"（机器刚恢复/刚腾出空间）它不跑。
+    # 心跳必须在所有闸之前写：被暂停/离线也是"执行体活着"的状态。少写一次，
+    # 主控就会把"主动暂停"误判成"执行体死亡"，进而代它回收卡（2026-11-12 新增）。
+    if not dry:
+        try:
+            ss.heartbeat_write(station, root, {"via": "station_drive"})
+        except Exception:
+            pass
     reclaimed = 0 if dry else reclaim(station, root, now)
+    # 跨机救援：主控代"执行体已死"的工位回收僵尸卡（心跳新鲜时一律不动）。
+    rescued, rescue_note = ([], "") if dry else rescue_stale(station, root, now)
     retried = 0 if dry else retry_due(station, root, now)
     consumed = {"added": [], "skipped": 0} if dry else consume_outbox(station, root)
     # outbox 里投给本机但还没入队的条数：目标机离线时卡会滞留，必须可见（不许无声消失）
@@ -865,6 +1016,7 @@ def once(station, root=None, dry=False, now=None, run_limit=3, force=False):
     if not ok:
         return {"station": station, "ts": _now().isoformat(timespec="seconds"),
                 "blocked": why, "reclaimed": reclaimed, "retried": retried, "consumed": consumed,
+                "rescued": rescued, "rescue_note": rescue_note,
                 "would_create": [], "unknown_output": [], "ran": []}
     # 合并（2026-11-12）：远端把状态与磁盘两个闸拆开并各带说明（status_note/disk_why），
     # 本地把回收提前到闸之前。两者都要：先回收，再各自判闸，且都报告 reclaimed。
@@ -873,10 +1025,12 @@ def once(station, root=None, dry=False, now=None, run_limit=3, force=False):
         return {"station": station, "ts": _now().isoformat(timespec="seconds"),
                 "status_note": why, "blocked": disk_why,
                 "reclaimed": reclaimed, "retried": retried, "consumed": consumed,
+                "rescued": rescued, "rescue_note": rescue_note,
                 "would_create": [], "unknown_output": [], "ran": []}
     want, unknown = plan(station, root, now)
     report = {"station": station, "ts": _now().isoformat(timespec="seconds"),
               "status_note": why, "reclaimed": reclaimed,
+              "rescued": rescued, "rescue_note": rescue_note,
               "retried": retried, "consumed": consumed,
               "would_create": [w["product"] + "/" + w["stage"] for w in want],
               # 2026-11-12 bm-c 现场切换：plan() 一直算出了每道工序"为什么没活"

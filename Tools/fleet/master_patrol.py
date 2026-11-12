@@ -100,20 +100,34 @@ def sample(root=None, limit_override=None):
                  "why": "缺抽验配置 ACCEPTANCE-v1.json（不许静默零抽验）", "ts": datetime.now().isoformat(timespec="seconds")}], 1
     done = _sampled(root)
     results, fails = [], 0
+    # 抽验必须能区分四种"没抽到"：没有合格回执 / 今日已抽满 / 比例为 0 / 真有 bug。
+    # 2026-11-12 实测：4 份回执当天全抽完（全 PASS），下一轮却报"一份都没抽到
+    # （抽验逻辑有问题）"——把"抽满了"误报成"闸坏了"，每天固定一条假红。
+    meta = {"configured": 0, "effective": 0, "candidates": 0, "already_sampled": 0, "picked": 0}
     for station, n in per.items():
+        # configured 记**配置原始值**，effective 记**本次真正生效的额度**。
+        # 两者混用会把"临时把额度压到 0（演练/降级）"误判成"配置为 0"。
+        meta["configured"] += int(n or 0)
         n = limit_override if limit_override is not None else n
+        meta["effective"] += int(n or 0)
         files = sorted(glob.glob(os.path.join(root or ROOT, "cph4", "fleet", "rt", station,
                                              "receipts", "*.json")),
                        key=os.path.getmtime, reverse=True)
         picked = 0
         for f in files:
-            if picked >= n:
-                break
             r = _j(f, {}) or {}
             key = (station, r.get("id"))
             if key in done:
+                meta["already_sampled"] += 1
                 continue
             if str(r.get("verdict") or "").upper() not in ("DONE", "PASS", "MATCH"):
+                continue
+            # 候选必须**先统计再决定抽不抽**：原来 `if picked >= n: break` 写在最前面，
+            # 额度为 0 时连"有候选"都统计不到，于是"有候选却没抽到"被误判成"没有候选"。
+            meta["candidates"] += 1
+            if picked >= n:
+                if meta["candidates"] > 200:      # 只统计到 200 就够判定了
+                    break
                 continue
             picked += 1
             rec = {"station": station, "id": r.get("id"), "receipt": os.path.basename(f)}
@@ -141,7 +155,58 @@ def sample(root=None, limit_override=None):
         with open(p, "a", encoding="utf-8") as f:
             for r in results:
                 f.write(json.dumps(r, ensure_ascii=False) + "\n")
+    meta["picked"] = len(results)
+    sample.last_meta = meta
     return results, fails
+
+
+def no_sample_issue(meta):
+    """"没抽到"分四种，只有两种是真问题（纯函数，便于单独测）。
+
+    2026-11-12 实测：4 份回执当天全抽完（全 PASS），下一轮报"一份都没抽到
+    （抽验逻辑有问题）"——把"抽满了"误报成"闸坏了"，每天固定一条假红。
+    """
+    cand = int(meta.get("candidates") or 0)
+    already = int(meta.get("already_sampled") or 0)
+    configured = int(meta.get("configured") or 0)
+    if configured <= 0:
+        return {"kind": "ACCEPTANCE-NO-SAMPLE", "who": "master_patrol",
+                "why": "抽验比例为 0（配置问题）：ACCEPTANCE-v1.json 的 sample_per_day 全是 0"}
+    if cand == 0 and already == 0:
+        return None      # 没有合格回执：链路还没产出成品，不等于验过了，但不是抽验坏了
+    if cand == 0 and already > 0:
+        return None      # 今日额度已抽满：正常
+    return {"kind": "ACCEPTANCE-NO-SAMPLE", "who": "master_patrol",
+            "why": "有 %d 份未抽的合格回执却一份没抽到（抽验逻辑有问题）" % cand}
+
+
+def _executor_issues(snap, root=None, me="control"):
+    """执行体存活：只报**证据可见**的那部分。
+
+    2026-11-12 两条相反的坑都要避开：
+      · 只看分片 mtime → 分不清"执行体没了"和"本来没活可干"（公司生产力机停 2h）；
+      · 一律要求心跳    → 远端心跳要随分片同步才看得见，看不到就判死 = 假红。
+    判据因此分开：
+      本机（me）没有心跳 = 真缺口（本机自己就能写，没写就是没注册）；
+      远端没有心跳     = 不可见，不判（避免假红）；远端心跳存在但停 = 真挂了。
+    """
+    out = []
+    for m in snap.get("machines") or []:
+        st = m.get("station")
+        status = str(m.get("status") or "")
+        if status not in ("ready", "online", "network_ok_not_registered"):
+            continue
+        hb = ss.heartbeat_read(st, root)
+        age = ss.heartbeat_age_min(st, root)
+        if hb is None:
+            if st == me:
+                out.append({"kind": "STATION-NO-EXECUTOR", "who": st,
+                            "why": "状态=%s，但本机没有心跳文件：执行体未注册，分片里有卡也不会被执行" % status})
+            continue
+        if age is not None and age > 30:
+            out.append({"kind": "STATION-NO-EXECUTOR", "who": st,
+                        "why": "状态=%s，心跳已停 %.0f 分钟（>30）：执行体可能挂了" % (status, age)})
+    return out
 
 
 def patrol(root=None, check_net=False):
@@ -151,15 +216,10 @@ def patrol(root=None, check_net=False):
     # 2026-11-12：零抽验原来等于绿（results=[] → sample_fails=0，打印"本轮无待抽验件"）。
     # ACCEPTANCE-v1 明写"不许静默零抽验"，所以这里必须显式区分三种情况。
     if not samples:
-        import glob as _g
-        _done = 0
-        for _f in _g.glob(os.path.join(root or ROOT, "cph4", "fleet", "rt", "*", "receipts", "*.json")):
-            _r = _j(_f, {}) or {}
-            if str(_r.get("verdict") or "").upper() in ("DONE", "PASS", "MATCH"):
-                _done += 1
-        issues.append({"kind": "ACCEPTANCE-NO-SAMPLE", "who": "master_patrol",
-                       "why": ("有 %d 份合格回执但一份都没抽到（抽验逻辑有问题）" % _done) if _done
-                              else "当前没有 DONE 回执可抽（链路尚未产出过成品，不等于验过了）"})
+        iss = no_sample_issue(getattr(sample, "last_meta", {}) or {})
+        if iss:
+            issues.append(iss)
+    issues.extend(_executor_issues(snap, root))
     for g in snap["gaps"]:
         issues.append({"kind": g["kind"], "who": g["who"], "why": g["why"]})
     for s in samples:
