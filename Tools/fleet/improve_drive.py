@@ -79,7 +79,14 @@ def _products(root=None):
 
 
 def scan_supply(root=None):
-    """供给缺口：有产物契约但没有执行命令的工序（TOOL-PENDING）。"""
+    """供给缺口：有产物契约但没有执行命令的工序（TOOL-PENDING）。
+
+    owner 必须按 TAXONOMY 的承接工位取，不能一律写 control——否则主控会把
+    视觉/声音工位的活派给自己（本地闭环下这就是越权）。
+    """
+    tax = _j(os.path.join(root or ROOT, "cph4", "fleet", "TAXONOMY-v1.json"), {}) or {}
+    types = {t.get("id"): t for t in (tax.get("task_types") or [])}
+    smap = tax.get("stage_map") or {}
     out = []
     for p in _products(root):
         pid = p.get("id")
@@ -89,8 +96,10 @@ def scan_supply(root=None):
                 continue
             if cmds.get(stg):
                 continue
+            tid = (smap.get(pid) or {}).get(stg)
+            owner = ((types.get(tid) or {}).get("stations") or ["control"])[0]
             out.append({"id": "IMP-SUPPLY-%s-%s" % (pid, stg.replace(" ", "")),
-                        "batch": 2, "domain": "供给", "owner": "control",
+                        "batch": 2, "domain": "供给", "owner": owner,
                         "title": "%s/%s 缺执行命令" % (pid, stg),
                         "evidence": "PRODUCTS.json 中 %s.commands.%s 为空且 outputs.%s 已声明" % (pid, stg, stg),
                         "fix": "补命令（复用现成工具）或在 PRODUCTS 里明确标 manual_stages（CEO 权限件）",
@@ -232,6 +241,10 @@ def merge(ledger, found):
             have[f["id"]] = f
             added += 1
             continue
+        if f.get("owner") and cur.get("owner") != f["owner"] and \
+                str(cur.get("status")).upper() in ("OPEN", "DOING"):
+            cur["owner"] = f["owner"]            # 承接工位是事实，允许被扫描纠正
+            cur["owner_fixed_at"] = NOW()
         if str(cur.get("status")).upper() == "DONE":
             cur["status"] = "OPEN"
             cur["reopened_at"] = NOW()

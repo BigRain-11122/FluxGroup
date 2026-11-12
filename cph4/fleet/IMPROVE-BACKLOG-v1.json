@@ -1,45 +1,48 @@
 {
  "version": "v1-20261112",
- "updated_at": "2026-11-12T16:57:49",
+ "updated_at": "2026-11-12T16:58:35",
  "items": [
   {
    "id": "IMP-SUPPLY-PROD-GAME-SUBMIT-材料套用",
    "batch": 2,
    "domain": "供给",
-   "owner": "control",
+   "owner": "delivery",
    "title": "PROD-GAME-SUBMIT/材料套用 缺执行命令",
    "evidence": "PRODUCTS.json 中 PROD-GAME-SUBMIT.commands.材料套用 为空且 outputs.材料套用 已声明",
    "fix": "补命令（复用现成工具）或在 PRODUCTS 里明确标 manual_stages（CEO 权限件）",
    "accept": "PRODUCTS.json 里 PROD-GAME-SUBMIT.commands.材料套用 非空，或 stage 进入 manual_stages 且理由可查",
    "status": "OPEN",
    "depends": [],
-   "created_at": "2026-11-12T16:48:59"
+   "created_at": "2026-11-12T16:48:59",
+   "owner_fixed_at": "2026-11-12T16:58:35"
   },
   {
    "id": "IMP-SUPPLY-PROD-GAME-SUBMIT-打包",
    "batch": 2,
    "domain": "供给",
-   "owner": "control",
+   "owner": "delivery",
    "title": "PROD-GAME-SUBMIT/打包 缺执行命令",
    "evidence": "PRODUCTS.json 中 PROD-GAME-SUBMIT.commands.打包 为空且 outputs.打包 已声明",
    "fix": "补命令（复用现成工具）或在 PRODUCTS 里明确标 manual_stages（CEO 权限件）",
    "accept": "PRODUCTS.json 里 PROD-GAME-SUBMIT.commands.打包 非空，或 stage 进入 manual_stages 且理由可查",
    "status": "OPEN",
    "depends": [],
-   "created_at": "2026-11-12T16:48:59"
+   "created_at": "2026-11-12T16:48:59",
+   "owner_fixed_at": "2026-11-12T16:58:35"
   },
   {
    "id": "IMP-SUPPLY-PROD-GAME-SUBMIT-图标",
    "batch": 2,
    "domain": "供给",
-   "owner": "control",
+   "owner": "delivery",
    "title": "PROD-GAME-SUBMIT/图标 缺执行命令",
    "evidence": "PRODUCTS.json 中 PROD-GAME-SUBMIT.commands.图标 为空且 outputs.图标 已声明",
    "fix": "补命令（复用现成工具）或在 PRODUCTS 里明确标 manual_stages（CEO 权限件）",
    "accept": "PRODUCTS.json 里 PROD-GAME-SUBMIT.commands.图标 非空，或 stage 进入 manual_stages 且理由可查",
    "status": "OPEN",
    "depends": [],
-   "created_at": "2026-11-12T16:48:59"
+   "created_at": "2026-11-12T16:48:59",
+   "owner_fixed_at": "2026-11-12T16:58:35"
   },
   {
    "id": "IMP-SUPPLY-PROD-MV-SINGLE-mv-plan",
@@ -58,40 +61,43 @@
    "id": "IMP-SUPPLY-PROD-MV-SINGLE-mv-kf",
    "batch": 2,
    "domain": "供给",
-   "owner": "control",
+   "owner": "visual",
    "title": "PROD-MV-SINGLE/mv-kf 缺执行命令",
    "evidence": "PRODUCTS.json 中 PROD-MV-SINGLE.commands.mv-kf 为空且 outputs.mv-kf 已声明",
    "fix": "补命令（复用现成工具）或在 PRODUCTS 里明确标 manual_stages（CEO 权限件）",
    "accept": "PRODUCTS.json 里 PROD-MV-SINGLE.commands.mv-kf 非空，或 stage 进入 manual_stages 且理由可查",
    "status": "OPEN",
    "depends": [],
-   "created_at": "2026-11-12T16:48:59"
+   "created_at": "2026-11-12T16:48:59",
+   "owner_fixed_at": "2026-11-12T16:58:35"
   },
   {
    "id": "IMP-SUPPLY-PROD-MV-SINGLE-mv-i2v",
    "batch": 2,
    "domain": "供给",
-   "owner": "control",
+   "owner": "visual",
    "title": "PROD-MV-SINGLE/mv-i2v 缺执行命令",
    "evidence": "PRODUCTS.json 中 PROD-MV-SINGLE.commands.mv-i2v 为空且 outputs.mv-i2v 已声明",
    "fix": "补命令（复用现成工具）或在 PRODUCTS 里明确标 manual_stages（CEO 权限件）",
    "accept": "PRODUCTS.json 里 PROD-MV-SINGLE.commands.mv-i2v 非空，或 stage 进入 manual_stages 且理由可查",
    "status": "OPEN",
    "depends": [],
-   "created_at": "2026-11-12T16:48:59"
+   "created_at": "2026-11-12T16:48:59",
+   "owner_fixed_at": "2026-11-12T16:58:35"
   },
   {
    "id": "IMP-SUPPLY-PROD-MV-SINGLE-mv-cut",
    "batch": 2,
    "domain": "供给",
-   "owner": "control",
+   "owner": "visual",
    "title": "PROD-MV-SINGLE/mv-cut 缺执行命令",
    "evidence": "PRODUCTS.json 中 PROD-MV-SINGLE.commands.mv-cut 为空且 outputs.mv-cut 已声明",
    "fix": "补命令（复用现成工具）或在 PRODUCTS 里明确标 manual_stages（CEO 权限件）",
    "accept": "PRODUCTS.json 里 PROD-MV-SINGLE.commands.mv-cut 非空，或 stage 进入 manual_stages 且理由可查",
    "status": "OPEN",
    "depends": [],
-   "created_at": "2026-11-12T16:48:59"
+   "created_at": "2026-11-12T16:48:59",
+   "owner_fixed_at": "2026-11-12T16:58:35"
   },
   {
    "id": "IMP-SUPPLY-PROD-MV-SINGLE-mv-gate",
@@ -110,53 +116,57 @@
    "id": "IMP-SUPPLY-PROD-ASSET-PACK-音色",
    "batch": 2,
    "domain": "供给",
-   "owner": "control",
+   "owner": "audio",
    "title": "PROD-ASSET-PACK/音色 缺执行命令",
    "evidence": "PRODUCTS.json 中 PROD-ASSET-PACK.commands.音色 为空且 outputs.音色 已声明",
    "fix": "补命令（复用现成工具）或在 PRODUCTS 里明确标 manual_stages（CEO 权限件）",
    "accept": "PRODUCTS.json 里 PROD-ASSET-PACK.commands.音色 非空，或 stage 进入 manual_stages 且理由可查",
    "status": "OPEN",
    "depends": [],
-   "created_at": "2026-11-12T16:48:59"
+   "created_at": "2026-11-12T16:48:59",
+   "owner_fixed_at": "2026-11-12T16:58:35"
   },
   {
    "id": "IMP-SUPPLY-PROD-ASSET-PACK-图标",
    "batch": 2,
    "domain": "供给",
-   "owner": "control",
+   "owner": "delivery",
    "title": "PROD-ASSET-PACK/图标 缺执行命令",
    "evidence": "PRODUCTS.json 中 PROD-ASSET-PACK.commands.图标 为空且 outputs.图标 已声明",
    "fix": "补命令（复用现成工具）或在 PRODUCTS 里明确标 manual_stages（CEO 权限件）",
    "accept": "PRODUCTS.json 里 PROD-ASSET-PACK.commands.图标 非空，或 stage 进入 manual_stages 且理由可查",
    "status": "OPEN",
    "depends": [],
-   "created_at": "2026-11-12T16:48:59"
+   "created_at": "2026-11-12T16:48:59",
+   "owner_fixed_at": "2026-11-12T16:58:35"
   },
   {
    "id": "IMP-SUPPLY-PROD-QUANT-REPORT-数据",
    "batch": 2,
    "domain": "供给",
-   "owner": "control",
+   "owner": "brain",
    "title": "PROD-QUANT-REPORT/数据 缺执行命令",
    "evidence": "PRODUCTS.json 中 PROD-QUANT-REPORT.commands.数据 为空且 outputs.数据 已声明",
    "fix": "补命令（复用现成工具）或在 PRODUCTS 里明确标 manual_stages（CEO 权限件）",
    "accept": "PRODUCTS.json 里 PROD-QUANT-REPORT.commands.数据 非空，或 stage 进入 manual_stages 且理由可查",
    "status": "OPEN",
    "depends": [],
-   "created_at": "2026-11-12T16:48:59"
+   "created_at": "2026-11-12T16:48:59",
+   "owner_fixed_at": "2026-11-12T16:58:35"
   },
   {
    "id": "IMP-SUPPLY-PROD-QUANT-REPORT-回测",
    "batch": 2,
    "domain": "供给",
-   "owner": "control",
+   "owner": "brain",
    "title": "PROD-QUANT-REPORT/回测 缺执行命令",
    "evidence": "PRODUCTS.json 中 PROD-QUANT-REPORT.commands.回测 为空且 outputs.回测 已声明",
    "fix": "补命令（复用现成工具）或在 PRODUCTS 里明确标 manual_stages（CEO 权限件）",
    "accept": "PRODUCTS.json 里 PROD-QUANT-REPORT.commands.回测 非空，或 stage 进入 manual_stages 且理由可查",
    "status": "OPEN",
    "depends": [],
-   "created_at": "2026-11-12T16:48:59"
+   "created_at": "2026-11-12T16:48:59",
+   "owner_fixed_at": "2026-11-12T16:58:35"
   },
   {
    "id": "IMP-SUPPLY-PROD-QUANT-REPORT-报告",
@@ -175,66 +185,71 @@
    "id": "IMP-SUPPLY-PROD-FLUXVERSE-SCENE-场景装配",
    "batch": 2,
    "domain": "供给",
-   "owner": "control",
+   "owner": "delivery",
    "title": "PROD-FLUXVERSE-SCENE/场景装配 缺执行命令",
    "evidence": "PRODUCTS.json 中 PROD-FLUXVERSE-SCENE.commands.场景装配 为空且 outputs.场景装配 已声明",
    "fix": "补命令（复用现成工具）或在 PRODUCTS 里明确标 manual_stages（CEO 权限件）",
    "accept": "PRODUCTS.json 里 PROD-FLUXVERSE-SCENE.commands.场景装配 非空，或 stage 进入 manual_stages 且理由可查",
    "status": "OPEN",
    "depends": [],
-   "created_at": "2026-11-12T16:48:59"
+   "created_at": "2026-11-12T16:48:59",
+   "owner_fixed_at": "2026-11-12T16:58:35"
   },
   {
    "id": "IMP-SUPPLY-PROD-FLUXVERSE-SCENE-事件接入",
    "batch": 2,
    "domain": "供给",
-   "owner": "control",
+   "owner": "delivery",
    "title": "PROD-FLUXVERSE-SCENE/事件接入 缺执行命令",
    "evidence": "PRODUCTS.json 中 PROD-FLUXVERSE-SCENE.commands.事件接入 为空且 outputs.事件接入 已声明",
    "fix": "补命令（复用现成工具）或在 PRODUCTS 里明确标 manual_stages（CEO 权限件）",
    "accept": "PRODUCTS.json 里 PROD-FLUXVERSE-SCENE.commands.事件接入 非空，或 stage 进入 manual_stages 且理由可查",
    "status": "OPEN",
    "depends": [],
-   "created_at": "2026-11-12T16:48:59"
+   "created_at": "2026-11-12T16:48:59",
+   "owner_fixed_at": "2026-11-12T16:58:35"
   },
   {
    "id": "IMP-SUPPLY-PROD-FLUXVERSE-SCENE-演示包",
    "batch": 2,
    "domain": "供给",
-   "owner": "control",
+   "owner": "delivery",
    "title": "PROD-FLUXVERSE-SCENE/演示包 缺执行命令",
    "evidence": "PRODUCTS.json 中 PROD-FLUXVERSE-SCENE.commands.演示包 为空且 outputs.演示包 已声明",
    "fix": "补命令（复用现成工具）或在 PRODUCTS 里明确标 manual_stages（CEO 权限件）",
    "accept": "PRODUCTS.json 里 PROD-FLUXVERSE-SCENE.commands.演示包 非空，或 stage 进入 manual_stages 且理由可查",
    "status": "OPEN",
    "depends": [],
-   "created_at": "2026-11-12T16:48:59"
+   "created_at": "2026-11-12T16:48:59",
+   "owner_fixed_at": "2026-11-12T16:58:35"
   },
   {
    "id": "IMP-SUPPLY-PROD-BIGHOUSE-FLOW-场景",
    "batch": 2,
    "domain": "供给",
-   "owner": "control",
+   "owner": "delivery",
    "title": "PROD-BIGHOUSE-FLOW/场景 缺执行命令",
    "evidence": "PRODUCTS.json 中 PROD-BIGHOUSE-FLOW.commands.场景 为空且 outputs.场景 已声明",
    "fix": "补命令（复用现成工具）或在 PRODUCTS 里明确标 manual_stages（CEO 权限件）",
    "accept": "PRODUCTS.json 里 PROD-BIGHOUSE-FLOW.commands.场景 非空，或 stage 进入 manual_stages 且理由可查",
    "status": "OPEN",
    "depends": [],
-   "created_at": "2026-11-12T16:48:59"
+   "created_at": "2026-11-12T16:48:59",
+   "owner_fixed_at": "2026-11-12T16:58:35"
   },
   {
    "id": "IMP-SUPPLY-PROD-BIGHOUSE-FLOW-流程",
    "batch": 2,
    "domain": "供给",
-   "owner": "control",
+   "owner": "delivery",
    "title": "PROD-BIGHOUSE-FLOW/流程 缺执行命令",
    "evidence": "PRODUCTS.json 中 PROD-BIGHOUSE-FLOW.commands.流程 为空且 outputs.流程 已声明",
    "fix": "补命令（复用现成工具）或在 PRODUCTS 里明确标 manual_stages（CEO 权限件）",
    "accept": "PRODUCTS.json 里 PROD-BIGHOUSE-FLOW.commands.流程 非空，或 stage 进入 manual_stages 且理由可查",
    "status": "OPEN",
    "depends": [],
-   "created_at": "2026-11-12T16:48:59"
+   "created_at": "2026-11-12T16:48:59",
+   "owner_fixed_at": "2026-11-12T16:58:35"
   },
   {
    "id": "IMP-SUPPLY-PROD-BIGHOUSE-FLOW-准入",
@@ -253,40 +268,43 @@
    "id": "IMP-SUPPLY-PROD-BIGLIFE-POP-户籍",
    "batch": 2,
    "domain": "供给",
-   "owner": "control",
+   "owner": "delivery",
    "title": "PROD-BIGLIFE-POP/户籍 缺执行命令",
    "evidence": "PRODUCTS.json 中 PROD-BIGLIFE-POP.commands.户籍 为空且 outputs.户籍 已声明",
    "fix": "补命令（复用现成工具）或在 PRODUCTS 里明确标 manual_stages（CEO 权限件）",
    "accept": "PRODUCTS.json 里 PROD-BIGLIFE-POP.commands.户籍 非空，或 stage 进入 manual_stages 且理由可查",
    "status": "OPEN",
    "depends": [],
-   "created_at": "2026-11-12T16:48:59"
+   "created_at": "2026-11-12T16:48:59",
+   "owner_fixed_at": "2026-11-12T16:58:35"
   },
   {
    "id": "IMP-SUPPLY-PROD-BIGLIFE-POP-行为",
    "batch": 2,
    "domain": "供给",
-   "owner": "control",
+   "owner": "delivery",
    "title": "PROD-BIGLIFE-POP/行为 缺执行命令",
    "evidence": "PRODUCTS.json 中 PROD-BIGLIFE-POP.commands.行为 为空且 outputs.行为 已声明",
    "fix": "补命令（复用现成工具）或在 PRODUCTS 里明确标 manual_stages（CEO 权限件）",
    "accept": "PRODUCTS.json 里 PROD-BIGLIFE-POP.commands.行为 非空，或 stage 进入 manual_stages 且理由可查",
    "status": "OPEN",
    "depends": [],
-   "created_at": "2026-11-12T16:48:59"
+   "created_at": "2026-11-12T16:48:59",
+   "owner_fixed_at": "2026-11-12T16:58:35"
   },
   {
    "id": "IMP-SUPPLY-PROD-BIGLIFE-POP-资产",
    "batch": 2,
    "domain": "供给",
-   "owner": "control",
+   "owner": "delivery",
    "title": "PROD-BIGLIFE-POP/资产 缺执行命令",
    "evidence": "PRODUCTS.json 中 PROD-BIGLIFE-POP.commands.资产 为空且 outputs.资产 已声明",
    "fix": "补命令（复用现成工具）或在 PRODUCTS 里明确标 manual_stages（CEO 权限件）",
    "accept": "PRODUCTS.json 里 PROD-BIGLIFE-POP.commands.资产 非空，或 stage 进入 manual_stages 且理由可查",
    "status": "OPEN",
    "depends": [],
-   "created_at": "2026-11-12T16:48:59"
+   "created_at": "2026-11-12T16:48:59",
+   "owner_fixed_at": "2026-11-12T16:58:35"
   },
   {
    "id": "IMP-SUPPLY-PROD-CAR-GAMING-玩法",
@@ -305,27 +323,29 @@
    "id": "IMP-SUPPLY-PROD-CAR-GAMING-车机适配",
    "batch": 2,
    "domain": "供给",
-   "owner": "control",
+   "owner": "delivery",
    "title": "PROD-CAR-GAMING/车机适配 缺执行命令",
    "evidence": "PRODUCTS.json 中 PROD-CAR-GAMING.commands.车机适配 为空且 outputs.车机适配 已声明",
    "fix": "补命令（复用现成工具）或在 PRODUCTS 里明确标 manual_stages（CEO 权限件）",
    "accept": "PRODUCTS.json 里 PROD-CAR-GAMING.commands.车机适配 非空，或 stage 进入 manual_stages 且理由可查",
    "status": "OPEN",
    "depends": [],
-   "created_at": "2026-11-12T16:48:59"
+   "created_at": "2026-11-12T16:48:59",
+   "owner_fixed_at": "2026-11-12T16:58:35"
   },
   {
    "id": "IMP-SUPPLY-PROD-CAR-GAMING-打包",
    "batch": 2,
    "domain": "供给",
-   "owner": "control",
+   "owner": "delivery",
    "title": "PROD-CAR-GAMING/打包 缺执行命令",
    "evidence": "PRODUCTS.json 中 PROD-CAR-GAMING.commands.打包 为空且 outputs.打包 已声明",
    "fix": "补命令（复用现成工具）或在 PRODUCTS 里明确标 manual_stages（CEO 权限件）",
    "accept": "PRODUCTS.json 里 PROD-CAR-GAMING.commands.打包 非空，或 stage 进入 manual_stages 且理由可查",
    "status": "OPEN",
    "depends": [],
-   "created_at": "2026-11-12T16:48:59"
+   "created_at": "2026-11-12T16:48:59",
+   "owner_fixed_at": "2026-11-12T16:58:35"
   },
   {
    "id": "IMP-SUPPLY-PROD-CAR-GAMING-OEM材料",
@@ -344,92 +364,99 @@
    "id": "IMP-SUPPLY-PROD-DRAMA-AUDIO-drama-voice",
    "batch": 2,
    "domain": "供给",
-   "owner": "control",
+   "owner": "audio",
    "title": "PROD-DRAMA-AUDIO/drama-voice 缺执行命令",
    "evidence": "PRODUCTS.json 中 PROD-DRAMA-AUDIO.commands.drama-voice 为空且 outputs.drama-voice 已声明",
    "fix": "补命令（复用现成工具）或在 PRODUCTS 里明确标 manual_stages（CEO 权限件）",
    "accept": "PRODUCTS.json 里 PROD-DRAMA-AUDIO.commands.drama-voice 非空，或 stage 进入 manual_stages 且理由可查",
    "status": "OPEN",
    "depends": [],
-   "created_at": "2026-11-12T16:48:59"
+   "created_at": "2026-11-12T16:48:59",
+   "owner_fixed_at": "2026-11-12T16:58:35"
   },
   {
    "id": "IMP-SUPPLY-PROD-DRAMA-AUDIO-drama-mix",
    "batch": 2,
    "domain": "供给",
-   "owner": "control",
+   "owner": "audio",
    "title": "PROD-DRAMA-AUDIO/drama-mix 缺执行命令",
    "evidence": "PRODUCTS.json 中 PROD-DRAMA-AUDIO.commands.drama-mix 为空且 outputs.drama-mix 已声明",
    "fix": "补命令（复用现成工具）或在 PRODUCTS 里明确标 manual_stages（CEO 权限件）",
    "accept": "PRODUCTS.json 里 PROD-DRAMA-AUDIO.commands.drama-mix 非空，或 stage 进入 manual_stages 且理由可查",
    "status": "OPEN",
    "depends": [],
-   "created_at": "2026-11-12T16:48:59"
+   "created_at": "2026-11-12T16:48:59",
+   "owner_fixed_at": "2026-11-12T16:58:35"
   },
   {
    "id": "IMP-SUPPLY-PROD-DUANJU-AUDIO-配音",
    "batch": 2,
    "domain": "供给",
-   "owner": "control",
+   "owner": "audio",
    "title": "PROD-DUANJU-AUDIO/配音 缺执行命令",
    "evidence": "PRODUCTS.json 中 PROD-DUANJU-AUDIO.commands.配音 为空且 outputs.配音 已声明",
    "fix": "补命令（复用现成工具）或在 PRODUCTS 里明确标 manual_stages（CEO 权限件）",
    "accept": "PRODUCTS.json 里 PROD-DUANJU-AUDIO.commands.配音 非空，或 stage 进入 manual_stages 且理由可查",
    "status": "OPEN",
    "depends": [],
-   "created_at": "2026-11-12T16:48:59"
+   "created_at": "2026-11-12T16:48:59",
+   "owner_fixed_at": "2026-11-12T16:58:35"
   },
   {
    "id": "IMP-SUPPLY-PROD-DUANJU-AUDIO-混音",
    "batch": 2,
    "domain": "供给",
-   "owner": "control",
+   "owner": "audio",
    "title": "PROD-DUANJU-AUDIO/混音 缺执行命令",
    "evidence": "PRODUCTS.json 中 PROD-DUANJU-AUDIO.commands.混音 为空且 outputs.混音 已声明",
    "fix": "补命令（复用现成工具）或在 PRODUCTS 里明确标 manual_stages（CEO 权限件）",
    "accept": "PRODUCTS.json 里 PROD-DUANJU-AUDIO.commands.混音 非空，或 stage 进入 manual_stages 且理由可查",
    "status": "OPEN",
    "depends": [],
-   "created_at": "2026-11-12T16:48:59"
+   "created_at": "2026-11-12T16:48:59",
+   "owner_fixed_at": "2026-11-12T16:58:35"
   },
   {
    "id": "IMP-SUPPLY-PROD-SHORTVIDEO-TRACK-配音",
    "batch": 2,
    "domain": "供给",
-   "owner": "control",
+   "owner": "audio",
    "title": "PROD-SHORTVIDEO-TRACK/配音 缺执行命令",
    "evidence": "PRODUCTS.json 中 PROD-SHORTVIDEO-TRACK.commands.配音 为空且 outputs.配音 已声明",
    "fix": "补命令（复用现成工具）或在 PRODUCTS 里明确标 manual_stages（CEO 权限件）",
    "accept": "PRODUCTS.json 里 PROD-SHORTVIDEO-TRACK.commands.配音 非空，或 stage 进入 manual_stages 且理由可查",
    "status": "OPEN",
    "depends": [],
-   "created_at": "2026-11-12T16:48:59"
+   "created_at": "2026-11-12T16:48:59",
+   "owner_fixed_at": "2026-11-12T16:58:35"
   },
   {
    "id": "IMP-SUPPLY-PROD-SHORTVIDEO-TRACK-混音",
    "batch": 2,
    "domain": "供给",
-   "owner": "control",
+   "owner": "audio",
    "title": "PROD-SHORTVIDEO-TRACK/混音 缺执行命令",
    "evidence": "PRODUCTS.json 中 PROD-SHORTVIDEO-TRACK.commands.混音 为空且 outputs.混音 已声明",
    "fix": "补命令（复用现成工具）或在 PRODUCTS 里明确标 manual_stages（CEO 权限件）",
    "accept": "PRODUCTS.json 里 PROD-SHORTVIDEO-TRACK.commands.混音 非空，或 stage 进入 manual_stages 且理由可查",
    "status": "OPEN",
    "depends": [],
-   "created_at": "2026-11-12T16:48:59"
+   "created_at": "2026-11-12T16:48:59",
+   "owner_fixed_at": "2026-11-12T16:58:35"
   },
   {
    "id": "IMP-SUPPLY-PROD-SHORTVIDEO-TRACK-字幕",
    "batch": 2,
    "domain": "供给",
-   "owner": "control",
+   "owner": "visual",
    "title": "PROD-SHORTVIDEO-TRACK/字幕 缺执行命令",
    "evidence": "PRODUCTS.json 中 PROD-SHORTVIDEO-TRACK.commands.字幕 为空且 outputs.字幕 已声明",
    "fix": "补命令（复用现成工具）或在 PRODUCTS 里明确标 manual_stages（CEO 权限件）",
    "accept": "PRODUCTS.json 里 PROD-SHORTVIDEO-TRACK.commands.字幕 非空，或 stage 进入 manual_stages 且理由可查",
    "status": "OPEN",
    "depends": [],
-   "created_at": "2026-11-12T16:48:59"
+   "created_at": "2026-11-12T16:48:59",
+   "owner_fixed_at": "2026-11-12T16:58:35"
   },
   {
    "id": "IMP-SUPPLY-PROD-BIGDOMAIN-MATERIAL-文案",
@@ -565,14 +592,15 @@
    "id": "IMP-SUPPLY-PROD-DRAMA-EP-assets",
    "batch": 2,
    "domain": "供给",
-   "owner": "control",
+   "owner": "visual",
    "title": "PROD-DRAMA-EP/assets 缺执行命令",
    "evidence": "PRODUCTS.json 中 PROD-DRAMA-EP.commands.assets 为空且 outputs.assets 已声明",
    "fix": "补命令（复用现成工具）或在 PRODUCTS 里明确标 manual_stages（CEO 权限件）",
    "accept": "PRODUCTS.json 里 PROD-DRAMA-EP.commands.assets 非空，或 stage 进入 manual_stages 且理由可查",
    "status": "OPEN",
    "depends": [],
-   "created_at": "2026-11-12T16:48:59"
+   "created_at": "2026-11-12T16:48:59",
+   "owner_fixed_at": "2026-11-12T16:58:35"
   },
   {
    "id": "IMP-SUPPLY-PROD-DRAMA-EP-storyboard",
@@ -591,53 +619,57 @@
    "id": "IMP-SUPPLY-PROD-DRAMA-EP-kf",
    "batch": 2,
    "domain": "供给",
-   "owner": "control",
+   "owner": "visual",
    "title": "PROD-DRAMA-EP/kf 缺执行命令",
    "evidence": "PRODUCTS.json 中 PROD-DRAMA-EP.commands.kf 为空且 outputs.kf 已声明",
    "fix": "补命令（复用现成工具）或在 PRODUCTS 里明确标 manual_stages（CEO 权限件）",
    "accept": "PRODUCTS.json 里 PROD-DRAMA-EP.commands.kf 非空，或 stage 进入 manual_stages 且理由可查",
    "status": "OPEN",
    "depends": [],
-   "created_at": "2026-11-12T16:48:59"
+   "created_at": "2026-11-12T16:48:59",
+   "owner_fixed_at": "2026-11-12T16:58:35"
   },
   {
    "id": "IMP-SUPPLY-PROD-DRAMA-EP-i2v",
    "batch": 2,
    "domain": "供给",
-   "owner": "control",
+   "owner": "visual",
    "title": "PROD-DRAMA-EP/i2v 缺执行命令",
    "evidence": "PRODUCTS.json 中 PROD-DRAMA-EP.commands.i2v 为空且 outputs.i2v 已声明",
    "fix": "补命令（复用现成工具）或在 PRODUCTS 里明确标 manual_stages（CEO 权限件）",
    "accept": "PRODUCTS.json 里 PROD-DRAMA-EP.commands.i2v 非空，或 stage 进入 manual_stages 且理由可查",
    "status": "OPEN",
    "depends": [],
-   "created_at": "2026-11-12T16:48:59"
+   "created_at": "2026-11-12T16:48:59",
+   "owner_fixed_at": "2026-11-12T16:58:35"
   },
   {
    "id": "IMP-SUPPLY-PROD-DRAMA-EP-audio",
    "batch": 2,
    "domain": "供给",
-   "owner": "control",
+   "owner": "audio",
    "title": "PROD-DRAMA-EP/audio 缺执行命令",
    "evidence": "PRODUCTS.json 中 PROD-DRAMA-EP.commands.audio 为空且 outputs.audio 已声明",
    "fix": "补命令（复用现成工具）或在 PRODUCTS 里明确标 manual_stages（CEO 权限件）",
    "accept": "PRODUCTS.json 里 PROD-DRAMA-EP.commands.audio 非空，或 stage 进入 manual_stages 且理由可查",
    "status": "OPEN",
    "depends": [],
-   "created_at": "2026-11-12T16:48:59"
+   "created_at": "2026-11-12T16:48:59",
+   "owner_fixed_at": "2026-11-12T16:58:35"
   },
   {
    "id": "IMP-SUPPLY-PROD-DRAMA-EP-assembly",
    "batch": 2,
    "domain": "供给",
-   "owner": "control",
+   "owner": "visual",
    "title": "PROD-DRAMA-EP/assembly 缺执行命令",
    "evidence": "PRODUCTS.json 中 PROD-DRAMA-EP.commands.assembly 为空且 outputs.assembly 已声明",
    "fix": "补命令（复用现成工具）或在 PRODUCTS 里明确标 manual_stages（CEO 权限件）",
    "accept": "PRODUCTS.json 里 PROD-DRAMA-EP.commands.assembly 非空，或 stage 进入 manual_stages 且理由可查",
    "status": "OPEN",
    "depends": [],
-   "created_at": "2026-11-12T16:48:59"
+   "created_at": "2026-11-12T16:48:59",
+   "owner_fixed_at": "2026-11-12T16:58:35"
   },
   {
    "id": "IMP-SUPPLY-PROD-DRAMA-EP-qc",
