@@ -203,9 +203,58 @@ def scan_executor(root=None):
     return out
 
 
+def scan_node_sync(root=None, timeout=12):
+    """节点代码是否真的到了最新：问 /status，不信"pull 说 updated"。
+
+    2026-11-12 实测（bm-c）：last_pull 里 pulls=[".:updated"]，但 repo_heads 仍停在
+    旧提交、fork 仍是 1/4 —— 报成功而事实没动。判据因此只认两个数：
+    head 是否等于 origin_main、fork 是否为 0/0。
+    """
+    import urllib.request
+    try:
+        sys.path.insert(0, HERE)
+    except Exception:
+        pass
+    out = []
+    try:
+        nodes = (_j(os.path.join(root or ROOT, "Tools", "fleet-nodes.json"), {}) or {}).get("nodes") or []
+    except Exception:
+        return out
+    for n in nodes:
+        if not n.get("enabled"):
+            continue
+        host = n.get("tailnet_ip")
+        if not host or str(host).startswith("PENDING"):
+            continue
+        url = "http://%s:8790/status" % host
+        try:
+            with urllib.request.urlopen(url, timeout=timeout) as r:
+                st = json.loads(r.read().decode("utf-8", "replace") or "{}")
+        except Exception:
+            continue          # 离线/不可达不在这一条里判（MACHINE-DOWN 管）
+        lp = st.get("last_pull") or {}
+        head = (lp.get("repo_heads") or {}).get(".") or st.get("repo_heads", {}).get(".")
+        origin = lp.get("origin_main")
+        fork = (lp.get("fork") or {}).get(".")
+        if not origin or not head:
+            continue
+        if head == origin and (not fork or str(fork).replace("\t", " ").split("/")[0].strip("0\t ") == ""):
+            continue
+        out.append({"id": "IMP-SYNC-%s" % n.get("id"), "batch": 3, "domain": "机队",
+                    "owner": n.get("id"),
+                    "title": "%s 代码未同步到 origin" % n.get("id"),
+                    "evidence": "head=%s origin_main=%s fork=%s（last_pull=%s）"
+                                % (str(head)[:9], str(origin)[:9], fork, lp.get("ts")),
+                    "fix": "在该机执行收口：git fetch origin && git rebase origin/main && git push；"
+                           "分叉无法快进时先备份本地提交再 reset",
+                    "accept": "该机 /status 的 repo_heads['.'] == origin_main 且 fork 为 0",
+                    "status": "OPEN", "depends": []})
+    return out
+
+
 def scan_all(root=None):
     found = []
-    for fn in (scan_supply, scan_legacy_queue, scan_docs, scan_executor):
+    for fn in (scan_supply, scan_legacy_queue, scan_docs, scan_executor, scan_node_sync):
         try:
             found.extend(fn(root) or [])
         except Exception as e:

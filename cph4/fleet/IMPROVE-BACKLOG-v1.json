@@ -1,6 +1,6 @@
 {
  "version": "v1-20261112",
- "updated_at": "2026-11-12T16:58:35",
+ "updated_at": "2026-11-12T17:56:14",
  "items": [
   {
    "id": "IMP-SUPPLY-PROD-GAME-SUBMIT-材料套用",
@@ -911,6 +911,32 @@
    "status": "OPEN",
    "depends": [],
    "created_at": "2026-11-12T16:48:59"
+  },
+  {
+   "id": "IMP-SYNC-bm-a",
+   "batch": 3,
+   "domain": "机队",
+   "owner": "bm-a",
+   "title": "bm-a 代码未同步到 origin",
+   "evidence": "head=c4998317c origin_main=4dfcc9825 fork=230\t1442/main（last_pull=2026-11-12T03:10:50）",
+   "fix": "在该机执行收口：git fetch origin && git rebase origin/main && git push；分叉无法快进时先备份本地提交再 reset",
+   "accept": "该机 /status 的 repo_heads['.'] == origin_main 且 fork 为 0",
+   "status": "OPEN",
+   "depends": [],
+   "created_at": "2026-11-12T17:56:14"
+  },
+  {
+   "id": "IMP-SYNC-bm-c",
+   "batch": 3,
+   "domain": "机队",
+   "owner": "bm-c",
+   "title": "bm-c 代码未同步到 origin",
+   "evidence": "head=359e11fb0 origin_main=b96bd086f fork=1\t4/main（last_pull=2026-11-12T17:53:30）",
+   "fix": "在该机执行收口：git fetch origin && git rebase origin/main && git push；分叉无法快进时先备份本地提交再 reset",
+   "accept": "该机 /status 的 repo_heads['.'] == origin_main 且 fork 为 0",
+   "status": "OPEN",
+   "depends": [],
+   "created_at": "2026-11-12T17:56:14"
   }
  ]
 }
