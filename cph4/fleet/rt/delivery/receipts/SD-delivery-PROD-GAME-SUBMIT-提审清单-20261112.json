@@ -1,0 +1,14 @@
+{
+ "id": "SD-delivery-PROD-GAME-SUBMIT-提审清单-20261112",
+ "station": "delivery",
+ "product_id": "PROD-GAME-SUBMIT",
+ "stage": "提审清单",
+ "task_type": "T-DOC-SUBMIT-LIST",
+ "verdict": "FAILED",
+ "why": "执行失败 rc=1",
+ "deliverable": "cph4/fleet/out/game-submit/list.json",
+ "bytes": -1,
+ "sha256": null,
+ "ts": "2026-11-12T12:26:17",
+ "by": "self-drive"
+}

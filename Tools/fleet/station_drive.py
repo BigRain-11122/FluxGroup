@@ -308,7 +308,8 @@ def verify(station, card, run, root=None):
             return "FAILED", "产物不存在或为空: %s" % deliverable
     vc = (card.get("verify_cmd") or "").strip()
     if vc:
-        p = subprocess.run(vc, shell=True, cwd=rroot, capture_output=True, text=True)
+        p = subprocess.run(vc, shell=True, cwd=rroot, capture_output=True, text=True,
+                           encoding="utf-8", errors="replace")
         if p.returncode != 0:
             return "FAILED", "判据命令 rc=%s" % p.returncode
     return "DONE", "判据通过(%s)" % judge

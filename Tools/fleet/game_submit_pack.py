@@ -111,6 +111,9 @@ def main(argv):
             rec["compare"] = cmp_
     except Exception as e:
         rec["compare_error"] = str(e)[:120]
+    # 2026-11-12 实证：交付工位首卡跑这里 rc=1——`--out cph4/fleet/out/game-submit/list.json`
+    # 的父目录不存在，json.dump 直接 FileNotFoundError。产物目录属于本工具职责，先建后写。
+    os.makedirs(os.path.dirname(os.path.abspath(op)) or ".", exist_ok=True)
     json.dump(rec, open(op, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     md = ["# 提审包盘点（%s）" % rec["ts"], "",
           "在册 %d 款：可提交 %d / 待补 %d" % (len(items), ready, len(items) - ready), "", "## 缺件聚合", ""]

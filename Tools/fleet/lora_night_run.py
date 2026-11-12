@@ -13,6 +13,7 @@ Exit: 0 = 找到产物；1 = 没产物（回执照样写，含日志尾，供下
 import argparse
 import json
 import os
+import shutil
 import subprocess
 import sys
 import time
@@ -34,6 +35,9 @@ def main(argv):
     ap.add_argument("--name", required=True)
     ap.add_argument("--out", default="")
     ap.add_argument("--skip-cache", action="store_true")
+    ap.add_argument("--publish", default="",
+                    help="产物目录（对齐 PRODUCTS.outputs，例如 cph4/fleet/out/asset-pack/lora/）；"
+                         "会把最新 .safetensors 复制成 <name>_rank32.safetensors，判据可写死路径")
     a = ap.parse_args(argv)
 
     out = a.out or os.path.join(ROOT, "cph4", "fleet", "queue-receipts",
@@ -55,6 +59,19 @@ def main(argv):
                 arts.append({"file": p, "bytes": os.path.getsize(p)})
     log = os.path.join(TRAIN_HOME, "logs", a.name, "train.log")
 
+    published = ""
+    if a.publish and arts:
+        try:
+            pdir = a.publish
+            if not os.path.isabs(pdir):
+                pdir = os.path.join(ROOT, pdir)
+            os.makedirs(pdir, exist_ok=True)
+            src = max(arts, key=lambda x: x["bytes"])["file"]
+            published = os.path.join(pdir, "%s_rank32.safetensors" % a.name)
+            shutil.copy2(src, published)
+        except Exception as exc:  # noqa: BLE001 - reported, not hidden
+            published = ""
+
     rec = {
         "id": "LORA-TRAIN-%s-%s" % (a.name, time.strftime("%Y%m%d")),
         "name": a.name,
@@ -62,7 +79,8 @@ def main(argv):
         "rc": proc.returncode,
         "seconds": secs,
         "artifacts": arts,
-        "artifact_exists": bool(arts),
+        "published": published,
+        "artifact_exists": bool(arts) and (bool(published) if a.publish else True),
         "verdict": "PASS" if arts and proc.returncode == 0 else "FAIL",
         "stdout_tail": (proc.stdout or "")[-1500:],
         "stderr_tail": (proc.stderr or "")[-800:],

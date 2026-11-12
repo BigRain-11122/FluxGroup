@@ -1,0 +1,27 @@
+{
+ "id": "ALIGN-20261112-delivery",
+ "station": "delivery",
+ "ts": "2026-11-12T12:40:00",
+ "type": "ONBOARD",
+ "why": "用户令『对齐最新的工作流和主控』：本机此前落后 origin 1524 个提交，五工位/分片/岗位书/station_* 工具全无",
+ "steps_done": [
+  "同步：rescue 分支 + reset --mixed origin/main + checkout（HEAD=681228a9f，之前 ahead 415/behind 1524）",
+  "env_probe --write → cph4/fleet/env/delivery.json",
+  "station_shards --list / station_status --remote / station_drive --once / station_agent --once 四条自检跑通",
+  "工位循环装配：FluxGroup-StationDrive-Delivery / FluxGroup-StationAgent-Delivery（every:5m，静默链，首火 result=0）",
+  "退役旧派单器：HQ-FleetDispatcher / HQ-CEOProxyEventCarrier 置 Disabled（V3-STATION-BLOCKERS §四 假 P1 源）",
+  "跨工位交接：HO-ASSET-LORA-CH01-20261111 投进 visual 分片（PROD-ASSET-PACK/角色 LoRA）"
+ ],
+ "defects_fixed": [
+  "station_shards.read_remote_queue / station_drive.verify_cmd：subprocess text=True 未带 encoding → Windows 按 GBK 解码 UTF-8 队列直接崩（影响全部四台 Windows 工位）",
+  "station_shards.write_queue 的『一机一写者』守卫把岗位书授权的 HO- 交接也拒了 → 增加 allow_cross 显式参数，仅 handoff 使用，普通写入仍拒",
+  "game_submit_pack.py：--out 父目录不存在即 FileNotFoundError（交付工位首卡 rc=1 的真因），补 makedirs"
+ ],
+ "open_gaps": [
+  "delivery 仍有 15 个工序缺 PRODUCTS outputs/commands（unknown_output），当前只能自驱 1 条（提审清单）",
+  "首卡 SD-delivery-PROD-GAME-SUBMIT-提审清单-20261112 产物已在盘（7300B），但评审团票 0/1 → REVISE；需主控模型网关（8792 + FLUX_LLM_TOKEN）才能出票",
+  "STATIONS.json 里 delivery 仍是 network_ok_not_registered；注册动作属主控账本，不由本机改写",
+  "两个新任务是 InteractiveToken 降级态（未提权，S4U 被拒），已入 Tools/task-s4u-backlog.md；需一次提权重注册才满足『一切车道任务 S4U』律"
+ ],
+ "provenance": "实测（同步前后 rev-list、四条自检输出、任务首火 result=0、分片行数与回执在盘）"
+}

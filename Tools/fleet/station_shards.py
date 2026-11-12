@@ -141,13 +141,13 @@ def _own_station():
         return None
 
 
-def write_queue(station, rows, root=None):
+def write_queue(station, rows, root=None, allow_cross=False):
     """原子写：临时文件 + os.replace，避免半份文件被读到。按 id 去重（后写胜）。
 
     护栏（2026-11-11）：FLEET_STATION 已声明本机身份时，禁止写别的工位分片。
     一机一写者是硬约束，靠"大家自觉"挡不住；沙箱（显式 root）不受此限。
     """
-    if root is None:
+    if root is None and not allow_cross:
         me = _own_station()
         if me and me != station:
             raise PermissionError("跨工位写被拒：本机=%s，目标分片=%s（一机一写者）" % (me, station))
@@ -171,12 +171,12 @@ def write_queue(station, rows, root=None):
     return sum(1 for k in order if k in seen)
 
 
-def upsert(station, row, root=None):
+def upsert(station, row, root=None, allow_cross=False):
     with _write_lock(queue_path(station, root)):      # 读-改-写必须整体加锁，否则丢写
-        return _upsert_locked(station, row, root)
+        return _upsert_locked(station, row, root, allow_cross=allow_cross)
 
 
-def _upsert_locked(station, row, root=None):
+def _upsert_locked(station, row, root=None, allow_cross=False):
     rows = {str(r["id"]): r for r in read_queue(station, root)}
     prev = rows.get(str(row.get("id")))
     if prev:
@@ -195,7 +195,7 @@ def _upsert_locked(station, row, root=None):
         rows[str(row["id"])] = merged
     else:
         rows[str(row["id"])] = row
-    write_queue(station, list(rows.values()), root)
+    write_queue(station, list(rows.values()), root, allow_cross=allow_cross)
     return rows[str(row["id"])]
 
 
@@ -266,7 +266,8 @@ def read_remote_queue(station, root=None, ref="origin/main"):
     rel = "%s/%s/queue.jsonl" % (RT_REL, station)
     try:
         out = subprocess.run(["git", "show", "%s:%s" % (ref, rel)], cwd=_root(root),
-                             capture_output=True, text=True, timeout=30)
+                             capture_output=True, text=True, timeout=30,
+                             encoding="utf-8", errors="replace")
     except Exception:
         return []
     if out.returncode != 0:

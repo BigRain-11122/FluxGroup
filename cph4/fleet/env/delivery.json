@@ -1,0 +1,85 @@
+{
+ "ts": "2026-11-12T12:20:35",
+ "station": "delivery",
+ "hostname": "Dasheng",
+ "os": "windows",
+ "machine": "AMD64",
+ "cpu_count": 32,
+ "python": {
+  "version": "3.14.10",
+  "implementation": "CPython",
+  "executable": "C:\\Users\\sjs20\\AppData\\Local\\Programs\\Python\\Python314\\python.exe"
+ },
+ "packages": {
+  "torch": "2.11.0+cu128",
+  "numpy": "2.5.2",
+  "pillow": "12.3.0",
+  "requests": "2.34.2",
+  "onnxruntime": "1.30.0",
+  "transformers": "5.17.0"
+ },
+ "ollama": {
+  "url": "http://127.0.0.1:11434",
+  "version": "0.40.13",
+  "models": [
+   {
+    "name": "qwen3.5:27b",
+    "size_gb": 17.48,
+    "digest": "64ae5b1d651fb270",
+    "quant": "Q4_K_M"
+   },
+   {
+    "name": "qwen3.5:9b",
+    "size_gb": 6.55,
+    "digest": "56671c2ab9385f9c",
+    "quant": "Q4_K_M"
+   },
+   {
+    "name": "qwen3.5:2b",
+    "size_gb": 2.68,
+    "digest": "0689d44085e06d16",
+    "quant": "Q8_0"
+   },
+   {
+    "name": "qwen3:8b",
+    "size_gb": 5.23,
+    "digest": "500a1f067a9f7826",
+    "quant": "Q4_K_M"
+   },
+   {
+    "name": "qwen3:4b",
+    "size_gb": 2.5,
+    "digest": "359d7dd4bcdab3d8",
+    "quant": "Q4_K_M"
+   },
+   {
+    "name": "qwen3.5:4b",
+    "size_gb": 3.32,
+    "digest": "d8b0f5e9760cd168",
+    "quant": "Q4_K_M"
+   },
+   {
+    "name": "qwen3:4b-instruct",
+    "size_gb": 2.5,
+    "digest": "0edcdef34593eac1",
+    "quant": "Q4_K_M"
+   }
+  ],
+  "err": null
+ },
+ "ffmpeg": {
+  "version": "9.0.2-full_build-www.gyan.dev",
+  "present": true
+ },
+ "gpu": {
+  "backend": "nvidia-smi",
+  "cards": [
+   "NVIDIA GeForce RTX 4070 SUPER, 617.42, 12282 MiB"
+  ]
+ },
+ "env": {
+  "OLLAMA_KEEP_ALIVE": "5m",
+  "OLLAMA_NUM_PARALLEL": "2",
+  "OLLAMA_MAX_LOADED_MODELS": "1"
+ }
+}
