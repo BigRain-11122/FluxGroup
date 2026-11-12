@@ -25,7 +25,7 @@
    "tailnet_ip": "100.110.185.62",
    "os": "windows",
    "cpu_cores": 16,
-  "cpu_threads": 32,
+   "cpu_threads": 32,
    "ram_gb": 94,
    "gpu": {
     "model": "RTX 4070 SUPER",
@@ -121,7 +121,7 @@
    "tailnet_ip": "100.123.74.104",
    "os": "windows",
    "cpu_cores": 16,
-  "cpu_threads": 32,
+   "cpu_threads": 32,
    "ram_gb": 24,
    "gpu": {
     "model": "RTX 3070 (modded 16G)",
@@ -218,7 +218,7 @@
    "tailnet_ip": "100.82.175.0",
    "os": "windows",
    "cpu_cores": 8,
-  "cpu_threads": 16,
+   "cpu_threads": 16,
    "ram_gb": 24,
    "gpu": {
     "model": "RTX 3070",
@@ -307,7 +307,10 @@
    "tailnet_ip": null,
    "os": "unverified",
    "os_verified": false,
-   "os_candidates": ["ubuntu", "windows"],
+   "os_candidates": [
+    "ubuntu",
+    "windows"
+   ],
    "os_note": "未经验证：原写 windows 只是假设。装机时二选一并按实测回填（Ubuntu 对 CUDA/V100 更省事，Windows 可与另外三台共用 .ps1）。回填前不得排卡（OS-MATRIX 规则 OS-7）。",
    "cpu_cores": 24,
    "cpu_threads": 48,
@@ -403,7 +406,7 @@
    "tailnet_ip": "100.75.133.10",
    "os": "darwin",
    "cpu_cores": 10,
-  "cpu_threads": 10,
+   "cpu_threads": 10,
    "ram_gb": 32,
    "gpu": {
     "model": "M1 Pro 集成",
@@ -456,7 +459,7 @@
     "Ollama 可答",
     "origin 可读"
    ],
-   "status": "ready_paused",
+   "status": "ready",
    "last_probe": "2026-11-11T11:35 32G/210G 空闲、ffmpeg 齐、44 项自启已按令暂停",
    "charter": "cph4/fleet/stations/control/CHARTER.md",
    "external_disk": false,
@@ -496,7 +499,9 @@
      "audit_loops"
     ]
    },
-   "min_free_gb": 15
+   "min_free_gb": 15,
+   "status_note": "2026-11-12 CEO 令「通知机队，开始按新的工作流程和架构，开始各司其职，开工」：解除 2026-11-11 ready_paused。恢复方式=com.fluxgroup.drive（station_drive --once，每 300 秒按 AUTOMATION-v1 排班）；v2 的 pulse/selfdrive 不恢复。",
+   "unpaused_at": "2026-11-12T13:29:16"
   }
  ],
  "_charters": "每台机读自己那份岗位书（cph4/fleet/stations/<id>/CHARTER.md）；岗位书只管怎么干，判据在 PRODUCTS.json 与 drama_rules.py",
