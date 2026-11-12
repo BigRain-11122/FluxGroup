@@ -267,15 +267,27 @@ def _write_manifest(path, obj):
 
 
 def verify(station, card, run, root=None):
-    """自验：确定性判据过了才算 DONE；人判型一律 PENDING_HUMAN。"""
+    """自验：确定性判据过了才算 DONE；人判型一律 PENDING_HUMAN。
+
+    两条护栏（2026-11-11 审出来，都是可绕过的真洞）：
+      1) judge 大小写敏感：「MANUAL」/「Manual」过去判不进 MANUAL_JUDGES，
+         卡上写个大写就能自标 DONE —— 统一 strip().lower()。
+      2) 卡级 judge 不许把 taxonomy 的人判件降级：只有 taxonomy（或更高权威）
+         说是人判，卡上写 path/auto 也不能把它改成机器判。
+    """
     rroot = root or ROOT
-    judge = (card.get("judge") or "").strip()
-    if not judge and card.get("task_type"):
+    judge = (card.get("judge") or "").strip().lower()
+    tjudge = ""
+    if card.get("task_type"):
         try:
             types = {t["id"]: t for t in _load("TAXONOMY-v1.json", root)["task_types"]}
-            judge = (types.get(card["task_type"]) or {}).get("judge") or ""
+            tjudge = ((types.get(card["task_type"]) or {}).get("judge") or "").strip().lower()
         except Exception:
-            judge = ""
+            tjudge = ""
+    if tjudge in MANUAL_JUDGES:
+        judge = tjudge          # 权威表说了算，卡上不许降级
+    elif not judge:
+        judge = tjudge
     # 先看跑没跑成：命令失败就别花算力去评审（顺序错了会白烧 token）
     if run.get("why") == "NEED-CMD":
         return "BLOCKED", "NEED-CMD：缺执行命令"
@@ -630,6 +642,16 @@ def self_test():
 
         c_nocmd = dict(c2); c_nocmd["cmd"] = ""
         chk("无 cmd -> NEED-CMD 不假跑", run_card("control", c_nocmd, td)["why"] == "NEED-CMD")
+
+        # 人判护栏：大小写与卡级降级都是过去能绕过的真洞
+        for j in ("manual", "MANUAL", "Manual", "human", "HUMAN"):
+            chk("judge=%s -> PENDING_HUMAN（大小写不许绕过）" % j,
+                verify("control", {"judge": j}, {"ok": True, "rc": 0}, td)[0] == "PENDING_HUMAN")
+        # 负控：taxonomy 判人判的工序（T-OPS-CEO），卡上写 path 也不能降级成机器判。
+        # 用真实 root 读 taxonomy（verify 只读不写）；空沙箱里读不到类型表会误判通过。
+        chk("卡级 judge 不许把 taxonomy 人判件降级",
+            verify("control", {"judge": "path", "task_type": "T-OPS-CEO"},
+                   {"ok": True, "rc": 0})[0] == "PENDING_HUMAN")
 
     # 身份识别：设了 FLEET_STATION 就认它；乱填必须认不出（不猜、不默认主控）
     _old = os.environ.get("FLEET_STATION")

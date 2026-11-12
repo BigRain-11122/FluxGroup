@@ -177,11 +177,31 @@ def _unload(model):
             pass
 
 
+def audit_path(station=None):
+    """调用账按工位分文件：一机一写者，别让五台机的账混进同一个入库文件。
+
+    2026-11-11 实锚：原来固定写 cph4/fleet/dispatcher/local-model.jsonl——该文件
+    已入库且五机共用同一条路径，既分不清哪台机消耗了额度，也会像旧队列那样
+    被各机的提交互相覆盖。新平面=rt/<station>/local-model.jsonl（在 gitignore 内）。
+    识别不出工位时回退旧路径，宁可留在旧账也不丢记录。
+    """
+    try:
+        import station_shards as ss
+        st = station or local_station()
+        if st:
+            return os.path.join(ss.rt_dir(st), "local-model.jsonl")
+    except Exception:
+        pass
+    return AUDIT
+
+
 def _audit(row):
     row["ts"] = datetime.now().isoformat(timespec="seconds")
+    row.setdefault("station", local_station())
+    target = audit_path(row.get("station"))
     try:
-        os.makedirs(os.path.dirname(AUDIT), exist_ok=True)
-        with open(AUDIT, "a", encoding="utf-8") as f:
+        os.makedirs(os.path.dirname(target), exist_ok=True)
+        with open(target, "a", encoding="utf-8") as f:
             f.write(json.dumps(row, ensure_ascii=False) + "\n")
     except Exception:
         pass
@@ -344,30 +364,40 @@ def embed(text, cls="master", model=None, timeout=5, why=""):
 
 
 def status(hours=24):
-    """谁在用本机模型：近 N 小时按身份计数 + 当前占用状态。"""
+    """谁在用本机模型：近 N 小时按身份计数 + 当前占用状态。
+
+    账本已按工位分文件（见 audit_path），这里要读本机那份；旧账并读一次，
+    否则切换路径后 status 会突然显示"零调用"（假空）。
+    """
     from collections import Counter
     cut = time.time() - hours * 3600
     by = Counter()
     errs = 0
-    try:
-        for line in open(AUDIT, encoding="utf-8"):
-            line = line.strip()
-            if not line:
-                continue
-            try:
-                r = json.loads(line)
-            except Exception:
-                continue
-            try:
-                if datetime.fromisoformat(r.get("ts")).timestamp() < cut:
-                    continue
-            except Exception:
-                pass
-            if r.get("err"):
-                errs += 1
-            by[r.get("cls") or "?"] += 1
-    except FileNotFoundError:
-        pass
+    paths = []
+    for p in (audit_path(), AUDIT):
+        if p and p not in paths and os.path.exists(p):
+            paths.append(p)
+    for _p in paths:
+        try:
+            with open(_p, encoding="utf-8", errors="replace") as _f:
+                for line in _f:
+                    line = line.strip()
+                    if not line:
+                        continue
+                    try:
+                        r = json.loads(line)
+                    except Exception:
+                        continue
+                    try:
+                        if datetime.fromisoformat(r.get("ts")).timestamp() < cut:
+                            continue
+                    except Exception:
+                        pass
+                    if r.get("err"):
+                        errs += 1
+                    by[r.get("cls") or "?"] += 1
+        except FileNotFoundError:
+            pass
     on, d = hold_active()
     return {"hours": hours, "calls_by_class": dict(by), "errors": errs,
             "local_hold": on, "hold_detail": d if on else {},

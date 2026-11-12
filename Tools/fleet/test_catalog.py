@@ -153,9 +153,37 @@ def self_test():
     return 0 if ok == tot else 1
 
 
+def doc_diff(doc):
+    """把 render 结果与磁盘 TEST-PLAN-v2.md 比对。
+
+    2026-11-11 实锚：这一层原来只有 `--self-test`（在内存里 build+render 再断言
+    自己），**从不比对磁盘文件**，所以全量 38/38 全绿的同时 TEST-PLAN-v2.md
+    已经是旧版。用例名叫"测试目录新鲜"，实际没有一条检查新鲜度。
+    """
+    try:
+        with open(DOC, encoding="utf-8") as f:
+            disk = f.read()
+    except Exception:
+        return ["文档不存在：%s（先跑 --write）" % DOC]
+    want = [ln.rstrip() for ln in (doc + "\n").splitlines()]
+    have = [ln.rstrip() for ln in disk.splitlines()]
+    if want == have:
+        return []
+    out = []
+    for i, (a, b) in enumerate(zip(want, have)):
+        if a != b:
+            out.append("第 %d 行不一致：文档=%r 应为=%r" % (i + 1, b[:70], a[:70]))
+            if len(out) >= 5:
+                break
+    if not out:
+        out.append("行数不一致：文档 %d 行，应为 %d 行" % (len(have), len(want)))
+    return out
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--write", action="store_true")
+    ap.add_argument("--check", action="store_true")
     ap.add_argument("--json", action="store_true")
     ap.add_argument("--self-test", action="store_true")
     a = ap.parse_args(argv)
@@ -171,6 +199,12 @@ def main(argv=None):
           % (total, rep["condition"].get("total", "?"), len(rep["parallel"]), len(rep["layers"])))
     for r in rep["cover"]:
         print("  %-20s %s" % (r["module"], r["count"]))
+    if a.check:
+        dd = doc_diff(doc)
+        print(("文档与实测不一致 %d 条：" % len(dd)) if dd else "文档与实测一致")
+        for x in dd:
+            print("  - %s" % x)
+        return 1 if dd else 0
     if a.write:
         with open(DOC, "w", encoding="utf-8") as f:
             f.write(doc + "\n")

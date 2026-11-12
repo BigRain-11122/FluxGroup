@@ -1,4 +1,4 @@
-# 测试目录与缺口（TEST-PLAN v2）· 2026-11-11
+# 测试目录与缺口（TEST-PLAN v2）· 2026-11-12
 
 > 生成物：`python3 Tools/fleet/test_catalog.py --write`。改测试请改模块，不要手改本文件。
 > 跑法：`python3 Tools/fleet/run_all_tests.py`（全量）｜`python3 Tools/fleet/quality_score.py`（算分）
@@ -8,9 +8,9 @@
 | 层 | 内容 |
 |---|---|
 | L0 回归用例 | 回归用例 RG-* |
-| L1 单元自检 | shards 分片/锁、drive 自驱、panel 评审团、agent 席位、local loop 本地闭环、view 一屏、cmd 命令面、work matrix 颗粒度、drama rules 漫剧闸、voice gate 语感、make index 索引、os matrix 跨系统、cpu alloc 分配、env probe 环境采集、env align 环境对齐、fleet doc 文档生成、compute alloc 算力调度、brain stress 端点阶梯、quality score 评分器、self loop 回环、condition matrix 环境矩阵、parallel sim 并发模型、cmd latency 命令通道、docs curate 文档整理 |
+| L1 单元自检 | shards 分片/锁、drive 自驱、panel 评审团、agent 席位、local loop 本地闭环、view 一屏、cmd 命令面、work matrix 颗粒度、drama rules 漫剧闸、voice gate 语感、make index 索引、os matrix 跨系统、cpu alloc 分配、env probe 环境采集、env align 环境对齐、fleet doc 文档生成、compute alloc 算力调度、brain stress 端点阶梯、quality score 评分器、self loop 回环、condition matrix 环境矩阵、parallel sim 并发模型、cmd latency 命令通道、docs curate 文档整理、automation plan 排班校验 |
 | L2 场景与条件 | 工况 QA 12 例、鲁棒性 10 例、条件矩阵 80 格、并发争用模型、命令下发延迟、预演 14 场景 |
-| L3 一致性/文档 | 一致性 17 项、情况台账、文档库/正典指针、测试目录新鲜 |
+| L3 一致性/文档 | 一致性 17 项、情况台账、文档库/正典指针、深度审计（P0 才判红）、测试目录新鲜、文档与配置一致 |
 | L4 总评分 | 总评分 |
 
 ## 二、用例面（各多少例）

@@ -18,6 +18,7 @@ CEO 2026-11-11：「你把我的机队电脑配置系统什么的好好维护一
 import argparse
 import json
 import os
+import re
 import sys
 import time
 
@@ -395,6 +396,25 @@ def self_test():
 
     data = collect()
     text, dr = render(data, "2026-11-11T00:00:00")
+    # 负控：手改过的文档必须被 doc_diff 判出来（这条闸过去从不读磁盘，等于没有）
+    import tempfile as _tf
+    with _tf.NamedTemporaryFile("w", suffix=".md", delete=False, encoding="utf-8") as f:
+        f.write(text.replace("16C", "999C", 1) if "16C" in text else text + "\n手改\n")
+        tmp_doc = f.name
+    _old_doc = DOC
+    try:
+        globals()["DOC"] = tmp_doc
+        chk("负控：手改文档 -> doc_diff 必须报不一致", bool(doc_diff(text)))
+        with open(tmp_doc, "w", encoding="utf-8") as f:
+            f.write(keep_manual(text))
+        globals()["DOC"] = tmp_doc
+        chk("正向：与 render 完全一致的文档 -> 无差异", doc_diff(text) == [], doc_diff(text)[:2])
+    finally:
+        globals()["DOC"] = _old_doc
+        try:
+            os.remove(tmp_doc)
+        except Exception:
+            pass
 
     chk("真实配置能生成文档且含全部工位", all(("\n### " in text) and (sid in text) for sid in data["stations"]),
         list(data["stations"]))
@@ -441,6 +461,42 @@ def self_test():
     return 0 if ok == tot else 1
 
 
+def doc_diff(text):
+    """把 render 结果与磁盘文档逐行比对，返回差异描述（最多 5 条）。
+
+    2026-11-11 实锚：`--check` 原来只比 render 内部"源与源是否打架"（drift），
+    **从不打开 FLEET-SPEC.md**。于是在文档里手改 16C/32T 为 999C/999T、或改了
+    CPU-PLAN 却忘了 --write，--check 一律报"漂移 0 处" rc=0 —— 而 L3 那层
+    "文档必须是生成物且与配置一致"就建立在这条假闸上。
+    """
+    try:
+        with open(DOC, encoding="utf-8") as f:
+            disk = f.read()
+    except Exception:
+        return ["文档不存在：%s（先跑 --write）" % os.path.relpath(DOC, ROOT)]
+    ts = re.compile(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}")
+    # "距今 17.9h" 这类派生量每分钟都在变，拿它比会永远红；真正的"探针是否过期"
+    # 由 env_align 判，不靠文档字符串。
+    age = re.compile(r"\b\d+(?:\.\d+)?h\b")
+
+    def norm(s):
+        return [age.sub("<AGE>", ts.sub("<TS>", ln)).rstrip() for ln in s.splitlines()]
+
+    want = norm(keep_manual(text))
+    have = norm(disk)
+    if want == have:
+        return []
+    out = []
+    for i, (a, b) in enumerate(zip(want, have)):
+        if a != b:
+            out.append("第 %d 行不一致：文档=%r 应为=%r" % (i + 1, b[:70], a[:70]))
+            if len(out) >= 5:
+                break
+    if not out and len(want) != len(have):
+        out.append("行数不一致：文档 %d 行，应为 %d 行" % (len(have), len(want)))
+    return out
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--check", action="store_true")
@@ -454,12 +510,19 @@ def main(argv=None):
     text, dr = render(data, now)
     if a.check or not a.write:
         print("工位 %d：%s" % (len(data["stations"]), "、".join(data["stations"])))
-        print("漂移 %d 处" % len(dr))
+        print("源间漂移 %d 处" % len(dr))
         for d in dr:
             print("  - %s" % d)
+        dd = doc_diff(text)
+        if dd:
+            print("文档与配置不一致 %d 条：" % len(dd))
+            for x in dd:
+                print("  - %s" % x)
+        else:
+            print("文档与配置一致")
         if not a.write:
             print("（只查不写；要更新文档加 --write）")
-        return 1 if dr else 0
+        return 1 if (dr or dd) else 0
     merged = keep_manual(text)
     with open(DOC, "w", encoding="utf-8") as f:
         f.write(merged)

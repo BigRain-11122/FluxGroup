@@ -277,3 +277,5 @@ cph4/fleet/rt/*/log/
 cph4/fleet/rt/*/*.tmp*
 # 分片写锁（2026-11-11：POSIX fcntl/msvcrt 的锁文件是运行时件，不进库）
 cph4/fleet/rt/*/*.lock
+# 本机模型调用账（2026-11-11：按工位分文件、一机一写者；旧账 dispatcher/ 那份五机共用且已入库，标 legacy）
+cph4/fleet/rt/*/local-model.jsonl

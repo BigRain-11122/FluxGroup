@@ -10,7 +10,7 @@
   "任何任务不许以「等 CEO/等授权」为由停摆；不可逆/对外/花钱三类必须买家判闸"
  ],
  "tasks": [
-  {"id": "SYNC-PULL", "station": "all", "cadence_s": 300, "cmd": "git pull --rebase --autostart", "output": null,
+  {"id": "SYNC-PULL", "station": "all", "cadence_s": 300, "cmd": "git pull --rebase --autostash", "output": null,
    "why": "所有机器每 5 分钟同步一次，命令面靠它落地", "on_fail": "报 sync-lag，连续 3 次转 BLOCKED"},
   {"id": "ENV-PROBE", "station": "all", "cadence_s": 86400, "cmd": "{py} Tools/fleet/env_probe.py --write",
    "output": "cph4/fleet/env/<station>.json", "why": "环境事实必须由机器自报，主控只做比对", "on_fail": "该机判未探测"},
