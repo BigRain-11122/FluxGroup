@@ -206,6 +206,24 @@ def upsert(station, row, root=None, allow_cross=False, force=False):
         return _upsert_locked(station, row, root, allow_cross=allow_cross, force=force)
 
 
+def cas_state(station, card_id, expect, patch, root=None):
+    """锁内比较并交换：当前状态 == expect 才应用 patch。返回 (ok, 当前卡)。
+
+    2026-11-12 立。`claim` 原来是"读快照 → 无条件写 RUNNING"，不是原子取件：
+    三个进程同时 --once 会各自看到同一张 OPEN 卡，实测执行 3 次、钱扣 3 遍、
+    回执因同秒撞名只留 2 份。取件必须"锁内复读 + 校验仍为 OPEN"。
+    """
+    with _write_lock(queue_path(station, root)):
+        rows = {str(r["id"]): r for r in read_queue(station, root)}
+        cur = rows.get(str(card_id))
+        if not cur or str(cur.get("state") or "").upper() != str(expect).upper():
+            return False, cur
+        merged = dict(cur)
+        merged.update(patch)
+        _upsert_locked(station, merged, root)
+        return True, merged
+
+
 def _upsert_locked(station, row, root=None, allow_cross=False, force=False):
     rows = {str(r["id"]): r for r in read_queue(station, root)}
     prev = rows.get(str(row.get("id")))

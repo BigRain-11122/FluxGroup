@@ -231,12 +231,50 @@ def make_card(station, item, day=None, now=None):
     }
 
 
+def _singleton_acquire(station):
+    """本工位进程级单例锁：同一台机不许两个自驱同时跑。
+
+    2026-11-12（批次3.1）。CAS 保证"同一张卡只被领一次"，但两个自驱同时跑还会
+    抢同一分片、同时写状态与日志；launchd 的 keep_alive 重启也可能与上一轮重叠。
+    返回值：文件句柄（成功，进程退出自动释放）或 None（已有实例）。
+    """
+    import tempfile as _tf
+    p = os.path.join(_tf.gettempdir(), "fluxgroup-station-%s.lock" % station)
+    try:
+        fh = open(p, "a+")
+    except Exception:
+        return None
+    try:
+        import fcntl
+        fcntl.flock(fh.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+        return fh
+    except ImportError:
+        try:
+            import msvcrt
+            msvcrt.locking(fh.fileno(), msvcrt.LK_NBLCK, 1)
+            return fh
+        except Exception:
+            fh.close()
+            return None
+    except Exception:
+        fh.close()
+        return None
+
+
 def claim(station, card, root=None):
-    card = dict(card)
-    card.update({"state": "RUNNING", "owner": station,
-                 "claimed_at": _now().isoformat(timespec="seconds")})
-    ss.upsert(station, card, root)
-    return card
+    """原子取件：锁内复读，仍为 OPEN 才写 RUNNING；抢不到返回 None。
+
+    2026-11-12 改（批次3.1）。原来是"读快照 → 无条件写 RUNNING"，三个进程同时
+    --once 会各自领到同一张卡（实测执行 3 次、钱扣 3 遍、回执只剩 2 份）。
+    """
+    patch = {"state": "RUNNING", "owner": station,
+             "claimed_at": _now().isoformat(timespec="seconds")}
+    ok, cur = ss.cas_state(station, card.get("id"), "OPEN", patch, root)
+    if not ok:
+        return None
+    out = dict(card)
+    out.update(patch)
+    return out
 
 
 DANGER_PATTERNS = (";", "&&", "||", "$(", "`", "rm -rf", "curl ", "wget ",
@@ -617,7 +655,13 @@ def once(station, root=None, dry=False, now=None, run_limit=3, force=False):
         # 2026-11-11 预演发现：只跑 created_by=self-drive 会让主控下的卡永远躺着。
         if card.get("state") != "OPEN" or not (card.get("cmd") or "").strip():
             continue
-        card = claim(station, card, root)
+        _cid = card.get("id")
+        _claimed = claim(station, card, root)
+        if _claimed is None:
+            # 抢不到（已被别的进程领走）：跳过，不重复执行
+            report.setdefault("skipped_claimed", []).append(_cid)
+            continue
+        card = _claimed
         run = run_card(station, card, root)
         verdict, why = verify(station, card, run, root)
         rc = record(station, card, verdict, why, root)
@@ -858,6 +902,15 @@ def main(argv=None):
                                    "拒绝以默认身份运行（防误以主控身份干活）",
                           "allowed": list(ss.STATIONS)}, ensure_ascii=False, indent=1))
         return 2
+    _lockfh = None
+    if not a.dry:
+        _lockfh = _singleton_acquire(station)
+        if _lockfh is None:
+            print(json.dumps({"error": "本工位已有自驱实例在跑（单例锁被占用）",
+                              "station": station,
+                              "hint": "先确认另一个进程是否卡死；确属僵死可删 /tmp/fluxgroup-station-<id>.lock"},
+                             ensure_ascii=False, indent=1))
+            return 3
     if a.loop:
         while True:
             r = once(station, a.root, dry=a.dry, run_limit=a.run_limit, force=a.force)

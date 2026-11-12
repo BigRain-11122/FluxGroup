@@ -260,6 +260,32 @@ def r11():
         "cross=%s own=%s no_ident=%s sandbox=%s" % (cross, own_ok, none_ok, sandbox_ok)
 
 
+@case("R-12", "并发取件只放行一次", "无 CAS 时三进程领同一张卡 -> 执行多次、扣费多次")
+def r12():
+    import subprocess, tempfile
+    td = _root()
+    script = os.path.join(td, "w.py")
+    with open(script, "w", encoding="utf-8") as f:
+        f.write(
+            "import sys\n"
+            "sys.path.insert(0, %r)\n"
+            "import station_drive as sd\n"
+            "try:\n"
+            "    print('GOT' if sd.claim('visual', {'id': 'C1'}, root=sys.argv[1]) else 'MISS')\n"
+            "except Exception as e:\n"
+            "    print('ERR')\n" % os.path.join(ROOT, "Tools", "fleet"))
+    try:
+        import station_shards as ss
+        ss.write_queue("visual", [{"id": "C1", "state": "OPEN"}], root=td)
+        procs = [subprocess.Popen([sys.executable, script, td],
+                                  stdout=subprocess.PIPE, text=True) for _ in range(4)]
+        outs = [p.communicate(timeout=60)[0] for p in procs]
+        got = sum(1 for o in outs if "GOT" in o)
+        return got == 1, "4 进程抢 1 张卡 -> 成功 %d 次（应为 1）" % got
+    finally:
+        shutil.rmtree(td, ignore_errors=True)
+
+
 def run(verbose=True):
     rows = []
     for c in CASES:
