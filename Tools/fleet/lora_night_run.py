@@ -30,6 +30,22 @@ def tail(path, n=40):
         return "<no log: %s>" % exc
 
 
+def ref_dir(name):
+    """参考图集目录（大小写不敏感——卡上写 ch01，盘上是 CH01）。"""
+    base = os.path.join(ROOT, "media", "asset", "characters")
+    for cand in (name, name.upper(), name.lower(), name.capitalize()):
+        p = os.path.join(base, cand)
+        if os.path.isdir(p):
+            return p
+    return ""
+
+
+def write_receipt(out, rec):
+    os.makedirs(os.path.dirname(os.path.abspath(out)), exist_ok=True)
+    with open(out, "w", encoding="utf-8", newline="\n") as fh:
+        json.dump(rec, fh, ensure_ascii=False, indent=1)
+
+
 def main(argv):
     ap = argparse.ArgumentParser()
     ap.add_argument("--name", required=True)
@@ -42,6 +58,36 @@ def main(argv):
 
     out = a.out or os.path.join(ROOT, "cph4", "fleet", "queue-receipts",
                                 "lora-%s-%s.json" % (a.name, time.strftime("%Y%m%d")))
+
+    # 缺输入先写回执再退出（2026-11-12 bm-c 现场切换实弹）：原实现直接调流水线，
+    # 训练区不在盘时异常穿过 main()，卡上只剩 "rc=None, no output captured" ——
+    # 读卡的人看不出缺的是哪个目录，只能每 5 分钟重试一次同一个黑洞。
+    miss = []
+    if not os.path.isdir(TRAIN_HOME):
+        miss.append("TRAIN_HOME（训练工作区）不存在：%s" % TRAIN_HOME)
+    ref = ref_dir(a.name)
+    if not ref:
+        miss.append("参考图集不存在：%s"
+                    % os.path.join(ROOT, "media", "asset", "characters", a.name))
+    if miss:
+        rec = {
+            "id": "LORA-TRAIN-%s-%s" % (a.name, time.strftime("%Y%m%d")),
+            "name": a.name,
+            "ts": time.strftime("%Y-%m-%dT%H:%M:%S"),
+            "rc": 3,
+            "seconds": 0,
+            "artifacts": [],
+            "published": "",
+            "artifact_exists": False,
+            "verdict": "BLOCKED",
+            "missing": miss,
+            "ref_dir": ref,
+            "train_home": TRAIN_HOME,
+            "note": "缺输入，未开始训练（回执留证，不在没有工作区的情况下空烧 GPU）",
+        }
+        write_receipt(out, rec)
+        print("[lora-night] BLOCKED " + " | ".join(miss))
+        return 3
     cmd = [sys.executable, os.path.join(ROOT, "Tools", "lora_pipeline.py"),
            "train", "--name", a.name]
     if a.skip_cache:
@@ -86,9 +132,7 @@ def main(argv):
         "stderr_tail": (proc.stderr or "")[-800:],
         "train_log_tail": tail(log, 40),
     }
-    os.makedirs(os.path.dirname(os.path.abspath(out)), exist_ok=True)
-    with open(out, "w", encoding="utf-8", newline="\n") as fh:
-        json.dump(rec, fh, ensure_ascii=False, indent=1)
+    write_receipt(out, rec)
     print("[lora-night] %s rc=%d seconds=%s artifacts=%d -> %s"
           % (rec["verdict"], proc.returncode, secs, len(arts), out))
     return 0 if rec["artifact_exists"] else 1

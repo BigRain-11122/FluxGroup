@@ -126,6 +126,7 @@
     "索引"
    ],
    "commands": {
+    "角色 LoRA": "python Tools/fleet/lora_night_run.py --name ch01 --publish cph4/fleet/out/asset-pack/lora/ --out cph4/fleet/rt/visual/receipts/lora-ch01.json",
     "索引": "python3 Tools/fleet/make_index.py --root cph4/fleet/out/asset-pack --out cph4/fleet/out/asset-pack/index.json"
    },
    "requires": {

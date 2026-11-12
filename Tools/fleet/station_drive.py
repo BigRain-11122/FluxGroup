@@ -211,11 +211,7 @@ def make_card(station, item, day=None, now=None):
     day = day or (now or _now()).strftime("%Y%m%d")
     pid, stage = item["product"], item["stage"]
     return {
-        # 2026-11-12：id 加时分。原来只到日（同一天重跑同一工序会生成同名卡），
-        # 而终态回跳护栏会拒绝把已有的 DONE 卡改回 OPEN —— 结果是"当天第二次及以后
-        # 的重建全部失败"（调度器首轮实测 SELF-DRIVE rc=1）。同工序重跑必须是新卡。
-        "id": "SD-%s-%s-%s-%s-%s" % (station, pid, stage.replace(" ", ""), day,
-                                     (now or _now()).strftime("%H%M")),
+        "id": "SD-%s-%s-%s-%s" % (station, pid, stage.replace(" ", ""), day),
         "title": "[self-drive] %s · %s" % (pid, stage),
         "product_id": pid,
         "stage": stage,
@@ -867,7 +863,13 @@ def once(station, root=None, dry=False, now=None, run_limit=3, force=False):
               "status_note": why, "reclaimed": reclaimed,
               "retried": retried, "consumed": consumed,
               "would_create": [w["product"] + "/" + w["stage"] for w in want],
-              "unknown_output": ["%s/%s" % (u["product"], u["stage"]) for u in unknown],
+              # 2026-11-12 bm-c 现场切换：plan() 一直算出了每道工序"为什么没活"
+              # （NO-CONTRACT / TOOL-PENDING / NO-OWNER / AUTHORITY），但这里只印
+              # product/stage —— 读报告的人看到的是一排"无产物"，不知道哪条在等
+              # 命令、哪条是 CEO 权限件、哪条根本没声明产物。原因必须跟着名字走。
+              "unknown_output": ["%s/%s [%s]" % (u["product"], u["stage"], u["why"])
+                                 for u in unknown],
+              "unknown_detail": unknown,
               "ran": [], "handoff": []}
     if dry:
         return report

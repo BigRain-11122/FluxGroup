@@ -1,0 +1,17 @@
+{
+ "id": "LORA-TRAIN-ch01-20261112",
+ "name": "ch01",
+ "ts": "2026-11-12T13:54:51",
+ "rc": 3,
+ "seconds": 0,
+ "artifacts": [],
+ "published": "",
+ "artifact_exists": false,
+ "verdict": "BLOCKED",
+ "missing": [
+  "TRAIN_HOME（训练工作区）不存在：D:\\FluxGroup-Offload\\15-training"
+ ],
+ "ref_dir": "K:\\Fluxgroup\\FluxGroup\\media\\asset\\characters\\ch01",
+ "train_home": "D:\\FluxGroup-Offload\\15-training",
+ "note": "缺输入，未开始训练（回执留证，不在没有工作区的情况下空烧 GPU）"
+}
