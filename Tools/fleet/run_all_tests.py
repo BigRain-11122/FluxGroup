@@ -39,6 +39,10 @@ CASES = [
     # 2026-11-12：单轮自检照不到"多轮×多分片×新旧格式"的缺陷（重复建卡、僵尸卡、
     # 执行体失联）。这一套专门跑连续工况，每条关键断言都配负控。
     ("L2", "chain 全链路工况", "chain_cases.py", []),
+    ("L1", "social risk 风险标注", "social_risk.py", ["--self-test"]),
+    # 改善台账：扫描真实事实 -> 合并 -> 校验。rc=1 表示还有待办（正常状态），
+    # 只有 rc=2（假完成/证据缺失）才是问题，所以按 report 型跑。
+    ("L3", "improve 改善台账", "improve_drive.py", ["--check"], "report"),
     ("L1", "panel 评审团", "panel_review.py", ["--self-test"]),
     ("L1", "agent 席位", "agent_team.py", ["--self-test"]),
     ("L1", "local loop 本地闭环", "local_loop_check.py", ["--self-test"]),

@@ -53,7 +53,7 @@
 | 调度+机队（verdict 驱动·本地主供+云端必要闸·保活/静默/让路/分工/信息同步） | 常设 | `cph4/resource-chain.md` §一~§十 |
 | 资源保留清理（R1 永不清~R4 随轮清·磁盘预算） | 日/周/月/季 | `cph4/resource-chain.md` §三§11 |
 | 本地化算力（L1 确定性→L2 本地 LLM→L3 云 API）+Token 经济 | 常设 | `cph4/local-first.md`+`cph4/token-economy.md` |
-| 自动化周期（工位时段/槽位/禁入活） | 按工位登记 | `cph4/fleet/STATIONS.json` + `cph4/registry/CANON-V2-20261111.md` |
+| 自动化周期（工位时段/槽位/禁入活） | 按工位登记 | `cph4/fleet/STATIONS.json` + `cph4/registry/CANON-V3-20261111.md` |
 | 新公司开线 SOP（P1-P5 判据制） | 随开线 | `cph4/venture.md` |
 | 调研部门（九司·应用表强制）+GitHub 雷达+OSS 收获轮 | 常设/周/72h | `docs/research-dept-charter.md`+`cph4/github-radar.md`+`cph4/oss-harvest.md` |
 | 记忆梳理（入口四问+热冷水位·周日窗） | 周日 03:07 | `cph4/memory.md` |
@@ -68,7 +68,7 @@
 
 | 要什么 | 去哪 |
 |---|---|
-| **正身索引（同一主题现在哪个文件算数）** | `cph4/registry/CANON-V2-20261111.md`（现行）｜`CANON-INDEX-20261020.md`（历史） |
+| **正身索引（同一主题现在哪个文件算数）** | `cph4/registry/CANON-V3-20261111.md`（现行）｜`CANON-INDEX-20261020.md`（历史） |
 | CEO 令与裁决 | `docs/orders.md` |
 | CEO 方向与关注点基准（20 雷达+14 盲区+保留面） | `cph4/fleet/dispatcher/CEO-PROXY/CEO-DIRECTION-BRIEF.md` |
 | **主AGENT 架构正典（集团主脑统一蓝图 v2·两波群审定版）** | `cph4/fleet/dispatcher/MASTER-AGENT/BLUEPRINT.md`（群审原件=同目录 reviews/·总报告=PANEL-REVIEW-20261014.md） |
@@ -104,7 +104,7 @@
 本文件=速览+指针：目标文件改了只改指针不改结论；结论与实况冲突时**实况优先**（先改文档）；结构变更须 `docs/governance.md` changelog+溯源。
 
 ### Changelog
-- 2026-11-11: 正身索引切至 `cph4/registry/CANON-V2-20261111.md`（CEO 令「规则清理并定好新的」）——八域一正身、快照件非现行法、阈值只进配置。
+- 2026-11-11: 正身索引切至八域一正身版（2026-11-12 起由 CANON-V3 取代，见同目录）——八域一正身、快照件非现行法、阈值只进配置。
 - 2026-10-08: **v2.0 大瘦身**（CEO 令「规则太多了，造成思考拥堵」·C-20261008-06 Phase 1·17.9KB→≤10KB）：沿革/案例/长文移出（git 史全保）——组织表/机制表速查化、§2/§4/§5 压缩、铁律 3 增查重。
 - ≤v1.7：建仓至 10-07 沿革全档 git 史（组织/载体边界/美术定谳/常设化/梳理批各版本注记）。
 - 2026-10-14: §3 机制表增 CEO 总调度代理席行+§4 增方向简报指针（O-20261014-1210/1215·修法包 v1）。
