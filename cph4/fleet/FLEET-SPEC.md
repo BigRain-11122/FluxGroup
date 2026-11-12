@@ -1,9 +1,9 @@
 # 机队配置与系统说明书（FLEET-SPEC）
 
-> 生成时间：2026-11-12T12:03:00｜生成器：`Tools/fleet/fleet_doc.py`｜**本文件是生成物，不要手改正文**
+> 生成时间：2026-11-12T13:36:29｜生成器：`Tools/fleet/fleet_doc.py`｜**本文件是生成物，不要手改正文**
 > 数据源（改这里，不改正文）：`STATIONS.json` · `Tools/fleet-nodes.json` · `OS-MATRIX-v1.json` · `CPU-PLAN-v1.json` · `AGENT-CAPACITY-v1.json` · `MODEL-COMPUTE.json` · `ASSET-VAULT.json`
 > 改完跑 `python3 Tools/fleet/fleet_doc.py --write`；只查不改跑 `--check`（有漂移 rc=1）。
-> **综合评分 81.6 / 100**（验证 24.1/25｜规则 20.0/20｜工作流 20.0/25｜机队 10.5/15｜环境 2.0/10｜文档 5.0/5；评分时间 2026-11-12T12:02:23）；外部阻塞 4 项
+> **综合评分 85.0 / 100**（验证 25.0/25｜规则 20.0/20｜工作流 25.0/25｜机队 10.5/15｜环境 2.0/10｜文档 2.5/5；评分时间 2026-11-12T13:36:21）；外部阻塞 3 项
 
 ## 一、速查表
 
@@ -13,7 +13,7 @@
 | visual | 传家宝 | Windows | Ryzen 3950X 16C/32T | 24G | RTX 3070 (modded 16G) | 全视频主责（CEO 2026-11- | blocked_no_comfyui |
 | audio | 小钢炮 | Windows | Ryzen 3800X 8C/16T | 24G | RTX 3070 | 声音工位：全视频线的配音/混音/BG | offline |
 | brain | 算力大脑 | 待定（未装机/未入网）（未核实） | 2× Xeon E5-2695v2 24C/48T | 256G | 3× Tesla V100 | 机队本地模型能力中心 + BigMo | not_installed |
-| control | MacBook | macOS | Apple M1 Pro 10C/10T | 32G | M1 Pro 集成 | 主控台（2026-11-11 收窄） | ready_paused |
+| control | MacBook | macOS | Apple M1 Pro 10C/10T | 32G | M1 Pro 集成 | 主控台（2026-11-11 收窄） | ready |
 
 合计：**74 核 / 138 线程 / 430G 内存 / 84G 显存**（5 台）
 
@@ -204,7 +204,7 @@
 | 模型座位 | qwen3.5:4b-mlx（0G，ctx 8192，并发 2） |
 | 模型额度 | 300 次/天，90 模型分钟/天，实测 40 tok/s |
 | 已装软件 | python3、ffmpeg、Ollama(4B/9B/8B/2B)、git |
-| 当前状态 | ready_paused |
+| 当前状态 | ready |
 
 **可承担的 CPU 活（夜窗并行上限）**
 
@@ -243,8 +243,8 @@
 
 | 工位 | 环境档 | 判定 | python | ollama | ffmpeg | 探针年龄 | 缺口 |
 |---|---|---|---|---|---|---|---|
-| control | darwin-arm64 | PASS | 3.13.18 | 0.40.16 | 7.1 | 19.0h | — |
-| delivery | — | 未探测 | — | — | — | — | 没有 env/delivery.json：该机还没跑过探针 |
+| control | darwin-arm64 | PASS | 3.13.18 | 0.40.16 | 7.1 | 20.6h | — |
+| delivery | windows-cuda | GAP | 3.14.10 | 0.40.13 | 9.0.2-full_build-www.gyan.dev | 1.3h | python 3.14.10 不满足 <3.13；环境变量 OLLAMA_MODELS 未设置（模板 <盘符>:\ollama\models）（等 5 项） |
 | visual | — | 未探测 | — | — | — | — | 没有 env/visual.json：该机还没跑过探针 |
 | audio | — | 未探测 | — | — | — | — | 没有 env/audio.json：该机还没跑过探针 |
 | brain | — | 未定档 | — | — | — | — | 该机没有对应环境档位（OS 待定或未入网）：先定系统再定环境 |
