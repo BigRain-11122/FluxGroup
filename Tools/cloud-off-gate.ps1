@@ -24,7 +24,8 @@
 function Resolve-CloudOffGate {
     param(
         [string]$ScriptRoot = $PSScriptRoot,
-        [string]$Project = ''
+        [string]$Project = '',
+        [string]$MarkerName = 'CLOUD-OFF-LOCAL-ONLY-v1.md'
     )
 
     $seeds = New-Object System.Collections.Generic.List[string]
@@ -41,7 +42,7 @@ function Resolve-CloudOffGate {
     foreach ($seed in $seeds) {
         $cur = $seed
         while ($cur) {
-            $marker = Join-Path $cur 'cph4\fleet\CLOUD-OFF-LOCAL-ONLY-v1.md'
+            $marker = Join-Path $cur ('cph4\fleet\' + $MarkerName)
             if (Test-Path $marker) {
                 return [pscustomobject]@{
                     Root      = $cur
@@ -85,4 +86,29 @@ function Test-CloudOffActive {
         'absent' { return $false }
         default  { return $true }
     }
+}
+
+# D-20261112-02 (T1-v2) companion switch for automation rounds. The CEO unlock
+# (commit 98a3f5ea8, 2026-10-23) retired the CLOUD-OFF marker, so automation
+# entry points read an explicit allow switch instead:
+#   cph4\fleet\CLOUD-ALLOW-AUTOMATION.md   (present = cloud rounds allowed)
+# Fail-closed on every other state: absent marker, unreadable marker, or a
+# marker whose mtime sits in the future (clock skew) all suppress the round.
+# Negative-control contract per D-20261112-10:
+#   present + healthy mtime     -> True  (spawn the CLI)
+#   absent                      -> False (suppress + write log)
+#   present + future mtime      -> False (clock anomaly, suppress)
+# Usage:
+#   $gate = Resolve-CloudOffGate -ScriptRoot $PSScriptRoot -Project $Project -MarkerName 'CLOUD-ALLOW-AUTOMATION.md'
+#   if (-not (Test-CloudAutomationAllowed -Gate $gate)) { ...suppress + log... }
+function Test-CloudAutomationAllowed {
+    param([pscustomobject]$Gate)
+    if ($null -eq $Gate) { return $false }
+    if ($Gate.Status -ne 'found') { return $false }
+    if (-not $Gate.Marker) { return $false }
+    try {
+        $item = Get-Item -LiteralPath $Gate.Marker -ErrorAction Stop
+        if ($item.LastWriteTime -gt (Get-Date).AddMinutes(1)) { return $false }
+    } catch { return $false }
+    return $true
 }
