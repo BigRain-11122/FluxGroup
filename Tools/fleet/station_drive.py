@@ -211,7 +211,11 @@ def make_card(station, item, day=None, now=None):
     day = day or (now or _now()).strftime("%Y%m%d")
     pid, stage = item["product"], item["stage"]
     return {
-        "id": "SD-%s-%s-%s-%s" % (station, pid, stage.replace(" ", ""), day),
+        # 2026-11-12：id 到时分（原来只到日）。同一天重跑同一工序若生成同名卡，
+        # 而终态回跳护栏拒绝把已有 DONE 卡改回 OPEN → 当天第二次起的重建全部失败
+        # （调度器实测 SELF-DRIVE 每轮 rc=1）。同工序重跑必须是新卡。
+        "id": "SD-%s-%s-%s-%s-%s" % (station, pid, stage.replace(" ", ""), day,
+                                     (now or _now()).strftime("%H%M")),
         "title": "[self-drive] %s · %s" % (pid, stage),
         "product_id": pid,
         "stage": stage,
@@ -391,6 +395,17 @@ def run_card(station, card, root=None, timeout=1800):
                "note": "超时 %ss，已杀进程组" % timeout}
         _write_manifest(man_p, man)
         return {"ok": False, "rc": -9, "why": "TIMEOUT", "manifest": man_p, "out": out_abs}
+    # 刷新计时器（2026-11-12 实测）：refresh_h 的语义是"每 N 小时检查一次"，
+    # 但很多工序是累加式产物（如评论草稿：没有新输入就不重写文件），跑完 mtime 不变
+    # → 永远判过期 → 每轮建卡（实测每 5 分钟一张，一天几百张）。检查完成即重置。
+    # 只在命令成功且产物存在时 touch；失败不重置（否则坏件会被当成"刚检查过"）。
+    if p.returncode == 0 and deliverable:
+        _d = os.path.join(rroot, deliverable)
+        try:
+            if os.path.exists(_d):
+                os.utime(_d, None)
+        except Exception:
+            pass
     man = {"ts": _now().isoformat(timespec="seconds"), "rc": p.returncode,
            "seconds": round(time.time() - t0, 1), "cmd": cmd, "station": station}
     _write_manifest(man_p, man)
