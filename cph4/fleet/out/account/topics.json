@@ -1,0 +1,54 @@
+{
+ "ts": "2026-11-12T19:04:06",
+ "sample_size": 5,
+ "confidence": "LOW",
+ "confidence_rule": "LOW<20 条, MED<100 条, HIGH>=100 条（样本来自真实评论）",
+ "unclassified": 0,
+ "topics": [
+  {
+   "topic": "回应「是不是 AI 做的」",
+   "hook": "把制作流程摊开讲：哪些镜头是生成、哪些是实拍、改了几版",
+   "from_kind": "question_ai",
+   "evidence": [
+    "d1"
+   ],
+   "count": 1,
+   "risk": "披露口径需 CEO 确认",
+   "needs_human": true
+  },
+  {
+   "topic": "回应创作者身份/经历",
+   "hook": "讲这一集为什么这么写：真实经历与虚构的比例",
+   "from_kind": "question_identity",
+   "evidence": [
+    "d2"
+   ],
+   "count": 1,
+   "risk": "身份披露口径归 CEO",
+   "needs_human": true
+  },
+  {
+   "topic": "正面回应原创性质疑",
+   "hook": "把参考来源、素材授权、创作过程逐项列出",
+   "from_kind": "legal",
+   "evidence": [
+    "d3"
+   ],
+   "count": 1,
+   "risk": "涉法务，必须先过合规",
+   "needs_human": true
+  },
+  {
+   "topic": "回答观众最常问的一个问题",
+   "hook": "挑一条问得最多的，用 30 秒讲透",
+   "from_kind": "question",
+   "evidence": [
+    "d4"
+   ],
+   "count": 1,
+   "risk": "无",
+   "needs_human": true
+  }
+ ],
+ "note": "样本不足时这些只是方向候选，不能当作「数据支持」；定稿是人判（panel）。"
+}

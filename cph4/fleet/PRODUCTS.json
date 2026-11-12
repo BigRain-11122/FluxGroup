@@ -589,7 +589,8 @@
    "commands": {
     "草稿": "python3 Tools/fleet/social_drafts.py --dir cph4/fleet/social",
     "复盘": "python3 Tools/fleet/social_drafts.py --limit 0 --dir cph4/fleet/social",
-    "风险标注": "python3 Tools/fleet/social_risk.py --drafts cph4/fleet/social/drafts.jsonl --out cph4/fleet/out/account/risk.json"
+    "风险标注": "python3 Tools/fleet/social_risk.py --drafts cph4/fleet/social/drafts.jsonl --out cph4/fleet/out/account/risk.json",
+    "选题": "python3 Tools/fleet/social_topics.py --inbox cph4/fleet/social/inbox.jsonl --drafts cph4/fleet/social/drafts.jsonl --out cph4/fleet/out/account/topics.json"
    },
    "owner_station": "control",
    "support": [
@@ -613,6 +614,9 @@
    "requires": {
     "风险标注": [
      "cph4/fleet/social/drafts.jsonl"
+    ],
+    "选题": [
+     "cph4/fleet/social/inbox.jsonl"
     ]
    }
   }
