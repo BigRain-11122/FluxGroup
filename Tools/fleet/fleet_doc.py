@@ -478,9 +478,15 @@ def doc_diff(text):
     # "距今 17.9h" 这类派生量每分钟都在变，拿它比会永远红；真正的"探针是否过期"
     # 由 env_align 判，不靠文档字符串。
     age = re.compile(r"\b\d+(?:\.\d+)?h\b")
+    # 评分是每轮都在变的动态量，固化进文档会立刻过期（且会让本闸每次评分变化都报红）。
+    # 文档里这一行只作"上一轮快照"，比对时归一化；当前值以 state/quality-score.json 为准。
+    score = re.compile(r"综合评分\s*\d+(?:\.\d+)?\s*/\s*100")
+    nums = re.compile(r"验证\s*\d+(?:\.\d+)?/25｜规则\s*\d+(?:\.\d+)?/20｜工作流\s*\d+(?:\.\d+)?/25"
+                      r"｜机队\s*\d+(?:\.\d+)?/15｜环境\s*\d+(?:\.\d+)?/10｜文档\s*\d+(?:\.\d+)?/5")
 
     def norm(s):
-        return [age.sub("<AGE>", ts.sub("<TS>", ln)).rstrip() for ln in s.splitlines()]
+        return [nums.sub("<SCORES>", score.sub("<SCORE>", age.sub("<AGE>", ts.sub("<TS>", ln)))).rstrip()
+                for ln in s.splitlines()]
 
     want = norm(keep_manual(text))
     have = norm(disk)

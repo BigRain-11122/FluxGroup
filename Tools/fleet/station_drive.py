@@ -271,6 +271,23 @@ def _write_manifest(path, obj):
         json.dump(obj, f, ensure_ascii=False, indent=1)
 
 
+def _judge_of(card, root=None):
+    """解析判据与来源：taxonomy 的人判优先于卡级（唯一判据，verify/record 共用）。"""
+    judge = (card.get("judge") or "").strip().lower()
+    tjudge = ""
+    if card.get("task_type"):
+        try:
+            types = {t["id"]: t for t in _load("TAXONOMY-v1.json", root)["task_types"]}
+            tjudge = ((types.get(card["task_type"]) or {}).get("judge") or "").strip().lower()
+        except Exception:
+            tjudge = ""
+    if tjudge in MANUAL_JUDGES:
+        return tjudge, "taxonomy"
+    if judge:
+        return judge, "card"
+    return tjudge, ("taxonomy" if tjudge else "none")
+
+
 def verify(station, card, run, root=None):
     """自验：确定性判据过了才算 DONE；人判型一律 PENDING_HUMAN。
 
@@ -281,18 +298,7 @@ def verify(station, card, run, root=None):
          说是人判，卡上写 path/auto 也不能把它改成机器判。
     """
     rroot = root or ROOT
-    judge = (card.get("judge") or "").strip().lower()
-    tjudge = ""
-    if card.get("task_type"):
-        try:
-            types = {t["id"]: t for t in _load("TAXONOMY-v1.json", root)["task_types"]}
-            tjudge = ((types.get(card["task_type"]) or {}).get("judge") or "").strip().lower()
-        except Exception:
-            tjudge = ""
-    if tjudge in MANUAL_JUDGES:
-        judge = tjudge          # 权威表说了算，卡上不许降级
-    elif not judge:
-        judge = tjudge
+    judge, _src = _judge_of(card, root)   # 唯一判据：record() 写回执用同一实现
     # 先看跑没跑成：命令失败就别花算力去评审（顺序错了会白烧 token）
     if run.get("why") == "NEED-CMD":
         return "BLOCKED", "NEED-CMD：缺执行命令"
@@ -333,16 +339,30 @@ def verify(station, card, run, root=None):
 
 
 def record(station, card, verdict, why, root=None):
+    """写回执 + 回写卡状态。
+
+    2026-11-12（批次1.3 验证独立取证）两处收紧：
+      1) 回执必须带 judge 与 judge_source —— 原来不写，导致 master_patrol 的 A3
+         （"人判件不许标 DONE"）恒不触发，人判越权正好落在盲区里。
+      2) 应为文件产物、却算不出 sha256 的，不许判 DONE，降 UNVERIFIED。
+         原来 sha256 可以是 null 而 verdict 仍是 DONE，验收就无法复核。
+    """
     rroot = root or ROOT
     deliverable = card.get("deliverable")
     p = os.path.join(rroot, deliverable) if deliverable else ""
+    sha = _digest(p) if p and os.path.exists(p) else None
+    judge, jsrc = _judge_of(card, root)
+    if verdict == "DONE" and deliverable and not sha:
+        verdict = "UNVERIFIED"
+        why = "产物算不出 sha256（%s）：%s" % (deliverable, why)
     rcpt = {
         "id": card["id"], "station": station, "product_id": card.get("product_id"),
         "stage": card.get("stage"), "task_type": card.get("task_type"),
         "verdict": verdict, "why": why,
+        "judge": judge, "judge_source": jsrc,
         "deliverable": deliverable,
         "bytes": _size(p) if p else None,
-        "sha256": _digest(p) if p and os.path.exists(p) else None,
+        "sha256": sha,
         "ts": _now().isoformat(timespec="seconds"),
         "by": "self-drive",
     }
@@ -647,6 +667,15 @@ def self_test():
 
         c_nocmd = dict(c2); c_nocmd["cmd"] = ""
         chk("无 cmd -> NEED-CMD 不假跑", run_card("control", c_nocmd, td)["why"] == "NEED-CMD")
+
+        # 回执必须能独立复核：带 judge、DONE 必须带 sha256（批次1.3）
+        chk("回执 judge 解析：taxonomy 人判优先于卡级",
+            _judge_of({"task_type": "T-OPS-CEO", "judge": "path"}) == ("human", "taxonomy"))
+        chk("回执 judge 解析：卡级判据",
+            _judge_of({"judge": "path"}) == ("path", "card"))
+        _rc2 = record("control", {"id": "RC-H", "judge": "path",
+                                  "deliverable": "out/none/missing.bin"}, "DONE", "声称完成", td)
+        chk("负控：DONE 但产物算不出哈希 -> 降 UNVERIFIED", _rc2["verdict"] == "UNVERIFIED")
 
         # 人判护栏：大小写与卡级降级都是过去能绕过的真洞
         for j in ("manual", "MANUAL", "Manual", "human", "HUMAN"):

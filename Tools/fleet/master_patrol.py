@@ -129,7 +129,7 @@ def sample(root=None, limit_override=None):
                 got = ss.digest(p)
                 if got != r.get("sha256"):
                     rec.update({"pass": False, "why": "A2 哈希不一致"}); fails += 1
-                elif str(r.get("judge") or "") in ("manual", "human"):
+                elif str(r.get("judge") or "").strip().lower() in ("manual", "human"):
                     rec.update({"pass": False, "why": "A3 人判件被标 DONE"}); fails += 1
                 else:
                     rec.update({"pass": True, "why": "A1/A2/A3 通过", "sha256": got})
@@ -148,6 +148,18 @@ def patrol(root=None, check_net=False):
     snap = fleet_view.snapshot(root, check_net=check_net)
     samples, fails = sample(root)
     issues = []
+    # 2026-11-12：零抽验原来等于绿（results=[] → sample_fails=0，打印"本轮无待抽验件"）。
+    # ACCEPTANCE-v1 明写"不许静默零抽验"，所以这里必须显式区分三种情况。
+    if not samples:
+        import glob as _g
+        _done = 0
+        for _f in _g.glob(os.path.join(root or ROOT, "cph4", "fleet", "rt", "*", "receipts", "*.json")):
+            _r = _j(_f, {}) or {}
+            if str(_r.get("verdict") or "").upper() in ("DONE", "PASS", "MATCH"):
+                _done += 1
+        issues.append({"kind": "ACCEPTANCE-NO-SAMPLE", "who": "master_patrol",
+                       "why": ("有 %d 份合格回执但一份都没抽到（抽验逻辑有问题）" % _done) if _done
+                              else "当前没有 DONE 回执可抽（链路尚未产出过成品，不等于验过了）"})
     for g in snap["gaps"]:
         issues.append({"kind": g["kind"], "who": g["who"], "why": g["why"]})
     for s in samples:
