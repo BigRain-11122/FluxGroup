@@ -237,14 +237,14 @@
   {
    "id": "D01",
    "domain": "审查",
-   "name": "抽验重算哈希",
+   "name": "抽检（按量取比例）",
    "cad": "T1440",
    "input": "rt/*/receipts",
-   "action": "按比例抽 DONE 回执，重算 sha256 比对",
+   "action": "按回执量抽：≤20 份全检，多则抽 5% 上限；等间隔覆盖整个窗口",
    "executor": "Tools/fleet/master_patrol.py",
    "evidence": "cph4/fleet/state/acceptance-ledger.jsonl",
-   "verify": "抽验数与配置一致；失败件退回",
-   "fallback": "零抽验必须显式报，不许静默通过"
+   "verify": "样本可复现；只核元数据（存在/大小/哈希/判据）",
+   "fallback": "零抽验必须显式报；抽检不做审美判断"
   },
   {
    "id": "D02",
@@ -418,14 +418,14 @@
   {
    "id": "F04",
    "domain": "自健",
-   "name": "磁盘水位",
-   "cad": "T1",
+   "name": "磁盘与存储分级",
+   "cad": "T360",
    "input": "STATIONS.min_free_gb",
-   "action": "低于水位不领活，写 BLOCKED 理由",
-   "executor": "Tools/fleet/station_drive.py",
-   "evidence": "cph4/fleet/rt/control/log",
-   "verify": "无因磁盘满的失败循环",
-   "fallback": "水位是配置，不写死"
+   "action": "按策略分级：keep 永不删、事件流轮转、产物只留清单不囤副本",
+   "executor": "Tools/fleet/storage_curator.py",
+   "evidence": "cph4/fleet/state/storage-survey.json",
+   "verify": "占用在预算内；轮转不动二进制；删除先写台账",
+   "fallback": "默认 dry-run；二进制文件一律跳过（按行切会损坏 SQLite）"
   },
   {
    "id": "F05",

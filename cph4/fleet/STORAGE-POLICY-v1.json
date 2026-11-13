@@ -1,0 +1,85 @@
+{
+ "_comment": "主控存储策略（2026-11-13，CEO 令：质量机队自闭环，主控只抽检，主控硬盘不多）。判据是'主控该不该长期留'，不是'文件重不重要'——产物很重要，但它该留在产出机，主控只留清单与哈希。",
+ "_version": "v1-20261113",
+ "principle": [
+  "产物归产出机：主控只存 (path,size,sha256,ts) 清单，不囤副本",
+  "事件流滚动：jsonl 事件账按大小轮转，保留尾部 N 行，历史压缩",
+  "状态有保质期：非关键 state 超过 keep_days 归档，关键状态永不删",
+  "抽检只读元数据：核哈希与大小，不下载产物",
+  "任何删除必须有据且可回滚：默认 dry-run，--apply 才动，且写台账"
+ ],
+ "budget": {
+  "fleet_total_mb": 320,
+  "state_mb": 60,
+  "receipts_files": 4000,
+  "warn_at_pct": 85
+ },
+ "classes": {
+  "keep": {
+   "why": "规则/契约/当前运行状态：删了系统就不知道自己在干什么",
+   "patterns": [
+    "cph4/fleet/*.json",
+    "cph4/fleet/rt/*/queue.jsonl",
+    "cph4/fleet/rt/*/state.json",
+    "cph4/fleet/rt/*/heartbeat.json",
+    "cph4/fleet/rt/*/git-status.json",
+    "cph4/fleet/state/automation-run.json",
+    "cph4/fleet/state/acceptance-ledger.jsonl",
+    "cph4/fleet/state/quality-score.json",
+    "cph4/fleet/MASTER-DUTIES-v3.json",
+    "cph4/fleet/ACCEPTANCE-v1.json",
+    "cph4/fleet/PRODUCTS.json",
+    "cph4/fleet/TAXONOMY-v1.json",
+    "cph4/fleet/STATE-MACHINE-v1.json",
+    "cph4/fleet/STATIONS.json",
+    "cph4/fleet/AUTOMATION-v1.json"
+   ]
+  },
+  "roll": {
+   "why": "事件流/缓存：有用但会无限长，按大小轮转",
+   "patterns": [
+    "cph4/fleet/state/*.jsonl",
+    "cph4/fleet/state/embed-cache.json",
+    "cph4/fleet/rt/*/log/*.jsonl"
+   ],
+   "rotate_over_mb": 8,
+   "keep_tail_lines": 5000,
+   "gzip": true,
+   "binary_note": "SQLite（eventlog.db）不能按行轮转——2026-11-13 实测：按行切分会把库切成坏文件（file 报 data、sqlite 报 not a database）。它的处置是 VACUUM 或整体归档，不在本类。"
+  },
+  "archive": {
+   "why": "过期状态快照：留档但不必在活跃目录",
+   "patterns": [
+    "cph4/fleet/state/*.json"
+   ],
+   "keep_days": 30
+  },
+  "offload": {
+   "why": "产物与素材：主控不囤，产出机持有；主控只留清单+哈希",
+   "patterns": [
+    "cph4/fleet/mv0001-handover/",
+    "cph4/fleet/mv-album-001-jay/",
+    "cph4/fleet/drama-dept-v1/",
+    "cph4/fleet/meme-daily-v1/",
+    "media/",
+    "cph4/fleet/archive/"
+   ],
+   "auto_delete": false,
+   "note": "默认只统计不删；要清必须 --apply-offload 且先导出 manifest"
+  },
+  "drop": {
+   "why": "明确无用的一次性临时件",
+   "patterns": [
+    "cph4/fleet/state/dupes.json",
+    "cph4/fleet/state/lane-task-revive.jsonl"
+   ],
+   "auto_delete": false
+  }
+ },
+ "receipts": {
+  "why": "回执是验收证据，但会无限增长；旧回执压缩归档，最近 30 天保留明文",
+  "dir": "cph4/fleet/rt",
+  "plain_days": 30,
+  "max_files": 4000
+ }
+}

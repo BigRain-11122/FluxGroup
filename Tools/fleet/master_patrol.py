@@ -26,6 +26,7 @@ import argparse
 import glob
 import hashlib
 import json
+import math
 import os
 import sys
 from datetime import datetime
@@ -92,28 +93,31 @@ def _sampled(root=None):
 
 
 def sample(root=None, limit_override=None):
-    """按配置抽验：重算哈希与回执比对。返回 (抽查结果列表, 失败数)。"""
+    """抽验：按量取比例 + 等间隔覆盖整个时间窗口，只核可复算事实。
+
+    2026-11-13 改（CEO 令：质量机队自闭环，主控只抽检）：
+      · 原来"从最近的回执里取 N 件"——只看最近，早期问题永远抽不到；
+      · 现在按**回执量**取比例（5%，有上限），再在时间窗口内**等间隔**取，
+        覆盖整段而不是只抽头部；同样输入得到同样样本（可复现，不靠随机）。
+      · 只读元数据：产物是否在盘、大小、哈希是否一致、判据是否可信——不做审美判断。
+    """
     cfg = _j(os.path.join(root or ROOT, "cph4", "fleet", "ACCEPTANCE-v1.json"), {}) or {}
     per = cfg.get("sample_per_day") or {}
     if not per:
         return [{"station": "-", "id": "-", "pass": False,
-                 "why": "缺抽验配置 ACCEPTANCE-v1.json（不许静默零抽验）", "ts": datetime.now().isoformat(timespec="seconds")}], 1
+                 "why": "缺抽验配置 ACCEPTANCE-v1.json（不许静默零抽验）",
+                 "ts": datetime.now().isoformat(timespec="seconds")}], 1
     done = _sampled(root)
     results, fails = [], 0
-    # 抽验必须能区分四种"没抽到"：没有合格回执 / 今日已抽满 / 比例为 0 / 真有 bug。
-    # 2026-11-12 实测：4 份回执当天全抽完（全 PASS），下一轮却报"一份都没抽到
-    # （抽验逻辑有问题）"——把"抽满了"误报成"闸坏了"，每天固定一条假红。
-    meta = {"configured": 0, "effective": 0, "candidates": 0, "already_sampled": 0, "picked": 0}
-    for station, n in per.items():
-        # configured 记**配置原始值**，effective 记**本次真正生效的额度**。
-        # 两者混用会把"临时把额度压到 0（演练/降级）"误判成"配置为 0"。
-        meta["configured"] += int(n or 0)
-        n = limit_override if limit_override is not None else n
-        meta["effective"] += int(n or 0)
+    meta = {"configured": 0, "effective": 0, "candidates": 0, "already_sampled": 0,
+            "picked": 0, "ratio": 0.05}
+    for station, cap in per.items():
+        meta["configured"] += int(cap or 0)
+        cap = int(limit_override if limit_override is not None else (cap or 0))
         files = sorted(glob.glob(os.path.join(root or ROOT, "cph4", "fleet", "rt", station,
-                                             "receipts", "*.json")),
-                       key=os.path.getmtime, reverse=True)
-        picked = 0
+                                              "receipts", "*.json")),
+                       key=os.path.getmtime)          # 升序：等间隔抽样要按时间排
+        cand = []
         for f in files:
             r = _j(f, {}) or {}
             key = (station, r.get("id"))
@@ -122,25 +126,36 @@ def sample(root=None, limit_override=None):
                 continue
             if str(r.get("verdict") or "").upper() not in ("DONE", "PASS", "MATCH"):
                 continue
-            # 候选必须**先统计再决定抽不抽**：原来 `if picked >= n: break` 写在最前面，
-            # 额度为 0 时连"有候选"都统计不到，于是"有候选却没抽到"被误判成"没有候选"。
-            meta["candidates"] += 1
-            if picked >= n:
-                if meta["candidates"] > 200:      # 只统计到 200 就够判定了
-                    break
-                continue
-            picked += 1
+            cand.append((f, r))
+        meta["candidates"] += len(cand)
+        # 样本量 = min(上限, max(1, 5% 候选))；上限是"每天最多"，比例是"量越大抽越多"
+        # 小样本全抽、大样本按 5%：回执还少的时候全检成本很低，没必要抽样；
+        # 量上来之后才需要按比例控制主控成本（这也是"主控硬盘不多"的同一条约束）。
+        if len(cand) <= 20:
+            by_ratio = len(cand)
+        else:
+            by_ratio = max(1, int(math.ceil(len(cand) * 0.05)))
+        n = min(cap, by_ratio)
+        meta["effective"] += n
+        if not cand or n <= 0:
+            continue
+        if len(cand) <= n:
+            picked = cand
+        else:
+            step = len(cand) / float(n)                # 等间隔覆盖整个窗口
+            picked = [cand[min(len(cand) - 1, int(i * step))] for i in range(n)]
+        for f, r in picked:
             rec = {"station": station, "id": r.get("id"), "receipt": os.path.basename(f)}
             d = r.get("deliverable")
-            p = os.path.join(root or ROOT, d) if d else ""
-            if not d or not os.path.exists(p):
+            pth = os.path.join(root or ROOT, d) if d else ""
+            if not d or not os.path.exists(pth):
                 rec.update({"pass": False, "why": "A1 产物不存在"}); fails += 1
-            elif os.path.getsize(p) == 0:
+            elif os.path.getsize(pth) == 0:
                 rec.update({"pass": False, "why": "A1 产物为空"}); fails += 1
             elif not r.get("sha256"):
                 rec.update({"pass": False, "why": "A2 回执没写哈希（不可验）"}); fails += 1
             else:
-                got = ss.digest(p)
+                got = ss.digest(pth)
                 if got != r.get("sha256"):
                     rec.update({"pass": False, "why": "A2 哈希不一致"}); fails += 1
                 elif str(r.get("judge") or "").strip().lower() in ("manual", "human"):
