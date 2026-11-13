@@ -215,6 +215,15 @@
    "output": "cph4/fleet/IMPROVE-BACKLOG-v1.json",
    "why": "持续改进的自动化入口：每 6 小时扫真实事实入台账（TOOL-PENDING 工序/旧队列引用/文档陈旧指针/执行体未注册），并校验 DONE 项是否假完成。写了新待办不会自动消失，下次扫描把已修的项重开或丢弃，台账永远等于当前事实。",
    "on_fail": "scan 为空即拒合并（防扫描器故障清空台账）；check 出现 FALSE-DONE 时出车报人"
+  },
+  {
+   "id": "DUTIES-AUDIT",
+   "station": "control",
+   "cadence_s": 86400,
+   "cmd": "{py} Tools/fleet/duties_audit.py",
+   "output": "cph4/fleet/MASTER-DUTIES-v3.json",
+   "why": "每日审计主控 36 项职责：执行体在不在、证据有没有、在不在周期内。纸面职责会被判红。",
+   "on_fail": "NO-EXECUTOR 最严重（职责没有工具实现）；STALE 说明该跑没跑"
   }
  ],
  "gates": {

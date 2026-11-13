@@ -45,6 +45,8 @@ CASES = [
     # 改善台账：扫描真实事实 -> 合并 -> 校验。rc=1 表示还有待办（正常状态），
     # 只有 rc=2（假完成/证据缺失）才是问题，所以按 report 型跑。
     ("L3", "improve 改善台账", "improve_drive.py", ["--check"], "report"),
+    # 主控职责履行：每项必须有执行体、有证据、在周期内。红=有职责没履行。
+    ("L3", "duties 主控职责履行", "duties_audit.py", []),
     ("L1", "panel 评审团", "panel_review.py", ["--self-test"]),
     ("L1", "agent 席位", "agent_team.py", ["--self-test"]),
     ("L1", "local loop 本地闭环", "local_loop_check.py", ["--self-test"]),
