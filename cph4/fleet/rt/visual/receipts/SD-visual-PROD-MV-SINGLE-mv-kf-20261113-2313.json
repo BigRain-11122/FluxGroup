@@ -63,5 +63,7 @@
    "sha256_16": "84a5261a04ed54f5"
   }
  ],
- "note": "KF production for mv0001 completed long ago; frames/ is the real artifact home. This publishes them to the contract path; no new GPU burn. Future stages: mv-plan command (mv_emit_prompts.py) wired separately for the 41-track pipeline."
+ "note": "KF production for mv0001 completed long ago; frames/ is the real artifact home. This publishes them to the contract path; no new GPU burn. Future stages: mv-plan command (mv_emit_prompts.py) wired separately for the 41-track pipeline.",
+ "judge": "path",
+ "judge_source": "post-hoc 2026-11-13（原回执漏写；当时判据=11 个文件在盘且逐文件哈希，未改任何证据）"
 }

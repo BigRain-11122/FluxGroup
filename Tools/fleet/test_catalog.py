@@ -15,6 +15,7 @@ import argparse
 import importlib
 import json
 import os
+import re
 import sys
 import time
 
@@ -153,6 +154,16 @@ def self_test():
     return 0 if ok == tot else 1
 
 
+def _norm(ln):
+    """比对前把"生成日期"抹平。
+
+    文档头带 `· YYYY-MM-DD`，而校验器按"今天"重建——过了零点必然整篇判不一致，
+    每天都要人工重写一次（2026-11-14 实锚）。日期不是内容，比较时归一化；
+    行内其它字符照旧逐字比，真漂移仍然会红。
+    """
+    return re.sub(r"·\s*\d{4}-\d{2}-\d{2}", "· <date>", str(ln).rstrip())
+
+
 def doc_diff(doc):
     """把 render 结果与磁盘 TEST-PLAN-v2.md 比对。
 
@@ -165,8 +176,8 @@ def doc_diff(doc):
             disk = f.read()
     except Exception:
         return ["文档不存在：%s（先跑 --write）" % DOC]
-    want = [ln.rstrip() for ln in (doc + "\n").splitlines()]
-    have = [ln.rstrip() for ln in disk.splitlines()]
+    want = [_norm(ln) for ln in (doc + "\n").splitlines()]
+    have = [_norm(ln) for ln in disk.splitlines()]
     if want == have:
         return []
     out = []

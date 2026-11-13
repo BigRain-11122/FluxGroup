@@ -125,13 +125,60 @@ def vetoes(names, evidence):
     return out
 
 
+EVID_CHARS = 2400          # 单份证据最多带多少字
+EVID_TOTAL = 6000          # 一轮评审最多带多少字（8B 的 8192 ctx 要留出判据与回答）
+
+
+def _evidence_text(evidence, limit=EVID_TOTAL):
+    """把证据变成席位真能看到的内容。
+
+    Why（2026-11-13 实锚）：原来只把**文件路径**塞进提示词，席位根本读不到产物，
+    只能对着路径猜——连给了 `## 怎么复现` 命令段都判"缺少命令可复制执行"，
+    两次 REVISE。评审不看证据就是空转，8B 的算力全花在编理由上。
+    """
+    out, used = [], 0
+    for e in evidence or []:
+        s = str(e or "").strip()
+        if not s:
+            continue
+        p = s if os.path.isabs(s) else os.path.join(ROOT, s)
+        body = ""
+        if os.path.isfile(p):
+            try:
+                with open(p, encoding="utf-8", errors="replace") as f:
+                    body = f.read()
+                # 首尾各留一段：可执行命令/结论通常在文末，只截头会让席位判"没写"（实锚）
+                if len(body) > EVID_CHARS:
+                    head = int(EVID_CHARS * 0.6)
+                    tail = EVID_CHARS - head
+                    body = (body[:head] + "\n……（中间省略 %d 字）……\n"
+                            % (len(body) - EVID_CHARS) + body[-tail:])
+            except Exception as ex:
+                body = "（读取失败：%s）" % str(ex)[:60]
+        elif os.path.isdir(p):
+            try:
+                names = sorted(os.listdir(p))[:30]
+                body = "（目录，%d 项）%s" % (len(os.listdir(p)), "、".join(names))
+            except Exception:
+                body = "（目录读取失败）"
+        if not body:
+            body = s                      # 非文件证据（描述/URL）原样给
+        if used + len(body) > limit:
+            body = body[:max(0, limit - used)]
+        used += len(body)
+        out.append("--- %s ---\n%s" % (s, body))
+        if used >= limit:
+            break
+    return "\n\n".join(out) or "（无）"
+
+
 def _seat_prompt(panel, seat_id, evidence, idx):
     items = "\n".join("%d) %s" % (i + 1, r) for i, r in enumerate(panel["rubric"]))
-    files = "\n".join("- %s" % e for e in evidence) or "（无）"
+    files = _evidence_text(evidence)
     return ("你是评审席 %s，按 skill「%s」的标准逐条判定。\n"
-            "只依据给到的证据，不许推测。\n"
+            "只依据给到的证据内容，不许推测；证据里没有的东西就算缺失。\n"
             "逐条回答，每条给 PASS 或 FAIL 并写一行证据/理由：\n%s\n\n"
-            "证据路径：\n%s\n\n"
+            "证据：\n%s\n\n"
             "最后只输出一行 JSON：{\"vote\":\"PASS|REVISE|BLOCK\",\"items\":[{\"n\":1,\"r\":\"PASS\",\"why\":\"...\"}],\"reason\":\"一句话\"}"
             % (seat_id, panel.get("skill"), items, files))
 

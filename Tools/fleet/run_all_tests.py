@@ -47,11 +47,15 @@ CASES = [
     ("L1", "fleet control 群控", "fleet_control.py", ["--self-test"]),
     ("L1", "fleet brief 简报", "fleet_brief.py", ["--self-test"]),
     ("L1", "voice train 话术度量", "voice_train.py", ["--self-test"]),
+    # 本地模型产出侧：事实由规则分桶、模型只写不带数字的解读，数字由代码从源卡注入
+    ("L1", "recon recipe 配方", "recon_recipe.py", ["--self-test"]),
     # 改善台账：扫描真实事实 -> 合并 -> 校验。rc=1 表示还有待办（正常状态），
     # 只有 rc=2（假完成/证据缺失）才是问题，所以按 report 型跑。
     ("L3", "improve 改善台账", "improve_drive.py", ["--check"], "report"),
     # 主控职责履行：每项必须有执行体、有证据、在周期内。红=有职责没履行。
     ("L3", "duties 主控职责履行", "duties_audit.py", []),
+    # 机队闭环验收：有回执但产物/哈希对不上才算红（假完成）；没产出只是 IDLE。
+    ("L3", "loop 闭环验收", "fleet_loop_verify.py", []),
     ("L1", "panel 评审团", "panel_review.py", ["--self-test"]),
     ("L1", "agent 席位", "agent_team.py", ["--self-test"]),
     ("L1", "local loop 本地闭环", "local_loop_check.py", ["--self-test"]),
