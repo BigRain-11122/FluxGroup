@@ -94,6 +94,46 @@ def summarize(rows):
     return out
 
 
+def production(root=None, now=None, hours=24):
+    """产出面：近 N 小时全机队有多少张卡真跑完、几台机在执行。
+
+    Why（2026-11-14 实锚）：36 项职责全 OK、执行体都在、证据都新鲜，可全机队近 24h
+    只跑完 3 张卡——职责判据只问"我在不在做动作"，不问"动作有没有变成产物"。
+    主控的第一考核面是产物，所以把产出单列一条：有机器在执行却零产出，必须红。
+    """
+    root = root or ROOT
+    now = now or time.time()
+    done = 0
+    per = {}
+    for st in ("control", "delivery", "visual", "audio", "brain"):
+        rd = os.path.join(root, "cph4", "fleet", "rt", st, "receipts")
+        n = 0
+        for f in glob.glob(os.path.join(rd, "*.json")):
+            try:
+                d = json.load(open(f, encoding="utf-8"))
+            except Exception:
+                continue
+            if str(d.get("verdict", "")).upper() not in ("DONE", "PASS"):
+                continue
+            try:
+                ts = time.mktime(time.strptime(str(d.get("ts"))[:19], "%Y-%m-%dT%H:%M:%S"))
+            except Exception:
+                continue
+            if now - ts <= hours * 3600:
+                n += 1
+        done += n
+        per[st] = n
+    alive = 0
+    for st in ("control", "delivery", "visual", "audio", "brain"):
+        hb = os.path.join(root, "cph4", "fleet", "rt", st, "heartbeat.json")
+        if not os.path.exists(hb):
+            continue
+        age = (now - os.path.getmtime(hb)) / 60
+        if age <= 30:
+            alive += 1
+    return {"hours": hours, "done": done, "per_station": per, "alive": alive}
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--json", action="store_true")
@@ -109,13 +149,18 @@ def main(argv=None):
         return 2
     rows = audit(spec)
     s = summarize(rows)
+    prod = production()
     if a.json:
-        print(json.dumps({"summary": s, "rows": rows}, ensure_ascii=False, indent=1))
+        print(json.dumps({"summary": s, "rows": rows, "production": prod},
+                         ensure_ascii=False, indent=1))
     else:
         print("== 主控职责履行（%d 项 / %s）==" % (len(rows), spec.get("version")))
         print("OK %d｜IDLE(按需未触发) %d｜STALE %d｜NO-EVIDENCE %d｜NO-EXECUTOR %d"
               % (s.get("OK", 0), s.get("IDLE", 0), s.get("STALE", 0),
                  s.get("NO-EVIDENCE", 0), s.get("NO-EXECUTOR", 0)))
+        print("产出面：近 %d 小时 DONE %d 张（%s）｜近 30 分钟有心跳的机器 %d 台"
+              % (prod["hours"], prod["done"],
+                 "、".join("%s %d" % (k, v) for k, v in prod["per_station"].items()), prod["alive"]))
         bad = [r for r in rows if r["state"] not in ("OK", "IDLE")]
         if bad:
             print("\n未履行/待补：")
@@ -124,6 +169,11 @@ def main(argv=None):
                                                 r["domain"], r.get("why", "")))
         else:
             print("\n全部职责都有执行体、有证据、在周期内。")
+        if prod["alive"] >= 1 and prod["done"] == 0:
+            print("产出断言：有 %d 台机器在执行，但近 %d 小时零 DONE——职责满分不等于有产出"
+                  % (prod["alive"], prod["hours"]))
+    if prod["alive"] >= 1 and prod["done"] == 0:
+        return 1
     if any(r["state"] == "NO-EXECUTOR" for r in rows):
         return 2
     if any(r["state"] in ("STALE", "NO-EVIDENCE") for r in rows):

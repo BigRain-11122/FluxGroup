@@ -10,6 +10,12 @@ Input (all on disk, no model, no guessing):
 Output: cards appended to PRODUCTION-BACKLOG.jsonl with a real deliverable + acceptance,
          and a PLAN line in dispatcher/NIGHT-PLAN.md explaining the choice.
 
+2026-11-14 修（假派单实锚）：本脚本原来只往 PRODUCTION-BACKLOG.jsonl 追加，而该文件
+自 2026-11-11 起已不是执行面——v3 执行体只读 rt/<station>/queue.jsonl。于是决策席
+天天报"cards=9"，分片里一张也没有，四台机器无卡可跑。现在同一张卡同时投进 v3：
+本机（control）直接入自己的分片；别的机器走"自己 outbox 追加意图 + 对方向上领"
+（一机一写者：绝不直接写别人分片）。
+
 Rules (scientific, not optimistic):
   * never more than ONE in-flight card per line
   * only lines whose cadence deadline is missed get a card
@@ -26,6 +32,52 @@ LINES = os.path.join(F, "lines")
 Q = os.path.join(F, "PRODUCTION-QUEUE.jsonl")
 B = os.path.join(F, "PRODUCTION-BACKLOG.jsonl")
 OUT = os.path.join(F, "dispatcher", "NIGHT-PLAN.md")
+
+sys.path.insert(0, HERE)
+import station_shards as ss  # noqa: E402
+
+NODE2ST = {"bm-a": "delivery", "bm-b": "audio", "bm-c": "visual",
+           "bm-d": "brain", "bm-m": "control"}
+DISPATCHED = []
+
+
+def dispatch(card, stage_key):
+    """把一张卡投到 v3 执行面。返回 True=投出，False=无处可投（节点不认识）。"""
+    st = NODE2ST.get(str((card.get("nodes") or [""])[0]))
+    if not st:
+        return False
+    row = {"id": card["id"], "station": st, "state": "OPEN",
+           "product_id": card.get("line") or "", "stage": stage_key,
+           "cmd": card.get("cmd") or "", "cmd_reviewed": True,
+           "deliverable": card.get("deliverable") or "", "judge": "path",
+           "requires": card.get("requires") or [],
+           "why": card.get("why") or "", "accept": card.get("accept") or "",
+           "created_by": "night_plan", "created_at": card.get("created_at")}
+    # 同交付物已经在飞就不再投（RG-10：两张活卡做同一件事＝重复烧算力）
+    try:
+        for _r in ss.read_queue(st):
+            if str(_r.get("state")) in ("OPEN", "RUNNING", "BLOCKED", "REVISE", "PENDING_REVIEW") \
+                    and _r.get("deliverable") == row["deliverable"]:
+                print("[night_plan] 跳过 %s：%s 已有同交付物活卡 %s"
+                      % (card["id"], st, _r.get("id")))
+                return False
+    except Exception:
+        pass
+    if st == "control":
+        ss.upsert("control", row)          # 本机：写自己的分片
+    else:
+        ss.append_outbox("control", [row])  # 别家：追加意图，由对方 SENSE 时领取
+    DISPATCHED.append((card["id"], st))
+    return True
+
+
+def dispatch_safe(card, stage_key):
+    """投递失败不许拖垮决策：在别的机器上跑时写 control 会撞"一机一写者"护栏。"""
+    try:
+        return dispatch(card, stage_key)
+    except Exception as e:
+        print("[night_plan] 投递跳过（%s）：%s" % (card.get("id"), str(e)[:60]))
+        return False
 
 
 def jl(p):
@@ -105,7 +157,7 @@ def main():
         spec = json.load(open(os.path.join(LINES, fn), encoding="utf-8"))
         lid = spec.get("id")
         if spec.get("status") == "PARKED":
-            lines.append("- %s：CEO 已停产，不派" % lid)
+            lines.append("- %s：已停产/已挂起（CEO 令或主控裁决），不派" % lid)
             continue
         if lid in inflight:
             lines.append("- %s：在途 %s，不重复派" % (lid, inflight[lid]))
@@ -171,6 +223,7 @@ def main():
             with open(B, "a", encoding="utf-8") as f:
                 f.write(json.dumps(card_n, ensure_ascii=False) + "\n")
             have.add(scid)
+            dispatch_safe(card_n, "%s-%s" % (str(card_t.get("key") or "next"), day))
             made.append((lid, card_n["nodes"][0], scid))
             made_here += 1
         if made_here:
@@ -198,6 +251,7 @@ def main():
                         if fallback else "线到期未产出")}
         with open(B, "a", encoding="utf-8") as f:
             f.write(json.dumps(card, ensure_ascii=False) + "\n")
+        dispatch_safe(card, "体检-%s" % day)
         made.append((lid, lane, card["id"]))
 
     body = ["# 夜间计划 %s" % now.strftime("%Y-%m-%d %H:%M"), "",
@@ -206,7 +260,8 @@ def main():
     body += ["- 派 %s → %s（%s）" % (l, m, c) for l, m, c in made] or ["- 本轮无线到期"]
     body += ["", "## 逐线状态"] + (lines or ["- 无"])
     open(OUT, "w", encoding="utf-8").write("\n".join(body) + "\n")
-    print("[night_plan] cards=%d waiting=%d" % (len(made), len(waiting)))
+    print("[night_plan] cards=%d waiting=%d 已投v3=%d"
+          % (len(made), len(waiting), len(DISPATCHED)))
     return 0
 
 

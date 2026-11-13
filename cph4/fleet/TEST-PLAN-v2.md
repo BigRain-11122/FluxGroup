@@ -1,4 +1,4 @@
-# 测试目录与缺口（TEST-PLAN v2）· 2026-11-13
+# 测试目录与缺口（TEST-PLAN v2）· 2026-11-14
 
 > 生成物：`python3 Tools/fleet/test_catalog.py --write`。改测试请改模块，不要手改本文件。
 > 跑法：`python3 Tools/fleet/run_all_tests.py`（全量）｜`python3 Tools/fleet/quality_score.py`（算分）

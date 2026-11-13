@@ -243,6 +243,9 @@ def main(argv=None):
         print("%-6s %-9s %-7s %-12s %-6s %s" % ("节点", "状态", "代码", "内存/CPU", "延迟", "判读"))
         for r in rows:
             st = "在线" if r.get("reachable") else r.get("state", "?")
+            _pa = r.get("pull_age_min")
+            if r.get("reachable") and _pa is not None and _pa > 60:
+                st = "在线·陈旧"     # 状态面活着但代码很久没动：不能当成"正常在线"
             mem = "%.0fG/%.0f%%" % (r.get("ram_free_gb") or 0, r.get("cpu_pct") or 0) \
                 if r.get("reachable") else "-"
             age = r.get("pull_age_min")

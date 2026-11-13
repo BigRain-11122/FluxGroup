@@ -271,6 +271,14 @@ def plan(station, root=None, now=None):
     want, unknown = [], []
     for p in products:
         pid = p["id"]
+        pstat = str(p.get("status") or "ACTIVE").upper()
+        if pstat not in ("ACTIVE", "ASSET_ONLY"):
+            # 2026-11-14：status 原来是装饰字段——挂起的产品照样每轮算供给。
+            # 挂起必须真生效，否则"挂起"只是文档上的一句话。
+            unknown.append({"product": pid, "stage": "*", "task_type": "",
+                            "why": "PARKED：%s（%s）" % (
+                                pstat, p.get("parked_reason") or "已挂起，不派卡")})
+            continue
         outputs = p.get("outputs") or {}
         for stage in (p.get("stages") or []):
             tid = (smap.get(pid) or {}).get(stage)

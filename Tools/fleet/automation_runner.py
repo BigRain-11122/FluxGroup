@@ -180,6 +180,9 @@ def singleton():
 
 # 核心任务：同步与自驱。它们只几秒，但一旦被跳过，整轮等于没跑（不拉代码、不执行卡）。
 CORE_TASKS = ("SYNC-PULL", "SELF-DRIVE")
+# 长任务"包场一轮"的最小间隔：比预算还长的任务（如全量测试 583s）一天最多占一次整轮，
+# 否则它会永远被 240s 预算挡在门外（2026-11-14 实锚：TEST-FULL 每轮都"预算不足"）。
+LONG_GRACE_S = 6 * 3600
 
 
 def order_due(due):
@@ -236,17 +239,32 @@ def run(dry=False, only=None, force=None):
         # 超预算就不再启动新任务，剩下的留给下一轮——宁可分几轮跑完，不许长期占锁。
         _remain = budget - (time.time() - t_start)
         _hist = float(((runs.get(t.get("id")) or {}).get("sec")) or 0)
+        _exclusive = False
         if t.get("id") not in CORE_TASKS:
             # 预算不足就整条跳过，不许"启动后被截断"——截断会留下半成品状态
             # （2026-11-13 实测：MODEL-RADAR 被 46s 砍成 rc=-9，跑了一半）。
             # 用历史耗时预判：历史上跑 56s 的任务，剩余 46s 时直接留给下一轮。
             if _remain <= 5 or (_hist and _hist > _remain):
-                report["skipped"].append(
-                    {"task": t.get("id"),
-                     "why": "预算不足（历史 %.0fs / 剩余 %.0fs），整条留给下一轮" % (_hist, _remain)})
-                continue
+                # 2026-11-14 修：长任务（如 TEST-FULL 583s）比预算还长时，原来**永远**
+                # 被跳过——夜间全量体检从来没跑过，"每天必测"是假承诺。改为允许
+                # "包场一轮"：距上次真跑超过 LONG_GRACE_S 就独占本轮（跑完直接结束
+                # 本轮，剩下的留给下一轮），一天最多占这一次，不至于长期占锁。
+                _last = float((runs.get(t.get("id")) or {}).get("last") or 0)
+                _capmax = int(t.get("max_sec") or 0)
+                if _hist > budget and _capmax > budget and (time.time() - _last) > LONG_GRACE_S:
+                    _exclusive = True
+                    report.setdefault("exclusive", []).append(t.get("id"))
+                else:
+                    report["skipped"].append(
+                        {"task": t.get("id"),
+                         "why": "预算不足（历史 %.0fs / 剩余 %.0fs），整条留给下一轮"
+                                % (_hist, _remain)})
+                    continue
         _left = max(30, int(_remain))
         _cap = int(t.get("max_sec") or 300)
+        if _exclusive:
+            _cap = int(t.get("max_sec") or 900)
+            _left = _cap
         r = run_one(t, station, timeout=min(_left, _cap))
         results.append(r)
         runs[t["id"]] = {"last": time.time(), "rc": r["rc"], "sec": r["sec"]}

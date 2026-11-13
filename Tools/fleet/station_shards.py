@@ -28,6 +28,7 @@ import os
 import subprocess
 import sys
 import tempfile
+import time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT_DEFAULT = os.path.dirname(os.path.dirname(HERE))
@@ -70,6 +71,17 @@ def _write_lock(path):
             except Exception:
                 pass
         _LOCAL.depth = 1
+        # 持锁证明（2026-11-14）：锁文件本身是瞬时的，职责审计拿它当证据会"没人在写就红"。
+        # 每拿到一次锁留一行持久记录，既证明单例护栏在跑，也能事后查有没有双跑。
+        try:
+            st = os.path.basename(os.path.dirname(lock))
+            with open(os.path.join(os.path.dirname(lock), "lock-stat.json"), "w",
+                      encoding="utf-8") as _f:
+                json.dump({"station": st, "pid": os.getpid(),
+                           "ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "lock": os.path.basename(lock)},
+                          _f, ensure_ascii=False)
+        except Exception:
+            pass
         yield
     finally:
         _LOCAL.depth = 0

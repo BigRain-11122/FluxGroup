@@ -2,7 +2,7 @@
  "id": "car-gaming",
  "name": "车机游戏 BU",
  "owner": "车机 BU",
- "status": "ACTIVE",
+ "status": "PARKED",
  "cadence_h": 72,
  "inputs": [
   "cph4/fleet/car-gaming-v1",
@@ -15,5 +15,6 @@
  "lanes": [
   "bm-a"
  ],
- "needs": "cpu"
+ "needs": "cpu",
+ "paused_reason": "2026-11-14 主控裁决：产品 PROD-CAR-GAMING 四道工序零命令零产物，按「线连续 7 天无产物自动挂起」挂起；接任意一道命令即复活。"
 }

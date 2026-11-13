@@ -399,9 +399,10 @@
    "input": "单例锁",
    "action": "同机只许一个自驱/调度器",
    "executor": "Tools/fleet/station_drive.py",
-   "evidence": "cph4/fleet/rt/control/queue.jsonl.lock",
-   "verify": "无并发双跑",
-   "fallback": "抢不到锁退出并说明"
+   "evidence": "cph4/fleet/rt/control/lock-stat.json",
+   "verify": "持锁记录存在且龄期合理（锁文件本身是瞬时的，不能当证据）",
+   "fallback": "抢不到锁退出并说明",
+   "_note": "2026-11-14：原证据写 queue.jsonl.lock——没人正在写时该文件不存在，职责审计因此天天判 NO-EVIDENCE（假红）。改为每次取锁留一行持久记录。"
   },
   {
    "id": "F03",

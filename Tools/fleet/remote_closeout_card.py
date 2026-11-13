@@ -109,12 +109,40 @@ def main(argv):
             continue
         rows = []
         for p in (QUEUE, BACKLOG):
+            # 2026-11-11 旧队列已归档（"机制变了就从头开始"），这里原来会直接
+            # FileNotFoundError——收口卡于是自那时起一张都发不出去。
+            if not os.path.exists(p):
+                continue
             rows += [json.loads(l) for l in open(p, encoding="utf-8") if l.strip()]
         if any(r.get("id") == c["id"] for r in rows):
             print("[skip] %s 已存在" % c["id"])
             continue
-        with open(QUEUE, "a", encoding="utf-8") as f:
-            f.write(json.dumps(c, ensure_ascii=False) + "\n")
+        # 2026-11-14：不再写退役的 PRODUCTION-QUEUE.jsonl——上一版在这里 append，
+        # 会把这个 11-11 已归档的文件重新创建出来，把"旧通道"复活，RG-09/10 于是
+        # 拿一份没人执行的文件判红。收口卡只走 v3。
+        # 2026-11-14：分叉机可能还在读旧队列，所以旧通道照写；但 v3 执行面
+        # （rt/<station>/queue.jsonl）必须同时投一份，否则"新机器收不到、老机器
+        # 又不认"，收口就永远只停在文件里。
+        try:
+            import station_shards as ss
+            NODE2ST = {"bm-a": "delivery", "bm-b": "audio", "bm-c": "visual",
+                       "bm-d": "brain", "bm-m": "control"}
+            st = NODE2ST.get(n)
+            if st:
+                row = {"id": c["id"], "station": st, "state": "OPEN",
+                       "product_id": "", "stage": "closeout-%s" % c["id"][-8:],
+                       "cmd": c["cmd"], "cmd_reviewed": True,
+                       "deliverable": c.get("deliverable") or "", "judge": "path",
+                       "requires": [], "why": c.get("why") or "分叉收口",
+                       "created_by": "remote_closeout_card",
+                       "created_at": c.get("created_at")}
+                if st == "control":
+                    ss.upsert("control", row)
+                else:
+                    ss.append_outbox("control", [row])
+                print("[v3] %s -> %s" % (c["id"], st))
+        except Exception as e:
+            print("[v3] 投递失败：%s" % str(e)[:60])
         print("[queued] %s" % c["id"])
         made.append(c["id"])
     print("done: %s" % made)

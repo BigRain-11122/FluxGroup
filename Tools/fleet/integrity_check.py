@@ -64,10 +64,15 @@ def ctx():
 
 
 # ------------------------------------------------------------------ 链条
-@check("链条", "C1", "59 道工序全部落到三桶之一（可自驱/待接命令/权限）")
+@check("链条", "C1", "在产工序全部落到三桶之一（可自驱/待接命令/权限）")
 def c1(c):
-    tot = auto = pending = auth = noprod = 0
+    tot = auto = pending = auth = noprod = parked = 0
     for p in c["prod"].get("products") or []:
+        # 挂起产品不进分母：它们已经不派卡（station_drive 认 status），
+        # 再算进"待接命令"只会让产能表虚高（2026-11-14）。
+        if str(p.get("status") or "ACTIVE").upper() not in ("ACTIVE", "ASSET_ONLY"):
+            parked += len(p.get("stages") or [])
+            continue
         outs = p.get("outputs") or {}
         cmds = p.get("commands") or {}
         for s in p.get("stages") or []:
@@ -81,7 +86,8 @@ def c1(c):
             else:
                 pending += 1
     return (noprod == 0 and auto + pending + auth == tot,
-            "共 %d：可自驱 %d / 待接命令 %d / 权限 %d / 无契约 %d" % (tot, auto, pending, auth, noprod))
+            "共 %d：可自驱 %d / 待接命令 %d / 权限 %d / 无契约 %d｜挂起 %d 道（不计入）"
+            % (tot, auto, pending, auth, noprod, parked))
 
 
 @check("链条", "C2", "每道工序的 task_type 都在 TAXONOMY 里")

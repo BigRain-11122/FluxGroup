@@ -42,6 +42,15 @@
    "on_fail": "写 BLOCKED 理由，不许静默重试"
   },
   {
+   "id": "BRAIN-PICK",
+   "station": "control",
+   "cadence_s": 1800,
+   "cmd": "{py} Tools/fleet/fleet_brain.py --apply",
+   "output": "cph4/fleet/state/fleet-brain.json",
+   "why": "主控决策席：规则算事实与候选，本地 4B 只在候选里挑一件并给一句理由，动作由白名单执行（CEO 2026-11-08「常驻大模型负责每天高频率管理机队和派发任务」）。2026-11-14 重新接入：此前只在已停用的 master_pulse 里，等于主控不派单。",
+   "on_fail": "模型不可用则只出候选不执行（不猜）"
+  },
+  {
    "id": "AGENT-PATROL",
    "station": "delivery|visual|audio",
    "cadence_s": 3600,
@@ -68,10 +77,11 @@
    "cadence_s": 7200,
    "cmd": "{py} Tools/fleet/self_loop.py --rounds 2",
    "output": "cph4/fleet/state/quality-history.jsonl",
-   "why": "跑分→修登记项→再跑分（只修确定性动作）",
+   "why": "跑分→修登记项→再跑分（只修确定性动作） 2026-11-14：历史耗时 5490s 是杀子进程缺陷留下的脏读数（已改 Popen+killpg），必须有 max_sec 才能触发包场一轮把它自己的耗时刷新回真值，否则永久被预算挡死。",
    "on_fail": "停手并报哪一步失败",
    "report": true,
-   "report_why": "rc=1 表示状态未达标（有扣分项/有 OPEN 项/有 P1），属判决不算故障"
+   "report_why": "rc=1 表示状态未达标（有扣分项/有 OPEN 项/有 P1），属判决不算故障",
+   "max_sec": 420
   },
   {
    "id": "AUDIT-DEEP",
@@ -104,7 +114,8 @@
    "why": "夜间全量（36 层）；真故障与状态判决分开",
    "on_fail": "次日 06:00 交班前必须给出结论",
    "report": true,
-   "report_why": "rc=1 表示状态未达标（有扣分项/有 OPEN 项/有 P1），属判决不算故障"
+   "report_why": "rc=1 表示状态未达标（有扣分项/有 OPEN 项/有 P1），属判决不算故障",
+   "max_sec": 900
   },
   {
    "id": "CMD-LATENCY",
@@ -260,6 +271,15 @@
    "output": "cph4/fleet/state/voice-train.json",
    "why": "养号话术每日回归：20 类合成评论跑生成→语感闸，按类型看失败；通过率跌破 90% 就说明提示词或语料退化。",
    "on_fail": "有失败项即报（不阻塞其他任务）；连续 3 天同类型失败要改语料或提示词"
+  },
+  {
+   "id": "LOOP-VERIFY",
+   "station": "control",
+   "cadence_s": 21600,
+   "cmd": "{py} Tools/fleet/fleet_loop_verify.py",
+   "output": "cph4/fleet/state/loop-verify.json",
+   "why": "每 6 小时按'回执→判据→产物→哈希→时间差'逐台核闭环；LOOP-BROKEN 说明有假完成。",
+   "on_fail": "LOOP-BROKEN 必报；LOOP-IDLE 属没产出，不判故障"
   }
  ],
  "gates": {

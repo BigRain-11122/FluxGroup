@@ -172,7 +172,9 @@
     "算力大脑未入网（暂由交付工厂夜窗代跑）",
     "商户号（对外售卖）"
    ],
-   "status": "ACTIVE"
+   "status": "PARKED",
+   "parked_reason": "0/3 命令（2026-11-14 主控按「线连续 7 天无产物自动挂起」执行）",
+   "revive_condition": "数据/回测需大脑算力（未装机），报告需回测产物；三缺其二"
   },
   {
    "id": "PROD-FLUXVERSE-SCENE",
@@ -203,12 +205,14 @@
    "blocked_by": [
     "3D 模型资产缺口"
    ],
-   "status": "ACTIVE",
+   "status": "PARKED",
    "panel_stages": [
     "场景装配",
     "事件接入",
     "演示包"
-   ]
+   ],
+   "parked_reason": "0/3 命令（2026-11-14 主控按「线连续 7 天无产物自动挂起」执行）",
+   "revive_condition": "先出 3 道命令（场景装配/事件接入/演示包）再接；当前无产物、无命令，占着供给分母"
   },
   {
    "id": "PROD-BIGHOUSE-FLOW",
@@ -241,12 +245,14 @@
     "3D 资产",
     "人口数据"
    ],
-   "status": "ACTIVE",
+   "status": "PARKED",
    "panel_stages": [
     "场景",
     "流程",
     "准入"
-   ]
+   ],
+   "parked_reason": "0/3 命令（2026-11-14 主控按「线连续 7 天无产物自动挂起」执行）",
+   "revive_condition": "同上：准入/场景/流程三道都无命令，且依赖 3D 场景线"
   },
   {
    "id": "PROD-BIGLIFE-POP",
@@ -277,12 +283,14 @@
    "blocked_by": [
     "3D 居民资产"
    ],
-   "status": "ACTIVE",
+   "status": "PARKED",
    "panel_stages": [
     "户籍",
     "行为",
     "资产"
-   ]
+   ],
+   "parked_reason": "0/3 命令（2026-11-14 主控按「线连续 7 天无产物自动挂起」执行）",
+   "revive_condition": "户籍/行为/资产三道无命令；需先定城市数据 schema"
   },
   {
    "id": "PROD-CAR-GAMING",
@@ -313,13 +321,15 @@
    "blocked_by": [
     "OEM 商务（CEO）"
    ],
-   "status": "ACTIVE",
+   "status": "PARKED",
    "panel_stages": [
     "玩法",
     "车机适配",
     "打包",
     "OEM 材料"
-   ]
+   ],
+   "parked_reason": "0/4 命令（2026-11-14 主控按「线连续 7 天无产物自动挂起」执行）",
+   "revive_condition": "车机线 4 道命令全缺；CEO 优先线，接 3D 适配/打包/玩法/OEM 材料任一道即可复活"
   },
   {
    "id": "PROD-DRAMA-AUDIO",

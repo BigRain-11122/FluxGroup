@@ -39,6 +39,20 @@ def jload(p, d=None):
 
 
 def qrows():
+    """读的是**当前执行面**（rt/<station>/queue.jsonl 五片），不是退役的旧队列。
+
+    2026-11-14 实锚：本函数原来只读 PRODUCTION-QUEUE.jsonl，而该文件 11-11 已归档；
+    某次工具顺手把它重建后，RG-09/10 开始拿一份"没人执行的文件"判红/判绿。
+    """
+    try:
+        import station_shards as _ss
+        agg = []
+        for _st in _ss.STATIONS:
+            agg += _ss.read_queue(_st)
+        if agg:
+            return agg
+    except Exception:
+        pass
     out = []
     try:
         with open(QUEUE, encoding="utf-8") as f:
