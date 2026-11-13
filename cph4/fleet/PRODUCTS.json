@@ -467,7 +467,24 @@
     "商品定义",
     "报价",
     "物料"
-   ]
+   ],
+   "commands": {
+    "商品定义": "python3 Tools/fleet/compute_offer.py --stage offer",
+    "报价": "python3 Tools/fleet/compute_offer.py --stage quote",
+    "物料": "python3 Tools/fleet/compute_offer.py --stage assets"
+   },
+   "requires": {
+    "商品定义": [
+     "cph4/fleet/MODEL-COMPUTE.json"
+    ],
+    "报价": [
+     "cph4/fleet/MODEL-COMPUTE.json"
+    ],
+    "物料": [
+     "cph4/fleet/out/bigcompute/offer.md",
+     "cph4/fleet/out/bigcompute/quote.md"
+    ]
+   }
   },
   {
    "id": "PROD-RECON-RECIPE",
