@@ -86,6 +86,20 @@ def probe(node, timeout=15):
     return base
 
 
+def model_endpoints(timeout=6):
+    """检查主控模型服务：本机与 tailnet 两个地址都要通（赋能机队的前提）。"""
+    out = {}
+    for tag, url in (("local", "http://127.0.0.1:11434/api/tags"),
+                     ("tailnet", "http://100.75.133.10:11434/api/tags")):
+        try:
+            with urllib.request.urlopen(url, timeout=timeout) as r:
+                d = json.loads(r.read().decode("utf-8", "replace") or "{}")
+            out[tag] = {"ok": True, "models": len(d.get("models") or [])}
+        except Exception as e:
+            out[tag] = {"ok": False, "why": type(e).__name__}
+    return out
+
+
 def survey(timeout=15):
     nodes = [n for n in load_nodes() if n.get("enabled")]
     with ThreadPoolExecutor(max_workers=5) as ex:
@@ -219,6 +233,12 @@ def main(argv=None):
             print("%-6s %-9s %-7s %-12s %-6s %s" % (
                 r.get("node"), st, r.get("code", "-"), mem,
                 ("%dms" % r["ms"]) if r.get("ms") else "-", judge(r)))
+        me = model_endpoints()
+        print("模型端点：本机 %s｜tailnet %s"
+              % ("通(%d 模型)" % me["local"]["models"] if me["local"].get("ok")
+                 else "不通 " + str(me["local"].get("why")),
+                 "通(%d 模型)" % me["tailnet"]["models"] if me["tailnet"].get("ok")
+                 else "不通 " + str(me["tailnet"].get("why"))))
         if a.brief:
             txt, how = brief(rows)
             print("\n判读（%s）：%s" % (how, txt))

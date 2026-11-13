@@ -123,7 +123,13 @@
     "不做 14B 以上常驻",
     "不做批量生成"
    ],
-   "note": "仅作轻量兜底；其他机器能本地做的一律不要用它"
+   "note": "2026-11-13 打通：本服务原只监听 127.0.0.1（配置里的 tailnet url 是死的），已改由 com.fluxgroup.ollamamodel 起 serve 并绑 0.0.0.0:11434，机队可经 tailnet 直接调用。验证：curl http://100.75.133.10:11434/api/tags",
+   "access": {
+    "listen": "0.0.0.0:11434",
+    "auth": "tailnet-only（无应用层认证）",
+    "keep_alive": "10m（显式，不许默认 5m/不许 0）",
+    "rollback": "launchctl bootout gui/$UID/com.fluxgroup.ollamamodel 后重开 Ollama.app"
+   }
   }
  ],
  "routing": {

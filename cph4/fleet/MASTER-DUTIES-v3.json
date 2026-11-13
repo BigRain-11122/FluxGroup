@@ -21,14 +21,14 @@
   {
    "id": "A01",
    "domain": "赋能",
-   "name": "本机模型服务可达",
+   "name": "模型服务对机队可达",
    "cad": "T15",
    "input": "本机 11434",
-   "action": "探活并记录，连续失败降级到备用端点",
+   "action": "本机与 tailnet 两个地址都探活；机队任一台能连才算赋能到位",
    "executor": "Tools/fleet/local_model.py",
    "evidence": "cph4/fleet/rt/control/local-model.jsonl",
-   "verify": "最近 15 分钟内有非 probe 调用且无 err",
-   "fallback": "换端点；仍失败则报 ENV 缺口，不静默"
+   "verify": "本机通且 tailnet 通（模型数一致）",
+   "fallback": "App 只监听 127.0.0.1 时，改用自管 launchd 服务绑 0.0.0.0"
   },
   {
    "id": "A02",
