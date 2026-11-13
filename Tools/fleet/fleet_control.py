@@ -114,11 +114,19 @@ def survey(timeout=15):
 
 
 def judge(row):
-    """规则判读：能由事实判定的，不交给模型。"""
+    """规则判读：能由事实判定的，不交给模型。
+
+    2026-11-13 实测：bm-c 已能推提交（远端有它的 commit），但 /status 的 last_pull
+    还是 7.6 小时前的，判读仍写"拉不到新代码"——**拿陈旧快照下的结论是错的**。
+    快照超过 60 分钟时，判读必须先声明"结论不可信"，再谈状态。
+    """
     if row.get("state") == "未入网":
         return "未入网，等装机"
     if not row.get("reachable"):
         return "不可达（关机/断网/服务没起）"
+    age = row.get("pull_age_min")
+    if age is not None and age > 60:
+        return "快照 %d 分钟前，结论不可信——发 --sync 刷新后再判" % age
     code = row.get("code") or ""
     if code.startswith("分叉") or code == "落后":
         return "拉不到新代码，产出会停"
