@@ -112,6 +112,68 @@ def _digest(path):
     return ss.digest(path)
 
 
+def _fork_state(out):
+    """解析 `git rev-list --left-right --count HEAD...origin/main` 的输出。
+
+    纯函数便于自检：分叉必须能与"落后"分开——落后可以快进，分叉只能人处理。
+    """
+    parts = str(out or "").replace("\t", " ").split()
+    try:
+        ahead, behind = int(parts[0]), int(parts[1])
+    except Exception:
+        return {"state": "unknown", "raw": str(out)[:80]}
+    if ahead == 0 and behind == 0:
+        st = "synced"
+    elif ahead and behind:
+        st = "fork"
+    elif behind:
+        st = "behind"
+    else:
+        st = "ahead"
+    return {"state": st, "ahead": ahead, "behind": behind}
+
+
+def git_selfcheck(station, root=None):
+    """本机仓库落后/分叉自检：只报不自动改。
+
+    2026-11-13 实测两台 Windows 长期分叉（45/31、1/4），而 pull 回执一直写
+    `.:updated` —— 机队以为在跑新代码。修法不是主控远程代劳（远程只能唤醒任务、
+    sync 只允许写 JSON），而是**每台机器自己检查、自己留证**；要快进由 SYNC-PULL
+    按排班决定，这里不碰工作树。
+    """
+    rroot = root or ROOT
+    if not os.path.isdir(os.path.join(rroot, ".git")):
+        return None
+    try:
+        p = subprocess.run(["git", "-C", rroot, "rev-list", "--left-right",
+                            "--count", "HEAD...origin/main"],
+                           capture_output=True, text=True, timeout=20)
+    except Exception:
+        return None
+    if p.returncode != 0:
+        return None
+    st = _fork_state(p.stdout.strip())
+    st["station"] = station
+    st["ts"] = _now().isoformat(timespec="seconds")
+    path = os.path.join(rroot, "cph4", "fleet", "rt", station, "git-status.json")
+    try:
+        prev = json.load(open(path, encoding="utf-8"))
+    except Exception:
+        prev = {}
+    if prev.get("state") != st.get("state") or prev.get("behind") != st.get("behind"):
+        try:
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            tmp = path + ".tmp"
+            with open(tmp, "w", encoding="utf-8") as f:
+                json.dump(st, f, ensure_ascii=False, indent=1)
+                f.flush()
+                os.fsync(f.fileno())
+            os.replace(tmp, path)
+        except Exception:
+            pass
+    return st
+
+
 def _prodsig(path):
     """产物签名：size + 前 64KB 哈希。
 
@@ -999,10 +1061,12 @@ def once(station, root=None, dry=False, now=None, run_limit=3, force=False):
                 "reclaimed": reclaimed, "retried": retried, "consumed": consumed,
                 "stale_cards": stale, "stale_note": stale_note,
                 "would_create": [], "unknown_output": [], "ran": []}
+    _git = None if dry else git_selfcheck(station, root)
     want, unknown = plan(station, root, now)
     report = {"station": station, "ts": _now().isoformat(timespec="seconds"),
               "status_note": why, "reclaimed": reclaimed,
               "stale_cards": stale, "stale_note": stale_note,
+              "git": _git,
               "retried": retried, "consumed": consumed,
               "would_create": [w["product"] + "/" + w["stage"] for w in want],
               # 2026-11-12 bm-c 现场切换：plan() 一直算出了每道工序"为什么没活"
@@ -1234,6 +1298,12 @@ def self_test():
             globals()["_comfyui_alive"] = _orig_probe
     finally:
         shutil.rmtree(_ptd, ignore_errors=True)
+
+    for out, want_state in (("0\t0", "synced"), ("0\t4", "behind"),
+                            ("45\t31", "fork"), ("3\t0", "ahead")):
+        got = _fork_state(out)["state"]
+        chk("分叉判读 %r -> %s（得到 %s）" % (out, want_state, got), got == want_state)
+    chk("负控：解析不了 -> unknown", _fork_state("garbage")["state"] == "unknown")
 
     print("[station_drive] %d/%d" % (ok, total))
     return 0 if ok == total else 2
