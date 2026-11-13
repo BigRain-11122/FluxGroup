@@ -86,7 +86,12 @@
    "panel_stages": [
     "mv-plan",
     "mv-gate"
-   ]
+   ],
+   "commands": {
+    "mv-kf": "python Tools/fleet/job_kf_batch.py --node bm-c --prompts cph4/fleet/mv0001-handover/plan/kf_prompts.json --out cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/kf/ --need-mb 12000",
+    "mv-i2v": "python cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/h3_i2v_fleet_v4.py --repo . --server http://127.0.0.1:8188 --out cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/i2v/",
+    "mv-cut": "python Tools/mv_rebuild_from_edl.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_cut.mp4 --grade"
+   }
   },
   {
    "id": "PROD-ASSET-PACK",
@@ -396,7 +401,10 @@
    "priority": "T2",
    "cadence": "48 小时 1 张推进卡",
    "blocked_by": [],
-   "status": "ACTIVE"
+   "status": "ACTIVE",
+   "commands": {
+    "字幕": "python Tools/fleet/subs_asr.py --in cph4/fleet/out/shortvideo/mix/master.wav --out cph4/fleet/out/shortvideo/sub.srt"
+   }
   },
   {
    "id": "PROD-BIGDOMAIN-MATERIAL",
@@ -584,7 +592,18 @@
     "assembly",
     "qc",
     "publish"
-   ]
+   ],
+   "commands": {
+    "assets": "python Tools/fleet/drama_manifest.py --dir cph4/fleet/out/drama/kf --out cph4/fleet/out/drama/assets/manifest.json",
+    "kf": "python Tools/fleet/job_kf_batch.py --node bm-c --prompts cph4/fleet/out/drama/kf_prompts.json --out cph4/fleet/out/drama/kf/ --need-mb 12000",
+    "assembly": "python Tools/fleet/drama_assemble.py --manifest cph4/fleet/out/drama/assets/manifest.json --out cph4/fleet/out/drama/assembly/ep.mp4 --qa cph4/fleet/out/drama/assembly/qa.json"
+   },
+   "manual_stages": [
+    "i2v"
+   ],
+   "manual_stage_reasons": {
+    "i2v": "i2v 客户端未泛化：h3_i2v_client.py 硬编码 bm-a 路径（C:\\Users\\sjs20\\...），h3_i2v_fleet_v4.py 输入目录硬编码 mv0001 30s-reel frames/；需先做 --frames-dir 泛化（TOOL-PENDING 已报主控）再接自动命令"
+   }
   },
   {
    "id": "PROD-ACCOUNT-GROWTH",
