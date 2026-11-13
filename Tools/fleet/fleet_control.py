@@ -76,6 +76,13 @@ def probe(node, timeout=15):
         "fork": fork.replace("\t", " "), "tasks": lp.get("task_states") or {},
         "last_pull_ts": lp.get("ts"),
     })
+    # 快照龄期：/status 里的 last_pull 可能是几小时前的，用它下判断会误判。
+    # 2026-11-13 实测：bm-c 的分叉数字来自 15:18 的快照，7 小时后仍被当成"现在"。
+    try:
+        _t = datetime.fromisoformat(str(lp.get("ts"))[:19])
+        base["pull_age_min"] = round((datetime.now() - _t).total_seconds() / 60)
+    except Exception:
+        base["pull_age_min"] = None
     # 代码是否真的到了最新：只认 head==origin 且 fork 为 0
     if head and origin:
         same = head == origin
@@ -230,9 +237,11 @@ def main(argv=None):
             st = "在线" if r.get("reachable") else r.get("state", "?")
             mem = "%.0fG/%.0f%%" % (r.get("ram_free_gb") or 0, r.get("cpu_pct") or 0) \
                 if r.get("reachable") else "-"
-            print("%-6s %-9s %-7s %-12s %-6s %s" % (
+            age = r.get("pull_age_min")
+            tag = "" if age is None else ("（快照 %d 分钟前）" % age if age > 20 else "")
+            print("%-6s %-9s %-7s %-12s %-6s %s%s" % (
                 r.get("node"), st, r.get("code", "-"), mem,
-                ("%dms" % r["ms"]) if r.get("ms") else "-", judge(r)))
+                ("%dms" % r["ms"]) if r.get("ms") else "-", judge(r), tag))
         me = model_endpoints()
         print("模型端点：本机 %s｜tailnet %s"
               % ("通(%d 模型)" % me["local"]["models"] if me["local"].get("ok")
