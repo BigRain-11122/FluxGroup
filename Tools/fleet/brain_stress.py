@@ -229,7 +229,7 @@ def ladder(verbose=False, budget=None):
         {"id": "control", "order": 2, "url": "http://127.0.0.1:%d" % cport},
     ])
     t = time.time()
-    out = lm.generate("ping", cls="master", timeout=2, why="brain-stress")
+    out = lm.generate("ping", cls="probe", timeout=2, why="brain-stress")
     ms = (time.time() - t) * 1000
     rec("tags-up-generate-hangs-falls-back", out == "ok" and 1900 < ms < 4000,
         "answer from control after 2s timeout", "%r / %dms" % (out, int(ms)), ms,
@@ -273,7 +273,7 @@ def ladder(verbose=False, budget=None):
     lm, _ = _patched_lm([{"id": "brain", "order": 1, "url": "http://127.0.0.1:%d" % bport}])
     lm._HEALTH = {"ts": time.time(), "url": "http://127.0.0.1:%d" % bport}
     t = time.time()
-    out = lm.generate("ping", cls="master", timeout=2, why="brain-stress")
+    out = lm.generate("ping", cls="probe", timeout=2, why="brain-stress")
     ms = (time.time() - t) * 1000
     rec("generate-timeout-returns-empty", out == "" and ms < 5000,
         "empty within 5000ms", "%r / %dms" % (out, int(ms)), ms)
