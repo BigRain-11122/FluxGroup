@@ -42,7 +42,31 @@ PROMPT = ("jman, " + ID_BLOCK + ", "
 SEEDS = [30972901, 30972902, 30972903, 30972904]  # v729 段，避开 r2 批 30700001 段与 20260001 老段
 
 
+def graph_lora_only(prompt_text, seed, lora_strength):
+    # Pure-LoRA identity route (mv_full_kf_r2.py proven recipe, validation board 12/12):
+    # no reference images. All three official photos carry pollution (ref_mv_91: MV mosaic/
+    # double-exposure; ref_main_9: name watermark; ref_close_1: text - dropped from the LoRA
+    # dataset back in 10-09 for exactly this reason), so refs leak artifacts into output.
+    return {
+        "10": {"class_type": "UNETLoader", "inputs": {"unet_name": "krea2_turbo_fp8_scaled.safetensors", "weight_dtype": "default"}},
+        "20": {"class_type": "LoraLoaderModelOnly", "inputs": {"lora_name": "jman_v1_rank32.safetensors",
+               "strength_model": lora_strength, "model": ["10", 0]}},
+        "11": {"class_type": "CLIPLoader", "inputs": {"clip_name": "qwen3vl_4b_fp8_scaled.safetensors", "type": "krea2"}},
+        "12": {"class_type": "VAELoader", "inputs": {"vae_name": "qwen_image_vae.safetensors"}},
+        "6": {"class_type": "CLIPTextEncode", "inputs": {"text": prompt_text, "clip": ["11", 0]}},
+        "13": {"class_type": "ConditioningZeroOut", "inputs": {"conditioning": ["6", 0]}},
+        "5": {"class_type": "EmptyLatentImage", "inputs": {"width": W, "height": H, "batch_size": 1}},
+        "3": {"class_type": "KSampler", "inputs": {"seed": seed, "steps": 8, "cfg": 1.0, "sampler_name": "euler",
+                "scheduler": "simple", "denoise": 1.0, "model": ["20", 0], "positive": ["6", 0],
+                "negative": ["13", 0], "latent_image": ["5", 0]}},
+        "8": {"class_type": "VAEDecode", "inputs": {"samples": ["3", 0], "vae": ["12", 0]}},
+        "29": {"class_type": "SaveImage", "inputs": {"images": ["8", 0], "filename_prefix": "v729_d03b_lora"}},
+    }
+
+
 def graph(prompt_text, seed, lora_strength, refs):
+    if not refs:
+        return graph_lora_only(prompt_text, seed, lora_strength)
     # TextEncodeQwenImageEditPlus expects image1..3; when fewer refs are given,
     # later slots reuse the last ref (node contract: all three inputs must be wired).
     eff = list(refs[:3])
@@ -121,8 +145,8 @@ def main():
                          "v1 combo with ref_mv_91.jpg leaks MV mosaic/transition artifacts (measured 2026-11-13).")
     ap.add_argument("--tag", default="r2", help="output subfolder tag for this candidate round")
     args = ap.parse_args()
-    refs = [r.strip() for r in args.refs.split(",") if r.strip()]
-    assert refs, "at least one ref image required"
+    # refs may be empty (pure-LoRA route) - see graph_lora_only note.
+    refs = [r.strip() for r in args.refs.split(",") if r.strip() and r.strip().lower() != "none"]
     OUT_DIR = os.path.join(OUT_DIR, args.tag)
     os.makedirs(OUT_DIR, exist_ok=True)
     get(args.server + "/system_stats")  # alive check
