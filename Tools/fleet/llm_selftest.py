@@ -105,6 +105,14 @@ def main():
     if code != 200:
         return done(1, "E-BAD-GATEWAY", "GET /api/tags http=%d %s" % (code, body.get("error", "")[:80]))
 
+    # 2b) 令牌到底有没有被校验：拿一个故意错的串再打一次 /api/tags。
+    # 2026-11-10 CEO 选 B（tailnet/回环免令牌）之后，本机自呼永远 200——那时
+    # "令牌通过"这句是假的，必须如实标成"未校验"，否则出问题会去查错的地方。
+    c, _ = call(a.base, "/api/tags", token + "-deliberately-wrong", timeout=min(a.timeout, 20))
+    enforced = (c == 401)
+    rep["checks"]["token_enforced"] = "yes（错令牌被拒）" if enforced else \
+        "no（可信网段免令牌 / 网关未启令牌；本机可用但不代表令牌这条路是通的）"
+
     # 3) 真生成：光能列模型不算可用，必须真出一段话
     t0 = time.time()
     code, body = call(a.base, "/api/generate", token,
@@ -138,7 +146,8 @@ def main():
             return done(1, "E-WHITELIST-LEAK",
                         "网关放行了本应封存的 %s（远端能拉起来顶掉常驻主力）" % hit)
 
-    return done(0, "OK", "%s 可用，延迟 %.2fs，白名单负控通过" % (a.model, dt))
+    return done(0, "OK", "%s 可用，延迟 %.2fs，白名单负控通过%s"
+                % (a.model, dt, "" if enforced else "（令牌未被校验：可信网段免令牌）"))
 
 
 if __name__ == "__main__":

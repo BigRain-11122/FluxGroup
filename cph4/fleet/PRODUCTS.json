@@ -598,11 +598,8 @@
     "kf": "python Tools/fleet/job_kf_batch.py --node bm-c --prompts cph4/fleet/out/drama/kf_prompts.json --out cph4/fleet/out/drama/kf/ --need-mb 12000",
     "assembly": "python Tools/fleet/drama_assemble.py --manifest cph4/fleet/out/drama/assets/manifest.json --out cph4/fleet/out/drama/assembly/ep.mp4 --qa cph4/fleet/out/drama/assembly/qa.json"
    },
-   "manual_stages": [
-    "i2v"
-   ],
-   "manual_stage_reasons": {
-    "i2v": "i2v 客户端未泛化：h3_i2v_client.py 硬编码 bm-a 路径（C:\\Users\\sjs20\\...），h3_i2v_fleet_v4.py 输入目录硬编码 mv0001 30s-reel frames/；需先做 --frames-dir 泛化（TOOL-PENDING 已报主控）再接自动命令"
+   "pending_stage_reasons": {
+    "i2v": "TOOL-PENDING（命令未接，不是人判）：i2v 客户端未泛化——h3_i2v_client.py 硬编码 bm-a 路径（C:\\Users\\sjs20\\...），h3_i2v_fleet_v4.py 的 base 写死 mv0001 30s-reel 目录；需先加 --base/--frames-dir 泛化再接自动命令。另上游 kf 产物为空、视觉工位 ComfyUI 未起，现在接命令只会造出跑不动的卡"
    }
   },
   {

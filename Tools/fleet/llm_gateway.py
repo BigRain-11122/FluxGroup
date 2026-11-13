@@ -81,6 +81,35 @@ def token():
         return ""
 
 
+TRUST_NET = ipaddress.ip_network("100.64.0.0/10")
+
+
+def trusted_peer(ip_str):
+    """2026-11-10 CEO 选 B：Tailscale 内网（100.64.0.0/10）与本机回环免令牌。
+    只认这两个范围，公网/普通局域网仍然要令牌。"""
+    try:
+        ip = ipaddress.ip_address(str(ip_str))
+    except Exception:
+        return False
+    return ip.is_loopback or ip in TRUST_NET
+
+
+def auth_verdict(client_ip, given, expected):
+    """认证判定抽成纯函数 -> (是否放行, 原因)。
+
+    原因四态：ok（令牌对）/ peer-trusted（可信网段免令牌）/ no-token（没配令牌）
+    / bad-token（该拒）。处理器与回归用例共用这一把尺：负控能直接调它，否则
+    「可信网段免令牌」这条策略一变，"错令牌返 200"就只能靠人猜是设计还是漏洞。
+    """
+    if not expected:
+        return True, "no-token"
+    if given == expected:
+        return True, "ok"
+    if trusted_peer(client_ip):
+        return True, "peer-trusted"
+    return False, "bad-token"
+
+
 def log(row):
     try:
         os.makedirs(STATE, exist_ok=True)
@@ -111,22 +140,12 @@ class H(BaseHTTPRequestHandler):
              "ua": (self.headers.get("User-Agent") or "")[:80]})
         self._send(code, {"error": why})
 
-    def _trusted_peer(self):
-        """2026-11-10 CEO 选 B：Tailscale 内网（100.64.0.0/10）与本机回环免令牌。
-        只认这两个范围，公网/普通局域网仍然要令牌。"""
-        try:
-            ip = ipaddress.ip_address(self.client_address[0])
-        except Exception:
-            return False
-        if ip.is_loopback:
-            return True
-        return ip in ipaddress.ip_network("100.64.0.0/10")
-
     def do_GET(self):
         if self.path.split("?")[0] not in PASS_PATHS:
             return self._deny(404, "path not allowed")
-        if (token() and self.headers.get("X-Flux-Token") != token()
-                and not self._trusted_peer()):
+        ok, _why = auth_verdict(self.client_address[0],
+                                self.headers.get("X-Flux-Token"), token())
+        if not ok:
             return self._deny(401, "bad or missing X-Flux-Token")
         try:
             with urllib.request.urlopen(UPSTREAM + self.path, timeout=15) as r:
@@ -138,8 +157,9 @@ class H(BaseHTTPRequestHandler):
         path = self.path.split("?")[0]
         if path not in PASS_PATHS:
             return self._deny(404, "path not allowed")
-        if (token() and self.headers.get("X-Flux-Token") != token()
-                and not self._trusted_peer()):
+        ok, _why = auth_verdict(self.client_address[0],
+                                self.headers.get("X-Flux-Token"), token())
+        if not ok:
             return self._deny(401, "bad or missing X-Flux-Token")
         try:
             n = int(self.headers.get("Content-Length") or 0)

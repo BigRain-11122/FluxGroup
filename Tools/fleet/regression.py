@@ -581,11 +581,27 @@ def rg29():
 
     missing = run("/tmp/definitely-no-such-llm-token")
     assert missing == 3, "缺令牌应返 3（缺料不算失败），实返 %d" % missing
-    # 负控：有令牌但不对/连不上时必须返 1，否则三态退化成两态
-    badtok = os.path.join(d, "badtok")
-    open(badtok, "w").write("wrong")
-    assert run(badtok) == 1, "错令牌/连不上应返 1（真故障），不能也返 3"
-    return "四态齐全；缺令牌=3（缺料）· 错令牌/不可达=1（真故障），负控通过"
+    # 负控：认证判定必须能区分「该拒」与「可信网段免令牌」。
+    # 2026-11-10 CEO 选 B 后 tailnet/回环免令牌，本机自呼时源地址就在可信段——
+    # 拿 HTTP 打自己那条路做负控永远返 200（设计如此），只能判纯函数。
+    sys.path.insert(0, os.path.join(ROOT, "Tools", "fleet"))
+    import llm_gateway as gw
+    cases = [
+        ("公网 IP + 错令牌", "8.8.8.8", "wrong", "real", (False, "bad-token")),
+        ("公网 IP + 空令牌", "8.8.8.8", None, "real", (False, "bad-token")),
+        ("公网 IP + 对令牌", "8.8.8.8", "real", "real", (True, "ok")),
+        ("tailnet 免令牌", "100.75.133.10", "wrong", "real", (True, "peer-trusted")),
+        ("回环免令牌", "127.0.0.1", None, "real", (True, "peer-trusted")),
+        ("没配令牌不放空门禁?", "8.8.8.8", "x", "", (True, "no-token")),
+    ]
+    for label, ip, got, exp, want in cases:
+        real = gw.auth_verdict(ip, got, exp)
+        assert real == want, "认证判定错：%s 期望 %s 实得 %s" % (label, want, real)
+    # 正控：网关不许裸奔启动（缺令牌直接 rc=2）
+    assert "拒绝裸奔" in open(os.path.join(ROOT, "Tools", "fleet", "llm_gateway.py"),
+                              encoding="utf-8").read(), "网关注册表里少了「缺令牌不启动」这道闸"
+    return ("四态齐全；缺令牌=3（缺料）· 认证判定 6 例正负控通过"
+            "（公网错/空令牌必拒，tailnet/回环免令牌是 2026-11-10 明确策略）")
 
 
 @case("RG-30", "队列文件里不许有 git 冲突标记（整文件覆盖会把它提交进历史）",

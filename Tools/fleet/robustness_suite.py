@@ -366,9 +366,12 @@ def r16():
 def r17():
     """沙箱里跑完整一轮：这是"链路能不能干活"的唯一硬判据。
 
-    2026-11-12 首次跑通：索引卡 BLOCKED（缺输入，正确）、草稿与复盘 DONE
-    （判据分别是 voice_gate 与评审团 panel），回执带 sha256 且重算一致，
-    抽验 A1/A2/A3 全过、失败 0。
+    2026-11-13 改写成两段，原因是原来的写法假红：
+      · 旧写法直接跑"生产配置里的前 5 张卡"，指望其中恰好有一张能完成；
+      · 资产库按 CEO 令清空后，前 5 张全是有依据的 BLOCKED（上游产物真的不存在），
+        于是机制没坏、测试却红——机制测试不许绑在内容状态上。
+    现在：A 供给段只验"能按 PRODUCTS 产出卡"，B 机制段用一张自包含卡验
+    执行→判据→回执哈希→抽验这条链本身。
     """
     import hashlib
     import station_drive as sd
@@ -392,31 +395,47 @@ def r17():
             os.symlink(os.path.join(ROOT, "Tools"), os.path.join(td, "Tools"))
         except Exception:
             pass
-        r = sd.once("control", td, run_limit=5, force=True)
-        ran = {x["id"]: x for x in r.get("ran", [])}
-        done = [k for k, v in ran.items() if v.get("verdict") == "DONE"]
-        if not done:
-            return False, "一轮下来没有 DONE：%s" % list(ran.values())[:2]
+
+        # A 供给段：供给不许为 0（为 0 说明 PRODUCTS/命令表与自驱的判断对不上）
+        plan = sd.once("control", td, dry=True, force=True)
+        want = plan.get("would_create") or []
+        if not want:
+            return False, "供给为 0：按 PRODUCTS 一张卡都建不出来"
+
+        # B 机制段：播种一张自包含卡（不依赖任何上游产物）
+        payload = "import os;os.makedirs('out/smoke',exist_ok=True);open('out/smoke/e2e.bin','wb').write(b'ok')"
+        card = {"id": "RQ-E2E-1", "state": "OPEN", "station": "control",
+                "product_id": "PROD-SMOKE", "stage": "冒烟", "task_type": "T-DOC-INDEX",
+                "deliverable": "out/smoke/e2e.bin", "judge": "path",
+                "cmd": '%s -c "%s"' % (sys.executable, payload),
+                "cmd_reviewed": True, "requires": []}
+        ss.write_queue("control", [card], root=td)
+        r = sd.once("control", td, run_limit=1, force=True)
+        ran = {x["id"]: x for x in r.get("ran") or []}
+        me = ran.get("RQ-E2E-1")
+        if not me or me.get("verdict") != "DONE":
+            return False, "播种卡未 DONE：%s" % (me or ran or r.get("would_create"))
+
         # 回执必须带哈希，且重算一致
         bad = []
-        for k in done:
-            rp = os.path.join(td, "cph4", "fleet", "rt", "control", "receipts", k + ".json")
-            if not os.path.exists(rp):
-                bad.append(k + ":无回执")
-                continue
+        rp = os.path.join(td, "cph4", "fleet", "rt", "control", "receipts", "RQ-E2E-1.json")
+        if not os.path.exists(rp):
+            bad.append("无回执")
+        else:
             d = json.load(open(rp, encoding="utf-8"))
             if not d.get("sha256"):
-                bad.append(k + ":无哈希")
-                continue
-            p = os.path.join(td, d.get("deliverable") or "")
-            if os.path.isfile(p):
-                got = hashlib.sha256(open(p, "rb").read()).hexdigest()
-                if got != d["sha256"]:
-                    bad.append(k + ":哈希不一致")
+                bad.append("无哈希")
+            else:
+                p = os.path.join(td, d.get("deliverable") or "")
+                if not os.path.isfile(p):
+                    bad.append("产物不在盘")
+                elif hashlib.sha256(open(p, "rb").read()).hexdigest() != d["sha256"]:
+                    bad.append("哈希不一致")
         # 抽验必须真抽到并通过
         samples, fails = mp.sample(td)
         ok = (not bad) and samples and fails == 0
-        return ok, "DONE=%d 回执问题=%s 抽验=%d 失败=%d" % (len(done), bad or "无", len(samples), fails)
+        return ok, "供给=%d 张 · 播种卡 DONE · 回执问题=%s · 抽验=%d 失败=%d" % (
+            len(want), bad or "无", len(samples), fails)
     finally:
         shutil.rmtree(td, ignore_errors=True)
 
