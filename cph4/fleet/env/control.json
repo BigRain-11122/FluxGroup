@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-12T13:48:47",
+ "ts": "2026-11-13T11:22:28",
  "station": "control",
  "hostname": "junshengsundeMacBook-Pro.local",
  "os": "darwin",
@@ -74,7 +74,9 @@
  },
  "ffmpeg": {
   "version": "7.1",
-  "present": true
+  "present": true,
+  "path": "/Users/junsheng.sun/bin/ffmpeg",
+  "found_by": "PATH"
  },
  "gpu": {
   "backend": "system_profiler",

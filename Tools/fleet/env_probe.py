@@ -91,12 +91,34 @@ def ollama_info():
     return info
 
 
-def ffmpeg_info():
-    txt = _run(["ffmpeg", "-version"], 8)
-    ver = None
-    if txt.startswith("ffmpeg version"):
-        ver = txt.split()[2]
-    return {"version": ver, "present": bool(txt)}
+# 服务环境（launchd / 计划任务）的 PATH 与交互式 shell 不同。2026-11-13 实测：
+# 08:20 的定时探针在 macOS 上找不到 ffmpeg，而交互式 shell 里 ~/bin/ffmpeg 明明在，
+# 于是环境记录失真、文档闸跟着红。所以按固定候选目录再找一遍，并记录"怎么找到的"。
+DEFAULT_BIN_DIRS = (os.path.expanduser("~/bin"), "/opt/homebrew/bin",
+                    "/usr/local/bin", "/usr/bin")
+
+
+def which_any(names, extra_dirs=DEFAULT_BIN_DIRS):
+    """返回 (绝对路径, 来源)。来源区分 PATH / candidate / absent，便于事后判断。"""
+    for n in names:
+        p = shutil.which(n)
+        if p:
+            return p, "PATH"
+    for d in extra_dirs:
+        for n in names:
+            p = os.path.join(d, n)
+            if os.path.isfile(p) and os.access(p, os.X_OK):
+                return p, "candidate"
+    return None, "absent"
+
+
+def ffmpeg_info(extra_dirs=DEFAULT_BIN_DIRS):
+    p, how = which_any(["ffmpeg"], extra_dirs)
+    if not p:
+        return {"version": None, "present": False, "path": None, "found_by": "absent"}
+    txt = _run([p, "-version"], 8)
+    ver = txt.split()[2] if txt.startswith("ffmpeg version") else None
+    return {"version": ver, "present": bool(txt), "path": p, "found_by": how}
 
 
 def gpu_info():
@@ -179,6 +201,31 @@ def self_test():
     chk("ollama 段有结构（无论通不通）", "models" in p["ollama"] and "version" in p["ollama"])
     chk("ffmpeg 段有 present 字段", "present" in p["ffmpeg"], p["ffmpeg"])
     chk("env 只采白名单键", set(p["env"]).issubset(set(ENV_KEYS)), list(p["env"]))
+    # 服务环境 PATH 不含 ~/bin 是常态：必须在候选目录里也能找到（2026-11-13 实测）
+    import tempfile as _tf
+    with _tf.TemporaryDirectory() as td:
+        fake = os.path.join(td, "ffmpeg")
+        with open(fake, "w", encoding="utf-8") as f:
+            f.write("#!/bin/sh\necho 'ffmpeg version 9.9.9-test'\n")
+        os.chmod(fake, 0o755)
+        # 1) 只给候选目录、名字不在 PATH 里 -> 必须靠 candidate 命中
+        os.rename(fake, os.path.join(td, "ffmpeg-probe-xyz"))
+        got, how = which_any(["ffmpeg-probe-xyz"], [td])
+        chk("候选目录兜底：PATH 里没有时也能找到",
+            got == os.path.join(td, "ffmpeg-probe-xyz") and how == "candidate", (got, how))
+        os.rename(os.path.join(td, "ffmpeg-probe-xyz"), fake)
+        # 2) 负控：候选目录里也没有 -> absent
+        chk("负控：候选目录也没有 -> absent", which_any(["nope-xyz"], [td])[1] == "absent")
+        # 3) 模拟服务环境（PATH 为空）也能取出版本号，并记录来源
+        _old = os.environ.get("PATH", "")
+        try:
+            os.environ["PATH"] = "/nonexistent-bin"
+            fi = ffmpeg_info([td])
+        finally:
+            os.environ["PATH"] = _old
+        chk("PATH 为空时靠候选目录取出版本号", fi["present"] and fi["version"] == "9.9.9-test", fi)
+        chk("记录来源，便于事后判断", fi.get("found_by") == "candidate", fi)
+
     chk("不含敏感字段（token/key/secret）",
         not any(k for k in json.dumps(p, ensure_ascii=False).lower().split('"')
                 if k.endswith("token") or k.endswith("secret")))
