@@ -105,14 +105,14 @@
   {
    "id": "B02",
    "domain": "调度",
-   "name": "各机可达性探测",
+   "name": "群控：五台一屏+命令下发",
    "cad": "T15",
    "input": "fleet-nodes.json",
-   "action": "poke 探测，只探不发；不可达记录原因",
-   "executor": "Tools/fleet/notify.py",
-   "evidence": "cph4/fleet/state/cmd-latency.json",
-   "verify": "五台机都有可达性结论",
-   "fallback": "不可达不判死，等下次"
+   "action": "并行查五台 /status，规则判读；下发前校验任务白名单",
+   "executor": "Tools/fleet/fleet_control.py",
+   "evidence": "cph4/fleet/state/fleet-control.json",
+   "verify": "每台都有状态与判读；非法任务被拒",
+   "fallback": "不可达不判死；模型只改措辞不改事实"
   },
   {
    "id": "B03",

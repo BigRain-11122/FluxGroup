@@ -233,6 +233,24 @@
    "output": "cph4/fleet/state/compute-alloc.json",
    "why": "赋能职责：每 30 分钟看一次算力占用与常驻，有活即热、无活即卸、压力即止。",
    "on_fail": "status 失败不阻塞其他任务；连续 3 次失败报 ENV 缺口"
+  },
+  {
+   "id": "FLEET-CONTROL",
+   "station": "control",
+   "cadence_s": 900,
+   "cmd": "{py} Tools/fleet/fleet_control.py --status --brief",
+   "output": "cph4/fleet/state/fleet-control.json",
+   "why": "群控：每 15 分钟看五台状态与判读；不可达/分叉/无任务都会被指出来。",
+   "on_fail": "探不到不判死；下发命令必须过白名单校验"
+  },
+  {
+   "id": "FLEET-BRIEF",
+   "station": "control",
+   "cadence_s": 43200,
+   "cmd": "{py} Tools/fleet/fleet_brief.py",
+   "output": "cph4/fleet/BRIEF.md",
+   "why": "本地模型干该干的活：每 12 小时把群控/台账/工序事实压成一屏，模型只写一句话且数字校验。",
+   "on_fail": "事实源缺失就报缺，不许拿旧数据编"
   }
  ],
  "gates": {

@@ -44,6 +44,8 @@ CASES = [
     ("L1", "compute offer 算力商品", "compute_offer.py", ["--self-test"]),
     ("L1", "storage 存储分级", "storage_curator.py", ["--self-test"]),
     ("L1", "copy 合规闸", "copy_compliance.py", ["--self-test"]),
+    ("L1", "fleet control 群控", "fleet_control.py", ["--self-test"]),
+    ("L1", "fleet brief 简报", "fleet_brief.py", ["--self-test"]),
     # 改善台账：扫描真实事实 -> 合并 -> 校验。rc=1 表示还有待办（正常状态），
     # 只有 rc=2（假完成/证据缺失）才是问题，所以按 report 型跑。
     ("L3", "improve 改善台账", "improve_drive.py", ["--check"], "report"),
