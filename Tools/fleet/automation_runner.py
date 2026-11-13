@@ -155,6 +155,16 @@ def singleton():
         return None
 
 
+# 核心任务：同步与自驱。它们只几秒，但一旦被跳过，整轮等于没跑（不拉代码、不执行卡）。
+CORE_TASKS = ("SYNC-PULL", "SELF-DRIVE")
+
+
+def order_due(due):
+    """核心任务永远排最前（2026-11-13 事故：长任务吃光 240s 预算把两者一起饿死）。"""
+    return sorted(due, key=lambda x: (0 if x.get("id") in CORE_TASKS else 1,
+                                      str(x.get("id"))))
+
+
 def run(dry=False, only=None, force=None):
     plan = load(PLAN, {}) or {}
     station = my_station()
@@ -191,14 +201,30 @@ def run(dry=False, only=None, force=None):
     results = []
     budget = int(os.environ.get("AUTOMATION_BUDGET_S") or 240)
     t_start = time.time()
+    # 2026-11-13 实测事故：一轮里 QUALITY-SCORE(163s) + DOCS-CHECK(145s) 吃光 240s 预算，
+    # 把 SYNC-PULL 与 SELF-DRIVE 一起跳过——**自驱与同步饿死**。预算本来是防长期占锁，
+    # 结果变成"长任务挤掉关键任务"。两条修法：
+    #   1) 核心任务永远先跑（不受预算门槛限制，它们本身只几秒）；
+    #   2) 长任务给单任务上限，超了就留给下一轮，不许一条吃掉整轮。
+    due = order_due(due)
     for t in due:                      # 串行：一条跑完再下一条
         # 单轮预算：2026-11-12 实测，18 条串行跑满 12 分钟，把单例锁长期占住
         # （launchd 每 300s 触发一次，全被锁挡回），手动干预也进不来。
         # 超预算就不再启动新任务，剩下的留给下一轮——宁可分几轮跑完，不许长期占锁。
-        if time.time() - t_start > budget:
-            report["skipped"].append({"task": t.get("id"), "why": "本轮预算 %ds 用尽，留给下一轮" % budget})
-            continue
-        r = run_one(t, station)
+        _remain = budget - (time.time() - t_start)
+        _hist = float(((runs.get(t.get("id")) or {}).get("sec")) or 0)
+        if t.get("id") not in CORE_TASKS:
+            # 预算不足就整条跳过，不许"启动后被截断"——截断会留下半成品状态
+            # （2026-11-13 实测：MODEL-RADAR 被 46s 砍成 rc=-9，跑了一半）。
+            # 用历史耗时预判：历史上跑 56s 的任务，剩余 46s 时直接留给下一轮。
+            if _remain <= 5 or (_hist and _hist > _remain):
+                report["skipped"].append(
+                    {"task": t.get("id"),
+                     "why": "预算不足（历史 %.0fs / 剩余 %.0fs），整条留给下一轮" % (_hist, _remain)})
+                continue
+        _left = max(30, int(_remain))
+        _cap = int(t.get("max_sec") or 300)
+        r = run_one(t, station, timeout=min(_left, _cap))
         results.append(r)
         runs[t["id"]] = {"last": time.time(), "rc": r["rc"], "sec": r["sec"]}
         report["ran"].append(r)
@@ -240,6 +266,13 @@ def self_test():
     runs = {t["id"]: {"last": time.time() - 1} for t in (plan.get("tasks") or [])}
     due2, _ = due_tasks(plan, runs, st or "control")
     chk("负控：刚跑过 -> 不到期", len(due2) == 0, [t["id"] for t in due2][:3])
+
+    # 2026-11-13 事故回归：长任务不许把同步/自驱挤到预算之外
+    d3 = [{"id": "QUALITY-SCORE"}, {"id": "DOCS-CHECK"},
+          {"id": "SELF-DRIVE"}, {"id": "SYNC-PULL"}]
+    got = [x["id"] for x in order_due(d3)]
+    chk("核心任务排最前（sync/drive 不被长任务挤掉）",
+        set(got[:2]) == {"SELF-DRIVE", "SYNC-PULL"}, got)
 
     # 占位替换
     fake = {"cmd": "{py} Tools/fleet/x.py --station <station>"}

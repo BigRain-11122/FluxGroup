@@ -284,3 +284,7 @@ cph4/fleet/rt/*/*.corrupt-*
 
 # 执行体心跳：本机运行时证据，每轮变化，不入库（跨机存活判据见 master_patrol）
 cph4/fleet/rt/*/heartbeat.json
+
+# 旧链路回执目录（2026-11-13：2612 个文件在库，旧链路每跑一张卡提交一次 → 各机分叉累积到数百提交。
+# v3 回执改落 rt/<station>/receipts/，本目录不再新增；历史保留不动）
+cph4/fleet/queue-receipts/

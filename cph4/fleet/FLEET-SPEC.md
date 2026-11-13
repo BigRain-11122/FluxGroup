@@ -1,9 +1,9 @@
 # 机队配置与系统说明书（FLEET-SPEC）
 
-> 生成时间：2026-11-13T11:22:29｜生成器：`Tools/fleet/fleet_doc.py`｜**本文件是生成物，不要手改正文**
+> 生成时间：2026-11-13T15:23:53｜生成器：`Tools/fleet/fleet_doc.py`｜**本文件是生成物，不要手改正文**
 > 数据源（改这里，不改正文）：`STATIONS.json` · `Tools/fleet-nodes.json` · `OS-MATRIX-v1.json` · `CPU-PLAN-v1.json` · `AGENT-CAPACITY-v1.json` · `MODEL-COMPUTE.json` · `ASSET-VAULT.json`
 > 改完跑 `python3 Tools/fleet/fleet_doc.py --write`；只查不改跑 `--check`（有漂移 rc=1）。
-> **综合评分 82.5 / 100**（验证 25.0/25｜规则 20.0/20｜工作流 20.0/25｜机队 10.5/15｜环境 2.0/10｜文档 5.0/5；评分时间 2026-11-12T16:05:35）；外部阻塞 4 项
+> **综合评分 80.5 / 100**（验证 25.0/25｜规则 20.0/20｜工作流 20.0/25｜机队 10.5/15｜环境 0.0/10｜文档 5.0/5；评分时间 2026-11-13T15:09:34）；外部阻塞 4 项
 
 ## 一、速查表
 
@@ -243,13 +243,13 @@
 
 | 工位 | 环境档 | 判定 | python | ollama | ffmpeg | 探针年龄 | 缺口 |
 |---|---|---|---|---|---|---|---|
-| control | darwin-arm64 | PASS | 3.13.18 | 0.40.16 | 7.1 | 0.0h | — |
-| delivery | windows-cuda | GAP | 3.14.10 | 0.40.13 | 9.0.2-full_build-www.gyan.dev | 23.0h | python 3.14.10 不满足 <3.13；环境变量 OLLAMA_MODELS 未设置（模板 <盘符>:\ollama\models）（等 5 项） |
+| control | darwin-arm64 | GAP | 3.13.18 | 0.40.16 | 7.1 | 0.3h | 环境变量 OLLAMA_KEEP_ALIVE 未设置（要求 10m） |
+| delivery | windows-cuda | GAP | 3.14.10 | 0.40.13 | 9.0.2-full_build-www.gyan.dev | 27.1h | 探针已 27.1h 未更新（阈值 24h）；python 3.14.10 不满足 <3.13（等 6 项） |
 | visual | — | 未探测 | — | — | — | — | 没有 env/visual.json：该机还没跑过探针 |
 | audio | — | 未探测 | — | — | — | — | 没有 env/audio.json：该机还没跑过探针 |
 | brain | — | 未定档 | — | — | — | — | 该机没有对应环境档位（OS 待定或未入网）：先定系统再定环境 |
 
-标准=`cph4/fleet/AI-ENV-SPEC-v1.json`；事实=`cph4/fleet/env/<工位>.json`（由 `env_probe.py` 各机自采）；超过 24h 未更新判 STALE。1 台达标 / 4 台待办。
+标准=`cph4/fleet/AI-ENV-SPEC-v1.json`；事实=`cph4/fleet/env/<工位>.json`（由 `env_probe.py` 各机自采）；超过 24h 未更新判 STALE。0 台达标 / 5 台待办。
 
 标准档：`darwin-arm64`（主控，MLX）/ `windows-cuda`（三台生产机）/ `linux-cuda`（大脑若装 Ubuntu）。各机每日跑 `python3 Tools/fleet/env_probe.py --write`，产物随 git 同步；探针超过 24h 判 STALE。
 
