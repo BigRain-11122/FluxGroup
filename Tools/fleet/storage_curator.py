@@ -123,7 +123,10 @@ def survey(spec, root=None):
             if d.endswith("receipts"):
                 receipts += len(xs)
     budget = spec.get("budget") or {}
+    resident = sum(r["mb"] for r in rows if r["class"] != "offload")
+    offload = sum(r["mb"] for r in rows if r["class"] == "offload")
     return {"rows": rows, "total_mb": round(total / 1048576, 1),
+            "resident_mb": round(resident, 1), "offload_mb": round(offload, 1),
             "state_mb": round(state_mb / 1048576, 1), "receipts": receipts,
             "budget": budget}
 
@@ -163,7 +166,12 @@ def rotate(spec, root=None, dry=True, now=None):
                 with open(p, "rb") as f:
                     lines = f.readlines()
                 keep = lines[-tail:]
-                arch = p + ".archived-" + datetime.now().strftime("%Y%m%d%H%M%S") + ".gz"
+                # 归档不许留在 state 里：否则"轮转"只是把 jsonl 换成同体积的 gz，
+                # state 预算永远压不下去（2026-11-13 实测 70MB 仍超 60MB）。
+                adir = os.path.join(root, "cph4", "fleet", "archive", "state-roll")
+                os.makedirs(adir, exist_ok=True)
+                arch = os.path.join(adir, os.path.basename(p) + ".archived-"
+                                    + datetime.now().strftime("%Y%m%d%H%M%S") + ".gz")
                 with gzip.open(arch, "wb") as g:
                     for ln in lines:
                         g.write(ln)
@@ -244,8 +252,9 @@ def main(argv=None):
     s = survey(spec)
     budget = s["budget"] or {}
     over = []
-    if budget.get("fleet_total_mb") and s["total_mb"] > budget["fleet_total_mb"]:
-        over.append("fleet 总占用 %.0fMB > 预算 %sMB" % (s["total_mb"], budget["fleet_total_mb"]))
+    if budget.get("master_resident_mb") and s["resident_mb"] > budget["master_resident_mb"]:
+        over.append("主控常驻 %.0fMB > 预算 %sMB（offload %.0fMB 待移交，不计入）"
+                    % (s["resident_mb"], budget["master_resident_mb"], s["offload_mb"]))
     if budget.get("state_mb") and s["state_mb"] > budget["state_mb"]:
         over.append("state 占用 %.0fMB > 预算 %sMB" % (s["state_mb"], budget["state_mb"]))
     if budget.get("receipts_files") and s["receipts"] > budget["receipts_files"]:
@@ -257,7 +266,8 @@ def main(argv=None):
         print("== 主控存储盘点 ==")
         for r in s["rows"]:
             print("  %-8s %4d 个 / %6.1fMB  %s" % (r["class"], r["files"], r["mb"], r["why"]))
-        print("  合计 %.1fMB｜state %.1fMB｜回执 %d 份" % (s["total_mb"], s["state_mb"], s["receipts"]))
+        print("  合计 %.1fMB（常驻 %.1fMB + 待移交 %.1fMB）｜state %.1fMB｜回执 %d 份"
+              % (s["total_mb"], s["resident_mb"], s["offload_mb"], s["state_mb"], s["receipts"]))
         for x in over:
             print("  ⚠ " + x)
         if not over:

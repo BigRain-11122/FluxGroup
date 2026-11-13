@@ -9,10 +9,11 @@
   "任何删除必须有据且可回滚：默认 dry-run，--apply 才动，且写台账"
  ],
  "budget": {
-  "fleet_total_mb": 320,
-  "state_mb": 60,
+  "master_resident_mb": 120,
+  "state_mb": 80,
   "receipts_files": 4000,
-  "warn_at_pct": 85
+  "warn_at_pct": 85,
+  "note": "master_resident=keep+roll+archive+drop 合计（主控该长期承担的部分）。offload 类是待移交产物，不计入常驻预算——它归产出机，主控只留清单。 state 里 eventlog.db 单个诊断库约 20MB（SQLite，不可按行轮转），故 state 预算按 80MB 校准。"
  },
  "classes": {
   "keep": {

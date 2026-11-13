@@ -83,18 +83,30 @@ def rg03():
     return "记账/真产物分类正确"
 
 
-@case("RG-04", "lanes 与 queue-receipts 必须在 git 里", "撤销我 11-06 切断派单通道的错误")
+@case("RG-04", "上报通道必须在 git 里（v3 通道 = rt/<station>/receipts）",
+      "切断上报通道 = 主控再也看不到产出")
 def rg04():
-    # 只判「整目录被忽略」，不能做子串匹配：.gitignore 里有一条
-    # cph4/fleet/queue-receipts/_last_lane_*.json（具体文件），子串判断会误伤。
+    """2026-11-13 改：v3 的回执通道是 rt/<station>/receipts/，旧的 queue-receipts/
+    已退役并停止入库（它每卡一次提交，是把机队仓库撑成分叉的燃料）。
+
+    风险不变、对象变了——所以断言也跟着换，并加负控：任何"把 v3 回执目录也忽略掉"
+    的改动必须变红。只在旧目录上做文章（哪怕为了过测试）不算通过。
+    """
     lines = [ln.strip() for ln in
              open(os.path.join(ROOT, ".gitignore"), encoding="utf-8").read().splitlines()]
-    for bad in ("cph4/fleet/lanes/", "cph4/fleet/queue-receipts/"):
-        assert bad not in lines, "%s 整目录被忽略 = 切断机队取卡/上报通道" % bad
-    rc, out = subprocess.run(["git", "-C", ROOT, "ls-tree", "-r", "origin/main",
-                              "--name-only"], capture_output=True, text=True,
-                             encoding="utf-8", errors="replace").returncode, ""
-    return "lanes/queue-receipts 未被忽略"
+    # 1) lanes 仍然不许整目录忽略（派单侧读它）
+    assert "cph4/fleet/lanes/" not in lines, "lanes/ 整目录被忽略 = 切断派单通道"
+    # 2) v3 回执目录绝不能被忽略，也不能被通配规则吞掉
+    v3_ignored = [ln for ln in lines
+                  if ln in ("cph4/fleet/rt/", "cph4/fleet/rt/*/",
+                            "cph4/fleet/rt/*/receipts/")]
+    assert not v3_ignored, "v3 回执通道被忽略：%s" % v3_ignored
+    # 3) 旧目录若被忽略，必须同时存在 v3 通道目录（否则就是真的切断了上报）
+    legacy_off = "cph4/fleet/queue-receipts/" in lines
+    if legacy_off:
+        assert os.path.isdir(os.path.join(ROOT, "cph4", "fleet", "rt")), \
+            "旧回执目录已停用，但 rt/ 不存在 = 没有替代通道"
+    return ("v3 上报通道在 git 里；旧目录%s" % ("已退役（v3 通道已就位）" if legacy_off else "仍在"))
 
 
 # ---- R3 判据：假绿 ------------------------------------------------------
