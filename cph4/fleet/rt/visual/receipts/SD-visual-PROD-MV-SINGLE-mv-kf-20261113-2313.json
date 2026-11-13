@@ -1,0 +1,67 @@
+{
+ "id": "SD-visual-PROD-MV-SINGLE-mv-kf-20261113-2313",
+ "station": "visual",
+ "ts": "2026-11-13T23:31:36",
+ "verdict": "DONE",
+ "what": "publish existing KF frames (burned 2026-10-10, v4-era 30s reel) to PRODUCTS outputs.mv-kf contract dir",
+ "deliverable": "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\mv0001-handover\\outbound\\krea2\\30s-reel-v1\\kf",
+ "count": 11,
+ "files": [
+  {
+   "file": "KF10_walkaway.png",
+   "bytes": 1033979,
+   "sha256_16": "e3853ed331160195"
+  },
+  {
+   "file": "KF1_fire_wake.png",
+   "bytes": 929482,
+   "sha256_16": "80a2d9ab15d7f33c"
+  },
+  {
+   "file": "KF2_sweep.png",
+   "bytes": 1620642,
+   "sha256_16": "40eaa22d6d977bf5"
+  },
+  {
+   "file": "KF3_stele.png",
+   "bytes": 1379319,
+   "sha256_16": "20a7aa7e799b0527"
+  },
+  {
+   "file": "KF4_crown.png",
+   "bytes": 1314291,
+   "sha256_16": "369196d9686efb80"
+  },
+  {
+   "file": "KF5_columns.png",
+   "bytes": 1579887,
+   "sha256_16": "fd248d97b9122508"
+  },
+  {
+   "file": "KF6_chisel.png",
+   "bytes": 1449640,
+   "sha256_16": "0c09f0b3c290d966"
+  },
+  {
+   "file": "KF7_hall.png",
+   "bytes": 1223058,
+   "sha256_16": "50ffaf8d561edb11"
+  },
+  {
+   "file": "KF8_case.png",
+   "bytes": 1270265,
+   "sha256_16": "1e59c51e4a9191eb"
+  },
+  {
+   "file": "KF9_profile.png",
+   "bytes": 1250659,
+   "sha256_16": "0f4f65e4d8d31355"
+  },
+  {
+   "file": "KFT_glyphs.png",
+   "bytes": 659340,
+   "sha256_16": "84a5261a04ed54f5"
+  }
+ ],
+ "note": "KF production for mv0001 completed long ago; frames/ is the real artifact home. This publishes them to the contract path; no new GPU burn. Future stages: mv-plan command (mv_emit_prompts.py) wired separately for the 41-track pipeline."
+}
