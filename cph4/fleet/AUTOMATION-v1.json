@@ -251,6 +251,15 @@
    "output": "cph4/fleet/BRIEF.md",
    "why": "本地模型干该干的活：每 12 小时把群控/台账/工序事实压成一屏，模型只写一句话且数字校验。",
    "on_fail": "事实源缺失就报缺，不许拿旧数据编"
+  },
+  {
+   "id": "VOICE-TRAIN",
+   "station": "control",
+   "cadence_s": 86400,
+   "cmd": "{py} Tools/fleet/voice_train.py",
+   "output": "cph4/fleet/state/voice-train.json",
+   "why": "养号话术每日回归：20 类合成评论跑生成→语感闸，按类型看失败；通过率跌破 90% 就说明提示词或语料退化。",
+   "on_fail": "有失败项即报（不阻塞其他任务）；连续 3 天同类型失败要改语料或提示词"
   }
  ],
  "gates": {

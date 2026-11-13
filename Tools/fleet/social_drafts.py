@@ -23,6 +23,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import sys
 import time
 import urllib.request
@@ -55,6 +56,12 @@ IDENTITY = ("学考古", "考古专业", "科班", "我是学", "本人就是", 
 # 评论侧问身份：答案涉及披露口径，归 CEO，不许模型自答
 IDENTITY_ASK = ("你是学", "你学的是", "科班", "你是做", "你是哪个", "团队几",
                 "本人是", "你是本人", "学过", "什么专业", "干这行")
+# 2026-11-13：词表必漏——"up主是男是女"不含上面任何一条，模型就给了草稿（红线失守）。
+# 身份类改成正则覆盖：性别/年龄/籍贯/职业/是否学生/是不是本人。
+IDENTITY_PAT = re.compile(
+    r"(是男|是女|男的|女的|男生|女生|性别|多大|几岁|年龄|哪里人|哪儿人"
+    r"|做什么工作|职业是|是不是学生|是学生吗|真人吗|是不是本人|本人吗|谁做的)"
+)
 
 DEMO = [
     {"id": "d1", "author": "夜航船", "comment": "这个画面是AI做的吗？看着有点恐怖谷"},
@@ -76,8 +83,13 @@ def post(payload, timeout=180):
 VOICE_CORPUS = os.path.join(ROOT, "cph4", "fleet", "voice", "corpus.jsonl")
 
 
-def _fewshot(face="comment", k=4):
-    """取语料里的好样本当 few-shot。语感靠样本传，不靠形容词。"""
+def _fewshot(face="comment", k=10):
+    """取语料里的好样本当 few-shot。语感靠样本传，不靠形容词。
+
+    2026-11-13 改：原来只取文件前 k 条，结果是"全是夸奖类"，催更/问工具/挑刺这些
+    最容易写坏的类型反而没有示范。现在按 ctx 前两字分桶、每桶取一条，保证覆盖；
+    不足再回填。语料从 17 条扩到 37 条，覆盖 20 类真实评论。
+    """
     rows = []
     try:
         for line in open(VOICE_CORPUS, encoding="utf-8"):
@@ -85,9 +97,25 @@ def _fewshot(face="comment", k=4):
                 rows.append(json.loads(line))
     except Exception:
         return "", ""
-    good = [r for r in rows if r.get("face") == face and r.get("label") == "good"]
+    good = [r for r in rows if r.get("face") == face and r.get("label") == "good"
+            and not str(r.get("text") or "").startswith("（")]
     bad = [r for r in rows if r.get("face") == face and r.get("label") == "bad"]
-    g = "\n".join("评论：%s → %s" % (r.get("ctx") or "（无）", r.get("text")) for r in good[:k])
+    picked, seen = [], set()
+    for r in good:                       # 先按类型覆盖
+        key = str(r.get("ctx") or "")[:2]
+        if key in seen:
+            continue
+        seen.add(key)
+        picked.append(r)
+        if len(picked) >= k:
+            break
+    for r in good:                       # 不够再回填
+        if r in picked:
+            continue
+        picked.append(r)
+        if len(picked) >= k:
+            break
+    g = "\n".join("评论：%s → %s" % (r.get("ctx") or "（无）", r.get("text")) for r in picked)
     b = "\n".join("「%s」（%s）" % (r.get("text"), r.get("why") or "") for r in bad[:3])
     return g, b
 
@@ -107,7 +135,8 @@ def classify_and_draft(comment, _retry_hits=None, _prev=""):
         "4. 不许编事实：不要提置顶、简介、主页、下期、明天、下周这些你不知道的内容。\n"
         "5. 被问具体事实（歌名/用什么软件/什么时候更/是不是真人/谁做的）不要给答案，"
         "写「这个我得翻一下」这类延后话；涉及是否 AI 制作、是否真人，草稿留空。\n"
-        "6. complaint 只回一句承认或一个具体回应，不解释不辩解。\n"
+        "6. complaint 必须给一句话：承认或给一个具体动作，不许留空、不解释不辩解。\n"
+        "   例：广告味重→「这条确实接了，下次我挑一下」；画质糊→「源素材就这清晰度，抱歉」。\n"
         "7. legal/flame/spam：草稿留空字符串。\n\n"
         "照这个语感写（好例子）：\n" + good + "\n\n"
         "不要写成这样（坏例子）：\n" + bad + "\n\n"
@@ -117,7 +146,7 @@ def classify_and_draft(comment, _retry_hits=None, _prev=""):
         prompt += ("\n\n上一次写成「%s」被判不合格，问题：%s。重写一版，只输出 JSON。"
                    % (_prev[:60], "、".join(_retry_hits[:3])))
     d = post({"model": MODEL, "prompt": prompt, "stream": False, "think": False,
-              "keep_alive": "5m", "options": {"num_ctx": 8192, "temperature": 0.6}})
+              "keep_alive": "10m", "options": {"num_ctx": 8192, "temperature": 0.6}})
     text = (d.get("response") or "").strip()
     start, end = text.find("{"), text.rfind("}")
     kind, draft = "question", ""
@@ -159,7 +188,7 @@ def vet(comment, kind, draft):
     denies = any(w.lower() in low for w in DENIALS)
     if asks_ai:
         return "question_ai", "", True, "被问 AI 制作：披露口径归 CEO，不代答"
-    if any(w in comment for w in IDENTITY_ASK):
+    if any(w in comment for w in IDENTITY_ASK) or IDENTITY_PAT.search(comment or ""):
         return "question_identity", "", True, "被问创作者身份/经历：披露口径归 CEO，不代答"
     if denies:
         return "claim_veto", "", True, "草稿否认/虚构了制作方式，已否决"
