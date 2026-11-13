@@ -430,7 +430,15 @@
     "文案",
     "页面",
     "合规检查"
-   ]
+   ],
+   "commands": {
+    "合规检查": "python3 Tools/fleet/copy_compliance.py --text cph4/fleet/out/bigdomain/copy.md --out cph4/fleet/out/bigdomain/compliance.json"
+   },
+   "requires": {
+    "合规检查": [
+     "cph4/fleet/out/bigdomain/copy.md"
+    ]
+   }
   },
   {
    "id": "PROD-BIGCOMPUTE-OFFER",

@@ -1,6 +1,6 @@
 {
  "version": "v1-20261112",
- "updated_at": "2026-11-13T15:19:33",
+ "updated_at": "2026-11-13T22:19:07",
  "items": [
   {
    "id": "IMP-SUPPLY-PROD-GAME-SUBMIT-材料套用",
@@ -493,9 +493,11 @@
    "evidence": "PRODUCTS.json 中 PROD-BIGDOMAIN-MATERIAL.commands.合规检查 为空且 outputs.合规检查 已声明",
    "fix": "补命令（复用现成工具）或在 PRODUCTS 里明确标 manual_stages（CEO 权限件）",
    "accept": "PRODUCTS.json 里 PROD-BIGDOMAIN-MATERIAL.commands.合规检查 非空，或 stage 进入 manual_stages 且理由可查",
-   "status": "OPEN",
+   "status": "DONE",
    "depends": [],
-   "created_at": "2026-11-12T16:48:59"
+   "created_at": "2026-11-12T16:48:59",
+   "close_evidence": "PRODUCTS.json 接入 Tools/fleet/copy_compliance.py（自检 12/12，覆盖极限词/收益承诺/导流/AIGC标识/儿童/他人权利六类）；TOOL-PENDING 16→15",
+   "closed_at": "2026-11-13T22:18:35"
   },
   {
    "id": "IMP-SUPPLY-PROD-BIGCOMPUTE-OFFER-商品定义",

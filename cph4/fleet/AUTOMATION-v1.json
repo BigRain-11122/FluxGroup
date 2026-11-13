@@ -36,9 +36,9 @@
    "id": "SELF-DRIVE",
    "station": "delivery|visual|audio|brain|control",
    "cadence_s": 300,
-   "cmd": "{py} Tools/fleet/station_drive.py --once",
+   "cmd": "{py} Tools/fleet/station_drive.py --once --run-limit 6",
    "output": "cph4/fleet/rt/<station>/",
-   "why": "自驱主循环：感知→供给→领活→执行→验收→回执",
+   "why": "自驱主循环：感知→供给→领活→执行→验收→回执 2026-11-13 满负荷令：单轮上限 3→6（预算保护仍在，跑不完留给下一轮）。",
    "on_fail": "写 BLOCKED 理由，不许静默重试"
   },
   {
@@ -224,6 +224,15 @@
    "output": "cph4/fleet/MASTER-DUTIES-v3.json",
    "why": "每日审计主控 36 项职责：执行体在不在、证据有没有、在不在周期内。纸面职责会被判红。",
    "on_fail": "NO-EXECUTOR 最严重（职责没有工具实现）；STALE 说明该跑没跑"
+  },
+  {
+   "id": "COMPUTE-ALLOC",
+   "station": "control",
+   "cadence_s": 1800,
+   "cmd": "{py} Tools/fleet/compute_alloc.py status",
+   "output": "cph4/fleet/state/compute-alloc.json",
+   "why": "赋能职责：每 30 分钟看一次算力占用与常驻，有活即热、无活即卸、压力即止。",
+   "on_fail": "status 失败不阻塞其他任务；连续 3 次失败报 ENV 缺口"
   }
  ],
  "gates": {

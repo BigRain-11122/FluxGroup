@@ -113,14 +113,37 @@ def due_tasks(plan, runs, station, now=None):
 
 
 def run_one(task, station, timeout=1800):
+    """执行一条排班任务；超时杀**整个进程组**。
+
+    2026-11-13 实测事故：SELF-LOOP 的 timeout 设了 240s，实际跑了 5490s——
+    subprocess.run 超时只杀 shell，脚本拉起的子进程继续跑并把单例锁占了 91 分钟，
+    期间所有任务被挡（主控 135 分钟没有自驱）。与 station_drive 同一修法：
+    独立进程组 + 超时后 killpg。
+    """
     cmd = cmd_for(task, station)
     t0 = time.time()
+    import signal as _sig
     try:
-        p = subprocess.run(cmd, shell=True, cwd=ROOT, capture_output=True, text=True,
-                           timeout=timeout, errors="replace")
-        rc, out = p.returncode, ((p.stdout or "") + (p.stderr or ""))
-    except subprocess.TimeoutExpired:
-        rc, out = -9, "TIMEOUT after %ss" % timeout
+        p = subprocess.Popen(cmd, shell=True, cwd=ROOT, stdout=subprocess.PIPE,
+                             stderr=subprocess.STDOUT, text=True, errors="replace",
+                             start_new_session=True)
+        try:
+            out, _ = p.communicate(timeout=timeout)
+            rc = p.returncode
+        except subprocess.TimeoutExpired:
+            try:
+                os.killpg(os.getpgid(p.pid), _sig.SIGKILL)
+            except Exception:
+                try:
+                    p.kill()
+                except Exception:
+                    pass
+            try:
+                out, _ = p.communicate(timeout=15)
+            except Exception:
+                out = ""
+            rc = -9
+            out = (out or "") + "\nTIMEOUT after %ss（已杀进程组）" % timeout
     except Exception as e:
         rc, out = -1, "EXEC-ERROR: %s" % e
     # report 型任务：rc=1 是判决（状态未达标），不是故障；rc>=2/超时/异常才算失败。
@@ -288,6 +311,17 @@ def self_test():
         chk("负控：本机被阻塞时任务跳过并说明", not d and sk and "不自驱" in sk[0]["why"], (d, sk))
     else:
         chk("负控：当前无阻塞工位（跳过此项）", True)
+
+    # 负控：超时必须杀掉**子进程**（2026-11-13 事故：只杀 shell 会留下孤儿继续占锁）
+    import tempfile as _tf
+    marker = os.path.join(_tf.gettempdir(), "auto-runner-orphan-%d.txt" % os.getpid())
+    if os.path.exists(marker):
+        os.remove(marker)
+    shell_cmd = "sh -c 'sleep 20; echo x > %s' & sleep 40" % marker
+    r_to = run_one({"id": "TIMEOUT-CASE", "cmd": shell_cmd}, "control", timeout=2)
+    chk("负控：超时返回 -9", r_to["rc"] == -9, r_to["rc"])
+    time.sleep(1.5)
+    chk("负控：子进程被杀（不留孤儿写标记文件）", not os.path.exists(marker), marker)
 
     # 失败要如实记录
     r = run_one({"id": "FAILCASE", "cmd": "%s -c \"import sys;sys.exit(7)\"" %
