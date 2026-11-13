@@ -42,15 +42,20 @@ PROMPT = ("jman, " + ID_BLOCK + ", "
 SEEDS = [30972901, 30972902, 30972903, 30972904]  # v729 段，避开 r2 批 30700001 段与 20260001 老段
 
 
-def graph(prompt_text, seed, lora_strength):
+def graph(prompt_text, seed, lora_strength, refs):
+    # TextEncodeQwenImageEditPlus expects image1..3; when fewer refs are given,
+    # later slots reuse the last ref (node contract: all three inputs must be wired).
+    eff = list(refs[:3])
+    while len(eff) < 3:
+        eff.append(eff[-1])
     return {
         "10": {"class_type": "UNETLoader", "inputs": {"unet_name": "krea2_turbo_fp8_scaled.safetensors", "weight_dtype": "default"}},
         "15": {"class_type": "LoraLoaderModelOnly", "inputs": {"model": ["10", 0], "lora_name": "jman_v1_rank32.safetensors", "strength_model": lora_strength}},
         "11": {"class_type": "CLIPLoader", "inputs": {"clip_name": "qwen3vl_4b_fp8_scaled.safetensors", "type": "krea2"}},
         "12": {"class_type": "VAELoader", "inputs": {"vae_name": "qwen_image_vae.safetensors"}},
-        "69": {"class_type": "LoadImage", "inputs": {"image": "ref_main_9.jpg"}},
-        "70": {"class_type": "LoadImage", "inputs": {"image": "ref_close_1.jpg"}},
-        "71": {"class_type": "LoadImage", "inputs": {"image": "ref_mv_91.jpg"}},
+        "69": {"class_type": "LoadImage", "inputs": {"image": eff[0]}},
+        "70": {"class_type": "LoadImage", "inputs": {"image": eff[1]}},
+        "71": {"class_type": "LoadImage", "inputs": {"image": eff[2]}},
         "52": {"class_type": "TextEncodeQwenImageEditPlus", "inputs": {
             "clip": ["11", 0], "vae": ["12", 0], "image1": ["69", 0], "image2": ["70", 0], "image3": ["71", 0], "prompt": prompt_text}},
         "53": {"class_type": "FluxKontextMultiReferenceLatentMethod", "inputs": {"conditioning": ["52", 0], "reference_latents_method": "index_timestep_zero"}},
@@ -76,12 +81,12 @@ def get(url):
     return json.loads(urllib.request.urlopen(url, timeout=30).read())
 
 
-def run_one(server, name, seed, strength):
+def run_one(server, name, seed, strength, refs):
     dst = os.path.join(OUT_DIR, name + ".png")
     if os.path.isfile(dst) and os.path.getsize(dst) > 100000:
         print("SKIP", name, flush=True)
         return True
-    pid = post(server + "/prompt", {"prompt": graph(PROMPT, seed, strength), "client_id": str(uuid.uuid4())})["prompt_id"]
+    pid = post(server + "/prompt", {"prompt": graph(PROMPT, seed, strength, refs), "client_id": str(uuid.uuid4())})["prompt_id"]
     t0 = time.time()
     while time.time() - t0 < 900:
         time.sleep(3)
@@ -107,15 +112,24 @@ def run_one(server, name, seed, strength):
 
 
 def main():
+    global OUT_DIR
     ap = argparse.ArgumentParser()
     ap.add_argument("--server", default="http://127.0.0.1:8188")
     ap.add_argument("--strength", type=float, default=0.9)
+    ap.add_argument("--refs", default="ref_main_9.jpg,ref_close_1.jpg",
+                    help="comma-separated ComfyUI input filenames (<=3). Default = clean 2-ref combo; "
+                         "v1 combo with ref_mv_91.jpg leaks MV mosaic/transition artifacts (measured 2026-11-13).")
+    ap.add_argument("--tag", default="r2", help="output subfolder tag for this candidate round")
     args = ap.parse_args()
+    refs = [r.strip() for r in args.refs.split(",") if r.strip()]
+    assert refs, "at least one ref image required"
+    OUT_DIR = os.path.join(OUT_DIR, args.tag)
+    os.makedirs(OUT_DIR, exist_ok=True)
     get(args.server + "/system_stats")  # alive check
     done, fail = [], []
     for i, s in enumerate(SEEDS):
         name = "D03b_jman_c%d_seed%d" % (i + 1, s)
-        ok = run_one(args.server, name, s, args.strength)
+        ok = run_one(args.server, name, s, args.strength, refs)
         (done if ok else fail).append(name)
     print("BATCH DONE ok=%d fail=%d -> %s" % (len(done), len(fail), OUT_DIR), flush=True)
     sys.exit(0 if not fail else 1)
