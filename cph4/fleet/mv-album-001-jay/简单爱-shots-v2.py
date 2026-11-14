@@ -22,6 +22,9 @@ import prompt_lexicon as LX
 # 光位纪律（QC §10 v1.12）：源→尺寸→距离→方向→质感→光比→K；钠灯不校正；halation 必有源
 LX.LIGHT["day_clear"] = ("one large north-facing sky source at 6200K raking through an open lane, soft-edged shadows on grey concrete, contrast about three to one")
 LX.LIGHT["day_back"] = ("the low sun at 3200K placed behind the two figures, a two-stop bleed around their silhouettes, the embankment wall catching the spill")
+# [L2 F-2] zero-figure variant for the bicycle epilogue frames (T29/T30): no figures
+# inside the light wording - the day_back block describes silhouettes that are absent there.
+LX.LIGHT["river_back"] = ("the low sun at 3200K over the river behind the embankment, a two-stop bleed along the concrete railing, the water flat and pale in the light")
 LX.LIGHT["golden_rim"] = ("the last twenty minutes of sun at 2800K rimming hair and shoulders from camera left, the rest of the frame falling two stops under")
 LX.LIGHT["rain_soft"] = ("flat overcast rain light at 6800K, everything desaturated to blue-grey, one warm 2700K lamp under the eaves holding a small pool")
 LX.LIGHT["eave_win"] = ("daylight through an old window at 5600K, a pale rectangle on the floor of a covered walkway, dust drifting in the beam")
@@ -29,8 +32,12 @@ LX.LIGHT["dusk_sodium"] = ("a single sodium street lamp at 2200K over the alley 
 
 STYLE_LEAD = "as a film still from a 2001 Taiwanese music video"
 
-# 专辑年代=2000（共享词表 tw2001 块=mv0001 范特西 2001 在飞正身·不动·本地沿用）
-GRADE_2001 = LX.GRADE["tw2001"]
+# 专辑年代=2001（《简单爱》=范特西 2001；共享词表 tw2001 块=mv0001 范特西 2001 在飞正身）
+# [L2 F-13 option A merged 2026-11-14] KF tail locally overridden to the neutral grade:
+# the shared tw2001 block carries "warm skin tones" which fights the i2v tail
+# ("skin tones kept natural and unlit") on the same shot's first frame vs tail line.
+GRADE_2001 = ("2001 telecine grade, skin tones natural and unlit under the daylight, black point "
+              "lifted to 10-14 code with the toe intact, restrained practical bloom, slight color bleed")
 
 # ---- 人物正典块 ----
 HIM = ("jman, " + LX.ID_M_2001_BONE + ", in a plain white short-sleeve shirt with the collar open, "
@@ -97,7 +104,9 @@ NEW = [
      kf("wide", "low", "two figures sitting shoulder to shoulder on a concrete river embankment facing the low sun, their long shadows laid out on the concrete in front of them", "day_back", lens="35", tex="film_day"),
      i2v("A wide shot from a low angle", CM["static"], "Two figures sitting shoulder to shoulder on a concrete embankment facing the low sun, their long shadows laid on the concrete in front of them, the frame held still")),
     ("T09", 85.68, 95.54, 0.85, "她的头一点一点磕在他肩上（困意外化·不煽情）+ 他回头看她一眼（演唱锚②·零口型）",
-     kf("cu", "eye", "%s's head dipping slowly toward his shoulder and catching there, her eyes closing, one strand of hair lifting in the river wind, %s's face just turning back into the near edge of the frame" % (HER, HIM), "day_back", lens="85", tex="film_day"),
+     # [2026-11-14] dual-ID 's-junction fix (10-25 precedent: "shoes's face" mis-read) -
+     # separate clauses with their own subjects; word cap trimmed below 200 (L2 check).
+     kf("cu", "eye", "%s, her head dipping toward his shoulder and catching there, her eyes closing, one strand of hair lifting in the wind, %s, his face turning back into the near edge of the frame" % (HER, HIM), "day_back", lens="85", tex="film_day"),
      i2v("A close-up at eye level", CM["static"], "A young woman's head dipping slowly toward a shoulder and catching there, her eyes closing, a strand of hair lifting in the wind, a face turning back into the near edge of the frame")),
 
     # ---- 场 3 副歌 1 95.54-121.77「愿望三：牵手」（先物理后概念·影先手后）----
@@ -170,11 +179,14 @@ NEW = [
      i2v("An extreme close-up at eye level", CM["static"], "Two hands laced together at the centre of the frame, the thumbs pressing once into the backs of the hands, warm sodium light on the knuckles")),
 
     # ---- 场 8 尾拍 256.78-270.99「两代单车（零人物·愿望清单最后一条）」----
+    # [L2 F-2/F-12/F-9 merged 2026-11-14] zero-figure frames: river_back (no "two figures"
+    # inside the light block); "same" cross-frame references replaced with self-standing
+    # entity anchors; bicycle wording re-anchored to the BIKE model spec.
     ("T29", 256.78, 264.00, 0.90, "多年后同一段河堤：老单车锈成深褐·车筐野草开花",
-     kf("wide", "low", "an old steel bicycle leaning against the same concrete railing years later, its frame rusted deep brown, weeds flowering up out of the wire basket, the river light unchanged behind it", "day_back", lens="35", tex="film_day"),
+     kf("wide", "low", "an old steel single-speed city bicycle with rusted chrome fenders and a wire basket leaning against a concrete railing with a chipped corner on a river embankment, its frame rusted deep brown, weeds flowering up out of the wire basket, the low river sun steady behind it", "river_back", lens="35", tex="film_day"),
      i2v("A wide shot from a low angle", CM["static"], "An old steel bicycle leaning against a concrete railing, its frame rusted deep brown, weeds flowering out of the wire basket, the river light unchanged behind it")),
     ("T30", 264.00, 270.99, 0.90, "旁边一辆同款新车（亮漆/干净铃面/褪色红绳·橡胶把套有磨损）→ 缓摇收→黑场片名",
-     kf("med", "low", "a second bicycle of the same old city model standing beside the first, its paint still glossy and its bell face clean, a faded red cord tied at the grip where the rubber is worn smooth", "day_back", lens="50", tex="film_day"),
+     kf("med", "low", "a second steel single-speed city bicycle with chrome fenders and a wire front basket standing beside the rusted one on the embankment, its paint still glossy, its bell face clean, a faded red cord tied at the grip where the rubber is worn smooth", "river_back", lens="50", tex="film_day"),
      i2v("A medium shot from a low angle", CM["panr"], "A second bicycle of the same old city model standing beside a rusted one, glossy paint and a clean bell face, a faded red cord tied at a worn grip, the camera panning slowly across both then settling")),
 ]
 

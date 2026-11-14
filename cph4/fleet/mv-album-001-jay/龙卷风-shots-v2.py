@@ -23,6 +23,8 @@ LX.LIGHT["storm_lead"] = ("a street under lead-blue storm cloud at 5600K, rain s
 LX.LIGHT["her_warm"] = ("a warm residual light at 2200K held on her face inside the cold storm, like a candle's last reach")
 LX.LIGHT["day_white"] = ("clean white daylight at 5600K pouring through an opened curtain, fine dust suspended in the beam")
 LX.LIGHT["patch_light"] = ("raking white daylight across one wall, the paint two stops paler in a tall rectangle where a wooden frame once hung")
+# [L2 F-8 note 2026-11-14] defined but UNUSED in the 29-frame wording (0 hits) - reserved
+# for a possible B-batch rain-window shot; keep or drop at the director's sign-off.
 LX.LIGHT["window_rain"] = ("rain streaming down an old aluminium window pane, the grey street dissolving behind the glass")
 
 STYLE_LEAD = "as a film still from a 2000 Taiwanese music video"
@@ -104,7 +106,10 @@ NEW = [
      kf("med", "eye", "rain striking a narrow 2000 Taipei street almost horizontally, water sheeting off a corrugated awning, a folded umbrella jammed against a wall", "storm_lead", lens="35", tex="film_night"),
      i2v("A medium shot at eye level", CM["panr"], "Rain striking a narrow street almost horizontally, water sheeting off a corrugated awning in one continuous sheet, the camera panning across the flooded kerb")),
     ("T11", 73.36, 80.86, 1.10, "伞骨外翻+她隔着被风灌满的街（唯一暖点·L1 可读锚）",
-     kf("wide", "eye", "an umbrella turned inside out at the near kerb in the wind, and across the flooded street %s. Standing still under the rain, the only warm light left in the frame" % HER, "storm_lead", lens="35", tex="film_night"),
+     # [L2 F-2 merged 2026-11-14] dual-truth-source fix: "the only warm light left in the frame"
+     # (narrative truth) competed with the storm_lead 5600K block (physical truth) for the
+     # same skin-tone slot; replaced with the J1 physical-light wording per the verdict.
+     kf("wide", "eye", "an umbrella turned inside out at the near kerb in the wind, and across the flooded street %s. Standing still under the rain, a warm band held on her cheek, the storm staying cold around her" % HER, "storm_lead", lens="35", tex="film_night"),
      i2v("A wide shot at eye level", CM["static"], "An umbrella turned inside out at the near kerb, and across a flooded street a young woman standing still under the rain, her warm light the only warmth in the cold blue frame")),
     ("T12", 80.86, 86.69, 1.10, "暴风圈来不及逃=牵手奔跑剪影（背影剪影②）",
      kf("wide", "low", "young trees bowed flat by the wind along the street, two silhouettes running hand in hand through the rain between them", "storm_lead", lens="35", tex="film_night"),
