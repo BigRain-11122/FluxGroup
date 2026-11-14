@@ -1,7 +1,7 @@
 {
- "date": "20261114",
+ "date": "20261115",
  "done": {
-  "triage": "R-PLAN-CARGAMING-20261114 | 租赁服务超时导致无可用舱位 | 运维人员检查剩余舱位库存并手动释放卡单。",
-  "digest": "今天共产出 24 件文件，覆盖 CANARY、GAP 及 NODE-SYNC 三条线。其中 CANARY 线产出数量明显偏少，仅 14 件且多为 bm-m 类型。建议明天优先处理 GAP 系列文件的验收与合并工作。"
+  "triage": "CHK-LIB-20261111 | 无失败记录无法推断原因 | 无需行动，等待新故障上报",
+  "digest": "今日共产出 28 件文件，覆盖 LIB、RECEIPT、RADAR、TRIAGE、TTS、Drama、MV Gate 及 Biz Publish 等八条线。其中 TTS 线仅产出 1 件，明显偏少。建议明天优先补全 TTS 线的产出并核查缺失原因。"
  }
 }
