@@ -1,0 +1,12 @@
+{
+ "job": "kf_batch",
+ "node": "bm-c",
+ "prompts": "cph4\\fleet\\mv0001-handover\\plan\\kf_prompts.json",
+ "out": "cph4\\fleet\\mv0001-handover\\outbound\\krea2\\30s-reel-v1\\kf\\",
+ "limit": 0,
+ "rc": 0,
+ "seconds": 1120.5,
+ "ts": "2026-11-14T23:38:44",
+ "stdout_tail": "OK XQ20 (28.2s)\nOK XQ21 (28.1s)\nOK XQ22 (28.2s)\nOK XQ23 (28.2s)\nOK XQ24 (28.1s)\nOK XQ25 (28.2s)\nOK XQ26 (28.1s)\nOK XQ27 (28.1s)\nOK XQ28 (28.2s)\nOK XQ29 (28.2s)\nOK XQ30 (32.2s)\nOK XQ31 (38.1s)\nOK XQ32 (28.1s)\nOK XQ33 (28.2s)\nSUMMARY done=38 skipped=0 failed=0 out=cph4\\fleet\\mv0001-handover\\outbound\\krea2\\30s-reel-v1\\kf\\",
+ "stderr_tail": ""
+}
