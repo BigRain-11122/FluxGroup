@@ -1,7 +1,21 @@
 {
  "node": "bm-a",
- "ts": "2026-11-15T02:18:49",
+ "ts": "2026-11-15T02:31:57",
  "jobs": [
+  {
+   "id": "R-PLAN-FLUXVERSE-20261115",
+   "title": "FluxVerse·元宙城 线级体检与缺口清单",
+   "cmd": "python Tools/fleet/line_triage.py --line fluxverse --out cph4/fleet/queue-receipts/triage-fluxverse-20261115.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-fluxverse-20261115.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
   {
    "id": "MV-DIRECTOR-PACKET-20261115",
    "title": "导演席拉片包：KN 复核卷一页卷（成片+闸+证据+签字位）",
@@ -45,12 +59,12 @@
    "timeout_s": null
   },
   {
-   "id": "MV-NEWPROC-PACKET-20261115",
-   "title": "导演席新流程卷：四曲立意/分镜/合规矩阵一页卷",
-   "cmd": "python Tools/fleet/review_packet.py --line mv --root .",
+   "id": "R-TRIAGE-FLUXVERSE-BMB-20261115",
+   "title": "FluxVerse·元宙城 线证据扫描（bm-b 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line fluxverse --node bm-b --out cph4/fleet/queue-receipts/triage-fluxverse-bm-b-20261115.md",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/review-packet-mv-20261115.md",
+   "deliverable": "cph4/fleet/queue-receipts/triage-fluxverse-bm-b-20261115.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -59,12 +73,12 @@
    "timeout_s": null
   },
   {
-   "id": "asset-lib-voice-dataset-2026-11-15",
-   "title": "[资产储备（角色 LoRA / 音色库）] 音色数据集准入（反播音腔的第一道门）",
-   "cmd": "python Tools/fleet/asset_dataset_audit.py --mode voice --dir media/asset/voices --out cph4/fleet/queue-receipts/asset-voice-2026-11-15.json",
+   "id": "MV-NEWPROC-PACKET-20261115",
+   "title": "导演席新流程卷：四曲立意/分镜/合规矩阵一页卷",
+   "cmd": "python Tools/fleet/review_packet.py --line mv --root .",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/asset-voice-2026-11-15.json",
+   "deliverable": "cph4/fleet/queue-receipts/review-packet-mv-20261115.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -103,5 +117,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 50.5/1.0 GB"
+ "capacity_note": "ram 52.8/1.0 GB"
 }
