@@ -1,15 +1,15 @@
 # 机队配置与系统说明书（FLEET-SPEC）
 
-> 生成时间：2026-11-14T11:46:47｜生成器：`Tools/fleet/fleet_doc.py`｜**本文件是生成物，不要手改正文**
+> 生成时间：2026-11-14T13:14:34｜生成器：`Tools/fleet/fleet_doc.py`｜**本文件是生成物，不要手改正文**
 > 数据源（改这里，不改正文）：`STATIONS.json` · `Tools/fleet-nodes.json` · `OS-MATRIX-v1.json` · `CPU-PLAN-v1.json` · `AGENT-CAPACITY-v1.json` · `MODEL-COMPUTE.json` · `ASSET-VAULT.json`
 > 改完跑 `python3 Tools/fleet/fleet_doc.py --write`；只查不改跑 `--check`（有漂移 rc=1）。
-> **综合评分 87.5 / 100**（验证 25.0/25｜规则 20.0/20｜工作流 25.0/25｜机队 10.5/15｜环境 2.0/10｜文档 5.0/5；评分时间 2026-11-14T11:46:02）；外部阻塞 3 项
+> **综合评分 85.0 / 100**（验证 25.0/25｜规则 20.0/20｜工作流 25.0/25｜机队 10.5/15｜环境 2.0/10｜文档 2.5/5；评分时间 2026-11-14T13:13:10）；外部阻塞 3 项
 
 ## 一、速查表
 
 | 工位 | 机器 | 系统 | CPU | 内存 | GPU | 角色 | 状态 |
 |---|---|---|---|---|---|---|---|
-| delivery | 公司生产力机 | Windows | Ryzen 9950X 16C/32T | 94G | RTX 4070 SUPER | 游戏产线主业（CEO 2026-11 | network_ok_not_registered |
+| delivery | 公司生产力机 | Windows | Ryzen 9950X 16C/32T | 94G | RTX 4070 SUPER | 游戏产线主业（CEO 2026-11 | ready |
 | visual | 传家宝 | Windows | Ryzen 3950X 16C/32T | 24G | RTX 3070 (modded 16G) | 全视频主责（CEO 2026-11- | blocked_no_comfyui |
 | audio | 小钢炮 | Windows | Ryzen 3800X 8C/16T | 24G | RTX 3070 | 声音工位：全视频线的配音/混音/BG | offline |
 | brain | 算力大脑 | 待定（未装机/未入网）（未核实） | 2× Xeon E5-2695v2 24C/48T | 256G | 3× Tesla V100 | 机队本地模型能力中心 + BigMo | not_installed |
@@ -45,7 +45,7 @@
 | 模型额度 | 600 次/天，180 模型分钟/天，实测 22 tok/s |
 | 已装软件 | python（Windows 无 python3，实测 rc=9009）、ffmpeg、Unity/团结引擎、pillow、git |
 | 唤醒任务 | BigStream-OSLoop、BigLife-OSLoop、BigDomain-OSLoop、FluxVerseTick、MiniGameEngineTick、Bigmoney-IterationLoop、HQ-ProductionClaim、HQ-StationDrive |
-| 当前状态 | network_ok_not_registered |
+| 当前状态 | ready |
 
 **可承担的 CPU 活（夜窗并行上限）**
 
@@ -244,8 +244,8 @@
 | 工位 | 环境档 | 判定 | python | ollama | ffmpeg | 探针年龄 | 缺口 |
 |---|---|---|---|---|---|---|---|
 | control | darwin-arm64 | PASS | 3.13.18 | 0.40.16 | 7.1 | 0.1h | — |
-| delivery | windows-cuda | GAP | 3.14.10 | 0.40.13 | 9.0.2-full_build-www.gyan.dev | 47.4h | 探针已 47.4h 未更新（阈值 24h）；python 3.14.10 不满足 <3.13（等 6 项） |
-| visual | windows-cuda | GAP | 3.13.15 | 0.40.10 | 2025-08-11-git-3542260376-full_build-www.gyan.dev | 12.3h | python 3.13.15 不满足 <3.13；环境变量 OLLAMA_MODELS 未设置（模板 <盘符>:\ollama\models）（等 5 项） |
+| delivery | windows-cuda | GAP | 3.14.10 | 0.40.13 | 9.0.2-full_build-www.gyan.dev | 0.5h | python 3.14.10 不满足 <3.13；环境变量 OLLAMA_MODELS 未设置（模板 <盘符>:\ollama\models）（等 5 项） |
+| visual | windows-cuda | GAP | 3.13.15 | 0.40.10 | 2025-08-11-git-3542260376-full_build-www.gyan.dev | 13.8h | python 3.13.15 不满足 <3.13；环境变量 OLLAMA_MODELS 未设置（模板 <盘符>:\ollama\models）（等 5 项） |
 | audio | — | 未探测 | — | — | — | — | 没有 env/audio.json：该机还没跑过探针 |
 | brain | — | 未定档 | — | — | — | — | 该机没有对应环境档位（OS 待定或未入网）：先定系统再定环境 |
 
