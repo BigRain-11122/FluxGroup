@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-14T23:52:52",
- "cycle": 1306,
+ "ts": "2026-11-14T23:56:26",
+ "cycle": 1307,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-14T23:52:52",
+ "master_tick_ts": "2026-11-14T23:56:26",
  "queue": {
   "total": 54,
   "open": 10,
@@ -14,19 +14,19 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 14.0,
-   "cpu_load_pct": 83,
-   "ram_free_gb": 54.4,
+   "hb_age_s": 39.2,
+   "cpu_load_pct": 49,
+   "ram_free_gb": 51.4,
    "gpu_util_pct": 0,
    "job": "R-NEXT-BIGGAME-SUBMIT-P-20261114",
    "last_result": {
-    "job": "biggame-pack-scan-2026-11-14",
+    "job": "asset-lib-voice-corpus-2026-11-14",
     "state": "BUSY",
     "rc": null,
-    "ts": "2026-11-14T23:46:12",
+    "ts": "2026-11-14T23:56:09",
     "reason": null,
     "out_bytes": 0,
-    "elapsed_s": 21
+    "elapsed_s": 86
    },
    "idle_confirmed": false,
    "idle_reason": "",
@@ -41,41 +41,41 @@
    "job": null,
    "last_result": null,
    "idle_confirmed": false,
-   "idle_reason": "EXECUTOR-DEAD (95.5h 零产出)",
+   "idle_reason": "EXECUTOR-DEAD (95.6h 零产出)",
    "idle_rounds": 0
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 24.1,
-   "cpu_load_pct": 7,
-   "ram_free_gb": 8.2,
-   "gpu_util_pct": 100,
+   "hb_age_s": 20.9,
+   "cpu_load_pct": 36,
+   "ram_free_gb": 25.4,
+   "gpu_util_pct": 36,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-14T23:52:09",
+    "ts": "2026-11-14T23:55:39",
     "reason": "EXECUTOR-DEAD (66.1h 零产出)",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
-   "idle_reason": "EXECUTOR-DEAD (66.1h 零产出)",
-   "idle_rounds": 1
+   "idle_reason": "EXECUTOR-DEAD (66.2h 零产出)",
+   "idle_rounds": 2
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 3.3,
+   "hb_age_s": 209.4,
    "cpu_load_pct": 9,
    "ram_free_gb": 8.1,
    "gpu_util_pct": null,
    "job": "asset-lib-env-check-2026-11-14",
    "last_result": {
-    "job": "CANARY-20261114T235221",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-14T23:52:27",
+    "job": "CHK-RECEIPT-20261105",
+    "state": "RUNNING",
+    "rc": null,
+    "ts": "2026-11-14T23:56:22",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -88,7 +88,7 @@
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
-  "bm-c": 1,
+  "bm-c": 2,
   "bm-m": 0
  },
  "lines": {
@@ -867,12 +867,9 @@
   "gpu": 0
  },
  "supply_added": [],
- "events": [
-  "bigstream-drama-manifest-2026-11-14 -> bm-a (cpu)",
-  "bigmoney-signal-2026-11-14 -> bm-a (cpu)",
-  "CHK-RECEIPT-20261105 -> bm-m (cpu)"
- ],
+ "events": [],
  "violations": [
+  "bm-c IDLE-CONFIRMED x2 (EXECUTOR-DEAD (66.2h 零产出))",
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)",
@@ -880,6 +877,7 @@
  ],
  "lane_files_written": [
   "bm-a",
-  "bm-m"
+  "bm-b",
+  "bm-c"
  ]
 }
