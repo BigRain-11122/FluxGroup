@@ -584,6 +584,11 @@ def verify(station, card, run, root=None):
         return "BLOCKED", "NEED-CMD：缺执行命令"
     if run.get("why") == "BLOCKED":
         return "BLOCKED", run.get("detail") or "缺前置输入"
+    if run.get("why") == "CMD-REJECTED":
+        # 卡本身坏了（命令未经审核/危险拼接），重试三次仍会被同样拒绝——直接作废，
+        # 不做退避重试。实锚：旧生成器产的卡没有 cmd_reviewed，被连拒 3 次转 BLOCKED，
+        # 白占主控四轮调度（2026-11-14）。
+        return "CANCELLED", "命令未授权，卡作废（不重试）：%s" % (run.get("detail") or "")[:60]
     if not run.get("ok"):
         return "FAILED", "执行失败 rc=%s" % run.get("rc")
     if not judge:
@@ -1177,6 +1182,9 @@ def self_test():
         json.dump(prods2, open(os.path.join(base, "PRODUCTS.json"), "w", encoding="utf-8"),
                   ensure_ascii=False)
         w2, _ = plan("control", td)
+        _v, _why = verify("control", {"id": "CR-1", "judge": "path", "deliverable": "x"},
+                          {"ok": False, "why": "CMD-REJECTED", "detail": "命令未经审核"}, td)
+        chk("命令未经审核的卡直接作废（不重试）", _v == "CANCELLED")
         chk("工序级 judge + verify_cmd 进卡",
             bool(w2) and w2[0].get("judge") == "path" and w2[0].get("verify_cmd") == "true")
         chk("无产物契约 -> UNKNOWN-OUTPUT 不建卡",

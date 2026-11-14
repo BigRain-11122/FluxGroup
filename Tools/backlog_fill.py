@@ -333,5 +333,18 @@ def fill(root=None, node=None):
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", default=None)
+    ap.add_argument("--legacy-ok", action="store_true",
+                    help="确认要在 v3 分片之外继续造卡（默认拒绝）")
     a = ap.parse_args()
+    # 2026-11-14 停止使用：v3 从 2026-11-11 起接管执行面（一机一写者 + rt/<station>/queue.jsonl）。
+    # 本工具仍在个别机器上被旧任务调用，产出的卡有两个致命缺陷：没有 cmd_reviewed
+    # （被命令闸正确拒绝）、且直接写进别家分片（跨工位污染）。实锚=b m-c 凌晨塞进主控
+    # 分片的两张 R-PLAN 卡 + 一张同交付物重复卡。要恢复旧行为必须显式 --legacy-ok。
+    _rt = os.path.join(a.root or os.path.dirname(os.path.dirname(
+        os.path.abspath(__file__))), "cph4", "fleet", "rt", "control", "queue.jsonl")
+    if os.path.exists(_rt) and not a.legacy_ok:
+        print("BACKLOG-DISABLED v3 分片执行面已接管（%s 存在）；本工具产出的是无授权、"
+              "跨工位的旧格式卡，已停用。改用 Tools/fleet/night_plan.py 或 station_drive --once。"
+              % _rt)
+        sys.exit(0)
     print("BACKLOG-ADDED", fill(a.root))

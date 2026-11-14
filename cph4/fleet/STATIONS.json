@@ -82,7 +82,7 @@
     "Unity 命令行可调用",
     "磁盘 > 100G"
    ],
-   "status": "network_ok_not_registered",
+   "status": "ready",
    "last_probe": "2026-11-11T11:35 端口 445/3389 开、8790 未监听、最后回执 02:15",
    "charter": "cph4/fleet/stations/delivery/CHARTER.md",
    "runtime": {
@@ -101,7 +101,8 @@
      "llm_resident"
     ]
    },
-   "min_free_gb": 20
+   "min_free_gb": 20,
+   "status_note": "2026-11-14 12:29 已就地收口并推送（closeout 回执在 rt/delivery/receipts/），自驱在跑"
   },
   {
    "id": "visual",
@@ -287,7 +288,12 @@
      "social_drafts(2026-11-11 迁主控台)"
     ]
    },
-   "min_free_gb": 20
+   "min_free_gb": 20,
+   "paused_by_ceo": {
+    "by": "CEO",
+    "ts": "2026-11-14",
+    "why": "CEO 2026-11-14：未开机，不用管（不派卡/不报警/不计产能）"
+   }
   },
   {
    "id": "brain",
@@ -386,7 +392,12 @@
      "always_on_35b"
     ]
    },
-   "min_free_gb": 20
+   "min_free_gb": 20,
+   "paused_by_ceo": {
+    "by": "CEO",
+    "ts": "2026-11-14",
+    "why": "CEO 2026-11-14：未开机，不用管（不派卡/不报警/不计产能）"
+   }
   },
   {
    "id": "control",

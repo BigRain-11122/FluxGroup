@@ -32,7 +32,8 @@
     "提审清单": "cph4/fleet/out/game-submit/list.json"
    },
    "commands": {
-    "提审清单": "python Tools/fleet/game_submit_pack.py --out cph4/fleet/out/game-submit/list.json"
+    "提审清单": "python Tools/fleet/game_submit_pack.py --out cph4/fleet/out/game-submit/list.json",
+    "图标": "python3 Tools/fleet/icon_art_director.py --run --limit 40 && python3 Tools/fleet/icon_render_local.py --render-all --latest --flatten cph4/fleet/out/game-submit/icon"
    },
    "owner_station": "delivery",
    "support": [
@@ -47,7 +48,19 @@
    "panel_stages": [
     "材料套用",
     "提审清单"
-   ]
+   ],
+   "judges": {
+    "图标": "path"
+   },
+   "verify": {
+    "图标": "python3 -c \"import glob,sys,os;f=[p for p in glob.glob('cph4/fleet/out/game-submit/icon/*.png') if os.path.getsize(p)>10000];sys.exit(0 if len(f)>=10 else 3)\""
+   },
+   "requires": {
+    "图标": [
+     "Tools/fleet/icon_art_director.py",
+     "Tools/fleet/icon_render_local.py"
+    ]
+   }
   },
   {
    "id": "PROD-MV-SINGLE",

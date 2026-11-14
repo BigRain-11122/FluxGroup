@@ -121,7 +121,13 @@
    "needs": [
     "cpu",
     "audio"
-   ]
+   ],
+   "paused_by_ceo": {
+    "by": "CEO",
+    "ts": "2026-11-14",
+    "why": "CEO 2026-11-14 令「小钢炮和算力和我都没开机 不用管」——未开机，不派卡、不报警、不算产能",
+    "scope": "machine"
+   }
   },
   "bm-c": {
    "role": "画图",
@@ -140,7 +146,13 @@
    ],
    "status": "installing-2026-11-05",
    "ram_gb": 256,
-   "vram_gb": 48
+   "vram_gb": 48,
+   "paused_by_ceo": {
+    "by": "CEO",
+    "ts": "2026-11-14",
+    "why": "CEO 2026-11-14 令「小钢炮和算力和我都没开机 不用管」——未开机，不派卡、不报警、不算产能",
+    "scope": "machine"
+   }
   },
   "bm-m": {
    "role": "主控",

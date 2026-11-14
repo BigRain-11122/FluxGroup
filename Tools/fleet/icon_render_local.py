@@ -215,7 +215,15 @@ def main(argv):
     ap.add_argument("--render")
     ap.add_argument("--render-all", action="store_true")
     ap.add_argument("--spec-file", help="icon_art_director 产出的 ARTEXT-*.json，逐款覆盖 ART")
+    ap.add_argument("--latest", action="store_true",
+                    help="不给 --spec-file 时自动取最新的 ARTEXT-*.json（卡片命令用，免日期参数）")
+    ap.add_argument("--flatten", default="",
+                    help="把成品再复制一份到该目录（按款名命名），用于工序产物契约路径")
     a = ap.parse_args(argv)
+    if not a.spec_file and a.latest:
+        import glob as _g
+        _c = sorted(_g.glob(os.path.join(ROOT, "cph4", "fleet", "game-v1", "ARTEXT-*.json")))
+        a.spec_file = _c[-1] if _c else ""
     override = {}
     if a.spec_file and os.path.exists(a.spec_file):
         data = json.load(open(a.spec_file, encoding="utf-8"))
@@ -241,6 +249,17 @@ def main(argv):
                      "spec": "override" if t in override else ("registered" if t in ART else "fallback"),
                      "layer": "L1-deterministic-local"})
         print("  OK", os.path.relpath(p, ROOT))
+    if a.flatten:
+        import shutil as _sh
+        os.makedirs(a.flatten, exist_ok=True)
+        for m in made:
+            _src = os.path.join(ROOT, m["path"])
+            _dst = os.path.join(a.flatten, (m["dir"].replace("\\", "/").split("/")[-1]) + ".png")
+            try:
+                _sh.copy2(_src, _dst)
+            except Exception as e:
+                print("  FLATTEN-FAIL", m["dir"], str(e)[:60])
+        print("  flattened ->", a.flatten)
     rec = os.path.join(OUTDIR, "ICON-RENDER-LOG.jsonl")
     with open(rec, "a", encoding="utf-8") as f:
         f.write(json.dumps({"ts": time.strftime("%Y-%m-%dT%H:%M:%S%z"),

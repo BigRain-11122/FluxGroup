@@ -53,7 +53,8 @@ def probe(node, timeout=15):
     """查一台机的 /status；不可达不判死，只报事实。"""
     ip = node.get("tailnet_ip")
     base = {"node": node.get("id"), "station": STATION_OF.get(node.get("id"), "?"),
-            "ip": ip, "reachable": False}
+            "ip": ip, "reachable": False,
+            "paused_by_ceo": bool((node.get("paused_by_ceo") or {}).get("by") if isinstance(node.get("paused_by_ceo"), dict) else node.get("paused_by_ceo"))}
     if not ip or str(ip).startswith("PENDING"):
         base.update({"state": "未入网", "why": "tailnet IP 未分配"})
         return base
@@ -72,7 +73,7 @@ def probe(node, timeout=15):
     base.update({
         "reachable": True, "ms": ms, "version": d.get("version") or d.get("node"),
         "ram_free_gb": d.get("ram_free_gb"), "cpu_pct": d.get("cpu_load_pct"),
-        "head": (head or "")[:9], "origin": (origin or "")[:9],
+        "head": head or "", "head_short": (head or "")[:9], "origin_short": (origin or "")[:9],
         "fork": fork.replace("\t", " "), "tasks": lp.get("task_states") or {},
         "last_pull_ts": lp.get("ts"),
     })
@@ -113,13 +114,43 @@ def survey(timeout=15):
         return list(ex.map(lambda n: probe(n, timeout), nodes))
 
 
+def _origin_main():
+    """本机已知的 origin/main（用于对账，不信机器自报的 ahead/behind）。"""
+    try:
+        import subprocess
+        return subprocess.run(["git", "rev-parse", "origin/main"], cwd=ROOT,
+                              capture_output=True, text=True, timeout=10).stdout.strip()
+    except Exception:
+        return ""
+
+
 def judge(row):
     """规则判读：能由事实判定的，不交给模型。
 
-    2026-11-13 实测：bm-c 已能推提交（远端有它的 commit），但 /status 的 last_pull
-    还是 7.6 小时前的，判读仍写"拉不到新代码"——**拿陈旧快照下的结论是错的**。
-    快照超过 60 分钟时，判读必须先声明"结论不可信"，再谈状态。
+    2026-11-14：机器自报的 ahead/behind 会拿过期 origin ref 比（bm-a 已 HEAD==origin 却
+    仍报"分叉 475"）。判"代码新不新"只认一件事：它的 HEAD 是否就是我这边的 origin/main。
     """
+    if row.get("paused_by_ceo"):
+        return "已停用（CEO 令：未开机，不派卡、不报警）"
+    _head = str(row.get("head") or "")
+    _om = _origin_main()
+    if _head and _om and (_head == _om or _om.startswith(_head[:12])):
+        return "已同步（HEAD=origin/main）"
+    if _head and _om and len(_head) >= 8:
+        try:
+            import subprocess
+            r = subprocess.run(["git", "merge-base", "--is-ancestor", _head, "origin/main"],
+                               cwd=ROOT, capture_output=True, timeout=10)
+            if r.returncode == 0:
+                return "落后 origin（可快进）"
+            r2 = subprocess.run(["git", "cat-file", "-e", _head], cwd=ROOT,
+                                capture_output=True, timeout=10)
+            if r2.returncode != 0:
+                return "本地提交未推（HEAD 不在 origin）"
+        except Exception:
+            pass
+    # 2026-11-13 教训：/status 的 last_pull 可能是几小时前的，拿陈旧快照下的结论是错的。
+    # 快照超过 60 分钟时先声明"结论不可信"，再谈状态（HEAD 对账成立时上面已返回）。
     if row.get("state") == "未入网":
         return "未入网，等装机"
     if not row.get("reachable"):
@@ -242,7 +273,8 @@ def main(argv=None):
         print("== 群控（%s）==" % datetime.now().strftime("%m-%d %H:%M"))
         print("%-6s %-9s %-7s %-12s %-6s %s" % ("节点", "状态", "代码", "内存/CPU", "延迟", "判读"))
         for r in rows:
-            st = "在线" if r.get("reachable") else r.get("state", "?")
+            st = ("已停用" if r.get("paused_by_ceo") else
+                  ("在线" if r.get("reachable") else r.get("state", "?")))
             _pa = r.get("pull_age_min")
             if r.get("reachable") and _pa is not None and _pa > 60:
                 st = "在线·陈旧"     # 状态面活着但代码很久没动：不能当成"正常在线"

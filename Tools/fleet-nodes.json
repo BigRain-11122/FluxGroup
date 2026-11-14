@@ -86,7 +86,12 @@
    "note": "adopted 2026-10-10 bm-b r810 (O-20260909-2150 onboarding step1 / O-20261010-0010 receipt): host/root/wake_tasks confirmed locally (host=BIGMONEY actual hostname; root=C:/Fluxgroup/FluxGroup partial-clone group tree; wake=Bigmoney-IterationLoop pulls quant/bigmoney WARM tier); FluxGroup-FleetLink task registered S4U per bm-b machine law (all lane tasks S4U, InteractiveToken forbidden per 2026-09-29 blackout-root judgment); tailnet join DONE 10-06 (100.82.175.0). ADOPTION CLOSED 2026-10-10 10:31 by HQ poke (all 3 nodes SYNCED). REVISED 10:41 (O-20261010-0045): earlier clock-skew claim RETRACTED - bm-b clock is fine, the comparison baseline was wrong (fleet-reality probe skew=0). OPEN ISSUE (downgraded 10:48): the 10:36-10:41 listener-down readings were probe-timeout artifacts (1500ms too tight; 4s probe = listener UP, v1.4). Watch with fleet-reality.ps1 (timeout raised to 4000ms) - if genuinely flapping, owner fixes power plan + keepalive task. IDENTITY 2026-10-10 13:3x (fleet=3 physical boxes, CEO-confirmed): this box ALSO = BG-B in Biggame/MiniGame fleet naming (fleet/b.json heartbeat; proof R-20260924-llm-fleet.md L12 'bm-b == BG-B' + hardware match 3800X-16T/24G/RTX3070-8G). Former roster rows BG-B/BG-C were these same boxes double-counted (bm-series vs BG-series names) - removed 2026-10-10; NEVER report BG-B/C as separate machines.",
    "enable_tasks": [
     "HQ-ProductionClaim"
-   ]
+   ],
+   "paused_by_ceo": {
+    "by": "CEO",
+    "ts": "2026-11-14",
+    "why": "CEO 2026-11-14 令「小钢炮和算力都没开机 不用管」——显示\"已停用\"，不报警、不派卡"
+   }
   },
   {
    "id": "bm-c",
@@ -169,7 +174,12 @@
    "status_files": [
     "quant/bigmoney/fleet/machines/bm-d.json"
    ],
-   "note": "PENDING TAILNET JOIN - CEO new six-card rig (canon = cph4/council/C-20261016-01: V100x3 brain + P104x3 draft factory + 2xE5-2695v2 24C48T no-AVX2 + 256G DDR3 = BigMoney backtest factory, W-wave main host per O-20261015-1055). Onboarding: Tools/bmd-bootstrap.ps1 + cph4/fleet/bm-d-onboarding/BMD-ONBOARDING-v1.md (order O-20261016-2148-bm-a). Loop integration: on JOIN-REPORT landing fill host/tailnet_ip + enabled=true + pathspec push + poke /health verify; RAM>8G shard routing flips bm-d-first once enabled. wake_tasks filled at Tier-2 (codely install)."
+   "note": "PENDING TAILNET JOIN - CEO new six-card rig (canon = cph4/council/C-20261016-01: V100x3 brain + P104x3 draft factory + 2xE5-2695v2 24C48T no-AVX2 + 256G DDR3 = BigMoney backtest factory, W-wave main host per O-20261015-1055). Onboarding: Tools/bmd-bootstrap.ps1 + cph4/fleet/bm-d-onboarding/BMD-ONBOARDING-v1.md (order O-20261016-2148-bm-a). Loop integration: on JOIN-REPORT landing fill host/tailnet_ip + enabled=true + pathspec push + poke /health verify; RAM>8G shard routing flips bm-d-first once enabled. wake_tasks filled at Tier-2 (codely install).",
+   "paused_by_ceo": {
+    "by": "CEO",
+    "ts": "2026-11-14",
+    "why": "CEO 2026-11-14 令「小钢炮和算力都没开机 不用管」——显示\"已停用\"，不报警、不派卡"
+   }
   }
  ]
 }
