@@ -1,4 +1,4 @@
-# 指挥一屏 2026-11-15T00:33:25
+# 指挥一屏 2026-11-15T00:40:03
 
 _节奏表=COMMAND-CADENCE-v1.json｜本屏由规则从盘上事实算出，未用模型猜数_
 
@@ -8,7 +8,7 @@ _节奏表=COMMAND-CADENCE-v1.json｜本屏由规则从盘上事实算出，未�
 
 ## A 值守（45 秒档，纯规则）
 
-1. 可派卡 **23** 张｜在飞 **14** 张｜空壳卡隔离 **1** 张
+1. 可派卡 **18** 张｜在飞 **14** 张｜空壳卡隔离 **1** 张
 2. 在飞分布：bm-a=8, bm-m=6
 3. 返工≥3 次的活卡：**0** 张
 
@@ -16,7 +16,7 @@ _节奏表=COMMAND-CADENCE-v1.json｜本屏由规则从盘上事实算出，未�
 
 - **bm-a** SELF-OK｜reload=OK shells=OK deps=OK｜2026-11-07T22:25
 - **bm-c** SELF-OK｜reload=OK shells=OK deps=OK｜2026-11-06T23:55
-- **bm-m** SELF-OK｜reload=OK shells=OK deps=OK｜2026-11-15T00:25
+- **bm-m** SELF-OK｜reload=OK shells=OK deps=OK｜2026-11-15T00:33
 
 ## C 线与产出（15 分钟档）
 
@@ -41,8 +41,8 @@ ACTIVE 线 11 条｜超 72h 无产物 6 条｜PARKED 4 条（按 CEO 令暂停�
 
 ## E 指挥质量（6 小时档）
 
-1. 队列 76 行：DONE 19｜FAILED 1｜UNVERIFIED 0｜CANCELLED 8
-2. 完成占比 95%（DONE/20）
+1. 队列 77 行：DONE 23｜FAILED 2｜UNVERIFIED 1｜CANCELLED 8
+2. 完成占比 88%（DONE/26）
 3. 空壳卡累计隔离 1 张（越少越好，涨了就是造卡器又出错）
 
 ## F 需要 CEO 的（≤3 条，其余自决）
