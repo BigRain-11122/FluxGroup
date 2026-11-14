@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-14T23:46:22",
- "cycle": 1304,
+ "ts": "2026-11-14T23:50:27",
+ "cycle": 1305,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-14T23:46:22",
+ "master_tick_ts": "2026-11-14T23:50:27",
  "queue": {
   "total": 51,
   "open": 13,
@@ -14,10 +14,10 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 51.2,
-   "cpu_load_pct": 85,
-   "ram_free_gb": 48.7,
-   "gpu_util_pct": 0,
+   "hb_age_s": null,
+   "cpu_load_pct": null,
+   "ram_free_gb": null,
+   "gpu_util_pct": null,
    "job": "R-NEXT-BIGGAME-SUBMIT-P-20261114",
    "last_result": null,
    "idle_confirmed": false,
@@ -33,7 +33,7 @@
    "job": null,
    "last_result": null,
    "idle_confirmed": false,
-   "idle_reason": "EXECUTOR-DEAD (95.4h 零产出)",
+   "idle_reason": "EXECUTOR-DEAD (95.5h 零产出)",
    "idle_rounds": 0
   },
   "bm-c": {
@@ -45,12 +45,12 @@
    "job": null,
    "last_result": null,
    "idle_confirmed": false,
-   "idle_reason": "EXECUTOR-DEAD (66.0h 零产出)",
+   "idle_reason": "EXECUTOR-DEAD (66.1h 零产出)",
    "idle_rounds": 0
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 187.0,
+   "hb_age_s": 440.3,
    "cpu_load_pct": 17,
    "ram_free_gb": 7.5,
    "gpu_util_pct": null,
@@ -96,9 +96,7 @@
     "bigstream-drama-manifest-2026-11-14"
    ],
    "no_supply": false,
-   "blockers": [
-    "bigstream-drama-manifest-2026-11-14:no-lane"
-   ],
+   "blockers": [],
    "note": null
   },
   "bigstream-duanju": {
@@ -171,9 +169,7 @@
     "bigmoney-signal-2026-11-14"
    ],
    "no_supply": false,
-   "blockers": [
-    "bigmoney-signal-2026-11-14:no-lane"
-   ],
+   "blockers": [],
    "note": "2026-11-04 夜班重启：原回测阶段钉 bm-d，而 bm-d 自 10-29 离线；改由 bm-b（有 quant 仓与数据）出「下月持仓信号 CSV」，主控按 P1 恢复派单。",
    "stuck_stage": "quant-data",
    "stuck_owner": "数据席"
@@ -270,9 +266,7 @@
     "Q-TRIAGE-FLUXVERSE-20261114"
    ],
    "no_supply": false,
-   "blockers": [
-    "Q-TRIAGE-FLUXVERSE-20261114:no-lane"
-   ],
+   "blockers": [],
    "note": null,
    "stuck_stage": "ops-canary",
    "stuck_owner": "中枢"
@@ -290,9 +284,7 @@
     "asset-lib-face-dataset-2026-11-14"
    ],
    "no_supply": false,
-   "blockers": [
-    "asset-lib-face-dataset-2026-11-14:no-lane"
-   ],
+   "blockers": [],
    "note": "CEO 2026-11-03：先储备资产，角色 LoRA 与音色库为 P0"
   }
  },
@@ -862,12 +854,8 @@
   "cpu": 13,
   "gpu": 0
  },
- "supply_added": [
-  "backlog_manifest+1"
- ],
- "events": [
-  "asset-lib-voice-corpus-2026-11-14 -> bm-a (cpu)"
- ],
+ "supply_added": [],
+ "events": [],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
@@ -876,6 +864,8 @@
   "STAGE-STALLED fleet-ops 卡在 端到端自检/中枢 (中枢（机器判）)"
  ],
  "lane_files_written": [
-  "bm-a"
+  "bm-a",
+  "bm-b",
+  "bm-c"
  ]
 }
