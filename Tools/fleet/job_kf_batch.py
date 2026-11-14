@@ -42,9 +42,22 @@ def main():
     a = ap.parse_args()
 
     t0 = time.time()
-    rc = gpu_lease.acquire(a.node, a.need_mb, True)
+    # 2026-11-14 实锚：drama kf 卡的 prompts 根本不在盘上，却先抢了 GPU 租约（TTL 2h），
+    # 随后进程挂死不释放 -> 真正的 mv-kf 批被判 LEASE-BUSY 打回，整机空转。
+    # 铁律：必败的任务不许碰租约。先验输入，再领卡。
+    if not os.path.isfile(a.prompts):
+        print("JOB-KF ABORT prompts missing: %s（未领取 GPU 租约）" % a.prompts)
+        return 1
+    try:
+        _n = len(json.load(open(a.prompts, encoding="utf-8")))
+    except Exception as e:
+        print("JOB-KF ABORT prompts unreadable: %s (%s)" % (a.prompts, type(e).__name__))
+        return 1
+    job_id = "kf:" + os.path.basename(a.prompts) + ":" + a.out
+    rc = gpu_lease.acquire(a.node, a.need_mb, True,
+                           owner="job_kf_batch@%s" % a.node, job_id=job_id)
     if rc != 0:
-        print("JOB-KF ABORT lease rc=%d" % rc)
+        print("JOB-KF ABORT lease rc=%d job=%s" % (rc, job_id))
         return 1
     cmd = [sys.executable, os.path.join(ROOT, "Tools", "mv_kf_batch.py"),
            "--prompts", a.prompts, "--out", a.out, "--limit", str(a.limit)]
@@ -52,8 +65,10 @@ def main():
                       ("--width", a.width), ("--height", a.height), ("--steps", a.steps)):
         if val not in ("", 0, None):
             cmd += [flag, str(val)]
+    # 挂了也要放开卡：一镜按 150s 上限估，至少 10 分钟，最多 4 小时。
+    tmo = max(600, min(14400, 240 + 150 * _n))
     try:
-        p = subprocess.run(cmd, capture_output=True, text=True, errors="replace")
+        p = subprocess.run(cmd, capture_output=True, text=True, errors="replace", timeout=tmo)
         tail = "\n".join((p.stdout or "").splitlines()[-15:])
         print(tail)
         receipt = {
@@ -67,6 +82,22 @@ def main():
         with open(os.path.join(a.out, "_job_receipt.json"), "w", encoding="utf-8") as f:
             json.dump(receipt, f, ensure_ascii=False, indent=1)
         return p.returncode
+    except subprocess.TimeoutExpired as e:
+        out = (e.stdout or b"")
+        if isinstance(out, bytes):
+            out = out.decode("utf-8", "replace")
+        receipt = {
+            "job": "kf_batch", "node": a.node, "prompts": a.prompts, "out": a.out,
+            "limit": a.limit, "rc": -9, "seconds": round(time.time() - t0, 1),
+            "ts": datetime.now().isoformat(timespec="seconds"),
+            "timeout_s": tmo,
+            "stdout_tail": "\n".join(out.splitlines()[-15:]),
+            "stderr_tail": "TIMEOUT after %ds" % tmo,
+        }
+        os.makedirs(a.out, exist_ok=True)
+        with open(os.path.join(a.out, "_job_receipt.json"), "w", encoding="utf-8") as f:
+            json.dump(receipt, f, ensure_ascii=False, indent=1)
+        return 1
     finally:
         if not a.keep_gpu:
             gpu_lease.release(a.node)
