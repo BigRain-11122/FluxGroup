@@ -2,146 +2,146 @@
  "runs": [
   {
    "label": "nobond_base",
-   "years": 6.8,
+   "years": 6.86,
    "start_level": 1.0108,
-   "cagr": 0.1556,
-   "vol": 0.1638,
-   "sharpe": 1.002,
+   "cagr": 0.1575,
+   "vol": 0.1637,
+   "sharpe": 1.012,
    "maxdd": -0.1604,
    "worst_year": 0.0233,
    "neg_years": 0,
    "worst_month": -0.0813,
-   "pos_months_pct": 0.593,
+   "pos_months_pct": 0.598,
    "cagr_is": 0.1022,
    "sharpe_is": 0.685,
    "maxdd_is": -0.1418,
-   "cagr_oos": 0.2364,
-   "sharpe_oos": 1.489,
+   "cagr_oos": 0.2397,
+   "sharpe_oos": 1.505,
    "maxdd_oos": -0.1604,
    "turnover": 1.53
   },
   {
    "label": "nobond_vt08",
-   "years": 6.8,
+   "years": 6.86,
    "start_level": 1.008,
-   "cagr": 0.1149,
+   "cagr": 0.1162,
    "vol": 0.105,
-   "sharpe": 1.132,
+   "sharpe": 1.142,
    "maxdd": -0.1056,
-   "worst_year": 0.0169,
+   "worst_year": 0.0284,
    "neg_years": 0,
    "worst_month": -0.043,
-   "pos_months_pct": 0.605,
+   "pos_months_pct": 0.61,
    "cagr_is": 0.0581,
    "sharpe_is": 0.621,
    "maxdd_is": -0.088,
-   "cagr_oos": 0.2014,
-   "sharpe_oos": 1.836,
+   "cagr_oos": 0.2028,
+   "sharpe_oos": 1.844,
    "maxdd_oos": -0.1056,
    "turnover": 1.08
   },
   {
    "label": "nobond_vt12",
-   "years": 6.8,
+   "years": 6.86,
    "start_level": 1.0108,
-   "cagr": 0.1331,
-   "vol": 0.1388,
-   "sharpe": 1.008,
+   "cagr": 0.1351,
+   "vol": 0.1389,
+   "sharpe": 1.02,
    "maxdd": -0.1499,
    "worst_year": 0.0179,
    "neg_years": 0,
    "worst_month": -0.0642,
-   "pos_months_pct": 0.617,
+   "pos_months_pct": 0.622,
    "cagr_is": 0.0659,
    "sharpe_is": 0.553,
    "maxdd_is": -0.1266,
-   "cagr_oos": 0.2364,
-   "sharpe_oos": 1.638,
+   "cagr_oos": 0.2397,
+   "sharpe_oos": 1.652,
    "maxdd_oos": -0.1499,
    "turnover": 1.38
   }
  ],
- "universe": 1499,
+ "universe": 1519,
  "live_picks": {
-  "as_of": "2026-10-23",
+  "as_of": "2026-11-12",
   "picks": [
    {
-    "symbol": "515450",
-    "score": 0.689,
+    "symbol": "513690",
+    "score": 0.607,
     "class": "equity"
    },
    {
-    "symbol": "515300",
-    "score": 0.654,
+    "symbol": "159655",
+    "score": 0.604,
     "class": "equity"
-   },
-   {
-    "symbol": "511180",
-    "score": 0.616,
-    "class": "convertible"
    },
    {
     "symbol": "510760",
-    "score": 0.579,
+    "score": 0.6,
     "class": "equity"
    },
    {
-    "symbol": "511380",
-    "score": 0.562,
-    "class": "convertible"
+    "symbol": "159207",
+    "score": 0.595,
+    "class": "equity"
+   },
+   {
+    "symbol": "513650",
+    "score": 0.585,
+    "class": "equity"
    }
   ]
  },
  "positions": [
   {
-   "code": "515450",
+   "code": "513690",
    "weight": 0.2,
    "factors": {
-    "score": 0.689,
+    "score": 0.607,
     "class": "equity"
    }
   },
   {
-   "code": "515300",
+   "code": "159655",
    "weight": 0.2,
    "factors": {
-    "score": 0.654,
+    "score": 0.604,
     "class": "equity"
-   }
-  },
-  {
-   "code": "511180",
-   "weight": 0.2,
-   "factors": {
-    "score": 0.616,
-    "class": "convertible"
    }
   },
   {
    "code": "510760",
    "weight": 0.2,
    "factors": {
-    "score": 0.579,
+    "score": 0.6,
     "class": "equity"
    }
   },
   {
-   "code": "511380",
+   "code": "159207",
    "weight": 0.2,
    "factors": {
-    "score": 0.562,
-    "class": "convertible"
+    "score": 0.595,
+    "class": "equity"
+   }
+  },
+  {
+   "code": "513650",
+   "weight": 0.2,
+   "factors": {
+    "score": 0.585,
+    "class": "equity"
    }
   }
  ],
- "generated_at": "2026-11-14T23:55:50",
+ "generated_at": "2026-11-15T00:25:52",
  "derivation": {
   "bridge": "Tools/fleet/quant_positions_bridge.py",
   "reason": "producer emits live_picks only; quant_signal needs positions",
   "weight_rule": "equal weight 1/n_hold (the published default of etf_robust_pf.open_to_open_equity, not a new policy)",
   "selection_rule": "plain top-n by score (same published default)",
   "sizing": "vol_target overlay is applied at execution; weights here are the pre-overlay book and relative weights are unaffected",
-  "as_of": "2026-10-23",
+  "as_of": "2026-11-12",
   "source": "quant/bigmoney/results/etf_nobond_vt.json"
  }
 }
