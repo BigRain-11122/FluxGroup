@@ -32,6 +32,13 @@ def main():
     ap.add_argument("--only", default="")
     ap.add_argument("--need-mb", type=int, default=12000)
     ap.add_argument("--keep-gpu", action="store_true")
+    # 2026-11-14：卡上的命令不带模型参数时，默认名可能是别的机器的量化档
+    # （本机没有 krea2_turbo_int8_convrot）-> 整批秒失败。这里透传，让卡能在任意机器落地。
+    ap.add_argument("--unet", default="")
+    ap.add_argument("--clip", default="")
+    ap.add_argument("--width", type=int, default=0)
+    ap.add_argument("--height", type=int, default=0)
+    ap.add_argument("--steps", type=int, default=0)
     a = ap.parse_args()
 
     t0 = time.time()
@@ -41,8 +48,10 @@ def main():
         return 1
     cmd = [sys.executable, os.path.join(ROOT, "Tools", "mv_kf_batch.py"),
            "--prompts", a.prompts, "--out", a.out, "--limit", str(a.limit)]
-    if a.only:
-        cmd += ["--only", a.only]
+    for flag, val in (("--only", a.only), ("--unet", a.unet), ("--clip", a.clip),
+                      ("--width", a.width), ("--height", a.height), ("--steps", a.steps)):
+        if val not in ("", 0, None):
+            cmd += [flag, str(val)]
     try:
         p = subprocess.run(cmd, capture_output=True, text=True, errors="replace")
         tail = "\n".join((p.stdout or "").splitlines()[-15:])

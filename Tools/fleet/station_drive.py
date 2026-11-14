@@ -848,8 +848,10 @@ def consume_outbox(station, root=None):
             seen = set(json.load(f) or [])
     except Exception:
         seen = set()
-    have = {(r.get("product_id"), r.get("stage")) for r in ss.read_queue(station, root)}
-    added, marked = [], []
+    _q = ss.read_queue(station, root)
+    have = {(r.get("product_id"), r.get("stage")) for r in _q}
+    have_ids = {r.get("id") for r in _q}
+    added, marked, recovered = [], [], []
     for src in ss.STATIONS:
         if src == station:
             continue
@@ -858,15 +860,25 @@ def consume_outbox(station, root=None):
                 continue
             key = "%s|%s|%s" % (src, row.get("id"), row.get("handoff_seq") or "")
             if key in seen:
-                continue
+                # 2026-11-14 实锚：已消费的交接卡会被"历史卡回填回滚"之类的分片手术删掉，
+                # seen 里却还记着 -> 永远不再拉，活就凭空蒸发（mv-kf 38 镜 KF 就这样丢过一次）。
+                # 所以 seen 不是终局：卡确实不在（同 id 与同工序都没有任何状态的卡）就补回。
+                if row.get("id") in have_ids:
+                    continue
+                if (row.get("product_id"), row.get("stage")) in have:
+                    continue
+                recovered.append(key)
             if (row.get("product_id"), row.get("stage")) in have:
                 marked.append(key)      # 已有同工序卡：不重复投，但记为已处理
                 continue
             card = dict(row)
             card.pop("handoff_seq", None)
             card.setdefault("state", "OPEN")
+            if key in recovered:
+                card["recovered_from_seen"] = _now().isoformat(timespec="seconds")
             ss.upsert(station, card, root)
             have.add((card.get("product_id"), card.get("stage")))
+            have_ids.add(card.get("id"))
             added.append(card.get("id"))
             marked.append(key)
     if marked:
@@ -877,7 +889,8 @@ def consume_outbox(station, root=None):
                 json.dump(sorted(seen)[-500:], f, ensure_ascii=False)
         except Exception:
             pass
-    return {"added": added, "skipped": len(marked) - len(added)}
+    return {"added": added, "skipped": len(marked) - len(added),
+            "recovered": len(recovered)}
 
 
 def reclaim(station, root=None, now=None, lease_min=None):
@@ -1365,6 +1378,26 @@ def self_test():
         got = _fork_state(out)["state"]
         chk("分叉判读 %r -> %s（得到 %s）" % (out, want_state, got), got == want_state)
     chk("负控：解析不了 -> unknown", _fork_state("garbage")["state"] == "unknown")
+
+    # 2026-11-14 实锚：交接卡已消费（seen）后被"历史卡回填回滚"删掉，seen 仍记着 ->
+    # 永远不再拉，38 镜 KF 凭空蒸发。这条腿锁住"丢了必须补回"。
+    with tempfile.TemporaryDirectory() as td2:
+        b2 = os.path.join(td2, "cph4", "fleet")
+        for s in ("visual", "control"):
+            os.makedirs(os.path.join(b2, "rt", s))
+        row = {"id": "HO-KFTEST", "product_id": "P9", "stage": "kf",
+               "station": "visual", "deliverable": "out/p9/kf/",
+               "handoff_seq": "seq1"}
+        ss.append_outbox("control", [row], td2)
+        c1 = consume_outbox("visual", td2)
+        chk("交接卡首拉即入队", c1["added"] == ["HO-KFTEST"])
+        c2 = consume_outbox("visual", td2)
+        chk("在队时重复拉不重复投", c2["added"] == [])
+        qp2 = os.path.join(ss.rt_dir("visual", td2), "queue.jsonl")
+        open(qp2, "w", encoding="utf-8").close()      # 模拟分片手术删卡
+        c3 = consume_outbox("visual", td2)
+        chk("seen 里的卡被删后必须补回（不许永久蒸发）",
+            c3["added"] == ["HO-KFTEST"] and c3.get("recovered", 0) >= 1)
 
     print("[station_drive] %d/%d" % (ok, total))
     return 0 if ok == total else 2

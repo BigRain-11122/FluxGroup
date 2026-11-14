@@ -49,6 +49,40 @@ def graph(prompt, seed, unet, clip, w, h, steps=8):
     }
 
 
+def _models_dir():
+    for p in (os.environ.get("COMFY_MODELS"),
+              r"D:\ComfyUI\ComfyUI\models", r"D:\AI\comfyui-krea\ComfyUI\models"):
+        if p and os.path.isdir(p):
+            return p
+    return ""
+
+
+def _resolve_model(subs, name):
+    """默认名可能是别的机器的量化档（bm-c 没有 krea2_turbo_int8_convrot）。
+
+    同一个逻辑目录在 ComfyUI 里有多种落位（UNETLoader 同时扫 unet/ 与 diffusion_models/），
+    所以按目录列表找；同前缀存在就换成本机实存的那份，并打印替换结果——静默换模型会让
+    出图口径不可复算，所以只在名字确实不在盘上时才替换。
+    """
+    if isinstance(subs, str):
+        subs = (subs,)
+    base = _models_dir()
+    if not base:
+        return name
+    dirs = [os.path.join(base, s) for s in subs]
+    dirs = [d for d in dirs if os.path.isdir(d)]
+    if any(os.path.isfile(os.path.join(d, name)) for d in dirs):
+        return name
+    stem = name.split(".")[0].rstrip("0123456789")[:12]
+    for d in dirs:
+        cands = [x for x in sorted(os.listdir(d))
+                 if x.endswith(".safetensors") and x.startswith(stem)]
+        if cands:
+            print("MODEL-SUBSTITUTE %s: %s -> %s" % (subs, name, cands[0]), flush=True)
+            return cands[0]
+    return name
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--server", default="http://127.0.0.1:8188")
@@ -67,6 +101,8 @@ def main():
     ap.add_argument("--perf-tag", default="", help="写进 _perf.jsonl 的标签（A/B 用 8s/6s 之类）")
     a = ap.parse_args()
 
+    a.unet = _resolve_model(("unet", "diffusion_models"), a.unet) or a.unet
+    a.clip = _resolve_model(("text_encoders", "clip"), a.clip) or a.clip
     os.makedirs(a.out, exist_ok=True)
     gate_log = os.path.join(a.out, "_preflight.jsonl")
     rows = json.load(open(a.prompts, encoding="utf-8"))
