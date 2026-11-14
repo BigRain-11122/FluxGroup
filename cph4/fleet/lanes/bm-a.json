@@ -1,6 +1,6 @@
 {
  "node": "bm-a",
- "ts": "2026-11-14T12:44:14",
+ "ts": "2026-11-14T12:46:15",
  "jobs": [
   {
    "id": "REMOTE-CLOSEOUT-bm-a-20261107",
@@ -45,20 +45,6 @@
    "timeout_s": null
   },
   {
-   "id": "SD-delivery-ENV-PROBE-20261114",
-   "title": null,
-   "cmd": "python Tools/fleet/env_probe.py --write",
-   "cwd": null,
-   "needs": null,
-   "deliverable": "cph4/fleet/env/delivery.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
    "id": "R-NEXT-BIGSTREAMD-EVIDENCE-20261114",
    "title": "漫剧证据目录补齐判定：画面/配音工段为何为空（一页含根因与补法）",
    "cmd": "python Tools/fleet/line_triage.py --line bigstream-drama",
@@ -75,5 +61,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 46.8/1.0 GB"
+ "capacity_note": "ram 59.0/1.0 GB"
 }

@@ -1,29 +1,29 @@
 {
- "ts": "2026-11-14T12:44:12",
- "cycle": 1277,
+ "ts": "2026-11-14T12:46:12",
+ "cycle": 1278,
  "master_node": "bm-m",
  "masquerade_by": "bm-a",
  "master_tick_ts": "2026-11-11T11:13:54",
  "queue": {
   "total": 2064,
   "open": 2,
-  "running": 5,
-  "done": 769,
+  "running": 4,
+  "done": 770,
   "failed": 6
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 55.0,
-   "cpu_load_pct": 46,
-   "ram_free_gb": 46.8,
+   "hb_age_s": 55.1,
+   "cpu_load_pct": 54,
+   "ram_free_gb": 59,
    "gpu_util_pct": 0,
    "job": "REMOTE-CLOSEOUT-bm-a-20261107",
    "last_result": {
-    "job": "R-NEXT-BIGSTREAMM-REBUILD-20261114",
+    "job": "SD-delivery-ENV-PROBE-20261114",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-14T12:41:45",
+    "ts": "2026-11-14T12:46:09",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -46,23 +46,23 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 23.9,
-   "cpu_load_pct": 11,
-   "ram_free_gb": 4.8,
-   "gpu_util_pct": 0,
+   "hb_age_s": 12.4,
+   "cpu_load_pct": 9,
+   "ram_free_gb": 4.6,
+   "gpu_util_pct": 3,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-14T12:43:48",
+    "ts": "2026-11-14T12:46:00",
     "reason": "EXECUTOR-DEAD (48.1h 零产出)",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
-   "idle_reason": "EXECUTOR-DEAD (48.4h 零产出)",
-   "idle_rounds": 11
+   "idle_reason": "EXECUTOR-DEAD (48.5h 零产出)",
+   "idle_rounds": 12
   },
   "bm-m": {
    "online": false,
@@ -80,7 +80,7 @@
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
-  "bm-c": 11,
+  "bm-c": 12,
   "bm-m": 0
  },
  "lines": {
@@ -147,7 +147,7 @@
    "name": "Biggame·游戏",
    "status": "ACTIVE",
    "verdict": "WAITING",
-   "age_h": 0.5,
+   "age_h": 0.6,
    "stale_after_h": 24.0,
    "owner": "游戏席",
    "jobs": [],
@@ -159,7 +159,7 @@
    "name": "FluxVerse·元宙城",
    "status": "ACTIVE",
    "verdict": "STALE",
-   "age_h": 193.0,
+   "age_h": 193.1,
    "stale_after_h": 36.0,
    "owner": "城市线",
    "jobs": [],
@@ -171,7 +171,7 @@
    "name": "BigMoney·量化",
    "status": "ACTIVE",
    "verdict": "WAITING",
-   "age_h": 13.5,
+   "age_h": 13.6,
    "stale_after_h": 24.0,
    "owner": "量化席",
    "jobs": [],
@@ -207,7 +207,7 @@
    "name": "BigLife·数字生命",
    "status": "ACTIVE",
    "verdict": "WAITING",
-   "age_h": 0.0,
+   "age_h": 0.1,
    "stale_after_h": 48.0,
    "owner": "生命生产席",
    "jobs": [],
@@ -849,17 +849,20 @@
   "gpu": 0
  },
  "supply_added": [],
- "events": [],
+ "events": [
+  "SD-delivery-ENV-PROBE-20261114 DONE via bm-a"
+ ],
  "violations": [
-  "bm-c IDLE-CONFIRMED x11 (EXECUTOR-DEAD (48.4h 零产出))",
+  "bm-c IDLE-CONFIRMED x12 (EXECUTOR-DEAD (48.5h 零产出))",
   "bm-m OFFLINE",
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED bigstream-drama 卡在 剧本/编剧席 (漫剧席)",
-  "LINE-STALE fluxverse 193.0h>36.0h (城市线 · 卡在 场景装配/地编席)",
+  "LINE-STALE fluxverse 193.1h>36.0h (城市线 · 卡在 场景装配/地编席)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)",
   "STAGE-STALLED fleet-ops 卡在 端到端自检/中枢 (中枢（机器判）)"
  ],
  "lane_files_written": [
-  "bm-a"
+  "bm-a",
+  "bm-c"
  ]
 }
