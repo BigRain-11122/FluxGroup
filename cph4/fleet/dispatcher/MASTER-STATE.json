@@ -1,32 +1,32 @@
 {
- "ts": "2026-11-14T12:40:12",
- "cycle": 1275,
+ "ts": "2026-11-14T12:44:12",
+ "cycle": 1277,
  "master_node": "bm-m",
  "masquerade_by": "bm-a",
  "master_tick_ts": "2026-11-11T11:13:54",
  "queue": {
   "total": 2064,
   "open": 2,
-  "running": 6,
-  "done": 768,
+  "running": 5,
+  "done": 769,
   "failed": 6
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 41.0,
-   "cpu_load_pct": 32,
-   "ram_free_gb": 53.3,
+   "hb_age_s": 55.0,
+   "cpu_load_pct": 46,
+   "ram_free_gb": 46.8,
    "gpu_util_pct": 0,
    "job": "REMOTE-CLOSEOUT-bm-a-20261107",
    "last_result": {
     "job": "R-NEXT-BIGSTREAMM-REBUILD-20261114",
-    "state": "BUSY",
-    "rc": null,
-    "ts": "2026-11-14T12:40:11",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-14T12:41:45",
     "reason": null,
-    "out_bytes": 126,
-    "elapsed_s": 38
+    "out_bytes": null,
+    "elapsed_s": null
    },
    "idle_confirmed": false,
    "idle_reason": "",
@@ -41,28 +41,28 @@
    "job": null,
    "last_result": null,
    "idle_confirmed": false,
-   "idle_reason": "EXECUTOR-DEAD (108.3h 零产出)",
+   "idle_reason": "EXECUTOR-DEAD (108.4h 零产出)",
    "idle_rounds": 0
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 56.2,
-   "cpu_load_pct": 7,
-   "ram_free_gb": 6.5,
+   "hb_age_s": 23.9,
+   "cpu_load_pct": 11,
+   "ram_free_gb": 4.8,
    "gpu_util_pct": 0,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-14T12:39:16",
+    "ts": "2026-11-14T12:43:48",
     "reason": "EXECUTOR-DEAD (48.1h 零产出)",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
    "idle_reason": "EXECUTOR-DEAD (48.4h 零产出)",
-   "idle_rounds": 9
+   "idle_rounds": 11
   },
   "bm-m": {
    "online": false,
@@ -80,7 +80,7 @@
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
-  "bm-c": 9,
+  "bm-c": 11,
   "bm-m": 0
  },
  "lines": {
@@ -91,10 +91,8 @@
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
-   "jobs": [
-    "R-NEXT-BIGSTREAMM-REBUILD-20261114"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": null,
    "stuck_stage": "mv-kf",
@@ -185,7 +183,7 @@
    "name": "BigDomain·硅基域商业化",
    "status": "ACTIVE",
    "verdict": "WAITING",
-   "age_h": 0.0,
+   "age_h": 0.1,
    "stale_after_h": 36.0,
    "owner": "域运营席",
    "jobs": [],
@@ -197,7 +195,7 @@
    "name": "BigCompute·硅基算力",
    "status": "ACTIVE",
    "verdict": "WAITING",
-   "age_h": 0.0,
+   "age_h": 0.1,
    "stale_after_h": 36.0,
    "owner": "算力中枢席",
    "jobs": [],
@@ -221,7 +219,7 @@
    "name": "BigHouse·城市安家",
    "status": "PARKED",
    "verdict": "PARKED",
-   "age_h": 653.3,
+   "age_h": 653.4,
    "stale_after_h": 72.0,
    "owner": "生态运营席",
    "jobs": [],
@@ -853,7 +851,7 @@
  "supply_added": [],
  "events": [],
  "violations": [
-  "bm-c IDLE-CONFIRMED x9 (EXECUTOR-DEAD (48.4h 零产出))",
+  "bm-c IDLE-CONFIRMED x11 (EXECUTOR-DEAD (48.4h 零产出))",
   "bm-m OFFLINE",
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED bigstream-drama 卡在 剧本/编剧席 (漫剧席)",
@@ -862,7 +860,6 @@
   "STAGE-STALLED fleet-ops 卡在 端到端自检/中枢 (中枢（机器判）)"
  ],
  "lane_files_written": [
-  "bm-a",
-  "bm-c"
+  "bm-a"
  ]
 }
