@@ -1,11 +1,11 @@
-# 线级体检 bigstream-mv · 2026-11-14 12:45
+# 线级体检 bigstream-mv · 2026-11-14 12:49
 
 ## 工段与证据目录
 - mv-plan        owner=导演席      lane=-      证据 2/2 存在 · 文件 470 · 最新 11.0h
 - mv-kf          owner=导演席·美术   lane=bm-c   证据 1/1 存在 · 文件 47 · 最新 145.0h
 - mv-i2v         owner=导演席      lane=bm-c   证据 0/1 存在 · 文件 0 · 最新 —
 - mv-cut         owner=剪辑席      lane=bm-a   证据 1/1 存在 · 文件 1026 · 最新 0.1h
-- mv-gate        owner=质检席      lane=bm-a   证据 1/1 存在 · 文件 1273 · 最新 12.7h
+- mv-gate        owner=质检席      lane=bm-a   证据 1/1 存在 · 文件 1273 · 最新 12.8h
 - mv-approve     owner=导演席（自决放行） lane=-      证据 1/1 存在 · 文件 122 · 最新 11.0h
 
 ## 判定
