@@ -15,6 +15,16 @@
  ],
  "tasks": [
   {
+   "id": "MASTER-DISPATCH",
+   "station": "control",
+   "cadence_s": 300,
+   "cmd": "{py} Tools/fleet/master_agent.py --node bm-m --once",
+   "output": "cph4/fleet/lanes/",
+   "max_sec": 180,
+   "why": "派单：把分片与备队列里的 READY 卡写进各机 lanes/<node>.json，执行机靠它取活。2026-11-14 实锚：27 个自动化任务里没有任何派单环节——卡造出来了（BACKLOG 19 张 READY），却永远到不了执行机，bm-a job=null 空转 10 小时。补上后实测一轮 43.9s，bm-a 立刻拿到 8 张卡。",
+   "on_fail": "派单失败不阻塞其它任务；写不进车道要留痕"
+  },
+  {
    "id": "SYNC-PULL",
    "station": "all",
    "cadence_s": 300,
