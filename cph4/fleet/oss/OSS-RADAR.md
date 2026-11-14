@@ -1,4 +1,4 @@
-# 开源风向储备（2026-11-14 23:34）
+# 开源风向储备（2026-11-15 00:07）
 
 判据=活跃/许可/增速/落地四维，ADOPT-CANDIDATE 才值得排期试跑；WATCH=留观。
 
@@ -6,16 +6,16 @@
 
 ## ADOPT-CANDIDATE
 
-- **deepseek-ai/deepseek-harness** 280978★ · mit · 落线=fleet
+- **deepseek-ai/deepseek-harness** 280995★ · mit · 落线=fleet
   - DeepSeek Harness: Everything is a Plugin.
   - 试跑触发：当线里有对应缺口时试跑最小例子：fleet
-- **ultraworkers/claw-code** 194781★ · mit · 落线=fleet
+- **ultraworkers/claw-code** 194783★ · mit · 落线=fleet
   - An agent-managed museum exhibit, built in Rust with Gajae-Code / LazyCodex — developed and maintained with no human intervention.
   - 试跑触发：当线里有对应缺口时试跑最小例子：fleet
-- **DietrichGebert/ponytail** 190692★ · mit · 落线=fleet
+- **DietrichGebert/ponytail** 190706★ · mit · 落线=fleet
   - Makes your AI agent think like the laziest senior dev in the room. The best code is the code you never wrote.
   - 试跑触发：当线里有对应缺口时试跑最小例子：fleet
-- **JuliusBrussee/caveman** 119863★ · apache-2.0 · 落线=fleet
+- **JuliusBrussee/caveman** 119878★ · apache-2.0 · 落线=fleet
   - 🪨 why use many token when few token do trick. Viral skill + proxy for coding agents that cuts 65% of tokens by talking like a caveman.
   - 试跑触发：当线里有对应缺口时试跑最小例子：fleet
 - **omnigent-ai/omnigent** 11381★ · apache-2.0 · 落线=fleet
@@ -39,7 +39,7 @@
 - **master-co/css** 1957★ · noassertion · 落线=fleet
   - A markup-driven CSS orchestration language for developers and AI agents.
   - 试跑触发：当线里有对应缺口时试跑最小例子：fleet
-- **agentjido/jido** 1915★ · apache-2.0 · 落线=fleet
+- **agentjido/jido** 1916★ · apache-2.0 · 落线=fleet
   - 🤖 Autonomous agent framework for Elixir. Built for distributed, autonomous behavior and dynamic workflows.
   - 试跑触发：当线里有对应缺口时试跑最小例子：fleet
 
