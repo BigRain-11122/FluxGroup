@@ -1,0 +1,7 @@
+{
+ "ts": "2026-11-14T23:38:23",
+ "rc": null,
+ "note": "命令未授权：命令不在 PRODUCTS 已审清单里，且卡上没有 cmd_reviewed 标记",
+ "cmd": "python Tools/fleet/line_triage.py --line recon --out cph4/fleet/queue-receipts/triage-recon-20261114.md",
+ "station": "control"
+}

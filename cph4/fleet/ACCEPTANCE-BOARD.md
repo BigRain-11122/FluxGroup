@@ -1,17 +1,17 @@
-# 验收一屏（只认产物与质量）2026-11-11T11:12:55
+# 验收一屏（只认产物与质量）2026-11-14T23:39:57
 
 口径：`.md`（方案/分诊/一屏）与 audits/、queue-receipts/ 下的 JSON 一律不算数；视频/图片/构建/回测必须过质量席才算 ACCEPTED。
 
 | 项 | 数量 |
 |---|---|
-| 完成卡 | 206 |
+| 完成卡 | 9 |
 | ✅ 真产物且过质量 | 1 |
 | ❌ 产物质量不过 | 0 |
 | ⚠️ 产物在别的机器（本机判不了） | 0 |
-| 🗂 流程文档/台账（不算数） | 199 |
-| ❔ 未分类 | 6 |
+| 🗂 流程文档/台账（不算数） | 5 |
+| ❔ 未分类 | 3 |
 
 ## 已验收产物
 | 卡 | 产物 | 分数 |
 |---|---|---|
-| `R-NEXT-BIGSTREAMM-REBUILD-20261109` | cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721.mp4 | 1.00 |
+| `R-NEXT-BIGSTREAMM-REBUILD-20261114` | cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721.mp4 | 1.00 |
