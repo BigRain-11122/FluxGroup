@@ -294,6 +294,40 @@ def write_queue(station, rows, root=None, allow_cross=False):
     return sum(1 for k in order if k in seen)
 
 
+ARCHAIC_DAYS = 14     # 分片只放当前执行面；更老的旧格式卡一律拒收
+
+
+def _archaic_card(row):
+    """旧格式历史卡判据：无 task_type（v3 才有）、非探针卡、且创建于 ARCHAIC_DAYS 天前。
+
+    2026-11-14 实锚：分片从 20 张被灌到 965 张（delivery 426 张里 425 张无 task_type，
+    created_at 最早到 10-27），连 R-PLAN-CARGAMING 的 RUNNING 都被历史态覆盖成 FAILED。
+    分片是"当前执行面"，历史卡应留在 storage/archive/；混进来会让派单器看见一堆早已
+    结束的卡，也会让"失败卡必须有 owner"这类判据按历史数据乱红。
+    """
+    if row.get("task_type") or row.get("probe"):
+        return False
+    ca = str(row.get("created_at") or "")[:10]
+    if len(ca) != 10:
+        return False
+    cutoff = time.strftime("%Y-%m-%d", time.localtime(time.time() - ARCHAIC_DAYS * 86400))
+    return ca < cutoff
+
+
+def _record_reject(station, row, root=None):
+    """拒收必须留痕：静默丢弃等于下一次还犯。"""
+    try:
+        p = os.path.join(root or ROOT_DEFAULT, "cph4", "fleet", "state", "shard-rejects.jsonl")
+        os.makedirs(os.path.dirname(p), exist_ok=True)
+        with open(p, "a", encoding="utf-8") as f:
+            f.write(json.dumps({"ts": time.strftime("%Y-%m-%dT%H:%M:%S"),
+                                "station": station, "id": row.get("id"),
+                                "created_at": row.get("created_at"),
+                                "state": row.get("state")}, ensure_ascii=False) + "\n")
+    except Exception:
+        pass
+
+
 def upsert(station, row, root=None, allow_cross=False, force=False):
     """两个不同的越权通道，都保留（2026-11-12 合并）：
       allow_cross —— 显式允许写别家分片（主控派单/迁移用；护栏默认拒）
@@ -355,6 +389,12 @@ def _upsert_locked(station, row, root=None, allow_cross=False, force=False):
                 merged["illegal_transition"] = int(prev.get("illegal_transition") or 0) + 1
         rows[str(row["id"])] = merged
     else:
+        # 新卡入片：拦旧格式历史卡（2026-11-14 事故见 _archaic_card 注释）。
+        # 拒收而不是 raise：跨工位交接历史上被护栏抛 PermissionError 穿出 once()，
+        # 让守护直接死亡（2026-11-12 实锚）。这里留痕 + 原样返回，让调用方自己判。
+        if _archaic_card(row):
+            _record_reject(station, row, root)
+            return row
         rows[str(row["id"])] = row
     write_queue(station, list(rows.values()), root, allow_cross=allow_cross)
     return rows[str(row["id"])]
