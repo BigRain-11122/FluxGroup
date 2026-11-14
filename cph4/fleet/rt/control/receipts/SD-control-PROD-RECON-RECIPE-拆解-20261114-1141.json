@@ -1,0 +1,16 @@
+{
+ "id": "SD-control-PROD-RECON-RECIPE-拆解-20261114-1141",
+ "station": "control",
+ "product_id": "PROD-RECON-RECIPE",
+ "stage": "拆解",
+ "task_type": "T-TEXT-RECON",
+ "verdict": "DONE",
+ "why": "判据通过(path)",
+ "judge": "path",
+ "judge_source": "card",
+ "deliverable": "cph4/fleet/out/recon/analysis.md",
+ "bytes": 7942,
+ "sha256": "61a55e299d7388b429f5ac4ec61f83be6efa4b0947e8d85254896fc336746e66",
+ "ts": "2026-11-14T11:41:47",
+ "by": "self-drive"
+}

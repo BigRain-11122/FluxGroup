@@ -1,0 +1,16 @@
+{
+ "id": "SD-control-PROD-ASSET-PACK-索引-20261112",
+ "station": "control",
+ "product_id": "PROD-ASSET-PACK",
+ "stage": "索引",
+ "task_type": "T-DOC-INDEX",
+ "verdict": "BLOCKED",
+ "why": "缺前置输入：cph4/fleet/out/asset-pack",
+ "judge": "panel",
+ "judge_source": "card",
+ "deliverable": "cph4/fleet/out/asset-pack/index.json",
+ "bytes": -1,
+ "sha256": null,
+ "ts": "2026-11-12T13:41:02",
+ "by": "self-drive"
+}
