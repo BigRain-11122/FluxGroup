@@ -1,0 +1,90 @@
+{
+ "ts": "2026-11-14T08:20:06",
+ "station": "unknown",
+ "hostname": "192.168.2.137",
+ "os": "darwin",
+ "machine": "arm64",
+ "cpu_count": 10,
+ "python": {
+  "version": "3.13.18",
+  "implementation": "CPython",
+  "executable": "/Users/junsheng.sun/.pyenv/versions/3.13.18/bin/python3"
+ },
+ "packages": {
+  "torch": "2.15.0",
+  "numpy": "2.5.4",
+  "pillow": "13.0.0",
+  "requests": "2.34.2",
+  "transformers": "5.22.2"
+ },
+ "ollama": {
+  "url": "http://127.0.0.1:11434",
+  "version": "0.40.16",
+  "models": [
+   {
+    "name": "qwen3.5:4b",
+    "size_gb": 3.97,
+    "digest": "7f3251fa6878a78a",
+    "quant": "nvfp4"
+   },
+   {
+    "name": "qwen3.5:2b",
+    "size_gb": 3.12,
+    "digest": "dfaf2605162e689c",
+    "quant": "mxfp8"
+   },
+   {
+    "name": "qwen3:8b",
+    "size_gb": 5.23,
+    "digest": "500a1f067a9f7826",
+    "quant": "Q4_K_M"
+   },
+   {
+    "name": "qwen3:4b",
+    "size_gb": 2.5,
+    "digest": "359d7dd4bcdab3d8",
+    "quant": "Q4_K_M"
+   },
+   {
+    "name": "qwen3.5:9b-mlx",
+    "size_gb": 8.9,
+    "digest": "203e30078279db51",
+    "quant": "nvfp4"
+   },
+   {
+    "name": "deepseek-r1:14b",
+    "size_gb": 8.99,
+    "digest": "c333b7232bdb5212",
+    "quant": "Q4_K_M"
+   },
+   {
+    "name": "qwen3-embedding:0.6b",
+    "size_gb": 0.64,
+    "digest": "ac6da0dfba84a81f",
+    "quant": "Q8_0"
+   },
+   {
+    "name": "qwen3.5:4b-mlx",
+    "size_gb": 3.97,
+    "digest": "61aa3858e9d3022e",
+    "quant": "nvfp4"
+   }
+  ],
+  "err": null
+ },
+ "ffmpeg": {
+  "version": "7.1",
+  "present": true,
+  "path": "/Users/junsheng.sun/bin/ffmpeg",
+  "found_by": "candidate"
+ },
+ "gpu": {
+  "backend": "system_profiler",
+  "cards": [
+   "Apple M1 Pro"
+  ]
+ },
+ "env": {
+  "OLLAMA_HOST": "0.0.0.0:11434"
+ }
+}

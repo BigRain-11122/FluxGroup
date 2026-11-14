@@ -238,8 +238,11 @@ media/inbox/
 media/asset/inbox/
 
 # 2026-11-07 修正：只有「纯记账」可移出 git。
-# lanes/ 是机队取卡的通道（fleet_lane.lane_payload 从 origin 读 lanes/<node>.json），
-# queue-receipts/ 是机队上报通道——两者 MUST stay tracked，移出等于切断派单与回执。
+# lanes/ 是机队取卡的通道（fleet_lane.lane_payload 从 origin 读 lanes/<node>.json）——MUST stay tracked。
+# queue-receipts/ 的口径已于 2026-11-13 变更（见本文件末尾那条）：
+#   v3 回执改落 rt/<station>/receipts/（已跟踪 13+ 份），旧目录只保留历史、不再新增。
+#   原先此处写「queue-receipts MUST stay tracked」与末尾的整目录忽略规则互相打架，
+#   实测后果=2723 个旧回执"被忽略却仍在库"（gitignore 对已跟踪文件不生效）。
 cph4/fleet/state/
 cph4/fleet/radar/
 cph4/fleet/chief/
@@ -288,3 +291,10 @@ cph4/fleet/rt/*/heartbeat.json
 # 旧链路回执目录（2026-11-13：2612 个文件在库，旧链路每跑一张卡提交一次 → 各机分叉累积到数百提交。
 # v3 回执改落 rt/<station>/receipts/，本目录不再新增；历史保留不动）
 cph4/fleet/queue-receipts/
+
+# 2026-11-14：以下两类不进库（盘上照常保留）
+# ① storage_curator 的轮转压缩件（.gz 可从他处再生，单份数 MB，入库存两份等于囤副本）
+cph4/fleet/archive/state-roll/*.gz
+# ② 旧队列的"复活"实验副本（与 PRODUCTION-QUEUE.jsonl 逐字节同源，2026-11-14 已用 sha256 核过；
+#    留盘作事故证据，不入库避免 2048 卡再存一份 1.9MB）
+cph4/fleet/storage/archive/PRODUCTION-QUEUE-resurrected*.jsonl
