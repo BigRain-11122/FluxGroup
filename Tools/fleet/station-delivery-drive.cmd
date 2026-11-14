@@ -5,5 +5,5 @@ set FLEET_STATION=delivery
 set PYTHONUTF8=1
 set PYTHONIOENCODING=utf-8
 cd /d C:\Users\sjs20\Desktop\FluxGroup
-"C:\Users\sjs20\AppData\Local\Programs\Python\Python314\python.exe" Tools\fleet\station_drive.py --station delivery --once >> "C:\Users\sjs20\Desktop\FluxGroup\cph4\fleet\rt\delivery\drive.log" 2>&1
+"C:\Users\sjs20\AppData\Local\Programs\Python\Python314\python.exe" Tools\fleet\station_drive.py --station delivery --once --run-limit 6 >> "C:\Users\sjs20\Desktop\FluxGroup\cph4\fleet\rt\delivery\drive.log" 2>&1
 exit /b %ERRORLEVEL%

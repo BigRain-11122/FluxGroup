@@ -1,0 +1,65 @@
+{
+  "kind": "closeout",
+  "order": "docs/orders.md 2026-11-14 12:20 主控令（直达各机·立即执行）",
+  "node": "bm-a",
+  "station": "delivery",
+  "hostname": "Dasheng",
+  "root": "C:\\Users\\sjs20\\Desktop\\FluxGroup",
+  "ts": "2026-11-14T12:29:00+08:00",
+  "head_before": "a91ac750ff4be932ab5a39c113de73b53915bf8e",
+  "head_after": "3585da11223f34a4b214d07b0f94093fbc397d2e",
+  "head_now": "47eb225c3f0c2759b163b1344cff95038fd564f2",
+  "origin_main_at_closeout": "3585da11223f34a4b214d07b0f94093fbc397d2e",
+  "origin_main_at_receipt": "47eb225c3f0c2759b163b1344cff95038fd564f2",
+  "head_eq_origin_main": true,
+  "behind_before": 1,
+  "ahead_before": 0,
+  "method": "git fetch origin -> git reset --mixed origin/main -> git checkout origin/main -- Tools cph4/fleet（绝不 --hard，untracked 全留）",
+  "steps": {
+    "1_desync_confirmed": "收口前 HEAD=a91ac750 落后 origin/main=3585da11；drive.log 末轮 12:22:14 status_note=network_ok_not_registered（旧代码态）",
+    "2_closeout": "reset --mixed 已完成；Tools 与 cph4/fleet 已按令 checkout 到 origin/main",
+    "3_verify": "HEAD 与 origin/main 逐字相等（3585da11223f34a4b214d07b0f94093fbc397d2e）；此后本机同步环自行推进到 47eb225c3，仍与 origin/main 相等",
+    "4_task": "FluxGroup-StationDrive-Delivery 重注册并启用（PT5M·wscript //B 静默·Interactive·Limited）；包装脚本改为 --station delivery --once --run-limit 6；FluxGroup-StationAgent-Delivery 由停用改回启用；即刻 Start 一轮实测 rc=0 并落日志",
+    "5_receipt": "本件"
+  },
+  "task_after": {
+    "name": "FluxGroup-StationDrive-Delivery",
+    "action": "wscript.exe //B //nologo Tools\\InvisibleRunner.vbs cmd.exe /c Tools\\fleet\\station-delivery-drive.cmd",
+    "repetition": "PT5M",
+    "logon_type": "Interactive",
+    "run_level": "Limited",
+    "next_run": "2026-11-14T12:31:44",
+    "manual_proof": "12:25:45 起跑，12:27:16 落账，drive.log ts=2026-11-14T12:25:46"
+  },
+  "drive_proof": {
+    "state": "synced",
+    "ahead": 0,
+    "behind": 0,
+    "consumed_added": [
+      "REMOTE-CLOSEOUT-bm-a-20261107",
+      "R-PLAN-CARGAMING-20261114",
+      "R-PLAN-BIGSTREAMMV-20261114",
+      "SD-delivery-ENV-PROBE-20261114"
+    ],
+    "consumed_pending_before": 4,
+    "ran": [],
+    "why_ran_empty": "unknown_output 全为 TOOL-PENDING（契约有命令未接）或 PARKED（主控按线连续 7 天无产物挂起），非本机故障"
+  },
+  "deviation": {
+    "what": "第二次重复 checkout cph4/fleet 未执行",
+    "why": "实测 bm-a 的 MV v729 重建进程（python Tools/mv_rebuild_from_edl.py，PID 59748）正在 cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1 内实时写盘，mv-album-001-jay 同属其工作区；命令第 6 条明确要求「不影响你的产物目录」，而产物实际落在 cph4/fleet 下，重复 checkout 会二次覆盖在飞进度",
+    "how_sync_maintained": "改用 git reset --mixed（只动 index 不动 worktree）完成同步；实测效果等价——12:25:46 驱动自报 synced ahead=0 behind=0 并吃进 4 张远端卡"
+  },
+  "lost_work_check": {
+    "first_checkout_side_effect": "按令执行的首次 checkout cph4/fleet 已把 30s-reel-v1 等 MV 工作区文件覆盖为 origin 版本（lyric_track.ass 1 行、mv_videoseal_wm_r1017.py 等）",
+    "evidence_live_writes_after": "D03b-JMAN-CANDIDATES-REVIEW-20261113.md mtime 12:24:08（收口后仍被 MV 进程重写），说明产线未中断",
+    "not_recoverable": "被覆盖前的在飞工作区增量无备份（未 stage、无 stash 快照），如需回溯只能靠 MV 管线重算",
+    "note": "上一条同族处置=本仓 closeout-bm-a.json（11-08）走 salvage 分支备份；本次未建 salvage 分支，属减损不彻底，如实记"
+  },
+  "untracked_kept": "全部保留（reset --mixed 不删 untracked）",
+  "stash_entries": 839,
+  "env": {
+    "python": "3.14",
+    "git": "2.x"
+  }
+}
