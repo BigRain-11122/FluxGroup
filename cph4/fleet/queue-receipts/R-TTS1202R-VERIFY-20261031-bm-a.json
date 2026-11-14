@@ -1,0 +1,10 @@
+{
+ "id": "R-TTS1202R-VERIFY-20261031",
+ "node": "bm-a",
+ "rc": 127,
+ "seconds": 0.0,
+ "cmd": "python Tools/fleet/tts_batch_check.py --dir C:/Fluxgroup/FluxGroup/media/drama-tts-out/r1202_ep001_060 --out C:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/Q-TTS-1202R-bm-b-verify.md",
+ "outcome": "CARD-DEFECT",
+ "card_defect": "CWD-MISSING 卡片 cwd 在本机不存在：/Users/junsheng.sun/FluxGroup; INPUT-MISSING --dir 指向的路径不存在：C:/Fluxgroup/FluxGroup/media/drama-tts-out/r1202_ep001_060",
+ "ts": "2026-11-15T00:41:05"
+}
