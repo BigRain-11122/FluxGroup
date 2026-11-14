@@ -316,3 +316,8 @@ cph4/fleet/rt/*/lock-stat.json
 cph4/fleet/FLEET-BRAIN.md
 cph4/fleet/PATROL.md
 cph4/fleet/state/lane-trust.json
+
+# 2026-11-14：Windows 绝对路径被当成相对路径写进来（bm-b/bm-c 的本地模型探针产物）
+# git 里出现过 C:/Fluxgroup/.../bm-b-local-llm-probe.md 与 K:/.../bm-c-local-llm-probe.md，
+# macOS 上于是真建出名为 "C:" 和 "K:" 的目录。内容是"无法回答"的降级输出，无保留价值。
+/[A-Za-z]:/
