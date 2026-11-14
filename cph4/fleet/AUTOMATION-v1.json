@@ -252,7 +252,9 @@
    "cmd": "{py} Tools/fleet/fleet_control.py --status --brief",
    "output": "cph4/fleet/state/fleet-control.json",
    "why": "群控：每 15 分钟看五台状态与判读；不可达/分叉/无任务都会被指出来。",
-   "on_fail": "探不到不判死；下发命令必须过白名单校验"
+   "on_fail": "探不到不判死；下发命令必须过白名单校验",
+   "max_sec": 180,
+   "_max_sec_why": "2026-11-14 实测 67s；声明 180s 上限。原来没声明上限，一次 992s 的异常被当成历史耗时 → 每轮都判预算不足，15 分钟周期的群控实际没跑过。"
   },
   {
    "id": "FLEET-BRIEF",

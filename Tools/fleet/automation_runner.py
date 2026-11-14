@@ -239,12 +239,17 @@ def run(dry=False, only=None, force=None):
         # 超预算就不再启动新任务，剩下的留给下一轮——宁可分几轮跑完，不许长期占锁。
         _remain = budget - (time.time() - t_start)
         _hist = float(((runs.get(t.get("id")) or {}).get("sec")) or 0)
+        # 2026-11-14：预判用「任务声明的 max_sec」截断历史耗时，别让一次异常永久拉黑一个任务。
+        # 实锚：FLEET-CONTROL 有一次 rc=1 跑了 992s（实测正常只要 67s），于是每轮都算成
+        # "剩余 240s < 历史 992s"→ 永远"留给下一轮"，15 分钟周期的群控实际再没跑过，
+        # 职责审计直接 STALE。历史是测量记录，不是承诺；声明的上限才是承诺。
+        _eta = min(_hist, int(t.get("max_sec"))) if (_hist and t.get("max_sec")) else _hist
         _exclusive = False
         if t.get("id") not in CORE_TASKS:
             # 预算不足就整条跳过，不许"启动后被截断"——截断会留下半成品状态
             # （2026-11-13 实测：MODEL-RADAR 被 46s 砍成 rc=-9，跑了一半）。
-            # 用历史耗时预判：历史上跑 56s 的任务，剩余 46s 时直接留给下一轮。
-            if _remain <= 5 or (_hist and _hist > _remain):
+            # 用耗时预判：历史上跑 56s 的任务，剩余 46s 时直接留给下一轮。
+            if _remain <= 5 or (_eta and _eta > _remain):
                 # 2026-11-14 修：长任务（如 TEST-FULL 583s）比预算还长时，原来**永远**
                 # 被跳过——夜间全量体检从来没跑过，"每天必测"是假承诺。改为允许
                 # "包场一轮"：距上次真跑超过 LONG_GRACE_S 就独占本轮（跑完直接结束
