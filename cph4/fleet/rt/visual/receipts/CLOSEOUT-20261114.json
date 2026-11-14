@@ -1,0 +1,22 @@
+{
+ "id": "CLOSEOUT-20261114",
+ "station": "visual",
+ "node": "bm-c",
+ "ts": "2026-11-14T12:53:00",
+ "type": "CLOSEOUT",
+ "order": "2026-11-14 12:20 主控直达令（docs/orders.md 尾节）",
+ "head_before": "75dce336b (local state snapshot chain, behind origin by 14; runtime-only commits: clock-offset/lane-trust)",
+ "head_after": "26f61c933",
+ "steps_done": [
+  "网络根因先修：GitHub ssh:22 全程 Connection refused + Clash 7897 未起——~/.ssh/config 已切 ssh.github.com:443（备份 config.bak-20261114），fetch 立通，全机 git 通道恢复（这也解释了主控看到的『23:00 起未同步』：循环 fetch 与会话推送同走 ssh:22，被墙断连坐）",
+  "收口：git fetch origin + reset（本地 2 个 state 快照提交为运行时件，内容随主控折枝；HEAD=26f61c933==origin/main，rev-parse 双向确认 0/0）",
+  "自驱任务重挂：station-drive-bmc.cmd 已升级 station_drive --station visual --once --run-limit 6（FLEET_STATION=visual 声明保留），任务节拍正常（下一拍 12:53:39），手动触发一轮验证通过（ran=0, pending_before=0, unknown_output 仅剩 2 条 AUTHORITY 类=设计内）",
+  "注：工位自驱循环 11-13 深夜起一直在跑（本地 state 快照提交至 12:48 可证），未死；『停了』是网络断连下的可见性假象，修网络即恢复"
+ ],
+ "work_in_flight": [
+  "v729 D03b jman 身份锁四候选已收官（3/4 PASS，看板+评审入仓 97138326c，候导演席/CEO 选版）",
+  "mv-i2v 自驱卡实跑 S1-S7 已落契约目录（30s 链）",
+  "mv-kf 既有帧已发布转 DONE（回执 SD-visual-...-mv-kf-20261113-2313.json）；主控已接 mv-plan（kf_prompts.json 38 镜产出）——mv 链上游全通"
+ ],
+ "provenance": "实测（fetch 成功输出、rev-parse 双向、schtasks 节拍、station_drive 轮日志、~/.ssh/config 读回）"
+}
