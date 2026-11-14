@@ -1,6 +1,6 @@
 {
  "node": "bm-a",
- "ts": "2026-11-14T13:27:19",
+ "ts": "2026-11-14T14:01:20",
  "jobs": [
   {
    "id": "R-PLAN-CARGAMING-20261114",
@@ -15,23 +15,9 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
-  },
-  {
-   "id": "R-TTS1202R-VERIFY-20261031",
-   "title": "Q-TTS-1202R 交付物实证探针（bm-b 本地数音频文件，终结 2 小时 RUNNING 幽灵）",
-   "cmd": "python Tools/fleet/tts_batch_check.py --dir C:/Fluxgroup/FluxGroup/media/drama-tts-out/r1202_ep001_060 --out C:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/Q-TTS-1202R-bm-b-verify.md",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "C:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/Q-TTS-1202R-bm-b-verify.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": {},
-   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 39.4/1.0 GB"
+ "capacity_note": "ram 44.3/1.0 GB"
 }
