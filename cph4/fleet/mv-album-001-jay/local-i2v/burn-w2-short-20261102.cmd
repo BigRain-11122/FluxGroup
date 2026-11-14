@@ -1,8 +1,9 @@
 @echo off
-rem W2 i2v 短镜批 v2（2026-11-02 07:4x 决策）。
-rem 依据：连续三晚同一条 345 帧（14.1s）镜把 ComfyUI 压到假死，隔夜 0 产出。
-rem 决策：先烧 <=10s 的 33 单（LJ 17 待烧 + JD 15），长镜（26 单）等主控裁定拆分或降档。
-rem 产物仍是 768p int8，与既有 clips-local-768 同规格，不混档。
+rem W2 i2v short-shot batch v2 (2026-11-02). ASCII-ONLY on purpose:
+rem a UTF-8 Chinese "rem" line was mis-split by cmd under a GBK console,
+rem which produced a bogus command ('t8, ...') and a "file not found" every replay.
+rem Scope: shots with src <= 10s only; long shots wait for master scheduling.
+rem Output: 768p int8, same spec as clips-local-768.
 cd /d K:\Fluxgroup\FluxGroup
 set PYTHONUNBUFFERED=1
 set PYTHONIOENCODING=utf-8
