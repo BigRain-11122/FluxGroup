@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-15T01:00:17",
+ "ts": "2026-11-15T01:04:23",
  "jobs": [
   {
    "id": "R-PLAN-BIGGAME-20261114",
@@ -87,7 +87,7 @@
    "timeout_s": null
   }
  ],
- "idle_reason": "",
+ "idle_reason": "control-plane heartbeat",
  "lane_ok": true,
  "capacity_note": "ram 20.1/1.0 GB"
 }
