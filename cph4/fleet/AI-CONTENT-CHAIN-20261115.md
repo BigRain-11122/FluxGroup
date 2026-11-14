@@ -62,7 +62,20 @@
   - 装配：ffmpeg + pyJianYingDraft（草稿交给剪映终剪）
 - 缺口（按优先级）：①faster-whisper 权重；②GPT-SoVITS venv；③krea2 LoRA 首次实训练；④口型镜的"免露嘴"分镜模板。
 
-## 5. 算力分配建议（满负荷但别互相踩）
+## 5. 已验证 vs 待办（2026-11-15 02:0x 终态）
+
+**已冒烟 PASS（可当产线用）**
+- `Tools/smoke/smoke_jianying.py`：9:16 1080×1920/30fps 草稿，视频轨 1 段 + 字幕轨 2 段
+- `Tools/smoke/smoke_subtitle.py`：faster-whisper(zh) → SRT → 灌进草稿（1 行，端到端）
+- `Tools/smoke/smoke_tts.py`：piper 华言 4.05s + sherpa kokoro 4 个 sid 各出 wav（54 声纹）
+- `krea2_train_network.py --help` 通过（lora-venv：Python 3.13 + torch 2.11.0+cu130 + CUDA True）
+
+**待办（按优先级）**
+1. krea2 LoRA 首次实训练：需 ①角色 16~30 张图 + caption（剔场景词）②`krea2_cache_latents.py` ③`krea2_cache_text_encoder_outputs.py` ④`krea2_train_network.py --dit <krea2 原始权重> --network_dim 32 --max_train_steps 600`。注意 ComfyUI 里的是 fp8_scaled 量化件，训练要用**未量化原始件**。
+2. GPT-SoVITS：源码在 `vendor/GPT-SoVITS-main`，需 Python 3.10 venv + pretrained（gsv-v2final ~4G，走 hf-mirror 串行下载）。
+3. whisper 升级：现 small/CPU，长片建议 large-v3 + GPU（下载 3G 级，hf-mirror 串行）。
+
+## 6. 算力分配建议（满负荷但别互相踩）
 
 - GPU 串行：同一时刻只跑一个吃卡任务（KF / i2v / LoRA 训练 / TTS-GPU），用 `gpu_lease` 仲裁（已修：领租约前会给空闲 ComfyUI 发 `/free`）。
 - CPU 并行：字幕 ASR、ffmpeg 转码、节拍分析、素材整理可以 6~8 并发，不抢显存。
