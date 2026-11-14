@@ -46,9 +46,14 @@ LOG = "/tmp/fluxgroup-pulse.log"
 STATE_REL = "cph4/fleet/dispatcher/PULSE.json"
 SLOW_EVERY = 300
 STATE_SNAPSHOT_S = 1800   # 报告类状态每 30 分钟快照一次（此前每 60 秒，占全部提交 44%）
-HOT_PREFIXES = ("cph4/fleet/lanes/", "cph4/fleet/PRODUCTION-QUEUE.jsonl",
+HOT_PREFIXES = ("cph4/fleet/lanes/", "cph4/fleet/rt/",
+                "cph4/fleet/PRODUCTION-QUEUE.jsonl",
                 "cph4/fleet/PRODUCTION-BACKLOG.jsonl", "cph4/fleet/dispatcher/MASTER-STATE.json",
                 "cph4/fleet/dispatcher/MASTER-TICK.json")   # maintenance batch runs in parallel now, so 5 min is affordable
+# 2026-11-14：加 cph4/fleet/rt/ —— v3 把卡与回执搬到 rt/<station>/（分片 queue.jsonl + receipts/），
+# 而白名单还停在旧的 PRODUCTION-QUEUE/BACKLOG 上。后果：station_drive 往分片写卡后没有任何提交者，
+# 分片永久挂在 git status 里；跨机又只认 origin 快照（git show origin/main:cph4/fleet/rt/...），
+# 等于"卡写进去了但别的机器看不见"。rt/ 下已 gitignore 的 log//heartbeat/lock-stat/git-status 不受影响。
 
 # (name, argv, timeout_s, ok_rc, slow)
 STAGES = [
