@@ -80,6 +80,34 @@ def set_tasks(enable):
         ps("%s -TaskName '%s' -ErrorAction SilentlyContinue | Out-Null" % (verb, t))
 
 
+def free_comfy_vram(port=8188, wait_s=45):
+    """空闲的 ComfyUI 会把上一批的模型一直享在显存里（krea2 一挂就是 12.2GB）。
+
+    2026-11-14 实锚：8188 活着但空闲、显存只剩 3.1GB，need_mb=12000 的批永远拿不到
+    租约，卡被判 LEASE-FAIL；而模型只要 /free 一下就掉。所以领租约前先卸载模型缓存——
+    只在队列确实为空时动手，跑着的活一根手指都不碰。
+    """
+    try:
+        q = json.loads(urllib.request.urlopen(
+            "http://127.0.0.1:%d/queue" % port, timeout=10).read())
+        if (q.get("queue_running") or []) or (q.get("queue_pending") or []):
+            return False
+        req = urllib.request.Request(
+            "http://127.0.0.1:%d/free" % port,
+            data=json.dumps({"unload_models": True, "free_memory": True}).encode(),
+            headers={"Content-Type": "application/json"})
+        urllib.request.urlopen(req, timeout=20).read()
+    except Exception:
+        return False
+    deadline = time.time() + wait_s
+    while time.time() < deadline:
+        used, total = vram()
+        if used is not None and total - used >= 12000:
+            break
+        time.sleep(3)
+    return True
+
+
 def start_comfy(port=8188, need_mb=12000):
     if driven_comfy_up(port):
         return None, True
@@ -125,6 +153,8 @@ def acquire(node, need_mb, with_comfy, owner="", job_id="", relaxed=False):
             pass
     stopped = stop_ollama()
     set_tasks(False)
+    # 先把空闲 ComfyUI 的模型缓存卸掉（它不会自己让），否则 need_mb 永远等不到。
+    freed = free_comfy_vram()
     deadline = time.time() + 90
     used = total = None
     while time.time() < deadline:
@@ -138,6 +168,12 @@ def acquire(node, need_mb, with_comfy, owner="", job_id="", relaxed=False):
     if ok and with_comfy:
         comfy_pid, up = start_comfy(need_mb=need_mb)
         ok = ok and up
+    if not ok:
+        # 2026-11-14 实锚：失败也写租约 -> 下一次请求看到"有主"直接 BUSY，卡被毒化 2 小时。
+        # 租约只在真正拿到卡时落盘。
+        print("LEASE-FAIL free=%sMB need=%sMB freed_cache=%s"
+              % ((total - used) if used is not None else "?", need_mb, freed))
+        return 1
     lease = {"node": node, "owner": owner or "unattributed", "job_id": job_id,
              "need_mb": need_mb,
              "vram_used_mb": used, "vram_total_mb": total,
@@ -146,10 +182,8 @@ def acquire(node, need_mb, with_comfy, owner="", job_id="", relaxed=False):
              "ts": datetime.now().isoformat(timespec="seconds")}
     os.makedirs(DATA, exist_ok=True)
     _atomic_write(lp, lease)
-    if not ok:
-        print("LEASE-FAIL free=%sMB need=%sMB" % ((total - used) if used else "?", need_mb))
-        return 1
-    print("LEASE-OK free=%sMB need=%sMB comfy_pid=%s" % (total - used, need_mb, comfy_pid))
+    print("LEASE-OK free=%sMB need=%sMB comfy_pid=%s"
+          % ((total - used) if used is not None else "?", need_mb, comfy_pid))
     return 0
 
 
