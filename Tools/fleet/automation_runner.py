@@ -282,6 +282,20 @@ def run(dry=False, only=None, force=None):
             json.dump(runs, f, ensure_ascii=False, indent=1)
     except Exception:
         pass
+    # 收口（2026-11-14 实锚）：本轮写下的运行态必须有人提交并推送。
+    # 事实是"写的人跑着、收口的人没跑"——提交/推送逻辑只写在主控脉里
+    # （master_pulse.commit_state + push_if_ahead），而脉不在 launchd 列表，实际在跑的是本脚本。
+    # 后果两条：①工作树每轮积一层运行态，永远清不干净；②跨机只认 origin 快照，
+    # 派单写进 lanes 却没推上去 = 别的机器根本看不见，等于没派。
+    # 位置选在本轮任务全部跑完之后、单例锁释放之前：此刻没有并发写者，rebase 不会踩到别人。
+    try:
+        import master_pulse as _mp
+        _tracked, _untracked = _mp.tree_state()
+        report["commit"] = _mp.commit_state(_tracked, _untracked)
+        report["push"] = _mp.push_if_ahead()
+    except Exception as e:  # 收口失败不许影响本轮任务的结论
+        report["commit"] = "error"
+        report["push"] = "error:%s" % str(e)[:80]
     return report
 
 

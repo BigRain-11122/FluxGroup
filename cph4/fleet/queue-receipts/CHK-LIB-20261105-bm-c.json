@@ -1,9 +1,0 @@
-{
- "id": "CHK-LIB-20261105",
- "node": "bm-c",
- "rc": 9009,
- "seconds": 0.1,
- "cmd": "python3 Tools/fleet/lib_consolidate.py --check --receipt cph4/fleet/queue-receipts/lib-consolidate-20261105.json",
- "stdout_tail": "",
- "stderr_tail": ""
-}

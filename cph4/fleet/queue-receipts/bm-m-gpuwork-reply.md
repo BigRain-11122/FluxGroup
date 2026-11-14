@@ -1,4 +1,0 @@
-**GPU 备单回复**（基于现有数据）
-
-1. **可立即派单清单**：当前 `bm-b` 车道 GPU 利用率 3%（接近空闲），无阻塞任务。但在 `lanes.bm-b` 中未检出明确就绪的待派单列表，无法从给定 JSON 中提取具体 ≥3 张卡的可执行作业 ID；需等待 `PRODUCTION-BACKLOG.jsonl` 中 `needs=gpu` 且 `nodes=[bm-b]` 状态为 `READY` 的实时作业记录以填入 ID。
-2. **优先序建议**：对照 `asset-lib` 线（角色 LoRA 与音色库为 P0），若 backlog 中有 GPU 依赖任务，应优先派单至 `bm-b`；当前 `bm-b` 因 "OS-MISMATCH" 阻塞中，需先清理其队列以腾出资源。

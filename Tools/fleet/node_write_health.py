@@ -7,6 +7,11 @@
 分不清是"机器在干活但推不回来"还是"机器没动"。
 回执文件写入是 git 推送成功的直接证据：有在跑的卡、却没有新回执 = 写链路断了。
 
+2026-11-14 通道迁移：判据原来读 queue-receipts/（旧链路，2723 份在库、每跑一张卡提交一次，
+是各机分叉的燃料）与 PRODUCTION-QUEUE.jsonl（11-11 已退役归档）。现改为 v3 通道：
+回执看 rt/<station>/receipts/，"谁在跑"看 rt/<station>/queue.jsonl 分片。
+旧目录只保留历史、不再新增，因此也不再作为判据。
+
 用法：python3 Tools/fleet/node_write_health.py [--minutes 40] [--json]
 Exit: 0 全健康 / 2 有节点写链路可疑
 """
@@ -21,6 +26,31 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 F = os.path.join(ROOT, "cph4", "fleet")
 NODES = ("bm-a", "bm-b", "bm-c")
+# 节点 → 工位。同一映射另有 fleet_control.STATION_OF / night_plan.NODE2ST /
+# master_patrol.NODE 三处副本（已知技术债：四写一改就得四处同步）。
+NODE2ST = {"bm-a": "delivery", "bm-b": "audio", "bm-c": "visual",
+           "bm-d": "brain", "bm-m": "control"}
+
+
+def _live_rows():
+    """当前执行面 = rt/<station>/queue.jsonl 五片（读不到才回落旧队列）。"""
+    rows = []
+    try:
+        import station_shards as _ss
+        for st in _ss.STATIONS:
+            rows += _ss.read_queue(st)
+        if rows:
+            return rows
+    except Exception:
+        pass
+    try:
+        for ln in open(os.path.join(F, "PRODUCTION-QUEUE.jsonl"), encoding="utf-8"):
+            ln = ln.strip()
+            if ln:
+                rows.append(json.loads(ln))
+    except Exception:
+        pass
+    return rows
 
 
 def main(argv):
@@ -28,16 +58,13 @@ def main(argv):
     ap.add_argument("--minutes", type=int, default=40)
     ap.add_argument("--json", action="store_true")
     a = ap.parse_args(argv)
-    rows = []
-    for ln in open(os.path.join(F, "PRODUCTION-QUEUE.jsonl"), encoding="utf-8"):
-        try:
-            rows.append(json.loads(ln))
-        except Exception:
-            pass
+    rows = _live_rows()
     cutoff = time.time() - a.minutes * 60
     out = []
     for n in NODES:
-        rec = [p for p in glob.glob(os.path.join(F, "queue-receipts", "*-%s.json" % n))
+        # 该工位分片目录下窗口内的任何回执：能出现在这里 = 这台机写成并推上来了。
+        rec = [p for p in glob.glob(os.path.join(F, "rt", NODE2ST.get(n, "control"),
+                                                 "receipts", "*.json"))
                if os.path.getmtime(p) >= cutoff]
         running = [r["id"] for r in rows if r.get("owner") == n and r.get("state") == "RUNNING"]
         last = max((os.path.getmtime(p) for p in rec), default=0)

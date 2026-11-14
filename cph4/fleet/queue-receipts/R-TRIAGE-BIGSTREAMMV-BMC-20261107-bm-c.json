@@ -1,9 +1,0 @@
-{
- "id": "R-TRIAGE-BIGSTREAMMV-BMC-20261107",
- "node": "bm-c",
- "rc": 0,
- "seconds": 0.3,
- "cmd": "python Tools/fleet/line_triage.py --line bigstream-mv",
- "stdout_tail": "[triage] bigstream-mv -> cph4\\fleet\\queue-receipts\\triage-bigstream-mv-20261107.md\n",
- "stderr_tail": ""
-}

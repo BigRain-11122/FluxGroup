@@ -5,7 +5,8 @@ Master was already dispatch + judgment seat. This adds the production leg: every
 business line gets one concrete text deliverable per workday, written by the resident
 model (qwen3:4b-instruct by default; 2026-10-30 bench on this 32GB M1 Pro: 4B 8k=3.3GB/
 41.6 tok/s vs 35B-A3B 22.0GB/29-40 tok/s with 14-21s cold load) from REAL repo documents
-(origin_blob reads git, so sparse checkout is no barrier), committed to queue-receipts/,
+(origin_blob reads git, so sparse checkout is no barrier), written to
+rt/control/receipts/ (v3 通道；2026-11-14 前写 queue-receipts/，该目录已冻结不再入库),
 and announced in the daily bulletin that lanes pull.
 
 Cost design: one line per tick (7 lines -> full sweep ~7 min at 60s ticks), each call
@@ -26,7 +27,10 @@ import fleet_lane as fl
 
 STATE_REL = "cph4/fleet/dispatcher/brain-state.json"
 BULLETIN_REL = "cph4/fleet/inbox/BRAIN-BULLETIN.md"
-RECEIPT_DIR = "cph4/fleet/queue-receipts"
+# 2026-11-14 迁到 v3 通道：原来写 queue-receipts/（旧链路已冻结、不再入库，写进去等于
+# 主控本机看得见、别的机器永远看不见）。rt/control/receipts/ 在 master_pulse.HOT_PREFIXES 内，
+# 随脉提交推送，跨机可见；本函数产出的仍是 .md 产出而非回执，命名保持 brain-<线>-<日期>.md。
+RECEIPT_DIR = "cph4/fleet/rt/control/receipts"
 PER_DAY = 1          # per line
 WORKERS = 3          # parallel lines per tick (4B handles 3 concurrent calls at full speed)
 CALL_TIMEOUT = 90

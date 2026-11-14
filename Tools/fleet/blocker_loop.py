@@ -584,22 +584,30 @@ def r_fix_card_fields(hits):
 
 def r_dispatch_probe(hits):
     import fleet_lane as fl
+    # 2026-11-14 通道迁移：探针回执原来写 queue-receipts/（旧链路，已冻结、不再入库），
+    # 而这张卡的验收语就是"回执在 origin 出现即证明能取卡"——写在不再入库的目录里
+    # 等于永远验证不过，会变成一张天天重造的死循环坏卡。改落 v3 通道 rt/<station>/receipts/
+    # （已在 master_pulse.HOT_PREFIXES 内，随脉提交推送，跨机可见）。
+    n2st = {"bm-a": "delivery", "bm-b": "audio", "bm-c": "visual",
+            "bm-d": "brain", "bm-m": "control"}
     made = []
     for h in hits:
         n = h.get("key")
+        st = n2st.get(n, "control")
+        rel = "cph4/fleet/rt/%s/receipts/node-probe-%s.json" % (st, n)
         cid = "PROBE-AUTO-%s-%s" % (n, datetime.now().strftime("%Y%m%d"))
         if any(r.get("id") == cid for r in jl(QUEUE) + jl(BACKLOG)):
             continue
         card = {"id": cid,
                 "title": "节点认领自证：%s 写回执证明还能取卡" % n,
-                "cmd": ("python -c \"import json,os;os.makedirs('cph4/fleet/queue-receipts',exist_ok=True);"
-                        "open('cph4/fleet/queue-receipts/node-probe-%s.json','w').write("
-                        "json.dumps({'node':'%s','ok':True,'auto':True}))\"" % (n, n)),
+                "cmd": ("python -c \"import json,os;os.makedirs('cph4/fleet/rt/%s/receipts',exist_ok=True);"
+                        "open('%s','w').write("
+                        "json.dumps({'node':'%s','ok':True,'auto':True}))\"" % (st, rel, n)),
                 "cwd": "", "needs": "cpu", "nodes": [n], "hard_nodes": [n],
                 "prio": "P0", "day_ok": True, "probe": True, "verify_on_node": True,
                 "state": "READY", "requires": [],
-                "deliverable": "cph4/fleet/queue-receipts/node-probe-%s.json" % n,
-                "accept": "回执在 origin 出现即证明能取卡", "line": "fleet-ops",
+                "deliverable": rel,
+                "accept": "回执在 origin 的 rt/%s/receipts/ 出现即证明能取卡" % st, "line": "fleet-ops",
                 "created_by": "blocker_loop", "created_at": now(),
                 "why": "闭环：%s" % (h.get("detail") or "")[:80]}
         fl.merge_jsonl(BACKLOG, [card])

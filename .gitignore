@@ -288,8 +288,14 @@ cph4/fleet/rt/*/*.corrupt-*
 # 执行体心跳：本机运行时证据，每轮变化，不入库（跨机存活判据见 master_patrol）
 cph4/fleet/rt/*/heartbeat.json
 
-# 旧链路回执目录（2026-11-13：2612 个文件在库，旧链路每跑一张卡提交一次 → 各机分叉累积到数百提交。
-# v3 回执改落 rt/<station>/receipts/，本目录不再新增；历史保留不动）
+# 旧链路回执目录（2026-11-13：2612 个文件在库，旧链路每跑一张卡提交一次 → 各机分叉累积到数百提交）
+# 2026-11-14 完成移出：git rm --cached 2723 份，盘上一个不动（清单在
+# storage/archive/queue-receipts-untracked-manifest-20261114.jsonl，14.3MB）。
+# 移出前把三个依赖点全部迁到 v3 通道 rt/<station>/receipts/：
+#   node_write_health  —— 判据改为看该工位分片目录窗口内有无回执，不再 glob 旧目录
+#   blocker_loop 探针卡 —— cmd / deliverable / accept 三处同改；只改一处会让"回执在 origin
+#                        出现"这条验收永远不成立，变成天天重造的死循环坏卡
+#   brain_service      —— 产出落点
 cph4/fleet/queue-receipts/
 
 # 2026-11-14：以下两类不进库（盘上照常保留）

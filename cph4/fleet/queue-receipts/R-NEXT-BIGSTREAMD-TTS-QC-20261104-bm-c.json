@@ -1,9 +1,0 @@
-{
- "id": "R-NEXT-BIGSTREAMD-TTS-QC-20261104",
- "node": "bm-c",
- "rc": 3,
- "seconds": 0.1,
- "cmd": "python Tools/fleet/tts_batch_check.py --dir media/drama-tts-out/r1202_ep001_060 --out cph4/fleet/queue-receipts/tts-qc-20261104.json",
- "stdout_tail": "{\"dir\": \"media/drama-tts-out/r1202_ep001_060\", \"files\": 0, \"verdict\": \"BLOCKED - dir missing\", \"out\": \"cph4/fleet/queue-receipts/tts-qc-20261104.json\"}\n",
- "stderr_tail": ""
-}
