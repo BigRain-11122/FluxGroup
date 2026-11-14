@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-14T13:10:34",
+ "ts": "2026-11-14T15:08:56",
  "station": "control",
  "hostname": "junshengsundeMacBook-Pro.local",
  "os": "darwin",
@@ -76,7 +76,7 @@
   "version": "7.1",
   "present": true,
   "path": "/Users/junsheng.sun/bin/ffmpeg",
-  "found_by": "PATH"
+  "found_by": "candidate"
  },
  "gpu": {
   "backend": "system_profiler",
@@ -85,9 +85,6 @@
   ]
  },
  "env": {
-  "OLLAMA_KEEP_ALIVE": "10m",
-  "OLLAMA_NUM_PARALLEL": "2",
-  "OLLAMA_HOST": "127.0.0.1:11434",
-  "HF_HOME": "/Users/junsheng.sun/models/hf"
+  "OLLAMA_HOST": "0.0.0.0:11434"
  }
 }
