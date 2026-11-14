@@ -1,6 +1,6 @@
 {
  "node": "bm-a",
- "ts": "2026-11-15T00:08:52",
+ "ts": "2026-11-15T00:15:01",
  "jobs": [
   {
    "id": "R-NEXT-BIGGAME-SUBMIT-P-20261114",
@@ -101,12 +101,12 @@
    "timeout_s": null
   },
   {
-   "id": "bigmoney-backtest-2026-11-15",
-   "title": "[金融量化（回测 → 一页结论 → 可报价或写清卡点）] 生产候选回测（去债档 + 8% 波动目标）",
-   "cmd": "python quant/bigmoney/scripts/etf_nobond_vt.py",
+   "id": "asset-lib-voice-corpus-2026-11-15",
+   "title": "[资产储备（角色 LoRA / 音色库）] 音色语料工程（一卡全量·持料机 bm-a）",
+   "cmd": "python Tools/fleet/voice_corpus_prep.py --inbox media/asset/inbox --group batch-2026-11-15 --shard 0/1 --receipt cph4/fleet/queue-receipts/voice-corpus-2026-11-15.json",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "quant/bigmoney/results/etf_nobond_vt.json",
+   "deliverable": "cph4/fleet/queue-receipts/voice-corpus-2026-11-15.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
