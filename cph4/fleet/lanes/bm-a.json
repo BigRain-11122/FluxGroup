@@ -1,6 +1,6 @@
 {
  "node": "bm-a",
- "ts": "2026-11-15T01:27:51",
+ "ts": "2026-11-15T01:33:44",
  "jobs": [
   {
    "id": "asset-lib-voice-corpus-2026-11-14",
@@ -31,20 +31,6 @@
    "timeout_s": null
   },
   {
-   "id": "asset-lib-voice-corpus-2026-11-15",
-   "title": "[资产储备（角色 LoRA / 音色库）] 音色语料工程（一卡全量·持料机 bm-a）",
-   "cmd": "python Tools/fleet/voice_corpus_prep.py --inbox media/asset/inbox --group batch-2026-11-15 --shard 0/1 --receipt cph4/fleet/queue-receipts/voice-corpus-2026-11-15.json",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/voice-corpus-2026-11-15.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
    "id": "MV-DIRECTOR-PACKET-20261115",
    "title": "导演席拉片包：KN 复核卷一页卷（成片+闸+证据+签字位）",
    "cmd": "python Tools/fleet/review_packet.py --line kn --root .",
@@ -61,5 +47,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 35.2/1.0 GB"
+ "capacity_note": "ram 32.1/1.0 GB"
 }
