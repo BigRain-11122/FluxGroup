@@ -180,8 +180,8 @@
     "系统内存空闲 ≥10G",
     "显存空闲 ≥10G"
    ],
-   "status": "blocked_no_comfyui",
-   "last_probe": "2026-11-11T11:35 RAM 空闲 6.1G、磁盘 1217G、CPU 49%、8188 未监听",
+   "status": "ready",
+   "last_probe": "2026-11-14T23:3x 8188 comfyui=0.36.0 在听；显存 used/total=8915, 16384 MB；系统内存空闲 29.3 G",
    "charter": "cph4/fleet/stations/visual/CHARTER.md",
    "runtime": {
     "resident": [
