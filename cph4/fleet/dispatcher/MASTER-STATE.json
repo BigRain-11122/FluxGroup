@@ -1,23 +1,23 @@
 {
- "ts": "2026-11-15T01:10:54",
- "cycle": 1329,
+ "ts": "2026-11-15T01:12:57",
+ "cycle": 1331,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-15T01:10:54",
+ "master_tick_ts": "2026-11-15T01:12:57",
  "queue": {
-  "total": 85,
-  "open": 6,
-  "running": 10,
-  "done": 34,
-  "failed": 10
+  "total": 87,
+  "open": 7,
+  "running": 11,
+  "done": 35,
+  "failed": 9
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 12.3,
-   "cpu_load_pct": 94,
-   "ram_free_gb": 49.6,
-   "gpu_util_pct": 68,
+   "hb_age_s": 16.0,
+   "cpu_load_pct": 85,
+   "ram_free_gb": 51.2,
+   "gpu_util_pct": 75,
    "job": "R-MODEL-RADAR-BMA-20261115",
    "last_result": {
     "job": "asset-lib-voice-corpus-2026-11-15",
@@ -58,16 +58,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 362.7,
-   "cpu_load_pct": 10,
-   "ram_free_gb": 9.1,
+   "hb_age_s": 3.3,
+   "cpu_load_pct": 16,
+   "ram_free_gb": 5.3,
    "gpu_util_pct": null,
    "job": "R-TRIAGE-BIGSTREAMMV-BMM-20261115",
    "last_result": {
-    "job": "R-MODEL-RADAR-BMB-20261114",
+    "job": "bigstream-mv-gate-2026-11-15",
     "state": "FAILED",
-    "rc": 0,
-    "ts": "2026-11-15T01:10:06",
+    "rc": 1,
+    "ts": "2026-11-15T01:12:18",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -145,8 +145,10 @@
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "游戏席",
-   "jobs": [],
-   "no_supply": true,
+   "jobs": [
+    "R-PLAN-BIGGAME-20261115"
+   ],
+   "no_supply": false,
    "blockers": [],
    "note": null,
    "stuck_stage": "game-design",
@@ -264,8 +266,7 @@
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
    "jobs": [
-    "Q-TRIAGE-BIGSTREAMDRAMA-20261115",
-    "R-TRIAGE-BIGGAME-BMM-20261115"
+    "Q-TRIAGE-BIGSTREAMDRAMA-20261115"
    ],
    "no_supply": false,
    "blockers": [],
@@ -836,7 +837,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 6,
+  "local": 7,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -844,18 +845,14 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 3,
+  "cpu": 4,
   "gpu": 3
  },
- "supply_added": [
-  "backlog_manifest+3"
- ],
+ "supply_added": [],
  "events": [
-  "R-MODEL-RADAR-BMB-20261114 FAILED via bm-m",
-  "R-NEXT-BIGSTREAMM-REBUILD-20261115 -> bm-a (cpu)",
-  "R-MODEL-RADAR-BMB-20261115 -> bm-a (cpu)",
-  "R-PLAN-BIGMONEY-20261115 -> bm-a (cpu)",
-  "R-TRIAGE-BIGGAME-BMM-20261115 -> bm-m (cpu)"
+  "bigstream-mv-gate-2026-11-15 FAILED via bm-m",
+  "R-PLAN-BIGGAME-20261115 -> bm-m (cpu)",
+  "R-TRIAGE-BIGMONEY-BMM-20261115 -> bm-m (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
@@ -865,7 +862,6 @@
  ],
  "lane_files_written": [
   "bm-a",
-  "bm-c",
   "bm-m"
  ]
 }

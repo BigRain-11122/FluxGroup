@@ -1,6 +1,6 @@
 {
  "node": "bm-a",
- "ts": "2026-11-15T01:12:01",
+ "ts": "2026-11-15T01:12:57",
  "jobs": [
   {
    "id": "R-MODEL-RADAR-BMA-20261115",
@@ -116,6 +116,6 @@
   }
  ],
  "idle_reason": "",
- "lane_ok": false,
- "capacity_note": "CPU-SATURATED 97%"
+ "lane_ok": true,
+ "capacity_note": "ram 51.2/1.0 GB"
 }
