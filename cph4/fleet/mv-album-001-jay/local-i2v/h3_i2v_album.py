@@ -70,6 +70,8 @@ def main():
     ap.add_argument("--height", type=int, default=0)
     ap.add_argument("--wf", default="", help="工作流覆盖（repo 相对 PKG 路径或绝对路径）")
     ap.add_argument("--manifest", default="", help="manifest 覆盖（repo 相对路径）")
+    ap.add_argument("--out", default="",
+                    help="产物目录覆盖（repo 相对或绝对）；新一批片子要落自己的目录，别覆盖已交付的旧片段")
     ap.add_argument("--timeout", type=int, default=4200)
     args = ap.parse_args()
 
@@ -101,7 +103,8 @@ def main():
     if not os.path.isabs(wf_path) and not os.path.isfile(wf_path):
         wf_path = os.path.join(repo, PKG, args.wf)
 
-    out_dir = os.path.join(repo, lane["out"])
+    out_dir = (args.out if os.path.isabs(args.out) else os.path.join(repo, args.out)) \
+        if args.out else os.path.join(repo, lane["out"])
     os.makedirs(out_dir, exist_ok=True)
     prog = os.path.join(out_dir, "progress-%s.jsonl" % args.lane)
 
