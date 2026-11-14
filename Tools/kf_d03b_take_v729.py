@@ -23,11 +23,13 @@ PROMPT = ("A dark basalt temple wall with carved cuneiform wedges and seated god
           "lit by a hard amber torch flame from the upper right. "
           "The torch flame breathes once, and after the flame settles his heavy-lidded eyes lift into a direct "
           "gaze at the lens, the eyes leading a half-beat before the head, "
-          "his jaw staying completely still, his lips staying softly closed in a relaxed neutral line throughout, "
           "as the flame steadies. [locked-off static shot]. "
-          # 2026-11-14 reshake: take-1 failed QC with a speech-like mouth-opening artifact at frames 3-5.
-          # Positive assertions only - negative wording steers H3 attention toward the very artifact
-          # it forbids (negative-prompt trap). Re-pinned after executor-merge rollback (11-08 precedent).
+          # take-3 root-cause fix (two-burn law, CHARTER sec.6): the KF frame itself is
+          # SLIGHTLY-OPEN at the lips (measured). Any "closed lips" instruction turns that
+          # static rest position into an ACTION (open->close) = extra movement = fail.
+          # Take-1 (lips relax closed) and take-2 (lips staying closed) both produced exactly
+          # that lip transition. Fix = ZERO lip/jaw wording: the mouth keeps the KF rest
+          # position unchanged (not an action); only eyes + flame are described.
           "Warm amber monochrome grade, deep crushed shadows, shot on 35mm film with visible grain "
           "and halation on the flame, cinematic film still from a 2001 Taiwanese music video.")
 
