@@ -1,6 +1,6 @@
 {
  "node": "bm-a",
- "ts": "2026-11-14T23:50:28",
+ "ts": "2026-11-14T23:52:53",
  "jobs": [
   {
    "id": "R-NEXT-BIGGAME-SUBMIT-P-20261114",
@@ -73,42 +73,6 @@
    "timeout_s": null
   },
   {
-   "id": "R-LLM-BMA-PROBE",
-   "title": "生产力机本地模型探针（day_ok 轻卡：v717 签核表摘要）",
-   "cmd": null,
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "C:/Users/sjs20/Desktop/FluxGroup/cph4/fleet/queue-receipts/bm-a-local-llm-probe.md",
-   "need_mb": null,
-   "model": "local-small",
-   "prompt": "读 cph4/fleet/dispatcher/FULL-LOAD-RULES-v1.md 与《爱在西元前》待人工四项背景：给导演席写一份 120 字签核备忘——四项各查什么、机器已证到什么、还缺什么判断。只依据文档，不得编造帧号或文件。",
-   "when_all": [
-    "C:/Users/sjs20/Desktop/FluxGroup/cph4/fleet/dispatcher/FULL-LOAD-RULES-v1.md"
-   ],
-   "llm": {
-    "out": "C:/Users/sjs20/Desktop/FluxGroup/cph4/fleet/queue-receipts/bm-a-local-llm-probe.md"
-   },
-   "timeout_s": null
-  },
-  {
-   "id": "R-CROSSTALK-POST-20261106-001",
-   "title": "全机队发现广播制（CEO 令「每个机器发现的问题都要广播，有则改之无则加勉」）",
-   "cmd": null,
-   "cwd": "/Users/junsheng.sun/FluxGroup",
-   "needs": "cpu",
-   "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-crosstalk-post-audit.md",
-   "need_mb": null,
-   "model": "local-small",
-   "prompt": "只依据 cph4/fleet/CROSS-TALK-INDEX.json：①列出全部 posts（date/node/type/urgency/title）；②逐条检查：该帖点名了哪些机？被点名机有没有回帖或处置回执？③列出你发现的「某机有教训但没发到 cross-talk」的缺口（比如 bm-c 的 stale-code executor 判例、master-update clobber 判例等），建议它们补发。全 15 行以内。",
-   "when_all": [
-    "cph4/fleet/CROSS-TALK-INDEX.json"
-   ],
-   "llm": {
-    "out": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-crosstalk-post-audit.md"
-   },
-   "timeout_s": null
-  },
-  {
    "id": "asset-lib-voice-corpus-2026-11-14",
    "title": "[资产储备（角色 LoRA / 音色库）] 音色语料工程（一卡全量·持料机 bm-a）",
    "cmd": "python Tools/fleet/voice_corpus_prep.py --inbox media/asset/inbox --group batch-2026-11-14 --shard 0/1 --receipt cph4/fleet/queue-receipts/voice-corpus-2026-11-14.json",
@@ -121,9 +85,37 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
+  },
+  {
+   "id": "bigstream-drama-manifest-2026-11-14",
+   "title": "[漫剧（关键帧→i2v→装配→闸）] 装配清单（把盘上片段/人声/配乐变成 manifest）",
+   "cmd": "python Tools/fleet/drama_manifest.py --dir media/drama-sample-v2 --out cph4/fleet/queue-receipts/drama-manifest-2026-11-14.json",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/drama-manifest-2026-11-14.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "bigmoney-signal-2026-11-14",
+   "title": "[金融量化（回测 → 一页结论 → 可报价或写清卡点）] 下月持仓信号 CSV（可卖的唯一产物）",
+   "cmd": "python Tools/fleet/quant_positions_bridge.py --in quant/bigmoney/results/etf_nobond_vt.json --out cph4/fleet/queue-receipts/etf_nobond_vt_with_positions.json && python Tools/fleet/quant_signal.py --in cph4/fleet/queue-receipts/etf_nobond_vt_with_positions.json --out cph4/fleet/queue-receipts/quant-signal-2026-11-14.csv",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/quant-signal-2026-11-14.csv",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram-unknown"
+ "capacity_note": "ram 54.4/1.0 GB"
 }

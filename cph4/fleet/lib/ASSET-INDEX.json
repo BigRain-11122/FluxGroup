@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-14T23:51:56+0800",
+ "ts": "2026-11-14T23:53:03+0800",
  "owner": "bm-c（传家宝）· 归集与 git 备份",
  "accept_on": "bm-c",
  "skills": {
@@ -77,7 +77,7 @@
    "cph4/fleet/GROWTH-AND-MATERIALS-LEDGER-20261111.md",
    "cph4/fleet/INCIDENT-LEDGER.md"
   ],
-  "newest": "2026-11-14 23:34"
+  "newest": "2026-11-14 23:52"
  },
  "vault": {
   "entries": 651,
@@ -89,18 +89,26 @@
   "index": "cph4/fleet/vault/index.jsonl"
  },
  "produced": {
-  "done_with_deliverable": 12,
-  "on_disk": 11,
+  "done_with_deliverable": 15,
+  "on_disk": 12,
   "absent": [
    {
     "id": "bigmoney-backtest-2026-11-14",
     "deliverable": "quant/bigmoney/results/etf_nobond_vt.json"
+   },
+   {
+    "id": "R-LLM-BMA-PROBE",
+    "deliverable": "C:/Users/sjs20/Desktop/FluxGroup/cph4/fleet/queue-receipts/bm-a-local-llm-probe.md"
+   },
+   {
+    "id": "R-CROSSTALK-POST-20261106-001",
+    "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-crosstalk-post-audit.md"
    }
   ],
-  "absent_count": 1
+  "absent_count": 3
  },
  "gaps": [
-  "1 张 DONE 卡的交产物不在盘",
+  "3 张 DONE 卡的交产物不在盘",
   "8 条 vault 登记指向不存在的文件"
  ]
 }
