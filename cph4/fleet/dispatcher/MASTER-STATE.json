@@ -1,32 +1,32 @@
 {
- "ts": "2026-11-15T00:29:11",
- "cycle": 1317,
+ "ts": "2026-11-15T00:36:03",
+ "cycle": 1318,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-15T00:29:11",
+ "master_tick_ts": "2026-11-15T00:36:03",
  "queue": {
-  "total": 76,
-  "open": 22,
+  "total": 77,
+  "open": 18,
   "running": 14,
-  "done": 20,
-  "failed": 1
+  "done": 23,
+  "failed": 2
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 33.1,
-   "cpu_load_pct": 67,
-   "ram_free_gb": 49.6,
+   "hb_age_s": 21.3,
+   "cpu_load_pct": 77,
+   "ram_free_gb": 53.5,
    "gpu_util_pct": 0,
    "job": "biggame-pack-scan-2026-11-14",
    "last_result": {
-    "job": "asset-lib-voice-corpus-2026-11-15",
-    "state": "BUSY",
-    "rc": null,
-    "ts": "2026-11-15T00:28:59",
+    "job": "R-PLAN-BIGGAME-20261114",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-15T00:35:25",
     "reason": null,
-    "out_bytes": 0,
-    "elapsed_s": 187
+    "out_bytes": null,
+    "elapsed_s": null
    },
    "idle_confirmed": false,
    "idle_reason": "",
@@ -41,41 +41,33 @@
    "job": null,
    "last_result": null,
    "idle_confirmed": false,
-   "idle_reason": "EXECUTOR-DEAD (96.1h 零产出)",
+   "idle_reason": "EXECUTOR-DEAD (96.2h 零产出)",
    "idle_rounds": 0
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 438.6,
-   "cpu_load_pct": 7,
-   "ram_free_gb": 45.6,
-   "gpu_util_pct": 0,
+   "hb_age_s": null,
+   "cpu_load_pct": null,
+   "ram_free_gb": null,
+   "gpu_util_pct": null,
    "job": null,
-   "last_result": {
-    "job": null,
-    "state": "IDLE",
-    "rc": null,
-    "ts": "2026-11-15T00:21:50",
-    "reason": "EXECUTOR-DEAD (66.5h 零产出)",
-    "out_bytes": null,
-    "elapsed_s": null
-   },
-   "idle_confirmed": true,
-   "idle_reason": "EXECUTOR-DEAD (66.7h 零产出)",
-   "idle_rounds": 5
+   "last_result": null,
+   "idle_confirmed": false,
+   "idle_reason": "EXECUTOR-DEAD (66.8h 零产出)",
+   "idle_rounds": 0
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 3.6,
-   "cpu_load_pct": 14,
-   "ram_free_gb": 9.5,
+   "hb_age_s": 3.5,
+   "cpu_load_pct": 18,
+   "ram_free_gb": 3.5,
    "gpu_util_pct": null,
-   "job": "R-TTS1202R-VERIFY-20261031",
+   "job": "R-NEXT-BIGGAME-SUBMIT-P-20261114",
    "last_result": {
-    "job": "bigstream-drama-src-scan-2026-11-15",
-    "state": "DONE",
+    "job": "asset-lib-char-prompts-2026-11-14",
+    "state": "FAILED",
     "rc": 0,
-    "ts": "2026-11-15T00:28:26",
+    "ts": "2026-11-15T00:35:58",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -88,7 +80,7 @@
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
-  "bm-c": 5,
+  "bm-c": 0,
   "bm-m": 0
  },
  "lines": {
@@ -158,15 +150,10 @@
    "jobs": [
     "R-NEXT-BIGGAME-SUBMIT-P-20261114",
     "biggame-pack-scan-2026-11-14",
-    "R-PLAN-BIGGAME-20261114",
-    "biggame-pack-scan-2026-11-15",
-    "PACK-GAME-20261115"
+    "biggame-pack-scan-2026-11-15"
    ],
    "no_supply": false,
-   "blockers": [
-    "R-NEXT-BIGGAME-SUBMIT-P-20261114:no-lane",
-    "R-PLAN-BIGGAME-20261114:no-lane"
-   ],
+   "blockers": [],
    "note": null,
    "stuck_stage": "game-design",
    "stuck_owner": "游戏席"
@@ -239,9 +226,7 @@
     "R-PLAN-BIGLIFE-20261114"
    ],
    "no_supply": false,
-   "blockers": [
-    "R-PLAN-BIGLIFE-20261114:no-lane"
-   ],
+   "blockers": [],
    "note": null
   },
   "bighouse": {
@@ -298,9 +283,7 @@
     "Q-TRIAGE-BIGSTREAMDRAMA-20261115"
    ],
    "no_supply": false,
-   "blockers": [
-    "CHK-RECEIPT-20261105:no-lane"
-   ],
+   "blockers": [],
    "note": null
   },
   "asset-lib": {
@@ -313,17 +296,15 @@
    "jobs": [
     "asset-lib-voice-corpus-2026-11-14",
     "asset-lib-face-dataset-2026-11-14",
-    "asset-lib-char-prompts-2026-11-14",
-    "asset-lib-env-check-2026-11-15",
     "asset-lib-voice-corpus-2026-11-15",
     "asset-lib-face-dataset-2026-11-15",
-    "asset-lib-library-check-2026-11-15",
     "asset-lib-char-gen-2026-11-15",
-    "asset-lib-asset-gen-2026-11-15"
+    "asset-lib-asset-gen-2026-11-15",
+    "asset-lib-asset-gen-scenes-2026-11-15"
    ],
    "no_supply": false,
    "blockers": [
-    "asset-lib-asset-gen-2026-11-15:no-lane"
+    "asset-lib-asset-gen-scenes-2026-11-15:no-lane"
    ],
    "note": "CEO 2026-11-03：先储备资产，角色 LoRA 与音色库为 P0"
   }
@@ -873,34 +854,30 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 20,
+  "local": 15,
   "cloud": 0,
-  "queue": 2,
+  "queue": 3,
   "blocked": 0,
   "cloud_spend_today": 0,
   "waste": []
  },
  "supply_gap": {
-  "cpu": 20,
-  "gpu": 2
+  "cpu": 15,
+  "gpu": 3
  },
- "supply_added": [
-  "backlog_manifest+1"
- ],
+ "supply_added": [],
  "events": [
-  "bigstream-drama-src-scan-2026-11-15 DONE via bm-m",
-  "R-NEXT-BIGGAME-SUBMIT-P-20261114 REQUeued attempt=1",
-  "R-PLAN-BIGGAME-20261114 REQUeued attempt=1",
-  "R-PLAN-BIGLIFE-20261114 REQUeued attempt=1",
-  "R-PLAN-BIGMONEY-20261114 REQUeued attempt=1",
+  "R-PLAN-BIGGAME-20261114 UNVERIFIED(no-artifact-yet) via bm-a",
+  "asset-lib-char-prompts-2026-11-14 FAILED via bm-m",
   "asset-lib-voice-corpus-2026-11-14 -> bm-a (cpu)",
-  "asset-lib-library-check-2026-11-15 -> bm-a (cpu)",
   "biggame-pack-scan-2026-11-14 -> bm-a (cpu)",
-  "biggame-pack-scan-2026-11-15 -> bm-a (cpu)",
-  "PACK-GAME-20261115 -> bm-m (cpu)"
+  "R-TTS1202R-VERIFY-20261031 -> bm-a (cpu)",
+  "R-NEXT-BIGGAME-SUBMIT-P-20261114 -> bm-m (cpu)",
+  "CHK-LIB-20261111 -> bm-m (cpu)",
+  "CHK-RECEIPT-20261105 -> bm-m (cpu)",
+  "R-PLAN-BIGLIFE-20261114 -> bm-m (cpu)"
  ],
  "violations": [
-  "bm-c IDLE-CONFIRMED x5 (EXECUTOR-DEAD (66.7h 零产出))",
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)",

@@ -1,19 +1,61 @@
 {
  "node": "bm-m",
- "ts": "2026-11-15T00:29:14",
+ "ts": "2026-11-15T00:36:04",
  "jobs": [
   {
-   "id": "R-TTS1202R-VERIFY-20261031",
-   "title": "Q-TTS-1202R 交付物实证探针（bm-b 本地数音频文件，终结 2 小时 RUNNING 幽灵）",
-   "cmd": "python Tools/fleet/tts_batch_check.py --dir C:/Fluxgroup/FluxGroup/media/drama-tts-out/r1202_ep001_060 --out C:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/Q-TTS-1202R-bm-b-verify.md",
-   "cwd": "/Users/junsheng.sun/FluxGroup",
+   "id": "R-NEXT-BIGGAME-SUBMIT-P-20261114",
+   "title": "游戏提审·真实缺件重盘（隐私已齐，重算图标/截图/台账/包体）",
+   "cmd": "python Tools/fleet/game_submit_pack.py",
+   "cwd": "",
    "needs": "cpu",
-   "deliverable": "C:/Fluxgroup/FluxGroup/cph4/fleet/queue-receipts/Q-TTS-1202R-bm-b-verify.md",
+   "deliverable": "cph4/fleet/game-v1/SUBMIT-PACK-20261114.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
    "when_all": [],
-   "llm": {},
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "R-PLAN-BIGLIFE-20261114",
+   "title": "BigLife·数字生命 线级体检与缺口清单",
+   "cmd": "python Tools/fleet/line_triage.py --line biglife --out cph4/fleet/queue-receipts/triage-biglife-20261114.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-biglife-20261114.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "CHK-LIB-20261111",
+   "title": "资产与经验库归集（六类清点+缺口对账，索引进 git）（bm-c 兜底体检）",
+   "cmd": "python3 Tools/fleet/lib_consolidate.py --check --receipt cph4/fleet/queue-receipts/lib-consolidate-20261111.json",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/lib-consolidate-20261111.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "CHK-RECEIPT-20261105",
+   "title": "回执卫生体检（rc 缺失/error_class 缺失出表）（bm-m 兜底体检）",
+   "cmd": "python3 Tools/fleet/receipt_attrib.py --out cph4/fleet/queue-receipts/receipt-attrib-20261105.json",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/receipt-attrib-20261105.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
    "timeout_s": null
   },
   {
@@ -23,34 +65,6 @@
    "cwd": "",
    "needs": "cpu",
    "deliverable": "cph4/fleet/queue-receipts/model-radar-bm-a-20261114.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "asset-lib-char-prompts-2026-11-14",
-   "title": "[资产储备（角色 LoRA / 音色库）] 角色包出图计划（8 原创角色 × 6 视角提示词包）",
-   "cmd": "python Tools/fleet/char_plan.py",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/char-gen-plan-2026-11-14.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "asset-lib-env-check-2026-11-15",
-   "title": "[资产储备（角色 LoRA / 音色库）] 训练环境自检（这台机能不能烧）",
-   "cmd": "python Tools/fleet/asset_env_check.py --out cph4/fleet/queue-receipts/asset-env-2026-11-15.json",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/asset-env-2026-11-15.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -71,23 +85,9 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
-  },
-  {
-   "id": "PACK-GAME-20261115",
-   "title": "小游戏提审盘点（聚合：逐款缺口一包在内）",
-   "cmd": "python Tools/fleet/game_submit_pack.py --out cph4/fleet/game-v1/SUBMIT-PACK-20261115.json",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/game-v1/SUBMIT-PACK-20261115.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 9.5/1.0 GB"
+ "capacity_note": "ram 3.5/1.0 GB"
 }

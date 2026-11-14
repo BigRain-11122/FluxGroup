@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-15T00:00:45+0800",
+ "ts": "2026-11-15T00:36:06+0800",
  "owner": "bm-c（传家宝）· 归集与 git 备份",
  "accept_on": "bm-c",
  "skills": {
@@ -77,7 +77,7 @@
    "cph4/fleet/GROWTH-AND-MATERIALS-LEDGER-20261111.md",
    "cph4/fleet/INCIDENT-LEDGER.md"
   ],
-  "newest": "2026-11-14 23:52"
+  "newest": "2026-11-15 00:35"
  },
  "vault": {
   "entries": 651,
@@ -89,8 +89,8 @@
   "index": "cph4/fleet/vault/index.jsonl"
  },
  "produced": {
-  "done_with_deliverable": 15,
-  "on_disk": 12,
+  "done_with_deliverable": 23,
+  "on_disk": 19,
   "absent": [
    {
     "id": "bigmoney-backtest-2026-11-14",
@@ -103,12 +103,16 @@
    {
     "id": "R-CROSSTALK-POST-20261106-001",
     "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-crosstalk-post-audit.md"
+   },
+   {
+    "id": "bigmoney-backtest-2026-11-15",
+    "deliverable": "quant/bigmoney/results/etf_nobond_vt.json"
    }
   ],
-  "absent_count": 3
+  "absent_count": 4
  },
  "gaps": [
-  "3 张 DONE 卡的交产物不在盘",
+  "4 张 DONE 卡的交产物不在盘",
   "8 条 vault 登记指向不存在的文件"
  ]
 }
