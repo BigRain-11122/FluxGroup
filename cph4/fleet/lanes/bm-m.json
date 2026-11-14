@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-15T01:33:44",
+ "ts": "2026-11-15T01:36:30",
  "jobs": [
   {
    "id": "R-MODEL-RADAR-BMC-20261115",
@@ -73,7 +73,7 @@
    "timeout_s": null
   }
  ],
- "idle_reason": "",
+ "idle_reason": "control-plane heartbeat",
  "lane_ok": true,
  "capacity_note": "ram 7.9/1.0 GB"
 }
