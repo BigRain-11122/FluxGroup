@@ -59,7 +59,29 @@
 - `duties_audit` 现在必须同时打出「职责 N 项 + 近 24h 产出 N 张」。
 - `station_drive --dry` 五工位：无 PARKED 建卡，待接命令只数在产 23 道。
 
-## 六、我不做的事（防止自己越界）
+
+## 七、下一批命令的实际结果（2026-11-14 11:40 复核）
+
+裁决里点名的 7 道，逐个核过输入与判据后：**接通 2 道，5 道按证据不接**。
+
+| 工序 | 结果 | 依据 |
+|---|---|---|
+| `PROD-MV-SINGLE/mv-plan` | **已接通** | `Tools/mv_emit_prompts.py` 从真实镜头脚本产 38 镜计划（kf_prompts.json 40KB）；卡实跑 DONE，`verify_cmd` 校验 ≥10 镜 |
+| `PROD-RECON-RECIPE/拆解` | **已接通** | 新建 `Tools/fleet/recon_analysis.py`：6 部拆解卡按九面结构化，输出覆盖率（平均 **54%**）与未测面；卡实跑 DONE 7942B |
+| `PROD-RECON-RECIPE/抓取` | 不接 | `batch_recon.py` 要 targets.json + 网络下载，盘上无样本包 → 外部依赖，接了必挂 |
+| `PROD-BIGDOMAIN-MATERIAL/文案` | 不接 | 对外材料没有事实源（产品/定价/入驻规则未定，收款卡商户号＝CEO 物理件）；没有事实只能编造 |
+| `PROD-BIGDOMAIN-MATERIAL/页面` | 不接 | 同上（页面由文案派生） |
+| `PROD-DRAMA-EP/script` | 不接 | 需先定题材/世界观（人判）；本地 4B 写剧本达不到过导演席的质量，等算力大脑 32B |
+| `PROD-DRAMA-EP/storyboard` | 不接 | 依赖 script |
+
+结论修正：**本机能立刻提产的只有 2 道**，其余 5 道是"输入/算力未到位"，不是"命令没写"。
+在产三桶由 19/23/1 变为 **21 可自驱 / 21 待接 / 1 权限**。
+
+顺带修掉两处会让卡永久失败的工具缺陷：
+- `mv_emit_prompts.py` 不建父目录（与当初 `game_submit_pack.py` 同型）；已补 makedirs。
+- 机械工序被判据交评审团空转；新增工序级 `judges` / `verify` 覆盖（同一 task_type 下不同工序可用不同判据+复核命令），并加了永久回归。
+
+## 八、我不做的事（防止自己越界）
 
 - 不代别家写分片、不代别家回收卡（本地闭环）。
 - 不把"命令未接"写成"人判"、不用假命令凑数。

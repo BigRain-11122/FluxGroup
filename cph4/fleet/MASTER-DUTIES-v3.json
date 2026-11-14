@@ -444,13 +444,14 @@
    "id": "F06",
    "domain": "自健",
    "name": "复盘与经验落点",
-   "cad": "T1440",
+   "cad": "T10080",
    "input": "失败卡/重复簇",
    "action": "每条经验必须挂可核验落点",
    "executor": "Tools/fleet/retro.py",
    "evidence": "cph4/fleet/LESSONS-LEDGER.jsonl",
    "verify": "无「待落点」积累",
-   "fallback": "待落点如实保留，不算已推广"
+   "fallback": "待落点如实保留，不算已推广",
+   "_note": "2026-11-14：原写 T1440（日）而排班里 RETRO 是每 7 天（604800s），职责审计必然在第二天判 STALE。按实际周期改为 T10080（周），审计留 3 倍宽限。"
   }
  ]
 }

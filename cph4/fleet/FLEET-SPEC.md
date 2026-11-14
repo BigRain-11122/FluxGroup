@@ -1,9 +1,9 @@
 # 机队配置与系统说明书（FLEET-SPEC）
 
-> 生成时间：2026-11-14T00:28:39｜生成器：`Tools/fleet/fleet_doc.py`｜**本文件是生成物，不要手改正文**
+> 生成时间：2026-11-14T11:46:47｜生成器：`Tools/fleet/fleet_doc.py`｜**本文件是生成物，不要手改正文**
 > 数据源（改这里，不改正文）：`STATIONS.json` · `Tools/fleet-nodes.json` · `OS-MATRIX-v1.json` · `CPU-PLAN-v1.json` · `AGENT-CAPACITY-v1.json` · `MODEL-COMPUTE.json` · `ASSET-VAULT.json`
 > 改完跑 `python3 Tools/fleet/fleet_doc.py --write`；只查不改跑 `--check`（有漂移 rc=1）。
-> **综合评分 86.6 / 100**（验证 24.1/25｜规则 20.0/20｜工作流 25.0/25｜机队 10.5/15｜环境 2.0/10｜文档 5.0/5；评分时间 2026-11-14T00:27:31）；外部阻塞 3 项
+> **综合评分 87.5 / 100**（验证 25.0/25｜规则 20.0/20｜工作流 25.0/25｜机队 10.5/15｜环境 2.0/10｜文档 5.0/5；评分时间 2026-11-14T11:46:02）；外部阻塞 3 项
 
 ## 一、速查表
 
@@ -243,9 +243,9 @@
 
 | 工位 | 环境档 | 判定 | python | ollama | ffmpeg | 探针年龄 | 缺口 |
 |---|---|---|---|---|---|---|---|
-| control | darwin-arm64 | PASS | 3.13.18 | 0.40.16 | 7.1 | 13.1h | — |
-| delivery | windows-cuda | GAP | 3.14.10 | 0.40.13 | 9.0.2-full_build-www.gyan.dev | 36.1h | 探针已 36.1h 未更新（阈值 24h）；python 3.14.10 不满足 <3.13（等 6 项） |
-| visual | windows-cuda | GAP | 3.13.15 | 0.40.10 | 2025-08-11-git-3542260376-full_build-www.gyan.dev | 1.0h | python 3.13.15 不满足 <3.13；环境变量 OLLAMA_MODELS 未设置（模板 <盘符>:\ollama\models）（等 5 项） |
+| control | darwin-arm64 | PASS | 3.13.18 | 0.40.16 | 7.1 | 0.1h | — |
+| delivery | windows-cuda | GAP | 3.14.10 | 0.40.13 | 9.0.2-full_build-www.gyan.dev | 47.4h | 探针已 47.4h 未更新（阈值 24h）；python 3.14.10 不满足 <3.13（等 6 项） |
+| visual | windows-cuda | GAP | 3.13.15 | 0.40.10 | 2025-08-11-git-3542260376-full_build-www.gyan.dev | 12.3h | python 3.13.15 不满足 <3.13；环境变量 OLLAMA_MODELS 未设置（模板 <盘符>:\ollama\models）（等 5 项） |
 | audio | — | 未探测 | — | — | — | — | 没有 env/audio.json：该机还没跑过探针 |
 | brain | — | 未定档 | — | — | — | — | 该机没有对应环境档位（OS 待定或未入网）：先定系统再定环境 |
 

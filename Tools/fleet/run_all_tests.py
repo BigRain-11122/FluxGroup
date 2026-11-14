@@ -49,6 +49,7 @@ CASES = [
     ("L1", "voice train 话术度量", "voice_train.py", ["--self-test"]),
     # 本地模型产出侧：事实由规则分桶、模型只写不带数字的解读，数字由代码从源卡注入
     ("L1", "recon recipe 配方", "recon_recipe.py", ["--self-test"]),
+    ("L1", "recon analysis 拆解", "recon_analysis.py", ["--self-test"]),
     # 改善台账：扫描真实事实 -> 合并 -> 校验。rc=1 表示还有待办（正常状态），
     # 只有 rc=2（假完成/证据缺失）才是问题，所以按 report 型跑。
     ("L3", "improve 改善台账", "improve_drive.py", ["--check"], "report"),

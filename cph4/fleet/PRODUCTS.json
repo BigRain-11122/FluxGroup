@@ -68,7 +68,7 @@
     "mv-gate"
    ],
    "outputs": {
-    "mv-plan": "cph4/fleet/mv0001-handover/plan/",
+    "mv-plan": "cph4/fleet/mv0001-handover/plan/kf_prompts.json",
     "mv-kf": "cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/kf/",
     "mv-i2v": "cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/i2v/",
     "mv-cut": "cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_cut.mp4",
@@ -90,7 +90,19 @@
    "commands": {
     "mv-kf": "python Tools/fleet/job_kf_batch.py --node bm-c --prompts cph4/fleet/mv0001-handover/plan/kf_prompts.json --out cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/kf/ --need-mb 12000",
     "mv-i2v": "python cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/h3_i2v_fleet_v4.py --repo . --server http://127.0.0.1:8188 --out cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/i2v/",
-    "mv-cut": "python Tools/mv_rebuild_from_edl.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_cut.mp4 --grade"
+    "mv-cut": "python Tools/mv_rebuild_from_edl.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_cut.mp4 --grade",
+    "mv-plan": "python Tools/mv_emit_prompts.py --script \"cph4/fleet/mv-album-001-jay/星晴-shots-v2.py\" --out cph4/fleet/mv0001-handover/plan/kf_prompts.json"
+   },
+   "requires": {
+    "mv-plan": [
+     "cph4/fleet/mv-album-001-jay/星晴-shots-v2.py"
+    ]
+   },
+   "judges": {
+    "mv-plan": "path"
+   },
+   "verify": {
+    "mv-plan": "python3 -c \"import json,sys;d=json.load(open('cph4/fleet/mv0001-handover/plan/kf_prompts.json'));sys.exit(0 if isinstance(d,list) and len(d)>=10 else 3)\""
    }
   },
   {
@@ -541,18 +553,28 @@
    "blocked_by": [],
    "status": "ACTIVE",
    "commands": {
-    "配方": "python3 Tools/fleet/recon_recipe.py --source cph4/fleet/recon-dept-v1/cards/GAME-01-向僵尸开炮.md --out cph4/fleet/out/recon/recipe.md"
+    "配方": "python3 Tools/fleet/recon_recipe.py --source cph4/fleet/recon-dept-v1/cards/GAME-01-向僵尸开炮.md --out cph4/fleet/out/recon/recipe.md",
+    "拆解": "python3 Tools/fleet/recon_analysis.py --cards cph4/fleet/recon-dept-v1/cards --out cph4/fleet/out/recon/analysis.md"
    },
    "requires": {
     "配方": [
      "cph4/fleet/recon-dept-v1/cards/GAME-01-向僵尸开炮.md"
+    ],
+    "拆解": [
+     "cph4/fleet/recon-dept-v1/cards"
     ]
    },
    "panel_stages": [
     "抓取",
     "拆解",
     "配方"
-   ]
+   ],
+   "judges": {
+    "拆解": "path"
+   },
+   "verify": {
+    "拆解": "python3 Tools/fleet/recon_analysis.py --check cph4/fleet/out/recon/analysis.md --cards cph4/fleet/recon-dept-v1/cards"
+   }
   },
   {
    "id": "PROD-DRAMA-EP",

@@ -69,6 +69,9 @@ def main():
             "light": light_key or "roof_dusk",
         })
 
+    _od = os.path.dirname(os.path.abspath(a.out))
+    if _od:
+        os.makedirs(_od, exist_ok=True)   # 2026-11-14：父目录不存在直接崩，卡判 FAILED
     with open(a.out, "w", encoding="utf-8") as f:
         json.dump(rows, f, ensure_ascii=False, indent=1)
     print("wrote %d prompts -> %s" % (len(rows), a.out))

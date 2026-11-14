@@ -328,7 +328,10 @@ def plan(station, root=None, now=None):
                     continue
             want.append({"product": pid, "stage": stage, "task_type": tid, "cmd": (p.get("commands") or {}).get(stage),
                          "output": rel, "refresh_h": t.get("refresh_h"),
-                         "judge": t.get("judge"),
+                         # 同一 task_type 下不同工序可以有不同判据：机械工序（如把镜头脚本
+                         # 转成提示词表）用 path 就够，交给评审判只会空转（2026-11-14 实锚）。
+                         "judge": (p.get("judges") or {}).get(stage) or t.get("judge"),
+                         "verify_cmd": (p.get("verify") or {}).get(stage) or "",
                          "requires": (p.get("requires") or {}).get(stage) or [],
                          "missing": not os.path.exists(path)})
     return want, unknown
@@ -356,6 +359,8 @@ def make_card(station, item, day=None, now=None):
         "why": "产物%s（%s）" % ("缺失" if item.get("missing") else "过期", item.get("output")),
         "deliverable": item.get("output"),
         "judge": item.get("judge"),
+        # 工序级复核命令：判据写 path 时也能验"产物是不是真的有用"（2026-11-14）
+        "verify_cmd": item.get("verify_cmd") or "",
         "accept": "判据见 task_type=%s（judge=%s）" % (item["task_type"], item.get("judge")),
         "cmd": item.get("cmd") or "",
         "requires": item.get("requires") or [],
@@ -1161,6 +1166,19 @@ def self_test():
 
         want, unknown = plan("control", td)
         chk("缺产物 -> 建卡", [w["stage"] for w in want] == ["草稿"])
+
+        # 工序级判据/复核：同一 task_type 下机械工序可以用 path + verify_cmd
+        prods2 = {"products": [
+            {"id": "P1", "stages": ["草稿", "复盘"],
+             "outputs": {"草稿": "out/p1/drafts.jsonl"},
+             "commands": {"草稿": "true"}, "manual_stages": ["复盘"],
+             "judges": {"草稿": "path"},
+             "verify": {"草稿": "true"}}]}
+        json.dump(prods2, open(os.path.join(base, "PRODUCTS.json"), "w", encoding="utf-8"),
+                  ensure_ascii=False)
+        w2, _ = plan("control", td)
+        chk("工序级 judge + verify_cmd 进卡",
+            bool(w2) and w2[0].get("judge") == "path" and w2[0].get("verify_cmd") == "true")
         chk("无产物契约 -> UNKNOWN-OUTPUT 不建卡",
             [u["stage"] for u in unknown] == ["复盘", "步骤"])
 
