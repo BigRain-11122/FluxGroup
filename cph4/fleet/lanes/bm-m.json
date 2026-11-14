@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-15T01:19:26",
+ "ts": "2026-11-15T01:21:37",
  "jobs": [
   {
    "id": "R-MODEL-RADAR-BMB-20261114",
@@ -23,20 +23,6 @@
    "cwd": "",
    "needs": "cpu",
    "deliverable": "cph4/fleet/queue-receipts/model-radar-bm-c-20261115.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "R-PLAN-BIGLIFE-20261115",
-   "title": "BigLife·数字生命 线级体检与缺口清单",
-   "cmd": "python Tools/fleet/line_triage.py --line biglife --out cph4/fleet/queue-receipts/triage-biglife-20261115.md",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-biglife-20261115.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -79,6 +65,20 @@
    "cwd": "",
    "needs": "cpu",
    "deliverable": "",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "R-TRIAGE-BIGSTREAMMV-BMB-20261115",
+   "title": "BigStream·MV 41 曲 线证据扫描（bm-b 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line bigstream-mv --node bm-b --out cph4/fleet/queue-receipts/triage-bigstream-mv-bm-b-20261115.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigstream-mv-bm-b-20261115.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
