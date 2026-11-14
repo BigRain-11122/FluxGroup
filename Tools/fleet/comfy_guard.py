@@ -70,7 +70,11 @@ def comfy_pids():
 
 def start_comfy(wait_s=240):
     try:
-        subprocess.Popen([COMFY, "-s", COMFY_MAIN, "--listen", "127.0.0.1", "--port", str(PORT)],
+        # 2026-11-15 实锚：默认 smart memory 会把 12.2GB 的 UNet 常驻在 RAM 里反复缓存，
+        # 一轮 KF/i2v 换模型后这台 56G 机器被 ComfyUI 吃到 39G WS/53G private，系统只剩 2.6G
+        # 可用 -> ComfyUI 自己被压死、训练链也没内存。生产机一律 --disable-smart-memory。
+        subprocess.Popen([COMFY, "-s", COMFY_MAIN, "--listen", "127.0.0.1", "--port", str(PORT),
+                          "--disable-smart-memory"],
                          cwd=COMFY_CWD, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
                          creationflags=NO_WINDOW)
     except Exception as e:
