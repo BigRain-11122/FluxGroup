@@ -1,6 +1,6 @@
 {
  "node": "bm-a",
- "ts": "2026-11-15T03:12:10",
+ "ts": "2026-11-15T03:25:47",
  "jobs": [
   {
    "id": "R-PLAN-FLUXVERSE-20261115",
@@ -17,12 +17,12 @@
    "timeout_s": null
   },
   {
-   "id": "asset-lib-voice-assemble-2026-11-15",
-   "title": "[资产储备（角色 LoRA / 音色库）] 音色数据集装配（授权核查→voices/<组> 准入）",
-   "cmd": "python Tools/fleet/voice_dataset.py --out cph4/fleet/queue-receipts/voice-dataset-2026-11-15.json",
+   "id": "R-TRIAGE-BIGSTREAMMV-BMA-20261115",
+   "title": "BigStream·MV 41 曲 线证据扫描（bm-a 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line bigstream-mv --node bm-a --out cph4/fleet/queue-receipts/triage-bigstream-mv-bm-a-20261115.md",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/voice-dataset-2026-11-15.json",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigstream-mv-bm-a-20261115.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -33,5 +33,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 49.7/1.0 GB"
+ "capacity_note": "ram 49.4/1.0 GB"
 }
