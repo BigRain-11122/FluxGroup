@@ -155,3 +155,6 @@
 > **本批硬执行 1 件（D-01）**：把「挂起」从一句状态词变成两条判据——自驱线看提交与产物 mtime，接命令线看 commands 是否接通。此前 BIGLIFE 被挂起是**判据越界**（拿 delivery 的尺量 OSLoop 的线），不是它停了。
 > **chronic 面（只审不处·记违例一行）**：media/BigStream HQ-FEEDBACK 尾行 2026-10-24（**21 天未刷**）、gaming/FluxVerse 尾行 11-04（10 天）、domain/BigDomain 尾行 11-11（8 天）；三者今日均无新行。BigStream 有 orders 11-14 01:3x v730 收口行替代反馈面（产出在途、按 D-20261112-13 的「列表式追加行」读法不计为停摆）；FluxVerse 见 D-02 已派；BigDomain 无在途证据，记违例行待下轮。
 > **收取面完整性**：gaming/MiniGame 无 HQ-FEEDBACK.md（该司反馈面自 11-04 起无文件），属结构性缺口，记一行待周轮定其反馈通道；本行不代立新法。
+
+> **D-20261114-01 执行补记（18:2x·本班就地执行）**：`cph4/fleet/PRODUCTS.json` 的 `PROD-BIGLIFE-POP.status` 已由 PARKED 改为 ACTIVE（其余四条挂起不动），`parked_reason` 改写为撤销记录并保留原判据出处。原挂起状态真实落点=PRODUCTS.json（非 LINE-REGISTRY，后者一直是 ACTIVE）——**原派给主控台的执行动作已由本班完成，主控无需重复，记 no-op 销账**。
+> **D-20261114-02 定位进展（18:2x）**：写入器**在两仓可见面均不存在**——`gaming/FluxVerse` 仓内 `world/` 只有数据档无脚本、`watch/` 为 2026-09 旧件（city-watch.ps1 等）、`logs/` 仅一次性编辑脚本；集团 `Tools/` 全量搜 `world-events` 命中 0。故该件第一问是「历史写入器是谁/在哪台机」，**不是**「某个脚本坏了」；已按此口径投 visual 工位卡（deliverable 要求先点名写入器再改代码）。

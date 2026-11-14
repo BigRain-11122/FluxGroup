@@ -308,13 +308,13 @@
    "blocked_by": [
     "3D 居民资产"
    ],
-   "status": "PARKED",
+    "status": "ACTIVE",
    "panel_stages": [
     "户籍",
     "行为",
     "资产"
    ],
-   "parked_reason": "0/3 命令（2026-11-14 主控按「线连续 7 天无产物自动挂起」执行）",
+    "parked_reason": "已撤销 D-20261114-01（2026-11-14 18:00 委员会第61批）：原挂起系误判——BigLife 由 OSLoop 自驱、不消费 PRODUCTS.commands，11-14 全天在产（子仓 R2966/R2967/R2968 等 ≥10 次提交，QC cards=10114 problems=0）",
    "revive_condition": "户籍/行为/资产三道无命令；需先定城市数据 schema"
   },
   {
