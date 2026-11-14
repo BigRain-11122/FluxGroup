@@ -1,23 +1,8 @@
 {
  "node": "bm-m",
- "ts": "2026-11-11T11:13:56",
- "jobs": [
-  {
-   "id": "CANARY-20261111T111349",
-   "title": "端到端自检：投卡→领取→执行→回执→产物",
-   "cmd": "python -c \"import os;os.makedirs(r'cph4/fleet/state/canary',exist_ok=True);open(r'cph4/fleet/state/canary/RUN-20261111T111349.txt','w',encoding='utf-8').write('canary 20261111T111349 — 端到端自检产物，不是业务活')\"",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/state/canary/RUN-20261111T111349.txt",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  }
- ],
- "idle_reason": "",
- "lane_ok": true,
- "capacity_note": "ram-unknown"
+ "ts": "2026-11-14T12:24:19",
+ "jobs": [],
+ "idle_reason": "OFFLINE (hb age Nones, no fresh lane receipt)",
+ "lane_ok": false,
+ "capacity_note": "OFFLINE (hb age Nones, no fresh lane receipt)"
 }

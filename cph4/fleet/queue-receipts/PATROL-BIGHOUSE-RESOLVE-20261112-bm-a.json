@@ -1,0 +1,17 @@
+{
+ "id": "PATROL-BIGHOUSE-RESOLVE-20261112",
+ "node": "bm-a",
+ "rc": 0,
+ "seconds": 0.5,
+ "cmd": "python Tools/fleet/line_triage.py --line bighouse --node bm-a --out cph4/fleet/queue-receipts/patrol-bighouse-resolve-20261112.md",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "cph4/fleet/queue-receipts/patrol-bighouse-resolve-20261112.md",
+ "deliverable_exists": true,
+ "ts": "2026-11-12T00:14:46",
+ "stdout_tail": "[triage] bighouse -> cph4\\fleet\\queue-receipts\\patrol-bighouse-resolve-20261112.md\n",
+ "stderr_tail": ""
+}

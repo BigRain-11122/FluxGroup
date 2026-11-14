@@ -1,10 +1,8 @@
 {
  "node": "bm-c",
- "ts": "2026-11-12T05:47:33",
+ "ts": "2026-11-14T12:24:19",
  "jobs": [],
- "idle_reason": "R41: styles 生成卡实测 skipped=3（asset_gen 认为 3 张已在盘），与体检 0/3 口径冲突；不再派，待核对目录/授权口径",
- "lane_ok": true,
- "capacity_note": "ram 7.8/1.0 GB",
- "reorder_note": "event R41: COMFY-UP first - the other jobs need the service it restores",
- "r41_note": "R41: styles 生成；跑完同批撤卡（already_closed 读不到分片终态）"
+ "idle_reason": "EXECUTOR-DEAD (48.1h 零产出)",
+ "lane_ok": false,
+ "capacity_note": "EXECUTOR-DEAD (48.1h 零产出)"
 }

@@ -1,0 +1,31 @@
+{
+ "file": "D:\\FleetWorker\\rebuild_grade8_v722e\\full_mv_v730_60fps_1080p.mp4",
+ "frames": 14064,
+ "fps": 60.0,
+ "shots": 73,
+ "dup_pairs": 0,
+ "static_shots": [],
+ "reprise_whitelisted": 3,
+ "reprise_unlisted": 0,
+ "reprise_unlisted_pairs": [],
+ "luma_events": 11,
+ "stability": {
+  "seams": [],
+  "freezes": [
+   {
+    "t": 114.483,
+    "frame": 6869,
+    "run": 5
+   },
+   {
+    "t": 234.167,
+    "frame": 14050,
+    "run": 14
+   }
+  ]
+ },
+ "flicker": [],
+ "grammar": null,
+ "fails": [],
+ "verdict": "PASS"
+}

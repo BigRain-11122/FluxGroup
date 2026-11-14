@@ -1,8 +1,37 @@
 {
  "node": "bm-a",
- "ts": "2026-11-11T11:00:32",
- "jobs": [],
- "idle_reason": "DAY-YIELD: work machine, takes over at 19:00",
- "lane_ok": false,
- "capacity_note": "daytime heavy-yield (09:00-19:00); light CPU allowed"
+ "ts": "2026-11-14T12:24:18",
+ "jobs": [
+  {
+   "id": "R-NEXT-BIGSTREAMD-EVIDENCE-20261114",
+   "title": "漫剧证据目录补齐判定：画面/配音工段为何为空（一页含根因与补法）",
+   "cmd": "python Tools/fleet/line_triage.py --line bigstream-drama",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigstream-drama-20261114.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "R-NEXT-BIGSTREAMM-REBUILD-20261114",
+   "title": "MV 合成本片：按 EDL 行表重建成片 v721（缺的是成片，不是闸）",
+   "cmd": "python Tools/mv_rebuild_from_edl.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721.mp4",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721.mp4",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  }
+ ],
+ "idle_reason": "",
+ "lane_ok": true,
+ "capacity_note": "ram 55.3/1.0 GB"
 }

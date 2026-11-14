@@ -1,0 +1,17 @@
+{
+ "id": "bigmoney-backtest-2026-11-12",
+ "node": "bm-a",
+ "rc": 0,
+ "seconds": 64.6,
+ "cmd": "python quant/bigmoney/scripts/etf_nobond_vt.py",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "OK",
+ "error_class": null,
+ "deliverable": "quant/bigmoney/results/etf_nobond_vt.json",
+ "deliverable_exists": true,
+ "ts": "2026-11-12T04:06:55",
+ "stdout_tail": "bond-free universe 1517 flips repaired 169\n{'label': 'nobond_base', 'years': 6.86, 'start_level': 1.0108, 'cagr': 0.1578, 'vol': 0.1638, 'sharpe': 1.014, 'maxdd': -0.1604, 'worst_year': 0.0233, 'neg_years': 0, 'worst_month': -0.0813, 'pos_months_pct': 0.598, 'cagr_is': 0.1022, 'sharpe_is': 0.685, 'maxdd_is': -0.1418, 'cagr_oos': 0.2407, 'sharpe_oos': 1.51, 'maxdd_oos': -0.1604}\n{'label': 'nobond_vt08', 'years': 6.86, 'start_level': 1.008, 'cagr': 0.1164, 'vol': 0.1051, 'sharpe': 1.145, 'maxdd': -0.1056, 'worst_year': 0.0284, 'neg_years': 0, 'worst_month': -0.043, 'pos_months_pct': 0.61, 'cagr_is': 0.0581, 'sharpe_is': 0.621, 'maxdd_is': -0.088, 'cagr_oos': 0.2036, 'sharpe_oos': 1.85, 'maxdd_oos': -0.1056}\n{'label': 'nobond_vt12', 'years': 6.86, 'start_level': 1.0108, 'cagr': 0.1355, 'vol': 0.139, 'sharpe': 1.022, 'maxdd': -0.1499, 'worst_year': 0.0179, 'neg_years': 0, 'worst_month': -0.0642, 'pos_months_pct': 0.622, 'cagr_is': 0.0659, 'sharpe_is': 0.553, 'maxdd_is': -0.1266, 'cagr_oos': 0.2407, 'sharpe_oos': 1.658, 'maxdd_oos': -0.1499}\nlive picks 2026-11-11 [('510760', 0.642, 'equity'), ('512040', 0.596, 'equity'), ('159655', 0.592, 'equity'), ('513690', 0.589, 'equity'), ('159519', 0.587, 'equity')]\nsaved C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_nobond_vt.json\n",
+ "stderr_tail": ""
+}

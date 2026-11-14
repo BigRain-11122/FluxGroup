@@ -1,0 +1,1 @@
+﻿winrm_err=连接到远程服务器 100.110.185.62 失败，并显示以下错误消息: WinRM 客户端无法处理该请求。如果身份验证方案与 Kerberos 不同，或者客户端计算机未加入到域中， 则必须使用 HTTPS 传输或者必须将目标计算机添加到 TrustedHosts 配置设置。 使用 winrm.cmd 配置 TrustedHosts。请注意，TrustedHosts 列表中的计算机可能未经过身份验证。 通过运行以下命令可获得有关此内容的更多信息: winrm help config。 有关详细信息，请参阅 about_Remote_Troubleshooting 帮助主题。

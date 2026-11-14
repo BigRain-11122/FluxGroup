@@ -1,0 +1,52 @@
+{
+ "ts": "2026-11-11T11:42:31",
+ "node": "unknown",
+ "host": "DASHENG",
+ "spec": "ASSET-ENV-GATE-v1",
+ "measured": {
+  "ffmpeg": "C:\\Users\\sjs20\\AppData\\Local\\Microsoft\\WinGet\\Packages\\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\\ffmpeg-9.0.2-full_build\\bin\\ffmpeg.EXE",
+  "python": "3.14.10",
+  "torch": {
+   "installed": true,
+   "version": "2.11.0+cu128",
+   "cuda": true,
+   "device": "NVIDIA GeForce RTX 4070 SUPER"
+  },
+  "kohya": null,
+  "gptsovits": null,
+  "dirs": {
+   "faces": {
+    "path": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\media\\asset\\faces",
+    "exists": false,
+    "files": 0
+   },
+   "voices": {
+    "path": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\media\\asset\\voices",
+    "exists": true,
+    "files": 9
+   },
+   "loras": {
+    "path": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\media\\asset\\loras",
+    "exists": false,
+    "files": 0
+   },
+   "voice-models": {
+    "path": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\media\\asset\\voice-models",
+    "exists": false,
+    "files": 0
+   }
+  },
+  "disk_free_gb": null
+ },
+ "routes_ok": [],
+ "verdict": "FAIL",
+ "gaps": [
+  "没有 kohya sd-scripts（角色 LoRA 训练栈）——找 KOHYA_DIR 环境变量或装一份",
+  "没有 GPT-SoVITS（音色微调栈）——找 GPTSOVITS_DIR 环境变量或装一份",
+  "资产目录不在位：media/asset/faces",
+  "资产目录不在位：media/asset/loras",
+  "资产目录不在位：media/asset/voice-models"
+ ],
+ "note": "PASS=至少一条训练路线可用；具体是哪条看 routes_ok",
+ "status": "FAIL"
+}
