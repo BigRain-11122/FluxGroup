@@ -298,3 +298,15 @@ cph4/fleet/archive/state-roll/*.gz
 # ② 旧队列的"复活"实验副本（与 PRODUCTION-QUEUE.jsonl 逐字节同源，2026-11-14 已用 sha256 核过；
 #    留盘作事故证据，不入库避免 2048 卡再存一份 1.9MB）
 cph4/fleet/storage/archive/PRODUCTION-QUEUE-resurrected*.jsonl
+
+# 2026-11-14：每轮被重写、但从未被脉提交的运行态（工作树"越积越脏"的结构原因）
+# 判据：master_pulse.HOT_PREFIXES 只肯提交 lanes/ 与 dispatcher 的 MASTER-STATE/MASTER-TICK，
+# 下列文件每轮被写却永远没有提交者 → 永远显示为脏；而 origin_blob 检索确认无跨机读者
+# （全仓只有 4 处从 origin 读文件：lanes/<node>.json、state_push 的旧白名单、brain_service 源文档）。
+# 移出版本库后盘上照常生成与读取，对机队无影响；git show <旧提交>:<path> 仍可取历史。
+cph4/fleet/dispatcher/STAGE-CACHE.json
+cph4/fleet/rt/*/git-status.json
+cph4/fleet/rt/*/lock-stat.json
+cph4/fleet/FLEET-BRAIN.md
+cph4/fleet/PATROL.md
+cph4/fleet/state/lane-trust.json
