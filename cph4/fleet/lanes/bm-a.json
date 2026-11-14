@@ -1,6 +1,6 @@
 {
  "node": "bm-a",
- "ts": "2026-11-14T23:56:32",
+ "ts": "2026-11-15T00:01:06",
  "jobs": [
   {
    "id": "R-NEXT-BIGGAME-SUBMIT-P-20261114",
@@ -59,12 +59,12 @@
    "timeout_s": null
   },
   {
-   "id": "R-PLAN-BIGMONEY-20261114",
-   "title": "BigMoney·量化 线级体检与缺口清单",
-   "cmd": "python Tools/fleet/line_triage.py --line bigmoney --out cph4/fleet/queue-receipts/triage-bigmoney-20261114.md",
+   "id": "R-PLAN-FLUXVERSE-20261114",
+   "title": "FluxVerse·元宙城 线级体检与缺口清单",
+   "cmd": "python Tools/fleet/line_triage.py --line fluxverse --out cph4/fleet/queue-receipts/triage-fluxverse-20261114.md",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigmoney-20261114.md",
+   "deliverable": "cph4/fleet/queue-receipts/triage-fluxverse-20261114.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -73,12 +73,12 @@
    "timeout_s": null
   },
   {
-   "id": "asset-lib-voice-corpus-2026-11-14",
-   "title": "[资产储备（角色 LoRA / 音色库）] 音色语料工程（一卡全量·持料机 bm-a）",
-   "cmd": "python Tools/fleet/voice_corpus_prep.py --inbox media/asset/inbox --group batch-2026-11-14 --shard 0/1 --receipt cph4/fleet/queue-receipts/voice-corpus-2026-11-14.json",
+   "id": "R-PLAN-BIGMONEY-20261114",
+   "title": "BigMoney·量化 线级体检与缺口清单",
+   "cmd": "python Tools/fleet/line_triage.py --line bigmoney --out cph4/fleet/queue-receipts/triage-bigmoney-20261114.md",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/voice-corpus-2026-11-14.json",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigmoney-20261114.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -117,5 +117,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 51.4/1.0 GB"
+ "capacity_note": "ram 52.9/1.0 GB"
 }
