@@ -1,0 +1,23 @@
+{
+ "id": "CLOSEOUT-20261114-1451",
+ "station": "visual",
+ "node": "bm-c",
+ "ts": "2026-11-14T14:51:00",
+ "type": "CLOSEOUT",
+ "order": "2026-11-14 12:20 主控直达令（docs/orders.md 尾节）",
+ "supersedes_head_of": "cph4/fleet/rt/visual/receipts/CLOSEOUT-20261114.json（12:53 回执的 head_after=26f61c933，此后 origin 又前进，本条记第二次收口）",
+ "head_before": "6e9195935 (local; 7 runtime-only state(bm-c) snapshot commits above 26f61c933, 3 behind origin/main)",
+ "head_after": "57457295973a4571f3d71bd477715b3d23605a8d",
+ "steps_done": [
+  "按令三条幂等收口：git fetch origin → git reset --mixed origin/main → git checkout origin/main -- Tools cph4/fleet；rev-parse 双向相等（HEAD==origin/main==57457295973a），偏离 0/0",
+  "收口前备份：293 项脏面里 5 个被 checkout 覆盖的已跟踪文件 + status-before + 本地领先提交清单，落在 quant/bigmoney/results/_quarantine/group-closeout-20261114/（绝不 --hard，工作树未删除任何文件）",
+  "自驱任务核对（不重复注册）：FluxGroup-StationDrive-bmc 在位、就绪、下一拍 14:53:39，动作=wscript InvisibleRunner.vbs → station-drive-bmc.cmd → station_drive --station visual --once --run-limit 6（FLEET_STATION=visual），与令一致；FluxGroup-StationAgent-bmc 同链在位（每 3600s 巡检）",
+  "手动触发一轮验证：station_drive --station visual --once --run-limit 6 返回 git.state=synced(ahead 0/behind 0)、reclaimed 0、pending_before 2、would_create 3（PROD-MV-SINGLE/mv-cut、PROD-SHORTVIDEO-TRACK/字幕、PROD-DRAMA-EP/kf）"
+ ],
+ "observed": {
+  "station_status_note": "blocked_no_comfyui but system_stats ok comfyui=0.36.0 (archive is a snapshot, service is the fact)",
+  "unknown_output": "4 条 PARKED 产品（QUANT/FLUXVERSE/BIGHOUSE/BIGLIFE）按主控 11-14『线连续 7 天无产物自动挂起』执行，非故障",
+  "stale_note": "delivery/R-PLAN-CARGAMING-20261114 龄期 83 分钟未超宽限 135，先观察"
+ },
+ "provenance": "实测（fetch 输出、rev-parse 双向、schtasks /query /xml 动作与节拍、station_drive --once 回执 JSON、备份目录文件计数）"
+}
