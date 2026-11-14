@@ -1,39 +1,39 @@
 {
- "ts": "2026-11-15T00:46:51",
- "cycle": 1321,
+ "ts": "2026-11-15T00:50:27",
+ "cycle": 1322,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-15T00:46:51",
+ "master_tick_ts": "2026-11-15T00:50:27",
  "queue": {
   "total": 77,
-  "open": 19,
+  "open": 15,
   "running": 14,
-  "done": 23,
-  "failed": 2
+  "done": 25,
+  "failed": 3
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 8.9,
-   "cpu_load_pct": 68,
-   "ram_free_gb": 45.7,
-   "gpu_util_pct": 0,
-   "job": "biggame-pack-scan-2026-11-14",
+   "hb_age_s": 46.4,
+   "cpu_load_pct": 82,
+   "ram_free_gb": 12.5,
+   "gpu_util_pct": 62,
+   "job": "R-NEXT-BIGGAME-SUBMIT-P-20261114",
    "last_result": {
-    "job": "asset-lib-voice-corpus-2026-11-15",
-    "state": "BUSY",
-    "rc": null,
-    "ts": "2026-11-15T00:46:40",
+    "job": "asset-lib-voice-corpus-2026-11-14",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-15T00:46:54",
     "reason": null,
-    "out_bytes": 0,
-    "elapsed_s": 409
+    "out_bytes": null,
+    "elapsed_s": null
    },
    "idle_confirmed": false,
    "idle_reason": "",
    "idle_rounds": 0
   },
   "bm-b": {
-   "online": true,
+   "online": false,
    "hb_age_s": null,
    "cpu_load_pct": null,
    "ram_free_gb": null,
@@ -41,7 +41,7 @@
    "job": null,
    "last_result": null,
    "idle_confirmed": false,
-   "idle_reason": "EXECUTOR-DEAD (96.4h 零产出)",
+   "idle_reason": "OFFLINE (hb age Nones, no fresh lane receipt)",
    "idle_rounds": 0
   },
   "bm-c": {
@@ -53,21 +53,21 @@
    "job": null,
    "last_result": null,
    "idle_confirmed": false,
-   "idle_reason": "EXECUTOR-DEAD (67.0h 零产出)",
+   "idle_reason": "EXECUTOR-DEAD (67.1h 零产出)",
    "idle_rounds": 0
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 194.0,
-   "cpu_load_pct": 7,
-   "ram_free_gb": 4.6,
+   "hb_age_s": 3.4,
+   "cpu_load_pct": 8,
+   "ram_free_gb": 8.8,
    "gpu_util_pct": null,
-   "job": "R-NEXT-BIGGAME-SUBMIT-P-20261114",
+   "job": "R-PLAN-BIGGAME-20261114",
    "last_result": {
-    "job": "bigstream-mv-gate-2026-11-15",
-    "state": "FAILED",
-    "rc": 1,
-    "ts": "2026-11-15T00:45:56",
+    "job": "bigstream-drama-manifest-2026-11-14",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-15T00:50:17",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -103,14 +103,12 @@
   "bigstream-drama": {
    "name": "BigStream·漫剧",
    "status": "ACTIVE",
-   "verdict": "WORKING",
+   "verdict": "WAITING",
    "age_h": null,
    "stale_after_h": 48.0,
    "owner": "漫剧席",
-   "jobs": [
-    "bigstream-drama-manifest-2026-11-14"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": null
   },
@@ -154,9 +152,7 @@
     "biggame-pack-scan-2026-11-15"
    ],
    "no_supply": false,
-   "blockers": [
-    "R-PLAN-BIGGAME-20261114:no-lane"
-   ],
+   "blockers": [],
    "note": null,
    "stuck_stage": "game-design",
    "stuck_owner": "游戏席"
@@ -172,9 +168,7 @@
     "R-PLAN-FLUXVERSE-20261114"
    ],
    "no_supply": false,
-   "blockers": [
-    "R-PLAN-FLUXVERSE-20261114:no-lane"
-   ],
+   "blockers": [],
    "note": null
   },
   "bigmoney": {
@@ -221,14 +215,12 @@
   "biglife": {
    "name": "BigLife·数字生命",
    "status": "ACTIVE",
-   "verdict": "WORKING",
+   "verdict": "WAITING",
    "age_h": null,
    "stale_after_h": 48.0,
    "owner": "生命生产席",
-   "jobs": [
-    "R-PLAN-BIGLIFE-20261114"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": null
   },
@@ -279,7 +271,6 @@
    "owner": "中枢（机器判）",
    "jobs": [
     "LINE-TRIAGE-MV-20261114",
-    "CHK-RECEIPT-20261105",
     "R-MODEL-RADAR-BMA-20261114",
     "Q-TRIAGE-FLUXVERSE-20261114",
     "Q-TRIAGE-BIGSTREAMDRAMA-20261115"
@@ -296,7 +287,6 @@
    "stale_after_h": 72.0,
    "owner": "资产席",
    "jobs": [
-    "asset-lib-voice-corpus-2026-11-14",
     "asset-lib-face-dataset-2026-11-14",
     "asset-lib-char-prompts-2026-11-14",
     "asset-lib-voice-corpus-2026-11-15",
@@ -855,7 +845,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 16,
+  "local": 12,
   "cloud": 0,
   "queue": 3,
   "blocked": 0,
@@ -863,19 +853,26 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 16,
+  "cpu": 12,
   "gpu": 3
  },
  "supply_added": [],
  "events": [
-  "bigstream-mv-gate-2026-11-15 FAILED via bm-m",
-  "R-PLAN-FLUXVERSE-20261114 REQUeued attempt=1",
+  "asset-lib-voice-corpus-2026-11-14 UNVERIFIED(no-artifact-yet) via bm-a",
+  "biggame-pack-scan-2026-11-14 -> bm-a (cpu)",
   "bigstream-mv-gate-2026-11-14 -> bm-a (cpu)",
+  "R-TTS1202R-VERIFY-20261031 -> bm-a (cpu)",
   "bigmoney-signal-2026-11-14 -> bm-a (cpu)",
-  "CHK-RECEIPT-20261105 -> bm-m (cpu)",
-  "R-PLAN-BIGMONEY-20261114 -> bm-a (cpu)"
+  "R-NEXT-BIGGAME-SUBMIT-P-20261114 -> bm-a (cpu)",
+  "R-PLAN-BIGMONEY-20261114 -> bm-a (cpu)",
+  "R-PLAN-BIGGAME-20261114 -> bm-m (cpu)",
+  "R-PLAN-FLUXVERSE-20261114 -> bm-m (cpu)",
+  "R-MODEL-RADAR-BMA-20261114 -> bm-m (cpu)",
+  "LINE-TRIAGE-MV-20261114 -> bm-m (cpu)",
+  "R-TRIAGE-BIGSTREAMDRAMA-BMB-20261114 -> bm-m (cpu)"
  ],
  "violations": [
+  "bm-b OFFLINE",
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)",

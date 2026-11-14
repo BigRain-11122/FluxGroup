@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-15T00:35:30+0800",
+ "ts": "2026-11-15T00:49:54+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -28,8 +28,8 @@
    "blocker_type": "CEO",
    "blocker": "截图需跑游戏取图，受 2026-10-28『不许自动跑游戏包』令约束，等放行",
    "state": "RUNNING",
-   "card": "biggame-pack-scan-2026-11-14",
-   "running_on": "bm-a"
+   "card": "R-NEXT-BIGGAME-SUBMIT-P-20261114",
+   "running_on": "bm-m"
   },
   {
    "id": "bigmoney",
@@ -43,7 +43,7 @@
    "blocker_type": "ENGINE",
    "blocker": "回测产物需在 bm-b 本地生成；主控无 quant 仓",
    "state": "RUNNING",
-   "card": "bigmoney-signal-2026-11-14",
+   "card": "R-PLAN-BIGMONEY-20261114",
    "running_on": "bm-a"
   },
   {
@@ -58,8 +58,8 @@
    "blocker_type": "ENGINE",
    "blocker": "发布决定权在 CEO，但工程侧可先做下一首立意案",
    "state": "RUNNING",
-   "card": "bigstream-mv-gate-2026-11-15",
-   "running_on": "bm-m"
+   "card": "bigstream-mv-gate-2026-11-14",
+   "running_on": "bm-a"
   },
   {
    "id": "bigstream-drama",
@@ -74,7 +74,7 @@
    "blocker": "CEO 令暂停（先铺资产库/MV/游戏/城市）",
    "state": "RUNNING",
    "card": "bigstream-drama-manifest-2026-11-14",
-   "running_on": "bm-a"
+   "running_on": "bm-m"
   },
   {
    "id": "bigstream-duanju",
@@ -117,9 +117,9 @@
    "accept": "投影文件每日刷新；受阻面写明触发条件",
    "blocker_type": "ENGINE",
    "blocker": "四仓不在本机，需在对应机器生成投影",
-   "state": "RUNNING",
+   "state": "QUEUED",
    "card": "R-PLAN-FLUXVERSE-20261114",
-   "running_on": "bm-a"
+   "running_on": null
   },
   {
    "id": "bigdomain",
@@ -132,8 +132,8 @@
    "accept": "页面文件在盘且本地可打开；支付位标明待接",
    "blocker_type": "CEO",
    "blocker": "商户号/支付资质未签（物理件）",
-   "state": "STALLED",
-   "card": null,
+   "state": "QUEUED",
+   "card": "R-PLAN-BIGDOMAIN-20261115",
    "running_on": null
   },
   {
@@ -147,8 +147,8 @@
    "accept": "该节点有心跳、能领卡、1 张真卡产出产物",
    "blocker_type": "CEO",
    "blocker": "机器未接线/未装系统，需人到现场",
-   "state": "STALLED",
-   "card": null,
+   "state": "QUEUED",
+   "card": "R-PLAN-BIGCOMPUTE-20261115",
    "running_on": null
   },
   {
@@ -162,9 +162,9 @@
    "accept": "回执含 20 条事件，每条对应真实事件流记录",
    "blocker_type": "ENGINE",
    "blocker": "城市仓不在本机",
-   "state": "QUEUED",
+   "state": "RUNNING",
    "card": "R-PLAN-BIGLIFE-20261114",
-   "running_on": null
+   "running_on": "bm-m"
   },
   {
    "id": "bighouse",
@@ -207,8 +207,8 @@
    "accept": "拆解卡含 10 款的核心循环与付费点位，带来源链接",
    "blocker_type": "ENGINE",
    "blocker": "缺工序表与榜单抓取口径",
-   "state": "STALLED",
-   "card": null,
+   "state": "QUEUED",
+   "card": "R-PLAN-RECON-20261115",
    "running_on": null
   },
   {
@@ -223,14 +223,14 @@
    "blocker_type": "ENGINE",
    "blocker": "I2 存量 125 条卡面路径债、vault 缺盘 651 条",
    "state": "RUNNING",
-   "card": "R-MODEL-RADAR-BMA-20261114",
+   "card": "CHK-RECEIPT-20261105",
    "running_on": "bm-m"
   }
  ],
  "counts": {
   "RUNNING": 7,
-  "QUEUED": 2,
-  "STALLED": 6
+  "QUEUED": 5,
+  "STALLED": 3
  },
- "stalled_engine": 1
+ "stalled_engine": 0
 }
