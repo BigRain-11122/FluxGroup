@@ -30,11 +30,19 @@ def main():
     print('frames: %s dur: %.2fs fps: %s size: %dx%d' % (n, dur, fps, st['width'], st['height']))
 
     # inter-frame MAD on luma (YAVG per frame, diff sequence)
-    r = subprocess.run(['ffprobe', '-v', 'quiet', '-f', 'lavfi', '-i',
-                        'movie=%s,signalstats=metadata=print' % v.replace('\\', '/').replace(':', '\\:'),
-                        '-show_entries', 'frame_tags=lavfi.signalstats.YAVG', '-of', 'csv=p=0'],
+    # NB: ffprobe -f lavfi movie=<path> chokes on Windows drive-letter escaping; use plain
+    # ffmpeg -i with signalstats+metadata=print and parse the stderr frame tags instead.
+    # Re-pinned after executor-merge rollback (11-08 precedent).
+    r = subprocess.run(['ffmpeg', '-nostdin', '-v', 'info', '-i', v, '-vf',
+                        'signalstats,metadata=print:key=lavfi.signalstats.YAVG', '-f', 'null', '-'],
                        capture_output=True, text=True)
-    yavgs = [float(x.split(',')[-1]) for x in r.stdout.splitlines() if x.strip()]
+    yavgs = []
+    for l in (r.stderr or '').splitlines():
+        if 'lavfi.signalstats.YAVG=' in l:
+            try:
+                yavgs.append(float(l.split('lavfi.signalstats.YAVG=')[1].strip()))
+            except ValueError:
+                pass
     if len(yavgs) >= 2:
         diffs = [abs(yavgs[i + 1] - yavgs[i]) for i in range(len(yavgs) - 1)]
         diffs_sorted = sorted(diffs)
@@ -54,10 +62,13 @@ def main():
     for l in fz[:4]:
         print('  ', l.strip()[:120])
 
-    # contact strip (6 frames)
+    # contact strip (6 frames) - step precomputed from ffprobe frame count (nb_frames is
+    # not available inside select expressions)
     strip = a.strip or (os.path.splitext(v)[0] + '-strip.jpg')
+    total = int(st['nb_frames']) if 'nb_frames' in st else int(round(dur * 24))
+    step = max(1, total // 6)
     subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-i', v, '-vf',
-                    'select=not(mod(n\\,max(1\\,floor(nb_frames/6)))),scale=672:-1,tile=6x1', '-frames:v', '1',
+                    r"select=not(mod(n\,%d)),scale=672:-1,tile=6x1" % step, '-frames:v', '1',
                     '-q:v', '8', strip], capture_output=True)
     print('strip: %s (%s)' % (strip, os.path.getsize(strip) if os.path.isfile(strip) else 'FAILED'))
 

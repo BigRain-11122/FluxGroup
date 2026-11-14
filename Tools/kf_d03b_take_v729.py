@@ -23,7 +23,11 @@ PROMPT = ("A dark basalt temple wall with carved cuneiform wedges and seated god
           "lit by a hard amber torch flame from the upper right. "
           "The torch flame breathes once, and after the flame settles his heavy-lidded eyes lift into a direct "
           "gaze at the lens, the eyes leading a half-beat before the head, "
-          "then his lips relax closed as the flame steadies. [locked-off static shot]. "
+          "his jaw staying completely still, his lips staying softly closed in a relaxed neutral line throughout, "
+          "as the flame steadies. [locked-off static shot]. "
+          # 2026-11-14 reshake: take-1 failed QC with a speech-like mouth-opening artifact at frames 3-5.
+          # Positive assertions only - negative wording steers H3 attention toward the very artifact
+          # it forbids (negative-prompt trap). Re-pinned after executor-merge rollback (11-08 precedent).
           "Warm amber monochrome grade, deep crushed shadows, shot on 35mm film with visible grain "
           "and halation on the flame, cinematic film still from a 2001 Taiwanese music video.")
 
