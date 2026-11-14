@@ -1,0 +1,17 @@
+{
+ "id": "R-CROSSTALK-POST-20261106-001",
+ "node": "bm-a",
+ "rc": 126,
+ "seconds": 0.1,
+ "cmd": "",
+ "ok_rc": [
+  0
+ ],
+ "outcome": "FAIL",
+ "error_class": "E-MODEL",
+ "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-crosstalk-post-audit.md",
+ "deliverable_exists": false,
+ "ts": "2026-11-14T23:45:51",
+ "stdout_tail": "",
+ "stderr_tail": "local-llm-unavailable (ollama @ default endpoint)"
+}
