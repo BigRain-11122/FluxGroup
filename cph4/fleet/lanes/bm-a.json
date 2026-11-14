@@ -1,37 +1,8 @@
 {
  "node": "bm-a",
- "ts": "2026-11-14T18:38:28",
- "jobs": [
-  {
-   "id": "PROBE-AUTO-bm-a-20261114",
-   "title": "节点认领自证：bm-a 写回执证明还能取卡",
-   "cmd": "python -c \"import json,os;os.makedirs('cph4/fleet/rt/delivery/receipts',exist_ok=True);open('cph4/fleet/rt/delivery/receipts/node-probe-bm-a.json','w').write(json.dumps({'node':'bm-a','ok':True,'auto':True}))\"",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/rt/delivery/receipts/node-probe-bm-a.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "SD-visual-D02-FLUXVERSE-EVENT-SUPPLY-20261114",
-   "title": null,
-   "cmd": "",
-   "cwd": null,
-   "needs": null,
-   "deliverable": "cph4/fleet/queue-receipts/fluxverse-event-writer-20261114.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  }
- ],
- "idle_reason": "",
- "lane_ok": true,
- "capacity_note": "ram 29.7/1.0 GB"
+ "ts": "2026-11-14T19:11:12",
+ "jobs": [],
+ "idle_reason": "EXECUTOR-DEAD (6.2h 零产出)",
+ "lane_ok": false,
+ "capacity_note": "EXECUTOR-DEAD (6.2h 零产出)"
 }
