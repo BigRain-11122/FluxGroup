@@ -1,6 +1,6 @@
 {
  "version": "v1-20261112",
- "updated_at": "2026-11-13T22:19:07",
+ "updated_at": "2026-11-14T23:33:18",
  "items": [
   {
    "id": "IMP-SUPPLY-PROD-GAME-SUBMIT-材料套用",
@@ -39,10 +39,12 @@
    "evidence": "PRODUCTS.json 中 PROD-GAME-SUBMIT.commands.图标 为空且 outputs.图标 已声明",
    "fix": "补命令（复用现成工具）或在 PRODUCTS 里明确标 manual_stages（CEO 权限件）",
    "accept": "PRODUCTS.json 里 PROD-GAME-SUBMIT.commands.图标 非空，或 stage 进入 manual_stages 且理由可查",
-   "status": "OPEN",
+   "status": "DROPPED",
    "depends": [],
    "created_at": "2026-11-12T16:48:59",
-   "owner_fixed_at": "2026-11-12T16:58:35"
+   "owner_fixed_at": "2026-11-12T16:58:35",
+   "dropped_at": "2026-11-14T17:30:33",
+   "drop_reason": "触发条件不再成立（判据修正或事实已变），留痕不删"
   },
   {
    "id": "IMP-SUPPLY-PROD-MV-SINGLE-mv-plan",
@@ -53,9 +55,11 @@
    "evidence": "PRODUCTS.json 中 PROD-MV-SINGLE.commands.mv-plan 为空且 outputs.mv-plan 已声明",
    "fix": "补命令（复用现成工具）或在 PRODUCTS 里明确标 manual_stages（CEO 权限件）",
    "accept": "PRODUCTS.json 里 PROD-MV-SINGLE.commands.mv-plan 非空，或 stage 进入 manual_stages 且理由可查",
-   "status": "OPEN",
+   "status": "DROPPED",
    "depends": [],
-   "created_at": "2026-11-12T16:48:59"
+   "created_at": "2026-11-12T16:48:59",
+   "dropped_at": "2026-11-14T17:30:33",
+   "drop_reason": "触发条件不再成立（判据修正或事实已变），留痕不删"
   },
   {
    "id": "IMP-SUPPLY-PROD-MV-SINGLE-mv-kf",
@@ -66,10 +70,12 @@
    "evidence": "PRODUCTS.json 中 PROD-MV-SINGLE.commands.mv-kf 为空且 outputs.mv-kf 已声明",
    "fix": "补命令（复用现成工具）或在 PRODUCTS 里明确标 manual_stages（CEO 权限件）",
    "accept": "PRODUCTS.json 里 PROD-MV-SINGLE.commands.mv-kf 非空，或 stage 进入 manual_stages 且理由可查",
-   "status": "OPEN",
+   "status": "DROPPED",
    "depends": [],
    "created_at": "2026-11-12T16:48:59",
-   "owner_fixed_at": "2026-11-12T16:58:35"
+   "owner_fixed_at": "2026-11-12T16:58:35",
+   "dropped_at": "2026-11-14T17:30:33",
+   "drop_reason": "触发条件不再成立（判据修正或事实已变），留痕不删"
   },
   {
    "id": "IMP-SUPPLY-PROD-MV-SINGLE-mv-i2v",
@@ -80,10 +86,12 @@
    "evidence": "PRODUCTS.json 中 PROD-MV-SINGLE.commands.mv-i2v 为空且 outputs.mv-i2v 已声明",
    "fix": "补命令（复用现成工具）或在 PRODUCTS 里明确标 manual_stages（CEO 权限件）",
    "accept": "PRODUCTS.json 里 PROD-MV-SINGLE.commands.mv-i2v 非空，或 stage 进入 manual_stages 且理由可查",
-   "status": "OPEN",
+   "status": "DROPPED",
    "depends": [],
    "created_at": "2026-11-12T16:48:59",
-   "owner_fixed_at": "2026-11-12T16:58:35"
+   "owner_fixed_at": "2026-11-12T16:58:35",
+   "dropped_at": "2026-11-14T17:30:33",
+   "drop_reason": "触发条件不再成立（判据修正或事实已变），留痕不删"
   },
   {
    "id": "IMP-SUPPLY-PROD-MV-SINGLE-mv-cut",
@@ -94,10 +102,12 @@
    "evidence": "PRODUCTS.json 中 PROD-MV-SINGLE.commands.mv-cut 为空且 outputs.mv-cut 已声明",
    "fix": "补命令（复用现成工具）或在 PRODUCTS 里明确标 manual_stages（CEO 权限件）",
    "accept": "PRODUCTS.json 里 PROD-MV-SINGLE.commands.mv-cut 非空，或 stage 进入 manual_stages 且理由可查",
-   "status": "OPEN",
+   "status": "DROPPED",
    "depends": [],
    "created_at": "2026-11-12T16:48:59",
-   "owner_fixed_at": "2026-11-12T16:58:35"
+   "owner_fixed_at": "2026-11-12T16:58:35",
+   "dropped_at": "2026-11-14T17:30:33",
+   "drop_reason": "触发条件不再成立（判据修正或事实已变），留痕不删"
   },
   {
    "id": "IMP-SUPPLY-PROD-MV-SINGLE-mv-gate",
@@ -453,10 +463,12 @@
    "evidence": "PRODUCTS.json 中 PROD-SHORTVIDEO-TRACK.commands.字幕 为空且 outputs.字幕 已声明",
    "fix": "补命令（复用现成工具）或在 PRODUCTS 里明确标 manual_stages（CEO 权限件）",
    "accept": "PRODUCTS.json 里 PROD-SHORTVIDEO-TRACK.commands.字幕 非空，或 stage 进入 manual_stages 且理由可查",
-   "status": "OPEN",
+   "status": "DROPPED",
    "depends": [],
    "created_at": "2026-11-12T16:48:59",
-   "owner_fixed_at": "2026-11-12T16:58:35"
+   "owner_fixed_at": "2026-11-12T16:58:35",
+   "dropped_at": "2026-11-14T17:30:33",
+   "drop_reason": "触发条件不再成立（判据修正或事实已变），留痕不删"
   },
   {
    "id": "IMP-SUPPLY-PROD-BIGDOMAIN-MATERIAL-文案",
@@ -566,9 +578,11 @@
    "evidence": "PRODUCTS.json 中 PROD-RECON-RECIPE.commands.拆解 为空且 outputs.拆解 已声明",
    "fix": "补命令（复用现成工具）或在 PRODUCTS 里明确标 manual_stages（CEO 权限件）",
    "accept": "PRODUCTS.json 里 PROD-RECON-RECIPE.commands.拆解 非空，或 stage 进入 manual_stages 且理由可查",
-   "status": "OPEN",
+   "status": "DROPPED",
    "depends": [],
-   "created_at": "2026-11-12T16:48:59"
+   "created_at": "2026-11-12T16:48:59",
+   "dropped_at": "2026-11-14T17:30:33",
+   "drop_reason": "触发条件不再成立（判据修正或事实已变），留痕不删"
   },
   {
    "id": "IMP-SUPPLY-PROD-RECON-RECIPE-配方",
@@ -579,9 +593,11 @@
    "evidence": "PRODUCTS.json 中 PROD-RECON-RECIPE.commands.配方 为空且 outputs.配方 已声明",
    "fix": "补命令（复用现成工具）或在 PRODUCTS 里明确标 manual_stages（CEO 权限件）",
    "accept": "PRODUCTS.json 里 PROD-RECON-RECIPE.commands.配方 非空，或 stage 进入 manual_stages 且理由可查",
-   "status": "OPEN",
+   "status": "DROPPED",
    "depends": [],
-   "created_at": "2026-11-12T16:48:59"
+   "created_at": "2026-11-12T16:48:59",
+   "dropped_at": "2026-11-14T17:30:33",
+   "drop_reason": "触发条件不再成立（判据修正或事实已变），留痕不删"
   },
   {
    "id": "IMP-SUPPLY-PROD-DRAMA-EP-script",
@@ -605,10 +621,12 @@
    "evidence": "PRODUCTS.json 中 PROD-DRAMA-EP.commands.assets 为空且 outputs.assets 已声明",
    "fix": "补命令（复用现成工具）或在 PRODUCTS 里明确标 manual_stages（CEO 权限件）",
    "accept": "PRODUCTS.json 里 PROD-DRAMA-EP.commands.assets 非空，或 stage 进入 manual_stages 且理由可查",
-   "status": "OPEN",
+   "status": "DROPPED",
    "depends": [],
    "created_at": "2026-11-12T16:48:59",
-   "owner_fixed_at": "2026-11-12T16:58:35"
+   "owner_fixed_at": "2026-11-12T16:58:35",
+   "dropped_at": "2026-11-14T17:30:33",
+   "drop_reason": "触发条件不再成立（判据修正或事实已变），留痕不删"
   },
   {
    "id": "IMP-SUPPLY-PROD-DRAMA-EP-storyboard",
@@ -632,10 +650,12 @@
    "evidence": "PRODUCTS.json 中 PROD-DRAMA-EP.commands.kf 为空且 outputs.kf 已声明",
    "fix": "补命令（复用现成工具）或在 PRODUCTS 里明确标 manual_stages（CEO 权限件）",
    "accept": "PRODUCTS.json 里 PROD-DRAMA-EP.commands.kf 非空，或 stage 进入 manual_stages 且理由可查",
-   "status": "OPEN",
+   "status": "DROPPED",
    "depends": [],
    "created_at": "2026-11-12T16:48:59",
-   "owner_fixed_at": "2026-11-12T16:58:35"
+   "owner_fixed_at": "2026-11-12T16:58:35",
+   "dropped_at": "2026-11-14T17:30:33",
+   "drop_reason": "触发条件不再成立（判据修正或事实已变），留痕不删"
   },
   {
    "id": "IMP-SUPPLY-PROD-DRAMA-EP-i2v",
@@ -674,10 +694,12 @@
    "evidence": "PRODUCTS.json 中 PROD-DRAMA-EP.commands.assembly 为空且 outputs.assembly 已声明",
    "fix": "补命令（复用现成工具）或在 PRODUCTS 里明确标 manual_stages（CEO 权限件）",
    "accept": "PRODUCTS.json 里 PROD-DRAMA-EP.commands.assembly 非空，或 stage 进入 manual_stages 且理由可查",
-   "status": "OPEN",
+   "status": "DROPPED",
    "depends": [],
    "created_at": "2026-11-12T16:48:59",
-   "owner_fixed_at": "2026-11-12T16:58:35"
+   "owner_fixed_at": "2026-11-12T16:58:35",
+   "dropped_at": "2026-11-14T17:30:33",
+   "drop_reason": "触发条件不再成立（判据修正或事实已变），留痕不删"
   },
   {
    "id": "IMP-SUPPLY-PROD-DRAMA-EP-qc",
@@ -918,9 +940,11 @@
    "evidence": "STATIONS.json status=network_ok_not_registered，且分片目录无 heartbeat.json",
    "fix": "在该机安装并启动 station_drive（install_drive_agent.py 生成，现场执行）",
    "accept": "该机 heartbeat.json 存在且龄期 < 30 分钟",
-   "status": "OPEN",
+   "status": "DROPPED",
    "depends": [],
-   "created_at": "2026-11-12T16:48:59"
+   "created_at": "2026-11-12T16:48:59",
+   "dropped_at": "2026-11-14T17:30:33",
+   "drop_reason": "触发条件不再成立（判据修正或事实已变），留痕不删"
   },
   {
    "id": "IMP-SYNC-bm-a",

@@ -897,5 +897,31 @@
    "name": "MonitorControl",
    "path": "/Applications/MonitorControl.app"
   }
- ]
+ ],
+ "restored_after_pause": {
+  "ts": "2026-11-14T23:40:00+0800",
+  "why": "CEO 2026-11-14「把多agent的设定给我好好执行起来，并自动化任务 排满」",
+  "core_restored": [
+   "llmgateway",
+   "pulse",
+   "statesync",
+   "fleetbus",
+   "tailnethub",
+   "console",
+   "locallane"
+  ],
+  "new_agent": {
+   "label": "com.fluxgroup.seatdispatch",
+   "interval_s": 180,
+   "cmd": "seat_dispatch.py --max-runs 2",
+   "why": "原缺口：agent_schedule --tick 只判到点不执行席位，agent_team --run 才执行，两者无桥，39 席从未真跑"
+  },
+  "self_healed_by_pulse": [
+   "caffeinate",
+   "drive",
+   "envprobe",
+   "ollamamodel"
+  ],
+  "still_paused_count": 44
+ }
 }

@@ -1,7 +1,7 @@
 {
- "ts": "2026-11-11T11:13:46",
+ "ts": "2026-11-14T23:34:33",
  "line": "biggame",
- "day": "2026-11-11",
+ "day": "2026-11-14",
  "needed": [
   "game-packs",
   "game-10s"
@@ -9,10 +9,8 @@
  "gates": [
   {
    "gate": "game-packs",
-   "file": "cph4/fleet/queue-receipts/game-packs-2026-11-11.json",
-   "state": "PASS",
-   "why": "OK",
-   "mtime": "2026-11-11 00:50"
+   "file": null,
+   "state": "MISSING"
   },
   {
    "gate": "game-10s",
@@ -21,6 +19,7 @@
   }
  ],
  "gaps": [
+  "game-packs:缺",
   "game-10s:缺"
  ],
  "verdict": "FAIL",
