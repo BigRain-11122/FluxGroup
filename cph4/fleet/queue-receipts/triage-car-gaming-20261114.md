@@ -1,11 +1,11 @@
-# 线级体检 car-gaming · 2026-11-14 15:04
+# 线级体检 car-gaming · 2026-11-14 15:05
 
 ## 工段与证据目录
 - car-market     owner=车机 BU    lane=-      证据 1/1 存在 · 文件 5 · 最新 283.2h
-- car-build      owner=工程席      lane=bm-a   证据 1/1 存在 · 文件 275 · 最新 0.3h
+- car-build      owner=工程席      lane=bm-a   证据 1/1 存在 · 文件 275 · 最新 0.4h
 
 ## 判定
-- 最近产出 0.3h 前（阈值 72.0h）→ FRESH 在阈内
+- 最近产出 0.4h 前（阈值 72.0h）→ FRESH 在阈内
 - 工段超阈 1/2（线级最近值不代表最差工段）：car-market 283.2h
 
 ## 下一步（按缺口）
