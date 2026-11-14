@@ -47,13 +47,21 @@ STATE_REL = "cph4/fleet/dispatcher/PULSE.json"
 SLOW_EVERY = 300
 STATE_SNAPSHOT_S = 1800   # 报告类状态每 30 分钟快照一次（此前每 60 秒，占全部提交 44%）
 HOT_PREFIXES = ("cph4/fleet/lanes/", "cph4/fleet/rt/",
+                "cph4/fleet/dispatcher/",
                 "cph4/fleet/PRODUCTION-QUEUE.jsonl",
-                "cph4/fleet/PRODUCTION-BACKLOG.jsonl", "cph4/fleet/dispatcher/MASTER-STATE.json",
-                "cph4/fleet/dispatcher/MASTER-TICK.json")   # maintenance batch runs in parallel now, so 5 min is affordable
-# 2026-11-14：加 cph4/fleet/rt/ —— v3 把卡与回执搬到 rt/<station>/（分片 queue.jsonl + receipts/），
-# 而白名单还停在旧的 PRODUCTION-QUEUE/BACKLOG 上。后果：station_drive 往分片写卡后没有任何提交者，
-# 分片永久挂在 git status 里；跨机又只认 origin 快照（git show origin/main:cph4/fleet/rt/...），
-# 等于"卡写进去了但别的机器看不见"。rt/ 下已 gitignore 的 log//heartbeat/lock-stat/git-status 不受影响。
+                "cph4/fleet/PRODUCTION-BACKLOG.jsonl",
+                # 2026-11-14：工序产物与线级产物面。此前只认 lanes 与两件 dispatcher，
+                # 而 out/、social/、ri/、plans/、reports/、repairs/、audits/ 里的文件
+                # 每轮被工序写、却没有任何提交者 → 永久挂在 git status 里。
+                # 判据来自 git log 近 8 天改动统计（这些目录合计 1300+ 次改动全是无人提交的脏）。
+                "cph4/fleet/out/", "cph4/fleet/social/", "cph4/fleet/ri/",
+                "cph4/fleet/plans/", "cph4/fleet/reports/", "cph4/fleet/repairs/",
+                "cph4/fleet/audits/")   # maintenance batch runs in parallel now, so 5 min is affordable
+# 2026-11-14：cph4/fleet/rt/ 也进白名单 —— v3 把卡与回执搬到 rt/<station>/（分片 queue.jsonl
+# + receipts/），而白名单还停在旧的 PRODUCTION-QUEUE/BACKLOG 上。后果：station_drive 往分片
+# 写卡后没有任何提交者；跨机又只认 origin 快照（git show origin/main:cph4/fleet/rt/...），
+# 等于"卡写进去了但别的机器看不见"。rt/ 下已 gitignore 的 log//heartbeat/lock-stat/
+# git-status 不受影响（tree_state 只回脏的 tracked 与未忽略的 untracked）。
 
 # (name, argv, timeout_s, ok_rc, slow)
 STAGES = [
