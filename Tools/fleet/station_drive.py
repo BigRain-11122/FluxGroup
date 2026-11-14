@@ -37,6 +37,7 @@ import json
 import os
 import shutil
 import signal
+import socket
 import subprocess
 import sys
 import time
@@ -985,19 +986,42 @@ def stale_cards(me="control", root=None, now=None, stale_min=RESCUE_STALE_MIN):
 PROBE_HINTS = {"blocked_no_comfyui": "comfyui"}
 
 
-def _comfyui_alive(host=None, timeout=3.0):
-    """问服务端，不问档案。返回 (True|None, 一句话)。"""
-    host = host or os.environ.get("COMFY_HOST") or "127.0.0.1:8188"
+def _tcp_listening(host, default_port=8188):
+    """只看端口有没有人听：进程活着但 /system_stats 忙到不应时用它兜底。"""
     try:
-        with urllib.request.urlopen("http://%s/system_stats" % host, timeout=timeout) as r:
-            code = getattr(r, "status", 200)
-            body = json.loads(r.read().decode("utf-8", "replace") or "{}")
-        if code != 200:
-            return None, "system_stats http=%s" % code
-        ver = (body.get("system") or {}).get("comfyui_version") or "?"
-        return True, "system_stats ok comfyui=%s" % ver
-    except Exception as e:  # 连不上就是连不上，不许当成"活着"
-        return None, "system_stats unreachable (%s)" % type(e).__name__
+        h, _, p = str(host).partition(":")
+        port = int(p or default_port)
+        with socket.create_connection((h or "127.0.0.1", port), timeout=3.0):
+            return True
+    except Exception:
+        return False
+
+
+def _comfyui_alive(host=None, timeout=3.0):
+    """问服务端，不问档案。返回 (True|None, 一句话)。
+
+    渲染繁忙时 /system_stats 会慢过 3 秒（2026-11-14 实锚：21:53 与 22:48 两轮
+    note 自相矛盾、22:58 判 URLError 把整轮阻断，而 8188 的进程一直在听）。
+    单次短探等于假 DOWN，所以按 3s→10s→20s 递进重试；仍不应但端口在听，就按
+    listen-only 放行——服务在跑、队列会消化，真坏由任务本身响亮失败。
+    """
+    host = host or os.environ.get("COMFY_HOST") or "127.0.0.1:8188"
+    last = "system_stats unreachable (not tried)"
+    for t in (timeout, max(timeout, 10.0), max(timeout, 20.0)):
+        try:
+            with urllib.request.urlopen("http://%s/system_stats" % host, timeout=t) as r:
+                code = getattr(r, "status", 200)
+                body = json.loads(r.read().decode("utf-8", "replace") or "{}")
+            if code != 200:
+                last = "system_stats http=%s" % code
+                continue
+            ver = (body.get("system") or {}).get("comfyui_version") or "?"
+            return True, "system_stats ok comfyui=%s" % ver
+        except Exception as e:  # 连不上就是连不上，不许当成"活着"
+            last = "system_stats unreachable (%s)" % type(e).__name__
+    if _tcp_listening(host):
+        return True, "%s；listen-only 端口在听，按在役放行" % last
+    return None, last
 
 
 def _status_ok(station, root=None, force=False):
@@ -1173,12 +1197,15 @@ def self_test():
         chk("缺产物 -> 建卡", [w["stage"] for w in want] == ["草稿"])
 
         # 工序级判据/复核：同一 task_type 下机械工序可以用 path + verify_cmd
+        # 自检要跑在 Windows 上：POSIX 的 true 在 cmd 里不存在（rc=1 会把下面两条
+        # 期望 DONE 的腿判红），无操作命令一律用当前解释器，跨平台成立。
+        noop = "\"%s\" -c pass" % sys.executable
         prods2 = {"products": [
             {"id": "P1", "stages": ["草稿", "复盘"],
              "outputs": {"草稿": "out/p1/drafts.jsonl"},
              "commands": {"草稿": "true"}, "manual_stages": ["复盘"],
              "judges": {"草稿": "path"},
-             "verify": {"草稿": "true"}}]}
+             "verify": {"草稿": noop}}]}
         json.dump(prods2, open(os.path.join(base, "PRODUCTS.json"), "w", encoding="utf-8"),
                   ensure_ascii=False)
         w2, _ = plan("control", td)
@@ -1186,7 +1213,7 @@ def self_test():
                           {"ok": False, "why": "CMD-REJECTED", "detail": "命令未经审核"}, td)
         chk("命令未经审核的卡直接作废（不重试）", _v == "CANCELLED")
         chk("工序级 judge + verify_cmd 进卡",
-            bool(w2) and w2[0].get("judge") == "path" and w2[0].get("verify_cmd") == "true")
+            bool(w2) and w2[0].get("judge") == "path" and w2[0].get("verify_cmd") == noop)
         chk("无产物契约 -> UNKNOWN-OUTPUT 不建卡",
             [u["stage"] for u in unknown] == ["复盘", "步骤"])
 
