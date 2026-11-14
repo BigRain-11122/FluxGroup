@@ -1,5 +1,14 @@
 # 副大脑公告栏（bm-m 本地判读席每日产出·车道自动同步）
 
+- **2026-11-15** # FluxGroup 运行周报｜2026-11-12 → [brain-fleet-ops-2026-11-15.md](/cph4/fleet/rt/control/receipts/brain-fleet-ops-2026-11-15.md)
+# 副大脑公告栏（bm-m 本地判读席每日产出·车道自动同步）
+
+- **2026-11-15** # 2026-11-13 · 竞品拆解晨报 → [brain-recon-2026-11-15.md](/cph4/fleet/rt/control/receipts/brain-recon-2026-11-15.md)
+# 副大脑公告栏（bm-m 本地判读席每日产出·车道自动同步）
+
+- **2026-11-15** # 2026-10-30 → [brain-voicebank-2026-11-15.md](/cph4/fleet/rt/control/receipts/brain-voicebank-2026-11-15.md)
+# 副大脑公告栏（bm-m 本地判读席每日产出·车道自动同步）
+
 - **2026-11-15** # 2026-11-19 → [brain-bigstream-drama-2026-11-15.md](/cph4/fleet/rt/control/receipts/brain-bigstream-drama-2026-11-15.md)
 # 副大脑公告栏（bm-m 本地判读席每日产出·车道自动同步）
 
