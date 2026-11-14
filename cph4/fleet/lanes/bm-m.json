@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-15T01:21:37",
+ "ts": "2026-11-15T01:27:52",
  "jobs": [
   {
    "id": "R-MODEL-RADAR-BMB-20261114",
@@ -23,34 +23,6 @@
    "cwd": "",
    "needs": "cpu",
    "deliverable": "cph4/fleet/queue-receipts/model-radar-bm-c-20261115.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "R-NEXT-BIGSTREAMM-REBUILD-20261115",
-   "title": "MV 合成本片：按 EDL 行表重建成片 v721（缺的是成片，不是闸）",
-   "cmd": "python Tools/mv_rebuild_from_edl.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721.mp4",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721.mp4",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "R-PLAN-BIGMONEY-20261115",
-   "title": "BigMoney·量化 线级体检与缺口清单",
-   "cmd": "python Tools/fleet/line_triage.py --line bigmoney --out cph4/fleet/queue-receipts/triage-bigmoney-20261115.md",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigmoney-20261115.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -89,5 +61,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 9.0/1.0 GB"
+ "capacity_note": "ram 7.9/1.0 GB"
 }
