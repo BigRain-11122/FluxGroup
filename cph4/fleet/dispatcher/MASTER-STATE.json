@@ -1,32 +1,32 @@
 {
- "ts": "2026-11-15T00:40:49",
- "cycle": 1319,
+ "ts": "2026-11-15T00:43:44",
+ "cycle": 1320,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-15T00:40:49",
+ "master_tick_ts": "2026-11-15T00:43:44",
  "queue": {
   "total": 77,
-  "open": 19,
+  "open": 22,
   "running": 12,
   "done": 23,
-  "failed": 3
+  "failed": 1
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 6.1,
-   "cpu_load_pct": 97,
-   "ram_free_gb": 24.1,
-   "gpu_util_pct": 59,
+   "hb_age_s": 53.4,
+   "cpu_load_pct": 96,
+   "ram_free_gb": 30,
+   "gpu_util_pct": 0,
    "job": "biggame-pack-scan-2026-11-14",
    "last_result": {
     "job": "asset-lib-voice-corpus-2026-11-15",
     "state": "BUSY",
     "rc": null,
-    "ts": "2026-11-15T00:40:34",
+    "ts": "2026-11-15T00:43:27",
     "reason": null,
     "out_bytes": 0,
-    "elapsed_s": 44
+    "elapsed_s": 216
    },
    "idle_confirmed": false,
    "idle_reason": "",
@@ -58,16 +58,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 288.7,
-   "cpu_load_pct": 18,
-   "ram_free_gb": 3.5,
+   "hb_age_s": 3.2,
+   "cpu_load_pct": 7,
+   "ram_free_gb": 4.6,
    "gpu_util_pct": null,
    "job": "R-NEXT-BIGGAME-SUBMIT-P-20261114",
    "last_result": {
-    "job": "CHK-RECEIPT-20261105",
+    "job": "CHK-LIB-20261111",
     "state": "FAILED",
     "rc": 2,
-    "ts": "2026-11-15T00:40:20",
+    "ts": "2026-11-15T00:43:38",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -92,10 +92,13 @@
    "stale_after_h": 24.0,
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
    "jobs": [
+    "bigstream-mv-gate-2026-11-14",
     "bigstream-mv-gate-2026-11-15"
    ],
    "no_supply": false,
-   "blockers": [],
+   "blockers": [
+    "bigstream-mv-gate-2026-11-14:no-lane"
+   ],
    "note": null,
    "stuck_stage": "mv-kf",
    "stuck_owner": "导演席·美术"
@@ -150,10 +153,13 @@
    "jobs": [
     "R-NEXT-BIGGAME-SUBMIT-P-20261114",
     "biggame-pack-scan-2026-11-14",
+    "R-PLAN-BIGGAME-20261114",
     "biggame-pack-scan-2026-11-15"
    ],
    "no_supply": false,
-   "blockers": [],
+   "blockers": [
+    "R-PLAN-BIGGAME-20261114:no-lane"
+   ],
    "note": null,
    "stuck_stage": "game-design",
    "stuck_owner": "游戏席"
@@ -185,7 +191,6 @@
    ],
    "no_supply": false,
    "blockers": [
-    "R-PLAN-BIGMONEY-20261114:no-lane",
     "bigmoney-signal-2026-11-14:no-lane"
    ],
    "note": "2026-11-04 夜班重启：原回测阶段钉 bm-d，而 bm-d 自 10-29 离线；改由 bm-b（有 quant 仓与数据）出「下月持仓信号 CSV」，主控按 P1 恢复派单。",
@@ -276,14 +281,16 @@
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
    "jobs": [
-    "CHK-LIB-20261111",
     "LINE-TRIAGE-MV-20261114",
+    "CHK-RECEIPT-20261105",
     "R-MODEL-RADAR-BMA-20261114",
     "Q-TRIAGE-FLUXVERSE-20261114",
     "Q-TRIAGE-BIGSTREAMDRAMA-20261115"
    ],
    "no_supply": false,
-   "blockers": [],
+   "blockers": [
+    "CHK-RECEIPT-20261105:no-lane"
+   ],
    "note": null
   },
   "asset-lib": {
@@ -296,6 +303,7 @@
    "jobs": [
     "asset-lib-voice-corpus-2026-11-14",
     "asset-lib-face-dataset-2026-11-14",
+    "asset-lib-char-prompts-2026-11-14",
     "asset-lib-voice-corpus-2026-11-15",
     "asset-lib-face-dataset-2026-11-15",
     "asset-lib-char-gen-2026-11-15",
@@ -303,9 +311,7 @@
     "asset-lib-asset-gen-scenes-2026-11-15"
    ],
    "no_supply": false,
-   "blockers": [
-    "asset-lib-asset-gen-scenes-2026-11-15:no-lane"
-   ],
+   "blockers": [],
    "note": "CEO 2026-11-03：先储备资产，角色 LoRA 与音色库为 P0"
   }
  },
@@ -854,7 +860,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 16,
+  "local": 19,
   "cloud": 0,
   "queue": 3,
   "blocked": 0,
@@ -862,15 +868,13 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 16,
+  "cpu": 19,
   "gpu": 3
  },
  "supply_added": [],
  "events": [
-  "CHK-RECEIPT-20261105 FAILED via bm-m",
-  "bigstream-drama-manifest-2026-11-14 REQUeued attempt=1",
-  "bigmoney-signal-2026-11-14 REQUeued attempt=1",
-  "bigstream-drama-manifest-2026-11-14 -> bm-m (cpu)"
+  "CHK-LIB-20261111 FAILED via bm-m",
+  "asset-lib-char-prompts-2026-11-14 -> bm-m (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
@@ -880,8 +884,6 @@
  ],
  "lane_files_written": [
   "bm-a",
-  "bm-b",
-  "bm-c",
   "bm-m"
  ]
 }
