@@ -1,22 +1,22 @@
 {
- "ts": "2026-11-15T00:21:53",
- "cycle": 1315,
+ "ts": "2026-11-15T00:22:45",
+ "cycle": 1316,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-15T00:21:53",
+ "master_tick_ts": "2026-11-15T00:22:45",
  "queue": {
   "total": 75,
-  "open": 19,
+  "open": 18,
   "running": 14,
   "done": 19,
-  "failed": 2
+  "failed": 3
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 14.6,
-   "cpu_load_pct": 35,
-   "ram_free_gb": 49.2,
+   "hb_age_s": 7.7,
+   "cpu_load_pct": 57,
+   "ram_free_gb": 49.6,
    "gpu_util_pct": 0,
    "job": "R-NEXT-BIGGAME-SUBMIT-P-20261114",
    "last_result": {
@@ -46,7 +46,7 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": -0.6,
+   "hb_age_s": 52.6,
    "cpu_load_pct": 7,
    "ram_free_gb": 45.6,
    "gpu_util_pct": 0,
@@ -55,23 +55,31 @@
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-15T00:21:35",
+    "ts": "2026-11-15T00:21:50",
     "reason": "EXECUTOR-DEAD (66.5h 零产出)",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
    "idle_reason": "EXECUTOR-DEAD (66.6h 零产出)",
-   "idle_rounds": 3
+   "idle_rounds": 4
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 3.6,
+   "hb_age_s": 57.2,
    "cpu_load_pct": 17,
    "ram_free_gb": 9.0,
    "gpu_util_pct": null,
-   "job": "bigstream-mv-gate-2026-11-14",
-   "last_result": null,
+   "job": "R-TTS1202R-VERIFY-20261031",
+   "last_result": {
+    "job": "bigstream-mv-gate-2026-11-14",
+    "state": "FAILED",
+    "rc": 1,
+    "ts": "2026-11-15T00:22:02",
+    "reason": null,
+    "out_bytes": null,
+    "elapsed_s": null
+   },
    "idle_confirmed": false,
    "idle_reason": "",
    "idle_rounds": 0
@@ -80,7 +88,7 @@
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
-  "bm-c": 3,
+  "bm-c": 4,
   "bm-m": 0
  },
  "lines": {
@@ -92,7 +100,6 @@
    "stale_after_h": 24.0,
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
    "jobs": [
-    "bigstream-mv-gate-2026-11-14",
     "bigstream-mv-gate-2026-11-15"
    ],
    "no_supply": false,
@@ -853,7 +860,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 18,
+  "local": 17,
   "cloud": 0,
   "queue": 1,
   "blocked": 0,
@@ -861,13 +868,16 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 18,
+  "cpu": 17,
   "gpu": 1
  },
  "supply_added": [],
- "events": [],
+ "events": [
+  "bigstream-mv-gate-2026-11-14 FAILED via bm-m",
+  "bigstream-mv-gate-2026-11-15 -> bm-m (cpu)"
+ ],
  "violations": [
-  "bm-c IDLE-CONFIRMED x3 (EXECUTOR-DEAD (66.6h 零产出))",
+  "bm-c IDLE-CONFIRMED x4 (EXECUTOR-DEAD (66.6h 零产出))",
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)",
