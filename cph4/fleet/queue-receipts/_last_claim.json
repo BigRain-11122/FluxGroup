@@ -1,20 +1,11 @@
 {
- "ts": "2026-11-12T05:46:47",
- "state": "POOL-EMPTY",
- "node": "bm-c",
- "face": "origin",
- "blocked": [
-  {
-   "id": "POOL-0032",
-   "blocked_by": [
-    "no-verified-cmd: bm-c ComfyUI:8188 闭（R39-4 未复，需 bm-c 本机启动后解锁）"
-   ]
-  },
-  {
-   "id": "POOL-0033",
-   "blocked_by": [
-    "no-verified-cmd: bm-c ComfyUI:8188 闭（R39-4 未复，需 bm-c 本机启动后解锁）"
-   ]
-  }
+ "ts": "2026-11-14T13:20:51",
+ "state": "QUEUE-EMPTY",
+ "node": "bm-a",
+ "needs": "",
+ "skipped_gpu": 0,
+ "skipped_foreign": [
+  "UNBLOCK-VCORP-GEN-r1202-EP001-060-20261108(HARD-NODE:bm-m)",
+  "asset-lib-asset-gen-scenes-2026-11-11(HARD-NODE:bm-c)"
  ]
 }
