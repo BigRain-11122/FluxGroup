@@ -1,0 +1,10 @@
+{
+ "id": "bigstream-drama-manifest-2026-11-14",
+ "node": "bm-a",
+ "rc": 127,
+ "seconds": 0.0,
+ "cmd": "python Tools/fleet/drama_manifest.py --dir media/drama-sample-v2 --out cph4/fleet/queue-receipts/drama-manifest-2026-11-14.json",
+ "outcome": "CARD-DEFECT",
+ "card_defect": "INPUT-MISSING --dir 指向的相对路径在本机各工作根下都不存在：media/drama-sample-v2",
+ "ts": "2026-11-14T23:55:50"
+}
