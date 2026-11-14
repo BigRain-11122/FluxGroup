@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-12T12:20:35",
+ "ts": "2026-11-14T12:40:51",
  "station": "delivery",
  "hostname": "Dasheng",
  "os": "windows",
@@ -69,7 +69,9 @@
  },
  "ffmpeg": {
   "version": "9.0.2-full_build-www.gyan.dev",
-  "present": true
+  "present": true,
+  "path": "C:\\Users\\sjs20\\AppData\\Local\\Microsoft\\WinGet\\Packages\\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\\ffmpeg-9.0.2-full_build\\bin\\ffmpeg.EXE",
+  "found_by": "PATH"
  },
  "gpu": {
   "backend": "nvidia-smi",

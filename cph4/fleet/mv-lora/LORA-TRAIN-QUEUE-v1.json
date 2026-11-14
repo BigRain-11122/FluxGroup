@@ -99,7 +99,7 @@
    "name": "邻家马尾",
    "trigger": "h05",
    "lora": "her_T05_r1",
-   "status": "blocked-cast",
+   "status": "running",
    "base": "a young Taiwanese woman around twenty, oval face, wide-set dark eyes, flat natural brows, bare-skin look with pale matte lips, high ponytail with loose strands at the temples, visible pores and fine film grain, relaxed un-fitted 2001 Taipei style, white shirt with sleeves rolled once, straight jeans, canvas backpack",
    "use": [
     "mv",
@@ -111,7 +111,8 @@
     "bm-a"
    ],
    "needs": "gpu",
-   "cast_fix": "R-20261106: added face/eye qualifier (CAST-DISTINCTIVENESS-LAW v1)"
+   "cast_fix": "R-20261106: added face/eye qualifier (CAST-DISTINCTIVENESS-LAW v1)",
+   "images": 36
   },
   {
    "order": 6,
