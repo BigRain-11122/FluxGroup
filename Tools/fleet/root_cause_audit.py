@@ -53,6 +53,26 @@ def read_jsonl(p):
     return out
 
 
+def live_rows():
+    """当前执行面 = rt/<station>/queue.jsonl 五片。
+
+    Why（2026-11-14 实锚）：本文件原来三处都 read_jsonl(QUEUE)，而 QUEUE 是
+    PRODUCTION-QUEUE.jsonl —— 该文件 11-11 已退役归档，只在 git 里留了 2048 行历史态。
+    后果是这条审计拿"没人执行的历史档"判活卡与假完成：某次工具把它重建回 25 行，
+    判据立刻由红转绿；把工作树恢复成 2048 行历史态，又冒出 2 张"无 owner 的失败卡"
+    （历史遗留，早就不在执行面上）。判据读错数据面，红绿都不算数。
+    卡的真实状态只认分片；读不到分片时才回落到旧文件（沙箱/新机）。
+    """
+    try:
+        import demand_audit as _da
+        rows = _da.qrows()
+        if rows:
+            return rows
+    except Exception:
+        pass
+    return read_jsonl(QUEUE)
+
+
 def git(*args, timeout=60):
     try:
         p = subprocess.run(["git", "-C", ROOT] + list(args), capture_output=True,
@@ -71,16 +91,20 @@ def probe_multi_source(_r):
     b = str(((lp.get("duties") or {}).get("resident") or {}).get("model") or "")
     if a and b and a != b:
         bad.append("模型现役两处不同：%s vs %s" % (a, b))
-    # 队列与备队列同 id 必须同状态
-    q, bl = read_jsonl(QUEUE), read_jsonl(BACKLOG)
-    qm = {str(r.get("id")): str(r.get("state") or "") for r in q if r.get("id")}
-    drift = 0
-    for r in bl:
+    # 同 id 不得在两个分片里各写一份不同状态（并发写分片 / 误搬卡）。
+    # 原判据是"队列 vs 备队列同 id 状态漂移"，两边都是退役档，交集恒空=判据永远绿。
+    q = live_rows()
+    by, drift = {}, 0
+    for r in q:
         i = str(r.get("id") or "")
-        if i and i in qm and str(r.get("state") or "") != qm[i]:
+        if not i:
+            continue
+        st = str(r.get("state") or "")
+        if i in by and by[i] != st:
             drift += 1
+        by.setdefault(i, st)
     if drift:
-        bad.append("队列/备队列同 id 状态漂移 %d 条" % drift)
+        bad.append("分片间同 id 状态冲突 %d 条" % drift)
     # 节奏表与脉一致性
     cp = jload(os.path.join(STATE, "cadence-plan.json"), {}) or {}
     if cp.get("verdict") == "FAIL":
@@ -104,7 +128,7 @@ def probe_state_in_git(_r):
 # ---- R3 假绿判据 --------------------------------------------------------------
 def probe_false_green(_r):
     bad = []
-    rows = read_jsonl(QUEUE)
+    rows = live_rows()
     import re
     notdeliv = 0
     for x in rows:
@@ -175,7 +199,7 @@ def probe_code_age(_r):
 # ---- R5 无人收口 --------------------------------------------------------------
 def probe_unowned_alerts(_r):
     bad = []
-    rows = read_jsonl(QUEUE)
+    rows = live_rows()
     blocked = [x for x in rows
                if str(x.get("state", "")).upper() in ("BLOCKED", "FAILED")
                and not str(x.get("owner") or "").strip()]
