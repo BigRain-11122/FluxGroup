@@ -60,12 +60,13 @@
  "lane_local_llm": {
   "endpoint": "http://127.0.0.1:11434",
   "model": "qwen3.5:4b-mlx",
-  "keep_alive": "15m",
+  "keep_alive": "10m",
   "num_ctx": 8192,
-  "why": "唯一源=LOCAL-MODEL-POLICY.duties.resident（实测同黄金集 6/8，MLX 38-40 tok/s 优于 llamacpp）；此处曾写死 qwen3:4b-instruct 导致两个 4B 同时驻留白占 3.7GB；num_ctx 4k→8k 防监控输入截断",
+  "why": "唯一源=LOCAL-MODEL-POLICY.duties.resident（实测同黄金集 6/8，MLX 38-40 tok/s）；此处曾写死 qwen3:4b-instruct 导致两个 4B 同时驻留白占 3.7GB；num_ctx 4k→8k 防监控输入截断。keep_alive 2026-11-14 由 15m 收到 10m，与 duties.resident 及 OLLAMA_KEEP_ALIVE 对齐（同一事实不许两处各写一个数）。",
   "fallback": "http://100.75.133.10:11435",
   "shared_brain": "bm-m qwen3.5:35b-a3b (Tailscale 100.75.133.10, resident, keep_alive=-1)",
-  "fallback_why": "CEO 2026-11-05：机队优先级=自己的本地算力 > Mac 的（必须走 11435 网关：token/并发1/上下文8192/死线120s/内存余量<7GB 拒）> 云（搞不定或长时间无响应才上，受日预算闸）"
+  "fallback_why": "CEO 2026-11-05：机队优先级=自己的本地算力 > Mac 的（必须走 11435 网关：token/并发1/上下文8192/死线120s/内存余量<7GB 拒）> 云（搞不定或长时间无响应才上，受日预算闸）",
+  "_big_seat_note": "质量档不在这条车道：判卷/复核走 LOCAL-MODEL-POLICY.duties.big（qwen3.5:9b-mlx，常驻）。车道保留 4B 是为了机队借用时不把 9B 拖进别人的等待队列。"
  },
  "cloud_seat": {
   "state": "OPEN",
@@ -86,7 +87,7 @@
   "_why": "CEO 2026-11-01：做的事不要超过能力；要上云就上云；不要频繁触发硬盘交换；合理使用 MacBook 算力",
   "bm-m_can": [
    "确定性脚本/闸/扫描",
-   "本机 4B 文本判读（≤4GB, keep_alive 5m）",
+   "本机 4B 主力 + 9B 质量档（常驻合计 14.8GB，实测零换页）",
    "调度/监督/派单",
    "轻 CPU 批处理"
   ],
@@ -107,21 +108,21 @@
   "primary": "AI 赋能：判断席、线级简报、派单与监督",
   "secondary": "轻度办公：浏览器/文档/终端，预留 4GB",
   "budget": {
-   "reserve_for_office_gb": 4,
-   "model_max_gb": 14,
+   "reserve_for_office_gb": 1,
+   "model_max_gb": 16,
    "swap_soft_gb": 1.0,
    "swap_hard_gb": 2.0,
-   "note": "办公预留 4GB；4B 常驻（AI 优先，keep_alive 30m），8B 仅按需加载做长文"
+   "note": "2026-11-14：4B 主力 + 9B 质量档常驻（14.8GB 实测零换页）；办公只留 1GB（专用机）。换页规则不变（≥2GB 时单模型压到常驻席）"
   },
   "note": "办公预留从 6GB 降到 4GB；换页规则不变（≥2GB 时单模型压到常驻席）"
  },
  "judge_seat": {
-  "model": "qwen3:8b",
-  "role": "本地判读席（比 4B 更能给判断，但更慢）",
-  "state": "MEASURED-NOT-ADOPTED",
-  "rule": "先与 4B 同题实测：正确率/是否编造/端到端秒数；只有质量明显更优才替换 4B",
-  "why": "判断质量是当前瓶颈，速度不是；8B 约 5GB，在新预算内可常驻",
-  "evidence": "同题 4 条实测（judge-bench-20261102.json）：4B 更可执行、不更慢；8B 更爱回「需要人工」"
+  "model": "qwen3.5:9b-mlx",
+  "role": "本地判读席 = big 档（评审团 34 面板的判卷、根因归类、质量复核）",
+  "state": "ADOPTED-20261114",
+  "rule": "与 4B 同题实测：只有质量更高才替换。2026-11-14 已实测成立：9B 6/6 vs 8B 5/6，解码 24.6 vs 24.1 tok/s",
+  "why": "判断质量是当前瓶颈，速度不是。判卷席接到 39 席里 24 席，冷加载 20-40s 的代价必须消掉，所以进常驻集",
+  "evidence": "2026-11-14 实测：4B+9B+向量 14.8GB 零换页；9B 与 8B 同黄金集 6/6 vs 5/6。历史对照件 judge-bench-20261102.json（8B 更爱回「需要人工」，已退役）"
  },
  "_single_source": "模型名与档位只认 LOCAL-MODEL-POLICY.json；本文件不得另立第二个现役模型"
 }

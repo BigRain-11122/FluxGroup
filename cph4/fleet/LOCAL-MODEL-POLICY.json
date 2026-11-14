@@ -1,7 +1,7 @@
 {
  "_comment": "本机（bm-m·32GB 统一内存）本地模型的机器面策略。人读版=cph4/fleet/LOCAL-LLM-ROLE-20261103.md，本件只放机读的职责映射、验收阈值与评测集。改这里=改策略，Tools/fleet/model_radar.py 只读它并给建议，不自行改档。 黄金集只用「给了上下文就能答」的题：考题里自带证据，测的是照做与拒答，不测它认不认识我们的项目。",
- "version": "v1-20261103",
- "updated": "2026-11-10T21:55:00",
+ "version": "v2-20261114",
+ "updated": "2026-11-14T13:05:00",
  "duties": {
   "resident": {
    "_why": "主力默认档：摘要/抽字段/写一句理由/短判定（未知 cls 都走这里）",
@@ -12,7 +12,7 @@
    "idle_reap_minutes": 10,
    "_reap_why": "CEO 2026-11-11「不能闲着还常驻」：常驻档只保 10 分钟，闲置就退（4B 重载约 0.4s，用 0.4s 换回 4.1G 内存）。原 30m 会让模型在没活时占着内存。MLX 别名卸载用 keep_alive=1m，不能写 0（会卡在 Stopping 且再也加载不上，见文件尾 _keep_alive_why）。",
    "measured_tok_s": "38-40",
-   "_alias_note": "本机 ollama list 显示为 qwen3.5:4b；4b-mlx 为其 MLX 别名，两者都指向同一 manifest。调用一律带 think=false。"
+   "_alias_note": "2026-11-14 勘误：原写『qwen3.5:4b 与 4b-mlx 是同一 manifest 的别名』是错的——ollama list 里两者 ID 不同（7f3251fa6878 / 61aa3858e9d3），同时加载会变成两个 4B（8.6GB）。本机调用一律用 4b-mlx；qwen3.5:4b 只留给机队其它机器的 AI-ENV-SPEC 白名单，不在本机常驻。调用一律带 think=false。"
   },
   "alternative": {
    "model": "qwen3:4b",
@@ -25,9 +25,9 @@
    "why": "语义判重/检索。2026-11-05 实测纠错：原写 nomic-embed-text 但本机从未安装，任何调用都会挂到超时（Ollama 去上游拉未果）；已装且实测更优的是 qwen3-embedding:0.6b（正例 .977 / 负例 .391，间隔比 nomic 大 54%）。换嵌入档必须同时改 AUTONOMY-CONFIG.local_priority.fleet_model_whitelist。"
   },
   "longform": {
-   "model": "qwen3:8b",
-   "budget_gb": 7.0,
-   "why": "长文/改写按需；不进常驻，避免与办公应用抢内存"
+   "model": "qwen3.5:9b-mlx",
+   "budget_gb": 9.5,
+   "why": "长文/改写按需。2026-11-14 起与 big 档同模型：longform 没有独立模型，复用 big 的常驻权重，不再单独装卸（原 qwen3:8b 已退役）"
   },
   "sealed": {
    "model": "qwen3.5:35b-a3b",
@@ -36,22 +36,27 @@
    "installed": false
   },
   "triage": {
-   "_why": "快车道：归类/打标/过筛。四档常驻（实测 13.1GB）；OLLAMA_MAX_LOADED_MODELS 必须 ≥ 档数，否则新档进来会挤掉旧档（2026-11-10 修正：原写 qwen3:1.7b 本机未装）",
+   "_why": "快车道：归类/打标/过筛。AGENT-TEAMS 39 席里 20 席按 cls=triage 落到本档，但真实调用账（dispatcher/local-model.jsonl，3601 行）里 triage 只出现 6 次 —— 用量撑不起常驻，按需即卸。",
    "model": "qwen3.5:2b",
-   "cost_gb": 1.5,
+   "cost_gb": 3.1,
    "num_ctx": 4096,
    "keep_alive": "1m",
-   "resident": false
+   "runner": "mlx",
+   "resident": false,
+   "_cost_note": "2026-11-14 实测纠错：原写 1.5GB 是假数，ollama show 实为 2.2B / mxfp8 / safetensors，驻留 3.1GB（比 4B 的 4.3GB 只省 1.2GB，亚秒级优势有限）。",
+   "_keepalive_note": "本档是 MLX runner，keep_alive 不能写 0（会卡在 Stopping 再也加载不上），所以走 1m 空闲退；这也是 model_plan E-KEEPALIVE 必须对 MLX 档开例外的原因。"
   },
   "big": {
-   "_why": "难活常驻：质量复核/长文改写/代码审查/创意文案。实测 8B 与 4B、向量三档共存 11.0GB，不必每次临时装卸（装卸一次要 3-6 秒且在内存紧时会挤掉主力）",
-   "model": "qwen3:8b",
-   "cost_gb": 5.9,
-   "num_ctx": 8192,
-   "keep_alive": 0,
-   "resident": false
+   "_why": "难活常驻：质量复核/长文改写/代码审查/创意文案。这一档是本地算力的价值中枢——AGENT-TEAMS 39 席里 24 席（review 11/creative 6/deep 2 + 评审团 34 面板的判卷席）按 cls 落到本档，判卷质量直接决定卡片能不能过闸。2026-11-14 实测（同黄金集）：9B-MLX 质量 6/6、解码 24.6 tok/s；qwen3:8b 质量 5/6、解码 24.1 tok/s——9B 质量更高且速度持平，是严格优解。原 8B 档 keep_alive=0，每次判卷都要冷加载 20-40 秒，等于把最贵的活放在最慢的路径上。",
+   "model": "qwen3.5:9b-mlx",
+   "cost_gb": 9.5,
+   "num_ctx": 32768,
+   "keep_alive": "10m",
+   "resident": true,
+   "measured_tok_s": "20-24.6",
+   "_keep_alive_why": "MLX 档绝不能写 0（会卡在 Stopping 再也加载不上），常驻用 10m；闲置回收交给 worker 到期与主控脉，不用 0 表达"
   },
-  "_keepalive_why": "非驻留档必须 keep_alive=0：写 1m 会让 1.7B/8B 悄悄占住内存，而 budget.resident_set 只含 resident+embedding，同一事实两处判据打架（model_plan E-KEEPALIVE 每轮报红）。"
+  "_keepalive_why": "非驻留档必须 keep_alive=0：写 1m 会让 qwen3.5:2b 悄悄占住内存，而 budget.resident_set 只含 resident+big+embedding，同一事实两处判据打架（model_plan E-KEEPALIVE 每轮报红）。MLX 档是唯一例外——它不能用 0（会卡 Stopping），所以 MLX 档一律常驻且写明 keep_alive。"
  },
  "accept_upgrade": {
   "quality_drop_max": 0.0,
@@ -297,17 +302,18 @@
   }
  ],
  "budget": {
-  "resident_gb_limit": 18.0,
-  "peak_gb_limit": 24.0,
-  "rule": "CEO 2026-11-07：办公不必留太多，模型可占到 16GB 常驻；硬线是换页速率（mem_guard），不是 swap 占用总量",
+  "resident_gb_limit": 16.0,
+  "peak_gb_limit": 20.0,
+  "rule": "CEO 2026-11-14「本地算力在不触发 swap 的前提下用满用好」：常驻集按实测零换页线取，不按印象取。硬线仍是换页速率（mem_guard），不是 swap 占用总量。",
   "office_reserve_gb": 1.0,
   "resident_set": [
    "resident",
+   "big",
    "embedding"
   ],
-  "_resident_set_why": "2026-11-08 CEO「一个模型可以干很多事」+审计实测：214 次走 4B、8B 3 次、1.7B 3 次。常驻只留主力与向量，8B/1.7B 按需（keep_alive=0），省 ~6.6GB 且不再互相驱逐。",
-  "_dedicated_why": "CEO 2026-11-09：这是专用 AI 主控机，白天不办公 → 不再为办公预留 4GB，模型可用到 20GB 常驻/24GB 峰值；swap 红线不变。",
-  "_measured_note": "2026-11-11 实测：17.57G 模型零 swap；再高发生驱逐并换页。留 14G 给系统与编辑器。"
+  "_resident_set_why": "2026-11-14 实测定案：4B(4.3G) + 9B(9.5G) + 向量(0.6G) = 14.8GB，6 次真实生成全程 swap +0.0MB。把 big 放进常驻集的判据不是『8B 以前常驻过』，而是**它承载 39 席里 24 席**（review/creative/deep + 34 面板判卷席）：keep_alive=0 时每次判卷都要冷加载 20-40 秒，等于把最贵的活放在最慢的路径上。triage 不进常驻（真实调用只有 6 次）。",
+  "_dedicated_why": "CEO 2026-11-09：这是专用 AI 主控机，白天不办公 → 不再为办公预留 4GB，模型可用到 16GB 常驻/20GB 峰值；swap 红线不变。",
+  "_measured_note": "2026-11-14 实测：4B+9B+向量 14.8GB 零换页；4B+9B+8B(17.57G) 仍零换页；再加 14B 即驱逐+换页 190MB。留 17G 给系统与编辑器。"
  },
  "_keep_alive_why": "MLX runner 对 keep_alive=0 会卡在 Stopping 且再也加载不上（实测）。按需档用 1m 空闲自动退，常驻档 30m。",
  "routing": {
@@ -420,5 +426,22 @@
   "combos_fail": [
    "4B+9B+8B+14B（驱逐+swap+190MB）"
   ]
+ },
+ "measured_20261114": {
+  "_why": "CEO 2026-11-14「本地算力在不触发 swap 的前提下用满用好」的落地实测。判据不是『装得下』，而是『真实生成过程中 swap used 不涨』。",
+  "resident_combo": "qwen3.5:4b-mlx + qwen3.5:9b-mlx + qwen3-embedding:0.6b",
+  "resident_gb": 14.8,
+  "swap_delta_mb": 0.0,
+  "pageout_delta": 1,
+  "runs": 6,
+  "decode_tok_s": {
+   "qwen3.5:4b-mlx": "35-40",
+   "qwen3.5:9b-mlx": "20-24.6"
+  },
+  "quality_on_same_golden_set": {
+   "qwen3.5:9b-mlx": "6/6",
+   "qwen3:8b": "5/6"
+  },
+  "verdict": "9B 严格优于 8B（质量 +1/6、速度持平），8B 因此退出 big 档；9B 入常驻集，冷加载 20-40s 不再付。"
  }
 }

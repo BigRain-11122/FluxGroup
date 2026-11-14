@@ -27,12 +27,14 @@
 
 | 模型 | 座位 | 用途 | 实际情况 |
 |---|---|---|---|
-| `qwen3.5:4b-mlx` | resident | 摘要/抽字段/写理由 | 常驻，约 4.5–5.3GB |
-| `qwen3-embedding:0.6b` | embedding | 向量 | 常驻，约 1.0GB |
-| `qwen3:1.7b` | triage | 归类/打标/过筛 | 按需（`keep_alive=1m`，用完即卸） |
-| `qwen3:8b` | big | 代码/评审/长文 | 按需（`keep_alive=1m`） |
+| `qwen3.5:4b-mlx` | resident | 摘要/抽字段/写理由 | 常驻，ctx8192，约 3.9GB |
+| `qwen3.5:9b-mlx` | big | 代码/评审/长文/评审团判卷 | 常驻，ctx32768，约 8.4GB |
+| `qwen3-embedding:0.6b` | embedding | 向量 | 常驻，约 0.6GB |
+| `qwen3.5:2b` | triage | 归类/打标/过筛 | 按需（MLX 不能写 0，`keep_alive=1m`） |
 
-禁放行：`qwen3.5:35b-a3b`（驻留即 swap，已封存）、`qwen3:4b-instruct`/`qwen3.5:4b`（对照档，会顶掉主力）。
+禁放行：`qwen3.5:35b-a3b`（驻留即 swap，已封存）、`qwen3:4b`/`qwen3.5:4b`（对照档，会顶掉主力）。
+
+注：本表由策略推导，2026-11-14 随 `duties.big` 换档同步（原 `qwen3:8b` 已退役）。
 
 ## 4. 各机一次性准备（三行）
 

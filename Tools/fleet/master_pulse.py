@@ -863,17 +863,23 @@ def align_resident() -> str:
                 keep.add(m)
     except Exception:
         pass
-    stray = [m.get("name") or m.get("model") for m in models
-             if (m.get("name") or m.get("model")) not in keep]
-    for name in stray:
+    stray = [m for m in models if (m.get("name") or m.get("model")) not in keep]
+    for m in stray:
+        name = m.get("name") or m.get("model")
+        # MLX runner 对 keep_alive=0 会卡在 Stopping 且再也加载不上（2026-11-11 实测）：
+        # 卸 MLX 只能给 1m 让它到期自然退。原来这里一律发 0，等于把 stray 的 MLX 模型
+        # 弄成"再也加载不上"的死档；/api/ps 现在直接给 runner 字段，按下发不同值。
+        is_mlx = (str(m.get("runner") or "").lower() == "mlx"
+                  or "mlx" in str(name or "").lower())
         try:
             urllib.request.urlopen(urllib.request.Request(
                 "http://127.0.0.1:11434/api/generate",
-                data=json.dumps({"model": name, "keep_alive": 0}).encode(),
+                data=json.dumps({"model": name, "keep_alive": "1m" if is_mlx else 0}).encode(),
                 headers={"Content-Type": "application/json"}), timeout=30).read()
         except Exception:
             pass
-    return "ok" if not stray else "unloaded:" + ",".join(stray)
+    return "ok" if not stray else "unloaded:" + ",".join(
+        str(m.get("name") or m.get("model")) for m in stray)
 
 
 def ollama_ok() -> bool:

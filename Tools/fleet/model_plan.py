@@ -14,6 +14,8 @@ Exit: 0 合规；1 有告警；2 配置缺失
 import argparse
 import json
 import os
+import re
+import subprocess
 import sys
 import urllib.request
 
@@ -38,15 +40,116 @@ def resident():
         with urllib.request.urlopen("http://127.0.0.1:11434/api/ps", timeout=5) as r:
             ms = json.load(r).get("models", [])
         return [{ "name": m.get("name"), "gb": round((m.get("size") or 0) / 1024 ** 3, 1),
+                  "ctx": m.get("context_length"),
                   "expires": str(m.get("expires_at") or "")[:19]} for m in ms]
     except Exception as e:
         return {"_error": str(e)[:80]}
 
 
+def seat_of_model(name, duties):
+    """ps 里的模型名 → 策略座位名（精确优先，再做一次去 -mlx 的宽松匹配）。"""
+    name = str(name or "")
+    for seat, d in (duties or {}).items():
+        if isinstance(d, dict) and (d.get("model") or "") == name:
+            return seat
+    base = name.replace("-mlx", "")
+    for seat, d in (duties or {}).items():
+        if isinstance(d, dict) and (d.get("model") or "").replace("-mlx", "") == base:
+            return seat
+    return None
+
+
+def tier_errors(tiers, want_res, slots):
+    """分档规格判据（纯函数，便于负控）：常驻档要齐、槽位要够、keep_alive 要对。
+
+    Why 单独抽出来：2026-11-14 实测发现本函数的前身在 main 里直接调 subprocess/re，
+    却没有 import 这两个模块，异常被 `except Exception: pass` 吞掉 —— E-SLOTS 这项
+    「加载槽位够不够」的检查从上线起**一次都没跑过**，看着绿其实是空的。
+    抽成纯函数后可以拿篡改过的档位表反向验证它真的会报警。
+    """
+    errs = []
+    tiers = tiers or {}
+    for need in want_res:
+        if need not in tiers:
+            errs.append("E-TIER: 缺常驻档 %s（只剩单一大模型=CEO 明确反对）" % need)
+    # 加载槽位必须 ≥ 常驻档数，否则新档进来会挤掉旧档（实测 3 槽挤掉 8B）。
+    # 未显式设置时按 Ollama 默认 3（1 GPU × 3）算，不许因为读不到就跳过判据。
+    if slots is None:
+        slots = 3
+    if int(slots) < len(want_res):
+        errs.append("E-SLOTS: OLLAMA_MAX_LOADED_MODELS=%s 小于常驻档数 %d（会互相驱逐）"
+                    % (slots, len(want_res)))
+    for k, t in tiers.items():
+        if not isinstance(t, dict):
+            continue
+        ka = str(t.get("keep_alive"))
+        is_mlx = (str(t.get("runner") or "").lower() == "mlx"
+                  or "mlx" in str(t.get("model") or "").lower())
+        if is_mlx:
+            # MLX runner 对 keep_alive=0 会卡在 Stopping 且再也加载不上（2026-11-11 实测）：
+            # 这是与"非常驻必须写 0"相反的一条，必须单独判，否则等于把模型弄坏。
+            if ka in ("0", "0.0", "0s"):
+                errs.append("E-KEEPALIVE-MLX: %s 是 MLX 档却 keep_alive=0（会卡在 Stopping 再也加载不上）" % k)
+        elif t.get("resident") is False and ka not in ("0", "0s"):
+            errs.append("E-KEEPALIVE: %s 非常驻却 keep_alive=%s（会悄悄占住常驻）" % (k, ka))
+    return errs
+
+
+def slots_env():
+    """读 ollama serve 的 OLLAMA_MAX_LOADED_MODELS；读不到返回 None（按默认 3 算）。"""
+    try:
+        pg = subprocess.run(["pgrep", "-f", "ollama serve"],
+                            capture_output=True, text=True, timeout=10).stdout.split()
+        if not pg:
+            return None
+        env_txt = subprocess.run(["ps", "-E", "-p", pg[0]],
+                                 capture_output=True, text=True, timeout=10).stdout
+        m = re.search(r"OLLAMA_MAX_LOADED_MODELS=(\d+)", env_txt)
+        return int(m.group(1)) if m else None
+    except Exception:
+        return None
+
+
+def selftest():
+    """负控：改坏一格必须被抓到；正确配置必须零告警。"""
+    good = {
+        "resident": {"model": "qwen3.5:4b-mlx", "keep_alive": "10m", "resident": True},
+        "big": {"model": "qwen3.5:9b-mlx", "keep_alive": "10m", "resident": True, "runner": "mlx"},
+        "embedding": {"model": "qwen3-embedding:0.6b", "keep_alive": "10m", "resident": True},
+        "triage": {"model": "qwen3.5:2b", "keep_alive": "1m", "resident": False, "runner": "mlx"},
+    }
+    want = ["resident", "big", "embedding"]
+    cases = [
+        ("正确三档", good, want, 3, []),
+        ("槽位不足", good, want, 2, ["E-SLOTS"]),
+        ("槽位未设置按默认 3", good, want, None, []),
+        ("常驻档缺一", {k: v for k, v in good.items() if k != "big"}, want, 3, ["E-TIER"]),
+        ("MLX 写 0", dict(good, big={"model": "qwen3.5:9b-mlx", "keep_alive": "0",
+                                    "resident": True, "runner": "mlx"}), want, 3,
+         ["E-KEEPALIVE-MLX"]),
+        ("非 MLX 按需写 1m", dict(good, polish={"model": "some:7b", "keep_alive": "1m",
+                                               "resident": False}), want, 3, ["E-KEEPALIVE"]),
+    ]
+    bad = 0
+    for name, tiers, wr, slots, want_codes in cases:
+        got = tier_errors(tiers, wr, slots)
+        hit = [c for c in want_codes if not any(e.startswith(c) for e in got)]
+        extra = [e for e in got if not any(e.startswith(c) for c in want_codes)]
+        ok = (not hit) and (not extra)
+        bad += 0 if ok else 1
+        print("[selftest] %-18s %s %s" % (name, "PASS" if ok else "FAIL",
+                                          "" if ok else "缺=%s 多=%s" % (hit, extra)))
+    print("[selftest] %s" % ("PASS" if not bad else "FAIL %d" % bad))
+    return 0 if not bad else 1
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--json", action="store_true")
+    ap.add_argument("--selftest", action="store_true")
     a = ap.parse_args()
+    if a.selftest:
+        return selftest()
 
     mx = jload(MATRIX)
     lp = jload(LOCAL)
@@ -70,28 +173,10 @@ def main():
         if m and m not in known:
             errs.append("E-NAME: 座位 %s 的模型 %s 不在 LOCAL-MODEL-POLICY（单一源）" % (sid, m))
 
-    # 1b) 分档规格（v2）：三档常驻必须齐；按需档必须用完即卸
+    # 1b) 分档规格（v2）：三档常驻必须齐；按需档必须用完即卸；加载槽位要够
     if mx.get("tiers"):
         want_res = (budget.get("resident_set") or ["big", "resident", "embedding"])
-        for need in want_res:
-            if need not in (mx.get("tiers") or {}):
-                errs.append("E-TIER: 缺常驻档 %s（只剩单一大模型=CEO 明确反对）" % need)
-        # 加载槽位必须 ≥ 常驻档数，否则新档进来会挤掉旧档（实测 3 槽挤掉 8B）
-        try:
-            env_txt = subprocess.run(["ps", "-E", "-p",
-                                      subprocess.run(["pgrep", "-f", "ollama serve"],
-                                                     capture_output=True, text=True).stdout.split()[0]],
-                                     capture_output=True, text=True, timeout=10).stdout
-            _m = re.search(r"OLLAMA_MAX_LOADED_MODELS=(\d+)", env_txt)
-            if _m and int(_m.group(1)) < len(want_res):
-                errs.append("E-SLOTS: OLLAMA_MAX_LOADED_MODELS=%s 小于常驻档数 %d（会互相驱逐）"
-                            % (_m.group(1), len(want_res)))
-        except Exception:
-            pass
-        for k, t in (mx.get("tiers") or {}).items():
-            if t.get("resident") is False and str(t.get("keep_alive")) not in ("0", "0s"):
-                errs.append("E-KEEPALIVE: %s 非常驻却 keep_alive=%s（会悄悄占住常驻）"
-                            % (k, t.get("keep_alive")))
+        errs += tier_errors(mx.get("tiers") or {}, want_res, slots_env())
 
     # 2) P0 必须有降级
     for t in mx.get("tasks") or []:
@@ -117,6 +202,17 @@ def main():
         for x in live:
             if x["name"] not in known:
                 warns.append("W-STRAY: %s 不在白名单，应让位" % x["name"])
+        # 上下文必须与策略一致：已加载的 runner 不会因为新请求要更大 ctx 就重载
+        # （2026-11-14 实测：策略写 32768、请求也发 32768，ps 仍报 8192，只有 ollama stop
+        #   后重载才生效）。不等就意味着长证据被静默截断，而闸看不出来——必须报出来。
+        for x in live:
+            seat = seat_of_model(x["name"], duties)
+            want_ctx = int(((duties.get(seat) or {}) if seat else {}).get("num_ctx") or 0)
+            got_ctx = int(x.get("ctx") or 0)
+            if want_ctx and got_ctx and got_ctx < want_ctx:
+                warns.append("W-CTX: %s 装载 ctx=%d < 策略 %d（已装 runner 不会重载，长输入会被静默截断；"
+                             "执行 ollama stop %s 后再预热一次）"
+                             % (x["name"], got_ctx, want_ctx, x["name"]))
 
     verdict = "FAIL" if errs else ("WARN" if warns else "PASS")
     L = ["# 模型排班 %s" % __import__("time").strftime("%Y-%m-%dT%H:%M:%S"), ""]

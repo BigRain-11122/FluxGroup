@@ -30,9 +30,12 @@
 
 ## 三、引擎坑（决定能不能用结构化输出）
 
-- 新版 Ollama 在 Apple Silicon 走 **MLX**，解码快很多；但 **MLX 引擎会静默忽略 `format`（JSON schema）**（ollama/ollama#17013，实测同架构 GGUF 变体正常）。
-- 现在常驻的 `qwen3:4b-instruct` 走 `llamacpp` 引擎，`format` 生效（已实测出合法 JSON）。
-- **规则：凡是要求结构化输出的调用，一律用 GGUF 变体，不要用 `-mlx` 变体。** 否则会拿到散文、假字段、markdown 围栏，而且不报错。
+- 新版 Ollama 在 Apple Silicon 走 **MLX**，解码快很多。**2026-11-14 复测：MLX 在 0.40.16 上已遵守 `format`**
+  （`format:"json"` 与带 enum 的 schema 都实测通过，`qwen3.5:9b-mlx`）。下面两条是 0.40.13 时代的结论，
+  只在老版本成立，保留作历史。
+- （历史）原结论：MLX 引擎会静默忽略 `format`（JSON schema）（ollama/ollama#17013）。
+- （历史）当时的规则是"结构化输出一律用 GGUF"，但 2026-11-14 起 4B/9B 全是 MLX 常驻档，该规则已失效：
+  真正要守的是**输出仍必须过契约校验**（必填键 + 枚举白名单 + 真实路径），不能只靠 `format` 兜底。
 
 ## 四、小模型在"判断相似"上是失败的（附对照）
 

@@ -4,6 +4,12 @@
 > 服务：Ollama 0.40.13，`127.0.0.1:11434`，plist 托管（`OLLAMA_CONTEXT_LENGTH=4096`、`NUM_PARALLEL=3`、`MAX_LOADED_MODELS=4`、KV q8_0）。
 > 速度口径：预热后解码段，2 次取第二次；当时机队有并发，绝对值只做同批比较。
 
+> **2026-11-14 更新（第一节是 11-09 的历史测量，不要拿它当选型依据）**：服务已是 Ollama 0.40.16，
+> plist 显式 `OLLAMA_MAX_LOADED_MODELS=3` + `OLLAMA_KEEP_ALIVE=10m`。`big` 已从 `qwen3:8b` 换成
+> `qwen3.5:9b-mlx`（同黄金集 6/6 vs 5/6，解码 24.6 vs 24.1 tok/s）。常驻集 = 4B(3.9G) + 9B(8.4G, ctx32768)
+> + 向量(0.6G) ≈ 12.9GB，实测零换页。另：**MLX 在本版遵守 `format`（含 JSON schema）**，下面
+> 「MLX 坑」那条在 0.40.16 上已不成立。
+
 ## 一、能用的模型
 
 | 模型 | 大小 | 量化/引擎 | 能力 | 实测解码 | 适合 |
@@ -32,10 +38,11 @@
 | 座位 | 模型 | 用途 |
 |---|---|---|
 | `resident` | `qwen3.5:4b-mlx` | 摘要/抽字段/短判定（未知 cls 都走这里） |
-| `triage` | `qwen3:1.7b` | 归类/打标/过筛 |
-| `big` | `qwen3:8b` | 质量复核、长文改写、代码审查 |
-| `longform` | `qwen3:8b` | 长文/改写按需 |
+| `big` | `qwen3.5:9b-mlx` | 质量复核、长文改写、代码审查、评审团判卷（39 席里 24 席落这档） |
+| `longform` | `qwen3.5:9b-mlx` | 与 big 同权重，不再单独装卸 |
+| `triage` | `qwen3.5:2b` | 归类/打标/过筛（按需；真实调用账里仅 6 次） |
 | `embedding` | `qwen3-embedding:0.6b` | 语义判重/检索 |
+| `alternative` | `qwen3:4b` | A/B 对照档，网关禁放行 |
 | `sealed` | `qwen3.5:35b-a3b` | 封存（驻留即 swap，未安装） |
 
 **重要缺口**：`Tools/fleet/web_ai.py` 的目录把 `qwen3.5:35b-a3b` 标成 `available: true`，但 `ollama list` 里**没有这个模型**。
@@ -46,8 +53,11 @@
 - **能**：批量摘要/分类（1.7B 50 tok/s）、结构化 JSON（4B-instruct，GGUF 的 `format` 生效）、向量判重（0.6B，1024 维）、24 tok/s 的常驻轻问答。
 - **不能**：当 DSH/MSH 这类 agent 的主脑——需要 1.9 万 token 系统提示 + 32k 上下文，
   32k 变体要 13.1GB，和 `NUM_PARALLEL=3` 叠加会被调度器驱逐（见 `docs/local-llm-dsh.md`）。
-- **MLX 坑**：`-mlx` 变体静默忽略 `format`（JSON schema）；要结构化输出走 GGUF。
+- **MLX 坑（2026-11-14 已解除，仅对旧版本成立）**：0.40.13 时代 `-mlx` 变体静默忽略 `format`（JSON schema）；
+  0.40.16 实测 `format:"json"` 与带 enum 的 schema 都遵守，结构化输出可以走 MLX 档。
 - **默认上下文只有 4096**：任何长文任务必须显式传 `num_ctx`（OpenAI 端点不认这个参数，得走 `/api/chat`）。
+  **更重要的一条**：已加载的 runner **不会因为后续请求要更大 ctx 就重载**——先被小 ctx 装上的模型会一直
+  按小 ctx 服务，长输入被静默截断。`Tools/fleet/model_plan.py` 的 W-CTX 就是拦这个（装小 ctx 会告警）。
 
 ## 四、建议的用法边界
 

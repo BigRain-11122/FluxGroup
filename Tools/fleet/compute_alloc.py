@@ -420,17 +420,25 @@ def self_test():
     w = warm(seat="no-such-seat", apply=True, url=url)
     chk("未定义座位 -> 明确拒绝", w["ok"] is False and "未在" in w["why"], w)
 
-    # 10) 策略里的 keep_alive=0 必须原样下发（假值被 or 吞掉=模型偷偷常驻）
+    # 10) 策略里的 keep_alive=0 必须原样下发（假值被 or 吞掉=模型偷偷常驻）；
+    #     顺带证 num_ctx 以策略为天花板（2026-11-14：签名默认 8192 曾把策略的 32768 压成 8192）
     import local_model as lm2
     cap = {}
-    real = (lm2._post, lm2._audit, lm2.hold, lm2.release)
+    real = (lm2._post, lm2._audit, lm2.hold, lm2.release, lm2._duties)
     lm2._post = lambda path, payload, timeout: (cap.update(payload), {"response": "ok"})[1]
     lm2._audit = lambda row: None
     lm2.hold = lambda *a, **k: None
     lm2.release = lambda: None
+    # 用合成策略断言代码行为，不绑生产策略文件的具体数值（绑了会因换档假红）
+    lm2._duties = lambda: {"big": {"model": "fake:1b", "keep_alive": 0, "num_ctx": 32768}}
     lm2.generate("x", cls="review")
-    lm2._post, lm2._audit, lm2.hold, lm2.release = real
     chk("策略 keep_alive=0 原样下发（不被 or 吞）", cap.get("keep_alive") == 0, cap.get("keep_alive"))
+    chk("未指定 num_ctx 时取策略值（默认不再压成 8192）",
+        (cap.get("options") or {}).get("num_ctx") == 32768, (cap.get("options") or {}).get("num_ctx"))
+    lm2.generate("x", cls="review", num_ctx=2048)
+    chk("调用方要求更小的 num_ctx 时取更小",
+        (cap.get("options") or {}).get("num_ctx") == 2048, (cap.get("options") or {}).get("num_ctx"))
+    lm2._post, lm2._audit, lm2.hold, lm2.release, lm2._duties = real
 
     globals()["supply"] = real_supply
     globals()["hold_active"] = real_hold

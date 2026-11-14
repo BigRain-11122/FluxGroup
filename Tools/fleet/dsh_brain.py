@@ -41,8 +41,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 LEDGER = os.path.join(ROOT, "cph4", "fleet", "state", "dsh-brain.jsonl")
 OLLAMA = os.environ.get("OLLAMA_ENDPOINT", "http://127.0.0.1:11434")
-# 默认只跑 fast 档：2026-11-10 实测 4B 单题 57-84s，9B 在 32GB 统一内存上 300s 起不来
-# （加载即换页），硬上只会把一轮从 1 分钟拖成 6 分钟。9B/14B 用 --big / --deep 显式点。
+# 档位阶梯：4B 常驻先答；不过契约再升 9B（2026-11-14 起 9B 已常驻，升档不再付加载代价，
+# 所以默认就允许升；要强制只跑 4B 用 --no-big）。14B 仍只由 --deep 显式点名。
 TIERS = [("fast", "qwen3.5:4b-mlx", 150)]
 BIG_TIER = ("big", "qwen3.5:9b-mlx", 300)
 # 14B 只在 --deep 时启用：2026-11-10 实测它在自动化轮里一次判读要 6-8 分钟，
@@ -317,14 +317,34 @@ def rules_violations(task, obj, payload):
     return out
 
 
+def _seat_cfg(model):
+    """按模型名反查座位策略（num_ctx / keep_alive 唯一源=LOCAL-MODEL-POLICY.duties）。
+
+    Why（2026-11-14 实测）：这里原来对所有档位硬写 num_ctx=4096、keep_alive=5m。而 Ollama
+    的已加载 runner **不会因为后续请求要更大 ctx 就重载**——于是 dsh_brain 一旦先拉 9B，
+    9B 就以 4096 装上了，评审团之后发 32768 的请求只会被这个 runner 静默截断。
+    上下文必须按座位取，不许在调用点各自写一个数。
+    """
+    try:
+        import local_model as lm
+        for d in (lm._duties() or {}).values():
+            if isinstance(d, dict) and (d.get("model") or "") == model:
+                return d
+    except Exception:
+        pass
+    return {}
+
+
 def ask_ollama(model, prompt, timeout, num_predict=800):
+    cfg = _seat_cfg(model)
+    ka = cfg.get("keep_alive")
+    nctx = int(cfg.get("num_ctx") or 4096)
     body = json.dumps({
         "model": model, "prompt": prompt, "stream": False, "think": False,
-        # 2026-11-10 实测：4B 在 num_ctx=8192 时占 12.7GB（bm-m 只剩 0.2GB 空闲），
-        # 单题 57-136s 且 9B 根本装不进来。判断类题的证据我已在 prompt 里截到 12k 字符，
-        # 4k 上下文足够；把上下文和租约都收小，内存和延迟一起降。
-        "keep_alive": "5m",
-        "options": {"num_ctx": 4096, "num_predict": num_predict, "temperature": 0.2},
+        # 上下文与租约都按座位策略走（4B=8192/10m、9B=32768/10m）；策略没声明的档才退 5m。
+        # 2026-11-10 的老结论（4B 在 8192 占 12.7GB）已被 2026-11-14 实测推翻：4B ctx8192 只占 3.9GB。
+        "keep_alive": "5m" if ka is None else ka,
+        "options": {"num_ctx": nctx, "num_predict": num_predict, "temperature": 0.2},
     }).encode()
     t0 = time.time()
     try:
@@ -465,7 +485,8 @@ def main(argv):
     ap.add_argument("--json", action="store_true")
     ap.add_argument("--no-codely", action="store_true")
     ap.add_argument("--selftest", action="store_true")
-    ap.add_argument("--big", action="store_true", help="允许升到 9B（默认不升）")
+    ap.add_argument("--big", action="store_true", help="（兼容保留；9B 升档已默认开启）")
+    ap.add_argument("--no-big", action="store_true", help="只跑 4B，不升 9B")
     ap.add_argument("--deep", action="store_true", help="允许升到 14B（慢，只给难题）")
     a = ap.parse_args(argv)
     if a.selftest:
@@ -473,7 +494,7 @@ def main(argv):
     if not a.task:
         ap.print_help()
         return 1
-    run._big = bool(a.big)
+    run._big = not a.no_big
     run._deep = bool(a.deep)
     raw = sys.stdin.read() if a.input == "-" else (
         open(a.input, encoding="utf-8").read() if a.input else "{}")

@@ -1,33 +1,35 @@
 {
- "_comment": "本地模型分工矩阵 v3（2026-11-07 CEO「好好想一下用哪些大模型常驻，能跑顺现在的规则」）。结论=**大模型常驻**：8B 与 4B、向量三档同时驻留 11.0GB（实测），难活不再临时装卸。",
- "version": "v3-20261107",
+ "_comment": "本地模型分工矩阵 v4（2026-11-14 CEO「本地算力在不触发 swap 的前提下用满用好」）。结论=**主力+质量+向量三档常驻**：4B 4.3G + 9B 9.5G + 向量 0.6G = 14.8GB，实测零换页。8B 退役（同黄金集 5/6，9B 6/6 且速度持平）。",
+ "version": "v4-20261114",
  "host": "bm-m · 32GB 统一内存（与 CEO 办公应用共用同一池）",
  "principle": "按时长分档，不按'越大越好'：高频短判断用小模型常驻，主力判断用 4B 常驻，难判断才临时拉 8B 并立刻卸。常驻三档加起来的预算必须给办公留够余量。",
  "tiers": {
   "triage": {
    "role": "快车道：归类、打标、过筛、抽一个短字段",
-   "model": "qwen3:1.7b",
+   "model": "qwen3.5:2b",
    "num_ctx": 4096,
-   "keep_alive": "0",
+   "keep_alive": "1m",
+   "runner": "mlx",
    "resident": false,
-   "measured_gb": 1.5,
-   "why": "高频归类走它，亚秒级；四档常驻合计约 13.1GB，仍在 16GB 预算内",
-   "_why_ondemand": "实测审计窗内只用 3 次；1.7B 装载 0.4s，用完即卸比常驻 1.4GB 划算"
+   "measured_gb": 3.1,
+   "why": "高频归类走它，亚秒级；39 席里 20 席按 cls=triage 落到本档",
+   "_why_ondemand": "真实调用账（3601 行）里 triage 只出现 6 次，用量撑不起常驻；2B 是 mxfp8 3.1GB（原配置写 1.5GB 是假数），比 4B 只省 1.2GB",
+   "_keepalive_note": "MLX runner 不能写 0（会卡 Stopping 再也加载不上），只能 1m 空闲退 —— 这是 E-KEEPALIVE 对 MLX 档开例外的原因"
   },
   "resident": {
    "role": "主力：摘要、抽字段、写一句理由、判定短文本",
    "model": "qwen3.5:4b-mlx",
    "num_ctx": 8192,
-   "keep_alive": "30m",
+   "keep_alive": "10m",
    "resident": true,
-   "measured_gb": 4.1,
+   "measured_gb": 4.3,
    "measured_tok_s": "38-40",
-   "why": "黄金集 6/8，速度是 8B 的两倍；ctx 8192 后实测常驻 4.1GB"
+   "why": "黄金集 6/8，速度是质量档的两倍；ctx 8192 后实测常驻 4.3GB"
   },
   "embedding": {
    "role": "语义判重 / 检索 / 向量",
    "model": "qwen3-embedding:0.6b",
-   "keep_alive": "30m",
+   "keep_alive": "10m",
    "resident": true,
    "measured_gb": 1.0
   },
@@ -37,15 +39,16 @@
    "cap_cny_per_day": 100
   },
   "big": {
-   "_why": "难活常驻档：质量复核、长文改写、代码审查、创意文案。实测与 4B/向量共存 11.0GB，不挤占。",
+   "_why": "难活常驻档：质量复核、长文改写、代码审查、创意文案。39 席里 24 席（review 11/creative 6/deep 2 + 34 面板判卷席）落到本档，是本地算力的价值中枢。",
    "role": "难活：质量复核/长文改写/代码/创意",
-   "model": "qwen3:8b",
-   "num_ctx": 8192,
-   "keep_alive": "0",
-   "resident": false,
-   "measured_gb": 5.9,
-   "measured_note": "ctx8192 时 5.9GB；ctx4096 时 5.2GB。代码题实测一次给对（重复 id 检查函数）",
-   "_why_ondemand": "实测审计窗内只用 3 次（code 1 / review 5）；冷装 20-40s 只在真跑代码/评审时付一次"
+   "model": "qwen3.5:9b-mlx",
+   "num_ctx": 32768,
+   "keep_alive": "10m",
+   "runner": "mlx",
+   "resident": true,
+   "measured_gb": 9.5,
+   "measured_note": "ctx32768 时驻留 9.5GB；解码 20-24.6 tok/s；6 题黄金集 6/6。",
+   "_why_not_8b": "2026-11-14 同黄金集对照：qwen3:8b 5/6、24.1 tok/s，9B 6/6、24.6 tok/s —— 9B 质量更高且速度持平，8B 无存在理由。原 8B 档 keep_alive=0，每次判卷冷加载 20-40 秒。"
   }
  },
  "routing": {
@@ -72,14 +75,13 @@
  "budget": {
   "resident_gb_limit": 16.0,
   "peak_gb_limit": 20.0,
-  "office_reserve_gb": 4.0,
+  "office_reserve_gb": 1.0,
   "resident_set": [
    "big",
    "resident",
-   "triage",
    "embedding"
   ],
-  "rule": "四档常驻 ≤16GB；硬性前提 OLLAMA_MAX_LOADED_MODELS ≥ 档数（3 会互驱逐）"
+  "rule": "三档常驻 ≤16GB（实测 14.8GB）；硬性前提 OLLAMA_MAX_LOADED_MODELS ≥ 3，否则三档互相驱逐。triage 按需，进来会挤掉一档——用量只有 6 次，接受。"
  },
  "swap": {
   "order": [
@@ -91,23 +93,23 @@
   "_comment": "内存告急时先卸快车道（装载 8s，最便宜），大档最后动"
  },
  "measured": {
-  "at": "2026-11-07T20:4x",
-  "resident_3tier_gb": 11.0,
+  "at": "2026-11-14T12:5x",
+  "resident_3tier_gb": 14.8,
   "detail": [
-   "四档跨脉存活实测 14.6GB：8B 5.9 + 4B 4.7 + 1.7B 1.5 + emb 1.0",
-   "两分钟窗口换出 25 页（≈12 页/分，护栏上限 120 页/分）→ 没有拿硬盘当内存",
-   "OLLAMA_MAX_LOADED_MODELS 必须 ≥4（=3 时第 4 档必挤掉一档）",
-   "主控脉两处曾按『swap 账上 >2GB / 单模型 >8GB』卸模型，导致反复冷加载 20-40s；已改为按换页速率"
+   "4B 4.3 + 9B 9.5 + 向量 0.6 = 14.8GB 三档跨脉存活",
+   "6 次真实生成全程 swap used +0.0MB / pageout +1 页 → 没有拿硬盘当内存",
+   "OLLAMA_MAX_LOADED_MODELS 必须 ≥3（=3 时三档刚好；triage 进来必挤掉一档）",
+   "9B 与 8B 同黄金集对照：6/6 vs 5/6，解码 24.6 vs 24.1 tok/s"
   ],
-  "code_probe": "8B 生成 jsonl 重复 id 检查函数，一次正确",
-  "resident_4tier_gb": 14.6
+  "code_probe": "8B 生成 jsonl 重复 id 检查函数，一次正确（9B 未单独复测，质量分已高于 8B）",
+  "resident_4tier_gb": 14.8
  },
  "forbidden": [
   "常驻任何 30B 级以上模型（24GB 即触发 swap，CEO 明令不许硬扛 swap）",
-  "把数字类判断交给 1.7B/4B/8B（历史上 4B 算术两次全错：220-116-6 答成 100/104）",
+  "把数字类判断交给本地任何一档（4B 实测两次算术全错：220-116-6 答成 100/104；数字一律由规则算）",
   "在 swap>0 时装载 on_demand",
-  "同时驻留 4B 与 8B 却不释放 triage"
+  "在三档常驻之外手动拉 qwen3.5:4b（非 mlx，与 4b-mlx 是两个不同 manifest）或 qwen3:8b —— 会顶掉 9B 让对方冷加载 20-40s"
  ],
- "_resident_law": "常驻只留\"主力+向量\"（resident+embedding）。判据不是\"档位多\"，而是\"用得够频繁\"：审计窗内调用次数少的档一律按需。",
- "_keepalive_why": "非常驻档 keep_alive 必须 \"0\"：matrix 与 LOCAL-MODEL-POLICY.duties 是同一事实的两处，任一处写 1m 都会让 1.7B/8B 悄悄占住内存（model_plan E-KEEPALIVE 每轮报红）。2026-11-08 对齐：两处同时改，网关读 duties、model_plan 读 tiers。"
+ "_resident_law": "常驻集 = 主力(4B) + 质量(9B) + 向量。判据是双向的：既看『用得够频繁』（triage 6 次→按需），也看『冷加载代价有多贵』（24 席落在大档，8B/9B 冷装 20-40s，必须常驻）。",
+ "_keepalive_why": "非驻留、非 MLX 档 keep_alive 必须 \"0\"：matrix 与 LOCAL-MODEL-POLICY.duties 是同一事实的两处，任一处写 1m 都会让模型悄悄占住内存（model_plan E-KEEPALIVE 每轮报红）。**MLX 档是唯一例外**：MLX runner 对 keep_alive=0 会卡在 Stopping 且再也加载不上（2026-11-11 实测），所以 MLX 档必须声明 \"runner\": \"mlx\" 并用 1m/10m，model_plan 对此单独判『MLX 档写了 0 就报错』。"
 }

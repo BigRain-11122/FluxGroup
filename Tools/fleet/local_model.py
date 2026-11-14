@@ -241,8 +241,14 @@ def _post(path, payload, timeout):
 
 
 def generate(prompt, cls="master", model=None, timeout=90, keep_alive="15m",
-             num_ctx=8192, temperature=0.2, think=False, why="", **opts):
-    """本机生成。超时/失败返回 ""（调用方必须能接受空结果，不许编造）。"""
+             num_ctx=0, temperature=0.2, think=False, why="", **opts):
+    """本机生成。超时/失败返回 ""（调用方必须能接受空结果，不许编造）。
+
+    num_ctx=0 表示"没指定"：用座位在策略里声明的上下文。指定了就用 min(座位, 指定)——
+    策略是天花板，调用方只能要求更小。
+    Why（2026-11-14 实测纠错）：原来签名默认 8192 且写成 min(座位值, 8192)，于是策略里
+    给 9B 档写的 32768 永远被自己的默认值压成 8192，配置写了等于没写。
+    """
     hold(cls, why or prompt[:40])
     t0 = time.time()
     seat = seat_of(cls)
@@ -252,12 +258,11 @@ def generate(prompt, cls="master", model=None, timeout=90, keep_alive="15m",
     # keep_alive 的 0 是"用完即卸"的合法值，不能用 `or` 取默认值——
     # 假值会把 0 吞成 15m/30m，模型就在没活时常驻吃内存（2026-11-11 CEO「不能闲着还常驻」）。
     kv = cfg.get("keep_alive")
-    if seat == "triage":
-        keep_alive = keep_alive if kv is None else kv
-        num_ctx = min(int(cfg.get("num_ctx") or num_ctx), num_ctx)
-    elif seat == "big":
-        keep_alive = "30m" if kv is None else kv
-        num_ctx = min(int(cfg.get("num_ctx") or 8192), num_ctx)
+    seat_ctx = int(cfg.get("num_ctx") or 8192)
+    want_ctx = int(num_ctx or 0)
+    num_ctx = seat_ctx if want_ctx <= 0 else min(seat_ctx, want_ctx)
+    if seat == "big":
+        keep_alive = "10m" if kv is None else kv
     else:
         keep_alive = keep_alive if kv is None else kv
     try:
