@@ -2,7 +2,7 @@
  "id": "PROBE-AUTO-bm-a-20261114",
  "node": "bm-a",
  "rc": 0,
- "seconds": 0.1,
+ "seconds": 0.3,
  "cmd": "python -c \"import json,os;os.makedirs('cph4/fleet/rt/delivery/receipts',exist_ok=True);open('cph4/fleet/rt/delivery/receipts/node-probe-bm-a.json','w').write(json.dumps({'node':'bm-a','ok':True,'auto':True}))\"",
  "ok_rc": [
   0
@@ -11,7 +11,7 @@
  "error_class": null,
  "deliverable": "cph4/fleet/rt/delivery/receipts/node-probe-bm-a.json",
  "deliverable_exists": true,
- "ts": "2026-11-14T18:00:17",
+ "ts": "2026-11-14T18:00:50",
  "stdout_tail": "",
  "stderr_tail": ""
 }
