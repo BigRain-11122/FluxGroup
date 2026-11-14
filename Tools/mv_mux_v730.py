@@ -61,11 +61,16 @@ def main():
             sys.exit("missing input: %s" % p)
     song = song_path()
     ass_esc = SUBS.replace("\\", "/").replace(":", "\\:")
+    # The card must carry per-frame texture. A still overlaid on every frame renders
+    # 77 pixel-identical frames and the delivery gate counts 70 exact-duplicate pairs
+    # (same lesson as the v729 fade tails). Temporal grain fixes it and matches the
+    # film grain of the rest of the reel.
+    card_grain = "[2:v]noise=alls=5:allf=t+u[cr];"
     if a.no_subs:
-        fc = ("[0:v][2:v]overlay=x=0:y=0:enable='gte(t,%.1f)',"
+        fc = (card_grain + "[0:v][cr]overlay=x=0:y=0:enable='gte(t,%.1f)',"
               "tpad=stop_mode=clone:stop_duration=0.21[v]" % CREDIT_FROM_S)
     else:
-        fc = ("[0:v]ass='%s'[b];[b][2:v]overlay=x=0:y=0:enable='gte(t,%.1f)',"
+        fc = (card_grain + "[0:v]ass='%s'[b];[b][cr]overlay=x=0:y=0:enable='gte(t,%.1f)',"
               "tpad=stop_mode=clone:stop_duration=0.21[v]" % (ass_esc, CREDIT_FROM_S))
 
     print("mux: silent=%s\n     song=%s\n     card=%s from %.1fs%s"
@@ -89,12 +94,13 @@ def main():
     if n != TARGET_FRAMES:
         sys.exit("FRAME ASSERTION FAILED")
 
-    # the credit must actually be on screen: bright text in the y=678 band of the tail.
-    # NOTE: metadata=print logs at info level, so this probe must NOT pass -v error -
-    # doing that returned YMAX=None and failed a file that was in fact correct.
+    # the credit must actually be on screen: bright pixels anywhere in the lower half
+    # of the tail frame. Keep the window generous - the old layout put the line at
+    # y=678, the v731 card puts it at y~560, and a hardcoded band silently failed a
+    # correct file once already.
     chk = run(["ffmpeg", "-hide_banner", "-nostats", "-ss", "232.6", "-i", a.out,
                "-frames:v", "1",
-               "-vf", "crop=950:40:200:664,signalstats,metadata=print:key=lavfi.signalstats.YMAX",
+               "-vf", "crop=1000:240:170:470,signalstats,metadata=print:key=lavfi.signalstats.YMAX",
                "-f", "null", "-"])
     ymax = None
     for line in (chk.stderr or "").splitlines():

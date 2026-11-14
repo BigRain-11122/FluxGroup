@@ -63,6 +63,40 @@ STILL_MAD = 0.45           # a shot is "still" only when BOTH are low: MAD alone
                            # punishes slow cinematography and rewards grain
 FLICKER_IRE = 9.0          # luminance step inside a shot
 REPEAT_HAMMING = 4         # 8x8 dHash distance that counts as "the same picture again"
+CUT_HASH_SAME = 6          # still the same picture across a big MAD step -> not a cut
+CUT_CORNER_STEP = 4.5      # corner-floor step (IRE) below which a luma jump is local light
+
+CH, CW = 24, 42            # corner patches on the 336x188 scan scale
+
+
+def min_corner_luma(g):
+    """Darkest corner = the stable black floor.
+
+    A diegetic light event (flame flare, sparks, a lamp catching) moves the lit area
+    while the shadow-side corner stays put; an exposure pump raises every corner.
+    """
+    cs = (g[0:CH, 0:CW], g[0:CH, -CW:], g[-CH:, 0:CW], g[-CH:, -CW:])
+    return float(min(c.mean() for c in cs))
+
+
+def is_structural_cut(prev_g, g, mad_i):
+    """A cut has to change the picture, and only a local light source keeps the floor.
+
+    Judged on MAD alone, mv0001's 102.2s fire flare-up (30 IRE in four frames) was cut
+    into a 9-frame shot plus its own continuation; the two halves then hashed the same
+    and D1 reported a phantom "reused shot" in twelve consecutive deliveries
+    (2026-11-02 .. 2026-11-14) - a red everyone learned to wave through.
+
+    Structure alone is not enough either: D07->D08 at 167.22s splices two takes of the
+    same hazy corridor and the dHash distance is still 4/64. What separates them is the
+    black floor - a flame or lamp leaves the darkest corner alone (102.2s: d=1.3),
+    while a veil/exposure lift moves every corner (167.2s: d=5.7).
+    """
+    if mad_i < CUT_MAD:
+        return False
+    if hamming(dhash(prev_g), dhash(g)) > CUT_HASH_SAME:
+        return True
+    return abs(min_corner_luma(prev_g) - min_corner_luma(g)) >= CUT_CORNER_STEP
 
 
 def dhash(gray):
@@ -139,7 +173,9 @@ def scan(path):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("video")
+    ap.add_argument("video", nargs="?")
+    ap.add_argument("--self-test", action="store_true",
+                    help="run the cut/luma and repeat-hash controls, no video needed")
     ap.add_argument("--index", default="")
     ap.add_argument("--expect-frames", type=int, default=0)
     ap.add_argument("--card", action="append", default=[],
@@ -150,6 +186,10 @@ def main():
                          "listed there are designed reprises, not D1 defects")
     ap.add_argument("--json", default="")
     a = ap.parse_args()
+    if a.self_test:
+        return self_test()
+    if not a.video:
+        ap.error("video is required unless --self-test")
 
     cards = []
     for spec in a.card:
@@ -170,7 +210,17 @@ def main():
         fails.append("D1 exact duplicate frames: %d pair(s), first at frame %d (%.2fs)" %
                      (len(dup_at), dup_at[0][1], dup_at[0][1] / fps))
 
-    cuts = [i for i in range(1, n) if mad[i] >= CUT_MAD]
+    is_cut = np.zeros(n, dtype=bool)
+    luma_events = []
+    for i in range(1, n):
+        if is_structural_cut(grays[i - 1], grays[i], mad[i]):
+            is_cut[i] = True
+        elif mad[i] >= CUT_MAD:
+            luma_events.append(i)
+    if luma_events:
+        print("note: %d in-shot luma event(s) treated as light, not cut (first %.2fs)" %
+              (len(luma_events), luma_events[0] / fps))
+    cuts = [i for i in range(1, n) if is_cut[i]]
     bounds = [0] + cuts + [n]
     shots = [(bounds[k], bounds[k + 1]) for k in range(len(bounds) - 1) if bounds[k + 1] - bounds[k] >= 6]
 
@@ -216,6 +266,16 @@ def main():
                      (len(seen_pairs), seen_pairs[0][0] / fps, seen_pairs[0][1] / fps))
 
     # D2 stillness -------------------------------------------------------
+    # Per-frame motion is inversely proportional to fps: after minterpolate the same
+    # 24fps move arrives as ~40% of the MAD at 60fps. The thresholds below are stated
+    # at 24fps and scaled, otherwise every 60fps delivery reports 20+ "static" shots
+    # (v727 60fps receipt, 2026-11-11) and the D2 line becomes noise.
+    motion_ref = (24.0 / fps) if fps else 1.0
+    still_mad, shift_min = motion_thresholds(fps)
+    if abs(motion_ref - 1.0) > 0.01:
+        print("note: fps=%.2f -> still_mad=%.2f shift_min=%.2f (24fps equivalents %.2f/%.2f)"
+              % (fps, still_mad, shift_min, STILL_MAD, SHOT_SHIFT_MIN))
+
     def in_card(t0, t1):
         """True when the window STARTS inside a declared card window.
 
@@ -232,7 +292,7 @@ def main():
         avg_s = float(seg_s.mean()) if seg_s.size else 0.0
         # still means the picture barely changes AND the frame does not travel:
         # a slow crane has low MAD but real displacement and must not be failed.
-        if avg < STILL_MAD and avg_s < SHOT_SHIFT_MIN and not in_card(s0 / fps, s1 / fps):
+        if avg < still_mad and avg_s < shift_min and not in_card(s0 / fps, s1 / fps):
             still_shots.append((s0, s1, round(avg, 2), round(avg_s, 2)))
     if still_shots:
         fails.append("D2 near-static shots: %d (first %.2f-%.2fs mean_mad=%.2f)" %
@@ -260,22 +320,15 @@ def main():
     # stay put; an exposure pump moves the whole raster. The four mv0001 fire events
     # (102.2s + the 211.2-211.3s flame ramp, deltas 10.7/9.0/9.4 monotonic) are design,
     # not defects - so the gate now tests locality before flagging.
-    CH, CW = 24, 42  # corner patches on the 336x188 scan scale
-
-    def _min_corner_luma(g):
-        # darkest corner = the stable black floor. At a fire flare-up peak the light
-        # pool can spill into several corners, but the shadow-side corner stays put;
-        # a true exposure pump raises every corner including the darkest one.
-        cs = (g[0:CH, 0:CW], g[0:CH, -CW:], g[-CH:, 0:CW], g[-CH:, -CW:])
-        return float(min(c.mean() for c in cs))
-
     flick = []
     for s0, s1 in shots:
         for i in range(s0 + 2, s1):
             d = abs(yavg[i] - yavg[i - 1])
-            if d >= FLICKER_IRE and mad[i] < CUT_MAD:
-                cstep = abs(_min_corner_luma(grays[i]) - _min_corner_luma(grays[i - 1]))
-                if cstep < 4.5:
+            # not is_cut[], not mad < CUT_MAD: a 30 IRE exposure pop is a real defect
+            # even though it used to look "cut-like" and slip past both detectors.
+            if d >= FLICKER_IRE and not is_cut[i]:
+                cstep = abs(min_corner_luma(grays[i]) - min_corner_luma(grays[i - 1]))
+                if cstep < CUT_CORNER_STEP:
                     continue  # darkest corner stable: diegetic local light
                 flick.append((i, round(d, 1)))
     if flick:
@@ -314,11 +367,90 @@ def main():
         json.dump({"file": a.video, "frames": n, "fps": fps, "shots": len(shots),
                    "dup_pairs": len(dup_at), "static_shots": still_shots,
                    "reprise_whitelisted": n_wl, "reprise_unlisted": len(seen_pairs),
+                   "reprise_unlisted_pairs": [[round(f0 / fps, 2), round(f1 / fps, 2)]
+                                              for f0, f1 in seen_pairs],
+                   "luma_events": len(luma_events),
                    "stability": {"seams": st.get("seams", []), "freezes": st.get("freezes", [])},
                    "flicker": flick[:50], "grammar": grammar,
                    "fails": fails, "verdict": verdict},
                   open(a.json, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     return 0 if verdict == "PASS" else 1
+
+
+def _synth_frame(seed):
+    """A banded frame: enough structure for dHash to be meaningful, no ffmpeg needed."""
+    rng = np.random.default_rng(seed)
+    g = np.zeros((H, W), np.float32)
+    x = 0
+    while x < W:
+        w = int(12 + rng.integers(0, 20))
+        g[:, x:x + w] = 40 + 120 * rng.random()
+        x += w
+    g += rng.normal(0, 4, (H, W))
+    return np.clip(cv2.GaussianBlur(g, (7, 7), 0), 0, 255).astype(np.uint8)
+
+
+def _add_pool(g, cx, cy, r, gain):
+    yy, xx = np.mgrid[0:g.shape[0], 0:g.shape[1]]
+    m = np.clip(1.0 - np.sqrt((xx - cx) ** 2 + (yy - cy) ** 2) / r, 0, 1) ** 2
+    return np.clip(g.astype(np.float32) + m * gain, 0, 255).astype(np.uint8)
+
+
+def motion_thresholds(fps):
+    """(still_mad, shot_shift_min) at the observed fps, stated in 24fps equivalents.
+
+    Per-frame motion is inversely proportional to fps: after minterpolate the same
+    24fps move arrives as ~40% of the MAD at 60fps. Un-scaled, every 60fps delivery
+    reported 20+ "static" shots (v727 60fps receipt, 2026-11-11) and D2 became noise.
+    """
+    ref = (24.0 / fps) if fps else 1.0
+    return STILL_MAD * ref, SHOT_SHIFT_MIN * ref
+
+
+def self_test():
+    ok = True
+
+    def check(name, cond):
+        nonlocal ok
+        ok = ok and bool(cond)
+        print(("PASS  " if cond else "FAIL  ") + name)
+
+    a, b = _synth_frame(1), _synth_frame(2)
+    pooled = _add_pool(a, W // 2, H // 2, 45, 60)
+    pumped = np.clip(a.astype(np.float32) * 1.45 + 12, 0, 255).astype(np.uint8)
+
+    # (1) positive control: two different pictures are a cut
+    check("real cut is a cut", is_structural_cut(a, b, 20.0))
+    # (2) negative: a diegetic pool flare inside one shot is not a cut
+    #     (this is the 102.2s fire flare that produced the phantom D1 pair)
+    check("local pool flare is not a cut", not is_structural_cut(a, pooled, 20.0))
+    # (3) positive: a look-alike splice that lifts the whole raster IS a cut
+    #     (this is D07->D08 at 167.22s in mv0001: dHash 4/64 but the floor lifts 5.7)
+    check("look-alike splice with lifted floor is a cut", is_structural_cut(a, pumped, 30.0))
+    # (4) negative: under CUT_MAD nothing is a cut, however different the frames
+    check("sub-threshold step is never a cut", not is_structural_cut(a, b, 3.0))
+    # (5) the D1 repeat rule still separates two shots and still matches one picture
+    check("distinct shots do not collide", hamming(dhash(a), dhash(b)) > REPEAT_HAMMING)
+    check("same picture still matches", hamming(dhash(a), dhash(a.copy())) <= REPEAT_HAMMING)
+    # (6) the D4 locality test: local light keeps the dark corner, a pump moves it
+    check("pool keeps the dark corner",
+          abs(min_corner_luma(a) - min_corner_luma(pooled)) < CUT_CORNER_STEP)
+    check("pump moves the dark corner",
+          abs(min_corner_luma(a) - min_corner_luma(pumped)) >= CUT_CORNER_STEP)
+
+    # (7) fps scaling: the v727 60fps receipt's 21 "static" shots were a threshold bug.
+    #     One real slow move (MAD 0.20, shift 0.12 px/frame) must read still at 24fps
+    #     and moving at 60fps.
+    m24, s24 = motion_thresholds(24.0)
+    m60, s60 = motion_thresholds(60.0)
+    check("24fps thresholds match the stated constants",
+          abs(m24 - STILL_MAD) < 1e-9 and abs(s24 - SHOT_SHIFT_MIN) < 1e-9)
+    check("60fps threshold scales to 40%", abs(m60 - STILL_MAD * 0.4) < 1e-9)
+    check("slow move reads still at 24fps", 0.20 < m24 and 0.12 < s24)
+    check("the same move is not still at 60fps", not (0.20 < m60 and 0.12 < s60))
+
+    print("SELFTEST:", "PASS" if ok else "FAIL")
+    return 0 if ok else 1
 
 
 if __name__ == "__main__":
