@@ -48,6 +48,13 @@ def loudness(path):
 
 
 def main():
+    # Windows consoles default to GBK; the watermark tool echoes the CJK message back
+    # and printing it raises UnicodeEncodeError, which killed a finished decode step.
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+        sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
     ap = argparse.ArgumentParser()
     ap.add_argument("--n1", required=True)
     ap.add_argument("--wm", required=True)
