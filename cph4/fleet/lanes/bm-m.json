@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-15T01:37:01",
+ "ts": "2026-11-15T01:40:31",
  "jobs": [
   {
    "id": "CHK-CANON-20261105",
@@ -23,20 +23,6 @@
    "cwd": "",
    "needs": "cpu",
    "deliverable": "cph4/fleet/queue-receipts/triage-bigcompute-bm-m-20261115.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "R-TRIAGE-BIGLIFE-BMM-20261115",
-   "title": "BigLife·数字生命 线证据扫描（bm-m 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line biglife --node bm-m --out cph4/fleet/queue-receipts/triage-biglife-bm-m-20261115.md",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-biglife-bm-m-20261115.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
