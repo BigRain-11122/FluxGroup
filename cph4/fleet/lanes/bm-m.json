@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
- "ts": "2026-11-16T01:30:34",
+ "ts": "2026-11-16T01:36:48",
  "jobs": [
   {
-   "id": "R-TRIAGE-BIGDOMAIN-BMB-20261116",
-   "title": "BigDomain·硅基域商业化 线证据扫描（bm-b 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigdomain --node bm-b --out cph4/fleet/queue-receipts/triage-bigdomain-bm-b-20261116.md",
+   "id": "R-TRIAGE-BIGSTREAMDRAMA-BMM-20261116",
+   "title": "BigStream·漫剧 线证据扫描（bm-m 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line bigstream-drama --node bm-m --out cph4/fleet/queue-receipts/triage-bigstream-drama-bm-m-20261116.md",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigdomain-bm-b-20261116.md",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigstream-drama-bm-m-20261116.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -17,12 +17,12 @@
    "timeout_s": null
   },
   {
-   "id": "R-TRIAGE-BIGCOMPUTE-BMB-20261116",
-   "title": "BigCompute·硅基算力 线证据扫描（bm-b 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigcompute --node bm-b --out cph4/fleet/queue-receipts/triage-bigcompute-bm-b-20261116.md",
+   "id": "R-TRIAGE-BIGMONEY-BMM-20261116",
+   "title": "BigMoney·量化 线证据扫描（bm-m 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line bigmoney --node bm-m --out cph4/fleet/queue-receipts/triage-bigmoney-bm-m-20261116.md",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigcompute-bm-b-20261116.md",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigmoney-bm-m-20261116.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",

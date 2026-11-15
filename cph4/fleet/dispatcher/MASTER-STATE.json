@@ -1,32 +1,32 @@
 {
- "ts": "2026-11-16T01:30:35",
- "cycle": 1643,
+ "ts": "2026-11-16T01:36:48",
+ "cycle": 1644,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-16T01:30:35",
+ "master_tick_ts": "2026-11-16T01:36:48",
  "queue": {
-  "total": 151,
+  "total": 153,
   "open": 2,
   "running": 10,
-  "done": 80,
+  "done": 82,
   "failed": 5
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 34.2,
-   "cpu_load_pct": 33,
-   "ram_free_gb": 29.6,
+   "hb_age_s": 8.3,
+   "cpu_load_pct": 91,
+   "ram_free_gb": 27.1,
    "gpu_util_pct": 100,
    "job": "biggame-pack-scan-2026-11-16",
    "last_result": {
-    "job": "biggame-pack-scan-2026-11-16",
+    "job": "asset-lib-voice-corpus-2026-11-16",
     "state": "BUSY",
     "rc": null,
-    "ts": "2026-11-16T01:30:21",
+    "ts": "2026-11-16T01:36:39",
     "reason": null,
     "out_bytes": 0,
-    "elapsed_s": 39
+    "elapsed_s": 109
    },
    "idle_confirmed": false,
    "idle_reason": "",
@@ -58,16 +58,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 7.3,
+   "hb_age_s": 379.9,
    "cpu_load_pct": 3,
    "ram_free_gb": 6.8,
    "gpu_util_pct": null,
-   "job": "R-TRIAGE-BIGDOMAIN-BMB-20261116",
+   "job": "R-TRIAGE-BIGSTREAMDRAMA-BMM-20261116",
    "last_result": {
-    "job": "R-TRIAGE-BIGMONEY-BMB-20261116",
+    "job": "R-TRIAGE-BIGCOMPUTE-BMB-20261116",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-16T01:22:52",
+    "ts": "2026-11-16T01:30:38",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -267,8 +267,7 @@
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
    "jobs": [
-    "Q-TRIAGE-ASSETLIB-20261116",
-    "R-TRIAGE-BIGCOMPUTE-BMB-20261116"
+    "Q-TRIAGE-ASSETLIB-20261116"
    ],
    "no_supply": false,
    "blockers": [],
@@ -848,12 +847,22 @@
   "gpu": 1
  },
  "supply_added": [],
- "events": [],
+ "events": [
+  "asset-lib-char-prompts-2026-11-16 -> bm-a (cpu)",
+  "biggame-pack-scan-2026-11-16 -> bm-a (cpu)",
+  "bigstream-drama-src-scan-2026-11-16 -> bm-a (cpu)",
+  "bigstream-mv-gate-2026-11-16 -> bm-a (cpu)",
+  "R-TRIAGE-BIGSTREAMDRAMA-BMM-20261116 -> bm-m (cpu)",
+  "R-TRIAGE-BIGMONEY-BMM-20261116 -> bm-m (cpu)"
+ ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 立意/分镜/导演席 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
- "lane_files_written": []
+ "lane_files_written": [
+  "bm-a",
+  "bm-m"
+ ]
 }
