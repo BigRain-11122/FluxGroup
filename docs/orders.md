@@ -244,3 +244,11 @@ ilm grain 重复句。复核=warm skin 0 条、grain 重复 0 条。③包内语
 4. 重新注册并启用自驱任务（每 5 分钟一次，静默）：station_drive --once --run-limit 6，工位参数用本机工位名。
 5. 完成后把回执写到 cph4/fleet/rt/<本工位>/receipts/CLOSEOUT-20261114.json 并推送（含 head_before/head_after）。
 6. 若本机是 bm-a：你已在跑 MV v729，收口只动 Tools/cph4/fleet，不影响你的产物目录。
+
+## 2026-11-15 10:3x–11:1x 通知边界令（全体会话与机器·立即执行）
+1. 事实：CEO 2026-11-15「我很烦看到我的电脑一堆通知」→ 根因=macOS 15+ 对每次 launchd 拉起 python3 弹「App 后台活动」提示，机队 statesync/locallane(60s)、seatdispatch(180s)、drive(300s) 高频 spawn 是燃料。
+2. 本机 44 个机队 LaunchAgent 已全部 `launchctl disable` 并归档到 `~/Library/LaunchAgents/disabled/20261115-pause/`，目录已 `chflags uchg` 上锁（任何进程写 plist 会被拒）。
+3. **禁止任何会话、脚本或机器恢复机队 LaunchAgent**。CEO 2026-11-11「都记录在案然后全部暂停，等我梳理工作流」仍然有效；恢复须先经 CEO 明确同意，再 `bash Tools/restore-startup.sh`（脚本已含解锁 + enable）。
+4. 唯一例外保留：`com.fluxgroup.ollamamodel`（本地模型服务，原生二进制，不触发该通知）。其 `OLLAMA_HOST` 已于本日改为 `127.0.0.1:11434`，Ollama.app 已退出，端口由 launchd 独占。
+5. 本日另一起事故：两个 Codely 会话并行时互相拆台——「同步代码重构工作流」把「电脑通知太多」停掉的启动项反复恢复，并反过来把对方当"来源不明的暂停器"要对抗。处理=停掉其中一个进程止血。**今后同一时间只允许一个会话做机队启停类操作**，另一个只读。
+6. 记录：2026-11-15 本机 AI 环境已更新（ollama 0.40.16 最新、8 模型实跑验证、mlx 0.32.4 GPU、torch 2.15.0 MPS、transformers 5.23.0）；ffmpeg 保持 7.1（macOS 27.2.1 无 brew bottle，源码编译 20-40 分钟，本机不做转码）。
