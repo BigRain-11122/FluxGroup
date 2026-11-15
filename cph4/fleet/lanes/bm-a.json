@@ -1,6 +1,6 @@
 {
  "node": "bm-a",
- "ts": "2026-11-16T03:43:40",
+ "ts": "2026-11-16T03:49:21",
  "jobs": [
   {
    "id": "R-MV-GATE-1D",
@@ -18,6 +18,6 @@
   }
  ],
  "idle_reason": "",
- "lane_ok": false,
- "capacity_note": "CPU-SATURATED 97%"
+ "lane_ok": true,
+ "capacity_note": "ram 29.0/1.0 GB"
 }
