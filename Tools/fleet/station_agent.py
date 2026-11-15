@@ -137,24 +137,42 @@ def patrol(root, station, now=None):
 
 
 def triage_with_model(findings, station):
-    """把发现压成一句结论；拿不到模型就返回 None（不当作失败）。"""
-    tok = os.environ.get(TOKEN_ENV)
-    if not tok or not findings:
+    """把发现压成一句结论；拿不到模型就返回 None（不当作失败）。
+
+    2026-11-15 修（实测）：原来硬编码 GATEWAY=http://100.75.133.10:8792 —— 那是 bm-m 自己的
+    tailnet 地址，**本机回连自己的 tailnet IP 不通**（HTTP 000），于是 model 永远是
+    "unavailable"、sec=0.0，本地模型一点力都没出。本机自用不该绕 tailnet 出去再回来；
+    这里改成走 local_model 的端点阶梯（本机 11434 优先，再大脑、再主控），
+    跨机调用仍由那个模块带令牌走网关（RG-28 的约束在 llm_client 里守）。
+    显式设 FLUX_LLM_GATEWAY 时仍优先用它，保留原来"指定网关"的能力。
+    """
+    if not findings:
         return None
     prompt = ("你是%s工位的巡查助手。以下是本工位本轮巡查发现，请用一句中文给出"
               "最该先处理的一件事与理由，不要编造未给出的信息：\n%s"
               % (station, json.dumps(findings[:20], ensure_ascii=False)))
-    body = json.dumps({"model": os.environ.get("FLUX_LOCAL_MODEL", "qwen3.5:4b-mlx"),
-                       "prompt": prompt, "stream": False, "think": False,
-                       "options": {"num_ctx": 8192, "temperature": 0,
-                                   "num_predict": 160}}).encode()
-    req = urllib.request.Request(GATEWAY + "/api/generate", data=body,
-                                 headers={"Content-Type": "application/json",
-                                          "X-Flux-Token": tok})
+    gw = os.environ.get("FLUX_LLM_GATEWAY")
+    if gw:
+        tok = os.environ.get(TOKEN_ENV)
+        if not tok:
+            return None
+        body = json.dumps({"model": os.environ.get("FLUX_LOCAL_MODEL", "qwen3.5:4b-mlx"),
+                           "prompt": prompt, "stream": False, "think": False,
+                           "options": {"num_ctx": 8192, "temperature": 0,
+                                       "num_predict": 160}}).encode()
+        req = urllib.request.Request(gw + "/api/generate", data=body,
+                                     headers={"Content-Type": "application/json",
+                                              "X-Flux-Token": tok})
+        try:
+            with urllib.request.urlopen(req, timeout=60) as r:
+                d = json.loads(r.read().decode("utf-8", "replace"))
+            return str(d.get("response") or "").strip()[:300] or None
+        except Exception:
+            return None
     try:
-        with urllib.request.urlopen(req, timeout=60) as r:
-            d = json.loads(r.read().decode("utf-8", "replace"))
-        return str(d.get("response") or "").strip()[:300] or None
+        import local_model as lm
+        return (lm.generate(prompt, cls="triage", timeout=60,
+                            why="station-agent:%s" % station) or "").strip()[:300] or None
     except Exception:
         return None
 
