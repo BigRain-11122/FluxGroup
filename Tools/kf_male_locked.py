@@ -107,21 +107,26 @@ def post(url, payload):
     return json.loads(urllib.request.urlopen(req, timeout=180).read())
 
 
-def gen(prompt, seed, anchor_name, dst, denoise=1.0, budget=420):
+def gen(prompt, seed, anchor_name, dst, denoise=1.0, budget=900):
     pid = post(SERVER + "/prompt", {"prompt": graph(prompt, seed, anchor_name, denoise),
                                     "client_id": str(uuid.uuid4())})["prompt_id"]
     t0 = time.time()
     while time.time() - t0 < budget:
-        h = json.loads(urllib.request.urlopen(SERVER + "/history/" + pid, timeout=30).read())
-        if pid in h:
-            for _n, o in h[pid]["outputs"].items():
-                for img in o.get("images", []):
-                    url = ("%s/view?filename=%s&subfolder=%s&type=%s"
-                           % (SERVER, urllib.parse.quote(img["filename"]),
-                              urllib.parse.quote(img["subfolder"]), img["type"]))
-                    open(dst, "wb").write(urllib.request.urlopen(url, timeout=120).read())
-                    return True
-        time.sleep(2.5)
+        # a single dropped /history read used to kill the whole batch (and lose every
+        # scene after it); poll errors must be survivable
+        try:
+            h = json.loads(urllib.request.urlopen(SERVER + "/history/" + pid, timeout=30).read())
+            if pid in h:
+                for _n, o in h[pid]["outputs"].items():
+                    for img in o.get("images", []):
+                        url = ("%s/view?filename=%s&subfolder=%s&type=%s"
+                               % (SERVER, urllib.parse.quote(img["filename"]),
+                                  urllib.parse.quote(img["subfolder"]), img["type"]))
+                        open(dst, "wb").write(urllib.request.urlopen(url, timeout=120).read())
+                        return True
+        except Exception as e:
+            print("    poll retry (%s)" % type(e).__name__, flush=True)
+        time.sleep(3.0)
     return False
 
 
@@ -138,14 +143,28 @@ def embed(path, rec):
     return v / (np.linalg.norm(v) + 1e-9)
 
 
+def mad_vs(a_path, b_path, size=(336, 192)):
+    """Composition difference on a common grid; identity is measured separately."""
+    a = cv2.imread(a_path)
+    b = cv2.imread(b_path)
+    if a is None or b is None:
+        return -1.0
+    ga = cv2.cvtColor(cv2.resize(a, size), cv2.COLOR_BGR2GRAY).astype(np.float32)
+    gb = cv2.cvtColor(cv2.resize(b, size), cv2.COLOR_BGR2GRAY).astype(np.float32)
+    return float(np.mean(np.abs(ga - gb)))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--anchor", default=DEFAULT_ANCHOR)
     ap.add_argument("--scenes", default=",".join(SCENES))
     ap.add_argument("--min-sim", type=float, default=0.45)
+    ap.add_argument("--min-mad", type=float, default=15.0,
+                    help="composition difference vs the anchor; below this the 'new' shot "
+                         "is the same picture restyled and reads as a repeat on screen")
     ap.add_argument("--seeds", type=int, default=3)
-    ap.add_argument("--denoise", type=float, default=1.0,
-                    help="<1 turns on anchor img2img (identity survives the scene change)")
+    ap.add_argument("--denoise", default="1.0",
+                    help="one value or a comma list to sweep, e.g. 0.70,0.80")
     a = ap.parse_args()
 
     os.makedirs(OUT, exist_ok=True)
@@ -164,26 +183,34 @@ def main():
         if key not in SCENES:
             print("skip unknown scene %s" % key); continue
         prompt = IDENTITY + SCENES[key] + TAIL
-        best = (None, -1.0, None)
-        for s in range(a.seeds):
-            seed = 9200 + s * 7
-            dst = os.path.join(OUT, "M_%s_s%d.png" % (key, seed))
-            if not gen(prompt, seed, anchor_name, dst, a.denoise):
-                print("  [%s] seed %d TIMEOUT" % (key, seed), flush=True); continue
-            v = embed(dst, rec)
-            sim = -1.0 if v is None else float(np.dot(base, v))
-            print("  [%s] seed %d sim=%.3f" % (key, seed, sim), flush=True)
-            if sim > best[1]:
-                best = (dst, sim, seed)
-            if sim >= a.min_sim:
-                break
+        best = (None, -1.0, -1.0, None, None)
+        for raw in str(a.denoise).split(","):
+            dens = float(raw)
+            for s in range(a.seeds):
+                seed = 9200 + s * 7
+                dst = os.path.join(OUT, "M_%s_d%d_s%d.png" % (key, int(dens * 100), seed))
+                if not gen(prompt, seed, anchor_name, dst, dens):
+                    print("  [%s] d=%.2f seed %d TIMEOUT" % (key, dens, seed), flush=True); continue
+                v = embed(dst, rec)
+                sim = -1.0 if v is None else float(np.dot(base, v))
+                mad = mad_vs(a.anchor, dst)
+                print("  [%s] d=%.2f seed %d sim=%.3f mad=%.1f" % (key, dens, seed, sim, mad), flush=True)
+                # both axes must pass: same face AND a different picture. Keeping only the
+                # best sim produced four near-identical frames (MAD 4-7).
+                if sim >= a.min_sim and mad >= a.min_mad and sim > best[1]:
+                    best = (dst, sim, mad, seed, dens)
+                if best[0] and sim >= a.min_sim and mad >= a.min_mad:
+                    break
         report[key] = {"best": os.path.basename(best[0]) if best[0] else None,
-                       "sim": round(best[1], 3), "seed": best[2],
-                       "pass": best[1] >= a.min_sim}
-        print("  -> %s %s sim=%.3f" % (key, "PASS" if report[key]["pass"] else "FAIL", best[1]), flush=True)
+                       "sim": round(best[1], 3), "mad": round(best[2], 1),
+                       "seed": best[3], "denoise": best[4],
+                       "pass": bool(best[0])}
+        print("  -> %s %s sim=%.3f mad=%.1f"
+              % (key, "PASS" if report[key]["pass"] else "FAIL", best[1], best[2]), flush=True)
 
     rp = os.path.join(OUT, "kf-male-locked-report.json")
-    json.dump({"anchor": os.path.basename(a.anchor), "min_sim": a.min_sim, "scenes": report},
+    json.dump({"anchor": os.path.basename(a.anchor), "min_sim": a.min_sim,
+               "min_mad": a.min_mad, "scenes": report},
               open(rp, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     ok = sum(1 for r in report.values() if r["pass"])
     print("LOCKED-KF %d/%d pass -> %s" % (ok, len(report), rp), flush=True)
