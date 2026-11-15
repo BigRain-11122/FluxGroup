@@ -65,9 +65,9 @@ SCENES = {
 }
 
 
-def graph(prompt_text, seed, anchor_name):
+def graph(prompt_text, seed, anchor_name, denoise=1.0):
     refs = {"69": anchor_name, "70": anchor_name, "71": anchor_name}
-    return {
+    g = {
         "10": {"class_type": "UNETLoader", "inputs": {"unet_name": "krea2_turbo_int8_convrot.safetensors", "weight_dtype": "default"}},
         "15": {"class_type": "LoraLoaderModelOnly", "inputs": {"model": ["10", 0], "lora_name": "krea2_style_reference.safetensors", "strength_model": 1.0}},
         "11": {"class_type": "CLIPLoader", "inputs": {"clip_name": "qwen3vl_4b_fp8_scaled.safetensors", "type": "krea2"}},
@@ -84,12 +84,21 @@ def graph(prompt_text, seed, anchor_name):
         "57": {"class_type": "CFGGuider", "inputs": {"model": ["64", 0], "positive": ["53", 0], "negative": ["13", 0], "cfg": 1.0}},
         "63": {"class_type": "RandomNoise", "inputs": {"noise_seed": seed}},
         "59": {"class_type": "KSamplerSelect", "inputs": {"sampler_name": "euler"}},
-        "60": {"class_type": "BasicScheduler", "inputs": {"model": ["64", 0], "scheduler": "simple", "steps": 8, "denoise": 1.0}},
-        "61": {"class_type": "EmptyLatentImage", "inputs": {"width": W, "height": H, "batch_size": 1}},
+        "60": {"class_type": "BasicScheduler", "inputs": {"model": ["64", 0], "scheduler": "simple", "steps": 8, "denoise": denoise}},
         "58": {"class_type": "SamplerCustomAdvanced", "inputs": {"noise": ["63", 0], "guider": ["57", 0], "sampler": ["59", 0], "sigmas": ["60", 0], "latent_image": ["61", 0]}},
         "62": {"class_type": "VAEDecode", "inputs": {"samples": ["58", 0], "vae": ["12", 0]}},
         "29": {"class_type": "SaveImage", "inputs": {"images": ["62", 0], "filename_prefix": "kf_male_locked"}},
     }
+    if denoise < 0.999:
+        # img2img: start from the anchor latent so the face survives the scene change.
+        # text-to-image only steered style (0.418/0.320/0.268 vs the anchor); a denoise
+        # around 0.6 restyles the scene while keeping the identity already in the latent.
+        g["30"] = {"class_type": "VAEEncode", "inputs": {"pixels": ["69", 0], "vae": ["12", 0]}}
+        g["58"]["inputs"]["latent_image"] = ["30", 0]
+    else:
+        g["61"] = {"class_type": "EmptyLatentImage", "inputs": {"width": W, "height": H, "batch_size": 1}}
+        g["58"]["inputs"]["latent_image"] = ["61", 0]
+    return g
 
 
 def post(url, payload):
@@ -98,8 +107,8 @@ def post(url, payload):
     return json.loads(urllib.request.urlopen(req, timeout=180).read())
 
 
-def gen(prompt, seed, anchor_name, dst, budget=420):
-    pid = post(SERVER + "/prompt", {"prompt": graph(prompt, seed, anchor_name),
+def gen(prompt, seed, anchor_name, dst, denoise=1.0, budget=420):
+    pid = post(SERVER + "/prompt", {"prompt": graph(prompt, seed, anchor_name, denoise),
                                     "client_id": str(uuid.uuid4())})["prompt_id"]
     t0 = time.time()
     while time.time() - t0 < budget:
@@ -135,6 +144,8 @@ def main():
     ap.add_argument("--scenes", default=",".join(SCENES))
     ap.add_argument("--min-sim", type=float, default=0.45)
     ap.add_argument("--seeds", type=int, default=3)
+    ap.add_argument("--denoise", type=float, default=1.0,
+                    help="<1 turns on anchor img2img (identity survives the scene change)")
     a = ap.parse_args()
 
     os.makedirs(OUT, exist_ok=True)
@@ -157,7 +168,7 @@ def main():
         for s in range(a.seeds):
             seed = 9200 + s * 7
             dst = os.path.join(OUT, "M_%s_s%d.png" % (key, seed))
-            if not gen(prompt, seed, anchor_name, dst):
+            if not gen(prompt, seed, anchor_name, dst, a.denoise):
                 print("  [%s] seed %d TIMEOUT" % (key, seed), flush=True); continue
             v = embed(dst, rec)
             sim = -1.0 if v is None else float(np.dot(base, v))
@@ -181,3 +192,5 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
+
