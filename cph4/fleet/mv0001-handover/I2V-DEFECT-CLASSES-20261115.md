@@ -8,8 +8,13 @@
 - 现象：提示词写「锁定机位」，5.9 秒里仍从中景推成中近景特写（XQ01），颗粒/反差同步变弱。
 - 5.9s 档实测：末帧明显更紧（人脸框中心位移 0.242、与原框 IoU 归零）；3.0s 档同 prompt + 强化
   「camera completely locked off, no zoom and no push-in」后，末帧构图与首帧基本一致（位移 0.012、IoU 0.75）。
-- 结论：**时长 + 锁机位措辞能治**。默认档位改 **3.0s / 73 帧**（H3 length 网格 17k+5），
-  单镜耗时从 468s 降到 226s（快一倍）。
+- **2026-11-15 追加实证（修正上一条的口径）**：真正压住漂移的不是「短时长」而是**写全的锁句**。
+  同 KF、同 seed、同 3.0s，只把头部措辞从
+  `camera completely locked off, no zoom and no push-in.`
+  换成 `camera completely locked off with no zoom and no push-in; the framing stays exactly as the first frame.`
+  结果就从「推成近景（像素闸 48.6/86.7）」变成「纹丝不动（20.2/40.4）」。证据与处置见
+  `I2V-LOCKPHRASE-EVIDENCE-20261115.md`；整批 38 单的 manifest 已按强锁句改写。
+- 结论：**默认档位 3.0s / 73 帧 + 强锁句**。单镜 226s（比 5.9s 档 468s 快一倍），且构图可守。
 
 ## 二、B 类：姿势重构 —— 原结论作废（2026-11-15 勘误）
 
