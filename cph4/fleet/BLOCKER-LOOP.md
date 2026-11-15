@@ -1,7 +1,7 @@
-# 堵/坏/卡点闭环 2026-11-16T01:35:05
+# 堵/坏/卡点闭环 2026-11-16T01:42:00
 
 分类表：`cph4/fleet/BLOCKER-TAXONOMY-v1.json`（每类四件套：判据/解法/周期/升级轮次）。
-本轮命中 4 项 · 已解 4 · 待升级 0 · 未到周期跳过 13 类
+本轮命中 7 项 · 已解 7 · 待升级 0 · 未到周期跳过 3 类
 
 ## SUPPLY-SHORT（1）
 
@@ -11,10 +11,19 @@
 
 - `fluxverse` 声明 city-state 但无在飞卡 ✅night_plan rc=0 [night_plan] cards=1 waiting=0 已投v
 
-## QUEUE-DRIFT（2）
+## FAKE-RED（3）
 
-- `asset-lib-voice-corpus-2026-11-16` 队列=RUNNING 备队列=OPEN ✅对齐 2 行
-- `R-PLAN-BIGCOMPUTE-20261116` 队列=CANCELLED 备队列=READY ✅对齐 2 行
+- `decl:fluxverse` FluxVerse·元宙城 的下一步声明只有体检/自述卡（city-state），没有产物卡 ✅已定性为不需行动（3 项），不重复报
+- `remote:bigdomain` BigDomain·硅基域商业化 的产物面在子仓（bm-a、bm-b、bm-c），本机不可判；最后一次可得证据已停 296 小时 ✅已定性为不需行动（3 项），不重复报
+- `remote:bigcompute` BigCompute·硅基算力 的产物面在子仓（bm-a、bm-b、bm-c），本机不可判；最后一次可得证据已停 296 小时 ✅已定性为不需行动（3 项），不重复报
+
+## QUEUE-DRIFT（1）
+
+- `R-PLAN-BIGCOMPUTE-20261116` 队列=CANCELLED 备队列=READY ✅对齐 1 行
+
+## NODE-REPO-DIVERGED（1）
+
+- `bm-a` bm-a 仓库已分叉（head cc9376643 非 origin/main 祖先），/poke 只会假受理，新卡与产出归集到不了；解=在 ✅已定性为不需行动（1 项），不重复报
 
 ---
 _自动解只做确定性动作；解不了的按轮次升级，不许静默留着_

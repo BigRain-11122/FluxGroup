@@ -1,32 +1,32 @@
 {
- "ts": "2026-11-16T01:42:29",
- "cycle": 1646,
+ "ts": "2026-11-16T01:48:10",
+ "cycle": 1648,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-16T01:42:29",
+ "master_tick_ts": "2026-11-16T01:48:10",
  "queue": {
-  "total": 153,
+  "total": 154,
   "open": 2,
-  "running": 9,
-  "done": 83,
+  "running": 8,
+  "done": 84,
   "failed": 5
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 51.0,
-   "cpu_load_pct": 76,
-   "ram_free_gb": 27.7,
+   "hb_age_s": 31.5,
+   "cpu_load_pct": 71,
+   "ram_free_gb": 28.4,
    "gpu_util_pct": 100,
    "job": "biggame-pack-scan-2026-11-16",
    "last_result": {
     "job": "asset-lib-voice-corpus-2026-11-16",
     "state": "BUSY",
     "rc": null,
-    "ts": "2026-11-16T01:42:11",
+    "ts": "2026-11-16T01:48:02",
     "reason": null,
     "out_bytes": 0,
-    "elapsed_s": 138
+    "elapsed_s": 167
    },
    "idle_confirmed": false,
    "idle_reason": "",
@@ -58,16 +58,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 327.1,
-   "cpu_load_pct": 19,
-   "ram_free_gb": 6.7,
+   "hb_age_s": 247.1,
+   "cpu_load_pct": 3,
+   "ram_free_gb": 11.0,
    "gpu_util_pct": null,
-   "job": "R-TRIAGE-BIGSTREAMDRAMA-BMM-20261116",
+   "job": "R-TRIAGE-BIGDOMAIN-BMM-20261116",
    "last_result": {
-    "job": "R-TRIAGE-BIGMONEY-BMM-20261116",
+    "job": "R-TRIAGE-BIGSTREAMDRAMA-BMM-20261116",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-16T01:37:10",
+    "ts": "2026-11-16T01:44:14",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -281,7 +281,6 @@
    "stale_after_h": 72.0,
    "owner": "资产席",
    "jobs": [
-    "asset-lib-voice-corpus-2026-11-16",
     "asset-lib-char-prompts-2026-11-16",
     "asset-lib-asset-gen-2026-11-16"
    ],
@@ -848,11 +847,9 @@
  },
  "supply_added": [],
  "events": [
-  "R-TRIAGE-BIGMONEY-BMM-20261116 DONE via bm-m",
-  "R-NEXT-BIGSTREAMM-REBUILD-20261116 REQUeued attempt=1",
-  "bigmoney-signal-2026-11-16 REQUeued attempt=1",
-  "R-NEXT-BIGSTREAMM-REBUILD-20261116 -> bm-a (cpu)",
-  "bigmoney-signal-2026-11-16 -> bm-a (cpu)"
+  "R-TRIAGE-BIGSTREAMDRAMA-BMM-20261116 DONE via bm-m",
+  "Q-TRIAGE-ASSETLIB-20261116 REQUeued attempt=1",
+  "Q-TRIAGE-ASSETLIB-20261116 -> bm-a (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 立意/分镜/导演席 (导演席（自决推进，CEO 巡视可随时否决）)",

@@ -1,4 +1,4 @@
-# 指挥一屏 2026-11-16T01:34:35
+# 指挥一屏 2026-11-16T01:41:02
 
 _节奏表=COMMAND-CADENCE-v1.json｜本屏由规则从盘上事实算出，未用模型猜数_
 
@@ -41,8 +41,8 @@ ACTIVE 线 11 条｜超 72h 无产物 6 条｜PARKED 4 条（按 CEO 令暂停�
 
 ## E 指挥质量（6 小时档）
 
-1. 队列 151 行：DONE 80｜FAILED 5｜UNVERIFIED 0｜CANCELLED 27
-2. 完成占比 94%（DONE/85）
+1. 队列 153 行：DONE 82｜FAILED 5｜UNVERIFIED 0｜CANCELLED 27
+2. 完成占比 94%（DONE/87）
 3. 空壳卡累计隔离 0 张（越少越好，涨了就是造卡器又出错）
 
 ## F 需要 CEO 的（≤3 条，其余自决）
