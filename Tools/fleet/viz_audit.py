@@ -38,6 +38,7 @@ STATE = os.path.join(ROOT, "cph4", "fleet", "state")
 OUT_JSON = os.path.join(STATE, "viz-audit.json")
 OUT_MD = os.path.join(STATE, "VIZ-AUDIT.md")
 URL = "http://127.0.0.1:8787/"
+FIX_TS = [0.0]   # 本轮做过修复的时间（写回 json，供下一轮冷却判断）
 LABEL = "com.fluxgroup.console"
 PANELS = ("⓪ 今日实况", "① 需要你决定", "② 四线", "③ 机队", "④ 推进")
 EXEC_STALE_S = 3600     # 「声称 healthy 却超过 1 小时没更新」= 假绿（今天 bm-c 是 46.8h）
@@ -79,15 +80,25 @@ def audit():
     # 1. serve
     code, body = fetch(URL)
     if code != 200:
-        if not ARGS.check:
+        # 改成每轮跑之后必须带冷却，否则服务持续挂时会每 45 秒重启一次（抖动）。
+        last_fix = 0.0
+        try:
+            last_fix = float(json.load(open(OUT_JSON, encoding="utf-8")).get("fix_ts") or 0)
+        except Exception:
+            pass
+        cooled = (time.time() - last_fix) < 300
+        if not ARGS.check and not cooled:
             sh(["launchctl", "kickstart", "-k", "gui/%d/%s" % (os.getuid(), LABEL)])
+            FIX_TS[0] = time.time()
             time.sleep(4)
             code2, body = fetch(URL)
             add("serve", code2 == 200,
                 "8787 无响应 → 已 kickstart，现 %s" % ("200" if code2 == 200 else "仍不通"),
                 fixed=(code2 == 200), need_human=(code2 != 200))
         else:
-            add("serve", False, "8787 无响应（--check 未修）", need_human=True)
+            add("serve", False,
+                "8787 无响应（%s）" % ("--check 未修" if ARGS.check else "冷却中，5 分钟内已修过"),
+                need_human=True)
     else:
         add("serve", True, "200 · %d KB" % (len(body) // 1024))
 
@@ -193,7 +204,7 @@ def main():
     os.makedirs(STATE, exist_ok=True)
     try:
         json.dump({"ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "verdict": verdict,
-                   "rows": rows}, open(OUT_JSON, "w", encoding="utf-8"),
+                   "fix_ts": FIX_TS[0], "rows": rows}, open(OUT_JSON, "w", encoding="utf-8"),
                   ensure_ascii=False, indent=1)
         open(OUT_MD, "w", encoding="utf-8").write(md)
     except Exception:

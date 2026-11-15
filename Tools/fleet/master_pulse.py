@@ -110,7 +110,11 @@ STAGES = [
     # 只显示"无法连接"。viz_audit 八面断言（服务/绑定/L0 节拍/执行器假绿/队列可解析/
     # 乱码/面板完整/静默边界），能自动修的当场修（serve 挂了 kickstart），修不了的写待办。
     # rc=0 全绿 / 1 本轮修了 / 2 有需人工项 → ok_rc={0,1}。
-    ("viz_audit", ["Tools/fleet/viz_audit.py"], 1800, {0, 1}, True),
+    # 2026-11-15 实测：设成 slow=True 会掉进「每 5 分钟才跑」的槽，而 slow_ts 被旧轮次
+    # 卡住时它会长期显示 deferred 从不真跑（viz_audit/executor_revive/executor_guard
+    # 三个自愈阶段今天全是 deferred → 机器永远不会被自动拉起）。脚本本身 0.1s，
+    # 改为每轮串行跑，确定性优先；kickstart 自愈带冷却，不会每轮刷。
+    ("viz_audit", ["Tools/fleet/viz_audit.py"], 1800, {0, 1}, False),
     # ↑ 降频（2026-11-07 实测 29s/轮）：它守的是"任务被禁"这种缓变状态，
     # 探三台远端 /status 是纯网络开销，每轮跑等于把 20-30s 的节拍交给 tailnet。
     # 改 slow=True（每 5 分钟）后单轮省 ~20s，禁用恢复的最坏延迟仍是 5 分钟。
