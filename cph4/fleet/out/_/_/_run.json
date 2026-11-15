@@ -1,7 +1,7 @@
 {
- "ts": "2026-11-15T00:08:13",
+ "ts": "2026-11-16T01:22:32",
  "rc": null,
  "note": "命令未授权：命令不在 PRODUCTS 已审清单里，且卡上没有 cmd_reviewed 标记",
- "cmd": "python Tools/fleet/line_triage.py --line recon --out cph4/fleet/queue-receipts/triage-recon-20261115.md",
+ "cmd": "python Tools/fleet/line_triage.py --line bigcompute --out cph4/fleet/queue-receipts/triage-bigcompute-20261116.md",
  "station": "control"
 }

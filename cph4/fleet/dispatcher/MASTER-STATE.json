@@ -1,30 +1,30 @@
 {
- "ts": "2026-11-16T01:19:03",
- "cycle": 1639,
+ "ts": "2026-11-16T01:24:54",
+ "cycle": 1641,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-16T01:19:03",
+ "master_tick_ts": "2026-11-16T01:24:54",
  "queue": {
-  "total": 148,
+  "total": 149,
   "open": 2,
-  "running": 10,
-  "done": 78,
+  "running": 7,
+  "done": 80,
   "failed": 7
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 22.3,
-   "cpu_load_pct": 71,
-   "ram_free_gb": 27.8,
+   "hb_age_s": 5.6,
+   "cpu_load_pct": 67,
+   "ram_free_gb": 28.6,
    "gpu_util_pct": 100,
    "job": "biggame-pack-scan-2026-11-16",
    "last_result": {
-    "job": null,
-    "state": "IDLE",
-    "rc": null,
-    "ts": "2026-11-16T01:17:13",
-    "reason": "CAPACITY-BLOCKED-RAM CPU-SATURATED 100%",
+    "job": "asset-lib-voice-corpus-2026-11-16",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-16T01:22:47",
+    "reason": null,
     "out_bytes": null,
     "elapsed_s": null
    },
@@ -58,22 +58,22 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 179.2,
-   "cpu_load_pct": 8,
-   "ram_free_gb": 11.3,
+   "hb_age_s": 129.0,
+   "cpu_load_pct": 17,
+   "ram_free_gb": 11.2,
    "gpu_util_pct": null,
-   "job": "R-PLAN-BIGCOMPUTE-20261116",
+   "job": null,
    "last_result": {
-    "job": "R-TRIAGE-BIGGAME-BMB-20261116",
+    "job": "R-TRIAGE-BIGMONEY-BMB-20261116",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-16T01:16:15",
+    "ts": "2026-11-16T01:22:52",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": false,
-   "idle_reason": "",
+   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
    "idle_rounds": 0
   }
  },
@@ -200,14 +200,12 @@
   "bigcompute": {
    "name": "BigCompute·硅基算力",
    "status": "ACTIVE",
-   "verdict": "WORKING",
+   "verdict": "WAITING",
    "age_h": null,
    "stale_after_h": 36.0,
    "owner": "算力中枢席",
-   "jobs": [
-    "R-PLAN-BIGCOMPUTE-20261116"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": null
   },
@@ -269,8 +267,7 @@
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
    "jobs": [
-    "Q-TRIAGE-ASSETLIB-20261116",
-    "R-TRIAGE-FLUXVERSE-BMB-20261116"
+    "Q-TRIAGE-ASSETLIB-20261116"
    ],
    "no_supply": false,
    "blockers": [],
@@ -284,7 +281,6 @@
    "stale_after_h": 72.0,
    "owner": "资产席",
    "jobs": [
-    "asset-lib-voice-corpus-2026-11-16",
     "asset-lib-char-prompts-2026-11-16",
     "asset-lib-asset-gen-2026-11-16"
    ],
@@ -829,9 +825,8 @@
   }
  },
  "judgments": {
-  "open": 4,
+  "open": 3,
   "by_kind": {
-   "CAPACITY": 1,
    "LINE-LATE": 3
   },
   "added": 0,
@@ -850,15 +845,12 @@
   "cpu": 1,
   "gpu": 1
  },
- "supply_added": [],
+ "supply_added": [
+  "backlog_fill_error:queue busy: /Users/junsheng.sun/FluxGroup/cph4/fleet/rt/control/queue.jsonl"
+ ],
  "events": [
-  "R-TRIAGE-BIGGAME-BMB-20261116 DONE via bm-m",
-  "R-PLAN-BIGCOMPUTE-20261116 REQUeued attempt=1",
-  "asset-lib-char-prompts-2026-11-16 REQUeued attempt=1",
-  "asset-lib-voice-corpus-2026-11-16 -> bm-a (cpu)",
-  "asset-lib-char-prompts-2026-11-16 -> bm-a (cpu)",
-  "biggame-pack-scan-2026-11-16 -> bm-a (cpu)",
-  "R-PLAN-BIGCOMPUTE-20261116 -> bm-m (cpu)"
+  "asset-lib-voice-corpus-2026-11-16 UNVERIFIED(no-artifact-yet) via bm-a",
+  "R-TRIAGE-BIGMONEY-BMB-20261116 DONE via bm-m"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 立意/分镜/导演席 (导演席（自决推进，CEO 巡视可随时否决）)",
