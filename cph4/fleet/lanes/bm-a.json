@@ -1,21 +1,7 @@
 {
  "node": "bm-a",
- "ts": "2026-11-16T01:48:10",
+ "ts": "2026-11-16T01:55:16",
  "jobs": [
-  {
-   "id": "biggame-pack-scan-2026-11-16",
-   "title": "[游戏（可上线清单 → 一款可玩包 → 提审材料）] 可上线包清单（唯一能机器判的段）",
-   "cmd": "python Tools/fleet/game_pack_scan.py --root gaming --out cph4/fleet/queue-receipts/game-packs-2026-11-16.json",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/game-packs-2026-11-16.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
   {
    "id": "R-NEXT-BIGSTREAMM-REBUILD-20261116",
    "title": "MV 合成本片：按 EDL 行表重建成片 v721（缺的是成片，不是闸）",
@@ -31,40 +17,12 @@
    "timeout_s": null
   },
   {
-   "id": "bigstream-drama-src-scan-2026-11-16",
-   "title": "[漫剧（关键帧→i2v→装配→闸）] 素材盘点（关键帧与 i2v 片段的真目录）",
-   "cmd": "python Tools/fleet/drama_inventory.py --out cph4/fleet/queue-receipts/drama-src-2026-11-16.json",
+   "id": "asset-lib-voice-corpus-2026-11-16",
+   "title": "[资产储备（角色 LoRA / 音色库）] 音色语料工程（一卡全量·持料机 bm-a）",
+   "cmd": "python Tools/fleet/voice_corpus_prep.py --inbox media/asset/inbox --group batch-2026-11-16 --shard 0/1 --receipt cph4/fleet/queue-receipts/voice-corpus-2026-11-16.json",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/drama-src-2026-11-16.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "bigstream-mv-gate-2026-11-16",
-   "title": "[MV·爱在西元前（v721 终版）] 交付闸（重复/静止/抖动/闪烁）",
-   "cmd": "python Tools/mv_delivery_gate.py cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721_60fps_1080p.mp4 --card 38.79:40.21 --card 219.71:223.88 --json cph4/fleet/queue-receipts/mv-gate-v721-2026-11-16.json",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/mv-gate-v721-2026-11-16.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "asset-lib-char-prompts-2026-11-16",
-   "title": "[资产储备（角色 LoRA / 音色库）] 角色包出图计划（8 原创角色 × 6 视角提示词包）",
-   "cmd": "python Tools/fleet/char_plan.py",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/char-gen-plan-2026-11-16.json",
+   "deliverable": "cph4/fleet/queue-receipts/voice-corpus-2026-11-16.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -99,9 +57,37 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
+  },
+  {
+   "id": "R-TRIAGE-RECON-BMB-20261116",
+   "title": "RECON·竞品拆解 线证据扫描（bm-b 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line recon --node bm-b --out cph4/fleet/queue-receipts/triage-recon-bm-b-20261116.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-recon-bm-b-20261116.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "R-TRIAGE-FLEETOPS-BMB-20261116",
+   "title": "机队运维·端到端自检（平台服务线） 线证据扫描（bm-b 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line fleet-ops --node bm-b --out cph4/fleet/queue-receipts/triage-fleet-ops-bm-b-20261116.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-fleet-ops-bm-b-20261116.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 28.4/1.0 GB"
+ "capacity_note": "ram 25.0/1.0 GB"
 }

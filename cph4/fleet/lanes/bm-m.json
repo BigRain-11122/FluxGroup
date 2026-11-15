@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
- "ts": "2026-11-16T01:48:10",
+ "ts": "2026-11-16T01:55:16",
  "jobs": [
   {
-   "id": "R-TRIAGE-BIGDOMAIN-BMM-20261116",
-   "title": "BigDomain·硅基域商业化 线证据扫描（bm-m 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigdomain --node bm-m --out cph4/fleet/queue-receipts/triage-bigdomain-bm-m-20261116.md",
+   "id": "R-TRIAGE-BIGLIFE-BMM-20261116",
+   "title": "BigLife·数字生命 线证据扫描（bm-m 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line biglife --node bm-m --out cph4/fleet/queue-receipts/triage-biglife-bm-m-20261116.md",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigdomain-bm-m-20261116.md",
+   "deliverable": "cph4/fleet/queue-receipts/triage-biglife-bm-m-20261116.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 11.0/1.0 GB"
+ "capacity_note": "ram 8.9/1.0 GB"
 }
