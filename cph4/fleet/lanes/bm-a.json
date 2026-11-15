@@ -1,35 +1,7 @@
 {
  "node": "bm-a",
- "ts": "2026-11-16T03:19:35",
+ "ts": "2026-11-16T03:25:47",
  "jobs": [
-  {
-   "id": "R-TRIAGE-RECON-BMB-20261116",
-   "title": "RECON·竞品拆解 线证据扫描（bm-b 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line recon --node bm-b --out cph4/fleet/queue-receipts/triage-recon-bm-b-20261116.md",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-recon-bm-b-20261116.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "R-TRIAGE-FLEETOPS-BMB-20261116",
-   "title": "机队运维·端到端自检（平台服务线） 线证据扫描（bm-b 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line fleet-ops --node bm-b --out cph4/fleet/queue-receipts/triage-fleet-ops-bm-b-20261116.md",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-fleet-ops-bm-b-20261116.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
   {
    "id": "R-TRIAGE-BIGLIFE-BMB-20261116",
    "title": "BigLife·数字生命 线证据扫描（bm-b 本机可判面）",
@@ -47,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 15.6/1.0 GB"
+ "capacity_note": "ram 15.5/1.0 GB"
 }

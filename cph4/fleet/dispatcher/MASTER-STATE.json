@@ -1,30 +1,30 @@
 {
- "ts": "2026-11-16T03:19:35",
- "cycle": 1681,
+ "ts": "2026-11-16T03:25:47",
+ "cycle": 1683,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-16T03:19:35",
+ "master_tick_ts": "2026-11-16T03:25:47",
  "queue": {
   "total": 162,
   "open": 2,
-  "running": 3,
+  "running": 1,
   "done": 88,
-  "failed": 6
+  "failed": 8
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 55.5,
-   "cpu_load_pct": 76,
-   "ram_free_gb": 15.6,
-   "gpu_util_pct": 100,
-   "job": "R-TRIAGE-RECON-BMB-20261116",
+   "hb_age_s": 10.8,
+   "cpu_load_pct": 51,
+   "ram_free_gb": 15.5,
+   "gpu_util_pct": 62,
+   "job": "R-TRIAGE-BIGLIFE-BMB-20261116",
    "last_result": {
-    "job": null,
-    "state": "IDLE",
-    "rc": null,
-    "ts": "2026-11-16T03:16:57",
-    "reason": "SELF-DISPATCH: lane scans its own backlog",
+    "job": "R-TRIAGE-RECON-BMB-20261116",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-16T03:24:50",
+    "reason": null,
     "out_bytes": null,
     "elapsed_s": null
    },
@@ -58,30 +58,30 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 221.1,
-   "cpu_load_pct": 2,
-   "ram_free_gb": 15.3,
+   "hb_age_s": 209.8,
+   "cpu_load_pct": 3,
+   "ram_free_gb": 16.2,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-16T03:16:00",
+    "ts": "2026-11-16T03:22:20",
     "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 23
+   "idle_rounds": 25
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 23
+  "bm-m": 25
  },
  "lines": {
   "bigstream-mv": {
@@ -253,15 +253,12 @@
   "fleet-ops": {
    "name": "机队运维·端到端自检（平台服务线）",
    "status": "ACTIVE",
-   "verdict": "WORKING",
+   "verdict": "WAITING",
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
-   "jobs": [
-    "R-TRIAGE-RECON-BMB-20261116",
-    "R-TRIAGE-FLEETOPS-BMB-20261116"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": null
   },
@@ -840,13 +837,14 @@
  "events": [],
  "violations": [
   "bm-c OFFLINE",
-  "bm-m IDLE-CONFIRMED x23 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-m IDLE-CONFIRMED x25 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED bigstream-mv 卡在 立意/分镜/导演席 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
  "lane_files_written": [
-  "bm-a"
+  "bm-a",
+  "bm-b"
  ]
 }
