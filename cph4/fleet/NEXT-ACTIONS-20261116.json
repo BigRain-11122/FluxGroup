@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-16T00:39:37+0800",
+ "ts": "2026-11-16T00:54:36+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -28,8 +28,8 @@
    "blocker_type": "CEO",
    "blocker": "截图需跑游戏取图，受 2026-10-28『不许自动跑游戏包』令约束，等放行",
    "state": "RUNNING",
-   "card": "PACK-GAME-20261116",
-   "running_on": "bm-m"
+   "card": "biggame-pack-scan-2026-11-16",
+   "running_on": "bm-a"
   },
   {
    "id": "bigmoney",
@@ -42,9 +42,9 @@
    "accept": "quant_signal 回执 rc=0 且 CSV 含因子值与输入指纹",
    "blocker_type": "ENGINE",
    "blocker": "回测产物需在 bm-b 本地生成；主控无 quant 仓",
-   "state": "RUNNING",
-   "card": "R-PLAN-BIGMONEY-20261116",
-   "running_on": "bm-a"
+   "state": "QUEUED",
+   "card": "bigmoney-signal-2026-11-16",
+   "running_on": null
   },
   {
    "id": "bigstream-mv",
@@ -73,8 +73,8 @@
    "blocker_type": "CEO",
    "blocker": "CEO 令暂停（先铺资产库/MV/游戏/城市）",
    "state": "RUNNING",
-   "card": "bigstream-drama-src-scan-2026-11-16",
-   "running_on": "bm-a"
+   "card": "R-PLAN-BIGSTREAMDRA-20261116",
+   "running_on": "bm-m"
   },
   {
    "id": "bigstream-duanju",
@@ -117,9 +117,9 @@
    "accept": "投影文件每日刷新；受阻面写明触发条件",
    "blocker_type": "ENGINE",
    "blocker": "四仓不在本机，需在对应机器生成投影",
-   "state": "QUEUED",
+   "state": "RUNNING",
    "card": "R-PLAN-FLUXVERSE-20261115",
-   "running_on": null
+   "running_on": "bm-m"
   },
   {
    "id": "bigdomain",
@@ -132,9 +132,9 @@
    "accept": "页面文件在盘且本地可打开；支付位标明待接",
    "blocker_type": "CEO",
    "blocker": "商户号/支付资质未签（物理件）",
-   "state": "RUNNING",
-   "card": "R-PLAN-BIGDOMAIN-20261116",
-   "running_on": "bm-m"
+   "state": "STALLED",
+   "card": null,
+   "running_on": null
   },
   {
    "id": "bigcompute",
@@ -162,9 +162,9 @@
    "accept": "回执含 20 条事件，每条对应真实事件流记录",
    "blocker_type": "ENGINE",
    "blocker": "城市仓不在本机",
-   "state": "RUNNING",
-   "card": "R-PLAN-BIGLIFE-20261116",
-   "running_on": "bm-m"
+   "state": "STALLED",
+   "card": null,
+   "running_on": null
   },
   {
    "id": "bighouse",
@@ -207,9 +207,9 @@
    "accept": "拆解卡含 10 款的核心循环与付费点位，带来源链接",
    "blocker_type": "ENGINE",
    "blocker": "缺工序表与榜单抓取口径",
-   "state": "RUNNING",
-   "card": "R-PLAN-RECON-20261116",
-   "running_on": "bm-m"
+   "state": "STALLED",
+   "card": null,
+   "running_on": null
   },
   {
    "id": "fleet-ops",
@@ -223,14 +223,14 @@
    "blocker_type": "ENGINE",
    "blocker": "I2 存量 125 条卡面路径债、vault 缺盘 651 条",
    "state": "QUEUED",
-   "card": "Q-TRIAGE-FLUXVERSE-20261116",
+   "card": "Q-TRIAGE-ASSETLIB-20261116",
    "running_on": null
   }
  ],
  "counts": {
-  "RUNNING": 9,
+  "RUNNING": 6,
   "QUEUED": 3,
-  "STALLED": 3
+  "STALLED": 6
  },
- "stalled_engine": 0
+ "stalled_engine": 2
 }
