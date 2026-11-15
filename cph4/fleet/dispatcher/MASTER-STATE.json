@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-16T04:06:45",
- "cycle": 1697,
+ "ts": "2026-11-16T04:12:43",
+ "cycle": 1699,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-16T04:06:45",
+ "master_tick_ts": "2026-11-16T04:12:43",
  "queue": {
   "total": 165,
   "open": 2,
@@ -14,16 +14,16 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 8.1,
-   "cpu_load_pct": 61,
-   "ram_free_gb": 29.8,
+   "hb_age_s": 5.5,
+   "cpu_load_pct": 66,
+   "ram_free_gb": 28.9,
    "gpu_util_pct": 100,
    "job": "R-MV-GATE-1D",
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-16T04:05:54",
+    "ts": "2026-11-16T04:10:51",
     "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
@@ -58,30 +58,30 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 100.1,
+   "hb_age_s": 266.5,
    "cpu_load_pct": 3,
-   "ram_free_gb": 10.4,
+   "ram_free_gb": 6.4,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-16T04:00:16",
+    "ts": "2026-11-16T04:08:22",
     "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 11
+   "idle_rounds": 13
   }
  },
  "idle_rounds": {
   "bm-a": 0,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 11
+  "bm-m": 13
  },
  "lines": {
   "bigstream-mv": {
@@ -840,11 +840,13 @@
  "violations": [
   "bm-b OFFLINE",
   "bm-c OFFLINE",
-  "bm-m IDLE-CONFIRMED x11 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-m IDLE-CONFIRMED x13 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED bigstream-mv 卡在 立意/分镜/导演席 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)"
  ],
- "lane_files_written": []
+ "lane_files_written": [
+  "bm-a"
+ ]
 }
