@@ -55,8 +55,8 @@ CHARS = {
 # 视角表：(后缀, 景别, 机位, 表情/动作, 光位)
 VIEWS = [
     ('front_cu',      'close-up portrait',            'at eye level',        'neutral expression, looking straight ahead', 'soft overcast daylight'),
-    ('three_q_left',  'medium shot',                  'at eye level',        'body angled to her right, head turned to camera', 'soft overcast daylight'),
-    ('three_q_right', 'medium shot',                  'at eye level',        'body angled to her left, head turned to camera', 'soft overcast daylight'),
+    ('three_q_left',  'medium shot',                  'at eye level',        'body turned three-quarters toward the left, head toward camera', 'soft overcast daylight'),
+    ('three_q_right', 'medium shot',                  'at eye level',        'body turned three-quarters toward the right, head toward camera', 'soft overcast daylight'),
     ('profile_left',  'close-up portrait',            'at eye level',        'full left profile', 'soft overcast daylight'),
     ('profile_right', 'close-up portrait',            'at eye level',        'full right profile', 'soft overcast daylight'),
     ('back_head',     'medium shot',                  'from behind',         'back of head and shoulders, face turned slightly away', 'soft overcast daylight'),

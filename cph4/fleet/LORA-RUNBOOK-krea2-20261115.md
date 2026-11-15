@@ -32,6 +32,11 @@
    不是读取 ComfyUI 的量化产物，`strict=True` 加载会因多出的 scale 键直接失败。
 4. 下载法：hf-mirror 单连接约 0.7MB/s，分段并行（`K:\Fluxgroup\.tools\dl\seg_dl.py`，
    32MB 一段 × 8~16 线程）可到 2~3MB/s，断线重跑即续（按段文件大小判定）。
+   **拼接阶段踩过的坑**：`seg_dl.py` 一开始把被 worker `pop` 空的 segment 列表拿去拼，
+   结果拼出 0 字节文件、校验报 `file too short`——分段其实完好，用
+   `K:\Fluxgroup\.tools\dl\join_parts.py --parts <out.parts> --out <out>` 几秒就能救回，
+   不要重下 8GB。本机 TE（8.27GB/265 段）就是这么救回来的，`safetensors` 实际读取 713 个
+   bf16 张量正常。
 
 ## 三、命令（全部是本机验证过的形态）
 
@@ -97,3 +102,9 @@ set PYTHONPATH=%SRC%
 3. 训练与 ComfyUI 抢卡：训练前先 `POST /free`，或直接用 GPU 期的单车道纪律（同一时段只跑一件 GPU 活）。
 4. `krea2_cache_latents` **没有 `--dit` 参数**（旧版手册写错了），只要 `--vae` + `--dataset_config`。
 5. 会话一断 GPU 长跑就死：训练必须用 `pythonw`/隐藏进程承接并写日志（本仓纪律 D-12 只禁自启任务，不禁人工常驻进程）。
+6. **`--device cpu` 走不通**：2026-11-15 实测 `krea2_cache_latents --device cpu` 停在
+   `Encoding dataset [0]` + `0it [00:00, ?it/s]`，进程 CPU 占用 0%、两分钟无产物（Windows 下
+   DataLoader/编码器没起来）。缓存与训练一律走 GPU；想「不占卡先验一遍」这条路不通。
+7. **ComfyUI 的 VAE 能直接用**：`qwen_image_vae.safetensors` 加载时自动
+   `Converted ComfyUI AutoencoderKL state dict keys to official format`，`<All keys matched successfully>`。
+   推论：同仓（Comfy-Org）出的 bf16 DiT / TE 也应能直接吃，只是**量化档（fp8_scaled/int8_convrot）不行**。

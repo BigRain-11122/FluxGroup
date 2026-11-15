@@ -72,6 +72,25 @@ def main():
         time.sleep(60)
     log('GPU idle confirmed, start cast sheets')
 
+    # 先把看片带和质检板做出来（纯 CPU/ffmpeg，不占卡），这样人一睁眼就有东西看
+    asm = os.path.join(ROOT, r'Tools\smoke\asm_xq38.py')
+    board = os.path.join(ROOT, r'Tools\smoke\qc_i2v_board.py')
+    clips = os.path.join(ROOT, r'cph4\fleet\mv0001-handover\outbound\krea2\30s-reel-v1\i2v-xq3-batch')
+    n = len(glob.glob(os.path.join(clips, '*.mp4')))
+    log('reel: clips on disk = %d' % n)
+    if n >= 38:
+        r = subprocess.run([PY, asm], cwd=ROOT, capture_output=True, text=True)
+        for ln in ((r.stdout or '').strip().splitlines() or [])[-3:]:
+            log('   asm ' + ln[:170])
+        if r.returncode != 0:
+            log('   asm rc=%d %s' % (r.returncode, (r.stderr or '')[-200:]))
+    else:
+        log('   跳过拼带（不足 38 镜）')
+    r = subprocess.run([PY, board, clips, '--per-board', '12', '--width', '300'],
+                       cwd=ROOT, capture_output=True, text=True)
+    for ln in ((r.stdout or '').strip().splitlines() or [])[-4:]:
+        log('   board ' + ln[:170])
+
     rc_all = 0
     for char in ('xq_her', 'xq_him'):
         log('burn %s' % char)
