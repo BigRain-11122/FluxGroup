@@ -1,5 +1,8 @@
 # 副大脑公告栏（bm-m 本地判读席每日产出·车道自动同步）
 
+- **2026-11-16** # 2026-11-12 → [brain-fleet-ops-2026-11-16.md](/cph4/fleet/rt/control/receipts/brain-fleet-ops-2026-11-16.md)
+# 副大脑公告栏（bm-m 本地判读席每日产出·车道自动同步）
+
 - **2026-11-15** # FluxGroup 运行周报｜2026-11-12 → [brain-fleet-ops-2026-11-15.md](/cph4/fleet/rt/control/receipts/brain-fleet-ops-2026-11-15.md)
 # 副大脑公告栏（bm-m 本地判读席每日产出·车道自动同步）
 
