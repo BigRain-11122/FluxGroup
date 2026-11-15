@@ -62,12 +62,12 @@
   },
   {
    "id": "AGENT-PATROL",
-   "station": "delivery|visual|audio",
+   "station": "control",
    "cadence_s": 3600,
-   "cmd": "{py} Tools/fleet/station_agent.py --station <station> --once",
+   "cmd": "{py} Tools/fleet/station_agent.py --station control --once",
    "output": "cph4/fleet/state/agent-<station>.json",
    "calls_per_run": 1,
-   "why": "每小时巡自己一次，产出发现；不改卡、不自证（有发现才调模型，按 1 次上界估）",
+   "why": "每小时巡自己一次，产出发现；不改卡、不自证（有发现才调模型，按 1 次上界估）。2026-11-15 修：原来 station=delivery|visual|audio，而主控工位是 control，runner 按本机工位过滤 → 这个任务自 11-12 定义起一次都没跑过（runs 里从未出现）。按'本地闭环'原则，主控只巡自己的 control，别家由它们自己的机巡。",
    "on_fail": "记一条发现，不重试"
   },
   {

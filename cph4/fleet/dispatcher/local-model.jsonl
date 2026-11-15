@@ -3599,3 +3599,289 @@
 {"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.8, "chars": 113, "why": "agent-team:C-INSPECT", "ts": "2026-11-11T15:10:07"}
 {"cls": "review", "seat": "big", "op": "generate", "model": "qwen3:8b", "sec": 5.9, "chars": 125, "why": "panel:C-BOOK", "ts": "2026-11-11T16:01:07"}
 {"cls": "review", "seat": "big", "op": "generate", "model": "qwen3:8b", "sec": 3.2, "chars": 130, "why": "panel:C-LEAD", "ts": "2026-11-11T16:01:10"}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 1.3, "chars": 51, "why": "fleet_brain:pick", "ts": "2026-11-15T05:00:14", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 5.0, "chars": 146, "why": "master-digest", "ts": "2026-11-15T05:01:16", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 4.5, "chars": 500, "why": "agent-team:D-INSPECT", "ts": "2026-11-15T05:01:23", "station": null}
+{"cls": "review", "seat": "big", "op": "generate", "model": "qwen3.5:9b-mlx", "sec": 7.5, "chars": 79, "why": "agent-team:D-SUBMIT", "ts": "2026-11-15T05:01:31", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 0.5, "chars": 20, "why": "agent-team:C-INSPECT", "ts": "2026-11-15T05:01:31", "station": null}
+{"cls": "review", "seat": "big", "op": "generate", "model": "qwen3.5:9b-mlx", "sec": 3.3, "chars": 123, "why": "agent-team:C-GATE", "ts": "2026-11-15T05:01:35", "station": null}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-15T05:01:45", "station": null}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-15T05:01:45", "station": null}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-15T05:01:45", "station": null}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-15T05:01:45", "station": null}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-15T05:01:45", "station": null}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-15T05:01:45", "station": null}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-15T05:01:45", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 2.1, "chars": 32, "why": "agent-team:D-ICON", "ts": "2026-11-15T05:04:37", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 0.6, "chars": 35, "why": "agent-team:D-BUILD", "ts": "2026-11-15T05:04:38", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.7, "chars": 130, "why": "agent-team:A-BOOK", "ts": "2026-11-15T05:04:39", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.0, "chars": 84, "why": "agent-team:C-BOOK", "ts": "2026-11-15T05:04:40", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 2.1, "chars": 105, "why": "agent-team:B-BOOK", "ts": "2026-11-15T05:07:43", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 1.7, "chars": 54, "why": "fleet_brain:pick", "ts": "2026-11-15T05:09:11", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 3.4, "chars": 345, "why": "agent-team:D-INSPECT", "ts": "2026-11-15T05:10:46", "station": null}
+{"cls": "review", "seat": "big", "op": "generate", "model": "qwen3.5:9b-mlx", "sec": 3.3, "chars": 87, "why": "agent-team:D-CAR", "ts": "2026-11-15T05:10:50", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.1, "chars": 70, "why": "agent-team:V-BOOK", "ts": "2026-11-15T05:10:51", "station": null}
+{"cls": "review", "seat": "big", "op": "generate", "model": "qwen3.5:9b-mlx", "sec": 8.4, "chars": 523, "why": "agent-team:D-ADMIT", "ts": "2026-11-15T05:13:59", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.3, "chars": 14, "why": "agent-team:D-BOOK", "ts": "2026-11-15T05:14:01", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 3.3, "chars": 54, "why": "fleet_brain:pick", "ts": "2026-11-15T05:19:47", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 3.3, "chars": 456, "why": "agent-team:A-BOOK", "ts": "2026-11-15T05:20:04", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 0.9, "chars": 57, "why": "agent-team:B-OPS", "ts": "2026-11-15T05:20:05", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 0.9, "chars": 84, "why": "agent-team:C-BOOK", "ts": "2026-11-15T05:20:06", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 4.7, "chars": 115, "why": "master-digest", "ts": "2026-11-15T05:21:17", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 5.4, "chars": 500, "why": "agent-team:D-INSPECT", "ts": "2026-11-15T05:23:12", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.9, "chars": 205, "why": "agent-team:D-BUILD", "ts": "2026-11-15T05:23:14", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.4, "chars": 151, "why": "agent-team:B-BOOK", "ts": "2026-11-15T05:23:15", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 0.5, "chars": 20, "why": "agent-team:C-INSPECT", "ts": "2026-11-15T05:23:16", "station": null}
+{"cls": "review", "seat": "big", "op": "generate", "model": "qwen3.5:9b-mlx", "sec": 3.2, "chars": 109, "why": "agent-team:C-GATE", "ts": "2026-11-15T05:23:19", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 6.1, "chars": 447, "why": "agent-team:V-BOOK", "ts": "2026-11-15T05:26:25", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.1, "chars": 14, "why": "agent-team:D-BOOK", "ts": "2026-11-15T05:29:26", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 1.6, "chars": 53, "why": "fleet_brain:pick", "ts": "2026-11-15T05:29:47", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.7, "chars": 86, "why": "agent-team:A-BOOK", "ts": "2026-11-15T05:35:28", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.0, "chars": 64, "why": "agent-team:C-BOOK", "ts": "2026-11-15T05:35:29", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.9, "chars": 99, "why": "agent-team:B-BOOK", "ts": "2026-11-15T05:38:31", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 1.6, "chars": 51, "why": "fleet_brain:pick", "ts": "2026-11-15T05:39:09", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 4.4, "chars": 100, "why": "master-digest", "ts": "2026-11-15T05:40:11", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.8, "chars": 128, "why": "agent-team:V-BOOK", "ts": "2026-11-15T05:41:34", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 0.5, "chars": 20, "why": "agent-team:C-INSPECT", "ts": "2026-11-15T05:41:34", "station": null}
+{"cls": "review", "seat": "big", "op": "generate", "model": "qwen3.5:9b-mlx", "sec": 6.9, "chars": 107, "why": "agent-team:C-GATE", "ts": "2026-11-15T05:41:41", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 2.7, "chars": 95, "why": "agent-team:D-LEAD", "ts": "2026-11-15T05:44:44", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 2.5, "chars": 234, "why": "agent-team:D-BOOK", "ts": "2026-11-15T05:44:47", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.0, "chars": 61, "why": "agent-team:V-LEAD", "ts": "2026-11-15T05:44:48", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 0.9, "chars": 67, "why": "agent-team:A-LEAD", "ts": "2026-11-15T05:44:48", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 2.3, "chars": 217, "why": "agent-team:B-LEAD", "ts": "2026-11-15T05:44:51", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 0.5, "chars": 16, "why": "agent-team:B-BATCH", "ts": "2026-11-15T05:44:51", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 2.5, "chars": 264, "why": "agent-team:C-LEAD", "ts": "2026-11-15T05:44:54", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 1.2, "chars": 52, "why": "fleet_brain:pick", "ts": "2026-11-15T05:49:17", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 2.4, "chars": 133, "why": "agent-team:A-BOOK", "ts": "2026-11-15T05:50:57", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 0.8, "chars": 45, "why": "agent-team:B-OPS", "ts": "2026-11-15T05:50:57", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 0.9, "chars": 81, "why": "agent-team:C-BOOK", "ts": "2026-11-15T05:50:58", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.7, "chars": 203, "why": "agent-team:C-MATERIAL", "ts": "2026-11-15T05:51:00", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.8, "chars": 99, "why": "agent-team:B-BOOK", "ts": "2026-11-15T05:54:02", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.9, "chars": 96, "why": "agent-team:V-BOOK", "ts": "2026-11-15T05:57:04", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 3.4, "chars": 53, "why": "fleet_brain:pick", "ts": "2026-11-15T05:59:39", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.1, "chars": 14, "why": "agent-team:D-BOOK", "ts": "2026-11-15T06:00:06", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 4.8, "chars": 115, "why": "master-digest", "ts": "2026-11-15T06:00:41", "station": null}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-15T06:01:10", "station": null}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-15T06:01:10", "station": null}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-15T06:01:10", "station": null}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-15T06:01:10", "station": null}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-15T06:01:10", "station": null}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-15T06:01:10", "station": null}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-15T06:01:10", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 3.5, "chars": 443, "why": "agent-team:D-INSPECT", "ts": "2026-11-15T06:03:09", "station": null}
+{"cls": "review", "seat": "big", "op": "generate", "model": "qwen3.5:9b-mlx", "sec": 7.2, "chars": 132, "why": "agent-team:D-SUBMIT", "ts": "2026-11-15T06:03:16", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 0.7, "chars": 20, "why": "agent-team:C-INSPECT", "ts": "2026-11-15T06:03:17", "station": null}
+{"cls": "review", "seat": "big", "op": "generate", "model": "qwen3.5:9b-mlx", "sec": 2.7, "chars": 91, "why": "agent-team:C-GATE", "ts": "2026-11-15T06:03:20", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 3.2, "chars": 130, "why": "agent-team:A-BOOK", "ts": "2026-11-15T06:06:23", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.0, "chars": 84, "why": "agent-team:C-BOOK", "ts": "2026-11-15T06:06:24", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 1.6, "chars": 52, "why": "fleet_brain:pick", "ts": "2026-11-15T06:08:36", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 3.2, "chars": 345, "why": "agent-team:D-INSPECT", "ts": "2026-11-15T06:09:28", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 0.6, "chars": 32, "why": "agent-team:D-ICON", "ts": "2026-11-15T06:09:28", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.3, "chars": 144, "why": "agent-team:B-BOOK", "ts": "2026-11-15T06:09:30", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.7, "chars": 80, "why": "agent-team:D-BUILD", "ts": "2026-11-15T06:12:32", "station": null}
+{"cls": "review", "seat": "big", "op": "generate", "model": "qwen3.5:9b-mlx", "sec": 3.7, "chars": 138, "why": "agent-team:D-CAR", "ts": "2026-11-15T06:12:35", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 2.2, "chars": 180, "why": "agent-team:V-BOOK", "ts": "2026-11-15T06:12:38", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 3.0, "chars": 220, "why": "agent-team:D-BOOK", "ts": "2026-11-15T06:15:41", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 1.6, "chars": 52, "why": "fleet_brain:pick", "ts": "2026-11-15T06:18:18", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 4.8, "chars": 114, "why": "master-digest", "ts": "2026-11-15T06:19:22", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.8, "chars": 98, "why": "agent-team:A-BOOK", "ts": "2026-11-15T06:21:43", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 0.8, "chars": 48, "why": "agent-team:B-OPS", "ts": "2026-11-15T06:21:44", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 0.5, "chars": 20, "why": "agent-team:C-INSPECT", "ts": "2026-11-15T06:21:44", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 0.9, "chars": 84, "why": "agent-team:C-BOOK", "ts": "2026-11-15T06:21:45", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.4, "chars": 117, "why": "agent-team:B-BOOK", "ts": "2026-11-15T06:24:47", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 1.4, "chars": 53, "why": "fleet_brain:pick", "ts": "2026-11-15T06:27:21", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.8, "chars": 94, "why": "agent-team:V-BOOK", "ts": "2026-11-15T06:27:49", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.0, "chars": 14, "why": "agent-team:D-BOOK", "ts": "2026-11-15T06:30:50", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 2.2, "chars": 130, "why": "agent-team:A-BOOK", "ts": "2026-11-15T06:36:53", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.0, "chars": 84, "why": "agent-team:C-BOOK", "ts": "2026-11-15T06:36:54", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 0.8, "chars": 53, "why": "fleet_brain:pick", "ts": "2026-11-15T06:37:19", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 4.5, "chars": 111, "why": "master-digest", "ts": "2026-11-15T06:38:21", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 3.2, "chars": 345, "why": "agent-team:D-INSPECT", "ts": "2026-11-15T06:39:57", "station": null}
+{"cls": "review", "seat": "big", "op": "generate", "model": "qwen3.5:9b-mlx", "sec": 7.0, "chars": 79, "why": "agent-team:D-SUBMIT", "ts": "2026-11-15T06:40:04", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.5, "chars": 99, "why": "agent-team:B-BOOK", "ts": "2026-11-15T06:40:06", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 0.5, "chars": 20, "why": "agent-team:C-INSPECT", "ts": "2026-11-15T06:40:06", "station": null}
+{"cls": "review", "seat": "big", "op": "generate", "model": "qwen3.5:9b-mlx", "sec": 2.9, "chars": 96, "why": "agent-team:C-GATE", "ts": "2026-11-15T06:40:09", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 2.6, "chars": 70, "why": "agent-team:V-BOOK", "ts": "2026-11-15T06:43:12", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.9, "chars": 98, "why": "agent-team:D-LEAD", "ts": "2026-11-15T06:46:14", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 2.7, "chars": 273, "why": "agent-team:D-BOOK", "ts": "2026-11-15T06:46:17", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.1, "chars": 93, "why": "agent-team:V-LEAD", "ts": "2026-11-15T06:46:18", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 0.9, "chars": 71, "why": "agent-team:A-LEAD", "ts": "2026-11-15T06:46:19", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.8, "chars": 155, "why": "agent-team:B-LEAD", "ts": "2026-11-15T06:46:21", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 0.5, "chars": 16, "why": "agent-team:B-BATCH", "ts": "2026-11-15T06:46:21", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.1, "chars": 106, "why": "agent-team:C-LEAD", "ts": "2026-11-15T06:46:22", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 1.6, "chars": 51, "why": "fleet_brain:pick", "ts": "2026-11-15T06:47:21", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.8, "chars": 86, "why": "agent-team:A-BOOK", "ts": "2026-11-15T06:52:24", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 0.8, "chars": 50, "why": "agent-team:B-OPS", "ts": "2026-11-15T06:52:25", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.0, "chars": 83, "why": "agent-team:C-BOOK", "ts": "2026-11-15T06:52:26", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.7, "chars": 203, "why": "agent-team:C-MATERIAL", "ts": "2026-11-15T06:52:28", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.9, "chars": 99, "why": "agent-team:B-BOOK", "ts": "2026-11-15T06:55:30", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 1.4, "chars": 55, "why": "fleet_brain:pick", "ts": "2026-11-15T06:56:51", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 4.6, "chars": 117, "why": "master-digest", "ts": "2026-11-15T06:57:54", "station": null}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-15T06:58:23", "station": null}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-15T06:58:23", "station": null}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-15T06:58:23", "station": null}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-15T06:58:23", "station": null}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-15T06:58:23", "station": null}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-15T06:58:23", "station": null}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-15T06:58:23", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 5.6, "chars": 627, "why": "agent-team:D-INSPECT", "ts": "2026-11-15T06:58:36", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 0.6, "chars": 32, "why": "agent-team:D-ICON", "ts": "2026-11-15T06:58:36", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.1, "chars": 69, "why": "agent-team:V-BOOK", "ts": "2026-11-15T06:58:38", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 0.4, "chars": 18, "why": "agent-team:C-INSPECT", "ts": "2026-11-15T06:58:38", "station": null}
+{"cls": "review", "seat": "big", "op": "generate", "model": "qwen3.5:9b-mlx", "sec": 6.8, "chars": 95, "why": "agent-team:C-GATE", "ts": "2026-11-15T06:58:45", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 2.6, "chars": 92, "why": "agent-team:D-BOOK", "ts": "2026-11-15T07:01:48", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 1.4, "chars": 52, "why": "fleet_brain:pick", "ts": "2026-11-15T07:06:14", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 3.0, "chars": 188, "why": "agent-team:A-BOOK", "ts": "2026-11-15T07:07:51", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.0, "chars": 87, "why": "agent-team:C-BOOK", "ts": "2026-11-15T07:07:52", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.8, "chars": 100, "why": "agent-team:B-BOOK", "ts": "2026-11-15T07:10:54", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.9, "chars": 95, "why": "agent-team:V-BOOK", "ts": "2026-11-15T07:13:56", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 1.4, "chars": 54, "why": "fleet_brain:pick", "ts": "2026-11-15T07:16:45", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.7, "chars": 101, "why": "agent-team:D-BOOK", "ts": "2026-11-15T07:16:58", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 4.5, "chars": 110, "why": "master-digest", "ts": "2026-11-15T07:17:47", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.1, "chars": 20, "why": "agent-team:C-INSPECT", "ts": "2026-11-15T07:20:00", "station": null}
+{"cls": "review", "seat": "big", "op": "generate", "model": "qwen3.5:9b-mlx", "sec": 7.4, "chars": 101, "why": "agent-team:C-GATE", "ts": "2026-11-15T07:20:07", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 3.2, "chars": 130, "why": "agent-team:A-BOOK", "ts": "2026-11-15T07:23:10", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.0, "chars": 65, "why": "agent-team:B-OPS", "ts": "2026-11-15T07:23:11", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.0, "chars": 84, "why": "agent-team:C-BOOK", "ts": "2026-11-15T07:23:12", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 1.4, "chars": 54, "why": "fleet_brain:pick", "ts": "2026-11-15T07:25:43", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 2.1, "chars": 105, "why": "agent-team:B-BOOK", "ts": "2026-11-15T07:26:15", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 2.9, "chars": 154, "why": "agent-team:V-BOOK", "ts": "2026-11-15T07:29:18", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.9, "chars": 112, "why": "agent-team:D-BOOK", "ts": "2026-11-15T07:32:20", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 1.3, "chars": 54, "why": "fleet_brain:pick", "ts": "2026-11-15T07:35:33", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 4.8, "chars": 134, "why": "master-digest", "ts": "2026-11-15T07:36:36", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.8, "chars": 98, "why": "agent-team:A-BOOK", "ts": "2026-11-15T07:38:22", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 0.5, "chars": 20, "why": "agent-team:C-INSPECT", "ts": "2026-11-15T07:38:23", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.0, "chars": 84, "why": "agent-team:C-BOOK", "ts": "2026-11-15T07:38:24", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 2.0, "chars": 105, "why": "agent-team:B-BOOK", "ts": "2026-11-15T07:41:26", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 2.2, "chars": 110, "why": "agent-team:V-BOOK", "ts": "2026-11-15T07:44:28", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 0.7, "chars": 49, "why": "fleet_brain:pick", "ts": "2026-11-15T07:45:33", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 2.1, "chars": 124, "why": "agent-team:D-LEAD", "ts": "2026-11-15T07:47:31", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 0.4, "chars": 14, "why": "agent-team:D-BOOK", "ts": "2026-11-15T07:47:31", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 0.8, "chars": 70, "why": "agent-team:V-LEAD", "ts": "2026-11-15T07:47:32", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 0.9, "chars": 66, "why": "agent-team:A-LEAD", "ts": "2026-11-15T07:47:33", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 2.3, "chars": 223, "why": "agent-team:B-LEAD", "ts": "2026-11-15T07:47:35", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 0.5, "chars": 28, "why": "agent-team:B-BATCH", "ts": "2026-11-15T07:47:36", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.2, "chars": 107, "why": "agent-team:C-LEAD", "ts": "2026-11-15T07:47:37", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 2.4, "chars": 130, "why": "agent-team:A-BOOK", "ts": "2026-11-15T07:53:39", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 0.8, "chars": 49, "why": "agent-team:B-OPS", "ts": "2026-11-15T07:53:40", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 5.4, "chars": 761, "why": "agent-team:C-BOOK", "ts": "2026-11-15T07:53:46", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.7, "chars": 197, "why": "agent-team:C-MATERIAL", "ts": "2026-11-15T07:53:47", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 1.4, "chars": 52, "why": "fleet_brain:pick", "ts": "2026-11-15T07:55:03", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 2.9, "chars": 119, "why": "master-digest", "ts": "2026-11-15T07:56:04", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 4.1, "chars": 423, "why": "agent-team:D-INSPECT", "ts": "2026-11-15T07:56:52", "station": null}
+{"cls": "review", "seat": "big", "op": "generate", "model": "qwen3.5:9b-mlx", "sec": 8.3, "chars": 132, "why": "agent-team:D-SUBMIT", "ts": "2026-11-15T07:57:00", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.5, "chars": 99, "why": "agent-team:B-BOOK", "ts": "2026-11-15T07:57:01", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 0.5, "chars": 20, "why": "agent-team:C-INSPECT", "ts": "2026-11-15T07:57:02", "station": null}
+{"cls": "review", "seat": "big", "op": "generate", "model": "qwen3.5:9b-mlx", "sec": 3.0, "chars": 105, "why": "agent-team:C-GATE", "ts": "2026-11-15T07:57:05", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 7.2, "chars": 534, "why": "agent-team:V-BOOK", "ts": "2026-11-15T08:00:12", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.2, "chars": 14, "why": "agent-team:D-BOOK", "ts": "2026-11-15T08:03:14", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 1.3, "chars": 51, "why": "fleet_brain:pick", "ts": "2026-11-15T08:04:29", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 3.6, "chars": 405, "why": "agent-team:A-BOOK", "ts": "2026-11-15T08:09:18", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.0, "chars": 84, "why": "agent-team:C-BOOK", "ts": "2026-11-15T08:09:19", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 2.0, "chars": 144, "why": "agent-team:B-BOOK", "ts": "2026-11-15T08:12:21", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 3.5, "chars": 57, "why": "fleet_brain:pick", "ts": "2026-11-15T08:15:03", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 2.2, "chars": 169, "why": "agent-team:V-BOOK", "ts": "2026-11-15T08:15:23", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 4.5, "chars": 97, "why": "master-digest", "ts": "2026-11-15T08:16:33", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.1, "chars": 14, "why": "agent-team:D-BOOK", "ts": "2026-11-15T08:18:25", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 0.5, "chars": 20, "why": "agent-team:C-INSPECT", "ts": "2026-11-15T08:18:25", "station": null}
+{"cls": "review", "seat": "big", "op": "generate", "model": "qwen3.5:9b-mlx", "sec": 7.5, "chars": 106, "why": "agent-team:C-GATE", "ts": "2026-11-15T08:18:33", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 3.2, "chars": 130, "why": "agent-team:A-BOOK", "ts": "2026-11-15T08:24:36", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.0, "chars": 84, "why": "agent-team:C-BOOK", "ts": "2026-11-15T08:24:37", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 1.7, "chars": 54, "why": "fleet_brain:pick", "ts": "2026-11-15T08:25:03", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.7, "chars": 140, "why": "agent-team:B-BOOK", "ts": "2026-11-15T08:27:39", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.8, "chars": 95, "why": "agent-team:V-BOOK", "ts": "2026-11-15T08:30:41", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.1, "chars": 14, "why": "agent-team:D-BOOK", "ts": "2026-11-15T08:33:42", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 1.8, "chars": 54, "why": "fleet_brain:pick", "ts": "2026-11-15T08:34:24", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 4.9, "chars": 137, "why": "master-digest", "ts": "2026-11-15T08:35:27", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.2, "chars": 20, "why": "agent-team:C-INSPECT", "ts": "2026-11-15T08:36:44", "station": null}
+{"cls": "review", "seat": "big", "op": "generate", "model": "qwen3.5:9b-mlx", "sec": 7.4, "chars": 96, "why": "agent-team:C-GATE", "ts": "2026-11-15T08:36:51", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 3.2, "chars": 130, "why": "agent-team:A-BOOK", "ts": "2026-11-15T08:39:55", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.0, "chars": 84, "why": "agent-team:C-BOOK", "ts": "2026-11-15T08:39:56", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 2.1, "chars": 127, "why": "agent-team:B-BOOK", "ts": "2026-11-15T08:42:58", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 1.3, "chars": 52, "why": "fleet_brain:pick", "ts": "2026-11-15T08:44:37", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.9, "chars": 95, "why": "agent-team:V-BOOK", "ts": "2026-11-15T08:46:00", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.5, "chars": 150, "why": "agent-team:D-LEAD", "ts": "2026-11-15T08:49:02", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 2.2, "chars": 206, "why": "agent-team:D-BOOK", "ts": "2026-11-15T08:49:04", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.0, "chars": 80, "why": "agent-team:V-LEAD", "ts": "2026-11-15T08:49:05", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.0, "chars": 88, "why": "agent-team:A-LEAD", "ts": "2026-11-15T08:49:06", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 2.8, "chars": 272, "why": "agent-team:B-LEAD", "ts": "2026-11-15T08:49:09", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 0.6, "chars": 28, "why": "agent-team:B-BATCH", "ts": "2026-11-15T08:49:10", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 2.3, "chars": 227, "why": "agent-team:C-LEAD", "ts": "2026-11-15T08:49:12", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 3.4, "chars": 51, "why": "fleet_brain:pick", "ts": "2026-11-15T08:55:03", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 2.3, "chars": 130, "why": "agent-team:A-BOOK", "ts": "2026-11-15T08:55:15", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.0, "chars": 84, "why": "agent-team:C-BOOK", "ts": "2026-11-15T08:55:16", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 5.1, "chars": 127, "why": "master-digest", "ts": "2026-11-15T08:56:06", "station": null}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-15T08:56:37", "station": null}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-15T08:56:37", "station": null}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-15T08:56:37", "station": null}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-15T08:56:37", "station": null}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-15T08:56:37", "station": null}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-15T08:56:37", "station": null}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-15T08:56:37", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 4.1, "chars": 461, "why": "agent-team:D-INSPECT", "ts": "2026-11-15T08:58:20", "station": null}
+{"cls": "review", "seat": "big", "op": "generate", "model": "qwen3.5:9b-mlx", "sec": 7.2, "chars": 132, "why": "agent-team:D-SUBMIT", "ts": "2026-11-15T08:58:27", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.6, "chars": 105, "why": "agent-team:B-BOOK", "ts": "2026-11-15T08:58:29", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 0.5, "chars": 20, "why": "agent-team:C-INSPECT", "ts": "2026-11-15T08:58:29", "station": null}
+{"cls": "review", "seat": "big", "op": "generate", "model": "qwen3.5:9b-mlx", "sec": 2.9, "chars": 95, "why": "agent-team:C-GATE", "ts": "2026-11-15T08:58:32", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 2.7, "chars": 71, "why": "agent-team:V-BOOK", "ts": "2026-11-15T09:01:35", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 1.6, "chars": 54, "why": "fleet_brain:pick", "ts": "2026-11-15T09:04:05", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 3.1, "chars": 257, "why": "agent-team:D-BOOK", "ts": "2026-11-15T09:04:38", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 4.0, "chars": 457, "why": "agent-team:A-BOOK", "ts": "2026-11-15T09:10:43", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.0, "chars": 84, "why": "agent-team:C-BOOK", "ts": "2026-11-15T09:10:44", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 2.0, "chars": 105, "why": "agent-team:B-BOOK", "ts": "2026-11-15T09:13:46", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 3.3, "chars": 53, "why": "fleet_brain:pick", "ts": "2026-11-15T09:14:41", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 5.0, "chars": 135, "why": "master-digest", "ts": "2026-11-15T09:16:12", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 4.0, "chars": 487, "why": "agent-team:D-INSPECT", "ts": "2026-11-15T09:16:50", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 0.6, "chars": 32, "why": "agent-team:D-ICON", "ts": "2026-11-15T09:16:51", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.2, "chars": 84, "why": "agent-team:V-BOOK", "ts": "2026-11-15T09:16:52", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 0.5, "chars": 20, "why": "agent-team:C-INSPECT", "ts": "2026-11-15T09:16:52", "station": null}
+{"cls": "review", "seat": "big", "op": "generate", "model": "qwen3.5:9b-mlx", "sec": 7.0, "chars": 95, "why": "agent-team:C-GATE", "ts": "2026-11-15T09:16:59", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 2.9, "chars": 111, "why": "agent-team:D-BOOK", "ts": "2026-11-15T09:20:03", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 1.7, "chars": 51, "why": "fleet_brain:pick", "ts": "2026-11-15T09:24:47", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 2.4, "chars": 130, "why": "agent-team:A-BOOK", "ts": "2026-11-15T09:26:05", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.0, "chars": 84, "why": "agent-team:C-BOOK", "ts": "2026-11-15T09:26:06", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.9, "chars": 99, "why": "agent-team:B-BOOK", "ts": "2026-11-15T09:29:08", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.8, "chars": 69, "why": "agent-team:V-BOOK", "ts": "2026-11-15T09:32:10", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 1.2, "chars": 51, "why": "fleet_brain:pick", "ts": "2026-11-15T09:34:15", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.2, "chars": 14, "why": "agent-team:D-BOOK", "ts": "2026-11-15T09:35:12", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 4.4, "chars": 94, "why": "master-digest", "ts": "2026-11-15T09:35:17", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.2, "chars": 20, "why": "agent-team:C-INSPECT", "ts": "2026-11-15T09:38:13", "station": null}
+{"cls": "review", "seat": "big", "op": "generate", "model": "qwen3.5:9b-mlx", "sec": 7.1, "chars": 96, "why": "agent-team:C-GATE", "ts": "2026-11-15T09:38:20", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 3.2, "chars": 130, "why": "agent-team:A-BOOK", "ts": "2026-11-15T09:41:24", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.0, "chars": 83, "why": "agent-team:C-BOOK", "ts": "2026-11-15T09:41:25", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.9, "chars": 99, "why": "agent-team:B-BOOK", "ts": "2026-11-15T09:44:27", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 0.8, "chars": 54, "why": "fleet_brain:pick", "ts": "2026-11-15T09:44:29", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.8, "chars": 69, "why": "agent-team:V-BOOK", "ts": "2026-11-15T09:47:29", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 2.0, "chars": 105, "why": "agent-team:D-LEAD", "ts": "2026-11-15T09:50:31", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 2.3, "chars": 226, "why": "agent-team:D-BOOK", "ts": "2026-11-15T09:50:33", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 0.8, "chars": 93, "why": "agent-team:V-LEAD", "ts": "2026-11-15T09:50:34", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 0.8, "chars": 62, "why": "agent-team:A-LEAD", "ts": "2026-11-15T09:50:35", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 2.4, "chars": 555, "why": "agent-team:B-LEAD", "ts": "2026-11-15T09:50:37", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 0.5, "chars": 16, "why": "agent-team:B-BATCH", "ts": "2026-11-15T09:50:38", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.1, "chars": 100, "why": "agent-team:C-LEAD", "ts": "2026-11-15T09:50:39", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 3.5, "chars": 57, "why": "fleet_brain:pick", "ts": "2026-11-15T09:55:05", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 4.8, "chars": 110, "why": "master-digest", "ts": "2026-11-15T09:56:36", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 2.3, "chars": 130, "why": "agent-team:A-BOOK", "ts": "2026-11-15T09:56:42", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 0.5, "chars": 20, "why": "agent-team:C-INSPECT", "ts": "2026-11-15T09:56:42", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 0.9, "chars": 84, "why": "agent-team:C-BOOK", "ts": "2026-11-15T09:56:43", "station": null}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-15T09:57:13", "station": null}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-15T09:57:13", "station": null}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-15T09:57:13", "station": null}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-15T09:57:13", "station": null}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-15T09:57:13", "station": null}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-15T09:57:13", "station": null}
+{"cls": "master", "op": "embed-cache-hit", "why": "dispatch-dedupe", "ts": "2026-11-15T09:57:13", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 5.1, "chars": 551, "why": "agent-team:D-INSPECT", "ts": "2026-11-15T09:59:48", "station": null}
+{"cls": "review", "seat": "big", "op": "generate", "model": "qwen3.5:9b-mlx", "sec": 7.3, "chars": 132, "why": "agent-team:D-SUBMIT", "ts": "2026-11-15T09:59:56", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.5, "chars": 105, "why": "agent-team:B-BOOK", "ts": "2026-11-15T09:59:57", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 3.3, "chars": 128, "why": "agent-team:V-BOOK", "ts": "2026-11-15T10:03:01", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 1.7, "chars": 53, "why": "fleet_brain:pick", "ts": "2026-11-15T10:05:09", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 4.2, "chars": 462, "why": "agent-team:D-INSPECT", "ts": "2026-11-15T10:06:05", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 0.6, "chars": 32, "why": "agent-team:D-ICON", "ts": "2026-11-15T10:06:06", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.7, "chars": 81, "why": "agent-team:D-BUILD", "ts": "2026-11-15T10:09:08", "station": null}
+{"cls": "review", "seat": "big", "op": "generate", "model": "qwen3.5:9b-mlx", "sec": 3.2, "chars": 104, "why": "agent-team:D-CAR", "ts": "2026-11-15T10:09:11", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 2.8, "chars": 176, "why": "agent-team:D-BOOK", "ts": "2026-11-15T10:12:14", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 1.7, "chars": 130, "why": "agent-team:A-BOOK", "ts": "2026-11-15T10:12:16", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 0.8, "chars": 47, "why": "agent-team:C-BOOK", "ts": "2026-11-15T10:12:17", "station": null}
+{"cls": "triage", "seat": "triage", "op": "generate", "model": "qwen3.5:2b", "sec": 2.0, "chars": 122, "why": "agent-team:B-BOOK", "ts": "2026-11-15T10:15:19", "station": null}
+{"cls": "master", "seat": "resident", "op": "generate", "model": "qwen3.5:4b-mlx", "sec": 1.4, "chars": 52, "why": "fleet_brain:pick", "ts": "2026-11-15T10:15:21", "station": null}
