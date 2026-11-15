@@ -47,13 +47,16 @@ VAE = "qwen_image_vae.safetensors"
 
 KEEP = ("Keep the SAME man, the same face, the same hair, the same skin tone as the "
         "reference photo - do not change his identity. Change only the surroundings, "
-        "the wardrobe and the camera position: ")
+        "the wardrobe and the camera position. WARDROBE LOCK: no hood, no hoodie, no "
+        "drawstrings, no zipper, no knit, no modern fabric - he wears simple period "
+        "clothing only. Scene now: ")
 
 SCENES = {
     "C01_carver_face": ("Now he is inside a dark Babylonian carving workshop at night, "
-                        "wearing a coarse undyed linen work-cloth, holding a bronze chisel; "
-                        "seen from a low three-quarter angle, a single clay oil lamp burning "
-                        "on the right, carved cuneiform stone behind him, deep shadows."),
+                        "wearing a coarse undyed linen work-cloth with a plain neckline, "
+                        "holding a bronze chisel; seen from a low three-quarter angle, a single "
+                        "clay oil lamp burning on the right, carved cuneiform stone behind him, "
+                        "deep shadows."),
     "D01_carver_words": ("Now he leans over a large dark stone tablet with a reed stylus, "
                          "seen from behind his shoulder at a steep overhead angle, one warm "
                          "lamp raking across the carved wedge signs, the room falling to black."),
