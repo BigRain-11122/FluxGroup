@@ -2,8 +2,8 @@
 
 | 节点 | 在线 | 能力 | 本地模型 | 心跳 | 在办 |
 |---|---|---|---|---|---|
-| bm-a | 是 | cpu,kf768,i2v768,audio,assemble,llm | - | 36s | biggame-pack-scan-2026-11-16,R-NEXT-BIGSTREAMM-REBUILD-20261116,bigstream-drama-src-scan-2026-11-16,bigstream-mv-gate-2026-11-16,asset-lib-char-prompts-2026-11-16,bigmoney-signal-2026-11-16,Q-TRIAGE-ASSETLIB-20261116 |
-| bm-b | 否 | cpu,animatic480,audio,tts,llm | - | 2883s | - |
-| bm-c | 否 | cpu,kf768,i2v768,audio,render,llm | - | 2882s | - |
-| bm-m | 是 | cpu,ios-build,text,llm,audio,tts | qwen3:8b,qwen3.5:2b,qwen3.5:4b,qwen3:4b,qwen3.5:9b-mlx,qwen3-embedding:0.6b,qwen3.5:4b-mlx | 1s | R-TRIAGE-BIGDOMAIN-BMM-20261116 |
-| bm-d | 否 | cpu,kf768,i2v768,backtest,brain,llm | - | 806427s | - |
+| bm-a | 是 | cpu,kf768,i2v768,audio,assemble,llm | - | 116s | asset-lib-voice-corpus-2026-11-16,Q-TRIAGE-ASSETLIB-20261116,R-TRIAGE-FLEETOPS-BMB-20261116,R-TRIAGE-BIGSTREAMDRAMA-BMA-20261116 |
+| bm-b | 是 | cpu,animatic480,audio,tts,llm | - | 521s | - |
+| bm-c | 是 | cpu,kf768,i2v768,audio,render,llm | - | 521s | - |
+| bm-m | 是 | cpu,ios-build,text,llm,audio,tts | qwen3:8b,qwen3.5:2b,qwen3.5:4b,qwen3:4b,qwen3.5:9b-mlx,qwen3-embedding:0.6b,qwen3.5:4b-mlx | 0s | - |
+| bm-d | 否 | cpu,kf768,i2v768,backtest,brain,llm | - | 807274s | - |
