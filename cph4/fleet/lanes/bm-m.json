@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-16T01:36:48",
+ "ts": "2026-11-16T01:42:30",
  "jobs": [
   {
    "id": "R-TRIAGE-BIGSTREAMDRAMA-BMM-20261116",
@@ -15,23 +15,9 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
-  },
-  {
-   "id": "R-TRIAGE-BIGMONEY-BMM-20261116",
-   "title": "BigMoney·量化 线证据扫描（bm-m 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigmoney --node bm-m --out cph4/fleet/queue-receipts/triage-bigmoney-bm-m-20261116.md",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigmoney-bm-m-20261116.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 6.8/1.0 GB"
+ "capacity_note": "ram 6.7/1.0 GB"
 }
