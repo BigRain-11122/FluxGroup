@@ -76,6 +76,7 @@ def main():
     ap.add_argument('--manifest', default=MANIFEST)
     ap.add_argument('--log', default=r'K:\Fluxgroup\.codely-cli\tmp\chain-reburn-drift.log')
     ap.add_argument('--max-wait', type=float, default=4.0, help='等当前批最长小时数')
+    ap.add_argument('--ids', default='', help='显式重烧清单（逗号分隔）；给了就不再用像素闸自动挑')
     a = ap.parse_args()
     LOG = a.log
 
@@ -90,8 +91,15 @@ def main():
 
     n = len(glob.glob(os.path.join(a.clips, '*.mp4')))
     log('clips on disk = %d' % n)
-    drift, txt = qc(a.clips)
-    log('QC pass1: drift=%d %s' % (len(drift), ','.join(drift)))
+    if a.ids:
+        # 人眼复核过的清单优先：像素闸会把「跟拍/主体走动」判成漂移（11-15 实测 4/11 假阳性），
+        # 用它自动挑会白烧好镜。
+        drift = [x.strip() for x in a.ids.split(',') if x.strip()]
+        txt = '(explicit list)'
+        log('QC skipped, explicit reburn list = %s' % ','.join(drift))
+    else:
+        drift, txt = qc(a.clips)
+        log('QC pass1: drift=%d %s' % (len(drift), ','.join(drift)))
 
     if not drift:
         log('PASS1 CLEAN，出口')
