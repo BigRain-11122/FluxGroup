@@ -31,6 +31,40 @@ SW = os.path.join(ROOT, "软著申请材料")
 OUTDIR = os.path.join(ROOT, "cph4", "fleet", "game-v1")
 PACK_EXT = (".apk", ".zip", ".unitypackage", ".html", ".aab")
 SRC_EXT = (".txt", ".pdf", ".docx", ".doc")
+IMG_EXT = (".png", ".jpg", ".jpeg", ".webp")
+# 申请表/说明书这类 HTML 不是游戏包。实锚（2026-11-16）：G05_ReelRiot 目录里
+# 唯一的 .html 是「登记申请表草填源.html」，被旧判据当成可运行包，
+# 于是 35 款全被报成"只缺截图"，实际是既没包也没截图。
+DOC_HTML_SKIP = ("申请表", "登记表", "草填", "说明书", "指南", "台账", "清单", "模板")
+
+
+def has_pack(dirpath):
+    """只认真游戏包：排除文档类 html，且要求包不是空壳。"""
+    for base, _dirs, files in os.walk(dirpath):
+        for n in files:
+            low = n.lower()
+            if not low.endswith(PACK_EXT):
+                continue
+            if low.endswith(".html") and any(k in n for k in DOC_HTML_SKIP):
+                continue
+            try:
+                if os.path.getsize(os.path.join(base, n)) < 10 * 1024:
+                    continue      # <10KB 的 html 多半是骨架页，不是可玩包
+            except OSError:
+                continue
+            return True
+    return False
+
+
+def shot_count(dirpath):
+    """截图要按张数算，不能只看有没有名字像 shot 的目录。"""
+    best = 0
+    for base, _dirs, files in os.walk(dirpath):
+        if not any(k in base.lower() for k in ("shot", "screen", "截图", "screenshot")):
+            continue
+        n = sum(1 for f in files if f.lower().endswith(IMG_EXT))
+        best = max(best, n)
+    return best
 
 
 def has(dirpath, keys, exts=None):
@@ -65,12 +99,12 @@ def main(argv):
         lacks = []
         if not has(p, ("源程序", "source", "程序"), SRC_EXT):
             lacks.append("源程序文件")
-        if not has(p, ("",), PACK_EXT):
+        if not has_pack(p):
             lacks.append("可运行包(apk/zip/unitypackage/html)")
         if not has(p, ("icon", "logo", "appicon", "图标")):
             lacks.append("图标≥256px")
-        if not has(p, ("shot", "screen", "截图", "screenshot")):
-            lacks.append("截图目录(≥4张)")
+        if shot_count(p) < 4:
+            lacks.append(f"截图目录(≥4张，实有{shot_count(p)}张)")
         if not has(p, ("privacy", "隐私")):
             lacks.append("隐私政策")
         if name and name not in ledger_txt:
