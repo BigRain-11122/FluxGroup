@@ -9,6 +9,10 @@ LA="$HOME/Library/LaunchAgents"
 PAUSED="$LA/disabled/20261111-pause"
 U=$(id -u)
 
+# 2026-11-15：暂停时把目录锁成只读（chflags uchg），防止自愈进程把 plist 写回来。
+# 恢复前必须解锁，结束时按需重新上锁（PAUSE_RELOCK=1）。
+chflags nouchg "$LA" 2>/dev/null
+
 if [ ! -d "$PAUSED" ]; then
   echo "找不到暂停目录：$PAUSED" >&2
   exit 1
@@ -35,6 +39,8 @@ for f in "$PAUSED"/*.plist; do
     [ "$keep" -eq 1 ] || continue
   fi
   cp -p "$f" "$LA/$base" || { echo "复制失败 $base" >&2; continue; }
+  # 2026-11-15：暂停时用 launchctl disable 持久封住，恢复必须先 enable，否则 bootstrap 被拒
+  launchctl enable "gui/$U/$label" 2>/dev/null
   launchctl bootstrap "gui/$U" "$LA/$base" 2>/dev/null || launchctl load "$LA/$base" 2>/dev/null
   echo "恢复 $base"
   restored=$((restored+1))
