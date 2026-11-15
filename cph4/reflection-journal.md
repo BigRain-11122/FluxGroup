@@ -251,3 +251,4 @@
 | 委员会·第62批 2026-11-15 06:00 | 决策轮 | ①5 行（executed 2／dispatched 3·T1-v2 1 件 D-05 否决窗至 11-22）②00:00 班缺=suppressed-cloud 已入 D-05 ③chronic 4 司记违例 1（MiniGame 无反馈件第 3 次顺延周轮）④反思行消费=11-14「把挂起变成判据」被 D-01 复用⑤迭代 1 条（计划轮静默留痕）｜指针=docs/decisions.md D-20261115-01..05 |
 
 | 委员会·第63批 2026-11-15 12:00 | 决策轮 | ①6 行（executed 2／dispatched 4／ceo-pending 0／escalated 0／overruled 0），逾期销案 0，D-04/D-01 在承诺窗内不重派；②chronic 4 司（BigStream 22d／quant 4d／FluxVerse 11d／MiniGame 第 4 次已由 D-11 改判据）；③反思行消费=11-15 值守轮零新行（如实标因：00:00 班组 suppressed、09:07 班无落盘），第 62 批「计划轮留痕」已见 12:00 start 行＝部分兑现；④迭代 2 条：分片计数改按 state 字段（本轮按 status 统计得「0 open」假读数，实测 visual OPEN=2）、BLOCKED 报错须带卡字段名（当前 why 存在仍报未写原因）；判据=下次收取面 state 分档可复算 + 该 finding 消失｜指针=docs/decisions.md D-20261115-06..11 |
+| 委员会·第63批 勘误 2026-11-15 12:1x | 决策轮 | 首轮收取读本地工作树 orders（末行 11-14 12:20）漏读 origin 11-15 11:14 CEO 通知边界令，已由 D-20261115-12 自纠并向 CEO 面无涉；判据改为先 `git show origin/main:docs/orders.md`；成本=本轮一次返工（约 3 分钟），无对外影响 |
