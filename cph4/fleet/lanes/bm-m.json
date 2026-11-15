@@ -1,8 +1,93 @@
 {
  "node": "bm-m",
- "ts": "2026-11-15T11:19:12",
- "jobs": [],
- "idle_reason": "OFFLINE (hb age Nones, no fresh lane receipt)",
- "lane_ok": false,
- "capacity_note": "OFFLINE (hb age Nones, no fresh lane receipt)"
+ "ts": "2026-11-16T00:15:34",
+ "jobs": [
+  {
+   "id": "R-PLAN-FLUXVERSE-20261115",
+   "title": "FluxVerse·元宙城 线级体检与缺口清单",
+   "cmd": "python Tools/fleet/line_triage.py --line fluxverse --out cph4/fleet/queue-receipts/triage-fluxverse-20261115.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-fluxverse-20261115.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "CANARY-20261115T231552",
+   "title": "端到端自检：投卡→领取→执行→回执→产物",
+   "cmd": "python -c \"import os;os.makedirs(r'cph4/fleet/state/canary',exist_ok=True);open(r'cph4/fleet/state/canary/RUN-20261115T231552.txt','w',encoding='utf-8').write('canary 20261115T231552 — 端到端自检产物，不是业务活')\"",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/state/canary/RUN-20261115T231552.txt",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "R-NEXT-BIGGAME-SUBMIT-P-20261116",
+   "title": "游戏提审·真实缺件重盘（隐私已齐，重算图标/截图/台账/包体）",
+   "cmd": "python Tools/fleet/game_submit_pack.py",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/game-v1/SUBMIT-PACK-20261116.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "R-PLAN-BIGLIFE-20261116",
+   "title": "BigLife·数字生命 线级体检与缺口清单",
+   "cmd": "python Tools/fleet/line_triage.py --line biglife --out cph4/fleet/queue-receipts/triage-biglife-20261116.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-biglife-20261116.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "R-PLAN-BIGMONEY-20261116",
+   "title": "BigMoney·量化 线级体检与缺口清单",
+   "cmd": "python Tools/fleet/line_triage.py --line bigmoney --out cph4/fleet/queue-receipts/triage-bigmoney-20261116.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigmoney-20261116.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "MV-NEWPROC-PACKET-20261116",
+   "title": "导演席新流程卷：四曲立意/分镜/合规矩阵一页卷",
+   "cmd": "python Tools/fleet/review_packet.py --line mv --root .",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/review-packet-mv-20261116.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  }
+ ],
+ "idle_reason": "",
+ "lane_ok": true,
+ "capacity_note": "ram 7.7/1.0 GB"
 }
