@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-16T00:15:34",
+ "ts": "2026-11-16T00:30:56",
  "jobs": [
   {
    "id": "R-PLAN-FLUXVERSE-20261115",
@@ -17,12 +17,12 @@
    "timeout_s": null
   },
   {
-   "id": "CANARY-20261115T231552",
-   "title": "端到端自检：投卡→领取→执行→回执→产物",
-   "cmd": "python -c \"import os;os.makedirs(r'cph4/fleet/state/canary',exist_ok=True);open(r'cph4/fleet/state/canary/RUN-20261115T231552.txt','w',encoding='utf-8').write('canary 20261115T231552 — 端到端自检产物，不是业务活')\"",
+   "id": "PACK-GAME-20261116",
+   "title": "小游戏提审盘点（聚合：逐款缺口一包在内）",
+   "cmd": "python Tools/fleet/game_submit_pack.py --out cph4/fleet/game-v1/SUBMIT-PACK-20261116.json",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/state/canary/RUN-20261115T231552.txt",
+   "deliverable": "cph4/fleet/game-v1/SUBMIT-PACK-20261116.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -59,12 +59,12 @@
    "timeout_s": null
   },
   {
-   "id": "R-PLAN-BIGMONEY-20261116",
-   "title": "BigMoney·量化 线级体检与缺口清单",
-   "cmd": "python Tools/fleet/line_triage.py --line bigmoney --out cph4/fleet/queue-receipts/triage-bigmoney-20261116.md",
+   "id": "R-NEXT-BIGSTREAMD-EVIDENCE-20261116",
+   "title": "漫剧证据目录补齐判定：画面/配音工段为何为空（一页含根因与补法）",
+   "cmd": "python Tools/fleet/line_triage.py --line bigstream-drama",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigmoney-20261116.md",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigstream-drama-20261116.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -89,5 +89,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 7.7/1.0 GB"
+ "capacity_note": "ram 10.7/1.0 GB"
 }

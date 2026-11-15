@@ -735,6 +735,111 @@ def page():
     P.append('<div class="one"><span class="k">最重要的</span>%s</div>' % top1)
     P.append('</header>')
 
+    # ---- ⓪ 今日实况与层级（2026-11-15 CEO「继续优化可视化」）
+    # 放最前的原因：CEO 打开页面先要回答"今天到底出了什么、机器活没活"，
+    # 而不是先看探针红绿。原页面只有"在跑/待派/死卡"三个队列口径的数字，
+    # 缺"今日完成"和"执行器是否活着"——而这两件事恰恰是今天的真问题。
+    _today = time.strftime("%Y-%m-%d")
+    _done_today, _open_now, _recent, _done_real = 0, 0, [], 0
+    # 流程卡 vs 交付卡：triage/plan/check/probe 这类是元活，不是产物。
+    # CEO 的考核口径是"能看/能玩的产物"，把两者混在一个数字里会让人误以为产线在转。
+    _META = ("TRIAGE", "PLAN", "CHECK", "ENV-PROBE", "CANARY", "PATROL", "AUDIT", "PROBE", "SCAN")
+    try:
+        with open(os.path.join(ROOT, "cph4/fleet/PRODUCTION-QUEUE.jsonl"), encoding="utf-8") as _f:
+            for _ln in _f:
+                _ln = _ln.strip()
+                if not _ln:
+                    continue
+                try:
+                    _r = json.loads(_ln)
+                except Exception:
+                    continue
+                _st = str(_r.get("state") or "")
+                if _st == "OPEN":
+                    _open_now += 1
+                _t = str(_r.get("done_at") or _r.get("finished_at") or _r.get("ts") or "")[:10]
+                if _st == "DONE" and _t == _today:
+                    _done_today += 1
+                    _cid = str(_r.get("id") or "-")
+                    if not any(k in _cid.upper() for k in _META):
+                        _done_real += 1
+                    _recent.append(_cid)
+    except Exception:
+        pass
+
+    # L2 自愈判定（executor-revive.json 四态：healthy/wake/closeout/offline）
+    try:
+        _rv = json.load(open(os.path.join(ROOT, "cph4/fleet/state/executor-revive.json"),
+                             encoding="utf-8"))
+    except Exception:
+        _rv = {}
+    _ex_rows = ""
+    for _nid in ("bm-a", "bm-b", "bm-c", "bm-d"):
+        _d = _rv.get(_nid) or {}
+        _v = str(_d.get("verdict") or _d.get("action") or "未探")
+        _k = "ok" if _v == "healthy" else ("warn" if _v in ("wake", "closeout") else "bad")
+        try:
+            _depth = max(0.0, time.time() - float(_d.get("ts")))
+            _age = dur(_depth) + " 前"
+        except Exception:
+            _depth, _age = None, "-"
+        # 陈旧快照不许冒充在线（2026-11-15 实锚：bm-c 的判定是 46.8 小时前的 healthy，
+        # 而它 8790 当场探不到）。超过 1 小时就降级成 warn 并在判定里标「陈旧」。
+        if _v == "healthy" and _depth is not None and _depth > 3600:
+            _v, _k = "healthy·陈旧", "warn"
+        _ex_rows += "<tr><td>%s</td><td>%s</td><td>%s</td></tr>" % (
+            esc(_nid), chip(_k, _v), esc(_age))
+    _ex_rows = _ex_rows or '<tr><td colspan="3" style="color:var(--dim)">无执行器记录</td></tr>'
+
+    # L0 主控脉：用 PULSE.json 的 mtime 判活（不 shell 出去问 launchctl，页面要快）
+    _l0, _l0_kind = "无节拍文件", "bad"
+    try:
+        _pfile = os.path.join(ROOT, "cph4/fleet/dispatcher/PULSE.json")
+        _pj = json.load(open(_pfile, encoding="utf-8"))
+        _psec = max(0.0, time.time() - os.path.getmtime(_pfile))
+        _l0_kind = "ok" if _psec < 150 else ("warn" if _psec < 600 else "bad")
+        _l0 = "活 · %s 前 · %d 阶段" % (dur(_psec), len(_pj.get("stages") or {}))
+    except Exception:
+        pass
+
+    _paused = os.path.exists(os.path.join(ROOT, ".codely-cli", "state", "FLEET-PAUSED"))
+    _recent_txt = ("、".join(esc(x)[:24] for x in _recent[:3])
+                   if _recent else "今天还没有完成任何一张卡")
+
+    P.append('<section data-blk="today"><h2>⓪ 今日实况'
+             '<span class="sub">先看结论：今天有没有产出 · 机器活没活 · 层级在不在</span></h2>')
+    # 本地模型播报（2026-11-16 CEO「可视化也要调用本地大模型去实现」）：
+    # 数字与判定由规则算，模型只负责把事实说成人话（Tools/fleet/local_brief.py）。
+    # 这里只读它的产物，绝不在页面渲染路径上同步等模型——页面 15 秒刷一次，模型 2 秒也可能挂。
+    try:
+        _br = json.load(open(os.path.join(ROOT, "cph4/fleet/state/viz-brief.json"),
+                             encoding="utf-8"))
+    except Exception:
+        _br = {}
+    if _br.get("text"):
+        _brage = max(0.0, time.time() - float(_br.get("born") or 0))
+        _blab = ("模板回落" if _br.get("fallback")
+                 else "%s" % str(_br.get("model") or "本地模型"))
+        P.append('<div class="one" style="margin:4px 0 10px"><span class="k">模型播报</span>'
+                 '%s<span class="u" style="opacity:.65">　（%s · %s前生成%s）</span></div>'
+                 % (esc(_br["text"]), esc(_blab), dur(_brage),
+                    ("· " + esc(str(_br.get("why"))[:40])) if _br.get("fallback") else ""))
+    P.append('<div class="stats">')
+    P.append('<div class="stat">%s<span class="u">今日完成（队列 DONE 且今日完工）</span>'
+             '<span class="u" style="white-space:nowrap">交付 %d · 流程 %d</span></div>'
+             % (n(_done_today, "张"), _done_real, max(0, _done_today - _done_real)))
+    P.append('<div class="stat">%s<span class="u">待派（队列 OPEN）</span></div>' % n(_open_now, "张"))
+    P.append('<div class="stat">%s<span class="u">L0 主控脉（PULSE.json 节拍龄）</span></div>'
+             % chip(_l0_kind, _l0))
+    P.append('<div class="stat">%s<span class="u">本机自启静默边界</span></div>'
+             % chip("ok" if _paused else "warn",
+                    "已上锁 · 只跑脉+模型服务" if _paused else "未上锁（可能刷通知）"))
+    P.append('</div>')
+    P.append('<table><tr><th>执行器（L1/L2 判定）</th><th>判定</th><th>判定时间</th></tr>%s</table>'
+             '<div class="legend">判定来源：state/executor-revive.json'
+             '（healthy=已唤醒且在跑 / wake=唤醒中 / closeout=分叉待收口 / offline=探不到）</div></section>'
+             % _ex_rows)
+
     # ① 需要 CEO（一级）
     P.append('<section data-blk="ceo"%s><h2>① 需要你决定'
              '<span class="sub">一级 · %d 条等 CEO 的物理件（state/unlocks.json）</span></h2>'
