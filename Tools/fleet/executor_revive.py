@@ -172,6 +172,11 @@ def main(argv):
             row["action"] = "would-act"
             stuck.append(nid)
         if verdict == "offline":
+            # 2026-11-15：探不到也必须回写状态。原来这里只 append 到 stuck 不写 st，
+            # 于是旧的 "healthy" 判定一直留在 state 里——bm-c 的 8790 当场不通，
+            # 看板却显示 healthy 46 小时前，属"陈旧快照冒充在线"。回写后页面与
+            # viz_audit 看到的都是真相；网络抖动导致误判 offline 无妨，下轮会改回。
+            st[nid] = {"ts": now, "verdict": verdict, "action": "offline", "why": why}
             stuck.append(nid)
         out.append(row)
 
