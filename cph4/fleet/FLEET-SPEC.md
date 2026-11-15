@@ -1,16 +1,16 @@
 # 机队配置与系统说明书（FLEET-SPEC）
 
-> 生成时间：2026-11-14T15:08:58｜生成器：`Tools/fleet/fleet_doc.py`｜**本文件是生成物，不要手改正文**
+> 生成时间：2026-11-15T15:13:20｜生成器：`Tools/fleet/fleet_doc.py`｜**本文件是生成物，不要手改正文**
 > 数据源（改这里，不改正文）：`STATIONS.json` · `Tools/fleet-nodes.json` · `OS-MATRIX-v1.json` · `CPU-PLAN-v1.json` · `AGENT-CAPACITY-v1.json` · `MODEL-COMPUTE.json` · `ASSET-VAULT.json`
 > 改完跑 `python3 Tools/fleet/fleet_doc.py --write`；只查不改跑 `--check`（有漂移 rc=1）。
-> **综合评分 87.5 / 100**（验证 25.0/25｜规则 20.0/20｜工作流 25.0/25｜机队 10.5/15｜环境 2.0/10｜文档 5.0/5；评分时间 2026-11-14T14:13:46）；外部阻塞 3 项
+> **综合评分 84.5 / 100**（验证 25.0/25｜规则 20.0/20｜工作流 25.0/25｜机队 12.0/15｜环境 0.0/10｜文档 2.5/5；评分时间 2026-11-15T12:46:30）；外部阻塞 3 项
 
 ## 一、速查表
 
 | 工位 | 机器 | 系统 | CPU | 内存 | GPU | 角色 | 状态 |
 |---|---|---|---|---|---|---|---|
 | delivery | 公司生产力机 | Windows | Ryzen 9950X 16C/32T | 94G | RTX 4070 SUPER | 游戏产线主业（CEO 2026-11 | ready |
-| visual | 传家宝 | Windows | Ryzen 3950X 16C/32T | 24G | RTX 3070 (modded 16G) | 全视频主责（CEO 2026-11- | blocked_no_comfyui |
+| visual | 传家宝 | Windows | Ryzen 3950X 16C/32T | 24G | RTX 3070 (modded 16G) | 全视频主责（CEO 2026-11- | ready |
 | audio | 小钢炮 | Windows | Ryzen 3800X 8C/16T | 24G | RTX 3070 | 声音工位：全视频线的配音/混音/BG | offline |
 | brain | 算力大脑 | 待定（未装机/未入网）（未核实） | 2× Xeon E5-2695v2 24C/48T | 256G | 3× Tesla V100 | 机队本地模型能力中心 + BigMo | not_installed |
 | control | MacBook | macOS | Apple M1 Pro 10C/10T | 32G | M1 Pro 集成 | 主控台（2026-11-11 收窄） | ready |
@@ -86,7 +86,7 @@
 | 模型额度 | 400 次/天，120 模型分钟/天，实测 24 tok/s |
 | 已装软件 | python（Windows 无 python3，实测 rc=9009）、ComfyUI(8188)、ffmpeg、git |
 | 唤醒任务 | Bigmoney-IterationLoop、Bigmoney-SaturationEngine、Bigmoney-ResidentDispatcher、Bigmoney-Autofill、Bigmoney-PoolWorker、MiniGameEngineTick、MiniGameComfyDraftTick、MiniGameAuditTick、MiniGameGateTick、MiniGameRadarTick、MiniGameRadarDeepTick、MiniGameSiliconWatchTick、HQ-ProductionClaim、HQ-StationDrive |
-| 当前状态 | blocked_no_comfyui |
+| 当前状态 | ready |
 
 **可承担的 CPU 活（夜窗并行上限）**
 
@@ -235,7 +235,7 @@
 |---|---|---|---|
 | 本机（每台机自己） | 0 | http://127.0.0.1:11434 | local-loop |
 | 算力大脑 | 1 | **空（未装备）** | primary |
-| MacBook 主控台 | 2 | http://100.75.133.10:11434 | light-fallback |
+| MacBook 主控台 | 2 | http://100.75.133.10:8792 | light-fallback |
 
 规则：闭环优先：能在本机做完的绝不出机器；本机小模型做不好的（长剧本/语感/审稿）上升算力大脑；主控只在两头都不可用时兜底。
 
@@ -243,13 +243,13 @@
 
 | 工位 | 环境档 | 判定 | python | ollama | ffmpeg | 探针年龄 | 缺口 |
 |---|---|---|---|---|---|---|---|
-| control | darwin-arm64 | GAP | 3.13.18 | 0.40.16 | 7.1 | 0.0h | 环境变量 OLLAMA_KEEP_ALIVE 未设置（要求 10m） |
-| delivery | windows-cuda | GAP | 3.14.10 | 0.40.13 | 9.0.2-full_build-www.gyan.dev | 2.4h | python 3.14.10 不满足 <3.13；环境变量 OLLAMA_MODELS 未设置（模板 <盘符>:\ollama\models）（等 5 项） |
-| visual | windows-cuda | GAP | 3.13.15 | 0.40.10 | 2025-08-11-git-3542260376-full_build-www.gyan.dev | 15.7h | python 3.13.15 不满足 <3.13；环境变量 OLLAMA_MODELS 未设置（模板 <盘符>:\ollama\models）（等 5 项） |
+| control | darwin-arm64 | PASS | 3.13.18 | 0.40.16 | 7.1 | 0.0h | — |
+| delivery | windows-cuda | GAP | 3.14.10 | 0.40.13 | 9.0.2-full_build-www.gyan.dev | 26.5h | 探针已 26.5h 未更新（阈值 24h）；python 3.14.10 不满足 <3.13（等 6 项） |
+| visual | windows-cuda | GAP | 3.13.15 | 0.40.10 | 2025-08-11-git-3542260376-full_build-www.gyan.dev | 39.7h | 探针已 39.7h 未更新（阈值 24h）；python 3.13.15 不满足 <3.13（等 6 项） |
 | audio | — | 未探测 | — | — | — | — | 没有 env/audio.json：该机还没跑过探针 |
 | brain | — | 未定档 | — | — | — | — | 该机没有对应环境档位（OS 待定或未入网）：先定系统再定环境 |
 
-标准=`cph4/fleet/AI-ENV-SPEC-v1.json`；事实=`cph4/fleet/env/<工位>.json`（由 `env_probe.py` 各机自采）；超过 24h 未更新判 STALE。0 台达标 / 5 台待办。
+标准=`cph4/fleet/AI-ENV-SPEC-v1.json`；事实=`cph4/fleet/env/<工位>.json`（由 `env_probe.py` 各机自采）；超过 24h 未更新判 STALE。1 台达标 / 4 台待办。
 
 标准档：`darwin-arm64`（主控，MLX）/ `windows-cuda`（三台生产机）/ `linux-cuda`（大脑若装 Ubuntu）。各机每日跑 `python3 Tools/fleet/env_probe.py --write`，产物随 git 同步；探针超过 24h 判 STALE。
 

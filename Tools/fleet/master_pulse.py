@@ -30,6 +30,7 @@ import fcntl
 import json
 import os
 import re
+import stat
 import subprocess
 import sys
 from concurrent.futures import ThreadPoolExecutor
@@ -44,6 +45,28 @@ PY = sys.executable or "/usr/bin/python3"
 LOCK = "/tmp/fluxgroup-pulse.lock"
 LOG = "/tmp/fluxgroup-pulse.log"
 STATE_REL = "cph4/fleet/dispatcher/PULSE.json"
+
+
+def selfhost_paused():
+    """本机 LaunchAgent 是否处于暂停态（CEO 静默令 2026-11-15）。
+
+    两条判据，任一成立即暂停（OR，不是 AND）：
+      ① 哨兵文件 .codely-cli/state/FLEET-PAUSED 存在 —— 与目录锁解耦，装回脉之后照样生效；
+      ② ~/Library/LaunchAgents 被 chflags uchg 锁住 —— 暂停时的物理边界。
+    为什么要有①：判据若只看目录锁，一旦为了恢复常驻体而解锁，保护就跟着失效，
+    contingency/self_improve/tool_watch 又会把归档的 plist 复制回来——这正是今天
+    通知反复复活的机制。远端机队的阶段（executor_guard/executor_revive）不受影响。
+    """
+    if os.path.exists(os.path.join(ROOT, ".codely-cli", "state", "FLEET-PAUSED")):
+        return True
+    try:
+        return bool(os.stat(os.path.expanduser("~/Library/LaunchAgents")).st_flags & stat.UF_IMMUTABLE)
+    except Exception:
+        return False
+
+
+# 会写本机 LaunchAgents / 调 launchctl 启停的阶段：暂停态下必须跳过（只报告不动作）。
+SELFHOST_STAGES = {"contingency", "self_improve", "tool_watch"}
 SLOW_EVERY = 300
 STATE_SNAPSHOT_S = 1800   # 报告类状态每 30 分钟快照一次（此前每 60 秒，占全部提交 44%）
 HOT_PREFIXES = ("cph4/fleet/lanes/", "cph4/fleet/rt/",
@@ -75,6 +98,13 @@ STAGES = [
     # 而主控侧没有角色负责"发现被禁并重新启用"，只能靠人记得 poke。这里每 60s 幂等检查一次：
     # 只处理 roster.enable_tasks 明示的任务、CEO 让路态整机跳过、只调既有 /poke 入口。
     ("executor_guard", ["Tools/fleet/executor_guard.py"], 60, {0, 2}, True),
+    # 执行器复活（2026-11-15 CEO「设计好层级和逻辑，7x24 小时执行好」）：
+    # executor_guard 只会"被禁→启用"；遇到「FleetLink 活着但 wakes 为空 / 执行者根本不在」
+    # 它判不出来（bm-a 今天就是这种：8790 正常、pull 正常、wakes 空 16 小时）。
+    # executor_revive 四态判定 offline/closeout/wake/healthy，wake 态 apex poke 显式启用，
+    # closeout 态发自包含收口卡。rc=1=本轮做了动作（正常），rc=2=仍有节点拉不起来（需现场）。
+    # 内置 COOLDOWN_S=240，与 guard 并存不会双刷 poke。
+    ("executor_revive", ["Tools/fleet/executor_revive.py", "--apply"], 600, {0, 1}, True),
     # ↑ 降频（2026-11-07 实测 29s/轮）：它守的是"任务被禁"这种缓变状态，
     # 探三台远端 /status 是纯网络开销，每轮跑等于把 20-30s 的节拍交给 tailnet。
     # 改 slow=True（每 5 分钟）后单轮省 ~20s，禁用恢复的最坏延迟仍是 5 分钟。
@@ -1042,7 +1072,9 @@ def checks(prev: dict | None = None) -> list[dict]:
     detail = "http://127.0.0.1:11434/api/tags"
     if not ok:
         # The judgement seat is dead if Ollama is down; repair it before reporting.
-        subprocess.run(["launchctl", "kickstart", "-k", "gui/%d/com.fluxgroup.ollama" % os.getuid()],
+        # 2026-11-15：label 名从 com.fluxgroup.ollama 改为实际在用的 ollamamodel
+        # （前者已退役成 .bak，kickstart 它只会每轮刷一个假 blocker）。
+        subprocess.run(["launchctl", "kickstart", "-k", "gui/%d/com.fluxgroup.ollamamodel" % os.getuid()],
                        capture_output=True, text=True)
         for _ in range(20):
             time.sleep(1)
@@ -1062,7 +1094,9 @@ def checks(prev: dict | None = None) -> list[dict]:
     out.append({"name": "caffeinate", "ok": caf_ok,
                 "detail": "keeps the plane awake on AC power"})
     r = subprocess.run(["launchctl", "list"], capture_output=True, text=True)
-    for label in ("com.fluxgroup.pulse", "com.fluxgroup.dashboard", "com.fluxgroup.ollama"):
+    # 2026-11-15：只核实际在跑的两个。com.fluxgroup.dashboard 已退役（归档在 disabled/），
+    # 核它等于每轮制造一个永远修不掉的红。
+    for label in ("com.fluxgroup.pulse", "com.fluxgroup.ollamamodel"):
         line = next((ln for ln in r.stdout.splitlines() if ln.endswith(label)), "")
         parts = line.split()
         # A live PID in column 1 already proves the job is up. The status column is the
@@ -1239,6 +1273,13 @@ def main() -> int:
             pass
     if _off:
         log("slim: skip %d stage(s): %s" % (len(_off), ",".join(sorted(_off))))
+    # 暂停态保护（2026-11-15）：CEO 要"7x24 执行好"，同时要"不要弹通知"。
+    # 本机 LaunchAgents 上锁期间，跳过所有会动本机服务的阶段；远端机队阶段照跑。
+    if selfhost_paused():
+        _skipped = sorted(SELFHOST_STAGES & {s[0] for s in STAGES})
+        if _skipped:
+            _off |= SELFHOST_STAGES
+            log("pause: selfhost LaunchAgents locked, skip %s (远端机队阶段不受影响)" % ",".join(_skipped))
     _active = [s for s in STAGES if s[0] not in _off]
     serial = [s for s in _active if not s[4]]
     slow_serial = [s for s in _active if s[4] and s[0] in SLOW_SERIAL]

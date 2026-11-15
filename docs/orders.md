@@ -252,3 +252,12 @@ ilm grain 重复句。复核=warm skin 0 条、grain 重复 0 条。③包内语
 4. 唯一例外保留：`com.fluxgroup.ollamamodel`（本地模型服务，原生二进制，不触发该通知）。其 `OLLAMA_HOST` 已于本日改为 `127.0.0.1:11434`，Ollama.app 已退出，端口由 launchd 独占。
 5. 本日另一起事故：两个 Codely 会话并行时互相拆台——「同步代码重构工作流」把「电脑通知太多」停掉的启动项反复恢复，并反过来把对方当"来源不明的暂停器"要对抗。处理=停掉其中一个进程止血。**今后同一时间只允许一个会话做机队启停类操作**，另一个只读。
 6. 记录：2026-11-15 本机 AI 环境已更新（ollama 0.40.16 最新、8 模型实跑验证、mlx 0.32.4 GPU、torch 2.15.0 MPS、transformers 5.23.0）；ffmpeg 保持 7.1（macOS 27.2.1 无 brew bottle，源码编译 20-40 分钟，本机不做转码）。
+
+## 2026-11-15 12:0x 七乘二十四执行令（CEO · 覆盖 11-11 暂停令的执行面）
+1. 令源：CEO「你不是有智能体嘛？好好设计层级和逻辑，把这些 7x24 小时执行好」。此令只解除**执行面**暂停，不解除本机 LaunchAgent 暂停。
+2. 层级：L0 主控脉 `com.fluxgroup.pulse`（KeepAlive 单进程 `--loop 45`，替代 4 个高频 spawn 任务）→ L1 工位执行器（各机 `station_drive` / `HQ-ProductionClaim`）→ L2 机队自愈（`executor_guard` 300s + `executor_revive` 600s，含 offline/closeout/wake/healthy 四态）→ L3 验收审计（`verify_done`/`demand_audit`/`acceptance`/`retro`）。
+3. 静默边界（防通知复活）：哨兵 `.codely-cli/state/FLEET-PAUSED` 或 LaunchAgents 目录 uchg，任一存在则 `contingency`/`self_improve`/`tool_watch` 三阶段只报告不动作（`master_pulse.selfhost_paused()`）。远端机队阶段不受此限。
+4. 本机 LaunchAgent 白名单恒定 = `pulse`（主控脉）+ `ollamamodel`（本地模型服务），其余 42 项归档在 `disabled/20261115-pause/`。
+5. 验证判据：`ls ~/Library/LaunchAgents/com.fluxgroup.*.plist` 恒为 2；脉日志每轮打印 `pause: selfhost LaunchAgents locked, skip ...`；`launchctl print` 的 `runs` 不增长（无反复重启）。
+6. 已修两处假红：`kickstart com.fluxgroup.ollama` → `ollamamodel`（前者已退役成 .bak，每轮刷假 blocker）；健康检查不再核已退役的 `com.fluxgroup.dashboard`。
+7. 待办（需一次现场落子）：`Tools/fleet/enable-remote-exec.ps1` 在 bm-a/bm-c 各跑一次启用 OpenSSH，之后主控可远程执行任意命令，彻底摆脱「靠 git 和计划任务绕」。

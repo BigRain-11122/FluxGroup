@@ -1,6 +1,6 @@
 {
  "version": "v1-20261112",
- "updated_at": "2026-11-15T05:41:20",
+ "updated_at": "2026-11-15T17:45:17",
  "items": [
   {
    "id": "IMP-SUPPLY-PROD-GAME-SUBMIT-材料套用",
@@ -973,6 +973,19 @@
    "created_at": "2026-11-12T17:56:14",
    "dropped_at": "2026-11-13T15:19:33",
    "drop_reason": "触发条件不再成立（判据修正或事实已变），留痕不删"
+  },
+  {
+   "id": "IMP-EXEC-visual",
+   "batch": 3,
+   "domain": "机队",
+   "owner": "visual",
+   "title": "visual 执行体未注册（状态=ready）",
+   "evidence": "STATIONS.json status=ready，且分片目录无 heartbeat.json",
+   "fix": "在该机安装并启动 station_drive（install_drive_agent.py 生成，现场执行）",
+   "accept": "该机 heartbeat.json 存在且龄期 < 30 分钟",
+   "status": "OPEN",
+   "depends": [],
+   "created_at": "2026-11-15T11:42:06"
   }
  ]
 }

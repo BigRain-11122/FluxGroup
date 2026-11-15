@@ -11,7 +11,7 @@
 | 当前余量 | CPU 空闲 69.6%，空闲内存 11.9GB（2026-11-03 18:22 实测） |
 | 硬件编码 | h264/hevc/prores videotoolbox 全有；12 秒竖屏 1080×1920 片，wall **6.1s**、CPU 时间 **9.9s**（软件编码同片 11.9s / 87.6s，SSIM 0.990） |
 | 审片副本 | 720p 一条 12 秒片 **1.16s**，6 条合计 7s |
-| 语音转写 | whisper-large-v3-turbo（MLX/Metal），12 秒片 **2.5s**，约实时 12 倍 |
+| 语音转写 | whisper-large-v3-turbo（MLX/Metal），12 秒片 **2.5s**，约实时 12 倍。**2026-11-15 磁盘清理已删本地权重（1.5G）**：再用需从 ModelScope 重下到 `~/.cache/whisper-mlx/large-v3-turbo`；缺权重时 `subs_asr.py` 返回 exit 3（BLOCKED），不会假绿 |
 | 常驻模型 | 4B 量化 4.0GB 保活；再大的模型不驻留（32GB 与办公共用同一池） |
 
 ## 二、该干的五类活（对应各家业务）

@@ -98,7 +98,7 @@
    "name": "MacBook 主控台",
    "order": 2,
    "role": "light-fallback",
-   "url": "http://100.75.133.10:11434",
+   "url": "http://100.75.133.10:8792",
    "intended_models": [
     {
      "seat": "triage",
@@ -123,10 +123,10 @@
     "不做 14B 以上常驻",
     "不做批量生成"
    ],
-   "note": "2026-11-13 打通：本服务原只监听 127.0.0.1（配置里的 tailnet url 是死的），已改由 com.fluxgroup.ollamamodel 起 serve 并绑 0.0.0.0:11434，机队可经 tailnet 直接调用。验证：curl http://100.75.133.10:11434/api/tags",
+   "note": "2026-11-15 改为走 8792 网关：11434 只绑回环（llm_gateway 的设计前提），对外唯一入口是 http://100.75.133.10:8792（X-Flux-Token + 模型白名单 + 驻留策略）。2026-11-13 曾把 11434 绑 0.0.0.0 直开给 tailnet，2026-11-15 实测它与 Ollama.app 抢同一端口互相杀进程，已撤回。验证：curl -H \"X-Flux-Token: $TOKEN\" -X POST http://100.75.133.10:8792/api/generate",
    "access": {
-    "listen": "0.0.0.0:11434",
-    "auth": "tailnet-only（无应用层认证）",
+    "listen": "127.0.0.1:11434（回环）；对外只经 0.0.0.0:8792 网关",
+    "auth": "网关层 X-Flux-Token（令牌 ~/.fluxgroup-llm-token）+ 模型白名单",
     "keep_alive": "10m（显式，不许默认 5m/不许 0）",
     "rollback": "launchctl bootout gui/$UID/com.fluxgroup.ollamamodel 后重开 Ollama.app"
    }

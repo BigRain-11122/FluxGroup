@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-15T10:16:23+0800",
+ "ts": "2026-11-15T23:15:53+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -117,9 +117,9 @@
    "accept": "投影文件每日刷新；受阻面写明触发条件",
    "blocker_type": "ENGINE",
    "blocker": "四仓不在本机，需在对应机器生成投影",
-   "state": "QUEUED",
+   "state": "RUNNING",
    "card": "R-PLAN-FLUXVERSE-20261115",
-   "running_on": null
+   "running_on": "bm-a"
   },
   {
    "id": "bigdomain",
@@ -222,15 +222,15 @@
    "accept": "flux_check new=0；AUTOMATION-SURFACE 无 RISK 项",
    "blocker_type": "ENGINE",
    "blocker": "I2 存量 125 条卡面路径债、vault 缺盘 651 条",
-   "state": "STALLED",
-   "card": null,
+   "state": "QUEUED",
+   "card": "CANARY-20261115T231552",
    "running_on": null
   }
  ],
  "counts": {
-  "RUNNING": 0,
+  "RUNNING": 1,
   "QUEUED": 3,
-  "STALLED": 12
+  "STALLED": 11
  },
- "stalled_engine": 5
+ "stalled_engine": 4
 }
