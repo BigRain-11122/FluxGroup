@@ -1,6 +1,6 @@
 {
  "node": "bm-a",
- "ts": "2026-11-16T02:00:57",
+ "ts": "2026-11-16T02:06:35",
  "jobs": [
   {
    "id": "asset-lib-voice-corpus-2026-11-16",
@@ -57,9 +57,23 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
+  },
+  {
+   "id": "R-TRIAGE-BIGLIFE-BMB-20261116",
+   "title": "BigLife·数字生命 线证据扫描（bm-b 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line biglife --node bm-b --out cph4/fleet/queue-receipts/triage-biglife-bm-b-20261116.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-biglife-bm-b-20261116.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 26.9/1.0 GB"
+ "capacity_note": "ram 27.2/1.0 GB"
 }
