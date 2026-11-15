@@ -1,23 +1,8 @@
 {
  "node": "bm-a",
- "ts": "2026-11-15T06:16:56",
- "jobs": [
-  {
-   "id": "R-PLAN-FLUXVERSE-20261115",
-   "title": "FluxVerse·元宙城 线级体检与缺口清单",
-   "cmd": "python Tools/fleet/line_triage.py --line fluxverse --out cph4/fleet/queue-receipts/triage-fluxverse-20261115.md",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-fluxverse-20261115.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  }
- ],
- "idle_reason": "",
+ "ts": "2026-11-15T23:24:58",
+ "jobs": [],
+ "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
  "lane_ok": true,
- "capacity_note": "ram 47.8/1.0 GB"
+ "capacity_note": "ram 44.2/1.0 GB"
 }
