@@ -1,8 +1,8 @@
 {
  "node": "bm-a",
- "ts": "2026-11-16T10:22:39",
+ "ts": "2026-11-16T10:27:56",
  "jobs": [],
- "idle_reason": "EXECUTOR-DEAD (10.0h 零产出)",
+ "idle_reason": "DAY-YIELD: work machine, takes over at 19:00",
  "lane_ok": false,
- "capacity_note": "EXECUTOR-DEAD (10.0h 零产出)"
+ "capacity_note": "daytime heavy-yield (09:00-19:00); light CPU allowed"
 }
