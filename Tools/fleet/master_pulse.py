@@ -120,6 +120,11 @@ STAGES = [
     # 否则回落模板并标注（Tools/fleet/local_brief.py 自带 10 分钟缓存，缓存命中约 0.05s）。
     # rc=0 模型写成 / 1 回落模板（降级可接受）/ 2 模型不可用。
     ("local_brief", ["Tools/fleet/local_brief.py"], 90, {0, 1}, False),
+    # 全年巡查（2026-11-16 CEO「全年巡查」）：每天一份覆盖机器/队列/产出趋势/
+    # 阻塞原因/模型健康/静默边界的报告（cph4/fleet/PATROL.md + state/patrol-history.jsonl）。
+    # 带 --daily 日期闸：当天已生成过就 0.01s 直接返回，所以每轮调用成本可忽略；
+    # rc=2 表示关键面不可用（模型挂或多台机不通），属告警不是故障。
+    ("patrol", ["Tools/fleet/patrol.py", "--daily"], 300, {0, 2}, False),
     # ↑ 降频（2026-11-07 实测 29s/轮）：它守的是"任务被禁"这种缓变状态，
     # 探三台远端 /status 是纯网络开销，每轮跑等于把 20-30s 的节拍交给 tailnet。
     # 改 slow=True（每 5 分钟）后单轮省 ~20s，禁用恢复的最坏延迟仍是 5 分钟。

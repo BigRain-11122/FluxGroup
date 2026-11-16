@@ -168,9 +168,9 @@ def audit():
     paused = os.path.exists(os.path.join(ROOT, ".codely-cli", "state", "FLEET-PAUSED"))
     import glob
     nplist = len(glob.glob(os.path.expanduser("~/Library/LaunchAgents/com.fluxgroup.*.plist")))
-    consistent = (paused and nplist <= 3) or (not paused)
+    consistent = (paused and nplist <= 4) or (not paused)
     add("silent", consistent,
-        "哨兵=%s · 自启 %d 项（白名单 3：pulse/console/ollamamodel）" % (paused, nplist),
+        "哨兵=%s · 自启 %d 项（白名单 4：pulse/console/ollamamodel/llmgateway）" % (paused, nplist),
         need_human=not consistent)
 
     return R
