@@ -19,20 +19,60 @@ $nj    = Join-Path $root 'cph4\fleet\dispatcher\NEED-JUDGMENT.md'
 $stamp = Get-Date -Format 'yyyy-MM-dd HH:mm:ss'
 $found = @()
 
+# 2026-11-16: three of this probe's targets are produced ONLY by components retired on
+# 2026-11-12 12:45 (orders.md that row: HQ-FleetDispatcher and HQ-CEOProxyEventCarrier moved
+# to Disabled). A retired producer can never refresh its file, so the alarm fires 96x/day
+# forever - that is the "red that nobody can fix" pattern: within two days NEED-JUDGMENT.md
+# grew to 146KB of identical lines and the real alarms stopped being read.
+# Rule: if the producing task is still Disabled, the target is RETIRED-OK - log one INFO per
+# day and raise no alarm. If anyone re-enables the task, alarms come back by themselves.
+$retiredBy = @{
+    'CEO-PROXY/LOG.md'           = 'HQ-CEOProxyEventCarrier'
+    'DISPATCH-LOG.md'            = 'HQ-FleetDispatcher'
+    'event-carrier-heartbeat.txt'= 'HQ-CEOProxyEventCarrier'
+}
+function Test-Retired([string]$target) {
+    $taskName = $retiredBy[$target]
+    if (-not $taskName) { return $false }
+    $t = Get-ScheduledTask -TaskName $taskName -ErrorAction SilentlyContinue
+    return [bool]($t -and $t.State -eq 'Disabled')
+}
+function Add-RetiredInfo([string]$target) {
+    $mark = "RETIRED-OK $target (producer $($retiredBy[$target]) is Disabled since 2026-11-12)"
+    $today = (Get-Date -Format 'yyyy-MM-dd')
+    $already = $false
+    if (Test-Path $alarms) {
+        $already = [bool](Select-String -Path $alarms -SimpleMatch $mark -ErrorAction SilentlyContinue |
+                          Where-Object { $_.Line -like "$today*" })
+    }
+    if (-not $already) { Add-Content -Path $alarms -Value ("$stamp | $mark") -Encoding UTF8 }
+}
+
 if (Test-Path $pmlog) {
     $age = ((Get-Date) - (Get-Item $pmlog).LastWriteTime).TotalHours
-    if ($age -gt 26) { $found += ('PROXY-SILENT-DEATH: CEO-PROXY/LOG.md age {0:N1}h (>26h)' -f $age) }
+    if ($age -gt 26) {
+        if (Test-Retired 'CEO-PROXY/LOG.md') { Add-RetiredInfo 'CEO-PROXY/LOG.md' }
+        else { $found += ('PROXY-SILENT-DEATH: CEO-PROXY/LOG.md age {0:N1}h (>26h)' -f $age) }
+    }
     elseif ($age -gt 6) { $found += ('SHIFT-OVERDUE: CEO-PROXY/LOG.md age {0:N1}h (>6h)' -f $age) }
-} else { $found += 'PROXY-SILENT-DEATH: CEO-PROXY/LOG.md missing' }
+} elseif (Test-Retired 'CEO-PROXY/LOG.md') { Add-RetiredInfo 'CEO-PROXY/LOG.md' }
+else { $found += 'PROXY-SILENT-DEATH: CEO-PROXY/LOG.md missing' }
 
 if (Test-Path $dl) {
     $age2 = ((Get-Date) - (Get-Item $dl).LastWriteTime).TotalHours
-    if ($age2 -gt 3) { $found += ('L0-DOWN: DISPATCH-LOG.md age {0:N1}h (>3h)' -f $age2) }
-} else { $found += 'L0-DOWN: DISPATCH-LOG.md missing' }
+    if ($age2 -gt 3) {
+        if (Test-Retired 'DISPATCH-LOG.md') { Add-RetiredInfo 'DISPATCH-LOG.md' }
+        else { $found += ('L0-DOWN: DISPATCH-LOG.md age {0:N1}h (>3h)' -f $age2) }
+    }
+} elseif (Test-Retired 'DISPATCH-LOG.md') { Add-RetiredInfo 'DISPATCH-LOG.md' }
+else { $found += 'L0-DOWN: DISPATCH-LOG.md missing' }
 
 if (Test-Path $cb) {
     $age3 = ((Get-Date) - (Get-Item $cb).LastWriteTime).TotalMinutes
-    if ($age3 -gt 120) { $found += ('EVENT-CARRIER-DOWN: heartbeat age {0:N0}min (>120)' -f $age3) }
+    if ($age3 -gt 120) {
+        if (Test-Retired 'event-carrier-heartbeat.txt') { Add-RetiredInfo 'event-carrier-heartbeat.txt' }
+        else { $found += ('EVENT-CARRIER-DOWN: heartbeat age {0:N0}min (>120)' -f $age3) }
+    }
 } else {
     # first-boot artifact: carrier never ran yet != carrier down (v1.1 - log only, no alarm)
     Add-Content -Path $alarms -Value ("$stamp | INFO carrier heartbeat not present yet (first boot - no alarm)") -Encoding UTF8
