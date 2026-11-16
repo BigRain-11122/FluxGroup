@@ -2,8 +2,8 @@
 
 | 节点 | 在线 | 能力 | 本地模型 | 心跳 | 在办 |
 |---|---|---|---|---|---|
-| bm-a | 是 | cpu,kf768,i2v768,audio,assemble,llm | - | 338s | SD-delivery-PROD-GAME-SUBMIT-提审清单-20261112 |
-| bm-b | 否 | cpu,animatic480,audio,tts,llm | - | 44374s | - |
-| bm-c | 否 | cpu,kf768,i2v768,audio,render,llm | - | 45938s | - |
+| bm-a | 是 | cpu,kf768,i2v768,audio,assemble,llm | - | 129s | PROBE-AUTO-bm-b-20261116 |
+| bm-b | 是 | cpu,animatic480,audio,tts,llm | - | 129s | - |
+| bm-c | 否 | cpu,kf768,i2v768,audio,render,llm | - | 21531s | - |
 | bm-m | 是 | cpu,ios-build,text,llm,audio,tts | qwen3:8b,qwen3.5:2b,qwen3.5:4b,qwen3:4b,qwen3.5:9b-mlx,qwen3-embedding:0.6b,qwen3.5:4b-mlx | 0s | - |
-| bm-d | 否 | cpu,kf768,i2v768,backtest,brain,llm | - | 857137s | - |
+| bm-d | 否 | cpu,kf768,i2v768,backtest,brain,llm | - | 879437s | - |

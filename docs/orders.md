@@ -261,3 +261,11 @@ ilm grain 重复句。复核=warm skin 0 条、grain 重复 0 条。③包内语
 5. 验证判据：`ls ~/Library/LaunchAgents/com.fluxgroup.*.plist` 恒为 2；脉日志每轮打印 `pause: selfhost LaunchAgents locked, skip ...`；`launchctl print` 的 `runs` 不增长（无反复重启）。
 6. 已修两处假红：`kickstart com.fluxgroup.ollama` → `ollamamodel`（前者已退役成 .bak，每轮刷假 blocker）；健康检查不再核已退役的 `com.fluxgroup.dashboard`。
 7. 待办（需一次现场落子）：`Tools/fleet/enable-remote-exec.ps1` 在 bm-a/bm-c 各跑一次启用 OpenSSH，之后主控可远程执行任意命令，彻底摆脱「靠 git 和计划任务绕」。
+
+## 2026-11-16 16:0x 下班全面开工令（CEO「我下班了 全面开工 带队机队一起」）
+1. 令源：CEO 2026-11-16「我下班了 全面开工 带队机队一起」。夜间授权：主控可代跑本机能跑的工序、可主控派单（`allow_cross`）、可判坏卡；对外发布与花钱仍归 CEO。
+2. 首波（16:00-16:10）实绩：delivery/visual/brain 五张 FAILED 卡逐张判定——**3 张真产出**（drama-src 463B / triage-fluxverse 602B / voice-corpus 6 片段 417B，均由主控本机代跑并置 DONE），1 张判 **CANCELLED**（MV rebuild 坏卡：cmd 输入与输出同为 full_mv_v721.mp4 且该文件不在盘），1 张判 **BLOCKED**（bigmoney signal 缺 quant/bigmoney/results/etf_nobond_vt.json，属 bm-a 子仓）。
+3. bm-a 端：提审清单卡由主控派单置 OPEN 后真被认领执行，产出 list.json 7300B，评审团判「通过票 0/1 返工」——业务判定正确（36 款仅 1 款材料齐全）。
+4. 机制：全年巡查 `Tools/fleet/patrol.py` 已接主控脉（`--daily` 日期闸），产物 `cph4/fleet/PATROL.md` + `state/patrol-history.jsonl`；可视化体检 `viz_audit` 每轮 0.1s；本地模型播报 `local_brief` 每轮（10 分钟缓存）。
+5. 供给真空事实：`station_drive --dry` 的 `would_create=0`，11 道工序 TOOL-PENDING（GAME-SUBMIT 材料套用/打包、ASSET-PACK 图标、BIGLIFE 户籍/行为/资产）+ 4 条线 PARKED。**不接命令就不会有新卡**，这是下一阶段的唯一主线。
+6. 未解：bm-b/bm-c 物理不通，只能现场或远程桌面落 `Tools/fleet/enable-remote-exec.ps1` 一次。
