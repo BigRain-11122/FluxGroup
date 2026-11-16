@@ -1,28 +1,36 @@
 {
- "ts": "2026-11-16T10:14:41",
- "cycle": 1745,
+ "ts": "2026-11-16T10:22:38",
+ "cycle": 1747,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-16T10:14:41",
+ "master_tick_ts": "2026-11-16T10:22:38",
  "queue": {
   "total": 171,
   "open": 2,
-  "running": 2,
-  "done": 89,
+  "running": 0,
+  "done": 91,
   "failed": 7
  },
  "lanes": {
   "bm-a": {
-   "online": false,
-   "hb_age_s": null,
-   "cpu_load_pct": null,
-   "ram_free_gb": null,
-   "gpu_util_pct": null,
+   "online": true,
+   "hb_age_s": 18.6,
+   "cpu_load_pct": 47,
+   "ram_free_gb": 62.5,
+   "gpu_util_pct": 1,
    "job": null,
-   "last_result": null,
-   "idle_confirmed": false,
-   "idle_reason": "OFFLINE (hb age Nones, no fresh lane receipt)",
-   "idle_rounds": 0
+   "last_result": {
+    "job": null,
+    "state": "IDLE",
+    "rc": null,
+    "ts": "2026-11-16T10:20:50",
+    "reason": "DAY-YIELD: work machine, takes over at 19:00",
+    "out_bytes": null,
+    "elapsed_s": null
+   },
+   "idle_confirmed": true,
+   "idle_reason": "EXECUTOR-DEAD (10.0h 零产出)",
+   "idle_rounds": 2
   },
   "bm-b": {
    "online": false,
@@ -50,19 +58,27 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 262.1,
-   "cpu_load_pct": null,
-   "ram_free_gb": null,
+   "hb_age_s": 299.7,
+   "cpu_load_pct": 8,
+   "ram_free_gb": 9.4,
    "gpu_util_pct": null,
-   "job": "R-TRIAGE-RECON-BMM-20261116",
-   "last_result": null,
+   "job": null,
+   "last_result": {
+    "job": "R-TRIAGE-FLEETOPS-BMM-20261116",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-16T10:17:42",
+    "reason": null,
+    "out_bytes": null,
+    "elapsed_s": null
+   },
    "idle_confirmed": false,
-   "idle_reason": "",
+   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
    "idle_rounds": 0
   }
  },
  "idle_rounds": {
-  "bm-a": 0,
+  "bm-a": 2,
   "bm-b": 0,
   "bm-c": 0,
   "bm-m": 0
@@ -237,15 +253,12 @@
   "fleet-ops": {
    "name": "机队运维·端到端自检（平台服务线）",
    "status": "ACTIVE",
-   "verdict": "WORKING",
+   "verdict": "WAITING",
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
-   "jobs": [
-    "R-TRIAGE-RECON-BMM-20261116",
-    "R-TRIAGE-FLEETOPS-BMM-20261116"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": null
   },
@@ -822,9 +835,11 @@
   "gpu": 1
  },
  "supply_added": [],
- "events": [],
+ "events": [
+  "R-TRIAGE-FLEETOPS-BMM-20261116 DONE via bm-m"
+ ],
  "violations": [
-  "bm-a OFFLINE",
+  "bm-a IDLE-CONFIRMED x2 (EXECUTOR-DEAD (10.0h 零产出))",
   "bm-b OFFLINE",
   "bm-c OFFLINE",
   "STAGE-STALLED bigstream-mv 卡在 立意/分镜/导演席 (导演席（自决推进，CEO 巡视可随时否决）)",
