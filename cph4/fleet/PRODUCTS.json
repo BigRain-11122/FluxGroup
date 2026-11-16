@@ -157,7 +157,8 @@
    ],
    "commands": {
     "角色 LoRA": "python Tools/fleet/lora_night_run.py --name ch01 --publish cph4/fleet/out/asset-pack/lora/ --out cph4/fleet/rt/visual/receipts/lora-ch01.json",
-    "索引": "python3 Tools/fleet/make_index.py --root cph4/fleet/out/asset-pack --out cph4/fleet/out/asset-pack/index.json"
+    "索引": "python3 Tools/fleet/make_index.py --root cph4/fleet/out/asset-pack --out cph4/fleet/out/asset-pack/index.json",
+    "图标": "python Tools/fleet/icon_supply.py --manifest"
    },
    "requires": {
     "索引": [
@@ -308,13 +309,13 @@
    "blocked_by": [
     "3D 居民资产"
    ],
-    "status": "ACTIVE",
+   "status": "ACTIVE",
    "panel_stages": [
     "户籍",
     "行为",
     "资产"
    ],
-    "parked_reason": "已撤销 D-20261114-01（2026-11-14 18:00 委员会第61批）：原挂起系误判——BigLife 由 OSLoop 自驱、不消费 PRODUCTS.commands，11-14 全天在产（子仓 R2966/R2967/R2968 等 ≥10 次提交，QC cards=10114 problems=0）",
+   "parked_reason": "已撤销 D-20261114-01（2026-11-14 18:00 委员会第61批）：原挂起系误判——BigLife 由 OSLoop 自驱、不消费 PRODUCTS.commands，11-14 全天在产（子仓 R2966/R2967/R2968 等 ≥10 次提交，QC cards=10114 problems=0）",
    "revive_condition": "户籍/行为/资产三道无命令；需先定城市数据 schema"
   },
   {
