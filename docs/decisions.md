@@ -301,3 +301,4 @@
 
 > **补记（第 70 批·扩为 6 行）**：D-10 复活门豁免护栏 executed（预防性，当前无暂停清单）；D-11 D-09 清单化提前完成 executed（781 件分类落地，含 1 件 136.8MB 红线件判定不入库）；D-09 的入仓/补规则执行窗维持 11-18 12:00 不变。本批最终计：executed 3／dispatched 2／no-op 1／ceo-pending 0／escalated 0。
 
+> **勘误（D-20261117-10·2026-11-17 06:3x 验收实抓）**：首版护栏**实际无效**——`$exempt` 写短名（`StationAgent-Delivery`），而计划任务清单用完整名（`FluxGroup-StationAgent-Delivery`），`-notcontains` 不命中，DryRun 实测三件仍输出 `would-enable`（`targets=4`）。已修为**前缀容错匹配**（`-replace "^FluxGroup-",""` 后双形态比对），复验：完整名形态 `targets=1`（只剩对照件）／短名形态亦被拦（两态均 PASS）；临时清单已删，`Tools/tmp` 残留 0。教训：豁免名单必须与清单实际书写形态一致，靠「名字像」判断=无效闸。

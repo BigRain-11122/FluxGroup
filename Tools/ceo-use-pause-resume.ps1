@@ -27,7 +27,13 @@ $exempt = @(
   "StationAgent-Delivery","StationDrive-Delivery","GitRebaseGuard"
 )
 $manifest = Get-Content $ListFile -Raw | ConvertFrom-Json
-$targets  = @($manifest.disabled) | Where-Object { $_ -and ($exempt -notcontains $_) }
+# Match both short names and scheduler full names (FluxGroup- prefix): a manifest may
+# carry either form, and a prefix-only mismatch would silently defeat the exemption.
+$targets  = @($manifest.disabled) | Where-Object {
+  if (-not $_) { return $false }
+  $short = $_ -replace '^FluxGroup-', ''
+  ($exempt -notcontains $_) -and ($exempt -notcontains $short)
+}
 Write-Output ("[ceo-resume] manifest=" + (Split-Path $ListFile -Leaf) + " ts=" + $manifest.ts + " targets=" + $targets.Count + " dryrun=" + [bool]$DryRun)
 
 $ok = 0; $fail = 0
