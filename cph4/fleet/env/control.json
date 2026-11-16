@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-15T15:12:40",
+ "ts": "2026-11-16T15:16:14",
  "station": "control",
  "hostname": "junshengsundeMacBook-Pro.local",
  "os": "darwin",
@@ -21,6 +21,12 @@
   "url": "http://127.0.0.1:11434",
   "version": "0.40.16",
   "models": [
+   {
+    "name": "qwen3:8b",
+    "size_gb": 5.23,
+    "digest": "500a1f067a9f7826",
+    "quant": "Q4_K_M"
+   },
    {
     "name": "qwen3.5:2b",
     "size_gb": 3.12,
