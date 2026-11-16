@@ -1,7 +1,13 @@
-# 复盘（经验与落点）2026-11-16T15:30:23
+# 复盘（经验与落点）2026-11-16T15:53:49
 
 判据：**没有落点的不算已推广**。落点四类＝断言(rg) / 码里判据(symbol) / 正身件(doc) / 卡模板(card)。
-已落点 19 条 · 待落点 8 条 · 声称有落点但核验不到 0 条（这一栏最严重）
+已落点 18 条 · 待落点 8 条 · 声称有落点但核验不到 1 条（这一栏最严重）
+
+## 假绿：声称有落点但核验不到
+
+| 经验 | 落点 | 问题 |
+|---|---|---|
+| L-20261107-08 fluxverse 派完一张 DONE 卡，线的产物年龄停在 103 | Tools/fleet/patrol.py:is_selfreport | Tools/fleet/patrol.py 里找不到 is_selfreport |
 
 ## 待落点：复盘了但还没推广
 
@@ -27,7 +33,6 @@
 | L-20261107-05 | 21 条质量判据里有 3 条连自己的反例都放行（恒 0 的偏差、空目录打不到上限 | rg `RG-16` |
 | L-20261107-06 | 内存不足时把模型硬塞进统一内存，swap 涨到 4GB 还报「正常运行」 | rg `RG-17` |
 | L-20261107-07 | 巡查把 PARKED 的线（短视频 129h、车机 122h）报成供给失败，责令 | rg `RG-18` |
-| L-20261107-08 | fluxverse 派完一张 DONE 卡，线的产物年龄停在 103h 一动不动 | symbol `Tools/fleet/patrol.py:is_selfreport` |
 | L-20261107-09 | 同一交付物连铺两天两张 OPEN（G18_PalacePlunder） | symbol `Tools/fleet/supply_batch.py:按交付物去重` |
 | L-20261107-10 | 队列报 42 张活卡像供给充足，实际 39 张 nodes=["bm-m"] 钉 | doc `cph4/fleet/PATROL.md` |
 | L-20261107-11 | 21 张失败卡没有 error_class，复盘时只能人逐张看 | symbol `Tools/fleet/flux_contracts.py:error_class` |
