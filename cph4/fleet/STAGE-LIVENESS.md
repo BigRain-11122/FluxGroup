@@ -1,16 +1,80 @@
-# 阶段自证（每个登记阶段是否真的在跑）2026-11-16T07:27:28
+# 阶段自证（每个登记阶段是否真的在跑）2026-11-16T10:09:55
 
 判据：最后一次**真跑**（rc 非空）距今 ≤ 周期×2 与 600 秒的较大者。「PULSE 里没显示」不等于没跑——慢批 300 秒节流是设计态。
 
-共 109 个阶段：新鲜 98 · 超期 3 · 从未跑 0 · 瘦身跳过 8
+共 109 个阶段：新鲜 34 · 超期 67 · 从未跑 0 · 瘦身跳过 8
 
-**3 个超期未跑 / 0 个从未跑过。**
+**67 个超期未跑 / 0 个从未跑过。**
 
 | 阶段 | 状态 | 距今 | 周期 | 返回码 |
 |---|---|---|---|---|
-| self_improve | 超期 | 75724s | 300.0s | 0 |
-| tool_watch | 超期 | 75724s | 600.0s | 0 |
-| contingency | 超期 | 75724s | 120.0s | 0 |
+| executor_guard | 超期 | 8616s | 60.0s | 0 |
+| executor_revive | 超期 | 8616s | 120.0s | 0 |
+| market | 超期 | 8616s | 45.0s | 0 |
+| quality | 超期 | 8616s | 60.0s | 2 |
+| ossradar | 超期 | 8616s | 120.0s | 0 |
+| executor_revive | 超期 | 8616s | 120.0s | 0 |
+| inventory | 超期 | 8616s | 120.0s | 1 |
+| census | 超期 | 8616s | 180.0s | 0 |
+| card_contract_check | 超期 | 8616s | 180.0s | 0 |
+| self_improve | 超期 | 85471s | 300.0s | 0 |
+| fork_close | 超期 | 8616s | 600.0s | 0 |
+| tool_watch | 超期 | 85471s | 600.0s | 0 |
+| useful_load | 超期 | 8616s | 3600.0s | 0 |
+| model_plan | 超期 | 8616s | 3600.0s | 0 |
+| ops_metrics | 超期 | 8616s | 3600.0s | 1 |
+| mem_guard | 超期 | 8616s | 120.0s | 0 |
+| quality_agents | 超期 | 8616s | 300.0s | 0 |
+| ri | 超期 | 8616s | 60.0s | 2 |
+| canon | 超期 | 8616s | 60.0s | 0 |
+| city | 超期 | 8616s | 60.0s | 1 |
+| skills | 超期 | 8616s | 60.0s | 0 |
+| skill_promote | 超期 | 8616s | 120.0s | 0 |
+| backup | 超期 | 8616s | 300.0s | 0 |
+| next_actions | 超期 | 8616s | 60.0s | 0 |
+| ceo_queue | 超期 | 8616s | 45.0s | 2 |
+| bulletin | 超期 | 8616s | 120.0s | 0 |
+| wait_map | 超期 | 8616s | 60.0s | 0 |
+| supply_target | 超期 | 8616s | 60.0s | 1 |
+| radar | 超期 | 8616s | 180.0s | 0 |
+| budget | 超期 | 8616s | 45.0s | 0 |
+| gate | 超期 | 8616s | 180.0s | 0 |
+| checkups | 超期 | 8616s | 180.0s | 2 |
+| modelradar | 超期 | 8616s | 900.0s | 1 |
+| asr_subs | 超期 | 8616s | 900.0s | 0 |
+| review_proxy | 超期 | 8616s | 300.0s | 0 |
+| mac_farm | 超期 | 8616s | 420.0s | 0 |
+| asset_prompts | 超期 | 8616s | 600.0s | 0 |
+| inference_audit | 超期 | 8616s | 300.0s | 0 |
+| memory_nightly | 超期 | 8616s | 900.0s | 0 |
+| vault | 超期 | 8616s | 120.0s | 0 |
+| stage_liveness | 超期 | 8616s | 3600.0s | 1 |
+| asset_reach | 超期 | 8616s | 60.0s | 0 |
+| done_audit | 超期 | 8616s | 60.0s | 0 |
+| handoff | 超期 | 8616s | 60.0s | 0 |
+| chief | 超期 | 8616s | 120.0s | 0 |
+| health | 超期 | 8616s | 90.0s | 0 |
+| contingency | 超期 | 85471s | 120.0s | 0 |
+| local_tasks | 超期 | 8616s | 300.0s | 0 |
+| decision_close | 超期 | 8616s | 60.0s | 0 |
+| capabilities | 超期 | 8616s | Nones | 0 |
+| cloud_run | 超期 | 8616s | Nones | 0 |
+| judge | 超期 | 8616s | 180.0s | 0 |
+| brain | 超期 | 8616s | 240.0s | 0 |
+| social | 超期 | 8616s | 180.0s | 0 |
+| biz | 超期 | 8616s | 600.0s | 1 |
+| mem | 超期 | 8616s | 45.0s | 0 |
+| squeeze | 超期 | 8616s | 60.0s | 1 |
+| autowork | 超期 | 8616s | 240.0s | 0 |
+| closer | 超期 | 8616s | 60.0s | 0 |
+| master_loop | 超期 | 8616s | 180.0s | 0 |
+| decision_router | 超期 | 8616s | 60.0s | 0 |
+| deadline | 超期 | 8616s | 120.0s | 0 |
+| supervisor | 超期 | 8616s | 60.0s | 0 |
+| brain_brief | 超期 | 8616s | 60.0s | 0 |
+| digest | 超期 | 8616s | 200.0s | 0 |
+| solver | 超期 | 8616s | 120.0s | 0 |
+| line_agents | 超期 | 8616s | 120.0s | 0 |
 
 ## 瘦身跳过（设计态，不是缺陷）
 
