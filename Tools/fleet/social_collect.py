@@ -55,13 +55,25 @@ SELECTORS = {
 
 
 def _launch(p, headed=False):
+    """优先用登录态所在的 browser-profile（评论区要登录才渲染）；
+    若被别的进程占用（ProcessSingleton），退回 reader profile 只抓公开内容。
+
+    2026-11-17 实锚：采集原来固定用 reader profile，而登录态存在 browser-profile，
+    等于"登录了但采集用另一个没登录的浏览器"——B站 评论区不渲染，永远 0 条。
+    """
     exe = CHROME if os.path.exists(CHROME) else None
-    kw = dict(user_data_dir=READER_DIR, headless=not headed, locale="zh-CN",
-              timezone_id="Asia/Shanghai", viewport={"width": 1440, "height": 900},
-              args=["--disable-blink-features=AutomationControlled"])
+    base = dict(headless=not headed, locale="zh-CN", timezone_id="Asia/Shanghai",
+                viewport={"width": 1440, "height": 900},
+                args=["--disable-blink-features=AutomationControlled"])
     if exe:
-        kw["executable_path"] = exe
-    return p.chromium.launch_persistent_context(**kw)
+        base["executable_path"] = exe
+    for prof in (PROFILE_DIR, READER_DIR):
+        try:
+            os.makedirs(prof, exist_ok=True)
+            return p.chromium.launch_persistent_context(user_data_dir=prof, **base)
+        except Exception:
+            continue
+    raise SystemExit("两个 profile 都起不来（可能被别的浏览器进程占用）")
 
 
 def _clean(s):
@@ -137,6 +149,50 @@ def collect(url, platform, limit=200, min_n=20, scrolls=8, headed=False):
                 pass
 
 
+def discover(platform, limit=5, headed=False):
+    """登录态下自动发现"自己的作品页"，写进 SOURCES-v1.json。
+
+    为什么要这一步：24h 循环需要目标页清单，而人不该每天手贴 URL。
+    B站=打开 space.bilibili.com（会跳到自己主页）取 /video/BV 链接。
+    """
+    if platform != "bilibili":
+        return None, "暂只支持 bilibili 自动发现（其它平台先手填 urls）"
+    try:
+        from playwright.sync_api import sync_playwright
+    except Exception:
+        return None, "未装 playwright"
+    urls = []
+    with sync_playwright() as p:
+        ctx = _launch(p, headed=headed)
+        try:
+            pg = ctx.pages[0] if ctx.pages else ctx.new_page()
+            pg.goto("https://space.bilibili.com/", wait_until="domcontentloaded", timeout=60000)
+            time.sleep(5)
+            if any(k in pg.inner_text("body")[:200] for k in ("登录", "扫码")):
+                return None, "未登录（先 --login bilibili）"
+            for _ in range(3):
+                got = pg.eval_on_selector_all(
+                    "a[href*='/video/BV']", "els=>[...new Set(els.map(e=>e.href))]")
+                urls = got if len(got) > len(urls) else urls
+                pg.mouse.wheel(0, 1600)
+                time.sleep(2)
+        finally:
+            try:
+                ctx.close()
+            except Exception:
+                pass
+    urls = [u.split("?")[0] for u in urls][:limit]
+    if not urls:
+        return None, "主页没找到作品链接（可能账号零作品）"
+    path = os.path.join(SOCIAL, "SOURCES-v1.json")
+    cfg = json.load(open(path, encoding="utf-8")) if os.path.exists(path) else {"platforms": {}}
+    cfg.setdefault("platforms", {}).setdefault("bilibili", {})["urls"] = urls
+    cfg["platforms"]["bilibili"]["enabled"] = True
+    cfg.setdefault("platforms", {}).setdefault("bilibili", {})["discovered_at"] = time.strftime("%Y-%m-%dT%H:%M:%S")
+    json.dump(cfg, open(path, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+    return urls, ""
+
+
 def self_test():
     cases = []
     # 1 选择器表覆盖三个平台
@@ -168,10 +224,20 @@ def main():
     ap.add_argument("--scrolls", type=int, default=8)
     ap.add_argument("--headed", action="store_true")
     ap.add_argument("--out", default=RAW)
+    ap.add_argument("--discover", default=None, help="登录态下自动发现自己的作品页（bilibili）")
     ap.add_argument("--self-test", action="store_true")
     a = ap.parse_args()
     if a.self_test:
         return self_test()
+    if a.discover:
+        urls, why = discover(a.discover, limit=5, headed=a.headed)
+        if urls is None:
+            print("[collect] 发现失败：%s" % why)
+            return 3
+        print("[collect] 已写入 SOURCES-v1.json 的 %s 目标页 %d 条：" % (a.discover, len(urls)))
+        for u in urls:
+            print("  -", u)
+        return 0
     url = a.url
     if a.from_home and not url:
         # 从首页推荐里拿第一条视频，避免"要你给 URL 才能动"

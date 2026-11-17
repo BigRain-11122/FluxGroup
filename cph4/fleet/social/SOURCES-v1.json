@@ -1,0 +1,38 @@
+{
+  "version": "SOURCES-v1",
+  "updated": "2026-11-17",
+  "_comment": "24 小时学习循环的数据源清单。只读页面，不点赞不评论不关注。每轮从 urls 里随机挑一条，避免盯住同一条。加源=改这里，不改代码。",
+  "interval_minutes": 20,
+  "platforms": {
+    "bilibili": {
+      "enabled": true,
+      "urls": [],
+      "need_login": true,
+      "note": "评论区不登录不渲染（2026-11-17 实测），必须先 --login bilibili 存登录态；urls 填你自己的视频页或你要学的对标视频页"
+    },
+    "douyin": {
+      "enabled": false,
+      "urls": [],
+      "need_login": false,
+      "note": "官方接口需企业号 video.comment 权限；未接前停用（不要用无头抓抖音，风控最严）"
+    },
+    "xiaohongshu": {
+      "enabled": false,
+      "urls": [],
+      "need_login": true,
+      "note": "当前登录号「大圣」零作品且部分笔记桌面端需 App；等换成有作品的运营号再启用"
+    },
+    "weibo": {
+      "enabled": false,
+      "urls": [],
+      "need_login": true,
+      "note": "会跳 newlogin；登录后填 urls"
+    },
+    "zhihu": {
+      "enabled": false,
+      "urls": [],
+      "need_login": true,
+      "note": "本机无头被风控（unhuman）；有头登录后再评估"
+    }
+  }
+}
