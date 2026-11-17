@@ -1,29 +1,29 @@
 {
  "bilibili": {
-  "n": 1697,
-  "len_mean": 32.4,
+  "n": 1741,
+  "len_mean": 32.2,
   "len_p50": 19,
   "len_p90": 68,
   "rates": {
-   "emoji": 0.023,
-   "ask": 0.244,
-   "urge": 0.016,
+   "emoji": 0.022,
+   "ask": 0.253,
+   "urge": 0.017,
    "praise": 0.108,
    "neg": 0.016,
-   "laugh": 0.041,
+   "laugh": 0.04,
    "netword": 0.009,
-   "exclaim": 0.108,
-   "mention": 0.034,
-   "money": 0.027
+   "exclaim": 0.106,
+   "mention": 0.033,
+   "money": 0.026
   },
   "top_terms": [
    [
     "视频",
-    155
+    170
    ],
    [
     "doge",
-    130
+    132
    ],
    [
     "剪辑",
@@ -31,31 +31,31 @@
    ],
    [
     "什么",
-    89
+    94
    ],
    [
     "up",
     87
    ],
    [
+    "怎么",
+    79
+   ],
+   [
     "自己",
-    75
+    76
    ],
    [
     "笑哭",
+    71
+   ],
+   [
+    "1",
     70
    ],
    [
     "时候",
-    68
-   ],
-   [
-    "怎么",
-    68
-   ],
-   [
-    "1",
-    66
+    69
    ],
    [
     "感觉",
@@ -69,35 +69,35 @@
   "advice": {
    "reply_len_target": 15,
    "emoji_budget": 0,
-   "allow_question": true,
+   "allow_question": false,
    "tone": "克制/少语气词"
   }
  },
  "_overall": {
-  "n": 1697,
-  "len_mean": 32.4,
+  "n": 1741,
+  "len_mean": 32.2,
   "len_p50": 19,
   "len_p90": 68,
   "rates": {
-   "emoji": 0.023,
-   "ask": 0.244,
-   "urge": 0.016,
+   "emoji": 0.022,
+   "ask": 0.253,
+   "urge": 0.017,
    "praise": 0.108,
    "neg": 0.016,
-   "laugh": 0.041,
+   "laugh": 0.04,
    "netword": 0.009,
-   "exclaim": 0.108,
-   "mention": 0.034,
-   "money": 0.027
+   "exclaim": 0.106,
+   "mention": 0.033,
+   "money": 0.026
   },
   "top_terms": [
    [
     "视频",
-    155
+    170
    ],
    [
     "doge",
-    130
+    132
    ],
    [
     "剪辑",
@@ -105,31 +105,31 @@
    ],
    [
     "什么",
-    89
+    94
    ],
    [
     "up",
     87
    ],
    [
+    "怎么",
+    79
+   ],
+   [
     "自己",
-    75
+    76
    ],
    [
     "笑哭",
+    71
+   ],
+   [
+    "1",
     70
    ],
    [
     "时候",
-    68
-   ],
-   [
-    "怎么",
-    68
-   ],
-   [
-    "1",
-    66
+    69
    ],
    [
     "感觉",
@@ -143,7 +143,7 @@
   "advice": {
    "reply_len_target": 15,
    "emoji_budget": 0,
-   "allow_question": true,
+   "allow_question": false,
    "tone": "克制/少语气词"
   }
  }

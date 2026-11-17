@@ -1,32 +1,32 @@
 {
- "ts": "2026-11-18T00:37:16",
- "cycle": 2552,
+ "ts": "2026-11-18T00:43:11",
+ "cycle": 2554,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-18T00:37:16",
+ "master_tick_ts": "2026-11-18T00:43:11",
  "queue": {
-  "total": 290,
+  "total": 292,
   "open": 9,
-  "running": 9,
+  "running": 12,
   "done": 152,
   "failed": 6
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 54.8,
-   "cpu_load_pct": 77,
-   "ram_free_gb": 46.1,
-   "gpu_util_pct": 12,
+   "hb_age_s": 50.6,
+   "cpu_load_pct": 48,
+   "ram_free_gb": 45.4,
+   "gpu_util_pct": 15,
    "job": "PACK-GAME-20261118",
    "last_result": {
     "job": "asset-lib-voice-corpus-2026-11-18",
-    "state": "BUSY",
-    "rc": null,
-    "ts": "2026-11-18T00:37:13",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-18T00:42:46",
     "reason": null,
-    "out_bytes": 0,
-    "elapsed_s": 82
+    "out_bytes": null,
+    "elapsed_s": null
    },
    "idle_confirmed": false,
    "idle_reason": "",
@@ -58,16 +58,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 113.7,
-   "cpu_load_pct": 33,
-   "ram_free_gb": 16.7,
+   "hb_age_s": 109.5,
+   "cpu_load_pct": 8,
+   "ram_free_gb": 9.0,
    "gpu_util_pct": null,
-   "job": "R-TRIAGE-BIGGAME-BMB-20261118",
+   "job": "Q-TRIAGE-ASSETLIB-20261118",
    "last_result": {
-    "job": "R-TRIAGE-FLUXVERSE-BMB-20261118",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-18T00:35:32",
+    "job": "R-NEXT-BIGSTREAMM-REBUILD-20261118",
+    "state": "FAILED",
+    "rc": 2,
+    "ts": "2026-11-18T00:41:26",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -149,7 +149,8 @@
    "owner": "游戏席",
    "jobs": [
     "PACK-GAME-20261118",
-    "R-NEXT-BIGGAME-SUBMIT-P-20261118"
+    "R-NEXT-BIGGAME-SUBMIT-P-20261118",
+    "biggame-pack-scan-2026-11-18"
    ],
    "no_supply": false,
    "blockers": [],
@@ -267,7 +268,8 @@
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
    "jobs": [
-    "Q-TRIAGE-BIGSTREAMMV-20261118"
+    "Q-TRIAGE-BIGSTREAMMV-20261118",
+    "Q-TRIAGE-ASSETLIB-20261118"
    ],
    "no_supply": false,
    "blockers": [],
@@ -287,15 +289,12 @@
     "asset-lib-asset-gen-2026-11-17",
     "asset-lib-asset-gen-scenes-2026-11-17",
     "asset-lib-env-check-2026-11-18",
-    "asset-lib-voice-corpus-2026-11-18",
     "asset-lib-face-dataset-2026-11-18",
     "asset-lib-asset-gen-2026-11-18",
     "asset-lib-asset-gen-scenes-2026-11-18"
    ],
    "no_supply": false,
-   "blockers": [
-    "asset-lib-asset-gen-scenes-2026-11-18:no-lane"
-   ],
+   "blockers": [],
    "note": "CEO 2026-11-03：先储备资产，角色 LoRA 与音色库为 P0"
   }
  },
@@ -857,7 +856,9 @@
  },
  "supply_added": [],
  "events": [
-  "R-TRIAGE-FLUXVERSE-BMB-20261118 DONE via bm-m"
+  "asset-lib-voice-corpus-2026-11-18 UNVERIFIED(no-artifact-yet) via bm-a",
+  "R-NEXT-BIGSTREAMM-REBUILD-20261118 FAILED via bm-m",
+  "biggame-pack-scan-2026-11-18 -> bm-a (cpu)"
  ],
  "violations": [
   "STAGE-STALLED bigstream-mv 卡在 立意/分镜/导演席 (导演席（自决推进，CEO 巡视可随时否决）)",

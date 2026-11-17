@@ -1,7 +1,21 @@
 {
  "node": "bm-m",
- "ts": "2026-11-18T00:37:17",
+ "ts": "2026-11-18T00:43:12",
  "jobs": [
+  {
+   "id": "Q-TRIAGE-ASSETLIB-20261118",
+   "title": "asset-lib 线级体检（本机证据目录实况）",
+   "cmd": "python Tools/fleet/line_triage.py --line asset-lib --out cph4/fleet/queue-receipts/triage-asset-lib-20261118.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-asset-lib-20261118.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
   {
    "id": "R-TRIAGE-BIGGAME-BMB-20261118",
    "title": "Biggame·游戏 线证据扫描（bm-b 本机可判面）",
@@ -15,9 +29,37 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
+  },
+  {
+   "id": "R-TRIAGE-BIGMONEY-BMB-20261118",
+   "title": "BigMoney·量化 线证据扫描（bm-b 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line bigmoney --node bm-b --out cph4/fleet/queue-receipts/triage-bigmoney-bm-b-20261118.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigmoney-bm-b-20261118.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "R-TRIAGE-BIGCOMPUTE-BMM-20261118",
+   "title": "BigCompute·硅基算力 线证据扫描（bm-m 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line bigcompute --node bm-m --out cph4/fleet/queue-receipts/triage-bigcompute-bm-m-20261118.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigcompute-bm-m-20261118.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 16.7/1.0 GB"
+ "capacity_note": "ram 9.0/1.0 GB"
 }
