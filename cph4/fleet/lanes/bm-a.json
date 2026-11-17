@@ -1,6 +1,6 @@
 {
  "node": "bm-a",
- "ts": "2026-11-18T00:43:12",
+ "ts": "2026-11-18T00:48:31",
  "jobs": [
   {
    "id": "PACK-GAME-20261118",
@@ -23,20 +23,6 @@
    "cwd": "",
    "needs": "cpu",
    "deliverable": "cph4/fleet/game-v1/SUBMIT-PACK-20261118.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "biggame-pack-scan-2026-11-18",
-   "title": "[游戏（可上线清单 → 一款可玩包 → 提审材料）] 可上线包清单（唯一能机器判的段）",
-   "cmd": "python Tools/fleet/game_pack_scan.py --root gaming --out cph4/fleet/queue-receipts/game-packs-2026-11-18.json",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/game-packs-2026-11-18.json",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -113,9 +99,23 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
+  },
+  {
+   "id": "R-TRIAGE-BIGDOMAIN-BMB-20261118",
+   "title": "BigDomain·硅基域商业化 线证据扫描（bm-b 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line bigdomain --node bm-b --out cph4/fleet/queue-receipts/triage-bigdomain-bm-b-20261118.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigdomain-bm-b-20261118.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 45.4/1.0 GB"
+ "capacity_note": "ram 44.0/1.0 GB"
 }
