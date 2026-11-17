@@ -54,7 +54,22 @@ DIRTY = ["傻逼", "妈的", "卧槽", "草泥马", "操你"]
 FILLER = re.compile(r"^(哈+|呵+|牛+|好+|妙+|顶+|赞+|打卡|前排|来了|沙发|已看|[?？!！.。,，~～\s]+)$")
 
 
-def score(text):
+# 分段判据（颗粒度对齐）：同一个尺子量所有人群会得出假结论——玩梗/浅层本来就该 6-12 字、
+# 没有"逻辑主干"，用通用线量它们必然 0 分，看着像模型差，其实是尺子不对。
+SEG_TUNE = {
+    # seg: (PASS 线, 逻辑分下限, 是否允许"短促接话"算完整)
+    "memer": (42, 0, True),
+    "shallow": (40, 0, True),
+    "music_seeker": (55, 0, True),
+    "beginner": (55, 20, False),
+    "tech_nerd": (62, 30, False),
+    "ai_creator": (60, 30, False),
+    "critic": (58, 20, False),
+    "feeler": (58, 20, False),
+}
+
+
+def score(text, seg=None):
     t = (text or "").strip()
     d = {"len": len(t), "logic": 0, "voice": 0, "human": 0, "taste": 0, "natural": 0,
          "flags": []}
@@ -117,9 +132,14 @@ def score(text):
     d["natural"] = max(0, min(20, d["natural"]))
 
     total = d["logic"] + d["voice"] + d["human"] + d["taste"] + d["natural"]
+    pass_line, logic_line, short_ok = SEG_TUNE.get(seg, (60, 30, False))
+    if short_ok and len(t) <= 16:
+        # 该短的段：长度合适本身就是合格，不因为没有"具体对象"扣到不及格
+        d["taste"] = min(20, d["taste"] + 5)
+        total = d["logic"] + d["voice"] + d["human"] + d["taste"] + d["natural"]
     if REPLY.match(t) or len(cli) >= 2 or FILLER.match(t) or len(t) < 6:
         verdict = "REJECT"
-    elif total >= 60 and d["logic"] >= 30 and not cli:
+    elif total >= pass_line and d["logic"] >= logic_line and not cli:
         verdict = "PASS"
     else:
         verdict = "RISKY"

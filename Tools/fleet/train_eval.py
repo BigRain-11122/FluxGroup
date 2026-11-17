@@ -55,9 +55,9 @@ def build_prompts(k=2):
     return out
 
 
-def score_texts(texts):
+def score_texts(texts, seg=None):
     import comment_taste as ct
-    per = [ct.score(t) for t in texts]
+    per = [ct.score(t, seg=seg) for t in texts]
     n = len(per) or 1
     return {"n": len(per),
             "avg": round(sum(s["total"] for s in per) / n, 1),
@@ -77,6 +77,28 @@ def eval_ckpt(base_model, adapter_path, prompts, samples, max_tokens, temp):
     return score_texts(texts), texts
 
 
+def per_segment(base_model, adapter_path, samples, max_tokens, temp, segs=None, videos=1):
+    """按人群段出题评测：同一批视频，每个段位用该段自己的语言参数出题。
+    这才是"迎合不同人群的口味"的可量化面——总分会被多数段拉平，分段才看得见短板。
+    """
+    import segments as sgm
+    spec = sgm.load_spec()
+    title_row = build_prompts(1)[0]
+    base_q = title_row
+    rows = []
+    with_lora = adapter_path is not None
+    from mlx_lm import load
+    import train_sample as ts
+    model, tok = load(base_model, adapter_path=adapter_path)
+    for seg in (segs or [s["id"] for s in spec["segments"]]):
+        block = sgm.style_block(seg, spec)
+        prompt = base_q + " " + block
+        texts = ts.gen(model, tok, prompt, max_tokens=max_tokens, temp=temp, n=samples)
+        rows.append(dict(score_texts(texts, seg=seg), seg=seg, sample=texts[:2]))
+    del model
+    return rows
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--run", required=True, help="RUNS/<ts> 目录")
@@ -85,7 +107,31 @@ def main():
     ap.add_argument("--max-tokens", type=int, default=60)
     ap.add_argument("--temp", type=float, default=0.8)
     ap.add_argument("--prompts", type=int, default=2, help="取几个视频的题")
+    ap.add_argument("--per-segment", action="store_true", help="按人群段分段评测")
+    ap.add_argument("--adapter", default=None, help="--per-segment 模式下直接指定 adapter 目录")
+    ap.add_argument("--segs", default=None, help="逗号分隔的段位（默认全部）")
     a = ap.parse_args()
+
+    if a.per_segment:
+        segs = [x.strip() for x in a.segs.split(",")] if a.segs else None
+        print("[eval] 分段评测 · %d 条/段" % a.samples, flush=True)
+        base_rows = per_segment(a.model, None, a.samples, a.max_tokens, a.temp, segs)
+        lora_rows = per_segment(a.model, a.adapter, a.samples, a.max_tokens, a.temp, segs) \
+            if a.adapter else []
+        lmap = {r["seg"]: r for r in lora_rows}
+        print("%-13s %-16s %-16s" % ("segment", "base 均分/PASS", "lora 均分/PASS"))
+        for r in base_rows:
+            l = lmap.get(r["seg"])
+            print("%-13s %5.1f / %3d%%      %s" % (
+                r["seg"], r["avg"], r["pass_rate"],
+                ("%5.1f / %3d%%" % (l["avg"], l["pass_rate"])) if l else "-"))
+        out = os.path.join(ROOT, "cph4", "fleet", "social", "train", "SEGMENT-EVAL.json")
+        import time as _t
+        json.dump({"ts": _t.strftime("%Y-%m-%dT%H:%M:%S"), "base": base_rows, "lora": lora_rows,
+                   "samples": a.samples, "adapter": a.adapter},
+                  open(out, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+        print("[eval] → %s" % os.path.relpath(out, ROOT))
+        return 0
 
     run = a.run if os.path.isdir(a.run) else os.path.join(
         ROOT, "cph4", "fleet", "social", "train", "RUNS", a.run)

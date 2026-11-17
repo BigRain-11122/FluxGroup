@@ -137,6 +137,8 @@ def main():
                     help="SimHash 近重复阈值（汉明距 ≤ 该值即视为重复；0=关闭）")
     ap.add_argument("--per-video-max", type=float, default=0.2,
                     help="单个视频最多占总样本比例（防一条爆火视频盖住全部语气）")
+    ap.add_argument("--seg-cap", type=float, default=0.3,
+                    help="单个人群段最多占训练集比例（0=不限）")
     ap.add_argument("--min-distinct", type=float, default=0.5,
                     help="句内 4-gram 里低频（有信息）占比下限；低于此值视为口头禅句，0=关闭")
     ap.add_argument("--df-cap", type=float, default=0.02,
@@ -239,6 +241,34 @@ def main():
             print("[build] 单视频上限 %d 条（%.0f%%）→ 去掉 %d 条，剩 %d"
                   % (cap, a.per_video_max * 100, drop_v, len(rows)))
 
+    # 段位打标 + 单段配额（颗粒度对齐：语料/训练/生成/评测用同一套段位）
+    if a.seg_cap:
+        sys.path.insert(0, HERE)
+        try:
+            import segments as sg
+            spec = sg.load_spec()
+            for r in rows:
+                r["seg"] = sg.classify(r["text"], spec)["primary"]
+            cap_seg = max(20, int(len(rows) * a.seg_cap))
+            byseg = {}
+            for r in rows:
+                byseg.setdefault(r["seg"], []).append(r)
+            kept, cut = [], 0
+            for s_, items in byseg.items():
+                items.sort(key=lambda r: -r["len"])
+                kept += items[:cap_seg]
+                cut += max(0, len(items) - cap_seg)
+            if cut:
+                rows = kept
+                dropped["seg_over"] = cut
+            print("[build] 段位分布 %s" % dict(sorted(
+                ((k, len(v)) for k, v in byseg.items()), key=lambda kv: -kv[1])))
+            if cut:
+                print("[build] 单段上限 %d 条（%.0f%%）→ 去掉 %d 条，剩 %d"
+                      % (cap_seg, a.seg_cap * 100, cut, len(rows)))
+        except Exception as e:
+            print("[build] 段位打标不可用（%s），本跳过" % str(e)[:60])
+
     if len(rows) < 100:
         print("[build] 只有 %d 条可用，太少（至少 100 才有意义）" % len(rows))
         return 2
@@ -281,6 +311,12 @@ def main():
                     hint = "（简介：%s）" % desc[:50] if desc else ""
                     ins = INSTRUCTIONS[i % len(INSTRUCTIONS)].format(
                         title=title[:40], hint=hint)
+                    if r.get("seg"):
+                        try:
+                            import segments as _sg
+                            ins += " " + _sg.style_block(r["seg"])
+                        except Exception:
+                            pass
                 else:
                     ins = INSTRUCTIONS_NOCTX[i % len(INSTRUCTIONS_NOCTX)]
                 msg = {"messages": [
