@@ -60,8 +60,52 @@ def gate_ok():
         return False, "门槛跑不起来：%s" % str(e)[:80]
 
 
+def parse_loss_lines(path):
+    """从 train.log 抽 train/val 曲线。剥 ANSI 是关键——不剥就抓不到，卡里静默 None。"""
+    ansi = re.compile(r"\x1b\[[0-9;]*m")
+    tl, vl = [], []
+    for raw in open(path, encoding="utf-8", errors="replace"):
+        line = ansi.sub("", raw)
+        m = re.search(r"Train loss ([\d.]+)", line) or re.search(r"\d+\s+([\d.]+)\s*[▲▼]", line)
+        if m:
+            tl.append(float(m.group(1)))
+        m = re.search(r"Val loss ([\d.]+)", line) or re.search(r"\bval\s+([\d.]+)", line)
+        if m:
+            vl.append(float(m.group(1)))
+    return tl, vl
+
+
+def self_test():
+    cases = []
+    import tempfile
+    # 1 新版动画式输出（带 ANSI 色码）必须能解析
+    log = ("\x1b[1miter\x1b[0m train_loss\n"
+           "   10    \x1b[1m5.072 ▼\x1b[0m    \x1b[1m   20\x1b[0m      0.2k\n"
+           "    1    \x1b[1mval\x1b[0m \x1b[1m5.423\x1b[0m    5.79s\n")
+    f = tempfile.NamedTemporaryFile("w", suffix=".log", delete=False, encoding="utf-8")
+    f.write(log); f.close()
+    tl, vl = parse_loss_lines(f.name)
+    os.unlink(f.name)
+    cases.append(("ANSI 下能抓 train loss", tl == [5.072]))
+    cases.append(("ANSI 下能抓 val loss", vl == [5.423]))
+    # 2 老格式 "Train loss 1.23" 也要认
+    cases.append(("老格式兼容", re.search(r"Train loss ([\d.]+)", "Train loss 1.23") is not None))
+    # 3 解析不出时返回空而不是崩
+    f2 = tempfile.NamedTemporaryFile("w", suffix=".log", delete=False, encoding="utf-8")
+    f2.write("nothing here\n"); f2.close()
+    cases.append(("坏日志返回空", parse_loss_lines(f2.name) == ([], [])))
+    os.unlink(f2.name)
+    ok = sum(1 for _, v in cases if v)
+    for n, v in cases:
+        if not v:
+            print("  FAIL %s" % n)
+    print("[self-test] %d/%d %s" % (ok, len(cases), "PASS" if ok == len(cases) else "FAIL"))
+    return 0 if ok == len(cases) else 1
+
+
 def main():
     ap = argparse.ArgumentParser()
+    ap.add_argument("--self-test", action="store_true")
     ap.add_argument("--model", default=MODEL_DEFAULT)
     ap.add_argument("--data", default=DATA)
     ap.add_argument("--iters", type=int, default=300)
@@ -73,6 +117,8 @@ def main():
     ap.add_argument("--plumbing", action="store_true", help="只验管路（会标成 plumbing）")
     ap.add_argument("--keep-models", action="store_true", help="不卸载 ollama 模型")
     a = ap.parse_args()
+    if a.self_test:
+        return self_test()
 
     train_f = os.path.join(a.data, "train.jsonl")
     if not os.path.exists(train_f) or not os.path.exists(os.path.join(a.data, "valid.jsonl")):

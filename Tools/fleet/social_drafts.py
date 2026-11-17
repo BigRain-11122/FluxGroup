@@ -380,7 +380,7 @@ def _draft_once(comment, hits, prev, face="comment", faq=None, depth=0):
     return kind, draft, human, note
 
 
-def draft_best(comment, face="comment", faq=None, samples=1, avoid=None):
+def draft_best(comment, face="comment", faq=None, samples=1, avoid=None, conv=None):
     """多候选择优：PASS 且不撞批内已选 > PASS > WARN > 空。只做减法（防 Goodhart）。
 
     2026-11-17 实测两件事，都是这条函数存在的理由：
@@ -390,6 +390,9 @@ def draft_best(comment, face="comment", faq=None, samples=1, avoid=None):
         已选重复的（产线验收"每条独写无模板"），而不是事后打标记。
     """
     global VAR_TEMP
+    why = thread_veto(conv)
+    if why:
+        return "thread_hold", "", True, why
     avoid = [a for a in (avoid or []) if a]
     first_det, best_pass, best_warn = None, None, None
     for i in range(max(1, min(samples, len(TEMPS)))):
@@ -418,6 +421,33 @@ def draft_best(comment, face="comment", faq=None, samples=1, avoid=None):
         k, d, h, n = best_warn
         return k, d, h, n + " | 多候选仅得WARN级"
     return "voice_block", "", True, "多候选全部未过闸（宁可少回不可尬回）"
+
+
+def thread_veto(conv):
+    """会话级否决（接 social_threads，2026-11-17 接线）。
+
+    为什么放在生成之前：已经转人工、或我方刚回过还在等对方的时候，再生成一份草稿
+    不只是浪费算力——它会诱使人发出去，等于自己撞坏关系。返回 "" 表示可以继续。
+    """
+    if not conv:
+        return ""
+    try:
+        sys.path.insert(0, HERE)
+        import social_threads as th
+        store = th._load()
+        row = store.get(conv)
+        if not row:
+            return ""
+        st = row.get("status")
+        if st == "handoff":
+            return "已转人工（%s），机器不许再出草稿" % (row.get("reason") or "人工接管")
+        if st == "waiting":
+            return "我方已回过，等对方再说（%s）" % (row.get("reason") or "")
+        if st == "snoozed":
+            return "会话被主动延后，到点再处理"
+    except Exception:
+        return ""          # 会话库坏了不阻断出稿，但也不假装查过
+    return ""
 
 
 def vet(comment, kind, draft, face="comment", faq=None):

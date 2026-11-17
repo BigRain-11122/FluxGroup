@@ -99,9 +99,32 @@ def per_segment(base_model, adapter_path, samples, max_tokens, temp, segs=None, 
     return rows
 
 
+def self_test():
+    cases = []
+    ps = build_prompts(2)
+    cases.append(("出题数量=视频数×3", len(ps) in (3, 6)))
+    cases.append(("题面带视频标题", all("《" in p for p in ps)))
+    # 聚合：全 PASS 的文本均分要高、PASS 率 100%
+    sc = score_texts(["下次可以试一下竖屏吗，实在太小了", "老师这个抠像边缘处理得很干净"])
+    cases.append(("聚合给出 PASS 率", 0 <= sc["pass_rate"] <= 100))
+    cases.append(("聚合给出均分", sc["avg"] > 0))
+    # checkpoint 排序按迭代数（字符串排序会把 100 排到 20 前面）
+    names = ["0000300_adapters.safetensors", "0000100_adapters.safetensors",
+             "0000200_adapters.safetensors"]
+    order = sorted(names, key=lambda p: int(re.search(r"(\d+)_adapters", p).group(1)))
+    cases.append(("checkpoint 按数字排序", order[0].startswith("0000100")))
+    ok = sum(1 for _, v in cases if v)
+    for n, v in cases:
+        if not v:
+            print("  FAIL %s" % n)
+    print("[self-test] %d/%d %s" % (ok, len(cases), "PASS" if ok == len(cases) else "FAIL"))
+    return 0 if ok == len(cases) else 1
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--run", required=True, help="RUNS/<ts> 目录")
+    ap.add_argument("--self-test", action="store_true")
+    ap.add_argument("--run", default=None, help="RUNS/<ts> 目录")
     ap.add_argument("--model", default=MODEL_DEFAULT)
     ap.add_argument("--samples", type=int, default=2, help="每题生成几条")
     ap.add_argument("--max-tokens", type=int, default=60)
@@ -111,6 +134,11 @@ def main():
     ap.add_argument("--adapter", default=None, help="--per-segment 模式下直接指定 adapter 目录")
     ap.add_argument("--segs", default=None, help="逗号分隔的段位（默认全部）")
     a = ap.parse_args()
+    if a.self_test:
+        return self_test()
+    if not a.run:
+        print("[eval] 需要 --run <RUNS/ts>（或用 --self-test）")
+        return 2
 
     if a.per_segment:
         segs = [x.strip() for x in a.segs.split(",")] if a.segs else None

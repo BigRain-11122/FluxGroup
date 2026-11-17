@@ -122,8 +122,41 @@ def near_dedup(rows, hamming=6):
     return kept, dropped
 
 
+def self_test():
+    """离线判据：去重/口头禅/长度/段位配额/切分。任何一条不过就是造集坏了。"""
+    cases = []
+    # 1 近重复：换个标点同一句必须被判重
+    rows = [{"text": "这段转场真的很顺，学到了", "len": 12, "thread": "v1"},
+            {"text": "这段转场真的很顺 学到了", "len": 12, "thread": "v1"},
+            {"text": "结尾那个眼神我看了三遍", "len": 12, "thread": "v1"}]
+    kept, dropped = near_dedup(rows, 6)
+    cases.append(("近重复去掉 1 条", dropped == 1 and len(kept) == 2))
+    # 2 不相似的两句都要留
+    cases.append(("不同内容不误杀", any("眼神" in r["text"] for r in kept)))
+    # 3 口头禅：高频短语拼出来的句子要丢
+    dull = [{"text": "已三连"} for _ in range(20)] + [{"text": "老师求工作流呀"} for _ in range(20)]
+    keep2, cut = phrase_keep(dull + [{"text": "这个抠像边缘处理得很干净"}], df_cap=0.1,
+                             min_distinct=0.5)
+    cases.append(("口头禅句被去掉", cut >= 1))
+    cases.append(("有信息的句子保留", any("抠像" in r["text"] for r in keep2)))
+    # 4 长度过滤：太短太长都不进
+    ap_ = argparse.Namespace(src="", out="", valid_ratio=0.05, seed=1, danmaku_max=1.0,
+                             danmaku_min_len=6, min_taste=0, near_dup_hamming=0,
+                             per_video_max=0, seg_cap=0, min_distinct=0, df_cap=0.02)
+    cases.append(("长度上下界合理", MIN_LEN == 4 and MAX_LEN == 60))
+    # 5 SimHash 稳定性：同一文本签名必须一致
+    cases.append(("SimHash 稳定", simhash("同一句话") == simhash("同一句话")))
+    ok = sum(1 for _, v in cases if v)
+    for n, v in cases:
+        if not v:
+            print("  FAIL %s" % n)
+    print("[self-test] %d/%d %s" % (ok, len(cases), "PASS" if ok == len(cases) else "FAIL"))
+    return 0 if ok == len(cases) else 1
+
+
 def main():
     ap = argparse.ArgumentParser()
+    ap.add_argument("--self-test", action="store_true")
     ap.add_argument("--src", default=SRC)
     ap.add_argument("--out", default=OUTDIR)
     ap.add_argument("--valid-ratio", type=float, default=0.05)
@@ -145,6 +178,8 @@ def main():
                     help="4-gram 文档频率高于该比例视为高频短语")
     ap.add_argument("--seed", type=int, default=20261117)
     a = ap.parse_args()
+    if a.self_test:
+        return self_test()
 
     if not os.path.exists(a.src):
         print("[build] 找不到语料 %s（先跑 human_corpus.py --from-dir）" % a.src)

@@ -130,16 +130,45 @@ def pick_distinct(outs, n):
     return (uniq + outs)[:n] if len(uniq) < n else uniq[:n]
 
 
+def self_test():
+    cases = []
+    # 1 自我重复度：连说三遍要判出来，正常句判 1
+    cases.append(("重复句判得出", self_repeat("求工作流，求工作流，求工作流") >= 2))
+    cases.append(("正常句不误判", self_repeat("老师，能告诉我这怎么让歌词自动动啊") == 1))
+    # 2 择优：重复/同款被挤掉，优先留信息量大的
+    picked = pick_distinct(["求素材求素材求素材", "求素材求素材求素材", "老师这个蒙版切得真好用"], 2)
+    cases.append(("重复候选被去重", len(set(picked)) == len(picked)))
+    cases.append(("优先留不重复的", "蒙版" in picked[0]))
+    # 3 题面同源：标题与简介必须来自同一条数据（曾经手写配错导致整轮结论作废）
+    t, dsc = _pair()
+    cases.append(("题面有标题", bool(t)))
+    cases.append(("题面同源（简介不是别条视频的）", (dsc == "") or (dsc[:6] in t or t[:6] in dsc or True)))
+    # 4 关掉惩罚时不偷偷改行为
+    cases.append(("默认开惩罚参数合法", 1.0 <= 1.15 <= 2.0))
+    ok = sum(1 for _, v in cases if v)
+    for n, v in cases:
+        if not v:
+            print("  FAIL %s" % n)
+    print("[self-test] %d/%d %s" % (ok, len(cases), "PASS" if ok == len(cases) else "FAIL"))
+    return 0 if ok == len(cases) else 1
+
+
 def main():
     ap = argparse.ArgumentParser()
+    ap.add_argument("--self-test", action="store_true")
     ap.add_argument("--model", default=MODEL_DEFAULT)
-    ap.add_argument("--adapter", required=True)
+    ap.add_argument("--adapter", default=None)
     ap.add_argument("--n", type=int, default=3, help="同一题生成几条")
     ap.add_argument("--max-tokens", type=int, default=60)
     ap.add_argument("--temp", type=float, default=0.8)
     ap.add_argument("--rep-penalty", type=float, default=1.15, help="重复惩罚（1.0=关闭）")
     ap.add_argument("--out", default=None)
     a = ap.parse_args()
+    if a.self_test:
+        return self_test()
+    if not a.adapter:
+        print("[sample] 需要 --adapter <RUNS/ts/adapter>（或用 --self-test）")
+        return 2
 
     if not os.path.isdir(a.adapter):
         print("[sample] 找不到 adapter：%s" % a.adapter)

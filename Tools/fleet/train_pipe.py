@@ -39,6 +39,46 @@ def run(argv, title, capture=False):
     return subprocess.run(argv).returncode, ""
 
 
+def gate2_ok(rows, min_rows):
+    """门2：训练集规模。太少只会抄碎片——这条判据必须能被单独测。"""
+    return rows >= min_rows
+
+
+def gate3_ok(eval_json):
+    """门3：最优 checkpoint 必须超过基座，否则不采用。"""
+    if not eval_json:
+        return False
+    best = eval_json.get("best")
+    if not best or best == "base":
+        return False
+    b = (eval_json.get("results") or eval_json).get(best) or {}
+    base = (eval_json.get("results") or eval_json).get("base") or {}
+    try:
+        return float(b.get("avg", 0)) > float(base.get("avg", 0))
+    except Exception:
+        return False
+
+
+def self_test():
+    cases = []
+    cases.append(("门2：达标放行", gate2_ok(2383, 500)))
+    cases.append(("门2：不足拦住", not gate2_ok(120, 500)))
+    cases.append(("门3：超过基座放行",
+                  gate3_ok({"best": "iter100",
+                            "iter100": {"avg": 70}, "base": {"avg": 54}})))
+    cases.append(("门3：没超过拦住",
+                  not gate3_ok({"best": "iter100",
+                                "iter100": {"avg": 50}, "base": {"avg": 54}})))
+    cases.append(("门3：选到 base 拦住", not gate3_ok({"best": "base", "base": {"avg": 9}})))
+    cases.append(("门3：空结果拦住", not gate3_ok(None)))
+    ok = sum(1 for _, v in cases if v)
+    for n, v in cases:
+        if not v:
+            print("  FAIL %s" % n)
+    print("[self-test] %d/%d %s" % (ok, len(cases), "PASS" if ok == len(cases) else "FAIL"))
+    return 0 if ok == len(cases) else 1
+
+
 def latest_run():
     d = os.path.join(TRAIN, "RUNS")
     if not os.path.isdir(d):
@@ -49,6 +89,7 @@ def latest_run():
 
 def main():
     ap = argparse.ArgumentParser()
+    ap.add_argument("--self-test", action="store_true")
     ap.add_argument("--iters", type=int, default=300)
     ap.add_argument("--num-layers", type=int, default=8)
     ap.add_argument("--max-seq-length", type=int, default=224)
@@ -58,6 +99,9 @@ def main():
     ap.add_argument("--build-only", action="store_true")
     ap.add_argument("--skip-train", action="store_true", help="复用最近一次 run，只做选点+对拍")
     a = ap.parse_args()
+
+    if a.self_test:
+        return self_test()
 
     log = {"ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "steps": []}
 
@@ -81,7 +125,7 @@ def main():
     except Exception:
         pass
     # 门2：训练集规模
-    if rows < a.min_rows:
+    if not gate2_ok(rows, a.min_rows):
         print("\n[pipe] 门2 未过：训练集 %d 条 < %d。样本太少只会抄碎片，先补语料。" % (rows, a.min_rows))
         return 2
     print("\n[pipe] 门2 通过：训练集 %d 条" % rows)
@@ -117,7 +161,7 @@ def main():
         e = json.load(open(ev, encoding="utf-8"))
         best = e.get("best")
         print("\n[pipe] %s" % e.get("verdict"))
-        if not best or best == "base":
+        if not gate3_ok(e):
             print("[pipe] 门3 未过：没有 checkpoint 超过基座，不出盲评表、不采用。")
             log["verdict"] = "REJECTED_BY_EVAL"
             json.dump(log, open(os.path.join(TRAIN, "RUNS", run_ts, "PIPELINE.json"), "w",

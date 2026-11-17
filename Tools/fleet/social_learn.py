@@ -310,6 +310,12 @@ def status():
 def self_test():
     global CORPUS, LEDGER, PAUSE
     cases = []
+    # 自检必须与机器状态无关：内存紧张时 mem_pressure() 会把并发压到 1，
+    # 并发相关断言就会假红（2026-11-17 实锚：同一份代码 8/10 与 10/10 交替）。
+    # 这里把内存闸钉死为"无压力"，让自检只测逻辑。
+    global mem_pressure
+    _real_mp = mem_pressure
+    mem_pressure = lambda: (False, "")
     orig = (CORPUS, LEDGER, PAUSE)
     CORPUS = os.path.join(ROOT, ".codely-cli", "tmp", "learn-selftest", "corpus")
     LEDGER = os.path.join(ROOT, ".codely-cli", "tmp", "learn-selftest", "ledger.jsonl")
@@ -367,6 +373,7 @@ def self_test():
     n_led = sum(1 for _ in open(LEDGER, encoding="utf-8")) if os.path.exists(LEDGER) else 0
     cases.append(("台账必须逐轮落行", n_led >= 4))
     CORPUS, LEDGER, PAUSE = orig
+    mem_pressure = _real_mp          # 还原真实内存闸
     ok = sum(1 for _, v in cases if v)
     for n, v in cases:
         if not v:

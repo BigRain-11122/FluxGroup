@@ -17,6 +17,9 @@ import os
 import random
 import sys
 
+HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.dirname(os.path.dirname(HERE))
+
 
 def load_ab(path):
     rows = []
@@ -96,21 +99,70 @@ def score(md_path, ab_dir):
                "lora_wins": win["lora"], "base_wins": win["base"], "ties": win["tie"],
                "delta_pp": round(delta, 1), "n": len(picks)}
     json.dump(payload, open(out, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
-    # 机读正身：human_corpus.py --gate 读这一份（口径一处，不散落）
-    canon = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(ab_dir))),
-                         "out", "account", "blind.json")
-    os.makedirs(os.path.dirname(canon), exist_ok=True)
-    json.dump(payload, open(canon, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
-    print("[blind] → %s（human_corpus.py --gate 读 %s）" % (out, canon))
+    # 机读正身：human_corpus.py --gate 读这一份。落点固定按仓根算——
+    # 原来靠从 ab_dir 往上退三级，ab_dir 在 tmp 里时会算到 /var/folders/qk/out 并崩。
+    canon = os.path.join(ROOT, "cph4", "fleet", "out", "account", "blind.json")
+    try:
+        os.makedirs(os.path.dirname(canon), exist_ok=True)
+        json.dump(payload, open(canon, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+        print("[blind] → %s（human_corpus.py --gate 读 %s）" % (out, canon))
+    except OSError as e:
+        print("[blind] → %s（正身写入失败 %s，本次只是一份局部分数）" % (out, str(e)[:60]))
     return 0
+
+
+def self_test():
+    cases = []
+    import tempfile
+    tmp = tempfile.mkdtemp(prefix="blind-")
+    rows = [{"side": "base", "prompt": "q", "outputs": ["b1", "b2"]},
+            {"side": "lora", "prompt": "q", "outputs": ["l1", "l2"]}]
+    md, kp = build(rows, 7, tmp)
+    key = json.load(open(kp, encoding="utf-8"))
+    cases.append(("每组一条真值", len(key) == 2))
+    cases.append(("A/B 都标了来源", all(v["A"] != v["B"] for v in key.values())))
+    # 盲性：表里不能出现 base/lora 字样
+    body = open(md, encoding="utf-8").read()
+    cases.append(("表中不泄露来源", "lora" not in body and "base" not in body))
+    # 判分闭环：全投 LoRA 应得 +100pt，全投平应得 0
+    lines = body.splitlines()
+    out = []
+    for ln in lines:
+        if ln.startswith("| K"):
+            cells = [c.strip() for c in ln.strip().strip("|").split("|")]
+            kid = cells[0]
+            pick = "A" if key[kid]["A"] == "lora" else "B"
+            cells[4] = pick
+            out.append("| " + " | ".join(cells) + " |")
+        elif ln.startswith("|"):
+            out.append(ln)
+    open(md, "w", encoding="utf-8").write("\n".join(out) + "\n")
+    import io, contextlib
+    buf = io.StringIO()
+    with contextlib.redirect_stdout(buf):
+        score(md, tmp)
+    txt = buf.getvalue()
+    cases.append(("全投 LoRA 差 +100.0pt", "+100.0pt" in txt))
+    ok = sum(1 for _, v in cases if v)
+    for n, v in cases:
+        if not v:
+            print("  FAIL %s" % n)
+    print("[self-test] %d/%d %s" % (ok, len(cases), "PASS" if ok == len(cases) else "FAIL"))
+    return 0 if ok == len(cases) else 1
 
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--ab", required=True)
+    ap.add_argument("--self-test", action="store_true")
+    ap.add_argument("--ab", default=None)
     ap.add_argument("--score", default=None, help="判完的 BLIND.md 路径（回填算差）")
     ap.add_argument("--seed", type=int, default=20261117)
     a = ap.parse_args()
+    if a.self_test:
+        return self_test()
+    if not a.ab:
+        print("[blind] 需要 --ab <AB.jsonl>（或用 --self-test）")
+        return 2
     ab_dir = os.path.dirname(os.path.abspath(a.ab))
     if a.score:
         return score(a.score, ab_dir)
