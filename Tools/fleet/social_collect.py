@@ -173,7 +173,10 @@ def collect_bili_api(pg, url, limit=200, pages=3, guard=None):
         if guard:
             ok, why = guard.check("bilibili")
             if not ok:
-                return (rows, "风控闸中途拒绝：%s" % why) if rows else (None, "风控闸拒绝：%s" % why)
+                # 间隔/会话休息 -> 等；真冷却 -> 放弃
+                ok2, why2 = guard.wait_turn("bilibili", max_wait=120)
+                if not ok2:
+                    return (rows, "风控闸中途拒绝：%s" % why2) if rows else (None, "风控闸拒绝：%s" % why2)
         r = pg.evaluate("""async (u)=>{const r=await fetch(u,{credentials:'include'});
             return {status:r.status, body:await r.text()};}""",
             "https://api.bilibili.com/x/v2/reply?type=1&oid=%s&pn=%d&ps=20&sort=2" % (aid, pn))
@@ -215,7 +218,8 @@ def collect(url, platform, limit=200, min_n=20, scrolls=8, headed=False):
     except Exception:
         guard = None
     if guard:
-        ok, why = guard.check(platform)
+        # 进来时若只是"间隔没到/会话该休息"，等一下就好（人也会等）；只有真冷却才拒绝
+        ok, why = guard.wait_turn(platform, max_wait=150)
         if not ok:
             return None, "风控闸拒绝：%s" % why
     try:
@@ -242,8 +246,11 @@ def collect(url, platform, limit=200, min_n=20, scrolls=8, headed=False):
                                              guard=guard)
                 if rows is None:
                     return None, why
+                if not rows:
+                    return None, "接口 0 条（可能关闭评论）%s" % why
                 if len(rows) < min_n:
-                    return None, "接口只拿到 %d 条（<%d）%s" % (len(rows), min_n, why)
+                    # 视频本身评论就少，不是抓取失败——照收，但把事实写进理由
+                    return rows, "仅有 %d 条（视频评论本来少）%s" % (len(rows), why)
                 return rows, why
             got = []
             for _ in range(max(1, scrolls)):
@@ -441,10 +448,27 @@ def main():
         return 3
     os.makedirs(a.out, exist_ok=True)
     path = os.path.join(a.out, "%s.comment.jsonl" % a.platform)
-    with open(path, "w", encoding="utf-8") as f:
+    # 追加 + 按 id 去重（2026-11-17 实锚：原来每次覆盖，采三条视频只剩最后一条的量）
+    seen = set()
+    if os.path.exists(path):
+        for line in open(path, encoding="utf-8"):
+            line = line.strip()
+            if line:
+                try:
+                    seen.add(json.loads(line).get("id"))
+                except Exception:
+                    pass
+    new = 0
+    with open(path, "a", encoding="utf-8") as f:
         for r in rows:
+            if r.get("id") in seen:
+                continue
+            seen.add(r.get("id"))
             f.write(json.dumps(r, ensure_ascii=False) + "\n")
-    print("[collect] %s 抓到 %d 条 -> %s" % (a.platform, len(rows), path))
+            new += 1
+    total = sum(1 for _ in open(path, encoding="utf-8"))
+    print("[collect] %s 本轮 %d 条（新增 %d）→ 累计 %d 条 -> %s"
+          % (a.platform, len(rows), new, total, path))
     print("[collect] 下一步：python3 Tools/fleet/social_profile.py --raw-dir %s" % a.out)
     return 0
 

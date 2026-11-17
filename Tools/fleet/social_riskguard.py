@@ -40,16 +40,43 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 STATE = os.path.join(ROOT, ".codely-cli", "state", "RISK-STATE.json")
 
-# 保守上限（宁可少采，不可被封）：每小时 / 每天 / 最小间隔秒
+# 两档节律。CEO 2026-11-17「不用太保守，模拟人类去浏览」：
+# 真实风险不是"次数多"，而是"机械均匀 + 零互动 + 只会读"。所以 human 档改成
+# **会话模型**：一坐下来连看 8-20 分钟、期间动作间隔 20-45 秒、一轮 8-14 个动作，
+# 然后休息 35-90 分钟再回来；日上限放宽但保留硬顶（真出事靠熔断，不靠抠次数）。
 LIMITS = {
-    "bilibili":     {"hour": 30, "day": 120, "gap": 90},
-    "xiaohongshu":  {"hour": 20, "day": 60,  "gap": 120},   # 300012 风控最凶
-    "douyin":       {"hour": 10, "day": 40,  "gap": 300},   # 只走官方接口时也该慢
-    "weibo":        {"hour": 20, "day": 60,  "gap": 120},
-    "zhihu":        {"hour": 15, "day": 40,  "gap": 150},
-    "wechat_mp":    {"hour": 20, "day": 60,  "gap": 120},
-    "default":      {"hour": 20, "day": 60,  "gap": 120},
+    "human": {
+        "bilibili":    {"hour": 60, "day": 300, "gap": 20, "session_actions": 12,
+                        "session_min": 8, "break": [35, 90]},
+        "xiaohongshu": {"hour": 40, "day": 160, "gap": 30, "session_actions": 8,
+                        "session_min": 6, "break": [60, 150]},   # 300012 仍最凶
+        "douyin":      {"hour": 20, "day": 80,  "gap": 60, "session_actions": 6,
+                        "session_min": 6, "break": [60, 180]},
+        "weibo":       {"hour": 40, "day": 160, "gap": 30, "session_actions": 10,
+                        "session_min": 6, "break": [45, 120]},
+        "zhihu":       {"hour": 30, "day": 120, "gap": 40, "session_actions": 8,
+                        "session_min": 6, "break": [60, 150]},
+        "wechat_mp":   {"hour": 40, "day": 160, "gap": 30, "session_actions": 10,
+                        "session_min": 6, "break": [45, 120]},
+        "default":     {"hour": 40, "day": 160, "gap": 30, "session_actions": 10,
+                        "session_min": 6, "break": [45, 120]},
+    },
+    "conservative": {
+        "bilibili":    {"hour": 30, "day": 120, "gap": 90},
+        "xiaohongshu": {"hour": 20, "day": 60,  "gap": 120},
+        "douyin":      {"hour": 10, "day": 40,  "gap": 300},
+        "weibo":       {"hour": 20, "day": 60,  "gap": 120},
+        "zhihu":       {"hour": 15, "day": 40,  "gap": 150},
+        "wechat_mp":   {"hour": 20, "day": 60,  "gap": 120},
+        "default":     {"hour": 20, "day": 60,  "gap": 120},
+    },
 }
+PROFILE = os.environ.get("RISK_PROFILE", "human")     # 默认像人
+
+
+def limits(platform):
+    prof = LIMITS.get(PROFILE) or LIMITS["human"]
+    return prof.get(platform, prof["default"])
 # 风控信号：出现任何一种就立刻停手（不是"再试一次"）
 BLOCK_SIGNS = ("当前网络存在风险", "安全限制", "系统监测到您的网络环境", "unhuman",
                "访问异常", "请完成验证", "人机验证", "操作过于频繁", "300012",
@@ -88,7 +115,7 @@ def check(platform, cost=1, kind="read"):
     """返回 (allowed, reason)。读操作也要过闸——采集本身就是风控敏感行为。"""
     d = _load()
     node = _plat(d, platform)
-    lim = LIMITS.get(platform, LIMITS["default"])
+    lim = limits(platform)
     now = _now()
     if node.get("cooldown_until", 0) > now:
         left = int(node["cooldown_until"] - now)
@@ -104,12 +131,45 @@ def check(platform, cost=1, kind="read"):
         return False, "本小时已达上限 %d（已用 %d）" % (lim["hour"], hour_n)
     if (node.get("day_count") or 0) + cost > lim["day"]:
         return False, "今日已达上限 %d（已用 %d）" % (lim["day"], node.get("day_count") or 0)
+    # 会话模型：一轮做够 session_actions 就强制休息（人不会连刷三小时）
+    sa = lim.get("session_actions")
+    if sa:
+        sess_start = node.get("session_start") or 0
+        if not sess_start or (now - sess_start) > lim.get("session_min", 10) * 60:
+            node["session_start"] = now
+            node["session_count"] = 0
+        if (node.get("session_count") or 0) >= sa:
+            brk = lim.get("break") or [45, 90]
+            wait = random.randint(brk[0], brk[1]) * 60
+            node["session_start"] = now
+            node["session_count"] = 0
+            node["cooldown_until"] = now + wait
+            node["last_reason"] = "会话休息（做完 %d 个动作）" % sa
+            _save(d)
+            return False, "会话休息 %d 分钟（像人一样歇一会）" % (wait // 60)
     gap = lim["gap"]
     last = node.get("last_action") or 0
     if last and now - last < gap:
         wait = int(gap - (now - last))
         return False, "动作间隔未满（还需 %d 秒；机械等间隔也是风控特征，这里带抖动）" % wait
     return True, "ok"
+
+
+def wait_turn(platform, max_wait=120, poll=5):
+    """等到可以动作（像人一样等），而不是一遇到间隔就把整轮判失败。
+
+    只有"冷却中"（真命中风控）才直接放弃；间隔/会话休息都属于正常节律，等就行。
+    """
+    waited = 0
+    while waited <= max_wait:
+        ok, why = check(platform)
+        if ok:
+            return True, "ok"
+        if "冷却中" in why:
+            return False, why
+        time.sleep(min(poll, max(1, max_wait - waited)))
+        waited += poll
+    return False, "等待超时（%ds）：%s" % (max_wait, why)
 
 
 def note(platform, kind="ok", detail=""):
@@ -122,6 +182,7 @@ def note(platform, kind="ok", detail=""):
     node["day_count"] = (node.get("day_count") or 0) + 1
     # 抖动：记录下一次的最早时间也带随机，避免固定节拍
     node["last_action"] = now
+    node["session_count"] = (node.get("session_count") or 0) + 1
     if kind in ("blocked", "captcha"):
         step = min(node.get("blocks", 0), len(COOLDOWN_STEPS) - 1)
         node["blocks"] = node.get("blocks", 0) + 1
@@ -148,15 +209,16 @@ def blocked_text(text):
 
 def jitter_gap(platform):
     """返回本次应等待的秒数（基准间隔 + 0-40% 抖动），别用固定节拍。"""
-    lim = LIMITS.get(platform, LIMITS["default"])
+    lim = limits(platform)
     return int(lim["gap"] * (1 + random.uniform(0, 0.4)))
 
 
 def status():
     d = _load()
     now = _now()
+    print("[risk] 当前档位=%s（可用 RISK_PROFILE=conservative 收紧）" % PROFILE)
     print("[risk] 平台              冷却      本小时  今日   连续命中")
-    for p in [k for k in LIMITS if k != "default"]:
+    for p in [k for k in LIMITS["human"] if k != "default"]:
         node = d.get(p) or {}
         _prune(node, now)
         hour_n = sum(e.get("n", 1) for e in node.get("events") or [] if now - e.get("ts", 0) < 3600)
@@ -205,9 +267,10 @@ def main():
 
 
 def self_test():
-    global STATE
+    global STATE, PROFILE
     cases = []
-    orig = STATE
+    orig, origp = STATE, PROFILE
+    PROFILE = "conservative"
     STATE = os.path.join(ROOT, ".codely-cli", "tmp", "risk-selftest.json")
     if os.path.exists(STATE):
         os.remove(STATE)
@@ -242,7 +305,14 @@ def self_test():
     # 抖动：不是固定值
     gaps = {jitter_gap("bilibili") for _ in range(5)}
     cases.append(("间隔带抖动（非固定节拍）", len(gaps) > 1))
-    STATE = orig
+    # human 档：会话里连做 12 个动作后必须休息
+    os.remove(STATE)
+    PROFILE = "human"
+    for _ in range(12):
+        note("weibo", "ok")
+    ok5, why5 = check("weibo")
+    cases.append(("human 档做完一轮必须休息", (ok5 is False) and ("会话休息" in why5 or "间隔" in why5)))
+    STATE, PROFILE = orig, origp
     ok = sum(1 for _, v in cases if v)
     for n, v in cases:
         if not v:
