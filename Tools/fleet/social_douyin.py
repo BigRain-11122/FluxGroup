@@ -40,6 +40,8 @@ ROOT = os.path.dirname(os.path.dirname(HERE))
 CRED = os.path.join(os.path.expanduser("~"), ".fluxgroup", "douyin.json")
 BASE = "https://open.douyin.com"
 COMMENT_LIST = "/video/comment/list/"
+COMMENT_REPLY = "/video/comment/reply/"
+AUTOPILOT = os.path.join(ROOT, "cph4", "fleet", "social", "AUTOPILOT-v1.json")
 
 
 def load_cred(path=CRED):
@@ -98,6 +100,31 @@ def pull_comments(cred, item_id, out_path, max_pages=5, count=50, fetch=None):
     return rows
 
 
+def reply_comment(cred, item_id, comment_id, text, fetch=None):
+    """回复评论（官方 POST /video/comment/reply/）。只在 T2 打开时才会被调用。
+
+    返回 (ok, receipt)。写行为有平台侧风控，失败不重试到底：由 autopilot 按 retry_max 管。
+    """
+    fetch = fetch or http_json
+    body = {"open_id": cred.get("open_id"), "access_token": cred.get("access_token"),
+            "item_id": item_id, "comment_id": comment_id, "content": text}
+    try:
+        d = fetch(BASE + COMMENT_REPLY, body)
+        err = (d.get("data") or {}).get("error_code") if isinstance(d.get("data"), dict) else None
+        if err in (0, None) and (d.get("data") or {}).get("description") in (None, "success", ""):
+            return True, {"comment_id": comment_id, "reply_id": (d.get("data") or {}).get("reply_id")}
+        return False, {"error_code": err, "description": (d.get("data") or {}).get("description")}
+    except Exception as e:
+        return False, {"error": "%s: %s" % (type(e).__name__, e)}
+
+
+def _tier2_enabled():
+    try:
+        return bool(json.load(open(AUTOPILOT, encoding="utf-8")).get("tier2_enabled"))
+    except Exception:
+        return False
+
+
 def self_test():
     cases = []
     tmp = os.path.join(ROOT, ".codely-cli", "tmp", "douyin-selftest")
@@ -130,8 +157,13 @@ def self_test():
     cases.append(("翻页必须受 max_pages 限制", len(rows2) == 2))
 
     # 4 写行为：命令行必须拒绝（CEO 令：只出草稿）
-    rc = main(["--reply", "c1", "--text", "不存在的路径"])
-    cases.append(("写行为必须被拒", rc == 4))
+    # 5 T2 关闭时写行为必须拒（用临时配置把开关关掉，不碰生产配置）
+    global AUTOPILOT
+    orig, AUTOPILOT = AUTOPILOT, os.path.join(tmp, "autopilot-off.json")
+    json.dump({"tier2_enabled": False}, open(AUTOPILOT, "w", encoding="utf-8"))
+    rc = main(["--reply", "c1", "--item-id", "v1", "--text", "x"])
+    cases.append(("T2 关闭时写行为必须拒", rc == 4))
+    AUTOPILOT = orig
 
     # 5 待核能力：私信必须拒绝而不是猜
     rc2 = main(["--pull", "dm"])
@@ -161,9 +193,20 @@ def main(argv=None):
 
     # CEO 令：写行为全部只出草稿 —— 这里直接拒绝，不存在"悄悄发出去"的路径
     if a.reply:
-        print("[douyin] 拒绝：写行为（回复评论）不在本工具范围内。"
-              "草稿用 social_drafts 产出，发送由 CEO 或授权人执行（2026-11-17 令）")
-        return 4
+        # 2026-11-17 全自动化令：写行为由 AUTOPILOT 的 T2 开关控制（默认开=官方接口自动发）
+        if not _tier2_enabled():
+            print("[douyin] 拒绝：T2 未开启（cph4/fleet/social/AUTOPILOT-v1.json tier2_enabled=false）")
+            return 4
+        if not (a.item_id and a.text):
+            print("[douyin] --reply 需要 --item-id 与 --text")
+            return 2
+        cred, need = load_cred()
+        if need:
+            print("[douyin] 未授权：缺 %s" % ",".join(need))
+            return 2
+        ok, receipt = reply_comment(cred, a.item_id, a.reply, a.text)
+        print("[douyin] 回复%s %s" % ("成功" if ok else "失败", json.dumps(receipt, ensure_ascii=False)))
+        return 0 if ok else 1
     if a.pull in ("dm", "data"):
         print("[douyin] 待核：%s 的官方接口路径与权限未获文档确证，先不实现（不猜路径）。"
               "确认后在此补实现。" % a.pull)

@@ -153,3 +153,30 @@ python3 Tools/fleet/social_review.py --list
 ```
 
 **待核清单**（确认文档后再实现，不猜）：抖音私信列表 / 群消息 / 数据接口；快手创作者评论与私信；小红书、视频号、知乎、微博的创作者侧接口。
+
+## 十 全自动化（CEO 2026-11-17「我要你全自动化 不管什么形式和方法」）
+
+一条令 → 一个入口 → 三层开关。令在 `docs/orders.md` 同日条，开关只在 `AUTOPILOT-v1.json`。
+
+| 层 | 内容 | 现状 |
+|---|---|---|
+| T1 | 采集→草稿→排队→一键批发 | **常开**，零账号风险 |
+| T2 | 官方接口自动发送（抖音 `video.comment` 回复已实现；公众号客服消息待接） | **已开**（`tier2_enabled=true`） |
+| T3 | 无官方接口平台的登录态浏览器自动化（小红书/视频号/知乎/微博/B站评论） | **代码层关闭**，需 `tier3_risk_ack` 写令号（封号不可逆） |
+
+```bash
+python3 Tools/fleet/social_autopilot.py --status                  # 看层/限额/队列
+python3 Tools/fleet/social_autopilot.py --run --raw <raw> --dir cph4/fleet/social --execute
+```
+
+**硬约束（任何一条不满足即整体停发，不"边发边报错"）**
+1. `kill_switch=true` → 只排队（异常止血用）
+2. 日限额按 `platform.behavior`（默认 5，抖音评论 10）→ 超限 `HOLD_QUOTA`
+3. 同作者冷却 30 分钟（**先判冷却再判额度**：同一个人被连回两条是最强的机器味）
+4. `needs_human=true` 的草稿永不自动发（红线/事实缺口/未过闸的都在这一档）
+5. 已实现的官方通道只有 `douyin.comment`；其它平台/行为一律 `HOLD_TIER`——**"没实现"和"调用失败"分开记**，混在一起审计就看不出真故障
+6. 逐条回执 + 审计 `audit.jsonl`（含 result/receipt/hold_reason）
+
+自检：autopilot 8/8、ingest 9/9、douyin 6/6，全部离线注入，不联网、不写生产队列。
+
+**还差你一句话的两件**：①T3（无接口平台的登录态自动化）是否接受封号风险——接受就给我令号，我把 `tier3_risk_ack` 写上并实现浏览器执行器 ②抖音凭据（企业号认证→应用→`video.comment`→扫码授权），没有它 T2 只能空转。

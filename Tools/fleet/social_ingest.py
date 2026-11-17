@@ -136,6 +136,7 @@ def ingest(raw_dir, out_dir, cooldown_min=30, matrix_path=MATRIX):
                     "author": r.get("author"),
                     "video": r.get("thread") or r.get("video"),
                     "comment": text,
+                    "comment_id": str(r.get("id") or ""),   # 发送时要定位平台侧评论
                     "ts": r.get("ts") or datetime.now().isoformat(timespec="seconds"),
                     "policy": mode,
                     "needs_approval": mode in ("api_write", "export"),
