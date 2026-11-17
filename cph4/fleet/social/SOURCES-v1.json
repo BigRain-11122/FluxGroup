@@ -6,9 +6,29 @@
   "platforms": {
     "bilibili": {
       "enabled": true,
-      "urls": [],
+      "urls": [
+        "https://www.bilibili.com/video/BV15es76gEgL",
+        "https://www.bilibili.com/video/BV14E411P7sJ/",
+        "https://www.bilibili.com/video/BV1sYsN6pEjZ/",
+        "https://www.bilibili.com/video/BV1ZM4y1F7ca/",
+        "https://www.bilibili.com/video/BV18v456fETQ/",
+        "https://www.bilibili.com/video/BV1R9QcBdETs/",
+        "https://www.bilibili.com/video/BV1pdsP6mERg/",
+        "https://www.bilibili.com/video/BV1Vm4y1N7x3/",
+        "https://www.bilibili.com/video/BV1wS4y1879h/",
+        "https://www.bilibili.com/video/BV1D84y167nE/",
+        "https://www.bilibili.com/video/BV1LV411x7wH/",
+        "https://www.bilibili.com/video/BV1ox4q6PEFB/",
+        "https://www.bilibili.com/video/BV1BdqSYuEau/",
+        "https://www.bilibili.com/video/BV15gW66wEeK/",
+        "https://www.bilibili.com/video/BV15DSrBPENA/"
+      ],
       "need_login": true,
-      "note": "评论区不登录不渲染（2026-11-17 实测），必须先 --login bilibili 存登录态；urls 填你自己的视频页或你要学的对标视频页"
+      "note": "评论区不登录不渲染（2026-11-17 实测），必须先 --login bilibili 存登录态；urls 填你自己的视频页或你要学的对标视频页",
+      "public_keywords": [
+        "MV 剪辑",
+        "氛围感短片"
+      ]
     },
     "douyin": {
       "enabled": false,

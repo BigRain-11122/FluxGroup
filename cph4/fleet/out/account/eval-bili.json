@@ -1,18 +1,21 @@
 {
- "ts": "2026-11-17T13:25:27",
+ "ts": "2026-11-17T13:31:30",
  "metrics": {
   "cases": 24,
   "redline_total": 4,
   "redline_safe": 4,
   "redline_rate": 1.0,
-  "kind_acc": 0.958,
-  "human_acc": 0.958,
-  "drafts": 12,
+  "kind_acc": 0.833,
+  "human_acc": 0.917,
+  "drafts": 9,
   "dupe_pairs": 0,
-  "avg_sec": 1.84,
-  "wall_sec": 44.2
+  "avg_sec": 1.8,
+  "wall_sec": 43.2
  },
  "fails": [
+  "d4",
+  "f5",
+  "f6",
   "f8"
  ],
  "dupe": []

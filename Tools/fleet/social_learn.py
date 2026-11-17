@@ -198,12 +198,35 @@ def cycle(collector=None, profiler=None, sources=None, platforms=None, limit=200
             ledger({"ts": _now(), "platform": plat, "verdict": verdict, "found": len(rows),
                     "new": len(new), "total": total, "url": url})
 
+    # 采集与推理互斥：浏览器 1.1GB/实例，模型 4.6-9GB，同时干必换页（实测空闲 164MB→26MB）
+    memmod = None
+    try:
+        sys.path.insert(0, HERE)
+        import social_collect as _sc
+        memmod = _sc
+        want, free, cap = _sc.workers_by_mem(concurrency)
+        if len(run) > 1 and want < concurrency:
+            print("[learn] 内存限额：空闲%.0fMB → 并发 %d（请求 %d）" % (free, want, concurrency),
+                  flush=True)
+            concurrency = want
+        if run and concurrency > 1:
+            _sc.unload_models()
+            _sc.set_mode("collect")
+    except Exception as e:
+        print("[learn] 内存模块不可用：%s" % str(e)[:60], flush=True)
+
     if concurrency > 1 and len(run) > 1:
         with concurrent.futures.ThreadPoolExecutor(max_workers=concurrency) as ex:
             list(ex.map(lambda t: work(*t), run))
     else:
         for t in run:
             work(*t)
+
+    if memmod:
+        try:
+            memmod.set_mode(None)      # 采集结束，放开互斥
+        except Exception:
+            pass
 
     # 有新增就重算画像（画像读 corpus，不读 raw）
     added = sum(r.get("new") or 0 for r in results)

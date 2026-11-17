@@ -63,6 +63,9 @@ TEMPS = (0.6, 0.8, 1.0, 1.1)
 DETERMINISTIC = ("question_ai", "question_identity", "legal", "flame", "business",
                  "spam", "claim_veto", "disclosure_veto", "identity_veto")
 
+PERSONA = os.path.join(DIR, "PERSONA-v1.json")
+STYLE = os.path.join(DIR, "STYLE-PROFILE-v1.json")
+
 FAQ = os.path.join(DIR, "faq.jsonl")
 REJECTIONS = os.path.join(DIR, "rejections.jsonl")
 
@@ -213,6 +216,45 @@ def _fewshot(face="comment", k=10):
     return g, b
 
 
+def persona_block(platform="bilibili"):
+    """人设 + 平台风格参数：让回复像"某个人"，而不是"某个模型"。
+
+    风格参数来自 social_profile 对真实评论的统计（长度/语气/emoji 密度），
+    人设来自 PERSONA-v1.json。两者都不许编，缺了就返回空串（不假装有人设）。
+    """
+    parts = []
+    try:
+        per = json.load(open(PERSONA, encoding="utf-8"))
+        acc = per.get("account") or {}
+        if acc.get("identity"):
+            parts.append("你是「%s」：%s。%s" % (acc.get("name") or "创作者",
+                                              acc["identity"], acc.get("age_feel") or ""))
+        v = acc.get("voice") or {}
+        if v.get("habits"):
+            parts.append("说话习惯：" + "；".join(v["habits"][:3]))
+        if v.get("forbid"):
+            parts.append("绝不出现：" + "、".join(v["forbid"][:5]))
+        st = (per.get("stances") or [])
+        if st:
+            parts.append("你的立场：" + "；".join(st[:3]))
+        tone = (per.get("platform_tone") or {}).get(platform)
+        if tone:
+            parts.append("平台口吻（%s）：%s" % (platform, tone))
+    except Exception:
+        pass
+    try:
+        prof = json.load(open(STYLE, encoding="utf-8"))
+        d = prof.get(platform) or {}
+        adv = d.get("advice") or {}
+        if adv:
+            parts.append("该平台真实观众：中位 %s 字，回复目标 %s 字，emoji 上限 %s，语气 %s"
+                         % (d.get("len_p50"), adv.get("reply_len_target"),
+                            adv.get("emoji_budget"), adv.get("tone")))
+    except Exception:
+        pass
+    return ("【人设】" + " | ".join(parts) + "\n\n") if parts else ""
+
+
 FACE_RULES = {
     "comment": (
         "写草稿的铁律：\n"
@@ -273,6 +315,8 @@ def classify_and_draft(comment, face="comment", faq=None, _retry_hits=None, _pre
         facts = ("\n【事实】（只能用这一段，不许改写数字与名称）：\nQ：%s\nA：%s\n"
                  % ((faq.get("q") or "").strip(), (faq.get("a") or "").strip()))
     prompt = (
+        persona_block("bilibili") if face in ("comment", "danmaku", "funnel") else ""
+    ) + (
         "你在替一个 MV / 漫剧账号回复观众。你是创作者本人，不是客服。\n"
         "只输出一行 JSON：{\"kind\":\"...\",\"draft\":\"...\"}\n\n"
         "分类（六选一）：praise 夸奖 / question 提问 / complaint 挑刺 / "
@@ -299,6 +343,10 @@ def classify_and_draft(comment, face="comment", faq=None, _retry_hits=None, _pre
             draft = text[:120]
     if kind in ESCALATE or kind == "spam":
         draft = ""
+    # 2026-11-17：人设禁感叹号，但模型仍会写。标点归一属确定性改写（不动语义），
+    # 比反复重摇划算——正典教训是"提示词写禁语=磁吸"，禁语只能靠闸/归一。
+    if draft and face in ("comment", "danmaku", "funnel"):
+        draft = draft.replace("！", "。").replace("!", "。").replace("。。", "。").strip()
     kind, draft, human, note = vet(comment, kind, draft, face=face, faq=faq)
     if not draft:
         return kind, draft, human, note
@@ -404,6 +452,10 @@ def vet(comment, kind, draft, face="comment", faq=None):
         return kind, "", True, ""
     if not draft:
         return kind, "", True, "模型未给出草稿"
+    # 人味闸（2026-11-17）：长句且不含语气词/颜文字 -> 像书面语，退回给人改。
+    if face in ("comment", "danmaku") and len(draft) > 26 and not re.search(
+            r"(啊|吧|呢|嘛|哦|呀|哈|啦|呗|诶|嗯|唔|哈|笑|哭|（|\()", draft):
+        return kind, "", True, "人味闸：%d 字且无语气词，太书面" % len(draft)
     if kind == "complaint":
         return kind, draft, True, "挑刺：草稿供参考，发送前人工确认"
     return kind, draft, False, ""
@@ -446,6 +498,9 @@ def self_test():
     # 5 负控：有事实包且非事实问句 -> 正常出稿
     k, d, h, n = vet("谢谢你", "praise", "谢啦", face="dm", faq={"id": "F-001"})
     cases.append(("负控:有事实包不该拦", d == "谢啦" and not h))
+    # 5b 人设块：有身份、有禁忌、无内容时不编
+    blk = persona_block("bilibili")
+    cases.append(("人设块含身份与平台口吻", ("独立创作者" in blk) and ("B站" in blk or "bilibili" in blk)))
     # 6 弹幕纯夸奖不逐条回
     cases.append(("弹幕夸奖必须跳过", bool(DANMAKU_SKIP.match("好听")) and
                   not DANMAKU_SKIP.match("这歌你自己唱的吗")))
@@ -488,6 +543,8 @@ def main():
         INBOX = os.path.join(DIR, "inbox.jsonl")
         DRAFTS = os.path.join(DIR, "drafts.jsonl")
         DIGEST = os.path.join(DIR, "DIGEST.md")
+        PERSONA = os.path.join(DIR, "PERSONA-v1.json")
+        STYLE = os.path.join(DIR, "STYLE-PROFILE-v1.json")
         FAQ = os.path.join(DIR, "faq.jsonl")
         REJECTIONS = os.path.join(DIR, "rejections.jsonl")
 

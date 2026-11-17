@@ -23,6 +23,7 @@ import argparse
 import json
 import os
 import re
+import subprocess
 import sys
 import time
 
@@ -37,6 +38,45 @@ PROFILE_DIR = os.path.join(os.path.expanduser("~"), ".fluxgroup", "browser-profi
 # 采集用独立 profile：登录窗口会独占 browser-profile 的 ProcessSingleton，
 # 用同一个目录会直接报 "Failed to create a ProcessSingleton"（2026-11-17 实锚）。
 READER_DIR = os.path.join(os.path.expanduser("~"), ".fluxgroup", "browser-reader")
+MODE_FILE = os.path.join(ROOT, ".codely-cli", "state", "MEM-MODE")
+WORKER_COST_MB = 1100      # 实测单实例 RSS ≈1.05GB（3 实例线性增长：1.06/2.10/3.16GB）
+UNLOAD_MODELS = ("qwen3.5:9b-mlx", "qwen3.5:4b-mlx", "qwen3.5:2b")
+
+
+def free_mb():
+    out = subprocess.run(["vm_stat"], capture_output=True, text=True, timeout=5).stdout
+    free = 0
+    for line in out.splitlines():
+        if "Pages free" in line:
+            import re as _re
+            free = int(_re.sub(r"[^0-9]", "", line.split(":")[1] or "0") or 0) * 4096 / 1048576
+    return free
+
+
+def unload_models(log=print):
+    """采集是内存大户（1.1GB/实例），模型常驻也是（4.6-9GB）。两者同时干必换页。
+
+    实测（2026-11-17）：停掉 4B/9B 后空闲内存 164MB → 4732MB。
+    模型按需重载只要 1.5s，所以采集前卸、采集后让它自然重载，是最省的顺序。
+    """
+    for m in UNLOAD_MODELS:
+        subprocess.run(["ollama", "stop", m], capture_output=True, timeout=30)
+    log("[collect] 已卸载常驻模型，腾出内存给浏览器（模型下次请求自动重载 ~1.5s）")
+
+
+def set_mode(mode):
+    os.makedirs(os.path.dirname(MODE_FILE), exist_ok=True)
+    if mode:
+        open(MODE_FILE, "w").write(mode)
+    elif os.path.exists(MODE_FILE):
+        os.remove(MODE_FILE)
+
+
+def workers_by_mem(requested=2, reserve_mb=900):
+    """按空闲内存算并发上限：留 reserve 给系统，每个 worker 1.1GB。"""
+    free = free_mb()
+    cap = max(0, int((free - reserve_mb) // WORKER_COST_MB))
+    return max(1, min(requested, cap)), free, cap
 
 
 def profile_for(platform=None):
@@ -203,6 +243,45 @@ def discover(platform, limit=5, headed=False):
     return urls, ""
 
 
+def discover_public(keyword, limit=8, headed=False):
+    """按关键词找公开视频，把 URL 写进 SOURCES（多采集别人评论的入口）。"""
+    from playwright.sync_api import sync_playwright
+    import urllib.parse
+    q = urllib.parse.quote(keyword)
+    urls = []
+    with sync_playwright() as p:
+        ctx = _launch(p, headed=headed, platform="bilibili")
+        try:
+            pg = ctx.pages[0] if ctx.pages else ctx.new_page()
+            pg.goto("https://search.bilibili.com/all?keyword=%s" % q,
+                    wait_until="domcontentloaded", timeout=60000)
+            time.sleep(5)
+            for _ in range(3):
+                got = pg.eval_on_selector_all("a[href*='/video/BV']",
+                                              "els=>[...new Set(els.map(e=>e.href))]")
+                urls = got if len(got) > len(urls) else urls
+                pg.mouse.wheel(0, 1800)
+                time.sleep(2)
+        finally:
+            try:
+                ctx.close()
+            except Exception:
+                pass
+    urls = [u.split("?")[0] for u in urls][:limit]
+    if not urls:
+        return None, "搜索没拿到视频链接（可能触发风控）"
+    path = os.path.join(SOCIAL, "SOURCES-v1.json")
+    cfg = json.load(open(path, encoding="utf-8")) if os.path.exists(path) else {"platforms": {}}
+    node = cfg.setdefault("platforms", {}).setdefault("bilibili", {})
+    old = [u for u in (node.get("urls") or []) if u]
+    merged = list(dict.fromkeys(old + urls))[:60]      # 最多留 60 个源，防无限膨胀
+    node["urls"] = merged
+    node["enabled"] = True
+    node["public_keywords"] = list(dict.fromkeys((node.get("public_keywords") or []) + [keyword]))
+    json.dump(cfg, open(path, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+    return urls, ""
+
+
 def self_test():
     cases = []
     # 1 选择器表覆盖三个平台
@@ -235,10 +314,23 @@ def main():
     ap.add_argument("--headed", action="store_true")
     ap.add_argument("--out", default=RAW)
     ap.add_argument("--discover", default=None, help="登录态下自动发现自己的作品页（bilibili）")
+    ap.add_argument("--discover-public", default=None,
+                    help="按关键词发现公开视频（别人/热门的评论也能采）：--discover-public 家常菜")
+    ap.add_argument("--workers", type=int, default=2, help="并发浏览器数（按空闲内存自动压）")
+    ap.add_argument("--no-unload", action="store_true", help="采集前不要卸载模型（内存够时可以）")
     ap.add_argument("--self-test", action="store_true")
     a = ap.parse_args()
     if a.self_test:
         return self_test()
+    if a.discover_public:
+        urls, why = discover_public(a.discover_public, limit=8, headed=a.headed)
+        if urls is None:
+            print("[collect] 发现失败：%s" % why)
+            return 3
+        print("[collect] 关键词「%s」发现 %d 个公开视频：" % (a.discover_public, len(urls)))
+        for u in urls:
+            print("  -", u)
+        return 0
     if a.discover:
         urls, why = discover(a.discover, limit=5, headed=a.headed)
         if urls is None:
