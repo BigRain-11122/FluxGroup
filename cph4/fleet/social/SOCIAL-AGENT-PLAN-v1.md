@@ -211,3 +211,16 @@ python3 Tools/fleet/social_autopilot.py --run --raw <raw> --dir cph4/fleet/socia
 **本机实测（2026-11-17，别再重复踩）**：**无头模式会被风控直接拦**——小红书返回 `error_code=300012 当前网络存在风险`、知乎跳 `/account/unhuman`；**有头模式能正常到登录页**。所以 T3 一律有头运行（可见窗口），且必须用 `~/.fluxgroup/browser-profile` 这个专用 profile（登录态在里面）。微博会跳 `newlogin`，B站首页可读。
 
 **诚实的边界**：T3 只解决"页面能点"的问题，不解决"平台是否允许"。封号风险 CEO 已接受并留令号；出问题一击 `kill_switch` 即停。选择器会随平台改版失效——那时工具会停手报"未标定"，不会瞎点。
+
+## 十二 24 小时学习循环与并发（CEO 2026-11-17「不断的进行主流平台的24小时不间断学习」）
+
+常驻=launchd `com.fluxgroup.sociallearn`（KeepAlive，plist 在 `cph4/fleet/social/launchd/`），每 20 分钟一轮：轮换数据源 → 只读采集 → corpus 只增去重 → 重算画像 → 台账逐轮落行。
+
+**并发怎么开**：`--concurrency N`（默认 2，见 plist）。三道前提：
+1. **每平台独立 profile**（`~/.fluxgroup/browser-<platform>`）——同一个 user_data_dir 两开会直接 `ProcessSingleton` 失败，所以并发的前提是 profile 分家，登录也要各平台各登一次。
+2. **内存总闸 `mem_pressure()`**：swap 已用 >1GB 或空闲内存 <2GB → 本轮并发强制降到 1。2026-11-17 实测本机 swap 已用 2.6GB、空闲 0.3GB，总闸当场生效（宁慢勿拖垮机器，主控还要跑模型）。
+3. **错峰 0-3 秒**起跑，避免几个浏览器同时抢 IO。
+
+**判据**：并发不改变结论，只改变总耗时；任一平台失败（BLOCKED）不影响其它平台，逐条台账分别记。自检 10/10 覆盖：并发两平台都拿到结论、失败隔离、profile 路径互不相同、内存闸可调用、哨兵可暂停、重复内容不重复入库、台账逐轮落行。
+
+**停/调**：哨兵 `.codely-cli/state/SOCIAL-LEARN-PAUSED` 即停；改并发改 plist 里 `--concurrency` 后 `launchctl bootout/bootstrap` 重载。

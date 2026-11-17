@@ -38,6 +38,15 @@ PROFILE_DIR = os.path.join(os.path.expanduser("~"), ".fluxgroup", "browser-profi
 # 用同一个目录会直接报 "Failed to create a ProcessSingleton"（2026-11-17 实锚）。
 READER_DIR = os.path.join(os.path.expanduser("~"), ".fluxgroup", "browser-reader")
 
+
+def profile_for(platform=None):
+    """每平台独立 profile（2026-11-17 并发改造）：同一 user_data_dir 不能两开，
+    多平台并发必须各自一个目录，否则第二个直接 ProcessSingleton 失败。"""
+    base = os.path.join(os.path.expanduser("~"), ".fluxgroup")
+    if platform:
+        return os.path.join(base, "browser-%s" % platform)
+    return PROFILE_DIR
+
 # 各平台评论节点的选择器（多套备选，取命中最多的一套；全不中=结构变了，直接报错）
 SELECTORS = {
     "bilibili": [
@@ -54,7 +63,7 @@ SELECTORS = {
 }
 
 
-def _launch(p, headed=False):
+def _launch(p, headed=False, platform=None):
     """优先用登录态所在的 browser-profile（评论区要登录才渲染）；
     若被别的进程占用（ProcessSingleton），退回 reader profile 只抓公开内容。
 
@@ -67,7 +76,8 @@ def _launch(p, headed=False):
                 args=["--disable-blink-features=AutomationControlled"])
     if exe:
         base["executable_path"] = exe
-    for prof in (PROFILE_DIR, READER_DIR):
+    cands = [profile_for(platform)] if platform else [PROFILE_DIR, READER_DIR]
+    for prof in cands:
         try:
             os.makedirs(prof, exist_ok=True)
             return p.chromium.launch_persistent_context(user_data_dir=prof, **base)
@@ -111,7 +121,7 @@ def collect(url, platform, limit=200, min_n=20, scrolls=8, headed=False):
     except Exception:
         return None, "未装 playwright（用 .venv-housing/bin/python 运行）"
     with sync_playwright() as p:
-        ctx = _launch(p, headed=headed)
+        ctx = _launch(p, headed=headed, platform=platform)
         try:
             pg = ctx.pages[0] if ctx.pages else ctx.new_page()
             try:
@@ -163,7 +173,7 @@ def discover(platform, limit=5, headed=False):
         return None, "未装 playwright"
     urls = []
     with sync_playwright() as p:
-        ctx = _launch(p, headed=headed)
+        ctx = _launch(p, headed=headed, platform="bilibili")
         try:
             pg = ctx.pages[0] if ctx.pages else ctx.new_page()
             pg.goto("https://space.bilibili.com/", wait_until="domcontentloaded", timeout=60000)

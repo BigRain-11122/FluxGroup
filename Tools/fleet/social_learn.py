@@ -26,12 +26,14 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import concurrent.futures
 import glob
 import hashlib
 import json
 import os
 import random
 import sys
+import subprocess
 import threading
 import time
 from datetime import datetime
@@ -44,6 +46,7 @@ CORPUS = os.path.join(SOCIAL, "corpus")
 LEDGER = os.path.join(SOCIAL, "LEARNING-LEDGER.jsonl")
 PAUSE = os.path.join(ROOT, ".codely-cli", "state", "SOCIAL-LEARN-PAUSED")
 HEARTBEAT = os.path.join(ROOT, ".codely-cli", "state", "social-learn-heartbeat.json")
+STAGGER_S = 3.0     # 并发平台错峰上限（秒）；太大反而拖长整轮，3s 够避开 IO 争用
 
 
 def _now():
@@ -55,6 +58,36 @@ def load_sources(path=SOURCES):
         return json.load(open(path, encoding="utf-8"))
     except Exception:
         return {}
+
+
+def mem_pressure():
+    """总闸：swap 用得多或空闲内存太少就只许单线程。
+
+    主控是本机（MacBook），同时开 3-5 个 Chrome 会把统一内存吃满，
+    而这条线的价值是"持续学"，不是"一轮抓完"——宁可慢，不许把机器拖垮。
+    """
+    try:
+        out = subprocess.run(["sysctl", "-n", "vm.swapusage"], capture_output=True,
+                             text=True, timeout=5).stdout
+        used_mb = 0
+        for tok in out.replace(",", " ").split():
+            if tok.endswith("M"):
+                pass
+        import re
+        m = re.search(r"used\s*=\s*([\d.]+)([MG])", out)
+        if m:
+            used_mb = float(m.group(1)) * (1024 if m.group(2) == "G" else 1)
+        vs = subprocess.run(["vm_stat"], capture_output=True, text=True, timeout=5).stdout
+        free_pages = 0
+        for line in vs.splitlines():
+            if "Pages free" in line:
+                free_pages = int(re.sub(r"[^0-9]", "", line.split(":")[1] or "0") or 0)
+        free_gb = free_pages * 4096 / (1024 ** 3)
+        if used_mb > 1024 or free_gb < 2.0:
+            return True, "swap已用%.0fMB 空闲内存%.1fGB" % (used_mb, free_gb)
+        return False, "swap已用%.0fMB 空闲内存%.1fGB" % (used_mb, free_gb)
+    except Exception as e:
+        return True, "读不到内存状态（%s），保守单线程" % type(e).__name__
 
 
 def paused():
@@ -122,7 +155,8 @@ def heartbeat(state):
               ensure_ascii=False, indent=1)
 
 
-def cycle(collector=None, profiler=None, sources=None, platforms=None, limit=200, min_n=10):
+def cycle(collector=None, profiler=None, sources=None, platforms=None, limit=200, min_n=10,
+          concurrency=1):
     """跑一轮。collector(url, platform) -> (rows|None, why)。可注入（自检不联网）。"""
     if paused():
         heartbeat({"state": "PAUSED"})
@@ -130,6 +164,7 @@ def cycle(collector=None, profiler=None, sources=None, platforms=None, limit=200
     src = sources if sources is not None else load_sources()
     plats = platforms or src.get("platforms") or {}
     results = []
+    run = []
     for plat, cfg in plats.items():
         if cfg.get("enabled") is False:
             results.append({"platform": plat, "verdict": "DISABLED"})
@@ -141,19 +176,35 @@ def cycle(collector=None, profiler=None, sources=None, platforms=None, limit=200
             ledger({"ts": _now(), "platform": plat, "verdict": "NO_SOURCE", "found": 0, "new": 0})
             continue
         url = random.choice(urls)          # 轮换：每轮随机挑一条，避免盯住同一条
-        rows, why = (collector or _default_collect)(url, plat, limit=limit, min_n=min_n)
-        if rows is None:
-            results.append({"platform": plat, "verdict": "BLOCKED", "note": why, "url": url})
-            ledger({"ts": _now(), "platform": plat, "verdict": "BLOCKED", "found": 0,
-                    "new": 0, "url": url, "note": str(why)[:160]})
-            continue
-        new, total = append_corpus(plat, rows)
-        verdict = "OK" if new else "NO_NEW"
-        results.append({"platform": plat, "verdict": verdict, "found": len(rows),
-                        "new": len(new), "total": total, "url": url})
-        ledger({"ts": _now(), "platform": plat, "verdict": verdict, "found": len(rows),
-                "new": len(new), "total": total, "url": url})
-        time.sleep(random.uniform(3, 8))   # 平台之间留间隔
+        run.append((plat, url))
+
+    # 并发：每平台一条线程，各自独立 profile（同 profile 两开会 ProcessSingleton 失败）
+    ctx = {"limit": limit, "min_n": min_n, "collector": collector or _default_collect}
+    locked = threading.Lock()
+
+    def work(plat, url):
+        time.sleep(random.uniform(0, STAGGER_S))   # 错峰起跑，别让几个浏览器同时抢 IO
+        rows, why = ctx["collector"](url, plat, limit=ctx["limit"], min_n=ctx["min_n"])
+        with locked:
+            if rows is None:
+                results.append({"platform": plat, "verdict": "BLOCKED", "note": why, "url": url})
+                ledger({"ts": _now(), "platform": plat, "verdict": "BLOCKED", "found": 0,
+                        "new": 0, "url": url, "note": str(why)[:160]})
+                return
+            new, total = append_corpus(plat, rows)
+            verdict = "OK" if new else "NO_NEW"
+            results.append({"platform": plat, "verdict": verdict, "found": len(rows),
+                            "new": len(new), "total": total, "url": url})
+            ledger({"ts": _now(), "platform": plat, "verdict": verdict, "found": len(rows),
+                    "new": len(new), "total": total, "url": url})
+
+    if concurrency > 1 and len(run) > 1:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=concurrency) as ex:
+            list(ex.map(lambda t: work(*t), run))
+    else:
+        for t in run:
+            work(*t)
+
     # 有新增就重算画像（画像读 corpus，不读 raw）
     added = sum(r.get("new") or 0 for r in results)
     prof_ok = False
@@ -254,6 +305,29 @@ def self_test():
     out4 = cycle(collector=fake_collect, profiler=lambda: True, sources=src)
     cases.append(("哨兵存在即暂停", out4["verdict"] == "PAUSED"))
     os.remove(PAUSE)
+    # 并发：两平台同时跑都要拿到结果；一个平台失败不许拖死另一个
+    def mixed(url, platform, limit=200, min_n=10):
+        time.sleep(0.4)
+        if platform == "weibo":
+            return (None, "被风控")
+        return ([{"text": "%s-真实评论" % platform}], "")
+
+    src2 = {"platforms": {"bilibili": {"urls": ["u1"]}, "weibo": {"urls": ["u2"]}}}
+    t0 = time.time()
+    out5 = cycle(collector=mixed, profiler=lambda: True, sources=src2, concurrency=2)
+    dt = time.time() - t0
+    cases.append(("并发两平台都拿到结论",
+                  {r["platform"]: r["verdict"] for r in out5["results"]}.get("bilibili") == "OK"
+                  and {r["platform"]: r["verdict"] for r in out5["results"]}.get("weibo") == "BLOCKED"))
+    cases.append(("并发整轮耗时可接受（<15s）", dt < 15))
+    cases.append(("内存总闸可调用", isinstance(mem_pressure()[0], bool)))
+    try:
+        sys.path.insert(0, HERE)
+        import social_collect as _sc
+        cases.append(("每平台 profile 路径互不相同",
+                      _sc.profile_for("bilibili") != _sc.profile_for("weibo")))
+    except Exception:
+        cases.append(("每平台 profile 路径互不相同", False))
     # 台账落行
     n_led = sum(1 for _ in open(LEDGER, encoding="utf-8")) if os.path.exists(LEDGER) else 0
     cases.append(("台账必须逐轮落行", n_led >= 4))
@@ -271,6 +345,8 @@ def main():
     ap.add_argument("--once", action="store_true")
     ap.add_argument("--loop", action="store_true")
     ap.add_argument("--interval", type=int, default=1200, help="循环间隔秒（默认 20 分钟）")
+    ap.add_argument("--concurrency", type=int, default=2,
+                    help="并发平台数（默认 2；内存紧张自动降到 1）")
     ap.add_argument("--limit", type=int, default=200)
     ap.add_argument("--min", type=int, default=10)
     ap.add_argument("--status", action="store_true")
@@ -281,7 +357,12 @@ def main():
     if a.status:
         return status()
     if a.once:
-        out = cycle(limit=a.limit, min_n=a.min)
+        conc = a.concurrency
+        press, why = mem_pressure()
+        if press and conc > 1:
+            print("[learn] 内存总闸：%s → 并发降到 1" % why)
+            conc = 1
+        out = cycle(limit=a.limit, min_n=a.min, concurrency=conc)
         print("[learn] %s 新增%d 画像刷新%s" % (out["verdict"], out["added"],
                                                out["profile_refreshed"]))
         for r in out["results"]:
@@ -289,10 +370,16 @@ def main():
                                        (r.get("note") or "")[:60]))
         return 0
     if a.loop:
-        print("[learn] 24h 循环启动 间隔%ds（哨兵 %s 可随时停）" % (a.interval, PAUSE))
+        print("[learn] 24h 循环启动 间隔%ds 并发%d（哨兵 %s 可随时停）"
+              % (a.interval, a.concurrency, PAUSE))
         while True:
             try:
-                out = cycle(limit=a.limit, min_n=a.min)
+                conc = a.concurrency
+                press, why = mem_pressure()
+                if press and conc > 1:
+                    print("[learn] 内存总闸：%s → 本轮并发 1" % why)
+                    conc = 1
+                out = cycle(limit=a.limit, min_n=a.min, concurrency=conc)
                 print("[learn] %s %s 新增%d" % (_now(), out["verdict"], out["added"]))
             except KeyboardInterrupt:
                 print("[learn] 手动停止")
