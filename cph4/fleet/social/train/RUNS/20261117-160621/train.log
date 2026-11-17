@@ -1,0 +1,42 @@
+Loading pretrained model
+Loading datasets
+Training
+╭─ [1mmlx_lm.lora[0m ────────────────────────────────────────────────────────────────╮
+│    model           [1m/Users/junsheng.sun/.fluxgroup/models/qwen3.5-4b-4bit[0m     │
+│    type            [1mlora · 8 layers · rank 8[0m                                  │
+│    dataset         [1m/Users/junsheng.sun/FluxGroup/cph4/fleet/social/train[0m     │
+│    optimizer       [1madam · lr 1.0e-05[0m                                         │
+│    batch · iters   [1m1 · 200[0m                                                   │
+│    max seq         [1m224[0m                                                       │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Trainable parameters: 0.096% (4.058M/4205.750M)
+  [1miter   train_loss     tok/s     tokens[0m
+     1    [1mval[0m [1m5.282[0m    9.83s
+    10    [1m4.904 ▼[0m    [1m   15[0m      0.2k
+    20    [1m3.862 ▼[0m    [1m   13[0m      0.4k
+    30    [1m3.645 ▼[0m    [1m   15[0m      0.6k
+    40    [1m4.099 ▲[0m    [1m   16[0m      0.8k
+    50    [1mval[0m [1m3.991[0m    9.88s
+    50    [1m3.791 ▼[0m    [1m   15[0m      0.9k
+    60    [1m3.825 ▲[0m    [1m    9[0m      1.1k
+    70    [1m3.889 ▲[0m    [1m   14[0m      1.3k
+    80    [1m3.677 ▼[0m    [1m   14[0m      1.5k
+    90    [1m3.403 ▼[0m    [1m   16[0m      1.7k
+   100    [1mval[0m [1m3.966[0m    9.92s
+   100    [1m3.590 ▲[0m    [1m   16[0m      1.9k
+  [1msave[0m  0000100_adapters.safetensors
+   110    [1m3.996 ▲[0m    [1m   16[0m      2.1k
+   120    [1m3.944 ▼[0m    [1m   15[0m      2.3k
+   130    [1m3.446 ▼[0m    [1m   14[0m      2.5k
+   140    [1m3.640 ▲[0m    [1m   16[0m      2.7k
+   150    [1mval[0m [1m3.878[0m    9.70s
+   150    [1m3.530 ▼[0m    [1m   15[0m      2.9k
+   160    [1m4.027 ▲[0m    [1m   14[0m      3.0k
+   170    [1m3.664 ▼[0m    [1m   17[0m      3.2k
+   180    [1m3.510 ▼[0m    [1m   15[0m      3.4k
+   190    [1m3.850 ▲[0m    [1m   17[0m      3.7k
+   200    [1mval[0m [1m3.843[0m    9.38s
+   200    [1m3.975 ▲[0m    [1m   15[0m      3.8k
+  [1msave[0m  0000200_adapters.safetensors
+[1mtrain[0m ██████████████████████████████ [1m100%[0m · [1m  200[0m/200
+

@@ -22,10 +22,30 @@ MODEL_DEFAULT = os.path.join(os.path.expanduser("~"), ".fluxgroup", "models", "q
 # 同题：都是"看完这条视频想留一句话"。题目里必须带视频标题——训练样本 100% 带上下文，
 # 对拍时不给标题就是拿训练分布外的题去考它，结论会失真。
 _TITLE = "原创青春暗恋短片《看不见她》- 用 iPhone 拍摄"
+def _pair():
+    """从 VIDEO-TITLES.json 里取一条"标题+简介同源"的真实配对。
+    2026-11-17 实锚：我手写过一次题面，标题是《看不见她》而简介是剪映教学，
+    训练分布里根本没有这种错配，对拍结论直接作废。题面必须来自同一行数据。
+    """
+    p = os.path.join(ROOT, "cph4", "fleet", "social", "VIDEO-TITLES.json")
+    try:
+        d = json.load(open(p, encoding="utf-8"))
+        rows = [v for v in d.values() if v.get("title") and v.get("desc")]
+        rows.sort(key=lambda v: -len(v.get("desc") or ""))
+        if rows:
+            return rows[0]["title"][:40], rows[0]["desc"][:50]
+    except Exception:
+        pass
+    return "原创青春暗恋短片《看不见她》- 用 iPhone 拍摄", ""
+
+
+_TITLE, _DESC = _pair()
+_HINT = ("（简介：%s）" % _DESC) if _DESC else ""
 PROMPTS = [
-    "视频《%s》。你在 B 站这条视频下面留评论。只写评论本身，不要解释，不要加引号。" % _TITLE,
-    "用 B 站观众的口吻，给《%s》写一句真实评论，不超过 25 字。" % _TITLE,
-    "刚看完《%s》，写一句你最想说的话。就像平时在评论区那样。" % _TITLE,
+    "视频《%s》%s。你在 B 站这条视频下面留评论。只写评论本身，不要解释，不要加引号。"
+    % (_TITLE, _HINT),
+    "用 B 站观众的口吻，给《%s》%s写一句真实评论，不超过 25 字。" % (_TITLE, _HINT),
+    "刚看完《%s》%s，写一句你最想说的话。就像平时在评论区那样。" % (_TITLE, _HINT),
 ]
 
 

@@ -465,6 +465,19 @@ def vet(comment, kind, draft, face="comment", faq=None):
     if face in ("comment", "danmaku") and len(draft) > 26 and not re.search(
             r"(啊|吧|呢|嘛|哦|呀|哈|啦|呗|诶|嗯|唔|哈|笑|哭|（|\()", draft):
         return kind, "", True, "人味闸：%d 字且无语气词，太书面" % len(draft)
+    # 品味闸（2026-11-17 CEO 口径：逻辑要顺/语感要丰富/有人味/有品味/不做作无AI感）：
+    # 上面的人味闸只判"够不够口语"，判不出做作和空夸。这里与训练语料用同一把尺子，
+    # 否则训的时候筛、发的时候不筛，等于白筛。
+    if face in ("comment", "danmaku"):
+        try:
+            sys.path.insert(0, HERE)
+            import comment_taste as _ct
+            _s = _ct.score(draft)
+            if _s["verdict"] == "REJECT" or _s["total"] < 55:
+                return kind, "", True, "品味闸 %s %d 分：%s" % (
+                    _s["verdict"], _s["total"], "/".join(_s["flags"][:2]) or "太单薄")
+        except Exception:
+            pass
     if kind == "complaint":
         return kind, draft, True, "挑刺：草稿供参考，发送前人工确认"
     return kind, draft, False, ""

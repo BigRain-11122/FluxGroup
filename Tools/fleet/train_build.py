@@ -34,9 +34,9 @@ MIN_LEN, MAX_LEN = 4, 60
 # {title} 会在有视频标题时填进去——没有上下文的训练只会让模型学会"短"，
 # 学不会"针对这条视频说点相关的话"（2026-11-17 对拍实锚：LoRA 只吐零碎片段）。
 INSTRUCTIONS = [
-    "视频《{title}》。你在 B 站这条视频下面留评论。只写评论本身，不要解释，不要加引号。",
-    "用 B 站观众的口吻，给《{title}》写一句真实评论，不超过 25 字。",
-    "刚看完《{title}》，写一句你最想说的话。就像平时在评论区那样。",
+    "视频《{title}》{hint}。你在 B 站这条视频下面留评论。只写评论本身，不要解释，不要加引号。",
+    "用 B 站观众的口吻，给《{title}》{hint}写一句真实评论，不超过 25 字。",
+    "刚看完《{title}》{hint}，写一句你最想说的话。就像平时在评论区那样。",
 ]
 INSTRUCTIONS_NOCTX = [
     "你在 B 站一条视频下面留评论。只写评论本身，不要解释，不要加引号。",
@@ -57,6 +57,8 @@ def main():
                     help="弹幕最多占训练集的比例（弹幕多是碎片，比例过高会把模型教成半句）")
     ap.add_argument("--danmaku-min-len", type=int, default=6,
                     help="弹幕短于此长度不进训练集（真人评论一般 6 字以上）")
+    ap.add_argument("--min-taste", type=int, default=60,
+                    help="品味判据线（comment_taste.py 总分，0=不筛）")
     ap.add_argument("--seed", type=int, default=20261117)
     a = ap.parse_args()
 
@@ -92,6 +94,20 @@ def main():
             dropped.setdefault("danmaku_short", 0)
             dropped["danmaku_short"] += 1
             continue
+        # 品味判据：真实≠好。只学"逻辑顺、有语感、有人味、有品味、不做作"的样本，
+        # 否则模型会同时学会两种病——AI 文案腔和评论区碎片腔（2026-11-17 两轮实锚）。
+        if a.min_taste > 0:
+            try:
+                sys.path.insert(0, HERE)
+                import comment_taste as ct
+                s = ct.score(t)
+                if s["total"] < a.min_taste or s["verdict"] == "REJECT":
+                    dropped.setdefault("taste", 0)
+                    dropped["taste"] += 1
+                    continue
+            except Exception as e:
+                print("[build] 品味闸不可用（%s），本次不筛" % str(e)[:60])
+                a.min_taste = 0
         rows.append({"h": h, "text": t, "len": len(t), "kind": r.get("kind"),
                      "origin": origin, "thread": r.get("thread")})
 
@@ -131,13 +147,12 @@ def main():
 
     os.makedirs(a.out, exist_ok=True)
     # 视频标题表：由 sweep 侧取一次落盘（VIDEO-TITLES.json），这里只做 join。
+    # 简介也要进来——只给标题，模型只能猜内容，猜就是幻觉（实锚：「黄渤你拍啥呢」）。
     titles = {}
-    tp = os.path.join(os.path.dirname(a.src), "..", "..", "VIDEO-TITLES.json")
-    tp = os.path.normpath(tp)
+    tp = os.path.normpath(os.path.join(os.path.dirname(a.src), "..", "..", "VIDEO-TITLES.json"))
     if os.path.exists(tp):
         try:
-            titles = {k: (v.get("title") or "") for k, v in
-                      json.load(open(tp, encoding="utf-8")).items()}
+            titles = json.load(open(tp, encoding="utf-8"))
         except Exception:
             titles = {}
     n_ctx = 0
@@ -145,10 +160,14 @@ def main():
         p = os.path.join(a.out, name)
         with open(p, "w", encoding="utf-8") as f:
             for i, r in enumerate(group):
-                title = (titles.get(r.get("thread") or "") or "").strip()
+                meta = titles.get(r.get("thread") or "") or {}
+                title = (meta.get("title") or "").strip()
+                desc = (meta.get("desc") or "").strip()
                 if title:
                     n_ctx += 1
-                    ins = INSTRUCTIONS[i % len(INSTRUCTIONS)].format(title=title[:40])
+                    hint = "（简介：%s）" % desc[:50] if desc else ""
+                    ins = INSTRUCTIONS[i % len(INSTRUCTIONS)].format(
+                        title=title[:40], hint=hint)
                 else:
                     ins = INSTRUCTIONS_NOCTX[i % len(INSTRUCTIONS_NOCTX)]
                 msg = {"messages": [
@@ -157,7 +176,10 @@ def main():
                 ]}
                 f.write(json.dumps(msg, ensure_ascii=False) + "\n")
         print("[build] %s %d 条 → %s" % (name, len(group), p))
-    print("[build] 带视频上下文的样本 %d / %d" % (n_ctx, len(train) + len(valid)))
+    print("[build] 带视频上下文的样本 %d / %d（含简介 %d）"
+          % (n_ctx, len(train) + len(valid),
+             sum(1 for r in train + valid
+                 if (titles.get(r.get("thread") or "") or {}).get("desc"))))
 
     src_sha = hashlib.sha256(open(a.src, "rb").read()).hexdigest()[:16]
     stat = {"src": os.path.relpath(a.src, ROOT), "src_sha": src_sha,
