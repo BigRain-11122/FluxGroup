@@ -58,6 +58,8 @@ TOOLS = [
     ("comment_taste.py", "五维品味判据"),
     ("segments.py", "人群细分识别"),
     ("train_pipe.py", "训练工作流总入口"),
+    ("social_agent_day.py", "循环任务单一执行体（矩阵驱动+窗口+内存互斥）"),
+    ("social_agent_monitor.py", "智能体监控屏（产出年龄/产出量/漂移）"),
 ]
 
 

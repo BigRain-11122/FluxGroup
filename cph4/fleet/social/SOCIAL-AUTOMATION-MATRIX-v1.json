@@ -6,92 +6,208 @@
     {
       "id": "threads_tick",
       "what": "结算会话状态：snooze 到点唤醒、等我方超 24h 标 overdue",
-      "cmd": ["python3", "Tools/fleet/social_threads.py", "--tick"],
+      "cmd": [
+        "python3",
+        "Tools/fleet/social_threads.py",
+        "--tick"
+      ],
       "every_s": 1800,
       "mem": "none",
       "evidence": "state/social-threads.json 的 status 分布 + threads-events.jsonl 新行",
       "on_fail": "重试 1 次；仍失败 → 只记 red，不自动改会话状态",
-      "priority": 1
+      "priority": 1,
+      "evidence_paths": [
+        "cph4/fleet/social/threads-events.jsonl"
+      ],
+      "ok_rc": [
+        0
+      ]
     },
     {
       "id": "learn_cycle",
       "what": "24h 学习循环跑一轮（采集公开评论→入库→刷画像）",
-      "cmd": ["python3", "Tools/fleet/social_learn.py", "--once", "--concurrency", "1"],
+      "cmd": [
+        "python3",
+        "Tools/fleet/social_learn.py",
+        "--once",
+        "--concurrency",
+        "1"
+      ],
       "every_s": 2400,
       "mem": "collect",
       "evidence": "cph4/fleet/social/corpus/bilibili.jsonl 行数增长 或 LEARNING-LEDGER.jsonl 新行",
       "on_fail": "风控冷却属正常（COOLDOWN 不算红）；连续 3 轮 BLOCKED 才红",
-      "priority": 2
+      "priority": 2,
+      "evidence_paths": [
+        "cph4/fleet/social/LEARNING-LEDGER.jsonl"
+      ],
+      "ok_rc": [
+        0
+      ]
     },
     {
       "id": "audit_surface",
       "what": "面清单审计：24 个工具自检 + 语料/段位/训练/会话/常驻的磁盘事实",
-      "cmd": ["python3", "Tools/fleet/social_surface.py"],
+      "cmd": [
+        "python3",
+        "Tools/fleet/social_surface.py"
+      ],
       "every_s": 43200,
       "mem": "none",
       "evidence": "state/social-surface.json 的 gaps 数组 + SURFACE-REPORT.md 的 ts",
       "on_fail": "gaps 非空即 amber；自检 FAIL 即 red，写进报告不弹窗",
-      "priority": 3
+      "priority": 3,
+      "evidence_paths": [
+        "cph4/fleet/social/SURFACE-REPORT.md"
+      ],
+      "ok_rc": [
+        0,
+        1
+      ]
     },
     {
       "id": "corpus_refresh",
       "what": "重新清洗入库 + 品味闸筛 + 段位分布（把新采的 raw 变成可训练语料）",
-      "cmd": ["python3", "Tools/fleet/human_corpus.py", "--from-dir", "cph4/fleet/social/raw"],
+      "cmd": [
+        "python3",
+        "Tools/fleet/human_corpus.py",
+        "--from-dir",
+        "cph4/fleet/social/raw"
+      ],
       "every_s": 43200,
       "mem": "none",
       "evidence": "corpus/human/own_collected.jsonl 行数 + STATS.json 的 usable_for_train",
       "on_fail": "入库数突然掉 >20% 判 red（清洗规则改坏了的面相）",
-      "priority": 4
+      "priority": 4,
+      "evidence_paths": [
+        "cph4/fleet/social/corpus/human/STATS.json"
+      ],
+      "ok_rc": [
+        0
+      ]
     },
     {
       "id": "taste_filter",
       "what": "按五维判据重筛好评论（PASS 集）",
-      "cmd": ["python3", "Tools/fleet/comment_taste.py", "--corpus", "cph4/fleet/social/corpus/human/own_collected.jsonl", "--out", "cph4/fleet/social/corpus/human/QUALITY-PASS.jsonl"],
+      "cmd": [
+        "python3",
+        "Tools/fleet/comment_taste.py",
+        "--corpus",
+        "cph4/fleet/social/corpus/human/own_collected.jsonl",
+        "--out",
+        "cph4/fleet/social/corpus/human/QUALITY-PASS.jsonl"
+      ],
       "every_s": 43200,
       "mem": "none",
       "evidence": "corpus/human/QUALITY-PASS.jsonl 行数",
       "on_fail": "PASS 数 < 上次的 80% 判 amber（可能判据改动过宽/过严）",
-      "priority": 5
+      "priority": 5,
+      "evidence_paths": [
+        "cph4/fleet/social/corpus/human/QUALITY-PASS.jsonl"
+      ],
+      "ok_rc": [
+        0
+      ]
     },
     {
       "id": "segment_report",
       "what": "段位分布报表（看哪些人群样本还不够）",
-      "cmd": ["python3", "Tools/fleet/segments.py", "--corpus", "cph4/fleet/social/corpus/human/QUALITY-PASS.jsonl"],
+      "cmd": [
+        "python3",
+        "Tools/fleet/segments.py",
+        "--corpus",
+        "cph4/fleet/social/corpus/human/QUALITY-PASS.jsonl"
+      ],
       "every_s": 43200,
       "mem": "none",
       "evidence": "输出里的段位计数（同一文件被 taste_filter 产出后立刻跑）",
       "on_fail": "generic > 50% 判 amber（信号词没覆盖真实说法）",
-      "priority": 6
+      "priority": 6,
+      "evidence_paths": [
+        "cph4/fleet/social/corpus/human/QUALITY-PASS.jsonl"
+      ],
+      "ok_rc": [
+        0
+      ]
     },
     {
       "id": "sweep_targeted",
       "what": "按段定向补采（低样本段：critic/beginner/family/memer 优先）",
-      "cmd": ["python3", "Tools/fleet/social_sweep.py", "--videos", "4", "--comment-pages", "25", "--sort-by-reply", "--min-reply", "500", "--no-danmaku"],
+      "cmd": [
+        "python3",
+        "Tools/fleet/social_sweep.py",
+        "--videos",
+        "4",
+        "--comment-pages",
+        "25",
+        "--sort-by-reply",
+        "--min-reply",
+        "500",
+        "--no-danmaku"
+      ],
       "every_s": 86400,
       "mem": "collect",
       "evidence": "raw/bilibili.comment.jsonl 行数增长",
       "on_fail": "风控拒绝→顺延；连续 2 天零增长判 amber",
-      "priority": 7
+      "priority": 7,
+      "window": {
+        "from": "01:00",
+        "to": "08:00"
+      },
+      "window_note": "重活只在凌晨窗口：白天 CEO 在用机，采集要开浏览器(1.05GB)、训练要占满统一内存",
+      "evidence_paths": [
+        "cph4/fleet/social/raw/bilibili.comment.jsonl"
+      ],
+      "ok_rc": [
+        0
+      ]
     },
     {
       "id": "train_weekly",
       "what": "训练工作流：门槛→造集→训练→质量选点→盲评表（三硬门不过就停）",
-      "cmd": ["python3", "Tools/fleet/train_pipe.py", "--iters", "300"],
+      "cmd": [
+        "python3",
+        "Tools/fleet/train_pipe.py",
+        "--iters",
+        "300"
+      ],
       "every_s": 604800,
       "mem": "train",
       "evidence": "train/RUNS/<ts>/RUN.json + EVAL.json + BEST.json + BLIND.md",
       "on_fail": "门2/门3 未过属正常结论（不训/不采用），但必须留 PIPELINE.json 说明卡在哪",
-      "priority": 8
+      "priority": 8,
+      "window": {
+        "from": "01:00",
+        "to": "08:00"
+      },
+      "window_note": "重活只在凌晨窗口：白天 CEO 在用机，采集要开浏览器(1.05GB)、训练要占满统一内存",
+      "evidence_paths": [
+        "cph4/fleet/social/train/STATS.json"
+      ],
+      "ok_rc": [
+        0,
+        2
+      ]
     },
     {
       "id": "monitor_board",
       "what": "智能体监控屏：按磁盘事实判每个任务是否真的在产出、是否漂移",
-      "cmd": ["python3", "Tools/fleet/social_agent_monitor.py"],
+      "cmd": [
+        "python3",
+        "Tools/fleet/social_agent_monitor.py"
+      ],
       "every_s": 3600,
       "mem": "none",
       "evidence": "cph4/fleet/social/SOCIAL-AGENT-BOARD.md + state/social-agent-health.json",
       "on_fail": "自身失败只记日志，不递归告警",
-      "priority": 0
+      "priority": 0,
+      "evidence_paths": [
+        "cph4/fleet/social/SOCIAL-AGENT-BOARD.md"
+      ],
+      "ok_rc": [
+        0,
+        1
+      ]
     }
   ],
   "rules": {
@@ -99,6 +215,9 @@
     "quiet": "静默律：一律不弹窗、不发声；结论只落屏与台账",
     "pause": "哨兵 .codely-cli/state/SOCIAL-AGENT-PAUSED 存在即整轮跳过（CEO 让路令）",
     "stale": "任务超过 every_s×2 没跑 → 监控判 MISSED（不是失败，是没轮到）",
-    "honest": "任何任务只认产出文件名/行数/mtime，不认进程与回执"
+    "honest": "任何任务只认产出文件名/行数/mtime，不认进程与回执",
+    "window": "任务可声明 window（本地时间），窗口外不跑也不记 ts——避免\"白天抢机\"与\"永久顺延\"两种错",
+    "ok_rc": "任务的正常退出码可能不是 0（审计有未决=1、训练门未过=2）。ok_rc 未声明=只认 0；不声明就会把\"amber\"误判成失败。",
+    "evidence_paths": "产出必须是具体路径列表（机读）。只写描述性文字等于没有证据——监控取不到文件就会判\"跑了没产出\"。"
   }
 }

@@ -1,20 +1,20 @@
-# 养号线面清单（机跑判据·2026-11-17T18:30:26）
+# 养号线面清单（机跑判据·2026-11-17T18:43:58）
 
 | 工具 | 做什么 | 存在 | 有自检 | 自检 |
 |---|---|---|---|---|
-| social_collect.py | 只读采集（页面内公开接口） | Y | Y | PASS |
-| social_sweep.py | 批量补货（评论分页+弹幕 seg.so） | Y | Y | PASS |
+| social_collect.py | 只读采集（页面内公开接口） | Y | Y | 未跑 |
+| social_sweep.py | 批量补货（评论分页+弹幕 seg.so） | Y | Y | 未跑 |
 | social_ingest.py | 入库（矩阵校验/打码/去重/冷却） | Y | Y | PASS |
-| social_drafts.py | 三通道草稿（人味闸+品味闸） | Y | Y | PASS |
+| social_drafts.py | 三通道草稿（人味闸+品味闸） | Y | Y | 未跑 |
 | social_review.py | 人工批审回流 few-shot | Y | Y | PASS |
-| social_eval.py | 黄金集评测（红线/分类/人判） | Y | Y | PASS |
+| social_eval.py | 黄金集评测（红线/分类/人判） | Y | Y | 未跑 |
 | social_profile.py | 风格画像（长度/问句/催更率） | Y | Y | PASS |
 | social_learn.py | 24h 学习循环 | Y | Y | PASS |
 | social_autopilot.py | 三层自动化（限额/熔断/审计） | Y | Y | PASS |
-| social_browser.py | T3 浏览器代操作（有头+标定） | Y | Y | PASS |
+| social_browser.py | T3 浏览器代操作（有头+标定） | Y | Y | 未跑 |
 | social_riskguard.py | 风控闸（配额/抖动/熔断） | Y | Y | PASS |
-| social_comment.py | 自视频回复（wbi+csrf+回验） | Y | Y | PASS |
-| social_douyin.py | 抖音只读采集 | Y | Y | PASS |
+| social_comment.py | 自视频回复（wbi+csrf+回验） | Y | Y | 未跑 |
+| social_douyin.py | 抖音只读采集 | Y | Y | 未跑 |
 | social_threads.py | 会话状态机（Chatwoot 模型） | Y | Y | PASS |
 | social_topics.py | 选题 | Y | Y | PASS |
 | human_corpus.py | 语料清洗+训练门槛 | Y | Y | PASS |
@@ -26,6 +26,8 @@
 | comment_taste.py | 五维品味判据 | Y | Y | PASS |
 | segments.py | 人群细分识别 | Y | Y | PASS |
 | train_pipe.py | 训练工作流总入口 | Y | Y | PASS |
+| social_agent_day.py | 循环任务单一执行体（矩阵驱动+窗口+内存互斥） | Y | Y | PASS |
+| social_agent_monitor.py | 智能体监控屏（产出年龄/产出量/漂移） | Y | Y | PASS |
 
 ## 磁盘事实
 
@@ -172,6 +174,10 @@
   }
  },
  "launchd": {
+  "com.fluxgroup.socialagentday": {
+   "pid": "93152",
+   "last_exit": "0"
+  },
   "com.fluxgroup.modelqueue": {
    "pid": "95349",
    "last_exit": "0"
@@ -181,7 +187,7 @@
    "last_exit": "0"
   }
  },
- "ts": "2026-11-17T18:30:26"
+ "ts": "2026-11-17T18:43:58"
 }
 ```
 
