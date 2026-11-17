@@ -336,3 +336,20 @@
 > **本轮落账（如实）**：本批 4 行＋复盘行定向 add 后本地 commit；若 push 被拒（非 fast-forward）则本批仅在本机链，不在此做强推，随下一排队窗口落地。
 
 > **补记（第 72 批·推送实况·2026-11-17 18:2x）**：`git push origin HEAD:main` 被拒 **non-fast-forward**，实测 `git rev-list --left-right --count HEAD...origin/main` = **30/18**（12:00 班报 8/8 → 6h 内本机 +22、origin +10）。按 D-09 方案 B 与 D-06 教训**不作强推、不冒 rebase 风险**；本批 4 行仅在本机链，**origin 可见性待收敛窗口落地**——下轮若读 origin 快照，须知道第 69–72 批尚未在 origin。分叉量级（30）已回到 D-17 时期同量级的一半，触发下一轮按 D-09 方案 B（重克隆新目录+旧树只读）评估窗口，**本轮不再新发死线**。
+
+## 第 73 批（2026-11-18 00:00 决策轮）
+
+| 日期 | 问题 | 来源 | 依据 | 决策 | 分级 | 状态 |
+|---|---|---|---|---|---|---|
+| 2026-11-18 00:0x | **D-20261118-01 分叉性质定谳：origin 独有 62 提交非内容冲突（44 pulse 快照＋18 真实功能件），本机台账为严格超集（零删除）→ D-09 方案 B 重克隆判不执行，改「台账外科直投」** | 上批补记「触发下一轮按 D-09 方案 B 评估」；本轮实测 | ①`git rev-list --left-right --count HEAD...origin/main`=**31/62**（18:2x 为 30/18，6h 内 origin +44）；②origin 独有 62 拆解＝pulse snapshot **44** ＋ 真实功能提交 **18**（social 采集/评论/风控/训练/语料线，他机在飞产出）；③本机独有 31 拆解＝`state(bm-c): node state snapshot` **29** ＋ 决策批 72 及补记 **2**；④`git diff --numstat --ignore-cr-at-eol origin/main -- docs/decisions.md cph4/reflection-journal.md docs/orders.md` = **18/0、2/0、（orders 无差异）** ＝ 本机台账对 origin 为**严格超集、零删除** | ①**D-09 方案 B（重克隆新目录＋旧树只读）判不执行**——分叉不是「两套内容打架」而是「一侧全是机器快照」，重克隆成本（~1GB 物化＋切换风险）换不来收益；②改执行**台账外科直投**：以 `origin/main` 为父提交，只写 `docs/decisions.md` ＋ `cph4/reflection-journal.md` 两件，`git commit-tree` 造父链后 CAS 推送（不走 merge/rebase、不动工作树、不碰 274 件脏面）；③判据＝push 回包成功且 `git show origin/main:docs/decisions.md` 含第 73 批行；失败（non-fast-forward）→ 如实记 blocked＋留待下轮，**禁强推** | T2 | dispatched（push 回包见批末补记） |
+| 2026-11-18 00:0x | **D-20261118-02 D-16 查重复核：origin 侧 ①② 均未执行，死线 11-18 12:00 维持不重派；②项（dm 关闸）优先级上调** | `docs/orders.md` 11-17 11:5x 养号令＋12:0x T3 令；D-20261117-16 | ①origin 树 `cph4/fleet/social/` 实测**无 `queue.jsonl` / `audit.jsonl`**（与本机一致，双 MISS）；②origin `AUTOPILOT-v1.json` 的 `douyin.dm`／`wechat_mp.dm` 仍为 **10／20**（令⑥禁群发私信 → ②未执行）；③新证据＝origin 已有 `comments-sent.jsonl` 真实发送轨＋`train/RUNS/*` 训练批＋`corpus/human/*` 语料，他机在飞做「采集-训练」段，**与 D-16 的「入队+批发段」不重叠** | ①**无重复，D-16 不重派**，死线 11-18 12:00 维持；②②项优先级上调：他机已有真实发送轨而 dm 配额未关（在途越界风险），12:00 判时若 dm 仍 >0 即判 FAILED 并单独收敛「私信通道关闭」；③本条只登记不动作 | T2 | no-op |
+| 2026-11-18 00:0x | **D-20261118-03 在途三件 00:00 实读：全部未动、死线 11-18 06:00 未到，只核不判** | 本轮逐件实读；承 D-20261117-18 | ①`Tools/gpu_window_gate.py`＝**MISS**；②`Tools/fleet/llm_client.py` L33 `GATEWAY_DEFAULT`／L73 `GATEWAY_PORTS` 仍为 **8792**；③`cph4/fleet/rt/delivery/receipts/S4U-REGISTER-20261118.json`＝**MISS**；④三车道任务维持 Disabled | ①不重派（窗内）；②06:00 班到点判，任一未达即 FAILED 并走各条预置动作（冻结「GPU 管线可用」宣称／记假网关违例／交付线维持停用）；③本条件为 06:00 班对照基线 | T2 | no-op |
+
+> **本批小结（第 73 批·2026-11-18 00:00）**：3 行成立——dispatched 1（D-01 分叉定谳＋台账外科直投），no-op 2（D-02 D-16 查重复核并升②项优先级／D-03 在途三件窗内只核），escalated 0，ceo-pending 0，overruled 复扫 0。
+> **到点件实况（00:00 窗）**：**零件到点**——D-02／D-03／D-07 死线 11-18 06:00、D-16 与 D-09 入仓 11-18 12:00，全部窗内，本轮只核不判。
+> **本轮核心判断（一句话）**：连续四批「push 被拒」的真因不是分叉太大，而是**分叉里根本没几件是真的内容**——62 个 origin 独有提交有 44 个是脉冲快照、18 个是他机功能件，而本机台账比 origin 多 18 行、少 0 行；既然如此，正确答案不是重克隆整棵树，而是把两本台账外科式直接挂到 origin 最新提交上，一次解决 69–73 批的不可见性。
+> **chronic 面（只审不处·记违例一行）**：media/BigStream 尾行 10-24（25 天）／quant/bigmoney 尾行 **11-17 07:3x（新行已恢复＝1 天，此前「6 天」口径作废）**／evolution-ledger 尾块 11-12（6 天，夜轮簿记缺口，若 11-19 仍无则升周轮）／gaming/FluxVerse 尾行 11-04（线 PARKED 按 D-20261116-16② 不计违例）／BigLife 11-17 00:10 日清 PASS 不计／MiniGame 无 HQ-FEEDBACK.md（有 LINE-RECEIPT 面）。只审不处，交夜轮 03:07。
+> **收取面口径**：`docs/orders.md` 实读 275 行，**11-18 新令行 0 条**（末日令仍为 11-17 12:0x）；`decisions.md` 本批前 339 行。
+> **本轮落账（如实）**：本批 3 行＋复盘行定向 add 后本地 commit；台账两件另走外科直投推 origin（结果见批末补记）。
+
+> **补记（第 73 批·外科直投实况·2026-11-18 00:2x）**：**推送成功**。第 1 次 CAS 被拒（`cannot lock ref: is at c13472a but expected e9faa8a` — origin 又前进一个 pulse），重取基点后第 2 次成功：`c13472ae6..fd565ebb9 → main`，提交 `fd565ebb99b00285d2845758eeeed66d18f46ab0` 仅含 `docs/decisions.md` ＋ `cph4/reflection-journal.md` 两件，父提交＝当时最新 `origin/main`＝`c13472ae6`，**未走 merge/rebase、未动工作树、未碰 274 件脏面**。效果＝第 69–73 批台账在 origin 侧即刻可见（此前自第 69 批起不可见）。D-20261118-01 由此**置 executed**，判据全项满足（push 回包 + origin 侧含第 73 批行）。本机 `main` 仍保留 31 个独有提交（29 件 bm-c 状态快照＋2 决策批），**不入 origin 也不丢**——后续收敛只需把内容件继续走同一外科口径，不必再谈重克隆。
