@@ -1,29 +1,29 @@
 {
- "ts": "2026-11-18T00:15:18",
- "cycle": 2544,
+ "ts": "2026-11-18T00:20:41",
+ "cycle": 2546,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-18T00:15:18",
+ "master_tick_ts": "2026-11-18T00:20:41",
  "queue": {
-  "total": 275,
+  "total": 280,
   "open": 8,
-  "running": 10,
+  "running": 14,
   "done": 141,
-  "failed": 5
+  "failed": 6
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 58.0,
-   "cpu_load_pct": 70,
-   "ram_free_gb": 36,
-   "gpu_util_pct": 15,
+   "hb_age_s": 20.9,
+   "cpu_load_pct": 65,
+   "ram_free_gb": 41.7,
+   "gpu_util_pct": 14,
    "job": "PACK-GAME-20261118",
    "last_result": {
-    "job": "R-NEXT-BIGSTREAMM-REBUILD-20261118",
+    "job": "asset-lib-voice-corpus-2026-11-18",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-18T00:12:21",
+    "ts": "2026-11-18T00:20:05",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -58,16 +58,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 261.7,
-   "cpu_load_pct": 25,
-   "ram_free_gb": 7.5,
+   "hb_age_s": 160.3,
+   "cpu_load_pct": 10,
+   "ram_free_gb": 10.4,
    "gpu_util_pct": null,
-   "job": "R-TRIAGE-BIGGAME-BMM-20261118",
+   "job": "R-NEXT-BIGSTREAMM-REBUILD-20261118",
    "last_result": {
-    "job": "R-TRIAGE-BIGSTREAMDRAMA-BMM-20261118",
-    "state": "DONE",
-    "rc": 0,
-    "ts": "2026-11-18T00:11:31",
+    "job": "asset-lib-library-check-2026-11-18",
+    "state": "FAILED",
+    "rc": 1,
+    "ts": "2026-11-18T00:18:06",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -92,6 +92,7 @@
    "stale_after_h": 24.0,
    "owner": "导演席（自决推进，CEO 巡视可随时否决）",
    "jobs": [
+    "R-NEXT-BIGSTREAMM-REBUILD-20261118",
     "bigstream-mv-gate-2026-11-18"
    ],
    "no_supply": false,
@@ -181,9 +182,7 @@
     "bigmoney-signal-2026-11-18"
    ],
    "no_supply": false,
-   "blockers": [
-    "bigmoney-signal-2026-11-18:no-lane"
-   ],
+   "blockers": [],
    "note": "2026-11-04 夜班重启：原回测阶段钉 bm-d，而 bm-d 自 10-29 离线；改由 bm-b（有 quant 仓与数据）出「下月持仓信号 CSV」，主控按 P1 恢复派单。",
    "stuck_stage": "quant-data",
    "stuck_owner": "数据席"
@@ -271,10 +270,14 @@
    "owner": "中枢（机器判）",
    "jobs": [
     "Q-TRIAGE-BIGSTREAMMV-20261118",
-    "R-TRIAGE-BIGGAME-BMM-20261118"
+    "R-TRIAGE-BIGGAME-BMM-20261118",
+    "Q-TRIAGE-RECON-20261118",
+    "Q-TRIAGE-ASSETLIB-20261118"
    ],
    "no_supply": false,
-   "blockers": [],
+   "blockers": [
+    "Q-TRIAGE-ASSETLIB-20261118:no-lane"
+   ],
    "note": null
   },
   "asset-lib": {
@@ -291,13 +294,11 @@
     "asset-lib-asset-gen-2026-11-17",
     "asset-lib-asset-gen-scenes-2026-11-17",
     "asset-lib-env-check-2026-11-18",
-    "asset-lib-voice-corpus-2026-11-18",
-    "asset-lib-face-dataset-2026-11-18"
+    "asset-lib-face-dataset-2026-11-18",
+    "asset-lib-char-prompts-2026-11-18"
    ],
    "no_supply": false,
-   "blockers": [
-    "asset-lib-face-dataset-2026-11-18:no-lane"
-   ],
+   "blockers": [],
    "note": "CEO 2026-11-03：先储备资产，角色 LoRA 与音色库为 P0"
   }
  },
@@ -859,9 +860,10 @@
  },
  "supply_added": [],
  "events": [
-  "R-NEXT-BIGSTREAMM-REBUILD-20261118 UNVERIFIED(no-artifact-yet) via bm-a",
-  "R-TRIAGE-BIGSTREAMDRAMA-BMM-20261118 DONE via bm-m",
-  "asset-lib-voice-corpus-2026-11-18 -> bm-a (cpu)"
+  "asset-lib-voice-corpus-2026-11-18 UNVERIFIED(no-artifact-yet) via bm-a",
+  "asset-lib-library-check-2026-11-18 FAILED via bm-m",
+  "bigmoney-signal-2026-11-18 -> bm-a (cpu)",
+  "Q-TRIAGE-RECON-20261118 -> bm-m (cpu)"
  ],
  "violations": [
   "bm-b OFFLINE",
@@ -872,7 +874,6 @@
  ],
  "lane_files_written": [
   "bm-a",
-  "bm-c",
   "bm-m"
  ]
 }
