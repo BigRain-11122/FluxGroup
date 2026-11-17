@@ -1,8 +1,8 @@
 {
  "node": "bm-c",
- "ts": "2026-11-18T00:10:01",
+ "ts": "2026-11-18T00:15:19",
  "jobs": [],
- "idle_reason": "EXECUTOR-DEAD (24.0h 零产出)",
- "lane_ok": false,
- "capacity_note": "EXECUTOR-DEAD (24.0h 零产出)"
+ "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+ "lane_ok": true,
+ "capacity_note": "ram-unknown"
 }
