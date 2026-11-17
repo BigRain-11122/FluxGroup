@@ -1,4 +1,4 @@
-# 指挥一屏 2026-11-18T01:03:06
+# 指挥一屏 2026-11-18T01:08:57
 
 _节奏表=COMMAND-CADENCE-v1.json｜本屏由规则从盘上事实算出，未用模型猜数_
 
@@ -8,8 +8,8 @@ _节奏表=COMMAND-CADENCE-v1.json｜本屏由规则从盘上事实算出，未�
 
 ## A 值守（45 秒档，纯规则）
 
-1. 可派卡 **9** 张｜在飞 **8** 张｜空壳卡隔离 **0** 张
-2. 在飞分布：bm-a=8
+1. 可派卡 **9** 张｜在飞 **10** 张｜空壳卡隔离 **0** 张
+2. 在飞分布：bm-a=8, bm-m=2
 3. 返工≥3 次的活卡：**0** 张
 
 ## B 机队实况（3 分钟档）
@@ -22,16 +22,16 @@ _节奏表=COMMAND-CADENCE-v1.json｜本屏由规则从盘上事实算出，未�
 
 | 线 | 声明 | 产出年龄 |
 |---|---|---|
-| BigStream·短剧 | PARKED | 438.2h ⚠ |
-| BigStream·短视频/切片 | PARKED | 371.7h ⚠ |
-| 车机游戏 BU | PARKED | 364.9h ⚠ |
-| FluxVerse·元宙城 | ACTIVE | 345.8h ⚠ |
-| Biggame·游戏 | ACTIVE | 343.6h ⚠ |
-| BigDomain·硅基域商业化 | ACTIVE | 343.4h ⚠ |
-| BigCompute·硅基算力 | ACTIVE | 343.4h ⚠ |
-| BigMoney·量化 | ACTIVE | 324.8h ⚠ |
-| RECON·竞品拆解 | ACTIVE | 252.2h ⚠ |
-| BigStream·MV 41 曲 | ACTIVE | 58.6h |
+| BigStream·短剧 | PARKED | 438.4h ⚠ |
+| BigStream·短视频/切片 | PARKED | 371.9h ⚠ |
+| 车机游戏 BU | PARKED | 365.1h ⚠ |
+| FluxVerse·元宙城 | ACTIVE | 346.0h ⚠ |
+| Biggame·游戏 | ACTIVE | 343.7h ⚠ |
+| BigDomain·硅基域商业化 | ACTIVE | 343.6h ⚠ |
+| BigCompute·硅基算力 | ACTIVE | 343.6h ⚠ |
+| BigMoney·量化 | ACTIVE | 325.0h ⚠ |
+| RECON·竞品拆解 | ACTIVE | 252.4h ⚠ |
+| BigStream·MV 41 曲 | ACTIVE | 58.8h |
 
 ACTIVE 线 11 条｜超 72h 无产物 6 条｜PARKED 4 条（按 CEO 令暂停，不计入停血）
 
@@ -41,7 +41,7 @@ ACTIVE 线 11 条｜超 72h 无产物 6 条｜PARKED 4 条（按 CEO 令暂停�
 
 ## E 指挥质量（6 小时档）
 
-1. 队列 295 行：DONE 158｜FAILED 7｜UNVERIFIED 1｜CANCELLED 54
+1. 队列 297 行：DONE 158｜FAILED 7｜UNVERIFIED 1｜CANCELLED 54
 2. 完成占比 95%（DONE/166）
 3. 空壳卡累计隔离 0 张（越少越好，涨了就是造卡器又出错）
 
