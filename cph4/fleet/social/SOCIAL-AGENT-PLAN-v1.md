@@ -130,3 +130,26 @@ python3 Tools/fleet/social_risk.py ; python3 Tools/fleet/social_topics.py
 - 延后话仍会重复：一批 14 条里有 1 对共用"这个我得翻一下"。已加正向判据要求说具体，未彻底解决。
 - 事实包目前只有 1 条已核实（转载注明出处），BGM/软件/更新节奏/报价均为 TODO——客服只能分流不能答事实，这是当前最大的产能瓶颈，等正典供稿。
 - 4B 的分类能力够用，措辞仍缺锐度（正典对 7B 的判断同样成立）：**上限提升只有换更大模型或加云端精修层**，需你定。
+
+## 九 抖音企业号接入（CEO 2026-11-17 定：先接这条）
+
+**已实现（只读）**：`Tools/fleet/social_douyin.py`
+- `--check`：凭据是否齐备 + token 剩余有效期（不联网，绝不假跑）
+- `--pull comments --item-id <视频ID> --out <raw目录>`：按官方 `/video/comment/list/` 分页拉评论 → `raw/douyin.comment.jsonl`（ingest 直接可吃）
+- `--reply` **rc=4 拒绝**、`--pull dm|data` **rc=3 待核拒绝**——写行为与未确证路径都没有代码路径（CEO 令：全部只出草稿）
+- 自检 6/6（缺凭据判未授权、分页拉满、max_pages 防无限翻页、写行为必拒、待核必拒、输出格式兼容 ingest）
+
+**需要 CEO 的三件（顺序不能颠倒）**
+1. 抖音企业号认证（同主体），并确认这台机要用哪个号（open_id 归属）
+2. 开放平台创建应用 → 申请 `video.comment`（评论管理）；后续私信要 `im` + 私信解码权限
+3. 扫码授权该账号 → 拿到 access_token/open_id，写入 `~/.fluxgroup/douyin.json`（0600，不入库）
+
+**拿到后一条命令闭环**：
+```bash
+python3 Tools/fleet/social_douyin.py --pull comments --item-id <ID> --out cph4/fleet/social/raw
+python3 Tools/fleet/social_ingest.py --raw cph4/fleet/social/raw --out cph4/fleet/social
+python3 Tools/fleet/social_drafts.py --dir cph4/fleet/social
+python3 Tools/fleet/social_review.py --list
+```
+
+**待核清单**（确认文档后再实现，不猜）：抖音私信列表 / 群消息 / 数据接口；快手创作者评论与私信；小红书、视频号、知乎、微博的创作者侧接口。

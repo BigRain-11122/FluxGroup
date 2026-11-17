@@ -7,86 +7,234 @@
       "name": "B站",
       "evidence_note": "开放平台·直播创作者服务（互动直播）收弹幕/礼物/SC，需实名入驻+报备；评论与私信无公开接口",
       "behaviors": {
-        "danmaku": {"mode": "api_read", "needs": ["开放平台入驻", "互动直播报备", "appId", "key", "secret", "直播间身份码"], "note": "长连收 LIVE_OPEN_PLATFORM_DM/GIFT/SUPER_CHAT；未批只读不写"},
-        "danmaku_send": {"mode": "forbidden", "note": "发送需报备开通，未开通前一律不做（第三方 cookie 逆向是红线）"},
-        "comment": {"mode": "export", "needs": ["创作者后台导出/人工粘贴"], "note": "无公开接口；爬页面不做"},
-        "dm": {"mode": "manual", "note": "无公开接口，人工处理"},
-        "publish": {"mode": "api_write", "needs": ["开放平台稿件权限 + OAuth 授权"], "note": "视频稿件投递接口存在；发布决定权在 CEO"},
-        "data": {"mode": "api_read", "needs": ["创作者数据授权"], "note": "稿件表现/粉丝画像用于判断哪条内容真涨粉"}
+        "danmaku": {
+          "mode": "api_read",
+          "needs": [
+            "开放平台入驻",
+            "互动直播报备",
+            "appId",
+            "key",
+            "secret",
+            "直播间身份码"
+          ],
+          "note": "长连收 LIVE_OPEN_PLATFORM_DM/GIFT/SUPER_CHAT；未批只读不写"
+        },
+        "danmaku_send": {
+          "mode": "forbidden",
+          "note": "发送需报备开通，未开通前一律不做（第三方 cookie 逆向是红线）"
+        },
+        "comment": {
+          "mode": "export",
+          "needs": [
+            "创作者后台导出/人工粘贴"
+          ],
+          "note": "无公开接口；爬页面不做"
+        },
+        "dm": {
+          "mode": "manual",
+          "note": "无公开接口，人工处理"
+        },
+        "publish": {
+          "mode": "api_write",
+          "needs": [
+            "开放平台稿件权限 + OAuth 授权"
+          ],
+          "note": "视频稿件投递接口存在；发布决定权在 CEO"
+        },
+        "data": {
+          "mode": "api_read",
+          "needs": [
+            "创作者数据授权"
+          ],
+          "note": "稿件表现/粉丝画像用于判断哪条内容真涨粉"
+        }
       }
     },
     "douyin": {
       "name": "抖音",
       "evidence_note": "开放平台能力：video.comment（企业号评论读写/置顶）、im（企业号收+回私信）、群消息收发、data.external.*；均默认关闭需管理中心申请",
       "behaviors": {
-        "comment": {"mode": "api_write", "needs": ["企业号认证", "video.comment 权限"], "note": "GET /video/comment/list、POST /video/comment/reply、置顶仅企业号"},
-        "dm": {"mode": "api_write", "needs": ["企业号 im 权限", "私信解码权限（2026-07-06 新规，新申请通道已关闭）"], "note": "手机号强制脱敏；拿不到解码权限只能读留资类"},
-        "group_msg": {"mode": "api_write", "needs": ["企业号群消息能力"], "note": "粉丝群消息收发/撤回"},
-        "danmaku": {"mode": "manual", "note": "直播弹幕（直播伴侣侧），官方开放平台未覆盖→只做人工看板"},
-        "publish": {"mode": "api_write", "needs": ["视频发布权限"], "note": "发布决定权在 CEO"},
-        "data": {"mode": "api_read", "needs": ["data.external.item / user"], "note": "作品与账号数据"}
-      }
+        "comment": {
+          "mode": "api_write",
+          "needs": [
+            "企业号认证",
+            "video.comment 权限"
+          ],
+          "note": "GET /video/comment/list、POST /video/comment/reply、置顶仅企业号。只读实现=Tools/fleet/social_douyin.py（拉列表→raw→ingest）；写路径按 CEO 2026-11-17 令不实现（全部只出草稿）"
+        },
+        "dm": {
+          "mode": "api_write",
+          "needs": [
+            "企业号 im 权限",
+            "私信解码权限（2026-07-06 新规，新申请通道已关闭）"
+          ],
+          "note": "手机号强制脱敏（2026-07-06 起，解码权限新申请通道已关闭）。接口路径与权限待核：social_douyin --pull dm 明确拒绝，不猜路径"
+        },
+        "group_msg": {
+          "mode": "api_write",
+          "needs": [
+            "企业号群消息能力"
+          ],
+          "note": "企业号群消息收发/撤回；接口路径待核"
+        },
+        "danmaku": {
+          "mode": "manual",
+          "note": "直播弹幕（直播伴侣侧），官方开放平台未覆盖→只做人工看板"
+        },
+        "publish": {
+          "mode": "api_write",
+          "needs": [
+            "视频发布权限"
+          ],
+          "note": "发布决定权在 CEO"
+        },
+        "data": {
+          "mode": "api_read",
+          "needs": [
+            "data.external.item / user"
+          ],
+          "note": "作品与账号数据"
+        }
+      },
+      "decision": "CEO 2026-11-17：先接抖音企业号；写行为全部只出草稿"
     },
     "kuaishou": {
       "name": "快手",
       "evidence_note": "开放平台有视频创建（发布）、小程序客服消息、数据；创作者评论/私信能力待核",
       "behaviors": {
-        "publish": {"mode": "api_write", "needs": ["开放平台应用审核"], "note": "创建视频三步：发起/上传/发布"},
-        "comment": {"mode": "待核", "note": "未获官方文档确证"},
-        "dm": {"mode": "待核", "note": "小程序客服消息不等同创作者私信"},
-        "danmaku": {"mode": "manual"},
-        "data": {"mode": "api_read", "note": "流量/挂载数据"}
+        "publish": {
+          "mode": "api_write",
+          "needs": [
+            "开放平台应用审核"
+          ],
+          "note": "创建视频三步：发起/上传/发布"
+        },
+        "comment": {
+          "mode": "待核",
+          "note": "未获官方文档确证"
+        },
+        "dm": {
+          "mode": "待核",
+          "note": "小程序客服消息不等同创作者私信"
+        },
+        "danmaku": {
+          "mode": "manual"
+        },
+        "data": {
+          "mode": "api_read",
+          "note": "流量/挂载数据"
+        }
       }
     },
     "xiaohongshu": {
       "name": "小红书",
       "evidence_note": "未查到面向创作者的公开开放平台（蒲公英/千帆属营销与电商）",
       "behaviors": {
-        "comment": {"mode": "待核", "note": "倾向 manual：如无官方接口，只做导出→草稿→人发"},
-        "dm": {"mode": "待核"},
-        "publish": {"mode": "manual", "note": "发布走 App/创作服务平台"},
-        "data": {"mode": "manual", "note": "后台看数，人工抄录或截图"}
+        "comment": {
+          "mode": "待核",
+          "note": "倾向 manual：如无官方接口，只做导出→草稿→人发"
+        },
+        "dm": {
+          "mode": "待核"
+        },
+        "publish": {
+          "mode": "manual",
+          "note": "发布走 App/创作服务平台"
+        },
+        "data": {
+          "mode": "manual",
+          "note": "后台看数，人工抄录或截图"
+        }
       }
     },
     "weixin_channels": {
       "name": "视频号",
       "evidence_note": "认证后可申请推流权限；无面向创作者的公开评论/私信接口（待核）",
       "behaviors": {
-        "comment": {"mode": "待核"},
-        "dm": {"mode": "待核"},
-        "danmaku": {"mode": "manual"},
-        "publish": {"mode": "manual", "note": "视频号助手"},
-        "data": {"mode": "manual"}
+        "comment": {
+          "mode": "待核"
+        },
+        "dm": {
+          "mode": "待核"
+        },
+        "danmaku": {
+          "mode": "manual"
+        },
+        "publish": {
+          "mode": "manual",
+          "note": "视频号助手"
+        },
+        "data": {
+          "mode": "manual"
+        }
       }
     },
     "wechat_mp": {
       "name": "微信公众号",
       "evidence_note": "公众平台 API：素材/草稿/发布、客服消息（48 小时窗口）、留言管理（需认证）",
       "behaviors": {
-        "publish": {"mode": "api_write", "needs": ["公众号认证", "接口权限"], "note": "草稿→发布；发布决定权在 CEO"},
-        "dm": {"mode": "api_write", "needs": ["客服消息接口"], "note": "48 小时窗口限制，超出只能模板消息"},
-        "comment": {"mode": "api_write", "needs": ["留言管理权限（认证号）"], "note": "留言精选/回复/删除"},
-        "data": {"mode": "api_read", "note": "图文分析/用户分析"}
+        "publish": {
+          "mode": "api_write",
+          "needs": [
+            "公众号认证",
+            "接口权限"
+          ],
+          "note": "草稿→发布；发布决定权在 CEO"
+        },
+        "dm": {
+          "mode": "api_write",
+          "needs": [
+            "客服消息接口"
+          ],
+          "note": "48 小时窗口限制，超出只能模板消息"
+        },
+        "comment": {
+          "mode": "api_write",
+          "needs": [
+            "留言管理权限（认证号）"
+          ],
+          "note": "留言精选/回复/删除"
+        },
+        "data": {
+          "mode": "api_read",
+          "note": "图文分析/用户分析"
+        }
       }
     },
     "weibo": {
       "name": "微博",
       "evidence_note": "开放平台有发博/评论/私信接口，均需申请权限（待核具体 scope）",
       "behaviors": {
-        "publish": {"mode": "待核"},
-        "comment": {"mode": "待核"},
-        "dm": {"mode": "待核"},
-        "data": {"mode": "待核"}
+        "publish": {
+          "mode": "待核"
+        },
+        "comment": {
+          "mode": "待核"
+        },
+        "dm": {
+          "mode": "待核"
+        },
+        "data": {
+          "mode": "待核"
+        }
       }
     },
     "zhihu": {
       "name": "知乎",
       "evidence_note": "无面向创作者的公开开放平台（待核）",
       "behaviors": {
-        "comment": {"mode": "manual"},
-        "dm": {"mode": "manual"},
-        "publish": {"mode": "manual"},
-        "data": {"mode": "manual"}
+        "comment": {
+          "mode": "manual"
+        },
+        "dm": {
+          "mode": "manual"
+        },
+        "publish": {
+          "mode": "manual"
+        },
+        "data": {
+          "mode": "manual"
+        }
       }
     }
   },
@@ -107,6 +255,7 @@
     "待核 组合可以先跑草稿（不触平台），但不得宣称已打通",
     "所有写行为（api_write）默认 needs_approval=true：工具只产草稿/待发队列，发送由 CEO 或授权人执行",
     "不套主号 cookie、不爬页面、不做第三方逆向（既有红线）",
-    "PII（手机号/微信号/身份证）一律打码后才进队列"
+    "PII（手机号/微信号/身份证）一律打码后才进队列",
+    "写路径必须在代码层缺席（不是开关）：social_douyin 无发送实现，--reply 直接 rc=4"
   ]
 }
