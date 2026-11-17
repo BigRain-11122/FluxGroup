@@ -16,3 +16,4 @@
 {"rc": 2, "note": "[sweep] 学习循环还在跑（pid 13886）。先停：launchctl bootout gui/$(id -u)/com.fluxgroup.sociallearn", "secs": 0.4, "ts": "2026-11-17T19:55:12", "id": "sweep_targeted", "mem": "collect", "evidence": {"cph4/fleet/social/raw/bilibili.comment.jsonl": {"mtime": 1794914011, "lines": 26719}}}
 {"rc": 1, "note": "[pipe] 训练失败，停止。", "secs": 10.1, "ts": "2026-11-17T19:56:22", "id": "train_weekly", "mem": "train", "evidence": {"cph4/fleet/social/train/STATS.json": {"mtime": 1794916581, "lines": null}}}
 {"rc": 0, "note": "[thread] 唤醒 0 · 超时未回 0 []", "secs": 0.2, "ts": "2026-11-17T20:24:28", "id": "threads_tick", "mem": "none", "evidence": {"cph4/fleet/social/threads-events.jsonl": {"mtime": 1794911098, "lines": 4}}}
+{"rc": 0, "note": "  - bilibili     OK", "secs": 190.1, "ts": "2026-11-17T20:38:40", "id": "learn_cycle", "mem": "collect", "evidence": {"cph4/fleet/social/LEARNING-LEDGER.jsonl": {"mtime": 1794919120, "lines": 28}}}

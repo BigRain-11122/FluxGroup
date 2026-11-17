@@ -1,29 +1,33 @@
 {
  "bilibili": {
-  "n": 638,
-  "len_mean": 28.8,
-  "len_p50": 18,
-  "len_p90": 57,
+  "n": 751,
+  "len_mean": 26.6,
+  "len_p50": 16,
+  "len_p90": 54,
   "rates": {
-   "emoji": 0.028,
-   "ask": 0.268,
+   "emoji": 0.029,
+   "ask": 0.244,
    "urge": 0.016,
-   "praise": 0.121,
-   "neg": 0.009,
-   "laugh": 0.042,
-   "netword": 0.009,
-   "exclaim": 0.1,
-   "mention": 0.061,
-   "money": 0.025
+   "praise": 0.112,
+   "neg": 0.008,
+   "laugh": 0.039,
+   "netword": 0.008,
+   "exclaim": 0.093,
+   "mention": 0.053,
+   "money": 0.023
   },
   "top_terms": [
    [
     "视频",
-    74
+    77
    ],
    [
     "什么",
-    46
+    47
+   ],
+   [
+    "doge",
+    44
    ],
    [
     "代码",
@@ -31,7 +35,7 @@
    ],
    [
     "怎么",
-    38
+    39
    ],
    [
     "自己",
@@ -39,6 +43,10 @@
    ],
    [
     "老师",
+    34
+   ],
+   [
+    "喜欢",
     34
    ],
    [
@@ -50,16 +58,8 @@
     32
    ],
    [
-    "喜欢",
-    31
-   ],
-   [
     "up",
     30
-   ],
-   [
-    "doge",
-    29
    ],
    [
     "黑洞",
@@ -67,37 +67,41 @@
    ]
   ],
   "advice": {
-   "reply_len_target": 14,
+   "reply_len_target": 12,
    "emoji_budget": 0,
-   "allow_question": false,
+   "allow_question": true,
    "tone": "克制/少语气词"
   }
  },
  "_overall": {
-  "n": 638,
-  "len_mean": 28.8,
-  "len_p50": 18,
-  "len_p90": 57,
+  "n": 751,
+  "len_mean": 26.6,
+  "len_p50": 16,
+  "len_p90": 54,
   "rates": {
-   "emoji": 0.028,
-   "ask": 0.268,
+   "emoji": 0.029,
+   "ask": 0.244,
    "urge": 0.016,
-   "praise": 0.121,
-   "neg": 0.009,
-   "laugh": 0.042,
-   "netword": 0.009,
-   "exclaim": 0.1,
-   "mention": 0.061,
-   "money": 0.025
+   "praise": 0.112,
+   "neg": 0.008,
+   "laugh": 0.039,
+   "netword": 0.008,
+   "exclaim": 0.093,
+   "mention": 0.053,
+   "money": 0.023
   },
   "top_terms": [
    [
     "视频",
-    74
+    77
    ],
    [
     "什么",
-    46
+    47
+   ],
+   [
+    "doge",
+    44
    ],
    [
     "代码",
@@ -105,7 +109,7 @@
    ],
    [
     "怎么",
-    38
+    39
    ],
    [
     "自己",
@@ -113,6 +117,10 @@
    ],
    [
     "老师",
+    34
+   ],
+   [
+    "喜欢",
     34
    ],
    [
@@ -124,16 +132,8 @@
     32
    ],
    [
-    "喜欢",
-    31
-   ],
-   [
     "up",
     30
-   ],
-   [
-    "doge",
-    29
    ],
    [
     "黑洞",
@@ -141,9 +141,9 @@
    ]
   ],
   "advice": {
-   "reply_len_target": 14,
+   "reply_len_target": 12,
    "emoji_budget": 0,
-   "allow_question": false,
+   "allow_question": true,
    "tone": "克制/少语气词"
   }
  }
