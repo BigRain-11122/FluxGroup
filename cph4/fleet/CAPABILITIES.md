@@ -2,8 +2,8 @@
 
 | 节点 | 在线 | 能力 | 本地模型 | 心跳 | 在办 |
 |---|---|---|---|---|---|
-| bm-a | 是 | cpu,kf768,i2v768,audio,assemble,llm | - | 41s | - |
-| bm-b | 否 | cpu,animatic480,audio,tts,llm | - | 12607s | - |
-| bm-c | 否 | cpu,kf768,i2v768,audio,render,llm | - | 16159s | - |
+| bm-a | 是 | cpu,kf768,i2v768,audio,assemble,llm | - | 150s | - |
+| bm-b | 否 | cpu,animatic480,audio,tts,llm | - | 17507s | - |
+| bm-c | 否 | cpu,kf768,i2v768,audio,render,llm | - | 21059s | - |
 | bm-m | 是 | cpu,ios-build,text,llm,audio,tts | qwen3:8b,qwen3:4b,qwen3.5:2b,qwen3.5:4b,qwen3.5:9b-mlx,qwen3-embedding:0.6b,qwen3.5:4b-mlx | 1s | - |
-| bm-d | 否 | cpu,kf768,i2v768,backtest,brain,llm | - | 993103s | - |
+| bm-d | 否 | cpu,kf768,i2v768,backtest,brain,llm | - | 998003s | - |
