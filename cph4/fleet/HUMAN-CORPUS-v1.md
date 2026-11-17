@@ -76,3 +76,44 @@ python3 Tools/fleet/human_corpus.py --from-dir cph4/fleet/social/raw
    `Accept-Encoding: identity` 也照旧。正法是 `/x/v2/dm/web/seg.so?type=1&oid=cid&pid=aid&segment_index=N`
    （protobuf，字段 1=DanmakuElem、其中字段 7=正文），6 分钟一段，实测一段 77 条。
    弹幕要过"像人话"筛：≥4 字符、含中文或字母、非纯刷屏（字符种类 ≤2 直接丢）。
+3. 采源要按**评论数倒序**（`--sort-by-reply --min-reply 500`）：爆火视频一条能给上千条，
+   同样的时间先吃油水大的。实测好评论密度 7%→11%（评论比弹幕产出高得多）。
+
+## 九 训练工作流（2026-11-17 立·对齐社区口径）
+
+社区做法对照（只偷机制，不引框架）：
+
+| 社区做法 | 出处 | 我们落地成什么 |
+|---|---|---|
+| 少而精胜过海量（1k 精选 > 50k 抓取） | LIMA (NeurIPS 2023) | 品味闸只放 PASS 进集，2245 条也照训 |
+| 用强模型给每条打分再筛 | AlpaGasus (ICLR 2024) | 五维确定性判据替代（无云依赖，可复算） |
+| 近重复必须清（MinHash/SimHash+LSH） | NeMo Curator / Milvus | `train_build.near_dedup`（SimHash 64bit，汉明≤6） |
+| 复杂度/质量/多样性三维选 | DEITA | 单视频占比上限 + 句长分桶切分 |
+| **checkpoint 按任务质量选，不按 loss 选** | 2026 实践综述 | `train_eval.py` 逐点跑同一批题、按均分+PASS 率排名 |
+| 先有评测闭环再训；fine-tune 管形式不管事实 | 同上 | `comment_taste` + 固定题面 + 事实包在发送口兜底 |
+
+一条命令跑完，三个硬门不过就停：
+
+```bash
+python3 Tools/fleet/train_pipe.py            # 门1 门槛 → 造集 → 训练 → 门3 选点 → 盲评表
+python3 Tools/fleet/train_pipe.py --build-only
+```
+
+- 门1 语料量 + 红线召回（`human_corpus.py --gate` rc=0）
+- 门2 训练集 ≥500 条（太少只会抄碎片）
+- 门3 最优 checkpoint 必须超过基座，否则不采用、不出盲评表
+
+**选点实测（20261117-165812，12 条/点）**：base 54.7/33% · iter100 65.8/50% ·
+iter200 **70.2/58%（逻辑 26.7 最高）** · iter300 66.1/67%。只看 PASS 率会选 300，
+只看 loss/最后一个点会掉进 300——**两个指标一起看才不选错**。
+
+解码侧也补了一条：多生成 2 条候选再择优（先按句内 4 字自我重复度升序、再按长度降序）。
+开候选择优后同尺比分 75.9/87% vs 基座 67.7/73%（+8.2pt / +14pt）。
+
+**两次踩坑，别再试**：
+1. 自写 `logits_processors` 做重复惩罚，scatter-add 一写错就把分布打崩——基座和 LoRA
+   同时只吐 `!!!!!!!!`。要治复读用候选择优，不要动 logits。
+2. 直接把最后一个 checkpoint 拿去发：iter300 的均分和逻辑分都低于 iter200。选点必须
+   走 `train_eval.py`。
+
+

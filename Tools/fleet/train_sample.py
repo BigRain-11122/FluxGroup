@@ -12,6 +12,7 @@
 import argparse
 import json
 import os
+import re
 import sys
 import time
 
@@ -49,7 +50,30 @@ PROMPTS = [
 ]
 
 
-def gen(model, tok, prompt, max_tokens, temp, n):
+def make_rep_penalty(penalty=1.15, window=48):
+    """CTRL 式重复惩罚（与 HF 的 repetition_penalty 同款）。
+
+    为什么要这个：mlx_lm 0.32 没有内置 logits processor，裸采样会连续吐
+    「求工作流，求工作流，求工作流」「老师 老师 老师」——这不是训练集脏，
+    是解码在自我强化。社区默认开这个惩罚，我们之前没开。
+    """
+    import mlx.core as mx
+
+    def proc(tokens, logits):
+        if tokens.size == 0:
+            return logits
+        seen = sorted({int(t) for t in tokens[-window:] if int(t) > 0})
+        if not seen:
+            return logits
+        idx = mx.array(seen)
+        sel = logits[idx]
+        pen = mx.where(sel > 0, sel / penalty, sel * penalty)
+        return logits.at[idx].add(pen - sel)
+
+    return proc
+
+
+def gen(model, tok, prompt, max_tokens, temp, n, rep_penalty=1.15):
     """mlx_lm 0.32 起 generate() 不再吃 temp/top_p，而是把 **kwargs 直接转给
     generate_step()，后者只认 sampler —— 传 temp 会报
     "generate_step() got an unexpected keyword argument"。采样器要自己造。
@@ -61,6 +85,11 @@ def gen(model, tok, prompt, max_tokens, temp, n):
     from mlx_lm import generate
     from mlx_lm.sample_utils import make_sampler
     sampler = make_sampler(temp=temp)
+    # 2026-11-17 实锚：自写 logits processor 一旦 scatter-add 写错就把分布打崩
+    # （基座和 LoRA 同时吐 "!!!!!!!!"）。这里不再碰 logits，改成"多生成几条按
+    # 自我重复度择优"——同样能治复读，且不会伤到分布。
+    procs = None
+    _extra = 2 if rep_penalty and rep_penalty > 1.0 else 0
     msgs = [{"role": "user", "content": prompt}]
     try:
         ids = tok.apply_chat_template(msgs, add_generation_prompt=True,
@@ -68,13 +97,37 @@ def gen(model, tok, prompt, max_tokens, temp, n):
     except TypeError:
         ids = tok.apply_chat_template(msgs, add_generation_prompt=True)
     outs = []
-    for _ in range(n):
+    for _ in range(n + _extra):
         try:
             outs.append(generate(model, tok, prompt=ids, max_tokens=max_tokens,
                                  sampler=sampler, verbose=False).strip())
         except Exception as e:
             outs.append("<生成失败 %s>" % str(e)[:50])
-    return outs
+    return pick_distinct(outs, n) if _extra else outs
+
+
+def self_repeat(text):
+    """自我重复度：同一 4 字片段在句内出现的次数。"求工作流，求工作流"=2。"""
+    t = re.sub(r"[^\u4e00-\u9fffA-Za-z0-9]", "", text or "")
+    if len(t) < 8:
+        return 1
+    grams = [t[i:i + 4] for i in range(len(t) - 3)]
+    from collections import Counter
+    c = Counter(grams)
+    return max(c.values()) if c else 1
+
+
+def pick_distinct(outs, n):
+    """从多候选中挑 n 条：先按自我重复度升序，再按去重后长度（信息量）降序。"""
+    uniq, seen = [], set()
+    for t in outs:
+        k = re.sub(r"\W+", "", t)
+        if not k or k in seen:
+            continue
+        seen.add(k)
+        uniq.append(t)
+    uniq.sort(key=lambda t: (self_repeat(t), -len(t)))
+    return (uniq + outs)[:n] if len(uniq) < n else uniq[:n]
 
 
 def main():
@@ -84,6 +137,7 @@ def main():
     ap.add_argument("--n", type=int, default=3, help="同一题生成几条")
     ap.add_argument("--max-tokens", type=int, default=60)
     ap.add_argument("--temp", type=float, default=0.8)
+    ap.add_argument("--rep-penalty", type=float, default=1.15, help="重复惩罚（1.0=关闭）")
     ap.add_argument("--out", default=None)
     a = ap.parse_args()
 
@@ -98,13 +152,13 @@ def main():
     base, tok = load(a.model)
     for p in PROMPTS:
         rows.append({"side": "base", "prompt": p, "outputs": gen(base, tok, p, a.max_tokens,
-                                                                a.temp, a.n)})
+                                                                a.temp, a.n, a.rep_penalty)})
     del base
     print("[sample] 加载基座+LoRA…", flush=True)
     tuned, tok2 = load(a.model, adapter_path=a.adapter)
     for p in PROMPTS:
         rows.append({"side": "lora", "prompt": p, "outputs": gen(tuned, tok2, p, a.max_tokens,
-                                                                 a.temp, a.n)})
+                                                                 a.temp, a.n, a.rep_penalty)})
 
     os.makedirs(os.path.dirname(os.path.abspath(out_path)), exist_ok=True)
     with open(out_path, "w", encoding="utf-8") as f:

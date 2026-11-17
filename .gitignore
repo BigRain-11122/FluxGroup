@@ -329,3 +329,4 @@ data/housing/
 
 # LoRA 权重（每轮 47-63MB 二进制，含优化器状态）：训练卡/RUN.json 入库，权重不入库
 cph4/fleet/social/train/RUNS/*/adapter/
+cph4/fleet/social/train/RUNS/*/best/
