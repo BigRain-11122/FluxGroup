@@ -1,18 +1,18 @@
-# 养号线智能体监控（2026-11-17T18:43:46）
+# 养号线智能体监控（2026-11-17T19:53:36）
 
-整体：**AMBER**
+整体：**RED**
 
 | 任务 | 周期 | 状态 | 说明 |
 |---|---|---|---|
-| threads_tick | 0.5h | OK | 产出 0.3h 前更新 · threads-events.jsonl=4行 |
-| learn_cycle | 0.7h | OK | 产出 0.0h 前更新 · bilibili.jsonl=430行 |
-| audit_surface | 12.0h | OK | 产出 0.0h 前更新 · SURFACE-REPORT.md=193行 |
-| corpus_refresh | 12.0h | OK | 产出 0.9h 前更新 · 无行数 |
-| taste_filter | 12.0h | OK | 产出 0.0h 前更新 · QUALITY-PASS.jsonl=2245行 |
-| segment_report | 12.0h | OK | 产出 0.0h 前更新 · QUALITY-PASS.jsonl=2245行 |
+| threads_tick | 0.5h | STALE | 产出已 1.5h 未更新（周期 0.5h） |
+| learn_cycle | 0.7h | OK | 产出 1.2h 前更新 · bilibili.jsonl=430行 |
+| audit_surface | 12.0h | OK | 产出 1.2h 前更新 · SURFACE-REPORT.md=193行 |
+| corpus_refresh | 12.0h | OK | 产出 2.0h 前更新 · 无行数 |
+| taste_filter | 12.0h | OK | 产出 1.2h 前更新 · QUALITY-PASS.jsonl=2245行 |
+| segment_report | 12.0h | OK | 产出 1.2h 前更新 · QUALITY-PASS.jsonl=2245行 |
 | sweep_targeted | 24.0h | NEVER | 从未跑过 |
 | train_weekly | 168.0h | NEVER | 从未跑过 |
-| monitor_board | 1.0h | OK | 产出 0.1h 前更新 · SOCIAL-AGENT-BOARD.md=55行 |
+| monitor_board | 1.0h | OK | 产出 1.2h 前更新 · SOCIAL-AGENT-BOARD.md=55行 |
 
 ## 机队事实
 
@@ -32,7 +32,7 @@
    "exit": "-15"
   },
   "com.fluxgroup.socialagentday": {
-   "pid": "93152",
+   "pid": "13675",
    "exit": "0"
   },
   "com.fluxgroup.ollamamodel": {
@@ -44,7 +44,7 @@
    "exit": "0"
   },
   "com.fluxgroup.sociallearn": {
-   "pid": "62936",
+   "pid": "13672",
    "exit": "0"
   }
  },

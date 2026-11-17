@@ -1,53 +1,57 @@
 {
  "bilibili": {
-  "n": 430,
-  "len_mean": 29.3,
-  "len_p50": 20,
+  "n": 479,
+  "len_mean": 29.6,
+  "len_p50": 19,
   "len_p90": 59,
   "rates": {
-   "emoji": 0.026,
-   "ask": 0.267,
+   "emoji": 0.029,
+   "ask": 0.269,
    "urge": 0.019,
-   "praise": 0.119,
-   "neg": 0.012,
-   "laugh": 0.03,
-   "netword": 0.009,
-   "exclaim": 0.095,
+   "praise": 0.109,
+   "neg": 0.01,
+   "laugh": 0.033,
+   "netword": 0.008,
+   "exclaim": 0.09,
    "mention": 0.077,
-   "money": 0.026
+   "money": 0.023
   },
   "top_terms": [
    [
     "视频",
-    44
+    48
    ],
    [
     "代码",
     40
    ],
    [
+    "什么",
+    36
+   ],
+   [
     "token",
     33
    ],
    [
-    "什么",
-    32
+    "怎么",
+    30
    ],
    [
     "黑洞",
     29
    ],
    [
-    "怎么",
-    26
-   ],
-   [
     "自己",
-    25
+    27
    ],
    [
     "喜欢",
     25
+   ],
+   [
+    "2",
+    24
    ],
    [
     "像我这",
@@ -58,70 +62,70 @@
     23
    ],
    [
-    "2",
-    23
-   ],
-   [
-    "我这样",
+    "doge",
     23
    ]
   ],
   "advice": {
-   "reply_len_target": 16,
+   "reply_len_target": 15,
    "emoji_budget": 0,
    "allow_question": false,
    "tone": "克制/少语气词"
   }
  },
  "_overall": {
-  "n": 430,
-  "len_mean": 29.3,
-  "len_p50": 20,
+  "n": 479,
+  "len_mean": 29.6,
+  "len_p50": 19,
   "len_p90": 59,
   "rates": {
-   "emoji": 0.026,
-   "ask": 0.267,
+   "emoji": 0.029,
+   "ask": 0.269,
    "urge": 0.019,
-   "praise": 0.119,
-   "neg": 0.012,
-   "laugh": 0.03,
-   "netword": 0.009,
-   "exclaim": 0.095,
+   "praise": 0.109,
+   "neg": 0.01,
+   "laugh": 0.033,
+   "netword": 0.008,
+   "exclaim": 0.09,
    "mention": 0.077,
-   "money": 0.026
+   "money": 0.023
   },
   "top_terms": [
    [
     "视频",
-    44
+    48
    ],
    [
     "代码",
     40
    ],
    [
+    "什么",
+    36
+   ],
+   [
     "token",
     33
    ],
    [
-    "什么",
-    32
+    "怎么",
+    30
    ],
    [
     "黑洞",
     29
    ],
    [
-    "怎么",
-    26
-   ],
-   [
     "自己",
-    25
+    27
    ],
    [
     "喜欢",
     25
+   ],
+   [
+    "2",
+    24
    ],
    [
     "像我这",
@@ -132,16 +136,12 @@
     23
    ],
    [
-    "2",
-    23
-   ],
-   [
-    "我这样",
+    "doge",
     23
    ]
   ],
   "advice": {
-   "reply_len_target": 16,
+   "reply_len_target": 15,
    "emoji_budget": 0,
    "allow_question": false,
    "tone": "克制/少语气词"
