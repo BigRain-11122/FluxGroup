@@ -156,6 +156,58 @@ def extract(page, platform, limit=200):
     return best
 
 
+def collect_bili_api(pg, url, limit=200, pages=3, guard=None):
+    """B站 评论走"页面内 fetch 公开接口"：一次 20 条，比滚动省请求、也更像正常浏览。
+
+    2026-11-17 实测：/x/v2/reply 带 cookie 返回 code 0（某视频 234 条评论），
+    而 DOM 侧 inner_text 取不到（封闭 shadow DOM）。
+    """
+    import time as _t
+    pg.goto(url, wait_until="domcontentloaded", timeout=60000)
+    _t.sleep(4)
+    aid = pg.evaluate("()=>{try{return window.__INITIAL_STATE__.aid||window.__INITIAL_STATE__.videoData.aid}catch(e){return 0}}")
+    if not aid:
+        return None, "拿不到 aid（页面结构变化）"
+    rows = []
+    for pn in range(1, pages + 1):
+        if guard:
+            ok, why = guard.check("bilibili")
+            if not ok:
+                return (rows, "风控闸中途拒绝：%s" % why) if rows else (None, "风控闸拒绝：%s" % why)
+        r = pg.evaluate("""async (u)=>{const r=await fetch(u,{credentials:'include'});
+            return {status:r.status, body:await r.text()};}""",
+            "https://api.bilibili.com/x/v2/reply?type=1&oid=%s&pn=%d&ps=20&sort=2" % (aid, pn))
+        if r["status"] != 200:
+            break
+        try:
+            js = json.loads(r["body"])
+        except Exception:
+            break
+        if js.get("code") != 0:
+            if guard:
+                guard.note("bilibili", "blocked", "api code=%s" % js.get("code"))
+            break
+        data = js.get("data") or {}
+        replies = data.get("replies") or []
+        if not replies:
+            break
+        for it in replies:
+            txt = ((it.get("content") or {}).get("message") or "").strip()
+            if not txt:
+                continue
+            rows.append({"id": str(it.get("rpid") or ""),
+                         "author": ((it.get("member") or {}).get("uname") or ""),
+                         "text": txt[:300], "thread": url,
+                         "like": it.get("like"), "ctime": it.get("ctime"),
+                         "ts": time.strftime("%Y-%m-%dT%H:%M:%S")})
+        if guard:
+            guard.note("bilibili", "ok", "api page %d" % pn)
+        if len(rows) >= limit:
+            break
+        _t.sleep(random.uniform(3, 7))       # 页间留间隔，别连射
+    return rows, ""
+
+
 def collect(url, platform, limit=200, min_n=20, scrolls=8, headed=False):
     try:
         sys.path.insert(0, HERE)
@@ -185,6 +237,14 @@ def collect(url, platform, limit=200, min_n=20, scrolls=8, headed=False):
                 if guard:
                     guard.note(platform, "blocked", sign)     # 进冷却 + 升级，别重试
                 return None, "被平台风控拦截（命中「%s」）——已进冷却，换 --headed 或等冷却结束" % sign
+            if platform == "bilibili":
+                rows, why = collect_bili_api(pg, url, limit=limit, pages=max(1, scrolls),
+                                             guard=guard)
+                if rows is None:
+                    return None, why
+                if len(rows) < min_n:
+                    return None, "接口只拿到 %d 条（<%d）%s" % (len(rows), min_n, why)
+                return rows, why
             got = []
             for _ in range(max(1, scrolls)):
                 got = extract(pg, platform, limit)

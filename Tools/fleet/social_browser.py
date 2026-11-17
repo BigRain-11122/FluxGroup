@@ -44,7 +44,20 @@ ROOT = os.path.dirname(os.path.dirname(HERE))
 SOCIAL = os.path.join(ROOT, "cph4", "fleet", "social")
 SEL = os.path.join(SOCIAL, "BROWSER-SELECTORS-v1.json")
 CONF = os.path.join(SOCIAL, "AUTOPILOT-v1.json")
-PROFILE = os.path.join(os.path.expanduser("~"), ".fluxgroup", "browser-profile")
+BASE_PROFILE = os.path.join(os.path.expanduser("~"), ".fluxgroup", "browser-profile")
+
+
+def profile_for(platform=None):
+    """每平台一个 profile，与 social_collect 完全一致。
+
+    2026-11-17 实锚：登录写进 browser-profile、采集读 browser-bilibili，
+    两个目录对不上 → 明明登录了，采集仍显示未登录、评论区 0 条。
+    """
+    base = os.path.join(os.path.expanduser("~"), ".fluxgroup")
+    return os.path.join(base, "browser-%s" % platform) if platform else BASE_PROFILE
+
+
+PROFILE = BASE_PROFILE
 EVID = os.path.join(ROOT, ".codely-cli", "evidence", "social")
 
 CHROME_CANDIDATES = [
@@ -120,10 +133,10 @@ def _audit(row):
         f.write(json.dumps(row, ensure_ascii=False) + "\n")
 
 
-def _launch(p, profile=PROFILE, headless=False):
+def _launch(p, profile=None, headless=False):
     """持久化 profile：登录一次，之后不用再登（比 storage_state 稳）。"""
     exe = next((c for c in CHROME_CANDIDATES if os.path.exists(c)), None)
-    kw = dict(user_data_dir=profile, headless=headless, locale="zh-CN",
+    kw = dict(user_data_dir=profile or PROFILE, headless=headless, locale="zh-CN",
               timezone_id="Asia/Shanghai", viewport={"width": 1440, "height": 900},
               args=["--disable-blink-features=AutomationControlled"])
     if exe:
@@ -332,7 +345,7 @@ def main():
               % (a.login, a.wait))
         ok = False
         with sync_playwright() as p:
-            ctx = _launch(p, headless=False)
+            ctx = _launch(p, profile=profile_for(a.login), headless=False)
             page = ctx.pages[0] if ctx.pages else ctx.new_page()
             _goto(page, url or "about:blank")
             try:
