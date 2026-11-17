@@ -14,3 +14,4 @@
 {"ts": "2026-11-17T14:45:54", "platform": "bilibili", "verdict": "BLOCKED", "found": 0, "new": 0, "url": "https://www.bilibili.com/video/BV1D84y167nE/", "note": "只抽到 0 条（<10），页面评论结构=['#commentapp', '#bili-comments-global-style']"}
 {"ts": "2026-11-17T14:50:14", "platform": "bilibili", "verdict": "COOLDOWN", "found": 0, "new": 0, "note": "动作间隔未满（还需 2 秒；机械等间隔也是风控特征，这里带抖动）"}
 {"ts": "2026-11-17T15:55:42", "platform": "bilibili", "verdict": "BLOCKED", "found": 0, "new": 0, "url": "https://www.bilibili.com/video/BV1pdsP6mERg/", "note": "接口 0 条（可能关闭评论）"}
+{"ts": "2026-11-17T16:18:28", "platform": "bilibili", "verdict": "OK", "found": 119, "new": 119, "total": 119, "url": "https://www.bilibili.com/video/BV14E411P7sJ/"}
