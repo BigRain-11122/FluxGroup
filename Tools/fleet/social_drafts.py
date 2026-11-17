@@ -40,6 +40,75 @@ import local_model as _lm
 import voice_gate as vg
 MODEL = ((_lm._duties().get("resident") or {}).get("model") or "qwen3.5:4b-mlx")
 
+# --- 三通道（2026-11-17）----------------------------------------------------
+# 评论、弹幕、客服私信不是一种活：评论可以 1-2 句带情绪；弹幕要短、不逐条回；
+# 客服必须先判"能不能解决"。用同一套提示词写三种，等于让客服腔污染评论区。
+FACES = ("comment", "danmaku", "dm")
+
+# 弹幕里的纯情绪短句不逐条回：真主播也不回每句"好听"，逐条回＝机器人。
+DANMAKU_SKIP = re.compile(r"^(好听|厉害了|牛|牛啊|666|6+|哈哈+|233+|好看|太强了|爱了|"
+                          r"来了|打卡|沙发|哈哈哈哈*|awsl|泪目|绝了|好耶)+[!！。~]*$")
+
+# 事实类问句：客服/评论里问这些必须有【事实】段兜底，否则一律转人工——
+# 编一个歌名/价格/时间，比慢十分钟贵得多。
+FACT_Q = re.compile(r"(叫什么|名字|多少钱|价格|怎么买|哪里买|在哪|什么时候|多久|几天"
+                    r"|是不是|能不能|有没有|支持吗|教程|下载|地址|链接|群号|售后|退款"
+                    r"|发票|客服电话|怎么联系)")
+
+FAQ = os.path.join(DIR, "faq.jsonl")
+REJECTIONS = os.path.join(DIR, "rejections.jsonl")
+
+
+def _load_jsonl(path):
+    rows = []
+    try:
+        for line in open(path, encoding="utf-8"):
+            line = line.strip()
+            if line:
+                try:
+                    rows.append(json.loads(line))
+                except Exception:
+                    pass
+    except Exception:
+        pass
+    return rows
+
+
+def _bigrams(s):
+    s = re.sub(r"\s+", "", s or "")
+    return {s[i:i + 2] for i in range(len(s) - 1)} or ({s} if s else set())
+
+
+def faq_lookup(comment, min_score=0.34):
+    """事实包检索：字符 bigram 重叠 + 标签命中。只在已核实的条目上作答。
+
+    为什么不用向量：事实包是几十条量级、要可解释可复算，bigram 重叠一眼能看出
+    "为什么匹配到这条"；向量层留给选题聚类，不拿来做合规判断（也省一次模型调用）。
+    """
+    best, best_s = None, 0.0
+    cb = _bigrams(comment)
+    if not cb:
+        return None, 0.0
+    for row in _load_jsonl(FAQ):
+        if str(row.get("verified_by") or "").strip() in ("", "TODO", "UNKNOWN"):
+            continue                      # 未核实条目一律不许进草稿
+        qb = _bigrams(str(row.get("q") or ""))
+        tags = [t for t in (row.get("tags") or []) if t]
+        tag_hit = sum(1 for t in tags if t and t in (comment or ""))
+        s = (len(cb & qb) / max(len(cb | qb), 1)) + 0.2 * tag_hit
+        if s > best_s:
+            best, best_s = row, s
+    return (best, round(best_s, 2)) if best_s >= min_score else (None, round(best_s, 2))
+
+
+def _bad_from_rejections(face, k=2):
+    """人工否决过的句子是最好的反例：模型自己写坏的样子比手写反例更有针对性。"""
+    rows = [r for r in _load_jsonl(REJECTIONS)
+            if (r.get("face") or "comment") == face and (r.get("bad_text") or "").strip()]
+    return "\n".join("「%s」（%s）" % ((r.get("bad_text") or "")[:120], (r.get("why") or "")[:80])
+                     for r in rows[-k:])
+
+
 # Anything with public/legal risk is never auto-drafted: route, don't answer.
 # complaint 不在此列：挑刺是关系机会，给一句承认的草稿，但必须人工确认后再发。
 ESCALATE = ("legal", "flame")
@@ -53,6 +122,10 @@ AI_WORDS = ("ai", "AI", "人工智能", "生成", "合成", "真人", "本人", 
             "真的假的", "AI做", "ai做")
 DENIALS = ("不是ai", "不是 AI", "不是AI", "纯手绘", "手绘", "真人拍摄", "实拍", "不是生成")
 IDENTITY = ("学考古", "考古专业", "科班", "我是学", "本人就是", "我们团队学")
+# 2026-11-17 实测抓到：弹幕问「这歌是你自己唱的吗」，4B 自己写出「不是，是 AI 唱的」。
+# 披露口径是 CEO 的（10-30 令：成片不加标识、义务走平台声明位、发布决定权 CEO），
+# 模型不许替我们宣布制作方式——草稿里出现这些字一律不作答，转人工。
+DISCLOSURE = ("ai", "人工智能", "生成", "合成", "模型做", "真人", "虚拟人", "数字人")
 # 评论侧问身份：答案涉及披露口径，归 CEO，不许模型自答
 IDENTITY_ASK = ("你是学", "你学的是", "科班", "你是做", "你是哪个", "团队几",
                 "本人是", "你是本人", "学过", "什么专业", "干这行")
@@ -120,13 +193,8 @@ def _fewshot(face="comment", k=10):
     return g, b
 
 
-def classify_and_draft(comment, _retry_hits=None, _prev=""):
-    good, bad = _fewshot("comment")
-    prompt = (
-        "你在替一个 MV / 漫剧账号回评论。你是创作者本人，不是客服。\n"
-        "只输出一行 JSON：{\"kind\":\"...\",\"draft\":\"...\"}\n\n"
-        "分类（五选一）：praise 夸奖 / question 提问 / complaint 挑刺 / "
-        "legal 抄袭侵权指控 / flame 骂人 / spam 广告。\n\n"
+FACE_RULES = {
+    "comment": (
         "写草稿的铁律：\n"
         "1. 像人说话：短句、口语，10-25 字，最多两句；可用「哈哈」「谢啦」「对」开头。\n"
         "2. 禁用词：感谢喜爱、感谢支持、欢迎查阅、请您、如有疑问、进一步确认、"
@@ -137,10 +205,46 @@ def classify_and_draft(comment, _retry_hits=None, _prev=""):
         "写「这个我得翻一下」这类延后话；涉及是否 AI 制作、是否真人，草稿留空。\n"
         "6. complaint 必须给一句话：承认或给一个具体动作，不许留空、不解释不辩解。\n"
         "   例：广告味重→「这条确实接了，下次我挑一下」；画质糊→「源素材就这清晰度，抱歉」。\n"
-        "7. legal/flame/spam：草稿留空字符串。\n\n"
-        "照这个语感写（好例子）：\n" + good + "\n\n"
-        "不要写成这样（坏例子）：\n" + bad + "\n\n"
-        "评论：" + comment
+        "7. legal/flame/spam：草稿留空字符串。\n"
+    ),
+    "danmaku": (
+        "你在直播间用弹幕回一句。这是弹幕，不是评论：\n"
+        "1. 最多 12 字，一句；口语，可以带一个当下的梗，但不许堆梗。\n"
+        "2. 不许问句、不许 @ 任何人、不许说「欢迎」「感谢」这类运营话。\n"
+        "3. 不许编事实（歌名/设备/时间/下期）；被问就写「等下说」这类延后。\n"
+        "4. 夸奖类极短弹幕（「好听」「666」）不必回：草稿留空、kind=praise。\n"
+        "5. legal/flame/spam：草稿留空字符串。\n"
+    ),
+    "dm": (
+        "你在回一条私信/客服消息。第一件事是判「这事我能不能解决」：\n"
+        "1. 能解决 → 给一个具体动作（怎么点、去哪看、下一步做什么），2 句以内。\n"
+        "2. 不能解决 → 直说「这个我确认下再回你」，不许承诺时间点、不许说「会尽快」。\n"
+        "3. 事实（价格/BGM/版本/地址/群号/售后）只能来自【事实】段；没有【事实】段"
+        "就一个字都不许编。\n"
+        "4. 不追问对方隐私（手机号/地址/真名），不代收钱，不提私下交易。\n"
+        "5. legal/flame/spam：草稿留空字符串。\n"
+    ),
+}
+
+
+def classify_and_draft(comment, face="comment", faq=None, _retry_hits=None, _prev=""):
+    good, bad = _fewshot(face)
+    bad2 = _bad_from_rejections(face)
+    facts = ""
+    if faq:
+        facts = ("\n【事实】（只能用这一段，不许改写数字与名称）：\nQ：%s\nA：%s\n"
+                 % ((faq.get("q") or "").strip(), (faq.get("a") or "").strip()))
+    prompt = (
+        "你在替一个 MV / 漫剧账号回复观众。你是创作者本人，不是客服。\n"
+        "只输出一行 JSON：{\"kind\":\"...\",\"draft\":\"...\"}\n\n"
+        "分类（六选一）：praise 夸奖 / question 提问 / complaint 挑刺 / "
+        "legal 抄袭侵权指控 / flame 骂人 / spam 广告。\n\n"
+        + FACE_RULES.get(face, FACE_RULES["comment"])
+        + facts
+        + "照这个语感写（好例子）：\n" + good + "\n\n"
+        + "不要写成这样（坏例子）：\n" + bad
+        + (("\n" + bad2) if bad2 else "")
+        + "\n\n观众原话：" + comment
     )
     if _retry_hits:
         prompt += ("\n\n上一次写成「%s」被判不合格，问题：%s。重写一版，只输出 JSON。"
@@ -159,13 +263,13 @@ def classify_and_draft(comment, _retry_hits=None, _prev=""):
             draft = text[:120]
     if kind in ESCALATE or kind == "spam":
         draft = ""
-    kind, draft, human, note = vet(comment, kind, draft)
+    kind, draft, human, note = vet(comment, kind, draft, face=face, faq=faq)
     if not draft:
         return kind, draft, human, note
     # 语感闸：不过就带着命中项重写一次，仍不过则留空给人
-    res = vg.check(draft, "comment", comment)
+    res = vg.check(draft, face if face in ("comment", "danmaku") else "comment", comment)
     if res["verdict"] == "BLOCK":
-        k2, d2, h2, n2 = _draft_once(comment, res["hits"], draft)
+        k2, d2, h2, n2 = _draft_once(comment, res["hits"], draft, face, faq)
         if h2 or not d2:
             return k2, d2, True, "语感闸未过(%s) 且重写失败" % ",".join(res["hits"][:2])
         res2 = vg.check(d2, "comment", comment)
@@ -176,14 +280,18 @@ def classify_and_draft(comment, _retry_hits=None, _prev=""):
     return kind, draft, human, (note + " | " + tag).strip(" |")
 
 
-def _draft_once(comment, hits, prev):
-    kind, draft, human, note = classify_and_draft(comment, _retry_hits=hits, _prev=prev)
+def _draft_once(comment, hits, prev, face="comment", faq=None):
+    kind, draft, human, note = classify_and_draft(comment, face=face, faq=faq,
+                                                  _retry_hits=hits, _prev=prev)
     return kind, draft, human, note
 
 
-def vet(comment, kind, draft):
+def vet(comment, kind, draft, face="comment", faq=None):
     """Deterministic veto after generation. Returns (kind, draft, needs_human, note)."""
     low = (draft or "").lower()
+    # 客服通道的事实缺口：问了具体事实而事实包没有这条 -> 不许编，转人工
+    if face == "dm" and not faq and FACT_Q.search(comment or ""):
+        return kind, "", True, "客服事实缺口：事实包无此条，转人工（不许编）"
     asks_ai = any(w in comment for w in AI_WORDS)
     denies = any(w.lower() in low for w in DENIALS)
     if asks_ai:
@@ -192,6 +300,8 @@ def vet(comment, kind, draft):
         return "question_identity", "", True, "被问创作者身份/经历：披露口径归 CEO，不代答"
     if denies:
         return "claim_veto", "", True, "草稿否认/虚构了制作方式，已否决"
+    if any(w.lower() in low for w in DISCLOSURE):
+        return "disclosure_veto", "", True, "草稿自行披露制作方式/AI：披露口径归 CEO，不代答"
     if any(w in (draft or "") for w in IDENTITY):
         return "identity_veto", "", True, "草稿编造了创作者身份经历，已否决"
     if kind in ESCALATE or kind == "spam":
@@ -219,21 +329,68 @@ def _shared_run(a, b, minlen=6):
     return a[end - best:end] if best >= minlen else ""
 
 
+def self_test():
+    """确定性自检：不调模型，只验闸与分流（每条都配一个负控）。"""
+    cases = []
+    # 1 被问 AI 制作 -> 空稿+人判（红线）
+    k, d, h, n = vet("这个画面是AI做的吗", "question", "是我们手绘的")
+    cases.append(("问AI制作必须转人工且留空", d == "" and h and k == "question_ai"))
+    # 2 草稿自曝制作方式 -> 否决（2026-11-17 实测漏洞）
+    k, d, h, n = vet("这歌是你自己唱的吗", "question", "不是，是 AI 唱的", face="danmaku")
+    cases.append(("自曝AI必须否决", d == "" and h and k == "disclosure_veto"))
+    # 3 否认式草稿 -> 否决
+    k, d, h, n = vet("是AI做的吗", "question", "纯手绘，不是AI")
+    cases.append(("否认式必须否决", d == "" and h))
+    # 4 客服事实缺口 -> 转人工（不许编）
+    k, d, h, n = vet("多少钱", "question", "99 元", face="dm", faq=None)
+    cases.append(("客服无事实必须转人工", d == "" and h))
+    # 5 负控：有事实包且非事实问句 -> 正常出稿
+    k, d, h, n = vet("谢谢你", "praise", "谢啦", face="dm", faq={"id": "F-001"})
+    cases.append(("负控:有事实包不该拦", d == "谢啦" and not h))
+    # 6 弹幕纯夸奖不逐条回
+    cases.append(("弹幕夸奖必须跳过", bool(DANMAKU_SKIP.match("好听")) and
+                  not DANMAKU_SKIP.match("这歌你自己唱的吗")))
+    # 7 事实包：已核实命中、TODO 未核实必须不命中
+    hit, sc = faq_lookup("可以转载到小红书吗")
+    cases.append(("已核实事实可命中", bool(hit) and hit.get("id") == "F-001"))
+    miss, _ = faq_lookup("bgm 叫什么名字")
+    cases.append(("TODO 事实不许命中", miss is None))
+    ok = sum(1 for _, v in cases if v)
+    for name, v in cases:
+        if not v:
+            print("  FAIL %s" % name)
+    print("[self-test] %d/%d %s" % (ok, len(cases), "PASS" if ok == len(cases) else "FAIL"))
+    return 0 if ok == len(cases) else 1
+
+
 def main():
-    global DIR, INBOX, DRAFTS, DIGEST
+    global DIR, INBOX, DRAFTS, DIGEST, FAQ, REJECTIONS
     ap = argparse.ArgumentParser()
     ap.add_argument("--demo", action="store_true")
+    ap.add_argument("--self-test", action="store_true")
     ap.add_argument("--limit", type=int, default=20)
+    # 产线验收（PRODUCTS.json PROD-ACCOUNT-GROWTH）：每日 3-5 条、同一视频仅 1 条。
+    # 这两条以前只写在验收里、没有代码闸——模型照写 20 条，等于验收形同虚设。
+    ap.add_argument("--max-new", type=int, default=5,
+                    help="本轮最多产几条（默认 5，0=不限；产线验收 3-5）")
+    ap.add_argument("--max-per-video", type=int, default=1,
+                    help="同一视频最多几条（默认 1）")
     # 2026-11-12：加 --dir。路径原本写死 cph4/fleet/social，导致自驱无法在隔离
     # 沙箱里端到端验证它（一跑就写真实草稿队列），这也是"写死路径"类的通病。
     ap.add_argument("--dir", default=None, help="工作目录（默认 cph4/fleet/social）")
+    ap.add_argument("--face", default="comment", choices=FACES,
+                    help="通道：comment 评论 / danmaku 弹幕 / dm 客服私信")
     a = ap.parse_args()
     if a.dir:
         DIR = os.path.abspath(a.dir)
         INBOX = os.path.join(DIR, "inbox.jsonl")
         DRAFTS = os.path.join(DIR, "drafts.jsonl")
         DIGEST = os.path.join(DIR, "DIGEST.md")
+        FAQ = os.path.join(DIR, "faq.jsonl")
+        REJECTIONS = os.path.join(DIR, "rejections.jsonl")
 
+    if a.self_test:
+        return self_test()
     os.makedirs(DIR, exist_ok=True)
     if a.demo:
         with open(INBOX, "w", encoding="utf-8") as f:
@@ -257,13 +414,49 @@ def main():
     for r in rows:
         if r.get("id") in done:
             continue
-        kind, draft, needs_human, note = classify_and_draft(r.get("comment", ""))
-        out.append({"id": r.get("id"), "author": r.get("author"), "comment": r.get("comment"),
-                    "kind": kind, "draft": draft, "note": note,
-                    "needs_human": needs_human,
-                    "model": MODEL, "ts": datetime.now().isoformat(timespec="seconds"),
-                    "state": "PENDING_REVIEW"})
+        face = r.get("face") or a.face
+        comment = r.get("comment", "")
+        # 弹幕里的纯情绪短句不逐条回：逐条回＝机器人（也省一次模型调用）
+        if face == "danmaku" and DANMAKU_SKIP.match((comment or "").strip()):
+            out.append({"id": r.get("id"), "author": r.get("author"), "comment": comment,
+                        "video": r.get("video"),
+                        "face": face, "kind": "praise_skip", "draft": "",
+                        "note": "弹幕夸奖不逐条回（保持真人感）", "needs_human": False,
+                        "model": "-", "ts": datetime.now().isoformat(timespec="seconds"),
+                        "state": "SKIP_NO_REPLY"})
+            n += 1
+            continue
+        faq, faq_score = (faq_lookup(comment) if face in ("dm", "comment") else (None, 0.0))
+        kind, draft, needs_human, note = classify_and_draft(comment, face=face, faq=faq)
+        row = {"id": r.get("id"), "author": r.get("author"), "comment": comment,
+               "video": r.get("video"),
+               "face": face, "kind": kind, "draft": draft, "note": note,
+               "needs_human": needs_human,
+               "model": MODEL, "ts": datetime.now().isoformat(timespec="seconds"),
+               "state": "PENDING_REVIEW"}
+        if faq:
+            row["faq_id"] = faq.get("id")
+            row["faq_score"] = faq_score
+        out.append(row)
         n += 1
+
+    # 配额闸：超出的行不丢，标 HOLD_QUOTA 留痕（明天还想要就改配额，不许悄悄消失）
+    seen_video, kept = {}, []
+    for r in out:
+        vid = r.get("video") or "_unknown"
+        if a.max_per_video and seen_video.get(vid, 0) >= a.max_per_video:
+            r["state"] = "HOLD_QUOTA"
+            r["note"] = (r.get("note") or "") + " | 配额:同一视频仅 %d 条" % a.max_per_video
+            kept.append(r)
+            continue
+        if a.max_new and len([x for x in kept if x.get("state") == "PENDING_REVIEW"]) >= a.max_new:
+            r["state"] = "HOLD_QUOTA"
+            r["note"] = (r.get("note") or "") + " | 配额:本轮上限 %d 条" % a.max_new
+            kept.append(r)
+            continue
+        seen_video[vid] = seen_video.get(vid, 0) + 1
+        kept.append(r)
+    out = kept
 
     # 同批模板感：两条草稿共用 6 字以上同一句尾 = 模板，违反"每条独写无模板"
     for i in range(len(out)):
