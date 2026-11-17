@@ -2,8 +2,8 @@
 
 | 节点 | 在线 | 能力 | 本地模型 | 心跳 | 在办 |
 |---|---|---|---|---|---|
-| bm-a | 是 | cpu,kf768,i2v768,audio,assemble,llm | - | 122s | biggame-pack-scan-2026-11-18,asset-lib-voice-corpus-2026-11-18 |
-| bm-b | 是 | cpu,animatic480,audio,tts,llm | - | 360s | - |
-| bm-c | 否 | cpu,kf768,i2v768,audio,render,llm | - | 1446s | - |
-| bm-m | 是 | cpu,ios-build,text,llm,audio,tts | qwen3:8b,qwen3:4b,qwen3.5:2b,qwen3.5:4b,qwen3.5:9b-mlx,qwen3-embedding:0.6b,qwen3.5:4b-mlx | 1s | - |
-| bm-d | 否 | cpu,kf768,i2v768,backtest,brain,llm | - | 978390s | - |
+| bm-a | 是 | cpu,kf768,i2v768,audio,assemble,llm | - | 261s | R-PLAN-BIGSTREAMMV-20261118 |
+| bm-b | 否 | cpu,animatic480,audio,tts,llm | - | 2761s | - |
+| bm-c | 否 | cpu,kf768,i2v768,audio,render,llm | - | 6313s | - |
+| bm-m | 是 | cpu,ios-build,text,llm,audio,tts | qwen3:8b,qwen3:4b,qwen3.5:2b,qwen3.5:4b,qwen3.5:9b-mlx,qwen3-embedding:0.6b,qwen3.5:4b-mlx | 0s | - |
+| bm-d | 否 | cpu,kf768,i2v768,backtest,brain,llm | - | 983257s | - |
