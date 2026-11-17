@@ -17,11 +17,12 @@
     "xiaohongshu": {
       "name": "小红书评论",
       "login_url": "https://www.xiaohongshu.com/explore",
-      "list_url": "",
+      "list_url": "https://www.xiaohongshu.com/user/profile/5dbd5f79000000000100b368",
       "compose": "",
       "submit": "",
       "logged_out_markers": [],
-      "verified_at": null
+      "verified_at": null,
+      "status_note": "2026-11-17 实测：登录成功（账号「大圣」878792738·5粉丝），但该号**零作品**——主页显示「你还没有发布任何内容哦」，没有笔记就没有评论入口，无法标定。同时桌面端部分笔记提示「当前笔记暂时无法浏览/请打开App扫码」。技术侧已通（有头模式可登录、无风控）；要跑通需换成有作品的运营号。"
     },
     "weixin_channels": {
       "name": "视频号评论",

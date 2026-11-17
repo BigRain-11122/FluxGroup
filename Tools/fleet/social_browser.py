@@ -309,7 +309,7 @@ def main():
     ap.add_argument("--dry", default=None)
     ap.add_argument("--send", default=None)
     ap.add_argument("--limit", type=int, default=1)
-    ap.add_argument("--wait", type=int, default=120, help="--login 等待秒数（自动识别登录成功）")
+    ap.add_argument("--wait", type=int, default=600, help="--login 等待秒数（默认 600，别 5 分钟就收摊）")
     ap.add_argument("--url", default=None,
                     help="配合 --login：登录成功后立刻在这条内容页标定（推荐给一条你自己的帖子/视频页）")
     ap.add_argument("--self-test", action="store_true")
@@ -335,10 +335,18 @@ def main():
             ctx = _launch(p, headless=False)
             page = ctx.pages[0] if ctx.pages else ctx.new_page()
             _goto(page, url or "about:blank")
-            print("[browser] 当前页面 %s" % page.url)
+            try:
+                page.bring_to_front()
+            except Exception:
+                pass
+            print("[browser] 当前页面 %s（窗口已置前）" % page.url)
             deadline = time.time() + max(30, a.wait)
+            last_beat = 0
             while time.time() < deadline:
                 time.sleep(3)
+                if time.time() - last_beat > 15:      # 每 15s 打一行：避免被判"无输出"掐掉
+                    last_beat = time.time()
+                    print("[browser] 等待扫码… 剩余 %ds" % int(deadline - time.time()))
                 u = (page.url or "").lower()
                 if any(k in u for k in ("login", "passport", "signin")):
                     continue                      # 还在登录页
