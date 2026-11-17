@@ -30,7 +30,9 @@ import urllib.request
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 TOKEN_FILE = os.path.expanduser("~/.fluxgroup-llm-token")
-GATEWAY_DEFAULT = "http://100.75.133.10:8792"
+# 2026-11-18 D-20261117-03：8792 已不是网关（现为 BigCompute resident_qa_server 的
+# qwen3.6-35b QA 服务），默认停指该端口，改本地优先；找不到网关时如实报 GATEWAY-ABSENT。
+GATEWAY_DEFAULT = "http://127.0.0.1:11434"
 LOOPBACK = ("127.0.0.1", "localhost", "::1")
 _COOLDOWN = {}          # base -> 解冻时刻
 COOLDOWN_S = 300
@@ -69,8 +71,9 @@ def base_for(endpoint=None):
 
 
 # 网关端口：走网关就必须带 X-Flux-Token（2026-11-08 实锚：一天被拒 830 次）。
-# 只有 tailnet 上的裸 11434 才是历史直连口，不在此列。
-GATEWAY_PORTS = {8792}
+# 2026-11-18：8792 已降级为他司 QA 服务，从网关端口表移除——「端口活着」不等于
+# 「网关活着」，是否为网关一律由 probe_service() 自证身份判定。
+GATEWAY_PORTS = set()
 
 
 def _port_of(url):
@@ -92,6 +95,38 @@ def _needs_token(url):
 
 def _is_loopback(url):
     return any(h in url for h in LOOPBACK)
+
+
+def probe_service(url=None, timeout=5):
+    """探活须自证身份（D-20261117-03）：/health 必须自报网关标识才算 available。
+
+    返回 {"verdict": "GATEWAY-OK"|"NOT-GATEWAY"|"GATEWAY-ABSENT"|"UNAVAILABLE", ...}
+    只看端口是否活着会把「他司 QA 服务」当成网关，故非 gateway 标识一律不计可用。
+    """
+    url = (url or base_for()).rstrip("/")
+    try:
+        with urllib.request.urlopen(url + "/health", timeout=timeout) as r:
+            raw = r.read().decode(errors="replace")
+    except urllib.error.HTTPError as e:
+        if e.code == 404:
+            # 端口在答话但没有 /health 身份面：服务活着≠网关活着。
+            return {"verdict": "NOT-GATEWAY", "url": url, "identity": "no /health (404)",
+                    "why": "端口活着但不是网关，不计入 available"}
+        return {"verdict": "UNAVAILABLE", "url": url, "why": "http %d" % e.code}
+    except Exception as e:
+        return {"verdict": "GATEWAY-ABSENT", "url": url,
+                "why": "%s: %s" % (type(e).__name__, str(e)[:60])}
+    marker = ""
+    try:
+        d = json.loads(raw or "{}")
+        marker = " ".join(str(d.get(k) or "") for k in ("service", "name", "role", "gateway"))
+    except Exception:
+        marker = raw[:200]
+    low = marker.lower()
+    if "gateway" in low or "llm_gateway" in low:
+        return {"verdict": "GATEWAY-OK", "url": url, "identity": marker[:80]}
+    return {"verdict": "NOT-GATEWAY", "url": url, "identity": (marker or raw[:80])[:80],
+            "why": "端口活着但不是网关，不计入 available"}
 
 
 def generate(prompt, model=None, endpoint=None, timeout=120, cls=None, think=False,
@@ -183,6 +218,7 @@ def main():
     print("[llm-client] base=%s token=%s model=%s"
           % (base_for(a.endpoint), ("present len=%d" % len(t)) if t else "MISSING",
              _model_for(a.cls)))
+    print("[llm-client] identity=%s" % json.dumps(probe_service(a.endpoint), ensure_ascii=False))
     r = generate(a.prompt, endpoint=a.endpoint, cls=a.cls)
     print("[llm-client] rc=%d ok=%s %s" % (r["rc"], r["ok"], r["text"] or r["why"]))
     return r["rc"]
