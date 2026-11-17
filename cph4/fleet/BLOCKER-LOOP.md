@@ -1,44 +1,33 @@
-# 堵/坏/卡点闭环 2026-11-18T00:52:11
+# 堵/坏/卡点闭环 2026-11-18T01:03:42
 
 分类表：`cph4/fleet/BLOCKER-TAXONOMY-v1.json`（每类四件套：判据/解法/周期/升级轮次）。
-本轮命中 73 项 · 已解 73 · 待升级 0 · 未到周期跳过 5 类
+本轮命中 16 项 · 已解 16 · 待升级 0 · 未到周期跳过 7 类
 
 ## DECL-UNDISPATCHED（2）
 
-- `bigstream-mv` 声明 rebuild 但无在飞卡 ✅night_plan rc=0 [night_plan] cards=2 waiting=0 已投v
-- `fluxverse` 声明 city-state 但无在飞卡 ✅night_plan rc=0 [night_plan] cards=2 waiting=0 已投v
+- `bigstream-mv` 声明 rebuild 但无在飞卡 ✅night_plan rc=0 [night_plan] cards=3 waiting=0 已投v
+- `fluxverse` 声明 city-state 但无在飞卡 ✅night_plan rc=0 [night_plan] cards=3 waiting=0 已投v
 
-## STAGE-STALE（56）
+## CARD-DEFECT-LOOP（1）
 
-- `executor_guard` 阶段超期未真跑 ✅executor_guard rc=0   bm-c   unreachable
-- `executor_revive` 阶段超期未真跑 ✅executor_guard rc=0   bm-c   unreachable
-- `market` 阶段超期未真跑 ✅executor_guard rc=0   bm-c   unreachable
-- `quality` 阶段超期未真跑 ✅executor_guard rc=0   bm-c   unreachable
-- `ossradar` 阶段超期未真跑 ✅executor_guard rc=0   bm-c   unreachable
-- `executor_revive` 阶段超期未真跑 ✅executor_guard rc=0   bm-c   unreachable
+- `bigstream-mv/E-UNKNOWN` E-UNKNOWN 类失败 2 次（R-NEXT-BIGSTREAMM-REBUILD-20261118,bigstream-mv-gate ✅撤销 2 张反复失败的卡（仅限已死状态）
 
 ## FAKE-RED（1）
 
 - `detector-error` AttributeError: module 'patrol' has no attribute 'collect' ✅已定性为不需行动（1 项），不重复报
 
-## QUEUE-DRIFT（9）
+## QUEUE-DRIFT（10）
 
-- `R-NEXT-BIGGAME-SUBMIT-P-20261118` 队列=RUNNING 备队列=OPEN ✅对齐 9 行
-- `PACK-GAME-20261118` 队列=RUNNING 备队列=OPEN ✅对齐 9 行
-- `asset-lib-env-check-2026-11-18` 队列=RUNNING 备队列=OPEN ✅对齐 9 行
-- `R-PLAN-BIGCOMPUTE-20261118` 队列=CANCELLED 备队列=READY ✅对齐 9 行
-- `R-PLAN-BIGDOMAIN-20261118` 队列=CANCELLED 备队列=READY ✅对齐 9 行
-- `R-NEXT-BIGSTREAMM-REBUILD-20261118` 队列=FAILED 备队列=OPEN ✅对齐 9 行
+- `R-PLAN-BIGCOMPUTE-20261118` 队列=CANCELLED 备队列=READY ✅对齐 10 行
+- `asset-lib-voice-corpus-2026-11-18` 队列=UNVERIFIED 备队列=RUNNING ✅对齐 10 行
+- `R-PLAN-BIGDOMAIN-20261118` 队列=CANCELLED 备队列=READY ✅对齐 10 行
+- `bigstream-drama-src-scan-2026-11-18` 队列=RUNNING 备队列=OPEN ✅对齐 10 行
+- `R-NEXT-BIGGAME-SUBMIT-P-20261118` 队列=RUNNING 备队列=OPEN ✅对齐 10 行
+- `biggame-pack-scan-2026-11-18` 队列=RUNNING 备队列=OPEN ✅对齐 10 行
 
-## ARTIFACT-MISSING（2）
+## ARTIFACT-MISSING（1）
 
-- `biggame-pack-scan-2026-11-18` 交付物不在盘：cph4/fleet/queue-receipts/game-packs-2026-11-18.json ✅重开 2 张假完成卡
-- `asset-lib-voice-corpus-2026-11-18` 交付物不在盘：cph4/fleet/queue-receipts/voice-corpus-2026-11-18.json ✅重开 2 张假完成卡
-
-## UNVERIFIED-STUCK（2）
-
-- `biggame-pack-scan-2026-11-18` 回执未对上 ✅receipt_match rc=0 [receipt-match] 可收口 0 张｜歧义 0｜证据
-- `asset-lib-voice-corpus-2026-11-18` 回执未对上 ✅receipt_match rc=0 [receipt-match] 可收口 0 张｜歧义 0｜证据
+- `asset-lib-voice-corpus-2026-11-18` 交付物不在盘：cph4/fleet/queue-receipts/voice-corpus-2026-11-18.json ✅重开 1 张假完成卡
 
 ## NODE-REPO-DIVERGED（1）
 

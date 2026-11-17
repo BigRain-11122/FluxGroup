@@ -1,8 +1,37 @@
 {
  "node": "bm-m",
- "ts": "2026-11-18T00:59:18",
- "jobs": [],
- "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+ "ts": "2026-11-18T01:05:08",
+ "jobs": [
+  {
+   "id": "R-TRIAGE-BIGLIFE-BMM-20261118",
+   "title": "BigLife·数字生命 线证据扫描（bm-m 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line biglife --node bm-m --out cph4/fleet/queue-receipts/triage-biglife-bm-m-20261118.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-biglife-bm-m-20261118.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "R-TRIAGE-RECON-BMM-20261118",
+   "title": "RECON·竞品拆解 线证据扫描（bm-m 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line recon --node bm-m --out cph4/fleet/queue-receipts/triage-recon-bm-m-20261118.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-recon-bm-m-20261118.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  }
+ ],
+ "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 16.8/1.0 GB"
+ "capacity_note": "ram 19.3/1.0 GB"
 }
