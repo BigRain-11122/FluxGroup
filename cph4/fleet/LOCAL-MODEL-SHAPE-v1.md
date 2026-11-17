@@ -74,3 +74,25 @@ python3 Tools/fleet/model_bench.py --suite quality    --limit 38
 ## 回滚
 
 `git checkout cph4/fleet/LOCAL-MODEL-POLICY.json`；`ollama stop <model>` 立即释放。
+
+## 排单器与 24 小时满负荷（`Tools/fleet/model_queue.py`）
+
+常驻=`com.fluxgroup.modelqueue`（launchd，`run --loop --min-batch 5 --max-batch 8 --idle-sleep 20`）。
+队列文件 `.codely-cli/state/model-queue.jsonl`，完成台账 `model-queue-done.jsonl`，计数 `model-queue-stats.json`。
+
+| 优先级 | 内容 | 模型 | 形态 |
+|---|---|---|---|
+| P0 | 规则/事实/红线/去重 | 不花模型 | 直接算 |
+| P1 | 分类/打标/风险 | 4B | 一条就走，延迟优先 |
+| P2 | 草稿/摘要/改写 | 4B | 小批跑（≤max-batch） |
+| P3 | 判卷/长文/创意 | 9B | 攒够 min-batch 或等 30 分钟才发车，跑完即卸 |
+
+**满负荷的定义（写进代码，防自欺）**：队列非空时 worker 不空转（取任务→跑→再取）；`busy_seconds_today` 与完成数直接给；**队列空就记 IDLE，不点燃模型刷指标**（假绿比空转更糟）。
+
+**实测（2026-11-17）**
+- 灌 37 条真实语料（voice/corpus.jsonl 的 ctx）做 P1 分类：**5 秒跑完 37 条、0 失败**（≈7.4 条/秒），产出分布 提问16/挑刺10/夸奖7/广告4。发现一类误判：带疑问语气的挑刺（"是不是剪辑砍了"）被判成提问 → 需要在提示词里加"含抱怨语义优先挑刺"。
+- 队列空后逐轮判 IDLE（20s 一轮），不造假负载。
+- **体积回收**：24h 连跑实测 4B 从 4.3GB 膨胀到 **8.8GB**（重复请求不释放内存），加"超阈即 `ollama stop`"后当场触发回收（阈值 4B 6.5GB / 9B 11GB），下批自动重载（冷加载 1.5s 级）。
+- 内存总闸：swap>1GB 或空闲<2GB 时 P3 一律 `P3_DEFERRED` 并留痕，先跑 P1/P2。
+
+自检 8/8：P1 单条优先、P3 未攒够必等、攒够才发车、空队列 IDLE、内存紧张 P3 挂起且不吃队列、批窗跑完必 stop 大档、完成必落盘、忙时计数只增不减。
