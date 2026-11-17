@@ -50,5 +50,29 @@
 python3 Tools/fleet/human_corpus.py --src bili_comments_crawl    # 拉+洗+打标（reference）
 python3 Tools/fleet/human_corpus.py --from-dir cph4/fleet/social/corpus --use train  # 自有采集
 python3 Tools/fleet/human_corpus.py --stats                      # 看可训练量
+python3 Tools/fleet/human_corpus.py --gate                       # 三条门槛（量/红线/盲评）rc=0 才许开训
 python3 Tools/fleet/human_corpus.py --self-test                  # 9/9 判据自检
 ```
+
+## 八 批量补货（2026-11-17 立）
+
+24h 学习循环每 20 分钟只抽 1 条视频 3 页评论，一天撑死几百句；要凑 2000 条得用
+`Tools/fleet/social_sweep.py` 成批拉，但节奏仍按真人：视频之间过 `social_riskguard`
+（20-60s 抖动 + 会话休息）。
+
+```bash
+launchctl bootout gui/$(id -u)/com.fluxgroup.sociallearn     # 同一 profile 不能两开
+python3 Tools/fleet/social_sweep.py --videos 8 --comment-pages 8
+launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.fluxgroup.sociallearn.plist
+python3 Tools/fleet/human_corpus.py --from-dir cph4/fleet/social/raw
+```
+
+两个接口事实（踩过，别再试）：
+
+1. 评论：`/x/v2/reply?type=1&oid=aid&pn=N&ps=20&sort=2` 带登录 cookie 直接 code=0，
+   一次 20 条；DOM 侧评论区在封闭 shadow DOM 里，`inner_text` 取不到（永远 0 条）。
+2. 弹幕：`x/v1/dm/list.so` 与 `comment.bilibili.com/<cid>.xml` 都返回 **raw deflate**，
+   Playwright 的 `APIRequestContext` 解不开（`failed to decompress 'deflate'`），加
+   `Accept-Encoding: identity` 也照旧。正法是 `/x/v2/dm/web/seg.so?type=1&oid=cid&pid=aid&segment_index=N`
+   （protobuf，字段 1=DanmakuElem、其中字段 7=正文），6 分钟一段，实测一段 77 条。
+   弹幕要过"像人话"筛：≥4 字符、含中文或字母、非纯刷屏（字符种类 ≤2 直接丢）。

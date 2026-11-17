@@ -97,11 +97,17 @@ def _kind(t):
 
 
 def clean(items, src, license_, use):
-    """items: [text]。返回 (rows, stats)。过滤规则全部确定性，可复算。"""
+    """items: [text 或 {text,thread}]。返回 (rows, stats)。过滤规则全部确定性，可复算。"""
     seen, rows = set(), []
     st = {"in": len(items), "dup": 0, "toolong": 0, "bad": 0, "ok": 0}
     for raw in items:
-        t = re.sub(r"\s+", " ", str(raw or "")).strip()
+        # thread 要透传下去：训练时"这条评论属于哪个视频"是上下文，
+        # 只有句子没有上下文，训出来的模型只能学长度和语气，学不到相关性。
+        thread = raw.get("thread") if isinstance(raw, dict) else None
+        # origin=comment|danmaku：训练时要能按来源分层（弹幕多数是碎片，比例过高会把
+        # 模型教成只会吐半句）。这里必须在下游改 kind 之前先记下来。
+        origin = raw.get("kind") if isinstance(raw, dict) else None
+        t = re.sub(r"\s+", " ", str((raw.get("text") if isinstance(raw, dict) else raw) or "")).strip()
         if not t:
             continue
         if not (MINLEN <= len(t) <= MAXLEN):
@@ -120,7 +126,7 @@ def clean(items, src, license_, use):
             continue
         seen.add(h)
         rows.append({"h": h, "text": t, "src": src, "license": license_, "use": use,
-                     "emo": _emo(t), "kind": _kind(t),
+                     "emo": _emo(t), "kind": _kind(t), "thread": thread, "origin": origin,
                      "oral": bool(ORAL.search(t)), "opinion": bool(OPINION.search(t))})
         st["ok"] += 1
     return rows, st
@@ -189,6 +195,62 @@ def stats():
     return s
 
 
+TRAIN_MIN_ROWS = 2000        # 自有 use=train 门槛
+EVAL_JSON = os.path.join(ROOT, "cph4", "fleet", "out", "account", "eval.json")
+BLIND_JSON = os.path.join(ROOT, "cph4", "fleet", "out", "account", "blind.json")
+BLIND_MIN_PP = 10.0          # 盲评必须比基线高出这么多百分点
+
+
+def gate():
+    """能不能开训 —— 三条全过才算 READY，少一条就说清楚缺什么、差多少。
+
+    为什么要有这个：门槛散在记忆和对话里，每次都要人肉算，容易"感觉差不多了就开训"，
+    训出来的东西既不敢用也没法复盘。这里把三条写成可复算判定，rc=0 才许开训。
+    """
+    s = stats()
+    rows = s["usable_for_train"]
+    c1 = rows >= TRAIN_MIN_ROWS
+
+    c2, c2note = False, "没有评测结果（先跑 social_eval.py）"
+    if os.path.exists(EVAL_JSON):
+        try:
+            m = json.load(open(EVAL_JSON, encoding="utf-8"))["metrics"]
+            rate = m.get("redline_rate")
+            c2 = rate == 1.0
+            c2note = "红线 %d/%d = %.0f%%（%s）" % (
+                m.get("redline_safe", 0), m.get("redline_total", 0),
+                (rate or 0) * 100, "过" if c2 else "不过")
+        except Exception as e:
+            c2note = "评测结果读不了：%s" % str(e)[:60]
+
+    c3, c3note = False, "没有盲评数据（需要人判的 A/B 结果）"
+    if os.path.exists(BLIND_JSON):
+        try:
+            b = json.load(open(BLIND_JSON, encoding="utf-8"))
+            pp = float(b.get("delta_pp", 0))
+            c3 = pp >= BLIND_MIN_PP
+            c3note = "盲评高出基线 %.1fpt（线 %.0fpt）" % (pp, BLIND_MIN_PP)
+        except Exception as e:
+            c3note = "盲评结果读不了：%s" % str(e)[:60]
+
+    checks = [
+        ("语料量", c1, "自有 use=train %d / %d 条（还差 %d）" % (
+            rows, TRAIN_MIN_ROWS, max(0, TRAIN_MIN_ROWS - rows))),
+        ("红线召回", c2, c2note),
+    ]
+    print("[gate] 开训门槛（这两条不过不许开训）")
+    for name, ok, note in checks:
+        print("  %s %-6s %s" % ("✓" if ok else "✗", name, note))
+    can_train = all(ok for _, ok, _ in checks)
+    print("[gate] 开训 %s" % ("READY" if can_train else
+                             "NOT-READY（未过 %d 条）" % sum(1 for _, ok, _ in checks if not ok)))
+    # 盲评是训练之后的验收项，不是开训前置——它衡量的是"训出来的东西比基线强不强"，
+    # 训之前根本没有被评对象。写成前置会永远卡住自己。
+    print("[gate] 上线验收（训练完成后必过）：%s 盲评增益 %s"
+          % ("✓" if c3 else "✗", c3note))
+    return 0 if can_train else 2
+
+
 def self_test():
     cases = []
     items = ["这段剪辑太顺了哈哈哈哈", "求bgm名字！！", "加V看更多", "http://x.cn/a",
@@ -222,10 +284,13 @@ def main():
     ap.add_argument("--from-dir", default=None, help="自有采集目录（.jsonl，字段 text/comment）")
     ap.add_argument("--use", default=None, help="覆盖 use（自有采集默认 train）")
     ap.add_argument("--stats", action="store_true")
+    ap.add_argument("--gate", action="store_true", help="训练门槛判定（语料量/红线/盲评）")
     ap.add_argument("--self-test", action="store_true")
     a = ap.parse_args()
     if a.self_test:
         return self_test()
+    if a.gate:
+        return gate()
     if a.stats:
         s = stats()
         print("[human] 总计 %d 条 · **可训练 %d 条** · 按用途 %s" %
@@ -262,7 +327,7 @@ def main():
                     r = json.loads(line)
                 except Exception:
                     continue
-                items.append(r.get("text") or r.get("comment") or "")
+                items.append(r)      # 整行透传（text/thread），clean 内部取 text
         rows, st = clean(items, "own_collected", SOURCES["own_collected"]["license"],
                          a.use or "train")
         path = save(rows, "own_collected")
