@@ -334,3 +334,5 @@
 > **chronic 面（只审不处·记违例一行）**：quant/bigmoney 尾行 11-11（6 天）／media/BigStream 尾行 10-24（24 天）／gaming/FluxVerse 尾行 11-04（线 PARKED 按 D-20261116-16② 不计违例）／evolution-ledger 尾块 11-12（5 天，夜轮簿记缺口，若 11-18 仍无则升周轮）／BigLife 11-17 00:10 日清 PASS 不计／MiniGame 有 LINE-RECEIPT 面。
 > **收取面口径**：`docs/orders.md` 实读 276 行，**11-17 新增令行 2 条**（11:5x 养号全自动化／12:0x T3 授权，均为主控令）；物理件面维持小钢炮开机／算力大脑装机／账号与商户号，零催办。
 > **本轮落账（如实）**：本批 4 行＋复盘行定向 add 后本地 commit；若 push 被拒（非 fast-forward）则本批仅在本机链，不在此做强推，随下一排队窗口落地。
+
+> **补记（第 72 批·推送实况·2026-11-17 18:2x）**：`git push origin HEAD:main` 被拒 **non-fast-forward**，实测 `git rev-list --left-right --count HEAD...origin/main` = **30/18**（12:00 班报 8/8 → 6h 内本机 +22、origin +10）。按 D-09 方案 B 与 D-06 教训**不作强推、不冒 rebase 风险**；本批 4 行仅在本机链，**origin 可见性待收敛窗口落地**——下轮若读 origin 快照，须知道第 69–72 批尚未在 origin。分叉量级（30）已回到 D-17 时期同量级的一半，触发下一轮按 D-09 方案 B（重克隆新目录+旧树只读）评估窗口，**本轮不再新发死线**。
