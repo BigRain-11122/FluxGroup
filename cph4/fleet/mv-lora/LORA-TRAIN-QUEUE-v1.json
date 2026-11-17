@@ -1,6 +1,14 @@
 {
  "schema": 1,
  "note": "年代女主 LoRA 训练单。一条=一型=一条独立 LoRA；按 order 顺序跑，done 不再重跑。定妆图提示词必须遵守 ERA-STYLING-LAW-v1（禁韩系/禁现代物）。",
+ "sealed": {
+  "at": "2026-11-17 16:25",
+  "by": "CEO 令",
+  "reason": "LoRA 训练暂停，卸掉相关模型和加载，资料封存",
+  "state": "frozen：不改数据集、不重训、不出图；恢复须 CEO 令",
+  "doc": "cph4/fleet/mv-lora/SEALED-20261117.md",
+  "jobs_status_note": "各 job 的 status 停留在 2026-11-17 之前的旧值（T05 写 running、T08 写 blocked-cast），与盘上不符；以 SEALED 文档 §三 的实测结论为准，恢复后统一勘正"
+ },
  "defaults": {
   "count": 24,
   "min_keep": 15,
@@ -159,7 +167,7 @@
    "name": "雨夜疏离",
    "trigger": "h08",
    "lora": "her_T08_r1",
-   "status": "blocked-cast",
+   "status": "failed-4294967295",
    "base": "a Taiwanese woman with a long narrow face, rounded-almond eyes, neutral delicate features, cool pale skin, thin lips, wet hair clinging to the face and temples, visible pores and fine film grain, single street-lamp light with rain, 2001 Taipei night style, dark unfitted trench coat, straight jeans, wet pavement reflections",
    "use": [
     "mv",
@@ -170,7 +178,9 @@
     "bm-a"
    ],
    "needs": "gpu",
-   "cast_fix": "R-20261106: added face/eye qualifier (CAST-DISTINCTIVENESS-LAW v1)"
+   "cast_fix": "R-20261106: added face/eye qualifier (CAST-DISTINCTIVENESS-LAW v1)",
+   "images": 17,
+   "weights": "T08_rank32.safetensors"
   }
  ],
  "dispatch": {

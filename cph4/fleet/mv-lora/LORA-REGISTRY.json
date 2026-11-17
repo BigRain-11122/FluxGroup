@@ -1,6 +1,15 @@
 {
  "schema": 1,
  "note": "角色 LoRA 台账。一条 LoRA 一个角色：谁在役、数据集多少张、验收分多少、下一版候不候。CEO 令 2026-11-03：MV 开工前先把男女主和路人 LoRA 烧出来，周杰伦的持续更新到最稳。",
+ "sealed": {
+  "at": "2026-11-17 16:25",
+  "by": "CEO 令",
+  "state": "frozen —— 训练暂停、模型与加载已卸、资料就地封存；恢复须 CEO 令",
+  "doc": "cph4/fleet/mv-lora/SEALED-20261117.md",
+  "runtime_at_seal": "musubi 训练链 0 进程 / ComfyUI 已停 / 显存 4154MiB（仅桌面）/ 三个计划任务 Disabled",
+  "measured_20261117": "9 条女主首测（跨镜 SFace）：T02 0.572 T06 0.567 T05 0.541 her_mv0001 0.539 可用；T04 0.460 T08 0.451 边缘；T07 0.362 T03 0.310 跨镜换人",
+  "known_debt": "①T03/T07 须补素材重训 ②media/faces/_loras 四条为 SDXL 基座不可用于 krea2 ③QUEUE 的 job status 与盘上不符待勘正 ④皮肤磨皮感/雨夜构图同模/室内平光是提示词层问题"
+ },
  "law": {
   "order": "顺序固定：定妆照 → 训 LoRA → 过 gate → 才许出关键帧 → 才许 i2v。LoRA 不过 gate 不许进产线。",
   "male_lead": "长期资产，一条跨曲复用。只用人像素材（官方照/原版 MV 帧）训；AI 生成帧只用于验收，不许回灌训练——回灌会把生成的缺陷学进权重（自我强化）。",
