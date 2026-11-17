@@ -23,6 +23,7 @@ import os
 import re
 import subprocess
 import sys
+import tempfile
 import time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -112,7 +113,22 @@ def fix_pointers(path):
             lines[i] = new
             fixed += 1
     if fixed or broken:
-        open(path, "w", encoding="utf-8").write("\n".join(lines) + "\n")
+        # 2026-11-17: 原子写。CODELY.md 曾被清成 0 字节——先 truncate 后写的老写法
+        # 一旦进程中途被杀就丢整份记忆，索引修正不值得冒这个险。
+        fd, tmp = tempfile.mkstemp(dir=os.path.dirname(os.path.abspath(path)),
+                                   prefix=".mnight-", suffix=".tmp")
+        try:
+            with os.fdopen(fd, "w", encoding="utf-8") as f:
+                f.write("\n".join(lines) + "\n")
+                f.flush()
+                os.fsync(f.fileno())
+            os.replace(tmp, path)
+        except BaseException:
+            try:
+                os.remove(tmp)
+            except OSError:
+                pass
+            raise
     return fixed, broken
 
 
