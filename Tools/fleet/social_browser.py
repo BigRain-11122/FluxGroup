@@ -91,6 +91,19 @@ def gate(conf, platform):
     return True, "ok"
 
 
+def _goto(page, url, timeout=60000):
+    """重站首屏经常超过默认 30s；加载失败不等于不能干活（登录/评论框可能已经在了）。
+
+    所以这里容错：优先 domcontentloaded，超时也只记录、不抛（2026-11-17 实锚：
+    小红书 /explore 30s 超时把 --login 直接打死，窗口还没等扫码就关了）。
+    """
+    try:
+        page.goto(url, wait_until="domcontentloaded", timeout=timeout)
+        return True, ""
+    except Exception as e:
+        return False, "%s: %s" % (type(e).__name__, str(e)[:80])
+
+
 def _now():
     return datetime.now().isoformat(timespec="seconds")
 
@@ -145,7 +158,7 @@ def send_one(platform, row, dry=True, ctx=None, own_ctx=False):
             ctx = _launch(pw)
             created = True
         page = ctx.pages[0] if ctx.pages else ctx.new_page()
-        page.goto(target, wait_until="domcontentloaded", timeout=45000)
+        _goto(page, target)
         time.sleep(random.uniform(2.0, 4.0))
         # 1 已登录？被踢回登录页就整平台停手（不尝试绕）
         for marker in (sels.get("logged_out_markers") or []):
@@ -201,22 +214,21 @@ def send_one(platform, row, dry=True, ctx=None, own_ctx=False):
                 pass
 
 
-def calibrate(platform):
+def calibrate(platform, url=None, ctx=None, pw=None):
     """打开目标页，把候选输入框/按钮路径打出来。不猜、只列证据。"""
-    try:
-        from playwright.sync_api import sync_playwright
-    except Exception:
-        print("[browser] 未装 playwright：用 .venv-housing/bin/python 运行")
-        return 2
     row = (_sels().get("platforms") or {}).get(platform) or {}
-    url = row.get("list_url")
+    url = url or row.get("list_url")
     if not url:
         print("[browser] %s 没有 list_url，先在选择器文件里填目标页" % platform)
         return 2
-    with sync_playwright() as p:
-        ctx = _launch(p)
+    owned = ctx is None
+    if owned:
+        from playwright.sync_api import sync_playwright
+        pw = sync_playwright().start()
+        ctx = _launch(pw)
+    if True:
         page = ctx.pages[0] if ctx.pages else ctx.new_page()
-        page.goto(url, wait_until="domcontentloaded", timeout=45000)
+        _goto(page, url)
         time.sleep(3)
         shot = os.path.join(_evdir(), "calibrate-%s.png" % platform)
         page.screenshot(path=shot)
@@ -239,7 +251,9 @@ def calibrate(platform):
         for c in cands:
             print("  %-8s %s" % (c.get("kind"), c.get("path")))
         print("[browser] 从上面挑 compose/submit 填进 BROWSER-SELECTORS-v1.json 并写 verified_at")
-        ctx.close()
+        if owned:
+            ctx.close()
+            pw.stop()
     return 0
 
 
@@ -296,6 +310,8 @@ def main():
     ap.add_argument("--send", default=None)
     ap.add_argument("--limit", type=int, default=1)
     ap.add_argument("--wait", type=int, default=120, help="--login 等待秒数（自动识别登录成功）")
+    ap.add_argument("--url", default=None,
+                    help="配合 --login：登录成功后立刻在这条内容页标定（推荐给一条你自己的帖子/视频页）")
     ap.add_argument("--self-test", action="store_true")
     a = ap.parse_args()
     if a.self_test:
@@ -318,7 +334,8 @@ def main():
         with sync_playwright() as p:
             ctx = _launch(p, headless=False)
             page = ctx.pages[0] if ctx.pages else ctx.new_page()
-            page.goto(url or "about:blank")
+            _goto(page, url or "about:blank")
+            print("[browser] 当前页面 %s" % page.url)
             deadline = time.time() + max(30, a.wait)
             while time.time() < deadline:
                 time.sleep(3)
@@ -348,6 +365,14 @@ def main():
             ctx.close()
         print("[browser] %s%s" % ("已登录并保存" if ok else "超时未识别到登录（窗口已关，登录态未存）",
                                   (" 截图=%s" % shot) if shot else ""))
+        if ok and a.url:
+            print("[browser] 登录成功，接着在这条内容页上标定（是你给的 --url）")
+            with sync_playwright() as p:
+                ctx2 = _launch(p)
+                calibrate(a.login, url=a.url, ctx=ctx2)
+                ctx2.close()
+        elif ok:
+            print("[browser] 想顺便标定就再跑一次：--login %s --url <你的某条内容页URL>" % a.login)
         return 0 if ok else 7
     if a.dry or a.send:
         plat = a.dry or a.send

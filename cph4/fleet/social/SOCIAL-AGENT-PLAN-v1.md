@@ -197,4 +197,17 @@ python3 Tools/fleet/social_autopilot.py --run --raw <raw> --dir cph4/fleet/socia
 
 **本机浏览器来源（2026-11-17 实测，别再踩）**：本机没装 Chrome；`playwright install chromium` 在本机恒 0%（连得上但不出数据，两条源都一样）；正法是直接用 npmmirror 下 chrome-for-testing（5.7MB/s，192MB 约 40 秒）解压到 `~/.fluxgroup/chrome/`，在 `CHROME_CANDIDATES` 里登记该二进制、用 `executable_path` 指过去——Playwright 不需要自己的浏览器目录。
 
+**登录与标定 SOP（一条命令，你扫一次码即可）**
+
+```bash
+# 一个平台一次；--url 给一条你自己的内容页，登完会自动截图并列出候选选择器
+.venv-housing/bin/python Tools/fleet/social_browser.py --login xiaohongshu  --wait 180 --url "<你的笔记URL>"
+.venv-housing/bin/python Tools/fleet/social_browser.py --login bilibili     --wait 180 --url "<你的视频URL>"
+.venv-housing/bin/python Tools/fleet/social_browser.py --login weibo        --wait 180 --url "<你的微博URL>"
+.venv-housing/bin/python Tools/fleet/social_browser.py --login zhihu        --wait 180 --url "<你的回答URL>"
+```
+登完把打印的 `compose`/`submit` 两条路径填进 `BROWSER-SELECTORS-v1.json` 并写 `verified_at`，之后 `--dry` 试一条、再 `--send`。
+
+**本机实测（2026-11-17，别再重复踩）**：**无头模式会被风控直接拦**——小红书返回 `error_code=300012 当前网络存在风险`、知乎跳 `/account/unhuman`；**有头模式能正常到登录页**。所以 T3 一律有头运行（可见窗口），且必须用 `~/.fluxgroup/browser-profile` 这个专用 profile（登录态在里面）。微博会跳 `newlogin`，B站首页可读。
+
 **诚实的边界**：T3 只解决"页面能点"的问题，不解决"平台是否允许"。封号风险 CEO 已接受并留令号；出问题一击 `kill_switch` 即停。选择器会随平台改版失效——那时工具会停手报"未标定"，不会瞎点。
