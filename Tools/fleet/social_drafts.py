@@ -146,6 +146,11 @@ BIZ_PAT = re.compile(r"(多少钱|报价|价格|商单|合作费|投放|广告�
 FUNNEL_OUT = re.compile(r"(微信|vx|v信|加V|加VX|QQ|企鹅|公众号|二维码|扫码|链接|网址|http|网盘|"
                         r"淘宝|店铺|微店|主页简介|看我简介|私信我|代购|下单)")
 FUNNEL_IN = re.compile(r"(关注|合集|追更|下一集|上集|收藏|系列|番外|前传)")
+# 中英混杂（2026-11-17 实锚：真实回复里冒出「前期 BOB 保命」——原评论是中文昵称"波波"，
+# 模型自己转成拉丁字母。B站真人极少这么说话，一律打回）
+LATIN_WORD = re.compile(r"(?<![A-Za-z])[A-Za-z]{2,}(?![A-Za-z])")
+LATIN_OK = {"up", "UP", "bgm", "BGM", "mv", "MV", "ai", "AI", "ps", "PS", "pr", "PR", "cg", "CG",
+            "vlog", "VLOG", "pc", "PC", "app", "APP", "id", "ID", "ok", "OK", "hhh", "yyds"}
 # 评论侧问身份：答案涉及披露口径，归 CEO，不许模型自答
 IDENTITY_ASK = ("你是学", "你学的是", "科班", "你是做", "你是哪个", "团队几",
                 "本人是", "你是本人", "学过", "什么专业", "干这行")
@@ -452,6 +457,10 @@ def vet(comment, kind, draft, face="comment", faq=None):
         return kind, "", True, ""
     if not draft:
         return kind, "", True, "模型未给出草稿"
+    # 中英混杂闸：除白名单（up/PR/bgm 等）外出现连续 2+ 拉丁字母 → 打回
+    for w in LATIN_WORD.findall(draft or ""):
+        if w not in LATIN_OK:
+            return "latin_veto", "", True, "中英混杂（%s）：B站真人不会这么说话" % w
     # 人味闸（2026-11-17）：长句且不含语气词/颜文字 -> 像书面语，退回给人改。
     if face in ("comment", "danmaku") and len(draft) > 26 and not re.search(
             r"(啊|吧|呢|嘛|哦|呀|哈|啦|呗|诶|嗯|唔|哈|笑|哭|（|\()", draft):
@@ -498,6 +507,11 @@ def self_test():
     # 5 负控：有事实包且非事实问句 -> 正常出稿
     k, d, h, n = vet("谢谢你", "praise", "谢啦", face="dm", faq={"id": "F-001"})
     cases.append(("负控:有事实包不该拦", d == "谢啦" and not h))
+    # 5a 中英混杂必须被拦（BOB 实锚）
+    k, d, h, n = vet("中路还是玩法核稳", "question", "哈哈，确实得靠前期 BOB 保命")
+    cases.append(("中英混杂必须打回", d == "" and h and k == "latin_veto"))
+    k2, d2, h2, n2 = vet("bgm 好听", "praise", "bgm 确实顶")
+    cases.append(("白名单拉丁词不误杀", d2 != ""))
     # 5b 人设块：有身份、有禁忌、无内容时不编
     blk = persona_block("bilibili")
     cases.append(("人设块含身份与平台口吻", ("独立创作者" in blk) and ("B站" in blk or "bilibili" in blk)))
