@@ -48,6 +48,10 @@ PROFILE = os.path.join(os.path.expanduser("~"), ".fluxgroup", "browser-profile")
 EVID = os.path.join(ROOT, ".codely-cli", "evidence", "social")
 
 CHROME_CANDIDATES = [
+    # 本机实测（2026-11-17）：系统没装 Chrome，Playwright 自带下载在本机恒 0%（CDN 不出数据），
+    # 所以直接放一份 chrome-for-testing 二进制（npmmirror 5.7MB/s），用 executable_path 指过去。
+    os.path.join(os.path.expanduser("~"), ".fluxgroup", "chrome", "chrome-mac-arm64",
+                 "Google Chrome for Testing.app", "Contents", "MacOS", "Google Chrome for Testing"),
     "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
     "/Applications/Chromium.app/Contents/MacOS/Chromium",
     "/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge",

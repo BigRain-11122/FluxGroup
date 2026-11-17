@@ -195,4 +195,6 @@ python3 Tools/fleet/social_autopilot.py --run --raw <raw> --dir cph4/fleet/socia
 
 **代码强制的七条**：①选择器未标定即拒绝（`rc=6`，不猜）②任何一步对不上→整平台停手，不重试不暴力点 ③逐字敲入并校验文字真进了输入框（防点错假框）④点发送后再校验输入框已清空，未清空视为未发出 ⑤两条间隔 20-60 秒随机 ⑥每步前后截图 `.codely-cli/evidence/social/<日期>/` ⑦不做点赞/关注/刷量/群发私信。
 
+**本机浏览器来源（2026-11-17 实测，别再踩）**：本机没装 Chrome；`playwright install chromium` 在本机恒 0%（连得上但不出数据，两条源都一样）；正法是直接用 npmmirror 下 chrome-for-testing（5.7MB/s，192MB 约 40 秒）解压到 `~/.fluxgroup/chrome/`，在 `CHROME_CANDIDATES` 里登记该二进制、用 `executable_path` 指过去——Playwright 不需要自己的浏览器目录。
+
 **诚实的边界**：T3 只解决"页面能点"的问题，不解决"平台是否允许"。封号风险 CEO 已接受并留令号；出问题一击 `kill_switch` 即停。选择器会随平台改版失效——那时工具会停手报"未标定"，不会瞎点。
