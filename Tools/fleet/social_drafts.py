@@ -55,6 +55,14 @@ FACT_Q = re.compile(r"(叫什么|名字|多少钱|价格|怎么买|哪里买|在
                     r"|是不是|能不能|有没有|支持吗|教程|下载|地址|链接|群号|售后|退款"
                     r"|发票|客服电话|怎么联系)")
 
+# 采样温度（2026-11-17）：单采样 0.6 时同一条评论两次跑会一次有稿一次空，
+# 闸与判决都不可复现（正典 bili-ops 记过"不可复现的闸不能拦生产"）。正法=多候选择优。
+VAR_TEMP = 0.6
+TEMPS = (0.6, 0.8, 1.0, 1.1)
+# 确定性分流：命中这些 kind 就不再多采样（多采只会重复同一个结论）
+DETERMINISTIC = ("question_ai", "question_identity", "legal", "flame", "business",
+                 "spam", "claim_veto", "disclosure_veto", "identity_veto")
+
 FAQ = os.path.join(DIR, "faq.jsonl")
 REJECTIONS = os.path.join(DIR, "rejections.jsonl")
 
@@ -126,6 +134,11 @@ IDENTITY = ("学考古", "考古专业", "科班", "我是学", "本人就是", 
 # 披露口径是 CEO 的（10-30 令：成片不加标识、义务走平台声明位、发布决定权 CEO），
 # 模型不许替我们宣布制作方式——草稿里出现这些字一律不作答，转人工。
 DISCLOSURE = ("ai", "人工智能", "生成", "合成", "模型做", "真人", "虚拟人", "数字人")
+# 2026-11-17 评测实锚：模型把「BGM 有版权吗」当普通提问作答、把「浪费时间」当挑刺给草稿。
+# 法务与辱骂不是语气问题，是风险问题——必须确定性分流，不能靠模型分类。
+LEGAL_PAT = re.compile(r"(版权|侵权|授权|商用|律师|起诉|抄袭|抄的|照搬|原曲|buyout|买断)")
+FLAME_PAT = re.compile(r"(难看|浪费时间|垃圾|恶心|退了吧|别更|滚|傻|扯淡|辣眼睛|烂死|废物)")
+BIZ_PAT = re.compile(r"(多少钱|报价|价格|商单|合作费|投放|广告费|开发票|发票|合同|预算)")
 # 评论侧问身份：答案涉及披露口径，归 CEO，不许模型自答
 IDENTITY_ASK = ("你是学", "你学的是", "科班", "你是做", "你是哪个", "团队几",
                 "本人是", "你是本人", "学过", "什么专业", "干这行")
@@ -133,7 +146,10 @@ IDENTITY_ASK = ("你是学", "你学的是", "科班", "你是做", "你是哪�
 # 身份类改成正则覆盖：性别/年龄/籍贯/职业/是否学生/是不是本人。
 IDENTITY_PAT = re.compile(
     r"(是男|是女|男的|女的|男生|女生|性别|多大|几岁|年龄|哪里人|哪儿人"
-    r"|做什么工作|职业是|是不是学生|是学生吗|真人吗|是不是本人|本人吗|谁做的)"
+    r"|做什么工作|职业是|是不是学生|是学生吗|真人吗|是不是本人|本人吗|谁做的"
+    # 2026-11-17 评测实锚：「这歌是你自己唱的吗」四个候选全漏网（词表没有"自己唱"），
+    # 回了「等下说」——是否本人演唱属于身份披露，与"真人吗"同类。
+    r"|自己唱|是你唱|你唱的|原唱|本人唱|亲自唱)"
 )
 
 DEMO = [
@@ -206,6 +222,9 @@ FACE_RULES = {
         "6. complaint 必须给一句话：承认或给一个具体动作，不许留空、不解释不辩解。\n"
         "   例：广告味重→「这条确实接了，下次我挑一下」；画质糊→「源素材就这清晰度，抱歉」。\n"
         "7. legal/flame/spam：草稿留空字符串。\n"
+        "8. 每条自己写：不许复用任何现成句子，也不许把两类评论写成一个模子。\n"
+        "9. 要延后回答时说得具体点（翻档期表/看工程文件/问一下剪辑），"
+        "别整批都用「翻一下」这一句。\n"
     ),
     "danmaku": (
         "你在直播间用弹幕回一句。这是弹幕，不是评论：\n"
@@ -214,6 +233,7 @@ FACE_RULES = {
         "3. 不许编事实（歌名/设备/时间/下期）；被问就写「等下说」这类延后。\n"
         "4. 夸奖类极短弹幕（「好听」「666」）不必回：草稿留空、kind=praise。\n"
         "5. legal/flame/spam：草稿留空字符串。\n"
+        "6. 每条自己写：不许复用现成句子；延后话要说具体（等下说/回头翻一下设备）。\n"
     ),
     "dm": (
         "你在回一条私信/客服消息。第一件事是判「这事我能不能解决」：\n"
@@ -223,12 +243,16 @@ FACE_RULES = {
         "就一个字都不许编。\n"
         "4. 不追问对方隐私（手机号/地址/真名），不代收钱，不提私下交易。\n"
         "5. legal/flame/spam：草稿留空字符串。\n"
+        "6. 不报价、不承诺时间、不写合同条款：这类直接说「我让人对接」。\n"
     ),
 }
 
 
-def classify_and_draft(comment, face="comment", faq=None, _retry_hits=None, _prev=""):
-    good, bad = _fewshot(face)
+def classify_and_draft(comment, face="comment", faq=None, _retry_hits=None, _prev="",
+                       _depth=0):
+    # 2026-11-17 评测实锚：把语料整句当 few-shot 会逐字照抄（6 对草稿共用整句）。
+    # 正典 bili-ops/REPLY-VOICE-SPEC-v3 已记过这条反模式，正法是"只写判据不写例句"，
+    # 语料改作评测/回归资产；这里只带人工否决过的坏样本（反例不会照着抄）。
     bad2 = _bad_from_rejections(face)
     facts = ""
     if faq:
@@ -241,16 +265,14 @@ def classify_and_draft(comment, face="comment", faq=None, _retry_hits=None, _pre
         "legal 抄袭侵权指控 / flame 骂人 / spam 广告。\n\n"
         + FACE_RULES.get(face, FACE_RULES["comment"])
         + facts
-        + "照这个语感写（好例子）：\n" + good + "\n\n"
-        + "不要写成这样（坏例子）：\n" + bad
-        + (("\n" + bad2) if bad2 else "")
+        + ("\n有人工否决过的写法，别学这些：\n" + bad2 if bad2 else "")
         + "\n\n观众原话：" + comment
     )
     if _retry_hits:
         prompt += ("\n\n上一次写成「%s」被判不合格，问题：%s。重写一版，只输出 JSON。"
                    % (_prev[:60], "、".join(_retry_hits[:3])))
     d = post({"model": MODEL, "prompt": prompt, "stream": False, "think": False,
-              "keep_alive": "10m", "options": {"num_ctx": 8192, "temperature": 0.6}})
+              "keep_alive": "10m", "options": {"num_ctx": 8192, "temperature": VAR_TEMP}})
     text = (d.get("response") or "").strip()
     start, end = text.find("{"), text.rfind("}")
     kind, draft = "question", ""
@@ -269,7 +291,11 @@ def classify_and_draft(comment, face="comment", faq=None, _retry_hits=None, _pre
     # 语感闸：不过就带着命中项重写一次，仍不过则留空给人
     res = vg.check(draft, face if face in ("comment", "danmaku") else "comment", comment)
     if res["verdict"] == "BLOCK":
-        k2, d2, h2, n2 = _draft_once(comment, res["hits"], draft, face, faq)
+        # 只重写一次：原来没有深度上限，模型连续产出被拦草稿时会无限递归
+        # （2026-11-17 评测器实锚：RecursionError 直接把工具打死）。
+        if _depth >= 1:
+            return "voice_block", "", True, "语感闸连续未过:%s" % ",".join(res["hits"][:3])
+        k2, d2, h2, n2 = _draft_once(comment, res["hits"], draft, face, faq, _depth + 1)
         if h2 or not d2:
             return k2, d2, True, "语感闸未过(%s) 且重写失败" % ",".join(res["hits"][:2])
         res2 = vg.check(d2, "comment", comment)
@@ -280,10 +306,51 @@ def classify_and_draft(comment, face="comment", faq=None, _retry_hits=None, _pre
     return kind, draft, human, (note + " | " + tag).strip(" |")
 
 
-def _draft_once(comment, hits, prev, face="comment", faq=None):
+def _draft_once(comment, hits, prev, face="comment", faq=None, depth=0):
     kind, draft, human, note = classify_and_draft(comment, face=face, faq=faq,
-                                                  _retry_hits=hits, _prev=prev)
+                                                  _retry_hits=hits, _prev=prev,
+                                                  _depth=depth)
     return kind, draft, human, note
+
+
+def draft_best(comment, face="comment", faq=None, samples=1, avoid=None):
+    """多候选择优：PASS 且不撞批内已选 > PASS > WARN > 空。只做减法（防 Goodhart）。
+
+    2026-11-17 实测两件事，都是这条函数存在的理由：
+      1 同一评论单采样两次结果不同（一次 PASS 一次空稿）——"能不能用"要看多次
+        采样里最好那次过没过闸，不能抽一次算数；
+      2 语料整句当 few-shot 会被逐字照抄——候选多才对得上，可以挑一条不与本批
+        已选重复的（产线验收"每条独写无模板"），而不是事后打标记。
+    """
+    global VAR_TEMP
+    avoid = [a for a in (avoid or []) if a]
+    first_det, best_pass, best_warn = None, None, None
+    for i in range(max(1, min(samples, len(TEMPS)))):
+        VAR_TEMP = TEMPS[i]
+        k, d, h, n = classify_and_draft(comment, face=face, faq=faq)
+        if k in DETERMINISTIC and not d:
+            first_det = (k, d, h, n)
+            break
+        if d:
+            clash = next((x for x in ( _shared_run(d, a, 6) for a in avoid) if x), "")
+            tag = " | 候选%d/%d" % (i + 1, samples) if samples > 1 else ""
+            if clash:
+                tag += " | 与本批已选重复「%s」" % clash
+            if "voice=PASS" in n and not clash:
+                return k, d, h, n + tag
+            if "voice=PASS" in n and best_pass is None:
+                best_pass = (k, d, h, n + tag)
+            elif best_warn is None:
+                best_warn = (k, d, h, n + tag)
+    VAR_TEMP = TEMPS[0]
+    if first_det:
+        return first_det
+    if best_pass:
+        return best_pass
+    if best_warn:
+        k, d, h, n = best_warn
+        return k, d, h, n + " | 多候选仅得WARN级"
+    return "voice_block", "", True, "多候选全部未过闸（宁可少回不可尬回）"
 
 
 def vet(comment, kind, draft, face="comment", faq=None):
@@ -296,6 +363,12 @@ def vet(comment, kind, draft, face="comment", faq=None):
     denies = any(w.lower() in low for w in DENIALS)
     if asks_ai:
         return "question_ai", "", True, "被问 AI 制作：披露口径归 CEO，不代答"
+    if LEGAL_PAT.search(comment or ""):
+        return "legal", "", True, "法务/版权类：不代答，转人工"
+    if FLAME_PAT.search(comment or ""):
+        return "flame", "", True, "辱骂/劝退类：不接话，转人工"
+    if BIZ_PAT.search(comment or ""):
+        return "business", "", True, "商务/报价类：价格与合同归 CEO，转人工"
     if any(w in comment for w in IDENTITY_ASK) or IDENTITY_PAT.search(comment or ""):
         return "question_identity", "", True, "被问创作者身份/经历：披露口径归 CEO，不代答"
     if denies:
@@ -337,7 +410,10 @@ def self_test():
     cases.append(("问AI制作必须转人工且留空", d == "" and h and k == "question_ai"))
     # 2 草稿自曝制作方式 -> 否决（2026-11-17 实测漏洞）
     k, d, h, n = vet("这歌是你自己唱的吗", "question", "不是，是 AI 唱的", face="danmaku")
-    cases.append(("自曝AI必须否决", d == "" and h and k == "disclosure_veto"))
+    cases.append(("自曝AI/身份类必须留空转人工",
+                  d == "" and h and k in ("disclosure_veto", "question_identity")))
+    k, d, h, n = vet("这首歌真好听", "question", "这是 AI 合成的", face="danmaku")
+    cases.append(("草稿自曝制作方式必须否决", d == "" and h and k == "disclosure_veto"))
     # 3 否认式草稿 -> 否决
     k, d, h, n = vet("是AI做的吗", "question", "纯手绘，不是AI")
     cases.append(("否认式必须否决", d == "" and h))
@@ -371,6 +447,9 @@ def main():
     ap.add_argument("--limit", type=int, default=20)
     # 产线验收（PRODUCTS.json PROD-ACCOUNT-GROWTH）：每日 3-5 条、同一视频仅 1 条。
     # 这两条以前只写在验收里、没有代码闸——模型照写 20 条，等于验收形同虚设。
+    ap.add_argument("--samples", type=int, default=4,
+                    help="每条采样几个候选（默认 4=正典口径 temp .6/.8/1.0/1.1；"
+                         "实测 2 个候选仍有大量空稿）")
     ap.add_argument("--max-new", type=int, default=5,
                     help="本轮最多产几条（默认 5，0=不限；产线验收 3-5）")
     ap.add_argument("--max-per-video", type=int, default=1,
@@ -427,7 +506,10 @@ def main():
             n += 1
             continue
         faq, faq_score = (faq_lookup(comment) if face in ("dm", "comment") else (None, 0.0))
-        kind, draft, needs_human, note = classify_and_draft(comment, face=face, faq=faq)
+        accepted = [x.get("draft") for x in out
+                    if x.get("draft") and x.get("state") == "PENDING_REVIEW"]
+        kind, draft, needs_human, note = draft_best(comment, face=face, faq=faq,
+                                                    samples=a.samples, avoid=accepted)
         row = {"id": r.get("id"), "author": r.get("author"), "comment": comment,
                "video": r.get("video"),
                "face": face, "kind": kind, "draft": draft, "note": note,
