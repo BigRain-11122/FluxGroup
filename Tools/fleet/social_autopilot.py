@@ -40,6 +40,9 @@ CONF = os.path.join(SOCIAL, "AUTOPILOT-v1.json")
 # 已实现的官方发送通道。没实现的一律 HOLD_TIER（不是 FAILED）：
 # "没有实现"和"调用失败"是两回事，混在一起会让审计看不出真故障。
 SUPPORTED = {("douyin", "comment")}
+# T3（无官方接口，浏览器代操作）：需 tier3_enabled + 选择器已标定
+SUPPORTED_T3 = {("bilibili", "comment"), ("xiaohongshu", "comment"),
+                ("weixin_channels", "comment"), ("zhihu", "comment"), ("weibo", "comment")}
 
 
 def load_conf(path=CONF):
@@ -159,6 +162,25 @@ def run(drafts_path, conf, sender=None, execute=True, now=None):
             rec["state"] = "QUEUED"
             out_queue.append(rec)
             continue
+        if (plat, beh) in SUPPORTED_T3:
+            if not conf.get("tier3_enabled"):
+                rec["state"] = "HOLD_TIER"
+                rec["hold_reason"] = "T3 未开启（该平台无官方接口）"
+                stats["hold_tier"] += 1
+                out_queue.append(rec)
+                continue
+            ok, receipt = _t3_send(plat, r)
+            rec["result"] = "SENT" if ok else "FAILED"
+            rec["receipt"] = receipt
+            rec["state"] = "SENT" if ok else "FAILED"
+            rec["tier"] = 3
+            stats["sent" if ok else "failed"] += 1
+            if ok:
+                run_count[key] = run_count.get(key, 0) + 1
+                last_author[(plat, r.get("author"))] = rec["ts"]
+            receipts.append(rec)
+            out_queue.append(rec)
+            continue
         if (plat, beh) not in SUPPORTED:
             rec["state"] = "HOLD_TIER"
             rec["hold_reason"] = "%s.%s 无官方发送实现（待接入或需 T3）" % (plat, beh)
@@ -193,6 +215,15 @@ def run(drafts_path, conf, sender=None, execute=True, now=None):
         qpath = qpath if os.path.isabs(qpath) else os.path.join(ROOT, qpath)
         _append(qpath, out_queue)
     return stats, out_queue
+
+
+def _t3_send(plat, row):
+    """T3：交给 social_browser。标定不全时它会明确拒绝（不猜选择器）。"""
+    if str(plat) in ("xiaohongshu", "weixin_channels", "zhihu", "weibo", "bilibili"):
+        sys.path.insert(0, HERE)
+        import social_browser
+        return social_browser.send_one(plat, row, dry=False)
+    return False, "无 T3 执行器"
 
 
 def _default_sender(plat, beh, row):

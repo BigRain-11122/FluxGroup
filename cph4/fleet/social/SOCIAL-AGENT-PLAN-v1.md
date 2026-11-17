@@ -180,3 +180,19 @@ python3 Tools/fleet/social_autopilot.py --run --raw <raw> --dir cph4/fleet/socia
 自检：autopilot 8/8、ingest 9/9、douyin 6/6，全部离线注入，不联网、不写生产队列。
 
 **还差你一句话的两件**：①T3（无接口平台的登录态自动化）是否接受封号风险——接受就给我令号，我把 `tier3_risk_ack` 写上并实现浏览器执行器 ②抖音凭据（企业号认证→应用→`video.comment`→扫码授权），没有它 T2 只能空转。
+
+## 十一 T3 浏览器代操作（CEO 2026-11-17 授权「只能人工你也要操作我的电脑或者页面自己搞定」）
+
+对没有官方写接口的平台，用**独立浏览器 profile + 已登录会话**把页面动作做完。执行器=`Tools/fleet/social_browser.py`（Playwright，必须先 `playwright install chromium`，用 `.venv-housing/bin/python` 跑）。
+
+```bash
+.venv-housing/bin/python Tools/fleet/social_browser.py --login xiaohongshu --wait 120   # 扫码一次，登录态进 ~/.fluxgroup/browser-profile
+.venv-housing/bin/python Tools/fleet/social_browser.py --calibrate xiaohongshu           # 列出候选输入框/发送按钮路径
+# 把 compose/submit 填进 BROWSER-SELECTORS-v1.json 并写 verified_at
+.venv-housing/bin/python Tools/fleet/social_browser.py --dry  xiaohongshu --limit 1      # 填好不发，截图
+.venv-housing/bin/python Tools/fleet/social_browser.py --send xiaohongshu --limit 1      # 真发
+```
+
+**代码强制的七条**：①选择器未标定即拒绝（`rc=6`，不猜）②任何一步对不上→整平台停手，不重试不暴力点 ③逐字敲入并校验文字真进了输入框（防点错假框）④点发送后再校验输入框已清空，未清空视为未发出 ⑤两条间隔 20-60 秒随机 ⑥每步前后截图 `.codely-cli/evidence/social/<日期>/` ⑦不做点赞/关注/刷量/群发私信。
+
+**诚实的边界**：T3 只解决"页面能点"的问题，不解决"平台是否允许"。封号风险 CEO 已接受并留令号；出问题一击 `kill_switch` 即停。选择器会随平台改版失效——那时工具会停手报"未标定"，不会瞎点。
