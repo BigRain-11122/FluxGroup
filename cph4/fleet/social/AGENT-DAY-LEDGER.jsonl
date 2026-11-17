@@ -21,3 +21,4 @@
 {"rc": 0, "note": "[thread] 唤醒 0 · 超时未回 0 []", "secs": 0.1, "ts": "2026-11-17T21:58:24", "id": "threads_tick", "mem": "none", "evidence": {"cph4/fleet/social/threads-events.jsonl": {"mtime": 1794911098, "lines": 4}}}
 {"rc": 1, "note": "两个 profile 都起不来（可能被别的浏览器进程占用）", "secs": 11.5, "ts": "2026-11-17T21:58:35", "id": "learn_cycle", "mem": "collect", "evidence": {"cph4/fleet/social/LEARNING-LEDGER.jsonl": {"mtime": 1794919120, "lines": 28}}}
 {"rc": 0, "note": "[thread] 唤醒 0 · 超时未回 0 []", "secs": 0.2, "ts": "2026-11-17T22:28:41", "id": "threads_tick", "mem": "none", "evidence": {"cph4/fleet/social/threads-events.jsonl": {"mtime": 1794911098, "lines": 4}}}
+{"rc": 0, "note": "  - bilibili     OK", "secs": 217.5, "ts": "2026-11-17T22:42:21", "id": "learn_cycle", "mem": "collect", "evidence": {"cph4/fleet/social/LEARNING-LEDGER.jsonl": {"mtime": 1794926540, "lines": 31}}}
