@@ -291,6 +291,9 @@ def main():
     ap.add_argument("--out", default=os.path.join(SOCIAL, "raw"))
     ap.add_argument("--headed", action="store_true")
     ap.add_argument("--url", action="append", default=None, help="指定视频（可多次）")
+    ap.add_argument("--sort-by-reply", action="store_true",
+                    help="先按评论数倒序再采（爆火视频优先，时间花在油水最大的地方）")
+    ap.add_argument("--min-reply", type=int, default=0, help="评论数低于此值的视频跳过")
     a = ap.parse_args()
     if a.self_test:
         return self_test()
@@ -342,6 +345,21 @@ def main():
     with sync_playwright() as p:
         ctx = sc._launch(p, headed=a.headed, platform="bilibili")
         try:
+            # 评论数倒序：爆火视频一条能出几百上千条评论，同样的时间先吃油水大的。
+            if a.sort_by_reply or a.min_reply:
+                scored = []
+                for u in urls:
+                    meta, _ = video_meta(ctx, bv_id(u))
+                    if not meta:
+                        continue
+                    n = meta.get("reply") or 0
+                    if n >= a.min_reply:
+                        scored.append((n, u))
+                    time.sleep(random.uniform(0.3, 0.8))
+                scored.sort(reverse=True)
+                urls = [u for _n, u in scored]
+                print("[sweep] 按评论数排序取前 %d：%s"
+                      % (len(urls[:a.videos]), ", ".join("%d" % n for n, _ in scored[:6])))
             for url in urls:
                 if stat["videos"] >= a.videos:
                     break
