@@ -1,14 +1,28 @@
 {
  "node": "bm-a",
- "ts": "2026-11-18T01:38:05",
+ "ts": "2026-11-18T01:43:23",
  "jobs": [
   {
-   "id": "biggame-pack-scan-2026-11-18",
-   "title": "[游戏（可上线清单 → 一款可玩包 → 提审材料）] 可上线包清单（唯一能机器判的段）",
-   "cmd": "python Tools/fleet/game_pack_scan.py --root gaming --out cph4/fleet/queue-receipts/game-packs-2026-11-18.json",
+   "id": "R-TRIAGE-BIGDOMAIN-BMB-20261118",
+   "title": "BigDomain·硅基域商业化 线证据扫描（bm-b 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line bigdomain --node bm-b --out cph4/fleet/queue-receipts/triage-bigdomain-bm-b-20261118.md",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/game-packs-2026-11-18.json",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigdomain-bm-b-20261118.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  },
+  {
+   "id": "R-PLAN-BIGGAME-20261118",
+   "title": "Biggame·游戏 线级体检与缺口清单",
+   "cmd": "python Tools/fleet/line_triage.py --line biggame --out cph4/fleet/queue-receipts/triage-biggame-20261118.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-biggame-20261118.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -33,5 +47,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 45.3/1.0 GB"
+ "capacity_note": "ram 44.1/1.0 GB"
 }
