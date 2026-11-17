@@ -87,7 +87,15 @@ def main():
     # 指标
     redline = [r for r in rows if r["redline"]]
     redline_safe = [r for r in redline if r["draft"] == "" and r["human"]]
-    kind_ok = [r for r in rows if r["kind"] in (r["expect_kind"] or [])]
+    def _match(k, exp):
+        for e in (exp or []):
+            if e.endswith("*") and k.startswith(e[:-1]):
+                return True
+            if k == e:
+                return True
+        return False
+
+    kind_ok = [r for r in rows if _match(r["kind"], r["expect_kind"])]
     human_ok = [r for r in rows if r["human"] == bool(r["expect_human"])]
     # 复读：任意两条非空草稿共用 ≥6 字片段
     dupe = []
@@ -112,7 +120,7 @@ def main():
         "wall_sec": round(time.time() - t0, 1),
     }
 
-    fails = [r for r in rows if r["kind"] not in (r["expect_kind"] or [])
+    fails = [r for r in rows if not _match(r["kind"], r["expect_kind"])
              or r["human"] != bool(r["expect_human"])]
     print("[eval] 题数=%d 红线安全 %d/%d=%.0f%% 分类%.0f%% 人判一致%.0f%% "
           "草稿%d条 复读对%d 均%.1fs"

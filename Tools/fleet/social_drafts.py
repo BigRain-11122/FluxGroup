@@ -43,7 +43,7 @@ MODEL = ((_lm._duties().get("resident") or {}).get("model") or "qwen3.5:4b-mlx")
 # --- 三通道（2026-11-17）----------------------------------------------------
 # 评论、弹幕、客服私信不是一种活：评论可以 1-2 句带情绪；弹幕要短、不逐条回；
 # 客服必须先判"能不能解决"。用同一套提示词写三种，等于让客服腔污染评论区。
-FACES = ("comment", "danmaku", "dm")
+FACES = ("comment", "danmaku", "dm", "funnel")
 
 # 弹幕里的纯情绪短句不逐条回：真主播也不回每句"好听"，逐条回＝机器人。
 DANMAKU_SKIP = re.compile(r"^(好听|厉害了|牛|牛啊|666|6+|哈哈+|233+|好看|太强了|爱了|"
@@ -139,6 +139,10 @@ DISCLOSURE = ("ai", "人工智能", "生成", "合成", "模型做", "真人", "
 LEGAL_PAT = re.compile(r"(版权|侵权|授权|商用|律师|起诉|抄袭|抄的|照搬|原曲|buyout|买断)")
 FLAME_PAT = re.compile(r"(难看|浪费时间|垃圾|恶心|退了吧|别更|滚|傻|扯淡|辣眼睛|烂死|废物)")
 BIZ_PAT = re.compile(r"(多少钱|报价|价格|商单|合作费|投放|广告费|开发票|发票|合同|预算)")
+# 引流分两类：站外导流=红线（产线验收写死"零导流话术"），站内引导=允许但只在 funnel 通道。
+FUNNEL_OUT = re.compile(r"(微信|vx|v信|加V|加VX|QQ|企鹅|公众号|二维码|扫码|链接|网址|http|网盘|"
+                        r"淘宝|店铺|微店|主页简介|看我简介|私信我|代购|下单)")
+FUNNEL_IN = re.compile(r"(关注|合集|追更|下一集|上集|收藏|系列|番外|前传)")
 # 评论侧问身份：答案涉及披露口径，归 CEO，不许模型自答
 IDENTITY_ASK = ("你是学", "你学的是", "科班", "你是做", "你是哪个", "团队几",
                 "本人是", "你是本人", "学过", "什么专业", "干这行")
@@ -234,6 +238,16 @@ FACE_RULES = {
         "4. 夸奖类极短弹幕（「好听」「666」）不必回：草稿留空、kind=praise。\n"
         "5. legal/flame/spam：草稿留空字符串。\n"
         "6. 每条自己写：不许复用现成句子；延后话要说具体（等下说/回头翻一下设备）。\n"
+    ),
+    "funnel": (
+        "你在 B 站评论区做**站内引导**（让观众更愿意留下来看下一集/翻合集/点关注）。铁律：\n"
+        "1. 只准站内动作：关注、合集、追更、下一集、收藏。禁止任何站外导流——微信/QQ/公众号/"
+        "链接/二维码/网盘/店铺 一个字都不许出现。\n"
+        "2. 一句话，10-20 字，必须长在真实语境里（夸某一段、答某个问题之后再带一句），"
+        "不许凭空贴广告。\n"
+        "3. 不许承诺时间（明天更/下周），不许喊口号（一键三连/求关注/点赞投币收藏）。\n"
+        "4. 不许用「宝子/家人们/姐妹们/划重点」这类营销腔。\n"
+        "5. 引流密度天然有限：每 5 条评论最多 1 条带引导，其余就正常聊天。\n"
     ),
     "dm": (
         "你在回一条私信/客服消息。第一件事是判「这事我能不能解决」：\n"
@@ -359,6 +373,8 @@ def vet(comment, kind, draft, face="comment", faq=None):
     # 客服通道的事实缺口：问了具体事实而事实包没有这条 -> 不许编，转人工
     if face == "dm" and not faq and FACT_Q.search(comment or ""):
         return kind, "", True, "客服事实缺口：事实包无此条，转人工（不许编）"
+    if FUNNEL_OUT.search(draft or ""):
+        return "funnel_out_veto", "", True, "草稿含站外导流：红线"
     asks_ai = any(w in comment for w in AI_WORDS)
     denies = any(w.lower() in low for w in DENIALS)
     if asks_ai:
@@ -367,6 +383,13 @@ def vet(comment, kind, draft, face="comment", faq=None):
         return "legal", "", True, "法务/版权类：不代答，转人工"
     if FLAME_PAT.search(comment or ""):
         return "flame", "", True, "辱骂/劝退类：不接话，转人工"
+    if FUNNEL_OUT.search(draft or ""):
+        return "funnel_out_veto", "", True, "草稿含站外导流（微信/链接/二维码等）：产线验收红线"
+    if face == "funnel":
+        if not FUNNEL_IN.search(draft or ""):
+            return "funnel_empty", "", True, "引流稿里没有站内动作（关注/合集/追更），等于没引导"
+        if len(draft or "") > 40:
+            return "funnel_long", "", True, "引流稿超过 40 字，像广告"
     if BIZ_PAT.search(comment or ""):
         return "business", "", True, "商务/报价类：价格与合同归 CEO，转人工"
     if any(w in comment for w in IDENTITY_ASK) or IDENTITY_PAT.search(comment or ""):
@@ -521,6 +544,16 @@ def main():
             row["faq_score"] = faq_score
         out.append(row)
         n += 1
+
+    # 引流密度闸（2026-11-17）：站内引导也是营销信号，一批里每 5 条最多留 1 条，
+    # 超出的不丢、标 HOLD_FUNNEL，留给人决定要不要发——密度过高会被观众当广告号。
+    funnels = [x for x in out if (x.get("face") == "funnel"
+                                  and x.get("state") == "PENDING_REVIEW")]
+    cap = max(1, len(out) // 5)
+    for i, x in enumerate(funnels):
+        if i >= cap:
+            x["state"] = "HOLD_FUNNEL"
+            x["note"] = (x.get("note") or "") + " | 引流密度超限（本批上限 %d 条）" % cap
 
     # 配额闸：超出的行不丢，标 HOLD_QUOTA 留痕（明天还想要就改配额，不许悄悄消失）
     seen_video, kept = {}, []
