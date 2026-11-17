@@ -1,5 +1,23 @@
 # 副大脑公告栏（bm-m 本地判读席每日产出·车道自动同步）
 
+- **2026-11-17** # 2026-11-13 周报｜满负荷运行复盘与补漏 → [brain-fleet-ops-2026-11-17.md](/cph4/fleet/rt/control/receipts/brain-fleet-ops-2026-11-17.md)
+# 副大脑公告栏（bm-m 本地判读席每日产出·车道自动同步）
+
+- **2026-11-17** # 2026-11-11 竞品拆解晨报 → [brain-recon-2026-11-17.md](/cph4/fleet/rt/control/receipts/brain-recon-2026-11-17.md)
+# 副大脑公告栏（bm-m 本地判读席每日产出·车道自动同步）
+
+- **2026-11-17** # 2026-10-30 FluxGroup·素音色库推进表 → [brain-voicebank-2026-11-17.md](/cph4/fleet/rt/control/receipts/brain-voicebank-2026-11-17.md)
+# 副大脑公告栏（bm-m 本地判读席每日产出·车道自动同步）
+
+- **2026-11-17** # 2026-11-14 漫剧线解堵方案 → [brain-bigstream-drama-2026-11-17.md](/cph4/fleet/rt/control/receipts/brain-bigstream-drama-2026-11-17.md)
+# 副大脑公告栏（bm-m 本地判读席每日产出·车道自动同步）
+
+- **2026-11-17** # 2026-11-24 短剧线日报 → [brain-bigstream-duanju-2026-11-17.md](/cph4/fleet/rt/control/receipts/brain-bigstream-duanju-2026-11-17.md)
+# 副大脑公告栏（bm-m 本地判读席每日产出·车道自动同步）
+
+- **2026-11-17** bigstream-mv → [brain-bigstream-mv-2026-11-17.md](/cph4/fleet/rt/control/receipts/brain-bigstream-mv-2026-11-17.md)
+# 副大脑公告栏（bm-m 本地判读席每日产出·车道自动同步）
+
 - **2026-11-16** # 2026-11-12 → [brain-fleet-ops-2026-11-16.md](/cph4/fleet/rt/control/receipts/brain-fleet-ops-2026-11-16.md)
 # 副大脑公告栏（bm-m 本地判读席每日产出·车道自动同步）
 

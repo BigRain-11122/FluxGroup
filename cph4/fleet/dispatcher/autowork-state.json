@@ -1,7 +1,7 @@
 {
- "date": "20261116",
+ "date": "20261117",
  "done": {
-  "triage": "卡片 -> 最可能原因 | 下一步动作(谁做什么)\nbigstream-mv-gate-2026-11-14 | 日志缺失导致无法判读 | 运维补全日志后重跑\nbiggame-pack-scan-2026-11-15 | 同上 | 运维补全日志后重跑\nasset-lib-voice-corpus-2026-11-15 | 同上 | 运维补全日志后重跑\nR-TRIAGE-BIGSTREAMMV-BMA-20261115 | 同上 | 运维补全日志后重跑",
-  "digest": "今日产出共 24 件，覆盖 MV、R-MODEL-RADAR-BMA、R-MODEL-RADAR-BMM、R-NEXT-BIGGAME、R-NEXT-BIGSTREAMD-EVIDENCE、R-PLAN-BIGLIFE、R-PLAN-BIGMONEY 及 biz-car-gaming 等线。\n其中 _last_lane_bm-m.json 仅 1 件，其余多数线均有 2 件产出，该文件数量明显偏少。\n建议明天优先处理_last_lane_bm-m.json 的缺失或延期问题。"
+  "triage": "卡片 -> 最可能原因 | 下一步动作(谁做什么)\nR-TRIAGE-BIGLIFE-BMB-20261116 | 数据缺失，无法推断 | 运维人员补充失败日志或跳过\nR-MV-GATE-1D | 数据缺失，无法推断 | 运维人员补充失败日志或跳过",
+  "digest": "今日共产出 19 件文件，覆盖 RADAR、BIGGAME、BIGLIFE、BIGMONEY 及 MV 发布等五条线。其中 RADAR 线与 BIGGAME/BIGLIFE/BIGMONEY 线产出数量明显偏少，仅各 2 件。建议明天优先补全 RADAR 线的缺失产出。"
  }
 }

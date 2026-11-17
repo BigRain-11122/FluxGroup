@@ -1,6 +1,6 @@
 {
  "version": "v1-20261112",
- "updated_at": "2026-11-16T16:20:24",
+ "updated_at": "2026-11-17T10:29:03",
  "items": [
   {
    "id": "IMP-SUPPLY-PROD-GAME-SUBMIT-材料套用",
@@ -145,10 +145,12 @@
    "evidence": "PRODUCTS.json 中 PROD-ASSET-PACK.commands.图标 为空且 outputs.图标 已声明",
    "fix": "补命令（复用现成工具）或在 PRODUCTS 里明确标 manual_stages（CEO 权限件）",
    "accept": "PRODUCTS.json 里 PROD-ASSET-PACK.commands.图标 非空，或 stage 进入 manual_stages 且理由可查",
-   "status": "OPEN",
+   "status": "DROPPED",
    "depends": [],
    "created_at": "2026-11-12T16:48:59",
-   "owner_fixed_at": "2026-11-12T16:58:35"
+   "owner_fixed_at": "2026-11-12T16:58:35",
+   "dropped_at": "2026-11-17T04:27:44",
+   "drop_reason": "触发条件不再成立（判据修正或事实已变），留痕不删"
   },
   {
    "id": "IMP-SUPPLY-PROD-QUANT-REPORT-数据",
