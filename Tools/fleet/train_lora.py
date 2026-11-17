@@ -116,6 +116,9 @@ def main():
     ap.add_argument("--steps-per-eval", type=int, default=50)
     ap.add_argument("--plumbing", action="store_true", help="只验管路（会标成 plumbing）")
     ap.add_argument("--keep-models", action="store_true", help="不卸载 ollama 模型")
+    ap.add_argument("--resume", default=None, help="从某个 *_adapters.safetensors 续训")
+    ap.add_argument("--grad-checkpoint", action="store_true",
+                    help="梯度检查点：用时间换内存，防触发 swap")
     a = ap.parse_args()
     if a.self_test:
         return self_test()
@@ -154,6 +157,10 @@ def main():
             "--max-seq-length", str(a.max_seq_length),
             "--steps-per-eval", str(a.steps_per_eval),
             "--adapter-path", adapter, "--seed", "20261117", "--mask-prompt"]
+    if a.resume:
+        argv += ["--resume-adapter-file", a.resume]
+    if a.grad_checkpoint:
+        argv.append("--grad-checkpoint")
     print("[train] %d 条训练样本 · %d iter · num-layers=%d · bs=%d"
           % (n_train, a.iters, a.num_layers, a.batch_size))
     print("[train] %s" % " ".join(argv[2:]))
