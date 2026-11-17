@@ -194,7 +194,7 @@ def run_once(matrix, force=None):
                   % (t["id"], t.get("mem"), ran_mem))
             continue
         print("[day] 跑 %-16s %s" % (t["id"], t.get("what", "")[:40]), flush=True)
-        res = run_task(t)
+        res = run_task(t, timeout=t.get("timeout_s", BUDGET_S))
         ev = evidence_facts(t)
         st[t["id"]] = dict(res, ts=time.time(), mem=t.get("mem", "none"), evidence=ev)
         _save_state(st)

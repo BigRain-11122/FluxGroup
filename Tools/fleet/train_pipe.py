@@ -90,9 +90,9 @@ def latest_run():
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--self-test", action="store_true")
-    ap.add_argument("--iters", type=int, default=300)
-    ap.add_argument("--num-layers", type=int, default=8)
-    ap.add_argument("--max-seq-length", type=int, default=224)
+    ap.add_argument("--iters", type=int, default=500)
+    ap.add_argument("--num-layers", type=int, default=-1, help="-1=全部层（不留余量）")
+    ap.add_argument("--max-seq-length", type=int, default=256)
     ap.add_argument("--danmaku-max", type=float, default=0.1)
     ap.add_argument("--min-rows", type=int, default=500)
     ap.add_argument("--samples", type=int, default=3, help="盲评每题生成几条")

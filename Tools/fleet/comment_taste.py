@@ -69,8 +69,21 @@ SEG_TUNE = {
 }
 
 
+REPLY_PREFIX = re.compile(r"^\s*回复\s*@?[^:：]{0,20}[:：]\s*")
+
+
+def strip_reply_prefix(text):
+    """剥掉「回复 @某人 :」前缀。
+
+    2026-11-17 实测：critic 段被丢弃的 5/6 都是这个前缀造成的，而前缀后面往往是
+    很好的技术讨论（"为什么录出来的声音卡顿""生化危机不如魔兽和GTA"）。@前缀只是
+    指向关系，不是内容噪音——剥掉比整条扔掉信息量高得多。
+    """
+    return REPLY_PREFIX.sub("", text or "").strip()
+
+
 def score(text, seg=None):
-    t = (text or "").strip()
+    t = strip_reply_prefix(text)
     d = {"len": len(t), "logic": 0, "voice": 0, "human": 0, "taste": 0, "natural": 0,
          "flags": []}
     if not CJK.search(t):
@@ -83,8 +96,8 @@ def score(text, seg=None):
         d["flags"].append("表情/符号占满（有效文字 %d 字）" % len(bare))
         return dict(d, total=0, verdict="REJECT")
 
-    if REPLY.match(t):
-        d["flags"].append("互相应答（回复@某人，脱离上下文没意义）")
+    if REPLY.match(t) or len(t) < 4:
+        d["flags"].append("剥掉@前缀后没剩下内容")
 
     # 1 逻辑：有具体对象或转折因果 = 有主干；否则是名词/情绪堆
     obj = any(w in t for w in CONCRETE)
@@ -137,7 +150,7 @@ def score(text, seg=None):
         # 该短的段：长度合适本身就是合格，不因为没有"具体对象"扣到不及格
         d["taste"] = min(20, d["taste"] + 5)
         total = d["logic"] + d["voice"] + d["human"] + d["taste"] + d["natural"]
-    if REPLY.match(t) or len(cli) >= 2 or FILLER.match(t) or len(t) < 6:
+    if len(cli) >= 2 or FILLER.match(t) or len(t) < 6:
         verdict = "REJECT"
     elif total >= pass_line and d["logic"] >= logic_line and not cli:
         verdict = "PASS"
@@ -192,8 +205,17 @@ def main():
     if a.corpus:
         rows = [json.loads(l) for l in open(a.corpus, encoding="utf-8") if l.strip()]
         keep, stat = [], {"REJECT": 0, "RISKY": 0, "PASS": 0}
+        # 批量筛选必须按段用段位判据——否则玩梗/浅层/挑刺这些"该短、该直"的段
+        # 会被通用线误杀（实测 critic 27 条只剩 14 条）。颗粒度对齐就在这一行。
+        try:
+            sys.path.insert(0, HERE)
+            import segments as _sg
+            _spec = _sg.load_spec()
+        except Exception:
+            _spec = None
         for r in rows:
-            s = score(r.get("text"))
+            seg = _sg.classify(r.get("text"), _spec)["primary"] if _spec else None
+            s = score(r.get("text"), seg=seg)
             stat[s["verdict"]] += 1
             if s["verdict"] == "PASS":
                 keep.append(dict(r, taste=s["total"]))

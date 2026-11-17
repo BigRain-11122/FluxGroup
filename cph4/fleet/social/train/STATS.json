@@ -1,26 +1,26 @@
 {
  "src": "cph4/fleet/social/corpus/human/own_collected.jsonl",
- "src_sha": "37602227bdd0e9bf",
- "train": 1884,
- "valid": 97,
- "avg_len": 28.3,
+ "src_sha": "f92b7f6e8ef6dd22",
+ "train": 3169,
+ "valid": 165,
+ "avg_len": 30.4,
  "dropped": {
   "dup": 0,
-  "len": 1253,
-  "bad": 17,
+  "len": 2556,
+  "bad": 32,
   "use": 0,
-  "taste": 14630,
-  "danmaku_short": 1508,
-  "danmaku_over": 287,
-  "near_dup": 52,
+  "taste": 22271,
+  "danmaku_short": 1505,
+  "danmaku_over": 87,
+  "near_dup": 79,
   "phrase_dull": 0,
-  "seg_over": 525
+  "seg_over": 1140
  },
  "seed": 20261117,
  "valid_ratio": 0.05,
  "by_len": {
-  "l": 1051,
-  "m": 837,
-  "s": 93
+  "l": 2073,
+  "m": 1096,
+  "s": 165
  }
 }

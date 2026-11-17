@@ -107,7 +107,10 @@ def clean(items, src, license_, use):
         # origin=comment|danmaku：训练时要能按来源分层（弹幕多数是碎片，比例过高会把
         # 模型教成只会吐半句）。这里必须在下游改 kind 之前先记下来。
         origin = raw.get("kind") if isinstance(raw, dict) else None
-        t = re.sub(r"\s+", " ", str((raw.get("text") if isinstance(raw, dict) else raw) or "")).strip()
+        _t = str((raw.get("text") if isinstance(raw, dict) else raw) or "")
+        # @回复前缀只是指向关系不是内容；留着模型会学成"每条都带 @xxx"
+        _t = re.sub(r"^\s*回复\s*@?[^:：]{0,20}[:：]\s*", "", _t)
+        t = re.sub(r"\s+", " ", _t).strip()
         if not t:
             continue
         if not (MINLEN <= len(t) <= MAXLEN):

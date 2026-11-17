@@ -150,17 +150,13 @@
       "evidence": "raw/bilibili.comment.jsonl 行数增长",
       "on_fail": "风控拒绝→顺延；连续 2 天零增长判 amber",
       "priority": 7,
-      "window": {
-        "from": "01:00",
-        "to": "08:00"
-      },
-      "window_note": "重活只在凌晨窗口：白天 CEO 在用机，采集要开浏览器(1.05GB)、训练要占满统一内存",
       "evidence_paths": [
         "cph4/fleet/social/raw/bilibili.comment.jsonl"
       ],
       "ok_rc": [
         0
-      ]
+      ],
+      "timeout_s": 3600
     },
     {
       "id": "train_weekly",
@@ -176,18 +172,14 @@
       "evidence": "train/RUNS/<ts>/RUN.json + EVAL.json + BEST.json + BLIND.md",
       "on_fail": "门2/门3 未过属正常结论（不训/不采用），但必须留 PIPELINE.json 说明卡在哪",
       "priority": 8,
-      "window": {
-        "from": "01:00",
-        "to": "08:00"
-      },
-      "window_note": "重活只在凌晨窗口：白天 CEO 在用机，采集要开浏览器(1.05GB)、训练要占满统一内存",
       "evidence_paths": [
         "cph4/fleet/social/train/STATS.json"
       ],
       "ok_rc": [
         0,
         2
-      ]
+      ],
+      "timeout_s": 5400
     },
     {
       "id": "monitor_board",
@@ -216,7 +208,7 @@
     "pause": "哨兵 .codely-cli/state/SOCIAL-AGENT-PAUSED 存在即整轮跳过（CEO 让路令）",
     "stale": "任务超过 every_s×2 没跑 → 监控判 MISSED（不是失败，是没轮到）",
     "honest": "任何任务只认产出文件名/行数/mtime，不认进程与回执",
-    "window": "任务可声明 window（本地时间），窗口外不跑也不记 ts——避免\"白天抢机\"与\"永久顺延\"两种错",
+    "window": "已按 CEO 令（2026-11-17「你就是训练用的，不要留余量」）取消：训练与补采不再限时窗",
     "ok_rc": "任务的正常退出码可能不是 0（审计有未决=1、训练门未过=2）。ok_rc 未声明=只认 0；不声明就会把\"amber\"误判成失败。",
     "evidence_paths": "产出必须是具体路径列表（机读）。只写描述性文字等于没有证据——监控取不到文件就会判\"跑了没产出\"。"
   }
