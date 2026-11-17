@@ -158,6 +158,17 @@ def run(drafts_path, conf, sender=None, execute=True, now=None):
             stats["hold_quota"] += 1
             out_queue.append(rec)
             continue
+        try:
+            sys.path.insert(0, HERE)
+            import social_riskguard as guard
+            okr, whyr = guard.check(plat)
+            if not okr:
+                rec["state"] = "HOLD_RISK"
+                rec["hold_reason"] = "风控闸：%s" % whyr
+                out_queue.append(rec)
+                continue
+        except Exception:
+            pass
         if not (execute and conf.get("tier2_enabled")):
             rec["state"] = "QUEUED"
             out_queue.append(rec)

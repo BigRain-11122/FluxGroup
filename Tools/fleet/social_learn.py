@@ -183,6 +183,18 @@ def cycle(collector=None, profiler=None, sources=None, platforms=None, limit=200
     locked = threading.Lock()
 
     def work(plat, url):
+        try:
+            sys.path.insert(0, HERE)
+            import social_riskguard as guard
+            okr, whyr = guard.check(plat)
+            if not okr:
+                with locked:
+                    results.append({"platform": plat, "verdict": "COOLDOWN", "note": whyr})
+                    ledger({"ts": _now(), "platform": plat, "verdict": "COOLDOWN",
+                            "found": 0, "new": 0, "note": str(whyr)[:160]})
+                return
+        except Exception:
+            pass
         time.sleep(random.uniform(0, STAGGER_S))   # 错峰起跑，别让几个浏览器同时抢 IO
         rows, why = ctx["collector"](url, plat, limit=ctx["limit"], min_n=ctx["min_n"])
         with locked:

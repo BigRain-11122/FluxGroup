@@ -22,6 +22,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import random
 import re
 import subprocess
 import sys
@@ -157,6 +158,15 @@ def extract(page, platform, limit=200):
 
 def collect(url, platform, limit=200, min_n=20, scrolls=8, headed=False):
     try:
+        sys.path.insert(0, HERE)
+        import social_riskguard as guard
+    except Exception:
+        guard = None
+    if guard:
+        ok, why = guard.check(platform)
+        if not ok:
+            return None, "风控闸拒绝：%s" % why
+    try:
         from playwright.sync_api import sync_playwright
     except Exception:
         return None, "未装 playwright（用 .venv-housing/bin/python 运行）"
@@ -170,20 +180,25 @@ def collect(url, platform, limit=200, min_n=20, scrolls=8, headed=False):
                 return None, "打开失败：%s" % str(e)[:80]
             time.sleep(4)
             body = pg.inner_text("body")[:400]
-            if any(k in body for k in ("当前网络存在风险", "系统监测到您的网络环境", "unhuman")):
-                return None, "被平台风控拦截（%s）——换 --headed 或用你自己的网络再试" % platform
+            sign = guard.blocked_text(body) if guard else ""
+            if sign:
+                if guard:
+                    guard.note(platform, "blocked", sign)     # 进冷却 + 升级，别重试
+                return None, "被平台风控拦截（命中「%s」）——已进冷却，换 --headed 或等冷却结束" % sign
             got = []
             for _ in range(max(1, scrolls)):
                 got = extract(pg, platform, limit)
                 if len(got) >= min_n:
                     break
-                pg.mouse.wheel(0, 2400)
-                time.sleep(2.2)
+                pg.mouse.wheel(0, random.randint(1800, 3000))
+                time.sleep(random.uniform(2.0, 5.0))   # 滚动节奏随机化，固定节拍是风控特征
             if len(got) < min_n:
                 # 打印看到的骨架，便于下一次改选择器（不写空文件冒充成功）
                 skel = pg.evaluate("""() => [...document.querySelectorAll('[class*="comment"],[id*="comment"]')]
                     .slice(0,12).map(e=>e.id?('#'+e.id):('.'+String(e.className).split(' ')[0]))""")
                 return None, "只抽到 %d 条（<%d），页面评论结构=%s" % (len(got), min_n, skel[:8])
+            if guard:
+                guard.note(platform, "ok", "collected %d" % len(got))
             rows, seen = [], set()
             for t, a, lk in got:
                 if t in seen:
