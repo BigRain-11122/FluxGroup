@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-18T04:32:48",
- "cycle": 2636,
+ "ts": "2026-11-18T04:39:10",
+ "cycle": 2638,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-18T04:32:48",
+ "master_tick_ts": "2026-11-18T04:39:10",
  "queue": {
   "total": 301,
   "open": 9,
@@ -14,23 +14,23 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 27.7,
-   "cpu_load_pct": 33,
-   "ram_free_gb": 44.1,
-   "gpu_util_pct": 15,
+   "hb_age_s": 49.4,
+   "cpu_load_pct": 42,
+   "ram_free_gb": 37.5,
+   "gpu_util_pct": 14,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-18T04:30:50",
+    "ts": "2026-11-18T04:35:50",
     "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 19
+   "idle_rounds": 21
   },
   "bm-b": {
    "online": false,
@@ -58,30 +58,30 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 212.5,
-   "cpu_load_pct": 32,
-   "ram_free_gb": 16.9,
+   "hb_age_s": 236.9,
+   "cpu_load_pct": 9,
+   "ram_free_gb": 15.0,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-18T04:29:25",
+    "ts": "2026-11-18T04:35:16",
     "reason": "SELF-DISPATCH: lane scans its own backlog",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
    "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
-   "idle_rounds": 1
+   "idle_rounds": 3
   }
  },
  "idle_rounds": {
-  "bm-a": 19,
+  "bm-a": 21,
   "bm-b": 0,
   "bm-c": 0,
-  "bm-m": 1
+  "bm-m": 3
  },
  "lines": {
   "bigstream-mv": {
@@ -843,9 +843,10 @@
  "supply_added": [],
  "events": [],
  "violations": [
-  "bm-a IDLE-CONFIRMED x19 (SELF-DISPATCH: lane scans its own backlo)",
+  "bm-a IDLE-CONFIRMED x21 (SELF-DISPATCH: lane scans its own backlo)",
   "bm-b OFFLINE",
   "bm-c OFFLINE",
+  "bm-m IDLE-CONFIRMED x3 (SELF-DISPATCH: lane scans its own backlo)",
   "STAGE-STALLED bigstream-mv 卡在 立意/分镜/导演席 (导演席（自决推进，CEO 巡视可随时否决）)",
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)",
