@@ -1,51 +1,40 @@
-# 堵/坏/卡点闭环 2026-11-18T00:16:35
+# 堵/坏/卡点闭环 2026-11-18T00:22:06
 
 分类表：`cph4/fleet/BLOCKER-TAXONOMY-v1.json`（每类四件套：判据/解法/周期/升级轮次）。
-本轮命中 70 项 · 已解 70 · 待升级 0 · 未到周期跳过 5 类
+本轮命中 12 项 · 已解 11 · 待升级 1 · 未到周期跳过 8 类
 
-## DECL-UNDISPATCHED（2）
+## 需升级（连轮未解）
 
-- `bigstream-mv` 声明 rebuild 但无在飞卡 ✅night_plan rc=0 [night_plan] cards=2 waiting=0 已投v
+- QUALITY-BELOW 关键帧 / 美术图（图像类）（连续 11 轮未解）
+
+## DECL-UNDISPATCHED（1）
+
 - `fluxverse` 声明 city-state 但无在飞卡 ✅night_plan rc=0 [night_plan] cards=2 waiting=0 已投v
 
-## STAGE-STALE（56）
+## NODE-UNSERVICEABLE（1）
 
-- `executor_guard` 阶段超期未真跑 ✅executor_guard rc=0   bm-c   unreachable
-- `executor_revive` 阶段超期未真跑 ✅executor_guard rc=0   bm-c   unreachable
-- `market` 阶段超期未真跑 ✅executor_guard rc=0   bm-c   unreachable
-- `quality` 阶段超期未真跑 ✅executor_guard rc=0   bm-c   unreachable
-- `ossradar` 阶段超期未真跑 ✅executor_guard rc=0   bm-c   unreachable
-- `executor_revive` 阶段超期未真跑 ✅executor_guard rc=0   bm-c   unreachable
+- `bm-b` probe-only：近7天仅 3 份回执（门槛 5） ✅派自证卡 PROBE-AUTO-bm-b-20261118
 
-## FAKE-RED（1）
+## QUEUE-DRIFT（7）
 
-- `detector-error` AttributeError: module 'patrol' has no attribute 'collect' ✅已定性为不需行动（1 项），不重复报
+- `asset-lib-voice-corpus-2026-11-18` 队列=UNVERIFIED 备队列=RUNNING ✅对齐 7 行
+- `asset-lib-char-prompts-2026-11-18` 队列=RUNNING 备队列=READY ✅对齐 7 行
+- `R-PLAN-BIGDOMAIN-20261118` 队列=CANCELLED 备队列=READY ✅对齐 7 行
+- `asset-lib-library-check-2026-11-18` 队列=FAILED 备队列=READY ✅对齐 7 行
+- `R-NEXT-BIGSTREAMM-REBUILD-20261118` 队列=RUNNING 备队列=UNVERIFIED ✅对齐 7 行
+- `bigmoney-signal-2026-11-18` 队列=RUNNING 备队列=OPEN ✅对齐 7 行
 
-## QUEUE-DRIFT（6）
+## CARD-UNOWNED（1）
 
-- `R-NEXT-BIGSTREAMM-REBUILD-20261118` 队列=UNVERIFIED 备队列=RUNNING ✅对齐 6 行
-- `R-PLAN-BIGCOMPUTE-20261118` 队列=CANCELLED 备队列=READY ✅对齐 6 行
-- `bigmoney-signal-2026-11-18` 队列=OPEN 备队列=READY ✅对齐 6 行
-- `asset-lib-voice-corpus-2026-11-18` 队列=RUNNING 备队列=READY ✅对齐 6 行
-- `asset-lib-face-dataset-2026-11-18` 队列=OPEN 备队列=READY ✅对齐 6 行
-- `R-PLAN-BIGDOMAIN-20261118` 队列=CANCELLED 备队列=READY ✅对齐 6 行
+- `Q-TRIAGE-ASSETLIB-20261118` 无 owner ✅定责 1 张
 
-## ARTIFACT-MISSING（1）
+## QUALITY-BELOW（1）
 
-- `R-NEXT-BIGSTREAMM-REBUILD-20261118` 交付物不在盘：cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v ✅重开 1 张假完成卡
+- `关键帧 / 美术图（图像类）` | 关键帧 / 美术图（图像类） | 0.67 | FAIL | 1.00 | 退步 33% | · 待解（第 11 轮）
 
-## UNVERIFIED-STUCK（1）
+## VOLUME-MISSING（1）
 
-- `R-NEXT-BIGSTREAMM-REBUILD-20261118` 回执未对上 ✅receipt_match rc=0 [receipt-match] 可收口 0 张｜歧义 0｜证据
-
-## CARD-UNOWNED（2）
-
-- `asset-lib-face-dataset-2026-11-18` 无 owner ✅定责 2 张
-- `bigmoney-signal-2026-11-18` 无 owner ✅定责 2 张
-
-## NODE-REPO-DIVERGED（1）
-
-- `bm-a` bm-a 仓库已分叉（head ce5797d6d 非 origin/main 祖先），/poke 只会假受理，新卡与产出归集到不了；解=在 ✅已定性为不需行动（1 项），不重复报
+- `移动硬盘` 台账有引用但卷未挂载 ✅vault rebuild rc=0 重建 0 条（已可达跳过 643，历史快照 8，无法重建 0）
 
 ---
 _自动解只做确定性动作；解不了的按轮次升级，不许静默留着_
