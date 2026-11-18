@@ -22,9 +22,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
-import random
 import re
-import subprocess
 import sys
 import time
 
@@ -32,52 +30,30 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 SOCIAL = os.path.join(ROOT, "cph4", "fleet", "social")
 RAW = os.path.join(SOCIAL, "raw")
-CHROME = os.path.join(os.path.expanduser("~"), ".fluxgroup", "chrome", "chrome-mac-arm64",
-                      "Google Chrome for Testing.app", "Contents", "MacOS",
-                      "Google Chrome for Testing")
+# 2026-11-18 D-20261118-12：采集器原先只认 macOS 内置 Chrome for Testing 路径，
+# 在 bm-a(Windows) 上 exe=None → playwright 自带 chromium 未装 → profile 起不来。
+# 改为按平台列候选，取第一个存在的；FLUXG_CHROME 可显式覆盖。
+CHROME_CANDIDATES = [
+    os.environ.get("FLUXG_CHROME", ""),
+    os.path.join(os.path.expanduser("~"), ".fluxgroup", "chrome", "chrome-mac-arm64",
+                 "Google Chrome for Testing.app", "Contents", "MacOS",
+                 "Google Chrome for Testing"),
+    r"C:\Program Files\Google\Chrome\Application\chrome.exe",
+    r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
+    os.path.join(os.environ.get("LOCALAPPDATA") or "", "Google", "Chrome",
+                 "Application", "chrome.exe"),
+]
+
+
+def chrome_exe():
+    for c in CHROME_CANDIDATES:
+        if c and os.path.exists(c):
+            return c
+    return None
 PROFILE_DIR = os.path.join(os.path.expanduser("~"), ".fluxgroup", "browser-profile")
 # 采集用独立 profile：登录窗口会独占 browser-profile 的 ProcessSingleton，
 # 用同一个目录会直接报 "Failed to create a ProcessSingleton"（2026-11-17 实锚）。
 READER_DIR = os.path.join(os.path.expanduser("~"), ".fluxgroup", "browser-reader")
-MODE_FILE = os.path.join(ROOT, ".codely-cli", "state", "MEM-MODE")
-WORKER_COST_MB = 1100      # 实测单实例 RSS ≈1.05GB（3 实例线性增长：1.06/2.10/3.16GB）
-UNLOAD_MODELS = ("qwen3.5:9b-mlx", "qwen3.5:4b-mlx", "qwen3.5:2b")
-
-
-def free_mb():
-    out = subprocess.run(["vm_stat"], capture_output=True, text=True, timeout=5).stdout
-    free = 0
-    for line in out.splitlines():
-        if "Pages free" in line:
-            import re as _re
-            free = int(_re.sub(r"[^0-9]", "", line.split(":")[1] or "0") or 0) * 4096 / 1048576
-    return free
-
-
-def unload_models(log=print):
-    """采集是内存大户（1.1GB/实例），模型常驻也是（4.6-9GB）。两者同时干必换页。
-
-    实测（2026-11-17）：停掉 4B/9B 后空闲内存 164MB → 4732MB。
-    模型按需重载只要 1.5s，所以采集前卸、采集后让它自然重载，是最省的顺序。
-    """
-    for m in UNLOAD_MODELS:
-        subprocess.run(["ollama", "stop", m], capture_output=True, timeout=30)
-    log("[collect] 已卸载常驻模型，腾出内存给浏览器（模型下次请求自动重载 ~1.5s）")
-
-
-def set_mode(mode):
-    os.makedirs(os.path.dirname(MODE_FILE), exist_ok=True)
-    if mode:
-        open(MODE_FILE, "w").write(mode)
-    elif os.path.exists(MODE_FILE):
-        os.remove(MODE_FILE)
-
-
-def workers_by_mem(requested=2, reserve_mb=900):
-    """按空闲内存算并发上限：留 reserve 给系统，每个 worker 1.1GB。"""
-    free = free_mb()
-    cap = max(0, int((free - reserve_mb) // WORKER_COST_MB))
-    return max(1, min(requested, cap)), free, cap
 
 
 def profile_for(platform=None):
@@ -111,7 +87,7 @@ def _launch(p, headed=False, platform=None):
     2026-11-17 实锚：采集原来固定用 reader profile，而登录态存在 browser-profile，
     等于"登录了但采集用另一个没登录的浏览器"——B站 评论区不渲染，永远 0 条。
     """
-    exe = CHROME if os.path.exists(CHROME) else None
+    exe = chrome_exe()
     base = dict(headless=not headed, locale="zh-CN", timezone_id="Asia/Shanghai",
                 viewport={"width": 1440, "height": 900},
                 args=["--disable-blink-features=AutomationControlled"])
@@ -156,72 +132,7 @@ def extract(page, platform, limit=200):
     return best
 
 
-def collect_bili_api(pg, url, limit=200, pages=3, guard=None):
-    """B站 评论走"页面内 fetch 公开接口"：一次 20 条，比滚动省请求、也更像正常浏览。
-
-    2026-11-17 实测：/x/v2/reply 带 cookie 返回 code 0（某视频 234 条评论），
-    而 DOM 侧 inner_text 取不到（封闭 shadow DOM）。
-    """
-    import time as _t
-    pg.goto(url, wait_until="domcontentloaded", timeout=60000)
-    _t.sleep(4)
-    aid = pg.evaluate("()=>{try{return window.__INITIAL_STATE__.aid||window.__INITIAL_STATE__.videoData.aid}catch(e){return 0}}")
-    if not aid:
-        return None, "拿不到 aid（页面结构变化）"
-    rows = []
-    for pn in range(1, pages + 1):
-        if guard:
-            ok, why = guard.check("bilibili")
-            if not ok:
-                # 间隔/会话休息 -> 等；真冷却 -> 放弃
-                ok2, why2 = guard.wait_turn("bilibili", max_wait=120)
-                if not ok2:
-                    return (rows, "风控闸中途拒绝：%s" % why2) if rows else (None, "风控闸拒绝：%s" % why2)
-        r = pg.evaluate("""async (u)=>{const r=await fetch(u,{credentials:'include'});
-            return {status:r.status, body:await r.text()};}""",
-            "https://api.bilibili.com/x/v2/reply?type=1&oid=%s&pn=%d&ps=20&sort=2" % (aid, pn))
-        if r["status"] != 200:
-            break
-        try:
-            js = json.loads(r["body"])
-        except Exception:
-            break
-        if js.get("code") != 0:
-            if guard:
-                guard.note("bilibili", "blocked", "api code=%s" % js.get("code"))
-            break
-        data = js.get("data") or {}
-        replies = data.get("replies") or []
-        if not replies:
-            break
-        for it in replies:
-            txt = ((it.get("content") or {}).get("message") or "").strip()
-            if not txt:
-                continue
-            rows.append({"id": str(it.get("rpid") or ""),
-                         "author": ((it.get("member") or {}).get("uname") or ""),
-                         "text": txt[:300], "thread": url,
-                         "like": it.get("like"), "ctime": it.get("ctime"),
-                         "ts": time.strftime("%Y-%m-%dT%H:%M:%S")})
-        if guard:
-            guard.note("bilibili", "ok", "api page %d" % pn)
-        if len(rows) >= limit:
-            break
-        _t.sleep(random.uniform(3, 7))       # 页间留间隔，别连射
-    return rows, ""
-
-
 def collect(url, platform, limit=200, min_n=20, scrolls=8, headed=False):
-    try:
-        sys.path.insert(0, HERE)
-        import social_riskguard as guard
-    except Exception:
-        guard = None
-    if guard:
-        # 进来时若只是"间隔没到/会话该休息"，等一下就好（人也会等）；只有真冷却才拒绝
-        ok, why = guard.wait_turn(platform, max_wait=150)
-        if not ok:
-            return None, "风控闸拒绝：%s" % why
     try:
         from playwright.sync_api import sync_playwright
     except Exception:
@@ -236,36 +147,20 @@ def collect(url, platform, limit=200, min_n=20, scrolls=8, headed=False):
                 return None, "打开失败：%s" % str(e)[:80]
             time.sleep(4)
             body = pg.inner_text("body")[:400]
-            sign = guard.blocked_text(body) if guard else ""
-            if sign:
-                if guard:
-                    guard.note(platform, "blocked", sign)     # 进冷却 + 升级，别重试
-                return None, "被平台风控拦截（命中「%s」）——已进冷却，换 --headed 或等冷却结束" % sign
-            if platform == "bilibili":
-                rows, why = collect_bili_api(pg, url, limit=limit, pages=max(1, scrolls),
-                                             guard=guard)
-                if rows is None:
-                    return None, why
-                if not rows:
-                    return None, "接口 0 条（可能关闭评论）%s" % why
-                if len(rows) < min_n:
-                    # 视频本身评论就少，不是抓取失败——照收，但把事实写进理由
-                    return rows, "仅有 %d 条（视频评论本来少）%s" % (len(rows), why)
-                return rows, why
+            if any(k in body for k in ("当前网络存在风险", "系统监测到您的网络环境", "unhuman")):
+                return None, "被平台风控拦截（%s）——换 --headed 或用你自己的网络再试" % platform
             got = []
             for _ in range(max(1, scrolls)):
                 got = extract(pg, platform, limit)
                 if len(got) >= min_n:
                     break
-                pg.mouse.wheel(0, random.randint(1800, 3000))
-                time.sleep(random.uniform(2.0, 5.0))   # 滚动节奏随机化，固定节拍是风控特征
+                pg.mouse.wheel(0, 2400)
+                time.sleep(2.2)
             if len(got) < min_n:
                 # 打印看到的骨架，便于下一次改选择器（不写空文件冒充成功）
                 skel = pg.evaluate("""() => [...document.querySelectorAll('[class*="comment"],[id*="comment"]')]
                     .slice(0,12).map(e=>e.id?('#'+e.id):('.'+String(e.className).split(' ')[0]))""")
                 return None, "只抽到 %d 条（<%d），页面评论结构=%s" % (len(got), min_n, skel[:8])
-            if guard:
-                guard.note(platform, "ok", "collected %d" % len(got))
             rows, seen = [], set()
             for t, a, lk in got:
                 if t in seen:
@@ -325,45 +220,6 @@ def discover(platform, limit=5, headed=False):
     return urls, ""
 
 
-def discover_public(keyword, limit=8, headed=False):
-    """按关键词找公开视频，把 URL 写进 SOURCES（多采集别人评论的入口）。"""
-    from playwright.sync_api import sync_playwright
-    import urllib.parse
-    q = urllib.parse.quote(keyword)
-    urls = []
-    with sync_playwright() as p:
-        ctx = _launch(p, headed=headed, platform="bilibili")
-        try:
-            pg = ctx.pages[0] if ctx.pages else ctx.new_page()
-            pg.goto("https://search.bilibili.com/all?keyword=%s" % q,
-                    wait_until="domcontentloaded", timeout=60000)
-            time.sleep(5)
-            for _ in range(3):
-                got = pg.eval_on_selector_all("a[href*='/video/BV']",
-                                              "els=>[...new Set(els.map(e=>e.href))]")
-                urls = got if len(got) > len(urls) else urls
-                pg.mouse.wheel(0, 1800)
-                time.sleep(2)
-        finally:
-            try:
-                ctx.close()
-            except Exception:
-                pass
-    urls = [u.split("?")[0] for u in urls][:limit]
-    if not urls:
-        return None, "搜索没拿到视频链接（可能触发风控）"
-    path = os.path.join(SOCIAL, "SOURCES-v1.json")
-    cfg = json.load(open(path, encoding="utf-8")) if os.path.exists(path) else {"platforms": {}}
-    node = cfg.setdefault("platforms", {}).setdefault("bilibili", {})
-    old = [u for u in (node.get("urls") or []) if u]
-    merged = list(dict.fromkeys(old + urls))[:60]      # 最多留 60 个源，防无限膨胀
-    node["urls"] = merged
-    node["enabled"] = True
-    node["public_keywords"] = list(dict.fromkeys((node.get("public_keywords") or []) + [keyword]))
-    json.dump(cfg, open(path, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
-    return urls, ""
-
-
 def self_test():
     cases = []
     # 1 选择器表覆盖三个平台
@@ -396,23 +252,10 @@ def main():
     ap.add_argument("--headed", action="store_true")
     ap.add_argument("--out", default=RAW)
     ap.add_argument("--discover", default=None, help="登录态下自动发现自己的作品页（bilibili）")
-    ap.add_argument("--discover-public", default=None,
-                    help="按关键词发现公开视频（别人/热门的评论也能采）：--discover-public 家常菜")
-    ap.add_argument("--workers", type=int, default=2, help="并发浏览器数（按空闲内存自动压）")
-    ap.add_argument("--no-unload", action="store_true", help="采集前不要卸载模型（内存够时可以）")
     ap.add_argument("--self-test", action="store_true")
     a = ap.parse_args()
     if a.self_test:
         return self_test()
-    if a.discover_public:
-        urls, why = discover_public(a.discover_public, limit=8, headed=a.headed)
-        if urls is None:
-            print("[collect] 发现失败：%s" % why)
-            return 3
-        print("[collect] 关键词「%s」发现 %d 个公开视频：" % (a.discover_public, len(urls)))
-        for u in urls:
-            print("  -", u)
-        return 0
     if a.discover:
         urls, why = discover(a.discover, limit=5, headed=a.headed)
         if urls is None:
@@ -448,27 +291,10 @@ def main():
         return 3
     os.makedirs(a.out, exist_ok=True)
     path = os.path.join(a.out, "%s.comment.jsonl" % a.platform)
-    # 追加 + 按 id 去重（2026-11-17 实锚：原来每次覆盖，采三条视频只剩最后一条的量）
-    seen = set()
-    if os.path.exists(path):
-        for line in open(path, encoding="utf-8"):
-            line = line.strip()
-            if line:
-                try:
-                    seen.add(json.loads(line).get("id"))
-                except Exception:
-                    pass
-    new = 0
-    with open(path, "a", encoding="utf-8") as f:
+    with open(path, "w", encoding="utf-8") as f:
         for r in rows:
-            if r.get("id") in seen:
-                continue
-            seen.add(r.get("id"))
             f.write(json.dumps(r, ensure_ascii=False) + "\n")
-            new += 1
-    total = sum(1 for _ in open(path, encoding="utf-8"))
-    print("[collect] %s 本轮 %d 条（新增 %d）→ 累计 %d 条 -> %s"
-          % (a.platform, len(rows), new, total, path))
+    print("[collect] %s 抓到 %d 条 -> %s" % (a.platform, len(rows), path))
     print("[collect] 下一步：python3 Tools/fleet/social_profile.py --raw-dir %s" % a.out)
     return 0
 

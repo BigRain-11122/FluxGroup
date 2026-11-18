@@ -322,11 +322,15 @@ cph4/fleet/state/lane-trust.json
 # macOS 上于是真建出名为 "C:" 和 "K:" 的目录。内容是"无法回答"的降级输出，无保留价值。
 /[A-Za-z]:/
 
-# 二手房调研：venv / 登录会话（含 cookie，绝不入库）/ 抓取产物
-.venv-housing/
-Tools/housing/.state/
-data/housing/
-
-# LoRA 权重（每轮 47-63MB 二进制，含优化器状态）：训练卡/RUN.json 入库，权重不入库
-cph4/fleet/social/train/RUNS/*/adapter/
-cph4/fleet/social/train/RUNS/*/best/
+# 2026-11-18 D-20261118-12（D 类收口）：根级一次性脚本、pip 安装残留与编译缓存不入库。
+# 判据=全为未跟踪件（git ls-files 零命中），内容=11-17 一次性生成脚本＋pip 残留＋torch 编译缓存。
+/_*.py
+/_*.png
+/_*.svg
+/_*.txt
+/_*.html
+/pip-*/
+/data-gym-cache/
+/torchinductor_*/
+/_offload/
+/_pub/
