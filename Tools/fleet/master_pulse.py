@@ -171,12 +171,8 @@ STAGES = [
     ("promote_ready", ["Tools/fleet/promote_ready.py"], 60, {0}, False),
     ("master", ["Tools/fleet/master_agent.py", "--node", NODE, "--root", ROOT], 240, {0}, False),
     ("lane", ["Tools/fleet/lane_agent.py", "--node", NODE, "--root", ROOT, "--no-fetch", "--max-seconds", "20"], 120, {0}, False),
-    # 执行者复活（2026-11-08）：三台 Windows 的 /status 全部 wakes=[]，FleetLink 活着
-    # 但没有任何任务被唤醒 -> 队列有卡也跑不动，一下午 DONE 只前进 9 张。巡检以前只报
-    # 不修，靠会话发现再让 CEO 转命令给操作员。这里改成脉自己动手：
-    # 唤醒失败就 poke 显式启用（tasks 取 roster.enable_tasks 白名单，reason 含 enable-tasks），
-    # 拉取报 :fail（分叉）就发一张自包含收口卡。rc=1 表示本轮做了动作（不是失败）。
-    ("executor_revive", ["Tools/fleet/executor_revive.py", "--apply"], 120, {0, 1, 2}, False),
+    # 执行者复活已在上面（2026-11-15 版，600s + 内置冷却）登记过。
+    # 同一阶段只许登记一次：重名会互相覆盖执行记录（RG-20/RG-22）。
     # 分叉自愈（2026-11-10）：bm-c 的 HEAD 领先 313/落后 4162，`merge --ff-only` 永远失败，
     # 它看到的队列停在 13 小时前 —— 「在线但零产出」的根因不是机器坏了，是它拉不动 git。
     # 本步每轮判一次：能收编祖先就收编（让快进重新可能），收不了就派自包含 NODE-SYNC 卡
@@ -243,10 +239,8 @@ STAGES = [
     ("dr_check", ["Tools/fleet/dr_check.py"], 86400, {0}, True),
     # 三层产出审核 + 入档入库（CEO 2026-11-07）：DONE 只表示执行结束，不代表合格。
     ("review_artifacts", ["Tools/fleet/artifact_review.py", "--limit", "40", "--apply"], 21600, {0, 1}, True),
-    # 有序巡查（CEO 2026-11-07「智能体巡查排序好，指挥好机队各个业务和自动化开展」）：
-    # 把七八个报告面归并成一条按"断链→供给→执行→质量→方向"排序的清单，每条带责任人。
-    # 10 分钟一次，纯规则零 token。
-    ("patrol", ["Tools/fleet/patrol.py"], 180, {0}, False),
+    # 有序巡查就是上面的 patrol——2026-11-16 起带 --daily 日期闸登记（一天真跑一次，
+    # 其余轮次 0.01s 返回）。这里不再重复登记（RG-20/RG-22）。
     # 验收监督（CEO 2026-11-08「验收只看产物和质量，流程文档不算数」）：脉里必须有这一环，
     # 否则"今天到底有没有产出"没人问；rc=1=窗口内零可验收产物，是真红不是噪音。
     ("acceptance", ["Tools/fleet/acceptance.py", "--window-hours", "24"], 300, {0, 1}, False),

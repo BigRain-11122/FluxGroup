@@ -35,6 +35,8 @@ TOKEN_FILE = os.path.expanduser("~/.fluxgroup-llm-token")
 GATEWAY_DEFAULT = "http://127.0.0.1:11434"
 LOOPBACK = ("127.0.0.1", "localhost", "::1")
 _COOLDOWN = {}          # base -> 解冻时刻
+TRAIN_SENTINEL = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(
+    os.path.abspath(__file__)))), ".codely-cli", "state", "TRAIN-EXCLUSIVE")
 COOLDOWN_S = 300
 
 
@@ -130,12 +132,18 @@ def probe_service(url=None, timeout=5):
 
 
 def generate(prompt, model=None, endpoint=None, timeout=120, cls=None, think=False,
-             num_predict=None, max_age_s=60):
+             num_predict=None, max_age_s=60, keep_alive=None):
     """返回 {"ok","text","why","rc"}。rc: 0 成功 / 3 缺令牌(缺料) / 1 真故障 / 4 熔断中。
 
     cls 用来选座位（与 LOCAL-MODEL-POLICY.duties 对齐），未知 cls 走主力档，
     **绝不默认拉大的**（35B 一驻留就 swap）。
     """
+    # FLUX_ALLOW_DURING_TRAIN=1 是"显式声明：我用的模型在 TRAIN-LANE-OK 白名单里"。
+    # 2026-11-18 实锚：不加这条，清扫器放行车道但客户端照样拒绝，并行出稿 10 条全 0 可用。
+    _allow = os.environ.get("FLUX_IGNORE_TRAIN_LOCK") or os.environ.get("FLUX_ALLOW_DURING_TRAIN")
+    if os.path.exists(TRAIN_SENTINEL) and not _allow:
+        return {"ok": False, "rc": 5, "text": "",
+                "why": "训练独占中（%s），本轮不装载模型" % os.path.basename(TRAIN_SENTINEL)}
     url = base_for(endpoint)
     if not model:
         model = _model_for(cls)
@@ -155,6 +163,8 @@ def generate(prompt, model=None, endpoint=None, timeout=120, cls=None, think=Fal
                 "why": "本机没有令牌（%s 或 FLUX_LLM_TOKEN），不走网关" % TOKEN_FILE}
 
     body = {"model": model, "prompt": prompt, "stream": False, "think": bool(think)}
+    if keep_alive:                      # 不传就吃服务端 10m，档位"常驻"会静默失效
+        body["keep_alive"] = keep_alive
     if num_predict:
         body["options"] = {"num_predict": int(num_predict)}
     req = urllib.request.Request(url + "/api/generate", data=json.dumps(body).encode(),
@@ -187,6 +197,91 @@ def generate(prompt, model=None, endpoint=None, timeout=120, cls=None, think=Fal
         _COOLDOWN[url] = now + COOLDOWN_S
         return {"ok": False, "rc": 1, "text": "",
                 "why": "%s: %s" % (type(e).__name__, str(e)[:80])}
+
+
+LORA_BASE = "http://127.0.0.1:8788"
+
+
+def _lora_model(timeout=8):
+    """8788 上已加载模型的 id。
+
+    mlx_lm.server 会把 `model` 字段当仓库名去 HF 拉——传错就是 401/404，
+    所以模型名不能写死，一律读 /v1/models 拿真实 id（= 本地基座绝对路径）。
+    """
+    with urllib.request.urlopen(LORA_BASE + "/v1/models", timeout=timeout) as r:
+        d = json.loads(r.read().decode() or "{}")
+    data = d.get("data") or []
+    return data[0]["id"] if data else ""
+
+
+def probe_lora(timeout=5):
+    """8788 是否可用。活着且能报出模型 id 才算可用（端口在答话不等于模型在）。"""
+    try:
+        mid = _lora_model(timeout)
+        if not mid:
+            return {"verdict": "LORA-EMPTY", "url": LORA_BASE, "why": "/v1/models 无模型"}
+        return {"verdict": "LORA-OK", "url": LORA_BASE, "identity": mid}
+    except Exception as e:
+        return {"verdict": "LORA-ABSENT", "url": LORA_BASE,
+                "why": "%s: %s" % (type(e).__name__, str(e)[:60])}
+
+
+def generate_lora(prompt, timeout=120, max_tokens=60, temperature=0.8, endpoint=None):
+    """走 8788 的养号 LoRA 车道（OpenAI /v1/chat/completions）。
+
+    与 generate() 是**两条独立车道**：ollama 走 /api/generate，这里走 OpenAI 协议。
+    思考默认关（Qwen3.5 开着会把 60 token 全花在 thinking 里，content 返回 null）——
+    这是评测口径踩过的同一个坑，服上默认关一次，调用方就不必各自记得。
+    """
+    url = (endpoint or LORA_BASE).rstrip("/")
+    try:
+        mid = _lora_model()
+    except Exception as e:
+        return {"ok": False, "rc": 2, "text": "",
+                "why": "8788 不可用（%s）——launchctl kickstart -k gui/$(id -u)/com.fluxgroup.mlxlora"
+                       % type(e).__name__}
+    body = {
+        "model": mid,
+        "messages": [{"role": "user", "content": prompt}],
+        "max_tokens": int(max_tokens),
+        "temperature": float(temperature),
+        "chat_template_kwargs": {"enable_thinking": False},
+    }
+    req = urllib.request.Request(url + "/v1/chat/completions",
+                                 data=json.dumps(body).encode(),
+                                 headers={"Content-Type": "application/json"})
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as r:
+            d = json.loads(r.read().decode() or "{}")
+        ch = (d.get("choices") or [{}])[0]
+        text = ((ch.get("message") or {}).get("content") or "").strip()
+        if not text:
+            return {"ok": False, "rc": 1, "text": "",
+                    "why": "空回复（finish=%s）" % ch.get("finish_reason")}
+        return {"ok": True, "rc": 0, "text": text, "why": ""}
+    except Exception as e:
+        return {"ok": False, "rc": 1, "text": "",
+                "why": "%s: %s" % (type(e).__name__, str(e)[:80])}
+
+
+def lora_comment_prompt(title, desc="", i=0, seg=None):
+    """按**训练时用的同一批指令模板**拼提示词。
+
+    踩过的坑：自己另写一句"写一条B站评论"喂给 LoRA，它会退回助手腔——
+    「这里有一条既符合B站用户调性的评论，供你选择：**选项一**…」。
+    原因是训练样本的 user 轮全是 train_build.INSTRUCTIONS 那三句，
+    提示词不对版等于没触发微调。口径单源，不在生产侧另发明模板。
+    """
+    import train_build as tb
+    hint = ("（简介：%s）" % (desc or "")[:50]) if desc else ""
+    ins = tb.INSTRUCTIONS[i % len(tb.INSTRUCTIONS)].format(title=(title or "")[:40], hint=hint)
+    if seg:
+        try:
+            import segments as _sg
+            ins += " " + _sg.style_block(seg)
+        except Exception:
+            pass
+    return ins
 
 
 def _model_for(cls):

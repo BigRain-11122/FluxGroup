@@ -23,6 +23,7 @@ import argparse
 import json
 import os
 import re
+import subprocess
 import sys
 import time
 
@@ -54,6 +55,46 @@ PROFILE_DIR = os.path.join(os.path.expanduser("~"), ".fluxgroup", "browser-profi
 # 采集用独立 profile：登录窗口会独占 browser-profile 的 ProcessSingleton，
 # 用同一个目录会直接报 "Failed to create a ProcessSingleton"（2026-11-17 实锚）。
 READER_DIR = os.path.join(os.path.expanduser("~"), ".fluxgroup", "browser-reader")
+
+
+MODE_FILE = os.path.join(ROOT, ".codely-cli", "state", "MEM-MODE")
+WORKER_COST_MB = 1100      # 实测单实例 RSS ≈1.05GB（3 实例线性增长：1.06/2.10/3.16GB）
+UNLOAD_MODELS = ("qwen3.5:9b-mlx", "qwen3.5:4b-mlx", "qwen3.5:2b")
+
+
+def free_mb():
+    out = subprocess.run(["vm_stat"], capture_output=True, text=True, timeout=5).stdout
+    free = 0
+    for line in out.splitlines():
+        if "Pages free" in line:
+            free = int(re.sub(r"[^0-9]", "", line.split(":")[1] or "0") or 0) * 4096 / 1048576
+    return free
+
+
+def unload_models(log=print):
+    """采集是内存大户（1.1GB/实例），模型常驻也是（4.6-9GB）。两者同时干必换页。
+
+    实测（2026-11-17）：停掉 4B/9B 后空闲内存 164MB → 4732MB。
+    模型按需重载只要 1.5s，所以采集前卸、采集后让它自然重载，是最省的顺序。
+    """
+    for m in UNLOAD_MODELS:
+        subprocess.run(["ollama", "stop", m], capture_output=True, timeout=30)
+    log("[collect] 已卸载常驻模型，腾出内存给浏览器（模型下次请求自动重载 ~1.5s）")
+
+
+def set_mode(mode):
+    os.makedirs(os.path.dirname(MODE_FILE), exist_ok=True)
+    if mode:
+        open(MODE_FILE, "w").write(mode)
+    elif os.path.exists(MODE_FILE):
+        os.remove(MODE_FILE)
+
+
+def workers_by_mem(requested=2, reserve_mb=900):
+    """按空闲内存算并发上限：留 reserve 给系统，每个 worker 1.1GB。"""
+    free = free_mb()
+    cap = max(0, int((free - reserve_mb) // WORKER_COST_MB))
+    return max(1, min(requested, cap)), free, cap
 
 
 def profile_for(platform=None):

@@ -39,9 +39,11 @@ SENT2 = os.path.join(SOCIAL, "comments-sent.jsonl")
 sys.path.insert(0, HERE)
 
 ARMS = {
-    "A": {"kind": "reply", "max_len": 14, "min_len": 8, "why": "短句子回复"},
-    "B": {"kind": "reply", "max_len": 14, "min_len": 8, "why": "短句子回复（换视频）"},
-    "C": {"kind": "top", "max_len": 14, "min_len": 8, "why": "短句顶级评论"},
+    # 字数带按实测分布定，不按手感：日榜高赞评论长度中位 24-33 字、我们语料中位 22-26 字。
+    # 原设计 8-14 字过窄（实测过闸率仅 2/8，且真实评论很少这么短），已改为 10-20。
+    "A": {"kind": "reply", "max_len": 20, "min_len": 10, "why": "短句子回复"},
+    "B": {"kind": "reply", "max_len": 20, "min_len": 10, "why": "短句子回复（换视频）"},
+    "C": {"kind": "top", "max_len": 20, "min_len": 10, "why": "短句顶级评论"},
     "D": {"kind": "reply", "max_len": 90, "min_len": 25, "why": "长句子回复（带具体内容）"},
 }
 CONCRETE = ("画面", "剪辑", "镜头", "结尾", "开头", "配乐", "转场", "调色", "教程",
@@ -124,7 +126,11 @@ def form_check(arm, text):
 
 
 def gates(text, ctx=""):
-    """两道闸：social_practice.safe_to_send + social_comment_gen.gate。"""
+    """两道闸：social_practice.safe_to_send + social_comment_gen.gate。
+
+    ctx 必须是**视频标题**而不是链接：编造闸要拿标题核对称呼与领域，
+    传 URL 进去必然判"与本视频领域无关"（2026-11-18 实锚：十轮前两轮全 SKIP）。
+    """
     import social_practice as sp
     import social_comment_gen as cg
     ok1, w1 = sp.safe_to_send(text, ctx)
@@ -161,18 +167,24 @@ def fetch_roots(aid, limit=20):
          "text": ((x.get("content") or {}).get("message") or "")} for x in reps])
 
 
-def run(arm, video, text, root="auto", dry=False, wait_s=120):
+def run(arm, video, text, root="auto", dry=False, wait_s=120, ctx=""):
     import social_comment as sc
     a = ARMS[arm]
     okf, wf = form_check(arm, text)
     if not okf:
         return {"ok": False, "stage": "form", "why": wf}
-    okg, g = gates(text, video)
+    okg, g = gates(text, ctx or video)
     if not okg:
         return {"ok": False, "stage": "gate", "why": g}
-    okc, wc = cap_check()
-    if not okc:
-        return {"ok": False, "stage": "cap", "why": wc}
+    # 额度允许被"显式指令"覆盖：CEO 的实战令必须留下可审计的覆盖理由，
+    # 而不是偷偷把 FREQ-POLICY 改宽（那会让判据失去意义）。
+    override = os.environ.get("FLUX_CAP_OVERRIDE", "").strip()
+    if override:
+        okc, wc = True, "额度被显式指令覆盖：%s" % override[:60]
+    else:
+        okc, wc = cap_check()
+        if not okc:
+            return {"ok": False, "stage": "cap", "why": wc}
     aid = sc.bv_to_aid(video)
     if not aid:
         return {"ok": False, "stage": "aid", "why": "解析 aid 失败"}
@@ -250,16 +262,17 @@ def self_test():
     open(p2, "w").write(json.dumps({"action": "post", "ts": day + "T09:00:00",
                                     "rpid": "9", "ok": True}) + "\n")
     cases.append(("负控3：跨台账去重", posts_today(day, p1, p2) == 1))
-    # 负控 4：形态闸——A 臂写 20 字必须拒
+    # 负控 4：形态闸——A 臂 10-20 字，写 25 字必须拒（原样例 20 字在新带内，已更新）
     cases.append(("负控4：A 臂超字数拒",
-                  form_check("A", "这个转场衔接得太顺了我很喜欢这个节奏")[0] is False))
+                  form_check("A", "这个转场衔接得太顺了我真的很喜欢这个节奏感")[0] is False))
     cases.append(("负控5：D 臂无具体内容拒",
                   form_check("D", "真的很喜欢这个视频希望以后多更新一些内容吧")[0] is False))
     # 负控 6：导流文案必须被两道闸拦下
     okg, g = gates("加微信领剪辑素材包")
     cases.append(("负控6：导流被闸拦", okg is False))
     # 正向：真实短评论过双闸 + 形态
-    t = "这个转场太顺了吧"
+    t = "这个转场太顺了吧"          # 8 字 < 10，新带下会被形态闸拒；换成带内样例
+    t = "这个转场衔接得太顺了"        # 10 字，正好在下界
     okg, g = gates(t, "剪辑教学")
     cases.append(("正向：短句过双闸", okg and form_check("A", t)[0]))
     # 负控 7：无领域词的短句必须被 safe_to_send 拦（防"与本视频无关"）

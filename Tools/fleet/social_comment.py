@@ -36,6 +36,40 @@ ROOT = os.path.dirname(os.path.dirname(HERE))
 SENT = os.path.join(ROOT, "cph4", "fleet", "social", "comments-sent.jsonl")
 QUEUE = os.path.join(ROOT, "cph4", "fleet", "social", "reply-queue.jsonl")
 PROF = os.path.join(os.path.expanduser("~"), ".fluxgroup", "browser-bilibili")
+
+
+def merge_queue_done(mark):
+    """按 root_rpid 行级合并写回队列（RG-15：禁整文件覆盖）。
+
+    整文件重写会在别的写者追加时吞掉它刚写的行（2026-11-02 实锚吞掉 21 张自排卡）。
+    这里加排他锁后**重新读一遍**再合并，写临时文件再 os.replace 原子替换，
+    所以任何时刻读到的正式队列都是完整文件。
+    """
+    import fcntl
+    if not os.path.exists(QUEUE):
+        return 0
+    updated = 0
+    lock_path = QUEUE + ".lock"
+    with open(lock_path, "a+") as lf:
+        fcntl.flock(lf.fileno(), fcntl.LOCK_EX)
+        try:
+            rows = []
+            for line in open(QUEUE, encoding="utf-8"):
+                if line.strip():
+                    o = json.loads(line)
+                    m = mark.get(str(o.get("root_rpid")))
+                    if m:
+                        o.update(m)
+                        updated += 1
+                    rows.append(o)
+            tmp_path = QUEUE + ".tmp"
+            with open(tmp_path, "w", encoding="utf-8") as f:
+                for o in rows:
+                    f.write(json.dumps(o, ensure_ascii=False) + "\n")
+            os.replace(tmp_path, QUEUE)
+        finally:
+            fcntl.flock(lf.fileno(), fcntl.LOCK_UN)
+    return updated
 CHROME = os.path.join(os.path.expanduser("~"), ".fluxgroup", "chrome", "chrome-mac-arm64",
                       "Google Chrome for Testing.app", "Contents", "MacOS",
                       "Google Chrome for Testing")
@@ -551,22 +585,9 @@ def main():
             d["done"] = True
             d["my_rpid"] = rpid
             print("[comment] 发出 rpid=%s 可见=%s ｜ %s" % (rpid or "?", vis, draft))
-        # 回写队列（标记已完成）
-        lines = []
-        try:
-            for line in open(QUEUE, encoding="utf-8"):
-                if line.strip():
-                    o = json.loads(line)
-                    for d in pending[:1]:
-                        if str(o.get("root_rpid")) == str(d["root_rpid"]):
-                            o["done"] = True
-                            o["my_rpid"] = d.get("my_rpid", "")
-                    lines.append(o)
-        except FileNotFoundError:
-            pass
-        with open(QUEUE, "w", encoding="utf-8") as f:
-            for o in lines:
-                f.write(json.dumps(o, ensure_ascii=False) + "\n")
+        # 回写队列（标记已完成）：行级合并，不整文件覆盖（RG-15）
+        merge_queue_done({str(d["root_rpid"]): {"done": True, "my_rpid": d.get("my_rpid", "")}
+                          for d in pending[:1]})
         return 0
 
     if a.send:

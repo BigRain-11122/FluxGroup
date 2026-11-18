@@ -714,7 +714,11 @@ def rg33():
     try:
         lc.token = lambda: ""          # 等价于本机没钥匙
         before = lines()
-        r = lc.generate("hi", endpoint="http://100.75.133.10:8792", timeout=5)
+        # 端点必须选"真的需要令牌"的：100.75.133.10 属 tailnet（100.64/10），
+        # 2026-11-10 CEO 选 B 起免令牌；且 8792 已不是网关（现为 QA 服务）。
+        # 用 TEST-NET-1 公网段：非回环、非 tailnet → 必过令牌闸，且无令牌时
+        # 在发请求前就地判死，所以不会真联网。
+        r = lc.generate("hi", endpoint="http://192.0.2.10:8792", timeout=5)
         after = lines()
         assert r["rc"] == 3 and not r["ok"], "没令牌应返 rc=3（缺料），实返 %s" % r
         assert after == before, "没令牌仍然发了请求（网关日志 +%d 行）= 空打" % (after - before)
