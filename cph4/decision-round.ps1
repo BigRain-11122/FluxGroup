@@ -33,14 +33,22 @@ try {
   if (-not (Test-Path $runsDir)) { New-Item -ItemType Directory -Force -Path $runsDir | Out-Null }
   $runs = Join-Path $runsDir 'decision-round-runs.log'
   Add-Content -Path $runs -Value ('start ' + $Stamp) -Encoding UTF8
-  # T0 CLOUD-OFF guard (CEO 2026-10-20): automation is local-only; never spawn the cloud CLI.
-  $__co = $PSScriptRoot
-  while ($__co -and -not (Test-Path (Join-Path $__co 'cph4\fleet\CLOUD-OFF-LOCAL-ONLY-v1.md'))) { $__co = Split-Path -Parent $__co }
-  if ($__co) {
-      $__cl = Join-Path $__co 'media\logs\cloud-off-suppressed.log'
+  # T0 cloud gate (D-20261112-02/D-10, T1-v2; repaired by D-20261119-04): the CEO
+  # unlock (98a3f5ea8, 2026-10-23) retired the old CLOUD-OFF marker, so the literal
+  # walk that used to live here never matched and this entry point silently spawned
+  # a cloud round four times a day. Automation is local-only unless an explicit
+  # allow switch exists: cph4\fleet\CLOUD-ALLOW-AUTOMATION.md (present=allow,
+  # absent/anomaly=suppress). Fail-closed; the resolver double-seeds script root
+  # plus the git physical toplevel.
+  $__gateTool = Join-Path $Project 'Tools\cloud-off-gate.ps1'
+  if (-not (Test-Path $__gateTool)) { exit 2 }
+  . $__gateTool
+  $__gate = Resolve-CloudOffGate -ScriptRoot $PSScriptRoot -Project $Project -MarkerName 'CLOUD-ALLOW-AUTOMATION.md'
+  if (-not (Test-CloudAutomationAllowed -Gate $__gate)) {
+      $__cl = Join-Path $Project 'media\logs\cloud-off-suppressed.log'
       $__cd = Split-Path -Parent $__cl
       if (-not (Test-Path $__cd)) { New-Item -ItemType Directory -Force -Path $__cd | Out-Null }
-      Add-Content -Path $__cl -Value ((Get-Date -Format 'yyyy-MM-dd HH:mm:ss') + ' | ' + [System.IO.Path]::GetFileName($PSCommandPath) + ' | suppressed cloud round (T0)') -Encoding UTF8
+      Add-Content -Path $__cl -Value ((Get-Date -Format 'yyyy-MM-dd HH:mm:ss') + ' | ' + [System.IO.Path]::GetFileName($PSCommandPath) + ' | suppressed cloud round (local-only, no CLOUD-ALLOW-AUTOMATION.md | ' + (Format-CloudOffGateLine -Gate $__gate) + ')') -Encoding UTF8
       Add-Content -Path $runs -Value ('suppressed-cloud ' + (Get-Date -Format 'yyyy-MM-dd HH:mm:ss')) -Encoding UTF8
       exit 0
   }
