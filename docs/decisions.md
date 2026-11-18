@@ -402,3 +402,5 @@
 > **分叉读数**：`git rev-list --left-right --count HEAD...origin/main` 见轮末补记；仍按 D-20261118-01 口径只走外科目直投，**不作强推、不 rebase**。
 > **chronic 面（只审不处·记违例一行）**：media/BigStream 尾行 10-24（25 天）／evolution-ledger 尾块 11-12（6 天，夜轮簿记缺口）；quant 11-17 19:04、BigCompute 11-17 19:22、BigLife 11-17 00:10、BigDomain 11-18 06:10 均有当日/近日面活动不计；FluxVerse 线 PARKED 按 D-20261116-16② 不计。
 > **诚实边界**：①养号线只修通"能启动浏览器"，**真实采集未跑**（需联网＋登录态，本轮未冒试）；②入仓剩余 132 件只做构成实测，**未入仓**；③`LOCAL-MODEL-POLICY.json` 本体未改，跨机若也用本机 ollama 会继续看到 `MODEL-SUBSTITUTED` 一行（属预期，非故障）。
+
+> **补记（第 76 批·落地与推送实况·2026-11-18 18:3x）**：①**本地 commit 成立** `5b842fda4`（5 件：.gitignore＋llm_client＋social_collect＋decisions＋reflection，87+/6-）；②**外科直投一次成功**——以 `origin/main`＝`5dc78175f` 为父，只写上述 5 件，`push 3198a5da7` 回包 `5dc78175f..3198a5da7 → main`，无 CAS 重试、未 merge/rebase、未碰 132 件脏面；③**origin 侧回验**：`show --name-only` 恰 5 件；`origin/main:docs/decisions.md` 含 `D-20261118-12`（1 命中）；`social_collect.py` 含 `CHROME_CANDIDATES`（2 命中）、`llm_client.py` 含 `_resolve_local`（2 命中）、`.gitignore` 含 76 批标记（1 命中）；④分叉读数（推送前）＝**37/206**，origin 独有仍以 pulse 快照为主体，按 D-20261118-01 不作强推、不 rebase。
