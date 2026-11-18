@@ -64,7 +64,8 @@
   "num_ctx": 8192,
   "why": "唯一源=LOCAL-MODEL-POLICY.duties.resident（实测同黄金集 6/8，MLX 38-40 tok/s）；此处曾写死 qwen3:4b-instruct 导致两个 4B 同时驻留白占 3.7GB；num_ctx 4k→8k 防监控输入截断。keep_alive 2026-11-14 由 15m 收到 10m，与 duties.resident 及 OLLAMA_KEEP_ALIVE 对齐（同一事实不许两处各写一个数）。",
   "fallback": "http://100.75.133.10:11435",
-  "shared_brain": "bm-m qwen3.5:35b-a3b (Tailscale 100.75.133.10, resident, keep_alive=-1)",
+  "shared_brain": "MacBook（bm-m / 100.75.133.10）主控席：qwen3.5:4b-mlx 主力 + qwen3.5:9b-mlx 质量档（合计 14.8GB 零换页），经 :11435 网关按借用规则调用",
+  "shared_brain_retired": "qwen3.5:35b-a3b 不驻留也不对外供（21.9GB，驻留即换页；与 capacity_ledger.bm-m_cannot 及 STATIONS.control「35B 封存不常驻」同一事实）。35B 档正身在本机（公司生产力机 旧 :8090 coder 车道已不在役，2026-11-18 实测端口未监听）→ 待算力大脑入网承接。",
   "fallback_why": "CEO 2026-11-05：机队优先级=自己的本地算力 > Mac 的（必须走 11435 网关：token/并发1/上下文8192/死线120s/内存余量<7GB 拒）> 云（搞不定或长时间无响应才上，受日预算闸）",
   "_big_seat_note": "质量档不在这条车道：判卷/复核走 LOCAL-MODEL-POLICY.duties.big（qwen3.5:9b-mlx，常驻）。车道保留 4B 是为了机队借用时不把 9B 拖进别人的等待队列。"
  },

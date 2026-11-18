@@ -1,43 +1,76 @@
 {
-  "schema": "machine-roster/v1",
-  "created": "2026-11-07T00:15:00+08:00",
-  "authority": "D-20261106-05 落位补注 + D-20261107-03 建件（一文件五字段·属登记不属机制）+ D-20261107-20 每轮与 machine-state.flag 对账（不一致当场改）",
-  "fields": ["node", "state", "since", "evidence", "owner"],
+  "schema": "machine-roster/v2",
+  "created": "2026-11-18T15:30:00+08:00",
+  "supersedes": "machine-roster/v1 (2026-11-07，已与 STATIONS.json v1-20261111 及机队实况脱节)",
+  "authority": "本文件只做「机器在不在、叫什么、干什么」的人读台账；权威字段来源=STATIONS.json（工位与硬件）+OS-MATRIX-v1.json（系统与解释器）+Tools/fleet-nodes.json（派单用节点册）。三者不符时以那三份为准，本文件当天对齐（CEO 2026-11-18 令「把要改的都改了」）。",
+  "naming_rule": "对话与台账一律用机器名（公司生产力机/传家宝/小钢炮/算力大脑/MacBook）；节点名 bm-* 只出现在命令、路径、脚本参数里。CEO 2026-11-18：「以后和我聊天用机器名 不要用节点名，我记不住」。",
+  "fields": ["machine", "node", "station", "state", "since", "evidence", "owner"],
   "machines": [
     {
+      "machine": "公司生产力机",
       "node": "bm-a",
+      "host": "DASHENG",
+      "station": "delivery（交付工厂）",
       "state": "ACTIVE",
       "since": "2026-11-07T09:11:22+08:00",
-      "evidence": ".codely-cli/machine-state.flag = 'resumed 2026-11-07T09:11:22+08:00'（D-20261107-20 当班实测；此前 PAUSED-CEO-YIELD since 2026-11-06T11:43:23 已失效）",
+      "evidence": "2026-11-18 15:2x 当班实测：tailscale 100.110.185.62 direct 在线；Ollama 在跑 qwen3.5:9b（6.2GB·100% GPU·8k 上下文）；:8790 在听；:8090 未监听（旧 35B coder 车道已不在役，见 MODEL-POLICY 勘误）",
+      "spec": "9950X 16C/32T · 94G 内存 · RTX 4070 SUPER 12G · D: 3.3T",
       "owner": "@HQ 机队席"
     },
     {
-      "node": "bm-b",
-      "state": "DECOMMISSIONED-20261106",
-      "since": "2026-11-06T12:00:00+08:00",
-      "evidence": "本机签名提交 63h 零产出；lanes/bm-b.json 最新三提交全 [via bm-a] 代写（7a5905f41/2af0ec774/8c318becd）",
-      "owner": "@HQ 机队席"
-    },
-    {
+      "machine": "传家宝",
       "node": "bm-c",
-      "state": "SPINNING-NOT-PRODUCING",
-      "since": "2026-11-06T12:00:00+08:00",
-      "evidence": "当日 24 条 [via bm-c] 提交全部为 'before rebase' 空转快照；解锁条件= D-20261106-02 agent.py:commit_state() 缓存目录出库落地",
+      "host": "FLUXGROUP",
+      "station": "visual（视觉工位）",
+      "state": "OFFLINE-FLAPPING",
+      "since": "2026-11-18T14:2x（本次掉线起算）",
+      "evidence": "2026-11-18 15:2x tailscale 实测：offline, last seen 58m ago——一小时前还在；该机是唯一出片位（ComfyUI 8188），掉线即全视频线停摆",
+      "spec": "3950X 16C/32T · 24G 内存 · RTX 3070 魔改 16G（可用 13.4G）· K: 1.2T",
       "owner": "@HQ 机队席"
     },
     {
+      "machine": "小钢炮",
+      "node": "bm-b",
+      "host": "BIGMONEY",
+      "station": "audio（声音工位）",
+      "state": "PAUSED-BY-CEO",
+      "since": "2026-11-14",
+      "evidence": "CEO 2026-11-14 令「小钢炮和算力都没开机，不用管」；2026-11-18 15:2x tailscale：offline, last seen 7d ago。不报警、不派卡、不计产能；旧账里的 DECOMMISSIONED-20261106 定性作废",
+      "spec": "3800X 8C/16T · 24G 内存 · RTX 3070 8G",
+      "owner": "@HQ 机队席"
+    },
+    {
+      "machine": "算力大脑",
       "node": "bm-d",
-      "state": "DECOMMISSIONED-20261029",
-      "since": "2026-10-29T09:57:35+08:00",
-      "evidence": "lanes/bm-d.json ts=2026-10-29T09:57:35，此后零信号",
+      "host": "PENDING-TAILNET",
+      "station": "brain（大脑工位）",
+      "state": "NOT-INSTALLED",
+      "since": "2026-11-14（CEO 令不用管起算；硬件自 2026-10-18 陆续到货）",
+      "evidence": "tailnet 无此节点；OS 未定（Ubuntu/Windows 二选一，OS-MATRIX OS-7 规定未验证不得排卡）；硬件已沉约 ¥3303（主板+V100#1+CPU×2+DDR3 16G×16），V100#2/#3 待购。旧账里的 DECOMMISSIONED-20261029 是 10 月旧机退役记录，与本装机件无关",
+      "spec": "2×E5-2695v2 24C/48T（无 AVX2）· 256G 内存 · 3×Tesla V100 = 48G · 另 3×P104 8G",
       "owner": "@HQ 机队席"
     },
     {
+      "machine": "MacBook",
       "node": "bm-m",
-      "state": "EXEMPT-MASQUERADE",
-      "since": "2026-11-06T12:00:00+08:00",
-      "evidence": "MASTER-TICK.json masquerade=true + last_tick_by=bm-a（代行主控已实证）；:8790 health=err 不判故障；未入 fleet 名册属设计态豁免",
+      "host": "junshengsundemacbook-pro.local（tailnet 内名 bm-m-1）",
+      "station": "control（主控台）",
+      "state": "ACTIVE",
+      "since": "2026-10-27（入队）；2026-11-12T13:29 恢复 ready",
+      "evidence": "2026-11-18 15:2x tailscale：100.75.133.10 direct 在线；44 个机队 LaunchAgent 按 2026-11-15 令停用，只留 com.fluxgroup.pulse + com.fluxgroup.ollamamodel",
+      "spec": "Apple M1 Pro 10C CPU / 16C GPU · 32G 统一内存 · 210G 空闲 · macOS",
       "owner": "@HQ 机队席"
     }
-  ]
+  ],
+  "known_duplicate_peer": {
+    "machine": "MacBook",
+    "dead_node": "bm-m",
+    "tailnet_ip": "100.87.248.66",
+    "state": "STALE-KEY",
+    "evidence": "2026-11-18 15:2x tailscale status：bm-m 100.87.248.66 macOS offline, last seen 19d；同一台笔记本以 bm-m-1 / 100.75.133.10 在线。旧 key 是重装/重登录留下的死条目（evolution-ledger 2026-10-31 起就记作「未入册 peer」）",
+    "impact": "仅影响人读与按名字找机的派单面；配置里用的是 100.75.133.10，不受影响。Tools/fleet-nodes.json 亦无该 IP",
+    "removal": "Tailscale 控制台 → Machines → 找到 bm-m(100.87.248.66) → Remove。CLI 无删除远端节点的能力，需管理员登录态；删除后 tailnet 内只剩 bm-m-1 一台 macOS",
+    "status": "PENDING-CEO（需管理员网页登录，本机无法代劳）"
+  },
+  "_history": "v1 遗留的四处失真已在本版修正：①小钢炮 DECOMMISSIONED-20261106 → PAUSED-BY-CEO（CEO 明令停用，非退役）；②算力大脑 DECOMMISSIONED-20261029 → NOT-INSTALLED（10 月旧机记录误挂在装机件上）；③传家宝 SPINNING-NOT-PRODUCING → OFFLINE-FLAPPING（空转定性已被 11-11 视觉工位实产推翻）；④MacBook EXEMPT-MASQUERADE（主控由 bm-a 代行）→ ACTIVE（2026-11-12 主控已接管）。"
 }
