@@ -123,6 +123,32 @@ def refresh_screen(note=""):
     open(SCREEN, "w", encoding="utf-8").write("\n".join(L) + "\n")
 
 
+LANE_ORDER = ("lora", "4b")     # 训好的本地适配器优先，基座兜底；模型名一源在 social_comment_gen.LANES
+
+
+def make_text(prompt):
+    """按车道阶梯出稿，返回 (text, lane)。两条都不通返回 ("", "")。
+
+    CEO 2026-11-18「使用的是本地大模型能力训练和养号实践」：训练产出的适配器必须
+    真的进实战出稿，否则训完还在用基座＝训练白做。实测同一提示词两条车道文案不同
+    （lora=「转场特效确实能瞬间提升视频质感…」，4b=「三分钟就教会我高效剪片…」），
+    所以落账必须记 lane，才能事后归因"这话是谁说的"。
+    """
+    import social_comment_gen as cg
+    for lane in LANE_ORDER:
+        fn = cg.LANES.get(lane)
+        if not fn:
+            continue
+        try:
+            r = fn(prompt)
+        except Exception:
+            continue
+        t = (r.get("text") or "").strip().strip("“”\"'").split("\n")[0].strip()
+        if t:
+            return t, lane
+    return "", ""
+
+
 def main():
     # 1 止损闸
     b = blocked()
@@ -174,21 +200,18 @@ def main():
     import llm_client as lc
     import comment_taste as ct
     import social_practice as sp
-    rng = random.Random(int(time.time()))
-    text = ""
+    text, lane_used = "", ""
     for k in range(8):
         p = lc.lora_comment_prompt(title, meta.get("desc") or "", i=k)
         p += "只写 %d-%d 字，一句话。" % (lo, hi)
-        r = lc.generate(p, model="qwen3.5:4b-mlx", think=False,
-                        num_predict=max(20, hi + 6), keep_alive="6h")
-        t = (r.get("text") or "").strip().strip("“”\"'").split("\n")[0].strip()
+        t, lane = make_text(p)
         if not t or not (lo <= len(t) <= hi):
             continue
         if ct.score(t)["verdict"] != "PASS":
             continue
         if not sp.safe_to_send(t, title)[0]:
             continue
-        text = t
+        text, lane_used = t, lane
         break
     if not text:
         refresh_screen("本拍无文案过闸（不硬发）")
@@ -200,11 +223,14 @@ def main():
     res = ap.run(arm, url, text, dry=False, wait_s=25, ctx=title)
     if res.get("stage") != "posted":
         refresh_screen("发帖未成：%s" % str(res.get("why"))[:60])
-        log({"action": "fail", "why": str(res.get("why"))[:120], "arm": arm})
+        log({"action": "fail", "why": str(res.get("why"))[:120], "arm": arm, "lane": lane_used})
         print("[tick] 未成：%s" % str(res.get("why"))[:80])
         return 0
-    refresh_screen("本轮 %s 臂已发：%s" % (arm, text[:20]))
-    print("[tick] 发出 rpid=%s 可见=%s" % (res.get("rpid"), res.get("visible")))
+    # 车道落这一行：事后要能回答"这条评论是适配器说的还是基座说的"
+    log({"action": "lane", "lane": lane_used, "rpid": res.get("rpid"), "arm": arm})
+    refresh_screen("本轮 %s 臂已发（%s 车道）：%s" % (arm, lane_used, text[:20]))
+    print("[tick] 发出 rpid=%s 可见=%s 车道=%s"
+          % (res.get("rpid"), res.get("visible"), lane_used))
     return 0
 
 
@@ -297,6 +323,13 @@ def self_test():
         import social_collect as sc
         check("G social_collect 内存闸齐备",
               all(hasattr(sc, n) for n in ("workers_by_mem", "unload_models", "set_mode")))
+        # H 出稿车道：必须是"训好的本地适配器优先"，否则训练成果进不了实战
+        import social_comment_gen as cg
+        check("H 出稿车道 lora 优先且存在",
+              LANE_ORDER[0] == "lora" and "lora" in cg.LANES and "4b" in cg.LANES)
+        # I 行为级：车道函数真的能出话（不联网失败时至少返回空串而不是抛）
+        t, lane = make_text("只写一句话：收到。")
+        check("I 车道可出稿（text 非空且记到 lane）", bool(t) and lane in LANE_ORDER)
     finally:
         LEDGER, SCREEN, BLOCKED, STOP_AFTER = saved
         import shutil

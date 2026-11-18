@@ -51,11 +51,18 @@ def gen_top(title, desc, i, rng, lo=10, hi=20, tries=10):
     """
     import comment_taste as ct
     import llm_client as lc
+    import social_comment_gen as cg
     for k in range(tries):
         p = lc.lora_comment_prompt(title, desc, i=i + k)
         p += "只写 %d-%d 字，一句话。" % (lo, hi)
-        r = lc.generate(p, model="qwen3.5:4b-mlx", think=False,
-                        num_predict=max(16, hi + 6), keep_alive="6h")
+        # 车道阶梯：训好的本地适配器优先，基座兜底（模型名一源在 cg.LANES）
+        r = {}
+        for lane in ("lora", "4b"):
+            fn = cg.LANES.get(lane)
+            if fn:
+                r = fn(p)
+                if r.get("text"):
+                    break
         if not r.get("ok"):
             continue
         t = r["text"].strip().strip("“”\"'").split("\n")[0].strip()
