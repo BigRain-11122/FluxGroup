@@ -322,6 +322,17 @@ def main():
         return 0
     if a.from_dir:
         items = []
+        # 既有语料先入列：save() 是整份重写，只扫 raw 目录时会把它截短
+        # （2026-11-18 实锚：raw 目录条数远少于累计 47963 条，直接跑会静默丢历史）。
+        # clean() 按句哈希去重，所以"旧 + 新"合并落盘是幂等的；要真正重建先删该文件。
+        _own = os.path.join(OUT, "own_collected.jsonl")
+        if os.path.exists(_own):
+            for line in open(_own, encoding="utf-8"):
+                if line.strip():
+                    try:
+                        items.append(json.loads(line))
+                    except Exception:
+                        pass
         for f in glob.glob(os.path.join(a.from_dir, "*.jsonl")):
             for line in open(f, encoding="utf-8"):
                 if not line.strip():

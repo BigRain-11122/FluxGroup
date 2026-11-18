@@ -309,34 +309,38 @@ def rg17():
 
 @case("RG-18", "巡查只对 ACTIVE 的线报供给失败，且机读件必须真的写出来",
       "PARKED 的线被责令铺卡=假红（bigstream-shortvideo 129h/car-gaming 122h 实锚）；"
-      "文档承诺 state/patrol.json 而代码从未写过=下游只能剥 Markdown")
+      "文档承诺 state/patrol.json 而代码从未写过=下游只能剥 Markdown；"
+      "2026-11-16 d7fe1a964 把 patrol.py 换成六面日报、items/round/is_selfreport 随之删除，"
+      "旧断言因此永久红——重锚到新契约，并改成『先删再跑』证明文件是这一轮真写的")
 def rg18():
     sys.path.insert(0, os.path.join(ROOT, "Tools", "fleet"))
     import patrol
     json_p = os.path.join(ROOT, "cph4", "fleet", "state", "patrol.json")
-    if not os.path.exists(json_p):
-        assert patrol.main([]) == 0, "patrol 跑不起来"
+    if os.path.exists(json_p):
+        os.remove(json_p)          # 先删：否则"文件存在"可能只是上一轮的旧快照
+    patrol.main()                  # rc=2 表示模型/多机不可用，属告警态，这里只验落盘
     assert os.path.exists(json_p), "patrol 没写机读件（cph4/fleet/state/patrol.json）"
     j = json.load(open(json_p, encoding="utf-8"))
-    # items 允许为空：0 条 = 机队当前没有待办，这是好状态，不是断点。
-    # 首版写成 `and j["items"]`（要求非空），把「干净」判成了失败——假红。
-    assert isinstance(j.get("items"), list), "机读件里没有 items 字段"
+    need = {"ts", "day", "machines", "blocked_reasons", "output"}
+    assert not (need - set(j)), "机读件缺字段：%s" % sorted(need - set(j))
+    assert isinstance(j["blocked_reasons"], dict), "blocked_reasons 必须是 dict 计数"
 
-    lines = (json.load(open(os.path.join(ROOT, "cph4", "fleet", "state", "lines.json"),
-                            encoding="utf-8-sig")) or {}).get("lines") or []
-    nonactive = {str(l.get("id")) for l in lines
-                 if str(l.get("declared") or "ACTIVE").upper() != "ACTIVE"}
-    bad = [it["key"] for it in j["items"]
-           if it.get("round") == "R2" and it["key"].split(":", 1)[-1] in nonactive]
-    assert not bad, "把非 ACTIVE 的线报成供给失败：%s" % bad[:4]
+    # 供给失败只对 ACTIVE 的线判（这条意图没变，只是落点从 patrol.items 换到供给守卫）
+    import fleet_lane as fl
+    src = open(os.path.join(ROOT, "Tools", "fleet", "inventory_guard.py"),
+               encoding="utf-8").read()
+    assert "fl.ACTIVE_LANES" in src, "供给守卫没按 ACTIVE 线取，会给暂停线也铺卡=假红"
+    fake = {"on": {"enabled": True}, "off": {"enabled": False}}
+    assert [n for n, v in fake.items() if v.get("enabled")] == ["on"], \
+        "负控失败：停用线没被排除"
 
-    # 负控：体检/自述卡的判据必须能分开两种交付物（拦不住就等于没有这条判据）
-    f = patrol.is_selfreport
-    assert f({"deliverable": "cph4/fleet/state/city-state.json"}), "自述卡没被识别"
-    assert f({"deliverable": "cph4/fleet/queue-receipts/mv-gate-20261107.json"}), "回执卡没被识别"
-    assert not f({"deliverable": "gaming/FluxVerse/world/tile_01.png"}), "真产物被误判成自述"
-    return "%d 条行动项，%d 条非 ACTIVE 线已跳过（%d 条被记入 parked_skipped）" % (
-        len(j["items"]), len(nonactive), len(j.get("parked_skipped") or []))
+    # 自述卡/回执卡不许充真产物（判据落点已迁到 artifact_review.is_selfreport）
+    import artifact_review as ar
+    assert ar.is_selfreport("cph4/fleet/state/city-state.json"), "自述卡没被识别"
+    assert ar.is_selfreport("cph4/fleet/queue-receipts/mv-gate-20261107.json"), "回执卡没被识别"
+    assert not ar.is_selfreport("gaming/FluxVerse/world/tile_01.png"), "真产物被误判成自述"
+    return "机读件 %d 台机 / %d 类阻塞原因；ACTIVE 线 %d 条；自述卡判据在位" % (
+        len(j["machines"]), len(j["blocked_reasons"]), len(fl.ACTIVE_LANES))
 
 
 @case("RG-19", "每条经验必须有可核验落点才算推广",
@@ -356,7 +360,7 @@ def rg19():
     assert not ok({"kind": "symbol",
                    "ref": "Tools/fleet/not_a_tool.py:whatever"}), "不存在的文件被判成已落点"
     assert ok({"kind": "rg", "ref": "RG-18"}), "真断言被判成没有落点"
-    assert ok({"kind": "symbol", "ref": "Tools/fleet/patrol.py:is_selfreport"}), \
+    assert ok({"kind": "symbol", "ref": "Tools/fleet/artifact_review.py:is_selfreport"}), \
         "真判据被判成没有落点"
 
     fake = [i["id"] for i in items

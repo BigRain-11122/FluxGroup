@@ -63,6 +63,10 @@ SEG_MIN_BUILD = 400
 SEG_MIN_HUMAN = 5
 TRAIN_COOLDOWN_S = 5 * 3600
 MAX_FAILS = 3
+# 同段重训闸（2026-11-18 实锚：965 行跑到 1600 步 val 见底后又升、E2E 29/43；
+# 2655 行 600 步 E2E 25/43，两次都比现役 35/43 差）。同段被否 2 次后，
+# 语料必须再涨 25% 才允许重训，否则每 5 小时烧一次 2 小时 GPU 只是换个数。
+REJECT_NEED_GROWTH = 1.25
 
 
 def now():
@@ -174,11 +178,24 @@ def do_collect(videos=8, pages=6):
 
 
 def do_refresh():
-    steps = [("human_corpus.py", []), ("comment_taste.py", []), ("segments.py", [])]
+    """清洗三段：重算统计 → 品味闸重筛可训练集 → 段位分布。
+
+    2026-11-18 实锚：原先三个脚本都是**零参数**调用，而三者都要求参数
+    （argparse 用法错误 exit 2）→ 24x7 从 19:04 起每 30 分钟全红、永远走不到训练，
+    连报 3 次"暂停"再重试，无限空转。参数必须显式给，失败还要留最后一行输出。
+    """
+    own = os.path.join(SOCIAL, "corpus", "human", "own_collected.jsonl")
+    steps = [
+        ("human_corpus.py", ["--stats"]),                       # 只重算 STATS.json，不重写语料
+        ("comment_taste.py", ["--corpus", own, "--out", PASS_F]),  # 真正产出可训练集
+        ("segments.py", ["--corpus", PASS_F]),                  # 段位分布（报告）
+    ]
     rc, log = 0, []
     for script, extra in steps:
-        r, o = sh([PY, os.path.join(HERE, script)] + extra, timeout=900)
+        r, o = sh([PY, os.path.join(HERE, script)] + extra, timeout=1800)
         log.append("%s rc=%d" % (script, r))
+        if r:
+            log.append(tail(o, 1))
         rc = rc or r
     return rc, " · ".join(log)
 
@@ -241,6 +258,43 @@ def do_eval(run):
     return rc, tail(out), (max(nums) if nums else None)
 
 
+def mark_reject(st, seg, rows):
+    """记一次"该段候选被否"。rows=当时该段可用行数，供 gate_segments 判数据是否真涨了。"""
+    rj = dict(st.get("seg_rejects") or {})
+    cur = dict(rj.get(seg) or {})
+    cur["n"] = int(cur.get("n") or 0) + 1
+    cur["rows"] = int(rows or 0)
+    cur["ts"] = now()
+    rj[seg] = cur
+    st["seg_rejects"] = rj
+    return cur
+
+
+def gate_segments(ready, st, growth=REJECT_NEED_GROWTH):
+    """同段重训闸。返回 (允许训的段, 被拦下的 [(段, 可读理由)])。
+
+    判据按"数据是否真变了"，不是"时间够久了"：
+      · 没被否过            → 放行
+      · 被否过 1 次         → 行数须 >= 上次 ×1.10（数据有实质增量）
+      · 被否过 2 次及以上   → 行数须 >= 上次 ×1.25
+    同一份数据重训是确定性浪费（同样的 val 曲线、同样的 best 步、同样的 E2E），
+    2026-11-18 两次实锚都是这样烧掉的 2 小时 GPU。
+    """
+    allow, blocked = [], []
+    rj = st.get("seg_rejects") or {}
+    for k, v in ready:
+        r = rj.get(k) or {}
+        n = int(r.get("n") or 0)
+        rows = int(r.get("rows") or 0)
+        need = int(rows * (growth if n >= 2 else 1.10)) if n else 0
+        if n and v < need:
+            blocked.append((k, "%s 已否 %d 次，语料 %d < 需 %d（上次被否时 %d）"
+                            % (k, n, v, need, rows)))
+            continue
+        allow.append((k, v))
+    return allow, blocked
+
+
 # ------------------------------------------------------------------ 一轮
 def one_cycle(st, dry=False):
     """返回 (动作名, 说明)。st 是跨轮记忆（失败计数、上次训练时间）。"""
@@ -254,6 +308,8 @@ def one_cycle(st, dry=False):
     cand = [(k, SEG_TARGET - v) for k, v in cnt.items() if k != "generic"]
     ready = [(k, v) for k, v in cnt.items() if k != "generic" and v >= SEG_TARGET]
     ready.sort(key=lambda x: -x[1])
+    ready_raw = list(ready)
+    ready, seg_blocked = gate_segments(ready, st)
 
     # 3 有段达标且冷却够 → 训那一段
     if ready and h >= TRAIN_COOLDOWN_S / 3600:
@@ -284,8 +340,10 @@ def one_cycle(st, dry=False):
         verdict, summ = do_e2e()
         if verdict == "REJECT" and prev:
             do_switch(prev)                      # 闭环：不合格立刻换回上一版
+            mark_reject(st, seg, ready[0][1])
             return "ROLLBACK", "段 %s 候选被闭环验收否掉 → 已回滚 %s ｜ %s" % (seg, prev, summ)
         if verdict != "ACCEPT":
+            mark_reject(st, seg, ready[0][1])
             return "EVAL", "段 %s 候选验收 %s（不上线）｜ %s" % (seg, verdict, summ)
         erc, eo, score = do_eval(run)
         act = active_now()
@@ -328,7 +386,9 @@ def one_cycle(st, dry=False):
         st["last_e2e"] = time.time()
         verdict, summ = do_e2e()
         return "E2E-%s" % verdict, "定期闭环验收：%s" % summ
-    return "REFRESH", "清洗 %s｜总 %d 行｜本轮 %.0fs" % (o2, tot, time.time() - start)
+    note = "｜同段重训闸拦下：%s" % "；".join(r for _, r in seg_blocked) if seg_blocked else ""
+    return "REFRESH", "清洗 %s｜总 %d 行｜本轮 %.0fs%s" % (
+        o2, tot, time.time() - start, note)
 
 
 def write_screen(last, st, cnt, tot):
@@ -412,6 +472,19 @@ def self_test():
     idle = " 1234 ?? S 0:01.00 /usr/bin/python3 foo.py"
     cases.append(("识别训练进程", bool(re.search(r"mlx_lm\s+lora", busy))))
     cases.append(("空闲不误判", not re.search(r"mlx_lm\s+lora", idle)))
+    # 5 同段重训闸双向负控（这是防"同一份数据反复烧 GPU"的那道闸）
+    st1 = {"seg_rejects": {"craft_learner": {"n": 2, "rows": 1000}}}
+    allow, blocked = gate_segments([("craft_learner", 1100)], st1)
+    cases.append(("否2次且只涨10%→拦下", not allow and len(blocked) == 1))
+    allow, blocked = gate_segments([("craft_learner", 1300)], st1)
+    cases.append(("否2次但涨30%→放行", bool(allow) and not blocked))
+    st2 = {"seg_rejects": {"craft_learner": {"n": 1, "rows": 1000}}}
+    allow, blocked = gate_segments([("craft_learner", 1000)], st2)
+    cases.append(("否1次且数据没变→拦下", not allow and len(blocked) == 1))
+    allow, blocked = gate_segments([("craft_learner", 1150)], st2)
+    cases.append(("否1次但涨15%→放行", bool(allow) and not blocked))
+    allow, blocked = gate_segments([("memer", 600)], {})
+    cases.append(("无记录→放行", bool(allow) and not blocked))
     for n, c in cases:
         print("  [%s] %s" % ("PASS" if c else "FAIL", n))
         ok += 1 if c else 0
