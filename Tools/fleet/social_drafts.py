@@ -156,6 +156,10 @@ IDENTITY_ASK = ("你是学", "你学的是", "科班", "你是做", "你是哪�
                 "本人是", "你是本人", "学过", "什么专业", "干这行")
 # 2026-11-13：词表必漏——"up主是男是女"不含上面任何一条，模型就给了草稿（红线失守）。
 # 身份类改成正则覆盖：性别/年龄/籍贯/职业/是否学生/是不是本人。
+# 身份闸必须限定"问的是我们"：2026-11-18 实锚——「尺帝真稳呀，这么大年龄了」被判
+# question_identity 而升级人工，可它问的是选手年龄，跟创作者身份无关。
+# 只命中身份词的第三人称问句不该拦；带第二人称（你/您/UP/博主）才升级。
+SECOND_PERSON = ("你", "您", "up", "UP", "博主", "作者", "本人", "主播")
 IDENTITY_PAT = re.compile(
     r"(是男|是女|男的|女的|男生|女生|性别|多大|几岁|年龄|哪里人|哪儿人"
     r"|做什么工作|职业是|是不是学生|是学生吗|真人吗|是不是本人|本人吗|谁做的"
@@ -475,7 +479,11 @@ def vet(comment, kind, draft, face="comment", faq=None):
             return "funnel_long", "", True, "引流稿超过 40 字，像广告"
     if BIZ_PAT.search(comment or ""):
         return "business", "", True, "商务/报价类：价格与合同归 CEO，转人工"
-    if any(w in comment for w in IDENTITY_ASK) or IDENTITY_PAT.search(comment or ""):
+    # 身份闸只拦"问我们"的问句；第三人称（选手/角色/演员多大年龄）不该升级。
+    # 2026-11-18 实锚：「尺帝真稳呀，这么大年龄了」被这条判死，白丢一条可回评论。
+    _c = comment or ""
+    _asks_us = any(w in _c for w in SECOND_PERSON)
+    if (any(w in _c for w in IDENTITY_ASK) or IDENTITY_PAT.search(_c)) and _asks_us:
         return "question_identity", "", True, "被问创作者身份/经历：披露口径归 CEO，不代答"
     if denies:
         return "claim_veto", "", True, "草稿否认/虚构了制作方式，已否决"

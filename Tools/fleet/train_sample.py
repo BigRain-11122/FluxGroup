@@ -126,7 +126,15 @@ def pick_distinct(outs, n):
             continue
         seen.add(k)
         uniq.append(t)
-    uniq.sort(key=lambda t: (self_repeat(t), -len(t)))
+    # 排序口径：人味分高优先，其次少自我重复，再其次信息量（长度）
+    def _hf(x):
+        try:
+            sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+            import comment_taste as _ct
+            return _ct.human_feel(x)
+        except Exception:
+            return 0
+    uniq.sort(key=lambda t: (-_hf(t), self_repeat(t), -len(t)))
     return (uniq + outs)[:n] if len(uniq) < n else uniq[:n]
 
 

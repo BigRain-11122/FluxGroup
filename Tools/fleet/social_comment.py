@@ -34,6 +34,7 @@ from datetime import datetime
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 SENT = os.path.join(ROOT, "cph4", "fleet", "social", "comments-sent.jsonl")
+QUEUE = os.path.join(ROOT, "cph4", "fleet", "social", "reply-queue.jsonl")
 PROF = os.path.join(os.path.expanduser("~"), ".fluxgroup", "browser-bilibili")
 CHROME = os.path.join(os.path.expanduser("~"), ".fluxgroup", "chrome", "chrome-mac-arm64",
                       "Google Chrome for Testing.app", "Contents", "MacOS",
@@ -61,6 +62,20 @@ def sign_params(params, key, wts=None):
     return dict(p, w_rid=_md5(q + key))
 
 
+def _pw():
+    """优先用 patchright（Apache-2.0，Playwright 的补丁分支，抹掉 CDP/Playwright 指纹）。
+
+    2026-11-18 调研结论：行为拟人只是第二层，第一层是"浏览器别自报是机器人"。
+    没装 patchright 就回落原生 playwright，功能不变但隐身弱。
+    """
+    try:
+        import patchright.sync_api as _pw_mod
+        return _pw_mod, True
+    except Exception:
+        from playwright import sync_api as _pw_mod
+        return _pw_mod, False
+
+
 def _launch(p, headless=True):
     kw = dict(user_data_dir=PROF, headless=headless, locale="zh-CN",
               timezone_id="Asia/Shanghai", viewport={"width": 1440, "height": 950},
@@ -72,9 +87,9 @@ def _launch(p, headless=True):
 
 def my_videos_and_comments(limit_videos=3, per_video=6):
     """返回 [(video_url, aid, [comments])]，只读。"""
-    from playwright.sync_api import sync_playwright
+    _mod, _stealth = _pw()
     out = []
-    with sync_playwright() as p:
+    with _mod.sync_playwright() as p:
         ctx = _launch(p)
         try:
             pg = ctx.pages[0] if ctx.pages else ctx.new_page()
@@ -88,7 +103,13 @@ def my_videos_and_comments(limit_videos=3, per_video=6):
                 return [], "未登录"
             pg.goto("https://space.bilibili.com/%s/video" % mid, wait_until="domcontentloaded",
                     timeout=60000)
-            time.sleep(6)
+            # 空降页是重前端页：6 秒在 patchright 下抓不到链接（实锚：0 条），
+            # 改为等元素出现 + 兜底 10 秒。
+            try:
+                pg.wait_for_selector("a[href*='/video/BV']", timeout=15000)
+            except Exception:
+                pass
+            time.sleep(4)
             links = pg.eval_on_selector_all(
                 "a[href*='/video/BV']", "els=>[...new Set(els.map(e=>e.href))]")
             links = [u.split("?")[0] for u in links][:limit_videos]
@@ -96,6 +117,18 @@ def my_videos_and_comments(limit_videos=3, per_video=6):
                 pg.goto(u, wait_until="domcontentloaded", timeout=60000)
                 time.sleep(4)
                 aid = pg.evaluate("()=>{try{return window.__INITIAL_STATE__.aid}catch(e){return 0}}")
+                if not aid:
+                    # patchright 下 __INITIAL_STATE__ 未必注入；直接问接口要 aid。
+                    import re as _r2
+                    m = _r2.search(r"(BV[0-9A-Za-z]{10})", u)
+                    if m:
+                        try:
+                            raw = pg.evaluate("""async(x)=>{const r=await fetch(
+                                'https://api.bilibili.com/x/web-interface/view?bvid='+x,
+                                {credentials:'include'});return await r.text();}""", m.group(1))
+                            aid = ((json.loads(raw).get("data") or {}).get("aid")) or 0
+                        except Exception:
+                            aid = 0
                 if not aid:
                     continue
                 r = pg.evaluate("""async(u)=>{const r=await fetch(u,{credentials:'include'});
@@ -118,15 +151,18 @@ def my_videos_and_comments(limit_videos=3, per_video=6):
     return out, ""
 
 
-def post_reply(aid, root_rpid, message, dry=True):
+def post_reply(aid, root_rpid, message, dry=True, read_first=False):
     """在自己视频下回复某条评论。dry=True 只走签名+构造，不发请求。"""
-    from playwright.sync_api import sync_playwright
-    with sync_playwright() as p:
+    _mod, _stealth = _pw()
+    with _mod.sync_playwright() as p:
         ctx = _launch(p)
         try:
             pg = ctx.pages[0] if ctx.pages else ctx.new_page()
-            pg.goto("https://www.bilibili.com/", wait_until="domcontentloaded", timeout=60000)
+            pg.goto("https://www.bilibili.com/video/av%s" % aid,
+                    wait_until="domcontentloaded", timeout=60000)
             time.sleep(3)
+            if read_first:
+                human_read(pg)          # 先像人一样读一会儿评论再动手
             nav = pg.evaluate("""async()=>{const r=await fetch('https://api.bilibili.com/x/web-interface/nav',
                 {credentials:'include'});const j=await r.json();return {mid:(j.data||{}).mid,
                 wbi:(j.data||{}).wbi_img, isLogin:(j.data||{}).isLogin};}""")
@@ -149,7 +185,135 @@ def post_reply(aid, root_rpid, message, dry=True):
                   {method:'POST',credentials:'include',
                    headers:{'Content-Type':'application/x-www-form-urlencoded'},
                    body:body});
-                return {status:r.status, text:(await r.text()).slice(0,400)};}""", body)
+                return {status:r.status, text:await r.text()};}""", body)
+            return res.get("status") == 200, res
+        finally:
+            try:
+                ctx.close()
+            except Exception:
+                pass
+
+
+UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
+      "(KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36")
+
+
+def _get_json(url, timeout=20):
+    import urllib.request
+    req = urllib.request.Request(url, headers={"User-Agent": UA, "Referer": "https://www.bilibili.com/"})
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+        return json.loads(r.read().decode() or "{}")
+
+
+def bv_to_aid(video):
+    """BV 号 → aid。裸 HTTP 会被风控（-412/403），所以失败时回落到浏览器同源请求。
+
+    2026-11-18 实锚：urllib 直连 /x/web-interface/view 直接抛异常（无 cookie 被拒），
+    而在已登录的页面上下文里 fetch 同一个接口是通的——同源真 cookie 才是正路。
+    """
+    import re as _re
+    m = _re.search(r"(BV[0-9A-Za-z]{10})", video or "")
+    if not m:
+        return None
+    bv = m.group(1)
+    try:
+        d = _get_json("https://api.bilibili.com/x/web-interface/view?bvid=%s" % bv)
+        aid = (d.get("data") or {}).get("aid")
+        if aid:
+            return aid
+    except Exception:
+        pass
+    _mod, _stealth = _pw()
+    with _mod.sync_playwright() as p:
+        ctx = _launch(p)
+        try:
+            pg = ctx.pages[0] if ctx.pages else ctx.new_page()
+            pg.goto("https://www.bilibili.com/", wait_until="domcontentloaded", timeout=60000)
+            time.sleep(3)
+            raw = pg.evaluate("""async(u)=>{const r=await fetch(u,{credentials:'include'});
+                return await r.text();}""",
+                "https://api.bilibili.com/x/web-interface/view?bvid=%s" % bv)
+            return ((json.loads(raw).get("data") or {}).get("aid")) or None
+        except Exception:
+            return None
+        finally:
+            try:
+                ctx.close()
+            except Exception:
+                pass
+
+
+def verify_comment(aid, rpid, wait_s=900, step_s=60):
+    """顶级评论回验：评论区第一页查得到 rpid 才算公开可见。
+
+    与 verify_visible（子回复）不是同一个接口：顶级评论在 /x/v2/reply 的 replies 里。
+    """
+    deadline = time.time() + wait_s
+    while time.time() < deadline:
+        try:
+            d = _get_json("https://api.bilibili.com/x/v2/reply?type=1&oid=%s&pn=1&ps=20&sort=0" % aid)
+            reps = ((d.get("data") or {}).get("replies") or [])
+            if str(rpid) in [str(x.get("rpid")) for x in reps]:
+                return True, "已公开可见（第 1 页）"
+        except Exception as e:
+            return False, "回验请求失败：%s" % str(e)[:60]
+        time.sleep(step_s)
+    return False, "%ds 内评论区查不到（多为送审/静默）" % wait_s
+
+
+def human_read(pg, seconds=None):
+    """像一个在看评论的人：下滚、停留、再下滚。
+
+    我们原来的动作是"开页 → 直接调接口发"——这在服务端看就是无阅读行为的异常账号。
+    真人的特征是停留与滚动，所以发之前必须先"读"。
+    """
+    import random as _r
+    if seconds is None:
+        seconds = _r.uniform(20, 120)
+    end = time.time() + seconds
+    while time.time() < end:
+        try:
+            pg.mouse.wheel(0, _r.randint(120, 480))
+        except Exception:
+            pass
+        time.sleep(min(_r.uniform(1.5, 4.5), max(0.5, end - time.time())))
+
+
+def delete_reply(aid, rpid, dry=False):
+    """撤回自己发过的回复。
+
+    CEO 2026-11-18「根据情况撤回或者留下」——所以撤回必须是**能真执行的动作**，
+    不是一句流程说明。B站删自己评论走 /x/v2/reply/del，同样要 wbi+csrf，同源发出。
+    """
+    _mod, _stealth = _pw()
+    with _mod.sync_playwright() as p:
+        ctx = _launch(p)
+        try:
+            pg = ctx.pages[0] if ctx.pages else ctx.new_page()
+            pg.goto("https://www.bilibili.com/video/av%s" % aid,
+                    wait_until="domcontentloaded", timeout=60000)
+            time.sleep(3)
+            if read_first:
+                human_read(pg)          # 先像人一样读一会儿评论再动手
+            nav = pg.evaluate("""async()=>{const r=await fetch('https://api.bilibili.com/x/web-interface/nav',
+                {credentials:'include'});const j=await r.json();return {wbi:(j.data||{}).wbi_img,
+                isLogin:(j.data||{}).isLogin};}""")
+            if not nav.get("isLogin"):
+                return False, "未登录"
+            wbi = nav.get("wbi") or {}
+            key = mixin_key(wbi.get("img_url", ""), wbi.get("sub_url", ""))
+            cookies = {c["name"]: c["value"] for c in ctx.cookies()}
+            csrf = cookies.get("bili_jct", "")
+            if not csrf:
+                return False, "缺 csrf（bili_jct）"
+            params = sign_params({"oid": aid, "type": 1, "rpid": rpid, "csrf": csrf}, key)
+            if dry:
+                return True, {"dry": True, "params": {k: str(v)[:20] for k, v in params.items()}}
+            body = urllib.parse.urlencode(params)
+            res = pg.evaluate("""async(body)=>{const r=await fetch('https://api.bilibili.com/x/v2/reply/del',
+                {method:'POST',credentials:'include',
+                 headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body});
+                return {status:r.status, text:(await r.text()).slice(0,300)};}""", body)
             return res.get("status") == 200, res
         finally:
             try:
@@ -188,6 +352,28 @@ def verify_visible(aid, root_rpid, my_rpid, wait_s=120):
                     pass
         time.sleep(45)
     return False, "提交成功但 %ds 内公开不可见（多为送审/静默处理）" % wait_s
+
+
+GHOST = ("账号已注销", "已注销", "用户已注销", "匿名用户", "bilibili_")
+KEEP_AUTHOR_MIN = 2
+
+
+def live_comments(cs):
+    """只留活人评论。
+
+    2026-11-18 实锚：dry 选中的第一条是「账号已注销: UP主加油！」——给注销号回复，
+    没人会看到，唯一效果是让账号看起来像在空转。而且草稿顺手编了"剪完这集"这种
+    我们并不在做的事实（编事实=红线）。所以先滤作者，再谈文案。
+    """
+    out = []
+    for c in cs:
+        a = (c.get("author") or "").strip()
+        if len(a) < KEEP_AUTHOR_MIN:
+            continue
+        if any(g in a for g in GHOST):
+            continue
+        out.append(c)
+    return out
 
 
 def _today_sent():
@@ -234,14 +420,35 @@ def main():
     ap.add_argument("--send", action="store_true")
     ap.add_argument("--limit", type=int, default=1)
     ap.add_argument("--self-test", action="store_true")
+    ap.add_argument("--queue", action="store_true", help="按人类习惯排期（不回立即发）")
+    ap.add_argument("--flush", action="store_true", help="到点的排期项真发")
+    ap.add_argument("--withdraw", default=None, help="撤回指定 rpid（撤回也是真动作，要验）")
+    ap.add_argument("--aid", default=None, help="配 --withdraw 使用")
     a = ap.parse_args()
     if a.self_test:
         return self_test()
+
+    if a.withdraw:
+        if not a.aid:
+            print("[comment] --withdraw 需要配 --aid")
+            return 2
+        ok, res = delete_reply(a.aid, a.withdraw)
+        print("[comment] 撤回 rpid=%s → %s %s" % (a.withdraw, "ok" if ok else "fail",
+                                                 json.dumps(res, ensure_ascii=False)[:200]))
+        return 0 if ok else 1
 
     # 只读/写都要先过风控闸
     sys.path.insert(0, HERE)
     import social_riskguard as guard
     import social_drafts as sd
+    # 频率上限由 freq_policy 判（可见率驱动），不再写死 2 条
+    try:
+        import freq_policy as _fp
+        _pol = _fp.load_policy()
+        CAP_PER_DAY = int(_pol.get("max_per_day", 2))
+        MIN_GAP = int(_pol.get("min_gap_min", 90))
+    except Exception:
+        CAP_PER_DAY, MIN_GAP = 2, 90
 
     if a.list or a.dry:
         vids, why = my_videos_and_comments(limit_videos=3, per_video=6)
@@ -256,7 +463,7 @@ def main():
             return 0
         # dry：为目标评论生成草稿并核对闸
         for u, aid, cs in vids:
-            for c in cs:
+            for c in live_comments(cs):
                 k, d, h, n = sd.draft_best(c["text"], face="comment", samples=4)
                 if d and not h:
                     print("[comment] DRY 待发 → %s | %s\n         回复：%s（%s）"
@@ -265,9 +472,106 @@ def main():
         print("[comment] DRY：没有一条同时满足「非人工+有稿」（这是对的结果，不发）")
         return 0
 
+    if a.queue or a.flush:
+        import human_rhythm as hr
+        import random as _rng
+        rng = _rng.Random()
+        if a.queue:
+            vids, why = my_videos_and_comments(limit_videos=3, per_video=8)
+            if not vids:
+                print("[comment] 拿不到评论：%s" % (why or "空"))
+                return 2
+            exist = set()
+            try:
+                for line in open(QUEUE, encoding="utf-8"):
+                    if line.strip():
+                        exist.add(str(json.loads(line).get("root_rpid")))
+            except FileNotFoundError:
+                pass
+            n = 0
+            with open(QUEUE, "a", encoding="utf-8") as f:
+                for u, aid, cs in vids:
+                    for c in cs:
+                        if str(c.get("rpid")) in exist:
+                            continue
+                        ok, why2 = hr.should_reply(c["text"], rng)
+                        if not ok:
+                            continue
+                        due = datetime.now().timestamp() + hr.reply_delay_s(rng=rng)
+                        f.write(json.dumps({"video": u, "aid": aid, "root_rpid": c["rpid"],
+                                            "to": c["text"], "due_at": due, "why": why2,
+                                            "queued": datetime.now().isoformat(timespec="seconds")},
+                                           ensure_ascii=False) + "\n")
+                        n += 1
+            print("[comment] 排期 %d 条（按人类延迟分布，不回立即发）" % n)
+            return 0
+        # flush：到点且醒着才发
+        if not hr.awake(rng=rng):
+            print("[comment] 现在不在线时段（作息模型），本次不发")
+            return 0
+        if _today_sent() >= CAP_PER_DAY:
+            print("[comment] 今日已发 %d 条（频率策略上限 %d），停" % (_today_sent(), CAP_PER_DAY))
+            return 0
+        pending = []
+        try:
+            for line in open(QUEUE, encoding="utf-8"):
+                if line.strip():
+                    d = json.loads(line)
+                    if not d.get("done") and d.get("due_at", 0) <= time.time():
+                        pending.append(d)
+        except FileNotFoundError:
+            pass
+        if not pending:
+            print("[comment] 没有到点的排期项")
+            return 0
+        ok, why = guard.check("bilibili")
+        if not ok:
+            ok, why = guard.wait_turn("bilibili", max_wait=120)
+            if not ok:
+                print("[comment] 风控闸拒绝：%s" % why)
+                return 3
+        for d in pending[:1]:
+            k, draft, human_flag, note = sd.draft_best(d["to"], face="comment", samples=3)
+            if not draft or human_flag:
+                print("[comment] 目标卡在闸上，跳过：%s（%s）" % (note[:50], d["to"][:20]))
+                continue
+            okp, resp = post_reply(d["aid"], d["root_rpid"], draft, dry=False, read_first=True)
+            rpid = ""
+            try:
+                rpid = str((json.loads(resp.get("text") or "{}").get("data") or {}).get("rpid") or "")
+            except Exception:
+                pass
+            vis, vnote = (verify_visible(d["aid"], d["root_rpid"], rpid) if rpid else (False, "无 rpid"))
+            rec = {"ts": datetime.now().isoformat(timespec="seconds"), "video": d["video"],
+                   "aid": d["aid"], "rpid": d["root_rpid"], "to": d["to"], "reply": draft,
+                   "my_rpid": rpid, "ok": okp, "visible": vis, "visible_note": vnote,
+                   "human": note}
+            with open(SENT, "a", encoding="utf-8") as f:
+                f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+            d["done"] = True
+            d["my_rpid"] = rpid
+            print("[comment] 发出 rpid=%s 可见=%s ｜ %s" % (rpid or "?", vis, draft))
+        # 回写队列（标记已完成）
+        lines = []
+        try:
+            for line in open(QUEUE, encoding="utf-8"):
+                if line.strip():
+                    o = json.loads(line)
+                    for d in pending[:1]:
+                        if str(o.get("root_rpid")) == str(d["root_rpid"]):
+                            o["done"] = True
+                            o["my_rpid"] = d.get("my_rpid", "")
+                    lines.append(o)
+        except FileNotFoundError:
+            pass
+        with open(QUEUE, "w", encoding="utf-8") as f:
+            for o in lines:
+                f.write(json.dumps(o, ensure_ascii=False) + "\n")
+        return 0
+
     if a.send:
-        if _today_sent() >= 2:
-            print("[comment] 今日已发 2 条上限，停")
+        if _today_sent() >= CAP_PER_DAY:
+            print("[comment] 今日已发 %d 条（频率策略上限 %d），停" % (_today_sent(), CAP_PER_DAY))
             return 0
         ok, why = guard.check("bilibili")
         if not ok:

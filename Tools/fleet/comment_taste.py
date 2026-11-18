@@ -82,6 +82,40 @@ def strip_reply_prefix(text):
     return REPLY_PREFIX.sub("", text or "").strip()
 
 
+# ── 人味分（0-40）：语感之外单独量"像不像一个具体的人在说话" ──
+TURN = ["不过", "但是", "其实", "就是", "倒是", "反而", "所以", "因为", "本来", "结果"]
+EXPERIENCE = ["剪过", "试过", "学过", "看了", "做过", "搞过", "弄过", "练过", "试了", "学了"]
+SELF_KNOCK = ["哈哈", "笑死", "别骂了", "菜", "笨", "翻车", "手残", "不会", "搞不懂"]
+
+
+def human_feel(text):
+    """人味 = 有转折/因果 + 有具体经历 + 口语助词多样 + 有克制自嘲 - 做作扣分。
+
+    为什么单独一把尺子：品味闸量的是"能不能发"（防做作、防跑题），但它管不了
+    "有没有人味"——一条完全合格的中性陈述也能过闸。人味要靠具体、有起伏、有自我。
+    """
+    t = strip_reply_prefix(text)
+    if not t:
+        return 0
+    f = 0
+    f += min(6, 2 * sum(1 for w in TURN if w in t))
+    f += min(6, 2 * len({c for c in t if c in ORAL}))
+    if any(w in t for w in SELF) and any(w in t for w in EXPERIENCE):
+        f += 6
+    elif any(w in t for w in SELF):
+        f += 2
+    f += min(6, 2 * sum(1 for w in CONCRETE if w in t))
+    if any(w in t for w in SELF_KNOCK):
+        f += 4
+    if 8 <= len(t) <= 32:
+        f += 4
+    f -= 6 * sum(1 for w in CLICHE if w in t)
+    # 病句/碎片风险：没有动词性成分且很短
+    if len(t) < 12 and not any(w in t for w in ("是", "有", "觉得", "感觉", "看", "剪", "做")):
+        f -= 4
+    return max(0, min(40, f))
+
+
 def score(text, seg=None):
     t = strip_reply_prefix(text)
     d = {"len": len(t), "logic": 0, "voice": 0, "human": 0, "taste": 0, "natural": 0,

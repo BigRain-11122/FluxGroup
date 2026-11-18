@@ -33,15 +33,20 @@ MIN_LEN, MAX_LEN = 4, 60
 # 三个指令轮换：训练时模型见到的"提问方式"要有多样性，但都只许写评论本身。
 # {title} 会在有视频标题时填进去——没有上下文的训练只会让模型学会"短"，
 # 学不会"针对这条视频说点相关的话"（2026-11-17 对拍实锚：LoRA 只吐零碎片段）。
+# 2026-11-18：三条模板里只有一条写了字数，结果模型只在遇到那条时才收口，
+# 另外两条照样写到 60-100 字，产线上"太长"占失败原因四分之一。三万字语料里
+# PASS 评论中位 22 字、P75=42，所以统一写 8-35 字——训练与推理共用这批模板，
+# 两边口径必须一致（推理侧走 llm_client.lora_comment_prompt 复用同一份）。
+_LEN = "8-35 字，一到两句话"
 INSTRUCTIONS = [
-    "视频《{title}》{hint}。你在 B 站这条视频下面留评论。只写评论本身，不要解释，不要加引号。",
-    "用 B 站观众的口吻，给《{title}》{hint}写一句真实评论，不超过 25 字。",
-    "刚看完《{title}》{hint}，写一句你最想说的话。就像平时在评论区那样。",
+    "视频《{title}》{hint}。你在 B 站这条视频下面留评论。只写评论本身，" + _LEN + "，不要解释，不要加引号。",
+    "用 B 站观众的口吻，给《{title}》{hint}写一句真实评论，" + _LEN + "。",
+    "刚看完《{title}》{hint}，写一句你最想说的话。就像平时在评论区那样，" + _LEN + "。",
 ]
 INSTRUCTIONS_NOCTX = [
-    "你在 B 站一条视频下面留评论。只写评论本身，不要解释，不要加引号。",
-    "用 B 站观众的口吻写一句真实评论，不超过 25 字。",
-    "看完这个视频，写一句你最想说的话。就像平时在评论区那样。"]
+    "你在 B 站一条视频下面留评论。只写评论本身，" + _LEN + "，不要解释，不要加引号。",
+    "用 B 站观众的口吻写一句真实评论，" + _LEN + "。",
+    "看完这个视频，写一句你最想说的话。就像平时在评论区那样，" + _LEN + "。"]
 
 
 def phrase_keep(rows, df_cap=0.02, min_distinct=0.5, n=4):
@@ -172,6 +177,12 @@ def main():
                     help="单个视频最多占总样本比例（防一条爆火视频盖住全部语气）")
     ap.add_argument("--seg-cap", type=float, default=0.3,
                     help="单个人群段最多占训练集比例（0=不限）")
+    ap.add_argument("--seg", default="",
+                    help="只保留该人群段的行（万人万面用）。不传=全集。"
+                         "2026-11-18 实锚：不给这个开关时，--out train-craft_learner 里"
+                         "craft_learner 只占 18%，训出来仍是平均嗓")
+    ap.add_argument("--min-human", type=int, default=0,
+                    help="人味分下限（comment_taste.human_feel；0=不筛）")
     ap.add_argument("--min-distinct", type=float, default=0.5,
                     help="句内 4-gram 里低频（有信息）占比下限；低于此值视为口头禅句，0=关闭")
     ap.add_argument("--df-cap", type=float, default=0.02,
@@ -208,6 +219,15 @@ def main():
             dropped["dup"] += 1
             continue
         seen.add(h)
+        if a.min_human > 0:
+            try:
+                import comment_taste as _ct2
+                if _ct2.human_feel(t) < a.min_human:
+                    dropped.setdefault("human", 0)
+                    dropped["human"] += 1
+                    continue
+            except Exception:
+                a.min_human = 0
         origin = r.get("origin") or "comment"
         if origin == "danmaku" and len(t) < a.danmaku_min_len:
             dropped.setdefault("danmaku_short", 0)
@@ -260,7 +280,10 @@ def main():
         print("[build] 口头禅抑制去掉 %d 条（4-gram 高频占多数）→ 剩 %d" % (dull, len(rows)))
 
     # 单视频上限：一条爆火视频能给上千条评论，不设上限就会让一个视频的语气
-    # 盖住全部（DEITA 的 diversity 那一维，落到我们这里就是"别让单源主导"）。    if a.per_video_max and rows:
+    # 盖住全部（DEITA 的 diversity 那一维，落到我们这里就是"别让单源主导"）。
+    # 2026-11-18 实锚：这一行原来被上一行注释吞掉（`）。    if ...`），
+    # 上限从未生效，日志里只有"单段上限"没有"单视频上限"——整份训练集可能被一条爆款主导。
+    if a.per_video_max and rows:
         cap = max(20, int(len(rows) * a.per_video_max))
         by = {}
         for r in rows:
@@ -298,6 +321,11 @@ def main():
                 dropped["seg_over"] = cut
             print("[build] 段位分布 %s" % dict(sorted(
                 ((k, len(v)) for k, v in byseg.items()), key=lambda kv: -kv[1])))
+            if a.seg:
+                before = len(rows)
+                rows = [r for r in rows if r.get("seg") == a.seg]
+                print("[build] 只留段 %s：%d → %d 行（该段原占 %.0f%%）"
+                      % (a.seg, before, len(rows), 100.0 * len(rows) / max(before, 1)))
             if cut:
                 print("[build] 单段上限 %d 条（%.0f%%）→ 去掉 %d 条，剩 %d"
                       % (cap_seg, a.seg_cap * 100, cut, len(rows)))

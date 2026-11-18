@@ -78,16 +78,16 @@ def main():
     for label, _p, _s in jobs:
         b = res[("base", label)]
         l = res[("lora", label)]
-        cell_b = "<br>".join("%s（%d·%s）" % (t.replace("|", "/")[:46], s["total"], s["verdict"])
-                             for t, s in b)
-        cell_l = "<br>".join("%s（%d·%s）" % (t.replace("|", "/")[:46], s["total"], s["verdict"])
-                             for t, s in l)
+        cell_b = "<br>".join("%s（品味%d/人味%d）" % (t.replace("|", "/")[:44], s["total"],
+                                                     ct.human_feel(t)) for t, s in b)
+        cell_l = "<br>".join("%s（品味%d/人味%d）" % (t.replace("|", "/")[:44], s["total"],
+                                                     ct.human_feel(t)) for t, s in l)
         lines.append("| %s | %s | %s |" % (label, cell_b, cell_l))
         print("\n【%s】" % label)
         for t, s in b:
-            print("  基座 %-3d %s" % (s["total"], t[:60]))
+            print("  基座 品味%-3d 人味%-2d %s" % (s["total"], ct.human_feel(t), t[:56]))
         for t, s in l:
-            print("  LoRA %-3d %s" % (s["total"], t[:60]))
+            print("  LoRA 品味%-3d 人味%-2d %s" % (s["total"], ct.human_feel(t), t[:56]))
 
     # 汇总
     ab = [s["total"] for v in res.values() for _t, s in v
@@ -95,10 +95,15 @@ def main():
     def avg(side):
         vals = [s["total"] for (sd, _l), arr in res.items() if sd == side for _t, s in arr]
         return round(sum(vals) / len(vals), 1) if vals else 0
-    lines.insert(3, "\n**均分：基座 %.1f → LoRA %.1f**\n" % (avg("base"), avg("lora")))
+    def avg_h(side):
+        vals = [ct.human_feel(t) for (sd, _l), arr in res.items() if sd == side for t, _s in arr]
+        return round(sum(vals) / len(vals), 1) if vals else 0
+    lines.insert(3, "\n**品味均分：基座 %.1f → LoRA %.1f｜人味均分：基座 %.1f → LoRA %.1f**\n"
+                % (avg("base"), avg("lora"), avg_h("base"), avg_h("lora")))
     open(OUT, "w", encoding="utf-8").write("\n".join(lines) + "\n")
-    print("\n[show] 均分 基座 %.1f → LoRA %.1f → %s"
-          % (avg("base"), avg("lora"), os.path.relpath(OUT, ROOT)))
+    print("\n[show] 品味 基座 %.1f → LoRA %.1f ｜ 人味 基座 %.1f → LoRA %.1f → %s"
+          % (avg("base"), avg("lora"), avg_h("base"), avg_h("lora"),
+             os.path.relpath(OUT, ROOT)))
     return 0
 
 

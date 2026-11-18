@@ -1,0 +1,34 @@
+#!/bin/bash
+# 切换 8788 的适配器并等它就绪：写 ACTIVE 指针 → 重启 launchd → 探 /v1/models。
+# 为什么要单独一支：闭环验收必须能"先换上去实测，不过再换回来"，
+# 换的机制如果不确定，"回滚"就是一句空话。
+set -uo pipefail
+ROOT="/Users/junsheng.sun/FluxGroup"
+UID_N="$(id -u)"
+ADAPTER="${1:-}"
+if [[ -z "$ADAPTER" ]]; then echo "用法: lora_switch.sh <adapter 相对路径>"; exit 2; fi
+if [[ ! -f "$ROOT/$ADAPTER/adapters.safetensors" ]]; then
+  echo "适配器不存在：$ROOT/$ADAPTER"; exit 2
+fi
+python3 - "$ROOT" "$ADAPTER" <<'PY'
+import json, sys, os
+root, adapter = sys.argv[1], sys.argv[2]
+p = os.path.join(root, "cph4/fleet/social/train/ACTIVE.json")
+cur = {}
+try: cur = json.load(open(p, encoding="utf-8"))
+except Exception: pass
+cur["adapter"] = adapter
+cur["switched_at"] = __import__("datetime").datetime.now().isoformat(timespec="seconds")
+json.dump(cur, open(p, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+print("ACTIVE →", adapter)
+PY
+launchctl bootout "gui/$UID_N/com.fluxgroup.mlxlora" 2>/dev/null
+sleep 2
+launchctl bootstrap "gui/$UID_N" "$HOME/Library/LaunchAgents/com.fluxgroup.mlxlora.plist" || exit 1
+for i in $(seq 1 40); do
+  if curl -s -m 3 http://127.0.0.1:8788/v1/models | grep -q '"id"'; then
+    echo "[switch] 8788 就绪（${i}0%）"; exit 0
+  fi
+  sleep 3
+done
+echo "[switch] 8788 60 秒未就绪"; exit 1

@@ -30,6 +30,7 @@ ROOT = os.path.dirname(os.path.dirname(HERE))
 OUT = os.path.join(ROOT, "cph4", "fleet", "LOCAL-MODEL-CEILING-v1.json")
 HOST = "http://127.0.0.1:11434"
 PAGE = 16384
+KEEP_ALIVE = "6h"           # 档位内模型常驻时长：10m 会掉，等于档位没生效
 SWAP_TOL_MB = 200          # 允许的波动（加密 swap 统计有抖动），超过即判"触发了 swap"
 PROMPT = "用一句话说明什么是蒙太奇。"
 BASE_MODEL = "qwen3.5:4b-mlx"
@@ -79,11 +80,18 @@ def loaded():
     return rows
 
 
-def gen(model, num_ctx, num_predict=128, timeout=300):
-    """一次非流式生成：拿 eval_count/eval_duration 算解码速度。"""
-    body = json.dumps({"model": model, "prompt": PROMPT, "stream": False,
-                       "options": {"num_ctx": num_ctx, "num_predict": num_predict,
-                                   "temperature": 0, "top_k": 1}}).encode()
+def gen(model, num_ctx, num_predict=128, timeout=300, keep_alive=None):
+    """一次非流式生成：拿 eval_count/eval_duration 算解码速度。
+
+    keep_alive 必须显式传：服务端 OLLAMA_KEEP_ALIVE=10m，不传就只能热 10 分钟——
+    2026-11-18 实锚，切完档过一会儿再看只剩一条在驻，三条车道的 60 tok/s 等于没兑现。
+    """
+    body = {"model": model, "prompt": PROMPT, "stream": False,
+            "options": {"num_ctx": num_ctx, "num_predict": num_predict,
+                        "temperature": 0, "top_k": 1}}
+    if keep_alive is not None:
+        body["keep_alive"] = keep_alive
+    body = json.dumps(body).encode()
     req = urllib.request.Request(HOST + "/api/generate", data=body,
                                  headers={"Content-Type": "application/json"})
     t0 = time.time()
@@ -169,12 +177,28 @@ def sweep():
                "tolerance_mb": SWAP_TOL_MB, "rows": rows, "co_resident": co,
                "best": best}
     json.dump(payload, open(OUT, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+    restore_tier()
     if best:
         print("[ceiling] 最大安全配置：%s ctx=%d（%.1f tok/s）→ %s"
               % (best["model"], best["num_ctx"], best["tok_s"], os.path.relpath(OUT, ROOT)))
     else:
         print("[ceiling] 没有任何配置通过（全部触发 swap）")
     return 0 if best else 2
+
+
+def current_mode():
+    try:
+        return open(os.path.join(ROOT, ".codely-cli", "state", "MODEL-MODE")).read().strip()
+    except Exception:
+        return "default"
+
+
+def restore_tier():
+    """把机器拨回 state/MODEL-MODE 记的那一档——探测/自检不许留副作用。"""
+    m = current_mode()
+    if m in MODES:
+        print("[ceiling] 清扫结束，恢复 %s 档" % m, flush=True)
+        apply_mode(m, warm=True)
 
 
 def self_test():
@@ -197,11 +221,17 @@ def self_test():
 
 MODES = {
     # 三档，全部实测过；切换=卸载+按档预热（预热即把 num_ctx 钉进 runner）
-    "default": {"models": [(BASE_MODEL, 32768), (BIG_MODEL, 32768)],
-                "why": "日常：64 tok/s，留 ~14GB 给浏览器采集与训练"},
-    "max": {"models": [(BASE_MODEL, 65536), (BIG_MODEL, 65536),
-                       ("qwen3:4b", 16384), ("qwen3.5:2b", 32768)],
-            "why": "批处理打满：4 模型并驻 133-150 tok/s，空闲只剩 ~3GB，禁同时采集/训练"},
+    # 2026-11-18 重测（Tools/fleet/gpu_squeeze.py，并发解码 + 零 swap 判据）：
+    #   单 4B@8k = 41 tok/s（两批 41.0/41.2，很稳）
+    #   4B+2B = 53-63；再叠 8788 LoRA 车道凑三条 = 48.6-63.0
+    #   再加第四条（8B / 4B-dense）= 53-63，一条不涨 → 三条到顶，卡在 GPU 不在内存
+    #   9B 是毒丸：4B+9B = 34.8（比单条 4B 还低）还白吃 9GB；lora+4B+9B = 41.9
+    # 旧注释里"2 驻留 64.6 / 4 驻留 150.5"是各车道单跑相加，不是并发实测，已废。
+    "default": {"models": [(BASE_MODEL, 8192), ("qwen3.5:2b", 8192)],
+                "why": "日常：两条 ollama 车道 + 8788 LoRA 约 60 tok/s，留 ~10GB 给采集与训练"},
+    "max": {"models": [(BASE_MODEL, 32768), ("qwen3.5:2b", 32768),
+                       ("qwen3:4b", 16384)],
+            "why": "批处理打满：实测四条车道 53-63 tok/s，与三条同档——第四条只多占内存不多出活"},
     "train": {"models": [], "why": "训练档：全部卸载，LoRA 16层@224 需要 ~10GB"},
 }
 
@@ -217,7 +247,7 @@ def apply_mode(mode, warm=True):
         if not warm:
             break
         try:
-            gen(model, ctx, num_predict=1)
+            gen(model, ctx, num_predict=1, keep_alive=KEEP_ALIVE)
         except Exception as e:
             print("[ceiling] 预热失败 %s@%d：%s" % (model, ctx, str(e)[:60]))
     got = loaded()

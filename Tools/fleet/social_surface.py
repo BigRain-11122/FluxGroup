@@ -38,6 +38,8 @@ TOOLS = [
     ("social_sweep.py", "批量补货（评论分页+弹幕 seg.so）"),
     ("social_ingest.py", "入库（矩阵校验/打码/去重/冷却）"),
     ("social_drafts.py", "三通道草稿（人味闸+品味闸）"),
+    ("social_comment_gen.py", "养号评论出稿（三车道并发+观众口径闸）"),
+    ("social_practice.py", "实战闭环（发真评论→回验→留或撤→记账）"),
     ("social_review.py", "人工批审回流 few-shot"),
     ("social_eval.py", "黄金集评测（红线/分类/人判）"),
     ("social_profile.py", "风格画像（长度/问句/催更率）"),
