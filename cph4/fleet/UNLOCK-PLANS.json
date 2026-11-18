@@ -125,9 +125,9 @@
           "needs": "cpu"
         },
         {
-          "step": "35B 从 bm-a 迁到 bm-d",
-          "deliverable": "cph4/fleet/queue-receipts/migrate-35b-{date}.json",
-          "accept": "bm-a 停服；bm-d 出一次可用推理回执；延迟与吞吐记录",
+          "step": "35B 在 bm-d 首次装载（bm-a 旧 :8090 车道已停·2026-11-18 实测端口未监听，无在跑服务可迁）",
+          "deliverable": "cph4/fleet/queue-receipts/install-35b-{date}.json",
+          "accept": "bm-d 出一次可用推理回执（延迟/吞吐记录）；并确认 bm-a 无残留 35B 服务",
           "owner": "bm-d",
           "needs": "cpu"
         },

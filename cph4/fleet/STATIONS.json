@@ -83,7 +83,7 @@
     "磁盘 > 100G"
    ],
    "status": "ready",
-   "last_probe": "2026-11-11T11:35 端口 445/3389 开、8790 未监听、最后回执 02:15",
+   "last_probe": "2026-11-18T15:2x 本机实测：tailscale direct 在线；Ollama qwen3.5:9b 6.2GB 100% GPU 在跑；:8790 在听；:8090 未监听（旧 coder 35B 车道已不在役）；ComfyUI 8188 不在本机",
    "charter": "cph4/fleet/stations/delivery/CHARTER.md",
    "runtime": {
     "resident": [
@@ -180,8 +180,9 @@
     "系统内存空闲 ≥10G",
     "显存空闲 ≥10G"
    ],
-   "status": "ready",
-   "last_probe": "2026-11-14T23:3x 8188 comfyui=0.36.0 在听；显存 used/total=8915, 16384 MB；系统内存空闲 29.3 G",
+   "status": "offline",
+   "last_probe": "2026-11-18T15:2x tailscale：offline, last seen 58m ago（14:2x 前后掉线）。11-14T23:3x 末次可用读数：8188 comfyui=0.36.0 在听、显存 used/total=8915/16384 MB、内存空闲 29.3G",
+   "status_note": "2026-11-18 15:2x 实测掉线，非退役；回线后由本机 station_agent 探针自动回填 ready。掉线期间视觉线（KF/i2v/装配）无执行位，派单应排队而不是改派到无 GPU 能力的机器。",
    "charter": "cph4/fleet/stations/visual/CHARTER.md",
    "runtime": {
     "resident": [
@@ -271,7 +272,7 @@
     "磁盘 > 20G"
    ],
    "status": "offline",
-   "last_probe": "2026-11-11T11:35 tailscale offline 11h、端口全关、最后回执 2026-11-10T00:19",
+   "last_probe": "2026-11-18T15:2x tailscale：offline, last seen 7d ago；端口全关。CEO 2026-11-14 令未开机不用管（paused_by_ceo 生效）",
    "charter": "cph4/fleet/stations/audio/CHARTER.md",
    "runtime": {
     "resident": [
