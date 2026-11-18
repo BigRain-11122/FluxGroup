@@ -1,4 +1,4 @@
-# fleet-poke-worker.ps1 - FleetLink background pull+wake worker v1.8 (CEO order O-20261009-1750 "very fast sync").
+﻿# fleet-poke-worker.ps1 - FleetLink background pull+wake worker v1.8 (CEO order O-20261009-1750 "very fast sync").
 # v1.8 (2026-10-17 force-repos concat fix, bm-b live-fire x2): with a single-element
 # poke_repos (all nodes use ['.']) the pipeline `@($node.poke_repos) | ForEach-Object`
 # UNROLLED the array into a scalar string, so `$pullSet += $fs` did string CONCATENATION

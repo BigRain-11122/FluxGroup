@@ -67,6 +67,38 @@ ALIAS = {
     "裴秀智": "Suzy",
     "许玮甯": "Tiffany Hsu",
     "广末凉子": "Ryoko Hirosue",
+    # 2026-11-18 补：日系/韩系人物用中文译名在 360 命中极差（rx 族 14 人 <20 张），
+    # 原名（汉字旧字体/假名/罗马字）才是她们的图库主标签。名单里的译名有错字也一并纠回。
+    "泽尻英龙华": "沢尻エリカ,泽尻绘里香,Erika Sawajiri",
+    "伊藤由奈": "伊藤由奈,Yuna Ito",
+    "西奈真里": "西内まりや,西内玛利亚,Mariya Nishiuchi",
+    "古畑奈和": "古畑奈和,Nao Furuhata",
+    "街山美穗": "街山美穂,街山みほ",
+    "东云海": "東雲うみ,东云海",
+    "桃月梨子": "桃月なしこ,桃月梨子",
+    "牧野真莉爱": "牧野真莉愛,牧野真莉爱",
+    "尾茂井奏良": "尾茂井奏良,尾茂井そら",
+    "永江梨乃": "永江梨乃,永江りの",
+    "贺喜遥香": "賀喜遥香,贺喜遥香,Haruka Kaki",
+    "enako": "えなこ,エナコ,enako",
+    "宫泽理惠": "宮沢りえ,宫泽理惠,Rie Miyazawa",
+    "中条彩未": "中条あやみ,中条彩未,Ayami Nakajo",
+    "苍井优": "蒼井優,苍井优,Aoi Yu",
+    "宫崎葵": "宮崎あおい,宫崎葵,Aoi Miyazaki",
+    "鬼束千寻": "鬼束ちひろ,鬼束千寻,Chihiro Onitsuka",
+    "永作博美": "永作博美,Hiromi Nagasaku",
+    "濑户朝香": "瀬戸朝香,濑户朝香,Asaka Seto",
+    "三原羽衣": "三原羽衣,三原羽衣",
+    "出口夏希": "出口夏希,Natsuki Deguchi",
+    "朴善英": "박선영,朴善英,Park Sun-young",
+    # 2026-11-18 第二轮：这几个人不是图少，是**名字歧义**——raw 上百张但 kNN 判"不是同一个人"
+    # （rx15 119 张挑不出 20、wm18 73 张挑不出 20）。加职业/作品限定词把检索钉到本人身上。
+    "尾茂井奏良": "尾茂井奏良 女優,尾茂井そら グラビア,尾茂井奏良 作品",
+    "Cece Natalie": "Cece Natalie model,Cece Natalie 模特,Cece Natalie cosplay",
+    "东云海": "東雲うみ グラビア,東雲うみ 写真集,东云海 写真",
+    "Lykke Li": "Lykke Li singer,莉琦李,Lykke Li 歌手",
+    "Charlotte Gainsbourg": "夏洛特·甘斯布,Charlotte Gainsbourg actress,夏洛特甘斯布 电影",
+    "Sasha Sloan": "Sasha Sloan singer,萨莎斯隆,Sasha Sloan 歌手",
 }
 
 BAD_NAME_CHARS = re.compile(r"[\\/:*?\"<>|]")
@@ -198,6 +230,23 @@ def cmd_list(a) -> int:
     return 0
 
 
+def _holder_alive(holder: int) -> bool:
+    """锁文件里记的是 pid。进程被强杀时析构不跑、锁留盘上，只靠超时会白等 90 分钟
+    （2026-11-18 实锚：我用 taskkill 停了补采，随后两次启动全被自己的死锁挡住）。"""
+    if not holder:
+        return False
+    try:
+        if os.name == "nt":
+            out = subprocess.run(["tasklist", "/FI", "PID eq %d" % holder],
+                                 capture_output=True, text=True,
+                                 creationflags=0x08000000).stdout
+            return str(holder) in out
+        os.kill(holder, 0)
+        return True
+    except Exception:
+        return False
+
+
 def acquire_lock() -> bool:
     """单写者：会话内连续跑与计划任务巡检可能同时起，撞车会重复下载并互相覆盖台账。"""
     try:
@@ -207,7 +256,19 @@ def acquire_lock() -> bool:
         os.close(fd)
         return True
     except FileExistsError:
-        # 陈旧锁自愈：>90 分钟视为残留
+        holder = 0
+        try:
+            holder = int((open(LOCK).read() or "0").strip())
+        except Exception:
+            holder = 0
+        # ①持有者进程已死 → 立刻接管，不等 90 分钟
+        if holder and not _holder_alive(holder):
+            try:
+                os.remove(LOCK)
+            except OSError:
+                pass
+            return acquire_lock()
+        # ②进程查不到/锁内容坏了 → 退回超时判定
         try:
             if time.time() - os.path.getmtime(LOCK) > 5400:
                 os.remove(LOCK)

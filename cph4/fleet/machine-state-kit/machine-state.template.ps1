@@ -1,4 +1,4 @@
-# machine-state.template.ps1 - CEO 用机让路律 single-machine switch (fleet kit template)
+﻿# machine-state.template.ps1 - CEO 用机让路律 single-machine switch (fleet kit template)
 # LAW: resource-chain.md §六 CEO 用机让路律 (2026-10-06, council C-20261006-01 PASS).
 # CEO standing order: whichever machine HEARS "wo yao da youxi / wo yao gongzuo" pauses
 # THAT machine only (all other machines keep full-speed operation); "quanmian kaigong"

@@ -1,4 +1,4 @@
-# banned-direction-gate.ps1 -- fail-closed hard gate against falsified research directions
+﻿# banned-direction-gate.ps1 -- fail-closed hard gate against falsified research directions
 # Authority: D-20260930-41 section 1.2 + docs/audits/retail-quant-conclusions-v2-20260930.md section 3
 # Registry: quant/bigmoney/research/BANNED_DIRECTIONS.json
 #

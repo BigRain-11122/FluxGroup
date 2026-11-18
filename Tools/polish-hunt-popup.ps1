@@ -1,4 +1,4 @@
-# 弹窗抓凶手脚本 —— 双击运行 30 秒，把结果发我
+﻿# 弹窗抓凶手脚本 —— 双击运行 30 秒，把结果发我
 # 作用：每 200ms 扫一次进程，发现 WindowsTerminal / conhost / git / UGit 等，
 #       立即沿父进程链向上追溯，把完整链条写进日志。
 # 输出：C:\Users\sjs20\Desktop\FluxGroup\docs\audits\popup-hunt.log

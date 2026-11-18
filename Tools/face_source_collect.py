@@ -146,11 +146,17 @@ def download_all(links, raw_dir, target_usable, min_side, person="", max_mb=12, 
                 ext = e
         # 用内容哈希命名：重跑同一人不会覆盖已有文件，跨轮次天然去重
         path = os.path.join(raw_dir, f"{h[:12]}{ext}")
+        # 2026-11-18 事故修复：文件名是内容哈希，**同一张图重下一遍会落到同一个文件名**。
+        # 原先不判"是否本来就在盘上"就 os.remove，于是把 min_side 从 600 提到 800 后，
+        # 已入库的 <800px 存量图被当成"本轮不合格"删掉（实测 rx03/rx10 各丢 2 张）。
+        # 规则：只删本轮新写进盘的文件；已在库的一律保留，质量由下游 build 的清晰度闸判。
+        existed = os.path.exists(path)
         with open(path, "wb") as f:
             f.write(data)
         img = GATE.cv2.imread(path)
         if img is None or min(img.shape[:2]) < min_side:
-            os.remove(path)
+            if not existed:
+                os.remove(path)
             continue
         titles[os.path.basename(path)] = title
         hashes.add(h)

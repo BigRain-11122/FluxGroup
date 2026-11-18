@@ -1,4 +1,4 @@
-# secret-scan.ps1 - Group secret-leak gate (governance 7 / versioning 4.2)
+﻿# secret-scan.ps1 - Group secret-leak gate (governance 7 / versioning 4.2)
 # Scans recent commit diffs of all group repos for high-confidence secret patterns.
 # Read-only. No popups (silence law). Report -> .codely-cli\secret-scan\ (gitignored).
 # Usage:  powershell -NoProfile -ExecutionPolicy Bypass -File Tools\secret-scan.ps1 [-Days 1]

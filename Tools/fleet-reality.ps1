@@ -1,4 +1,4 @@
-# fleet-reality.ps1 - Fleet reality probe v1.0 (CEO order 2026-10-10 ~00:4x
+﻿# fleet-reality.ps1 - Fleet reality probe v1.0 (CEO order 2026-10-10 ~00:4x
 # "好好梳理" -> O-20261010-0045; law anchor: governance 10.2 fresh-verification
 # law, enforcement-strengthening file, T2, 7-day veto window).
 # THE single source of truth for any report about FLEET / MACHINE / PHYSICAL-ITEM

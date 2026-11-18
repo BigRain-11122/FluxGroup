@@ -1,4 +1,4 @@
-# deliverable-probe.ps1 -- XL-7 deliverable north-star probe (D-20260930-06)
+﻿# deliverable-probe.ps1 -- XL-7 deliverable north-star probe (D-20260930-06)
 # Reads every unit repo READ-ONLY and emits machine-checkable numbers:
 #   A) accessible fronts  (product HTML/entry files a human can open)
 #   B) published items    (real platform link / published evidence)

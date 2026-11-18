@@ -1,4 +1,4 @@
-#!/usr/bin/env pwsh
+﻿#!/usr/bin/env pwsh
 # pause-local-business.ps1 - stop every local business loop on bm-a, keep only guards.
 # CEO 2026-10-29: "我这个机器很卡 你先把本机业务都暂停"
 # Reversible: the disabled list is written to .codely-cli/tmp/paused-business.json

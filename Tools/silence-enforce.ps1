@@ -1,4 +1,4 @@
-# silence-enforce.ps1 - Fleet silence root-cure (CEO order 10-08, U060 escalation)
+﻿# silence-enforce.ps1 - Fleet silence root-cure (CEO order 10-08, U060 escalation)
 # Idempotent, silent, machine-agnostic. Re-asserts gates (self-heal vs OS resets),
 # audits scheduled tasks for console-flash violations, writes compliance JSON.
 # Invoked via wscript //B //nologo chain (Tools/silence-enforce.vbs) or directly.

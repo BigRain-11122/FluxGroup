@@ -514,14 +514,25 @@ def curate(src, out, keep=45, min_sim=0.20, board=None, link_thr=0.58):
     # 近重复剔除（2026-11-17）：同一张原图的不同裁切/不同尺寸会同时进池，scan_dir 的 pHash 去重管不到这里。
     # 抽检板实测 ql05 的 45 张里约 10 对是近重复，等于数据集真实多样性只有 35 张。
     # 只留清晰度最高的一张——重复件占配额不给信息，却让 kNN 一致性虚高。
-    _seen_ph, _uniq = [], []
+    # 2026-11-18 补第二道：同一张图换裁切后整图 pHash 距离会 >8（抓不住），但人脸 embedding
+    # 余弦仍会 >0.95（实测汤唯 31 张板图里 5-6 对是这种：同款西装不同裁切、同张回眸不同尺寸）。
+    _seen_ph, _seen_emb, _uniq = [], [], []
     for r in sorted(picked, key=lambda x: -x["lap"]):
         _img = cv2.imread(r["path"])
         ph = phash(_img) if _img is not None else ""
         if ph and any(hamming(ph, s) <= PHASH_DIST for s in _seen_ph):
             continue
+        # rows 里的 emb 是未归一化的人脸特征，直接点积会得到几百的量级、把全部图判成重复
+        # （2026-11-18 实锚：汤唯重挑后 build 只剩 1 张）。必须先归一化再算余弦。
+        e = None
+        if r.get("emb") is not None:
+            e = r["emb"] / (np.linalg.norm(r["emb"]) + 1e-9)
+            if any(float(np.dot(e, v)) >= 0.95 for v in _seen_emb):
+                continue
         if ph:
             _seen_ph.append(ph)
+        if e is not None:
+            _seen_emb.append(e)
         _uniq.append(r)
     picked = _uniq
     laps = np.array([r["lap"] for r in rows], dtype=np.float32)

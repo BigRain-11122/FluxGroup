@@ -1,4 +1,4 @@
-# disk-sweep.ps1 - Group decisive disk census + Class-A sweeper v1.0 (CPH4 Labs)
+﻿# disk-sweep.ps1 - Group decisive disk census + Class-A sweeper v1.0 (CPH4 Labs)
 # Charter: cph4/resource-chain.md sec.3 sec.11 (CEO order 2026-09-29 decisiveness law:
 # "manage and clean decisively, do not be too conservative").
 # Census: suspect-list size report + ollama model face + per-repo auto-saves face.

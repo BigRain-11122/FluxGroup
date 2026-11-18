@@ -1,4 +1,4 @@
-# fleet-board.ps1 - Fleet overview board generator (CEO order 2026-10-21 "fleet
+﻿# fleet-board.ps1 - Fleet overview board generator (CEO order 2026-10-21 "fleet
 # sync must be visible at a glance; 及时同步信息和指令").
 # Produces a single self-contained HTML (fleet-board.html) + raw JSON
 # (fleet-board.json) under the fleet/ dir. Run by hand / on demand; intentionally
