@@ -1,0 +1,13 @@
+{
+ "adapter": "cph4/fleet/social/train/RUNS/20261118-113014/best",
+ "run": "20261118-113014",
+ "dataset": "train (human>=8, 965 行, 旧模板)",
+ "iters": 400,
+ "eval": {
+  "taste_avg": 81.3,
+  "base_avg": 63.2,
+  "pass_rate": 44
+ },
+ "why": "2026-11-18 12:xx 前的最优点；Run A(1600 iter)/Run B(统一字数模板) 出结果后按实测评比替换",
+ "switched_at": "2026-11-18T16:29:24"
+}

@@ -82,3 +82,21 @@
 {"ts": "2026-11-18T10:54:01", "platform": "bilibili", "verdict": "BLOCKED", "found": 0, "new": 0, "url": "https://www.bilibili.com/video/BV1DC6EBTE99/", "note": "打开失败：Page.goto: Timeout 60000ms exceeded.\nCall log:\n  - navigating to \"https://www.bi"}
 {"ts": "2026-11-18T11:16:29", "platform": "bilibili", "verdict": "OK", "found": 99, "new": 97, "total": 4041, "url": "https://www.bilibili.com/video/BV1Vm4y1N7x3/"}
 {"ts": "2026-11-18T11:23:42", "platform": "bilibili", "verdict": "OK", "found": 160, "new": 160, "total": 4201, "url": "https://www.bilibili.com/video/BV1XE421g7rv/"}
+{"ts": "2026-11-18T11:38:50", "platform": "bilibili", "verdict": "OK", "found": 90, "new": 89, "total": 4290, "url": "https://www.bilibili.com/video/BV1RyjL6LEpL/"}
+{"ts": "2026-11-18T12:00:15", "platform": "bilibili", "verdict": "OK", "found": 24, "new": 23, "total": 4313, "url": "https://www.bilibili.com/video/BV18v456fETQ/"}
+{"ts": "2026-11-18T12:07:19", "platform": "bilibili", "verdict": "NO_NEW", "found": 160, "new": 0, "total": 4313, "url": "https://www.bilibili.com/video/BV148WGz9EE2/"}
+{"ts": "2026-11-18T12:23:29", "platform": "bilibili", "verdict": "OK", "found": 160, "new": 154, "total": 4467, "url": "https://www.bilibili.com/video/BV1wS4y1879h/"}
+{"ts": "2026-11-18T13:01:09", "platform": "bilibili", "verdict": "COOLDOWN", "found": 0, "new": 0, "note": "动作间隔未满（还需 16 秒；机械等间隔也是风控特征，这里带抖动）"}
+{"ts": "2026-11-18T13:02:14", "platform": "bilibili", "verdict": "NO_NEW", "found": 49, "new": 0, "total": 4467, "url": "https://www.bilibili.com/video/BV1da41187Fv/"}
+{"ts": "2026-11-18T13:25:52", "platform": "bilibili", "verdict": "OK", "found": 158, "new": 152, "total": 4619, "url": "https://www.bilibili.com/video/BV1ir4y1e7qT/"}
+{"ts": "2026-11-18T13:44:37", "platform": "bilibili", "verdict": "OK", "found": 160, "new": 109, "total": 4728, "url": "https://www.bilibili.com/video/BV1EeQ4BiEC6/"}
+{"ts": "2026-11-18T13:48:59", "platform": "bilibili", "verdict": "OK", "found": 160, "new": 6, "total": 4734, "url": "https://www.bilibili.com/video/BV1BxWu6SESe/"}
+{"ts": "2026-11-18T14:09:54", "platform": "bilibili", "verdict": "NO_NEW", "found": 8, "new": 0, "total": 4734, "url": "https://www.bilibili.com/video/BV1xLW16AEqU/"}
+{"ts": "2026-11-18T14:28:18", "platform": "bilibili", "verdict": "OK", "found": 160, "new": 157, "total": 4891, "url": "https://www.bilibili.com/video/BV1jh41177KQ/"}
+{"ts": "2026-11-18T14:33:39", "platform": "bilibili", "verdict": "NO_NEW", "found": 160, "new": 0, "total": 4891, "url": "https://www.bilibili.com/video/BV134516pEZe/"}
+{"ts": "2026-11-18T14:57:29", "platform": "bilibili", "verdict": "OK", "found": 160, "new": 141, "total": 5032, "url": "https://www.bilibili.com/video/BV1Nb421H77B/"}
+{"ts": "2026-11-18T15:16:59", "platform": "bilibili", "verdict": "NO_NEW", "found": 160, "new": 0, "total": 5032, "url": "https://www.bilibili.com/video/BV194421S73L/"}
+{"ts": "2026-11-18T15:53:45", "platform": "bilibili", "verdict": "NO_NEW", "found": 121, "new": 0, "total": 5032, "url": "https://www.bilibili.com/video/BV1LS4y1b7G5/"}
+{"ts": "2026-11-18T16:13:35", "platform": "bilibili", "verdict": "COOLDOWN", "found": 0, "new": 0, "note": "动作间隔未满（还需 12 秒；机械等间隔也是风控特征，这里带抖动）"}
+{"ts": "2026-11-18T16:13:36", "platform": "bilibili", "verdict": "COOLDOWN", "found": 0, "new": 0, "note": "动作间隔未满（还需 12 秒；机械等间隔也是风控特征，这里带抖动）"}
+{"ts": "2026-11-18T16:27:02", "platform": "bilibili", "verdict": "OK", "found": 160, "new": 127, "total": 5159, "url": "https://www.bilibili.com/video/BV1BdqSYuEau/"}
