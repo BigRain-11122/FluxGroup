@@ -321,3 +321,16 @@ cph4/fleet/state/lane-trust.json
 # git 里出现过 C:/Fluxgroup/.../bm-b-local-llm-probe.md 与 K:/.../bm-c-local-llm-probe.md，
 # macOS 上于是真建出名为 "C:" 和 "K:" 的目录。内容是"无法回答"的降级输出，无保留价值。
 /[A-Za-z]:/
+
+# 2026-11-18 D-20261118-12（D 类收口）：根级一次性脚本、pip 安装残留与编译缓存不入库。
+# 判据=全为未跟踪件（git ls-files 零命中），内容=11-17 一次性生成脚本＋pip 残留＋torch 编译缓存。
+/_*.py
+/_*.png
+/_*.svg
+/_*.txt
+/_*.html
+/pip-*/
+/data-gym-cache/
+/torchinductor_*/
+/_offload/
+/_pub/

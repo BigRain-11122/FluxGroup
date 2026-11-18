@@ -139,6 +139,8 @@ def generate(prompt, model=None, endpoint=None, timeout=120, cls=None, think=Fal
     url = base_for(endpoint)
     if not model:
         model = _model_for(cls)
+        if any(h in url for h in LOOPBACK):
+            model = _resolve_local(model)
     if not think:
         pass
     now = time.time()
@@ -197,9 +199,40 @@ def _model_for(cls):
         m = (duties.get(seat) or {}).get("model")
         if m:
             return m
-        return (duties.get("resident") or {}).get("model") or "qwen3.5:4b-mlx"
+        return (duties.get("resident") or {}).get("model") or "qwen3.5:4b"
     except Exception:
-        return "qwen3.5:4b-mlx"
+        return "qwen3.5:4b"
+
+
+_LOCAL_MODELS = {}
+
+
+def _local_models():
+    """本机 ollama 模型名集合（进程内缓存一次）。查不到=None，不参与判定，避免误伤远端网关。"""
+    if "v" in _LOCAL_MODELS:
+        return _LOCAL_MODELS["v"]
+    try:
+        import subprocess
+        out = subprocess.run(["ollama", "list"], capture_output=True, text=True, timeout=5)
+        names = {ln.split()[0] for ln in (out.stdout or "").splitlines()[1:] if ln.split()}
+        _LOCAL_MODELS["v"] = names or None
+    except Exception:
+        _LOCAL_MODELS["v"] = None
+    return _LOCAL_MODELS["v"]
+
+
+def _resolve_local(model):
+    """座位模型名一致性闸（2026-11-18 迭代项）：名字不在本机 ollama list 就换同族可用档，
+    并印 MODEL-SUBSTITUTED——禁止静默用不存在的模型空打（此前 qwen3.5:4b-mlx 即此病）。"""
+    names = _local_models()
+    if not names or model in names:
+        return model
+    for cand in ("qwen3.5:4b", "qwen3.5:9b", "qwen3.5:2b"):
+        if cand in names:
+            print("[llm-client] MODEL-SUBSTITUTED %s -> %s" % (model, cand))
+            return cand
+    print("[llm-client] MODEL-SUBSTITUTED %s -> (本机无可替代档)" % model)
+    return model
 
 
 def main():

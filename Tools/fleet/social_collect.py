@@ -30,9 +30,26 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 SOCIAL = os.path.join(ROOT, "cph4", "fleet", "social")
 RAW = os.path.join(SOCIAL, "raw")
-CHROME = os.path.join(os.path.expanduser("~"), ".fluxgroup", "chrome", "chrome-mac-arm64",
-                      "Google Chrome for Testing.app", "Contents", "MacOS",
-                      "Google Chrome for Testing")
+# 2026-11-18 D-20261118-12：采集器原先只认 macOS 内置 Chrome for Testing 路径，
+# 在 bm-a(Windows) 上 exe=None → playwright 自带 chromium 未装 → profile 起不来。
+# 改为按平台列候选，取第一个存在的；FLUXG_CHROME 可显式覆盖。
+CHROME_CANDIDATES = [
+    os.environ.get("FLUXG_CHROME", ""),
+    os.path.join(os.path.expanduser("~"), ".fluxgroup", "chrome", "chrome-mac-arm64",
+                 "Google Chrome for Testing.app", "Contents", "MacOS",
+                 "Google Chrome for Testing"),
+    r"C:\Program Files\Google\Chrome\Application\chrome.exe",
+    r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
+    os.path.join(os.environ.get("LOCALAPPDATA") or "", "Google", "Chrome",
+                 "Application", "chrome.exe"),
+]
+
+
+def chrome_exe():
+    for c in CHROME_CANDIDATES:
+        if c and os.path.exists(c):
+            return c
+    return None
 PROFILE_DIR = os.path.join(os.path.expanduser("~"), ".fluxgroup", "browser-profile")
 # 采集用独立 profile：登录窗口会独占 browser-profile 的 ProcessSingleton，
 # 用同一个目录会直接报 "Failed to create a ProcessSingleton"（2026-11-17 实锚）。
@@ -70,7 +87,7 @@ def _launch(p, headed=False, platform=None):
     2026-11-17 实锚：采集原来固定用 reader profile，而登录态存在 browser-profile，
     等于"登录了但采集用另一个没登录的浏览器"——B站 评论区不渲染，永远 0 条。
     """
-    exe = CHROME if os.path.exists(CHROME) else None
+    exe = chrome_exe()
     base = dict(headless=not headed, locale="zh-CN", timezone_id="Asia/Shanghai",
                 viewport={"width": 1440, "height": 900},
                 args=["--disable-blink-features=AutomationControlled"])
