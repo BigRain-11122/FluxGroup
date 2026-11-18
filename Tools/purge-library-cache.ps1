@@ -1,4 +1,4 @@
-# STEP A: Tools/purge-library-cache.ps1 — 清理团结/Unity 工程 Library 缓存（占用者自动跳过）
+﻿# STEP A: Tools/purge-library-cache.ps1 — 清理团结/Unity 工程 Library 缓存（占用者自动跳过）
 param([switch]$Apply)
 $ErrorActionPreference = 'SilentlyContinue'
 $root = 'C:\Users\sjs20\Desktop\FluxGroup'

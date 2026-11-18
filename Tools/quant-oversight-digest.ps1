@@ -1,4 +1,4 @@
-# quant-oversight-digest.ps1 -- 量化研究轨道监督·机器摘要（外审专用·省 token）
+﻿# quant-oversight-digest.ps1 -- 量化研究轨道监督·机器摘要（外审专用·省 token）
 # 由 Windows 计划任务周期运行；只写一个极短摘要文件，外审每轮只读这一行。
 # 监督项对应 D-20260930-41 §6 五机制 + 跨起点 §1.3 + 数据缺口 §3。
 # ASCII-only body (encoding law).

@@ -1,4 +1,4 @@
-# peer_wake.ps1 - 让活着的机器去唤醒邻居（无需人工到现场）
+﻿# peer_wake.ps1 - 让活着的机器去唤醒邻居（无需人工到现场）
 # 用法: powershell -ExecutionPolicy Bypass -File Tools\fleet\peer_wake.ps1 -Nodes 100.82.175.0,100.123.74.104
 param([string[]]$Nodes = @("100.82.175.0","100.123.74.104"))
 $ErrorActionPreference = "SilentlyContinue"

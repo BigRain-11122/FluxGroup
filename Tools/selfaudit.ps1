@@ -1,4 +1,4 @@
-# Group selfaudit scanner v1.0 - anti-hallucination claim sweep (governance §10).
+﻿# Group selfaudit scanner v1.0 - anti-hallucination claim sweep (governance §10).
 # Sweeps recent commit messages across the 5 repos for CLAIM words, then marks
 # each claim's evidence availability. Output: docs/audits/selfaudit-report.md draft for
 # the weekly evolution round (governance §10.3 third line of defense).

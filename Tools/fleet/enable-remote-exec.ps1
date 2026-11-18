@@ -1,4 +1,4 @@
-# enable-remote-exec.ps1 —— 给一台 Windows 机器落一次「受控执行入口」
+﻿# enable-remote-exec.ps1 —— 给一台 Windows 机器落一次「受控执行入口」
 #
 # 为什么需要它（2026-11-15 诊断结论）：
 #   机队现在把「代码发布 / 消息队列 / 命令执行 / 回执」四件事全压在 git 上，
@@ -15,8 +15,16 @@
 #   powershell -ExecutionPolicy Bypass -File enable-remote-exec.ps1
 # 可选：只检查不改动
 #   powershell -ExecutionPolicy Bypass -File enable-remote-exec.ps1 -Check
+# 可选：同时落主控公钥（写 administrators_authorized_keys 并收紧 ACL）
+#   ... -AuthorizedKey "ssh-ed25519 AAAA... master@bm-m"
+# 可选：确认公钥可用后关掉密码登录（防暴力破解；关之前务必先验证密钥能登）
+#   ... -DisablePassword
 
-param([switch]$Check)
+param(
+  [switch]$Check,
+  [string]$AuthorizedKey = "",
+  [switch]$DisablePassword
+)
 
 $ErrorActionPreference = "Stop"
 function Say($m) { Write-Host "[remote-exec] $m" }
@@ -59,13 +67,49 @@ Set-Service -Name sshd -StartupType Automatic
 Start-Service sshd
 Say "sshd: $((Get-Service sshd).Status)"
 
-# --- 4. 防火墙放行（仅限本机所在 tailscale 网段更安全，这里用内置规则） ---
+# --- 4. 防火墙放行：只对 tailnet 开，不对局域网开 ---
+# 2026-11-18 收紧：原版按内置规则全放行，等于把 22 端口暴露给整个局域网。
+# tailnet 段 = 100.64.0.0/10（IPv4）+ fd7a:115c:a1e0::/48（Tailscale IPv6）。
+$tsRange = @("100.64.0.0/10", "fd7a:115c:a1e0::/48")
 if (-not (Get-NetFirewallRule -Name "OpenSSH-Server-In-TCP" -ErrorAction SilentlyContinue)) {
-  New-NetFirewallRule -Name "OpenSSH-Server-In-TCP" -DisplayName "OpenSSH Server (sshd)" `
-    -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22 | Out-Null
-  Say "防火墙规则已建"
+  New-NetFirewallRule -Name "OpenSSH-Server-In-TCP" -DisplayName "OpenSSH Server (sshd, tailnet only)" -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22 -RemoteAddress $tsRange | Out-Null
+  Say "防火墙规则已建（仅 tailnet）"
 } else {
-  Say "防火墙规则已存在"
+  Set-NetFirewallRule -Name "OpenSSH-Server-In-TCP" -RemoteAddress $tsRange -Enabled True | Out-Null
+  Say "防火墙规则已收窄为仅 tailnet（原规则若是全放行，已改）"
+}
+
+# --- 4.5 可选：落主控公钥 / 关密码登录 ---
+if ($AuthorizedKey) {
+  $keyFile = Join-Path $env:ProgramData "ssh\administrators_authorized_keys"
+  New-Item -ItemType Directory -Force -Path (Split-Path $keyFile) | Out-Null
+  $existing = if (Test-Path $keyFile) { Get-Content $keyFile -Raw } else { "" }
+  if ($existing -notmatch [regex]::Escape($AuthorizedKey.Trim())) {
+    Add-Content -Path $keyFile -Value $AuthorizedKey.Trim() -Encoding ascii
+    Say "公钥已写入 $keyFile"
+  } else {
+    Say "公钥已存在，跳过"
+  }
+  # Windows 特有坑：这个文件 ACL 不收紧，sshd 直接忽略里面的公钥
+  icacls $keyFile /inheritance:r | Out-Null
+  icacls $keyFile /grant "Administrators:F" "SYSTEM:F" | Out-Null
+  Say "ACL 已收紧（Administrators + SYSTEM）"
+}
+if ($DisablePassword) {
+  $cfg = Join-Path $env:ProgramData "ssh\sshd_config"
+  if (Test-Path $cfg) {
+    $c = Get-Content $cfg -Raw
+    if ($c -match "(?m)^\s*#?\s*PasswordAuthentication\s+.*$") {
+      $c = $c -replace "(?m)^\s*#?\s*PasswordAuthentication\s+.*$", "PasswordAuthentication no"
+    } else {
+      $c += "`nPasswordAuthentication no`n"
+    }
+    Set-Content -Path $cfg -Value $c -Encoding ascii
+    Restart-Service sshd
+    Say "密码登录已关闭（前提：公钥已验证可登，否则会把自己锁在外面）"
+  } else {
+    Say "WARN 找不到 sshd_config，跳过 DisablePassword"
+  }
 }
 
 # --- 5. 验证 ---

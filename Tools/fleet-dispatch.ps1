@@ -1,4 +1,4 @@
-# fleet-dispatch.ps1 - FleetLink dispatcher v1.2 (CEO order 2026-10-04; v1.1 = O-20261009-1750
+﻿# fleet-dispatch.ps1 - FleetLink dispatcher v1.2 (CEO order 2026-10-04; v1.1 = O-20261009-1750
 # "very fast sync"; v1.2 = O-20261009-1755 sync tiers).
 # Pokes all enabled tailnet nodes so they pull immediately + wake allowlisted
 # tasks (seconds-level dispatch instead of waiting for the next 10-min tick).

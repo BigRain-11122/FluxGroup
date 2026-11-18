@@ -1,4 +1,4 @@
-# fleet-mechanism-audit.ps1 - Group mechanism FUNCTIONAL liveness audit v1.0
+﻿# fleet-mechanism-audit.ps1 - Group mechanism FUNCTIONAL liveness audit v1.0
 # (council case C-20261010-01; cadence.md sec6 signal-4 L3 carrier; R4 family
 #  root fix: "mechanism ran" != "mechanism works").
 # Division of labor: task-health.ps1 covers PROCESS liveness (task exists, ran,

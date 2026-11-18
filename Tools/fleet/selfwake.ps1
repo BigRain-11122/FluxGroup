@@ -1,4 +1,4 @@
-# selfwake.ps1 - Windows 自唤醒：执行器掉线自己回来（装一次）
+﻿# selfwake.ps1 - Windows 自唤醒：执行器掉线自己回来（装一次）
 # 管理员 PowerShell:  powershell -ExecutionPolicy Bypass -File Tools\fleet\selfwake.ps1 -Node bm-b
 param(
   [Parameter(Mandatory=$true)][string]$Node,

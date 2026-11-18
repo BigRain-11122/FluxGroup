@@ -84,3 +84,20 @@ tailscale netcheck
 Resolve-DnsName bm-m.tail316e0c.ts.net
 ```
 判据：①死节点不再出现在 status；②四台 KeyExpiry = `0001-01-01T00:00:00Z`（永不过期）；③传家宝/小钢炮上线后 Relay 为 `sin`。
+
+## 八、后续实测与修复（2026-11-18 15:4x 本班）
+
+1. **远程执行通道确认缺位**：本机 `Get-Service sshd` = 不存在（未装 OpenSSH Server），且当前会话非管理员，无法一次装好。`Tools/fleet/enable-remote-exec.ps1` 已加固（见 ②），仍需各机一次提权执行。
+2. **`enable-remote-exec.ps1` 三处收紧**：①防火墙规则从"全放行"改为**仅 tailnet**（100.64.0.0/10 + fd7a:115c:a1e0::/48），原版等于把 22 端口暴露给整个局域网；②新增 `-AuthorizedKey` 落主控公钥到 `administrators_authorized_keys` 并收紧 ACL（Windows 特有坑：ACL 不收紧 sshd 直接忽略公钥）；③新增 `-DisablePassword`（先验密钥再关密码，防锁死）。
+3. **主控网关健康**：8792 实测 27–42ms（首次冷启 625ms），链路正常；对照 8787 控制台页 2.1s＝服务端处理慢，不是网络问题。
+4. **打标签不能用 `tailscale set`**：本机 1.104.5 的 `set` 无 `--advertise-tags`（报 flag not defined），只能 `tailscale up --advertise-tags=tag:fleet`（会重跑登录流程，风险）或控制台。故密钥到期仍归控制台/API 处理。
+5. **新增两个执行体**：`Tools/fleet/tailnet_health.py`（一条命令体检：在线/密钥剩余/DERP 归属/关键端口/配置 IP 是否失真/同机重名，P0 判据含退出码）、`Tools/check-ps1-encoding.ps1`（查/修无 BOM 的 .ps1）。
+6. **顺带修掉一个真雷（编码）**：中文 Windows 上 PowerShell 5.1 把"无 BOM 的 UTF-8 .ps1"按 GBK 读，字节错位吞掉引号 → 报假语法错。实测 `enable-remote-exec.ps1` 无 BOM 时报「参数列表中缺少参量 @ line 75」，补 BOM 后同一内容 OK。**本班已给主仓 22 个风险脚本补 BOM**（含 `.codely-cli/machine-state.ps1` 这个让路开关、`Tools/fleet-dispatch.ps1`、`selfaudit.ps1` 等），全仓另有他司子仓/临时脚本 30+ 个未动（属别的 git 仓，动会造跨仓脏面）。判据=改后 23 个 .ps1 逐个 ParseFile 全绿。
+
+### 复验命令（本班用这套）
+
+```powershell
+python Tools\fleet\tailnet_health.py                 # 期望 P0 = 只有 MacBook 双条目
+powershell -NoProfile -ExecutionPolicy Bypass -File Tools\check-ps1-encoding.ps1 -Root Tools
+python Tools\fleet\prechange.py                      # 动手前闸
+```

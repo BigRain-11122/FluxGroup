@@ -1,4 +1,4 @@
-# env-probe-daily.ps1 — 每台 Windows 机每日自采 AI 运行环境（CEO 2026-11-11「随时更新」）
+﻿# env-probe-daily.ps1 — 每台 Windows 机每日自采 AI 运行环境（CEO 2026-11-11「随时更新」）
 #
 # 做什么：跑 Tools/fleet/env_probe.py 写 cph4/fleet/env/<station>.json，
 #         再把该文件与当前分支同步（有远端就 push，没有就等下一次同步任务带走）。
