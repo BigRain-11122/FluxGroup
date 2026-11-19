@@ -7,13 +7,6 @@
     "bilibili": {
       "enabled": true,
       "urls": [
-        "https://www.bilibili.com/video/BV1r441127ZT/",
-        "https://www.bilibili.com/video/BV12Q4y1A7nZ/",
-        "https://www.bilibili.com/video/BV1f2tMeDE6f/",
-        "https://www.bilibili.com/video/BV1Wj411T754/",
-        "https://www.bilibili.com/video/BV1fZYWziED5/",
-        "https://www.bilibili.com/video/BV1GM4m1k7pd/",
-        "https://www.bilibili.com/video/BV17M411c7Az/",
         "https://www.bilibili.com/video/BV1eg411X7CF/",
         "https://www.bilibili.com/video/BV1QE411i7N8/",
         "https://www.bilibili.com/video/BV1GrEUzsEvD/",
@@ -126,7 +119,14 @@
         "https://www.bilibili.com/video/BV1xNsm6rEnU/",
         "https://www.bilibili.com/video/BV1jNny6gEqc/",
         "https://www.bilibili.com/video/BV1eHj26aEF1/",
-        "https://www.bilibili.com/video/BV1DwkRYEEL2/"
+        "https://www.bilibili.com/video/BV1DwkRYEEL2/",
+        "https://www.bilibili.com/video/BV1BSfBYFECo/",
+        "https://www.bilibili.com/video/BV1ra4y1p7uj/",
+        "https://www.bilibili.com/video/BV16C4y1h77y/",
+        "https://www.bilibili.com/video/BV1TS4y1F7zW/",
+        "https://www.bilibili.com/video/BV1LtH46sEgr/",
+        "https://www.bilibili.com/video/BV1d2k7YXEFe/",
+        "https://www.bilibili.com/video/BV19WXFBHEup/"
       ],
       "need_login": true,
       "note": "评论区不登录不渲染（2026-11-17 实测），必须先 --login bilibili 存登录态；urls 填你自己的视频页或你要学的对标视频页",
@@ -147,7 +147,8 @@
         "剪辑翻车现场",
         "求剪辑素材分享",
         "带娃日常记录",
-        "剪輯教學 台灣"
+        "剪輯教學 台灣",
+        "一家人生活记录视频"
       ]
     },
     "douyin": {
