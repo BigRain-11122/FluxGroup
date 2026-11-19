@@ -1,0 +1,58 @@
+{
+ "ts": "20261119-181430",
+ "run_dir": "cph4/fleet/social/train/RUNS/20261119-181430",
+ "rc": 0,
+ "plumbing_only": false,
+ "base_model": "/Users/junsheng.sun/.fluxgroup/models/qwen3.5-4b-4bit",
+ "argv": [
+  "mlx_lm",
+  "lora",
+  "--train",
+  "--model",
+  "/Users/junsheng.sun/.fluxgroup/models/qwen3.5-4b-4bit",
+  "--data",
+  "/Users/junsheng.sun/FluxGroup/cph4/fleet/social/train-shallow",
+  "--batch-size",
+  "1",
+  "--iters",
+  "500",
+  "--num-layers",
+  "16",
+  "--learning-rate",
+  "1e-05",
+  "--max-seq-length",
+  "224",
+  "--steps-per-eval",
+  "100",
+  "--adapter-path",
+  "/Users/junsheng.sun/FluxGroup/cph4/fleet/social/train/RUNS/20261119-181430/adapter",
+  "--seed",
+  "20261117",
+  "--mask-prompt",
+  "--grad-checkpoint"
+ ],
+ "train_rows": 451,
+ "data_sha": {
+  "train.jsonl": "e9fa6176fd59af06",
+  "valid.jsonl": "51a913987b73f238"
+ },
+ "iters": 500,
+ "train_loss_last": 1.67,
+ "val_loss_last": 2.304,
+ "train_loss_head": [
+  4.064,
+  3.426,
+  3.437
+ ],
+ "val_loss_all": [
+  5.114,
+  2.593,
+  2.485,
+  2.338,
+  2.285,
+  2.304
+ ],
+ "wall_sec": 3240.3,
+ "models_unloaded": [],
+ "adapter": "cph4/fleet/social/train/RUNS/20261119-181430/adapter"
+}

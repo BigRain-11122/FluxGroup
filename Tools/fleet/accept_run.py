@@ -31,7 +31,24 @@ SOCIAL = os.path.join(ROOT, "cph4", "fleet", "social")
 ACTIVE = os.path.join(SOCIAL, "train", "ACTIVE.json")
 LEDGER = os.path.join(SOCIAL, "TUNE-LEDGER.jsonl")
 PY = sys.executable
-FALLBACK = "cph4/fleet/social/train/RUNS/20261118-113014/best"
+
+
+def rollback_target(cur=None):
+    """回滚目标：ACTIVE 里的现役适配器还在盘上就用它，否则真的回基座。
+
+    2026-11-19 实锚：原来写死 RUNS/20261118-113014/best，而该目录已随清理消失，
+    判 REJECT 时 lora_switch.sh 因"适配器不存在"rc=2，被否的候选继续在线——
+    "回滚"成了一句话。回滚目标必须每次现算，且算不出来时要能回基座。
+    """
+    if cur is None:
+        try:
+            cur = json.load(open(ACTIVE, encoding="utf-8"))
+        except Exception:
+            cur = {}
+    a = (cur.get("adapter") or "").strip()
+    if a and os.path.isfile(os.path.join(ROOT, a, "adapters.safetensors")):
+        return a
+    return "base"
 
 
 def sh(cmd, timeout=3600, env=None):
@@ -111,7 +128,16 @@ def main(argv=None):
     ck = make_ckpt_dir(run_dir, step, src)
     print("[accept] 整理 checkpoint → %s" % ck, flush=True)
 
-    rc, out = sh(["/bin/bash", os.path.join(HERE, "lora_switch.sh"), ck], timeout=600)
+    try:
+        cur_before = json.load(open(ACTIVE, encoding="utf-8"))
+    except Exception:
+        cur_before = {}
+    rollback = rollback_target(cur_before)
+    print("[accept] 若被否，回滚目标 = %s" % rollback, flush=True)
+
+    rc, out = sh(["/bin/bash", os.path.join(HERE, "lora_switch.sh"), ck,
+                  "accept_run 候选（%s step=%d），43 题验收进行中" % (
+                      os.path.basename(run_dir), step)], timeout=600)
     print("[accept] 切换 rc=%d %s" % (rc, out.strip().splitlines()[-1] if out.strip() else ""), flush=True)
     if rc != 0:
         return 2
@@ -139,14 +165,26 @@ def main(argv=None):
             cur = json.load(open(ACTIVE, encoding="utf-8"))
         except Exception:
             cur = {}
-        cur.update({"adapter": ck, "run": os.path.basename(run_dir), "dataset": "train-h5",
+        ds = "train"
+        argv = info.get("argv") or []
+        if "--data" in argv:
+            ds = os.path.basename(os.path.normpath(argv[argv.index("--data") + 1]))
+        cur.update({"adapter": ck, "run": os.path.basename(run_dir), "dataset": ds,
                     "eval": {"note": line[0] if line else ""},
                     "why": "accept_run 自动验收通过（val 拐点 step=%d）" % step})
         json.dump(cur, open(ACTIVE, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
         rec["action"] = "keep"
     else:
-        sh(["/bin/bash", os.path.join(HERE, "lora_switch.sh"), FALLBACK], timeout=600)
-        rec["action"] = "rollback"
+        rc_rb, out_rb = sh(["/bin/bash", os.path.join(HERE, "lora_switch.sh"), rollback,
+                            "accept_run 验收未过（%s），回滚" % verdict], timeout=600)
+        rec["rollback_to"] = rollback
+        rec["rollback_rc"] = rc_rb
+        print("[accept] 回滚 → %s rc=%d" % (rollback, rc_rb), flush=True)
+        # 回滚也失败时必须吼出来：否则线上一件被否的权重，账面写着"已回滚"
+        if rc_rb != 0:
+            print("[accept] 警告：回滚失败，现役仍是被否的候选：%s"
+                  % (out_rb.strip().splitlines()[-1] if out_rb.strip() else ""), flush=True)
+        rec["action"] = "rollback" if rc_rb == 0 else "ROLLBACK-FAILED"
     with open(LEDGER, "a", encoding="utf-8") as f:
         f.write(json.dumps(rec, ensure_ascii=False) + "\n")
     print("[accept] 已记账：%s → %s" % (verdict, rec["action"]))
@@ -159,7 +197,7 @@ def self_test():
         ("末点最差时选中间", best_step([5.0, 3.0, 3.5, 4.0])[0] == 200),
         ("单调下降时选末点", best_step([5.0, 4.0, 3.0])[0] == 300),
         ("空曲线返回 None", best_step([])[0] is None),
-        ("回滚目标存在", os.path.exists(os.path.join(ROOT, FALLBACK, "adapters.safetensors"))),
+        ("回滚目标缺失时回基座", rollback_target({"adapter": "没有这个目录"}) == "base"),
     ]
     ok = 0
     for n, c in cases:
