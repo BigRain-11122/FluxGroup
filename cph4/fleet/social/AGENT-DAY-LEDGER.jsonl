@@ -186,3 +186,5 @@
 {"rc": 1, "note": "两个 profile 都起不来（可能被别的浏览器进程占用）", "secs": 5.2, "ts": "2026-11-19T18:57:55", "id": "learn_cycle", "mem": "collect", "evidence": {"cph4/fleet/social/LEARNING-LEDGER.jsonl": {"mtime": 1795083439, "lines": 161}}}
 {"rc": 2, "note": "[mon] → cph4/fleet/social/SOCIAL-AGENT-BOARD.md", "secs": 0.6, "ts": "2026-11-19T19:08:58", "id": "monitor_board", "mem": "none", "evidence": {"cph4/fleet/social/SOCIAL-AGENT-BOARD.md": {"mtime": 1795086538, "lines": 75}}}
 {"rc": 0, "note": "[thread] 唤醒 0 · 超时未回 0 []", "secs": 0.1, "ts": "2026-11-19T19:13:59", "id": "threads_tick", "mem": "none", "evidence": {"cph4/fleet/social/threads-events.jsonl": {"mtime": 1794911098, "lines": 4}}}
+{"rc": 0, "note": "  - bilibili     OK", "secs": 21.5, "ts": "2026-11-19T19:38:24", "id": "learn_cycle", "mem": "collect", "evidence": {"cph4/fleet/social/LEARNING-LEDGER.jsonl": {"mtime": 1795088303, "lines": 163}}}
+{"rc": 0, "note": "[thread] 唤醒 0 · 超时未回 0 []", "secs": 0.3, "ts": "2026-11-19T19:44:25", "id": "threads_tick", "mem": "none", "evidence": {"cph4/fleet/social/threads-events.jsonl": {"mtime": 1794911098, "lines": 4}}}
