@@ -18,3 +18,16 @@
 {"action": "post", "arm": "C", "form": "短句顶级评论", "video": "https://www.bilibili.com/video/BV1wMkLBHEhn/", "aid": 115926032713419, "root": 0, "text": "新手别怕剪辑烂，跟着教程拍剪都能变大片！", "rpid": "324384231376", "code": 0, "toast": "OK", "ok": true, "gates": {"safe_to_send": [true, ""], "gen_gate": [true, ""], "taste": 80, "verdict": "PASS"}, "cap": "额度被显式指令覆盖：CEO 2026-11-18 实战十轮", "ts": "2026-11-18T18:31:30"}
 {"action": "verify", "arm": "C", "aid": 115926032713419, "rpid": "324384231376", "root": 0, "visible": false, "why": "300s 内评论区查不到（多为送审/静默）", "verdict": "待审核-保留", "ts": "2026-11-18T18:36:31"}
 {"action": "blocked", "why": "最近 7 条全部公开不可见，判定账号被静默扣留，停止刷帖", "ts": "2026-11-18T21:50:07"}
+{"ts": "2026-11-19T13:05:00", "action": "verify", "aid": 97569584, "rpid": "324378918608", "root": 0, "visible": true, "why": "复核：评论列表第6页找到（sort=2 深扫）", "verdict": "可见", "method": "reply-list"}
+{"ts": "2026-11-19T13:05:00", "action": "verify", "aid": 117626990822035, "rpid": "324380433472", "root": 0, "visible": true, "why": "复核：评论列表第5页找到（sort=2 深扫）", "verdict": "可见", "method": "reply-list"}
+{"ts": "2026-11-19T13:05:00", "action": "verify", "aid": 934830274, "rpid": "324381099552", "root": 0, "visible": true, "why": "复核：评论列表第3页找到（sort=2 深扫）", "verdict": "可见", "method": "reply-list"}
+{"ts": "2026-11-19T13:05:00", "action": "verify", "aid": 116380225570473, "rpid": "324381901264", "root": 0, "visible": true, "why": "复核：评论列表第7页找到（sort=2 深扫）", "verdict": "可见", "method": "reply-list"}
+{"ts": "2026-11-19T13:05:00", "action": "verify", "aid": 492193142, "rpid": "324382754256", "root": 0, "visible": true, "why": "复核：评论列表第2页找到（sort=2 深扫）", "verdict": "可见", "method": "reply-list"}
+{"ts": "2026-11-19T13:05:00", "action": "verify", "aid": 115926032713419, "rpid": "324384231376", "root": 0, "visible": true, "why": "复核：评论列表第2页找到（sort=2 深扫）", "verdict": "可见", "method": "reply-list"}
+{"ts": "2026-11-19T13:05:00", "action": "verify", "aid": 116396449207584, "rpid": "324378570336", "root": 0, "visible": false, "why": "复核：评论列表深扫10页未见（可能下沉或未公开）", "verdict": "未找到", "method": "reply-list"}
+{"ts": "2026-11-19T13:05:00", "action": "verify", "aid": 116396449207584, "rpid": "324379766080", "root": 0, "visible": false, "why": "复核：评论列表深扫10页未见（可能下沉或未公开）", "verdict": "未找到", "method": "reply-list"}
+{"ts": "2026-11-19T13:05:00", "action": "verify", "aid": 462396105, "rpid": "324383548128", "root": 0, "visible": false, "why": "复核：评论列表深扫10页未见（可能下沉或未公开）", "verdict": "未找到", "method": "reply-list"}
+{"action": "unblock", "ts": "2026-11-19T12:27:21"}
+{"action": "fail", "why": "C 臂字数 32 不在 10-20", "arm": "C", "lane": "lora", "ts": "2026-11-19T12:28:14"}
+{"action": "post", "arm": "C", "form": "短句顶级评论", "video": "https://www.bilibili.com/video/BV1D84y167nE/", "aid": 605974045, "root": 0, "text": "阴天的情绪剪辑有质感，光影处理很到位。", "rpid": "324453442864", "code": 0, "toast": "OK", "ok": true, "gates": {"safe_to_send": [true, ""], "gen_gate": [true, ""], "taste": 80, "verdict": "PASS"}, "cap": "今日 0/2 条，间隔 OK", "ts": "2026-11-19T12:29:50"}
+{"action": "skip", "why": "no text passed gates", "arm": "A", "video": "https://www.bilibili.com/video/BV1wS4y1879h/", "ts": "2026-11-19T12:32:13"}

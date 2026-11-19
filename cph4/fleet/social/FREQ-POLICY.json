@@ -2,13 +2,13 @@
  "stage": 0,
  "max_per_day": 2,
  "min_gap_min": 90,
- "why": "可见率 33%（1/3 条）未达升档条件（需 6 条且 ≥75%）→ 维持档 0",
+ "why": "连续 3 条不可见 → 降到档 0",
  "evidence": {
-  "n": 3,
-  "visible": 1,
-  "rate": 0.333,
-  "rate_last5": 0.333,
-  "consec_invisible": 0
+  "n": 20,
+  "visible": 7,
+  "rate": 0.35,
+  "rate_last5": 0.4,
+  "consec_invisible": 3
  },
- "ts": "2026-11-18T16:24:38"
+ "ts": "2026-11-19T12:27:21"
 }

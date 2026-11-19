@@ -356,41 +356,99 @@ def delete_reply(aid, rpid, dry=False):
                 pass
 
 
+def _scan_reply_list(pg, aid, rpid, max_pages=5, ps=20):
+    """在顶级评论列表里找 rpid。返回 ("VISIBLE"|"MISS"|"UNKNOWN", 说明)。
+
+    2026-11-19 实锚（CEO 当场纠正）：原版对 root=0 也调 `reply/reply?root=0`，
+    那个接口对顶级评论永远返回空 → 我们发的每条顶级评论都被判"不可见"，进而触发
+    止损、把可见率记成 20%——实际按评论列表查，9 条里 6 条可见。
+    三条纪律：①顶级评论只能查 /x/v2/reply（不是 reply/reply）；
+             ②按时间序(sort=0)与热度序(sort=2)各扫一遍，翻到 ps 不足或 max_pages；
+             ③**接口报错一律判 UNKNOWN，绝不当成"不可见"**（把取数失败翻译成结论，
+             是这类假红的总根源）。
+    """
+    JS = """async(u)=>{const x=await fetch(u,{credentials:'include'});return await x.text();}"""
+    errs = []
+    scanned = 0
+    for srt in (0, 2):
+        for pn in range(1, max_pages + 1):
+            time.sleep(0.8)          # 节流：连打会吃 412（实测同一接口几秒内多次即被拦）
+            u = ("https://api.bilibili.com/x/v2/reply?type=1&oid=%s&pn=%d&ps=%d&sort=%d"
+                 % (aid, pn, ps, srt))
+            try:
+                raw = pg.evaluate(JS, u) or "{}"
+                d = json.loads(raw)
+            except Exception:
+                # 412 风控页是 HTML，不是 JSON——这类一律 UNKNOWN，绝不判"不可见"
+                errs.append("412/风控或非JSON")
+                break
+            if d.get("code") not in (0, None):
+                errs.append("code=%s" % d.get("code"))
+                break
+            reps = ((d.get("data") or {}).get("replies") or [])
+            scanned += 1
+            if str(rpid) in [str(x.get("rpid")) for x in reps]:
+                return "VISIBLE", "评论列表第 %d 页（sort=%d）" % (pn, srt)
+            if len(reps) < ps:
+                break
+    if scanned == 0:
+        return "UNKNOWN", "评论列表取数失败（%s）" % ("/".join(errs[:2]) or "无响应")
+    return "MISS", "已扫 %d 页（sort=0/2）未见该 rpid" % scanned
+
+
 def verify_visible(aid, root_rpid, my_rpid, wait_s=120):
-    """发完必须回验：B站 返回 code=0 不等于公开可见（2026-11-17 实锚：
-    rpid 324260408320 返回"发送成功"，但子回复列表 4 分钟后仍查不到）。
-    不可见就当"待审核"，不重复发、不宣称成功。
+    """发后回验：返回 (True 可见 / False 确认不可见 / None 取数失败未判定, 说明)。
+
+    2026-11-17 实锚：code=0 不等于公开可见（rpid 324260408320 发送成功但列表查不到）。
+    2026-11-19 修正：顶级评论与子回复走**不同接口**，且报错一律 UNKNOWN。
     """
     from playwright.sync_api import sync_playwright
     deadline = time.time() + wait_s
+    last = "未开始"
     while time.time() < deadline:
         with sync_playwright() as p:
             ctx = _launch(p)
             try:
                 pg = ctx.pages[0] if ctx.pages else ctx.new_page()
-                pg.goto("https://www.bilibili.com/", wait_until="domcontentloaded", timeout=60000)
+                # 必须从**视频页**发起请求：从首页 fetch 评论接口会被 412（无正确 Referer）
+                pg.goto("https://www.bilibili.com/video/av%s" % aid,
+                        wait_until="domcontentloaded", timeout=60000)
                 time.sleep(3)
-                r = pg.evaluate("""async(u)=>{const x=await fetch(u,{credentials:'include'});
-                    return await x.text();}""",
-                    "https://api.bilibili.com/x/v2/reply/reply?type=1&oid=%s&root=%s&pn=1&ps=50"
-                    % (aid, root_rpid))
-                reps = ((json.loads(r).get("data") or {}).get("replies") or [])
-                if str(my_rpid) in [str(it.get("rpid")) for it in reps]:
-                    return True, "已公开可见"
+                JS = ("async(u)=>{const x=await fetch(u,{credentials:'include'});"
+                      "return await x.text();}")
+                root = str(root_rpid or 0)
+                if root in ("0", "", "None"):
+                    st, why = _scan_reply_list(pg, aid, my_rpid)
+                    if st == "VISIBLE":
+                        return True, why
+                    last = why
+                    if st == "UNKNOWN":
+                        time.sleep(20)
+                        continue
+                else:
+                    u = ("https://api.bilibili.com/x/v2/reply/reply?type=1&oid=%s"
+                         "&root=%s&pn=1&ps=50" % (aid, root))
+                    d = json.loads(pg.evaluate(JS, u) or "{}")
+                    reps = ((d.get("data") or {}).get("replies") or [])
+                    if str(my_rpid) in [str(it.get("rpid")) for it in reps]:
+                        return True, "子回复列表可见"
+                    # 子回复也可能因排序沉底：退一步在整个评论列表里找
+                    st2, why2 = _scan_reply_list(pg, aid, my_rpid, max_pages=3)
+                    if st2 == "VISIBLE":
+                        return True, "子回复（评论列表）" + why2
+                    last = why2
+                    if st2 == "UNKNOWN":
+                        time.sleep(20)
+                        continue
             except Exception as e:
-                return False, "回验失败：%s" % str(e)[:60]
+                last = "回验异常：%s" % type(e).__name__
             finally:
                 try:
                     ctx.close()
                 except Exception:
                     pass
-        time.sleep(45)
-    return False, "提交成功但 %ds 内公开不可见（多为送审/静默处理）" % wait_s
-
-
-GHOST = ("账号已注销", "已注销", "用户已注销", "匿名用户", "bilibili_")
-KEEP_AUTHOR_MIN = 2
-
+        time.sleep(30)
+    return False, "发后 %ds 内未在列表中找到（%s）" % (wait_s, last)
 
 def live_comments(cs):
     """只留活人评论。

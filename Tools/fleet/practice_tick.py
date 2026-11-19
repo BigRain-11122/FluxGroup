@@ -55,13 +55,18 @@ def rows_today():
 
 
 def recent_visibility(n=STOP_AFTER):
-    """最近 n 条已回验的结果（True/False）。用于止损判断。"""
+    """最近 n 条**有确定结论**的回验（True/False）。用于止损判断。
+
+    visible=None 表示"取数失败未判定"（412/风控/接口报错），**不能算不可见**——
+    2026-11-19 实锚：旧判据把顶级评论用错接口 + 报错也判 False，于是 9 条里 6 条
+    明明可见却被记成 20% 可见率，还触发了止损。取数失败必须与"确实看不见"分开。
+    """
     v = []
     try:
         for line in open(LEDGER, encoding="utf-8"):
             if line.strip():
                 r = json.loads(line)
-                if r.get("action") == "verify" and "visible" in r:
+                if r.get("action") == "verify" and r.get("visible") is not None:
                     v.append(bool(r["visible"]))
     except FileNotFoundError:
         pass
@@ -277,8 +282,17 @@ def main():
     #   等于对所有人说同一种话；而规格里的带子本身也失真（玩梗党实测中位 33 字、
     #   规格只写 6-18，覆盖率 17%），所以参数一律取 SEGMENT-PERSONAS 的实测值。
     seg, band = pick_persona(title, meta.get("desc") or "", n)
-    lo, hi = band
     arm = ARMS[n % len(ARMS)]
+    # 人群带子与臂带子取交集：人群说这类人写 9-63 字，而 C 臂形态上限是 20 字，
+    # 直接用人群体会把文案发到 32 字被 arm_probe 判"不在 10-20"（2026-11-19 实锚）。
+    try:
+        a_spec = ap.ARMS.get(arm) or {}
+        lo = max(int(band[0]), int(a_spec.get("min_len") or 0))
+        hi = min(int(band[1]), int(a_spec.get("max_len") or 999))
+    except Exception:
+        lo, hi = band
+    if hi <= lo:
+        lo, hi = band
     import llm_client as lc
     import comment_taste as ct
     import social_practice as sp
@@ -399,7 +413,14 @@ def self_test():
         rc = main()
         check("E 日限已满→跳过零发帖", rc == 0 and posts() == mx)
 
-        # F 依赖完整性（本次事故的回归位）
+            # J 取数失败（visible=None）不得计入可见率——这是 11-19 假止损的直接原因
+        with open(LEDGER, "w", encoding="utf-8") as f:
+            for row in ({"action": "verify", "visible": None},
+                        {"action": "verify", "visible": True}):
+                f.write(json.dumps(row) + "\n")
+        check("J visible=None 不计入可见率", recent_visibility() == [True])
+
+    # F 依赖完整性（本次事故的回归位）
         import llm_client as lc
         check("F llm_client 三件与训练哨兵齐备",
               all(hasattr(lc, n) for n in
