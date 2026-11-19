@@ -202,8 +202,11 @@ def do_refresh():
     return rc, " · ".join(log)
 
 
-def do_train(dataset, iters=1600):
-    """调 train_run.sh：它负责卸模型、停 8788、跑完复原。"""
+def do_train(dataset, iters=500):
+    """默认 500 步：2026-11-19 对照实验（AB-RESULT-20261119.md）实测 val 最低点在
+    300-400 步，跑满 900/1600 步只是过拟合（末点从 3.37 回升到 3.62/3.99）。
+
+    调 train_run.sh：它负责训练窗口的让路/切档/恢复。"""
     rc, out = sh(["/bin/bash", os.path.join(HERE, "train_run.sh"),
                   "--data", dataset, "--iters", str(iters),
                   "--num-layers", "16", "--max-seq-length", "224",
