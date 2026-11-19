@@ -34,3 +34,4 @@
 {"action": "post", "arm": "A", "form": "短句子回复", "video": "https://www.bilibili.com/video/BV1zECvBuEtp/", "aid": 115563997167759, "root": 281058840145, "text": "学剪辑的，你的拉片干货太实用了。", "rpid": "324456691936", "code": 0, "toast": "OK", "ok": true, "gates": {"safe_to_send": [true, ""], "gen_gate": [true, ""], "taste": 80, "verdict": "PASS"}, "cap": "今日 1/8 条，间隔 OK", "ts": "2026-11-19T13:05:30"}
 {"action": "verify", "arm": "A", "aid": 115563997167759, "rpid": "324456691936", "root": 281058840145, "visible": true, "why": "子回复列表可见", "verdict": "公开可见", "ts": "2026-11-19T13:05:35"}
 {"action": "lane", "lane": "lora", "serving": "base", "rpid": "324456691936", "arm": "A", "persona": "craft_learner", "ts": "2026-11-19T13:05:35"}
+{"action": "skip", "why": "asleep", "ts": "2026-11-19T15:04:27"}
