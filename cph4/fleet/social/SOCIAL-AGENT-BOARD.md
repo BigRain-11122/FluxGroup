@@ -1,15 +1,15 @@
-# 养号线智能体监控（2026-11-19T16:07:30）
+# 养号线智能体监控（2026-11-19T17:08:10）
 
 整体：**RED**
 
 | 任务 | 周期 | 状态 | 说明 |
 |---|---|---|---|
-| threads_tick | 0.5h | STALE | 产出已 45.7h 未更新（周期 0.5h） |
-| learn_cycle | 0.7h | OK | 产出 0.5h 前更新 · LEARNING-LEDGER.jsonl=158行 |
-| audit_surface | 12.0h | OK | 产出 9.4h 前更新 · SURFACE-REPORT.md=111行 |
-| corpus_refresh | 12.0h | OK | 产出 9.6h 前更新 · 无行数 |
-| taste_filter | 12.0h | OK | 产出 9.4h 前更新 · QUALITY-PASS.jsonl=5179行 |
-| segment_report | 12.0h | OK | 产出 9.4h 前更新 · QUALITY-PASS.jsonl=5179行 |
+| threads_tick | 0.5h | STALE | 产出已 46.7h 未更新（周期 0.5h） |
+| learn_cycle | 0.7h | OK | 产出 0.2h 前更新 · LEARNING-LEDGER.jsonl=159行 |
+| audit_surface | 12.0h | OK | 产出 10.4h 前更新 · SURFACE-REPORT.md=111行 |
+| corpus_refresh | 12.0h | OK | 产出 10.6h 前更新 · 无行数 |
+| taste_filter | 12.0h | OK | 产出 10.4h 前更新 · QUALITY-PASS.jsonl=5179行 |
+| segment_report | 12.0h | OK | 产出 10.4h 前更新 · QUALITY-PASS.jsonl=5179行 |
 | sweep_targeted | 24.0h | FAIL | 上次 rc=2（允许 [0]）[sweep] 学习循环还在跑（pid 42303）。先停：launchctl bootout gu |
 | train_weekly | 168.0h | FAIL | 上次 rc=1（允许 [0, 2]）[pipe] 训练失败，停止。 |
 | monitor_board | 1.0h | FAIL | 上次 rc=2（允许 [0, 1]）[mon] → cph4/fleet/social/SOCIAL-AGENT-BOARD.md |
@@ -56,12 +56,8 @@
    "exit": "0"
   },
   "com.fluxgroup.social24x7": {
-   "pid": "5051",
-   "exit": "-15"
-  },
-  "com.fluxgroup.modelqueue": {
-   "pid": "40323",
-   "exit": "0"
+   "pid": "27816",
+   "exit": "1"
   },
   "com.fluxgroup.trainrun": {
    "pid": "-",
