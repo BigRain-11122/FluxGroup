@@ -1,0 +1,30 @@
+{
+ "ts": "2026-11-19T13:28:51",
+ "rows": 47968,
+ "workers": 7,
+ "bake_sec": 0.3,
+ "rows_per_sec": 155573.2,
+ "near_dup": 987,
+ "segments": {
+  "generic": 35925,
+  "memer": 3119,
+  "shallow": 2990,
+  "feeler": 1397,
+  "craft_learner": 1226,
+  "peer_pro": 752,
+  "tech_nerd": 693,
+  "music_seeker": 466,
+  "student": 435,
+  "critic": 265,
+  "family": 222,
+  "ai_creator": 195,
+  "beginner": 185,
+  "requester": 62,
+  "traditional": 36
+ },
+ "verdicts": {
+  "RISKY": 32050,
+  "PASS": 8197,
+  "REJECT": 7721
+ }
+}
