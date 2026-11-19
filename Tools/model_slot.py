@@ -14,6 +14,8 @@ Exit 0 = profile applied and VRAM verified; 2 = VRAM gate not satisfied.
 """
 import io
 import json
+import os
+import platform
 import subprocess
 import sys
 import time
@@ -37,6 +39,51 @@ PROFILES = {
     "audio": (None, None, 1200, "音频车道：先卸文本，再跑 IndexTTS/GPT-SoVITS"),
     "idle": (None, None, 1200, "全卸，留桌面基线"),
 }
+
+# --- machine-aware profiles -------------------------------------------------
+# Why: the table above is tuned for bm-b's 8GB card. A host with different VRAM
+# (e.g. the 12GB RTX 4070 box) needs its own gate numbers and model names, and
+# duplicating this switcher would be the anti-dup violation. So a host may drop
+# Tools/model_slot.profiles.<hostname>.json (or the generic ...profiles.json) and
+# that file wins; with no file present the built-in table is used unchanged.
+_HERE = os.path.dirname(os.path.abspath(__file__))
+_TOTAL_MB = None
+
+
+def _load_machine_profiles():
+    """Override PROFILES from a host-specific JSON when one exists."""
+    global PROFILES, _TOTAL_MB
+    host = platform.node()
+    for cand in (os.path.join(_HERE, "model_slot.profiles.%s.json" % host),
+                 os.path.join(_HERE, "model_slot.profiles.json")):
+        if not os.path.exists(cand):
+            continue
+        try:
+            with open(cand, encoding="utf-8") as f:
+                cfg = json.load(f)
+        except Exception as e:
+            print("[model_slot] profile file unreadable, using built-in: %s" % str(e)[:80])
+            return
+        prof = cfg.get("profiles") or {}
+        if prof:
+            PROFILES = {k: (v.get("model"), v.get("keep_alive"), v.get("gate"), v.get("note", ""))
+                        for k, v in prof.items()}
+            _TOTAL_MB = cfg.get("total_mb")
+            print("[model_slot] machine profiles loaded: %s" % os.path.basename(cand))
+        return
+
+
+def total_vram():
+    """Total VRAM in MB. Uses the profile file's total_mb when given, else probes."""
+    if _TOTAL_MB:
+        return float(_TOTAL_MB)
+    try:
+        out = subprocess.run(["nvidia-smi", "--query-gpu=memory.total",
+                              "--format=csv,noheader,nounits"],
+                             capture_output=True, timeout=10).stdout.decode().strip().splitlines()[0]
+        return float(out)
+    except Exception:
+        return 8100.0
 
 
 def get(url, timeout=10):
@@ -106,6 +153,7 @@ def status():
 
 
 def main(argv):
+    _load_machine_profiles()
     profile = None
     i = 0
     while i < len(argv):
@@ -128,13 +176,16 @@ def main(argv):
     if model:
         need = gate - (v or 1500)
         if v is not None and v > gate - 400:
-            print("VBRAM-GATE: used=%s MB, profile needs ~%d MB free on an 8GB card -> REFUSED" % (v, gate))
+            print("VRAM-GATE: used=%s MB, profile needs used<=%d MB before load -> REFUSED"
+                  % (v, gate - 400))
+            print("  free it first: close browsers/WebView/Feishu, then retry")
             return 2
         load(model, keep)
         v2 = vram()
-        print("  loaded %s keep_alive=%s -> VRAM=%s MB" % (model, keep, v2))
-        if v2 is not None and v2 > 8100:
-            print("VBRAM-WARN: near card limit, expect CPU offload and low tok/s")
+        cap = total_vram()
+        print("  loaded %s keep_alive=%s -> VRAM=%s MB (card %d MB)" % (model, keep, v2, cap))
+        if v2 is not None and v2 > cap * 0.92:
+            print("VRAM-WARN: near card limit, expect CPU offload and low tok/s")
     else:
         print("  text lane released; start the %s job now (ComfyUI/TTS)" % profile)
     return 0
