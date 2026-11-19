@@ -55,3 +55,4 @@
 {"action": "verify", "arm": "A", "aid": 286995196, "rpid": "324490007888", "root": 3463652105, "visible": false, "why": "发后 25s 内未在列表中找到（已扫 6 页（sort=0/2）未见该 rpid）", "verdict": "待审核-保留", "ts": "2026-11-19T19:45:42"}
 {"action": "lane", "lane": "lora", "serving": "base", "rpid": "324490007888", "arm": "A", "persona": "craft_learner", "ts": "2026-11-19T19:45:42"}
 {"action": "skip", "why": "asleep", "ts": "2026-11-19T20:05:42"}
+{"action": "skip", "why": "no text passed gates", "arm": "D", "video": "https://www.bilibili.com/video/BV1FFRQB2Eqw/", "ts": "2026-11-19T20:26:13"}
