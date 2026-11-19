@@ -36,3 +36,5 @@
 {"action": "lane", "lane": "lora", "serving": "base", "rpid": "324456691936", "arm": "A", "persona": "craft_learner", "ts": "2026-11-19T13:05:35"}
 {"action": "skip", "why": "asleep", "ts": "2026-11-19T15:04:27"}
 {"action": "post", "arm": "D", "form": "长句子回复（带具体内容）", "video": "https://www.bilibili.com/video/BV1Nb421H77B/", "aid": 1805667200, "root": 244246603985, "text": "你这教程比付费课还强十倍，我跟着学了一周，终于搞懂了才是真。", "rpid": "324467017808", "code": 0, "toast": "OK", "ok": true, "gates": {"safe_to_send": [true, ""], "gen_gate": [true, ""], "taste": 90, "verdict": "PASS"}, "cap": "今日 2/8 条，间隔 OK", "ts": "2026-11-19T15:27:57"}
+{"action": "verify", "arm": "D", "aid": 1805667200, "rpid": "324467017808", "root": 244246603985, "visible": false, "why": "发后 25s 内未在列表中找到（已扫 6 页（sort=0/2）未见该 rpid）", "verdict": "待审核-保留", "ts": "2026-11-19T15:29:23"}
+{"action": "lane", "lane": "lora", "serving": "base", "rpid": "324467017808", "arm": "D", "persona": "craft_learner", "ts": "2026-11-19T15:29:23"}
