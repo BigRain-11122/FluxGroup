@@ -136,6 +136,45 @@ def rpm_to_fpe2(rpm):
     return bytes([(v >> 8) & 0xFF, v & 0xFF])
 
 
+# Apple Silicon 的温度键因机型而异，不硬编码一个：按候选表逐个试，取第一个合理的。
+# sp78 = 有符号定点 7.8（高字节整数、低字节小数），与风扇的 fpe2 不是一回事。
+TEMP_KEYS = ("Tp09", "Tp0T", "Tp0P", "TC0P", "TC0D", "TC0E", "Tc0P", "Tg0P", "TB0T")
+
+
+def sp78_to_c(b):
+    if not b or len(b) < 2:
+        return None
+    v = (b[0] << 8) | b[1]
+    if v & 0x8000:
+        v -= 0x10000
+    return v / 256.0
+
+
+def read_cpu_temp(iokit, conn):
+    best = None
+    for k in TEMP_KEYS:
+        t = sp78_to_c(read_key(iokit, conn, k))
+        if t is None or not (0 < t < 120):
+            continue
+        # 多个键同时可读时取最高值：宁可早转，不要漏热
+        if best is None or t > best[1]:
+            best = (k, t)
+    return best
+
+
+def curve_rpm(t_c, lo_c, hi_c, rpm_min, rpm_max):
+    """温度 → 目标转速的线性曲线（区间外取端点）。"""
+    if t_c is None:
+        return rpm_min
+    if t_c <= lo_c:
+        return rpm_min
+    if t_c >= hi_c:
+        return rpm_max
+    pct = (t_c - lo_c) / float(hi_c - lo_c)
+    return rpm_min + (rpm_max - rpm_min) * pct
+
+
+
 def fans(iokit, conn):
     out = []
     for i in range(2):
@@ -160,6 +199,13 @@ def main():
     g.add_argument("--auto", action="store_true")
     g.add_argument("--pct", type=float)
     g.add_argument("--rpm", type=float)
+    g.add_argument("--curve", action="store_true",
+                   help="常驻闭环：按温度曲线自己调转速（比系统曲线更早介入）")
+    ap.add_argument("--interval", type=float, default=20.0, help="闭环采样间隔秒，默认 20")
+    ap.add_argument("--lo", type=float, default=45.0, help="曲线起点温度，默认 45℃")
+    ap.add_argument("--hi", type=float, default=78.0, help="曲线满转温度，默认 78℃")
+    ap.add_argument("--once", action="store_true", help="闭环只执行一次（便于自检）")
+    ap.add_argument("--verbose", action="store_true")
     a = ap.parse_args()
 
     iokit, conn = open_smc()
@@ -177,9 +223,55 @@ def main():
             print("  fan%d: 当前 %s / 目标 %s / 范围 %s-%s RPM" % (
                 f["idx"], _r(f["cur"]), _r(f["tgt"]), _r(f["min"]), _r(f["max"])))
 
-    if a.show or not any([a.max, a.auto, a.pct, a.rpm]):
+    if a.show or not any([a.max, a.auto, a.pct, a.rpm, a.curve]):
         show()
         return 0
+
+    # 闭环曲线模式：CEO 2026-11-19「把自动风扇策略调整的好点，让它散热积极点」。
+    # 系统曲线偏"晚介入"，这里把起点压到 45℃、78℃ 就满转，且每 20 秒主动写一次，
+    # 不依赖 App（Macs Fan Control 启动会把配置覆盖成 Predefined:0，实测）。
+    if a.curve:
+        def apply_once():
+            tinfo = read_cpu_temp(iokit, conn)
+            t_c = tinfo[1] if tinfo else None
+            key = tinfo[0] if tinfo else "-"
+            fl2 = fans(iokit, conn)
+            bits = 0
+            for f in fl2:
+                mx = f["max"] or 0
+                mn = f["min"] or 0
+                if not mx:
+                    continue
+                tgt = curve_rpm(t_c, a.lo, a.hi, mn, mx)
+                write_key(iokit, conn, "F%dTg" % f["idx"], rpm_to_fpe2(tgt))
+                bits |= (1 << f["idx"])
+                if a.verbose:
+                    print("[fan] fan%d 温度 %s(%s) → 目标 %d RPM"
+                          % (f["idx"], ("%.1f℃" % t_c) if t_c else "未知", key, round(tgt)))
+            if bits:
+                write_key(iokit, conn, "FS! ", bytes([0, bits]))
+            return t_c, key
+
+        if a.once:
+            t_c, key = apply_once()
+            fl3 = fans(iokit, conn)
+            for f in fl3:
+                print("  fan%d: 温度 %s(%s) 当前 %s / 目标 %s RPM（曲线 %d-%d℃，%s-%s RPM）"
+                      % (f["idx"], ("%.1f℃" % t_c) if t_c else "未读到", key,
+                         _r(f["cur"]), _r(f["tgt"]), a.lo, a.hi,
+                         _r(f["min"]), _r(f["max"])))
+            return 0 if t_c is not None else 3
+
+        print("[fan] 闭环启动：%d-%d℃ 线性曲线，每 %.0fs 采样一次" % (a.lo, a.hi, a.interval))
+        import time as _t
+        while True:
+            try:
+                t_c, key = apply_once()
+                if a.verbose:
+                    print("[fan] %.0f℃(%s)" % (t_c or 0, key), flush=True)
+            except Exception as e:
+                print("[fan] 本轮失败：%s" % str(e)[:80], flush=True)
+            _t.sleep(max(5.0, a.interval))
 
     if a.auto:
         rc = write_key(iokit, conn, "FS! ", bytes([0, 0]))
