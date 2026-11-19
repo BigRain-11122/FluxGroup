@@ -1,19 +1,19 @@
 {
  "version": "SEGMENT-PERSONAS-v1",
  "corpus": "cph4/fleet/social/corpus/human/QUALITY-PASS.jsonl",
- "corpus_n": 5179,
+ "corpus_n": 5234,
  "min_n": 60,
  "segments": {
   "beginner": {
-   "n": 51,
+   "n": 55,
    "insufficient": true,
-   "len_median": 33,
+   "len_median": 36,
    "len_p10": 13,
-   "len_p90": 71,
-   "question_rate": 0.373,
-   "emoji_rate": 0.196,
-   "exclaim_rate": 0.098,
-   "oral_rate": 0.275,
+   "len_p90": 73,
+   "question_rate": 0.382,
+   "emoji_rate": 0.182,
+   "exclaim_rate": 0.109,
+   "oral_rate": 0.273,
    "samples": [
     "大佬，纯新手，能借用你的音频素材吗，好符合我拍的一些夜景人像素材，我也是松下！s",
     "王松老师！新手真的很需要你[打call]",
@@ -80,21 +80,21 @@
    ]
   },
   "peer_pro": {
-   "n": 327,
+   "n": 330,
    "insufficient": false,
    "len_median": 18,
    "len_p10": 10,
    "len_p90": 64,
-   "question_rate": 0.251,
-   "emoji_rate": 0.101,
-   "exclaim_rate": 0.04,
-   "oral_rate": 0.208,
+   "question_rate": 0.248,
+   "emoji_rate": 0.1,
+   "exclaim_rate": 0.039,
+   "oral_rate": 0.209,
    "samples": [
     "请问剪映片尾的那种视频怎么能够斜着放 离画框近的那边长一点 离画框远的那边短一点",
     "很希望能看到电脑剪映专业版的视频，都是手机的，我找不到电脑版的画中画在哪里操作。",
     "叔，感觉pr剪辑出来的比较炫酷，剪映能不能也可以达到相应的效果"
    ],
-   "in_band": 0.572,
+   "in_band": 0.573,
    "name": "同行从业者",
    "risk": "低",
    "gen": {
@@ -118,21 +118,21 @@
    ]
   },
   "tech_nerd": {
-   "n": 427,
+   "n": 435,
    "insufficient": false,
    "len_median": 28,
    "len_p10": 11,
    "len_p90": 81,
-   "question_rate": 0.328,
-   "emoji_rate": 0.204,
-   "exclaim_rate": 0.075,
-   "oral_rate": 0.192,
+   "question_rate": 0.326,
+   "emoji_rate": 0.2,
+   "exclaim_rate": 0.074,
+   "oral_rate": 0.191,
    "samples": [
     "求出旅途版VLOG剪辑，，马上上高速看“车展”[大笑]",
     "剪映传B站用多少的分辨率和帧率合适？",
     "其实就是拆碎零散镜头保留主要意象，让观众注意力集中在意象上 不过介绍的手法是很实"
    ],
-   "in_band": 0.466,
+   "in_band": 0.471,
    "name": "器材技术党",
    "risk": "中",
    "gen": {
@@ -156,21 +156,21 @@
    ]
   },
   "feeler": {
-   "n": 174,
+   "n": 176,
    "insufficient": false,
    "len_median": 38,
    "len_p10": 15,
    "len_p90": 88,
-   "question_rate": 0.144,
-   "emoji_rate": 0.224,
-   "exclaim_rate": 0.069,
-   "oral_rate": 0.172,
+   "question_rate": 0.148,
+   "emoji_rate": 0.222,
+   "exclaim_rate": 0.068,
+   "oral_rate": 0.17,
    "samples": [
     "从前一个视频来的，很干，本来以为我之前的毕设剪辑不是很好，听了up主发现我好像就",
     "虽然结果不尽人意，但是这个过程我真的收获了很多，这段记忆自我感觉很传奇，难以忘怀",
     "很久以前刷到的 一直忘不掉这个视频"
    ],
-   "in_band": 0.328,
+   "in_band": 0.324,
    "name": "情感共鸣党",
    "risk": "低",
    "gen": {
@@ -194,27 +194,27 @@
    ]
   },
   "memer": {
-   "n": 230,
+   "n": 232,
    "insufficient": false,
-   "len_median": 33,
+   "len_median": 35,
    "len_p10": 16,
-   "len_p90": 75,
-   "question_rate": 0.174,
-   "emoji_rate": 0.526,
-   "exclaim_rate": 0.048,
-   "oral_rate": 0.243,
+   "len_p90": 76,
+   "question_rate": 0.177,
+   "emoji_rate": 0.522,
+   "exclaim_rate": 0.047,
+   "oral_rate": 0.241,
    "samples": [
     "我二十年积善行德只为遇见Leo老师这样的剪映教程老师[doge]",
     "想让大哥出一期纯音乐 青空 钢琴曲的 剪辑思路",
     "如果可剪的信息、场景和色彩太多，但又不想按照叙事逻辑，只根据音乐节奏来的话咋办呢"
    ],
-   "in_band": 0.17,
+   "in_band": 0.168,
    "name": "玩梗党",
    "risk": "中（容易越界成低俗，需过品味闸）",
    "gen": {
     "len": [
      16,
-     75
+     76
     ],
     "tone": "跟着玩",
     "address": "无",
@@ -232,21 +232,21 @@
    ]
   },
   "music_seeker": {
-   "n": 303,
+   "n": 304,
    "insufficient": false,
    "len_median": 15,
    "len_p10": 8,
    "len_p90": 49,
    "question_rate": 0.178,
-   "emoji_rate": 0.083,
+   "emoji_rate": 0.082,
    "exclaim_rate": 0.089,
-   "oral_rate": 0.198,
+   "oral_rate": 0.197,
    "samples": [
     "发现up主配的BGM都很有感染力能很好的代入内容情绪",
     "这个bgm是什么[超辉夜姬表情包_开心]",
     "求BGM[星星眼][星星眼][星星眼]"
    ],
-   "in_band": 0.495,
+   "in_band": 0.493,
    "name": "求歌/配乐党",
    "risk": "中（编错曲名=硬伤）",
    "gen": {
@@ -270,21 +270,21 @@
    ]
   },
   "ai_creator": {
-   "n": 61,
+   "n": 64,
    "insufficient": false,
-   "len_median": 34,
+   "len_median": 33,
    "len_p10": 16,
    "len_p90": 104,
-   "question_rate": 0.475,
-   "emoji_rate": 0.262,
-   "exclaim_rate": 0.066,
-   "oral_rate": 0.098,
+   "question_rate": 0.453,
+   "emoji_rate": 0.25,
+   "exclaim_rate": 0.062,
+   "oral_rate": 0.094,
    "samples": [
     "老师，求工作流和模型[呲牙][呲牙][呲牙]",
     "老师，求工作流和模型",
     "阿清老师，求工作流和模型[蹲蹲]"
    ],
-   "in_band": 0.492,
+   "in_band": 0.516,
    "name": "AI 创作圈",
    "risk": "低",
    "gen": {
@@ -383,21 +383,21 @@
    ]
   },
   "shallow": {
-   "n": 630,
+   "n": 636,
    "insufficient": false,
    "len_median": 18,
    "len_p10": 10,
    "len_p90": 50,
-   "question_rate": 0.397,
-   "emoji_rate": 0.24,
-   "exclaim_rate": 0.263,
-   "oral_rate": 0.254,
+   "question_rate": 0.393,
+   "emoji_rate": 0.237,
+   "exclaim_rate": 0.264,
+   "oral_rate": 0.255,
    "samples": [
     "手机制作的这个制作出了艺术来了，佩服羡慕，这个歌词MV和视频真的很好，太完美了。",
     "太棒了，老师太详细了！",
     "太棒了支持up主"
    ],
-   "in_band": 0.23,
+   "in_band": 0.228,
    "name": "浅层路过",
    "risk": "低",
    "gen": {
@@ -491,27 +491,27 @@
    ]
   },
   "craft_learner": {
-   "n": 974,
+   "n": 979,
    "insufficient": false,
    "len_median": 20,
    "len_p10": 9,
-   "len_p90": 63,
+   "len_p90": 64,
    "question_rate": 0.286,
    "emoji_rate": 0.133,
-   "exclaim_rate": 0.061,
+   "exclaim_rate": 0.06,
    "oral_rate": 0.199,
    "samples": [
     "墙裂要求瞳孔转场",
     "这个照片和视频，如何融合？我们出去拍，似乎没个规律，回来照片少这个角度、那个角度",
     "leo叔，请问剪映和必剪哪个更好适合剪辑"
    ],
-   "in_band": 0.679,
+   "in_band": 0.675,
    "name": "学剪辑的人",
    "risk": "低",
    "gen": {
     "len": [
      9,
-     63
+     64
     ],
     "tone": "务实",
     "address": "你",
@@ -534,7 +534,7 @@
     10,
     64
    ],
-   "in_band_rate": 0.572,
+   "in_band_rate": 0.573,
    "verdict": "不一致：规格 [12,35] 只覆盖实测 57%（中位 18）"
   },
   "tech_nerd": {
@@ -547,7 +547,7 @@
     11,
     81
    ],
-   "in_band_rate": 0.466,
+   "in_band_rate": 0.471,
    "verdict": "不一致：规格 [10,30] 只覆盖实测 47%（中位 28）"
   },
   "feeler": {
@@ -560,21 +560,21 @@
     15,
     88
    ],
-   "in_band_rate": 0.328,
-   "verdict": "不一致：规格 [10,28] 只覆盖实测 33%（中位 38）"
+   "in_band_rate": 0.324,
+   "verdict": "不一致：规格 [10,28] 只覆盖实测 32%（中位 38）"
   },
   "memer": {
    "spec_len": [
     6,
     18
    ],
-   "measured_len_median": 33,
+   "measured_len_median": 35,
    "measured_p10_p90": [
     16,
-    75
+    76
    ],
-   "in_band_rate": 0.17,
-   "verdict": "不一致：规格 [6,18] 只覆盖实测 17%（中位 33）"
+   "in_band_rate": 0.168,
+   "verdict": "不一致：规格 [6,18] 只覆盖实测 17%（中位 35）"
   },
   "music_seeker": {
    "spec_len": [
@@ -586,21 +586,21 @@
     8,
     49
    ],
-   "in_band_rate": 0.495,
-   "verdict": "不一致：规格 [4,14] 只覆盖实测 50%（中位 15）"
+   "in_band_rate": 0.493,
+   "verdict": "不一致：规格 [4,14] 只覆盖实测 49%（中位 15）"
   },
   "ai_creator": {
    "spec_len": [
     12,
     35
    ],
-   "measured_len_median": 34,
+   "measured_len_median": 33,
    "measured_p10_p90": [
     16,
     104
    ],
-   "in_band_rate": 0.492,
-   "verdict": "不一致：规格 [12,35] 只覆盖实测 49%（中位 34）"
+   "in_band_rate": 0.516,
+   "verdict": "不一致：规格 [12,35] 只覆盖实测 52%（中位 33）"
   },
   "shallow": {
    "spec_len": [
@@ -612,7 +612,7 @@
     10,
     50
    ],
-   "in_band_rate": 0.23,
+   "in_band_rate": 0.228,
    "verdict": "不一致：规格 [4,12] 只覆盖实测 23%（中位 18）"
   },
   "craft_learner": {
@@ -623,21 +623,21 @@
    "measured_len_median": 20,
    "measured_p10_p90": [
     9,
-    63
+    64
    ],
-   "in_band_rate": 0.679,
+   "in_band_rate": 0.675,
    "verdict": "对齐"
   }
  },
  "generic": {
-  "n": 1406,
+  "n": 1426,
   "insufficient": false,
   "len_median": 19,
   "len_p10": 9,
-  "len_p90": 55,
-  "question_rate": 0.209,
-  "emoji_rate": 0.132,
-  "exclaim_rate": 0.059,
+  "len_p90": 56,
+  "question_rate": 0.211,
+  "emoji_rate": 0.13,
+  "exclaim_rate": 0.06,
   "oral_rate": 0.196,
   "samples": [
    "下次可以试一下竖屏教学吗，实在太小了，可以出个2P",
