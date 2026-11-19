@@ -59,3 +59,4 @@
 {"action": "post", "arm": "D", "form": "长句子回复（带具体内容）", "video": "https://www.bilibili.com/video/BV134516pEZe/", "aid": 116566888810038, "root": 305402212656, "text": "你真本末倒置，剪辑本该是为内容服务，而非炫技，这样教学算哪门手艺。", "rpid": "324496273472", "code": 0, "toast": "OK", "ok": true, "gates": {"safe_to_send": [true, ""], "gen_gate": [true, ""], "taste": 80, "verdict": "PASS"}, "cap": "今日 6/8 条，间隔 OK", "ts": "2026-11-19T20:48:31"}
 {"action": "verify", "arm": "D", "aid": 116566888810038, "rpid": "324496273472", "root": 305402212656, "visible": false, "why": "发后 25s 内未在列表中找到（已扫 6 页（sort=0/2）未见该 rpid）", "verdict": "待审核-保留", "ts": "2026-11-19T20:49:14"}
 {"action": "lane", "lane": "lora", "serving": "base", "rpid": "324496273472", "arm": "D", "persona": "craft_learner", "ts": "2026-11-19T20:49:14"}
+{"action": "skip", "why": "no text passed gates", "arm": "C", "video": "https://www.bilibili.com/video/BV1bR4y1M7Ts/", "ts": "2026-11-19T21:09:34"}
