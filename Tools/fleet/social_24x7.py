@@ -113,8 +113,18 @@ def gpu_busy():
         o = subprocess.run(["ps", "ax"], capture_output=True, text=True).stdout
     except Exception:
         return False
-    return bool(re.search(r"mlx_lm\s+lora", o or "")) or \
-        bool(re.search(r"gpu_squeeze\.py", o or ""))
+    # 2026-11-19 实锚：原来只要命令行里出现 "mlx_lm lora" 就算训练在跑，
+    # 结果每拍都误判成"训练在跑"→ 循环永远 WAIT、一次都没训成（抓到的其实是
+    # 上一个训练进程的残留行/父 shell 行）。现在要求同时出现 --train 且不是本循环自身。
+    for line in (o or "").splitlines():
+        if "mlx_lm" not in line or "lora" not in line:
+            continue
+        if "--train" not in line:
+            continue
+        if "social_24x7.py" in line or "grep" in line:
+            continue
+        return True
+    return bool(re.search(r"gpu_squeeze\.py", o or ""))
 
 
 def free_gb():
