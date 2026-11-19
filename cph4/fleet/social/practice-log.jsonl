@@ -54,3 +54,4 @@
 {"action": "post", "arm": "A", "form": "短句子回复", "video": "https://www.bilibili.com/video/BV1sf4y1X7AD/", "aid": 286995196, "root": 3463652105, "text": "别光理论，先从提升单节剪辑效率开始。", "rpid": "324490007888", "code": 0, "toast": "OK", "ok": true, "gates": {"safe_to_send": [true, ""], "gen_gate": [true, ""], "taste": 80, "verdict": "PASS"}, "cap": "今日 5/8 条，间隔 OK", "ts": "2026-11-19T19:44:59"}
 {"action": "verify", "arm": "A", "aid": 286995196, "rpid": "324490007888", "root": 3463652105, "visible": false, "why": "发后 25s 内未在列表中找到（已扫 6 页（sort=0/2）未见该 rpid）", "verdict": "待审核-保留", "ts": "2026-11-19T19:45:42"}
 {"action": "lane", "lane": "lora", "serving": "base", "rpid": "324490007888", "arm": "A", "persona": "craft_learner", "ts": "2026-11-19T19:45:42"}
+{"action": "skip", "why": "asleep", "ts": "2026-11-19T20:05:42"}
