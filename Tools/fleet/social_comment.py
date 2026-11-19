@@ -450,6 +450,9 @@ def verify_visible(aid, root_rpid, my_rpid, wait_s=120):
         time.sleep(30)
     return False, "发后 %ds 内未在列表中找到（%s）" % (wait_s, last)
 
+GHOST = ("账号已注销", "已注销", "用户已注销", "匿名用户", "bilibili_")
+KEEP_AUTHOR_MIN = 2      # 作者名短于这个长度基本是占位/注销号，回它没人看得见
+
 def live_comments(cs):
     """只留活人评论。
 
@@ -540,7 +543,7 @@ def main():
         CAP_PER_DAY = int(_pol.get("max_per_day", 2))
         MIN_GAP = int(_pol.get("min_gap_min", 90))
     except Exception:
-        CAP_PER_DAY, MIN_GAP = 2, 90
+        CAP_PER_DAY, MIN_GAP = 8, 15   # 与 FREQ-POLICY 档 0 对齐（读不到策略时的兜底，别退回保守值）
 
     if a.list or a.dry:
         vids, why = my_videos_and_comments(limit_videos=3, per_video=6)

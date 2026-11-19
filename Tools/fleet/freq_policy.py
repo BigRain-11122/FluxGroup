@@ -31,13 +31,17 @@ LEDGERS = [os.path.join(SOCIAL, "practice-log.jsonl"),
            os.path.join(SOCIAL, "comments-sent.jsonl")]
 
 # 阶梯：(档位, 每日上限, 最小间隔分钟, 升到此档所需样本, 所需可见率)
+# 2026-11-19 CEO「不至于，我说了模拟人类操作习惯就好，不要这么保守」。
+# 原表 2/3/4/6 条/日是把"人类节律"做成了硬配额：实测一个活跃用户在同一晚
+# 56 分钟里发 10 条完全正常（17:35-18:31），且真实可见率 67%——限额才是那个假的约束。
+# 改为"人类量级"：单日上限按活跃用户给足，间隔与活跃时段交给 human_rhythm 决定。
 LADDER = [
-    (0, 2, 90, 0, 0.0),        # 试用档：新号默认，不靠证据
-    (1, 3, 60, 6, 0.75),
-    (2, 4, 45, 12, 0.80),
-    (3, 6, 30, 20, 0.85),
+    (0, 8, 15, 0, 0.0),        # 试用档：一天 8 条、最短 15 分钟
+    (1, 12, 12, 6, 0.60),
+    (2, 18, 8, 15, 0.70),
+    (3, 25, 5, 25, 0.80),
 ]
-ROLLBACK_VISIBLE = 0.50        # 近 5 条可见率低于此即降档
+ROLLBACK_VISIBLE = 0.45        # 近 5 条可见率低于此即降档（含假红教训：只算有结论的行）
 CONSEC_INVISIBLE = 2           # 连续不可见即降档
 
 
@@ -157,19 +161,19 @@ def self_test():
     # 连续两条不可见 → 必须降档
     s = summarize(mk([True, True, False, False]))
     per, gap, why = decide(s, 1)
-    cases.append(("连续不可见可触发降档", "降到档" in why or per <= 3))
+    cases.append(("连续不可见可触发降档", "降到档" in why or per <= LADDER[1][1]))
     # 高可见率但样本不足 → 不许升
     s2 = summarize(mk([True, True, True]))
     per2, _, why2 = decide(s2, 0)
-    cases.append(("样本<6 不升档", per2 <= 2))
+    cases.append(("样本<6 不升档", per2 <= LADDER[0][1]))
     # 6 条全可见 → 应允许升到档 1
     s3 = summarize(mk([True] * 6))
     per3, _, why3 = decide(s3, 0)
-    cases.append(("6 条全可见可升档", per3 >= 3))
+    cases.append(("6 条全可见可升档", per3 >= LADDER[1][1]))
     # 近 5 条可见率低 → 回退
     s4 = summarize(mk([True, True, True, False, False, False, False]))
     per4, _, why4 = decide(s4, 2)
-    cases.append(("近5条低可见率回退", per4 <= 3))
+    cases.append(("近5条低可见率回退", per4 <= LADDER[1][1]))
     ok = 0
     for n, c in cases:
         print("  [%s] %s" % ("PASS" if c else "FAIL", n))

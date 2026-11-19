@@ -193,7 +193,13 @@ def run(arm, video, text, root="auto", dry=False, wait_s=120, ctx=""):
     root_rpid = 0
     if a["kind"] == "reply":
         if root == "auto":
-            roots = fetch_roots(aid)
+            try:
+                roots = fetch_roots(aid)
+            except Exception as e:
+                # 2026-11-19 实锚：评论已 code=0 发出，却因下游常量缺失在这里抛 NameError，
+                # 结果台账只留一条 post、丢了 lane/persona 归因。已发出的事实不许被下游覆盖。
+                roots = []
+                print("[arm] 取评论列表失败（%s）：按已发出处理" % type(e).__name__)
             if not roots:
                 return {"ok": False, "stage": "root", "why": "第一页没有可用 root 评论"}
             root_rpid = int(roots[0]["rpid"])

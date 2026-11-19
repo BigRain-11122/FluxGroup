@@ -261,6 +261,16 @@ def main():
         print("[tick] 跳过：今日 %d/%d" % (n, mx))
         return 0
 
+    # 2.5 拟人节律：不在线时段不发（CEO「模拟人类操作习惯就好」——
+    #     真风险不是次数多，而是机械均匀与零互动；夜里准点发帖比多发更假）。
+    import human_rhythm as hr
+    rng = random.Random()
+    if not hr.awake(rng=rng):
+        refresh_screen("不在线时段（作息模型），本拍不发")
+        log({"action": "skip", "why": "asleep"})
+        print("[tick] 跳过：不在线时段")
+        return 0
+
     # 3 挑目标（同领域优先、未用过）
     try:
         vids = json.load(open(TITLES, encoding="utf-8"))
@@ -316,7 +326,12 @@ def main():
         print("[tick] 跳过：无文案过闸")
         return 0
 
-    # 5 发 + 回验
+    # 5 发 + 回验：发前先"读一会儿"（拟人停留），再发
+    try:
+        dwell = min(60, int(hr.dwell_before_post_s(rng=rng)))
+        time.sleep(max(0, dwell))
+    except Exception:
+        pass
     res = ap.run(arm, url, text, dry=False, wait_s=25, ctx=title)
     if res.get("stage") != "posted":
         refresh_screen("发帖未成：%s" % str(res.get("why"))[:60])

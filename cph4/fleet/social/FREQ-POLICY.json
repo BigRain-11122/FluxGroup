@@ -1,7 +1,7 @@
 {
  "stage": 0,
- "max_per_day": 2,
- "min_gap_min": 90,
+ "max_per_day": 8,
+ "min_gap_min": 15,
  "why": "连续 3 条不可见 → 降到档 0",
  "evidence": {
   "n": 20,
@@ -10,5 +10,5 @@
   "rate_last5": 0.4,
   "consec_invisible": 3
  },
- "ts": "2026-11-19T12:27:21"
+ "ts": "2026-11-19T13:00:00"
 }
