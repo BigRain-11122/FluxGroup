@@ -53,6 +53,7 @@ SCREEN = os.path.join(SOCIAL, "SOCIAL-24X7.md")
 PASS_F = os.path.join(SOCIAL, "corpus", "human", "QUALITY-PASS.jsonl")
 TRAIN_D = os.path.join(SOCIAL, "train")
 ACTIVE = os.path.join(TRAIN_D, "ACTIVE.json")
+REJ_F = os.path.join(STATE, "seg-rejects.json")
 
 PY = sys.executable
 SEG_TARGET = 500          # 供应侧门槛：某段在语料里够多少行才值得排队造集
@@ -272,6 +273,7 @@ def mark_reject(st, seg, rows):
     cur["ts"] = now()
     rj[seg] = cur
     st["seg_rejects"] = rj
+    save_rejects(st)
     return cur
 
 
@@ -305,6 +307,28 @@ def materialize_best(run, seg=""):
             if os.path.exists(p):
                 shutil.copy2(p, os.path.join(arch, f))
     return True
+
+
+def load_rejects(st):
+    """把"哪一段被否过、被否时多少行"从盘上读回来。
+
+    2026-11-19：这份记忆原先只在进程内存里，24x7 一重启就忘——于是同一段语料
+    被反复训练（A/B 实测两次都过拟合、都不如基座）。落盘后 gate_segments 才真能拦住。
+    """
+    try:
+        st["seg_rejects"] = json.load(open(REJ_F, encoding="utf-8")) or {}
+    except Exception:
+        st.setdefault("seg_rejects", {})
+    return st
+
+
+def save_rejects(st):
+    try:
+        os.makedirs(os.path.dirname(REJ_F), exist_ok=True)
+        json.dump(st.get("seg_rejects") or {}, open(REJ_F, "w", encoding="utf-8"),
+                  ensure_ascii=False, indent=1)
+    except Exception:
+        pass
 
 
 def gate_segments(ready, st, growth=REJECT_NEED_GROWTH):
@@ -458,12 +482,11 @@ def persona_gap_line():
 
 
 def write_screen(last, st, cnt, tot):
+    segs = ", ".join("%s=%d" % (k, v) for k, v in sorted(cnt.items(), key=lambda x: -x[1])[:8])
     L = ["# 养号线 24x7 自驱循环 %s" % now(), "",
          "- 上轮动作：**%s** — %s" % last,
-         "- 画像：%s",
-         "- 语料：%d 条过品味闸；各段（门槛 %d）：%s"
-         % (persona_gap_line(), tot, SEG_TARGET, ", ".join("%s=%d" % (k, v) for k, v in
-                                       sorted(cnt.items(), key=lambda x: -x[1])[:8])),
+         "- 画像：%s" % persona_gap_line(),
+         "- 语料：%d 条过品味闸；各段（门槛 %d）：%s" % (tot, SEG_TARGET, segs),
          "- 距上次训练：%.1f 小时（冷却 %.0f 小时）" % (hours_since_train(),
                                               TRAIN_COOLDOWN_S / 3600),
          "- 现役适配器：%s" % (active_now().get("adapter") or "未设"),
@@ -493,7 +516,7 @@ def main(argv=None):
         print("[24x7] 已有一条循环在跑，退出")
         return 2
 
-    st = {"fails": 0}
+    st = load_rejects({"fails": 0})
     last = ("INIT", "启动")
     while True:
         try:

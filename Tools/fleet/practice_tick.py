@@ -332,7 +332,25 @@ def main():
         time.sleep(max(0, dwell))
     except Exception:
         pass
-    res = ap.run(arm, url, text, dry=False, wait_s=25, ctx=title)
+    # profile 互斥：采集与发布用的是同一个登录 profile，同时开会 ProcessSingleton 崩溃
+    # （2026-11-19 实锚：补采脚本在跑时 practice-tick 直接 rc=1）。忙就本轮跳过，
+    # 记事由、返回 0——"环境被占用"不是故障，不该把作业打成红。
+    res = None
+    for attempt in range(3):
+        try:
+            res = ap.run(arm, url, text, dry=False, wait_s=25, ctx=title)
+            break
+        except Exception as e:
+            msg = str(e)
+            if "ProcessSingleton" in msg or "profile directory" in msg:
+                if attempt < 2:
+                    time.sleep(20)
+                    continue
+                refresh_screen("浏览器 profile 被占用（采集在跑），本拍跳过")
+                log({"action": "skip", "why": "profile busy", "arm": arm})
+                print("[tick] 跳过：profile 被占用")
+                return 0
+            raise
     if res.get("stage") != "posted":
         refresh_screen("发帖未成：%s" % str(res.get("why"))[:60])
         log({"action": "fail", "why": str(res.get("why"))[:120], "arm": arm, "lane": lane_used})
