@@ -103,6 +103,32 @@ def self_test():
     return 0 if ok == len(cases) else 1
 
 
+def other_train_pids():
+    """在跑的 mlx 训练进程（不含自己）。
+
+    2026-11-19 实锚：train_run.sh 被两个调用方先后触发，两份训练同时跑，
+    swap 顶到 6.3GB/7.2GB 而 mlx 一句错都不报——只看"进程活着"会以为一切正常。
+    包装脚本已有 mkdir 锁；这里再挡一层，防的是绕过包装、直接调本脚本的路。
+    """
+    me = os.getpid()
+    try:
+        out = subprocess.run(["ps", "-axo", "pid=,command="],
+                             capture_output=True, text=True).stdout
+    except Exception:
+        return []
+    pids = []
+    for line in (out or "").splitlines():
+        m = re.match(r"^\s*(\d+)\s+(.*)$", line)
+        if not m:
+            continue
+        pid, cmd = int(m.group(1)), m.group(2)
+        if pid == me or "lora" not in cmd or "--train" not in cmd:
+            continue
+        if "mlx_lm" in cmd:
+            pids.append(pid)
+    return pids
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--self-test", action="store_true")
@@ -122,6 +148,12 @@ def main():
     a = ap.parse_args()
     if a.self_test:
         return self_test()
+
+    busy = other_train_pids()
+    if busy:
+        print("[train] SKIP-ALREADY-TRAINING pid=%s 已有训练在跑，本次放弃"
+              "（两份训练同时跑只会双输）" % ",".join(str(p) for p in busy))
+        return 3
 
     train_f = os.path.join(a.data, "train.jsonl")
     if not os.path.exists(train_f) or not os.path.exists(os.path.join(a.data, "valid.jsonl")):

@@ -251,8 +251,12 @@ def chain_selftest():
     return bad
 
 
-def do_switch(adapter):
-    rc, out = sh(["/bin/bash", os.path.join(HERE, "lora_switch.sh"), adapter], timeout=300)
+def do_switch(adapter, reason=""):
+    """切适配器必须带依据：只改指针会留下上一次验收的 why，账面像验过（2026-11-19 实锚）。"""
+    cmd = ["/bin/bash", os.path.join(HERE, "lora_switch.sh"), adapter]
+    if reason:
+        cmd.append(reason)
+    rc, out = sh(cmd, timeout=300)
     return rc, tail(out)
 
 
@@ -398,6 +402,10 @@ def one_cycle(st, dry=False):
             return "SUPPLY", "段 %s 造集只有 %d 行（下限 %d），不训；继续采集" % (
                 seg, built, SEG_MIN_BUILD)
         rc, o, run = do_train(ds)
+        # 互斥拒绝不是失败：另一份训练正在跑，本轮就是该等（记 FAIL 会误导上游去重试，
+        # 于是越重试越叠，2026-11-19 实锚就是这么叠出两份 10GB 的）。
+        if "SKIP-ALREADY-TRAINING" in o:
+            return "WAIT", "已有训练在跑，本轮不叠加（段 %s）" % seg
         if rc != 0 or not run:
             return "FAIL", "训练失败（段 %s）：%s" % (seg, o[-160:])
         materialize_best(run)                    # mlx 产出 adapter/，切换口径要 best/
@@ -406,12 +414,12 @@ def one_cycle(st, dry=False):
             return "FAIL", "链路自检红，拒绝上线候选：%s" % "、".join(bad)
         cand = "cph4/fleet/social/train/RUNS/%s/best" % run
         prev = active_now().get("adapter") or ""
-        src, so = do_switch(cand)
+        src, so = do_switch(cand, "24x7 候选（段 %s run %s），闭环验收进行中" % (seg, run))
         if src != 0:
             return "FAIL", "候选适配器切换失败：%s" % so
         verdict, summ = do_e2e()
         if verdict == "REJECT" and prev:
-            do_switch(prev)                      # 闭环：不合格立刻换回上一版
+            do_switch(prev, "24x7 闭环验收未过（段 %s），回滚" % seg)  # 闭环：不合格立刻换回上一版
             mark_reject(st, seg, ready[0][1])
             return "ROLLBACK", "段 %s 候选被闭环验收否掉 → 已回滚 %s ｜ %s" % (seg, prev, summ)
         if verdict != "ACCEPT":

@@ -9,7 +9,25 @@ UID_N="$(id -u)"
 LOG="$ROOT/.codely-cli/state/train-run.log"
 PY="/Users/junsheng.sun/.pyenv/versions/3.13.18/bin/python3"
 
+# 互斥：同一时刻只允许一份训练。2026-11-19 实锚——调度器在 40 分钟内两次调本脚本，
+# 两份 ~10GB 叠在 32GB 统一内存上，swap 顶到 6.3GB/7.2GB，两份都变慢却不报错，
+# 症状只是"训练变慢了"，从进程看仍然在跑。锁必须在改动任何状态之前拿到。
+LOCK="$ROOT/.codely-cli/state/TRAIN-RUNLOCK"
+if mkdir "$LOCK" 2>/dev/null; then
+  echo $$ > "$LOCK/pid"
+  date '+%Y-%m-%dT%H:%M:%S' > "$LOCK/at"
+elif [[ -n "$(cat "$LOCK/pid" 2>/dev/null || true)" ]] && ps -p "$(cat "$LOCK/pid")" >/dev/null 2>&1; then
+  echo "[train] SKIP-ALREADY-TRAINING pid=$(cat "$LOCK/pid") 本次放弃，不叠第二份 $(date '+%H:%M:%S')"
+  exit 0
+else
+  # 锁残留（持有者已不在）：接管。否则一次崩溃会把训练永久锁死。
+  echo "[train] 接管残留锁（原 pid $(cat "$LOCK/pid" 2>/dev/null || echo 无) 已不在）"
+  echo $$ > "$LOCK/pid"
+  date '+%Y-%m-%dT%H:%M:%S' > "$LOCK/at"
+fi
+
 restore() {
+  rm -rf "$LOCK"
   for j in ${PAUSED_JOBS[*]:-}; do
     launchctl bootstrap "gui/$UID_N" "$HOME/Library/LaunchAgents/$j.plist" >/dev/null 2>&1
   done
