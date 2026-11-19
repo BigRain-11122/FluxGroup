@@ -60,3 +60,4 @@
 {"action": "verify", "arm": "D", "aid": 116566888810038, "rpid": "324496273472", "root": 305402212656, "visible": false, "why": "发后 25s 内未在列表中找到（已扫 6 页（sort=0/2）未见该 rpid）", "verdict": "待审核-保留", "ts": "2026-11-19T20:49:14"}
 {"action": "lane", "lane": "lora", "serving": "base", "rpid": "324496273472", "arm": "D", "persona": "craft_learner", "ts": "2026-11-19T20:49:14"}
 {"action": "skip", "why": "no text passed gates", "arm": "C", "video": "https://www.bilibili.com/video/BV1bR4y1M7Ts/", "ts": "2026-11-19T21:09:34"}
+{"action": "fail", "why": "{'safe_to_send': [True, ''], 'gen_gate': [False, '指控/维权类（易构成诽谤）'], 'taste': None, 'verdict': None}", "arm": "C", "lane": "lora", "ts": "2026-11-19T21:30:48"}
