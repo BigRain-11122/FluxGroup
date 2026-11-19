@@ -66,3 +66,21 @@
 3. `pulse` 是否真正消费了它驱动的各 stage 产物：只验证了它在写日志与 `pause: selfhost LaunchAgents locked` 分支，未逐 stage 追踪消费链。
 4. 3 个无 plist 作业（alltests.once/corpusbake/abmatrix）的原始提交者意图：`submitted by launchctl[3500/70868/21505]` 只是 PID，未定位具体 shell 脚本。
 5. 未运行任何 `kickstart`/`bootout`/训练/采集；因此"常红"是**读状态**而非实测复现（例如未主动重启 llmgateway 观察其再次崩溃）。
+
+## 主控复核与当场处置（2026-11-19 15:2x）
+
+审计席的三件优先，我按"能不能立刻纠正"分别处理：
+
+1. **llmgateway 幽灵绿 → 已摘除**：`launchctl bootout gui/$(id -u)/com.fluxgroup.llmgateway`。
+   8792 由 **pid 30055（python3.1x，非 launchd）** 持有并正常 LISTEN，launchd 侧那条永远绑不上、
+   只会持续写 23MB 报错。结论：端口所有权不在 launchd，先摘掉假红；该进程本身不动（可能是
+   resident_qa_server，属别人在用）。
+2. **alltests.once 隐形红 → 已停**：那是我自己 `launchctl submit` 的临时探针，runs=156 / exit 1 /
+   日志 0 字节，没有任何下游消费。`bootout` 掉，不再制造假红。
+3. **ab-matrix 零测点 → 已修（真 bug）**：`val_curve` 找的是 "Iter N: Val loss"，而当前 mlx_lm
+   输出是 ANSI 表格行 `100  val 3.585` / `10  4.379 ▼`，一条都匹配不到 → 两臂 val_best=None、
+   points=0。已按真实格式重写并验证取到 [(1,5.625),(100,3.585)]，实验重跑才有判据。
+
+另外一条**不是红**：practice-tick 显示"跳过：不在线时段"是作息闸的**设计行为**——
+`human_rhythm.awake()` 是概率式的，15:24 抽样 20 次为 True 约六成，属"模拟人类"，不是卡死。
+判据：一天内可见的 post 行数有没有增加，而不是每一拍都动。

@@ -40,16 +40,31 @@ def sh(cmd, timeout=7200):
 
 
 def val_curve(log_path):
-    """从训练日志取 (step, val_loss) 序列——判"最低点在第几步"用。"""
-    out = []
+    """从训练日志取 (step, loss) 序列。
+
+    2026-11-19 实锚：mlx_lm 当前版本**没有** "Iter N: Val loss" 这种句子，
+    真实行是被 ANSI 上色的表格：
+        100    val 3.585    6.80s      ← 验证损失
+        10    4.379 ▼        8   0.2k  ← 训练损失
+    原正则找 "Iter ... Val loss" 一条都匹配不到，于是两臂都记 val_best=None、
+    points=0，实验白烧 58 分钟。现在按真实格式解析，并优先取 val 行。
+    """
+    ansi = re.compile(r"\x1b\[[0-9;]*m")
+    vals, trains = [], []
     try:
         for line in open(log_path, encoding="utf-8", errors="replace"):
-            m = re.search(r"Iter\s+(\d+).*?Val loss\s+([0-9.]+)", line)
+            s2 = ansi.sub("", line).strip()
+            m = re.match(r"^(\d+)\s+val\s+([0-9.]+)", s2)
             if m:
-                out.append((int(m.group(1)), float(m.group(2))))
+                vals.append((int(m.group(1)), float(m.group(2))))
+                continue
+            m = re.match(r"^(\d+)\s+([0-9.]+)\s*[▼▲]", s2)
+            if m:
+                trains.append((int(m.group(1)), float(m.group(2))))
     except FileNotFoundError:
         pass
-    return out
+    # 验证损失是选点依据；没有 val 行时退回训练损失（并让调用方能看出来源）
+    return vals or trains
 
 
 def run_arm(seg, min_human, iters, tag):
