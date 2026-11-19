@@ -1,4 +1,4 @@
-# 养号线面清单（机跑判据·2026-11-19T06:46:09）
+# 养号线面清单（机跑判据·2026-11-19T18:46:40）
 
 | 工具 | 做什么 | 存在 | 有自检 | 自检 |
 |---|---|---|---|---|
@@ -36,9 +36,9 @@
 ```
 {
  "corpus": {
-  "corpus_all": 31819,
-  "corpus_pass": 3466,
-  "raw_comments": 29203,
+  "corpus_all": 47968,
+  "corpus_pass": 5180,
+  "raw_comments": 36,
   "train_rows": 965
  },
  "latest_run": {
@@ -91,19 +91,11 @@
    "last_exit": "0"
   },
   "com.fluxgroup.social24x7": {
-   "pid": "5051",
+   "pid": "29869",
    "last_exit": "-15"
-  },
-  "com.fluxgroup.modelqueue": {
-   "pid": "40323",
-   "last_exit": "0"
-  },
-  "com.fluxgroup.sociallearn": {
-   "pid": "40319",
-   "last_exit": "0"
   }
  },
- "ts": "2026-11-19T06:46:09"
+ "ts": "2026-11-19T18:46:40"
 }
 ```
 
