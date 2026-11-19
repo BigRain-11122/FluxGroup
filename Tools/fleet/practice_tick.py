@@ -126,6 +126,23 @@ def refresh_screen(note=""):
 LANE_ORDER = ("lora", "4b")     # 训好的本地适配器优先，基座兜底；模型名一源在 social_comment_gen.LANES
 
 
+def serving_adapter():
+    """8788 当前声明在跑什么：适配器路径，或 "base"（ACTIVE mode=base）。
+
+    lane 只说明"走的哪条车道"，不说"这条车道里挂的是适配器还是基座"。
+    2026-11-19 实锚——ACTIVE 指向的目录变空、服务器静默挂上未验收候选，
+    而落账只写 lane=lora，事后无法分辨那句话是适配器说的还是基座说的。
+    """
+    try:
+        a = json.load(open(os.path.join(ROOT, "cph4", "fleet", "social", "train",
+                                        "ACTIVE.json"), encoding="utf-8"))
+        if (a.get("mode") or "").lower() == "base":
+            return "base"
+        return a.get("adapter") or "base"
+    except Exception:
+        return "unknown"
+
+
 def make_text(prompt):
     """按车道阶梯出稿，返回 (text, lane)。两条都不通返回 ("", "")。
 
@@ -227,7 +244,8 @@ def main():
         print("[tick] 未成：%s" % str(res.get("why"))[:80])
         return 0
     # 车道落这一行：事后要能回答"这条评论是适配器说的还是基座说的"
-    log({"action": "lane", "lane": lane_used, "rpid": res.get("rpid"), "arm": arm})
+    log({"action": "lane", "lane": lane_used, "serving": serving_adapter(),
+         "rpid": res.get("rpid"), "arm": arm})
     refresh_screen("本轮 %s 臂已发（%s 车道）：%s" % (arm, lane_used, text[:20]))
     print("[tick] 发出 rpid=%s 可见=%s 车道=%s"
           % (res.get("rpid"), res.get("visible"), lane_used))

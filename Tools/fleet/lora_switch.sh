@@ -18,6 +18,9 @@ cur = {}
 try: cur = json.load(open(p, encoding="utf-8"))
 except Exception: pass
 cur["adapter"] = adapter
+# 必须清掉 mode=base：服务器见到 mode=base 就只跑基座，不清的话每次切换都是
+# 静默空操作（写进 ACTIVE 却不生效，正是 2026-11-19 那类"配置写了不等于生效"）。
+cur.pop("mode", None)
 cur["switched_at"] = __import__("datetime").datetime.now().isoformat(timespec="seconds")
 json.dump(cur, open(p, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 print("ACTIVE →", adapter)

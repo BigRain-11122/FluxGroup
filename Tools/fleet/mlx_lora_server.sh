@@ -22,10 +22,21 @@ mkdir -p "$HF_HUB_CACHE"
 resolve_adapter() {
   if [[ -n "${MLX_ADAPTER:-}" ]]; then echo "$MLX_ADAPTER"; return; fi
   local act="$ROOT/cph4/fleet/social/train/ACTIVE.json"
+  # mode=base：明确声明"当前没有验收通过的适配器，就用基座"。
+  # 这比"悄悄挂最新一轮未验收件"诚实（2026-11-19 实锚：唯一候选 25/43、基座 26/43，
+  # 按段训练却用全量题集验收，候选并不更好，却因为 ACTIVE 指向的目录变空而被挂上线）。
+  if [[ -f "$act" ]] && grep -q '"mode"[[:space:]]*:[[:space:]]*"base"' "$act"; then
+    echo ""; return 0
+  fi
   if [[ -f "$act" ]]; then
     local a
     a="$(sed -n 's/.*"adapter"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' "$act" | head -1)"
     if [[ -n "$a" && -f "$ROOT/$a/adapters.safetensors" ]]; then echo "$ROOT/$a"; return; fi
+    # 2026-11-19 实锚：ACTIVE 指向 113014/best，而该目录是空的（权重已随清理丢失），
+    # 于是这里**静默**落到"最新一轮 adapter"，把 07:04 被 E2E 否掉的候选挂上了线，
+    # 而 ACTIVE 还写着旧版——配置与生效不一致且无人知。现在必须吼出来。
+    echo "[mlxlora] 警告：ACTIVE 指向的适配器不可用（$a）——权重缺失，退到最新一轮" >&2
+    echo "[mlxlora] 这一轮上线的件没有经过验收，出稿质量按未验收处理" >&2
   fi
   local d
   for d in $(ls -1dt "$RUNS"/*/ 2>/dev/null); do
@@ -38,8 +49,17 @@ resolve_adapter() {
 ADAPTER="$(resolve_adapter)" || { echo "[mlxlora] 找不到可用适配器，退出" >&2; exit 78; }
 
 echo "[mlxlora] base=$BASE"
-echo "[mlxlora] adapter=$ADAPTER"
+echo "[mlxlora] adapter=${ADAPTER:-（无，按 mode=base 只跑基座）}"
 echo "[mlxlora] port=$PORT"
+
+if [[ -z "$ADAPTER" ]]; then
+  exec "$PY" -m mlx_lm server \
+    --model "$BASE" \
+    --host 127.0.0.1 \
+    --port "$PORT" \
+    --chat-template-args '{"enable_thinking": false}' \
+    --log-level INFO
+fi
 
 exec "$PY" -m mlx_lm server \
   --model "$BASE" \

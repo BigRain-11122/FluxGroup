@@ -1,13 +1,15 @@
 {
- "adapter": "cph4/fleet/social/train/RUNS/20261118-113014/best",
- "run": "20261118-113014",
- "dataset": "train (human>=8, 965 行, 旧模板)",
- "iters": 400,
+ "mode": "base",
+ "adapter": "",
+ "run": "",
+ "dataset": "",
+ "why": "2026-11-19 实测：现役权重（RUNS/20261118-113014/best）目录已空、随清理丢失；唯一存续候选（20261119-040930 craft_learner 段适配器）E2E 25/43，而基座 26/43——候选无增益。按段训练却用全量 43 题验收属口径错配，故先回基座，等分段验收判据与产物归档到位后再选点。",
  "eval": {
-  "taste_avg": 81.3,
-  "base_avg": 63.2,
-  "pass_rate": 44
+  "base_coverage": "26/43",
+  "candidate_coverage": "25/43",
+  "base_taste_median": 81,
+  "candidate_taste_median": 80
  },
- "why": "2026-11-18 12:xx 前的最优点；Run A(1600 iter)/Run B(统一字数模板) 出结果后按实测评比替换",
- "switched_at": "2026-11-18T16:29:24"
+ "archive": "~/.fluxgroup/lora-archive/20261119-040930-craft_learner",
+ "switched_at": "2026-11-19T11:00:00"
 }

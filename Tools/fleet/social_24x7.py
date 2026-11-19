@@ -270,6 +270,38 @@ def mark_reject(st, seg, rows):
     return cur
 
 
+def materialize_best(run, seg=""):
+    """把 mlx 产出的 adapter/ 整理成切换口径要的 best/，并归档一份到仓外磁盘。
+
+    2026-11-19 实锚：训练产出 `RUNS/<run>/adapter/adapters.safetensors`，而切换代码
+    要 `RUNS/<run>/best` → 06:02 报"适配器不存在"、切换失败、ACTIVE 没更新；
+    同时 8788 重启时按"最新一轮"自己挂上了这个**未验收**的候选，线上就这么漂了。
+    另：权重不入 git 又会被清理脚本扫走（113014/best 已成空目录），所以必须归档到
+    ~/.fluxgroup/lora-archive（不在仓库、不在清理范围）。
+    """
+    import shutil
+    base = os.path.join(SOCIAL, "train", "RUNS", run)
+    src = os.path.join(base, "adapter")
+    dst = os.path.join(base, "best")
+    if not os.path.exists(os.path.join(src, "adapters.safetensors")):
+        return False
+    if not os.path.exists(os.path.join(dst, "adapters.safetensors")):
+        os.makedirs(dst, exist_ok=True)
+        for f in ("adapters.safetensors", "adapter_config.json"):
+            p = os.path.join(src, f)
+            if os.path.exists(p):
+                shutil.copy2(p, os.path.join(dst, f))
+    arch = os.path.join(os.path.expanduser("~"), ".fluxgroup", "lora-archive",
+                        "%s-%s" % (run, seg or "all"))
+    if not os.path.exists(os.path.join(arch, "adapters.safetensors")):
+        os.makedirs(arch, exist_ok=True)
+        for f in ("adapters.safetensors", "adapter_config.json"):
+            p = os.path.join(dst, f)
+            if os.path.exists(p):
+                shutil.copy2(p, os.path.join(arch, f))
+    return True
+
+
 def gate_segments(ready, st, growth=REJECT_NEED_GROWTH):
     """同段重训闸。返回 (允许训的段, 被拦下的 [(段, 可读理由)])。
 
@@ -329,6 +361,7 @@ def one_cycle(st, dry=False):
         rc, o, run = do_train(ds)
         if rc != 0 or not run:
             return "FAIL", "训练失败（段 %s）：%s" % (seg, o[-160:])
+        materialize_best(run)                    # mlx 产出 adapter/，切换口径要 best/
         bad = chain_selftest()
         if bad:
             return "FAIL", "链路自检红，拒绝上线候选：%s" % "、".join(bad)
