@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-19T00:03:52+0800",
+ "ts": "2026-11-19T13:18:01+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -27,8 +27,8 @@
    "accept": "SUBMIT-PACK 里『隐私政策』『提审台账』两类缺件归零",
    "blocker_type": "CEO",
    "blocker": "截图需跑游戏取图，受 2026-10-28『不许自动跑游戏包』令约束，等放行",
-   "state": "QUEUED",
-   "card": "R-NEXT-BIGGAME-SUBMIT-P-20261119",
+   "state": "STALLED",
+   "card": null,
    "running_on": null
   },
   {
@@ -42,8 +42,8 @@
    "accept": "quant_signal 回执 rc=0 且 CSV 含因子值与输入指纹",
    "blocker_type": "ENGINE",
    "blocker": "回测产物需在 bm-b 本地生成；主控无 quant 仓",
-   "state": "QUEUED",
-   "card": "R-PLAN-BIGMONEY-20261119",
+   "state": "STALLED",
+   "card": null,
    "running_on": null
   },
   {
@@ -57,8 +57,8 @@
    "accept": "发布台账有回执行；或 CEO 给出重剪清单",
    "blocker_type": "ENGINE",
    "blocker": "发布决定权在 CEO，但工程侧可先做下一首立意案",
-   "state": "QUEUED",
-   "card": "R-NEXT-BIGSTREAMM-REBUILD-20261119",
+   "state": "STALLED",
+   "card": null,
    "running_on": null
   },
   {
@@ -72,8 +72,8 @@
    "accept": "drama_quality_gate PASS 且角色跨镜一致",
    "blocker_type": "CEO",
    "blocker": "CEO 令暂停（先铺资产库/MV/游戏/城市）",
-   "state": "QUEUED",
-   "card": "R-NEXT-BIGSTREAMD-EVIDENCE-20261119",
+   "state": "STALLED",
+   "card": null,
    "running_on": null
   },
   {
@@ -117,8 +117,8 @@
    "accept": "投影文件每日刷新；受阻面写明触发条件",
    "blocker_type": "ENGINE",
    "blocker": "四仓不在本机，需在对应机器生成投影",
-   "state": "QUEUED",
-   "card": "R-NEXT-FLUXVERSE-CITY-STA-20261119",
+   "state": "STALLED",
+   "card": null,
    "running_on": null
   },
   {
@@ -132,8 +132,8 @@
    "accept": "页面文件在盘且本地可打开；支付位标明待接",
    "blocker_type": "CEO",
    "blocker": "商户号/支付资质未签（物理件）",
-   "state": "QUEUED",
-   "card": "R-PLAN-BIGDOMAIN-20261119",
+   "state": "STALLED",
+   "card": null,
    "running_on": null
   },
   {
@@ -147,8 +147,8 @@
    "accept": "该节点有心跳、能领卡、1 张真卡产出产物",
    "blocker_type": "CEO",
    "blocker": "机器未接线/未装系统，需人到现场",
-   "state": "QUEUED",
-   "card": "R-PLAN-BIGCOMPUTE-20261119",
+   "state": "STALLED",
+   "card": null,
    "running_on": null
   },
   {
@@ -162,8 +162,8 @@
    "accept": "回执含 20 条事件，每条对应真实事件流记录",
    "blocker_type": "ENGINE",
    "blocker": "城市仓不在本机",
-   "state": "QUEUED",
-   "card": "R-PLAN-BIGLIFE-20261119",
+   "state": "STALLED",
+   "card": null,
    "running_on": null
   },
   {
@@ -223,14 +223,14 @@
    "blocker_type": "ENGINE",
    "blocker": "I2 存量 125 条卡面路径债、vault 缺盘 651 条",
    "state": "QUEUED",
-   "card": "PROBE-AUTO-bm-b-20261119",
+   "card": "CANARY-20261119T131801",
    "running_on": null
   }
  ],
  "counts": {
   "RUNNING": 0,
-  "QUEUED": 11,
-  "STALLED": 4
+  "QUEUED": 3,
+  "STALLED": 12
  },
- "stalled_engine": 1
+ "stalled_engine": 5
 }
