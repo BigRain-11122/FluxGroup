@@ -43,3 +43,5 @@
 {"action": "skip", "why": "asleep", "ts": "2026-11-19T17:05:56"}
 {"action": "skip", "why": "asleep", "ts": "2026-11-19T17:25:56"}
 {"action": "post", "arm": "C", "form": "短句顶级评论", "video": "https://www.bilibili.com/video/BV15DSrBPENA/", "aid": 115642615269782, "root": 0, "text": "这教程干货满满，照着剪肯定有氛围感。", "rpid": "324478326528", "code": 0, "toast": "OK", "ok": true, "gates": {"safe_to_send": [true, ""], "gen_gate": [true, ""], "taste": 80, "verdict": "PASS"}, "cap": "今日 3/8 条，间隔 OK", "ts": "2026-11-19T17:48:04"}
+{"action": "verify", "arm": "C", "aid": 115642615269782, "rpid": "324478326528", "root": 0, "visible": false, "why": "300s 内评论区查不到（多为送审/静默）", "verdict": "待审核-保留", "ts": "2026-11-19T17:53:07"}
+{"action": "lane", "lane": "lora", "serving": "base", "rpid": "324478326528", "arm": "C", "persona": "craft_learner", "ts": "2026-11-19T17:53:07"}
