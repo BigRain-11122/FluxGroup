@@ -59,10 +59,14 @@ def score_texts(texts, seg=None):
     import comment_taste as ct
     per = [ct.score(t, seg=seg) for t in texts]
     n = len(per) or 1
+    # 人味（human）必须单列：总分可以被语感和格式刷上去，人味掉了才是真退步
+    # （CEO 2026-11-19「要有人味」）。有了它，循环才敢按"人味不许退"当判据。
     return {"n": len(per),
             "avg": round(sum(s["total"] for s in per) / n, 1),
             "pass_rate": round(100.0 * sum(1 for s in per if s["verdict"] == "PASS") / n),
             "avg_logic": round(sum(s["logic"] for s in per) / n, 1),
+            "avg_human": round(sum(s["human"] for s in per) / n, 1),
+            "avg_natural": round(sum(s["natural"] for s in per) / n, 1),
             "reject": sum(1 for s in per if s["verdict"] == "REJECT")}
 
 

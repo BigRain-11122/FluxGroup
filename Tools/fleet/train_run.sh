@@ -55,6 +55,11 @@ LANE_OK="/Users/junsheng.sun/FluxGroup/.codely-cli/state/TRAIN-LANE-OK"
 cp "$LANE_OK" "$LANE_OK.trainbak" 2>/dev/null || true
 echo "qwen3.5:4b-mlx" > "$LANE_OK"
 echo "$(date '+%Y-%m-%dT%H:%M:%S') $$" > "$SENT"
+# 哨兵只是"意图"，清扫器才是"执行"。2026-11-19 实锚：TRAIN-LANE-OK 写着只留 4B，
+# 但 com.fluxgroup.trainlock 是 RunAtLoad 一次性任务，从没被踢起过——2B 4B 9B
+# 照样驻留 7GB，训练被挤到只剩 77MB 空闲。这里必须显式拉起。
+launchctl kickstart -k "gui/$UID_N/com.fluxgroup.trainlock" >/dev/null 2>&1 \
+  && echo "[train] 独占清扫器已拉起 $(date '+%H:%M:%S')"
 # 哨兵：训练期间别的组件不许再往 ollama 装模型。2026-11-18 实锚——训练跑到一半，
 # 机队别处把 9B(9GB)+4B(5GB) 装了回来，训练进程 rss 从 3.9GB 被换出到 0.43GB，
 # 9 分钟没落一个 checkpoint。事后清理不够，必须在调用方就先挡住。
