@@ -2,8 +2,8 @@
 
 | 节点 | 在线 | 能力 | 本地模型 | 心跳 | 在办 |
 |---|---|---|---|---|---|
-| bm-a | 是 | cpu,kf768,i2v768,audio,assemble,llm | - | 142s | R-NEXT-BIGSTREAMM-REBUILD-20261119 |
-| bm-b | 否 | cpu,animatic480,audio,tts,llm | - | 63083s | - |
-| bm-c | 否 | cpu,kf768,i2v768,audio,render,llm | - | 64522s | - |
+| bm-a | 是 | cpu,kf768,i2v768,audio,assemble,llm | - | 53s | - |
+| bm-b | 否 | cpu,animatic480,audio,tts,llm | - | 2501s | - |
+| bm-c | 否 | cpu,kf768,i2v768,audio,render,llm | - | 2501s | - |
 | bm-m | 是 | cpu,ios-build,text,llm,audio,tts | qwen2.5:0.5b,qwen3:8b,qwen3:4b,qwen3.5:2b,qwen3.5:4b,qwen3.5:9b-mlx,qwen3-embedding:0.6b,qwen3.5:4b-mlx | 0s | - |
-| bm-d | 否 | cpu,kf768,i2v768,backtest,brain,llm | - | 1130404s | - |
+| bm-d | 否 | cpu,kf768,i2v768,backtest,brain,llm | - | 1133550s | - |

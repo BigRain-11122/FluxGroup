@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-19T19:48:19+0800",
+ "ts": "2026-11-19T20:51:14+0800",
  "businesses": [
   {
    "id": "asset-lib",
@@ -57,8 +57,8 @@
    "accept": "发布台账有回执行；或 CEO 给出重剪清单",
    "blocker_type": "ENGINE",
    "blocker": "发布决定权在 CEO，但工程侧可先做下一首立意案",
-   "state": "QUEUED",
-   "card": "R-NEXT-BIGSTREAMM-REBUILD-20261119",
+   "state": "STALLED",
+   "card": null,
    "running_on": null
   },
   {
@@ -222,8 +222,8 @@
    "accept": "flux_check new=0；AUTOMATION-SURFACE 无 RISK 项",
    "blocker_type": "ENGINE",
    "blocker": "I2 存量 125 条卡面路径债、vault 缺盘 651 条",
-   "state": "STALLED",
-   "card": null,
+   "state": "QUEUED",
+   "card": "CANARY-20261119T205114",
    "running_on": null
   }
  ],
