@@ -266,6 +266,53 @@ def collect(url, platform, limit=200, min_n=20, scrolls=8, headed=False):
                 pass
 
 
+def discover_public(keyword, limit=8, headed=False):
+    """按关键词找公开视频，把 URL 写进 SOURCES（按人群缺口定向采料的入口）。
+
+    2026-11-19 复原：这个函数在 11-16 的 collect 重写里被删了，于是"按人群缺口定向
+    找视频"这条路断了，只能反复采同几个源（段位覆盖停在 8/14）。关键词→人群的映射
+    放在 segment_fill.py，本函数只负责"关键词→URL→SOURCES"。
+    """
+    from playwright.sync_api import sync_playwright
+    import urllib.parse
+    q = urllib.parse.quote(keyword)
+    urls = []
+    with sync_playwright() as p:
+        ctx = _launch(p, headed=headed, platform="bilibili")
+        try:
+            pg = ctx.pages[0] if ctx.pages else ctx.new_page()
+            pg.goto("https://search.bilibili.com/all?keyword=%s" % q,
+                    wait_until="domcontentloaded", timeout=60000)
+            time.sleep(5)
+            for _ in range(4):
+                got = pg.eval_on_selector_all("a[href*='/video/BV']",
+                                              "els=>[...new Set(els.map(e=>e.href))]")
+                urls = got if len(got) > len(urls) else urls
+                pg.mouse.wheel(0, 1800)
+                time.sleep(2)
+        finally:
+            try:
+                ctx.close()
+            except Exception:
+                pass
+    urls = [u.split("?")[0] for u in urls][:limit]
+    if not urls:
+        return None, "搜索没拿到视频链接（可能触发风控）"
+    path = os.path.join(SOCIAL, "SOURCES-v1.json")
+    cfg = json.load(open(path, encoding="utf-8")) if os.path.exists(path) else {"platforms": {}}
+    node = cfg.setdefault("platforms", {}).setdefault("bilibili", {})
+    old = [u for u in (node.get("urls") or []) if u]
+    merged = list(dict.fromkeys(old + urls))
+    # 2026-11-19 实锚：原 `[:80]` 保留的是**最旧**的 80 条，于是补采到的新源永远被截掉
+    # （日志写"新增 16 个源"，SOURCES 却一直 80 条、一个新 URL 都没进来）。改保留最新、上限 120。
+    merged = merged[-120:]
+    node["urls"] = merged
+    node["enabled"] = True
+    node["public_keywords"] = list(dict.fromkeys((node.get("public_keywords") or []) + [keyword]))
+    json.dump(cfg, open(path, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+    return urls, ""
+
+
 def discover(platform, limit=5, headed=False):
     """登录态下自动发现"自己的作品页"，写进 SOURCES-v1.json。
 
@@ -342,10 +389,22 @@ def main():
     ap.add_argument("--headed", action="store_true")
     ap.add_argument("--out", default=RAW)
     ap.add_argument("--discover", default=None, help="登录态下自动发现自己的作品页（bilibili）")
+    ap.add_argument("--discover-public", default=None,
+                    help="按关键词发现公开视频并写进 SOURCES（定向补人群缺口用）")
     ap.add_argument("--self-test", action="store_true")
     a = ap.parse_args()
     if a.self_test:
         return self_test()
+    if a.discover_public:
+        urls, why = discover_public(a.discover_public, limit=8, headed=a.headed)
+        if urls is None:
+            print("[collect] 关键词发现失败：%s" % why)
+            return 3
+        print("[collect] 关键词「%s」发现 %d 个公开视频，已并入 SOURCES" % (a.discover_public, len(urls)))
+        for u in urls[:5]:
+            print("  -", u)
+        return 0
+
     if a.discover:
         urls, why = discover(a.discover, limit=5, headed=a.headed)
         if urls is None:
