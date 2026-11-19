@@ -60,6 +60,11 @@ def run_arm(seg, min_human, iters, tag):
         return {"arm": tag, "verdict": "BUILD-FAIL", "why": o[-200:]}
     m = re.search(r"train\.jsonl (\d+) 条", o)
     built = int(m.group(1)) if m else 0
+    # 2026-11-19 实锚：数据集目录曾被机队 clean 扫掉，训练器启动即 "缺 train.jsonl"
+    # 而 rc=1 里看不出原因（连 train.log 都没建）。落盘后必须自己验一遍。
+    for need in ("train.jsonl", "valid.jsonl"):
+        if not os.path.exists(os.path.join(ds, need)):
+            return {"arm": tag, "verdict": "DATASET-MISSING", "why": "%s 缺 %s" % (ds, need)}
     t0 = time.time()
     rc, o2 = sh([TRAIN_PY, "-u", os.path.join(HERE, "train_lora.py"),
                  "--data", ds, "--iters", str(iters), "--num-layers", "16",
