@@ -7,22 +7,6 @@
     "bilibili": {
       "enabled": true,
       "urls": [
-        "https://www.bilibili.com/video/BV19d4y1s7yt/",
-        "https://www.bilibili.com/video/BV1gVpR6aEFH/",
-        "https://www.bilibili.com/video/BV124411B7SW/",
-        "https://www.bilibili.com/video/BV1wMkLBHEhn/",
-        "https://www.bilibili.com/video/BV1Nb421H77B/",
-        "https://www.bilibili.com/video/BV1FFRQB2Eqw/",
-        "https://www.bilibili.com/video/BV1XFpCzSEkc/",
-        "https://www.bilibili.com/video/BV1BDk2YCEHF/",
-        "https://www.bilibili.com/video/BV1hgzQYvEv9/",
-        "https://www.bilibili.com/video/BV1sf4y1X7AD/",
-        "https://www.bilibili.com/video/BV134516pEZe/",
-        "https://www.bilibili.com/video/BV1bR4y1M7Ts/",
-        "https://www.bilibili.com/video/BV1FPuh65Eua/",
-        "https://www.bilibili.com/video/BV1BxWu6SESe/",
-        "https://www.bilibili.com/video/BV1tR6yYLEGK/",
-        "https://www.bilibili.com/video/BV1jh41177KQ/",
         "https://www.bilibili.com/video/BV1U6RSYcELN/",
         "https://www.bilibili.com/video/BV1RQYe63EFf/",
         "https://www.bilibili.com/video/BV17NtG6iEd1/",
@@ -126,7 +110,23 @@
         "https://www.bilibili.com/video/BV1LYsS6cEji/",
         "https://www.bilibili.com/video/BV1zJsV6PEmG/",
         "https://www.bilibili.com/video/BV1w7411b7nQ/",
-        "https://www.bilibili.com/video/BV1ZonE6BEHm/"
+        "https://www.bilibili.com/video/BV1ZonE6BEHm/",
+        "https://www.bilibili.com/video/BV1H5aP6wEE5/",
+        "https://www.bilibili.com/video/BV1gdTZ6iEdQ/",
+        "https://www.bilibili.com/video/BV1MRWi61Eye/",
+        "https://www.bilibili.com/video/BV1fy411v7AJ/",
+        "https://www.bilibili.com/video/BV1kg4y1J7a7/",
+        "https://www.bilibili.com/video/BV1Nb421H77B/",
+        "https://www.bilibili.com/video/BV1ypnJ6DEew/",
+        "https://www.bilibili.com/video/BV16iGi6qEMw/",
+        "https://www.bilibili.com/video/BV1PM41157bN/",
+        "https://www.bilibili.com/video/BV1wybszhE4G/",
+        "https://www.bilibili.com/video/BV1VXbcetEqZ/",
+        "https://www.bilibili.com/video/BV1PiHn6REPk/",
+        "https://www.bilibili.com/video/BV1p5WT6JEwE/",
+        "https://www.bilibili.com/video/BV1tBmxBuE56/",
+        "https://www.bilibili.com/video/BV1uEkJYDEp5/",
+        "https://www.bilibili.com/video/BV134516pEZe/"
       ],
       "need_login": true,
       "note": "评论区不登录不渲染（2026-11-17 实测），必须先 --login bilibili 存登录态；urls 填你自己的视频页或你要学的对标视频页",
@@ -148,7 +148,8 @@
         "求剪辑素材分享",
         "带娃日常记录",
         "剪輯教學 台灣",
-        "一家人生活记录视频"
+        "一家人生活记录视频",
+        "剪得太乱 吐槽"
       ]
     },
     "douyin": {

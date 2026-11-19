@@ -105,19 +105,43 @@ def mem_conflict(task, running_mem=None):
 
 
 def run_task(task, timeout=BUDGET_S):
+    """跑一个任务，并把"被挡住"与"失败"分开。
+
+    2026-11-19 实锚：sweep 因学习循环占用 profile 返回 rc=2，而它的周期是 24h，
+    于是板子上挂了一整天的红——一次瞬时冲突被当成硬故障。
+    所以矩阵里的 on_fail 必须机读：blocked_rc=被让路（不是故障，可下轮再来），
+    retry=当场重试几次（短冲突不必等下一个周期）。
+    """
     t0 = time.time()
-    argv = list(task["cmd"])
-    if argv and argv[0] == "python3":
-        argv[0] = sys.executable
-    try:
-        r = subprocess.run(argv, cwd=ROOT, capture_output=True, text=True, timeout=timeout)
-        rc, tail = r.returncode, ((r.stdout or "") + (r.stderr or "")).strip().splitlines()
-        note = tail[-1][:180] if tail else ""
-    except subprocess.TimeoutExpired:
-        rc, note = 124, "TIMEOUT %ds" % timeout
-    except Exception as e:
-        rc, note = 1, "ERR %s" % str(e)[:120]
-    return {"rc": rc, "note": note, "secs": round(time.time() - t0, 1)}
+    retry = task.get("retry") or {}
+    max_attempts = max(1, int(retry.get("max_attempts", 1)))
+    backoff = float(retry.get("backoff_s", 0))
+    argv0 = list(task["cmd"])
+    if argv0 and argv0[0] == "python3":
+        argv0[0] = sys.executable
+    blocked = set(task.get("blocked_rc") or [])
+    note, rc, attempts = "", 1, 0
+    for i in range(max_attempts):
+        attempts = i + 1
+        try:
+            r = subprocess.run(argv0, cwd=ROOT, capture_output=True, text=True, timeout=timeout)
+            rc = r.returncode
+            tail = ((r.stdout or "") + (r.stderr or "")).strip().splitlines()
+            note = tail[-1][:180] if tail else ""
+        except subprocess.TimeoutExpired:
+            rc, note = 124, "TIMEOUT %ds" % timeout
+        except Exception as e:
+            rc, note = 1, "ERR %s" % str(e)[:120]
+        if rc in blocked:
+            # 被让路：不再空转重试，交回调度器下轮再来
+            return {"rc": rc, "note": "BLOCKED %s" % note, "secs": round(time.time() - t0, 1),
+                    "attempts": attempts, "blocked": True}
+        if rc == 0 or i == max_attempts - 1:
+            break
+        if backoff:
+            time.sleep(backoff)
+    return {"rc": rc, "note": note, "secs": round(time.time() - t0, 1),
+            "attempts": attempts, "blocked": False}
 
 
 def evidence_facts(task):

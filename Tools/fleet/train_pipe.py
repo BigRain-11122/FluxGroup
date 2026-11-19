@@ -18,6 +18,7 @@
 import argparse
 import json
 import os
+import re
 import subprocess
 import sys
 import time
@@ -80,11 +81,30 @@ def self_test():
 
 
 def latest_run():
+    """最新一轮**真的有适配器**的训练。
+
+    2026-11-19 实锚：RUNS/ 里混着 CMP-<HHMMSS>-<iters> 这类对拍临时目录，
+    按字符串排序时 "CMP-" 排在 "2026..." 之后 → 恒选到 CMP-，再去它的 adapter
+    必然不存在；而对拍失败后管道仍打印"全流程完成"（假绿）。
+    所以只认 <日期-时间> 命名的目录，且 adapter/best 至少存在一个，按权重 mtime 取最新。
+    """
     d = os.path.join(TRAIN, "RUNS")
     if not os.path.isdir(d):
         return None
-    runs = sorted(x for x in os.listdir(d) if os.path.isdir(os.path.join(d, x)))
-    return runs[-1] if runs else None
+    best = None
+    for name in os.listdir(d):
+        p = os.path.join(d, name)
+        if not os.path.isdir(p) or not re.match(r"^\d{8}-\d{6}$", name):
+            continue
+        files = [os.path.join(p, "adapter", "adapters.safetensors"),
+                 os.path.join(p, "best", "adapters.safetensors")]
+        have = [f for f in files if os.path.exists(f)]
+        if not have:
+            continue
+        ts = max(os.path.getmtime(f) for f in have)
+        if best is None or ts > best[1]:
+            best = (name, ts)
+    return best[0] if best else None
 
 
 def main():
@@ -170,11 +190,20 @@ def main():
 
     # 对拍 + 盲评表（用最终权重；选点结论已在 EVAL.json 里）
     adir = os.path.join(TRAIN, "RUNS", run_ts, "adapter")
+    if not os.path.exists(os.path.join(adir, "adapters.safetensors")):
+        adir = os.path.join(TRAIN, "RUNS", run_ts, "best")
     rc, _ = run([PY, os.path.join(HERE, "train_sample.py"), "--adapter", adir,
                  "--n", str(a.samples)], "基座 vs LoRA 对拍")
-    if rc == 0:
-        run([PY, os.path.join(HERE, "blind_ab.py"),
-             "--ab", os.path.join(TRAIN, "RUNS", run_ts, "AB.jsonl")], "盲评表")
+    if rc != 0:
+        # 对拍没跑成就不许说"全流程完成"：2026-11-19 实锚，adapter 路径不存在时
+        # 这里仍打印完成，账面像出了盲评表，实际一行样本都没有。
+        print("\n[pipe] 对拍失败（adapter=%s），不出盲评表。" % adir)
+        log["verdict"] = "FAILED_COMPARE"
+        json.dump(log, open(os.path.join(TRAIN, "RUNS", run_ts, "PIPELINE.json"), "w",
+                            encoding="utf-8"), ensure_ascii=False, indent=1)
+        return 1
+    run([PY, os.path.join(HERE, "blind_ab.py"),
+         "--ab", os.path.join(TRAIN, "RUNS", run_ts, "AB.jsonl")], "盲评表")
     log["verdict"] = "PENDING_HUMAN_BLIND"
     json.dump(log, open(os.path.join(TRAIN, "RUNS", run_ts, "PIPELINE.json"), "w",
                         encoding="utf-8"), ensure_ascii=False, indent=1)

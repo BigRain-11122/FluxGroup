@@ -49,3 +49,5 @@
 {"action": "post", "arm": "C", "form": "短句顶级评论", "video": "https://www.bilibili.com/video/BV1Vm4y1N7x3/", "aid": 703513418, "root": 0, "text": "发烧时剪辑真帅，字体藏在黑屏里。", "rpid": "324483135440", "code": 0, "toast": "OK", "ok": true, "gates": {"safe_to_send": [true, ""], "gen_gate": [true, ""], "taste": 80, "verdict": "PASS"}, "cap": "今日 4/8 条，间隔 OK", "ts": "2026-11-19T18:36:37"}
 {"action": "verify", "arm": "C", "aid": 703513418, "rpid": "324483135440", "root": 0, "visible": false, "why": "300s 内评论区查不到（多为送审/静默）", "verdict": "待审核-保留", "ts": "2026-11-19T18:41:39"}
 {"action": "lane", "lane": "lora", "serving": "base", "rpid": "324483135440", "arm": "C", "persona": "craft_learner", "ts": "2026-11-19T18:41:39"}
+{"action": "skip", "why": "no text passed gates", "arm": "A", "video": "https://www.bilibili.com/video/BV1LS4y1b7G5/", "ts": "2026-11-19T19:02:05"}
+{"action": "skip", "why": "no text passed gates", "arm": "A", "video": "https://www.bilibili.com/video/BV1GM4m1k7pd/", "ts": "2026-11-19T19:22:16"}

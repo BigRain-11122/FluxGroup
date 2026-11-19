@@ -1,7 +1,7 @@
-# 堵/坏/卡点闭环 2026-11-19T18:17:52
+# 堵/坏/卡点闭环 2026-11-19T19:35:38
 
 分类表：`cph4/fleet/BLOCKER-TAXONOMY-v1.json`（每类四件套：判据/解法/周期/升级轮次）。
-本轮命中 8 项 · 已解 8 · 待升级 0 · 未到周期跳过 3 类
+本轮命中 8 项 · 已解 8 · 待升级 0 · 未到周期跳过 7 类
 
 ## DECL-UNDISPATCHED（2）
 
@@ -14,8 +14,8 @@
 
 ## QUEUE-DRIFT（3）
 
-- `R-PLAN-BIGDOMAIN-20261119` 队列=CANCELLED 备队列=READY ✅对齐 3 行
 - `R-PLAN-BIGCOMPUTE-20261119` 队列=CANCELLED 备队列=READY ✅对齐 3 行
+- `R-PLAN-BIGDOMAIN-20261119` 队列=CANCELLED 备队列=READY ✅对齐 3 行
 - `R-NEXT-BIGSTREAMM-REBUILD-20261119` 队列=UNVERIFIED 备队列=READY ✅对齐 3 行
 
 ## ARTIFACT-MISSING（1）

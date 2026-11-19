@@ -1,18 +1,18 @@
-# 养号线智能体监控（2026-11-19T18:08:52）
+# 养号线智能体监控（2026-11-19T19:41:30）
 
 整体：**RED**
 
-| 任务 | 周期 | 状态 | 说明 |
-|---|---|---|---|
-| threads_tick | 0.5h | STALE | 产出已 47.7h 未更新（周期 0.5h） |
-| learn_cycle | 0.7h | OK | 产出 0.5h 前更新 · LEARNING-LEDGER.jsonl=160行 |
-| audit_surface | 12.0h | OK | 产出 11.4h 前更新 · SURFACE-REPORT.md=111行 |
-| corpus_refresh | 12.0h | OK | 产出 11.6h 前更新 · 无行数 |
-| taste_filter | 12.0h | OK | 产出 11.4h 前更新 · QUALITY-PASS.jsonl=5179行 |
-| segment_report | 12.0h | OK | 产出 11.4h 前更新 · QUALITY-PASS.jsonl=5179行 |
-| sweep_targeted | 24.0h | FAIL | 上次 rc=2（允许 [0]）[sweep] 学习循环还在跑（pid 42303）。先停：launchctl bootout gu |
-| train_weekly | 168.0h | FAIL | 上次 rc=1（允许 [0, 2]）[pipe] 训练失败，停止。 |
-| monitor_board | 1.0h | FAIL | 上次 rc=2（允许 [0, 1]）[mon] → cph4/fleet/social/SOCIAL-AGENT-BOARD.md |
+| 任务 | 负责人 | 周期 | 状态 | 说明 |
+|---|---|---|---|---|
+| threads_tick | 养号席·会话 | 0.5h | OK | 事件驱动：本次 0 条待处理（产出 49.3h 未涨属正常） |
+| learn_cycle | 养号席·采集 | 0.7h | OK | 产出 0.1h 前更新 · LEARNING-LEDGER.jsonl=163行 |
+| audit_surface | 养号席·体检 | 12.0h | OK | 产出 0.9h 前更新 · SURFACE-REPORT.md=103行 |
+| corpus_refresh | 语料席 | 12.0h | OK | 产出 1.5h 前更新 · 无行数 |
+| taste_filter | 语料席 | 12.0h | OK | 产出 0.9h 前更新 · QUALITY-PASS.jsonl=5180行 |
+| segment_report | 语料席 | 12.0h | OK | 产出 0.9h 前更新 · QUALITY-PASS.jsonl=5180行 |
+| sweep_targeted | 养号席·补采 | 24.0h | FAIL | 上次 rc=2（允许 [0, 3]）[sweep] 学习循环还在跑（pid 42303）。先停：launchctl bootout gu |
+| train_weekly | 训练席 | 168.0h | FAIL | 上次 rc=1（允许 [0, 2, 3]）[pipe] 训练失败，停止。 |
+| monitor_board | 主控·监控席 | 1.0h | OK | 产出 0.5h 前更新 · SOCIAL-AGENT-BOARD.md=75行 |
 
 ## 机队事实
 
@@ -59,13 +59,9 @@
    "pid": "29869",
    "exit": "-15"
   },
-  "com.fluxgroup.trainrun": {
-   "pid": "-",
-   "exit": "0"
-  },
   "com.fluxgroup.mlxlora": {
-   "pid": "24297",
-   "exit": "-15"
+   "pid": "72075",
+   "exit": "0"
   },
   "com.fluxgroup.trainlock": {
    "pid": "-",

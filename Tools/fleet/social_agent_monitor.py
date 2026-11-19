@@ -64,6 +64,17 @@ def judge(task, state, now):
     if age is None:
         return "NEVER", "从未跑过"
     # 正常退出码可能不是 0（审计有未决=1、训练门未过=2）；未声明 ok_rc 才只认 0
+    blocked_rc = task.get("blocked_rc") or []
+    if rec.get("rc") is not None and rec["rc"] in blocked_rc:
+        # 被让路（同 profile 被占、训练在跑）不是故障；但如果产出真的老了，
+        # 下面的证据龄期仍会把它判 STALE——BLOCKED 不许变成长期免死金牌。
+        ev0 = rec.get("evidence") or {}
+        if ev0:
+            oldest0 = max(v.get("mtime", 0) for v in ev0.values())
+            if now - oldest0 > every * 3:
+                return "STALE", "连续被让路且产出已 %.1fh 未更新（周期 %.1fh）" % (
+                    (now - oldest0) / 3600.0, every / 3600.0)
+        return "BLOCKED", "被让路（rc=%s）%s" % (rec["rc"], (rec.get("note") or "")[:50])
     ok_rc = task.get("ok_rc") or [0]
     if rec.get("rc") is not None and rec["rc"] not in ok_rc:
         return "FAIL", "上次 rc=%s（允许 %s）%s" % (rec["rc"], ok_rc,
@@ -76,6 +87,11 @@ def judge(task, state, now):
         return "OK_NO_EVIDENCE", "跑了但没有可核验产出"
     oldest = max(v.get("mtime", 0) for v in ev.values())
     prod_age = now - oldest
+    # 事件驱动任务（会话结算这类）：没有事件就不该有新行，产出文件不涨不算红。
+    # 判据换成"跑了且 rc 正常"，并在说明里写清本次事件数，别拿心跳冒充产出。
+    if task.get("event_driven") and rec.get("rc") == 0:
+        return "OK", "事件驱动：本次 0 条待处理（产出 %.1fh 未涨属正常）" % (
+            prod_age / 3600.0)
     if prod_age > every * 2:
         return "STALE", "产出已 %.1fh 未更新（周期 %.1fh）" % (prod_age / 3600.0, every / 3600.0)
     return "OK", "产出 %.1fh 前更新 · %s" % (
@@ -111,6 +127,7 @@ def build(matrix, state, now=None):
     for t in matrix["tasks"]:
         st, detail = judge(t, state, now)
         rows.append({"id": t["id"], "status": st, "detail": detail,
+                     "owner": t.get("owner") or "未指派",
                      "every_h": round(t.get("every_s", 0) / 3600.0, 1),
                      "what": t.get("what", "")[:40]})
     return rows
@@ -118,7 +135,7 @@ def build(matrix, state, now=None):
 
 def level(rows):
     bad = [r for r in rows if r["status"] in ("STALE", "FAIL")]
-    warn = [r for r in rows if r["status"] in ("MISSED", "NEVER", "OK_NO_EVIDENCE")]
+    warn = [r for r in rows if r["status"] in ("MISSED", "NEVER", "OK_NO_EVIDENCE", "BLOCKED")]
     if bad:
         return 2
     if warn:
@@ -159,7 +176,7 @@ def main():
         return rc
 
     icon = {"OK": "✓", "MISSED": "○", "NEVER": "·", "STALE": "!", "FAIL": "✗",
-            "OK_NO_EVIDENCE": "?"}
+            "OK_NO_EVIDENCE": "?", "BLOCKED": "~"}
     print("[mon] 养号线循环任务 %d 个 · 整体 %s%s"
           % (len(rows), {0: "GREEN", 1: "AMBER", 2: "RED"}[rc],
              "（已让路暂停）" if paused else ""))
@@ -174,9 +191,13 @@ def main():
         f.write("# 养号线智能体监控（%s）\n\n" % payload["ts"])
         f.write("整体：**%s**%s\n\n" % ({0: "GREEN", 1: "AMBER", 2: "RED"}[rc],
                                        "（已让路暂停）" if paused else ""))
-        f.write("| 任务 | 周期 | 状态 | 说明 |\n|---|---|---|---|\n")
+        f.write("| 任务 | 负责人 | 周期 | 状态 | 说明 |\n|---|---|---|---|---|\n")
         for r in rows:
-            f.write("| %s | %sh | %s | %s |\n" % (r["id"], r["every_h"], r["status"], r["detail"]))
+            f.write("| %s | %s | %sh | %s | %s |\n" % (
+                r["id"], r["owner"], r["every_h"], r["status"], r["detail"]))
+        nobody = [r["id"] for r in rows if r["owner"] == "未指派"]
+        if nobody:
+            f.write("\n> 未指派负责人（判负）：%s\n" % "、".join(nobody))
         f.write("\n## 机队事实\n\n```\n%s\n```\n" % json.dumps(fleet, ensure_ascii=False, indent=1))
         if gaps:
             f.write("\n## 面审计未决（%d）\n\n" % len(gaps))

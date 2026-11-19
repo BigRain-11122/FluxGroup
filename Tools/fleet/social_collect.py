@@ -126,6 +126,49 @@ SELECTORS = {
 }
 
 
+def _acquire_profile_lock(prof, wait_s=None, poll=5.0):
+    """同一 profile 只能一个进程用，后来者排队等，不是直接失败。
+
+    2026-11-19 实锚：守护进程与手动运行撞同一个 profile，输的一方只打印
+    "两个 profile 都起不来（可能被别的浏览器进程占用）"，看不出是谁占的、也查不出根因；
+    而它每 20 分钟才重试一次，等于一次瞬时冲突丢掉一轮采集。
+    锁文件只记 pid：进程活着＝占用中，进程不在＝残留可接管（不需要手工清理）。
+    """
+    if wait_s is None:
+        wait_s = float(os.environ.get("FLUX_PROFILE_WAIT", "180"))
+    lock = os.path.join(prof, ".flux-collect.lock")
+    t0 = time.time()
+    while True:
+        try:
+            fd = os.open(lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+            os.write(fd, str(os.getpid()).encode())
+            os.close(fd)
+            return lock
+        except FileExistsError:
+            pass
+        holder = ""
+        try:
+            holder = open(lock, encoding="utf-8").read().strip()
+        except Exception:
+            pass
+        alive = False
+        if holder.isdigit():
+            try:
+                os.kill(int(holder), 0)
+                alive = True
+            except Exception:
+                alive = False
+        if not alive:
+            try:
+                os.remove(lock)          # 残留锁：持有者已不在，接管
+            except Exception:
+                pass
+            continue
+        if time.time() - t0 > wait_s:
+            return None
+        time.sleep(poll)
+
+
 def _launch(p, headed=False, platform=None):
     """优先用登录态所在的 browser-profile（评论区要登录才渲染）；
     若被别的进程占用（ProcessSingleton），退回 reader profile 只抓公开内容。
@@ -140,13 +183,25 @@ def _launch(p, headed=False, platform=None):
     if exe:
         base["executable_path"] = exe
     cands = [profile_for(platform)] if platform else [PROFILE_DIR, READER_DIR]
+    errs = []
     for prof in cands:
         try:
             os.makedirs(prof, exist_ok=True)
-            return p.chromium.launch_persistent_context(user_data_dir=prof, **base)
-        except Exception:
+        except Exception as e:
+            errs.append("%s: mkdir %s" % (os.path.basename(prof), str(e)[:60]))
             continue
-    raise SystemExit("两个 profile 都起不来（可能被别的浏览器进程占用）")
+        if _acquire_profile_lock(prof) is None:
+            errs.append("%s: 等锁超时（别的采集进程占着 profile）" % os.path.basename(prof))
+            continue
+        try:
+            return p.chromium.launch_persistent_context(user_data_dir=prof, **base)
+        except Exception as e:
+            # 2026-11-19 实锚：这里原来 `continue` 把异常吞掉，日志只留一句
+            # "可能被别的浏览器进程占用"，排查两小时查不出根因。错误必须带出来。
+            errs.append("%s: %s: %s" % (os.path.basename(prof),
+                                        type(e).__name__, str(e).strip().splitlines()[0][:160]))
+            continue
+    raise SystemExit("profile 起不来 → " + " | ".join(errs))
 
 
 def _clean(s):

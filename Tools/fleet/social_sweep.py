@@ -309,9 +309,11 @@ def main():
         except Exception:
             out = ""
         if out:
-            print("[sweep] 学习循环还在跑（pid %s）。先停：launchctl bootout gui/$(id -u)/com.fluxgroup.sociallearn"
+            # 返回 3 = BLOCKED（被让路），不是失败：同一 profile 两开必失败，
+            # 而采集周期是 24h，用 rc=2 会在板上挂一整天的假红（2026-11-19 实锚）。
+            print("[sweep] BLOCKED 学习循环正在用 profile（pid %s），本轮跳过"
                   % out.replace("\n", ","))
-            return 2
+            return 3
 
     sys.path.insert(0, HERE)
     import social_riskguard as guard
