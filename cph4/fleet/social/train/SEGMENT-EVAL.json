@@ -1,33 +1,37 @@
 {
- "ts": "2026-11-19T19:14:29",
+ "ts": "2026-11-19T20:30:52",
  "base": [
   {
    "n": 3,
-   "avg": 48.0,
-   "pass_rate": 67,
+   "avg": 56.7,
+   "pass_rate": 0,
    "avg_logic": 6.7,
+   "avg_human": 10.0,
+   "avg_natural": 20.0,
    "reject": 0,
-   "seg": "shallow",
+   "seg": "tech_nerd",
    "sample": [
-    "哈哈哈哈这个角度确实有点东西",
-    "这么硬核的评分标准必须支持"
+    "我试过用蓝牙连设备，发现延迟能到 200 毫秒以上，确实很难受。",
+    "你用的解码器有没有开启长脉冲模式？我实测过 2025 款耳放，开启后信噪比提升了 12dB 但功耗增加。"
    ]
   }
  ],
  "lora": [
   {
    "n": 3,
-   "avg": 81.0,
+   "avg": 86.7,
    "pass_rate": 100,
-   "avg_logic": 31.7,
+   "avg_logic": 40.0,
+   "avg_human": 10.0,
+   "avg_natural": 20.0,
    "reject": 0,
-   "seg": "shallow",
+   "seg": "tech_nerd",
    "sample": [
-    "哈哈哈 我听完一首都想要吐 而且我都觉得我吐不出来",
-    "感谢up主，还有这个视频，学到了。"
+    "连分镜都那么粗糙，感觉连摔了镜头都没剪",
+    "有没有各个镜头的特写镜头"
    ]
   }
  ],
  "samples": 3,
- "adapter": "cph4/fleet/social/train/RUNS/20261119-181430/ckpt400"
+ "adapter": "cph4/fleet/social/train/RUNS/20261119-200531/ckpt200"
 }

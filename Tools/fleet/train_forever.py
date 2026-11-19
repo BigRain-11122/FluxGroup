@@ -179,17 +179,42 @@ def val_min_step(run_dir):
     return (i + 1) * step, vals[i]
 
 
+def saved_steps(run_dir):
+    out = []
+    d = os.path.join(run_dir, "adapter")
+    try:
+        for fn in os.listdir(d):
+            m = re.match(r"^0*(\d+)_adapters\.safetensors$", fn)
+            if m:
+                out.append(int(m.group(1)))
+    except Exception:
+        pass
+    return sorted(out)
+
+
 def ckpt_dir(run_dir, step):
-    src = os.path.join(run_dir, "adapter", "%05d_adapters.safetensors" % step)
-    if not os.path.exists(src):
-        return None
-    dst = os.path.join(run_dir, "ckpt%d" % step)
+    """把"val 最低那一步"吸附到真实存在的权重点，并返回 (目录, 实际步数)。
+
+    mlx 每 100 步才落一次权重，而 val 每 50 步一测：最低点可能落在 250 步，
+    但没有 0000250 这个文件。此时必须取最近的已存点（优先更早的那一步），
+    并且把"实际用的是哪一步"写进台账——拿 300 步的权重谎称 250 步就是不诚实。
+    """
+    steps = saved_steps(run_dir)
+    if not steps:
+        return None, None
+    lower = [x for x in steps if x <= int(step)]
+    real = lower[-1] if lower else steps[0]
+    dst = os.path.join(run_dir, "ckpt%d" % real)
     os.makedirs(dst, exist_ok=True)
-    shutil.copy(src, os.path.join(dst, "adapters.safetensors"))
+    src = os.path.join(run_dir, "adapter", "%07d_adapters.safetensors" % real)
+    if not os.path.exists(src):
+        return None, None
+    import shutil as _sh
+    _sh.copy(src, os.path.join(dst, "adapters.safetensors"))
     cfg = os.path.join(run_dir, "adapter", "adapter_config.json")
     if os.path.exists(cfg):
-        shutil.copy(cfg, os.path.join(dst, "adapter_config.json"))
-    return dst
+        _sh.copy(cfg, os.path.join(dst, "adapter_config.json"))
+    return dst, real
 
 
 def board(st, rows, rejects):
@@ -318,7 +343,9 @@ def run_one(a):
     run = os.path.join(RUNS, run_name) if run_name else None
     step, val = val_min_step(run) if run else (None, None)
     print("[loop] 训练完成 %s · val 最低 %s @%s 步" % (os.path.basename(run), val, step), flush=True)
-    ck = ckpt_dir(run, step) if step else None
+    ck, real_step = ckpt_dir(run, step) if step else (None, None)
+    if real_step and step and real_step != step:
+        print("[loop] val 最低在 %s 步，权重实际取最近已存点 %s 步" % (step, real_step))
     base = lora = {}
     if ck:
         rc, out = sh([PY, os.path.join(HERE, "train_eval.py"), "--run", run,
@@ -328,17 +355,35 @@ def run_one(a):
         b = (ev.get("base") or [{}])[0]
         l = (ev.get("lora") or [{}])[0]
         base, lora = b, l
+    if not ck or not base or not lora:
+        # 评测没跑成本身是工具故障，不是"模型不行"：不许写进被否记忆去堵这个段。
+        print("[loop] 评测缺失（ck=%s base=%s lora=%s）→ 记 EVAL-MISSING，不动被否记忆"
+              % (bool(ck), bool(base), bool(lora)))
+        rec = {"ts": now_iso(), "seg": seg, "rows": task["rows"], "built": built,
+               "run": os.path.basename(run), "step": step, "val_min": val,
+               "verdict": "EVAL-MISSING", "why": "找不到 checkpoint 或评测没产出",
+               "adapter": os.path.relpath(ck, ROOT) if ck else None}
+        st["segments"][seg] = dict(st["segments"].get(seg) or {}, last_ts=time.time(),
+                                   last_rc="EVAL-MISSING", run=rec["run"], step=real_step,
+                                   val_min=val)
+        st["runs"].append(rec)
+        _save(LOOP_STATE, st)
+        with open(LEDGER, "a", encoding="utf-8") as f:
+            f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+        board(st, rows, rejects)
+        return 1
     keep, why = judge_keep(base, lora)
     human_delta = round(float(lora.get("avg_human") or 0) - float(base.get("avg_human") or 0), 1)
     rec = {"ts": now_iso(), "seg": seg, "rows": task["rows"], "built": built,
-           "run": os.path.basename(run), "step": step, "val_min": val,
+           "run": os.path.basename(run), "step": real_step, "val_step": step,
+           "val_min": val,
            "base_avg": base.get("avg"), "lora_avg": lora.get("avg"),
            "base_human": base.get("avg_human"), "lora_human": lora.get("avg_human"),
            "human_delta": human_delta, "verdict": "KEEP" if keep else "REJECT",
            "why": why, "adapter": os.path.relpath(ck, ROOT) if ck else None}
     st["segments"][seg] = dict(st["segments"].get(seg) or {}, last_ts=time.time(),
                                last_rc="KEEP" if keep else "REJECT", rows=task["rows"],
-                               run=rec["run"], step=step, val_min=val)
+                               run=rec["run"], step=real_step, val_min=val)
     st["runs"].append(rec)
     _save(LOOP_STATE, st)
     with open(LEDGER, "a", encoding="utf-8") as f:
