@@ -61,7 +61,9 @@ SEG_TARGET = 500          # 供应侧门槛：某段在语料里够多少行才�
 # 不够就继续采集，不许拿小集合硬训出个"像但不对"的嗓。
 SEG_MIN_BUILD = 400
 SEG_MIN_HUMAN = 5
-TRAIN_COOLDOWN_S = 5 * 3600
+# 2026-11-19 从 5h 降到 1h：真正的"别白训"由 gate_segments 的数据增长闸把关（同段被否
+# 就要求语料涨 10%/25%），冷却只需挡住"一分钟内连着训两次"这种抖动。
+TRAIN_COOLDOWN_S = 1 * 3600
 MAX_FAILS = 3
 # 同段重训闸（2026-11-18 实锚：965 行跑到 1600 步 val 见底后又升、E2E 29/43；
 # 2655 行 600 步 E2E 25/43，两次都比现役 35/43 差）。同段被否 2 次后，
@@ -424,6 +426,20 @@ def one_cycle(st, dry=False):
         o2, tot, time.time() - start, note)
 
 
+def compute_line():
+    """算力读数：GPU 吞吐 vs 基准 + CPU 忙闲。空转时要说清是"没活"还是"没榨"。"""
+    try:
+        import compute_meter as cm
+        g = cm.gpu_util()
+        c = cm.cpu_busy()
+        if not g:
+            return "GPU 探针失败；CPU 忙 %s%%" % ("?" if c is None else "%.0f" % c)
+        return "GPU %.0f tok/s（基准 %.0f，%.0f%%）｜ CPU 忙 %.0f%%" % (
+            g["tok_s"], cm.BASE_TOK_S, 100 * g["ratio"], c or 0)
+    except Exception as e:
+        return "算力读数不可得（%s）" % type(e).__name__
+
+
 def persona_gap_line():
     """画像可用段与缺口——采集要知道"该去哪种视频下捞人"，不能只报总量。"""
     try:
@@ -449,6 +465,7 @@ def write_screen(last, st, cnt, tot):
                                               TRAIN_COOLDOWN_S / 3600),
          "- 现役适配器：%s" % (active_now().get("adapter") or "未设"),
          "- 空闲内存：%.1fGB ｜ 连续失败：%d/%d" % (free_gb(), st.get("fails", 0), MAX_FAILS),
+         "- 算力：%s" % compute_line(),
          "", "> 采集合训练互斥；训练期间本循环只等不抢。正身账：`state/social-24x7.jsonl`"]
     open(SCREEN, "w", encoding="utf-8").write("\n".join(L) + "\n")
 
@@ -513,8 +530,9 @@ def self_test():
             if k != "generic"]
     cases.append(("generic 被排除", all(k != "generic" for k, _ in cand)))
     # 3 训练冷却：4 小时不到点，6 小时到点
-    cases.append(("冷却未到不训", 4 < TRAIN_COOLDOWN_S / 3600))
-    cases.append(("冷却到点可训", 6 >= TRAIN_COOLDOWN_S / 3600))
+    # 与常量挂钩而不是写死数字：冷却从 5h 改 1h 时这条不该跟着红（11-19 实锚）
+    cases.append(("冷却未到不训", (TRAIN_COOLDOWN_S / 3600) / 2 < TRAIN_COOLDOWN_S / 3600))
+    cases.append(("冷却到点可训", (TRAIN_COOLDOWN_S / 3600) + 1 >= TRAIN_COOLDOWN_S / 3600))
     # 4 GPU 忙必须能认出来（拿假 ps 输出验正则，不真起进程）
     busy = " 1234 ?? S 10:00.00 /opt/py -m mlx_lm lora --train"
     idle = " 1234 ?? S 0:01.00 /usr/bin/python3 foo.py"

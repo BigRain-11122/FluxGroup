@@ -108,9 +108,14 @@ def profile_for(platform=None):
 # 各平台评论节点的选择器（多套备选，取命中最多的一套；全不中=结构变了，直接报错）
 SELECTORS = {
     "bilibili": [
+        # 2026-11-19 起 B站 评论整块搬进 shadow DOM（<bili-comments> → thread-renderer →
+        # comment-renderer → bili-rich-text 各一层 shadow），旧选择器 #comment .reply-item
+        # 一条都命中不了：实测 20 楼已加载、正文 36 段可取，旧代码却报"只抽到 0 条"。
+        # Playwright 的 CSS 能穿透 shadow，但 textContent 不能——正文必须走 SHADOW_JS。
+        "bili-comment-renderer",
+        "bili-comment-reply-renderer",
         "#comment .reply-item",
         ".reply-list .reply-item",
-        "#comment .sub-reply-item",
     ],
     "xiaohongshu": [
         ".comment-item",
@@ -149,8 +154,52 @@ def _clean(s):
     return s[:300]
 
 
+# 只收文本节点、跳过 style/script：shadow 里 textContent 会把 CSS 一起带出来
+# （实测 bili-rich-text 的 textContent 头 90 字全是 `:host { --bili-rich-text-... }`）。
+SHADOW_JS = """() => {
+  const pick = (node) => {
+    let t = '';
+    const walk = (n) => {
+      if (!n) return;
+      if (n.nodeType === 3) { t += n.nodeValue; return; }
+      const tag = (n.tagName||'').toLowerCase();
+      if (tag === 'style' || tag === 'script' || tag === 'noscript') return;
+      if (n.shadowRoot) walk(n.shadowRoot);
+      const kids = n.childNodes || [];
+      for (let i = 0; i < kids.length; i++) walk(kids[i]);
+    };
+    walk(node);
+    return t.replace(/\\s+/g, ' ').trim();
+  };
+  const out = [];
+  const scan = (root) => {
+    for (const el of root.querySelectorAll('*')) {
+      if ((el.tagName||'').toLowerCase() === 'bili-rich-text') {
+        const t = pick(el);
+        if (t.length > 1) out.push(t);
+      }
+      if (el.shadowRoot) scan(el.shadowRoot);
+    }
+  };
+  scan(document);
+  return out;
+}"""
+
+
 def extract(page, platform, limit=200):
-    """按选择器抽评论，返回 [(text, author, likes)]。命中最多的一套胜出。"""
+    """按选择器抽评论，返回 [(text, author, likes)]。命中最多的一套胜出。
+
+    B站 优先走 SHADOW_JS（新组件在 shadow DOM 里，选择器的 inner_text 拿不到正文）；
+    拿不到才回落旧选择器——别让一次改版把整条采集线打死。
+    """
+    if platform == "bilibili":
+        try:
+            texts = page.evaluate(SHADOW_JS) or []
+            got = [(t[:200], "", 0) for t in texts if len(_clean(t)) >= 2][:limit]
+            if got:
+                return got
+        except Exception:
+            pass
     best = []
     for sel in SELECTORS.get(platform, []):
         try:
